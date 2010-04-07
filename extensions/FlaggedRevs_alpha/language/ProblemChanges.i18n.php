@@ -21,6 +21,13 @@ $messages['qqq'] = array(
 	'problemchanges-category' => '{{Identical|Category}}',
 );
 
+/** русиньскый язык (русиньскый язык)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'problemchanges-category' => 'Катеґорія:',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Naudefj
  */
@@ -82,7 +89,7 @@ $messages['br'] = array(
  * @author CERminator
  */
 $messages['bs'] = array(
-	'problemchanges' => 'Pregled označenih promjena',
+	'problemchanges' => 'Označene promjene na čekanju',
 	'problemchanges-legend' => 'Spisak stranica sa označenim izmjenama koje čekaju pregled',
 	'problemchanges-none' => 'Trenutno nema stranica koje zadovoljavaju ove kriterije',
 	'problemchanges-category' => 'Kategorija:',
@@ -156,7 +163,7 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
-	'problemchanges' => 'Kontroli markitajn ŝanĝojn',
+	'problemchanges' => 'Markis kontrolendajn ŝanĝojn',
 	'problemchanges-legend' => 'Listigi paĝojn kun markitaj kaj kontrolendaj redaktoj',
 	'problemchanges-none' => 'Estas nune neniuj paĝoj kongruante ĉi tiun kriterion',
 	'problemchanges-category' => 'Kategorio:',
@@ -280,7 +287,7 @@ $messages['hsb'] = array(
  * @author Tgr
  */
 $messages['hu'] = array(
-	'problemchanges' => 'Felcímkézett változtatások ellenőrzése',
+	'problemchanges' => 'Felcímkézett ellenőrizetlen szerkesztések',
 	'problemchanges-legend' => 'Ellenőrizetlen felcímkézett változtatásokat tartalmazó lapok listája',
 	'problemchanges-none' => 'Jelenleg nincs a a feltételeknek megfelelő lap',
 	'problemchanges-category' => 'Kategória:',
@@ -455,7 +462,7 @@ $messages['pdc'] = array(
  * @author Sp5uhe
  */
 $messages['pl'] = array(
-	'problemchanges' => 'Przeglądanie wątpliwych zmian',
+	'problemchanges' => 'Zaznaczone oczekujące zmiany',
 	'problemchanges-legend' => 'Lista stron z oznakowanymi wersjami oczekującymi na przejrzenie',
 	'problemchanges-none' => 'Obecnie nie ma stron spełniających podane kryteria',
 	'problemchanges-category' => 'Kategoria',
@@ -485,9 +492,9 @@ $messages['ps'] = array(
  * @author Malafaya
  */
 $messages['pt'] = array(
-	'problemchanges' => 'Mudanças nas marcações de revisão',
-	'problemchanges-legend' => 'Listar páginas com edições marcadas pendendo revisão',
-	'problemchanges-none' => 'No momento não há páginas que satisfaçam estes critérios',
+	'problemchanges' => 'Alterações pendentes que foram assinaladas',
+	'problemchanges-legend' => 'Listar páginas com edições marcadas a aguardar revisão',
+	'problemchanges-none' => 'De momento, não há páginas que satisfaçam estes critérios',
 	'problemchanges-category' => 'Categoria:',
 );
 

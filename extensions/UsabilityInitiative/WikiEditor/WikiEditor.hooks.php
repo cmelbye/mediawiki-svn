@@ -16,14 +16,14 @@ class WikiEditorHooks {
 			array( 'src' => 'Modules/Preview/Preview.js', 'version' => 6 ),
 			array( 'src' => 'Modules/Publish/Publish.js', 'version' => 6 ),
 			array( 'src' => 'Modules/Toc/Toc.js', 'version' => 7 ),
-			array( 'src' => 'Modules/Toolbar/Toolbar.js', 'version' => 49 ),
-			array( 'src' => 'Modules/TemplateEditor/TemplateEditor.js', 'version' => 4 ),
+			array( 'src' => 'Modules/Toolbar/Toolbar.js', 'version' => 81 ),
+			array( 'src' => 'Modules/TemplateEditor/TemplateEditor.js', 'version' => 6 ),
 		),
 		'combined' => array(
-			array( 'src' => 'WikiEditor.combined.js', 'version' => 51 ),
+			array( 'src' => 'WikiEditor.combined.js', 'version' => 85 ),
 		),
 		'minified' => array(
-			array( 'src' => 'WikiEditor.combined.min.js', 'version' => 51 ),
+			array( 'src' => 'WikiEditor.combined.min.js', 'version' => 85 ),
 		),
 	);
 	static $messages = array(
@@ -44,7 +44,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-highlight-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/labs',
 					),
 				),
 			),
@@ -57,9 +57,14 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-template-editor-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/labs',
 					),
 				),
+			),
+			'messages' => array(
+				'wikieditor-template-editor-dialog-title',
+				'wikieditor-template-editor-dialog-submit',
+				'wikieditor-template-editor-dialog-cancel',
 			),
 		),
 		'preview' => array(
@@ -70,7 +75,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-preview-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/labs',
 					),
 				),
 			),
@@ -88,7 +93,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-publish-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/labs',
 					),
 				),
 			),
@@ -112,7 +117,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-toc-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/labs',
 					),
 				),
 			),
@@ -135,7 +140,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-toolbar-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/beta',
 					),
 				),
 				'dialogs' => array(
@@ -144,7 +149,7 @@ class WikiEditorHooks {
 					'ui' => array(
 						'type' => 'toggle',
 						'label-message' => 'wikieditor-toolbar-dialogs-preference',
-						'section' => 'editing/experimental',
+						'section' => 'editing/beta',
 					),
 				),
 			),
@@ -186,6 +191,10 @@ class WikiEditorHooks {
 				'wikieditor-toolbar-tool-file-pre',
 				'wikieditor-toolbar-tool-file-example',
 				'wikieditor-toolbar-tool-reference',
+				'wikieditor-toolbar-tool-reference-title',
+				'wikieditor-toolbar-tool-reference-cancel',
+				'wikieditor-toolbar-tool-reference-text',
+				'wikieditor-toolbar-tool-reference-insert',
 				'wikieditor-toolbar-tool-reference-example',
 				'wikieditor-toolbar-tool-signature',
 				/* Formatting Section */
@@ -197,19 +206,21 @@ class WikiEditorHooks {
 				'wikieditor-toolbar-tool-heading-4',
 				'wikieditor-toolbar-tool-heading-5',
 				'wikieditor-toolbar-tool-heading-example',
-				'wikieditor-toolbar-group-list',
+				'wikieditor-toolbar-group-format',
 				'wikieditor-toolbar-tool-ulist',
 				'wikieditor-toolbar-tool-ulist-example',
 				'wikieditor-toolbar-tool-olist',
 				'wikieditor-toolbar-tool-olist-example',
 				'wikieditor-toolbar-tool-indent',
 				'wikieditor-toolbar-tool-indent-example',
-				'wikieditor-toolbar-group-size',
+				'wikieditor-toolbar-tool-nowiki',
+				'wikieditor-toolbar-tool-nowiki-example',
+				'wikieditor-toolbar-tool-redirect',
+				'wikieditor-toolbar-tool-redirect-example',
 				'wikieditor-toolbar-tool-big',
 				'wikieditor-toolbar-tool-big-example',
 				'wikieditor-toolbar-tool-small',
 				'wikieditor-toolbar-tool-small-example',
-				'wikieditor-toolbar-group-baseline',
 				'wikieditor-toolbar-tool-superscript',
 				'wikieditor-toolbar-tool-superscript-example',
 				'wikieditor-toolbar-tool-subscript',
@@ -259,6 +270,7 @@ class WikiEditorHooks {
 				'wikieditor-toolbar-characters-page-cyrillic',
 				'wikieditor-toolbar-characters-page-arabic',
 				'wikieditor-toolbar-characters-page-hebrew',
+				'wikieditor-toolbar-characters-page-bangla',
 				'wikieditor-toolbar-characters-page-telugu',
 				'wikieditor-toolbar-characters-page-sinhala',
 				'wikieditor-toolbar-characters-page-gujarati',

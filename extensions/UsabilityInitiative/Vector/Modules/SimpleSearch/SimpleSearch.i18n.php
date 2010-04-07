@@ -118,6 +118,13 @@ $messages['cs'] = array(
 	'vector-simplesearch-containing' => 'obsahující…',
 );
 
+/** Kashubian (Kaszëbsczi)
+ * @author Kuvaly
+ */
+$messages['csb'] = array(
+	'vector-simplesearch-search' => 'Szëkba',
+);
+
 /** Welsh (Cymraeg)
  * @author Lloffiwr
  */
@@ -128,9 +135,11 @@ $messages['cy'] = array(
 
 /** Danish (Dansk)
  * @author Byrial
+ * @author Sarrus
  */
 $messages['da'] = array(
 	'vector-simplesearch-search' => 'Søg',
+	'vector-simplesearch-containing' => 'indeholder...',
 );
 
 /** German (Deutsch)
@@ -535,10 +544,12 @@ $messages['pt'] = array(
 );
 
 /** Brazilian Portuguese (Português do Brasil)
+ * @author Everton137
  * @author Heldergeovane
  */
 $messages['pt-br'] = array(
 	'vector-simplesearch-search' => 'Pesquisa',
+	'vector-simplesearch-containing' => 'contendo...',
 );
 
 /** Quechua (Runa Simi)
@@ -605,10 +616,12 @@ $messages['sk'] = array(
 );
 
 /** Slovenian (Slovenščina)
+ * @author Dbc334
  * @author Smihael
  */
 $messages['sl'] = array(
 	'vector-simplesearch-search' => 'Iskanje',
+	'vector-simplesearch-containing' => 'vsebujoč ...',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

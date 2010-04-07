@@ -97,6 +97,7 @@ $messages['bg'] = array(
 $messages['bn'] = array(
 	'wikieditor-preview-preference' => 'পাশাপাশি প্রাকদর্শন সক্রিয় করো',
 	'wikieditor-preview-tab' => 'প্রাকদর্শন',
+	'wikieditor-preview-changes-tab' => 'পরিবর্তনসমূহ',
 	'wikieditor-preview-loading' => 'লোডিং...',
 );
 
@@ -143,9 +144,17 @@ $messages['cs'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
+	'wikieditor-preview-preference' => 'Galluogi rhagolwg ochr-yn-ochr',
 	'wikieditor-preview-tab' => 'Rhagolwg',
 	'wikieditor-preview-changes-tab' => 'Newidiadau',
 	'wikieditor-preview-loading' => "Wrthi'n llwytho...",
+);
+
+/** Danish (Dansk)
+ * @author Sarrus
+ */
+$messages['da'] = array(
+	'wikieditor-preview-tab' => 'Forhåndsvisning',
 );
 
 /** German (Deutsch)
@@ -183,9 +192,11 @@ $messages['dsb'] = array(
 );
 
 /** Greek (Ελληνικά)
+ * @author Dead3y3
  * @author ZaDiak
  */
 $messages['el'] = array(
+	'wikieditor-preview-preference' => 'Ενεργοποίηση προεπισκόπησης δίπλα-δίπλα',
 	'wikieditor-preview-tab' => 'Προεπισκόπηση',
 	'wikieditor-preview-changes-tab' => 'Αλλαγές',
 	'wikieditor-preview-loading' => 'Φόρτωση...',
@@ -194,12 +205,13 @@ $messages['el'] = array(
 /** Esperanto (Esperanto)
  * @author Lucas
  * @author Yekrats
+ * @author Ziko
  */
 $messages['eo'] = array(
-	'wikieditor-preview-preference' => 'Ŝalti kolumnecan antaŭvidon',
-	'wikieditor-preview-tab' => 'Antaŭvida',
+	'wikieditor-preview-preference' => 'Enŝaltu antaŭvidon apud la redaktofenestro',
+	'wikieditor-preview-tab' => 'Antaŭvido',
 	'wikieditor-preview-changes-tab' => 'Ŝanĝoj',
-	'wikieditor-preview-loading' => 'Ŝarĝante',
+	'wikieditor-preview-loading' => 'Ŝarĝante...',
 );
 
 /** Spanish (Español)
@@ -221,13 +233,14 @@ $messages['es'] = array(
 $messages['et'] = array(
 	'wikieditor-preview-tab' => 'Eelvaade',
 	'wikieditor-preview-changes-tab' => 'Muudatused',
-	'wikieditor-preview-loading' => 'Laadin...',
+	'wikieditor-preview-loading' => 'Laadimine...',
 );
 
 /** Basque (Euskara)
  * @author An13sa
  */
 $messages['eu'] = array(
+	'wikieditor-preview-preference' => 'Aldetik aldeko aurrikuspena gaitu',
 	'wikieditor-preview-tab' => 'Aurreikuspena',
 	'wikieditor-preview-changes-tab' => 'Aldaketak',
 	'wikieditor-preview-loading' => 'Kargatzen...',
@@ -296,9 +309,11 @@ $messages['gsw'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author YaronSh
  */
 $messages['he'] = array(
+	'wikieditor-preview-preference' => 'הפעלת תצוגה מקבילה',
 	'wikieditor-preview-tab' => 'תצוגה מקדימה',
 	'wikieditor-preview-changes-tab' => 'שינויים',
 	'wikieditor-preview-loading' => 'נטען...',
@@ -357,8 +372,10 @@ $messages['id'] = array(
 /** Italian (Italiano)
  * @author Aushulz
  * @author F. Cosoleto
+ * @author Una giornata uggiosa '94
  */
 $messages['it'] = array(
+	'wikieditor-preview-preference' => 'Abilita anteprima laterale',
 	'wikieditor-preview-tab' => 'Anteprima',
 	'wikieditor-preview-changes-tab' => 'Modifiche',
 	'wikieditor-preview-loading' => 'Caricamento...',
@@ -384,6 +401,13 @@ $messages['ka'] = array(
 	'wikieditor-preview-loading' => 'იტვირთება...',
 );
 
+/** Kannada (ಕನ್ನಡ)
+ * @author Nayvik
+ */
+$messages['kn'] = array(
+	'wikieditor-preview-tab' => 'ಮುನ್ನೋಟ',
+);
+
 /** Korean (한국어)
  * @author Kwj2772
  */
@@ -399,6 +423,15 @@ $messages['ksh'] = array(
 	'wikieditor-preview-tab' => '{{int:preview}}',
 	'wikieditor-preview-changes-tab' => 'Änderunge',
 	'wikieditor-preview-loading' => 'Ben aam Laade{{int:ellipsis}}',
+);
+
+/** Latin (Latina)
+ * @author UV
+ */
+$messages['la'] = array(
+	'wikieditor-preview-tab' => 'Praevisum',
+	'wikieditor-preview-changes-tab' => 'Mutata',
+	'wikieditor-preview-loading' => 'Depromens...',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -592,6 +625,16 @@ $messages['sk'] = array(
 	'wikieditor-preview-loading' => 'Načítava sa...',
 );
 
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'wikieditor-preview-preference' => 'Omogoči vzporedni predogled',
+	'wikieditor-preview-tab' => 'Predogled',
+	'wikieditor-preview-changes-tab' => 'Spremembe',
+	'wikieditor-preview-loading' => 'Nalaganje ...',
+);
+
 /** Swedish (Svenska)
  * @author Boivie
  */
@@ -687,6 +730,8 @@ $messages['vi'] = array(
  * @author פוילישער
  */
 $messages['yi'] = array(
+	'wikieditor-preview-preference' => 'דערמעגלעכן זייַט-אויף-זייַט פֿאָרויסיקע ווייַזונג',
+	'wikieditor-preview-tab' => 'פֿאראויסשטעלונג',
 	'wikieditor-preview-changes-tab' => 'ענדערונגען',
 	'wikieditor-preview-loading' => 'לאָדט…',
 );

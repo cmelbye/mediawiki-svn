@@ -137,6 +137,7 @@ $messages['bg'] = array(
  * @author Bellayet
  */
 $messages['bn'] = array(
+	'wikieditor-publish-preference' => 'ধাপে ধাপে প্রকাশ করা সক্রিয় করো',
 	'wikieditor-publish-button-publish' => 'প্রকাশ করো',
 	'wikieditor-publish-button-cancel' => 'বাতিল',
 	'wikieditor-publish-dialog-title' => '{{SITENAME}} এ প্রকাশ করো',
@@ -205,6 +206,7 @@ $messages['cs'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
+	'wikieditor-publish-preference' => 'Galluogi cyhoeddi cam-wrth-gam',
 	'wikieditor-publish-button-publish' => 'Cyhoeddi',
 	'wikieditor-publish-button-cancel' => 'Diddymu',
 	'wikieditor-publish-dialog-title' => 'Cyhoeddi ar {{SITENAME}}',
@@ -213,6 +215,14 @@ $messages['cy'] = array(
 	'wikieditor-publish-dialog-watch' => 'Dilyn hynt y dudalen hon',
 	'wikieditor-publish-dialog-publish' => 'Cyhoedder',
 	'wikieditor-publish-dialog-goback' => 'Yn ôl',
+);
+
+/** Danish (Dansk)
+ * @author Sarrus
+ */
+$messages['da'] = array(
+	'wikieditor-publish-dialog-minor' => 'Mindre ændring',
+	'wikieditor-publish-dialog-watch' => 'Overvåg denne side',
 );
 
 /** German (Deutsch)
@@ -270,12 +280,15 @@ $messages['dsb'] = array(
 );
 
 /** Greek (Ελληνικά)
+ * @author Dead3y3
  * @author ZaDiak
  */
 $messages['el'] = array(
+	'wikieditor-publish-preference' => 'Ενεργοποίηση δημοσίευσης βήμα προς βήμα',
 	'wikieditor-publish-button-publish' => 'Δημοσίευση',
 	'wikieditor-publish-button-cancel' => 'Άκυρο',
 	'wikieditor-publish-dialog-title' => 'Δημοσίευση στο {{SITENAME}}',
+	'wikieditor-publish-dialog-summary' => 'Σύνοψη επεξεργασίας (περιγράψτε συντόμως τις αλλαγές που έχετε κάνει):',
 	'wikieditor-publish-dialog-minor' => '"Μικρή" επεξεργασία',
 	'wikieditor-publish-dialog-watch' => 'Παρακολούθηση αυτής της σελίδας',
 	'wikieditor-publish-dialog-publish' => 'Δημοσίευση',
@@ -320,8 +333,10 @@ $messages['es'] = array(
  * @author Pikne
  */
 $messages['et'] = array(
+	'wikieditor-publish-preference' => 'Kasuta astmelist avaldamist',
 	'wikieditor-publish-button-publish' => 'Avalda',
 	'wikieditor-publish-button-cancel' => 'Loobu',
+	'wikieditor-publish-dialog-title' => '{{GRAMMAR:inessive|{{SITENAME}}}} avaldamine',
 	'wikieditor-publish-dialog-summary' => 'Redaktsiooni kokkuvõte (kirjelda lühidalt tehtud muudatusi):',
 	'wikieditor-publish-dialog-minor' => 'Pisimuudatus',
 	'wikieditor-publish-dialog-watch' => 'Jälgi seda lehekülge',
@@ -521,11 +536,14 @@ $messages['id'] = array(
  * @author Aushulz
  * @author F. Cosoleto
  * @author PaoloRomano
+ * @author Una giornata uggiosa '94
  */
 $messages['it'] = array(
+	'wikieditor-publish-preference' => 'Abilita pubblicazione passo dopo passo',
 	'wikieditor-publish-button-publish' => 'Pubblica',
 	'wikieditor-publish-button-cancel' => 'Annulla',
 	'wikieditor-publish-dialog-title' => 'Pubblica su {{SITENAME}}',
+	'wikieditor-publish-dialog-summary' => 'Oggetto (descrivi brevemente le modifiche che hai fatto):',
 	'wikieditor-publish-dialog-minor' => 'Modifica di minore importanza',
 	'wikieditor-publish-dialog-watch' => 'Osserva questa pagina',
 	'wikieditor-publish-dialog-publish' => 'Pubblica',
@@ -553,6 +571,7 @@ $messages['ja'] = array(
 $messages['ka'] = array(
 	'wikieditor-publish-dialog-minor' => 'მცირე შესწორება',
 	'wikieditor-publish-dialog-watch' => 'ამ გვერდის თვალთვალი',
+	'wikieditor-publish-dialog-goback' => 'უკან',
 );
 
 /** Korean (한국어)
@@ -592,6 +611,16 @@ $messages['lb'] = array(
 	'wikieditor-publish-dialog-watch' => 'Dës Säit iwwerwaachen',
 	'wikieditor-publish-dialog-publish' => 'Verëffentlechen',
 	'wikieditor-publish-dialog-goback' => 'Zréck goen',
+);
+
+/** Lithuanian (Lietuvių)
+ * @author Garas
+ */
+$messages['lt'] = array(
+	'wikieditor-publish-button-cancel' => 'Atšaukti',
+	'wikieditor-publish-dialog-minor' => 'Smulkus keitimas',
+	'wikieditor-publish-dialog-watch' => 'Stebėti šį puslapį',
+	'wikieditor-publish-dialog-goback' => 'Grįžti',
 );
 
 /** Macedonian (Македонски)
@@ -732,7 +761,7 @@ $messages['pt'] = array(
 	'wikieditor-publish-button-publish' => 'Publicar',
 	'wikieditor-publish-button-cancel' => 'Cancelar',
 	'wikieditor-publish-dialog-title' => 'Publicar na {{SITENAME}}',
-	'wikieditor-publish-dialog-summary' => 'Sumário de edição (breve descrição das suas alterações):',
+	'wikieditor-publish-dialog-summary' => 'Resumo de edição (breve descrição das suas alterações):',
 	'wikieditor-publish-dialog-minor' => 'Edição menor',
 	'wikieditor-publish-dialog-watch' => 'Vigiar esta página',
 	'wikieditor-publish-dialog-publish' => 'Publicar',
@@ -740,16 +769,20 @@ $messages['pt'] = array(
 );
 
 /** Brazilian Portuguese (Português do Brasil)
+ * @author Everton137
  * @author Hamilton Abreu
  * @author Lijealso
  * @author Luckas Blade
  */
 $messages['pt-br'] = array(
+	'wikieditor-publish-preference' => 'Possibilitar publicação passo a passo',
 	'wikieditor-publish-button-publish' => 'Publicar',
 	'wikieditor-publish-button-cancel' => 'Cancelar',
 	'wikieditor-publish-dialog-title' => 'Publicar em {{SITENAME}}',
+	'wikieditor-publish-dialog-summary' => 'Sumário de edição (breve descrição das suas alterações):',
 	'wikieditor-publish-dialog-minor' => 'Edição menor',
 	'wikieditor-publish-dialog-watch' => 'Vigiar esta página',
+	'wikieditor-publish-dialog-publish' => 'Publicar',
 	'wikieditor-publish-dialog-goback' => 'Voltar',
 );
 
@@ -841,6 +874,21 @@ $messages['sk'] = array(
 	'wikieditor-publish-dialog-watch' => 'Sledovať túto stránku',
 	'wikieditor-publish-dialog-publish' => 'Zverejniť',
 	'wikieditor-publish-dialog-goback' => 'Prejsť späť',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'wikieditor-publish-preference' => 'Omogoči objavljanje korak-po-koraku',
+	'wikieditor-publish-button-publish' => 'Objavi',
+	'wikieditor-publish-button-cancel' => 'Prekliči',
+	'wikieditor-publish-dialog-title' => 'Objavi na {{GRAMMAR:dajalnik|{{SITENAME}}}}',
+	'wikieditor-publish-dialog-summary' => 'Povzetek urejanja (na kratko opišite narejene spremembe):',
+	'wikieditor-publish-dialog-minor' => 'Manjše urejanje',
+	'wikieditor-publish-dialog-watch' => 'Opazuj stran',
+	'wikieditor-publish-dialog-publish' => 'Objavi',
+	'wikieditor-publish-dialog-goback' => 'Pojdi nazaj',
 );
 
 /** Swedish (Svenska)
@@ -985,6 +1033,7 @@ $messages['yi'] = array(
 	'wikieditor-publish-button-publish' => 'פֿאַרעפֿנטלעכן',
 	'wikieditor-publish-button-cancel' => 'אַנולירן',
 	'wikieditor-publish-dialog-minor' => 'מינערדיקער רעדאַקטירונג',
+	'wikieditor-publish-dialog-watch' => 'אויפֿפאַסן אויף דעם בלאַט',
 	'wikieditor-publish-dialog-publish' => 'פֿאַרעפֿנטלעכן',
 	'wikieditor-publish-dialog-goback' => 'צוריקגיין',
 );

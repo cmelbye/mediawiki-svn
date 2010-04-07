@@ -39,32 +39,51 @@ fn: {
 					id: dialogID,
 					titleMsg: 'wikieditor-publish-dialog-title',
 					html: '\
-						<div class="wikiEditor-dialog-copywarn"></div>\
-						<div class="wikiEditor-dialog-editoptions">\
+						<div class="wikiEditor-publish-dialog-copywarn"></div>\
+						<div class="wikiEditor-publish-dialog-editoptions">\
 							<form id="wikieditor-' + context.instance + '-publish-dialog-form">\
-								<label for="wikiEditor-' + context.instance + '-dialog-summary"\
-									rel="wikieditor-publish-dialog-summary"></label>\
-								<br />\
-								<input type="text" id="wikiEditor-' + context.instance + '-dialog-summary"\
-									style="width: 100%;" />\
-								<br />\
-								<input type="checkbox"\
-									id="wikiEditor-' + context.instance + '-dialog-minor" />\
-								<label for="wikiEditor-' + context.instance + '-dialog-minor"\
-									rel="wikieditor-publish-dialog-minor"></label>\
-								<br />\
-								<input type="checkbox"\
-									id="wikiEditor-' + context.instance + '-dialog-watch" />\
-								<label for="wikiEditor-' + context.instance + '-dialog-watch"\
-									rel="wikieditor-publish-dialog-watch"></label>\
+								<div class="wikiEditor-publish-dialog-summary">\
+									<label for="wikiEditor-' + context.instance + '-dialog-summary"\
+										rel="wikieditor-publish-dialog-summary"></label>\
+									<br />\
+									<input type="text" id="wikiEditor-' + context.instance + '-dialog-summary"\
+										style="width: 100%;" />\
+								</div>\
+								<div class="wikiEditor-publish-dialog-options">\
+									<input type="checkbox"\
+										id="wikiEditor-' + context.instance + '-dialog-minor" />\
+									<label for="wikiEditor-' + context.instance + '-dialog-minor"\
+										rel="wikieditor-publish-dialog-minor"></label>\
+									<input type="checkbox"\
+										id="wikiEditor-' + context.instance + '-dialog-watch" />\
+									<label for="wikiEditor-' + context.instance + '-dialog-watch"\
+										rel="wikieditor-publish-dialog-watch"></label>\
+								</div>\
 							</form>\
 						</div>',
 					init: function() {
 						$(this).find( '[rel]' ).each( function() {
 							$(this).text( mw.usability.getMsg( $(this).attr( 'rel' ) ) );
 						});
-						$(this).find( '.wikiEditor-dialog-copywarn' )
-							.html( $( '#editpage-copywarn' ).html() );
+						
+						/* REALLY DIRTY HACK! */
+						// Reformat the copyright warning stuff
+						var copyWarnHTML = $( '#editpage-copywarn p' ).html();
+						// TODO: internationalize by splitting on other characters that end statements
+						var copyWarnStatements = copyWarnHTML.split( '. ' );
+						var newCopyWarnHTML = '<ul>';
+						for ( var i = 0; i < copyWarnStatements.length; i++ ) {
+							if ( copyWarnStatements[i] != '' ) {
+								var copyWarnStatement = $j.trim( copyWarnStatements[i] ).replace( /\.*$/, '' );
+								newCopyWarnHTML += '<li>' + copyWarnStatement + '.</li>';
+							}
+						}
+						newCopyWarnHTML += '</ul>';
+						// No list if there's only one element
+						$(this).find( '.wikiEditor-publish-dialog-copywarn' ).html( 
+								copyWarnStatements.length > 1 ? newCopyWarnHTML : copyWarnHTML
+						);
+						/* END OF REALLY DIRTY HACK */
 						
 						if ( $( '#wpMinoredit' ).size() == 0 )
 							$( '#wikiEditor-' + context.instance + '-dialog-minor' ).hide();

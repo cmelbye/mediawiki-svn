@@ -110,9 +110,10 @@ api : {
 						$characters
 						.append(
 							$( $.wikiEditor.modules.toolbar.fn.buildCharacter( data[type][character], actions ) )
-								.click( function() {
+								.click( function(e) {
 									$.wikiEditor.modules.toolbar.fn.doAction( $(this).parent().data( 'context' ),
 										$(this).parent().data( 'actions' )[$(this).attr( 'rel' )] );
+									e.preventDefault();
 									return false;
 								} )
 						);
@@ -239,15 +240,11 @@ fn: {
 		switch ( action.type ) {
 			case 'replace':
 			case 'encapsulate':
-				var parts = { 'pre' : '', 'peri' : '', 'post' : '' };
-				for ( part in parts ) {
-					if ( part + 'Msg' in action.options ) {
-						parts[part] = mw.usability.getMsg( 
-							action.options[part + 'Msg'], ( action.options[part] || null ) );
-					} else {
-						parts[part] = ( action.options[part] || '' )
-					}
-				}
+				var parts = {
+					'pre' : $.wikiEditor.autoMsg( action.options, 'pre' ),
+					'peri' : $.wikiEditor.autoMsg( action.options, 'peri' ),
+					'post' : $.wikiEditor.autoMsg( action.options, 'post' )
+				};
 				if ( 'regex' in action.options && 'regexReplace' in action.options ) {
 					var selection = context.$textarea.textSelection( 'getSelection' );
 					if ( selection != '' && selection.match( action.options.regex ) ) {
@@ -287,7 +284,9 @@ fn: {
 			for ( tool in group.tools ) {
 				var tool =  $.wikiEditor.modules.toolbar.fn.buildTool( context, tool, group.tools[tool] );
 				if ( tool ) {
-					empty = false;
+					// Consider a group with only hidden tools empty as well
+					// .is( ':visible' ) always returns false because tool is not attached to the DOM yet
+					empty = empty && tool.css( 'display' ) == 'none';
 					$group.append( tool );
 				}
 			}
@@ -309,35 +308,63 @@ fn: {
 		switch ( tool.type ) {
 			case 'button':
 				var src = $.wikiEditor.autoIcon( tool.icon, $.wikiEditor.imgPath + 'toolbar/' );
-				$button = $( '<img />' ).attr( {
-					'src' : src,
-					'width' : 22,
-					'height' : 22,
-					'alt' : label,
-					'title' : label,
-					'rel' : id,
-					'class' : 'tool tool-button'
-				} );
+				var $button;
+				if ( 'offset' in tool ) {
+					var offset = $.wikiEditor.autoLang( tool.offset );
+					$button = $( '<a href="#" />' )
+						.attr( {
+							'alt' : label,
+							'title' : label,
+							'rel' : id,
+							'class' : 'wikiEditor-toolbar-spritedButton'
+						} )
+						.text( label )
+						.css( 'backgroundPosition', offset[0] + 'px ' + offset[1] + 'px' );
+				} else {
+					$button = $( '<img />' )
+						.attr( {
+							'src' : src,
+							'width' : 22,
+							'height' : 22,
+							'alt' : label,
+							'title' : label,
+							'rel' : id,
+							'class' : 'tool tool-button'
+						} );
+				}
 				if ( 'action' in tool ) {
 					$button
 						.data( 'action', tool.action )
 						.data( 'context', context )
-						.mousedown( function() {
+						.mousedown( function( e ) {
 							// No dragging!
+							e.preventDefault();
 							return false;
 						} )
-						.click( function() {
+						.click( function( e ) {
 							$.wikiEditor.modules.toolbar.fn.doAction(
 								$(this).data( 'context' ), $(this).data( 'action' ), $(this)
 							);
+							e.preventDefault();
 							return false;
 						} );
+					// If the action is a dialog that hasn't been loaded yet, hide the button
+					// until the dialog is loaded
+					if ( tool.action.type == 'dialog' &&
+							!( tool.action.module in $.wikiEditor.modules.dialogs.modules ) ) {
+						$button.hide();
+						// JavaScript won't propagate the $button variable itself, it needs help
+						context.$textarea.bind( 'wikiEditor-dialogs-loaded-' + tool.action.module,
+							{ button: $button }, function( event ) {
+								event.data.button.show().parent().show();
+						} );
+					}
 				}
 				return $button;
 			case 'select':
 				var $select = $( '<div />' )
 					.attr( { 'rel' : id, 'class' : 'tool tool-select' } );
-				$options = $( '<div />' ).addClass( 'options' );
+				var $options = $( '<div />' ).addClass( 'options' );
 				if ( 'list' in tool ) {
 					for ( option in tool.list ) {
 						var optionLabel = $.wikiEditor.autoMsg( tool.list[option], 'label' );
@@ -345,11 +372,12 @@ fn: {
 							$( '<a />' )
 								.data( 'action', tool.list[option].action )
 								.data( 'context', context )
-								.mousedown( function() {
+								.mousedown( function( e ) {
 									// No dragging!
+									e.preventDefault();
 									return false;
 								} )
-								.click( function() {
+								.click( function( e ) {
 									$.wikiEditor.modules.toolbar.fn.doAction(
 										$(this).data( 'context' ), $(this).data( 'action' ), $(this)
 									);
@@ -359,6 +387,7 @@ fn: {
 									if ( $(this).parent().is( ':visible' ) ) {
 										$(this).parent().animate( { 'opacity': 'toggle' }, 'fast' );
 									}
+									e.preventDefault();
 									return false;
 								} )
 								.text( optionLabel )
@@ -369,18 +398,20 @@ fn: {
 				}
 				$select.append( $( '<div />' ).addClass( 'menu' ).append( $options ) );
 				$select.append( $( '<a />' )
-							.addClass( 'label' )
-							.text( label )
-							.data( 'options', $options )
-							.attr( 'href', '#' )
-							.mousedown( function() {
-								// No dragging!
-								return false;
-							} )
-							.click( function() {
-								$(this).data( 'options' ).animate( { 'opacity': 'toggle' }, 'fast' );
-								return false;
-							} )
+						.addClass( 'label' )
+						.text( label )
+						.data( 'options', $options )
+						.attr( 'href', '#' )
+						.mousedown( function( e ) {
+							// No dragging!
+							e.preventDefault();
+							return false;
+						} )
+						.click( function( e ) {
+							$(this).data( 'options' ).animate( { 'opacity': 'toggle' }, 'fast' );
+							e.preventDefault();
+							return false;
+						} )
 				);
 				return $select;
 			default:
@@ -394,8 +425,9 @@ fn: {
 			.text( label )
 			.attr( 'rel', id )
 			.data( 'context', context )
-			.mousedown( function() {
+			.mousedown( function( e ) {
 				// No dragging!
+				e.preventDefault();
 				return false;
 			} )
 			.click( function( event ) {
@@ -413,6 +445,7 @@ fn: {
 					$.trackAction(section + '.' + $(this).attr('rel'));
 				}
 				// No dragging!
+				event.preventDefault();
 				return false;
 			} )
 	},
@@ -454,16 +487,18 @@ fn: {
 					$characters
 						.html( html )
 						.children()
-						.mousedown( function() {
+						.mousedown( function( e ) {
 							// No dragging!
+							e.preventDefault();
 							return false;
 						} )
-						.click( function() {
+						.click( function( e ) {
 							$.wikiEditor.modules.toolbar.fn.doAction(
 								$(this).parent().data( 'context' ),
 								$(this).parent().data( 'actions' )[$(this).attr( 'rel' )],
 								$(this)
 							);
+							e.preventDefault();
 							return false;
 						} );
 				}
@@ -528,8 +563,9 @@ fn: {
 					.mouseup( function( e ) {
 						$(this).blur();
 					} )
-					.mousedown( function() {
+					.mousedown( function( e ) {
 						// No dragging!
+						e.preventDefault();
 						return false;
 					} )
 					.click( function( e ) {
@@ -568,6 +604,7 @@ fn: {
 							'wikiEditor-' + $(this).data( 'context' ).instance + '-toolbar-section',
 							show ? $section.attr( 'rel' ) : null
 						);
+						e.preventDefault();
 						return false;
 					} )
 			);

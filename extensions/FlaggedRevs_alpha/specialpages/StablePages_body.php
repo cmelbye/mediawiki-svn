@@ -4,6 +4,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit( 1 );
 }
 
+// Assumes $wgFlaggedRevsProtection is on
 class StablePages extends SpecialPage
 {
 	public function __construct() {
@@ -17,7 +18,7 @@ class StablePages extends SpecialPage
 		$this->skin = $wgUser->getSkin();
 
 		$this->namespace = $wgRequest->getIntOrNull( 'namespace' );
-		$this->precedence = $wgRequest->getIntOrNull( 'precedence' );
+		$this->autoreview = $wgRequest->getVal( 'restriction', '' );
 
 		$this->showForm();
 		$this->showPageList();
@@ -27,21 +28,21 @@ class StablePages extends SpecialPage
 		global $wgOut, $wgScript;
 		$wgOut->addHTML( wfMsgExt( 'stablepages-text', array( 'parseinline' ) ) );
 		$fields = array();
-		$namespaces = FlaggedRevs::getReviewNamespaces();
-		if ( count( $namespaces ) > 1 ) {
+		# Namespace selector
+		if ( count( FlaggedRevs::getReviewNamespaces() ) > 1 ) {
 			$fields[] = FlaggedRevsXML::getNamespaceMenu( $this->namespace, '' );
 		}
-		if ( FlaggedRevs::qualityVersions() ) {
-			$fields[] = Xml::label( wfMsg( 'stablepages-precedence' ), 'wpPrecedence' ) .
-				'&nbsp;' . FlaggedRevsXML::getPrecedenceMenu( $this->precedence );
+		# Restriction level selector
+		if( FlaggedRevs::getRestrictionLevels() ) {
+			$fields[] = FlaggedRevsXML::getRestrictionFilterMenu( $this->autoreview );
 		}
 		if ( count( $fields ) ) {
 			$form = Xml::openElement( 'form',
 				array( 'name' => 'stablepages', 'action' => $wgScript, 'method' => 'get' ) );
+			$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 			$form .= "<fieldset><legend>" . wfMsg( 'stablepages' ) . "</legend>\n";
 			$form .= implode( '&nbsp;', $fields ) . '&nbsp';
 			$form .= " " . Xml::submitButton( wfMsg( 'go' ) );
-			$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 			$form .= "</fieldset>\n";
 			$form .= Xml::closeElement( 'form' );
 			$wgOut->addHTML( $form );
@@ -52,50 +53,31 @@ class StablePages extends SpecialPage
 		global $wgOut;
 		# Take this opportunity to purge out expired configurations
 		FlaggedRevs::purgeExpiredConfigurations();
-		$pager = new StablePagesPager( $this, array(), $this->namespace, $this->precedence );
+		$pager = new StablePagesPager( $this, array(), $this->namespace, $this->autoreview );
 		if ( $pager->getNumRows() ) {
 			$wgOut->addHTML( $pager->getNavigationBar() );
 			$wgOut->addHTML( $pager->getBody() );
 			$wgOut->addHTML( $pager->getNavigationBar() );
 		} else {
-			$wgOut->addHTML( wfMsgExt( 'stablepages-none', array( 'parse' ) ) );
+			$wgOut->addHTML( wfMsgExt( 'configuredpages-none', array( 'parse' ) ) );
 		}
 	}
 
 	public function formatRow( $row ) {
 		global $wgLang;
-
 		$title = Title::makeTitle( $row->page_namespace, $row->page_title );
+		# Link to page
 		$link = $this->skin->makeKnownLinkObj( $title, $title->getPrefixedText() );
-
-		$stitle = SpecialPage::getTitleFor( 'Stabilization' );
-		if ( FlaggedRevs::useProtectionLevels() ) {
-			$config = $this->skin->makeKnownLinkObj( $title, wfMsgHtml( 'stablepages-config' ),
-				'action=protect' );
-		} else {
-			$config = $this->skin->makeKnownLinkObj( $stitle, wfMsgHtml( 'stablepages-config' ),
-				'page=' . $title->getPrefixedUrl() );
-		}
-
-		$type = '';
-		// Show precedence if there are several possible levels
-		if ( FlaggedRevs::qualityVersions() ) {
-			if ( intval( $row->fpc_select ) === FLAGGED_VIS_PRISTINE ) {
-				$type = wfMsgHtml( 'stablepages-prec-pristine' );
-			} elseif ( intval( $row->fpc_select ) === FLAGGED_VIS_QUALITY ) {
-				$type = wfMsgHtml( 'stablepages-prec-quality' );
-			} else {
-				$type = wfMsgHtml( 'stablepages-prec-none' );
-			}
-			$type = "(<b>{$type}</b>)";
-		}
-
+		# Link to page configuration
+		$config = $this->skin->makeKnownLinkObj( $title,
+			wfMsgHtml( 'stablepages-config' ), 'action=protect' );
+		# Autoreview/review restriction level
 		$restr = '';
 		if( $row->fpc_level != '' ) {
 			$restr = 'autoreview='.htmlspecialchars($row->fpc_level);
 			$restr = "[$restr]";
 		}
-
+		# When these configuration settings expire
 		if ( $row->fpc_expiry != 'infinity' && strlen( $row->fpc_expiry ) ) {
 			$expiry_description = " (" . wfMsgForContent(
 				'protect-expiring',
@@ -106,8 +88,7 @@ class StablePages extends SpecialPage
 		} else {
 			$expiry_description = "";
 		}
-
-		return "<li>{$link} ({$config}) {$type} {$restr}<i>{$expiry_description}</i></li>";
+		return "<li>{$link} ({$config}) {$restr}<i>{$expiry_description}</i></li>";
 	}
 }
 
@@ -115,11 +96,11 @@ class StablePages extends SpecialPage
  * Query to list out stable versions for a page
  */
 class StablePagesPager extends AlphabeticPager {
-	public $mForm, $mConds, $namespace;
+	public $mForm, $mConds, $namespace, $override;
 
 	// @param int $namespace (null for "all")
-	// @param int $precedence (null for "all")
-	function __construct( $form, $conds = array(), $namespace = null, $precedence = null ) {
+	// @param string $autoreview ('' for "all", 'none' for no restriction)
+	function __construct( $form, $conds = array(), $namespace, $autoreview ) {
 		$this->mForm = $form;
 		$this->mConds = $conds;
 		# Must be content pages...
@@ -132,10 +113,12 @@ class StablePagesPager extends AlphabeticPager {
 			$namespace = $validNS; // "all"
 		}
 		$this->namespace = $namespace;
-		if ( !is_integer( $precedence ) ) {
-			$precedence = null; // "all"
+		if ( $autoreview === 'none' ) {
+			$autoreview = ''; // 'none' => ''
+		} elseif ( $autoreview === '' ) {
+			$autoreview = null; // '' => null
 		}
-		$this->precedence = $precedence;
+		$this->autoreview = $autoreview;
 		parent::__construct();
 	}
 
@@ -147,13 +130,13 @@ class StablePagesPager extends AlphabeticPager {
 		$conds = $this->mConds;
 		$conds[] = 'page_id = fpc_page_id';
 		$conds['fpc_override'] = 1;
-		if ( $this->precedence !== null ) {
-			$conds['fpc_select'] = $this->precedence;
+		if( $this->autoreview !== null ) {
+			$conds['fpc_level'] = $this->autoreview;
 		}
 		$conds['page_namespace'] = $this->namespace;
 		return array(
 			'tables' => array( 'flaggedpage_config', 'page' ),
-			'fields' => 'page_namespace,page_title,fpc_expiry,fpc_page_id,fpc_select,fpc_level',
+			'fields' => 'page_namespace,page_title,fpc_override,fpc_expiry,fpc_page_id,fpc_select,fpc_level',
 			'conds'  => $conds,
 			'options' => array()
 		);

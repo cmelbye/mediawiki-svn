@@ -36,27 +36,33 @@ $.wikiEditor = {
 	'browsers': {
 		// Left-to-right languages
 		'ltr': {
-			// The toolbar layout is broken in IE6
-			'msie': [['>=', 7]],
+			// The toolbar layout is broken in IE6, selection is out of control in IE8
+			'msie': [['==', 7]],
 			// Layout issues in FF < 2
 			'firefox': [['>=', 2]],
 			// Text selection bugs galore - this may be a different situation with the new iframe-based solution
 			'opera': [['>=', 9.6]],
 			// jQuery minimums
 			'safari': [['>=', 3]],
-			'chrome': [['>=', 3]]
+			'chrome': [['>=', 3]],
+			'blackberry': false,
+			'ipod': false,
+			'iphone': false
 		},
 		// Right-to-left languages
 		'rtl': {
 			// The toolbar layout is broken in IE 7 in RTL mode, and IE6 in any mode
-			'msie': [['>=', 8]],
+			'msie': false,
 			// Layout issues in FF < 2
 			'firefox': [['>=', 2]],
 			// Text selection bugs galore - this may be a different situation with the new iframe-based solution
 			'opera': [['>=', 9.6]],
 			// jQuery minimums
 			'safari': [['>=', 3]],
-			'chrome': [['>=', 3]]
+			'chrome': [['>=', 3]],
+			'blackberry': false,
+			'ipod': false,
+			'iphone': false
 		}
 	},
 	/**
@@ -74,60 +80,57 @@ $.wikiEditor = {
 	 * similar to another existing browser that things actually do work as expected. The merrits of this argument, which
 	 * is essentially to blacklist rather than whitelist are debateable, but at this point we've decided it's the more
 	 * "open-web" way to go.
+	 * @param module Module object, defaults to $.wikiEditor
 	 */
 	'isSupported': function( module ) {
+	// Fallback to the wikiEditor browser map if no special map is provided in the module
+		// HORRIBLE LIVE HACK
+		if ( module && typeof module.name != 'undefined' && ( module.name == 'toc' || module.name == 'highlight' ) && typeof wgReallyGiveMeTOC == 'undefined' ) {
+			return module.supported = false;
+		}
+		var mod = module && 'browsers' in module ? module : $.wikiEditor;
 		// Check for and make use of cached value and early opportunities to bail
-		if ( module ) {
-			// If the module doesn't exist, it's clearly not supported
-			if ( typeof $.wikiEditor.modules[module] == 'undefined' ) {
-				return false;
-			} else if ( typeof $.wikiEditor.modules[module].supported !== 'undefined' ) {
-				// Cache hit
-				return $.wikiEditor.modules[module].supported;
-			}
-		} else {
-			if ( typeof $.wikiEditor.supported !== 'undefined' ) {
-				// Cache hit
-				return $.wikiEditor.supported;
-			}
+		if ( typeof mod.supported !== 'undefined' ) {
+			// Cache hit
+			return mod.supported;
 		}
-		// Provide quick way to cache support
-		function cacheSupport( value ) {
-			return module ? $.wikiEditor.modules[module].supported = value : $.wikiEditor.supported = value;
-		}
-		// Fallback to the wikiEditor browser map if no special map is provided in the module
-		var map = module && 'browsers' in $.wikiEditor.modules[module] ?
-				$.wikiEditor.modules[module].browsers : $.wikiEditor.browsers;
 		// Check if we have any compatiblity information on-hand for the current browser
-		if ( !( $.browser.name in map[$( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr'] ) ) {
+		if ( !( $.browser.name in mod.browsers[$( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr'] ) ) {
 			// Assume good faith :) 
-			return cacheSupport( true );
+			return mod.supported = true;
 		}
 		// Check over each browser condition to determine if we are running in a compatible client
-		var browser = map[$( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr'][$.browser.name];
+		var browser = mod.browsers[$( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr'][$.browser.name];
+		if ( typeof browser != 'object' ) {
+			return mod.supported = false;
+		}
 		for ( var condition in browser ) {
 			var op = browser[condition][0];
 			var val = browser[condition][1];
-			if ( typeof val == 'string' ) {
+			if ( val === false ) {
+				return mod.supported = false;
+			} else if ( typeof val == 'string' ) {
 				if ( !( eval( '$.browser.version' + op + '"' + val + '"' ) ) ) {
-					return cacheSupport( false );
+					return mod.supported = false;
 				}
 			} else if ( typeof val == 'number' ) {
 				if ( !( eval( '$.browser.versionNumber' + op + val ) ) ) {
-					return cacheSupport( false );
+					return mod.supported = false;
 				}
 			}
 		}
 		// Return and also cache the return value - this will be checked somewhat often
-		return cacheSupport( true );
+		return mod.supported = true;
 	},
 	/**
 	 * Checks if a module has a specific requirement
+	 * @param module Module object
+	 * @param requirement String identifying requirement
 	 */
 	'isRequired': function( module, requirement ) {
-		if ( typeof $.wikiEditor.modules[module]['req'] !== 'undefined' ) {
-			for ( req in $.wikiEditor.modules[module]['req'] ) {
-				if ( $.wikiEditor.modules[module]['req'][req] == requirement ) {
+		if ( typeof module['req'] !== 'undefined' ) {
+			for ( req in module['req'] ) {
+				if ( module['req'][req] == requirement ) {
 					return true;
 				}
 			}
@@ -270,7 +273,7 @@ if ( typeof context == 'undefined' ) {
 			}
 			for ( var module in modules ) {
 				// Check for the existance of an available / supported module with a matching name and a create function
-				if ( typeof module == 'string' && $.wikiEditor.isSupported( module ) ) {
+				if ( typeof module == 'string' && $.wikiEditor.isSupported( $.wikiEditor.modules[module] ) ) {
 					// Extend the context's core API with this module's own API calls
 					if ( 'api' in $.wikiEditor.modules[module] ) {
 						for ( var call in $.wikiEditor.modules[module].api ) {
@@ -307,6 +310,7 @@ if ( typeof context == 'undefined' ) {
 		 */
 		'keydown': function( event ) {
 			switch ( event.which ) {
+				/*
 				case 90: // z
 				case 89: // y
 					if ( event.which == 89 && !$.browser.msie ) { 
@@ -346,6 +350,7 @@ if ( typeof context == 'undefined' ) {
 						return false;
 					}
 					break;
+				*/
 					// Intercept all tab events to provide consisten behavior across browsers
 					// Webkit browsers insert tab characters by default into the iframe rather than changing input focus
 				case 9: //tab
@@ -366,13 +371,14 @@ if ( typeof context == 'undefined' ) {
 						}
 					break;
 				 case 86: //v
-					 if ( event.ctrlKey ){
+					 if ( event.ctrlKey && $.browser.msie ) {
 						 //paste, intercepted for IE
 						 context.evt.paste( event );
 					 }
 					 break;
 			}
 			return true;
+
 		},
 		'change': function( event ) {
 			event.data.scope = 'division';
@@ -382,11 +388,9 @@ if ( typeof context == 'undefined' ) {
 				context.oldHTML = newHTML;
 				event.data.scope = 'realchange';
 			}
-			// Are we deleting a <p> with one keystroke? if so, either remove preceding <br> or merge <p>s
-			switch ( event.which ) {
-				case 8: // backspace
-					// do something here...
-					break;
+			// Never let the body be totally empty
+			if ( context.$content.children().length == 0 ) {
+				context.$content.append( '<p></p>' );
 			}
 			return true;
 		},
@@ -396,65 +400,114 @@ if ( typeof context == 'undefined' ) {
 			if ( context.oldDelayedHTML != newHTML ) {
 				context.oldDelayedHTML = newHTML;
 				event.data.scope = 'realchange';
+				// Surround by <p> if it does not already have it
+				var cursorPos = context.fn.getCaretPosition();
+				var t = context.fn.getOffset( cursorPos[0] );
+				if ( t && t.node.nodeName == '#text' && t.node.parentNode.nodeName.toLowerCase() == 'body' ) {
+					$( t.node ).wrap( "<p></p>" );
+					context.fn.purgeOffsets();
+					context.fn.setSelection( { start: cursorPos[0], end: cursorPos[1] } );
+				}
 			}
 			context.fn.updateHistory( event.data.scope == 'realchange' );
 			return true;
 		},
+		'cut': function( event ) {
+			setTimeout( function() {
+				context.$content.find( 'br' ).each( function() {
+					if ( $(this).parent().is( 'body' ) ) {
+						$(this).wrap( $( '<p></p>' ) );
+					}
+				} );
+			}, 100 );
+			return true;
+		},
 		'paste': function( event ) {
+			// Save the cursor position to restore it after all this voodoo
+			var cursorPos = context.fn.getCaretPosition();
+			var oldLength = context.fn.getContents().length;
 			context.$content.find( ':not(.wikiEditor)' ).addClass( 'wikiEditor' );
 			if ( $.layout.name !== 'webkit' ) {
 				context.$content.addClass( 'pasting' );
 			}
 			setTimeout( function() {
-				// Unwrap the span found in webkit copies
-				context.$content.find( 'link, style, meta' ).remove(); //MS Word
-				context.$content.find( 'p:not(.wikiEditor) p:not(.wikiEditor)' ) //MS Word+webkit
+				// Kill stuff we know we don't want
+				context.$content.find( 'script,style,img,input,select,textarea,hr,button,link,meta' ).remove();
+				// This is just downright strange - but if we do this on nodes with text nodes, it fixes allot of
+				// space collapsing issues at element boundries
+				context.$content.find( '*' ).each( function() {
+					if ( $(this).children().length == 0 && this.childNodes.length > 0 ) {
+						$(this).text( $(this).text() );
+					}
+				} );
+				// Remove newlines from all text nodes
+				var t = context.fn.traverser( context.$content );
+				while ( t ) {
+					if ( t.node.nodeName == '#text' ) {
+						// Text nodes that are nothing but blank lines need to be converted to full line breaks
+						if ( t.node.nodeValue === '\n' ) {
+							$( '<p><br></p>' ).insertAfter( $( t.node ) );
+							var oldNode = t.node;
+							t = t.next();
+							$( oldNode ).remove();
+							// We already advanced, so let's finish now
+							continue;
+						}
+						// Text nodes containing new lines just need conversion to spaces
+						else if ( ( t.node.nodeValue.indexOf( '\n' ) != 1 || t.node.nodeValue.indexOf( '\r' ) != -1 ) ) {
+							t.node.nodeValue = t.node.nodeValue.replace( /\r|\n/g, ' ' );
+						}
+					}
+					t = t.next();
+				}
+				// MS Word + webkit
+				context.$content.find( 'p:not(.wikiEditor) p:not(.wikiEditor)' )
 					.each( function(){
 						var outerParent = $(this).parent();
-						outerParent.replaceWith( outerParent.childNodes() );
+						outerParent.replaceWith( outerParent.childNodes );
 					} );
+				// Unwrap the span found in webkit copies (Apple Richtext)
 				context.$content.find( 'span.Apple-style-span' ).each( function() {
-					$( this.childNodes ).insertBefore( this );
-				} ).remove(); //Apple Richtext
+					$(this).replaceWith( this.childNodes );
+				} );
 				var $selection = context.$content.find( ':not(.wikiEditor)' );
 				while ( $selection.length && $selection.length > 0 ) {
 					var $currentElement = $selection.eq( 0 );
 					while ( !$currentElement.parent().is( 'body' ) && !$currentElement.parent().is( '.wikiEditor' ) ) {
 						$currentElement = $currentElement.parent();
 					}
-					var text = $currentElement.text();
+					var html = $( '<div></div>' ).text( $currentElement.text().replace( /\r|\n/g, ' ' ) ).html();
 					if ( $currentElement.is( 'br' ) ) {
 						$currentElement.addClass( 'wikiEditor' );
-					} else if ( $currentElement.is( 'span' ) && text.length == 0 ) {
+					} else if ( $currentElement.is( 'span' ) && html.length == 0 ) {
 						// Markers!
 						$currentElement.remove();
-					} else {
+					} else if ( $currentElement.is( 'p' ) || $currentElement.is( 'div' ) ) {
 						$newElement = $( '<p></p>' )
 							.addClass( 'wikiEditor' )
 							.insertAfter( $currentElement );
-						if ( text.length ) {
-							$newElement.text( text );
+						if ( html.length ) {
+							$newElement.html( html );
 						} else {
 							$newElement.append( $( '<br>' ).addClass( 'wikiEditor' ) );
 						}
+						$currentElement.remove();
+					} else {
+						$newElement = $( '<span></span>' ).html( html ).insertAfter( $currentElement );
+						$newElement.replaceWith( $newElement[0].childNodes );
 						$currentElement.remove();
 					}
 					$selection = context.$content.find( ':not(.wikiEditor)' );
 				}
 				context.$content.find( '.wikiEditor' ).removeClass( 'wikiEditor' );
-				// Remove newlines from all text nodes
-				var t = context.fn.traverser( context.$content );
-				while ( t ) {
-					if ( t.node.nodeName == '#text' ) {
-						if ( ( t.node.nodeValue.indexOf( '\n' ) != 1 || t.node.nodeValue.indexOf( '\r' ) != -1 ) ) {
-							t.node.nodeValue = t.node.nodeValue.replace( /\r|\n/g, ' ' );
-						}
-					}
-					t = t.next();
-				}
 				if ( $.layout.name !== 'webkit' ) {
 					context.$content.removeClass( 'pasting' );
 				}
+				
+				// Restore cursor position
+				context.fn.purgeOffsets();
+				var restoreTo = cursorPos[1] + context.fn.getContents().length - oldLength;
+				context.fn.setSelection( { start: restoreTo, end: restoreTo } );
 			}, 0 );
 			return true;
 		},
@@ -486,6 +539,8 @@ if ( typeof context == 'undefined' ) {
 					return false;
 				}
 			}
+			
+			var returnFromModules = null; //they return null by default
 			// Pass the event around to all modules activated on this context
 			for ( var module in context.modules ) {
 				if (
@@ -493,10 +548,22 @@ if ( typeof context == 'undefined' ) {
 					'evt' in $.wikiEditor.modules[module] &&
 					name in $.wikiEditor.modules[module].evt
 				) {
-					$.wikiEditor.modules[module].evt[name]( context, event );
+					var ret = $.wikiEditor.modules[module].evt[name]( context, event );
+					if (ret != null) {
+						//if 1 returns false, the end result is false
+						if( returnFromModules == null ) {
+							returnFromModules = ret; 
+						} else {
+							returnFromModules = returnFromModules && ret;
+						} 
+					}
 				}
 			}
-			return true;
+			if ( returnFromModules != null ) {
+				return returnFromModules;
+			} else {
+				return true;
+			}
 		},
 		/**
 		 * Adds a button to the UI
@@ -558,6 +625,14 @@ if ( typeof context == 'undefined' ) {
 				.hide()
 				.appendTo( context.$ui );
 		},
+		'highlightLine': function( $element, mode ) {
+			if ( !$element.is( 'p' ) ) {
+				$element = $element.closest( 'p' );
+			}
+			$element.css( 'backgroundColor', '#AACCFF' );
+			setTimeout( function() { $element.animate( { 'backgroundColor': 'white' }, 'slow' ); }, 100 );
+			setTimeout( function() { $element.css( 'backgroundColor', 'white' ); }, 1000 );
+		},
 		'htmlToText': function( html ) {
 			// This function is slow for large inputs, so aggressively cache input/output pairs
 			if ( html in context.htmlToTextMap ) {
@@ -597,7 +672,7 @@ if ( typeof context == 'undefined' ) {
 				// We need the traverser because there can be other weird stuff in between
 				
 				// Check for preceding text
-				var t = new context.fn.rawTraverser( this.firstChild, 0, this, $pre.get( 0 ) ).prev();
+				var t = new context.fn.rawTraverser( this.firstChild, this, $pre.get( 0 ), true ).prev();
 				while ( t && t.node.nodeName != '#text' && t.node.nodeName != 'BR' && t.node.nodeName != 'P' ) {
 					t = t.prev();
 				}
@@ -606,7 +681,7 @@ if ( typeof context == 'undefined' ) {
 				}
 				
 				// Check for following text
-				t = new context.fn.rawTraverser( this.lastChild, 0, this, $pre.get( 0 ) ).next();
+				t = new context.fn.rawTraverser( this.lastChild, this, $pre.get( 0 ), true ).next();
 				while ( t && t.node.nodeName != '#text' && t.node.nodeName != 'BR' && t.node.nodeName != 'P' ) {
 					t = t.next();
 				}
@@ -712,19 +787,17 @@ if ( typeof context == 'undefined' ) {
 		/**
 		 * Object used by traverser(). Don't use this unless you know what you're doing
 		 */
-		'rawTraverser': function( node, depth, inP, ancestor ) {
+		'rawTraverser': function( node, inP, ancestor, skipNoinclude ) {
 			this.node = node;
-			this.depth = depth;
 			this.inP = inP;
 			this.ancestor = ancestor;
+			this.skipNoinclude = skipNoinclude;
 			this.next = function() {
 				var p = this.node;
-				var nextDepth = this.depth;
 				var nextInP = this.inP;
 				while ( p && !p.nextSibling ) {
 					p = p.parentNode;
-					nextDepth--;
-					if ( p == ancestor ) {
+					if ( p == this.ancestor ) {
 						// We're back at the ancestor, stop here
 						p = null;
 					}
@@ -740,27 +813,28 @@ if ( typeof context == 'undefined' ) {
 					// Filter nodes with the wikiEditor-noinclude class
 					// Don't use $( p ).hasClass( 'wikiEditor-noinclude' ) because
 					// $() is slow in a tight loop
-					while ( p && ( ' ' + p.className + ' ' ).indexOf( ' wikiEditor-noinclude ' ) != -1 ) {
-						p = p.nextSibling;
+					if ( this.skipNoinclude ) {
+						while ( p && ( ' ' + p.className + ' ' ).indexOf( ' wikiEditor-noinclude ' ) != -1 ) {
+							p = p.nextSibling;
+						}
 					}
 					if ( p && p.firstChild ) {
 						p = p.firstChild;
-						nextDepth++;
 						if ( p.nodeName == "P" ) {
 							nextInP = p;
 						}
 					}
 				} while ( p && p.firstChild );
-				return p ? new context.fn.rawTraverser( p, nextDepth, nextInP, this.ancestor ) : null;
+				// Instead of calling the rawTraverser constructor, inline it. This avoids function call overhead
+				return p ? { 'node': p, 'inP': nextInP, 'ancestor': this.ancestor,
+						'skipNoinclude': this.skipNoinclude, 'next': this.next, 'prev': this.prev } : null;
 			};
 			this.prev = function() {
 				var p = this.node;
-				var prevDepth = this.depth;
 				var prevInP = this.inP;
 				while ( p && !p.previousSibling ) {
 					p = p.parentNode;
-					prevDepth--;
-					if ( p == ancestor ) {
+					if ( p == this.ancestor ) {
 						// We're back at the ancestor, stop here
 						p = null;
 					}
@@ -776,35 +850,35 @@ if ( typeof context == 'undefined' ) {
 					// Filter nodes with the wikiEditor-noinclude class
 					// Don't use $( p ).hasClass( 'wikiEditor-noinclude' ) because
 					// $() is slow in a tight loop
-					while ( p && ( ' ' + p.className + ' ' ).indexOf( ' wikiEditor-noinclude ' ) != -1 ) {
-						p = p.previousSibling;
+					if ( this.skipNoinclude ) {
+						while ( p && ( ' ' + p.className + ' ' ).indexOf( ' wikiEditor-noinclude ' ) != -1 ) {
+							p = p.previousSibling;
+						}
 					}
 					if ( p && p.lastChild ) {
 						p = p.lastChild;
-						prevDepth++;
 						if ( p.nodeName == "P" ) {
 							prevInP = p;
 						}
 					}
 				} while ( p && p.lastChild );
-				return p ? new context.fn.rawTraverser( p, prevDepth, prevInP, this.ancestor ) : null;
+				// Instead of calling the rawTraverser constructor, inline it. This avoids function call overhead
+				return p ? { 'node': p, 'inP': prevInP, 'ancestor': this.ancestor,
+						'skipNoinclude': this.skipNoinclude, 'next': this.next, 'prev': this.prev } : null;
 			};
 		},
 		/**
 		 * Get an object used to traverse the leaf nodes in the iframe DOM. This traversal skips leaf nodes
 		 * inside an element with the wikiEditor-noinclude class. This basically wraps rawTraverser
 		 *
-		 * Usage:
-		 * var t = context.fn.traverser( context.$content );
-		 * // t.node is the first textnode, t.depth is its depth
-		 * t.goNext();
-		 * // t.node is the second textnode, t.depth is its depth
-		 * // Trying to advance past the end will set t.node to null
+		 * @param start Node to start at
+		 * @return Traverser object, use .next() or .prev() to get a traverser object referring to the
+		 *  previous/next node
 		 */
 		'traverser': function( start ) {
 			// Find the leftmost leaf node in the tree
-			var node = start.jquery ? start.get( 0 ) : start;
-			var depth = 0;
+			var startNode = start.jquery ? start.get( 0 ) : start;
+			var node = startNode;
 			var inP = node.nodeName == "P" ? node : null;
 			do {
 				// Filter nodes with the wikiEditor-noinclude class
@@ -815,13 +889,12 @@ if ( typeof context == 'undefined' ) {
 				}
 				if ( node && node.firstChild ) {
 					node = node.firstChild;
-					depth++;
 					if ( node.nodeName == "P" ) {
 						inP = node;
 					}
 				}
 			} while ( node && node.firstChild );
-			return new context.fn.rawTraverser( node, depth, inP, node );
+			return new context.fn.rawTraverser( node, inP, startNode, true );
 		},
 		'getOffset': function( offset ) {
 			if ( !context.offsets ) {
@@ -831,12 +904,14 @@ if ( typeof context == 'undefined' ) {
 				return context.offsets[offset];
 			}
 			// Our offset is not pre-cached. Find the highest offset below it and interpolate
+			// We need to traverse the entire object because for() doesn't traverse in order
+			// We don't do in-order traversal because the object is sparse
 			var lowerBound = -1;
 			for ( var o in context.offsets ) {
-				if ( o > offset ) {
-					break;
+				var realO = parseInt( o );
+				if ( realO < offset && realO > lowerBound) {
+					lowerBound = realO;
 				}
-				lowerBound = o;
 			}
 			if ( !( lowerBound in context.offsets ) ) {
 				// Weird edge case: either offset is too large or the document is empty
@@ -847,9 +922,7 @@ if ( typeof context == 'undefined' ) {
 				'node': base.node,
 				'offset': base.offset + offset - lowerBound,
 				'length': base.length,
-				'depth': base.depth,
-				'lastTextNode': base.lastTextNode,
-				'lastTextNodeDepth': base.lastTextNodeDepth
+				'lastTextNode': base.lastTextNode
 			};
 		},
 		'purgeOffsets': function() {
@@ -858,7 +931,7 @@ if ( typeof context == 'undefined' ) {
 		'refreshOffsets': function() {
 			context.offsets = [ ];
 			var t = context.fn.traverser( context.$content );
-			var pos = 0, lastTextNode = null, lastTextNodeDepth = null;
+			var pos = 0, lastTextNode = null;
 			while ( t ) {
 				if ( t.node.nodeName != '#text' && t.node.nodeName != 'BR' ) {
 					t = t.next();
@@ -871,9 +944,7 @@ if ( typeof context == 'undefined' ) {
 					'node': t.node,
 					'offset': 0,
 					'length': nextPos - pos + ( leavingP ? 1 : 0 ),
-					'depth': t.depth,
-					'lastTextNode': lastTextNode,
-					'lastTextNodeDepth': lastTextNodeDepth
+					'lastTextNode': lastTextNode
 				};
 				if ( leavingP ) {
 					// <p>Foo</p> looks like "Foo\n", make it quack like it too
@@ -882,15 +953,12 @@ if ( typeof context == 'undefined' ) {
 						'node': t.node,
 						'offset': nextPos - pos,
 						'length': nextPos - pos + 1,
-						'depth': t.depth,
-						'lastTextNode': lastTextNode,
-						'lastTextNodeDepth': lastTextNodeDepth
+						'lastTextNode': lastTextNode
 					};
 				}
 				pos = nextPos + ( leavingP ? 1 : 0 );
 				if ( t.node.nodeName == '#text' ) {
 					lastTextNode = t.node;
-					lastTextNodeDepth = t.depth;
 				}
 				t = nextT;
 			}
@@ -900,14 +968,23 @@ if ( typeof context == 'undefined' ) {
 				// Only IE needs this
 				return;
 			}
-			context.$iframe[0].contentWindow.focus();
-			context.savedSelection = context.$iframe[0].contentWindow.document.selection.createRange();
+			if ( typeof context.$iframe != 'undefined' ) {
+				context.$iframe[0].contentWindow.focus();
+				context.savedSelection = context.$iframe[0].contentWindow.document.selection.createRange();
+			} else {
+				context.$textarea.focus();
+				context.savedSelection = document.selection.createRange();
+			}
 		},
 		'restoreSelection': function() {
 			if ( !$.browser.msie || context.savedSelection === null ) {
 				return;
 			}
-			context.$iframe[0].contentWindow.focus();
+			if ( typeof context.$iframe != 'undefined' ) {
+				context.$iframe[0].contentWindow.focus();
+			} else {
+				context.$textarea.focus();
+			}
 			context.savedSelection.select();
 			context.savedSelection = null;
 		},
@@ -925,7 +1002,6 @@ if ( typeof context == 'undefined' ) {
 				context.history.length == 0 ||
 				( htmlChange && context.oldDelayedHistoryPosition == context.historyPosition )
 			) {
-				context.fn.purgeOffsets();
 				context.oldDelayedSel = newSel;
 				// Do we need to trim extras from our history? 
 				// FIXME: this should really be happing on change, not on the delay
@@ -1058,10 +1134,23 @@ if ( typeof context == 'undefined' ) {
 					// Setup event handling on the iframe
 					$( context.$iframe[0].contentWindow.document )
 						.bind( 'keydown', function( event ) {
+							event.jQueryNode = context.fn.getElementAtCursor();
 							return context.fn.trigger( 'keydown', event );
+							
+						} )
+						.bind( 'keyup', function( event ) {
+							event.jQueryNode = context.fn.getElementAtCursor();
+							return context.fn.trigger( 'keyup', event );
+						} )
+						.bind( 'keypress', function( event ) {
+							event.jQueryNode = context.fn.getElementAtCursor();
+							return context.fn.trigger( 'keypress', event );
 						} )
 						.bind( 'paste', function( event ) {
 							return context.fn.trigger( 'paste', event );
+						} )
+						.bind( 'cut', function( event ) {
+							return context.fn.trigger( 'cut', event );
 						} )
 						.bind( 'keyup paste mouseup cut encapsulateSelection', function( event ) {
 							return context.fn.trigger( 'change', event );
@@ -1091,6 +1180,24 @@ if ( typeof context == 'undefined' ) {
 		 * Compatibility with the $.textSelection jQuery plug-in. When the iframe is in use, these functions provide
 		 * equivilant functionality to the otherwise textarea-based functionality.
 		 */
+		
+		'getElementAtCursor': function() {
+			if ( context.$iframe[0].contentWindow.getSelection ) {
+				// Firefox and Opera
+				var selection = context.$iframe[0].contentWindow.getSelection();
+				if ( selection.rangeCount == 0 ) {
+					// We don't know where the cursor is
+					return $( [] );
+				}
+				var sc = selection.getRangeAt( 0 ).startContainer;
+				if ( sc.nodeName == "#text" ) sc = sc.parentNode;
+				return $( sc );
+			} else if ( context.$iframe[0].contentWindow.document.selection ) { // should come last; Opera!
+				// IE
+				var selection = context.$iframe[0].contentWindow.document.selection.createRange();
+				return $( selection.parentElement() );
+			}
+		},
 		
 		/**
 		 * Gets the complete contents of the iframe (in plain text, not HTML)
@@ -1155,11 +1262,20 @@ if ( typeof context == 'undefined' ) {
 		'encapsulateSelection': function( options ) {
 			var selText = $(this).textSelection( 'getSelection' );
 			var selTextArr;
+			var collapseToEnd = false;
 			var selectAfter = false;
 			var setSelectionTo = null;
 			var pre = options.pre, post = options.post;
 			if ( !selText ) {
 				selText = options.peri;
+				selectAfter = true;
+			} else if ( options.peri == selText.replace( /\s+$/, '' ) ) {
+				// Probably a successive button press
+				// strip any extra white space from selText
+				selText = selText.replace( /\s+$/, '' );
+				// set the collapseToEnd flag to ensure our selection is collapsed to the end before any insertion is done
+				collapseToEnd = true;
+				// set selectAfter to true since we know we'll be populating with our default text
 				selectAfter = true;
 			} else if ( options.replace ) {
 				selText = options.peri;
@@ -1176,6 +1292,15 @@ if ( typeof context == 'undefined' ) {
 			if ( context.$iframe[0].contentWindow.getSelection ) {
 				// Firefox and Opera
 				var range = context.$iframe[0].contentWindow.getSelection().getRangeAt( 0 );
+				// if our test above indicated that this was a sucessive button press, we need to collapse the 
+				// selection to the end to avoid replacing text 
+				if ( collapseToEnd ) {
+					// Make sure we're not collapsing ourselves into a BR tag
+					if ( range.endContainer.nodeName == 'BR' ) {
+						range.setEndBefore( range.endContainer );
+					}
+					range.collapse( false );
+				}
 				if ( options.ownline ) {
 					// We need to figure out if the cursor is at the start or end of a line
 					var atStart = false, atEnd = false;
@@ -1198,12 +1323,13 @@ if ( typeof context == 'undefined' ) {
 						} else {
 							atEnd = true;
 						}
-					} else if ( range.startContainer.nodeName == '#text' &&
-							range.startOffset == range.startContainer.nodeValue.length ) {
-						// Apparently this happens when splitting text nodes
+					}
+					if ( ( range.endOffset == 0 && range.endContainer.nodeValue == null ) ||
+							( range.endContainer.nodeName == '#text' &&
+									range.endOffset == range.endContainer.nodeValue.length ) ||
+							( range.endContainer.nodeName == 'P' && range.endContainer.nodeValue == null ) ) {
 						atEnd = true;
 					}
-					
 					if ( !atStart ) {
 						pre  = "\n" + options.pre;
 					}
@@ -1300,6 +1426,11 @@ if ( typeof context == 'undefined' ) {
 					if ( range3.text != "\r" && range3.text != "\n" && range3.text != "" ) {
 						post += "\n";
 					}
+				}
+				// if our test above indicated that this was a sucessive button press, we need to collapse the
+				// selection to the end to avoid replacing text
+				if ( collapseToEnd ) {
+					range.collapse( false );
 				}
 				// TODO: Clean this up. Duplicate code due to the pre-existing browser specific structure of this
 				// function
@@ -1491,6 +1622,14 @@ if ( typeof context == 'undefined' ) {
 					ec = e ? e.node : null;
 					start = s ? s.offset : null;
 					end = e ? e.offset : null;
+					// Don't try to set the selection past the end of a node, causes errors
+					// Just put the selection at the end of the node in this case
+					if ( sc.nodeName == '#text' && start > sc.nodeValue.length ) {
+						start = sc.nodeValue.length - 1;
+					}
+					if ( ec.nodeName == '#text' && end > ec.nodeValue.length ) {
+						end = ec.nodeValue.length - 1;
+					}
 				}
 				if ( !sc || !ec ) {
 					// The requested offset isn't in the offsets array
@@ -1557,7 +1696,7 @@ if ( typeof context == 'undefined' ) {
 		 * DO NOT CALL THIS DIRECTLY, use $.textSelection( 'functionname', options ) instead
 		 */
 		'scrollToCaretPosition': function( options ) {
-			// FIXME: context.$textarea.trigger( 'scrollToPosition' ) ?
+			context.fn.scrollToTop( context.fn.getElementAtCursor(), true );
 		},
 		/**
 		 * Scroll an element to the top of the iframe
@@ -1645,10 +1784,16 @@ if ( typeof context == 'undefined' ) {
 var args = $.makeArray( arguments );
 
 // Dynamically setup the Iframe when needed when adding modules
-if ( typeof context.$iframe === 'undefined' && arguments[0] == 'addModule' && typeof arguments[1] == 'object' ) {
-	for ( module in arguments[1] ) {
+if ( typeof context.$iframe === 'undefined' && args[0] == 'addModule' && typeof args[1] != 'undefined' ) {
+	var modules = args[1];
+	if ( typeof modules != "object" ) {
+		modules = {};
+		modules[args[1]] = '';
+	}
+	for ( module in modules ) {
 		// Only allow modules which are supported (and thus actually being turned on) affect this decision
-		if ( $.wikiEditor.isSupported( module ) && $.wikiEditor.isRequired( module, 'iframe' ) ) {
+		if ( module in $.wikiEditor.modules && $.wikiEditor.isSupported( $.wikiEditor.modules[module] ) &&
+				$.wikiEditor.isRequired( $.wikiEditor.modules[module], 'iframe' ) ) {
 			context.fn.setupIframe();
 			break;
 		}

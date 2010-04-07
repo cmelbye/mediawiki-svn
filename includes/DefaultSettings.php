@@ -33,7 +33,8 @@ if ( !defined( 'MW_PHP4' ) ) {
 }
 
 /** MediaWiki version number */
-$wgVersion = '1.16wmf4'
+$wgVersion = '1.16.0beta2';
+
 /** Name of the site. It must be changed in LocalSettings.php */
 $wgSitename         = 'MediaWiki';
 

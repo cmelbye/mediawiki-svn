@@ -46,9 +46,9 @@ class SpecialOptIn extends SpecialPage {
 	}
 
 	public static function optOut( $user ) {
-		global $wgOptInPrefs;
-		foreach ( $wgOptInPrefs as $pref => $value ) {
-			$user->setOption( $pref, null );
+		global $wgOptOutPrefs;
+		foreach ( $wgOptOutPrefs as $pref => $value ) {
+			$user->setOption( $pref, $value );
 		}
 		$user->saveSettings();
 	}
@@ -186,7 +186,7 @@ class SpecialOptIn extends SpecialPage {
 				array( 'optin-intro' )
 			);
 			$this->showOptInButtons();
-			$wgOut->addWikiMsg( 'optin-improvements' );
+			$wgOut->addWikiMsg( 'optin-improvements2' );
 		}
 	}
 

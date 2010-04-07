@@ -16,24 +16,26 @@ RegExp.escape = function( s ) { return s.replace(/([.*+?^${}()|\/\\[\]])/g, '\\$
 	// Left-to-right languages
 	'ltr': {
 		'msie': [['>=', 7]],
-		'firefox': [['>=', 3]],
-		'opera': [['>=', 10]],
-		'safari': [['>=', 4]],
-		'chrome': [['>=', 4]]
+		// jQuery UI appears to be broken in FF 2.0 - 2.0.0.4
+		'firefox': [
+			['>=', 2], ['!=', '2.0'], ['!=', '2.0.0.1'], ['!=', '2.0.0.2'], ['!=', '2.0.0.3'], ['!=', '2.0.0.4']
+		],
+		'opera': [['>=', 9.6]],
+		'safari': [['>=', 3]],
+		'chrome': [['>=', 3]]
 	},
 	// Right-to-left languages
 	'rtl': {
-		'msie': [['>=', 8]],
-		'firefox': [['>=', 3]],
-		'opera': [['>=', 10]],
-		'safari': [['>=', 4]],
-		'chrome': [['>=', 4]]
+		'msie': [['>=', 7]],
+		// jQuery UI appears to be broken in FF 2.0 - 2.0.0.4
+		'firefox': [
+			['>=', 2], ['!=', '2.0'], ['!=', '2.0.0.1'], ['!=', '2.0.0.2'], ['!=', '2.0.0.3'], ['!=', '2.0.0.4']
+		],
+		'opera': [['>=', 9.6]],
+		'safari': [['>=', 3]],
+		'chrome': [['>=', 3]]
 	}
 },
-/**
- * Core Requirements
- */
-'req': [ 'iframe' ],
 /**
  * API accessible functions
  */
@@ -46,7 +48,7 @@ api: {
 			$( '#' + $.wikiEditor.modules.dialogs.modules[module].id ).dialog( 'open' );
 		}
 	},
-	closeDialog: function( context, data ) {
+	closeDialog: function( context, module ) {
 		if ( module in $.wikiEditor.modules.dialogs.modules ) {
 			$( '#' + $.wikiEditor.modules.dialogs.modules[module].id ).dialog( 'close' );
 		}
@@ -68,11 +70,26 @@ fn: {
 			$.wikiEditor.modules.dialogs.modules[module] = config[module];
 		}
 		// Build out modules immediately
-		mw.usability.load( ['$j.ui', '$j.ui.dialog', '$j.ui.draggable', '$j.ui.resizable' ], function() {
-			for ( module in $.wikiEditor.modules.dialogs.modules ) {
-				var module = $.wikiEditor.modules.dialogs.modules[module];
-				// Only create the dialog if it doesn't exist yet
-				if ( $( '#' + module.id ).size() == 0 ) {
+		// TODO: Move mw.usability.load() call down to where we're sure we're really gonna build a dialog
+		mw.usability.load( [ '$j.ui', '$j.ui.dialog', '$j.ui.draggable', '$j.ui.resizable' ], function() {
+			for ( mod in $.wikiEditor.modules.dialogs.modules ) {
+				var module = $.wikiEditor.modules.dialogs.modules[mod];
+				// Only create the dialog if it's supported, not filtered and doesn't exist yet
+				var filtered = false;
+				if ( typeof module.filters != 'undefined' ) {
+					for ( var i = 0; i < module.filters.length; i++ ) {
+						if ( $( module.filters[i] ).length == 0 ) {
+							filtered = true;
+							break;
+						}
+					}
+				}
+				if ( !filtered && $.wikiEditor.isSupported( module ) && $( '#' + module.id ).size() == 0 ) {
+					// If this dialog requires the iframe, set it up
+					if ( typeof context.$iframe == 'undefined' && $.wikiEditor.isRequired( module, 'iframe' ) ) {
+						context.fn.setupIframe();
+					}
+					
 					var configuration = module.dialog;
 					// Add some stuff to configuration
 					configuration.bgiframe = true;
@@ -81,19 +98,22 @@ fn: {
 					configuration.title = $.wikiEditor.autoMsg( module, 'title' );
 					// Transform messages in keys
 					// Stupid JS won't let us do stuff like
-					// foo = { mw.usability.getMsg ('bar'): baz }
+					// foo = { mw.usability.getMsg( 'bar' ): baz }
 					configuration.newButtons = {};
 					for ( msg in configuration.buttons )
 						configuration.newButtons[mw.usability.getMsg( msg )] = configuration.buttons[msg];
 					configuration.buttons = configuration.newButtons;
 					// Create the dialog <div>
-					var dialogDiv = $( '<div /> ' )
+					var dialogDiv = $( '<div />' )
 						.attr( 'id', module.id )
 						.html( module.html )
 						.data( 'context', context )
 						.appendTo( $( 'body' ) )
 						.each( module.init )
 						.dialog( configuration );
+					// Set tabindexes on buttons added by .dialog()
+					$.wikiEditor.modules.dialogs.fn.setTabindexes( dialogDiv.closest( '.ui-dialog' )
+						.find( 'button' ).not( '[tabindex]' ) );
 					if ( !( 'resizeme' in module ) || module.resizeme ) {
 						dialogDiv
 							.bind( 'dialogopen', $.wikiEditor.modules.dialogs.fn.resize )
@@ -105,21 +125,9 @@ fn: {
 					dialogDiv.bind( 'dialogclose', function() {
 						context.fn.restoreSelection();
 					} );
-					// Add tabindexes to dialog form elements
-					// Find the highest tabindex in use
-					var maxTI = 0;
-					$j( '[tabindex]' ).each( function() {
-						var ti = parseInt( $j(this).attr( 'tabindex' ) );
-						if ( ti > maxTI )
-							maxTI = ti;
-					});
 					
-					var tabIndex = maxTI + 1;
-					$j( '.ui-dialog input, .ui-dialog button' )
-						.not( '[tabindex]' )
-						.each( function() {
-							$j(this).attr( 'tabindex', tabIndex++ );
-						});
+					// Let the outside world know we set up this dialog
+					context.$textarea.trigger( 'wikiEditor-dialogs-loaded-' + mod );
 				}
 			}
 		});
@@ -161,6 +169,23 @@ fn: {
 		oldHidden.each( function() {
 			$(this).attr( 'style', $(this).data( 'oldstyle' ) );
 		});		
+	},
+	/**
+	 * Set the right tabindexes on elements in a dialog
+	 * @param $elements Elements to set tabindexes on. If they already have tabindexes, this function can behave a bit weird
+	 */
+	setTabindexes: function( $elements ) {
+		// Find the highest tabindex in use
+		var maxTI = 0;
+		$j( '[tabindex]' ).each( function() {
+			var ti = parseInt( $j(this).attr( 'tabindex' ) );
+			if ( ti > maxTI )
+				maxTI = ti;
+		});
+		var tabIndex = maxTI + 1;
+		$elements.each( function() {
+			$j(this).attr( 'tabindex', tabIndex++ );
+		} );
 	}
 },
 // This stuff is just hanging here, perhaps we could come up with a better home for this stuff
