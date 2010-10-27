@@ -7,11 +7,8 @@
 *  mw.PlayerControlBuilder Handles skinning of the player controls
 */
 
-/**
- * Add the messages text: 
- */
- 
 mw.includeAllModuleMessages();
+
 /*
 * The default video attributes supported by embedPlayer
 */ 
@@ -134,6 +131,71 @@ mw.setDefaultConfig( 'EmbedPlayer.Attributes', {
 	"type" : null
 });
 
+mw.setDefaultConfig( {		
+	// If the player controls should be overlaid on top of the video ( if supported by playback method)
+	// can be set to false per embed player via overlayControls attribute 
+	'EmbedPlayer.OverlayControls' : true,
+	
+	'EmbedPlayer.LibraryPage':  'http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library',
+	
+	// A default apiProvider ( ie where to lookup subtitles, video properties etc )
+	// NOTE: Each player instance can also specify a specific provider  
+	"EmbedPlayer.ApiProvider" : "local",
+	
+	// Default video size ( if no size provided )	
+	"EmbedPlayer.DefaultSize" : "400x300",
+
+	// If the video player should attribute kaltura	
+	"EmbedPlayer.KalturaAttribution" : true,
+
+	// The attribution button
+	'EmbedPlayer.AttributionButton' :{
+		'title' : 'Kaltura html5 video library',
+	    'href' :  'http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library',
+	    // Style icon to be applied 
+	    'class' : 'kaltura-icon',
+	    // An icon image url ( should be a 12x12 image or data url )  
+	    'iconurl' : false
+	},
+
+	 
+	// Set the browser player warning flag displays warning for non optimal playback 
+	"EmbedPlayer.ShowNativeWarning" : true,
+	
+	// If fullscreen is global enabled. 
+	"EmbedPlayer.EnableFullscreen" : true,
+	
+	// If mwEmbed should use the Native player controls
+	// this will prevent video tag rewriting and skinning
+	// useful for devices such as iPad / iPod that
+	// don't fully support DOM overlays or don't expose full-screen 
+	// functionality to javascript  
+	"EmbedPlayer.NativeControls" : false,
+	
+	// If mwEmbed should use native controls on mobile safari
+	"EmbedPlayer.NativeControlsMobileSafari" : true,
+	
+	
+	// The z-index given to the player interface during full screen ( high z-index )  
+	"EmbedPlayer.fullScreenZIndex" : 999998,
+	
+	// The default share embed mode ( can be "object" or "videojs" )
+	//
+	// "object" will provide a <object tag pointing to mwEmbedFrame.php
+	// 		Object embedding should be much more compatible with sites that
+	//		let users embed flash applets
+	// "videojs" will include the source javascript and video tag to
+	//	 	rewrite the player on the remote page DOM  
+	//		Video tag embedding is much more mash-up friendly but exposes
+	//		the remote site to the mwEmbed javascript and can be a xss issue. 
+	"EmbedPlayer.ShareEmbedMode" : 'object',
+	
+	// Default player skin name
+	"EmbedPlayer.SkinName" : "mvpcf",	
+	
+	// Number of milliseconds between interface updates 		
+	'EmbedPlayer.MonitorRate' : 250
+} );
 
 /**
  * The base source attribute checks
@@ -829,7 +891,7 @@ mediaSource.prototype = {
 		}
 		return mw.replaceUrlParams( this.src,
 			{
-	   			't': mw.seconds2npt( serverSeekTime ) + endvar
+	   			't' : mw.seconds2npt( serverSeekTime ) + endvar
 	   		}
 	   	);
 	},
@@ -865,7 +927,7 @@ mediaSource.prototype = {
 			break;
 		}
 		
-		// Return tilte based on file name:
+		// Return Title based on file name:
 		var urlParts = mw.parseUri( this.getSrc() );
 		if( urlParts.file ){
 			return urlParts.file;
@@ -918,7 +980,7 @@ mediaSource.prototype = {
 		switch( no_param_uri.substr( no_param_uri.lastIndexOf( '.' ), 4 ).toLowerCase() ) {
 			case 'smil':
 			case '.sml':
-				return 'application/smil'
+				return 'application/smil';
 			break;
 			case '.m4v':
 			case '.mp4':
@@ -1500,8 +1562,8 @@ mw.EmbedPlayer.prototype = {
 	* 
 	* @param {Element} element Source element to grab size from 
 	*/
-	setPlayerSize: function( element ) {					
-	
+	setPlayerSize: function( element ) {
+		
 		this.height = $j(element).css( 'height' );
 		this.width = $j(element).css( 'width' );		
 		
@@ -1509,24 +1571,27 @@ mw.EmbedPlayer.prototype = {
 		if( this.height.indexOf('100%') != -1 || this.width.indexOf('100%') != -1  ){
 			$relativeParent = $j(element).parents().filter(function() { 
 			  // reduce to only relative position or "body" elements				  
-			  return $j(this).is('body') || $j(this).css('position') == 'relative';
+			  return $j( this ).is( 'body' ) || $j(this).css( 'position' ) == 'relative';
 			}).slice(0,1); // grab only the "first"
 			this.width = $relativeParent.width();
 			this.height =  $relativeParent.height();
 		}
-		// make sure height and width are a number  
+		
+		// Make sure height and width are a number  
 		this.height = parseInt( this.height );
 		this.width = parseInt( this.width );
 
+
+		
 		// Set via attribute if CSS is zero or NaN and we have an attribute value:   
-		this.height = ( this.height==0 || isNaN( this.height ) 
+		this.height = (  ( this.height==0 || isNaN( this.height ) )
 				&& $j(element).attr( 'height' ) ) ? 
 						parseInt( $j(element).attr( 'height' ) ): this.height;
-		this.width = ( this.width == 0 || isNaN( this.width ) 
+		this.width = ( ( this.width == 0 || isNaN( this.width ) )
 				&& $j(element).attr( 'width' ) )? 
 						parseInt( $j(element).attr( 'width' ) ): this.width;
-				
-				
+
+		
 		// Special case for audio 
 		// Firefox sets audio height to "0px" while webkit uses 32px .. force zero:  
 		if(  element.tagName.toLowerCase() == 'audio' && this.height == '32' ) {
@@ -1564,11 +1629,11 @@ mw.EmbedPlayer.prototype = {
 			}else{
 				this.height = defaultSize[1];
 			}
-		}	
-		
+		}
 	},
 	/**
 	 * Resize the player to a new size
+	 * @param {object} size The width height size of the player
 	 */
 	resizePlayer: function( size , animate){
 		mw.log("EmbedPlayer::resizePlayer:" + size.width + ' x ' + size.height );
@@ -1887,7 +1952,7 @@ mw.EmbedPlayer.prototype = {
 						'out' : function(){
 							_this.controlBuilder.hideControlBar();
 						}
-					})
+					});
 				}		
 			});			
 		}
@@ -1970,7 +2035,7 @@ mw.EmbedPlayer.prototype = {
 		// Do play request in 100ms ( give the dom time to swap out the embed player ) 
 		setTimeout( function() {			
 			_this.seeking = false;
-			_this.play()
+			_this.play();
 			_this.monitor();
 		}, 100 );
 		
@@ -2009,7 +2074,7 @@ mw.EmbedPlayer.prototype = {
 			// Fire the html5 ended binding
 			var onDoneActionObject = {
 				'runBaseControlDone' : true
-			}				
+			};
 			
 			// Run the ended trigger ( allow the ended object to prevent default actions ) 			
 			mw.log("EmbedPlayer::onClipDone:Trigger ended");
@@ -2037,8 +2102,7 @@ mw.EmbedPlayer.prototype = {
 				// Do the controlBuilder onClip done interface
 				this.controlBuilder.onClipDone();
 			}
-		}
-				
+		}		
 	},
 	
 	
@@ -2076,6 +2140,7 @@ mw.EmbedPlayer.prototype = {
 		// Set-up the local controlBuilder instance: 
 		this.controlBuilder = new mw.PlayerControlBuilder( this );		
 		var _this = this;
+	
 		// Make sure we have mwplayer_interface
 		if( $j( this ).parent( '.mwplayer_interface' ).length == 0 ) {
 			// Select "player"				
@@ -2084,11 +2149,11 @@ mw.EmbedPlayer.prototype = {
 				$j('<div>')
 				.addClass( 'mwplayer_interface ' + this.controlBuilder.playerClass )
 				.css({				
-					'width' : this.width,
-					'height' : this.height,
+					'width' : this.width + 'px',
+					'height' : this.height + 'px',
 					'position' : 'relative'
 				})
-			)
+			);
 		}
 				
 		//Set up local jQuery object reference to "mwplayer_interface" 
@@ -2111,7 +2176,7 @@ mw.EmbedPlayer.prototype = {
 			// Issue a non-blocking play request 
 			setTimeout(function(){
 				_this.play();
-			},0)					
+			},0);
 		}
 		
 	},
@@ -2127,10 +2192,10 @@ mw.EmbedPlayer.prototype = {
 		// If the native video is already displayed hide it: 
 		if( $j( '#' + this.pid ).length != 0 ){
 			$j('#loadingSpinner_' + this.id ).remove();
-			$j( '#' + this.pid ).hide()
+			$j( '#' + this.pid ).hide();
 		}
 		if( this.mediaElement.sources.length == 0 ){
-			// hide the pid if present:
+			// Hide the pid if present:
 			$j( '#pid_' + this.id ).hide();
 			$j( this ).show().html(
 				$j('<span />').text( 
@@ -2324,7 +2389,7 @@ mw.EmbedPlayer.prototype = {
 						mw.getConfig( 'imagesPath' ) + 'vid_default_thumb.jpg';				
 		
 		// Poster support is not very consistent in browsers
-		// use a jpg poster image:  
+		// use a jpeg poster image:  
 		$j( this ).html(
 			$j( '<img />' )
 			.css({
@@ -2418,7 +2483,7 @@ mw.EmbedPlayer.prototype = {
 				'poster': _this.poster,
 				'src' : source.src,
 				'controls' : 'true'
-			}
+			};
 			
 			if( this.loop ){
 				videoAttribues[ 'loop' ] = 'true';
@@ -2429,7 +2494,7 @@ mw.EmbedPlayer.prototype = {
 			};
 			$j( '#' + this.pid ).replaceWith( 
 				_this.getNativePlayerHtml( videoAttribues, cssStyle )									
-			)
+			);
 			// Bind native events:
 			this.applyMediaElementBindings();
 		}
@@ -2452,7 +2517,7 @@ mw.EmbedPlayer.prototype = {
 					_this.play();
 					// no need to hide the play button since android plays fullscreen
 				} )
-			)
+			);
 		}		
 		return ;
 	},
@@ -2780,7 +2845,7 @@ mw.EmbedPlayer.prototype = {
 		this.controlBuilder.setStatus( this.getTimeRange() );
 		
 		// Reset the playhead
-		mw.log("EmbedPlayer::Stop:: Reset play head")
+		mw.log("EmbedPlayer::Stop:: Reset play head");
 		this.updatePlayHead( 0 );
 		
 		//Bind play-btn-large play 
@@ -2965,7 +3030,7 @@ mw.EmbedPlayer.prototype = {
 		
 		// Update any offsets from server seek
 		if( _this.serverSeekTime && _this.supportsURLTimeEncoding ){
-			_this.currentTime = _this.serverSeekTime + _this.getPlayerElementTime()
+			_this.currentTime = _this.serverSeekTime + _this.getPlayerElementTime();
 		}
 
 		// Update the previousTime ( so we can know if the user-javascript changed currentTime )
@@ -3045,7 +3110,7 @@ mw.EmbedPlayer.prototype = {
 				this.monitorInterval = setInterval( function(){
 					if( _this.monitor )
 						_this.monitor();
-				}, this.monitorRate )
+				}, this.monitorRate );
 			}
 		} else {
 			// If stopped "stop" monitor: 
@@ -3128,7 +3193,7 @@ mw.EmbedPlayer.prototype = {
 		rel_start_sec = mw.npt2seconds( options['start'] );
 		// remove the startOffset if relevent: 
 		if ( this.startOffset )
-			rel_start_sec = rel_start_sec - this.startOffset
+			rel_start_sec = rel_start_sec - this.startOffset;
 		
 		var slider_perc = 0;
 		if ( rel_start_sec <= 0 ) {
@@ -3201,7 +3266,7 @@ mw.EmbedPlayer.prototype = {
 		// do head request if on the same domain
 		return this.mediaElement.selectedSource.URLTimeEncoding;
 	}
-}
+};
 
 
 
@@ -3271,7 +3336,7 @@ mediaPlayer.prototype = {
 			callback();
 		} );
 	}
-}
+};
 
 /** 
 * players and supported mime types 

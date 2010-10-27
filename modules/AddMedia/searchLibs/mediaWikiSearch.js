@@ -47,7 +47,7 @@ mediaWikiSearch.prototype = {
 			callback( _this.addSingleResult( data ) );
 		});
 	},
-
+	
 	/**
 	 * Add a resource by its Url
 	 *
@@ -78,9 +78,9 @@ mediaWikiSearch.prototype = {
 		// else try for title url map
 		titleKey = url.replace( this.provider.detailsUrl.replace( '$1', ''), '' );
 		if( titleKey != url ){
-			return decodeURI(titleKey).replace( / /g, "_" );;
+			return decodeURI(titleKey).replace( / /g, "_" );
 		}
-		mw.log("Error: mediaWikiSearch:: getResourceFromUrl could not get title from url: " + url );
+		mw.log("Error: mediaWikiSearch:: getResourceFromUrl could not get title form url: " + url );
 		return false;
 	},
 	
@@ -194,8 +194,8 @@ mediaWikiSearch.prototype = {
 		if ( data.query && data.query.pages ) {
 			for ( var page_id in  data.query.pages ) {
 				var page =  data.query.pages[ page_id ];
-
-				// Make sure the repo is shared (don't show for now it confusing things)
+				
+				// Make sure the reop is shared (don't show for now it confusing things)
 				// @@todo support remote repository better
 				if ( page.imagerepository == 'shared' ) {
 					continue;
@@ -205,7 +205,7 @@ mediaWikiSearch.prototype = {
 				if ( !page.imageinfo ){
 					continue;
 				}
-
+				
 				// Get the url safe titleKey from the descriptionurl
 				var titleKey = page.title.replace( / /g, "_" );
 

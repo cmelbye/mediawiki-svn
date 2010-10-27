@@ -38,11 +38,11 @@
 	mw.addModuleLoader( 'AddMedia.UploadForm', [
 			[
 				'mw.UploadForm',
-				'$j.ui',
-				'$j.widget',
-				'$j.ui.mouse'
+				'$j.ui'
 			],
 			[
+				'$j.widget',
+				'$j.ui.mouse',
 				'$j.ui.datepicker'
 			]
 		] 
@@ -117,6 +117,7 @@
 			'$j.ui.slider',
 			'$j.ui.datepicker'
 		] );
+		
 		return request;
 	} );
 

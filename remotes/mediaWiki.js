@@ -464,12 +464,10 @@ function rewrite_for_OggHandler( vidIdList ) {
 				if( pwidth < 250 ){
 					pwidth = 250;
 				}
-				html_out = '<audio' + common_attr + ' ' +
-						'style="width:' + pwidth + 'px;height:0px;"></audio>';
+				html_out = '<audio ' + common_attr + 'style="width:' + pwidth + 'px;height:0px;"></audio>';
 			} else {
-				html_out = '<video' + common_attr +
-				poster_attr + ' ' +
-				'style="width:' + pwidth + 'px;height:' + pheight + 'px;">' +
+				html_out = '<video ' + common_attr +
+				poster_attr + ' style="width:' + pwidth + 'px;height:' + pheight + 'px;">' +
 				'</video>';
 			}
 					
