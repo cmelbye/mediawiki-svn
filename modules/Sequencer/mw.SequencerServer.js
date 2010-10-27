@@ -378,7 +378,7 @@
 			if( !this.pagePathUrl ){
 				return false;
 			}
-			return this.pagePathUrl.replace( '$1', 'Sequence:' + titleKey);
+			return this.pagePathUrl.replace( '$1', 'Sequence:' + encodeURI( titleKey ));
 		},
 		
 		getAssetViewUrl: function( titleKey ){
