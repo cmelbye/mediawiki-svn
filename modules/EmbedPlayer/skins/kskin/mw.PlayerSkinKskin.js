@@ -36,7 +36,7 @@ mw.PlayerSkinKskin = {
 					.append( 
 						$j( '<span />' )
 						.text(  gM( 'mwe-embedplayer-menu_btn' ) )
-					)
+					);
 			}
 		},
 		'volumeControl': {
@@ -63,7 +63,14 @@ mw.PlayerSkinKskin = {
 						'top' : '0px',
 						'bottom' : ( ctrlObj.getHeight() + 2 ) + 'px'
 					} );
-							
+				
+				// Note safari can't display video overlays with text:
+				// see bug https://bugs.webkit.org/show_bug.cgi?id=48379
+				
+				var userAgent = navigator.userAgent.toLowerCase();
+				if( userAgent.indexOf('safari') != -1 ){
+					$menuOverlay.css('opacity', '0.9');
+				}
 				// Setup menu offset ( if player height <  getOverlayHeight )
 				// This displays the menu outside of the player on small embeds	
 				if ( embedPlayer.getPlayerHeight() <  ctrlObj.getOverlayHeight() ) {
@@ -116,7 +123,7 @@ mw.PlayerSkinKskin = {
 						'bottom' : '0px',
 						'right' : '45px',
 						'overflow' : 'hidden'
-					} )
+					} );
 				for ( var menuItem in ctrlObj.supportedMenuItems ) {
 					$menuScreens.append(
 						$j( '<div />' )

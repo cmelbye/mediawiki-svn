@@ -61,20 +61,25 @@
 		
 		// The default share embed mode ( can be "object" or "videojs" )
 		//
-		// "object" will provide a <object tag pointing to mwEmbedFrame.php
+		// "iframe" will provide a <iframe tag pointing to mwEmbedFrame.php
 		// 		Object embedding should be much more compatible with sites that
 		//		let users embed flash applets
 		// "videojs" will include the source javascript and video tag to
 		//	 	rewrite the player on the remote page DOM  
 		//		Video tag embedding is much more mash-up friendly but exposes
 		//		the remote site to the mwEmbed javascript and can be a xss issue. 
-		"EmbedPlayer.ShareEmbedMode" : 'object',
+		"EmbedPlayer.ShareEmbedMode" : 'iframe',
 		
 		// Default player skin name
 		"EmbedPlayer.SkinName" : "mvpcf",	
 		
 		// Number of milliseconds between interface updates 		
-		'EmbedPlayer.MonitorRate' : 250
+		'EmbedPlayer.MonitorRate' : 250, 
+		
+		// If the embedPlayer should accept arguments from 
+		'EmbedPlayer.EnalbeIFramePlayerServer' : false,
+		
+		'EmbedPLayer.IFramePlayer.DomainWhiteList' : '*'
 	} );
 
 	// Add class file paths 
@@ -98,7 +103,10 @@
 		"mw.PlayerSkinKskin"		: "skins/kskin/mw.PlayerSkinKskin.js",
 		
 		"mw.PlayerSkinMvpcf"		: "skins/mvpcf/mw.PlayerSkinMvpcf.js",
-		"mw.style.PlayerSkinMvpcf" 	: "skins/mvpcf/mw.style.PlayerSkinMvpcf.css"	
+		"mw.style.PlayerSkinMvpcf" 	: "skins/mvpcf/mw.style.PlayerSkinMvpcf.css",
+		
+		"mw.IFramePlayerApiServer" : "mw.IFramePlayerApiServer.js",
+		"mw.IFramePlayerApiClient" : "mw.IFramePlayerApiClient.js"
 	} );
 
 	/**
@@ -124,12 +132,10 @@
 	* mwEmbed player is setup before any other mw.ready calls
 	*/
 	mw.addSetupHook( function( callback ) {
-		mw.rewritePagePlayerTags();
-		// Run the setupFlag to continue setup		
-		callback();
+		mw.rewritePagePlayerTags( callback );
 	});
 	
-	mw.rewritePagePlayerTags = function() {
+	mw.rewritePagePlayerTags = function( callback ) {
 		mw.log( 'EmbedPlayer:: Document::' + mw.documentHasPlayerTags() );
 		if( mw.documentHasPlayerTags() ) {
 			var  rewriteElementCount = 0;
@@ -147,13 +153,15 @@
 					.attr('id', 'loadingSpinner_' + $j( element ).attr('id') )
 					.addClass( 'playerLoadingSpinner' );
 								
-			});									
+			});			
 			// Load the embedPlayer module ( then run queued hooks )			
-			mw.load( 'EmbedPlayer', function ( ) {		
+			mw.load( 'EmbedPlayer', function ( ) {				
 				mw.log("EmbedPlayer:: do rewrite players:" + $j( mw.getConfig( 'EmbedPlayer.RewriteTags' ) ).length );
 				// Rewrite the EmbedPlayer.RewriteTags with the 
-				$j( mw.getConfig( 'EmbedPlayer.RewriteTags' ) ).embedPlayer();				
+				$j( mw.getConfig( 'EmbedPlayer.RewriteTags' ) ).embedPlayer( callback );				
 			})
+		} else {
+			callback();
 		}
 	}
 
@@ -185,8 +193,7 @@
 				'$j.fn.menu',			
 				'mw.style.jquerymenu',
 				'$j.ui.slider'
-			]
-			
+			]			
 		];
 
 		// Pass every tag being rewritten through the update request function
@@ -242,7 +249,13 @@
 		if( $j.inArray( 'mw.style.PlayerSkin' + skinCaseName, dependencyRequest ) == -1 ){
 			dependencyRequest.push( 'mw.style.PlayerSkin' + skinCaseName );
 		}
-	
+		
+		// Check if the iFrame player server is enabled: 
+		if( mw.getConfig('EmbedPlayer.EnalbeIFramePlayerServer') ){
+			dependencyRequest.push(	'mw.IFramePlayerApiServer' );
+		}
+
+		
 		// Allow extension to extend the request. 				
 		$j( mw ).trigger( 'LoaderEmbedPlayerUpdateRequest', 
 				[ playerElement, dependencyRequest ] );

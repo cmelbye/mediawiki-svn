@@ -398,17 +398,17 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				
 				// xxx should use refactor "ready" stuff into a "domReady" class
 				// So we would not have local scope globals like this:
-				if ( mwReadyFlag ) {
+				//if ( mwReadyFlag ) {
 					// Load the module directly if load request is after
 					// mw.ready has run
-					this.load( resourceSet, callback );
-				} else {
-					this.addToModuleLoaderQueue(
-						loadRequest, 
-						resourceSet,
-						callback
-					);
-				}
+				this.load( resourceSet, callback );
+				//} else {
+				//	this.addToModuleLoaderQueue(
+				//		loadRequest, 
+				//		resourceSet,
+				//		callback
+				//	);
+				//}
 				return ;
 			}
 			
@@ -1419,12 +1419,12 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		
 		// If jQuery is available and debug is off load the script via jQuery
 		// ( will use XHR if on same domain )
-		if( mw.isset( 'window.jQuery' ) 
-			&& mw.getConfig( 'debug' ) === false 
+		if( mw.isset( 'window.jQuery' )
+			&& mw.getConfig( 'debug' ) === false
 			&& typeof $j != 'undefined'
 			&& mw.parseUri( url ).protocal != 'file'
 			&& !isCssFile ) 
-		{	
+		{
 			$j.getScript( url, myCallback); 		
 			return ;
 		}	
