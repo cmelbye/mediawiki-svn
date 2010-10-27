@@ -386,7 +386,7 @@
 			if( !this.pagePathUrl ){
 				return false;
 			}
-			return this.pagePathUrl.replace( '$1', titleKey );
+			return this.pagePathUrl.replace( '$1', encodeURI( titleKey ) );
 		},
 		
 		/**
