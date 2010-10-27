@@ -2490,7 +2490,7 @@ mw.EmbedPlayer.prototype = {
 	* 
 	* NOTE this could probably share a bit more code with getShareEmbedVideoJs
 	*/ 
-	getShareEmbedObject: function(){		
+	getShareIframeObject: function(){		
 		var iframeUrl = mw.getMwEmbedPath() + 'mwEmbedFrame.php?';
 		var params = {};
 		
