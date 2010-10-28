@@ -48,8 +48,6 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 	}
 
 	function tearDown() {
-		// destroy the users
-		
 		global $wgMemc;
 		$wgMemc = null;
 	}
