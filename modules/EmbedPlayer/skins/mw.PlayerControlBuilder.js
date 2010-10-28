@@ -1144,15 +1144,12 @@ mw.PlayerControlBuilder.prototype = {
         
       	$shareInterface.append(      		
 			
-      		$j('<span />')
-      		.addClass( 'source_wrap' )
-      		.html(
-      			$j( '<textarea />' )
-      			.html( embed_code )
-      			.click( function() {
-					$j( this ).select();
-				})
-      		),
+      		$j( '<textarea />' )
+		.attr( 'rows', 1 )
+      		.html( embed_code )
+      		.click( function() {
+				$j( this ).select();
+			}),
       		
       		$j('<br />'),
       		$j('<br />'),
