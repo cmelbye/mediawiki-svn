@@ -12,6 +12,12 @@
  *
  */
 class SessionStash {
+	// Format of the key for files -- has to be suitable as a filename itself in some cases.
+	// This should encompass a sha1 content hash in hex (new style), or an integer (old style), 
+	// and also thumbnails with prepended strings like "120px-". 
+	// The file extension should not be part of the key.
+	const KEY_FORMAT_REGEX = '/^[\w-]+$/';
+
 	// repository that this uses to store temp files
 	protected $repo; 
 	
@@ -65,7 +71,11 @@ class SessionStash {
 	 * @throws SessionStashBadVersionException
 	 * @return {SessionStashItem} null if no such item or item out of date, or the item
 	 */
-	public function getFile( $key ) { 
+	public function getFile( $key ) {
+		if ( ! preg_match( self::KEY_FORMAT_REGEX, $key ) ) {
+			throw new SessionStashBadPathException( "key '$key' is not in a proper format" );
+		} 
+ 
 		if ( !isset( $this->files[$key] ) ) {
 			if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME][$key] ) ) {
 				throw new SessionStashFileNotFoundException( "key '$key' not found in session" );
@@ -112,6 +122,10 @@ class SessionStash {
 		if ( is_null( $key ) ) {
 			$key = $fileProps['sha1'];
 		}
+
+		if ( ! preg_match( self::KEY_FORMAT_REGEX, $key ) ) {
+			throw new SessionStashBadPathException( "key '$key' is not in a proper format" );
+		} 
 
 		// if not already in a temporary area, put it there 
 		$status = $this->repo->storeTemp( basename( $path ), $path );

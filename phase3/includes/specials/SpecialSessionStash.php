@@ -92,25 +92,22 @@ class SpecialSessionStash extends SpecialPage {
                 if ( $n !== false ) {
                         $key = $n ? substr( $subPage, 0, $n ) : $subPage;
 		}
-		
+
 		try {
 			$file = $this->stash->getFile( $key );
 		} catch ( SessionStashFileNotFoundException $e ) { 
 			// if we couldn't find it, and it looks like a thumbnail,
 			// and it looks like we have the original, go ahead and generate it
 			$matches = array();
-			// FIXME: This code assumes all kinds of constraints apply to file keys:
-			// they can't contain whitespace, and keys for original files can't contain dashes.
-			// These assumptions should be documented and/or enforced --RK
-			if ( ! preg_match( '/^(\d+)px-(\S+)$/', $key, $matches ) ) {
+			if ( ! preg_match( '/^(\d+)px-(.*)$/', $key, $matches ) ) {
 				// that doesn't look like a thumbnail. re-raise exception 
 				throw $e;
 			}
 
-			$width = $matches[1];
-			$origKey = $matches[2];
+			list( $dummy, $width, $origKey ) = $matches;
 
-			// do not trap exceptions, if not found let exceptions propagate to caller.
+			// do not trap exceptions, if key is in bad format, or file not found,
+			// let exceptions propagate to caller.
 			$origFile = $this->stash->getFile( $origKey );
 
 			// ok we're here so the original must exist. Generate the thumbnail. 
