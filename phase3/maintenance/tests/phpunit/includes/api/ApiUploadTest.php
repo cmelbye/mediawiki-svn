@@ -32,21 +32,26 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 			'sysop' => new ApiTestUser( 
 				'Apitestsysop', 
 				'Api Test Sysop', 
-				'testpass', 
 				'api_test_sysop@sample.com', 
 				array( 'sysop' ) 	
 			),
 			'uploader' => new ApiTestUser( 
 				'Apitestuser',
 				'Api Test User',
-				'testpass',
 				'api_test_user@sample.com',
 				array() 		
 			)
-		);	
+		);
 
 		$wgUser = self::$users['sysop']->user;
 
+	}
+
+	function tearDown() {
+		// destroy the users
+		
+		global $wgMemc;
+		$wgMemc = null;
 	}
 
 	protected function doApiRequest( $params, $session = null ) {
@@ -76,11 +81,6 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 		} else {
 			throw new Exception( "request data not in right format" );
 		}
-	}
-
-	function tearDown() {
-		global $wgMemc;
-		$wgMemc = null;
 	}
 
 }
@@ -119,6 +119,7 @@ class ApiUploadTest extends ApiTestCase {
 	 */
 	function testLogin() {
 		$user = self::$users['uploader'];
+
 		$params = array( 
 			'action' => 'login', 
 			'lgname' => $user->username, 
@@ -590,16 +591,28 @@ class ApiTestUser {
 	public $groups;
 	public $user;
 
-	function __construct( $username, $realname = 'Real Name', $password = 'testpass', $email = 'sample@sample.com', $groups = array() ) {
+	function __construct( $username, $realname = 'Real Name', $email = 'sample@sample.com', $groups = array() ) {
+		global $wgMinimalPasswordLength;
+
 	    	$this->username = $username; 
 	    	$this->realname = $realname; 
-	    	$this->password = $password;
 		$this->email = $email;
 		$this->groups = $groups;
 
+		// don't allow user to hardcode or select passwords -- people sometimes run tests 	
+		// on live wikis. Sometimes we create sysop users in these tests. A sysop user with
+	 	// a known password would be a Bad Thing.
+	    	$this->password = User::randomPassword();
+
 	    	$this->user = User::newFromName( $this->username );
 		$this->user->load();
+
+		// In an ideal world we'd have a new wiki (or mock data store) for every single test.
+		// But for now, we just need to create or update the user with the desired properties.
+		// we particularly need the new password, since we just generated it randomly.
+		// In core MediaWiki, there is no functionality to delete users, so this is the best we can do.
 		if ( !$this->user->getID() ) {
+			// create the user
 			$this->user = User::createNew( 
 				$this->username, array(
 					"email" => $this->email,
@@ -609,14 +622,23 @@ class ApiTestUser {
 			if ( !$this->user ) {
 				throw new Exception( "error creating user" );
 			}
-			$this->user->setPassword( $this->password );
-			if ( count( $this->groups ) ) {
-				foreach ( $this->groups as $group ) {
-					$this->user->addGroup( $group );
-				}
-			}
-			$this->user->saveSettings();
 		}
+		
+		// update the user to use the new random password and other details
+		$this->user->setPassword( $this->password );
+		$this->user->setEmail( $this->email );
+		$this->user->setRealName( $this->realname );
+		// remove all groups, replace with any groups specified
+		foreach ( $this->user->getGroups() as $group ) {
+			$this->user->removeGroup( $group );
+		}
+		if ( count( $this->groups ) ) {
+			foreach ( $this->groups as $group ) {
+				$this->user->addGroup( $group );
+			}
+		}
+		$this->user->saveSettings();
+		
 	}
 
 
