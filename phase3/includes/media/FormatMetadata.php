@@ -622,9 +622,8 @@ class FormatMetadata {
 					}
 					break;
 					
-
 				case 'iimCategory':
-					switch( strtolower($val) ) {
+					switch( strtolower( $val ) ) {
 						// See pg 29 of IPTC photo
 						// metadata standard.
 						case 'ace': case 'clj':
@@ -642,10 +641,52 @@ class FormatMetadata {
 							);
 					}
 					break;
+				case 'SubjectNewsCode':
+					// Essentially like iimCategory.
+					// 8 (numeric) digit hierarchical
+					// classification. We decode the
+					// first 2 digits, which provide
+					// a broad category.
+					$val = self::convertNewsCode( $val );
+					break;
+				case 'Urgency':
+					// 1-8 with 1 being highest, 5 normal
+					// 0 is reserved, and 9 is 'user-defined'.
+					$urgency = '';
+					if ( $val == 0 || $val == 9 ) {
+						$urgency = 'other';
+					} elseif ( $val < 5 && $val > 1 ) {
+						$urgency = 'high';
+					} elseif ( $val == 5 ) {
+						$urgency = 'normal';
+					} elseif ( $val <= 8 && $val > 5) {
+						$urgency = 'low';
+					}
+
+					if ( $urgency !== '' ) {
+						$val = self::msg( 'urgency',
+							$urgency, $val
+						);
+					}
+					break;
+
+				// Things that have a unit of pixels.
+				case 'OriginalImageHeight':
+				case 'OriginalImageWidth':
+				case 'PixelXDimension':
+				case 'PixelYDimension':
+				case 'ImageWidth':
+				case 'ImageLength':
+					$val = self::formatNum( $val ) . ' ' . wfMsg( 'unit-pixel' );
+					break;
+
 				// Do not transform fields with pure text.
 				// For some languages the formatNum()
 				// conversion results to wrong output like
-				// foo,bar@example,com or foo٫bar@example٫com
+				// foo,bar@example,com or foo٫bar@example٫com.
+				// Also some 'numeric' things like Scene codes
+				// are included here as we really don't want
+				// commas inserted.
 				case 'ImageDescription':
 				case 'Artist':
 				case 'Copyright':
@@ -656,18 +697,24 @@ class FormatMetadata {
 				case 'GPSVersionID':
 				case 'GPSMapDatum':
 				case 'Keywords':
+				case 'WorldRegionDest':
 				case 'CountryDest':
-				case 'CountryDestCode':
+				case 'CountryCodeDest':
 				case 'ProvinceOrStateDest':
 				case 'CityDest':
 				case 'SublocationDest':
+				case 'WorldRegionCreated':
+				case 'CountryCreated':
+				case 'CountryCodeCreated':
+				case 'ProvinceOrStateCreated':
+				case 'CityCreated':
+				case 'SublocationCreated':
 				case 'ObjectName':
 				case 'SpecialInstructions':
 				case 'Headline':
 				case 'Credit':
 				case 'Source':
 				case 'EditStatus':
-				case 'Urgency':
 				case 'FixtureIdentifier':
 				case 'LocationDest':
 				case 'LocationDestCode':
@@ -701,6 +748,11 @@ class FormatMetadata {
 				case 'Disclaimer':
 				case 'ContentWarning':
 				case 'GIFFileComment':
+				case 'SceneCode':
+				case 'IntellectualGenre':
+				case 'Event':
+				case 'OrginisationInImage':
+				case 'PersonInImage':
 
 					$val = htmlspecialchars( $val );
 					break;
@@ -905,14 +957,15 @@ class FormatMetadata {
 	 * @param $tag String: the tag name to pass on
 	 * @param $val String: the value of the tag
 	 * @param $arg String: an argument to pass ($1)
+	 * @param $arg2 String: a 2nd argument to pass ($2)
 	 * @return string A wfMsg of "exif-$tag-$val" in lower case
 	 */
-	static function msg( $tag, $val, $arg = null ) {
+	static function msg( $tag, $val, $arg = null, $arg2 = null ) {
 		global $wgContLang;
 
 		if ($val === '')
 			$val = 'value';
-		return wfMsg( $wgContLang->lc( "exif-$tag-$val" ), $arg );
+		return wfMsg( $wgContLang->lc( "exif-$tag-$val" ), $arg, $arg2 );
 	}
 
 	/**
@@ -1003,6 +1056,82 @@ class FormatMetadata {
 		return $a;
 	}
 
+	/** Fetch the human readable version of a news code.
+	 * A news code is an 8 digit code. The first two 
+	 * digits are a general classification, so we just
+	 * translate that.
+	 *
+	 * Note, leading 0's are significant, so this is
+	 * a string, not an int.
+	 *
+	 * @param $val String: The 8 digit news code.
+	 * @return The human readable form
+	 */
+	static private function convertNewsCode( $val ) {
+		if ( !preg_match( '/^\d{8}$/D', $val ) ) {
+			// Not a valid news code.
+			return $val;
+		}
+		$cat = '';
+		switch( substr( $val , 0, 2 ) ) {
+			case '01':
+				$cat = 'ace';
+				break;
+			case '02':
+				$cat = 'clj';
+				break;
+			case '03':
+				$cat = 'dis';
+				break;
+			case '04':
+				$cat = 'fin';
+				break;
+			case '05':
+				$cat = 'edu';
+				break;
+			case '06':
+				$cat = 'evn';
+				break;
+			case '07':
+				$cat = 'hth';
+				break;
+			case '08':
+				$cat = 'hum';
+				break;
+			case '09':
+				$cat = 'lab';
+				break;
+			case '10':
+				$cat = 'lif';
+				break;
+			case '11':
+				$cat = 'pol';
+				break;
+			case '12':
+				$cat = 'rel';
+				break;
+			case '13':
+				$cat = 'sci';
+				break;
+			case '14':
+				$cat = 'soi';
+				break;
+			case '15':
+				$cat = 'spo';
+				break;
+			case '16':
+				$cat = 'war';
+				break;
+			case '17':
+				$cat = 'wea';
+				break;
+		}
+		if ( $cat !== '' ) {
+			$catMsg = self::msg( 'iimcategory', $cat );
+			$val = self::msg( 'subjectnewscode', '', $val, $catMsg );
+		}
+		return $val;
+	}
 	/**
 	 * Format a coordinate value, convert numbers from floating point
 	 * into degree minute second representation.

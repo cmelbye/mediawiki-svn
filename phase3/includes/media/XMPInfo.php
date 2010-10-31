@@ -419,6 +419,55 @@ class XMPInfo {
 				'rangeHigh' => 6,
 				'choices'   => array( '255' => true ),
 			),
+			/* Pixel(X|Y)Dimension are rather useless, but for
+			 * completeness since we do it with exif.
+			 */
+			'PixelXDimension'   => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateInteger',
+			),
+			'PixelYDimension'   => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateInteger',
+			),
+			'Saturation'        => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateClosed',
+				'rangeLow'  => 0,
+				'rangeHigh' => 2,
+			),
+			'SceneCaptureType'  => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateClosed',
+				'rangeLow'  => 0,
+				'rangeHigh' => 3,
+			),
+			'SceneType'         => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateClosed',
+				'choices'   => array( '1' => true ),
+			),
+			// Note, 6 is not valid SensingMethod.
+			'SensingMethod'     => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateClosed',
+				'rangeLow'  => 1,
+				'rangeHigh' => 5,
+				'choices'   => array( '7' => true, 8 => true ),
+			),
+			'Sharpness'         => array(
+				'map_group' => 'exif',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateClosed',
+				'rangeLow'  => 0,
+				'rangeHigh' => 2,
+			),
 			'SpectralSensitivity' => array(
 				'map_group' => 'exif',
 				'mode'      => XMPReader::MODE_SIMPLE,
@@ -866,19 +915,42 @@ class XMPInfo {
 				'mode'      => XMPReader::MODE_BAG,
 				'map_name'  => 'iimSupplementalCategory',
 			),
+			'Headline' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_SIMPLE
+			),
 		),
 		'http://iptc.org/std/Iptc4xmpCore/1.0/xmlns/' => array(
 			'CountryCode' => array(
 				'map_group' => 'deprecated',
 				'mode'      => XMPReader::MODE_SIMPLE,
-				'map_name'  => 'CountryDestCode',
+				'map_name'  => 'CountryCodeDest',
 			),
 			'IntellectualGenre' => array(
 				'map_group' => 'general',
 				'mode'      => XMPReader::MODE_SIMPLE,
 			),
-			/* Note: Scene not done. */
-			/* Note: SubjectCode (iim 2:12) not done. */
+			// Note, this is a six digit code.
+			// See: http://cv.iptc.org/newscodes/scene/
+			// Since these aren't really all that common,
+			// we just show the number.
+			'Scene' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_BAG,
+				'validate'  => 'validateInteger',
+				'map_name'  => 'SceneCode',
+			),
+			/* Note: SubjectCode should be an 8 ascii digits.
+			 * it is not really an integer (has leading 0's,
+			 * cannot have a +/- sign), but validateInteger
+			 * will let it through.
+			 */
+			'SubjectCode' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_BAG,
+				'map_name'  => 'SubjectNewsCode',
+				'validate'  => 'validateInteger'
+			),
 			'Location' => array(
 				'map_group' => 'deprecated',
 				'mode'      => XMPReader::MODE_SIMPLE,
@@ -945,6 +1017,112 @@ class XMPInfo {
 				'mode'      => XMPReader::MODE_SIMPLE,
 				'structPart'=> true,
 			),
+			/* End contact info struct properties */
 		),
+		'http://iptc.org/std/Iptc4xmpExt/2008-02-29/' => array(
+			'Event' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_SIMPLE,
+			),
+			'OrganisationInImageName' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_BAG,
+				'map_name'  => 'OrganisationInImage'
+			),
+			'PersonInImage' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_BAG,
+			),
+			'MaxAvailHeight' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateInteger',
+				'map_name'  => 'OriginalImageHeight',
+			),
+			'MaxAvailWidth' => array(
+				'map_group' => 'general',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'validate'  => 'validateInteger',
+				'map_name'  => 'OriginalImageWidth',
+			),
+			// LocationShown and LocationCreated are handled
+			// specially because they are hierarchical, but we
+			// also want to merge with the old non-hierarchical.
+			'LocationShown' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_BAGSTRUCT,
+				'children'  => array(
+					'WorldRegion' => true,
+					'CountryCode' => true, /* iso code */
+					'CountryName' => true,
+					'ProvinceState' => true,
+					'City' => true,
+					'Sublocation' => true,
+				),
+			),
+			'LocationCreated' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_BAGSTRUCT,
+				'children'  => array(
+					'WorldRegion' => true,
+					'CountryCode' => true, /* iso code */
+					'CountryName' => true,
+					'ProvinceState' => true,
+					'City' => true,
+					'Sublocation' => true,
+				),
+			),
+			'WorldRegion' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+			),
+			'CountryCode' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+			),
+			'CountryName' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+				'map_name'  => 'Country',
+			),
+			'ProvinceState' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+				'map_name'  => 'ProvinceOrState',
+			),
+			'City' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+			),
+			'Sublocation' => array(
+				'map_group' => 'special',
+				'mode'      => XMPReader::MODE_SIMPLE,
+				'structPart'=> true,
+			),
+
+			/* Other props that might be interesting but
+			 * Not currently extracted:
+			 * ArtworkOrObject, (info about objects in picture)
+			 * DigitalSourceType
+			 * RegistryId
+			 */
+		),
+
+		/* Plus props we might want to consider:
+		 * (Note: some of these have unclear/incomplete definitions
+		 * from the iptc4xmp standard).
+		 * ImageSupplier (kind of like iptc source field)
+		 * ImageSupplierId (id code for image from supplier)
+		 * CopyrightOwner
+		 * ImageCreator
+		 * Licensor
+		 * Various model release fields
+		 * Property release fields.
+		 */
 	);
 }

@@ -267,6 +267,7 @@ $wgOptionalMessages = array(
 	'exif-lightsource-23',
 	'exif-filesource-3',
 	'exif-contact-value',
+	'exif-subjectnewscode-value',
 	'booksources-isbn',
 	'sp-contributions-explain',
 	'sorbs',
@@ -612,8 +613,15 @@ $wgEXIFMessages = array(
 	//non-exif metadata that is still image metadata
 	'exif-jpegfilecomment',
 	'exif-keywords',
+	'exif-worldregioncreated'
+	'exif-countrycreated',
+	'exif-countrycodecreated',
+	'exif-provinceorstatecreated',
+	'exif-citycreated',
+	'exif-sublocationcreated',
+	'exif-worldregiondest'
 	'exif-countrydest',
-	'exif-countrydestcode',
+	'exif-countrycodedest',
 	'exif-stateorprovincedest',
 	'exif-citydest',
 	'exif-sublocationdest',
@@ -693,4 +701,16 @@ $wgEXIFMessages = array(
 	'exif-iimcategory-spo',
 	'exif-iimcategory-war',
 	'exif-iimcategory-wea',
+	'exif-subjectnewscode',
+	'exif-scenecode',
+	'exif-event',
+	'exif-organisationinimage',
+	'exif-personinimage',
+	'exif-originalimageheight',
+	'exif-originalimagewidth',
+	'exif-urgency-normal',
+	'exif-urgency-low',
+	'exif-urgency-high',
+	'exif-urgency-other',
+
 );

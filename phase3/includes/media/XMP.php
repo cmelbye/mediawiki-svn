@@ -54,12 +54,13 @@ class XMPReader {
 
 	// The following MODE constants are also used in the
 	// $items array to denote what type of property the item is.
-	const MODE_SIMPLE = 10;
-	const MODE_STRUCT = 11; // structure (associative array)
-	const MODE_SEQ    = 12; // ordered list
-	const MODE_BAG    = 13; // unordered list
-	const MODE_LANG   = 14;
-	const MODE_ALT    = 15; // non-language alt. Currently not implemented, and not needed atm.
+	const MODE_SIMPLE    = 10;
+	const MODE_STRUCT    = 11; // structure (associative array)
+	const MODE_SEQ       = 12; // ordered list
+	const MODE_BAG       = 13; // unordered list
+	const MODE_LANG      = 14;
+	const MODE_ALT       = 15; // non-language alt. Currently not implemented, and not needed atm.
+	const MODE_BAGSTRUCT = 16; // A BAG of Structs.
 
 	const NS_RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
 	const NS_XML = 'http://www.w3.org/XML/1998/namespace';
@@ -115,7 +116,7 @@ class XMPReader {
 	}
 
 	/** Get the result array. Do some post-processing before returning
-	* the array.
+	* the array, and transform any metadata that is special-cased.
 	*
 	* @return Array array of results as an array of arrays suitable for
 	*	FormatMetadata::getFormattedData().
@@ -127,6 +128,7 @@ class XMPReader {
 		// It is also used to handle photoshop:AuthorsPosition
 		// which is weird and really part of another property,
 		// see 2:85 in IPTC. See also pg 21 of IPTC4XMP standard.
+		// The location fields also use it.
 
 		$data = $this->results;
 
@@ -142,8 +144,46 @@ class XMPReader {
 			$data['xmp-general']['Artist'][0] = 
 				$data['xmp-special']['AuthorsPosition'] . ', '
 				. $data['xmp-general']['Artist'][0];
-		} 
+		}
 
+		// Go through the LocationShown and LocationCreated
+		// changing it to the non-hierarchal form used by
+		// the other location fields.
+
+		if ( isset( $data['xmp-special']['LocationShown'][0] )
+			&& is_array( $data['xmp-special']['LocationShown'][0] )
+		) {
+			// the is_array is just paranoia. It should always
+			// be an array.
+			foreach( $data['xmp-special']['LocationShown'] as $loc ) {
+				if ( !is_array( $loc ) ) {
+					// To avoid copying over the _type meta-fields.
+					continue;
+				}
+				foreach( $loc as $field => $val ) {
+					$data['xmp-general'][$field . 'Dest'][] = $val;
+				}
+			}
+		}
+		if ( isset( $data['xmp-special']['LocationCreated'][0] )
+			&& is_array( $data['xmp-special']['LocationCreated'][0] )
+		) {
+			// the is_array is just paranoia. It should always
+			// be an array.
+			foreach( $data['xmp-special']['LocationCreated'] as $loc ) {
+				if ( !is_array( $loc ) ) {
+					// To avoid copying over the _type meta-fields.
+					continue;
+				}
+				foreach(  $loc as $field => $val ) {
+					$data['xmp-general'][$field . 'Created'][] = $val;
+				}
+			}
+		}
+
+
+		// We don't want to return the special values, since they're
+		// special and not info to be stored about the file.
 		unset( $data['xmp-special'] );
 
 		// Convert GPSAltitude to negative if below sea level.
@@ -403,7 +443,11 @@ class XMPReader {
 			$validate = is_array( $info['validate'] ) ? $info['validate']
 				: array( 'XMPValidate', $info['validate'] );
 
-			if ( is_callable( $validate ) ) {
+			if ( !isset( $this->results['xmp-' . $info['map_group']][$finalName] ) ) {
+				// This can happen if all the members of the struct failed validation.
+				wfDebugLog( 'XMP', __METHOD__ . " <$ns:$tag> has no valid members." );
+
+			} elseif ( is_callable( $validate ) ) {
 				$val =& $this->results['xmp-' . $info['map_group']][$finalName];
 				call_user_func_array( $validate, array( $info, &$val, false ) );
 				if ( is_null( $val ) ) {
@@ -425,7 +469,7 @@ class XMPReader {
 		$this->itemLang = false;
 	}
 	/** Hit a closing element in MODE_LI (either rdf:Seq, or rdf:Bag )
-	* Just resets some private variables
+	* Add information about what type of element this is.
 	*
 	* note we still have to hit the outer </property>
 	*
@@ -438,14 +482,18 @@ class XMPReader {
 		$finalName = isset( $info['map_name'] )
 			? $info['map_name'] : $tag;
 
+		array_shift( $this->mode );
+
+		if ( !isset( $this->results['xmp-' . $info['map_group']][$finalName] ) ) {
+			wfDebugLog( 'XMP', __METHOD__ . " Empty compund element $finalName." );
+			return;
+		}
+
 		if ( $elm === self::NS_RDF . ' Seq' ) {
-			array_shift( $this->mode );
 			$this->results['xmp-' . $info['map_group']][$finalName]['_type'] = 'ol';
 		} elseif ( $elm === self::NS_RDF . ' Bag' ) {
-			array_shift( $this->mode );
 			$this->results['xmp-' . $info['map_group']][$finalName]['_type'] = 'ul';
 		} elseif ( $elm === self::NS_RDF . ' Alt' ) {
-			array_shift( $this->mode );
 			// extra if needed as you could theoretically have a non-language alt.
 			if ( $info['mode'] === self::MODE_LANG ) {
 				$this->results['xmp-' . $info['map_group']][$finalName]['_type'] = 'lang';
@@ -523,6 +571,7 @@ class XMPReader {
 			case self::MODE_SEQ:
 			case self::MODE_BAG:
 			case self::MODE_LANG:
+			case self::MODE_BAGSTRUCT:
 				$this->endElementNested( $elm );
 				break;
 			case self::MODE_INITIAL:
@@ -687,6 +736,7 @@ class XMPReader {
 				}
 			} else {
 				// This element is not on our list of allowed elements so ignore.
+				wfDebugLog( 'XMP', __METHOD__ . " Ignoring unrecognized element <$ns:$tag>." );
 				array_unshift( $this->mode, self::MODE_IGNORE );
 				array_unshift( $this->curItem, $ns . ' ' . $tag );
 				return;
@@ -739,18 +789,46 @@ class XMPReader {
 	/** opening element in MODE_LI
 	* process elements of arrays
 	*
-	* @param $elm String namespace . ' ' . tag
+	* @param $elm String: namespace . ' ' . tagname
+	* @param $attribs Array: Attributes. (needed for BAGSTRUCTS) 
 	* @throws MWException if gets a tag other than <rdf:li>
 	*/
-	private function startElementModeLi( $elm ) {
-		if ( $elm !== self::NS_RDF . ' li' ) {
+	private function startElementModeLi( $elm, $attribs ) {
+		if ( ( $elm ) !== self::NS_RDF . ' li' ) {
 			throw new MWException( "<rdf:li> expected but got $elm." );
 		}
-		array_unshift( $this->mode, self::MODE_SIMPLE );
-		// need to add curItem[0] on again since one is for the specific item
-		// and one is for the entire group.
-		array_unshift( $this->curItem, $this->curItem[0] );
-		$this->processingArray = true;
+
+		if ( !isset( $this->mode[1] ) ) {
+			// This should never ever ever happen. Checking for it
+			// to be paranoid.
+			throw new MWException( 'In mode Li, but no 2xPrevious mode!' );
+		}
+
+		if ( $this->mode[1] === self::MODE_BAGSTRUCT ) {
+			// This list item contains a compound (STRUCT) value.
+			array_unshift( $this->mode, self::MODE_STRUCT );
+			array_unshift( $this->curItem, $elm );
+			$this->processingArray = true;
+
+			if ( !isset( $this->curItem[1] ) ) {
+				// be paranoid.
+				throw new MWException( 'Can not find parent of BAGSTRUCT.' );
+			}
+			list( $curNS, $curTag ) = explode( ' ', $this->curItem[1] );
+			$this->ancestorStruct = isset( $this->items[$curNS][$curTag]['map_name'] )
+				? $this->items[$curNS][$curTag]['map_name'] : $curTag;
+
+			$this->doAttribs( $attribs );
+
+		} else {
+			// Normal BAG or SEQ containing simple values.
+			array_unshift( $this->mode, self::MODE_SIMPLE );
+			// need to add curItem[0] on again since one is for the specific item
+			// and one is for the entire group.
+			array_unshift( $this->curItem, $this->curItem[0] );
+			$this->processingArray = true;
+		}
+
 	}
 	/** opening element in MODE_LI_LANG
 	* process elements of language alternatives
@@ -840,6 +918,7 @@ class XMPReader {
 				$this->startElementModeStruct( $ns, $tag, $attribs );
 				break;
 			case self::MODE_BAG:
+			case self::MODE_BAGSTRUCT:
 				$this->startElementModeBag( $elm );
 				break;
 			case self::MODE_SEQ:
@@ -852,7 +931,7 @@ class XMPReader {
 				$this->startElementModeLiLang( $elm, $attribs );
 				break;
 			case self::MODE_LI:
-				$this->startElementModeLi( $elm );
+				$this->startElementModeLi( $elm, $attribs );
 				break;
 			case self::MODE_QDESC:
 				$this->startElementModeQDesc( $elm );
@@ -871,18 +950,19 @@ class XMPReader {
 	* @param $attribs Array attribute=>value array.
 	*/
 	private function doAttribs( $attribs ) {
+		
+		// first check for rdf:parseType attribute, as that can change
+		// how the attributes are interperted.
+
+		if ( isset( $attribs[self::NS_RDF . ' parseType'] )
+			&& $attribs[self::NS_RDF . ' parseType'] === 'Resource'
+			&& $this->mode[0] === self::MODE_SIMPLE )
+		{
+			// this is equivalent to having an inner rdf:Description
+			$this->mode[0] = self::MODE_QDESC;
+		}
 		foreach ( $attribs as $name => $val ) {
 
-			// first check for rdf:parseType attribute, as that can change
-			// how the attributes are interperted.
-
-			if ( $name === self::NS_RDF . ' parseType'
-				&& $val === 'Resource'
-				&& $this->mode[0] === self::MODE_SIMPLE )
-			{
-				// this is equivalent to having an inner rdf:Description
-				$this->mode[0] = self::MODE_QDESC;
-			}
 
 			if ( strpos( $name, ' ' ) === false ) {
 				// This shouldn't happen, but so far some old software forgets namespace
@@ -904,6 +984,8 @@ class XMPReader {
 						. " $ns:$tag found as attribute where not allowed" );
 				}
 				$this->saveValue( $ns, $tag, $val );
+			} else {
+				wfDebugLog( 'XMP', __METHOD__ . " Ignoring unrecognized element <$ns:$tag>." );
 			}
 		}
 	}
@@ -940,7 +1022,10 @@ class XMPReader {
 			}
 		}
 
-		if ( $this->ancestorStruct ) {
+		if ( $this->ancestorStruct && $this->processingArray ) {
+			// Aka both an array and a struct. ( self::MODE_BAGSTRUCT )
+			$this->results['xmp-' . $info['map_group']][$this->ancestorStruct][][$finalName] = $val;
+		} elseif ( $this->ancestorStruct ) {
 			$this->results['xmp-' . $info['map_group']][$this->ancestorStruct][$finalName] = $val;
 		} elseif ( $this->processingArray ) {
 			if ( $this->itemLang === false ) {

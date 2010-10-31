@@ -174,7 +174,7 @@ class IPTC {
 					 * intellectual property of the objectdata was created"
 					 * unclear how this differs from 2#026
 					 */
-					$data['CountryDestCode'] = self::convIPTC( $val, $c );
+					$data['CountryCodeDest'] = self::convIPTC( $val, $c );
 					break;
 				case '2#103':
 					/* original transmission ref.
@@ -271,19 +271,43 @@ class IPTC {
 					// IntellectualGenere.
 					// first 4 characters are an id code
 					// That we're not really interested in.
-					if ( strlen( $val[0] < 5 ) ) {
+
+					// This prop is weird, since it's
+					// allowed to have multiple values
+					// in iim 4.1, but not in the XMP
+					// stuff. We're going to just
+					// extract the first value.
+					$con = self::ConvIPTC( $val, $c );
+					if ( strlen( $con[0] ) < 5 ) {
 						wfDebugLog( 'iptc', 'IPTC: '
 							. '2:04 too short. '
 							. 'Ignoring.' );
 							break;
 					}
-					$extracted = substr( $val[0], 4 );
+					$extracted = substr( $con[0], 4 );
 					$data['IntellectualGenre'] = $extracted;
 					break;
 
+				case '2#012':
+					// Subject News code - this is a compound field
+					// at the moment we only extract the subject news
+					// code, which is an 8 digit (ascii) number
+					// describing the subject matter of the content.
+					$codes = self::convIPTC( $val, $c );
+					foreach ( $codes as $ic ) {
+						$fields = explode(':', $ic, 3 );
 
-				// Things not currently done, and not sure if should:
-				// 2:12
+						if ( count( $fields ) < 2 ||
+							$fields[0] !== 'IPTC' )
+						{
+							wfDebugLog( 'IPTC', 'IPTC: '
+								. 'Invalid 2:12 - ' . $ic );
+							break;
+						}
+						$data['SubjectNewsCode'] = $fields[1];
+					}
+					break;
+
 				// purposely does not do 2:125, 2:130, 2:131,
 				// 2:47, 2:50, 2:45, 2:42, 2:8, 2:3
 				// 2:200, 2:201, 2:202

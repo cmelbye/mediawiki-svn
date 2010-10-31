@@ -3779,8 +3779,15 @@ Others will be hidden by default.
 'exif-coordinate-format'           => '$1° $2′ $3″ $4',
 'exif-jpegfilecomment'             => 'JPEG file comment',
 'exif-keywords'                    => 'Keywords',
+'exif-worldregioncreated'          => 'World region that the picture was taken in',
+'exif-countrycreated'              => 'Country that the picture was taken in',
+'exif-countrycodecreated'          => 'Code for the country that the picture was taken in',
+'exif-provinceorstatecreated'      => 'Province or state that the picture was taken in',
+'exif-citycreated'                 => 'City that the picture was taken in',
+'exif-sublocationcreated'          => 'Sublocation of the city that the picture was taken in',
+'exif-worldregiondest'             => 'World region shown',
 'exif-countrydest'                 => 'Country shown',
-'exif-countrydestcode'             => 'Code for country shown',
+'exif-countrycodedest'             => 'Code for country shown',
 'exif-provinceorstatedest'         => 'Province or state shown',
 'exif-citydest'                    => 'City shown',
 'exif-sublocationdest'             => 'Sublocation of city shown',
@@ -3826,6 +3833,13 @@ Others will be hidden by default.
 'exif-contentwarning'              => 'Content warning',
 'exif-giffilecomment'              => 'GIF file comment',
 'exif-intellectualgenre'           => 'Type of item',
+'exif-subjectnewscode'             => 'Subject code',
+'exif-scenecode'                   => 'IPTC scene code',
+'exif-event'                       => 'Event depicted',
+'exif-organisationinimage'         => 'Organization depicted',
+'exif-personinimage'               => 'Person depicted',
+'exif-originalimageheight'         => 'Height of image before it was cropped',
+'exif-originalimagewidth'          => 'Width of image before it was cropped',
 
 
 # Make & model, can be wikified in order to link to the camera and model name
@@ -4069,6 +4083,14 @@ $8',
 'exif-iimcategory-spo' => 'Sports',
 'exif-iimcategory-war' => 'War, conflict and unrest',
 'exif-iimcategory-wea' => 'Weather',
+
+'exif-subjectnewscode-value' => '$2 ($1)',
+
+'exif-urgency-normal' => 'Normal ($1)',
+'exif-urgency-low'    => 'Low ($1)',
+'exif-urgency-high'   => 'High ($1)',
+'exif-urgency-other'  => 'User-defined priority ($1)',
+
 
 # External editor support
 'edit-externally'      => 'Edit this file using an external application',

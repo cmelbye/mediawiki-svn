@@ -2709,8 +2709,15 @@ $wgMessageStructure = array(
 		'exif-gpsdifferential',
 		'exif-jpegfilecomment',
 		'exif-keywords',
+		'exif-worldregioncreated'
+		'exif-countrycreated',
+		'exif-countrycodecreated',
+		'exif-provinceorstatecreated',
+		'exif-citycreated',
+		'exif-sublocationcreated',
+		'exif-worldregiondest'
 		'exif-countrydest',
-		'exif-countrydestcode',
+		'exif-countrycodedest',
 		'exif-provinceorstatedest',
 		'exif-citydest',
 		'exif-sublocationdest',
@@ -2757,6 +2764,13 @@ $wgMessageStructure = array(
 		'exif-contentwarning',
 		'exif-giffilecomment',
 		'exif-intellectualgenre',
+		'exif-subjectnewscode',
+		'exif-scenecode',
+		'exif-event',
+		'exif-organisationinimage',
+		'exif-personinimage',
+		'exif-originalimageheight',
+		'exif-originalimagewidth',
 	),
 	'exif-values' => array(
 		'exif-make-value',
@@ -2764,6 +2778,7 @@ $wgMessageStructure = array(
 		'exif-software-value',
 		'exif-software-version-value',
 		'exif-contact-value',
+		'exif-subjectnewscode-value',
 	),
 	'exif-compression' => array(
 		'exif-compression-1',
@@ -3022,6 +3037,12 @@ $wgMessageStructure = array(
 		'exif-iimcategory-spo',
 		'exif-iimcategory-war',
 		'exif-iimcategory-wea',
+	),
+	'exif-urgency' => array(
+		'exif-urgency-normal',
+		'exif-urgency-low',
+		'exif-urgency-high',
+		'exif-urgency-other',
 	),
 	'edit-externally' => array(
 		'edit-externally',
