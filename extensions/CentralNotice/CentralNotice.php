@@ -143,8 +143,8 @@ function efCentralNoticeSchema( $updater = null ) {
 function efCentralNoticeLoader( $out, $skin ) {
 	global $wgUser, $wgOut, $wgCentralDBname;
 
-	$centralLoader = SpecialPage::getTitleFor( 'BannerController' )->getLocalUrl();
-
+	// Include '.js' to exempt script from squid cache override
+	$centralLoader = SpecialPage::getTitleFor( 'BannerController' )->getLocalUrl( 'cache=/cn.js' );
 	
 	// Insert the banner controller Javascript into the <head>
 	$wgOut->addScriptFile( $centralLoader );
