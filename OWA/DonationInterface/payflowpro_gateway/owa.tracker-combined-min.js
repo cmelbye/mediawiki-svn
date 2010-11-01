@@ -13,7 +13,7 @@ OWA.setSetting('baseUrl', 'http://owa.tesla.usability.wikimedia.org/owa/');
 // Create a tracker
 OWATracker = new OWA.tracker();
 OWATracker.setEndpoint('http://owa.tesla.usability.wikimedia.org/owa/');
-OWATracker.setSiteId('e0ae80323e1a995598038d4f3dd913f8');
+OWATracker.setSiteId('75af9f1681f6a30265361e3a951fa331');
 OWATracker.trackPageView();
 OWATracker.trackClicks();
 OWATracker.trackDomStream();
