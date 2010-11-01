@@ -62,7 +62,6 @@ EOT;
 				$( '#siteNotice' ).prepend( '<div id="centralNotice" class="' + ( wgNoticeToggleState ? 'expanded' : 'collapsed' ) + '">'+bannerScript+'</div>' );
 			},
 			'loadBannerList': function( geoOverride ) {
-				var bannerListURL;
 				if ( geoOverride ) {
 					var geoLocation = geoOverride; // override the geo info
 				} else {
