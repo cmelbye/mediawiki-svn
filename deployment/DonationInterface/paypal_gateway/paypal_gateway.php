@@ -1,6 +1,6 @@
 <?php
 # Alert the user that this is not a valid entry point to MediaWiki if they try to access the special pages file directly.
-if( !defined( 'MEDIAWIKI' ) ) {
+if ( !defined( 'MEDIAWIKI' ) ) {
 	echo <<<EOT
 To install my extension, put the following line in LocalSettings.php:
 require_once( "\$IP/extensions/DonationInterface/paypal_gateway/paypal_gateway.php" );
@@ -76,10 +76,10 @@ function paypalGatewayValue( &$values ) {
  */
 function paypalGatewayPage( &$url ) {
 	// Business email address set in LocalSettings.php
-	global $wgPaypalEmail, $wgPaypalUrl;
+	global $wgPaypalUrl;
 
 	// to go directly to Paypal, will be used for this extension in general
-	//$url['paypal'] = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" . urlencode( $wgPaypalEmail ) . "&lc=US&no_note=1&no_shipping=1&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+	// $url['paypal'] = "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=" . urlencode( $wgPaypalEmail ) . "&lc=US&no_note=1&no_shipping=1&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
 
 	// specifically for Wikimedia, goes to processor page
 	$url['paypal'] = $wgPaypalUrl;
