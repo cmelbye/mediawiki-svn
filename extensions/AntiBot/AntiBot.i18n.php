@@ -216,6 +216,13 @@ $messages['fr'] = array(
 	'antibot-desc' => 'Environnement simple de vérification contre les robots spammeurs et les contenus à déclenchement conditionnel automatique',
 );
 
+/** Franco-Provençal (Arpetan)
+ * @author ChrisPtDe
+ */
+$messages['frp'] = array(
+	'antibot-desc' => 'Enveronance simpla de contrôlo contre los robots spamors et los contegnus a dècllenchement condicionèl ôtomatico',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -501,6 +508,13 @@ $messages['ru'] = array(
 	'antibot-desc' => 'Простая среда для проверки спамботов и включения полезной нагрузки',
 );
 
+/** Rusyn (Русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'antibot-desc' => 'Просте середовище про детекцію спамуючіх ботів і охорону перед нима',
+);
+
 /** Yakut (Саха тыла)
  * @author HalanTul
  */
@@ -520,6 +534,13 @@ $messages['scn'] = array(
  */
 $messages['sk'] = array(
 	'antibot-desc' => 'Jednoduchý framework na kontrolu spambotov a zachytávanie špecifických úprav',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'antibot-desc' => 'Preprosto ogrodje za preverjanje smetečih robotov in povzročanja obremenitev',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

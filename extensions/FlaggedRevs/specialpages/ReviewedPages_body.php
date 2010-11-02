@@ -56,7 +56,7 @@ class ReviewedPages extends SpecialPage
 		if ( count( $fields ) ) {
 			$form .= " " . Xml::submitButton( wfMsg( 'go' ) );
 		}
-		$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
+		$form .= Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 		$form .= "</fieldset></form>\n";
 
 		$wgOut->addHTML( $form );
@@ -173,7 +173,7 @@ class ReviewedPagesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

@@ -306,6 +306,20 @@ $messages['ru'] = array(
 	'apisvgproxy-desc' => 'Замещение SVG-файлов из хранилища файлов (возможно удаленного), на локальный домен',
 );
 
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
+$messages['sk'] = array(
+	'apisvgproxy-desc' => 'Sprostredkuje súbory SVG z (možno vzdialeného) úložiska súborov do lokálnej domény',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'apisvgproxy-desc' => 'Posreduje datoteke SVG iz (po možnosti) oddaljene hrambe datotek na lokalno domeno',
+);
+
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Charmed94
  */

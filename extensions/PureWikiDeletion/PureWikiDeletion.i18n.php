@@ -74,6 +74,14 @@ $messages['ar'] = array(
 	'purewikideletion-blanknologintext' => 'يجب أن تكون مستخدما مسجلا و [[Special:UserLogin|تسجل الدخول]] لإفراغ أو ملأ صفحة.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'blank-log' => 'ܣܦܝܩܬܐ',
+	'blank-log-name' => 'ܣܓܠܐ ܣܦܝܩܐ',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -375,8 +383,11 @@ Hlej $2 za datowu sadźbu najnowšich wuprózdnjenjow.',
 	'right-purewikideletion' => 'Tabelu wuprózdnjenych stronow [[Special:PopulateBlankedPagesTable|napjelnić]]',
 );
 
-/** Hungarian (Magyar) */
+/** Hungarian (Magyar)
+ * @author Dani
+ */
 $messages['hu'] = array(
+	'randomexcludeblank' => 'Véletlen lap (üres lapokat kivéve)',
 	'purewikideletion-blanknologin' => 'Nem vagy bejelentkezve',
 );
 
@@ -560,6 +571,32 @@ Zie $2 voor een overzicht van recent leeggemaakte pagina's.",
 	'right-purewikideletion' => "[[Special:PopulateBlankedPagesTable|De tabel met leggemaakte pagina's vullen]]",
 );
 
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Jon Harald Søby
+ */
+$messages['no'] = array(
+	'purewikideletion' => 'Ren wikisletting',
+	'randomexcludeblank' => 'Tilfeldig side (ekskludert tomme)',
+	'purewikideletion-desc' => 'Gjør blant annet at lenker til tomme sider blir røde',
+	'purewikideletion-pref-watchblank' => 'Legg til sider jeg tømmer i overvåkningslisten min',
+	'purewikideletion-blanked' => "En tidligere versjon av denne siden ble tømt av [[User:$1|$1]] ([[User talk:$1|diskusjon]]) ([[Special:Contributions/$1|bidrag]]) $5 $6.
+
+Begrunnelsen for tømmingen var: ''<nowiki>$3</nowiki>''.
+
+Du kan [{{fullurl:{{FULLPAGENAMEE}}|action=history}} vis sidens historikk], [{{fullurl:{{FULLPAGENAMEE}}|oldid=$4&action=edit}} redigere den siste versjonen] eller starte på nytt i boksen nedenfor.",
+	'blank-log' => 'tom',
+	'blank-log-name' => 'Tømmingslogg',
+	'blank-log-header' => 'Nedenfor er en liste over sidetømminger og gjenopprettinger.',
+	'blank-log-entry-blank' => 'tømte $1',
+	'blank-log-entry-unblank' => 'gjenopprettet $1',
+	'blank-log-link' => '[[{{#Special:Log}}/blank|tømmingslogg]]',
+	'purewikideletion-blanknologin' => 'Ikke innlogget',
+	'purewikideletion-blanknologintext' => 'Du må være registrert bruker og [[Special:UserLogin|innlogget]] for å tømme en side.',
+	'purewikideletion-unblanknologintext' => 'Du må være en registrert bruker og [[Special:UserLogin|innlogget]] for å gjenopprette en side.',
+	'purewikideletion-blankedtext' => '[[$1]] har blitt tømt.
+Se $2 for en oversikt over de nyeste tømmingene.',
+);
+
 /** Polish (Polski)
  * @author Sp5uhe
  */
@@ -741,6 +778,13 @@ $messages['sr-el'] = array(
 	'purewikideletion-blanknologin' => 'Niste ulogovani',
 );
 
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'randomexcludeblank' => 'యాదృచ్చిక పుట (ఖాళీలను మినహాయించి)',
+);
+
 /** Tagalog (Tagalog)
  * @author AnakngAraw
  */
@@ -769,5 +813,22 @@ Maaari mong [{{fullurl:{{FULLPAGENAMEE}}|action=history}} tingnan ang kasaysayan
 Tingnan ang $2 para sa isang tala ng kamakailang lamang na mga pagtanggal ng laman.',
 	'purewikideletion-population-done' => 'Tapos na ang pagpapadami sa tabla ng pahinang_inalisan_ng_laman .',
 	'right-purewikideletion' => '[[Special:PopulateBlankedPagesTable|Paramihin ang loob]] ng tabla ng mga pahinang inalisan ng laman',
+);
+
+/** Ukrainian (Українська)
+ * @author Alex Khimich
+ */
+$messages['uk'] = array(
+	'purewikideletion' => 'Чистове видалення в Вікі',
+	'randomexcludeblank' => 'Випадкові сторінки (крім порожніх)',
+	'populateblankedpagestable' => 'Заповнити таблицю очищенних сторінок',
+	'purewikideletion-desc' => 'Помічає посилання на очищені сторінки червоним кольором',
+	'purewikideletion-pref-watchblank' => 'Додати сторінки які я очищаю до мого списку спостереження',
+	'purewikideletion-pref-watchunblank' => 'Додавати сторінки після очистки до мого списку спостереження',
+	'purewikideletion-blanked' => "A former version of this page was blanked by [[User:$1|$1]] ([[User talk:$1|talk]]) ([[Special:Contributions/$1|contribs]]) on $5 at $6.
+
+The reason given for blanking was: ''<nowiki>$3</nowiki>''.
+
+You may [{{fullurl:{{FULLPAGENAMEE}}|action=history}} view the page's history], [{{fullurl:{{FULLPAGENAMEE}}|oldid=$4&action=edit}} edit the last version], or type new page into the white space below.",
 );
 

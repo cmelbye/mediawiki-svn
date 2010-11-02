@@ -44,6 +44,14 @@ $messages['ar'] = array(
 	'icon-desc' => 'يسمح لك باستخدام الصور كأيقونات ووصلات أيقونة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'icon-badimage' => 'ܨܘܪܬܐ ܠܐ ܛܒܬܐ',
+	'icon-badwidth' => 'ܦܬܘܐ ܠܐ ܛܒܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -217,7 +225,7 @@ $messages['fr'] = array(
  */
 $messages['gl'] = array(
 	'icon-badimage' => 'Imaxe mala',
-	'icon-badwidth' => 'Anchura mala',
+	'icon-badwidth' => 'Largo incorrecto',
 	'icon-desc' => 'Permítelle usar as imaxes como iconas e ligazóns a iconas',
 );
 

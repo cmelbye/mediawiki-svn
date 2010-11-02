@@ -333,6 +333,7 @@ Estimated progress of current update:',
  * @author Meno25
  * @author Pietrodn
  * @author Purodha
+ * @author Тест
  */
 $messages['qqq'] = array(
 	'smw-desc' => '{{desc}}',
@@ -374,6 +375,7 @@ Note that spaces and space-like HTML entities are always ignored when reading nu
 * $1: the property name
 * $2: the name of the type of the property
 * $3: the number of occurrences of this property in the wiki',
+	'types' => '{{Identical|Type}}',
 	'smw_typeunits' => 'This message is used in the tooltip on Special:Types when a property supports custom units of measurement. The parameter $1 then is the type name, and $2 is a list of unit names.',
 	'smw_uri_doc' => "This message sketches the (very technical) function of this unlisted special page.
 It probably does not need translation in most cases. The special page as such is used in all URIs used by Semantic MediaWiki.
@@ -769,15 +771,24 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'smw_finallistconjunct' => ', ܘ',
 	'smw_printername_auto' => 'ܝܬܐܝܬ',
+	'smw_printername_list' => 'ܡܟܬܒܘܬܐ',
 	'smw_printername_table' => 'ܠܘܚܝܬܐ',
 	'smw_printername_template' => 'ܩܠܒܐ',
+	'smw_iq_moreresults' => 'ܝܬܝܪ ܦܠܛ̈ܐ …',
 	'smw_true_words' => 'ܬܪܝܨܐ,ܬ,ܐܝܢ,ܐ',
 	'smw_false_words' => 'ܦܘܕܐ,ܦ,ܠܐ,ܠ',
 	'exportrdf' => 'ܐܦܩ ܦܐܬܬ̈ܐ ܠ RDF',
 	'smw_exportrdf_submit' => 'ܐܦܩ',
+	'smw_property_template' => '$1 ܡܢ ܐܕܫܐ ܕ $2 ($3)',
+	'smw_unusedproperty_template' => '$1 ܡܢ ܐܕܫܐ ܕ $2',
 	'types' => 'ܐܕܫ̈ܐ',
+	'smw_ask_otheroptions' => 'ܓܒܝܬ̈ܐ ܐܚܪ̈ܢܝܬܐ',
 	'smw_sbv_value' => 'ܛܝܡܐ:',
+	'browse' => 'ܦܐܬ ܘܝܩܝ',
+	'smw_browse_go' => 'ܙܠ',
+	'smw_pp_from' => 'ܡܢ ܕܦܐ',
 	'smw_result_results' => 'ܦܠܛ̈ܐ',
 	'smw_result_noresults' => 'ܠܐ ܦܠܛ̈ܐ.',
 );
@@ -1019,6 +1030,14 @@ $messages['arz'] = array(
 	'smw_adminlinks_datastructure' => 'هيكل البيانات',
 	'smw_adminlinks_displayingdata' => 'عرض البيانات',
 	'smw_adminlinks_inlinequerieshelp' => 'مساعده الاستعلامات الداخلية',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'smw_printername_template' => 'Шаблон',
+	'types' => 'Тыпы',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -4759,6 +4778,7 @@ $messages['hu'] = array(
 	'smw_concept_cache_miss' => 'A(z) „$1” koncepció nem használható pillanatnyilag, mivel a wiki konfigurációja szerint kapcsolat nélküli módban kell kiszámítani.
 Ha a probléma nem szűnik meg bizonyos idő elteltével, kérd az oldal adminisztrátorát hogy tegye elérhetővé a koncepciót.',
 	'smw_noinvannot' => 'Inverz tulajdonságokhoz nem lehet értékeket rendelni.',
+	'version-semantic' => 'Szemantikai kiterjesztések',
 	'smw_baduri' => '„$1” formájú URI-k nem engedélyezettek.',
 	'smw_printername_auto' => 'Automatikus',
 	'smw_printername_count' => 'Eredmények megszámlálása',
@@ -6575,6 +6595,7 @@ Et ka keen neien ugefaang ginn.',
 	'smw_smwadmin_datarefreshstopconfirm' => 'Jo, ech si sécher.',
 	'smw_smwadmin_support' => 'Ënnerstëtzung kréien',
 	'smw_smwadmin_supportdocu' => 'Verschidde Quellen kéinten Iech bei Problemer hëllefen:',
+	'smw_smwadmin_installfile' => 'Wann Dir Problemer bäi der Installatioun hutt, da kuckt d\'Directiven am <a href="http://svn.wikimedia.org/svnroot/mediawiki/trunk/extensions/SemanticMediaWiki/INSTALL">INSTALL Fichier</a> no.',
 	'smw_smwadmin_smwhomepage' => 'Déi komplett Benotzerdokumentatioun vu Semantic MediaWiki fannt Dir op b><a href="http://semantic-mediawiki.org">semantic-mediawiki.org</a></b>.',
 	'smw_smwadmin_mediazilla' => 'Feeler kënnen op <a href="https://bugzilla.wikimedia.org/">Bugzilla</a> gemellt ginn.',
 	'smw_smwadmin_questions' => 'Wann dir nach Froen oder Propositiounen hutt, da bedeelegt Iech un der Diskussioun op dem <a href="http://sourceforge.net/mailarchive/forum.php?forum_name=semediawiki-user">Semantic MediaWiki Benotzer-Forum</a>.',
@@ -6905,6 +6926,7 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -6919,17 +6941,17 @@ $messages['ml'] = array(
 	'smw_true_words' => 'ശരി,ശരി,അതെ,അതെ',
 	'smw_false_words' => 'തെറ്റ്,തെറ്റ്,അല്ല,അല്ല',
 	'smw_nofloat' => '“$1” ഒരു സംഖ്യയല്ല.',
-	'smw_infinite' => '“$1” എന്ന സംഖ്യയുടെയത്ര വലിപ്പമുള്ള സംഖ്യകൾ {{SITENAME}} സം‌രംഭത്തിൽ പിൻ‌താങ്ങുന്നില്ല.',
+	'smw_infinite' => '“$1” എന്ന സംഖ്യയുടെയത്ര വലിപ്പമുള്ള സംഖ്യകൾ പിന്തുണയ്ക്കുന്നില്ല.',
 	'smw_unsupportedunit' => '“$1” എന്ന ഏകകത്തിന്റെ ഏകകമാറ്റം പിൻ‌താങ്ങുന്നില്ല.',
 	'smw_misplacedsymbol' => '“$1” എന്ന ചിഹ്നം അതു ഉപയോഗിക്കാൻ പാടില്ലാത്ത ഒരു സ്ഥലത്ത് ഉപയോഗിച്ചിരിക്കുന്നു.',
 	'smw_badtitle' => 'ക്ഷമിക്കണം, “$1”  എന്നതു സാധുവായൊരു തലക്കെട്ട് അല്ല.',
 	'exportrdf' => 'RDFലേക്ക് താളുകൾ എക്സ്‌പോർട്ട് ചെയ്യുക',
-	'smw_wantedproperty_template' => '$1 ($2 ഉപയോഗങ്ങൾ)',
+	'smw_wantedproperty_template' => '$1 ({{PLURAL:$2|ഒരുപയോഗം|$2 ഉപയോഗങ്ങൾ}})',
 	'types' => 'തരങ്ങൾ',
 	'smw_ask_ascorder' => 'ആരോഹണം',
 	'smw_ask_descorder' => 'അവരോഹണം',
 	'smw_ask_submit' => 'ഫലങ്ങൾ കാണുക',
-	'smw_sbv_value' => 'മൂല്യം',
+	'smw_sbv_value' => 'മൂല്യം:',
 	'smw_sbv_submit' => 'ഫലങ്ങൾ കാണുക',
 	'browse' => 'വിക്കിയിൽ പരതുക',
 	'smw_browse_go' => 'പോകൂ',
@@ -6939,6 +6961,13 @@ $messages['ml'] = array(
 	'smw_result_next' => 'അടുത്തത്',
 	'smw_result_results' => 'ഫലങ്ങൾ',
 	'smw_result_noresults' => 'ക്ഷമിക്കുക, ഫലങ്ങൾ ഒന്നുമില്ല',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'smw_browse_go' => 'Явах',
 );
 
 /** Marathi (मराठी)
@@ -8230,7 +8259,20 @@ Ta operacja może zostać wykonana wielokrotnie bez wyrządzenia szkód ale koni
 Nadaj użytkownikowi dodatkowe uprawnienia do tworzenia i usuwania tabel, tymczasowo użyj konta root w LocalSettings.php lub użyj skryptu konserwacyjnego <tt>SMW_setup.php</tt>, który może poświadczeń z AdminSettings.php.',
 	'smw_smwadmin_dbbutton' => 'Inicjuj lub aktualizuj tabele',
 	'smw_smwadmin_announce' => 'Opublikuj swoją wiki',
+	'smw_smwadmin_announcedocu' => 'Semantic MediaWiki posiada serwis internetowy do zamieszczania informacji o nowych semantycznych witrynach wiki.
+Informacja ta jest wykorzystywana do generowania spisu publicznych witryn, które korzystają z Semantic MediaWiki, oraz przede wszystkim pomaga <a href="http://semantic-mediawiki.org/wiki/SMW_Project">twórcom Semantic MediaWiki</a>, określić typowe zastosowania Semantic MediaWiki.
+Zobacz stronę główną Semantic MediaWiki jeśli szukasz <a href="http://semantic-mediawiki.org/wiki/Registry">dalszych informacji na temat tej usługi</a>.',
+	'smw_smwadmin_announcebutton' => 'Naciśnij przycisk, aby zapisać adres URL swojej wiki w tym serwisie.
+Nie rejestrujemy wiki, które nie są publicznie dostępne. Zapisujemy wyłącznie publicznie dostępne informacje.',
 	'smw_smwadmin_datarefresh' => 'Naprawa i aktualizacja danych',
+	'smw_smwadmin_datarefreshdocu' => 'Istnieje możliwość przywrócenia wszystkich danych Semantic MediaWiki w oparciu o aktualną zawartość wiki.
+Może to być przydatne do naprawy uszkodzonych danych lub odświeżenia danych, jeśli wewnętrzny format zmienił się z powodu jakichś aktualizacji oprogramowania.
+Aktualizacja jest wykonywana strona po stronie i nie zostanie ukończona natychmiast. 
+Poniżej przedstawiono, czy aktualizacja jest w toku. Można również uruchomić lub zatrzymać aktualizację (chyba, że ta funkcja została wyłączona przez administratora).',
+	'smw_smwadmin_datarefreshprogress' => '<strong>Aktualizacja trwa.</strong> 
+To normalne, że aktualizacja postępuje powoli, gdyż odświeżanie danych wykonywane jest w małymi porcjami za każdym razem, gdy użytkownik korzysta z wiki. 
+Aby szybciej zakończyć aktualizację można uruchomić skrypt MediaWiki <tt>runJobs.php</tt> (użyj opcji <tt>--maxjobs 1000</tt>, aby ograniczyć liczbę aktualizacji, które wykonywane są podczas jednego uruchomienia). 
+Przewidywany postęp bieżącej aktualizacji:',
 	'smw_smwadmin_datarefreshbutton' => 'Rozpocznij aktualizację danych',
 	'smw_smwadmin_datarefreshstop' => 'Zatrzymaj aktualizację danych',
 	'smw_smwadmin_datarefreshstopconfirm' => 'Tak, jestem pewien.',
@@ -10314,6 +10356,7 @@ $messages['te'] = array(
 	'smw_printername_list' => 'జాబితా',
 	'smw_printername_table' => 'పట్టిక',
 	'smw_printername_template' => 'మూస',
+	'smw_paramdesc_embedonly' => 'శీర్షికలను చూపించకు',
 	'smw_iq_moreresults' => '… మరిన్ని ఫలితాలు',
 	'smw_iq_altresults' => 'ఫలితాల జాబితాని నేరుగా చూడండి.',
 	'smw_parseerror' => 'ఇచ్చిన విలువ అర్థం కాలేదు.',
@@ -10330,6 +10373,7 @@ $messages['te'] = array(
 	'smw_attribute_header' => '"$1" లక్షణాన్ని వాడుతున్న పేజీలు',
 	'smw_attributearticlecount' => 'ఈ లక్షణాన్ని వాడుతున్న $1 {{PLURAL:$1|పేజీని|పేజీలను}} చూపిస్తున్నాం.',
 	'smw_subproperty_header' => 'ఉపలక్షణాలు',
+	'smw_exportrdf_submit' => 'ఎగుమతించు',
 	'properties' => 'లక్షణాలు',
 	'smw_properties_docu' => 'ఈ వికీలో ఈ క్రింది లక్షణాలను ఉపయోగించారు.',
 	'smw_property_template' => '$2 రకం యొక్క $1 ($3)',
@@ -10343,6 +10387,7 @@ $messages['te'] = array(
 	'smw_ask_ascorder' => 'ఆరోహణ',
 	'smw_ask_descorder' => 'అవరోహణ',
 	'smw_ask_printhead' => 'చూపించాల్సిన అదనపు భోగట్టా',
+	'smw_ask_defaultformat' => 'అప్రమేయం',
 	'smw_ask_otheroptions' => 'ఇతర ఎంపికలు',
 	'smw_sbv_property' => 'లక్షణం:',
 	'smw_sbv_value' => 'విలువ:',
@@ -10772,16 +10817,25 @@ $messages['uk'] = array(
 	'smw_finallistconjunct' => ' і',
 	'smw_printername_auto' => 'Автоматично',
 	'smw_printername_list' => 'Список',
+	'smw_printername_ol' => 'Перерахування',
 	'smw_printername_table' => 'Таблиця',
 	'smw_printername_template' => 'Шаблон',
+	'smw_paramdesc_sep' => 'Розділювач для значень',
 	'smw_exportrdf_submit' => 'Експорт',
 	'properties' => 'Властивості',
 	'unusedproperties' => 'Властивості, що не використовуються',
 	'wantedproperties' => 'Потрібні властивості',
 	'smw_purge' => 'Оновити',
+	'types' => 'Типи',
+	'smw_ask_submit' => 'Знайти',
+	'smw_ask_defaultformat' => 'за умовчанням',
+	'smw_ask_otheroptions' => 'Інші опції',
 	'smw_sbv_property' => 'Властивість:',
 	'smw_sbv_value' => 'Значення:',
+	'smw_sbv_submit' => 'Знайти',
+	'smw_pp_from' => 'З сторінки',
 	'smw_pp_type' => 'Властивість',
+	'smw_pp_submit' => 'Знайти',
 	'smw_result_prev' => 'Попередня',
 	'smw_result_next' => 'Наступна',
 	'smw_result_results' => 'Результати',
@@ -10791,6 +10845,7 @@ $messages['uk'] = array(
 	'smw_smwadmin_datarefreshstop' => 'Зупинити це оновлення',
 	'smw_smwadmin_datarefreshstopconfirm' => 'Так, я впевнений.',
 	'smw_adminlinks_datastructure' => 'Структура даних',
+	'smw_adminlinks_displayingdata' => 'Відображення даних',
 );
 
 /** Veps (Vepsan kel')
@@ -11055,7 +11110,7 @@ $messages['vo'] = array(
 	'smw_sbv_displayresultfuzzy' => 'Lised padas valik labü völad: „$1“ patöfa: „$1“.
 Bi petuvons pads te aniks, i völads nilöfik palisedons.',
 	'smw_sbv_property' => 'Patöf',
-	'smw_sbv_value' => 'Völad',
+	'smw_sbv_value' => 'Völad:',
 	'smw_sbv_submit' => 'Tuvön sekis',
 	'browse' => 'Padön vüki',
 	'smw_browselink' => 'Logön patöfis',

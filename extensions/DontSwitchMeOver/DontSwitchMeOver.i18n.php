@@ -235,9 +235,10 @@ $messages['hsb'] = array(
 
 /** Hungarian (Magyar)
  * @author Dani
+ * @author Glanthor Reviol
  */
 $messages['hu'] = array(
-	'dontswitchmeover-desc' => 'Beállítási lehetőség a felhasználóknak: szeretnék-e megtartani a felületbeállítást, ha a wiki alapértelmezett felület változik.',
+	'dontswitchmeover-desc' => 'Beállítási lehetőség a felhasználóknak: szeretnék-e megtartani a felületbeállítást, ha a wiki alapértelmezett felülete változik.',
 	'dontswitchmeover-pref' => 'Ne módosuljon az általam beállított felület, ha változik az alapértelmezett.',
 );
 
@@ -411,12 +412,28 @@ $messages['ru'] = array(
 	'dontswitchmeover-pref' => 'Не менять мою тему оформления при смене темы по умолчанию',
 );
 
-/** Rusyn (русиньскый язык)
+/** Rusyn (Русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
 	'dontswitchmeover-desc' => 'Наставлїня про хоснователя уможнююче їм становити, ці хотять зохабити наставлїня взгляду почас переходу на іншый імпліцітный взгляд.',
 	'dontswitchmeover-pref' => 'Не мінити мій зволеный взгляд почас переходу на іншый імпліцітный взгляд',
+);
+
+/** Yakut (Саха тыла)
+ * @author HalanTul
+ */
+$messages['sah'] = array(
+	'dontswitchmeover-desc' => 'Бу тэрил киһи тус туоруорууларыгар билигин көстөр тиэмэни куруук хаалларарга (по умолчанию тиэмэ уларыйбытын да иһин) туттуллар.',
+	'dontswitchmeover-pref' => 'По умолчанию тиэмэ уларыйдаҕына мин тиэмэбин уларытыма',
+);
+
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
+$messages['sk'] = array(
+	'dontswitchmeover-desc' => 'Používatelia si môžu určiť, či chcú zachovať svoje nastavenie témy vzhľadu pri zmene predvolenej témy vzhľadu.',
+	'dontswitchmeover-pref' => 'Nedovoliť, aby sa moja téma vzhľadu zmenila, keď sa zmení predvolená téma vzhľadu',
 );
 
 /** Slovenian (Slovenščina)

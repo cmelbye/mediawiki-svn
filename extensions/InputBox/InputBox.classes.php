@@ -40,9 +40,6 @@ class InputBox {
 	}
 
 	public function render() {
-		// Internationalization
-		wfLoadExtensionMessages( 'InputBox' );
-
 		// Handle various types
 		switch( $this->mType ) {
 			case 'create':
@@ -184,7 +181,7 @@ class InputBox {
 		
 		// Hidden fulltext param for IE (bug 17161)
 		if( $type == 'fulltext' ) {
-			$htmlOut .= Xml::hidden( 'fulltext', 'Search' );
+			$htmlOut .= Html::hidden( 'fulltext', 'Search' );
 		}
 		
 		$htmlOut .= Xml::closeElement( 'form' );
@@ -276,7 +273,6 @@ class InputBox {
 				$this->mButtonLabel = wfMsgHtml( "postcomment" );
 			}
 		} else {
-			$comment = '';
 			if ( !$this->mButtonLabel ) {
 				$this->mButtonLabel = wfMsgHtml( 'createarticle' );
 			}

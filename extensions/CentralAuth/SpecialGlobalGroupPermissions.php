@@ -26,7 +26,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class SpecialGlobalGroupPermissions extends SpecialPage {
 	function __construct() {
 		parent::__construct( 'GlobalGroupPermissions' );
-		wfLoadExtensionMessages( 'SpecialCentralAuth' );
 	}
 
 	function userCanEdit( $user ) {
@@ -97,7 +96,7 @@ class SpecialGlobalGroupPermissions extends SpecialPage {
 			$html = Xml::fieldset( wfMsg( 'centralauth-newgroup-legend' ) );
 			$html .= wfMsgExt( 'centralauth-newgroup-intro', array( 'parse' ) );
 			$html .= Xml::openElement( 'form', array( 'method' => 'post', 'action' => $wgScript, 'name' => 'centralauth-globalgroups-newgroup' ) );
-			$html .= Xml::hidden( 'title',  SpecialPage::getTitleFor( 'GlobalGroupPermissions' )->getPrefixedText() );
+			$html .= Html::hidden( 'title',  SpecialPage::getTitleFor( 'GlobalGroupPermissions' )->getPrefixedText() );
 
 			$fields = array( 'centralauth-globalgroupperms-newgroupname' => Xml::input( 'wpGroup' ) );
 
@@ -120,8 +119,8 @@ class SpecialGlobalGroupPermissions extends SpecialPage {
 
 		if ( $editable ) {
 			$html .= Xml::openElement( 'form', array( 'method' => 'post', 'action' => SpecialPage::getTitleFor( 'GlobalGroupPermissions', $group )->getLocalUrl(), 'name' => 'centralauth-globalgroups-newgroup' ) );
-			$html .= Xml::hidden( 'wpGroup', $group );
-			$html .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+			$html .= Html::hidden( 'wpGroup', $group );
+			$html .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 		}
 
 		$fields = array();
@@ -363,7 +362,7 @@ class SpecialGlobalGroupPermissions extends SpecialPage {
 		$res = $dbr->select( array( 'global_user_groups', 'globaluser' ), 'gu_name', array( 'gug_group' => $group, 'gu_id=gug_user' ), __METHOD__ );
 
 		// Invalidate their rights cache.
-		while ( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			$cu = new CentralAuthUser( $row->gu_name );
 			$cu->quickInvalidateCache();
 		}

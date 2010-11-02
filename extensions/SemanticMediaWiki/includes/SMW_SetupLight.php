@@ -14,7 +14,7 @@
  * @ingroup SMW
  */
 
-define( 'SMW_VERSION', '1.5.3-light alpha' );
+define( 'SMW_VERSION', '1.5.3-light rc3' );
 
 require_once( 'SMW_GlobalFunctions.php' );
 
@@ -60,6 +60,8 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgExtensionAliasesFiles['SemanticMediaWiki'] = $smwgIP . 'languages/SMW_Aliases.php';
 
 	// Set up autoloading; essentially all classes should be autoloaded!
+	$wgAutoloadClasses['SMWHooks']       			= $smwgIP . 'SMW.hooks.php';
+	
 	$wgAutoloadClasses['SMWParserExtensions']       = $smwgIP . 'includes/SMW_ParserExtensions.php';
 	$wgAutoloadClasses['SMWInfolink']               = $smwgIP . 'includes/SMW_Infolink.php';
 // 	$wgAutoloadClasses['SMWFactbox']                = $smwgIP . 'includes/SMW_Factbox.php';
@@ -70,6 +72,7 @@ function enableSemantics( $namespace = null, $complete = false ) {
 // 	$wgAutoloadClasses['SMWTypePage']               = $smwgIP . 'includes/articlepages/SMW_TypePage.php';
 	$wgAutoloadClasses['SMWPropertyPage']           = $smwgIP . 'includes/articlepages/SMW_PropertyPage.php';
 // 	$wgAutoloadClasses['SMWConceptPage']            = $smwgIP . 'includes/articlepages/SMW_ConceptPage.php';
+	$wgAutoloadClasses['SMWQueryLanguage']          = $smwgIP . 'includes/SMW_QueryLanguage.php';
 
 	// Datavalues
 	$dvDir = $smwgIP . 'includes/datavalues/';
@@ -136,6 +139,12 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgAutoloadClasses['SMWSQLStoreLight']          = $smwgIP . 'includes/storage/SMW_SQLStoreLight.php';
 	$wgAutoloadClasses['SMWSQLStore2Table']         = $smwgIP . 'includes/storage/SMW_SQLStore2Table.php';
 	$wgAutoloadClasses['SMWSQLHelpers']             = $smwgIP . 'includes/storage/SMW_SQLHelpers.php';
+	
+	// To ensure Maps remains compatible with pre 1.16.
+	if ( !array_key_exists( 'Html', $wgAutoloadClasses ) ) {
+		$wgAutoloadClasses['Html'] = $smwgIP . 'compat/Html.php';
+	}	
+	
 	// Do not autoload RAPStore, since some special pages load all autoloaded classes, which causes
 	// troubles with RAP store if RAP is not installed (require_once fails).
 	// $wgAutoloadClasses['SMWRAPStore']             = $smwgIP . 'includes/storage/SMW_RAPStore.php';
@@ -228,7 +237,7 @@ function smwfSetupExtension() {
 	$wgHooks['ArticleFromTitle'][] = 'smwfOnArticleFromTitle'; // special implementations for property/type articles
 	$wgHooks['ParserFirstCallInit'][] = 'smwfRegisterParserFunctions';
 
-	$wgHooks['ResourceLoaderRegisterModules'][] = 'smwfRegisterResourceLoaderModules';
+	$wgHooks['ResourceLoaderRegisterModules'][] = 'SMWHooks::registerResourceLoaderModules';
 	
 	$smwgMW_1_14 = true; // assume latest 1.14 API
 
@@ -422,44 +431,6 @@ function smwfInitContentLanguage( $langcode ) {
 	$smwgContLang = new $smwContLangClass();
 
 	wfProfileOut( 'smwfInitContentLanguage (SMW)' );
-}
-
-/**
- * Register the resource modules for the resource loader.
- * 
- * @since 1.5.3
- * 
- * @param ResourceLoader $resourceLoader
- * 
- * @return true
- */
-function smwfRegisterResourceLoaderModules( ResourceLoader &$resourceLoader ) {
-	global $smwgScriptPath, $wgContLang;
-	
-	$modules = array(
-		'ext.smw.style' => array(
-			'styles' =>  $smwgScriptPath . ( $wgContLang->isRTL() ? '/skins/SMW_custom_rtl.css' : '/skins/SMW_custom.css' )
-		),
-		'ext.smw.tooltips' => array(
-			'scripts' =>  $smwgScriptPath . '/skins/SMW_tooltip.js',
-			'dependencies' => array(
-				'mediawiki.legacy.wikibits',
-				'ext.smw.style'
-			)
-		),
-		'ext.smw.sorttable' => array(
-			'scripts' =>  $smwgScriptPath . '/skins/SMW_sorttable.js',
-			'dependencies' => 'ext.smw.style'
-		)		
-	);
-	
-	foreach ( $modules as $name => $resources ) { 
-		$resourceLoader->register( $name, new ResourceLoaderFileModule(
-			array_merge_recursive( $resources, array( 'group' => 'ext.smw' ) )
-		) ); 
-	}
-	
-	return true;
 }
 
 /**

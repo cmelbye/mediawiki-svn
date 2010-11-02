@@ -818,9 +818,43 @@ $mvMVDTypeDefaultDisp يجب أن تكون جزء من $mvMVDTypeAllAvailable',
  */
 $messages['arc'] = array(
 	'mv_move_delete_msg' => 'ܫܢܐ ܠ $1',
+	'mv_path_type_label' => 'ܐܕܫܐ ܕܫܒܝܠܐ',
+	'mv_upload_file' => 'ܐܣܩ ܠܦܦܐ',
+	'mv_external_file' => 'ܠܦܦܐ ܒܪܝܐ',
+	'mv_tool_search' => 'ܒܨܝܐ',
+	'mv_tool_navigate' => 'ܐܠܦܪܘܬܐ',
 	'mv_tool_export' => 'ܡܦܩܢܘܬܐ',
+	'mv_results_found' => 'ܦܠܛ̈ܐ ܕܒܝܕܝܘ <b>$1</b> to <b>$2</b> of <b>$3</b>',
 	'anno_en' => 'ܣܦ̈ܐ ܘܣܕܪ̈ܐ',
+	'mv_data_page_title' => '$1 ܠ $2 ܡܢ $3',
+	'mv_time_separator' => '$1 ܠ $2',
+	'mv_edit' => 'ܫܚܠܦ',
+	'mv_history' => 'ܬܫܥܝܬܐ',
+	'mv_start_desc' => 'ܥܕܢܐ ܕܫܘܪܝܐ',
+	'mv_end_desc' => 'ܥܕܢܐ ܕܫܘܠܡܐ',
+	'mv_existing_categories' => '{{PLURAL:$1|ܣܕܪܐ|ܣܕܪ̈ܐ}}:',
+	'mv_viewnext' => 'ܚܙܝ ($1)',
+	'mv_viewprevnext' => 'ܚܙܝ ($1) ($2)',
+	'mediasearch' => 'ܒܨܝ ܡܝܕܝܐ',
+	'mv_video_search' => 'ܒܨܝ ܒܝܕܝܘ',
+	'mv_search_category' => 'ܣܕܪܐ',
+	'mv_search_and' => 'ܘ',
+	'mv_search_or' => 'ܐܘ',
+	'mv_category_results' => 'ܦܠܛ̈ܐ ܕܣܕܪܐ',
+	'mv_category' => 'ܣܕܪܐ',
+	'mv_advaced_search' => 'ܒܨܝܐ ܡܬܩܕܡܢܐ ܕܡܝܕܝܐ',
+	'mv_media_search' => 'ܒܨܝ ܡܝܕܝܐ',
+	'mv_editor_options' => 'ܓܒܝܬ̈ܐ ܕܫܚܠܦܢܐ',
+	'mv_other_options' => 'ܓܒܝܬ̈ܐ ܐܚܪ̈ܢܝܬܐ',
+	'mv_days' => '$1 {{PLURAL:$1|ܝܘܡܐ|ܝܘܡܬ̈ܐ}}',
+	'mv_hours' => '$1 {{PLURAL:$1|ܫܥܬܐ|ܫܥܬ̈ܐ}}',
+	'mv_hours_singular' => '1 ܫܥܬܐ',
+	'mv_minutes' => '$1 {{PLURAL:$1|ܩܛܝܢܬܐ|ܩܛܝܢܬ̈ܐ}}',
+	'mv_minutes_singular' => '1 ܩܛܝܢܬܐ',
+	'mv_seconds' => '$1 {{PLURAL:$1|ܪܦܦܐ|ܪ̈ܦܦܐ}}',
+	'mv_seconds_singular' => '1 ܪܦܦܐ',
 	'mv_export_cmml' => 'ܡܦܩܢܘܬܐ CMML',
+	'mv_edit_time' => 'ܫܚܠܦ ܥܕܢܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -1087,6 +1121,15 @@ $messages['as'] = array(
  */
 $messages['bcc'] = array(
 	'mv-category-media-count' => '{{PLURAL:$1|یک فایل هست|هستن $1 فایلانی}} ته ای دسته.',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'mv_history' => 'Гісторыя',
+	'mv_existing_categories' => '{{PLURAL:$1|катэгорыя|катэгорыі|катэгорый}}:',
+	'mv_search_categories' => 'Катэгорыі',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -3299,6 +3342,13 @@ $messages['ga'] = array(
 	'mv_category' => 'catagóir',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'mv_tool_search' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Alma
  * @author Prevert
@@ -3725,7 +3775,7 @@ Zue dr Stream-Aasicht gumpe: $2',
 	'mv_edit_metadata' => 'Metadate bearbeite',
 	'mv_advanced_edit' => 'Erwytereti Bearbeitig',
 	'mv_basic_edit' => 'Eifachi Bearbeitig',
-	'mv_remove_category' => 'Kategorii useneh',
+	'mv_remove_category' => 'Kategorii uuseneh',
 	'mv_existing_categories' => '{{PLURAL:$1|Kategorii|Kategorie}}:',
 	'mv_add_category' => 'Kategorisierig zuefiege',
 	'mv_basic_text_desc' => 'Täxt-Bschrybig (optional)',
@@ -5534,6 +5584,13 @@ $messages['jv'] = array(
 	'mv_protect_source_material' => 'Bahan sumber asli direksa saka panyuntingan',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'mv_tool_search' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
  * @author Lovekhmer
@@ -6043,6 +6100,7 @@ $messages['lb'] = array(
 	'mv_search_or' => 'oder',
 	'mv_search_not' => 'net',
 	'mv_search_stream_name' => 'Numm vum Stream',
+	'mv_search_date_range' => 'Datumsberäich',
 	'mv_stream_name' => "Numm vum ''Stream''",
 	'mv_date_range' => 'Zäitraum',
 	'mv_date_last_week' => 'Lescht Woch',
@@ -6138,7 +6196,7 @@ $messages['mk'] = array(
 	'mv_missing_stream' => 'Недостасува емитување: $1',
 	'specialpages-group-mv_group' => 'MetaVidWiki специјални страници',
 	'mv_warning_wiki' => '<i>Напомена: MetaVid видео-стенограмите [[Help:FAQ#How_accurate_is_the_information.3F|може да содржат неточности]], помогнете ни да изградиме [[Help:Participation#Improving_Archive_Accuracy|поусовршен архив]]</i>',
-	'mv_ogg_low_quality' => 'Мрежно емитување - Ogg Theora 300 Kbit / s',
+	'mv_ogg_low_quality' => 'Мрежно емитување - Ogg Theora 300 кбит/сек',
 	'mv_ogg_high_quality' => 'Висококвалитетно - Ogg Theora 900 Кбит/сек',
 	'mv_flash_low_quality' => 'Мрежно емитување - Флеш-видео',
 	'mv_archive_org_mp4' => 'Archive.org MP4, содржејќи H.264 емитување',
@@ -6276,7 +6334,7 @@ $mvMVDTypeDefaultDisp треба да биде подмножество на $mv
 	'mv_viewprevnext' => 'Видете ($1) ($2)',
 	'mediasearch' => 'Пребарај податотека',
 	'mv_search_sel_t' => 'Изберете тип на пребарување',
-	'mv_do_media_search' => 'Пребарај MetaVid медии за $1',
+	'mv_do_media_search' => 'Пребарај MetaVid податотеки за $1',
 	'mv_results_for' => 'Резултати за $1',
 	'mv_video_search' => 'Пребарување снимки',
 	'mv_page_search' => 'Пребарај вики-страници за $1',
@@ -6308,7 +6366,7 @@ $mvMVDTypeDefaultDisp треба да биде подмножество на $mv
 	'mv_spoken_by' => 'зборува',
 	'mv_speech_by' => 'чита',
 	'mv_category' => 'категорија',
-	'mv_search_no_results' => 'Нема совпаднати медии',
+	'mv_search_no_results' => 'Нема совпаднати податотеки',
 	'mv_media_matches' => 'Медиски совпаѓања',
 	'mv_remove_filter' => 'отстрани филтер',
 	'mv_advaced_search' => 'Напредно пребарување на податотеки',
@@ -6323,7 +6381,7 @@ $mvMVDTypeDefaultDisp треба да биде подмножество на $mv
 	'mv_resource_not_supported' => "Ресурсо од типот '''$1''' не е поддржан",
 	'mv_resource_locator' => 'Пронаоѓач на извори',
 	'mv_unknown_clipboard_action' => 'Непознато дејство од магацинот',
-	'mv_media_search' => 'Баребарување по медии',
+	'mv_media_search' => 'Пребарување на податотеки',
 	'mv_editor_options' => 'Уреднички прилагодувања',
 	'mv_editor_mode' => 'Уреднички режим',
 	'mv_simple_editor_desc' => 'прост уредник (iMovie стил)',
@@ -6417,6 +6475,13 @@ $messages['ml'] = array(
 	'mv_sequence_add_search' => 'തിരച്ചലിലൂടെ ചേർക്കുക',
 	'mv_add_clip_by_name' => 'പേരനുസരിച്ച് ക്ലിപ്പ് ചേർക്കുക',
 	'mv_export_cmml' => 'CMML എക്സ്പോർട്ട് ചെയ്യുക',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'mv_search_categories' => 'Ангиллууд',
 );
 
 /** Marathi (मराठी)
@@ -7490,8 +7555,8 @@ Reportatz aquò sul [[{{MediaWiki:Grouppage-sysop}}|site d\'aministracion]].',
 	'mv_tool_overlay' => 'Presentacions del modèl',
 	'mv_tool_overlay_title' => 'Presentacions del modèl sus la banca de las metadonadas',
 	'mv_results_found' => 'Resultats vidèo <b>$1</b> sus <b>$2</b> de <b>$3</b>',
-	'mv_tool_mang_layers' => 'Administra los jaces',
-	'mv_update_layers' => 'met a jorn lo visionament dels jaces',
+	'mv_tool_mang_layers' => 'Administra los calques',
+	'mv_update_layers' => 'met a jorn lo visionament dels calques',
 	'mv_watch_clip' => 'Visionar lo clip',
 	'mv_close_clip' => 'Tampar lo clip',
 	'mv_improve_transcript' => 'Melhorar la transcripcion',
@@ -7637,7 +7702,7 @@ Aqueste tipe de presentacion es pel tèxte qu'es parlat amb lo flux vidèo. De l
 	'mv_edit_time' => 'Modificar la data',
 	'mv_embed_options' => "Opcion d'incrustacion",
 	'mv_overlay' => 'Contraròtles de cobertura',
-	'mv_stream_tool_heading' => 'Espleches pels fluxes',
+	'mv_stream_tool_heading' => 'Aisinas pels fluxes',
 	'mv_tool_missing' => "L'esplech requerit existís pas",
 	'mv_bad_tool_request' => 'una linha de comanda marrida poiriá èsser formulada : nom_esplech|afichatge_nom_esplech',
 	'mv_prev_speech' => 'Prepaus precedent : $1',
@@ -7650,7 +7715,7 @@ Aqueste tipe de presentacion es pel tèxte qu'es parlat amb lo flux vidèo. De l
 	'mv_search_stream_title' => 'Recercar lo flux actual',
 	'mv_new_ht_en' => 'Transcripcion novèla',
 	'mv_new_anno_en' => 'Balisa o anotacion novèla',
-	'mv_mang_layers' => 'Administra los jaces',
+	'mv_mang_layers' => 'Administra los calques',
 	'mv_mang_layers_title' => "Gerís los paramètres d'afichatge de la jaça pel flux corrent",
 	'mv_protect_source_material' => 'Original protegit en escritura',
 	'right-mv_delete_mvd' => 'Suprimir las metadonadas MetaVid',
@@ -8275,6 +8340,7 @@ $messages['ps'] = array(
 /** Portuguese (Português)
  * @author 555
  * @author Cedric31
+ * @author Giro720
  * @author Hamilton Abreu
  * @author Lijealso
  * @author Luckas Blade
@@ -8316,7 +8382,7 @@ Por favor, reporte este facto ao [[{{MediaWiki:Grouppage-sysop}}|administrador d
 	'mv_path_type_label' => 'tipo de caminho',
 	'mv_base_offset_label' => 'desvio da base',
 	'mv_duration_label' => 'Duração',
-	'mv_file_desc_label' => 'mensagem de decriptação da stream',
+	'mv_file_desc_label' => 'mensagem de descrição da stream',
 	'mv_delete_stream_file' => 'eliminar referência a ficheiro de stream',
 	'mv_save_changes' => 'Gravar alterações',
 	'mv_file_with_same_desc' => 'Erro: ficheiro de stream com mesma chave de descrição <i>$1</i> já presente',
@@ -8558,9 +8624,31 @@ Por favor, reporte este fato ao [[{{MediaWiki:Grouppage-sysop}}|administrador do
 	'mvexportstream' => 'Exportar stream Metavid',
 	'mv_move_delete_msg' => 'movido para $1',
 	'mv_add_stream_page' => 'MetaVid adicionar stream',
-	'mv_edit_strea_docu' => '<p>Editar <b>administração</b> de stream<br />para visualização/edição por usuários normais, veja a página $1</p>',
+	'mv_edit_strea_docu' => '<p>Editar stream como <b>administrador</b><br />para ver ou editar como utilizador normal, consulte a página $1</p>',
+	'mv_add_stream_docu' => '<p>Adicionar uma nova stream com o campo abaixo.</p>
+<p>Mais informação é dada na <a href="$1">página de ajuda de adição de streams</a>.</p>',
+	'mv_add_stream_submit' => 'Adicionar stream',
+	'mv_no_stream_files' => 'Arquivos de stream não existentes',
+	'mv_edit_stream_files' => 'Editar arquivos de stream',
+	'mv_path_type_url_anx' => 'URL completo da mídia',
+	'mv_path_type_wiki_title' => 'título wiki da mídia',
+	'mv_path_type_url_file' => 'URL multimídia completa usando procura local',
+	'mv_path_type_mp4_stream' => 'Servidor de stream MP4',
+	'mv_path_type_label' => 'tipo de caminho',
+	'mv_base_offset_label' => 'desvio da base',
 	'mv_duration_label' => 'Duração',
+	'mv_file_desc_label' => 'mensagem de descrição da stream',
+	'mv_delete_stream_file' => 'eliminar referência ao arquivo de stream',
 	'mv_save_changes' => 'Salvar alterações',
+	'mv_file_with_same_desc' => 'Erro: arquivo de stream com mesma chave de descrição <i>$1</i> já presente',
+	'mv_updated_stream_files' => 'Registro de arquivos de stream atualizados',
+	'mv_removed_file_stream' => 'Foi removido o arquivo de stream: $1',
+	'mv_user_cant_edit' => 'Você poderá ter que [$1 se autenticar] para editar, $2',
+	'mv_add_stream_file' => 'Adicionar arquivo de stream',
+	'mv_media_path' => 'caminho da mídia',
+	'mv_file_list' => 'Arquivos de stream',
+	'mv_label_stream_name' => 'Nome do stream',
+	'mv_label_stream_desc' => 'Descrição do stream',
 	'mv_remove_reason' => 'Motivo para a eliminação:',
 	'mv_upload_file' => 'Carregar arquivo',
 	'mv_tool_export' => 'Exportar',
@@ -9846,6 +9934,7 @@ $messages['te'] = array(
 	'mv_ogg_high_quality' => 'ఉత్తమ నాణ్యత - ఓగ్ థియోరా 900 kbit/s',
 	'mv_duration_label' => 'నిడివి',
 	'mv_save_changes' => 'మార్పులను భద్రపరచు',
+	'mv_user_cant_edit' => 'మార్చడానికి మీరు [$1 ప్రవేశించి] ఉండాలి, $2',
 	'mv_file_list' => 'స్ట్రీమ్ ఫైళ్ళు',
 	'mv_label_stream_name' => 'స్ట్రీమ్ పేరు',
 	'mv_label_stream_desc' => 'స్ట్రీమ్ వివరణ',
@@ -9858,6 +9947,7 @@ $messages['te'] = array(
 	'mv_upload_file' => 'ఫైలుని ఎగుమతించండి',
 	'mv_external_file' => 'బయటి ఫైలు',
 	'mv_tool_search' => 'వెతుకు',
+	'mv_tool_export' => 'ఎగుమతించు',
 	'mv_tool_overlay' => 'మూస పైపూతలు',
 	'mv_results_found' => '<b>$3</b> దృశ్యక ఫలితాల్లో <b>$1</b> నుండి <b>$2</b> వరకు',
 	'mv_category_matches' => 'వర్గాల పోలికలు',
@@ -9876,11 +9966,14 @@ $messages['te'] = array(
 	'mv_adjust_old_title_missing' => 'మీరు తరలించాలనుకుంటున్న పేజీ ($1) లేనేలేదు',
 	'mv_start_desc' => 'ప్రారంభ సమయం',
 	'mv_end_desc' => 'ముగింపు సమయం',
+	'mv_remove_category' => 'వర్గాన్ని తొలగించు',
 	'mv_existing_categories' => '{{PLURAL:$1|వర్గం|వర్గాలు}}:',
 	'mv_basic_text_desc' => 'పాఠ్య వివరణ (ఐచ్ఛికం)',
 	'mv_viewnext' => 'చూడండి ($1)',
 	'mv_viewprevnext' => 'చూడండి ($1) ($2)',
+	'mediasearch' => 'మాధ్యమాల అన్వేషణ',
 	'mv_search_sel_t' => 'అన్వేషణ రకాన్ని ఎంచుకోండి',
+	'mv_results_for' => '$1కి ఫలితాలు',
 	'mv_add_filter' => 'వడపోతని చేర్చండి',
 	'mv_search_match' => 'పాఠ్యంలో వెతకండి',
 	'mv_search_spoken_by' => 'మాట్లాడినది',
@@ -9888,6 +9981,8 @@ $messages['te'] = array(
 	'mv_search_category' => 'వర్గం',
 	'mv_search_and' => 'మరియు',
 	'mv_search_or' => 'లేదా',
+	'mv_search_date_range' => 'తేదీ అవధి',
+	'mv_date_range' => 'తేదీ అవధి',
 	'mv_date_last_week' => 'చివరి వారం',
 	'mv_category_results' => 'వర్గ ఫలితాలు',
 	'mv_spoken_by' => 'మాట్లాడినది',
@@ -9895,6 +9990,9 @@ $messages['te'] = array(
 	'mv_remove_filter' => 'వడపోతని తీసివేయి',
 	'mv_advaced_search' => 'నిశిత మాధ్యమ అన్వేషణ',
 	'mv_view_wiki_page' => 'వికీ పేజీని చూడండి',
+	'mv_resource_not_found' => "వనరు '''$1''' కనబడలేదు",
+	'mv_media_search' => 'మాధ్యమాల అన్వేషణ',
+	'mv_editor_options' => 'కూర్పరి ఎంపికలు',
 	'mv_sequence_add_manual' => 'పేరు ద్వారా చేర్చండి',
 	'mv_sequence_add_search' => 'వెతికి చేర్చండి',
 	'mv_other_options' => 'ఇతర ఎంపికలు',
@@ -10479,15 +10577,67 @@ $messages['tr'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'mv_stream_added' => 'Ви додали потік $1',
+	'mv_stream_meta' => 'Сторінка потоку',
+	'mv_move_delete_msg' => 'переміщено на $1',
+	'mv_add_stream_submit' => 'Додати потік',
 	'mv_duration_label' => 'Тривалість',
 	'mv_save_changes' => 'Зберегти зміни',
+	'mv_label_stream_name' => 'Назва потоку',
+	'mv_remove_reason' => 'Причина вилучення:',
 	'mv_upload_file' => 'Завантажити файл',
 	'mv_external_file' => 'Зовнішній файл',
 	'mv_tool_search' => 'Пошук',
 	'mv_tool_export' => 'Експорт',
+	'mv_watch_clip' => 'Переглянути кліп',
+	'mv_close_clip' => 'Закрити кліп',
+	'mv_click_to_edit' => 'натисніть для редагування',
+	'anno_en' => 'Анотації і категорії',
+	'mvd_default_mismatch' => 'Помилка у файлі налаштувань',
+	'mv_time_separator' => '$1 до $2',
+	'mv_play' => 'Відтворити',
+	'mv_edit' => 'Редагувати',
+	'mv_history' => 'Історія',
+	'mv_edit_title' => 'Змінити текст',
 	'mv_remove' => 'вилучити',
+	'mv_adjust' => 'налаштувати',
+	'mv_adjust_submit' => 'Зберегти налаштування',
+	'mv_adjust_title' => 'Встановити час початку і закінчення',
+	'mv_adjust_preview' => 'Налаштування попереднього перегляду',
+	'mv_adjust_preview_stop' => 'Зупинити попередній перегляд',
+	'mv_start_desc' => 'Час початку',
+	'mv_end_desc' => 'Час закінчення',
+	'mv_remove_category' => 'Вилучити категорію',
 	'mv_existing_categories' => '{{PLURAL:$1|категорія|категорії|категорій}}:',
+	'mv_add_category' => 'Додати категоризацію',
+	'mv_viewnext' => 'Перегляд ($1)',
+	'mv_results_for' => 'Результати для $1',
+	'mv_video_search' => 'Пошук відео',
+	'mv_add_filter' => 'Додати фільтр',
 	'mv_search_categories' => 'Категорії',
+	'mv_search_category' => 'Категорія',
+	'mv_search_and' => 'і',
+	'mv_search_or' => 'або',
+	'mv_search_not' => 'не',
+	'mv_search_stream_name' => 'Назва потоку',
+	'mv_search_date_range' => 'Діапазон дат',
+	'mv_stream_name' => 'назва потоку',
+	'mv_date_range' => 'діапазон дат',
+	'mv_date_last_week' => 'Останній тиждень',
+	'mv_intrest_group_results' => 'Групи за інтересами',
+	'mv_category' => 'категорія',
+	'mv_remove_filter' => 'вилучити фільтр',
+	'mv_other_options' => 'Інші параметри',
+	'mv_contextmenu_opt' => 'Увімкнути контекстне меню',
+	'mv_days' => '$1 {{PLURAL:$1|день|дні|днів}}',
+	'mv_hours' => '$1 {{PLURAL:$1|година|години|годин}}',
+	'mv_hours_singular' => '1 година',
+	'mv_minutes' => '$1 {{PLURAL:$1|хвилина|хвилини|хвилин}}',
+	'mv_minutes_singular' => '1 хвилина',
+	'mv_seconds' => '$1 {{PLURAL:$1|секунда|секунди|секунд}}',
+	'mv_seconds_singular' => '1 секунда',
+	'mv_prev_cat' => 'Попередня категорія: $1',
+	'mv_next_cat' => 'Наступна категорія: $1',
 );
 
 /** Veps (Vepsan kel')

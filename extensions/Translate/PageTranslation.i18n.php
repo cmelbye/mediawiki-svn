@@ -166,6 +166,7 @@ $2 is a count of sections which can be used with PLURAL,
 $3 is an URL.',
 	'tpt-mark-summary' => 'This message is used as an edit summary.',
 	'tpt-old-pages' => 'The words "some version" refer to "one version of the page", or "a single version of each of the pages", respectively. Each page can have either one or none of its versions marked for translaton.',
+	'tpt-other-pages' => '$1 is the number of pages in the following list.',
 	'tpt-rev-old' => '',
 	'translate-tag-markthisagain' => '"has changes" is to be understood as "has been altered/edited"',
 	'translate-tag-hasnew' => '"has changes" is to be understood as "has been altered/edited"',
@@ -445,6 +446,13 @@ Netter de letzte Version kå zur Ywersetzung markird wern.",
 	'tpt-notsuitable' => 'De Saiten $1 is ned zum Ywersetzen gaignet.
 Söi sicher, das a <nowiki><translate></nowiki>-Tag und güitige Syntax vawendt werd.',
 	'tpt-languages-legend' => 'Ånderne Sproochen:',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'pt-movepage-reason' => 'Прычына:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -758,17 +766,22 @@ Stranica koju pokušavate uređivati ne odgovara nekoj od stranica koje su ozna�
 	'tpt-download-page' => 'Izvezi stranicu sa prijevodima',
 	'pt-shake-empty' => 'Prazna sekcija za marker $1.',
 	'pt-log-mark' => '{{GENDER:$2|označen|označena}} revizija $3 stranice "[[:$1]]" za prevod',
+	'pt-log-unmark' => '{{GENDER:$2|uklonio|uklonila}} stranicu "[[:$1]]" iz prevoda',
 	'pt-movepage-title' => 'Premještanje stranice za prevođenje $1',
 	'pt-movepage-block-base-exists' => 'Ciljna bazna stranica [[:$1]] postoji.',
 	'pt-movepage-block-base-invalid' => 'Ciljna bazna stranica nije valjan naslov.',
 	'pt-movepage-list-pages' => 'Spisak stranica za premještanje',
 	'pt-movepage-list-section' => 'Stranice sekcije',
 	'pt-movepage-list-other' => 'Druge podstranice',
+	'pt-movepage-legend' => 'Premjesti stranicu koja se prevodi',
 	'pt-movepage-current' => 'Trenutni naziv:',
 	'pt-movepage-new' => 'Novi naziv:',
 	'pt-movepage-reason' => 'Razlog:',
 	'pt-movepage-subpages' => 'Premjesti sve podstranice',
+	'pt-movepage-action-check' => 'Provjeri da li je moguće premještanje',
+	'pt-movepage-action-perform' => 'Izvrši premještanje',
 	'pt-movepage-action-other' => 'Promijeni cilj',
+	'pt-movepage-logreason' => 'Dio stranice koja se prevodi $1.',
 );
 
 /** Buginese (ᨅᨔ ᨕᨘᨁᨗ)
@@ -1598,6 +1611,7 @@ Tarkista mahdolliset virheet ja valmistumisviestit sivunkääntölokista.',
  * @author IAlex
  * @author Peter17
  * @author Urhixidur
+ * @author Verdy p
  * @author Y-M D
  */
 $messages['fr'] = array(
@@ -1634,8 +1648,8 @@ Avant de marquer ces versions pour être traduites, vérifier que les modificati
 	'tpt-list-nopages' => 'Aucune page n’a été marquée pour être traduite ni n’est prête à l’être.',
 	'tpt-old-pages' => 'Des versions de {{PLURAL:$1|cette page|ces pages}} ont été marquées pour être traduites.',
 	'tpt-new-pages' => '{{PLURAL:$1|Cette page contient|Ces pages contiennent}} du texte avec des balises de traduction, mais aucune version de {{PLURAL:$1|cette page n’est marquée pour être traduite|ces pages ne sont marquées pour être traduites}}.',
-	'tpt-other-pages' => 'Une ancienne version de {{PLURAL:$1|cette page|ces pages}} a été marquée pour être traduite,
-mais la dernière version ne peut pas être marquée pour être traduite.',
+	'tpt-other-pages' => 'Une ancienne version de {{PLURAL:$1|la page suivante|chacune des pages suivantes}} a été marquée pour être traduite,
+mais {{PLURAL:$1|sa dernière version|leur dernière version respective}} ne peut pas être marquée ainsi :',
 	'tpt-rev-latest' => 'dernière version',
 	'tpt-rev-old' => 'différence avec la version marquée précédente',
 	'tpt-rev-mark-new' => 'marquer cette version pour être traduite',
@@ -2339,7 +2353,22 @@ A lap, amit szerkeszteni próbálsz, úgy tűnik hogy nem egyezik egy fordítás
 	'tpt-install' => 'Futtasd a <code>maintenance/update.php</code>-t vagy a webes telepítőt, hogy engedélyezd a lapfordítás funkciót.',
 	'tpt-render-summary' => 'Frissítés, hogy megegyezzen a forráslap új változatával',
 	'tpt-download-page' => 'Lap exportálása fordításokkal együtt',
+	'pt-log-name' => 'Oldalfordítási napló',
+	'pt-movepage-title' => 'A(z) $1 fordítható lap átnevezése',
+	'pt-movepage-blockers' => 'Nem lehet átnevezni a fordítható lapot az új névre a következő {{PLURAL:$1|hiba|hibák}} miatt:',
+	'pt-movepage-list-pages' => 'Átnevezendő lapok listája',
+	'pt-movepage-list-translation' => 'Fordítható lapok',
+	'pt-movepage-list-section' => 'Szakaszlapok',
+	'pt-movepage-list-other' => 'További allapok',
+	'pt-movepage-list-count' => 'Összesen {{PLURAL:$1|egy|$1}} lapot kell átnevezni.',
+	'pt-movepage-legend' => 'Fordítható lap átnevezése',
+	'pt-movepage-current' => 'Jelenlegi név:',
+	'pt-movepage-new' => 'Új név:',
 	'pt-movepage-reason' => 'Indoklás:',
+	'pt-movepage-subpages' => 'Összes allap átnevezése',
+	'pt-movepage-action-perform' => 'Átnevezés végrehajtása',
+	'pt-movepage-action-other' => 'Cél megváltoztatása',
+	'pt-movepage-logreason' => 'A(z) $1 fordítható lap része',
 );
 
 /** Interlingua (Interlingua)
@@ -3830,7 +3859,7 @@ Antes de marcar esta versão para tradução, verifique que as alterações às 
 	'tpt-list-nopages' => 'Não existem páginas marcadas para tradução, nem prontas a ser marcadas para tradução.',
 	'tpt-old-pages' => 'Uma versão {{PLURAL:$1|desta página|destas páginas}} foi marcada para tradução.',
 	'tpt-new-pages' => "{{PLURAL:$1|Esta página contém|Estas páginas contêm}} texto com ''tags'' de tradução, mas nenhuma versão {{PLURAL:$1|da página|das páginas}} está presentemente marcada para tradução.",
-	'tpt-other-pages' => '{{PLURAL:$1|A versão anterior desta página está marcada|Versões anteriores desta página estão marcadas}} para tradução, mas a última versão não pode ser marcada para tradução.',
+	'tpt-other-pages' => '{{PLURAL:$1|A versão anterior desta página está marcada|Versões anteriores destas páginas estão marcadas}} para tradução, mas a última versão não pode ser marcada para tradução.',
 	'tpt-rev-latest' => 'versão mais recente',
 	'tpt-rev-old' => 'diferenças em relação à versão marcada anterior',
 	'tpt-rev-mark-new' => 'marcar esta versão para tradução',
@@ -4608,8 +4637,11 @@ $messages['te'] = array(
 	'translate-tag-markthisagain' => 'చివరిసారి <span class="plainlinks">[$2 అనువాదానికి గుర్తించినప్పటి నుండి]</span> ఈ పేజీకి <span class="plainlinks">[$1 మార్పులు]</span> జరిగాయి.',
 	'tpt-languages-legend' => 'ఇతర భాషలు:',
 	'pt-log-name' => 'పేజీ అనువాదాల చిట్టా',
+	'pt-movepage-block-subpage-exists' => 'ఆ లక్ష్యిత ఉపపుట [[:$2]] ఉనికిలో ఉంది.',
+	'pt-movepage-list-pages' => 'తరలించాల్సిన పుటల యొక్క జాబితా',
 	'pt-movepage-list-translation' => 'అనువాద పుటలు',
 	'pt-movepage-list-other' => 'ఇతర ఉపపుటలు',
+	'pt-movepage-list-count' => 'మొత్తం తరలించాల్సినవి $1 {{PLURAL:$1|పుట|పుటలు}}.',
 	'pt-movepage-current' => 'ప్రస్తుత పేరు:',
 	'pt-movepage-new' => 'కొత్త పేరు:',
 	'pt-movepage-reason' => 'కారణం:',
@@ -4921,7 +4953,7 @@ $messages['uk'] = array(
 	'tpt-old-pages' => 'Деякі версії {{PLURAL:$1|цієї сторінки|цих сторінок}} були відмічені для перекладу.',
 	'tpt-new-pages' => '{{PLURAL:$1|Ця сторінка містить|Ці сторінки містять}} текст з тегами перекладу, але жодна з версій {{PLURAL:$1|цієї сторінки|цих сторінок}} не відмічена для перекладу.',
 	'tpt-other-pages' => '{{PLURAL:$1|Стара версія цієї сторінки відмічена|Старі версії цих сторінок відмічені}} для перекладу,
-але {{PLURAL:$1|остання версія не може|останні версії не можуть}} бути відмечена для перекладу.',
+але {{PLURAL:$1|остання версія не може бути відмічена|останні версії не можуть бути відмічені}} для перекладу.',
 	'tpt-rev-latest' => 'остання версія',
 	'tpt-rev-old' => 'різниця з попередньою позначеною версією',
 	'tpt-rev-mark-new' => 'позначити цю версію для перекладу',

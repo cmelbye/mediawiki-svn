@@ -291,12 +291,11 @@ class LqtView {
 	function perpetuate( $name, $as = 'hidden' ) {
 		$value = $this->request->getVal( $name, '' );
 		if ( $as == 'hidden' ) {
-			return Xml::hidden( $name, $value );
+			return Html::hidden( $name, $value );
 		}
 	}
 
 	function showReplyProtectedNotice( $thread ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		$log_url = SpecialPage::getTitleFor( 'Log' )->getFullURL(
 			"type=protect&user=&page={$thread->title()->getPrefixedURL()}" );
 		$this->output->addHTML( '<p>' . wfMsg( 'lqt_protectedfromreply',
@@ -398,9 +397,8 @@ class LqtView {
 		LqtHooks::$editType = 'new';
 		LqtHooks::$editAppliesTo = null;
 
-		wfRunHooks( 'LiquidThreadsShowNewThreadForm', array( &$e, $talkpage ) );
-
 		$e = new EditPage( $article );
+		wfRunHooks( 'LiquidThreadsShowNewThreadForm', array( &$e, $talkpage ) );
 
 		global $wgRequest;
 		// Quietly force a preview if no subject has been specified.
@@ -425,7 +423,7 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
-			Xml::hidden( 'lqt_nonce', wfGenerateToken() );
+			Html::hidden( 'lqt_nonce', wfGenerateToken() );
 
 		$e->mShowSummaryField = false;
 
@@ -536,9 +534,9 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
-			Xml::hidden( 'lqt_nonce', wfGenerateToken() ) .
-			Xml::hidden( 'offset', $offset ) .
-			Xml::hidden( 'wpMinorEdit', '' );
+			Html::hidden( 'lqt_nonce', wfGenerateToken() ) .
+			Html::hidden( 'offset', $offset ) .
+			Html::hidden( 'wpMinorEdit', '' );
 
 		list( $signatureEditor, $signatureHTML ) = $this->getSignatureEditor( $this->user );
 
@@ -644,8 +642,8 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
-			Xml::hidden( 'lqt_nonce', wfGenerateToken() ) .
-			Xml::hidden( 'offset', $offset );
+			Html::hidden( 'lqt_nonce', wfGenerateToken() ) .
+			Html::hidden( 'offset', $offset );
 
 		list( $signatureEditor, $signatureHTML ) = $this->getSignatureEditor( $thread );
 
@@ -725,8 +723,8 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
-			Xml::hidden( 'lqt_nonce', wfGenerateToken() ) .
-			Xml::hidden( 'offset', $offset );
+			Html::hidden( 'lqt_nonce', wfGenerateToken() ) .
+			Html::hidden( 'offset', $offset );
 
 		$e->edit();
 
@@ -788,7 +786,7 @@ class LqtView {
 		$signatureText = $this->request->getVal( 'wpLqtSignature', null );
 
 		if ( is_null( $signatureText ) ) {
-			if ( $from instanceof User || $from instanceof StubUser ) {
+			if ( $from instanceof User ) {
 				$signatureText = LqtView::getUserSignature( $from );
 			} elseif ( $from instanceof Thread ) {
 				$signatureText = $from->signature();
@@ -825,7 +823,6 @@ class LqtView {
 			}
 		}
 
-		$signature = null;
 		if ( isset( $data['signature'] ) ) {
 			$signature = $data['signature'];
 		} else {
@@ -862,7 +859,9 @@ class LqtView {
 			}
 		}
 
-		extract( $data );
+		$thread = $data["thread"];
+		$article = $data["article"];
+		$summary = $data["summary"];
 
 		$bump = isset( $bump ) ? $bump : null;
 
@@ -922,7 +921,6 @@ class LqtView {
 			}
 		}
 
-		$signature = null;
 		if ( isset( $data['signature'] ) ) {
 			$signature = $data['signature'];
 		} else {
@@ -985,7 +983,6 @@ class LqtView {
 		$error = $ot->moveTo( $nt, true, "Changed thread subject: $reason" );
 		if ( $error !== true ) {
 			throw new MWException( "Got error $error trying to move pages." );
-			return false;
 		}
 
 		# Move the talk page if relevant, if it exists, and if we've been told to
@@ -1011,7 +1008,6 @@ class LqtView {
 	*	)
 	*/
 	function threadCommands( $thread ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		$commands = array();
 
 		$history_url = self::permalinkUrlWithQuery( $thread, array( 'action' => 'history' ) );
@@ -1090,8 +1086,6 @@ class LqtView {
 
 	// Commands for the bottom.
 	function threadMajorCommands( $thread ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
-
 		if ( $thread->isHistorical() ) {
 			// No links for historical threads.
 			$history_url = self::permalinkUrlWithQuery( $thread,
@@ -1155,7 +1149,6 @@ class LqtView {
 	}
 
 	function topLevelThreadCommands( $thread ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		$commands = array();
 
 		$commands['history'] = array(
@@ -1253,8 +1246,6 @@ class LqtView {
 	}
 
 	static function exportJSLocalisation() {
-		wfLoadExtensionMessages( 'LiquidThreads' );
-
 		$messages = array(
 				'lqt-quote-intro',
 				'lqt-quote',
@@ -1401,8 +1392,6 @@ class LqtView {
 				}
 			}
 		}
-
-		$thisCommand = '';
 
 		if ( $enabled ) {
 			$thisCommand = Xml::tags( 'a', array( 'href' => $href, 'title' => $tooltip ),
@@ -1578,7 +1567,7 @@ class LqtView {
 
 			if ( $show ) {
 				$html = Xml::tags( 'span', array( 'class' => 'mw-headline' ), $html );
-				$html .= Xml::hidden( 'raw-header', $thread->subject() );
+				$html .= Html::hidden( 'raw-header', $thread->subject() );
 				$html = Xml::tags( 'h' . $this->headerLevel,
 						array( 'class' => 'lqt_header', 'id' => $id ),
 						$html ) . $commands_html;
@@ -1663,8 +1652,6 @@ class LqtView {
 
 	// Shows a single thread, rather than a thread tree.
 	function showSingleThread( $thread ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
-
 		$html = '';
 
 		// If it's a 'moved' thread, show the placeholder
@@ -1733,7 +1720,7 @@ class LqtView {
 
 		$link = $sk->link( $linkTitle, $linkText,
 				array( 'class' => 'lqt-show-more-posts' ) );
-		$link .= Xml::hidden( 'lqt-thread-start-at', $i,
+		$link .= Html::hidden( 'lqt-thread-start-at', $i,
 				array( 'class' => 'lqt-thread-start-at' ) );
 
 		return $link;
@@ -1956,7 +1943,7 @@ class LqtView {
 		// Metadata stuck in the top of the lqt_thread div.
 		// Modified time for topmost threads...
 		if ( $thread->isTopmostThread() ) {
-			$html .= Xml::hidden(
+			$html .= Html::hidden(
 				'lqt-thread-modified-' . $thread->id(),
 				wfTimestamp( TS_MW, $thread->modified() ),
 				array(
@@ -1964,13 +1951,13 @@ class LqtView {
 					'class' => 'lqt-thread-modified'
 				)
 			);
-			$html .= Xml::hidden(
+			$html .= Html::hidden(
 				'lqt-thread-sortkey',
 				$thread->sortkey(),
 				array( 'id' => 'lqt-thread-sortkey-' . $thread->id() )
 			);
 			
-			$html .= Xml::hidden(
+			$html .= Html::hidden(
 				'lqt-thread-talkpage-' . $thread->id(),
 				$thread->article()->getTitle()->getPrefixedText(),
 				array(
@@ -1984,7 +1971,7 @@ class LqtView {
 		}
 
 		// Add the thread's title
-		$html .= Xml::hidden(
+		$html .= Html::hidden(
 			'lqt-thread-title-' . $thread->id(),
 			$thread->title()->getPrefixedText(),
 			array(
@@ -2114,9 +2101,12 @@ class LqtView {
 	}
 
 	function getSummary( $t ) {
-		if ( !$t->summary() ) return;
-		if ( !$t->summary()->getContent() ) return; // Blank summary
-		wfLoadExtensionMessages( 'LiquidThreads' );
+		if ( !$t->summary() ) {
+			return;
+		}
+		if ( !$t->summary()->getContent() ) {
+			return; // Blank summary
+		}
 		global $wgUser;
 		$sk = $wgUser->getSkin();
 
@@ -2134,7 +2124,7 @@ class LqtView {
 
 		$link = $sk->link( $t->summary()->getTitle(), $link_text,
 				array( 'class' => 'lqt-summary-link' ) );
-		$link .= Xml::hidden( 'summary-title', $t->summary()->getTitle()->getPrefixedText() );
+		$link .= Html::hidden( 'summary-title', $t->summary()->getTitle()->getPrefixedText() );
 		$edit_link = self::permalink( $t, $edit_text, 'summarize', $t->id() );
 		$links = "[$link]\n[$edit_link]";
 		$html .= Xml::tags(

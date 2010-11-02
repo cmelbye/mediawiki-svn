@@ -44,10 +44,22 @@ class MapsCoordinateParser {
 	 * 
 	 * @return array of float or false
 	 */
-	public static function parseCoordinates( $coordinates ) {
+	public static function parseCoordinates() {
+		$params = func_get_args();
+		
+		if ( count( $params ) == 0 ) {
+			return false;
+		}
+		
+		$coordinates = $params[0];
+		
 		if ( $coordinates === false ) {
 			return false;
 		}
+		
+		if ( count( $params ) > 1 ) {
+			$coordinates = $params;
+		}		
 		
 		if ( is_array( $coordinates ) ) {
 			$coordinates = implode( self::$separators[0], $coordinates );
@@ -203,8 +215,8 @@ class MapsCoordinateParser {
 		
 		$coordinates = str_replace( array( '&#176;', '&deg;' ), self::SYMBOL_DEG, $coordinates );
 		$coordinates = str_replace( array( '&acute;', '&#180;' ), self::SYMBOL_SEC, $coordinates );
-		$coordinates = str_replace( array( '&#8243;', '&Prime;', self::SYMBOL_SEC . self::SYMBOL_SEC, '´´', '′′', '″' ), self::SYMBOL_MIN, $coordinates );
-		$coordinates = str_replace( array( '&#8242;', '&prime;', '´', '′' ), self::SYMBOL_SEC, $coordinates );
+		$coordinates = str_replace( array( '&#8242;', '&prime;', '´', '′' ), self::SYMBOL_MIN, $coordinates );
+		$coordinates = str_replace( array( '&#8243;', '&Prime;', self::SYMBOL_MIN . self::SYMBOL_MIN, '´´', '′′', '″' ), self::SYMBOL_SEC, $coordinates );
 
 		$coordinates = self::removeInvalidChars( $coordinates );
 

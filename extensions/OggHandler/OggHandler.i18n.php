@@ -234,7 +234,9 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'ogg-player-soundthumb' => 'ܠܝܬ ܛܐܠܢܐ',
 	'ogg-more' => 'ܝܬܝܪ…',
+	'ogg-download' => 'ܐܚܬ ܠܦܦܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -324,18 +326,6 @@ $messages['avk'] = array(
 	'ogg-desc-link' => 'Icde bat iyeltak',
 );
 
-/** Samogitian (Žemaitėška)
- * @author Hugo.arg
- */
-$messages['bat-smg'] = array(
-	'ogg-play' => 'Gruotė',
-	'ogg-pause' => 'Pauzė',
-	'ogg-stop' => 'Sostabdītė',
-	'ogg-play-video' => 'Gruotė video',
-	'ogg-play-sound' => 'Gruotė garsa',
-	'ogg-download' => 'Atsėsiōstė faila',
-);
-
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -382,6 +372,13 @@ $messages['bcc'] = array(
 $messages['bcl'] = array(
 	'ogg-more' => 'Dakol pa..',
 	'ogg-dismiss' => 'Isara',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'ogg-dismiss' => 'Закрыць',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1313,6 +1310,8 @@ $messages['he'] = array(
 	'ogg-dismiss' => 'סגירה',
 	'ogg-download' => 'הורדת הקובץ',
 	'ogg-desc-link' => 'אודות הקובץ',
+	'ogg-oggThumb-version' => 'OggHandler דורש את oggThumb בגרסה $1 ומעלה.',
+	'ogg-oggThumb-failed' => 'oggThumb נכשל ביצירת התמונה הממוזערת.',
 );
 
 /** Hindi (हिन्दी)
@@ -2087,10 +2086,15 @@ $messages['lt'] = array(
 );
 
 /** Latvian (Latviešu)
+ * @author Papuass
  * @author Xil
  */
 $messages['lv'] = array(
+	'ogg-pause' => 'Pauze',
+	'ogg-player-selected' => '(izvēlēts)',
 	'ogg-dismiss' => 'Aizvērt',
+	'ogg-download' => 'Lejupielādēt failu',
+	'ogg-desc-link' => 'Par šo failu',
 );
 
 /** Macedonian (Македонски)
@@ -2867,6 +2871,19 @@ $messages['sah'] = array(
 	'ogg-download' => 'Билэни хачайдаа',
 	'ogg-desc-link' => 'Бу билэ туһунан',
 	'ogg-oggThumb-version' => 'OggHandler oggThumb $1 эбэтэр ордук версиятын наадыйар',
+	'ogg-oggThumb-failed' => 'oggThumb миниатюраны кыайан оҥорбото.',
+);
+
+/** Samogitian (Žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'ogg-play' => 'Gruotė',
+	'ogg-pause' => 'Pauzė',
+	'ogg-stop' => 'Sostabdītė',
+	'ogg-play-video' => 'Gruotė video',
+	'ogg-play-sound' => 'Gruotė garsa',
+	'ogg-download' => 'Atsėsiōstė faila',
 );
 
 /** Sinhala (සිංහල)
@@ -2906,6 +2923,7 @@ $messages['si'] = array(
 
 /** Slovak (Slovenčina)
  * @author Helix84
+ * @author Jkjk
  */
 $messages['sk'] = array(
 	'ogg-desc' => 'Obsluha súborov Ogg Theora a Vorbis s JavaScriptovým prehrávačom',
@@ -2934,6 +2952,8 @@ $messages['sk'] = array(
 	'ogg-dismiss' => 'Zatvoriť',
 	'ogg-download' => 'Stiahnuť súbor',
 	'ogg-desc-link' => 'O tomto súbore',
+	'ogg-oggThumb-version' => 'OggHandler vyžaduje verziu oggThumbu $1 alebo novšiu.',
+	'ogg-oggThumb-failed' => 'oggThumbu sa neporarilo vytvoriť obraz.',
 );
 
 /** Slovenian (Slovenščina)
@@ -3313,6 +3333,8 @@ QuickTime bu komponent bolmasa Ogg faýllaryny oýnadyp bilmeýär.
 	'ogg-dismiss' => 'Ýap',
 	'ogg-download' => 'Faýl düşür',
 	'ogg-desc-link' => 'Bu faýl hakda',
+	'ogg-oggThumb-version' => 'OggHandler oggThumb programmasynyň $1 wersiýasyny ýa-da has täzesini talap edýär.',
+	'ogg-oggThumb-failed' => 'oggThumb miniatýura döredip bilmedi.',
 );
 
 /** Tagalog (Tagalog)
@@ -3603,6 +3625,7 @@ $messages['yo'] = array(
 	'ogg-pause' => 'Ìjáwọ́',
 	'ogg-stop' => 'Ìdádúró',
 	'ogg-player-selected' => '(ṣíṣàyàn)',
+	'ogg-dismiss' => 'Padé',
 	'ogg-download' => 'Ìrùsílẹ̀ fáìlì',
 	'ogg-desc-link' => 'Nípa fáìlì yìí',
 );

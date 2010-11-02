@@ -84,6 +84,13 @@ $messages['ast'] = array(
 	'newschannel_submit_button' => "Crear fonte d'anuncies",
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'newschannel_format' => 'Фармат:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -470,6 +477,16 @@ $messages['mk'] = array(
 	'newschannel_include_category' => 'Дополнителна категорија:',
 	'newschannel_exclude_category' => 'Исклучи ја категоријата:',
 	'newschannel_submit_button' => 'Создај емитување',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'newschannel_limit' => 'പരിധി:',
+	'newschannel_include_category' => 'കൂടുതൽ വർഗ്ഗം:',
+	'newschannel_exclude_category' => 'വർഗ്ഗം ഒഴിവാക്കുക:',
+	'newschannel_submit_button' => 'ഫീഡ് സൃഷ്ടിക്കുക',
 );
 
 /** Dutch (Nederlands)

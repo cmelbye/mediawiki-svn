@@ -609,6 +609,7 @@ $messages['et'] = array(
 );
 
 /** Finnish (Suomi)
+ * @author Centerlink
  * @author Cimon Avaro
  * @author Crt
  * @author Nike
@@ -617,9 +618,11 @@ $messages['et'] = array(
  * @author ZeiP
  */
 $messages['fi'] = array(
+	'translategroupdescriptions-desc' => 'Viestiryhmäkuvaukset tuotteille, joita [http://mediawiki.org/wiki/Extension:Translate Translate]-laajennos tukee',
+	'translate-group-desc-nodesc' => 'Kuvausta ei ole saatavilla tälle viestiryhmälle',
 	'translate-group-desc-mediawikicore' => 'Tämä viestiryhmä sisältää viestit, joita käytetään nykyisessä MediaWikin alfaversiossa ({{CURRENTVERSION}})',
 	'translate-group-desc-mediawikimostused' => 'Tämä viestiryhmä sisältää [http://translatewiki.net/wiki/Most_often_used_messages_in_MediaWiki MediaWikin 500 useimmin käytettyä viestiä]',
-	'translate-group-desc-mediawikiextensions' => 'Kokoava viestiryhmä kaikille tuetuille MediaWiki-laajennuksille',
+	'translate-group-desc-mediawikiextensions' => 'Meta-viestiryhmä sisältää kaikki viestit tuetuille [[Translating:MediaWiki|MediaWiki]]-laajennoksille',
 	'translate-group-desc-collection' => 'Tämä metaviestiryhmä sisältää kaikki viestit, joita käytetään MediaWikin laajennuksessa [http://www.mediawiki.org/wiki/Extension:Collection Collection]',
 	'translate-group-desc-flaggedrevs' => 'Tämä metaviestiryhmä sisältää kaikki viestit MediaWikin [http://www.mediawiki.org/wiki/Extension:FlaggedRevs FlaggedRevs-laajennusta] varten',
 	'translate-group-desc-readerfeedback' => 'Tämä metaviestiryhmä sisältää kaikki MediaWikin [http://www.mediawiki.org/wiki/Extension:ReaderFeedback ReaderFeedback-laajennuksen] viestit',
@@ -628,6 +631,7 @@ $messages['fi'] = array(
 	'translate-group-desc-wikiaextensions' => 'Tämä metaviestiryhmä sisältää kaikki ne tuetut MediaWikin laajennuksien viestit, joita [http://www.wikia.com Wikia] käyttää',
 	'translate-group-desc-wikimediaextensions' => 'Tämä metaviestiryhmä sisältää kaikki tuetut MediaWikin laajennuksien viestit, joita [http://wikimedia.org/ Wikimedia Foundation] käyttää',
 	'translate-group-desc-uniwiki' => 'Metaviestiryhmä, joka sisältää kaikki [http://unicefinnovation.org/wiki.php Uniwikiin] liittyvien laajennuksien viestit.',
+	'translate-group-desc-translatablepages' => 'Kaikki käännettävät sivut',
 	'bw-desc-freecol' => 'Ennen kuin käännät FreeColia kielellesi, luethan sivun [[Translating:FreeCol]]. Freecol käyttää GPL-lisenssiä.',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], PHP:llä tehty keskustelufoorumi.',
 );
@@ -917,6 +921,7 @@ $messages['hu'] = array(
 	'translate-group-desc-wikimediaextensions' => 'Gyűjtőcsoport, ami a [http://wikimedia.org/ Wikimédia Alapítvány] által használt MediaWiki-kiterjesztések összes üzenetét tartalmazza',
 	'translate-group-desc-uniwiki' => 'Gyűjtőcsoport, ami az [http://unicefinnovation.org/wiki.php Uniwiki]hez kapcsolódó MediaWiki-kiterjesztések összes üzenetét tartalmazza',
 	'translate-group-desc-ui' => 'Gyűjtőcsoport, ami a [http://meta.wikimedia.org/wiki/Wikipedia_Usability_Initiative Wikipedia Usability Initiative]-hez kapcsolódó MediaWiki-kiterjesztések összes üzenetét tartalmazza',
+	'translate-group-desc-translatablepages' => 'Az összes fordítható lap',
 	'bw-desc-freecol' => 'Mielőtt elkezdenéd fordítani a FreeColt a saját nyelvedre, olvasd el a [[Translating:FreeCol]] lapot. A FreeCol GPL-licencet használ.',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum], egy PHP-ben írt webfórum',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT], egy ingyenes webalapú hibakövető rendszer. A problémákat a [[Support|Segítség]] oldalon jelezheted.',
@@ -1253,8 +1258,8 @@ $messages['mk'] = array(
 	'translate-group-desc-readerfeedback' => 'Мета-група која ги содржи сите пораки за МедијаВики проширувањето [http://www.mediawiki.org/wiki/Extension:ReaderFeedback Мислења на читателите (ReaderFeedback)]',
 	'translate-group-desc-socialprofile' => 'Мета-група која ги содржи сите пораки за додатоците поврзани со МедијаВики проширувањето [http://www.mediawiki.org/wiki/Extension:SocialProfile Друштвен профил (Social Profile)]',
 	'translate-group-desc-translate' => 'Мета-група која ги содржи сите пораки за МедијаВики проширувањето [http://www.mediawiki.org/wiki/Extension:Translate Преведување (Translate)]',
-	'translate-group-desc-wikiaextensions' => 'Мета-група која ги содржи сите пораки за поддржаните МедијаВики додатоци кои се користат на [http://www.wikia.com Викија]',
-	'translate-group-desc-wikimediaextensions' => 'Мета-група која ги содржи сите пораки за поддржаните МедијаВики додатоци кои ги користи [http://wikimedia.org/ Фондацијата Викимедија]',
+	'translate-group-desc-wikiaextensions' => 'Мета-група која ги содржи сите пораки за поддржаните додатоци на МедијаВики што се користат на [http://www.wikia.com Викија]',
+	'translate-group-desc-wikimediaextensions' => 'Мета-група која ги содржи сите пораки за поддржаните додатоци на МедијаВики што ги користи [http://wikimedia.org/ Фондацијата Викимедија]',
 	'translate-group-desc-wikimediaextensions-main' => 'Метагрупа на пораки која ги содржи сите пораки за поддржаните дополнувања за МедијаВики што треба да се преведат за [http://meta.wikimedia.org/wiki/Language_committee Јазичниот комитет] на Викимедија.',
 	'translate-group-desc-uniwiki' => 'Мета-група која ги содржи сите пораки за додатоците поврзани со [http://unicefinnovation.org/wiki.php Унивики]',
 	'translate-group-desc-ui' => 'Мета-група која ги содржи сите пораки за додатоците поврзани со [http://meta.wikimedia.org/wiki/Wikipedia_Usability_Initiative Иницијативата за употребливост на Википедија]',
@@ -2007,6 +2012,7 @@ $messages['uk'] = array(
 	'bw-desc-freecol' => 'Перед тим, як перекладати FreeCol на вашу мову, прочитайте, будь ласка, [[Translating:FreeCol]]. Freecol використовує ліцензію GPL.',
 	'bw-desc-fudforum' => '[http://fudforum.org/ FUDforum] — веб-форум, написаний на PHP.',
 	'bw-desc-mantisbt' => '[http://www.mantisbt.org MantisBT] це вільна веб-система для відслідковування багів. Будь ласка, повідомляйте будь-які проблеми у [[Support|службу підтримки]].',
+	'translate-group-desc-mifos' => '[[Translating:Mifos|Mifos]] — система керування інформацією для мікрофінансування',
 	'bw-desc-mwlibrl' => "'''mwlib.rl''' це бібліотека на мові python для створення PDF-документів зі сторінок MediaWiki, які були проаналізовані mwlib.
 
 Гляньте, будь ласка, [[mw:Extension:PDF_Writer]] та http://code.pediapress.com/wiki/wiki/mwlibrl для доклднішої інформації.",

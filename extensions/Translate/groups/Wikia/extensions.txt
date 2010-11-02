@@ -17,14 +17,19 @@ ignored = requestwiki-filter-language, autocreatewiki-tagline
 
 Auto Hubs Pages
 
+Automatic Wiki Adoption
+# Extension is not completely done yet. Ignoring unfinished parts.
+ignored = automaticwikiadoption-desc, automaticwikiadoption-description, automaticwikiadoption-mail-first-content, automaticwikiadoption-mail-first-content-HTML
+ignored = automaticwikiadoption-mail-second-content, automaticwikiadoption-mail-second-content-HTML, automaticwikiadoption-mail-adoption-content, automaticwikiadoption-mail-adoption-content-HTML
+
 Badges
 file = Badges/UserBadges.i18n.php
 optional = user-badge-left-align, user-badge-center-align, user-badge-right-align
 
 Blogs
 aliasfile = Blogs/Blogs.alias.php
-optional = blug-cut-sign, blog-avatar-defaults
-ignored = create-blog-empty-article, blog-listing-zero-self, blogs-recent-url
+optional = blug-cut-sign
+ignored = create-blog-empty-article, blog-listing-zero-self, blogs-recent-url, blog-avatar-defaults
 
 Batch User Rights
 file = SpecialBatchUserRights/BatchUserRights.i18n.php
@@ -95,8 +100,11 @@ aliasfile = InterwikiDispatcher/SpecialInterwikiDispatcher.alias.php
 
 Landing Page
 optional = landingpage-buttons-about-wikia-link, landingpage-buttons-new-look-link, landingpage-buttons-about-make-the-move-link, landingpage-change-back-link
-optional = landingpage-quote-2, landingpage-quote-3, landingpage-language-links
-ignored = landingpage-facebook-link, landingpage-wikia-blog-link, landingpage-twitter-link, landingpage-buttons-new-user-link
+optional = landingpage-language-links, landingpage-buttons-about-wikia-url
+ignored = landingpage-twitter-url, landingpage-facebook-url, landingpage-wikia-blog-url, landingpage-faq-url
+ignored = landingpage-site1-url, landingpage-site2-url, landingpage-site3-url, landingpage-site4-url, landingpage-site5-url
+ignored = landingpage-site1-alt, landingpage-site2-alt, landingpage-site3-alt, landingpage-site4-alt, landingpage-site5-alt
+ignored = landingpage-sites
 
 Link Suggest
 
@@ -126,6 +134,10 @@ New Edit Page
 #New Wiki Builder
 #aliasfile = NewWikiBuilder/NewWikiBuilder.alias.php
 
+Oasis
+optional = oasis-latest-photos-single
+ignored = wiki-navigation, categoryblacklist, photosblacklist
+
 Our 404 Handler
 file = Our404Handler/SpecialOur404Handler.i18n.php
 
@@ -142,6 +154,9 @@ Recipes Tweaks
 
 Related Pages
 descmsg = wikiarelatedpages-desc
+
+Related Video
+file = RelatedVideo/i18n/RelatedVideo.i18n.php
 
 RTE - Base
 file = RTE/i18n/RTE.i18n.php
@@ -201,6 +216,14 @@ Title Edit
 
 Top Lists
 ignored = toplists-msg-fb-OnRateArticle-link, toplists-msg-fb-OnRateArticle
+
+User Profile Page
+optional = recipes-template-skip-toggle-types
+ignored = recipes-template-aboutuser-fields, recipes-template-aboutuser-wikitext
+
+User Rename Tool
+file = UserRenameTool/SpecialRenameuser.i18n.php
+ignored = renameuser, right-renameuser
 
 Video Embed Tool
 

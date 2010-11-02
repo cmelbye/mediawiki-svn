@@ -98,6 +98,13 @@ $messages['arz'] = array(
 	'randomincategory-submit' => 'اذهب',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'randomincategory-label' => 'Катэгорыя:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -674,6 +681,13 @@ $messages['ml'] = array(
 	'randomincategory-submit' => 'പോകൂ',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'randomincategory-submit' => 'Явах',
+);
+
 /** Marathi (मराठी)
  * @author Kaustubh
  */
@@ -1054,8 +1068,10 @@ $messages['ug-latn'] = array(
 
 /** Ukrainian (Українська)
  * @author Prima klasy4na
+ * @author Тест
  */
 $messages['uk'] = array(
+	'randomincategory-toolbox' => 'Випадкова сторінка',
 	'randomincategory-label' => 'Категорія:',
 );
 

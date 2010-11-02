@@ -50,6 +50,13 @@ $messages['az'] = array(
 	'addmediawizard-desc' => 'Kaltura və Vikimedia Fondunun birgə əməkdaşlığı sayəsində hazırlanmış media-fayllar əlavəçisi',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'addmediawizard-desc' => 'Викимедиа Фонды менән Kaltura хеҙмәттәшлеге һөҙөмтәһендә булдырылған медиа өҫтәү ҡоралы.',
+);
+
 /** Belarusian (Беларуская)
  * @author Хомелка
  */
@@ -325,6 +332,13 @@ $messages['lt'] = array(
 	'addmediawizard-desc' => 'Medijos pridėjimo vedlys, sukurtas bendradarbiaujant su Kaltura bei Wikimedia Foundation.',
 );
 
+/** Latvian (Latviešu)
+ * @author Papuass
+ */
+$messages['lv'] = array(
+	'addmediawizard-desc' => 'Multivides pievienošanas vednis, izstrādāts sadarbībā ar Kaltura un Wikimedia Foundation',
+);
+
 /** Malagasy (Malagasy)
  * @author Jagwar
  */
@@ -344,6 +358,13 @@ $messages['mk'] = array(
  */
 $messages['ml'] = array(
 	'addmediawizard-desc' => 'വിക്കിമീഡിയ ഫൗണ്ടേഷനും കൾടറയും പരസ്പരപങ്കാളിത്തത്തോടെ വികസിപ്പിച്ചെടുത്ത മീഡിയാ ചേർക്കൽ സഹായി',
+);
+
+/** Mongolian (Монгол)
+ * @author Namchin
+ */
+$messages['mn'] = array(
+	'addmediawizard-desc' => 'Медиа нэмэх хялбат цонх, Kaltura болон Wikimedia сантай хамтран хөгжүүлэв',
 );
 
 /** Malay (Bahasa Melayu)
@@ -428,6 +449,13 @@ $messages['roa-tara'] = array(
  */
 $messages['ru'] = array(
 	'addmediawizard-desc' => 'Мастер добавления медиа-данных, разработанный при сотрудничестве Kaltura и Фонда Викимедиа',
+);
+
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
+$messages['sk'] = array(
+	'addmediawizard-desc' => 'Sprievodca pridaním multimédií, vyvinutý v partnerstve s Kaltura a Wikimedia Foundation',
 );
 
 /** Slovenian (Slovenščina)

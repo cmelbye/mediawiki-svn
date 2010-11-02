@@ -36,8 +36,6 @@ class SpecialContact extends SpecialPage {
 	public function execute( $par ) {
 		global $wgUser, $wgOut, $wgRequest, $wgEnableEmail, $wgContactUser;
 
-		wfLoadExtensionMessages( 'ContactPage' );
-
 		if( !$wgEnableEmail || !$wgContactUser ) {
 			$wgOut->showErrorPage( 'nosuchspecialpage', 'nospecialpagetext' );
 			return;
@@ -122,7 +120,6 @@ class EmailContactForm {
 	 */
 	function __construct( $target ) {
 		global $wgRequest, $wgUser;
-		global $wgCaptchaClass;
 
 		$this->target = $target;
 		$this->text = $wgRequest->getText( 'wpText' );
@@ -272,7 +269,7 @@ class EmailContactForm {
 					Xml::submitButton( wfMsg( 'emailsend' ), array( 'name' => 'wpSend', 'accesskey' => 's' ) ) .
 				'</td>
 			</tr>' .
-			Xml::hidden( 'wpEditToken', $token ) .
+			Html::hidden( 'wpEditToken', $token ) .
 			Xml::closeElement( 'table' ) .
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' );
@@ -321,8 +318,8 @@ class EmailContactForm {
 
 	function doSubmit() {
 		global $wgOut, $wgUser;
-		global $wgEnableEmail, $wgUserEmailUseReplyTo, $wgPasswordSender;
-		global $wgContactUser, $wgContactSender, $wgContactSenderName, $wgContactIncludeIP;
+		global $wgUserEmailUseReplyTo, $wgPasswordSender;
+		global $wgContactSender, $wgContactSenderName, $wgContactIncludeIP;
 
 		$csender = $wgContactSender ? $wgContactSender : $wgPasswordSender;
 		$cname = $wgContactSenderName;

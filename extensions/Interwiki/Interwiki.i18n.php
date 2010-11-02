@@ -295,6 +295,19 @@ $messages['ar'] = array(
 	'action-interwiki' => 'تغيير مدخلة الإنترويكي هذه',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'interwiki_prefix' => 'ܫܪܘܝܐ',
+	'interwiki-prefix-label' => 'ܫܪܘܝܐ:',
+	'interwiki_1' => 'ܐܝܢ',
+	'interwiki_0' => 'ܠܐ',
+	'interwiki_edit' => 'ܫܚܠܦ',
+	'interwiki_reasonfield' => 'ܥܠܬܐ:',
+	'interwiki_addbutton' => 'ܐܘܣܦ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -387,6 +400,14 @@ Rotir koeon me krulder.',
 	'interwiki_log_edited' => '"$2" abdueosta ($3) (trans: $4) (local: $5) betayana koe \'interwiki\' origak',
 	'interwiki_log_deleted' => '"$2" abdueosta plekuyuna div \'interwiki\' origak',
 	'interwiki_logpagetext' => "Batcoba tir 'log' dem betaks va [[Special:Interwiki|'interwiki' origak]].",
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'interwiki_reasonfield' => 'Прычына:',
+	'interwiki_addbutton' => 'Дадаць',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1025,20 +1046,24 @@ $messages['eu'] = array(
 );
 
 /** Persian (فارسی)
+ * @author Ebraminio
  * @author Huji
  */
 $messages['fa'] = array(
 	'interwiki' => 'نمایش و ویرایش اطلاعات میان‌ویکی',
 	'interwiki-title-norights' => 'مشاهدهٔ اطلاعات میان‌ویکی',
-	'interwiki_intro' => 'برای اطلاعات بیشتر در مورد جدول میان‌ویکی [http://www.mediawiki.org/wiki/Interwiki_table MediaWiki.org] را ببینید.
-[[Special:Log/interwiki|سیاهه‌ای از تغییرات]] جدول میان‌ویکی نیز وجود دارد.',
+	'interwiki-desc' => 'یک [[Special:Interwiki|صفحهٔ ویژه]] برای مشاهده و ویرایش جدول میان‌ویکی می‌افزاید.',
+	'interwiki_intro' => 'قمستی از افزونهٔ میان‌ویکی. به صورت یک مرور کلی در Special:Interwiki نمایش داده شده.',
 	'interwiki_prefix' => 'پیشوند',
 	'interwiki-prefix-label' => 'پیشوند:',
 	'interwiki_local' => 'مشخص کردن به عنوان یک ویکی محلی',
 	'interwiki-local-label' => 'مشخص کردن به عنوان یک ویکی محلی:',
 	'interwiki_trans' => 'اجازهٔ گنجاندن میان‌ویکی را بده',
 	'interwiki-trans-label' => 'اجازهٔ گنجاندن میان‌ویکی را بده:',
+	'interwiki_1' => 'بله',
+	'interwiki_0' => 'خیر',
 	'interwiki_error' => 'خطا: جدول میان‌ویکی خالی است، یا چیز دیگری مشکل دارد.',
+	'interwiki_edit' => 'ویرایش',
 	'interwiki_reasonfield' => 'دلیل:',
 	'interwiki_delquestion' => 'حذف «$1»',
 	'interwiki_deleting' => 'شما در حال حذف کردن پیشوند «$1» هستید.',
@@ -3506,6 +3531,8 @@ $messages['te'] = array(
 	'interwiki-prefix-label' => 'ఉపసర్గ:',
 	'interwiki_local' => 'ముందుకు',
 	'interwiki-local-label' => 'ముందుకు:',
+	'interwiki_intro_footer' => 'అంతర్వికీ పట్టిక గురించిన మరింత సమాచారాన్ని [http://www.mediawiki.org/wiki/Interwiki_table MediaWiki.org]లో చూడండి.
+అంతర్వికీ పట్టికకి జరిగిన [[Special:Log/interwiki|మార్పుల యొక్క చిట్టా]] కూడా ఉంది.',
 	'interwiki_1' => 'అవును',
 	'interwiki_0' => 'కాదు',
 	'interwiki_error' => 'పొరపాటు: అంతర్వికీ పట్టిక ఖాళీగా ఉంది, లేదా ఏదో తప్పు జరిగింది.',

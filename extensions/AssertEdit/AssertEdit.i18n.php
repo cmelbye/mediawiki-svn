@@ -67,6 +67,15 @@ $messages['ast'] = array(
 	'assert_edit_message' => "Falló l'afirmación especificada ($1).",
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'assert_edit_title' => 'Раҫлау хатаһы',
+	'assertedit-desc' => 'Боттар тарафынан ҡулланыу өсөн раҫлауҙар өҫтәй',
+	'assert_edit_message' => 'Күрһәтелгән раҫлауҙа ($1) хата бар.',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -683,6 +692,15 @@ $messages['scn'] = array(
 	'assert_edit_title' => 'Affirmazzioni non arinisciuta',
 	'assertedit-desc' => 'Junci affirmazzionid mudìfica a usu di li bot',
 	'assert_edit_message' => "L'affirmazzioni nnicata ($1) non ariniscìu.",
+);
+
+/** Serbo-Croatian (Srpskohrvatski / Српскохрватски)
+ * @author OC Ripper
+ */
+$messages['sh'] = array(
+	'assert_edit_title' => 'Potvrđivanje nije uspjelo',
+	'assertedit-desc' => 'Dodaje potvrđivanje uređivanja za botove.',
+	'assert_edit_message' => 'Specificirano potvrđivanje ($1) nije uspjelo.',
 );
 
 /** Tachelhit (Tašlḥiyt)

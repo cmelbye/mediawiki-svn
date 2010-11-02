@@ -125,6 +125,15 @@ $messages['ar'] = array(
 	'tooltip-drafts-save' => 'حفظ كمسودة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'drafts-view-article' => 'ܕܦܐ',
+	'drafts-view-saved' => 'ܠܒܟܬ',
+	'drafts-save-saved' => 'ܠܒܟܬ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  * @author Ramsis II
@@ -1210,6 +1219,13 @@ $messages['ml'] = array(
 	'tooltip-drafts-save' => 'കരട് ആയി സേവ് ചെയ്യുക',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'drafts-view-article' => 'Хуудас',
+);
+
 /** Malay (Bahasa Melayu)
  * @author Aviator
  * @author Izzudin
@@ -1541,14 +1557,24 @@ Vreţi să continuaţi?',
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
 	'drafts' => 'Bozze',
+	'drafts-view' => 'ViewDraft',
 	'drafts-view-article' => 'Vosce',
+	'drafts-view-existing' => 'Pruggette esistende',
 	'drafts-view-saved' => 'Reggistrate',
 	'drafts-view-discard' => 'Scitte',
+	'drafts-view-nonesaved' => 'Non ge tène totte le pruggette salvate jndre stù momende.',
+	'drafts-view-notice' => 'Tu tène $1 pè quèste pàgene.',
+	'drafts-view-notice-link' => '$1 {{PLURAL:$1|pruggette|pruggette}}',
+	'drafts-save' => 'Salve quiste cumme bozze',
+	'drafts-save-save' => "Salve 'a bozze",
 	'drafts-save-saved' => 'Reggistrate',
 	'drafts-save-saving' => 'Stoche a reggistre',
+	'drafts-save-error' => "Errore de salvatagge d'u pruggette",
+	'tooltip-drafts-save' => 'Salve cumme bozze',
 );
 
 /** Russian (Русский)
@@ -1583,10 +1609,21 @@ $messages['ru'] = array(
  */
 $messages['rue'] = array(
 	'drafts' => 'Концепты',
+	'drafts-view' => 'Зобразити концепт',
 	'drafts-view-article' => 'Сторінка',
+	'drafts-view-existing' => 'Єстуючі концепты',
 	'drafts-view-saved' => 'Уложене',
 	'drafts-view-discard' => 'Змазати',
+	'drafts-view-nonesaved' => 'Моментално не маєте уложены жадны концепты',
+	'drafts-view-notice' => 'Маєте $1 той сторінкы.',
+	'drafts-view-notice-link' => '$1 {{plural:$1|концепт|концепты|концептів}}',
+	'drafts-view-warn' => 'Кідь одыйдете з той сторінкы, стратите вшыткы уложены зміны той сторінкы. Хочете продовжыти?',
+	'drafts-save' => 'Уложыти тоту верзію як концепт',
+	'drafts-save-save' => 'Уложыти концепт',
 	'drafts-save-saved' => 'Уложене',
+	'drafts-save-saving' => 'Укладать ся',
+	'drafts-save-error' => 'Хыба почас укладаня концепту',
+	'tooltip-drafts-save' => 'Уложыти як концепт',
 );
 
 /** Yakut (Саха тыла)
@@ -1766,6 +1803,8 @@ $messages['te'] = array(
 	'drafts-view-notice-link' => '$1 {{PLURAL:$1|చిత్తుప్రతి ఉంది|చిత్తుప్రతులు ఉన్నాయి}}',
 	'drafts-view-warn' => 'మీ పేజీని వదిలివెళ్ళడం ద్వారా ఈ పేజీలోని భద్రపరచని అన్ని మార్పులనీ కోల్పోతారు.
 అయినా మీరు కొనసాగాలనుకుంటున్నరా?',
+	'drafts-save' => 'దీన్ని చిత్తుప్రతిగా భద్రపరచు',
+	'drafts-save-save' => 'చిత్తుప్రతిని భద్రపరచు',
 	'drafts-save-saved' => 'భద్రమయ్యింది',
 );
 
@@ -1970,6 +2009,7 @@ $messages['yi'] = array(
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Chenxiaoqino
  * @author Gzdavidwong
+ * @author Hydra
  * @author Wmr89502270
  */
 $messages['zh-hans'] = array(
@@ -1982,6 +2022,8 @@ $messages['zh-hans'] = array(
 	'drafts-view-nonesaved' => '您还没有任何已保存的草稿。',
 	'drafts-view-notice' => '您有$1供此页。',
 	'drafts-view-notice-link' => '草稿',
+	'drafts-view-warn' => '如果你离开这页，你将会失去你的更改。
+你想继续吗？',
 	'drafts-save' => '把此页面以草稿形式保存',
 	'drafts-save-save' => '保存草稿',
 	'drafts-save-saved' => '已保存',

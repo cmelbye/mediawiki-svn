@@ -208,7 +208,7 @@ class ReaderFeedback {
 				$votes[$tag] = array( 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0 );
 			}
 			// Read votes and tally the numbers
-			while( $row = $dbr->fetchObject($res) ) {
+			foreach ( $res as $row ) {
 				$dims = ReaderFeedback::expandRatings( $row->rfb_ratings );
 				foreach( $dims as $tag => $val ) {
 					if( isset($votes[$tag]) && isset($votes[$tag][$val]) ) {
@@ -240,7 +240,7 @@ class ReaderFeedback {
 				'<sup>('.wfMsgHtml('ratinghistory-ave',$wgLang->formatNum($ave)).')</sup></td>';
 		}
 		$html .= '</tr><tr>';
-		foreach( $votes as $tag => $dist ) {
+		foreach( $votes as $dist ) {
 			$html .= '<td><table>';
 			$html .= '<tr><th align="left">'.wfMsgHtml('ratinghistory-table-rating').'</th>';
 			for( $i = 1; $i <= 5; $i++ ) {

@@ -275,6 +275,8 @@ abstract class SMMapPrinter extends SMWResultPrinter implements iMappingFeature 
 			
 			if ( !$markerData ) continue;
 			
+			$markerData = array( $markerData['lat'], $markerData['lon'] );
+			
 			if ( count( $location ) > 0 ) {
 				// Parse and add the point specific title if it's present.
 				$markerData['title'] = $parser->parse( $location[0], $wgTitle, new ParserOptions() )->getText();
@@ -356,7 +358,9 @@ abstract class SMMapPrinter extends SMWResultPrinter implements iMappingFeature 
 						}
 					}
 					else {
-						$text .= $pr->getHTMLText( $skin ) . ': ' . $object->getLongText( $outputmode, $skin ) . '<br />';
+						$propertyName = $pr->getHTMLText( $skin );
+						if ( $propertyName != '' ) $propertyName .= ': ';
+						$text .= $propertyName . $object->getLongText( $outputmode, $skin ) . '<br />';
 					}
 				}
 		

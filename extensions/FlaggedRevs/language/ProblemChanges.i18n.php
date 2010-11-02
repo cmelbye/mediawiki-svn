@@ -45,6 +45,13 @@ $messages['ar'] = array(
 	'problemchanges-category' => 'التصنيف:',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'problemchanges-category' => 'ܣܕܪܐ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -650,7 +657,7 @@ $messages['sc'] = array(
  * @author Helix84
  */
 $messages['sk'] = array(
-	'problemchanges' => 'Skontrolovať označené zmeny',
+	'problemchanges' => 'Označené čakajúce zmeny',
 	'problemchanges-legend' => 'Vypísať zoznam stránok s označenými úpravami čakajúcimi na kontrolu',
 	'problemchanges-none' => 'Momentálne neexistujú žiadne stránky zodpovedajúce týmto požiadavkám',
 	'problemchanges-category' => 'Kategória:',
@@ -660,6 +667,9 @@ $messages['sk'] = array(
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'problemchanges' => 'Označene spremembe v teku',
+	'problemchanges-legend' => 'Navaja označene strani, ki čakajo na pregled sprememb',
+	'problemchanges-none' => 'Trenutno ni nobene strani, ki bi ustrezala izbranim merilom',
 	'problemchanges-category' => 'Kategorija:',
 );
 

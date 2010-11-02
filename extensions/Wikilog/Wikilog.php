@@ -82,6 +82,7 @@ $wgAutoloadClasses += array(
 	// WikilogParser.php
 	'WikilogParser'             => $dir . 'WikilogParser.php',
 	'WikilogParserOutput'       => $dir . 'WikilogParser.php',
+	'WikilogParserCache'        => $dir . 'WikilogParser.php',
 
 	// WikilogItemPager.php
 	'WikilogItemPager'          => $dir . 'WikilogItemPager.php',
@@ -156,12 +157,6 @@ $wgHooks['ParserAfterTidy'][] = 'WikilogParser::AfterTidy';
 $wgHooks['InternalParseBeforeLinks'][] = 'WikilogParser::InternalParseBeforeLinks';
 $wgHooks['GetLocalURL'][] = 'WikilogParser::GetLocalURL';
 $wgHooks['GetFullURL'][] = 'WikilogParser::GetFullURL';
-
-if ( !defined( 'MW_SUPPORTS_LOCALISATIONCACHE' ) ) {
-	/* pre Mw1.16 compatibility */
-	$wgHooks['LanguageGetMagic'][] = 'WikilogHooks::LanguageGetMagic';
-	$wgHooks['LanguageGetSpecialPageAliases'][] = 'WikilogHooks::LanguageGetSpecialPageAliases';
-}
 
 /*
  * Added rights.

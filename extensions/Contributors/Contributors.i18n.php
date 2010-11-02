@@ -108,11 +108,17 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
 	'contributors' => 'ܫܘܬܦܢ̈ܐ',
+	'contributors-toolbox' => 'ܫܘܬܦܢ̈ܐ ܪ̈ܫܝܐ',
+	'contributors-target' => 'ܟܘܢܝܐ:',
 	'contributors-submit' => 'ܚܘܝ',
+	'contributors-subtitle' => 'ܫܘܬܦܢ̈ܐ ܪ̈ܫܝܐ ܒ $1',
 	'contributors-others' => 'ܘ {{PLURAL:$1|ܚܕ ܐܚܪܢܐ|$1 ܐܚܪ̈ܢܐ}}',
+	'contributors-badtitle' => 'ܟܘܢܝܐ ܠܐ ܬܪܝܨܐ.',
+	'contributors-nosuchpage' => 'ܦܐܬܐ ܗܕܐ ܕ$1 ܠܝܬ.',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -146,6 +152,23 @@ $messages['avk'] = array(
 	'contributors-others' => 'is $1 ar',
 	'contributors-badtitle' => 'Vergumveltaj.',
 	'contributors-nosuchpage' => '$1 bu me tir.',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'contributors' => 'Өлөш индереүселәр',
+	'contributors-desc' => 'Биткә төп өлөш индереүселәрҙе билдәләй',
+	'contributors-toolbox' => 'Төп өлөш индереүселәр',
+	'contributors-legend' => 'Биткә төп өлөш индереүселәр исемлеге',
+	'contributors-target' => 'Исем:',
+	'contributors-submit' => 'Күрһәтергә',
+	'contributors-subtitle' => '$1 битенә төп өлөш индереүселәр',
+	'contributors-others-long' => 'Был биткә тағы $1 {{PLURAL:$1|өлөш индереүсе}} бар.',
+	'contributors-others' => 'һәм {{PLURAL:тағы}} $1',
+	'contributors-badtitle' => 'Исем дөрөҫ түгел.',
+	'contributors-nosuchpage' => '$1 бите юҡ.',
 );
 
 /** Bikol Central (Bikol Central)
@@ -989,6 +1012,7 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -999,8 +1023,8 @@ $messages['ml'] = array(
 	'contributors-target' => 'ശീർഷകം:',
 	'contributors-submit' => 'പ്രദർശിപ്പിക്കുക',
 	'contributors-subtitle' => '$1ലെ മുഖ്യ സംഭാവക്കാർ',
-	'contributors-others-long' => 'ഈ താളിനു $1 മറ്റു സംഭാവക്കാർ കൂടിയുണ്ട്.',
-	'contributors-others' => '$1 മറ്റുള്ളവർ',
+	'contributors-others-long' => 'ഈ താളിനു {{PLURAL:$1|മറ്റൊരു സംഭാവകൻ|മറ്റ് $1 സംഭാവകർ}} ഉണ്ട്.',
+	'contributors-others' => 'ഒപ്പം {{PLURAL:$1|മറ്റൊരാൾ|$1 മറ്റുള്ളവർ}}',
 	'contributors-badtitle' => 'അസാധുവായ ശീർഷകം.',
 	'contributors-nosuchpage' => '$1 എന്ന താൾ നിലവിലില്ല.',
 );

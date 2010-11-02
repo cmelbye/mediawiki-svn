@@ -300,6 +300,13 @@ $messages['frp'] = array(
 	'searchbox-namespaces' => 'Èspâços de noms :',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'searchbox-search' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -463,6 +470,13 @@ $messages['ka'] = array(
 	'searchbox-namespaces' => 'სახელთა სივრცეები:',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'searchbox-search' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Lovekhmer
  * @author គីមស៊្រុន
@@ -542,6 +556,7 @@ $messages['mk'] = array(
  */
 $messages['mn'] = array(
 	'searchbox-search' => 'Хайлт',
+	'searchbox-go' => 'Явах',
 	'searchbox-namespaces' => 'Нэрний зайнууд:',
 );
 
@@ -857,6 +872,14 @@ $messages['tl'] = array(
 	'searchbox-namespaces' => 'Mga espasyo ng pangalan:',
 );
 
+/** Tok Pisin (Tok Pisin)
+ * @author Iketsi
+ */
+$messages['tpi'] = array(
+	'searchbox-search' => 'Painim',
+	'searchbox-go' => 'Go',
+);
+
 /** Turkish (Türkçe)
  * @author Joseph
  * @author Karduelis
@@ -886,6 +909,8 @@ $messages['ug-latn'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'searchbox-desc' => 'Дозволити включення пошукових форм',
+	'searchbox-search' => 'Пошук',
 	'searchbox-namespaces' => 'Простори назв:',
 );
 

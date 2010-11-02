@@ -64,6 +64,45 @@ $messages['ar'] = array(
 	'approvedrevs-approvedpages-docu' => 'صفحات الويكي التالية لها مراجعات موافق عليها.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'approvedrevs-approve' => 'ܩܘܒܠܐ',
+	'approvedrevs-unapprove' => 'ܠܐ ܩܘܒܠܐ',
+	'approvedpages' => 'ܕܦ̈ܐ ܩܒܝܠ̈ܐ',
+	'unapprovedpages' => 'ܕܦ̈ܐ ܠܐ ܩܒܝܠ̈ܐ',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'approvedrevs-desc' => 'Биттең бер өлгөһөн раҫланған тип билдәләү',
+	'approvedrevs-logname' => 'Өлгөләрҙе раҫлау яҙмалары журналы',
+	'approvedrevs-logdesc' => 'Был — биттәрҙең раҫланған өлгөләре журналы.',
+	'approvedrevs-approve' => 'раҫларға',
+	'approvedrevs-unapprove' => 'раҫлауҙы алырға',
+	'approvedrevs-approvesuccess' => 'Биттең был өлгөһө раҫланған тип билдәләнде.',
+	'approvedrevs-unapprovesuccess' => 'Был биттең раҫланған өлгөһө юҡ.
+Уның урынына һуңғы өлгө күрһәтеләсәк.',
+	'approvedrevs-unapprovesuccess2' => 'Был биттең башҡа раҫланған өлгөһө юҡ.
+Уның урынына буш бит күрһәтеләсәк.',
+	'approvedrevs-approveaction' => '$2 өлгөһөн "[[$1]]" битенең раҫланған өлгөһө тип билдәләргә',
+	'approvedrevs-unapproveaction' => '"[[$1]]" битенең раҫланған өлгөһөнөң раҫланыуын алырға',
+	'approvedrevs-notlatest' => 'Был — биттең раҫланған өлгөһө. Яңыраҡ өлгөләр бар.',
+	'approvedrevs-approvedandlatest' => 'Был — биттең раҫланған өлгөһө, ул — шулай уҡ биттең яңы өлгөһө.',
+	'approvedrevs-viewlatest' => 'Һуңғы өлгөнө ҡарарға.',
+	'approvedrevs-blankpageshown' => 'Был бит өсөн раҫланған өлгөләр юҡ.',
+	'approvedrevs-editwarning' => 'Зинһар, иғтибар итегеҙ, һеҙ хәҙер был биттең һуңғы өлгөһөн мөхәррирләйһегеҙ, әммә ул күрһәтелмәй, сөнки ул раҫланмаған.',
+	'approvedpages' => 'Раҫланған биттәр',
+	'approvedrevs-approvedpages-docu' => 'Түбәндә раҫланған өлгөләре булған биттәр исемлеге килтерлгән.',
+	'unapprovedpages' => 'Раҫланмаған биттәр',
+	'approvedrevs-unapprovedpages-docu' => 'Түбәндә раҫланған өлгөләре булмаған биттәр исемлеге килтерлгән.',
+	'right-approverevisions' => 'Вики-биттәрҙең ҡайһы бер өлгөләрен раҫланған тип билдәләү',
+	'right-viewlinktolatest' => 'Раҫланған өлгөләре булған биттәрҙең өҫкө өлөшөндә аңлатманы ҡарау',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -189,6 +228,13 @@ Stattdessen wird eine leere Seite angezeigt.',
 	'right-viewlinktolatest' => 'Erläuternde Hinweise im Kopf der Seiten anzeigen, die eine bestätigte Version haben.',
 );
 
+/** German (formal address) (Deutsch (Sie-Form))
+ * @author Kghbln
+ */
+$messages['de-formal'] = array(
+	'approvedrevs-editwarning' => 'Beachten Sie bitte, dass Sie gerade die neueste Version dieser Seite bearbeiten. Sie entspricht nicht der bestätigten Version, die standardmäßig angezeigt wird.',
+);
+
 /** Lower Sorbian (Dolnoserbski)
  * @author Michawiki
  */
@@ -230,6 +276,29 @@ $messages['el'] = array(
 	'approvedpages' => 'Εγκεκριμένες σελίδες',
 	'approvedrevs-approvedpages-docu' => 'Οι ακόλουθες σελίδες είναι αυτές που έχουν εγκεκριμένη αναθεώρηση σε αυτό το βίκι.',
 	'right-viewlinktolatest' => 'Προβολή επεξηγηματικού κειμένου στο επάνω μέρος των σελίδων που έχουν εγκεκριμένη αναθεώρηση',
+);
+
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'approvedrevs-logname' => 'Protokolo pri aprobado de revizioj',
+	'approvedrevs-logdesc' => 'Jen protokolo de revizioj aprobitaj.',
+	'approvedrevs-approve' => 'aprobi',
+	'approvedrevs-unapprove' => 'malaprobi',
+	'approvedrevs-approvesuccess' => 'Ĉi tiu revizio de la paĝo estis aprobita kiel la aprobita versio.',
+	'approvedrevs-unapprovesuccess' => 'Ne plu estas aprobita versio por ĉi tiu paĝo.
+Anstataŭe, la plej lasta revizio estos montrita.',
+	'approvedrevs-unapprovesuccess2' => 'Ne plu estas aprobita verzio de ĉi tiu paĝo.
+Anstataŭe, nula paĝo estos montrita.',
+	'approvedrevs-approveaction' => 'Establi $2 kiel la aprobita revizio por "[[$1]]"',
+	'approvedrevs-unapproveaction' => 'malestabli apbrobitan revizion por "[[$1]]"',
+	'approvedrevs-notlatest' => 'Jen la aprobita revizio de ĉi tiu paĝo; ĝi ne estas la plej lastatempa.',
+	'approvedrevs-approvedandlatest' => 'Jen la aprobita revizio de ĉi tiu paĝo, kaj ankaŭ estis la plej lastatempa.',
+	'approvedpages' => 'Aprobitaj paĝoj',
+	'approvedrevs-approvedpages-docu' => 'Jen paĝoj en la vikio kiu havas aprobitan revizion.',
+	'unapprovedpages' => 'Malaprobitaj paĝoj',
+	'approvedrevs-unapprovedpages-docu' => 'Jen paĝoj en la vikio tiu ne havas aprobitan revizion.',
 );
 
 /** Spanish (Español)
@@ -378,6 +447,7 @@ Statt däm wird e lääri Syte aazeigt.',
 	'approvedrevs-approvedandlatest' => 'Des isch di aagluegt Version vu däre Syte un au di nejscht.',
 	'approvedrevs-viewlatest' => 'Di nejscht Version aaluege.',
 	'approvedrevs-blankpageshown' => 'Kei Version vu däre Syte isch bishär bstetigt wore.',
+	'approvedrevs-editwarning' => 'Bitte gib Acht, ass Du grad an dr nejschte Version vu däre Syte schaffsch. Des isch nit di bstetigt Version, wu standardmäßig aazeigt wird.',
 	'approvedpages' => 'Aagluegti Syte',
 	'approvedrevs-approvedpages-docu' => 'Des sin d Syte, wu s e aagluegti Version het.',
 	'unapprovedpages' => 'Nit bstetigti Syte',
@@ -571,6 +641,35 @@ $messages['mk'] = array(
 	'approvedrevs-unapprovedpages-docu' => 'Ова се страници на викито што немаат одобрена ревизија.',
 	'right-approverevisions' => 'Поставете извесна ревизија на вики-страница како одобрена',
 	'right-viewlinktolatest' => 'Погледајте го објаснувањето на врвот од страниците што имаат одобрена верзија',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'approvedrevs-desc' => 'ഒരു താളിന്റെ ഒരൊറ്റ നാൾപ്പതിപ്പ് അംഗീകരിച്ചതായി സജ്ജീകരിക്കുക',
+	'approvedrevs-logname' => 'നാൾപ്പതിപ്പ് അംഗീകരണ രേഖ',
+	'approvedrevs-logdesc' => 'ഇത് നാൾപ്പതിപ്പുകൾ അംഗീകരിച്ചതിന്റെ രേഖയാണ്.',
+	'approvedrevs-approve' => 'അംഗീകരിക്കുക',
+	'approvedrevs-unapprove' => 'അംഗീകാരം നീക്കുക',
+	'approvedrevs-approvesuccess' => 'താളിന്റെ ഈ നാൾപ്പതിപ്പ് അംഗീകരിച്ച പതിപ്പായി സജ്ജീകരിച്ചിരിക്കുന്നു.',
+	'approvedrevs-unapprovesuccess' => 'ഈ താളിൽ അംഗീകരിച്ച പതിപ്പ് ഇല്ല.
+പകരം, ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് പ്രദർശിപ്പിക്കുന്നു.',
+	'approvedrevs-unapprovesuccess2' => 'ഈ താളിന് അംഗീകരിച്ച പതിപ്പ് ഇല്ല.
+പകരം, ശൂന്യമായ താൾ പ്രദർശിപ്പിക്കുന്നു.',
+	'approvedrevs-approveaction' => '"[[$1]]" താളിന്റെ അംഗീകരിച്ച പതിപ്പായി $2 സജ്ജീകരിക്കുക',
+	'approvedrevs-unapproveaction' => '"[[$1]]" എന്നതിന്റെ അംഗീകൃത നാൾപ്പതിപ്പ് സജ്ജീകരണം നീക്കുക',
+	'approvedrevs-notlatest' => 'ഇത് ഈ താളിന്റെ അംഗീകരിച്ച നാൾപ്പതിപ്പ് ആണ്; ഇത് ഏറ്റവും പുതിയത് അല്ല.',
+	'approvedrevs-approvedandlatest' => 'ഇത് ഈ താളിന്റെ അംഗീകരിച്ച പതിപ്പ് ആണ്, അതേ പോലെ ഏറ്റവും പുതിയതുമാണ്.',
+	'approvedrevs-viewlatest' => 'ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് കാണുക.',
+	'approvedrevs-blankpageshown' => 'ഈ താളിന്റെ ഒരു നാൾപ്പതിപ്പും അംഗീകരിച്ചിട്ടില്ല.',
+	'approvedrevs-editwarning' => 'ഈ താളിന്റെ ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് അല്ല താങ്കൾ തിരുത്തുന്നതെന്ന് ശ്രദ്ധിക്കുക, അത് സ്വതേ പ്രദർശിപ്പിച്ചിരിക്കുന്ന പതിപ്പ് അല്ല.',
+	'approvedpages' => 'അംഗീകരിച്ച താളുകൾ',
+	'approvedrevs-approvedpages-docu' => 'വിക്കിയിലെ താഴെ കൊടുത്തിരിക്കുന്ന താളുകൾക്ക് അംഗീകരിച്ച നാൾപ്പതിപ്പ് ഉണ്ട്.',
+	'unapprovedpages' => 'അംഗീകരിച്ചിട്ടില്ലാത്ത താളുകൾ',
+	'approvedrevs-unapprovedpages-docu' => 'വിക്കിയിലെ താഴെ കൊടുത്തിരിക്കുന്ന താളുകൾക്ക് അംഗീകരിച്ച നാൾപ്പതിപ്പ് ഇല്ല.',
+	'right-approverevisions' => 'വിക്കി താളിന്റെ ഒരു പ്രത്യേക നാൾപ്പതിപ്പ് അംഗീകരിച്ചതായി സജ്ജീകരിക്കുക',
+	'right-viewlinktolatest' => 'അംഗീകരിച്ച നാൾപ്പതിപ്പുള്ള താളുകളുടെ മുകളിലായി ഒരു വിശദീകരണ കുറിപ്പ് പ്രദർശിപ്പിക്കുക',
 );
 
 /** Dutch (Nederlands)
@@ -794,6 +893,13 @@ $messages['ru'] = array(
 	'right-viewlinktolatest' => 'просмотр пояснительного текста в верхней части страниц, имеющих утверждённые версии',
 );
 
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
+$messages['sk'] = array(
+	'approvedrevs-desc' => 'Stanoviť jedinú revíziu stránky ako schválenú',
+);
+
 /** Swedish (Svenska)
  * @author Ainali
  * @author Cohan
@@ -936,5 +1042,13 @@ $messages['vi'] = array(
 	'approvedpages' => 'Các trang đã chấp nhận',
 	'right-approverevisions' => 'Đặt một phiên bản của trang wiki là phiên bản chấp nhận',
 	'right-viewlinktolatest' => 'Xem văn bản giải thích ở đầu các trang có phiên bản chấp nhận',
+);
+
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
+ */
+$messages['zh-hans'] = array(
+	'approvedpages' => '被批准的页面',
+	'unapprovedpages' => '不备批准的页面',
 );
 

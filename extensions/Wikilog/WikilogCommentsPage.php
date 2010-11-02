@@ -29,6 +29,12 @@
 if ( !defined( 'MEDIAWIKI' ) )
 	die();
 
+# NOTE (Mw1.16- COMPAT): GAID_FOR_UPDATE removed and replaced by
+# Title::GAID_FOR_UPDATE in Mw1.17. Remove this define and replace its
+# occurrence WikilogCommentsPage::setCommentApproval() in Wl1.3.
+if ( !defined( 'GAID_FOR_UPDATE' ) )
+	define( 'GAID_FOR_UPDATE', Title::GAID_FOR_UPDATE );
+
 /**
  * Wikilog comments namespace handler class.
  *
@@ -72,7 +78,6 @@ class WikilogCommentsPage
 		global $wgUser, $wgRequest;
 
 		parent::__construct( $title );
-		wfLoadExtensionMessages( 'Wikilog' );
 
 		# Check if user can post.
 		$this->mUserCanPost = $wgUser->isAllowed( 'wl-postcomment' ) ||
@@ -314,10 +319,10 @@ class WikilogCommentsPage
 		}
 
 		$form =
-			Xml::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
-			Xml::hidden( 'action', 'wikilog' ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
-			( $parent ? Xml::hidden( 'wlParent', $parent->mID ) : '' );
+			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
+			Html::hidden( 'action', 'wikilog' ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			( $parent ? Html::hidden( 'wlParent', $parent->mID ) : '' );
 
 		$fields = array();
 
@@ -364,7 +369,7 @@ class WikilogCommentsPage
 		$form .= WikilogUtils::buildForm( $fields );
 
 		foreach ( $opts->getUnconsumedValues() as $key => $value ) {
-			$form .= Xml::hidden( $key, $value );
+			$form .= Html::hidden( $key, $value );
 		}
 
 		$form = Xml::tags( 'form', array(
@@ -377,6 +382,10 @@ class WikilogCommentsPage
 			array( 'id' => 'wl-comment-form' ) ) . "\n";
 	}
 
+	/**
+	 * @todo (In Wikilog 1.3.x) Replace GAID_FOR_UPDATE with
+	 *    Title::GAID_FOR_UPDATE.
+	 */
 	protected function setCommentApproval( $comment, $approval ) {
 		global $wgOut, $wgUser;
 
@@ -399,7 +408,7 @@ class WikilogCommentsPage
 				array( 'content', 'parsemag' ),
 				$comment->mUserText
 			);
-			$id = $title->getArticleID( Title::GAID_FOR_UPDATE );
+			$id = $title->getArticleID( GAID_FOR_UPDATE );
 			if ( $this->doDeleteArticle( $reason, false, $id ) ) {
 				$comment->deleteComment();
 				$log->addEntry( 'c-reject', $title, '' );

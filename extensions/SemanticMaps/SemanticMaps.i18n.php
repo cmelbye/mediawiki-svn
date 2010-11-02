@@ -483,6 +483,7 @@ $messages['hsb'] = array(
 );
 
 /** Hungarian (Magyar)
+ * @author Dani
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
@@ -491,13 +492,15 @@ Elérhető térképszolgáltatók: $1',
 	'semanticmaps_lookupcoordinates' => 'Koordináták felkeresése',
 	'semanticmaps_enteraddresshere' => 'Add meg a címet itt',
 	'semanticmaps_notfound' => 'nincs találat',
+	'semanticmaps_paramdesc_format' => 'A térkép generálásához használt térképszolgáltatás.',
 	'semanticmaps_paramdesc_height' => 'A térkép magassága, képpontban (alapértelmezetten $1)',
 	'semanticmaps_paramdesc_width' => 'A térkép szélessége, képpontban (alapértelmezetten $1)',
 	'semanticmaps_paramdesc_zoom' => 'A térkép nagyítása',
 	'semanticmaps_paramdesc_centre' => 'A térkép középpontjának koordinátái',
 	'semanticmaps_paramdesc_types' => 'A térképen elérhető térképtípusok',
 	'semanticmaps_paramdesc_type' => 'A térkép alapértelmezett térképtípusa',
-	'semanticmaps_paramdesc_layers' => 'A térképen elérhető rétegek',
+	'semanticmaps_paramdesc_overlays' => 'A térképen lévő rétegek',
+	'semanticmaps_paramdesc_layers' => 'A térképen lévő rétegek',
 );
 
 /** Interlingua (Interlingua)
@@ -669,6 +672,14 @@ $messages['mk'] = array(
 	'semanticmaps_paramdesc_overlays' => 'Достапните облоги за картата',
 	'semanticmaps_paramdesc_autozoom' => 'Ако е овозможено приближување и оддалечување со тркалцето на глушецот',
 	'semanticmaps_paramdesc_layers' => 'Слоевите достапни на картата',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'semanticmaps_enteraddresshere' => 'വിലാസം നൽകുക',
+	'semanticmaps_notfound' => 'കണ്ടെത്താനായില്ല',
 );
 
 /** Dutch (Nederlands)
@@ -969,6 +980,7 @@ Tillgängliga karttjänster: $1',
  * @author Veeven
  */
 $messages['te'] = array(
+	'semanticmaps_enteraddresshere' => 'చిరునామాని ఇక్కడ ఇవ్వండి',
 	'semanticmaps_notfound' => 'కనబడలేదు',
 );
 

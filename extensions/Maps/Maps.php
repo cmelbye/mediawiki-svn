@@ -36,7 +36,7 @@ if ( ! defined( 'Validator_VERSION' ) ) {
 	echo '<b>Warning:</b> You need to have <a href="http://www.mediawiki.org/wiki/Extension:Validator">Validator</a> installed in order to use <a href="http://www.mediawiki.org/wiki/Extension:Maps">Maps</a>.';
 }
 else {
-	define( 'Maps_VERSION', '0.7.2 alpha' );
+	define( 'Maps_VERSION', '0.7.2' );
 
 	// The different coordinate notations.
 	define( 'Maps_COORDS_FLOAT', 'float' );
@@ -63,6 +63,7 @@ else {
 	$wgAutoloadClasses['MapsGeocoder'] 				= $incDir . 'Maps_Geocoder.php';
 	$wgAutoloadClasses['MapsLayer'] 				= $incDir . 'Maps_Layer.php';
 	$wgAutoloadClasses['MapsLayerPage'] 			= $incDir . 'Maps_LayerPage.php';
+	$wgAutoloadClasses['MapsLayers'] 				= $incDir . 'Maps_Layers.php';
 	$wgAutoloadClasses['iMappingFeature'] 			= $incDir . 'iMappingFeature.php';
 	$wgAutoloadClasses['iMappingService'] 			= $incDir . 'iMappingService.php';
 	$wgAutoloadClasses['MapsMappingServices'] 		= $incDir . 'Maps_MappingServices.php';
@@ -74,6 +75,7 @@ else {
 	$wgAutoloadClasses['CriterionIsImage'] 			= $criDir . 'CriterionIsImage.php';
 	$wgAutoloadClasses['CriterionIsLocation'] 		= $criDir . 'CriterionIsLocation.php';
 	$wgAutoloadClasses['CriterionMapDimension'] 	= $criDir . 'CriterionMapDimension.php';
+	$wgAutoloadClasses['CriterionMapLayer'] 		= $criDir . 'CriterionMapLayer.php';
 	
 	// Autoload the "includes/features/" classes.
 	$ftDir = $incDir . '/features/';
@@ -86,11 +88,17 @@ else {
 	$wgAutoloadClasses['MapsGoogleGeocoder'] 		= $geoDir . 'Maps_GoogleGeocoder.php';
 	$wgAutoloadClasses['MapsYahooGeocoder'] 		= $geoDir . 'Maps_YahooGeocoder.php';
 	
+	// Autoload the "includes/layers/" classes.
+	$lyrDir = $incDir . 'layers/';
+	$wgAutoloadClasses['MapsImageLayer'] 			= $lyrDir . 'Maps_ImageLayer.php';
+	$wgAutoloadClasses['MapsKMLLayer'] 				= $lyrDir . 'Maps_KMLLayer.php';
+	
 	// Autoload the "includes/manipulations/" classes.
 	$manDir = $incDir . 'manipulations/';
 	$wgAutoloadClasses['MapsParamCoordSet'] 		= $manDir . 'Maps_ParamCoordSet.php';
 	$wgAutoloadClasses['MapsParamDimension'] 		= $manDir . 'Maps_ParamDimension.php';
 	$wgAutoloadClasses['MapsParamImage'] 			= $manDir . 'Maps_ParamImage.php';
+	$wgAutoloadClasses['MapsParamLocation'] 		= $manDir . 'Maps_ParamLocation.php';
 	$wgAutoloadClasses['MapsParamService'] 			= $manDir . 'Maps_ParamService.php';
 	$wgAutoloadClasses['MapsParamZoom'] 			= $manDir . 'Maps_ParamZoom.php';
 	
@@ -184,7 +192,7 @@ function efMapsSetup() {
 		'version' => Maps_VERSION,
 		'author' => array(
 			'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]',
-			'[http://www.mediawiki.org/wiki/Extension:Maps/Credits others]'
+			'[http://www.mediawiki.org/wiki/Extension:Maps/Credits ' . wfMsg( 'maps-others' ) . ']'
 		),
 		'url' => 'http://www.mediawiki.org/wiki/Extension:Maps',
 		'description' => wfMsgExt( 'maps_desc', 'parsemag', $servicesList ),

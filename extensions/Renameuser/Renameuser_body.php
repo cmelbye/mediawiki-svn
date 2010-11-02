@@ -4,9 +4,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit( 1 );
 }
 
-# Add messages
-wfLoadExtensionMessages( 'Renameuser' );
-
 /**
  * Special page allows authorised users to rename
  * user accounts
@@ -163,7 +160,7 @@ class SpecialRenameuser extends SpecialPage {
 			</tr>" .
 			Xml::closeElement( 'table' ) .
 			Xml::closeElement( 'fieldset' ) .
-			Xml::hidden( 'token', $token ) .
+			Html::hidden( 'token', $token ) .
 			Xml::closeElement( 'form' ) . "\n"
 		);
 
@@ -314,7 +311,7 @@ class SpecialRenameuser extends SpecialPage {
 
 			$output = '';
 			$skin = $wgUser->getSkin();
-			while ( $row = $dbr->fetchObject( $pages ) ) {
+			foreach ( $pages as $row ) {
 				$oldPage = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
 				$newPage = Title::makeTitleSafe( $row->page_namespace,
 					preg_replace( '!^[^/]+!', $newusername->getDBkey(), $row->page_title ) );
@@ -500,7 +497,7 @@ class RenameuserSQL {
 			$timestampC = $params[2]; // some *_timestamp column
 
 			$res = $dbw->select( $table,
-				array( $userTextC, $timestampC ),
+				array( $timestampC ),
 				array( $userTextC => $this->old, $userIDC => $this->uid ),
 				__METHOD__,
 				array( 'ORDER BY' => "$timestampC ASC" )

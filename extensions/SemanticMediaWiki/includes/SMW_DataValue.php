@@ -398,31 +398,12 @@ abstract class SMWDataValue {
 	 * @param string $comparator
 	 */
 	static protected function prepareValue( &$value, &$comparator ) {
-		global $smwgQComparators;
-
-		$list = preg_split( '/^(' . $smwgQComparators . ')/u', $value, 2, PREG_SPLIT_DELIM_CAPTURE );
-		$comparator = SMW_CMP_EQ;
-
-		if ( count( $list ) == 3 ) { // Initial comparator found ($list[0] should be empty).
-			$value = $list[2];
-
-			switch ( $list[1] ) {
-				case '<':
-					$comparator = SMW_CMP_LEQ;
-					break;
-				case '>':
-					$comparator = SMW_CMP_GEQ;
-					break;
-				case '!':
-					$comparator = SMW_CMP_NEQ;
-					break;
-				case '~':
-					$comparator = SMW_CMP_LIKE;
-					break;
-				case '!~':
-					$comparator = SMW_CMP_NLKE;
-					break;
-				// default: not possible
+		// Loop over the comparators to determine which one is used and what the actual value is. 
+		foreach ( SMWQueryLanguage::getComparatorStrings() as $srting ) {
+			if ( strpos( $value, $srting ) === 0 ) {
+				$comparator = SMWQueryLanguage::getComparatorFromString( substr( $value, 0, strlen( $srting ) ) );
+				$value = substr( $value, strlen( $srting ) );
+				break;
 			}
 		}
 	}

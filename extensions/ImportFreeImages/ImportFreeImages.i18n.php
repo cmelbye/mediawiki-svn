@@ -38,6 +38,7 @@ $messages['qqq'] = array(
 	'importfreeimages-desc' => '{{desc}}',
 	'importfreeimages_owner' => '{{Identical|Author}}',
 	'importfreeimages_next' => '{{Identical|Next $1}}',
+	'importfreeimages_size_thumbnail' => '{{Identical|Thumbnail}}',
 	'importfreeimages_size_small' => '{{Identical|Small}}',
 	'importfreeimages_size_medium' => '{{Identical|Medium}}',
 	'importfreeimages_size_large' => '{{Identical|Large}}',
@@ -111,6 +112,11 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'importfreeimages_owner' => 'ܣܝܘܡܐ',
+	'importfreeimages_size_thumbnail' => 'ܨܘܪܬܐ ܙܥܘܪܬܐ',
+	'importfreeimages_size_small' => 'ܙܥܘܪܬܐ',
+	'importfreeimages_size_medium' => 'ܡܨܥܝܬܐ',
+	'importfreeimages_size_large' => 'ܪܒܬܐ',
+	'importfreeimages_size_original' => 'ܫܪܫܝܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -140,6 +146,13 @@ $messages['bar'] = array(
 	'importfreeimages_size_medium' => 'mittl',
 	'importfreeimages_size_large' => 'groß',
 	'importfreeimages_size_original' => 'original',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'importfreeimages_owner' => 'Аўтар',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1311,6 +1324,9 @@ $messages['te'] = array(
 	'importfreeimages_next' => 'తర్వాతి $1',
 	'importfreeimages_size_square' => 'చతురస్రం',
 	'importfreeimages_size_thumbnail' => 'నఖచిత్రం',
+	'importfreeimages_size_small' => 'చిన్న',
+	'importfreeimages_size_medium' => 'మధ్యస్థం',
+	'importfreeimages_size_large' => 'పెద్ద',
 	'importfreeimages_size_original' => 'అసలు',
 );
 
@@ -1458,6 +1474,7 @@ $messages['vo'] = array(
 
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Liangent
+ * @author PhiLiP
  */
 $messages['zh-hans'] = array(
 	'importfreeimages' => '汇入自由版权图片',
@@ -1468,7 +1485,7 @@ $messages['zh-hans'] = array(
 	'importfreeimages_importthis' => '汇入这个',
 	'importfreeimages_next' => '下一个 $1',
 	'importfreeimages_size_square' => '方点',
-	'importfreeimages_size_thumbnail' => '缩图',
+	'importfreeimages_size_thumbnail' => '缩略图',
 	'importfreeimages_size_small' => '小',
 	'importfreeimages_size_medium' => '中',
 	'importfreeimages_size_large' => '大',

@@ -87,6 +87,14 @@ $messages['ar'] = array(
 	'chemFunctions_ChemFormInputError' => 'Chemform: خطأ إدخال!',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'chemicalsources' => 'ܥܩܪ̈ܐ ܟܝܡܝܝ̈ܐ',
+	'chemFunctions_Name' => 'ܫܡܐ ܕIUPAC',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -1248,6 +1256,7 @@ $messages['ta'] = array(
 $messages['te'] = array(
 	'chemicalsources' => 'రసాయన మూలాలు',
 	'chemicalsource-desc' => 'రసాయనిక సూత్రాలకి <nowiki><chemform></nowiki> అనే టాగుని చేరుస్తుంది',
+	'chemicalsources-desc' => 'రసాయన మూలాల కొరకు [[Special:ChemicalSources|ప్రత్యేక పుట]]',
 	'chemFunctions_ListPage' => 'రసాయన మూలాలు',
 	'chemFunctions_CAS' => 'CAS సంఖ్య',
 	'chemFunctions_Formula' => 'సూత్రం',

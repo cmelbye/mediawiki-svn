@@ -38,6 +38,13 @@ $messages['bs'] = array(
 	'datediff-desc' => 'Uzima dva datuma i vraća sve dane između njih',
 );
 
+/** Catalan (Català)
+ * @author Aleator
+ */
+$messages['ca'] = array(
+	'datediff-desc' => 'Pren dues dates i retorna tots els dies intermedis',
+);
+
 /** Czech (Česky)
  * @author Mormegil
  */
@@ -134,6 +141,13 @@ $messages['ksh'] = array(
  */
 $messages['lb'] = array(
 	'datediff-desc' => 'Hëlt zwee Datumen a liwwert all Deeg déi do dertëschent leien',
+);
+
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'datediff-desc' => 'Maka daty roa ary mamerina ny andro antenantenany',
 );
 
 /** Macedonian (Македонски)

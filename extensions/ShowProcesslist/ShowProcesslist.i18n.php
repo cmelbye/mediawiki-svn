@@ -75,10 +75,15 @@ $messages['ar'] = array(
 );
 
 /** Aramaic (ܐܪܡܝܐ)
+ * @author 334a
  * @author Basharh
  */
 $messages['arc'] = array(
+	'showprocesslist-id' => 'ܗܝܝܘܬܐ',
+	'showprocesslist-user' => 'ܡܦܠܚܢܐ',
+	'showprocesslist-host' => 'ܡܐܪܚܢܐ',
 	'showprocesslist-time' => 'ܙܒܢܐ',
+	'showprocesslist-info' => 'ܝܕ̈ܥܬܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -950,6 +955,22 @@ $messages['sk'] = array(
 	'showprocesslist-info' => 'Informácie',
 );
 
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'showprocesslist' => 'Prikaži seznam procesov',
+	'showprocesslist-desc' => 'Prikaže izhod [[Special:ShowProcesslist|SHOW FULL PROCESSLIST]]',
+	'showprocesslist-id' => 'ID',
+	'showprocesslist-user' => 'Uporabnik',
+	'showprocesslist-host' => 'Gostitelj',
+	'showprocesslist-db' => 'Zbirka podatkov',
+	'showprocesslist-command' => 'Ukaz',
+	'showprocesslist-time' => 'Čas',
+	'showprocesslist-state' => 'Stanje',
+	'showprocesslist-info' => 'Informacije',
+);
+
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Михајло Анђелковић
  */
@@ -1087,10 +1108,13 @@ $messages['tr'] = array(
 /** Ukrainian (Українська)
  * @author AS
  * @author Prima klasy4na
+ * @author Тест
  */
 $messages['uk'] = array(
 	'showprocesslist-desc' => 'Показує вивід команди MySQL [[Special:ShowProcesslist|SHOW FULL PROCESSLIST]]',
 	'showprocesslist-user' => 'Користувач',
+	'showprocesslist-db' => 'База даних',
+	'showprocesslist-time' => 'Час',
 );
 
 /** Veps (Vepsan kel')

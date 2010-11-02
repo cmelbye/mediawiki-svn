@@ -158,10 +158,13 @@ $messages['av'] = array(
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
+	'cite_article_desc' => '[[Special:Cite|Өҙөмтә яһау]] махсус битен һәм ҡоралдарҙа һылтанма өҫтәй',
 	'cite_article_link' => 'Биттән өҙөмтә яһарға',
+	'tooltip-cite-article' => 'Был битте нисек өҙөмтәләргә кәрәклеге тураһында мәғлүмәт',
 	'cite' => 'Өҙөмтәләү',
 	'cite_page' => 'Бит:',
 	'cite_submit' => 'Өҙөмтәләргә',
@@ -169,22 +172,15 @@ $messages['ba'] = array(
 
 /** Bavarian (Boarisch)
  * @author Man77
+ * @author Mucalexx
  */
 $messages['bar'] = array(
-	'cite_article_desc' => "Eagänzt d'[[Special:Cite|Zitiahüif]]-Spezialseitn und an Link im Weakzeig-Kåstn",
-	'cite_article_link' => "d'Seitn zitian",
-	'tooltip-cite-article' => 'Hinweis, wia de Seitn itiad wean kinad',
-	'cite' => 'Zitiahüif',
-	'cite_page' => 'Seitn:',
-	'cite_submit' => 'ãnzoang',
-);
-
-/** Samogitian (Žemaitėška)
- * @author Hugo.arg
- */
-$messages['bat-smg'] = array(
-	'cite' => 'Citoutė',
-	'cite_page' => 'Poslapis:',
+	'cite_article_desc' => "Ergenzt d'[[Special:Cite|Zitirhuyf]]-Speziaalseiten und an Link im Werkzeig-Kosten",
+	'cite_article_link' => "d'Seiten zitirn",
+	'tooltip-cite-article' => "Hijweis, wia d'Seiten zitird wern kå",
+	'cite' => 'Zitirhuyf',
+	'cite_page' => 'Seiten:',
+	'cite_submit' => 'åzoang',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -1136,6 +1132,13 @@ $messages['mr'] = array(
 	'cite_submit' => 'उधृत करा',
 );
 
+/** Hill Mari (Кырык мары)
+ * @author Amdf
+ */
+$messages['mrj'] = array(
+	'cite_article_link' => 'Ӹлӹшташӹм цитируяш',
+);
+
 /** Malay (Bahasa Melayu)
  * @author Aurora
  * @author Aviator
@@ -1512,6 +1515,14 @@ $messages['scn'] = array(
 /** Sindhi (سنڌي) */
 $messages['sd'] = array(
 	'cite' => 'حواليو',
+);
+
+/** Samogitian (Žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'cite' => 'Citoutė',
+	'cite_page' => 'Poslapis:',
 );
 
 /** Sinhala (සිංහල)

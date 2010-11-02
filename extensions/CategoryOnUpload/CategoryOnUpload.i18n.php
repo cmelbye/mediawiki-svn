@@ -50,6 +50,13 @@ $messages['ar'] = array(
 	'categoryonupload-label' => 'التصنيف:',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'categoryonupload-label' => 'ܣܕܪܐ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -66,12 +73,27 @@ $messages['az'] = array(
 	'categoryonupload-label' => 'Kateqoriya:',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'categoryonupload-desc' => 'Ҡатнашыусыға файл тейәү ваҡытында категория һайларға мөмкинлек бирә',
+	'categoryonupload-label' => 'Категория:',
+);
+
 /** Bavarian (Boarisch)
  * @author Man77
  */
 $messages['bar'] = array(
 	'categoryonupload-desc' => 'Fråg an Benutza beim Aufelådn vu Datein nåch ana Kategorie.',
 	'categoryonupload-label' => 'Kategorie:',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'categoryonupload-label' => 'Катэгорыя:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -419,12 +441,26 @@ $messages['lv'] = array(
 	'categoryonupload-label' => 'Kategorija:',
 );
 
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'categoryonupload-desc' => 'Maneho mpisafidy sokajy rehefa am-pangalana rakitra iray',
+);
+
 /** Macedonian (Македонски)
  * @author Brest
  */
 $messages['mk'] = array(
 	'categoryonupload-desc' => 'Потсетување на корисник да избере категорија за подигната податотека',
 	'categoryonupload-label' => 'Категорија:',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'categoryonupload-label' => 'വർഗ്ഗം:',
 );
 
 /** Malay (Bahasa Melayu)

@@ -321,6 +321,13 @@ $messages['arz'] = array(
 	'right-regexblock' => 'منع المستخدمين من التعديل فى كل الويكيات فى مزرعة الويكى',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'regexblock-form-reason' => 'Прычына:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -2039,7 +2046,7 @@ $messages['ml'] = array(
 	'regexblock-view-reason' => 'കാരണം: $1',
 	'regexblock-view-reason-default' => 'സാമാന്യമായ കാരണം',
 	'regexblock-view-block-infinite' => 'സ്ഥിരമായ തടയൽ',
-	'regexblock-view-block-by' => 'തടഞ്ഞത്',
+	'regexblock-view-block-by' => 'തടഞ്ഞത്:',
 	'regexblock-view-block-unblock' => 'സ്വതന്ത്രമാക്കുക',
 	'regexblock-view-time' => '$1 ന്‌',
 );
@@ -2050,6 +2057,7 @@ $messages['ml'] = array(
 $messages['mn'] = array(
 	'regexblock-form-reason' => 'Шалтгаан:',
 	'regexblock-view-all' => 'Бүгдийг',
+	'regexblock-view-go' => 'Явах',
 );
 
 /** Marathi (मराठी)
@@ -3046,6 +3054,7 @@ $messages['te'] = array(
 	'regexblock-form-submit-empty' => 'నిరోధించాల్సిన వాడుకరి పేరు లేదా ఐపీ చిరునామా ఇవ్వండి.',
 	'regexblock-form-submit-regex' => 'తప్పుడు రెగ్యులర్ ఎక్స్&zwnj;ప్రెషన్.',
 	'regexblock-form-submit-expiry' => 'దయచేసి ఓ కాలపరిమితి ఇవ్వండి.',
+	'regexblock-nodata-found' => 'భోగట్టా ఏమీ దొరకలేదు',
 	'regexblock-unblock-success' => 'నిరోధపు ఎత్తివేత విజయవంతమైంది',
 	'regexblock-unblock-log' => "'''$1''' అనే వాడుకరి పేరు లేదా ఐపీ చిరునామాపై నిరోధం ఎత్తివేసారు.",
 	'regexblock-view-all' => 'అన్నీ',
@@ -3268,6 +3277,7 @@ $messages['ug-latn'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'regexblock-already-blocked' => '$1 вже заблокований.',
 	'regexblock-form-username' => "IP-адреса або ім'я користувача:",
 	'regexblock-form-reason' => 'Причина:',
 	'regexblock-form-expiry' => 'Закінчення:',

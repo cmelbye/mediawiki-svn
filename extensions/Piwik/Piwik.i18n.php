@@ -64,6 +64,7 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'piwik-countries' => 'ܐܬܪ̈ܘܬܐ',
 	'piwik-browsers' => 'ܡܦܐܬܢ̈ܐ',
 );
 
@@ -397,6 +398,15 @@ $messages['mk'] = array(
 	'piwik-countries' => 'Земји',
 	'piwik-browsers' => 'Прелистувачи',
 	'right-viewpiwik' => 'Погледајте ги [[Special:Piwik|Piwik статистиките]]',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'piwik-lastvisits' => 'അവസാന സന്ദർശനങ്ങൾ',
+	'piwik-countries' => 'രാജ്യങ്ങൾ',
+	'piwik-browsers' => 'ബ്രൗസറുകൾ',
 );
 
 /** Dutch (Nederlands)

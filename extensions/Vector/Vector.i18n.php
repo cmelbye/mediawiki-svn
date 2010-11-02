@@ -185,11 +185,13 @@ $messages['be-tarask'] = array(
 
 /** Bulgarian (Български)
  * @author Spiritia
+ * @author Turin
  */
 $messages['bg'] = array(
 	'vector' => 'Подобрения на потребителския интерфейс за облик Вектор',
 	'vector-desc' => 'Подобрява елементите от потребителския интерфейс на облик Вектор.',
 	'vector-collapsiblenav-preference' => 'Включване на сгъваемо/разгъваемо меню за навигация вляво',
+	'vector-collapsiblenav-more' => 'Още езици',
 	'vector-editwarning-warning' => 'Ако излезете от тази страница, може да загубите всички незапазени промени, които сте направили. 
 Ако сте влезли в системата, можете да изключите това предупреждение през меню "Редактиране" във вашите лични настройки.',
 	'vector-editwarning-preference' => 'Предупреждаване при опит за напускане на страница, отворена в режим на редактиране, без да са запазени промените',
@@ -296,6 +298,22 @@ $messages['ckb'] = array(
 	'vector-editwarning-preference' => 'ھۆشیارم بکەوە کاتێک لە پەڕەیەکی دەستکاری بە گۆڕانکاریی پاشەکەوت‌نەکراو دەردەچم',
 	'vector-simplesearch-search' => 'گەڕان',
 	'vector-simplesearch-containing' => 'بە لەبەرگرتنەوەی ...',
+);
+
+/** Crimean Turkish (Latin) (Qırımtatarca (Latin))
+ * @author Don Alessandro
+ */
+$messages['crh-latn'] = array(
+	'vector-simplesearch-search' => 'Qıdır',
+	'vector-simplesearch-containing' => 'içinde bu olğan...',
+);
+
+/** Crimean Turkish (Cyrillic) (Qırımtatarca (Cyrillic))
+ * @author Don Alessandro
+ */
+$messages['crh-cyrl'] = array(
+	'vector-simplesearch-search' => 'Къыдыр',
+	'vector-simplesearch-containing' => 'ичинде бу олгъан...',
 );
 
 /** Czech (Česky)
@@ -567,6 +585,13 @@ Se vos éte branchiê, vos pouede enlevar ceti avèrtissement dens la sèccion �
 	'vector-simplesearch-containing' => 'que contint...',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'vector-simplesearch-search' => '尋吖',
+);
+
 /** Scottish Gaelic (Gàidhlig)
  * @author Akerbeltz
  */
@@ -812,6 +837,13 @@ $messages['ka'] = array(
 	'vector-editwarning-preference' => 'გამაფრთხილე, როდესაც დავტოვებ რედაქტირებად გვერდს, დაუმახსოვრებელი ცვლილებებით',
 	'vector-simplesearch-search' => 'ძიება',
 	'vector-simplesearch-containing' => 'შეიცავს...',
+);
+
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'vector-simplesearch-search' => 'Ujarlerit',
 );
 
 /** Khmer (ភាសាខ្មែរ)
@@ -1338,6 +1370,8 @@ $messages['si'] = array(
 $messages['sk'] = array(
 	'vector' => 'Vylepšenia použ. rozhrania Vector',
 	'vector-desc' => 'Vylepšuje prvky používateľského rozhrania témy vzhľady Vector',
+	'vector-collapsiblenav-preference' => 'Povoliť zbaľovanie položiek v navigačnom menu v téme vzhľadu Vector',
+	'vector-collapsiblenav-more' => 'Ďalšie jazyky',
 	'vector-editwarning-warning' => 'Ak opustíte túto stránku, môžete tým stratiť všetky vykonané zmeny.
 Ak ste prihlásený, toto upozornenie môžete vypnúť v sekcii „Úpravy“ svojich nastavení.',
 	'vector-editwarning-preference' => 'Upozorniť ma, keď opúšťam upravovaciu stránku s neuloženými zmenami',

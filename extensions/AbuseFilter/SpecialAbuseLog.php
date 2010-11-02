@@ -5,7 +5,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 class SpecialAbuseLog extends SpecialPage {
 	public function __construct() {
-		wfLoadExtensionMessages( 'AbuseFilter' );
 		parent::__construct( 'AbuseLog', 'abusefilter-log' );
 	}
 
@@ -91,7 +90,7 @@ class SpecialAbuseLog extends SpecialPage {
 		$fields['abusefilter-log-search-title'] =
 			Xml::input( 'wpSearchTitle', 45, $this->mSearchTitle );
 
-		$form = Xml::hidden( 'title', $this->getTitle()->getPrefixedText() );
+		$form = Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
 
 		$form .= Xml::buildForm( $fields, 'abusefilter-log-search-submit' );
 		$output .= Xml::tags( 'form',
@@ -354,8 +353,6 @@ class SpecialAbuseLog extends SpecialPage {
 			$user = WikiMap::foreignUserLink( $row->afl_wiki, $row->afl_user_text );
 			$user .= ' (' . WikiMap::getWikiName( $row->afl_wiki ) . ')';
 		}
-
-		$description = '';
 
 		$timestamp = $wgLang->timeanddate( $row->afl_timestamp, true );
 

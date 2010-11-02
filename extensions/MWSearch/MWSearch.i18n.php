@@ -55,6 +55,13 @@ $messages['ast'] = array(
 	'mwsearch-desc' => 'Plugin MWSearch',
 );
 
+/** Bavarian (Boarisch)
+ * @author Mucalexx
+ */
+$messages['bar'] = array(
+	'mwsearch-desc' => "Hintergrundprózess fyr d'Lucene-Suachmaschijn",
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -490,6 +497,13 @@ $messages['roa-tara'] = array(
  */
 $messages['ru'] = array(
 	'mwsearch-desc' => 'Плагин MWSearch',
+);
+
+/** Rusyn (Русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'mwsearch-desc' => 'Плаґін MWSearch',
 );
 
 /** Yakut (Саха тыла)

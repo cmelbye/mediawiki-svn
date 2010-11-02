@@ -25,13 +25,15 @@
  */
 
 class ApiCodeRevisions extends ApiQueryBase {
+	private $props;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'cr' );
 	}
 
 	public function execute() {
 		global $wgUser;
-		$this->getMain()->setVaryCookie();
+		$this->getMain()->setCacheMode( 'anon-public-user-private' );
 		// Before doing anything at all, let's check permissions
 		if ( !$wgUser->isAllowed( 'codereview-use' ) ) {
 			$this->dieUsage( 'You don\'t have permission to view code revisions', 'permissiondenied' );
@@ -59,7 +61,7 @@ class ApiCodeRevisions extends ApiQueryBase {
 
 		$count = 0;
 		$lastTimestamp = 0;
-		while ( $row = $revisions->fetchObject() ) {
+		foreach ( $revisions as $row ) {
 			if ( $count == $limit ) {
 				$this->setContinueEnumParameter( 'start',
 					wfTimestamp( TS_ISO_8601, $lastTimestamp ) );

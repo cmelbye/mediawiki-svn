@@ -27,6 +27,10 @@
  * @ingroup FlaggedRevs
  */
 abstract class ApiStabilize extends ApiBase {
+
+	// Title param
+	protected $title;
+
 	public function execute() {
 		global $wgUser;
 		$params = $this->extractRequestParams();
@@ -37,11 +41,11 @@ abstract class ApiStabilize extends ApiBase {
 			$this->dieUsageMsg( array( 'missingparam', 'token' ) );
 		}
 
-		$title = Title::newFromText( $params['title'] );
-		if ( $title == null ) {
+		$this->title = Title::newFromText( $params['title'] );
+		if ( $this->title == null ) {
 			$this->dieUsage( "Invalid title given.", "invalidtitle" );
 		}
-		$errors = $title->getUserPermissionsErrors( 'stablesettings', $wgUser );
+		$errors = $this->title->getUserPermissionsErrors( 'stablesettings', $wgUser );
 		if ( $errors ) {
 			// We don't care about multiple errors, just report one of them
 			$this->dieUsageMsg( reset( $errors ) );
@@ -50,6 +54,8 @@ abstract class ApiStabilize extends ApiBase {
 		$this->doExecute(); // child class
 	}
 
+	public abstract function doExecute();
+
 	public function mustBePosted() {
 		return true;
 	}
@@ -57,6 +63,10 @@ abstract class ApiStabilize extends ApiBase {
 	public function isWriteMode() {
  		return true;
  	}
+
+	public function needsToken() {
+		return true;
+	}
 
 	public function getTokenSalt() {
 		return '';
@@ -74,7 +84,7 @@ class ApiStabilizeGeneral extends ApiStabilize {
 		$params = $this->extractRequestParams();
 
 		$form = new PageStabilityGeneralForm( $wgUser );
-		$form->setPage( $title ); # Our target page
+		$form->setPage( $this->title ); # Our target page
 		$form->setWatchThis( $params['watch'] ); # Watch this page
 		$form->setReason( $params['reason'] ); # Reason
 		$form->setReasonSelection( 'other' ); # Reason dropdown
@@ -97,12 +107,12 @@ class ApiStabilizeGeneral extends ApiStabilize {
 
 		$status = $form->submit(); // true/error message key
 		if ( $status !== true ) {
-			$this->dieUsage( wfMsg( $status ) );
+			$this->dieUsageMsg( wfMsg( $status ) );
 		}
 
 		# Output success line with the title and config parameters
 		$res = array();
-		$res['title'] = $title->getPrefixedText();
+		$res['title'] = $this->title->getPrefixedText();
 		$res['default'] = $params['default'];
 		$res['autoreview'] = $params['autoreview'];
 		$res['expiry'] = $form->getExpiry();
@@ -173,6 +183,10 @@ class ApiStabilizeGeneral extends ApiStabilize {
 	protected function getExamples() {
 		return 'api.php?action=stabilize&title=Test&default=stable&reason=Test&token=123ABC';
 	}
+
+	public function getVersion() {
+		return __CLASS__ . ': $Id$';
+ 	}
 }
 
 // Assumes $wgFlaggedRevsProtection is on
@@ -182,7 +196,7 @@ class ApiStabilizeProtect extends ApiStabilize {
 		$params = $this->extractRequestParams();
 		
 		$form = new PageStabilityProtectForm( $wgUser );
-		$form->setPage( $title ); # Our target page
+		$form->setPage( $this->title ); # Our target page
 		$form->setWatchThis( $params['watch'] ); # Watch this page
 		$form->setReason( $params['reason'] ); # Reason
 		$form->setReasonSelection( 'other' ); # Reason dropdown
@@ -197,12 +211,12 @@ class ApiStabilizeProtect extends ApiStabilize {
 
 		$status = $form->submit(); // true/error message key
 		if ( $status !== true ) {
-			$this->dieUsage( wfMsg( $status ) );
+			$this->dieUsageMsg( wfMsg( $status ) );
 		}
 
 		# Output success line with the title and config parameters
 		$res = array();
-		$res['title'] = $title->getPrefixedText();
+		$res['title'] = $this->title->getPrefixedText();
 		$res['protectlevel'] = $params['protectlevel'];
 		$res['expiry'] = $form->getExpiry();
 		$this->getResult()->addValue( null, $this->getModuleName(), $res );
@@ -255,4 +269,8 @@ class ApiStabilizeProtect extends ApiStabilize {
 	protected function getExamples() {
 		return 'api.php?action=stabilize&title=Test&protectlevel=none&reason=Test&token=123ABC';
 	}
+
+	public function getVersion() {
+		return __CLASS__ . ': $Id$';
+ 	}
 }

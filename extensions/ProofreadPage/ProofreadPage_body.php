@@ -49,8 +49,6 @@ class ProofreadPage {
 		$wgHooks['OutputPageParserOutput'][] = array( &$this, 'OutputPageParserOutput' );
 		$wgHooks['ResourceLoaderRegisterModules'][] = array( &$this, 'resourceLoaderRegisterModules' );
 
-		wfLoadExtensionMessages( 'ProofreadPage' );
-
 		/* Namespaces */
 		$this->page_namespace = preg_quote( wfMsgForContent( 'proofreadpage_namespace' ), '/' );
 		$this->index_namespace = preg_quote( wfMsgForContent( 'proofreadpage_index_namespace' ), '/' );
@@ -83,11 +81,14 @@ class ProofreadPage {
 	}
 
 	public static function resourceLoaderRegisterModules( &$resourceLoader ) {
+		global $wgExtensionAssetsPath;
+		$localpath = dirname( __FILE__ );
+		$remotepath = "$wgExtensionAssetsPath/ProofreadPage";
 		$resourceLoader->register(
 			'ext.proofreadpage.page',
 			new ResourceLoaderFileModule(
 				array(
-					'scripts' => 'extensions/ProofreadPage/proofread.js',
+					'scripts' => 'proofread.js',
 					'messages' => array(
 						'proofreadpage_header',
 						'proofreadpage_body',
@@ -100,7 +101,7 @@ class ProofreadPage {
 						'proofreadpage_quality3_category',
 						'proofreadpage_quality4_category',
 					)
-				)
+				), $localpath, $remotepath
 			)
 		);
 
@@ -108,14 +109,17 @@ class ProofreadPage {
 			'ext.proofreadpage.article',
 			new ResourceLoaderFileModule(
 				array(
-					'scripts' => 'extensions/ProofreadPage/proofread_article.js'
-				)
+					'scripts' => 'proofread_article.js'
+				), $localpath, $remotepath
 			)
 		);
 
 		$resourceLoader->register(
 			'ext.proofreadpage.index',
-			new ResourceLoaderFileModule( array( 'scripts' => 'extensions/ProofreadPage/proofread_index.js' ) )
+			new ResourceLoaderFileModule(
+				array( 'scripts' => 'proofread_index.js' ),
+				$localpath, $remotepath
+			)
 		);
 
 		return true;
@@ -148,7 +152,7 @@ class ProofreadPage {
 			__METHOD__
 		);
 
-		while ( $x = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $x ) {
 			$ref_title = Title::makeTitle( $x->page_namespace, $x->page_title );
 			if ( preg_match( "/^$index_namespace:(.*)$/", $ref_title->getPrefixedText() ) ) {
 				$title->pr_index_title = $ref_title->getPrefixedText();
@@ -339,7 +343,7 @@ class ProofreadPage {
 	 * Append javascript variables and code to the page.
 	 */
 	function beforePageDisplay( &$out ) {
-		global $wgTitle, $wgJsMimeType, $wgScriptPath,  $wgRequest, $wgProofreadPageVersion;
+		global $wgTitle, $wgRequest;
 
 		$action = $wgRequest->getVal( 'action' );
 		$isEdit = ( $action == 'submit' || $action == 'edit' ) ? 1 : 0;
@@ -467,24 +471,21 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 		$page_namespace = $this->page_namespace;
 		$dbr = wfGetDB( DB_SLAVE );
 		$catlinks = $dbr->tableName( 'categorylinks' );
+
+		$values = array();
 		foreach ( $page_ids as $id => $pdbk ) {
 			// consider only link in page namespace
 			if ( preg_match( "/^$page_namespace:(.*?)$/", $pdbk ) ) {
 				$colours[$pdbk] = 'quality1';
-				if ( !isset( $query ) ) {
-					$query = "SELECT cl_from, cl_to FROM $catlinks WHERE cl_from IN(";
-				} else {
-					$query .= ', ';
-				}
-				$query .= intval( $id );
+				$values[] = intval( $id );
 			}
 		}
 
-		if ( isset( $query ) ) {
-			$query .= ')';
+		if ( count( $values ) ) {
+			$query .= "SELECT cl_from, cl_to FROM $catlinks WHERE cl_from IN(" . implode( ",", $values ) . ")";
 			$res = $dbr->query( $query, __METHOD__ );
 
-			while ( $x = $dbr->fetchObject( $res ) ) {
+			foreach ( $res as $x ) {
 				$pdbk = $page_ids[$x->cl_from];
 				switch( $x->cl_to ) {
 				case str_replace( ' ' , '_' , wfMsgForContent( 'proofreadpage_quality0_category' ) ):
@@ -658,8 +659,6 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 	 * @todo FIXME: display whether page has been proofread by the user or by someone else
 	 */
 	function pageQuality( $input, $args, $parser ) {
-		global $wgUser;
-
 		$page_namespace = $this->page_namespace;
 		if ( !preg_match( "/^$page_namespace:(.*?)(\/([0-9]*)|)$/", $parser->Title()->getPrefixedText() ) ) {
 			return '';
@@ -681,8 +680,6 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 	 * Display a list of coloured links to pages
 	 */
 	function renderPageList( $input, $args, $parser ) {
-		global $wgUser;
-
 		$page_namespace = $this->page_namespace;
 		$index_namespace = $this->index_namespace;
 		if ( !preg_match( "/^$index_namespace:(.*?)(\/([0-9]*)|)$/", $parser->Title()->getPrefixedText(), $m ) ) {
@@ -878,7 +875,7 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 						    );
 				
 				if( $res ) {
-					while( $o = $dbr->fetchObject( $res ) ) {
+					foreach ( $res as $o ) {
 						array_push( $q0_pages, $o->page_title );
 					}
 				}
@@ -1459,9 +1456,7 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 		}
 
 		$dbr = wfGetDB( DB_SLAVE );
-		$pr_index = $dbr->tableName( 'pr_index' );
 		$page = $dbr->tableName( 'page' );
-		$pagelinks = $dbr->tableName( 'pagelinks' );
 		$templatelinks = $dbr->tableName( 'templatelinks' );
 		$catlinks = $dbr->tableName( 'categorylinks' );
 
@@ -1548,7 +1543,6 @@ var prp_default_footer = \"" . Xml::escapeJsString( wfMsgGetKey( 'proofreadpage_
 			return true;
 		}
 
-		$indexlink = '';
 		if( $indextitle ) {
 			$sk = $wgUser->getSkin();
 			$nt = Title::makeTitleSafe( $index_ns_index, $indextitle );

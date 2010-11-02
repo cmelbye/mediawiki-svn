@@ -38,6 +38,7 @@ $messages['en'] = array(
 
 /** Message documentation (Message documentation)
  * @author EugeneZelenko
+ * @author McDutchie
  * @author Purodha
  * @author Umherirrender
  */
@@ -47,7 +48,9 @@ $messages['qqq'] = array(
 Hint: The linked special page allows to collect stuff and make it into downloadable packages.',
 	'pf-only-admins-allowed' => 'Do not translate "<code lang="en">packageforce-admin</code>".',
 	'pf-admin-menu-default' => '{{Identical|Default}}',
+	'pf-admin-link-editlink-page' => 'This is a link anchor. The page it links to allows users to edit the Package page. The link itself is an entry in a table column, the column header of which is {{msg-mw|Pf-header-edit}}',
 	'pf-header-documentation' => '{{Identical|Documentation}}',
+	'pf-header-edit' => 'This is a column header in a table. In the rows, there are clickable links with description {{msg-mw|pf-admin-link-editlink-page}} that allow users to edit the Package page.',
 	'pf-header-page_title' => '{{Identical|Title}}',
 	'pf-header-approve' => '{{Identical|Approve}}',
 );
@@ -58,6 +61,17 @@ Hint: The linked special page allows to collect stuff and make it into downloada
 $messages['af'] = array(
 	'pf-admin-menu-default' => 'Standaard',
 	'pf-header-approve' => 'Keur goed',
+);
+
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'pf-admin-link-approve' => 'ܩܒܘܠ ܕܦܐ',
+	'pf-header-edit' => 'ܫܚܠܦ ܐܣܘܪܐ',
+	'pf-header-type' => 'ܐܕܫܐ ܕܕܦܐ',
+	'pf-header-page_title' => 'ܟܘܢܝܐ',
+	'pf-header-approve' => 'ܩܘܒܠܐ',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -107,10 +121,15 @@ $messages['br'] = array(
  * @author CERminator
  */
 $messages['bs'] = array(
-	'pf-desc' => '[[Special:PackageForce|Skidanje paketea]] korisnih šablona/itd.',
+	'packageforce' => 'PackageForce',
+	'packageforceadmin' => 'Administratorska stranica za PackageForce',
+	'pf-desc' => '[[Special:PackageForce|Skidanje paketa]] korisnih šablona/itd.',
+	'pf-only-admins-allowed' => "Ova stranica je samo za korisnike sa 'packageforce-admin'-pravom.",
 	'pf-admin-menu-default' => 'Pretpostavljeno',
 	'pf-admin-menu-unsortedtemplates' => 'Šabloni još nisu poredani',
+	'pf-admin-link-view-documentation' => 'Pogledaj dokumentacije vezane sa stranicom.',
 	'pf-admin-link-editlink-page' => 'Uredi stranicu',
+	'pf-admin-link-approve' => 'Odobri stranicu',
 	'pf-header-documentation' => 'Dokumentacija',
 	'pf-header-in_packages' => 'Paketi',
 	'pf-header-edit' => 'Uredi link',
@@ -190,7 +209,9 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'pf-admin-menu-default' => 'Defaŭlta',
 	'pf-header-edit' => 'Redakti ligilon',
+	'pf-header-approve' => 'Aprobi',
 );
 
 /** Spanish (Español)
@@ -241,6 +262,7 @@ $messages['fi'] = array(
 /** French (Français)
  * @author IAlex
  * @author Peter17
+ * @author Verdy p
  */
 $messages['fr'] = array(
 	'packageforce' => 'PackageForce',
@@ -254,7 +276,7 @@ $messages['fr'] = array(
 	'pf-admin-link-approve' => 'Approuver la page',
 	'pf-header-documentation' => 'Documentation',
 	'pf-header-in_packages' => 'Paquets',
-	'pf-header-edit' => 'Modifier le lien',
+	'pf-header-edit' => 'Lien pour modifier',
 	'pf-header-type' => 'Type de page',
 	'pf-header-page_title' => 'Titre',
 	'pf-header-approve' => 'Approuver',
@@ -339,8 +361,13 @@ $messages['hsb'] = array(
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
+	'packageforce' => 'PackageForce',
+	'packageforceadmin' => 'PackageForceAdmin',
+	'pf-desc' => 'Hasznos sablonok és egyéb dolgok [[Special:PackageForce|letöltése csomagban]]',
 	'pf-admin-menu-default' => 'Alapértelmezett',
+	'pf-admin-link-view-documentation' => 'A laphoz tartozó dokumentációk megtekintése.',
 	'pf-admin-link-editlink-page' => 'Lap szerkesztése',
+	'pf-admin-link-approve' => 'Lap jóváhagyása',
 	'pf-header-documentation' => 'Dokumentáció',
 	'pf-header-in_packages' => 'Csomagok',
 	'pf-header-edit' => 'Hivatkozás szerkesztése',
@@ -364,7 +391,7 @@ $messages['ia'] = array(
 	'pf-admin-link-approve' => 'Approbar pagina',
 	'pf-header-documentation' => 'Documentation',
 	'pf-header-in_packages' => 'Pacchettos',
-	'pf-header-edit' => 'Modificar ligamine',
+	'pf-header-edit' => 'Ligamine de mod.',
 	'pf-header-type' => 'Typo de pagina',
 	'pf-header-page_title' => 'Titulo',
 	'pf-header-approve' => 'Approbar',
@@ -442,12 +469,16 @@ $messages['ksh'] = array(
 	'pf-admin-menu-default' => 'Shtandatt',
 	'pf-admin-menu-unsortedtemplates' => 'De Schabloone sin noch nit zoteet',
 	'pf-admin-link-view-documentation' => 'Beloor Der de Dokkemäntazjuhn för di Sigg',
+	'pf-admin-link-editlink-page' => 'De Sigg ändere',
+	'pf-admin-link-approve' => 'De Sigg beshtääteje',
 	'pf-header-documentation' => 'Dokkemäntazjuhn',
 	'pf-header-in_packages' => 'Pakkätte
 of
 Pöngelle',
+	'pf-header-edit' => 'Lengk för et Ändere',
 	'pf-header-type' => 'Zoot vun Sigg',
-	'pf-header-page_title' => 'Tittel',
+	'pf-header-page_title' => 'Tittel vun dä Sigg',
+	'pf-header-approve' => 'Lengk för et Beshtääteje',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -492,6 +523,17 @@ $messages['mk'] = array(
 	'pf-header-approve' => 'Одобри',
 );
 
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'pf-admin-menu-default' => 'സ്വതേ',
+	'pf-admin-link-editlink-page' => 'താൾ തിരുത്തുക',
+	'pf-admin-link-approve' => 'താൾ അംഗീകരിക്കുക',
+	'pf-header-edit' => 'തിരുത്തുവാനുള്ള കണ്ണി',
+	'pf-header-type' => 'താളിന്റെ തരം',
+);
+
 /** Dutch (Nederlands)
  * @author Siebrand
  */
@@ -507,7 +549,7 @@ $messages['nl'] = array(
 	'pf-admin-link-approve' => 'Pagina goedkeuren',
 	'pf-header-documentation' => 'Documentatie',
 	'pf-header-in_packages' => 'Pakketten',
-	'pf-header-edit' => 'Verwijzing bewerken',
+	'pf-header-edit' => 'Bewerken',
 	'pf-header-type' => 'Type pagina',
 	'pf-header-page_title' => 'Naam',
 	'pf-header-approve' => 'Goedkeuren',
@@ -621,7 +663,7 @@ $messages['pt'] = array(
 	'pf-admin-link-approve' => 'Aprovar página',
 	'pf-header-documentation' => 'Documentação',
 	'pf-header-in_packages' => 'Pacotes',
-	'pf-header-edit' => 'Editar link',
+	'pf-header-edit' => 'Link de edição',
 	'pf-header-type' => 'Tipo de página',
 	'pf-header-page_title' => 'Título',
 	'pf-header-approve' => 'Aprovar',
@@ -737,6 +779,7 @@ $messages['sv'] = array(
  */
 $messages['te'] = array(
 	'pf-admin-menu-default' => 'అప్రమేయం',
+	'pf-header-documentation' => 'పత్రావళి',
 	'pf-header-type' => 'పుట యొక్క రకం',
 	'pf-header-page_title' => 'శీర్షిక',
 	'pf-header-approve' => 'అనుమతించు',
@@ -767,10 +810,21 @@ $messages['tl'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'packageforce' => 'PackageForce',
+	'packageforceadmin' => 'PackageForceAdmin',
+	'pf-desc' => '[[Special:PackageForce|Завантаження наборів]] корисних шаблонів та інш.',
+	'pf-only-admins-allowed' => "Ця сторінка призначена тільки для користувачів з правами 'packageforce-admin'.",
 	'pf-admin-menu-default' => 'За умовчанням',
+	'pf-admin-menu-unsortedtemplates' => 'Ще не відсортовані шаблони',
+	'pf-admin-link-view-documentation' => "Перегляд документів, пов'язаних зі сторінкою.",
 	'pf-admin-link-editlink-page' => 'Редагувати сторінку',
+	'pf-admin-link-approve' => 'Затвердити сторінку',
+	'pf-header-documentation' => 'Документація',
+	'pf-header-in_packages' => 'Набори',
+	'pf-header-edit' => 'Посилання для зміни',
 	'pf-header-type' => 'Тип сторінки',
 	'pf-header-page_title' => 'Заголовок',
+	'pf-header-approve' => 'Затвердження',
 );
 
 /** Yiddish (ייִדיש)

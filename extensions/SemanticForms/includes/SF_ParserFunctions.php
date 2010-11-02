@@ -135,7 +135,7 @@ class SFParserFunctions {
 		$params = func_get_args();
 		array_shift( $params ); // don't need the parser
 		// set defaults
-		$inFormName = $inLinkStr = $inLinkType = $inQueryStr = '';
+		$inFormName = $inLinkStr = $inLinkType = $inQueryStr = $inTargetName = '';
 		// assign params - support unlabelled params, for backwards compatibility
 		foreach ( $params as $i => $param ) {
 			$elements = explode( '=', $param, 2 );
@@ -153,6 +153,8 @@ class SFParserFunctions {
 				$inLinkType = $value;
 			elseif ( $param_name == 'query string' )
 				$inQueryStr = $value;
+			elseif ( $param_name == 'target' )
+				$inTargetName = $value;
 			elseif ( $i == 0 )
 				$inFormName = $param;
 			elseif ( $i == 1 )
@@ -165,6 +167,9 @@ class SFParserFunctions {
 
 		$ad = SpecialPage::getPage( 'FormEdit' );
 		$link_url = $ad->getTitle()->getLocalURL() . "/$inFormName";
+		if ( ! empty( $inTargetName ) ) {
+			$link_url .= "/$inTargetName";
+		}
 		$link_url = str_replace( ' ', '_', $link_url );
 		if ( $inQueryStr != '' ) {
 			// special handling for 'post button' - query string
@@ -261,24 +266,14 @@ class SFParserFunctions {
 			// disable the cache (so the Javascript will show up) -
 			// if there's more than one autocompleted #forminput
 			// on the page, we only need to do this the first time
-			$autocompletion_javascript = '';
 			if ( $input_num == 1 ) {
 				$parser->disableCache();
 				SFUtils::addJavascriptAndCSS();
-				$autocompletion_javascript = SFFormUtils::autocompletionJavascript();
 			}
-			$autocompletion_str = SFFormInputs::createAutocompleteValuesString( $inAutocompletionSource, $autocompletion_type );
-			$javascript_text = <<<END
-		<script type="text/javascript"> 
-/*<![CDATA[*/ 
-$autocompletion_javascript
-autocompletemappings[$input_num] = 'input_{$input_num}';
-autocompletestrings['input_{$input_num}'] = $autocompletion_str;
- /*]]>*/</script>
-
-END;
-			global $wgOut;
-			$wgOut->addScript( $javascript_text );
+			$autocompletion_values = SFFormInputs::getAutocompleteValues( $inAutocompletionSource, $autocompletion_type );
+			global $sfgAutocompleteMappings, $sfgAutocompleteValues;
+			$sfgAutocompleteMappings[$input_num] = "input_$input_num";
+			$sfgAutocompleteValues["input_$input_num"] = $autocompletion_values;
 		}
 
 		$fs = SpecialPage::getPage( 'FormStart' );
@@ -286,13 +281,13 @@ END;
 		if ( empty( $inAutocompletionSource ) ) {
 			$str = <<<END
 			<form action="$fs_url" method="get">
-			<p><input type="text" name="page_name" size="$inSize" value="$inValue" />
+			<p><input type="text" name="page_name" size="$inSize" value="$inValue" class="formInput" />
 
 END;
 		} else {
 			$str = <<<END
 			<form name="createbox" action="$fs_url" method="get">
-			<p><input type="text" name="page_name" id="input_$input_num" size="$inSize" value="$inValue"  class="autocompleteInput createboxInput" />
+			<p><input type="text" name="page_name" id="input_$input_num" size="$inSize" value="$inValue"  class="autocompleteInput createboxInput formInput" />
 
 END;
 		}

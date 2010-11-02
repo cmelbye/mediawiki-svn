@@ -315,9 +315,34 @@ $1',
  * @author Basharh
  */
 $messages['arc'] = array(
+	'sign-selectdoc' => 'ܐܫܛܪܐ:',
+	'sign-realname' => 'ܫܡܐ:',
+	'sign-city' => 'ܡܕܝܢܬܐ:',
+	'sign-state' => 'ܐܘܚܕܢܐ:',
+	'sign-country' => 'ܐܬܪܐ:',
+	'sign-phone' => 'ܡܢܝܢܐ ܕܙܥܘܩܐ:',
+	'sign-bday' => 'ܥܘܡܪܐ:',
+	'sign-email' => 'ܦܪܫܓܢܐ ܕܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ:',
 	'sign-list-hideemail' => 'ܠܐ ܓܠܚ ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
+	'sign-submit' => 'ܪܫܘܡ ܪܡܝ ܐܝܕܐ ܥܠ ܐܫܛܪܐ',
+	'sign-viewfield-realname' => 'ܫܡܐ',
+	'sign-viewfield-address' => 'ܦܪܫܓܢܐ',
+	'sign-viewfield-city' => 'ܡܕܝܢܬܐ',
+	'sign-viewfield-state' => 'ܐܘܚܕܢܐ:',
 	'sign-viewfield-country' => 'ܐܬܪܐ',
+	'sign-viewfield-agent' => 'ܩܝܝܘܡܐ ܕܡܬܚܫܚܢܐ',
+	'sign-viewfield-phone' => 'ܙܥܘܩܐ',
+	'sign-viewfield-email' => 'ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
+	'sign-viewfield-age' => 'ܥܘܡܪܐ',
 	'sign-viewfield-options' => 'ܓܒܝܬ̈ܐ',
+	'sig-anonymous' => "''ܠܐ ܝܕܝܥܐ''",
+	'sig-private' => "''ܦܪܨܘܦܝܐ''",
+	'sign-sigdetails' => 'ܐܪ̈ܝܟܬܐ ܕܪܡܝ ܐܝܕܐ',
+	'sign-submitreview' => 'ܫܕܪ ܬܢܝܬܐ',
+	'sign-uniquequery-similarname' => 'ܫܡܐ ܕܡܝܐ',
+	'sign-uniquequery-similaraddress' => 'ܦܪܫܓܢܐ ܕܡܝܐ',
+	'sign-uniquequery-similarphone' => 'ܙܥܘܩܐ ܕܡܝܐ',
+	'sign-uniquequery-similaremail' => 'ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ ܕܡܝܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -438,6 +463,16 @@ $messages['bcl'] = array(
 	'sign-viewfield-age' => 'Edad',
 	'sign-viewfield-reviewcomment' => 'Komento',
 	'sign-review-comment' => 'Komento',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'sign-city' => 'Горад:',
+	'sign-state' => 'Штат:',
+	'sign-viewfield-city' => 'Горад',
+	'sign-viewfield-state' => 'Штат',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -713,6 +748,7 @@ Pročitajte cijeli dokument i ako želite da izrazite vašu podršku, popunite n
 	'sign-submit' => 'Potpiši dokument',
 	'sig-success' => 'Uspješno ste potpisali dokument.',
 	'sign-view-selectfields' => "'''Polja za prikaz:'''",
+	'sign-viewfield-entryid' => 'ID stavke',
 	'sign-viewfield-timestamp' => 'Vremenska oznaka',
 	'sign-viewfield-realname' => 'Ime',
 	'sign-viewfield-address' => 'Adresa',
@@ -721,6 +757,7 @@ Pročitajte cijeli dokument i ako želite da izrazite vašu podršku, popunite n
 	'sign-viewfield-country' => 'Država',
 	'sign-viewfield-zip' => 'Poštanski broj',
 	'sign-viewfield-ip' => 'IP adresa',
+	'sign-viewfield-agent' => 'Korisnički agent',
 	'sign-viewfield-phone' => 'Telefon',
 	'sign-viewfield-email' => 'E-mail',
 	'sign-viewfield-age' => 'Starost',
@@ -749,10 +786,14 @@ Pročitajte cijeli dokument i ako želite da izrazite vašu podršku, popunite n
 -->[{{fullurl:Special:CheckUser|ip={{urlencode:$1}}}} provjera ip])<!--
 --></span>',
 	'sign-viewfield-stricken' => 'Precrtano',
+	'sign-viewfield-reviewedby' => 'Pregledač',
 	'sign-viewfield-reviewcomment' => 'Komentar',
 	'sign-detail-uniquequery' => 'Slične stavke',
 	'sign-detail-uniquequery-run' => 'Pokreni upit',
+	'sign-detail-strike' => 'Precrtaj potpis',
+	'sign-reviewsig' => 'Provjeri potpis',
 	'sign-review-comment' => 'Komentar',
+	'sign-submitreview' => 'Pošalji pregled',
 	'sign-uniquequery-similarname' => 'Slično ime',
 	'sign-uniquequery-similaraddress' => 'Slične adrese',
 	'sign-uniquequery-similarphone' => 'Slični telefoni',
@@ -1439,6 +1480,7 @@ $messages['fi'] = array(
  * @author Peter17
  * @author Sherbrooke
  * @author Urhixidur
+ * @author Verdy p
  */
 $messages['fr'] = array(
 	'signdocument' => 'Authentifier le document',
@@ -1485,7 +1527,7 @@ $1',
 	'sign-viewfield-ip' => 'Adresse IP',
 	'sign-viewfield-agent' => 'Agent utilisateur',
 	'sign-viewfield-phone' => 'Numéro de téléphone',
-	'sign-viewfield-email' => 'Adresse de courriel',
+	'sign-viewfield-email' => 'Courriel',
 	'sign-viewfield-age' => 'Âge',
 	'sign-viewfield-options' => 'Options',
 	'sign-viewsigs-intro' => 'Ci-dessous apparaissent les signatures enregistrées pour <span class="plainlinks">[{{SERVER}}{{localurl: Special:SignDocument|doc=$2}} $1]</span>.',
@@ -2942,6 +2984,7 @@ $1',
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -2968,6 +3011,7 @@ $messages['ml'] = array(
 	'sign-submit' => 'പ്രമാണത്തിൽ ഒപ്പിടുക',
 	'sig-success' => 'താങ്കൾ പ്രമാണത്തിൽ വിജയകരമായി ഒപ്പിട്ടിരിക്കുന്നു.',
 	'sign-view-selectfields' => "'''പ്രദർശിപ്പിക്കേണ്ട ഫീൽഡുകൾ:'''",
+	'sign-viewfield-timestamp' => 'സമയമുദ്ര',
 	'sign-viewfield-realname' => 'പേര്‌',
 	'sign-viewfield-address' => 'വിലാസം',
 	'sign-viewfield-city' => 'പട്ടണം',
@@ -2978,6 +3022,7 @@ $messages['ml'] = array(
 	'sign-viewfield-phone' => 'ഫോൺ',
 	'sign-viewfield-email' => 'ഇമെയിൽ',
 	'sign-viewfield-age' => 'വയസ്സ്',
+	'sign-viewfield-options' => 'ഐച്ഛികങ്ങൾ',
 	'sign-sigadmin-close' => 'ഒപ്പിടൽ നിരോധിക്കുക',
 	'sign-sigadmin-currentlyclosed' => 'ഈ പ്രമാണത്തിൽ നിലവിൽ ഒപ്പിടൽ നിരോധിച്ചിരിക്കുന്നു.',
 	'sign-sigadmin-open' => 'ഒപ്പിടൽ അനുവദിക്കുക',
@@ -4906,7 +4951,9 @@ $messages['uk'] = array(
 	'sign-viewfield-city' => 'Місто',
 	'sign-viewfield-state' => 'Штат',
 	'sign-viewfield-country' => 'Країна',
+	'sign-viewfield-ip' => 'IP-адреса',
 	'sign-viewfield-email' => 'Електронна пошта',
+	'sign-viewfield-reviewcomment' => 'Коментар',
 	'sign-review-comment' => 'Коментар',
 );
 

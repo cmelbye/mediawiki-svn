@@ -45,6 +45,13 @@ $messages['ar'] = array(
 	'configuredpages-def-stable' => 'نسخة مستقرة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'configuredpages-def-draft' => 'ܨܚܚܐ ܚܕܬ ܡܢ ܟܠ',
+);
+
 /** Belarusian (Беларуская)
  * @author Yury Tarasievich
  * @author Хомелка
@@ -71,6 +78,15 @@ $messages['be-tarask'] = array(
 	'configuredpages-config' => 'Канфігурацыя',
 	'configuredpages-def-draft' => 'апошняя вэрсія',
 	'configuredpages-def-stable' => 'апублікаваная вэрсія',
+);
+
+/** Bulgarian (Български)
+ * @author Turin
+ */
+$messages['bg'] = array(
+	'configuredpages-config' => 'Настройка',
+	'configuredpages-def-draft' => 'последна версия',
+	'configuredpages-def-stable' => 'стабилна версия',
 );
 
 /** Bengali (বাংলা)
@@ -116,6 +132,19 @@ $messages['ca'] = array(
 	'configuredpages-config' => 'Configuració',
 	'configuredpages-def-draft' => 'última versió',
 	'configuredpages-def-stable' => 'versió publicada',
+);
+
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'configuredpages' => 'Stránk s nastavením pousuzování',
+	'configuredpages-list' => 'Níže je seznam stránek nakonfigurovaných tak, že mají odlišné nastavení schvalování než standadní nastevení.
+Taková nastavení mohou, jaká verze bude zobrazena čtenářům nebo více omezit, kdo může editovat bez následného posuzování.',
+	'configuredpages-none' => 'V tomto seznamu nejsou žádné stránky.',
+	'configuredpages-config' => 'Nastavení',
+	'configuredpages-def-draft' => 'poslední verze',
+	'configuredpages-def-stable' => 'stabilní verze',
 );
 
 /** Danish (Dansk)
@@ -266,6 +295,16 @@ Certains paramètres peuvent faire apparaître une version différente pour les 
 	'configuredpages-config' => 'Configuration',
 	'configuredpages-def-draft' => 'dernière version',
 	'configuredpages-def-stable' => 'version publiée',
+);
+
+/** Franco-Provençal (Arpetan)
+ * @author ChrisPtDe
+ */
+$messages['frp'] = array(
+	'configuredpages-none' => 'Y at gins de pâge dens ceta lista.',
+	'configuredpages-config' => 'Configuracion',
+	'configuredpages-def-draft' => 'dèrriére vèrsion',
+	'configuredpages-def-stable' => 'vèrsion stâbla',
 );
 
 /** Galician (Galego)
@@ -618,6 +657,7 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'configuredpages-none' => 'У тім списку не суть жадны сторінкы.',
 	'configuredpages-config' => 'Конфіґурація',
 	'configuredpages-def-draft' => 'остатня верзія',
 	'configuredpages-def-stable' => 'опублікована верзія',
@@ -635,6 +675,25 @@ $messages['sc'] = array(
  */
 $messages['sk'] = array(
 	'configuredpages' => 'Stránky s nastavením kontroly',
+	'configuredpages-list' => 'Nižšie je zoznam stránok nakonfigurovaných tak, aby mali odlišné nastavenia schválenia ako je predvolený jazyk webu. 
+Niektoré nastavenia môžu meniť verziu, ktorá je zobrazená pre čitateľa, alebo ďalej obmedziť, kto môže vykonávať úpravy, ktoré nevyžadujú kontrolu.',
+	'configuredpages-none' => 'V tomto zozname sa nenachádzajú žiadne stránky.',
+	'configuredpages-config' => 'Konfigurácia',
+	'configuredpages-def-draft' => 'najnovšia verzia',
+	'configuredpages-def-stable' => 'stabilná verzia',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'configuredpages' => 'Strani z nastavitvami pregledov',
+	'configuredpages-list' => 'Spodaj se nahaja seznam strani, ki imajo nastavljene različne nastavitve odobritve, kot je privzeto za to mesto.
+Nekatere nastavitve morda spremenijo, katera različica je prikazana bralcem, ali še bolj omejijo seznam uporabnikov, katerih urejanja ne potrebujejo pregleda.',
+	'configuredpages-none' => 'Na tem seznamu ni strani.',
+	'configuredpages-config' => 'Konfiguracija',
+	'configuredpages-def-draft' => 'najnovejša različica',
+	'configuredpages-def-stable' => 'stabilna različica',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
@@ -685,6 +744,15 @@ $messages['te'] = array(
 	'configuredpages-config' => 'స్వరూపణం',
 	'configuredpages-def-draft' => 'చిట్టచివరి కూర్పు',
 	'configuredpages-def-stable' => 'ప్రచురిత కూర్పు',
+);
+
+/** Turkmen (Türkmençe)
+ * @author Hanberke
+ */
+$messages['tk'] = array(
+	'configuredpages-config' => 'Konfigurasiýa',
+	'configuredpages-def-draft' => 'iň soňky wersiýa',
+	'configuredpages-def-stable' => 'durnukly wersiýa',
 );
 
 /** Tagalog (Tagalog)

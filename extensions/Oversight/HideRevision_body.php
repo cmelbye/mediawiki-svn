@@ -4,7 +4,6 @@
  */
 class HideRevisionForm extends SpecialPage {
 	function __construct() {
-		wfLoadExtensionMessages( 'HideRevision' );
 		parent::__construct( 'HideRevision', 'hiderevision' );
 	}
 
@@ -102,7 +101,7 @@ class HideRevisionForm extends SpecialPage {
 
 			// Hidden fields
 			$this->revisionFields() .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
 
 			Xml::closeElement( 'form' ) );
 	}
@@ -132,7 +131,7 @@ class HideRevisionForm extends SpecialPage {
 		$changes = ChangesList::newFromUser( $wgUser );
 
 		$out = $changes->beginRecentChangesList();
-		while( $row = $resultSet->fetchObject() ) {
+		foreach ( $resultSet as $row ) {
 			$rc = RecentChange::newFromCurRow( $row );
 			$rc->counter = 0; // ???
 			$out .= $changes->recentChangesLine( $rc );
@@ -186,13 +185,13 @@ class HideRevisionForm extends SpecialPage {
 	function revisionFields() {
 		$out = '';
 		foreach( $this->mRevisions as $id ) {
-			$out .= Xml::hidden( 'revision[]', $id );
+			$out .= Html::hidden( 'revision[]', $id );
 		}
 		if( $this->mTarget ) {
-			$out .= Xml::hidden( 'target', $this->mTarget->getPrefixedDbKey() );
+			$out .= Html::hidden( 'target', $this->mTarget->getPrefixedDbKey() );
 		}
 		foreach( $this->mTimestamps as $timestamp ) {
-			$out .= Xml::hidden( 'timestamp[]', wfTimestamp( TS_MW, $timestamp ) );
+			$out .= Html::hidden( 'timestamp[]', wfTimestamp( TS_MW, $timestamp ) );
 		}
 		return $out;
 	}
@@ -349,7 +348,6 @@ class HideRevisionForm extends SpecialPage {
 class SpecialOversight extends SpecialPage {
 
 	function __construct(){
-		wfLoadExtensionMessages('HideRevision');
 		parent::__construct( 'Oversight', 'oversight' );
 	}
 
@@ -390,7 +388,7 @@ class SpecialOversight extends SpecialPage {
 		$wgOut->addHTML(
 			Xml::openElement( 'form', array( 'action' => $wgScript, 'method' => 'get', 'id' => 'mw-hiderevision-form' ) ) .
 			Xml::fieldset( wfMsg( 'oversight-legend' ) ) .
-			Xml::hidden( 'title', $wgTitle->getPrefixedDbKey() ) .
+			Html::hidden( 'title', $wgTitle->getPrefixedDbKey() ) .
 			Xml::inputLabel( wfMsg( 'oversight-oversighter' ), 'user', 'mw-oversight-user', 20, $user ) . ' ' .
 			Xml::inputLabel( wfMsg( 'speciallogtitlelabel' ), 'page', 'mw-oversight-page', 25, $page ) . ' ' .
 			Xml::inputLabel( wfMsg( 'oversight-offender' ), 'author', 'mw-oversight-author', 20, $offender ) . ' ' .
@@ -490,7 +488,7 @@ class SpecialOversight extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$result = $this->getRevisions( $dbr, array( 'hidden_rev_id' => $revision ) );
 
-		while( $row = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $row ) {
 			$info = $this->listRow( $row );
 			$list = $this->revisionInfo( $row );
 			$rev = new Revision( $row );
@@ -536,7 +534,7 @@ class SpecialOversight extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$result = $this->getRevisions( $dbr, array( 'hidden_rev_id' => $revision ) );
 
-		while( $row = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $row ) {
 			$info = $this->listRow( $row );
 			$list = $this->revisionInfo( $row );
 			$rev = new Revision( $row );
@@ -645,7 +643,7 @@ class HiddenRevisionsPager extends ReverseChronologicalPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

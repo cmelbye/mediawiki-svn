@@ -132,6 +132,19 @@ $messages['ar'] = array(
 	'right-closewikis' => 'إغلاق الويكيات',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'closewikis-page-close-wiki' => 'ܘܝܩܝ:',
+	'closewikis-page-close-submit' => 'ܣܟܘܪ',
+	'closewikis-page-reopen' => 'ܦܬܘܚ ܘܝܩܝ ܙܒܢܬܐ ܐܚܪܬܐ',
+	'closewikis-page-reopen-wiki' => 'ܘܝܩܝ:',
+	'closewikis-page-reopen-reason' => 'ܥܠܬܐ:',
+	'closewikis-page-reopen-submit' => 'ܦܬܘܚ ܙܒܢܬܐ ܐܚܪܬܐ',
+	'closewikis-list-header-wiki' => 'ܘܝܩܝ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -166,6 +179,40 @@ $messages['arz'] = array(
 	'right-closewikis' => 'إغلاق الويكيات',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'closewikis-desc' => 'Вики фермала вики-сайттарҙы ябыу мөмкинлеге бирә',
+	'closewikis-page' => 'Вики проектты ябыу',
+	'closewikis-page-close' => 'Вики проектты ябырға',
+	'closewikis-page-close-wiki' => 'Вики:',
+	'closewikis-page-close-dreason' => 'Сәбәп (күренә торған):',
+	'closewikis-page-close-reason' => 'Сәбәп (журнал яҙмаһы өсөн):',
+	'closewikis-page-close-submit' => 'Ябырға',
+	'closewikis-page-close-success' => 'Вики уңышлы ябылды',
+	'closewikis-page-reopen' => 'Викины яңынан асырға',
+	'closewikis-page-reopen-wiki' => 'Вики:',
+	'closewikis-page-reopen-reason' => 'Сәбәп:',
+	'closewikis-page-reopen-submit' => 'Яңынан асырға',
+	'closewikis-page-reopen-success' => 'Вики уңышлы асылды',
+	'closewikis-page-err-nowiki' => 'Дөрөҫ вики күрһәтелмәгән',
+	'closewikis-page-err-closed' => 'Вики ябылған инде',
+	'closewikis-page-err-opened' => 'Вики ябыҡ түгел',
+	'closewikis-list' => 'Ябылған викилар исемлеге',
+	'closewikis-list-intro' => 'Был исемлектә стюардтар тарафынан ябылған викилар күрһәтелгән.',
+	'closewikis-list-header-wiki' => 'Вики',
+	'closewikis-list-header-by' => 'Ябыусы',
+	'closewikis-list-header-timestamp' => 'Ябыу ваҡыты',
+	'closewikis-list-header-dispreason' => 'Күрһәтелгән сәбәп',
+	'closewikis-log' => 'Вики ябыу яҙмалары журналы',
+	'closewikis-log-header' => 'Был — бөтә стюардтар тарафынан вики ябыуҙыр һәм яңынан асыуҙар яҙмалары журналы',
+	'closewikis-log-close' => '$2 викиһын япҡан',
+	'closewikis-log-reopen' => '$2 викиһын яңынан асҡан',
+	'right-editclosedwikis' => 'Ябыҡ викиларҙы үҙгәртергә',
+	'right-closewikis' => 'Ябыҡ викилар',
+);
+
 /** Bavarian (Boarisch)
  * @author Mucalexx
  */
@@ -198,6 +245,14 @@ $messages['bar'] = array(
 	'closewikis-log-reopen' => '$2 hod wiider geffnet',
 	'right-editclosedwikis' => 'Gschlossane Wikis beorwaiten',
 	'right-closewikis' => 'Wikis schliassen',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'closewikis-page-close-submit' => 'Закрыць',
+	'closewikis-page-reopen-reason' => 'Прычына:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1316,6 +1371,40 @@ $messages['mk'] = array(
 	'right-closewikis' => 'Затворање на викија',
 );
 
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'closewikis-desc' => 'വിക്കിഫാമുകളിൽ വിക്കി സൈറ്റുകൾ അടയ്ക്കാൻ അനുവദിക്കുന്നു',
+	'closewikis-page' => 'വിക്കി അടയ്ക്കുക',
+	'closewikis-page-close' => 'വിക്കി അടയ്ക്കുക',
+	'closewikis-page-close-wiki' => 'വിക്കി:',
+	'closewikis-page-close-dreason' => 'കാരണം (പ്രദർശിപ്പിക്കപ്പെട്ടത്):',
+	'closewikis-page-close-reason' => 'കാരണം (രേഖപ്പെടുത്തിയത്):',
+	'closewikis-page-close-submit' => 'അടയ്ക്കുക',
+	'closewikis-page-close-success' => 'വിക്കി വിജയകരമായി അടച്ചിരിക്കുന്നു',
+	'closewikis-page-reopen' => 'വിക്കി വീണ്ടും തുറക്കുക',
+	'closewikis-page-reopen-wiki' => 'വിക്കി:',
+	'closewikis-page-reopen-reason' => 'കാരണം:',
+	'closewikis-page-reopen-submit' => 'വീണ്ടും തുറക്കുക',
+	'closewikis-page-reopen-success' => 'വിക്കി വിജയകരമായി വീണ്ടും തുറന്നിരിക്കുന്നു',
+	'closewikis-page-err-nowiki' => 'അസാധുവായ വിക്കിയാണ് നൽകിയത്',
+	'closewikis-page-err-closed' => 'വിക്കി മുമ്പേ അടച്ചിരിക്കുകയാണ്',
+	'closewikis-page-err-opened' => 'വിക്കി അടച്ചിട്ടില്ല',
+	'closewikis-list' => 'അടയ്ക്കപ്പെട്ട വിക്കികളുടെ പട്ടിക',
+	'closewikis-list-intro' => 'ഈ പട്ടികയിൽ സ്റ്റ്യൂവർഡുകൾ അടച്ച വിക്കികൾ നൽകിയിരിക്കുന്നു.',
+	'closewikis-list-header-wiki' => 'വിക്കി',
+	'closewikis-list-header-by' => 'അടച്ചത്',
+	'closewikis-list-header-timestamp' => 'അടച്ച തീയതി',
+	'closewikis-list-header-dispreason' => 'പ്രദർശിപ്പിക്കപ്പെട്ട കാരണം',
+	'closewikis-log' => 'വിക്കി അടയ്ക്കൽ രേഖ',
+	'closewikis-log-header' => 'സ്റ്റ്യൂവാർഡുകൾ നടത്തിയ എല്ലാ വിക്കി അടയ്ക്കലുകളുടേയും വീണ്ടും തുറക്കലുകളുടേയും രേഖ',
+	'closewikis-log-close' => '$2 അടച്ചു',
+	'closewikis-log-reopen' => '$2 വീണ്ടും തുറന്നു',
+	'right-editclosedwikis' => 'അടച്ച വിക്കികൾ തിരുത്തുക',
+	'right-closewikis' => 'വിക്കികൾ അടയ്ക്കുക',
+);
+
 /** Mongolian (Монгол)
  * @author Chinneeb
  */
@@ -2103,9 +2192,17 @@ $messages['tr'] = array(
 
 /** Ukrainian (Українська)
  * @author Prima klasy4na
+ * @author Тест
  */
 $messages['uk'] = array(
+	'closewikis-page-close-wiki' => 'Вікі:',
+	'closewikis-page-close-dreason' => 'Причина (для показу):',
+	'closewikis-page-close-reason' => 'Причина (для запису в журнал):',
+	'closewikis-page-close-submit' => 'Закрити',
+	'closewikis-page-reopen-wiki' => 'Вікі:',
 	'closewikis-page-reopen-reason' => 'Причина:',
+	'closewikis-list-header-wiki' => 'Вікі',
+	'closewikis-log' => 'Журнал закриття вікі',
 );
 
 /** Urdu (اردو) */

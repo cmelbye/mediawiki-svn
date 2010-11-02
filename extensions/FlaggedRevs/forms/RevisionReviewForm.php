@@ -18,6 +18,7 @@ class RevisionReviewForm
 	protected $approve = false;
 	protected $unapprove = false;
 	protected $reject = false;
+	protected $rejectConfirm = false;
 	protected $oldid = 0;
 	protected $refid = 0;
 	protected $templateParams = '';
@@ -61,6 +62,10 @@ class RevisionReviewForm
 
 	public function setReject( $value ) {
 		$this->trySet( $this->reject, $value );
+	}
+
+	public function setRejectConfirm( $value ) {
+		$this->trySet( $this->rejectConfirm, $value );
 	}
 
 	public function getRefId() {
@@ -312,6 +317,11 @@ class RevisionReviewForm
 		} elseif ( $this->getAction() === 'reject' ) {
 			$newRev = Revision::newFromTitle( $this->page, $this->oldid );
 			$oldRev = Revision::newFromTitle( $this->page, $this->refid );
+
+			if( !$this->rejectConfirm ) {
+				$this->rejectConfirmationForm( $oldRev, $newRev );
+				return false;
+			}
 			# Do not mess with archived/deleted revisions
 			if ( is_null( $oldRev ) || $oldRev->mDeleted ) {
 				return 'review_bad_oldid';
@@ -708,7 +718,6 @@ class RevisionReviewForm
 		}
 
 		# Get versions of templates/files used
-		$imageParams = $templateParams = $fileVersion = '';
 		if ( $getPOut ) {
 			$pOutput = false;
 			# Current version: try parser cache
@@ -764,21 +773,21 @@ class RevisionReviewForm
 		$form .= Xml::closeElement( 'div' ) . "\n";
 
 		# Hidden params
-		$form .= Xml::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
-		$form .= Xml::hidden( 'target', $article->getTitle()->getPrefixedDBKey() ) . "\n";
-		$form .= Xml::hidden( 'refid', $refId ) . "\n";
-		$form .= Xml::hidden( 'oldid', $id ) . "\n";
-		$form .= Xml::hidden( 'action', 'submit' ) . "\n";
-		$form .= Xml::hidden( 'wpEditToken', $user->editToken() ) . "\n";
+		$form .= Html::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
+		$form .= Html::hidden( 'target', $article->getTitle()->getPrefixedDBKey() ) . "\n";
+		$form .= Html::hidden( 'refid', $refId ) . "\n";
+		$form .= Html::hidden( 'oldid', $id ) . "\n";
+		$form .= Html::hidden( 'action', 'submit' ) . "\n";
+		$form .= Html::hidden( 'wpEditToken', $user->editToken() ) . "\n";
 		# Add review parameters
-		$form .= Xml::hidden( 'templateParams', $templateParams ) . "\n";
-		$form .= Xml::hidden( 'imageParams', $imageParams ) . "\n";
-		$form .= Xml::hidden( 'fileVersion', $fileVersion ) . "\n";
+		$form .= Html::hidden( 'templateParams', $templateParams ) . "\n";
+		$form .= Html::hidden( 'imageParams', $imageParams ) . "\n";
+		$form .= Html::hidden( 'fileVersion', $fileVersion ) . "\n";
 		# Special token to discourage fiddling...
 		$checkCode = self::validationKey(
 			$templateParams, $imageParams, $fileVersion, $id
 		);
-		$form .= Xml::hidden( 'validatedParams', $checkCode ) . "\n";
+		$form .= Html::hidden( 'validatedParams', $checkCode ) . "\n";
 
 		$form .= Xml::closeElement( 'fieldset' );
 		$form .= Xml::closeElement( 'form' );
@@ -794,14 +803,12 @@ class RevisionReviewForm
 	 * Generates a main tag inputs (checkboxes/radios/selects) for review form
 	 */
 	private static function ratingInputs( $user, $flags, $disabled, $reviewed ) {
-		$form = '';
 		# Get all available tags for this page/user
 		list( $labels, $minLevels ) = self::ratingFormTags( $user, $flags );
 		if ( $labels === false ) {
 			$disabled = true; // a tag is unsettable
 		}
 		$dimensions = FlaggedRevs::getDimensions();
-		$tags = array_keys( $dimensions );
 		# If there are no tags, make one checkbox to approve/unapprove
 		if ( FlaggedRevs::binaryFlagging() ) {
 			return '';
@@ -986,6 +993,77 @@ class RevisionReviewForm
 			$form .= $this->getSpecialLinks();
 		}
 		return $form;
+	}
+
+	/**
+	 * Output the "are you sure you want to reject this" form
+	 *
+	 * A bit hacky, but we don't have a way to pass more complicated
+	 * UI things back up, since RevisionReview expects either true
+	 * or a string message key
+	 */
+	private function rejectConfirmationForm( Revision $oldRev, $newRev ) {
+		global $wgOut, $wgLang;
+		$thisPage = SpecialPage::getTitleFor( 'RevisionReview' );
+
+		$wgOut->addHtml( '<div class="plainlinks">' );
+
+		$dbr = wfGetDB( DB_SLAVE );
+		$oldid = $dbr->addQuotes( $oldRev->getId() );
+		$newid = $dbr->addQuotes( $newRev->getId() );
+		$res = $dbr->select( 'revision', 'rev_id',
+			array( 'rev_id > ' . $oldid, 'rev_id <= ' . $newid,
+				'rev_page' => $oldRev->getPage() ),
+			__METHOD__
+		);
+
+		$ids = array();
+		foreach( $res as $r ) {
+			$ids[] = $r->rev_id;
+		}
+
+		// List of revisions being undone...
+		$wgOut->addWikiMsg( 'revreview-reject-text-list' );
+		$wgOut->addHtml( '<ul>' );
+		// FIXME: we need a generic revision list class
+		$spRevDelete = SpecialPage::getPage( 'RevisionReview' );
+		$spRevDelete->skin = $this->user->getSkin(); // XXX
+		$list = new RevDel_RevisionList( $spRevDelete, $oldRev->getTitle(), $ids );
+		for ( $list->reset(); $list->current(); $list->next() ) {
+			$item = $list->current();
+			if ( $item->canView() ) {
+				$wgOut->addHTML( $item->getHTML() );
+			}
+		}
+		$wgOut->addHtml( '</ul>' );
+		// Revision this will revert to (when reverting the top X revs)...
+		if ( $newRev->isCurrent() ) {
+			$permaLink = $oldRev->getTitle()->getFullURL( 'oldid=' . $oldRev->getId() );
+			$wgOut->addWikiMsg( 'revreview-reject-text-revto',
+				$permaLink, $wgLang->timeanddate( $oldRev->getTimestamp(), true ) );
+		}
+		$wgOut->addHtml( '</div>' );
+		
+		$defaultSummary = wfMsg( 'revreview-reject-default-summary',
+			$newRev->getUserText(), $oldRev->getId(), $oldRev->getUserText() );
+
+		$form = Xml::openElement( 'form',
+			array( 'method' => 'POST', 'action' => $thisPage->getFullUrl() )
+		);
+		$form .= Html::hidden( 'action', 'reject' );
+		$form .= Html::hidden( 'wpReject', 1 );
+		$form .= Html::hidden( 'wpRejectConfirm', 1 );
+		$form .= Html::hidden( 'oldid', $this->oldid );
+		$form .= Html::hidden( 'refid', $this->refid );
+		$form .= Html::hidden( 'target', $oldRev->getTitle()->getPrefixedDBKey() );
+		$form .= Html::hidden( 'wpEditToken', $this->user->editToken() );
+		$form .= Xml::inputLabel( wfMsg( 'revreview-reject-summary' ), 'wpReason',
+			'wpReason', 120, $defaultSummary ) . "<br />";
+		$form .= Html::input( 'wpSubmit', wfMsg( 'revreview-reject-confirm' ), 'submit' );
+		$form .= Html::input( 'wpCancel', wfMsg( 'revreview-reject-cancel' ), 
+			'button', array( 'onClick' => 'history.back();' ) );
+		$form .= Xml::closeElement( 'form' );
+		$wgOut->addHtml( $form );
 	}
 
 	private function getSpecialLinks() {

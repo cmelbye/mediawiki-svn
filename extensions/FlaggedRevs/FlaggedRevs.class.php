@@ -417,7 +417,6 @@ class FlaggedRevs {
 		# that the user is allowed to set...
 		foreach ( self::getDimensions() as $qal => $levels ) {
 			$level = isset( $flags[$qal] ) ? $flags[$qal] : 0;
-			$highest = count( $levels ) - 1; // highest valid level
 			if ( !self::userCanSetTag( $user, $qal, $level ) ) {
 				return false; // user cannot set proposed flag
 			} elseif ( isset( $oldflags[$qal] )
@@ -874,7 +873,7 @@ class FlaggedRevs {
 		$tags = $tags ? $tags : "";
 		return FlaggedRevision::expandRevisionTags( strval( $tags ) );
 	}
-	
+
 	/**
 	 * @param int $page_id
 	 * @param int $rev_id
@@ -892,7 +891,7 @@ class FlaggedRevs {
 			array( 'USE INDEX' => 'PRIMARY' )
 		);
 	}
-	
+
 	/**
 	 * @param Title $title
 	 * @param int $rev_id
@@ -1069,7 +1068,7 @@ class FlaggedRevs {
 			__METHOD__
 			// array( 'FOR UPDATE' )
 		);
-		while ( $row = $dbw->fetchObject( $ret ) ) {
+		foreach( $ret as $row ) {
 			// If FlaggedRevs got "turned off" for this page (due to not
 			// having the stable version as the default), then clear it
 			// from the tracking tables...
@@ -1180,8 +1179,10 @@ class FlaggedRevs {
 		{
 			case FR_PRISTINE:
 				$minLevels = self::$minPL;
+				break;
 			case FR_QUALITY:
 				$minLevels = self::$minQL;
+				break;
 			default:
 				$minLevels = self::$minSL;
 		}

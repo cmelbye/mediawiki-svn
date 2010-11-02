@@ -911,6 +911,22 @@ $messages['lt'] = array(
 	'countedits-nocontribs' => 'Šioje wiki nebuvo naudotojų.',
 );
 
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'countedits' => 'Mpanisa fanovana',
+	'countedits-warning' => "'''Tandremo''' : Aza mitsara boky amin'ny alàlan'ny foniny. 
+Ary aza mitsara ny mpandray anjara amin'ny alàlan'ny isan'ny fanovana nataony.",
+	'countedits-username' => 'Solonanarana :',
+	'countedits-ok' => 'Eka',
+	'countedits-nosuchuser' => 'Tsy misy mpikambana mitondra ny anarana $1',
+	'countedits-resultheader' => "Valiny ho an'i $1",
+	'countedits-resulttext' => 'Nanao fanovana $2 i $1{{PLURAL:}}',
+	'countedits-mostactive' => 'Mpandray anjara mavitrika indrindra',
+	'countedits-nocontribs' => "Tsy nisy fandraisan'anjara teo amin'io wiki io.",
+);
+
 /** Eastern Mari (Олык Марий)
  * @author Сай
  */
@@ -955,11 +971,13 @@ $messages['ml'] = array(
 );
 
 /** Mongolian (Монгол)
+ * @author Chinneeb
  * @author E.shijir
  */
 $messages['mn'] = array(
 	'countedits' => 'Засваруудыг тоолох',
 	'countedits-desc' => '[[Special:CountEdits|Тусгай хуудас]] нь хэрэглэгчийн засваруудыг тоолж топ арван хувь оруулагчдын жагсаалт гаргадаг',
+	'countedits-username' => 'Хэрэглэгчийн нэр:',
 );
 
 /** Marathi (मराठी)

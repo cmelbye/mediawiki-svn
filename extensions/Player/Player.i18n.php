@@ -113,6 +113,9 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'player-file' => 'ܫܡܐ ܕܠܦܦܐ',
+	'player-not-found' => 'ܠܦܦܐ ܠܐ ܐܫܟܚܬ',
+	'player-invalid-title' => 'ܟܘܢܝܐ ܠܐ ܬܪܝܨܐ',
 	'player-goto-page' => 'ܦܐܬܐ',
 	'player-goto-file' => 'ܠܦܦܐ',
 );
@@ -903,6 +906,13 @@ $messages['ml'] = array(
 	'player-goto-file' => 'പ്രമാണം',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'player-goto-page' => 'Хуудас',
+);
+
 /** Marathi (मराठी)
  * @author Kaustubh
  * @author Mahitgar
@@ -1422,9 +1432,21 @@ $messages['ug-latn'] = array(
 );
 
 /** Ukrainian (Українська)
+ * @author Alex Khimich
  * @author Тест
  */
 $messages['uk'] = array(
+	'player' => 'Програвач',
+	'player-desc' => 'Вбудоване відтворення мультимедіа за допомогою звичайних плагінів браузера і [[Special:Player|спеціальної сторінки]]',
+	'player-title' => 'Програвач',
+	'player-playertitle' => 'Програвач: $1',
+	'player-file' => 'Назва файлу',
+	'player-play' => 'Відтворити',
+	'player-not-allowed' => 'заборонений формат',
+	'player-not-found' => 'файл не знайдено',
+	'player-invalid-title' => 'помилкова назва',
+	'player-clicktoplay' => 'Відтворити $1',
+	'player-goto-player' => 'програвач',
 	'player-goto-page' => 'Сторінка',
 	'player-goto-file' => 'файл',
 );

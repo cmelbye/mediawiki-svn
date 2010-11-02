@@ -104,6 +104,18 @@ $messages['ar'] = array(
 	'errorhandler-trace-line-internal' => '[وظيفة داخلية]: $1',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'errorhandler-errors' => 'ܦܘܕ̈ܐ:',
+	'errorhandler-error-user-error' => 'ܦܘܕܐ ܕܡܬܚܫܚܢܐ',
+	'errorhandler-error-user-warning' => 'ܙܘܗܪܐ ܕܡܬܚܫܚܢܐ',
+	'errorhandler-msg-text' => '$1 : $2 ܒ $3 (ܣܪܛܐ $4)',
+	'errorhandler-msg-html' => '<b>$1</b> : <i>$2</i> ܒ <b>$3</b> (ܣܪܛܐ <b>$4</b>)',
+	'errorhandler-trace-line' => '$1 (ܣܪܛܐ $2): $3',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -246,6 +258,31 @@ $messages['ca'] = array(
 	'errorhandler-error-fatal' => 'Error fatal',
 	'errorhandler-error-compile-error' => 'Error de compilació',
 	'errorhandler-error-user-error' => "Error d'usuari",
+);
+
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'errorhandler-desc' => 'Obsluha chyb MediaWiki',
+	'errorhandler-errors' => 'Chyby:',
+	'errorhandler-error-fatal' => 'Kritická chyba',
+	'errorhandler-error-warning' => 'Upozornění',
+	'errorhandler-error-parse' => 'Chyba syntaktické analýzy',
+	'errorhandler-error-notice' => 'Oznámení',
+	'errorhandler-error-deprecated' => 'Zastaralé',
+	'errorhandler-error-core-error' => 'Chyba jádra',
+	'errorhandler-error-core-warning' => 'Upozornění jádra',
+	'errorhandler-error-compile-error' => 'Chyba kompilace',
+	'errorhandler-error-compile-warning' => 'Upozornění kompilace',
+	'errorhandler-error-user-error' => 'Chyba uživatele',
+	'errorhandler-error-user-warning' => 'Upozornění uživatele',
+	'errorhandler-error-user-notice' => 'Oznámení uživatele',
+	'errorhandler-error-user-deprecated' => 'Uživatel je zastaralý',
+	'errorhandler-error-strict' => 'Přísné standardy',
+	'errorhandler-error-recoverable' => 'Zachytitelná kritická chyba',
+	'errorhandler-trace' => 'trasování:',
+	'errorhandler-trace-line-internal' => '[vnitřní funkce]: $1',
 );
 
 /** German (Deutsch)
@@ -1110,6 +1147,7 @@ $messages['pt-br'] = array(
 /** Romanian (Română)
  * @author Firilacroco
  * @author KlaudiuMihaila
+ * @author Minisarm
  * @author Stelistcristi
  */
 $messages['ro'] = array(
@@ -1119,7 +1157,7 @@ $messages['ro'] = array(
 	'errorhandler-error-parse' => 'Eroare de parser',
 	'errorhandler-error-notice' => 'Notificare',
 	'errorhandler-error-deprecated' => 'Învechit',
-	'errorhandler-error-core-error' => 'Eroare nucelu',
+	'errorhandler-error-core-error' => 'Eroare nucleu',
 	'errorhandler-error-core-warning' => 'Avertisment nucleu',
 	'errorhandler-error-compile-error' => 'Eroare de compilare',
 	'errorhandler-error-compile-warning' => 'Avertizare de compilare',
@@ -1362,6 +1400,7 @@ $messages['tr'] = array(
 /** Ukrainian (Українська)
  * @author NickK
  * @author Prima klasy4na
+ * @author Тест
  */
 $messages['uk'] = array(
 	'errorhandler-desc' => 'Оброблювач помилок для MediaWiki',
@@ -1379,8 +1418,10 @@ $messages['uk'] = array(
 	'errorhandler-error-user-warning' => 'Попередження користувача',
 	'errorhandler-error-user-notice' => 'Повідомлення користувача',
 	'errorhandler-error-user-deprecated' => 'Користувач заборонений',
+	'errorhandler-error-strict' => 'Жорсткі стандарти',
 	'errorhandler-msg-text' => '$1 : $2 в $3 (рядок $4)',
 	'errorhandler-msg-html' => '<b>$1</b> : <i>$2</i> у <b>$3</b> (рядок <b>$4</b>)',
+	'errorhandler-trace' => 'відбиток:',
 	'errorhandler-trace-line' => '$1 (рядок $2): $3',
 	'errorhandler-trace-line-internal' => '[внутрішня функція]: $1',
 );
@@ -1412,6 +1453,14 @@ $messages['vi'] = array(
 	'errorhandler-msg-html' => '<b>$1</b> : <i>$2</i> trong <b>$3</b> (dòng <b>$4</b>)',
 	'errorhandler-trace-line' => '$1 (dòng $2): $3',
 	'errorhandler-trace-line-internal' => '[hàm nội bộ]: $1',
+);
+
+/** Volapük (Volapük)
+ * @author Malafaya
+ */
+$messages['vo'] = array(
+	'errorhandler-errors' => 'Pöls:',
+	'errorhandler-error-warning' => 'Nuned',
 );
 
 /** Yiddish (ייִדיש)

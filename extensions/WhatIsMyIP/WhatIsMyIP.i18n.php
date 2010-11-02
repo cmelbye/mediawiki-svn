@@ -149,10 +149,11 @@ $messages['bs'] = array(
 );
 
 /** Catalan (Català)
+ * @author Martorell
  * @author Paucabot
  */
 $messages['ca'] = array(
-	'whatismyip' => 'Quina és la meva IP',
+	'whatismyip' => 'Quina adreça IP estic utilitzant?',
 	'whatismyip-desc' => "Mostra l'[[Special:WhatIsMyIP|adreça IP]] actual de l'usuari",
 	'whatismyip-out' => 'La vostra adreça IP:',
 	'right-whatismyip' => 'Mostra [[Special:WhatIsMyIP|la pròpia adreça IP]]',
@@ -186,6 +187,16 @@ $messages['cy'] = array(
 	'whatismyip-desc' => 'Yn dangos [[Special:WhatIsMyIP|cyfeiriad IP]] y defnyddiwr presennol',
 	'whatismyip-out' => 'Eich cyfeiriad IP:',
 	'right-whatismyip' => 'Gweld [[Special:WhatIsMyIP|fy nghyfeiriad IP]] fy hunan',
+);
+
+/** Danish (Dansk)
+ * @author MGA73
+ */
+$messages['da'] = array(
+	'whatismyip' => 'Hvad er min IP',
+	'whatismyip-desc' => 'Viser den aktuelle brugers [[Special:WhatIsMyIP|IP-adresse]]',
+	'whatismyip-out' => 'Din IP-adresse:',
+	'right-whatismyip' => 'Vis [[Special:WhatIsMyIP|egen IP-adresse]]',
 );
 
 /** German (Deutsch)

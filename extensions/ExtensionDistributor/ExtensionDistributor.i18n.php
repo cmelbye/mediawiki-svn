@@ -1053,6 +1053,13 @@ $messages['frp'] = array(
 	'extdist-want-more' => 'Avêr una ôtra èxtension',
 );
 
+/** Friulian (Furlan)
+ * @author Klenje
+ */
+$messages['fur'] = array(
+	'extdist-submit-extension' => 'Va indevant',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -2465,10 +2472,13 @@ Cele mai multe extensii funcționează în mai multe versiuni de MediaWiki, deci
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
 	'extensiondistributor' => 'Scareche le estenziune de MediaUicchi',
+	'extdist-no-such-version' => 'L\'estenzione "$1" non g\'esiste jndr\'à versiune "$2".',
 	'extdist-submit-extension' => 'Condinue',
+	'extdist-current-version' => 'Versiune de sveluppe (trunk)',
 	'extdist-submit-version' => 'Condinue',
 	'extdist-want-more' => "Pigghie 'n'otra estenzione",
 );
@@ -2529,8 +2539,23 @@ tar -xzf $5 -C /var/www/mediawiki/extensions
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'extensiondistributor' => 'Скачати росшырїня MediaWiki',
+	'extensiondistributor-desc' => 'Росшырїня про дістрібуцію архівів росшырїня',
+	'extdist-wc-missing' => 'Адресарь наставленый про працовну копію не єствує!',
+	'extdist-no-such-extension' => 'Росшырїня „$1” не єствує',
+	'extdist-no-such-version' => 'Росшырїня "$1" не єствує у верзії "$2".',
+	'extdist-choose-extension' => 'Выберте, котре росшырїня хочете скачати:',
 	'extdist-submit-extension' => 'Продовжыти',
+	'extdist-current-version' => 'Вывоёва верзія (trunk)',
+	'extdist-no-versions' => 'Выбране росшырїня ($1) не є доступне в жадній верзії!',
 	'extdist-submit-version' => 'Продовжыти',
+	'extdist-no-remote' => 'Не подарило ся контактовати далекого кліента Subversion.',
+	'extdist-remote-error' => 'Хыба од далекого кліента Subversion: <pre>$1</pre>',
+	'extdist-remote-invalid-response' => 'Непратна одповідь од далекого кліента Subversion.',
+	'extdist-svn-error' => 'Subversion наразив на хыбу: <pre>$1</pre>',
+	'extdist-svn-parse-error' => 'Не дало ся спрацовати XML з выступу „svn info”: <pre>$1</pre>',
+	'extdist-tar-error' => 'Tar скінчів з вернутым кодом $1:',
+	'extdist-want-more' => 'Скачати інше росшырїня',
 );
 
 /** Yakut (Саха тыла)
@@ -2633,6 +2658,57 @@ Po rozbalení súborov budete musieť rozšírenie zaregistrovať v LocalSetting
 
 Ak máte otázky týkajúce sa tohto systému distribúcie rozšírení, navštívte [[Extension talk:ExtensionDistributor]].",
 	'extdist-want-more' => 'Stiahnuť iné rozšírenie',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'extensiondistributor' => 'Prenesi razširitev MediaWiki',
+	'extensiondistributor-desc' => 'Razširitev, ki razdeljuje arhive posnetkov razširitev',
+	'extdist-not-configured' => 'Prosimo, nastavite $wgExtDistTarDir in $wgExtDistWorkingCopy',
+	'extdist-wc-missing' => 'Nastavljena delovna kopija mape ne obstaja!',
+	'extdist-no-such-extension' => 'Razširitev »$1« ne obstaja',
+	'extdist-no-such-version' => 'Raširitev »$1« v različici »$2« ne obstaja.',
+	'extdist-choose-extension' => 'Izberite, katero razširitev želite prenesti:',
+	'extdist-wc-empty' => 'Nastavljena delovna kopija mape nima razdeljivih razširitev!',
+	'extdist-submit-extension' => 'Nadaljuj',
+	'extdist-current-version' => 'Razvojna različica (trunk)',
+	'extdist-choose-version' => '<big>Prenašate razširitev <b>$1</b>.</big>
+
+Izberite svojo različico MediaWiki.
+
+Večina razširitev deluje na več različicah MediaWiki, zato v primeru, da vaša različica MediaWiki tukaj ni navedena ali potrebujete najnovejše funkcije razširitve, poskusite uporabiti trenutno različico.',
+	'extdist-no-versions' => 'Izbrana razširitev ($1) ni na voljo v nobeni različici!',
+	'extdist-submit-version' => 'Nadaljuj',
+	'extdist-no-remote' => 'Ne morem stopiti v stik z oddaljenim odjemalcem subversion.',
+	'extdist-remote-error' => 'Napaka od oddaljenega odjemalca subversion: <pre>$1</pre>',
+	'extdist-remote-invalid-response' => 'Neveljavni odziv oddaljenega odjemalca subversion.',
+	'extdist-svn-error' => 'Subversion je naletel na napako: <pre>$1</pre>',
+	'extdist-svn-parse-error' => 'Ne morem obdelati XML iz »svn info«: <pre>$1</pre>',
+	'extdist-tar-error' => 'Tar je vrnih izhodno kodo $1:',
+	'extdist-created' => "Posnetek različice <b>$2</b> razširitve <b>$1</b> za MediaWiki <b>$3</b> je ustvarjen. Vaš prenos bi se moral začeti samodejno v 5 sekundah.
+
+URL posnetka je:
+:$4
+Lahko ga uporabite za takojšnji prenos s strežnika, vendar ga ne dodajte med zaznamke, saj vsebina ne bo posodobljena in bo pozneje morda izbrisana.
+
+Arhiv tar je potrebno razširiti v mapo z razširitvami. Na primer, na operacijskem sistemu vrste unix:
+
+<pre>
+tar -xzf $5 -C /var/www/mediawiki/extensions
+</pre>
+
+Na sistemu Windows lahko za razširjanje datotek uporabite [http://www.7-zip.org/ 7-zip].
+
+Če je vaš wiki na oddaljenem strežniku, razširite datoteke v začasno mapo na vašem lokalnem računalniku in nato '''vse''' razširjene datoteke naložite v mapo razširitev na strežniku.
+
+Upoštevajte, da nekatere razširitve potrebujejo datoteko ExtensionFunctions.php, ki se nahaja na <tt>extensions/ExtensionFunctions.php</tt>, to je v ''starševskem'' imeniku mape te določene razširitve. Posnetek teh razširitev vsebuje omenjeno datoteko kot tarbomb, razširjeno v ./ExtensionFunctions.php. Ne izpustite te datoteke pri nalaganju na vaš oddaljeni strežnik.
+
+Po tem, ko ste razširili vse datoteke, morate registrirati razširitev v LocalSettings.php. Dokumentacija razširirtve bi morala vsebovati navodila, kako to storiti.
+
+Če imate kakšna vprašanje glede sistema razdeljevanja razširitev, pojdite na [[Extension talk:ExtensionDistributor]].",
+	'extdist-want-more' => 'Dobi drugo razširitev',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

@@ -47,7 +47,6 @@ class DPLMain {
 		// Local parser created. See http://www.mediawiki.org/wiki/Extensions_FAQ#How_do_I_render_wikitext_in_my_extension.3F
 		$localParser = new Parser();
 		$pOptions = $parser->mOptions;
-		$pTitle = $parser->mTitle;
 
 		// check if DPL shall only be executed from protected pages
 		if ( array_key_exists( 'RunFromProtectedPagesOnly', ExtDynamicPageList::$options ) &&
@@ -119,7 +118,6 @@ class DPLMain {
 		$sCount = '';
 		$sCountScroll = '';
 		$sTitleGE = '';
-		$findTitle = '';
 		$sTitleLE = '';
 		$scrollDir = '';
 
@@ -261,7 +259,6 @@ class DPLMain {
 		$aSecLabelsNotMatch = array();
 		$bIncParsed = false; // default is to match raw parameters
 
-		$aSecSeparators = array();
 		$aSecSeparators	= explode( ',', ExtDynamicPageList::$options['secseparators']['default'] );
 		$aMultiSecSeparators = explode( ',', ExtDynamicPageList::$options['multisecseparators']['default'] );
 		$iDominantSection = ExtDynamicPageList::$options['dominantsection']['default'];
@@ -2947,7 +2944,7 @@ class DPLMain {
 		$lastNamespaceFound = '';
 		$lastTitleFound = '';
 
-		while ( $row = $dbr->fetchObject ( $res ) ) {
+		foreach ( $res as $row ) {
 			$iArticle++;
 
 			// in random mode skip articles which were not chosen
@@ -3107,7 +3104,7 @@ class DPLMain {
 				// Category links from current page
 				if ( $bAddCategories && $bGoalIsPages && ( $row->cats != '' ) ) {
 					$artCatNames = explode( ' | ', $row->cats );
-					foreach ( $artCatNames as $iArtCat => $artCatName ) {
+					foreach ( $artCatNames as $artCatName ) {
 						$dplArticle->mCategoryLinks[] = '[[:Category:' . $artCatName . '|' . str_replace( '_', ' ', $artCatName ) . ']]';
 						$dplArticle->mCategoryTexts[] = str_replace( '_', ' ', $artCatName );
 					}
@@ -3379,7 +3376,7 @@ class DPLMain {
 		$aTableRow = array();
 		$groupNr = - 1;
 		$t = - 1;
-		foreach ( $aSecLabels as $colgroup => $label ) {
+		foreach ( $aSecLabels as $label ) {
 			$t++;
 			$groupNr++;
 			$cols = split( '}:', $label );
@@ -3426,7 +3423,7 @@ class DPLMain {
 			. str_replace( ' ', '_', $cat ) . "'" . " WHERE page_namespace='14'",
 			__METHOD__
 		);
-		while ( $row = $dbr->fetchObject ( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( $depth > 1 ) {
 				$cats .= '|' . self::getSubcategories( $row->page_title, $sPageTable, $depth - 1 );
 			} else {

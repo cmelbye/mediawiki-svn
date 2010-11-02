@@ -59,6 +59,9 @@ class WikilogUtils
 	 *   parser that we could mess up without interfering with normal page
 	 *   rendering, and we can't create a new instance because of too many
 	 *   broken extensions around. Check self::parserSanityCheck().
+	 *
+	 * @todo (In Wikilog 1.3.x) Remove deprecated WikilogParserCache
+	 *   in favor of ParserOptions::addExtraKey().
 	 */
 	public static function parsedArticle( Title $title, $feed = false ) {
 		global $wgWikilogCloneParser;
@@ -73,20 +76,28 @@ class WikilogUtils
 		$useParserCache = $wgEnableParserCache &&
 			intval( $wgUser->getOption( 'stubthreshold' ) ) == 0 &&
 			$article->exists();
+		$parserCacheClass = "ParserCache";
 
 		# Parser options.
 		$parserOpt = ParserOptions::newFromUser( $wgUser );
 		$parserOpt->setTidy( true );
 		if ( $feed ) {
 			$parserOpt->setEditSection( false );
-			$parserOpt->addExtraKey( "WikilogFeed" );
+			
+			# NOTE (Mw1.16- COMPAT) ParserOptions::addExtraKey() added in
+			# MediaWiki 1.17 (r70822) makes WikilogParserCache obsolete.
+			if ( method_exists( $parserOpt, 'addExtraKey' ) ) {
+				$parserOpt->addExtraKey( "WikilogFeed" );
+			} else {
+				$parserCacheClass = "WikilogParserCache";
+			}
 		} else {
 			$parserOpt->enableLimitReport();
 		}
 
 		if ( $useParserCache ) {
-			# Select parser cache according to the $feed flag.
-			$parserCache = ParserCache::singleton();
+			# Get the parser cache instance.
+			$parserCache = $parserCacheClass::singleton();
 
 			# Look for the parsed article output in the parser cache.
 			$parserOutput = $parserCache->get( $article, $parserOpt );
@@ -179,10 +190,6 @@ class WikilogUtils
 	 * with links to their user and user-talk pages, according to the
 	 * 'wikilog-author-signature' system message.
 	 *
-	 * @pre wfLoadExtensionMessages( 'Wikilog' ) must have been called. It
-	 *   is not called here since this function can potentially be called
-	 *   lots of times in a single page load.
-	 *
 	 * @param $list Array of authors.
 	 * @return Wikitext-formatted textual list of authors.
 	 */
@@ -205,10 +212,6 @@ class WikilogUtils
 	 * Formats a single author signature.
 	 * Uses the 'wikilog-author-signature' system message, in order to provide
 	 * user and user-talk links.
-	 *
-	 * @pre wfLoadExtensionMessages( 'Wikilog' ) must have been called. It
-	 *   is not called here since this function can potentially be called
-	 *   lots of times in a single page load.
 	 *
 	 * @param $author String, author name.
 	 * @return Wikitext-formatted author signature.
@@ -481,10 +484,7 @@ class WikilogNavbar
 		$html = "{$pagingLinks['first']} {$pagingLinks['prev']} {$ellipsis} {$pagingLinks['next']} {$pagingLinks['last']}";
 		$html = WikilogUtils::wrapDiv( 'wl-pagination', $html );
 
-		# NOTE (Mw1.15- COMPAT): Language::getDir() introduced in Mw1.16.
-		# Use Language::isRTL() as a fallback.
-		$dir = method_exists( $wgLang, 'getDir' ) ? $wgLang->getDir() :
-			( $wgLang->isRTL() ? 'rtl' : 'ltr' );
+		$dir = $wgLang->getDir();
 
 		return Xml::tags( 'div',
 			array(

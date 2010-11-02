@@ -129,6 +129,19 @@ $messages['ast'] = array(
 	'fancycaptcha-edit' => "Pa editar la páxina, por favor escribi nel caxellu les pallabres qu'apaecen embaxo ([[Special:Captcha/help|más información]]):",
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'fancycaptcha-addurl' => 'Һеҙҙең текстығыҙҙа яңы тышҡы һылтанмалар бар.
+Автоматик спамдан һаҡлау маҡсатында, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+	'fancycaptcha-badlogin' => 'Паролде автоматик ватыуҙан һаҡлау маҡсатында, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+	'fancycaptcha-createaccount' => 'Иҫәп яҙмаларын автоматик булдырыуҙан һаҡлау маҡсатында, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+	'fancycaptcha-create' => 'Яңы бит булдырыу өсөн, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+	'fancycaptcha-edit' => 'Был битте мөхәррирләү өсөн, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+	'fancycaptcha-sendemail' => 'Автоматик спамдан һаҡлау маҡсатында, зинһар, күрһәтелгән һүҙҙәрҙе түбәндәге юлға керетегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]]):',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -502,6 +515,7 @@ Zum Schutz vor automatisiertem Spamming gib des Wort in s Fäld unten yy. Druck 
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author Rotem Liss
  */
 $messages['he'] = array(
@@ -511,6 +525,7 @@ $messages['he'] = array(
 	'fancycaptcha-createaccount' => 'כהגנה מפני יצירת חשבונות אוטומטית, אנא הקלידו את המילים המופיעות להלן בתיבה ([[Special:Captcha/help|מידע נוסף]]):',
 	'fancycaptcha-create' => 'כדי ליצור את הדף, אנא הקלידו את המילים המופיעות להלן בתיבה ([[Special:Captcha/help|מידע נוסף]]):',
 	'fancycaptcha-edit' => 'כדי לערוך את הדף, אנא הקלידו את המילים המופיעות להלן בתיבה ([[Special:Captcha/help|מידע נוסף]]):',
+	'fancycaptcha-sendemail' => 'כדי לעזור להתגונן מפני שליחת זבל אוטומטית, אנא הכניסו את המילים שמופיעות בתיבה למטה ([[Special:Captcha/help|מידע נוסף]]):',
 );
 
 /** Hindi (हिन्दी)
@@ -1051,6 +1066,20 @@ $messages['sk'] = array(
 	'fancycaptcha-createaccount' => 'Kvôli ochrane proti automatizovanému spamu je potrebné napísať slová zobrazené na tomto obrázku, až potom bude vytvorený nový účet: <br />([[Special:Captcha/help|Čo je toto?]])',
 	'fancycaptcha-create' => 'Vaša úprava obsahuje nové URL odkazy; kvôli ochrane proti automatizovanému spamu je potrebné napísať slová zobrazené na tomto obrázku: <br />([[Special:Captcha/help|Čo je toto?]])',
 	'fancycaptcha-edit' => 'Vaša úprava obsahuje nové URL odkazy; kvôli ochrane proti automatizovanému spamu je potrebné napísať slová zobrazené na tomto obrázku: <br />([[Special:Captcha/help|Čo je toto?]])',
+	'fancycaptcha-sendemail' => 'Ako ochranu proti automatizovanému spamu, prosím zadajte slová z nasledujúceho obrázka do poľa pre odpoveď ([[Special:Captcha/help|ďalšie informácie]]):',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'fancycaptcha-addurl' => 'Vaše urejanje vključuje nove zunanje povezave.
+Zaradi zaščite pred samodejnim smetjem, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
+	'fancycaptcha-badlogin' => 'Zaradi zaščite pred samodejnim ugotavljanjem gesel, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
+	'fancycaptcha-createaccount' => 'Zaradi zaščite pred samodejnim ustvarjanjem računov, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
+	'fancycaptcha-create' => 'Če želite ustvariti stran, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
+	'fancycaptcha-edit' => 'Če želite urejati stran, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
+	'fancycaptcha-sendemail' => 'Zaradi zaščite pred samodejnim smetenjem, prosimo vnesite spodnje besede v polje ([[Special:Captcha/help|več informacij]]):',
 );
 
 /** Albanian (Shqip)
@@ -1281,6 +1310,14 @@ $messages['vro'] = array(
 $messages['yi'] = array(
 	'fancycaptcha-create' => 'צו שאַפֿן דעם בלאַט, זײַט אזוי גוט און קלאַפט אַרײַן די ווערטער וואָס זענען אינעם קעסטל אונטן ([[Special:Captcha/help|מער אינפֿארמאַציע]]):',
 	'fancycaptcha-edit' => 'צו רעדאִקטירן דעם בלאַט, זײַט אזוי גוט און קלאַפט אַרײַן די ווערטער וואָס שטייען אינעם קעסטל אונטן ([[Special:Captcha/help|מער אינפֿארמאַציע]]):',
+);
+
+/** Yoruba (Yorùbá)
+ * @author Demmy
+ */
+$messages['yo'] = array(
+	'fancycaptcha-addurl' => 'Àwọn àtúnṣe yín ní àwọn ìjápọ̀ òde nínú.
+Láti ṣèránwọ́ láti kojú spam aṣefúnrararẹ̀, ẹ jọ̀wọ́ ẹ fi àwọn ọ̀rọ̀ tí wọ́n hàn nísàlẹ̀ sínú ààyè ([[Special:Captcha/help|ẹ̀kúnrẹ́rẹ́]]):',
 );
 
 /** Cantonese (粵語) */

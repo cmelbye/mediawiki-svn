@@ -174,6 +174,23 @@ $messages['af'] = array(
 	'fbconnect-link-to-profile' => 'Facebook-profiel',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'group-fb-groupie' => 'ܗܕ̈ܡܐ ܕܟܢܘܫܬܐ',
+	'group-fb-groupie-member' => 'ܗܕܡܐ ܕܟܢܘܫܬܐ',
+	'grouppage-fb-groupie' => '{{ns:project}}:ܗܕ̈ܡܐ ܕܟܢܘܫܬܐ',
+	'fbconnect-invalid' => 'ܓܒܝܬܐ ܠܐ ܬܪܝܨܬܐ',
+	'fbconnect-fullname' => 'ܫܡܐ ܓܡܝܪܐ',
+	'fbconnect-email' => 'ܦܪܫܓܢܐ ܕܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
+	'fbconnect-language' => 'ܠܫܢܐ',
+	'fbconnect-choosefirst' => 'ܫܡܐ ܩܕܡܝܐ ܕܝܠܟ($1)',
+	'fbconnect-choosefull' => 'ܫܡܐ ܓܡܝܪܐ ܕܝܠܟ($1)',
+	'fbconnect-chooseusername' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ:',
+	'fbconnect-choosepassword' => 'ܡܠܬܐ ܕܥܠܠܐ:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -330,17 +347,57 @@ Nudi autentifikaciju zasnovanu na Facebook grupama i korištenju FBML u wiki tek
 	'group-fb-groupie-member' => 'Član grupe',
 	'group-fb-admin' => 'Administratori grupe',
 	'group-fb-admin-member' => 'Administrator grupe',
+	'fbconnect-connect' => 'Prijavite se sa Facebook Connect',
 	'fbconnect-link' => 'Nazad na facebook.com',
 	'fbconnect-title' => 'Spajanje računa sa Facebook',
 	'fbconnect-click-to-login' => 'Kliknite da se prijavite na ovu stranicu preko Facebooka',
 	'fbconnect-click-to-connect-existing' => 'Kliknite da spojite vaš Facebook račun na $1',
 	'fbconnect-comm' => 'Komunikacija',
+	'fbconnect-loginbox' => "Ili se '''prijavite''' preko Facebook:
+	
+$1",
+	'fbconnect-merge' => 'Spoji svoj wiki račun sa svojim Facebook ID',
 	'fbconnect-cancel' => 'Akcija obustavljena',
 	'fbconnect-invalid' => 'Nevaljana opcija',
 	'fbconnect-nickname' => 'Nadimak',
 	'fbconnect-fullname' => 'Puno ime',
 	'fbconnect-email' => 'E-mail adresa',
 	'fbconnect-language' => 'Jezik',
+);
+
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'fbconnect-fbml' => 'Soubor značek Facebook',
+	'fbconnect-error' => 'Chyba ověření',
+	'fbconnect-errortext' => 'Vyskytla se chyba během ověření s Facebook Connect.',
+	'fbconnect-cancel' => 'Akce zrušena',
+	'fbconnect-canceltext' => 'Přechozí akce byla uživatelem zrušena.',
+	'fbconnect-invalid' => 'Nesprávná možnost',
+	'fbconnect-invalidtext' => 'Výběr na minulé stránce byl nesprávný.',
+	'fbconnect-success' => 'Ověření Facebooku bylo úspěšné',
+	'fbconnect-successtext' => 'Jste zalogován s Facebook Connect',
+	'fbconnect-nickname' => 'Přezdívka',
+	'fbconnect-fullname' => 'Plné jméno',
+	'fbconnect-email' => 'E-mailová adresa',
+	'fbconnect-language' => 'Jazyk',
+	'fbconnect-timecorrection' => 'Úprava časové zóny (hodiny)',
+	'fbconnect-chooselegend' => 'Výběr uživatelského jména',
+	'fbconnect-chooseinstructions' => 'Všichni uživatelé musí mít přezdívku; můžete si jí vybrat z možností níže.',
+	'fbconnect-choosenick' => 'Jméno vašeho Facebook profilu ($1)',
+	'fbconnect-choosefirst' => 'Vaše křestní jméno ($1)',
+	'fbconnect-choosefull' => 'Vaše plné jméno ($1)',
+	'fbconnect-chooseauto' => 'Automaticky generované jméno ($1)',
+	'fbconnect-choosemanual' => 'Jméno dle vašeho výběru:',
+	'fbconnect-chooseexisting' => 'Existující účet na této wiki',
+	'fbconnect-chooseusername' => 'Uživatelské jméno:',
+	'fbconnect-choosepassword' => 'Heslo:',
+	'fbconnect-updateuserinfo' => 'Aktualizovat následující osobní údaje:',
+	'fbconnect-error-creating-user' => 'Chyba při vytváření uživatele v lokální databázi',
+	'fbconnect-prefstext' => 'Facebook Connect',
+	'fbconnect-link-to-profile' => 'Facebook profil',
+	'fbconnect-prefs-can-be-updated' => 'Toto můžete aktualizovat kdykoliv navštívením "$1" tabu ve vaší stránce nastavení.',
 );
 
 /** German (Deutsch)
@@ -463,6 +520,33 @@ $messages['eo'] = array(
 	'fbconnect-logout' => 'Elsaluti Facebook',
 	'fbconnect-link' => 'Reveni al facebook.com',
 	'fbconnect-title' => 'Konekti konton kun Facebook',
+	'fbconnect-comm' => 'Komunikado',
+	'fbconnect-loginbox' => "Aŭ '''ensaluti''' ĉe Facebook:
+	
+$1",
+	'fbconnect-merge' => 'Kunigi vian vikikonton kun via Facebook-identigo',
+	'fbconnect-logoutbox' => '$1
+	
+Ĉi tiu ankaŭ elsaluti vin el Facebook kaj ĉiuj konektitaj retejoj, inkluzivante ĉi tiun vikion.',
+	'fbconnect-invalid' => 'Malvalida elekto',
+	'fbconnect-nickname' => 'Kromnomo',
+	'fbconnect-fullname' => 'Plena nomo',
+	'fbconnect-email' => 'Retadreso',
+	'fbconnect-language' => 'Lingvo',
+	'fbconnect-timecorrection' => 'Horzona diferenco (horoj)',
+	'fbconnect-chooselegend' => 'Elekto de salutnomo',
+	'fbconnect-chooseinstructions' => 'Ĉiuj uzantoj bezonas kromnomo; vi povas elekti unu el la jenaj elektoj.',
+	'fbconnect-invalidname' => 'La kromnomo elektita estas jam uzita aŭ estas malvalida kromnomo.
+Bonvolu elekti malsame.',
+	'fbconnect-choosenick' => 'Via profilnomo en Facebook ($1)',
+	'fbconnect-choosefirst' => 'Via unua nomo ($1)',
+	'fbconnect-choosefull' => 'Via plena nomo ($1)',
+	'fbconnect-chooseauto' => 'Aŭtomate generita nomo ($1)',
+	'fbconnect-choosemanual' => 'Nomo de via elekto:',
+	'fbconnect-chooseexisting' => 'Ekzistanta konto en ĉi tiu vikio',
+	'fbconnect-chooseusername' => 'Salutnomo:',
+	'fbconnect-choosepassword' => 'Pasvorto:',
+	'fbconnect-updateuserinfo' => 'Ĝisdatigi la jenan propran informon:',
 );
 
 /** Spanish (Español)
@@ -549,6 +633,27 @@ Si quieres usar Facebook Connect para ingresar en el futuro, puedes [[Special:Co
 	'fbconnect-link-to-profile' => 'Perfil de Facebook',
 	'fbconnect-prefsheader' => "Para controlar qué eventos incluirán un elemento al canal de noticias, <a id='fbConnectPushEventBar_show' href='#'>mostrar preferencias</a> <a id='fbConnectPushEventBar_hide' href='#' style='display:none'>ocultar preferencias</a>",
 	'fbconnect-prefs-can-be-updated' => 'Puedes actualizar estos elementos en cualquier momento mediante la pestaña "$1" en tu página de preferencias.',
+);
+
+/** Basque (Euskara)
+ * @author An13sa
+ */
+$messages['eu'] = array(
+	'fbconnect' => 'Facebook Konexioa',
+	'fbconnect-connect' => 'Facebook Konexioarekin saioa hasi',
+	'fbconnect-convert' => 'Kontu hau Facebookekin lotu',
+	'fbconnect-logout' => 'Facebooketik irten',
+	'fbconnect-link' => 'facebook.com-era itzuli',
+	'fbconnect-title' => 'Kontua Facebookekin  lotu',
+	'fbconnect-comm' => 'Komunikazioa',
+	'fbconnect-nickname' => 'Ezizena',
+	'fbconnect-fullname' => 'Izen osoa',
+	'fbconnect-email' => 'E-posta helbidea',
+	'fbconnect-language' => 'Hizkuntza',
+	'fbconnect-chooseusername' => 'Erabiltzaile izena:',
+	'fbconnect-choosepassword' => 'Pasahitza:',
+	'fbconnect-prefstext' => 'Facebook Konexioa',
+	'fbconnect-link-to-profile' => 'Facebook profila',
 );
 
 /** Finnish (Suomi)
@@ -900,6 +1005,15 @@ $messages['hu'] = array(
 	'group-fb-user' => 'Facebook Connect felhasználók',
 	'group-fb-user-member' => 'Facebook Connect felhasználó',
 	'grouppage-fb-user' => '{{ns:project}}:Facebook Connect felhasználók',
+	'group-fb-groupie' => 'csoporttagok',
+	'group-fb-groupie-member' => 'csoporttag',
+	'grouppage-fb-groupie' => '{{ns:project}}:Csoporttagok',
+	'group-fb-officer' => 'csoporttisztek',
+	'group-fb-officer-member' => 'csoporttiszt',
+	'grouppage-fb-officer' => '{{ns:project}}:Csoporttisztek',
+	'group-fb-admin' => 'csoportadminisztrátorok',
+	'group-fb-admin-member' => 'csoportadminisztrátor',
+	'grouppage-fb-admin' => '{{ns:project}}:Csoportadminisztrátorok',
 	'fbconnect-connect' => 'Bejelentkezés a Facebook Connecttel',
 	'fbconnect-convert' => 'Fiók összekötése a Facebookkal',
 	'fbconnect-logout' => 'Kijelentkezés a Facebookról',
@@ -1846,21 +1960,34 @@ Se de futuro pretende usar o Facebook Connect para entrar, pode [[Special:Connec
 );
 
 /** Romanian (Română)
+ * @author Minisarm
  * @author Stelistcristi
  */
 $messages['ro'] = array(
 	'fbconnect' => 'Conectare Facebook',
+	'group-fb-user' => 'Utilizatori Facebook Connect',
+	'group-fb-user-member' => 'Utilizator Facebook Connect',
 	'group-fb-groupie' => 'Membrii grup',
-	'group-fb-admin' => 'Administratori grup',
+	'group-fb-admin' => 'Administratori de grup',
 	'group-fb-admin-member' => 'Administrator grup',
+	'fbconnect-connect' => 'Conectare cu Facebook Connect',
 	'fbconnect-logout' => 'Deconectare de pe Facebook',
 	'fbconnect-link' => 'Înapoi pe facebook.com',
 	'fbconnect-click-to-login' => 'Apasă pentru a vă autentifica pe acest site prin Facebook',
+	'fbconnect-click-to-connect-existing' => 'Apăsaţi pentru a vă conecta contul dvs. Facebook la $1',
+	'fbconnect-comm' => 'Comunicaţie',
+	'fbconnect-welcome' => 'Bun venit, utilizator Facebook Connect!',
+	'fbconnect-loginbox' => "Sau '''autentificaţi-vă''' cu Facebook:
+
+$1",
+	'fbconnect-error' => 'Eroare la verificare',
 	'fbconnect-cancel' => 'Acţiune anulată',
+	'fbconnect-invalid' => 'Opţiune invalidă',
 	'fbconnect-nickname' => 'Pseudonim',
 	'fbconnect-fullname' => 'Numele complet',
 	'fbconnect-email' => 'Adresa de e-mail',
 	'fbconnect-language' => 'Limba',
+	'fbconnect-chooselegend' => 'Alegerea utilizatorului',
 	'fbconnect-choosefirst' => 'Prenumele tău ($1)',
 	'fbconnect-choosefull' => 'Numele tău complet ($1)',
 	'fbconnect-chooseauto' => 'Un nume generat automat ($1)',
@@ -1923,6 +2050,22 @@ $messages['rue'] = array(
 	'fbconnect-fullname' => 'Повне мено',
 	'fbconnect-email' => 'Адреса електронічной пошты',
 	'fbconnect-language' => 'Язык',
+);
+
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'group-fb-groupie' => 'గుంపు సభ్యులు',
+	'group-fb-groupie-member' => 'గుంపు సభ్యుడు',
+	'grouppage-fb-groupie' => '{{ns:project}}:గుంపు సభ్యులు',
+	'fbconnect-fullname' => 'పూర్తిపేరు',
+	'fbconnect-email' => 'ఈ-మెయిల్ చిరునామా',
+	'fbconnect-language' => 'భాష',
+	'fbconnect-timecorrection' => 'కాల మండలపు సర్దుబాటు (గంటలు)',
+	'fbconnect-chooseexisting' => 'ఈ వికీలో ఇప్పటికే ఉన్న ఖాతా',
+	'fbconnect-chooseusername' => 'వాడుకరిపేరు:',
+	'fbconnect-choosepassword' => 'సంకేతపదం:',
 );
 
 /** Tagalog (Tagalog)

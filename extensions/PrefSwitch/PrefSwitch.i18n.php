@@ -525,6 +525,7 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
 	'prefswitch-link-anon' => 'ܦܪ̈ܘܫܝܐ ܚܕ̈ܬܐ',
@@ -532,7 +533,13 @@ $messages['arc'] = array(
 	'prefswitch-link-off' => 'ܦܪ̈ܘܫܝܐ ܚܕ̈ܬܐ',
 	'prefswitch-survey-true' => 'ܐܝܢ',
 	'prefswitch-survey-false' => 'ܠܐ',
+	'prefswitch-survey-submit-feedback' => 'ܫܕܪ ܡܥܝܪ̈ܢܘܬܐ',
+	'prefswitch-survey-answer-whyoff-other' => 'ܥܠܬܐ ܐܚܪܬܐ:',
+	'prefswitch-survey-answer-browser-other' => 'ܡܦܐܬܢܐ ܐܚܪܢܐ:',
 	'prefswitch-title-on' => 'ܦܪ̈ܘܫܝܐ ܚܕ̈ܬܐ',
+	'prefswitch-title-switched-on' => 'ܚܕܘ!',
+	'prefswitch-title-switched-off' => 'ܬܘܕܝ',
+	'prefswitch-title-feedback' => 'ܡܥܝܪ̈ܢܘܬܐ',
 );
 
 /** Bashkir (Башҡорт)
@@ -756,6 +763,7 @@ $messages['be-tarask'] = array(
 /** Bulgarian (Български)
  * @author DCLXVI
  * @author Stanqo
+ * @author Turin
  */
 $messages['bg'] = array(
 	'prefswitch-survey-true' => 'Да',
@@ -768,7 +776,10 @@ $messages['bg'] = array(
 	'prefswitch-title-on' => 'Нови функционалности',
 	'prefswitch-title-switched-on' => 'Наслаждавайте се!',
 	'prefswitch-title-switched-off' => 'Благодарности',
+	'prefswitch-title-feedback' => 'Обратна връзка',
 	'prefswitch-success-off' => 'Новите функции са изключени.',
+	'prefswitch-return' => '<hr style="clear:both">
+Назад към <span class="plainlinks">[$1 $2]</span>.',
 );
 
 /** Bahasa Banjar (Bahasa Banjar)
@@ -4654,8 +4665,31 @@ Grįžti į <span class="plainlinks">[$1 $2]</span>.',
  * @author Papuass
  */
 $messages['lv'] = array(
+	'prefswitch-link-anon' => 'Jaunas iespējas',
+	'tooltip-pt-prefswitch-link-anon' => 'Uzzini vairāk par jaunajām iespējām',
+	'prefswitch-link-on' => 'Vecais izskats',
+	'tooltip-pt-prefswitch-link-on' => 'Atslēgt jaunās iespējas',
+	'prefswitch-link-off' => 'Jaunas iespējas',
+	'tooltip-pt-prefswitch-link-off' => 'Izmēģini jaunās iespējas',
 	'prefswitch-survey-true' => 'Jā',
 	'prefswitch-survey-false' => 'Nē',
+	'prefswitch-survey-submit-feedback' => 'Nosūtīt atsauksmi',
+	'prefswitch-survey-question-like' => 'Kas tev patika jaunajās iespējās?',
+	'prefswitch-survey-answer-whyoff-didntlike-toolbar' => 'Man nepatika jaunā rīkjosla.',
+	'prefswitch-survey-answer-whyoff-other' => 'Cits iemesls:',
+	'prefswitch-survey-question-browser' => 'Kādu pārlūkprogrammu tu izmanto?',
+	'prefswitch-survey-answer-browser-other' => 'Cits pārlūks:',
+	'prefswitch-survey-question-os' => 'Kuru operētājsistēmu tu izmanto?',
+	'prefswitch-survey-answer-os-other' => 'Cita operētājsistēma:',
+	'prefswitch-survey-question-res' => 'Kāda ir tava ekrāna izšķirtspēja?',
+	'prefswitch-title-on' => 'Jaunas iespējas',
+	'prefswitch-title-switched-on' => 'Izbaudi!',
+	'prefswitch-title-off' => 'Atslēgt jaunās iespējas',
+	'prefswitch-title-switched-off' => 'Paldies',
+	'prefswitch-title-feedback' => 'Atsauksmes',
+	'prefswitch-success-feedback' => 'Tavas atsauksmes ir nosūtītas.',
+	'prefswitch-return' => '<hr style="clear:both">
+Atgriezties uz <span class="plainlinks">[$1 $2]</span>.',
 );
 
 /** Minangkabau (Baso Minangkabau)
@@ -5913,9 +5947,9 @@ Para ajudar-nos a melhorá-las preencha, por favor, o questionário opcional aba
 );
 
 /** Brazilian Portuguese (Português do Brasil)
+ * @author 555
  * @author Giro720
  * @author Raylton P. Sousa
- * @author 555
  */
 $messages['pt-br'] = array(
 	'prefswitch' => 'Preferências da Iniciativa de Usabilidade',
@@ -6207,15 +6241,35 @@ Pentru a ne ajuta să le perfecționăm vă rugăm să răspundeți la sondajul 
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
+	'prefswitch-link-anon' => 'Nuève funziune',
+	'tooltip-pt-prefswitch-link-anon' => "Cchiù 'mbormazziune sus a le funziune nuève",
 	'prefswitch-link-on' => 'Puerteme rrete',
+	'tooltip-pt-prefswitch-link-on' => 'Disabbilite le funziune nuève',
+	'prefswitch-link-off' => 'Nuève funziune',
+	'tooltip-pt-prefswitch-link-off' => 'Pruève le funziune nuève',
 	'prefswitch-survey-true' => 'Sìne',
 	'prefswitch-survey-false' => 'None',
+	'prefswitch-survey-submit-off' => 'Chiude le funziune nuève',
+	'prefswitch-survey-submit-feedback' => 'Invie commende',
+	'prefswitch-survey-answer-whyoff-didntlike-look' => "Non ge me piace 'u mode jndre cui se vedene le caratteristeche.",
+	'prefswitch-survey-answer-whyoff-didntlike-layout' => "Non ge me piacene le schede nuève e 'a disposizione.",
+	'prefswitch-survey-answer-whyoff-didntlike-toolbar' => "Non ge me piace 'a barra de le struminde nova.",
 	'prefswitch-survey-answer-whyoff-other' => 'Otre mutive:',
+	'prefswitch-survey-question-browser' => 'Ce browser ause?',
+	'prefswitch-survey-answer-browser-other' => 'Otre browser:',
+	'prefswitch-survey-question-os' => 'Ce sisteme operative ause?',
+	'prefswitch-survey-answer-os-other' => 'Otre sisteme operative:',
+	'prefswitch-survey-answer-globaloff-yes' => 'Sìne, chiude le caratteristeche sus a totte le uicchi',
+	'prefswitch-survey-question-res' => "Ce risoluzione tène 'u scherme tue?",
+	'prefswitch-title-on' => 'Nuève funziune',
 	'prefswitch-title-switched-on' => 'Devirtete!',
+	'prefswitch-title-off' => 'Chiude le funziune nuève',
 	'prefswitch-title-switched-off' => 'Rengraziaminde',
 	'prefswitch-title-feedback' => 'Giudizie',
+	'prefswitch-success-feedback' => "'U commende tue hé state inviate.",
 );
 
 /** Russian (Русский)
@@ -6424,7 +6478,8 @@ $messages['sah'] = array(
 	'tooltip-pt-prefswitch-link-on' => 'Саҥа туруоруулары араар',
 	'prefswitch-link-off' => 'Саҥа туруоруулар',
 	'tooltip-pt-prefswitch-link-off' => 'Саҥа туруоруулары тургутан көр',
-	'prefswitch-jswarning' => '',
+	'prefswitch-jswarning' => 'Өйдөө, тас көстүүтүн уларытарга [[User:$1/$2.js|$2 JavaScript]] манна хатыланыахтаах [[{{ns:user}}:$1/vector.js]] <!-- эбэтэр [[{{ns:user}}:$1/common.js]]-->, оччоҕо кини үлэлиирин салгыа.',
+	'prefswitch-csswarning' => 'Эн  [[User:$1/$2.css|бэйэҥ «$2» тиэмэҕэ аналлаах истииллэриҥ]] бу кэннэ туттуллубт буолуохтара. Ол гынан баран «Вектор» тиэмэҕэ анаан [[{{ns:user}}:$1/vector.css]] билэҕэ бэйэҥ CSS эбиэххин сөп.',
 	'prefswitch-survey-true' => 'Сөп',
 	'prefswitch-survey-false' => 'Суох',
 	'prefswitch-survey-submit-off' => 'Саҥа туруоруулары араар',
@@ -6490,6 +6545,8 @@ $messages['sah'] = array(
 * '''Көрдөөһүн.''' Көрдөөһүн этэн биэриилэрин тупсардыбыт, онон наадыйар сирэйгин түргэнник булуоҥ.
 * '''Атын саҥа кыахтар.''' Табылыыссалары оҥорор маастар олортубут. Эбии эрдээксийэни тупсарар көрдөөһүн уонна уларытыы үнүстүрүмүөнүн олортубут.
 * '''Логотип.''' Шарик-пазл саҥа барылын олортубут, сиһилии манна көр: [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d/ «Викимедиа Пуондатын» блога].",
+	'prefswitch-main-logged-changes' => "* '''«{{int:watch}}» кыбытык''' билигин сулус курдук бэлиэ (иконка) буолла.
+* '''«{{int:move}}» кыбытык''' билигин көрдөөһүн устуруокатын таһыгар түһэр менюга баар.",
 	'prefswitch-main-feedback' => '=== Айааччылардыын алтыһыы ===
 Эн санааҕын истиэхпитин баҕарабыт. Бука диэн, биһиги [[$1|онно аналлаах сирэйбитигэр]] киирэ сырыт эрэ. Өскө салгыы тугу гыныахпытын баҕарарбытын билиэххин баҕарар буоллаххына, манна [http://usability.wikimedia.org биики юзабилити-бырайыагар] киирэ сырыт.',
 	'prefswitch-main-anon' => '=== Уруккутугар төннөрүү ===
@@ -6610,8 +6667,65 @@ $messages['si'] = array(
  * @author Helix84
  */
 $messages['sk'] = array(
+	'prefswitch' => 'Prepínač nastavenia Iniciatívy použiteľnosti',
+	'prefswitch-desc' => 'Umožňuje používateľom prepínať sady predvolieb',
+	'prefswitch-link-anon' => 'Nové funkcie',
+	'tooltip-pt-prefswitch-link-anon' => 'Vyskúšajte nové funkcie',
+	'prefswitch-link-on' => 'Vrátiť späť',
+	'tooltip-pt-prefswitch-link-on' => 'Vypnúť nové funkcie',
+	'prefswitch-link-off' => 'Nové funkcie',
+	'tooltip-pt-prefswitch-link-off' => 'Vyskúšajte nové funkcie',
+	'prefswitch-jswarning' => 'Pamätajte pri zmene témy vzhľadu budete musieť skopírovať svoj [[User:$1/$2.js|JavaScriptový súbor $2]] do [[{{ns:user}}:$1/vector.js]] <!-- alebo [[{{ns:user}}:$1/common.js]]--> aby naďalej fungoval.',
+	'prefswitch-csswarning' => 'Vaše [[User:$1/$2.css|vlastné štýly $2]] už nebudú požité. Vlastné CSS pre tému vzhľadu Vector môžete pridať do [[{{ns:user}}:$1/vector.css]].',
 	'prefswitch-survey-true' => 'Áno',
 	'prefswitch-survey-false' => 'Nie',
+	'prefswitch-survey-submit-off' => 'Vypnúť nové funkcie',
+	'prefswitch-survey-cancel-off' => 'Ak si želáte pokračovať v používaní nových funkcií, môžete sa vrátiť späť na $1',
+	'prefswitch-survey-submit-feedback' => 'Poslať komentáre',
+	'prefswitch-survey-cancel-feedback' => 'Ak nechcete poskytnúť komentáre, môžete sa vrátiť na $1.',
+	'prefswitch-survey-question-like' => 'Čo sa vám páčilo na nových funkciách?',
+	'prefswitch-survey-question-dislike' => 'Čo sa vám nepáčilo na nových funkciách?',
+	'prefswitch-survey-question-whyoff' => 'Prečo vypínate nové funkcie? 
+Vyberte prosím všetky možnosti, ktoré považujete za pravdivé.',
+	'prefswitch-survey-question-globaloff' => 'Chcete nové funkcie vypnúť globálne?',
+	'prefswitch-survey-answer-whyoff-hard' => 'Nové funkcie sa používali príliš ťažko.',
+	'prefswitch-survey-answer-whyoff-didntwork' => 'Nové funkcie nefungovali správne.',
+	'prefswitch-survey-answer-whyoff-notpredictable' => 'Nové funkcie sa nesprávali predvídateľne.',
+	'prefswitch-survey-answer-whyoff-didntlike-look' => 'Nepáčilo sa mi ako vyzerali.',
+	'prefswitch-survey-answer-whyoff-didntlike-layout' => 'Nepáčili sa mi nové záložky a rozloženie.',
+	'prefswitch-survey-answer-whyoff-didntlike-toolbar' => 'Nepáčil sa mi nový panel nástrojov.',
+	'prefswitch-survey-answer-whyoff-other' => 'Iný dôvod:',
+	'prefswitch-survey-question-browser' => 'Ktorý prehliadač používate?',
+	'prefswitch-survey-answer-browser-other' => 'Iný prehliadač:',
+	'prefswitch-survey-question-os' => 'Ktorý operačný systém používate?',
+	'prefswitch-survey-answer-os-other' => 'Iný operačný systém:',
+	'prefswitch-survey-answer-globaloff-yes' => 'Áno, funkcie vypnúť na všetkých wiki',
+	'prefswitch-survey-question-res' => 'Aké je rozlíšenie vašej obrazovky?',
+	'prefswitch-title-on' => 'Nové funkcie',
+	'prefswitch-title-switched-on' => 'Užite si to!',
+	'prefswitch-title-off' => 'Vypnúť nové funkcie',
+	'prefswitch-title-switched-off' => 'Ďakujeme',
+	'prefswitch-title-feedback' => 'Komentáre',
+	'prefswitch-success-on' => 'Nové funkcie sú teraz zapnuté. Dúfame, že sa vám budú páčiť. kedykoľvek ich môžete znova vypnúť kliknutím na odkaz „[[Special:UsabilityInitiativePrefSwitch|{{int:prefswitch-link-on}}]]“ v hornej časti stránky.',
+	'prefswitch-success-off' => 'Nové funkcie sú teraz vypnuté. Dúfame, že sa vám budú páčiť. kedykoľvek ich môžete znova zapnúť kliknutím na odkaz „[[Special:UsabilityInitiativePrefSwitch|{{int:prefswitch-link-off}}]]“ v hornej časti stránky.',
+	'prefswitch-success-feedback' => 'Vaše komentáre boli odoslané.',
+	'prefswitch-return' => '<hr style="clear:both">
+Späť na <span class="plainlinks">[$1 $2]</span>.',
+	'prefswitch-main-logged-changes' => "* '''Karta {{int:watch}}''' je teraz hviezdičkou.
+* '''Karta {{int:move}}''' je teraz v roletovom menu vedľa vyhľadávacieho poľa.",
+	'prefswitch-main-feedback' => '===Komentáre?===
+Radi by sme počuli váš názor. Prosím, navštívte našu [[$1|stránku komentárov]] alebo ak vás zaujímajú naše prebiehajúce snahy vylepšiť softvér, navštívte [http://usability.wikimedia.org wiki o použiteľnosti].',
+	'prefswitch-main-anon' => '===Vrátiť späť===
+[$1 Kliknutím sem vypnete nové funkcie]. Budete požiadaný o prihlásenie alebo vytvorenie nového účtu.',
+	'prefswitch-main-on' => '===Vrátiť späť!===
+[$2 Kliknutím sem vypnete nové funkcie].',
+	'prefswitch-main-off' => '===Vyskúšajte ich!===
+ [$1 Kliknutím sem zapnete nové funkcie].',
+	'prefswitch-survey-intro-feedback' => 'Radi si vypočujeme váš názor.
+Prosím, vyplňte nepovinný dotazník dolu a potom kliknite na „[[#prefswitch-survey-submit-feedback|{{int:Prefswitch-survey-submit-feedback}}]]“.',
+	'prefswitch-survey-intro-off' => 'Ďakujeme, že ste vyskúšali nové funkcie.
+Ak nám chcete pomôcť ich vylepšiť, vyplňte nepovinný dotazník a potom kliknite na „[[#prefswitch-survey-submit-off|{{int:Prefswitch-survey-submit-off}}]]“.',
+	'prefswitch-feedbackpage' => 'Project:Komentáre o použiteľnosti',
 );
 
 /** Slovenian (Slovenščina)
@@ -7158,12 +7272,16 @@ $messages['th'] = array(
  * @author Hanberke
  */
 $messages['tk'] = array(
+	'prefswitch' => 'Oňaýlylyk Başlangyjy ileri tutma pereklýuçateli',
+	'prefswitch-desc' => 'Ulanyjylaryň ileri tutma toplumlaryny çalyşmagyna rugsat berýär',
 	'prefswitch-link-anon' => 'Täze funksiýalar',
 	'tooltip-pt-prefswitch-link-anon' => 'Täze funksiýalary öwren',
 	'prefswitch-link-on' => 'Meni yzyma äkit',
 	'tooltip-pt-prefswitch-link-on' => 'Täze funksiýalary ýap',
 	'prefswitch-link-off' => 'Täze funksiýalar',
 	'tooltip-pt-prefswitch-link-off' => 'Täze funksiýalary synap gör',
+	'prefswitch-jswarning' => 'Bezeg çalşylanyndan soň, [[User:$1/$2.js|$2 JavaScript]] kodlaryňyzyň işlemäge dowam etmegi üçin [[{{ns:user}}:$1/vector.js]] <!-- ýa-da [[{{ns:user}}:$1/common.js]]--> sahypasyna göçürilmelidir.',
+	'prefswitch-csswarning' => '[[User:$1/$2.css|Hususy $2 stilleriňiz]] indi ulanylmaz. Vector üçin ýörite CSS kodlaryňyzy [[{{ns:user}}:$1/vector.css]] sahypasynagoşup bilersiňiz.',
 	'prefswitch-survey-true' => 'Hawa',
 	'prefswitch-survey-false' => 'Ýok',
 	'prefswitch-survey-submit-off' => 'Täze funksiýalary ýap',
@@ -7174,6 +7292,7 @@ $messages['tk'] = array(
 	'prefswitch-survey-question-dislike' => 'Täze funksiýalarda size näme ýaramady?',
 	'prefswitch-survey-question-whyoff' => 'Täze funksiýalary näme üçin ýapýarsyňyz?
 Ähli gabat gelýänleri saýlaň.',
+	'prefswitch-survey-question-globaloff' => 'Funksiýalaryň global ýapylmagyny isleýärsiňizmi?',
 	'prefswitch-survey-answer-whyoff-hard' => 'Funksiýalary ulanmak örän çylşyrymly.',
 	'prefswitch-survey-answer-whyoff-didntwork' => 'Funksiýalar bolmalysy ýaly işlemeýär.',
 	'prefswitch-survey-answer-whyoff-notpredictable' => 'Funksiýalar öňünden çak edip bolar ýaly işlemedi.',
@@ -7185,17 +7304,32 @@ $messages['tk'] = array(
 	'prefswitch-survey-answer-browser-other' => 'Başga brauzer:',
 	'prefswitch-survey-question-os' => 'Nähili operasion ulgam ulanýarsyňyz?',
 	'prefswitch-survey-answer-os-other' => 'Başga operasion ulgam:',
+	'prefswitch-survey-answer-globaloff-yes' => 'Hawa, funksiýalary ähli wikilerde ýap',
 	'prefswitch-survey-question-res' => 'Ekran çözgüdiňiz näçe?',
 	'prefswitch-title-on' => 'Täze funksiýalar',
 	'prefswitch-title-switched-on' => 'Hezilini görüň!',
 	'prefswitch-title-off' => 'Täze funksiýalary ýap',
 	'prefswitch-title-switched-off' => 'Sag boluň',
 	'prefswitch-title-feedback' => 'Seslenme',
+	'prefswitch-success-on' => 'Täze funksiýalar şu wagt açyk. Täze funksiýalary halarsyňyz diýip umyt edýäris. Islän wagtyňyz sahypanyň iň ýokarsyndaky "[[Special:UsabilityInitiativePrefSwitch|{{int:prefswitch-link-on}}]]" çykgydyna basyp, ondan çykyp bilersiňiz.',
+	'prefswitch-success-off' => 'Täze funksiýalar şu wagt ýapyk. Täze funksiýalary synap göreniňiz üçin minnetdar. Islän wagtyňyz sahypanyň iň ýokarsyndaky "[[Special:UsabilityInitiativePrefSwitch|{{int:prefswitch-link-on}}]]" çykgydyna basyp, oňa girip bilersiňiz.',
 	'prefswitch-success-feedback' => 'Seslenmäňiz iberildi.',
 	'prefswitch-return' => '<hr style="clear:both">
 <span class="plainlinks">[$1 $2]</span> sahypasyna dolan',
 	'prefswitch-main-logged-changes' => "* '''{{int:watch}} salmasy'''nda indi ýyldyz bar.
 * '''{{int:move}} salmasy''' indi gözleg paneliniň ýanyndaky açylýan menýuda.",
+	'prefswitch-main-feedback' => '===Seslenme===
+Seslenmeleriňize gulak asmak isleýäris. [[$1|Seslenme]] sahypamyza ýa-da programmany ösdürmek üçin alyp barýan tagallarymyz bilen gyzyklanýan bolsaňyz, giňişleýin maglumat üçin [http://usability.wikimedia.org oňaýlylyk wikimize] gelip görüň.',
+	'prefswitch-main-anon' => '===Meni yzyma äkit===
+Eger täze funksiýalary ýapasyňyz gelse, [$1 şu ýere basyň]. Ilki bilen sessiýa açmagyňyz ýa-da hasap döretmegiňiz soralar.',
+	'prefswitch-main-on' => '===Meni yzyma äkit!===
+[$2 Täze funksiýalary ýapmak üçin şu ýere basyň].',
+	'prefswitch-main-off' => '===Olary synap görüň!===
+[$1 Täze funksiýalary açmak üçin şu ýere basyň].',
+	'prefswitch-survey-intro-feedback' => 'Seslenmeleriňize gulak asmak isleýäris.
+"[[#prefswitch-survey-submit-feedback|{{int:Prefswitch-survey-submit-feedback}}]]" çykgydyna basmankaňyz, ilki bilen aşakdaky hökmany däl soraglara jogap beriň.',
+	'prefswitch-survey-intro-off' => 'Täze funksiýalary synap göreniňiz üçin sag boluň.
+Olary ösdürmegimize kömek etmek üçin, "[[#prefswitch-survey-submit-off|{{int:Prefswitch-survey-submit-off}}]]" çykgydyna basmankaňyz, ilki bilen aşakdaky hökmany däl soraglara jogap beriň.',
 	'prefswitch-feedbackpage' => 'Project:Ulanyjynyň tejribe seslenmesi',
 );
 

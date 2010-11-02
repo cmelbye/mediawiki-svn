@@ -121,6 +121,13 @@ $messages['ar'] = array(
 	'right-override-antispoof' => 'تجاوز التحقق من سبوفينج',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'antispoof-noletters' => 'ܠܐ ܚܒܫ ܐܬܘܬܐ ܡܕܡ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -170,6 +177,27 @@ $messages['avk'] = array(
 	'antispoof-badtype' => 'Origordaj',
 	'antispoof-empty' => 'Vlardafa roda',
 	'antispoof-noletters' => 'Va mek eltay ruldar',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'antispoof-desc' => 'Төрлө яҙма системаларының хәрефтәренән торған, яңылыштырырлыҡ һәм башҡа ҡатнашыусы исемдәренән оҡшаш исемле иҫәп яҙмаларҙы булдырыуҙы тыя.',
+	'antispoof-conflict-top' => '"$1" исеме түбәндәге {{PLURAL:$2|иҫәп яҙмаһына|$2 иҫәп яҙмаһына }} бигерәк оҡшаш:',
+	'antispoof-conflict-bottom' => 'Зинһар, башҡа исем һайлағыҙ.',
+	'antispoof-name-illegal' => '"$1" исемен ҡүлланыу түбәндәге оҡшаш исемдәр менән бутамау өсөн тыйылған: $2.
+Зинһар, башҡа исем һайлағыҙ.',
+	'antispoof-badtype' => 'Мәғлүмәт төрө дөрөҫ түгел',
+	'antispoof-empty' => 'Буш юл',
+	'antispoof-blacklisted' => 'Тыйылған хәрефтәр исемлегенән хәреф бар.',
+	'antispoof-combining' => 'Берләштереү билдәһе менән башлана',
+	'antispoof-unassigned' => 'Билдәһеҙ йәки рөхсәт ителмәгән хәреф бар',
+	'antispoof-noletters' => 'Бер хәреф тә юҡ',
+	'antispoof-mixedscripts' => 'Берләштереү мөмкин булмаған яҙма системаларының хәрефтәре бар',
+	'antispoof-tooshort' => 'Ҡанунлаштырылған исем бигерәк ҡыҫҡа',
+	'antispoof-ignore' => 'Оҡшаш исемдәргә тикшереүҙе иғтибарға алмаҫҡа',
+	'right-override-antispoof' => 'Оҡшаш исемдәргә тикшереүҙе иғтибарһыҙ ҡалдырыу',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -1213,6 +1241,22 @@ $messages['lt'] = array(
  */
 $messages['lv'] = array(
 	'antispoof-badtype' => 'Nederīgs datu tips',
+	'antispoof-empty' => 'Tukša virkne',
+);
+
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'antispoof-desc' => 'Manakana ny fanokafana kaonty miaraka amina anaram-pikambana mitovy, mampiasa fomba fanoratana samihafa, na mety azo afangaron.',
+	'antispoof-name-illegal' => 'Tsy mahazo alalana ny anaram-pikambana "$1" noho ny fanakekezany amin\'ny anarana "$2".
+Misafidia anarana hafa.',
+	'antispoof-badtype' => 'Tsy izy ny karazana fampahalalàna',
+	'antispoof-empty' => 'fitohitohizan-tsoratra (string) foàna',
+	'antispoof-blacklisted' => 'Misy tarehintsoratra voarara',
+	'antispoof-combining' => 'Manomboka amina mari-pitambatambarana (marque combinatoire)',
+	'antispoof-noletters' => 'Tsy misy tarehintsoratra',
+	'antispoof-mixedscripts' => 'Misy endri-tsoratra maro samihafa tsy zaka',
 );
 
 /** Macedonian (Македонски)
@@ -1262,6 +1306,9 @@ $messages['ml'] = array(
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'antispoof-desc' => 'Олон тэмдэгтийн системүүдийг хольсон, будилж болох, ойролцоо хэрэглэгчийн нэрийг үүсгэхээс сэргийлдэг.',
+	'antispoof-conflict-top' => '"$1" гэсэн нэр нь одоо оршиж буй {{PLURAL:$2|дараах|дараах $2}} бүртгэлтэй хэтэрхий төстэй байна:',
+	'antispoof-conflict-bottom' => 'Өөр нэр сонгоно уу.',
 	'antispoof-name-illegal' => '"$1" гэсэн нэр нь андуурагдаж болохуйц, хуурмаг хэрэглэгчийн нэрнүүдээс сэргийлэхийн тулд зөвшөөрөгдөхгүй: $2.
 Өөр нэр сонгоно уу.',
 	'antispoof-badtype' => 'Буруу өгөгдлийн төрөл',
@@ -1272,6 +1319,8 @@ $messages['mn'] = array(
 	'antispoof-noletters' => 'Ямар ч тэмдэгт агуулагдаагүй байна',
 	'antispoof-mixedscripts' => 'Хоорондоо нийцэхгүй холилдсон бичилтүүд агуулагдаж байна',
 	'antispoof-tooshort' => 'Албан ёсны нэр хэт богино байна',
+	'antispoof-ignore' => 'Ойролцоо нэрний шалгуурыг үл тоомсорлох',
+	'right-override-antispoof' => 'Ойролцоо нэрний шалгуурыг няцаах',
 );
 
 /** Marathi (मराठी)
@@ -1626,10 +1675,19 @@ $messages['ro'] = array(
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
+	'antispoof-desc' => "Bluècche 'a ccrejazione de cunde utende cu script-misckate, confuse e cu nome de l'utinde ca s'assomigliane",
+	'antispoof-conflict-bottom' => "Se preghe de scacchià n'otre nome.",
 	'antispoof-badtype' => 'Tipe de date errate',
 	'antispoof-empty' => 'stringa vacande',
+	'antispoof-blacklisted' => "Condène carattere jndr'à liste gnure",
+	'antispoof-combining' => "Accumenze cu 'nu marche combinate",
+	'antispoof-unassigned' => 'Condène carattere non assignate o deprecate',
+	'antispoof-noletters' => 'Non ge condène nisciune lettere',
+	'antispoof-mixedscripts' => 'Condène script miste incompatibbele',
+	'antispoof-tooshort' => 'Canonicizze nome assaje piccenne',
 );
 
 /** Russian (Русский)
@@ -1716,11 +1774,32 @@ $messages['scn'] = array(
 	'right-override-antispoof' => 'Trascura li cuntrolli spoofing',
 );
 
+/** Serbo-Croatian (Srpskohrvatski / Српскохрватски)
+ * @author OC Ripper
+ */
+$messages['sh'] = array(
+	'antispoof-desc' => 'Blokira pravljenje računa sa miješanim slovima, zbunjujućim i sličnim korisničkim imenima',
+	'antispoof-conflict-top' => 'Ime "$1" je previše slično {{PLURAL:$2|slijedećem postojećem računu|sa slijedeća $2 postojeća  računa|sa slijedećih $2 postojećih računa}}:',
+	'antispoof-conflict-bottom' => 'Molimo izaberite drugo ime.',
+	'antispoof-name-illegal' => 'Ime "$1" nije dopušteno da bi se izbjegla zbunjujuća ili slična korisnička imena: $2.
+Molimo Vas da odaberete drugo ime.',
+	'antispoof-badtype' => 'Krivi tip podataka',
+	'antispoof-empty' => 'Prazan unos',
+	'antispoof-blacklisted' => 'Sadrži nedozvoljeno slovo (karakter)',
+	'antispoof-combining' => 'Počinje sa znakom kombinacije',
+	'antispoof-unassigned' => 'Sadrži nedodijeljen ili zastarjeli znak (karakter)',
+	'antispoof-noletters' => 'Ne sadrži ni jedno slovo',
+	'antispoof-mixedscripts' => 'Sadrži neusklađena miješana pisma.',
+	'antispoof-tooshort' => 'Normalizirano ime je prekratko',
+	'antispoof-ignore' => 'Ignoriraj provjeru nevaljanih imena (antispoof)',
+	'right-override-antispoof' => 'Zaobilaženje provjera korisničkog imena',
+);
+
 /** Slovak (Slovenčina)
  * @author Helix84
  */
 $messages['sk'] = array(
-	'antispoof-desc' => 'Blokuje tvorbu účtov s názvami obsahujúcimi viacero druhov písma, mätúcimi alebo podobnými existujúcim názvom',
+	'antispoof-desc' => 'Blokuje tvorbu účtov so zmiešanými písmami, mätúce a podobné mená.',
 	'antispoof-conflict-top' => 'Meno „$1” je príliš podobné {{PLURAL:$2|existujúcemu účtu|nasledovným $2 účtom}}:',
 	'antispoof-conflict-bottom' => 'Prosím, vyberte si iné meno.',
 	'antispoof-name-illegal' => 'Meno „$1“ nie je povolené, aby sa zabránilo náhodnému alebo zámernému pomýleniu mien používateľov: $2. Zvoľte si prosím iné meno.',
@@ -2100,7 +2179,12 @@ $messages['yi'] = array(
  * @author Demmy
  */
 $messages['yo'] = array(
+	'antispoof-conflict-top' => "Orúkọ ''$1'' jọ {{PLURAL:$2|àpamọ́ tó wà yìí|àwọn àpamọ́ $2 wọ̀nyí}} jù:",
+	'antispoof-conflict-bottom' => 'Ẹ jọ̀wọ́ ẹ yan orúkọ míràn.',
+	'antispoof-name-illegal' => "Orúkọ ''$1'' kò ṣe é gbà ní àyè láti dínà ìdojúrú tàbí ìtànjẹ orúkọ oníṣe: $2.
+Ẹ jọ̀wọ́ ẹ yan orúkọ míràn.",
 	'antispoof-badtype' => 'Irú dátà burúkú',
+	'antispoof-noletters' => 'Kò ní lẹ́tà kankan nínú',
 );
 
 /** Cantonese (粵語) */

@@ -1691,6 +1691,26 @@ $messages['sk'] = array(
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'spam-blacklist' => ' # Zunanji URL-ji, ki se ujemajo s tem seznamom, bodo blokirani, ko bodo dodani na stran.
+ # Seznam vpliva samo na ta wiki; oglejte si tudi globalni črni seznam.
+ # Za dokumentacijo si oglejte http://www.mediawiki.org/wiki/Extension:SpamBlacklist
+ #<!-- pustite to vrstico takšno, kot je --> <pre>
+#
+# Skladnja je sledeča:
+#   * Vse od znaka »#« do konca vrstice je pripomba
+#   * Vsaka neprazna vrstica je delec regularnega izraza, ki se bo ujemal samo z gostitelji v URL-jih
+
+ #</pre> <!-- pustite to vrstico takšno, kot je -->',
+	'spam-whitelist' => ' #<!-- pustite to vrstico takšno, kot je --> <pre>
+# Zunanji URL-ji, ki se ujemajo s tem seznamom, *ne* bodo blokirani,
+# četudi bi bili blokirani z vnosi črnega seznama.
+#
+# Skladnja je sledeča:
+#   * Vse od znaka »#« do konca vrstice je pripomba
+#   * Vsaka neprazna vrstica je delec regularnega izraza, ki se bo ujemal samo z gostitelji v URL-jih
+
+ #</pre> <!-- pustite to vrstico takšno, kot je -->',
+	'spam-invalid-lines' => '{{PLURAL:$1|Naslednja vrstica|Naslednji vrstici|Naslednje vrstice}} črnega seznama smetja {{PLURAL:$1|je neveljavni regularni izraz in ga|sta neveljavna regularna izraza in ju|so neveljavni regularni izrazi in jih}} je pred shranjevanjem strani potrebno popraviti:',
 	'spam-blacklist-desc' => 'Orodje proti smetju, temelječe na regularnih izrazih: [[MediaWiki:Spam-blacklist]] in [[MediaWiki:Spam-whitelist]]',
 );
 
@@ -1851,6 +1871,14 @@ $messages['tg-latn'] = array(
  #</pre> <!-- in satrro hamonguna, ki hast raho kuned -->',
 	'spam-invalid-lines' => '{{PLURAL:$1|Satri|Satrhoi}} zerin dar fehristi sijohi harznigorī dasturoti ƣajri miçoze regular expressions  {{PLURAL:$1|ast|hastand}} va qabl az zaxira kardani sahifa ba isloh kardan nijoz {{PLURAL:$1|dorad|dorand}}:',
 	'spam-blacklist-desc' => 'Abzori ziddi harznigorī dar asosi Regex: [[MediaWiki:Spam-blacklist]] va [[MediaWiki:Spam-whitelist]]',
+);
+
+/** Turkmen (Türkmençe)
+ * @author Hanberke
+ */
+$messages['tk'] = array(
+	'spam-invalid-lines' => 'Aşakdaky spam gara sanawynyň {{PLURAL:$1|setiri|setiri}} nädogry regulýar {{PLURAL:$1|aňlatmadyr|aňlatmadyr}} we sahypa ýazdyrylmanka düzedilmelidir:',
+	'spam-blacklist-desc' => 'Regulýar aňlatmalar esasynda anti-spam guraly: [[MediaWiki:Spam-blacklist]] we [[MediaWiki:Spam-whitelist]]',
 );
 
 /** Tagalog (Tagalog)

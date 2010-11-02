@@ -83,8 +83,14 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'accountmanager' => 'ܕܒܘܪܐ ܕܚܘܫܒܢܐ',
+	'am-username' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ',
+	'am-email' => 'ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
 	'nss-rights' => 'ܙܕ̈ܩܐ',
+	'nss-save-changes' => 'ܠܒܘܟ ܫܘܚܠܦ̈ܐ',
 	'nss-create-account-header' => 'ܒܪܝ ܚܘܫܒܢܐ ܚܕܬܐ',
+	'nss-create-account' => 'ܒܪܝ ܚܘܫܒܢܐ',
+	'nss-welcome-mail-subject' => 'ܒܪܝܐ ܕܚܘܫܒܢܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -678,6 +684,31 @@ $messages['mk'] = array(
 	'nss-db-error' => 'Најдена е грешка во базата на податоци за потврдување',
 );
 
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'accountmanager' => 'അംഗത്വ കൈകാര്യോപകരണം',
+	'am-username' => 'ഉപയോക്തൃനാമം',
+	'am-email' => 'ഇമെയിൽ',
+	'am-active' => 'സജീവം',
+	'am-updated' => 'താങ്കൾ വരുത്തിയ മാറ്റങ്ങൾ വിജയകരമായി സേവ് ചെയ്തിരിക്കുന്നു',
+	'nss-rights' => 'അവകാശങ്ങൾ',
+	'nss-save-changes' => 'മാറ്റങ്ങൾ സേവ് ചെയ്യുക',
+	'nss-create-account-header' => 'അംഗത്വമെടുക്കുക',
+	'nss-create-account' => 'അംഗത്വമെടുക്കുക',
+	'nss-no-mail' => 'ഇമെയിൽ അയയ്ക്കരുത്',
+	'nss-welcome-mail' => 'ഉപയോക്തൃനാമം $1 എന്നും രഹസ്യവാക്ക് $2 എന്നുമുള്ള ഒരംഗത്വം താങ്കൾക്കായി സൃഷ്ടിച്ചിരിക്കുന്നു.',
+	'nss-welcome-mail-subject' => 'അംഗത്വ സൃഷ്ടി',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'am-username' => 'хэрэглэгчийн нэр',
+);
+
 /** Nahuatl (Nāhuatl)
  * @author Fluence
  */
@@ -1086,6 +1117,7 @@ $messages['tr'] = array(
 $messages['uk'] = array(
 	'am-username' => "ім'я користувача",
 	'am-email' => 'електронна пошта',
+	'am-active' => 'активний',
 	'nss-save-changes' => 'Зберегти зміни',
 	'nss-create-account-header' => 'Створити новий обліковий запис',
 	'nss-create-account' => 'Створити обліковий запис',

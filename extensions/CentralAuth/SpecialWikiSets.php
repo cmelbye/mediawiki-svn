@@ -18,7 +18,6 @@ class SpecialWikiSets extends SpecialPage {
 
 	function __construct() {
 		parent::__construct( 'WikiSets' );
-		wfLoadExtensionMessages( 'SpecialCentralAuth' );
 	}
 
 	function getDescription() {
@@ -142,7 +141,7 @@ class SpecialWikiSets extends SpecialPage {
 
 			$wgOut->addHTML( Xml::buildForm( $form, 'centralauth-editset-submit' ) );
 
-			$edittoken = Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+			$edittoken = Html::hidden( 'wpEditToken', $wgUser->editToken() );
 			$wgOut->addHTML( "<p>{$edittoken}</p></form></fieldset>" );
 		} else {
 			$form = array();
@@ -186,7 +185,7 @@ class SpecialWikiSets extends SpecialPage {
 		$legend = wfMsgHtml( 'centralauth-editset-legend-delete', $set->getName() );
 		$form = array( 'centralauth-editset-reason' => Xml::input( 'wpReason' ) );
 		$url = htmlspecialchars( SpecialPage::getTitleFor( 'WikiSets', "delete/{$subpage}" )->getLocalUrl() );
-		$edittoken = Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+		$edittoken = Html::hidden( 'wpEditToken', $wgUser->editToken() );
 
 		$wgOut->addHTML( "<fieldset><legend>{$legend}</legend><form action='{$url}' method='post'>" );
 		$wgOut->addHTML( Xml::buildForm( $form, 'centralauth-editset-submit-delete' ) );

@@ -6,7 +6,6 @@ class SpecialGlobalBlock extends SpecialPage {
 	public $mAddress, $mReason, $mExpiry, $mAnonOnly;
 
 	function __construct() {
-		wfLoadExtensionMessages('GlobalBlocking');
 		parent::__construct( 'GlobalBlock', 'globalblock' );
 	}
 
@@ -177,7 +176,7 @@ class SpecialGlobalBlock extends SpecialPage {
 											'action' => $wgScript,
 											'name' => 'uluser',
 											'id' => 'mw-globalblock-form' ) );
-		$form .= Xml::hidden( 'title',  SpecialPage::getTitleFor('GlobalBlock')->getPrefixedText() );
+		$form .= Html::hidden( 'title',  SpecialPage::getTitleFor('GlobalBlock')->getPrefixedText() );
 
 		$fields = array ();
 
@@ -258,9 +257,9 @@ class SpecialGlobalBlock extends SpecialPage {
 			? 'globalblocking-modify-submit' : 'globalblocking-block-submit';
 		$form .= Xml::buildForm( $fields, $submitMsg );
 
-		$form .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+		$form .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 		if ($this->mModifyForm)
-			$form .= Xml::hidden( 'wpModify', 1 );
+			$form .= Html::hidden( 'wpModify', 1 );
 
 		$form .= Xml::closeElement( 'form' );
 		$form .= Xml::closeElement( 'fieldset' );

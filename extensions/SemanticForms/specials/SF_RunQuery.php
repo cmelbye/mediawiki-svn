@@ -99,21 +99,22 @@ class SFRunQuery extends IncludableSpecialPage {
 			if ( !$raw ) {
 				$action = htmlspecialchars( SpecialPage::getTitleFor( "RunQuery", $form_name )->getLocalURL() );
 				$text .= <<<END
-	<form name="createbox" onsubmit="return validate_all()" action="$action" method="post" class="createbox">
+	<form id="sfForm" name="createbox" action="$action" method="post" class="createbox">
 	<input type="hidden" name="query" value="true" />
 
 END;
 				$text .= $form_text;
 			}
 		}
-		SFUtils::addJavascriptAndCSS( $embedded ? $wgParser:null );
-		$script = '		<script type="text/javascript">' . "\n" . $javascript_text . '</script>' . "\n";
-		if ( $embedded )
-			$wgParser->getOutput()->addHeadItem( $script );
-		else
-			$wgOut->addScript( $script );
 		if ( $embedded )
 			$text = "<div class='runQueryEmbedded'>$text</div>";
 		$wgOut->addHTML( $text );
+		SFUtils::addJavascriptAndCSS( $embedded ? $wgParser:null );
+		$script = '		<script type="text/javascript">' . "\n" . $javascript_text . '</script>' . "\n";
+		if ( $embedded ) {
+			$wgParser->getOutput()->addHeadItem( $script );
+		} else {
+			$wgOut->addScript( $script );
+		}
 	}
 }

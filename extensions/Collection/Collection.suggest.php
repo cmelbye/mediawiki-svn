@@ -51,11 +51,8 @@ class CollectionSuggest {
 	 *        or a number of articles to add or a value (1 - 1.5) all articles with a
 	 *        higher value will be added to the collection
 	 */
-	public function run( $mode = '', $param = '' ) {
+	public static function run( $mode = '', $param = '' ) {
 		global $wgOut;
-
-		wfLoadExtensionMessages( 'CollectionCore' );
-		wfLoadExtensionMessages( 'Collection' );
 
 		if ( !CollectionSession::hasSession() ) {
 			CollectionSession::startSession();
@@ -464,7 +461,7 @@ class Proposals {
 
 			// normalize:
 			$lc_max = 0;
-			foreach ( $linkcount as $link => $count ) {
+			foreach ( $linkcount as $count ) {
 				if ( $count > $lc_max ) {
 					$lc_max = $count;
 				}
@@ -484,7 +481,7 @@ class Proposals {
 			return $result;
 		} else {
 			// cheaper algorithm: just count links
-			foreach ( $linkmap as $alias => $linked ) {
+			foreach ( $linkmap as $linked ) {
 				foreach ( $linked as $link => $dummy ) {
 					$linkcount[$link] = 1;
 				}

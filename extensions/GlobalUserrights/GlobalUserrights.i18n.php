@@ -77,6 +77,18 @@ $messages['arz'] = array(
 	'right-userrights-global' => 'إدارة سجل الحقوق العامه',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'globaluserrights' => 'Ҡатнашыусыларҙың дөйөм хоҡуҡтары менән идара итеү',
+	'gur-desc' => '[[Special:GlobalUserRights|Ҡатнашыусыларҙың дөйөм хоҡуҡтары]] менән ябай идара итеү',
+	'gur-rightslog-name' => 'Дөйөм хоҡуҡтар яҙмалары журналы',
+	'gur-rightslog-header' => 'Был — дөйөм хоҡуҡтарҙы үҙгәртеү яҙмалары журналы.',
+	'gur-rightslog-entry' => '$1 ҡатнашыусыһының кергән дөйөм төркөмдәрен үҙгәрткән. Иҫке төркөмдәр: $2. Яңы төркөмдәр: $3',
+	'right-userrights-global' => 'Ҡатнашыусыларҙың дөйөм хоҡуҡтары менән идара итеү',
+);
+
 /** Bavarian (Boarisch)
  * @author Man77
  */
@@ -593,6 +605,7 @@ $messages['sv'] = array(
  */
 $messages['te'] = array(
 	'globaluserrights' => 'సార్వత్రిక వాడుకరి హక్కుల నిర్వహణ',
+	'gur-desc' => 'సులువైన [[Special:GlobalUserRights|సార్వత్రిక వాడుకరి హక్కుల]] పరిపాలన',
 	'gur-rightslog-name' => 'సార్వత్రిక హక్కుల చిట్టా',
 	'gur-rightslog-header' => 'ఇది సార్వత్రిక హక్కులకి జరిగిన మార్పుల యొక్క చిట్టా.',
 );

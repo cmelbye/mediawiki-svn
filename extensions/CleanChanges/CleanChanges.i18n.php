@@ -75,8 +75,10 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
+	'cleanchanges-desc' => 'More compact display of the [[Special:RecentChanges|recent changes list]]',
 	'cleanchanges-language-na' => 'ܟܠ',
 	'cleanchanges-showuserlinks' => 'ܚܘܝ ܐܣܘܪ̈ܐ ܕܡܦܠܚܢܐ',
 );
@@ -101,6 +103,18 @@ $messages['ast'] = array(
 	'cleanchanges-changerightslink' => 'camudar grupos',
 	'cleanchanges-desc' => 'Vísualización más compacta de la [[Special:RecentChanges|llista de cambeos recientes]]',
 	'cleanchanges-language' => 'Llingua:',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'cleanchanges-changerightslink' => 'төркөмдәрҙе үҙгәртергә',
+	'cleanchanges-desc' => '[[Special:RecentChanges|Һуңғы үҙгәртеүҙәр исемлегенең]] ҡыҫылған күренеше',
+	'cleanchanges-language' => 'Тел:',
+	'cleanchanges-language-na' => 'Барыһы ла',
+	'cleanchanges-users' => 'Ҡатнашыусылар (Бүлгес: |):',
+	'cleanchanges-showuserlinks' => 'Ҡатнашыусы һылтанмаларын күрһәтергә',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -670,6 +684,10 @@ $messages['mk'] = array(
 $messages['ml'] = array(
 	'cleanchanges-changerightslink' => 'ഗ്രൂപ്പുകൾ മാറ്റുക',
 	'cleanchanges-desc' => '[[Special:RecentChanges|പുതിയ മാറ്റങ്ങളുടെ പട്ടികയുടെ]] ഒതുക്കമുള്ള പ്രദർശനം',
+	'cleanchanges-language' => 'ഭാഷ:',
+	'cleanchanges-language-na' => 'എല്ലാം',
+	'cleanchanges-users' => 'ഉപയോക്താക്കൾ (Sep: |)',
+	'cleanchanges-showuserlinks' => 'ഉപയോക്തൃ കണ്ണികൾ പ്രദർശിപ്പിക്കുക',
 );
 
 /** Mongolian (Монгол)

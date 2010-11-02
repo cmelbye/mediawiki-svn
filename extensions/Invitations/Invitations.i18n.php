@@ -87,6 +87,13 @@ $messages['ar'] = array(
 	'invitations-invite-success' => 'لقد دعوت $1 ليستخدم هذه الميزة بنجاح!',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'invitations-inviteform-submit' => 'ܙܘܡܢܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -1485,9 +1492,12 @@ $messages['tr'] = array(
 
 /** Ukrainian (Українська)
  * @author Prima klasy4na
+ * @author Тест
  */
 $messages['uk'] = array(
+	'invite-logpage' => 'Журнал запрошень',
 	'invitations-desc' => 'Дозволяє [[Special:Invitations|управління новими функціями]], обмежуючи доступ до них за допомогою системи запрошень',
+	'invitations-inviteform-submit' => 'Запросити',
 );
 
 /** Veps (Vepsan kel')

@@ -430,8 +430,41 @@ Ako ste već registrirani, $1prijavite se$2.
 Jednom kad ste registrirani, vratite se na ovu stranicu.
 
 $3Registracija$4',
+	'translate-fs-settings-text' => 'Sada bi ste trebali otići na vaše postavke i
+barem promijeniti vaš jezik interfejsa na jezik na kojem ćete prevoditi.
+
+Vaš jezik interfejsa se koristi kao osnovni ciljni jezik.
+Veoma je lahko zaboraviti prebaciti jezik na pravi, tako da je preporučljivo da se to odmah postavi.
+
+Dok ste na postavkama, također možete postaviti softver za prikaz prevoda na drugim jezicima koje poznajete.
+Ova postavka se može naći na jezičku "{{int:prefs-editing}}".
+Slobodno istraživajte i druge postavke.
+
+Idite na [[Special:Preferences|stranicu postavki]] sad i zatim se vratite na ovu stranicu.',
 	'translate-fs-settings-skip' => 'Završio sam.
 Želim nastaviti.',
+	'translate-fs-userpage-text' => 'Sada je potrebno da napravite korisničku stranicu.
+
+Molimo napišite nešto o sebi; ko ste i šta radite.
+To će pomoći zajednici oko {{SITENAME}} da radimo zajedno.
+Na {{SITENAME}} rade ljudi iz svih dijelova svijeta na različitim jezicima i projektima.
+
+U popunjenom polju iznad na prvoj liniji možete vidjeti <nowiki>{{#babel:en-2}}</nowiki>.
+Molimo dovršite sa jezicima koje vi poznajete.
+Broj poslije jezičkog koda opisuje koliko dobro poznajete taj jezik.
+Mogućnosti su:
+* 1 - vrlo slabo
+* 2 - osnovno znanje
+* 3 - dobro znanje
+* 4 - nivo blizu maternjeg jezika
+* 5 - koristite jezik profesionalno, npr. vi ste profesionalni prevodioc.
+
+Ako vam je taj jezik maternji, ostavite broj nivoa prazan i koristite samo jezički kod.
+Naprimjer: ako vam je bosanski maternji jezik, dobro poznajete engleski i vrlo malo svahili jezik, napišite slijedeće:
+<code><nowiki>{{#babel:bs|en-3|sw-1}}</nowiki></code>
+
+Ako ne znate tačan jezički kod jezika, sada je vrijeme da ga potražite.
+Možete koristiti spisak ispod.',
 	'translate-fs-userpage-submit' => 'Napravi moju korisničku stranicu',
 	'translate-fs-userpage-done' => 'Odlično urađeno! Sada imate korisničku stranicu.',
 	'translate-fs-permissions-text' => 'Sada trebate da podnesete zahtjev da vas dodaju u grupu prevodioca.
@@ -443,6 +476,19 @@ Nakon što ste podnijeli zahtjev, jedan od članova našeg volonterskog osoblja 
 Molimo da budete strpljivi.
 
 <del>Provjerite da je slijedeći zahtjev pravilno ispunjen i zatim pritisnite dugme za zahtjev.</del>',
+	'translate-fs-target-text' => 'Čestitamo!
+Sad možete početi prevoditi.
+
+Ne plašite se ako se još osjećate novi i zbunjeni.
+Na stranici [[Project list]] postavljen je pregled projekata na kojima možete raditi na prevodu.
+Najveći dio projekata ima stranicu sa kratkim opisom sa linkom "\'\'Prevedite ovaj projekat\'", koji će vas odvesti na stranicu sa spiskom svih neprevedenih poruka.
+Spisak svih grupa poruka sa [[Special:LanguageStats|trenutnim stanjem prevoda za jezik]] je također dostupan.
+Ako želite da shvatite više o samom prevođenju prije nego što počnete, možete pročitati [[FAQ|Najčešće postavljana pitanja]].
+Nažalost, dokumentacija nekad može biti zastarjela.
+Ako nađete nešto što mislite da možete da uradite, a ne znate kako, ne ustručavajte se da pitate na [[Support|stranici za podršku]].
+
+Također možete kontaktirati prijatelje prevodioce na isti jezik na[[Portal_talk:$1|stranici za razgovor]] [[Portal:$1|portala vašeg jezika]].
+Ako već niste uradili, [[Special:Preferences|promijenite vaš jezik interfejsa na jezik na koji želite prevoditi]], tako će wiki biti u mogućnosti da vam prikaže najvažnije linkove za vas.',
 	'translate-fs-email-text' => 'Molimo navedite vašu e-mail adresu u [[Special:Preferences|vašim postavkama]] i potvrdite je iz vašeg e-maila koji vam je poslan.
 
 Ovo omogućava drugim korisnicima da vas kontaktiraju putem e-maila.
@@ -874,6 +920,7 @@ Aurrera jarraitu.',
 );
 
 /** Finnish (Suomi)
+ * @author Centerlink
  * @author Nike
  * @author ZeiP
  */
@@ -950,17 +997,22 @@ Olethan kärsivällinen.',
 Voit nyt aloittaa kääntämisen.
 
 Älä huolestu, vaikka et vielä täysin ymmärtäisi miten kaikki toimii.
-Meillä on [[Project list|lista projekteista]], joiden kääntämiseen voit osallistua.
-Useimmilla projekteilla on lyhyt kuvaussivu, jossa on linkki varsinaiselle käännössivulle.
+Meillä on [[Project list|luettelo projekteista]], joiden kääntämiseen voit osallistua.
+Useimmilla projekteilla on lyhyt kuvaussivu, jossa on "\'\'Käännä tämä projekti\'\'"-linkki varsinaiselle käännössivulle.
 [[Special:LanguageStats|Kielen nykyisen käännöstilanteen]] näyttävä lista on myös saatavilla.
 
 Jos haluat tietää lisää, voit lukea vaikkapa [[FAQ|usein kysyttyjä kysymyksiä]].
 Valitettavasti dokumentaatio voi joskus olla hivenen vanhentunutta.
 Jos et keksi, miten joku tarvitsemasi asia tehdään, älä epäröi pyytää apua [[Support|tukisivulla]].
 
-Voit myös ottaa yhteyttä muihin saman kielen kääntäjiin [[Portal:$1|oman kielesi portaalissa]].
+Voit myös ottaa yhteyttä muihin saman kielen kääntäjiin [[Portal:$1|oman kielesi portaalin]] [[Portal_talk:$1|keskustelusivulla]].
 Valikon portaalilinkki osoittaa [[Special:Preferences|valitsemasi kielen]] portaaliin.
 Jos valitsemasi kieli on väärä, muuta se.',
+	'translate-fs-email-text' => 'Anna sähköpostiosoitteesi [[Special:Preferences|asetuksissasi]] ja vahvista se sähköpostiviestistä, joka lähetetään sinulle. 
+
+Tämä mahdollistaa muiden käyttäjien ottaa sinuun yhteyttä sähköpostitse. 
+Saat myös uutiskirjeen korkeintaan kerran kuukaudessa. 
+Jos et halua vastaanottaa uutiskirjeitä, voit valita sen pois välilehdellä "{{int:prefs-personal}}" omat [[Special:Preferences|asetukset]].',
 );
 
 /** French (Français)
@@ -2064,6 +2116,27 @@ $messages['pl'] = array(
 	'translate-fs-intro' => "Witaj w kreatorze pierwszych kroków na {{GRAMMAR:MS,pl|{{SITENAME}}}}.
 Pomożemy Ci krok po kroku przejść przez proces zostania tłumaczem.
 Po jego zakończeniu będziesz mógł tłumaczyć ''komunikatu interfejsu'' wszystkich wspieranych przez {{GRAMMAR:B.lp|{{SITENAME}}}} projektów.",
+	'translate-fs-signup-text' => '[[Image:HowToStart1CreateAccount.png|frame]]
+
+Najpierw należy się zarejestrować.
+
+Możliwość wykonywania tłumaczeń jest przypisana do Twojej nazwy użytkownika.
+Po prawej stronie na obrazku przedstawiono jak należy wypełnić pola.
+
+Jeśli już się rejestrowałeś i posiadasz konto, po prostu $1zaloguj się$2.
+Po utworzeniu konta wróć na tę stronę.
+
+$3Zarejestruj się$4',
+	'translate-fs-settings-text' => 'Teraz powinieneś wejść do swoich preferencji i co najmniej ustawić język interfejsu na ten, na który zamierzasz tłumaczyć.
+
+Język interfejsu jest wykorzystywany jako docelowy domyślny język tłumaczeń.
+Łatwo jest zapomnieć zmienić język na właściwy, więc ustawienie języka jest wysoce zalecane.
+
+Gdy tam jesteś, możesz również nakazać oprogramowaniu wyświetlać tłumaczenia na inne języki, które znasz.
+Opcję tę można znaleźć w zakładce „{{int:prefs-editing}}”.
+Zapraszamy również do korzystania z innych ustawień.
+
+Przejdź teraz na [[Special:Preferences|stronę preferencji]], a następnie wrócić tutaj.',
 	'translate-fs-settings-skip' => 'Skończyłem. 
 Pozwól mi przejść dalej.',
 	'translate-fs-userpage-submit' => 'Utwórz moją stronę użytkownika',

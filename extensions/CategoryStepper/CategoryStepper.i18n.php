@@ -65,6 +65,15 @@ $messages['az'] = array(
 	'categorystepper-start' => '(kateqoriyanın başlanğıcı)',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'categorystepper-desc' => 'Бит ҡараған бер йәки бер нисә категорияның алфавит буйынса тәртипкә килтерелгән эстәлеге буйлап алға һәм артҡа күсергән мөмкинлек биреүсе йүнәлештәр бүлеген күрһәтә.',
+	'categorystepper-end' => '(Категорияның аҙағы)',
+	'categorystepper-start' => '(Категорияның башы)',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  */
@@ -420,6 +429,22 @@ $messages['lo'] = array(
 	'categorystepper-start' => '(ເລິ່ມໝວດ)',
 );
 
+/** Latvian (Latviešu)
+ * @author Papuass
+ */
+$messages['lv'] = array(
+	'categorystepper-desc' => 'Parāda kategoriju apstaigāšanas logu, ļaujot pārvietoties pa lapai piesaistītajam kategorijām alfabētiskā secībā',
+	'categorystepper-end' => '(Kategorijas beigas)',
+	'categorystepper-start' => '(Kategorijas sākums)',
+);
+
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'categorystepper-start' => "(Fitombohan'ilay sokajy)",
+);
+
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  * @author Brest
@@ -587,6 +612,15 @@ $messages['sk'] = array(
 	'categorystepper-desc' => 'Zobrazuje navigačné pole na abecedné prechádzanie kategórií, v ktorých sa stránka nachádza',
 	'categorystepper-end' => '(koniec kategórie)',
 	'categorystepper-start' => '(začiatok kategórie)',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'categorystepper-desc' => 'Prikaže navigacijsko polje kategorije, ki omogoča sprehajanje naprej in nazaj po abecednem vrstnem redu skozi eno ali več kategorij, v katerih se nahaja stran',
+	'categorystepper-end' => '(Konec kategorije)',
+	'categorystepper-start' => '(Začetek kategorije)',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

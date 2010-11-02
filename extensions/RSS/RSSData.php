@@ -1,21 +1,14 @@
 <?php
 
 class RSSData {
-	public $etag;
-	public $last_modified;
 	public $ERROR;
-	public $xml;
 	public $items;
 
-	function __construct( $resp ) {
-		$this->xml = new DOMDocument;
-		$this->xml->loadXML( $resp->getContent() );
-		$h = $resp->getResponseHeader( 'ETag' );
-		$this->etag = $h;
-		$h = $resp->getResponseHeader( 'Last-Modified' );
-		$this->last_modified = $h;
-
-		$xpath = new DOMXPath( $this->xml );
+	function __construct( $xml ) {
+		if ( !( $xml instanceOf DOMDocument ) ) {
+			return null;
+		}
+		$xpath = new DOMXPath( $xml );
 		$items = $xpath->evaluate( '/rss/channel/item' );
 
 		foreach ( $items as $item ) {
@@ -23,6 +16,12 @@ class RSSData {
 			foreach ( $item->childNodes as $n ) {
 				$name = $this->rssTokenToName( $n->nodeName );
 				if ( $name != null ) {
+					/* Because for DOMElements the nodeValue is just
+					 * the text of the containing element, without any
+					 * tags, it makes this a safe, if unattractive,
+					 * value to use. If you want to allow people to
+					 * mark up their RSS, some more precautions are
+					 * needed. */
 					$bit[$name] = $n->nodeValue;
 				}
 			}

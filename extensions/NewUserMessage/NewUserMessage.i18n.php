@@ -210,6 +210,7 @@ $messages['es'] = array(
  */
 $messages['et'] = array(
 	'newusermessage-desc' => 'Lisab vastloodud kasutaja aruteluleheküljele läkituse.',
+	'newuseredit-summary' => '[[{{int:newusermessage-template}}|Tervitusteate]] lisamine uue kasutaja aruteluleheküljele',
 );
 
 /** Basque (Euskara)
@@ -259,6 +260,7 @@ $messages['frp'] = array(
  */
 $messages['fur'] = array(
 	'newusermessage-desc' => 'Zonte un messaç inte pagjine di discussion di un utent apene regjistrât',
+	'newuseredit-summary' => 'O zonti [[{{int:newusermessage-template}}|un messaç di benvignût]] ae pagjine di discussion di un gnûf utent',
 );
 
 /** Galician (Galego)
@@ -708,6 +710,13 @@ $messages['vi'] = array(
 $messages['vo'] = array(
 	'newusermessage-desc' => 'Läükon nuni lä gebanabespikapads änu päjaföls',
 	'newuseredit-summary' => '[[{{int:newusermessage-template}}|Benokömanun]] paläükon lä bespikapad gebana nulik',
+);
+
+/** Yoruba (Yorùbá)
+ * @author Demmy
+ */
+$messages['yo'] = array(
+	'newusermessage-desc' => 'Àfikún ìránṣẹ́ kan kún àwọn ojúewé ọ̀rọ̀ oníṣe dídá tuntun',
 );
 
 /** Cantonese (粵語)

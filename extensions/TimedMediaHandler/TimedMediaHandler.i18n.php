@@ -200,13 +200,6 @@ $messages['avk'] = array(
 	'timedmedia-desc-link' => 'Icde bat iyeltak',
 );
 
-/** Samogitian (Žemaitėška)
- * @author Hugo.arg
- */
-$messages['bat-smg'] = array(
-	'timedmedia-download' => 'Atsėsiōstė faila',
-);
-
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -1683,6 +1676,7 @@ $messages['roa-tara'] = array(
 	'timedmedia-dismiss' => 'Chiude',
 	'timedmedia-download' => 'Scareche stu file',
 	'timedmedia-desc-link' => "'Mbormaziune sus a stu file",
+	'timedmedia-oggThumb-version' => "OggHandler vole 'a versine de oggThumb $1 o cchiù ierte.",
 	'timedmedia-oggThumb-failed' => 'oggThumn ha fallite a ccrejà le miniature.',
 );
 
@@ -1739,6 +1733,13 @@ $messages['sah'] = array(
 	'timedmedia-desc-link' => 'Бу билэ туһунан',
 );
 
+/** Samogitian (Žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'timedmedia-download' => 'Atsėsiōstė faila',
+);
+
 /** Sinhala (සිංහල)
  * @author නන්දිමිතුරු
  */
@@ -1781,6 +1782,7 @@ $messages['sk'] = array(
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'timedmedia-desc' => 'Upravljavec časovnih predstavnosti (video, audio, timedText) s prekodiranjem v Ogg Theora/Vorbis',
 	'timedmedia-short-audio' => 'Zvočna datoteka Ogg $1, $2',
 	'timedmedia-short-video' => 'Videodatoteka Ogg $1, $2',
 	'timedmedia-short-general' => 'Predstavnostna datoteka Ogg $1, $2',
@@ -1789,6 +1791,8 @@ $messages['sl'] = array(
 	'timedmedia-long-multiplexed' => '(multipleksna zvočna/videodatoteka ogg, $1, dolžina $2, $4 × $5 pik, $3 skupno)',
 	'timedmedia-long-general' => '(predstavnostna datoteka Ogg, dolžina $2, $3)',
 	'timedmedia-long-error' => '(Neveljavna datoteka Ogg: $1)',
+	'timedmedia-no-player-js' => 'Oprostite, vaš brskalnik ima ali onemogočen JavaScript ali pa nima podprtega predvajalnika.<br />
+Lahko <a href="$1">prenesete posnetek</a> ali <a href="http://www.mediawiki.org/wiki/Extension:OggHandler/Client_download">prenesete predvajalnik</a> za predvajanje posnetka v vašem brskalniku.',
 	'timedmedia-more' => 'Več ...',
 	'timedmedia-dismiss' => 'Zapri',
 	'timedmedia-download' => 'Prenesi datoteko',

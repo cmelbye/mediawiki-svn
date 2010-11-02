@@ -107,9 +107,11 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
-	'edituser-username' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ',
+	'edituser' => 'ܫܚܠܦܬܐ ܕܡܦܠܚܢܐ',
+	'edituser-username' => 'ܫܡܐ ܕܡܦܠܚܢܐ:',
 	'edituser-dosearch' => 'ܒܨܝ',
 );
 
@@ -261,10 +263,19 @@ $messages['ckb'] = array(
 	'edituser-dosearch' => 'گەڕان',
 );
 
-/** Czech (Česky) */
+/** Czech (Česky)
+ * @author Jkjk
+ * @author Mormegil
+ */
 $messages['cs'] = array(
+	'edituser-desc' => 'Umožňuje oprávněným uživatelům měnit nastavení jiných uživatelů',
+	'edituser' => 'Upravit uživatele',
 	'edituser-username' => 'Uživatelské jméno:',
 	'edituser-dosearch' => 'Hledat',
+	'edituser-nouser' => 'Uživatel "$1" neexistuje.',
+	'edituser-exempt' => 'Uživatel "$1" nemůže být upraven.',
+	'right-edituser' => 'Editovat nastavení jiných uživatelů',
+	'right-edituser-exempt' => 'Jiní nemohou měnit nastavení uživatele',
 );
 
 /** Church Slavic (Словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
@@ -430,6 +441,13 @@ $messages['fr'] = array(
  */
 $messages['fy'] = array(
 	'edituser-dosearch' => 'Sykje',
+);
+
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'edituser-dosearch' => '尋吖',
 );
 
 /** Galician (Galego)
@@ -681,6 +699,13 @@ $messages['jv'] = array(
 	'edituser-dosearch' => 'Golèk',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'edituser-dosearch' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
  * @author Lovekhmer
@@ -734,10 +759,10 @@ $messages['krj'] = array(
 $messages['ksh'] = array(
 	'edituser-desc' => 'Määt et müjjelesch, dat Metmaacher met däm Rääsch dozoh aan anderlüx Enstelleunge driije künne.',
 	'edituser' => 'De Enstellunge för dä Metmaacher ändere',
-	'edituser-username' => 'Metmaacher Name',
+	'edituser-username' => 'Metmaacher_Name:',
 	'edituser-dosearch' => 'Sööke',
-	'edituser-nouser' => 'Dä Metmaacher ham_mer nit.',
-	'edituser-exempt' => 'Dä Metmaacher kam_mer nit beärbeide.',
+	'edituser-nouser' => 'Ene Metmaacher „$1“ ham_mer nit.',
+	'edituser-exempt' => '{{GENDER:$1|Dä Metmaacher|Dat|Dä Metmaacher|De Metmaacherin|Et}} „$1“ kam_mer nit beärbeide.',
 	'right-edituser' => 'Enstellunge för ander Metmaacher Ändere',
 	'right-edituser-exempt' => 'Kann de Enstellunge nit fun andere ändere lohße',
 );
@@ -822,21 +847,23 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
 	'edituser-desc' => 'വിശേഷാവകാശമുള്ള ഉപയോക്താക്കൾക്ക് മറ്റ് ഉപയോക്താക്കളുടെ ക്രമീകരണങ്ങൾ തിരുത്തുവാനുള്ള സൗകര്യം കൊടുക്കുന്നു.',
 	'edituser' => 'ഉപയോക്താവിന്റെ ക്രമീകരണം തിരുത്തുക',
-	'edituser-username' => 'പേര്‌',
+	'edituser-username' => 'ഉപയോക്തൃനാമം:',
 	'edituser-dosearch' => 'തിരയൂ',
-	'edituser-nouser' => 'താങ്കൾ തിരഞ്ഞെടുത്ത ഉപയോക്താവ് നിലവിലില്ല',
-	'edituser-exempt' => 'താങ്കൾ തിരഞ്ഞെടുത്ത ഉപയോക്താവിന്റെ ക്രമീകരണം തിരുത്തുവാൻ സാധിക്കില്ല',
+	'edituser-nouser' => '"$1" എന്ന ഉപയോക്താവ് നിലവിലില്ല.',
+	'edituser-exempt' => '"$1" എന്ന ഉപയോക്താവ് തിരുത്താനാവില്ല.',
 );
 
 /** Mongolian (Монгол)
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'edituser-username' => 'Хэрэглэгчийн нэр:',
 	'edituser-dosearch' => 'Хайх',
 );
 
@@ -1238,7 +1265,7 @@ $messages['ta'] = array(
  */
 $messages['te'] = array(
 	'edituser' => 'వాడుకరిని మార్చండి',
-	'edituser-username' => 'పేరు',
+	'edituser-username' => 'వాడుకరిపేరు:',
 	'edituser-dosearch' => 'వెతుకు',
 	'edituser-nouser' => 'ఆ వాడుకరి లేనేలేరు.',
 	'edituser-exempt' => 'ఆ వాడుకరిని మార్చలేరు',
@@ -1406,10 +1433,10 @@ $messages['vi'] = array(
 $messages['vo'] = array(
 	'edituser-desc' => 'Dälon gebanes peprivilegöl ad votükön buükamis gebanas votik',
 	'edituser' => 'Redakön gebani',
-	'edituser-username' => 'Nem',
+	'edituser-username' => 'Gebananem:',
 	'edituser-dosearch' => 'Sukön',
-	'edituser-nouser' => 'Geban at no dabinon',
-	'edituser-exempt' => 'Geban at no kanon paredakön',
+	'edituser-nouser' => 'Geban: "$1" no dabinon.',
+	'edituser-exempt' => 'Geban: "$1" no kanon paredakön.',
 	'right-edituser' => 'Votükön buükamis gebanas votik',
 	'right-edituser-exempt' => 'Votans no kanons votükön buükamis gebana at',
 );

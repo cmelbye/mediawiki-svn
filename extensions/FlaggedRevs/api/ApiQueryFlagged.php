@@ -44,8 +44,7 @@ class ApiQueryFlagged extends ApiQueryBase {
 		$res = $this->select( __METHOD__ );
 
 		$result = $this->getResult();
-		$db = $this->getDB();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			$pageid = $row->fp_page_id;
 			$data = array(
 				'stable_revid' => intval( $row->fp_stable ),

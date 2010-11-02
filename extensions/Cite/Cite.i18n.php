@@ -319,6 +319,49 @@ Defini más nel mensaxe <nowiki>[[MediaWiki:Cite references link many format bac
 	'cite_error_included_ref' => 'Falta &lt;/ref&gt; pa la etiqueta &lt;ref&gt;',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'cite-desc' => 'Төшөрмәләр өсөн <nowiki><ref[ name=id]></nowiki> һәм <nowiki><references/></nowiki> билдәләрен өҫтәй',
+	'cite_croak' => 'Өҙөмтә юғалған; $1: $2',
+	'cite_error_key_str_invalid' => 'Эске хата;
+$str һәм/йәки $key дөрөҫ түгел.
+Был бер ҡасан да булырға тейеш түгел.',
+	'cite_error_stack_invalid_input' => 'Эске хата;
+Стек асҡысы дөрөҫ түгел.
+Был бер ҡасан да булырға тейеш түгел.',
+	'cite_error' => 'Өҙөмтә хатаһы: $1',
+	'cite_error_ref_numeric_key' => '<code>&lt;ref&gt;</code> билдәһе дөрөҫ түгел;
+исем бөтөн һан була алмай. Тасуирларлыҡ исем ҡулланығыҙ.',
+	'cite_error_ref_no_key' => '<code>&lt;ref&gt;</code> билдәһе дөрөҫ түгел;
+эстәлекһеҙ төшөрмәнең исеме булырға тейеш.',
+	'cite_error_ref_too_many_keys' => '<code>&lt;ref&gt;</code> билдәһе дөрөҫ түгел;
+исемдәр дөрөҫ түгел, бәлки, бигерәк күп',
+	'cite_error_ref_no_input' => '<code>&lt;ref&gt;</code> билдәһе дөрөҫ түгел;
+исемһеҙ төшөрмәнең эстәлеге булырға тейеш.',
+	'cite_error_references_invalid_parameters' => '<code>&lt;references&gt;</code> билдәһе дөрөҫ түгел;
+параметрҙар рөхсәт ителмәй.
+<code>&lt;references /&gt;</code> ҡулланығыҙ.',
+	'cite_error_references_invalid_parameters_group' => '<code>&lt;references&gt;</code> билдәһе дөрөҫ түгел;
+"group" параметры ғына рөхсәт ителә.
+<code>&lt;references /&gt;</code> йәки <code>&lt;references group="..." /&gt;</code> ҡулланығыҙ.',
+	'cite_error_references_no_backlink_label' => 'Кире ҡайтарыу һылтанмалары өсөн хәрефтәр етмәй.
+<nowiki>[[MediaWiki:Cite references link many format backlink labels]]</nowiki> система хәбәрен киңәйтергә кәрәк.',
+	'cite_error_no_link_label_group' => '"$1" төркөмө өсөн ҡулланыусы һылтанмалары етмәй.
+[[MediaWiki:$2]] система хәбәрендә күберәк билдәләгеҙ.',
+	'cite_error_references_no_text' => '<code>&lt;ref&gt;</code> билдәһе дөрөҫ түгел;
+<code>$1</code> төшөрмәләре өсөн текст юҡ',
+	'cite_error_included_ref' => '&lt;ref&gt; билдәһе өсөн &lt;/ref&gt; ябыу билдәһе юҡ',
+	'cite_error_refs_without_references' => '<code>&lt;ref&gt;</code> билдәһе бар, code>&lt;references/&gt;</code> әммә билдәһе юҡ',
+	'cite_error_group_refs_without_references' => '"$1" төркөмө өсөн <code>&lt;ref&gt;</code> билдәһе бар, әммә <code>&lt;references group="$1"/&gt;</code> билдәһе юҡ',
+	'cite_error_references_group_mismatch' => '<code>&lt;references&gt;</code> билдәһенең <code>&lt;ref&gt;</code> билдәһендә "$1" төркөмө атрибуты ҡаршылыҡтар тыуҙыра.',
+	'cite_error_references_missing_group' => '<code>&lt;references&gt;</code> билдәһенең <code>&lt;ref&gt;</code> билдәһендә "$1" төркөмө атрибуты үрҙәге текста осрамай.',
+	'cite_error_references_missing_key' => '<code>&lt;references&gt;</code> билдәһенең "$1" исемле <code>&lt;ref&gt;</code> билдәһе үрҙәге текста ҡулланылмай.',
+	'cite_error_references_no_key' => '<code>&lt;references&gt;</code> билдәһенең <code>&lt;ref&gt;</code> билдәһендә исем атрибуты юҡ.',
+	'cite_error_empty_references_define' => '<code>&lt;references&gt;</code> билдәһенең "$1" исемле <code>&lt;ref&gt;</code> билдәһенең эстәлеге юҡ.',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -966,6 +1009,8 @@ $messages['et'] = array(
 Nimi ei või numbriline olla. Kasuta kirjeldavat nime.',
 	'cite_error_ref_no_key' => 'Vigane <code>&lt;ref&gt;</code>-märgend.
 Sisuta viitamismärgenditel peab nimi olema.',
+	'cite_error_ref_too_many_keys' => 'Vigane <code>&lt;ref&gt;</code>-märgend;
+"name" on vigane või liiga pikk.',
 	'cite_error_ref_no_input' => 'Vigane <code>&lt;ref&gt;</code>-märgend.
 Nimeta viitamismärgenditel peab sisu olema.',
 	'cite_error_references_invalid_parameters' => 'Vigane <code>&lt;references&gt;</code>-märgend.
@@ -980,6 +1025,7 @@ Viite nimega <code>$1</code> tekst puudub.',
 	'cite_error_refs_without_references' => '<code>&lt;ref&gt;</code>-märgendid on olemas, aga <code>&lt;references/&gt;</code>-märgend puudub.',
 	'cite_error_group_refs_without_references' => 'Olemas on <code>&lt;ref&gt;</code>-märgend rühma "$1" jaoks, aga vastav <code>&lt;references group="$1"/&gt;</code>-märgend puudub.',
 	'cite_error_references_group_mismatch' => '<code>&lt;references&gt;</code>-märgendite vahel oleval <code>&lt;ref&gt;</code>-märgendil on vastukäiv parameetri "group" väärtus "$1".',
+	'cite_error_references_missing_group' => '<code>&lt;references&gt;</code>-märgendis kirjeldatud <code>&lt;ref&gt;</code>-märgendil on rühmatunnus "$1", mis puudub eelnevas tekstis.',
 	'cite_error_references_missing_key' => '<code>&lt;references&gt;</code>-märgendite vahel olevat <code>&lt;ref&gt;</code>-märgendit nimega "$1" ei kasutata eelnevas tekstis.',
 	'cite_error_empty_references_define' => '<code>&lt;references&gt;</code>-märgendite vahel oleval <code>&lt;ref&gt;</code>-märgendil nimega "$1" puudub sisu.',
 );
@@ -1255,6 +1301,8 @@ $messages['he'] = array(
 רק הפרמטר "group" מותר לשימוש.
 אנא השתמשו בקוד <code>&lt;references /&gt;</code>, או בקוד <code>&lt;references group="..." /&gt;</code>',
 	'cite_error_references_no_backlink_label' => 'נגמרו תוויות הקישורים המותאמים אישית, אנא הגדירו נוספים בהודעת המערכת <nowiki>[[MediaWiki:Cite references link many format backlink labels]]</nowiki>',
+	'cite_error_no_link_label_group' => 'תוויות הקישורים המותאמים אישית לקבוצה "$1" אזלו.
+הגדירו עוד תוויות בהודעת המערכת <nowiki>[[MediaWiki:$2]]</nowiki>.',
 	'cite_error_references_no_text' => 'תגית <code>&lt;ref&gt;</code> שגויה; לא נכתב טקסט עבור הערת השוליים בשם <code>$1</code>',
 	'cite_error_included_ref' => 'חסרה תגית &lt;/ref&gt; המתאימה לתגית &lt;ref&gt;',
 	'cite_error_refs_without_references' => 'קיימות תגיות <code>&lt;ref&gt;</code>, אך לא נמצאה תגית <code>&lt;references/&gt;</code>',
@@ -1398,7 +1446,7 @@ $messages['hu'] = array(
 	'cite_error_references_invalid_parameters_group' => 'Érvénytelen <code>&lt;references&gt;</code> tag; csak a „group” attribútum használható. Használd a <code>&lt;references /&gt;</code>, vagy a <code>&lt;references group="..." /&gt;</code> formát.',
 	'cite_error_references_no_backlink_label' => 'Elfogytak a visszahivatkozásra használt címkék, adj meg többet a <nowiki>[[MediaWiki:Cite references link many format backlink labels]]</nowiki> üzenetben',
 	'cite_error_no_link_label_group' => 'Nincs több egyedi címke a következő csoport számára: „$1”.
-Definiálj többet a <nowiki>[[MediaWiki:$2]]</nowiki> lapon.',
+Adj meg többet a <nowiki>[[MediaWiki:$2]]</nowiki> lapon.',
 	'cite_error_references_no_text' => 'Érvénytelen <code>&lt;ref&gt;</code> tag; nincs megadva szöveg a(z) <code>$1</code> nevű ref-eknek',
 	'cite_error_included_ref' => 'Egy &lt;ref&gt; tag lezáró &lt;/ref&gt; része hiányzik',
 	'cite_error_refs_without_references' => '<code>&lt;ref&gt;</code>-ek vannak a lapon, de nincsen <code>&lt;references/&gt;</code>',
@@ -2681,6 +2729,8 @@ Toto by sa nemalo nikdy stať.',
 je povolený iba parameter „group“.
 Použite <code>&lt;references /&gt;</code> alebo <code>&lt;references group="..." /&gt;</code>',
 	'cite_error_references_no_backlink_label' => 'Minuli sa generované návestia spätných odkazov, definujte viac v správe <nowiki>[[MediaWiki:Cite references link many format backlink labels]]</nowiki>',
+	'cite_error_no_link_label_group' => 'Vyčerpané prispôsobené označenia odkazov pre skupinu „$1“.
+Definujte ďalšie v správe <nowiki>[[MediaWiki:$2]]</nowiki>.',
 	'cite_error_references_no_text' => 'Neplatná značka <code>&lt;ref&gt;</code>; nebol zadaný text pre referencie s názvom <code>$1</code>',
 	'cite_error_included_ref' => 'Chýba zakončenie značky &lt;ref&gt; (&lt;/ref&gt;)',
 	'cite_error_refs_without_references' => 'Značky <code>&lt;ref&gt;</code> sú prítomné, ale nebola nájdená žiadna značka <code>&lt;references/&gt;</code>',
@@ -2701,20 +2751,36 @@ $messages['sl'] = array(
 	'cite_error_key_str_invalid' => 'Notranja napaka;
 neveljaven $str in/ali $key.
 To se ne bi nikoli smelo zgoditi.',
+	'cite_error_stack_invalid_input' => 'Notranja napaka;
+neveljavni skladovni ključ.
+To se ne bi nikoli smelo zgoditi.',
 	'cite_error' => 'Napaka pri navajanju: $1',
+	'cite_error_ref_numeric_key' => 'Neveljavna oznaka <code>&lt;ref&gt;</code>;
+ime ne more biti samo število. Uporabite opisni naslov',
+	'cite_error_ref_no_key' => 'Neveljavna oznaka <code>&lt;ref&gt;</code>;
+sklici brez vsebine morajo imeti ime',
 	'cite_error_ref_too_many_keys' => 'Neveljavna etiketa <code>&lt;ref&gt;</code>;
 neveljavna imena, npr. preveč',
+	'cite_error_ref_no_input' => 'Neveljavna oznaka <code>&lt;ref&gt;</code>;
+sklici brez imena morajo imeti vsebino',
 	'cite_error_references_invalid_parameters' => 'Neveljavna etiketa <code>&lt;references&gt;</code>;
 parametri niso dovoljeni.
 Uporabite <code>&lt;references /&gt;</code>',
 	'cite_error_references_invalid_parameters_group' => 'Neveljavna etiketa <code>&lt;references&gt;</code>;
 dovoljen je samo parameter »group«.
 Uporabite <code>&lt;references /&gt;</code> ali <code>&lt;references group="..." /&gt;</code>',
+	'cite_error_references_no_backlink_label' => 'Zmanjkalo je oznak za povratne povezave.
+Določite jih več v sporočilu <nowiki>[[MediaWiki:Cite references link many format backlink labels]]</nowiki>.',
 	'cite_error_no_link_label_group' => 'Zmanjkalo je oznak povezav po meri za skupino »$1«.
 Določite jih več v sporočilu <nowiki>[[MediaWiki:$2]]</nowiki>.',
+	'cite_error_references_no_text' => 'Neveljavna oznaka <code>&lt;ref&gt;</code>;
+sklici imenovani <code>$1</code> nimajo določenega besedila',
 	'cite_error_included_ref' => 'Zaključek &lt;/ref&gt; manjka za etiketo &lt;ref&gt;',
 	'cite_error_refs_without_references' => 'Etiketa <code>&lt;ref&gt;</code> obstaja, vendar etiketa <code>&lt;references/&gt;</code> ni bila najdena',
 	'cite_error_group_refs_without_references' => 'Etiketa <code>&lt;ref&gt;</code> obstaja za skupino imenovano »$1«, vendar ustrezna etiketa <code>&lt;references group="$1"/&gt;</code> ni bila najdena',
+	'cite_error_references_group_mismatch' => 'Oznaka <code>&lt;ref&gt;</code> v <code>&lt;references&gt;</code> ima atribut nasprotujoče si skupine »$1«.',
+	'cite_error_references_missing_group' => 'Oznaka <code>&lt;ref&gt;</code>, opredeljena v <code>&lt;references&gt;</code>, ima atribut skupine »$1«, ki se ne pojavi v predhodnem besedilu.',
+	'cite_error_references_missing_key' => 'Oznaka <code>&lt;ref&gt;</code> z imenom »$1«, opredeljena v <code>&lt;references&gt;</code>, ni uporabljena v predhodnem besedilu.',
 	'cite_error_references_no_key' => 'Etiketa <code>&lt;ref&gt;</code>, določena v <code>&lt;references&gt;</code>, nima lastnosti »name«.',
 	'cite_error_empty_references_define' => 'Etiketa <code>&lt;ref&gt;</code>, določena v <code>&lt;references&gt;</code> z imenom »$1«, nima vsebine.',
 	'cite_references_link_one' => "<li id=\"\$1\">'''[[#\$2|^]]''' \$3</li>",

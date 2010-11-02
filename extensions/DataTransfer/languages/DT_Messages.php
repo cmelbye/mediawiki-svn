@@ -208,6 +208,23 @@ $messages['ar'] = array(
 	'right-datatransferimport' => 'استورد بيانات',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'dt_viewxml_categories' => 'ܣܕܪ̈ܐ',
+	'dt_viewxml_namespaces' => 'ܚܩܠܬ̈ܐ',
+	'dt_xml_namespace' => 'ܚܩܠܐ',
+	'dt_xml_pages' => 'ܕ̈ܦܐ',
+	'dt_xml_page' => 'ܕܦܐ',
+	'dt_xml_template' => 'ܩܠܒܐ',
+	'dt_xml_name' => 'ܫܡܐ',
+	'dt_xml_title' => 'ܟܘܢܝܐ',
+	'dt_xml_id' => 'ܗܝܝܘܬܐ',
+	'dt_import_summarydesc' => 'ܦܣܝܩܬ̈ܐ ܕܡܥܠܢܘܬܐ:',
+	'right-datatransferimport' => 'ܡܥܠܢܘܬܐ ܕܓܠܝܬ̈ܐ',
+);
+
 /** Araucanian (Mapudungun)
  * @author Remember the dot
  */
@@ -239,6 +256,14 @@ $messages['arz'] = array(
 	'dt_import_selectfile' => 'لو سمحت اختار فايل $1 علشان تعمل import:',
 	'dt_import_editsummary' => 'استوراد $1',
 	'dt_import_success' => '$1 {{PLURAL:$1|صفحه|صفحه}} ح يتعملو من الفايل $2.',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'dt_viewxml_categories' => 'Катэгорыі',
+	'dt_xml_template' => 'Шаблон',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -397,12 +422,15 @@ $messages['ca'] = array(
 );
 
 /** Czech (Česky)
+ * @author Jkjk
  * @author Matěj Grabovský
  */
 $messages['cs'] = array(
 	'datatransfer-desc' => 'Umožňuje import a export strukturovaných údajů v buňkách šablon.',
+	'viewxml' => 'Zobrazit XML',
 	'dt_viewxml_categories' => 'Kategorie',
 	'dt_viewxml_namespaces' => 'Jmenné prostory',
+	'dt_viewxml_simplifiedformat' => 'Zjednodušený formát',
 	'dt_xml_namespace' => 'Jmenný prostor',
 	'dt_xml_pages' => 'Stránky',
 	'dt_xml_page' => 'Stránka',
@@ -411,6 +439,16 @@ $messages['cs'] = array(
 	'dt_xml_name' => 'Název',
 	'dt_xml_title' => 'Název',
 	'dt_xml_id' => 'ID',
+	'dt_xml_freetext' => 'Libovolný text',
+	'importxml' => 'Importovat XML',
+	'dt_import_selectfile' => 'Prosím vyberte $1 soubor k importu:',
+	'dt_import_encodingtype' => 'Typ kódování',
+	'dt_import_summarydesc' => 'Shrnutí importu:',
+	'dt_import_editsummary' => 'import $1',
+	'dt_import_importing' => 'Probíhá import...',
+	'dt_import_success' => ' $1 {{PLURAL:$1|stránky|stránky|stránek}} bude vytvořeno z $2 souboru.',
+	'importcsv' => 'Import CSV',
+	'right-datatransferimport' => 'Importovat data',
 );
 
 /** Danish (Dansk)
@@ -1261,6 +1299,23 @@ $messages['lt'] = array(
 	'dt_viewxml_categories' => 'Kategorijos',
 );
 
+/** Latvian (Latviešu)
+ * @author GreenZeb
+ */
+$messages['lv'] = array(
+	'dt_viewxml_categories' => 'Kategorijas',
+	'dt_viewxml_namespaces' => 'Vārdtelpas',
+	'dt_viewxml_simplifiedformat' => 'Vienkāršots formāts',
+	'dt_xml_namespace' => 'Vārdtelpa',
+	'dt_xml_pages' => 'Lapas',
+	'dt_xml_page' => 'Lapa',
+	'dt_xml_template' => 'Veidne',
+	'dt_xml_field' => 'Lauks',
+	'dt_xml_name' => 'Vārds',
+	'dt_xml_title' => 'Nosaukums',
+	'dt_xml_id' => 'ID',
+);
+
 /** Eastern Mari (Олык Марий)
  * @author Сай
  */
@@ -1301,6 +1356,7 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -1309,19 +1365,31 @@ $messages['ml'] = array(
 	'dt_viewxml_namespaces' => 'നാമമേഖലകൾ',
 	'dt_viewxml_simplifiedformat' => 'ലളിതവത്ക്കരിക്കപ്പെട്ട ഫോർമാറ്റ്',
 	'dt_xml_namespace' => 'നാമമേഖല',
+	'dt_xml_pages' => 'താളുകൾ',
 	'dt_xml_page' => 'താൾ',
+	'dt_xml_template' => 'ഫലകം',
 	'dt_xml_field' => 'ഫീൽഡ്',
 	'dt_xml_name' => 'പേര്‌',
 	'dt_xml_title' => 'ശീർഷകം',
 	'dt_xml_id' => 'ഐ.ഡി.',
+	'dt_xml_freetext' => 'സ്വതന്ത്ര എഴുത്ത്',
+	'importxml' => 'എക്സ്.എം.എൽ. ഇറക്കുമതി',
+	'dt_import_selectfile' => 'ദയവായി ഇറക്കുമതിക്കായി $1 പ്രമാണം തിരഞ്ഞെടുക്കുക:',
+	'dt_import_encodingtype' => 'എൻ‌കോഡിങ് തരം',
+	'dt_import_summarydesc' => 'ഇറക്കുമതിയുടെ സംഗ്രഹം:',
+	'dt_import_editsummary' => '$1 ഇറക്കുമതി',
+	'dt_import_importing' => 'ഇറക്കുമതി ചെയ്യുന്നു...',
+	'importcsv' => 'സി.എസ്.വി. ഇറക്കുമതി',
 );
 
 /** Mongolian (Монгол)
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'dt_viewxml_categories' => 'Ангиллууд',
 	'dt_viewxml_namespaces' => 'Нэрний зайнууд',
 	'dt_xml_namespace' => 'Нэрний зай',
+	'dt_xml_page' => 'Хуудас',
 );
 
 /** Marathi (मराठी)

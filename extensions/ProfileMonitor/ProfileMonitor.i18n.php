@@ -83,6 +83,13 @@ $messages['ar'] = array(
 	'profiling-no-data' => 'لم يتم إيجاد بيانات مطابقة.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'profiling-ok' => 'ܛܒ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -1046,9 +1053,20 @@ $messages['ug-latn'] = array(
 /** Ukrainian (Українська)
  * @author AS
  * @author Ahonc
+ * @author Alex Khimich
+ * @author Тест
  */
 $messages['uk'] = array(
+	'profiling' => 'Профілювання даних',
+	'profiling-process' => 'Командна стрічка:',
+	'profiling-wildcard' => 'Використання маски',
 	'profiling-ok' => 'Гаразд',
+	'profiling-data' => 'Профілювання даних для `$1`',
+	'profiling-data-process' => 'Обробка',
+	'profiling-data-count' => 'Кількість',
+	'profiling-data-time' => 'Час (весь)',
+	'profiling-data-average' => 'Час (середній)',
+	'profiling-no-data' => 'Не знайдено співпадаючих данних.',
 );
 
 /** Veps (Vepsan kel')

@@ -16,8 +16,6 @@ class ReaderFeedbackHooks {
 			return true;
 		}
 		global $wgScriptPath, $wgJsMimeType, $wgFeedbackStylePath, $wgFeedbackStyleVersion;
-		# Load required messages
-		wfLoadExtensionMessages( 'ReaderFeedback' );
 		
 		$stylePath = str_replace( '$wgScriptPath', $wgScriptPath, $wgFeedbackStylePath );
 
@@ -33,7 +31,6 @@ class ReaderFeedbackHooks {
 	}
 	
 	public static function injectJSVars( &$globalVars ) {
-		global $wgUser;
 		$globalVars['wgFeedbackParams'] = ReaderFeedback::getJSFeedbackParams();
 		$globalVars['wgAjaxFeedback'] = (object) array( 
 			'sendingMsg' => wfMsgHtml('readerfeedback-submitting'), 
@@ -46,12 +43,12 @@ class ReaderFeedbackHooks {
 	* Add ReaderFeedback css for relevant special pages.
 	*/
 	public static function InjectStyleForSpecial() {
-		global $wgTitle, $wgOut, $wgUser;
+		global $wgTitle, $wgOut;
 		if( empty($wgTitle) || $wgTitle->getNamespace() !== NS_SPECIAL ) {
 			return true;
 		}
 		$spPages = array( 'RatingHistory' );
-		foreach( $spPages as $n => $key ) {
+		foreach( $spPages as $key ) {
 			if( $wgTitle->isSpecial( $key ) ) {
 				global $wgScriptPath, $wgFeedbackStylePath, $wgFeedbacktyleVersion;
 				$stylePath = str_replace( '$wgScriptPath', $wgScriptPath, $wgFeedbackStylePath );
@@ -109,7 +106,7 @@ class ReaderFeedbackHooks {
 	  * @param Title $title
 	 */
 	protected static function addQuickFeedback( &$data, $top = false, $title ) {
-		global $wgOut, $wgUser, $wgRequest, $wgFeedbackTags;
+		global $wgOut, $wgUser, $wgFeedbackTags;
 		# Are there any reader input tags?
 		if( empty($wgFeedbackTags) ) {
 			return false;
@@ -117,7 +114,6 @@ class ReaderFeedbackHooks {
 		# Revision being displayed
 		$id = $wgOut->getRevisionId();
 		# Load required messages
-		wfLoadExtensionMessages( 'ReaderFeedback' );
 		$reviewTitle = SpecialPage::getTitleFor( 'ReaderFeedback' );
 		$action = $reviewTitle->getLocalUrl( 'action=submit' );
 		$form = Xml::openElement( 'form', array( 'method' => 'post', 'action' => $action,
@@ -131,7 +127,6 @@ class ReaderFeedbackHooks {
 		$form .= Xml::openElement( 'span', array('id' => 'mw-feedbackselects') );
 		# Loop through all different flag types
 		foreach( ReaderFeedback::getFeedbackTags() as $quality => $levels ) {
-			$label = array();
 			$selected = ( isset($flags[$quality]) && $flags[$quality] > 0 ) ? $flags[$quality] : -1;
 			$form .= "<b>" . Xml::label( wfMsgHtml("readerfeedback-$quality"), "wp$quality" ) . ":</b>";
 			$attribs = array( 'name' => "wp$quality", 'id' => "wp$quality",
@@ -151,12 +146,12 @@ class ReaderFeedbackHooks {
 			'title' => wfMsg('readerfeedback-tt-review').' ['.wfMsg('readerfeedback-ak-review').']' )
 		);
 		# Hidden params
-		$form .= Xml::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
-		$form .= Xml::hidden( 'target', $title->getPrefixedDBKey() ) . "\n";
-		$form .= Xml::hidden( 'oldid', $id ) . "\n";
-		$form .= Xml::hidden( 'validatedParams', ReaderFeedbackPage::validationKey( $id, $wgUser->getId() ) );
-		$form .= Xml::hidden( 'action', 'submit') . "\n";
-		$form .= Xml::hidden( 'wpEditToken', $wgUser->editToken() ) . "\n";
+		$form .= Html::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
+		$form .= Html::hidden( 'target', $title->getPrefixedDBKey() ) . "\n";
+		$form .= Html::hidden( 'oldid', $id ) . "\n";
+		$form .= Html::hidden( 'validatedParams', ReaderFeedbackPage::validationKey( $id, $wgUser->getId() ) );
+		$form .= Html::hidden( 'action', 'submit') . "\n";
+		$form .= Html::hidden( 'wpEditToken', $wgUser->editToken() ) . "\n";
 		# Honeypot input
 		$form .= Xml::input( 'commentary', 12, '', array('style' => 'display:none;') ) . "\n";
 		$form .= Xml::closeElement( 'fieldset' );
@@ -173,7 +168,6 @@ class ReaderFeedbackHooks {
 		global $wgTitle;
 		# Add rating tab
 		if( isset($wgTitle) && ReaderFeedback::isPageRateable($wgTitle) ) {
-			wfLoadExtensionMessages( 'RatingHistory' );
 			$nav_urls['ratinghist'] = array( 
 				'text' => wfMsg( 'ratinghistory-link' ),
 				'href' => $skintemplate->makeSpecialUrl( 'RatingHistory', 

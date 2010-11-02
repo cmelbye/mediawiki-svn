@@ -80,7 +80,7 @@ class ContributionScores extends IncludableSpecialPage {
 						 ORDER BY rev_count DESC 
 						 LIMIT {$limit}";
 		
-		$sql =  "SELECT user_id, " .
+		$sql = "SELECT user_id, " .
 			"user_name, " .
 			"page_count, " .
 			"rev_count, " .
@@ -102,7 +102,7 @@ class ContributionScores extends IncludableSpecialPage {
 
 		$skin = $wgUser->getSkin();
 		$altrow = '';
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$output .= "</tr><tr class='{$altrow}'>\n<td class='content'>" .
 				round($row->wiki_rank,0) . "\n</td><td class='content'>" .
 				$row->page_count . "\n</td><td class='content'>" .
@@ -136,9 +136,7 @@ class ContributionScores extends IncludableSpecialPage {
 		return $output;
 	}
 
-	function execute( $par ) {
-		global $wgRequest, $wgOut, $wgHooks;
-		
+	function execute( $par ) {	
 		$this->setHeaders();
 
 		if( $this->including() ) {

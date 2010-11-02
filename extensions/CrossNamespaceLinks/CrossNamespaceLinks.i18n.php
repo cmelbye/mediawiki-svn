@@ -91,6 +91,16 @@ $messages['ast'] = array(
 	'crossnamespacelinkstext' => '$1: $2 {{PLURAL:$2|enllaz|enllaces}} a $3',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'crossnamespacelinks' => 'Исемдәр арауығы араһындағы һылтанмалар',
+	'crossnamespacelinks-desc' => '{{SITENAME}} проектында булырға тейеш булмаған [[Special:CrossNamespaceLinks|исемдәр арауығы араһындағы һылтанмалар исемлеген]] күрһәтә',
+	'crossnamespacelinks-summary' => 'Был бит төп исемдәр арауығындағы биттәрҙән икенсе исемдәр арауығындағы биттәргә һылтанмалар исемлеген ({{ns:special}}, {{ns:talk}}, {{ns:project}} һәм {{ns:template}} исем арауыҡтарынан башҡа) күрһәтә, бындай һылтанмаларҙы ҡулланыу кәңәш ителмәй.',
+	'crossnamespacelinkstext' => '$1: $3 исемдәр арауығына $2 {{PLURAL:$2|һылтанма}}',
+);
+
 /** Bavarian (Boarisch)
  * @author Man77
  */
@@ -1071,6 +1081,8 @@ $messages['th'] = array(
  */
 $messages['tk'] = array(
 	'crossnamespacelinks' => 'At giňişlikleriniň arasyndaky çykgytlar',
+	'crossnamespacelinks-desc' => '{{SITENAME}} saýtynda bolmaly däl [[Special:CrossNamespaceLinks|at giňişlikleriniň arasyndaky çykgytlaryň sanawyny görkezýär]]',
+	'crossnamespacelinks-summary' => 'Bu sahypa esasy at giňişligindäki bir sahypadan ulanylmagy maslahat berilmeýän başga at giňişliklerine ({{ns:special}}, {{ns:talk}}, {{ns:project}}, ve {{ns:template}} at giňişlikleri muňa degişli däl) bolan çykgytlaryň sanawyny berýär.',
 	'crossnamespacelinkstext' => '$1: $3 üçin $2 {{PLURAL:$2|çykgyt|çykgyt}}',
 );
 
@@ -1161,6 +1173,13 @@ $messages['yi'] = array(
 	'crossnamespacelinks' => 'אריבער־נאמענטייל לינקען',
 	'crossnamespacelinks-desc' => '[[Special:CrossNamespaceLinks|רשימה פון לינקען צווישן נאמענטיילן]] וואס דארפן נישט עקזיסטירן אויף {{SITENAME}}',
 	'crossnamespacelinkstext' => '$1: $2 {{PLURAL:$2|לינק|לינקען}} צו $3',
+);
+
+/** Yoruba (Yorùbá)
+ * @author Demmy
+ */
+$messages['yo'] = array(
+	'crossnamespacelinkstext' => '$1: {{PLURAL:$2|ìjápọ̀|àwọn ìjápọ̀}} $2 sí $3',
 );
 
 /** Cantonese (粵語) */

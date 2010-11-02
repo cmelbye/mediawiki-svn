@@ -115,8 +115,16 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'security' => 'ܣܓܠܐ ܕܫܝܢܐ',
 	'security-type-category' => 'ܣܕܪܐ',
 	'security-type-namespace' => 'ܚܩܠܐ',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'security-type-category' => 'катэгорыя',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -247,7 +255,7 @@ $messages['de'] = array(
  * @author Umherirrender
  */
 $messages['de-formal'] = array(
-	'badaccess-read' => 'Warnung: „$1“ verweist hierher, aber Sie haben keine ausreichende Berechtigung um die Seite zu sehen.',
+	'badaccess-read' => "'''Warnung:''' „$1“ verweist hierher. Sie haben aber keine ausreichende Berechtigung um die Seite zu sehen.",
 	'security-infosysops' => 'Für Sie sind keine Einschränkungen aktiv, weil Sie der Gruppe „Administratoren“ angehören.',
 );
 
@@ -1034,6 +1042,7 @@ $messages['sv'] = array(
  */
 $messages['te'] = array(
 	'security-info-toggle' => 'భద్రతా నియంత్రణలు',
+	'security-desc-LS' => '(ఈ పుట "$2 $1"లో ఉన్నందున వర్తిస్తుంది)',
 	'security-type-category' => 'వర్గం',
 	'security-type-namespace' => 'పేరుబరి',
 );
@@ -1093,7 +1102,12 @@ $messages['tr'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'security' => 'Журнал безпеки',
 	'security-desc' => 'Розширює захист сторінок MediaWiki, дозволяючи обмежувати перегляд вмісту сторінки',
+	'security-logpage' => 'Журнал безпеки',
+	'security-logpagetext' => 'Це журнал дій, заблокованих [http://www.mediawiki.org/wiki/Extension:SimpleSecurity розширенням SimpleSecurity].',
+	'security-info' => 'На цій сторінці діють $1',
+	'security-info-toggle' => 'обмеження для забезпечення безпеки',
 	'security-inforestrict' => '$1 обмежений для $2',
 	'security-type-category' => 'категорія',
 	'security-type-namespace' => 'простір назв',

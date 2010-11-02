@@ -74,6 +74,15 @@ $messages['ar'] = array(
 	'editcount_total' => 'الإجمالي',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author 334a
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'editcount_username' => 'ܡܦܠܚܢܐ:',
+	'editcount_submit' => 'ܫܕܪ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -711,6 +720,13 @@ $messages['ml'] = array(
 	'editcount_total' => 'മൊത്തം',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'editcount_submit' => 'Явуулах',
+);
+
 /** Marathi (मराठी)
  * @author Kaustubh
  */
@@ -1003,7 +1019,11 @@ $messages['sdc'] = array(
  * @author OC Ripper
  */
 $messages['sh'] = array(
+	'editcount' => 'Brojač izmjena',
+	'editcount-desc' => 'Prikazuje [[Special:Editcount|brojač izmjena]] korisnika',
+	'editcount_username' => 'Korisnik:',
 	'editcount_submit' => 'Unesi',
+	'editcount_total' => 'Ukupno',
 );
 
 /** Sinhala (සිංහල)
@@ -1026,6 +1046,17 @@ $messages['sk'] = array(
 	'editcount_username' => 'Používateľ:',
 	'editcount_submit' => 'Odoslať',
 	'editcount_total' => 'Celkom',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'editcount' => 'Število prispevkov',
+	'editcount-desc' => 'Prikaže [[Special:Editcount|števec urejanj]] uporabnika',
+	'editcount_username' => 'Uporabnik:',
+	'editcount_submit' => 'Pošlji',
+	'editcount_total' => 'Skupaj',
 );
 
 /** Serbian (Српски / Srpski)

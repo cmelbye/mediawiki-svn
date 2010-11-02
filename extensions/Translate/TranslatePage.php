@@ -31,7 +31,7 @@ class SpecialTranslate extends SpecialPage {
 	 * Access point for this special page.
 	 */
 	public function execute( $parameters ) {
-		global $wgOut, $wgTranslateBlacklist, $wgUser, $wgRequest;
+		global $wgOut, $wgTranslateBlacklist, $wgRequest;
 
 		TranslateUtils::injectCSS();
 
@@ -187,16 +187,15 @@ class SpecialTranslate extends SpecialPage {
 		$this->task  = TranslateTasks::getTask( $this->options['task'] );
 	}
 
-	/**
-	 * GLOBALS: $wgScript
-	 */
 	protected function settingsForm( $errors ) {
 		global $wgScript;
 
+		// These are used, in the $$g black magic below. Do not remove!
 		$task = $this->taskSelector();
 		$group = $this->groupSelector();
 		$language = $this->languageSelector();
 		$limit = $this->limitSelector();
+
 		$button = Xml::submitButton( wfMsg( 'translate-submit' ) );
 
 		$options = array();
@@ -213,7 +212,7 @@ class SpecialTranslate extends SpecialPage {
 			Xml::openElement( 'fieldset', array( 'class' => 'mw-sp-translate-settings' ) ) .
 				Xml::element( 'legend', null, wfMsg( 'translate-page-settings-legend' ) ) .
 				Xml::openElement( 'form', array( 'action' => $wgScript, 'method' => 'get' ) ) .
-					Xml::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
+					Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
 					Xml::openElement( 'table' ) .
 						implode( "", $options ) .
 						self::optionRow( $button, ' ' ) .

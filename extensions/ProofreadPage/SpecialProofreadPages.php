@@ -6,7 +6,7 @@
 
 class IndexPagesPage extends QueryPage {
 	public function __construct() {
-		SpecialPage::__construct( 'IndexPages' );
+		parent::__construct( 'IndexPages' );
 		$this->index_namespace = preg_quote( wfMsgForContent( 'proofreadpage_index_namespace' ), '/' );
 	}
 

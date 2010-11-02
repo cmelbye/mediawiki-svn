@@ -8,8 +8,6 @@ class RatingHistory extends UnlistedSpecialPage
 {
 	public function __construct() {
 		parent::__construct( 'RatingHistory', 'feedback' );
-		wfLoadExtensionMessages( 'RatingHistory' );
-		wfLoadExtensionMessages( 'ReaderFeedback' );
 	}
 
 	public function execute( $par ) {
@@ -91,8 +89,8 @@ class RatingHistory extends UnlistedSpecialPage
 		$form .= "<fieldset>";
 		$form .= "<legend>".wfMsgExt( 'ratinghistory-leg',array('parseinline'),
 			$this->page->getPrefixedText() )."</legend>\n";
-		$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
-		$form .= Xml::hidden( 'target', $this->page->getPrefixedDBKey() );
+		$form .= Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
+		$form .= Html::hidden( 'target', $this->page->getPrefixedDBKey() );
 		$form .= $this->getPeriodMenu( $this->period );
 		$form .= " ".Xml::submitButton( wfMsg( 'go' ) );
 		$form .= "</fieldset></form>\n";
@@ -218,7 +216,7 @@ class RatingHistory extends UnlistedSpecialPage
 		// Label spacing
 		$int = intval( ceil($days/10) ); // 10 labels at most
 		$dates = $drating = $arating = $dcount = "";
-		while( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			$totalVal += (int)$row->rfh_total;
 			$totalCount += (int)$row->rfh_count;
 			$dayAve = sprintf( '%4.2f', (real)$row->rfh_total/(real)$row->rfh_count );
@@ -268,7 +266,6 @@ class RatingHistory extends UnlistedSpecialPage
 		// Make sure directory exists
 		if( !file_exists($dir) && !wfMkdirParents( $dir, 0777 ) ) {
 			throw new MWException( 'Could not create file directory!' );
-			return false;
 		}
 		$plot->SetOutputFile( $filePath );
 		$plot->SetIsInline( true );
@@ -276,14 +273,18 @@ class RatingHistory extends UnlistedSpecialPage
 		$totalVal = $totalCount = $n = 0;
 		// Define the data using the DB rows
 		list($res,$u,$maxC,$days) = $this->doQuery( $tag );
-		if( !$maxC ) return false;
+		if( !$maxC ) {
+			return false;
+		}
 		// Label spacing
 		$int = intval( ceil($days/10) ); // 10 labels at most
-		while( $row = $res->fetchObject() ) {
+		foreach( $res as $row ) {
 			$totalVal += (int)$row->rfh_total;
 			$totalCount += (int)$row->rfh_count;
 			$dayCount = (real)$row->rfh_count;
-			if( !$row->rfh_count ) continue; // bad data
+			if( !$row->rfh_count ) {
+				continue; // bad data
+			}
 			// Nudge values up by 1
 			$dayAve = 1 + (real)$row->rfh_total/(real)$row->rfh_count;
 			$cumAve = 1 + (real)$totalVal/(real)$totalCount;
@@ -362,7 +363,6 @@ class RatingHistory extends UnlistedSpecialPage
 		// Make sure directory exists
 		if( !file_exists($dir) && !wfMkdirParents( $dir, 0777 ) ) {
 			throw new MWException( 'Could not create file directory!' );
-			return false;
 		}
 		// Set some parameters
 		$plot->graphicWidth = 1000;
@@ -386,7 +386,7 @@ class RatingHistory extends UnlistedSpecialPage
 		if( !$maxC ) return false;
 		// Label spacing
 		$int = intval( ceil($days/10) ); // 10 labels at most
-		while( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			$totalVal += (int)$row->rfh_total;
 			$totalCount += (int)$row->rfh_count;
 			$dayCount = (real)$row->rfh_count;
@@ -521,7 +521,7 @@ class RatingHistory extends UnlistedSpecialPage
 		# Get max count and average rating
 		$total = $count = $ave = $maxC = $days = 0;
 		if( $dbr->numRows($res) > 0 ) {
-			while( $row = $dbr->fetchObject($res) ) {
+			foreach ( $res as $row ) {
 				if( !isset($lower) ) {
 					$lower = wfTimestamp( TS_UNIX, $row->rfh_date ); // first day
 				}
@@ -547,7 +547,7 @@ class RatingHistory extends UnlistedSpecialPage
 	*/
 	public function getFilePath( $tag, $ext='' ) {
 		global $wgUploadDirectory;
-		$rel = self::getRelPath( $tag, $ext );
+		$rel = $this->getRelPath( $tag, $ext );
 		return "{$wgUploadDirectory}/graphs/{$rel}";
 	}
 	
@@ -559,7 +559,7 @@ class RatingHistory extends UnlistedSpecialPage
 	*/
 	public function getUrlPath( $tag, $ext='' ) {
 		global $wgUploadPath;
-		$rel = self::getRelPath( $tag, $ext );
+		$rel = $this->getRelPath( $tag, $ext );
 		return "{$wgUploadPath}/graphs/{$rel}";
 	}
 	
@@ -648,7 +648,7 @@ class RatingHistory extends UnlistedSpecialPage
 		$columns = 4;
 		$count = 0;
 		$html = "<table class='rfb-reader_feedback_users'><tr>";
-		while( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			$title = Title::makeTitleSafe( NS_USER, $row->name );
 			if( is_null($title) ) continue; // bad IP?
 			$html .= '<td>'.$this->skin->makeLinkObj( $title, $title->getText() )." [{$row->n}]</td>";

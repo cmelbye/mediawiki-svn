@@ -20,13 +20,9 @@ class SpecialContributionStatistics extends SpecialPage {
 	public function __construct() {
 		// Initialize special page
 		parent::__construct( 'ContributionStatistics' );
-		
-		// Internationalization
-		wfLoadExtensionMessages( 'ContributionReporting' );
 	}
 	
 	public function execute( $sub ) {
-		global $wgRequest, $wgOut, $wgUser;
 		global $egContributionStatisticsViewDays;
 		
 		$this->evalDateRange();
@@ -124,8 +120,7 @@ class SpecialContributionStatistics extends SpecialPage {
 		
 		$months = $this->getMonthlyTotals();
 		$total = $this->getTotalContributions();
-		
-		$msg = '';
+
 		if ( $this->mMode == 'range' ) {
 			$msg = wfMsgExt( 'contribstats-month-range-totals', array( 'parsemag' ), $wgLang->formatNum( count( $months ) ) );
 		} else {
@@ -171,7 +166,6 @@ class SpecialContributionStatistics extends SpecialPage {
 	public function showCurrencyTotals() {
 		global $wgOut, $wgLang;
 		
-		$msg = '';
 		if ( $this->mMode == 'range' ) {
 			$msg = wfMsg( 'contribstats-currency-range-totals',
 				$wgLang->date( wfTimestamp( TS_MW, $this->mStartDate ) ),
@@ -216,8 +210,7 @@ class SpecialContributionStatistics extends SpecialPage {
 	
 	public function showContributionBreakdown() {
 		global $wgOut, $wgLang;
-		
-		$msg = '';
+
 		if ( $this->mMode == 'range' ) {
 			$msg = wfMsg( 'contribstats-contribution-range-breakdown',
 				$wgLang->date( wfTimestamp( TS_MW, $this->mStartDate ) ),
@@ -252,7 +245,6 @@ class SpecialContributionStatistics extends SpecialPage {
 			 wfMsg( 'contribstats-value-over', $wgLang->formatNum( 1000 ) ) => array( 1000, 999999999999.99 ),
 		);
 		foreach( $list as $label => $range ) {
-			$data = array();
 			if( isset( $range[1] ) ) {
 				$data = $this->getNumContributionsWithin( $range[0], $range[1] );
 			} else {
@@ -301,7 +293,7 @@ class SpecialContributionStatistics extends SpecialPage {
 		
 		// Build day/value array
 		$totals = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		foreach ( $res as $row ) {
 			/*
 			$median = $dbr->selectField( 'public_reporting',
 				array( 'converted_amount' ),
@@ -347,7 +339,7 @@ class SpecialContributionStatistics extends SpecialPage {
 		
 		// Build day/value array
 		$totals = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		foreach ( $res as $row ) {
 			$median = $dbr->selectField( 'public_reporting',
 				array( 'converted_amount' ),
 				array(
@@ -390,7 +382,7 @@ class SpecialContributionStatistics extends SpecialPage {
 		);
 		
 		$totals = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		foreach ( $res as $row ) {
 			$median = $dbr->selectField( 'public_reporting',
 				array( 'converted_amount' ),
 				array_merge(

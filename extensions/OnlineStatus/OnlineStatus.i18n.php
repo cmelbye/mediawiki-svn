@@ -92,6 +92,19 @@ $messages['ar'] = array(
 	'onlinestatus-pref-offlineonlogout' => 'غير حالتي إلى غير موجود عند تسجيل الخروج',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author 334a
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'onlinestatus-subtitle-offline' => 'ܡܦܠܚܢܐ ܗܢܐ ܠܐ ܨܡܝܕܐ ܗܘ ܗܫܐ',
+	'onlinestatus-subtitle-online' => 'ܡܦܠܚܢܐ ܗܢܐ ܨܡܝܕܐ ܗܘ ܗܫܐ',
+	'onlinestatus-tab' => 'ܐܝܟܢܝܘܬܐ',
+	'onlinestatus-toggles-desc' => 'ܐܝܟܢܝܘܬܐ ܕܝܠܟ:',
+	'onlinestatus-toggle-offline' => 'ܠܐ ܨܡܝܕܐ',
+	'onlinestatus-toggle-online' => 'ܨܡܝܕܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -778,11 +791,13 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
 	'onlinestatus-subtitle-offline' => 'ഈ ഉപയോക്താവ് നിലവിൽ ഓഫ്‌ലൈൻ ആണ്‌',
 	'onlinestatus-subtitle-online' => 'ഈ ഉപയോക്താവ് നിലവിൽ ഓഫ്‌ലൈൻ ആണ്‌',
+	'onlinestatus-tab' => 'സ്ഥിതി',
 	'onlinestatus-toggles-desc' => 'താങ്കളുടെ സ്ഥിതി:',
 	'onlinestatus-toggles-explain' => 'താങ്കളുടെ ഉപയോക്തൃതാൾ കാണുമ്പോൾ താങ്കൾ ഓൺലൈൻ ആണോ അല്ലയോ എന്നു മറ്റുള്ളവർക്ക് മനസ്സിലാക്കാൻ ഈ സം‌വിധാനം സഹായിക്കുന്നു.',
 	'onlinestatus-toggles-show' => 'ഓൺ‌ലൈൻ സ്ഥിതി എന്റെ ഉപയോക്തൃതാളിൽ പ്രദർശിപ്പിക്കുക',

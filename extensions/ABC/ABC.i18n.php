@@ -6,7 +6,6 @@
  * freely. This software is provided 'as-is', without any express or implied
  * warranty.
  */
-/* $Id$ */
 
 $messages = array();
 
@@ -81,6 +80,13 @@ $messages['ar'] = array(
 	'abcvorbis' => 'أو جي جي فوربيس',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'abcdownload' => 'ܐܚܬ:',
+);
+
 /** Araucanian (Mapudungun)
  * @author Kaniw
  */
@@ -133,10 +139,11 @@ $messages['bg'] = array(
 
 /** Bahasa Banjar (Bahasa Banjar)
  * @author Ezagren
+ * @author J Subhi
  */
 $messages['bjn'] = array(
 	'abc-desc' => 'Tambahakan<code>&lt;abc&gt;</code> gasan format musik ABC',
-	'abcdownload' => 'Unduh:',
+	'abcdownload' => 'Hunduh:',
 );
 
 /** Bengali (বাংলা)
@@ -843,6 +850,13 @@ $messages['sah'] = array(
 $messages['sc'] = array(
 	'abc-desc' => "Aciungit s'eticheta <tt>&lt;abc&gt;</tt> pro sa mùsica in formadu ABC",
 	'abcdownload' => 'Scàrriga:',
+);
+
+/** Serbo-Croatian (Srpskohrvatski / Српскохрватски)
+ * @author OC Ripper
+ */
+$messages['sh'] = array(
+	'abc-desc' => 'Dodaje <code>&lt;abc&gt;</code> oznaku za formatiranje ABC muzike',
 );
 
 /** Tachelhit (Tašlḥiyt)

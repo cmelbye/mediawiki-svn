@@ -129,6 +129,23 @@ $messages['ast'] = array(
 	'right-nuke' => 'Esborráu masivu de páxines',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'nuke' => 'Күпләп юйыу',
+	'nuke-desc' => 'Хәкимдәргә биттәрҙе [[Special:Nuke|күпләп юйыу]] мөмкинлеген бирә',
+	'nuke-nopages' => 'Һуңғы үҙгәртеүҙәрҙә [[Special:Contributions/$1|$1]] тарафынан булдырылған биттәр юҡ.',
+	'nuke-list' => 'Түбәндәге биттәр [[Special:Contributions/$1|$1]] тарафынан яңыраҡ булдырылған.
+Уларҙы юйыр өсөн, аңлатма керетегеҙ һәм төймәгә баҫығыҙ.',
+	'nuke-defaultreason' => '$1 тарафынан булдырылған биттәрҙе күпләп юйыу',
+	'nuke-tools' => 'Был бит билдәләнгән ҡатнашыусы йәки IP адрес тарафынан булдырылған биттәрҙе күпләп юйыу мөмкинлеген бирә.
+Юйыла торған биттәр исемлеген алыр өсөн, ҡатнашыусы исемен йәки IP адресты керетегеҙ.',
+	'nuke-submit-user' => 'Үтәргә',
+	'nuke-submit-delete' => 'Һайланғандарҙы юйырға',
+	'right-nuke' => 'Биттәрҙе күпләп юйыу',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -1344,7 +1361,10 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'nuke' => 'Масове вылучіня',
 	'nuke-submit-user' => 'Выконати',
+	'nuke-submit-delete' => 'Змазати выбдарны',
+	'right-nuke' => 'Масове вылучіня сторінок',
 );
 
 /** Yakut (Саха тыла)
@@ -1566,7 +1586,12 @@ $messages['tg-latn'] = array(
 $messages['tk'] = array(
 	'nuke' => 'Köpçülikleýin öçür',
 	'nuke-desc' => 'Administratorlara sahypalary [[Special:Nuke|köpçülikleýin öçürme]] ukybyny berýär',
+	'nuke-nopages' => 'Soňky üýtgeşmelerde [[Special:Contributions/$1|$1]] tarapyndan döredilen täze sahypa ýok.',
+	'nuke-list' => 'Aşakdaky sahypalar ýakyn wagtda [[Special:Contributions/$1|$1]] tarafından oluşturuldu;
+bir teswir ýazyň we öçürmek üçin düwmä basyň.',
 	'nuke-defaultreason' => '$1 tarapyndan sahypalaryň köpçülikleýin aýrylmagy goşuldy',
+	'nuke-tools' => 'Bu gural bir ulanyjy ýa-da IP tarapyndan ýakyn wagtda goşulan sahypalaryň köpçülikleýin öçürilmegine rugsat berýär.
+Öçürilmeli sahypalaryň sanawyny almak üçin ulanyjy adyny ýa-da IP-ni giriziň.',
 	'nuke-submit-user' => 'Git',
 	'nuke-submit-delete' => 'Saýlanylanlary öçür',
 	'right-nuke' => 'Sahypalary köpçülikleýin öçür',

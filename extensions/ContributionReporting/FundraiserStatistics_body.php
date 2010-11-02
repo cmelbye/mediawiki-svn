@@ -12,11 +12,10 @@ class SpecialFundraiserStatistics extends SpecialPage {
 
 	public function __construct() {
 		parent::__construct( 'FundraiserStatistics' );
-		wfLoadExtensionMessages( 'ContributionReporting' );
 	}
 	
 	public function execute( $sub ) {
-		global $wgRequest, $wgOut, $wgUser, $wgLang, $wgScriptPath, $egFundraiserStatisticsFundraisers;
+		global $wgOut, $wgLang, $wgScriptPath, $egFundraiserStatisticsFundraisers;
 		
 		/* Configuration (this isn't totally static data, some of it gets built on the fly) */
 		
@@ -88,7 +87,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 		}
 		// Scale factors
 		foreach ( $charts as $name => $chart ) {			
-			$charts[$name]['factor'] = $factor = 300 / $chart['max'];
+			$charts[$name]['factor'] = 300 / $chart['max'];
 		}
 		// HTML-time!
 		$view = 0;
@@ -245,7 +244,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 				);
 				$result = array();
 				$ytd = 0;
-				while ( $row = $dbr->fetchRow( $select ) ) {
+				foreach ( $select as $row ) {
 					$row[] = $ytd += $row[1]; // YTD
 					$result[] = $row;
 				}

@@ -29,7 +29,21 @@ class SMWOutputs {
 
 	/// Protected member function for temporarily storing header items.
 	protected static $mHeadItems = array();
+	
+	/// Protected member function for temporarily storing resource modules.
+	protected static $resourceModules = array();	
 
+	/**
+	 * Adds a resource module to the parser output.
+	 * 
+	 * @since 1.5.3
+	 * 
+	 * @param string $moduleName
+	 */
+	public static function requireResource( $moduleName ) {
+		self::$resourceModules[$moduleName] = $moduleName;
+	}
+	
 	/**
 	 * Adds rousource loader modules or other head items.
 	 * Falls back on requireHeadItemOld if the Resource Loader (MW >1.17) is not available.
@@ -47,15 +61,16 @@ class SMWOutputs {
 		
 		if ( is_numeric( $id ) ) {
 			global $wgOut;
+
 			switch ( $id ) {	
 				case SMW_HEADER_TOOLTIP:
-					$wgOut->addModules( 'ext.smw.tooltips' );
+					self::requireResource( 'ext.smw.tooltips' );
 					break;
 				case SMW_HEADER_SORTTABLE:
-					$wgOut->addModules( 'ext.smw.sorttable' );
+					self::requireResource( 'ext.smw.sorttable' );
 					break;
 				case SMW_HEADER_STYLE:
-					$wgOut->addModules( 'ext.smw.style' );	
+					self::requireResource( 'ext.smw.style' );
 					break;
 			}	
 		}
@@ -167,8 +182,14 @@ class SMWOutputs {
 	static public function commitToParserOutput( ParserOutput $parserOutput ) {
 		foreach ( self::$mHeadItems as $key => $item ) {
 			$parserOutput->addHeadItem( "\t\t" . $item . "\n", $key );
+		}		
+		
+		// Check if the resource loader can be used or not.
+		if ( method_exists( 'OutputPage', 'addModules' ) ) {
+			$parserOutput->addModules( array_values( self::$resourceModules ) );
 		}
-
+		
+		self::$resourceModules = array();
 		self::$mHeadItems = array();
 	}
 

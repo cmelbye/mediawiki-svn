@@ -119,11 +119,6 @@ $messages['bar'] = array(
 	'metadata_help' => 'Metadata:',
 );
 
-/** Samogitian (Žemaitėška) */
-$messages['bat-smg'] = array(
-	'metadata_help' => 'Metadoumenīs:',
-);
-
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -157,6 +152,13 @@ $messages['be-tarask'] = array(
 /** Bulgarian (Български) */
 $messages['bg'] = array(
 	'metadata_help' => 'Метаданни:',
+);
+
+/** Bahasa Banjar (Bahasa Banjar)
+ * @author Ezagren
+ */
+$messages['bjn'] = array(
+	'metadata_help' => 'Metadata:',
 );
 
 /** Bengali (বাংলা)
@@ -1067,6 +1069,11 @@ $messages['sei'] = array(
 	'metadata_help' => 'Datade Meta:',
 );
 
+/** Samogitian (Žemaitėška) */
+$messages['sgs'] = array(
+	'metadata_help' => 'Metadoumenīs:',
+);
+
 /** Serbo-Croatian (Srpskohrvatski / Српскохрватски)
  * @author OC Ripper
  */
@@ -1250,8 +1257,11 @@ $messages['ug-arab'] = array(
 	'metadata_help' => 'مېتا سانلىق مەلۇماتى:',
 );
 
-/** Ukrainian (Українська) */
+/** Ukrainian (Українська)
+ * @author Тест
+ */
 $messages['uk'] = array(
+	'metadataedit-desc' => 'Розміщує категорії, інтервікі і дозволені шаблони в окремому текстовому блоці під час редагування сторінок',
 	'metadata_help' => 'Метадані:',
 );
 

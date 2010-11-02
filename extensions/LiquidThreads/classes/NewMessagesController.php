@@ -160,12 +160,10 @@ class NewMessages {
 		// Pull users to update the message state for, including whether or not a
 		//  user_message_state row exists for them, and whether or not to send an email
 		//  notification.
-		$dbr = wfGetDB( DB_SLAVE );
-
 		$userIds = array();
 		$notifyUsers = array();
-		$obj = self::getRowsObject( $t );
-		while ( $row = $dbr->fetchObject( $obj ) ) {
+		$res = self::getRowsObject( $t );
+		foreach( $res as $row ) {
 			// Don't notify yourself
 			if ( $changeUser->getId() == $row->wl_user )
 				continue;
@@ -248,7 +246,6 @@ class NewMessages {
 	}
 
 	static function notifyUsersByMail( $t, $watching_users, $timestamp, $type ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		$messages = array(
 			Threads::CHANGE_REPLY_CREATED => 'lqt-enotif-reply',
 			Threads::CHANGE_NEW_THREAD => 'lqt-enotif-newthread',
@@ -319,7 +316,7 @@ class NewMessages {
 
 		// Parse content and strip HTML of post content
 
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			$u = User::newFromRow( $row );
 
 			if ( $oldPreferenceFormat ) {

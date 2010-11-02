@@ -473,7 +473,7 @@ class FlaggedRevision {
 				array( 'ft_rev_id' => $this->getRevId() ),
 				__METHOD__
 			);
-			while ( $row = $res->fetchObject() ) {
+			foreach( $res as $row ) {
 				if ( !isset( $this->mTemplates[$row->ft_namespace] ) ) {
 					$this->mTemplates[$row->ft_namespace] = array();
 				}
@@ -499,7 +499,7 @@ class FlaggedRevision {
 				array( 'fi_rev_id' => $this->getRevId() ),
 				__METHOD__
 			);
-			while ( $row = $res->fetchObject() ) {
+			foreach( $res as $row ) {
                 $reviewedTS = trim( $row->fi_img_timestamp ); // may be ''/NULL
                 $reviewedTS = $reviewedTS ? wfTimestamp( TS_MW, $reviewedTS ) : '0';
 				$this->mFiles[$row->fi_name] = array();
@@ -533,7 +533,7 @@ class FlaggedRevision {
                     'flaggedpages' => array( 'LEFT JOIN', 'fp_page_id = page_id' )
                 )
 			);
-			while ( $row = $res->fetchObject() ) {
+			foreach( $res as $row ) {
 				if ( !isset( $this->mStableTemplates[$row->ft_namespace] ) ) {
 					$this->mStableTemplates[$row->ft_namespace] = array();
 				}
@@ -556,29 +556,29 @@ class FlaggedRevision {
 			$db = ( $flags & FR_MASTER ) ?
 				wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
 			$res = $db->select(
-                array( 'flaggedimages', 'page', 'flaggedpages', 'flaggedrevs' ),
-                array( 'fi_name', 'fr_img_timestamp', 'fr_img_sha1' ),
+				array( 'flaggedimages', 'page', 'flaggedpages', 'flaggedrevs' ),
+				array( 'fi_name', 'fr_img_timestamp', 'fr_img_sha1' ),
 				array( 'fi_rev_id' => $this->getRevId() ),
 				__METHOD__,
-                array(),
-                array(
-                    'page' 			=> array( 'LEFT JOIN',
-                        'page_namespace = ' . NS_FILE . ' AND page_title = fi_name' ),
-                    'flaggedpages' 	=> array( 'LEFT JOIN', 'fp_page_id = page_id' ),
-                    'flaggedrevs' 	=> array( 'LEFT JOIN',
-                        'fr_page_id = fp_page_id AND fr_rev_id = fp_stable' )
+				array(),
+				array(
+					'page' 			=> array( 'LEFT JOIN',
+					'page_namespace = ' . NS_FILE . ' AND page_title = fi_name' ),
+					'flaggedpages' 	=> array( 'LEFT JOIN', 'fp_page_id = page_id' ),
+					'flaggedrevs' 	=> array( 'LEFT JOIN',
+					'fr_page_id = fp_page_id AND fr_rev_id = fp_stable' )
                 )
 			);
-			while ( $row = $res->fetchObject() ) {
-                $reviewedTS = '0';
-                $reviewedSha1 = '';
-                if ( $row->fr_img_timestamp ) {
-                    $reviewedTS = wfTimestamp( TS_MW, $row->fr_img_timestamp );
-                    $reviewedSha1 = strval( $row->fr_img_sha1 );
-                }
+			foreach ( $res as $row ) {
+				$reviewedTS = '0';
+				$reviewedSha1 = '';
+				if ( $row->fr_img_timestamp ) {
+					$reviewedTS = wfTimestamp( TS_MW, $row->fr_img_timestamp );
+					$reviewedSha1 = strval( $row->fr_img_sha1 );
+				}
 				$this->mStableFiles[$row->fi_name] = array();
-                $this->mStableFiles[$row->fi_name]['ts'] = $reviewedTS;
-                $this->mStableFiles[$row->fi_name]['sha1'] = $reviewedSha1;
+				$this->mStableFiles[$row->fi_name]['ts'] = $reviewedTS;
+				$this->mStableFiles[$row->fi_name]['sha1'] = $reviewedSha1;
 			}
 		}
 		return $this->mStableFiles;
@@ -626,7 +626,7 @@ class FlaggedRevision {
 			)
 		);
 		$tmpChanges = array();
-		while ( $row = $dbr->fetchObject( $ret ) ) {
+		foreach( $ret as $row ) {
 			$title = Title::makeTitleSafe( $row->tl_namespace, $row->tl_title );
 			$revIdDraft = (int)$row->page_latest; // may be NULL
 			if ( FlaggedRevs::inclusionSetting() == FR_INCLUDES_STABLE ) {
@@ -689,7 +689,7 @@ class FlaggedRevision {
             )
 		);
 		$fileChanges = array();
-		while ( $row = $dbr->fetchObject( $ret ) ) {
+		foreach( $ret as $row ) {
 			$title = Title::makeTitleSafe( NS_FILE, $row->il_to );
 			$reviewedTS = trim( $row->fi_img_timestamp ); // may be ''/NULL
             $reviewedTS = $reviewedTS ? wfTimestamp( TS_MW, $reviewedTS ) : null;

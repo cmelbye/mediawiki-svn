@@ -37,6 +37,26 @@ $messages['af'] = array(
 	'articletocategory2-create-category-under-category-button' => 'Skep',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'articletocategory2-create-article-under-category-button' => 'ܒܪܝ',
+	'articletocategory2-create-category-under-category-text' => 'ܐܘܣܦ ܣܕܪܐ ܠܣܕܪܐ ܗܢܐ',
+	'articletocategory2-create-category-under-category-button' => 'ܒܪܝ',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'articletocategory2-desc' => 'Һәр категория битендә туранан-тура ошо категорияла бит булдырырға мөмкинлек биреүсе мөхәррирләү юлы урынлаштыра.',
+	'articletocategory2-create-article-under-category-text' => 'Был категорияға бит өҫтәргә',
+	'articletocategory2-create-article-under-category-button' => 'Яһарға',
+	'articletocategory2-create-category-under-category-text' => 'Был категорияға категория өҫтәргә',
+	'articletocategory2-create-category-under-category-button' => 'Яһарға',
+);
+
 /** Bavarian (Boarisch)
  * @author Mucalexx
  */
@@ -115,7 +135,10 @@ $messages['de'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'articletocategory2-desc' => 'Aldonas enmetujon en ĉiu kategorio-paĝo permesante kreadon de nova paĝo rekte en tiu kategorio',
+	'articletocategory2-create-article-under-category-text' => 'Aldoni paĝon al ĉi tiu kategorio',
 	'articletocategory2-create-article-under-category-button' => 'Krei',
+	'articletocategory2-create-category-under-category-text' => 'Aldoni kategorion al ĉi tiu kategorio',
 	'articletocategory2-create-category-under-category-button' => 'Krei',
 );
 
@@ -260,6 +283,17 @@ $messages['ja'] = array(
 	'articletocategory2-create-category-under-category-button' => '作成',
 );
 
+/** Colognian (Ripoarisch)
+ * @author Purodha
+ */
+$messages['ksh'] = array(
+	'articletocategory2-desc' => 'Deiht op jede Sigg vun en Saachjropp e Feld dobei, wo mer Atikelle drövver aanlääje kann, di dann automattesch in di Jropp enzotteet wääde.',
+	'articletocategory2-create-article-under-category-text' => 'Donn en Sigg en heh di Saachjropp eren',
+	'articletocategory2-create-article-under-category-button' => 'Aanlääje',
+	'articletocategory2-create-category-under-category-text' => 'En Saachjropp en heh di Saachjropp eren donn',
+	'articletocategory2-create-category-under-category-button' => 'Aanläje',
+);
+
 /** Luxembourgish (Lëtzebuergesch)
  * @author Les Meloures
  * @author Robby
@@ -272,6 +306,17 @@ $messages['lb'] = array(
 	'articletocategory2-create-category-under-category-button' => 'Uleeën',
 );
 
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'articletocategory2-desc' => "Manampy boaty fampidirana teny isaky (inputbox) ny pejin-tsokajy hahafahana mamorona pejy vaovao iray voasokajy ao amin'ilay sokajy avy hatrany.",
+	'articletocategory2-create-article-under-category-text' => "Manampy pejy iray ato amin'ity sokajy ity",
+	'articletocategory2-create-article-under-category-button' => 'Foronina',
+	'articletocategory2-create-category-under-category-text' => "Hanampy sokajy iray ato amin'ity sokajy ity",
+	'articletocategory2-create-category-under-category-button' => 'Foronina',
+);
+
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  */
@@ -281,6 +326,16 @@ $messages['mk'] = array(
 	'articletocategory2-create-article-under-category-button' => 'Создај',
 	'articletocategory2-create-category-under-category-text' => 'Додај категорија во категоријава',
 	'articletocategory2-create-category-under-category-button' => 'Создај',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'articletocategory2-create-article-under-category-text' => 'ഈ വർഗ്ഗത്തിലേയ്ക്ക് ഒരു താൾ ചേർക്കുക',
+	'articletocategory2-create-article-under-category-button' => 'സൃഷ്ടിക്കുക',
+	'articletocategory2-create-category-under-category-text' => 'ഈ വർഗ്ഗത്തിലേയ്ക്ക് ഒരു വർഗ്ഗം ചേർക്കുക',
+	'articletocategory2-create-category-under-category-button' => 'സൃഷ്ടിക്കുക',
 );
 
 /** Erzya (Эрзянь)
@@ -460,5 +515,12 @@ $messages['uk'] = array(
 	'articletocategory2-create-article-under-category-button' => 'Створити',
 	'articletocategory2-create-category-under-category-text' => 'Додати категорію до цієї категорії',
 	'articletocategory2-create-category-under-category-button' => 'Створити',
+);
+
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
+ */
+$messages['zh-hans'] = array(
+	'articletocategory2-create-article-under-category-button' => '建立',
 );
 

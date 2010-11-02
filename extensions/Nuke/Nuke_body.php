@@ -5,7 +5,6 @@ if( !defined( 'MEDIAWIKI' ) )
 
 class SpecialNuke extends SpecialPage {
 	function __construct() {
-		wfLoadExtensionMessages( 'Nuke' );
 		parent::__construct( 'Nuke', 'nuke' );
 	}
 
@@ -81,7 +80,7 @@ class SpecialNuke extends SpecialPage {
 				'action' => $nuke->getLocalURL( 'action=delete' ),
 				'method' => 'post' )
 			) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
 			Xml::inputLabel(
 				wfMsg( 'deletecomment' ), 'wpReason', 'wpReason', 60, $reason
 			) . '<br /><br />' .
@@ -131,7 +130,7 @@ class SpecialNuke extends SpecialPage {
 			)
 		);
 		$pages = array();
-		while( $row = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $row ) {
 			$pages[] = array( Title::makeTitle( $row->rc_namespace, $row->rc_title ), $row->edits );
 		}
 		$dbr->freeResult( $result );

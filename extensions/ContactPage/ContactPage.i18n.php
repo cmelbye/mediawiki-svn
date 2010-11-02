@@ -138,6 +138,16 @@ $messages['ar'] = array(
 	'contactpage-captcha-failed' => 'اختبار الكابتشا فشل! ([[Special:Captcha/help|معلومات إضافية]])',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'contactpage-subject-and-sender' => '$1 (ܡܢ $2)',
+	'contactpage-fromname' => 'ܫܡܐ ܕܝܠܟ: *',
+	'contactpage-fromname-required' => 'ܫܡܐ ܕܝܠܟ:',
+	'contactpage-fromaddress-required' => 'ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ ܕܝܠܟ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -164,6 +174,7 @@ $messages['arz'] = array(
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
@@ -171,6 +182,7 @@ $messages['ba'] = array(
 	'contactpage' => 'Бәйләнеш бите',
 	'contactpage-desc' => '[[Special:Contact|Ҡараусылар өсөн форма]]',
 	'contactpage-title' => 'Бәйләнеш',
+	'contactpage-pagetext' => 'Зинһар, беҙҙең менән бәйләнешкә кереү өсөн, түбәндәге форманы ҡулланығыҙ.',
 	'contactpage-legend' => 'Э-хат ебәрергә',
 	'contactpage-defsubject' => 'Хәбәр',
 	'contactpage-subject-and-sender' => '$1 ($2 башлап)',
@@ -182,6 +194,9 @@ $messages['ba'] = array(
 	'contactpage-fromname-required' => 'Исемегеҙ:',
 	'contactpage-fromaddress-required' => 'Эл. почта адресығыҙ:',
 	'contactpage-formfootnotes-required' => 'Бөтә юлдар ҙа тултырылырға тейеш',
+	'contactpage-captcha' => 'Хәбәрҙе ебәрер өсөн, зинһар, captcha  тикшерегеҙ ([[Special:Captcha/help|тулыраҡ мәғлүмәт]])',
+	'contactpage-captcha-failed' => 'Captcha тикшереүе уңышһыҙ! ([[Special:Captcha/help|тулыраҡ мәғлүмәт]])',
+	'contactpage-includeip' => 'Был хәбәргә минең IP адресты өҫтәргә.',
 );
 
 /** Bikol Central (Bikol Central)
@@ -313,6 +328,7 @@ $messages['bs'] = array(
 );
 
 /** Catalan (Català)
+ * @author Martorell
  * @author SMP
  * @author Solde
  */
@@ -335,6 +351,7 @@ $messages['ca'] = array(
 	'contactpage-formfootnotes-required' => 'Tots els camps són obligatoris.',
 	'contactpage-captcha' => 'Per enviar el missatge, si us plau resoleu el captcha ([[Special:Captcha/help|more info]])',
 	'contactpage-captcha-failed' => 'Captcha erroni! ([[Special:Captcha/help|more info]])',
+	'contactpage-includeip' => "Inclou al missatge l'adreça IP que estic utilitzant.",
 );
 
 /** Czech (Česky)
@@ -744,6 +761,7 @@ $messages['frp'] = array(
 	'contactpage-legend' => 'Mandar un mèssâjo',
 	'contactpage-defsubject' => 'Mèssâjo',
 	'contactpage-subject-and-sender' => '$1 (de $2)',
+	'contactpage-subject-and-sender-withip' => '$1 (de $2 a $3)',
 	'contactpage-fromname' => 'Voutron nom : *',
 	'contactpage-fromaddress' => 'Voutra adrèce èlèctronica : **',
 	'contactpage-formfootnotes' => '* u chouèx<br />
@@ -753,6 +771,14 @@ $messages['frp'] = array(
 	'contactpage-formfootnotes-required' => 'Tôs los champs sont nècèssèros.',
 	'contactpage-captcha' => 'Por mandar lo mèssâjo, volyéd trovar la solucion du captch·a ([[Special:Captcha/help|éde]])',
 	'contactpage-captcha-failed' => 'Vos éd pas dècodâ lo captch·a ! ([[Special:Captcha/help|éde]])',
+);
+
+/** Friulian (Furlan)
+ * @author Klenje
+ */
+$messages['fur'] = array(
+	'contactpage-fromname' => 'Il to non: *',
+	'contactpage-fromname-required' => 'Il to non:',
 );
 
 /** Galician (Galego)
@@ -840,6 +866,7 @@ $messages['he'] = array(
 	'contactpage-legend' => 'שליחת דוא"ל',
 	'contactpage-defsubject' => 'הודעת יצירת קשר',
 	'contactpage-subject-and-sender' => '$1 (מתוך $2)',
+	'contactpage-subject-and-sender-withip' => '$1 (מ{{grammar:תחילית|$2}} מהכתובת $3)',
 	'contactpage-fromname' => 'שמכם: *',
 	'contactpage-fromaddress' => 'כתובת הדוא"ל שלכם: **',
 	'contactpage-formfootnotes' => '* אופציונאלי<br />
@@ -1807,12 +1834,21 @@ $messages['rue'] = array(
 	'contactpage' => 'Сторінка контакту',
 	'contactpage-desc' => '[[Special:Contact|Контактный формуларь про навщівників]]',
 	'contactpage-title' => 'Контакт',
+	'contactpage-pagetext' => 'За помочі ниже указаного формуларя ся з нами можете споїти.',
+	'contactpage-legend' => 'Послати ел. пошту',
+	'contactpage-defsubject' => 'Повідомлїня',
 	'contactpage-subject-and-sender' => '$1 (з $2)',
 	'contactpage-subject-and-sender-withip' => '$1 (од $2 з $3)',
 	'contactpage-fromname' => 'Ваше імя: *',
 	'contactpage-fromaddress' => 'Ваша адреса ел. пошты: **',
+	'contactpage-formfootnotes' => '&#042; волительны<br />
+&#042;&#042; волительны, але потрібны кідь хочете одповідь',
 	'contactpage-fromname-required' => 'Ваше імя:',
 	'contactpage-fromaddress-required' => 'Ваша адреса ел. пошты:',
+	'contactpage-formfootnotes-required' => 'Вшыткы поля мусять быти выповнены.',
+	'contactpage-captcha' => 'Жебы сьте могли одослати повідомлїня, мусите вырїшытиt CAPTCHA ([[Special:Captcha/help|пояснїня]])',
+	'contactpage-captcha-failed' => '{{GENDER:Не перешов|Не перешла|Не перешли}} сьте у тестї CAPTCHA! ([[Special:Captcha/help|пояснїня]])',
+	'contactpage-includeip' => 'Приложыти ку повідомлїню мою IP адресу.',
 );
 
 /** Yakut (Саха тыла)
@@ -1852,6 +1888,7 @@ $messages['sk'] = array(
 	'contactpage-legend' => 'Poslať email',
 	'contactpage-defsubject' => 'Správa',
 	'contactpage-subject-and-sender' => '$1 (od $2)',
+	'contactpage-subject-and-sender-withip' => '$1 (od $2 z $3)',
 	'contactpage-fromname' => 'Vaše meno: *',
 	'contactpage-fromaddress' => 'Váš email: **',
 	'contactpage-formfootnotes' => '
@@ -1862,6 +1899,7 @@ $messages['sk'] = array(
 	'contactpage-formfootnotes-required' => 'Je povinné vyplniť všetky polia.',
 	'contactpage-captcha' => 'Aby ste mohli poslať správu, vyriešte prosím captcha ([[Special:Captcha/help|podrobnosti]])',
 	'contactpage-captcha-failed' => 'Test captcha bol neúspešný! ([[Special:Captcha/help|podrobnosti]])',
+	'contactpage-includeip' => 'Vložiť k tejto správe moju IP adresu.',
 );
 
 /** Slovenian (Slovenščina)
@@ -2094,6 +2132,7 @@ $messages['tk'] = array(
 	'contactpage-legend' => 'E-poçta iber',
 	'contactpage-defsubject' => 'Kontakt habarlaşygy',
 	'contactpage-subject-and-sender' => '$1 ($2-dan/den)',
+	'contactpage-subject-and-sender-withip' => '$1 (gelýän ýeri: $3 IP adresindäki $2 )',
 	'contactpage-fromname' => 'Adyňyz: *',
 	'contactpage-fromaddress' => 'E-poçtaňyz: **',
 	'contactpage-formfootnotes' => '* islege görä<br />
@@ -2103,6 +2142,7 @@ $messages['tk'] = array(
 	'contactpage-formfootnotes-required' => 'Ähli meýdançalar hökmanydyr.',
 	'contactpage-captcha' => 'Habarlaşygy ibermek üçin, captcha-ny çözüň ([[Special:Captcha/help|has köp maglumat]])',
 	'contactpage-captcha-failed' => 'Captcha synagy şowsuz! ([[Special:Captcha/help|has köp maglumat]])',
+	'contactpage-includeip' => 'Bu habara meniň IP adresimi goş.',
 );
 
 /** Tagalog (Tagalog)

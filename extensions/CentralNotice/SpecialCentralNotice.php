@@ -203,7 +203,7 @@ class CentralNotice extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select( 'cn_notices', 'not_name', null, __METHOD__ );
 		$notices = array();
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$notices[] = $row->not_name;
 		}
 		return $notices;
@@ -350,7 +350,7 @@ class CentralNotice extends SpecialPage {
 			$htmlOut .= $this->tableRow( $headers, 'th' );
 	
 			// Table rows
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$fields = array();
 
 				// Name
@@ -362,7 +362,6 @@ class CentralNotice extends SpecialPage {
 				$fields[] = htmlspecialchars( $this->getProjectName( $row->not_project ) );
 
 				// Languages
-				$project_langs = array();
 				$project_langs = $this->getNoticeLanguages( $row->not_name );
 				$language_count = count( $project_langs );
 				$languageList = '';
@@ -429,7 +428,7 @@ class CentralNotice extends SpecialPage {
 			$htmlOut .= Xml::closeElement( 'table' );
 			
 			if ( $this->editable ) {
-				$htmlOut .= Xml::hidden( 'authtoken', $wgUser->editToken() );
+				$htmlOut .= Html::hidden( 'authtoken', $wgUser->editToken() );
 				$htmlOut .= Xml::openElement( 'div', array( 'class' => 'cn-buttons' ) );
 				$htmlOut .= Xml::submitButton( wfMsg( 'centralnotice-modify' ),
 					array(
@@ -474,8 +473,8 @@ class CentralNotice extends SpecialPage {
 			// Form for adding a campaign
 			$htmlOut .= Xml::openElement( 'form', array( 'method' => 'post' ) );
 			$htmlOut .= Xml::element( 'h2', null, wfMsg( 'centralnotice-add-notice' ) );
-			$htmlOut .= Xml::hidden( 'title', $this->getTitle()->getPrefixedText() );
-			$htmlOut .= Xml::hidden( 'method', 'addNotice' );
+			$htmlOut .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
+			$htmlOut .= Html::hidden( 'method', 'addNotice' );
 	
 			$htmlOut .= Xml::openElement( 'table', array ( 'cellpadding' => 9 ) );
 			
@@ -515,8 +514,8 @@ class CentralNotice extends SpecialPage {
 			$htmlOut .= Xml::closeElement( 'tr' );
 			
 			$htmlOut .= Xml::closeElement( 'table' );
-			$htmlOut .= Xml::hidden( 'change', 'weight' );
-			$htmlOut .= Xml::hidden( 'authtoken', $wgUser->editToken() );
+			$htmlOut .= Html::hidden( 'change', 'weight' );
+			$htmlOut .= Html::hidden( 'authtoken', $wgUser->editToken() );
 			
 			// Submit button
 			$htmlOut .= Xml::tags( 'div', 
@@ -703,7 +702,7 @@ class CentralNotice extends SpecialPage {
 				}
 			}
 			if ( $this->editable ) {
-				 $htmlOut .= Xml::hidden( 'authtoken', $wgUser->editToken() );
+				 $htmlOut .= Html::hidden( 'authtoken', $wgUser->editToken() );
 				
 				// Submit button
 				$htmlOut .= Xml::tags( 'div', 
@@ -899,7 +898,7 @@ class CentralNotice extends SpecialPage {
 		}
 
 		// Build Assigned banners HTML
-		$htmlOut  = Xml::hidden( 'change', 'weight' );
+		$htmlOut  = Html::hidden( 'change', 'weight' );
 		$htmlOut .= Xml::fieldset( wfMsg( 'centralnotice-assigned-templates' ) );
 		$htmlOut .= Xml::openElement( 'table',
 			array(
@@ -917,7 +916,7 @@ class CentralNotice extends SpecialPage {
 			 wfMsg ( "centralnotice-templates" ) );
 
 		// Table rows
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 
 			$htmlOut .= Xml::openElement( 'tr' );
 
@@ -1076,8 +1075,6 @@ class CentralNotice extends SpecialPage {
 	}
 
 	function addNotice( $noticeName, $enabled, $start, $project_name, $project_languages, $geotargeted, $geo_countries ) {
-		global $wgOut;
-
 		if ( $this->noticeExists( $noticeName ) ) {
 			$this->showError( 'centralnotice-notice-exists' );
 			return;
@@ -1136,7 +1133,6 @@ class CentralNotice extends SpecialPage {
 	}
 
 	function removeNotice( $noticeName ) {
-		global $wgOut;
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$res = $dbr->select( 'cn_notices', 'not_name, not_locked',
@@ -1163,8 +1159,6 @@ class CentralNotice extends SpecialPage {
 	}
 
 	function addTemplateTo( $noticeName, $templateName, $weight ) {
-		global $wgOut;
-
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$eNoticeName = htmlspecialchars ( $noticeName );
@@ -1261,8 +1255,6 @@ class CentralNotice extends SpecialPage {
 	}
 
 	function updateNoticeDate( $noticeName, $start, $end ) {
-		global $wgOut;
-
 		$dbr = wfGetDB( DB_SLAVE );
 
 		// Start/end don't line up
@@ -1295,8 +1287,6 @@ class CentralNotice extends SpecialPage {
 	 * Update the enabled/disabled state of a campaign
 	 */
 	private function updateEnabled( $noticeName, $isEnabled ) {
-		global $wgOut;
-		
 		if ( !$this->noticeExists( $noticeName ) ) {
 			$this->showError( 'centralnotice-doesnt-exist' );
 		} else {
@@ -1312,8 +1302,6 @@ class CentralNotice extends SpecialPage {
 	 * Update the preferred/not preferred state of a campaign
 	 */
 	function updatePreferred( $noticeName, $isPreferred ) {
-		global $wgOut;
-		
 		if ( !$this->noticeExists( $noticeName ) ) {
 			$this->showError( 'centralnotice-doesnt-exist' );
 		} else {
@@ -1329,8 +1317,6 @@ class CentralNotice extends SpecialPage {
 	 * Update the geotargeted/not geotargeted state of a campaign
 	 */
 	function updateGeotargeted( $noticeName, $isGeotargeted ) {
-		global $wgOut;
-		
 		if ( !$this->noticeExists( $noticeName ) ) {
 			$this->showError( 'centralnotice-doesnt-exist' );
 		} else {
@@ -1346,8 +1332,6 @@ class CentralNotice extends SpecialPage {
 	 * Update the locked/unlocked state of a campaign
 	 */
 	function updateLock( $noticeName, $isLocked ) {
-		global $wgOut;
-
 		if ( !$this->noticeExists( $noticeName ) ) {
 			$this->showError( 'centralnotice-doesnt-exist' );
 		} else {
@@ -1457,7 +1441,6 @@ class CentralNotice extends SpecialPage {
 		$dbw->begin();
 		
 		// Get the previously assigned languages
-		$oldLanguages = array();
 		$oldLanguages = $this->getNoticeLanguages( $notice );
 		
 		// Get the notice id
@@ -1502,7 +1485,7 @@ class CentralNotice extends SpecialPage {
 		// Remove disassociated countries
 		$removeCountries = array_diff( $oldCountries, $newCountries );
 		if ( $removeCountries ) {
-			$res = $dbw->delete( 'cn_notice_countries',
+			$dbw->delete( 'cn_notice_countries',
 				array( 'nc_notice_id' => $row->not_id, 'nc_country' => $removeCountries )
 			);
 		}
@@ -1638,7 +1621,7 @@ class CentralNoticePager extends TemplatePager {
 		$render->siteName = 'Wikipedia';
 		$render->language = $this->mRequest->getVal( 'wpUserLanguage' );
 		$htmlOut .= Xml::tags( 'td', array( 'valign' => 'top' ),
-			$this->getSkin()->makeLinkObj( $this->viewPage,
+			$this->getSkin()->makeLinkObj( $viewPage,
 				htmlspecialchars( $row->tmp_name ),
 				'template=' . urlencode( $row->tmp_name ) ) .
 			Xml::fieldset( wfMsg( 'centralnotice-preview' ),
@@ -1679,7 +1662,6 @@ class CentralNoticePager extends TemplatePager {
 	 * Close table
 	 */
 	function getEndBody() {
-		global $wgUser;
 		$htmlOut = '';
 		$htmlOut .= Xml::closeElement( 'table' );
 		return $htmlOut;

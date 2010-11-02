@@ -8,7 +8,7 @@
  */
 
 // The SMW version number.
-define( 'SMW_VERSION', '1.5.3 alpha' );
+define( 'SMW_VERSION', '1.5.3 rc3' );
 
 // A flag used to indicate SMW defines a semantic extension type for extension crdits.
 define( 'SEMANTIC_EXTENSION_TYPE', true );
@@ -55,7 +55,7 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgHooks['ParserTestTables'][] = 'smwfOnParserTestTables';
 	$wgHooks['AdminLinks'][] = 'smwfAddToAdminLinks';
 	
-	$wgHooks['ResourceLoaderRegisterModules'][] = 'smwfRegisterResourceLoaderModules';
+	$wgHooks['ResourceLoaderRegisterModules'][] = 'SMWHooks::registerResourceLoaderModules';
 
 	if ( version_compare( $wgVersion, '1.17alpha', '>=' ) ) {
 		// For MediaWiki 1.17 alpha and later.
@@ -69,6 +69,8 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgExtensionAliasesFiles['SemanticMediaWiki'] = $smwgIP . 'languages/SMW_Aliases.php';
 
 	// Set up autoloading; essentially all classes should be autoloaded!
+	$wgAutoloadClasses['SMWHooks']       			= $smwgIP . 'SMW.hooks.php';
+	
 	$wgAutoloadClasses['SMWParserExtensions']       = $smwgIP . 'includes/SMW_ParserExtensions.php';
 	$wgAutoloadClasses['SMWInfolink']               = $smwgIP . 'includes/SMW_Infolink.php';
 	$wgAutoloadClasses['SMWFactbox']                = $smwgIP . 'includes/SMW_Factbox.php';
@@ -78,6 +80,7 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgAutoloadClasses['SMWResultPrinter']          = $smwgIP . 'includes/SMW_QueryPrinter.php';
 	$wgAutoloadClasses['SMWDataValueFactory']   	= $smwgIP . 'includes/SMW_DataValueFactory.php';
 	$wgAutoloadClasses['SMWDataValue']           	= $smwgIP . 'includes/SMW_DataValue.php';
+	$wgAutoloadClasses['SMWQueryLanguage']          = $smwgIP . 'includes/SMW_QueryLanguage.php';
 
 	// Article pages
 	$apDir = $smwgIP . 'includes/articlepages/';
@@ -161,6 +164,11 @@ function enableSemantics( $namespace = null, $complete = false ) {
 	$wgAutoloadClasses['SMWSQLStore2Table']         = $stoDir . 'SMW_SQLStore2Table.php';
 	$wgAutoloadClasses['SMWSQLHelpers']             = $stoDir . 'SMW_SQLHelpers.php';
 
+	// To ensure Maps remains compatible with pre 1.16.
+	if ( !array_key_exists( 'Html', $wgAutoloadClasses ) ) {
+		$wgAutoloadClasses['Html'] = $smwgIP . 'compat/Html.php';
+	}
+	
 	// Do not autoload RAPStore, since some special pages load all autoloaded classes, which causes
 	// troubles with RAP store if RAP is not installed (require_once fails).
 	// $wgAutoloadClasses['SMWRAPStore']             = $smwgIP . 'includes/storage/SMW_RAPStore.php';
@@ -508,44 +516,6 @@ function smwfInitContentLanguage( $langcode ) {
 	$smwgContLang = new $smwContLangClass();
 
 	wfProfileOut( 'smwfInitContentLanguage (SMW)' );
-}
-
-/**
- * Register the resource modules for the resource loader.
- * 
- * @since 1.5.3
- * 
- * @param ResourceLoader $resourceLoader
- * 
- * @return true
- */
-function smwfRegisterResourceLoaderModules( ResourceLoader &$resourceLoader ) {
-	global $smwgScriptPath, $wgContLang;
-	
-	$modules = array(
-		'ext.smw.style' => array(
-			'styles' =>  $smwgScriptPath . ( $wgContLang->isRTL() ? '/skins/SMW_custom_rtl.css' : '/skins/SMW_custom.css' )
-		),
-		'ext.smw.tooltips' => array(
-			'scripts' =>  $smwgScriptPath . '/skins/SMW_tooltip.js',
-			'dependencies' => array(
-				'mediawiki.legacy.wikibits',
-				'ext.smw.style'
-			)
-		),
-		'ext.smw.sorttable' => array(
-			'scripts' =>  $smwgScriptPath . '/skins/SMW_sorttable.js',
-			'dependencies' => 'ext.smw.style'
-		)		
-	);
-	
-	foreach ( $modules as $name => $resources ) { 
-		$resourceLoader->register( $name, new ResourceLoaderFileModule(
-			array_merge_recursive( $resources, array( 'group' => 'ext.smw' ) )
-		) ); 
-	}
-	
-	return true;
 }
 
 /**

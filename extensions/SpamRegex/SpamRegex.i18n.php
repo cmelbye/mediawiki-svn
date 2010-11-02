@@ -174,6 +174,13 @@ $messages['arz'] = array(
 	'right-spamregex' => 'منع عبارات السبام من خلال [[Special:SpamRegex]]',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'spamregex-text' => '(Тэкст)',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -1608,6 +1615,13 @@ $messages['sk'] = array(
 	'right-spamregex' => 'Blokovať spam v texte pomocou [[Special:SpamRegex]]',
 );
 
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'spamregex-summary-log' => '(Povzetek)',
+);
+
 /** Southern Sami (Åarjelsaemien)
  * @author M.M.S.
  */
@@ -1833,6 +1847,7 @@ $messages['tr'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'spamregex-already-blocked' => '"$1" вже заблокований',
 	'spamregex-text' => '(Текст)',
 	'spamregex-summary-log' => '(опис)',
 );

@@ -563,7 +563,6 @@ class Thread {
 	// Load a list of threads in bulk, including all subthreads.
 	static function bulkLoad( $rows ) {
 		// Preload subthreads
-		$all_thread_ids = array();
 		$top_thread_ids = array();
 		$all_thread_rows = $rows;
 		$pageIds = array();
@@ -607,13 +606,14 @@ class Thread {
 							'thread_type != ' . $dbr->addQuotes( Threads::TYPE_DELETED ) ),
 						__METHOD__ );
 
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach( $res as $row ) {
 				// Grab page data while we're here.
-				if ( $row->thread_root )
+				if ( $row->thread_root ) {
 					$pageIds[] = $row->thread_root;
-				if ( $row->thread_summary_page )
+				}
+				if ( $row->thread_summary_page ) {
 					$pageIds[] = $row->thread_summary_page;
-
+				}
 				$all_thread_rows[] = $row;
 				$all_thread_ids[$row->thread_id] = $row->thread_id;
 			}
@@ -659,13 +659,13 @@ class Thread {
 			$restrictionRows = array_fill_keys( $pageIds, array() );
 			$res = $dbr->select( 'page_restrictions', '*', array( 'pr_page' => $pageIds ),
 									__METHOD__ );
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach( $res as $row ) {
 				$restrictionRows[$row->pr_page][] = $row;
 			}
 
 			$res = $dbr->select( 'page', '*', array( 'page_id' => $pageIds ), __METHOD__ );
 
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach( $res as $row ) {
 				$t = Title::newFromRow( $row );
 
 				if ( isset( $restrictionRows[$t->getArticleId()] ) ) {
@@ -723,8 +723,6 @@ class Thread {
 				$t->addEditor( $editor );
 			}
 		}
-
-		$userIds = array_keys( $userIds );
 
 		// Pull link batch data.
 		$linkBatch->execute();
@@ -792,7 +790,9 @@ class Thread {
 		// This is an invocation guard to avoid infinite recursion when fixing a
 		//  missing ancestor.
 		static $doingUpdates = false;
-		if ( $doingUpdates ) return;
+		if ( $doingUpdates ) {
+			return;
+		}
 		$doingUpdates = true;
 
 		// Fix missing ancestry information.
@@ -1008,7 +1008,7 @@ class Thread {
 					__METHOD__ );
 
 		$rows = array();
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			$rows[] = $row;
 		}
 
@@ -1625,8 +1625,9 @@ class Thread {
 				foreach( $res as $row ) {
 					$thread_id = $row->tr_thread;
 					$user = $row->tr_user_text;
+					$type = $row->tr_type;
 					$info = array(
-						'type' => $row->tr_type,
+						'type' => $type,
 						'user-id' => $row->tr_user,
 						'user-name' => $row->tr_user_text,
 						'value' => $row->tr_value,

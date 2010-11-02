@@ -157,6 +157,15 @@ $messages['arz'] = array(
 	'gep-nocategories' => 'لو سمحت تختار تصنيف واحد على الاقل قبل الحفظ',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'gep-categories' => 'Катэгорыі',
+	'gep-addcategorybutton' => 'Дадаць',
+	'gep-addsectionbutton' => 'Дадаць',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -523,12 +532,13 @@ Lisää osioita käyttäen valikkorivin työkaluja.',
  * @author IAlex
  * @author PieRRoMaN
  * @author Sherbrooke
+ * @author Verdy p
  */
 $messages['fr'] = array(
 	'gep-desc' => 'Complète le formulaire de modification pour être plus convivial',
 	'gep-emailsubject' => '[$1] Suggestion de catégorie : $2',
 	'gep-emailbody' => 'L’utilisateur « $1 » a suggéré la catégorie « $2 » pour le site « $3 ».',
-	'gep-emailfailure' => 'Désolé, votre suggestion n’a pas pu être effectuée.',
+	'gep-emailfailure' => 'Désolé, votre suggestion n’a pas pu être traitée.',
 	'gep-emailsuccess' => 'Merci d’avoir suggéré la catégorie : $1.',
 	'gep-categories' => 'Catégories',
 	'gep-addcategory' => 'Ajouter une catégorie',
@@ -1006,6 +1016,7 @@ $messages['mk'] = array(
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'gep-categories' => 'Ангиллууд',
 	'gep-addcategorybutton' => 'Нэмэх',
 	'gep-addsectionbutton' => 'Нэмэх',
 );
@@ -1127,7 +1138,7 @@ $messages['oc'] = array(
 	'gep-classicmode' => 'Mòde classic',
 	'gep-genericmode' => 'Mòde generic',
 	'gep-nosectioninstructions' => 'I a pas cap de seccion dins aquesta pagina.
-Apondètz-ne en utilizant los espleches dins la barra de menut.',
+Apondètz-ne en utilizant las aisinas dins la barra de menut.',
 	'gep-nocategories' => 'Causir al mens una categoria abans de salvar la pagina',
 	'gep-categorypage' => 'MediaWiki:Editpagetags',
 );

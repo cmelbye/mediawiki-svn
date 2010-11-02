@@ -118,6 +118,15 @@ $messages['ar'] = array(
 	'right-deletebatch' => 'حذف باتش الصفحات',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'deletebatch-caption' => 'ܡܟܬܒܘܬܐ ܕܕܦܐ:',
+	'deletebatch-or' => '<b>ܐܘ</b>',
+	'deletebatch-delete' => 'ܫܘܦ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  * @author Ouda
@@ -144,6 +153,36 @@ $messages['arz'] = array(
 	'deletebatch-select-yourself' => 'أنت',
 	'deletebatch-no-page' => 'من فضلك اختر على الأقل صفحة واحدة للحذف أو اختر ملفا يحتوى على قائمة الصفحات.',
 	'right-deletebatch' => 'حذف باتش الصفحات',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'deletebatch' => 'Биттәр йыйынтығын юйыу.',
+	'deletebatch-desc' => '[[Special:DeleteBatch|Биттәр йыйынтығын юйыу]]',
+	'deletebatch-help' => 'Биттәр йыйынтығын юйыу.
+Һеҙ бер битте юя, йәки файлда килтерелгән битәрҙе юя алаһығыҙ.
+Юйыу яҙмалары журналында күрһәтеләсәк ҡатнашыусыны һайлағыҙ.
+Тейәлгән файлдарҙа бит исеме һәм теләк буйынса юйыу сәбәбе һәр юлға "|" бүлгесе аша яҙылған буларға тейеш.',
+	'deletebatch-caption' => 'Биттәр исемлеге:',
+	'deletebatch-title' => 'Йыйынтыҡты юйыу',
+	'deletebatch-link-back' => 'Махсус биткә кире ҡайтырға',
+	'deletebatch-as' => 'Скриптты ошо ҡатнашыусы исеменән ебәрергә:',
+	'deletebatch-both-modes' => 'Зинһар, бер битте йәки бирелгән биттәр исемлеген һайлағыҙ.',
+	'deletebatch-or' => '<b>йәки</b>',
+	'deletebatch-delete' => 'Юйырға',
+	'deletebatch-page' => 'Юйыла торған биттәр:',
+	'deletebatch-processing-from-file' => 'файлдағы исемлектән биттәрҙе юйыу',
+	'deletebatch-processing-from-form' => 'форманан биттәрҙе юйыу',
+	'deletebatch-omitting-nonexistant' => '$1 булмаған битен ҡалдырыу.',
+	'deletebatch-omitting-invalid' => '$1 дөрөҫ булмаған битен ҡалдырыу.',
+	'deletebatch-file-bad-format' => 'Файлда ябай текст булырға тейеш',
+	'deletebatch-file-missing' => 'Был файлды уҡып булмай',
+	'deletebatch-select-script' => 'Биттәрҙе юйыу скрипты',
+	'deletebatch-select-yourself' => 'Һеҙ',
+	'deletebatch-no-page' => 'Зинһар, юйыр өсөн кәмендә бер бит йәки биттәр исемлеге менән файл һайлағыҙ.',
+	'right-deletebatch' => 'Биттәр йыйынтығын юйыу',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -277,9 +316,30 @@ $messages['ckb'] = array(
 	'deletebatch-delete' => 'سڕینەوە',
 );
 
-/** Czech (Česky) */
+/** Czech (Česky)
+ * @author Jkjk
+ */
 $messages['cs'] = array(
+	'deletebatch' => 'Hromadné mazání stránek',
+	'deletebatch-desc' => '[[Special:DeleteBatch|Hromadné mazání stránek]]',
+	'deletebatch-caption' => 'Seznam stránek:',
+	'deletebatch-title' => 'Smazat požadavek',
+	'deletebatch-link-back' => 'Vrátit se na speciální stránku',
+	'deletebatch-as' => 'Spustit skript jako:',
+	'deletebatch-both-modes' => 'Prosím vyberte jednu nebo více z následujícího seznamu stránek.',
+	'deletebatch-or' => '<b>nebo</b>',
 	'deletebatch-delete' => 'Smazat',
+	'deletebatch-page' => 'Stránky, které budou smazané:',
+	'deletebatch-processing-from-file' => 'mažou se stránky se seznamu souborů',
+	'deletebatch-processing-from-form' => 'mažou se stránk z formuláře',
+	'deletebatch-omitting-nonexistant' => 'Vynechává se neexistující stránka $1.',
+	'deletebatch-omitting-invalid' => 'Vynechává se neplatná stránka $1.',
+	'deletebatch-file-bad-format' => 'Soubor by měl být v čistě textovém formátu',
+	'deletebatch-file-missing' => 'Nelze přečíst tento soubor',
+	'deletebatch-select-script' => 'Skript pro smazání stránek',
+	'deletebatch-select-yourself' => 'Vy',
+	'deletebatch-no-page' => 'Prosím zadejte alespoň jednu stránku nebo vyberte soubor obsahující seznam stránek.',
+	'right-deletebatch' => 'Hromadné (dávkové) mazání stránek',
 );
 
 /** German (Deutsch)
@@ -949,6 +1009,21 @@ $messages['mk'] = array(
 	'deletebatch-select-yourself' => 'Вие',
 	'deletebatch-no-page' => 'Назначете барем една страница за бришење или изберете податотека која содржи список на страници.',
 	'right-deletebatch' => 'Збирно бришење страници',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'deletebatch-caption' => 'താളിന്റെ പട്ടിക:',
+	'deletebatch-or' => '<b>അഥവാ</b>',
+	'deletebatch-delete' => 'മായ്ക്കുക',
+	'deletebatch-page' => 'മായ്ക്കേണ്ട താളുകൾ:',
+	'deletebatch-omitting-nonexistant' => 'നിലവിലില്ലാത്ത താളായ $1 ഒഴിവാക്കുന്നു.',
+	'deletebatch-omitting-invalid' => 'അസാധുവായ താൾ $1 ഒഴിവാക്കുന്നു.',
+	'deletebatch-file-bad-format' => 'പ്രമാണം പ്ലയിൻ ടെക്സ്റ്റ് ആയിരിക്കണം',
+	'deletebatch-select-script' => 'താൾ മായ്ക്കൽ സ്ക്രിപ്റ്റ്',
+	'deletebatch-select-yourself' => 'താങ്കൾ',
 );
 
 /** Erzya (Эрзянь)

@@ -1051,8 +1051,7 @@ $wgCustomToolbarMessages['fr'] = array(
 	'ct_submit' => 'Lancer',
 	'ct_close' => 'Fermer la fenêtre',
 	'ct_success' => 'Téléversement du fichier réussi !',
-	'ct_popupblocked' => 'L’ouverture de la fenêtre de téléversement a été empêchée.
-Veuillez vérifier vos paramètres de blocage des fenêtres intruses.',
+	'ct_popupblocked' => 'L’ouverture de la fenêtre de téléversement a été empêchée. Veuillez vérifier les paramètres de votre outil de blocage de fenêtres intruses.',
 	'ct_user_user' => 'Utilisateur',
 	'ct_user_tip' => 'Insérer un lien vers une page utilisateur',
 	'ct_user_caption' => 'Lien de l’utilisateur',
@@ -1858,6 +1857,14 @@ $wgCustomToolbarMessages['mk'] = array(
 	'ct_user_tip' => 'Вметни врска до корисничка страница',
 	'ct_user_caption' => 'Корисничка врска',
 	'ct_user_sample' => 'Корисничко име',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$wgCustomToolbarMessages['mn'] = array(
+	'ct_submit' => 'Явах',
+	'ct_user_sample' => 'Хэрэглэгчийн нэр',
 );
 
 /** Maltese (Malti)

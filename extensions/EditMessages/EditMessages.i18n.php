@@ -105,6 +105,15 @@ $messages['ar'] = array(
 	'editmsg-patch-success' => 'تم تنفيذ الباتش بنجاح.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'editmessages' => 'ܫܚܠܦ ܐܓܪ̈ܬܐ',
+	'editmsg-search' => 'ܒܨܝܐ',
+	'editmsg-new-search' => 'ܒܨܝܐ ܚܕܬܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  * @author Ramsis II
@@ -469,6 +478,13 @@ $messages['fy'] = array(
 	'editmsg-search' => 'Sykje',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'editmsg-search' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -796,6 +812,13 @@ $messages['jv'] = array(
 	'editmsg-new-search' => 'Panggolèkan anyar',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'editmsg-search' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Lovekhmer
  * @author Thearith
@@ -974,6 +997,7 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -983,7 +1007,7 @@ $messages['ml'] = array(
 	'editmsg-search' => 'തിരയൂ',
 	'editmsg-show-list' => '"$1" എന്ന സന്ദേശത്തിന്റെ മൂല്യങ്ങൾ കാണിക്കുന്നു.',
 	'editmsg-new-search' => 'പുതിയ തിരച്ചിൽ',
-	'editmsg-warning-file' => '* താഴെ പ്രദർശിപ്പിച്ചിരിക്കുന്ന ഭാഷകൾക്ക് പ്രമാണം വായിക്കുമ്പോൾ പിഴവ് സംഭവിച്ചു: $1',
+	'editmsg-warning-file' => '* താഴെ പ്രദർശിപ്പിച്ചിരിക്കുന്ന {{PLURAL:$2|ഭാഷയ്ക്ക്|ഭാഷകൾക്ക്}} പ്രമാണം വായിക്കുമ്പോൾ പിഴവ് സംഭവിച്ചു: $1',
 	'editmsg-no-patch' => '"patch" കമാന്റ് ഓടിക്കാൻ പറ്റിയില്ല',
 	'editmsg-patch-success' => 'വിജയകരമായി പാച്ച് ചെയ്തിരിക്കുന്നു.',
 );
@@ -1598,6 +1622,7 @@ $messages['vi'] = array(
  * @author Malafaya
  */
 $messages['vo'] = array(
+	'editmsg-search' => 'Sukön',
 	'editmsg-new-search' => 'Suk nulik',
 );
 

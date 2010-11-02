@@ -34,6 +34,7 @@ class TranslateEditAddons {
 			return true;
 		}
 
+
 		$collection = $group->initCollection( 'en' );
 		$collection->filter( 'optional' );
 		$keys = array_keys( $collection->keys() );
@@ -43,12 +44,20 @@ class TranslateEditAddons {
 
 		$next = $prev = null;
 		foreach ( $keys as $index => $tkey ) {
-			if ( $key === strtolower( strtr( $tkey, ' ', '_' ) ) ) break;
-			if ( $index === $count -1 ) $index = -666;
+			if ( $key === strtolower( strtr( $tkey, ' ', '_' ) ) ) {
+				break;
+			}
+			if ( $index === $count -1 ) {
+				$index = -666;
+			}
 		}
 
-		if ( isset( $keys[$index-1] ) ) $prev = $keys[$index-1];
-		if ( isset( $keys[$index+1] ) ) $next = $keys[$index+1];
+		if ( isset( $keys[$index-1] ) ) {
+			$prev = $keys[$index-1];
+		}
+		if ( isset( $keys[$index+1] ) ) {
+			$next = $keys[$index+1];
+		}
 	
 
 		$id = $group->getId();
@@ -290,8 +299,8 @@ class TranslateEditAddons {
 		global $wgRequest;
 
 		$out->addHTML( "\n" .
-			Xml::hidden( 'loadgroup', $wgRequest->getText( 'loadgroup' ) ) .
-			Xml::hidden( 'loadtask', $wgRequest->getText( 'loadtask' ) ) .
+			Html::hidden( 'loadgroup', $wgRequest->getText( 'loadgroup' ) ) .
+			Html::hidden( 'loadtask', $wgRequest->getText( 'loadtask' ) ) .
 			"\n"
 		);
 
@@ -309,9 +318,7 @@ class TranslateEditAddons {
 
 		list( $key, $code, $group ) = self::getKeyCodeGroup( $title );
 
-		/**
-		 * Unknown message, do not handle.
-		 */
+		// Unknown message, do not handle.
 		if ( !$group || !$code ) {
 			return true;
 		}
@@ -323,14 +330,10 @@ class TranslateEditAddons {
 			$cache->clear( $g, $code );
 		}
 
-		/**
-		 * Check for explicit tag.
-		 */
+		// Check for explicit tag.
 		$fuzzy = self::hasFuzzyString( $text );
 
-		/**
-		 * Check for problems, but only if not fuzzy already.
-		 */
+		// Check for problems, but only if not fuzzy already.
 		global $wgTranslateDocumentationLanguageCode;
 		if ( $code !== $wgTranslateDocumentationLanguageCode ) {
 			$checker = $group->getChecker();
@@ -396,10 +399,10 @@ class TranslateEditAddons {
 				'rt_page' => $title->getArticleId(),
 				'rt_type' => $id,
 				'rt_revision' => $rev,
+				'rt_value' => $definitionRevision,
 			);
-			$dbw->delete( 'revtag', $conds, __METHOD__ );
-			$conds['rt_value'] = $definitionRevision;
-			$dbw->insert( 'revtag', $conds, __METHOD__ );
+			$index = array( 'rt_type', 'rt_page', 'rt_revision' );
+			$dbw->replace( 'revtag', array( $index ), $conds, __METHOD__ );
 		}
 
 		return true;

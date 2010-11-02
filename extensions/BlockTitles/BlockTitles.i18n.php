@@ -51,6 +51,13 @@ $messages['ar'] = array(
 	'block_title_error' => 'عذرا، عنوان هذه الصفحة غير مسموح بحفظه.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'block_title_error_page_title' => 'ܟܘܢܝܐ ܚܪܝܡܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -74,6 +81,15 @@ $messages['ast'] = array(
 $messages['avk'] = array(
 	'block_title_error_page_title' => 'Elekan vergumvelt',
 	'block_title_error' => 'Argenon, vergumvelt ke batu bu me zo rogiwar.',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'block_title_error_page_title' => 'Тыйылған исем',
+	'blocktitles-desc' => 'Күрһәтелгән исемдәр менән мәҡәләләр булдырыуҙы йәки һаҡлауҙы тыйыу өсөн төп мөмкинлектәр менән тәьмин итә.',
+	'block_title_error' => 'Ғәфү итегеҙ, бындай исемле бит һаҡлана алмай.',
 );
 
 /** Bikol Central (Bikol Central)
@@ -685,6 +701,15 @@ $messages['sk'] = array(
 	'block_title_error_page_title' => 'Zablokovaný názov',
 	'blocktitles-desc' => 'Poskytuje základný prostriedok na zabránenie vytvárania či ukladania stránok s určitým názvom',
 	'block_title_error' => 'Prepáčte, stránky s týmto názvom nie je povolené ukladať.',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'block_title_error_page_title' => 'Blokiran naslov',
+	'blocktitles-desc' => 'Nudi osnovni način preprečevanja shranjevanja ali ustvarjanja strani z določenimi naslovi',
+	'block_title_error' => 'Žal naslova te strani ni dovoljeno shraniti.',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

@@ -198,11 +198,12 @@ $messages['fi'] = array(
 /** French (Français)
  * @author McDutchie
  * @author PieRRoMaN
+ * @author Verdy p
  */
 $messages['fr'] = array(
 	'tablemod' => 'TableMod',
 	'tablemod-desc' => 'Manipulation des wiki-tables',
-	'tablemod-msg-remove' => 'Supprimer',
+	'tablemod-msg-remove' => 'Enlever',
 	'tablemod-error-format' => 'Cette balise supporte uniquement une table simple par balise, sans aucun texte avant ou après celle-ci.',
 	'tablemod-error-colcount' => 'Cette balise supporte uniquement les tables avec un nombre égal de colonnes par ligne lors de la suppression.',
 	'tablemod-error-headcount' => 'Cette balise supporte uniquement les tables avec des en-têtes sur une seule colonne lors du tri.',
@@ -563,6 +564,7 @@ $messages['sv'] = array(
  */
 $messages['te'] = array(
 	'tablemod-msg-remove' => 'తొలగించు',
+	'tablemod-error-invalidaction' => 'చెల్లని చర్య.',
 );
 
 /** Turkmen (Türkmençe)
@@ -601,6 +603,8 @@ $messages['tr'] = array(
  */
 $messages['uk'] = array(
 	'tablemod-msg-remove' => 'Вилучити',
+	'tablemod-error-invalidsort' => 'Неприпустимі параметри сортування.',
+	'tablemod-error-invalidaction' => 'Неприпустима дія.',
 );
 
 /** Vietnamese (Tiếng Việt)

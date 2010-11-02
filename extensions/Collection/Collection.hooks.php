@@ -56,7 +56,6 @@ class CollectionHooks {
 	 * (where the hook SkinBuildSidebar does not exist)
 	 */
 	static function printPortlet() {
-		wfLoadExtensionMessages( 'CollectionCore' );
 
 		$html = self::getPortlet();
 
@@ -95,8 +94,6 @@ class CollectionHooks {
 		if ( $action != '' && $action != 'view' && $action != 'purge' ) {
 			return false;
 		}
-
-		wfLoadExtensionMessages( 'CollectionCore' );
 
 		$sk = $wgUser->getSkin();
 
@@ -243,8 +240,6 @@ class CollectionHooks {
 		global $wgTitle;
 		global $wgUser;
 
-		wfLoadExtensionMessages( 'CollectionCore' );
-
 		$sk = $wgUser->getSkin();
 		$jsPath = "$wgScriptPath/extensions/Collection/js";
 		$imagePath = "$wgScriptPath/extensions/Collection/images";
@@ -386,8 +381,6 @@ EOS
 	static function getBookCreatorBoxContent( $ajaxHint = null, $oldid = null ) {
 		global $wgUser;
 		global $wgScriptPath;
-
-		wfLoadExtensionMessages( 'CollectionCore' );
 
 		$sk = $wgUser->getSkin();
 		$imagePath = "$wgScriptPath/extensions/Collection/images";

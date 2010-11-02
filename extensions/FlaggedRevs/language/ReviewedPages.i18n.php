@@ -1053,6 +1053,17 @@ $messages['ru'] = array(
 	'reviewedpages-best' => 'наилучшая версия',
 );
 
+/** Rusyn (Русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'reviewedpages' => 'Перевірены сторінкы',
+	'reviewedpages-leg' => 'Список сторінок, што были рецензованы',
+	'reviewedpages-none' => 'У тім списку не суть жадны сторінкы.',
+	'reviewedpages-all' => 'перевірены верзії',
+	'reviewedpages-best' => 'найлїпша верзія',
+);
+
 /** Yakut (Саха тыла)
  * @author HalanTul
  */
@@ -1075,7 +1086,7 @@ $messages['sk'] = array(
 	'reviewedpages' => 'Skontrolované stránky',
 	'reviewedpages-leg' => 'Zoznam stránok podľa najvyššej úrovne kontroly',
 	'reviewedpages-list' => 'Táto stránka obsahuje zoznam článkov, ktoré boli skontrolované (najviac) do určenej úrovne.',
-	'reviewedpages-none' => 'V tomto zozname sa nenachýdzajú žiadne stránky',
+	'reviewedpages-none' => 'V tomto zozname sa nenachádzajú žiadne stránky.',
 	'reviewedpages-lev-0' => 'Videná',
 	'reviewedpages-lev-1' => 'Kvalita',
 	'reviewedpages-lev-2' => 'Odporúčané',

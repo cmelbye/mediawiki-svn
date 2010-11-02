@@ -17,9 +17,13 @@ class ArticleEmblemsHooks {
 	/**
 	 * LoadExtensionSchemaUpdates hook
 	 */
-	public static function loadExtensionSchemaUpdates() {
-		global $wgExtNewTables;
-		$wgExtNewTables[] = array( 'articleemblems', dirname( __FILE__ ) . '/patches/ArticleEmblems.sql' );
+	public static function loadExtensionSchemaUpdates( $updater = null ) {
+		if ( $updater === null ) {
+			global $wgExtNewTables;
+			$wgExtNewTables[] = array( 'articleemblems', dirname( __FILE__ ) . '/patches/ArticleEmblems.sql' );
+		} else {
+			$updater->addExtensionUpdate( array( 'addTable', 'articleemblems', dirname( __FILE__ ) . '/patches/ArticleEmblems.sql', true ) );
+		}
 		return true;
 	}
 
@@ -85,11 +89,12 @@ class ArticleEmblemsHooks {
 	 * ResourceLoaderRegisterModules hook
 	 */
 	public static function resourceLoaderRegisterModules( &$resourceLoader ) {
+		global $wgExtensionAssetsPath;
 		$resourceLoader->register(
 			'ext.articleEmblems',
 			new ResourceLoaderFileModule( array(
-				'styles' => 'extensions/ArticleEmblems/modules/ext.articleEmblems.css',
-			) )
+				'styles' => 'ext.articleEmblems.css',
+			), dirname( __FILE__ ) . '/modules', "$wgExtensionAssetsPath/ArticleEmblems/modules" )
 		);
 		return true;
 	}

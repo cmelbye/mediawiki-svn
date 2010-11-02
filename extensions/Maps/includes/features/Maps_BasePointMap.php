@@ -98,7 +98,7 @@ abstract class MapsBasePointMap {
 		$this->addSpecificMapHTML( $parser );
 		
 		global $wgTitle;
-		if ( $wgTitle->isSpecialPage() ) {
+		if ( $wgTitle->getNamespace() == NS_SPECIAL ) {
 			global $wgOut;
 			$this->service->addDependencies( $wgOut );
 		}
@@ -126,6 +126,8 @@ abstract class MapsBasePointMap {
 			$markerData = MapsCoordinateParser::parseCoordinates( array_shift( $args ) );
 
 			if ( !$markerData ) continue;
+			
+			$markerData = array( $markerData['lat'], $markerData['lon'] );
 			
 			if ( count( $args ) > 0 ) {
 				// Parse and add the point specific title if it's present.

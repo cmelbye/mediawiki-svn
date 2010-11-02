@@ -157,6 +157,17 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'createsigndoc-pagename' => 'ܦܐܬܐ:',
+	'createsigndoc-email' => 'ܦܪܫܓܢܐ ܕܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ:',
+	'createsigndoc-address' => 'ܦܪܫܓܢܐ ܕܒܝܬܐ:',
+	'createsigndoc-extaddress' => 'ܡܕܝܢܬܐ، ܐܘܚܕܢܐ، ܐܬܪܐ:',
+	'createsigndoc-phone' => 'ܡܢܝܢܐ ܕܙܥܘܩܐ:',
+	'createsigndoc-bday' => 'ܣܝܩܘܡܐ ܕܡܘܠܕܐ:',
+	'createsigndoc-minage' => 'ܡܬܚܐ ܬܚܬܝܐ ܕܥܘܡܪܐ:',
+	'createsigndoc-introtext' => 'ܥܘܬܕܐ:',
+	'createsigndoc-hidden' => 'ܛܘܫܝܐ',
+	'createsigndoc-optional' => 'ܓܒܝܝܐ',
+	'createsigndoc-create' => 'ܒܪܝ',
+	'createsigndoc-error-generic' => 'ܦܘܕܐ: $1',
 );
 
 /** Araucanian (Mapudungun)
@@ -1249,6 +1260,13 @@ $messages['ml'] = array(
 	'createsigndoc-error-alreadycreated' => 'പ്രമാണ ഒപ്പിടൽ "$1" നിലവിലുണ്ട്.',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'createsigndoc-pagename' => 'Хуудас:',
+);
+
 /** Marathi (मराठी)
  * @author Kaustubh
  * @author Mahitgar
@@ -1981,6 +1999,7 @@ $messages['ug-latn'] = array(
 $messages['uk'] = array(
 	'createsigndoc-pagename' => 'Сторінка:',
 	'createsigndoc-email' => 'Адреса електронної пошти:',
+	'createsigndoc-introtext' => 'Вступ:',
 	'createsigndoc-hidden' => 'Прихований',
 	'createsigndoc-create' => 'Створити',
 );

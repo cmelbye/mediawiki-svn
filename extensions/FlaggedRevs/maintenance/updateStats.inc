@@ -34,7 +34,7 @@ function update_flaggedrevs_stats() {
 		array( 'GROUP BY' => 'page_namespace' ),
 		array( 'flaggedpages' => array( 'LEFT JOIN', 'fp_page_id = page_id' ) )
 	);
-	while ( $row = $dbr->fetchObject( $ret ) ) {
+	foreach( $ret as $row ) {
 		$ns_total[$row->page_namespace] = (int)$row->total;
 		$ns_reviewed[$row->page_namespace] = (int)$row->reviewed;
 		$ns_synced[$row->page_namespace] = (int)$row->reviewed - (int)$row->pending;
@@ -184,7 +184,6 @@ function getAveReviewTimesAnons( $dbr, $dbCache ) {
 		if ( $rows < 500 ) {
 			$days = 90;
 			$minTSUnix = $maxTSUnix - $days*86400;
-			$encMinTS = $dbr->addQuotes( $dbr->timestamp( $minTSUnix ) );
 		}
 	}
 	$sampleSize = 1500; // sample size
@@ -235,7 +234,7 @@ function getAveReviewTimesAnons( $dbr, $dbCache ) {
 	if ( $dbr->numRows($res) ) {
 		$times = array();
 		# Get the sum of elapsed times
-		while ( $row = $dbr->fetchObject($res) ) {
+		foreach( $res as $row ) {
 			# Reviewed: just subtract the times (flagged - edit made)
 			if ( $row->nft != null ) {
 				$time = wfTimestamp(TS_UNIX,$row->nft) - wfTimestamp(TS_UNIX,$row->rt);

@@ -2,14 +2,10 @@
 
 class ConfirmEditHooks {
 	static function getInstance() {
-		global $wgCaptcha, $wgCaptchaClass, $wgExtensionMessagesFiles;
+		global $wgCaptcha, $wgCaptchaClass;
 		static $done = false;
 		if ( !$done ) {
 			$done = true;
-			wfLoadExtensionMessages( 'ConfirmEdit' );
-			if ( isset( $wgExtensionMessagesFiles[$wgCaptchaClass] ) ) {
-				wfLoadExtensionMessages( $wgCaptchaClass );
-			}
 			$wgCaptcha = new $wgCaptchaClass;
 		}
 		return $wgCaptcha;
@@ -80,7 +76,10 @@ class SimpleCaptcha {
 	function getCaptcha() {
 		$a = mt_rand( 0, 100 );
 		$b = mt_rand( 0, 10 );
-		$op = mt_rand( 0, 1 ) ? '+' : '-';
+
+		/* Minus sign is used in the question. UTF-8,
+		   since the api uses text/plain, not text/html */
+		$op = mt_rand( 0, 1 ) ? '+' : '−';
 
 		$test = "$a $op $b";
 		$answer = ( $op == '+' ) ? ( $a + $b ) : ( $a - $b );
@@ -485,7 +484,7 @@ class SimpleCaptcha {
 		$res = $dbr->select( 'externallinks', array( 'el_to' ),
 			array( 'el_from' => $id ), __METHOD__ );
 		$links = array();
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$links[] = $row->el_to;
 		}
 		return $links;
@@ -585,7 +584,6 @@ class SimpleCaptcha {
 
 			$this->trigger = "post-badlogin login '" . $u->getName() . "'";
 			if ( !$this->passCaptcha() ) {
-				$message = wfMsg( 'captcha-badlogin-fail' );
 				// Emulate a bad-password return to confuse the shit out of attackers
 				$retval = LoginForm::WRONG_PASS;
 				return false;

@@ -2,6 +2,8 @@
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
 class CodeRevision {
+	public $mRepoId, $mRepo, $mId, $mAuthor, $mTimestamp, $mMessage, $mPaths, $mStatus, $mOldStatus, $mCommonPath;
+
 	public static function newFromSvn( CodeRepository $repo, $data ) {
 		$rev = new CodeRevision();
 		$rev->mRepoId = $repo->getId();
@@ -12,6 +14,7 @@ class CodeRevision {
 		$rev->mMessage = rtrim( $data['msg'] );
 		$rev->mPaths = $data['paths'];
 		$rev->mStatus = 'new';
+		$rev->mOldStatus = '';
 
 		$common = null;
 		if ( $rev->mPaths ) {
@@ -26,8 +29,9 @@ class CodeRevision {
 					$compare = explode( '/', $path['path'] );
 
 					// make sure $common is the shortest path
-					if ( count( $compare ) < count( $common ) )
+					if ( count( $compare ) < count( $common ) ) {
 						list( $compare, $common ) = array( $common, $compare );
+					}
 
 					$tmp = array();
 					foreach ( $common as $k => $v ) {
@@ -71,6 +75,7 @@ class CodeRevision {
 		$rev->mTimestamp = wfTimestamp( TS_MW, $row->cr_timestamp );
 		$rev->mMessage = $row->cr_message;
 		$rev->mStatus = $row->cr_status;
+		$rev->mOldStatus = '';
 		$rev->mCommonPath = $row->cr_path;
 		return $rev;
 	}
@@ -136,6 +141,10 @@ class CodeRevision {
 	public static function getPossibleStates() {
 		return array( 'new', 'fixme', 'reverted', 'resolved', 'ok', 'verified', 'deferred', 'old' );
 	}
+	
+	public static function getPossibleFlags() {
+		return array( 'inspected', 'tested' );
+	}
 
 	public function isValidStatus( $status ) {
 		return in_array( $status, self::getPossibleStates(), true );
@@ -147,12 +156,12 @@ class CodeRevision {
 		}
 		// Get the old status from the master
 		$dbw = wfGetDB( DB_MASTER );
-		$oldStatus = $dbw->selectField( 'code_rev',
+		$this->mOldStatus = $dbw->selectField( 'code_rev',
 			'cr_status',
 			array( 'cr_repo_id' => $this->mRepoId, 'cr_id' => $this->mId ),
 			__METHOD__
 		);
-		if ( $oldStatus === $status ) {
+		if ( $this->mOldStatus === $status ) {
 			return false; // nothing to do here
 		}
 		// Update status
@@ -171,7 +180,7 @@ class CodeRevision {
 					'cpc_repo_id'   => $this->getRepoId(),
 					'cpc_rev_id'    => $this->getId(),
 					'cpc_attrib'    => 'status',
-					'cpc_removed'   => $oldStatus,
+					'cpc_removed'   => $this->mOldStatus,
 					'cpc_added'     => $status,
 					'cpc_timestamp' => $dbw->timestamp(),
 					'cpc_user'      => $user->getId(),
@@ -181,7 +190,7 @@ class CodeRevision {
 			);
 		}
 
-		$this->sendStatusToUDP( $status, $oldStatus );
+		$this->sendStatusToUDP( $status, $this->mOldStatus );
 
 		return true;
 	}
@@ -351,7 +360,7 @@ class CodeRevision {
 				}
 
 				//Notify commenters and revision author of followup revision
-				foreach ( $users as $userId => $user ) {
+				foreach ( $users as $user ) {
 					// Notify user with its own message if he already want
 					// to be CCed of all emails it sends.
 					if ( $commitAuthorId == $user->getId() ) {
@@ -364,8 +373,10 @@ class CodeRevision {
 						// Send message in receiver's language
 						$lang = array( 'language' => $user->getOption( 'language' ) );
 						$user->sendMail(
-							wfMsgExt( 'codereview-email-subj2', $lang, $this->mRepo->getName(), $this->getIdString( $row->cr_id ) ),
-							wfMsgExt( 'codereview-email-body2', $lang, $committer, $this->getIdStringUnique( $row->cr_id ), $url, $this->mMessage, $rowUrl )
+							wfMsgExt( 'codereview-email-subj2', $lang, $this->mRepo->getName(),
+								$this->getIdString( $row->cr_id ) ),
+							wfMsgExt( 'codereview-email-body2', $lang, $committer,
+								$this->getIdStringUnique( $row->cr_id ), $url, $this->mMessage, $rowUrl )
 						);
 					}
 				}
@@ -399,7 +410,6 @@ class CodeRevision {
 	}
 
 	public function saveComment( $text, $review, $parent = null ) {
-		global $wgUser;
 		$text = trim( $text );
 		if ( !strlen( $text ) ) {
 			return 0;
@@ -413,47 +423,62 @@ class CodeRevision {
 		$commentId = $dbw->insertId();
 		$dbw->commit();
 
-		// Give email notices to committer and commenters
-		global $wgCodeReviewENotif, $wgEnableEmail, $wgCodeReviewCommentWatcher;
-		if ( $wgCodeReviewENotif && $wgEnableEmail ) {
-			// Make list of users to send emails to
-			$users = $this->getCommentingUsers();
-			if ( $user = $this->getWikiUser() ) {
-				$users[$user->getId()] = $user;
-			}
-			// If we've got a spam list, send e-mails to it too
-			if ( $wgCodeReviewCommentWatcher ) {
-				$watcher = new User();
-				$watcher->setEmail( $wgCodeReviewCommentWatcher );
-				$users[0] = $watcher; // We don't have any anons, so using 0 is safe
-			}
-			// Get repo and build comment title (for url)
-			$url = $this->getFullUrl( $commentId );
-
-			foreach ( $users as $userId => $user ) {
-				// Notify user with its own message if he already want
-				// to be CCed of all emails it sends.
-				if ( $wgUser->getId() == $user->getId() ) {
-					if(! $user->getBoolOption( 'ccmeonemails' ) ) {
-						continue;
-					}
-				}
-
-				if ( $user->canReceiveEmail() ) {
-					// Send message in receiver's language
-					$lang = array( 'language' => $user->getOption( 'language' ) );
-				
-					$user->sendMail(
-						wfMsgExt( 'codereview-email-subj', $lang, $this->mRepo->getName(), $this->getIdString() ),
-						wfMsgExt( 'codereview-email-body', $lang, $wgUser->getName(), $url, $this->getIdStringUnique(), $text )
-					);
-				}
-			}
-		}
+		$url = $this->getFullUrl( $commentId );
 
 		$this->sendCommentToUDP( $commentId, $text, $url );
 
 		return $commentId;
+	}
+
+	/**
+	 * @param  $subject
+	 * @param  $body
+	 * @return void
+	 */
+	public function emailNotifyUsersOfChanges( $subject, $body ) {
+		// Give email notices to committer and commenters
+		global $wgCodeReviewENotif, $wgEnableEmail, $wgCodeReviewCommentWatcher,
+			$wgUser;
+		if ( !$wgCodeReviewENotif && !$wgEnableEmail ) {
+			return;
+		}
+
+		$args = func_get_args();
+		array_shift( $args ); //Drop $subject
+		array_shift( $args ); //Drop $body
+
+		// Make list of users to send emails to
+		$users = $this->getCommentingUsers();
+		$user = $this->getWikiUser();
+		if ( $user ) {
+			$users[$user->getId()] = $user;
+		}
+		// If we've got a spam list, send e-mails to it too
+		if ( $wgCodeReviewCommentWatcher ) {
+			$watcher = new User();
+			$watcher->setEmail( $wgCodeReviewCommentWatcher );
+			$users[0] = $watcher; // We don't have any anons, so using 0 is safe
+		}
+
+		foreach ( $users as $user ) {
+			// Notify user with its own message if he already want
+			// to be CCed of all emails it sends.
+			if ( $wgUser->getId() == $user->getId() ) {
+				if(! $user->getBoolOption( 'ccmeonemails' ) ) {
+					continue;
+				}
+			}
+
+			if ( $user->canReceiveEmail() ) {
+				// Send message in receiver's language
+				$lang = array( 'language' => $user->getOption( 'language' ) );
+
+				$localSubject = wfMsgExt( $subject, $lang, $this->mRepo->getName(), $this->getIdString() );
+				$localBody = call_user_func_array( 'wfMsgExt', array_merge( array( $body, $lang, $wgUser->getName() ), $args ) );
+
+				$user->sendMail( $localSubject, $localBody );
+			}
+		}
 	}
 
 	protected function commentData( $text, $review, $parent = null ) {
@@ -580,7 +605,7 @@ class CodeRevision {
 			__METHOD__
 		);
 		$users = array();
-		while ( $row = $res->fetchObject() ) {
+		foreach( $res as $row ) {
 			$users[$row->cc_user] = User::newFromId( $row->cc_user );
 		}
 		return $users;
@@ -600,12 +625,46 @@ class CodeRevision {
 			),
 			__METHOD__
 		);
-		while ( $row = $res->fetchObject() ) {
+		foreach( $res as $row ) {
 			if ( $this->mId != intval( $row->cr_id ) ) {
 				$refs[] = $row;
 			}
 		}
 		return $refs;
+	}
+
+	public function getSignoffs( $from = DB_SLAVE ) {
+		$db = wfGetDB( $from );
+		$result = $db->select( 'code_signoffs',
+			array( 'cs_user_text', 'cs_flag', 'cs_timestamp' ),
+			array(
+				'cs_repo_id' => $this->mRepoId,
+				'cs_rev_id' => $this->mId,
+			),
+			__METHOD__,
+			array( 'ORDER BY' => 'cs_timestamp' )
+		);
+		
+		$signoffs = array();
+		foreach ( $result as $row ) {
+			$signoffs[] = CodeSignoff::newFromRow( $this, $row );
+		}
+		return $signoffs;
+	}
+
+	public function addSignoff( $user, $flags ) {
+		$dbw = wfGetDB( DB_MASTER );
+		$rows = array();
+		foreach ( $flags as $flag ) {
+			$rows[] = array(
+				'cs_repo_id' => $this->mRepoId,
+				'cs_rev_id' => $this->mId,
+				'cs_user_text' => $user->getName(),
+				'cs_flag' => $flag,
+				'cs_timestamp' => $dbw->timestamp(),
+			);
+		}
+		$dbw->insert( 'code_signoffs', $rows, __METHOD__ );
 	}
 
 	public function getTags( $from = DB_SLAVE ) {

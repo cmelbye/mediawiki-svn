@@ -144,6 +144,8 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'passwordreset-invalidusername' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ ܠܐ ܬܪܝܨܐ',
+	'passwordreset-emptyusername' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ ܣܦܝܩܐ',
 	'passwordreset-nopassmatch' => 'ܡܠܬܐ ܕܥܠܠܐ ܠܐ ܐܘܝܢܬܐ',
 	'passwordreset-username' => 'ܫܡܐ ܕܡܦܠܚܢܐ:',
 	'passwordreset-newpass' => 'ܡܠܬܐ ܕܥܠܠܐ ܚܕܬܐ:',
@@ -1089,6 +1091,7 @@ $messages['ml'] = array(
  */
 $messages['mn'] = array(
 	'passwordreset-nopassmatch' => 'Нууц үгнүүд ижил биш байна',
+	'passwordreset-username' => 'Хэрэглэгчийн нэр:',
 );
 
 /** Marathi (मराठी)
@@ -1742,9 +1745,11 @@ $messages['uk'] = array(
 	'passwordreset-invalidusername' => "Неправильне ім'я користувача",
 	'passwordreset-emptyusername' => "Пусте ім'я користувача",
 	'passwordreset-nopassmatch' => 'Паролі не співпадають',
+	'passwordreset-badtoken' => 'Неприпустимий маркер редагування',
 	'passwordreset-username' => "Ім'я користувача:",
 	'passwordreset-newpass' => 'Новий пароль:',
 	'passwordreset-confirmpass' => 'Підтвердіть пароль:',
+	'passwordreset-submit' => 'Скинути пароль',
 );
 
 /** Urdu (اردو)

@@ -177,7 +177,7 @@ class CentralAuthUser extends AuthPluginUser {
 		);
 
 		$sets = array();
-		while ( $row = $dbr->fetchObject( $resSets ) ) {
+		foreach ( $resSets as $row ) {
 			$sets[$row->ggr_group] = WikiSet::newFromRow( $row );
 		}
 
@@ -185,7 +185,7 @@ class CentralAuthUser extends AuthPluginUser {
 		$rights = array();
 		$groups = array();
 
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$set = @$sets[$row->ggp_group];
 			$rights[] = array( 'right' => $row->ggp_permission, 'set' => $set ? $set->getID() : false );
 			$groups[$row->ggp_group] = 1;
@@ -604,7 +604,7 @@ class CentralAuthUser extends AuthPluginUser {
 		// If we've got an authenticated password to work with, we can
 		// also assume their e-mails are useful for this purpose...
 		if ( $passwords ) {
-			foreach ( $migrationSet as $wiki => $local ) {
+			foreach ( $migrationSet as $local ) {
 				if ( $local['email'] != ''
 					&& $local['emailAuthenticated']
 					&& $this->matchHashes( $passwords, $local['id'], $local['password'] ) ) {
@@ -1314,7 +1314,7 @@ class CentralAuthUser extends AuthPluginUser {
 		$result = $dbw->safeQuery( $sql, $this->mName );
 
 		$dbs = array();
-		while ( $row = $dbw->fetchObject( $result ) ) {
+		foreach ( $result as $row ) {
 			$dbs[] = $row->ln_wiki;
 		}
 		$dbw->freeResult( $result );
@@ -1432,7 +1432,7 @@ class CentralAuthUser extends AuthPluginUser {
 			__METHOD__ );
 
 		$wikis = array();
-		while ( $row = $result->fetchObject() ) {
+		foreach ( $result as $row ) {
 			$wikis[] = $row->lu_wiki;
 		}
 		$dbw->freeResult( $result );
@@ -1475,7 +1475,7 @@ class CentralAuthUser extends AuthPluginUser {
 			__METHOD__ );
 
 		$wikis = array();
-		while ( $row = $dbw->fetchObject( $result ) ) {
+		foreach ( $result as $row ) {
 			$wikis[$row->lu_wiki] = array(
 				'wiki' => $row->lu_wiki,
 				'attachedTimestamp' => wfTimestampOrNull( TS_MW,
@@ -1561,7 +1561,6 @@ class CentralAuthUser extends AuthPluginUser {
 		}
 
 		// And we have to fetch groups separately, sigh...
-		$groups = array();
 		$result = $db->select( 'user_groups',
 			array( 'ug_group' ),
 			array( 'ug_user' => $data['id'] ),
@@ -1859,8 +1858,9 @@ class CentralAuthUser extends AuthPluginUser {
 
 		$groups = array();
 
-		while ( $row = $dbr->fetchObject( $res ) )
+		foreach ( $res as $row ) {
 			$groups[] = $row->ggp_group;
+		}
 
 		return $groups;
 	}
@@ -1873,7 +1873,7 @@ class CentralAuthUser extends AuthPluginUser {
 
 		$rights = array();
 
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$rights[] = $row->ggp_permission;
 		}
 
@@ -1894,8 +1894,9 @@ class CentralAuthUser extends AuthPluginUser {
 
 		$rights = array();
 
-		while ( $row = $dbr->fetchObject( $res ) )
+		foreach ( $res as $row ) {
 			$rights[] = $row->ggp_permission;
+		}
 
 		return $rights;
 	}

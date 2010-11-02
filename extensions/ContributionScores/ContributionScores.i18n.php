@@ -113,8 +113,10 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'contributionscores-days' => '{{PLURAL:$1|ܝܘܡܐ ܐܚܪܝܐ|$1 ܝܘܡܬ̈ܐ ܐܚܪ̈ܝܬܐ}}',
+	'contributionscores-allrevisions' => 'ܟܠ ܬܢܝܬ̈ܐ',
 	'contributionscores-pages' => 'ܦܐܬܬ̈ܐ',
 	'contributionscores-changes' => 'ܫܘܚܠܦ̈ܐ',
+	'contributionscores-username' => 'ܫܡܐ ܕܡܬܚܫܚܢܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -150,6 +152,27 @@ $messages['avk'] = array(
 	'contributionscores-pages' => 'Bu',
 	'contributionscores-changes' => 'Betaks',
 	'contributionscores-username' => 'Favesikyolt',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'contributionscores' => 'Индергән өлөштәрҙе баһалау',
+	'contributionscores-desc' => 'Мәғлүмәттәр базаһынан [[Special:ContributionScores|иң ҙур өлөш индергән ҡатнашыусыларҙы]] билдәләй',
+	'contributionscores-info' => 'Баһа түбәндәге өлөштәрҙе ҡушыу аша иҫәпләнә:
+* 1 мәрәй — һәр айырым битте мөхәррирләү өсөн;
+* 2 * ( (дөйөм үҙгәртеүҙәр һаны) - (барыһы төрлө биттәр) ) айырмаһының тамыры.
+Баһаны иҫәпләгән ваҡытта, шулай итеп, дөйөм үҙгәртеүҙәр һанына ҡарағында үҙгәртеүҙәрҙең төрлөлөгө ҙурыраҡ йоғонто яһай.',
+	'contributionscores-top' => '(Тәүге $1)',
+	'contributionscores-days' => 'Һуңғы {{PLURAL:$1|көн|$1 көн}}',
+	'contributionscores-allrevisions' => 'Бөтә үҙгәртеүҙәр',
+	'contributionscores-score' => 'Баһа',
+	'contributionscores-pages' => 'Биттәр',
+	'contributionscores-changes' => 'Үҙгәртеүҙәр',
+	'contributionscores-username' => 'Ҡатнашыусы исеме',
+	'contributionscores-invalidusername' => 'Ҡатнашыусы исеме дөрөҫ түгел',
+	'contributionscores-invalidmetric' => 'Метрика дөрөҫ түгел',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1113,17 +1136,25 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
 	'contributionscores-top' => '(ആദ്യത്തെ $1)',
-	'contributionscores-days' => 'അവസാനത്തെ $1 ദിവസങ്ങൾ',
+	'contributionscores-days' => 'അവസാന {{PLURAL:$1|ദിവസം|$1 ദിവസങ്ങൾ}}',
 	'contributionscores-allrevisions' => 'എല്ലാ പതിപ്പുകളും',
 	'contributionscores-score' => 'സ്കോർ',
 	'contributionscores-pages' => 'താളുകൾ',
 	'contributionscores-changes' => 'മാറ്റങ്ങൾ',
 	'contributionscores-username' => 'ഉപയോക്തൃനാമം',
 	'contributionscores-invalidusername' => 'അസാധുവായ ഉപയോക്തൃനാമം',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'contributionscores-username' => 'Хэрэглэгчийн нэр',
 );
 
 /** Marathi (मराठी)

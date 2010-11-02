@@ -1,10 +1,4 @@
 /**
- * Extend the RegExp object with an escaping function
- * From http://simonwillison.net/2006/Jan/20/escape/
- */
-RegExp.escape = function( s ) { return s.replace(/([.*+?^${}()|\/\\[\]])/g, '\\$1'); };
-
-/**
  * Dialog Module for wikiEditor
  */
 ( function( $ ) { $.wikiEditor.modules.dialogs = {
@@ -114,10 +108,10 @@ fn: {
 		configuration.title = $.wikiEditor.autoMsg( module, 'title' );
 		// Transform messages in keys
 		// Stupid JS won't let us do stuff like
-		// foo = { mediaWiki.msg.get( 'bar' ): baz }
+		// foo = { mediaWiki.msg( 'bar' ): baz }
 		configuration.newButtons = {};
 		for ( msg in configuration.buttons )
-			configuration.newButtons[mediaWiki.msg.get( msg )] = configuration.buttons[msg];
+			configuration.newButtons[mediaWiki.msg( msg )] = configuration.buttons[msg];
 		configuration.buttons = configuration.newButtons;
 		// Create the dialog <div>
 		var dialogDiv = $( '<div />' )

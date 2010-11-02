@@ -40,7 +40,6 @@ class PagesWithoutScans extends SpecialPage {
 class PagesWithoutScansQuery extends QueryPage {
 
 	function __construct() {
-		wfLoadExtensionMessages( 'ProofreadPage' );
 		$this->page_namespace = preg_quote( wfMsgForContent( 'proofreadpage_namespace' ), '/' );
 	}
 
@@ -85,7 +84,7 @@ class PagesWithoutScansQuery extends QueryPage {
 						'page_namespace' => $disPageObj->getNamespace(), 'page_title' => $disPageObj->getDBkey()),
 					__METHOD__ );
 
-				while ( $row = $dbr->fetchObject( $res ) ) {
+				foreach ( $res as $row ) {
 					$linkBatch->addObj( Title::makeTitle( NS_TEMPLATE, $row->pl_title ));
 				}
 
@@ -95,8 +94,6 @@ class PagesWithoutScansQuery extends QueryPage {
 	}
 
 	function getSQL() {
-		global $wgContentNamespaces;
-
 		$dbr = wfGetDB( DB_SLAVE );
 		$page = $dbr->tableName( 'page' );
 		$templatelinks = $dbr->tableName( 'templatelinks' );

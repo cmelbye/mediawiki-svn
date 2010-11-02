@@ -69,6 +69,14 @@ $messages['ar'] = array(
 	'cooperationstatistics-legendmore' => 'أو أكثر من المحررين.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'cooperationstatistics-tablearticle' => 'ܡܢܝܢܐ ܕܕܦ̈ܐ',
+	'cooperationstatistics-articles' => '$1 {{PLURAL:$1|ܕܦܐ|ܕܦ̈ܐ}}',
+);
+
 /** Bavarian (Boarisch)
  * @author Man77
  */
@@ -147,6 +155,18 @@ $messages['ca'] = array(
 	'cooperationstatistics-tablevalue' => "Nombre d'editors",
 	'cooperationstatistics-articles' => '$1 {{PLURAL:$1|pàgina|pàgines}}',
 	'cooperationstatistics-legendmore' => 'o més editors.',
+);
+
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'cooperationstatistics' => 'Statistika spolupráce',
+	'cooperationstatistics-desc' => 'Zobrazit [[Special:CooperationStatistics|statistiku spolupráce v hlavním jmenném prostoru]].',
+	'cooperationstatistics-tablearticle' => 'Počet stránek',
+	'cooperationstatistics-tablevalue' => 'Počet editorů',
+	'cooperationstatistics-articles' => '$1 {{PLURAL:$1|stránka|stránky|stránek}}',
+	'cooperationstatistics-legendmore' => 'nebo více editorů.',
 );
 
 /** German (Deutsch)
@@ -540,6 +560,13 @@ $messages['mk'] = array(
 	'cooperationstatistics-legendmore' => 'или повеќе уредници.',
 );
 
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'cooperationstatistics-articles' => '$1 {{PLURAL:$1|хуудас}}',
+);
+
 /** Dutch (Nederlands)
  * @author Siebrand
  */
@@ -838,7 +865,9 @@ Ayrıca [[Special:MostRevisors|'''en fazla inceleyene sahip sayfalar''']] ve [[S
  * @author Тест
  */
 $messages['uk'] = array(
+	'cooperationstatistics-tablevalue' => 'Кількість редакторів',
 	'cooperationstatistics-articles' => '$1 {{PLURAL:$1|сторінка|сторінки|сторінок}}',
+	'cooperationstatistics-legendmore' => 'або більше редакторів.',
 );
 
 /** Vietnamese (Tiếng Việt)

@@ -155,12 +155,24 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'recordadmin-recordtype' => 'ܐܕܫܐ ܕܣܘܓܠܐ',
+	'recordadmin-newsearch' => 'ܒܨܝܐ $1 ܚܕܬܐ',
+	'recordadmin-submit' => 'ܫܕܪ',
+	'recordadmin-createsuccess' => '$1 ܐܬܒܪܝܬ',
+	'recordadmin-badtitle' => 'ܟܘܢܝܐ ܠܐ ܛܒܐ!',
 	'recordadmin-invert' => 'ܐܗܦܟ ܠܓܘܒܝܐ',
 	'recordadmin-buttonsearch' => 'ܒܨܝ',
 	'recordadmin-buttoncreate' => 'ܒܪܝ',
+	'recordadmin-searchresult' => 'ܦܠܛ̈ܐ ܕܒܘܨܝܐ',
 	'recordadmin-buttonsave' => 'ܠܒܘܟ',
+	'recordadmin-createlink' => 'ܒܪܝ ܚܕܐ',
+	'recordadmin-summary-typecreated' => '$1 ܚܕܬܐ ܒܪܝܬ',
 	'recordadmin-viewlink' => 'ܚܙܝ',
 	'recordadmin-editlink' => 'ܫܚܠܦ',
+	'recordadmin-actions' => 'ܫܚܠܦ',
+	'recordadmin-needscontent' => 'ܐܘܣܦ ܚܒܝܫܬ̈ܐ',
+	'recordadmin-export-pdf' => 'PDF',
+	'recordadmin-notset' => 'ܠܝܬ $1',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -769,6 +781,13 @@ $messages['frp'] = array(
 	'recordadmin-notset' => 'Nion « $1 »',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'recordadmin-buttonsearch' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -973,6 +992,7 @@ $messages['hsb'] = array(
 );
 
 /** Hungarian (Magyar)
+ * @author Dani
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
@@ -1012,6 +1032,7 @@ $messages['hu'] = array(
 	'recordadmin-export-csv' => 'CSV',
 	'recordadmin-export-pdf' => 'PDF',
 	'recordadmin-notset' => 'Nincs „$1”',
+	'recordadmin-properties' => 'Tulajdonságok',
 );
 
 /** Interlingua (Interlingua)
@@ -1197,6 +1218,13 @@ $messages['ja'] = array(
 	'recordadmin-properties' => 'プロパティー',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'recordadmin-buttonsearch' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Lovekhmer
  * @author Thearith
@@ -1357,6 +1385,7 @@ $messages['mk'] = array(
  * @author Chinneeb
  */
 $messages['mn'] = array(
+	'recordadmin-submit' => 'Явуулах',
 	'recordadmin-buttonsearch' => 'Хайх',
 );
 
@@ -2069,6 +2098,8 @@ $messages['sv'] = array(
  * @author Veeven
  */
 $messages['te'] = array(
+	'recordadmin-select' => 'ఎంచుకోండి',
+	'recordadmin-newsearch' => 'కొత్త $1 అన్వేషణ',
 	'recordadmin-submit' => 'దాఖలుచేయి',
 	'recordadmin-alreadyexist' => 'క్షమించండి, "$1" ఇప్పటికే ఉంది!',
 	'recordadmin-badtitle' => 'తప్పు శీర్షిక!',

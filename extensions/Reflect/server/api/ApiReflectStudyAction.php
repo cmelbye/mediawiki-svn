@@ -181,6 +181,10 @@ class ApiReflectStudyAction extends ApiBase {
 		return array();
 	}
 
+	public function needsToken() {
+		return true;
+	}
+
 	public function getTokenSalt() {
 		return '';
 	}
@@ -210,6 +214,6 @@ class ApiReflectStudyAction extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiReflectStudyAction.php 66465 2010-07-30 11:31:55Z travis $';
+		return __CLASS__ . ': $Id$';
 	}
 }

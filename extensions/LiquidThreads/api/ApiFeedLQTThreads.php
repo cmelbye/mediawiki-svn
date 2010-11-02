@@ -109,7 +109,6 @@ class ApiFeedLQTThreads extends ApiBase {
 	}
 
 	public static function createFeedTitle( $params ) {
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		$fromPlaces = array();
 
 		foreach ( (array)$params['thread'] as $thread ) {
@@ -128,8 +127,6 @@ class ApiFeedLQTThreads extends ApiBase {
 
 		// What's included?
 		$types = (array)$params['type'];
-
-		$msg = '';
 
 		if ( !count( array_diff( array( 'replies', 'newthreads' ), $types ) ) ) {
 			$msg = 'lqt-feed-title-all';

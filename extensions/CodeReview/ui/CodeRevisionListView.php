@@ -71,7 +71,7 @@ class CodeRevisionListView extends CodeView {
 		$dbr = wfGetDB( DB_SLAVE );
 		$revObjects = array();
 		$res = $dbr->select( 'code_rev', '*', array( 'cr_id' => $revisions, 'cr_repo_id' => $this->mRepo->getId() ), __METHOD__ );
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ($res as $row ) {
 			$revObjects[] = CodeRevision::newFromRow( $this->mRepo, $row );
 		}
 
@@ -81,14 +81,14 @@ class CodeRevisionListView extends CodeView {
 			$addTags = array_map( 'trim', explode( ",", $addTags ) );
 			$removeTags = array_map( 'trim', explode( ",", $removeTags ) );
 
-			foreach ( $revObjects as $id => $rev ) {
+			foreach ( $revObjects as $rev ) {
 				$rev->changeTags( $addTags, $removeTags, $wgUser );
 			}
 		}
 
 		if ( $wgUser->isAllowed( 'codereview-set-status' ) &&
 				$revObjects && $revObjects[0]->isValidStatus( $status ) ) {
-			foreach ( $revObjects as $id => $rev ) {
+			foreach ( $revObjects as $rev ) {
 				$rev->setStatus( $status, $wgUser );
 			}
 		}
@@ -133,7 +133,7 @@ class CodeRevisionListView extends CodeView {
 				Xml::buildForm( $changeFields, 'codereview-batch-submit' ) );
 
 		$changeInterface .= $pager->getHiddenFields();
-		$changeInterface .= Xml::hidden( 'wpBatchChangeEditToken', $wgUser->editToken() );
+		$changeInterface .= Html::hidden( 'wpBatchChangeEditToken', $wgUser->editToken() );
 
 		return $changeInterface;
 	}
@@ -156,14 +156,14 @@ class CodeRevisionListView extends CodeView {
 		if ( strlen( $this->mAppliedFilter ) ) {
 			$wgOut->addHTML(
 				'<td>' .
-				Xml::label( wfMsg( 'code-pathsearch-filter' ), 'revFilter' ) . '<strong>' .
+				Xml::label( wfMsg( 'code-pathsearch-filter' ), 'revFilter' ) . '&#160;<strong>' .
 				Xml::span( $this->mAppliedFilter, '' ) . '</strong>&#160;' .
 				Xml::submitButton( wfMsg( 'code-revfilter-clear' ) ) .
 				'</td>' .
-				Xml::hidden( 'title', SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() ) )
+				Html::hidden( 'title', SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() ) )
 			);
 		} else {
-			$wgOut->addHTML( Xml::hidden( 'title', $special->getPrefixedDBKey() ) );
+			$wgOut->addHTML( Html::hidden( 'title', $special->getPrefixedDBKey() ) );
 		}
 		$wgOut->addHTML( "</tr></table></fieldset>" . Xml::closeElement( 'form' ) );
 	}

@@ -39,6 +39,16 @@ $messages['af'] = array(
 	'semanticformsinputs-wrongformat' => 'Verkeerde formaat.',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'semanticformsinputs-close' => 'ܣܟܘܪ',
+	'semanticformsinputs-prev' => 'ܩܕܡ',
+	'semanticformsinputs-next' => 'ܒܬܪ',
+	'semanticformsinputs-today' => 'ܝܘܡܢܐ',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -71,6 +81,10 @@ $messages['br'] = array(
 $messages['bs'] = array(
 	'semanticformsinputs-desc' => 'Dodatne vrste unosa za [http://www.mediawiki.org/wiki/Extension:Semantic_Forms Semantičke forme]',
 	'semanticformsinputs-wrongformat' => 'Pogrešan format.',
+	'semanticformsinputs-close' => 'Zatvori',
+	'semanticformsinputs-prev' => 'Prethodno',
+	'semanticformsinputs-next' => 'Slijedeće',
+	'semanticformsinputs-today' => 'Danas',
 );
 
 /** Catalan (Català)
@@ -176,8 +190,11 @@ $messages['he'] = array(
 	'semanticformsinputs-today' => 'היום',
 );
 
-/** Hungarian (Magyar) */
+/** Hungarian (Magyar)
+ * @author Dani
+ */
 $messages['hu'] = array(
+	'semanticformsinputs-wrongformat' => 'Hibás formátum.',
 	'semanticformsinputs-close' => 'Bezárás',
 	'semanticformsinputs-prev' => 'Előző',
 	'semanticformsinputs-next' => 'Következő',
@@ -239,6 +256,16 @@ $messages['mk'] = array(
 	'semanticformsinputs-prev' => 'Претходно',
 	'semanticformsinputs-next' => 'Следно',
 	'semanticformsinputs-today' => 'Денес',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'semanticformsinputs-close' => 'അടയ്ക്കുക',
+	'semanticformsinputs-prev' => 'മുൻപത്തേത്',
+	'semanticformsinputs-next' => 'അടുത്തത്',
+	'semanticformsinputs-today' => 'ഇന്ന്',
 );
 
 /** Dutch (Nederlands)
@@ -336,6 +363,16 @@ $messages['ru'] = array(
 	'semanticformsinputs-today' => 'Сегодня',
 );
 
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'semanticformsinputs-close' => 'మూసివేయి',
+	'semanticformsinputs-prev' => 'గత',
+	'semanticformsinputs-next' => 'తదుపరి',
+	'semanticformsinputs-today' => 'ఈరోజు',
+);
+
 /** Tagalog (Tagalog)
  * @author AnakngAraw
  */
@@ -352,6 +389,7 @@ $messages['tl'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'semanticformsinputs-close' => 'Закрити',
 	'semanticformsinputs-prev' => 'Попередня',
 	'semanticformsinputs-next' => 'Наступна',
 );

@@ -158,6 +158,13 @@ $messages['ar'] = array(
 	'right-patroller' => 'مراجعة الصفحات',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'patrol-revert-reason' => 'ܥܠܬܐ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -196,6 +203,13 @@ $messages['bcl'] = array(
 	'patrol-skip' => 'Laktawan',
 	'patrol-reverting' => 'Pigbabalik: $1',
 	'patrol-resume' => 'Lagatik digdi tangarig magpadagos.',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'patrol-revert-reason' => 'Прычына:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1222,6 +1236,7 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -1244,6 +1259,7 @@ $messages['ml'] = array(
 	'group-patroller' => 'റോന്തു ചുറ്റുന്നവർ',
 	'group-patroller-member' => 'റോന്തു ചുറ്റുന്നവർ',
 	'grouppage-patroller' => '{{ns:project}}:റോന്തു ചുറ്റുന്നവർ',
+	'right-patroller' => 'താളുകളിൽ റോന്തുചുറ്റുക',
 );
 
 /** Mongolian (Монгол)

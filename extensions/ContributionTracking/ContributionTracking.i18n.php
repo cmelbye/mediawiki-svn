@@ -93,6 +93,19 @@ $messages['arz'] = array(
 	'contrib-tracking-button' => 'استمر',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'contributiontracking-desc' => 'Викимедиа файҙаһына иғәнә йыйыуҙы күҙәтеү',
+	'contributiontracking' => 'Иғәнә йыйыуҙы күҙәтеү',
+	'contrib-tracking-error' => 'Хата',
+	'contrib-tracking-error-text' => 'Форманы ебәреү хатаһы',
+	'contrib-tracking-submitting' => 'Түләүҙәрҙе эшкәртеү ҡоралына ебәреү...',
+	'contrib-tracking-continue' => 'Әгәр һеҙ автоматик рәүештә йүнәлтелгән булмаһағыҙ, PayPal сайтында иғәнә биреүҙе тамамлау өсөн, төймәгә баҫығыҙ.',
+	'contrib-tracking-button' => 'Дауам итергә',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -352,6 +365,13 @@ $messages['frp'] = array(
 	'contrib-tracking-submitting' => 'Èxpèdicion u sistèmo de trètament des payements...',
 	'contrib-tracking-continue' => 'Se vos éte pas redirigiê ôtomaticament, clicâd cél boton por complètar voutron don avouéc PayPal.',
 	'contrib-tracking-button' => 'Continuar',
+);
+
+/** Friulian (Furlan)
+ * @author Klenje
+ */
+$messages['fur'] = array(
+	'contrib-tracking-button' => 'Va indevant',
 );
 
 /** Galician (Galego)
@@ -857,7 +877,10 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'contributiontracking' => 'Слїдованя приспевків',
 	'contrib-tracking-error' => 'Хыба',
+	'contrib-tracking-error-text' => 'Одосланый формуларь не быв правилно выповненый',
+	'contrib-tracking-submitting' => 'Платба ся одосылать про спрацованя ...',
 	'contrib-tracking-button' => 'Продовжовати',
 );
 

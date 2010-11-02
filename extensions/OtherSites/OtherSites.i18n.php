@@ -32,6 +32,13 @@ $messages['ar'] = array(
 	'othersites-desc' => 'ينقل وصلات الإنترويكي غير وصلات اللغة إلى مكانها الخاص',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'othersites' => 'ܕ̈ܘܟܝܬܐ ܐܚܪ̈ܢܝܬܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -298,6 +305,13 @@ $messages['lv'] = array(
 $messages['mk'] = array(
 	'othersites' => 'Други интернет-страници',
 	'othersites-desc' => 'Ги преместува интервики врските, кои не се јазични врски, во посебни места',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'othersites' => 'മറ്റ് സൈറ്റുകൾ',
 );
 
 /** Malay (Bahasa Melayu)

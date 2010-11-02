@@ -9,7 +9,7 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-define( 'SIO_VERSION', '0.6.1' );
+define( 'SIO_VERSION', '0.6.2' );
 
 $wgExtensionCredits[defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'parserhook'][] = array(
 	'path' => __FILE__,
@@ -25,6 +25,7 @@ $wgHooks['LanguageGetMagic'][] = 'siofLanguageGetMagic';
 $wgHooks['ParserClearState'][] = 'SIOHandler::clearState';
 $wgHooks['SMWSQLStore2::updateDataAfter'][] = 'SIOHandler::updateData';
 $wgHooks['smwUpdatePropertySubjects'][] = 'SIOHandler::handleUpdatingOfInternalObjects';
+$wgHooks['TitleMoveComplete'][] = 'SIOHandler::handlePageMove';
 $wgHooks['smwRefreshDataJobs'][] = 'SIOHandler::handleRefreshingOfInternalObjects';
 $wgHooks['smwAddToRDFExport'][] = 'SIOSQLStore::createRDF';
 

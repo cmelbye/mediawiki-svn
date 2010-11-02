@@ -180,6 +180,13 @@ $wgTranslateTranslationServices['Google'] = array(
 	'timeout-async' => 6,
 	'type' => 'google',
 );
+$wgTranslateTranslationServices['Microsoft'] = array(
+	'url' => 'http://api.microsofttranslator.com/V2/Http.svc/Translate',
+	'key' => null,
+	'timeout-sync' => 3,
+	'timeout-async' => 6,
+	'type' => 'microsoft',
+);
 $wgTranslateTranslationServices['Apertium'] = array(
 	'url' => 'http://api.apertium.org/json/translate',
 	'pairs' => 'http://api.apertium.org/json/listPairs',
@@ -413,8 +420,10 @@ $wgTranslateYamlLibrary = 'spyc';
 
 # Startup code
 function efTranslateResources( &$resourceLoader ) {
+	global $wgExtensionAssetsPath;
 	$resourceLoader->register( array( 'translate-css' =>
-		new ResourceLoaderFileModule( array( 'styles' => 'extensions/Translate/Translate.css' ) )
+		new ResourceLoaderFileModule( array( 'styles' => 'Translate.css' ),
+		dirname( __FILE__ ), "$wgExtensionAssetsPath/Translate" )
 	) );
 	return true;
 }

@@ -41,6 +41,16 @@ $messages['ar'] = array(
 	'checkpoint-tooltip' => 'إحفظ هذه المرحلة واستمرّ في تحرير الصفحة',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'checkpoint' => 'Һаҡларға һәм мөхәррирләүҙе дауам итергә',
+	'checkpoint-desc' => 'Үҙгәртеүҙәрҙе һаҡларға һәм мөхәррирләүҙе дауам итергә мөмкинлек бирә',
+	'checkpoint-tooltip' => 'Үҙгәртеүҙәрегеҙҙе һаҡлағыҙ һәм мөхәррирләүҙе дауам итегеҙ',
+	'checkpoint-notice' => '([[{{ns:project}}:Checkpoint|туҡтау нөктәһен һаҡлау]])',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -104,6 +114,15 @@ $messages['dsb'] = array(
 	'checkpoint-desc' => 'Zmóžnja změnu składowaś a z wobźěłowanim pókšacowaś',
 	'checkpoint-tooltip' => 'Składuj swój póstup a pókšacuj z wobźěłowanim boka',
 	'checkpoint-notice' => '([[{{ns:project}}:Checkpoint|składowanje kontrolnego dypka]])',
+);
+
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'checkpoint' => 'Konservi kaj daŭri redaktadon',
+	'checkpoint-desc' => 'Permesas al oni konservi redakton kaj daŭri redaktadon',
+	'checkpoint-tooltip' => 'Konservi vian agadon kaj daŭri redaktante la paĝon',
 );
 
 /** Spanish (Español)
@@ -273,6 +292,14 @@ $messages['mk'] = array(
 	'checkpoint-desc' => 'Овозможува зачувување на работата во сред уредување',
 	'checkpoint-tooltip' => 'Зачувајте ја досегашната работа и продолжете со уредување',
 	'checkpoint-notice' => '([[{{ns:project}}:Checkpoint|зачувај досегашно]])',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'checkpoint' => 'സേവ് ചെയ്തശേഷം തിരുത്തൽ തുടരുക',
+	'checkpoint-desc' => 'ഒരാളെ തിരുത്തൽ സേവ് ചെയ്യാനും എന്നിട്ട് തിരുത്തൽ തുടരാനും അനുവദിക്കുന്നു',
 );
 
 /** Dutch (Nederlands)

@@ -28,6 +28,7 @@ class CodeRevisionView extends CodeView {
 		# Make tag arrays
 		$this->mAddTags = $this->splitTags( $this->mAddTags );
 		$this->mRemoveTags = $this->splitTags( $this->mRemoveTags );
+		$this->mSignoffFlags = $wgRequest->getArray( 'wpSignoffFlags' );
 	}
 
 	function execute() {
@@ -38,7 +39,10 @@ class CodeRevisionView extends CodeView {
 			return;
 		}
 		if ( !$this->mRev ) {
-			$wgOut->addWikiMsg( 'code-rev-not-found', $this->mRevId );
+			if ( $this->mRevId !== 0 ) {
+				$wgOut->addWikiMsg( 'code-rev-not-found', $this->mRevId );
+			}
+
 			$view = new CodeRevisionListView( $this->mRepo->getName() );
 			$view->execute();
 			return;
@@ -53,8 +57,10 @@ class CodeRevisionView extends CodeView {
 			return;
 		}
 
-		$revTitle = str_replace( '.', wfMsg( 'word-separator' ), $this->mRev->getIdStringUnique() );
-		$wgOut->setPageTitle( wfMsgHtml( 'code-rev-title', $revTitle ) );
+		$pageTitle = $this->mRepo->getName() . wfMsg( 'word-separator' ) . $this->mRev->getIdString();
+		$htmlTitle = $this->mRev->getIdString() . wfMsg( 'word-separator' ) . $this->mRepo->getName();
+		$wgOut->setPageTitle( wfMsgHtml( 'code-rev-title', $pageTitle ) );
+		$wgOut->setHTMLTitle( wfMsgHtml( 'code-rev-title', $htmlTitle ) );
 
 		$repoLink = $this->mSkin->link( SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() ),
 			htmlspecialchars( $this->mRepo->getName() ) );
@@ -105,6 +111,15 @@ class CodeRevisionView extends CodeView {
 					wfMsg( 'code-rev-purge-link' ), 'action=purge' ) . ']</small></h2>' .
 				"<div class='mw-codereview-diff' id='mw-codereview-diff'>" . $diffHtml . "</div>\n";
 			$html .= $this->formatImgDiff();
+		}
+		# Show sign-offs
+		$signoffs = $this->formatSignoffs();
+		if ( $signoffs ) {
+			$html .= "<h2 id='code-signoffs'>" . wfMsgHtml( 'code-signoffs' ) .
+				"</h2>\n" . $signoffs;
+		}
+		if( $this->canSignoff() ) {
+			$html .= $this->signoffForm();
 		}
 		# Show code relations
 		$relations = $this->formatReferences();
@@ -189,6 +204,11 @@ class CodeRevisionView extends CodeView {
 	protected function canPostComments() {
 		global $wgUser;
 		return $wgUser->isAllowed( 'codereview-post-comment' ) && !$wgUser->isBlocked();
+	}
+
+	protected function canSignoff() {
+		global $wgUser;
+		return $wgUser->isAllowed( 'codereview-signoff' ) && !$wgUser->isBlocked();
 	}
 
 	protected function formatPathLine( $path, $action ) {
@@ -394,6 +414,19 @@ class CodeRevisionView extends CodeView {
 			);" );
 		return wfMsg( 'code-load-diff' );
 	}
+	
+	protected function formatSignoffs() {
+		$signoffs = implode( "\n",
+			array_map( array( $this, 'formatSignoffInline' ), $this->mRev->getSignoffs() )
+		);
+		if ( !$signoffs ) {
+			return false;
+		}
+		$header = '<th>' . wfMsg( 'code-signoff-field-user' ) . '</th>';
+		$header .= '<th>' . wfMsg( 'code-signoff-field-flag' ). '</th>';
+		$header .= '<th>' . wfMsg( 'code-signoff-field-date' ). '</th>';
+		return "<table border='1' class='TablePager'><tr>$header</tr>$signoffs</table>";
+	}
 
 	protected function formatComments() {
 		$comments = implode( "\n",
@@ -430,6 +463,15 @@ class CodeRevisionView extends CodeView {
 		$header .= '<th>' . wfMsg( 'code-field-author' ) . '</th>';
 		$header .= '<th>' . wfMsg( 'code-field-timestamp' ) . '</th>';
 		return "<table border='1' class='TablePager'><tr>{$header}</tr>{$refs}</table>";
+	}
+
+	protected function formatSignoffInline( $signoff ) {
+		global $wgLang;
+		$user = htmlspecialchars( $signoff->user );
+		$flag = htmlspecialchars( $signoff->flag );
+		$date = $wgLang->timeanddate( $signoff->timestamp, true );
+		$class = "mw-codereview-signoff-$flag";
+		return "<tr class='$class'><td>$user</td><td>$flag</td><td>$date</td></tr>";
 	}
 
 	protected function formatCommentInline( $comment ) {
@@ -576,9 +618,9 @@ class CodeRevisionView extends CodeView {
 		}
 		return '<div class="mw-codereview-post-comment">' .
 			$preview .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
-			Xml::hidden( 'path', $this->mPath ) .
-			( $parent ? Xml::hidden( 'wpParent', $parent ) : '' ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'path', $this->mPath ) .
+			( $parent ? Html::hidden( 'wpParent', $parent ) : '' ) .
 			'<div>' .
 			Xml::openElement( 'textarea', array(
 				'name' => "wpReply{$parent}",
@@ -589,6 +631,16 @@ class CodeRevisionView extends CodeView {
 			'</textarea>' .
 			'</div>' .
 			'</div>';
+	}
+
+	protected function signoffForm() {
+		$form = Xml::element( 'legend', array(), wfMsg( 'code-signoff-legend' ) );
+		foreach ( CodeRevision::getPossibleFlags() as $flag ) {
+			$form .= Html::input( 'wpSignoffFlags[]', $flag, 'checkbox', array( 'id' => "wpSignoffFlags-$flag" ) ) .
+				Xml::label( wfMsg( "code-signoff-flag-$flag" ), "wpSignoffFlags-$flag" ) . "\n";
+		}
+		$form .= Xml::submitButton( wfMsg( 'code-signoff-submit' ) );
+		return Xml::tags( 'fieldset', array(), $form );
 	}
 
 	protected function addActionButtons() {

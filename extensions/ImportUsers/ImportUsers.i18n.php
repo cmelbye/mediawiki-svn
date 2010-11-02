@@ -150,13 +150,16 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'importusers' => 'ܡܥܠܢܘܬܐ ܕܡܬܚܫܚܢ̈ܐ',
 	'importusers-uploadfile' => 'ܐܣܩ ܠܦܦܐ',
+	'importusers-form-button' => 'ܐܥܠ',
 	'importusers-log-summary' => 'ܦܣܝܩܬ̈ܐ',
 	'importusers-log-summary-all' => 'ܟܠ',
 	'importusers-log-summary-added' => 'ܐܬܬܘܣܦ',
 	'importusers-log-summary-updated' => 'ܐܬܚܕܬ',
 	'importusers-login-name' => 'ܫܡܐ ܕܥܠܠܐ',
 	'importusers-password' => 'ܡܠܬܐ ܕܥܠܠܐ',
+	'importusers-email' => 'ܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
 	'importusers-realname' => 'ܫܡܐ ܫܪܝܪܐ',
 );
 
@@ -1720,6 +1723,7 @@ $messages['sk'] = array(
  */
 $messages['sl'] = array(
 	'importusers-form-button' => 'Uvozi',
+	'importusers-log-summary' => 'Povzetek',
 	'importusers-password' => 'geslo',
 );
 
@@ -2019,6 +2023,7 @@ $messages['ug-latn'] = array(
  */
 $messages['uk'] = array(
 	'importusers-uploadfile' => 'Завантажити файл',
+	'importusers-form-button' => 'Імпортувати',
 	'importusers-log-summary' => 'Всього',
 	'importusers-log-summary-all' => 'Усі',
 	'importusers-log-summary-added' => 'Додано',

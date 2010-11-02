@@ -1211,15 +1211,16 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
 	'usermerge-badolduser' => 'അസാധുവായ പഴയ ഉപയോക്തൃനാമം',
 	'usermerge-badnewuser' => 'അസാധുവായ പുതിയ ഉപയോക്തൃനാമം',
 	'usermerge-noolduser' => 'പഴയ ഉപയോക്തൃനാമം ശൂന്യമാക്കുക',
-	'usermerge-olduser' => 'പഴയ ഉപയോക്തൃനാമം (ലയിപ്പിക്കാനുള്ളത്)',
-	'usermerge-newuser' => 'പുതിയ ഉപയോക്തൃനാമം (ഇതിലേക്കു സം‌യോജിപ്പിക്കണം)',
-	'usermerge-deleteolduser' => 'പഴയ ഉപയോക്താവിനെ മായ്ക്കട്ടെ?',
+	'usermerge-olduser' => 'പഴയ ഉപയോക്താവ് (ലയിപ്പിക്കാനുള്ളത്):',
+	'usermerge-newuser' => 'പുതിയ ഉപയോക്താവ് (ഇതിലേക്കു സം‌യോജിപ്പിക്കണം):',
+	'usermerge-deleteolduser' => 'പഴയ ഉപയോക്താവിനെ മായ്ക്കുക',
 	'usermerge-submit' => 'ഉപയോക്താവിനെ സം‌യോജിപ്പിക്കുക',
 	'usermerge-userdeleted' => '$1 ($2) മായ്ച്ചു.',
 	'usermerge-userdeleted-log' => 'ഉപയോക്താവിനെ മായ്ച്ചു: $2 ($3)',
@@ -1708,6 +1709,8 @@ $messages['sl'] = array(
 	'usermerge' => 'Spoji in izbriši uporabnike',
 	'usermerge-badolduser' => 'Neveljavno staro uporabniško ime',
 	'usermerge-badnewuser' => 'Neveljavno novo uporabniško ime',
+	'usermerge-nonewuser' => 'Prazno novo uporabniško ime – predpostavljam združitev z »$1«.<br />
+Kliknite »{{int:usermerge-submit}}« za sprejetje.',
 	'usermerge-noolduser' => 'Prazno staro uporabniško ime',
 	'usermerge-fieldset' => 'Uporabniška imena za spajanje',
 	'usermerge-olduser' => 'Stari uporabnik (spoji od):',
@@ -1716,6 +1719,8 @@ $messages['sl'] = array(
 	'usermerge-submit' => 'Spoji uporabnika',
 	'usermerge-userdeleted' => '$1 ($2) je bil izbrisan.',
 	'usermerge-userdeleted-log' => 'Izbrisal(-a) uporabnika: $2 ($3)',
+	'usermerge-updating' => 'Posodabljanje tabele $1 ($2 v $3)',
+	'usermerge-success' => 'Združitev iz $1 ($2) v $3 ($4) je končana.',
 	'usermerge-success-log' => 'Uporabnik $2 ($3) je spojen z $4 ($5)',
 	'usermerge-logpage' => 'Dnevnik spajanja uporabnikov',
 	'usermerge-logpagetext' => 'To je dnevnik dejanj spajanja uporabnikov.',

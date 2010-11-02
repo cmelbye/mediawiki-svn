@@ -70,6 +70,13 @@ $messages['arz'] = array(
 	'authors_anonymous' => 'مش معروف',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'authors_authors' => 'Аўтары',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -214,9 +221,10 @@ $messages['fi'] = array(
  * @author McDutchie
  * @author PieRRoMaN
  * @author Sherbrooke
+ * @author Verdy p
  */
 $messages['fr'] = array(
-	'authors-desc' => 'Ajoute une liste des contributeurs dans les pages',
+	'authors-desc' => 'Ajoute aux pages une liste de leurs contributeurs',
 	'authors_authors' => 'Auteurs',
 	'authors_anonymous' => 'Anonyme',
 );

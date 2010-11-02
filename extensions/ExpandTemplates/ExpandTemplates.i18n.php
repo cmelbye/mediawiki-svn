@@ -116,6 +116,15 @@ $messages['ar'] = array(
 	'expand_templates_preview' => 'معاينة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'expand_templates_output' => 'ܦܠܛܐ',
+	'expand_templates_ok' => 'ܛܒ',
+	'expand_templates_preview' => 'ܚܝܪܐ ܩܕܡܝܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -172,11 +181,24 @@ llamando a les funciones afechisques d'análisis sintáuticu de MediaWiki.",
 	'expand_templates_preview' => 'Previsualizar',
 );
 
-/** Samogitian (Žemaitėška)
- * @author Hugo.arg
+/** Bashkir (Башҡорт)
+ * @author Assele
  */
-$messages['bat-smg'] = array(
-	'expandtemplates' => 'Ėšskeistė šabluonus',
+$messages['ba'] = array(
+	'expandtemplates' => 'Ҡалыптарҙы йәйелдереү',
+	'expandtemplates-desc' => 'Йәйелдерелгән вики-текстты күрһәтеү һәм булдырылған битте ҡарап сығыу өсөн [[Special:ExpandTemplates|ҡалыптарҙы, укыу ҡоралдарын һәм үҙгәреүсән дәүмәлдәрҙе йәйелдерә]]',
+	'expand_templates_intro' => 'Был махсус бит бирелгән тексттың бөтә ҡалыптарын ҡабатланмалы рәүештә йәйелдерә.
+Шулай уҡ <nowiki>{{</nowiki>#if:…}} һымаҡ уҡыу ҡоралдары һәм <nowiki>{{</nowiki>CURRENTDAY}} һымаҡ үҙгәреүсән дәүмәлдәр,— ғөмүмән, икәүле йәйәләр эсендә барыһы ла йәйелдерелә.
+Был MediaWiki-ның кәрәкле эшкәртеүсе ҡоралын саҡырыу ярҙамында эшләнә.',
+	'expand_templates_title' => '{{PAGENAME}} һ.б. өсөн бит исеме:',
+	'expand_templates_input' => 'Сығанаҡ текст:',
+	'expand_templates_output' => 'Һөҙөмтә',
+	'expand_templates_xml_output' => 'XML һөҙөмтә',
+	'expand_templates_ok' => 'Тамам',
+	'expand_templates_remove_comments' => 'Аңлатмаларҙы юйырға',
+	'expand_templates_remove_nowiki' => 'Һөҙөмтәлә <nowiki> билдәләрен йәшерергә',
+	'expand_templates_generate_xml' => 'XML уҡыу ағасын күрһәтергә',
+	'expand_templates_preview' => 'Ҡарап сығыу',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -407,7 +429,7 @@ Den gør det ved at kalde det relevante analysetrin i MediaWiki-softwaren.',
 $messages['de'] = array(
 	'expandtemplates' => 'Vorlagen expandieren',
 	'expandtemplates-desc' => 'Ergänzt eine [[Special:ExpandTemplates|Spezialseite]] zum Anzeigen von Vorlagen, Parserfunktionen und Variablen in Wikitext und zeigt deren Vorschau',
-	'expand_templates_intro' => 'In diese Spezialseite kann Text eingegeben werden und alle Vorlagen in ihr werden rekursiv expandiert. Auch Parserfunkionen wie <code><nowiki>{{</nowiki>#if:…}}</code> und Variablen wie <code><nowiki>{{</nowiki>CURRENTDAY}}</code> werden ausgewertet - faktisch alles was in doppelten geschweiften Klammern enthalten ist. Dies geschieht durch den Aufruf der jeweiligen Parser-Phasen in MediaWiki.',
+	'expand_templates_intro' => 'In diese Spezialseite kann Text eingegeben werden und alle Vorlagen in ihr werden rekursiv expandiert. Auch Parserfunktionen wie <code><nowiki>{{</nowiki>#if:…}}</code> und Variablen wie <code><nowiki>{{</nowiki>CURRENTDAY}}</code> werden ausgewertet - faktisch alles was in doppelten geschweiften Klammern enthalten ist. Dies geschieht durch den Aufruf der jeweiligen Parser-Phasen in MediaWiki.',
 	'expand_templates_title' => 'Kontexttitel, für {{PAGENAME}} etc.:',
 	'expand_templates_input' => 'Eingabefeld:',
 	'expand_templates_output' => 'Ergebnis',
@@ -557,6 +579,7 @@ Selleks kutsub lehekülg MediaWikist asjassepuutuva parserijärgu.',
 	'expand_templates_xml_output' => 'XML-väljund',
 	'expand_templates_ok' => 'Lahenda',
 	'expand_templates_remove_comments' => 'Eemalda selgitavad märkused',
+	'expand_templates_remove_nowiki' => 'Ära näita tulemuses <nowiki>-märgendeid',
 	'expand_templates_generate_xml' => 'Näita XML sõelumispuud',
 	'expand_templates_preview' => 'Eelvaade',
 );
@@ -1719,8 +1742,15 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'expandtemplates' => 'Розгортаня шаблон',
+	'expand_templates_title' => 'Назва сторінкы про контекст про {{PAGENAME}} ітд.:',
+	'expand_templates_input' => 'Вступный текст:',
 	'expand_templates_output' => 'Резултат',
+	'expand_templates_xml_output' => 'XML-выступ',
 	'expand_templates_ok' => 'ОК',
+	'expand_templates_remove_comments' => 'Одстранити коментарї',
+	'expand_templates_remove_nowiki' => 'Іґноровати в резултатї значкы <nowiki>',
+	'expand_templates_generate_xml' => 'Указати сінтаксічный стром в XML',
 	'expand_templates_preview' => 'Нагляд',
 );
 
@@ -1748,6 +1778,13 @@ $messages['sah'] = array(
  */
 $messages['sc'] = array(
 	'expand_templates_preview' => 'Antiprima',
+);
+
+/** Samogitian (Žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'expandtemplates' => 'Ėšskeistė šabluonus',
 );
 
 /** Sinhala (සිංහල)

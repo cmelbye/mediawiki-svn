@@ -369,6 +369,13 @@ $messages['frp'] = array(
 	'communityvoice-ratings-error-no-title' => 'L’atribut de titro est absent dens la balisa de notacion.',
 );
 
+/** Friulian (Furlan)
+ * @author Klenje
+ */
+$messages['fur'] = array(
+	'communityvoice-ratings-scale-status-thanks' => 'Graciis par vê votât!',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -615,6 +622,17 @@ $messages['lt'] = array(
 	'communityvoice-ratings-scale-status-thanks' => 'Ačiū, kad balsavote!',
 );
 
+/** Malagasy (Malagasy)
+ * @author Jagwar
+ */
+$messages['mg'] = array(
+	'communityvoice' => "Feon'ny fikambanana",
+	'communityvoice-ratings-scale-status-sending' => 'Am-pandefasana...',
+	'communityvoice-ratings-scale-status-error' => 'Tsi-fetezana teo am-pandefasana !',
+	'communityvoice-ratings-scale-status-thanks' => 'Misaotra mandatsa-bato !',
+	'communityvoice-ratings-scale-stats' => '$1 / 5 (latsa-bato $2{{PLURAL:}})',
+);
+
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  */
@@ -698,7 +716,7 @@ $messages['no'] = array(
  */
 $messages['oc'] = array(
 	'communityvoice' => 'Votz de la comunautat',
-	'communityvoice-desc' => 'Espleches per la participacion de la comunautat',
+	'communityvoice-desc' => 'Aisinas per la participacion de la comunautat',
 	'communityvoice-ratings' => 'Nòtas',
 	'communityvoice-ratings-scale-status-sending' => 'Mandadís en cors ...',
 	'communityvoice-ratings-scale-status-error' => 'Error al moment del mandadís !',
@@ -794,6 +812,7 @@ $messages['ro'] = array(
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
 	'communityvoice' => "Vôsce d'a comunitate",
@@ -802,6 +821,7 @@ $messages['roa-tara'] = array(
 	'communityvoice-ratings-scale-status-sending' => 'Stoche a manne...',
 	'communityvoice-ratings-scale-status-error' => 'Errore de invie!',
 	'communityvoice-ratings-scale-status-thanks' => 'Grazie pu vote!',
+	'communityvoice-ratings-error-no-title' => "Titele attribbuite mangande jndr'ô tag de rating.",
 );
 
 /** Russian (Русский)
@@ -823,7 +843,15 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'communityvoice' => 'Голос комуніты',
+	'communityvoice-desc' => 'Інштрументы участи комуніты',
 	'communityvoice-ratings' => 'Рейтінґы',
+	'communityvoice-ratings-scale-status-sending' => 'Одосылать ся ...',
+	'communityvoice-ratings-scale-status-error' => 'Хыба почас одосыланя!',
+	'communityvoice-ratings-scale-status-thanks' => 'Дякуєме за ваш голос!',
+	'communityvoice-ratings-scale-stats' => '$1 / 5 (обтримано $2 {{PLURAL:$2|голос|голосы|голосів}})',
+	'communityvoice-ratings-error-no-category' => 'У значцї про оцінку хыбить катеґорія.',
+	'communityvoice-ratings-error-no-title' => 'У значцї про оцінку хыбить назва.',
 );
 
 /** Yakut (Саха тыла)
@@ -931,6 +959,8 @@ $messages['tk'] = array(
 	'communityvoice-ratings-scale-status-error' => 'Iberiş säwligi!',
 	'communityvoice-ratings-scale-status-thanks' => 'Ses berendigiňiz üçin sag boluň!',
 	'communityvoice-ratings-scale-stats' => '$1 / 5 ($2 {{PLURAL:$2|ses|ses}} berildi)',
+	'communityvoice-ratings-error-no-category' => 'Reýting teginde kategoriýa atributy kem.',
+	'communityvoice-ratings-error-no-title' => 'Reýting teginde at atributy kem.',
 );
 
 /** Tagalog (Tagalog)

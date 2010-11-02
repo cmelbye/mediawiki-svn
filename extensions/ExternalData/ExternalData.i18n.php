@@ -154,6 +154,22 @@ $messages['ca'] = array(
 	'externaldata-db-invalid-query' => 'Consulta no vàlida.',
 );
 
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'getdata' => 'Získat data',
+	'externaldata-desc' => 'Umožňuje získávání strukturovaných dat z externích webových stránek, databází a jiných zdrojů',
+	'externaldata-ldap-unable-to-connect' => 'Nepodařilo se spojit s $1',
+	'externaldata-json-decode-not-supported' => 'Chyba:tato verzie PHP nepodporuje json_decode()',
+	'externaldata-xml-error' => 'Chyba XML: $1 na řádku $2',
+	'externaldata-db-incomplete-information' => 'Chyba: Nekompletní informace pro toto ID serveru',
+	'externaldata-db-unknown-type' => 'Chyba: Neznámý typ databáze.',
+	'externaldata-db-could-not-connect' => 'Chyba: Nepodařilo se připojit k databázi.',
+	'externaldata-db-no-return-values' => 'Chyba: Nebyly zadány návratové hodnoty.',
+	'externaldata-db-invalid-query' => 'Neplatný požadavek.',
+);
+
 /** German (Deutsch)
  * @author Imre
  * @author MF-Warburg
@@ -662,6 +678,7 @@ $messages['ro'] = array(
 	'externaldata-ldap-unable-to-connect' => 'Nu se poate conecta la $1',
 	'externaldata-xml-error' => 'Eroare XML: $1 la linia $2',
 	'externaldata-db-unknown-type' => 'Eroare: Tipul bazei de date necunoscut.',
+	'externaldata-db-could-not-connect' => 'Eroare: Nu s-a putut conecta la baza de date.',
 	'externaldata-db-invalid-query' => 'Interogare invalidă.',
 );
 
@@ -798,6 +815,18 @@ $messages['tr'] = array(
 	'externaldata-db-could-not-connect' => 'Hata: Veritabanına bağlanılamıyor.',
 	'externaldata-db-no-return-values' => 'Hata: Dönüş değeri belirtilmedi.',
 	'externaldata-db-invalid-query' => 'Geçersiz sorgu.',
+);
+
+/** Ukrainian (Українська)
+ * @author Тест
+ */
+$messages['uk'] = array(
+	'getdata' => 'Отримати дані',
+	'externaldata-ldap-unable-to-connect' => 'Не вдається підключитися до $1',
+	'externaldata-xml-error' => 'Помилка XML: $1 в рядку $2',
+	'externaldata-db-could-not-get-url' => 'Не вдалося отримати URL після $1 {{PLURAL:$1|спроби|спроб}}.',
+	'externaldata-db-unknown-type' => 'Помилка: Невідомий тип бази даних.',
+	'externaldata-db-could-not-connect' => 'Помилка: не вдалося підключитися до бази даних.',
 );
 
 /** Veps (Vepsan kel')

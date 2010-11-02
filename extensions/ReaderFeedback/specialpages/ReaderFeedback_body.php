@@ -19,7 +19,6 @@ class ReaderFeedbackPage extends UnlistedSpecialPage
 	
     public function __construct() {
         parent::__construct( 'ReaderFeedback', 'feedback' );
-		wfLoadExtensionMessages( 'ReaderFeedback' );
     }
 
     public function execute( $par ) {
@@ -114,7 +113,7 @@ class ReaderFeedbackPage extends UnlistedSpecialPage
 		$bot = false;
 		// Each ajax url argument is of the form param|val.
 		// This means that there is no ugly order dependance.
-		foreach( $args as $x => $arg ) {
+		foreach( $args as $arg ) {
 			$set = explode('|',$arg,2);
 			if( count($set) != 2 ) {
 				return '<err#>' . wfMsg('formerror');
@@ -170,8 +169,7 @@ class ReaderFeedbackPage extends UnlistedSpecialPage
 		$rhist = SpecialPage::getTitleFor( 'RatingHistory' );
 		$graphLink = $rhist->getFullUrl( 'target='.$form->page->getPrefixedUrl() );
 		$talk = $form->page->getTalkPage();
-		
-		wfLoadExtensionMessages( 'RatingHistory' );
+
 		$tallyTable = ReaderFeedback::getVoteAggregates( $form->page, 31, $form->dims );
 		
 		$dbw = wfGetDB( DB_MASTER );
@@ -228,7 +226,6 @@ class ReaderFeedbackPage extends UnlistedSpecialPage
 	public static function userAlreadyVoted( $title, $revId = 0 ) {
 		global $wgUser;
 		static $stackDepth = 0;
-		$userVoted = false;
 		# Use page_latest if $revId not given
 		$revId = $revId ? $revId : $title->getLatestRevID( Title::GAID_FOR_UPDATE );
 		$rev = Revision::newFromTitle( $title, $revId );
@@ -327,7 +324,6 @@ class ReaderFeedbackPage extends UnlistedSpecialPage
 		$dbw->insert( 'reader_feedback_history', $insertRows, __METHOD__, 'IGNORE' );
 		# Update aggregate data for this page over time...
 		$touched = $dbw->timestamp( $now );
-		$overall = 0;
 		$insertRows = array();
 		foreach( $this->dims as $tag => $val ) {
 			if( $val < 0 ) continue; // don't store "unsure" votes

@@ -53,6 +53,21 @@ $messages['ar'] = array(
 	'massblank-blankcomment' => 'السبب:',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'massblank-submit-user' => 'ܙܠ',
+	'massblank-blankcomment' => 'ܥܠܬܐ:',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'massblank-blankcomment' => 'Прычына:',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -157,6 +172,13 @@ zapódaj komentar a klikni na tłocašk, aby je wótpórał.',
 	'massblank-submit-blank' => 'Wubrane boki wuprozniś',
 	'massblank-blankcomment' => 'Pśicyna:',
 	'right-massblank' => 'Masowe wuproznjenje bokow',
+);
+
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'massblank-blankcomment' => 'Kialo:',
 );
 
 /** Spanish (Español)

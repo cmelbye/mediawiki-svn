@@ -149,6 +149,7 @@ class SFFormPrinter {
     global $sfgTabIndex; // used to represent the current tab index in the form
     global $sfgFieldNum; // used for setting various HTML IDs
     global $sfgJSValidationCalls; // array of Javascript calls to determine if page can be saved
+    global $sfgAdderButtons, $sfgRemoverButtons;
 
     // initialize some variables
     $sfgTabIndex = 1;
@@ -232,7 +233,6 @@ class SFFormPrinter {
       }
     }
     $javascript_text = "";
-    $sfgJSValidationCalls = array();
     $fields_javascript_text = "";
 
     // Remove <noinclude> sections and <includeonly> tags from form definition
@@ -330,6 +330,7 @@ class SFFormPrinter {
           $template_name = trim( $tag_components[1] );
           $tif->template_name = $template_name;
           $query_template_name = str_replace( ' ', '_', $template_name );
+          $add_button_text = wfMsg( 'sf_formedit_addanother' );
           // also replace periods with underlines, since that's what
           // POST does to strings anyway
           $query_template_name = str_replace( '.', '_', $query_template_name );
@@ -342,6 +343,8 @@ class SFFormPrinter {
             if ( count( $sub_components ) == 2 ) {
               if ( $sub_components[0] == 'label' ) {
                 $template_label = $sub_components[1];
+              } elseif ( $sub_components[0] == 'add button text' ) {
+                $add_button_text = $sub_components[1];
               }
             }
           }
@@ -1136,14 +1139,17 @@ END;
           // in the form, to differentiate the inputs the form starts out
           // with from any inputs added by the Javascript
           $section = str_replace( '[num]', "[{$instance_num}a]", $section );
+	  $wrapperID = "wrapper_$sfgFieldNum";
+	  $removerID = "remover_$sfgFieldNum";
           $remove_text = wfMsg( 'sf_formedit_remove' );
           $form_text .= <<<END
-	<div id="wrapper_$sfgFieldNum" class="multipleTemplate">
+	<div id="$wrapperID" class="multipleTemplate">
         $section
-        <input type="button" onclick="removeInstance('wrapper_$sfgFieldNum');" value="$remove_text" tabindex="$sfgTabIndex" class="remove" />
+        <input type="button" id="$removerID" value="$remove_text" tabindex="$sfgTabIndex" class="remove" />
         </div>
 
 END;
+          $sfgRemoverButtons[] = "$removerID,$wrapperID";
           // this will cause the section to be re-parsed on the next go
           $section_num--;
 	} else {
@@ -1156,12 +1162,13 @@ END;
          <div id="main_$query_template_name"></div>
 
 END;
-          $add_another = wfMsg( 'sf_formedit_addanother' );
+          $adderID = "adder_$sfgFieldNum";
           $form_text .= <<<END
 	<p style="margin-left:10px;">
-	<p><input type="button" onclick="addInstance('starter_$query_template_name', 'main_$query_template_name', '$sfgFieldNum');" value="$add_another" tabindex="$sfgTabIndex" class="addAnother" /></p>
+	<p><input type="button" id="$adderID" value="$add_button_text" tabindex="$sfgTabIndex" class="addAnother" /></p>
 
 END;
+          $sfgAdderButtons[] = "$adderID,$query_template_name,$sfgFieldNum";
         }
       } else {
         $form_text .= $section;
@@ -1255,9 +1262,6 @@ END;
 END;
 
     // add Javascript code for form-wide use
-    $javascript_text .= SFFormUtils::validationJavascript();
-    $javascript_text .= SFFormUtils::instancesJavascript();
-    $javascript_text .= SFFormUtils::autocompletionJavascript();
     if ( $free_text_was_included && $showFCKEditor > 0 ) {
       $javascript_text .= SFFormUtils::mainFCKJavascript( $showFCKEditor );
       if ( $showFCKEditor & ( RTE_TOGGLE_LINK | RTE_POPUP ) ) {
@@ -1285,7 +1289,7 @@ END;
       $javascript_text = '';
     }
     
-    return array( $form_text, "/*<![CDATA[*/ $javascript_text /*]]>*/",
+    return array( $form_text, $javascript_text,
       $data_text, $new_text, $generated_page_name );
   }
 

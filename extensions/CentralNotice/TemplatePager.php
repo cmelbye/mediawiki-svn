@@ -54,7 +54,6 @@ class TemplatePager extends ReverseChronologicalPager {
 		}
 		
 		// Link and Preview
-		$viewPage = SpecialPage::getTitleFor( 'NoticeTemplate', 'view' );
 		$render = new SpecialBannerLoader();
 		$render->siteName = 'Wikipedia';
 		$render->language = $this->mRequest->getVal( 'wpUserLanguage' );
@@ -101,7 +100,7 @@ class TemplatePager extends ReverseChronologicalPager {
 		$htmlOut = '';
 		$htmlOut .= Xml::closeElement( 'table' );
 		if ( $this->editable ) {
-			$htmlOut .= Xml::hidden( 'authtoken', $wgUser->editToken() );
+			$htmlOut .= Html::hidden( 'authtoken', $wgUser->editToken() );
 			$htmlOut .= Xml::tags( 'div', 
 				array( 'class' => 'cn-buttons' ), 
 				Xml::submitButton( wfMsg( 'centralnotice-modify' ) ) 

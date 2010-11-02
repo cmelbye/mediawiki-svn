@@ -39,10 +39,11 @@ $messages['arz'] = array(
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Рустам Нурыев
  */
 $messages['ba'] = array(
-	'cldr-desc' => 'Тел исемдәрен тәржемә итеү өсөн ҡуллайлама',
+	'cldr-desc' => '[http://cldr.unicode.org/index/downloads CLDR мәғлүмәте] нигеҙендә тел исемдәренең тәржемәһе менән тәьмин итеүсе киңәйтеү',
 );
 
 /** Bavarian (Boarisch)
@@ -284,10 +285,11 @@ $messages['ig'] = array(
 );
 
 /** Italian (Italiano)
+ * @author Beta16
  * @author Pietrodn
  */
 $messages['it'] = array(
-	'cldr-desc' => 'Estensione che fornisce i nomi localizzati delle lingue',
+	'cldr-desc' => 'Estensione che fornisce i nomi localizzati delle lingue sulla base dei [http://cldr.unicode.org/index/downloads dati CLDR]',
 );
 
 /** Japanese (日本語)
@@ -324,7 +326,7 @@ $messages['ko'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'cldr-desc' => 'Brengk ettlijje Name för Shprooche op ettlijje Shprooche en et Wiki',
+	'cldr-desc' => 'Brengk ettlijje Name för Shprooche op ettlijje Shprooche en et Wiki, opjebout op dem [http://cldr.unicode.org/index/downloads CLDR sing Daate].',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -367,7 +369,7 @@ $messages['lv'] = array(
  * @author Jagwar
  */
 $messages['mg'] = array(
-	'cldr-desc' => 'Fanitarana manome ny anaram-piteny misy',
+	'cldr-desc' => "Fanitarana manome ny anaram-piteny voadika, mifototra amin'ny  [http://cldr.unicode.org/index/downloads fampahalalàna omen'ny CLDR]",
 );
 
 /** Macedonian (Македонски)
@@ -379,10 +381,11 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
-	'cldr-desc' => 'പ്രാദേശികവൽക്കരിക്കപ്പെട്ട നാമങ്ങൾ ഉപയോഗിക്കുവാൻ സഹായിക്കുന്ന എക്സ്റ്റെൻഷൻ',
+	'cldr-desc' => 'പ്രാദേശികവൽക്കരിക്കപ്പെട്ട നാമങ്ങൾ ഉപയോഗിക്കുവാൻ സഹായിക്കുന്ന [http://cldr.unicode.org/index/downloads സി.എൽ.ഡി.ആർ. ഡേറ്റ] അടിസ്ഥാനമാക്കിയ എക്സ്റ്റെൻഷൻ',
 );
 
 /** Marathi (मराठी)

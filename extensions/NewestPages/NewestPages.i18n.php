@@ -102,6 +102,16 @@ $messages['ar'] = array(
 	'newestpages-hideredir' => 'إخفاء صفحات التحويل',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'newestpages-namespace' => 'ܚܩܠܐ:',
+	'newestpages-submit' => 'ܙܠ',
+	'newestpages-showredir' => 'ܚܘܝ ܕ̈ܦܐ ܕܨܘܝܒܐ',
+	'newestpages-hideredir' => 'ܛܫܝ ܕ̈ܦܐ ܕܨܘܝܒܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -892,6 +902,7 @@ $messages['ml'] = array(
  */
 $messages['mn'] = array(
 	'newestpages-namespace' => 'Нэрний зай:',
+	'newestpages-submit' => 'Явах',
 );
 
 /** Marathi (मराठी)

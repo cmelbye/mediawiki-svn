@@ -124,7 +124,6 @@ class SFFormEdit extends SpecialPage {
 		} elseif ( $target_name == '' && $page_name_formula == '' ) {
 			$text = '<p class="error">' . wfMsg( 'sf_formedit_badurl' ) . "</p>\n";
 		} else {
-			SFUtils::addJavascriptAndCSS();
 			$form_article = new Article( $form_title );
 			$form_definition = $form_article->getContent();
 
@@ -230,11 +229,11 @@ class SFFormEdit extends SpecialPage {
 					$text .= "</div>\n";
 				}
 				$text .= <<<END
-				<form name="createbox" onsubmit="return validate_all()" action="" method="post" class="createbox">
+				<form name="createbox" id="sfForm" action="" method="post" class="createbox">
 
 END;
 				$pre_form_html = '';
-				wfRunHooks( 'sfHTMLBeforeForm', array( &$page_title, &$pre_form_html ) );
+				wfRunHooks( 'sfHTMLBeforeForm', array( &$target_title, &$pre_form_html ) );
 				$text .= $pre_form_html;
 				$text .= $form_text;
 			}
@@ -249,8 +248,9 @@ END;
 		// if (! empty($javascript_text))
 		//	$wgOut->addScript('		<script type="text/javascript">' . "\n" . $javascript_text . '</script>' . "\n");
 		$wgOut->addHTML( $text );
+		SFUtils::addJavascriptAndCSS();
 		if ( ! empty( $javascript_text ) ) {
-			$wgOut->addHTML( '		<script type="text/javascript">' . "\n" . $javascript_text . '</script>' . "\n" );
+			$wgOut->addHTML( '		<script type="text/javascript">' . "\n$javascript_text\n" . '</script>' . "\n" );
 		}
 	}
 

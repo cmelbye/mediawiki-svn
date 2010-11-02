@@ -44,7 +44,7 @@ class UnreviewedPages extends SpecialPage
 		$action = htmlspecialchars( $wgScript );
 		$wgOut->addHTML( "<form action=\"$action\" method=\"get\">\n" .
 			'<fieldset><legend>' . wfMsg( 'unreviewed-legend' ) . '</legend>' .
-			Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() ) . '<p>' );
+			Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() ) . '<p>' );
 		# Add dropdowns as needed
 		if ( count( $namespaces ) > 1 ) {
 			$wgOut->addHTML( FlaggedRevsXML::getNamespaceMenu( $namespace ) . '&#160;' );
@@ -354,7 +354,7 @@ class UnreviewedPagesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

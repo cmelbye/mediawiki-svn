@@ -41,6 +41,13 @@ $messages['be-tarask'] = array(
 	'variablepage-desc' => 'Простае перанакінаваньне на розныя старонкі',
 );
 
+/** Bulgarian (Български)
+ * @author Turin
+ */
+$messages['bg'] = array(
+	'variablepage-navlink_text' => 'Даряване',
+);
+
 /** Breton (Brezhoneg)
  * @author Gwendal
  */
@@ -103,6 +110,13 @@ $messages['et'] = array(
 	'variablepage-navlink_text' => 'Anneta',
 );
 
+/** Basque (Euskara)
+ * @author An13sa
+ */
+$messages['eu'] = array(
+	'variablepage-navlink_text' => 'Dohaintza egin',
+);
+
 /** Persian (فارسی)
  * @author Huji
  */
@@ -129,6 +143,14 @@ $messages['fr'] = array(
 	'variablepage' => 'PageVariable',
 	'variablepage-navlink_text' => 'Faire un don',
 	'variablepage-desc' => 'Redirection légère vers une page variable',
+);
+
+/** Franco-Provençal (Arpetan)
+ * @author ChrisPtDe
+ */
+$messages['frp'] = array(
+	'variablepage' => 'PâgeVariâbla',
+	'variablepage-navlink_text' => 'Balyér',
 );
 
 /** Galician (Galego)
@@ -328,6 +350,32 @@ $messages['ru'] = array(
 	'variablepage-desc' => 'Простое перенаправление на различные страницы',
 );
 
+/** Rusyn (Русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'variablepage' => 'ЗміннаСторінка',
+	'variablepage-navlink_text' => 'Пожертвовати',
+);
+
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
+$messages['sk'] = array(
+	'variablepage' => 'StránkaPremennej',
+	'variablepage-navlink_text' => 'Podpora',
+	'variablepage-desc' => 'Odľahčené presmerovanie premennej stránky',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'variablepage' => 'SpremenljivaStran',
+	'variablepage-navlink_text' => 'Doniraj',
+	'variablepage-desc' => 'Lahka preusmeritev spremenljive strani',
+);
+
 /** Swedish (Svenska)
  * @author Cohan
  */
@@ -341,6 +389,14 @@ $messages['sv'] = array(
  */
 $messages['te'] = array(
 	'variablepage-navlink_text' => 'విరాళమివ్వండి',
+);
+
+/** Turkmen (Türkmençe)
+ * @author Hanberke
+ */
+$messages['tk'] = array(
+	'variablepage' => 'ÜýtgeýänSahypa',
+	'variablepage-navlink_text' => 'Bagyş et',
 );
 
 /** Tagalog (Tagalog)
@@ -377,5 +433,12 @@ $messages['vi'] = array(
 	'variablepage' => 'TrangBiến',
 	'variablepage-navlink_text' => 'Quyên góp',
 	'variablepage-desc' => 'Trang đổi hướng biến nhẹ nhàng',
+);
+
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
+ */
+$messages['zh-hans'] = array(
+	'variablepage-navlink_text' => '资助',
 );
 

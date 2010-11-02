@@ -111,7 +111,7 @@ $messages['be-tarask'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Загрузка выкананая',
 	'mwe-timedtext-back-btn' => 'Вярнуцца',
 	'mwe-timedtext-choose-text' => 'Выберыце тэкст',
-	'mwe-timedtext-add-timed-text' => 'Дадаць сынхранізаваны тэкст',
+	'mwe-timedtext-upload-timed-text' => 'Загрузіць субтытры',
 	'mwe-timedtext-loading-text-edit' => 'Загрузка рэдактара сынхранізаванага тэксту',
 	'mwe-timedtext-search' => 'Пошук кліпу',
 	'mwe-timedtext-layout' => 'Разьмяшчэньне',
@@ -170,7 +170,6 @@ $messages['br'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Kargadenn graet',
 	'mwe-timedtext-back-btn' => 'Distreiñ',
 	'mwe-timedtext-choose-text' => 'Dibab an destenn',
-	'mwe-timedtext-add-timed-text' => 'Ouzhpennañ un tamm testenn sinkronelaet',
 	'mwe-timedtext-loading-text-edit' => 'O kargañ an embanner testennoù sinkronelaet',
 	'mwe-timedtext-search' => "Klask ar c'hlip",
 	'mwe-timedtext-layout' => "Lec'hiadur",
@@ -194,6 +193,14 @@ $messages['br'] = array(
 	'mwe-timedtext-language-no-subtitles-for-clip' => "N'eo ket bet kavet $1 istitl evit ar c'hlip : $2",
 );
 
+/** Bosnian (Bosanski)
+ * @author CERminator
+ */
+$messages['bs'] = array(
+	'mwe-timedtext-stage-translate' => 'Prevedi',
+	'mwe-timedtext-back-btn' => 'Nazad',
+);
+
 /** Czech (Česky)
  * @author Mormegil
  */
@@ -211,7 +218,6 @@ $messages['cs'] = array(
 	'mwe-timedtext-upload-text-preview' => 'Kontrola textu',
 	'mwe-timedtext-back-btn' => 'Zpět',
 	'mwe-timedtext-choose-text' => 'Zvolit text',
-	'mwe-timedtext-add-timed-text' => 'Přidat titulky',
 	'mwe-timedtext-loading-text-edit' => 'Načítá se editor titulků',
 	'mwe-timedtext-layout' => 'Vzhled',
 	'mwe-timedtext-layout-ontop' => 'Přes obraz',
@@ -309,7 +315,6 @@ $messages['dsb'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Nagraśe skóńcone',
 	'mwe-timedtext-back-btn' => 'Slědk',
 	'mwe-timedtext-choose-text' => 'Tekst wubraś',
-	'mwe-timedtext-add-timed-text' => 'Snychronizěrowany tekst pśidaś',
 	'mwe-timedtext-loading-text-edit' => 'Editor za synchronizěrowany tekst se startujo',
 	'mwe-timedtext-search' => 'Klip pytaś',
 	'mwe-timedtext-layout' => 'Wusměrjenje',
@@ -360,7 +365,6 @@ $messages['el'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Έγινε επιφόρτωση',
 	'mwe-timedtext-back-btn' => 'Επιστροφή',
 	'mwe-timedtext-choose-text' => 'Επιλέξτε το κείμενο',
-	'mwe-timedtext-add-timed-text' => 'Προσθήκη χρονισμένου κείμενου',
 	'mwe-timedtext-loading-text-edit' => 'Φόρτωση επεξεργαστή χρονισμένου κειμένου',
 	'mwe-timedtext-search' => 'Αναζήτηση βίντεο',
 	'mwe-timedtext-layout' => 'Διάταξη',
@@ -382,6 +386,15 @@ $messages['el'] = array(
 	'mwe-timedtext-textcat-cue' => 'Cue points',
 	'mwe-timedtext-language-subtitles-for-clip' => '$1 υπότιτλοι για το βίντεο: $2',
 	'mwe-timedtext-language-no-subtitles-for-clip' => 'Δεν βρέθηκαν υπότιτλοι $1 για το βίντεο: $2',
+);
+
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'mwe-timedtext-upload-text-fail-title' => 'Alŝutado malsukcesis',
+	'mwe-timedtext-upload-text-another' => 'Alŝuti alian',
+	'mwe-timedtext-upload-text-done-uploading' => 'Finiĝis alŝutado',
 );
 
 /** Spanish (Español)
@@ -528,7 +541,6 @@ $messages['frp'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Tèlèchargement fêt',
 	'mwe-timedtext-back-btn' => 'Tornar',
 	'mwe-timedtext-choose-text' => 'Chouèsésséd lo tèxto',
-	'mwe-timedtext-add-timed-text' => 'Apondre de tèxto sincronisâ',
 	'mwe-timedtext-loading-text-edit' => 'Chargement de l’èditor de tèxto sincronisâ',
 	'mwe-timedtext-search' => 'Rechèrche un clipe',
 	'mwe-timedtext-layout' => 'Misa en pâge',
@@ -579,7 +591,7 @@ $messages['gl'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Non cargar máis',
 	'mwe-timedtext-back-btn' => 'Volver',
 	'mwe-timedtext-choose-text' => 'Escolla o texto',
-	'mwe-timedtext-add-timed-text' => 'Engadir texto sincronizado',
+	'mwe-timedtext-upload-timed-text' => 'Cargar subtítulos',
 	'mwe-timedtext-loading-text-edit' => 'Cargando o editor de texto sincronizado',
 	'mwe-timedtext-search' => 'Buscar un vídeo',
 	'mwe-timedtext-layout' => 'Disposición',
@@ -630,7 +642,7 @@ $messages['gsw'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Fertig mit Uffelade',
 	'mwe-timedtext-back-btn' => 'Zruck',
 	'mwe-timedtext-choose-text' => 'Text uuswehle',
-	'mwe-timedtext-add-timed-text' => 'Ächtzyt-Untertitel zuefiege',
+	'mwe-timedtext-upload-timed-text' => 'Untertitel uffelade',
 	'mwe-timedtext-loading-text-edit' => 'Am Lade vum Ächtzyt-Text-Editor',
 	'mwe-timedtext-search' => 'Videoclip sueche',
 	'mwe-timedtext-layout' => 'Uusrichtig',
@@ -704,7 +716,6 @@ $messages['hsb'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Nahraće skónčene',
 	'mwe-timedtext-back-btn' => 'Wróćo',
 	'mwe-timedtext-choose-text' => 'Tekst wubrać',
-	'mwe-timedtext-add-timed-text' => 'Synchronizowany tekst přidać',
 	'mwe-timedtext-loading-text-edit' => 'Editor za synchronizowany tekst so startuje',
 	'mwe-timedtext-search' => 'Klip pytać',
 	'mwe-timedtext-layout' => 'Wusměrjenje',
@@ -733,6 +744,7 @@ $messages['hsb'] = array(
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
+	'mwe-timedtext-stage-transcribe' => 'Átírás',
 	'mwe-timedtext-stage-sync' => 'Szinkronizálás',
 	'mwe-timedtext-stage-translate' => 'Fordítás',
 	'mwe-timedtext-stage-upload' => 'Helyi fájl feltöltése',
@@ -741,21 +753,35 @@ $messages['hu'] = array(
 	'mwe-timedtext-upload-text' => 'Szövegfájl feltöltése',
 	'mwe-timedtext-uploading-text' => 'Szövegfájl feltöltése…',
 	'mwe-timedtext-upload-text-desc-title' => 'Egy szövegfájl feltöltése',
+	'mwe-timedtext-upload-text-desc-help-browse' => 'Keresd meg a számítógépeden a feltölteni kívánt .srt fájlt',
+	'mwe-timedtext-upload-text-desc-help-select' => 'Válassz nyelvet a fájl számára',
+	'mwe-timedtext-upload-text-preview' => 'Szöveg ellenőrzése',
+	'mwe-timedtext-upload-text-success' => 'Az időzített szöveg feltöltése sikeresen befejeződött',
 	'mwe-timedtext-upload-text-done' => 'A feltöltés kész',
 	'mwe-timedtext-upload-text-fail-desc' => 'A feltöltés sikertelen volt',
 	'mwe-timedtext-upload-text-fail-title' => 'A feltöltéskor hiba történt',
 	'mwe-timedtext-upload-text-another' => 'Másik feltöltése',
 	'mwe-timedtext-upload-text-done-uploading' => 'A feltöltés befejeződött',
 	'mwe-timedtext-back-btn' => 'Vissza',
+	'mwe-timedtext-choose-text' => 'Szöveg választása',
 	'mwe-timedtext-upload-timed-text' => 'Felirat feltöltése',
+	'mwe-timedtext-loading-text-edit' => 'Időzítettszöveg-szerkesztő betöltése',
+	'mwe-timedtext-search' => 'Klip keresése',
 	'mwe-timedtext-layout' => 'Elrendezés',
 	'mwe-timedtext-layout-ontop' => 'A videó felett',
 	'mwe-timedtext-layout-below' => 'A videó alatt',
 	'mwe-timedtext-layout-off' => 'Feliratok elrejtése',
 	'mwe-timedtext-loading-text' => 'Szöveg betöltése…',
+	'mwe-timedtext-textcat-cc' => 'Feliratok',
 	'mwe-timedtext-textcat-sub' => 'Felirat',
+	'mwe-timedtext-textcat-tad' => 'Hang leírása',
 	'mwe-timedtext-textcat-ktv' => 'Karaoke',
+	'mwe-timedtext-textcat-ar' => 'Aktív régiók',
+	'mwe-timedtext-textcat-nb' => 'Annotáció',
+	'mwe-timedtext-textcat-meta' => 'Időzített metaadatok',
+	'mwe-timedtext-textcat-trx' => 'Átirat',
 	'mwe-timedtext-textcat-lrc' => 'Dalszöveg',
+	'mwe-timedtext-textcat-lin' => 'Nyelvi jelölés',
 );
 
 /** Interlingua (Interlingua)
@@ -836,7 +862,6 @@ $messages['id'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Selesai mengunggah',
 	'mwe-timedtext-back-btn' => 'Kembali',
 	'mwe-timedtext-choose-text' => 'Pilih teks',
-	'mwe-timedtext-add-timed-text' => 'Tambahkan teks berjangka waktu',
 	'mwe-timedtext-loading-text-edit' => 'Memuat penyunting teks berjangka waktu',
 	'mwe-timedtext-search' => 'Cari klip',
 	'mwe-timedtext-layout' => 'Tampilan',
@@ -1094,7 +1119,6 @@ $messages['no'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Ferdig med å laste opp',
 	'mwe-timedtext-back-btn' => 'Tilbake',
 	'mwe-timedtext-choose-text' => 'Velg tekst',
-	'mwe-timedtext-add-timed-text' => 'Legg til tidsbestemt tekst',
 	'mwe-timedtext-loading-text-edit' => 'Laster editor for tidsbestemt tekst',
 	'mwe-timedtext-search' => 'Søk klipp',
 	'mwe-timedtext-layout' => 'Oppsett',
@@ -1201,7 +1225,7 @@ $messages['pms'] = array(
 	'mwe-timedtext-upload-text-done-uploading' => 'Cariament fàit',
 	'mwe-timedtext-back-btn' => 'André',
 	'mwe-timedtext-choose-text' => 'Serne ël test',
-	'mwe-timedtext-upload-timed-text' => 'Caria sottìtol',
+	'mwe-timedtext-upload-timed-text' => 'Carié dij sot-tìtoj',
 	'mwe-timedtext-loading-text-edit' => "Cariament ëd l'editor ëd test sincronisà",
 	'mwe-timedtext-search' => 'Sërché un tòch filmà',
 	'mwe-timedtext-layout' => 'Presentassion',
@@ -1475,7 +1499,13 @@ $messages['sv'] = array(
  * @author Veeven
  */
 $messages['te'] = array(
+	'mwe-timedtext-stage-translate' => 'అనువదించండి',
+	'mwe-timedtext-select-language' => 'భాషని ఎంచుకోండి',
+	'mwe-timedtext-upload-text-done' => 'ఎక్కింపు పూర్తయ్యింది',
+	'mwe-timedtext-upload-text-fail-title' => 'ఎక్కింపు విఫలమైంది',
+	'mwe-timedtext-back-btn' => 'వెనక్కి',
 	'mwe-timedtext-layout' => 'అమరిక',
+	'mwe-timedtext-textcat-sub' => 'ఉపశీర్షికలు',
 );
 
 /** Tagalog (Tagalog)
@@ -1502,7 +1532,11 @@ $messages['tl'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
+	'mwe-timedtext-stage-upload' => 'Завантажити з локального файлу',
+	'mwe-timedtext-select-language' => 'Оберіть мову',
+	'mwe-timedtext-upload-text-desc-help-select' => 'Оберіть мову файлу',
 	'mwe-timedtext-back-btn' => 'Назад',
+	'mwe-timedtext-textcat-ktv' => 'Караоке',
 );
 
 /** Simplified Chinese (‪中文(简体)‬)

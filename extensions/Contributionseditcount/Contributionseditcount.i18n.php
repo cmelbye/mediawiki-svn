@@ -41,6 +41,14 @@ $messages['arz'] = array(
 	'contributionseditcount-desc' => 'يعرض عدد المساهمات فى [[Special:Contributions|صفحة مساهمات المستخدم]]',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'contributionseditcount' => 'Был ҡатнашыусы {{PLURAL:$1|үҙгәртеү}} яһаған.',
+	'contributionseditcount-desc' => '[[Special:Contributions|Ҡатнашыусы өлөшө]] битендә яһалған үҙгәртеүҙәр һанын күрһәтә',
+);
+
 /** Bikol Central (Bikol Central)
  * @author Filipinayzd
  */
@@ -410,11 +418,12 @@ $messages['mk'] = array(
 );
 
 /** Malayalam (മലയാളം)
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
 	'contributionseditcount' => 'ഈ ഉപയോക്താവിനു $1 തിരുത്തലുകളുണ്ട്.',
-	'contributionseditcount-desc' => '[[Special:Contributions]]ൽ തിരുത്തലുകളുടെ എണ്ണം പ്രദർശിപ്പിക്കുന്നു',
+	'contributionseditcount-desc' => '[[Special:Contributions|ഉപയോക്തൃ സംഭാവനാ താളിൽ]] തിരുത്തലുകളുടെ എണ്ണം പ്രദർശിപ്പിക്കുന്നു',
 );
 
 /** Marathi (मराठी)

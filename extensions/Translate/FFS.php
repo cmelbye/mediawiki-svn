@@ -342,7 +342,7 @@ class JavaFFS extends SimpleFFS {
 				$value = str_replace( '\n', "\n", $value );
 			}
 
-			if ( $value[strlen( $value ) - 1] === "\\" ) {
+			if ( strlen( $value ) && $value[strlen( $value ) - 1] === "\\" ) {
 				$value = substr( $value, 0, strlen( $value ) - 1 );
 				$linecontinuation = true;
 			} else {
@@ -709,8 +709,6 @@ EOT;
 class YamlFFS extends SimpleFFS {
 
 	public function readFromVariable( $data ) {
-		$authors = $messages = array();
-
 		// Authors first.
 		$matches = array();
 		preg_match_all( '/^#\s*Author:\s*(.*)$/m', $data, $matches );

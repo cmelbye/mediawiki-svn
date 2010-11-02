@@ -301,7 +301,6 @@ class AFPData {
 			throw new AFPUserVisibleException( 'dividebyzero', $pos, array( $a ) );
 		}
 
-		$data = null;
 		if ( $op == '*' ) {
 			$data = $a * $b;
 		} elseif ( $op == '/' ) {
@@ -1235,7 +1234,7 @@ class AbuseFilterParser {
 					$offset++;
 				}
 			}
-			throw new AFPUserVisibleException( 'unclosedstring', $offset, array() ); ;
+			throw new AFPUserVisibleException( 'unclosedstring', $offset, array() );
 		}
 
 		// Find operators
@@ -1754,13 +1753,11 @@ class AbuseFilterParser {
 		if ( error_reporting() == 0 ) {
 			return true;
 		}
-		wfLoadExtensionMessages( 'AbuseFilter' );
 		throw new AFPUserVisibleException(
 			'regexfailure',
 			$context['pos'],
 			array( $errstr, $context['regex'] )
 		);
-		return true;
 	}
 }
 

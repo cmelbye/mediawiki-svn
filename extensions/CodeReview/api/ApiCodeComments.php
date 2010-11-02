@@ -24,6 +24,8 @@
  */
 
 class ApiCodeComments extends ApiQueryBase {
+	private $props;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'cc' );
 	}
@@ -60,7 +62,7 @@ class ApiCodeComments extends ApiQueryBase {
 
 		$count = 0;
 		$lastTimestamp = 0;
-		while ( $row = $comments->fetchObject() ) {
+		foreach ( $comments as $row ) {
 			if ( $count == $limit ) {
 				$this->setContinueEnumParameter( 'start',
 					wfTimestamp( TS_ISO_8601, $lastTimestamp ) );

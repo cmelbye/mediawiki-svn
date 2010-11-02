@@ -100,7 +100,6 @@ class AbuseFilterHooks {
 	}
 
 	public static function onAbortNewAccount( $user, &$message ) {
-		wfLoadExtensionMessages( 'AbuseFilter' );
 		if ( $user->getName() == wfMsgForContent( 'abusefilter-blocker' ) ) {
 			$message = wfMsg( 'abusefilter-accountreserved' );
 			return false;
@@ -156,7 +155,7 @@ class AbuseFilterHooks {
 			array( 'abuse_filter' => array( 'INNER JOIN', 'afa_filter=af_id' ) )
 		);
 
-		while ( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			$emptyTags = array_filter(
 				array_merge( explode( "\n", $row->afa_parameters ), $emptyTags )
 			);
@@ -221,7 +220,6 @@ class AbuseFilterHooks {
 
 	public static function onContributionsToolLinks( $id, $nt, &$tools ) {
 		global $wgUser;
-		wfLoadExtensionMessages( 'AbuseFilter' );
 		if ( $wgUser->isAllowed( 'abusefilter-log' ) ) {
 			$sk = $wgUser->getSkin();
 			$tools[] = $sk->link(

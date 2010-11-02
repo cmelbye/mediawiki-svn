@@ -217,7 +217,6 @@ class WikilogParser
 	 */
 	public static function settings( &$parser /* ... */ ) {
 		global $wgOut;
-		wfLoadExtensionMessages( 'Wikilog' );
 		self::checkNamespace( $parser );
 
 		$mwIcon     =& MagicWord::get( 'wlk-icon' );
@@ -258,7 +257,6 @@ class WikilogParser
 	 * {{wl-publish:...}} parser function handler.
 	 */
 	public static function publish( &$parser, $pubdate /*, $author... */ ) {
-		wfLoadExtensionMessages( 'Wikilog' );
 		self::checkNamespace( $parser );
 
 		$parser->mExtWikilog->mPublish = true;
@@ -291,7 +289,6 @@ class WikilogParser
 	 * {{wl-author:...}} parser function handler.
 	 */
 	public static function author( &$parser /*, $author... */ ) {
-		wfLoadExtensionMessages( 'Wikilog' );
 		self::checkNamespace( $parser );
 
 		$args = array_slice( func_get_args(), 1 );
@@ -306,7 +303,6 @@ class WikilogParser
 	 * {{wl-tags:...}} parser function handler.
 	 */
 	public static function tags( &$parser /*, $tag... */ ) {
-		wfLoadExtensionMessages( 'Wikilog' );
 		self::checkNamespace( $parser );
 
 		$args = array_slice( func_get_args(), 1 );
@@ -616,3 +612,36 @@ class WikilogParserOutput
 	public function getTags() { return $this->mTags; }
 }
 
+/**
+ * Since wikilog parses articles with specific options in order to be
+ * rendered in feeds, it is necessary to store these parsed outputs in
+ * the cache separately. This derived class from ParserCache overloads the
+ * getKey() function in order to provide a specific namespace for this
+ * purpose.
+ *
+ * @deprecated In MediaWiki 1.17, in favor of $parserOpt->addExtraKey().
+ * @todo (In Wikilog 1.3.x) Remove this class.
+ */
+class WikilogParserCache
+	extends ParserCache
+{
+	public static function &singleton() {
+		static $instance;
+		if ( !isset( $instance ) ) {
+			global $parserMemc;
+			$instance = new WikilogParserCache( $parserMemc );
+		}
+		return $instance;
+	}
+
+	public function getKey( &$article, $popts ) {
+		if ( $popts instanceof User )	// API change in MediaWiki 1.15.
+			$popts = ParserOptions::newFromUser( $popts );
+
+		$user = $popts->mUser;
+		$pageid = intval( $article->getID() );
+		$hash = $user->getPageRenderingHash();
+		$key = wfMemcKey( 'wlcache', 'idhash', "$pageid-$hash" );
+		return $key;
+	}
+}

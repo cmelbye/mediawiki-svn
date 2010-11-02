@@ -71,6 +71,13 @@ $messages['ar'] = array(
 	'discussionthreading-threadnewsectionhint' => 'بدء مجموعة رسائل جديدة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'discussionthreading-threadnewsection' => 'ܚܕܬܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -463,6 +470,17 @@ $messages['mk'] = array(
 	'discussionthreading-threadnewsectionhint' => 'Започни нова нишка',
 );
 
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'discussionthreading-desc' => 'സംവാദം താളുകളിൽ ചരട് ചേർക്കുക',
+	'discussionthreading-replysection' => 'മറുപടി',
+	'discussionthreading-replysectionhint' => 'ഈ പ്രസിദ്ധപ്പെടുത്തലിന് മറുപടിയിടുക',
+	'discussionthreading-threadnewsection' => 'നൂതനം',
+	'discussionthreading-threadnewsectionhint' => 'പുതിയൊരു ചരട് തുടങ്ങുക',
+);
+
 /** Erzya (Эрзянь)
  * @author Botuzhaleny-sodamo
  */
@@ -585,6 +603,7 @@ $messages['pt-br'] = array(
  */
 $messages['ro'] = array(
 	'discussionthreading-replysection' => 'răspuns',
+	'discussionthreading-replysectionhint' => 'Răspunde la această postare',
 	'discussionthreading-threadnewsection' => 'nou',
 	'discussionthreading-threadnewsectionhint' => 'Începe un nou fir',
 );

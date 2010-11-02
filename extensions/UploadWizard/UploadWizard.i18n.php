@@ -273,6 +273,13 @@ $messages['ar'] = array(
 	'mwe-upwiz-license' => 'حقوق الإصدار',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'mwe-upwiz-categories' => 'Катэгорыі',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -551,9 +558,19 @@ Arabat ober gant kod wiki pe HTML amañ.',
 );
 
 /** Bosnian (Bosanski)
+ * @author CERminator
  * @author Palapa
  */
 $messages['bs'] = array(
+	'uploadwizard' => 'Čarobnjak za postavljanje',
+	'uploadwizard-desc' => 'Čarobnjak za postavljanje, razvijen pomoću sredstava za multimedijsku upotrebljivost',
+	'mwe-upwiz-code-unknown' => 'Nepoznati jezik',
+	'mwe-upwiz-step-file' => 'Postavi',
+	'mwe-upwiz-step-deeds' => 'Prava izdavanja',
+	'mwe-upwiz-step-details' => 'Opiši',
+	'mwe-upwiz-step-thanks' => 'Koristi',
+	'mwe-upwiz-add-file-n' => 'Dodaj drugu datoteku',
+	'mwe-upwiz-add-file-0' => 'Kliknite ovdje da postavite datoteku',
 	'mwe-upwiz-remove-description' => 'Ukloni ovaj opis',
 	'mwe-upwiz-upload' => 'Slanje datoteke',
 	'mwe-upwiz-thumbnail-more' => 'Uvećajte',
@@ -730,6 +747,7 @@ $messages['cy'] = array(
 );
 
 /** German (Deutsch)
+ * @author Als-Holder
  * @author Kghbln
  * @author McDutchie
  * @author Purodha
@@ -782,9 +800,9 @@ $messages['de'] = array(
 	'mwe-upwiz-desc-add-n' => 'Füge eine Beschreibung in einer anderen Sprache hinzu',
 	'mwe-upwiz-desc-add-0' => 'eine Beschreibung hinzufügen',
 	'mwe-upwiz-title' => 'Titel',
-	'mwe-upwiz-categories-intro' => 'Helfe anderen Menschen deine Werke zu finden, indem du ihnen Kategorien hinzufügst',
+	'mwe-upwiz-categories-intro' => 'Hilf anderen Menschen deine Werke zu finden, indem du ihnen Kategorien hinzufügst',
 	'mwe-upwiz-categories-another' => 'Eine weitere Kategorie hinzufügen',
-	'mwe-upwiz-previously-uploaded' => 'Diese Datei wurde bislang einmal in $1 hochgeladen und ist bereits <a href="$2">hier</a> verfügbar.',
+	'mwe-upwiz-previously-uploaded' => 'Diese Datei wurde schon einmal in $1 hochgeladen und ist <a href="$2">hier</a> verfügbar.',
 	'mwe-upwiz-about-this-work' => 'Über dieses Werk',
 	'mwe-upwiz-media-type' => 'Medientyp',
 	'mwe-upwiz-date-created' => 'Erstellungsdatum',
@@ -1559,7 +1577,104 @@ $messages['gsw'] = array(
 	'mwe-upwiz-source-ownwork-assert-note' => 'Des heißt, ass Du dyy Wärch unter dr Lizänz „Creative Commons Namensnännig-Wytergab unter glyyche Bedingige“ vereffetlige tuesch.',
 	'mwe-upwiz-source-permission' => 'D Autore vu däne Wärch hän dir di uusdrickli Erlaubnis gee, si uffezlade',
 	'mwe-upwiz-source-thirdparty' => '{{PLURAL:$1|Die Datei isch|Die Dateie sin}} nit myy eigeni Arbet.',
+	'mwe-upwiz-source-thirdparty-intro' => 'Bitte gib fir jedi Datei d Internet-Adräss aa, wu Du si gfunde hesch.',
+	'mwe-upwiz-source-thirdparty-custom-multiple-intro' => 'Wänn alli Dateien us dr nämlige Quälle sin un vum nämlige Autor un dr nämlig urheberrächtlige Status hän, chasch d Yygabe fir alli uf eimol mache.',
+	'mwe-upwiz-source-thirdparty-license' => 'Dr Rächtinhaber {{PLURAL:$1|vu däm Wärch het s|vu däne Wärch het si}} unter däne Lizänz(e) vereffetligt:',
+	'mwe-upwiz-source-thirdparty-accept' => 'OK',
+	'mwe-upwiz-source-custom' => 'Wehl uf dr nechschte Syte d Lizänze fir jedi Datei einzeln.',
+	'mwe-upwiz-more-options' => 'wyteri Optione …',
+	'mwe-upwiz-fewer-options' => 'weniger Optione …',
+	'mwe-upwiz-desc' => 'Bschryybig in',
+	'mwe-upwiz-desc-add-n' => 'e Bschryybig in ere andere Sproch zuefiege',
+	'mwe-upwiz-desc-add-0' => 'e Bschryybig zuefiege',
+	'mwe-upwiz-title' => 'Titel',
+	'mwe-upwiz-categories-intro' => 'Hilf andere Mänsche Dyy Wärch z finde, indäm Du ne Kategorie zuefiegsch',
+	'mwe-upwiz-categories-another' => 'Anderi Kategorie zuefiege',
+	'mwe-upwiz-previously-uploaded' => 'Die Datei isch schon emol in $1 uufeglade wore un isch scho <a href="$2">do</a> verfiegbar.',
+	'mwe-upwiz-about-this-work' => 'Iber des Wärch',
+	'mwe-upwiz-media-type' => 'Medietyp',
+	'mwe-upwiz-date-created' => 'Aalegdatum',
+	'mwe-upwiz-location' => 'Ort',
+	'mwe-upwiz-copyright-info' => 'Rächt frej gee',
+	'mwe-upwiz-author' => 'Autor(e)',
+	'mwe-upwiz-license' => 'Rächt frej gee',
+	'mwe-upwiz-about-format' => 'Iber die Datei',
+	'mwe-upwiz-autoconverted' => 'Die Datei isch automatisch in s $1-Format konvertiert wore',
+	'mwe-upwiz-filename-tag' => 'Dateiname:',
+	'mwe-upwiz-other' => 'Meh Informatione',
+	'mwe-upwiz-other-prefill' => 'Frejs Textfäld',
+	'mwe-upwiz-showall' => 'alli aazeige',
+	'mwe-upwiz-source' => 'Quälle',
+	'mwe-upwiz-macro-edit-intro' => 'Wehl zerscht e Lizänz. Derno chasch Dyyne uffegladene Dateie Bschryybige un meh Informatione zuefiege.',
+	'mwe-upwiz-macro-edit' => 'Bschryybige aktualisiere',
+	'mwe-upwiz-thanks-intro' => 'Dankschen fir s Uffelade!',
+	'mwe-upwiz-thanks-explain' => 'Du chasch jetz die {{PLURAL:$1|Datei|Dateie}} uf Websyte wie Wikipedia bruche oder im Internet uf si verlinke.',
+	'mwe-upwiz-thanks-link' => 'Die Datei isch jetz unter <b><tt>$1</tt></b> verfiegbar.',
+	'mwe-upwiz-thanks-wikitext' => '<b>Go die Datei in eme Wiki nutze chenne</b>, kopier dää Text in e Syte:',
+	'mwe-upwiz-thanks-url' => '<b>Go in HTML uf d Datei verlinke</b>, kopier die URL in dr Code:',
+	'mwe-upwiz-upload-error-bad-filename-extension' => 'Des Wiki erlaubt kei Dateie mit dr Ändig „$1“.',
+	'mwe-upwiz-upload-error-duplicate' => 'Die Datei isch scho uf des Wiki uffeglade wore.',
+	'mwe-upwiz-upload-error-stashed-anyway' => 'Einewäg uffelade?',
+	'mwe-upwiz-ok' => 'OK',
+	'mwe-upwiz-cancel' => 'Abbräche',
+	'mwe-upwiz-change' => '(ändere)',
+	'mwe-upwiz-fileexists-replace' => 'S git scho ne Datei mit em Titel „$1“. Bitte ändere Dyy Titel in ein, wu s nonig git.',
 	'mwe-upwiz-fileexists' => 'S het scho ne Datei mit däm Name. Bitte prief <b><tt>$1</tt></b>, wänn du nit sicher bisch, eb Du dr Name witt ändere.',
+	'mwe-upwiz-thumbnail-more' => 'Vergreßere',
+	'mwe-upwiz-overwrite' => 'Datei ersetze',
+	'mwe-copyright-macro' => 'Wie obe',
+	'mwe-copyright-custom' => 'Aapasst',
+	'mwe-upwiz-next' => 'Negschti',
+	'mwe-upwiz-next-file' => 'Dateie uffelade un wyter goh',
+	'mwe-upwiz-next-deeds' => 'Negschti',
+	'mwe-upwiz-next-details' => 'Negschti',
+	'mwe-upwiz-home' => 'Zue dr Hauptsyte vum Wiki',
+	'mwe-upwiz-upload-another' => 'Wyteri Dateie uffelade',
+	'mwe-prevent-close' => 'Am Uffelade vu Dyyne Dateie.
+Bisch sicher, ass Du e anderi Syte witt ufruefe?',
+	'mwe-upwiz-files-complete' => 'Dyyni Dateie sin vollständig uffeglade wore.',
+	'mwe-upwiz-tooltip-author' => 'Dr Name vu dr Person, wu entwäder s Foto gmacht het, s Bild gmolt, d Zeichnig aagfertigt, usw. het',
+	'mwe-upwiz-tooltip-source' => 'Wu die Datei här stammt - des cha ne URL, e Buech oder e Publikation, usw. syy.',
+	'mwe-upwiz-tooltip-sign' => 'Du chasch Dyy Benutzername uf däm Wiki oder Dyy burgerlige Name bruche. In beede Fäll wird er mit Dyyre Benutzersyte verchnipft.',
+	'mwe-upwiz-tooltip-title' => 'E churze Titel fir d Datei.
+Du chasch doderby Läärzeiche, aber kei Zyylenumbrich verwände.
+Dr Titel mueß sich doderbyy vu Titel unterscheide, wu s scho git in däm Wiki.',
+	'mwe-upwiz-tooltip-description' => 'Bschryyb churz alles Wichtig zue däm Wärch.
+Bin eme Foto zem Byschpel di wichtigschte abbildete Bstandteil, dr Aalass vu dr Ufnahm un/oder dr Standort.',
+	'mwe-upwiz-tooltip-other' => 'Alli wytere Informatione, wu Du im Zämmehang mit däm Wärch witt aageee.
+Du chasch doderzue Wikitext verwände.',
+	'mwe-upwiz-tooltip-more-info' => 'Meh läse.',
+	'mwe-upwiz-file-need-file' => 'Fieg bitte zerscht e Datei zum Uffelade zue.',
+	'mwe-upwiz-file-need-start' => 'Bitte klick uf die Schaltflechi go aafange mit em Uffelade.',
+	'mwe-upwiz-file-need-complete' => 'Bitte wart, bis alli Dateie uffeglade wore sin.',
+	'mwe-upwiz-deeds-need-deed' => 'Erklär bitte, wu d {{PLURAL:$1|Datei här isch|Dateie här sin}} un wie si uf däre Websyte {{PLURAL:$1|cha brucht wäre|chenne brucht wäre}}, indäm Du eini vu dr Optione uuswehlsch.',
+	'mwe-upwiz-deeds-need-license' => 'Bitte wehl e Lizänz uus.',
+	'mwe-upwiz-license-incompatible-pd' => 'Gmeinfrejheit (<i>public domain</i>) isch nit veryybar mit jedere andere Art vu Lizänz.',
+	'mwe-upwiz-license-incompatible-cc' => 'Du chasch nume eini vu dr Creative-Commons-Lizänze uuswehle.',
+	'mwe-upwiz-license-show-all' => 'Nimm e anderi Lizänz',
+	'mwe-upwiz-license-show-recommended' => 'Nimm d Lizänz, wu empfohlen isch',
+	'mwe-upwiz-error-signature-blank' => 'Du muesch s Fäld unte mit Dyym Benutzername oder Dyym burgerlige Name unterzeichne.',
+	'mwe-upwiz-error-signature-too-long' => 'Dyyni Unterschrift isch z lang.
+Si derf hegschtens $1 {{PLURAL:$1|Zeiche|Zeiche}} lang syy.',
+	'mwe-upwiz-error-signature-too-short' => 'Dyyni Unterschrift isch z churz.
+Si mueß zmindescht $1 {{PLURAL:$1|Zeiche|Zeiche}} lang syy.',
+	'mwe-upwiz-error-signature-bad-chars' => 'In Dyyre Signatur het s nit zuelässigi Zeiche.
+Bruch do kei Wikitext oder HTML, derfir eifach Dyy Benutzername oder Dyy burgerlige Name.',
+	'mwe-upwiz-error-blank' => 'Des isch e Pflichtfäld.',
+	'mwe-upwiz-error-too-long' => 'Die Yygab isch z lang.
+Mach si chirzer uf weniger wie $1 {{PLURAL:$1|Zeiche|Zeiche}}.',
+	'mwe-upwiz-error-too-short' => 'Die Yygab isch z churz.
+Mach si lenger uf zmindescht $1 {{PLURAL:$1|Zeiche|Zeiche}}.',
+	'mwe-upwiz-error-bad-chars' => 'In däre Yygab het s nit zuelässigi Zeiche.
+Bruch do bitte kei Wikitext oder HTML.',
+	'mwe-upwiz-error-date' => 'Gib bitte ne giltig Datum im Format JJJJ-MM-TT yy oder wehl e Datum us em Popup-Kaländer.',
+	'mwe-upwiz-license-cc-by-sa-3.0' => 'Creative Commons „Namesnännig, Wytergab unter glyyche Bedingige 3.0“',
+	'mwe-upwiz-license-cc-by-3.0' => 'Creative Commons „Namesnännig 3.0“',
+	'mwe-upwiz-license-cc-zero' => 'Creative Commons „CC0 1.0 Universal“',
+	'mwe-upwiz-license-gfdl' => 'GNU-Lizänz fir freji Dokumäntation',
+	'mwe-upwiz-categories' => 'Kategorie',
+	'mwe-upwiz-categories-add' => 'Zuefiege',
+	'mwe-upwiz-category-remove' => 'Die Kategori uuseneh',
 );
 
 /** Hausa (هَوُسَ) */
@@ -2723,9 +2838,94 @@ $messages['mk'] = array(
 	'mwe-upwiz-category-remove' => 'Отстрани ја категоријава',
 );
 
-/** Malayalam (മലയാളം) */
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
 $messages['ml'] = array(
+	'uploadwizard' => 'അപ്‌ലോഡ് സഹായി',
+	'mwe-loading-upwiz' => 'അപ്‌ലോഡ് സഹായി എടുക്കുന്നു',
+	'mwe-upwiz-code-unknown' => 'അപരിചിതമായ ഭാഷ',
+	'mwe-upwiz-step-file' => 'അപ്‌ലോഡ്',
+	'mwe-upwiz-step-deeds' => 'അവകാശങ്ങൾ സ്വതന്ത്രമാക്കുക',
+	'mwe-upwiz-step-details' => 'വിവരിക്കുക',
+	'mwe-upwiz-step-thanks' => 'ഉപയോഗിക്കുക',
+	'mwe-upwiz-intro' => 'വിക്കിമീഡിയ കോമൺസിലേയ്ക്ക് സ്വാഗതം, ചിത്രങ്ങളുടേയും ശബ്ദങ്ങളുടേയും ചലച്ചിത്രങ്ങളുടേയും ശേഖരത്തിൽ നിന്ന് സ്വതന്ത്രമായി ഡൗൺലോഡ് ചെയ്യുകയും ഉപയോഗിക്കുകയും ചെയ്യുക.
+വിദ്യാഭ്യാസപരമായ കാര്യങ്ങൾക്ക് ഉപയോഗിക്കാവുന്ന പ്രമാണങ്ങൾ അപ്‌ലോഡ് ചെയ്ത് നൽകി മനുഷ്യകുലത്തിന്റെ അറിവിനു സംഭാവന ചെയ്യുക.',
+	'mwe-upwiz-add-file-n' => 'മറ്റൊരു പ്രമാണം ചേർക്കുക',
+	'mwe-upwiz-add-file-0' => 'ഒരു പ്രമാണം അപ്‌ലോഡ് ചെയ്യാൻ ഇവിടെ ഞെക്കുക',
+	'mwe-upwiz-browse' => 'ബ്രൗസ്...',
+	'mwe-upwiz-transported' => 'ശരി',
+	'mwe-upwiz-click-here' => 'ഒരു പ്രമാണം തിരഞ്ഞെടുക്കാൻ ഇവിടെ ഞെക്കുക',
+	'mwe-upwiz-uploading' => 'അപ്‌ലോഡ് ചെയ്യുന്നു...',
+	'mwe-upwiz-editing' => 'തിരുത്തുന്നു...',
+	'mwe-upwiz-remove-upload' => 'അപ്‌ലോഡ് ചെയ്യാനുള്ള പ്രമാണങ്ങളുടെ പട്ടികയിൽ നിന്ന് ഈ പ്രമാണം നീക്കം ചെയ്യുക',
+	'mwe-upwiz-remove-description' => 'ഈ വിവരണം നീക്കം ചെയ്യുക',
+	'mwe-upwiz-upload' => 'അപ്‌‌ലോഡ്',
+	'mwe-upwiz-upload-count' => '{{PLURAL:$2|ഒരു പ്രമാണത്തിൽ|$2 പ്രമാണത്തിൽ}} $1 എണ്ണം അപ്‌ലോഡ് ചെയ്തിരിക്കുന്നു',
+	'mwe-upwiz-progressbar-uploading' => 'അപ്‌ലോഡ് ചെയ്യുന്നു',
+	'mwe-upwiz-finished' => 'പൂർത്തിയായി!',
+	'mwe-upwiz-secs-remaining' => '{{PLURAL:$1|ഒരു സെക്കന്റ്|$1 സെക്കന്റ്}} അവശേഷിക്കുന്നു',
+	'mwe-upwiz-mins-secs-remaining' => '{{PLURAL:$1|ഒരു മിനിറ്റ്|$1 മിനിറ്റ്}} {{PLURAL:$2|ഒരു സെക്കന്റ്|$2 സെക്കന്റ്}} അവശേഷിക്കുന്നു',
+	'mwe-upwiz-hrs-mins-secs-remaining' => '{{PLURAL:$1|ഒരു|$1}} മണിക്കൂർ {{PLURAL:$2|ഒരു|$1}} മിനിറ്റ് {{PLURAL:$3|ഒരു|$3}} സെക്കന്റ് കൂടി അവശേഷിക്കുന്നു',
+	'mwe-upwiz-deeds-intro' => 'ഈ സൈറ്റിൽ അപ്‌ലോഡ് ചെയ്ത പ്രമാണങ്ങൾക്ക് താങ്കൾ അനുമതി നൽകേണ്ടതാണ്, അങ്ങനെയെങ്കിൽ എല്ലാവർക്കും ഏതൊരുപയോഗത്തിനും അവ നിയമവിധേയമായി തന്നെ പുനരുപയോഗം ചെയ്യാൻ കഴിയുന്നതാണ്.',
+	'mwe-upwiz-deeds-macro-prompt' => '{{PLURAL:$1|മുകളിൽ നൽകിയിരിക്കുന്ന പ്രമാണത്തിന്|മുകളിൽ നൽകിയിരിക്കുന്ന പ്രമാണങ്ങൾക്ക്}} അനുമതി നൽകുക:',
+	'mwe-upwiz-deeds-custom-prompt' => 'അഥവാ:',
+	'mwe-upwiz-details-intro' => 'പ്രമാണങ്ങൾക്ക് വേണ്ട ചില അടിസ്ഥാന വിവരങ്ങൾ നൽകുക.',
+	'mwe-upwiz-source-ownwork' => '{{PLURAL:$1|ഈ പ്രമാണം|ഈ പ്രമാണങ്ങൾ}} എന്റെ സ്വന്തം സൃഷ്ടിയാണ്.',
+	'mwe-upwiz-source-thirdparty-accept' => 'ശരി',
+	'mwe-upwiz-more-options' => 'കൂടുതൽ ഐച്ഛികങ്ങൾ...',
+	'mwe-upwiz-fewer-options' => 'കുറവ് ഐച്ഛികങ്ങൾ...',
+	'mwe-upwiz-desc' => 'ഇതിന്റെ വിവരണം',
+	'mwe-upwiz-desc-add-n' => 'മറ്റൊരു ഭാഷയിൽ വിവരണം ചേർക്കുക',
+	'mwe-upwiz-desc-add-0' => 'ഒരു വിവരണം ചേർക്കുക',
+	'mwe-upwiz-title' => 'ശീർഷകം',
+	'mwe-upwiz-categories-intro' => 'വർഗ്ഗങ്ങൾ ചേർത്ത് താങ്കളുടെ സൃഷ്ടികൾ മറ്റുപയോക്താക്കൾക്ക് കണ്ടെത്താൻ എളുപ്പമാക്കുക',
+	'mwe-upwiz-categories-another' => 'മറ്റ് വർഗ്ഗങ്ങൾ ചേർക്കുക',
+	'mwe-upwiz-about-this-work' => 'ഈ സൃഷ്ടിയെക്കുറിച്ച്',
+	'mwe-upwiz-media-type' => 'മീഡിയ തരം',
+	'mwe-upwiz-date-created' => 'സൃഷ്ടിച്ച തീയതി',
+	'mwe-upwiz-location' => 'സ്ഥലം',
+	'mwe-upwiz-copyright-info' => 'അവകാശങ്ങൾ സ്വതന്ത്രമാക്കുക',
+	'mwe-upwiz-author' => 'രചയിതാവ് (രചയിതാക്കൾ)',
+	'mwe-upwiz-license' => 'അവകാശങ്ങൾ സ്വതന്ത്രമാക്കുക',
+	'mwe-upwiz-about-format' => 'പ്രമാണത്തെക്കുറിച്ച്',
+	'mwe-upwiz-autoconverted' => 'ഈ പ്രമാണം സ്വയം $1 ഫോർമാറ്റിലേയ്ക്ക് മാറി',
+	'mwe-upwiz-filename-tag' => 'പ്രമാണത്തിന്റെ പേര്:',
+	'mwe-upwiz-other' => 'മറ്റ് വിവരങ്ങൾ',
+	'mwe-upwiz-showall' => 'എല്ലാം പ്രദർശിപ്പിക്കുക',
+	'mwe-upwiz-source' => 'സ്രോതസ്സ്',
+	'mwe-upwiz-macro-edit' => 'വിവരണം പുതുക്കുക',
+	'mwe-upwiz-thanks-intro' => 'അപ്‌ലോഡ് ചെയ്തതിനു നന്ദി!',
+	'mwe-upwiz-upload-error-stashed-anyway' => 'എന്തായാലും അപ്‌ലോഡ് ചെയ്യണോ?',
+	'mwe-upwiz-ok' => 'ശരി',
+	'mwe-upwiz-cancel' => 'റദ്ദാക്കുക',
+	'mwe-upwiz-change' => '(മാറ്റുക)',
 	'mwe-upwiz-fileexists' => 'ഇതേ പേരിൽ ഒരു പ്രമാണം നിലവിലുണ്ട്. അതിൽ മാറ്റം വരുത്തണോ എന്നു താങ്കൾക്ക് ഉറപ്പില്ലങ്കിൽ ദയവായി <b><tt>$1</tt></b> കാണുക.',
+	'mwe-upwiz-thumbnail-more' => 'വലുതാക്കി കാണിക്കുക',
+	'mwe-upwiz-overwrite' => 'പ്രമാണം മാറ്റിച്ചേർക്കുക',
+	'mwe-copyright-macro' => 'മുകളിൽ കൊടുത്തിരിക്കുന്ന പോലെ',
+	'mwe-copyright-custom' => 'ഇച്ഛാനുസൃതം',
+	'mwe-upwiz-next' => 'അടുത്തത്',
+	'mwe-upwiz-next-file' => 'പ്രമാണങ്ങൾ അപ്‌ലോഡ് ചെയ്യുക ഒപ്പം തുടരുക',
+	'mwe-upwiz-next-deeds' => 'അടുത്തത്',
+	'mwe-upwiz-next-details' => 'അടുത്തത്',
+	'mwe-upwiz-home' => 'വിക്കി പ്രധാന താളിലേയ്ക്ക് പോവുക',
+	'mwe-upwiz-upload-another' => 'കൂടുതൽ പ്രമാണങ്ങൾ അപ്‌ലോഡ് ചെയ്യുക',
+	'mwe-prevent-close' => 'താങ്കളുടെ പ്രമാണങ്ങൾ ഇപ്പോഴും അപ്‌ലോഡ് ചെയ്തുകൊണ്ടിരിക്കുന്നു.
+ഈ താളിൽ നിന്ന് പോകണം എന്ന് നിർബന്ധമാണോ?',
+	'mwe-upwiz-files-complete' => 'താങ്കളുടെ പ്രമാണങ്ങൾ അപ്‌ലോഡ് ചെയ്തിരിക്കുന്നു!',
+	'mwe-upwiz-tooltip-more-info' => 'കൂടുതൽ അറിയുക.',
+	'mwe-upwiz-file-need-file' => 'ദയവായി ആദ്യം ഒരു അപ്‌ലോഡ് ചേർക്കുക.',
+	'mwe-upwiz-deeds-need-license' => 'ഒരനുമതി തിരഞ്ഞെടുക്കുക.',
+	'mwe-upwiz-license-show-all' => 'മറ്റൊരു ഭാഷ ഉപയോഗിക്കുക',
+	'mwe-upwiz-error-blank' => 'ഈ ഫീൽഡ് ആവശ്യമാണ്.',
+	'mwe-upwiz-license-cc-by-sa-3.0' => 'ക്രിയേറ്റീവ് കോമൺസ് ആട്രിബ്യൂഷൻ ഷെയർഎലൈക് 3.0',
+	'mwe-upwiz-license-cc-by-3.0' => 'ക്രിയേറ്റീവ് കോമൺസ് ആട്രിബ്യൂഷൻ 3.0',
+	'mwe-upwiz-license-cc-zero' => 'ക്രിയേറ്റീവ് കോമൺസ് സി.സി.0 വൈയ്‌വർ',
+	'mwe-upwiz-license-gfdl' => 'ഗ്നൂ സ്വതന്ത്ര പ്രസിദ്ധീകരണാനുമതി',
+	'mwe-upwiz-categories' => 'വർഗ്ഗങ്ങൾ',
+	'mwe-upwiz-categories-add' => 'കൂട്ടിച്ചേർക്കുക',
+	'mwe-upwiz-category-remove' => 'ഈ വർഗ്ഗം നീക്കുക',
 );
 
 /** Mongolian (Монгол)
@@ -2733,6 +2933,7 @@ $messages['ml'] = array(
  */
 $messages['mn'] = array(
 	'mwe-upwiz-cancel' => 'Цуцлах',
+	'mwe-upwiz-categories' => 'Ангиллууд',
 	'mwe-upwiz-categories-add' => 'Нэмэх',
 );
 
@@ -4135,7 +4336,9 @@ $messages['ta'] = array(
  */
 $messages['te'] = array(
 	'mwe-upwiz-code-unknown' => 'తెలియని భాష',
+	'mwe-upwiz-step-file' => 'ఎక్కింపు',
 	'mwe-upwiz-step-deeds' => 'విడుదల హక్కులు',
+	'mwe-upwiz-step-details' => 'వివరించండి',
 	'mwe-upwiz-add-file-n' => 'మరొక దస్త్రాన్ని చేర్చండి',
 	'mwe-upwiz-transported' => 'సరే',
 	'mwe-upwiz-remove-upload' => 'ఎక్కించాల్సిన దస్త్రాల జాబితా నుండి ఈ దస్త్రాన్ని తొలగించు',
@@ -4168,7 +4371,9 @@ $messages['te'] = array(
 	'mwe-upwiz-showall' => 'అన్నీ చూపించు',
 	'mwe-upwiz-source' => 'మూలం',
 	'mwe-upwiz-thanks-intro' => 'ఎక్కించినందుకు ధన్యవాదాలు!',
+	'mwe-upwiz-upload-error-bad-filename-extension' => 'ఈ వికీలో "$1" పొడగింపు ఉన్న దస్త్రనామాలని అంగీకరించరు.',
 	'mwe-upwiz-upload-error-duplicate' => 'ఈ దస్త్రాన్ని గతంలో ఈ వికీకి ఎక్కించారు.',
+	'mwe-upwiz-upload-error-stashed-anyway' => 'ఎలాగైనా ఎక్కించాలా?',
 	'mwe-upwiz-ok' => 'సరే',
 	'mwe-upwiz-cancel' => 'రద్దుచేయి',
 	'mwe-upwiz-change' => '(మార్చు)',

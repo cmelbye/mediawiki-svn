@@ -43,7 +43,7 @@ class StablePages extends SpecialPage
 		if ( count( $fields ) ) {
 			$form = Xml::openElement( 'form',
 				array( 'name' => 'stablepages', 'action' => $wgScript, 'method' => 'get' ) );
-			$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
+			$form .= Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 			$form .= "<fieldset><legend>" . wfMsg( 'stablepages' ) . "</legend>\n";
 			$form .= implode( '&#160;', $fields ) . '&nbsp';
 			$form .= " " . Xml::submitButton( wfMsg( 'go' ) );
@@ -173,7 +173,7 @@ class StablePagesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

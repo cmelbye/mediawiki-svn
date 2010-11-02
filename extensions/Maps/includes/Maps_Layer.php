@@ -10,20 +10,28 @@
  * 
  * @author Jeroen De Dauw
  */
-class MapsLayer {
+abstract class MapsLayer {
+
+	/**
+	 * Returns an array of parameter definitions.
+	 * 
+	 * @since 0.7.2
+	 * 
+	 * @param array $params Array that can already hold definitions for common parameters.
+	 * 
+	 * @return array
+	 */
+	protected abstract function getParameterDefinitions( array $params );
 	
 	/**
-	 * List of layer type definitions.
+	 * Returns a string containing the JavaScript definition of this layer.
+	 * Only call this function when you are sure the layer is valid!
 	 * 
 	 * @since 0.7.1
 	 * 
-	 * @var array
+	 * @return string
 	 */
-	protected static $types = array(
-		'image' => array(
-			'class' => 'OpenLayers.Layer.Image',
-		)
-	);
+	public abstract function getJavaScriptDefinition();
 	
 	/**
 	 * @since 0.7.1
@@ -49,17 +57,6 @@ class MapsLayer {
 	protected $hasValidated = false;
 	
 	/**
-	 * Returns the default layer type.
-	 * 
-	 * @since 0.7.1
-	 * 
-	 * @return string
-	 */
-	public static function getDefaultType() {
-		return 'image';
-	}
-	
-	/**
 	 * Constructor.
 	 * 
 	 * @since 0.7.1
@@ -68,17 +65,6 @@ class MapsLayer {
 	 */
 	public function __construct( array $properties ) {
 		$this->properties = $properties;
-	}
-	
-	/**
-	 * Returns the type of the layer.
-	 * 
-	 * @since 0.7.1 
-	 * 
-	 * @param string
-	 */	
-	public function getType() {
-		return array_key_exists( 'type', $this->properties ) ? $this->properties['type'] : self::getDefaultType();
 	}
 	
 	/**
@@ -114,38 +100,6 @@ class MapsLayer {
 	}
 	
 	/**
-	 * Returns an array of parameter definitions.
-	 * 
-	 * @since 0.7.1
-	 * 
-	 * @return array
-	 */
-	protected function getParameterDefinitions() {
-		$params = array();
-		
-		$params[] = new Parameter( 'lowerbound', Parameter::TYPE_FLOAT );
-		$params[] = new Parameter( 'upperbound', Parameter::TYPE_FLOAT );
-		$params[] = new Parameter( 'leftbound', Parameter::TYPE_FLOAT );
-		$params[] = new Parameter( 'rightbound', Parameter::TYPE_FLOAT );
-		$params[] = new Parameter( 'width', Parameter::TYPE_FLOAT );
-		$params[] = new Parameter( 'height', Parameter::TYPE_FLOAT );
-		
-		$params['type'] = new Parameter( 'type' );
-		$params['type']->addCriteria( New CriterionInArray( array_keys( self::$types ) ) );		
-		$params['type']->addManipulations( new ParamManipulationFunctions( 'strtolower' ) );
-		
-		$params[] = new Parameter( 'zoomlevels', Parameter::TYPE_INTEGER, false );
-		
-		$params['label'] = new Parameter( 'label' );
-		
-		$params['source'] = new Parameter( 'source' );
-		$params['source']->addCriteria( new CriterionIsImage() );
-		$params['source']->addManipulations( new MapsParamImage() );
-		
-		return $params;
-	}
-	
-	/**
 	 * Validates the layer.
 	 * 
 	 * @since 0.7.1
@@ -153,7 +107,7 @@ class MapsLayer {
 	protected function validate() {
 		$validator = new Validator();
 		
-		$validator->setParameters( $this->properties, $this->getParameterDefinitions() );
+		$validator->setParameters( $this->properties, $this->getParameterDefinitions( array() ) );
 		$validator->validateParameters();
 		
 		if ( $validator->hasFatalError() !== false ) {
@@ -178,41 +132,5 @@ class MapsLayer {
 		
 		return count( $this->errors ) == 0;
 	}		
-	
-	/**
-	 * Returns a string containing the JavaScript definition of this layer.
-	 * Only call this function when you are sure the layer is valid!
-	 * 
-	 * TODO: move this to the OpenLayers class
-	 * 
-	 * @since 0.7.1
-	 * 
-	 * @return string
-	 */
-	public function getJavaScriptDefinition() {
-		foreach ( $this->properties as $name => $value ) {
-			${ $name } = MapsMapper::encodeJsVar( $value );
-		}
-
-		$class = self::$types[$this->getType()]['class'];
-		
-		$options = array( 'isImage' => true );
-		
-		if ( $this->properties !== false ) {
-			$options['numZoomLevels'] = $zoomlevels;
-		}
-		
-		$options = Xml::encodeJsVar( (object)$options );
-		
-		return <<<EOT
-	new $class(
-		$label,
-		$source,
-		new OpenLayers.Bounds($leftbound, $lowerbound, $rightbound, $upperbound),
-		new OpenLayers.Size($width, $height),
-		{$options}
-	)
-EOT;
-	}
 	
 }

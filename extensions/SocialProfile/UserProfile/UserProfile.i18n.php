@@ -1099,6 +1099,14 @@ $messages['bcc'] = array(
 	'populate-user-profile-done' => 'پروفایل $1 هور بوت',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'user-stats-title' => 'Статыстыка',
+	'user-profile-personal-city' => 'Горад',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -3970,7 +3978,7 @@ $messages['gl'] = array(
 	'user-view-all' => 'Ver todo',
 	'user-upload-image' => 'Cargar unha imaxe',
 	'user-edit-this' => 'Editar isto',
-	'user-edit-profile' => 'Editar perfil',
+	'user-edit-profile' => 'Editar o perfil',
 	'user-upload-avatar' => 'Cargar un avatar',
 	'user-watchlist' => 'A miña lista de vixilancia',
 	'user-meet-people' => 'Coñecer xente',
@@ -6285,6 +6293,35 @@ $messages['lt'] = array(
 	'user-profile-personal-name' => 'Vardas',
 );
 
+/** Latvian (Latviešu)
+ * @author GreenZeb
+ */
+$messages['lv'] = array(
+	'user-profile-picture-large' => 'Liela',
+	'user-profile-picture-medlarge' => 'Vidēji liela',
+	'user-profile-picture-medium' => 'Vidēja',
+	'user-profile-picture-small' => 'Maza',
+	'user-profile-picture-uploaddifferent' => 'Augšupielādēt citu attēlu',
+	'user-profile-picture-currentimage' => 'Pašreizējais attēls',
+	'user-profile-picture-choosepicture' => 'Izvēlieties savu attēlu',
+	'user-profile-picture-picsize' => 'Jūsu attēlam ir jābūt ar jpeg, png vai gif paplašinājumu un tam jābūt mazākam par 100KB.',
+	'user-profile-goback' => 'Doties atpakaļ',
+	'user-profile-userlevels-link' => 'Lietotāju līmeņi',
+	'user-no-images' => 'Nav augšupielādēts neviens attēls',
+	'edit-profile-title' => 'Izmainīt savu profilu',
+	'user-page-link' => 'Lietotāja lapa',
+	'user-social-profile-link' => 'Sociālais profils',
+	'user-wiki-link' => 'Vikipēdijas lietotājlapa',
+	'update_profile_nav' => ' * Special:UpdateProfile|Personīgā informācija
+* Special:UpdateProfile/personal|Cita informācija
+* Special:UpdateProfile/custom|dažādota informācija
+* Special:UploadAvatar|Iemiesojums
+* Special:UpdateProfile/preferences|Iestatījumi',
+	'user-type-toggle-old' => 'Izmantot Vikipēdijas lietotājlapu',
+	'user-type-toggle-new' => 'Izmantot sociālo lietotājlapu',
+	'user-board-login-message' => 'Jums ir jābūt <a href="$1">iegājušam</a>, lai sūtītu ziņojumus citiem lietotājiem',
+);
+
 /** Eastern Mari (Олык Марий)
  * @author Сай
  */
@@ -6485,7 +6522,7 @@ $messages['mk'] = array(
  * @author Shijualex
  */
 $messages['ml'] = array(
-	'user-time-ago' => 'മുൻപ്',
+	'user-time-ago' => '$1 പഴയത്',
 	'user-view-all' => 'എല്ലാം കാണുക',
 	'user-upload-image' => 'ചിത്രം അപ്‌ലോഡ് ചെയ്യുക',
 	'user-edit-this' => 'ഇതു തിരുത്തുക',
@@ -9749,7 +9786,7 @@ $messages['te'] = array(
 	'user-add-foe' => 'శత్రువుగా చేర్చు',
 	'user-remove-friend' => 'స్నేహితునిగా తొలగించు',
 	'user-remove-foe' => 'శత్రువుగా తొలగించు',
-	'user-send-message' => 'ఓ సందేశం పంపండి',
+	'user-send-message' => 'ఓ సందేశాన్ని పంపించండి',
 	'user-send-gift' => 'ఓ బహుమతి పంపించండి',
 	'user-contributions' => 'రచనలు',
 	'user-stats-title' => 'గణాంకాలు',
@@ -9768,6 +9805,7 @@ $messages['te'] = array(
 	'other-info-snacks' => 'చిరుతిళ్ళు',
 	'other-info-drinks' => 'పానియాలు',
 	'other-no-info' => 'ఇతర సమాచారం లేదు',
+	'custom-info-title' => 'అభిమత సమాచారం',
 	'profile-updated-personal' => 'మీ ప్రొఫైలుని తాజాకరించండి',
 	'profile-not-provided' => 'ఇవ్వలేదు',
 	'user-personal-info-title' => 'వ్యక్తిగత సమాచారం',
@@ -10686,6 +10724,7 @@ $messages['uk'] = array(
 	'user-stats-title' => 'Статистика',
 	'user-stats-edits' => '{{PLURAL:$1|Редагування|Редагування|Редагувань}}',
 	'other-info-title' => 'Інша інформація',
+	'other-info-music' => 'Музика',
 	'other-info-books' => 'Книги',
 	'user-personal-info-title' => 'Особиста інформація',
 	'user-personal-info-real-name' => "Справжнє ім'я",
@@ -10705,6 +10744,7 @@ $messages['uk'] = array(
 	'user-profile-personal-country' => 'Країна',
 	'user-profile-personal-birthday' => 'День народження',
 	'user-profile-personal-aboutme' => 'Про мене',
+	'user-profile-interests-music' => 'Музика',
 	'user-profile-interests-books' => 'Книги',
 	'user-profile-picture-large' => 'Великий',
 	'user-profile-picture-medium' => 'Середній',

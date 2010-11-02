@@ -58,10 +58,13 @@ class FlaggedRevsHooks {
 		# Get JS/CSS file locations
 		$encCssFile = htmlspecialchars( "$stylePath/flaggedrevs.css?$wgFlaggedRevStyleVersion" );
 		$encJsFile = htmlspecialchars( "$stylePath/flaggedrevs.js?$wgFlaggedRevStyleVersion" );
+		
+		//TODO fix this to use the correct method
 		# Add CSS file
-		$wgOut->addExtensionStyle( $encCssFile );
+		//$wgOut->addExtensionStyle( $encCssFile );
 		# Add main JS file
 		$head = "<script type=\"{$wgJsMimeType}\" src=\"{$encJsFile}\"></script>";
+		$head .= "<link rel=\"stylesheet\" href=\"{$encCssFile}\"></link>";
 		# Add review form JS for reviewers
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$encJsFile = htmlspecialchars( "$stylePath/review.js?$wgFlaggedRevStyleVersion" );
@@ -108,6 +111,8 @@ class FlaggedRevsHooks {
 			$stableId = null;
 		}
 		$globalVars['wgStableRevisionId'] = $stableId;
+		$globalVars['wgLatestRevisionId'] = $fa->getLatest();
+		$globalVars['wgPageId'] = $fa->getID();
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$ajaxReview = (object) array(
 				'sendMsg'		 => wfMsgHtml( 'revreview-submit' ),
@@ -135,7 +140,7 @@ class FlaggedRevsHooks {
 		}
 		$spPages = array( 'UnreviewedPages', 'PendingChanges', 'ProblemChanges',
 			'Watchlist', 'Recentchanges', 'Contributions', 'Recentchangeslinked' );
-		foreach ( $spPages as $n => $key ) {
+		foreach ( $spPages as $key ) {
 			if ( $title->isSpecial( $key ) ) {
 				global $wgScriptPath, $wgFlaggedRevsStylePath, $wgFlaggedRevStyleVersion;
 				$stylePath = str_replace( '$wgScriptPath',
@@ -221,7 +226,7 @@ class FlaggedRevsHooks {
 		);
 		# Update these rows
 		$revIDs = array();
-		while ( $row = $dbw->fetchObject( $result ) ) {
+		foreach( $result as $row ) {
 			$revIDs[] = $row->fr_rev_id;
 		}
 		if ( !empty( $revIDs ) ) {
@@ -478,7 +483,6 @@ class FlaggedRevsHooks {
 			if ( isset( $pOutput->fr_fileSHA1Keys[$filename] ) ) {
 				// Fetch file with $time to confirm the specified version exists
 				$time = $pOutput->fr_fileSHA1Keys[$filename]['ts'];
-				$sha1 = $pOutput->fr_fileSHA1Keys[$filename]['sha1'];
 			}
 			$title = Title::makeTitleSafe( NS_FILE, $filename );
 			$file = wfFindFile( $title, array( 'time' => $time ) );
@@ -726,24 +730,23 @@ class FlaggedRevsHooks {
 	protected static function editCheckReview(
 		Article $article, $rev, $user, $editTimestamp
 	) {
-		$prevRevId = $rev->getParentId();
 		$prevTimestamp = $flags = null;
+		$prevRevId = $rev->getParentId(); // revision before $rev
 		$title = $article->getTitle(); // convenience
 		# Check wpEdittime against the former current rev for verification
 		if ( $prevRevId ) {
 			$prevTimestamp = Revision::getTimestampFromId( $title, $prevRevId );
 		}
-		# Is $rev is an edit to an existing page?
+		# Was $rev is an edit to an existing page?
 		if ( $prevTimestamp ) {
 			# Check wpEdittime against the former current revision's time.
-			# If an edit was auto-merged in between, review only up to what
-			# was the current rev when this user started editing the page.
-			if ( $editTimestamp != $prevTimestamp ) {
-				$dbw = wfGetDB( DB_MASTER );
-				$rev = Revision::loadFromTimestamp( $dbw, $title, $editTimestamp );
-				if ( !$rev ) {
-					return false; // deleted?
-				}
+			# If an edit was auto-merged in between, then the new revision
+			# has content different than what the user expected. However, if
+			# the auto-merged edit was reviewed, then assume that it's OK.
+			if ( $editTimestamp != $prevTimestamp
+				&& !FlaggedRevs::revIsFlagged( $title, $prevRevId, FR_MASTER )
+			) {
+				return false; // not flagged?
 			}
 		}
 		# Review this revision of the page...
@@ -882,7 +885,6 @@ class FlaggedRevsHooks {
 		global $wgFlaggedRevsRCCrap;
 		if ( $wgFlaggedRevsRCCrap ) {
 			// Is this page in patrollable namespace?
-			$patrol = $record = false;
 			if ( FlaggedRevs::inPatrolNamespace( $rc->getTitle() ) ) {
 				# Bots and users with 'autopatrol' have edits to patrollable
 				# pages marked automatically on edit.
@@ -1271,7 +1273,7 @@ class FlaggedRevsHooks {
 				array( 'USE INDEX' => 'rc_ip' ) );
 			if ( $shared ) {
 				# Make a key to store the results
-				$wgMemc->set( $key, 'true', 3600 * 24 * 7 );
+				$wgMemc->set( $sTestKey, 'true', 3600 * 24 * 7 );
 				return true;
 			}
 		}
@@ -1805,6 +1807,20 @@ class FlaggedRevsHooks {
 		$view->addToDiffView( $diff, $oldRev, $newRev );
 		return true;
 	}
+	
+	/*
+	 * If an article is reviewable, get custom article contents from the FlaggedArticleView
+	 */
+	public static function addCustomHtml( $diffEngine, $out ) {
+		$fa = FlaggedArticle::getTitleInstance( $out->getTitle() );
+		if ( !$fa->isReviewable() ) {
+			return true; // nothing to do
+		}
+		
+		$view = FlaggedArticleView::singleton();
+		$view->addCustomHtml( $out );
+		return false;
+	}
 
 	public static function addRevisionIDField( $editPage, $out ) {
 		$view = FlaggedArticleView::singleton();
@@ -1928,7 +1944,6 @@ class FlaggedRevsHooks {
 		$output .= Xml::closeElement( 'select' );
 		# Get expiry dropdown <select>...
 		$scExpiryOptions = wfMsgForContent( 'protect-expiry-options' );
-		$showProtectOptions = ( $scExpiryOptions !== '-' && $isAllowed );
 		# Add the current expiry as an option
 		$expiryFormOptions = '';
 		if ( $config['expiry'] != 'infinity' ) {

@@ -146,6 +146,22 @@ $messages['as'] = array(
 	'globalusage-ok' => 'সন্ধান কৰক',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'globalusage' => 'Файлды дөйөм ҡулланыу',
+	'globalusage-for' => '"$1" файлын дөйөм ҡулланыу',
+	'globalusage-desc' => 'Файлды дөйөм ҡулланыуҙы ҡарау өсөн [[Special:GlobalUsage|махсус бит]]',
+	'globalusage-ok' => 'Эҙләү',
+	'globalusage-text' => 'Файлды дөйөм ҡулланыуҙы эҙләү',
+	'globalusage-no-results' => '[[:$1]]  файлы башҡа вики проекттарҙа ҡулланылмай.',
+	'globalusage-on-wiki' => '$2 проектында ҡулланыу',
+	'globalusage-of-file' => 'Был файл түбәндәге фики проекттарҙа ҡулланыла:',
+	'globalusage-more' => 'Был файлды дөйөм ҡулланыу тураһында [[{{#Special:GlobalUsage}}/$1|ентеклерәк мәғлүмәтте]] ҡарарға.',
+	'globalusage-filterlocal' => 'Урында ҡулланыуҙы күрһәтмәҫкә',
+);
+
 /** Bavarian (Boarisch)
  * @author Man77
  */
@@ -513,6 +529,13 @@ $messages['fy'] = array(
 	'globalusage-ok' => 'Sykje',
 );
 
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'globalusage-ok' => '尋吖',
+);
+
 /** Galician (Galego)
  * @author Toliño
  * @author Xosé
@@ -788,6 +811,13 @@ $messages['ka'] = array(
 	'globalusage-filterlocal' => 'არ აჩვენოთ ლოკალური გამოყენება',
 );
 
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'globalusage-ok' => 'Ujarlerit',
+);
+
 /** Khmer (ភាសាខ្មែរ)
  * @author Chhorran
  * @author Lovekhmer
@@ -961,7 +991,7 @@ $messages['ml'] = array(
 	'globalusage-text' => 'പ്രമാണത്തിന്റെ ആഗോള ഉപയോഗം തിരയുക',
 	'globalusage-no-results' => '[[:$1]] മറ്റു വിക്കികളിൽ ഉപയോഗിക്കുന്നില്ല.',
 	'globalusage-on-wiki' => '$2 സംരംഭത്തിലെ ഉപയോഗം',
-	'globalusage-of-file' => 'താഴെ കൊടുക്കുന്ന വിക്കികളും ഈ പ്രമാണം ഉപയോഗിക്കുന്നു:',
+	'globalusage-of-file' => 'താഴെ കൊടുത്തിരിക്കുന്ന വിക്കികളും ഈ പ്രമാണം ഉപയോഗിക്കുന്നു:',
 	'globalusage-more' => 'ഈ പ്രമാണത്തിന്റെ [[{{#Special:GlobalUsage}}/$1|ആഗോള ഉപയോഗം]] കാണുക.',
 	'globalusage-filterlocal' => 'പ്രാദേശിക ഉപയോഗം പ്രദർശിപ്പിക്കരുത്',
 );
@@ -1285,7 +1315,16 @@ $messages['rue'] = array(
  * @author HalanTul
  */
 $messages['sah'] = array(
+	'globalusage' => 'Билэни киэҥник туттуу',
+	'globalusage-for' => 'Киэҥник туттуу «$1»',
+	'globalusage-desc' => 'Билэни киэҥник туттуу [[Special:GlobalUsage|Аналлаах сирэйэ]]',
 	'globalusage-ok' => 'Буларга',
+	'globalusage-text' => 'Киэҥник туттуллар билэни көрдөөһүн',
+	'globalusage-no-results' => '[[:$1]] атын биикигэ туттуллубат.',
+	'globalusage-on-wiki' => 'Манна $2 туттуу',
+	'globalusage-of-file' => 'Бу билэ мннык биикилэргэ туттуллар:',
+	'globalusage-more' => 'Билэ [[{{#Special:GlobalUsage}}/$1|киэҥник туттуллуутун]] көрүү.',
+	'globalusage-filterlocal' => 'Локаал туттууну көрдөрүмэ',
 );
 
 /** Slovak (Slovenčina)
@@ -1618,6 +1657,8 @@ $messages['yi'] = array(
  */
 $messages['yo'] = array(
 	'globalusage-ok' => 'Ṣàwárí',
+	'globalusage-no-results' => '[[:$1]] kò jẹ́ lílò lórí àwọn wiki míràn.',
+	'globalusage-of-file' => 'Àwọn wiki míràn wọ̀nyí lo fáìlì yìí:',
 );
 
 /** Simplified Chinese (‪中文(简体)‬)

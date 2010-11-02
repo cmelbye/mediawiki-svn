@@ -154,7 +154,13 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'srfc_previousmonth' => 'ܝܪܚܐ ܕܕܥܒܪ',
+	'srfc_nextmonth' => 'ܝܪܚܐ ܕܐܬܐ',
 	'srfc_today' => 'ܝܘܡܢܐ',
+	'srf_printername_calendar' => 'ܦܠܛܐ ܝܪܚܝܐ',
+	'srf_printername_max' => 'ܡܬܚܐ ܥܠܝܐ ܕܡܢܝܢܐ',
+	'srf_printername_min' => 'ܡܬܚܐ ܬܚܬܝܐ ܕܡܢܝܢܐ',
+	'srf_printername_gallery' => 'ܒܝܬ ܓܠܚܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -935,10 +941,17 @@ $messages['hu'] = array(
 	'srf_printername_timeline' => 'Idővonal',
 	'srf_printername_eventline' => 'Eseményvonal',
 	'srf_paramdesc_timelinesize' => 'Az idővonal magassága (alapértelmezetten 300 képpont)',
+	'srf_paramdesc_views' => 'Megjelenített nézetek',
 	'srf_printername_googlebar' => 'Google oszlopdiagram',
 	'srf_printername_googlepie' => 'Google tortadiagram',
+	'srf_printername_jqplotbar' => 'jpPlot oszlopdiagram',
+	'srf_printername_jqplotpie' => 'jqPlot kördiagram',
 	'srf_paramdesc_chartheight' => 'A diagram magassága, pixelben',
 	'srf_paramdesc_chartwidth' => 'A diagram szélessége, pixelben',
+	'srf_paramdesc_charttitle' => 'A diagram címe',
+	'srf_paramdesc_barcolor' => 'Az oszlopok színe',
+	'srf_paramdesc_bardirection' => 'Az oszlopdiagram iránya',
+	'srf_paramdesc_barnumbersaxislabel' => 'A számtengely felirata',
 	'srf_printername_gallery' => 'Galéria',
 );
 

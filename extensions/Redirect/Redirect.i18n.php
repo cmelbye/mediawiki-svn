@@ -59,6 +59,13 @@ $messages['bs'] = array(
 	'redirect-desc' => 'Omogućuje jednostavnu konfiguraciju preusmjerenja na [[MediaWiki:Redirect-addnewaccount|pravljenje računa]] i [[MediaWiki:Redirect-userlogoutcomplete|odjavu]]',
 );
 
+/** Czech (Česky)
+ * @author Mormegil
+ */
+$messages['cs'] = array(
+	'redirect-desc' => 'Umožňuje jednoduchou konfiguraci přesměrování při [[MediaWiki:Redirect-addnewaccount|založení účtu]] a [[MediaWiki:Redirect-userlogoutcomplete|odhlášení]]',
+);
+
 /** German (Deutsch) */
 $messages['de'] = array(
 	'redirect-desc' => 'Erlaubt das einfache Konfigurieren von Weiterleitungen beim [[MediaWiki:Redirect-addnewaccount|Erstellen von Benutzerkonten]] und beim [[MediaWiki:Redirect-userlogoutcomplete|Abmelden]]',
@@ -210,7 +217,7 @@ $messages['li'] = array(
  * @author Bjankuloski06
  */
 $messages['mk'] = array(
-	'redirect-desc' => 'Овозможува лесна конфигурација на пренасочувањата при [[MediaWiki:Redirect-addnewaccount|создавањето на сметки]] и [[MediaWiki:Redirect-userlogoutcomplete|одјавување]]',
+	'redirect-desc' => 'Овозможува лесно поставување на пренасочувањата при [[MediaWiki:Redirect-addnewaccount|создавањето на сметки]] и [[MediaWiki:Redirect-userlogoutcomplete|одјавување]]',
 );
 
 /** Low German (Plattdüütsch)

@@ -4,7 +4,6 @@ class SpecialCentralAuth extends SpecialPage {
 	var $mGlobalUser, $mAttachedLocalAccounts, $mUnattachedLocalAccounts;
 
 	function __construct() {
-		wfLoadExtensionMessages( 'SpecialCentralAuth' );
 		parent::__construct( 'CentralAuth' );
 	}
 
@@ -104,7 +103,6 @@ class SpecialCentralAuth extends SpecialPage {
 			if ( !$status->isGood() ) {
 				$this->showStatusError( $status->getWikiText() );
 			} else {
-				global $wgLang;
 				$this->showSuccess( 'centralauth-admin-delete-success', $this->mUserName );
 				$deleted = true;
 				$this->logAction( 'delete', $this->mUserName, $wgRequest->getVal( 'reason' ) );
@@ -231,7 +229,7 @@ class SpecialCentralAuth extends SpecialPage {
 				'action' => $wgScript ) ) .
 			'<fieldset>' .
 			Xml::element( 'legend', array(), wfMsg( 'centralauth-admin-manage' ) ) .
-			Xml::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
 			'<p>' .
 			Xml::inputLabel( wfMsg( 'centralauth-admin-username' ),
 				'target', 'target', 25, $this->mUserName ) .
@@ -315,8 +313,8 @@ class SpecialCentralAuth extends SpecialPage {
 					'action' =>
 						$this->getTitle( $this->mUserName )->getLocalUrl( 'action=submit' ),
 					'id' => 'mw-centralauth-merged' ) ) .
-			Xml::hidden( 'wpMethod', 'unmerge' ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'wpMethod', 'unmerge' ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
 			Xml::openElement( 'table', array( 'class' => 'wikitable sortable mw-centralauth-wikislist' ) ) . "\n" .
 			'<thead><tr>' .
 				( $this->mCanUnmerge ? '<th></th>' : '' ) .
@@ -488,8 +486,8 @@ class SpecialCentralAuth extends SpecialPage {
 				'method' => 'POST',
 				'action' => $this->getTitle()->getFullUrl( 'target=' . urlencode( $this->mUserName ) ),
 				'id' => "mw-centralauth-$action" ) ) .
-			Xml::hidden( 'wpMethod', $action ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'wpMethod', $action ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
 			wfMsgExt( "centralauth-admin-{$action}-description", 'parse' ) .
 			Xml::buildForm(
 				array( 'centralauth-admin-reason' => Xml::input( 'reason',
@@ -504,8 +502,8 @@ class SpecialCentralAuth extends SpecialPage {
 		global $wgUser, $wgOut;
 		$form = '';
 		$form .= Xml::fieldset( wfMsg( 'centralauth-admin-status' ) );
-		$form .= Xml::hidden( 'wpMethod', 'set-status' );
-		$form .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+		$form .= Html::hidden( 'wpMethod', 'set-status' );
+		$form .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 		$form .= wfMsgExt( 'centralauth-admin-status-intro', 'parse' );
 
 		// Radio buttons

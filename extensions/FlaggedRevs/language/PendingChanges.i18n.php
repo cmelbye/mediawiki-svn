@@ -143,6 +143,14 @@ $messages['ar'] = array(
 	'pendingchanges-viewing' => '(تحت المراجعة)',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'pendingchanges-recent' => '(ܒܨܝܪ ܡܢ ܚܕܐ ܫܥܬܐ)',
+	'pendingchanges-category' => 'ܣܕܪܐ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Dudi
  * @author Meno25
@@ -338,6 +346,7 @@ $messages['bs'] = array(
 /** Catalan (Català)
  * @author Aleator
  * @author Jordi Roqué
+ * @author Martorell
  * @author Paucabot
  */
 $messages['ca'] = array(
@@ -345,11 +354,12 @@ $messages['ca'] = array(
 	'pendingchanges-days' => '($1 {{PLURAL:$1|dia|dies}})',
 	'pendingchanges-recent' => "(menys d'una hora)",
 	'pendingchanges-category' => 'Categoria:',
-	'pendingchanges-watched' => 'Pàgines de la meva llista de seguiment',
+	'pendingchanges-watched' => '({{PLURAL:$1|un usari|$1 usuaris}} actius en vigilen)',
 );
 
 /** Czech (Česky)
  * @author Danny B.
+ * @author Jkjk
  * @author Li-sung
  * @author Matěj Grabovský
  */
@@ -362,6 +372,7 @@ $messages['cs'] = array(
 	'pendingchanges-days' => '($1 {{plural:$1|den|dny|dní}})',
 	'pendingchanges-recent' => '(méně než 1 hodina)',
 	'pendingchanges-category' => 'Kategorie:',
+	'pendingchanges-onwatchlist' => 'Stránky na mém seznamu sledovaných stránek',
 	'pendingchanges-stable' => 'prohlédnuto',
 	'pendingchanges-diff' => 'posoudit',
 	'pendingchanges-size' => 'Maximální velikost změny (v bajtech):',
@@ -654,6 +665,7 @@ $messages['frp'] = array(
 	'pendingchanges-days' => '($1 jorn{{PLURAL:$1||s}})',
 	'pendingchanges-recent' => '(muens de yona hora)',
 	'pendingchanges-category' => 'Catègorie :',
+	'pendingchanges-onwatchlist' => 'Pâges dens ma lista de survelyence',
 	'pendingchanges-stable' => 'La vèrsion stâbla est cela per dèfôt',
 	'pendingchanges-diff' => 'revêre',
 	'pendingchanges-size' => 'Difèrence de talye la ples grôssa (en octèts) :',
@@ -1475,12 +1487,18 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'pendingchanges' => 'Сторінкы з нерецензованыма змінами',
+	'pendingchanges-legend' => 'Список перевіреных сторінок з неперевіреныма ревізіями',
 	'pendingchanges-hours' => '($1 {{PLURAL:$1|година|годины|годин}})',
 	'pendingchanges-days' => '($1 {{PLURAL:$1|день|днї|днів}})',
 	'pendingchanges-recent' => '(менше 1 годины)',
 	'pendingchanges-category' => 'Катеґорія:',
+	'pendingchanges-onwatchlist' => 'Сторінкы з мого списку слїдованых',
 	'pendingchanges-diff' => 'перевірити',
+	'pendingchanges-size' => 'Максімална зміна розміру в байтах:',
+	'pendingchanges-unwatched' => '(неслїдованы)',
 	'pendingchanges-watched' => '({{PLURAL:$1|слїдує $1 актівный хоснователь|слїдують $1 актівны хоснователї|слїдує $1 актівных хоснователїв}})',
+	'pendingchanges-viewing' => '(перевірює ся)',
 );
 
 /** Yakut (Саха тыла)
@@ -1521,7 +1539,8 @@ $messages['sk'] = array(
 	'pendingchanges-days' => '($1 {{PLURAL:$1|deň|dni|dní}})',
 	'pendingchanges-recent' => '(menej ako 1 hodina)',
 	'pendingchanges-category' => 'Kategória:',
-	'pendingchanges-stable' => 'videná',
+	'pendingchanges-onwatchlist' => 'Stránky v mojom zozname sledovaných',
+	'pendingchanges-stable' => 'Stabilná verzia je predvolená',
 	'pendingchanges-diff' => 'skontrolovať',
 	'pendingchanges-size' => 'Max. veľkosť zmeny v bajtoch:',
 	'pendingchanges-unwatched' => '(nesledovaná)',
@@ -1679,6 +1698,7 @@ $messages['tk'] = array(
 	'pendingchanges-days' => '($1 {{PLURAL:$1|gün|gün}})',
 	'pendingchanges-recent' => '(1 sagatdan az)',
 	'pendingchanges-category' => 'Kategoriýa:',
+	'pendingchanges-onwatchlist' => 'Gözegçilik sanawymdaky sahypalar',
 	'pendingchanges-stable' => 'Durnuklaşdyryldy',
 	'pendingchanges-diff' => 'gözden geçir',
 	'pendingchanges-size' => 'Maksimum üýtgeşme (baýt):',

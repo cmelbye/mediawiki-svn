@@ -257,6 +257,11 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'stabilization-page' => 'ܫܡܐ ܕܦܐܬܐ:',
+	'stabilization-submit' => 'ܚܬܬ',
+	'stabilization-comment' => 'ܥܠܬܐ:',
+	'stabilization-otherreason' => 'ܥܠܬܐ ܐܚܪܬܐ:',
+	'stabilization-othertime' => 'ܥܕܢܐ ܐܚܪܬܐ:',
+	'stabilization-def-short-0' => 'ܗܫܝܐ',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -323,12 +328,13 @@ Esta ye la configuración de [[:$1|$1]]:',
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
 	'stabilization-comment' => 'Сәбәп:',
 	'stabilization-otherreason' => 'Башҡа сәбәп:',
-	'stabilization-expiry' => 'Бөтә:',
+	'stabilization-expiry' => 'Тамамлана:',
 	'stabilization-othertime' => 'Башҡа ваҡыт:',
 	'stabilization-def-short' => 'Ғәҙәттәге',
 	'stabilization-def-short-0' => 'Хәҙерге',
@@ -477,6 +483,7 @@ $messages['bg'] = array(
 	'stabilization-def-short-1' => 'Устойчива',
 	'stabilize_expiry_invalid' => 'Невалидна дата на изтичане.',
 	'stabilize_expiry_old' => 'Дата на изтичане вече е отминала.',
+	'stabilize_denied' => 'Достъпът е отказан.',
 	'stabilize-expiring' => 'изтича на $1 (UTC)',
 );
 
@@ -626,6 +633,7 @@ $messages['ckb'] = array(
 
 /** Czech (Česky)
  * @author Danny B.
+ * @author Jkjk
  * @author Li-sung
  * @author Matěj Grabovský
  * @author Mormegil
@@ -652,6 +660,11 @@ $messages['cs'] = array(
 	'stabilization-def-short' => 'Výchozí',
 	'stabilization-def-short-0' => 'současná',
 	'stabilization-def-short-1' => 'Stabilní',
+	'stabilize_page_invalid' => 'Cílová stránka je neplatná.',
+	'stabilize_page_notexists' => 'Cílová stránka neexistuje.',
+	'stabilize_page_unreviewable' => 'Cílová stránka není v posuzovatelném jmenném prostoru.',
+	'stabilize_invalid_autoreview' => 'Nesprávné omezení automatického posuzování.',
+	'stabilize_invalid_level' => 'Neplatná úroveň ochrany.',
 	'stabilize_expiry_invalid' => 'Datum vypršení je chybné.',
 	'stabilize_expiry_old' => 'Čas vypršení již minul.',
 	'stabilize_denied' => 'Přístup odmítnut.',
@@ -1191,8 +1204,14 @@ gins de configuracion possibla.',
 	'stabilization-def-short' => 'Per dèfôt',
 	'stabilization-def-short-0' => 'D’ora',
 	'stabilization-def-short-1' => 'Stâbla',
+	'stabilize_page_invalid' => 'Lo titro de la pâge ciba est fôx.',
+	'stabilize_page_notexists' => 'La pâge ciba ègziste pas.',
+	'stabilize_page_unreviewable' => 'La pâge ciba est pas dens un èspâço de noms que pôt étre revu.',
+	'stabilize_invalid_autoreview' => 'Rèstriccion de rèvision ôtomatica envalida.',
+	'stabilize_invalid_level' => 'Nivél de protèccion envalido.',
 	'stabilize_expiry_invalid' => 'Dâta d’èxpiracion envalida.',
 	'stabilize_expiry_old' => 'Cél temps d’èxpiracion est ja passâ.',
+	'stabilize_denied' => 'Pèrmission refusâ.',
 	'stabilize-expiring' => 'èxpire lo $1 (UTC)',
 	'stabilization-review' => 'Marcar la vèrsion d’ora coment controlâ',
 );
@@ -2119,7 +2138,7 @@ $messages['ml'] = array(
 	'stabilization-otherreason' => 'മറ്റു കാരണം:',
 	'stabilization-expiry' => 'കാലാവധി:',
 	'stabilization-othertime' => 'മറ്റ് കാലയളവ്:',
-	'stabilization-def-short' => 'സ്വതവെ',
+	'stabilization-def-short' => 'സ്വതേ',
 	'stabilization-def-short-0' => 'നിലവിലുള്ളത്',
 	'stabilization-def-short-1' => 'പ്രസിദ്ധീകരിക്കപ്പെട്ടത്',
 	'stabilize_page_invalid' => 'താളിനു ലക്ഷ്യമിട്ട പേര് അസാധുവാണ്.',
@@ -2740,8 +2759,13 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'stabilization' => 'Стабілізація сторінкы',
 	'stabilization-page' => 'Назва сторінкы:',
+	'stabilization-def2' => 'Послїдня ревізія',
+	'stabilization-restrict-none' => 'Без далшых обмеджінь',
 	'stabilization-submit' => 'Підтвердити',
+	'stabilization-notcontent' => 'Сторінка «[[:$1|$1]]» не може быти перевірена.
+Наставлїня не є можне.',
 	'stabilization-comment' => 'Причіна:',
 	'stabilization-otherreason' => 'Інша причіна:',
 	'stabilization-expiry' => 'Кінчіть:',
@@ -2749,6 +2773,9 @@ $messages['rue'] = array(
 	'stabilization-def-short' => 'Імпліцітне',
 	'stabilization-def-short-0' => 'Актуална',
 	'stabilization-def-short-1' => 'Публікована',
+	'stabilize_page_invalid' => 'Назва цілёвой сторінкы не є платна',
+	'stabilize_page_notexists' => 'Цілёвой сторінкы не є.',
+	'stabilize_denied' => 'Приступ забороненый.',
 	'stabilize-expiring' => 'кінчіть $1 (UTC)',
 );
 
@@ -2827,22 +2854,54 @@ $messages['sk'] = array(
 	'stabilization-def-short' => 'štandard',
 	'stabilization-def-short-0' => 'aktuálna',
 	'stabilization-def-short-1' => 'stabilná',
+	'stabilize_page_invalid' => 'Názov cieľovej stránky nie je platný.',
+	'stabilize_page_notexists' => 'Cieľová stránka neexistuje.',
+	'stabilize_page_unreviewable' => 'Cieľová stránka nie je v mennom priestore, v ktorom možno kontrolovať.',
+	'stabilize_invalid_autoreview' => 'Neplatné obmedzenie automatickej kontroly.',
+	'stabilize_invalid_level' => 'Neplatná úroveň ochrany.',
 	'stabilize_expiry_invalid' => 'Neplatný dátum vypršania.',
 	'stabilize_expiry_old' => 'Čas vypršania už prešiel.',
+	'stabilize_denied' => 'Nedostatočné oprávnenie.',
 	'stabilize-expiring' => 'vyprší $1 (UTC)',
-	'stabilization-review' => 'Skontrolovať aktuálnu verziu',
+	'stabilization-review' => 'Označiť aktuálnu revíziu ako skontrolovanú',
 );
 
 /** Slovenian (Slovenščina)
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'stabilization-tab' => 'redakcije',
+	'stabilization' => 'Ustaljevanje strani',
+	'stabilization-text' => "'''Spremenite spodnje nastavitve, da prilagodite, kako je ustaljena različica [[:$1|$1]] izbrana in prikazana.'''",
+	'stabilization-perm' => 'Vaš račun nima dovoljenja za spreminjanje nastavitev stabilne različice.
+Tukaj so trenutne nastavitve [[:$1|$1]]:',
 	'stabilization-page' => 'Naslov strani:',
+	'stabilization-leg' => 'Potrdi nastavitve ustaljene različice',
+	'stabilization-def' => 'Redakcija prikazana na privzetem pogledu strani',
+	'stabilization-def1' => 'Ustaljena različica; če ni prisotna, potem zadnja različica',
+	'stabilization-def2' => 'Zadnja redakcija',
+	'stabilization-restrict' => 'Omejitve pregledov/samodejnih pregledov',
+	'stabilization-restrict-none' => 'Brez dodatnih omejitev',
 	'stabilization-submit' => 'Potrdi',
+	'stabilization-notexists' => 'Stran »[[:$1|$1]]« ne obstaja.
+Nastavitev ni mogoča.',
+	'stabilization-notcontent' => 'Strani »[[:$1|$1]]« ni mogoče pregledati.
+Nastavitev ni mogoča.',
 	'stabilization-comment' => 'Razlog:',
 	'stabilization-otherreason' => 'Drug razlog:',
 	'stabilization-expiry' => 'Poteče:',
 	'stabilization-othertime' => 'Drugačen čas:',
+	'stabilization-def-short' => 'Privzeto',
+	'stabilization-def-short-0' => 'Trenutno',
+	'stabilization-def-short-1' => 'Stabilno',
+	'stabilize_page_invalid' => 'Naslov ciljne strani ni veljaven.',
+	'stabilize_page_notexists' => 'Ciljna stran ne obstaja.',
+	'stabilize_page_unreviewable' => 'Ciljna stran ni v imenskem prostoru, ki omogoča preglede.',
+	'stabilize_invalid_autoreview' => 'Neveljavna omejitev samodejnih pregledov.',
+	'stabilize_invalid_level' => 'Neveljavna raven zaščite.',
+	'stabilize_expiry_invalid' => 'Neveljaven datum poteka.',
+	'stabilize_expiry_old' => 'Ta čas poteka je že minil.',
+	'stabilize_denied' => 'Dovoljenje je zavrnjeno.',
 	'stabilize-expiring' => 'poteče $1 (UTC)',
 	'stabilization-review' => 'Označi trenutno redakcijo kot pregledano',
 );
@@ -3204,8 +3263,12 @@ Konfigurirlemek mümkin däl.',
 	'stabilization-def-short' => 'Gaýybana',
 	'stabilization-def-short-0' => 'Häzirki',
 	'stabilization-def-short-1' => 'Durnukly',
+	'stabilize_page_invalid' => 'Niýetlenilýän sahypa ady nädogry.',
+	'stabilize_page_notexists' => 'Niýetlenilýän sahypa ýok.',
+	'stabilize_invalid_level' => 'Nädogry gorag derejesi.',
 	'stabilize_expiry_invalid' => 'Nädogry gutaryş senesi.',
 	'stabilize_expiry_old' => 'Gutaryş möhleti eýýäm geçipdir.',
+	'stabilize_denied' => 'Rugsat ret edildi.',
 	'stabilize-expiring' => 'gutarýar $1 (UTC)',
 	'stabilization-review' => 'Häzirki wersiýany gözden geçir',
 );

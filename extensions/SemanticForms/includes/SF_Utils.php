@@ -102,12 +102,70 @@ END;
 	}
 
 	/**
+	 * Defines all the ResourceLoader modules needed for SF Javascript
+	 * and CSS
+	 */
+	static function registerModules( $resourceLoader ) {
+		global $wgExtensionAssetsPath;
+		$localpath = dirname( dirname( __FILE__ ) );
+		$remotepath = "$wgExtensionAssetsPath/SemanticForms";
+
+		$resourceLoader->register(
+			array(
+				'ext.semanticforms.main' => new ResourceLoaderFileModule(
+					array(
+						'scripts' => 'libs/SemanticForms.js',
+						'styles' => array(
+							'skins/SemanticForms.css',
+							'skins/SF_jquery_ui_overrides.css',
+						),
+					), $localpath, $remotepath
+				),
+				'ext.semanticforms.fancybox' => new ResourceLoaderFileModule(
+					array(
+						'scripts' => 'libs/jquery.fancybox-1.3.1.js',
+						'styles' => 'skins/jquery.fancybox-1.3.1.css',
+					), $localpath, $remotepath
+				),
+				'ext.semanticforms.autogrow' => new ResourceLoaderFileModule(
+					array(
+						'scripts' => 'libs/SF_autogrow.js',
+					), $localpath, $remotepath
+				),
+			)
+		);
+
+		return true;
+	}
+
+	/**
+	 * Uses the ResourceLoader (available with MediaWiki 1.17 and higher)
+	 * to load all the necessary JS and CSS files for Semantic Forms.
+	 */
+	static function loadJavascriptAndCSS() {
+		global $wgOut;
+		$wgOut->addModules( 'jquery' );
+		$wgOut->addModules( 'jquery.ui.autocomplete' );
+		$wgOut->addModules( 'jquery.ui.button' );
+		$wgOut->addModules( 'ext.semanticforms.main' );
+		$wgOut->addModules( 'ext.semanticforms.fancybox' );
+		$wgOut->addModules( 'ext.semanticforms.autogrow' );
+		$wgOut->addModules( 'ext.smw.tooltips' );
+		$wgOut->addModules( 'ext.smw.sorttable' );
+	}
+
+	/**
 	 * Includes the necessary Javascript and CSS files for the form
 	 * to display and work correctly
 	 * 
 	 * Accepts an optional Parser instance, or uses $wgOut if omitted.
 	 */
 	static function addJavascriptAndCSS( $parser = NULL ) {
+		// MW 1.17 +
+		if ( class_exists( 'ResourceLoader' ) ) {
+			self::loadJavascriptAndCSS();
+			return;
+		}
 		global $wgOut, $sfgScriptPath, $smwgScriptPath, $wgScriptPath, $wgFCKEditorDir, $wgJsMimeType, $sfgUseFormEditPage;
 		global $smwgJQueryIncluded, $smwgJQUIAutoIncluded;
 		// jQuery and jQuery UI are used so often in forms, we might as
@@ -134,7 +192,6 @@ END;
 			else
 				$wgOut->addLink( $link );
 		}
-		$wgOut->addStyle( "$sfgScriptPath/skins/SF_IEfixes.css", 'screen', 'IE' );
 		
 		$scripts = array();
 		if ( !$sfgUseFormEditPage )
@@ -151,10 +208,10 @@ END;
 		$scripts[] = "$sfgScriptPath/libs/jquery-ui/jquery.ui.button.min.js";
 		$scripts[] = "$sfgScriptPath/libs/jquery-ui/jquery.ui.position.min.js";
 		$scripts[] = "$sfgScriptPath/libs/jquery-ui/jquery.ui.autocomplete.min.js";
-		$scripts[] = "$sfgScriptPath/libs/SemanticForms.js";
 
 		if ( $wgFCKEditorDir )
 			$scripts[] = "$wgScriptPath/$wgFCKEditorDir/fckeditor.js";
+		global $wgOut;
 		foreach ( $scripts as $js ) {
 			if ( $parser ) {
 				$script = "<script type=\"$wgJsMimeType\" src=\"$js\"></script>\n";
@@ -163,6 +220,12 @@ END;
 				$wgOut->addScriptFile( $js );
 			}
 		}
+		// The Semantic Forms custom Javascript needs to be included
+		// at the end of the page, after the relevant HTML elements
+		// have been defined.
+		$js = "$sfgScriptPath/libs/SemanticForms.js";
+		$script = "<script type=\"$wgJsMimeType\" src=\"$js\"></script>\n";
+		$wgOut->addHTML( $script );
 		if ( !$parser )
 			$wgOut->addMeta( 'robots', 'noindex,nofollow' );
 	}

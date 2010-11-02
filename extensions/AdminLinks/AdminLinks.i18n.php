@@ -119,6 +119,7 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'adminlinks' => 'ܐܣܘܪ̈ܐ ܕܡܕܒܪ̈ܢܐ',
+	'adminlinks_general' => 'ܓܘܢܝܐ',
 	'adminlinks_users' => 'ܡܦܠܚܢ̈ܐ',
 	'adminlinks_importexport' => 'ܡܥܠܢܘܬܐ ܘܡܦܩܢܘܬܐ',
 );
@@ -867,10 +868,18 @@ $messages['ltg'] = array(
  * @author Papuass
  */
 $messages['lv'] = array(
+	'adminlinks' => 'Administrācijas saites',
+	'adminlinks-desc' => 'Pievieno [[Special:AdminLinks|īpašo lapu]], kura satur administratoriem noderīgas saites',
+	'adminlinks_documentation' => '$1 dokumentācija',
+	'adminlinks_general' => 'Vispārīgi',
+	'adminlinks_editsidebar' => 'Labot sānjoslu',
+	'adminlinks_editcss' => 'Labot CSS failu',
+	'adminlinks_editmainpagename' => 'Labot galvenās lapas nosaukumu',
 	'adminlinks_users' => 'Lietotāji',
 	'adminlinks_createuser' => 'Izveidot lietotāju',
 	'adminlinks_browsesearch' => 'Pārlūkot un meklēt',
 	'adminlinks_importexport' => 'Imports un eksports',
+	'right-adminlinks' => 'Redzēt saiti uz [[Special:AdminLinks|Administrācijas saitēm]]',
 );
 
 /** Lazuri (Lazuri)

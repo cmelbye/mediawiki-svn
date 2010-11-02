@@ -63,6 +63,7 @@ $messages['af'] = array(
 /** Arabic (العربية)
  * @author Majid Al-Dharrab
  * @author Samer
+ * @author Zanatos
  */
 $messages['ar'] = array(
 	'mwe-clipedit-crop' => 'اقتص الصورة',
@@ -78,6 +79,7 @@ $messages['ar'] = array(
 	'mwe-clipedit-custom_title' => 'عنوان مُخصّص',
 	'mwe-clipedit-edit_properties' => 'عدل الخصائص',
 	'mwe-clipedit-other_properties' => 'خصائص أخرى',
+	'mwe-clipedit-resource_page' => 'الصفحة المصدر:',
 	'mwe-clipedit-start_time' => 'وقت البداية',
 	'mwe-clipedit-end_time' => 'وقت النهاية',
 	'mwe-clipedit-edit-tools' => 'أدوات التحرير',
@@ -86,6 +88,49 @@ $messages['ar'] = array(
 	'mwe-clipedit-layout' => 'التخطيط',
 	'mwe-clipedit-layout_right' => 'تخطيط صورة على الجانب الأيمن',
 	'mwe-clipedit-layout_left' => 'تخطيط صورة على الجانب الأيسر',
+);
+
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'mwe-clipedit-start_time' => 'ܥܕܢܐ ܕܫܘܪܝܐ',
+	'mwe-clipedit-end_time' => 'ܥܕܢܐ ܕܫܘܠܡܐ',
+	'mwe-clipedit-edit-tools' => 'ܡܐܢ̈ܐ ܕܫܘܚܠܦܐ',
+);
+
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'mwe-clipedit-crop' => 'Рәсемде киҫеп алырға',
+	'mwe-clipedit-apply_crop' => 'Рәсемгә киҫеп алыуҙы ҡулланырға',
+	'mwe-clipedit-reset_crop' => 'Киҫеп алыуҙы кире алырға',
+	'mwe-clipedit-insert_image_page' => 'Биткә өҫтәргә',
+	'mwe-clipedit-insert_into_sequence' => 'Теҙмәгә өҫтәргә',
+	'mwe-clipedit-preview_insert' => 'Өҫтәүҙе ҡарап сығыу',
+	'mwe-clipedit-cancel_image_insert' => 'Өҫтәүҙе кире алырға',
+	'mwe-clipedit-sc_attributes' => 'Клип тураһында мәғлүмәтте мөхәррирләү',
+	'mwe-clipedit-sc_inoutpoints' => 'Кереү-сығыу нөктәләрен билдәләргә',
+	'mwe-clipedit-sc_overlays' => 'Ҡаплауҙар',
+	'mwe-clipedit-sc_audio' => 'Аудио менән идара итеү',
+	'mwe-clipedit-sc_duration' => 'Оҙайлыҡ',
+	'mwe-clipedit-template_properties' => 'Ҡалыпты көйләү',
+	'mwe-clipedit-custom_title' => 'Шәхси исем',
+	'mwe-clipedit-edit_properties' => 'Көйләүҙәрҙе үҙгәртергә',
+	'mwe-clipedit-other_properties' => 'Башҡа көйләүҙәр',
+	'mwe-clipedit-resource_page' => 'Сығанаҡ бит:',
+	'mwe-clipedit-set_in_out_points' => 'Кереү-сығыу нөктәләрен билдәләргә',
+	'mwe-clipedit-start_time' => 'Башланыу ваҡыты',
+	'mwe-clipedit-end_time' => 'Тамамланыу ваҡыты',
+	'mwe-clipedit-preview_inout' => 'Керетеү-сығарыу нөктәләрен ҡарап сығыу',
+	'mwe-clipedit-edit-tools' => 'Мөхәррирләү ҡоралдары',
+	'mwe-clipedit-inline-description' => 'Исеме',
+	'mwe-clipedit-edit-video-tools' => 'Видеоны мөхәррирләү ҡоралдары:',
+	'mwe-clipedit-duration' => 'Оҙайлыҡ:',
+	'mwe-clipedit-layout' => 'Ҡалып',
+	'mwe-clipedit-layout_right' => 'Уң яҡ рәсем ҡалыбы',
+	'mwe-clipedit-layout_left' => 'Һул яҡ рәсем ҡалыбы',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -197,35 +242,63 @@ $messages['bs'] = array(
 
 /** Catalan (Català)
  * @author Solde
+ * @author Toniher
  */
 $messages['ca'] = array(
-	'mwe-clipedit-sc_audio' => "Control d'audio",
+	'mwe-clipedit-crop' => 'Retalla la imatge',
+	'mwe-clipedit-apply_crop' => 'Aplica el retall a la imatge',
+	'mwe-clipedit-reset_crop' => 'Reinicia el retall',
+	'mwe-clipedit-insert_image_page' => 'Insereix a la pàgina',
+	'mwe-clipedit-insert_into_sequence' => 'Insereix a la seqüència',
+	'mwe-clipedit-preview_insert' => 'Previsualitza la inserció',
+	'mwe-clipedit-cancel_image_insert' => 'Cancel·la la inserció',
+	'mwe-clipedit-sc_attributes' => 'Edita el detall del clip',
+	'mwe-clipedit-sc_inoutpoints' => "Defineix punts d'entrada i de sortida",
+	'mwe-clipedit-sc_overlays' => 'Capes',
+	'mwe-clipedit-sc_audio' => "Control d'àudio",
 	'mwe-clipedit-sc_duration' => 'Durada',
 	'mwe-clipedit-template_properties' => 'Propietats de la plantilla',
 	'mwe-clipedit-custom_title' => 'Títol personalitzat',
 	'mwe-clipedit-edit_properties' => 'Edita les propietats',
 	'mwe-clipedit-other_properties' => 'Altres propietats',
 	'mwe-clipedit-resource_page' => 'Pàgina de recursos:',
+	'mwe-clipedit-set_in_out_points' => "Defineix punts d'entrada i de sortida",
 	'mwe-clipedit-start_time' => "Hora d'inici",
 	'mwe-clipedit-end_time' => 'Hora de finalització',
+	'mwe-clipedit-preview_inout' => "Previsualitza punts d'entrada i de sortida",
 	'mwe-clipedit-edit-tools' => "Eines d'edició",
 	'mwe-clipedit-inline-description' => 'Llegenda',
 	'mwe-clipedit-edit-video-tools' => 'Edita les eines de vídeo:',
 	'mwe-clipedit-duration' => 'Durada:',
 	'mwe-clipedit-layout' => 'Disseny',
+	'mwe-clipedit-layout_right' => "Format d'imatge del costat dret",
+	'mwe-clipedit-layout_left' => "Format d'imatge del costat esquerre",
 );
 
-/** Czech (Česky) */
+/** Czech (Česky)
+ * @author Jkjk
+ */
 $messages['cs'] = array(
 	'mwe-clipedit-crop' => 'Oříznout obrázek',
 	'mwe-clipedit-apply_crop' => 'Použít ořez',
 	'mwe-clipedit-reset_crop' => 'Zrušit ořez',
 	'mwe-clipedit-insert_image_page' => 'Vložit do stránky',
+	'mwe-clipedit-insert_into_sequence' => 'Vložit do sekvence',
 	'mwe-clipedit-preview_insert' => 'Náhled vložení',
 	'mwe-clipedit-cancel_image_insert' => 'Zrušit vkládání',
+	'mwe-clipedit-sc_attributes' => 'Upravit podrobnosti klipu',
+	'mwe-clipedit-sc_overlays' => 'Vrstvy',
+	'mwe-clipedit-sc_audio' => 'Ovládání zvuku',
 	'mwe-clipedit-sc_duration' => 'Období',
+	'mwe-clipedit-template_properties' => 'Vlastnosti šablony',
+	'mwe-clipedit-custom_title' => 'Vlastní název',
+	'mwe-clipedit-edit_properties' => 'Upravit vlastnosti',
+	'mwe-clipedit-other_properties' => 'Další vlastnosti',
+	'mwe-clipedit-start_time' => 'Čas začátku',
+	'mwe-clipedit-end_time' => 'Čas konce',
 	'mwe-clipedit-edit-tools' => 'Nástroje pro editaci',
 	'mwe-clipedit-inline-description' => 'Titulek',
+	'mwe-clipedit-edit-video-tools' => 'Nástroje pro úpravu videa:',
 	'mwe-clipedit-duration' => 'Období:',
 	'mwe-clipedit-layout' => 'Vzhled',
 );
@@ -354,13 +427,36 @@ $messages['el'] = array(
 	'mwe-clipedit-duration' => 'Διάρκεια:',
 );
 
-/** Esperanto (Esperanto) */
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
 $messages['eo'] = array(
 	'mwe-clipedit-crop' => 'Stuci bildon',
 	'mwe-clipedit-apply_crop' => 'Apliki stucon al bildo',
+	'mwe-clipedit-reset_crop' => 'Reŝarĝi stucon',
+	'mwe-clipedit-insert_image_page' => 'Enigi en paĝon',
+	'mwe-clipedit-insert_into_sequence' => 'Enigi en sekvencon',
+	'mwe-clipedit-preview_insert' => 'Antaŭvidi enmeton',
 	'mwe-clipedit-cancel_image_insert' => 'Nuligi enmeton',
+	'mwe-clipedit-sc_overlays' => 'Surmetoj',
+	'mwe-clipedit-sc_audio' => 'Aŭdia kontrolilo',
 	'mwe-clipedit-sc_duration' => 'Daŭro',
+	'mwe-clipedit-template_properties' => 'Ecoj de ŝablonoj',
 	'mwe-clipedit-custom_title' => 'Memkreita titolo',
+	'mwe-clipedit-edit_properties' => 'Ecoj de redaktoj',
+	'mwe-clipedit-other_properties' => 'Aliaj ecoj',
+	'mwe-clipedit-resource_page' => 'Paĝo de rimedoj:',
+	'mwe-clipedit-set_in_out_points' => 'Agordi enajn kaj eksterajn punktojn',
+	'mwe-clipedit-start_time' => 'Tempo de starto',
+	'mwe-clipedit-end_time' => 'Tempo de fino',
+	'mwe-clipedit-preview_inout' => 'Antaŭvidi enajn kaj eksterajn punktojn',
+	'mwe-clipedit-edit-tools' => 'Redaktiloj',
+	'mwe-clipedit-inline-description' => 'Subteksto',
+	'mwe-clipedit-edit-video-tools' => 'Video-redaktiloj',
+	'mwe-clipedit-duration' => 'Daŭro:',
+	'mwe-clipedit-layout' => 'Aspekto',
+	'mwe-clipedit-layout_right' => 'Bilda aspekto dekstren',
+	'mwe-clipedit-layout_left' => 'Bida aspekto maldekstren',
 );
 
 /** Spanish (Español)
@@ -804,7 +900,9 @@ $messages['ko'] = array(
 	'mwe-clipedit-duration' => '시간:',
 );
 
-/** Colognian (Ripoarisch) */
+/** Colognian (Ripoarisch)
+ * @author Purodha
+ */
 $messages['ksh'] = array(
 	'mwe-clipedit-crop' => 'Beld beschnigge',
 	'mwe-clipedit-apply_crop' => 'Lohß Jonn!',
@@ -813,6 +911,7 @@ $messages['ksh'] = array(
 	'mwe-clipedit-insert_into_sequence' => 'En de Afshpellleß ennfööje',
 	'mwe-clipedit-preview_insert' => 'Vör_Aansich för et Ennfööje',
 	'mwe-clipedit-cancel_image_insert' => 'Et Enfööje avbreche!',
+	'mwe-clipedit-sc_attributes' => 'Einzelheite zom Video ändere',
 	'mwe-clipedit-sc_inoutpoints' => 'Der En- un Ußschteeschßpunk för et Afschpelle faßlääje',
 	'mwe-clipedit-sc_overlays' => 'Övverbländunge',
 	'mwe-clipedit-sc_audio' => 'Enshtällunge för der Tohn',
@@ -830,6 +929,9 @@ $messages['ksh'] = array(
 	'mwe-clipedit-inline-description' => 'Legände',
 	'mwe-clipedit-edit-video-tools' => 'Wärkzüsch för Viddejos ze beärbeide:',
 	'mwe-clipedit-duration' => 'Duur:',
+	'mwe-clipedit-layout' => 'Ußreeschdung',
+	'mwe-clipedit-layout_right' => 'Beld op der rääshte Sigg',
+	'mwe-clipedit-layout_left' => 'Beld op der lengke Sigg',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -993,7 +1095,9 @@ $messages['no'] = array(
 	'mwe-clipedit-layout_left' => 'Bildeoppsett venstre side',
 );
 
-/** Occitan (Occitan) */
+/** Occitan (Occitan)
+ * @author Cedric31
+ */
 $messages['oc'] = array(
 	'mwe-clipedit-crop' => "Retalhar l'imatge",
 	'mwe-clipedit-apply_crop' => "Aplicar lo retalh a l'imatge",
@@ -1015,9 +1119,9 @@ $messages['oc'] = array(
 	'mwe-clipedit-start_time' => 'Ora de començament',
 	'mwe-clipedit-end_time' => 'Ora de fin',
 	'mwe-clipedit-preview_inout' => "Previsualizar los punts d'entrada-sortida",
-	'mwe-clipedit-edit-tools' => 'Espleches de modificacion',
+	'mwe-clipedit-edit-tools' => 'Aisinas de modificacion',
 	'mwe-clipedit-inline-description' => "Descripcion ''inline''",
-	'mwe-clipedit-edit-video-tools' => 'Espleches de modificacion de las vidèos :',
+	'mwe-clipedit-edit-video-tools' => 'Aisinas de modificacion de las vidèos :',
 	'mwe-clipedit-duration' => 'Durada :',
 );
 
@@ -1194,6 +1298,7 @@ $messages['ro'] = array(
 );
 
 /** Russian (Русский)
+ * @author Assele
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
@@ -1205,7 +1310,7 @@ $messages['ru'] = array(
 	'mwe-clipedit-preview_insert' => 'Предпросмотр вставки',
 	'mwe-clipedit-cancel_image_insert' => 'Отменить вставку',
 	'mwe-clipedit-sc_attributes' => 'Правка подробностей клипа',
-	'mwe-clipedit-sc_inoutpoints' => 'Установить очки ввода-вывода',
+	'mwe-clipedit-sc_inoutpoints' => 'Установить точки ввода-вывода',
 	'mwe-clipedit-sc_overlays' => 'Перекрытия',
 	'mwe-clipedit-sc_audio' => 'Аудиоконтроль',
 	'mwe-clipedit-sc_duration' => 'Длительность',
@@ -1214,7 +1319,7 @@ $messages['ru'] = array(
 	'mwe-clipedit-edit_properties' => 'Править настройки',
 	'mwe-clipedit-other_properties' => 'Другие настройки',
 	'mwe-clipedit-resource_page' => 'Страница ресурса:',
-	'mwe-clipedit-set_in_out_points' => 'Установить очки ввода-вывода',
+	'mwe-clipedit-set_in_out_points' => 'Установить точки ввода-вывода',
 	'mwe-clipedit-start_time' => 'Время начала',
 	'mwe-clipedit-end_time' => 'Время окончания',
 	'mwe-clipedit-preview_inout' => 'Просмотр точек ввода-вывода',
@@ -1244,7 +1349,9 @@ $messages['sah'] = array(
 	'mwe-clipedit-end_time' => 'Түмүктэнэр кэмэ',
 );
 
-/** Slovak (Slovenčina) */
+/** Slovak (Slovenčina)
+ * @author Helix84
+ */
 $messages['sk'] = array(
 	'mwe-clipedit-crop' => 'Orezať obrázok',
 	'mwe-clipedit-apply_crop' => 'Použiť orezanie na obrázok',
@@ -1253,6 +1360,7 @@ $messages['sk'] = array(
 	'mwe-clipedit-insert_into_sequence' => 'Vložiť do sekvencie',
 	'mwe-clipedit-preview_insert' => 'Náhľad vloženia',
 	'mwe-clipedit-cancel_image_insert' => 'Zrušiť vloženie',
+	'mwe-clipedit-sc_attributes' => 'Úprava podrobností klipu',
 	'mwe-clipedit-sc_inoutpoints' => 'Nastaviť body priblíženia/vzdialenia',
 	'mwe-clipedit-sc_overlays' => 'Vrstvy',
 	'mwe-clipedit-sc_audio' => 'Ovládanie zvuku',
@@ -1266,6 +1374,33 @@ $messages['sk'] = array(
 	'mwe-clipedit-start_time' => 'Čas začiatku',
 	'mwe-clipedit-end_time' => 'Čas konca',
 	'mwe-clipedit-preview_inout' => 'Náhľad/prehranie bodov priblíženia/vzdialenia',
+	'mwe-clipedit-edit-tools' => 'Nástroje na úpravu',
+	'mwe-clipedit-inline-description' => 'Titulok',
+	'mwe-clipedit-edit-video-tools' => 'Nástroje na úpravu videa:',
+	'mwe-clipedit-duration' => 'Trvanie:',
+	'mwe-clipedit-layout' => 'Rozloženie',
+	'mwe-clipedit-layout_right' => 'Rozloženie s obrázkom na pravej strane',
+	'mwe-clipedit-layout_left' => 'Rozloženie s obrázkom na ľavej strane',
+);
+
+/** Slovenian (Slovenščina)
+ * @author Dbc334
+ */
+$messages['sl'] = array(
+	'mwe-clipedit-crop' => 'Obreži sliko',
+	'mwe-clipedit-preview_insert' => 'Predogled vstavljanja',
+	'mwe-clipedit-cancel_image_insert' => 'Prekliči vstavljanje',
+	'mwe-clipedit-sc_audio' => 'Nadzor zvoka',
+	'mwe-clipedit-sc_duration' => 'Trajanje',
+	'mwe-clipedit-custom_title' => 'Naslov po meri',
+	'mwe-clipedit-edit_properties' => 'Uredite lastnosti',
+	'mwe-clipedit-other_properties' => 'Druge lastnosti',
+	'mwe-clipedit-start_time' => 'Začetni čas',
+	'mwe-clipedit-end_time' => 'Končni čas',
+	'mwe-clipedit-edit-tools' => 'Orodja za urejanje',
+	'mwe-clipedit-inline-description' => 'Napis',
+	'mwe-clipedit-edit-video-tools' => 'Uredite orodja za video:',
+	'mwe-clipedit-duration' => 'Trajanje:',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

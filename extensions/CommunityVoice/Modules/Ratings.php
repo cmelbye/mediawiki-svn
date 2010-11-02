@@ -24,7 +24,7 @@ abstract class CommunityVoiceRatings {
 			'DISTINCT vot_category'
 		);
 		$categories = array();
-		while ( $row = $result->fetchRow() ) {
+		foreach( $result as $row ) {
 			$categories[] = (string)$row['vot_category'];
 		}
 		return $categories;
@@ -40,7 +40,7 @@ abstract class CommunityVoiceRatings {
 			array( 'vot_category' => $category )
 		);
 		$titles = array();
-		while ( $row = $result->fetchRow() ) {
+		foreach ( $result as $row ) {
 			$titles[] = (string)$row['vot_title'];
 		}
 		return $titles;
@@ -127,7 +127,7 @@ abstract class CommunityVoiceRatings {
 	/* Static Functions */
 
 	public static function register() {
-		global $wgParser, $wgAjaxExportList, $wgHooks;
+		global $wgParser, $wgAjaxExportList;
 		// Register the hook with the parser
 		$wgParser->setHook( 'ratings:scale', array( __CLASS__, 'renderScale' ) );
 		// Register ajax response hook
@@ -336,7 +336,6 @@ abstract class CommunityVoiceRatings {
 		$rating,
 		$article
 	) {
-		global $wgUser;
 		// Adds vote and checks for success
 		if ( self::addVote( $category, $title, $rating ) ) {
 			// Gets new rating data

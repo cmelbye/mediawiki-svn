@@ -690,8 +690,8 @@ $messages['bjn'] = array(
 	'babel-url' => 'Project:Babel',
 	'babel-autocreate-abort' => 'Ngaran pamuruk Pian ini dipuruk gasan tumbung utumatis [[$1|Babel]] wan kada kawa didaptarakan.',
 	'babel-autocreate-reason' => 'Utumatis maulah tumbung tungkaran [[$1|Babel]].',
-	'babel-autocreate-text-levels' => 'Pamuruk-pamuruk dalam tumbung ini artinya sidin baisi kamampuan $1 gasan bahasa $2.',
-	'babel-autocreate-text-main' => 'Pamuruk-pamuruk dalam tumbung ini artinya sidin baisi ilmu gasan bahasa $1.',
+	'babel-autocreate-text-levels' => 'Papamuruk dalam tumbung ini artinya sidin baisi kamampuan $1 gasan bahasa $2.',
+	'babel-autocreate-text-main' => 'Papamuruk dalam tumbung ini artinya sidin baisi ilmu gasan bahasa $1.',
 	'babel-0' => 'Pamuruk ini [[$1|kada]] baisi ilmu gasan [[$2|$3]] (atawa paham haja tagal pina ngalih banar).',
 	'babel-1' => 'Pamuruk ini baisi ilmu [[$1|pandal]] gasan [[$2|$3]].',
 	'babel-2' => 'Pamuruk ini baisi ilmu [[$1|manangah]] gasan [[$2|$3]].',
@@ -1729,6 +1729,7 @@ $messages['haw'] = array(
 
 /** Hebrew (עברית)
  * @author Agbad
+ * @author Amire80
  * @author GerardM
  * @author Rotemliss
  * @author YaronSh
@@ -1739,7 +1740,7 @@ $messages['he'] = array(
 	'babel-url' => 'Project:כישורי שפה',
 	'babel-autocreate-abort' => 'שם המשתמש שציינתם משמש ליצירה אוטומטית של קטגוריות [[$1|כישורי שפה]], ולכן לא ניתן לרשום אותו.',
 	'babel-autocreate-reason' => 'יצירה אוטומטית של דף קטגוריה ל[[$1|כישורי שפה]]',
-	'babel-autocreate-text-levels' => 'המשתמשים בקטגוריה זו מציינים כי רמת השפה שלהם הינה $1 בשפה ה$2.',
+	'babel-autocreate-text-levels' => 'המשתמשים בקטגוריה זו מציינים כי הרמה שלהם בשפה ה$ היא $1.',
 	'babel-autocreate-text-main' => 'המשתמשים בקטגוריה זו מציינים כי יש להם ידע בשפה ה$1.',
 	'babel-autocreate-user' => 'יצירה אוטומטית של כישורי שפה',
 	'babel-directionality' => 'rtl',

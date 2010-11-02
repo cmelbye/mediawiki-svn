@@ -282,6 +282,7 @@ Please contact the server operator or administrator.",
  * @author Purodha
  * @author Siebrand
  * @author Umherirrender
+ * @author Тест
  */
 $messages['qqq'] = array(
 	'wikidata-desc' => '{{desc}}',
@@ -348,6 +349,7 @@ This is visible when a SynTrans is annotated, or while editing a page.
 	'ow_TextAttribute' => '{{Identical|Property}}',
 	'ow_TranslatedTextAttribute' => '{{Identical|Property}}',
 	'ow_TranslatedTextAttributeValue' => '{{Identical|Text}}',
+	'ow_Link' => '{{identical|Link}}',
 	'ow_LinkAttribute' => '{{Identical|Property}}',
 	'ow_LinkAttributeValues' => '{{Identical|Links}}',
 	'ow_URL' => '{{optional}}',
@@ -358,6 +360,7 @@ This is visible when a SynTrans is annotated, or while editing a page.
 	'ow_Permission_denied' => "Visible on [http://www.omegawiki.org/Special:Copy this OmegaWiki page] (make sure you're not logged in)
 {{Identical|Permission denied}}",
 	'copy' => '{{Identical|Copy}}',
+	'ow_class_attr_type_link' => '{{identical|Link}}',
 	'ow_needs_xlation_title' => 'Visible on this [http://www.omegawiki.org/Special:NeedsTranslation OmegaWiki page].',
 	'ow_needs_xlation_source_lang' => 'Visible on this [http://www.omegawiki.org/Special:NeedsTranslation OmegaWiki page].',
 	'ow_needs_xlation_dest_lang' => 'Visible on this [http://www.omegawiki.org/Special:NeedsTranslation OmegaWiki page].',
@@ -1003,6 +1006,7 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
 	'langman_title' => 'ܡܕܒܪܢܐ ܕܠܫܢܐ',
@@ -1025,7 +1029,7 @@ $messages['arc'] = array(
 	'ow_ClassAttributeLevel' => 'ܫܘܝܐ',
 	'ow_ClassAttributeType' => 'ܐܕܫܐ',
 	'ow_DefinedMeaningAttributes' => 'ܣܦܐ',
-	'ow_GotoSource' => 'ܙܠ ܠܥܩܪܐ',
+	'ow_GotoSource' => 'ܙܠ ܠܡܒܘܥܐ',
 	'ow_Language' => 'ܠܫܢܐ',
 	'ow_LevelAnnotation' => 'ܣܦܐ',
 	'ow_OptionAttributeOption' => 'ܓܒܝܬܐ',
@@ -1033,7 +1037,7 @@ $messages['arc'] = array(
 	'ow_OptionAttributeValues' => 'ܛܝܡ̈ܐ ܕܓܒܝܬ̈ܐ',
 	'ow_PopupAnnotation' => 'ܣܦܐ',
 	'ow_Remove' => 'ܠܚܝ',
-	'ow_Source' => 'ܥܩܪܐ',
+	'ow_Source' => 'ܡܒܘܥܐ',
 	'ow_Text' => 'ܟܬܒܬܐ',
 	'ow_TextAttributeValues' => 'ܟܬܒܬܐ ܦܫܝܛܬܐ',
 	'ow_Time' => 'ܙܒܢܐ',
@@ -1398,6 +1402,16 @@ $messages['avk'] = array(
 $messages['bcl'] = array(
 	'languages' => 'Wikidata: Manager kan tataramon',
 	'datasearch' => 'Wikidata: Data search',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'ow_history' => 'Гісторыя',
+	'ow_ClassAttributeType' => 'Тып',
+	'ow_Text' => 'Тэкст',
+	'ow_TranslatedTextAttributeValue' => 'Тэкст',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -4014,7 +4028,7 @@ Mesedez ikus [[{{MediaWiki:Ow editing policy url}}|gure aldatzeko arauak]].',
 	'ow_uipref_datasets' => 'Lehenetsitako ikuspegia:',
 	'ow_uiprefs' => 'Wikidatua',
 	'ow_none_selected' => 'Bat ere ez da aukeratu',
-	'ow_transaction_user' => 'Erabiltzaile-izena:',
+	'ow_transaction_user' => 'Erabiltzaile izena:',
 	'ow_transaction_rollback_button' => 'Desegin',
 	'ow_transaction_rollback_header' => 'Desegin',
 	'ow_transaction_no_action' => 'Ezer ez egin',
@@ -4486,7 +4500,7 @@ Veuillez consulter [[{{MediaWiki:Ow editing policy url}}|nos règles sur la modi
 	'ow_transaction_no_action' => 'Ne rien faire',
 	'ow_transaction_previous_version' => 'Version précédente',
 	'ow_transaction_restore' => 'Restaurer',
-	'ow_transaction_remove' => 'Supprimer',
+	'ow_transaction_remove' => 'Enlever',
 	'ow_transaction_operation' => 'Opération',
 	'ow_transaction_is_latest' => 'Est le dernier',
 	'ow_transaction_class_member' => 'Membre de classe',
@@ -4560,7 +4574,7 @@ Veuillez vérifier l’adresse internet de la page.',
 	'ow_RecordLifeSpan' => 'Durée de vie de l’enregistrement',
 	'ow_Relations' => 'Relations',
 	'ow_RelationType' => 'Type de relation',
-	'ow_Remove' => 'Retirer',
+	'ow_Remove' => 'Enlever',
 	'ow_RemoveHint' => 'Marquer les lignes à retirer',
 	'ow_Spelling' => 'Orthographe',
 	'ow_SuggestHint' => 'Cliquez pour changer la sélection',
@@ -4585,7 +4599,7 @@ Veuillez vérifier l’adresse internet de la page.',
 	'ow_Property' => 'Propriété',
 	'ow_Value' => 'Valeur',
 	'ow_added' => 'Ajouté',
-	'ow_removed' => 'Supprimé',
+	'ow_removed' => 'Enlevé',
 	'ow_meaningsoftitle' => 'Sens de « $1 »',
 	'ow_meaningsofsubtitle' => '<em>lien wiki :</em> [[$1]]',
 	'ow_Permission_denied' => '<h2>Permission refusée</h2>',
@@ -8719,10 +8733,10 @@ $messages['ml'] = array(
 	'ow_save' => 'സേവ് ചെയ്യുക',
 	'ow_history' => 'നാൾവഴി',
 	'ow_noedit_title' => 'തിരുത്തുവാനുള്ള അനുമതി ഇല്ല',
-	'ow_uipref_datasets' => 'സ്വതവെയുള്ള കാഴ്ച',
+	'ow_uipref_datasets' => 'സ്വതേയുള്ള ദൃശ്യം:',
 	'ow_uiprefs' => 'വിക്കിഡാറ്റ',
 	'ow_none_selected' => 'ഒന്നും തിരഞ്ഞെടുത്തിട്ടില്ല',
-	'ow_conceptmapping_no_action_specified' => 'ക്ഷമിക്കുക, എനിക്ക് "$1" ചെയ്യുന്നതു എങ്ങനെയെന്നു അറിയില്ല.',
+	'ow_conceptmapping_no_action_specified' => '"$1" എന്ന പ്രവൃത്തി പിന്തുണയ്ക്കുന്നില്ല.',
 	'ow_dm_OK' => 'ശരി',
 	'ow_AlternativeDefinition' => 'വേറൊരു നിർ‌വചനം',
 	'ow_AlternativeDefinitions' => 'മറ്റ് നിർ‌വചനങ്ങൾ',
@@ -8758,6 +8772,7 @@ $messages['ml'] = array(
 $messages['mn'] = array(
 	'datasearch_language' => 'Хэл:',
 	'ow_exporttsv_languages' => 'Хэлнүүд:',
+	'ow_transaction_user' => 'Хэрэглэгчийн нэр:',
 	'ow_transaction_rollback_button' => 'Буцаах',
 	'ow_transaction_rollback_header' => 'Буцаах',
 	'ow_transaction_summary' => 'Товч агуулга',
@@ -12303,6 +12318,7 @@ $messages['sl'] = array(
 	'ow_transaction_no_action' => 'Ne stori ničesar',
 	'ow_transaction_previous_version' => 'Prejšnja različica',
 	'ow_transaction_restore' => 'Obnovi',
+	'ow_transaction_summary' => 'Povzetek',
 	'ow_dm_OK' => 'V redu',
 );
 
@@ -13390,6 +13406,7 @@ $messages['te'] = array(
 	'ow_needs_xlation_source_lang' => 'మూల భాష:',
 	'ow_needs_xlation_dest_lang' => 'లక్ష్యిత భాష:',
 	'ow_needs_xlation_no_dest_lang' => 'ఒక దేస్తినషన్ భాషను పేర్కొనండి.',
+	'ow_statistics' => 'Wikidata: గణాంకాలు',
 	'ow_show' => 'చూపించు',
 	'ow_upload' => 'ఎగుమతిచెయ్యండి',
 	'ow_create' => 'సృష్టించు',
@@ -14101,6 +14118,7 @@ $messages['uk'] = array(
 	'datasearch_language' => 'Мова:',
 	'datasearch_found_word' => 'Знайдене слово',
 	'datasearch_meaning' => 'Значення',
+	'datasearch_ext_identifier' => 'Зовнішній ідентифікатор',
 	'datasearch_search_text' => 'Пошук тексту:',
 	'datasearch_within_words' => 'Серед слів:',
 	'datasearch_within_ext_ids' => 'Серед зовнішніх ідентифікаторів:',
@@ -14108,8 +14126,10 @@ $messages['uk'] = array(
 	'datasearch_match_ext_ids' => 'Зовнішні ідентифікатори, що відповідають <i>$1</i>',
 	'datasearch_match_words' => 'Слова, що відповідають "$1", і пов\'язані значення',
 	'ow_importtsv_import_failed' => 'Помилка при імпортуванні',
+	'ow_importtsv_test_run' => 'Тестовий запуск:',
 	'ow_importtsv_nothing_added' => 'Нічого не додано.',
 	'ow_exporttsv_languages' => 'Мови:',
+	'ow_exporttsv_export_failed' => 'Збій при експорті',
 	'ow_save' => 'Зберегти',
 	'ow_history' => 'Історія',
 	'ow_datasets' => 'Вибір набору даних',
@@ -14119,12 +14139,17 @@ $messages['uk'] = array(
 	'ow_uipref_datasets' => 'Звичайний вигляд:',
 	'ow_uiprefs' => 'Вікідані',
 	'ow_none_selected' => 'Нічого не обрано',
+	'ow_transaction_from_transaction' => 'З транзакції:',
+	'ow_transaction_count' => 'Кількість:',
 	'ow_transaction_user' => "Ім'я користувача:",
 	'ow_transaction_rollback_button' => 'Відкинути',
 	'ow_transaction_rollback_header' => 'Відкинути',
 	'ow_transaction_previous_version' => 'Попередня версія',
 	'ow_transaction_restore' => 'Відновити',
 	'ow_transaction_remove' => 'Вилучити',
+	'ow_transaction_operation' => 'Операція',
+	'ow_transaction_is_latest' => 'Є останньою',
+	'ow_transaction_object' => "Об'єкт",
 	'ow_transaction_summary' => 'Опис',
 	'ow_conceptmapping_help' => '<p>можливі дії: <ul>
 <li>&action=insert&<data_context_prefix>=<defined_id>&...  вставити відповідність</li>
@@ -14152,12 +14177,14 @@ $messages['uk'] = array(
 	'ow_AlternativeDefinitions' => 'Альтернативні визначення',
 	'ow_Annotation' => 'Анотація',
 	'ow_ApproximateMeanings' => 'Приблизні значення',
+	'ow_Class' => 'Клас',
 	'ow_ClassAttributeAttribute' => 'Атрибут',
 	'ow_ClassAttributes' => 'Атрибути класу',
 	'ow_ClassAttributeLevel' => 'Рівень',
 	'ow_ClassAttributeType' => 'Тип',
 	'ow_ClassMembership' => 'Членство у класах',
 	'ow_Collection' => 'Колекція',
+	'ow_Collection_colon' => 'Колекція:',
 	'ow_CollectionMembership' => 'Присутні в колекціях',
 	'ow_Definition' => 'Визначення',
 	'ow_DefinedMeaningAttributes' => 'Анотація',
@@ -14191,12 +14218,15 @@ $messages['uk'] = array(
 	'ow_SourceIdentifier' => 'Ідентифікатор джерела',
 	'ow_Text' => 'Текст',
 	'ow_TextAttribute' => 'Властивість',
+	'ow_TextAttributeHeader' => 'Атрибут тексту',
 	'ow_TextAttributeValues' => 'Прості тексти',
 	'ow_Time' => 'Час',
 	'ow_TranslatedTextAttribute' => 'Властивість',
 	'ow_TranslatedText' => 'Перекладений текст',
 	'ow_TranslatedTextAttributeValue' => 'Текст',
 	'ow_TranslatedTextAttributeValues' => 'Тексти для перекладу',
+	'ow_Label' => 'Позначення',
+	'ow_Link' => 'Посилання',
 	'ow_LinkAttribute' => 'Властивість',
 	'ow_LinkAttributeValues' => 'Посилання',
 	'ow_User' => 'Користувач',
@@ -14214,13 +14244,19 @@ $messages['uk'] = array(
 	'ow_please_proved_dc1' => "Схоже, що у вхідних даних відсутнє «?dc1=<щось>» (dc1 — контекст набору даних; набір даних, звідки копіювати)<br /> Будь ласка, зв'яжіться з адміністратором сервера.",
 	'ow_copy_unsuccessful' => '<h3>Копіювання невдале</h3>
 Не була виконана операція копіювання.',
+	'ow_history_transaction' => 'Транзакція:',
 	'ow_class_attr_type_plain' => 'Простий текст',
+	'ow_class_attr_type_link' => 'Посилання',
 	'ow_needs_xlation_source_lang' => 'Мова оригіналу:',
+	'ow_show' => 'Показати',
 	'ow_upload' => 'Завантажити',
 	'ow_create' => 'Створити',
 	'ow_collection_added' => ' <strong>Колекцію $1 додано. </strong>',
 	'ow_suggest_previous' => 'Попередній',
 	'ow_suggest_next' => 'Наступний',
+	'ow_suggest_clear' => 'Очистити',
+	'ow_nstab_edit_copy' => 'редагувати копію',
+	'right-addlanguage' => 'Додавання і зміна мовних налаштувань',
 );
 
 /** Veps (Vepsan kel')

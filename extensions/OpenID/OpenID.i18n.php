@@ -407,11 +407,26 @@ $messages['ar'] = array(
 );
 
 /** Aramaic (ܐܪܡܝܐ)
+ * @author 334a
  * @author Basharh
  */
 $messages['arc'] = array(
+	'openidusernameprefix' => 'ܡܦܠܚܢܐ ܕܗܝܝܘܬܐ ܦܬܝܚܬܐ',
+	'openidoptional' => 'ܓܒܝܝܐ',
+	'openidfullname' => 'ܫܡܐ ܓܡܝܪܐ',
+	'openidemail' => 'ܦܪܫܓܢܐ ܕܒܝܠܕܪܐ ܐܠܩܛܪܘܢܝܐ',
+	'openidlanguage' => 'ܠܫܢܐ',
+	'openidtimezone' => 'ܙܘܢܐ ܙܒܢܝܐ:',
+	'openidchooselegend' => 'ܓܒܝܐ ܕܫܡܐ ܕܡܬܚܫܚܢܐ',
+	'openidchoosefull' => 'ܫܡܐ ܓܡܝܪܐ ܕܝܠܟ($1)',
 	'openidchoosepassword' => 'ܡܠܬܐ ܕܥܠܠܐ:',
+	'openidloginlabel' => 'URL ܕܗܝܝܘܬܐ ܦܬܝܚܬܐ',
+	'openiddelete' => 'ܫܘܦ ܗܝܝܘܬܐ ܦܬܝܚܬܐ',
 	'openiddelete-button' => 'ܚܬܬ',
+	'openid-urls-action' => 'ܥܒܕܐ',
+	'openid-urls-delete' => 'ܫܘܦ',
+	'openid-add-url' => 'ܐܘܣܦ ܗܝܝܘܬܐ ܦܬܝܚܬܐ ܚܕܬܐ',
+	'openid-provider-label-other-username' => 'ܐܥܠ ܫܡܐ ܕܡܬܚܫܚܢܐ ܕܝܠܟ ܒ $1',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -488,6 +503,13 @@ $messages['arz'] = array(
  */
 $messages['ast'] = array(
 	'openidlanguage' => 'Llingua',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'openiddelete-button' => 'Пацвердзіць',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -1131,6 +1153,7 @@ Ohne OpenID könntest du dich nicht mehr anmelden.',
  * @author ChrisiPK
  * @author Imre
  * @author LWChris
+ * @author The Evil IP address
  * @author Umherirrender
  */
 $messages['de-formal'] = array(
@@ -1141,7 +1164,7 @@ Bitte benachrichtigen Sie einen [[Special:ListUsers/sysop|Administrator]].',
 	'openidchooseinstructions' => 'Alle Benutzer benötigen einen Benutzernamen;
 Sie können einen aus der untenstehenden Liste auswählen.',
 	'openidchoosenick' => 'Ihr Spitzname ($1)',
-	'openidchoosefull' => 'Ihr vollständiger Name ($1)',
+	'openidchoosefull' => 'Ihr bürgerlicher Name ($1)',
 	'openidchooseurl' => 'Ein Name aus Ihrer OpenID ($1)',
 	'openidchoosemanual' => 'Ein Name Ihrer Wahl:',
 	'openidconvertinstructions' => 'Mit diesem Formular können Sie Ihr Benutzerkonto zur Benutzung einer OpenID-URL freigeben oder eine weitere OpenID-URL hinzufügen',
@@ -3337,8 +3360,8 @@ $messages['mk'] = array(
 	'openiderror' => 'Грешка при потврдувањето',
 	'openiderrortext' => 'Настана грешка при потврдувањето на URL адресата на OpenID.',
 	'openidconfigerror' => 'Грешка со конфигурацијата на OpenID',
-	'openidconfigerrortext' => 'Складишната конфигурација на OpenID за ова вики е погрешна.
-Консултирајте се со [[Special:ListUsers/sysop|администратор]].',
+	'openidconfigerrortext' => 'Складишните посатвки на OpenID за ова вики се погрешни.
+Консултирајте [[Special:ListUsers/sysop|администратор]].',
 	'openidpermission' => 'Грешка при дозволување на OpenID',
 	'openidpermissiontext' => 'На внесениот OpenID не му е дозволено најавување на овој опслужувач.',
 	'openidcancel' => 'Потврдувањето е откажано',
@@ -3440,12 +3463,16 @@ $messages['ml'] = array(
 	'openidfullname' => 'പൂർണ്ണനാമം',
 	'openidemail' => 'ഇമെയിൽ വിലാസം',
 	'openidlanguage' => 'ഭാഷ',
+	'openidtimezone' => 'സമയ മേഖല',
+	'openidchooselegend' => 'ഐച്ഛിക ഉപയോക്തൃനാമം',
 	'openidchooseinstructions' => 'എല്ലാ ഉപയോക്താക്കൾക്കും ഒരു വിളിപ്പേരു ആവശ്യമാണ്‌. താഴെ കൊടുത്തിരിക്കുന്നവയിൽ നിന്നു ഒരെണ്ണം താങ്കൾക്ക് തിരഞ്ഞെടുക്കാവുന്നതാണ്‌.',
+	'openidchoosenick' => 'താങ്കളുടെ വിളിപ്പേര് ($1)',
 	'openidchoosefull' => 'താങ്കളുടെ പൂർണ്ണനാമം ($1)',
 	'openidchooseurl' => 'താങ്കളുടെ ഓപ്പൺ‌ഐ.ഡി.യിൽ നിന്നു തിരഞ്ഞെടുത്ത ഒരു പേര്‌ ($1)',
 	'openidchooseauto' => 'യാന്ത്രികമായി ഉണ്ടാക്കിയ പേര്‌ ($1)',
 	'openidchoosemanual' => 'താങ്കൾക്ക് ഇഷ്ടമുള്ള ഒരു പേര്‌:',
 	'openidchooseexisting' => 'ഈ വിക്കിയിലെ നിലവിലുള്ള അംഗത്വം',
+	'openidchooseusername' => 'ഉപയോക്തൃനാമം:',
 	'openidchoosepassword' => 'രഹസ്യവാക്ക്:',
 	'openidconvertsuccess' => 'ഓപ്പൺ ഐ.ഡി.യിലേക്ക് വിജയകരമായി പരിവർത്തനം ചെയ്തിരിക്കുന്നു',
 	'openidconvertsuccesstext' => 'താങ്കളുടെ ഓപ്പൺ‌ഐ.ഡി. $1ലേക്കു വിജയകരമായി പരിവർത്തനം ചെയ്തിരിക്കുന്നു.',
@@ -3454,6 +3481,8 @@ $messages['ml'] = array(
 	'openidnousername' => 'ഉപയോക്തൃനാമം തിരഞ്ഞെടുത്തിട്ടില്ല.',
 	'openidbadusername' => 'അസാധുവായ ഉപയോക്തൃനാമമാണു തിരഞ്ഞെടുത്തിരിക്കുന്നത.',
 	'openidloginlabel' => 'ഓപ്പൺ‌ഐ.ഡി. വിലാസം',
+	'openid-urls-action' => 'നടപടി',
+	'openid-urls-delete' => 'മായ്ക്കുക',
 );
 
 /** Mongolian (Монгол)
@@ -3462,6 +3491,7 @@ $messages['ml'] = array(
 $messages['mn'] = array(
 	'openidlanguage' => 'Хэл',
 	'openidtimezone' => 'Цагийн бүс',
+	'openidchooseusername' => 'Хэрэглэгчийн нэр:',
 );
 
 /** Marathi (मराठी)
@@ -4850,6 +4880,8 @@ $messages['sl'] = array(
 	'openidloginlabel' => 'URL OpenID',
 	'openiddelete' => 'Izbriši OpenID',
 	'openiddelete-button' => 'Potrdi',
+	'openid-prefstext' => 'Nastavitve [http://openid.net/ OpenID]',
+	'openid-urls-desc' => 'OpenID-ji, povezani z vašim računom:',
 	'openid-urls-action' => 'Dejanje',
 	'openid-urls-delete' => 'Izbriši',
 	'openid-add-url' => 'Dodaj nov OpenID',
@@ -4857,6 +4889,7 @@ $messages['sl'] = array(
 	'openid-provider-label-openid' => 'Vnesite svoj URL OpenID',
 	'openid-provider-label-google' => 'Prijavite se s svojim računom Google',
 	'openid-provider-label-yahoo' => 'Prijavite se s svojim računom Yahoo',
+	'openid-provider-label-aol' => 'Vnesite svoje prikazno ime AOL',
 	'openid-provider-label-other-username' => 'Vnesite svoje uporabniško ime $1',
 );
 

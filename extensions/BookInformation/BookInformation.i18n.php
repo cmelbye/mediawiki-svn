@@ -113,6 +113,7 @@ $messages['ar'] = array(
  * @author Basharh
  */
 $messages['arc'] = array(
+	'bookinfo-result-title' => 'ܟܘܢܝܐ:',
 	'bookinfo-result-author' => 'ܣܝܘܡܐ:',
 	'bookinfo-result-publisher' => 'ܦܪܣܢܐ:',
 	'bookinfo-result-year' => 'ܫܢܬܐ:',
@@ -167,12 +168,37 @@ $messages['avk'] = array(
 	'bookinfo-provider' => 'Origdafusik : $1',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'bookinfo-header' => 'Китап тураһында мәғлүмәт',
+	'bookinformation-desc' => '[[Special:Booksources|"Китап сығанаҡтары" махсус битен]] веб-хеҙмәттәрҙән алынған мәғлүмәт менән киңәйтә.',
+	'bookinfo-result-title' => 'Исеме:',
+	'bookinfo-result-author' => 'Авторы:',
+	'bookinfo-result-publisher' => 'Нәшриәт:',
+	'bookinfo-result-year' => 'Йыл:',
+	'bookinfo-error-invalidisbn' => 'Керетелгән ISBN дөрөҫ түгел.',
+	'bookinfo-error-nosuchitem' => 'Мәғлүмәт юҡ йәки табыла алмай.',
+	'bookinfo-error-nodriver' => 'Кәрәкле Китаптар тураһында мәғлүмәт драйверының башланғыс көйләүҙәрен билдәләп булмай.',
+	'bookinfo-error-noresponse' => 'Яуап юҡ йәки яуап көтөү выҡыты үтте.',
+	'bookinfo-purchase' => 'Китапты ошонан һатып алырға: $1',
+	'bookinfo-provider' => 'Мәғлүмәт менән тәьмин итеүсе: $1',
+);
+
 /** Bikol Central (Bikol Central)
  * @author Filipinayzd
  */
 $messages['bcl'] = array(
 	'bookinfo-result-title' => 'Titulo:',
 	'bookinfo-result-year' => 'Taon:',
+);
+
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'bookinfo-result-author' => 'Аўтар:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -514,7 +540,7 @@ $messages['fi'] = array(
  * @author Verdy p
  */
 $messages['fr'] = array(
-	'bookinfo-header' => 'Informations sur les ouvrages',
+	'bookinfo-header' => 'Informations sur l’ouvrage',
 	'bookinformation-desc' => 'Complète la [[Special:Booksources|page spéciale des sources d’ouvrages de références]] à l’aide d’informations provenant de services Internet',
 	'bookinfo-result-title' => 'Titre :',
 	'bookinfo-result-author' => 'Auteur :',
@@ -1136,6 +1162,7 @@ $messages['mk'] = array(
 
 /** Malayalam (മലയാളം)
  * @author Jacob.jose
+ * @author Praveenp
  * @author Shijualex
  */
 $messages['ml'] = array(
@@ -1147,6 +1174,7 @@ $messages['ml'] = array(
 	'bookinfo-result-year' => 'വർഷം:',
 	'bookinfo-error-invalidisbn' => 'താങ്കൾ രേഖപ്പെടുത്തിയ ISBN സംഖ്യ അസാധുവാണ്‌.',
 	'bookinfo-error-nosuchitem' => 'ഈ ഇനം കണ്ടെത്താൻ കഴിഞ്ഞില്ല അല്ലെങ്കിൽ നിലവിലില്ല.',
+	'bookinfo-error-nodriver' => 'അനുയോജ്യമായ പുസ്തക വിവര ഡ്രൈവർ തുടങ്ങാൻ സാധിച്ചില്ല.',
 	'bookinfo-error-noresponse' => 'പ്രതികരണമില്ല അല്ലെങ്കിൽ അപേക്ഷയുടെ സമയപരിധി കഴിഞ്ഞു',
 	'bookinfo-purchase' => 'ഈ പുസ്തകം $1ൽ നിന്നു വാങ്ങുക',
 	'bookinfo-provider' => 'ഡാറ്റ ദാതാവ്: $1',
@@ -1545,7 +1573,18 @@ $messages['sk'] = array(
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'bookinfo-header' => 'Informacije o knjigah',
+	'bookinformation-desc' => 'Razširi [[Special:Booksources|posebno stran z viri knjih]] z informacijami iz spletnih storitev',
+	'bookinfo-result-title' => 'Naslov:',
+	'bookinfo-result-author' => 'Avtor:',
+	'bookinfo-result-publisher' => 'Založba:',
 	'bookinfo-result-year' => 'Leto:',
+	'bookinfo-error-invalidisbn' => 'Vnesen je bil neveljaven ISBN.',
+	'bookinfo-error-nosuchitem' => 'Predmet ne obstaja ali ga ni mogoče najti.',
+	'bookinfo-error-nodriver' => 'Ne morem zagnati ustreznega Gonilnika informacij o knjigah (Book Information Driver).',
+	'bookinfo-error-noresponse' => 'Ni odgovora ali pa je zahteva potekla.',
+	'bookinfo-purchase' => 'Kupite to knjigo pri $1',
+	'bookinfo-provider' => 'Podatke nudi: $1',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

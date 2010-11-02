@@ -7,12 +7,21 @@
 	cursor: hand;
 }
 
+.templateEditor .sentenceEditorElement.edited,
+.templateEditor .listEditorElement.edited,
+.templateEditor .referenceEditorElement.edited,
+.templateEditor .mediaEditorElement.edited,
+.templateEditor .templateEditorElement.edited {
+	/* have a yellow color to highlight edited elements, basically the orange color with the hue shifted */
+	background-color: #F9F2A7;
+}
+
 .templateEditor .templateEditorElement:hover {
 	/* indicate the template to be edited with a darker color */
 	background-color: #a7d7f9;
 }
 
-.templateEditor .templateEditorElementNotEditing * {
+.templateEditor .templateEditorElement.notEditing * {
 	/* make sure all the child elements inherit the background color */
 	background-color: inherit !important;
 }
@@ -24,11 +33,6 @@
 	
 	/* reset the cursor when editing */
 	cursor: auto;
-}
-
-.templateEditor .edited {
-	/* have a yellow color to highlight edited elements, basically the orange color with the hue shifted */
-	background-color: #F9F2A7;
 }
 
 .templateEditor .lastEdit {

@@ -264,12 +264,18 @@ $messages['ar'] = array(
 
 /** Aramaic (ܐܪܡܝܐ)
  * @author Basharh
+ * @author Michaelovic
  */
 $messages['arc'] = array(
 	'proofreadpage_namespace' => 'ܦܐܬܐ',
 	'proofreadpage_image' => 'ܨܘܪܬܐ',
 	'proofreadpage_indexdupe' => 'ܐܣܘܪܐ ܥܦܝܦܐ',
 	'proofreadpage_nologin' => 'ܠܐ ܥܠܝܠܐ',
+	'proofreadpage_nextpage' => 'ܦܐܬܐ ܐܚܪܬܐ',
+	'proofreadpage_prevpage' => 'ܦܐܬܐ ܩܕܝܡܬܐ',
+	'proofreadpage_index_listofpages' => 'ܡܟܬܒܘܬܐ ܕܕܦ̈ܐ',
+	'proofreadpage_pages' => '{{PLURAL:$1|ܕܦܐ|ܕܦ̈ܐ}}',
+	'proofreadpage_source' => 'ܡܒܘܥܐ',
 );
 
 /** Araucanian (Mapudungun)
@@ -1603,6 +1609,7 @@ Comentèros||10',
 	'proofreadpage_specialpage_legend' => 'Rechèrchiér dens les pâges d’endèxe',
 	'proofreadpage_source' => 'Sôrsa',
 	'proofreadpage_source_message' => 'Èdicion scanâ que vint de cél tèxto',
+	'right-pagequality' => 'Changiér lo drapél de qualitât de la pâge',
 );
 
 /** Friulian (Furlan)
@@ -1807,6 +1814,7 @@ $messages['haw'] = array(
  */
 $messages['he'] = array(
 	'indexpages' => 'רשימת דפי אינדקס',
+	'pageswithoutscans' => 'דפים ללא סריקות',
 	'proofreadpage_desc' => 'השוואה קלה של טקסט לסריקה המקורית שלו',
 	'proofreadpage_namespace' => 'דף',
 	'proofreadpage_index_namespace' => 'אינדקס',
@@ -1858,6 +1866,7 @@ $messages['he'] = array(
 	'proofreadpage_specialpage_legend' => 'חיפוש בדפי האינדקס',
 	'proofreadpage_source' => 'מקור',
 	'proofreadpage_source_message' => 'הגרסה הסרוקה ששימשה להכנת טקסט זה',
+	'right-pagequality' => 'החלפת דגל האיכות של הדף',
 );
 
 /** Hindi (हिन्दी)
@@ -2913,6 +2922,7 @@ Pastabos||10',
 );
 
 /** Latvian (Latviešu)
+ * @author Papuass
  * @author Xil
  * @author Yyy
  */
@@ -2923,9 +2933,22 @@ $messages['lv'] = array(
 	'proofreadpage_index' => 'Saturs',
 	'proofreadpage_nextpage' => 'Nākamā lapa',
 	'proofreadpage_prevpage' => 'Iepriekšējā lapa',
+	'proofreadpage_quality0_category' => 'Bez teksta',
 	'proofreadpage_quality1_category' => 'Nav pārlasīts',
 	'proofreadpage_quality2_category' => 'Problemātisks',
 	'proofreadpage_quality3_category' => 'Pārlasīts',
+	'proofreadpage_index_listofpages' => 'Lapu saraksts',
+	'proofreadpage_page_status' => 'Lapas statuss',
+	'proofreadpage_js_attributes' => 'Autors Nosaukums Gads Izdevējs',
+	'proofreadpage_index_attributes' => 'Autors
+Nosaukums
+Gads|Publikācijas gads
+Izdevējs
+Avots
+Attēls|Vāka attēls
+Lapas||20
+Piezīmes||10',
+	'proofreadpage_source' => 'Avots',
 );
 
 /** Eastern Mari (Олык Марий)
@@ -3003,6 +3026,7 @@ $messages['mk'] = array(
  */
 $messages['ml'] = array(
 	'indexpages' => 'സൂചികാ താളുകളുടെ പട്ടിക',
+	'pageswithoutscans' => 'സ്കാനുകൾ ഇല്ലാത്ത താളുകൾ',
 	'proofreadpage_desc' => 'യഥാർത്ഥ സ്കാനും എഴുത്തും തമ്മിലുള്ള ലളിതമായ ഒത്തുനോക്കൽ അനുവദിക്കുക',
 	'proofreadpage_namespace' => 'താൾ',
 	'proofreadpage_index_namespace' => 'ഇൻഡെക്സ്',
@@ -3055,6 +3079,14 @@ $messages['ml'] = array(
 	'proofreadpage_source' => 'സ്രോതസ്സ്',
 	'proofreadpage_source_message' => 'ഈ എഴുത്ത് സ്ഥാപിക്കാൻ സ്കാൻ ചെയ്തെടുത്ത പ്രസിദ്ധീകരണമാണുപയോഗിച്ചത്',
 	'right-pagequality' => 'താളിന്റെ ഗുണമേന്മാ പതാകയിൽ മാറ്റം വരുത്തുക',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'proofreadpage_namespace' => 'Хуудас',
+	'proofreadpage_pages' => '{{PLURAL:$1|хуудас}}',
 );
 
 /** Marathi (मराठी)
@@ -3281,6 +3313,7 @@ Opmerkingen||10",
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+ * @author Diupwijk
  * @author Gunnernett
  * @author Harald Khan
  * @author Jon Harald Søby
@@ -3294,6 +3327,7 @@ $messages['nn'] = array(
 	'proofreadpage_index_expected' => 'Feil: Indeks forventa',
 	'proofreadpage_nosuch_index' => 'Feil: ingen slik indeks',
 	'proofreadpage_nosuch_file' => 'Feil: inga slik fil',
+	'proofreadpage_nologin' => 'Ikkje innlogga',
 	'proofreadpage_number_expected' => 'Feil: Talverdi forventa',
 	'proofreadpage_interval_too_large' => 'Feil: for stort intervall',
 	'proofreadpage_invalid_interval' => 'Feil: ugyldig intervall',
@@ -3320,6 +3354,8 @@ Kjelda
 Bilete|Omslagsbilete
 Sider||20
 Merknader||10',
+	'proofreadpage_pages' => '{{PLURAL:$1|side|sider}}',
+	'proofreadpage_source' => 'Kjelde',
 );
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
@@ -3841,9 +3877,11 @@ Comentarii||10',
 
 /** Tarandíne (Tarandíne)
  * @author Joetaras
+ * @author Reder
  */
 $messages['roa-tara'] = array(
 	'indexpages' => 'Elenghe de le pàggene de indice',
+	'pageswithoutscans' => 'Pàggene senze scansiune',
 	'proofreadpage_desc' => "Permette combronde facele de teste cu 'a scanzione origgenale",
 	'proofreadpage_namespace' => 'Pàgene',
 	'proofreadpage_index_namespace' => 'Indice',
@@ -3895,6 +3933,7 @@ Note||10",
 	'proofreadpage_specialpage_legend' => 'Cirche le pàggene de indice',
 	'proofreadpage_source' => 'Sorgende',
 	'proofreadpage_source_message' => 'Edizione scanzionate ausate pe definì stu teste',
+	'right-pagequality' => "Cange 'a bandiere d'a qualità d'a pàgene",
 );
 
 /** Russian (Русский)
@@ -3964,7 +4003,19 @@ $messages['ru'] = array(
  * @author Gazeb
  */
 $messages['rue'] = array(
+	'indexpages' => 'Список індексовых сторінок',
+	'pageswithoutscans' => 'Сторінкы без скеновань',
 	'proofreadpage_namespace' => 'Сторінка',
+	'proofreadpage_index_namespace' => 'Індекс',
+	'proofreadpage_image' => 'Образок',
+	'proofreadpage_index' => 'Індекс',
+	'proofreadpage_nosuch_file' => 'Хыба: такый файл не єствує',
+	'proofreadpage_badpage' => 'Неправилный формат',
+	'proofreadpage_indexdupe' => 'Дупліцітный одказ',
+	'proofreadpage_nologin' => 'Не сьте приголошеный(а)',
+	'proofreadpage_notallowed' => 'Зміна не є доволена',
+	'proofreadpage_interval_too_large' => 'Хыба: дуже великый інтервал',
+	'proofreadpage_invalid_interval' => 'Хыба: неправилны інтервал',
 	'proofreadpage_nextpage' => 'Далша сторінка',
 	'proofreadpage_prevpage' => 'Попередня сторінка',
 	'proofreadpage_header' => 'Головка (noinclude):',
@@ -3972,6 +4023,8 @@ $messages['rue'] = array(
 	'proofreadpage_footer' => 'Пятка (noinclude):',
 	'proofreadpage_quality0_category' => 'Без тексту',
 	'proofreadpage_quality2_category' => 'Проблематічна',
+	'proofreadpage_quality4_category' => 'Перевірена',
+	'proofreadpage_quality0_message' => 'Тота сторінка не потребує коректуры',
 	'proofreadpage_index_listofpages' => 'Список сторінок',
 	'proofreadpage_page_status' => 'Статус сторінкы',
 	'proofreadpage_js_attributes' => 'Автор Назва Рік Выдавательство',
@@ -4075,6 +4128,7 @@ $messages['si'] = array(
  */
 $messages['sk'] = array(
 	'indexpages' => 'Zoznam indexových stránok',
+	'pageswithoutscans' => 'Stránky bez prehliadnutia',
 	'proofreadpage_desc' => 'Umožňuje jednoduché porovnanie textu s originálnym skenom',
 	'proofreadpage_namespace' => 'Stránka',
 	'proofreadpage_index_namespace' => 'Index',
@@ -4126,6 +4180,7 @@ Poznámky||10',
 	'proofreadpage_specialpage_legend' => 'Hľadať v stránkach indexu',
 	'proofreadpage_source' => 'Zdroj',
 	'proofreadpage_source_message' => 'Naskenované vydanie použité pri vzniku tohto textu',
+	'right-pagequality' => 'Zmeniť príznak kvality stránky',
 );
 
 /** Slovenian (Slovenščina)
@@ -4324,6 +4379,7 @@ Catetan||10',
 
 /** Swedish (Svenska)
  * @author Cohan
+ * @author Diupwijk
  * @author Fluff
  * @author Lejonel
  * @author M.M.S.
@@ -4384,7 +4440,7 @@ Anmärkningar||10',
 	'proofreadpage_pages' => '{{PLURAL:$1|sida|sidor}}',
 	'proofreadpage_specialpage_legend' => 'Sök i indexsidorna',
 	'proofreadpage_source' => 'Källa',
-	'proofreadpage_source_message' => 'Scannat orginal använt för att skapa denna text',
+	'proofreadpage_source_message' => 'Scannat original använt för att skapa denna text',
 	'right-pagequality' => 'Ändra sidans kvalitetsflagga',
 );
 
@@ -4594,6 +4650,7 @@ $messages['th'] = array(
  */
 $messages['tk'] = array(
 	'indexpages' => 'Indeks sahypalarynyň sanawy',
+	'pageswithoutscans' => 'Skansyz sahypalar',
 	'proofreadpage_desc' => 'Original skanirleme bilen tekstiň aňsat deňedirilmegine rugsat berýär',
 	'proofreadpage_namespace' => 'Sahypa',
 	'proofreadpage_index_namespace' => 'Indeks',
@@ -4645,6 +4702,7 @@ Bellikler||10',
 	'proofreadpage_specialpage_legend' => 'Indeks sahypalaryny gözle',
 	'proofreadpage_source' => 'Çeşme',
 	'proofreadpage_source_message' => 'Bu teksti döretmek üçin ulanylan skanirlenen wersiýa',
+	'right-pagequality' => 'Sahypanyň hil baýdagyny üýtget',
 );
 
 /** Tagalog (Tagalog)

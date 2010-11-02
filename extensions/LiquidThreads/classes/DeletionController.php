@@ -12,7 +12,7 @@ class LqtDeletionController {
 		$threads = Threads::where( array( 'thread_root' => $id ) );
 
 		if ( !count( $threads ) ) {
-			wfDebugLog( __METHOD__ . ": no threads with root $id, ignoring...\n" );
+			wfDebugLog( 'LiquidThreads', __METHOD__ . ": no threads with root $id, ignoring...\n" );
 			return true;
 		}
 
@@ -22,7 +22,6 @@ class LqtDeletionController {
 		$thread->delete( $reason );
 
 		// Avoid orphaning subthreads, update their parentage.
-		wfLoadExtensionMessages( 'LiquidThreads' );
 		if ( $thread->replies() && $thread->isTopmostThread() ) {
 			$reason = wfMsg( 'lqt-delete-parent-deleted', $reason );
 			self::recursivelyDeleteReplies( $thread, $reason );
@@ -102,10 +101,11 @@ class LqtDeletionController {
 
 		$thread = Threads::withRoot( $article );
 
-		if ( !$thread ) return true;
+		if ( !$thread ) {
+			return true;
+		}
 
 		if ( $thread->isTopmostThread() && count( $thread->replies() ) ) {
-			wfLoadExtensionMessages( 'LiquidThreads' );
 			$out->wrapWikiMsg(
 				'<strong>$1</strong>',
 				'lqt-delete-parent-warning'

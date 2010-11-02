@@ -55,6 +55,13 @@ $messages['ar'] = array(
 	'tog-edit-similar' => 'تفعيل اقتراحات الصفحات المشابهة',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'editsimilar-link-disable' => 'ܛܟܣ ܓܒܝܬ̈ܐ',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -130,6 +137,16 @@ $messages['ca'] = array(
 	'editsimilar-desc' => 'Anima als usuaris a editar pàgines similars quan han desat una pàgina',
 	'editsimilar-thankyou' => 'Gràcies per la seva contribució, $1!',
 	'tog-edit-similar' => 'Activa els suggeriments de pàgines similars',
+);
+
+/** Czech (Česky)
+ * @author Jkjk
+ */
+$messages['cs'] = array(
+	'editsimilar-desc' => 'Nabádá uživatele editovat podobnou stránku po uložení stránky',
+	'editsimilar-thankyou' => 'Děkujeme za váš příspěvek, $1!',
+	'editsimilar-link-disable' => 'nastavit nastavení',
+	'tog-edit-similar' => 'Zapnout navrhování podobných stránek',
 );
 
 /** German (Deutsch)

@@ -297,6 +297,31 @@ $messages['el'] = array(
 	'sphinxSearchWarning' => 'Προειδοποίηση: $1',
 );
 
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
+$messages['eo'] = array(
+	'sphinxSearchInNamespaces' => 'Serĉi en nomspacoj:',
+	'sphinxSearchInCategories' => 'Serĉi en kategorioj:',
+	'sphinxExcludeCategories' => 'Kategorioj por ekskluvizi',
+	'sphinxResultPage' => 'Rezulta paĝo:',
+	'sphinxPreviousPage' => 'Antaŭa',
+	'sphinxNextPage' => 'Sekva',
+	'sphinxSearchStats' => '* "$1" troviĝis $2 {{PLURAL:$2|fojo|fojoj}} en $3 {{PLURAL:$3|dokumento|dokumentoj}}',
+	'sphinxSearchButton' => 'Serĉi',
+	'sphinxSearchEpilogue' => 'Plua tempo de datumbazo ests $1 sekundoj.',
+	'sphinxSearchDidYouMean' => 'Ĉi vi signifas:',
+	'sphinxMatchAny' => 'kongruigi ĉiun vorton',
+	'sphinxMatchAll' => 'kongruigi ĉiujn vortojn',
+	'sphinxMatchTitles' => 'kongruigi nur titolojn',
+	'sphinxLoading' => 'Ŝarĝante...',
+	'sphinxPowered' => 'Funkcias per $1',
+	'sphinxClientFailed' => 'Ne povas starti klienton Sphinx.',
+	'sphinxSearchFailed' => 'Mendo malsukcesis: $1',
+	'sphinxSearchWarning' => 'Averto: $1',
+	'sphinxPspellError' => 'Ne povis envoki kromprogramon pspell.',
+);
+
 /** Spanish (Español)
  * @author Crazymadlover
  * @author Pertile
@@ -402,6 +427,13 @@ $messages['frp'] = array(
 	'sphinxSearchFailed' => 'Falyita de la requéta : $1',
 	'sphinxSearchWarning' => 'Avèrtissement : $1',
 	'sphinxPspellError' => 'Empossiblo de lanciér l’èxtension pspell.',
+);
+
+/** Traditional Gan script (贛語(繁體))
+ * @author Symane
+ */
+$messages['gan-hant'] = array(
+	'sphinxSearchButton' => '尋吖',
 );
 
 /** Galician (Galego)
@@ -510,16 +542,25 @@ $messages['hsb'] = array(
 );
 
 /** Hungarian (Magyar)
+ * @author Dani
  * @author Glanthor Reviol
  */
 $messages['hu'] = array(
+	'sphinxsearch' => 'Keresés a wikiben a Sphinx használatával',
 	'sphinxSearchInNamespaces' => 'Keresés a következő névterekben:',
 	'sphinxSearchInCategories' => 'Keresés a következő kategóriákban:',
 	'sphinxExcludeCategories' => 'Kihagyandó kategóriák',
 	'sphinxPreviousPage' => 'Előző',
 	'sphinxNextPage' => 'Következő',
 	'sphinxSearchButton' => 'Keresés',
+	'sphinxSearchDidYouMean' => 'Keresési javaslat:',
+	'sphinxMatchAny' => 'bármely szóra',
+	'sphinxMatchAll' => 'minden szóra',
+	'sphinxMatchTitles' => 'keresés csak a címekben',
 	'sphinxLoading' => 'Betöltés…',
+	'sphinxPowered' => 'A keresést a $1 működteti.',
+	'sphinxClientFailed' => 'Nem sikerült elindítani a Sphinx klienst.',
+	'sphinxSearchFailed' => 'Sikertelen lekérdezés: $1',
 	'sphinxSearchWarning' => 'Figyelmeztetés: $1',
 );
 
@@ -616,6 +657,13 @@ $messages['ja'] = array(
 	'sphinxSearchFailed' => '検索失敗: $1',
 	'sphinxSearchWarning' => '警告： $1',
 	'sphinxPspellError' => 'pspell 拡張機能を起動できませんでした。',
+);
+
+/** Kalaallisut (Kalaallisut)
+ * @author Qaqqalik
+ */
+$messages['kl'] = array(
+	'sphinxSearchButton' => 'Ujarlerit',
 );
 
 /** Khmer (ភាសាខ្មែរ)
@@ -1006,8 +1054,12 @@ $messages['sv'] = array(
 $messages['te'] = array(
 	'sphinxSearchInCategories' => 'వర్గాలలో వెతుకు:',
 	'sphinxExcludeCategories' => 'వదిలేయాల్సిన వర్గాలు',
+	'sphinxResultPage' => 'ఫలితపు పుట:',
+	'sphinxPreviousPage' => 'గత',
 	'sphinxNextPage' => 'తదుపరి',
 	'sphinxSearchButton' => 'వెతుకు',
+	'sphinxSearchDidYouMean' => 'మీరు అంటున్నది ఇదా:',
+	'sphinxLoading' => 'లోడవుతోంది...',
 	'sphinxSearchWarning' => 'హెచ్చరిక: $1',
 );
 
@@ -1047,6 +1099,7 @@ $messages['uk'] = array(
 	'sphinxPreviousPage' => 'Попередня',
 	'sphinxNextPage' => 'Наступна',
 	'sphinxSearchButton' => 'Знайти',
+	'sphinxLoading' => 'Завантаження ...',
 );
 
 /** Simplified Chinese (‪中文(简体)‬) */

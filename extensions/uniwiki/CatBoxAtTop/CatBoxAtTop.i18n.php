@@ -72,6 +72,13 @@ $messages['arz'] = array(
 	'catboxattop-categories' => 'تصانيف',
 );
 
+/** Belarusian (Беларуская)
+ * @author Тест
+ */
+$messages['be'] = array(
+	'catboxattop-categories' => 'Катэгорыі',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Jim-by
@@ -366,6 +373,13 @@ $messages['lzz'] = array(
 $messages['mk'] = array(
 	'catboxattop-desc' => 'Додава кутија за категорија горе-десно во страниците',
 	'catboxattop-categories' => 'Категории',
+);
+
+/** Mongolian (Монгол)
+ * @author Chinneeb
+ */
+$messages['mn'] = array(
+	'catboxattop-categories' => 'Ангиллууд',
 );
 
 /** Erzya (Эрзянь)

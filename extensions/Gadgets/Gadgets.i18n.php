@@ -152,6 +152,15 @@ $messages['ar'] = array(
 	'gadgets-uses' => 'تستخدم',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'gadgets' => 'ܬܘܣܦܝܬ̈ܐ',
+	'gadgets-title' => 'ܬܘܣܦܝܬ̈ܐ',
+	'gadgets-export-download' => 'ܐܚܬ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Ghaly
  * @author Meno25
@@ -191,13 +200,6 @@ Los alministradores llocales puen editar los accesorios disponibles usando les [
 	'gadgets-pagetext' => 'Embaxo amuésase una llista de los accesorios especiales que los usuarios puen activar na so [[Special:Preferences|páxina de preferencies]], según queden definíos poles [[MediaWiki:Gadgets-definition|definiciones]].
 Esta visión xeneral proporciona un accesu fácil a les páxines de mensaxes del sistema que definen la descripción y el códigu de cada accesoriu.',
 	'gadgets-uses' => 'Usa',
-);
-
-/** Samogitian (Žemaitėška)
- * @author Hugo.arg
- */
-$messages['bat-smg'] = array(
-	'gadgets' => 'Rakondā',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -245,6 +247,7 @@ $messages['be-tarask'] = array(
  * @author Borislav
  * @author DCLXVI
  * @author Spiritia
+ * @author Turin
  */
 $messages['bg'] = array(
 	'gadgets-desc' => 'Позволява на потребителите да избират и активират [[Special:Gadgets|CSS и JavaScript джаджи]] от своите [[Special:Preferences|настройки]]',
@@ -259,6 +262,8 @@ $messages['bg'] = array(
 	'gadgets-pagetext' => 'По-долу е списъкът на специалните джаджи, които потребителите могат да активират чрез [[Special:Preferences|страницата си с настройки]], както е указано на [[MediaWiki:Gadgets-definition]].
 Този списък дава лесен достъп до страниците със системни съобщения, съдържащи описанието и кода на всяка джаджа.',
 	'gadgets-uses' => 'Използва',
+	'gadgets-export' => 'Изнасяне',
+	'gadgets-export-download' => 'Изтегляне',
 );
 
 /** Bengali (বাংলা)
@@ -759,6 +764,10 @@ Los administrators locals pôvont changiér los outils disponiblos en utilisent 
 	'gadgets-pagetext' => 'Vê-que una lista d’outils que los utilisators pôvont activar dens lor [[Special:Preferences|pâge de prèferences]], coment dèfeni dens les [[MediaWiki:Gadgets-definition|dèfinicions]].
 Ceti apèrçu balye un accès vito fêt a les pâges de mèssâjos sistèmo que dèfenéssont la dèscripcion et lo code de châque outil.',
 	'gadgets-uses' => 'Utilise',
+	'gadgets-export' => 'Èxportacion',
+	'gadgets-export-title' => 'Èxportacion d’outil',
+	'gadgets-not-found' => 'Outil « $1 » pas trovâ.',
+	'gadgets-export-download' => 'Tèlèchargiér',
 );
 
 /** Galician (Galego)
@@ -862,6 +871,11 @@ $messages['he'] = array(
 	'gadgets-uses' => 'משתמש בדפים',
 	'gadgets-export' => 'יצוא',
 	'gadgets-export-title' => 'יצוא גאדג׳טים',
+	'gadgets-not-found' => 'הגאדג׳ט "$1" לא נמצא.',
+	'gadgets-export-text' => 'כדי לייצא את הגאדג׳ט $1, יש ללחוץ על הלחצן "{{int:gadgets-export-download}}", לשמור את הקובץ שהתקבל,
+לגשת אל Special:Import באתר הוויקי המיועד ולהעלות אותו. ואז להוסיף את הדברים הבאים לדף MediaWiki:Gadgets-definition:
+<pre>$2</pre>
+עליך להיות עם הרשאות מתאימות באתר הוויקי המיועד (לרבות הרשאות לעריכת הודעות מערכת) והאפשרות לייבוא מקובץ חייבת להיות מופעלת.',
 	'gadgets-export-download' => 'הורדה',
 );
 
@@ -1335,11 +1349,13 @@ Taip pat žinokite, kad šios specialios priemonės nėra MediaWiki programinės
 
 /** Latvian (Latviešu)
  * @author Marozols
+ * @author Papuass
  */
 $messages['lv'] = array(
 	'prefs-gadgets' => 'Rīki',
 	'gadgets' => 'Rīki',
 	'gadgets-title' => 'Rīki',
+	'gadgets-export-download' => 'Lejupielādēt',
 );
 
 /** Malagasy (Malagasy)
@@ -1395,7 +1411,7 @@ $messages['ml'] = array(
 ഈ ക്രമീകരണങ്ങൾ താളിൽ ഈ ഗാഡ്ജറ്റുകൾക്ക് യാതൊരു സ്വാധീനവുമില്ല എന്നു മനസ്സിലാക്കുക.
 
 ഈ പ്രത്യേക ഗാഡ്‌‌ജറ്റുകൾ മീഡിയവിക്കി സോഫ്റ്റ്‌‌വേറിന്റെ ഭാഗമേയല്ല എന്നും മനസ്സിലാക്കുക, അവ വികസിപ്പിക്കുന്നതും പരിപാലിക്കുന്നതും താങ്കളുടെ പ്രാദേശിക വിക്കിയിലെ ഉപയോക്താക്കളായിരിക്കും.
-പ്രാദേശിക കാര്യനിർവാഹകർക്ക് ലഭ്യമായ ഗാഡ്‌‌ജറ്റുകളെ [[MediaWiki:Gadgets-definition|നിർവ്വചനങ്ങളും]] [[Special:Gadgets|വിവരണങ്ങളും]] ഉപയോഗിച്ച് തിരുത്താൻ കഴിയുന്നതാണ്.',
+പ്രാദേശിക കാര്യനിർവാഹകർക്ക് ലഭ്യമായ ഗാഡ്‌‌ജറ്റുകളെ [[MediaWiki:Gadgets-definition|നിർവചനങ്ങളും]] [[Special:Gadgets|വിവരണങ്ങളും]] ഉപയോഗിച്ച് തിരുത്താൻ കഴിയുന്നതാണ്.',
 	'gadgets' => 'ഗാഡ്ജറ്റ്',
 	'gadgets-title' => 'ഗാഡ്ജറ്റ്',
 	'gadgets-pagetext' => 'ഉപയോക്താക്കൾക്ക് അവരുടെ [[Special:Preferences|ക്രമീകരണങ്ങൾ താളിൽ]] നിന്നും സജ്ജമാക്കാവുന്ന ഗാഡ്ജറ്റുകളുടെ പട്ടിക [[MediaWiki:Gadgets-definition|അവ നിർവ്വചിക്കപ്പെട്ട പ്രകാരം]] താഴെ കൊടുത്തിരിക്കുന്നു.
@@ -1682,6 +1698,7 @@ A-i é da manca d'avèj ij përmess aproprià an sla wiki ëd destinassion (comp
  */
 $messages['ps'] = array(
 	'gadgets-uses' => 'کارونې',
+	'gadgets-export-download' => 'ښکته کول',
 );
 
 /** Portuguese (Português)
@@ -1872,6 +1889,18 @@ $messages['sah'] = array(
 	'gadgets-export' => 'Экспортаа',
 	'gadgets-export-title' => 'Ҕааддьыты таһаарыы (экспорт)',
 	'gadgets-not-found' => '"$1" ҕааддьыт көстүбэтэ.',
+	'gadgets-export-text' => '$1 ҕааддьыты таһаарарга (экспорт), «{{int:gadgets-export-download}}» тимэҕи баттаа, хачайдаммыт билэни бигэргэт, 
+онтон угуохтаах биикиҥ Special:Import сирэйигэр киирэн уган кэбис. Ол кэннэ MediaWiki:Gadgets-definition сирэйгэ бу устуруокалары эп: 
+<pre>$2</pre>
+Угуохтаах биикигэр аналлаах көҥүллээх буолуохтааххын (ол иһигэр тиһилик биллэриилэрин эрэдээксийэлиир кыах), эбиитин сиэрбэргэ билэни киллэрии көҥүллэммит буолуохтаах.',
+	'gadgets-export-download' => 'Хачайдааһын',
+);
+
+/** Samogitian (Žemaitėška)
+ * @author Hugo.arg
+ */
+$messages['sgs'] = array(
+	'gadgets' => 'Rakondā',
 );
 
 /** Sinhala (සිංහල)
@@ -1902,6 +1931,14 @@ Lokálni správcovia môžu upraviť zoznam dostupných nástrojov pomocou [[Med
 	'gadgets-title' => 'Nástroje',
 	'gadgets-pagetext' => 'Dolu je zoznam špeciálych nástrojov, ktoré môžu používatelia zapnúť v rámci svojho účtu na svojej stránke [[Special:Preferences|nastavení]]. Tento zoznam definuje stránka [[MediaWiki:Gadgets-definition]]. Tento prehľad poskytuje jednoduchý prístup k systémovým stránkam, ktoré definujú popis a kód každého z nástrojov.',
 	'gadgets-uses' => 'Použitia',
+	'gadgets-export' => 'Exportovať',
+	'gadgets-export-title' => 'Export nástroja',
+	'gadgets-not-found' => 'Nástroj „$1” nebol nájdený.',
+	'gadgets-export-text' => 'Ak chcete exportovať nástroj $1, kliknite na tlačidlo „{{int:gadgets-export-download}}“, uložte stiahnutý súbor, 
+ choďte na stránku Special:Import na cieľovej wiki a nahrajte ho. Potom pridajte nasledujúce na stránku MediaWiki:Gadgets-definition: 
+<pre>$2</pre>
+Musíte mať príslušné oprávnenia na cieľovej wiki (vrátane práva na úpravu systémových správ) a import z nahraného súboru musí byť povolený.',
+	'gadgets-export-download' => 'Stiahnuť',
 );
 
 /** Slovenian (Slovenščina)
@@ -2101,6 +2138,10 @@ $messages['tk'] = array(
 	'gadgets' => 'Gajetler',
 	'gadgets-title' => 'Gajetler',
 	'gadgets-uses' => 'Ulanýar',
+	'gadgets-export' => 'Eksportirle',
+	'gadgets-export-title' => 'Gajet eksporty',
+	'gadgets-not-found' => '"$1" gajeti tapylmady.',
+	'gadgets-export-download' => 'Göçürip al',
 );
 
 /** Tagalog (Tagalog)
@@ -2260,6 +2301,7 @@ $messages['vo'] = array(
  */
 $messages['yo'] = array(
 	'gadgets-uses' => 'Àwọn ìlò',
+	'gadgets-export' => 'Ìkójáde',
 	'gadgets-export-download' => 'Ìrùsílẹ̀',
 );
 

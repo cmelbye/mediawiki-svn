@@ -50,6 +50,14 @@ $messages['ar'] = array(
 	'right-editalluserpages' => 'تحرير صفحات المستخدم',
 );
 
+/** Bavarian (Boarisch)
+ * @author Mucalexx
+ */
+$messages['bar'] = array(
+	'userpageeditprotection-desc' => "Begrenzt as Beorweiten vo Benutzerseiten auf'n Bsitzer und berechtigte Benutzer",
+	'right-editalluserpages' => 'Benutzerseiten beorweiten',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  */
@@ -64,6 +72,14 @@ $messages['be-tarask'] = array(
 $messages['br'] = array(
 	'userpageeditprotection-desc' => "A strisha kemmoù ar pajennoù implijer d'he ferc'henn ha d'an implijerien aotreet hepken",
 	'right-editalluserpages' => 'Kemmañ ar pajennoù implijer',
+);
+
+/** Bosnian (Bosanski)
+ * @author CERminator
+ */
+$messages['bs'] = array(
+	'userpageeditprotection-desc' => 'Ograničava uređivanje korisničkih stranica na vlasnika i ovlaštene korisnike',
+	'right-editalluserpages' => 'Uređivanje korisničkih stranica',
 );
 
 /** German (Deutsch)
@@ -348,6 +364,13 @@ $messages['sr-el'] = array(
  */
 $messages['sv'] = array(
 	'right-editalluserpages' => 'Redigera användarsidor',
+);
+
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'right-editalluserpages' => 'వాడుకరి పుటలను మార్చగలడం',
 );
 
 /** Thai (ไทย)
