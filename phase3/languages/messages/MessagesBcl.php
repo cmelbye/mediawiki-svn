@@ -111,6 +111,7 @@ $messages = array(
 'tog-watchdefault'            => 'Idúgang an mga pahinang pighíhirá ko sa pigbabantayan ko',
 'tog-watchmoves'              => 'Idúgang an mga pahinang piglilípat ko sa pigbabantayan ko',
 'tog-watchdeletion'           => 'Idúgang an mga pahinang pigpapárà ko sa pigbabantayan ko',
+'tog-minordefault'            => 'Markahán an gabos na paghirá nin sadit na paghirá',
 'tog-previewontop'            => 'Ipahilíng an patànaw bàgo an kahon nin paghirá',
 'tog-previewonfirst'          => 'Ipahilíng an patànaw sa enot na paghirá',
 'tog-nocache'                 => 'Pogólon an pag-abang nin mga pahina',
@@ -628,7 +629,7 @@ Nanyayari nanggad ini kun naggagamit ka nin bakong maraháy asin dai bistong web
 Nahihilíng ang pahina kan teksto sa parteng itaas kan teksto.
 An mga pagbabàgo mo nahihilíng sa parteng ibabâ kan teksto.
 Kaipuhan mong isalak an mga pagbabàgo mo sa presenteng teksto.
-An teksto na nasa parteng itaas '''sana''' an maitatagama sa pagpindot mo kan \"Itagama an pahina\".",
+An teksto na nasa parteng itaas '''sana''' an maitatagama sa pagpindot mo kan \"{{int:savearticle}}\".",
 'yourtext'                   => 'Saimong teksto',
 'storedversion'              => 'Itinagamang bersyon',
 'nonunicodebrowser'          => "'''PATANID: An browser mo bakong unicode complaint. Igwang temporariong sistema na nakaandar para makahirá ka kan mga pahina: mahihiling an mga karakter na non-ASCII sa kahon nin paghirá bilang mga kodang hexadecimal.'''",

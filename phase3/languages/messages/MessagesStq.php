@@ -56,6 +56,7 @@ $messages = array(
 'tog-watchdefault'            => 'Aal do sälwen annerde Sieden beooboachtje',
 'tog-watchmoves'              => 'Aal do sälwen ferschäuwede Sieden beooboachtje',
 'tog-watchdeletion'           => 'Aal do sälwen läskede Sieden beooboachtje',
+'tog-minordefault'            => 'Alle Annerengen as littek markierje',
 'tog-previewontop'            => 'Foarschau buppe dät Beoarbaidengsfinster anwiese',
 'tog-previewonfirst'          => 'Bie dät eerste Beoarbaidjen altied ju Foarschau anwiese',
 'tog-nocache'                 => 'Siedencache fon dän Browser deaktivierje',
@@ -674,7 +675,7 @@ Ne Spiekerenge kon dän Siedeninhoold fernäile. Dit geböärt bietiede truch ju
 Dät buppere Textfäild änthaalt dän aktuälle Artikkel.
 Dät unnere Textfäild änthaalt dien Annerengen.
 Föige jädden dien Annerengen in dät buppere Textfäild ien.
-'''Bloot''' die Inhoold fon dät buppere Textfäild wäd spiekerd, wan du ap \"Spiekerje\" klikst.",
+'''Bloot''' die Inhoold fon dät buppere Textfäild wäd spiekerd, wan du ap \"{{int:savearticle}}\" klikst.",
 'yourtext'                         => 'Dien Text',
 'storedversion'                    => 'Spiekerde Version',
 'nonunicodebrowser'                => "<strong style=\"color: #330000; background: #f0e000;\">Oachtenge: Dien Browser kon Unicode-Teekene nit gjucht feroarbaidje. Benutse jädden n uur Browser uum Artikkele tou beoarbaidjen.'''",

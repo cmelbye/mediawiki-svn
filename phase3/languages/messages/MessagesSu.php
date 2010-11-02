@@ -146,6 +146,7 @@ $messages = array(
 'tog-watchdefault'            => 'Tambahkeun kaca nu diédit ku anjeun kana awaskeuneun anjeun',
 'tog-watchmoves'              => 'Awaskeun kaca nu dipindahkeun ku kuring',
 'tog-watchdeletion'           => 'Awaskeun kaca nu dihapus ku kuring',
+'tog-minordefault'            => 'Tandaan sadaya éditan salaku minor luyu jeung ti dituna',
 'tog-previewontop'            => 'Témbongkeun sawangan méméh kotak édit (lain sanggeusna)',
 'tog-previewonfirst'          => 'Témbongkeun sawangan dina éditan munggaran',
 'tog-nocache'                 => 'Tumpurkeun <em>cache</em> kaca',
@@ -737,7 +738,7 @@ Pikeun rujukan, éntri log panungtung dipidangkeun di handap:',
 'explainconflict'                  => "Aya nu geus ngarobah kaca ieu saprak anjeun mimiti ngédit.
 Téks béh luhur ngandung téks kaca nu aya kiwari, parobahan anjeun ditémbongkeun di béh handap.
 Anjeun kudu ngagabungkeun parobahan anjeun kana téks nu kiwari.
-'''Ngan''' téks nu béh luhur nu bakal disimpen nalika anjeun mencét \"Simpen\".",
+'''Ngan''' téks nu béh luhur nu bakal disimpen nalika anjeun mencét \"{{int:savearticle}}\".",
 'yourtext'                         => 'Tulisan anjeun',
 'storedversion'                    => 'Vérsi nu disimpen',
 'nonunicodebrowser'                => "'''AWAS: Panyungsi anjeung teu maké unicode, mangga robah heula méméh ngédit artikel.'''",

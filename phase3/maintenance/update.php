@@ -3,18 +3,25 @@
  * Run all updaters.
  *
  * This is used when the database schema is modified and we need to apply patches.
+ * It is kept compatible with php 4 parsing so that it can give out a meaningful error.
  *
  * @file
  * @todo document
  * @ingroup Maintenance
  */
 
+if ( !function_exists( 'version_compare' ) || ( version_compare( phpversion(), '5.1.0' ) < 0 ) ) {
+	echo "You are using PHP version " . phpversion() . " but MediaWiki needs PHP 5.1.0 or higher. ABORTING.\n" .
+	"Check if you have a newer php executable with a different name, such as php5.\n";
+	die( 1 );
+}
+
 $wgUseMasterForMaintenance = true;
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class UpdateMediaWiki extends Maintenance {
 
-	public function __construct() {
+	function __construct() {
 		parent::__construct();
 		$this->mDescription = "MediaWiki database updater";
 		$this->addOption( 'skip-compat-checks', 'Skips compatibility checks, mostly for developers' );
@@ -23,11 +30,12 @@ class UpdateMediaWiki extends Maintenance {
 		$this->addOption( 'nopurge', 'Do not purge the objectcache table after updates' );
 	}
 
-	public function getDbType() {
-		return Maintenance::DB_ADMIN;
+	function getDbType() {
+		/* If we used the class constant PHP4 would give a parser error here */
+		return 2 /* Maintenance::DB_ADMIN */;
 	}
 
-	public function execute() {
+	function execute() {
 		global $wgVersion, $wgTitle, $wgLang;
 
 		$wgLang = Language::factory( 'en' );
@@ -57,17 +65,18 @@ class UpdateMediaWiki extends Maintenance {
 		$shared = $this->hasOption( 'doshared' );
 		$purge = !$this->hasOption( 'nopurge' );
 
-		$updater = DatabaseUpdater::newForDb( $db, $shared );
+		$updater = DatabaseUpdater::newForDb( $db, $shared, $this );
 		$updater->doUpdates( $purge );
 
 		foreach( $updater->getPostDatabaseUpdateMaintenance() as $maint ) {
-			$this->runChild( $maint )->execute();
+			$child = $this->runChild( $maint );
+			$child->execute();
 		}
 
 		$this->output( "\nDone.\n" );
 	}
 
-	protected function afterFinalSetup() {
+	function afterFinalSetup() {
 		global $wgLocalisationCacheConf;
 
 		# Don't try to access the database

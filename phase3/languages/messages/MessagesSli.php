@@ -42,6 +42,7 @@ $messages = array(
 'tog-watchdefault'            => 'Salber geänderte on neu erstellte Seyta automatisch beobachta (zu menner Beobachtungsliste hinzufügen)',
 'tog-watchmoves'              => 'Vo merr salber verschobene Seyta autoatisch beobachta',
 'tog-watchdeletion'           => 'Salber geläschte Seyta automatisch beobachta',
+'tog-minordefault'            => 'Eegene Änderunga standardmäßig als geringfiegich markiern',
 'tog-previewontop'            => 'Vurschau uberhoalb voo dam Beoarbeetungsfanster oazäan',
 'tog-previewonfirst'          => 'Beim irscha Beoarbeeta emmer de Vurschau oazeega',
 'tog-nocache'                 => 'Zwischaspeicharn derr Seyte (eim cache) deaktiviern',
@@ -193,6 +194,7 @@ $1',
 'aboutpage'            => 'Project:Ieber',
 'copyright'            => 'Inhalt ies verfügbar unter der $1.',
 'copyrightpage'        => '{{ns:project}}:Urheberrecht',
+'disclaimerpage'       => 'Project:Impressum',
 'edithelppage'         => 'Help:Bearbeitungshilfe',
 'helppage'             => 'Help:Hilfe',
 'mainpage'             => 'Heetseyte',
@@ -509,7 +511,7 @@ Anne Speicherung koan dann Seytainhalt zerstiera. Dies geschieht bisweilen durch
 Doas obere Textfeld enthält dann aktuellen Stand.
 Doas undere Textfeld enthält denne Änderungen.
 Bitte fiege denne Änderungen ei doas obere Textfeld a.
-'''Ock''' dar Inhalt des oberen Textfeldes werd gespeichert, wenn du uff „Seyte speichern“ klickst!",
+'''Ock''' dar Inhalt des oberen Textfeldes werd gespeichert, wenn du uff „{{int:savearticle}}“ klickst!",
 'yourtext'                         => 'Deen Text',
 'nonunicodebrowser'                => "'''Ochtiche:''' Dei Browser koan Unicode-Zeicha ne richtig veroarbeeta. Bitte verwende a'n andern Browser im Seyta zu beoarbeeta.",
 'editingold'                       => "'''OCHTICHE: Du beoarbeetest anne aale Version dieser Seyte. Wenn du speicherst, waan olle neueren Versionen ieberschrieba.'''",

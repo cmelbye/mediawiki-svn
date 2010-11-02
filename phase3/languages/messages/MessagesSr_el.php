@@ -230,6 +230,7 @@ $messages = array(
 'tog-watchdefault'            => 'Dodaj stranice koje menjam u moj spisak nadgledanja',
 'tog-watchmoves'              => 'Dodaj stranice koje premeštam u moj spisak nadgledanja',
 'tog-watchdeletion'           => 'Dodaj stranice koje brišem u moj spisak nadgledanja',
+'tog-minordefault'            => 'Označi sve izmene malim isprva',
 'tog-previewontop'            => 'Prikaži pretpregled pre polja za izmenu',
 'tog-previewonfirst'          => 'Prikaži pretpregled pri prvoj izmeni',
 'tog-nocache'                 => 'Onemogući keširanje stranica',
@@ -833,12 +834,11 @@ tekstualnom polju izgledati ako se odlučite da ga snimite.',
 'editingsection'                   => 'Uređujete $1 (deo)',
 'editingcomment'                   => 'Uređujete $1 (novi odeljak)',
 'editconflict'                     => 'Sukobljene izmene: $1',
-'explainconflict'                  => 'Neko drugi je promenio ovu stranicu otkad ste vi počeli da je menjate.
+'explainconflict'                  => "Neko drugi je promenio ovu stranicu otkad ste vi počeli da je menjate.
 Gornje tekstualno polje sadrži tekst stranice kakav trenutno postoji.
 Vaše izmene su prikazane u donjem tekstu.
 Moraćete da unesete svoje promene u postojeći tekst.
-<b>Samo</b> tekst u gornjem tekstualnom polju će biti snimljen kada
-pritisnete "Snimi stranicu".<br />',
+'''Samo''' tekst u gornjem tekstualnom polju će biti snimljen kada pritisnete \"{{int:savearticle}}\".",
 'yourtext'                         => 'Vaš tekst',
 'storedversion'                    => 'Uskladištena verzija',
 'nonunicodebrowser'                => "'''UPOZORENJE: Vaš brauzer ne podržava unikod. Molimo promenite ga pre nego što počnete sa uređivanjem članka.'''",

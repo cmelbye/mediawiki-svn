@@ -1028,6 +1028,11 @@ $wgNewPasswordExpiry  = 3600 * 24 * 7;
  */
 $wgSMTP				= false;
 
+/**
+ * Additional email parameters, will be passed as the last argument to mail() call.
+ */
+$wgAdditionalMailParams = null;
+
 /** For email notification on page changes */
 $wgPasswordSender = $wgEmergencyContact;
 
@@ -1798,7 +1803,18 @@ $wgExtraLanguageNames = array();
  * These codes are leftoffs from renames, or other legacy things.
  * Also, qqq is a dummy "language" for documenting messages.
  */
-$wgDummyLanguageCodes = array( 'qqq', 'als', 'be-x-old', 'dk', 'fiu-vro', 'iu', 'nb', 'simple', 'tp' );
+$wgDummyLanguageCodes = array(
+	'als',
+	'bat-smg',
+	'be-x-old',
+	'dk',
+	'fiu-vro',
+	'iu',
+	'nb',
+	'qqq',
+	'simple',
+	'tp',
+);
 
 /** @deprecated Since MediaWiki 1.5, this must always be set to UTF-8. */
 $wgInputEncoding  = 'UTF-8';
@@ -1954,6 +1970,9 @@ $wgDisableLangConversion = false;
 
 /** Whether to enable language variant conversion for links. */
 $wgDisableTitleConversion = false;
+
+/** Whether to enable cononical language links in meta data. */
+$wgCanonicalLanguageLinks = true;
 
 /** Default variant code, if false, the default will be the language code */
 $wgDefaultLanguageVariant = false;
@@ -2755,6 +2774,12 @@ $wgMinimalPasswordLength = 1;
 $wgLivePasswordStrengthChecks = false;
 
 /**
+ * List of weak passwords which shouldn't be allowed.
+ * The items should be in lowercase. The check is case insensitive.
+ */
+$wgWeakPasswords = array( 'password', 'passpass', 'passpass1' );
+
+/**
  * Maximum number of Unicode characters in signature
  */
 $wgMaxSigChars		= 255;
@@ -2815,6 +2840,7 @@ $wgDefaultUserOptions = array(
 	'imagesize'               => 2,
 	'justify'                 => 0,
 	'math'                    => 1,
+	'minordefault'            => 0,
 	'newpageshidepatrolled'   => 0,
 	'nocache'                 => 0,
 	'noconvertlink'           => 0,
@@ -2937,6 +2963,19 @@ $wgAutocreatePolicy = 'login';
  * TODO: Implement message, global.
  */
 $wgAllowPrefChange = array();
+
+/**
+ * This is to let user authenticate using https when they come from http.
+ * Based on an idea by George Herbert on wikitech-l:
+ * http://lists.wikimedia.org/pipermail/wikitech-l/2010-October/050065.html
+ * @since 1.17
+ */
+$wgSecureLogin        = false;
+/**
+ * Default for 'use secure login' checkbox
+ * @since 1.17
+ */
+$wgSecureLoginStickHTTPS = false;
 
 /** @} */ # end user accounts }
 
@@ -3977,7 +4016,7 @@ $wgMaintenanceScripts = array();
  */
 $wgReadOnly             = null;
 
-/***
+/**
  * If this lock file exists (size > 0), the wiki will be forced into read-only mode.
  * Its contents will be shown to users as part of the read-only warning
  * message.
@@ -3985,6 +4024,12 @@ $wgReadOnly             = null;
  * Defaults to "{$wgUploadDirectory}/lock_yBgMBwiR".
  */
 $wgReadOnlyFile         = false;
+
+/**
+ * If this is set to some string, this opens up config/index.php for upgrades
+ * when needed. You will need to provide this key to use it
+ */
+$wgUpgradeKey = false;
 
 /** @} */ # End of maintenance }
 
@@ -4385,17 +4430,6 @@ $wgSpecialPageCacheUpdates = array(
  */
 $wgExceptionHooks = array();
 
-/**
- * List of page property names and descriptions of what they are.
- * This is used for the API prop=pageprops module to know which
- * page props to search for. The help message is only seen from
- * the API help page.
- */
-$wgPageProps = array(
-	'displaytitle' => 'Value of the {{DISPLAYTITLE}} tag',
-	'defaultsort' => 'Value of the {{DEFAULTSORT}} tag',
-	'hiddencat' => 'Whether or not the page has a category with the __HIDDENCAT__ magic word',
-);
 
 /**
  * Page property link table invalidation lists. When a page property

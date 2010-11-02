@@ -300,6 +300,7 @@ $messages = array(
 'tog-watchdefault'            => 'Legg til sidene eg endrar på overvakingslista mi',
 'tog-watchmoves'              => 'Legg til sidene eg flyttar på overvakingslista mi',
 'tog-watchdeletion'           => 'Legg til sidene eg slettar på overvakingslista mi',
+'tog-minordefault'            => 'Merk endringar som «småplukk» som standard',
 'tog-previewontop'            => 'Vis førehandsvisinga før endringsboksen',
 'tog-previewonfirst'          => 'Førehandsvis første endring',
 'tog-nocache'                 => 'Deaktiver nettlesaren sitt mellomlager («cache»)',
@@ -889,7 +890,12 @@ Det siste elementet i blokkeringsloggen er oppgjeve nedanfor:',
 'editingsection'                   => 'Endrar $1 (bolk)',
 'editingcomment'                   => 'Endrar $1 (ny bolk)',
 'editconflict'                     => 'Endringskonflikt: $1',
-'explainconflict'                  => 'Nokon annan har endra teksten sidan du byrja å skrive. Den øvste boksen inneheld den noverande teksten. Skilnaden mellom den lagra versjonen og din endra versjon er viste under. Versjonen som du har endra er i den nedste boksen. Du lyt flette endringane dine saman med den noverande teksten. <strong>Berre</strong> teksten i den øvste tekstboksen vil bli lagra når du klikkar på «Lagre».<br />',
+'explainconflict'                  => "Nokon annan har endra teksten sidan du byrja å skrive.
+Den øvste boksen inneheld den noverande teksten.
+Skilnaden mellom den lagra versjonen og din endra versjon er viste under.
+Versjonen som du har endra er i den nedste boksen.
+Du lyt flette endringane dine saman med den noverande teksten.
+'''Berre''' teksten i den øvste tekstboksen vil bli lagra når du klikkar på «{{int:savearticle}}».",
 'yourtext'                         => 'Teksten din',
 'storedversion'                    => 'Den lagra versjonen',
 'nonunicodebrowser'                => "'''ÅTVARING: Nettlesaren din støttar ikkje «Unicode».

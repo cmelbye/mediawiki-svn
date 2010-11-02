@@ -34,6 +34,7 @@ Pabusten ing pamanaliling dake kapamilatan [alilan] ning suglung',
 'tog-watchdefault'            => 'Idagdag la reng bulung a inalilan ku kareng babanten',
 'tog-watchmoves'              => 'Idagdag la reng bulung a inalis ku kareng babanten',
 'tog-watchdeletion'           => 'Idagdag la reng bulung a bira ku kareng babanten',
+'tog-minordefault'            => 'Tambing lang tatakan a malati (minor) deng edit a e mimarkan.',
 'tog-previewontop'            => 'Pakit ya ing preview bayu ing kahun nung nu mag-edit (edit box)',
 'tog-previewonfirst'          => 'Pakit ya ing preview keng mumunang pamag-edit',
 'tog-nocache'                 => 'Patdan ya ing page caching (pamag-simpan kareng bulung)',
@@ -578,7 +579,7 @@ This sometimes happens when you are using a buggy web-based anonymous proxy serv
 Makabili ya king espasiung pirinan sulat king babo (upper text area)  ing kasalungsungan nang itsura niti.
 Atyu la king espasiung pirinan sulat king lalam (lower text area) deng kekang elilan.
 Kailangan mong piyabe deng elilan mu ketang kasalungsungan a makasulat.
-Bukud mung ing makasulat king babo ing ma-save katimid mu ketang   "I-save ya ining bulung" ("Save page").',
+Bukud mung ing makasulat king babo ing ma-save katimid mu ketang   "{{int:savearticle}}".',
 'yourtext'                         => 'Ing kekang sinulat',
 'storedversion'                    => 'Bersion a makasimpan',
 'nonunicodebrowser'                => "'''BABALA: E ya unicode compliant ing kekang browser.

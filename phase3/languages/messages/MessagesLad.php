@@ -193,6 +193,7 @@ $messages = array(
 'tog-watchdefault'            => 'Ajustar las hojas que troquí, a mi lista de escogidas',
 'tog-watchmoves'              => 'Ajustar las hojas que taxireí, a mi lista de escogidas',
 'tog-watchdeletion'           => 'Ajustar las hojas que efassí, a mi lista de escogidas',
+'tog-minordefault'            => 'Va marcando todos los trocamientos como chiquiticos.',
 'tog-previewontop'            => 'Amostrar la prēvizibbilizasyón enriba de la caxa de ēddisyón',
 'tog-previewonfirst'          => 'Amostrar la prēvizibbilizasyón al primer trocamiento',
 'tog-nocache'                 => 'No permeter a la kaxé de las hojas',

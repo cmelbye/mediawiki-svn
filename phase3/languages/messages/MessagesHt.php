@@ -144,6 +144,7 @@ $messages = array(
 'tog-watchdefault'            => 'Mete paj mwen edite yo nan lis veye m',
 'tog-watchmoves'              => 'Mete paj mwen deplase nan lis veye m',
 'tog-watchdeletion'           => 'Mete paj mwen delete nan lis veye m',
+'tog-minordefault'            => 'Make tout edit yo minè pa defo',
 'tog-previewontop'            => 'Montre previzializasyon anvan bwat edite',
 'tog-previewonfirst'          => 'Montre previzializasyon sou premye edit',
 'tog-nocache'                 => 'Dezame paj kapte',
@@ -691,7 +692,11 @@ Si se paske ou komèt yon erè ke ou ap twouve ou nan paj sa a, klike anlè bout
 'editingsection'                   => 'Modifikasyon pou $1 (seksyon)',
 'editingcomment'                   => 'Modifikasyon pou $1 (komantè)',
 'editconflict'                     => 'Batay ant modifikasyon : $1',
-'explainconflict'                  => '<b>Paj sa te anrejistre apre ou te komanse modifye l.Zòn modifikasyon an nan pati ki sitye anwo, jan l anrejistre nan sistèm nou an kounye a. Modifikasyon ou pòte yo ap parèt anba. Ou dwèt fè modifikasyon ou fè yo nan tèks ki te deja anrejistre a. Sèl tèks ki nan pati siperyè a, anwo ke ap anrejistre toutbon.</b><br />',
+'explainconflict'                  => 'Paj sa te anrejistre apre ou te komanse modifye l.
+Zòn modifikasyon an nan pati ki sitye anwo, jan l anrejistre nan sistèm nou an kounye a.
+Modifikasyon ou pòte yo ap parèt anba.
+Ou dwèt fè modifikasyon ou fè yo nan tèks ki te deja anrejistre a.
+Sèl tèks ki nan pati siperyè a, anwo ke ap anrejistre toutbon.',
 'yourtext'                         => 'Tèks ou an',
 'storedversion'                    => 'Vèsyon ki anrejistre',
 'editingold'                       => "'''Avètisman : Ou ap edite yon vye vèsyon paj sa a.''' 

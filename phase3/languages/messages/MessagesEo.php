@@ -274,8 +274,8 @@ $datePreferences = false;
 $defaultDateFormat = 'dmy';
 $dateFormats = array(
 	'dmy time' => 'H:i',
-	'dmy date' => 'j. M Y',
-	'dmy both' => 'H:i, j. M Y',
+	'dmy date' => 'j M. Y',
+	'dmy both' => 'H:i, j M. Y',
 );
 
 $messages = array(
@@ -296,9 +296,10 @@ $messages = array(
 'tog-showtoc'                 => 'Montri liston de enhavoj (por paĝojn kun pli ol 3 sekciojn)',
 'tog-rememberpassword'        => 'Memori mian ensalutadon ĉe ĉi tiu retumilo (daŭrante maksimume $1 {{PLURAL:$1|tagon|tagojn}})',
 'tog-watchcreations'          => 'Aldoni de mi kreitajn paĝojn al mia atentaro',
-'tog-watchdefault'            => 'Priatenti redaktintajn paĝojn de vi',
+'tog-watchdefault'            => 'Aldoni al mia atentaro paĝojn redaktitajn de mi',
 'tog-watchmoves'              => 'Aldoni paĝojn, kiujn mi movas, al mia atentaro',
 'tog-watchdeletion'           => 'Aldoni paĝojn, kiujn mi forigas, al mia atentaro',
+'tog-minordefault'            => 'Marki defaŭlte ĉiujn redaktojn kiel etajn',
 'tog-previewontop'            => 'Montri antaŭrigardon antaŭ redaktilo',
 'tog-previewonfirst'          => 'Montri antaŭrigardon je unua redakto',
 'tog-nocache'                 => 'Malŝalti retumilan kaŝmemoron de paĝoj',
@@ -927,12 +928,11 @@ La redakto estis malpermesita por preventi koruptado de la teksto de la paĝo.
 'editingsection'                   => 'Redaktante $1 (sekcion)',
 'editingcomment'                   => 'Redaktante $1 (nova sekcio)',
 'editconflict'                     => 'Redakta konflikto: $1',
-'explainconflict'                  => 'Iu alia ŝanĝis la paĝon post kiam vi ekredaktis.
+'explainconflict'                  => "Iu alia ŝanĝis la paĝon post kiam vi ekredaktis.
 La supra tekstujo enhavas la aktualan tekston de la artikolo.
 Viaj ŝanĝoj estas en la malsupra tekstujo.
 Vi devas mem kunfandi viajn ŝanĝojn kaj la jaman tekston.
-<b>Nur</b> la teksto en la supra tekstujo estos konservita kiam
-vi alklakos "Konservi".<br />',
+'''Nur''' la teksto en la supra tekstujo estos konservita kiam vi alklakos \"{{int:savearticle}}\".",
 'yourtext'                         => 'Via teksto',
 'storedversion'                    => 'Registrita versio',
 'nonunicodebrowser'                => "'''ATENTU: Via foliumilo ne eltenas unikodon, bonvolu ŝanĝi ĝin antaŭ ol redakti artikolon.'''",
@@ -1370,7 +1370,7 @@ Jen hazarde generita valoro por via uzo: $1',
 'prefs-textboxsize'             => 'Grandeco de redakta fenestro',
 'youremail'                     => 'Retadreso:',
 'username'                      => 'Salutnomo:',
-'uid'                           => 'Uzanta ID:',
+'uid'                           => 'Uzant-ID:',
 'prefs-memberingroups'          => 'Ano de {{PLURAL:$1|grupo|grupoj}}:',
 'prefs-registration'            => 'Tempo de registrado:',
 'yourrealname'                  => 'Vera nomo:',

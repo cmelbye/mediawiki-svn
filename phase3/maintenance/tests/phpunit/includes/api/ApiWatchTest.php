@@ -2,6 +2,10 @@
 
 require_once dirname( __FILE__ ) . '/ApiSetup.php';
 
+/**
+ * @group Database
+ * @group Destructive
+ */
 class ApiWatchTest extends ApiTestSetup {
 
 	function setUp() {
@@ -193,14 +197,17 @@ class ApiWatchTest extends ApiTestSetup {
 			$data = $this->doApiRequest( array(
 				'action' => 'rollback',
 				'title' => 'Main Page',
-				'user' => self::$user->userName,
+				'user' => $pageinfo['user'],
 				'token' => $pageinfo['rollbacktoken'],
 				'watchlist' => 'watch' ), $data );
 		} catch( UsageException $ue ) {
 			if( $ue->getCodeString() == 'onlyauthor' ) {
 				$this->markTestIncomplete( "Only one author to 'Main Page', cannot test rollback" );
+			} else {
+				$this->fail( "Received error " . $ue->getCodeString() );
 			}
 		}
+
 		$this->assertArrayHasKey( 'rollback', $data[0] );
 		$this->assertArrayHasKey( 'title', $data[0]['rollback'] );
 	}

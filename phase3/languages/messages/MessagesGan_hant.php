@@ -72,6 +72,7 @@ $messages = array(
 'tog-watchdefault'            => '拿偶改嘞嗰頁面加到偶嗰監視列表',
 'tog-watchmoves'              => '拿偶動嘞嗰頁面加到偶嗰監視列表',
 'tog-watchdeletion'           => '拿偶刪撇嗰頁面加到偶嗰監視列表',
+'tog-minordefault'            => '全部嗰編輯設成細修改',
 'tog-previewontop'            => '到編輯框嗰上首顯示預覽',
 'tog-previewonfirst'          => '頭道修改時顯示預覽',
 'tog-nocache'                 => '停用頁面嗰緩存',
@@ -1232,7 +1233,8 @@ $2',
 Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
-'linksearch' => '外部連結',
+'linksearch'    => '外部連結',
+'linksearch-ok' => '尋吖',
 
 # Special:ListUsers
 'listusersfrom'      => '顯示噉樣用戶條件:',

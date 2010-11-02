@@ -112,7 +112,7 @@ class UserMailer {
 	 */
 	static function send( $to, $from, $subject, $body, $replyto=null, $contentType=null ) {
 		global $wgSMTP, $wgOutputEncoding, $wgEnotifImpersonal;
-		global $wgEnotifMaxRecips;
+		global $wgEnotifMaxRecips, $wgAdditionalMailParams;
 
 		if ( is_array( $to ) ) {
 			// This wouldn't be necessary if implode() worked on arrays of
@@ -127,6 +127,17 @@ class UserMailer {
 		}
 
 		if (is_array( $wgSMTP )) {
+			$found = false;
+			$pathArray = explode( PATH_SEPARATOR, get_include_path() );
+			foreach ( $pathArray as $path ) {
+				if ( file_exists( $path . DIRECTORY_SEPARATOR . 'Mail.php' ) ) {
+					$found = true;
+					break;
+				}
+			}
+			if ( !$found ) {
+				throw new MWException( 'PEAR mail package is not installed' );
+			}
 			require_once( 'Mail.php' );
 
 			$msgid = str_replace(" ", "_", microtime());
@@ -208,10 +219,10 @@ class UserMailer {
 
 			if (is_array($to)) {
 				foreach ($to as $recip) {
-					$sent = mail( $recip->toString(), wfQuotedPrintable( $subject ), $body, $headers );
+					$sent = mail( $recip->toString(), wfQuotedPrintable( $subject ), $body, $headers, $wgAdditionalMailParams );
 				}
 			} else {
-				$sent = mail( $to->toString(), wfQuotedPrintable( $subject ), $body, $headers );
+				$sent = mail( $to->toString(), wfQuotedPrintable( $subject ), $body, $headers, $wgAdditionalMailParams );
 			}
 
 			restore_error_handler();
@@ -460,13 +471,14 @@ class EmailNotification {
 			$keys['$CHANGEDORCREATED'] = wfMsgForContent( 'created' );
 		}
 
-		if ($wgEnotifImpersonal && $this->oldid)
+		if ($wgEnotifImpersonal && $this->oldid) {
 			/*
 			 * For impersonal mail, show a diff link to the last
 			 * revision.
 			 */
 			$keys['$NEWPAGE'] = wfMsgForContent('enotif_lastdiff',
 					$this->title->getFullURL("oldid={$this->oldid}&diff=next"));
+        }
 
 		$body = strtr( $body, $keys );
 		$pagetitle = $this->title->getPrefixedText();

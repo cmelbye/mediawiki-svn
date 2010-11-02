@@ -83,6 +83,8 @@ abstract class CoreInstaller extends Installer {
 		'_Extensions' => array(),
 		'_MemCachedServers' => '',
 		'_ExternalHTTP' => false,
+		'_LocalSettingsLocked' => true,
+		'_UpgradeKey' => '',
 	);
 
 	/**
@@ -96,6 +98,7 @@ abstract class CoreInstaller extends Installer {
 		'interwiki',
 		'secretkey',
 		'sysop',
+		'mainpage',
 	);
 
 	/**
@@ -232,6 +235,8 @@ abstract class CoreInstaller extends Installer {
 	/**
 	 * Register tag hook below.
 	 *
+	 * @todo Move this to WebInstaller with the two things below?
+	 *
 	 * @param $parser Parser
 	 */
 	public function registerDocLink( Parser &$parser ) {
@@ -288,7 +293,7 @@ abstract class CoreInstaller extends Installer {
 	 *
 	 * @return Status
 	 */
-	public function installExtensions() {
+	protected function installExtensions() {
 		$exts = $this->getVar( '_Extensions' );
 		$path = $this->getVar( 'IP' ) . '/extensions';
 
@@ -305,7 +310,7 @@ abstract class CoreInstaller extends Installer {
 	 *
 	 * @return array
 	 */
-	public function getInstallSteps() {
+	protected function getInstallSteps() {
 		if( $this->getVar( '_UpgradeDone' ) ) {
 			$this->installSteps = array( 'localsettings' );
 		}
@@ -369,7 +374,7 @@ abstract class CoreInstaller extends Installer {
 	 *
 	 * @return Status
 	 */
-	public function installSecretKey() {
+	protected function installSecretKey() {
 		if ( wfIsWindows() ) {
 			$file = null;
 		} else {
@@ -403,7 +408,7 @@ abstract class CoreInstaller extends Installer {
 	 *
 	 * @return Status
 	 */
-	public function installSysop() {
+	protected function installSysop() {
 		$name = $this->getVar( '_AdminName' );
 		$user = User::newFromName( $name );
 
@@ -427,6 +432,29 @@ abstract class CoreInstaller extends Installer {
 		}
 
 		return Status::newGood();
+	}
+
+	/**
+	 * Insert Main Page with default content.
+	 * 
+	 * @return Status
+	 */
+	public function installMainpage( DatabaseInstaller &$installer ) {
+		$status = Status::newGood();
+		try {
+			$article = new Article( Title::newMainPage() );
+			$article->doEdit( wfMsgForContent( 'mainpagetext' ) . "\n\n" .
+								wfMsgForContent( 'mainpagedocfooter' ),
+								'',
+								EDIT_NEW,
+								false,
+								User::newFromName( 'MediaWiki Default' ) );
+		} catch (MWException $e) {
+			//using raw, because $wgShowExceptionDetails can not be set yet
+			$status->fatal( 'config-install-mainpage-failed', $e->getMessage() ); 
+		}
+		
+		return $status;
 	}
 
 	/**

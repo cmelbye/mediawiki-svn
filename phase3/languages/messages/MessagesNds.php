@@ -231,6 +231,7 @@ $messages = array(
 'tog-watchdefault'            => 'Op ne’e un ännerte Sieden oppassen',
 'tog-watchmoves'              => 'Sieden, de ik schuuv, to de Oppasslist todoon',
 'tog-watchdeletion'           => 'Sieden, de ik wegsmiet, to de Oppasslist todoon',
+'tog-minordefault'            => 'Alle Ännern as lütt markeern',
 'tog-previewontop'            => 'Vörschau vör dat Editeerfinster wiesen',
 'tog-previewonfirst'          => "Vörschau bi'n eersten Ännern wiesen",
 'tog-nocache'                 => 'Twischenspieker vun’n Webkieker utstellen',
@@ -773,12 +774,11 @@ Dat kann to’n Bispeel dor vun kamen, dat du en anonymen Proxy-Deenst bruukst, 
 'editingsection'                   => 'Ännern vun $1 (Afsatz)',
 'editingcomment'                   => 'Ännern vun $1 (nee Afsnidd)',
 'editconflict'                     => 'Konflikt bi’t Sied ännern: $1',
-'explainconflict'                  => 'En annern Bruker hett disse Sied ännert, na de Tied dat du anfungen hest, de Sied to ännern.
+'explainconflict'                  => "En annern Bruker hett disse Sied ännert, na de Tied dat du anfungen hest, de Sied to ännern.
 Dat Textfeld baven wiest de aktuelle Sied.
 Dat Textfeld ünnen wiest dien Ännern.
 Föög dien Ännern in dat Textfeld baven in.
-
-<b>Blots</b> de Text in dat Textfeld baven warrt spiekert, wenn du op Spiekern klickst!<br />',
+'''Blots''' de Text in dat Textfeld baven warrt spiekert, wenn du op \"{{int:savearticle}}\" klickst!",
 'yourtext'                         => 'Dien Text',
 'storedversion'                    => 'Spiekerte Version',
 'nonunicodebrowser'                => "'''Wohrschau: Dien Browser kann keen Unicode, bruuk en annern Browser, wenn du en Siet ännern wist.'''",

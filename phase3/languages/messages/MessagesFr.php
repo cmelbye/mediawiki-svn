@@ -362,6 +362,7 @@ $messages = array(
 'tog-watchdefault'            => 'Ajouter les pages que je modifie à ma liste de suivi',
 'tog-watchmoves'              => 'Ajouter les pages que je renomme à ma liste de suivi',
 'tog-watchdeletion'           => 'Ajouter les pages que je supprime à ma liste de suivi',
+'tog-minordefault'            => 'Marquer mes modifications comme mineures par défaut',
 'tog-previewontop'            => 'Montrer la prévisualisation au-dessus de la zone de modification',
 'tog-previewonfirst'          => 'Montrer la prévisualisation lors de la première modification',
 'tog-nocache'                 => 'Désactiver le cache des pages par le navigateur',
@@ -483,7 +484,7 @@ $messages = array(
 'article'       => 'Page de contenu',
 'newwindow'     => '(ouvre une nouvelle fenêtre)',
 'cancel'        => 'Annuler',
-'moredotdotdot' => 'Et plus …',
+'moredotdotdot' => 'Plus...',
 'mypage'        => 'Ma page',
 'mytalk'        => 'Page de discussion',
 'anontalk'      => 'Discussion avec cette adresse IP',
@@ -837,7 +838,7 @@ Veuillez attendre avant d’essayer à nouveau.',
 'password-retype-mismatch'     => 'Les mots de passe ne correspondent pas',
 
 # Password reset dialog
-'resetpass'                 => 'Changer le mot de passe',
+'resetpass'                 => 'Changer de mot de passe',
 'resetpass_announce'        => 'Vous vous êtes enregistré{{GENDER:||e|(e)}} avec un mot de passe temporaire envoyé par courriel. Pour terminer l’enregistrement, vous devez entrer un nouveau mot de passe ici :',
 'resetpass_text'            => '<!-- Ajoutez le texte ici -->',
 'resetpass_header'          => 'Changer le mot de passe du compte',
@@ -848,7 +849,7 @@ Veuillez attendre avant d’essayer à nouveau.',
 'resetpass_success'         => 'Votre mot de passe a été changé avec succès ! Connexion en cours…',
 'resetpass_forbidden'       => 'Les mots de passe ne peuvent pas être changés',
 'resetpass-no-info'         => 'Vous devez être connecté pour avoir accès à cette page.',
-'resetpass-submit-loggedin' => 'Changer le mot de passe',
+'resetpass-submit-loggedin' => 'Changer de mot de passe',
 'resetpass-submit-cancel'   => 'Annuler',
 'resetpass-wrong-oldpass'   => 'Mot de passe actuel ou temporaire invalide.
 Vous avez peut-être déjà changé votre mot de passe ou demandé un nouveau mot de passe temporaire.',
@@ -989,7 +990,7 @@ Ce problème se produit parfois lorsque vous utilisez un serveur mandataire anon
 La zone de modification supérieure contient le texte tel qu’il est enregistré actuellement dans la base de données.
 Vos modifications apparaissent dans la zone de modification inférieure.
 Vous allez devoir fusionner vos modifications dans le texte existant.
-'''Seul''' le texte de la zone supérieure sera sauvegardé quand vous cliquerez sur « {{MediaWiki:Savearticle}} ».",
+'''Seul''' le texte de la zone supérieure sera sauvegardé quand vous cliquerez sur « {{int:savearticle}} ».",
 'yourtext'                         => 'Votre texte',
 'storedversion'                    => 'La version enregistrée',
 'nonunicodebrowser'                => "'''Attention : Votre navigateur ne supporte pas l’Unicode.'''
@@ -1005,7 +1006,7 @@ Vous nous promettez aussi que vous avez écrit ceci vous-même, ou que vous l’
 'longpagewarning'                  => "'''AVERTISSEMENT : cette page a une longueur de $1 Kio ;
 certains navigateurs Web gèrent mal la modification des pages approchant ou dépassant 32 Kio. Peut-être devriez-vous diviser la page en sections plus petites.'''",
 'longpageerror'                    => "'''ERREUR : Le texte que vous avez soumis fait $1 Kio, ce qui dépasse la limite fixée à $2 Kio. Le texte ne peut pas être sauvegardé.'''",
-'readonlywarning'                  => "'''AVERTISSEMENT : La base de données a été verrouillée pour des opérations de maintenance. Vous ne pouvez donc pas publier vos modifications pour l’instant.'''
+'readonlywarning'                  => "'''AVERTISSEMENT : la base de données a été verrouillée pour des opérations de maintenance. Vous ne pouvez donc pas publier vos modifications pour l’instant.'''
 Vous pouvez copier le texte dans un fichier texte et le conserver pour plus tard.
 
 L’administrateur ayant verrouillé la base de données a donné l’explication suivante : $1",
@@ -1100,7 +1101,7 @@ Elle a peut-être été effacée ou renommée.
 Essayez de [[Special:Search|rechercher sur le wiki]] pour trouver des pages en rapport.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(commentaire supprimé)',
+'rev-deleted-comment'         => '(commentaire enlevé)',
 'rev-deleted-user'            => '(nom d’utilisateur supprimé)',
 'rev-deleted-event'           => '(entrée supprimée)',
 'rev-deleted-user-contribs'   => '[nom d’utilisateur ou adresse IP supprimée - modification cachée sur les contributions]',
@@ -1265,7 +1266,7 @@ Assurez-vous que cette opération conservera la continuité de l’historique de
 'compareselectedversions'  => 'Comparer les versions sélectionnées',
 'showhideselectedversions' => 'Afficher/masquer les versions sélectionnées',
 'editundo'                 => 'défaire',
-'diff-multi'               => '({{PLURAL:$1|Une révision intermédiaire|$1 révision intermédiaires}} par {{PLURAL:$2|un utilisateur|$2 utilisateurs}} {{PLURAL:$1|est masquée|sont masquées}})',
+'diff-multi'               => '({{PLURAL:$1|Une révision intermédiaire|$1 révisions intermédiaires}} par {{PLURAL:$2|un utilisateur|$2 utilisateurs}} {{PLURAL:$1|est masquée|sont masquées}})',
 'diff-multi-manyusers'     => "({{PLURAL:$1|Une révision intermédiaire|$1 révisions intermédiaires}} par plus {{PLURAL:$2|d'un utilisateur|de $2 utilisateurs}} {{PLURAL:$1|est masquée|sont masquées}})",
 
 # Search results
@@ -1347,7 +1348,7 @@ Essayez en utilisant le préfixe ''all:'' pour rechercher dans tout le contenu (
 'prefs-edits'                   => 'Nombre de modifications :',
 'prefsnologin'                  => 'Non connecté',
 'prefsnologintext'              => 'Vous devez être <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} connecté]</span> pour modifier vos préférences d’utilisateur.',
-'changepassword'                => 'Modification du mot de passe',
+'changepassword'                => 'Changer de mot de passe',
 'prefs-skin'                    => 'Habillage',
 'skin-preview'                  => 'Prévisualiser',
 'prefs-math'                    => 'Rendu des maths',
@@ -1362,7 +1363,7 @@ Essayez en utilisant le préfixe ''all:'' pour rechercher dans tout le contenu (
 'prefs-watchlist-edits-max'     => '(nombre maximum : 1000)',
 'prefs-watchlist-token'         => 'Jeton pour la liste de suivi :',
 'prefs-misc'                    => 'Préférences diverses',
-'prefs-resetpass'               => 'Modifier le mot de passe',
+'prefs-resetpass'               => 'Changer de mot de passe',
 'prefs-email'                   => 'Options des courriels',
 'prefs-rendering'               => 'Apparence',
 'saveprefs'                     => 'Enregistrer les préférences',
@@ -1415,7 +1416,7 @@ Voici une valeur générée aléatoirement que vous pouvez utiliser : $1',
 'prefs-reset-intro'             => 'Vous pouvez utiliser cette page pour restaurer vos préférences aux valeurs par défaut du site. Ceci ne peut pas être défait.',
 'prefs-emailconfirm-label'      => 'Confirmation du courriel :',
 'prefs-textboxsize'             => 'Taille de la fenêtre de modification',
-'youremail'                     => 'Adresse électronique :',
+'youremail'                     => 'Courriel :',
 'username'                      => 'Nom d’utilisateur :',
 'uid'                           => 'Numéro d’utilisateur :',
 'prefs-memberingroups'          => 'Membre {{PLURAL:$1|du groupe|des groupes}} :',
@@ -1439,7 +1440,7 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'prefs-help-email'              => 'Facultatif : indiquer votre adresse de courriel permet de vous envoyer un nouveau mot de passe si vous oubliez le vôtre.
 Vous pouvez également décider de laisser les autres vous contacter via votre page de discussion, sans avoir besoin de révéler votre identité.',
 'prefs-help-email-required'     => 'Une adresse de courriel est requise.',
-'prefs-info'                    => 'Information de base',
+'prefs-info'                    => 'Informations de base',
 'prefs-i18n'                    => 'Internationalisation',
 'prefs-signature'               => 'Signature',
 'prefs-dateformat'              => 'Format des dates',
@@ -1990,7 +1991,7 @@ Les entrées <del>barrées</del> ont été résolues.',
 'fewestrevisions' => 'Pages les moins modifiées',
 
 # Miscellaneous special pages
-'nbytes'                  => '$1 {{PLURAL:$1|octet|octets}}',
+'nbytes'                  => '$1 octet{{PLURAL:$1||s}}',
 'ncategories'             => '$1 catégorie{{PLURAL:$1||s}}',
 'nlinks'                  => '$1 lien{{PLURAL:$1||s}}',
 'nmembers'                => '$1 membre{{PLURAL:$1||s}}',
@@ -2357,7 +2358,7 @@ Voici les réglages actuels de la page '''$1''' :",
 ** Page à fort trafic',
 'protect-edit-reasonlist'     => 'Modifier les motifs de protection',
 'protect-expiry-options'      => '1 heure:1 hour,1 jour:1 day,1 semaine:1 week,2 semaines:2 weeks,1 mois:1 month,3 mois:3 months,6 mois:6 months,1 an:1 year,indéfiniment:infinite',
-'restriction-type'            => 'Permission :',
+'restriction-type'            => 'Autorisation :',
 'restriction-level'           => 'Niveau de restriction :',
 'minimum-size'                => 'Taille minimum',
 'maximum-size'                => 'Taille maximum',
@@ -3455,7 +3456,7 @@ Essayez la prévisualisation normale.',
 'watchlistedit-normal-title'   => 'Modifier la liste de suivi',
 'watchlistedit-normal-legend'  => 'Retirer des titres de la liste de suivi',
 'watchlistedit-normal-explain' => 'Les titres de votre liste de suivi sont visibles ci-dessous.
-Pour retirer un titre de la liste (et sa page de discussion), cochez la case à côté puis cliquez sur le bouton « {{int:Watchlistedit-normal-submit}} ».
+Pour enlever un titre de la liste (et sa page de discussion), cochez la case à côté puis cliquez sur le bouton « {{int:Watchlistedit-normal-submit}} ».
 Vous pouvez aussi [[Special:Watchlist/raw|modifier la liste en mode brut]].',
 'watchlistedit-normal-submit'  => 'Retirer les titres sélectionnés',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Un titre a été enlevé|$1 titres ont été enlevés}} de votre liste de suivi :',
@@ -3531,7 +3532,7 @@ Entrez le nom du fichier sans le préfixe « {{ns:file}}: ».',
 'fileduplicatesearch-filename' => 'Nom du fichier :',
 'fileduplicatesearch-submit'   => 'Rechercher',
 'fileduplicatesearch-info'     => '$1 × $2 pixels<br />Taille du fichier : $3<br />Type MIME : $4',
-'fileduplicatesearch-result-1' => 'Le fichier « $1 » n’a pas de doublon.',
+'fileduplicatesearch-result-1' => 'Le fichier « $1 » n’a aucun doublon.',
 'fileduplicatesearch-result-n' => 'Le fichier « $1 » a {{PLURAL:$2|1 doublon|$2 doublons}}.',
 
 # Special:SpecialPages

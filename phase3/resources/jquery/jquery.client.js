@@ -1,21 +1,22 @@
 /*
- * User-agent detection 
+ * User-agent detection
  */
 jQuery.client = new ( function() {
-	
+
 	/* Private Members */
-	
+
 	var profile;
-	
+
 	/* Public Functions */
-	
+
 	/**
 	 * Returns an object containing information about the browser
-	 * 
+	 *
 	 * The resulting client object will be in the following format:
-	 *  {
+	 * 	{
 	 * 		'name': 'firefox',
 	 * 		'layout': 'gecko',
+	 * 		'layoutVersion': '20101026',
 	 * 		'platform': 'linux'
 	 * 		'version': '3.5.1',
 	 * 		'versionBase': '3',
@@ -25,9 +26,9 @@ jQuery.client = new ( function() {
 	this.profile = function() {
 		// Use the cached version if possible
 		if ( typeof profile === 'undefined' ) {
-			
+
 			/* Configuration */
-			
+
 			// Name of browsers or layout engines we don't recognize
 			var uk = 'unknown';
 			// Generic version digit
@@ -68,13 +69,15 @@ jQuery.client = new ( function() {
 			var layouts = ['gecko', 'konqueror', 'msie', 'opera', 'webkit'];
 			// Translations for conforming layout names
 			var layoutTranslations = [['konqueror', 'khtml'], ['msie', 'trident'], ['opera', 'presto']];
+			// Names of supported layout engines for version number
+			var layoutVersions = ['applewebkit', 'gecko'];
 			// Names of known operating systems
 			var platforms = ['win', 'mac', 'linux', 'sunos', 'solaris', 'iphone'];
 			// Translations for conforming operating system names
 			var platformTranslations = [['sunos', 'solaris']];
-			
+
 			/* Methods */
-			
+
 			// Performs multiple replacements on a string
 			function translate( source, translations ) {
 				for ( var i = 0; i < translations.length; i++ ) {
@@ -82,24 +85,27 @@ jQuery.client = new ( function() {
 				}
 				return source;
 			};
-			
+
 			/* Pre-processing  */
-			
-			var userAgent = navigator.userAgent, match, name = uk, layout = uk, platform = uk, version = x;
+
+			var userAgent = navigator.userAgent, match, name = uk, layout = uk, layoutversion = uk, platform = uk, version = x;
 			if ( match = new RegExp( '(' + wildUserAgents.join( '|' ) + ')' ).exec( userAgent ) ) {
 				// Takes a userAgent string and translates given text into something we can more easily work with
 				userAgent = translate( userAgent, userAgentTranslations );
 			}
 			// Everything will be in lowercase from now on
 			userAgent = userAgent.toLowerCase();
-			
+
 			/* Extraction */
-			
+
 			if ( match = new RegExp( '(' + names.join( '|' ) + ')' ).exec( userAgent ) ) {
 				name = translate( match[1], nameTranslations );
 			}
 			if ( match = new RegExp( '(' + layouts.join( '|' ) + ')' ).exec( userAgent ) ) {
 				layout = translate( match[1], layoutTranslations );
+			}
+			if ( match = new RegExp( '(' + layoutVersions.join( '|' ) + ')\\\/(\\d+)').exec( navigator.userAgent.toLowerCase() ) ) {
+				layoutversion = parseInt(match[2]);
 			}
 			if ( match = new RegExp( '(' + platforms.join( '|' ) + ')' ).exec( navigator.platform.toLowerCase() ) ) {
 				platform = translate( match[1], platformTranslations );
@@ -107,9 +113,9 @@ jQuery.client = new ( function() {
 			if ( match = new RegExp( '(' + versionPrefixes.join( '|' ) + ')' + versionSuffix ).exec( userAgent ) ) {
 				version = match[3];
 			}
-			
+
 			/* Edge Cases -- did I mention about how user agent string lie? */
-			
+
 			// Decode Safari's crazy 400+ version numbers
 			if ( name.match( /safari/ ) && version > 400 ) {
 				version = '2.0';
@@ -118,12 +124,13 @@ jQuery.client = new ( function() {
 			if ( name === 'opera' && version >= 9.8) {
 				version = userAgent.match( /version\/([0-9\.]*)/i )[1] || 10;
 			}
-			
+
 			/* Caching */
-			
+
 			profile = {
 				'name': name,
 				'layout': layout,
+				'layoutVersion': layoutversion,
 				'platform': platform,
 				'version': version,
 				'versionBase': ( version !== x ? new String( version ).substr( 0, 1 ) : x ),
@@ -132,12 +139,12 @@ jQuery.client = new ( function() {
 		}
 		return profile;
 	};
-	
+
 	/**
 	 * Checks the current browser against a support map object to determine if the browser has been black-listed or
 	 * not. If the browser was not configured specifically it is assumed to work. It is assumed that the body
 	 * element is classified as either "ltr" or "rtl". If neither is set, "ltr" is assumed.
-	 * 
+	 *
 	 * A browser map is in the following format:
 	 *	{
 	 * 		'ltr': {
@@ -153,9 +160,9 @@ jQuery.client = new ( function() {
 	 * 			'iphone': false
 	 * 		}
 	 *	}
-	 * 
+	 *
 	 * @param map Object of browser support map
-	 * 
+	 *
 	 * @return Boolean true if browser known or assumed to be supported, false if blacklisted
 	 */
 	this.test = function( map ) {

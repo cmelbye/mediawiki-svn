@@ -160,6 +160,7 @@ $messages = array(
 'tog-watchdefault'            => 'Zonta łe pajine modifegae a i oservai spesałi',
 'tog-watchmoves'              => 'Zonta łe pajine spostae a i oservai spesałi',
 'tog-watchdeletion'           => 'Zonta łe pajine scansełae a i oservai spesałi',
+'tog-minordefault'            => 'Indica ogni modifega come minore (soło come predefinio)',
 'tog-previewontop'            => "Mostra l'anteprima sora ła caseła de modifega e no soto",
 'tog-previewonfirst'          => "Mostra l'anteprima par ła prima modifega",
 'tog-nocache'                 => 'Disativa ła cache par łe pajine del browser',
@@ -776,7 +777,7 @@ Se no funsiona gnancora, te pol proár a [[Special:UserLogout|scolegarte]] e efe
 La casela de modifica de sora contegne el testo de la voxe ne ła so forma atuałe (el testo atualmente online).
 Le to modifiche łe xè invese contegnue ne ła caseła de modifica de soto.
 Te dovarè inserire, se te vołi, le to modifiche nel testo esistente, e perciò scrivarle ne ła caseła de sora.
-'''Soltanto''' el testo ne ła caseła de sora el sarà salvà se te struchi el botón \"Salva\".",
+'''Soltanto''' el testo ne ła caseła de sora el sarà salvà se te struchi el botón \"{{int:savearticle}}\".",
 'yourtext'                         => 'El to testo',
 'storedversion'                    => 'Version in archivio',
 'nonunicodebrowser'                => "'''OCIO: Te stè doparando un browser mìa conpatibile coi caràteri Unicode. Par consentir la modifica de le pagine senza crear inconvenienti, i caràteri non ASCII i vien mostrà ne la casela de modifica soto forma de codici esadecimali.'''",

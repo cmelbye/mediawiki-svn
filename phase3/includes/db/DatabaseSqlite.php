@@ -23,25 +23,14 @@ class DatabaseSqlite extends DatabaseBase {
 	 * Constructor.
 	 * Parameters $server, $user and $password are not used.
 	 */
-	function __construct( $server = false, $user = false, $password = false, $dbName = false, $failFunction = false, $flags = 0 ) {
+	function __construct( $server = false, $user = false, $password = false, $dbName = false, $flags = 0 ) {
 		global $wgSharedDB;
-		$this->mFailFunction = $failFunction;
 		$this->mFlags = $flags;
 		$this->mName = $dbName;
 
 		if ( $this->open( $server, $user, $password, $dbName ) && $wgSharedDB ) {
 			$this->attachDatabase( $wgSharedDB );
 		}
-	}
-
-	/**
-	 * Serialization handler, see http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.sleep
-	 * for details. Instances of this class sometimes get serialized, e.g. with Title and its BacklinkCache
-	 * Because attempts to serialize mConn end in "can't serialize PDO objects" exceptions, we simply disallow
-	 * to serialize anything in this class.
-	 */
-	function __sleep() {
-		return array();
 	}
 
 	function getType() {
@@ -53,8 +42,8 @@ class DatabaseSqlite extends DatabaseBase {
 	 */
 	function implicitGroupby()   { return false; }
 
-	static function newFromParams( $server, $user, $password, $dbName, $failFunction = false, $flags = 0 ) {
-		return new DatabaseSqlite( $server, $user, $password, $dbName, $failFunction, $flags );
+	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
+		return new DatabaseSqlite( $server, $user, $password, $dbName, $flags );
 	}
 
 	/** Open an SQLite database and return a resource handle to it
@@ -88,14 +77,9 @@ class DatabaseSqlite extends DatabaseBase {
 		} catch ( PDOException $e ) {
 			$err = $e->getMessage();
 		}
-		if ( $this->mConn === false ) {
+		if ( !$this->mConn ) {
 			wfDebug( "DB connection error: $err\n" );
-			if ( !$this->mFailFunction ) {
-				throw new DBConnectionError( $this, $err );
-			} else {
-				return false;
-			}
-
+			throw new DBConnectionError( $this, $err );
 		}
 		$this->mOpened = !!$this->mConn;
 		# set error codes only, don't raise exceptions
@@ -134,7 +118,8 @@ class DatabaseSqlite extends DatabaseBase {
 	function checkForEnabledSearch() {
 		if ( self::$fulltextEnabled === null ) {
 			self::$fulltextEnabled = false;
-			$res = $this->query( "SELECT sql FROM sqlite_master WHERE tbl_name = 'searchindex'", __METHOD__ );
+			$table = $this->tableName( 'searchindex' );
+			$res = $this->query( "SELECT sql FROM sqlite_master WHERE tbl_name = '$table'", __METHOD__ );
 			if ( $res ) {
 				$row = $res->fetchRow();
 				self::$fulltextEnabled = stristr($row['sql'], 'fts' ) !== false;

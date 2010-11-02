@@ -29,6 +29,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 
 	/* Protected Members */
 
+	/** @var {string} Local base path, see __construct() */
+	protected $localBasePath = '';
+	/** @var {string} Remote base path, see __construct() */
+	protected $remoteBasePath = '';
 	/**
 	 * @var {array} List of paths to JavaScript files to always include
 	 * @format array( [file-path], [file-path], ... )
@@ -71,19 +75,23 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	protected $dependencies = array();
 	/**
 	 * @var {array} List of message keys used by this module
-	 * @format array( [module-name], [module-name], ... )
-	 */
-	protected $messages = array();
-	/**
-	 * @var {string} Name of group this module should be loaded in
 	 * @format array( [message-key], [message-key], ... )
 	 */
+	protected $messages = array();
+	/** @var {string} Name of group to load this module in */
 	protected $group;
+	/** @var {boolean} Link to raw files in debug mode */
+	protected $debugRaw = true;
 	/**
 	 * @var {array}  Cache for mtime
 	 * @format array( [hash] => [mtime], [hash] => [mtime], ... )
 	 */
 	protected $modifiedTime = array();
+	/**
+	 * @var {array} Place where readStyleFile() tracks file dependencies
+	 * @format array( [file-path], [file-path], ... )
+	 */
+	protected $localFileRefs = array();
 
 	/* Methods */
 
@@ -91,7 +99,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * Constructs a new module from an options array.
 	 * 
 	 * @param {array} $options Options array. If not given or empty, an empty module will be constructed
-	 * @param {string} $basePath base path to prepend to all paths in $options
+	 * @param {string} $localBasePath base path to prepend to all local paths in $options. Defaults to $IP
+	 * @param {string} $remoteBasePath base path to prepend to all remote paths in $options. Defaults to $wgScriptPath
 	 * 
 	 * @format $options
 	 * 	array(
@@ -123,7 +132,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * 		'group' => [group name string],
 	 * 	)
 	 */
-	public function __construct( $options = array(), $basePath = null ) {
+	public function __construct( $options = array(), $localBasePath = null, $remoteBasePath = null ) {
+		global $IP, $wgScriptPath;
+		$this->localBasePath = $localBasePath === null ? $IP : $localBasePath;
+		$this->remoteBasePath = $remoteBasePath === null ? $wgScriptPath : $remoteBasePath;
 		foreach ( $options as $member => $option ) {
 			switch ( $member ) {
 				// Lists of file paths
@@ -131,15 +143,26 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 				case 'debugScripts':
 				case 'loaderScripts':
 				case 'styles':
-					$this->{$member} = self::prefixFilePathList( (array) $option, $basePath );
+					$this->{$member} = (array) $option;
 					break;
 				// Collated lists of file paths
 				case 'languageScripts':
 				case 'skinScripts':
 				case 'skinStyles':
-					foreach ( (array) $option as $key => $value ) {
-						$this->{$member}[$key] = self::prefixFilePathList( (array) $value, $basePath );
+					if ( !is_array( $option ) ) {
+						throw new MWException(
+							"Invalid collated file path list error. '$option' given, array expected."
+						);
 					}
+					foreach ( $option as $key => $value ) {
+						if ( !is_string( $key ) ) {
+							throw new MWException(
+								"Invalid collated file path list key error. '$key' given, string expected."
+							);
+						}
+						$this->{$member}[$key] = (array) $value;
+					}
+					break;
 				// Lists of strings
 				case 'dependencies':
 				case 'messages':
@@ -147,7 +170,11 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 					break;
 				// Single strings
 				case 'group':
-					$this->group = (string) $option;
+					$this->{$member} = (string) $option;
+					break;
+				// Single booleans
+				case 'debugRaw':
+					$this->{$member} = (bool) $option;
 					break;
 			}
 		}
@@ -160,13 +187,25 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @return {string} JavaScript code for $context
 	 */
 	public function getScript( ResourceLoaderContext $context ) {
-		$script = self::readScriptFiles( $this->scripts ) . "\n" .
-			self::readScriptFiles( self::tryForKey( $this->languageScripts, $context->getLanguage() ) ) . "\n" .
-			self::readScriptFiles( self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' ) ) . "\n";
+		global $wgServer;
+		
+		$files = array_merge(
+			$this->scripts,
+			self::tryForKey( $this->languageScripts, $context->getLanguage() ),
+			self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' )
+		);
 		if ( $context->getDebug() ) {
-			$script .= "\n" . self::readScriptFiles( $this->debugScripts );
+			$files = array_merge( $files, $this->debugScripts );
+			if ( $this->debugRaw ) {
+				$script = '';
+				foreach ( $files as $file ) {
+					$path = FormatJson::encode( $wgServer . $this->getRemotePath( $file ) );
+					$script .= "\n\tmediaWiki.loader.load( $path );";
+				}
+				return $script;
+			}
 		}
-		return $script;
+		return $this->readScriptFiles( $files );
 	}
 
 	/**
@@ -178,7 +217,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		if ( count( $this->loaderScripts ) == 0 ) {
 			return false;
 		}
-		return self::readScriptFiles( $this->loaderScripts );
+		return $this->readScriptFiles( $this->loaderScripts );
 	}
 
 	/**
@@ -189,8 +228,9 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 */
 	public function getStyles( ResourceLoaderContext $context ) {
 		// Merge general styles and skin specific styles, retaining media type collation
-		$styles = self::readStyleFiles( $this->styles );
-		$skinStyles = self::readStyleFiles( self::tryForKey( $this->skinStyles, $context->getSkin(), 'default' ) );
+		$styles = $this->readStyleFiles( $this->styles );
+		$skinStyles = $this->readStyleFiles( self::tryForKey( $this->skinStyles, $context->getSkin(), 'default' ) );
+		
 		foreach ( $skinStyles as $media => $style ) {
 			if ( isset( $styles[$media] ) ) {
 				$styles[$media] .= $style;
@@ -199,18 +239,15 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			}
 		}
 		// Collect referenced files
-		$files = array();
-		foreach ( $styles as /* $media => */ $style ) {
-			$files = array_merge( $files, CSSMin::getLocalFileReferences( $style ) );
-		}
+		$this->localFileRefs = array_unique( $this->localFileRefs );
 		// If the list has been modified since last time we cached it, update the cache
-		if ( $files !== $this->getFileDependencies( $context->getSkin() ) ) {
+		if ( $this->localFileRefs !== $this->getFileDependencies( $context->getSkin() ) ) {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->replace( 'module_deps',
 				array( array( 'md_module', 'md_skin' ) ), array(
 					'md_module' => $this->getName(),
 					'md_skin' => $context->getSkin(),
-					'md_deps' => FormatJson::encode( $files ),
+					'md_deps' => FormatJson::encode( $this->localFileRefs ),
 				)
 			);
 		}
@@ -282,9 +319,11 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			$context->getDebug() ? $this->debugScripts : array(),
 			self::tryForKey( $this->languageScripts, $context->getLanguage() ),
 			self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' ),
-			$this->loaderScripts,
-			$this->getFileDependencies( $context->getSkin() )
+			$this->loaderScripts
 		);
+		$files = array_map( array( $this, 'getLocalPath' ), $files );
+		// File deps need to be treated separately because they're already prefixed
+		$files = array_merge( $files, $this->getFileDependencies( $context->getSkin() ) );
 		
 		// If a module is nothing but a list of dependencies, we need to avoid giving max() an empty array
 		if ( count( $files ) === 0 ) {
@@ -292,7 +331,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		}
 		
 		wfProfileIn( __METHOD__.'-filemtime' );
-		$filesMtime = max( array_map( 'filemtime', array_map( array( __CLASS__, 'resolveFilePath' ), $files ) ) );
+		$filesMtime = max( array_map( 'filemtime', $files ) );
 		wfProfileOut( __METHOD__.'-filemtime' );
 		$this->modifiedTime[$context->getHash()] = max( $filesMtime, $this->getMsgBlobMtime( $context->getLanguage() ) );
 		wfProfileOut( __METHOD__ );
@@ -301,25 +340,12 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 
 	/* Protected Members */
 
-	/**
-	 * Prefixes each file path in a list.
-	 * 
-	 * @param {array} $list List of file paths in any combination of index/path or path/options pairs
-	 * @param {string} $prefix String to prepend to each file path in $list
-	 * @return {array} List of prefixed file paths
-	 */
-	protected static function prefixFilePathList( array $list, $prefix ) {
-		$prefixed = array();
-		foreach ( $list as $key => $value ) {
-			if ( is_array( $value ) ) {
-				// array( [path] => array( [options] ) )
-				$prefixed[$prefix . $key] = $value;
-			} else {
-				// array( [path] )
-				$prefixed[$key] = $prefix . $value;
-			}
-		}
-		return $prefixed;
+	protected function getLocalPath( $path ) {
+		return "{$this->localBasePath}/$path";
+	}
+	
+	protected function getRemotePath( $path ) {
+		return "{$this->remoteBasePath}/$path";
 	}
 
 	/**
@@ -372,11 +398,11 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @param {array} $scripts List of file paths to scripts to read, remap and concetenate
 	 * @return {string} Concatenated and remapped JavaScript data from $scripts
 	 */
-	protected static function readScriptFiles( array $scripts ) {
+	protected function readScriptFiles( array $scripts ) {
 		if ( empty( $scripts ) ) {
 			return '';
 		}
-		return implode( "\n", array_map( array( __CLASS__, 'readScriptFile' ), array_unique( $scripts ) ) );
+		return implode( "\n", array_map( 'file_get_contents', array_map( array( $this, 'getLocalPath' ), array_unique( $scripts ) ) ) );
 	}
 
 	/**
@@ -385,31 +411,17 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @param {array} $styles List of file paths to styles to read, remap and concetenate
 	 * @return {array} List of concatenated and remapped CSS data from $styles, keyed by media type
 	 */
-	protected static function readStyleFiles( array $styles ) {
+	protected function readStyleFiles( array $styles ) {
 		if ( empty( $styles ) ) {
 			return array();
 		}
 		$styles = self::collateFilePathListByOption( $styles, 'media', 'all' );
 		foreach ( $styles as $media => $files ) {
 			$styles[$media] = implode(
-				"\n", array_map( array( __CLASS__, 'readStyleFile' ), array_unique( $files ) )
+				"\n", array_map( array( $this, 'readStyleFile' ), array_unique( $files ) )
 			);
 		}
 		return $styles;
-	}
-
-	/**
-	 * Reads a script file.
-	 * 
-	 * This method can be used as a callback for array_map()
-	 * 
-	 * @param {string} $path File path of script file to read
-	 * @return {string} JavaScript data in script file
-	 */
-	protected static function readScriptFile( $path ) {
-		global $IP;
-		
-		return file_get_contents( "$IP/$path" );
 	}
 
 	/**
@@ -420,25 +432,14 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @param {string} $path File path of script file to read
 	 * @return {string} CSS data in script file
 	 */
-	protected static function readStyleFile( $path ) {
-		global $wgScriptPath, $IP;
-		
+	protected function readStyleFile( $path ) {	
+		$style = file_get_contents( $this->getLocalPath( $path ) );
+		$dir = $this->getLocalPath( dirname( $path ) );
+		$remoteDir = $this->getRemotePath( dirname( $path ) );
+		// Get and register local file references
+		$this->localFileRefs = array_merge( $this->localFileRefs, CSSMin::getLocalFileReferences( $style, $dir ) );
 		return CSSMin::remap(
-			file_get_contents( "$IP/$path" ), dirname( "$IP/$path" ), $wgScriptPath . '/' . dirname( $path ), true
+			$style, $dir, $remoteDir, true
 		);
-	}
-
-	/**
-	 * Resolves a file name.
-	 * 
-	 * This method can be used as a callback for array_map()
-	 * 
-	 * @param {string} $path File path to resolve
-	 * @return {string} Absolute file path
-	 */
-	protected static function resolveFilePath( $path ) {
-		global $IP;
-		
-		return "$IP/$path";
 	}
 }

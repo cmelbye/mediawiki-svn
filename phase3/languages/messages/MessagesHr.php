@@ -324,6 +324,7 @@ $messages = array(
 'tog-watchdefault'            => 'Dodaj sve nove i izmijenjene stranice u popis praćenja',
 'tog-watchmoves'              => 'Dodaj sve stranice koje premjestim na popis praćenja',
 'tog-watchdeletion'           => 'Dodaj sve stranice koje izbrišem na popis praćenja',
+'tog-minordefault'            => 'Normalno označavaj sve moje izmjene kao manje',
 'tog-previewontop'            => 'Prikaži kako će stranica izgledati iznad okvira za uređivanje',
 'tog-previewonfirst'          => 'Prikaži kako će stranica izgledati čim otvorim uređivanje',
 'tog-nocache'                 => 'Isključi međuspremnik (cache) stranica u pregledniku',
@@ -931,8 +932,11 @@ To se ponekad događa kad rabite neispravan web-baziran anonimni posrednik (prox
 'editingsection'                   => 'Uređujete $1 (odlomak)',
 'editingcomment'                   => 'Uređujete $1 (novi odlomak)',
 'editconflict'                     => 'Istovremeno uređivanje: $1',
-'explainconflict'                  => 'Netko je u međuvremenu promijenio stranicu. Gornje polje sadrži sadašnji tekst stranice.
-U donjem polju prikazane su Vaše promjene. Morat ćete unijeti Vaše promjene u sadašnji tekst. <b>Samo</b> će tekst u gornjem polju biti sačuvan kad pritisnete "{{int:savearticle}}".',
+'explainconflict'                  => "Netko je u međuvremenu promijenio stranicu.
+Gornje polje sadrži sadašnji tekst stranice.
+U donjem polju prikazane su Vaše promjene.
+Morat ćete unijeti Vaše promjene u sadašnji tekst.
+'''Samo''' će tekst u gornjem polju biti sačuvan kad pritisnete \"{{int:savearticle}}\".",
 'yourtext'                         => 'Vaš tekst',
 'storedversion'                    => 'Pohranjena inačica',
 'nonunicodebrowser'                => "'''UPOZORENJE: Vaš preglednik ne podržava Unicode zapis znakova, molimo promijenite ga prije sljedećeg uređivanja članaka.'''",

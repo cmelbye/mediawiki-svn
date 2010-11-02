@@ -42,6 +42,7 @@ $messages = array(
 'tog-watchdefault'         => "Po'lo i påhina siha ni hu tulaika gi iyo-ku listan pinilan.",
 'tog-watchmoves'           => "Po'lo i påhina siha ni hu muebi gi iyo-ku listan pinilan.",
 'tog-watchdeletion'        => "Po'lo i påhina siha ni hu na'suha gi iyo-ku listan pinilan.",
+'tog-minordefault'         => "Matka mamo'lo todu i tinilaika siha dikike'.",
 'tog-previewontop'         => "Na'annok i ripasu gi me'na i kahon tinilaika",
 'tog-previewonfirst'       => "Na'annok i ripasu gi i fine'nena na tinilaika",
 'tog-enotifwatchlistpages' => "E-mail yu' anggen guåha matulaika gi iyo-ku listan pinilan",
@@ -487,7 +488,7 @@ Pot fabot chagi ta'lo. Yanggen ti siña u såtba ta'lo, chagi muna'logout yan na
 Ma'annok i tinige' gi hilo' komu på'go.
 Ma'annok i tinilaika-mu gi papa'.
 Para un nesita muna'daña i tinilaika-mu yan i guinaha.
-'''I tinige' gi hilo' ha'''' para u såtba annai un yemme' \"Såtba i påhina\".",
+'''I tinige' gi hilo' ha'''' para u såtba annai un yemme' \"{{int:savearticle}}\".",
 'yourtext'                         => "Tinige'-mu",
 'storedversion'                    => 'Tinilaika masåtba',
 'editingold'                       => "'''ADAHI: Un tulalaika un ribision påhina gus bihu.

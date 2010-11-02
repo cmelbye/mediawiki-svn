@@ -201,6 +201,7 @@ $messages = array(
 'tog-watchdefault'            => 'Dodaj na spisek nadzorov vse članke, ki sem jih ustvaril/-a ali spremenil/-a',
 'tog-watchmoves'              => 'Dodaj strani, ki jih premaknem, na moj spisek nadzorov',
 'tog-watchdeletion'           => 'Dodaj strani, ki jih izbrišem, na moj spisek nadzorov',
+'tog-minordefault'            => 'Vsa urejanja označi kot manjša',
 'tog-previewontop'            => 'Prikaži predogled pred urejevalnim poljem in ne za njim',
 'tog-previewonfirst'          => 'Ob začetku urejanja prikaži predogled',
 'tog-nocache'                 => 'Onemogoči predpomnenje strani v brskalniku',
@@ -581,6 +582,7 @@ Ne pozabite si prilagoditi vaših [[Special:Preferences|nastavitev {{GRAMMAR:rod
 'yourpassword'               => 'Geslo',
 'yourpasswordagain'          => 'Ponovno vpišite geslo',
 'remembermypassword'         => 'Zapomni si me na tem računalniku (za največ $1 {{PLURAL:$1|dan|dneva|dni}})',
+'securelogin-stick-https'    => 'Po prijavi ostani povezan preko HTTPS',
 'yourdomainname'             => 'Domena',
 'externaldberror'            => 'Pri potrjevanju istovetnosti je prišlo do notranje napake ali pa za osveževanje zunanjega računa nimate dovoljenja.',
 'login'                      => 'Prijava',
@@ -622,6 +624,7 @@ Preverite črkovanje.',
 'wrongpasswordempty'         => 'Vpisali ste prazno geslo. Prosimo, poskusite znova.',
 'passwordtooshort'           => 'Geslo mora imeti najmanj $1 {{PLURAL:$1|znak|znaka|znake|znakov|znakov}}.',
 'password-name-match'        => 'Vaše geslo se mora razlikovati od vašega uporabniškega imena.',
+'password-too-weak'          => 'Navedeno geslo je prešibko in ga ni mogoče uporabiti.',
 'mailmypassword'             => 'Pošlji mi novo geslo',
 'passwordremindertitle'      => 'Novo začasno geslo za {{GRAMMAR:tožilnik|{{SITENAME}}}}',
 'passwordremindertext'       => 'Nekdo (verjetno vi, z IP-naslova $1) je zahteval novo
@@ -831,7 +834,7 @@ Največkrat je razlog uporaba hroščato spletno anonimizacijsko storitev.",
 'explainconflict'                  => "Med vašim urejanjem je stran spremenil nekdo drug.
 Zgornje urejevalno polje vsebuje njeno trenutno vsebino.
 Vaše spremembe so prikazane v spodnjem polju, ki jih boste morali združiti z obstoječim besedilom.
-'''Samo''' besedilo v zgornjem polju bo shranjeno, ko boste izbrali ukaz »Shrani stran«.",
+'''Samo''' besedilo v zgornjem polju bo shranjeno, ko boste izbrali ukaz »{{int:savearticle}}«.",
 'yourtext'                         => 'Vaše besedilo',
 'storedversion'                    => 'Shranjena redakcija',
 'nonunicodebrowser'                => "'''Opozorilo: Vaš brskalnik ne podpira Unicode.'''
@@ -839,14 +842,13 @@ Za obhod te težave se bodo ne-ASCII-znaki v urejevalnem polju spodaj pojavili k
 'editingold'                       => "'''Opozorilo: Urejate staro redakcijo strani.'''
 Če jo boste shranili, bodo vse poznejše spremembe razveljavljene.",
 'yourdiff'                         => 'Primerjava',
-'copyrightwarning'                 => "Vsi prispevki k {{GRAMMAR:dajalnik|{{SITENAME}}}} se obravnavajo kot objave pod pogoji $2 (za podrobnosti glej $1). Če niste pripravljeni na neusmiljeno urejanje in prosto razširjanje vašega gradiva, ga ne prispevajte.
-
-Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa prepisali iz javno dostopnega ali podobnega prostega vira oziroma da pri tem ne kršite avtorskih pravic.
-'''NE DODAJAJTE AVTORSKO ZAŠČITENEGA DELA BREZ DOVOLJENJA !'''",
-'copyrightwarning2'                => "Vsi prispevki k {{GRAMMAR:dajalnik|{{SITENAME}}}} se lahko urejajo, spreminjajo ali odstranijo s strani drugih uporabnikov. Če niste pripravljeni na neusmiljeno urejanje in prosto razširjanje vašega gradiva, ga ne prispevajte.
-
-Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa prepisali iz javno dostopnega ali podobnega prostega vira oziroma da pri tem ne kršite avtorskih pravic ($1).
-'''NE DODAJAJTE AVTORSKO ZAŠČITENEGA DELA BREZ DOVOLJENJA !'''",
+'copyrightwarning'                 => "Vsi prispevki k {{GRAMMAR:dajalnik|{{SITENAME}}}} se obravnavajo kot objave pod pogoji $2 (za podrobnosti glej $1). Če niste pripravljeni na neusmiljeno urejanje in prosto razširjanje vašega gradiva, ga ne prispevajte.<br />
+Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa prepisali iz javno dostopnega ali podobnega prostega vira.
+'''Ne dodajajte avtorsko zaščitenega dela brez dovoljenja!'''",
+'copyrightwarning2'                => "Prosimo, upoštevajte, da se vsi prispevki k {{GRAMMAR:dajalnik|{{SITENAME}}}} lahko urejajo, spreminjajo ali odstranijo s strani drugih uporabnikov
+Če niste pripravljeni na neusmiljeno urejanje in prosto razširjanje vašega gradiva, ga ne prispevajte.<br />
+Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa prepisali iz javno dostopnega ali podobnega prostega vira (za podrobnosti glej $1).
+'''Ne dodajajte avtorsko zaščitenega dela brez dovoljenja!'''",
 'longpagewarning'                  => 'Stran je dolga $1 {{PLURAL:$1|kilobajt|kilobajta|kilobajte|kilobajtov|kilobajtov}};
 nekateri brskalniki imajo lahko težave z urejanjem strani, daljših od 32 KB.
 Prosimo, razmislite o razdelitvi strani na manjše razdelke.',
@@ -1652,9 +1654,9 @@ $1',
 'upload-proto-error'        => 'Nepravilni protokol',
 'upload-proto-error-text'   => 'Oddaljeno nalaganje zahteva, da se URL začenja s <code>http://</code> ali <code>ftp://</code>.',
 'upload-file-error'         => 'Notranja napaka',
-'upload-file-error-text'    => 'Prišlo je do notranje napake pri poskusu ustvariti začasne datoteke na strežnik.
-Prosimo obrnite se na [[Special:ListUsers/sysop|administrator]]ja.',
-'upload-misc-error'         => 'Neznana napaka nalaganja',
+'upload-file-error-text'    => 'Prišlo je do notranje napake pri poskusu ustvarjanja začasne datoteke na strežniku.
+Prosimo, obrnite se na [[Special:ListUsers/sysop|administratorja]].',
+'upload-misc-error'         => 'Neznana napaka pri nalaganju',
 'upload-misc-error-text'    => 'Med nalaganjem je prišlo do neznane napake.
 Prosimo, preverite veljavnost in dostopnost naslova URL ter poskusite ponovno.
 Če se težava ponavlja, kontaktirajte [[Special:ListUsers/sysop|administratorja]].',
@@ -1713,6 +1715,7 @@ Za spremembo razvrščanja kliknete na glavo stolpca.',
 'listfiles_search_for'  => 'Išči po imenu datoteke:',
 'imgfile'               => 'dat.',
 'listfiles'             => 'Seznam datotek',
+'listfiles_thumb'       => 'Sličica',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Ime',
 'listfiles_user'        => 'Uporabnik',
@@ -1867,6 +1870,8 @@ Sedaj je preusmeritev na [[$2]].',
 'nmembers'                => '$1 {{PLURAL:$1|element|elementa|elementi|elementov|elementov}}',
 'nrevisions'              => '$1 {{PLURAL:$1|redakcija|redakciji|redakcije|redakcij|redakcij}}',
 'nviews'                  => '$1 {{PLURAL:$1|ogled|ogleda|ogledi|ogledov|ogledov}}',
+'nimagelinks'             => 'Uporabljeno na $1 {{PLURAL:$1|strani|straneh}}',
+'ntransclusions'          => 'uporabljeno na $1 {{PLURAL:$1|strani|straneh}}',
 'specialpage-empty'       => 'Za to poročilo ni rezultatov.',
 'lonelypages'             => 'Osirotele strani',
 'lonelypagestext'         => 'Naslednje strani niso povezane ali vključene v nobeno drugo stran na {{GRAMMAR:locative|{{SITENAME}}}}.',
@@ -3322,7 +3327,7 @@ Uporabite lahko tudi [[Special:Watchlist/edit|standardni urejevalnik]].',
 'version-extension-functions'      => 'Funkcije razširitev',
 'version-parser-extensiontags'     => 'Etikete razširitev razčlenjevalnika',
 'version-parser-function-hooks'    => 'Funkcije razširitev razčlenjevalnika',
-'version-skin-extension-functions' => 'Funkcije razširitev kože',
+'version-skin-extension-functions' => 'Funkcije razširitve kože',
 'version-hook-name'                => 'Ime razširitve',
 'version-hook-subscribedby'        => 'Naročen s strani',
 'version-version'                  => '(Različica $1)',

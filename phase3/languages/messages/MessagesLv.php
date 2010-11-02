@@ -65,6 +65,7 @@ $messages = array(
 'tog-watchdefault'            => 'Pievienot manis izmainītās lapas uzraugāmo lapu sarakstam',
 'tog-watchmoves'              => 'Pievienot manis pārvietotās lapas uzraugāmo lapu sarakstam',
 'tog-watchdeletion'           => 'Pievienot manis izdzēstās lapas uzraugāmo lapu sarakstam',
+'tog-minordefault'            => 'Atzīmēt visus labojumus jau sākotnēji par maznozīmīgiem',
 'tog-previewontop'            => 'Parādīt priekšskatījumu virs rediģēšanas lauka, nevis zem',
 'tog-previewonfirst'          => 'Parādīt priekšskatījumu jau uzsākot rediģēšanu',
 'tog-nocache'                 => 'Atslēgt pārlūka lapu saglabāšanu kešatmiņā',
@@ -314,7 +315,7 @@ $1',
 'newmessagesdifflink'     => 'pēdējā izmaiņa',
 'youhavenewmessagesmulti' => 'Tev ir jauns ziņojums: $1',
 'editsection'             => 'labot',
-'editold'                 => 'rediģēt',
+'editold'                 => 'labot',
 'viewsourceold'           => 'aplūkot kodu',
 'editlink'                => 'labot',
 'viewsourcelink'          => 'Skatīt pirmkodu',
@@ -554,7 +555,7 @@ Tu jau esi veiksmīgi nomainījis savu galveno paroli, vai arī esi pieprasījis
 'summary'                          => 'Kopsavilkums:',
 'subject'                          => 'Tēma/virsraksts:',
 'minoredit'                        => 'maznozīmīgs labojums',
-'watchthis'                        => 'uzraudzīt',
+'watchthis'                        => 'Uzraudzīt šo lapu',
 'savearticle'                      => 'Saglabāt lapu',
 'preview'                          => 'Pirmskats',
 'showpreview'                      => 'Rādīt pirmskatu',
@@ -656,7 +657,7 @@ Ja tas joprojām nedarbojas, mēģini [[Special:UserLogout|izlogoties ārā]] un
 Augšējā teksta logā ir lapas teksts tā pašreizējā versijā.
 Tevis veiktās izmaiņas ir redzamas apakšējā teksta logā.
 Lai saglabātu savas izmaiņas, tev ir jāapvieno savs teksts ar saglabāto pašreizējo variantu.
-Kad spiedīsi pogu \"Saglabāt lapu\", tiks saglabāts '''tikai''' teksts, kas ir augšējā teksta logā.",
+Kad spiedīsi pogu \"{{int:savearticle}}\", tiks saglabāts '''tikai''' teksts, kas ir augšējā teksta logā.",
 'yourtext'                         => 'Tavs teksts',
 'storedversion'                    => 'Saglabātā versija',
 'nonunicodebrowser'                => "'''Brīdinājums: Tavs pārlūks neatbalsta unikodu.
@@ -683,7 +684,8 @@ Admins, kas slēdza datubāzi, norādīja šādu paskaidrojumu: $1",
 'protectedpagewarning'             => "'''BRĪDINĀJUMS: Šī lapa ir aizsargāta, tikai lietotāji ar administratora privilēģijām var to izmainīt.'''
 
 Pēdējais aizsargāšanas reģistra ieraksts ir apskatāms zemāk:",
-'semiprotectedpagewarning'         => "'''Piezīme:''' Izmaiņu veikšana šajā lapā ir atļauta tikai reģistrētiem lietotājiem.",
+'semiprotectedpagewarning'         => "'''Piezīme:''' Šī lapa ir aizsargāta, lai to varētu labot tikai reģistrēti lietotāji.
+Pēdējais reģistra ieraksts ir apskatāms zemāk:",
 'titleprotectedwarning'            => "'''Brīdinājums: Šī lapa ir slēgta un to var izveidot tikai [[Special:ListGroupRights|noteikti]] lietotāji.'''",
 'templatesused'                    => 'Šajā lapā {{PLURAL:$1|izmantotā veidne|izmantotās veidnes}}:',
 'templatesusedpreview'             => 'Šajā pirmskatā {{PLURAL:$1|izmanotā veidne|izmantotās veidnes}}:',
@@ -1025,7 +1027,7 @@ Ja vēlies, tu vari izmantot šo nejauši uzģenerēto kodu: $1',
 'prefs-memberingroups'          => 'Pieder {{PLURAL:$1|grupai|grupām}}:',
 'prefs-registration'            => 'Reģistrēšanās datums:',
 'yourrealname'                  => 'Tavs īstais vārds:',
-'yourlanguage'                  => 'Lietotāja saskarnes valoda:',
+'yourlanguage'                  => 'Valoda:',
 'yournick'                      => 'Tava iesauka (parakstam):',
 'prefs-help-signature'          => 'Komentāri diskusiju lapās ir jāparaksta, pievienojot simbolu virkni "<nowiki>~~~~</nowiki>", kas tiek automātiski aizstāta ar tavu parakstu un parakstīšanās laiku.',
 'badsig'                        => "Kļūdains ''paraksta'' kods; pārbaudi HTML (ja tāds ir lietots).",
@@ -1201,7 +1203,7 @@ Ja tu izvēlies to norādīt, tas tiks izmantots, lai identificētu tavu darbu (
 # Recent changes
 'nchanges'                          => '$1 {{PLURAL:$1|izmaiņa|izmaiņas}}',
 'recentchanges'                     => 'Pēdējās izmaiņas',
-'recentchanges-legend'              => 'Pēdējo izmaiņu opcijas',
+'recentchanges-legend'              => 'Pēdējo izmaiņu iespējas',
 'recentchangestext'                 => 'Šajā lapā ir šitajā viki izdarītās pēdējās izmaiņas.',
 'recentchanges-feed-description'    => 'Sekojiet līdzi jaunākajām izmaiņām vikijā izmantojot šo barotni.',
 'recentchanges-label-newpage'       => 'Šī ir jaunizveidota lapa',
@@ -1501,6 +1503,7 @@ Apraksts ir [$2 faila apraksta lapā], kas ir parādīta zemāk.',
 'statistics-edits'             => 'Lapu izmaiņas kopš {{grammar:ģenitīvs{{SITENAME}}}} izveidošanas',
 'statistics-edits-average'     => 'Vidējais izmaiņu skaits uz lapu',
 'statistics-views-total'       => 'Skatījumi kopā',
+'statistics-views-peredit'     => 'Skatījumu skaits uz labojumu',
 'statistics-users'             => 'Reģistrēti lietotāji',
 'statistics-users-active'      => 'Aktīvi lietotāji',
 'statistics-users-active-desc' => 'Lietotāji, kas ir veikuši jebkādu darbību {{PLURAL:$1|iepriekšējā dienā|iepriekšējās $1 dienās}}',
@@ -1552,6 +1555,7 @@ Katrā rindiņā ir saites uz pirmo un otro pāradresācijas lapu, kā arī pirm
 'wantedtemplates'         => 'Vajadzīgās veidnes',
 'mostlinked'              => 'Lapas, uz kurām ir visvairāk norāžu',
 'mostlinkedcategories'    => 'Kategorijas, uz kurām ir visvairāk saišu',
+'mostlinkedtemplates'     => 'Visvairāk izmantotās veidnes',
 'mostcategories'          => 'Raksti ar visvairāk kategorijām',
 'mostimages'              => 'Attēli, uz kuriem ir visvairāk saišu',
 'mostrevisions'           => 'Raksti, kuriem ir visvairāk iepriekšēju versiju',
@@ -1960,6 +1964,7 @@ Pēdējais bloķēšanas reģistra ieraksts ir apskatāms zemāk:',
 'whatlinkshere-hideredirs' => '$1 pāradresācijas',
 'whatlinkshere-hidetrans'  => '$1 lapas, kurās šī lapa izmantota kā veidne',
 'whatlinkshere-hidelinks'  => '$1 saites',
+'whatlinkshere-hideimages' => '$1 attēlu saites',
 'whatlinkshere-filters'    => 'Filtri',
 
 # Block/unblock
@@ -1968,7 +1973,7 @@ Pēdējais bloķēšanas reģistra ieraksts ir apskatāms zemāk:',
 'blockip-legend'               => 'Bloķēt lietotāju',
 'blockiptext'                  => 'Šo veidni izmanto, lai bloķētu kādas IP adreses vai lietotājvārda piekļuvi wiki lapu saglabāšanai. Dari to tikai, lai novērstu vandālismu atbilstoši [[{{MediaWiki:Policy-url}}|noteikumiem]].
 Norādi konkrētu iemeslu (piemēram, linkus uz vandalizētajām lapām).',
-'ipaddress'                    => 'IP adrese/lietotājvārds',
+'ipaddress'                    => 'IP adrese:',
 'ipadressorusername'           => 'IP adrese vai lietotājvārds',
 'ipbexpiry'                    => 'Termiņš',
 'ipbreason'                    => 'Iemesls:',
@@ -2153,6 +2158,8 @@ nevar pārvietot lapu uz sevi.',
 Pēdējais reģistra ieraksts ir apskatāms zemāk:",
 'semiprotectedpagemovewarning' => "'''Piezīme:''' Šī lapa ir aizsargāta, tikai reģistrētie lietotāji var to pārvietot.
 Pēdējais reģistra ieraksts ir apskatāms zemāk:",
+'move-over-sharedrepo'         => '== Fails jau pastāv ==
+[[:$1]] jau pastāv koplietotā repozitorijā. Pārvietošana uz šo nosaukumu aizstās koplietoto failu.',
 
 # Export
 'export'            => 'Eksportēt lapas',
@@ -2194,6 +2201,7 @@ Pirmajā gadījumā var arī lietot šādu metodi, piem., [[{{#Special:Export}}/
 'thumbnail-more'           => 'Palielināt',
 'filemissing'              => 'Trūkst faila',
 'thumbnail_error'          => 'Kļūda, veidojot sīktēlu: $1',
+'djvu_no_xml'              => 'Neizdevās ielādēt XML DjVu failam',
 'thumbnail_invalid_params' => 'Nederīgi sīktēlu parametri',
 'thumbnail_dest_directory' => 'Nevar izveidot mērķa direktoriju',
 'thumbnail_image-type'     => 'Attēla tips nav atbalstīts',
@@ -2348,9 +2356,13 @@ To visticamāk izraisīja ārēja saite uz melnajā sarakstā esošu interneta v
 'mw_math_mathml' => 'MathML, ja iespējams (eksperimentāla iespēja)',
 
 # Math errors
+'math_failure'          => 'Pārsēšanas kļūda',
 'math_unknown_error'    => 'nezināma kļūda',
 'math_unknown_function' => 'nezināma funkcija',
+'math_lexing_error'     => 'leksikas kļūda',
 'math_syntax_error'     => 'sintakses kļūda',
+'math_image_error'      => 'Kļūda konvertējot uz PNG formātu;
+pārbaudi vai ir korekti uzinstalēti latex, dvips, gs, un convert',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Atzīmēt kā pārbaudītu',
@@ -2540,15 +2552,19 @@ Pārējie lauki, pēc noklusējuma, būs paslēpti.
 'exif-orientation-7' => 'Pagriezta 90° CW un apgriezta vertikāli',
 'exif-orientation-8' => 'Pagriezta 90° CCW',
 
+'exif-componentsconfiguration-0' => 'neeksistē',
+
 'exif-exposureprogram-0' => 'Nav noteikta',
 'exif-exposureprogram-1' => 'Manuāla',
 'exif-exposureprogram-2' => 'Normāla programma',
 'exif-exposureprogram-3' => 'Diafragmas prioritāte',
 'exif-exposureprogram-4' => 'Slēdža prioritāte',
+'exif-exposureprogram-8' => 'Ainavu režīms (ainavu fotogrāfijām ar fokusu uz fonu)',
 
 'exif-subjectdistance-value' => '$1 metri',
 
-'exif-meteringmode-0' => 'Nav zināms',
+'exif-meteringmode-0'   => 'Nav zināms',
+'exif-meteringmode-255' => 'Cits',
 
 'exif-lightsource-0'   => 'Nav zināms',
 'exif-lightsource-1'   => 'Dienas gaisma',
@@ -2619,9 +2635,17 @@ Pārējie lauki, pēc noklusējuma, būs paslēpti.
 'exif-gpslongitude-e' => 'Austrumu garums',
 'exif-gpslongitude-w' => 'Rietumu garums',
 
+'exif-gpsmeasuremode-2' => 'Divdimensionāls mērījums',
+'exif-gpsmeasuremode-3' => 'Trīsdimensionāls mērījums',
+
 # Pseudotags used for GPSSpeedRef
 'exif-gpsspeed-k' => 'Kilometri stundā',
 'exif-gpsspeed-m' => 'Jūdzes stundā',
+'exif-gpsspeed-n' => 'Mezgli',
+
+# Pseudotags used for GPSTrackRef, GPSImgDirectionRef and GPSDestBearingRef
+'exif-gpsdirection-t' => 'Patiesais virziens',
+'exif-gpsdirection-m' => 'Magnētiskais virziens',
 
 # External editor support
 'edit-externally'      => 'Izmainīt šo failu ar ārēju programmu',
@@ -2633,6 +2657,7 @@ Pārējie lauki, pēc noklusējuma, būs paslēpti.
 'watchlistall2'    => 'visas',
 'namespacesall'    => 'visas',
 'monthsall'        => 'visi',
+'limitall'         => 'visas',
 
 # E-mail address confirmation
 'confirmemail'             => 'Apstiprini e-pasta adresi',
@@ -2676,6 +2701,9 @@ Si apstiprinajuma koda deriguma termins ir $4.',
 'scarytranscludefailed'   => '[Neizdevās ienest veidni $1.]',
 'scarytranscludetoolong'  => '[URL adrese ir pārāk gara.]',
 
+# Trackbacks
+'trackbackremove' => '([$1 Dzēst])',
+
 # Delete conflict
 'deletedwhileediting' => "'''Brīdinājums:''' Šī lapa tika izdzēsta, pēc tam, kad tu to sāki izmainīt!",
 'confirmrecreate'     => "Lietotājs [[User:$1|$1]] ([[User talk:$1|diskusija]]) izdzēsa šo lapu, pēc tam, kad tu to biji sācis rediģēt, ar iemeslu:
@@ -2694,11 +2722,14 @@ Lūdzu apstiprini, ka tiešām gribi izveidot šo lapu no jauna.",
 'imgmultigoto'     => 'Iet uz lapu $1',
 
 # Table pager
+'ascending_abbrev'         => 'pieaug.',
+'descending_abbrev'        => 'dilst.',
 'table_pager_next'         => 'Nākamā lapa',
 'table_pager_prev'         => 'Iepriekšējā lapa',
 'table_pager_first'        => 'Pirmā lapa',
 'table_pager_last'         => 'Pēdējā lapa',
 'table_pager_limit'        => 'Rādīt $1 ierakstus vienā lapā',
+'table_pager_limit_label'  => 'Skaits vienā lapā:',
 'table_pager_limit_submit' => 'Parādīt',
 'table_pager_empty'        => 'Neko neatrada',
 
@@ -2749,6 +2780,7 @@ Var arī lietot [[Special:Watchlist/edit|standarta izmainīšanas lapu]].',
 'version'                          => 'Versija',
 'version-extensions'               => 'Ieinstalētie paplašinājumi',
 'version-specialpages'             => 'Īpašās lapas',
+'version-variables'                => 'Mainīgie',
 'version-hooks'                    => 'Aizķeres',
 'version-skin-extension-functions' => 'Izskata paplašinājuma funkcijas',
 'version-hook-name'                => 'Aizķeres nosaukums',
@@ -2765,9 +2797,13 @@ Var arī lietot [[Special:Watchlist/edit|standarta izmainīšanas lapu]].',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Meklēt failu kopijas',
+'fileduplicatesearch-summary'  => 'Meklē dublējošos failus, izmantojot uz jaucējfunkcijas vērtības.
+
+Ievadi faila nosaukumu bez "{{ns:file}}:" prefiksa.',
 'fileduplicatesearch-legend'   => 'Meklēt kopiju',
 'fileduplicatesearch-filename' => 'Faila vārds:',
 'fileduplicatesearch-submit'   => 'Meklēt',
+'fileduplicatesearch-info'     => '$1 × $2 pikseļi<br />Faila izmērs: $3<br />MIME tips: $4',
 'fileduplicatesearch-result-1' => 'Failam "$1" nav identiskas kopijas.',
 'fileduplicatesearch-result-n' => 'Failam "$1" ir {{PLURAL:$2|1 identiska kopija|$2 identiskas kopijas}}.',
 
@@ -2801,7 +2837,9 @@ Var arī lietot [[Special:Watchlist/edit|standarta izmainīšanas lapu]].',
 'tags-tag'                => 'Taga nosaukums',
 'tags-display-header'     => 'Izmainīto sarakstu izskats',
 'tags-description-header' => 'Nozīmes pilns apraksts',
-'tags-edit'               => 'rediģēt',
+'tags-hitcount-header'    => 'Iezīmētās izmaiņas',
+'tags-edit'               => 'labot',
+'tags-hitcount'           => '$1 {{PLURAL:$1|izmaiņa|izmaiņas}}',
 
 # Special:ComparePages
 'comparepages'     => 'Salīdzināt lapas',

@@ -1430,7 +1430,17 @@ class OutputPage {
 				if( $variant === $wgContLang->getCode() ) {
 					continue;
 				} else {
-					$aloption[] = "string-contains=$variant";
+					$aloption[] = 'string-contains=' . $variant;
+					
+					// IE and some other browsers use another form of language code
+					// in their Accept-Language header, like "zh-CN" or "zh-TW".
+					// We should handle these too.
+					$ievariant = explode( '-', $variant );
+					if ( count( $ievariant ) == 2 ) {
+						$ievariant[1] = strtoupper( $ievariant[1] );
+						$ievariant = implode( '-', $ievariant );
+						$aloption[] = 'string-contains=' . $ievariant;
+					}
 				}
 			}
 			$this->addVaryHeader( 'Accept-Language', $aloption );
@@ -1613,6 +1623,7 @@ class OutputPage {
 
 		// Add base resources
 		$this->addModules( array( 'mediawiki.legacy.wikibits' ) );
+		$this->addModules( array( 'mediawiki.util' ) );
 
 		// Add various resources if required
 		if ( $wgUseAjax ) {
@@ -1630,7 +1641,7 @@ class OutputPage {
 		}
 
 		if( $wgUser->getBoolOption( 'editsectiononrightclick' ) ) {
-			$this->addModules( 'mediawiki.legacy.rightclickedit' );
+			$this->addModules( 'mediawiki.advanced.rightclickedit' );
 		}
 
 		if( $wgUniversalEditButton ) {
@@ -2045,7 +2056,6 @@ class OutputPage {
 	 * @return none
 	 */
 	public function addPasswordSecurity( $passwordId, $retypeId ) {
-		$this->includeJQuery();
 		$data = array(
 			'password' => '#' . $passwordId,
 			'retype' => '#' . $retypeId,
@@ -2294,9 +2304,13 @@ class OutputPage {
 		}
 		// TODO: Should this be a static function of ResourceLoader instead?
 		// TODO: Divide off modules starting with "user", and add the user parameter to them
+		// Determine whether we're in debug mode
+		// Order of priority is 1) request param, 2) cookie, 3) $wg setting
+		$debug = $wgRequest->getFuzzyBool( 'debug',
+			$wgRequest->getCookie( 'resourceLoaderModule', '', $wgResourceLoaderDebug ) );
 		$query = array(
 			'lang' => $wgLang->getCode(),
-			'debug' => $wgRequest->getFuzzyBool( 'debug', $wgResourceLoaderDebug ) ? 'true' : 'false',
+			'debug' => $debug ? 'true' : 'false',
 			'skin' => $wgUser->getSkin()->getSkinName(),
 			'only' => $only,
 		);

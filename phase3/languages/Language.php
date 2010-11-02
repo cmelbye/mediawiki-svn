@@ -44,6 +44,8 @@ class FakeConverter {
 	function convertTitle( $t ) { return $t->getPrefixedText(); }
 	function getVariants() { return array( $this->mLang->getCode() ); }
 	function getPreferredVariant() { return $this->mLang->getCode(); }
+	function getDefaultVariant() { return $this->mLang->getCode(); }
+	function getURLVariant() { return ''; }
 	function getConvRuleTitle() { return false; }
 	function findVariantLink( &$l, &$n, $ignoreOtherCond = false ) { }
 	function getExtraHashOptions() { return ''; }
@@ -975,7 +977,6 @@ class Language {
 				} else {
 					$s .= $this->formatNum( $num, true );
 				}
-				$num = false;
 			}
 		}
 		return $s;
@@ -2365,7 +2366,7 @@ class Language {
 	 *
 	 * Note: tries to fix broken HTML with MWTidy
 	 *
-	 * @param string $text String to truncate
+	 * @param string $text HTML string to truncate
 	 * @param int $length (zero/positive) Maximum length (excluding ellipses)
 	 * @param string $ellipsis String to append to the truncated text
 	 * @returns string
@@ -2388,7 +2389,7 @@ class Language {
 		$bracketState = 0; // 1-tag start, 2-tag name, 0-neither
 		$entityState = 0; // 0-not entity, 1-entity
 		$tag = $ret = '';
-		$openTags = array();
+		$openTags = array(); // open tag stack
 		$textLen = strlen( $text );
 		for ( $pos = 0; $pos < $textLen; ++$pos ) {
 			$ch = $text[$pos];
@@ -2457,7 +2458,8 @@ class Language {
 		if ( $displayLen == 0 ) {
 			return ''; // no text shown, nothing to format
 		}
-		$this->truncate_endBracket( $tag, $text[$textLen - 1], $tagType, $openTags ); // for bad HTML
+		// Close the last tag if left unclosed by bad HTML
+		$this->truncate_endBracket( $tag, $text[$textLen - 1], $tagType, $openTags );
 		while ( count( $openTags ) > 0 ) {
 			$ret .= '</' . array_pop( $openTags ) . '>'; // close open tags
 		}
@@ -2475,9 +2477,15 @@ class Language {
 		return $skipCount;
 	}
 
-	// truncateHtml() helper function
-	// (a) push or pop $tag from $openTags as needed
-	// (b) clear $tag value
+	/*
+	 * truncateHtml() helper function
+	 * (a) push or pop $tag from $openTags as needed
+	 * (b) clear $tag value
+	 * @param String &$tag Current HTML tag name we are looking at
+	 * @param int $tagType (0-open tag, 1-close tag)
+	 * @param char $lastCh Character before the '>' that ended this tag
+	 * @param array &$openTags Open tag stack (not accounting for $tag)
+	 */
 	private function truncate_endBracket( &$tag, $tagType, $lastCh, &$openTags ) {
 		$tag = ltrim( $tag );
 		if ( $tag != '' ) {
@@ -2666,8 +2674,16 @@ class Language {
 		return $this->mConverter->getVariants();
 	}
 
-	function getPreferredVariant( $fromUser = true, $fromHeader = false ) {
-		return $this->mConverter->getPreferredVariant( $fromUser, $fromHeader );
+	function getPreferredVariant() {
+		return $this->mConverter->getPreferredVariant();
+	}
+	
+	function getDefaultVariant() {
+		return $this->mConverter->getDefaultVariant();
+	}
+	
+	function getURLVariant() {
+		return $this->mConverter->getURLVariant();
 	}
 
 	/**

@@ -72,6 +72,7 @@ $messages = array(
 'tog-watchdefault'            => "S'àfikún ojúewé tí mo s'àtúnse mọ́ ìmójútó mi",
 'tog-watchmoves'              => "S'àfikún ojúewé tí mo yípò mọ́ ìmójútó mi",
 'tog-watchdeletion'           => "S'àfikún ojúewé tí mo parẹ́ mọ́ ìmójútó mi",
+'tog-minordefault'            => "Se àmì sí gbogbo àtúnse gẹ́gẹ́ bi kékeré lát'ìbẹ̀rẹ̀.",
 'tog-previewontop'            => "Se àyẹ̀wò kí ẹ tó s'àtúnṣe",
 'tog-previewonfirst'          => "S'àfihàn àgbéwò fún àtúnse àkọ́kọ́",
 'tog-nocache'                 => 'Ìdínà fífi ojúewé pamọ́ sínú cache',
@@ -956,7 +957,11 @@ Ní báyìí ná ẹ le ṣàwárí lọ́dọ̀ Google.
 Àkíyèsí pé àwọn atọ́ka wọn fún àkóónú {{SITENAME}} le mọ́ jẹ́ tuntun.',
 
 # Quickbar
-'qbsettings-none' => 'Ìkankan',
+'qbsettings-none'          => 'Ìkankan',
+'qbsettings-fixedleft'     => 'Kíkàn sí òsì',
+'qbsettings-fixedright'    => 'Kíkàn sí ọ̀tún',
+'qbsettings-floatingleft'  => 'Léfòó sí òsì',
+'qbsettings-floatingright' => 'Léfòó sí ọ̀tún',
 
 # Preferences page
 'preferences'                 => 'Àwọn ìfẹ́ràn',

@@ -124,8 +124,8 @@ class MostlinkedTemplatesPage extends QueryPage {
 	private function makeWlhLink( $title, $skin, $result ) {
 		global $wgLang;
 		$wlh = SpecialPage::getTitleFor( 'Whatlinkshere' );
-		$label = wfMsgExt( 'nlinks', array( 'parsemag', 'escape' ),
-		$wgLang->formatNum( $result->value ) );
+		$label = wfMsgExt( 'ntransclusions', array( 'parsemag', 'escape' ),
+			$wgLang->formatNum( $result->value ) );
 		return $skin->link( $wlh, $label, array(), array( 'target' => $title->getPrefixedText() ) );
 	}
 }

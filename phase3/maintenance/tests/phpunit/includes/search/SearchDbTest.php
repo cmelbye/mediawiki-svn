@@ -2,6 +2,10 @@
 
 require_once( dirname( __FILE__ ) . '/SearchEngineTest.php' );
 
+/**
+ * @group Database
+ * @group Destructive
+ */
 class SearchDbTest extends SearchEngineTest {
 	var $db;
 
@@ -26,10 +30,6 @@ class SearchDbTest extends SearchEngineTest {
 
 	function tearDown() {
 		$this->removeSearchData();
-		if ( !is_null( $this->db ) ) {
-			wfGetLB()->closeConnecton( $this->db );
-		}
-		unset( $this->db );
 		unset( $this->search );
 		$GLOBALS['wgContLang'] = null;
 	}

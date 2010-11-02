@@ -82,6 +82,7 @@ $messages = array(
 'tog-watchdefault'            => 'Shtoji në listë mbikëqyrëse faqet që i redaktoj',
 'tog-watchmoves'              => 'Shtoji në listë mbikëqyrëse faqet që i zhvendosi',
 'tog-watchdeletion'           => 'Shtoji në listë mbikëqyrëse faqet që i fshij',
+'tog-minordefault'            => 'Shêjoji fillimisht tâna redaktimet si të vogla',
 'tog-previewontop'            => 'Vendose parapamjen përpara kutisë redaktuese',
 'tog-previewonfirst'          => 'Shfaqe parapamjen në redaktimin e parë',
 'tog-nocache'                 => 'Mos ruej kopje të faqeve',
@@ -725,7 +726,7 @@ Kjo ndodh nganjiherë, kur jeni tue përdorë shërbime ndërmjetësash anonimiz
 Kutia e sipërme tregon tekstin aktual të faqes.
 Ndryshimet tueja gjinden në kutinë e poshtme redaktuese.
 Ju duheni me i bashkue ndryshimet tueja në tekstin aktual.
-'''Vetëmse''' nëse shtypni \"Regjistro faqen\" ka me u ruejtë teksti në kutinë e sipërme redaktuese.",
+'''Vetëmse''' nëse shtypni \"{{int:savearticle}}\" ka me u ruejtë teksti në kutinë e sipërme redaktuese.",
 'yourtext'                         => 'Teksti juej',
 'storedversion'                    => 'Rishikim i ruejtun',
 'nonunicodebrowser'                => "'''Kujdes: Shfletuesi juej nuk e përkrah unicodein.'''

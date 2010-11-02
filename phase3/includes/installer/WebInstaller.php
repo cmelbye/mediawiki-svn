@@ -163,7 +163,15 @@ class WebInstaller extends CoreInstaller {
 		# Get the page name.
 		$pageName = $this->request->getVal( 'page' );
 
-		if ( in_array( $pageName, $this->otherPages ) ) {
+		# Check LocalSettings status
+		$localSettings = $this->getLocalSettingsStatus();
+
+		if( !$localSettings->isGood() && $this->getVar( '_LocalSettingsLocked' ) ) {
+			$pageName = 'Locked';
+			$pageId = false;
+			$page = $this->getPageByName( $pageName );
+			$page->setLocalSettingsStatus( $localSettings );
+		} elseif ( in_array( $pageName, $this->otherPages ) ) {
 			# Out of sequence
 			$pageId = false;
 			$page = $this->getPageByName( $pageName );
@@ -212,14 +220,8 @@ class WebInstaller extends CoreInstaller {
 		# Execute the page.
 		$this->currentPageName = $page->getName();
 		$this->startPageWrapper( $pageName );
-		$localSettings = $this->getLocalSettingsStatus();
 
-		if( !$localSettings->isGood() ) {
-			$this->showStatusBox( $localSettings );
-			$result = 'output';
-		} else {
-			$result = $page->execute();
-		}
+		$result = $page->execute();
 
 		$this->endPageWrapper();
 
@@ -308,16 +310,17 @@ class WebInstaller extends CoreInstaller {
 	 * Get the value of session.save_path
 	 *
 	 * Per http://www.php.net/manual/en/session.configuration.php#ini.session.save-path,
-	 * this might have some additional preceding parts which need to be
-	 * ditched
+	 * this may have an initial integer value to indicate the depth of session
+	 * storage (eg /tmp/a/b/c). Explode on ; and check and see if this part is
+	 * there or not. Should also allow paths with semicolons in them (if you
+	 * really wanted your session files stored in /tmp/some;dir) which PHP
+	 * supposedly supports.
 	 *
 	 * @return String
 	 */
 	private function getSessionSavePath() {
-		$path = ini_get( 'session.save_path' );
-		$path = ltrim( substr( $path, strrpos( $path, ';' ) ), ';');
-
-		return $path;
+		$parts = explode( ';', ini_get( 'session.save_path' ), 2 );
+		return count( $parts ) == 1 ? $parts[0] : $parts[1];
 	}
 
 	/**
@@ -368,17 +371,6 @@ class WebInstaller extends CoreInstaller {
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Get a WebInstallerPage from the main sequence, by ID.
-	 *
-	 * @param $id Integer
-	 *
-	 * @return WebInstallerPage
-	 */
-	public function getPageById( $id ) {
-		return $this->getPageByName( $this->pageSequence[$id] );
 	}
 
 	/**
@@ -468,7 +460,7 @@ class WebInstaller extends CoreInstaller {
 	 *
 	 * @param $currentPageName String
 	 */
-	public function startPageWrapper( $currentPageName ) {
+	private function startPageWrapper( $currentPageName ) {
 		$s = "<div class=\"config-page-wrapper\">\n" .
 			"<div class=\"config-page-list\"><ul>\n";
 		$lastHappy = -1;
@@ -509,7 +501,7 @@ class WebInstaller extends CoreInstaller {
 	 *
 	 * @return string
 	 */
-	public function getPageListItem( $pageName, $enabled, $currentPageName ) {
+	private function getPageListItem( $pageName, $enabled, $currentPageName ) {
 		$s = "<li class=\"config-page-list-item\">";
 		$name = wfMsg( 'config-page-' . strtolower( $pageName ) );
 
@@ -553,7 +545,7 @@ class WebInstaller extends CoreInstaller {
 	/**
 	 * Output some stuff after a page is finished.
 	 */
-	public function endPageWrapper() {
+	private function endPageWrapper() {
 		$this->output->addHTMLNoFlush(
 			"</div>\n" .
 			"<br style=\"clear:both\"/>\n" .
@@ -613,23 +605,14 @@ class WebInstaller extends CoreInstaller {
 		array_shift( $args );
 		$args = array_map( 'htmlspecialchars', $args );
 		$text = wfMsgReal( $msg, $args, false, false, false );
-		$html = $this->parse( $text, true );
-
+		//$html = $this->parse( $text, true );
+    $html = $text;
 		return
-			"<div class=\"config-help-wrapper\">\n" .
-			"<div class=\"config-help-message\">\n" .
-			 $html .
-			"</div>\n" .
-			"<div class=\"config-show-help\">\n" .
-			"<a href=\"#\">" .
-			wfMsgHtml( 'config-show-help' ) .
-			"</a></div>\n" .
-			"<div class=\"config-hide-help\">\n" .
-			"<a href=\"#\">" .
-			wfMsgHtml( 'config-hide-help' ) .
-			"</a></div>\n</div>\n";
+            "<span class=\"mw-help-field-hint\"\n" .
+      	    "     title=\"" . $html . "\"\n" .
+    	    "     original-title=\"" . $html . "\"></span>\n";
 	}
-
+	
 	/**
 	 * Output a help box.
 	 */
@@ -670,7 +653,7 @@ class WebInstaller extends CoreInstaller {
 	 * Label a control by wrapping a config-input div around it and putting a
 	 * label before it.
 	 */
-	public function label( $msg, $forId, $contents ) {
+	public function label( $msg, $forId, $contents, $helpData = "" ) {
 		if ( strval( $msg ) == '' ) {
 			$labelText = '&#160;';
 		} else {
@@ -684,14 +667,19 @@ class WebInstaller extends CoreInstaller {
 		}
 
 		return
-			"<div class=\"config-input\">\n" .
+			"<div class=\"config-block\">\n" .
+		    "  <div class=\"config-block-label\">\n" .
 			Xml::tags( 'label',
 				$attributes,
 				$labelText ) . "\n" .
-			$contents .
+			    $helpData .
+			"  </div>\n" .
+		    "  <div class=\"config-block-elements\">\n" .
+			    $contents .
+			"  </div>\n" .
 			"</div>\n";
 	}
-
+	
 	/**
 	 * Get a labelled text box to configure a variable.
 	 *
@@ -702,6 +690,7 @@ class WebInstaller extends CoreInstaller {
 	 *      attribs:    Additional attributes for the input element (optional)
 	 *      controlName: The name for the input element (optional)
 	 *      value:      The current value of the variable (optional)
+	 *      help:		The html for the help text (optional)
 	 */
 	public function getTextBox( $params ) {
 		if ( !isset( $params['controlName'] ) ) {
@@ -715,7 +704,9 @@ class WebInstaller extends CoreInstaller {
 		if ( !isset( $params['attribs'] ) ) {
 			$params['attribs'] = array();
 		}
-
+		if ( !isset( $params['help'] ) ) {
+			$params['help'] = "";
+		}
 		return
 			$this->label(
 				$params['label'],
@@ -729,10 +720,11 @@ class WebInstaller extends CoreInstaller {
 						'class' => 'config-input-text',
 						'tabindex' => $this->nextTabIndex()
 					)
-				)
+				),
+				$params['help']
 			);
 	}
-
+	
 	/**
 	 * Get a labelled password box to configure a variable.
 	 *
@@ -744,6 +736,7 @@ class WebInstaller extends CoreInstaller {
 	 *      attribs:    Additional attributes for the input element (optional)
 	 *      controlName: The name for the input element (optional)
 	 *      value:      The current value of the variable (optional)
+	 *      help:		The html for the help text (optional)
 	 */
 	public function getPasswordBox( $params ) {
 		if ( !isset( $params['value'] ) ) {
@@ -770,6 +763,7 @@ class WebInstaller extends CoreInstaller {
 	 *      attribs:    Additional attributes for the input element (optional)
 	 *      controlName: The name for the input element (optional)
 	 *      value:      The current value of the variable (optional)
+	 *      help:		The html for the help text (optional)
 	 */
 	public function getCheckBox( $params ) {
 		if ( !isset( $params['controlName'] ) ) {
@@ -783,7 +777,9 @@ class WebInstaller extends CoreInstaller {
 		if ( !isset( $params['attribs'] ) ) {
 			$params['attribs'] = array();
 		}
-
+		if ( !isset( $params['help'] ) ) {
+			$params['help'] = "";
+		}
 		if( isset( $params['rawtext'] ) ) {
 			$labelText = $params['rawtext'];
 		} else {
@@ -804,6 +800,7 @@ class WebInstaller extends CoreInstaller {
 			) .
 			$labelText . "\n" .
 			"</label>\n" .
+			$params['help'] .
 			"</div>\n";
 	}
 
@@ -820,6 +817,7 @@ class WebInstaller extends CoreInstaller {
 	 *      commonAttribs   Attribute array applied to all items
 	 *      controlName:    The name for the input element (optional)
 	 *      value:          The current value of the variable (optional)
+	 *      help:		The html for the help text (optional)
 	 */
 	public function getRadioSet( $params ) {
 		if ( !isset( $params['controlName']  ) ) {
@@ -833,13 +831,12 @@ class WebInstaller extends CoreInstaller {
 		if ( !isset( $params['label'] ) ) {
 			$label = '';
 		} else {
-			$label = $this->parse( wfMsgNoTrans( $params['label'] ) );
+			$label = $params['label'];
 		}
-
-		$s = "<label class=\"config-label\">\n" .
-			$label .
-			"</label>\n" .
-			"<ul class=\"config-settings-block\">\n";
+		if ( !isset( $params['help'] ) ) {
+			$params['help'] = "";
+		}
+		$s = "<ul>\n";
 		foreach ( $params['values'] as $value ) {
 			$itemAttribs = array();
 
@@ -867,7 +864,8 @@ class WebInstaller extends CoreInstaller {
 		}
 
 		$s .= "</ul>\n";
-		return $s;
+
+		return $this->label( $label, $params['controlName'], $s, $params['help'] );
 	}
 
 	/**
@@ -918,25 +916,9 @@ class WebInstaller extends CoreInstaller {
 	}
 
 	/**
-	 * Get the starting tags of a fieldset.
-	 *
-	 * @param $legend String: message name
-	 */
-	public function getFieldsetStart( $legend ) {
-		return "\n<fieldset><legend>" . wfMsgHtml( $legend ) . "</legend>\n";
-	}
-
-	/**
-	 * Get the end tag of a fieldset.
-	 */
-	public function getFieldsetEnd() {
-		return "</fieldset>\n";
-	}
-
-	/**
 	 * Helper for Installer::docLink()
 	 */
-	public function getDocUrl( $page ) {
+	protected function getDocUrl( $page ) {
 		$url = "{$_SERVER['PHP_SELF']}?page=" . urlencode( $page );
 
 		if ( in_array( $this->currentPageName, $this->pageSequence ) ) {

@@ -14,6 +14,12 @@ if ( !class_exists( 'UtfNormal' ) ) {
 }
 
 /**
+ * @deprecated This used to be a define, but was moved to
+ * Title::GAID_FOR_UPDATE in 1.17. This will probably be removed in 1.18
+ */
+define( 'GAID_FOR_UPDATE', Title::GAID_FOR_UPDATE );
+
+/**
  * Represents a title within MediaWiki.
  * Optionally may contain an interwiki designation or namespace.
  * @note This class can fetch various kinds of data from the database;
@@ -857,18 +863,10 @@ class Title {
 	 */
 	public function getLocalURL( $query = '', $variant = false ) {
 		global $wgArticlePath, $wgScript, $wgServer, $wgRequest;
-		global $wgVariantArticlePath, $wgContLang, $wgUser;
+		global $wgVariantArticlePath, $wgContLang;
 
 		if ( is_array( $query ) ) {
 			$query = wfArrayToCGI( $query );
-		}
-
-		// internal links should point to same variant as current page (only anonymous users)
-		if ( !$variant && $wgContLang->hasVariants() && !$wgUser->isLoggedIn() ) {
-			$pref = $wgContLang->getPreferredVariant( false );
-			if ( $pref != $wgContLang->getCode() ) {
-				$variant = $pref;
-			}
 		}
 
 		if ( $this->isExternal() ) {
@@ -2796,7 +2794,8 @@ class Title {
 		$retVal = array();
 		if ( $db->numRows( $res ) ) {
 			foreach ( $res as $row ) {
-				if ( $titleObj = Title::makeTitle( $row->page_namespace, $row->page_title ) ) {
+				$titleObj = Title::makeTitle( $row->page_namespace, $row->page_title );
+				if ( $titleObj ) {
 					$linkCache->addGoodLinkObj( $row->page_id, $titleObj, $row->page_len, $row->page_is_redirect, $row->page_latest );
 					$retVal[] = $titleObj;
 				}

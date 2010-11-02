@@ -339,16 +339,20 @@ class ParserTest {
 	public function runTestsFromFiles( $filenames ) {
 		$GLOBALS['wgContLang'] = Language::factory( 'en' );
 		$this->recorder->start();
-		$this->setupDatabase();
-		$ok = true;
+		try {
+			$this->setupDatabase();
+			$ok = true;
+			
+			foreach ( $filenames as $filename ) {
+				$tests = new TestFileIterator( $filename, $this );
+				$ok = $this->runTests( $tests ) && $ok;
+			}
 
-		foreach ( $filenames as $filename ) {
-			$tests = new TestFileIterator( $filename, $this );
-			$ok = $this->runTests( $tests ) && $ok;
+			$this->teardownDatabase();
+			$this->recorder->report();
+		} catch (DBError $e) {
+			echo $e->getMessage();
 		}
-
-		$this->teardownDatabase();
-		$this->recorder->report();
 		$this->recorder->end();
 
 		return $ok;
@@ -511,7 +515,6 @@ class ParserTest {
 
 	private function parseOptions( $instring ) {
 		$opts = array();
-		$lines = explode( "\n", $instring );
 		// foo
 		// foo=bar
 		// foo="bar baz"
@@ -550,7 +553,7 @@ class ParserTest {
 
 		if ( preg_match_all( $regex, $instring, $matches, PREG_SET_ORDER ) ) {
 			foreach ( $matches as $bits ) {
-				$match = array_shift( $bits );
+				array_shift( $bits );
 				$key = strtolower( array_shift( $bits ) );
 				if ( count( $bits ) == 0 ) {
 					$opts[$key] = true;
@@ -703,7 +706,7 @@ class ParserTest {
 			'archive', 'user_groups', 'page_props', 'category', 'msg_resource', 'msg_resource_links'
 		);
 
-		if ( in_array( $wgDBtype, array( 'mysql', 'sqlite' ) ) )
+		if ( in_array( $wgDBtype, array( 'mysql', 'sqlite', 'oracle' ) ) )
 			array_push( $tables, 'searchindex' );
 
 		// Allow extensions to add to the list of tables to duplicate;
@@ -776,6 +779,15 @@ class ParserTest {
 
 		$this->changePrefix( $wgDBtype != 'oracle' ? 'parsertest_' : 'pt_' );
 
+		if ( $wgDBtype == 'oracle' ) {
+			# Insert 0 user to prevent FK violations
+
+			# Anonymous user
+			$db->insert( 'user', array(
+				'user_id'         => 0,
+				'user_name'       => 'Anonymous' ) );
+		}
+
 		# Hack: insert a few Wikipedia in-project interwiki prefixes,
 		# for testing inter-language links
 		$db->insert( 'interwiki', array(
@@ -812,15 +824,6 @@ class ParserTest {
 			) );
 
 
-		if ( $wgDBtype == 'oracle' ) {
-			# Insert 0 user to prevent FK violations
-
-			# Anonymous user
-			$db->insert( 'user', array(
-				'user_id'         => 0,
-				'user_name'       => 'Anonymous' ) );
-		}
-
 		# Update certain things in site_stats
 		$db->insert( 'site_stats', array( 'ss_row_id' => 1, 'ss_images' => 2, 'ss_good_articles' => 1 ) );
 
@@ -842,7 +845,7 @@ class ParserTest {
 			'media_type'  => MEDIATYPE_BITMAP,
 			'mime'        => 'image/jpeg',
 			'metadata'    => serialize( array() ),
-			'sha1'        => sha1( '' ),
+			'sha1'        => wfBaseConvert( '', 16, 36, 31 ),
 			'fileExists'  => true
 			), $db->timestamp( '20010115123500' ), $user );
 
@@ -856,7 +859,7 @@ class ParserTest {
 			'media_type'  => MEDIATYPE_BITMAP,
 			'mime'        => 'image/jpeg',
 			'metadata'    => serialize( array() ),
-			'sha1'        => sha1( '' ),
+			'sha1'        => wfBaseConvert( '', 16, 36, 31 ),
 			'fileExists'  => true
 			), $db->timestamp( '20010115123500' ), $user );
 	}

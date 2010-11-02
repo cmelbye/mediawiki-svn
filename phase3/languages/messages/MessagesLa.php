@@ -171,6 +171,7 @@ $messages = array(
 'tog-watchdefault'            => 'Paginas quas recenseo in paginarum custoditarum indicem addere',
 'tog-watchmoves'              => 'Paginas quas moveo in paginarum custoditarum indicem addere',
 'tog-watchdeletion'           => 'Paginas quas deleo in paginarum custoditarum indicem addere',
+'tog-minordefault'            => 'Notare omnes recensiones quasi minores',
 'tog-previewontop'            => 'Monstrare praevisum ante capsam recensiti, non post ipsam',
 'tog-previewonfirst'          => 'Praevisum monstrare recensione incipiente',
 'tog-nocache'                 => 'Sistere paginas apothecare',
@@ -658,7 +659,7 @@ aut [{{fullurl:{{FULLPAGENAME}}|action=edit}} hanc paginam creare]</span>.',
 Capsa superior paginae verba recentissima continet.
 Mutationes tuae in capsa inferiore monstrantur.
 Mutationes tuae in verba superiora adiungare debes.
-'''Solum''' verba capsae superioris servabuntur quando \"Servare hanc rem\" premes.",
+'''Solum''' verba capsae superioris servabuntur quando \"{{int:savearticle}}\" premes.",
 'yourtext'                         => 'Sententia tua',
 'storedversion'                    => 'Emendatio recentissima',
 'nonunicodebrowser'                => "'''CAVETO: Navigatorium retiale tuum systemati UNICODE morem non gerit. Modum habemus quo commentationes sine damno recenseas: litterae non-ASCII in capsa sub veste hexadecimali ostendentur.'''",

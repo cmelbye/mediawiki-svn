@@ -200,6 +200,7 @@ $messages = array(
 'tog-watchdefault'            => 'Shto faqet që redaktoj tek lista mbikqyrëse',
 'tog-watchmoves'              => 'Shto faqet që zhvendos tek lista mbikqyrëse',
 'tog-watchdeletion'           => 'Shto faqet që gris tek lista mbikqyrëse',
+'tog-minordefault'            => 'Shëno të gjitha redaktimet si të vogla paraprakisht',
 'tog-previewontop'            => 'Trego parapamjen përpara kutisë redaktuese, jo mbas saj',
 'tog-previewonfirst'          => 'Trego parapamje në redaktim të parë',
 'tog-nocache'                 => 'Mos ruaj kopje te faqeve',
@@ -793,7 +794,7 @@ Kjo ndodh ndonjëherë kur përdoren shërbime ndërjmetësash anonim.'''",
 Kutiza e redaktimit mësipërme tregon tekstin e faqes siç ekziston tani.
 Ndryshimet juaja janë treguar poshtë kutisë së redaktimit.
 Ju duhet të përputhni ndryshimet tuaja me tekstin ekzistues.
-'''Vetëm''' teksti në kutinë e sipërme të redaktimit do të ruhet kur të shtypni \"Ruaje faqen\".",
+'''Vetëm''' teksti në kutinë e sipërme të redaktimit do të ruhet kur të shtypni \"{{int:savearticle}}\".",
 'yourtext'                         => 'Teksti juaj',
 'storedversion'                    => 'Versioni i ruajtur',
 'nonunicodebrowser'                => "'''KUJDES: Shfletuesi juaj nuk përdor dot unikode, ju lutem ndryshoni shfletues para se të redaktoni artikuj.'''",

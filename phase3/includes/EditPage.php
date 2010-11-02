@@ -320,7 +320,6 @@ class EditPage {
 		$wgOut->addModules( 'mediawiki.legacy.edit' );
 
 		if ( $wgUser->getOption( 'uselivepreview', false ) ) {
-			$wgOut->includeJQuery();
 			$wgOut->addModules( 'mediawiki.legacy.preview' );
 		}
 
@@ -1138,6 +1137,7 @@ class EditPage {
 			# Already watched
 			$this->watchthis = true;
 		}
+		if ( $wgUser->getOption( 'minordefault' ) ) $this->minoredit = true;
 		if ( $this->textbox1 === false ) return false;
 		wfProxyCheck();
 		return true;
@@ -1274,11 +1274,11 @@ HTML
 		# automatic one and pass that in the hidden field wpAutoSummary.
 		if ( $this->missingSummary ||
 			( $this->section == 'new' && $this->nosummary ) )
-				$wgOut->addHTML( Xml::hidden( 'wpIgnoreBlankSummary', true ) );
+				$wgOut->addHTML( Html::hidden( 'wpIgnoreBlankSummary', true ) );
 		$autosumm = $this->autoSumm ? $this->autoSumm : md5( $this->summary );
-		$wgOut->addHTML( Xml::hidden( 'wpAutoSummary', $autosumm ) );
+		$wgOut->addHTML( Html::hidden( 'wpAutoSummary', $autosumm ) );
 
-		$wgOut->addHTML( Xml::hidden( 'oldid', $this->mArticle->getOldID() ) );
+		$wgOut->addHTML( Html::hidden( 'oldid', $this->mArticle->getOldID() ) );
 
 		if ( $this->section == 'new' ) {
 			$this->showSummaryInput( true, $this->summary );
@@ -1567,7 +1567,7 @@ HTML
 HTML
 		);
 		if ( !$this->checkUnicodeCompliantBrowser() )
-			$wgOut->addHTML(Xml::hidden( 'safemode', '1' ));
+			$wgOut->addHTML(Html::hidden( 'safemode', '1' ));
 	}
 
 	protected function showFormAfterText() {
@@ -1584,7 +1584,7 @@ HTML
 		 * include the constant suffix to prevent editing from
 		 * broken text-mangling proxies.
 		 */
-		$wgOut->addHTML( "\n" . Xml::hidden( "wpEditToken", $wgUser->editToken() ) . "\n" );
+		$wgOut->addHTML( "\n" . Html::hidden( "wpEditToken", $wgUser->editToken() ) . "\n" );
 	}
 
 	/**
@@ -1868,38 +1868,40 @@ HTML
 			$parserOptions->setTidy( true );
 			$parserOutput = $wgParser->parse( $previewtext, $this->mTitle, $parserOptions );
 			$previewHTML = $parserOutput->mText;
-		} elseif ( $rt = Title::newFromRedirectArray( $this->textbox1 ) ) {
-			$previewHTML = $this->mArticle->viewRedirect( $rt, false );
 		} else {
-			$toparse = $this->textbox1;
+			$rt = Title::newFromRedirectArray( $this->textbox1 );
+			if ( $rt ) {
+				$previewHTML = $this->mArticle->viewRedirect( $rt, false );
+			} else {
+				$toparse = $this->textbox1;
 
-			# If we're adding a comment, we need to show the
-			# summary as the headline
-			if ( $this->section == "new" && $this->summary != "" ) {
-				$toparse = "== {$this->summary} ==\n\n" . $toparse;
-			}
+				# If we're adding a comment, we need to show the
+				# summary as the headline
+				if ( $this->section == "new" && $this->summary != "" ) {
+					$toparse = "== {$this->summary} ==\n\n" . $toparse;
+				}
 
-			wfRunHooks( 'EditPageGetPreviewText', array( $this, &$toparse ) );
+				wfRunHooks( 'EditPageGetPreviewText', array( $this, &$toparse ) );
 
-			// Parse mediawiki messages with correct target language
-			if ( $this->mTitle->getNamespace() == NS_MEDIAWIKI ) {
-				list( /* $unused */, $lang ) = $wgMessageCache->figureMessage( $this->mTitle->getText() );
-				$obj = wfGetLangObj( $lang );
-				$parserOptions->setTargetLanguage( $obj );
-			}
+				// Parse mediawiki messages with correct target language
+				if ( $this->mTitle->getNamespace() == NS_MEDIAWIKI ) {
+					list( /* $unused */, $lang ) = $wgMessageCache->figureMessage( $this->mTitle->getText() );
+					$obj = wfGetLangObj( $lang );
+					$parserOptions->setTargetLanguage( $obj );
+				}
 
-
-			$parserOptions->setTidy( true );
-			$parserOptions->enableLimitReport();
-			$parserOutput = $wgParser->parse( $this->mArticle->preSaveTransform( $toparse ),
+				$parserOptions->setTidy( true );
+				$parserOptions->enableLimitReport();
+				$parserOutput = $wgParser->parse( $this->mArticle->preSaveTransform( $toparse ),
 					$this->mTitle, $parserOptions );
 
-			$previewHTML = $parserOutput->getText();
-			$this->mParserOutput = $parserOutput;
-			$wgOut->addParserOutputNoText( $parserOutput );
+				$previewHTML = $parserOutput->getText();
+				$this->mParserOutput = $parserOutput;
+				$wgOut->addParserOutputNoText( $parserOutput );
 
-			if ( count( $parserOutput->getWarnings() ) ) {
-				$note .= "\n\n" . implode( "\n\n", $parserOutput->getWarnings() );
+				if ( count( $parserOutput->getWarnings() ) ) {
+					$note .= "\n\n" . implode( "\n\n", $parserOutput->getWarnings() );
+				}
 			}
 		}
 
@@ -2284,7 +2286,7 @@ HTML
 			);
 			$checkboxes['minor'] =
 				Xml::check( 'wpMinoredit', $checked['minor'], $attribs ) .
-				"&#160;<label for='wpMinoredit' id='mw-editpage-minoredit'" . $skin->tooltip( 'minoredit', 'withaccess' ) . ">{$minorLabel}</label>";
+				"&#160;<label for='wpMinoredit' id='mw-editpage-minoredit'" . $skin->titleAttrib( 'minoredit', 'withaccess' ) . ">{$minorLabel}</label>";
 		}
 
 		$watchLabel = wfMsgExt( 'watchthis', array( 'parseinline' ) );
@@ -2297,7 +2299,7 @@ HTML
 			);
 			$checkboxes['watch'] =
 				Xml::check( 'wpWatchthis', $checked['watch'], $attribs ) .
-				"&#160;<label for='wpWatchthis' id='mw-editpage-watch'" . $skin->tooltip( 'watch', 'withaccess' ) . ">{$watchLabel}</label>";
+				"&#160;<label for='wpWatchthis' id='mw-editpage-watch'" . $skin->titleAttrib( 'watch', 'withaccess' ) . ">{$watchLabel}</label>";
 		}
 		wfRunHooks( 'EditPageBeforeEditChecks', array( &$this, &$checkboxes, &$tabindex ) );
 		return $checkboxes;
