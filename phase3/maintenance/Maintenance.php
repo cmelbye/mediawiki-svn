@@ -229,6 +229,10 @@ abstract class Maintenance {
 		return rtrim( $input );
 	}
 
+	public function isQuiet() {
+		return $this->mQuiet;
+	}
+
 	/**
 	 * Throw some output to the user. Scripts can call this with no fears,
 	 * as we handle all --quiet stuff here
@@ -347,6 +351,9 @@ abstract class Maintenance {
 		$this->addOption( 'wiki', 'For specifying the wiki ID', false, true );
 		$this->addOption( 'globals', 'Output globals at the end of processing for debugging' );
 		$this->addOption( 'memory-limit', 'Set a specific memory limit for the script, "max" for no limit or "default" to avoid changing it' );
+		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g.\n" .
+							"\t\thttp://en.wikipedia.org. This is sometimes necessary because\n" .
+							"\t\tserver name detection may fail in command line scripts.", false, true );
 		// If we support a DB, show the options
 		if ( $this->getDbType() > 0 ) {
 			$this->addOption( 'dbuser', 'The DB user to use for this script', false, true );
@@ -366,7 +373,7 @@ abstract class Maintenance {
 	 * @param $classFile String: full path of where the child is
 	 * @return Maintenance child
 	 */
-	protected function runChild( $maintClass, $classFile = null ) {
+	public function runChild( $maintClass, $classFile = null ) {
 		// If we haven't already specified, kill setup procedures
 		// for child scripts, we've already got a sane environment
 		self::disableSetup();
@@ -633,51 +640,63 @@ abstract class Maintenance {
 	 * @param $force boolean Whether to force the help to show, default false
 	 */
 	protected function maybeHelp( $force = false ) {
+		if( !$force && !$this->hasOption( 'help' ) ) {
+			return;
+		}
+
 		$screenWidth = 80; // TODO: Caculate this!
 		$tab = "    ";
 		$descWidth = $screenWidth - ( 2 * strlen( $tab ) );
 
 		ksort( $this->mParams );
-		if ( $this->hasOption( 'help' ) || $force ) {
-			$this->mQuiet = false;
+		$this->mQuiet = false;
 
-			if ( $this->mDescription ) {
-				$this->output( "\n" . $this->mDescription . "\n" );
-			}
-			$output = "\nUsage: php " . basename( $this->mSelf );
-			if ( $this->mParams ) {
-				$output .= " [--" . implode( array_keys( $this->mParams ), "|--" ) . "]";
-			}
-			if ( $this->mArgList ) {
-				$output .= " <";
-				foreach ( $this->mArgList as $k => $arg ) {
-					$output .= $arg['name'] . ">";
-					if ( $k < count( $this->mArgList ) - 1 )
-						$output .= " <";
-				}
-			}
-			$this->output( "$output\n" );
-			foreach ( $this->mParams as $par => $info ) {
-				$this->output(
-					wordwrap( "$tab$par : " . $info['desc'], $descWidth,
-							"\n$tab$tab" ) . "\n"
-				);
-			}
-			foreach ( $this->mArgList as $info ) {
-				$this->output(
-					wordwrap( "$tab<" . $info['name'] . "> : " .
-						$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
-				);
-			}
-			die( 1 );
+		// Description ...
+		if ( $this->mDescription ) {
+			$this->output( "\n" . $this->mDescription . "\n" );
 		}
+		$output = "\nUsage: php " . basename( $this->mSelf );
+		
+		// ... append parameters ...
+		if ( $this->mParams ) {
+			$output .= " [--" . implode( array_keys( $this->mParams ), "|--" ) . "]";
+		}
+
+		// ... and append arguments.
+		if ( $this->mArgList ) {
+			$output .= " <";
+			foreach ( $this->mArgList as $k => $arg ) {
+				$output .= $arg['name'] . ">";
+				if ( $k < count( $this->mArgList ) - 1 )
+					$output .= " <";
+			}
+		}
+		$this->output( "$output\n\n" );
+
+		// Parameters description
+		foreach ( $this->mParams as $par => $info ) {
+			$this->output(
+				wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
+						"\n$tab$tab" ) . "\n"
+			);
+		}
+
+		// Arguments description
+		foreach ( $this->mArgList as $info ) {
+			$this->output(
+				wordwrap( "$tab<" . $info['name'] . ">: " .
+					$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
+			);
+		}
+
+		die( 1 );
 	}
 
 	/**
 	 * Handle some last-minute setup here.
 	 */
 	public function finalSetup() {
-		global $wgCommandLineMode, $wgShowSQLErrors;
+		global $wgCommandLineMode, $wgShowSQLErrors, $wgServer;
 		global $wgProfiling, $wgDBadminuser, $wgDBadminpassword;
 		global $wgDBuser, $wgDBpassword, $wgDBservers, $wgLBFactoryConf;
 
@@ -687,6 +706,11 @@ abstract class Maintenance {
 		}
 		# Same with these
 		$wgCommandLineMode = true;
+
+		# Override $wgServer
+		if( $this->hasOption( 'server') ) {
+			$wgServer = $this->getOption( 'server', $wgServer );
+		}
 
 		# If these were passed, use them
 		if ( $this->mDbUser ) {
@@ -1020,3 +1044,10 @@ abstract class Maintenance {
 	}
 
 }
+
+class FakeMaintenance extends Maintenance {
+	public function execute() {
+		return;
+	}
+}
+

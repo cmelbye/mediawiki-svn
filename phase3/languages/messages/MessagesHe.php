@@ -8,6 +8,7 @@
  * @file
  *
  * @author Agbad
+ * @author Drorsnir
  * @author Ijon
  * @author Rotem Dan (July 2003)
  * @author Rotem Liss (March 2006 on)
@@ -151,7 +152,6 @@ $magicWords = array(
 	'nse'                   => array( '0', 'מרחב שם מקודד:', 'NSE:' ),
 	'localurl'              => array( '0', 'כתובת יחסית:', 'LOCALURL:' ),
 	'localurle'             => array( '0', 'כתובת יחסית מקודד:', 'LOCALURLE:' ),
-	'linkurl'               => array( '0', 'כתובת קישור:', 'LINKURL:' ),
 	'articlepath'           => array( '0', 'נתיב הדפים', 'ARTICLEPATH' ),
 	'server'                => array( '0', 'כתובת השרת', 'שרת', 'SERVER' ),
 	'servername'            => array( '0', 'שם השרת', 'SERVERNAME' ),
@@ -356,6 +356,7 @@ $messages = array(
 'tog-watchdefault'            => 'מעקב אחרי דפים שערכתי',
 'tog-watchmoves'              => 'מעקב אחרי דפים שהעברתי',
 'tog-watchdeletion'           => 'מעקב אחרי דפים שמחקתי',
+'tog-minordefault'            => 'הגדרת כל פעולת עריכה כמשנית אם לא צוין אחרת',
 'tog-previewontop'            => 'הצגת תצוגה מקדימה לפני תיבת העריכה (או: אחריה)',
 'tog-previewonfirst'          => 'הצגת תצוגה מקדימה בעריכה ראשונה',
 'tog-nocache'                 => 'מניעת אחסון הדפים בזכרון המטמון בדפדפן',
@@ -735,6 +736,7 @@ $2',
 'yourpassword'               => 'סיסמה:',
 'yourpasswordagain'          => 'הקש סיסמה שנית:',
 'remembermypassword'         => 'זכירת הכניסה שלי בדפדפן זה (למשך עד {{PLURAL:$1|יום אחד|$1 ימים|יומיים}})',
+'securelogin-stick-https'    => 'המשך שימוש ב־HTTPS אחרי הכניסה',
 'yourdomainname'             => 'התחום שלך:',
 'externaldberror'            => 'הייתה שגיאה בבסיס הנתונים של ההזדהות, או שאינכם רשאים לעדכן את חשבונכם החיצוני.',
 'login'                      => 'כניסה לחשבון',
@@ -771,6 +773,7 @@ $2',
 'wrongpasswordempty'         => 'הסיסמה שהקלדתם ריקה. אנא נסו שוב.',
 'passwordtooshort'           => 'סיסמאות חייבות להיות באורך {{PLURAL:$1|תו אחד|$1 תווים}} לפחות.',
 'password-name-match'        => 'סיסמתכם חייבת להיות שונה משם המשתמש שלכם.',
+'password-too-weak'          => 'הסיסמה שבחרתם חלשה מדי ולא ניתן להשתמש בה.',
 'mailmypassword'             => 'שלחו לי סיסמה חדשה',
 'passwordremindertitle'      => 'סיסמה זמנית חדשה מ{{grammar:תחילית|{{SITENAME}}}}',
 'passwordremindertext'       => 'מישהו (ככל הנראה אתם, מכתובת ה־IP מספר $1) ביקש סיסמה
@@ -859,7 +862,7 @@ $2',
 'image_tip'       => 'קובץ המוצג בתוך הדף',
 'media_tip'       => 'קישור לקובץ מדיה',
 'sig_tip'         => 'חתימה + שעה',
-'hr_tip'          => 'קו אופקי (השתדלו להמנע משימוש בקו)',
+'hr_tip'          => 'קו אופקי (השתדלו להימנע משימוש בקו)',
 
 # Edit pages
 'summary'                          => 'תקציר:',
@@ -1837,6 +1840,7 @@ $1',
 'listfiles_search_for'  => 'חיפוש קובץ מדיה בשם:',
 'imgfile'               => 'קובץ',
 'listfiles'             => 'רשימת קבצים',
+'listfiles_thumb'       => 'תמונה ממוזערת',
 'listfiles_date'        => 'תאריך',
 'listfiles_name'        => 'שם',
 'listfiles_user'        => 'משתמש',
@@ -1993,6 +1997,8 @@ $1',
 'nmembers'                => '{{PLURAL:$1|דף אחד|$1 דפים}}',
 'nrevisions'              => '{{PLURAL:$1|גרסה אחת|$1 גרסאות}}',
 'nviews'                  => '{{PLURAL:$1|צפייה אחת|$1 צפיות}}',
+'nimagelinks'             => 'בשימוש ב{{PLURAL:$1|דף אחד|־$1 דפים}}',
+'ntransclusions'          => 'בשימוש ב{{PLURAL:$1|דף אחד|־$1 דפים}}',
 'specialpage-empty'       => 'אין תוצאות.',
 'lonelypages'             => 'דפים יתומים',
 'lonelypagestext'         => 'הדפים הבאים אינם מקושרים מדפים אחרים באתר זה ואינם מוכללים בהם.',
@@ -3014,8 +3020,8 @@ $1',
 
 # Metadata
 'metadata'          => 'מידע נוסף על הקובץ',
-'metadata-help'     => 'קובץ זה מכיל מידע נוסף, שיש להניח שהגיע ממצלמה דיגיטלית או מסורק בהם הקובץ נוצר או עבר דיגיטציה.
-אם הקובץ שונה ממצבו הראשוני, כמה מהנתונים להלן עלולים שלא לשקף באופן מלא את מצבו החדש.',
+'metadata-help'     => 'קובץ זה מכיל מידע נוסף, שכנראה הגיע ממצלמה דיגיטלית או מסורק שבהם הקובץ נוצר או עבר דיגיטציה.
+אם הקובץ שונה ממצבו הראשוני, כמה מהנתונים להלן עלולים שלא לשקף באופן מלא את הקובץ הנוכחי.',
 'metadata-expand'   => 'הצגת פרטים מורחבים',
 'metadata-collapse' => 'הסתרת פרטים מורחבים',
 'metadata-fields'   => 'שדות המידע הנוסף של EXIF האלה אינם פרטים מורחבים ויוצגו תמיד, לעומת השאר:

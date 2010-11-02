@@ -196,7 +196,7 @@ class SpecialNewpages extends IncludableSpecialPage {
 		// Store query values in hidden fields so that form submission doesn't lose them
 		$hidden = array();
 		foreach ( $this->opts->getUnconsumedValues() as $key => $value ) {
-			$hidden[] = Xml::hidden( $key, $value );
+			$hidden[] = Html::hidden( $key, $value );
 		}
 		$hidden = implode( "\n", $hidden );
 
@@ -205,7 +205,7 @@ class SpecialNewpages extends IncludableSpecialPage {
 			list( $tagFilterLabel, $tagFilterSelector ) = $tagFilter;
 
 		$form = Xml::openElement( 'form', array( 'action' => $wgScript ) ) .
-			Xml::hidden( 'title', $this->getTitle()->getPrefixedDBkey() ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedDBkey() ) .
 			Xml::fieldset( wfMsg( 'newpages' ) ) .
 			Xml::openElement( 'table', array( 'id' => 'mw-newpages-table' ) ) .
 			"<tr>
@@ -366,7 +366,7 @@ class SpecialNewpages extends IncludableSpecialPage {
 
 		$feed->outHeader();
 		if( $pager->getNumRows() > 0 ) {
-			while( $row = $pager->mResult->fetchObject() ) {
+			foreach (  $pager->mResult->fetchObject() as $row ) {
 				$feed->outItem( $this->feedItem( $row ) );
 			}
 		}

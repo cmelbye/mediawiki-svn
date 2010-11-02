@@ -22,7 +22,7 @@ $specialPageAliases = array(
 	'Disambiguations'           => array( '消歧義頁' ),
 	'Recentchanges'             => array( '近期變動' ),
 	'Ancientpages'              => array( '最舊頁面' ),
-	'Unblock'                   => array( '解除封锁' ),
+	'Unblock'                   => array( '解除封鎖' ),
 	'Blockme'                   => array( '封禁我' ),
 	'Blockip'                   => array( '查封用戶' ),
 	'Lockdb'                    => array( '鎖定數據庫' ),
@@ -103,6 +103,7 @@ $messages = array(
 'tog-underline'            => '連結標注底線',
 'tog-hideminor'            => '近期變動中隱藏細微修改',
 'tog-usenewrc'             => '增強版近期變動 (JavaScript)',
+'tog-minordefault'         => '預設將編輯設定為細微修改',
 'tog-enotifwatchlistpages' => '當我監視的頁面改變時發電子郵件給我',
 'tog-shownumberswatching'  => '顯示監視數目',
 'tog-uselivepreview'       => '使用即時預覽 (JavaScript) (試驗中)',
@@ -484,11 +485,6 @@ $messages = array(
 'specialloguserlabel' => '使用者:',
 'alllogstext'         => '綜合顯示上傳、刪除、保護、封鎖以及站務日誌。',
 
-# Special:Categories
-'categoriespagetext' => '以下列出所有的頁面分類。
-[[Special:UnusedCategories|Unused categories]] are not shown here.
-Also see [[Special:WantedCategories|wanted categories]].',
-
 # Special:ListUsers
 'listusersfrom'      => '給定顯示使用者條件:',
 'listusers-noresult' => '找不到使用者。',
@@ -552,7 +548,7 @@ $NEWPAGE
 請確定您要進行此項操作，並且了解其後果，同時您的行為符合[[{{MediaWiki:Policy-url}}]]。',
 'deletedtext'       => '「<nowiki>$1</nowiki>」已經被刪除。
 最近刪除的紀錄請參見$2。',
-'deletedarticle'    => '已刪除「$1」',
+'deletedarticle'    => '已刪除「[[$1]]」',
 'dellogpagetext'    => '以下是最近刪除的紀錄列表。
 所有的時間都是使用伺服器時間。',
 'reverted'          => '復原到早期版本',

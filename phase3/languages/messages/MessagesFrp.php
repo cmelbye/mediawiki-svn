@@ -320,6 +320,7 @@ $messages = array(
 'tog-watchdefault'            => 'Apondre les pâges que chanjo a ma lista de survelyence',
 'tog-watchmoves'              => 'Apondre les pâges que renomo a ma lista de survelyence',
 'tog-watchdeletion'           => 'Apondre les pâges que suprimo a ma lista de survelyence',
+'tog-minordefault'            => 'Marcar mos changements coment petiôts per dèfôt',
 'tog-previewontop'            => 'Montrar la prèvisualisacion en-dessus de la bouèta d’èdicion',
 'tog-previewonfirst'          => 'Montrar la prèvisualisacion pendent la premiére èdicion',
 'tog-nocache'                 => 'Dèsactivar lo cache de les pâges per lo navigator',
@@ -1937,7 +1938,7 @@ La dèscripcion de sa [$2 pâge de dèscripcion] est montrâ ce-desot.',
 ** Violacion du drêt d’ôtor
 ** Fichiér en doblo',
 'filedelete-edit-reasonlist'  => 'Changiér les rêsons de suprèssion',
-'filedelete-maintenance'      => 'La suprèssion et la rèstoracion de fichiérs est temporèrament dèsactivâ pendent la mantegnence.',
+'filedelete-maintenance'      => 'La suprèssion et la rèstoracion de fichiérs est dèsactivâ temporèrament pendent la mantegnence.',
 
 # MIME search
 'mimesearch'         => 'Rechèrche per tipo de contegnu MIME',

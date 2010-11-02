@@ -301,9 +301,9 @@ class ApiQuery extends ApiBase {
 
 	/**
 	 * Create instances of all modules requested by the client
-	 * @param $modules array to append instatiated modules to
+	 * @param $modules Array to append instantiated modules to
 	 * @param $param string Parameter name to read modules from
-	 * @param $moduleList array(modulename => classname)
+	 * @param $moduleList Array array(modulename => classname)
 	 */
 	private function instantiateModules( &$modules, $param, $moduleList ) {
 		$list = @$this->params[$param];
@@ -383,9 +383,7 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'redirects', $redirValues );
 		}
 
-		//
 		// Missing revision elements
-		//
 		$missingRevIDs = $pageSet->getMissingRevisionIDs();
 		if ( count( $missingRevIDs ) ) {
 			$revids = array();
@@ -398,9 +396,7 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'badrevids', $revids );
 		}
 
-		//
 		// Page elements
-		//
 		$pages = array();
 
 		// Report any missing titles
@@ -457,36 +453,56 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'pages', $pages );
 		}
 		if ( $this->params['export'] ) {
-			$exporter = new WikiExporter( $this->getDB() );
-			// WikiExporter writes to stdout, so catch its
-			// output with an ob
-			ob_start();
-			$exporter->openStream();
-			foreach ( @$pageSet->getGoodTitles() as $title ) {
+			$this->doExport( $pageSet, $result );
+		}
+	}
+
+	/**
+	 * @param  $pageSet ApiPageSet Pages to be exported
+	 * @param  $result ApiResult Result to output to
+	 */
+	private function doExport( $pageSet, $result )	{
+		$exportTitles = array();
+		$titles = $pageSet->getGoodTitles();
+		if( count( $titles ) ) {
+			foreach ( $titles as $title ) {
 				if ( $title->userCanRead() ) {
-					$exporter->pageByTitle( $title );
+					$exportTitles[] = $title;
 				}
 			}
-			$exporter->closeStream();
-			$exportxml = ob_get_contents();
-			ob_end_clean();
-
-			// Don't check the size of exported stuff
-			// It's not continuable, so it would cause more
-			// problems than it'd solve
-			$result->disableSizeCheck();
-			if ( $this->params['exportnowrap'] ) {
-				$result->reset();
-				// Raw formatter will handle this
-				$result->addValue( null, 'text', $exportxml );
-				$result->addValue( null, 'mime', 'text/xml' );
-			} else {
-				$r = array();
-				ApiResult::setContent( $r, $exportxml );
-				$result->addValue( 'query', 'export', $r );
-			}
-			$result->enableSizeCheck();
 		}
+		// only export when there are titles
+		if ( !count( $exportTitles ) ) {
+			return;
+		}
+
+		$exporter = new WikiExporter( $this->getDB() );
+		// WikiExporter writes to stdout, so catch its
+		// output with an ob
+		ob_start();
+		$exporter->openStream();
+		foreach ( $exportTitles as $title ) {
+			$exporter->pageByTitle( $title );
+		}
+		$exporter->closeStream();
+		$exportxml = ob_get_contents();
+		ob_end_clean();
+
+		// Don't check the size of exported stuff
+		// It's not continuable, so it would cause more
+		// problems than it'd solve
+		$result->disableSizeCheck();
+		if ( $this->params['exportnowrap'] ) {
+			$result->reset();
+			// Raw formatter will handle this
+			$result->addValue( null, 'text', $exportxml );
+			$result->addValue( null, 'mime', 'text/xml' );
+		} else {
+			$r = array();
+			ApiResult::setContent( $r, $exportxml );
+			$result->addValue( 'query', 'export', $r );
+		}
+		$result->enableSizeCheck();
 	}
 
 	/**
@@ -576,15 +592,15 @@ class ApiQuery extends ApiBase {
 		$this->mPageSet = null;
 		$this->mAllowedGenerators = array(); // Will be repopulated
 
-		$astriks = str_repeat( '--- ', 8 );
-		$astriks2 = str_repeat( '*** ', 10 );
-		$msg .= "\n$astriks Query: Prop  $astriks\n\n";
+		$querySeparator = str_repeat( '--- ', 8 );
+		$moduleSeparator = str_repeat( '*** ', 10 );
+		$msg .= "\n$querySeparator Query: Prop  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryPropModules, 'prop' );
-		$msg .= "\n$astriks Query: List  $astriks\n\n";
+		$msg .= "\n$querySeparator Query: List  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryListModules, 'list' );
-		$msg .= "\n$astriks Query: Meta  $astriks\n\n";
+		$msg .= "\n$querySeparator Query: Meta  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryMetaModules, 'meta' );
-		$msg .= "\n\n$astriks2 Modules: continuation  $astriks2\n\n";
+		$msg .= "\n\n$moduleSeparator Modules: continuation  $moduleSeparator\n\n";
 
 		// Perform the base call last because the $this->mAllowedGenerators
 		// will be updated inside makeHelpMsgHelper()
@@ -596,7 +612,7 @@ class ApiQuery extends ApiBase {
 
 	/**
 	 * For all modules in $moduleList, generate help messages and join them together
-	 * @param $moduleList array(modulename => classname)
+	 * @param $moduleList Array array(modulename => classname)
 	 * @param $paramName string Parameter name
 	 * @return string
 	 */

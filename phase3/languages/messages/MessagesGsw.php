@@ -136,6 +136,7 @@ $messages = array(
 'tog-watchdefault'            => 'Vo dir nöi gmachti oder verändereti Syte beobachte',
 'tog-watchmoves'              => 'Sälber verschobeni Sytene beobachte',
 'tog-watchdeletion'           => 'Sälber glöschti Sytene beobachte',
+'tog-minordefault'            => 'Alli dyni Änderigen als «chlyni Änderige» markiere',
 'tog-previewontop'            => 'Vorschou vor em Editierfänschter aazeige',
 'tog-previewonfirst'          => 'Vorschou aazeige bim erschten Editiere',
 'tog-nocache'                 => 'Syte-Cache vum Browser deaktiviere',
@@ -2452,7 +2453,7 @@ Lueg au uf [http://www.mediawiki.org/wiki/Localisation MediaWiki Lokalisierig] u
 'allmessages-filter-submit'     => 'Gang',
 
 # Thumbnails
-'thumbnail-more'           => 'vergrösere',
+'thumbnail-more'           => 'Vergreßere',
 'filemissing'              => 'D Datei fäält',
 'thumbnail_error'          => 'Fähler bir Härstellig vo re Vorschou: $1',
 'djvu_page_error'          => 'DjVu-Syte isch uusserhalb vum Sytebereich',

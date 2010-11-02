@@ -17,6 +17,10 @@ class MockApi extends ApiBase {
 	}
 }
 
+/**
+ * @group Database
+ * @group Destructive
+ */
 class ApiTest extends ApiTestSetup {
 
 	function testRequireOnlyOneParameterDefault() {
@@ -28,8 +32,8 @@ class ApiTest extends ApiTestSetup {
 	}
 
 	/**
-     * @expectedException UsageException
-     */
+	 * @expectedException UsageException
+	 */
 	function testRequireOnlyOneParameterZero() {
 		$mock = new MockApi();
 
@@ -39,8 +43,8 @@ class ApiTest extends ApiTestSetup {
 	}
 
 	/**
-     * @expectedException UsageException
-     */
+	 * @expectedException UsageException
+	 */
 	function testRequireOnlyOneParameterTrue() {
 		$mock = new MockApi();
 

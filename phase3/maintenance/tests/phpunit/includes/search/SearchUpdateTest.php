@@ -2,7 +2,7 @@
 
 class DatabaseMock extends DatabaseBase {
 	function __construct( $server = false, $user = false, $password = false, $dbName = false,
-		$failFunction = false, $flags = 0, $tablePrefix = 'get from global' )
+		$flags = 0, $tablePrefix = 'get from global' )
 	{
 		$this->mConn = true;
 		$this->mOpened = true;
@@ -73,14 +73,14 @@ class SearchUpdateTest extends PHPUnit_Framework_TestCase {
 		$wgDBtype = 'mock';
 		$wgLBFactoryConf['class'] = 'LBFactory_Simple';
 		$wgDBservers = null;
+
+		# We need to reset the LoadBalancer in order to bypass its cache and get the mock db
+		wfGetLBFactory()->destroyInstance();
 		$wgContLang = Language::factory( 'en' );
-		LBFactory::destroyInstance();
 	}
 
 	function tearDown() {
 		global $wgSearchType, $wgDBtype, $wgLBFactoryConf, $wgDBservers, $wgContLang;
-
-		LBFactory::destroyInstance();
 
 		$wgSearchType = self::$searchType;
 		$wgDBtype = self::$dbtype;

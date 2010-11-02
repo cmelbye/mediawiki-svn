@@ -10,6 +10,7 @@
  * @author Bekiroflaz
  * @author Bombola
  * @author Dbl2010
+ * @author Don Alessandro
  * @author Erkan Yilmaz
  * @author Fryed-peach
  * @author Hanberke
@@ -308,6 +309,7 @@ $messages = array(
 'tog-watchdefault'            => 'Değişiklik yapılan sayfayı izleme listesine ekle',
 'tog-watchmoves'              => 'Taşıdığım sayfaları izleme listeme ekle',
 'tog-watchdeletion'           => 'Sildiğim sayfaları izleme listeme ekle',
+'tog-minordefault'            => "Değişikliği 'küçük değişiklik' olarak seçili getir",
 'tog-previewontop'            => 'Önizlemeyi yazma alanın üstünde göster',
 'tog-previewonfirst'          => 'Değiştirmede önizlemeyi göster',
 'tog-nocache'                 => 'Tarayıcı sayfalarını bellekleme',
@@ -491,7 +493,7 @@ $messages = array(
 'unprotect'         => 'Korumayı kaldır',
 'unprotectthispage' => 'Sayfa korumasını kaldır',
 'newpage'           => 'Yeni sayfa',
-'talkpage'          => 'Sayfayı tartış',
+'talkpage'          => 'Tartışma sayfası',
 'talkpagelinktext'  => 'Mesaj',
 'specialpage'       => 'Özel sayfa',
 'personaltools'     => 'Kişisel araçlar',
@@ -560,7 +562,7 @@ $1',
 'newmessagesdifflink'     => 'Bir önceki sürüme göre eklenen yazı farkı',
 'youhavenewmessagesmulti' => "$1'de yeni mesajınız var.",
 'editsection'             => 'değiştir',
-'editold'                 => 'değiştir',
+'editold'                 => 'Değiştir',
 'viewsourceold'           => 'kaynağı gör',
 'editlink'                => 'değiştir',
 'viewsourcelink'          => 'kaynağı gör',
@@ -892,7 +894,7 @@ Bu başlığı [[Special:Search/{{PAGENAME}}|diğer sayfalarda arayabilir]]
 ya da <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ilgili günlükleri tarayabilirsiniz].</span>',
 'userpage-userdoesnotexist'        => '"$1" kullanıcı hesabı kayıtlı değil. Bu sayfayı oluşturmak/değiştirmek istiyorsanız lütfen kontrol edin.',
 'userpage-userdoesnotexist-view'   => '"$1" kullanıcı hesabı kayıtlı değil.',
-'blocked-notice-logextract'        => 'Bu kullancı şuanda engellenmiş.
+'blocked-notice-logextract'        => 'Bu kullanıcı şuanda engellenmiş.
 Son engelleme günlüğü girdisi referans için aşağıda sağlanmıştır:',
 'clearyourcache'                   => "'''Not:''' Ayarlarınızı kaydettikten sonra, tarayıcınızın belleğini de temizlemeniz gerekmektedir: '''Mozilla / Firefox / Safari:''' ''Shift'' e basılıyken safyayı yeniden yükleyerek veya ''Ctrl-Shift-R'' yaparak (Apple Mac için ''Cmd-Shift-R'');, '''IE:''' ''Ctrl-F5'', '''Konqueror:''' Sadece sayfayı yeniden yükle tuşuna basarak.",
 'usercssyoucanpreview'             => "'''İpucu:''' Kaydetmeden önce \"{{int:showpreview}}\"e tıklayarak yeni CSSinizi test edin.",
@@ -1195,7 +1197,7 @@ Gezinti bağlantılarının bu sütunu sıfırlayacağını unutmayın.',
 'mergelog'           => 'Birleştirme kaydı',
 'pagemerge-logentry' => "[[$1]] ile [[$2]] birleştirildi ($3'e kadar olan revizyonlar)",
 'revertmerge'        => 'Ayır',
-'mergelogpagetext'   => 'Aşaüıdaki liste, sayfaların geçmiş versiyonlarının birbirleriyle en son birleştirilmelerini içerir',
+'mergelogpagetext'   => 'Aşağıdaki liste, sayfaların geçmiş versiyonlarının birbirleriyle en son birleştirilmelerini içerir',
 
 # Diffs
 'history-title'            => '"$1" sayfasının geçmişi',

@@ -163,7 +163,15 @@ class WebInstaller extends CoreInstaller {
 		# Get the page name.
 		$pageName = $this->request->getVal( 'page' );
 
-		if ( in_array( $pageName, $this->otherPages ) ) {
+		# Check LocalSettings status
+		$localSettings = $this->getLocalSettingsStatus();
+
+		if( !$localSettings->isGood() && $this->getVar( '_LocalSettingsLocked' ) ) {
+			$pageName = 'Locked';
+			$pageId = false;
+			$page = $this->getPageByName( $pageName );
+			$page->setLocalSettingsStatus( $localSettings );
+		} elseif ( in_array( $pageName, $this->otherPages ) ) {
 			# Out of sequence
 			$pageId = false;
 			$page = $this->getPageByName( $pageName );
@@ -212,14 +220,8 @@ class WebInstaller extends CoreInstaller {
 		# Execute the page.
 		$this->currentPageName = $page->getName();
 		$this->startPageWrapper( $pageName );
-		$localSettings = $this->getLocalSettingsStatus();
 
-		if( !$localSettings->isGood() ) {
-			$this->showStatusBox( $localSettings );
-			$result = 'output';
-		} else {
-			$result = $page->execute();
-		}
+		$result = $page->execute();
 
 		$this->endPageWrapper();
 
@@ -308,16 +310,17 @@ class WebInstaller extends CoreInstaller {
 	 * Get the value of session.save_path
 	 *
 	 * Per http://www.php.net/manual/en/session.configuration.php#ini.session.save-path,
-	 * this might have some additional preceding parts which need to be
-	 * ditched
+	 * this may have an initial integer value to indicate the depth of session
+	 * storage (eg /tmp/a/b/c). Explode on ; and check and see if this part is
+	 * there or not. Should also allow paths with semicolons in them (if you
+	 * really wanted your session files stored in /tmp/some;dir) which PHP
+	 * supposedly supports.
 	 *
 	 * @return String
 	 */
 	private function getSessionSavePath() {
-		$path = ini_get( 'session.save_path' );
-		$path = ltrim( substr( $path, strrpos( $path, ';' ) ), ';');
-
-		return $path;
+		$parts = explode( ';', ini_get( 'session.save_path' ), 2 );
+		return count( $parts ) == 1 ? $parts[0] : $parts[1];
 	}
 
 	/**
@@ -368,17 +371,6 @@ class WebInstaller extends CoreInstaller {
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Get a WebInstallerPage from the main sequence, by ID.
-	 *
-	 * @param $id Integer
-	 *
-	 * @return WebInstallerPage
-	 */
-	public function getPageById( $id ) {
-		return $this->getPageByName( $this->pageSequence[$id] );
 	}
 
 	/**
@@ -468,7 +460,7 @@ class WebInstaller extends CoreInstaller {
 	 *
 	 * @param $currentPageName String
 	 */
-	public function startPageWrapper( $currentPageName ) {
+	private function startPageWrapper( $currentPageName ) {
 		$s = "<div class=\"config-page-wrapper\">\n" .
 			"<div class=\"config-page-list\"><ul>\n";
 		$lastHappy = -1;
@@ -509,7 +501,7 @@ class WebInstaller extends CoreInstaller {
 	 *
 	 * @return string
 	 */
-	public function getPageListItem( $pageName, $enabled, $currentPageName ) {
+	private function getPageListItem( $pageName, $enabled, $currentPageName ) {
 		$s = "<li class=\"config-page-list-item\">";
 		$name = wfMsg( 'config-page-' . strtolower( $pageName ) );
 
@@ -553,7 +545,7 @@ class WebInstaller extends CoreInstaller {
 	/**
 	 * Output some stuff after a page is finished.
 	 */
-	public function endPageWrapper() {
+	private function endPageWrapper() {
 		$this->output->addHTMLNoFlush(
 			"</div>\n" .
 			"<br style=\"clear:both\"/>\n" .
@@ -918,25 +910,9 @@ class WebInstaller extends CoreInstaller {
 	}
 
 	/**
-	 * Get the starting tags of a fieldset.
-	 *
-	 * @param $legend String: message name
-	 */
-	public function getFieldsetStart( $legend ) {
-		return "\n<fieldset><legend>" . wfMsgHtml( $legend ) . "</legend>\n";
-	}
-
-	/**
-	 * Get the end tag of a fieldset.
-	 */
-	public function getFieldsetEnd() {
-		return "</fieldset>\n";
-	}
-
-	/**
 	 * Helper for Installer::docLink()
 	 */
-	public function getDocUrl( $page ) {
+	protected function getDocUrl( $page ) {
 		$url = "{$_SERVER['PHP_SELF']}?page=" . urlencode( $page );
 
 		if ( in_array( $this->currentPageName, $this->pageSequence ) ) {

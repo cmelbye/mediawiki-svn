@@ -201,6 +201,7 @@ $messages = array(
 'tog-watchdefault'            => 'Afegeix les pàgines que edito a la meua llista de seguiment',
 'tog-watchmoves'              => 'Afegeix les pàgines que reanomeni a la llista de seguiment',
 'tog-watchdeletion'           => 'Afegeix les pàgines que elimini a la llista de seguiment',
+'tog-minordefault'            => 'Marca totes les contribucions com a edicions menors per defecte',
 'tog-previewontop'            => "Mostra una previsualització abans del quadre d'edició",
 'tog-previewonfirst'          => 'Mostra una previsualització en la primera modificació',
 'tog-nocache'                 => 'Inhabilita la memòria cau de les pàgines',
@@ -583,6 +584,7 @@ No oblideu de canviar les vostres [[Special:Preferences|preferències de {{SITEN
 'yourpassword'               => 'Contrasenya',
 'yourpasswordagain'          => 'Escriviu una altra vegada la contrasenya',
 'remembermypassword'         => 'Recorda la contrasenya entre sessions (per un màxim de $1 {{PLURAL:$1|dia|dies}})',
+'securelogin-stick-https'    => "Roman connectat via HTTPS desprès d'autenticar-se",
 'yourdomainname'             => 'El vostre domini',
 'externaldberror'            => "Hi ha hagut una fallida en el servidor d'autenticació externa de la base de dades i no teniu permís per a actualitzar el vostre compte d'accès extern.",
 'login'                      => 'Inici de sessió',
@@ -618,6 +620,7 @@ Reviseu-ne l'ortografia (recordeu que es distingeixen les majúscules i minúscu
 'wrongpasswordempty'         => "La contrasenya que s'ha introduït estava en blanc. Torneu-ho a provar.",
 'passwordtooshort'           => "La contrasenya ha de tenir un mínim {{PLURAL:$1|d'un caràcter|de $1 caràcters}}.",
 'password-name-match'        => "La contrasenya ha de ser diferent al vostre nom d'usuari.",
+'password-too-weak'          => "La clau d'accés que heu proporcionat no és gaire segura i no es pot fer servir-la.",
 'mailmypassword'             => "Envia'm una nova contrasenya per correu electrònic",
 'passwordremindertitle'      => 'Nova contrasenya temporal per al projecte {{SITENAME}}',
 'passwordremindertext'       => "Algú (vós mateix segurament, des de l'adreça l'IP $1) ha soŀlicitat que us enviéssim una nova contrasenya per a iniciar la sessió al projecte {{SITENAME}} ($4).
@@ -1400,7 +1403,7 @@ També podeu contactar amb altres usuaris a través de la vostra pàgina d'usuar
 # User rights log
 'rightslog'      => "Registre dels permisos d'usuari",
 'rightslogtext'  => "Aquest és un registre de canvis dels permisos d'usuari.",
-'rightslogentry' => "heu modificat els drets de l'usuari «$1» del grup $2 al de $3",
+'rightslogentry' => "ha modificat els drets de l'usuari «$1» del grup $2 al de $3",
 'rightsnone'     => '(cap)',
 
 # Associated actions - in the sentence "You do not have permission to X"
@@ -1658,6 +1661,7 @@ Clicant al capdamunt de les columnes podeu canviar-ne l'ordenació.",
 'listfiles_search_for'  => "Cerca el nom d'un fitxer de medis:",
 'imgfile'               => 'fitxer',
 'listfiles'             => 'Llista de fitxers',
+'listfiles_thumb'       => 'Miniatura',
 'listfiles_date'        => 'Data',
 'listfiles_name'        => 'Nom',
 'listfiles_user'        => 'Usuari',

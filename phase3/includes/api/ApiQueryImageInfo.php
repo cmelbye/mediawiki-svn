@@ -259,6 +259,12 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		if ( isset( $prop['comment'] ) ) {
 			$vals['comment'] = $file->getDescription();
 		}
+		if ( isset( $prop['parsedcomment'] ) ) {
+			global $wgUser;
+			$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( 
+					$file->getDescription(), $file->getTitle() );
+		}
+		
 		if ( isset( $prop['sha1'] ) ) {
 			$vals['sha1'] = wfBaseConvert( $file->getSha1(), 36, 16, 40 );
 		}
@@ -354,6 +360,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 			'user',
 			'userid',
 			'comment',
+			'parsedcomment',
 			'url',
 			'size',
 			'dimensions', // For backwards compatibility with Allimages
@@ -376,19 +383,20 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		return array(
 			'prop' => array(
 				'What image information to get:',
-				' timestamp    - Adds timestamp for the uploaded version',
-				' user         - Adds the user who uploaded the image version',
-				' userid       - Add the user id that uploaded the image version',
-				' comment      - Comment on the version',
-				' url          - Gives URL to the image and the description page',
-				' size         - Adds the size of the image in bytes and the height and width',
-				' dimensions   - Alias for size',
-				' sha1         - Adds sha1 hash for the image',
-				' mime         - Adds MIME of the image',
-				' thumbmime    - Adss MIME of the image thumbnail (requires url)',
-				' metadata     - Lists EXIF metadata for the version of the image',
-				' archivename  - Adds the file name of the archive version for non-latest versions',
-				' bitdepth     - Adds the bit depth of the version',
+				' timestamp     - Adds timestamp for the uploaded version',
+				' user          - Adds the user who uploaded the image version',
+				' userid        - Add the user id that uploaded the image version',
+				' comment       - Comment on the version',
+				' parsedcomment - Parse the comment on the version',
+				' url           - Gives URL to the image and the description page',
+				' size          - Adds the size of the image in bytes and the height and width',
+				' dimensions    - Alias for size',
+				' sha1          - Adds sha1 hash for the image',
+				' mime          - Adds MIME of the image',
+				' thumbmime     - Adss MIME of the image thumbnail (requires url)',
+				' metadata      - Lists EXIF metadata for the version of the image',
+				' archivename   - Adds the file name of the archive version for non-latest versions',
+				' bitdepth      - Adds the bit depth of the version',
 			),
 			'urlwidth' => array( "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
 					    'Only the current version of the image can be scaled' ),

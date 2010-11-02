@@ -984,15 +984,18 @@ class Article {
 						wfDebug( __METHOD__ . ": showing CSS/JS source\n" );
 						$this->showCssOrJsPage();
 						$outputDone = true;
-					} else if ( $rt = Title::newFromRedirectArray( $text ) ) {
-						wfDebug( __METHOD__ . ": showing redirect=no page\n" );
-						# Viewing a redirect page (e.g. with parameter redirect=no)
-						# Don't append the subtitle if this was an old revision
-						$wgOut->addHTML( $this->viewRedirect( $rt, !$wasRedirected && $this->isCurrent() ) );
-						# Parse just to get categories, displaytitle, etc.
-						$this->mParserOutput = $wgParser->parse( $text, $this->mTitle, $parserOptions );
-						$wgOut->addParserOutputNoText( $this->mParserOutput );
-						$outputDone = true;
+					} else {
+						$rt = Title::newFromRedirectArray( $text );
+						if ( $rt ) {
+							wfDebug( __METHOD__ . ": showing redirect=no page\n" );
+							# Viewing a redirect page (e.g. with parameter redirect=no)
+							# Don't append the subtitle if this was an old revision
+							$wgOut->addHTML( $this->viewRedirect( $rt, !$wasRedirected && $this->isCurrent() ) );
+							# Parse just to get categories, displaytitle, etc.
+							$this->mParserOutput = $wgParser->parse( $text, $this->mTitle, $parserOptions );
+							$wgOut->addParserOutputNoText( $this->mParserOutput );
+							$outputDone = true;
+						}
 					}
 					break;
 				case 4:
@@ -1308,7 +1311,7 @@ class Article {
 		}
 
 		$sk = $wgUser->getSkin();
-		$token = $wgUser->editToken();
+		$token = $wgUser->editToken( $rcid );
 
 		$wgOut->addHTML(
 			"<div class='patrollink'>" .
@@ -2125,8 +2128,6 @@ class Article {
 				$userAbort = ignore_user_abort( true );
 			}
 
-			$revisionId = 0;
-
 			$changed = ( strcmp( $text, $oldtext ) != 0 );
 
 			if ( $changed ) {
@@ -2348,7 +2349,7 @@ class Article {
 		# If we haven't been given an rc_id value, we can't do anything
 		$rcid = (int) $wgRequest->getVal( 'rcid' );
 
-		if ( !$wgUser->matchEditToken( $wgRequest->getVal( 'token' ) ) ) {
+		if ( !$wgUser->matchEditToken( $wgRequest->getVal( 'token' ), $rcid ) ) {
 			$wgOut->showErrorPage( 'sessionfailure-title', 'sessionfailure' );
 			return;
 		}
@@ -3083,7 +3084,7 @@ class Article {
 			</tr>" .
 			Xml::closeElement( 'table' ) .
 			Xml::closeElement( 'fieldset' ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
 			Xml::closeElement( 'form' );
 
 			if ( $wgUser->isAllowed( 'editinterface' ) ) {

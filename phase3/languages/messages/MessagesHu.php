@@ -317,6 +317,7 @@ $messages = array(
 'tog-watchdefault'            => 'Az általam szerkesztett lapok felvétele a figyelőlistára',
 'tog-watchmoves'              => 'Az általam átnevezett lapok felvétele a figyelőlistára',
 'tog-watchdeletion'           => 'Az általam törölt lapok felvétele a figyelőlistára',
+'tog-minordefault'            => 'Alapértelmezésben minden szerkesztésemet jelölje aprónak',
 'tog-previewontop'            => 'Előnézet megjelenítése a szerkesztőablak előtt',
 'tog-previewonfirst'          => 'Előnézet első szerkesztésnél',
 'tog-nocache'                 => 'A lapok gyorstárazásának letiltása a böngészőben',
@@ -3521,7 +3522,7 @@ Add meg a fájl nevét „{{ns:file}}:” előtag nélkül.',
 'htmlform-selectorother-other' => 'egyéb',
 
 # SQLite database support
-'sqlite-has-fts' => '$1 teljes szöveges keresés támogatásával',
+'sqlite-has-fts' => '$1 teljes szöveges keresés támogatással',
 'sqlite-no-fts'  => '$1 teljes szöveges keresés támogatása nélkül',
 
 );

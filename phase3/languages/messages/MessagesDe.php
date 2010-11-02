@@ -368,6 +368,7 @@ $messages = array(
 'tog-watchdefault'            => 'Selbst geänderte Seiten automatisch beobachten',
 'tog-watchmoves'              => 'Selbst verschobene Seiten automatisch beobachten',
 'tog-watchdeletion'           => 'Selbst gelöschte Seiten automatisch beobachten',
+'tog-minordefault'            => 'Eigene Änderungen standardmäßig als geringfügig markieren',
 'tog-previewontop'            => 'Vorschau oberhalb des Bearbeitungsfensters anzeigen',
 'tog-previewonfirst'          => 'Beim ersten Bearbeiten immer die Vorschau anzeigen',
 'tog-nocache'                 => 'Seitencache des Browsers deaktivieren',
@@ -753,6 +754,7 @@ Vergiss nicht, deine [[Special:Preferences|{{SITENAME}}-Einstellungen]] anzupass
 'yourpassword'               => 'Passwort:',
 'yourpasswordagain'          => 'Passwort wiederholen:',
 'remembermypassword'         => 'Mit diesem Browser dauerhaft angemeldet bleiben (maximal $1 {{PLURAL:$1|Tag|Tage}})',
+'securelogin-stick-https'    => 'Nach dem Anmelden mit HTTPS verbunden bleiben',
 'yourdomainname'             => 'Deine Domain:',
 'externaldberror'            => 'Entweder es liegt ein Fehler bei der externen Authentifizierung vor oder du darfst dein externes Benutzerkonto nicht aktualisieren.',
 'login'                      => 'Anmelden',
@@ -788,6 +790,7 @@ Vergiss nicht, deine [[Special:Preferences|{{SITENAME}}-Einstellungen]] anzupass
 'wrongpasswordempty'         => 'Es wurde kein Passwort eingegeben. Bitte versuche es erneut.',
 'passwordtooshort'           => 'Passwörter müssen mindestens {{PLURAL:$1|1 Zeichen|$1 Zeichen}} lang sein.',
 'password-name-match'        => 'Dein Passwort muss sich von deinem Benutzernamen unterscheiden.',
+'password-too-weak'          => 'Das Passwort ist zu schwach und kann nicht verwendet werden.',
 'mailmypassword'             => 'Neues Passwort zusenden',
 'passwordremindertitle'      => 'Neues Passwort für ein {{SITENAME}}-Benutzerkonto',
 'passwordremindertext'       => 'Jemand mit der IP-Adresse $1, wahrscheinlich du selbst, hat ein neues Passwort für die Anmeldung bei {{SITENAME}} ($4) angefordert.
@@ -1848,6 +1851,7 @@ Aus Sicherheitsgründen ist img_auth.php deaktiviert.',
 'listfiles_search_for'  => 'Suche nach Datei:',
 'imgfile'               => 'Datei',
 'listfiles'             => 'Dateiliste',
+'listfiles_thumb'       => 'Vorschaubild',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Name',
 'listfiles_user'        => 'Benutzer',
@@ -2000,6 +2004,8 @@ Jede Zeile enthält Links zu der ersten und zweiten Weiterleitung sowie das Ziel
 'nmembers'                => '{{PLURAL:$1|1 Eintrag|$1 Einträge}}',
 'nrevisions'              => '{{PLURAL:$1|1 Bearbeitung|$1 Bearbeitungen}}',
 'nviews'                  => '{{PLURAL:$1|1 Abfrage|$1 Abfragen}}',
+'nimagelinks'             => 'Verwendet auf $1 {{PLURAL:$1|Seite|Seiten}}',
+'ntransclusions'          => 'verwendet auf $1 {{PLURAL:$1|Seite|Seiten}}',
 'specialpage-empty'       => 'Die Seite enthält aktuell keine Einträge.',
 'lonelypages'             => 'Verwaiste Seiten',
 'lonelypagestext'         => 'Die folgenden Seiten werden nicht eingebunden oder es wird nicht auf sie in {{SITENAME}} verwiesen.',
@@ -2183,7 +2189,7 @@ Als Absender wird die E-Mail-Adresse aus deinen [[Special:Preferences|Einstellun
 
 # User Messenger
 'usermessage-summary'  => 'Systemnachricht gespeichert.',
-'usermessage-editor'   => 'System-Messenger',
+'usermessage-editor'   => 'Systemnachrichtenbearbeiter',
 'usermessage-template' => 'MediaWiki:Benutzernachricht',
 
 # Watchlist
@@ -3575,7 +3581,7 @@ Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
 'htmlform-selectorother-other' => 'Andere',
 
 # SQLite database support
-'sqlite-has-fts' => '$1 unterstützt die Volltextsuche',
-'sqlite-no-fts'  => '$1 unterstützt die Volltextsuche nicht',
+'sqlite-has-fts' => 'Version $1 mit Unterstützung für die Volltextsuche',
+'sqlite-no-fts'  => 'Version $1 ohne Unterstützung für die Volltextsuche',
 
 );

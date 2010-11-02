@@ -8,6 +8,7 @@
  * @file
  *
  * @author Ikiwaner
+ * @author Jagwar
  * @author Lloffiwr
  * @author Malangali
  * @author Marcos
@@ -141,6 +142,7 @@ $messages = array(
 'tog-watchdefault'            => 'Weka kurasa zote nilizohariri katika maangalizi yangu',
 'tog-watchmoves'              => 'Weka kurasa zote nilizohamisha katika maangalizi yangu',
 'tog-watchdeletion'           => 'Weka kurasa zote nilizofuta katika maangalizi yangu',
+'tog-minordefault'            => 'Weka alama zote za mabadiliko madogo kama matumizi mbadala',
 'tog-previewontop'            => 'Onyesha mandhari kabla ya sanduku la kuhariria',
 'tog-previewonfirst'          => 'Onyesha mandhari unapoanza kuhariri',
 'tog-nocache'                 => 'Kurasa zisiwekwe katika kache (akiba ya muda) ya kivinjari',
@@ -773,6 +775,8 @@ Inabidi uingize mabadiliko yako ndani ya sanduku la juu.
 Ni maandiko yaliyopo ndani ya sanduku la juu '''tu''' ambayo yatahifadhiwa utakapobonyeza \"Hifadhi ukurasa\".",
 'yourtext'                         => 'Maandishi yako',
 'storedversion'                    => 'Pitio lililohifadhiwa mwishoni',
+'nonunicodebrowser'                => "'''Ilani: browser yako si Unicode inavyotakikana.''' 
+A workaround ni katika nafasi ya kuruhusu usalama hariri kurasa: non-ASCII characters itaonekana katika edit box kama hexadecimal codes.",
 'editingold'                       => "'''ANGALIA: Unakuwa unahariri toleo la zamani la ukurasa huu.
 Ukiendelea kulihariri, mabadilisho yote yaliyofanywa tangu pale yatapotezwa.'''",
 'yourdiff'                         => 'Tofauti',
