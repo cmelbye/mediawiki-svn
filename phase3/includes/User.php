@@ -655,8 +655,8 @@ class User {
 		^                      # start of string
 		[$rfc5322_atext\\.]+    # user part which is liberal :p
 		@                      # 'apostrophe'
-		[$rfc1034_ldh_str]     # Domain first character
-		[$rfc1034_ldh_str\\.]+  # Second char and following can include dot
+		[$rfc1034_ldh_str]+       # First domain part
+		(\\.[$rfc1034_ldh_str]+)+  # Following part prefixed with a dot
 		$                      # End of string
 		/ix" ; // case Insensitive, eXtended 
 
@@ -2258,16 +2258,16 @@ class User {
 			$skin->setTitle( $t );
 			return $skin;
 		} else {
-			if ( ! $this->mSkin ) {
+			if ( !$this->mSkin ) {
 				$this->mSkin = $this->createSkinObject();
 			}
-			
-			if ( ! $this->mSkin->getTitle() ) {
+
+			if ( !$this->mSkin->getTitle() ) {
 				global $wgOut;
 				$t = $wgOut->getTitle();
 				$this->mSkin->setTitle($t);
 			}
-			
+
 			return $this->mSkin;
 		}
 	}
@@ -2276,17 +2276,17 @@ class User {
 	private function createSkinObject() {
 		wfProfileIn( __METHOD__ );
 
-		global $wgHiddenPrefs;
+		global $wgHiddenPrefs, $wgRequest;
 		if( !in_array( 'skin', $wgHiddenPrefs ) ) {
 			# get the user skin
-			global $wgRequest;
 			$userSkin = $this->getOption( 'skin' );
-			$userSkin = $wgRequest->getVal( 'useskin', $userSkin );
 		} else {
 			# if we're not allowing users to override, then use the default
 			global $wgDefaultSkin;
 			$userSkin = $wgDefaultSkin;
 		}
+
+		$userSkin = $wgRequest->getVal( 'useskin', $userSkin );
 
 		$skin = Skin::newFromKey( $userSkin );
 		wfProfileOut( __METHOD__ );
