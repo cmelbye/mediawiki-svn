@@ -521,7 +521,7 @@ class ApiUploadTest extends ApiTestCase {
 		$this->assertTrue( isset( $result['upload']['sessionkey'] ) );
 		$sessionkey = $result['upload']['sessionkey'];
 		
-		// it should be visible from Special:SessionStash 
+		// it should be visible from Special:PrivateUploadStash 
 		// XXX ...but how to test this, with a fake WebRequest with the session?
 
 		// now we should try to release the file from stash

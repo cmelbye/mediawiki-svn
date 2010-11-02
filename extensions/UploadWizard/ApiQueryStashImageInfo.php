@@ -42,7 +42,7 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 		$result = $this->getResult();
 		
 		try {
-			$stash = new SessionStash();
+			$stash = new PrivateUploadStash();
 		
 			foreach ( $params['sessionkey'] as $sessionkey ) {	
 				$file = $stash->getFile( $sessionkey );
@@ -51,11 +51,11 @@ class ApiQueryStashImageInfo extends ApiQueryImageInfo {
 				$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), $modulePrefix );
 			}
 
-		} catch ( SessionStashNotAvailableException $e ) {
+		} catch ( PrivateUploadStashNotAvailableException $e ) {
 			$this->dieUsage( "Session not available: " . $e->getMessage(), "nosession" );
-		} catch ( SessionStashFileNotFoundException $e ) {
+		} catch ( PrivateUploadStashFileNotFoundException $e ) {
 			$this->dieUsage( "File not found: " . $e->getMessage(), "invalidsessiondata" );
-		} catch ( SessionStashBadPathException $e ) {
+		} catch ( PrivateUploadStashBadPathException $e ) {
 			$this->dieUsage( "Bad path: " . $e->getMessage(), "invalidsessiondata" );
 		}	
 

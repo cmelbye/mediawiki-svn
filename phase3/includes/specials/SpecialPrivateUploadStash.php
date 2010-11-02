@@ -1,8 +1,8 @@
 <?php
 /**
- * Special:SessionStash
+ * Special:PrivateUploadStash
  *
- * Web access for files temporarily stored by SessionStash.
+ * Web access for files temporarily stored by PrivateUploadStash.
  *
  * For example -- files that were uploaded with the UploadWizard extension are stored temporarily 
  * before committing them to the db. But we want to see their thumbnails and get other information
@@ -16,7 +16,7 @@
  * @ingroup Upload
  */
 
-class SpecialSessionStash extends SpecialPage {
+class SpecialPrivateUploadStash extends SpecialPage {
 
 	static $HttpErrors = array( // FIXME: Use OutputPage::getStatusMessage() --RK
 		400 => 'Bad Request',
@@ -25,25 +25,25 @@ class SpecialSessionStash extends SpecialPage {
 		500 => 'Internal Server Error',
 	);
 
-	// SessionStash
+	// PrivateUploadStash
 	private $stash;
 
 	// we should not be reading in really big files and serving them out
 	private $maxServeFileSize = 262144; // 256K
 
 	// $request is the request (usually wgRequest)
-	// $subpage is everything in the URL after Special:SessionStash
+	// $subpage is everything in the URL after Special:PrivateUploadStash
 	// FIXME: These parameters don't match SpecialPage::__construct()'s params at all, and are unused --RK
 	public function __construct( $request = null, $subpage = null ) {
-                parent::__construct( 'SessionStash', 'upload' );
-		$this->stash = new SessionStash();
+                parent::__construct( 'PrivateUploadStash', 'upload' );
+		$this->stash = new PrivateUploadStash();
 	}
 
 	/**
 	 * If file available in stash, cats it out to the client as a simple HTTP response.
-	 * n.b. Most sanity checking done in SessionStashLocalFile, so this is straightforward.
+	 * n.b. Most sanity checking done in PrivateUploadStashLocalFile, so this is straightforward.
 	 * 
-	 * @param {String} $subPage: subpage, e.g. in http://example.com/wiki/Special:SessionStash/foo.jpg, the "foo.jpg" part
+	 * @param {String} $subPage: subpage, e.g. in http://example.com/wiki/Special:PrivateUploadStash/foo.jpg, the "foo.jpg" part
   	 * @return {Boolean} success 
 	 */
 	public function execute( $subPage ) {
@@ -65,9 +65,9 @@ class SpecialSessionStash extends SpecialPage {
 			$this->outputFile( $file );
 			return true;
 
-		} catch( SessionStashFileNotFoundException $e ) {
+		} catch( PrivateUploadStashFileNotFoundException $e ) {
 			$code = 404;
-		} catch( SessionStashBadPathException $e ) {
+		} catch( PrivateUploadStashBadPathException $e ) {
 			$code = 403;
 		} catch( Exception $e ) {
 			$code = 500;
@@ -82,7 +82,7 @@ class SpecialSessionStash extends SpecialPage {
 	 * Convert the incoming url portion (subpage of Special page) into a stashed file, if available.
 	 * @param {String} $subPage 
 	 * @return {File} file object
-	 * @throws MWException, SessionStashFileNotFoundException, SessionStashBadPathException
+	 * @throws MWException, PrivateUploadStashFileNotFoundException, PrivateUploadStashBadPathException
 	 */
 	private function getStashFile( $subPage ) {
 		// due to an implementation quirk (and trying to be compatible with older method) 
@@ -95,7 +95,7 @@ class SpecialSessionStash extends SpecialPage {
 
 		try {
 			$file = $this->stash->getFile( $key );
-		} catch ( SessionStashFileNotFoundException $e ) { 
+		} catch ( PrivateUploadStashFileNotFoundException $e ) { 
 			// if we couldn't find it, and it looks like a thumbnail,
 			// and it looks like we have the original, go ahead and generate it
 			$matches = array();
@@ -111,7 +111,7 @@ class SpecialSessionStash extends SpecialPage {
 			$origFile = $this->stash->getFile( $origKey );
 
 			// ok we're here so the original must exist. Generate the thumbnail. 
-			// because the file is a SessionStashFile, this thumbnail will also be stashed,
+			// because the file is a PrivateUploadStashFile, this thumbnail will also be stashed,
 			// and a thumbnailFile will be created in the thumbnailImage composite object
 			$thumbnailImage = null;
 			if ( !( $thumbnailImage = $origFile->getThumbnail( $width ) ) ) { 

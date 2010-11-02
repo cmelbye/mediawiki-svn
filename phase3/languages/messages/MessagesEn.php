@@ -460,7 +460,7 @@ $specialPageAliases = array(
 	'RevisionMove'              => array( 'RevisionMove' ),
 	'ComparePages'              => array( 'ComparePages' ),
 	'Badtitle'                  => array( 'Badtitle' ),
-	'SessionStash'              => array( 'SessionStash' ),		
+	'PrivateUploadStash'        => array( 'PrivateUploadStash' ),		
 );
 
 /**

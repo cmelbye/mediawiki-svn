@@ -1,6 +1,6 @@
 <?php
 /** 
- * SessionStash is intended to accomplish a few things:
+ * PrivateUploadStash is intended to accomplish a few things:
  *   - enable applications to temporarily stash files without publishing them to the wiki.
  *      - Several parts of MediaWiki do this in similar ways: UploadBase, UploadWizard, and FirefoggChunkedExtension
  *        And there are several that reimplement stashing from scratch, in idiosyncratic ways. The idea is to unify them all here.
@@ -8,10 +8,10 @@
  *   - enable applications to find said files later, as long as the session or temp files haven't been purged. 
  *   - enable the uploading user (and *ONLY* the uploading user) to access said files, and thumbnails of said files, via a URL.
  *     We accomplish this by making the session serve as a URL->file mapping, on the assumption that nobody else can access 
- *     the session, even the uploading user. See SpecialSessionStash, which implements a web interface to some files stored this way.
+ *     the session, even the uploading user. See SpecialPrivateUploadStash, which implements a web interface to some files stored this way.
  *
  */
-class SessionStash {
+class PrivateUploadStash {
 	// Format of the key for files -- has to be suitable as a filename itself in some cases.
 	// This should encompass a sha1 content hash in hex (new style), or an integer (old style), 
 	// and also thumbnails with prepended strings like "120px-". 
@@ -45,14 +45,14 @@ class SessionStash {
 		$this->repo = $repo;
 
 		if ( ! isset( $_SESSION ) ) {
-			throw new SessionStashNotAvailableException( 'no session variable' );
+			throw new PrivateUploadStashNotAvailableException( 'no session variable' );
 		}
 
 		if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME] ) ) {
 			$_SESSION[UploadBase::SESSION_KEYNAME] = array();
 		}
 		
-		$this->baseUrl = SpecialPage::getTitleFor( 'SessionStash' )->getLocalURL(); 
+		$this->baseUrl = SpecialPage::getTitleFor( 'PrivateUploadStash' )->getLocalURL(); 
 	}
 
 	/**
@@ -67,31 +67,31 @@ class SessionStash {
 	 * Get a file and its metadata from the stash.
 	 * May throw exception if session data cannot be parsed due to schema change, or key not found.
 	 * @param {Integer} $key: key
-	 * @throws SessionStashFileNotFoundException
-	 * @throws SessionStashBadVersionException
-	 * @return {SessionStashItem} null if no such item or item out of date, or the item
+	 * @throws PrivateUploadStashFileNotFoundException
+	 * @throws PrivateUploadStashBadVersionException
+	 * @return {PrivateUploadStashItem} null if no such item or item out of date, or the item
 	 */
 	public function getFile( $key ) {
 		if ( ! preg_match( self::KEY_FORMAT_REGEX, $key ) ) {
-			throw new SessionStashBadPathException( "key '$key' is not in a proper format" );
+			throw new PrivateUploadStashBadPathException( "key '$key' is not in a proper format" );
 		} 
  
 		if ( !isset( $this->files[$key] ) ) {
 			if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME][$key] ) ) {
-				throw new SessionStashFileNotFoundException( "key '$key' not found in session" );
+				throw new PrivateUploadStashFileNotFoundException( "key '$key' not found in session" );
 			}
 
 			$data = $_SESSION[UploadBase::SESSION_KEYNAME][$key];
 			// guards against PHP class changing while session data doesn't
 			if ($data['version'] !== UploadBase::SESSION_VERSION ) {
-				throw new SessionStashBadVersionException( $data['version'] . " does not match current version " . UploadBase::SESSION_VERSION );
+				throw new PrivateUploadStashBadVersionException( $data['version'] . " does not match current version " . UploadBase::SESSION_VERSION );
 			}
 		
 			// separate the stashData into the path, and then the rest of the data
 			$path = $data['mTempPath'];
 			unset( $data['mTempPath'] );
 
-			$file = new SessionStashFile( $this, $this->repo, $path, $key, $data );
+			$file = new PrivateUploadStashFile( $this, $this->repo, $path, $key, $data );
 			
 			$this->files[$key] = $file;
 
@@ -107,13 +107,13 @@ class SessionStash {
 	 * @param {String} $path: path to file you want stashed
 	 * @param {Array} $data: optional, other data you want associated with the file. Do not use 'mTempPath', 'mFileProps', 'mFileSize', or 'version' as keys here
 	 * @param {String} $key: optional, unique key for this file in this session. Used for directory hashing when storing, otherwise not important
-	 * @throws SessionStashBadPathException
-	 * @throws SessionStashFileException
-	 * @return {null|SessionStashFile} file, or null on failure
+	 * @throws PrivateUploadStashBadPathException
+	 * @throws PrivateUploadStashFileException
+	 * @return {null|PrivateUploadStashFile} file, or null on failure
 	 */
 	public function stashFile( $path, $data = array(), $key = null ) {
 		if ( ! file_exists( $path ) ) {
-			throw new SessionStashBadPathException( "path '$path' doesn't exist" );
+			throw new PrivateUploadStashBadPathException( "path '$path' doesn't exist" );
 		}
                 $fileProps = File::getPropsFromPath( $path );
 
@@ -124,7 +124,7 @@ class SessionStash {
 		}
 
 		if ( ! preg_match( self::KEY_FORMAT_REGEX, $key ) ) {
-			throw new SessionStashBadPathException( "key '$key' is not in a proper format" );
+			throw new PrivateUploadStashBadPathException( "key '$key' is not in a proper format" );
 		} 
 
 		// if not already in a temporary area, put it there 
@@ -142,7 +142,7 @@ class SessionStash {
 					$error = array( 'unknown', 'no error recorded' );
 				}
 			}
-			throw new SessionStashFileException( "error storing file in '$path': " . implode( '; ', $error ) );
+			throw new PrivateUploadStashFileException( "error storing file in '$path': " . implode( '; ', $error ) );
 		}
 		$stashPath = $status->value;
 		 		
@@ -165,7 +165,7 @@ class SessionStash {
 
 }
 
-class SessionStashFile extends UnregisteredLocalFile {
+class PrivateUploadStashFile extends UnregisteredLocalFile {
 	private $sessionStash;
 	private $sessionKey;
 	private $sessionData;
@@ -174,13 +174,13 @@ class SessionStashFile extends UnregisteredLocalFile {
 	/**
 	 * A LocalFile wrapper around a file that has been temporarily stashed, so we can do things like create thumbnails for it
 	 * Arguably UnregisteredLocalFile should be handling its own file repo but that class is a bit retarded currently
-	 * @param {SessionStash} $stash: SessionStash, useful for obtaining config, stashing transformed files
+	 * @param {PrivateUploadStash} $stash: PrivateUploadStash, useful for obtaining config, stashing transformed files
 	 * @param {FileRepo} $repo: repository where we should find the path
 	 * @param {String} $path: path to file
 	 * @param {String} $key: key to store the path and any stashed data under
 	 * @param {String} $data: any other data we want stored with this file
-	 * @throws SessionStashBadPathException
-	 * @throws SessionStashFileNotFoundException
+	 * @throws PrivateUploadStashBadPathException
+	 * @throws PrivateUploadStashFileNotFoundException
 	 */
 	public function __construct( $stash, $repo, $path, $key, $data ) { 
 		$this->sessionStash = $stash;
@@ -196,12 +196,12 @@ class SessionStashFile extends UnregisteredLocalFile {
 		$repoTempPath = $repo->getZonePath( 'temp' );
 		if ( ( ! $repo->validateFilename( $path ) ) || 
 				( strpos( $path, $repoTempPath ) !== 0 ) ) {
-			throw new SessionStashBadPathException( "path '$path' is not valid or is not in repo temp area: '$repoTempPath'" );
+			throw new PrivateUploadStashBadPathException( "path '$path' is not valid or is not in repo temp area: '$repoTempPath'" );
 		}
 
 		// check if path exists! and is a plain file.
 		if ( ! $repo->fileExists( $path, FileRepo::FILES_ONLY ) ) {
-			throw new SessionStashFileNotFoundException( "cannot find path '$path'" );
+			throw new PrivateUploadStashFileNotFoundException( "cannot find path '$path'" );
 		}
 
 		parent::__construct( false, $repo, $path, false );
@@ -252,7 +252,7 @@ class SessionStashFile extends UnregisteredLocalFile {
 		}
 
 		if ( is_null( $extension ) ) {
-			throw new SessionStashFileException( "extension '$extension' is null" );
+			throw new PrivateUploadStashFileException( "extension '$extension' is null" );
 		}
 
 		$this->extension = parent::normalizeExtension( $extension );
@@ -398,9 +398,9 @@ class SessionStashFile extends UnregisteredLocalFile {
 
 }
 
-class SessionStashNotAvailableException extends MWException {};
-class SessionStashFileNotFoundException extends MWException {};
-class SessionStashBadPathException extends MWException {};
-class SessionStashBadVersionException extends MWException {};
-class SessionStashFileException extends MWException {};
+class PrivateUploadStashNotAvailableException extends MWException {};
+class PrivateUploadStashFileNotFoundException extends MWException {};
+class PrivateUploadStashBadPathException extends MWException {};
+class PrivateUploadStashBadVersionException extends MWException {};
+class PrivateUploadStashFileException extends MWException {};
 
