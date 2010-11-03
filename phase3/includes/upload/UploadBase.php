@@ -600,7 +600,7 @@ abstract class UploadBase {
 	}
 
 	/**
-	 * NOTE: Probably should be deprecated in favor of PrivateUploadStash, but this is sometimes
+	 * NOTE: Probably should be deprecated in favor of UploadStash, but this is sometimes
 	 * called outside that context.
 	 *
 	 * Stash a file in a temporary directory for later processing
@@ -632,7 +632,7 @@ abstract class UploadBase {
 	 * @return {File}: stashed file
 	 */
 	public function stashSessionFile( $key = null ) { 
-		$stash = new PrivateUploadStash();
+		$stash = new UploadStash();
 		$data = array( 
 			'mFileProps' => $this->mFileProps
 		);
