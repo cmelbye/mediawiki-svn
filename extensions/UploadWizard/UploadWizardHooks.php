@@ -1,40 +1,62 @@
 <?php 
 
+/**
+ * Contains list of related resources and hooks which anticipate the use of Resource Loader, whenever that is released
+ */
 class UploadWizardHooks {
 	
-	/* Protected Static Members */
-	
-	protected static $modules = array(
+	/* We define scripts here for Resource Loader, but in the meantime we are going to load these the old-fashioned way
+	   (see SpecialUploadWizard.php).
+
+	   So this list of scripts has to be topologically-sorted by hand. That is, the depended-upon stuff comes first. 
+	   There can be no circular dependencies. */
+
+	public static $modules = array(
 		'ext.uploadWizard' => array(
 			'scripts' => array(
+
+				// jquery interface helpers
 				'extensions/UploadWizard/resources/jquery/jquery.tipsy.js',
 				'extensions/UploadWizard/resources/jquery/jquery.tipsyPlus.js',
 				'extensions/UploadWizard/resources/jquery/jquery.morphCrossfade.js',
 				'extensions/UploadWizard/resources/jquery/jquery.validate.js',
 				'extensions/UploadWizard/resources/jquery/jquery.arrowSteps.js',
-				'extensions/UploadWizard/resources/jquery/jquery.mwCoolCats.js',
 				'extensions/UploadWizard/resources/jquery/jquery.autocomplete.js',
 				'extensions/UploadWizard/resources/jquery/jquery.spinner.js',
-				'extensions/UploadWizard/resources/mw.js',
+
+				// mediawiki-specific interface helper (relies on mediawiki globals)
+				'extensions/UploadWizard/resources/jquery/jquery.mwCoolCats.js',
+
+				// common utilities
+				'extensions/UploadWizard/resources/mw.js',  // <-- obsolete?
 				'extensions/UploadWizard/resources/mw.Log.js',
 				'extensions/UploadWizard/resources/mw.Utilities.js',
 				'extensions/UploadWizard/resources/mw.UtilitiesTime.js',
 				'extensions/UploadWizard/resources/mw.Uri.js',
 				'extensions/UploadWizard/resources/mw.Api.js',
 				'extensions/UploadWizard/resources/mw.Api.edit.js',
+				'extensions/UploadWizard/resources/mw.Title.js',
+
+				// message parsing
 				'extensions/UploadWizard/resources/language/mw.Language.js',
 				'extensions/UploadWizard/resources/language/mw.Parser.js',
 				'extensions/UploadWizard/resources/mw.LanguageUpWiz.js',
+
+				// workhorse libraries
 				'extensions/UploadWizard/resources/mw.IframeTransport.js',
 				'extensions/UploadWizard/resources/mw.ApiUploadHandler.js',
 				'extensions/UploadWizard/resources/mw.DestinationChecker.js',
+				'extensions/UploadWizard/resources/mw.UploadWizardUtil.js',
+
+				// interface libraries
 				'extensions/UploadWizard/resources/mw.GroupProgressBar.js', 
-				'extensions/UploadWizard/resources/mw.Title.js',
-				'extensions/UploadWizard/resources/mw.UploadWizard.js',
+
+				// UploadWizard specific abstractions
 				'extensions/UploadWizard/resources/mw.UploadWizardDeed.js',
 				'extensions/UploadWizard/resources/mw.UploadWizardLicenseInput.js',
-				'extensions/UploadWizard/resources/mw.UploadWizardUtil.js',
-				'extensions/UploadWizard/UploadWizardPage.js',
+				
+				// launcher
+				'extensions/UploadWizard/UploadWizardPage.js'
 			),
 			'languageScripts' => array(
 				'am' => 'extensions/UploadWizard/resources/languages/classes/LanguageAm.js',
@@ -81,154 +103,26 @@ class UploadWizardHooks {
 				'ti' => 'extensions/UploadWizard/resources/languages/classes/LanguageTi.js',
 				'tl' => 'extensions/UploadWizard/resources/languages/classes/LanguageTl.js',
 				'uk' => 'extensions/UploadWizard/resources/languages/classes/LanguageUk.js',
-				'wa' => 'extensions/UploadWizard/resources/languages/classes/LanguageWa.js',
+				'wa' => 'extensions/UploadWizard/resources/languages/classes/LanguageWa.js'
 			),
 			'styles' => array(
 				'extensions/UploadWizard/resources/jquery/jquery.tipsy.css',
 				'extensions/UploadWizard/resources/uploadWizard.css',
 				'extensions/UploadWizard/resources/jquery/jquery.arrowSteps.css',
-				'extensions/UploadWizard/resources/jquery/jquery.mwCoolCats.css',
+				'extensions/UploadWizard/resources/jquery/jquery.mwCoolCats.css'
 			),
-			'messages' => array(
-				'linktest',
-				'pluraltest',
-				'magictest',
-				'namespacedtest',
-				'extremelycomplextest',
-				'internallinktest',
-				'uploadwizard',
-				'uploadwizard-desc',
-				'mwe-loading-upwiz',
-				'mwe-upwiz-code-unknown',
-				'mwe-upwiz-step-file',
-				'mwe-upwiz-step-deeds',
-				'mwe-upwiz-step-details',
-				'mwe-upwiz-step-thanks',
-				'mwe-upwiz-intro',
-				'mwe-upwiz-add-file-n',
-				'mwe-upwiz-add-file-0',
-				'mwe-upwiz-browse',
-				'mwe-upwiz-transported',
-				'mwe-upwiz-click-here',
-				'mwe-upwiz-uploading',
-				'mwe-upwiz-editing',
-				'mwe-upwiz-remove-upload',
-				'mwe-upwiz-remove-description',
-				'mwe-upwiz-upload',
-				'mwe-upwiz-upload-count',
-				'mwe-upwiz-progressbar-uploading',
-				'mwe-upwiz-finished',
-				'mwe-upwiz-secs-remaining',
-				'mwe-upwiz-mins-secs-remaining',
-				'mwe-upwiz-hrs-mins-secs-remaining',
-				'mwe-upwiz-deeds-intro',
-				'mwe-upwiz-deeds-macro-prompt',
-				'mwe-upwiz-deeds-custom-prompt',
-				'mwe-upwiz-details-intro',
-				'mwe-upwiz-source-ownwork',
-				'mwe-upwiz-source-ownwork-assert',
-				'mwe-upwiz-source-ownwork-assert-custom',
-				'mwe-upwiz-source-ownwork-assert-note',
-				'mwe-upwiz-source-permission',
-				'mwe-upwiz-source-thirdparty',
-				'mwe-upwiz-source-thirdparty-intro',
-				'mwe-upwiz-source-thirdparty-custom-multiple-intro',
-				'mwe-upwiz-source-thirdparty-license',
-				'mwe-upwiz-source-thirdparty-accept',
-				'mwe-upwiz-source-custom',
-				'mwe-upwiz-more-options',
-				'mwe-upwiz-fewer-options',
-				'mwe-upwiz-desc',
-				'mwe-upwiz-desc-add-n',
-				'mwe-upwiz-desc-add-0',
-				'mwe-upwiz-title',
-				'mwe-upwiz-categories-intro',
-				'mwe-upwiz-categories-another',
-				'mwe-upwiz-previously-uploaded',
-				'mwe-upwiz-about-this-work',
-				'mwe-upwiz-media-type',
-				'mwe-upwiz-date-created',
-				'mwe-upwiz-location',
-				'mwe-upwiz-copyright-info',
-				'mwe-upwiz-author',
-				'mwe-upwiz-license',
-				'mwe-upwiz-about-format',
-				'mwe-upwiz-autoconverted',
-				'mwe-upwiz-filename-tag',
-				'mwe-upwiz-other',
-				'mwe-upwiz-other-prefill',
-				'mwe-upwiz-showall',
-				'mwe-upwiz-source',
-				'mwe-upwiz-macro-edit-intro',
-				'mwe-upwiz-macro-edit',
-				'mwe-upwiz-thanks-intro',
-				'mwe-upwiz-thanks-explain',
-				'mwe-upwiz-thanks-link',
-				'mwe-upwiz-thanks-wikitext',
-				'mwe-upwiz-thanks-url',
-				'mwe-upwiz-upload-error-bad-filename-extension',
-				'mwe-upwiz-upload-error-duplicate',
-				'mwe-upwiz-upload-error-stashed-anyway',
-				'mwe-upwiz-ok',
-				'mwe-upwiz-cancel',
-				'mwe-upwiz-change',
-				'mwe-upwiz-fileexists-replace',
-				'mwe-upwiz-fileexists',
-				'mwe-upwiz-thumbnail-more',
-				'mwe-upwiz-overwrite',
-				'mwe-copyright-macro',
-				'mwe-copyright-custom',
-				'mwe-upwiz-next',
-				'mwe-upwiz-next-file',
-				'mwe-upwiz-next-deeds',
-				'mwe-upwiz-next-details',
-				'mwe-upwiz-home',
-				'mwe-upwiz-upload-another',
-				'mwe-prevent-close',
-				'mwe-upwiz-files-complete',
-				'mwe-upwiz-tooltip-author',
-				'mwe-upwiz-tooltip-source',
-				'mwe-upwiz-tooltip-sign',
-				'mwe-upwiz-tooltip-title',
-				'mwe-upwiz-tooltip-description',
-				'mwe-upwiz-tooltip-other',
-				'mwe-upwiz-tooltip-more-info',
-				'mwe-upwiz-file-need-file',
-				'mwe-upwiz-file-need-start',
-				'mwe-upwiz-file-need-complete',
-				'mwe-upwiz-deeds-need-deed',
-				'mwe-upwiz-deeds-need-license',
-				'mwe-upwiz-license-incompatible-pd',
-				'mwe-upwiz-license-incompatible-cc',
-				'mwe-upwiz-license-show-all',
-				'mwe-upwiz-license-show-recommended',
-				'mwe-upwiz-error-signature-blank',
-				'mwe-upwiz-error-signature-too-long',
-				'mwe-upwiz-error-signature-too-short',
-				'mwe-upwiz-error-signature-bad-chars',
-				'mwe-upwiz-error-blank',
-				'mwe-upwiz-error-too-long',
-				'mwe-upwiz-error-too-short',
-				'mwe-upwiz-error-bad-chars',
-				'mwe-upwiz-error-date',
-				'mwe-upwiz-license-cc-by-sa-3.0',
-				'mwe-upwiz-license-cc-by-3.0',
-				'mwe-upwiz-license-cc-zero',
-				'mwe-upwiz-license-gfdl',
-				'mwe-upwiz-license-pd-us',
-				'mwe-upwiz-categories',
-				'mwe-upwiz-categories-add',
-				'mwe-upwiz-category-remove',
+			'messages' => array( 
+				// see UploadWizard.i18n.php
 			),
 			'dependencies' => array(
-				'jquery.ui.datepicker',
-				'jquery.ui.progressbar',
+				// see SpecialUploadWizard.php
+				// see SpecialUploadWizard.php
 			),
-			'group' => 'ext.uploadWizard',
+			'group' => 'ext.uploadWizard'
 		),
 		'ext.uploadWizard.tests' => array(
 			'scripts' => array(
-				'extensions/UploadWizard/resources/mw.MockUploadHandler.js',
+				'extensions/UploadWizard/resources/mw.MockUploadHandler.js'
 			),
 		),
 	);
