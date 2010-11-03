@@ -8,7 +8,16 @@
  * @ingroup Upload
  */
 
-/* This class is temporary, until Resource Loader is available. */
+/* This class is temporary.
+  
+   With the rejection of JS2 and reassignment of Michael Dale, there seems to be no currently supported 
+   resource loader (July 2010), but UploadWizard already relies on things like 
+   pluralization in messages which were only available in JS2. Also we have problems with how JS2 loads 
+   things in IE6; there are bugs which neither I nor Trevor Parscal can figure out. So, we are temporarily 
+   falling back to a simpler method of loading messages, which will hopefully 
+   be superseded by the new loader Roan Kattouw & Trevor Parscal are writing. 
+
+*/
 
 class UploadWizardMessages {
 
