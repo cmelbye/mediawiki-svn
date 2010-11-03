@@ -57,7 +57,40 @@ class SpecialUploadWizard extends SpecialPage {
 	
 			
 		$this->addJsVars( $subPage );
-		$wgOut->addModules( 'ext.uploadWizard' );
+		if ( $wgResourceLoader ) {
+			$wgOut->addModules( 'ext.uploadWizard' );
+		} else {
+			/* Doing resource loading the old-fashioned way for now until Resource Loader or something becomes the standard.
+			   We anticipate that Resource Loader will be available sometime in late 2010 or early 2011, 
+			   so we define scripts in the hooks that Resource Loader will expect, over in UploadWizardHooks.php.
+			*/
+			$module = UploadWizardHooks::$modules['ext.uploadWizard'];
+
+			// in ResourceLoader, these will probably have names rather than explicit script paths, or be automatically loaded
+			$dependencies = array(
+				"extensions/UploadWizard/resources/jquery.ui/ui/ui.core.js",	
+				'extensions/UploadWizard/resources/jquery.ui/ui/ui.datepicker.js',
+				'extensions/UploadWizard/resources/jquery.ui/ui/ui.progressbar.js'
+			);
+
+			$scripts = array_merge( $dependencies, $module['scripts'] );
+			if ( $wgLanguageCode !== 'en' && isset( $module['languageScripts'][$wgLanguageCode] ) ) {
+				$scripts[] = $module['languageScripts'][$wgLanguageCode];
+			}
+			wfDebug( print_r( $scripts, 1 ) );
+			foreach ( $scripts as $script ) {
+				$wgOut->addScriptFile( $wgScriptPath . "/" . $script );
+			}
+
+			// after scripts, get the i18n.php stuff
+			$wgOut->addInlineScript( UploadWizardMessages::getMessagesJs( 'UploadWizard', $wgLang ) );
+	
+			// TODO RTL
+			foreach ( $module['styles'] as $style ) {
+				$wgOut->addStyle( "/" . $style, '', '', 'ltr' );
+			}
+	
+		}
 		
 		// where the uploadwizard will go
 		// TODO import more from UploadWizard's createInterface call.
