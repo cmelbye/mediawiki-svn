@@ -21,6 +21,23 @@ function clearField( field, defaultValue ) {
 		field.style.color = 'black';
 	}
 }
+function clearField2( field, defaultValue ) {
+	if (field.value != defaultValue) {
+		field.value = '';
+		field.style.color = 'black';
+	}
+}
+
+function switchToPayPal() {
+	document.getElementById('payflow-table-cc').style.display = 'none';
+	document.getElementById('payflowpro_gateway-form-submit').style.display = 'none';
+	document.getElementById('payflowpro_gateway-form-submit-paypal').style.display = 'block';
+}
+function switchToCreditCard() {
+	document.getElementById('payflow-table-cc').style.display = 'table';
+	document.getElementById('payflowpro_gateway-form-submit').style.display = 'block';
+	document.getElementById('payflowpro_gateway-form-submit-paypal').style.display = 'none';
+}
 
 function validate_form( form ) {
 	var msg = [ 'EmailAdd', 'Fname', 'Lname', 'Street', 'City', 'State', 'Zip', 'CardNum', 'Cvv' ];
