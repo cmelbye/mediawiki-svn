@@ -116,6 +116,17 @@ $messages['ar'] = array(
 	'unreviewed-recent' => '(أقل من ساعة واحدة)',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'unreviewed-category' => 'ܣܕܪܐ:',
+	'unreviewed-diff' => 'ܬܢܝ',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|ܫܥܬܐ|ܫܥܬ̈ܐ}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|ܝܘܡܐ|ܝܘܡܬ̈ܐ}})',
+	'unreviewed-recent' => '(ܒܨܝܪ ܡܢ ܚܕܐ ܫܥܬܐ)',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  * @author Ramsis II
@@ -164,7 +175,25 @@ $messages['bcc'] = array(
  */
 $messages['bcl'] = array(
 	'unreviewed-category' => 'Kategorya:',
-	'unreviewed-diff' => 'Mga pagbabâgo',
+	'unreviewed-diff' => 'Mga pagbabàgo',
+);
+
+/** Belarusian (Беларуская)
+ * @author Хомелка
+ */
+$messages['be'] = array(
+	'unreviewedpages' => 'Неправераныя старонкі',
+	'unreviewed-legend' => 'Пералік неправераных старонак',
+	'unreviewed-category' => 'Катэгорыя:',
+	'unreviewed-diff' => 'праверыць',
+	'unreviewed-unwatched' => '(не сочаць)',
+	'unreviewed-watched' => '({{PLURAL:$1|сочыць $1 актыўны ўдзельнік|сочыць $1 актыўных удзельніка|сочаць $1 актыўных удзельнікаў}})',
+	'unreviewed-list' => 'На гэтай старонцы пералічаны артыкулы, якія не былі ацэненыя на паказаны ўзровень.',
+	'unreviewed-none' => 'У сапраўдны момант няма старонак, якія задавальняюць названым умовам',
+	'unreviewed-viewing' => '(правяраецца)',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|гадзіну|гадзіны|гадзін}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|дзень|дня|дзён}})',
+	'unreviewed-recent' => '(Менш 1 гадзіны)',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -270,6 +299,11 @@ $messages['ca'] = array(
 	'unreviewed-recent' => "(menys d'una hora)",
 );
 
+/** Sorani (کوردی) */
+$messages['ckb'] = array(
+	'unreviewed-category' => 'پۆل:',
+);
+
 /** Czech (Česky)
  * @author Danny B.
  * @author Li-sung
@@ -299,10 +333,15 @@ $messages['cu'] = array(
 );
 
 /** Danish (Dansk)
+ * @author Froztbyte
  * @author Jon Harald Søby
  */
 $messages['da'] = array(
 	'unreviewed-category' => 'Kategori:',
+	'unreviewed-unwatched' => '(uovervåget)',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|time|timer}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|dag|dage}})',
+	'unreviewed-recent' => '(mindre end 1 time)',
 );
 
 /** German (Deutsch)
@@ -429,11 +468,13 @@ $messages['es'] = array(
  */
 $messages['et'] = array(
 	'unreviewedpages' => 'Ülevaatamata leheküljed',
-	'unreviewed-legend' => 'Ülevaatamata sisulehekülgede loend',
+	'unreviewed-legend' => 'Ülevaatamata sisulehekülgede loetlemine',
 	'unreviewed-category' => 'Kategooria:',
-	'unreviewed-diff' => 'arvusta',
+	'unreviewed-diff' => 'vaata üle',
 	'unreviewed-unwatched' => '(jälgimata)',
 	'unreviewed-watched' => '($1 aktiivse {{PLURAL:$1|kasutaja}} jälgitav)',
+	'unreviewed-list' => 'See lehekülg loetleb sisuleheküljed, mis pole kindlaks määratud tasemeni ülevaadatud.',
+	'unreviewed-none' => 'Sellistele kriteeriumitele vastavad leheküljed puuduvad praegu.',
 	'unreviewed-viewing' => '(ülevaatusel)',
 	'unreviewed-hours' => '($1 {{PLURAL:$1|tund|tundi}})',
 	'unreviewed-days' => '($1 {{PLURAL:$1|päev|päeva}})',
@@ -604,6 +645,11 @@ $messages['gsw'] = array(
 	'unreviewed-recent' => '(weniger wie ei Stund)',
 );
 
+/** Hausa (هَوُسَ) */
+$messages['ha'] = array(
+	'unreviewed-category' => 'Rukuni:',
+);
+
 /** Hawaiian (Hawai`i)
  * @author Singularity
  */
@@ -648,6 +694,7 @@ $messages['hi'] = array(
 /** Croatian (Hrvatski)
  * @author Dalibor Bosits
  * @author Ex13
+ * @author Excaliboor
  * @author SpeedyGonsales
  */
 $messages['hr'] = array(
@@ -657,7 +704,7 @@ $messages['hr'] = array(
 	'unreviewed-diff' => 'ocijeni',
 	'unreviewed-unwatched' => '(nepraćeno)',
 	'unreviewed-watched' => '($1 {{PLURAL:$1|aktivni suradnik|aktivnih suradnika}} prati)',
-	'unreviewed-list' => 'Ovo je popis sadržaja stranica koji nisu ocijenjeni.',
+	'unreviewed-list' => 'Ovdje se navode stranice sa sadržajem koje nisu pregledane do određene razine.',
 	'unreviewed-none' => 'Trenutačno nema stranica koje zadovoljavaju ovim kriterijima',
 	'unreviewed-viewing' => '(u ocijenjivanju)',
 	'unreviewed-hours' => '($1 {{PLURAL:$1|sat|sata|sati}})',
@@ -728,13 +775,14 @@ $messages['ia'] = array(
 
 /** Indonesian (Bahasa Indonesia)
  * @author Bennylin
+ * @author IvanLanin
  * @author Rex
  */
 $messages['id'] = array(
 	'unreviewedpages' => 'Halaman yang belum ditinjau',
 	'unreviewed-legend' => 'Daftar halaman isi yang belum ditinjau',
 	'unreviewed-category' => 'Kategori:',
-	'unreviewed-diff' => 'meninjau',
+	'unreviewed-diff' => 'tinjau',
 	'unreviewed-unwatched' => '(tidak dipantau)',
 	'unreviewed-watched' => '(dipantau $1 {{PLURAL:$1|pengguna|pengguna}} aktif)',
 	'unreviewed-list' => 'Halaman berikut berisi daftar halaman yang belum ditinjau hingga tingkat tertentu.',
@@ -743,6 +791,18 @@ $messages['id'] = array(
 	'unreviewed-hours' => '($1 {{PLURAL:$1|jam|jam}})',
 	'unreviewed-days' => '($1 {{PLURAL:$1|hari|hari}})',
 	'unreviewed-recent' => '(kurang dari 1 jam)',
+);
+
+/** Igbo (Igbo)
+ * @author Ukabia
+ */
+$messages['ig'] = array(
+	'unreviewed-category' => 'Ébéonọr:',
+	'unreviewed-diff' => 'lèwárí',
+	'unreviewed-unwatched' => '(ēléghịdị)',
+	'unreviewed-hours' => '({{PLURAL:$1|àmànì|àmànì}} $1)',
+	'unreviewed-days' => '({{PLURAL:$1|chi|chi}} $1)',
+	'unreviewed-recent' => '(bènata àmànì 1)',
 );
 
 /** Ido (Ido)
@@ -825,11 +885,18 @@ $messages['jv'] = array(
 
 /** Georgian (ქართული)
  * @author BRUTE
+ * @author გიორგიმელა
  */
 $messages['ka'] = array(
+	'unreviewedpages' => 'შეუმოწმებელი გვერდები',
+	'unreviewed-legend' => 'შეუმოწმებელი სტატიების სია',
 	'unreviewed-category' => 'კატეგორია:',
 	'unreviewed-diff' => 'შემოწმება',
-	'unreviewed-none' => 'ჯერჯერობით არ არის გვერდი, რომელიც შეესაბამება ამ კრიტერიუმებს',
+	'unreviewed-unwatched' => '(არავის კონტროლის სიაში არ არის)',
+	'unreviewed-watched' => '({{PLURAL:$1|აკონტროლებს $1 აქტიური მომხმარებელი|აკონტროლებენ $1 აქტიური მომხმარებლები}})',
+	'unreviewed-list' => 'ამ გვერდებზე მოყვანილია შეუფასებელი სტატიევბი.',
+	'unreviewed-none' => 'ამჟამად არ არის გვერდი, რომელიც შეესაბამება ამ კრიტერიუმებს',
+	'unreviewed-viewing' => '(მიმდინარეობს შემოწმება)',
 	'unreviewed-hours' => '($1 {{PLURAL:$1|საათი|საათი}})',
 	'unreviewed-days' => '($1 {{PLURAL:$1|დღე|დღე}})',
 	'unreviewed-recent' => '(1 საათზე ნაკლები)',
@@ -927,7 +994,7 @@ $messages['ksh'] = array(
  * @author Kw-Moon
  */
 $messages['kw'] = array(
-	'unreviewed-category' => 'Klass:',
+	'unreviewed-category' => 'Class:',
 );
 
 /** Latin (Latina)
@@ -963,9 +1030,17 @@ $messages['lb'] = array(
  */
 $messages['li'] = array(
 	'unreviewedpages' => "Ónbekeke pazjena's",
+	'unreviewed-legend' => 'Lies mit ónbekeke paasjes',
 	'unreviewed-category' => 'Categorie:',
-	'unreviewed-diff' => 'Wieziginge',
-	'unreviewed-list' => "Dees pazjena tuunt pazjena's die nag ónbekeke zeen.",
+	'unreviewed-diff' => 'kiek nao',
+	'unreviewed-unwatched' => '(neet oppe volglies)',
+	'unreviewed-watched' => '($1 actieve {{PLURAL:$1|gebroeker|gebroekers}} kiekendj)',
+	'unreviewed-list' => "Dees pazjena tuunt pazjena's die nag ónbekeke zeen toet t aangegaeve nivo.",
+	'unreviewed-none' => "'t Göf gein paasjes die aan dees kriteria vóldoon",
+	'unreviewed-viewing' => '(wörd bekeke)',
+	'unreviewed-hours' => '$1 {{PLURAL:$1|oer|oer}}',
+	'unreviewed-days' => '$1 {{PLURAL:$1|daag|daag}}',
+	'unreviewed-recent' => '(mènder es 1 oer)',
 );
 
 /** Lithuanian (Lietuvių)
@@ -1053,6 +1128,7 @@ $messages['ms'] = array(
 	'unreviewed-none' => 'Tiada laman yang memenuhi kriteria ini',
 	'unreviewed-viewing' => '(dalam semakan)',
 	'unreviewed-hours' => '({{PLURAL:$1|sejam|$1 jam}})',
+	'unreviewed-days' => '($1 hari)',
 	'unreviewed-recent' => '(kurang drpd. 1 jam)',
 );
 
@@ -1101,6 +1177,7 @@ $messages['nl'] = array(
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
  * @author Harald Khan
  * @author Jon Harald Søby
+ * @author Nghtwlkr
  */
 $messages['nn'] = array(
 	'unreviewedpages' => 'Sider som ikkje er vortne vurderte',
@@ -1112,6 +1189,9 @@ $messages['nn'] = array(
 	'unreviewed-list' => 'Denne sida listar opp artiklar som manglar vurdering',
 	'unreviewed-none' => 'Det finst ingen sider som svarer til søkekriteria',
 	'unreviewed-viewing' => '(under vurdering)',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|time|timar}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|dag|dagar}})',
+	'unreviewed-recent' => '(mindre enn éin time)',
 );
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
@@ -1140,7 +1220,9 @@ $messages['no'] = array(
  */
 $messages['nso'] = array(
 	'unreviewed-category' => 'Sehlopha:',
-	'unreviewed-diff' => 'Diphetogo',
+	'unreviewed-diff' => 'Poeletšo',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|iri|diiri}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|letšatši|matšatši}})',
 );
 
 /** Occitan (Occitan)
@@ -1242,7 +1324,7 @@ $messages['pt'] = array(
 	'unreviewed-category' => 'Categoria:',
 	'unreviewed-diff' => 'rever',
 	'unreviewed-unwatched' => '(não vigiada)',
-	'unreviewed-watched' => '($1 {{PLURAL:$1|utilizador activo|utilizadores activos}} a vigiar)',
+	'unreviewed-watched' => '(vigiada por $1 {{PLURAL:$1|utilizador activo|utilizadores activos}})',
 	'unreviewed-list' => 'Esta página lista as páginas de conteúdo que não foram revistas até ao nível escolhido.',
 	'unreviewed-none' => 'De momento, não há páginas que se enquadrem nestes critérios',
 	'unreviewed-viewing' => '(em revisão)',
@@ -1261,7 +1343,7 @@ $messages['pt-br'] = array(
 	'unreviewed-category' => 'Categoria:',
 	'unreviewed-diff' => 'analisar',
 	'unreviewed-unwatched' => '(não-vigiada)',
-	'unreviewed-watched' => '($1 {{PLURAL:$1|utilizador ativo|utilizadores ativos}} a vigiar)',
+	'unreviewed-watched' => '(vigiada por $1 {{PLURAL:$1|usuários ativo|usuários ativos}})',
 	'unreviewed-list' => 'Esta página lista as páginas de conteúdo que não foram revisadas até ao nível escolhido.',
 	'unreviewed-none' => 'No momento não há páginas que se enquadrem nestes critérios',
 	'unreviewed-viewing' => '(sob análise)',
@@ -1328,6 +1410,22 @@ $messages['ru'] = array(
 	'unreviewed-recent' => '(менее, чем 1 час)',
 );
 
+/** Rusyn (Русиньскый)
+ * @author Gazeb
+ */
+$messages['rue'] = array(
+	'unreviewedpages' => 'Неперевірены сторінкы',
+	'unreviewed-legend' => 'Список неперевіреных статей',
+	'unreviewed-category' => 'Катеґорія:',
+	'unreviewed-diff' => 'перевірити',
+	'unreviewed-unwatched' => '(неслїдованы)',
+	'unreviewed-watched' => '({{PLURAL:$1|слїдує $1 актівный хоснователь|слїдують $1 актівны хоснователї|слїдує $1 актівных хоснователїв}})',
+	'unreviewed-viewing' => '(контролює ся)',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|година|годины|годин}})',
+	'unreviewed-days' => '($1 {{PLURAL:$1|день|днї|днів}})',
+	'unreviewed-recent' => '(менше 1 годины)',
+);
+
 /** Yakut (Саха тыла)
  * @author HalanTul
  */
@@ -1380,9 +1478,12 @@ $messages['sk'] = array(
  */
 $messages['sl'] = array(
 	'unreviewedpages' => 'Nepregledane strani',
+	'unreviewed-legend' => 'Seznam nepregledanih strani z vsebino',
 	'unreviewed-category' => 'Kategorija:',
 	'unreviewed-diff' => 'preglej',
 	'unreviewed-unwatched' => '(nespremljano)',
+	'unreviewed-watched' => '({{PLURAL:$1|spremlja $1 dejavni uporabnik|spremljata $1 dejavna uporabnika|spremljajo $1 dejavni uporabniki|spremlja $1 dejavnih uporabnikov}})',
+	'unreviewed-list' => 'Ta seznam navaja strani z vsebino, ki še niso bile pregledane do določene ravni.',
 	'unreviewed-none' => 'Trenutno ni nobene strani, ki bi ustrezala izbranim merilom',
 	'unreviewed-viewing' => '(v pregledu)',
 	'unreviewed-hours' => '($1 {{PLURAL:$1|ura|uri|ure|ur}})',
@@ -1400,17 +1501,18 @@ $messages['sq'] = array(
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
  * @author Millosh
  * @author Sasa Stefanovic
+ * @author Жељко Тодоровић
  * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
 	'unreviewedpages' => 'Непрегледане стране.',
-	'unreviewed-legend' => 'Списак непрегледаних садржајних страна.',
+	'unreviewed-legend' => 'Списак непрегледаних страница са садржајем.',
 	'unreviewed-category' => 'Категорија:',
 	'unreviewed-diff' => 'преглед',
 	'unreviewed-unwatched' => '(ненадзирано)',
 	'unreviewed-watched' => '($1 {{PLURAL:$1|активан корисник надгледа|акхивних корисника надгледају}})',
-	'unreviewed-list' => 'Ово је списак страна садржаја које још нису прегледане до наведеног нивоа.',
-	'unreviewed-none' => 'Не постоји ниједна страна која се поклапа са овим критеријима.',
+	'unreviewed-list' => 'Ово је списак страница са садржајем које још нису прегледане до наведеног нивоа.',
+	'unreviewed-none' => 'Не постоји ниједна страница која се поклапа са овим критеријумима.',
 	'unreviewed-viewing' => '(под прегледом)',
 	'unreviewed-hours' => '($1 {{PLURAL:$1|сат|сати}})',
 	'unreviewed-days' => '($1 {{PLURAL:$1|дан|дана}})',
@@ -1478,17 +1580,26 @@ $messages['sv'] = array(
 	'unreviewed-recent' => '(mindre än en timme)',
 );
 
+/** Swahili (Kiswahili) */
+$messages['sw'] = array(
+	'unreviewed-category' => 'Jamii:',
+);
+
 /** Tamil (தமிழ்)
  * @author Kanags
+ * @author TRYPPN
  */
 $messages['ta'] = array(
 	'unreviewedpages' => 'பார்வையிடப்படாத பக்கங்கள்',
 	'unreviewed-legend' => 'மீள்பார்வையிடப்படாத பகுதிகளைக் கொண்ட பக்கங்கள்',
 	'unreviewed-category' => 'பகுப்பு:',
-	'unreviewed-diff' => 'முன்தோற்றம்',
+	'unreviewed-diff' => 'மதிப்பிடு',
+	'unreviewed-unwatched' => '(கவனிக்கப்படமாட்டாது)',
 	'unreviewed-watched' => '($1 {{PLURAL:$1|பயனர்|பயனர்கள்}} பார்வையிடுகிறார்கள்)',
+	'unreviewed-list' => 'இங்கே கொடுக்கப்பட்ட பக்கங்களின் உள்ளடக்கங்களை குறிப்பிடப்பட்ட அளவுக்கு இன்னும் பரிசீலனை செய்யப்படவில்லை.',
+	'unreviewed-none' => 'தாங்கள் குறிப்பிட்ட விதிமுறைகளுக்கு உட்பட்ட பக்கங்கள் தற்சமயம் ஏதுமில்லை.',
 	'unreviewed-viewing' => '(மீள் பார்வைக்காக)',
-	'unreviewed-hours' => '($1 {{PLURAL:$1|மணித்தியாலம்|மணித்தியாலங்கள்}})',
+	'unreviewed-hours' => '($1 {{PLURAL:$1|மணி|மணிகள்}})',
 	'unreviewed-days' => '($1 {{PLURAL:$1|நாள்|நாட்கள்}})',
 	'unreviewed-recent' => '(1 மணித்தியாலத்துக்குள்)',
 );
@@ -1677,6 +1788,8 @@ $messages['vo'] = array(
 	'unreviewed-category' => 'Klad:',
 	'unreviewed-diff' => 'Votükams',
 	'unreviewed-list' => 'Su pad at palisedons yegeds no pekrütöls u labü fomams nulik no pekrütöls',
+	'unreviewed-hours' => '({{PLURAL:$1|düp|düps}} $1)',
+	'unreviewed-days' => '({{PLURAL:$1|del|dels}} $1)',
 );
 
 /** Yiddish (ייִדיש)

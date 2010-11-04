@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -29,11 +29,11 @@
 class ApiQueryFlagged extends ApiQueryBase {
 
 	public function execute() {
-		$params = $this->extractRequestParams();
 		$pageSet = $this->getPageSet();
 		$pageids = array_keys( $pageSet->getGoodTitles() );
-		if ( !$pageids )
+		if ( !$pageids ) {
 			return true;
+		}
 		
 		// Construct SQL Query
 		$this->addTables( 'flaggedpages' );
@@ -44,8 +44,7 @@ class ApiQueryFlagged extends ApiQueryBase {
 		$res = $this->select( __METHOD__ );
 
 		$result = $this->getResult();
-		$db = $this->getDB();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			$pageid = $row->fp_page_id;
 			$data = array(
 				'stable_revid' => intval( $row->fp_stable ),
@@ -56,7 +55,10 @@ class ApiQueryFlagged extends ApiQueryBase {
 				$data['pending_since'] = wfTimestamp( TS_ISO_8601, $row->fp_pending_since );
 			$result->addValue( array( 'query', 'pages', $pageid ), 'flagged', $data );
 		}
-		$db->freeResult( $res );
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {

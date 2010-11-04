@@ -87,7 +87,7 @@ class FlaggedArticle extends Article {
 	}
 
 	/**
-	 * Do edits have to be reviewed before being shown by default?
+	 * Do edits have to be reviewed before being shown by default (going live)?
      * @param int $flags, FR_MASTER
 	 * @return bool
 	 */
@@ -109,7 +109,7 @@ class FlaggedArticle extends Article {
 			$srev = $this->getStableRev( $flags );
 			if ( $srev ) {
 				if ( $flags & FR_MASTER ) {
-					$latest = $this->getTitle()->getLatestRevID( GAID_FOR_UPDATE );
+					$latest = $this->getTitle()->getLatestRevID( Title::GAID_FOR_UPDATE );
 				} else {
 					$latest = $this->getLatest();
 				}
@@ -169,7 +169,7 @@ class FlaggedArticle extends Article {
 	* @return bool
 	*/
 	public function stableVersionIsSynced() {
-		global $wgUser, $wgMemc, $wgEnableParserCache, $wgParserCacheExpireTime;
+		global $wgMemc, $wgParserCacheExpireTime;
 		$srev = $this->getStableRev();
 		if ( !$srev ) {
 			return true;
@@ -243,7 +243,7 @@ class FlaggedArticle extends Article {
 		if ( !FlaggedRevs::inReviewNamespace( $this->getTitle() ) ) {
 			return false;
 		}
-        return !( FlaggedRevs::forDefaultVersionOnly()
+        return !( FlaggedRevs::useOnlyIfProtected()
             && !$this->isStableShownByDefault( $flags ) );
 	}
 

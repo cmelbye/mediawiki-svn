@@ -35,13 +35,13 @@ function autoreview_current( $user, $db ) {
 			# Is it already reviewed?
 			$frev = FlaggedRevision::newFromTitle( $title, $row->page_latest, FR_MASTER );
 			# Should exist, but to be safe...
-			if( !$frev && $rev && FlaggedRevs::inReviewNamespace($title) ) {
-				$text = $rev->getText();
+			if( !$frev && $rev && FlaggedRevs::inReviewNamespace( $title ) ) {
 				$article = new Article( $title );
-				FlaggedRevs::autoReviewEdit( $article, $user, $text, $rev, $flags, true );
+				$db->begin();
+				FlaggedRevs::autoReviewEdit( $article, $user, $rev, $flags, true );
+				FlaggedRevs::HTMLCacheUpdates( $article->getTitle() );
+				$db->commit();
 				$changed++;
-				# Purge squid for this page only
-				$article->getTitle()->purgeSquid();
 			}
 			$count++;
 		}

@@ -38,7 +38,7 @@ class Stabilization extends UnlistedSpecialPage
 		# Set page title
 		$this->setHeaders();
 		
-		$this->form = new PageStabilityGeneralForm();
+		$this->form = new PageStabilityGeneralForm( $wgUser );
 		$form = $this->form; // convenience
 		# Target page
 		$title = Title::newFromURL( $wgRequest->getVal( 'page', $par ) );
@@ -57,8 +57,7 @@ class Stabilization extends UnlistedSpecialPage
 		# Expiry
 		$form->setExpiry( $wgRequest->getText( 'mwStabilize-expiry' ) );
 		$form->setExpirySelection( $wgRequest->getVal( 'wpExpirySelection' ) );
-		# Precedence
-		$form->setPrecedence( $wgRequest->getInt( 'wpStableconfig-select' ) );
+		# Default version
 		$form->setOverride( (int)$wgRequest->getBool( 'wpStableconfig-override' ) );
 		# Get autoreview restrictions...
 		$form->setAutoreview( $wgRequest->getVal( 'mwProtect-level-autoreview' ) );
@@ -152,21 +151,6 @@ class Stabilization extends UnlistedSpecialPage
 				'<br />' . "\n" .
 			Xml::radioLabel( wfMsg( 'stabilization-def2' ), 'wpStableconfig-override', 0,
 				'default-current', 0 == $form->getOverride(), $this->disabledAttr() ) . "\n" .
-			Xml::closeElement( 'fieldset' ) .
-
-			Xml::fieldset( wfMsg( 'stabilization-select' ), false ) .
-			Xml::radioLabel( wfMsg( 'stabilization-select3' ), 'wpStableconfig-select',
-				FLAGGED_VIS_PRISTINE, 'stable-select3',
-				FLAGGED_VIS_PRISTINE == $form->getPrecedence(),
-				$this->disabledAttr() ) . '<br />' . "\n" .
-			Xml::radioLabel( wfMsg( 'stabilization-select1' ), 'wpStableconfig-select',
-				FLAGGED_VIS_QUALITY, 'stable-select1',
-				FLAGGED_VIS_QUALITY == $form->getPrecedence(),
-				$this->disabledAttr() ) . '<br />' . "\n" .
-			Xml::radioLabel( wfMsg( 'stabilization-select2' ), 'wpStableconfig-select',
-				FLAGGED_VIS_LATEST, 'stable-select2',
-				FLAGGED_VIS_LATEST == $form->getPrecedence(),
-				$this->disabledAttr() ) . '<br />' . "\n" .
 			Xml::closeElement( 'fieldset' );
 		# Add autoreview restriction select
 		$s .= Xml::fieldset( wfMsg( 'stabilization-restrict' ), false ) .
@@ -250,9 +234,9 @@ class Stabilization extends UnlistedSpecialPage
 						Xml::submitButton( wfMsg( 'stabilization-submit' ) ) .
 					'</td>
 				</tr>' . Xml::closeElement( 'table' ) .
-				Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() ) .
-				Xml::hidden( 'page', $title->getPrefixedText() ) .
-				Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+				Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() ) .
+				Html::hidden( 'page', $title->getPrefixedText() ) .
+				Html::hidden( 'wpEditToken', $wgUser->editToken() );
 		} else {
 			$s .= Xml::closeElement( 'table' );
 		}
@@ -269,6 +253,7 @@ class Stabilization extends UnlistedSpecialPage
 	}
 
 	protected function buildSelector( $selected ) {
+		global $wgUser;
 		$allowedLevels = array();
 		$levels = FlaggedRevs::getRestrictionLevels();
 		array_unshift( $levels, '' ); // Add a "none" level
@@ -276,7 +261,7 @@ class Stabilization extends UnlistedSpecialPage
 			# Don't let them choose levels they can't set, 
 			# but *show* them all when the form is disabled.
 			if ( $this->form->isAllowed()
-				&& !FlaggedRevs::userCanSetAutoreviewLevel( $key ) )
+				&& !FlaggedRevs::userCanSetAutoreviewLevel( $wgUser, $key ) )
 			{
 				continue;
 			}

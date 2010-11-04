@@ -279,7 +279,6 @@ span.fr-under-review {
 .fr-rating-controls,
 .fr-rating-controls-disabled {
 	vertical-align: middle;
-	line-height: 1em;
 }
 
 .fr-rating-controls-disabled {
@@ -329,4 +328,19 @@ span.fr-under-review {
 
 .fr-hiddenform {
 	display: none;
+}
+
+.loading { 
+	display: block;
+	color: #666666; 
+	padding-left: 32px;
+	height: 32px;
+}
+.spinner {
+	background-image: url(img/loading-small.gif) !important;
+	background-position: left center;
+	background-repeat: no-repeat;
+	margin-left: 0.5em;
+	margin-top: -0.25em;
+	float: left;
 }
