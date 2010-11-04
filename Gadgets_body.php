@@ -18,81 +18,13 @@ class Gadgets {
 		//update cache if MediaWiki:Gadgets-definition was edited
 		$title = $article->mTitle;
 		if( $title->getNamespace() == NS_MEDIAWIKI && $title->getText() == 'Gadgets-definition' ) {
-			self::loadStructured( $text );
+			Gadget::loadStructuredList( $text );
 		}
 		return true;
 	}
 
-	private static function load() {
-		static $gadgets = null;
-
-		if ( $gadgets !== null ) return $gadgets;
-
-		$struct = self::loadStructured();
-		if ( !$struct ) {
-			$gadgets = $struct;
-			return $gadgets;
-		}
-
-		$gadgets = array();
-		foreach ( $struct as $section => $entries ) {
-			$gadgets = array_merge( $gadgets, $entries );
-		}
-
-		return $gadgets;
-	}
-
-	public static function loadStructured( $forceNewText = null ) {
-		global $wgMemc;
-
-		static $gadgets = null;
-		if ( $gadgets !== null && $forceNewText === null ) return $gadgets;
-
-		$key = wfMemcKey( 'gadgets-definition' );
-
-		if ( $forceNewText === null ) {
-			//cached?
-			$gadgets = $wgMemc->get( $key );
-			// TODO: isOutdated()
-			if ( is_array($gadgets) && next( $gadgets ) instanceof Gadget ) return $gadgets;
-
-			$g = wfMsgForContentNoTrans( "gadgets-definition" );
-			if ( wfEmptyMsg( "gadgets-definition", $g ) ) {
-				$gadgets = false;
-				return $gadgets;
-			}
-		} else {
-			$g = $forceNewText;
-		}
-
-		$g = preg_replace( '/<!--.*-->/s', '', $g );
-		$g = preg_split( '/(\r\n|\r|\n)+/', $g );
-
-		$gadgets = array();
-		$section = '';
-
-		foreach ( $g as $line ) {
-			if ( preg_match( '/^==+ *([^*:\s|]+?)\s*==+\s*$/', $line, $m ) ) {
-				$section = $m[1];
-			}
-			else {
-				$gadget = Gadget::newFromDefinition( $line );
-				if ( $gadget ) {
-					$gadgets[$section][$gadget->getName()] = $gadget;
-				}
-			}
-		}
-
-		//cache for a while. gets purged automatically when MediaWiki:Gadgets-definition is edited
-		$wgMemc->set( $key, $gadgets, 60*60*24 );
-		$source = $forceNewText !== null ? 'input text' : 'MediaWiki:Gadgets-definition';
-		wfDebug( __METHOD__ . ": $source parsed, cache entry $key updated\n");
-
-		return $gadgets;
-	}
-
 	public static function getPreferences( $user, &$preferences ) {
-		$gadgets = self::loadStructured();
+		$gadgets = Gadget::loadStructuredList();
 		if (!$gadgets) return true;
 		
 		$options = array();
@@ -135,7 +67,7 @@ class Gadgets {
 	}
 
 	public static function registerModules( &$resourceLoader ) {
-		$gadgets = self::load();
+		$gadgets = Gadget::loadList();
 		if ( !$gadgets ) {
 			return true;
 		}
@@ -164,7 +96,7 @@ class Gadgets {
 			return true;
 		}
 
-		$gadgets = self::Load();
+		$gadgets = Gadget::loadList();
 		if ( !$gadgets ) return true;
 
 		$lb = new LinkBatch();
@@ -290,6 +222,74 @@ class Gadget {
 			return array();
 		}
 		return $this->scripts;
+	}
+
+	public static function loadList() {
+		static $gadgets = null;
+
+		if ( $gadgets !== null ) return $gadgets;
+
+		$struct = self::loadStructuredList();
+		if ( !$struct ) {
+			$gadgets = $struct;
+			return $gadgets;
+		}
+
+		$gadgets = array();
+		foreach ( $struct as $section => $entries ) {
+			$gadgets = array_merge( $gadgets, $entries );
+		}
+
+		return $gadgets;
+	}
+
+	public static function loadStructuredList( $forceNewText = null ) {
+		global $wgMemc;
+
+		static $gadgets = null;
+		if ( $gadgets !== null && $forceNewText === null ) return $gadgets;
+
+		$key = wfMemcKey( 'gadgets-definition' );
+
+		if ( $forceNewText === null ) {
+			//cached?
+			$gadgets = $wgMemc->get( $key );
+			// TODO: isOutdated()
+			if ( is_array($gadgets) && next( $gadgets ) instanceof Gadget ) return $gadgets;
+
+			$g = wfMsgForContentNoTrans( "gadgets-definition" );
+			if ( wfEmptyMsg( "gadgets-definition", $g ) ) {
+				$gadgets = false;
+				return $gadgets;
+			}
+		} else {
+			$g = $forceNewText;
+		}
+
+		$g = preg_replace( '/<!--.*-->/s', '', $g );
+		$g = preg_split( '/(\r\n|\r|\n)+/', $g );
+
+		$gadgets = array();
+		$section = '';
+
+		foreach ( $g as $line ) {
+			if ( preg_match( '/^==+ *([^*:\s|]+?)\s*==+\s*$/', $line, $m ) ) {
+				$section = $m[1];
+			}
+			else {
+				$gadget = Gadget::newFromDefinition( $line );
+				if ( $gadget ) {
+					$gadgets[$section][$gadget->getName()] = $gadget;
+				}
+			}
+		}
+
+		//cache for a while. gets purged automatically when MediaWiki:Gadgets-definition is edited
+		$wgMemc->set( $key, $gadgets, 60*60*24 );
+		$source = $forceNewText !== null ? 'input text' : 'MediaWiki:Gadgets-definition';
+		wfDebug( __METHOD__ . ": $source parsed, cache entry $key updated\n");
+
+		return $gadgets;
 	}
 }
 
