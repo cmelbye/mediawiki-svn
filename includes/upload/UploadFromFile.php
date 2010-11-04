@@ -29,4 +29,14 @@ class UploadFromFile extends UploadBase {
 	static function isValidRequest( $request ) {
 		return (bool)$request->getFileTempName( 'wpUploadFile' );
 	}
+
+	/** 
+	 * Get the path to the file underlying the upload
+	 * @return String path to file
+	 */
+	public function getFileTempname() {
+		return $this->mUpload->getTempname();
+	}
+
+	
 }

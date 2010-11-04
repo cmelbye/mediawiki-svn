@@ -232,10 +232,6 @@ $wgAutoloadLocalClasses = array(
 	'TitleListDependency' => 'includes/CacheDependency.php',
 	'TransformParameterError' => 'includes/MediaTransformOutput.php',
 	'UnlistedSpecialPage' => 'includes/SpecialPage.php',
-	'UploadBase' => 'includes/upload/UploadBase.php',
-	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
-	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
-	'UploadFromUrl' => 'includes/upload/UploadFromUrl.php',
 	'User' => 'includes/User.php',
 	'UserArray' => 'includes/UserArray.php',
 	'UserArrayFromResult' => 'includes/UserArray.php',
@@ -567,6 +563,7 @@ $wgAutoloadLocalClasses = array(
 	'SpecialRecentChanges' => 'includes/specials/SpecialRecentchanges.php',
 	'SpecialRecentchangeslinked' => 'includes/specials/SpecialRecentchangeslinked.php',
 	'SpecialSearch' => 'includes/specials/SpecialSearch.php',
+	'SpecialUploadStash' => 'includes/specials/SpecialUploadStash.php',
 	'SpecialStatistics' => 'includes/specials/SpecialStatistics.php',
 	'SpecialTags' => 'includes/specials/SpecialTags.php',
 	'SpecialUpload' => 'includes/specials/SpecialUpload.php',
@@ -597,6 +594,13 @@ $wgAutoloadLocalClasses = array(
 	# includes/templates
 	'UsercreateTemplate' => 'includes/templates/Userlogin.php',
 	'UserloginTemplate' => 'includes/templates/Userlogin.php',
+
+	# includes/upload
+	'UploadStash' => 'includes/upload/UploadStash.php',
+	'UploadBase' => 'includes/upload/UploadBase.php',
+	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
+	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
+	'UploadFromUrl' => 'includes/upload/UploadFromUrl.php',
 
 	# languages
 	'Language' => 'languages/Language.php',
