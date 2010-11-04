@@ -204,7 +204,7 @@ class Gadget {
 	}
 
 	public function getScriptsAndStyles() {
-		return $this->scripts + $this->styles;
+		return array_merge( $this->scripts, $this->styles );
 	}
 
 	public function getModule() {
