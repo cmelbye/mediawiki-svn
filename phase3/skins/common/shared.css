@@ -804,3 +804,28 @@ td.mw-enhanced-rc {
 }
 
 #wpLoginAttempt, #wpCreateaccount { margin-right:0; }
+.mw-small-spinner {
+	padding: 10px !important;
+	margin-right: 0.6em;
+	background-image: url(images/spinner.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+/* Sort arrows added by SortableTables */
+a.sortheader {
+	margin: 0 0.3em;
+}
+
+.grid-table {
+	display: table;
+}
+
+.grid-row {
+	display: table-row;
+}
+
+.grid-cell {
+	display: table-cell;
+	padding: 0.33ex;
+}

@@ -5,12 +5,6 @@
  */
 
 /**
- * \int Number of characters in user_token field.
- * @ingroup Constants
- */
-define( 'USER_TOKEN_LENGTH', 32 );
-
-/**
  * \int Serialized record version.
  * @ingroup Constants
  */
@@ -2968,7 +2962,7 @@ class User {
 		$now = time();
 		$expires = $now + 7 * 24 * 60 * 60;
 		$expiration = wfTimestamp( TS_MW, $expires );
-		$token = $this->generateToken( $this->mId . $this->mEmail . $expires );
+		$token = wfGenerateToken( $this->mId . $this->mEmail . $expires );
 		$hash = md5( $token );
 		$this->load();
 		$this->mEmailToken = $hash;

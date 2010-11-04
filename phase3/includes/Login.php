@@ -15,8 +15,9 @@ class Login {
 	const RESET_PASS = 7;
 	const ABORTED = 8;
 	const THROTTLED = 10;
-	const FAILED = 11;
-	const READ_ONLY = 12;
+	const USER_BLOCKED = 11;
+	const FAILED = 12;
+	const READ_ONLY = 13;
 	
 	const MAIL_PASSCHANGE_FORBIDDEN = 21;
 	const MAIL_BLOCKED = 22;
@@ -52,29 +53,33 @@ class Login {
 
 	/**
 	 * Constructor
-	 * @param WebRequest $request A WebRequest object passed by reference.
-	 *     uses $wgRequest if not given.
+	 * @param $data Array data object passed by reference.
 	 */
-	public function __construct( &$request=null ) {
-		global $wgRequest, $wgAuth, $wgHiddenPrefs, $wgEnableEmail, $wgRedirectOnLogin;
-		if( !$request ) $request = &$wgRequest;
+	public function __construct( $data ) {
+		global $wgAuth, $wgHiddenPrefs, $wgEnableEmail;
 
-		$this->mName = $request->getText( 'wpName' );
-		$this->mPassword = $request->getText( 'wpPassword' );
-		$this->mDomain = $request->getText( 'wpDomain' );
-		$this->mRemember = $request->getCheck( 'wpRemember' ) ? 1 : 0;
+		$this->mName = $data['Name'];
+		$this->mPassword = $data['Password'];
+		
+		if( isset( $data['Remember'] ) ){
+			$this->mRemember = $data['Remember'] ? 1 : 0;
+		}
 
-		if( $wgEnableEmail ) {
-			$this->mEmail = $request->getText( 'wpEmail' );
+		if( $wgEnableEmail && isset( $data['Email']) ) {
+			$this->mEmail = $data['Email'];
 		} else {
 			$this->mEmail = '';
 		}
-		if( !in_array( 'realname', $wgHiddenPrefs ) ) {
-		    $this->mRealName = $request->getText( 'wpRealName' );
+		
+		if( !in_array( 'realname', $wgHiddenPrefs ) && isset( $data['RealName'] ) ) {
+		    $this->mRealName = $data['RealName'];
 		} else {
 		    $this->mRealName = '';
 		}
 
+		$this->mDomain = isset( $data['Domain'] )
+			? $data['Domain']
+			: '';
 		if( !$wgAuth->validDomain( $this->mDomain ) ) {
 			$this->mDomain = 'invaliddomain';
 		}
@@ -90,7 +95,8 @@ class Login {
 	 * foreign database; in the latter case, a local user record may
 	 * or may not be created and initialised.  
 	 * @param $password String if set, log in with this password rather
-	 *     than whatever was given in the WebRequest.
+	 *     than whatever was given in the initial config.  If set to 
+	 *     Bool true, password always matches
 	 * @return a Login class constant representing the status.
 	 */
 	public function attemptLogin( $password=null ){
@@ -210,8 +216,9 @@ class Login {
 		}
 		
 		# Initialise $this->mUser
-		if( $this->getUser() === null )
+		if( $this->getUser() === null ){
 			return $this->mUserCode;
+		}
 
 		# Shortcut
 		if( $wgUser->getName() === $this->mUser->getName() ){
@@ -224,7 +231,26 @@ class Login {
 			return self::ABORTED;
 		}
 
-		if( !$this->mUser->checkPassword( $this->mPassword ) ) {
+		if( $this->mUser->checkPassword( $this->mPassword ) || $this->mPassword === true ) {
+			# If we've enabled it, make it so that a blocked user cannot login
+			# This is only reached if the password matches, preventing fishing
+			# for blocked accounts on private wikis.
+			global $wgBlockDisablesLogin;
+			if( $wgBlockDisablesLogin && $this->mUser->isBlocked() ) {
+				$this->mLoginResult = 'login-userblocked';
+				return self::USER_BLOCKED;
+			}
+		
+			$wgAuth->updateUser( $this->mUser );
+			$wgUser = $this->mUser;
+
+			# Reset throttle after a successful login
+			if( $throttleCount ) {
+				$wgMemc->delete( $throttleKey );
+			}
+
+			$retval = self::SUCCESS;
+		} else {
 			if( $this->mUser->checkTemporaryPassword( $this->mPassword ) ) {
 				# The e-mailed temporary password should not be used for actual
 				# logins; that's a very sloppy habit, and insecure if an
@@ -259,16 +285,6 @@ class Login {
 					$this->mLoginResult = 'wrongpassword';
 				}
 			}
-		} else {
-			$wgAuth->updateUser( $this->mUser );
-			$wgUser = $this->mUser;
-
-			# Reset throttle after a successful login
-			if( $throttleCount ) {
-				$wgMemc->delete( $throttleKey );
-			}
-
-			$retval = self::SUCCESS;
 		}
 		wfRunHooks( 'LoginAuthenticateAudit', array( &$this->mUser, $this->mPassword, $retval ) );
 		return $retval;
@@ -281,8 +297,9 @@ class Login {
 	 * @return &User, or &null on failure.  Sets a status code in $this->mUserCode
 	 */
 	public function &getUser(){
-		if( $this->mUserCode !== null )
+		if( $this->mUserCode !== null ){
 			return $this->mUser;
+		}
 	
 		# Unstub $wgUser if it's not already by calling getName(). This calls 
 		# the UserLoadFromSession hook, which potentially creates the user in 
@@ -309,15 +326,16 @@ class Login {
 
 		# TODO: Allow some magic here for invalid external names, e.g., let the
 		# user choose a different wiki name.
-		if( is_null( $this->mUser ) || !User::isUsableName( $this->mUser->getName() ) ) {
+		if( !$this->mUser instanceof User || !User::isUsableName( $this->mUser->getName() ) ) {
 			$this->mUserCode = self::ILLEGAL;
 			$this->mUser = null;
 			return $this->mUser;
 		}
 
+
 		# If the user doesn't exist in the local database, our only chance 
 		# is for an external auth plugin to autocreate the local user first.
-		if( $this->mUser->getID() == 0 ) {
+		if( $this->mUser->getId() == 0 ) {
 			if( $this->canAutoCreate() == self::SUCCESS ) {
 				
 				wfDebug( __METHOD__.": creating account\n" );
@@ -344,6 +362,15 @@ class Login {
 				return $this->mUser;
 			}
 		} else {
+			global $wgAutocreatePolicy;
+		 	if ( $this->mExtUser 
+		 		&& $wgAutocreatePolicy != 'never'
+		 		&& $this->mExtUser->authenticate( $this->mPassword ) ) 
+		 	{
+			 	# The external user and local user have the same name and
+			 	# password, so we assume they're the same.
+			 	$this->mExtUser->linkToLocal( $this->mUser->getID() );
+	 	} 
 			$this->mUser->load();
 		}
 		
@@ -369,6 +396,7 @@ class Login {
 			'name' => User::getCanonicalName( $this->mName ),
 			'password' => $byEmail ? null : User::crypt( $this->mPassword ),
 			'email' => $this->mEmail,
+			'real_name' => $this->mRealName,
 			'options' => array(
 				'rememberpassword' => $this->mRemember ? 1 : 0,
 			),
@@ -385,7 +413,7 @@ class Login {
 
 		# Or new ExternalUser plugins
 		if( $this->mExtUser ) {
-			$this->mExtUser->link( $this->mUser->getId() );
+			$this->mExtUser->linkToLocal( $this->mUser->getId() );
 			$email = $this->mExtUser->getPref( 'emailaddress' );
 			if( $email && !$this->mEmail ) {
 				$this->mUser->setEmail( $email );
@@ -395,13 +423,14 @@ class Login {
 		# Update user count and newuser logs
 		$ssUpdate = new SiteStatsUpdate( 0, 0, 0, 0, 1 );
 		$ssUpdate->doUpdate();
-		if( $autocreate )
+		if( $autocreate ){
 			$this->mUser->addNewUserLogEntryAutoCreate();
-		elseif( $wgUser->isAnon() )
+		} elseif ( $wgUser->isAnon() ){
 			# Avoid spamming IP addresses all over the newuser log
 			$this->mUser->addNewUserLogEntry( $this->mUser, $byEmail );
-		else
+		} else {
 			$this->mUser->addNewUserLogEntry( $wgUser, $byEmail );
+		}
 		
 		# Run hooks
 		wfRunHooks( 'AddNewAccount', array( &$this->mUser, $autocreate, $byEmail ) );
@@ -421,13 +450,13 @@ class Login {
 	 */
 	public function attemptCreation( $byEmail=false ) {
 		global $wgUser, $wgOut;
-		global $wgEnableSorbs, $wgProxyWhitelist;
 		global $wgMemc, $wgAccountCreationThrottle;
 		global $wgAuth;
 		global $wgEmailAuthentication, $wgEmailConfirmToEdit;
 
-		if( wfReadOnly() ) 
+		if( wfReadOnly() ) {
 			return self::READ_ONLY;
+		}
 			
 		# If the user passes an invalid domain, something is fishy
 		if( !$wgAuth->validDomain( $this->mDomain ) ) {
@@ -451,9 +480,7 @@ class Login {
 		}
 
 		$ip = wfGetIP();
-		if( $wgEnableSorbs && !in_array( $ip, $wgProxyWhitelist ) &&
-		  $wgUser->inSorbsBlacklist( $ip ) )
-		{
+		if( $wgUser->isDnsBlacklisted( $ip, true /* check $wgProxyWhitelist */ ) ) {
 			$this->mCreateResult = 'sorbs_create_account_reason';
 			return self::CREATE_SORBS;
 		}
@@ -474,7 +501,7 @@ class Login {
 		# Check that the password is acceptable, if we're actually
 		# going to use it
 		if( !$byEmail ){
-			$valid = $this->mUser->isValidPassword( $this->mPassword );
+			$valid = $this->mUser->getPasswordValidity( $this->mPassword );
 			if( $valid !== true ) {
 				$this->mCreateResult = $valid;
 				return self::CREATE_BADPASS;
@@ -524,10 +551,11 @@ class Login {
 		}
 
 		$result = $this->initUser( false, $byEmail );
-		if( $result === null )
+		if( $result === null ){
 			# It's unlikely we'd get here without some exception 
 			# being thrown, but it's probably possible...
 			return self::FAILED;
+		}
 		
 		if( $byEmail ){
 			# Send out the password by email
@@ -562,62 +590,94 @@ class Login {
 	public function mailPassword( $text='passwordremindertext', $title='passwordremindertitle' ) {
 		global $wgUser, $wgOut, $wgAuth, $wgServer, $wgScript, $wgNewPasswordExpiry;
 
-		if( wfReadOnly() ) 
+		if( wfReadOnly() ) {
 			return self::READ_ONLY;
+		}
 
 		# If we let the email go out, it will take users to a form where
 		# they are forced to change their password, so don't let us go 
 		# there if we don't want passwords changed.
-		if( !$wgAuth->allowPasswordChange() ) 
+		if( !$wgAuth->allowPasswordChange() ) {
 			return self::MAIL_PASSCHANGE_FORBIDDEN;
+		}
 
 		# Check against blocked IPs
 		# FIXME: -- should we not?
-		if( $wgUser->isBlocked() )
+		if( $wgUser->isBlocked() ){
 			return self::MAIL_BLOCKED;
+		}
 
 		# Check for hooks
-		if( !wfRunHooks( 'UserLoginMailPassword', array( $this->mName, &$this->mMailResult ) ) )
+		if( !wfRunHooks( 'UserLoginMailPassword', array( $this->mName, &$this->mMailResult ) ) ){
 			return self::ABORTED;
+		}
 
 		# Check against the rate limiter
-		if( $wgUser->pingLimiter( 'mailpassword' ) )
+		if( $wgUser->pingLimiter( 'mailpassword' ) ){
 			return self::MAIL_PING_THROTTLED;
+		}
 
 		# Initialise the user before checking data about them
-		if( is_null( $this->getUser() ) )
+		if( is_null( $this->getUser() ) ){
 			return self::NO_NAME;
+		}
 
 		# And that the resulting user actually exists
-		if( $this->mUser->getId() === 0 )
+		if( $this->mUser->getId() === 0 ){
 			return self::NOT_EXISTS;
+		}
 
 		# Check against password throttle
-		if( $this->mUser->isPasswordReminderThrottled() )
+		if( $this->mUser->isPasswordReminderThrottled() ){
 			return self::MAIL_PASS_THROTTLED;
+		}
 		
 		# User doesn't have email address set
-		if( $this->mUser->getEmail() === '' )
+		if( $this->mUser->getEmail() === '' ){
 			return self::MAIL_EMPTY_EMAIL;
+		}
 
 		# Don't send to people who are acting fishily by hiding their IP
 		$ip = wfGetIP();
-		if( !$ip )
+		if( !$ip ){
 			return self::MAIL_BAD_IP;
+		}
+		
+		# If blocked users cannot log in, don't let them reset passwords either.
+		global $wgBlockDisablesLogin;
+		if( $wgBlockDisablesLogin && $this->mUser->isBlocked() ) {
+			return self::USER_BLOCKED;
+		}
 
 		# Let hooks do things with the data
 		wfRunHooks( 'User::mailPasswordInternal', array( &$wgUser, &$ip, &$this->mUser) );
 
 		$newpass = $this->mUser->randomPassword();
 		$this->mUser->setNewpassword( $newpass, true );
-		$this->mUser->saveSettings();
 
-		$message = wfMsgExt( $text, array( 'parsemag' ), $ip, $this->mUser->getName(), $newpass,
-				$wgServer . $wgScript, round( $wgNewPasswordExpiry / 86400 ) );
-		$this->mMailResult = $this->mUser->sendMail( wfMsg( $title ), $message );
+		$message = wfMsgExt( 
+			$text, 
+			array( 'parsemag', 'language' => $this->mUser->getOption('language') ), 
+			array( 
+				$ip, 
+				$this->mUser->getName(), 
+				$newpass,
+				$wgServer . $wgScript, 
+				round( $wgNewPasswordExpiry / 86400 )
+			)
+		);
+		$title = wfMsgExt( 
+			$title, 
+			array( 'parseinline', 'language' => $this->mUser->getOption('language') ) 
+		);
+		$this->mMailResult = $this->mUser->sendMail( $title, $message );
 		if( WikiError::isError( $this->mMailResult ) ) {
+			# Discard the new password by not saving it, and hence
+			# also not setting the newpassword throttle
 			return self::MAIL_ERROR;
 		} else {
+			# Save the new password
+			$this->mUser->saveSettings();
 			return self::SUCCESS;
 		}
 	}

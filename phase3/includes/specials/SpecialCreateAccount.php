@@ -6,16 +6,12 @@
 class SpecialCreateAccount extends SpecialPage {
 
 	var $mUsername, $mPassword, $mRetype, $mReturnTo, $mPosted;
-	var $mCreateaccountMail, $mRemember, $mEmail, $mDomain, $mLanguage;
+	var $mCreateaccountMail, $mEmail, $mDomain, $mLanguage;
 	var $mReturnToQuery;
-	
-	protected $mLogin;
 
 	public $mDomains = array();
 	
 	public $mUseEmail = true; # Can be switched off by AuthPlugins etc
-	public $mUseRealname = true;
-	public $mUseRemember = true;
 	
 	public $mFormHeader = '';
 	public $mFormFields = array(
@@ -52,12 +48,10 @@ class SpecialCreateAccount extends SpecialPage {
 			'type'          => 'text',
 			'label-message' => 'yourrealname',
 			'id'            => 'wpRealName',
-			'tabindex'      => '1',
 			'size'          => '20',
 		),
 		'Remember' => array(
 			'type'          => 'check',
-			'label-message' => 'remembermypassword',
 			'id'            => 'wpRemember',
 		),
 		'Domain' => array(
@@ -71,16 +65,45 @@ class SpecialCreateAccount extends SpecialPage {
 	
 	public function __construct(){
 		parent::__construct( 'CreateAccount', 'createaccount' );
-		$this->mLogin = new Login();
+		
 		$this->mFormFields['RealName']['label-help'] = 'prefs-help-realname';
+		$this->mFormFields['Retype']['validation-callback'] = array( 'SpecialCreateAccount', 'formValidateRetype' );
+	
+		
+		global $wgCookieExpiration, $wgLang;
+		$this->mFormFields['Remember']['label'] = wfMsgExt( 
+			'remembermypassword', 
+			'parseinline', 
+			$wgLang->formatNum( ceil( $wgCookieExpiration / 86400 ) ) 
+		);
+		
+		global $wgRequest, $wgRedirectOnLogin;
+		$this->mCreateaccountMail = $wgRequest->getCheck( 'wpCreateaccountMail' )
+			&& $wgEnableEmail;
+		
+		$this->mReturnTo = $wgRequest->getVal( 'returnto' );
+		$this->mReturnToQuery = $wgRequest->getVal( 'returntoquery' );
+		$this->mLanguage = $wgRequest->getText( 'uselang' );
+		
+		if ( $wgRedirectOnLogin ) {
+			$this->mReturnTo = $wgRedirectOnLogin;
+			$this->mReturnToQuery = '';
+		}
+
+		# When switching accounts, it sucks to get automatically logged out
+		$returnToTitle = Title::newFromText( $this->mReturnTo );
+		if( is_object( $returnToTitle ) && $returnToTitle->isSpecial( 'Userlogout' ) ) {
+			$this->mReturnTo = '';
+			$this->mReturnToQuery = '';
+		}
 	}
 	
 	public function execute( $par ){
 		global $wgUser, $wgOut;
 		
 		$this->setHeaders();
-		$this->loadQuery();
-		
+		$wgOut->disallowUserJs();  # Stop malicious userscripts sniffing passwords
+				
 		# Block signup here if in readonly. Keeps user from 
 		# going through the process (filling out data, etc) 
 		# and being informed later.
@@ -98,78 +121,50 @@ class SpecialCreateAccount extends SpecialPage {
 		} elseif ( count( $permErrors = $this->getTitle()->getUserPermissionsErrors( 'createaccount', $wgUser, true ) )>0 ) {
 			$wgOut->showPermissionsErrorPage( $permErrors, 'createaccount' );
 			return;
-		}	
-		
-		if( $this->mPosted ) {
-			$this->addNewAccount( $this->mCreateaccountMail );
-		} else {
-			$this->showMainForm('');
 		}
+		
+		$form = $this->getForm();
+		$form->show();
 	}
 	
 	/**
-	 * Load the member variables from the request parameters
+	 * Check that the user actually managed to type the password 
+	 * in the same both times
+	 * @param unknown_type $data
+	 * @param unknown_type $alldata
 	 */
-	protected function loadQuery(){
-		global $wgRequest, $wgAuth, $wgHiddenPrefs, $wgEnableEmail, $wgRedirectOnLogin;
-		$this->mCreateaccountMail = $wgRequest->getCheck( 'wpCreateaccountMail' )
-		                            && $wgEnableEmail;
-		
-		$this->mUsername = $wgRequest->getText( 'wpName' );
-		$this->mPassword = $wgRequest->getText( 'wpPassword' );
-		$this->mRetype = $wgRequest->getText( 'wpRetype' );
-		$this->mDomain = $wgRequest->getText( 'wpDomain' );
-		$this->mReturnTo = $wgRequest->getVal( 'returnto' );
-		$this->mReturnToQuery = $wgRequest->getVal( 'returntoquery' );
-		$this->mPosted = $wgRequest->wasPosted();
-		$this->mCreateaccountMail = $wgRequest->getCheck( 'wpCreateaccountMail' )
-		                            && $wgEnableEmail;
-		$this->mRemember = $wgRequest->getCheck( 'wpRemember' );
-		$this->mLanguage = $wgRequest->getText( 'uselang' );
-		
-		if ( $wgRedirectOnLogin ) {
-			$this->mReturnTo = $wgRedirectOnLogin;
-			$this->mReturnToQuery = '';
+	public static function formValidateRetype( $retype, $alldata ){
+		# blank == blank, but the 'this field is required' validation
+		# will catch that.
+		if( $retype === '' ){
+			return true;
 		}
 
-		if( $wgEnableEmail ) {
-			$this->mEmail = $wgRequest->getText( 'wpEmail' );
+		# The other password field could be 'Password' (Special:CreateAccount)
+		# or 'NewPassword' (Special:ResetPass).
+		if( isset( $alldata['Password'] ) ){
+			$password = $alldata['Password'];
+		} elseif ( isset( $alldata['NewPassword'] ) ){
+			$password = $alldata['NewPassword'];
 		} else {
-			$this->mEmail = '';
+			$password = null;
 		}
-		if( !in_array( 'realname', $wgHiddenPrefs ) ) {
-		    $this->mRealName = $wgRequest->getText( 'wpRealName' );
-		} else {
-		    $this->mRealName = '';
-		}
-
-		if( !$wgAuth->validDomain( $this->mDomain ) ) {
-			$this->mDomain = 'invaliddomain';
-		}
-		$wgAuth->setDomain( $this->mDomain );
-
-		# When switching accounts, it sucks to get automatically logged out
-		$returnToTitle = Title::newFromText( $this->mReturnTo );
-		if( is_object( $returnToTitle ) && $returnToTitle->isSpecial( 'Userlogout' ) ) {
-			$this->mReturnTo = '';
-			$this->mReturnToQuery = '';
-		}
+				
+		return $retype === $password 
+			? true
+			: wfMsgExt( 'badretype', 'parseinline' );
 	}
 
 	/**
 	 * Create a new user account from the provided data
 	 */
-	protected function addNewAccount( $byEmail=false ) {
+	public function formSubmitCallback( $data ) {
 		global $wgUser, $wgEmailAuthentication;
-	
-		# Do a quick check that the user actually managed to type
-		# the password in the same both times
-		if ( 0 != strcmp( $this->mPassword, $this->mRetype ) ) {
-			return $this->showMainForm( wfMsgExt( 'badretype', 'parseinline' ) );
-		}
 		
 		# Create the account and abort if there's a problem doing so
-		$status = $this->mLogin->attemptCreation( $byEmail );
+		$login = new Login( $data );
+		$status = $login->attemptCreation( $this->mCreateaccountMail );
+		
 		switch( $status ){
 			case Login::SUCCESS: 
 			case Login::MAIL_ERROR: 
@@ -183,52 +178,57 @@ class SpecialCreateAccount extends SpecialPage {
 			case Login::CREATE_BADNAME:
 			case Login::WRONG_PLUGIN_PASS:
 			case Login::ABORTED:
-				return $this->showMainForm( wfMsgExt( $this->mLogin->mCreateResult, 'parseinline' ) );
+				return wfMsgExt( $login->mCreateResult, 'parseinline' );
 			
 			case Login::CREATE_SORBS: 
-				return $this->showMainForm( wfMsgExt( 'sorbs_create_account_reason', 'parseinline' ) . ' (' . wfGetIP() . ')' );
+				return wfMsgExt( 'sorbs_create_account_reason', 'parseinline' ) . ' (' . wfGetIP() . ')';
 				
 			case Login::CREATE_BLOCKED:
-				return $this->userBlockedMessage();
+				$this->userBlockedMessage();
+				return true;
 				
 			case Login::CREATE_BADPASS:
 				global $wgMinimalPasswordLength;
-				return $this->showMainForm( wfMsgExt( $this->mLogin->mCreateResult, array( 'parsemag' ), $wgMinimalPasswordLength ) );
+				return wfMsgExt( $login->mCreateResult, array( 'parsemag' ), $wgMinimalPasswordLength );
 				
 			case Login::THROTTLED: 
 				global $wgAccountCreationThrottle;
-				return $this->showMainForm( wfMsgExt( 'acct_creation_throttle_hit', array( 'parseinline' ), $wgAccountCreationThrottle ) ); 
+				return wfMsgExt( 'acct_creation_throttle_hit', array( 'parseinline' ), $wgAccountCreationThrottle ); 
 			
 			default: 
 				throw new MWException( "Unhandled status code $status in " . __METHOD__ );
 		}
+		
+		Token::clear( 'createaccount' );
 
 		# If we showed up language selection links, and one was in use, be
 		# smart (and sensible) and save that language as the user's preference
 		global $wgLoginLanguageSelector;
-		if( $wgLoginLanguageSelector && $this->mLanguage )
-			$this->mLogin->getUser()->setOption( 'language', $this->mLanguage );
-		$this->mLogin->getUser()->saveSettings();
+		if( $wgLoginLanguageSelector && $this->mLanguage ){
+			$login->getUser()->setOption( 'language', $this->mLanguage );
+			$login->getUser()->saveSettings();
+		}
 	
-		if( $byEmail ) {
+		if( $this->mCreateaccountMail ) {
 			if( $status == Login::MAIL_ERROR ){
 				# FIXME: we are totally screwed if we end up here...
-				$this->showMainForm( wfMsgExt( 'mailerror', 'parseinline', $this->mLogin->mMailResult->getMessage() ) );
+				return wfMsgExt( 'mailerror', 'parseinline', $login->mMailResult->getMessage() );
 			} else {
 				global $wgOut;
 				$wgOut->setPageTitle( wfMsg( 'accmailtitle' ) );
-				$wgOut->addWikiMsg( 'accmailtext', $this->mLogin->getUser()->getName(), $this->mLogin->getUser()->getEmail() );
+				$wgOut->addWikiMsg( 'accmailtext', $login->getUser()->getName(), $login->getUser()->getEmail() );
 				$wgOut->returnToMain( false );
+				return true;
 			}
 			
 		} else {
 
 			# There might be a message stored from the confirmation mail
 			# send, which we can display.
-			if( $wgEmailAuthentication && $this->mLogin->mMailResult ) {
+			if( $wgEmailAuthentication && $login->mMailResult ) {
 				global $wgOut;
-				if( WikiError::isError( $this->mLogin->mMailResult ) ) {
-					$wgOut->addWikiMsg( 'confirmemail_sendfailed', $this->mLogin->mMailResult->getMessage() );
+				if( WikiError::isError( $login->mMailResult ) ) {
+					$wgOut->addWikiMsg( 'confirmemail_sendfailed', $login->mMailResult->getMessage() );
 				} else {
 					$wgOut->addWikiMsg( 'confirmemail_oncreate' );
 				}
@@ -238,19 +238,15 @@ class SpecialCreateAccount extends SpecialPage {
 			# one and set session cookies then show a "welcome" message 
 			# or a "need cookies" message as needed
 			if( $wgUser->isAnon() ) {
-				$wgUser = $this->mLogin->getUser();
-				$wgUser->setCookies();
-				if( $this->hasSessionCookie() ) {
-					return $this->successfulCreation();
-				} else {
-					return $this->cookieRedirectCheck();
-				}
+				$login->attemptLogin( true );
+				$this->successfulCreation();
+				return true;
 			} else {
 				# Show confirmation that the account was created
 				global $wgOut;
 				$self = SpecialPage::getTitleFor( 'Userlogin' );
 				$wgOut->setPageTitle( wfMsgHtml( 'accountcreated' ) );
-				$wgOut->addHTML( wfMsgWikiHtml( 'accountcreatedtext', $this->mLogin->getUser()->getName() ) );
+				$wgOut->addHTML( wfMsgWikiHtml( 'accountcreatedtext', $login->getUser()->getName() ) );
 				$wgOut->returnToMain( false, $self );
 				return true;
 			}
@@ -309,24 +305,10 @@ class SpecialCreateAccount extends SpecialPage {
 	 * @param $msg String HTML of message received previously
 	 * @param $msgtype String type of message, usually 'error'
 	 */
-	protected function showMainForm( $msg, $msgtype = 'error' ) {
+	protected function getForm() {
 		global $wgUser, $wgOut, $wgHiddenPrefs, $wgEnableEmail;
 		global $wgCookiePrefix, $wgLoginLanguageSelector;
 		global $wgAuth, $wgEmailConfirmToEdit, $wgCookieExpiration;
-		
-		# Parse the error message if we got one
-		if( $msg ){
-			if( $msgtype == 'error' ){
-				$msg = wfMsgExt( 'createaccounterror', array( 'parseinline', 'replaceafter' ), $msg );
-			}
-			$msg = Html::rawElement(
-				'div',
-				array( 'class' => $msgtype . 'box' ),
-				$msg
-			);
-		} else {
-			$msg = '';
-		}
 
 		# Make sure the returnTo strings don't get lost if the
 		# user changes language, etc
@@ -338,8 +320,9 @@ class SpecialCreateAccount extends SpecialPage {
 		}
 
 		# Pass any language selection on to the mode switch link
-		if( $wgLoginLanguageSelector && $this->mLanguage )
+		if( $wgLoginLanguageSelector && $this->mLanguage ){
 			$linkq['uselang'] = $this->mLanguage;
+		}
 
 		$skin = $wgUser->getSkin();
 		$link = $skin->link( 
@@ -361,7 +344,7 @@ class SpecialCreateAccount extends SpecialPage {
 				
 		# Give authentication and captcha plugins a chance to 
 		# modify the form, by hook or by using $wgAuth
-		$wgAuth->modifyUITemplate( $this, 'new' );
+		//$wgAuth->modifyUITemplate( $this, 'new' );
 		wfRunHooks( 'UserCreateForm', array( &$this ) );
 		
 		# The most likely use of the hook is to enable domains;
@@ -386,18 +369,18 @@ class SpecialCreateAccount extends SpecialPage {
 		}
 		
 		# Or to play with realname
-		if( in_array( 'realname', $wgHiddenPrefs ) || !$this->mUseRealname ){
+		if( in_array( 'realname', $wgHiddenPrefs ) ){
 			unset( $this->mFormFields['Realname'] );
 		}
 		
 		# Or to tweak the 'remember my password' checkbox
-		if( !($wgCookieExpiration > 0) || !$this->mUseRemember ){
+		if( !($wgCookieExpiration > 0) ){
 			# Remove it altogether
 			unset( $this->mFormFields['Remember'] );
-		} elseif( $wgUser->getOption( 'rememberpassword' ) || $this->mRemember ){
+		} elseif( $wgUser->getOption( 'rememberpassword' ) ){
 			# Or check it by default
 			# FIXME: this doesn't always work?
-			$this->mFormFields['Remember']['checked'] = '1';
+			$this->mFormFields['Remember']['default'] = '1';
 		}
 		
 		$form = new HTMLForm( $this->mFormFields );
@@ -407,9 +390,13 @@ class SpecialCreateAccount extends SpecialPage {
 		$form->setSubmitId( 'wpCreateaccount' );
 		$form->suppressReset();
 		$form->setWrapperLegend( wfMsg( 'createaccount' ) );
+		$form->setTokenAction( 'createaccount' );
 		
 		$form->addHiddenField( 'returnto', $this->mReturnTo );
 		$form->addHiddenField( 'returntoquery', $this->mReturnToQuery );
+		if( $this->mLanguage ){
+			$form->addHiddenField( 'uselang', $this->mLanguage );
+		}
 		
 		$form->addHeaderText( ''
 			. Html::rawElement( 'p', array( 'id' => 'userloginlink' ),
@@ -418,7 +405,6 @@ class SpecialCreateAccount extends SpecialPage {
 			. $langSelector
 		);
 		$form->addPreText( ''
-			. $msg
 			. Html::rawElement( 
 				'div', 
 				array( 'id' => 'signupstart' ), 
@@ -442,60 +428,11 @@ class SpecialCreateAccount extends SpecialPage {
 			);
 		}
 		
+		$form->setSubmitCallback( array( $this, 'formSubmitCallback' ) );
 		$form->loadData();
-
-		$wgOut->setPageTitle( wfMsg( 'createaccount' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
-		$wgOut->disallowUserJs();  # Stop malicious userscripts sniffing passwords
-
 		
-		$form->displayForm( false );
+		return $form;
 		
-	}
-
-	/**
-	 * Check if a session cookie is present.
-	 *
-	 * This will not pick up a cookie set during _this_ request, but is meant
-	 * to ensure that the client is returning the cookie which was set on a
-	 * previous pass through the system.
-	 *
-	 * @private
-	 */
-	protected function hasSessionCookie() {
-		global $wgDisableCookieCheck, $wgRequest;
-		return $wgDisableCookieCheck ? true : $wgRequest->checkSessionCookie();
-	}
-
-	/**
-	 * Do a redirect back to the same page, so we can check any
-	 * new session cookies.
-	 */
-	protected function cookieRedirectCheck() {
-		global $wgOut;
-
-		$query = array( 'wpCookieCheck' => '1' );
-		if ( $this->mReturnTo ) $query['returnto'] = $this->mReturnTo;
-		$check = $this->getTitle()->getFullURL( $query );
-
-		return $wgOut->redirect( $check );
-	}
-
-	/**
-	 * Check the cookies and show errors if they're not enabled.
-	 * @param $type String action being performed
-	 */
-	protected function onCookieRedirectCheck() {
-		if ( !$this->hasSessionCookie() ) {
-			return $this->mainLoginForm( wfMsgExt( 'nocookiesnew', array( 'parseinline' ) ) );
-		} else {
-			return SpecialUserlogin::successfulLogin( 
-				array( 'welcomecreate' ), 
-				$this->mReturnTo, 
-				$this->mReturnToQuery
-			);
-		}
 	}
 	
 	/**

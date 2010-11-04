@@ -6,14 +6,11 @@
 
 class SpecialUserLogin extends SpecialPage {
 
-	var $mUsername, $mPassword, $mReturnTo, $mCookieCheck, $mPosted;
-	var $mCreateaccount, $mCreateaccountMail, $mMailmypassword;
-	var $mRemember, $mDomain, $mLanguage;
-	var $mSkipCookieCheck, $mReturnToQuery;
+	var $mReturnTo, $mReturnToQuery;
 
-	public $mDomains = array();
-
+	public $mDomains = array(); # set by hooks
 	public $mFormHeader = ''; # Can be filled by hooks etc
+	
 	public $mFormFields = array(
 		'Name' => array(
 			'type'          => 'text',
@@ -38,86 +35,70 @@ class SpecialUserLogin extends SpecialPage {
 		),
 		'Remember' => array(
 			'type'          => 'check',
-			'label-message' => 'remembermypassword',
+			'label'         => ''/* set in constructor */,
 			'id'            => 'wpRemember',
 		)
 	);
 
-	protected $mLogin; # Login object
-
 	public function __construct(){
 		parent::__construct( 'Userlogin' );
+		
+		global $wgLang, $wgCookieExpiration, $wgRequest, $wgRedirectOnLogin;
+		
+		$this->mFormFields['Remember']['label'] = wfMsgExt( 
+			'remembermypassword', 
+			'parseinline', 
+			$wgLang->formatNum( ceil( $wgCookieExpiration / 86400 ) ) 
+		);
+		
+		$this->mReturnTo = $wgRequest->getVal( 'returnto' );
+		$this->mReturnToQuery = $wgRequest->getVal( 'returntoquery' );	
+		
+		if ( $wgRedirectOnLogin ) {
+			$this->mReturnTo = $wgRedirectOnLogin;
+			$this->mReturnToQuery = '';
+		}
+		
+		# When switching accounts, it sucks to get automatically logged out
+		$returnToTitle = Title::newFromText( $this->mReturnTo );
+		if( $returnToTitle instanceof Title && $returnToTitle->isSpecial( 'Userlogout' ) ) {
+			$this->mReturnTo = '';
+			$this->mReturnToQuery = '';
+		}
 	}
 
 	function execute( $par ) {
-		global $wgRequest;
+		global $wgRequest, $wgOut;
 
-		# Redirect out for account creation, for B/C
-		$type = ( $par == 'signup' ) ? $par : $wgRequest->getText( 'type' );
-		if( $type == 'signup' ){
+		# Pre-1.17, CreateAccount was at Special:UserLogin/signup
+		if( $par == 'signup' || $wgRequest->getText( 'type' ) == 'signup' ){
 			$sp = new SpecialCreateAccount();
 			$sp->execute( $par );
 			return;
 		}
 		
-		# Because we're transitioning from logged-out, who might not
-		# have a session, to logged-in, who always do, we need to make
-		# sure that we *always* have a session...
-		if( session_id() == '' ) {
-			wfSetupSession();
-		}
+		$wgOut->setPageTitle( wfMsg( 'login' ) );
+		$wgOut->setRobotPolicy( 'noindex,nofollow' );
+		$wgOut->setArticleRelated( false );
+		$wgOut->disallowUserJs();  # Stop malicious userscripts sniffing passwords
 		
-		$this->loadQuery();
-		$this->mLogin = new Login();
-
-		if ( $wgRequest->getCheck( 'wpCookieCheck' ) ) {
-			$this->onCookieRedirectCheck();
-			return;
-		} else if( $wgRequest->wasPosted() ) {
-			if ( $this->mMailmypassword ) {
-				return $this->showMailPage();
-			} else {
-				return $this->processLogin();
-			}
-		} else {
-			$this->mainLoginForm( '' );
-		}
+		$form = $this->getForm();
+		
+		$form->show();
 	}
-
-	/**
-	 * Load member variables from the HTTP request data
-	 * @param $par String the fragment passed to execute()
-	 */
-	protected function loadQuery(){
-		global $wgRequest, $wgAuth, $wgHiddenPrefs, $wgEnableEmail, $wgRedirectOnLogin;
-
-		$this->mUsername = $wgRequest->getText( 'wpName' );
-		$this->mPassword = $wgRequest->getText( 'wpPassword' );
-		$this->mDomain = $wgRequest->getText( 'wpDomain' );
-		$this->mLanguage = $wgRequest->getText( 'uselang' );
-
-		$this->mReturnTo = $wgRequest->getVal( 'returnto' );
-		$this->mReturnToQuery = $wgRequest->getVal( 'returntoquery' );
-
-		$this->mMailmypassword = $wgRequest->getCheck( 'wpMailmypassword' )
-		                         && $wgEnableEmail;
-		$this->mRemember = $wgRequest->getCheck( 'wpRemember' );
-		$this->mSkipCookieCheck = $wgRequest->getCheck( 'wpSkipCookieCheck' );
-
-		if( !$wgAuth->validDomain( $this->mDomain ) ) {
-			$this->mDomain = 'invaliddomain';
-		}
-		$wgAuth->setDomain( $this->mDomain );
 	
-		if ( $wgRedirectOnLogin ) {
-			$this->mReturnTo = $wgRedirectOnLogin;
-			$this->mReturnToQuery = '';
-		}
-		# When switching accounts, it sucks to get automatically logged out
-		$returnToTitle = Title::newFromText( $this->mReturnTo );
-		if( is_object( $returnToTitle ) && $returnToTitle->isSpecial( 'Userlogout' ) ) {
-			$this->mReturnTo = '';
-			$this->mReturnToQuery = '';
+	public function formFilterCallback( $data ){
+		global $wgRequest, $wgEnableEmail;
+		$data['mailpassword'] = $wgRequest->getCheck( 'wpMailmypassword' ) 
+			&& $wgEnableEmail;
+		return $data;
+	}
+	
+	public function formSubmitCallback( $data ){
+		if ( $data['mailpassword'] ) {
+			return $this->showMailPage( $data );
+		} else {
+			return $this->processLogin( $data );
 		}
 	}
 
@@ -126,38 +107,24 @@ class SpecialUserLogin extends SpecialPage {
 	 * @param $msg String a message key for a warning/error message
 	 * that may have been generated on a previous iteration
 	 */
-	protected function mainLoginForm( $msg, $msgtype = 'error' ) {
-		global $wgUser, $wgOut, $wgEnableEmail;
+	protected function getForm() {
+		global $wgUser, $wgOut, $wgRequest, $wgEnableEmail;
 		global $wgCookiePrefix, $wgLoginLanguageSelector;
 		global $wgAuth, $wgCookieExpiration;
 
 		# Preload the name field with something if we can
-		if ( '' == $this->mUsername ) {
-			if ( $wgUser->isLoggedIn() ) {
-				$this->mUsername = $wgUser->getName();
-			} elseif( isset( $_COOKIE[$wgCookiePrefix.'UserName'] ) ) {
-				$this->mUsername = $_COOKIE[$wgCookiePrefix.'UserName'];
-			}
+		if ( $wgUser->isLoggedIn() ) {
+			$username = $wgUser->getName();
+		} elseif( isset( $_COOKIE[$wgCookiePrefix.'UserName'] ) ) {
+			$username = $_COOKIE[$wgCookiePrefix.'UserName'];
+		} else {
+			$username = false;
 		}
-		if( $this->mUsername ){
-			$this->mFormFields['Name']['default'] = $this->mUsername;
+		if( $username ){
+			$this->mFormFields['Name']['default'] = $username;
 			$this->mFormFields['Password']['autofocus'] = '1';
 		} else {
 			$this->mFormFields['Name']['autofocus'] = '1';
-		}
-
-		# Parse the error message if we got one
-		if( $msg ){
-			if( $msgtype == 'error' ){
-				$msg = wfMsgExt( 'loginerror', 'parseinline' ) . ' ' . $msg;
-			}
-			$msg = Html::rawElement(
-				'div',
-				array( 'class' => $msgtype . 'box' ),
-				$msg
-			);
-		} else {
-			$msg = '';
 		}
 
 		# Make sure the returnTo strings don't get lost if the
@@ -170,8 +137,8 @@ class SpecialUserLogin extends SpecialPage {
 		}
 
 		# Pass any language selection on to the mode switch link
-		if( $wgLoginLanguageSelector && $this->mLanguage )
-			$linkq['uselang'] = $this->mLanguage;
+		if( $wgLoginLanguageSelector && $wgRequest->getText( 'uselang' ) )
+			$linkq['uselang'] = $wgRequest->getText( 'uselang' );
 
 		$skin = $wgUser->getSkin();
 		$link = $skin->link( 
@@ -182,7 +149,7 @@ class SpecialUserLogin extends SpecialPage {
 
 		# Don't show a "create account" link if the user can't
 		$link = $wgUser->isAllowed( 'createaccount' ) && !$wgUser->isLoggedIn()
-			? wfMsgWikiHtml( 'nologin', $link )
+			? wfMsgExt( 'nologin', array('parseinline','replaceafter'), $link )
 			: '';
 
 		# Prepare language selection links as needed
@@ -195,7 +162,7 @@ class SpecialUserLogin extends SpecialPage {
 
 		# Give authentication and captcha plugins a chance to 
 		# modify the form, by hook or by using $wgAuth
-		$wgAuth->modifyUITemplate( $this, 'login' );
+		//$wgAuth->modifyUITemplate( $this, 'login' );
 		wfRunHooks( 'UserLoginForm', array( &$this ) );
 	
 		# The most likely use of the hook is to enable domains;
@@ -211,11 +178,16 @@ class SpecialUserLogin extends SpecialPage {
 		if( !($wgCookieExpiration > 0) ){
 			# Remove it altogether
 			unset( $this->mFormFields['Remember'] );
-		} elseif( $wgUser->getOption( 'rememberpassword' ) || $this->mRemember ){
+		} elseif( $wgUser->getOption( 'rememberpassword' ) ){
 			# Or check it by default
 			# FIXME: this doesn't always work?
-			$this->mFormFields['Remember']['checked'] = '1';
+			$this->mFormFields['Remember']['default'] = '1';
 		}
+		
+		$this->mFormFields['Token'] = array(
+			'type' => 'hidden',
+			'default' => Token::get( 'login' ),
+		);
 		
 		$form = new HTMLForm( $this->mFormFields, '' );
 		$form->setTitle( $this->getTitle() );
@@ -223,9 +195,13 @@ class SpecialUserLogin extends SpecialPage {
 		$form->setSubmitId( 'wpLoginAttempt' );
 		$form->suppressReset();
 		$form->setWrapperLegend( wfMsg( 'userlogin' ) );
+		$form->setTokenAction( 'login' );
 		
 		$form->addHiddenField( 'returnto', $this->mReturnTo );
 		$form->addHiddenField( 'returntoquery', $this->mReturnToQuery );
+		if( $wgRequest->getText( 'uselang' ) ){
+			$form->addHiddenField( 'uselang', $wgRequest->getText( 'uselang' ) );
+		}
 		
 		$form->addHeaderText( ''
 			. Html::rawElement( 'p', array( 'id' => 'userloginlink' ),
@@ -236,7 +212,6 @@ class SpecialUserLogin extends SpecialPage {
 			. $langSelector
 		);
 		$form->addPreText( ''
-			. $msg
 			. Html::rawElement( 
 				'div', 
 				array( 'id' => 'loginstart' ), 
@@ -252,7 +227,6 @@ class SpecialUserLogin extends SpecialPage {
 		);
 		
 		# Add a  'mail reset' button if available
-		$buttons = '';
 		if( $wgEnableEmail && $wgAuth->allowPasswordChange() ){
 			$form->addButton(
 				'wpMailmypassword',
@@ -261,58 +235,11 @@ class SpecialUserLogin extends SpecialPage {
 			);
 		}
 		
+		$form->setFilterCallback( array( $this, 'formFilterCallback' ) );
+		$form->setSubmitCallback( array( $this, 'formSubmitCallback' ) );
 		$form->loadData();
-
-		$wgOut->setPageTitle( wfMsg( 'login' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
-		$wgOut->disallowUserJs();  # Stop malicious userscripts sniffing passwords
-
-		$form->displayForm( '' );
-	}	
-
-	/**
-	 * Check if a session cookie is present.
-	 *
-	 * This will not pick up a cookie set during _this_ request, but is meant
-	 * to ensure that the client is returning the cookie which was set on a
-	 * previous pass through the system.
-	 *
-	 * @private
-	 */
-	protected function hasSessionCookie() {
-		global $wgDisableCookieCheck, $wgRequest;
-		return $wgDisableCookieCheck || $wgRequest->checkSessionCookie();
-	}
-
-	/**
-	 * Do a redirect back to the same page, so we can check any
-	 * new session cookies.
-	 */
-	protected function cookieRedirectCheck() {
-		global $wgOut;
-
-		$query = array( 'wpCookieCheck' => '1');
-		if ( $this->mReturnTo ) $query['returnto'] = $this->mReturnTo;
-		$check = $this->getTitle()->getFullURL( $query );
-
-		return $wgOut->redirect( $check );
-	}
-
-	/**
-	 * Check the cookies and show errors if they're not enabled.
-	 * @param $type String action being performed
-	 */
-	protected function onCookieRedirectCheck() {
-		if ( $this->hasSessionCookie() ) {
-			return self::successfulLogin( 
-				'loginsuccess', 
-				$this->mReturnTo, 
-				$this->mReturnToQuery
-			);
-		} else {
-			return $this->mainLoginForm( wfMsgExt( 'nocookieslogin', array( 'parseinline' ) ) );
-		}
+		
+		return $form;
 	}
 
 	/**
@@ -333,11 +260,13 @@ class SpecialUserLogin extends SpecialPage {
 				$lang = trim( $lang, '* ' );
 				$parts = explode( '|', $lang );
 				if (count($parts) >= 2) {
-					$links[] = SpecialUserLogin::makeLanguageSelectorLink( 
+					$links[] = self::makeLanguageSelectorLink( 
 							$parts[0], $parts[1], $title, $returnTo );
 				}
 			}
-			return count( $links ) > 0 ? wfMsgHtml( 'loginlanguagelabel', $wgLang->pipeList( $links ) ) : '';
+			return count( $links ) > 0 
+				? wfMsgHtml( 'loginlanguagelabel', $wgLang->pipeList( $links ) ) 
+				: '';
 		} else {
 			return '';
 		}
@@ -419,29 +348,67 @@ class SpecialUserLogin extends SpecialPage {
 		}
 	}
 	
+	/**
+	 * Try and login with the data provided, and react appropriately.
+	 * @param $data Array from HTMLForm
+	 * @return Mixed Bool true, or String error
+	 */
+	protected function processLogin( $data ){
+		global $wgUser;
+		
+		$login = new Login( $data );
+		$result = $login->attemptLogin();
 
-	protected function processLogin(){
-		global $wgUser, $wgAuth;
-		$result = $this->mLogin->attemptLogin();
 		switch ( $result ) {
 			case Login::SUCCESS:
-				if( $this->hasSessionCookie() || $this->mSkipCookieCheck ) {
-					# Replace the language object to provide user interface in
-					# correct language immediately on this first page load.
-					global $wgLang, $wgRequest;
-					$code = $wgRequest->getVal( 'uselang', $wgUser->getOption( 'language' ) );
-					$wgLang = Language::factory( $code );
-					return self::successfulLogin( 
-						'loginsuccess', 
-						$this->mReturnTo, 
-						$this->mReturnToQuery,
-						$this->mLogin->mLoginResult );
-				} else {
-					# Do a redirect check to ensure that the cookies are 
-					# being retained by the user's browser.
-					return $this->cookieRedirectCheck();
-				}
-				break;
+				Token::clear( 'login' );
+				# Replace the language object to provide user interface in
+				# correct language immediately on this first page load.  Note
+				# that this only has any effect if we display a login splash
+				# screen.
+				global $wgLang, $wgRequest, $wgOut;
+				$code = $wgRequest->getVal( 'uselang', $wgUser->getOption( 'language' ) );
+				$wgLang = Language::factory( $code );
+				$wgOut->addHTML( self::successfulLogin( 
+					'loginsuccess', 
+					$this->mReturnTo, 
+					$this->mReturnToQuery,
+					$login->mLoginResult 
+				) );
+				return true;
+				
+			case Login::RESET_PASS:
+				Token::clear( 'login' );
+				# 'Shell out' to Special:ResetPass to get the user to 
+	 			# set a new permanent password from a temporary one.
+				$reset = new SpecialResetpass();
+				$msg = wfMsgExt( 'resetpass_announce', 'parseinline' );
+				$reset->getForm(true)->displayForm( $msg );
+				return true;
+				
+			case Login::CREATE_BLOCKED:
+			 	# Be nice about this, it's likely that this feature will be used
+			 	# for blocking large numbers of innocent people, e.g. range blocks on
+			 	# schools. Don't blame it on the user. There's a small chance that it
+			 	# really is the user's fault, i.e. the username is blocked and they
+			 	# haven't bothered to log out before trying to create an account to
+			 	# evade it, but we'll leave that to their guilty conscience to figure
+			 	# out.
+			 	global $wgOut, $wgUser;
+			 	$wgOut->setPageTitle( wfMsg( 'cantcreateaccounttitle' ) );
+			 	$wgOut->setRobotPolicy( 'noindex,nofollow' );
+			 	$wgOut->setArticleRelated( false );
+			 	
+			 	$ip = wfGetIP();
+			 	$blocker = User::whoIs( $wgUser->mBlock->mBy );
+			 	$blockReason = $wgUser->mBlock->mReason;
+			 	
+			 	if ( strval( $blockReason ) === '' ) {
+			 		$blockReason = wfMsg( 'blockednoreason' );
+			 	}
+			 	$wgOut->addWikiMsg( 'cantcreateaccount-text', $ip, $blockReason, $blocker );
+			 	$wgOut->returnToMain( false );
+				return true;
 
 			case Login::NO_NAME:
 			case Login::ILLEGAL:
@@ -449,34 +416,23 @@ class SpecialUserLogin extends SpecialPage {
 			case Login::WRONG_PASS:
 			case Login::EMPTY_PASS:
 			case Login::THROTTLED:
-				$this->mainLoginForm( wfMsgExt( $this->mLogin->mLoginResult, 'parseinline' ) );
-				break;
+				return wfMsgExt( $login->mLoginResult, 'parseinline' );
 				
 			case Login::NOT_EXISTS:
 				if( $wgUser->isAllowed( 'createaccount' ) ){
-					$this->mainLoginForm( wfMsgExt( 'nosuchuser', 'parseinline', htmlspecialchars( $this->mUsername ) ) );
+					return wfMsgExt( 'nosuchuser', 'parseinline', htmlspecialchars( $data['Name'] ) );
 				} else {
-					$this->mainLoginForm( wfMsgExt( 'nosuchusershort', 'parseinline', htmlspecialchars( $this->mUsername ) ) );
+					return wfMsgExt( 'nosuchusershort', 'parseinline', htmlspecialchars( $data['Name'] ) );
 				}
-				break;
 				
-			case Login::RESET_PASS:
-				# 'Shell out' to Special:ResetPass to get the user to 
-	 			# set a new permanent password from a temporary one.
-				$reset = new SpecialResetpass();
-				$reset->mHeaderMsg = wfMsgExt( 'resetpass_announce', 'parseinline' );
-				$reset->mHeaderMsgType = 'success';
-				$reset->execute( null );
-				break;
-				
-			case Login::CREATE_BLOCKED:
-				$this->userBlockedMessage();
-				break;
+			case Login::USER_BLOCKED:
+				return wfMsgExt( 'login-userblocked', 'parseinline', $login->getUser()->getName() );
 				
 			case Login::ABORTED: 
-				$msg = $this->mLogin->mLoginResult ? $this->mLogin->mLoginResult : $this->mLogin->mCreateResult;
-				$this->mainLoginForm( wfMsgExt( $msg, 'parseinline' ) );
-				break;
+				$msg = $login->mLoginResult 
+					? $login->mLoginResult 
+					: $login->mCreateResult;
+				return wfMsgExt( $msg, 'parseinline' );
 				
 			default:
 				throw new MWException( "Unhandled case value: $result" );
@@ -484,54 +440,67 @@ class SpecialUserLogin extends SpecialPage {
 	}
 
 	/**
-	 * Attempt to send the user a password-reset mail, and display
+	 * Attempt to send the user a password-reset mail, and return
 	 * the results (good, bad or ugly).
+	 * @param $data Array from HTMLForm
+	 * @return Mixed Bool true on success, String HTML on failure
 	 */
-	protected function showMailPage(){
+	protected function showMailPage( $data ){
 		global $wgOut;
-		$result = $this->mLogin->mailPassword();
+		$login = new Login( $data );
+		$result = $login->mailPassword();
 
 		switch( $result ){
+			
+			case Login::SUCCESS:
+				Token::clear( 'login' );
+				$wgOut->addWikiMsg( 'passwordsent', $login->getUser()->getName() );
+				return true;
+				
 			case Login::READ_ONLY : 
 				$wgOut->readOnlyPage();
-				return;
-			case Login::MAIL_PASSCHANGE_FORBIDDEN:
-				$this->mainLoginForm( wfMsgExt( 'resetpass_forbidden', 'parseinline' ) );
-				return;
-			case Login::MAIL_BLOCKED: 
-				$this->mainLoginForm( wfMsgExt( 'blocked-mailpassword', 'parseinline' ) );
-				return;
+				return true;
+				
 			case Login::MAIL_PING_THROTTLED: 
 				$wgOut->rateLimited();
-				return;
+				return true;
+				
+			case Login::MAIL_PASSCHANGE_FORBIDDEN:
+				return wfMsgExt( 'resetpass_forbidden', 'parseinline' );
+				
+			case Login::MAIL_BLOCKED: 
+				return wfMsgExt( 'blocked-mailpassword', 'parseinline' );
+				
+			case Login::USER_BLOCKED:
+				return wfMsgExt( 'login-userblocked-reset', 'parseinline' );
+
 			case Login::MAIL_PASS_THROTTLED: 
 				global $wgPasswordReminderResendTime;
 				# Round the time in hours to 3 d.p., in case someone 
 				# is specifying minutes or seconds.
-				$this->mainLoginForm( wfMsgExt( 
+				return wfMsgExt( 
 					'throttled-mailpassword', 
 					array( 'parsemag' ),
 					round( $wgPasswordReminderResendTime, 3 )
-				) );
-				return;
+				);
+				
 			case Login::NO_NAME: 
-				$this->mainLoginForm( wfMsgExt( 'noname', 'parseinline' ) );
-				return;
+				return wfMsgExt( 'noname', 'parseinline' );
+				
 			case Login::NOT_EXISTS: 
-				$this->mainLoginForm( wfMsgWikiHtml( 'nosuchuser', htmlspecialchars( $this->mLogin->getUser()->getName() ) ) );
-				return;
+				return wfMsgWikiHtml( 'nosuchuser', htmlspecialchars( $login->getUser()->getName() ) );
+				
 			case Login::MAIL_EMPTY_EMAIL: 
-				$this->mainLoginForm( wfMsgExt( 'noemail', 'parseinline', $this->mLogin->getUser()->getName() ) );
-				return;
+				return wfMsgExt( 'noemail', 'parseinline', $login->getUser()->getName() );
+
 			case Login::MAIL_BAD_IP: 
-				$this->mainLoginForm( wfMsgExt( 'badipaddress', 'parseinline' ) );
-				return;
+				return wfMsgExt( 'badipaddress', 'parseinline' );
+
 			case Login::MAIL_ERROR: 
-				$this->mainLoginForm( wfMsgExt( 'mailerror', 'parseinline', $this->mLogin->mMailResult->getMessage() ) );
-				return;
-			case Login::SUCCESS:
-				$this->mainLoginForm( wfMsgExt( 'passwordsent', 'parseinline', $this->mLogin->getUser()->getName() ), 'success' );
-				return;
+				return wfMsgExt( 'mailerror', 'parseinline', $login->mMailResult->getMessage() );
+			
+			default:
+				throw new MWException( "Unhandled case value: $result" );
 		}
 	}
 	

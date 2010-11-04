@@ -79,6 +79,7 @@ class HTMLForm {
 	public $mFieldData;
 	
 	protected $mSubmitCallback;
+	protected $mFilterCallback;
 	protected $mValidationErrorMessage;
 	
 	protected $mPre = '';
@@ -97,6 +98,7 @@ class HTMLForm {
 	protected $mButtons = array();
 	
 	protected $mWrapperLegend = false;
+	protected $mTokenAction = 'Edit';
 
 	/**
 	 * Build a new HTMLForm from an array of field attributes
@@ -186,7 +188,11 @@ class HTMLForm {
 	 * @return Bool whether submission was successful.
 	 */
 	function show() {
-		$html = '';
+		global $wgRequest;
+		// Check if we have the info we need
+		if ( ! $this->mTitle ) {
+			throw new MWException( "You must call setTitle() on an HTMLForm" );
+		}
 
 		self::addJS();
 
@@ -194,11 +200,8 @@ class HTMLForm {
 		$this->loadData();
 
 		# Try a submission
-		global $wgUser, $wgRequest;
-		$editToken = $wgRequest->getVal( 'wpEditToken' );
-
 		$result = false;
-		if ( $wgUser->matchEditToken( $editToken ) )
+		if( $wgRequest->wasPosted() ){
 			$result = $this->trySubmit();
 
 		if( $result === true )
@@ -217,6 +220,11 @@ class HTMLForm {
 	 *	 display.
 	 */
 	function trySubmit() {
+		# Check the session tokens
+		if ( !Token::match( null, $this->mTokenAction ) ) {
+			return array( 'sessionfailure' );
+		}
+		
 		# Check for validation
 		foreach( $this->mFlatFields as $fieldname => $field ) {
 			if ( !empty( $field->mParams['nodata'] ) )
@@ -362,8 +370,11 @@ class HTMLForm {
 	function getHiddenFields() {
 		global $wgUser;
 		$html = '';
-
-		$html .= Html::hidden( 'wpEditToken', $wgUser->editToken(), array( 'id' => 'wpEditToken' ) ) . "\n";
+		$html .= Html::hidden( 
+			"wp{$this->mTokenAction}Token", 
+			Token::set( $this->mTokenAction ), 
+			array( 'id' => 'wpEditToken' ) 
+		) . "\n";
 		$html .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) . "\n";
 		
 		foreach( $this->mHiddenFields as $name => $value ){
@@ -526,6 +537,16 @@ class HTMLForm {
 	function setMessagePrefix( $p ) {
 		$this->mMessagePrefix = $p;
 	}
+	
+	/**
+	 * If you want to protect the form from CSRF by a token other than
+	 * the usual wsEditToken, set something here.
+	 * @see Token::set()
+	 * @param $a
+	 */
+	function setTokenAction( $a ){
+		$this->mTokenAction = ucfirst( $a );
+	}
 
 	/**
 	 * Set the title for form submission
@@ -626,7 +647,18 @@ class HTMLForm {
 	 * @return unknown_type
 	 */
 	function filterDataForSubmit( $data ) {
+		if( is_callable( $this->mFilterCallback ) ){
+			$data = call_user_func( $this->mFilterCallback, $data );
+		}
 		return $data;
+	}
+	
+	/**
+	 * Set a filter callback.
+	 * @param $function Callback
+	 */
+	public function setFilterCallback( $callback ){
+		$this->mFilterCallback = $callback;
 	}
 }
 

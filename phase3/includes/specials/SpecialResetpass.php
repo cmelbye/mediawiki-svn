@@ -1,5 +1,23 @@
 <?php
 /**
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/**
  * @file
  * @ingroup SpecialPage
  */
@@ -9,17 +27,19 @@
  * @ingroup SpecialPage
  */
 class SpecialResetpass extends SpecialPage {
-	public function __construct() {
-		parent::__construct( 'Resetpass' );
-	}
 	
 	public $mFormFields = array(
-		'Name' => array(
+		'NameInfo' => array(
 			'type'          => 'info',
 			'label-message' => 'yourname',
 			'default'       => '',
 		),
-		'Password' => array(
+		'Name' => array(
+			'type'          => 'hidden',
+			'name'          => 'wpName',
+			'default'       => null,
+		),
+		'OldPassword' => array(
 			'type'          => 'password',
 			'label-message' => 'oldpassword',
 			'size'          => '20',
@@ -42,35 +62,44 @@ class SpecialResetpass extends SpecialPage {
 		),
 		'Remember' => array(
 			'type'          => 'check',
-			'label-message' => 'remembermypassword',
 			'id'            => 'wpRemember',
 		),
 	);
-	public $mSubmitMsg = 'resetpass-submit-loggedin';
-	public $mHeaderMsg = '';
-	public $mHeaderMsgType = 'error';
 	
-	public $mUsername;
-	public $mOldpass;
-	public $mNewpass;
-	public $mRetype;
+	protected $mUsername;
+	protected $mLogin;
 
-	/**
-	 * Main execution point
-	 */
-	function execute( $par ) {
-		global $wgUser, $wgAuth, $wgOut, $wgRequest;
+	public function __construct() {
+		global $wgRequest, $wgUser, $wgLang, $wgCookieExpiration;
+		
+		parent::__construct( 'Resetpass' );
+		$this->mFormFields['Retype']['validation-callback'] = array( 'SpecialCreateAccount', 'formValidateRetype' );
 
 		$this->mUsername = $wgRequest->getVal( 'wpName', $wgUser->getName() );
-		$this->mOldpass = $wgRequest->getVal( 'wpPassword' );
-		$this->mNewpass = $wgRequest->getVal( 'wpNewPassword' );
-		$this->mRetype = $wgRequest->getVal( 'wpRetype' );
-		$this->mRemember = $wgRequest->getVal( 'wpRemember' );
 		$this->mReturnTo = $wgRequest->getVal( 'returnto' );
 		$this->mReturnToQuery = $wgRequest->getVal( 'returntoquery' );
 		
+		$this->mFormFields['Remember']['label'] = wfMsgExt( 
+			'remembermypassword', 
+			'parseinline', 
+			$wgLang->formatNum( ceil( $wgCookieExpiration / 86400 ) ) 
+		);
+	}
+	
+	/**
+	 * Main execution point
+	 */
+	public function execute( $par ) {
+		global $wgUser, $wgAuth, $wgOut, $wgRequest;
+
+		if ( wfReadOnly() ) {
+			$wgOut->readOnlyPage();
+			return;
+		}
+		
 		$this->setHeaders();
 		$this->outputHeader();
+		$wgOut->disallowUserJs();
 
 		if( wfReadOnly() ){
 			$wgOut->readOnlyPage();
@@ -85,21 +114,22 @@ class SpecialResetpass extends SpecialPage {
 			$wgOut->showErrorPage( 'errorpagetitle', 'resetpass-no-info' );
 			return false;
 		}
-		
-		$data = array(
-			'wpName'     => $this->mUsername,
-			'wpPassword' => $this->mOldpass,
-		);
-		$this->mLogin =  new Login( new FauxRequest( $data, true ) );		
 
-		if( $wgRequest->wasPosted() 
-		    && $wgUser->matchEditToken( $wgRequest->getVal('wpEditToken') )
-			&& $this->attemptReset() )
-		{
+		$this->getForm()->show();
+
+	}
+	
+	public function formSubmitCallback( $data ){
+		$data['Password'] = $data['OldPassword'];
+		$this->mLogin =  new Login( $data );
+		$result = $this->attemptReset( $data );
+		
+		if( $result === true ){
 			# Log the user in if they're not already (ie we're 
 			# coming from the e-mail-password-reset route
+			global $wgUser;
 			if( !$wgUser->isLoggedIn() ) {
-				$this->mLogin->attemptLogin( $this->mNewpass );
+				$this->mLogin->attemptLogin( $data['NewPassword'] );
 				# Redirect out to the appropriate target.
 				SpecialUserlogin::successfulLogin( 
 					'resetpass_success', 
@@ -115,81 +145,82 @@ class SpecialResetpass extends SpecialPage {
 					$this->mReturnToQuery
 				);
 			}
+			return true;
 		} else {
-			$this->showForm();
+			return $result;
 		}
 	}
 
-	function showForm() {
-		global $wgOut, $wgUser;
-
-		$wgOut->disallowUserJs();
+	public function getForm( $reset=false ) {
+		global $wgOut, $wgUser, $wgRequest;
 		
-		if( $wgUser->isLoggedIn() ){
-			unset( $this->mFormFields['Remember'] );
-		} else {
+		if( $reset || $wgRequest->getCheck( 'reset' ) ){
 			# Request is coming from Special:UserLogin after it
 			# authenticated someone with a temporary password.
-			$this->mFormFields['Password']['label-message'] = 'resetpass-temp-password';
-			$this->mSubmitMsg = 'resetpass_submit';
+			$this->mFormFields['OldPassword']['label-message'] = 'resetpass-temp-password';
+			$submitMsg = 'resetpass_submit';
+			$this->mFormFields['OldPassword']['default'] = $wgRequest->getText( 'wpPassword' );
+			#perpetuate
+			$this->mFormFields['reset'] = array(
+				'type' => 'hidden',
+				'default' => '1',
+			);
+		} else {
+			unset( $this->mFormFields['Remember'] );
+			$submitMsg = 'resetpass-submit-loggedin';
 		}
-		$this->mFormFields['Name']['default'] = $this->mUsername;
 		
-		$header = $this->mHeaderMsg
-			? Html::element( 'div', array( 'class' => "{$this->mHeaderMsgType}box" ), wfMsgExt( $this->mHeaderMsg, 'parse' ) )
-			: '';
+		$this->mFormFields['Name']['default'] =
+		$this->mFormFields['NameInfo']['default'] = $this->mUsername;
 				
 		$form = new HTMLForm( $this->mFormFields, '' );
 		$form->suppressReset();
-		$form->setSubmitText( wfMsg( $this->mSubmitMsg ) );
+		$form->setSubmitText( wfMsg( $submitMsg ) );
 		$form->setTitle( $this->getTitle() );
-		$form->addHiddenField( 'wpName', $this->mUsername );
 		$form->addHiddenField( 'returnto', $this->mReturnTo );
 		$form->setWrapperLegend( wfMsg( 'resetpass_header' ) );
+		
+		$form->setSubmitCallback( array( $this, 'formSubmitCallback' ) );
 		$form->loadData();
 		
-		$form->displayForm( $this->mHeaderMsg );
+		return $form;
 	}
 
 	/**
 	 * Try to reset the user's password 
 	 */
-	protected function attemptReset() {
+	protected function attemptReset( $data ) {
 		
-		if( !$this->mUsername
-			|| !$this->mNewpass
-			|| !$this->mRetype )
+		if(    !$data['Name']
+			|| !$data['OldPassword']
+			|| !$data['NewPassword']
+			|| !$data['Retype'] )
 		{
 			return false;
 		}
 		
 		$user = $this->mLogin->getUser();
 		if( !( $user instanceof User ) ){
-			$this->mHeaderMsg = wfMsgExt( 'nosuchuser', 'parse' );
-			return false;
+			return wfMsgExt( 'nosuchuser', 'parse' );
 		}
 		
-		if( $this->mNewpass !== $this->mRetype ) {
-			wfRunHooks( 'PrefsPasswordAudit', array( $user, $this->mNewpass, 'badretype' ) );
-			$this->mHeaderMsg = wfMsgExt( 'badretype', 'parse' );
-			return false;
+		if( $data['NewPassword'] !== $data['Retype'] ) {
+			wfRunHooks( 'PrefsPasswordAudit', array( $user, $data['NewPassword'], 'badretype' ) );
+			return wfMsgExt( 'badretype', 'parse' );
 		}
 
-		if( !$user->checkPassword( $this->mOldpass ) && !$user->checkTemporaryPassword( $this->mOldpass ) ) 
+		if( !$user->checkPassword( $data['OldPassword'] ) && !$user->checkTemporaryPassword( $data['OldPassword'] ) ) 
 		{
-			wfRunHooks( 'PrefsPasswordAudit', array( $user, $this->mNewpass, 'wrongpassword' ) );
-			$this->mHeaderMsg = wfMsgExt( 'resetpass-wrong-oldpass', 'parse' );
-			return false;
+			wfRunHooks( 'PrefsPasswordAudit', array( $user, $data['NewPassword'], 'wrongpassword' ) );
+			return wfMsgExt( 'resetpass-wrong-oldpass', 'parse' );
 		}
 		
 		try {
-			$user->setPassword( $this->mNewpass );
-			wfRunHooks( 'PrefsPasswordAudit', array( $user, $this->mNewpass, 'success' ) );
-			$this->mNewpass = $this->mOldpass = $this->mRetypePass = '';
+			$user->setPassword( $data['NewPassword'] );
+			wfRunHooks( 'PrefsPasswordAudit', array( $user, $data['NewPassword'], 'success' ) );
 		} catch( PasswordError $e ) {
-			wfRunHooks( 'PrefsPasswordAudit', array( $user, $this->mNewpass, 'error' ) );
-			$this->mHeaderMsg = $e->getMessage();
-			return false;
+			wfRunHooks( 'PrefsPasswordAudit', array( $user, $data['NewPassword'], 'error' ) );
+			return $e->getMessage();
 		}
 		
 		$user->setCookies();

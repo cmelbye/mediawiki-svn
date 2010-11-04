@@ -56,68 +56,92 @@ class ApiLogin extends ApiBase {
 
 		$result = array ();
 
-		$req = new FauxRequest(array (
-			'wpName' => $params['name'],
-			'wpPassword' => $params['password'],
-			'wpDomain' => $params['domain'],
-			'wpRemember' => ''
-		));
-
+		$req =  array(
+			'Name' => $params['name'],
+			'Password' => $params['password'],
+			'Domain' => $params['domain'],
+			'Token' => $params['token'],
+			'Remember' => ''
+		);
 		// Init session if necessary
 		if( session_id() == '' ) {
 			wfSetupSession();
 		}
-
-		$loginForm = new LoginForm($req);
-		switch ($authRes = $loginForm->authenticateUserData()) {
-			case LoginForm :: SUCCESS :
-				global $wgUser, $wgCookiePrefix;
-
-				$wgUser->setOption('rememberpassword', 1);
-				$wgUser->setCookies();
-
-				// Run hooks. FIXME: split back and frontend from this hook.
-				// FIXME: This hook should be placed in the backend
-				$injected_html = '';
-				wfRunHooks('UserLoginComplete', array(&$wgUser, &$injected_html));
-
-				$result['result'] = 'Success';
-				$result['lguserid'] = intval($wgUser->getId());
-				$result['lgusername'] = $wgUser->getName();
-				$result['lgtoken'] = $wgUser->getToken();
-				$result['cookieprefix'] = $wgCookiePrefix;
-				$result['sessionid'] = session_id();
-				break;
-
-			case LoginForm :: NO_NAME :
-				$result['result'] = 'NoName';
-				break;
-			case LoginForm :: ILLEGAL :
-				$result['result'] = 'Illegal';
-				break;
-			case LoginForm :: WRONG_PLUGIN_PASS :
-				$result['result'] = 'WrongPluginPass';
-				break;
-			case LoginForm :: NOT_EXISTS :
-				$result['result'] = 'NotExists';
-				break;
-			case LoginForm :: WRONG_PASS :
-				$result['result'] = 'WrongPass';
-				break;
-			case LoginForm :: EMPTY_PASS :
-				$result['result'] = 'EmptyPass';
-				break;
-			case LoginForm :: CREATE_BLOCKED :
-				$result['result'] = 'CreateBlocked';
-				$result['details'] = 'Your IP address is blocked from account creation';
-				break;
-			case LoginForm :: THROTTLED :
-				global $wgPasswordAttemptThrottle;
-				$result['result'] = 'Throttled';
-				$result['wait'] = intval($wgPasswordAttemptThrottle['seconds']);
-				break;
-			default :
-				ApiBase :: dieDebug(__METHOD__, "Unhandled case value: {$authRes}");
+		if( $params['token'] 
+			&& !Token::match( $params['token'], 'login' ) )
+		{
+			$result['result'] = 'WrongToken';
+			
+		} elseif ( !Token::has( 'login' ) || !$params['token'] 
+			|| !Token::match( $params['token'], 'login' ) )
+		{
+			global $wgCookiePrefix;
+			$result['result'] = 'NeedToken';
+			$result['token'] = Token::set( 'login' );
+			$result['cookieprefix'] = $wgCookiePrefix;
+			$result['sessionid'] = session_id();
+			
+		} else {
+			$login = new Login( $req );
+			switch ( $authRes = $login->attemptLogin() ) {
+				case Login::SUCCESS:
+					Token::clear( 'login' );
+					global $wgUser, $wgCookiePrefix;
+	
+					$result['result'] = 'Success';
+					$result['lguserid'] = intval( $wgUser->getId() );
+					$result['lgusername'] = $wgUser->getName();
+					$result['lgtoken'] = $wgUser->getToken();
+					$result['cookieprefix'] = $wgCookiePrefix;
+					$result['sessionid'] = session_id();
+					break;
+	
+				case Login::NO_NAME:
+					$result['result'] = 'NoName';
+					break;
+	
+				case Login::ILLEGAL:
+					$result['result'] = 'Illegal';
+					break;
+	
+				case Login::WRONG_PLUGIN_PASS:
+					$result['result'] = 'WrongPluginPass';
+					break;
+	
+				case Login::NOT_EXISTS:
+					$result['result'] = 'NotExists';
+					break;
+	
+				# bug 20223 - Treat a temporary password as wrong. Per 
+				# SpecialUserLogin - "The e-mailed temporary password 
+				# should not be used for actual logins"
+				case Login::RESET_PASS: 
+				case Login::WRONG_PASS:
+					$result['result'] = 'WrongPass';
+					break;
+	
+				case Login::EMPTY_PASS:
+					$result['result'] = 'EmptyPass';
+					break;
+	
+				case Login::CREATE_BLOCKED:
+					$result['result'] = 'CreateBlocked';
+					$result['details'] = 'Your IP address is blocked from account creation';
+					break;
+	
+				case Login::THROTTLED:
+					global $wgPasswordAttemptThrottle;
+					$result['result'] = 'Throttled';
+					$result['wait'] = intval( $wgPasswordAttemptThrottle['seconds'] );
+					break;
+	
+				case Login::USER_BLOCKED:
+					$result['result'] = 'Blocked';
+					break;
+	
+				default:
+					ApiBase::dieDebug( __METHOD__, "Unhandled case value: {$authRes}" );
+			}
 		}
 
 		$this->getResult()->addValue(null, 'login', $result);
