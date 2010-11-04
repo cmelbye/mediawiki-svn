@@ -118,7 +118,6 @@ class Gadgets {
 
 		$lb->execute( __METHOD__ );
 
-		$pages = array();
 		$done = array();
 		foreach ( $pages as $page ) {
 			if ( isset( $done[$page] ) ) continue;
@@ -208,11 +207,17 @@ class Gadget {
 	}
 
 	public function getModule() {
-		$pages = $this->styles;
-		if ( $this->supportsResourceLoader() ) {
-			$pages += $this->scripts;
+		$pages = array();
+		foreach( $this->styles as $style ) {
+			$pages[$style] = array( 'ns' => NS_MEDIAWIKI, 'type' => 'style' );
 		}
-		if ( count( $pages ) ) {
+		if ( $this->supportsResourceLoader() ) {
+			foreach ( $this->scripts as $script ) {
+				$pages[$script] = array( 'ns' => NS_MEDIAWIKI, 'type' => 'script' );
+			}
+		}
+		if ( !count( $pages ) ) {
+			return null;
 		}
 		return new GadgetResourceLoaderModule( $pages );
 	}
