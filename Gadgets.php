@@ -29,10 +29,10 @@ $wgExtensionCredits['other'][] = array(
 	'descriptionmsg' => 'gadgets-desc',
 );
 
-$wgHooks['ArticleSaveComplete'][]           = 'Gadgets::ArticleSaveComplete';
-$wgHooks['BeforePageDisplay'][]             = 'Gadgets::BeforePageDisplay';
-$wgHooks['GetPreferences'][]                = 'Gadgets::GetPreferences';
-$wgHooks['ResourceLoaderRegisterModules'][] = 'Gadgets::RegisterModules';
+$wgHooks['ArticleSaveComplete'][]           = 'Gadgets::articleSaveComplete';
+$wgHooks['BeforePageDisplay'][]             = 'Gadgets::beforePageDisplay';
+$wgHooks['GetPreferences'][]                = 'Gadgets::getPreferences';
+$wgHooks['ResourceLoaderRegisterModules'][] = 'Gadgets::registerModules';
 
 $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['Gadgets'] = $dir . 'Gadgets.i18n.php';

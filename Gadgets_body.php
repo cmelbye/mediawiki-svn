@@ -18,17 +18,17 @@ class Gadgets {
 		//update cache if MediaWiki:Gadgets-definition was edited
 		$title = $article->mTitle;
 		if( $title->getNamespace() == NS_MEDIAWIKI && $title->getText() == 'Gadgets-definition' ) {
-			self::LoadStructured( $text );
+			self::loadStructured( $text );
 		}
 		return true;
 	}
 
-	private static function Load() {
+	private static function load() {
 		static $gadgets = null;
 
 		if ( $gadgets !== null ) return $gadgets;
 
-		$struct = self::LoadStructured();
+		$struct = self::loadStructured();
 		if ( !$struct ) {
 			$gadgets = $struct;
 			return $gadgets;
@@ -42,7 +42,7 @@ class Gadgets {
 		return $gadgets;
 	}
 
-	public static function LoadStructured( $forceNewText = null ) {
+	public static function loadStructured( $forceNewText = null ) {
 		global $wgMemc;
 
 		static $gadgets = null;
@@ -91,8 +91,8 @@ class Gadgets {
 		return $gadgets;
 	}
 
-	public static function GetPreferences( $user, &$preferences ) {
-		$gadgets = self::LoadStructured();
+	public static function getPreferences( $user, &$preferences ) {
+		$gadgets = self::loadStructured();
 		if (!$gadgets) return true;
 		
 		$options = array();
@@ -134,9 +134,9 @@ class Gadgets {
 		return true;
 	}
 
-	public static function RegisterModules( &$resourceLoader ) {
-		$gadgets = self::Load();
-		if ( !gadgets ) {
+	public static function registerModules( &$resourceLoader ) {
+		$gadgets = self::load();
+		if ( !$gadgets ) {
 			return true;
 		}
 		foreach ( $gadgets as $g ) {
@@ -148,7 +148,7 @@ class Gadgets {
 		return true;
 	}
 
-	public function BeforePageDisplay( $out ) {
+	public static function beforePageDisplay( $out ) {
 		global $wgUser;
 		if ( !$wgUser->isLoggedIn() ) return true;
 
@@ -191,13 +191,13 @@ class Gadgets {
 		foreach ( $pages as $page ) {
 			if ( isset( $done[$page] ) ) continue;
 			$done[$page] = true;
-			self::ApplyGadgetCode( $page, $out );
+			self::applyGadgetCode( $page, $out );
 		}
 
 		return true;
 	}
 
-	private static function ApplyGadgetCode( $page, $out ) {
+	private static function applyGadgetCode( $page, $out ) {
 		global $wgJsMimeType;
 
 		//FIXME: stuff added via $out->addScript appears below usercss and userjs in the head tag.
@@ -221,7 +221,7 @@ class Gadget {
 	        $name,
 			$resourceLoaded = false;
 
-	public static function newFromDefinition( string $definition ) {
+	public static function newFromDefinition( $definition ) {
 		if ( !preg_match( '/^\*+ *([a-zA-Z](?:[-_:.\w\d ]*[a-zA-Z0-9])?)\s*((\|[^|]*)+)\s*$/', $definition, $m ) ) {
 			return false;
 		}
@@ -289,7 +289,7 @@ class Gadget {
 		if ( $this->supportsResourceLoader() ) {
 			return array();
 		}
-		return $this->scripts();
+		return $this->scripts;
 	}
 }
 
