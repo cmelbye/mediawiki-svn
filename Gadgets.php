@@ -24,7 +24,7 @@ if ( version_compare( $wgVersion, '1.17alpha', '<' ) ) {
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'Gadgets',
-	'author' => 'Daniel Kinzler',
+	'author' => array( 'Daniel Kinzler', 'Max Semenik' ),
 	'url' => 'http://mediawiki.org/wiki/Extension:Gadgets',
 	'descriptionmsg' => 'gadgets-desc',
 );
