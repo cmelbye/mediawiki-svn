@@ -126,8 +126,7 @@
 		$pages = array();
 
 		foreach ( $gadgets as $gadget ) {
-			$tname = 'gadget-' . $gadget->getName();
-			if ( $wgUser->getOption( $tname ) ) {
+			if ( $gadget->isEnabled() ) {
 				if ( $gadget->hasModule() ) {
 					$out->addModules( $gadget->getModuleName() );
 				}
@@ -231,6 +230,14 @@ class Gadget {
 	 */
 	public function isOutdated() {
 		return $this->version != GADGET_CLASS_VERSION;
+	}
+
+	/**
+	 * @return Boolean: Whether this gadget is enabled for current user
+	 */
+	public function isEnabled() {
+		global $wgUser;
+		return (bool)$wgUser->getOption( "gadget-{$this->name}" );
 	}
 
 	/**
