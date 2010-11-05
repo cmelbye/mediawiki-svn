@@ -36,6 +36,10 @@ abstract class UploadBase {
 	const SESSION_VERSION = 2;
 	const SESSION_KEYNAME = 'wsUploadData';
 
+	static public function getSessionKeyname() {
+		return self::SESSION_KEYNAME;
+	}
+
 	/**
 	 * Returns true if uploads are enabled.
 	 * Can be override by subclasses.
