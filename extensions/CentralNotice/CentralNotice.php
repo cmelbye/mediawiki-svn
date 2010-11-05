@@ -28,10 +28,11 @@ $wgNoticeProjects = array(
 $wgNoticeInfrastructure = true;
 
 // The name of the database which hosts the centralized campaign data
-$wgCentralDBname = 'metawiki';
+$wgCentralDBname = '';
 
 // The path to Special Pages on the wiki that hosts the CentralNotice infrastructure
-$wgCentralPagePath = 'http://meta.wikimedia.org/wiki/';
+// For example 'http://meta.wikimedia.org/wiki/'
+$wgCentralPagePath = '';
 
 // Enable the loader itself
 // Allows to control the loader visibility, without destroying infrastructure
@@ -151,7 +152,7 @@ function efCentralNoticeSchema( $updater = null ) {
 }
 
 function efCentralNoticeLoader( $out, $skin ) {
-	global $wgUser, $wgOut, $wgCentralDBname;
+	global $wgOut;
 
 	// Include '.js' to exempt script from squid cache override
 	$centralLoader = SpecialPage::getTitleFor( 'BannerController' )->getLocalUrl( 'cache=/cn.js' );
