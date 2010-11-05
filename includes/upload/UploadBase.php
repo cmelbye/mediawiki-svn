@@ -231,6 +231,10 @@ abstract class UploadBase {
 	 * @return mixed true of the file is verified, a string or array otherwise.
 	 */
 	protected function verifyFile() {
+		# get the title, even though we are doing nothing with it, because
+		# we need to populate mFinalExtension 
+		$nt = $this->getTitle();
+
 		$this->mFileProps = File::getPropsFromPath( $this->mTempPath, $this->mFinalExtension );
 		$this->checkMacBinary();
 
