@@ -129,6 +129,7 @@ mw.FirefoggGUI.prototype = {
 			'webvideo': {
 				'desc': gM( 'fogg-webvideo-desc' ),
 				'conf': {
+					'videoCodec' : 'theora',
 					'maxSize'      : 400,
 					'videoBitrate' : 544,
 					'audioBitrate' : 96,
@@ -138,6 +139,7 @@ mw.FirefoggGUI.prototype = {
 			'savebandwidth': {
 				'desc': gM( 'fogg-savebandwidth-desc' ),
 				'conf': {
+					'videoCodec' : 'theora',
 					'maxSize'       : 200,
 					'videoBitrate'  : 164,
 					'audioBitrate'  : 32,
@@ -150,6 +152,7 @@ mw.FirefoggGUI.prototype = {
 			'hqstream': {
 				'desc': gM( 'fogg-highquality-desc' ),
 				'conf': {
+					'videoCodec' : 'theora',
 					'maxSize'      : 1080,
 					'videoQuality' : 6,
 					'audioQuality' : 3,
@@ -736,6 +739,7 @@ mw.FirefoggGUI.prototype = {
 	 * Update the UI due to a change in preset
 	 */
 	updatePresetSelection: function( presetKey ) {
+		var _this = this;
 		// Update the local configuration
 		this.local_settings['default'] = presetKey;
 		mw.log( 'update preset desc: ' + presetKey );
@@ -748,6 +752,14 @@ mw.FirefoggGUI.prototype = {
 		if( presetKey != 'custom' ){
 			// Copy the preset into custom settings
 			this.local_settings.presets['custom']['conf'] = $j.extend( {}, this.local_settings.presets[presetKey]['conf'] );
+
+		    // Set the actual HTML & widgets based on any local settings values:
+		    $j.each( _this.local_settings.presets['custom']['conf'], function( inx, val ) {
+			    if ( $j( _this.selector + ' ._' + inx ).length != 0 ) {
+				    $j( _this.selector + ' ._' + inx ).val( val );
+			    }
+		    } );
+
 		}
 		// Update the preset title
 		$j( this.selector + ' .gd_preset' )
