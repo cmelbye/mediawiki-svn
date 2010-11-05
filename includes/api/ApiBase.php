@@ -548,6 +548,44 @@ abstract class ApiBase {
 	}
 
 	/**
+	 * Return true if we're to watch the page, false if not, null if no change.
+	 * @param $watchlist String Valid values: 'watch', 'unwatch', 'preferences', 'nochange'
+	 * @param $titleObj Title the page under consideration
+	 * @param $userOption String The user option to consider when $watchlist=preferences.
+	 * 	If not set will magically default to either watchdefault or watchcreations
+	 * @returns mixed
+	 */
+	protected function getWatchlistValue ( $watchlist, $titleObj, $userOption = null ) {
+		global $wgUser;
+		switch ( $watchlist ) {
+			case 'watch':
+				return true;
+
+			case 'unwatch':
+				return false;
+
+			case 'preferences':
+				# If the user is already watching, don't bother checking
+				if ( $titleObj->userIsWatching() ) {
+					return null;
+				}
+				# If no user option was passed, use watchdefault or watchcreation
+				if ( is_null( $userOption ) ) {
+					$userOption = $titleObj->exists()
+						? 'watchdefault' : 'watchcreations';
+				}
+				# If the corresponding user option is true, watch, else no change
+				return $wgUser->getOption( $userOption ) ? true : null;
+
+			case 'nochange':
+				return null;
+
+			default:
+				return null;
+		}
+	}
+
+	/**
 	 * Using the settings determine the value for the given parameter
 	 *
 	 * @param $paramName String: parameter name
