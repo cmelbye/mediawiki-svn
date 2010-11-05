@@ -29,17 +29,17 @@ $wgExtensionCredits['other'][] = array(
 	'descriptionmsg' => 'gadgets-desc',
 );
 
-$wgHooks['ArticleSaveComplete'][]           = 'Gadgets::articleSaveComplete';
-$wgHooks['BeforePageDisplay'][]             = 'Gadgets::beforePageDisplay';
-$wgHooks['GetPreferences'][]                = 'Gadgets::getPreferences';
-$wgHooks['ResourceLoaderRegisterModules'][] = 'Gadgets::registerModules';
+$wgHooks['ArticleSaveComplete'][]           = 'GadgetHooks::articleSaveComplete';
+$wgHooks['BeforePageDisplay'][]             = 'GadgetHooks::beforePageDisplay';
+$wgHooks['GetPreferences'][]                = 'GadgetHooks::getPreferences';
+$wgHooks['ResourceLoaderRegisterModules'][] = 'GadgetHooks::registerModules';
 
 $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['Gadgets'] = $dir . 'Gadgets.i18n.php';
 $wgExtensionAliasesFiles['Gadgets'] = $dir . 'Gadgets.alias.php';
 
 $wgAutoloadClasses['Gadget'] = $dir . 'Gadgets_body.php';
-$wgAutoloadClasses['Gadgets'] = $dir . 'Gadgets_body.php';
+$wgAutoloadClasses['GadgetHooks'] = $dir . 'Gadgets_body.php';
 $wgAutoloadClasses['GadgetsResourceLoaderModule'] = $dir . 'Gadgets_body.php';
 $wgAutoloadClasses['SpecialGadgets'] = $dir . 'SpecialGadgets.php';
 

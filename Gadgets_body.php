@@ -12,9 +12,18 @@
  * @license GNU General Public Licence 2.0 or later
  */
 
-class Gadgets {
+// @todo: Support specifying RL-awareness per gadget
 
-	public static function ArticleSaveComplete( $article, $user, $text ) {
+ class GadgetHooks {
+
+	/**
+	 * ArticleSaveComplete hook handler.
+	 * 
+	 * @param $article Article
+	 * @param $user User
+	 * @param $text String: New page text
+	 */
+	public static function articleSaveComplete( $article, $user, $text ) {
 		//update cache if MediaWiki:Gadgets-definition was edited
 		$title = $article->mTitle;
 		if( $title->getNamespace() == NS_MEDIAWIKI && $title->getText() == 'Gadgets-definition' ) {
@@ -23,6 +32,11 @@ class Gadgets {
 		return true;
 	}
 
+	/**
+	 * GetPreferences hook handler.
+	 * @param $user User
+	 * @param $preferences Array: Preference descriptions
+	 */
 	public static function getPreferences( $user, &$preferences ) {
 		$gadgets = Gadget::loadStructuredList();
 		if (!$gadgets) return true;
@@ -66,6 +80,10 @@ class Gadgets {
 		return true;
 	}
 
+	/**
+	 * ResourceLoaderRegisterModules hook handler.
+	 * @param $resourceLoader ResourceLoader
+	 */
 	public static function registerModules( &$resourceLoader ) {
 		$gadgets = Gadget::loadList();
 		if ( !$gadgets ) {
@@ -80,6 +98,10 @@ class Gadgets {
 		return true;
 	}
 
+	/**
+	 * BeforePageDisplay hook handler.
+	 * @param $out OutputPage
+	 */
 	public static function beforePageDisplay( $out ) {
 		global $wgUser;
 		if ( !$wgUser->isLoggedIn() ) return true;
@@ -122,16 +144,22 @@ class Gadgets {
 		foreach ( $pages as $page ) {
 			if ( isset( $done[$page] ) ) continue;
 			$done[$page] = true;
-			self::applyGadgetCode( $page, $out );
+			self::applyScript( $page, $out );
 		}
 
 		return true;
 	}
 
-	private static function applyGadgetCode( $page, $out ) {
+	/**
+	 * Adds one legacy script to output.
+	 * 
+	 * @param $page String: Unprefixed page title
+	 * @param $out OutputPage
+	 */
+	private static function applyScript( $page, $out ) {
 		global $wgJsMimeType;
 
-		//FIXME: stuff added via $out->addScript appears below usercss and userjs in the head tag.
+		//FIXME: stuff added via $out->addScript appears below usercss and userjs
 		//       but we'd want it to appear above explicit user stuff, so it can be overwritten.
 
 		$t = Title::makeTitleSafe( NS_MEDIAWIKI, $page );
@@ -143,8 +171,14 @@ class Gadgets {
 	}
 }
 
+/**
+ * Wrapper for one gadget.
+ */
 class Gadget {
-	const GADGET_CLASS_VERSION = 1; // Increment this when changing fields
+	/**
+	 * Increment this when changing class structure
+	 */
+	const GADGET_CLASS_VERSION = 1;
 
 	private $version = self::GADGET_CLASS_VERSION,
 	        $scripts = array(),
@@ -152,6 +186,11 @@ class Gadget {
 	        $name,
 			$resourceLoaded = false;
 
+	/**
+	 * Creates an instance of this class from definition in MediaWiki:Gadgets-definition
+	 * @param $definition String: Gadget definition
+	 * @return Mixed: Instance of Gadget class or false if $definition is invalid
+	 */
 	public static function newFromDefinition( $definition ) {
 		if ( !preg_match( '/^\*+ *([a-zA-Z](?:[-_:.\w\d ]*[a-zA-Z0-9])?)\s*((\|[^|]*)+)\s*$/', $definition, $m ) ) {
 			return false;
@@ -172,40 +211,70 @@ class Gadget {
 		return $gadget;
 	}
 
+	/**
+	 * @return String: Gadget name
+	 */
 	public function getName() {
 		return $this->name;
 	}
 
+	/**
+	 * @return String: Name of ResourceLoader module for this gadget
+	 */
 	public function getModuleName() {
 		return "ext.gadget.{$this->name}";
 	}
 
+	/**
+	 * Checks whether this is an instance of an older version of this class deserialized from cache
+	 * @return Boolean
+	 */
 	public function isOutdated() {
 		return $this->version != GADGET_CLASS_VERSION;
 	}
 
+	/**
+	 * @return Boolean: Whether all of this gadget's JS components support ResourceLoader
+	 */
 	public function supportsResourceLoader() {
 		return $this->resourceLoaded;
 	}
 
+	/**
+	 * @return Boolean: Whether this gadget has resources that can be loaded via ResourceLoader
+	 */
 	public function hasModule() {
 		return count( $this->styles ) 
 			+ ( $this->supportsResourceLoader() ? count( $this->scripts ) : 0 ) 
 				> 0;
 	}
 
+	/**
+	 * @return Array: Array of pages with JS not prefixed with namespace
+	 */
 	public function getScripts() {
 		return $this->scripts;
 	}
 
+	/**
+	 * @return Array: Array of pages with CSS not prefixed with namespace
+	 */
 	public function getStyles() {
 		return $this->styles;
 	}
 
+	/**
+	 * @return Array: Array of all of this gadget's resources
+	 */
 	public function getScriptsAndStyles() {
 		return array_merge( $this->scripts, $this->styles );
 	}
 
+	/**
+	 * Returns module for ResourceLoader, see getModuleName() for its name.
+	 * If our gadget has no scripts or styles suitable for RL, false will be returned.
+	 * @return Mixed: GadgetResourceLoaderModule or false
+	 */
 	public function getModule() {
 		$pages = array();
 		foreach( $this->styles as $style ) {
@@ -222,6 +291,10 @@ class Gadget {
 		return new GadgetResourceLoaderModule( $pages );
 	}
 
+	/**
+	 * Returns list of scripts that don't support ResourceLoader
+	 * @return Array
+	 */
 	public function getLegacyScripts() {
 		if ( $this->supportsResourceLoader() ) {
 			return array();
@@ -229,6 +302,10 @@ class Gadget {
 		return $this->scripts;
 	}
 
+	/**
+	 * Loads and returns a list of all gadgets
+	 * @return Mixed: Array of gadgets or false
+	 */
 	public static function loadList() {
 		static $gadgets = null;
 
@@ -248,6 +325,34 @@ class Gadget {
 		return $gadgets;
 	}
 
+	/**
+	 * Checks whether gadget list from cache can be used.
+	 * @return Boolean
+	 */
+	private static function isValidList( $gadgets ) {
+		if ( !is_array( $gadgets ) ) return false;
+		// Check if we have 1) array of gadgets 2) the gadgets are up to date
+		// One check is enough
+		foreach ( $gadgets as $section => $list ) {
+			foreach ( $list as $g ) {
+				if ( !( $g instanceof Gadget ) || $g->isOutdated() ) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+		return true; // empty array
+	}
+
+	/**
+	 * Loads list of gadgets and returns it as associative array of sections with gadgets
+	 * e.g. array( 'sectionnname1' => array( $gadget1, $gadget2),
+	 *             'sectionnname2' => array( $gadget3 ) );
+	 * @param $forceNewText String: New text of MediaWiki:gadgets-sdefinition. If specified, will
+	 * 	      force a purge of cache and recreation of the gadget list.
+	 * @return Mixed: Array or false
+	 */
 	public static function loadStructuredList( $forceNewText = null ) {
 		global $wgMemc;
 
@@ -259,8 +364,7 @@ class Gadget {
 		if ( $forceNewText === null ) {
 			//cached?
 			$gadgets = $wgMemc->get( $key );
-			// TODO: isOutdated()
-			if ( is_array($gadgets) && next( $gadgets ) instanceof Gadget ) return $gadgets;
+			if ( self::isValidList( $gadgets ) ) return $gadgets;
 
 			$g = wfMsgForContentNoTrans( "gadgets-definition" );
 			if ( wfEmptyMsg( "gadgets-definition", $g ) ) {
@@ -282,7 +386,7 @@ class Gadget {
 				$section = $m[1];
 			}
 			else {
-				$gadget = Gadget::newFromDefinition( $line );
+				$gadget = self::newFromDefinition( $line );
 				if ( $gadget ) {
 					$gadgets[$section][$gadget->getName()] = $gadget;
 				}
@@ -298,13 +402,29 @@ class Gadget {
 	}
 }
 
+/**
+ * Class representing a list of resources for one gadget
+ */
 class GadgetResourceLoaderModule extends ResourceLoaderWikiModule {
 	private $pages;
 
+	/**
+	 * Creates an instance of this class
+	 * @param $pages Array: Associative array of pages in ResourceLoaderWikiModule-compatible
+	 * format, for example:
+	 * array(
+	 * 		'Gadget-foo.js'  => array( 'ns' => NS_MEDIAWIKI, 'type' => 'script' ),
+	 * 		'Gadget-foo.css' => array( 'ns' => NS_MEDIAWIKI, 'type' => 'style' ),
+	 * )
+	 */
 	public function __construct( $pages ) {
 		$this->pages = $pages;
 	}
 
+	/**
+	 * Overrides the abstract function from ResourceLoaderWikiModule class
+	 * @return Array: $pages passed to __construct()
+	 */
 	protected function getPages( ResourceLoaderContext $context ) {
 		return $this->pages;
 	}
