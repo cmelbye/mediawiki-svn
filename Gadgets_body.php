@@ -12,8 +12,6 @@
  * @license GNU General Public Licence 2.0 or later
  */
 
-// @todo: Support specifying RL-awareness per gadget
-
  class GadgetHooks {
 
 	/**
@@ -168,6 +166,15 @@
 		//switched to addScriptFile call to support scriptLoader
 		$out->addScriptFile( $u, $t->getLatestRevID() );
 	}
+
+	/**
+	 * UnitTestsList hook handler
+	 * @param $files Array: List of extension test files
+	 */
+	public static function unitTestsList( $files ) {
+		$files[] = dirname( __FILE__ ) . '/Gadgets_tests.php';
+		return true;
+	}
 }
 
 /**
@@ -183,6 +190,7 @@ class Gadget {
 	        $scripts = array(),
 	        $styles = array(),
 	        $name,
+			$definition,
 			$resourceLoaded = false;
 
 	/**
@@ -191,15 +199,20 @@ class Gadget {
 	 * @return Mixed: Instance of Gadget class or false if $definition is invalid
 	 */
 	public static function newFromDefinition( $definition ) {
-		if ( !preg_match( '/^\*+ *([a-zA-Z](?:[-_:.\w\d ]*[a-zA-Z0-9])?)\s*((\|[^|]*)+)\s*$/', $definition, $m ) ) {
+		if ( !preg_match( '/^\*+ *([a-zA-Z](?:[-_:.\w\d ]*[a-zA-Z0-9])?)(\s*\[.*?\])?\s*((\|[^|]*)+)\s*$/', $definition, $m ) ) {
 			return false;
 		}
 		//NOTE: the gadget name is used as part of the name of a form field,
 		//      and must follow the rules defined in http://www.w3.org/TR/html4/types.html#type-cdata
 		//      Also, title-normalization applies.
 		$gadget = new Gadget();
-		$gadget->name = str_replace(' ', '_', $m[1] );
-		foreach( preg_split( '/\s*\|\s*/', $m[2], -1, PREG_SPLIT_NO_EMPTY ) as $page ) {
+		$gadget->name = trim( str_replace(' ', '_', $m[1] ) );
+		$gadget->definition = $definition;
+		$params = trim( $m[2], ' []' );
+		foreach ( preg_split( '/\s*\|\s*/', $params, -1, PREG_SPLIT_NO_EMPTY ) as $option ) {
+			if ( $option == 'ResourceLoader' ) $gadget->resourceLoaded = true;
+		}
+		foreach ( preg_split( '/\s*\|\s*/', $m[3], -1, PREG_SPLIT_NO_EMPTY ) as $page ) {
 			$page = "Gadget-$page";
 			if ( preg_match( '/\.js/', $page ) ) {
 				$gadget->scripts[] = $page;
@@ -254,6 +267,13 @@ class Gadget {
 		return count( $this->styles ) 
 			+ ( $this->supportsResourceLoader() ? count( $this->scripts ) : 0 ) 
 				> 0;
+	}
+
+	/**
+	 * @return String: Definition for this gadget from MediaWiki:gadgets-definition
+	 */
+	public function getDefinition() {
+		return $this->definition;
 	}
 
 	/**

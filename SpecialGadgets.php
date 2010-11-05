@@ -123,10 +123,6 @@ class SpecialGadgets extends SpecialPage {
 		}
 	}
 
-	private static function stripName( $name ) {
-		return preg_replace( '/Gadget-/i', '', $name );
-	}
-
 	/**
 	 * Exports a gadget with its dependencies in a serialized form
 	 * @param $gadget String Name of gadget to export
@@ -141,12 +137,9 @@ class SpecialGadgets extends SpecialPage {
 		}
 		
 		$g = $gadgets[$gadget];
-		$pages = $g->getScriptsAndStyles();
-		$pages = array_map( 'SpecialGadgets::stripName', $pages );
-		$ourDefinition = "* $gadget|" . implode('|', $pages );
 		$this->setHeaders();
 		$wgOut->setPagetitle( wfMsg( "gadgets-export-title" ) );
-		$wgOut->addWikiMsg( 'gadgets-export-text', $gadget, $ourDefinition );
+		$wgOut->addWikiMsg( 'gadgets-export-text', $gadget, $g->getDefinition() );
 
 		$exportList = "MediaWiki:gadget-$gadget\n";
 		foreach ( $g->getScriptsAndStyles() as $page ) {
