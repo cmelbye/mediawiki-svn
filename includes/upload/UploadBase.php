@@ -33,6 +33,7 @@ abstract class UploadBase {
 	const HOOK_ABORTED = 11;
 
 	const SESSION_VERSION = 2;
+	const SESSION_KEYNAME = 'wsUploadData';
 
 	/**
 	 * Returns true if uploads are enabled.
