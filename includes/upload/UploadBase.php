@@ -31,6 +31,7 @@ abstract class UploadBase {
 	const VERIFICATION_ERROR = 10;
 	const UPLOAD_VERIFICATION_ERROR = 11;
 	const HOOK_ABORTED = 11;
+	const FILE_TOO_LARGE = 12;
 
 	const SESSION_VERSION = 2;
 	const SESSION_KEYNAME = 'wsUploadData';
