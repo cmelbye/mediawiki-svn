@@ -680,8 +680,6 @@ class SpecialNoticeTemplate extends UnlistedSpecialPage {
 	}
 
 	private function removeTemplate ( $name ) {
-		global $wgOut;
-
 		$id = $this->getTemplateId( $name );
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select( 'cn_assignments', 'asn_id', array( 'tmp_id' => $id ), __METHOD__ );
@@ -709,8 +707,6 @@ class SpecialNoticeTemplate extends UnlistedSpecialPage {
 	 * Create a new banner
 	 */
 	private function addTemplate( $name, $body, $displayAnon, $displayAccount ) {
-		global $wgOut;
-
 		if ( $body == '' || $name == '' ) {
 			$this->showError( 'centralnotice-null-string' );
 			return;
@@ -754,8 +750,6 @@ class SpecialNoticeTemplate extends UnlistedSpecialPage {
 	 * Update a banner
 	 */
 	private function editTemplate( $name, $body, $displayAnon, $displayAccount ) {
-		global $wgOut;
-
 		if ( $body == '' || $name == '' ) {
 			$this->showError( 'centralnotice-null-string' );
 			return;
@@ -834,7 +828,6 @@ class SpecialNoticeTemplate extends UnlistedSpecialPage {
 	 * Find all message fields set for a banner
 	 */
 	private function findFields( $template ) {
-		$messages = array();
 		$body = wfMsg( "Centralnotice-template-{$template}" );
 
 		// Generate list of message fields from parsing the body

@@ -13,8 +13,7 @@ class SpecialBannerController extends UnlistedSpecialPage {
 	}
 
 	function execute( $par ) {
-		global $wgOut, $wgRequest;
-		global $wgNoticeLang, $wgNoticeProject;
+		global $wgOut;
 		
 		$wgOut->disable();
 		$this->sendHeaders();
@@ -26,7 +25,6 @@ class SpecialBannerController extends UnlistedSpecialPage {
 		} else {
 			echo $content;
 		}
-		
 	}
 	
 	/**
@@ -75,7 +73,7 @@ JAVASCRIPT;
 					var geoLocation = Geo.country; // pull the geo info
 				}
 				var bannerListQuery = $.param( { 'language': wgContentLanguage, 'project': wgNoticeProject, 'country': geoLocation } );
-				var bannerListURL = wgScript + '?title=' + wgFormattedNamespaces[-1] + ':BannerListLoader&cache=/cn.js&' + bannerListQuery;
+				var bannerListURL = wgScript + '?title=' + encodeURIComponent(wgFormattedNamespaces[-1]) + ':BannerListLoader&cache=/cn.js&' + bannerListQuery;
 				var request = $.ajax( {
 					url: bannerListURL,
 					dataType: 'json',
