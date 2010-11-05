@@ -31,10 +31,10 @@ class SpecialBannerAllocation extends UnlistedSpecialPage {
 		$this->setHeaders();
 		
 		// Add style file to the output headers
-		$wgOut->addExtensionStyle( "$wgScriptPath/extensions/CentralNotice/centralnotice.css" );
+		$wgOut->addExtensionStyle( "$wgExtensionAssetsPath/CentralNotice/centralnotice.css" );
 		
 		// Add script file to the output headers
-		$wgOut->addScriptFile( "$wgScriptPath/extensions/CentralNotice/centralnotice.js" );
+		$wgOut->addScriptFile( "$wgExtensionAssetsPath/CentralNotice/centralnotice.js" );
 
 		// Initialize error variable
 		$this->centralNoticeError = false;
