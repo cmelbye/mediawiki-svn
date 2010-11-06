@@ -379,7 +379,9 @@ class LinksUpdate {
 				$dbw->delete( $table, $where, __METHOD__ );
 			}
 			if ( count( $insertions ) ) {
-				$dbw->insert( $table, $insertions, __METHOD__, 'IGNORE' );
+				$dbw->insert( 'globaltemplatelinks', $insertions['globaltemplatelinks'], __METHOD__, 'IGNORE' );
+				$dbw->insert( 'globalnamespaces', $insertions['globalnamespaces'], __METHOD__, 'IGNORE' );
+				$dbw->insert( 'globalinterwiki', $insertions['globalinterwiki'], __METHOD__, 'IGNORE' );
 			}
 		}
 	}
@@ -433,15 +435,26 @@ class LinksUpdate {
 		foreach( $this->mDistantTemplates as $prefix => $templatesToNS ) {
 			foreach( $templatesToNS as $ns => $dbkeys ) {
 				$diffs = isset( $existing[$prefix] ) && isset( $existing[$prefix][$ns] ) ? array_diff_key( $dbkeys, $existing[$prefix][$ns] ) : $dbkeys;
+				$interwiki = Interwiki::fetch( $prefix );
+				$wikiid = $interwiki->getWikiID( );
 				foreach ( $diffs as $dbk => $id ) {
-					$arr[] = array(
+					$arr['globaltemplatelinks'][] = array(
 						'gtl_from_wiki'      => wfWikiID( ),
 						'gtl_from_page'      => $this->mId,
-						'gtl_from_namespace' => $this->mTitle->getNsText(),
+						'gtl_from_namespace' => $this->mTitle->getNamespace(),
 						'gtl_from_title'     => $this->mTitle->getText(),
 						'gtl_to_prefix'      => $prefix,
 						'gtl_to_namespace'   => $ns,
 						'gtl_to_title'       => $dbk
+					);
+					$arr['globalinterwiki'][] = array(
+						'giw_wikiid'		 => $wikiid,
+						'giw_prefix'		 => $prefix
+					);
+					$arr['globalnamespaces'][] = array(
+						'gn_wiki'			 => wfWikiID( ),
+						'gn_namespace'   	 => $this->mTitle->getNamespace(),
+						'gn_namespacetext' 	 => $this->mTitle->getNsText(),
 					);
 				}
 			}

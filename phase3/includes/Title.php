@@ -3123,7 +3123,7 @@ class Title {
 		if ( $wgEnableInterwikiTemplatesTracking && $wgGlobalDatabase ) {
 			$dbw2 = wfGetDB( DB_MASTER, array(), $wgGlobalDatabase );
 			$dbw2->update( 'globaltemplatelinks',
-						array(  'gtl_from_namespace' => $nt->getNsText(),
+						array(  'gtl_from_namespace' => $nt->getNamespace(),
 								'gtl_from_title' => $nt->getText() ),
 						array ( 'gtl_from_page' => $pageid ),
 						__METHOD__ );

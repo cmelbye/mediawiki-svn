@@ -156,7 +156,11 @@ class GlobalUsageQuery {
 		}
 
 		/* Perform select (Duh.) */
-		$res = $this->db->select( 'globaltemplatelinks',
+		$res = $this->db->select(
+				array(
+					'globaltemplatelinks',
+					'globalnamespaces'
+				),
 				array(
 					'gtl_to_title',
 					'gtl_from_wiki',
@@ -170,6 +174,9 @@ class GlobalUsageQuery {
 					'ORDER BY' => "gtl_to_title $order, gtl_from_wiki $order, gtl_from_page $order",
 					// Select an extra row to check whether we have more rows available
 					'LIMIT' => $this->limit + 1,
+				),
+				array(
+					'gtl_from_namespace = gn_namespace'
 				)
 		);
 
@@ -207,7 +214,7 @@ class GlobalUsageQuery {
 			$this->result[$row->gtl_to_title][$row->gtl_from_wiki][] = array(
 				'template'	=> $row->gtl_to_title,
 				'id' => $row->gtl_from_page,
-				'namespace' => $row->gtl_from_namespace,
+				'namespace' => $row->gn_namespacetext,
 				'title' => $row->gtl_from_title,
 				'wiki' => $row->gtl_from_wiki,
 			);

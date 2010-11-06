@@ -9,9 +9,10 @@ CREATE TABLE /*_*/globaltemplatelinks (
   -- The page ID of the calling page on the remote wiki
   gtl_from_page int unsigned NOT NULL,
 
-  -- The namespace name of the calling page on the remote wiki
+  -- The namespace of the calling page on the remote wiki
   -- Needed for display purposes, since the foreign namespace ID doesn't necessarily match a local one
-  gtl_from_namespace varchar(255) NOT NULL,
+  -- The link between the namespace and the namespace name is made by the globalnamespaces table 
+  gtl_from_namespace int NOT NULL,
 
   -- The title of the calling page on the remote wiki
   -- Needed for display purposes

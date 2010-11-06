@@ -116,10 +116,12 @@ class BacklinkCache {
 		
 		$dbr = $dbr = wfGetDB( DB_SLAVE, array(), $wgGlobalDatabase );
 		$res = $dbr->select(
-			array( 'globaltemplatelinks' ),
-			array( 'gtl_from_wiki', 'gtl_from_page' ),
+			array( 'globaltemplatelinks', 'globalinterwiki' ),
+			array( 'gtl_from_wiki', 'gtl_from_page', 'gtl_from_title', 'giw_prefix' ),
 			array( 'gtl_to_prefix' => $wgLocalInterwiki, 'gtl_to_title' => $this->title->getDBkey( ) ),
-			__METHOD__
+			__METHOD__,
+			null,
+			array( 'gtl_from_wiki = giw_wikiid' )
 		);
 		return $res;
 	}

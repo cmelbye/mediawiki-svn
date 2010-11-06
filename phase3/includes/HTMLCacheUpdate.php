@@ -219,12 +219,18 @@ class HTMLCacheUpdate
 		global $wgUseFileCache, $wgUseSquid, $wgLocalInterwiki;
 		
 		$pagesByWiki = array();
+		$titleArray = array();
+		
+		# Sort by WikiID in $pagesByWiki
+		# Create the distant titles for Squid in $titleArray
 		foreach ( $distantPageArray as $row ) {
 			$wikiid = $row->gtl_from_wiki;
 			if( !isset( $pagesByWiki[$wikiid] ) ) {
 				$pagesByWiki[$wikiid] = array();
 			}
 			$pagesByWiki[$wikiid][] = $row->gtl_from_page;
+			
+			$titleArray[] = Title::makeTitle( $row->gtl_from_namespace, $row->gtl_from_title, '', $row->gil_interwiki );
 		}
 		
 		foreach ( $pagesByWiki as $wikiid => $pages ) {
@@ -238,6 +244,12 @@ class HTMLCacheUpdate
 					__METHOD__
 				);
 			}
+		}
+		
+		# Update squid
+		if ( $wgUseSquid ) {
+			$u = SquidUpdate::newFromTitles( $titleArray );
+			$u->doUpdate();
 		}
 	}
 }
