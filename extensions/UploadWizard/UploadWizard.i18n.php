@@ -26,10 +26,13 @@ or [{{fullurl:{{FULLPAGENAME}}|action=edit}} edit this page]</span>.',
 	'mwe-upwiz-js-off' => 'UploadWizard uses JavaScript for an improved interface. Your browser either does not support JavaScript or has JavaScript turned off, so we are showing you a simple upload form.',
 	'mwe-loading-upwiz' => 'Loading upload wizard',
 	'mwe-upwiz-code-unknown' => 'Unknown language',
+	'mwe-upwiz-step-tutorial' => 'Learn',
 	'mwe-upwiz-step-file' => 'Upload',
 	'mwe-upwiz-step-deeds' => 'Release rights',
 	'mwe-upwiz-step-details' => 'Describe',
 	'mwe-upwiz-step-thanks' => 'Use',
+	'mwe-upwiz-api-error-code' => 'API error code: $1',
+	'mwe-upwiz-tutorial-error' => 'A tutorial about what images you can upload to this wiki should appear here. Please contact the system administrator.',
 	'mwe-upwiz-intro' => "Welcome to Wikimedia Commons, a repository of images, sounds and movies that anyone can freely download and use.
 Add to humanity's knowledge by uploading files that could be used for an educational purpose.",
 	'mwe-upwiz-add-file-n' => 'Add another file',
@@ -1169,6 +1172,8 @@ $messages['fr'] = array(
 	'mwe-upwiz-step-deeds' => 'Accorder certains droits',
 	'mwe-upwiz-step-details' => 'Décrire',
 	'mwe-upwiz-step-thanks' => 'Utilisation',
+	'mwe-upwiz-api-error-code' => 'Code d’erreur API : $1',
+	'mwe-upwiz-tutorial-error' => 'Un tutoriel portant sur les images que vous pouvez verser sur ce wiki devrait apparaître ici. Veuillez contacter l’administrateur système.',
 	'mwe-upwiz-intro' => "Bienvenue sur Wikimedia Commons, un dépôt d'images, de sons, et des films que n'importe qui peut librement télécharger et utiliser. Ajoutez à la connaissance de l'humanité par le téléversement de fichiers qui pourraient être utilisés dans un but éducatif.",
 	'mwe-upwiz-add-file-n' => 'Ajouter un autre fichier',
 	'mwe-upwiz-add-file-0' => 'Cliquez ici pour téléverser un fichier',
@@ -1546,6 +1551,7 @@ Non utilice texto wiki ou HTML aquí.',
 $messages['gsw'] = array(
 	'uploadwizard' => 'Assischtänt zum Uffelade',
 	'uploadwizard-desc' => 'Assischtänt zum Uffelade. Entwicklig dur Ferdergälder vu dr Verbesserig vu dr Benutzerfrejndligkeit (Multimedia Usability Project).',
+	'mwe-upwiz-js-off' => 'UploadWizard brucht JavaSkript fir e verbessereti Handhebi dur dr Benutzer. Dyy Browser unterstitzt entwäder kei JavaScript oder JavaScript isch deaktiviert, wäge däm wird s eifach Formular verwändet zum Uffelade.',
 	'mwe-loading-upwiz' => 'Am Lade vum Uffelad-Assischtänt',
 	'mwe-upwiz-code-unknown' => 'Nit bekannti Sproch',
 	'mwe-upwiz-step-file' => 'Uffelade',
@@ -2441,11 +2447,13 @@ Non utilizzare codice HTML o wikitext qui, solo il nome utente o il nome reale.'
 
 /** Japanese (日本語)
  * @author Hosiryuhosi
+ * @author Iwai.masaharu
  * @author 青子守歌
  */
 $messages['ja'] = array(
 	'uploadwizard' => 'アップロード・ウィザード',
 	'uploadwizard-desc' => 'アップロード・ウィザード（マルチメディア・ユーザビリティで開発された機能）',
+	'mwe-upwiz-js-off' => 'アップロード・ウィザードはインターフェイス改善のために JavaScript を使用しています。あなたがお使いのブラウザは JavaScript に未対応か、JavaScript を無効にしています。そのため、単純なアップロードフォームを表示しています。',
 	'mwe-loading-upwiz' => 'アップロード・ウィザードを読み込み中',
 	'mwe-upwiz-code-unknown' => '不明な言語',
 	'mwe-upwiz-step-file' => 'アップロード',
@@ -2743,6 +2751,7 @@ Benotzt hei w.e.g. kee Wikitext a keen HTML.',
 $messages['mk'] = array(
 	'uploadwizard' => 'Помошник за подигање',
 	'uploadwizard-desc' => 'Помошник за подигање, создаден со средства доделени за Употребливост на мултимедијални содржини',
+	'mwe-upwiz-js-off' => 'Помошникот за подигање користи JavaScript за подобар посредник. Вашиот прелистувач не поддржува JavaScript, или пак JavaScript е исклучен. Затоа ви покажуваме прост образец за подигање.',
 	'mwe-loading-upwiz' => 'Го вчитувам помошникот за подигање',
 	'mwe-upwiz-code-unknown' => 'Непознат јазик',
 	'mwe-upwiz-step-file' => 'Подигање',
@@ -2977,6 +2986,7 @@ $messages['mn'] = array(
 $messages['nl'] = array(
 	'uploadwizard' => 'Wizard uploaden',
 	'uploadwizard-desc' => 'Wizard uploaden, ontwikkeld voor de schenking voor Multimediabruikbaarheid',
+	'mwe-upwiz-js-off' => 'UploadWizard gebruik JavaScript voor een verbeterde gebruikerservaring. Uw browser of ondersteunt geen JavaScript of JavaScript staat uitgeschakeld. Daarom wordt een eenvoudig uploadformulier weergegeven.',
 	'mwe-loading-upwiz' => 'Bezig met het laden van de uploadwizard',
 	'mwe-upwiz-code-unknown' => 'Onbekende taal',
 	'mwe-upwiz-step-file' => 'Uploaden',
@@ -3112,6 +3122,7 @@ Gebruik hier geen wikitekst of HTML.',
 $messages['no'] = array(
 	'uploadwizard' => 'Opplastingsveiviser',
 	'uploadwizard-desc' => 'Opplastingsveiviser, utviklet for Multimedia Usability-stipendet',
+	'mwe-upwiz-js-off' => 'UploadWizard bruker JavaScript for et forbedret grensesnitt. Nettleseren din støtter ikke JavaScript eller har JavaScript slått av, så vi viser deg et enkelt opplastingsskjema istedet.',
 	'mwe-loading-upwiz' => 'Laster opplastingsveiviser',
 	'mwe-upwiz-code-unknown' => 'Ukjent språk',
 	'mwe-upwiz-step-file' => 'Last opp',
@@ -3415,6 +3426,7 @@ Proszę tutaj nie korzystać z formatowania wiki lub HTML.',
 $messages['pms'] = array(
 	'uploadwizard' => "Assistent d'amportassion",
 	'uploadwizard-desc' => "Assistent d'amportassion, dësvlupà për ël programa d'Usabilità Multimojen",
+	'mwe-upwiz-js-off' => "UploadWizard a dòvra JavaScript për n'antërfacia mijorà. Tò browser o a apògia pa JavaScript o a l'ha JavaScript disabilità, parèj it mostoma na forma sempia për carié.",
 	'mwe-loading-upwiz' => "An camin ch'a caria l'assistent për telecarié",
 	'mwe-upwiz-code-unknown' => 'Lenga sconossùa',
 	'mwe-upwiz-step-file' => 'Carié',
