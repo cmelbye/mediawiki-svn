@@ -10,16 +10,16 @@ class XMPInfo {
 	 * @return Array XMP item configuration array.
 	*/
 	public static function getItems ( ) {
-		if( !self::ranHooks ) {
+		if( !self::$ranHooks ) {
 			// This is for if someone makes a custom metadata extension.
 			// For example, a medical wiki might want to decode DICOM xmp properties.
 			wfRunHooks('XMPGetInfo', Array(&self::$items));
-			self::ranHooks = true; // Only want to do this once.
+			self::$ranHooks = true; // Only want to do this once.
 		}
 		return self::$items;
 	}
 
-	static private ranHooks = false;
+	static private $ranHooks = false;
 
 	/**
 	* XMPInfo::$items keeps a list of all the items
