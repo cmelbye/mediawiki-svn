@@ -75,6 +75,13 @@ class JpegMetadataExtractor {
 					$segments["XMP"] = substr( $temp, 29 );
 				} elseif ( substr( $temp, 0, 35 ) === "http://ns.adobe.com/xmp/extension/\x00" ) {
 					$segments["XMP_ext"][] = substr( $temp, 35 );
+				} elseif ( substr( $temp, 0, 29 ) === "XMP\x00://ns.adobe.com/xap/1.0/\x00" ) {
+					// Some images (especially flickr images) seem to have this.
+					// I really have no idea what the deal is with them, but
+					// whatever...
+					$segments["XMP"] = substr( $temp, 29 );
+					wfDebug( __METHOD__ . ' Found XMP section with wrong app identifier '
+						. "Using anyways.\n" ); 
 				}
 			} elseif ( $buffer === "\xED" ) {
 				// APP13 - PSIR. IPTC and some photoshop stuff
@@ -169,7 +176,7 @@ class JpegMetadataExtractor {
 
 			// this should not happen, but check.
 			if ( $lenData['len'] + $offset > $appLen ) {
-				wfDebug( __METHOD__ . ' PSIR data too long.' );
+				wfDebug( __METHOD__ . " PSIR data too long.\n" );
 				return 'iptc-no-hash';
 			}
 

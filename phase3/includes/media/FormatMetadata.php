@@ -1243,12 +1243,30 @@ class FormatMetadata {
 					. '</span>';
 			}
 			if ( isset( $vals['CiEmailWork'] ) ) {
-				$email = '[mailto:'
-					. rawurlencode(
-						$vals['CiEmailWork'] )
-					. ' <span class="email">'
-					. $vals['CiEmailWork']
-					. '</span>]';
+				$emails = array();
+				// Have to split multiple emails at commas/new lines.
+				$splitEmails = explode( "\n", $vals['CiEmailWork'] );
+				foreach ( $splitEmails as $e1 ) {
+					// Also split on comma
+					foreach ( explode( ',', $e1 ) as $e2 ) {
+						$finalEmail = trim( $e2 );
+						if ( $finalEmail == ',' || $finalEmail == '' ) {
+							continue;
+						}
+						if ( strpos( $finalEmail, '<' ) !== false ) {
+							// Don't do fancy formatting to
+							// "My name" <foo@bar.com> style stuff
+							$emails[] = $finalEmail;
+						} else {
+							$emails[] = '[mailto:'
+							. $finalEmail
+							. ' <span class="email">'
+							. $finalEmail
+							. '</span>]';
+						}
+					}
+				}
+				$email = implode( ', ', $emails );
 			}
 			if ( isset( $vals['CiTelWork'] ) ) {
 				$tel = '<span class="tel">'
