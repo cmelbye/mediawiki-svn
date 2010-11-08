@@ -102,8 +102,10 @@
 	 */
 	public static function beforePageDisplay( $out ) {
 		global $wgUser;
+		
 		if ( !$wgUser->isLoggedIn() ) return true;
 
+		wfProfileIn( __METHOD__ );
 		//disable all gadgets on critical special pages
 		//NOTE: $out->isUserJsAllowed() is tempting, but always fals if $wgAllowUserJs is false.
 		//      That would disable gadgets on wikis without user JS. Introducing $out->isJsAllowed()
@@ -112,12 +114,17 @@
 		$title = $out->getTitle();
 		if ( $title->isSpecial( 'Preferences' ) 
 			|| $title->isSpecial( 'Resetpass' )
-			|| $title->isSpecial( 'Userlogin' ) ) {
+			|| $title->isSpecial( 'Userlogin' ) ) 
+		{
+			wfProfileOut( __METHOD__ );
 			return true;
 		}
 
 		$gadgets = Gadget::loadList();
-		if ( !$gadgets ) return true;
+		if ( !$gadgets ) {
+			wfProfileOut( __METHOD__ );
+			return true;
+		}
 
 		$lb = new LinkBatch();
 		$lb->setCaller( __METHOD__ );
@@ -143,6 +150,7 @@
 			$done[$page] = true;
 			self::applyScript( $page, $out );
 		}
+		wfProfileOut( __METHOD__ );
 
 		return true;
 	}
@@ -338,6 +346,7 @@ class Gadget {
 
 		if ( $gadgets !== null ) return $gadgets;
 
+		wfProfileIn( __METHOD__ );
 		$struct = self::loadStructuredList();
 		if ( !$struct ) {
 			$gadgets = $struct;
@@ -348,6 +357,7 @@ class Gadget {
 		foreach ( $struct as $section => $entries ) {
 			$gadgets = array_merge( $gadgets, $entries );
 		}
+		wfProfileOut( __METHOD__ );
 
 		return $gadgets;
 	}
@@ -386,16 +396,21 @@ class Gadget {
 		static $gadgets = null;
 		if ( $gadgets !== null && $forceNewText === null ) return $gadgets;
 
+		wfProfileIn( __METHOD__ );
 		$key = wfMemcKey( 'gadgets-definition' );
 
 		if ( $forceNewText === null ) {
 			//cached?
 			$gadgets = $wgMemc->get( $key );
-			if ( self::isValidList( $gadgets ) ) return $gadgets;
+			if ( self::isValidList( $gadgets ) ) {
+				wfProfileOut( __METHOD__ );
+				return $gadgets;
+			}
 
 			$g = wfMsgForContentNoTrans( "gadgets-definition" );
 			if ( wfEmptyMsg( "gadgets-definition", $g ) ) {
 				$gadgets = false;
+				wfProfileOut( __METHOD__ );
 				return $gadgets;
 			}
 		} else {
@@ -424,6 +439,7 @@ class Gadget {
 		$wgMemc->set( $key, $gadgets, 60*60*24 );
 		$source = $forceNewText !== null ? 'input text' : 'MediaWiki:Gadgets-definition';
 		wfDebug( __METHOD__ . ": $source parsed, cache entry $key updated\n");
+		wfProfileOut( __METHOD__ );
 
 		return $gadgets;
 	}
