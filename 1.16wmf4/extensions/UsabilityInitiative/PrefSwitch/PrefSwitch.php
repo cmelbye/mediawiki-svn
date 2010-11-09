@@ -19,6 +19,7 @@
 /* Configuration */
 
 $wgPrefSwitchStyleVersion = 1;
+$wgPrefSwitchShowLinks = true;
 
 // Preferences to set when users switch prefs
 // array(
