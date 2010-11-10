@@ -82,7 +82,6 @@ $j(document).ready( function() {
 					return;
 				}
 				expContainerSettings.shifting = false;
-					.shifting = false;
 				$j.collapsibleTabs.handleResize();
 			} ) );
 	};
