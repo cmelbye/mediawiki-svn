@@ -2879,7 +2879,8 @@ mw.RemoteSearchDriver.prototype = {
 					'bottom' : '0px',
 					'right' : '0px',
 					'left' : '0px',
-					'background-color' : '#FFF'
+					'background-color' : '#FFF',
+					'padding' : '1em'
 				}).loadingSpinner()
 			)
 
