@@ -520,6 +520,9 @@ $.collapsibleTabs = {
 	},
 	moveToCollapsed: function( ele ) {
 		var $moving = $( ele );
+		if ( $moving.size() == 0 ) {
+			return;
+		}
 		var data = $.collapsibleTabs.getSettings( $moving );
 		var dataExp = $.collapsibleTabs.getSettings( data.expandedContainer );
 		dataExp.shifting = true;
@@ -532,6 +535,9 @@ $.collapsibleTabs = {
 	},
 	moveToExpanded: function( ele ) {
 		var $moving = $( ele );
+		if ( $moving.size() == 0 ) {
+			return;
+		}
 		var data = $.collapsibleTabs.getSettings( $moving );
 		var dataExp = $.collapsibleTabs.getSettings( data.expandedContainer );
 		dataExp.shifting = true;
