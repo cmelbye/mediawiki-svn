@@ -228,6 +228,9 @@ $j(document).ready( function() {
 	// Overloading the moveToCollapsed function to animate the transition 
 	$j.collapsibleTabs.moveToCollapsed = function( ele ) {
 		var $moving = $j( ele );
+		if ( $moving.size() == 0 ) {
+			return;
+		}
 		$j.collapsibleTabs.getSettings( $j( $j.collapsibleTabs.getSettings( $moving ).expandedContainer ) ).shifting = true;
 		var data = $j.collapsibleTabs.getSettings( $moving );
 		// Remove the element from where it's at and put it in the dropdown menu
@@ -249,6 +252,9 @@ $j(document).ready( function() {
 	// Overloading the moveToExpanded function to animate the transition
 	$j.collapsibleTabs.moveToExpanded = function( ele ) {
 		var $moving = $j( ele );
+		if ( $moving.size() == 0 ) {
+			return;
+		}
 		$j.collapsibleTabs.getSettings( $j( $j.collapsibleTabs.getSettings( $moving ).expandedContainer ) ).shifting = true;
 		var data = $j.collapsibleTabs.getSettings( $moving );
 		// grab the next appearing placeholder so we can use it for replacing
