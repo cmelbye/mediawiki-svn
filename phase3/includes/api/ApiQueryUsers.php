@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 30, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on July 30, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -34,6 +35,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup API
  */
  class ApiQueryUsers extends ApiQueryBase {
+
+	private $tokenFunctions;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'us' );
@@ -72,8 +75,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 	public function execute() {
 		$params = $this->extractRequestParams();
-		$result = $this->getResult();
-		$r = array();
 
 		if ( !is_null( $params['prop'] ) ) {
 			$this->prop = array_flip( $params['prop'] );
@@ -104,7 +105,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		}
 
 		if ( count( $goodNames ) ) {
-			$db = $this->getDb();
 			$this->addTables( 'user', 'u1' );
 			$this->addFields( 'u1.*' );
 			$this->addWhereFld( 'u1.user_name', $goodNames );
@@ -126,24 +126,29 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 			$data = array();
 			$res = $this->select( __METHOD__ );
-			while ( ( $r = $db->fetchObject( $res ) ) ) {
-				$user = User::newFromRow( $r );
+			foreach ( $res as $row ) {
+				$user = User::newFromRow( $row );
 				$name = $user->getName();
 				$data[$name]['name'] = $name;
+
 				if ( isset( $this->prop['editcount'] ) ) {
 					$data[$name]['editcount'] = intval( $user->getEditCount() );
 				}
+
 				if ( isset( $this->prop['registration'] ) ) {
 					$data[$name]['registration'] = wfTimestampOrNull( TS_ISO_8601, $user->getRegistration() );
 				}
-				if ( isset( $this->prop['groups'] ) && !is_null( $r->ug_group ) ) {
+
+				if ( isset( $this->prop['groups'] ) && !is_null( $row->ug_group ) ) {
 					// This row contains only one group, others will be added from other rows
-					$data[$name]['groups'][] = $r->ug_group;
+					$data[$name]['groups'][] = $row->ug_group;
 				}
-				if ( isset( $this->prop['blockinfo'] ) && !is_null( $r->blocker_name ) ) {
-					$data[$name]['blockedby'] = $r->blocker_name;
-					$data[$name]['blockreason'] = $r->ipb_reason;
+
+				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->blocker_name ) ) {
+					$data[$name]['blockedby'] = $row->blocker_name;
+					$data[$name]['blockreason'] = $row->ipb_reason;
 				}
+
 				if ( isset( $this->prop['emailable'] ) && $user->canReceiveEmail() ) {
 					$data[$name]['emailable'] = '';
 				}
@@ -175,10 +180,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				$data[$u] = array( 'name' => $u );
 				$urPage = new UserrightsPage;
 				$iwUser = $urPage->fetchUser( $u );
+
 				if ( $iwUser instanceof UserRightsProxy ) {
 					$data[$u]['interwiki'] = '';
+
 					if ( !is_null( $params['token'] ) ) {
 						$tokenFunctions = $this->getTokenFunctions();
+
 						foreach ( $params['token'] as $t ) {
 							$val = call_user_func( $tokenFunctions[$t], $iwUser );
 							if ( $val === false ) {
@@ -192,8 +200,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 					$data[$u]['missing'] = '';
 				}
 			} else {
-				if ( isset( $this->prop['groups'] ) && isset( $data[$u]['groups'] ) )
-				{
+				if ( isset( $this->prop['groups'] ) && isset( $data[$u]['groups'] ) ) {
+					$autolist = ApiQueryUsers::getAutoGroups( User::newFromName( $u ) );
+
+					$data[$u]['groups'] = array_merge( $autolist, $data[$u]['groups'] );
+
 					$this->getResult()->setIndexedTagName( $data[$u]['groups'], 'g' );
 				}
 			}
@@ -207,6 +218,28 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			$done[] = $u;
 		}
 		return $this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
+	}
+
+	/**
+	* Gets all the groups that a user is automatically a member of
+	* @return array
+	*/
+	public static function getAutoGroups( $user ) {
+		$groups = array( '*' );
+
+		if ( !$user->isAnon() ) {
+			$groups[] = 'user';
+		}
+
+		return array_merge( $groups, Autopromote::getAutopromoteGroups( $user ) );
+	}
+
+	public function getCacheMode( $params ) {
+		if ( isset( $params['token'] ) ) {
+			return 'private';
+		} else {
+			return 'public';
+		}
 	}
 
 	public function getAllowedParams() {
@@ -237,12 +270,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return array(
 			'prop' => array(
 				'What pieces of information to include',
-				'  blockinfo    - tags if the user is blocked, by whom, and for what reason',
-				'  groups       - lists all the groups the user belongs to',
-				'  editcount    - adds the user\'s edit count',
-				'  registration - adds the user\'s registration timestamp',
-				'  emailable    - tags if the user can and wants to receive e-mail through [[Special:Emailuser]]',
-				'  gender       - tags the gender of the user. Returns "male", "female", or "unknown"',
+				'  blockinfo    - Tags if the user is blocked, by whom, and for what reason',
+				'  groups       - Lists all the groups the user(s) belongs to',
+				'  rights       - Lists all the rights the user(s) has',
+				'  editcount    - Adds the user\'s edit count',
+				'  registration - Adds the user\'s registration timestamp',
+				'  emailable    - Tags if the user can and wants to receive e-mail through [[Special:Emailuser]]',
+				'  gender       - Tags the gender of the user. Returns "male", "female", or "unknown"',
 			),
 			'users' => 'A list of users to obtain the same information for',
 			'token' => 'Which tokens to obtain for each user',

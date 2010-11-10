@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 19, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 19, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -29,6 +30,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
+ * API JSON output formatter
  * @ingroup API
  */
 class ApiFormatJson extends ApiFormatBase {
@@ -69,7 +71,7 @@ class ApiFormatJson extends ApiFormatBase {
 		}
 		$this->printText(
 			$prefix .
-			FormatJson::encode( $this->getResultData(),	$this->getIsHtml() ) .
+			FormatJson::encode( $this->getResultData(), $this->getIsHtml() ) .
 			$suffix
 		);
 	}

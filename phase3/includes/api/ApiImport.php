@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Feb 4, 2009
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Feb 4, 2009
  *
  * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -46,7 +47,6 @@ class ApiImport extends ApiBase {
 		}
 		$params = $this->extractRequestParams();
 
-		$source = null;
 		$isUpload = false;
 		if ( isset( $params['interwikisource'] ) ) {
 			if ( !isset( $params['interwikipage'] ) ) {
@@ -141,9 +141,7 @@ class ApiImport extends ApiBase {
 	}
 
 	public function getDescription() {
-		return array(
-			'Import a page from another wiki, or an XML file'
-		);
+		return 'Import a page from another wiki, or an XML file';
 	}
 
 	public function getPossibleErrors() {
@@ -154,6 +152,10 @@ class ApiImport extends ApiBase {
 			array( 'import-unknownerror', 'source' ),
 			array( 'import-unknownerror', 'result' ),
 		) );
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

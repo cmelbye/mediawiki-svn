@@ -1,14 +1,18 @@
 <?php
-
-# This does the initial setup for a web request. It does some security checks,
-# starts the profiler and loads the configuration, and optionally loads
-# Setup.php depending on whether MW_NO_SETUP is defined.
+/**
+ * This does the initial setup for a web request.
+ * It does some security checks, starts the profiler and loads the
+ * configuration, and optionally loads Setup.php depending on whether
+ * MW_NO_SETUP is defined.
+ *
+ * @file
+ */
 
 # Protect against register_globals
 # This must be done before any globals are set by the code
 if ( ini_get( 'register_globals' ) ) {
 	if ( isset( $_REQUEST['GLOBALS'] ) ) {
-		die( '<a href="http://www.hardened-php.net/index.76.html">$GLOBALS overwrite vulnerability</a>');
+		die( '<a href="http://www.hardened-php.net/globals-problem">$GLOBALS overwrite vulnerability</a>');
 	}
 	$verboten = array(
 		'GLOBALS',
@@ -85,23 +89,19 @@ if ( !function_exists( 'version_compare' )
 	exit;
 }
 
-# Test for PHP bug which breaks PHP 5.0.x on 64-bit...
-# As of 1.8 this breaks lots of common operations instead
-# of just some rare ones like export.
-$borked = str_replace( 'a', 'b', array( -1 => -1 ) );
-if( !isset( $borked[-1] ) ) {
-	echo "PHP 5.0.x is buggy on your 64-bit system; you must upgrade to PHP 5.1.x\n" .
-	     "or higher. ABORTING. (http://bugs.php.net/bug.php?id=34879 for details)\n";
-	exit;
-}
-
 # Start the autoloader, so that extensions can derive classes from core files
 require_once( "$IP/includes/AutoLoader.php" );
 
 if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	# Use a callback function to configure MediaWiki
 	require_once( "$IP/includes/DefaultSettings.php" );
-	call_user_func( MW_CONFIG_CALLBACK );
+
+	$callback = MW_CONFIG_CALLBACK;
+	# PHP 5.1 doesn't support "class::method" for call_user_func, so split it
+	if ( strpos( $callback, '::' ) !== false ) {
+		$callback = explode( '::', $callback, 2);
+	}
+	call_user_func( $callback );
 } else {
 	# LocalSettings.php is the per site customization file. If it does not exit
 	# the wiki installer need to be launched or the generated file moved from
@@ -115,14 +115,24 @@ if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	# Include site settings. $IP may be changed (hopefully before the AutoLoader is invoked)
 	require_once( "$IP/LocalSettings.php" );
 }
+
+if ( $wgEnableSelenium ) {
+	require_once( "$IP/includes/SeleniumWebSettings.php" );
+}
+
 wfProfileOut( 'WebStart.php-conf' );
 
 wfProfileIn( 'WebStart.php-ob_start' );
 # Initialise output buffering
-if ( ob_get_level() ) {
-	# Someone's been mixing configuration data with code!
-	# How annoying.
-} elseif ( !defined( 'MW_NO_OUTPUT_BUFFER' ) ) {
+
+# Check that there is no previous output or previously set up buffers, because
+# that would cause us to potentially mix gzip and non-gzip output, creating a
+# big mess.
+# In older versions of PHP ob_get_level() returns 0 if there is no buffering or
+# previous output, in newer versions the default output buffer is always set up
+# and ob_get_level() returns 1. In this case we check that the buffer is empty.
+# FIXME: Check that this is the right way to handle this
+if ( !defined( 'MW_NO_OUTPUT_BUFFER' ) && ( ob_get_level() == 0 || ( ob_get_level() == 1 && ob_get_contents() === '' ) ) ) {
 	require_once( "$IP/includes/OutputHandler.php" );
 	ob_start( 'wfOutputHandler' );
 }
@@ -131,3 +141,4 @@ wfProfileOut( 'WebStart.php-ob_start' );
 if ( !defined( 'MW_NO_SETUP' ) ) {
 	require_once( "$IP/includes/Setup.php" );
 }
+

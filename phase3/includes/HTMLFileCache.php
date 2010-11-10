@@ -30,13 +30,9 @@ class HTMLFileCache {
 
 	public function fileCacheName() {
 		if( !$this->mFileCache ) {
-			global $wgCacheDirectory, $wgFileCacheDirectory, $wgRequest;
+			global $wgCacheDirectory, $wgFileCacheDirectory;
 
-			if ( $wgFileCacheDirectory ) {
-				$dir = $wgFileCacheDirectory;
-			} elseif ( $wgCacheDirectory ) {
-				$dir = "$wgCacheDirectory/html";
-			} else {
+			if ( !$wgFileCacheDirectory && !$wgCacheDirectory ) {
 				throw new MWException( 'Please set $wgCacheDirectory in LocalSettings.php if you wish to use the HTML file cache' );
 			}
 
@@ -51,8 +47,9 @@ class HTMLFileCache {
 			$hash2 = substr( $hash, 0, 2 );
 			$this->mFileCache = "{$wgFileCacheDirectory}/{$subdir}{$hash1}/{$hash2}/{$key}.html";
 
-			if( $this->useGzip() )
+			if( $this->useGzip() ) {
 				$this->mFileCache .= '.gz';
+			}
 
 			wfDebug( __METHOD__ . ": {$this->mFileCache}\n" );
 		}
@@ -134,7 +131,7 @@ class HTMLFileCache {
 
 	/* Working directory to/from output */
 	public function loadFromFileCache() {
-		global $wgOut, $wgMimeType, $wgOutputEncoding, $wgContLanguageCode;
+		global $wgOut, $wgMimeType, $wgOutputEncoding, $wgLanguageCode;
 		wfDebug( __METHOD__ . "()\n");
 		$filename = $this->fileCacheName();
 		// Raw pages should handle cache control on their own,
@@ -142,7 +139,7 @@ class HTMLFileCache {
 		if( $this->mType !== 'raw' ) {
 			$wgOut->sendCacheControl();
 			header( "Content-Type: $wgMimeType; charset={$wgOutputEncoding}" );
-			header( "Content-Language: $wgContLanguageCode" );
+			header( "Content-Language: $wgLanguageCode" );
 		}
 
 		if( $this->useGzip() ) {
@@ -209,11 +206,21 @@ class HTMLFileCache {
 
 	public static function clearFileCache( $title ) {
 		global $wgUseFileCache;
-		if( !$wgUseFileCache ) return false;
+
+		if ( !$wgUseFileCache ) {
+			return false;
+		}
+
+		wfSuppressWarnings();
+
 		$fc = new self( $title, 'view' );
-		@unlink( $fc->fileCacheName() );
+		unlink( $fc->fileCacheName() );
+
 		$fc = new self( $title, 'raw' );
-		@unlink( $fc->fileCacheName() );
+		unlink( $fc->fileCacheName() );
+
+		wfRestoreWarnings();
+
 		return true;
 	}
 }

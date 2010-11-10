@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 30, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on July 30, 2007
  *
  * Copyright © 2007 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -35,6 +36,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryUserInfo extends ApiQueryBase {
 
+	private $prop = array();
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ui' );
 	}
@@ -42,19 +45,17 @@ class ApiQueryUserInfo extends ApiQueryBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 		$result = $this->getResult();
-		$r = array();
 
 		if ( !is_null( $params['prop'] ) ) {
 			$this->prop = array_flip( $params['prop'] );
-		} else {
-			$this->prop = array();
 		}
+
 		$r = $this->getCurrentUserInfo();
 		$result->addValue( 'query', $this->getModuleName(), $r );
 	}
 
 	protected function getCurrentUserInfo() {
-		global $wgUser;
+		global $wgUser, $wgRequest;
 		$result = $this->getResult();
 		$vals = array();
 		$vals['id'] = intval( $wgUser->getId() );
@@ -76,7 +77,9 @@ class ApiQueryUserInfo extends ApiQueryBase {
 		}
 
 		if ( isset( $this->prop['groups'] ) ) {
-			$vals['groups'] = $wgUser->getGroups();
+			$autolist = ApiQueryUsers::getAutoGroups( $wgUser );
+
+			$vals['groups'] = array_merge( $autolist, $wgUser->getGroups() );
 			$result->setIndexedTagName( $vals['groups'], 'g' );	// even if empty
 		}
 
@@ -120,6 +123,18 @@ class ApiQueryUserInfo extends ApiQueryBase {
 			if ( !is_null( $auth ) ) {
 				$vals['emailauthenticated'] = wfTimestamp( TS_ISO_8601, $auth );
 			}
+		}
+
+		if ( isset( $this->prop['acceptlang'] ) ) {
+			$langs = $wgRequest->getAcceptLang();
+			$acceptLang = array();
+			foreach ( $langs as $lang => $val ) {
+				$r = array( 'q' => $val );
+				ApiResult::setContent( $r, $lang );
+				$acceptLang[] = $r;
+			}
+			$result->setIndexedTagName( $acceptLang, 'lang' );
+			$vals['acceptlang'] = $acceptLang;
 		}
 		return $vals;
 	}
@@ -174,6 +189,7 @@ class ApiQueryUserInfo extends ApiQueryBase {
 					'editcount',
 					'ratelimits',
 					'email',
+					'acceptlang',
 				)
 			)
 		);
@@ -183,14 +199,16 @@ class ApiQueryUserInfo extends ApiQueryBase {
 		return array(
 			'prop' => array(
 				'What pieces of information to include',
-				'  blockinfo  - tags if the current user is blocked, by whom, and for what reason',
-				'  hasmsg     - adds a tag "message" if the current user has pending messages',
-				'  groups     - lists all the groups the current user belongs to',
-				'  rights     - lists all the rights the current user has',
-				'  changeablegroups - lists the groups the current user can add to and remove from',
-				'  options    - lists all preferences the current user has set',
-				'  editcount  - adds the current user\'s edit count',
-				'  ratelimits - lists all rate limits applying to the current user'
+				'  blockinfo        - Tags if the current user is blocked, by whom, and for what reason',
+				'  hasmsg           - Adds a tag "message" if the current user has pending messages',
+				'  groups           - Lists all the groups the current user belongs to',
+				'  rights           - Lists all the rights the current user has',
+				'  changeablegroups - Lists the groups the current user can add to and remove from',
+				'  options          - Lists all preferences the current user has set',
+				'  editcount        - Adds the current user\'s edit count',
+				'  ratelimits       - Lists all rate limits applying to the current user',
+				'  email            - Adds the user\'s email address and email authentication date',
+				'  acceptlang       - Echoes the Accept-Language header sent by the client in a structured format',
 			)
 		);
 	}

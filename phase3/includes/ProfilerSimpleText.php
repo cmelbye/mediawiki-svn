@@ -22,15 +22,13 @@ class ProfilerSimpleText extends ProfilerSimple {
 	static private $out;
 
 	function getFunctionReport() {
-		global $wgRequest, $wgOut;
-
 		if($this->mTemplated) {
 			uasort($this->mCollated,array('self','sort'));
 			array_walk($this->mCollated,array('self','format'));
 			if ($this->visible) {
 				print '<pre>'.self::$out.'</pre>';
 			} else {
-				print '<!--\n'.self::$out.'\n-->\n';
+				print "<!--\n".self::$out."\n-->\n";
 			}
 		}
 	}

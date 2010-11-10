@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Jul 9, 2009
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Jul 9, 2009
  *
  * Copyright © 2009
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -55,10 +56,6 @@ class ApiQueryTags extends ApiQueryBase {
 		$this->limit = $params['limit'];
 		$this->result = $this->getResult();
 
-		$pageSet = $this->getPageSet();
-		$titles = $pageSet->getTitles();
-		$data = array();
-
 		$this->addTables( 'change_tag' );
 		$this->addFields( 'ct_tag' );
 
@@ -74,7 +71,7 @@ class ApiQueryTags extends ApiQueryBase {
 
 		$ok = true;
 
-		while ( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			if ( !$ok ) {
 				break;
 			}
@@ -133,6 +130,10 @@ class ApiQueryTags extends ApiQueryBase {
 		return true;
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'continue' => array(
@@ -161,12 +162,18 @@ class ApiQueryTags extends ApiQueryBase {
 		return array(
 			'continue' => 'When more results are available, use this to continue',
 			'limit' => 'The maximum number of tags to list',
-			'prop' => 'Which properties to get',
+			'prop' => array(
+				'Which properties to get',
+				' name         - Adds name of tag',
+				' displayname  - Adds system messsage for the tag',
+				' description  - Adds description of the tag',
+				' hitcount     - Adds the amount of revisions that have this tag',
+			),
 		);
 	}
 
 	public function getDescription() {
-		return 'List change tags.';
+		return 'List change tags';
 	}
 
 	protected function getExamples() {
@@ -176,6 +183,6 @@ class ApiQueryTags extends ApiQueryBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiQueryTags.php 63005 2010-02-26 13:18:56Z ashley $';
+		return __CLASS__ . ': $Id: ApiQueryTags.php 73858 2010-09-28 01:21:15Z reedy $';
 	}
 }

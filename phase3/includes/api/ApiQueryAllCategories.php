@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on December 12, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on December 12, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -44,6 +45,10 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 		$this->run();
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function executeGenerator( $resultPageSet ) {
 		$this->run( $resultPageSet );
 	}
@@ -57,7 +62,9 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 
 		$dir = ( $params['dir'] == 'descending' ? 'older' : 'newer' );
 		$from = ( is_null( $params['from'] ) ? null : $this->titlePartToKey( $params['from'] ) );
-		$this->addWhereRange( 'cat_title', $dir, $from, null );
+		$to = ( is_null( $params['to'] ) ? null : $this->titlePartToKey( $params['to'] ) );
+		$this->addWhereRange( 'cat_title', $dir, $from, $to );
+
 		if ( isset( $params['prefix'] ) ) {
 			$this->addWhere( 'cat_title' . $db->buildLike( $this->titlePartToKey( $params['prefix'] ), $db->anyString() ) );
 		}
@@ -83,10 +90,10 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 		$res = $this->select( __METHOD__ );
 
 		$pages = array();
-		$categories = array();
+
 		$result = $this->getResult();
 		$count = 0;
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $params['limit'] ) {
 				// We've reached the one extra which shows that there are additional cats to be had. Stop here...
 				// TODO: Security issue - if the user has no right to view next title, it will still be shown
@@ -117,7 +124,6 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 				}
 			}
 		}
-		$db->freeResult( $res );
 
 		if ( is_null( $resultPageSet ) ) {
 			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'c' );
@@ -129,6 +135,7 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 	public function getAllowedParams() {
 		return array(
 			'from' => null,
+			'to' => null,
 			'prefix' => null,
 			'dir' => array(
 				ApiBase::PARAM_DFLT => 'ascending',
@@ -154,11 +161,16 @@ class ApiQueryAllCategories extends ApiQueryGeneratorBase {
 
 	public function getParamDescription() {
 		return array(
-			'from' => 'The category to start enumerating from.',
-			'prefix' => 'Search for all category titles that begin with this value.',
-			'dir' => 'Direction to sort in.',
-			'limit' => 'How many categories to return.',
-			'prop' => 'Which properties to get',
+			'from' => 'The category to start enumerating from',
+			'to' => 'The category to stop enumerating at',
+			'prefix' => 'Search for all category titles that begin with this value',
+			'dir' => 'Direction to sort in',
+			'limit' => 'How many categories to return',
+			'prop' => array(
+				'Which properties to get',
+				' size    - Adds number of pages in the category',
+				' hidden  - Tags categories that are hidden with __HIDDENCAT__',
+			),
 		);
 	}
 

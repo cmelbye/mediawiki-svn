@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 16, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Oct 16, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -39,10 +40,10 @@ class ApiQueryContributions extends ApiQueryBase {
 		parent::__construct( $query, $moduleName, 'uc' );
 	}
 
-	private $params, $username;
+	private $params, $prefixMode, $userprefix, $multiUserMode, $usernames;
 	private $fld_ids = false, $fld_title = false, $fld_timestamp = false,
 			$fld_comment = false, $fld_parsedcomment = false, $fld_flags = false,
-			$fld_patrolled = false, $fld_tags = false;
+			$fld_patrolled = false, $fld_tags = false, $fld_size = false;
 
 	public function execute() {
 		// Parse some parameters
@@ -61,7 +62,6 @@ class ApiQueryContributions extends ApiQueryBase {
 
 		// TODO: if the query is going only against the revision table, should this be done?
 		$this->selectNamedDB( 'contributions', DB_SLAVE, 'contributions' );
-		$db = $this->getDB();
 
 		if ( isset( $this->params['userprefix'] ) ) {
 			$this->prefixMode = true;
@@ -91,7 +91,7 @@ class ApiQueryContributions extends ApiQueryBase {
 		$limit = $this->params['limit'];
 
 		// Fetch each row
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				if ( $this->multiUserMode ) {
@@ -113,9 +113,6 @@ class ApiQueryContributions extends ApiQueryBase {
 				break;
 			}
 		}
-
-		// Free the database record so the connection can get on with other stuff
-		$db->freeResult( $res );
 
 		$this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'item' );
 	}
@@ -190,8 +187,7 @@ class ApiQueryContributions extends ApiQueryBase {
 		if ( !is_null( $show ) ) {
 			$show = array_flip( $show );
 			if ( ( isset( $show['minor'] ) && isset( $show['!minor'] ) )
-			   		|| ( isset( $show['patrolled'] ) && isset( $show['!patrolled'] ) ) )
-			{
+			   		|| ( isset( $show['patrolled'] ) && isset( $show['!patrolled'] ) ) ) {
 				$this->dieUsageMsg( array( 'show' ) );
 			}
 
@@ -210,17 +206,17 @@ class ApiQueryContributions extends ApiQueryBase {
 			'rev_timestamp',
 			'page_namespace',
 			'page_title',
+			'rev_user',
 			'rev_user_text',
 			'rev_deleted'
 		) );
 
 		if ( isset( $show['patrolled'] ) || isset( $show['!patrolled'] ) ||
-				 $this->fld_patrolled )
-		{
-			global $wgUser;
+				 $this->fld_patrolled ) {
 			if ( !$wgUser->useRCPatrol() && !$wgUser->useNPPatrol() ) {
 				$this->dieUsage( 'You need the patrol right to request the patrolled flag', 'permissiondenied' );
 			}
+
 			// Use a redundant join condition on both
 			// timestamp and ID so we can use the timestamp
 			// index
@@ -277,6 +273,7 @@ class ApiQueryContributions extends ApiQueryBase {
 	private function extractRowInfo( $row ) {
 		$vals = array();
 
+		$vals['userid'] = $row->rev_user;
 		$vals['user'] = $row->rev_user_text;
 		if ( $row->rev_deleted & Revision::DELETED_USER ) {
 			$vals['userhidden'] = '';
@@ -350,6 +347,12 @@ class ApiQueryContributions extends ApiQueryBase {
 			wfTimestamp( TS_ISO_8601, $row->rev_timestamp );
 	}
 
+	public function getCacheMode( $params ) {
+		// This module provides access to deleted revisions and patrol flags if
+		// the requester is logged in
+		return 'anon-public-user-private';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'limit' => array(
@@ -410,18 +413,31 @@ class ApiQueryContributions extends ApiQueryBase {
 	}
 
 	public function getParamDescription() {
+		global $wgRCMaxAge;
+		$p = $this->getModulePrefix();
 		return array(
-			'limit' => 'The maximum number of contributions to return.',
-			'start' => 'The start timestamp to return from.',
-			'end' => 'The end timestamp to return to.',
-			'continue' => 'When more results are available, use this to continue.',
-			'user' => 'The user to retrieve contributions for.',
-			'userprefix' => 'Retrieve contibutions for all users whose names begin with this value. Overrides ucuser.',
-			'dir' => 'The direction to search (older or newer).',
+			'limit' => 'The maximum number of contributions to return',
+			'start' => 'The start timestamp to return from',
+			'end' => 'The end timestamp to return to',
+			'continue' => 'When more results are available, use this to continue',
+			'user' => 'The users to retrieve contributions for',
+			'userprefix' => "Retrieve contibutions for all users whose names begin with this value. Overrides {$p}user",
+			'dir' => 'The direction to search (older or newer)',
 			'namespace' => 'Only list contributions in these namespaces',
-			'prop' => 'Include additional pieces of information',
-			'show' => array( 'Show only items that meet this criteria, e.g. non minor edits only: show=!minor',
-					'NOTE: if show=patrolled or show=!patrolled is set, revisions older than $wgRCMaxAge won\'t be shown', ),
+			'prop' => array(
+				'Include additional pieces of information',
+				' ids            - Adds the page id and revision id',
+				' title          - Adds the title and namespace id of the page',
+				' timestamp      - Adds the timestamp of the edit',
+				' comment        - Adds the comment of the edit',
+				' parsedcomment  - Adds the parsed comment of the edit',
+				' size           - Adds the size of the page',
+				' flags          - Adds flags of the edit',
+				' patrolled      - Tags patrolled edits',
+				' tags           - Lists tags for the edit',
+			),
+			'show' => array( "Show only items that meet this criteria, e.g. non minor edits only: {$p}show=!minor",
+					"NOTE: if {$p}show=patrolled or {$p}show=!patrolled is set, revisions older than $wgRCMaxAge won\'t be shown", ),
 			'tag' => 'Only list revisions tagged with this tag',
 		);
 	}

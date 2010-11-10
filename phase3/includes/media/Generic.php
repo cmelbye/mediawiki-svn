@@ -1,6 +1,7 @@
 <?php
 /**
  * Media-handling base classes and generic functionality
+ *
  * @file
  * @ingroup Media
  */
@@ -72,7 +73,7 @@ abstract class MediaHandler {
 	 * can't be determined.
 	 *
 	 * @param $image File: the image object, or false if there isn't one
-	 * @param $fileName String: the filename
+	 * @param $path String: the filename
 	 * @return Array
 	 */
 	abstract function getImageSize( $image, $path );
@@ -139,7 +140,7 @@ abstract class MediaHandler {
 	 * Get the thumbnail extension and MIME type for a given source MIME type
 	 * @return array thumbnail extension and MIME type
 	 */
-	function getThumbType( $ext, $mime ) {
+	function getThumbType( $ext, $mime, $params = null ) {
 		return array( $ext, $mime );
 	}
 
@@ -160,6 +161,10 @@ abstract class MediaHandler {
 	 * Page count for a multi-page document, false if unsupported or unknown
 	 */
 	function pageCount( $file ) { return false; }
+	/**
+	 * The material is vectorized and thus scaling is lossless
+	 */
+	function isVectorized( $file ) { return false; }
 	/**
 	 * False if the handler is disabled for all files
 	 */
@@ -273,6 +278,20 @@ abstract class MediaHandler {
 	function parserTransformHook( $parser, $file ) {}
 
 	/**
+	 * File validation hook called on upload.
+	 *
+	 * If the file at the given local path is not valid, or its MIME type does not 
+	 * match the handler class, a Status object should be returned containing
+	 * relevant errors.
+	 * 
+	 * @param $fileName The local path to the file.
+	 * @return Status object
+	 */
+	function verifyUpload( $fileName ) {
+		return Status::newGood();
+	}
+
+	/**
 	 * Check for zero-sized thumbnails. These can be generated when
 	 * no disk space is available or some other error occurs
 	 *
@@ -357,9 +376,19 @@ abstract class ImageHandler extends MediaHandler {
 		if ( !isset( $params['width'] ) ) {
 			return false;
 		}
+
 		if ( !isset( $params['page'] ) ) {
 			$params['page'] = 1;
+		} else  {
+			if ( $params['page'] > $image->pageCount() ) {
+				$params['page'] = $image->pageCount();
+			}
+
+			if ( $params['page'] < 1 ) {
+				$params['page'] = 1;
+			}
 		}
+
 		$srcWidth = $image->getWidth( $params['page'] );
 		$srcHeight = $image->getHeight( $params['page'] );
 		if ( isset( $params['height'] ) && $params['height'] != -1 ) {
@@ -386,6 +415,9 @@ abstract class ImageHandler extends MediaHandler {
 	 *
 	 * @param $width Integer: specified width (input/output)
 	 * @param $height Integer: height (output only)
+	 * @param $srcWidth Integer: width of the source image
+	 * @param $srcHeight Integer: height of the source image
+	 * @param $mimeType Unused
 	 * @return false to indicate that an error should be returned to the user.
 	 */
 	function validateThumbParams( &$width, &$height, $srcWidth, $srcHeight, $mimeType ) {
@@ -422,6 +454,10 @@ abstract class ImageHandler extends MediaHandler {
 		$gis = getimagesize( $path );
 		wfRestoreWarnings();
 		return $gis;
+	}
+
+	function isAnimatedImage( $image ) {
+		return false;
 	}
 
 	function getShortDesc( $file ) {

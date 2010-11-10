@@ -1,8 +1,8 @@
 <?php
-
 /**
- * Created on Oct 31, 2007
  * API for MediaWiki 1.8+
+ *
+ * Created on Oct 31, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -18,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -28,6 +30,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
+ * API Module to move pages
  * @ingroup API
  */
 class ApiMove extends ApiBase {
@@ -44,9 +47,6 @@ class ApiMove extends ApiBase {
 		}
 
 		$this->requireOnlyOneParameter( $params, 'from', 'fromid' );
-		if ( !isset( $params['to'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'to' ) );
-		}
 
 		if ( isset( $params['from'] ) ) {
 			$fromTitle = Title::newFromText( $params['from'] );
@@ -83,21 +83,18 @@ class ApiMove extends ApiBase {
 		}
 
 		// Move the page
-		$hookErr = null;
 		$retval = $fromTitle->moveTo( $toTitle, true, $params['reason'], !$params['noredirect'] );
 		if ( $retval !== true ) {
 			$this->dieUsageMsg( reset( $retval ) );
 		}
 
 		$r = array( 'from' => $fromTitle->getPrefixedText(), 'to' => $toTitle->getPrefixedText(), 'reason' => $params['reason'] );
-		if ( !$params['noredirect'] || !$wgUser->isAllowed( 'suppressredirect' ) )
-		{
+		if ( !$params['noredirect'] || !$wgUser->isAllowed( 'suppressredirect' ) ) {
 			$r['redirectcreated'] = '';
 		}
 
 		// Move the talk page
-		if ( $params['movetalk'] && $fromTalk->exists() && !$fromTitle->isTalkPage() )
-		{
+		if ( $params['movetalk'] && $fromTalk->exists() && !$fromTitle->isTalkPage() ) {
 			$retval = $fromTalk->moveTo( $toTalk, true, $params['reason'], !$params['noredirect'] );
 			if ( $retval === true ) {
 				$r['talkfrom'] = $fromTalk->getPrefixedText();
@@ -122,14 +119,19 @@ class ApiMove extends ApiBase {
 			}
 		}
 
-		// Watch pages
-		if ( $params['watch'] || $wgUser->getOption( 'watchmoves' ) ) {
-			$wgUser->addWatch( $fromTitle );
-			$wgUser->addWatch( $toTitle );
+		$watch = "preferences";
+		if ( isset( $params['watchlist'] ) ) {
+			$watch = $params['watchlist'];
+		} elseif ( $params['watch'] ) {
+			$watch = 'watch';
 		} elseif ( $params['unwatch'] ) {
-			$wgUser->removeWatch( $fromTitle );
-			$wgUser->removeWatch( $toTitle );
+			$watch = 'unwatch';
 		}
+
+		// Watch pages
+		$this->setWatch( $watch, $fromTitle, 'watchmoves' );
+		$this->setWatch( $watch, $toTitle, 'watchmoves' );
+
 		$this->getResult()->addValue( null, $this->getModuleName(), $r );
 	}
 
@@ -169,49 +171,70 @@ class ApiMove extends ApiBase {
 			'fromid' => array(
 				ApiBase::PARAM_TYPE => 'integer'
 			),
-			'to' => null,
+			'to' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'token' => null,
 			'reason' => null,
 			'movetalk' => false,
 			'movesubpages' => false,
 			'noredirect' => false,
-			'watch' => false,
-			'unwatch' => false,
+			'watch' => array(
+				ApiBase::PARAM_DFLT => false,
+				ApiBase::PARAM_DEPRECATED => true,
+			),
+			'unwatch' => array(
+				ApiBase::PARAM_DFLT => false,
+				ApiBase::PARAM_DEPRECATED => true,
+			),
+			'watchlist' => array(
+				ApiBase::PARAM_DFLT => 'preferences',
+				ApiBase::PARAM_TYPE => array(
+					'watch',
+					'unwatch',
+					'preferences',
+					'nochange'
+				),
+			),
 			'ignorewarnings' => false
 		);
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
-			'from' => 'Title of the page you want to move. Cannot be used together with fromid.',
-			'fromid' => 'Page ID of the page you want to move. Cannot be used together with from.',
-			'to' => 'Title you want to rename the page to.',
+			'from' => "Title of the page you want to move. Cannot be used together with {$p}fromid",
+			'fromid' => "Page ID of the page you want to move. Cannot be used together with {$p}from",
+			'to' => 'Title you want to rename the page to',
 			'token' => 'A move token previously retrieved through prop=info',
-			'reason' => 'Reason for the move (optional).',
-			'movetalk' => 'Move the talk page, if it exists.',
+			'reason' => 'Reason for the move (optional)',
+			'movetalk' => 'Move the talk page, if it exists',
 			'movesubpages' => 'Move subpages, if applicable',
 			'noredirect' => 'Don\'t create a redirect',
 			'watch' => 'Add the page and the redirect to your watchlist',
 			'unwatch' => 'Remove the page and the redirect from your watchlist',
+			'watchlist' => 'Unconditionally add or remove the page from your watchlist, use preferences or do not change watch',
 			'ignorewarnings' => 'Ignore any warnings'
 		);
 	}
 
 	public function getDescription() {
-		return array(
-			'Move a page.'
-		);
+		return 'Move a page';
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'to' ),
 			array( 'invalidtitle', 'from' ),
 			array( 'nosuchpageid', 'fromid' ),
 			array( 'notanarticle' ),
 			array( 'invalidtitle', 'to' ),
 			array( 'sharedfile-exists' ),
 		) );
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

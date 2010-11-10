@@ -70,6 +70,10 @@ class SpecialPage {
 	 */
 	var $mAllowedRedirectParams = array();
 	/**
+	 * Query parameteres added by redirects
+	 */
+	var $mAddedRedirectParams = array();
+	/**
 	 * List of special pages, followed by parameters.
 	 * If the only parameter is a string, that is the page name.
 	 * Otherwise, it is an array. The format is one of:
@@ -88,8 +92,8 @@ class SpecialPage {
 		'Lonelypages'               => array( 'SpecialPage', 'Lonelypages' ),
 		'Fewestrevisions'           => array( 'SpecialPage', 'Fewestrevisions' ),
 		'Withoutinterwiki'          => array( 'SpecialPage', 'Withoutinterwiki' ),
-		'Protectedpages'            => array( 'SpecialPage', 'Protectedpages' ),
-		'Protectedtitles'           => array( 'SpecialPage', 'Protectedtitles' ),
+		'Protectedpages'            => 'SpecialProtectedpages',
+		'Protectedtitles'           => 'SpecialProtectedtitles',
 		'Shortpages'                => array( 'SpecialPage', 'Shortpages' ),
 		'Uncategorizedcategories'   => array( 'SpecialPage', 'Uncategorizedcategories' ),
 		'Uncategorizedimages'       => array( 'SpecialPage', 'Uncategorizedimages' ),
@@ -107,7 +111,7 @@ class SpecialPage {
 		# List of pages
 		'Allpages'                  => 'SpecialAllpages',
 		'Prefixindex'               => 'SpecialPrefixindex',
-		'Categories'                => array( 'SpecialPage', 'Categories' ),
+		'Categories'                => 'SpecialCategories',
 		'Disambiguations'           => array( 'SpecialPage', 'Disambiguations' ),
 		'Listredirects'             => array( 'SpecialPage', 'Listredirects' ),
 
@@ -116,20 +120,23 @@ class SpecialPage {
 		'CreateAccount'             => 'SpecialCreateAccount',
 
 		# Users and rights
-		'Blockip'                   => array( 'SpecialPage', 'Blockip', 'block' ),
-		'Ipblocklist'               => array( 'SpecialPage', 'Ipblocklist' ),
+		'Blockip'                   => 'IPBlockForm',
+		'Ipblocklist'               => 'IPUnblockForm',
+		'Unblock'                   => array( 'SpecialRedirectToSpecial', 'Unblock', 'Ipblocklist', false, array( 'uselang', 'ip', 'id' ), array( 'action' => 'unblock' ) ),
 		'Resetpass'                 => 'SpecialResetpass',
 		'DeletedContributions'      => 'DeletedContributionsPage',
 		'Preferences'               => 'SpecialPreferences',
 		'Contributions'             => 'SpecialContributions',
 		'Listgrouprights'           => 'SpecialListGroupRights',
 		'Listusers'                 => array( 'SpecialPage', 'Listusers' ),
+		'Listadmins'                => array( 'SpecialRedirectToSpecial', 'Listadmins', 'Listusers', 'sysop' ),
+		'Listbots'                  => array( 'SpecialRedirectToSpecial', 'Listbots', 'Listusers', 'bot' ),
 		'Activeusers'               => 'SpecialActiveUsers',
 		'Userrights'                => 'UserrightsPage',
 
 		# Recent changes and logs
 		'Newimages'                 => array( 'IncludableSpecialPage', 'Newimages' ),
-		'Log'                       => array( 'SpecialPage', 'Log' ),
+		'Log'                       => 'SpecialLog',
 		'Watchlist'                 => array( 'SpecialPage', 'Watchlist' ),
 		'Newpages'                  => 'SpecialNewpages',
 		'Recentchanges'             => 'SpecialRecentchanges',
@@ -138,17 +145,18 @@ class SpecialPage {
 
 		# Media reports and uploads
 		'Listfiles'                 => array( 'SpecialPage', 'Listfiles' ),
-		'Filepath'                  => array( 'SpecialPage', 'Filepath' ),
+		'Filepath'                  => 'SpecialFilepath',
 		'MIMEsearch'                => array( 'SpecialPage', 'MIMEsearch' ),
 		'FileDuplicateSearch'       => array( 'SpecialPage', 'FileDuplicateSearch' ),
 		'Upload'                    => 'SpecialUpload',
+		'UploadStash'        => 'SpecialUploadStash',
 
 		# Wiki data and tools
 		'Statistics'                => 'SpecialStatistics',
 		'Allmessages'               => 'SpecialAllmessages',
 		'Version'                   => 'SpecialVersion',
-		'Lockdb'                    => array( 'SpecialPage', 'Lockdb', 'siteadmin' ),
-		'Unlockdb'                  => array( 'SpecialPage', 'Unlockdb', 'siteadmin' ),
+		'Lockdb'                    => 'SpecialLockdb',
+		'Unlockdb'                  => 'SpecialUnlockdb',
 
 		# Redirecting special pages
 		'LinkSearch'                => array( 'SpecialPage', 'LinkSearch' ),
@@ -164,28 +172,28 @@ class SpecialPage {
 		'Mostrevisions'             => array( 'SpecialPage', 'Mostrevisions' ),
 
 		# Page tools
+		'ComparePages'              => 'SpecialComparePages',
 		'Export'                    => 'SpecialExport',
 		'Import'                    => 'SpecialImport',
-		'Undelete'                  => array( 'SpecialPage', 'Undelete', 'deletedhistory' ),
+		'Undelete'                  => 'UndeleteForm',
 		'Whatlinkshere'             => 'SpecialWhatlinkshere',
-		'MergeHistory'              => array( 'SpecialPage', 'MergeHistory', 'mergehistory' ),
+		'MergeHistory'              => 'SpecialMergeHistory',
 
 		# Other
 		'Booksources'               => 'SpecialBookSources',
 
 		# Unlisted / redirects
 		'Blankpage'                 => 'SpecialBlankpage',
-		'Blockme'                   => array( 'UnlistedSpecialPage', 'Blockme' ),
-		'Emailuser'                 => array( 'UnlistedSpecialPage', 'Emailuser' ),
-		'Listadmins'                => array( 'SpecialRedirectToSpecial', 'Listadmins', 'Listusers', 'sysop' ),
-		'Listbots'                  => array( 'SpecialRedirectToSpecial', 'Listbots', 'Listusers', 'bot' ),
-		'Movepage'                  => array( 'UnlistedSpecialPage', 'Movepage' ),
-		'Mycontributions'           => array( 'SpecialMycontributions' ),
-		'Mypage'                    => array( 'SpecialMypage' ),
-		'Mytalk'                    => array( 'SpecialMytalk' ),
+		'Blockme'                   => 'SpecialBlockme',
+		'Emailuser'                 => 'SpecialEmailUser',
+		'Movepage'                  => 'MovePageForm',
+		'Mycontributions'           => 'SpecialMycontributions',
+		'Mypage'                    => 'SpecialMypage',
+		'Mytalk'                    => 'SpecialMytalk',
 		'Revisiondelete'            => 'SpecialRevisionDelete',
-		'Specialpages'              => array( 'UnlistedSpecialPage', 'Specialpages' ),
-		'Userlogout'                => array( 'UnlistedSpecialPage', 'Userlogout' ),
+		'RevisionMove'              => 'SpecialRevisionMove',
+		'Specialpages'              => 'SpecialSpecialpages',
+		'Userlogout'                => 'SpecialUserlogout',
 	);
 
 	static public $mAliases;
@@ -296,8 +304,10 @@ class SpecialPage {
 	 * an associative record to $wgSpecialPages. This avoids autoloading SpecialPage.
 	 *
 	 * @param $page SpecialPage
+	 * Deprecated in 1.7, warnings in 1.17, might be removed in 1.20
 	 */
 	static function addPage( &$page ) {
+		wfDeprecated( __METHOD__ );
 		if ( !self::$mListInitialised ) {
 			self::initList();
 		}
@@ -612,15 +622,17 @@ class SpecialPage {
 			$found = false;
 			foreach ( $aliases as $n => $values ) {
 				if ( strcasecmp( $name, $n ) === 0 ) {
-					wfWarn( "Found alias defined for $n when searching for special page aliases
-for $name. Case mismatch?" );
+					wfWarn( "Found alias defined for $n when searching for" .
+						"special page aliases for $name. Case mismatch?" );
 					$name = $values[0];
 					$found = true;
 					break;
 				}
 			}
-			if ( !$found ) wfWarn( "Did not find alias for special page '$name'.
-Perhaps no page aliases are defined for it?" );
+			if ( !$found ) {
+				wfWarn( "Did not find alias for special page '$name'. " . 
+					"Perhaps no aliases are defined for it?" );
+			}
 		}
 		if ( $subpage !== false && !is_null( $subpage ) ) {
 			$name = "$name/$subpage";
@@ -687,12 +699,12 @@ Perhaps no page aliases are defined for it?" );
 	 * @param $file String: file which is included by execute(). It is also constructed from $name by default
 	 * @param $includable Boolean: whether the page can be included in normal pages
 	 */
-	function SpecialPage( $name = '', $restriction = '', $listed = true, $function = false, $file = 'default', $includable = false ) {
+	function __construct( $name = '', $restriction = '', $listed = true, $function = false, $file = 'default', $includable = false ) {
 		$this->mName = $name;
 		$this->mRestriction = $restriction;
 		$this->mListed = $listed;
 		$this->mIncludable = $includable;
-		if ( $function == false ) {
+		if ( !$function ) {
 			$this->mFunction = 'wfSpecial'.$name;
 		} else {
 			$this->mFunction = $function;
@@ -827,7 +839,7 @@ Perhaps no page aliases are defined for it?" );
 		}
 		$out = wfMsgNoTrans( $msg );
 		if ( ! wfEmptyMsg( $msg, $out ) and  $out !== '' and ! $this->including() ) {
-			$wgOut->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1</div>", $msg );
+			$wgOut->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1\n</div>", $msg );
 		}
 
 	}
@@ -883,7 +895,11 @@ Perhaps no page aliases are defined for it?" );
 			if( ( $val = $wgRequest->getVal( $arg, null ) ) !== null )
 				$params[] = $arg . '=' . $val;
 		}
-
+		
+		foreach( $this->mAddedRedirectParams as $arg => $val ) {
+			$params[] = $arg . '=' . $val;
+		}
+		
 		return count( $params ) ? implode( '&', $params ) : false;
 	}
 }
@@ -894,8 +910,8 @@ Perhaps no page aliases are defined for it?" );
  */
 class UnlistedSpecialPage extends SpecialPage
 {
-	function UnlistedSpecialPage( $name, $restriction = '', $function = false, $file = 'default' ) {
-		SpecialPage::SpecialPage( $name, $restriction, false, $function, $file );
+	function __construct( $name, $restriction = '', $function = false, $file = 'default' ) {
+		parent::__construct( $name, $restriction, false, $function, $file );
 	}
 }
 
@@ -905,8 +921,8 @@ class UnlistedSpecialPage extends SpecialPage
  */
 class IncludableSpecialPage extends SpecialPage
 {
-	function IncludableSpecialPage( $name, $restriction = '', $listed = true, $function = false, $file = 'default' ) {
-		SpecialPage::SpecialPage( $name, $restriction, $listed, $function, $file, true );
+	function __construct( $name, $restriction = '', $listed = true, $function = false, $file = 'default' ) {
+		parent::__construct( $name, $restriction, $listed, $function, $file, true );
 	}
 }
 
@@ -917,11 +933,12 @@ class IncludableSpecialPage extends SpecialPage
 class SpecialRedirectToSpecial extends UnlistedSpecialPage {
 	var $redirName, $redirSubpage;
 
-	function __construct( $name, $redirName, $redirSubpage = false, $redirectParams = array() ) {
+	function __construct( $name, $redirName, $redirSubpage = false, $allowedRedirectParams = array(), $addedRedirectParams = array() ) {
 		parent::__construct( $name );
 		$this->redirName = $redirName;
 		$this->redirSubpage = $redirSubpage;
-		$this->mAllowedRedirectParams = $redirectParams;
+		$this->mAllowedRedirectParams = $allowedRedirectParams;
+		$this->mAddedRedirectParams = $addedRedirectParams;
 	}
 
 	function getRedirect( $subpage ) {

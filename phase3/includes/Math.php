@@ -37,7 +37,8 @@ class MathRenderer {
 
 		if( $this->mode == MW_MATH_SOURCE ) {
 			# No need to render or parse anything more!
-			return ('$ '.htmlspecialchars( $this->tex ).' $');
+			# New lines are replaced with spaces, which avoids confusing our parser (bugs 23190, 22818)
+			return ('<span class="tex">$ ' . str_replace( "\n", " ", htmlspecialchars( $this->tex ) ) . ' $</span>');
 		}
 		if( $this->tex == '' ) {
 			return; # bug 8372
@@ -55,7 +56,7 @@ class MathRenderer {
 				}
 			}
 
-			if( function_exists( 'is_executable' ) && !is_executable( $wgTexvc ) ) {
+			if( !is_executable( $wgTexvc ) ) {
 				return $this->_error( 'math_notexvc' );
 			}
 			$cmd = $wgTexvc . ' ' .
@@ -71,7 +72,7 @@ class MathRenderer {
 			}
 
 			wfDebug( "TeX: $cmd\n" );
-			$contents = `$cmd`;
+			$contents = wfShellExec( $cmd );
 			wfDebug( "TeX output:\n $contents\n---\n" );
 
 			if (strlen($contents) == 0) {
@@ -323,10 +324,10 @@ class MathRenderer {
 					.'/'. substr($this->hash, 2, 1);
 	}
 
-	public static function renderMath( $tex, $params=array() ) {
-		global $wgUser;
+	public static function renderMath( $tex, $params=array(), ParserOptions $parserOptions = null ) {
 		$math = new MathRenderer( $tex, $params );
-		$math->setOutputMode( $wgUser->getOption('math'));
+		if ( $parserOptions )
+			$math->setOutputMode( $parserOptions->getMath() );
 		return $math->render();
 	}
 }

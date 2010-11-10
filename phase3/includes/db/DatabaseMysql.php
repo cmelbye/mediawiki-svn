@@ -1,5 +1,12 @@
 <?php
 /**
+ * This is the MySQL database abstraction layer.
+ *
+ * @file
+ * @ingroup Database
+ */
+
+/**
  * Database abstraction object for mySQL
  * Inherit all methods and properties of Database::Database()
  *
@@ -24,11 +31,8 @@ class DatabaseMysql extends DatabaseBase {
 		global $wgAllDBsAreLocalhost;
 		wfProfileIn( __METHOD__ );
 
-		# Test for missing mysql.so
-		# First try to load it
-		if (!@extension_loaded('mysql')) {
-			@dl('mysql.so');
-		}
+		# Load mysql.so if we don't have it
+		wfDl( 'mysql' );
 
 		# Fail now
 		# Otherwise we get a suppressed fatal error, which is very hard to track down
@@ -72,10 +76,10 @@ class DatabaseMysql extends DatabaseBase {
 				# Create a new connection...
 				$this->mConn = mysql_connect( $realServer, $user, $password, true );
 			}
-			if ($this->mConn === false) {
+			#if ( $this->mConn === false ) {
 				#$iplus = $i + 1;
-				#wfLogDBError("Connect loop error $iplus of $max ($server): " . mysql_errno() . " - " . mysql_error()."\n"); 
-			}
+				#wfLogDBError("Connect loop error $iplus of $max ($server): " . mysql_errno() . " - " . mysql_error()."\n");
+			#}
 		}
 		$phpError = $this->restoreErrorHandler();
 		# Always log connection errors
@@ -90,7 +94,7 @@ class DatabaseMysql extends DatabaseBase {
 				substr( $password, 0, 3 ) . "..., error: " . mysql_error() . "\n" );
 			$success = false;
 		}
-		
+
 		wfProfileOut("dbconnect-$server");
 
 		if ( $dbName != '' && $this->mConn !== false ) {
@@ -114,9 +118,15 @@ class DatabaseMysql extends DatabaseBase {
 				global $wgDBmysql5;
 				if( $wgDBmysql5 ) {
 					$this->query( 'SET NAMES utf8', __METHOD__ );
+				} else {
+					$this->query( 'SET NAMES binary', __METHOD__ );
 				}
-				// Turn off strict mode
-				$this->query( "SET sql_mode = ''", __METHOD__ );
+				// Set SQL mode, default is turning them all off, can be overridden or skipped with null
+				global $wgSQLMode;
+				if ( is_string( $wgSQLMode ) ) {
+					$mode = $this->addQuotes( $wgSQLMode );
+					$this->query( "SET sql_mode = $mode", __METHOD__ );
+				}
 			}
 
 			// Turn off strict mode if it is on
@@ -233,7 +243,7 @@ class DatabaseMysql extends DatabaseBase {
 	}
 
 	function affectedRows() { return mysql_affected_rows( $this->mConn ); }
-	
+
 	/**
 	 * Estimate rows in dataset
 	 * Returns estimated count, based on EXPLAIN output
@@ -242,25 +252,26 @@ class DatabaseMysql extends DatabaseBase {
 	public function estimateRowCount( $table, $vars='*', $conds='', $fname = 'Database::estimateRowCount', $options = array() ) {
 		$options['EXPLAIN'] = true;
 		$res = $this->select( $table, $vars, $conds, $fname, $options );
-		if ( $res === false )
+		if ( $res === false ) {
 			return false;
+		}
 		if ( !$this->numRows( $res ) ) {
-			$this->freeResult($res);
 			return 0;
 		}
 
 		$rows = 1;
-		while( $plan = $this->fetchObject( $res ) ) {
+		foreach ( $res as $plan ) {
 			$rows *= $plan->rows > 0 ? $plan->rows : 1; // avoid resetting to zero
 		}
-
-		$this->freeResult($res);
-		return $rows;		
+		return $rows;
 	}
 
 	function fieldInfo( $table, $field ) {
 		$table = $this->tableName( $table );
-		$res = $this->query( "SELECT * FROM $table LIMIT 1" );
+		$res = $this->query( "SELECT * FROM $table LIMIT 1", __METHOD__, true );
+		if ( !$res ) {
+			return false;
+		}
 		$n = mysql_num_fields( $res->result );
 		for( $i = 0; $i < $n; $i++ ) {
 			$meta = mysql_fetch_field( $res->result, $i );
@@ -277,26 +288,67 @@ class DatabaseMysql extends DatabaseBase {
 	}
 
 	function strencode( $s ) {
-		return mysql_real_escape_string( $s, $this->mConn );
+		$sQuoted = mysql_real_escape_string( $s, $this->mConn );
+
+		if($sQuoted === false) {
+			$this->ping();
+			$sQuoted = mysql_real_escape_string( $s, $this->mConn );
+		}
+		return $sQuoted;
 	}
 
 	function ping() {
-		if( !function_exists( 'mysql_ping' ) ) {
-			wfDebug( "Tried to call mysql_ping but this is ancient PHP version. Faking it!\n" );
-			return true;
-		}
 		$ping = mysql_ping( $this->mConn );
 		if ( $ping ) {
 			return true;
 		}
 
-		// Need to reconnect manually in MySQL client 5.0.13+
-		if ( version_compare( mysql_get_client_info(), '5.0.13', '>=' ) ) {
-			mysql_close( $this->mConn );
-			$this->mOpened = false;
-			$this->mConn = false;
-			$this->open( $this->mServer, $this->mUser, $this->mPassword, $this->mDBname );
-			return true;
+		mysql_close( $this->mConn );
+		$this->mOpened = false;
+		$this->mConn = false;
+		$this->open( $this->mServer, $this->mUser, $this->mPassword, $this->mDBname );
+		return true;
+	}
+
+	/**
+	 * Returns slave lag.
+	 * At the moment, this will only work if the DB user has the PROCESS privilege
+	 * @result int
+	 */
+	function getLag() {
+		if ( !is_null( $this->mFakeSlaveLag ) ) {
+			wfDebug( "getLag: fake slave lagged {$this->mFakeSlaveLag} seconds\n" );
+			return $this->mFakeSlaveLag;
+		}
+		$res = $this->query( 'SHOW PROCESSLIST', __METHOD__ );
+		if( !$res ) {
+			return false;
+		}
+		# Find slave SQL thread
+		foreach( $res as $row ) {
+			/* This should work for most situations - when default db
+			 * for thread is not specified, it had no events executed,
+			 * and therefore it doesn't know yet how lagged it is.
+			 *
+			 * Relay log I/O thread does not select databases.
+			 */
+			if ( $row->User == 'system user' &&
+				$row->State != 'Waiting for master to send event' &&
+				$row->State != 'Connecting to master' &&
+				$row->State != 'Queueing master event to the relay log' &&
+				$row->State != 'Waiting for master update' &&
+				$row->State != 'Requesting binlog dump' &&
+				$row->State != 'Waiting to reconnect after a failed master event read' &&
+				$row->State != 'Reconnecting after a failed master event read' &&
+				$row->State != 'Registering slave on master'
+				) {
+				# This is it, return the time (except -ve)
+				if ( $row->Time > 0x7fffffff ) {
+					return false;
+				} else {
+					return $row->Time;
+				}
+			}
 		}
 		return false;
 	}
@@ -313,7 +365,7 @@ class DatabaseMysql extends DatabaseBase {
 		return 'LOW_PRIORITY';
 	}
 
-	function getSoftwareLink() {
+	public static function getSoftwareLink() {
 		return '[http://www.mysql.com/ MySQL]';
 	}
 
@@ -330,7 +382,6 @@ class DatabaseMysql extends DatabaseBase {
 		$lockName = $this->addQuotes( $lockName );
 		$result = $this->query( "SELECT GET_LOCK($lockName, $timeout) AS lockstatus", $method );
 		$row = $this->fetchObject( $result );
-		$this->freeResult( $result );
 
 		if( $row->lockstatus == 1 ) {
 			return true;
@@ -340,6 +391,9 @@ class DatabaseMysql extends DatabaseBase {
 		}
 	}
 
+	/**
+	 * FROM MYSQL DOCS: http://dev.mysql.com/doc/refman/5.0/en/miscellaneous-functions.html#function_release-lock
+	 */
 	public function unlock( $lockName, $method ) {
 		$lockName = $this->addQuotes( $lockName );
 		$result = $this->query( "SELECT RELEASE_LOCK($lockName) as lockstatus", $method );
@@ -351,8 +405,8 @@ class DatabaseMysql extends DatabaseBase {
 		$items = array();
 
 		foreach( $write as $table ) {
-			$tbl = $this->tableName( $table ) . 
-					( $lowPriority ? ' LOW_PRIORITY' : '' ) . 
+			$tbl = $this->tableName( $table ) .
+					( $lowPriority ? ' LOW_PRIORITY' : '' ) .
 					' WRITE';
 			$items[] = $tbl;
 		}
@@ -365,6 +419,16 @@ class DatabaseMysql extends DatabaseBase {
 
 	public function unlockTables( $method ) {
 		$this->query( "UNLOCK TABLES", $method );
+	}
+
+	/**
+	 * Get search engine class. All subclasses of this
+	 * need to implement this if they wish to use searching.
+	 *
+	 * @return String
+	 */
+	public function getSearchEngine() {
+		return 'SearchMySQL';
 	}
 
 	public function setBigSelects( $value = true ) {
@@ -382,7 +446,7 @@ class DatabaseMysql extends DatabaseBase {
 		$this->query( "SET sql_big_selects=$encValue", __METHOD__ );
 	}
 
-	
+
 	/**
 	 * Determines if the last failure was due to a deadlock
 	 */
@@ -391,7 +455,7 @@ class DatabaseMysql extends DatabaseBase {
 	}
 
 	/**
-	 * Determines if the last query error was something that should be dealt 
+	 * Determines if the last query error was something that should be dealt
 	 * with by pinging the connection and reissuing the query
 	 */
 	function wasErrorReissuable() {
@@ -402,7 +466,7 @@ class DatabaseMysql extends DatabaseBase {
 	 * Determines if the last failure was due to the database being read-only.
 	 */
 	function wasReadOnlyError() {
-		return $this->lastErrno() == 1223 || 
+		return $this->lastErrno() == 1223 ||
 			( $this->lastErrno() == 1290 && strpos( $this->lastError(), '--read-only' ) !== false );
 	}
 
@@ -420,7 +484,7 @@ class DatabaseMysql extends DatabaseBase {
 			$res = $this->query( "SHOW CREATE TABLE $oldName" );
 			$row = $this->fetchRow( $res );
 			$oldQuery = $row[1];
-			$query = preg_replace( '/CREATE TABLE `(.*?)`/', 
+			$query = preg_replace( '/CREATE TABLE `(.*?)`/',
 				"CREATE $tmp TABLE `$newName`", $oldQuery );
 			if ($oldQuery === $query) {
 				# Couldn't do replacement

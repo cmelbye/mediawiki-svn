@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Feb 13, 2009
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Feb 13, 2009
  *
  * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -48,14 +49,13 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 	}
 
 	private function run( $resultPageSet = null ) {
-		$db = $this->getDB();
 		$params = $this->extractRequestParams();
 
 		$this->addTables( 'protected_titles' );
 		$this->addFields( array( 'pt_namespace', 'pt_title', 'pt_timestamp' ) );
 
 		$prop = array_flip( $params['prop'] );
-		$this->addFieldsIf( 'pt_user', isset( $prop['user'] ) );
+		$this->addFieldsIf( 'pt_user', isset( $prop['user'] ) || isset( $prop['userid'] ) );
 		$this->addFieldsIf( 'pt_reason', isset( $prop['comment'] ) || isset( $prop['parsedcomment'] ) );
 		$this->addFieldsIf( 'pt_expiry', isset( $prop['expiry'] ) );
 		$this->addFieldsIf( 'pt_create_perm', isset( $prop['level'] ) );
@@ -77,7 +77,7 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 
 		$count = 0;
 		$result = $this->getResult();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $params['limit'] ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->pt_timestamp ) );
@@ -94,6 +94,10 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 
 				if ( isset( $prop['user'] ) && !is_null( $row->user_name ) ) {
 					$vals['user'] = $row->user_name;
+				}
+
+				if ( isset( $prop['user'] ) ) {
+					$vals['userid'] = $row->pt_user;
 				}
 
 				if ( isset( $prop['comment'] ) ) {
@@ -123,11 +127,20 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 				$titles[] = $title;
 			}
 		}
-		$db->freeResult( $res );
+
 		if ( is_null( $resultPageSet ) ) {
 			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), $this->getModulePrefix() );
 		} else {
 			$resultPageSet->populateFromTitles( $titles );
+		}
+	}
+
+	public function getCacheMode( $params ) {
+		if ( !is_null( $params['prop'] ) && in_array( 'parsedcomment', $params['prop'] ) ) {
+			// formatComment() calls wfMsg() among other things
+			return 'anon-public-user-private';
+		} else {
+			return 'public';
 		}
 	}
 
@@ -168,6 +181,7 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_TYPE => array(
 					'timestamp',
 					'user',
+					'userid',
 					'comment',
 					'parsedcomment',
 					'expiry',
@@ -183,8 +197,17 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 			'start' => 'Start listing at this protection timestamp',
 			'end' => 'Stop listing at this protection timestamp',
 			'dir' => 'The direction in which to list',
-			'limit' => 'How many total pages to return.',
-			'prop' => 'Which properties to get',
+			'limit' => 'How many total pages to return',
+			'prop' => array(
+				'Which properties to get',
+				' timestamp      - Adds the timestamp of when protection was added',
+				' user           - Adds the user to add the protection',
+				' userid         - Adds the user id to add the protection',
+				' comment        - Adds the comment for the protection',
+				' parsedcomment  - Adds the parsed comment for the protection',
+				' expiry         - Adds the timestamp of when the protection will be lifted',
+				' level          - Adds the protection level',
+			),
 			'level' => 'Only list titles with these protection levels',
 		);
 	}

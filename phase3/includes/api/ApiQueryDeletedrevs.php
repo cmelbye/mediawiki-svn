@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Jul 2, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Jul 2, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -29,7 +30,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * Query module to enumerate all available pages.
+ * Query module to enumerate all deleted revisions.
  *
  * @ingroup API
  */
@@ -51,6 +52,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$prop = array_flip( $params['prop'] );
 		$fld_revid = isset( $prop['revid'] );
 		$fld_user = isset( $prop['user'] );
+		$fld_userid = isset( $prop['userid'] );
 		$fld_comment = isset( $prop['comment'] );
 		$fld_parsedcomment = isset ( $prop['parsedcomment'] );
 		$fld_minor = isset( $prop['minor'] );
@@ -61,7 +63,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$result = $this->getResult();
 		$pageSet = $this->getPageSet();
 		$titles = $pageSet->getTitles();
-		$data = array();
 
 		// This module operates in three modes:
 		// 'revs': List deleted revs for certain titles
@@ -86,6 +87,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		}
 		if ( $fld_user ) {
 			$this->addFields( 'ar_user_text' );
+		}
+		if ( $fld_userid ) {
+			$this->addFields( 'ar_user' );
 		}
 		if ( $fld_comment || $fld_parsedcomment ) {
 			$this->addFields( 'ar_comment' );
@@ -114,7 +118,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 		if ( $limit == 'max' ) {
 			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
-			$this->getResult()->addValue( 'limits', $this->getModuleName(), $limit );
+			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
 		}
 
 		$this->validateLimit( 'limit', $limit, 1, $userMax, $botMax );
@@ -182,7 +186,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$pageMap = array(); // Maps ns&title to (fake) pageid
 		$count = 0;
 		$newPageID = 0;
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++$count > $limit ) {
 				// We've had enough
 				if ( $mode == 'all' || $mode == 'revs' ) {
@@ -202,6 +206,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			if ( $fld_user ) {
 				$rev['user'] = $row->ar_user_text;
 			}
+			if ( $fld_userid ) {
+				$rev['userid'] = $row->ar_user;
+			}
 			if ( $fld_comment ) {
 				$rev['comment'] = $row->ar_comment;
 			}
@@ -209,7 +216,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$title = Title::makeTitle( $row->ar_namespace, $row->ar_title );
 
 			if ( $fld_parsedcomment ) {
-				global $wgUser;
 				$rev['parsedcomment'] = $wgUser->getSkin()->formatComment( $row->ar_comment, $title );
 			}
 			if ( $fld_minor && $row->ar_minor_edit == 1 ) {
@@ -248,7 +254,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				break;
 			}
 		}
-		$db->freeResult( $res );
 		$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'page' );
 	}
 
@@ -292,6 +297,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => array(
 					'revid',
 					'user',
+					'userid',
 					'comment',
 					'parsedcomment',
 					'minor',
@@ -306,11 +312,22 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'start' => 'The timestamp to start enumerating from. (1,2)',
-			'end' => 'The timestamp to stop enumerating at. (1,2)',
-			'dir' => 'The direction in which to enumerate. (1,2)',
+			'start' => 'The timestamp to start enumerating from (1,2)',
+			'end' => 'The timestamp to stop enumerating at (1,2)',
+			'dir' => 'The direction in which to enumerate (1,2)',
 			'limit' => 'The maximum amount of revisions to list',
-			'prop' => 'Which properties to get',
+			'prop' => array(
+				'Which properties to get',
+				' revid          - Adds the revision id of the deleted revision',
+				' user           - Adds the user who made the revision',
+				' userid         - Adds the user id whom made the revision',
+				' comment        - Adds the comment of the revision',
+				' parsedcomment  - Adds the parsed comment of the revision',
+				' minor          - Tags if the revision is minor',
+				' len            - Adds the length of the revision',
+				' content        - Adds the content of the revision',
+				' token          - Gives the edit token',
+			),
 			'namespace' => 'Only list pages in this namespace (3)',
 			'user' => 'Only list revisions by this user',
 			'excludeuser' => 'Don\'t list revisions by this user',
@@ -328,7 +345,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'2) List deleted contributions for the given user, sorted by timestamp (no titles specified)',
 			'3) List all deleted revisions in the given namespace, sorted by title and timestamp (no titles specified, druser not set)',
 			'Certain parameters only apply to some modes and are ignored in others.',
-			'For instance, a parameter marked (1) only applies to mode 1 and is ignored in modes 2 and 3.',
+			'For instance, a parameter marked (1) only applies to mode 1 and is ignored in modes 2 and 3',
 		);
 	}
 

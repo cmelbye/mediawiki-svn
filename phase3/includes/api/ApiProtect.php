@@ -1,8 +1,8 @@
 <?php
-
 /**
- * Created on Sep 1, 2007
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 1, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -18,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,16 +39,8 @@ class ApiProtect extends ApiBase {
 	}
 
 	public function execute() {
-		global $wgUser, $wgRestrictionTypes, $wgRestrictionLevels;
+		global $wgUser, $wgRestrictionLevels;
 		$params = $this->extractRequestParams();
-
-		$titleObj = null;
-		if ( !isset( $params['title'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'title' ) );
-		}
-		if ( empty( $params['protections'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'protections' ) );
-		}
 
 		$titleObj = Title::newFromText( $params['title'] );
 		if ( !$titleObj ) {
@@ -95,7 +89,7 @@ class ApiProtect extends ApiBase {
 				$expiryarray[$p[0]] = Block::infinity();
 			} else {
 				$exp = strtotime( $expiry[$i] );
-				if ( $exp < 0 || $exp == false ) {
+				if ( $exp < 0 || !$exp ) {
 					$this->dieUsageMsg( array( 'invalidexpiry', $expiry[$i] ) );
 				}
 
@@ -113,9 +107,10 @@ class ApiProtect extends ApiBase {
 
 		$cascade = $params['cascade'];
 		$articleObj = new Article( $titleObj );
-		if ( $params['watch'] ) {
-			$articleObj->doWatch();
-		}
+
+		$watch = $params['watch'] ? 'watch' : $params['watchlist'];
+		$this->setWatch( $watch, $titleObj );
+
 		if ( $titleObj->exists() ) {
 			$ok = $articleObj->updateRestrictions( $protections, $params['reason'], $cascade, $expiryarray );
 		} else {
@@ -148,10 +143,14 @@ class ApiProtect extends ApiBase {
 
 	public function getAllowedParams() {
 		return array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'token' => null,
 			'protections' => array(
-				ApiBase::PARAM_ISMULTI => true
+				ApiBase::PARAM_ISMULTI => true,
+				ApiBase::PARAM_REQUIRED => true,
 			),
 			'expiry' => array(
 				ApiBase::PARAM_ISMULTI => true,
@@ -160,13 +159,25 @@ class ApiProtect extends ApiBase {
 			),
 			'reason' => '',
 			'cascade' => false,
-			'watch' => false,
+			'watch' => array(
+				ApiBase::PARAM_DFLT => false,
+				ApiBase::PARAM_DEPRECATED => true,
+			),
+			'watchlist' => array(
+				ApiBase::PARAM_DFLT => 'preferences',
+				ApiBase::PARAM_TYPE => array(
+					'watch',
+					'unwatch',
+					'preferences',
+					'nochange'
+				),
+			),
 		);
 	}
 
 	public function getParamDescription() {
 		return array(
-			'title' => 'Title of the page you want to (un)protect.',
+			'title' => 'Title of the page you want to (un)protect',
 			'token' => 'A protect token previously retrieved through prop=info',
 			'protections' => 'Pipe-separated list of protection levels, formatted action=group (e.g. edit=sysop)',
 			'expiry' => array( 'Expiry timestamps. If only one timestamp is set, it\'ll be used for all protections.',
@@ -175,19 +186,16 @@ class ApiProtect extends ApiBase {
 			'cascade' => array( 'Enable cascading protection (i.e. protect pages included in this page)',
 					'Ignored if not all protection levels are \'sysop\' or \'protect\'' ),
 			'watch' => 'If set, add the page being (un)protected to your watchlist',
+			'watchlist' => 'Unconditionally add or remove the page from your watchlist, use preferences or do not change watch',
 		);
 	}
 
 	public function getDescription() {
-		return array(
-			'Change the protection level of a page.'
-		);
+		return 'Change the protection level of a page';
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'title' ),
-			array( 'missingparam', 'protections' ),
 			array( 'invalidtitle', 'title' ),
 			array( 'toofewexpiries', 'noofexpiries', 'noofprotections' ),
 			array( 'create-titleexists' ),
@@ -199,8 +207,12 @@ class ApiProtect extends ApiBase {
 		) );
 	}
 
+	public function needsToken() {
+		return true;
+	}
+
 	public function getTokenSalt() {
-		return null;
+		return '';
 	}
 
 	protected function getExamples() {

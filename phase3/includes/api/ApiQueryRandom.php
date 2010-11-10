@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Created on Monday, January 28, 2008
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Monday, January 28, 2008
  *
  * Copyright © 2008 Brent Garber
  *
@@ -19,8 +19,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -64,10 +66,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	}
 
 	protected function runQuery( &$resultPageSet ) {
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 		$count = 0;
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$count++;
 			if ( is_null( $resultPageSet ) ) {
 				// Prevent duplicates
@@ -87,7 +88,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				$resultPageSet->processDbRow( $row );
 			}
 		}
-		$db->freeResult( $res );
+
 		return $count;
 	}
 
@@ -120,6 +121,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return $vals;
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'namespace' => array(
@@ -149,8 +154,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return array(
 			'Get a set of random pages',
 			'NOTE: Pages are listed in a fixed sequence, only the starting point is random. This means that if, for example, "Main Page" is the first ',
-			'      random page on your list, "List of fictional monkeys" will *always* be second, "List of people on stamps of Vanuatu" third, etc.',
-			'NOTE: If the number of pages in the namespace is lower than rnlimit, you will get fewer pages. You will not get the same page twice.'
+			'      random page on your list, "List of fictional monkeys" will *always* be second, "List of people on stamps of Vanuatu" third, etc',
+			'NOTE: If the number of pages in the namespace is lower than rnlimit, you will get fewer pages. You will not get the same page twice'
 		);
 	}
 

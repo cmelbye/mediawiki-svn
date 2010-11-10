@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 25, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 25, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -38,17 +39,23 @@ class ApiQueryInfo extends ApiQueryBase {
 	private $fld_protection = false, $fld_talkid = false,
 		$fld_subjectid = false, $fld_url = false,
 		$fld_readable = false, $fld_watched = false,
-		$fld_preload = false;
+		$fld_preload = false, $fld_displaytitle = false;
+
+	private $tokenFunctions;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'in' );
 	}
 
 	public function requestExtraData( $pageSet ) {
+		global $wgDisablePageCounters;
+
 		$pageSet->requestField( 'page_restrictions' );
 		$pageSet->requestField( 'page_is_redirect' );
 		$pageSet->requestField( 'page_is_new' );
-		$pageSet->requestField( 'page_counter' );
+		if ( !$wgDisablePageCounters ) {
+			$pageSet->requestField( 'page_counter' );
+		}
 		$pageSet->requestField( 'page_touched' );
 		$pageSet->requestField( 'page_latest' );
 		$pageSet->requestField( 'page_len' );
@@ -210,6 +217,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->fld_url = isset( $prop['url'] );
 			$this->fld_readable = isset( $prop['readable'] );
 			$this->fld_preload = isset( $prop['preload'] );
+			$this->fld_displaytitle = isset( $prop['displaytitle'] );
 		}
 
 		$pageSet = $this->getPageSet();
@@ -241,12 +249,16 @@ class ApiQueryInfo extends ApiQueryBase {
 		$this->pageRestrictions = $pageSet->getCustomField( 'page_restrictions' );
 		$this->pageIsRedir = $pageSet->getCustomField( 'page_is_redirect' );
 		$this->pageIsNew = $pageSet->getCustomField( 'page_is_new' );
-		$this->pageCounter = $pageSet->getCustomField( 'page_counter' );
+
+		global $wgDisablePageCounters;
+
+		if ( !$wgDisablePageCounters ) {
+			$this->pageCounter = $pageSet->getCustomField( 'page_counter' );
+		}
 		$this->pageTouched = $pageSet->getCustomField( 'page_touched' );
 		$this->pageLatest = $pageSet->getCustomField( 'page_latest' );
 		$this->pageLength = $pageSet->getCustomField( 'page_len' );
 
-		$db = $this->getDB();
 		// Get protection info if requested
 		if ( $this->fld_protection ) {
 			$this->getProtectionInfo();
@@ -259,6 +271,10 @@ class ApiQueryInfo extends ApiQueryBase {
 		// Run the talkid/subjectid query if requested
 		if ( $this->fld_talkid || $this->fld_subjectid ) {
 			$this->getTSIDs();
+		}
+
+		if ( $this->fld_displaytitle ) {
+			$this->getDisplayTitle();
 		}
 
 		foreach ( $this->everything as $pageid => $title ) {
@@ -285,10 +301,15 @@ class ApiQueryInfo extends ApiQueryBase {
 	private function extractPageInfo( $pageid, $title ) {
 		$pageInfo = array();
 		if ( $title->exists() ) {
+			global $wgDisablePageCounters;
+
 			$pageInfo['touched'] = wfTimestamp( TS_ISO_8601, $this->pageTouched[$pageid] );
 			$pageInfo['lastrevid'] = intval( $this->pageLatest[$pageid] );
-			$pageInfo['counter'] = intval( $this->pageCounter[$pageid] );
+			$pageInfo['counter'] = $wgDisablePageCounters
+				? ""
+				: intval( $this->pageCounter[$pageid] );
 			$pageInfo['length'] = intval( $this->pageLength[$pageid] );
+
 			if ( $this->pageIsRedir[$pageid] ) {
 				$pageInfo['redirect'] = '';
 			}
@@ -319,18 +340,15 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->getResult()->setIndexedTagName( $pageInfo['protection'], 'pr' );
 		}
 
-		if ( $this->fld_watched && isset( $this->watched[$title->getNamespace()][$title->getDBkey()] ) )
-		{
+		if ( $this->fld_watched && isset( $this->watched[$title->getNamespace()][$title->getDBkey()] ) ) {
 			$pageInfo['watched'] = '';
 		}
 
-		if ( $this->fld_talkid && isset( $this->talkids[$title->getNamespace()][$title->getDBkey()] ) )
-		{
+		if ( $this->fld_talkid && isset( $this->talkids[$title->getNamespace()][$title->getDBkey()] ) )	{
 			$pageInfo['talkid'] = $this->talkids[$title->getNamespace()][$title->getDBkey()];
 		}
 
-		if ( $this->fld_subjectid && isset( $this->subjectids[$title->getNamespace()][$title->getDBkey()] ) )
-		{
+		if ( $this->fld_subjectid && isset( $this->subjectids[$title->getNamespace()][$title->getDBkey()] ) ) {
 			$pageInfo['subjectid'] = $this->subjectids[$title->getNamespace()][$title->getDBkey()];
 		}
 
@@ -346,11 +364,21 @@ class ApiQueryInfo extends ApiQueryBase {
 			if ( $title->exists() ) {
 				$pageInfo['preload'] = '';
 			} else {
+				$text = null;
 				wfRunHooks( 'EditFormPreloadText', array( &$text, &$title ) );
 
 				$pageInfo['preload'] = $text;
 			}
 		}
+
+		if ( $this->fld_displaytitle ) {
+			if ( isset( $this->displaytitles[$title->getArticleId()] ) ) {
+				$pageInfo['displaytitle'] = $this->displaytitles[$title->getArticleId()];
+			} else {
+				$pageInfo['displaytitle'] = $title->getPrefixedText();
+			}
+		}
+
 		return $pageInfo;
 	}
 
@@ -372,7 +400,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->addWhereFld( 'pr_page', array_keys( $this->titles ) );
 
 			$res = $this->select( __METHOD__ );
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$a = array(
 					'type' => $row->pr_type,
 					'level' => $row->pr_level,
@@ -419,7 +447,6 @@ class ApiQueryInfo extends ApiQueryBase {
 					}
 				}
 			}
-			$db->freeResult( $res );
 		}
 
 		// Get protections for missing titles
@@ -430,24 +457,24 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->addFields( array( 'pt_title', 'pt_namespace', 'pt_create_perm', 'pt_expiry' ) );
 			$this->addWhere( $lb->constructSet( 'pt', $db ) );
 			$res = $this->select( __METHOD__ );
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$this->protections[$row->pt_namespace][$row->pt_title][] = array(
 					'type' => 'create',
 					'level' => $row->pt_create_perm,
 					'expiry' => Block::decodeExpiry( $row->pt_expiry, TS_ISO_8601 )
 				);
 			}
-			$db->freeResult( $res );
 		}
 
 		// Cascading protections
 		$images = $others = array();
-		foreach ( $this->everything as $title )
+		foreach ( $this->everything as $title ) {
 			if ( $title->getNamespace() == NS_FILE ) {
 				$images[] = $title->getDBkey();
 			} else {
 				$others[] = $title;
 			}
+		}
 
 		if ( count( $others ) ) {
 			// Non-images: check templatelinks
@@ -463,7 +490,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->addWhereFld( 'pr_cascade', 1 );
 
 			$res = $this->select( __METHOD__ );
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$source = Title::makeTitle( $row->page_namespace, $row->page_title );
 				$this->protections[$row->tl_namespace][$row->tl_title][] = array(
 					'type' => $row->pr_type,
@@ -472,7 +499,6 @@ class ApiQueryInfo extends ApiQueryBase {
 					'source' => $source->getPrefixedText()
 				);
 			}
-			$db->freeResult( $res );
 		}
 
 		if ( count( $images ) ) {
@@ -487,7 +513,7 @@ class ApiQueryInfo extends ApiQueryBase {
 			$this->addWhereFld( 'il_to', $images );
 
 			$res = $this->select( __METHOD__ );
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$source = Title::makeTitle( $row->page_namespace, $row->page_title );
 				$this->protections[NS_FILE][$row->il_to][] = array(
 					'type' => $row->pr_type,
@@ -496,7 +522,6 @@ class ApiQueryInfo extends ApiQueryBase {
 					'source' => $source->getPrefixedText()
 				);
 			}
-			$db->freeResult( $res );
 		}
 	}
 
@@ -506,7 +531,7 @@ class ApiQueryInfo extends ApiQueryBase {
 	 */
 	private function getTSIDs() {
 		$getTitles = $this->talkids = $this->subjectids = array();
-		$db = $this->getDB();
+
 		foreach ( $this->everything as $t ) {
 			if ( MWNamespace::isTalk( $t->getNamespace() ) ) {
 				if ( $this->fld_subjectid ) {
@@ -520,6 +545,8 @@ class ApiQueryInfo extends ApiQueryBase {
 			return;
 		}
 
+		$db = $this->getDB();
+
 		// Construct a custom WHERE clause that matches
 		// all titles in $getTitles
 		$lb = new LinkBatch( $getTitles );
@@ -528,7 +555,7 @@ class ApiQueryInfo extends ApiQueryBase {
 		$this->addFields( array( 'page_title', 'page_namespace', 'page_id' ) );
 		$this->addWhere( $lb->constructSet( 'page', $db ) );
 		$res = $this->select( __METHOD__ );
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( MWNamespace::isTalk( $row->page_namespace ) ) {
 				$this->talkids[MWNamespace::getSubject( $row->page_namespace )][$row->page_title] =
 						intval( $row->page_id );
@@ -539,8 +566,29 @@ class ApiQueryInfo extends ApiQueryBase {
 		}
 	}
 
+	private function getDisplayTitle() {
+		$this->displaytitles = array();
+
+		$pageIds = array_keys( $this->titles );
+
+		if ( !count( $pageIds ) ) {
+			return;
+		}
+
+		$this->resetQueryParams();
+		$this->addTables( 'page_props' );
+		$this->addFields( array( 'pp_page', 'pp_value' ) );
+		$this->addWhereFld( 'pp_page', $pageIds );
+		$this->addWhereFld( 'pp_propname', 'displaytitle' );
+		$res = $this->select( __METHOD__ );
+
+		foreach ( $res as $row ) {
+			$this->displaytitles[$row->pp_page] = $row->pp_value;
+		}
+	}
+
 	/**
-	 * Get information about watched status and put it in $watched
+	 * Get information about watched status and put it in $this->watched
 	 */
 	private function getWatchedInfo() {
 		global $wgUser;
@@ -566,9 +614,31 @@ class ApiQueryInfo extends ApiQueryBase {
 
 		$res = $this->select( __METHOD__ );
 
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$this->watched[$row->page_namespace][$row->page_title] = true;
 		}
+	}
+
+	public function getCacheMode( $params ) {
+		$publicProps = array(
+			'protection',
+			'talkid',
+			'subjectid',
+			'url',
+			'preload',
+			'displaytitle',
+		);
+		if ( !is_null( $params['prop'] ) ) {
+			foreach ( $params['prop'] as $prop ) {
+				if ( !in_array( $prop, $publicProps ) ) {
+					return 'private';
+				}
+			}
+		}
+		if ( !is_null( $params['token'] ) ) {
+			return 'private';
+		}
+		return 'public';
 	}
 
 	public function getAllowedParams() {
@@ -579,11 +649,14 @@ class ApiQueryInfo extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => array(
 					'protection',
 					'talkid',
-					'watched',
+					'watched', # private
 					'subjectid',
 					'url',
-					'readable',
-					'preload'
+					'readable', # private
+					'preload',
+					'displaytitle',
+					// If you add more properties here, please consider whether they
+					// need to be added to getCacheMode()
 				) ),
 			'token' => array(
 				ApiBase::PARAM_DFLT => null,
@@ -604,7 +677,8 @@ class ApiQueryInfo extends ApiQueryBase {
 				' subjectid    - The page ID of the parent page for each talk page',
 				' url          - Gives a full URL to the page, and also an edit URL',
 				' readable     - Whether the user can read this page',
-				' preload      - Gives the text returned by EditFormPreloadText'
+				' preload      - Gives the text returned by EditFormPreloadText',
+				' displaytitle - Gives the way the page title is actually displayed',
 			),
 			'token' => 'Request a token to perform a data-modifying action on a page',
 			'continue' => 'When more results are available, use this to continue',

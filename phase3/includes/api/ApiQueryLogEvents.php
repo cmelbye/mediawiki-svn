@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 16, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Oct 16, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -39,6 +40,11 @@ class ApiQueryLogEvents extends ApiQueryBase {
 		parent::__construct( $query, $moduleName, 'le' );
 	}
 
+	private $fld_ids = false, $fld_title = false, $fld_type = false,
+		$fld_action = false, $fld_user = false, $fld_userid = false,
+		$fld_timestamp = false, $fld_comment = false, $fld_parsedcomment = false,
+		$fld_details = false, $fld_tags = false;
+
 	public function execute() {
 		$params = $this->extractRequestParams();
 		$db = $this->getDB();
@@ -50,13 +56,12 @@ class ApiQueryLogEvents extends ApiQueryBase {
 		$this->fld_type = isset( $prop['type'] );
 		$this->fld_action = isset ( $prop['action'] );
 		$this->fld_user = isset( $prop['user'] );
+		$this->fld_userid = isset( $prop['userid'] );
 		$this->fld_timestamp = isset( $prop['timestamp'] );
 		$this->fld_comment = isset( $prop['comment'] );
 		$this->fld_parsedcomment = isset ( $prop['parsedcomment'] );
 		$this->fld_details = isset( $prop['details'] );
 		$this->fld_tags = isset( $prop['tags'] );
-
-		list( $tbl_logging, $tbl_page, $tbl_user ) = $db->tableNamesN( 'logging', 'page', 'user' );
 
 		$hideLogs = LogEventsList::getExcludeClause( $db );
 		if ( $hideLogs !== false ) {
@@ -85,8 +90,9 @@ class ApiQueryLogEvents extends ApiQueryBase {
 		$this->addFieldsIf( 'page_id', $this->fld_ids );
 		$this->addFieldsIf( 'log_user', $this->fld_user );
 		$this->addFieldsIf( 'user_name', $this->fld_user );
-		$this->addFieldsIf( 'log_namespace', $this->fld_title );
-		$this->addFieldsIf( 'log_title', $this->fld_title );
+		$this->addFieldsIf( 'user_id', $this->fld_userid );
+		$this->addFieldsIf( 'log_namespace', $this->fld_title || $this->fld_parsedcomment );
+		$this->addFieldsIf( 'log_title', $this->fld_title || $this->fld_parsedcomment );
 		$this->addFieldsIf( 'log_comment', $this->fld_comment || $this->fld_parsedcomment );
 		$this->addFieldsIf( 'log_params', $this->fld_details );
 
@@ -154,7 +160,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 
 		$count = 0;
 		$res = $this->select( __METHOD__ );
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->log_timestamp ) );
@@ -171,11 +177,18 @@ class ApiQueryLogEvents extends ApiQueryBase {
 				break;
 			}
 		}
-		$db->freeResult( $res );
-
 		$this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'item' );
 	}
 
+	/**
+	 * @static
+	 * @param $result ApiResult
+	 * @param $vals
+	 * @param $params
+	 * @param $type
+	 * @param $ts
+	 * @return array
+	 */
 	public static function addLogParams( $result, &$vals, $params, $type, $ts ) {
 		$params = explode( "\n", $params );
 		switch ( $type ) {
@@ -208,8 +221,12 @@ class ApiQueryLogEvents extends ApiQueryBase {
 			case 'block':
 				$vals2 = array();
 				list( $vals2['duration'], $vals2['flags'] ) = $params;
-				$vals2['expiry'] = wfTimestamp( TS_ISO_8601,
+
+				// Indefinite blocks have no expiry time
+				if ( Block::parseExpiryInput( $params[0] ) !== Block::infinity() ) {
+					$vals2['expiry'] = wfTimestamp( TS_ISO_8601,
 						strtotime( $params[0], wfTimestamp( TS_UNIX, $ts ) ) );
+				}
 				$vals[$type] = $vals2;
 				$params = null;
 				break;
@@ -229,7 +246,9 @@ class ApiQueryLogEvents extends ApiQueryBase {
 			$vals['pageid'] = intval( $row->page_id );
 		}
 
-		$title = Title::makeTitle( $row->log_namespace, $row->log_title );
+		if ( $this->fld_title || $this->fld_parsedcomment ) {
+			$title = Title::makeTitle( $row->log_namespace, $row->log_title );
+		}
 
 		if ( $this->fld_title ) {
 			if ( LogEventsList::isDeleted( $row, LogPage::DELETED_ACTION ) ) {
@@ -238,7 +257,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 				ApiQueryBase::addTitleInfo( $vals, $title );
 			}
 		}
-		
+
 		if ( $this->fld_type || $this->fld_action ) {
 			$vals['type'] = $row->log_type;
 			$vals['action'] = $row->log_action;
@@ -256,13 +275,20 @@ class ApiQueryLogEvents extends ApiQueryBase {
 			}
 		}
 
-		if ( $this->fld_user ) {
+		if ( $this->fld_user || $this->fld_userid ) {
 			if ( LogEventsList::isDeleted( $row, LogPage::DELETED_USER ) ) {
 				$vals['userhidden'] = '';
 			} else {
-				$vals['user'] = $row->user_name;
-				if ( !$row->log_user )
+				if ( $this->fld_user ) {
+					$vals['user'] = $row->user_name;
+				}
+				if ( $this->fld_userid ) {
+					$vals['userid'] = $row->user_id;
+				}
+				
+				if ( !$row->log_user ) {
 					$vals['anon'] = '';
+				}
 			}
 		}
 		if ( $this->fld_timestamp ) {
@@ -297,6 +323,15 @@ class ApiQueryLogEvents extends ApiQueryBase {
 		return $vals;
 	}
 
+	public function getCacheMode( $params ) {
+		if ( !is_null( $params['prop'] ) && in_array( 'parsedcomment', $params['prop'] ) ) {
+			// formatComment() calls wfMsg() among other things
+			return 'anon-public-user-private';
+		} else {
+			return 'public';
+		}
+	}
+
 	public function getAllowedParams() {
 		global $wgLogTypes, $wgLogActions;
 		return array(
@@ -308,6 +343,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 					'title',
 					'type',
 					'user',
+					'userid',
 					'timestamp',
 					'comment',
 					'parsedcomment',
@@ -349,21 +385,33 @@ class ApiQueryLogEvents extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'prop' => 'Which properties to get',
+			'prop' => array(
+				'Which properties to get',
+				' ids            - Adds the id of the log event',
+				' title          - Adds the title of the page for the log event',
+				' type           - Adds the type of log event',
+				' user           - Adds the user responsible for the log event',
+				' userid         - Adds the user id who was responsible for the log event',
+				' timestamp      - Adds the timestamp for the event',
+				' comment        - Adds the comment of the event',
+				' parsedcomment  - Adds the parsed comment of the event',
+				' details        - Lists addtional details about the event',
+				' tags           - Lists tags for the event',
+			),
 			'type' => 'Filter log entries to only this type(s)',
 			'action' => "Filter log actions to only this type. Overrides {$this->getModulePrefix()}type",
-			'start' => 'The timestamp to start enumerating from.',
-			'end' => 'The timestamp to end enumerating.',
-			'dir' => 'In which direction to enumerate.',
-			'user' => 'Filter entries to those made by the given user.',
-			'title' => 'Filter entries to those related to a page.',
-			'limit' => 'How many total event entries to return.',
-			'tag' => 'Only list event entries tagged with this tag.',
+			'start' => 'The timestamp to start enumerating from',
+			'end' => 'The timestamp to end enumerating',
+			'dir' => 'In which direction to enumerate',
+			'user' => 'Filter entries to those made by the given user',
+			'title' => 'Filter entries to those related to a page',
+			'limit' => 'How many total event entries to return',
+			'tag' => 'Only list event entries tagged with this tag',
 		);
 	}
 
 	public function getDescription() {
-		return 'Get events from logs.';
+		return 'Get events from logs';
 	}
 
 	public function getPossibleErrors() {

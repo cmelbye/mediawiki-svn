@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 13, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Oct 13, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -56,7 +57,7 @@ class ApiOpenSearch extends ApiBase {
 			// Open search results may be stored for a very long
 			// time
 			$this->getMain()->setCacheMaxAge( $wgSearchSuggestCacheExpiry );
-			$this->getMain()->setCacheControl( array( 'must-revalidate' => false ) );
+			$this->getMain()->setCacheMode( 'public' );
 
 			$srchres = PrefixSearch::titleSearch( $search, $limit,
 				$namespaces );

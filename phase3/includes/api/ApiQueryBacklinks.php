@@ -1,11 +1,10 @@
 <?php
-
-/*
- * Created on Oct 16, 2006
- *
+/**
  * API for MediaWiki 1.8+
  *
- * Copyright (C) 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Created on Oct 16, 2006
+ *
+ * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -38,7 +39,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 
-	private $params, $rootTitle, $contRedirs, $contLevel, $contTitle, $contID, $redirID, $redirect;
+	private $params, $rootTitle, $contID, $redirID, $redirect;
 	private $bl_ns, $bl_from, $bl_table, $bl_code, $bl_title, $bl_sort, $bl_fields, $hasNS;
 	private $pageMap, $resultArr;
 
@@ -62,13 +63,15 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 	);
 
 	public function __construct( $query, $moduleName ) {
-		extract( $this->backlinksSettings[$moduleName] );
+		$settings = $this->backlinksSettings[$moduleName];
+		$prefix = $settings['prefix'];
+		$code = $settings['code'];
 		$this->resultArr = array();
 
 		parent::__construct( $query, $moduleName, $code );
 		$this->bl_ns = $prefix . '_namespace';
 		$this->bl_from = $prefix . '_from';
-		$this->bl_table = $linktbl;
+		$this->bl_table = $settings['linktbl'];
 		$this->bl_code = $code;
 
 		$this->hasNS = $moduleName !== 'imageusage';
@@ -92,6 +95,10 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$this->run();
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function executeGenerator( $resultPageSet ) {
 		$this->run( $resultPageSet );
 	}
@@ -102,7 +109,6 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		 * AND pl_title='Foo' AND pl_namespace=0
 		 * LIMIT 11 ORDER BY pl_from
 		 */
-		$db = $this->getDB();
 		$this->addTables( array( $this->bl_table, 'page' ) );
 		$this->addWhere( "{$this->bl_from}=page_id" );
 		if ( is_null( $resultPageSet ) ) {
@@ -200,20 +206,19 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$botMax  = ( $this->redirect ? ApiBase::LIMIT_BIG2 / 2 : ApiBase::LIMIT_BIG2 );
 		if ( $this->params['limit'] == 'max' ) {
 			$this->params['limit'] = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
-			$this->getResult()->addValue( 'limits', $this->getModuleName(), $this->params['limit'] );
+			$this->getResult()->setParsedLimit( $this->getModuleName(), $this->params['limit'] );
 		}
 
 		$this->processContinue();
 		$this->prepareFirstQuery( $resultPageSet );
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ . '::firstQuery' );
 
 		$count = 0;
 		$this->pageMap = array(); // Maps ns and title to pageid
 		$this->continueStr = null;
 		$this->redirTitles = array();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $this->params['limit'] ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				// Continue string preserved in case the redirect query doesn't pass the limit
@@ -232,19 +237,18 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 				$resultPageSet->processDbRow( $row );
 			}
 		}
-		$db->freeResult( $res );
 
 		if ( $this->redirect && count( $this->redirTitles ) ) {
 			$this->resetQueryParams();
 			$this->prepareSecondQuery( $resultPageSet );
 			$res = $this->select( __METHOD__ . '::secondQuery' );
 			$count = 0;
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $this->params['limit'] ) {
 					// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 					// We need to keep the parent page of this redir in
 					if ( $this->hasNS ) {
-						$parentID = $this->pageMap[$row-> { $this->bl_ns } ][$row-> { $this->bl_title } ];
+						$parentID = $this->pageMap[$row->{$this->bl_ns}][$row->{$this->bl_title}];
 					} else {
 						$parentID = $this->pageMap[NS_IMAGE][$row->{$this->bl_title}];
 					}
@@ -258,7 +262,6 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 					$resultPageSet->processDbRow( $row );
 				}
 			}
-			$db->freeResult( $res );
 		}
 		if ( is_null( $resultPageSet ) ) {
 			// Try to add the result data in one go and pray that it fits
@@ -345,8 +348,6 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 				} else {
 					$this->rootTitle = $title;
 				}
-			} else {
-				$this->dieUsageMsg( array( 'missingparam', 'title' ) );
 			}
 		}
 
@@ -404,7 +405,10 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 
 	public function getAllowedParams() {
 		$retval = array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'continue' => null,
 			'namespace' => array(
 				ApiBase::PARAM_ISMULTI => true,
@@ -435,9 +439,9 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 
 	public function getParamDescription() {
 		$retval = array(
-			'title' => 'Title to search.',
-			'continue' => 'When more results are available, use this to continue.',
-			'namespace' => 'The namespace to enumerate.',
+			'title' => 'Title to search',
+			'continue' => 'When more results are available, use this to continue',
+			'namespace' => 'The namespace to enumerate',
 		);
 		if ( $this->getModuleName() != 'embeddedin' ) {
 			return array_merge( $retval, array(
@@ -448,7 +452,7 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		}
 		return array_merge( $retval, array(
 			'filterredir' => 'How to filter for redirects',
-			'limit' => 'How many total pages to return.'
+			'limit' => 'How many total pages to return'
 		) );
 	}
 
@@ -468,7 +472,6 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'invalidtitle', 'title' ),
-			array( 'missingparam', 'title' ),
 			array( 'code' => 'bad_image_title', 'info' => "The title for {$this->getModuleName()} query must be an image" ),
 			array( 'code' => '_badcontinue', 'info' => 'Invalid continue param. You should pass the original value returned by the previous query' ),
 		) );

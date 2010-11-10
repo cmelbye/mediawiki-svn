@@ -72,7 +72,7 @@ class ConfEditor {
 	var $pathInfo;
 
 	/**
-	 * Next serial number for whitespace placeholder paths (@extra-N)
+	 * Next serial number for whitespace placeholder paths (\@extra-N)
 	 */
 	var $serial;
 
@@ -104,7 +104,7 @@ class ConfEditor {
 
 	/**
 	 * Edit the text. Returns the edited text. 
-	 * @param array $ops Array of operations.
+	 * @param $ops Array of operations.
 	 *
 	 * Operations are given as an associative array, with members:
 	 *    type:     One of delete, set, append or insert (required)
@@ -336,7 +336,7 @@ class ConfEditor {
 		// Split all copy operations with a source corresponding to the region
 		// in question.
 		$newEdits = array();
-		foreach ( $this->edits as $i => $edit ) {
+		foreach ( $this->edits as $edit ) {
 			if ( $edit[0] !== 'copy' ) {
 				$newEdits[] = $edit;
 				continue;
@@ -427,7 +427,7 @@ class ConfEditor {
 	 */
 	function findValueRegion( $pathName ) {
 		if ( !isset( $this->pathInfo[$pathName] ) ) {
-			throw new MWEXception( "Can't find path \"$pathName\"" );
+			throw new MWException( "Can't find path \"$pathName\"" );
 		}
 		$path = $this->pathInfo[$pathName];
 		if ( $path['valueStartByte'] === false || $path['valueEndByte'] === false ) {
@@ -438,7 +438,7 @@ class ConfEditor {
 
 	/**
 	 * Find the path name of the last element in the array.
-	 * If the array is empty, this will return the @extra interstitial element.
+	 * If the array is empty, this will return the \@extra interstitial element.
 	 * If the specified path is not found or is not an array, it will return false.
 	 */
 	function findLastArrayElement( $path ) {
@@ -474,7 +474,7 @@ class ConfEditor {
 
 	/*
 	 * Find the path name of first element in the array.
-	 * If the array is empty, this will return the @extra interstitial element.
+	 * If the array is empty, this will return the \@extra interstitial element.
 	 * If the specified path is not found or is not an array, it will return false.
 	 */
 	function findFirstArrayElement( $path ) {
@@ -510,7 +510,6 @@ class ConfEditor {
 			$indent = false;
 		}
 		if ( $indent !== false && $arrowPos !== false ) {
-			$textToInsert = "$indent$key ";
 			$arrowIndentLength = $arrowPos - $pos - $indentLength - strlen( $key );
 			if ( $arrowIndentLength > 0 ) {
 				$arrowIndent = str_repeat( ' ', $arrowIndentLength );
@@ -836,7 +835,6 @@ class ConfEditor {
 	 * not call except from popPath() or nextPath().
 	 */
 	function endPath() {
-		$i = count( $this->pathStack ) - 1;
 		$key = '';
 		foreach ( $this->pathStack as $pathInfo ) {
 			if ( $key !== '' ) {
@@ -878,7 +876,7 @@ class ConfEditor {
 
 	/**
 	 * Go to the next path on the same level. This ends the current path and 
-	 * starts a new one. If $path is @next, the new path is set to the next
+	 * starts a new one. If $path is \@next, the new path is set to the next
 	 * numeric array element.
 	 */
 	function nextPath( $path ) {

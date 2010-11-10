@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 27, 2008
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 27, 2008
  *
  * Copyright © 2008 Roan Kattow <Firstname>,<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -41,6 +42,10 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 
 	public function execute() {
 		$this->run();
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function executeGenerator( $resultPageSet ) {
@@ -89,10 +94,9 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
 
 		$res = $this->select( __METHOD__ );
-		$db = $this->getDB();
 		$count = 0;
 		$titles = array();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
 				// We've reached the one extra which shows that
 				// there are additional pages to be had. Stop here...
@@ -121,7 +125,6 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 		if ( !is_null( $resultPageSet ) ) {
 			$resultPageSet->populateFromTitles( $titles );
 		}
-		$db->freeResult( $res );
 	}
 
 	public function getAllowedParams() {
@@ -145,7 +148,7 @@ class ApiQueryDuplicateFiles extends ApiQueryGeneratorBase {
 	}
 
 	public function getDescription() {
-		return 'List all files that are duplicates of the given file(s).';
+		return 'List all files that are duplicates of the given file(s)';
 	}
 
 	public function getPossibleErrors() {

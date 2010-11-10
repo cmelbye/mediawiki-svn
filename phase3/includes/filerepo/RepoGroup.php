@@ -1,14 +1,19 @@
 <?php
 /**
- * @defgroup FileRepo FileRepo
+ * Prioritized list of file repositories
  *
  * @file
  * @ingroup FileRepo
  */
 
 /**
- * @ingroup FileRepo
+ * @defgroup FileRepo FileRepo
+ */
+
+/**
  * Prioritized list of file repositories
+ *
+ * @ingroup FileRepo
  */
 class RepoGroup {
 	var $localRepo, $foreignRepos, $reposInitialised = false;
@@ -48,7 +53,9 @@ class RepoGroup {
 
 	/**
 	 * Construct a group of file repositories.
-	 * @param array $data Array of repository info arrays.
+	 *
+	 * @param $localInfo Associative array for local repo's info
+	 * @param $foreignInfo Array of repository info arrays.
 	 *     Each info array is an associative array with the 'class' member
 	 *     giving the class name. The entire array is passed to the repository
 	 *     constructor as the first parameter.
@@ -62,7 +69,8 @@ class RepoGroup {
 	/**
 	 * Search repositories for an image.
 	 * You can also use wfFindFile() to do this.
-	 * @param mixed $title Title object or string
+	 *
+	 * @param $title Mixed: Title object or string
 	 * @param $options Associative array of options:
 	 *     time:           requested time for an archived image, or false for the
 	 *                     current version. An image object will be returned which was
@@ -224,7 +232,7 @@ class RepoGroup {
 		if ( !$this->reposInitialised ) {
 			$this->initialiseRepos();
 		}
-		foreach ( $this->foreignRepos as $key => $repo ) {
+		foreach ( $this->foreignRepos as $repo ) {
 			if ( $repo->name == $name)
 				return $repo;
 		}
@@ -243,8 +251,8 @@ class RepoGroup {
 	 * Call a function for each foreign repo, with the repo object as the
 	 * first parameter.
 	 *
-	 * @param $callback callback The function to call
-	 * @param $params array Optional additional parameters to pass to the function
+	 * @param $callback Callback: the function to call
+	 * @param $params Array: optional additional parameters to pass to the function
 	 */
 	function forEachForeignRepo( $callback, $params = array() ) {
 		foreach( $this->foreignRepos as $repo ) {
@@ -258,7 +266,7 @@ class RepoGroup {
 
 	/**
 	 * Does the installation have any foreign repos set up?
-	 * @return bool
+	 * @return Boolean
 	 */
 	function hasForeignRepos() {
 		return (bool)$this->foreignRepos;

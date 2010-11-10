@@ -1,6 +1,14 @@
 <?php
+/**
+ * Foreign file with an accessible MediaWiki database
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
 /**
+ * Foreign file with an accessible MediaWiki database
+ *
  * @ingroup FileRepo
  */
 class ForeignDBFile extends LocalFile {
@@ -35,15 +43,5 @@ class ForeignDBFile extends LocalFile {
 	}
 	function move( $target ) {
 		$this->readOnlyError();
-	}
-	
-	function getDescriptionUrl() {
-		// Restore remote behaviour
-		return File::getDescriptionUrl();
-	}
-
-	function getDescriptionText() {
-		// Restore remote behaviour
-		return File::getDescriptionText();
 	}
 }

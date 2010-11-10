@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 25, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 25, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -99,10 +100,10 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 	}
 
 	protected function appendGeneralInfo( $property ) {
-		global $wgContLang, $wgLang;
+		global $wgContLang;
 
 		$data = array();
-		$mainPage = Title::newFromText( wfMsgForContent( 'mainpage' ) );
+		$mainPage = Title::newMainPage();
 		$data['mainpage'] = $mainPage->getPrefixedText();
 		$data['base'] = $mainPage->getFullUrl();
 		$data['sitename'] = $GLOBALS['wgSitename'];
@@ -128,7 +129,7 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 		if ( $wgContLang->isRTL() ) {
 			$data['rtl'] = '';
 		}
-		$data['fallback8bitEncoding'] = $wgLang->fallback8bitEncoding();
+		$data['fallback8bitEncoding'] = $wgContLang->fallback8bitEncoding();
 
 		if ( wfReadOnly() ) {
 			$data['readonly'] = '';
@@ -209,9 +210,9 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 	}
 
 	protected function appendSpecialPageAliases( $property ) {
-		global $wgLang;
+		global $wgContLang;
 		$data = array();
-		foreach ( $wgLang->getSpecialPageAliases() as $specialpage => $aliases )
+		foreach ( $wgContLang->getSpecialPageAliases() as $specialpage => $aliases )
 		{
 			$arr = array( 'realname' => $specialpage, 'aliases' => $aliases );
 			$this->getResult()->setIndexedTagName( $arr['aliases'], 'alias' );
@@ -252,18 +253,17 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 
 		$this->addOption( 'ORDER BY', 'iw_prefix' );
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		$data = array();
 		$langNames = Language::getLanguageNames();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$val = array();
 			$val['prefix'] = $row->iw_prefix;
 			if ( $row->iw_local == '1' ) {
 				$val['local'] = '';
 			}
-//			$val['trans'] = intval( $row->iw_trans ); // should this be exposed?
+			// $val['trans'] = intval( $row->iw_trans ); // should this be exposed?
 			if ( isset( $langNames[$row->iw_prefix] ) ) {
 				$val['language'] = $langNames[$row->iw_prefix];
 			}
@@ -271,7 +271,6 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 
 			$data[] = $val;
 		}
-		$db->freeResult( $res );
 
 		$this->getResult()->setIndexedTagName( $data, 'iw' );
 		return $this->getResult()->addValue( 'query', $property, $data );
@@ -324,21 +323,45 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 	}
 
 	protected function appendUserGroups( $property, $numberInGroup ) {
-		global $wgGroupPermissions;
+		global $wgGroupPermissions, $wgAddGroups, $wgRemoveGroups, $wgGroupsAddToSelf, $wgGroupsRemoveFromSelf;
+		
 		$data = array();
 		foreach ( $wgGroupPermissions as $group => $permissions ) {
 			$arr = array(
 				'name' => $group,
 				'rights' => array_keys( $permissions, true ),
 			);
+			
 			if ( $numberInGroup ) {
-				$arr['number'] = SiteStats::numberInGroup( $group );
+				global $wgAutopromote;
+			
+				if ( $group == 'user' ) {
+					$arr['number'] = SiteStats::users();
+					
+				// '*' and autopromote groups have no size
+				} elseif ( $group !== '*' && !isset( $wgAutopromote[$group] ) ) {
+					$arr['number'] = SiteStats::numberInGroup( $group );
+				}
 			}
-
+			
+			$groupArr = array(
+				'add' => $wgAddGroups,
+				'remove' => $wgRemoveGroups,
+				'add-self' => $wgGroupsAddToSelf,
+				'remove-self' => $wgGroupsRemoveFromSelf
+			);
+			
+			foreach( $groupArr as $type => $rights ) {
+				if( isset( $rights[$group] ) ) {
+					$arr[$type] = $rights[$group];
+					$this->getResult()->setIndexedTagName( $arr[$type], 'group' );
+				}
+			}
+			
 			$this->getResult()->setIndexedTagName( $arr['rights'], 'permission' );
 			$data[] = $arr;
 		}
-
+		
 		$this->getResult()->setIndexedTagName( $data, 'group' );
 		return $this->getResult()->addValue( 'query', $property, $data );
 	}
@@ -429,6 +452,10 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 		return $this->getResult()->addValue( 'query', $property, $data );
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'prop' => array(
@@ -465,19 +492,19 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 		return array(
 			'prop' => array(
 				'Which sysinfo properties to get:',
-				' general      - Overall system information',
-				' namespaces   - List of registered namespaces and their canonical names',
-				' namespacealiases - List of registered namespace aliases',
-				' specialpagealiases - List of special page aliases',
-				' magicwords   - List of magic words and their aliases',
-				' statistics   - Returns site statistics',
-				' interwikimap - Returns interwiki map (optionally filtered)',
-				' dbrepllag    - Returns database server with the highest replication lag',
-				' usergroups   - Returns user groups and the associated permissions',
-				' extensions   - Returns extensions installed on the wiki',
-				' fileextensions - Returns list of file extensions allowed to be uploaded',
-				' rightsinfo   - Returns wiki rights (license) information if available',
-				' languages    - Returns a list of languages MediaWiki supports',
+				' general               - Overall system information',
+				' namespaces            - List of registered namespaces and their canonical names',
+				' namespacealiases      - List of registered namespace aliases',
+				' specialpagealiases    - List of special page aliases',
+				' magicwords            - List of magic words and their aliases',
+				' statistics            - Returns site statistics',
+				' interwikimap          - Returns interwiki map (optionally filtered)',
+				' dbrepllag             - Returns database server with the highest replication lag',
+				' usergroups            - Returns user groups and the associated permissions',
+				' extensions            - Returns extensions installed on the wiki',
+				' fileextensions        - Returns list of file extensions allowed to be uploaded',
+				' rightsinfo            - Returns wiki rights (license) information if available',
+				' languages             - Returns a list of languages MediaWiki supports',
 			),
 			'filteriw' =>  'Return only local or only nonlocal entries of the interwiki map',
 			'showalldb' => 'List all database servers, not just the one lagging the most',
@@ -486,7 +513,7 @@ class ApiQuerySiteinfo extends ApiQueryBase {
 	}
 
 	public function getDescription() {
-		return 'Return general information about the site.';
+		return 'Return general information about the site';
 	}
 
 	public function getPossibleErrors() {

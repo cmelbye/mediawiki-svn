@@ -1,17 +1,38 @@
 <?php
 /**
+ * Implements Special:Upload
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup SpecialPage
  * @ingroup Upload
- *
- * Form for handling uploads and special page.
  */
 
+/**
+ * Form for handling uploads and special page.
+ *
+ * @ingroup SpecialPage
+ * @ingroup Upload
+ */
 class SpecialUpload extends SpecialPage {
 	/**
 	 * Constructor : initialise object
 	 * Get data POSTed through the form and assign them to the object
-	 * @param WebRequest $request Data posted.
+	 * @param $request WebRequest : data posted.
 	 */
 	public function __construct( $request = null ) {
 		global $wgRequest;
@@ -22,29 +43,29 @@ class SpecialUpload extends SpecialPage {
 	}
 
 	/** Misc variables **/
-	protected $mRequest;			// The WebRequest or FauxRequest this form is supposed to handle
-	protected $mSourceType;
-	protected $mUpload;
-	protected $mLocalFile;
-	protected $mUploadClicked;
+	public $mRequest;			// The WebRequest or FauxRequest this form is supposed to handle
+	public $mSourceType;
+	public $mUpload;
+	public $mLocalFile;
+	public $mUploadClicked;
 
 	/** User input variables from the "description" section **/
-	public    $mDesiredDestName;	// The requested target file name
-	protected $mComment;
-	protected $mLicense;
+	public $mDesiredDestName;	// The requested target file name
+	public $mComment;
+	public $mLicense;
 
 	/** User input variables from the root section **/
-	protected $mIgnoreWarning;
-	protected $mWatchThis;
-	protected $mCopyrightStatus;
-	protected $mCopyrightSource;
+	public $mIgnoreWarning;
+	public $mWatchThis;
+	public $mCopyrightStatus;
+	public $mCopyrightSource;
 
 	/** Hidden variables **/
-	protected $mDestWarningAck;
-	protected $mForReUpload;		// The user followed an "overwrite this file" link
-	protected $mCancelUpload;		// The user clicked "Cancel and return to upload form" button
-	protected $mTokenOk;
-	protected $mUploadSuccessful = false;	// Subclasses can use this to determine whether a file was uploaded
+	public $mDestWarningAck;
+	public $mForReUpload;		// The user followed an "overwrite this file" link
+	public $mCancelUpload;		// The user clicked "Cancel and return to upload form" button
+	public $mTokenOk;
+	public $mUploadSuccessful = false;	// Subclasses can use this to determine whether a file was uploaded
 
 	/** Text injection points for hooks not using HTMLForm **/
 	public $uploadFormTextTop;
@@ -53,7 +74,7 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Initialize instance variables from request and create an Upload handler
 	 *
-	 * @param WebRequest $request The request to extract variables from
+	 * @param $request WebRequest: the request to extract variables from
 	 */
 	protected function loadRequest( $request ) {
 		global $wgUser;
@@ -67,8 +88,8 @@ class SpecialUpload extends SpecialPage {
 
 		// Guess the desired name from the filename if not provided
 		$this->mDesiredDestName   = $request->getText( 'wpDestFile' );
-		if( !$this->mDesiredDestName ) {
-			$this->mDesiredDestName = $request->getText( 'wpUploadFile' );
+		if( !$this->mDesiredDestName && $request->getFileName( 'wpUploadFile' ) !== null ) {
+			$this->mDesiredDestName = $request->getFileName( 'wpUploadFile' );
 		}
 		$this->mComment           = $request->getText( 'wpUploadDescription' );
 		$this->mLicense           = $request->getText( 'wpLicense' );
@@ -106,8 +127,8 @@ class SpecialUpload extends SpecialPage {
 	 * Handle permission checking elsewhere in order to be able to show
 	 * custom error messages.
 	 *
-	 * @param User $user
-	 * @return bool
+	 * @param $user User object
+	 * @return Boolean
 	 */
 	public function userCanExecute( $user ) {
 		return UploadBase::isEnabled() && parent::userCanExecute( $user );
@@ -117,7 +138,7 @@ class SpecialUpload extends SpecialPage {
 	 * Special page entry point
 	 */
 	public function execute( $par ) {
-		global $wgUser, $wgOut, $wgRequest;
+		global $wgUser, $wgOut;
 
 		$this->setHeaders();
 		$this->outputHeader();
@@ -130,13 +151,14 @@ class SpecialUpload extends SpecialPage {
 
 		# Check permissions
 		global $wgGroupPermissions;
-		if( !$wgUser->isAllowed( 'upload' ) ) {
+		$permissionRequired = UploadBase::isAllowed( $wgUser );
+		if( $permissionRequired !== true ) {
 			if( !$wgUser->isLoggedIn() && ( $wgGroupPermissions['user']['upload']
 				|| $wgGroupPermissions['autoconfirmed']['upload'] ) ) {
 				// Custom message if logged-in users without any special rights can upload
 				$wgOut->showErrorPage( 'uploadnologin', 'uploadnologintext' );
 			} else {
-				$wgOut->permissionRequired( 'upload' );
+				$wgOut->permissionRequired( $permissionRequired );
 			}
 			return;
 		}
@@ -174,6 +196,7 @@ class SpecialUpload extends SpecialPage {
 				wfDebug( "Hook 'UploadForm:initial' broke output of the upload form" );
 				return;
 			}
+			
 
 			$this->showUploadForm( $this->getUploadForm() );
 		}
@@ -187,7 +210,7 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Show the main upload form
 	 *
-	 * @param mixed $form An HTMLForm instance or HTML string to show
+	 * @param $form Mixed: an HTMLForm instance or HTML string to show
 	 */
 	protected function showUploadForm( $form ) {
 		# Add links if file was previously deleted
@@ -207,8 +230,9 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Get an UploadForm instance with title and text properly set.
 	 *
-	 * @param string $message HTML string to add to the form
-	 * @param string $sessionKey Session key in case this is a stashed upload
+	 * @param $message String: HTML string to add to the form
+	 * @param $sessionKey String: session key in case this is a stashed upload
+	 * @param $hideIgnoreWarning Boolean: whether to hide "ignore warning" check box
 	 * @return UploadForm
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
@@ -224,6 +248,7 @@ class SpecialUpload extends SpecialPage {
 
 			'texttop' => $this->uploadFormTextTop,
 			'textaftersummary' => $this->uploadFormTextAfterSummary,
+			'destfile' => $this->mDesiredDestName,
 		) );
 		$form->setTitle( $this->getTitle() );
 
@@ -236,8 +261,25 @@ class SpecialUpload extends SpecialPage {
 			$form->addPreText( wfMsgExt( 'session_fail_preview', 'parseinline' ) );
 		}
 
+		# Give a notice if the user is uploading a file that has been deleted or moved
+		# Note that this is independent from the message 'filewasdeleted' that requires JS
+		$desiredTitleObj = Title::newFromText( $this->mDesiredDestName, NS_FILE );
+		$delNotice = ''; // empty by default
+		if ( $desiredTitleObj instanceof Title && !$desiredTitleObj->exists() ) {
+			LogEventsList::showLogExtract( $delNotice, array( 'delete', 'move' ), 
+				$desiredTitleObj->getPrefixedText(),
+				'', array( 'lim' => 10,
+					   'conds' => array( "log_action != 'revision'" ),
+					   'showIfEmpty' => false,
+					   'msgKey' => array( 'upload-recreate-warning' ) )
+			);
+		}
+		$form->addPreText( $delNotice );
+
 		# Add text to form
-		$form->addPreText( '<div id="uploadtext">' . wfMsgExt( 'uploadtext', 'parse' ) . '</div>');
+		$form->addPreText( '<div id="uploadtext">' . 
+			wfMsgExt( 'uploadtext', 'parse', array( $this->mDesiredDestName ) ) . 
+			'</div>' );
 		# Add upload error message
 		$form->addPreText( $message );
 
@@ -290,7 +332,7 @@ class SpecialUpload extends SpecialPage {
 	 * essentially means that UploadBase::VERIFICATION_ERROR and
 	 * UploadBase::EMPTY_FILE should not be passed here.
 	 *
-	 * @param string $message HTML message to be passed to mainUploadForm
+	 * @param $message String: HTML message to be passed to mainUploadForm
 	 */
 	protected function showRecoverableUploadError( $message ) {
 		$sessionKey = $this->mUpload->stashSession();
@@ -305,16 +347,18 @@ class SpecialUpload extends SpecialPage {
 	 * Stashes the upload, shows the main form, but adds an "continue anyway button".
 	 * Also checks whether there are actually warnings to display.
 	 *
-	 * @param array $warnings
+	 * @param $warnings Array
 	 * @return boolean true if warnings were displayed, false if there are no
 	 * 	warnings and the should continue processing like there was no warning
 	 */
 	protected function showUploadWarning( $warnings ) {
-		# If there are no warnings, or warnings we can ignore, return early
-		if (
-			!$warnings || ( count( $warnings ) == 1 &&
-			isset( $warnings['exists']) && $this->mDestWarningAck )
-		)
+		# If there are no warnings, or warnings we can ignore, return early.
+		# mDestWarningAck is set when some javascript has shown the warning
+		# to the user. mForReUpload is set when the user clicks the "upload a
+		# new version" link.
+		if ( !$warnings || ( count( $warnings ) == 1 && 
+			isset( $warnings['exists'] ) && 
+			( $this->mDestWarningAck || $this->mForReUpload ) ) )
 		{
 			return false;
 		}
@@ -324,7 +368,6 @@ class SpecialUpload extends SpecialPage {
 		$warningHtml = '<h2>' . wfMsgHtml( 'uploadwarning' ) . "</h2>\n"
 			. '<ul class="warning">';
 		foreach( $warnings as $warning => $args ) {
-			$msg = '';
 			if( $warning == 'exists' ) {
 				$msg = "\t<li>" . self::getExistsWarning( $args ) . "</li>\n";
 			} elseif( $warning == 'duplicate' ) {
@@ -360,7 +403,7 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Show the upload form with error message, but do not stash the file.
 	 *
-	 * @param string $message
+	 * @param $message HTML string
 	 */
 	protected function showUploadError( $message ) {
 		$message = '<h2>' . wfMsgHtml( 'uploadwarning' ) . "</h2>\n" .
@@ -375,24 +418,20 @@ class SpecialUpload extends SpecialPage {
 	protected function processUpload() {
 		global $wgUser, $wgOut;
 
-		// Verify permissions
-		$permErrors = $this->mUpload->verifyPermissions( $wgUser );
-		if( $permErrors !== true ) {
-			$wgOut->showPermissionsErrorPage( $permErrors );
-			return;
-		}
-
 		// Fetch the file if required
 		$status = $this->mUpload->fetchFile();
 		if( !$status->isOK() ) {
-			$this->showUploadForm( $this->getUploadForm( $wgOut->parse( $status->getWikiText() ) ) );
+			$this->showUploadError( $wgOut->parse( $status->getWikiText() ) );
 			return;
 		}
 
 		// Deprecated backwards compatibility hook
 		if( !wfRunHooks( 'UploadForm:BeforeProcessing', array( &$this ) ) ) {
 			wfDebug( "Hook 'UploadForm:BeforeProcessing' broke processing the file.\n" );
-			return array( 'status' => UploadBase::BEFORE_PROCESSING );
+			// Return without notifying the user of an error. This sucks, but 
+			// this was the previous behaviour as well, and as this hook is
+			// deprecated we're not going to do anything about it.
+			return;
 		}
 
 
@@ -400,6 +439,15 @@ class SpecialUpload extends SpecialPage {
 		$details = $this->mUpload->verifyUpload();
 		if ( $details['status'] != UploadBase::OK ) {
 			$this->processVerificationError( $details );
+			return;
+		}
+		
+		// Verify permissions for this title
+		$permErrors = $this->mUpload->verifyPermissions( $wgUser );
+		if( $permErrors !== true ) {
+			$code = array_shift( $permErrors[0] );
+			$this->showRecoverableUploadError( wfMsgExt( $code,
+					'parseinline', $permErrors[0] ) );
 			return;
 		}
 
@@ -491,7 +539,7 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Provides output to the user for a result of UploadBase::verifyUpload
 	 *
-	 * @param array $details Result of UploadBase::verifyUpload
+	 * @param $details Array: result of UploadBase::verifyUpload
 	 */
 	protected function processVerificationError( $details ) {
 		global $wgFileExtensions, $wgLang;
@@ -506,10 +554,6 @@ class SpecialUpload extends SpecialPage {
 				$this->showRecoverableUploadError( wfMsgExt( 'illegalfilename',
 					'parseinline', $details['filtered'] ) );
 				break;
-			case UploadBase::OVERWRITE_EXISTING_FILE:
-				$this->showRecoverableUploadError( wfMsgExt( $details['overwrite'],
-					'parseinline' ) );
-				break;
 			case UploadBase::FILETYPE_MISSING:
 				$this->showRecoverableUploadError( wfMsgExt( 'filetype-missing',
 					'parseinline' ) );
@@ -517,7 +561,10 @@ class SpecialUpload extends SpecialPage {
 
 			/** Statuses that require reuploading **/
 			case UploadBase::EMPTY_FILE:
-				$this->showUploadForm( $this->getUploadForm( wfMsgHtml( 'emptyfile' ) ) );
+				$this->showUploadError( wfMsgHtml( 'emptyfile' ) );
+				break;
+			case UploadBase::FILE_TOO_LARGE:
+				$this->showUploadError( wfMsgHtml( 'largefileserver' ) );
 				break;
 			case UploadBase::FILETYPE_BADTYPE:
 				$finalExt = $details['finalExt'];
@@ -556,7 +603,8 @@ class SpecialUpload extends SpecialPage {
 
 	/**
 	 * Remove a temporarily kept file stashed by saveTempUploadedFile().
-	 * @return success
+	 *
+	 * @return Boolean: success
 	 */
 	protected function unsaveUploadedFile() {
 		global $wgOut;
@@ -578,11 +626,11 @@ class SpecialUpload extends SpecialPage {
 	 * Formats a result of UploadBase::getExistsWarning as HTML
 	 * This check is static and can be done pre-upload via AJAX
 	 *
-	 * @param array $exists The result of UploadBase::getExistsWarning
-	 * @return string Empty string if there is no warning or an HTML fragment
+	 * @param $exists Array: the result of UploadBase::getExistsWarning
+	 * @return String: empty string if there is no warning or an HTML fragment
 	 */
 	public static function getExistsWarning( $exists ) {
-		global $wgUser, $wgContLang;
+		global $wgUser;
 
 		if ( !$exists ) {
 			return '';
@@ -635,8 +683,8 @@ class SpecialUpload extends SpecialPage {
 	/**
 	 * Get a list of warnings
 	 *
-	 * @param string local filename, e.g. 'file exists', 'non-descriptive filename'
-	 * @return array list of warning messages
+	 * @param $filename String: local filename, e.g. 'file exists', 'non-descriptive filename'
+	 * @return Array: list of warning messages
 	 */
 	public static function ajaxGetExistsWarning( $filename ) {
 		$file = wfFindFile( $filename );
@@ -645,7 +693,7 @@ class SpecialUpload extends SpecialPage {
 			// if there isn't an exact match...
 			$file = wfLocalFile( $filename );
 		}
-		$s = '&nbsp;';
+		$s = '&#160;';
 		if ( $file ) {
 			$exists = UploadBase::getExistsWarning( $file );
 			$warning = self::getExistsWarning( $exists );
@@ -689,6 +737,7 @@ class UploadForm extends HTMLForm {
 	protected $mSessionKey;
 	protected $mHideIgnoreWarning;
 	protected $mDestWarningAck;
+	protected $mDestFile;
 
 	protected $mTextTop;
 	protected $mTextAfterSummary;
@@ -702,9 +751,13 @@ class UploadForm extends HTMLForm {
 				? $options['sessionkey'] : '';
 		$this->mHideIgnoreWarning = !empty( $options['hideignorewarning'] );
 		$this->mDestWarningAck = !empty( $options['destwarningack'] );
+		$this->mDestFile = isset( $options['destfile'] ) ? $options['destfile'] : '';
 
-		$this->mTextTop = $options['texttop'];
-		$this->mTextAfterSummary = $options['textaftersummary'];
+		$this->mTextTop = isset( $options['texttop'] )
+			? $options['texttop'] : '';
+
+		$this->mTextAfterSummary = isset( $options['textaftersummary'] )
+			? $options['textaftersummary'] : ''; 
 
 		$sourceDescriptor = $this->getSourceSection();
 		$descriptor = $sourceDescriptor
@@ -717,12 +770,13 @@ class UploadForm extends HTMLForm {
 		# Set some form properties
 		$this->setSubmitText( wfMsg( 'uploadbtn' ) );
 		$this->setSubmitName( 'wpUpload' );
+		# Used message keys: 'accesskey-upload', 'tooltip-upload'
 		$this->setSubmitTooltip( 'upload' );
 		$this->setId( 'mw-upload-form' );
 
 		# Build a list of IDs for javascript insertion
 		$this->mSourceIds = array();
-		foreach ( $sourceDescriptor as $key => $field ) {
+		foreach ( $sourceDescriptor as $field ) {
 			if ( !empty( $field['id'] ) ) {
 				$this->mSourceIds[] = $field['id'];
 			}
@@ -734,10 +788,11 @@ class UploadForm extends HTMLForm {
 	 * Get the descriptor of the fieldset that contains the file source
 	 * selection. The section is 'source'
 	 *
-	 * @return array Descriptor array
+	 * @return Array: descriptor array
 	 */
 	protected function getSourceSection() {
 		global $wgLang, $wgUser, $wgRequest;
+		global $wgMaxUploadSize;
 
 		if ( $this->mSessionKey ) {
 			return array(
@@ -777,13 +832,16 @@ class UploadForm extends HTMLForm {
 			'help' => wfMsgExt( 'upload-maxfilesize',
 					array( 'parseinline', 'escapenoentities' ),
 					$wgLang->formatSize(
-						wfShorthandToInteger( ini_get( 'upload_max_filesize' ) )
+						wfShorthandToInteger( min( 
+							wfShorthandToInteger(
+								ini_get( 'upload_max_filesize' )
+							), $wgMaxUploadSize
+						) )
 					)
 				) . ' ' . wfMsgHtml( 'upload_source_file' ),
 			'checked' => $selectedSourceType == 'file',
 		);
 		if ( $canUploadByUrl ) {
-			global $wgMaxUploadSize;
 			$descriptor['UploadFileURL'] = array(
 				'class' => 'UploadSourceField',
 				'section' => 'source',
@@ -812,7 +870,7 @@ class UploadForm extends HTMLForm {
 	/**
 	 * Get the messages indicating which extensions are preferred and prohibitted.
 	 *
-	 * @return string HTML string containing the message
+	 * @return String: HTML string containing the message
 	 */
 	protected function getExtensionsMessage() {
 		# Print a list of allowed file extensions, if so configured.  We ignore
@@ -820,7 +878,6 @@ class UploadForm extends HTMLForm {
 		global $wgLang, $wgCheckFileExtensions, $wgStrictFileExtensions,
 		$wgFileExtensions, $wgFileBlacklist;
 
-		$allowedExtensions = '';
 		if( $wgCheckFileExtensions ) {
 			if( $wgStrictFileExtensions ) {
 				# Everything not permitted is banned
@@ -849,15 +906,10 @@ class UploadForm extends HTMLForm {
 	 * Get the descriptor of the fieldset that contains the file description
 	 * input. The section is 'description'
 	 *
-	 * @return array Descriptor array
+	 * @return Array: descriptor array
 	 */
 	protected function getDescriptionSection() {
 		global $wgUser, $wgOut;
-
-		$cols = intval( $wgUser->getOption( 'cols' ) );
-		if( $wgUser->getOption( 'editwidth' ) ) {
-			$wgOut->addInlineStyle( '#mw-htmlform-description { width: 100%; }' );
-		}
 
 		$descriptor = array(
 			'DestFile' => array(
@@ -866,6 +918,9 @@ class UploadForm extends HTMLForm {
 				'id' => 'wpDestFile',
 				'label-message' => 'destfilename',
 				'size' => 60,
+				'default' => $this->mDestFile,
+				# FIXME: hack to work around poor handling of the 'default' option in HTMLForm
+				'nodata' => strval( $this->mDestFile ) !== '',
 			),
 			'UploadDescription' => array(
 				'type' => 'textarea',
@@ -874,7 +929,7 @@ class UploadForm extends HTMLForm {
 				'label-message' => $this->mForReUpload
 					? 'filereuploadsummary'
 					: 'fileuploadsummary',
-				'cols' => $cols,
+				'cols' => intval( $wgUser->getOption( 'cols' ) ),
 				'rows' => 8,
 			)
 		);
@@ -891,17 +946,19 @@ class UploadForm extends HTMLForm {
 			'EditTools' => array(
 				'type' => 'edittools',
 				'section' => 'description',
-			),
-			'License' => array(
+			)
+		);
+
+		if ( $this->mForReUpload ) {
+			$descriptor['DestFile']['readonly'] = true;
+		} else {
+			$descriptor['License'] = array(
 				'type' => 'select',
 				'class' => 'Licenses',
 				'section' => 'description',
 				'id' => 'wpLicense',
 				'label-message' => 'license',
-			),
-		);
-		if ( $this->mForReUpload ) {
-			$descriptor['DestFile']['readonly'] = true;
+			);
 		}
 
 		global $wgUseCopyrightUpload;
@@ -927,22 +984,23 @@ class UploadForm extends HTMLForm {
 	 * Get the descriptor of the fieldset that contains the upload options,
 	 * such as "watch this file". The section is 'options'
 	 *
-	 * @return array Descriptor array
+	 * @return Array: descriptor array
 	 */
 	protected function getOptionsSection() {
 		global $wgUser;
 
-		if( $wgUser->isLoggedIn() ) {
+		if ( $wgUser->isLoggedIn() ) {
 			$descriptor = array(
 				'Watchthis' => array(
 					'type' => 'check',
 					'id' => 'wpWatchthis',
 					'label-message' => 'watchthisupload',
 					'section' => 'options',
+					'default' => $wgUser->getOption( 'watchcreations' ),
 				)
 			);
 		}
-		if( !$this->mHideIgnoreWarning ) {
+		if ( !$this->mHideIgnoreWarning ) {
 			$descriptor['IgnoreWarning'] = array(
 				'type' => 'check',
 				'id' => 'wpIgnoreWarning',
@@ -956,6 +1014,14 @@ class UploadForm extends HTMLForm {
 			'id' => 'wpDestFileWarningAck',
 			'default' => $this->mDestWarningAck ? '1' : '',
 		);
+		
+		if ( $this->mForReUpload ) {
+			$descriptor['wpForReUpload'] = array(
+				'type' => 'hidden',
+				'id' => 'wpForReUpload',
+				'default' => '1',
+			);
+		}
 
 		return $descriptor;
 	}
@@ -970,12 +1036,9 @@ class UploadForm extends HTMLForm {
 
 	/**
 	 * Add upload JS to $wgOut
-	 *
-	 * @param $autofill Boolean: Whether or not to autofill the destination
-	 * 	filename text box
 	 */
 	protected function addUploadJS() {
-		global $wgUseAjax, $wgAjaxUploadDestCheck, $wgAjaxLicensePreview, $wgEnableAPI;
+		global $wgUseAjax, $wgAjaxUploadDestCheck, $wgAjaxLicensePreview, $wgEnableAPI, $wgStrictFileExtensions;
 		global $wgOut;
 
 		$useAjaxDestCheck = $wgUseAjax && $wgAjaxUploadDestCheck;
@@ -984,15 +1047,19 @@ class UploadForm extends HTMLForm {
 		$scriptVars = array(
 			'wgAjaxUploadDestCheck' => $useAjaxDestCheck,
 			'wgAjaxLicensePreview' => $useAjaxLicensePreview,
-			'wgUploadAutoFill' => !$this->mForReUpload,
+			'wgUploadAutoFill' => !$this->mForReUpload &&
+				// If we received mDestFile from the request, don't autofill
+				// the wpDestFile textbox
+				$this->mDestFile === '',
 			'wgUploadSourceIds' => $this->mSourceIds,
+			'wgStrictFileExtensions' => $wgStrictFileExtensions,
+			'wgCapitalizeUploads' => MWNamespace::isCapitalized( NS_FILE ),
 		);
 
 		$wgOut->addScript( Skin::makeVariablesScript( $scriptVars ) );
 
 		// For <charinsert> support
-		$wgOut->addScriptFile( 'edit.js' );
-		$wgOut->addScriptFile( 'upload.js' );
+		$wgOut->addModules( array( 'mediawiki.legacy.edit', 'mediawiki.legacy.upload' ) );
 	}
 
 	/**
@@ -1010,7 +1077,7 @@ class UploadForm extends HTMLForm {
  * A form field that contains a radio box in the label
  */
 class UploadSourceField extends HTMLTextField {
-	function getLabelHtml() {
+	function getLabelHtml( $cellAttributes = array() ) {
 		$id = "wpSourceType{$this->mParams['upload-type']}";
 		$label = Html::rawElement( 'label', array( 'for' => $id ), $this->mLabel );
 
@@ -1027,7 +1094,7 @@ class UploadSourceField extends HTMLTextField {
 			$label .= Html::element( 'input', $attribs );
 		}
 
-		return Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
+		return Html::rawElement( 'td', array( 'class' => 'mw-label' ) + $cellAttributes, $label );
 	}
 
 	function getSize() {

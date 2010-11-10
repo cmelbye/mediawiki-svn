@@ -194,8 +194,12 @@ abstract class IndexPager implements Pager {
 	function extractResultInfo( $offset, $limit, ResultWrapper $res ) {
 		$numRows = $res->numRows();
 		if ( $numRows ) {
+			# Remove any table prefix from index field
+			$parts = explode( '.', $this->mIndexField );
+			$indexColumn = end( $parts );
+			
 			$row = $res->fetchRow();
-			$firstIndex = $row[$this->mIndexField];
+			$firstIndex = $row[$indexColumn];
 
 			# Discard the extra result row if there is one
 			if ( $numRows > $this->mLimit && $numRows > 1 ) {
@@ -205,7 +209,7 @@ abstract class IndexPager implements Pager {
 				$this->mPastTheEndIndex = $this->mPastTheEndRow->$indexField;
 				$res->seek( $numRows - 2 );
 				$row = $res->fetchRow();
-				$lastIndex = $row[$this->mIndexField];
+				$lastIndex = $row[$indexColumn];
 			} else {
 				$this->mPastTheEndRow = null;
 				# Setting indexes to an empty string means that they will be
@@ -215,7 +219,7 @@ abstract class IndexPager implements Pager {
 				$this->mPastTheEndIndex = '';
 				$res->seek( $numRows - 1 );
 				$row = $res->fetchRow();
-				$lastIndex = $row[$this->mIndexField];
+				$lastIndex = $row[$indexColumn];
 			}
 		} else {
 			$firstIndex = '';
@@ -817,7 +821,7 @@ abstract class TablePager extends IndexPager {
 		# Make table header
 		foreach ( $fields as $field => $name ) {
 			if ( strval( $name ) == '' ) {
-				$s .= "<th>&nbsp;</th>\n";
+				$s .= "<th>&#160;</th>\n";
 			} elseif ( $this->isFieldSortable( $field ) ) {
 				$query = array( 'sort' => $field, 'limit' => $this->mLimit );
 				if ( $field == $this->mSort ) {
@@ -870,7 +874,7 @@ abstract class TablePager extends IndexPager {
 			$value = isset( $row->$field ) ? $row->$field : null;
 			$formatted = strval( $this->formatValue( $field, $value ) );
 			if ( $formatted == '' ) {
-				$formatted = '&nbsp;';
+				$formatted = '&#160;';
 			}
 			$s .= Xml::tags( 'td', $this->getCellAttrs( $field, $value ), $formatted );
 		}
@@ -986,7 +990,14 @@ abstract class TablePager extends IndexPager {
 	 */
 	function getLimitSelect() {
 		global $wgLang;
-		$s = "<select name=\"limit\">";
+		
+		# Add the current limit from the query string
+		# to avoid that the limit is lost after clicking Go next time
+		if ( !in_array( $this->mLimit, $this->mLimitsShown ) ) {
+			$this->mLimitsShown[] = $this->mLimit;
+			sort( $this->mLimitsShown );
+		}
+		$s = Html::openElement( 'select', array( 'name' => 'limit' ) ) . "\n";
 		foreach ( $this->mLimitsShown as $key => $value ) {
 			# The pair is either $index => $limit, in which case the $value
 			# will be numeric, or $limit => $text, in which case the $value
@@ -998,10 +1009,9 @@ abstract class TablePager extends IndexPager {
 				$limit = $key;
 				$text = $value;
 			}
-			$selected = ( $limit == $this->mLimit ? 'selected="selected"' : '' );
-			$s .= "<option value=\"$limit\" $selected>$text</option>\n";
+			$s .= Xml::option( $text, $limit, $limit == $this->mLimit ) . "\n";
 		}
-		$s .= "</select>";
+		$s .= Html::closeElement( 'select' );
 		return $s;
 	}
 
@@ -1061,7 +1071,7 @@ abstract class TablePager extends IndexPager {
 
 	/**
 	 * Format a table cell. The return value should be HTML, but use an empty
-	 * string not &nbsp; for empty cells. Do not include the <td> and </td>.
+	 * string not &#160; for empty cells. Do not include the <td> and </td>.
 	 *
 	 * The current result row is available as $this->mCurrentRow, in case you
 	 * need more context.

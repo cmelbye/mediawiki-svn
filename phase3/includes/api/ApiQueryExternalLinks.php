@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on May 13, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on May 13, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -63,11 +64,10 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 			$this->addOption( 'OFFSET', $params['offset'] );
 		}
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		$count = 0;
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
 				// We've reached the one extra which shows that
 				// there are additional pages to be had. Stop here...
@@ -82,7 +82,10 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 				break;
 			}
 		}
-		$db->freeResult( $res );
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {

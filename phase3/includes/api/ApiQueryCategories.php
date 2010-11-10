@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on May 13, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on May 13, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -41,6 +42,10 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 
 	public function execute() {
 		$this->run();
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function executeGenerator( $resultPageSet ) {
@@ -125,12 +130,11 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 			$this->addOption( 'ORDER BY', "cl_from, cl_to" );
 		}
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		if ( is_null( $resultPageSet ) ) {
 			$count = 0;
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
 					// We've reached the one extra which shows that
 					// there are additional pages to be had. Stop here...
@@ -161,7 +165,7 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 			}
 		} else {
 			$titles = array();
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
 					// We've reached the one extra which shows that
 					// there are additional pages to be had. Stop here...
@@ -174,8 +178,6 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 			}
 			$resultPageSet->populateFromTitles( $titles );
 		}
-
-		$db->freeResult( $res );
 	}
 
 	public function getAllowedParams() {
@@ -211,7 +213,12 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 
 	public function getParamDescription() {
 		return array(
-			'prop' => 'Which additional properties to get for each category.',
+			'prop' => array(
+				'Which additional properties to get for each category',
+				' sortkey    - Adds the sortkey for the category',
+				' timestamp  - Adds timestamp of when the category was added',
+				' hidden     - Tags categories that are hidden with __HIDDENCAT__',
+			),
 			'limit' => 'How many categories to return',
 			'show' => 'Which kind of categories to show',
 			'continue' => 'When more results are available, use this to continue',
@@ -222,7 +229,7 @@ class ApiQueryCategories extends ApiQueryGeneratorBase {
 	public function getDescription() {
 		return 'List all categories the page(s) belong to';
 	}
-	
+
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'show' ),

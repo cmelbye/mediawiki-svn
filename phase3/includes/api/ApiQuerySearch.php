@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 30, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on July 30, 2007
  *
  * Copyright © 2007 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -58,10 +59,6 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 		$searchInfo = array_flip( $params['info'] );
 		$prop = array_flip( $params['prop'] );
 
-		if ( strval( $query ) === '' ) {
-			$this->dieUsage( 'empty search string is not allowed', 'param-search' );
-		}
-
 		// Create search engine instance and set options
 		$search = SearchEngine::create();
 		$search->setLimitOffset( $limit + 1, $params['offset'] );
@@ -73,6 +70,8 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 			$matches = $search->searchText( $query );
 		} elseif ( $what == 'title' ) {
 			$matches = $search->searchTitle( $query );
+		} elseif ( $what == 'nearmatch' ) {
+			$matches = SearchEngine::getNearMatchResultSet( $query );
 		} else {
 			// We default to title searches; this is a terrible legacy
 			// of the way we initially set up the MySQL fulltext-based
@@ -140,6 +139,35 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 				if ( isset( $prop['timestamp'] ) ) {
 					$vals['timestamp'] = wfTimestamp( TS_ISO_8601, $result->getTimestamp() );
 				}
+				if ( !is_null( $result->getScore() ) ) {
+					if ( isset( $prop['score'] ) ) {
+						$vals['score'] = $result->getScore();
+					}
+				}
+				if ( isset( $prop['titlesnippet'] ) ) {
+					$vals['titlesnippet'] = $result->getTitleSnippet( $terms );
+				}
+				if ( !is_null( $result->getRedirectTitle() ) ) {
+					if ( isset( $prop['redirecttitle'] ) ) {
+						$vals['redirecttitle'] = $result->getRedirectTitle();
+					}
+					if ( isset( $prop['redirectsnippet'] ) ) {
+						$vals['redirectsnippet'] = $result->getRedirectSnippet( $terms );
+					}
+				}
+				if ( !is_null( $result->getSectionTitle() ) ) {
+					if ( isset( $prop['sectiontitle'] ) ) {
+						$vals['sectiontitle'] = $result->getSectionTitle();
+					}
+					if ( isset( $prop['sectionsnippet'] ) ) {
+						$vals['sectionsnippet'] = $result->getSectionSnippet();
+					}
+				}
+				if ( isset( $prop['hasrelated'] ) ) {
+					if ( $result->hasRelated() ) {
+						$vals['hasrelated'] = "";
+					}
+				}
 
 				// Add item to results and see whether it fits
 				$fit = $this->getResult()->addValue( array( 'query', $this->getModuleName() ),
@@ -162,9 +190,16 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 		}
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
-			'search' => null,
+			'search' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'namespace' => array(
 				ApiBase::PARAM_DFLT => 0,
 				ApiBase::PARAM_TYPE => 'namespace',
@@ -175,6 +210,7 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_TYPE => array(
 					'title',
 					'text',
+					'nearmatch',
 				)
 			),
 			'info' => array(
@@ -191,7 +227,14 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 					'size',
 					'wordcount',
 					'timestamp',
+					'score',
 					'snippet',
+					'titlesnippet',
+					'redirecttitle',
+					'redirectsnippet',
+					'sectiontitle',
+					'sectionsnippet',
+					'hasrelated',
 				),
 				ApiBase::PARAM_ISMULTI => true,
 			),
@@ -209,14 +252,27 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 
 	public function getParamDescription() {
 		return array(
-			'search' => 'Search for all page titles (or content) that has this value.',
-			'namespace' => 'The namespace(s) to enumerate.',
-			'what' => 'Search inside the text or titles.',
-			'info' => 'What metadata to return.',
-			'prop' => 'What properties to return.',
-			'redirects' => 'Include redirect pages in the search.',
+			'search' => 'Search for all page titles (or content) that has this value',
+			'namespace' => 'The namespace(s) to enumerate',
+			'what' => 'Search inside the text or titles',
+			'info' => 'What metadata to return',
+			'prop' => array(
+				'What properties to return',
+				' size             - Adds the size of the page in bytes',
+				' wordcount        - Adds the word count of the page',
+				' timestamp        - Adds the timestamp of when the page was last edited',
+				' score            - Adds the score (if any) from the search engine',
+				' snippet          - Adds a parsed snippet of the page',
+				' titlesnippet     - Adds a parsed snippet of the page title',
+				' redirectsnippet  - Adds a parsed snippet of the redirect',
+				' redirecttitle    - Adds a parsed snippet of the redirect title',
+				' sectionsnippet   - Adds a parsed snippet of the matching section',
+				' sectiontitle     - Adds a parsed snippet of the matching section title',
+				' hasrelated       - Indicates whether a related search is available',
+			),
+			'redirects' => 'Include redirect pages in the search',
 			'offset' => 'Use this value to continue paging (return by query)',
-			'limit' => 'How many total pages to return.'
+			'limit' => 'How many total pages to return'
 		);
 	}
 
@@ -226,7 +282,6 @@ class ApiQuerySearch extends ApiQueryGeneratorBase {
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'code' => 'param-search', 'info' => 'empty search string is not allowed' ),
 			array( 'code' => 'search-text-disabled', 'info' => 'text search is disabled' ),
 			array( 'code' => 'search-title-disabled', 'info' => 'title search is disabled' ),
 		) );

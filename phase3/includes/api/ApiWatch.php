@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Jan 4, 2008
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Jan 4, 2008
  *
  * Copyright © 2008 Yuri Astrakhan <Firstname><Lastname>@gmail.com,
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -57,9 +58,11 @@ class ApiWatch extends ApiBase {
 
 		if ( $params['unwatch'] ) {
 			$res['unwatched'] = '';
+			$res['message'] = wfMsgExt( 'removedwatchtext', array( 'parse' ), $title->getPrefixedText() );
 			$success = $article->doUnwatch();
 		} else {
 			$res['watched'] = '';
+			$res['message'] = wfMsgExt( 'addedwatchtext', array( 'parse' ), $title->getPrefixedText() );
 			$success = $article->doWatch();
 		}
 		if ( !$success ) {
@@ -74,7 +77,11 @@ class ApiWatch extends ApiBase {
 
 	public function getAllowedParams() {
 		return array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
+
 			'unwatch' => false,
 		);
 	}
@@ -87,9 +94,7 @@ class ApiWatch extends ApiBase {
 	}
 
 	public function getDescription() {
-		return array(
-			'Add or remove a page from/to the current user\'s watchlist'
-		);
+		return 'Add or remove a page from/to the current user\'s watchlist';
 	}
 
 	public function getPossibleErrors() {

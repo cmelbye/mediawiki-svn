@@ -2,7 +2,7 @@
 /**
  * XHTML sanitizer for MediaWiki
  *
- * Copyright (C) 2002-2005 Brion Vibber <brion@pobox.com> et al
+ * Copyright © 2002-2005 Brion Vibber <brion@pobox.com> et al
  * http://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,10 +40,11 @@ define( 'MW_CHAR_REFS_REGEX',
  * Allows some... latitude.
  * Used in Sanitizer::fixTagAttributes and Sanitizer::decodeTagAttributes
  */
-$attrib = '[A-Za-z0-9]';
+$attribFirst = '[:A-Z_a-z]';
+$attrib = '[:A-Z_a-z-.0-9]';
 $space = '[\x09\x0a\x0d\x20]';
 define( 'MW_ATTRIBS_REGEX',
-	"/(?:^|$space)((?:xml:|xmlns:)?$attrib+)
+	"/(?:^|$space)({$attribFirst}{$attrib}*)
 	  ($space*=$space*
 		(?:
 		 # The attribute value: quoted or alone
@@ -367,7 +368,8 @@ class Sanitizer {
 				'h2', 'h3', 'h4', 'h5', 'h6', 'cite', 'code', 'em', 's',
 				'strike', 'strong', 'tt', 'var', 'div', 'center',
 				'blockquote', 'ol', 'ul', 'dl', 'table', 'caption', 'pre',
-				'ruby', 'rt' , 'rb' , 'rp', 'p', 'span', 'u', 'abbr'
+				'ruby', 'rt' , 'rb' , 'rp', 'p', 'span', 'u', 'abbr', 'dfn',
+				'kbd', 'samp'
 			);
 			$htmlsingle = array(
 				'br', 'hr', 'li', 'dt', 'dd'
@@ -388,6 +390,12 @@ class Sanitizer {
 			$listtags = array( # Tags that can appear in a list
 				'li',
 			);
+
+			global $wgAllowImageTag;
+			if ( $wgAllowImageTag ) {
+				$htmlsingle[] = 'img';
+				$htmlsingleonly[] = 'img';
+			}
 
 			$htmlsingleallowed = array_unique( array_merge( $htmlsingle, $tabletags ) );
 			$htmlelementsStatic = array_unique( array_merge( $htmlsingle, $htmlpairsStatic, $htmlnest ) );
@@ -620,7 +628,7 @@ class Sanitizer {
 	 * @todo Check for unique id attribute :P
 	 */
 	static function validateAttributes( $attribs, $whitelist ) {
-		global $wgAllowRdfaAttributes, $wgAllowMicrodataAttributes;
+		global $wgAllowRdfaAttributes, $wgAllowMicrodataAttributes, $wgHtml5;
 
 		$whitelist = array_flip( $whitelist );
 		$hrefExp = '/^(' . wfUrlProtocols() . ')[^\s]+$/';
@@ -636,7 +644,8 @@ class Sanitizer {
 				continue;
 			}
 
-			if( !isset( $whitelist[$attribute] ) ) {
+			# Allow any attribute beginning with "data-", if in HTML5 mode
+			if ( !($wgHtml5 && preg_match( '/^data-/i', $attribute )) && !isset( $whitelist[$attribute] ) ) {
 				continue;
 			}
 
@@ -644,10 +653,6 @@ class Sanitizer {
 			# http://msdn.microsoft.com/workshop/author/dhtml/overview/recalc.asp
 			if( $attribute == 'style' ) {
 				$value = Sanitizer::checkCss( $value );
-				if( $value === false ) {
-					# haxx0r
-					continue;
-				}
 			}
 
 			if ( $attribute === 'id' ) {
@@ -744,9 +749,7 @@ class Sanitizer {
 		$value = StringUtils::delimiterReplace( '/*', '*/', ' ', $value );
 
 		// Decode escape sequences and line continuation
-		// See the grammar in the CSS 2 spec, appendix D, Mozilla implements it accurately.
-		// IE 8 doesn't implement it at all, but there's no way to introduce url() into
-		// IE that doesn't hit Mozilla also.
+		// See the grammar in the CSS 2 spec, appendix D.
 		static $decodeRegex;
 		if ( !$decodeRegex ) {
 			$space = '[\\x20\\t\\r\\n\\f]';
@@ -756,30 +759,86 @@ class Sanitizer {
 				(?:
 					($nl) |  # 1. Line continuation
 					([0-9A-Fa-f]{1,6})$space? |  # 2. character number
-					(.) # 3. backslash cancelling special meaning
+					(.) | # 3. backslash cancelling special meaning
+					() | # 4. backslash at end of string
 				)/xu";
 		}
-		$decoded = preg_replace_callback( $decodeRegex, 
+		$value = preg_replace_callback( $decodeRegex,
 			array( __CLASS__, 'cssDecodeCallback' ), $value );
-		if ( preg_match( '!expression|https?://|url\s*\(!i', $decoded ) ) {
-			// Not allowed
-			return false;
-		} else {
-			// Allowed, return CSS with comments stripped
-			return $value;
+
+		// Reject problematic keywords and control characters
+		if ( preg_match( '/[\000-\010\016-\037\177]/', $value ) ) {
+			return '/* invalid control char */';
+		} elseif ( preg_match( '! expression | filter\s*: | accelerator\s*: | url\s*\( !ix', $value ) ) {
+			return '/* insecure input */';
 		}
+		return $value;
 	}
 
 	static function cssDecodeCallback( $matches ) {
 		if ( $matches[1] !== '' ) {
+			// Line continuation
 			return '';
 		} elseif ( $matches[2] !== '' ) {
-			return codepointToUtf8( hexdec( $matches[2] ) );
+			$char = codepointToUtf8( hexdec( $matches[2] ) );
 		} elseif ( $matches[3] !== '' ) {
-			return $matches[3];
+			$char = $matches[3];
 		} else {
-			throw new MWException( __METHOD__.': invalid match' );
+			$char = '\\';
 		}
+		if ( $char == "\n" || $char == '"' || $char == "'" || $char == '\\' ) {
+			// These characters need to be escaped in strings
+			// Clean up the escape sequence to avoid parsing errors by clients
+			return '\\' . dechex( ord( $char ) ) . ' ';
+		} else {
+			// Decode unnecessary escape
+			return $char;
+		}
+	}
+
+	/** 
+	* Take an associative array of attribute name/value pairs
+	* and generate a css style representing all the style-related
+	* attributes. If there already a style attribute in the array,
+	* it is also included in the value returned.
+	*/
+	static function styleFromAttributes( $attributes ) {
+		$styles = array();
+
+		foreach ( $attributes as $attribute => $value ) {
+			if ( $attribute == 'bgcolor' ) {
+				$styles[] = "background-color: $value";
+			} else if ( $attribute == 'border' ) {
+				$styles[] = "border-width: $value";
+			} else if ( $attribute == 'align' ) {
+				$styles[] = "text-align: $value";
+			} else if ( $attribute == 'valign' ) {
+				$styles[] = "vertical-align: $value";
+			} else if ( $attribute == 'width' ) {
+				if ( preg_match( '/\d+/', $value ) === false ) {
+				      $value .= 'px';
+				}
+
+				$styles[] = "width: $value";
+			} else if ( $attribute == 'height' ) {
+				if ( preg_match( '/\d+/', $value ) === false ) {
+				      $value .= 'px';
+				}
+
+				$styles[] = "height: $value";
+			} else if ( $attribute == 'nowrap' ) {
+				if ( $value ) {
+					$styles[] = "white-space: nowrap";
+				}
+			}
+		}
+
+		if ( isset( $attributes[ 'style' ] ) ) {
+			$styles[] = $attributes[ 'style' ];
+		} 
+
+		if ( !$styles ) return '';
+		else return implode( '; ', $styles );
 	}
 
 	/**
@@ -799,24 +858,66 @@ class Sanitizer {
 	 *
 	 * @param $text String
 	 * @param $element String
+	 * @param $defaults Array (optional) associative array of default attributes to splice in. 
+	 *			class and style attributes are combined. Otherwise, values from
+	 *			$attributes take precedence over values from $defaults.
 	 * @return String
 	 */
-	static function fixTagAttributes( $text, $element ) {
+	static function fixTagAttributes( $text, $element, $defaults = null ) {
 		if( trim( $text ) == '' ) {
 			return '';
 		}
 
-		$stripped = Sanitizer::validateTagAttributes(
-			Sanitizer::decodeTagAttributes( $text ), $element );
+		$decoded = Sanitizer::decodeTagAttributes( $text );
+		$stripped = Sanitizer::validateTagAttributes( $decoded, $element );
+		$attribs = Sanitizer::collapseTagAttributes( $stripped, $defaults );
 
-		$attribs = array();
-		foreach( $stripped as $attribute => $value ) {
+		return $attribs;
+	}
+
+	/**
+	 * Take an associative array or attribute name/value pairs
+	 * and collapses it to well-formed XML.
+	 * Does not filter attributes.
+	 * Output is safe for further wikitext processing, with escaping of
+	 * values that could trigger problems.
+	 *
+	 * - Double-quotes all attribute values
+	 * - Prepends space if there are attributes.
+	 *
+	 * @param $attributes Array is an associative array of attribute name/value pairs. 
+	 * 			Assumed to be sanitized already.
+	 * @param $defaults Array (optional) associative array of default attributes to splice in. 
+	 *			class and style attributes are combined. Otherwise, values from
+	 *			$attributes take precedence over values from $defaults.
+	 * @return String
+	 */
+	static function collapseTagAttributes( $attributes, $defaults = null ) {
+		if ( $defaults ) {
+			foreach( $defaults as $attribute => $value ) {
+				if ( isset( $attributes[ $attribute ] ) ) {
+					if ( $attribute == 'class' ) {
+						$value .= ' '. $attributes[ $attribute ];
+					} else if ( $attribute == 'style' ) {
+						$value .= '; ' . $attributes[ $attribute ];
+					} else {
+						continue;
+					}
+				}
+
+				$attributes[ $attribute ] = $value;
+			}
+		}
+
+		$chunks = array();
+
+		foreach( $attributes as $attribute => $value ) {
 			$encAttribute = htmlspecialchars( $attribute );
 			$encValue = Sanitizer::safeEncodeAttribute( $value );
 
-			$attribs[] = "$encAttribute=\"$encValue\"";
+			$chunks[] = "$encAttribute=\"$encValue\"";
 		}
-		return count( $attribs ) ? ' ' . implode( ' ', $attribs ) : '';
+		return count( $chunks ) ? ' ' . implode( ' ', $chunks ) : '';
 	}
 
 	/**
@@ -881,7 +982,9 @@ class Sanitizer {
 	 *
 	 * To ensure we don't have to bother escaping anything, we also strip ', ",
 	 * & even if $wgExperimentalIds is true.  TODO: Is this the best tactic?
-	 * We also strip # because it upsets IE6.
+	 * We also strip # because it upsets IE, and % because it could be
+	 * ambiguous if it's part of something that looks like a percent escape
+	 * (which don't work reliably in fragments cross-browser).
 	 *
 	 * @see http://www.w3.org/TR/html401/types.html#type-name Valid characters
 	 *                                                          in the id and
@@ -907,7 +1010,7 @@ class Sanitizer {
 
 		if ( $wgHtml5 && $wgExperimentalHtmlIds && !in_array( 'legacy', $options ) ) {
 			$id = Sanitizer::decodeCharReferences( $id );
-			$id = preg_replace( '/[ \t\n\r\f_\'"&#]+/', '_', $id );
+			$id = preg_replace( '/[ \t\n\r\f_\'"&#%]+/', '_', $id );
 			$id = trim( $id, '_' );
 			if ( $id === '' ) {
 				# Must have been all whitespace to start with.
@@ -955,17 +1058,16 @@ class Sanitizer {
 
 	/**
 	 * Given HTML input, escape with htmlspecialchars but un-escape entites.
-	 * This allows (generally harmless) entities like &nbsp; to survive.
+	 * This allows (generally harmless) entities like &#160; to survive.
 	 *
 	 * @param $html String to escape
 	 * @return String: escaped input
 	 */
 	static function escapeHtmlAllowEntities( $html ) {
+		$html = Sanitizer::decodeCharReferences( $html );
 		# It seems wise to escape ' as well as ", as a matter of course.  Can't
 		# hurt.
 		$html = htmlspecialchars( $html, ENT_QUOTES );
-		$html = str_replace( '&amp;', '&', $html );
-		$html = Sanitizer::normalizeCharReferences( $html );
 		return $html;
 	}
 
@@ -1066,6 +1168,18 @@ class Sanitizer {
 			'/\r\n|[\x20\x0d\x0a\x09]/',
 			' ',
 			$text );
+	}
+
+	/**
+	 * Normalizes whitespace in a section name, such as might be returned
+	 * by Parser::stripSectionName(), for use in the id's that are used for
+	 * section links.
+	 *
+	 * @param $section String
+	 * @return String
+	 */
+	static function normalizeSectionNameWhitespace( $section ) {
+		return trim( preg_replace( '/[ _]+/', ' ', $section ) );
 	}
 
 	/**
@@ -1177,6 +1291,30 @@ class Sanitizer {
 	}
 
 	/**
+	 * Decode any character references, numeric or named entities,
+	 * in the next and normalize the resulting string. (bug 14952)
+	 *
+	 * This is useful for page titles, not for text to be displayed,
+	 * MediaWiki allows HTML entities to escape normalization as a feature.
+	 *
+	 * @param $text String (already normalized, containing entities)
+	 * @return String (still normalized, without entities)
+	 */
+	public static function decodeCharReferencesAndNormalize( $text ) {
+		global $wgContLang;
+		$text = preg_replace_callback(
+			MW_CHAR_REFS_REGEX,
+			array( 'Sanitizer', 'decodeCharReferencesCallback' ),
+			$text, /* limit */ -1, $count );
+
+		if ( $count ) {
+			return $wgContLang->normalize( $text );
+		} else {
+			return $text;
+		}
+	}
+
+	/**
 	 * @param $matches String
 	 * @return String
 	 */
@@ -1253,7 +1391,7 @@ class Sanitizer {
 	static function setupAttributeWhitelist() {
 		global $wgAllowRdfaAttributes, $wgHtml5, $wgAllowMicrodataAttributes;
 
-		$common = array( 'id', 'class', 'lang', 'dir', 'title', 'style', 'xml:lang' );
+		$common = array( 'id', 'class', 'lang', 'dir', 'title', 'style' );
 
 		if ( $wgAllowRdfaAttributes ) {
 			#RDFa attributes as specified in section 9 of http://www.w3.org/TR/2008/REC-rdfa-syntax-20081014
@@ -1309,10 +1447,10 @@ class Sanitizer {
 			'em'         => $common,
 			'strong'     => $common,
 			'cite'       => $common,
-			# dfn
+			'dfn'        => $common,
 			'code'       => $common,
-			# samp
-			# kbd
+			'samp'       => $common,
+			'kbd'        => $common,
 			'var'        => $common,
 			'abbr'       => $common,
 			# acronym
@@ -1379,8 +1517,9 @@ class Sanitizer {
 
 			# 13.2
 			# Not usually allowed, but may be used for extension-style hooks
-			# such as <math> when it is rasterized
-			'img'        => array_merge( $common, array( 'alt' ) ),
+			# such as <math> when it is rasterized, or if $wgAllowImageTag is
+			# true
+			'img'        => array_merge( $common, array( 'alt', 'src', 'width', 'height' ) ),
 
 			# 15.2.1
 			'tt'         => $common,
@@ -1462,7 +1601,7 @@ class Sanitizer {
 		$url = Sanitizer::decodeCharReferences( $url );
 
 		# Escape any control characters introduced by the above step
-		$url = preg_replace( '/[\][<>"\\x00-\\x20\\x7F]/e', "urlencode('\\0')", $url );
+		$url = preg_replace( '/[\][<>"\\x00-\\x20\\x7F\|]/e', "urlencode('\\0')", $url );
 
 		# Validate hostname portion
 		$matches = array();

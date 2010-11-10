@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 19, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 19, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -36,7 +37,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 abstract class ApiFormatBase extends ApiBase {
 
 	private $mIsHtml, $mFormat, $mUnescapeAmps, $mHelp, $mCleared;
-	private $mBufferResult = false, $mBuffer;
+	private $mBufferResult = false, $mBuffer, $mDisabled = false;
 
 	/**
 	 * Constructor
@@ -114,12 +115,27 @@ abstract class ApiFormatBase extends ApiBase {
 	}
 
 	/**
+	 * Disable the formatter completely. This causes calls to initPrinter(),
+	 * printText() and closePrinter() to be ignored.
+	 */
+	public function disable() {
+		$this->mDisabled = true;
+	}
+
+	public function isDisabled() {
+		return $this->mDisabled;
+	}
+
+	/**
 	 * Initialize the printer function and prepare the output headers, etc.
 	 * This method must be the first outputing method during execution.
 	 * A help screen's header is printed for the HTML-based output
 	 * @param $isError bool Whether an error message is printed
 	 */
 	function initPrinter( $isError ) {
+		if ( $this->mDisabled ) {
+			return;
+		}
 		$isHtml = $this->getIsHtml();
 		$mime = $isHtml ? 'text/html' : $this->getMimeType();
 		$script = wfScript( 'api' );
@@ -172,6 +188,9 @@ See <a href='http://www.mediawiki.org/wiki/API'>complete documentation</a>, or
 	 * Finish printing. Closes HTML tags.
 	 */
 	public function closePrinter() {
+		if ( $this->mDisabled ) {
+			return;
+		}
 		if ( $this->getIsHtml() ) {
 ?>
 
@@ -191,6 +210,9 @@ See <a href='http://www.mediawiki.org/wiki/API'>complete documentation</a>, or
 	 * @param $text string
 	 */
 	public function printText( $text ) {
+		if ( $this->mDisabled ) {
+			return;
+		}
 		if ( $this->mBufferResult ) {
 			$this->mBuffer = $text;
 		} elseif ( $this->getIsHtml() ) {
@@ -225,7 +247,7 @@ See <a href='http://www.mediawiki.org/wiki/API'>complete documentation</a>, or
 	 * @param $help bool
 	 */
 	public function setHelp( $help = true ) {
-		$this->mHelp = true;
+		$this->mHelp = $help;
 	}
 
 	/**

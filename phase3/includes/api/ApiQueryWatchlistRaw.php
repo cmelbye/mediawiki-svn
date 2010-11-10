@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 4, 2008
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Oct 4, 2008
  *
  * Copyright © 2008 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -49,14 +50,12 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 	}
 
 	private function run( $resultPageSet = null ) {
-		global $wgUser;
-
 		$this->selectNamedDB( 'watchlist', DB_SLAVE, 'watchlist' );
 
-		if ( !$wgUser->isLoggedIn() ) {
-			$this->dieUsage( 'You must be logged-in to have a watchlist', 'notloggedin' );
-		}
 		$params = $this->extractRequestParams();
+
+		$user = $this->getWatchlistUser( $params );
+
 		$prop = array_flip( (array)$params['prop'] );
 		$show = array_flip( (array)$params['show'] );
 		if ( isset( $show['changed'] ) && isset( $show['!changed'] ) ) {
@@ -66,7 +65,7 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 		$this->addTables( 'watchlist' );
 		$this->addFields( array( 'wl_namespace', 'wl_title' ) );
 		$this->addFieldsIf( 'wl_notificationtimestamp', isset( $prop['changed'] ) );
-		$this->addWhereFld( 'wl_user', $wgUser->getId() );
+		$this->addWhereFld( 'wl_user', $user->getId() );
 		$this->addWhereFld( 'wl_namespace', $params['namespace'] );
 		$this->addWhereIf( 'wl_notificationtimestamp IS NOT NULL', isset( $show['changed'] ) );
 		$this->addWhereIf( 'wl_notificationtimestamp IS NULL', isset( $show['!changed'] ) );
@@ -95,10 +94,9 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
 		$res = $this->select( __METHOD__ );
 
-		$db = $this->getDB();
 		$titles = array();
 		$count = 0;
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				$this->setContinueEnumParameter( 'continue', $row->wl_namespace . '|' .
@@ -157,6 +155,12 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 					'changed',
 					'!changed',
 				)
+			),
+			'owner' => array(
+				ApiBase::PARAM_TYPE => 'user'
+			),
+			'token' => array(
+				ApiBase::PARAM_TYPE => 'string'
 			)
 		);
 	}
@@ -164,10 +168,15 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 	public function getParamDescription() {
 		return array(
 			'continue' => 'When more results are available, use this to continue',
-			'namespace' => 'Only list pages in the given namespace(s).',
-			'limit' => 'How many total results to return per request.',
-			'prop' => 'Which additional properties to get (non-generator mode only).',
-			'show' => 'Only list items that meet these criteria.',
+			'namespace' => 'Only list pages in the given namespace(s)',
+			'limit' => 'How many total results to return per request',
+			'prop' => array(
+				'Which additional properties to get (non-generator mode only)',
+				' changed  - Adds timestamp of when the user was last notified about the edit',
+			),
+			'show' => 'Only list items that meet these criteria',
+			'owner' => 'The name of the user whose watchlist you\'d like to access',
+			'token' => 'Give a security token (settable in preferences) to allow access to another user\'s watchlist',
 		);
 	}
 
@@ -179,6 +188,8 @@ class ApiQueryWatchlistRaw extends ApiQueryGeneratorBase {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'notloggedin', 'info' => 'You must be logged-in to have a watchlist' ),
 			array( 'show' ),
+			array( 'code' => 'bad_wlowner', 'info' => 'Specified user does not exist' ),
+			array( 'code' => 'bad_wltoken', 'info' => 'Incorrect watchlist token provided -- please set a correct token in Special:Preferences' ),
 		) );
 	}
 

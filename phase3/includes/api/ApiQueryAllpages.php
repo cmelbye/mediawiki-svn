@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 25, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 25, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -41,6 +42,10 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 
 	public function execute() {
 		$this->run();
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function executeGenerator( $resultPageSet ) {
@@ -68,8 +73,9 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 		$this->addWhereFld( 'page_namespace', $params['namespace'] );
 		$dir = ( $params['dir'] == 'descending' ? 'older' : 'newer' );
 		$from = ( is_null( $params['from'] ) ? null : $this->titlePartToKey( $params['from'] ) );
-		$this->addWhereRange( 'page_title', $dir, $from, null );
-
+		$to = ( is_null( $params['to'] ) ? null : $this->titlePartToKey( $params['to'] ) );
+		$this->addWhereRange( 'page_title', $dir, $from, $to );
+		
 		if ( isset( $params['prefix'] ) ) {
 			$this->addWhere( 'page_title' . $db->buildLike( $this->titlePartToKey( $params['prefix'] ), $db->anyString() ) );
 		}
@@ -150,7 +156,7 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 
 		$count = 0;
 		$result = $this->getResult();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				// TODO: Security issue - if the user has no right to view next title, it will still be shown
@@ -174,7 +180,6 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 				$resultPageSet->processDbRow( $row );
 			}
 		}
-		$db->freeResult( $res );
 
 		if ( is_null( $resultPageSet ) ) {
 			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'p' );
@@ -186,6 +191,7 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 
 		return array(
 			'from' => null,
+			'to' => null,
 			'prefix' => null,
 			'namespace' => array(
 				ApiBase::PARAM_DFLT => 0,
@@ -247,17 +253,19 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
-			'from' => 'The page title to start enumerating from.',
-			'prefix' => 'Search for all page titles that begin with this value.',
-			'namespace' => 'The namespace to enumerate.',
-			'filterredir' => 'Which pages to list.',
+			'from' => 'The page title to start enumerating from',
+			'to' => 'The page title to stop enumerating at',
+			'prefix' => 'Search for all page titles that begin with this value',
+			'namespace' => 'The namespace to enumerate',
+			'filterredir' => 'Which pages to list',
 			'dir' => 'The direction in which to list',
 			'minsize' => 'Limit to pages with at least this many bytes',
 			'maxsize' => 'Limit to pages with at most this many bytes',
 			'prtype' => 'Limit to protected pages only',
-			'prlevel' => 'The protection level (must be used with apprtype= parameter)',
-			'prfiltercascade' => 'Filter protections based on cascadingness (ignored when apprtype isn\'t set)',
+			'prlevel' => "The protection level (must be used with {$p}prtype= parameter)",
+			'prfiltercascade' => "Filter protections based on cascadingness (ignored when {$p}prtype isn't set)",
 			'filterlanglinks' => 'Filter based on whether a page has langlinks',
 			'limit' => 'How many total pages to return.'
 		);

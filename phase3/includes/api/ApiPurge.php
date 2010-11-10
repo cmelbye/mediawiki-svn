@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Created on Sep 2, 2008
- *
  * API for MediaWiki 1.14+
+ *
+ * Created on Sep 2, 2008
  *
  * Copyright © 2008 Chad Horohoe
  *
@@ -19,8 +19,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -43,11 +45,9 @@ class ApiPurge extends ApiBase {
 	public function execute() {
 		global $wgUser;
 		$params = $this->extractRequestParams();
-		if ( !$wgUser->isAllowed( 'purge' ) ) {
-			$this->dieUsageMsg( array( 'cantpurge' ) );
-		}
-		if ( !isset( $params['titles'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'titles' ) );
+		if ( !$wgUser->isAllowed( 'purge' ) && !$this->getMain()->isInternalMode() &&
+				!$this->getMain()->getRequest()->wasPosted() ) {
+			$this->dieUsageMsg( array( 'mustbeposted', $this->getModuleName() ) );
 		}
 		$result = array();
 		foreach ( $params['titles'] as $t ) {
@@ -65,18 +65,13 @@ class ApiPurge extends ApiBase {
 				$result[] = $r;
 				continue;
 			}
-			$article = Mediawiki::articleFromTitle( $title );
+			$article = MediaWiki::articleFromTitle( $title );
 			$article->doPurge(); // Directly purge and skip the UI part of purge().
 			$r['purged'] = '';
 			$result[] = $r;
 		}
 		$this->getResult()->setIndexedTagName( $result, 'page' );
 		$this->getResult()->addValue( null, $this->getModuleName(), $result );
-	}
-
-	public function mustBePosted() {
-		global $wgUser;
-		return $wgUser->isAnon();
 	}
 
 	public function isWriteMode() {
@@ -86,7 +81,8 @@ class ApiPurge extends ApiBase {
 	public function getAllowedParams() {
 		return array(
 			'titles' => array(
-				ApiBase::PARAM_ISMULTI => true
+				ApiBase::PARAM_ISMULTI => true,
+				ApiBase::PARAM_REQUIRED => true
 			)
 		);
 	}
@@ -98,15 +94,14 @@ class ApiPurge extends ApiBase {
 	}
 
 	public function getDescription() {
-		return array(
-			'Purge the cache for the given titles.'
+		return array( 'Purge the cache for the given titles.',
+			'This module requires a POST request if the user is not logged in.'
 		);
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'cantpurge' ),
-			array( 'missingparam', 'titles' ),
 		) );
 	}
 

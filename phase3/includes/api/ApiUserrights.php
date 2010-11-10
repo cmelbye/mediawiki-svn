@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Created on Mar 24, 2009
  * API for MediaWiki 1.8+
+ *
+ * Created on Mar 24, 2009
  *
  * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -18,8 +19,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -36,13 +39,14 @@ class ApiUserrights extends ApiBase {
 		parent::__construct( $main, $action );
 	}
 
+	private $mUser = null;
+
 	public function execute() {
 		$params = $this->extractRequestParams();
 
-		// User already validated in call to getTokenSalt from Main
-		$form = new UserrightsPage;
-		$user = $form->fetchUser( $params['user'] );
+		$user = $this->getUser();
 
+		$form = new UserrightsPage;
 		$r['user'] = $user->getName();
 		list( $r['added'], $r['removed'] ) =
 			$form->doSaveUserGroups(
@@ -52,6 +56,29 @@ class ApiUserrights extends ApiBase {
 		$this->getResult()->setIndexedTagName( $r['added'], 'group' );
 		$this->getResult()->setIndexedTagName( $r['removed'], 'group' );
 		$this->getResult()->addValue( null, $this->getModuleName(), $r );
+	}
+
+	/**
+	 * @return User
+	 */
+	private function getUser() {
+		if ( $this->mUser !== null ) {
+			return $this->mUser;
+		}
+
+		$params = $this->extractRequestParams();
+
+		$form = new UserrightsPage;
+		$status = $form->fetchUser( $params['user'] );
+		if ( !$status->isOK() ) {
+			$errors = $status->getErrorsArray();
+			$this->dieUsageMsg( $errors[0] );
+		} else {
+			$user = $status->value;
+		}
+
+		$this->mUser = $user;
+		return $user;
 	}
 
 	public function mustBePosted() {
@@ -64,7 +91,10 @@ class ApiUserrights extends ApiBase {
 
 	public function getAllowedParams() {
 		return array (
-			'user' => null,
+			'user' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'add' => array(
 				ApiBase::PARAM_TYPE => User::getAllGroups(),
 				ApiBase::PARAM_ISMULTI => true
@@ -91,31 +121,15 @@ class ApiUserrights extends ApiBase {
 	}
 
 	public function getDescription() {
-		return array(
-			'Add/remove a user to/from groups',
-		);
+		return 'Add/remove a user to/from groups';
 	}
 
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'user' ),
-		) );
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {
-		$params = $this->extractRequestParams();
-		if ( is_null( $params['user'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'user' ) );
-		}
-
-		$form = new UserrightsPage;
-		$user = $form->fetchUser( $params['user'] );
-		if ( $user instanceof WikiErrorMsg ) {
-			$this->dieUsageMsg( array_merge(
-				(array)$user->getMessageKey(), $user->getMessageArgs() ) );
-		}
-
-		return $user->getName();
+		return $this->getUser()->getName();
 	}
 
 	protected function getExamples() {

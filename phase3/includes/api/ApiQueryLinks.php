@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on May 12, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on May 12, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -46,11 +47,13 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 				$this->table = 'pagelinks';
 				$this->prefix = 'pl';
 				$this->description = 'link';
+				$this->titlesParam = 'titles';
 				break;
 			case self::TEMPLATES:
 				$this->table = 'templatelinks';
 				$this->prefix = 'tl';
 				$this->description = 'template';
+				$this->titlesParam = 'templates';
 				break;
 			default:
 				ApiBase::dieDebug( __METHOD__, 'Unknown module name' );
@@ -61,6 +64,10 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 
 	public function execute() {
 		$this->run();
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function executeGenerator( $resultPageSet ) {
@@ -83,6 +90,22 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 		$this->addTables( $this->table );
 		$this->addWhereFld( $this->prefix . '_from', array_keys( $this->getPageSet()->getGoodTitles() ) );
 		$this->addWhereFld( $this->prefix . '_namespace', $params['namespace'] );
+
+		if ( !is_null( $params[$this->titlesParam] ) ) {
+			$lb = new LinkBatch;
+			foreach ( $params[$this->titlesParam] as $t ) {
+				$title = Title::newFromText( $t );
+				if ( !$title ) {
+					$this->setWarning( "``$t'' is not a valid title" );
+				} else {
+					$lb->addObj( $title );
+				}
+			}
+			$cond = $lb->constructSet( $this->prefix, $this->getDB() );
+			if ( $cond ) {
+				$this->addWhere( $cond );
+			}
+		}
 
 		if ( !is_null( $params['continue'] ) ) {
 			$cont = explode( '|', $params['continue'] );
@@ -120,12 +143,11 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 		$this->addOption( 'USE INDEX', "{$this->prefix}_from" );
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		if ( is_null( $resultPageSet ) ) {
 			$count = 0;
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
 					// We've reached the one extra which shows that
 					// there are additional pages to be had. Stop here...
@@ -147,7 +169,7 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 		} else {
 			$titles = array();
 			$count = 0;
-			while ( $row = $db->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
 					// We've reached the one extra which shows that
 					// there are additional pages to be had. Stop here...
@@ -160,8 +182,6 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 			}
 			$resultPageSet->populateFromTitles( $titles );
 		}
-
-		$db->freeResult( $res );
 	}
 
 	public function getAllowedParams() {
@@ -178,15 +198,25 @@ class ApiQueryLinks extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
 			),
 			'continue' => null,
+			$this->titlesParam => array(
+				ApiBase::PARAM_ISMULTI => true,
+			),
 		);
 	}
 
 	public function getParamDescription() {
-		return array(
-			'namespace' => "Show {$this->description}s in this namespace(s) only",
-			'limit' => "How many {$this->description}s to return",
+		$desc = $this->description;
+		$arr = array(
+			'namespace' => "Show {$desc}s in this namespace(s) only",
+			'limit' => "How many {$desc}s to return",
 			'continue' => 'When more results are available, use this to continue',
 		);
+		if ( $this->getModuleName() == self::LINKS ) {
+			$arr[$this->titlesParam] = 'Only list links to these titles. Useful for checking whether a certain page links to a certain title.';
+		} else if ( $this->getModuleName() == self::TEMPLATES ) {
+			$arr[$this->titlesParam] = 'Only list these templates. Useful for checking whether a certain page uses a certain template.';
+		}
+		return $arr;
 	}
 
 	public function getDescription() {

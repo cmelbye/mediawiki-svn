@@ -1,5 +1,7 @@
 <?php
 /**
+ * Template used when the installer detects that this is PHP 4
+ *
  * @file
  * @ingroup Templates
  */
@@ -27,7 +29,7 @@ if ( preg_match( '!^(.*)/config/[^/]*.php$!', $scriptUrl, $m ) ) {
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>
 	<head>
 		<title>MediaWiki <?php echo htmlspecialchars( $wgVersion ); ?></title>
 		<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
@@ -56,7 +58,7 @@ if ( preg_match( '!^(.*)/config/[^/]*.php$!', $scriptUrl, $m ) ) {
 		<h1>MediaWiki <?php echo htmlspecialchars( $wgVersion ); ?></h1>
 		<div class='error'>
 <p>
-			MediaWiki requires PHP 5.0.0 or higher. You are running PHP
+			MediaWiki requires PHP 5.1.x or higher. You are running PHP
 			<?php echo htmlspecialchars( phpversion() ); ?>.
 </p>
 <?php

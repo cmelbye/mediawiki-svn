@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 7, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on July 7, 2007
  *
  * Copyright © 2007 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -61,6 +62,9 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		if ( !is_null( $params['from'] ) ) {
 			$this->addWhere( 'u1.user_name >= ' . $db->addQuotes( $this->keyToTitle( $params['from'] ) ) );
 		}
+		if ( !is_null( $params['to'] ) ) {
+			$this->addWhere( 'u1.user_name <= ' . $db->addQuotes( $this->keyToTitle( $params['to'] ) ) );
+		}
 
 		if ( !is_null( $params['prefix'] ) ) {
 			$this->addWhere( 'u1.user_name' . $db->buildLike( $this->keyToTitle( $params['prefix'] ), $db->anyString() ) );
@@ -76,7 +80,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		}
 
 		if ( $params['witheditsonly'] ) {
-			$this->addWhere( 'user_editcount > 0' );
+			$this->addWhere( 'u1.user_editcount > 0' );
 		}
 
 		if ( $fld_groups ) {
@@ -104,7 +108,10 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 		$this->addOption( 'LIMIT', $sqlLimit );
 
-		$this->addFields( 'u1.user_name' );
+		$this->addFields( array(
+			'u1.user_name',
+			'u1.user_id'
+		) );
 		$this->addFieldsIf( 'u1.user_editcount', $fld_editcount );
 		$this->addFieldsIf( 'u1.user_registration', $fld_registration );
 
@@ -116,7 +123,6 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 		$res = $this->select( __METHOD__ );
 
-		$data = array();
 		$count = 0;
 		$lastUserData = false;
 		$lastUser = false;
@@ -128,12 +134,11 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		// Otherwise, the group of the new row is appended to the last entry.
 		// The setContinue... is more complex because of this, and takes into account the higher sql limit
 		// to make sure all rows that belong to the same user are received.
-		//
-		while ( true ) {
-			$row = $db->fetchObject( $res );
+
+		foreach ( $res as $row ) {
 			$count++;
 
-			if ( !$row || $lastUser !== $row->user_name ) {
+			if ( $lastUser !== $row->user_name ) {
 				// Save the last pass's user data
 				if ( is_array( $lastUserData ) ) {
 					$fit = $result->addValue( array( 'query', $this->getModuleName() ),
@@ -145,11 +150,6 @@ class ApiQueryAllUsers extends ApiQueryBase {
 					}
 				}
 
-				// No more rows left
-				if ( !$row ) {
-					break;
-				}
-
 				if ( $count > $limit ) {
 					// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 					$this->setContinueEnumParameter( 'from', $this->keyToTitle( $row->user_name ) );
@@ -158,8 +158,11 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 				// Record new user's data
 				$lastUser = $row->user_name;
-				$lastUserData = array( 'name' => $lastUser );
-				if ( $fld_blockinfo ) {
+				$lastUserData = array(
+					'name' => $lastUser,
+					'userid' => $row->user_id,
+				);
+				if ( $fld_blockinfo && !is_null( $row->blocker_name ) ) {
 					$lastUserData['blockedby'] = $row->blocker_name;
 					$lastUserData['blockreason'] = $row->ipb_reason;
 				}
@@ -187,14 +190,26 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			}
 		}
 
-		$db->freeResult( $res );
+		if ( is_array( $lastUserData ) ) {
+			$fit = $result->addValue( array( 'query', $this->getModuleName() ),
+				null, $lastUserData );
+			if ( !$fit ) {
+				$this->setContinueEnumParameter( 'from',
+					$this->keyToTitle( $lastUserData['name'] ) );
+			}
+		}
 
 		$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'u' );
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {
 		return array(
 			'from' => null,
+			'to' => null,
 			'prefix' => null,
 			'group' => array(
 				ApiBase::PARAM_TYPE => User::getAllGroups()
@@ -221,13 +236,18 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'from' => 'The user name to start enumerating from.',
-			'prefix' => 'Search for all page titles that begin with this value.',
+			'from' => 'The user name to start enumerating from',
+			'to' => 'The user name to stop enumerating at',
+			'prefix' => 'Search for all users that begin with this value',
 			'group' => 'Limit users to a given group name',
 			'prop' => array(
 				'What pieces of information to include.',
-				'`groups` property uses more server resources and may return fewer results than the limit.' ),
-			'limit' => 'How many total user names to return.',
+				' blockinfo     - Adds the information about a current block on the user',
+				' groups        - Lists groups that the user is in',
+				' editcount     - Adds the edit count of the user',
+				' registration  - Adds the timestamp of when the user registered',
+				'`groups` property uses more server resources and may return fewer results than the limit' ),
+			'limit' => 'How many total user names to return',
 			'witheditsonly' => 'Only list users who have made edits',
 		);
 	}

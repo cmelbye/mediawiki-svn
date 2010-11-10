@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on June 14, 2007
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on June 14, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -43,6 +44,10 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		$this->run();
 	}
 
+	public function getCacheMode( $params ) {
+		return 'public';
+	}
+
 	public function executeGenerator( $resultPageSet ) {
 		$this->run( $resultPageSet );
 	}
@@ -50,9 +55,6 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 	private function run( $resultPageSet = null ) {
 		$params = $this->extractRequestParams();
 
-		if ( !isset( $params['title'] ) || is_null( $params['title'] ) ) {
-			$this->dieUsage( 'The cmtitle parameter is required', 'notitle' );
-		}
 		$categoryTitle = Title::newFromText( $params['title'] );
 
 		if ( is_null( $categoryTitle ) || $categoryTitle->getNamespace() != NS_CATEGORY ) {
@@ -104,13 +106,10 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		$limit = $params['limit'];
 		$this->addOption( 'LIMIT', $limit + 1 );
 
-		$db = $this->getDB();
-
-		$data = array();
 		$count = 0;
 		$lastSortKey = null;
 		$res = $this->select( __METHOD__ );
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				// TODO: Security issue - if the user has no right to view next title, it will still be shown
@@ -160,7 +159,6 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			}
 			$lastSortKey = $row->cl_sortkey; // detect duplicate sortkeys
 		}
-		$db->freeResult( $res );
 
 		if ( is_null( $resultPageSet ) ) {
 			$this->getResult()->setIndexedTagName_internal(
@@ -208,7 +206,10 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 
 	public function getAllowedParams() {
 		return array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'prop' => array(
 				ApiBase::PARAM_DFLT => 'ids|title',
 				ApiBase::PARAM_ISMULTI => true,
@@ -258,16 +259,23 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 
 	public function getParamDescription() {
 		global $wgMiserMode;
+		$p = $this->getModulePrefix();
 		$desc = array(
 			'title' => 'Which category to enumerate (required). Must include Category: prefix',
-			'prop' => 'What pieces of information to include',
+			'prop' => array(
+				'What pieces of information to include',
+				' ids        - Adds the page id',
+				' title      - Adds the title and namespace id of the page',
+				' sortkey    - Adds the sortkey used for the category',
+				' timestamp  - Adds the timestamp of when the page was included',
+			),
 			'namespace' => 'Only include pages in these namespaces',
 			'sort' => 'Property to sort by',
 			'dir' => 'In which direction to sort',
-			'start' => 'Timestamp to start listing from. Can only be used with cmsort=timestamp',
-			'end' => 'Timestamp to end listing at. Can only be used with cmsort=timestamp',
-			'startsortkey' => 'Sortkey to start listing from. Can only be used with cmsort=sortkey',
-			'endsortkey' => 'Sortkey to end listing at. Can only be used with cmsort=sortkey',
+			'start' => "Timestamp to start listing from. Can only be used with {$p}sort=timestamp",
+			'end' => "Timestamp to end listing at. Can only be used with {$p}sort=timestamp",
+			'startsortkey' => "Sortkey to start listing from. Can only be used with {$p}sort=sortkey",
+			'endsortkey' => "Sortkey to end listing at. Can only be used with {$p}sort=sortkey",
 			'continue' => 'For large categories, give the value retured from previous query',
 			'limit' => 'The maximum number of pages to return.',
 		);
@@ -275,7 +283,7 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			$desc['namespace'] = array(
 				$desc['namespace'],
 				'NOTE: Due to $wgMiserMode, using this may result in fewer than "limit" results',
-				'returned before continuing; in extreme cases, zero results may be returned.',
+				'returned before continuing; in extreme cases, zero results may be returned',
 			);
 		}
 		return $desc;

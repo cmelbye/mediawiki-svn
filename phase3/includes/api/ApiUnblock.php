@@ -1,8 +1,8 @@
 <?php
-
 /**
- * Created on Sep 7, 2007
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 7, 2007
  *
  * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
  *
@@ -18,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -62,6 +64,13 @@ class ApiUnblock extends ApiBase {
 		if ( !$wgUser->isAllowed( 'block' ) ) {
 			$this->dieUsageMsg( array( 'cantunblock' ) );
 		}
+		# bug 15810: blocked admins should have limited access here
+		if ( $wgUser->isBlocked() ) {
+			$status = IPBlockForm::checkUnblockSelf( $params['user'] );
+			if ( $status !== true ) {
+				$this->dieUsageMsg( array( $status ) );
+			}
+		}
 
 		$id = $params['id'];
 		$user = $params['user'];
@@ -96,19 +105,18 @@ class ApiUnblock extends ApiBase {
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
-			'id' => 'ID of the block you want to unblock (obtained through list=blocks). Cannot be used together with user',
-			'user' => 'Username, IP address or IP range you want to unblock. Cannot be used together with id',
-			'token' => 'An unblock token previously obtained through the gettoken parameter or prop=info',
+			'id' => "ID of the block you want to unblock (obtained through list=blocks). Cannot be used together with {$p}user",
+			'user' => "Username, IP address or IP range you want to unblock. Cannot be used together with {$p}id",
+			'token' => "An unblock token previously obtained through the gettoken parameter or {$p}prop=info",
 			'gettoken' => 'If set, an unblock token will be returned, and no other action will be taken',
 			'reason' => 'Reason for unblock (optional)',
 		);
 	}
 
 	public function getDescription() {
-		return array(
-			'Unblock a user.'
-		);
+		return 'Unblock a user';
 	}
 
 	public function getPossibleErrors() {
@@ -116,7 +124,13 @@ class ApiUnblock extends ApiBase {
 			array( 'unblock-notarget' ),
 			array( 'unblock-idanduser' ),
 			array( 'cantunblock' ),
+			array( 'ipbblocked' ),
+			array( 'ipbnounblockself' ),
 		) );
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

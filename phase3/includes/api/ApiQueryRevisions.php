@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 7, 2006
- *
  * API for MediaWiki 1.8+
+ *
+ * Created on Sep 7, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -19,8 +18,10 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,12 +38,18 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryRevisions extends ApiQueryBase {
 
+	private $diffto, $difftotext, $expandTemplates, $generateXML, $section,
+		$token;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'rv' );
 	}
 
 	private $fld_ids = false, $fld_flags = false, $fld_timestamp = false, $fld_size = false,
-			$fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_content = false, $fld_tags = false;
+			$fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
+			$fld_content = false, $fld_tags = false;
+
+	private $tokenFunctions;
 
 	protected function getTokenFunctions() {
 		// tokenname => function
@@ -105,7 +112,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$this->dieUsage( 'titles, pageids or a generator was used to supply multiple pages, but the limit, startid, endid, dirNewer, user, excludeuser, start and end parameters may only be used on a single page.', 'multpages' );
 		}
 
-		$this->diffto = $this->difftotext = null;
 		if ( !is_null( $params['difftotext'] ) ) {
 			$this->difftotext = $params['difftotext'];
 		} elseif ( !is_null( $params['diffto'] ) ) {
@@ -134,7 +140,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 
 		$db = $this->getDB();
-		$this->addTables( array( 'page', 'revision' ) );
+		$this->addTables( 'page' );
 		$this->addFields( Revision::selectFields() );
 		$this->addWhere( 'page_id = rev_page' );
 
@@ -148,12 +154,22 @@ class ApiQueryRevisions extends ApiQueryBase {
 		$this->fld_comment = isset ( $prop['comment'] );
 		$this->fld_parsedcomment = isset ( $prop['parsedcomment'] );
 		$this->fld_size = isset ( $prop['size'] );
+		$this->fld_userid = isset( $prop['userid'] );
 		$this->fld_user = isset ( $prop['user'] );
 		$this->token = $params['token'];
 
 		// Possible indexes used
 		$index = array();
 
+		$userMax = ( $this->fld_content ? ApiBase::LIMIT_SML1 : ApiBase::LIMIT_BIG1 );
+		$botMax  = ( $this->fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2 );
+		$limit = $params['limit'];
+		if ( $limit == 'max' ) {
+			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
+			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
+		}
+
+		
 		if ( !is_null( $this->token ) || $pageCount > 0 ) {
 			$this->addFields( Revision::selectPageFields() );
 		}
@@ -192,6 +208,15 @@ class ApiQueryRevisions extends ApiQueryBase {
 
 			$this->expandTemplates = $params['expandtemplates'];
 			$this->generateXML = $params['generatexml'];
+			$this->parseContent = $params['parse'];
+			if ( $this->parseContent ) {
+				// Must manually initialize unset limit
+				if ( is_null( $limit ) ) {
+					$limit = 1;
+				}
+				// We are only going to parse 1 revision per request
+				$this->validateLimit( 'limit', $limit, 1, 1, 1 );
+			}
 			if ( isset( $params['section'] ) ) {
 				$this->section = $params['section'];
 			} else {
@@ -199,18 +224,13 @@ class ApiQueryRevisions extends ApiQueryBase {
 			}
 		}
 
-		$userMax = ( $this->fld_content ? ApiBase::LIMIT_SML1 : ApiBase::LIMIT_BIG1 );
-		$botMax  = ( $this->fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2 );
-		$limit = $params['limit'];
-		if ( $limit == 'max' ) {
-			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
-			$this->getResult()->addValue( 'limits', $this->getModuleName(), $limit );
-		}
+		//Bug 24166 - API error when using rvprop=tags
+		$this->addTables( 'revision' );
+
 
 		if ( $enumRevMode ) {
 			// This is mostly to prevent parameter errors (and optimize SQL?)
-			if ( !is_null( $params['startid'] ) && !is_null( $params['start'] ) )
-			{
+			if ( !is_null( $params['startid'] ) && !is_null( $params['start'] ) ) {
 				$this->dieUsage( 'start and startid cannot be used together', 'badparams' );
 			}
 
@@ -218,8 +238,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$this->dieUsage( 'end and endid cannot be used together', 'badparams' );
 			}
 
-			if ( !is_null( $params['user'] ) && !is_null( $params['excludeuser'] ) )
-			{
+			if ( !is_null( $params['user'] ) && !is_null( $params['excludeuser'] ) ) {
 				$this->dieUsage( 'user and excludeuser cannot be used together', 'badparams' );
 			}
 
@@ -320,11 +339,10 @@ class ApiQueryRevisions extends ApiQueryBase {
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'USE INDEX', $index );
 
-		$data = array();
 		$count = 0;
 		$res = $this->select( __METHOD__ );
 
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 				if ( !$enumRevMode ) {
@@ -334,7 +352,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 				break;
 			}
 
-			//
 			$fit = $this->addPageSubItem( $row->rev_page, $this->extractRowInfo( $row ), 'rev' );
 			if ( !$fit ) {
 				if ( $enumRevMode ) {
@@ -348,7 +365,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 				break;
 			}
 		}
-		$db->freeResult( $res );
 	}
 
 	private function extractRowInfo( $row ) {
@@ -368,13 +384,20 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$vals['minor'] = '';
 		}
 
-		if ( $this->fld_user ) {
+		if ( $this->fld_user || $this->fld_userid ) {
 			if ( $revision->isDeleted( Revision::DELETED_USER ) ) {
 				$vals['userhidden'] = '';
 			} else {
-				$vals['user'] = $revision->getUserText();
-				if ( !$revision->getUser() ) {
+				if ( $this->fld_user ) {
+					$vals['user'] = $revision->getUserText();
+				}
+				$userid = $revision->getUser();
+				if ( !$userid ) {
 					$vals['anon'] = '';
+				}
+
+				if ( $this->fld_userid ) {
+					$vals['userid'] = $userid;
 				}
 			}
 		}
@@ -392,15 +415,14 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$vals['commenthidden'] = '';
 			} else {
 				$comment = $revision->getComment();
-				if ( strval( $comment ) !== '' ) {
-					if ( $this->fld_comment ) {
-						$vals['comment'] = $comment;
-					}
 
-					if ( $this->fld_parsedcomment ) {
-						global $wgUser;
-						$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( $comment, $title );
-					}
+				if ( $this->fld_comment ) {
+					$vals['comment'] = $comment;
+				}
+
+				if ( $this->fld_parsedcomment ) {
+					global $wgUser;
+					$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( $comment, $title );
 				}
 			}
 		}
@@ -428,8 +450,8 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 
 		$text = null;
+		global $wgParser;
 		if ( $this->fld_content || !is_null( $this->difftotext ) ) {
-			global $wgParser;
 			$text = $revision->getText();
 			// Expand templates after getting section content because
 			// template-added sections don't count and Parser::preprocess()
@@ -453,8 +475,31 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$vals['parsetree'] = $xml;
 
 			}
-			if ( $this->expandTemplates ) {
+			if ( $this->expandTemplates && !$this->parseContent ) {
 				$text = $wgParser->preprocess( $text, $title, new ParserOptions() );
+			}
+			if ( $this->parseContent ) {
+				global $wgEnableParserCache;
+			
+				$popts = new ParserOptions();
+				$popts->setTidy( true );
+				
+				$articleObj = new Article( $title );
+
+				$p_result = false;
+				$pcache = ParserCache::singleton();
+				if ( $wgEnableParserCache ) {
+					$p_result = $pcache->get( $articleObj, $popts );
+				}
+				if ( !$p_result ) {
+					$p_result = $wgParser->parse( $text, $title, $popts );
+
+					if ( $wgEnableParserCache ) {
+						$pcache->save( $p_result, $articleObj, $popts );
+					}
+				}
+				
+				$text = $p_result->getText();
 			}
 			ApiResult::setContent( $vals, $text );
 		} elseif ( $this->fld_content ) {
@@ -486,6 +531,17 @@ class ApiQueryRevisions extends ApiQueryBase {
 		return $vals;
 	}
 
+	public function getCacheMode( $params ) {
+		if ( isset( $params['token'] ) ) {
+			return 'private';
+		}
+		if ( !is_null( $params['prop'] ) && in_array( 'parsedcomment', $params['prop'] ) ) {
+			// formatComment() calls wfMsg() among other things
+			return 'anon-public-user-private';
+		}
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'prop' => array(
@@ -496,6 +552,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 					'flags',
 					'timestamp',
 					'user',
+					'userid',
 					'size',
 					'comment',
 					'parsedcomment',
@@ -537,6 +594,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 			'tag' => null,
 			'expandtemplates' => false,
 			'generatexml' => false,
+			'parse' => false,
 			'section' => null,
 			'token' => array(
 				ApiBase::PARAM_TYPE => array_keys( $this->getTokenFunctions() ),
@@ -549,8 +607,21 @@ class ApiQueryRevisions extends ApiQueryBase {
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
-			'prop' => 'Which properties to get for each revision.',
+			'prop' => array(
+				'Which properties to get for each revision:',
+				' ids            - The ID of the revision',
+				' flags          - Revision flags (minor)',
+				' timestamp      - The timestamp of the revision',
+				' user           - User that made the revision',
+				' userid         - User id of revision creator',
+				' size           - Length of the revision',
+				' comment        - Comment by the user for revision',
+				' parsedcomment  - Parsed comment by the user for the revision',
+				' content        - Text of the revision',
+				' tags           - Tags for the revision',
+			),
 			'limit' => 'Limit how many revisions will be returned (enum)',
 			'startid' => 'From which revision id to start enumeration (enum)',
 			'endid' => 'Stop revision enumeration on this revid (enum)',
@@ -561,25 +632,26 @@ class ApiQueryRevisions extends ApiQueryBase {
 			'excludeuser' => 'Exclude revisions made by user',
 			'expandtemplates' => 'Expand templates in revision content',
 			'generatexml' => 'Generate XML parse tree for revision content',
-			'section' => 'Only retrieve the content of this section',
+			'parse' => 'Parse revision content. For performance reasons if this option is used, rvlimit is enforced to 1.',
+			'section' => 'Only retrieve the content of this section number',
 			'token' => 'Which tokens to obtain for each revision',
 			'continue' => 'When more results are available, use this to continue',
 			'diffto' => array( 'Revision ID to diff each revision to.',
-				'Use "prev", "next" and "cur" for the previous, next and current revision respectively.' ),
+				'Use "prev", "next" and "cur" for the previous, next and current revision respectively' ),
 			'difftotext' => array( 'Text to diff each revision to. Only diffs a limited number of revisions.',
-				'Overrides diffto. If rvsection is set, only that section will be diffed against this text.' ),
+				"Overrides {$p}diffto. If {$p}section is set, only that section will be diffed against this text" ),
 			'tag' => 'Only list revisions tagged with this tag',
 		);
 	}
 
 	public function getDescription() {
 		return array(
-			'Get revision information.',
+			'Get revision information',
 			'This module may be used in several ways:',
-			' 1) Get data about a set of pages (last revision), by setting titles or pageids parameter.',
-			' 2) Get revisions for one given page, by using titles/pageids with start/end/limit params.',
-			' 3) Get data about a set of revisions by setting their IDs with revids parameter.',
-			'All parameters marked as (enum) may only be used with a single page (#2).'
+			' 1) Get data about a set of pages (last revision), by setting titles or pageids parameter',
+			' 2) Get revisions for one given page, by using titles/pageids with start/end/limit params',
+			' 3) Get data about a set of revisions by setting their IDs with revids parameter',
+			'All parameters marked as (enum) may only be used with a single page (#2)'
 		);
 	}
 
