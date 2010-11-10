@@ -6,8 +6,9 @@
  * @ingroup Skins
  */
 
-if( !defined( 'MEDIAWIKI' ) )
+if( !defined( 'MEDIAWIKI' ) ) {
 	die( -1 );
+}
 
 /**
  * @todo document
@@ -40,10 +41,14 @@ class SkinNostalgia extends Skin {
 		$s .= $this->pageTitleLinks();
 
 		$ol = $this->otherLanguages();
-		if( $ol ) $s .= '<br />' . $ol;
+		if( $ol ) {
+			$s .= '<br />' . $ol;
+		}
 
 		$cat = $this->getCategoryLinks();
-		if( $cat ) $s .= '<br />' . $cat;
+		if( $cat ) {
+			$s .= '<br />' . $cat;
+		}
 
 		$s .= "<br clear='all' /></div><hr />\n</div>\n";
 		$s .= "\n<div id='article'>";
@@ -52,11 +57,11 @@ class SkinNostalgia extends Skin {
 	}
 
 	function topLinks() {
-		global $wgOut, $wgUser, $wgEnableUploads;
+		global $wgOut, $wgUser;
 		$sep = " |\n";
 
 		$s = $this->mainPageLink() . $sep
-		  . $this->specialLink( 'recentchanges' );
+		  . $this->specialLink( 'Recentchanges' );
 
 		if ( $wgOut->isArticle() ) {
 			$s .= $sep . '<strong>' . $this->editThisPage() . '</strong>' . $sep . $this->historyLink();
@@ -66,9 +71,8 @@ class SkinNostalgia extends Skin {
 		$s .= $this->variantLinks();
 		$s .= $this->extensionTabLinks();
 		if ( $wgUser->isAnon() ) {
-			$s .= $sep . $this->specialLink( 'userlogin' );
+			$s .= $sep . $this->specialLink( 'Userlogin' );
 		} else {
-			$name = $wgUser->getName();
 			/* show user page and user talk links */
 			$s .= $sep . $this->link( $wgUser->getUserPage(), wfMsgHtml( 'mypage' ) );
 			$s .= $sep . $this->link( $wgUser->getTalkPage(), wfMsgHtml( 'mytalk' ) );
@@ -76,19 +80,20 @@ class SkinNostalgia extends Skin {
 				$s .= ' *';
 			}
 			/* show watchlist link */
-			$s .= $sep . $this->specialLink( 'watchlist' );
+			$s .= $sep . $this->specialLink( 'Watchlist' );
 			/* show my contributions link */
 			$s .= $sep . $this->link(
 				SpecialPage::getSafeTitleFor( 'Contributions', $wgUser->getName() ),
 				wfMsgHtml( 'mycontris' ) );
 			/* show my preferences link */
-			$s .= $sep . $this->specialLink( 'preferences' );
+			$s .= $sep . $this->specialLink( 'Preferences' );
 			/* show upload file link */
-			if ( $wgEnableUploads ) {
-				$s .= $sep . $this->specialLink( 'upload' );
+			if( UploadBase::isEnabled() && UploadBase::isAllowed( $wgUser ) === true ) {
+				$s .= $sep . $this->getUploadLink();
 			}
+
 			/* show log out link */
-			$s .= $sep . $this->specialLink( 'userlogout' );
+			$s .= $sep . $this->specialLink( 'Userlogout' );
 		}
 
 		$s .= $sep . $this->specialPagesList();
@@ -104,8 +109,8 @@ class SkinNostalgia extends Skin {
 		$s .= $this->bottomLinks();
 		$s .= "\n<br />" . $this->pageStats();
 		$s .= "\n<br />" . $this->mainPageLink()
-		  . " | " . $this->aboutLink()
-		  . " | " . $this->searchForm();
+				. ' | ' . $this->aboutLink()
+				. ' | ' . $this->searchForm();
 
 		$s .= "\n</div>\n</div>\n";
 

@@ -80,7 +80,7 @@ let find = function
     | "\\Gamma"            -> LITERAL (HTMLABLEC (FONT_UF, "\\Gamma ", "&Gamma;"))
     | "\\delta"            -> LITERAL (HTMLABLEC (FONT_UF,  "\\delta ", "&delta;"))
     | "\\Delta"            -> LITERAL (HTMLABLEC (FONT_UF, "\\Delta ", "&Delta;"))
-    | "\\epsilon"          -> LITERAL (HTMLABLEC (FONT_UF,  "\\epsilon ", "&epsilon;"))
+    | "\\epsilon"          -> LITERAL (TEX_ONLY "\\epsilon ")
     | "\\Epsilon"          -> (tex_use_ams (); LITERAL (HTMLABLEC (FONT_UF,
     "\\mathrm{E}", "&Epsilon;")))
     | "\\varepsilon"       -> LITERAL (TEX_ONLY "\\varepsilon ")
@@ -119,7 +119,7 @@ let find = function
     | "\\Rho"              -> (tex_use_ams (); LITERAL (HTMLABLEC (FONT_UF,
     "\\mathrm{P}", "&Rho;")))
     | "\\varrho"           -> LITERAL (TEX_ONLY "\\varrho ")
-    | "\\sim"              -> LITERAL (HTMLABLEC (FONT_UF,  "\\sim ", "&tilde;"))
+    | "\\sim"              -> LITERAL (HTMLABLEC (FONT_UF,  "\\sim ", "&sim;"))
     | "\\sigma"            -> LITERAL (HTMLABLEC (FONT_UF,  "\\sigma ", "&sigma;"))
     | "\\Sigma"            -> LITERAL (HTMLABLEC (FONT_UF, "\\Sigma ", "&Sigma;"))
     | "\\varsigma"         -> LITERAL (TEX_ONLY "\\varsigma ")
@@ -128,7 +128,7 @@ let find = function
     "\\mathrm{T}", "&Tau;")))
     | "\\upsilon"          -> LITERAL (HTMLABLEC (FONT_UF,  "\\upsilon ", "&upsilon;"))
     | "\\Upsilon"          -> LITERAL (HTMLABLEC (FONT_UF, "\\Upsilon ", "&Upsilon;"))
-    | "\\phi"              -> LITERAL (HTMLABLEC (FONT_UF,  "\\phi ", "&phi;"))
+    | "\\phi"              -> LITERAL (TEX_ONLY "\\phi ")
     | "\\Phi"              -> LITERAL (HTMLABLEC (FONT_UF, "\\Phi ", "&Phi;"))
     | "\\varphi"           -> LITERAL (TEX_ONLY "\\varphi ")
     | "\\chi"              -> LITERAL (HTMLABLEC (FONT_UF,  "\\chi ", "&chi;"))
@@ -409,6 +409,10 @@ let find = function
     | "\\mod"              -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UFH,"\\mod ", "mod")))
     | "\\Diamond"          -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\Diamond ", "&loz;")))
     | "\\dotsb"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\dotsb ", "&sdot;&sdot;&sdot;")))
+    | "\\dotsc"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\dotsc ", "...")))
+    | "\\dotsi"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\dotsi ", "&sdot;&sdot;&sdot;")))
+    | "\\dotsm"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\dotsm ", "&sdot;&sdot;&sdot;")))
+    | "\\dotso"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UF, "\\dotso ", "...")))
     | "\\reals"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UFH,"\\mathbb{R}", "<b>R</b>")))
     | "\\Reals"            -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UFH,"\\mathbb{R}", "<b>R</b>")))
     | "\\R"                -> (tex_use_ams (); LITERAL (HTMLABLE (FONT_UFH,"\\mathbb{R}", "<b>R</b>")))
@@ -481,7 +485,7 @@ let find = function
     | "\\underbrace"       -> LITERAL (TEX_ONLY "\\underbrace ")
     | "\\overleftarrow"    -> LITERAL (TEX_ONLY "\\overleftarrow ")
     | "\\overrightarrow"   -> LITERAL (TEX_ONLY "\\overrightarrow ")
-    | "\\overleftrightarrow"->LITERAL (TEX_ONLY "\\overleftrightarrow ")
+    | "\\overleftrightarrow"-> (tex_use_ams(); LITERAL (TEX_ONLY "\\overleftrightarrow "))
     | "\\check"            -> FUN_AR1 "\\check "
     | "\\acute"            -> FUN_AR1 "\\acute "
     | "\\grave"            -> FUN_AR1 "\\grave "
@@ -508,12 +512,15 @@ let find = function
     | "\\over"             -> FUN_INFIXh ("\\over ", fun num den -> Html.html_render num, "<hr style=\"{background: black}\"/>", Html.html_render den)
     | "\\sqrt"             -> FUN_AR1 "\\sqrt "
     | "\\cancel"           -> FUN_AR1 "\\cancel "
+    | "\\bcancel"           -> FUN_AR1 "\\bcancel "
+    | "\\xcancel"           -> FUN_AR1 "\\xcancel "
     | "\\cancelto"         -> FUN_AR2 "\\cancelto "
     | "\\pmod"             -> FUN_AR1hl ("\\pmod ", ("(mod ", ")"))
     | "\\bmod"             -> FUN_AR1hl ("\\bmod ", ("mod ", ""))
     | "\\emph"             -> FUN_AR1 "\\emph "
     | "\\texttt"           -> FUN_AR1 "\\texttt "
     | "\\textbf"           -> FUN_AR1 "\\textbf "
+    | "\\textsf"           -> FUN_AR1 "\\textsf "
     | "\\textit"           -> FUN_AR1hf ("\\textit ", FONTFORCE_IT)
     | "\\textrm"           -> FUN_AR1hf ("\\textrm ", FONTFORCE_RM)
     | "\\rm"               -> DECLh ("\\rm ", FONTFORCE_RM)
@@ -726,6 +733,7 @@ let find = function
     | "\\mathsf"           -> (tex_use_ams (); FUN_AR1 "\\mathsf ")
     | "\\mathcal"          -> (tex_use_ams (); FUN_AR1 "\\mathcal ")
     | "\\mathbb"           -> (tex_use_ams (); FUN_AR1 "\\mathbb ")
+    | "\\mathtt"           -> (tex_use_ams (); FUN_AR1 "\\mathtt ")
     | "\\mathfrak"         -> (tex_use_ams (); FUN_AR1 "\\mathfrak ")
     | "\\operatorname"     -> (tex_use_ams (); FUN_AR1 "\\operatorname ")
     | "\\text"             -> raise (Failure "malformatted \\text")
@@ -733,4 +741,6 @@ let find = function
     | "\\vbox"             -> raise (Failure "malformatted \\vbox")
     | "\\hbox"             -> raise (Failure "malformatted \\hbox")
     | "\\color"            -> (tex_use_color (); LITERAL (TEX_ONLY "\\color"))
+    | "\\pagecolor"        -> (tex_use_color (); LITERAL (TEX_ONLY "\\pagecolor"))
+    | "\\definecolor"      -> (tex_use_color (); LITERAL (TEX_ONLY "\\definecolor"))
     | s                    -> raise (Illegal_tex_function s)

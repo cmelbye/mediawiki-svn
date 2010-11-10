@@ -107,8 +107,8 @@ table.filehistory th {
 }
 
 .portlet ul {
-        margin: 0 1.5em 0 0;
-        padding: 0 0 0 0;
+	margin: 0 1.5em 0 0;
+	padding: 0 0 0 0;
 }
 
 .portlet h5 {
@@ -154,9 +154,9 @@ html > body div#mw_contentholder ul#filetoc {
 /* Special:Allpages styling */
 td.mw-allpages-nav, p.mw-allpages-nav, td.mw-allpages-alphaindexline {
 	text-align: left;
-
-/* Special:Prefixindex styling */
-td#mw-prefixindex-nav-form  {
-	text-align: left;
 }
 
+/* Special:PrefixIndex styling */
+td#mw-prefixindex-nav-form {
+	text-align: left;
+}

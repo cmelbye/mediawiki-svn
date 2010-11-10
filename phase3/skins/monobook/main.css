@@ -9,22 +9,22 @@
 ** All you guys rock :)
 */
 
-#column-content {
+div#column-content {
 	width: 100%;
 	float: right;
 	margin: 0 0 .6em -12.2em;
 	padding: 0;
 }
-#content {
+div#content {
 	margin: 2.8em 0 0 12.2em;
 	padding: 0 1em 1em 1em;
 	position: relative;
 	z-index: 2;
 }
-#column-one {
+div#column-one {
 	padding-top: 160px;
 }
-#content {
+div#content {
 	background: white;
 	color: black;
 	border: 1px solid #aaa;
@@ -41,14 +41,17 @@
 
 body {
 	font: x-small sans-serif;
+	/* @embed */
 	background: #f9f9f9 url(headbg.jpg) 0 0 no-repeat;
 	color: black;
 	margin: 0;
 	padding: 0;
+	direction: ltr; /* Needed for RTL flipping */
+	unicode-bidi: embed;
 }
 
 /* scale back up to a sane default */
-#globalWrapper {
+div#globalWrapper {
 	font-size: 127%;
 	width: 100%;
 	margin: 0;
@@ -86,7 +89,7 @@ a.stub {
 	color: #772233;
 }
 a.new, #p-personal a.new {
-	color: #ba0000;
+	color: #cc2200;
 }
 a.new:visited, #p-personal a.new:visited {
 	color: #a55858;
@@ -135,7 +138,7 @@ h4 { font-size: 116%; }
 h4 .editsection { font-size: 86%; font-weight: normal; }
 h5 { font-size: 100%; }
 h5 .editsection { font-weight: normal; }
-h6 { font-size: 80%;  }
+h6 { font-size: 80%; }
 h6 .editsection { font-size: 125%; font-weight: normal; }
 
 ul {
@@ -143,6 +146,7 @@ ul {
 	list-style-type: square;
 	margin: .3em 0 0 1.5em;
 	padding: 0;
+	/* @embed */
 	list-style-image: url(bullet.gif);
 }
 ol {
@@ -376,6 +380,7 @@ table.small {
 }
 
 /* images */
+/* @noflip */
 div.floatright, table.floatright {
 	clear: right;
 	float: right;
@@ -388,6 +393,7 @@ div.floatright, table.floatright {
 */
 }
 div.floatright p { font-style: italic; }
+/* @noflip */
 div.floatleft, table.floatleft {
 	float: left;
 	clear: left;
@@ -436,11 +442,13 @@ div.magnify a, div.magnify img {
 	border: none !important;
 	background: none !important;
 }
+/* @noflip */
 div.tright {
 	clear: right;
 	float: right;
 	border-width: .5em 0 .8em 1.4em;
 }
+/* @noflip */
 div.tleft {
 	float: left;
 	clear: left;
@@ -492,36 +500,38 @@ table.rimage {
 */
 #bodyContent a.external,
 #bodyContent a.external[href ^="gopher://"] {
-	background: url(external.png) center right no-repeat;
-	padding: 0 13px;
-}
-.rtl #bodyContent a.external,
-.rtl #bodyContent a.external[href ^="gopher://"] {
-	background-image: url(external-rtl.png);
+	/* @embed */
+	background: url(external-ltr.png) center right no-repeat;
+	padding-right: 13px;
 }
 #bodyContent a.external[href ^="https://"],
 .link-https {
+	/* @embed */
 	background: url(lock_icon.gif) center right no-repeat;
-	padding: 0 16px;
+	padding-right: 16px;
 }
 #bodyContent a.external[href ^="mailto:"],
 .link-mailto {
+	/* @embed */
 	background: url(mail_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="news://"] {
+	/* @embed */
 	background: url(news_icon.png) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="ftp://"],
 .link-ftp {
+	/* @embed */
 	background: url(file_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="irc://"],
 .link-irc {
+	/* @embed */
 	background: url(discussionitem_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href $=".ogg"], #bodyContent a.external[href $=".OGG"],
 #bodyContent a.external[href $=".mid"], #bodyContent a.external[href $=".MID"],
@@ -530,39 +540,26 @@ table.rimage {
 #bodyContent a.external[href $=".wav"], #bodyContent a.external[href $=".WAV"],
 #bodyContent a.external[href $=".wma"], #bodyContent a.external[href $=".WMA"],
 .link-audio {
+	/* @embed */
 	background: url("audio.png") center right no-repeat;
-	padding: 0 13px;
+	padding-right: 13px;
 }
 #bodyContent a.external[href $=".ogm"], #bodyContent a.external[href $=".OGM"],
 #bodyContent a.external[href $=".avi"], #bodyContent a.external[href $=".AVI"],
 #bodyContent a.external[href $=".mpeg"], #bodyContent a.external[href $=".MPEG"],
 #bodyContent a.external[href $=".mpg"], #bodyContent a.external[href $=".MPG"],
 .link-video {
+	/* @embed */
 	background: url("video.png") center right no-repeat;
-	padding: 0 13px;
+	padding-right: 13px;
 }
 #bodyContent a.external[href $=".pdf"], #bodyContent a.external[href $=".PDF"],
 #bodyContent a.external[href *=".pdf#"], #bodyContent a.external[href *=".PDF#"],
 #bodyContent a.external[href *=".pdf?"], #bodyContent a.external[href *=".PDF?"],
 .link-document {
+	/* @embed */
 	background: url("document.png") center right no-repeat;
-	padding: 0 12px;
-}
-
-/* for rtl wikis */
-.rtl #bodyContent a.external {
-	background-position: left;
-	padding-right: 0;
-}
-.rtl a.feedlink {
-	background-position: right;
-	padding-right: 16px;
-	padding-left: 0;
-}
-
-/* correction for ltr wikis */
-.ltr #bodyContent a.external {
-	padding-left: 0;
+	padding-right: 12px;
 }
 
 /* disable interwiki styling */
@@ -587,6 +584,15 @@ table.rimage {
 	float: none;
 	width: 11.6em;
 	overflow: hidden;
+}
+html > body .portlet {
+	float: left;
+	clear: left;
+}
+/* recover IEMac (might be fine with the float, but usually it's close to IE */
+*>body .portlet {
+	float: none;
+	clear: none;
 }
 .portlet h4 {
 	font-size: 95%;
@@ -633,6 +639,7 @@ table.rimage {
 .portlet ul {
 	line-height: 1.5em;
 	list-style-type: square;
+	/* @embed */
 	list-style-image: url(bullet.gif);
 	font-size: 95%;
 }
@@ -769,6 +776,7 @@ in bg url to hide it from iemac */
 li#pt-userpage,
 li#pt-anonuserpage,
 li#pt-login {
+	/* @embed */
 	background: url(user.gif) top left no-repeat;
 	padding-left: 20px;
 	text-transform: none;
@@ -826,7 +834,6 @@ li#pt-login {
 }
 #p-cactions li.selected a {
 	z-index: 3;
-	padding: 0 1em .2em!important;
 	background-color: white;
 }
 #p-cactions .new a {
@@ -894,7 +901,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 /*
 ** footer
 */
-#footer {
+div#footer {
 	background-color: white;
 	border-top: 1px solid #fabd23;
 	border-bottom: 1px solid #fabd23;
@@ -903,7 +910,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 	text-align: center;
 	font-size: 90%;
 }
-#footer li {
+div#footer li {
 	display: inline;
 	margin: 0 1.3em;
 }
@@ -991,7 +998,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 }
 
 .prefsection legend {
-	font-weight: bold;   
+	font-weight: bold;
 }
 .prefsection table, .prefsection legend {
 	background-color: #F9F9F9;
@@ -1015,8 +1022,53 @@ td.htmlform-tip {
 	margin-top: 2em;
 }
 
+div#userloginForm form,
+div#userlogin form#userlogin2 {
+	margin: 0 3em 1em 0;
+	border: 1px solid #aaa;
+	clear: both;
+	padding: 1.5em 2em;
+	background-color: #f9f9f9;
+	float: left;
+}
+
+div#userloginForm table,
+div#userlogin form#userlogin2 table {
+	background-color: #f9f9f9;
+}
+
+div#userloginForm h2,
+div#userlogin form#userlogin2 h2 {
+	padding-top: 0;
+}
+
+div#userlogin .captcha,
+div#userloginForm .captcha {
+	border: 1px solid #bbb;
+	padding: 1.5em 2em;
+	background-color: white;
+}
+
+#loginend, #signupend {
+	clear: both;
+}
+
 #userloginprompt, #languagelinks {
 	font-size: 85%;
+}
+
+#login-sectiontip {
+	font-size: 85%;
+	line-height: 1.2;
+	padding-top: 2em;
+}
+
+#userlogin .loginText, #userlogin .loginPassword {
+	width: 12em;
+}
+
+#userloginlink a, #wpLoginattempt, #wpCreateaccount {
+	font-weight: bold;
 }
 
 /*
@@ -1043,8 +1095,8 @@ td.htmlform-tip {
 
 /* more IE fixes */
 /* float/negative margin brokenness */
-* html #footer {margin-top: 0;}
-* html #column-content {
+* html div#footer {margin-top: 0;}
+* html div#column-content {
 	display: inline;
 	margin-bottom: 0;
 }
@@ -1052,15 +1104,15 @@ td.htmlform-tip {
 #pagehistory li.selected { position: relative; }
 
 /* Mac IE 5.0 fix; floated content turns invisible */
-* > html #column-content {
+* > html div#column-content {
 	float: none;
 }
-* > html #column-one {
+* > html div#column-one {
 	position: absolute;
 	left: 0;
 	top: 0;
 }
-* > html #footer {
+* > html div#footer {
 	margin-left: 13.2em;
 }
 .redirectText {
@@ -1071,7 +1123,6 @@ td.htmlform-tip {
 .printfooter {
 	display: none;
 }
-
 
 div.patrollink {
 	clear: both;
@@ -1084,16 +1135,6 @@ div.patrollink {
 span.updatedmarker {
 	color: black;
 	background-color: #0f0;
-}
-
-.previewnote {
-	color: #c00;
-	margin-bottom: 1em;
-}
-
-.previewnote p {
-	text-indent: 3em;
-	margin: 0.8em 0;
 }
 
 .editExternally {
@@ -1115,10 +1156,6 @@ span.updatedmarker {
 	text-indent: -2em;
 }
 
-input#wpSummary {
-	width: 80%;
-}
-
 /* @bug 1714 */
 input#wpSave, input#wpDiff {
 	margin-right: 0.33em;
@@ -1126,30 +1163,6 @@ input#wpSave, input#wpDiff {
 
 #wpSave {
 	font-weight: bold;
-}
-
-/* Classes for article validation */
-
-table.revisionform_default {
-	border: 1px solid #000000;
-}
-
-table.revisionform_focus {
-	border: 1px solid #000000;
-	background-color:#00BBFF;
-}
-
-tr.revision_tr_default {
-	background-color:#EEEEEE;
-}
-
-tr.revision_tr_first {
-	background-color:#DDDDDD;
-}
-
-p.revision_saved {
-	color: green;
-	font-weight:bold;
 }
 
 /* noarticletext */
@@ -1195,24 +1208,24 @@ div#searchTargetHide {
 }
 
 div.multipageimagenavbox {
-   border: solid 1px silver;
-   padding: 4px;
-   margin: 1em;
-   background: #f0f0f0;
+	border: solid 1px silver;
+	padding: 4px;
+	margin: 1em;
+	background: #f0f0f0;
 }
 
 div.multipageimagenavbox div.thumb {
-   border: none;
-   margin-left: 2em;
-   margin-right: 2em;
+	border: none;
+	margin-left: 2em;
+	margin-right: 2em;
 }
 
 div.multipageimagenavbox hr {
-   margin: 6px;
+	margin: 6px;
 }
 
 table.multipageimage td {
-   text-align: center;
+	text-align: center;
 }
 
 .templatesUsed { margin-top: 1.5em; }
