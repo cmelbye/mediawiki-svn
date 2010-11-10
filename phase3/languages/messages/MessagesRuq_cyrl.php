@@ -140,7 +140,7 @@ $messages = array(
 'yourname'                => 'Ном дутилизатору:',
 'login'                   => 'Приласнаере',
 'nav-login-createaccount' => 'Приласнаере / Нажбе',
-'userlogin'               => 'Приласнаере',
+'userlogin'               => 'Приласнаере / креаре нутилизатору',
 'userlogout'              => 'отластаере',
 
 # Edit page toolbar
@@ -192,7 +192,6 @@ $messages = array(
 'editundo'                => 'анулизаје',
 
 # Search results
-'noexactmatch'   => "'''Нпажу вец лном \"\$1\" н-ќсистст.''' Путе [[:\$1|креаре це пажу]].",
 'viewprevnext'   => 'Ву ($1 {{int:pipe-separator}} $2) ($3)',
 'searchhelp-url' => 'Help:Ајутор',
 'powersearch'    => 'каутај авансата',
@@ -255,11 +254,10 @@ $3',
 'allpagessubmit' => 'Треме',
 
 # Watchlist
-'watchlist'    => 'Мај клајаеру',
-'mywatchlist'  => 'Мај клајаере',
-'watchlistfor' => "(пентру '''$1''')",
-'watch'        => 'клајаере',
-'unwatch'      => 'Деклајаера',
+'watchlist'   => 'Мај клајаеру',
+'mywatchlist' => 'Мај клајаере',
+'watch'       => 'клајаере',
+'unwatch'     => 'Деклајаера',
 
 # Displayed when you click the "watch" button and it is in the process of watching
 'watching'   => 'О клајаере...',

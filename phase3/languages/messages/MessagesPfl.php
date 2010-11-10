@@ -9,6 +9,7 @@
  *
  * @author Als-Holder
  * @author SPS
+ * @author Xqt
  */
 
 $fallback = 'de';
@@ -175,10 +176,10 @@ S kann sai, dass es ää orrer meh Zaiche drin hot, wu in Sairetitel nid därfe 
 # Login and logout pages
 'yourname'                => 'Benutzername:',
 'yourpassword'            => 'Passwort:',
-'remembermypassword'      => 'Mai Passwort uff dem Computer merke',
+'remembermypassword'      => 'Mai Passwort uff dem Computer merke (hechschtens fer $1 {{PLURAL:$1|Dach|Dach}})',
 'login'                   => 'Omelde',
 'nav-login-createaccount' => 'Aamelde / Benutzerkonto aaleche',
-'userlogin'               => 'Omelde',
+'userlogin'               => 'Omelde / Benutzerkonto anleche',
 'logout'                  => 'Abmelde',
 'userlogout'              => 'Abmelde',
 'nologinlink'             => 'E Benutzerkonto aaleche',
@@ -217,10 +218,10 @@ S kann sai, dass es ää orrer meh Zaiche drin hot, wu in Sairetitel nid därfe 
 'anoneditwarning'                  => "'''Warnung:''' Du bischt nit aagemeldt. Dai IP-Adress werd in de Gschicht vun dem Artikel gspaichert.",
 'summary-preview'                  => 'Zammefassung:',
 'newarticle'                       => '(Nai)',
-'newarticletext'                   => "Du bisch eme Link nogange zu re Said, wu s no gar nit gebbt.  
+'newarticletext'                   => "Du bisch eme Link nogange zu re Said, wu s no gar nit gebbt.
 Zum die Said aaleche, kannscht do in dem Käschtel unne aafange mid schraiwe (guck[[{{MediaWiki:Helppage}}|Hilfe]] fer meh Informatione).
 Wenn do nid hin hoscht welle, no druck in Daim Browser uff '''Zrick'''.",
-'noarticletext'                    => 'Uff derre Said gebbt s noch ken Text. Du kannscht uff annere Saire [[Special:Search/{{PAGENAME}}|den Aitrach suche]], <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{urlencode:{{FULLPAGENAME}}}}}} de Logbuchaidrach suche, wu dezu ghert],
+'noarticletext'                    => 'Uff derre Said gebbt s noch ken Text. Du kannscht uff annere Saire [[Special:Search/{{PAGENAME}}|den Aitrach suche]], <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} de Logbuchaidrach suche, wu dezu ghert],
 orrer [{{fullurl:{{FULLPAGENAME}}|action=edit}} die Said bearwaide]</span>.',
 'previewnote'                      => "'''Denk dran, dass des numme e Vorschau isch.'''
 Dai Ännerunge sinn no nid gspaichert worre!",
@@ -230,8 +231,8 @@ Dai Ännerunge sinn no nid gspaichert worre!",
 Wenn du nit willhsct, dass deswu du gschriwwe hoscht, gänneret un kopiert werre kann, dann duu s do nit naischraiwe.<br />
 du gebbscht do au zu, dass Du des selwerscht gschriwwe hoscht orrer vun ere effentliche, fraie Quell ('''public domain''')orrer vun ere ähnliche fraie Quell her hoscht.
 '''SCHRAIB DO NIX NAI, WAS URHEWERRECHTKLICH GSCHITZT ISCH!'''",
-'templatesused'                    => 'Vorlache wu uff derre Said gebraucht werre:',
-'templatesusedpreview'             => 'Vorlache wu in derre Vorschau gebraucht werre:',
+'templatesused'                    => '{{PLURAL:$1|Vorlach wu uff derre Said gebraucht werd|Vorlache wu uff derre Said gebraucht werre}}:',
+'templatesusedpreview'             => '{{PLURAL:$1|Vorlach wu in derre Vorschau gebraucht werd|Vorlache wu in derre Vorschau gebraucht werre}}:',
 'template-protected'               => '(gschitzt)',
 'template-semiprotected'           => '(halb-gschitzt)',
 'hiddencategories'                 => 'Die Said ghert zu {{PLURAL:$1|1 versteckelte Kategorie|$1 versteckelte Kategorie}}:',
@@ -257,7 +258,7 @@ Erklärung: '''({{int:cur}})''' = Unnerschied zu jetzert,
 
 # Revision deletion
 'rev-delundel'     => 'zaich/versteckel',
-'revdelete-submit' => 'Uff die aussgewählt Version owende',
+'revdelete-submit' => 'Uff die aussgewählt {{PLURAL:$1|Version|Versione}} owende',
 'revdel-restore'   => 'Sichtbarkeit ännere',
 
 # Merge log
@@ -276,9 +277,6 @@ Erklärung: '''({{int:cur}})''' = Unnerschied zu jetzert,
 'searchresulttext'          => 'Fer mehr Informatione iwwer d Such in {{SITENAME}}, guck emol uff [[{{MediaWiki:Helppage}}|{{int:help}}]].',
 'searchsubtitle'            => 'Du hoscht no \'\'\'[[:$1]]\'\'\' gesucht ([[Special:Prefixindex/$1|alle Saire wo mit "$1" aafange]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|alle Saire wo uf "$1" verlinkt sin]])',
 'searchsubtitleinvalid'     => "Du hoscht '''$1''' gsucht",
-'noexactmatch'              => "'''S gebbd ke Said, wu \"\$1\" hääßt.'''
-Du kannscht awwer [[:\$1|die Said aaleche]].",
-'noexactmatch-nocreate'     => "'''S gebbt ke Said, wu \"\$1\" hääßt.'''",
 'notitlematches'            => 'Ken Sairetitel gfunne',
 'notextmatches'             => 'Ken Iwwerainstimmunge mit Inhalte',
 'prevn'                     => 'voriche {{PLURAL:$1|$1}}',
@@ -362,7 +360,6 @@ Saire uff [[Special:Watchlist|Dainer Beowachdungslischt]] sin '''fett'''.",
 # Upload
 'upload'        => 'Hochlade',
 'uploadbtn'     => 'Datei hochlade',
-'reupload'      => 'Widder hochlade',
 'uploadlogpage' => 'Dateie-Logbuch',
 'savefile'      => 'Datei schbeichere',
 'uploadedimage' => 'hot "[[$1]]" hochglare',
@@ -433,7 +430,6 @@ Saire uff [[Special:Watchlist|Dainer Beowachdungslischt]] sin '''fett'''.",
 # Watchlist
 'watchlist'         => 'Beowachdungslischd',
 'mywatchlist'       => 'Mai Beowachdungslischd',
-'watchlistfor'      => "(fer '''$1''')",
 'addedwatch'        => 'Zu de Beowachdungslischt zufieche',
 'addedwatchtext'    => "Die Said \"[[:\$1]]\" isch zu Dainer [[Special:Watchlist|Beowachdungslischt]] zugefiecht worre.
 Zukimftiche Ännerunge an derre Said un de Dischbediersaid, wu dezu ghert, werre doo aagezaicht, un d Said werd '''fett''' aagezaicht in de [[Special:RecentChanges|Letschte Ännerunge]] fer dass es ääfacher isch zum finne.",
@@ -462,7 +458,7 @@ Bitte du bstätiche, dass Du des wllscht du, dass Du verstehsch, was des hääß
 Guck $2 fer e Lischt vun de letschte Leschunge.',
 'deletedarticle'        => 'hot "[[$1]]" glescht',
 'dellogpage'            => 'Leschlogbuch',
-'deletecomment'         => 'Grund fer d Leschung:',
+'deletecomment'         => 'Grund:',
 'deleteotherreason'     => 'Annere/zusätzliche Grund:',
 'deletereasonotherlist' => 'Annere Grund',
 
@@ -473,11 +469,10 @@ Guck $2 fer e Lischt vun de letschte Leschunge.',
 'protectlogpage'              => 'Saireschutz-Logbuch',
 'protectedarticle'            => 'hot "[[$1]]" gschitzt',
 'modifiedarticleprotection'   => 'hot de Schutzstatus vun "[[$1]]" gännert',
-'protectcomment'              => 'Kommentar:',
+'protectcomment'              => 'Grund:',
 'protectexpiry'               => 'Bis:',
 'protect_expiry_invalid'      => 'Zaidraum isch nid gildich.',
 'protect_expiry_old'          => 'Zaidraum licht in de Vergangehääd.',
-'protect-unchain'             => 'Verschiebschutz ännere',
 'protect-text'                => "Du kannscht de Schutzstatus vun de Said '''<nowiki>$1</nowiki>''' aagucke un ännere.",
 'protect-locked-access'       => "Dai Benutzerkonto hot ken Recht zum de Schutzstatus vun ener Said ze ännere.
 Do hot s di aktuelle Aistellunge vun de Said '''$1''':",
@@ -572,7 +567,7 @@ Des isch e wichdiche Ännerung fer e Said un kann ziehmlich unerwartet sai fer w
 bitte mach des numme, wenn Du die Folche vun derre Aktion kannsch abschätze.",
 'movepagetalktext' => "D Dischbediersaid werd ach mid verschowe, '''ausser:'''
 *Du verschiebsch die Saire in e annere Nasmensraum, orrer
-*s gebbt schun e Dischbediersaid mi dem Name, orrer 
+*s gebbt schun e Dischbediersaid mi dem Name, orrer
 *Du wählsch unne d Option, se nid z verschiewe.
 
 In denne Fäll misst mer d Dischbediersaid vun Hand kopiere.",
@@ -581,7 +576,7 @@ In denne Fäll misst mer d Dischbediersaid vun Hand kopiere.",
 'move-watch'       => 'Die Said beowachde',
 'movepagebtn'      => 'Seid verschiewe',
 'pagemovedsub'     => 'Verschiewung hot geklappt',
-'movepage-moved'   => '<big>\'\'\'"$1" isch verschowe worre uff "$2"\'\'\'</big>',
+'movepage-moved'   => '\'\'\'"$1" isch verschowe worre uff "$2"\'\'\'',
 'articleexists'    => 'E Said mid dem Name gebbt s schun, orrer de Name, wu du gewählt hoscht, isch nid gildich.
 Bitte nemm e annere Name.',
 'talkexists'       => "'''Die Said selwerschd, isch verschowe worre, awwer d Dischbediersaid hot nid kenne verschowe werre, wail s schun enni gebbt mid dem Name.
@@ -629,6 +624,7 @@ Du kannscht awwer de Quelltext aagucke',
 'tooltip-search-go'               => 'Geh zu ere Said mit genää dem Namme, wenn s se gebbt',
 'tooltip-search-fulltext'         => 'Such in de Saire noch dem Text',
 'tooltip-n-mainpage'              => 'Uff d Hääptsaid geh',
+'tooltip-n-mainpage-description'  => 'Hauptseide angucke',
 'tooltip-n-portal'                => 'Iwwer s Projekt, was de duu kannscht, wo de ebbes finnscht',
 'tooltip-n-currentevents'         => 'hinnergundsinformatione finne iwwer naie Eraichnis',
 'tooltip-n-recentchanges'         => 'D Lischt vun de letschte Ännerunge in dem Wiki',

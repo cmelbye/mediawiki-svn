@@ -166,7 +166,9 @@ $messages = array(
 'viewsource'           => 'Dikh i sursa',
 
 # Login and logout pages
-'logouttext'                 => 'Akana san avryal i {{SITENAME}}. Shai te labyares {{SITENAME}} sar ekh bijanglo jeno vai shai te prinjares tut palem sar o jeno le kadale navesa vai le aver navesa.',
+'logouttext'                 => "'''Akana san avryal i {{SITENAME}}.'''
+
+Shai te labyares {{SITENAME}} sar ekh bijanglo jeno vai shai te prinjares tut palem sar o jeno le kadale navesa vai le aver navesa.",
 'welcomecreation'            => '== Mishto avilyan, $1! ==
 
 Akana si tuke ekh akont. Te na bistares te paruves, kana trebul tuke, tire kamimata kai {{SITENAME}}.',
@@ -176,7 +178,7 @@ Akana si tuke ekh akont. Te na bistares te paruves, kana trebul tuke, tire kamim
 'externaldberror'            => 'Sas ekh dosh kai datengi baza le avrutne prinjaripnyange vai nai tuke drom te akanutnisares o avrutno akonto.',
 'login'                      => 'Prinjaripen',
 'loginprompt'                => "Trebul te das drom le phandimatenge ''cookie'' te das andre kai {{SITENAME}}.",
-'userlogin'                  => 'Prinjaripen',
+'userlogin'                  => 'Prinjaripen / Ker ek akount',
 'logout'                     => 'De avri',
 'userlogout'                 => 'De avri',
 'nologinlink'                => 'Ker ek akount',
@@ -337,7 +339,6 @@ Kana avilyan kathe doshatar, ja palpale.',
 # Upload
 'upload'      => 'Bichhal file',
 'uploadbtn'   => 'Bichhal file',
-'reupload'    => 'Pale bichhal',
 'filedesc'    => 'Xarno xalyaripen',
 'badfilename' => 'O chitrosko anav sas paruvdo; o nevo anav si "$1".',
 'savefile'    => 'Uxtav file',
@@ -407,7 +408,7 @@ Kana kamesa te khoses kadaya patrin andar tiri lista le patryange so arakhes len
 'actioncomplete'  => 'Agorisardi buti',
 'deletedtext'     => '"<nowiki>$1</nowiki>" sas khosli.
 Dikh ando $2 ek patrinipen le palutne butyange khosle.',
-'deletedarticle'  => '"$1" sas khosli.',
+'deletedarticle'  => '"[[$1]]" sas khosli.',
 
 # Rollback
 'rollback_short' => 'Palemavilipen',

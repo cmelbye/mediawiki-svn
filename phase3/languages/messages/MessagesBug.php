@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Ezagren
  * @author Kurniasan
  */
 
@@ -76,9 +77,6 @@ $messages = array(
 'qbspecialpages' => 'Leppa spésiala',
 'faq'            => 'FAQ',
 'faqpage'        => 'Project:FAQ',
-
-# Metadata in edit box
-'metadata_help' => 'Metadata:',
 
 'errorpagetitle'   => 'Éro',
 'returnto'         => 'Lisu ri $1.',
@@ -176,7 +174,7 @@ $messages = array(
 'yourpassword'            => 'Pasewodo:',
 'login'                   => 'log attama',
 'nav-login-createaccount' => 'Log attama / ebbu akun',
-'userlogin'               => 'Log attama',
+'userlogin'               => 'Log attama / ebbu akun',
 'logout'                  => 'Log essu',
 'userlogout'              => 'Log essu',
 'notloggedin'             => 'Déppa log attama',
@@ -231,30 +229,13 @@ $messages = array(
 'revdelete-hide-text'    => 'Tapoïki text revisië',
 'revdelete-hide-comment' => 'Tapo komentar mapadecéŋ',
 'revdelete-hide-user'    => 'Tapo aseŋ papakéna/IPna papadéceŋë',
-'revdelete-log'          => 'Komentarna logeë:',
+'revdelete-log'          => 'Saba:',
 'revdelete-content'      => 'lise',
 'revdelete-uname'        => 'aseŋ papaké',
 'revdelete-hid'          => 'tapo $1',
 
 # Diffs
-'editundo'             => 'undo',
-'diff-movedto'         => 'naésu ri $1',
-'diff-changedto'       => 'naséllé ri $1',
-'diff-movedoutof'      => 'naéssu polé $1',
-'diff-removed'         => '$1 ripeddéni',
-'diff-changedfrom'     => 'naséllé polé $1',
-'diff-src'             => 'sumber',
-'diff-with'            => '&#32;sibawa $1 $2',
-'diff-with-additional' => '$1 $2',
-'diff-with-final'      => '&#32;na $1 $2',
-'diff-height'          => 'lampé',
-'diff-input'           => "séuwa '''input'''",
-'diff-a'               => "séuwa '''linke'''",
-'diff-i'               => "'''italik'''",
-'diff-b'               => "'''umpek'''",
-'diff-strong'          => "'''terek'''",
-'diff-big'             => "'''loppo'''",
-'diff-del'             => "'''ripeddé'''",
+'editundo' => 'undo',
 
 # Search results
 'searchsubtitle'        => "Masappa iko '''[[:$1]]'''",

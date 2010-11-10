@@ -252,6 +252,15 @@ $messages = array(
 'faq'            => 'ڪپوس',
 'faqpage'        => 'Project:ڪپوس',
 
+# Vector skin
+'vector-action-delete'    => 'ڊاھيو',
+'vector-action-move'      => 'چوريو',
+'vector-action-protect'   => 'تحفظيو',
+'vector-action-unprotect' => 'اڻتحفظيو',
+'vector-view-create'      => 'سرجيو',
+'vector-view-edit'        => 'سنواريو',
+'vector-view-viewsource'  => 'ڪوڊ ڏسو',
+
 'errorpagetitle'    => 'چُڪَ',
 'returnto'          => '$1 ڏانهن وَرو.',
 'tagline'           => '{{SITENAME}} طرفان',
@@ -330,6 +339,9 @@ $messages = array(
 'newmessagesdifflink' => 'آخري تبديلي',
 'editsection'         => 'سنواريو',
 'editold'             => 'سنواريو',
+'viewsourceold'       => 'ڪوڊ ڏسو',
+'editlink'            => 'سنواريو',
+'viewsourcelink'      => 'ڪوڊ ڏسو',
 'editsectionhint'     => 'سنواريو سيڪشن: $1',
 'toc'                 => 'فهرست',
 'showtoc'             => 'ڏيکاريو',
@@ -339,13 +351,14 @@ $messages = array(
 'site-rss-feed'       => '$1 آر ايس ايس روان رسد',
 'site-atom-feed'      => '$1 اڻو روان رسد',
 'page-rss-feed'       => '"$1" RSS برق مواد',
+'page-atom-feed'      => '"$1" اڻو روان رسد',
 'red-link-title'      => '$1 (اڃا لکيل ناهي)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'صفحو',
 'nstab-user'      => 'تعارفي صفحو',
 'nstab-media'     => 'ذريعاتي صفحو',
-'nstab-special'   => 'خاص',
+'nstab-special'   => 'خاص صفحو',
 'nstab-project'   => 'رٿائي صفحو',
 'nstab-image'     => 'فائيل',
 'nstab-mediawiki' => 'نياپو',
@@ -378,11 +391,11 @@ $messages = array(
 # Login and logout pages
 'yourname'                   => 'يُوزرنانءُ:',
 'yourpassword'               => 'ڳجھو لفظ:',
-'remembermypassword'         => 'هن ڳڻپيوڪر تي مون کي ياد رکو',
+'remembermypassword'         => 'هن ڳڻپيوڪر تي مون کي ياد رکو (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                      => 'لاگ اِن',
 'nav-login-createaccount'    => 'لاگ اِن ٿيو / کاتو کوليو',
 'loginprompt'                => '{{SITENAME}} ۾ لاگ اِن ٿيڻ لاءِ ڪوڪيز جي قبوليت لازمي آهي.',
-'userlogin'                  => 'لاگ اِن ٿيو',
+'userlogin'                  => 'لاگ اِن ٿيو / کاتو کوليو',
 'logout'                     => 'لاگ آئوٽ',
 'userlogout'                 => 'لاگ آئوٽ',
 'nologin'                    => "پنهنجو کاتو نه ٿا رکو؟ '''$1'''.",
@@ -449,7 +462,7 @@ $messages = array(
 'missingcommenttext'         => 'براءِ مهرباني هيٺ پنهنجا تاثرات درج ڪندا.',
 'summary-preview'            => 'تت تي پيش نگاهه:',
 'blockedtitle'               => 'يُوزر بندشيل آهي.',
-'blockedtext'                => "<big>'''توهان جي يوزرنانءُ يا آءِ پي کي بندشيو ويو آهي.'''</big>
+'blockedtext'                => "'''توهان جي يوزرنانءُ يا آءِ پي کي بندشيو ويو آهي.'''
 
 بندش $1 هنئي. جڏهن ته ڄاڻايل سبب ''$2'' آهي.
 
@@ -512,8 +525,6 @@ $messages = array(
 'diff-multi'              => '({{PLURAL:$1|هڪ وسطي مسودو|$1 وسطي مسودا}} لڪايل.)',
 
 # Search results
-'noexactmatch'      => "'''\"\$1\" جي عنوان سان ڪو به صفحو ناهي.'''
-توهان [[:\$1|اهو صفحو سرجيو]].",
 'prevn'             => 'پويان {{PLURAL:$1|$1}}',
 'nextn'             => 'اڳيان {{PLURAL:$1|$1}}',
 'viewprevnext'      => 'ڏسو ($1 {{int:pipe-separator}} $2) ($3)',
@@ -536,7 +547,7 @@ $1 {{PLURAL:$1|اکر|اکرن}} کان ننڍي هوڻ گھرجي.',
 جيڪڏهن توهان اصل نالو ڄاڻائڻ جو فيصلو ٿا ڪريو، ته اهو توهان کي مڃتا ڏيڻ لاءِ ڪم آندو ويندو.',
 
 # User rights
-'userrights-reason' => 'تبديليءَ جو سبب:',
+'userrights-reason' => 'سبب:',
 
 # Groups
 'group'      => 'گروپ:',
@@ -693,7 +704,6 @@ $1 {{PLURAL:$1|اکر|اکرن}} کان ننڍي هوڻ گھرجي.',
 # Watchlist
 'watchlist'         => 'منهنجي ٽيٽ فهرست',
 'mywatchlist'       => 'منهنجي ٽيٽ فهرست',
-'watchlistfor'      => "(براءِ '''$1''')",
 'addedwatch'        => 'ٽيٽ فھرست ۾ شامل ڪيو ويو.',
 'addedwatchtext'    => "صفحو بعنوان \"[[:\$1]]\" اوهان جي [[Special:Watchlist|ٽيٽ فهرست]] ۾ شامل ٿي ويو. استقبالي تبديليون هتي درج ٿينديون وينديون. اهو صفحو [[Special:RecentChanges|تازين تبديلين]] واري صفحي تي '''گهرن''' اکرن ۾ نمايان ڪري ڏيکاريو ويندو. جيڪڏهن اوهان اهو سڀ نه ٿا چاهيو ته '''اڻ ٽيٽيو''' تي ڪلڪ ڪريو.",
 'removedwatch'      => 'ٽيٽ فهرست مان هٽايو ويو',
@@ -723,7 +733,7 @@ $1 {{PLURAL:$1|اکر|اکرن}} کان ننڍي هوڻ گھرجي.',
 تازو ڊاٺل صفحن جي فهرست لاءِ $2 ڏسندا.',
 'deletedarticle'        => '"[[$1]]" ڊهي چڪو',
 'dellogpage'            => 'ڊاٺ لاگ',
-'deletecomment'         => 'ڊاهڻ جو سبب:',
+'deletecomment'         => 'سبب:',
 'deleteotherreason'     => 'اڃا ڪو ٻيو سبب:',
 'deletereasonotherlist' => 'ٻيو سبب',
 
@@ -734,11 +744,10 @@ $1 {{PLURAL:$1|اکر|اکرن}} کان ننڍي هوڻ گھرجي.',
 'protectlogpage'              => 'تحفظ لاگ',
 'prot_1movedto2'              => '[[$1]] کي چوري [[$2]] تي رکيو ويو',
 'protect-legend'              => 'تحفظڻ جي پڪ ڪريو',
-'protectcomment'              => 'تاثرات:',
+'protectcomment'              => 'سبب:',
 'protectexpiry'               => 'اختتام:',
 'protect_expiry_invalid'      => 'انجامي مدو ناقابلڪار آهي.',
 'protect_expiry_old'          => 'انجامي مدو ماضيءَ ۾ آهي.',
-'protect-unchain'             => 'چورڻ جي روڪ ختم ڪريو',
 'protect-text'                => "توهان '''<nowiki>$1</nowiki>''' صفحي جي تحفظاتي سطح ڏسي ۽ بدلائي سگھو ٿا.",
 'protect-locked-access'       => "توهان جو کاتو صفحن جي تحفظاتي سطح تبديلي ڪرڻ جا اختيار نه ٿو رکي. هيٺ صفحي جون وقوعات (سيٽڱس) پيش ڪجن ٿيون '''$1''':",
 'protect-cascadeon'           => 'هيءُ صفحو في الوقت تحفظيل آهي، ڇاڪاڻ ته اهو هيٺين {{PLURAL:$1|صفحي|صفحن}} جو حصو آهي، جنهن تي تحفظ در تحفظ لاڳو ٿيل آهي.',
@@ -819,7 +828,7 @@ $1 {{PLURAL:$1|اکر|اکرن}} کان ننڍي هوڻ گھرجي.',
 'move-watch'              => 'هيءُ صفحو ٽيٽيو',
 'movepagebtn'             => 'صفحو چوريو',
 'pagemovedsub'            => 'چورڻ جو عمل ڪامياب ٿيو',
-'movepage-moved'          => '<big>\'\'\'"$1" کي چوري "$2" تي رکيو ويو آهي\'\'\'</big>',
+'movepage-moved'          => '\'\'\'"$1" کي چوري "$2" تي رکيو ويو آهي\'\'\'',
 'articleexists'           => 'ان نالي سان صفحو اڳي ئي وجود رکي ٿو، يا ته توهان جو ڏنل نالو ناقابلڪار آهي.',
 'talkexists'              => "
 '''موادي صفحو پاڻ ته ڪاميابيءَ سان چُري ويو، پر لاڳاپيل مباحثي صفحو چُري نه سگھيو ڇاڪاڻ ته نئين عنوان تي اڳي ئي هڪ مباحثي صفحو موجود آهي. براءِ مهرباني انهن ٻنهي هٿ سان ضمائيندا.",

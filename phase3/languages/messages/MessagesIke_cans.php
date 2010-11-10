@@ -11,7 +11,7 @@
 
 $messages = array(
 # User preference toggles
-'tog-rememberpassword' => 'ᐃᖅᑑ ᐅᐃᑭᐱᑎᐊ ᐊᑎᖅ ᖃᑯᒍᖅ ᐊᑐᐃᓐᓇᓯᕗᖅ ᐅᕙᓗᒪᔪᖅ ᖃᕆᑕᐅᔭᖅ',
+'tog-rememberpassword' => 'ᐃᖅᑑ ᐅᐃᑭᐱᑎᐊ ᐊᑎᖅ ᖃᑯᒍᖅ ᐊᑐᐃᓐᓇᓯᕗᖅ ᐅᕙᓗᒪᔪᖅ ᖃᕆᑕᐅᔭᖅ (for a maximum of $1 {{PLURAL:$1|day|days}})',
 
 # Dates
 'sunday'        => 'ᓴᓇᑦᑕᐃᓕ',
@@ -148,10 +148,10 @@ $messages = array(
 'yourname'           => 'ᐅᐃᑭᐱᑎᐊ ᐊᑎᖅ',
 'yourpassword'       => 'ᐅᐃᑭᐱᑎᐊ ᐸᓚᙵᓴᐅᑎ',
 'yourpasswordagain'  => 'ᑕᒪᑐᒪᓃᖅᐹ ᐃᒃᓯᒐᖅᑐᖅ ᐅᐃᑭᐱᑎᐊ ᐸᓚᙵᓴᐅᑎ',
-'remembermypassword' => 'ᐃᖅᑑ ᐅᐃᑭᐱᑎᐊ ᐊᑎᖅ ᖃᑯᒍᖅ ᐊᑐᐃᓐᓇᓯᕗᖅ ᐅᕙᓗᒪᔪᖅ ᖃᕆᑕᐅᔭᖅ',
+'remembermypassword' => 'ᐃᖅᑑ ᐅᐃᑭᐱᑎᐊ ᐊᑎᖅ ᖃᑯᒍᖅ ᐊᑐᐃᓐᓇᓯᕗᖅ ᐅᕙᓗᒪᔪᖅ ᖃᕆᑕᐅᔭᖅ (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'              => 'ᐊᑯᓐᓇᐳᖅ',
 'loginprompt'        => 'ᐱᒋᐊᓕᒃ ᐃᒪᑐᐊᖅ ᖃᕆᑕᐅᔭᖅ ᖂᑮᔅ(Cookies) ᐱᕐᖄᑎ ᐊᑯᓐᓇᐳᖅ ᐅᐃᑭᐱᑎᐊ.',
-'userlogin'          => 'ᐊᑯᓐᓇᐳᖅ',
+'userlogin'          => 'ᐊᑯᓐᓇᐳᖅ / ᐱᕐᖄᐹ ᑮᓇᐅᔭᒃᑯᕕᖕᒥ ᑐᖅᑯᖅᓯᕕᒃ',
 'logout'             => 'ᐊᓂᕝᕕᒃ',
 'userlogout'         => 'ᐊᓂᕝᕕᒃ',
 'nologin'            => "ᐊᔪᐃᓐᓈᖅ ᐃᓄᖁᑎ? '''$1'''.",

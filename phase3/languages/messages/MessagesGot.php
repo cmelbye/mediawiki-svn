@@ -87,9 +87,6 @@ $messages = array(
 'qbmyoptions'    => 'Meina seidos',
 'qbspecialpages' => '𐌿𐍃𐍃𐌹𐌽𐌳𐍃𐌴𐌹𐌳𐍉𐍃',
 
-# Metadata in edit box
-'metadata_help' => 'Ufardata:',
-
 'errorpagetitle'    => 'Faírina dwalis',
 'returnto'          => 'Gawandjan at $1.',
 'tagline'           => 'Fram {{SITENAME}}',
@@ -175,7 +172,7 @@ $messages = array(
 'yourpassword'            => 'Analaúgns wáurda:',
 'login'                   => 'Atgaggan',
 'nav-login-createaccount' => 'Atgaggan / Galangjan Niutandis',
-'userlogin'               => 'Atgaggan',
+'userlogin'               => 'Atgaggan / gaskapjan niutandis',
 'logout'                  => 'Leiþan',
 'userlogout'              => '𐌻𐌴𐌹𐌸𐌰𐌽',
 'nologinlink'             => 'Gaskapjan þein niutandis',
@@ -363,7 +360,6 @@ $messages = array(
 # Watchlist
 'watchlist'         => '𐌼𐌴𐌹𐌽𐍉𐍃 𐍅𐌹𐍄𐌰𐌽𐌳𐍃𐌻𐌴𐌹𐍃𐍄𐌰',
 'mywatchlist'       => '𐌼𐌴𐌹𐌽𐍉𐍃 𐍅𐌹𐍄𐌰𐌽𐌳𐍃𐌻𐌴𐌹𐍃𐍄𐌰',
-'watchlistfor'      => "(fáur '''$1''')",
 'watch'             => '𐍅𐌰𐍂𐌰𐌽',
 'watchthispage'     => '𐍅𐌰𐍂𐌰𐌽 𐍃𐌴𐌹𐌳𐍉',
 'unwatch'           => '𐌽𐌹𐍅𐌰𐍂𐌰𐌽',
@@ -390,7 +386,6 @@ $messages = array(
 # Protect
 'protectlogpage'      => 'Log af Baírgjan',
 'prot_1movedto2'      => '[[$1]] skiubiþ du [[$2]]',
-'protect-unchain'     => 'Ungalukan sa skiubanfreihals',
 'protect-level-sysop' => 'Seidofaþs áinaha',
 'protect-expiring'    => 'bláuþiþ $1 (UTC)',
 'restriction-type'    => 'Freihals:',

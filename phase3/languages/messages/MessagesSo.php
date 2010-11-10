@@ -25,8 +25,7 @@ $messages = array(
 'tog-editsection'             => 'Fasax wax ka bedelida cutubyada dhinaca linkiyada [wax ka bedel]',
 'tog-editsectiononrightclick' => 'Fasax cutub wax ka bedelida hadii batoonka midig ee dooliga <br /> dhag lagu siiyo cinwaanka korkiisa (JavaScript)',
 'tog-showtoc'                 => "I'tus bogga cinwaanada (boggaga leh in kabada 3 cinwaan)",
-'tog-rememberpassword'        => 'Kumbuyuutarkaan ku xasuusnaaw gudagaleyheyga',
-'tog-editwidth'               => 'Sanduuqa wax ka bedelka wuxuu leeyahay balaarnaan buuxda',
+'tog-rememberpassword'        => 'Kumbuyuutarkaan ku xasuusnaaw gudagaleyheyga (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Boggaga aan qoro kudar liiska-waardiyaha',
 'tog-watchdefault'            => 'Boggaga aan wax ka bedelo kudar liiska-waardiyaha',
 'tog-watchmoves'              => 'Boggaga aan wareejiyo ku dar liiska-waardiyaha',
@@ -237,10 +236,10 @@ Ha' hilmaamin in aad wax ka bedesho [[Special:Preferences|{{SITENAME}} dooqaaga]
 'yourname'                   => 'Erayga Gudagalka:',
 'yourpassword'               => 'Eraysir:',
 'yourpasswordagain'          => 'Markale qor eraysirkaaga:',
-'remembermypassword'         => 'Kumbuyuutarkaan ku xasuusnaaw gudagalkeyga',
+'remembermypassword'         => 'Kumbuyuutarkaan ku xasuusnaaw gudagalkeyga (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'             => 'Magacaga shabakada',
 'login'                      => 'Gudaha gal',
-'userlogin'                  => 'Gudaha gal',
+'userlogin'                  => 'Gudaha gal / akoon sameyso',
 'logout'                     => 'Ka bax',
 'userlogout'                 => 'Ka bax',
 'notloggedin'                => 'Gudaha kuma jirtid',
@@ -263,12 +262,12 @@ Ha' hilmaamin in aad wax ka bedesho [[Special:Preferences|{{SITENAME}} dooqaaga]
 'passwordtooshort'           => 'Eraysirkaaga waa mid aanan jirin ama aad u gaaban. Waa in uu ugu yaraan ahaadaa  {{PLURAL:$1|1 xaraf|$1 xarfood}} kana duwanaadaa magaca gudagalkaaga.',
 'mailmypassword'             => 'E-boosto ku dir ereysir cusub',
 'passwordremindertitle'      => 'Eraysir ku meelgaar ah oo loogu talagalay {{SITENAME}}',
-'passwordremindertext'       => 'Qof (laga yaabo in aad adiga tahay, kana soo galay cinwaanka-IP $1) ayaa u codsaday {{SITENAME}} eraysir cusub ($4). 
-Eraysir cusub oo ku meelgaar ah ee uu leeyahay "$2" ayaa la sameeyay waxaana loo diray "$3". 
+'passwordremindertext'       => 'Qof (laga yaabo in aad adiga tahay, kana soo galay cinwaanka-IP $1) ayaa u codsaday {{SITENAME}} eraysir cusub ($4).
+Eraysir cusub oo ku meelgaar ah ee uu leeyahay "$2" ayaa la sameeyay waxaana loo diray "$3".
 Hadii uu ahaa fikirkaaga, waxaad u baahantahay in aad gudaha u gashid dalbatidna eraysir cusub.
 Eraysirka ku meelgaarka ah wuxuu dhacaayaa {{PLURAL:$5|maalin|$5 maalmood}}.
 
-Hadii u qofkale sameeyay codsigaan, ama aad soo xasuusatay eraysirkaagii, 
+Hadii u qofkale sameeyay codsigaan, ama aad soo xasuusatay eraysirkaagii,
 oo aadan u baahnayn in aad bedeshid, iska ilow farriintaan siina wado isticmaalista eraysirkaagi hore.',
 'noemail'                    => 'E-boosto lagama haayo isticmaalaha "$1".',
 'passwordsent'               => 'Eraysir cusub ayaa lagu diray e-boostada uu xaraystay isticmaalaha "$1".

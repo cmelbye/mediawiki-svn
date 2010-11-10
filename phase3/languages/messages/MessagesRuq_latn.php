@@ -140,7 +140,7 @@ $messages = array(
 'yourname'                => "Nom d'utilizatoru:",
 'login'                   => 'Prilasnaere',
 'nav-login-createaccount' => 'Prilasnaere / Nažbe',
-'userlogin'               => 'Prilasnaere',
+'userlogin'               => 'Prilasnaere / kreare nutilizatoru',
 'userlogout'              => 'otlastaere',
 
 # Edit page toolbar
@@ -192,7 +192,6 @@ Te rog notari la din kontribuţi al {{SITENAME}} sunt konsideraere relesavat sup
 'editundo'                => 'anulizăe',
 
 # Search results
-'noexactmatch'   => "'''N'pažu vec l'nom \"\$1\" n'ķsistst.''' Pute [[:\$1|kreare ce pažu]].",
 'viewprevnext'   => 'Vu ($1 {{int:pipe-separator}} $2) ($3)',
 'searchhelp-url' => 'Help:Ajutor',
 'powersearch'    => 'kaută avansata',
@@ -255,11 +254,10 @@ $3',
 'allpagessubmit' => 'Treme',
 
 # Watchlist
-'watchlist'    => 'Maj klăaeru',
-'mywatchlist'  => 'Maj klăaere',
-'watchlistfor' => "(pentru '''$1''')",
-'watch'        => 'klăaere',
-'unwatch'      => 'Deklăaera',
+'watchlist'   => 'Maj klăaeru',
+'mywatchlist' => 'Maj klăaere',
+'watch'       => 'klăaere',
+'unwatch'     => 'Deklăaera',
 
 # Displayed when you click the "watch" button and it is in the process of watching
 'watching'   => 'O klăaere...',

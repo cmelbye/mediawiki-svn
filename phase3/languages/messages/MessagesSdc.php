@@ -118,8 +118,7 @@ $messages = array(
 'tog-editsection'             => 'Mudìfigga di li sezzioni attrabessu lu cullegamentu [mudifigga]',
 'tog-editsectiononrightclick' => "Mudìfigga di li sezzioni attrabessu lu clic dresthu i' lu tìturu (nezzessàriu JavaScript)",
 'tog-showtoc'                 => "Musthra l'indizi pa li pàgini cun più di 3 sezzioni",
-'tog-rememberpassword'        => "Ammenta la paràura d'órdhini (nezzessàriu azzittà li cookie)",
-'tog-editwidth'               => 'Aumenta a la massima larghèzia la casella di mudìfigga',
+'tog-rememberpassword'        => "Ammenta la paràura d'órdhini (nezzessàriu azzittà li cookie) (for a maximum of $1 {{PLURAL:$1|day|days}})",
 'tog-watchcreations'          => "Aggiungi li pàgini criaddi a l'abbaidaddi ippiziari",
 'tog-watchdefault'            => "Aggiungi li pàgini mudìfiggaddi a l'abbaidaddi ippiziari",
 'tog-watchmoves'              => "Aggiungi li pàgini ippusthaddi a l'abbaidaddi ippiziari",
@@ -216,7 +215,7 @@ $messages = array(
 'category-article-count'   => "{{PLURAL:$2|Chistha categuria cunteni un'unica pagina, indicadda inogghi.|Chistha categuria cunteni {{PLURAL:$1|la pagina indicadda|li $1 pagini indicaddi}} inogghi, i' un tutari di $2.}}",
 'listingcontinuesabbrev'   => '(séguiddu)',
 
-'mainpagetext'      => "<big>'''Isthallazioni di MediaWiki accabadda currentementi.'''</big>",
+'mainpagetext'      => "'''Isthallazioni di MediaWiki accabadda currentementi.'''",
 'mainpagedocfooter' => "Cunsultha la [http://meta.wikimedia.org/wiki/Aggiuddu:Summàriu Ghia utenti] pa maggiori infuimmazioni i l'usu di chisthu software wiki.
 
 == Pa ischuminzà ==
@@ -249,18 +248,11 @@ Li sighenti cullegamenti so in linga ingrese:
 'faqpage'        => 'Project:FAQ (infuimmazioni e aggiuddu)',
 
 # Vector skin
-'vector-action-delete'      => 'Canzella',
-'vector-action-move'        => 'Ippustha',
-'vector-namespace-category' => 'Categuria',
-'vector-namespace-image'    => 'File',
-'vector-namespace-main'     => 'Pàgina',
-'vector-namespace-talk'     => 'Dischussioni',
-'vector-view-create'        => 'Cria',
-'vector-view-edit'          => 'Mudifigga',
-'vector-view-view'          => 'Leggi',
-
-# Metadata in edit box
-'metadata_help' => 'Metadati:',
+'vector-action-delete' => 'Canzella',
+'vector-action-move'   => 'Ippustha',
+'vector-view-create'   => 'Cria',
+'vector-view-edit'     => 'Mudifigga',
+'vector-view-view'     => 'Leggi',
 
 'errorpagetitle'    => 'Errori',
 'returnto'          => 'Turra a $1.',
@@ -455,9 +447,9 @@ $2',
 La rasgioni frunidda è ''$2''.",
 
 # Login and logout pages
-'logouttext'                 => "'''Iscidda effettuadda.'''<br />
-Si pò sighì a usà {{SITENAME}} cumenti utenti anònimu oppuru eseguì una noba intradda, cu' lu matessi innòmu utenti o un'innòmu dibessu.
+'logouttext'                 => "'''Iscidda effettuadda.'''
 
+Si pò sighì a usà {{SITENAME}} cumenti utenti anònimu oppuru eseguì una noba intradda, cu' lu matessi innòmu utenti o un'innòmu dibessu.
 Zerthuni pàgini pudìani continuà a apparì cumenti si la iscidda nò fùssia avvinudda finaghì nò vèni puridda la mimória cache di lu propriu nabiggadori.",
 'welcomecreation'            => '== Binvinuddu, $1! ==
 
@@ -465,13 +457,13 @@ La registhrazioni è isthadda criadda currettamenti. No dimintiggà di passunari
 'yourname'                   => 'Innòmu utenti',
 'yourpassword'               => "Paràura d'órdhini",
 'yourpasswordagain'          => "Ripeti la paràura d'órdhini",
-'remembermypassword'         => "Ammenta la paràura d'órdhini",
+'remembermypassword'         => "Ammenta la paràura d'órdhini (for a maximum of $1 {{PLURAL:$1|day|days}})",
 'yourdomainname'             => 'Ippizzificà lu dumìniu',
 'externaldberror'            => "S'è verifiggaddu un errori cu lu server di autentificazioni esthernu, oppuru nò si diponi di l'autorizazioni nezzessàri pa aggiornà la propria registhrazioni estherna.",
 'login'                      => 'Intra',
 'nav-login-createaccount'    => 'Intra / registhrazioni',
 'loginprompt'                => 'Pa intrà a {{SITENAME}} è nezzessàriu abirità li cookie.',
-'userlogin'                  => 'Intra',
+'userlogin'                  => 'Intra o cria una noba registhrazioni',
 'logout'                     => 'Esci',
 'userlogout'                 => 'Esci',
 'notloggedin'                => 'Intradda no effettuadda',
@@ -580,7 +572,7 @@ Pa cumprità la registhrazioni è nezzessàriu impusthà una noba paràura d'ór
 'summary-preview'                  => 'Antiprimma oggettu:',
 'subject-preview'                  => 'Antiprimma oggettu/intisthazioni:',
 'blockedtitle'                     => 'Utenti broccaddu.',
-'blockedtext'                      => "<big>'''Chisth'innòmmu utenti o indirizzu IP so isthaddi broccaddi.'''</big>
+'blockedtext'                      => "'''Chisth'innòmmu utenti o indirizzu IP so isthaddi broccaddi.'''
 
 Lu broccu è isthaddu dizzisu da $1. La rasgioni frunidda è: ''$2''.
 
@@ -614,7 +606,7 @@ Si vói ciaramiddanne, pa piazeri prizzisa sempri lu nùmaru di lu broccu (ID #$
 'whitelistedittext'                => 'Pa mudìfiggà li pàgini è nezzessàriu $1.',
 'confirmedittext'                  => "Pa assé abiritaddi a la mudìfigga di li pàgini è nezzessàriu cunfèimma lu proprio indirizzu di postha erettrònica. Pa impusthà e cunfèimmà l'indirizzu usà li [[Special:Preferences|prifirenzi]].",
 'nosuchsectiontitle'               => 'La sezzioni nò esisthi',
-'nosuchsectiontext'                => "S'è prubendi a mudìfiggà una sezzioni inesisthenti. No è pussìbiri sàivvà li mudìfigghi parchí la sezzioni $1 no isisthi.",
+'nosuchsectiontext'                => "S'è prubendi a mudìfiggà una sezzioni inesisthenti.",
 'loginreqtitle'                    => 'Pa mudìfiggà chistha pàgina è nezzessàriu intrà',
 'loginreqlink'                     => 'intra',
 'loginreqpagetext'                 => 'Pa vidé althri pàgini è nezzessàriu $1.',
@@ -629,7 +621,7 @@ Si vói crià la pàgina abà, pói sùbidu ischribì in giossu (abbaidda li [[{
 
 S'ài sighiddu lu cullegamentu pa un'errori, è suffizenti incalchà lu buttoni '''Indareddu''' i' lu propriu nabiggadori.",
 'anontalkpagetext'                 => "----''Chistha è la pàgina di dischussioni di un'utenti anònimu, chi no ha ancora criaddu una registhrazioni o, in dugna modu, no la usa. Pa identifiggallu è dunca nezzessàriu usà lu sóiu nùmaru di l'indirizzu IP. L'indirizzi IP, parò, poni assé cundibisi da più utenti. Si sei un'utenti anònimu e vói chi li cummenti prisenti in chistha pàgina no si rifèrini a te, [[Special:UserLogin|crea una noba registhrazion o intra]] cu' chidda ch'hai già pa evità d'assé confusu cu' althri utenti anònimi in futuru.''",
-'noarticletext'                    => "Abà chistha pàgina è biodda. È pussìbiri [[Special:Search/{{PAGENAME}}|zirchà chistu tituru]] i' l'althri pàgini di lu situ, <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{urlencode:{{FULLPAGENAME}}}}}} zirchà i' li rigisthri curriraddi] oppuru [{{fullurl:{{FULLPAGENAME}}|action=edit}} mudifiggà la pagina abà]</span>.",
+'noarticletext'                    => "Abà chistha pàgina è biodda. È pussìbiri [[Special:Search/{{PAGENAME}}|zirchà chistu tituru]] i' l'althri pàgini di lu situ, <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} zirchà i' li rigisthri curriraddi] oppuru [{{fullurl:{{FULLPAGENAME}}|action=edit}} mudifiggà la pagina abà]</span>.",
 'userpage-userdoesnotexist'        => 'La registhrazioni "$1" nò curripundi a un\'utenti rigisthraddu. Verifiggà chi s\'aggia avveru gana di crià o mudìfiggà chistha pàgina.',
 'clearyourcache'                   => "'''Nota:''' daboi abé saivaddu è nezzessàriu pulì la mimória cache di lu propriu nabiggadori pà vidé li ciambamenti. Pa '''Mozilla / Firefox / Safari''': fà clic i Ricàrrigga incalchendi lu buttoni di li maiuschuri, oppuru incalchà ''Ctrl-Maiusc-R'' (''Cmd-Maiusc-R'' i Mac); pa '''Internet Explorer:''' mantinì incalchaddu lu tasthu ''Ctrl'' mentri s'incalcha lu buttoni ''Aggiorna'' o incalchà ''Ctrl-F5''; pa '''Konqueror''': incalchà lu buttoni ''Ricarica'' o lu tasthu ''F5''; pa '''Opera''' pò assé nezzessàriu ibbuiddà cumpretamenti la mimória cache da lu menù ''Strumenti → Preferenze''.",
 'usercssyoucanpreview'             => "'''Suggerimentu:''' Usa lu buttoni '''Visuarizza antiprimma''' pa prubà li nobi CSS primma di sàivvaddi.",
@@ -656,7 +648,7 @@ S'ài sighiddu lu cullegamentu pa un'errori, è suffizenti incalchà lu buttoni 
 La casella di mudìfigga superiori cunteni lu testhu di la pàgina attuarmenti in lìnia, cumenti è isthadda mudìfiggadda da l'althru utenti.
 La versioni cu' li mudìfigghi tói è i' la casella di mudìfigga in giossu.
 Si vói cunfèimmalli, dévi arriggà li mudìfigghi tói i' lu testhu esisthenti (casella superiori).
-'''Soru''' lu testhu i' la casella superiori sarà sàivvaddu candu tu incalcharé \"Sàivva la pàgina\".",
+'''Soru''' lu testhu i' la casella superiori sarà sàivvaddu candu tu incalcharé \"{{int:savearticle}}\".",
 'yourtext'                         => 'Lu testhu tóiu',
 'storedversion'                    => 'La versioni mimurizadda',
 'nonunicodebrowser'                => "'''ATTINZIONI: Lu nabiggadori tóiu nò è cumpatìbiri cu' li caràtteri Unicode. Pa cunsintì la mudìfigga di li pàgini chena crià incunvinienti, i caràtteri nò ASCII so visuarizzaddi i' la casella di mudìfigga cumenti còdizi esadezimari.'''",
@@ -753,12 +745,12 @@ Cunsulthà lu [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rigi
 'logdelete-selected'          => "'''{{PLURAL:$1|Eventu di lu rigisthru sciubaraddu|Eventi di lu rigisthru sciubaraddi}}:'''",
 'revdelete-legend'            => "Impustha li sighenti limitazioni i'li versioni canzilladdi:",
 'revdelete-hide-text'         => 'Cua lu testhu di la versioni',
+'revdelete-hide-image'        => 'Cua li cuntinuddi di lu file',
 'revdelete-hide-name'         => 'Cua azioni e oggettu di la matessi',
 'revdelete-hide-comment'      => "Cua l'oggettu di la mudìfigga",
 'revdelete-hide-user'         => "Cua l'innòmmu o l'indirizzu IP di l'autori",
 'revdelete-hide-restricted'   => "Apprica chisthi limitazioni puru a l'amministhradori e brocca chistha interfàccia",
 'revdelete-suppress'          => "Cua l'infuimmazioni puru a l'amministhradori",
-'revdelete-hide-image'        => 'Cua li cuntinuddi di lu file',
 'revdelete-unsuppress'        => "Elimina li limitazioni i' li ribisioni turraddi che primma",
 'revdelete-log'               => 'Cummentu pa lu rigisthru:',
 'revdelete-submit'            => 'Apprica a la ribisioni isciubaradda',
@@ -802,9 +794,6 @@ Cunsulthà lu [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rigi
 'compareselectedversions' => 'Cunfronta li versioni sciubaraddi',
 'editundo'                => 'annulla',
 'diff-multi'              => '({{PLURAL:$1|Una ribisioni di mezu nò musthradda|$1 ribisioni di mezu nò musthraddi}}.)',
-'diff-src'                => 'origini',
-'diff-font'               => "'''caratteri'''",
-'diff-big'                => "'''mannu'''",
 
 # Search results
 'searchresults'             => 'Risulthaddi di la zercha',
@@ -812,8 +801,6 @@ Cunsulthà lu [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rigi
 'searchresulttext'          => 'Pà maggiori infuimmazioni i cumenti zirchà i {{SITENAME}}, vèdi [[{{MediaWiki:Helppage}}|{{int:help}}]].',
 'searchsubtitle'            => 'Zercha di \'\'\'[[:$1]]\'\'\' ([[Special:Prefixindex/$1|tutti li pagini ch\'ischumenzani pa "$1"]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|tutti li pagini chi puntani a "$1"]])',
 'searchsubtitleinvalid'     => "Zirchendi '''$1'''",
-'noexactmatch'              => "'''La pàgina \"\$1\" nò esisthi.''' È pussìbiri [[:\$1|crialla abà]].",
-'noexactmatch-nocreate'     => "'''Nò v'è una pàgina ciamadda \"\$1\".'''",
 'titlematches'              => 'Curripundènzi i lu tìturu di li pagini',
 'notitlematches'            => 'Nisciuna curripundènzia i lu tìturi di li pàgini',
 'textmatches'               => 'Curripundènzi i lu teshu di li pàgini',
@@ -1009,7 +996,6 @@ Cunsulthà lu [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rigi
 # Upload
 'upload'                      => 'Carrigga un file',
 'uploadbtn'                   => 'Carrigga',
-'reupload'                    => 'Carrigga di nobu',
 'reuploaddesc'                => 'Canzella lu carriggamentu e turra a lu mòdulu',
 'uploadnologin'               => 'Intradda nò effettuadda',
 'uploadnologintext'           => 'È nezzessàriu [[Special:UserLogin|intrà]] pa carriggà file.',
@@ -1061,7 +1047,6 @@ S'è la matessi immàgina, i' li misuri originari, nò è nezzessàriu carriggà
 Si si diponi di l'immàgina i' la risoruzioni originari, pa piazeri carriggalla. A l'invessu, pa piazeri ciambà l'innòmmu di lu file.",
 'fileexists-forbidden'        => "Un file cun chisthu innòmmu isisthi già. Turrà indareddu e mudìfiggà l'innòmmu cu' lu quari carriggà lu file. [[File:$1|thumb|center|$1]]",
 'fileexists-shared-forbidden' => "Un file cun chisthu innòmmu isisthi già i l'archìbiu di li risuzzi mùrthimediari cundibisi. Turrà indareddu e mudìfiggà l'innòmmu cu' lu quari carriggà lu file. [[File:$1|thumb|center|$1]]",
-'successfulupload'            => 'Carriggamentu cumpritaddu',
 'uploadwarning'               => 'Avvisu di carriggamentu',
 'savefile'                    => 'Saivva file',
 'uploadedimage'               => 'ha carriggaddu "[[$1]]"',
@@ -1069,7 +1054,6 @@ Si si diponi di l'immàgina i' la risoruzioni originari, pa piazeri carriggalla.
 'uploaddisabled'              => 'Semmu dipiazuddi, ma lu carriggamentu di file è timpuraniamenti suippesu.',
 'uploaddisabledtext'          => "Lu carriggamentu di file nò è attibu i' {{SITENAME}}.",
 'uploadscripted'              => 'Chistu file cunteni còdizi HTML o script, chi pudia assé interpretaddu mari da lu nabiggadori.',
-'uploadcorrupt'               => "Lu file è currumpiddu o à un'esthensioni nò curretta. Contrullà lu file e turrà a prubà lu carriggamentu.",
 'uploadvirus'                 => 'Chisthu file cunteni un virus! Dettàgli: $1',
 'sourcefilename'              => "Nommu d'orìgini di lu file:",
 'destfilename'                => 'Nommu di lu file di disthinazioni:',
@@ -1079,6 +1063,7 @@ Si si diponi di l'immàgina i' la risoruzioni originari, pa piazeri carriggalla.
 
 Pa piazeri verifigga si vói carriggà avveru chisthu file; inogghi v'è lu rigisthru cu' la mutibazioni di la canzilladdura:",
 'filename-bad-prefix'         => "L'innòmmu di lu file chi sei carrigghendi ischumenza cun '''\"\$1\"''', ch'è un'innòmmu nò dischrittibu assignaddu automatiggamenti da li fotocameri. Pa piazieri sciubarà un'innòmmu più dischrittibu pa lu file tóiu.",
+'upload-success-subj'         => 'Carriggamentu cumpritaddu',
 
 'upload-proto-error'      => 'Protocollu ibbagliaddu',
 'upload-proto-error-text' => 'Pa lu cariggamentu "luntanu" è nezzessàriu ippizzificà indirizzi ch\'ischumenzani cun <code>http://</code> oppuru <code>ftp://</code>.',
@@ -1284,7 +1269,9 @@ Pa piazeri verifigga si vói carriggà avveru chisthu file; inogghi v'è lu rigi
 
 # Special:Categories
 'categories'         => 'Categuri',
-'categoriespagetext' => "Erencu cumpretu di li categuri prisenti i'lu situ.",
+'categoriespagetext' => "Erencu cumpretu di li categuri prisenti i'lu situ.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].",
 
 # Special:LinkSearch
 'linksearch'    => 'Cullegamenti estherni',
@@ -1325,7 +1312,6 @@ Pa piazeri verifigga si vói carriggà avveru chisthu file; inogghi v'è lu rigi
 # Watchlist
 'watchlist'            => 'Abbaidaddi ippiziari',
 'mywatchlist'          => 'Abbaidaddi ippiziari',
-'watchlistfor'         => "(pa '''$1''')",
 'nowatchlist'          => "La listha di l'abbaidaddi ippiziari è biodda.",
 'watchlistanontext'    => "Pa visuarizzà e mudìfiggà l'erencu di l'abbaidaddi ippiziari è nezzessàriu $1.",
 'watchnologin'         => 'Intradda nò effettuadda',
@@ -1430,7 +1416,9 @@ Pa piazzeri, cunfèimma chi vói canzillà avveru, ch'ài cumpresu li cunsiguèn
 'cantrollback'     => "Impussìbiri annullà li mudìfigghi; l'utenti chi n'è l'autori è l'unicu cuntribudori di la pàgina.",
 'editcomment'      => "L'oggettu di la mudìfigga era: \"''\$1''\".",
 'rollback-success' => 'Annulladdi li mudìfigghi di $1; turradda a la versioni prizzidenti di $2.',
-'sessionfailure'   => "S'è verifigaddu un probrema i' la sissioni ch'identifigga l'intradda; lu sistham nò à eseguiddu lu cumandu imparthiddu pa precauzioni. Turrà a la pàgina prizzidenti cu' lu buttoni \"Indareddu\" di lu proprio nabigaddori, turrà a carriggà la pàgina e riprubà.",
+
+# Edit tokens
+'sessionfailure' => "S'è verifigaddu un probrema i' la sissioni ch'identifigga l'intradda; lu sistham nò à eseguiddu lu cumandu imparthiddu pa precauzioni. Turrà a la pàgina prizzidenti cu' lu buttoni \"Indareddu\" di lu proprio nabigaddori, turrà a carriggà la pàgina e riprubà.",
 
 # Protect
 'protectlogpage'              => 'Prutizioni',
@@ -1445,7 +1433,6 @@ Pa piazzeri, cunfèimma chi vói canzillà avveru, ch'ài cumpresu li cunsiguèn
 'protectexpiry'               => 'Ischadènzia:',
 'protect_expiry_invalid'      => 'Ischadènzia invàridda.',
 'protect_expiry_old'          => 'Ischadènzia già passadda.',
-'protect-unchain'             => "Ischulliga i primmissi d'ippusthamentu",
 'protect-text'                => "Chisthu mòdulu cunsenti di vidé e mudìfiggà lu libellu di prutizioni pa la pàgina '''<nowiki>$1</nowiki>'''.",
 'protect-locked-blocked'      => "Nò è pussìbiri mudìfiggà i libelli di prutizioni cand'è attibu un broccu. L'impusthazioni currenti pa la pàgina so '''$1''':",
 'protect-locked-access'       => "Nò si diponi di li primmissi nezzessàri pa mudìfiggà lu libellu di prutizioni di la pàgina.
@@ -1645,7 +1632,7 @@ Nota chi la pàgina '''nò''' sarà ippusthadda si n'isisthi già una cu' lu nob
 In casu d'errori i' l'ippusthamentu pói turrà immediatamenti a lu tìturu vécciu, e nò pussìbiri sobbraischribì pa errori una pàgina già esisthenti.
 
 '''ATTINZIONI!'''
-Un ciambamentu cussì forthi pó causà umbè di prubremi a tuttiganti; 
+Un ciambamentu cussì forthi pó causà umbè di prubremi a tuttiganti;
 azzirthati d'abé cumpresu li cunsiguènzi di l'ippusthamentu!",
 'movepagetalktext'        => "La reratiba pàgina di dischussioni sarà ippusthadda automatiggamenti umpari a la pàgina prinzipari, '''fora chi i' li casi sighenti:'''
 * l'ippusthamentu di la pàgina è intra tipi di pàgina dibessi
@@ -1661,7 +1648,7 @@ In chisthi casi, si lu vói avveru, débi ippusthà o aggiugnì a manu le infuim
 'move-watch'              => "Aggiungi a l'abbaidaddi ippiziari",
 'movepagebtn'             => 'Ippustha la pàgina',
 'pagemovedsub'            => 'Ippusthamentu effettuaddu',
-'movepage-moved'          => '<big>\'\'\'"$1" è isthadda ippusthadda a "$2"\'\'\'</big>',
+'movepage-moved'          => '\'\'\'"$1" è isthadda ippusthadda a "$2"\'\'\'',
 'articleexists'           => "Una pàgina cun chisth'innòmmu isisthi già, oppuru l'innòmmu sciubaraddu no à vàriddu. Sciubarà un'althru tìturu.",
 'cantmove-titleprotected' => "L'ippusthamentu di la pàgina nò è pussìbiri parchí lu nobu tìturu è isthaddu prutiggiddu pa impidinni la criazioni",
 'talkexists'              => "'''La pàgina è isthadda ippusthadda currettamenti, ma nò è isthaddu pussìbiri ippusthà la pàgina di dischussioni parchí ni isisthi già un'althra cu' lu nobu tìturu. Aggiugnì a manu li cuntiniddi di li dui pàgini.'''",
@@ -1899,7 +1886,7 @@ $1",
 'nextdiff'     => 'Diffarènzia sighenti →',
 
 # Media information
-'mediawarning'         => "'''Attinzioni''': Chisthu file pó cuntinì còdizi marignu, chi si eseguiddu pó danniggià lu propriu sisthema infuimmatigu.<hr />",
+'mediawarning'         => "'''Attinzioni''': Chisthu file pó cuntinì còdizi marignu, chi si eseguiddu pó danniggià lu propriu sisthema infuimmatigu.",
 'imagemaxsize'         => "Misura màssima di l'immàgini i'li reratibi pàgini di dischussioni:",
 'thumbsize'            => 'Mannària di li miniadduri:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pàgina|pàgini}}',

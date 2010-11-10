@@ -29,6 +29,7 @@ $messages = array(
 'tog-editsectiononrightclick' => 'Eenzelne Aufschnette mett eenem Rajsch-Klick beoabeide (JavaScript)',
 'tog-showtoc'                 => 'Wies dee List mettem Enhault (fe Siede mett meea aus dree Ewaschrefte)',
 'tog-rememberpassword'        => 'Login bewoare, dee Brucka blift aun disem Computer aunjemaldt',
+'tog-previewontop'            => 'Wies Preview bowe em Beoabeide-Fensta',
 'tog-showhiddencats'          => "Wies fe'stoakne Kategorien",
 
 'underline-always' => 'Emma',
@@ -289,13 +290,18 @@ Bitte nemm eenen aundren.',
 'template-protected'   => "(be'schutst)",
 
 # History pages
-'cur'        => 'dise',
-'last'       => 'latste',
-'page_first' => 'easchte',
-'page_last'  => 'latste',
+'revisionasof'  => 'Versioon von $1',
+'revision-info' => 'Versioon von $1 von $2',
+'cur'           => 'dise',
+'last'          => 'latste',
+'page_first'    => 'easchte',
+'page_last'     => 'latste',
 
 # Revision feed
 'history-feed-item-nocomment' => '$1 omm $2',
+
+# Revision deletion
+'rev-delundel' => 'wies/vestopp',
 
 # Diffs
 'lineno'   => 'Lien $1:',
@@ -313,6 +319,8 @@ Bitte nemm eenen aundren.',
 'search-mwsuggest-enabled'  => 'mett Veaschlag',
 'search-mwsuggest-disabled' => 'Tjeen Veaschlag',
 'powersearch'               => 'Bätre Sääk',
+'powersearch-legend'        => 'Betret Setje',
+'powersearch-field'         => 'Setj no',
 
 # Preferences page
 'preferences'          => 'Ennstalinje',
@@ -365,6 +373,7 @@ Bitte nemm eenen aundren.',
 
 # File description page
 'file-anchor-link'    => 'Datei',
+'filehist'            => 'Dokument-Jeschicht',
 'filehist-datetime'   => 'Tiet',
 'filehist-user'       => 'Brucker',
 'filehist-dimensions' => 'Moten',
@@ -410,7 +419,6 @@ Bitte nemm eenen aundren.',
 
 # Watchlist
 'mywatchlist'   => 'Miene Oppaussied',
-'watchlistfor'  => "(fer '''$1''')",
 'addedwatch'    => "No Oppausssied bieje'done",
 'watch'         => 'Oppausse',
 'watchthispage' => 'Op dise Sied oppausse',
@@ -615,6 +623,9 @@ Daut woat aun eenem Link lidje, woona no eene externe Sied wiest.',
 'bad_image_list' => 'Format:
 
 Bloos items, woone mett eenem * aunfange, woare jenome. Dee eschta Link no dem * mott een Link opp een schlajchtet Dokument (file) senne. Dee Links, woone dan kome, wiese opp Utnohme, aulsoo soone Siede, woo daut Dokument (file) jewese en jeseene woare kaun.',
+
+# Metadata
+'metadata' => 'Meta-Dote',
 
 # 'all' in various places, this might be different for inflected languages
 'watchlistall2' => 'aule',

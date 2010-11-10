@@ -25,7 +25,7 @@ $messages = array(
 'tog-numberheadings'        => 'Auto-numero heading',
 'tog-showtoolbar'           => 'Ipakita ang edit toolbar (nagakilanlan JavaScript)',
 'tog-editondblclick'        => 'Islan ang pahina kung i-doble klik mo (nagakilanlan JavaScript)',
-'tog-rememberpassword'      => 'Dumdumon ang akon pagsulod sa sini nga kompyuter',
+'tog-rememberpassword'      => 'Dumdumon ang akon pagsulod sa sini nga kompyuter (for a maximum of $1 {{PLURAL:$1|day|days}})',
 
 'underline-always' => 'Pirmi',
 'underline-never'  => 'Indi',
@@ -199,16 +199,16 @@ Siguro may-ara ini sang isa ukon madamo nga karakter nga indi ginabaton kag gina
 'viewsource'         => 'Lantawon ang ginhalinan',
 
 # Login and logout pages
-'welcomecreation'         => '== Pagtamyaw, $1! == 
-Ang imo account nahimo na. 
+'welcomecreation'         => '== Pagtamyaw, $1! ==
+Ang imo account nahimo na.
 Indi pagkalimti ang pag ilis sang imo mga pagpasulabi sa {{SITENAME}}.',
 'yourname'                => 'Ngalan sang Manog-gamit:',
 'yourpassword'            => 'Kontra-senyas:',
 'yourpasswordagain'       => 'Suliton ang kontra-senyas:',
-'remembermypassword'      => 'Dumdumon ang akon pagsulod sa sini nga kompyuter',
+'remembermypassword'      => 'Dumdumon ang akon pagsulod sa sini nga kompyuter (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                   => 'Mag sulod',
 'nav-login-createaccount' => 'Magsulod / maghimo account',
-'userlogin'               => 'Mag sulod',
+'userlogin'               => 'Mag sulod / maghimo account',
 'logout'                  => 'Mag guha',
 'userlogout'              => 'Mag guha',
 'notloggedin'             => 'Wala naka-sulod',
@@ -257,7 +257,7 @@ Para maghimo sang sina na pahina, sugod ka lang sa pagtayp sa sulod sang kahon n
 Pero kung nakasulod nga aksidente lamang, palihog lang i-klik sa imo internet nga may ngalan ukon simbolo nga '''back''' button.",
 'noarticletext'                    => 'Wala subong sang teksto ang ini nga pahina.
 Pwede ka [[Special:Search/{{PAGENAME}}|mangita para sa titulo sang ini nga pahina]] sa iban man nga pahina,
-<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{urlencode:{{FULLPAGENAME}}}}}} mangita ka sang kaparehas nga logs],
+<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mangita ka sang kaparehas nga logs],
 o [{{fullurl:{{FULLPAGENAME}}|action=edit}} islan ini nga pahina]</span>.',
 'previewnote'                      => "'''Tandaan nga prebyu lamang ini.'''
 Wala pa nabutang ang imo nga ginbag-o!",
@@ -312,9 +312,6 @@ Legend: '''({{int:cur}})''' = ang ginalain niya sa bag-o nga na rebisyon,
 'searchresulttext'          => 'Para sa madamu pa nga impormasyon parti sa pagpangita {{SITENAME}}, lantawa [[{{MediaWiki:Helppage}}|{{int:bulig}}]].',
 'searchsubtitle'            => 'Nagpangita ka para \'\'\'[[:$1]]\'\'\' ([[Special:Prefixindex/$1|tanan nga pahina gasugod sa "$1"]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|tanan nga pahina nga naga tabid kay "$1"]])',
 'searchsubtitleinvalid'     => "Nangita ka para '''$1'''",
-'noexactmatch'              => "'''Wala diri sang titulo nga pahina \"\$1\".'''
-Pwede ka [[:\$1|makahimo sini nga pahina]].",
-'noexactmatch-nocreate'     => "'''Wala sang titulo na pahina \"\$1\".'''",
 'notitlematches'            => 'Wala sang parehas nga titulo ka pahina',
 'notextmatches'             => 'Wala sang pahina nga parehas teksto',
 'prevn'                     => 'antes {{PLURAL:$1|$1}}',
@@ -474,7 +471,6 @@ Mga Pahina sa [[Special:Watchlist|imo lista-lantaw]] ay '''dukot'''.",
 # Watchlist
 'watchlist'         => 'Akon Ginabantayan',
 'mywatchlist'       => 'Akon Ginabantayan',
-'watchlistfor'      => "(para '''$1''')",
 'watchnologin'      => 'Wala naka-sulod',
 'addedwatch'        => 'Nadugang sa lista sang lantaw',
 'addedwatchtext'    => "Ang pahina \"[[:\$1]]\" ay nadugang sa imo [[Special:Watchlist|lista sang pagtan-aw]].
@@ -502,7 +498,7 @@ Palihog lang nga sigurado nga kinagusto mo ini nga himuon, nga na-intindihan mo 
 Lantawa $2 para sa mga lista sang mga bag-o lang ginkakas.',
 'deletedarticle'        => 'ginkakas "[[$1]]"',
 'dellogpage'            => 'Ginkakas na log',
-'deletecomment'         => 'Rason kun nga panason:',
+'deletecomment'         => 'Rason:',
 'deleteotherreason'     => 'Iban/dugang nga rason:',
 'deletereasonotherlist' => 'Iban nga rason',
 
@@ -518,7 +514,6 @@ Lantawa $2 para sa mga lista sang mga bag-o lang ginkakas.',
 'protectexpiry'               => 'Ekspayr:',
 'protect_expiry_invalid'      => 'Ang Oras sang pag-ekspayr ay hindi tuod.',
 'protect_expiry_old'          => 'Ang Oras sang pag-ekspayr ay sang ligad pa.',
-'protect-unchain'             => 'Di-paglock ang napasaylo nga mga permiso',
 'protect-text'                => "Pwede mo malantaw kag mabag-o ang lebel sang proteksiyon diri para sa pahina '''<nowiki>$1</nowiki>'''.",
 'protect-locked-access'       => "Ang imo akawnt ay wala permiso para mabag-o ang pahina sa lebel sang proteksiyon.
 Ari diri ang mga pinkabag-o nga mga seting para sa pahina '''$1''':",
@@ -622,7 +617,7 @@ Sa sini nga mga kaso, kilanlan mo gid isaylo o isahon ang pahina sang pag-amat a
 'move-watch'       => 'Bantayan ining panid',
 'movepagebtn'      => 'Saylohon ining panid',
 'pagemovedsub'     => 'Giho nga nagdayon',
-'movepage-moved'   => '<big>\'\'\'"$1" nasaylo na didto sa "$2"\'\'\'</big>',
+'movepage-moved'   => '\'\'\'"$1" nasaylo na didto sa "$2"\'\'\'',
 'articleexists'    => 'May-ara na sang ngalan nga amu na, ukon ang ginpili mo na ngalan ay indi mabatunan.
 Palihog lang pili sang lain nga ngalan. Salamat.',
 'talkexists'       => "'''Nasaylo na mismo ang ina nga pahina, pero ang hisayranay nga pahina indi masaylo kay man may ara na sang nakakuha sang bag-o nga titulo.

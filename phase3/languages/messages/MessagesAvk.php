@@ -9,7 +9,9 @@
  *
  * @author Nkosi ya Cabinda
  * @author Sab
+ * @author Urhixidur
  * @author Wikimistusik
+ * @author Zetud
  */
 
 $namespaceNames = array(
@@ -109,8 +111,7 @@ $messages = array(
 'tog-editsection'             => 'Betara va gabot kan "[Betara]" gluyasiki',
 'tog-editsectiononrightclick' => 'Betara va gabot talton vulegason<br /> va gabotvergumvelt',
 'tog-showtoc'                 => 'Nedira va ugak<br /> (icde teliz dem lo 3 gabot)',
-'tog-rememberpassword'        => 'Va jinaf remravlem setiker (cookie)',
-'tog-editwidth'               => 'Betaxo mantanhon nediwer',
+'tog-rememberpassword'        => 'Va jinaf remravlem setiker (cookie) (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Kosuzdasikira va jinon betayan bueem',
 'tog-watchdefault'            => 'Va jinon reduyun ik betayan telizeem suzdá',
 'tog-watchmoves'              => 'Kosuzdasikira va jinon arrundayan bueem',
@@ -209,7 +210,7 @@ $messages = array(
 'category-file-count-limited'    => 'Bat iyeltak {{PLURAL:$1|tir|$1 tid}} koe noeltafa loma.',
 'listingcontinuesabbrev'         => 'loon',
 
-'mainpagetext' => "<big>'''MediaWiki inkeyen talpeyot.'''</big>",
+'mainpagetext' => "'''MediaWiki inkeyen talpeyot.'''",
 
 'about'         => 'Icdeuca',
 'article'       => 'Teliz',
@@ -232,9 +233,6 @@ $messages = array(
 'qbspecialpages' => 'Aptaf bueem',
 'faq'            => 'NEB',
 'faqpage'        => 'Project:FAQ',
-
-# Metadata in edit box
-'metadata_help' => 'Metadata:',
 
 'errorpagetitle'    => 'Rokla',
 'returnto'          => 'Dimgrablera va $1 bu.',
@@ -431,7 +429,7 @@ Me vulkul da rupeson va "Lodamaceem" bu va intaf {{SITENAME}} rotuilkal.',
 'yourname'                   => 'Rinaf favesikyolt',
 'yourpassword'               => 'Rinaf remravlem',
 'yourpasswordagain'          => 'Va rinaf remravlem tolon bazel',
-'remembermypassword'         => 'Setikera va jinaf remravlem (cookie)',
+'remembermypassword'         => 'Setikera va jinaf remravlem (cookie) (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'             => 'Rinaf ind',
 'externaldberror'            => 'Ont divefa origakrokla va pilkomodara ont va rinafa divefa pata me ronuskel.',
 'login'                      => 'Pilkomodá',
@@ -448,7 +446,7 @@ Me vulkul da rupeson va "Lodamaceem" bu va intaf {{SITENAME}} rotuilkal.',
 'gotaccountlink'             => 'Dogluyara',
 'createaccountmail'          => 'kan e-mail',
 'badretype'                  => 'Toloy suteyen remravlem tid menuxaf.',
-'userexists'                 => 'Favesikyolt rinon suteyen ixam zo faver. 
+'userexists'                 => 'Favesikyolt rinon suteyen ixam zo faver.
 Va amidaf yolt gokiblal.',
 'loginerror'                 => 'Pilkomodajara',
 'nocookiesnew'               => "Le compte utilisateur a été créé, mais vous n'êtes pas connecté. {{SITENAME}} utilise des cookies pour la connexion mais vous avez les cookies désactives. Merci de les activer et de vous reconnecter.",
@@ -541,9 +539,9 @@ Ta da wan zo pilkomodal, va warzaf remravlem batlize gobazel :",
 'summary-preview'                  => 'Abdinedira va vildeks:',
 'subject-preview'                  => 'Abdinedira va detce ik kroj:',
 'blockedtitle'                     => 'Elekan favesik',
-'blockedtext'                      => '<big>\'\'\'Rinafa favesikpata oku IP mane tid elekayane.\'\'\'</big>
+'blockedtext'                      => '\'\'\'Rinafa favesikpata oku IP mane tid elekayane.\'\'\'
 
-Elekara skuyuna gan $1. 
+Elekara skuyuna gan $1.
 Lazava tir \'\'$2\'\'.
 
 * Elekaratoza : $8
@@ -560,7 +558,7 @@ Rinaf tise IP mane tir $3 ise ID elekara tir #$5. Va bate ik bane mane ko kota e
 'whitelistedittext'                => 'Ta bubetara rin gonaskil ta $1',
 'confirmedittext'                  => 'Abdi bubetara va rinafe e-mail mane gogruyel. Kan rinaf [[Special:Preferences|favesiklodamaceem]] va rinafe e-mail mane vay plekul ise tuenal !',
 'nosuchsectiontitle'               => 'Me man gabot',
-'nosuchsectiontext'                => 'Rin yawal da va metis gabot betal. Oye da $1 gabot me tir, giwaxo me tir.',
+'nosuchsectiontext'                => 'Rin yawal da va metis gabot betal.',
 'loginreqtitle'                    => 'Kucilan favesikyolt',
 'loginreqlink'                     => 'dogluyara',
 'loginreqpagetext'                 => '$1 tir adrafa ta da va aru bu rodisukel.',
@@ -571,7 +569,7 @@ Rinaf tise IP mane tir $3 ise ID elekara tir #$5. Va bate ik bane mane ko kota e
 'anontalkpagetext'                 => "---- ''Vous êtes sur la page de discussion d'un utilisateur anonyme qui n'a pas encore créé un compte ou qui ne l'utilise pas. Pour cette raison, nous devons utiliser l'adresse IP numérique pour l'identifier. Une adresse de ce type peut être partagée entre plusieurs utilisateurs. Si vous êtes un utilisateur anonyme et si vous constatez que des commentaires qui ne vous concernent pas vous ont été adressés, vous pouvez [[Special:UserLogin|créer un compte ou vous connecter]] afin d'éviter toute future confusion.''",
 'noarticletext'                    => 'Moe batu bu mek krent dure tir.
 Vanmiae yonaru bu [[Special:Search/{{PAGENAME}}|va man buvergumvelt rotaneyal]],
-<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{urlencode:{{FULLPAGENAME}}}}}} va gluyan log robetal],
+<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} va gluyan log robetal],
 oke [{{fullurl:{{FULLPAGENAME}}|action=edit}} va batu bu robetal]</span>.',
 'userpage-userdoesnotexist'        => '"$1" favesikpata me tir vuesteyena. Vay stujel ede va batu bu roredul ike robetal.',
 'clearyourcache'                   => "'''Note :''' Après avoir sauvegardé, vous devez forcer le rechargement de la page pour voir les changements : '''Mozilla / Konqueror / Firefox''' : ''ctrl-shift-r'', '''IE''' : ''ctrl-f5'', '''Safari''' : ''cmd-shift-r''; '''Konqueror''' : ''f5''.",
@@ -587,8 +585,11 @@ oke [{{fullurl:{{FULLPAGENAME}}|action=edit}} va batu bu robetal]</span>.',
 'editingsection'                   => 'betara va $1 (gabot)',
 'editingcomment'                   => 'Betara va $1 (warzaf gabot)',
 'editconflict'                     => 'Betarakoboda : $1',
-'explainconflict'                  => "<b>Cette page a été sauvegardée après que vous avez commencé à la modifier.
-La zone d'édition supérieure contient le texte tel qu'il est enregistré actuellement dans la base de données. Vos modifications apparaissent dans la zone d'édition inférieure. Vous allez devoir apporter vos modifications au texte existant. Seul le texte de la zone supérieure sera sauvegardé.<br />",
+'explainconflict'                  => "Cette page a été sauvegardée après que vous avez commencé à la modifier.
+La zone d'édition supérieure contient le texte tel qu'il est enregistré actuellement dans la base de données.
+Vos modifications apparaissent dans la zone d'édition inférieure.
+Vous allez devoir apporter vos modifications au texte existant.
+Seul le texte de la zone supérieure sera sauvegardé.",
 'yourtext'                         => 'Rinaf krent',
 'storedversion'                    => 'Koverteyen siatos',
 'editingold'                       => "'''Obral : rin va savsaf siatos ke batu bu betal. Ede giwal, kot betaks skuyun mali bat siatos di zo deokar.'''",
@@ -688,14 +689,14 @@ Ta ropasusu warzafu bu yo va [[Special:Search|aneyara ko wiki]] yawal.',
 'logdelete-selected'        => "'''{{PLURAL:\$1|Reban \"log\" bif|Yon reban \"log\" bif}} :'''",
 'revdelete-legend'          => 'Skus irutareem',
 'revdelete-hide-text'       => 'Palsera va betaracek',
+'revdelete-hide-image'      => 'Palsera va iyeltakcek',
 'revdelete-hide-name'       => 'Palsera va tegira is xala',
 'revdelete-hide-comment'    => 'Palsera va betarasebusiki',
 'revdelete-hide-user'       => 'Palsera va sutes favesikyolt iku IP mane',
 'revdelete-hide-restricted' => 'Rewara va bat irutareem pu kot ristusik az elekara va bati walasiki',
 'revdelete-suppress'        => 'Origsulara mal ristusik lidam artan',
-'revdelete-hide-image'      => 'Palsera va iyeltakcek',
 'revdelete-unsuppress'      => 'Dimirutara va dimplekun betaks yo',
-'revdelete-log'             => '"Log" sebusiki :',
+'revdelete-log'             => 'Lazava :',
 'revdelete-submit'          => 'Ko reban siatos rewar',
 'revdelete-logentry'        => 'Betayana betarafa rowinuca ke [[$1]]',
 'logdelete-logentry'        => 'Betayana bifafa rowinuca ke [[$1]]',
@@ -757,8 +758,6 @@ Ta ropasusu warzafu bu yo va [[Special:Search|aneyara ko wiki]] yawal.',
 'searchresulttext'               => 'Ta lo giva icde aneyara ko {{SITENAME}}, va [[{{MediaWiki:Helppage}}|{{int:help}}]] teliz disukel.',
 'searchsubtitle'                 => 'Rin va \'\'\'[[:$1]]\'\'\' aneyayal ([[Special:Prefixindex/$1|kotu bu dem "$1" toza]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|kotu bu gluyasu va "$1"]])',
 'searchsubtitleinvalid'          => "Rin va '''$1''' aneyayal",
-'noexactmatch'                   => "'''Manu \"\$1\" bu me tir.''' Va [[:\$1|batu bu]] roredul.",
-'noexactmatch-nocreate'          => "'''Me tir bu dem \"\$1\" vergumvelt.'''",
 'toomanymatches'                 => 'Slik trasiks, vay va amidafa aneyara yawal',
 'titlematches'                   => 'Vadjesaceem vanmia vergumvelteem',
 'notitlematches'                 => 'Mek telizvergumvelt ruldas va erune',
@@ -766,7 +765,7 @@ Ta ropasusu warzafu bu yo va [[Special:Search|aneyara ko wiki]] yawal.',
 'notextmatches'                  => 'Mek krentvergumvelt ruldas va erune',
 'prevn'                          => '{{PLURAL:$1|$1}} abduef',
 'nextn'                          => '{{PLURAL:$1|$1}} radimef',
-'viewprevnext'                   => 'Va ($1) ik ($2) ik ($3) disukel.',
+'viewprevnext'                   => 'Va ($1 {{int:pipe-separator}} $2) ik ($3) disukel.',
 'searchhelp-url'                 => 'Help:Pomara',
 'searchprofile-images'           => 'Iyeltak',
 'searchprofile-everything'       => 'Kotcoba',
@@ -877,7 +876,7 @@ Gotir le $1 {{PLURAL:$1|staa|staa}}.',
 'userrights-editusergroup'    => 'Betara va favesiklospa',
 'saveusergroups'              => 'Giwara va favesiklospa',
 'userrights-groupsmember'     => 'Bewik ke',
-'userrights-reason'           => 'Betaralazava :',
+'userrights-reason'           => 'Elekaradanda :',
 'userrights-no-interwiki'     => 'Va favesikroka koe ari wiki me robetal.',
 'userrights-nodatabase'       => '$1 origak me krulder oke me tir lizukaf.',
 'userrights-nologin'          => 'Ta tentura va favesikroka gotil [[Special:UserLogin|dogluyan]] kan ristusikpata.',
@@ -1023,7 +1022,6 @@ Bu koe [[Special:Watchlist|rinafi suzdasiki]] tid '''vastaakorafu'''.",
 # Upload
 'upload'                      => 'Iyeltakkalvajara',
 'uploadbtn'                   => 'Va iyeltak kalvajá',
-'reupload'                    => 'Tolon kalvajá',
 'reuploaddesc'                => 'Empara va kalvajara nume dimpira',
 'uploadnologin'               => 'Dogluyariskaf',
 'uploadnologintext'           => 'Gotil [[Special:UserLogin|dogluyarakiraf]] ta kalvajara va iyeltak mo zanisiko.',
@@ -1054,7 +1052,7 @@ Ta kobura va iyeltak, koe tazukasiki va gluyasiki favel
 'illegalfilename'             => '« $1 » iyeltakyolt va biuna staa koe buvergumvelt ruldar. Vay, vaon tolyoltal aze tolksudal.',
 'badfilename'                 => 'Tolyoltayana ewava « $1 ».',
 'filetype-badmime'            => 'Iyeltak ton "$1" MIME ord tir merokalvajan.',
-'filetype-unwanted-type'      => "'''\".\$1\"''' tir iyeltakordaj. 
+'filetype-unwanted-type'      => "'''\".\$1\"''' tir iyeltakordaj.
 {{PLURAL:\$3|iyeltakord tir|iyeltakord tid}} \$2.",
 'filetype-banned-type'        => "'''\".\$1\"''' tir merictan iyeltakord. Rictan iyeltakord {{PLURAL:\$3|tir|tid}} \$2.",
 'filetype-missing'            => 'Iyeltak tir oxiaciskaf (tulon ".jpg").',
@@ -1078,7 +1076,6 @@ Ede va man iyeltak soe co-djukalvajal, vay dimpil ise va warzaf yolt favel.
 'fileexists-shared-forbidden' => 'Koe pakano iyeltakxo milyoltaf iyeltak ixam tir.
 Ede va man iyeltak soe co-djukalvajal, vay dimpil ise va warzaf yolt favel. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Bat iyeltak tir jontolaca ke {{PLURAL:$1|iyeltak|iyeltak}}:',
-'successfulupload'            => 'Ksudanhara',
 'uploadwarning'               => 'Obral !',
 'savefile'                    => 'Giwara va iyeltak',
 'uploadedimage'               => '« [[$1]] » ksudayan mo zanisiko',
@@ -1086,8 +1083,6 @@ Ede va man iyeltak soe co-djukalvajal, vay dimpil ise va warzaf yolt favel. [[Fi
 'uploaddisabled'              => 'Skalev, staksera va iyeltak tir gritegirayan.',
 'uploaddisabledtext'          => 'Iyeltakkalvajara tir gritegirayana.',
 'uploadscripted'              => 'Bat iyeltak va HTML ok Script beksa rotir narujutuna gan web exulesiki ruldar.',
-'uploadcorrupt'               => 'Bat iyeltak tir avonanaf ok lumiskaf oke va mewadaf yolt digir.
-Va iyeltak gonageltal.',
 'uploadvirus'                 => 'Iyeltak va kio ruldar ! Pinta se : $1',
 'sourcefilename'              => 'Klitiyeltakyolt:',
 'destfilename'                => 'Warzaf iyeltakyolt:',
@@ -1097,6 +1092,7 @@ Va iyeltak gonageltal.',
 
 Gokrafial ede tolkalvajara va bat iyeltak tir vodanhafa.
 Sulara \"log\" va batu bu krafiason batlize zo nedir :",
+'upload-success-subj'         => 'Ksudanhara',
 
 'upload-proto-error'     => 'Kitsendaj',
 'upload-file-error'      => 'Koefa rokla',
@@ -1162,7 +1158,7 @@ Sulara \"log\" va batu bu krafiason batlize zo nedir :",
 'filedelete-legend'           => 'Sulara va iyeltak',
 'filedelete-intro'            => "Rin va '''[[Media:$1|$1]]''' iyeltak is varaf izvot fu sulal.",
 'filedelete-intro-old'        => "Rin va siatos ke '''[[Media:$1|$1]]''' wetce [$4 $3, $2] sulal.",
-'filedelete-comment'          => 'Sebuks :',
+'filedelete-comment'          => 'Elekaradanda :',
 'filedelete-submit'           => 'Sulara',
 'filedelete-success'          => "'''$1''' al zo sular.",
 'filedelete-success-old'      => "Siatos ke '''[[Media:$1|$1]]''' iyeltak ba $3 ke $2 zo sulayar.",
@@ -1317,7 +1313,9 @@ Abdi sulara, setikel da va ari skedasiki va teza stujel.',
 
 # Special:Categories
 'categories'                    => 'Bulomeem',
-'categoriespagetext'            => 'Radimiasa loma se moe wiki krulded :',
+'categoriespagetext'            => 'Radimiasa loma se moe wiki krulded.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 'categoriesfrom'                => 'Nedira va loma tozakirafa gu :',
 'special-categories-sort-count' => 'Otafa mubera',
 'special-categories-sort-abc'   => 'Abavafa mubera',
@@ -1380,7 +1378,6 @@ L'adresse électronique que vous avez indiquée dans vos préférences apparaît
 # Watchlist
 'watchlist'            => 'Suzdasiki',
 'mywatchlist'          => 'Jinafi suzdasiki',
-'watchlistfor'         => "(tori '''$1''')",
 'nowatchlist'          => 'Rinafi suzdasiki va nedoy teliz ruldar.',
 'watchlistanontext'    => 'Ta wira ik betara va ra ke rinafi suzdasiki vay $1.',
 'watchnologin'         => 'Dogluyariskaf',
@@ -1391,7 +1388,7 @@ Va moniyaf betareem va batu bu is dofu prilarabu batlize zo bonjatad, ise ta lok
 
 Ta sulara va batu bu div rinafi suzdasiki, koe grablexo va « Mea suzdá » vulegal.",
 'removedwatch'         => 'Sulayanu div suzdasiki',
-'removedwatchtext'     => '« <nowiki>$1</nowiki> » bu div rinafi suzdasiki al zo sular.',
+'removedwatchtext'     => '« [[:$1]] » bu div rinafi suzdasiki al zo sular.',
 'watch'                => 'Suzdá',
 'watchthispage'        => 'Va batu bu suzdá',
 'unwatch'              => 'Mea suzdá',
@@ -1464,14 +1461,14 @@ Vay gruyel da djuskul ise va maletireem vangrupel ise tarkason va [[{{MediaWiki:
 'actioncomplete'         => 'Skuyuna sulara',
 'deletedtext'            => '« <nowiki>$1</nowiki> » tir sulayan.
 Ta vexala dem noeltaf sulareem va $2 disukel.',
-'deletedarticle'         => 'al sular va « $1 »',
+'deletedarticle'         => 'al sular va « [[$1]] »',
 'suppressedarticle'      => '"[[$1]]" sulayan',
 'dellogpage'             => 'Izvot va sulareem',
 'dellogpagetext'         => 'Tir tela vexala dem noeltaf sulareem.
 Bazen bartiv tir tel ke zanisiko.',
 'deletionlog'            => 'izvot va sulareem',
 'reverted'               => 'Dimplekura va tel abdif siatos',
-'deletecomment'          => 'Sularadanda',
+'deletecomment'          => 'Lazava :',
 'deleteotherreason'      => 'Ara ik loplekufa lazava :',
 'deletereasonotherlist'  => 'Ara lazava',
 'deletereason-dropdown'  => '*Giltafa sularalazava
@@ -1504,11 +1501,10 @@ Ironokafa betara gan [[User:$3|$3]] ([[User talk:$3|Prilara]]) zo skuyur.',
 'protect-title'               => 'Nendara va « $1 »',
 'prot_1movedto2'              => '$1 arbureyen kal $2',
 'protect-legend'              => 'Va nendara gruyel',
-'protectcomment'              => 'Nendaradanda',
+'protectcomment'              => 'Elekaradanda :',
 'protectexpiry'               => 'Edjatena :',
 'protect_expiry_invalid'      => 'Edjatena me tir enafa.',
 'protect_expiry_old'          => 'Edjatena tir abdiugalafa.',
-'protect-unchain'             => 'Volelekara va arrundararictara',
 'protect-text'                => "Rin va nendareka ke '''<nowiki>$1</nowiki>''' bu batlize rowil nume robetal.",
 'protect-locked-access'       => "Rinafa pata va betara va nendareka me rictar.
 Noeltaf plekukseem ke '''$1''' bu batlize tid :",
@@ -1548,7 +1544,7 @@ Badona rekolon zo gotuvlardar.',
 'undeleterevisions'         => '$1 fardudjayana betara',
 'undeletehistory'           => "Ede rin va bu co-dimplekul, kota betara ko izvot zo co-dimplekur.
 
-Si une nouvelle page avec le même nom a été crée depuis la suppression, les révisions restaurées apparaîtront dans l'historique antérieur et la version courante ne sera pas automatiquement remplacée.",
+Si une nouvelle page avec le même nom a été créée depuis la suppression, les révisions restaurées apparaîtront dans l'historique antérieur et la version courante ne sera pas automatiquement remplacée.",
 'undelete-revision'         => 'Sulayana betara va $1 (ba $4 ke $5) gan $3 :',
 'undelete-nodiff'           => 'Mek abdif betaks trasin.',
 'undeletebtn'               => 'Skura va dimplekura !',
@@ -1625,7 +1621,7 @@ Va lazavanha (tulon ozwason va cidayanu bu se) vlevon bazel !',
 'ipaddress'                => 'IP mane ok ikayolt',
 'ipadressorusername'       => 'IP mane ok favesikyolt',
 'ipbexpiry'                => 'Elekaracek',
-'ipbreason'                => 'Elekaradanda',
+'ipbreason'                => 'Elekaradanda :',
 'ipbreasonotherlist'       => 'Ardume',
 'ipbanononly'              => 'Anton elekara va yoltiskaf favesik',
 'ipbcreateaccount'         => 'Djira va pataredura',
@@ -1731,7 +1727,7 @@ Dans ce cas, vous devrez renommer ou fusionner la page manuellement si vous le d
 'move-watch'              => 'Busuzdara',
 'movepagebtn'             => 'Tolyoltara va teliz',
 'pagemovedsub'            => 'Tolyoltanhara',
-'movepage-moved'          => '<big>\'\'\'"$1" zo arrundayar kal "$2"\'\'\'</big>',
+'movepage-moved'          => '\'\'\'"$1" zo arrundayar kal "$2"\'\'\'',
 'articleexists'           => 'Milvergumveltaf teliz ixam krulder, oke kiblayan vergumvelt tir meenaf. Va ar kiblal !',
 'cantmove-titleprotected' => 'Va bu me milinde rotarrundal kire warzaf vergumvelt icde redura zo nendar',
 'talkexists'              => "La page elle-même a été déplacée avec succès, mais la page de discussion n'a pas pu être déplacée car il en existait déjà une sous le nouveau nom. S'il vous plait, fusionnez les manuellement.",
@@ -1742,11 +1738,11 @@ Dans ce cas, vous devrez renommer ou fusionner la page manuellement si vous le d
 'movepage-page-exists'    => '$1 bu ixam tir nume me balkon zo rotolsuter.',
 'movepage-page-moved'     => '$1 bu ko $2 su zo arrundar.',
 'movepage-page-unmoved'   => '$1 bu ko $2 me al zo rotarrundar.',
-'1movedto2'               => '$1 arbureyen kal $2',
-'1movedto2_redir'         => '$1 arbureyen kal $2 (graskara)',
+'1movedto2'               => '[[$1]] arbureyen kal [[$2]]',
+'1movedto2_redir'         => '[[$1]] arbureyen kal [[$2]] (graskara)',
 'movelogpage'             => 'Arrundara va "log" bu',
 'movelogpagetext'         => 'Vleveon vexala dem arrundayanu bu se.',
-'movereason'              => 'Lazava va arplekura',
+'movereason'              => 'Lazava :',
 'revertmove'              => 'dimplekura',
 'delete_and_move'         => 'Sulara is arplekura',
 'delete_and_move_text'    => '==Sulara eruna==
@@ -1845,6 +1841,7 @@ Va [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation] is [http:
 'tooltip-search-fulltext'         => 'Aneyara va bu dem bat krent',
 'tooltip-p-logo'                  => 'Emudexo',
 'tooltip-n-mainpage'              => 'Va emudexo woral !',
+'tooltip-n-mainpage-description'  => 'Va emudexo woral !',
 'tooltip-n-portal'                => 'Icde abdumimaks, gonaskinaceem ise lize rotrasil',
 'tooltip-n-currentevents'         => 'Trasira va icdefa giva icde noeltaf bifeem',
 'tooltip-n-recentchanges'         => 'Noeltaf betakseem koe wiki.',
@@ -1897,8 +1894,8 @@ Ise va bazera va lazava ko vildeks nover.',
 'creditspage'      => 'Rostbu',
 
 # Spam protection
-'spamprotectiontitle' => 'Page automatiquement protégée pour cause de spam',
-'spamprotectiontext'  => 'Page automatiquement protégée pour cause de spam',
+'spamprotectiontitle' => 'Filtre de protection anti-polluriels',
+'spamprotectiontext'  => 'La création ou sauvegarde de la page a été automatiquement bloquée par le filtre anti-polluriel. Ceci est probablement causé par l’inclusion d’un lien vers un site externe apparaissant sur la liste noire.',
 'spamprotectionmatch' => 'Le texte suivant a déclenché le détecteur de spam: $1',
 'spambot_username'    => 'Tucuara va MediaWiki "spam"
 MediaWiki spam cleanup',

@@ -9,6 +9,7 @@
  *
  * @author Dario vet
  * @author Dedee
+ * @author Gastaz
  * @author Malafaya
  * @author Urhixidur
  * @author ZeneizeForesto
@@ -124,16 +125,25 @@ $specialPageAliases = array(
 
 $messages = array(
 # User preference toggles
-'tog-underline'            => 'Sottolineâ i collegamenti',
-'tog-justify'              => 'Alliniamento di paragrafi giustificòu',
-'tog-showtoolbar'          => 'Fâ vedde a barra de strumenti de modìffica (con JavaScript)',
-'tog-rememberpassword'     => "Arregorda a mæ paròlla d'ordine",
-'tog-editwidth'            => 'Spaçio pe cangiâ a larghessa pinn-a',
-'tog-previewontop'         => "Veddi l'anteprimma de d'äto a-o spaçio pe cangiâ",
-'tog-previewonfirst'       => "Veddi l'anteprimma a-o primmo cangiamento",
-'tog-enotifwatchlistpages' => "Fammelo savéi via e-mail quande 'na paggina inta mæ lista in osservassion a va cangiaa.",
-'tog-enotifusertalkpages'  => "Màndime un messaggio e-mail se gh'é de-e modìffiche inta pagina de discuscion da mæ pagina d'utente.",
-'tog-showhiddencats'       => 'Fa vedde e categorîe ascose',
+'tog-underline'               => 'Sottolineâ i collegamenti',
+'tog-highlightbroken'         => 'Evidensia <a href="" class="new">coscì</a> i collegamenti a-e paggine inexisténti (se disattivou: coscì<a href="" class="internal">?</a>)',
+'tog-justify'                 => 'Alliniamento di paragrafi giustificòu',
+'tog-hideminor'               => 'asconde e modifiche minori inte ùrtime modifiche',
+'tog-hidepatrolled'           => 'Ascondi e modifiche verifichè inte ùrtime modifiche',
+'tog-newpageshidepatrolled'   => 'Ascondi e paggine verifiché da-o elenco de paggine ciù reçenti',
+'tog-extendwatchlist'         => 'mostrâ tùtte e modifiche a-i òsserve speciali',
+'tog-usenewrc'                => 'Usâ e ùrtime modifiche avansê (serve Javascript)',
+'tog-numberheadings'          => 'Nùmeraçion aotomàtica di tìtoli de seçión',
+'tog-showtoolbar'             => 'Fâ vedde a barra de strumenti de modìffica (con JavaScript)',
+'tog-editondblclick'          => 'Modifica e paggine co-o dópio clic (serve Javascrpt)',
+'tog-editsection'             => 'Modifica e seçión co-o colegamento [modifica]',
+'tog-editsectiononrightclick' => 'Modifica e seçión co-o clic destro in sciô tìtolo (serve Javascipt)',
+'tog-rememberpassword'        => "Arregorda a mæ paròlla d'ordine (a-o màscimo pe $1 {{PLURAL:$1|day|days}})",
+'tog-previewontop'            => "Veddi l'anteprimma de d'äto a-o spaçio pe cangiâ",
+'tog-previewonfirst'          => "Veddi l'anteprimma a-o primmo cangiamento",
+'tog-enotifwatchlistpages'    => "Fammelo savéi via e-mail quande 'na paggina inta mæ lista in osservassion a va cangiaa.",
+'tog-enotifusertalkpages'     => "Màndime un messaggio e-mail se gh'é de-e modìffiche inta pagina de discuscion da mæ pagina d'utente.",
+'tog-showhiddencats'          => 'Fa vedde e categorîe ascose',
 
 'underline-always' => 'Sempre',
 'underline-never'  => 'Mâi',
@@ -343,12 +353,12 @@ O to account o l'è stæto creoö. Non te ascordà de cangiâ e toe preferençe 
 'yourname'                   => 'Nomme',
 'yourpassword'               => 'Pòula segretta:',
 'yourpasswordagain'          => 'Ri-scriï a pòula segretta',
-'remembermypassword'         => "Arregordâ a mæ paròlla d'ordine",
+'remembermypassword'         => "Arregordâ a mæ paròlla d'ordine (for a maximum of $1 {{PLURAL:$1|day|days}})",
 'yourdomainname'             => 'Indirisso do scito:',
 'login'                      => 'Intra',
 'nav-login-createaccount'    => 'Intra / Registrate',
 'loginprompt'                => "Ti deivi avéi e lesche (''cookies'') abilitæ into têu navigatô pe intrâ in {{SITENAME}}.",
-'userlogin'                  => 'Intra',
+'userlogin'                  => 'Intra / Registrate',
 'logout'                     => 'Sciorti',
 'userlogout'                 => 'Sciorti',
 'nologin'                    => "No ti g'hæ ancon accesso? '''$1'''.",
@@ -373,7 +383,7 @@ A dêve contegnî mìnimo $1 caratteri e esse diverza da-o teu nómme utente.",
 'mailmypassword'             => "Inviâ paròlla d'ordine (password) via e-mail",
 'passwordremindertitle'      => "Servissio Password Reminder (nêuva paròlla d'ordine temporannia) de {{SITENAME}}",
 'passwordremindertext'       => "Quarchedûn (probabilmente ti, con indirisso IP \$1) o g'ha domandòu l'invîo de 'na nêuva paròlla d'ordine pe l'accesso a {{SITENAME}} (\$4).
-A paròlla d'ordine pe l'ûtente \"\$2\" a l'è stæta impostâa a \"\$3\". 
+A paròlla d'ordine pe l'ûtente \"\$2\" a l'è stæta impostâa a \"\$3\".
 O se conseggia de fâ l'accesso quanto primma e cangiâ a paròlla d'ordine immediatamente.
 Se no ti è stæto ti a fâ 'sta domanda, oppûre se ti g'hæ ritrovòu a têu paròlla d'ordine e no ti vêu cangiâla ciû, ti pêu ignorâ 'sto messaggio e andâ avanti ûsando a vegia paròlla d'ordine.",
 'noemail'                    => 'No gh\'è nisciûn indirisso e-mail registròu pe l\'ûtente "$1".',
@@ -429,7 +439,7 @@ Pe abilitâ l'invîo de messaggi e-mail pe quest'accesso, o se deive seguî l'is
 'anoneditwarning'            => "'''Attension:''' No ti t'hæ registròu. O têu indirisso IP o sajà misso inta stöja di cangiamenti da paggina.",
 'summary-preview'            => 'Anteprimma oggetto:',
 'blockedtitle'               => "L'utente o l'é bloccòu",
-'blockedtext'                => "<big>''''Sto nomme d'ûtente ou indirisso IP o l'è stæto bloccòu.'''</big>
+'blockedtext'                => "''''Sto nomme d'ûtente ou indirisso IP o l'è stæto bloccòu.'''
 
 O blòcco o l'è stæto fæto da \$1. A raxon dæta a l'è ''\$2''.
 
@@ -449,7 +459,7 @@ A raxon dæta a l'è stæta:
 * Inissio do blòcco: \$8
 * Fin do blòcco: \$6
 
-Ti pêu contattâ \$1 ou 'n âtro 
+Ti pêu contattâ \$1 ou 'n âtro
 [[{{MediaWiki:Grouppage-sysop}}|amministratô]] pe parlâ inscio blòcco.
 
 Dagghe a mente a che no ti pêu ûsâ o comando \"manda na littia elettronega a sto utente\" se non ti g'hæ 'n indirisso de posta elettronega registroö in te têu [[Special:Preferences|preferense]] e se o no l'è stæto bloccòu ascì.
@@ -534,7 +544,6 @@ Leggenda: (corr) = differense co-a verscion corrente, (prec) = differense co-a v
 'searchresults'         => 'Resultati da reçerca',
 'searchsubtitle'        => "Ti t'è çercoö '''[[:$1]]'''",
 'searchsubtitleinvalid' => "Ti t'è çercoö '''$1'''",
-'noexactmatch'          => "'''No gh'è nisciûnn-a paggina c'a se ciamme \"\$1\".''' O se pêu [[:\$1|creâla òua]].",
 'prevn'                 => 'Preçedenti {{PLURAL:$1|$1}}',
 'nextn'                 => 'Proscima {{PLURAL:$1|$1}}',
 'viewprevnext'          => 'Veddi ($1 {{int:pipe-separator}} $2) ($3).',
@@ -619,7 +628,6 @@ E paggine in osservassion son dipinte in '''grascietto'''.",
 'savefile'             => 'Sarva o papê',
 'uploadedimage'        => 'O s\'ha caregòu "[[$1]]"',
 'uploaddisabledtext'   => 'In {{SITENAME}} non se peu caregâ de papê.',
-'uploadcorrupt'        => "O papê o gh'à di erroì ò-o gh'à unn'estenscion sbaliâ. Pe piaxei dagghe unn'euggiâ a-o papê e càreghilo tórna.",
 'uploadvirus'          => 'O papê gha un virus!! Dettaggi: $1',
 'sourcefilename'       => "Nomme do papê d'origine:",
 'destfilename'         => 'Nomme do papê de destin:',
@@ -775,7 +783,6 @@ Ti te peu strinza a vista se ti te çerni un tipo de registro, un nomme de un ut
 # Watchlist
 'watchlist'         => 'A mæ lista in osservassion',
 'mywatchlist'       => 'Lista in osservaçion',
-'watchlistfor'      => "(pe '''$1''')",
 'watchnologin'      => "Non ti t'æ entroö",
 'watchnologintext'  => 'Devvi [[Special:UserLogin|entrâ]] pe cangiâ a toa lista in osservaçion.',
 'addedwatch'        => 'Azzonto a a lista in osservaçion',
@@ -807,7 +814,7 @@ Ti te peu strinza a vista se ti te çerni un tipo de registro, un nomme de un ut
 'deletedtext'           => 'A paggina "<nowiki>$1</nowiki>" a l\'è stæta scassâa. Consûltâ o $2 pe \'na lista de-e paggine scassæ de reçente.',
 'deletedarticle'        => 'O s\'ha scassòu "[[$1]]"',
 'dellogpage'            => 'Registro de-e cose scassæ',
-'deletecomment'         => 'Raxon pe scassâ',
+'deletecomment'         => 'Raxon:',
 'deleteotherreason'     => 'Ûn âtro motivo',
 'deletereasonotherlist' => "Ûnn'âtra raxon",
 
@@ -815,7 +822,7 @@ Ti te peu strinza a vista se ti te çerni un tipo de registro, un nomme de un ut
 'rollbacklink'  => 'rollback',
 'cantrollback'  => "O no se pêu tornâ inderê; l'ûtente ch'à fæto quelle modiffiche o l'è stæto l'ûnico contribûente.",
 'alreadyrolled' => "O no se peû tornâ inderê a-i ûrtimi cangiamenti da pagina [[:$1]]
-da [[User:$2|$2]] ([[User talk:$2|Ciæti]]); quarche âtro 
+da [[User:$2|$2]] ([[User talk:$2|Ciæti]]); quarche âtro
 o l'à cangiâ ò o l'è zà tornòu inderê.
 L'ûrtimo cangiamento o ghe l'à fæto [[User:$3|$3]] ([[User talk:$3|Ciæti]]).",
 'revertpage'    => 'E modificaçioin de [[Special:Contributions/$2|$2]] ([[User talk:$2|Ciæti]]) son stæte eliminæ; riportæ a verscion de primma de [[User:$1|$1]]',
@@ -825,11 +832,10 @@ L'ûrtimo cangiamento o ghe l'à fæto [[User:$3|$3]] ([[User talk:$3|Ciæti]]).
 'protectedarticle'            => 'o s\'ha protezûo "[[$1]]"',
 'prot_1movedto2'              => '[[$1]] mesciòu a [[$2]]',
 'protect-legend'              => 'Confermâ protession',
-'protectcomment'              => 'Motivo da protession:',
+'protectcomment'              => 'Raxon:',
 'protectexpiry'               => 'Scadensa:',
 'protect_expiry_invalid'      => 'Scadensa invalida.',
 'protect_expiry_old'          => 'Data de scadensa into passòu.',
-'protect-unchain'             => 'Scollegâ i permissi de stramûo',
 'protect-text'                => "Chì o l'è poscibbile vedde e modificâ o livello de protession pe-a paggina '''<nowiki>$1</nowiki>'''.",
 'protect-locked-access'       => "No ti g'hæ permisso pe modificâ i livelli de protession da paggina.
 Queste son e impostassioîn correnti pe 'sta paggina ('''$1'''):",
@@ -895,7 +901,7 @@ $1',
 
 # Block/unblock
 'blockip'                     => "Blocca l'ûtente",
-'ipbreason'                   => 'Raxon do blòcco:',
+'ipbreason'                   => 'Raxon:',
 'ipboptions'                  => '2 ôe:2 hours,1 giorno:1 day,3 giorni:3 days,1 settemann-a:1 week,2 settemann-e:2 weeks,1 meise:1 month,3 meixi:3 months,6 meixi:6 months,1 anno:1 year,infinîo:infinite',
 'badipaddress'                => 'Indirisso IP non valido',
 'blockipsuccesssub'           => 'Affermaçion arriescïa',

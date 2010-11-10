@@ -22,7 +22,7 @@ $dateFormats = array(
 
 $messages = array(
 # User preference toggles
-'tog-rememberpassword'   => 'Giéu cī gá diêng-nō̤ gé diâng nguāi gì dióng-hô̤ gâe̤ng mĭk-mā',
+'tog-rememberpassword'   => 'Giéu cī gá diêng-nō̤ gé diâng nguāi gì dióng-hô̤ gâe̤ng mĭk-mā (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'     => 'Gă-tiĕng nguāi kŭi gì hiĕk-miêng gáu nguāi gì gáng-sê-dăng',
 'tog-watchdefault'       => 'Gă-tiĕng nguāi siŭ-gāi gì hiĕk-miêng gáu nguāi gì gáng-sê-dăng',
 'tog-watchmoves'         => 'Gă-tiĕng nguāi iè-dông gì hiĕk-miêng gáu nguāi gì gáng-sê-dăng',
@@ -212,7 +212,7 @@ Sō̤ kī só-gé̤ṳ-kó gì guāng-lī-uòng cūng-kuāng gāi-sék: $1',
 'editinginterface'     => "'''Gīng-gó̤:''' Nṳ̄ hiêng-câi lā̤ siŭ-gāi hiê-tūng gái-miêng gì hiĕk. Dó̤i ciā hiĕk gì gāi-biéng â̤ īng-hiōng gì-tă ê̤ṳng-hô gì gái-miêng.",
 
 # Login and logout pages
-'logouttext'                 => "'''Nṳ̄ hiêng-câi láuk-chók lāu.'''<br />
+'logouttext'                 => "'''Nṳ̄ hiêng-câi láuk-chók lāu.'''
 Nṳ̄ â̤-sāi sāi mò̤-miàng huŏng-sék gié-sṳ̆k găk {{SITENAME}} gè̤-dēng láuk, nṳ̄ iâ â̤-sāi sāi dè̤ng-iông gì dióng-hô̤ hĕ̤k-ciā bĕk-nó̤h bĭk dióng-hô̤ gái láuk-diē. Diŏh gé lā̤, nṳ̄ báuk-lāng-ké ká̤-chṳ̄ (''browser cache'') nâ mò̤ tĕ̤ng táh gó̤ uâ, ô gì hiĕk giăng â̤ hiēng-sê nṳ̄ gó muôi láuk-chók.",
 'welcomecreation'            => '== Huăng-ngìng guŏng-lìng, $1! ==
 
@@ -220,10 +220,10 @@ Nṳ̄ gì dióng-hô̤ ī-gĭng kŭi hō̤ lāu. Dāng nṳ̄ â̤-sāi siŭ-g�
 'yourname'                   => 'Ê̤ṳng-hô-miàng',
 'yourpassword'               => 'Mĭk-mā',
 'yourpasswordagain'          => 'Dṳ̀ng-sĭng páh diē mĭk-mā',
-'remembermypassword'         => 'Giéu cī gá diêng-nō̤ gé diâng nguāi gì dióng-hô̤ gâe̤ng mĭk-mā.',
+'remembermypassword'         => 'Giéu cī gá diêng-nō̤ gé diâng nguāi gì dióng-hô̤ gâe̤ng mĭk-mā (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                      => 'Láuk-diē',
 'loginprompt'                => 'Páh kŭi cookies ciáh â̤ diē {{SITENAME}}.',
-'userlogin'                  => 'Láuk-diē',
+'userlogin'                  => 'Láuk-diē / kŭi dióng-hô̤',
 'logout'                     => 'Láuk-chók',
 'userlogout'                 => 'Láuk-chók',
 'notloggedin'                => 'Mò̤ [[Special:UserLogin|láuk-diē]]',
@@ -294,7 +294,11 @@ Nṳ̄ gì IP dê-cī â̤ ké̤ṳk gé diŏh ciā hiĕk-miêng siŭ-gāi lĭk-
 'editingsection'             => 'Siŭ-gāi $1 (dâung)',
 'editingcomment'             => 'Siŭ-gāi $1 (pàng-lâung)',
 'editconflict'               => 'Siŭ-gāi dó̤i-chṳ̆ng: $1',
-'explainconflict'            => 'Bĕk-nè̤ng diŏh nṳ̄ tā-sĕng siŭ-gāi cī miêng hiĕk gì sèng-âu ô có̤ gì-tă siŭ-gāi. Gà̤-dēng gì bēng-bēng hiēng-sê gì sê hiêng-câi có̤i sĭng gì bēng-buōng. Nṳ̄ sū có̤ gì gāi-biéng găk â-dā̤ gì bēng-bēng diē-sié. Nṳ̄ sṳ̆-iéu găk gà̤-dēng gì bēng-bēng diē-sié cīng-hăk nṳ̄ lâng ciáh nè̤ng sū có̤ gì gāi-biéng. Iŏk-guō nṳ̄ dĭk-ciék áik "Bō̤-còng ciā hiĕk", <b>nâ ô</b> gà̤-dēng bēng-bēng diē-sié gì ùng-cê â̤ ké̤ṳk bō̤-còng.',
+'explainconflict'            => "Bĕk-nè̤ng diŏh nṳ̄ tā-sĕng siŭ-gāi cī miêng hiĕk gì sèng-âu ô có̤ gì-tă siŭ-gāi.
+Gà̤-dēng gì bēng-bēng hiēng-sê gì sê hiêng-câi có̤i sĭng gì bēng-buōng.
+Nṳ̄ sū có̤ gì gāi-biéng găk â-dā̤ gì bēng-bēng diē-sié.
+Nṳ̄ sṳ̆-iéu găk gà̤-dēng gì bēng-bēng diē-sié cīng-hăk nṳ̄ lâng ciáh nè̤ng sū có̤ gì gāi-biéng.
+Iŏk-guō nṳ̄ dĭk-ciék áik \"{{int:savearticle}}\", '''nâ ô''' gà̤-dēng bēng-bēng diē-sié gì ùng-cê â̤ ké̤ṳk bō̤-còng.",
 'yourtext'                   => 'Nṳ̄ gì ùng-cê',
 'editingold'                 => "'''GĪNG-GÓ̤: Nṳ̄ hiêng-câi lā̤ siŭ-gāi ciā hiĕk-miêng ī-gĭng guó-gĭ gì bēng-buōng. Nṳ̄ nâ bō̤-còng ĭ, cī ciáh gô bēng-buōng cĭ-hâiu gì siŭ-gāi cêu mò̤ lāu.'''",
 'yourdiff'                   => 'Chă-biék',
@@ -356,7 +360,6 @@ Siók-mìng: (dāng) = gâe̤ng dék sĭng bēng-buōng bī-piâng, (sèng) = g�
 'searchresulttext'      => 'Buóh liēu-gāi diŏh {{SITENAME}} sìng-tō̤ ùng-ciŏng gì gáing sâ̤ séng-sék, chiāng chăng-kō̤ [[{{ns:project}}:Sìng-tō̤]].',
 'searchsubtitle'        => "Nṳ̄ sìng-tō̤ '''[[:$1]]'''",
 'searchsubtitleinvalid' => "Nṳ̄ sìng-tō̤ '''$1'''",
-'noexactmatch'          => "'''Tō̤ mâ̤ diŏh dū-dū siŏh-iông gì miàng \"\$1\".''' Nṳ̄ â̤-sāi [[:\$1|cê-gă siā]].",
 'prevn'                 => 'sèng {{PLURAL:$1|$1}} hâung',
 'nextn'                 => 'â {{PLURAL:$1|$1}} hâung',
 'viewprevnext'          => 'Káng ($1 {{int:pipe-separator}} $2) ($3).',
@@ -436,33 +439,32 @@ Siók-mìng: (dāng) = gâe̤ng dék sĭng bēng-buōng bī-piâng, (sèng) = g�
 'recentchangeslinked-toolbox' => 'Siŏng-guăng gì gāi-biéng',
 
 # Upload
-'upload'            => 'Siông-duòng ùng-giông',
-'uploadbtn'         => 'Siông-duòng ùng-giông',
-'reupload'          => 'Dṳ̀ng-sĭng siông-diòng',
-'reuploaddesc'      => 'Duōng kó̤ siông-duòng dăng-dăng.',
-'uploadnologin'     => 'Mò̤ láuk-diē',
-'uploadnologintext' => 'Sĕng [[Special:UserLogin|láuk-diē]] ciáh â̤-sāi siông-duòng ùng-giông.',
-'uploaderror'       => 'Siông-duòng ô dâng',
-'uploadlog'         => 'siông-duòng nĭk-cé',
-'uploadlogpage'     => 'Siông-duòng nĭk-cé',
-'uploadlogpagetext' => 'Â-dā̤ sê gé-luŏh cī-bŏng ùng-giông siông-duòng gì dăng-dăng.',
-'filename'          => 'Ùng-giông-miàng',
-'filedesc'          => 'Cūng-giék',
-'fileuploadsummary' => 'Cūng-giék:',
-'filesource'        => 'Lài-nguòng:',
-'uploadedfiles'     => 'Siông-duòng ùng-giông',
-'ignorewarning'     => 'Mò̤ sê̤ṳ gīng-gó̤ bō̤-còng ùng-giông.',
-'ignorewarnings'    => 'Mò̤ sê̤ṳ gīng-gó̤',
-'fileexists'        => "Ī-gĭng ô siŏh bĭk dè̤ng miàng ùng-giông, nṳ̄ nâ mâ̤ káuk-dêng nṳ̄ sê-ng-sê dŏng-cĭng páh-sáung gāi-biéng ĭ, chiāng giēng-chă '''<tt>[[:$1]]</tt>'''.
+'upload'              => 'Siông-duòng ùng-giông',
+'uploadbtn'           => 'Siông-duòng ùng-giông',
+'reuploaddesc'        => 'Duōng kó̤ siông-duòng dăng-dăng.',
+'uploadnologin'       => 'Mò̤ láuk-diē',
+'uploadnologintext'   => 'Sĕng [[Special:UserLogin|láuk-diē]] ciáh â̤-sāi siông-duòng ùng-giông.',
+'uploaderror'         => 'Siông-duòng ô dâng',
+'uploadlog'           => 'siông-duòng nĭk-cé',
+'uploadlogpage'       => 'Siông-duòng nĭk-cé',
+'uploadlogpagetext'   => 'Â-dā̤ sê gé-luŏh cī-bŏng ùng-giông siông-duòng gì dăng-dăng.',
+'filename'            => 'Ùng-giông-miàng',
+'filedesc'            => 'Cūng-giék',
+'fileuploadsummary'   => 'Cūng-giék:',
+'filesource'          => 'Lài-nguòng:',
+'uploadedfiles'       => 'Siông-duòng ùng-giông',
+'ignorewarning'       => 'Mò̤ sê̤ṳ gīng-gó̤ bō̤-còng ùng-giông.',
+'ignorewarnings'      => 'Mò̤ sê̤ṳ gīng-gó̤',
+'fileexists'          => "Ī-gĭng ô siŏh bĭk dè̤ng miàng ùng-giông, nṳ̄ nâ mâ̤ káuk-dêng nṳ̄ sê-ng-sê dŏng-cĭng páh-sáung gāi-biéng ĭ, chiāng giēng-chă '''<tt>[[:$1]]</tt>'''.
 [[$1|thumb]]",
-'successfulupload'  => 'Siông-diòng sìng-gŭng',
-'uploadwarning'     => 'Siông-duòng gīng-gó̤',
-'savefile'          => 'Bō̤-còng ùng-giông',
-'uploadedimage'     => 'siông-duòng "[[$1]]"',
-'uploadvirus'       => 'Ciā ùng-giông ô bêng-dŭk! Sá̤-ciék: $1',
-'sourcefilename'    => 'Nguòng-sṳ̄ ùng-giông-miàng:',
-'destfilename'      => 'Mŭk-biĕu ùng-giông-miàng:',
-'watchthisupload'   => 'Gáng-sê ciā hiĕk',
+'uploadwarning'       => 'Siông-duòng gīng-gó̤',
+'savefile'            => 'Bō̤-còng ùng-giông',
+'uploadedimage'       => 'siông-duòng "[[$1]]"',
+'uploadvirus'         => 'Ciā ùng-giông ô bêng-dŭk! Sá̤-ciék: $1',
+'sourcefilename'      => 'Nguòng-sṳ̄ ùng-giông-miàng:',
+'destfilename'        => 'Mŭk-biĕu ùng-giông-miàng:',
+'watchthisupload'     => 'Gáng-sê ciā hiĕk',
+'upload-success-subj' => 'Siông-diòng sìng-gŭng',
 
 # Special:ListFiles
 'imgfile'        => 'ùng-giông',
@@ -588,7 +590,6 @@ Siók-mìng: (dāng) = gâe̤ng dék sĭng bēng-buōng bī-piâng, (sèng) = g�
 # Watchlist
 'watchlist'         => 'Nguāi gì gáng-sê-dăng',
 'mywatchlist'       => 'Nguāi gì gáng-sê-dăng',
-'watchlistfor'      => "('''$1''' gì)",
 'nowatchlist'       => 'Nṳ̄ gì gáng-sê-dăng gà̤-dēng mò̤ dèu-mĕ̤k.',
 'watchnologin'      => 'Mò̤ láuk diē',
 'addedwatch'        => 'Gă-tiĕng gáu gáng-sê-dăng',
@@ -623,7 +624,7 @@ Iŏk-sṳ̄ nṳ̄ buóh-siōng téng nṳ̄ gáng-sê-dăng gà̤-dēng dṳ̀ 
 'dellogpage'        => 'Chēng hiĕk nĭk-cé',
 'dellogpagetext'    => 'Â-dā̤ sê gé-liŏh cī-bŏng chēng hiĕk gì dăng-dăng.',
 'deletionlog'       => 'chēng hiĕk nĭk-cé',
-'deletecomment'     => 'Buóh chēng gì nguòng-ĭng',
+'deletecomment'     => 'Nguòng-ĭng',
 
 # Rollback
 'rollback'       => 'Gâe̤ng siŭ-gāi duōng kó̤',
@@ -642,7 +643,7 @@ Có̤i âu gì siŭ-gāi sê [[User:$3|$3]] ([[User talk:$3|Tō̤-lâung]]) sū 
 'protect-title'               => 'Bō̤-hô "$1"',
 'prot_1movedto2'              => '[[$1]] iè gáu [[$2]]',
 'protect-legend'              => 'Káuk-nêng bō̤-hô',
-'protectcomment'              => 'Bō̤-hô gì nguòng-ĭng',
+'protectcomment'              => 'Nguòng-ĭng',
 'protect-level-autoconfirmed' => 'Hŭng-sō̤ mò̤ cé̤ṳ-cháh ê̤ṳng-hô̤',
 'protect-level-sysop'         => 'Nâ guāng-lī-uòng',
 'protect-expiry-options'      => '2 dēng-cṳ̆ng:2 hours,1 gĕ̤ng:1 day,3 gĕ̤ng:3 days,1 lā̤-buái:1 week,2 lā̤-buái:2 weeks,1 month:1 nguŏk-nĭk,3 nguŏk-nĭk:3 months,6 nguŏk-nĭk:6 months,1 nièng:1 year,īng-uōng:infinite',

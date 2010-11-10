@@ -147,6 +147,7 @@ $messages = array(
 'editsection'             => 'modifika',
 'editold'                 => 'modifika',
 'restorelink'             => '{{PLURAL:$1|unu ekartati modifiko|$1 ekartati modifikos}}',
+'red-link-title'          => '$1 (pagine non exista)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'Artikle',
@@ -164,15 +165,15 @@ $messages = array(
 'badtitletext' => 'Li pregati pagine esed non-valid, vakui, o non-korektim linkat inter-lingue o inter-wiki title. Lu povud kontena un o plusi karakteres kel on non pove usa in titles.',
 
 # Login and logout pages
-'logouttext'                 => "'''Vu es nun eksignatat.'''<br />
-Vu pove kontinua usa {{SITENAME}} anonimim, o vu pove riensignata
-kom li sami o altri usere.",
+'logouttext'                 => "'''Vu es nun eksignatat.'''
+
+Vu pove kontinua usa {{SITENAME}} anonimim, o vu pove riensignata kom li sami o altri usere.",
 'yourname'                   => 'Usere-nome:',
 'yourpassword'               => 'Pasa-vorde:',
-'remembermypassword'         => 'Memora men pasa-vorde (kun kuke)',
+'remembermypassword'         => 'Memora men pasa-vorde (kun kuke) (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                      => 'Ensignata',
 'loginprompt'                => 'Vu mus lasa cookies de ensignata en {{SITENAME}}.',
-'userlogin'                  => 'Ensignata',
+'userlogin'                  => 'Ensignata / krea usere-registre',
 'logout'                     => 'Eksignata',
 'userlogout'                 => 'Eksignata',
 'notloggedin'                => 'Non ensignatat',
@@ -330,7 +331,9 @@ Proba [[Special:Search|sercho sur li wiki]] por relatet pagines.',
 
 # Special:Categories
 'categories'         => 'Kategories',
-'categoriespagetext' => 'Li sekuenti kategories exista in li wiki.',
+'categoriespagetext' => 'Li sekuenti kategories exista in li wiki.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
 'linksearch-ok' => 'Sercha',
@@ -363,7 +366,7 @@ Si vu voli plu tardim ekarta li pagine fro vun observa-liste, klikta \"Desobserv
 'dellogpage'      => 'Loge de ekartos',
 'dellogpagetext'  => 'Subu es liste del maxim resenti ekartos.',
 'deletionlog'     => 'registre de ekartos',
-'deletecomment'   => 'Resone de ekarto',
+'deletecomment'   => 'Resone:',
 
 # Rollback
 'revertpage' => 'Riverted modifikos da [[Special:Contributions/$2|$2]] ([[User talk:$2|Talk]]); restaurad lasti versione da [[User:$1|$1]]',

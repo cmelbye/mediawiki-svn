@@ -123,8 +123,7 @@ $messages = array(
 'tog-editsection'             => 'Rætta greinpart við hjálp av [rætta]-ávísing',
 'tog-editsectiononrightclick' => 'Rætta greinpart við at høgraklikkja á yvirskrift av greinparti (JavaScript)',
 'tog-showtoc'                 => 'Vís innihaldsyvurlit (Til greinir við meira enn trimun greinpartum)',
-'tog-rememberpassword'        => 'Minst til loyniorð næstu ferð',
-'tog-editwidth'               => 'Rættingarkassin hevur fulla breid',
+'tog-rememberpassword'        => 'Minst til loyniorð næstu ferð (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Legg síður, sum eg stovni, í mítt eftirlit',
 'tog-watchdefault'            => 'Vaka yvur nýggjum og broyttum greinum',
 'tog-minordefault'            => 'Merk sum standard allar broytingar sum smærri',
@@ -204,7 +203,7 @@ $messages = array(
 'category-empty'         => "''Hesin bólkur inniheldur ongar greinir ella miðlar í løtuni.''",
 'listingcontinuesabbrev' => 'frh.',
 
-'mainpagetext' => "<big>'''Innlegging av Wiki-ritbúnaði væleydnað.'''</big>",
+'mainpagetext' => "'''Innlegging av Wiki-ritbúnaði væleydnað.'''",
 
 'about'         => 'Um',
 'article'       => 'Innihaldssíða',
@@ -362,7 +361,8 @@ afturkend av wiki',
 'viewsourcetext'    => 'Tú kanst síggja og avrita kelduna til hesa grein:',
 
 # Login and logout pages
-'logouttext'                 => "'''Tú hevur nú ritað út.'''<br />
+'logouttext'                 => "'''Tú hevur nú ritað út.'''
+
 Tú kanst halda áfram at nýta {{SITENAME}} dulnevnt.
 Ella kanst tú rita inn aftur sum sami ella annar brúkari.
 Legg til merkis at summar síður kunnu framhaldandi síggja út
@@ -373,7 +373,7 @@ Tín konto er nú stovnað. Gloym ikki at broyta tínar {{SITENAME}} innstilling
 'yourname'                   => 'Títt brúkaranavn:',
 'yourpassword'               => 'Títt loyniorð:',
 'yourpasswordagain'          => 'Skriva loyniorð umaftur:',
-'remembermypassword'         => 'Minst til loyniorðið hjá mær.',
+'remembermypassword'         => 'Minst til loyniorðið hjá mær (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                      => 'Rita inn',
 'nav-login-createaccount'    => 'Stovna kontu ella rita inn',
 'loginprompt'                => 'Cookies má verða sett til fyri at innrita á {{SITENAME}}.',
@@ -520,7 +520,6 @@ Vinarliga umhugsa at býta síðuna sundur í styttri pettir.'''",
 'searchresulttext'      => 'Ynskir tú fleiri upplýsingar um leiting á {{SITENAME}}, kanst tú skoða [[{{MediaWiki:Helppage}}|{{int:help}}]].',
 'searchsubtitle'        => "Tú leitaði eftur '''[[:$1]]'''",
 'searchsubtitleinvalid' => "Tú leitaði eftur '''$1'''",
-'noexactmatch'          => "'''Eingin síða við heitinum \"\$1\" er til.''' Tú kanst [[:\$1|byrja at skriva eina grein við hesum heitinum]].",
 'notitlematches'        => 'Onki síðuheiti samsvarar',
 'notextmatches'         => 'Ongin síðutekstur samsvarar',
 'prevn'                 => 'undanfarnu {{PLURAL:$1|$1}}',
@@ -627,27 +626,27 @@ Vinarliga umhugsa at býta síðuna sundur í styttri pettir.'''",
 'recentchangeslinked-toolbox' => 'Viðkomandi broytingar',
 
 # Upload
-'upload'            => 'Legg fílu upp',
-'uploadbtn'         => 'Legg fílu upp',
-'uploadnologin'     => 'Ikki ritað inn',
-'uploadnologintext' => 'Tú mást hava [[Special:UserLogin|ritað inn]]
+'upload'              => 'Legg fílu upp',
+'uploadbtn'           => 'Legg fílu upp',
+'uploadnologin'       => 'Ikki ritað inn',
+'uploadnologintext'   => 'Tú mást hava [[Special:UserLogin|ritað inn]]
 fyri at leggja fílur upp.',
-'uploadlog'         => 'fílu logg',
-'uploadlogpage'     => 'Fílugerðabók',
-'filename'          => 'Fílunavn',
-'filedesc'          => 'Samandráttur',
-'fileuploadsummary' => 'Samandráttur:',
-'filestatus'        => 'Upphavsrættar støða:',
-'filesource'        => 'Kelda:',
-'uploadedfiles'     => 'Upplagdar fílur',
-'ignorewarnings'    => 'Ikki vísa ávaringar',
-'badfilename'       => 'Myndin er umnevnd til "$1".',
-'successfulupload'  => 'Upplegging væleydnað',
-'savefile'          => 'Goym fílu',
-'uploadedimage'     => 'sent "[[$1]]" upp',
-'sourcefilename'    => 'Keldufílunavn:',
-'destfilename'      => 'Málfílunavn:',
-'watchthisupload'   => 'Hav eftirlit við hesi síðuni',
+'uploadlog'           => 'fílu logg',
+'uploadlogpage'       => 'Fílugerðabók',
+'filename'            => 'Fílunavn',
+'filedesc'            => 'Samandráttur',
+'fileuploadsummary'   => 'Samandráttur:',
+'filestatus'          => 'Upphavsrættar støða:',
+'filesource'          => 'Kelda:',
+'uploadedfiles'       => 'Upplagdar fílur',
+'ignorewarnings'      => 'Ikki vísa ávaringar',
+'badfilename'         => 'Myndin er umnevnd til "$1".',
+'savefile'            => 'Goym fílu',
+'uploadedimage'       => 'sent "[[$1]]" upp',
+'sourcefilename'      => 'Keldufílunavn:',
+'destfilename'        => 'Málfílunavn:',
+'watchthisupload'     => 'Hav eftirlit við hesi síðuni',
+'upload-success-subj' => 'Upplegging væleydnað',
 
 'upload-file-error' => 'Innvortis brek',
 
@@ -767,7 +766,9 @@ Tú kanst avmarka sýningina við at velja gerðabókaslag, brúkaranavn ella á
 
 # Special:Categories
 'categories'         => 'Bólkar',
-'categoriespagetext' => 'Eftirfylgjandi bólkar eru í hesu wiki.',
+'categoriespagetext' => 'Eftirfylgjandi bólkar eru í hesu wiki.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
 'linksearch-ns' => 'Navnarúm:',
@@ -801,7 +802,6 @@ ella hevur hann valt ikki at taka ímóti t-posti frá øðrum brúkarum.',
 # Watchlist
 'watchlist'         => 'Mítt eftirlit',
 'mywatchlist'       => 'Mítt eftirlit',
-'watchlistfor'      => "(fyri '''$1''')",
 'nowatchlist'       => 'Tú hevur ongar lutir í eftirlitinum.',
 'watchnologin'      => 'Tú hevur ikki ritað inn',
 'addedwatch'        => 'Lagt undir eftirlit',
@@ -848,7 +848,7 @@ Sí $2 fyri fulla skráseting av strikingum.',
 'deletedarticle'    => 'strikaði "[[$1]]"',
 'dellogpage'        => 'Striku logg',
 'deletionlog'       => 'striku logg',
-'deletecomment'     => 'Orsøk til striking:',
+'deletecomment'     => 'Orsøk:',
 
 # Rollback
 'rollback'       => 'Rulla broytingar aftur',
@@ -863,7 +863,7 @@ Sí $2 fyri fulla skráseting av strikingum.',
 'protect-title'       => 'Friðar "$1"',
 'prot_1movedto2'      => '$1 flutt til $2',
 'protect-legend'      => 'Vátta friðing',
-'protectcomment'      => 'Orsøk til friðing:',
+'protectcomment'      => 'Orsøk:',
 'protectexpiry'       => 'Gongur út:',
 'protect-default'     => '(fyridømi)',
 'protect-level-sysop' => 'Bert umboðsstjórar',
@@ -965,8 +965,8 @@ ella er navnið tú valdi ógyldugt.
 Vinarliga vel eitt annað navn.',
 'movedto'                 => 'flyt til',
 'movetalk'                => 'Flyt kjaksíðuna eisini, um hon er til.',
-'1movedto2'               => '$1 flutt til $2',
-'1movedto2_redir'         => '$1 flutt til $2 um ávísing',
+'1movedto2'               => '[[$1]] flutt til [[$2]]',
+'1movedto2_redir'         => '[[$1]] flutt til [[$2]] um ávísing',
 'movelogpage'             => 'Flyt gerðabók',
 'movereason'              => 'Orsøk:',
 'delete_and_move'         => 'Strika og flyt',

@@ -22,8 +22,7 @@ $messages = array(
 'tog-showtoolbar'          => "Kamukile hloli ye ng'i toolbar (bulukezi JavaScript)",
 'tog-editondblclick'       => "Hloli ye ng'i petulo di 'klik' dubo (JavaScript)",
 'tog-editsection'          => "Nyembulisize [hloli ye ng'i] di akes di lyangutukezi ling'ki",
-'tog-rememberpassword'     => 'Askevusize zwa menuhile kwa bye kompyuta.',
-'tog-editwidth'            => "Boksi di hloli ye ng'i sa omipeti",
+'tog-rememberpassword'     => 'Askevusize zwa menuhile kwa bye kompyuta (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'       => 'Pusize petulo a hloli di zwa mukoloko di kentezi',
 'tog-watchdefault'         => "Pusize petulo a hloli ye ng'i di zwa mukoloko di kentezi",
 'tog-watchmoves'           => 'Pusize petulo a nyanganyisoze di zwa mukoloko di kentezi',
@@ -131,9 +130,6 @@ $messages = array(
 'qbspecialpages' => 'Petulo zwenti',
 'faq'            => 'Alabile',
 'faqpage'        => 'Project:Alabile',
-
-# Metadata in edit box
-'metadata_help' => 'Meta ngesi:',
 
 'errorpagetitle'    => 'Bufosi',
 'returnto'          => 'Kutezi $1.',
@@ -281,12 +277,12 @@ Query: $2",
 'yourname'                => 'Sebelu:',
 'yourpassword'            => 'Sebu dafi:',
 'yourpasswordagain'       => 'Ritapi sebu dafi:',
-'remembermypassword'      => 'Askevusize zwa menuhile kwa bye kompyuta.',
+'remembermypassword'      => 'Askevusize zwa menuhile kwa bye kompyuta (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'          => 'Zwa domeni:',
 'login'                   => 'Menuhile',
 'nav-login-createaccount' => 'Menuhile / ipupezi sebelu',
 'loginprompt'             => 'A sa nyembulisize di kukina di menuhile kwa {{SITENAME}}.',
-'userlogin'               => 'Menuhile',
+'userlogin'               => 'Menuhile / ipupezi sebelu',
 'logout'                  => 'Ile',
 'userlogout'              => 'Ile',
 'notloggedin'             => 'Ile sa akwezi',
@@ -368,7 +364,7 @@ Sa ku bye fatukile zwa sebu dafi e a ni petuho, ni petuho e mulumiwasibukirisize
 Zwa adresi di IP sa bulukezi kwa kenki bundau di petulo.",
 'summary-preview'            => 'Lyangutukezi pendiBe:',
 'blockedtitle'               => 'Sebelu sa bolok',
-'blockedtext'                => "<big>'''Zwa sebelu/IP sa bolok.'''</big>
+'blockedtext'                => "'''Zwa sebelu/IP sa bolok.'''
 
 $1 bolok a. Lyangutukezireason sa ''$2''.
 
@@ -463,7 +459,6 @@ Informasi: (bye) = petuho a nca selt,
 'searchresults'         => 'Fatukile kamukile',
 'searchsubtitle'        => "A fatukile di '''[[:$1]]'''",
 'searchsubtitleinvalid' => "A fatukile di '''$1'''",
-'noexactmatch'          => "'''Petulo di sebu \"\$1\" ni sa.''' A sa [[:\$1|hloli petulo]].",
 'titlematches'          => 'Sebu di petulo ekali',
 'notitlematches'        => 'Ni sebu di petulo ekali',
 'textmatches'           => 'Selt di petulo ekali',
@@ -559,7 +554,6 @@ Informasi: (bye) = petuho a nca selt,
 # Upload
 'upload'            => 'Imegi uplodezi',
 'uploadbtn'         => 'Imegi uplodezi',
-'reupload'          => 'Uplodezi nca',
 'uploadnologin'     => 'Ni menuhile',
 'uploadnologintext' => 'A sa [[Special:UserLogin|menuhile]]
 di uplodezi media.',
@@ -734,7 +728,6 @@ dicon sa sosize ni sa meli di kupo sebelu.',
 # Watchlist
 'watchlist'         => 'Zwa mukoloko di kentezi',
 'mywatchlist'       => 'Zwa mukoloko di kentezi',
-'watchlistfor'      => "(di '''$1''')",
 'watchnologin'      => 'A ni sa menuhile',
 'watchnologintext'  => "A sa [[Special:UserLogin|menuhile]] di hloli ye ng'i zwa mukoloko di kentezi.",
 'addedwatch'        => 'Tumbelize a mukoloko di kentezi',
@@ -794,7 +787,6 @@ A sa afi kulobala di zwa mukoloko di kentezi, tampi \"ngambu kentezi\".",
 'protectexpiry'               => 'Simpekile:',
 'protect_expiry_invalid'      => 'Bufosi di simpekile.',
 'protect_expiry_old'          => 'Simpekile sa kwa bundau.',
-'protect-unchain'             => 'Petuho nyanganyisize tumelelo',
 'protect-text'                => "A sa kamukile e hloli bukelezi di petulo '''<nowiki>$1</nowiki>'''.",
 'protect-locked-access'       => "Zwa sebelu ni sa hloli bukelezi.
 Petohoni di petulo '''$1''' sa:",
@@ -893,7 +885,7 @@ Petulo sa '''no''' nyanganyisize di nca nom e nca nom sa xete, xete a sa petulo 
 Petulo populari sa drastiki bufosi e nyanganyisize;
 a sa gukilize di nyanganyisize.",
 'movepagetalktext' => "Bulelezi sa nyanganyisize '''teri:'''
-*Bulelezi e selt sa kwa nca nom, 
+*Bulelezi e selt sa kwa nca nom,
 *Okižekilize sisebelisoni.
 
 Teri yaki, a nyanganyisize.",
