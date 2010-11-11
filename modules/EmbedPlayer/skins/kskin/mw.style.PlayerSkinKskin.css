@@ -20,6 +20,11 @@
 	cursor: pointer;
 	border: none;
 }
+@print {
+	.k-player .play-btn-large {
+		display: none;
+	}
+}
 /*.ui-state-default */
 .k-player .play-btn-large.ui-state-hover {
 	background: url(images/ksprite.png) no-repeat 28px -377px;
