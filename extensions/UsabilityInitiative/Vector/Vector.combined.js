@@ -468,7 +468,14 @@ $j(document).ready( function() {
 					} )
 					.parents( 'form' )
 						.bind( 'submit', function() {
-							$input.trigger( 'focus' );
+							// $input.trigger( 'focus' ); is problematic
+							// because it actually focuses $input, leading
+							// to nasty behavior in mobile browsers
+							if ( $input.hasClass( 'placeholder' ) ) {
+								$input
+									.val( '' )
+									.removeClass( 'placeholder' );
+							}
 						} );
 				if ( $input.val() == '' ) {
 					$input.trigger( 'blur' );
