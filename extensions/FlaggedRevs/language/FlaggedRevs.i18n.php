@@ -41,6 +41,9 @@ $messages['en'] = array(
 	'group-autoreview'             => 'Autochecked users',
 	'group-autoreview-member'      => 'autochecked users',
 	'grouppage-autoreview'         => '{{ns:project}}:Autochecked users',
+	'revcontents-error'            => 'Unable to get content.',
+	'revcontents-getcontents'      => 'Click <a href="$1" >here</a> to view this revision.',
+	'revcontents-waiting'          => 'Waiting for content',
 	'revreview-hist-draft'         => 'unchecked revision',
 	'revreview-hist-pending'       => 'pending revision',
 	'revreview-hist-quality'       => 'quality revision',
@@ -358,7 +361,7 @@ This appears in [[Special:Preferences]]:
 	'revreview-hist-quality' => '{{Flagged Revs-small}}
 The accuracy "quality", as displayed on the page history after a revision with this setting.',
 	'revreview-hist-basic' => '{{Flagged Revs-small}}
-The accuracy "sighted", as displayed on the page history after a revision with this setting.',
+The accuracy "checked", as displayed on the page history after a revision with this setting.',
 	'revreview-hist-quality-user' => '{{Flagged Revs}}',
 	'revreview-hist-basic-user' => '{{Flagged Revs}}',
 	'revreview-hist-basic-auto' => '{{Flagged Revs}}',
@@ -377,7 +380,8 @@ Parameters:
 	'review-logentry-dis' => '{{Flagged Revs}}
 Parameters:
 * $1 is a page title',
-	'review-logentry-id' => '{{Flagged Revs}}',
+	'review-logentry-id' => '{{Flagged Revs}}
+{{Identical|Revision}}',
 	'review-logentry-diff' => '{{Flagged Revs}}',
 	'review-logentry-diff2' => '{{Flagged Revs}}',
 	'review-logpage' => '{{Flagged Revs}}',
@@ -390,7 +394,7 @@ Parameters:
 	'revreview-accuracy-0' => '{{Flagged Revs-small}}
 This is the default configuration, i.e. the revision has not (yet) been reviewed.',
 	'revreview-accuracy-1' => '{{Flagged Revs-small}}
-A basic check on vandalism ("sighted" as "has been seen/checked"). This configuration is considered as "flagged".',
+A basic check on vandalism ("checked" as "has been seen/checked"). This configuration is considered as "flagged".',
 	'revreview-accuracy-2' => '{{Flagged Revs}}',
 	'revreview-accuracy-3' => '{{Flagged Revs}}',
 	'revreview-accuracy-4' => '{{Flagged Revs}}
@@ -406,7 +410,7 @@ A basic check on vandalism ("sighted" as "has been seen/checked"). This configur
 	'revreview-basic-same' => '{{Flagged Revs}}
 * Parameter $2 is the date of the approval',
 	'revreview-basic-source' => '{{Flagged Revs-small}}
-Displayed on the top of a page when you are viewing an old sighted version. 
+Displayed on the top of a page when you are viewing an old checked version. 
 * Example: [http://de.wikipedia.org/w/index.php?title=Deutsche_Sprache&oldid=46894374 de.wikipedia].
 * Parameter $2 is the date of the approval',
 	'revreview-failed' => '{{Flagged Revs}}',
@@ -442,7 +446,7 @@ If an anonymous user edits a stable page, after saving the page he sees the draf
 {{Identical|Content page}}',
 	'revreview-newest-basic' => '{{Flagged Revs}}',
 	'revreview-newest-basic-i' => '{{Flagged Revs-small}}
-Used in the "flagged revs box" when you are viewing the latest draft version, but when there is a sighted revision, the stable version. 
+Used in the "flagged revs box" when you are viewing the latest draft version, but when there is a checked revision, the stable version. 
 
 Example: [http://de.wikipedia.org/w/index.php?title=Deutsche_Sprache&stable=0 de.wikipedia].
 * Note, the example seems not to work, currently.',
@@ -465,7 +469,7 @@ Used in the detailed version as label text for the ratings, see [http://translat
 	'revreview-quality-same' => '{{Flagged Revs}}',
 	'revreview-quality-source' => "{{Flagged Revs-small}}
 Displayed on the top of a page when you are viewing an old quality version. 
-* Example: [http://de.wikipedia.org/w/index.php?title=Deutsche_Sprache&oldid=46894374 de.wikipedia] (this is a sighted version, but it's the same for a quality version).
+* Example: [http://de.wikipedia.org/w/index.php?title=Deutsche_Sprache&oldid=46894374 de.wikipedia] (this is a checked version, but it's the same for a quality version).
 * Parameter $2 is the date of the approval",
 	'revreview-quality-title' => '{{Flagged Revs}}',
 	'revreview-quick-basic' => '{{Flagged Revs}}',
@@ -473,7 +477,7 @@ Displayed on the top of a page when you are viewing an old quality version.
 	'revreview-quick-basic-same' => '{{Flagged Revs}}',
 	'revreview-quick-invalid' => '{{Flagged Revs}}',
 	'revreview-quick-none' => '{{Flagged Revs-small}}
-Shown in the "flagged revs box" on the content page when there isn\'t any sighted or quality revision yet.',
+Shown in the "flagged revs box" on the content page when there isn\'t any checked or quality revision yet.',
 	'revreview-quick-quality' => '{{Flagged Revs-small}}
 Used in the "flagged revs box" when viewing a quality version, while there are new changes (in a draft version) to be reviewed.',
 	'revreview-quick-quality-old' => '{{Flagged Revs}}',
@@ -506,9 +510,9 @@ The text on the submit button in the form used to review pages.
 	'revreview-submit-reviewed' => '{{Flagged Revs}}',
 	'revreview-submit-unreviewed' => '{{Flagged Revs}}',
 	'revreview-successful' => '{{Flagged Revs-small}}
-Shown when a reviewer/editor has marked a revision as stable/sighted/... See also {{msg|revreview-successful2|pl=yes}}.',
+Shown when a reviewer/editor has marked a revision as stable/checked/... See also {{msg|revreview-successful2|pl=yes}}.',
 	'revreview-successful2' => '{{Flagged Revs-small}}
-Shown when a reviewer/editor has marked a stable/sighted/... revision as unstable/unsighted/... After that, it can normally be reviewed again. See also {{msg|revreview-successful|pl=yes}}.',
+Shown when a reviewer/editor has marked a stable/checked/... revision as unstable/unchecked/... After that, it can normally be reviewed again. See also {{msg|revreview-successful|pl=yes}}.',
 	'revreview-text' => "{{Flagged Revs-small}}
 Displayed in the review box for the reviewers' information.",
 	'revreview-toggle-show' => '{{Optional}}
@@ -624,6 +628,7 @@ $messages['af'] = array(
 	'reviewer' => 'Resensent',
 	'revreview-accuracy' => 'Akkuraatheid',
 	'revreview-accuracy-0' => 'Onvoldoende',
+	'revreview-accuracy-1' => 'Gekontroleer',
 	'revreview-accuracy-2' => 'Akkuraat',
 	'revreview-accuracy-3' => 'Goed van bronne voorsien',
 	'revreview-accuracy-4' => 'Uitgelig',
@@ -680,9 +685,12 @@ $messages['af'] = array(
 	'revreview-lev-pristine' => 'onaangeroerd',
 	'revreview-def-all' => 'enige',
 	'revreview-def-draft' => 'nuutste',
+	'revreview-def-stable' => 'gepubliseerde',
 	'revreview-restrictfilter' => 'Beperkingsvlak:',
 	'revreview-restriction-any' => 'enige',
 	'revreview-restriction-none' => 'geen',
+	'revreview-reject-summary' => 'Wysigingsopsomming:',
+	'revreview-reject-cancel' => 'Kanselleer',
 	'tooltip-ca-default' => 'Instellings vir kwaliteitsbeheer',
 	'flaggedrevs-protect-legend' => 'Publiseer wysigings',
 	'flaggedrevs-protect-none' => 'Alle gebruikers toelaat',
@@ -771,6 +779,7 @@ $messages['an'] = array(
 	'group-reviewer-member' => 'Revisador',
 	'grouppage-editor' => '{{ns:project}}:Editor',
 	'grouppage-reviewer' => '{{ns:project}}:Revisador',
+
 	'revreview-hist-draft' => 'versión no verificata',
 	'revreview-hist-quality' => 'versión de calidat',
 	'revreview-hist-basic' => 'versión verificata',
@@ -2604,6 +2613,9 @@ $messages['bs'] = array(
 	'group-autoreview' => 'Autonadzornici',
 	'group-autoreview-member' => 'autonadzornik',
 	'grouppage-autoreview' => '{{ns:project}}:Autonadzornik',
+	'revcontents-error' => 'Ne mogu da pronađem sadržaj.',
+	'revcontents-getcontents' => 'Kliknite <a href="$1" >ovdje</a> da vidite ovu reviziju.',
+	'revcontents-waiting' => 'Čekam na sadržaj',
 	'revreview-hist-draft' => 'neprovjerena revizija',
 	'revreview-hist-pending' => 'čeka na provjeru',
 	'revreview-hist-quality' => 'provjerena revizija',
@@ -2980,6 +2992,8 @@ $messages['cs'] = array(
 	'group-autoreview' => 'Automatičtí posuzovatelé',
 	'group-autoreview-member' => 'automatický posuzovatel',
 	'grouppage-autoreview' => '{{ns:project}}:Automatický posuzovatel',
+	'revcontents-error' => 'Nelze získat obsah.',
+	'revcontents-waiting' => 'Čekám na obsah',
 	'revreview-hist-draft' => 'nezkontrolovaná revize',
 	'revreview-hist-pending' => 'čeká na kontrolu',
 	'revreview-hist-quality' => 'kvalitní verze',
@@ -3175,6 +3189,7 @@ Bude nutné tyto editace začlenit nebo zamítnout.',
 	'revreview-restrictfilter' => 'Omezení autoposuzování:',
 	'revreview-restriction-any' => 'všechny',
 	'revreview-restriction-none' => 'žádné',
+	'revreview-reject-cancel' => 'Zrušit',
 	'revreview-reviewlink' => 'posoudit',
 	'revreview-reviewlink-title' => 'Zobrazit rozdíl všech čekajících změn',
 	'revreview-unreviewedpage' => 'nezkontrolovaná stránka',
@@ -4028,6 +4043,7 @@ $messages['ee'] = array(
  * @author Crazymadlover
  * @author Dead3y3
  * @author Flyax
+ * @author Glavkos
  * @author Omnipaedista
  * @author ZaDiak
  */
@@ -4068,14 +4084,14 @@ $messages['el'] = array(
 	'revreview-accuracy-4' => 'Επιλεγμένο',
 	'revreview-auto' => '(αυτόματο)',
 	'revreview-failed' => 'Η επιθεώρηση απέτυχε!',
-	'revreview-current' => 'Προσχέδιο',
+	'revreview-current' => 'Αλλαγές σε εκκρεμότητα',
 	'revreview-depth' => 'Βάθος',
-	'revreview-depth-0' => 'Μη εγκεκριμένο',
+	'revreview-depth-0' => 'Ανεπαρκής',
 	'revreview-depth-1' => 'Βασικό',
 	'revreview-depth-2' => 'Μέτριο',
 	'revreview-depth-3' => 'Υψηλό',
 	'revreview-depth-4' => 'Εξαίρετο',
-	'revreview-draft-title' => 'Πρόχειρη σελίδα',
+	'revreview-draft-title' => 'Οι  αλλαγές σε εκκρεμότητα εμφανίζονται σε αυτήν τη σελίδα',
 	'revreview-edit' => 'Επεξεργασία',
 	'revreview-flag' => 'Επιθεώρησε αυτή την τροποποίηση',
 	'revreview-reflag' => 'Αναίρεση επισκόπησης αυτής της έκδοσης',
@@ -4083,7 +4099,7 @@ $messages['el'] = array(
 	'revreview-log' => 'Σχόλιο:',
 	'revreview-notes' => 'Εμφάνιση παρατηρήσεων ή σημειώσεων:',
 	'revreview-oldrating' => 'Βαθμολογήθηκε:',
-	'revreview-quality-title' => 'Σελίδα ποιότητας',
+	'revreview-quality-title' => 'Αυτή είναι μια ποιοτική έκδοση αυτής της σελίδας',
 	'revreview-quick-invalid' => "'''Άκυρος κωδικός αναθεώρησης'''",
 	'revreview-selected' => "Επιλεγμένη έκδοση του '''$1:'''",
 	'revreview-source' => 'Πηγή προσχεδίου',
@@ -4119,7 +4135,7 @@ $messages['el'] = array(
 	'revreview-filter-auto' => 'Αυτόματος',
 	'revreview-filter-manual' => 'Χειροκίνητο',
 	'revreview-levelfilter' => 'Επίπεδο:',
-	'revreview-lev-basic' => 'επιθεωρημένη',
+	'revreview-lev-basic' => 'ελέγχθηκαν',
 	'revreview-lev-quality' => 'ποιότητα',
 	'revreview-lev-pristine' => 'μη αλλοιωμένο',
 	'revreview-reviewlink' => 'επιθεώρηση',
@@ -4132,9 +4148,11 @@ $messages['el'] = array(
 	'validationpage' => '{{ns:help}}:Επικύρωση σελίδας',
 );
 
-/** British English (British English) */
+/** British English (British English)
+ * @author Reedy
+ */
 $messages['en-gb'] = array(
-	'flaggedrevs-desc' => 'Gives editors and reviewers the ability to validate revisions and stabilise pages',
+	'flaggedrevs-desc' => 'Gives editors and reviewers the ability to review revisions and stabilise pages',
 );
 
 /** Esperanto (Esperanto)
@@ -4490,7 +4508,7 @@ Puede que se hayan realizado [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diff
 	'revreview-draft-title' => 'Los cambios pendientes se muestran en esta página',
 	'revreview-edit' => 'Editar',
 	'revreview-editnotice' => "'''Tus cambios serán publicados una vez que un usuario autorizado los revise. ([[{{MediaWiki:Validationpage}}|ayuda]])'''",
-	'revreview-check-flag-p' => 'Publicar cambios actualmente pendientes',
+	'revreview-check-flag-p' => 'Aceptar esta versión (incluye {{PLURAL:$1|un cambio pendiente|$1 cambios pendientes}})',
 	'revreview-check-flag-p-title' => 'Aceptar todos los cambios actualmente pendientesjunto con tu propia edición.
 Solamente usar esto si ya has visto por completo las diferencias de los cambios pendientes.',
 	'revreview-check-flag-u' => 'Aceptar esta página sin revisar',
@@ -4734,7 +4752,7 @@ $messages['et'] = array(
 	'revreview-draft-title' => 'Sellel leheküljel kuvatakse ootel muudatused',
 	'revreview-edit' => 'Redigeeri',
 	'revreview-editnotice' => "'''Sinu muudatused kuvatakse lugejatele, kui volitatud kasutaja on need üle vaadanud. ([[{{MediaWiki:Validationpage}}|abi]])'''",
-	'revreview-check-flag-p' => 'Kiida ootel muudatused heaks',
+	'revreview-check-flag-p' => 'Kiida see redaktsioon heaks (sisaldab {{PLURAL:$1|üht|$1}} ootel muudatust)',
 	'revreview-check-flag-p-title' => 'Kiida kõik praegu ootel olevad muudatused heaks, kaasa arvatud su enda muudatus. Kasuta seda ainult siis, kui oled juba kõiki erinevusi ootel muudatuste ja püsiva versiooni vahel näinud.',
 	'revreview-check-flag-u' => 'Kiida see ülevaatamata lehekülg heaks',
 	'revreview-check-flag-u-title' => 'Kiida käesolev lehekülje versioon heaks. Kasuta seda ainult siis, kui oled juba kogu lehekülge näinud.',
@@ -5549,7 +5567,7 @@ De nouvelles [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} modific
 	'revreview-draft-title' => 'Les modifications en attente sont affichées sur cette page',
 	'revreview-edit' => 'Modifier',
 	'revreview-editnotice' => "'''Vos modifications seront affichées aux lecteurs une fois qu’un utilisateur disposant des droits nécessaires les aura relues. [[{{MediaWiki:Validationpage}}|aide]]'''",
-	'revreview-check-flag-p' => 'Publier les modifications actuellement en attente',
+	'revreview-check-flag-p' => 'Accepter cette version (inclut $1 {{PLURAL:$1|modification|modifications}} en attente)',
 	'revreview-check-flag-p-title' => "Accepter toutes les modifications en attente en même temps que votre propre modification.
 Ne l'utilisez que si vous avez déjà vu le diff de l'ensemble des modifications en attente.",
 	'revreview-check-flag-u' => 'Accepter cette page non relue',
@@ -5682,9 +5700,12 @@ Veuillez vérifier l'URL que vous avez utilisée pour accéder à cette page.",
 	'revreview-restriction-any' => 'tous',
 	'revreview-restriction-none' => 'aucun',
 	'revreview-reject-header' => 'Refuser les modifications pour $1',
+	'revreview-reject-text-list' => "En accomplissant cette action, vous allez '''rejeter''' les modifications suivantes :",
+	'revreview-reject-text-revto' => 'Ceci remettra cette page dans sa [version $1 du $2].',
 	'revreview-reject-summary' => 'Résumé de modification :',
 	'revreview-reject-confirm' => 'Rejeter ces changements',
 	'revreview-reject-cancel' => 'Annuler',
+	'revreview-reject-default-summary' => 'A rejeté les modifications de [[User:$1|$1]] pour revenir à la version $2 de [[User:$3|$3]]',
 	'revreview-reviewlink' => 'modifications en attente',
 	'revreview-reviewlink-title' => 'Voir le diff de toutes les modifications en attente',
 	'revreview-unreviewedpage' => 'Page non vérifiée',
@@ -6319,6 +6340,9 @@ $messages['gsw'] = array(
 	'group-autoreview' => 'Autoreviewer',
 	'group-autoreview-member' => 'Autoreviewer',
 	'grouppage-autoreview' => '{{ns:project}}:Autoreviewer',
+	'revcontents-error' => 'Cha dr Inhalt nit abruefe.',
+	'revcontents-getcontents' => 'Druck <a href="$1" >do</a> go die Version aaluege.',
+	'revcontents-waiting' => 'Am Warte uf dr Inhalt',
 	'revreview-hist-draft' => 'Entwurfsversion',
 	'revreview-hist-pending' => 'nonig prieft',
 	'revreview-hist-quality' => 'priefti Version',
@@ -7307,6 +7331,7 @@ Je móžno, zo su so nowe [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonl
 	'review_bad_key' => 'Njepłaćiwy kluč za zapřijimowanski parameter.',
 	'review_denied' => 'Prawo zapowědźene.',
 	'review_param_missing' => 'Parameter faluje abo je njepłaćiwy.',
+	'review_cannot_undo' => 'Tute změny njehodźa so cofnyć, dokelž dalše njesčinjene změny su samsne městna změnili.',
 	'revreview-current' => 'Nječinjene změny',
 	'revreview-depth' => 'Hłubokosć',
 	'revreview-depth-0' => 'Njepřiměrjeny',
@@ -7317,7 +7342,7 @@ Je móžno, zo su so nowe [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonl
 	'revreview-draft-title' => 'Nječinjene změny so na tutej stronje zwobraznjeja',
 	'revreview-edit' => 'Wobdźěłać',
 	'revreview-editnotice' => "'''Twoje změny budu so čitarjam pokazować, tak ruče kaž awtorizowany wužiwar je přepruwuje. ([[{{MediaWiki:Validationpage}}|pomoc]])'''",
-	'revreview-check-flag-p' => 'Tuchwilu njepřepruwowane změny wozjewić',
+	'revreview-check-flag-p' => 'Tutu wersiju akceptować (zapřijima $1 njesčinjene {{PLURAL:$1|změna|změnje|změny|změnow}})',
 	'revreview-check-flag-p-title' => 'Akceptowanje wšěch tuchwilu njepřepruwowanych změnow hromadźe z twojej swójskej změnu.
 Wužij to jenož, jeli sy hižo wšě hišće njepřepruwowane změny widźał.',
 	'revreview-check-flag-u' => 'Tutu njepřepruwowanu stronu akceptować',
@@ -7392,11 +7417,11 @@ Je móžno, zo su so hižo nowe [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&d
 	'revreview-successful2' => "'''Woznamjenjenje wersije [[:$1|$1]] je so wuspěšnje wotstroniło.'''",
 	'revreview-text' => "''[[{{MediaWiki:Validationpage}}|Přepruwowane wersije]] su skontrolowane wersije stronow, kotrež so wužiwaja, zo bychu wozjewjenu wersiju postajili.''",
 	'revreview-toggle-title' => 'Podrobnosće pokazać/schować',
-	'revreview-toolow' => "'''Dyrbiš kóždy z atributow wyše hač \"njepřiměrjeny\" pohódnoćić, zo by so wersija jako přepruwowana wobkedźbowała.'''
+	'revreview-toolow' => '\'\'\'Dyrbiš kóždy z atributow wyše hač "njepřiměrjeny" pohódnoćić, zo by so wersija jako přepruwowana wobkedźbowała.\'\'\'
 
-Zo by přepruwowanski status wersije wotstronił, staj '''wšě''' pola na \"njepřiměrjeny\".
+Zo by přepruwowanski status wersije wotstronił, klikń na "njeakceptować".
 
-Prošu klikń na tłóčatko \"Wróćo\" w swojim wobhladowaku a spytaj hišće raz.",
+Prošu klikń na tłóčatko "Wróćo" w swojim wobhladowaku a spytaj hišće raz.',
 	'revreview-update' => "'''Prošu [[{{MediaWiki:Validationpage}}|přepruwuj]] njepřepruwowane změny ''(hlej deleka)'', kotrež buchu na akceptowanej wersiji přewjedźene.'''
 Dyrbiš snano změny dale wobźěłać abo je' 'cofnyć''.",
 	'revreview-update-edited' => '<span class="flaggedrevs_important">Twoje změny hišće w stabilnej wersiji njeje.</span>
@@ -7449,6 +7474,13 @@ Móže być, zo dyrbiš najprjedy změny dale wobdźěłać abo "cofnyć".',
 	'revreview-restrictfilter' => 'Wobmjezowanje awtomatiskeho přepruwowanja:',
 	'revreview-restriction-any' => 'někajka',
 	'revreview-restriction-none' => 'žana',
+	'revreview-reject-header' => 'Změny za $1 wotpokazać',
+	'revreview-reject-text-list' => "Přewjedujo tutu akciju, budźeš slědowace '''wotpokazować''':",
+	'revreview-reject-text-revto' => 'To stronu na [$1 wersiju wot dnja $2] wróćo staji.',
+	'revreview-reject-summary' => 'Zjeće wobdźěłać',
+	'revreview-reject-confirm' => 'Tute změny wotpokazać',
+	'revreview-reject-cancel' => 'Přetorhnyć',
+	'revreview-reject-default-summary' => 'Změny wot wužiwarja [[User:$1|$1]] su so do wersije $2 wot wužiwarja  [[User:$3|$3]] wróćo stajili',
 	'revreview-reviewlink' => 'njepřepruwowane změny',
 	'revreview-reviewlink-title' => 'Rozdźěl wšěch njepřepruwowanych změnow pokazać',
 	'revreview-unreviewedpage' => 'njeskontrolowana strona',
@@ -7646,7 +7678,7 @@ Lásd az [[Special:Unreviewedpages|ellenőrizetlen lapok listáját]].',
 	'revreview-successful2' => "'''A(z) [[:$1|$1]] változatáról sikeresen eltávolítottad a jelölést.'''",
 	'revreview-text' => "''Az [[{{MediaWiki:Validationpage}}|ellenőrzött változatok]] olyan átnézett lapok, amiken a közzétett változat alapul.''",
 	'revreview-toggle-title' => 'részletek megjelenítése/elrejtése',
-	'revreview-toolow' => "Ahhoz, hogy egy változat ellenőrzöttnek tekinthető legyen, minden tulajdonságot magasabbra kell értékelned a „nem ellenőrzött” szintnél.'''
+	'revreview-toolow' => "'''Ahhoz, hogy egy változat ellenőrzöttnek tekinthető legyen, minden tulajdonságot magasabbra kell értékelned a „nem ellenőrzött” szintnél.'''
 
 Nem ellenőrzöttnek való visszaminősítéshez állítsd az összes mezőt „nem ellenőrzött” értékre.
 
@@ -7754,6 +7786,9 @@ $messages['ia'] = array(
 	'group-autoreview' => 'Autorevisores',
 	'group-autoreview-member' => 'autorevisor',
 	'grouppage-autoreview' => '{{ns:project}}:Autorevisor',
+	'revcontents-error' => 'Incapace de obtener contento.',
+	'revcontents-getcontents' => 'Clicca <a href="$1" >hic</a> pro vider iste version.',
+	'revcontents-waiting' => 'Attende contento',
 	'revreview-hist-draft' => 'version non verificate',
 	'revreview-hist-pending' => 'attende revision',
 	'revreview-hist-quality' => 'version de qualitate',
@@ -8597,7 +8632,7 @@ $messages['ja'] = array(
 	'revreview-draft-title' => '査読待ちの変更がこのページに表示されています',
 	'revreview-edit' => '編集',
 	'revreview-editnotice' => "'''あなたの変更は承認された利用者の査読の後に公開されます。 ([[{{MediaWiki:Validationpage}}|ヘルプ]])'''",
-	'revreview-check-flag-p' => '現在査読待ちの編集を公開する',
+	'revreview-check-flag-p' => 'この版を承認する（保留中の$1コの{{PLURAL:$1|変更}}を含む）',
 	'revreview-check-flag-p-title' => '自身の編集とともに現在保留中の変更をすべて承認する。
 これは、あなたが既に保留中の変更全体の差分表示を確認した場合のみに使用してください。',
 	'revreview-check-flag-u' => 'この未査読ページを受理する',
@@ -10660,6 +10695,9 @@ $messages['ml'] = array(
 	'group-autoreview' => 'സ്വതേ സംശോധനം ചെയ്യുന്നവർ',
 	'group-autoreview-member' => 'സ്വതേ സംശോധനം ചെയ്യുന്നയാൾ',
 	'grouppage-autoreview' => '{{ns:project}}:സ്വതേ സംശോധനം ചെയ്യുന്നയാൾ',
+	'revcontents-error' => 'ഉള്ളടക്കം എടുക്കാനാവുന്നില്ല.',
+	'revcontents-getcontents' => 'ഈ നാൾപ്പതിപ്പിനായി <a href="$1" >ഇവിടെ ഞെക്കുക</a>',
+	'revcontents-waiting' => 'ഉള്ളടക്കം പ്രതീക്ഷിക്കുന്നു',
 	'revreview-hist-draft' => 'പരിശോധിക്കാത്ത നാൾപ്പതിപ്പ്',
 	'revreview-hist-pending' => 'സംശോധനം പ്രതീക്ഷിക്കുന്നവ',
 	'revreview-hist-quality' => 'ഉന്നത നിലവാരമുള്ള പതിപ്പ്',
@@ -10735,7 +10773,7 @@ $messages['ml'] = array(
 	'revreview-submitedit-title' => 'താങ്കൾ വരുത്തിയ മാറ്റങ്ങൾ സംശോധനത്തിന് സമർപ്പിക്കുക',
 	'revreview-edited' => "'''അംഗീകരിക്കപ്പെട്ട ഒരു ഉപയോക്താവ് ഒരിക്കൽ സം‌ശോധനം നിർവഹിച്ചു കഴിഞ്ഞാൽ താങ്കളുടെ തിരുത്തലുകൾ എല്ലാ വായനക്കാർക്കും കാണാനാവും. ([[{{MediaWiki:Validationpage}}|സഹായം]])'''
 
-അതിൽ [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} അവശേഷിക്കുന്ന {{PLURAL:$2|ഒരു മാറ്റം|$2 മാറ്റങ്ങൾ}}] ''(താഴെ കൊടുത്തിരിക്കുന്നു)''സം‌ശോധനം പ്രതീക്ഷിക്കുന്നു.",
+അതിൽ [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} അവശേഷിക്കുന്ന {{PLURAL:$2|ഒരു മാറ്റം|$2 മാറ്റങ്ങൾ}}] ''(താഴെ കൊടുത്തിരിക്കുന്നു)'' സം‌ശോധനം പ്രതീക്ഷിക്കുന്നു.",
 	'revreview-edited-section' => 'താളിലെ "[[#$1|$2]]" എന്ന ഉപവിഭാഗത്തിലേയ്ക്ക് തിരിച്ചുപോവുക.',
 	'revreview-flag' => 'ഈ പതിപ്പ് സംശോധനം ചെയ്യുക',
 	'revreview-reflag' => 'ഈ നാൾപ്പതിപ്പ് പുനർസംശോധനം ചെയ്യുക',
@@ -11294,6 +11332,9 @@ $messages['nl'] = array(
 	'group-autoreview' => 'Automatische controleurs',
 	'group-autoreview-member' => 'automatische controleur',
 	'grouppage-autoreview' => '{{ns:project}}:Automatische controleur',
+	'revcontents-error' => 'Niet in staat om content op te vragen.',
+	'revcontents-getcontents' => '<a href="$1" >Deze versie bekijken</a>.',
+	'revcontents-waiting' => 'Bezig met het laden van content',
 	'revreview-hist-draft' => 'ongecontroleerde versie',
 	'revreview-hist-pending' => 'wacht op controle',
 	'revreview-hist-quality' => 'kwaliteitsversie',
@@ -12260,7 +12301,7 @@ $messages['pl'] = array(
 	'revreview-accuracy-4' => 'na medal',
 	'revreview-auto' => '(automatycznie)',
 	'revreview-basic' => 'To jest najnowsza [[{{MediaWiki:Validationpage}}|wersja przejrzana]], która została [{{fullurl:{{#Special:Log}}|type=review&page={{FULLPAGENAMEE}}}} oznaczona] <i>$2</i>.
-Od tego czasu dokonano [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} $3 {{PLURAL:$3|zmianę|zmiany|zmian}}], {{PLURAL:$3|która oczekuje|które oczekują|które oczekują}} na przejrzenie.',
+Od tego czasu dokonano [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} $3 {{PLURAL:$3|zmiany|zmian|zmian}}], {{PLURAL:$3|która oczekuje|które oczekują|które oczekują}} na przejrzenie.',
 	'revreview-basic-i' => 'To jest [[{{MediaWiki:Validationpage}}|wersja przejrzana]], która została [{{fullurl:{{#Special:Log}}|type=review&page={{FULLPAGENAMEE}}}} oznaczona] <i>$2</i>.
 Na przejrzenie oczekują [{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} zmiany w szablonach lub plikach], które są zawarte na tej stronie.',
 	'revreview-basic-old' => 'To jest [[{{MediaWiki:Validationpage}}|wersja przejrzana]] ([{{fullurl:{{#Special:ReviewedVersions}}|page={{FULLPAGENAMEE}}}} pokaż wszystkie]), która została [{{fullurl:{{#Special:Log}}|type=review&page={{FULLPAGENAMEE}}}} oznaczona] <i>$2</i>.
@@ -12474,6 +12515,9 @@ $messages['pms'] = array(
 	'group-autoreview' => 'Utent autocontrolà',
 	'group-autoreview-member' => 'utent autocontrolà',
 	'grouppage-autoreview' => '{{ns:project}}:Utent autocontrolà',
+	'revcontents-error' => 'As peul pa pijesse ël contnù.',
+	'revcontents-getcontents' => 'Sgnaca <a href="$1" >ambelessì</a> për vardé sta revision.',
+	'revcontents-waiting' => 'Speté dël contnù',
 	'revreview-hist-draft' => 'revision pa controlà',
 	'revreview-hist-pending' => 'revision an cors',
 	'revreview-hist-quality' => 'qualità',
@@ -13675,6 +13719,9 @@ $messages['ru'] = array(
 	'group-autoreview' => 'Автодосматривающие',
 	'group-autoreview-member' => 'автодосматривающий',
 	'grouppage-autoreview' => '{{ns:project}}:Автодосматривающие',
+	'revcontents-error' => 'Невозможно получить содержимое.',
+	'revcontents-getcontents' => 'Нажмите <a href="$1">здесь</a>, чтобы просмотреть эту версию.',
+	'revcontents-waiting' => 'Ожидание материалов',
 	'revreview-hist-draft' => 'непроверенная версия',
 	'revreview-hist-pending' => 'ожидает проверки',
 	'revreview-hist-quality' => 'выверенная версия',
@@ -13741,7 +13788,7 @@ $messages['ru'] = array(
 	'revreview-draft-title' => 'На этой странице показываются непроверенные изменения',
 	'revreview-edit' => 'Править',
 	'revreview-editnotice' => "'''Сделанные вами изменения будут показаны читателям после проверки уполномоченным участником. ([[{{MediaWiki:Validationpage}}|подробнее]])'''",
-	'revreview-check-flag-p' => 'Подтвердить непроверенные изменения',
+	'revreview-check-flag-p' => 'Подтвердить эту версию ($1 {{PLURAL:$1|непроверенное изменения|непроверенных изменения|непроверенных изменений}})',
 	'revreview-check-flag-p-title' => 'Подтвердить все ожидающие проверки изменения вместе с вашей правкой. Используйте, только если вы уже просмотрели все ожидающие проверки изменения.',
 	'revreview-check-flag-u' => 'Подтвердить эту версию непроверенной страницы',
 	'revreview-check-flag-u-title' => 'Подтвердить эту версию страницы. Применяйте только в случае, если вы полностью просмотрели страницу.',
@@ -13870,6 +13917,13 @@ $messages['ru'] = array(
 	'revreview-restrictfilter' => 'Ограничение автопроверки:',
 	'revreview-restriction-any' => 'любой',
 	'revreview-restriction-none' => 'нет',
+	'revreview-reject-header' => 'Отклонить изменения для $1',
+	'revreview-reject-text-list' => "Выполняя это действие, вы '''отвергаете''' следующие изменения:",
+	'revreview-reject-text-revto' => 'Возвращает страницу назад к [версии $1 от $2].',
+	'revreview-reject-summary' => 'Описание изменений:',
+	'revreview-reject-confirm' => 'Отклонить эти изменения',
+	'revreview-reject-cancel' => 'Отмена',
+	'revreview-reject-default-summary' => 'Отклонены изменения [[User:$1|$1]] в версию $2 [[User:$3|$3]]',
 	'revreview-reviewlink' => 'непроверенные изменения',
 	'revreview-reviewlink-title' => 'Просмотр разницы всех непроверенных изменений',
 	'revreview-unreviewedpage' => 'непроверенная страница',
@@ -14027,20 +14081,35 @@ $messages['sah'] = array(
 	'editor' => 'Көннөрөөччү',
 	'flaggedrevs' => 'Бэлиэтэммит торумнар',
 	'flaggedrevs-watched-pending' => "Эн кэтэбилиҥ тиһигэр тургутуллуохтаах [{{fullurl:{{#Special:OldReviewedPages}}|watched=1}} көннөрүүлэр бааллар]. '''Бука диэн, көр эрэ!'''",
-	'flaggedrevs-desc' => 'Эрэдээктэрдэргэ/ырытааччыларга сирэй торумнарын уонна сирэй стабилизациятын бигэргэтэр кыаҕы биэрэр',
+	'flaggedrevs-desc' => 'Эрэдээктэрдэргэ сирэй барылларын тургутар уонна сирэй бигэ барылларын туруорар кыаҕы биэрэр',
 	'flaggedrevs-pref-UI' => 'Олох интерфейс:',
-	'prefs-flaggedrevs' => 'Халбаҥнаабат гыныы (стабилизация)',
+	'flaggedrevs-pref-UI-0' => 'Сирэйи бигэргэтии туругун туһунан сиһилии',
+	'flaggedrevs-pref-UI-1' => 'Сирэйи бигэргэтии туругар сыһыаннаах кырачаан бэлиэлэр уонна кылгас тиэкистэр',
+	'prefs-flaggedrevs' => 'Көннөрүүлэри бигэргэтии',
 	'prefs-flaggedrevs-ui' => 'Уларытыыны бигэргэтии',
 	'flaggedrevs-prefs-stable' => 'Бастаан ыстатыйа бэчээттэммит барылын көрдөрөргө (баар буоллаҕына)',
+	'flaggedrevs-prefs-watch' => 'Тургуппут сирэйдэрбин кэтээн көрүү тиһигэр киллэрэн ис',
+	'flaggedrevs-prefs-editdiffs' => 'Сирэйдэри уларытарга тургутуллубут уонна тургутуллубатах барыллар уратыларын көрдөр',
 	'group-editor' => 'Көннөрөөччүлэр',
 	'group-editor-member' => 'көннөрөөччү',
 	'group-reviewer' => 'Рецензеннар',
 	'group-reviewer-member' => 'рецензент',
 	'grouppage-editor' => '{{ns:project}}:Көннөрөөччү',
 	'grouppage-reviewer' => '{{ns:project}}:Рецензент',
-	'revreview-hist-draft' => 'хара барыла',
+	'revcontents-getcontents' => '<a href="$1">Маны</a> баттаа, оччоҕо бу барыл көстүө.',
+	'revcontents-waiting' => 'Сурулларын кэтэһии',
+	'revreview-hist-draft' => 'тургутуллубатах барыл',
+	'revreview-hist-pending' => 'тургутуллуохтаах',
 	'revreview-hist-quality' => 'үрдүк хаачыстыбалаах торум',
-	'revreview-hist-basic' => 'торум көрүлүннэ/көрүллүбүт',
+	'revreview-hist-basic' => 'көрүллүбүт барыл',
+	'revreview-hist-quality-user' => '[[User:$3|$3]] кыттааччы [{{fullurl:$1|stableid=$2}} бигэргэппит]',
+	'revreview-hist-basic-user' => '[[User:$3|$3]] кыттааччы [{{fullurl:$1|stableid=$2}} көрбүт]',
+	'revreview-hist-basic-auto' => '[{{fullurl:$1|stableid=$2}} аптамаатынан көрүллүбүт]',
+	'revreview-hist-quality-auto' => '[{{fullurl:$1|stableid=$2}} аптамаатынан бигэргэтиллибит]',
+	'revreview-hist-pending-difflink' => "'''[[{{fullurl:$1|oldid=$2&diff=$3}} тургутуллуохтаах]]'''",
+	'review-edit-diff' => "'''БИЛЛЭРИИ. Эн көннөрөр сирэйиҥ сорҕотугар сорох тургутуллуохтаах көннөрүүлэр бааллар эбит.'''",
+	'revreview-diff-toggle-show' => 'уларытыылары көрдөр',
+	'revreview-diff-toggle-hide' => 'уларытыылары кистээ',
 	'review-diff2stable' => 'Чистовой уонна саҥа торумнар уратыларын көрүү',
 	'review-logentry-app' => '[[$1]] сирэй r$2 барыла ырытыллынна',
 	'review-logentry-dis' => '[[$1]] сирэй эргэрбит барылын бэлиэтээбит',
@@ -14103,31 +14172,38 @@ $messages['sah'] = array(
 	'revreview-quick-invalid' => "'''Сирэй барылын идентификатора алҕастаах'''",
 	'revreview-quick-none' => "'''Бүтэһик торум''' (ырытыллыбыт торума суох)",
 	'revreview-quick-quality' => "'''[[{{MediaWiki:Validationpage}}|Кичэйэн көрүллүбүт]]''' [[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} черновигын көр]]",
-	'revreview-quick-quality-same' => "'''[[{{MediaWiki:Validationpage}}|Бэрэбиэркэлэммит сирэй]]'''",
-	'revreview-quick-see-basic' => "'''[[{{MediaWiki:Validationpage}}|Хара барыла]]''' [[{{fullurl:{{FULLPAGENAMEE}}|stable=1}} бигэ барыла]]
-[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} тэҥнииргэ]]",
-	'revreview-quick-see-quality' => "'''[[{{MediaWiki:Validationpage}}|Хара барыла]]''' [[{{fullurl:{{FULLPAGENAMEE}}|stable=1}} бигэ барыла]]
-[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} тэҥнииргэ]]",
+	'revreview-quick-quality-same' => "'''[[{{MediaWiki:Validationpage}}|Бэрт]]'''",
+	'revreview-quick-see-basic' => '[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} бэрэбиэркэлэммэтэх уларытыылары көрдөр]]',
+	'revreview-quick-see-quality' => '[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} бэрэбиэркэлэммэтэх уларытыылары көрдөр]]',
 	'revreview-selected' => "'''$1''' талыллыбыт торума:",
-	'revreview-source' => 'черновик бастакы торума',
+	'revreview-source' => 'Исходнигын көрүү',
 	'revreview-basic-title' => 'Бу сирэй көрүллүбүт барыла',
-	'revreview-stable1' => 'Баҕар эн [{{fullurl:$1|stableid=$2}} бу бэлиэтэммит барылы]  эбэтэр, баар буоллаҕына, сирэй [{{fullurl:$1|stable=1}} бигэ барылын] көрүөххүн баҕарарыҥ буолуо.',
-	'revreview-stable2' => 'Эн өссө бу сирэй [{{fullurl:$1|stable=1}} бигэ барылын] көрүөххүн сөп (баар буоллаҕына).',
+	'revreview-stable1' => 'Баҕар эн [{{fullurl:$1|stableid=$2}} бу бэлиэтэммит барылы]  эбэтэр, баар буоллаҕына, сирэй [{{fullurl:$1|stable=1}} бэчээттэммит барылын] көрүөххүн баҕарарыҥ буолуо.',
+	'revreview-stable2' => 'Эн өссө бу сирэй [{{fullurl:$1|stable=1}} бэчээттэммит барылын] көрүөххүн сөп.',
 	'revreview-style' => 'Ааҕарга табыгастааҕа',
-	'revreview-style-0' => 'Бигэргэтиллибэтэх',
+	'revreview-style-0' => 'Ыйыллыбатах',
 	'revreview-style-1' => 'Син аҕай',
 	'revreview-style-2' => 'Үчүгэй',
 	'revreview-style-3' => 'Кылгас',
 	'revreview-style-4' => 'Уһулуччу үчүгэй',
 	'revreview-submit' => 'Ыыт',
 	'revreview-submitting' => 'Ыытыы...',
+	'revreview-submit-review' => 'Барылы бигэргэт',
+	'revreview-submit-unreview' => 'Бигэргэтиини суох гын',
+	'revreview-submit-reject' => 'Уларытыылары сот',
+	'revreview-submit-reviewed' => 'Бэлэм. Бигэргэтилиннэ!',
+	'revreview-submit-unreviewed' => 'Бэлэм. Бигэргэтии уһулунна!',
 	'revreview-successful' => "'''Талыллыбыт [[:$1|$1]] барыл сөпкө бэлиэтэннэ. ([{{fullurl:{{#Special:ReviewedVersions}}|page=$2}} бигэ барыллары көрүү])'''",
 	'revreview-successful2' => "'''Талыллыбыт [[:$1|$1]] барылтан бэлиэ уһулунна.'''",
-	'revreview-text' => 'Анаан туруоруллубатаҕына сирэйдэр хойукку буолбакка [[{{MediaWiki:Validationpage}}|бигэ барыллара]] көстөллөр.',
+	'revreview-text' => '[[{{MediaWiki:Validationpage}}|бигэ барыллара]] — сирэй бэлиэммит барыллара, бэчээттэнэр барыл балартан талыллар.',
 	'revreview-toggle-title' => 'сиһилиитин көрдөр/кистээ',
-	'revreview-toolow' => 'Бу торуму ырытыллыбыт диир буоллаххына «бигэргэтиллибэтэх» диэнтэн үөһээ таһымы туруоруохтааххын. Ырытыыта суох оҥорорго туох баар суолталарын «бигэргэтиллибэтэх» диэҥҥэ туруор.',
-	'revreview-update' => "Бука диэн манна аллара бэриллибит бу бигэ барыл [{{fullurl:{{#Special:Log}}|type=review&page={{FULLPAGENAMEE}}}} оҥоһуллубутун] кэннэ оҥоһуллубут [[{{MediaWiki:Validationpage}}|көннөрүүлэри]] бэрэбиэркэлээ.<br />
-'''Сорох халыыптар уонна билэлэр саҥардыллыбыттар:'''",
+	'revreview-toolow' => "'''Бу барылы ырытыллыбыт диир буоллаххына «бигэргэтиллибэтэх» диэнтэн үөһээ таһымы туруоруохтааххын. '''
+
+Ырытыллыбатах оҥорорго «Бигэргэтиитин уһул» диэни баттаа.
+
+Суолталарын хос туруоруоххун баҕарар буоллаххына браузерыҥ «төнүн» тимэҕин баттаа.",
+	'revreview-update' => "'''Бука диэн, бигэ барыл манна көстүбүт уларыйыыларын ''(аллара)'' [[{{MediaWiki:Validationpage}}|тургут эрэ]].'''
+Баҕар бастаан көннөрүүлэр устуоруйалырын көрөр уонна кинилэри төннөрөр наада буолуо.",
 	'revreview-visibility' => 'Бу сирэй [[{{MediaWiki:Validationpage}}|чистовой торумнаах]], которая может быть  
 [{{fullurl:{{#Special:Stabilization}}|page={{FULLPAGENAMEE}}}} настроена].',
 	'revreview-revnotfound' => 'Бу сирэй урукку барыла булуллубата. Ыйынньыгы сыыһата суох суруйбуккун көр.',
@@ -14483,6 +14559,9 @@ $messages['sl'] = array(
 	'group-autoreview' => 'Samodejno potrjeni uporabniki',
 	'group-autoreview-member' => 'samodejno potrjeni uporabniki',
 	'grouppage-autoreview' => '{{ns:project}}:Samodejno preverjeni uporabniki',
+	'revcontents-error' => 'Ne morem dobiti vsebine.',
+	'revcontents-getcontents' => 'Kliknite <a href="$1" >tukaj</a> za ogled redakcije.',
+	'revcontents-waiting' => 'Čakam na vsebino',
 	'revreview-hist-draft' => 'nepreverjena redakcija',
 	'revreview-hist-pending' => 'redakcija v teku',
 	'revreview-hist-quality' => 'kakovostna redakcija',
@@ -16586,6 +16665,16 @@ Değişikliklerinizin kararlı sürümde görünmesi için, lütfen aşağıda g
  */
 $messages['tt-cyrl'] = array(
 	'revreview-edit' => 'Үзгәртү',
+	'revreview-quick-none' => "'''[[{{MediaWiki:Validationpage}}|Тикшерелмәгән]]'''",
+	'revreview-quick-quality' => "'''[[{{MediaWiki:Validationpage}}|Тикшерелгән]]''' [[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} тикшерелмәгән үзгәртүләрне күрсәтергә]]",
+	'revreview-quick-quality-old' => "'''[[{{MediaWiki:Validationpage}}|Тикшерелгән]]'''",
+	'revreview-quick-quality-same' => "'''[[{{MediaWiki:Validationpage}}|Тикшерелгән]]'''",
+	'revreview-quick-see-basic' => '[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} тикшерелмәгән үзгәрешләрне карарга]]',
+	'revreview-quick-see-quality' => '[[{{fullurl:{{FULLPAGENAMEE}}|oldid=$1&diff=cur&diffonly=0}} тикшерелмәгән үзгәрешләрне карарга]]',
+	'revreview-selected' => "Сайланган юрама '''$1:'''",
+	'revreview-source' => 'Карау',
+	'revreview-basic-title' => 'Бу битнең каралган юрамасы',
+	'validationpage' => '{{ns:help}}:Битләрне тикшерү',
 );
 
 /** Ukrainian (Українська)
@@ -17320,6 +17409,9 @@ $messages['vi'] = array(
 	'group-autoreview' => 'Người tự duyệt',
 	'group-autoreview-member' => 'người tự duyệt',
 	'grouppage-autoreview' => '{{ns:project}}:Người tự duyệt',
+	'revcontents-error' => 'Không thể lấy nội dung.',
+	'revcontents-getcontents' => '<a href="$1">Xem thay đổi này</a>.',
+	'revcontents-waiting' => 'Đang chờ nội dung.',
 	'revreview-hist-draft' => 'phiên bản chưa xem qua',
 	'revreview-hist-pending' => 'phiên bản đang chờ',
 	'revreview-hist-quality' => 'bản chất lượng cao',

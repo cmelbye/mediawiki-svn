@@ -115,6 +115,7 @@ class FlaggedRevs {
 	 * @returns string
 	 */
 	public static function binaryTagName() {
+		self::load();
 		if ( !self::binaryFlagging() ) {
 			return null;
 		}
@@ -155,7 +156,6 @@ class FlaggedRevs {
 	 */
 	public static function autoReviewNewPages() {
 		global $wgFlaggedRevsAutoReviewNew;
-		self::load();
 		return (bool)$wgFlaggedRevsAutoReviewNew;
 	}
 
@@ -244,7 +244,7 @@ class FlaggedRevs {
 		global $wgFlaggedRevsComments;
 		return $wgFlaggedRevsComments;
 	}
-	
+
 	/**
 	 * Get the array of tag dimensions and level messages
 	 * @returns array
@@ -253,25 +253,7 @@ class FlaggedRevs {
 		self::load();
 		return self::$dimensions;
 	}
-	
-	/**
-	 * Get min level this tag needs to be for a rev to be "quality"
-	 * @returns int
-	 */
-	public static function getMinQL( $tag ) {
-		self::load();
-		return self::$minQL[$tag];
-	}
-	
-	/**
-	 * Get min level this tag needs to be for a rev to be "pristine"
-	 * @returns int
-	 */
-	public static function getMinPL( $tag ) {
-		self::load();
-		return self::$minPL[$tag];
-	}
-	
+
 	/**
 	 * Get the associative array of tag dimensions
 	 * (tags => array(levels => msgkey))
@@ -320,10 +302,11 @@ class FlaggedRevs {
 	 */
 	public static function getTagValueMsg( $tag, $value ) {
 		self::load();
-		if ( !isset( self::$dimensions[$tag] ) )
+		if ( !isset( self::$dimensions[$tag] ) ) {
 			return '';
-		if ( !isset( self::$dimensions[$tag][$value] ) )
+		} elseif ( !isset( self::$dimensions[$tag][$value] ) ) {
 			return '';
+		}
 		# Return empty string if not there
 		return wfMsgExt( 'revreview-' . self::$dimensions[$tag][$value],
 			array( 'escapenoentities' ) );
@@ -771,7 +754,7 @@ class FlaggedRevs {
 		$data = array();
 		$level = self::pristineVersions() ? FR_PRISTINE : FR_QUALITY;
 		if ( !self::qualityVersions() ) {
-			$level = FR_SIGHTED;
+			$level = FR_CHECKED;
 		}
 		# Get the latest revision ID if not set
 		if ( !$latest ) {
@@ -798,13 +781,13 @@ class FlaggedRevs {
 			);
 			# If there is a revision of this level, track it...
 			# Revisions reviewed to one level  count as reviewed
-			# at the lower levels (i.e. quality -> sighted).
+			# at the lower levels (i.e. quality -> checked).
 			if ( $row ) {
 				$id = $row->fr_rev_id;
 				$ts = $row->rev_timestamp;
 			} else {
-				$id = $higherLevelId; // use previous (quality -> sighted)
-				$ts = $higherLevelTS; // use previous (quality -> sighted)
+				$id = $higherLevelId; // use previous (quality -> checked)
+				$ts = $higherLevelTS; // use previous (quality -> checked)
 			}
 			# Get edits that actually are pending...
 			if ( $id && $latest > $id ) {
@@ -866,11 +849,12 @@ class FlaggedRevs {
 	*/
 	public static function getRevisionTags( Title $title, $rev_id ) {
 		$dbr = wfGetDB( DB_SLAVE );
-		$tags = $dbr->selectField( 'flaggedrevs', 'fr_tags',
+		$tags = (string)$dbr->selectField( 'flaggedrevs',
+			'fr_tags',
 			array( 'fr_rev_id' => $rev_id,
 				'fr_page_id' => $title->getArticleId() ),
-			__METHOD__ );
-		$tags = $tags ? $tags : "";
+			__METHOD__
+		);
 		return FlaggedRevision::expandRevisionTags( strval( $tags ) );
 	}
 
@@ -1120,7 +1104,8 @@ class FlaggedRevs {
 	* @param array $flags
 	* @return bool, is this revision at basic review condition?
 	*/
-	public static function isSighted( array $flags ) {
+	public static function isChecked( array $flags ) {
+		self::load();
 		return self::tagsAtLevel( $flags, self::$minSL );
 	}
 
@@ -1129,6 +1114,7 @@ class FlaggedRevs {
 	* @return bool, is this revision at quality review condition?
 	*/
 	public static function isQuality( array $flags ) {
+		self::load();
 		return self::tagsAtLevel( $flags, self::$minQL );
 	}
 
@@ -1137,11 +1123,13 @@ class FlaggedRevs {
 	* @return bool, is this revision at pristine review condition?
 	*/
 	public static function isPristine( array $flags ) {
+		self::load();
 		return self::tagsAtLevel( $flags, self::$minPL );
 	}
 	
 	// Checks if $flags meets $reqFlagLevels
 	protected static function tagsAtLevel( array $flags, $reqFlagLevels ) {
+		self::load();
 		if ( empty( $flags ) ) {
 			return false;
 		}
@@ -1156,41 +1144,32 @@ class FlaggedRevs {
 	/**
 	* Get the quality tier of review flags
 	* @param array $flags
-	* @return int, flagging tier (-1 for non-sighted)
+	* @return int flagging tier (FR_PRISTINE,FR_QUALITY,FR_CHECKED,-1)
 	*/
 	public static function getLevelTier( array $flags ) {
 		if ( self::isPristine( $flags ) ) {
 			return FR_PRISTINE; // 2
 		} elseif ( self::isQuality( $flags ) ) {
 			return FR_QUALITY; // 1
-		} elseif ( self::isSighted( $flags ) ) {
-			return FR_SIGHTED; // 0
+		} elseif ( self::isChecked( $flags ) ) {
+			return FR_CHECKED; // 0
 		}
 		return -1;
 	}
 
 	/**
 	 * Get minimum level tags for a tier
+	 * @param int $tier FR_PRISTINE/FR_QUALITY/FR_CHECKED
 	 * @return array
 	 */
 	public static function quickTags( $tier ) {
 		self::load();
-		switch( $tier ) // select reference levels
-		{
-			case FR_PRISTINE:
-				$minLevels = self::$minPL;
-				break;
-			case FR_QUALITY:
-				$minLevels = self::$minQL;
-				break;
-			default:
-				$minLevels = self::$minSL;
+		if ( $tier == FR_PRISTINE ) {
+			return self::$minPL;
+		} elseif ( $tier == FR_QUALITY ) {
+			return self::$minQL;
 		}
-		$flags = array();
-		foreach ( self::getDimensions() as $tag => $x ) {
-			$flags[$tag] = $minLevels[$tag];
-		}
-		return $flags;
+		return self::$minSL;
 	}
 
 	/**
@@ -1205,7 +1184,7 @@ class FlaggedRevs {
 			return null; // shouldn't happen
 		}
 		$flags = array();
-		foreach ( self::getDimensions() as $tag => $levels ) {
+		foreach ( self::getTags() as $tag ) {
 			# Try to keep this tag val the same as the stable rev's
 			$val = isset( $oldFlags[$tag] ) ? $oldFlags[$tag] : 1;
 			$val = min( $val, self::maxAutoReviewLevel( $tag ) );
@@ -1326,7 +1305,7 @@ class FlaggedRevs {
 					$flags = self::getAutoReviewTags( $user, $oldSv->getTags() );
 				}
 			} else { // new page?
-				$flags = self::quickTags( FR_SIGHTED ); // use minimal level
+				$flags = self::quickTags( FR_CHECKED ); // use minimal level
 			}
 			if ( !is_array( $flags ) ) {
 				wfProfileOut( __METHOD__ );

@@ -29,7 +29,6 @@ class RevisionReviewForm
 	protected $comment = '';
 	protected $dims = array();
 
-	protected $unapprovedTags = 0;
 	protected $oflags = array();
 	protected $inputLock = 0; # Disallow bad submissions
 
@@ -203,35 +202,25 @@ class RevisionReviewForm
 	protected function checkSettings() {
 		$status = $this->checkTarget();
 		if ( $status !== true ) {
-			return $status; // bad target
+			return $status; // bad page target
+		} elseif ( !$this->oldid ) {
+			return 'review_no_oldid'; // bad revision target
 		}
-		if ( !$this->oldid ) {
-			return 'review_no_oldid';
-		}
-		# Check that this is an approval or de-approval
+		# Check that an action is specified (approve, reject, de-approve)
 		if ( $this->getAction() === null ) {
 			return 'review_param_missing'; // user didn't say
 		}
 		# Fill in implicit tag data for binary flag case
 		$iDims = $this->implicitDims();
 		if ( $iDims ) {
-			$this->dims = $iDims;
-		} else {
-			foreach ( FlaggedRevs::getDimensions() as $tag ) {
-				if ( $this->dims[$tag] === 0 ) {
-					$this->unapprovedTags++;
-				}
-			}
+			$this->dims = $iDims; // binary flag case
 		}
-		# We must at least rate each category as 1, the minimum
-		# Exception: we can rate ALL as unapproved to depreciate a revision
-		if ( $this->unapprovedTags
-			&& $this->unapprovedTags < count( FlaggedRevs::getDimensions() ) )
-		{
-			return 'review_too_low';
-		}
-		# Special token to discourage fiddling with template/files...
 		if ( $this->getAction() === 'approve' ) {
+			# We must at least rate each category as 1, the minimum
+			if ( in_array( 0, $this->dims, true ) ) {
+				return 'review_too_low';
+			}
+			# Special token to discourage fiddling with template/files...
 			$k = self::validationKey(
 				$this->templateParams, $this->imageParams, $this->fileVersion, $this->oldid );
 			if ( $this->validatedParams !== $k ) {
@@ -644,7 +633,7 @@ class RevisionReviewForm
 		}
 		$oldFlags = $frev
 			? $frev->getTags() // existing tags
-			: FlaggedRevs::quickTags( FR_SIGHTED ); // basic tags
+			: FlaggedRevs::quickTags( FR_CHECKED ); // basic tags
 
 		# If we are reviewing updates to a page, start off with the stable revision's
 		# flags. Otherwise, we just fill them in with the selected revision's flags.
@@ -748,7 +737,7 @@ class RevisionReviewForm
 		$form .= Xml::openElement( 'span', array( 'style' => 'white-space: nowrap;' ) );
 		# Hide comment input if needed
 		if ( !$disabled ) {
-			if ( count( FlaggedRevs::getDimensions() ) > 1 ) {
+			if ( count( FlaggedRevs::getTags() ) > 1 ) {
 				$form .= "<br />"; // Don't put too much on one line
 			}
 			$form .= "<span id='mw-fr-commentbox' style='clear:both'>" .
@@ -809,7 +798,6 @@ class RevisionReviewForm
 		if ( $labels === false ) {
 			$disabled = true; // a tag is unsettable
 		}
-		$dimensions = FlaggedRevs::getDimensions();
 		# If there are no tags, make one checkbox to approve/unapprove
 		if ( FlaggedRevs::binaryFlagging() ) {
 			return '';
@@ -818,7 +806,7 @@ class RevisionReviewForm
 		# Build rating form...
 		if ( $disabled ) {
 			// Display the value for each tag as text
-			foreach ( $dimensions as $quality => $levels ) {
+			foreach ( FlaggedRevs::getTags() as $quality ) {
 				$selected = isset( $flags[$quality] ) ? $flags[$quality] : 0;
 				$items[] = FlaggedRevs::getTagMsg( $quality ) . ": " .
 					FlaggedRevs::getTagValueMsg( $quality, $selected );
