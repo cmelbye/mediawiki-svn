@@ -124,12 +124,12 @@ mw.Playlist.prototype = {
 				})
 					.append(
 					$j('<div />')
-					.addClass( 'playlistSet-list' )
-					.css("width", '2000px')
+					.addClass( 'playlistSetList' )
+					.css("width", '200px')
 				);
 				$j( _this.target ).append( $plListContainer );
 
-				var $plListSet = $j( _this.target ).find( '.playlistSet-list' );
+				var $plListSet = $j( _this.target ).find( '.playlistSetList' );
 
 				$j.each( playlistSet, function( inx, playlist){
 					// Add a divider
@@ -556,7 +556,7 @@ mw.Playlist.prototype = {
 					$j('<tr />')
 					.append(
 						$j( '<td />')
-						.css('width', _this.itemThumbWidth )
+						.css('width', _this.itemThumbWidth + 'px' )
 						.append(
 							$j('<img />')
 							.attr({

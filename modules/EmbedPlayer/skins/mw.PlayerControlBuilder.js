@@ -202,26 +202,34 @@ mw.PlayerControlBuilder.prototype = {
 	},
 
 	/**
-	* Get the fullscreen player css
-	*/
-	getFullscreenPlayerCss: function() {
+	* Get a window size for the player while preserving aspect ratio:
+	* 
+	* @param {object} windowSize
+	* 		object that set { 'width': {width}, 'height':{height} } of target window
+	* @return {object} 
+	* 	 css settings for fullscreen player
+	*/	
+	getAspectPlayerWindowCss: function( windowSize ) {
 		var embedPlayer = this.embedPlayer;
 		// Setup target height width based on max window size
-		var fullWidth = $j( window ).width() - 2 ;
-		var fullHeight = $j( window ).height() ;
-
-		// Set target width
-		var targetWidth = fullWidth;
-		var targetHeight = targetWidth * ( embedPlayer.getHeight() / embedPlayer.getWidth() );
-		// Check if it exceeds the height constraint:
-		if( targetHeight > fullHeight ){
-			targetHeight = fullHeight;
-			targetWidth = targetHeight * ( embedPlayer.getWidth() / embedPlayer.getHeight() );
+		if( !windowSize ){
+			var windowSize = {
+				'width' : $j( window ).width(),
+				'height' :  $j( window ).height()
+			};
 		}
-		var offsetTop = ( targetHeight < fullHeight )? ( fullHeight- targetHeight ) / 2 : 0;
-		var offsetLeft = ( targetWidth < fullWidth )? ( fullWidth- targetWidth ) / 2 : 0;
-
-		//mw.log(" targetWidth: " + targetWidth + ' fullwidth: ' + fullWidth + ' :: ' + ( fullWidth- targetWidth ) / 2 );
+		// Set target width
+		var targetWidth = windowSize.width;
+		var targetHeight = targetWidth * ( embedPlayer.getHeight() / embedPlayer.getWidth()  );
+		// Check if it exceeds the height constraint: 
+		if( targetHeight >  windowSize.height ){		
+			targetHeight = windowSize.height;				
+			targetWidth = targetHeight * ( embedPlayer.getWidth()  / embedPlayer.getHeight()  );
+		}
+		var offsetTop = ( targetHeight < windowSize.height )? ( windowSize.height- targetHeight ) / 2 : 0;
+		var offsetLeft = ( targetWidth < windowSize.width )? ( windowSize.width- targetWidth ) / 2 : 0;
+				
+		//mw.log(" targetWidth: " + targetWidth + ' windowSize.width: ' + windowSize.width + ' :: ' +  ( windowSize.width- targetWidth ) / 2 );
 		return {
 			'height': targetHeight,
 			'width' : targetWidth,
@@ -233,8 +241,8 @@ mw.PlayerControlBuilder.prototype = {
 	/**
 	* Get the fullscreen play button css
 	*/
-	getFullscreenPlayButtonCss: function() {
-		var pos = this.getFullscreenPlayerCss();
+	getFullscreenPlayButtonCss: function( size ) {
+		var pos = this.getAspectPlayerWindowCss( size );
 		return {
 			'left' : ( ( pos.width - this.getComponentWidth( 'playButtonLarge' ) ) / 2 ),
 			'top' : ( ( pos.height - this.getComponentHeight( 'playButtonLarge' ) ) / 2 )
@@ -244,9 +252,9 @@ mw.PlayerControlBuilder.prototype = {
 	/**
 	* Get the fullscreen text css
 	*/
-	getInterfaceSizeTextCss: function() {
+	getInterfaceSizeTextCss: function( size ) {
 		// Some arbitrary scale relative to window size ( 400px wide is text size 105% )
-		var textSize = this.embedPlayer.$interface.width() / 3.8;
+		var textSize = size.width / 3.8;
 		if( textSize < 95 ) textSize = 95;
 		if( textSize > 200 ) textSize = 200;
 		//mw.log(' win size is: ' + $j( window ).width() + ' ts: ' + textSize );
@@ -340,40 +348,36 @@ mw.PlayerControlBuilder.prototype = {
 		if( $interface.offsetParent().get(0).tagName.toLowerCase() != 'body' ) {
 			topOffset = -this.windowOffset.top + 'px';
 			leftOffset = -this.windowOffset.left + 'px';
-		}
+		}			
+		
 
-		// Resize interface container
-		$interface.animate( {
+		// Set the player height width: 
+		$j( embedPlayer ).css( {
+			'position' : 'relative'
+		} );
+		
+		// Overflow hidden in fullscreen: 
+		$interface.css('overlow', 'hidden');
+		
+		// Resize the player keeping aspect and with the widow scroll offset: 		
+		_this.resizePlayer({			
 			'top' : topOffset,
 			'left' : leftOffset,
 			'width' : $j( window ).width(),
-			'height' : $j( window ).height(),
-			'overlow' : 'hidden'
-		}, function(){
-			// Remove absolute css of the interface parents
-			$interface.parents().each( function() {
-				//mw.log(' parent : ' + $j( this ).attr('id' ) + ' class: ' + $j( this ).attr('class') + ' pos: ' + $j( this ).css( 'position' ) );
-				if( $j( this ).css( 'position' ) == 'absolute' ) {
-					_this.parentsAbsolute.push( $j( this ) );
-					$j( this ).css( 'position', null );
-					mw.log(' should update position: ' + $j( this ).css( 'position' ) );
-				}
-			} );
-
-			// Resize the timed text font size per new player width
-			$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss() );
+			'height' :  $j( window ).height()					
+		}, true);
+		
+		// Remove absolute css of the interface parents
+		$interface.parents().each( function() {
+			//mw.log(' parent : ' + $j( this ).attr('id' ) + ' class: ' + $j( this ).attr('class') + ' pos: ' +  $j( this ).css( 'position' ) );  
+			if( $j( this ).css( 'position' ) == 'absolute' ) {				
+				_this.parentsAbsolute.push( $j( this ) );				
+				$j( this ).css( 'position', null );
+				mw.log(' should update position: ' +  $j( this ).css( 'position' ) );
+			}
 		} );
-
-		// Set the player height width:
-		$j( embedPlayer ).css( {
-			'position' : 'relative'
-		} )
-		// Animate a zoom ( while keeping aspect )
-		.animate( _this.getFullscreenPlayerCss() );
-
-
-		// Reposition play-btn-large ( this is unfortunately not easy to position with 'margin': 'auto'
-		$interface.find('.play-btn-large').animate( _this.getFullscreenPlayButtonCss() );
+		
+	
 
 		// Bind mouse move in interface to hide control bar
 		_this.mouseMovedFlag = false;
@@ -402,21 +406,10 @@ mw.PlayerControlBuilder.prototype = {
 		// Bind resize resize window to resize window
 		$j( window ).resize( function() {
 			if( _this.fullscreenMode ){
-				// Update interface container:
-				$interface.css( {
-					'top' : '0px',
-					'left' : '0px',
+				_this.resizePlayer({
 					'width' : $j( window ).width(),
-					'height' : $j( window ).height()
-				} );
-				// Update player size
-				$j( embedPlayer ).css( _this.getFullscreenPlayerCss() );
-
-				// Update play button pos
-				$interface.find('.play-btn-large').css( _this.getFullscreenPlayButtonCss() );
-
-				// Update the timed text size
-				$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss() );
+					'height' : $j( window ).height()	
+				})			
 			}
 		});
 
@@ -429,6 +422,40 @@ mw.PlayerControlBuilder.prototype = {
 		} );
 	},
 
+	/**
+	 * Resize the player to a target size keeping aspect ratio
+	 */
+	resizePlayer: function( size, animate ){
+		var _this = this;		
+		// Update interface container: 
+		var interfaceCss = {			
+				'top' : ( size.top ) ? size.top : '0px',
+				'left' : ( size.left ) ? size.left : '0px',
+				'width' : size.width,
+				'height' :  size.height		
+			};
+		// Set up local pointer to interface: 	
+		var embedPlayer = this.embedPlayer;
+		var $interface = embedPlayer.$interface;
+		if( animate ){
+			$interface.animate( interfaceCss );
+			// Update player size		
+			$j( embedPlayer ).animate( _this.getAspectPlayerWindowCss( size ) );
+			// Update play button pos
+			$interface.find('.play-btn-large').animate(  _this.getFullscreenPlayButtonCss( size ) );
+			// Update the timed text size  
+			$interface.find( '.track' ).animate( _this.getInterfaceSizeTextCss( size ) );
+		} else {
+			$interface.css( interfaceCss );
+			// Update player size		
+			$j( embedPlayer ).css( _this.getAspectPlayerWindowCss( size ) );
+			// Update play button pos
+			$interface.find('.play-btn-large').css(  _this.getFullscreenPlayButtonCss( size ) );
+			// Update the timed text size  
+			$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss( size ) );
+		}					
+	},
+	
 	/**
 	* Restore the window player
 	*/
@@ -476,10 +503,13 @@ mw.PlayerControlBuilder.prototype = {
 
 			// Restore the body scroll bar
 			$j('body').css( 'overflow', 'auto' );
-
-			// Resize the timed text font size per window width
-			$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss() );
-
+			
+			// Resize the timed text font size per window width	
+			$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss({
+				'width' :  embedPlayer.getWidth(),
+				'height' : interfaceHeight
+			}) );
+			
 		} );
 		mw.log( 'restore embedPlayer:: ' + embedPlayer.getWidth() + ' h: ' + embedPlayer.getHeight());
 		// Restore the player:
@@ -688,10 +718,17 @@ mw.PlayerControlBuilder.prototype = {
 				return false;
 			}
 		}
-
-		// Check for h264 and or flash/flv source and playback support and don't show warning
-		if(
-			( mw.EmbedTypes.players.getMIMETypePlayers( 'video/h264' ).length
+		
+		// Chrome's webM support is oky though: 
+		if(  /chrome/.test(navigator.userAgent.toLowerCase() ) && 
+			mw.EmbedTypes.players.getMIMETypePlayers( 'video/webm' ).length ){
+			return false;
+		}
+		
+		
+		// Check for h264 and or flash/flv source and playback support and don't show warning 
+		if( 
+			( mw.EmbedTypes.players.getMIMETypePlayers( 'video/h264' ).length 
 			&& this.embedPlayer.mediaElement.getSources( 'video/h264' ).length )
 			||
 			( mw.EmbedTypes.players.getMIMETypePlayers( 'video/x-flv' ).length
@@ -973,8 +1010,8 @@ mw.PlayerControlBuilder.prototype = {
 		var $overlay = embedPlayer.$interface.find( '.overlay-win,.ui-widget-overlay,.ui-widget-shadow' );
 
 		this.displayOptionsMenuFlag = false;
-		mw.log(' closeMenuOverlay: ' + this.displayOptionsMenuFlag);
-
+		//mw.log(' closeMenuOverlay: ' + this.displayOptionsMenuFlag);
+		
 		$overlay.fadeOut( "slow", function() {
 			$overlay.remove();
 		} );

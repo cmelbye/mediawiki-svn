@@ -180,6 +180,7 @@ mw.PlayerSkinKskin = {
 		} );
 
 	},
+	
 	/**
 	* checks for menu overlay and runs menu bindings if unset
 	*/
@@ -200,7 +201,7 @@ mw.PlayerSkinKskin = {
 	/**
 	* Close the menu overlay
 	*/
-	closeMenuOverlay: function( ) {
+	closeMenuOverlay: function() {
 		mw.log("PlayerSkin: close menu overlay" );
 
 		var $optionsMenu = this.$playerTarget.find( '.k-options' );
@@ -447,7 +448,7 @@ mw.PlayerSkinKskin = {
 			.append(
 				$j('<span>').html(
 					gM( 'mwe-embedplayer-credit-title' ,
-						// We use a div container to easialy get at the built out link
+						// We use a div container to easily get at the built out link
 						$j('<div>').html(
 							$j('<a/>').attr({
 								'href' : articleUrl,

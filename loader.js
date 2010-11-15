@@ -152,6 +152,8 @@ mw.addResourcePaths( {
 
 	"$j.cookie"				: "libraries/jquery/plugins/jquery.cookie.js",
 
+	"$j.postMessage"		: "libraries/jquery/plugins/jquery.postmessage.js",
+
 	"$j.contextMenu"		: "libraries/jquery/plugins/jquery.contextMenu.js",
 	"$j.fn.suggestions"		: "libraries/jquery/plugins/jquery.suggestions.js",
 	"$j.fn.textSelection" 	: "libraries/jquery/plugins/jquery.textSelection.js",
