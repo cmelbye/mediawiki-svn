@@ -81,21 +81,34 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}
 			return ;
 		}
+		mwConfig[ name ] = value;
+	};
+	/**
+	 * Merge in a configuration value: 
+	 */
+	mw.mergeConfig = function( name, value ){
+		if( typeof name == 'object' ) {
+			$j.each( name, function( inx, val) {
+				mw.setConfig( inx, val );
+			});
+			return ;
+		}
 		// Check if we should "merge" the config
 		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
 			if ( value.constructor.toString().indexOf("Array") == -1 ){
+				// merge in the array 
+				mwConfig[ name ] = mwConfig[ name ].concat( value );
+			} else {
 				for( var i in value ){
 					mwConfig[ name ][ i ] = value[ i ];
 				}
-			} else {
-				// merge in the array
-				mwConfig[ name ] = mwConfig[ name ].concat( value );
 			}
-		} else {
-			mwConfig[ name ] = value;
+			return ;
 		}
+		// else do a normal setConfig
+		mwConfig[ name ] = value;
 	};
-
+	
 	/**
 	 * Set a default config value Will only update configuration if no value is
 	 * present
@@ -120,16 +133,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		// Check if we should "merge" the config
 		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
-			if ( value.constructor.toString().indexOf("Array") == -1 ){
-				for( var i in value ){
-					if( typeof mwConfig[ name ][ i ] == 'undefined' ){
-						mwConfig[ name ][ i ] = value[ i ];
-					}
-				}
-			} else {
-				// merge in the array
-				mwConfig[ name ] = mwConfig[ name ].concat( value);
-			}
+			mw.mergeConfig( name, value);
 		}
 	};
 
@@ -1150,39 +1154,64 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			uiRequest
 		], function() {
 			var $dialog = $j( '#mwTempLoaderDialog' ).show().dialog( options );
-			// center the dialog
-			// xxx figure out why jquery ui is messing up here
-			/*$j( '#mwTempLoaderDialog' ).parent('.ui-dialog').css({
-				'position' : 'absolute',
-				'left' : '50%',
-				'margin-left': -1 * $dialog.width()/2,
-				'top' : '50%',
-				'margin-top': -1 * $dialog.height()/2
-			});	*/
 		} );
 		return $j( '#mwTempLoaderDialog' );
 	};
 
 	/**
-	 * Mobile HTML5 has special properties for html5 video::
-	 *
+	 * Fallforward system by default prefers flash.
+	 * 
+	 * This is separate from the EmbedPlayer library detection to provide package loading control
 	 * NOTE: should be phased out in favor of browser feature detection where possible
+	 * 
 	 */
-	mw.isMobileHTML5 = function() {
-		// check mobile safari foce ( for debug )
-		if( mw.getConfig( 'forceMobileHTML5' ) || document.URL.indexOf('forceMobileHTML5') != -1 ){
-			return true;
-		}
-		if (( navigator.userAgent.indexOf('iPhone') != -1) ||
-			( navigator.userAgent.indexOf('iPod') != -1) ||
-			( navigator.userAgent.indexOf('iPad') != -1) ||
-			( mw.isAndroid2() )
+	mw.isHTML5FallForwardNative = function(){
+		// Check for a mobile html5 user agent:
+		if ( (navigator.userAgent.indexOf('iPhone') != -1) ||
+			(navigator.userAgent.indexOf('iPod') != -1) || 
+			(navigator.userAgent.indexOf('iPad') != -1) ||
+			(navigator.userAgent.indexOf('Android 2.') != -1) ||
+			// to debug in chrome / desktop safari
+			(document.URL.indexOf('forceMobileHTML5') != -1 )
 		) {
 			return true;
 		}
+		
+		// Check if the client does not have flash and has the video tag
+		if ( navigator.mimeTypes && navigator.mimeTypes.length > 0 ) {
+			for ( var i = 0; i < navigator.mimeTypes.length; i++ ) {
+				var type = navigator.mimeTypes[i].type;
+				var semicolonPos = type.indexOf( ';' );
+				if ( semicolonPos > -1 ) {
+					type = type.substr( 0, semicolonPos );
+				}
+				if (type == 'application/x-shockwave-flash' ) {
+					// flash is installed don't use html5
+					return false;
+				}
+			}
+		}
+		
+		// For IE: 
+		var hasObj = true;
+		try {
+			var obj = new ActiveXObject( 'ShockwaveFlash.ShockwaveFlash' );
+		} catch ( e ) {
+			hasObj = false;
+		}
+		if( hasObj ){
+			return false;
+		}
+		// No flash return true if the browser supports html5 video tag with basic support for canPlayType:
+		var dummyvid = document.createElement( "video" );
+		// temporary hack firefox does not work well with native player:
+		if( dummyvid.canPlayType && !$j.browser.mozilla) {
+			return true;
+		}
+		// No video tag or flash, return false ( normal "install flash" user flow )
 		return false;
-	};
-	// Android 2 has some restrictions vs other mobile platforms
+	}
+	// Android 2 has some restrictions vs other mobile platforms 
 	mw.isAndroid2 = function(){
 		if ( navigator.userAgent.indexOf('Android 2.') != -1) {
 			return true;
@@ -1602,7 +1631,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		return false;
 	};
-
 	/**
 	 * Given a float number of seconds, returns npt format response. ( ignore
 	 * days for now )
@@ -1646,7 +1674,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		return hoursStr + tm.minutes + ":" + tm.seconds;
 	};
-
 	/**
 	 * Given seconds return array with 'days', 'hours', 'min', 'seconds'
 	 *
@@ -1663,11 +1690,14 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	};
 
 	/**
-	 * Take hh:mm:ss,ms or hh:mm:ss.ms input, return the number of seconds
+	 * Given a float number of seconds, returns npt format response. ( ignore
+	 * days for now )
 	 *
-	 * @param {String}
-	 *            npt_str NPT time string
-	 * @return {Float} Number of seconds
+	 * @param {Float}
+	 *            sec Seconds
+	 * @param {Boolean}
+	 *            verbose If hours and milliseconds should padded be displayed.
+	 * @return {Float} String npt format
 	 */
 	mw.npt2seconds = function ( npt_str ) {
 		if ( !npt_str ) {
