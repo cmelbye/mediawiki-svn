@@ -95,7 +95,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		// Check if we should "merge" the config
 		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
-			if ( value.constructor.toString().indexOf("Array") == -1 ){
+			if ( value.constructor.toString().indexOf("Array") != -1 &&
+				 mwConfig[ name ].constructor.toString().indexOf("Array") != -1 ){
 				// merge in the array 
 				mwConfig[ name ] = mwConfig[ name ].concat( value );
 			} else {

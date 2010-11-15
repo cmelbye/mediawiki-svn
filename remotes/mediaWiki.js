@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r173';
+var mwRemoteVersion = 'r174';
 var mwUseScriptLoader = true;
 
 // Log the mwRemote version makes it easy to debug cache issues
@@ -575,17 +575,20 @@ function rewrite_for_OggHandler( vidIdList ) {
 			// Add full window binding if embedplayer flag set: 
 			if( mwReqParam['embedplayer'] == 'yes' ){
 				$j('#loadingPlayer').remove();
-				$j('body').css('overflow', 'hidden');
-				$j( '#mwe_' + vidId ).get(0).resizePlayer({
-					'width' : $j(window).width(),
-					'height' : $j(window).height()
-				});
-				$j(window).unbind().resize(function(){
+				$j('body').css('overflow', 'hidden');	
+				// Add a small timeout chrome runs things out of order sometimes
+				setTimeout( function(){
 					$j( '#mwe_' + vidId ).get(0).resizePlayer({
 						'width' : $j(window).width(),
 						'height' : $j(window).height()
-					}); 
-				});
+					});
+					$j(window).unbind().resize(function(){
+						$j( '#mwe_' + vidId ).get(0).resizePlayer({
+							'width' : $j(window).width(),
+							'height' : $j(window).height()
+						}); 
+					});
+				}, 10);
 			}
 			
 			// Issue an async request to rewrite the next clip
