@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r172';
+var mwRemoteVersion = 'r173';
 var mwUseScriptLoader = true;
 
 // Log the mwRemote version makes it easy to debug cache issues
@@ -97,6 +97,16 @@ mw.setConfig( 'Mw.AppendWithJS', 'withJS=MediaWiki:MwEmbed.js');
 mw.setConfig( 'ApiProxy.DomainWhiteList',
 	[ /wikimedia\.org$/ , /wikipedia\.org$/ , /wiktionary.org$/ , /wikinews.org$/ , /wikibooks.org$/ , /wikisource.org$/ , /wikiversity.org$/ , /wikiquote.org$/ ]
 );
+
+// Special embedplayer handler ( iframe )
+if( mwReqParam['embedplayer'] == 'yes' ){	
+	// No fullscreen in iframe for now:
+	mw.setConfig( 'EmbedPlayer.EnableFullscreen', false );
+	// No subtitle editor ( cross domain issues ) 
+	mw.setConfig( 'MiroSubs.EnableUniversalSubsEditor', false );
+	// No subtile upload either ( for now ) 
+	mw.setConfig( 'TimedText.showAddTextLink', false );
+}
 
 
 // Use wikibits onLoad hook: ( since we don't have js2 / mw object loaded )
@@ -270,8 +280,7 @@ function doPageSpecificRewrite() {
 	
 	// Check for special "embedplayer" yes and set relevent config: 	
 	if( mwReqParam['embedplayer'] == 'yes' ){	
-		mwAddCommonStyleSheet();
-		mw.setConfig( 'EmbedPlayer.EnableFullscreen', false );				
+		mwAddCommonStyleSheet();		
 		// Only rewrite the main embed player
 		var playerDiv = document.getElementById( 'file' ).childNodes[0].cloneNode( true );		
 		document.body.innerHTML = '<div id="loadingPlayer" style="height:100%;width:100%"><div class="loadingSpinner" style="position:absolute;left:50%;top:50%"></div></div>';		
