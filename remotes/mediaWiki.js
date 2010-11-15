@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r171';
+var mwRemoteVersion = 'r172';
 var mwUseScriptLoader = true;
 
 // Log the mwRemote version makes it easy to debug cache issues
@@ -30,12 +30,16 @@ for ( var i = 0; i < reqParts.length; i++ ) {
 if( document.URL.indexOf( 'debug=true' ) !== -1 ){
 	mwReqParam['debug'] = true;
 }
+// Allow the document.URL to trigger the embedplayer mode:
+if( document.URL.indexOf( 'embedplayer=yes' ) !== -1 ){
+	mwReqParam['embedplayer'] = 'yes';
+}
 // Check if debug mode and disable script grouping
 if( mwReqParam['debug'] ) {
 	mwUseScriptLoader = false;
 }
 
-//mwReqParam['debug'] = false;
+//mwReqParam['debug'] = true;
 //mwUseScriptLoader = true;
 //mwRemoteVersion = Math.random();
 
@@ -262,6 +266,18 @@ function doPageSpecificRewrite() {
 
 	// OggHandler rewrite for view pages:
 	var vidIdList = [];
+	
+	
+	// Check for special "embedplayer" yes and set relevent config: 	
+	if( mwReqParam['embedplayer'] == 'yes' ){	
+		mwAddCommonStyleSheet();
+		mw.setConfig( 'EmbedPlayer.EnableFullscreen', false );				
+		// Only rewrite the main embed player
+		var playerDiv = document.getElementById( 'file' ).childNodes[0].cloneNode( true );		
+		document.body.innerHTML = '<div id="loadingPlayer" style="height:100%;width:100%"><div class="loadingSpinner" style="position:absolute;left:50%;top:50%"></div></div>';		
+		document.body.appendChild( playerDiv );		
+	}
+	
 	var divs = document.getElementsByTagName( 'div' );
 	for ( var i = 0; i < divs.length; i++ ) {
 		if ( divs[i].id && divs[i].id.substring( 0, 11 ) == 'ogg_player_' ) {
@@ -547,6 +563,22 @@ function rewrite_for_OggHandler( vidIdList ) {
 				$j( '#mwe_' + vidId ).embedPlayer();
 			}
 
+			// Add full window binding if embedplayer flag set: 
+			if( mwReqParam['embedplayer'] == 'yes' ){
+				$j('#loadingPlayer').remove();
+				$j('body').css('overflow', 'hidden');
+				$j( '#mwe_' + vidId ).get(0).resizePlayer({
+					'width' : $j(window).width(),
+					'height' : $j(window).height()
+				});
+				$j(window).unbind().resize(function(){
+					$j( '#mwe_' + vidId ).get(0).resizePlayer({
+						'width' : $j(window).width(),
+						'height' : $j(window).height()
+					}); 
+				});
+			}
+			
 			// Issue an async request to rewrite the next clip
 			if ( vidIdList.length != 0 ) {
 				setTimeout( function() {
@@ -719,7 +751,6 @@ function mwCheckForGadget(){
 		//Gadget button already in dom
 		return false;
 	}
-
 
 	var scripts = document.getElementsByTagName( 'script' );
 
