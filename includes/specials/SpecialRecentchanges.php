@@ -290,6 +290,7 @@ class SpecialRecentChanges extends SpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$limit = $opts['limit'];
 		$namespace = $opts['namespace'];
+		$select = '*';
 		$invert = $opts['invert'];
 
 		// JOIN on watchlist for users
@@ -309,7 +310,7 @@ class SpecialRecentChanges extends SpecialPage {
 			$tables, $fields, $conds, $join_conds, $query_options, $opts['tagfilter']
 		);
 
-		if ( !wfRunHooks( 'SpecialRecentChangesQuery', array( &$conds, &$tables, &$join_conds, $opts, &$query_options ) ) )
+		if ( !wfRunHooks( 'SpecialRecentChangesQuery', array( &$conds, &$tables, &$join_conds, $opts, &$query_options, &$select ) ) )
 			return false;
 
 		// Don't use the new_namespace_time timestamp index if:
@@ -329,7 +330,7 @@ class SpecialRecentChanges extends SpecialPage {
 		// We have a new_namespace_time index! UNION over new=(0,1) and sort result set!
 		} else {
 			// New pages
-			$sqlNew = $dbr->selectSQLText( $tables, '*',
+			$sqlNew = $dbr->selectSQLText( $tables, $select,
 				array( 'rc_new' => 1 ) + $conds,
 				__METHOD__,
 				array( 'ORDER BY' => 'rc_timestamp DESC', 'LIMIT' => $limit,
