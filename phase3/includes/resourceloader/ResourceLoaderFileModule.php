@@ -20,8 +20,6 @@
  * @author Roan Kattouw
  */
 
-defined( 'MEDIAWIKI' ) || die( 1 );
-
 /**
  * ResourceLoader module based on local JavaScript/CSS files.
  */
@@ -199,8 +197,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			if ( $this->debugRaw ) {
 				$script = '';
 				foreach ( $files as $file ) {
-					$path = FormatJson::encode( $wgServer . $this->getRemotePath( $file ) );
-					$script .= "\n\tmediaWiki.loader.load( $path );";
+					$path = $wgServer . $this->getRemotePath( $file );
+					$script .= "\n\t" . Xml::encodeJsCall( 'mediaWiki.loader.load', array( $path ) );
 				}
 				return $script;
 			}

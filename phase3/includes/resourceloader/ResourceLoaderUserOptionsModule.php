@@ -20,8 +20,6 @@
  * @author Roan Kattouw
  */
 
-defined( 'MEDIAWIKI' ) || die( 1 );
-
 /**
  * Module for user preference customizations
  */
@@ -67,8 +65,8 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 	}
 
 	public function getScript( ResourceLoaderContext $context ) {
-		$encOptions = FormatJson::encode( $this->contextUserOptions( $context ) );
-		return "mediaWiki.user.options.set( $encOptions );";
+		return Xml::encodeJsCall( 'mediaWiki.user.options.set', 
+			array( $this->contextUserOptions( $context ) ) );
 	}
 
 	public function getStyles( ResourceLoaderContext $context ) {
@@ -80,7 +78,8 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 			// Build CSS rules
 			$rules = array();
 			if ( $options['underline'] < 2 ) {
-				$rules[] = "a { text-decoration: " . ( $options['underline'] ? 'underline' : 'none' ) . "; }";
+				$rules[] = "a { text-decoration: " . 
+					( $options['underline'] ? 'underline' : 'none' ) . "; }";
 			}
 			if ( $options['highlightbroken'] ) {
 				$rules[] = "a.new, #quickbar a.new { color: #ba0000; }\n";

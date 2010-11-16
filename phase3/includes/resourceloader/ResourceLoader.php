@@ -20,8 +20,6 @@
  * @author Trevor Parscal
  */
 
-defined( 'MEDIAWIKI' ) || die( 1 );
-
 /**
  * Dynamic JavaScript and CSS resource loading system.
  *
@@ -40,10 +38,12 @@ class ResourceLoader {
 	/**
 	 * Loads information stored in the database about modules.
 	 * 
-	 * This method grabs modules dependencies from the database and updates modules objects.
+	 * This method grabs modules dependencies from the database and updates modules 
+	 * objects.
 	 * 
-	 * This is not inside the module code because it's so much more performant to request all of the information at once
-	 * than it is to have each module requests its own information. This sacrifice of modularity yields a profound
+	 * This is not inside the module code because it's so much more performant to 
+	 * request all of the information at once than it is to have each module 
+	 * requests its own information. This sacrifice of modularity yields a profound
 	 * performance improvement.
 	 * 
 	 * @param $modules Array: list of module names to preload information for
@@ -53,7 +53,7 @@ class ResourceLoader {
 		if ( !count( $modules ) ) {
 			return; // or else Database*::select() will explode, plus it's cheaper!
 		}
-		$dbr = wfGetDb( DB_SLAVE );
+		$dbr = wfGetDB( DB_SLAVE );
 		$skin = $context->getSkin();
 		$lang = $context->getLanguage();
 		
@@ -111,7 +111,8 @@ class ResourceLoader {
 	 *  - minify-css \see CSSMin::minify
 	 *  - flip-css \see CSSJanus::transform
 	 * 
-	 * If $data is empty, only contains whitespace or the filter was unknown, $data is returned unmodified.
+	 * If $data is empty, only contains whitespace or the filter was unknown, 
+	 * $data is returned unmodified.
 	 * 
 	 * @param $filter String: name of filter to run
 	 * @param $data String: text to filter, such as JavaScript or CSS text
@@ -122,17 +123,21 @@ class ResourceLoader {
 		
 		wfProfileIn( __METHOD__ );
 
-		// For empty/whitespace-only data or for unknown filters, don't perform any caching or processing
-		if ( trim( $data ) === '' || !in_array( $filter, array( 'minify-js', 'minify-css', 'flip-css' ) ) ) {
+		// For empty/whitespace-only data or for unknown filters, don't perform 
+		// any caching or processing
+		if ( trim( $data ) === '' 
+			|| !in_array( $filter, array( 'minify-js', 'minify-css', 'flip-css' ) ) ) 
+		{
 			wfProfileOut( __METHOD__ );
 			return $data;
 		}
 
 		// Try for Memcached hit
 		$key = wfMemcKey( 'resourceloader', 'filter', $filter, md5( $data ) );
-		if ( is_string( $cache = $wgMemc->get( $key ) ) ) {
+		$cacheEntry = $wgMemc->get( $key );
+		if ( is_string( $cacheEntry ) ) {
 			wfProfileOut( __METHOD__ );
-			return $cache;
+			return $cacheEntry;
 		}
 
 		// Run the filter - we've already verified one of these will work
@@ -149,7 +154,8 @@ class ResourceLoader {
 					break;
 			}
 		} catch ( Exception $exception ) {
-			throw new MWException( 'ResourceLoader filter error. Exception was thrown: ' . $exception->getMessage() );
+			throw new MWException( 'ResourceLoader filter error. ' . 
+				'Exception was thrown: ' . $exception->getMessage() );
 		}
 
 		// Save filtered text to Memcached
@@ -182,10 +188,13 @@ class ResourceLoader {
 	 * Registers a module with the ResourceLoader system.
 	 * 
 	 * @param $name Mixed: string of name of module or array of name/object pairs
-	 * @param $object ResourceLoaderModule: module object (optional when using multiple-registration calling style)
+	 * @param $object ResourceLoaderModule: module object (optional when using 
+	 *   multiple-registration calling style)
 	 * @throws MWException If a duplicate module registration is attempted
-	 * @throws MWException If something other than a ResourceLoaderModule is being registered
-	 * @return Boolean: false if there were any errors, in which case one or more modules were not registered
+	 * @throws MWException If something other than a ResourceLoaderModule is being 
+	 *   registered
+	 * @return Boolean: false if there were any errors, in which case one or more 
+	 *   modules were not registered
 	 */
 	public function register( $name, ResourceLoaderModule $object = null ) {
 
@@ -206,13 +215,15 @@ class ResourceLoader {
 		if ( isset( $this->modules[$name] ) ) {
 			// A module has already been registered by this name
 			throw new MWException(
-				'ResourceLoader duplicate registration error. Another module has already been registered as ' . $name
+				'ResourceLoader duplicate registration error. ' . 
+				'Another module has already been registered as ' . $name
 			);
 		}
 
 		// Validate the input (type hinting lets null through)
 		if ( !( $object instanceof ResourceLoaderModule ) ) {
-			throw new MWException( 'ResourceLoader invalid module error. Instances of ResourceLoaderModule expected.' );
+			throw new MWException( 'ResourceLoader invalid module error. ' . 
+				'Instances of ResourceLoaderModule expected.' );
 		}
 
 		// Attach module
@@ -262,12 +273,14 @@ class ResourceLoader {
 			}
 		}
 
-		// If a version wasn't specified we need a shorter expiry time for updates to propagate to clients quickly
+		// If a version wasn't specified we need a shorter expiry time for updates 
+		// to propagate to clients quickly
 		if ( is_null( $context->getVersion() ) ) {
 			$maxage  = $wgResourceLoaderMaxage['unversioned']['client'];
 			$smaxage = $wgResourceLoaderMaxage['unversioned']['server'];
 		}
-		// If a version was specified we can use a longer expiry time since changing version numbers causes cache misses
+		// If a version was specified we can use a longer expiry time since changing 
+		// version numbers causes cache misses
 		else {
 			$maxage  = $wgResourceLoaderMaxage['versioned']['client'];
 			$smaxage = $wgResourceLoaderMaxage['versioned']['server'];
@@ -278,7 +291,8 @@ class ResourceLoader {
 
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
 
-		// To send Last-Modified and support If-Modified-Since, we need to detect the last modified time
+		// To send Last-Modified and support If-Modified-Since, we need to detect 
+		// the last modified time
 		$mtime = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $modules as $module ) {
 			// Bypass squid cache if the request includes any private modules
@@ -291,7 +305,11 @@ class ResourceLoader {
 
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
 
-		header( 'Content-Type: ' . ( $context->getOnly() === 'styles' ? 'text/css' : 'text/javascript' ) );
+		if ( $context->getOnly() === 'styles' ) {
+			header( 'Content-Type: text/css' );
+		} else {
+			header( 'Content-Type: text/javascript' );
+		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $mtime ) );
 		if ( $context->getDebug() ) {
 			header( 'Cache-Control: must-revalidate' );
@@ -332,10 +350,15 @@ class ResourceLoader {
 	 * @param $missing Array: list of unavailable modules (optional)
 	 * @return String: response data
 	 */
-	public function makeModuleResponse( ResourceLoaderContext $context, array $modules, $missing = array() ) {
+	public function makeModuleResponse( ResourceLoaderContext $context, 
+		array $modules, $missing = array() ) 
+	{
 		// Pre-fetch blobs
-		$blobs = $context->shouldIncludeMessages() ?
-			MessageBlobStore::get( $this, $modules, $context->getLanguage() ) : array();
+		if ( $context->shouldIncludeMessages() ) {
+			$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
+		} else {
+			$blobs = array();
+		}
 
 		// Generate output
 		$out = '';
@@ -351,9 +374,10 @@ class ResourceLoader {
 
 			// Styles
 			$styles = array();
-			if ( $context->shouldIncludeStyles() && ( count( $styles = $module->getStyles( $context ) ) ) ) {
+			if ( $context->shouldIncludeStyles() ) {
+				$styles = $module->getStyles( $context );
 				// Flip CSS on a per-module basis
-				if ( $this->modules[$name]->getFlip( $context ) ) {
+				if ( $styles && $this->modules[$name]->getFlip( $context ) ) {
 					foreach ( $styles as $media => $style ) {
 						$styles[$media] = $this->filter( 'flip-css', $style );
 					}
@@ -361,7 +385,7 @@ class ResourceLoader {
 			}
 
 			// Messages
-			$messages = isset( $blobs[$name] ) ? $blobs[$name] : '{}';
+			$messagesBlob = isset( $blobs[$name] ) ? $blobs[$name] : array();
 
 			// Append output
 			switch ( $context->getOnly() ) {
@@ -372,16 +396,18 @@ class ResourceLoader {
 					$out .= self::makeCombinedStyles( $styles );
 					break;
 				case 'messages':
-					$out .= self::makeMessageSetScript( $messages );
+					$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
 					break;
 				default:
-					// Minify CSS before embedding in mediaWiki.loader.implement call (unless in debug mode)
+					// Minify CSS before embedding in mediaWiki.loader.implement call 
+					// (unless in debug mode)
 					if ( !$context->getDebug() ) {
 						foreach ( $styles as $media => $style ) {
 							$styles[$media] = $this->filter( 'minify-css', $style );
 						}
 					}
-					$out .= self::makeLoaderImplementScript( $name, $scripts, $styles, $messages );
+					$out .= self::makeLoaderImplementScript( $name, $scripts, $styles, 
+						new XmlJsCode( $messagesBlob ) );
 					break;
 			}
 
@@ -391,8 +417,11 @@ class ResourceLoader {
 		// Update module states
 		if ( $context->shouldIncludeScripts() ) {
 			// Set the state of modules loaded as only scripts to ready
-			if ( count( $modules ) && $context->getOnly() === 'scripts' && !isset( $modules['startup'] ) ) {
-				$out .= self::makeLoaderStateScript( array_fill_keys( array_keys( $modules ), 'ready' ) );
+			if ( count( $modules ) && $context->getOnly() === 'scripts' 
+				&& !isset( $modules['startup'] ) ) 
+			{
+				$out .= self::makeLoaderStateScript( 
+					array_fill_keys( array_keys( $modules ), 'ready' ) );
 			}
 			// Set the state of modules which were requested but unavailable as missing
 			if ( is_array( $missing ) && count( $missing ) ) {
@@ -413,26 +442,49 @@ class ResourceLoader {
 
 	/* Static Methods */
 
+	/**
+	 * Returns JS code to call to mediaWiki.loader.implement for a module with 
+	 * given properties.
+	 *
+	 * @param $name Module name
+	 * @param $scripts Array of JavaScript code snippets to be executed after the 
+	 *     module is loaded
+	 * @param $styles Associative array mapping media type to associated CSS string
+	 * @param $messages Messages associated with this module. May either be an 
+	 *     associative array mapping message key to value, or a JSON-encoded message blob
+	 *     containing the same data, wrapped in an XmlJsCode object.
+	 */
 	public static function makeLoaderImplementScript( $name, $scripts, $styles, $messages ) {
 		if ( is_array( $scripts ) ) {
 			$scripts = implode( $scripts, "\n" );
 		}
-		if ( is_array( $styles ) ) {
-			$styles = count( $styles ) ? FormatJson::encode( $styles ) : 'null';
-		}
-		if ( is_array( $messages ) ) {
-			$messages = count( $messages ) ? FormatJson::encode( $messages ) : 'null';
-		}
-		return "mediaWiki.loader.implement( '$name', function() {{$scripts}},\n$styles,\n$messages );\n";
+		return Xml::encodeJsCall( 
+			'mediaWiki.loader.implement', 
+			array(
+				$name,
+				new XmlJsCode( "function() {{$scripts}}" ),
+				(object)$styles,
+				(object)$messages
+			) );
 	}
 
+	/**
+	 * Returns JS code which, when called, will register a given list of messages.
+	 *
+	 * @param $messages May either be an associative array mapping message key 
+	 *     to value, or a JSON-encoded message blob containing the same data, 
+	 *     wrapped in an XmlJsCode object.
+	 */
 	public static function makeMessageSetScript( $messages ) {
-		if ( is_array( $messages ) ) {
-			$messages = count( $messages ) ? FormatJson::encode( $messages ) : 'null';
-		}
-		return "mediaWiki.msg.set( $messages );\n";
+		return Xml::encodeJsCall( 'mediaWiki.messages.set', array( (object)$messages ) );
 	}
 
+	/**
+	 * Combines an associative array mapping media type to CSS into a 
+	 * single stylesheet with @media blocks.
+	 *
+	 * @param $styles Array of CSS strings
+	 */
 	public static function makeCombinedStyles( array $styles ) {
 		$out = '';
 		foreach ( $styles as $media => $style ) {
@@ -441,47 +493,95 @@ class ResourceLoader {
 		return $out;
 	}
 
+	/**
+	 * Returns a JS call to mediaWiki.loader.state, which sets the state of a 
+	 * module or modules to a given value. Has two calling conventions:
+	 *
+	 *    - ResourceLoader::makeLoaderStateScript( $name, $state ):
+	 *         Set the state of a single module called $name to $state
+	 *
+	 *    - ResourceLoader::makeLoaderStateScript( array( $name => $state, ... ) ):
+	 *         Set the state of modules with the given names to the given states
+	 */
 	public static function makeLoaderStateScript( $name, $state = null ) {
 		if ( is_array( $name ) ) {
-			$statuses = FormatJson::encode( $name );
-			return "mediaWiki.loader.state( $statuses );\n";
+			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name ) );
 		} else {
-			$name = Xml::escapeJsString( $name );
-			$state = Xml::escapeJsString( $state );
-			return "mediaWiki.loader.state( '$name', '$state' );\n";
+			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name, $state ) );
 		}
 	}
 
+	/**
+	 * Returns JS code which calls the script given by $script. The script will
+	 * be called with local variables name, version, dependencies and group, 
+	 * which will have values corresponding to $name, $version, $dependencies 
+	 * and $group as supplied. 
+	 *
+	 * @param $name The module name
+	 * @param $version The module version string
+	 * @param $dependencies Array of module names on which this module depends
+	 * @param $group The group which the module is in.
+	 * @param $script The JS loader script
+	 */
 	public static function makeCustomLoaderScript( $name, $version, $dependencies, $group, $script ) {
-		$name = Xml::escapeJsString( $name );
-		$version = (int) $version > 1 ? (int) $version : 1;
-		$dependencies = FormatJson::encode( $dependencies );
-		$group = FormatJson::encode( $group );
 		$script = str_replace( "\n", "\n\t", trim( $script ) );
-		return "( function( name, version, dependencies, group ) {\n\t$script\n} )" .
-			"( '$name', $version, $dependencies, $group );\n";
+		return Xml::encodeJsCall( 
+			"( function( name, version, dependencies, group ) {\n\t$script\n} )",
+			array( $name, $version, $dependencies, $group ) );
 	}
 
-	public static function makeLoaderRegisterScript( $name, $version = null, $dependencies = null, $group = null ) {
+	/**
+	 * Returns JS code which calls mediaWiki.loader.register with the given 
+	 * parameters. Has three calling conventions:
+	 *
+	 *   - ResourceLoader::makeLoaderRegisterScript( $name, $version, $dependencies, $group ):
+	 *       Register a single module.
+	 *
+	 *   - ResourceLoader::makeLoaderRegisterScript( array( $name1, $name2 ) ):
+	 *       Register modules with the given names.
+	 *
+	 *   - ResourceLoader::makeLoaderRegisterScript( array(
+	 *        array( $name1, $version1, $dependencies1, $group1 ),
+	 *        array( $name2, $version2, $dependencies1, $group2 ),
+	 *        ...
+	 *     ) ):
+	 *        Registers modules with the given names and parameters.
+	 *
+	 * @param $name The module name
+	 * @param $version The module version string
+	 * @param $dependencies Array of module names on which this module depends
+	 * @param $group The group which the module is in.
+	 */
+	public static function makeLoaderRegisterScript( $name, $version = null, 
+		$dependencies = null, $group = null ) 
+	{
 		if ( is_array( $name ) ) {
-			$registrations = FormatJson::encode( $name );
-			return "mediaWiki.loader.register( $registrations );\n";
+			return Xml::encodeJsCall( 'mediaWiki.loader.register', array( $name ) );
 		} else {
-			$name = Xml::escapeJsString( $name );
 			$version = (int) $version > 1 ? (int) $version : 1;
-			$dependencies = FormatJson::encode( $dependencies );
-			$group = FormatJson::encode( $group );
-			return "mediaWiki.loader.register( '$name', $version, $dependencies, $group );\n";
+			return Xml::encodeJsCall( 'mediaWiki.loader.register', 
+				array( $name, $version, $dependencies, $group ) );
 		}
 	}
 
+	/**
+	 * Returns JS code which runs given JS code if the client-side framework is 
+	 * present.
+	 *
+	 * @param $script JS code to run
+	 */
 	public static function makeLoaderConditionalScript( $script ) {
 		$script = str_replace( "\n", "\n\t", trim( $script ) );
 		return "if ( window.mediaWiki ) {\n\t$script\n}\n";
 	}
 
+	/**
+	 * Returns JS code which will set the MediaWiki configuration array to 
+	 * the given value.
+	 *
+	 * @param $configuration Associative array of configuration parameters
+	 */
 	public static function makeConfigSetScript( array $configuration ) {
-		$configuration = FormatJson::encode( $configuration );
-		return "mediaWiki.config.set( $configuration );\n";
+		return Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) );
 	}
 }

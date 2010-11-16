@@ -117,7 +117,7 @@ class RatingHistory extends UnlistedSpecialPage
 		$data = false;
 		$html = '';
 		// Do each graphs for said time period
-		foreach( ReaderFeedback::getFeedbackTags() as $tag => $weight ) {
+		foreach( ReaderFeedback::getFeedbackTags() as $tag ) {
 			// Check if cached version is available.
 			// If not, then generate a new one.
 			$filePath = $this->getFilePath( $tag );
@@ -169,8 +169,11 @@ class RatingHistory extends UnlistedSpecialPage
 					$table = fread( $fp, filesize($filePath) );
 					fclose( $fp );
 					$html .= '<h2>' . wfMsgHtml("readerfeedback-$tag") . '</h2>' . $table . "\n";
-				} elseif( $table = $this->makeHTMLTable( $tag, $filePath ) ) {
-					$html .= '<h2>' . wfMsgHtml("readerfeedback-$tag") . '</h2>' . $table . "\n";
+				} else {
+					$table = $this->makeHTMLTable( $tag, $filePath );
+					if( $table ) {
+						$html .= '<h2>' . wfMsgHtml("readerfeedback-$tag") . '</h2>' . $table . "\n";
+					}
 				}
 				break;
 			}
