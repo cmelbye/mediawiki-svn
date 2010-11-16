@@ -84,7 +84,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		mwConfig[ name ] = value;
 	};
 	/**
-	 * Merge in a configuration value: 
+	 * Merge in a configuration value:
 	 */
 	mw.mergeConfig = function( name, value ){
 		if( typeof name == 'object' ) {
@@ -97,7 +97,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
 			if ( value.constructor.toString().indexOf("Array") != -1 &&
 				 mwConfig[ name ].constructor.toString().indexOf("Array") != -1 ){
-				// merge in the array 
+				// merge in the array
 				mwConfig[ name ] = $j.merge( mwConfig[ name ], value );
 			} else {
 				for( var i in value ){
@@ -109,7 +109,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		// else do a normal setConfig
 		mwConfig[ name ] = value;
 	};
-	
+
 	/**
 	 * Set a default config value Will only update configuration if no value is
 	 * present
@@ -1161,15 +1161,15 @@ if( typeof preMwEmbedConfig == 'undefined') {
 
 	/**
 	 * Fallforward system by default prefers flash.
-	 * 
+	 *
 	 * This is separate from the EmbedPlayer library detection to provide package loading control
 	 * NOTE: should be phased out in favor of browser feature detection where possible
-	 * 
+	 *
 	 */
 	mw.isHTML5FallForwardNative = function(){
 		// Check for a mobile html5 user agent:
 		if ( (navigator.userAgent.indexOf('iPhone') != -1) ||
-			(navigator.userAgent.indexOf('iPod') != -1) || 
+			(navigator.userAgent.indexOf('iPod') != -1) ||
 			(navigator.userAgent.indexOf('iPad') != -1) ||
 			(navigator.userAgent.indexOf('Android 2.') != -1) ||
 			// to debug in chrome / desktop safari
@@ -1177,7 +1177,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		) {
 			return true;
 		}
-		
+
 		// Check if the client does not have flash and has the video tag
 		if ( navigator.mimeTypes && navigator.mimeTypes.length > 0 ) {
 			for ( var i = 0; i < navigator.mimeTypes.length; i++ ) {
@@ -1192,8 +1192,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				}
 			}
 		}
-		
-		// For IE: 
+
+		// For IE:
 		var hasObj = true;
 		try {
 			var obj = new ActiveXObject( 'ShockwaveFlash.ShockwaveFlash' );
@@ -1212,7 +1212,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		// No video tag or flash, return false ( normal "install flash" user flow )
 		return false;
 	}
-	// Android 2 has some restrictions vs other mobile platforms 
+	// Android 2 has some restrictions vs other mobile platforms
 	mw.isAndroid2 = function(){
 		if ( navigator.userAgent.indexOf('Android 2.') != -1) {
 			return true;
@@ -1583,7 +1583,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 
 		// Check for direct include of the mwEmbed.js
 		if ( src.indexOf( 'mwEmbed.js' ) !== -1 ) {
-			mwpath =  src.substr( 0, src.indexOf( 'mwEmbed.js' ) );
+			mwpath = src.substr( 0, src.indexOf( 'mwEmbed.js' ) );
 		}
 
 		// Check for scriptLoader include of mwEmbed:
@@ -1747,7 +1747,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			var src = js_elements[i].getAttribute( "src" );
 			if ( src ) {
 				if ( // Check for mwEmbed.js ( debug mode )
-					( src.indexOf( 'mwEmbed.js' ) !== -1 &&  src.indexOf( 'MediaWiki:Gadget') == -1 )
+					( src.indexOf( 'mwEmbed.js' ) !== -1 && src.indexOf( 'MediaWiki:Gadget') == -1 )
 				 	|| // Check for resource loader
 				 	(
 				 		( src.indexOf( 'mwResourceLoader.php' ) !== -1 || src.indexOf( 'ResourceLoader.php' ) !== -1 )

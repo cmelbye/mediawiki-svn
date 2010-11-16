@@ -35,7 +35,7 @@ class mwEmbedFrame {
 	);
 	var $playerIframeId = 'iframeVid';
 	var $debug = false;
-	
+
 	// When used in direct source mode the source asset.
 	// NOTE: can be an array of sources in cases of "many" sources set
 	var $sources = array();
@@ -44,15 +44,15 @@ class mwEmbedFrame {
 		//parse input:
 		$this->parseRequest();
 	}
-	
+
 	// Parse the embedFrame request and sanitize input
 	private function parseRequest(){
-		// Check for / attribute type request and update "REQUEST" global 
+		// Check for / attribute type request and update "REQUEST" global
 		// ( uses kaltura standard entry_id/{entryId} request )
 		// normalize to the REQUEST object
-		// @@FIXME: this should be moved over to a kaltura specific iframe implementation 
+		// @@FIXME: this should be moved over to a kaltura specific iframe implementation
 		if( $_SERVER['REQUEST_URI'] ){
-			$kalturaUrlMap = Array( 
+			$kalturaUrlMap = Array(
 				'entry_id' => 'kentryid',
 				'uiconf_id' => 'kuiconfid',
 				'wid' => 'kwidgetid',
@@ -78,7 +78,7 @@ class mwEmbedFrame {
 		if( isset( $_REQUEST['debug'] ) ){
 			$this->debug = true;
 		}
-		
+
 		// Process the special "src" attribute
 		if( isset( $_REQUEST['src'] ) ){
 			if( is_array( $_REQUEST['src'] ) ){
@@ -89,10 +89,10 @@ class mwEmbedFrame {
 				$this->sources = array( htmlspecialchars( $_REQUEST['src'] ) );
 			}
 		}
-	
+
 	}
 	private function getVideoTag( ){
-		// Add default video tag with 100% width / height 
+		// Add default video tag with 100% width / height
 		// ( parent embed is responsible for setting the iframe size )
 		$o = '<video id="' . htmlspecialchars( $this->playerIframeId ) . '" style="width:100%;height:100%"';
 		foreach( $this->playerAttributes as $attributeKey){
@@ -110,12 +110,12 @@ class mwEmbedFrame {
 		}
 		$o.= '</video>';
 		return $o;
-	}  
-	
+	}
+
 	function outputIFrame( ){
 		// Setup the embed string based on attribute set:
 		$embedResourceList = 'window.jQuery,mwEmbed,mw.style.mwCommon,$j.fn.menu,mw.style.jquerymenu,mw.EmbedPlayer,mw.EmbedPlayerNative,mw.EmbedPlayerJava,mw.PlayerControlBuilder,$j.fn.hoverIntent,mw.style.EmbedPlayer,$j.cookie,$j.ui,mw.style.ui_redmond,$j.widget,$j.ui.mouse,mw.PlayerSkinKskin,mw.style.PlayerSkinKskin,mw.TimedText,mw.style.TimedText,$j.ui.slider';
-		
+
 		if( isset( $this->kentryid ) ){
 			 $embedResourceList.= ',' . implode(',', array(
 			 		'KalturaClientBase',
@@ -125,7 +125,7 @@ class mwEmbedFrame {
 					'KalturaAccessControl',
 					'MD5',
 					'mw.KWidgetSupport',
-					'mw.KAnalytics', 
+					'mw.KAnalytics',
 					'mw.KDPMapping',
 					'mw.MobileAdTimeline',
 					'mw.KAds'
@@ -145,18 +145,18 @@ class mwEmbedFrame {
 				left:0px;
 				bottom:0px;
 				right:0px;
-				
+
 			}
 		</style>
-		<script type="text/javascript" src="<?php echo str_replace( 'mwEmbedFrame.php', '', $_SERVER['SCRIPT_NAME'] ); ?>ResourceLoader.php?class=<?php 
-		// @@TODO we should move this over to using the mwEmbedLoader.js so we don't have to mannage the resource list in two places. 
-		// ( this will matter less once we migrate to the new mediaWiki resource loader framework) 
+		<script type="text/javascript" src="<?php echo str_replace( 'mwEmbedFrame.php', '', $_SERVER['SCRIPT_NAME'] ); ?>ResourceLoader.php?class=<?php
+		// @@TODO we should move this over to using the mwEmbedLoader.js so we don't have to mannage the resource list in two places.
+		// ( this will matter less once we migrate to the new mediaWiki resource loader framework)
 		echo $embedResourceList;
 		if( $this->debug ){
 			echo '&debug=true';
-		} 
+		}
 		?>"></script>
-		
+
 		<script type="text/javascript">
 			//Set some iframe embed config:
 			// We can't support full screen in object context since it requires outer page DOM control
@@ -164,21 +164,21 @@ class mwEmbedFrame {
 
 			// Enable the iframe player server:
 			mw.setConfig( 'EmbedPlayer.EnableIFramePlayerServer', true );
-			
+
 			mw.ready(function(){
-				// Bind window resize to reize the player: 
+				// Bind window resize to reize the player:
 				$j(window).resize(function(){
 					$j( '#<?php echo htmlspecialchars( $this->playerIframeId )?>' )
 						.get(0).resizePlayer({
 							'width' : $j(window).width(),
 							'height' : $j(window).height()
-						}); 
+						});
 				});
 			});
 		</script>
-		
+
   </head>
-  <body>  
+  <body>
   <?
   // Check if we have a way to get sources:
   if( isset( $this->apiTitleKey ) || isset( $this->kentryid ) || count( $this->sources ) != 0 ) {
@@ -186,7 +186,7 @@ class mwEmbedFrame {
   } else {
   	echo "Error: mwEmbedFrame missing required parameter for video sources</body></html>";
   	exit(1);
-  }  
+  }
   ?>
   </body>
 </html>
