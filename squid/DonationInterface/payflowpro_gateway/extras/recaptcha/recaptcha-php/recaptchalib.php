@@ -1,4 +1,13 @@
 <?php
+/**
+ * This is a modified PHP library that handles calling reCaptcha
+ * 
+ * This is /different/ from the original PHP API for reCAPTCHA.
+ * This version supports cURL and using an http proxy for network
+ * communications and takes some settings set by MediaWiki.
+ * 
+ * See below for original license and other info.
+ */
 /*
  * This is a PHP library that handles calling reCAPTCHA.
  *    - Documentation and latest version
@@ -32,12 +41,29 @@
  * THE SOFTWARE.
  */
 
+// global MW variables that should be available
+global $wgPayflowRecaptchaUseHTTPProxy, $wgPayflowRecaptchaHTTPProxy, 
+	$wgPayflowRecaptchaTimeout, $wgPayflowRecaptchaUseSSL, $wgPayflowRecaptchaComsRetryLimit;
+
 /**
  * The reCAPTCHA server URL's
  */
 define( "RECAPTCHA_API_SERVER", "http://www.google.com/recaptcha/api" );
 define( "RECAPTCHA_API_SECURE_SERVER", "https://www.google.com/recaptcha/api" );
 define( "RECAPTCHA_VERIFY_SERVER", "www.google.com" );
+
+/**
+ * Proxy settings
+ */
+define( "RECAPTCHA_USE_HTTP_PROXY", $wgPayflowRecaptchaUseHTTPProxy );
+define( "RECAPTCHA_HTTP_PROXY", $wgPayflowRecaptchaHTTPProxy );
+
+/**
+ * Other reCAPTCHA settings
+ */
+define( "RECAPTCHA_TIMEOUT", $wgPayflowRecaptchaTimeout );
+define( "RECAPTCHA_PROTOCOL", $wgPayflowRecaptchaUseSSL ); //http or https
+define( "RECAPTCHA_RETRY_LIMIT", $wgPayflowRecaptchaComsRetryLimit );
 
 /**
  * Encodes the given data into a query string format
@@ -57,7 +83,7 @@ function _recaptcha_qsencode ( $data ) {
 
 
 /**
- * Submits an HTTP POST to a reCAPTCHA server
+ * Wrapper to submit an HTTP POST to a reCAPTCHA server
  * @param string $host
  * @param string $path
  * @param array $data
@@ -68,30 +94,106 @@ function _recaptcha_http_post( $host, $path, $data, $port = 80 ) {
 
         $req = _recaptcha_qsencode ( $data );
 
-        $http_request  = "POST $path HTTP/1.0\r\n";
-        $http_request .= "Host: $host\r\n";
-        $http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-        $http_request .= "Content-Length: " . strlen( $req ) . "\r\n";
-        $http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
-        $http_request .= "\r\n";
-        $http_request .= $req;
-
-        $response = '';
-        if ( false == ( $fs = @fsockopen( $host, $port, $errno, $errstr, 10 ) ) ) {
-                die ( 'Could not open socket' );
+        if ( !extension_loaded( 'curl' ) ) {
+        	$response = _recaptcha_http_post_fsock( $host, $path, $req, $port );
+        } else {
+        	$response = _recaptcha_http_post_curl( $host, $path, $req, $port );
         }
-
-        fwrite( $fs, $http_request );
-
-        while ( !feof( $fs ) )
-                $response .= fgets( $fs, 1160 ); // One TCP-IP packet
-        fclose( $fs );
+        
         $response = explode( "\r\n\r\n", $response, 2 );
 
         return $response;
 }
 
+/**
+ * Submits an HTTP POST to a reCAPTCHA server using fsockopen()
+ * @param $host
+ * @param $path
+ * @param $data
+ * @param int $port
+ * @return array response
+ */
+function _recaptcha_http_post_fsock( $host, $path, $data, $port = 80 ) {
+	
+	$http_request  = "POST $path HTTP/1.0\r\n";
+	$http_request .= "Host: $host\r\n";
+	$http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+	$http_request .= "Content-Length: " . strlen( $req ) . "\r\n";
+	$http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
+	$http_request .= "\r\n";
+	$http_request .= $req;
 
+	$response = '';
+	wfDebugLog( 'payflowpro_gateway', 'Preparing to communicate with reCaptcha via fsock.' );
+	if ( false == ( $fs = @fsockopen( $host, $port, $errno, $errstr, 10 ) ) ) {
+		wfDebugLog( 'payflowpro_gateway', 'Failed communicating with reCaptcha.' );
+		die ( 'Could not open socket' );
+	}
+	wfDebugLog( 'payflowpro_gateway', 'Finished communicating with reCaptcha.' );
+
+	fwrite( $fs, $http_request );
+
+	while ( !feof( $fs ) )
+		$response .= fgets( $fs, 1160 ); // One TCP-IP packet
+	fclose( $fs );
+        
+	return $response;	
+}
+
+/**
+ * Submits an HTTP POST to a reCAPTCHA server using cURL
+ * @param $host
+ * @param $path
+ * @param $data
+ * @param int $port
+ * @return array response
+ */
+function _recaptcha_http_post_curl( $host, $path, $data, $port = 80 ) {
+	$url = "http://" . $host . ":" . $port . $path;
+	
+	$ch = curl_init( $url );
+	curl_setopt( $ch, CURLOPT_POST, true );
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt( $ch, CURLOPT_TIMEOUT, RECAPTCHA_TIMEOUT );
+	curl_setopt( $ch, CURLOPT_USERAGENT, 'reCAPTCHA/PHP' );
+	curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
+	curl_setopt( $ch, CURLOPT_HEADER, true );
+	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( "Host: " . $host ) ); 
+	
+	// set proxy settings if necessary
+	if ( RECAPTCHA_USE_HTTP_PROXY ) {
+		wfDebugLog( 'payflowpro_gateway', 'Using http proxy ' . RECAPTCHA_HTTP_PROXY );
+		curl_setopt( $ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP );
+		curl_setopt( $ch, CURLOPT_PROXY, RECAPTCHA_HTTP_PROXY );
+	}
+	
+	// try up to three times
+	for ( $i = 0; $i < RECAPTCHA_RETRY_LIMIT; $i++ ) {
+		wfDebugLog( 'payflowpro_gateway', 'Preparing to communicate with reCaptcha via cURL at ' . $url . '.' );
+		$response = curl_exec( $ch );
+		wfDebugLog( 'payflowpro_gateway', "Finished communicating with reCaptcha." );
+		if ( $response ) {
+			wfDebugLog( 'payflowpro_gateway', 'Response from reCaptcha: ' . $response );
+			break;
+		}
+	}
+	
+	/**
+	 * This is a nasty hack to pretend like things worked when they really didn't
+	 * 
+	 * Doing this per instructions from the fundraisers to accept a trxn when we 
+	 * are unsuccesful communicating with reCaptcha.
+	 * 
+	 * This sets $response to a message that will fool reCaptcha (on our end) into thinking
+	 * the user entered the correct values.
+	 */
+	if ( !$response ) {
+		wfDebugLog( 'payflowpro_gateway', 'Failed communicating with reCaptcha: ' . curl_error( $ch ) );
+		$response = "true\r\n\r\nsuccess";
+	}
+	
+	return $response;
+}
 
 /**
  * Gets the challenge HTML (javascript and non-javascript version).
@@ -272,6 +374,3 @@ function recaptcha_mailhide_html( $pubkey, $privkey, $email ) {
 		"' onclick=\"window.open('" . htmlentities ( $url ) . "', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\" title=\"Reveal this e-mail address\">...</a>@" . htmlentities ( $emailparts [1] );
 
 }
-
-
-?>
