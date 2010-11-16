@@ -11,6 +11,101 @@ class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_F
 
 		parent::__construct( $form_data, $form_errors );
 	}
+	
+	public function loadPlaceholders() {
+		global $wgOut;
+		// form placeholder values
+		$first = wfMsg( 'payflowpro_gateway-first' );
+		$last = wfMsg( 'payflowpro_gateway-last' );
+		$street = wfMsg( 'payflowpro_gateway-donor-street' );
+		$city = wfMsg( 'payflowpro_gateway-donor-city' );
+		$zip = wfMsg( 'payflowpro_gateway-zip-code' );
+		$email = wfMsg( 'payflowpro_gateway-donor-email' );
+		$js = <<<EOT
+<script type="text/javascript">
+function loadPlaceholders() {
+	var fname = document.getElementById('fname');
+	var lname = document.getElementById('lname');
+	var street = document.getElementById('street');
+	var city = document.getElementById('city');
+	var zip = document.getElementById('zip');
+	var email = document.getElementById('emailAdd');
+	if (fname.value == '') {
+		fname.style.color = '#999999';
+		fname.value = '$first';
+	}
+	if (lname.value == '') {
+		lname.style.color = '#999999';
+		lname.value = '$last';
+	}
+	if (street.value == '') {
+		street.style.color = '#999999';
+		street.value = '$street';
+	}
+	if (city.value == '') {
+		city.style.color = '#999999';
+		city.value = '$city';
+	}
+	if (zip.value == '') {
+		zip.style.color = '#999999';
+		zip.value = '$zip';
+	}
+	if (email.value == '') {
+		email.style.color = '#999999';
+		email.value = '$email';
+	}
+}
+addEvent( window, 'load', loadPlaceholders );
+
+function formCheck( ccform ) {
+	var msg = [ 'EmailAdd', 'Fname', 'Lname', 'Street', 'City', 'State', 'Zip', 'CardNum', 'Cvv' ];
+
+	var fields = ["emailAdd","fname","lname","street","city","state","zip","card_num","cvv" ],
+		numFields = fields.length,
+		i,
+		output = '',
+		currField = '';
+
+	for( i = 0; i < numFields; i++ ) {
+		if( document.getElementById( fields[i] ).value == '' ) {
+			currField = window['payflowproGatewayErrorMsg'+ msg[i]];
+			output += payflowproGatewayErrorMsgJs + ' ' + currField + '.\\r\\n';
+		}
+	}
+	
+	if (document.getElementById('fname').value == '$first') {
+		output += payflowproGatewayErrorMsgJs + ' first name.\\r\\n';
+	}
+	if (document.getElementById('lname').value == '$last') {
+		output += payflowproGatewayErrorMsgJs + ' last name.\\r\\n';
+	}
+	if (document.getElementById('street').value == '$street') {
+		output += payflowproGatewayErrorMsgJs + ' street address.\\r\\n';
+	}
+	if (document.getElementById('city').value == '$city') {
+		output += payflowproGatewayErrorMsgJs + ' city.\\r\\n';
+	}
+	if (document.getElementById('zip').value == '$zip') {
+		output += payflowproGatewayErrorMsgJs + ' zip code.\\r\\n';
+	}
+
+	// validate email address
+	var apos = document.payment.emailAdd.value.indexOf("@");
+	var dotpos = document.payment.emailAdd.value.lastIndexOf(".");
+
+	if( apos < 1 || dotpos-apos < 2 ) {
+		output += payflowproGatewayErrorMsgEmail;
+	}
+	
+	if( output ) {
+		alert( output );
+		return false;
+	}
+}
+</script>
+EOT;
+		$wgOut->addHeadItem( 'placeholders', $js );
+	}
 
 	public function generateFormStart() {
 		global $wgOut, $wgRequest;
@@ -54,62 +149,66 @@ class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_F
 
 		// Xml::element seems to convert html to htmlentities
 		$form .= "<p class='creditcard-error-msg'>" . $this->form_errors['retryMsg'] . "</p>";
-		$form .= Xml::openElement( 'form', array( 'name' => 'payment', 'method' => 'post', 'action' => $this->getNoCacheAction(), 'onsubmit' => 'return validate_form(this)', 'autocomplete' => 'off' ) );
+		$form .= Xml::openElement( 'form', array( 'name' => 'payment', 'method' => 'post', 'action' => $this->getNoCacheAction(), 'onsubmit' => 'return formCheck(this)', 'autocomplete' => 'off' ) );
 
-		$form .= $this->generateBillingContainer();
+		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-personal-info' ) );
+		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-donor' ) );
+		$form .= $this->generateBillingFields();
+		
 		return $form;
 	}
 	
 	public function generateFormSubmit() {
 		global $wgScriptPath;
+		
+		$form = '<tr>';
+		$form .= '<td class="label"> </td>';
+		$form .= '<td>';
+		
 		// submit button
-		$form = Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-form-submit' ) );
 		$form .= Xml::openElement( 'div', array( 'id' => 'mw-donate-submit-button' ) );
 		// $form .= Xml::submitButton( wfMsg( 'payflowpro_gateway-submit-button' ));
-		$form .= Xml::element( 'input', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/submit-donation-button.png", 'alt' => 'Submit donation', 'onclick' => 'submit_form( this )', 'type' => 'image' ) );
+		$form .= '&nbsp;<br/>' . Xml::element( 'input', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/submit-donation-button.png", 'alt' => 'Submit donation', 'type' => 'image' ) );
 		$form .= Xml::closeElement( 'div' ); // close div#mw-donate-submit-button
 		$form .= Xml::openElement( 'div', array( 'class' => 'mw-donate-submessage', 'id' => 'payflowpro_gateway-donate-submessage' ) ) .
-			Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/padlock.gif", 'style' => 'vertical-align:baseline;margin-right:4px;' ) ) . wfMsg( 'payflowpro_gateway-donate-click' );
+			Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/padlock.gif", 'style' => 'vertical-align:baseline;margin-right:4px;' ) ) . 'Your credit / debit card will be securely processed.';
 		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-donate-submessage
-		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-form-submit
+		
+		$form .= '</td>';
+		$form .= '</tr>';
 		return $form;
 	}
 
 	public function generateFormEnd() {
 		$form = '';
+		$form .= Xml::closeElement( 'table' ); // close table#payflow-table-donor
+		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-personal-info
 		$form .= $this->generateFormClose();
 		return $form;
 	}
 
-	protected function generateBillingContainer() {
-		$form = '';
-		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-personal-info' ) );
-		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-donor' ) );
-		$form .= $this->generateBillingFields();
-		$form .= Xml::closeElement( 'table' ); // close table#payflow-table-donor
-		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-personal-info
-
-		return $form;
-	}
-
 	protected function generateBillingFields() {
-		global $wgScriptPath;
+		global $wgScriptPath, $wgPayflowGatewayTest;
 
 		$form = '';
 		
 		// amount
 		$form .= '<tr>';
 		$form .= '<td colspan="2">';
-		$form .= '<table cellspacing="2" cellpadding="2" border="1" id="donation_amount">';
+		$form .= '<table cellspacing="0" cellpadding="4" border="1" id="donation_amount">';
 		$form .= '<tr>';
 		$form .= '<td class="amount_header">'.wfMsg( 'payflowpro_gateway-description' ).'</td>';
-		$form .= '<td class="amount_header">'.wfMsg( 'payflowpro_gateway-donor-amount' ).'</td>';
-		$form .= '<td class="amount_header">'.wfMsg( 'payflowpro_gateway-donor-currency-label' ).'</td>';
+		$form .= '<td class="amount_header" style="text-align:right;width:75px;">'.wfMsg( 'payflowpro_gateway-donor-amount' ).'</td>';
+		$form .= '<td class="amount_header" style="text-align:right;width:75px;">'.wfMsg( 'payflowpro_gateway-donor-currency-label' ).'</td>';
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="amount_data">'.wfMsg( 'payflowpro_gateway-donation' ).'</td>';
-		$form .= '<td class="amount_data">'.$this->form_data['amount'].'</td>';
-		$form .= '<td class="amount_data">'.$this->form_data[ 'currency' ].'</td>';
+		$form .= '<td class="amount_data" style="text-align:right;width:75px;">'.$this->form_data['amount'] . 
+			Html::hidden( 'amount', $this->form_data['amount'] ) . 
+			'</td>';
+		$form .= '<td class="amount_data" style="text-align:right;width:75px;">'.$this->form_data[ 'currency' ] .
+			Html::hidden( 'currency_code', $this->form_data['currency'] ) . 
+			'</td>';
 		$form .= '</tr>';
 		$form .= '</table>';
 		$form .= '</td>';
@@ -127,7 +226,23 @@ class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_F
 		$form .= '</tr>';
 
 		// card number
-		$form .= $this->getCardNumberField();
+		$card_num = ( $wgPayflowGatewayTest ) ? $this->form_data[ 'card_num' ] : '';
+		$form .= '';
+		if ( $this->form_errors['card_num'] ) {
+			$form .= '<tr>';
+			$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['card_num'] . '</span></td>';
+			$form .= '</tr>';
+		}
+		if ( $this->form_errors['card'] ) {
+			$form .= '<tr>';
+			$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['card'] . '</span></td>';
+			$form .= '</tr>';
+		}
+		$form .= '<tr>';
+		$form .= '<td class="label">' . Xml::label( wfMsg( 'payflowpro_gateway-donor-card-num' ), 'card_num' ) . '</td>';
+		$form .= '<td>' . Xml::input( 'card_num', '30', $card_num, array( 'type' => 'text', 'maxlength' => '100', 'id' => 'card_num', 'class' => 'fullwidth', 'autocomplete' => 'off' ) ) .
+			'</td>';
+		$form .= '</tr>';
 
 		// expiry
 		$form .= '<tr>';
@@ -152,19 +267,38 @@ class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_F
 		$form .= "</tr>";
 
 		// street
-		$form .= $this->getStreetField();
+		$form .= '<tr>';
+		$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['street'] . '</span></td>';
+		$form .= '</tr>';
+		$form .= '<tr>';
+		$form .= '<td class="label">' . Xml::label( wfMsg( 'payflowpro_gateway-billing-address' ), 'street' ) . '</td>';
+		$form .= '<td>' . Xml::input( 'street', '30', $this->form_data['street'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-donor-street' ).'\' )', 'maxlength' => '100', 'id' => 'street', 'class' => 'fullwidth' ) ) .
+			'</td>';
+		$form .= '</tr>';
 
 		// city
-		$form .= $this->getCityField();
-
-		// state
-		$form .= $this->getStateField();
-		
-		// zip
-		$form .= $this->getZipField();
+		$form .= '<tr>';
+		$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['city'] . '</span></td>';
+		$form .= '</tr>';
+		$form .= '<tr>';
+		$form .= '<td class="label"> </td>';
+		$form .= '<td>' . Xml::input( 'city', '18', $this->form_data['city'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-donor-city' ).'\' )', 'maxlength' => '40', 'id' => 'city' ) ) . ' ' .
+			$this->generateStateDropdown() . ' ' .
+			Xml::input( 'zip', '5', $this->form_data['zip'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-zip-code' ).'\' )', 'maxlength' => '10', 'id' => 'zip' ) ) .
+			Html::hidden( 'country', 840 ) .
+			'</td>';
+		$form .= '</tr>';
 
 		// country
-		$form .= $this->getCountryField();
+		/*
+		$form .= '<tr>';
+		$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['country'] . '</span></td>';
+		$form .= '</tr>';
+		$form .= '<tr>';
+		$form .= '<td class="label"> </td>';
+		$form .= '<td>' . $this->generateCountryDropdown() . '</td>';
+	    $form .= '</tr>';
+	    */
 		
 		// email
 		$form .= '<tr>';
@@ -203,12 +337,39 @@ class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_F
 		$form = '';
 		$form .= Xml::openElement( 'div', array( 'class' => 'payflow-cc-form-section', 'id' => 'payflowpro_gateway-donate-addl-info' ) );
 		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-donate-addl-info-text' ) );
-		$form .= Xml::tags( 'div', array( 'style' => 'text-align:center;' ), '***' );
+		$form .= Xml::tags( 'div', array( 'style' => 'text-align:center;' ), '* * *' );
 		$form .= Xml::tags( 'div', array( 'class' => '' ), wfMsg( 'payflowpro_gateway-credit-storage-processing' ) );
-		$form .= Xml::tags( 'div', array( 'class' => '' ), wfMsg( 'payflowpro_gateway-otherways-short' ) );
+		$form .= Xml::tags( 'div', array( 'class' => '' ), wfMsg( 'payflowpro_gateway-otherways-alt' ) );
 		$form .= Xml::tags( 'div', array( 'class' => '' ), wfMsg( 'payflowpro_gateway-question-comment' ) );
 		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-donate-addl-info-text
 		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-donate-addl-info
 		return $form;
+	}
+	
+	public function generateStateDropdown() {
+		require_once( dirname( __FILE__ ) . '/../includes/stateAbbreviations.inc' );
+
+		$states = statesMenuXML();
+
+		$state_opts = Xml::option( '', '' );
+
+		// generate dropdown of state opts
+		foreach ( $states as $value => $state_name ) {
+			if ( $value !== 'YY' && $value !== 'XX' ) {
+				$selected = ( $this->form_data[ 'state' ] == $value ) ? true : false;
+				$state_opts .= Xml::option( $value, $value, $selected );
+			}
+		}
+
+		$state_menu = Xml::openElement(
+			'select',
+			array(
+				'name' => 'state',
+				'id' => 'state'
+			) );
+		$state_menu .= $state_opts;
+		$state_menu .= Xml::closeElement( 'select' );
+
+		return $state_menu;
 	}
 }

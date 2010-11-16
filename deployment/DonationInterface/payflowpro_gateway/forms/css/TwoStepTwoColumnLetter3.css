@@ -16,6 +16,25 @@ h3.cc_header {
 	margin-bottom: 0;
 	font-weight: normal;
 }
+div#payflowpro_gateway-donate-addl-info-text {
+	font-size: 90%;
+	line-height: 120%;
+}
+div#payflowpro_gateway-donate-submessage {
+	font-size: 90%;
+	line-height: 120%;
+}
+#payflow-table-donor td.label, #payflow-table-comment td.label, #payflow-table-cc td.label {
+	padding-right:0.5em;
+	width: 100px;
+}
+input#city {
+	width: 130px;
+}
+input#zip {
+	width: 55px;
+}
+
 .payflow-cc-form-section {
         float: none;
         margin-right: 0em;
