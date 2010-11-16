@@ -314,7 +314,13 @@ mw.EmbedPlayerNative = {
 			};
 			// Assume we will get to add the Listener before the seek is done
 			_this.playerElement.addEventListener( 'seeked', once, false );
-			_this.playerElement.currentTime = time;
+			try {
+				_this.playerElement.currentTime = time;
+			} catch (e) {
+				mw.log("Could not seek to this point. Unbuffered point.");
+				callback();
+				return;
+			}
 		} else {
 			if( callbackCount >= 300 ){
 				mw.log("Error with seek request, media never in ready state");

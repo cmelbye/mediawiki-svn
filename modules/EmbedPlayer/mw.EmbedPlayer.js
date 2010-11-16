@@ -528,7 +528,7 @@ EmbedPlayerManager.prototype = {
 			// Be sure to remove any player loader spinners
 			$j('.playerLoadingSpinner').remove();
 			
-			mw.log( "EmbedPlayer::All on-page players ready run playerMannager callbacks" );
+			mw.log( "EmbedPlayer::All on-page players ready run playerManager callbacks" );
 			// Run queued functions
 			if( _this.callbackFunctions ) {
 				while ( _this.callbackFunctions.length ) {
@@ -2259,7 +2259,7 @@ mw.EmbedPlayer.prototype = {
 					.css( {
 						'display' : 'none',
 						'position' : 'absolute',
-						'zindex' : 2,
+						'z-index' : 2,
 						'top' : '0px',
 						'left' : '0px'
 					})
@@ -2269,7 +2269,7 @@ mw.EmbedPlayer.prototype = {
 						// once faded in remove org and rename new:
 						$j( '#img_thumb_' + _this.id ).remove();
 						$j( '#new_img_thumb_' + _this.id ).attr( 'id', 'img_thumb_' + _this.id );
-						$j( '#img_thumb_' + _this.id ).css( 'zindex', '1' );
+						$j( '#img_thumb_' + _this.id ).css( 'z-index', '1' );
 						_this.thumbnail_updating = false;
 						// mw.log("done fadding in "+
 						// $j('#img_thumb_'+_this.id).attr("src"));
