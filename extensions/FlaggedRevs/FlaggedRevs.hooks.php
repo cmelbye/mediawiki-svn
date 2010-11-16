@@ -1640,15 +1640,15 @@ class FlaggedRevsHooks {
 		if ( !$fa->isReviewable() ) {
 			return true; // nothing to do here
 		}
-		$title = $history->getArticle()->getTitle();
 		# Fetch and process cache the stable revision
 		if ( !isset( $history->fr_stableRevId ) ) {
 			$history->fr_stableRevId = $fa->getStable();
 			$history->fr_pendingRevs = false;
-			if ( !$history->fr_stableRevId ) {
-				return true; // nothing to do here
-			}
 		}
+		if ( !$history->fr_stableRevId ) {
+			return true; // nothing to do here
+		}
+		$title = $history->getArticle()->getTitle();
 		$revId = (int)$row->rev_id;
 		// Pending revision: highlight and add diff link
 		$link = $class = '';
@@ -2124,6 +2124,8 @@ class FlaggedRevsHooks {
 			$wgExtPGNewFields[] = array( 'flaggedpage_config', 'fpc_level', "TEXT NULL" );
 			$wgExtNewTables[] = array( 'flaggedpage_pending',
 				"$base/postgres/patch-flaggedpage_pending.sql" );
+		} elseif ( $wgDBtype == 'sqlite' ) {
+			$wgExtNewTables[] = array( 'flaggedrevs', "$base/FlaggedRevs.sql" );
 		}
 		return true;
 	}
