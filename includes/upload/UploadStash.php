@@ -24,9 +24,6 @@ class UploadStash {
 	// array of initialized objects obtained from session (lazily initialized upon getFile())
 	private $files = array();  
 
-	// the base URL for files in the stash
-	private $baseUrl;
-	
 	// TODO: Once UploadBase starts using this, switch to use these constants rather than UploadBase::SESSION*
 	// const SESSION_VERSION = 2;
 	// const SESSION_KEYNAME = 'wsUploadData';
@@ -52,18 +49,9 @@ class UploadStash {
 			$_SESSION[UploadBase::SESSION_KEYNAME] = array();
 		}
 		
-		$this->baseUrl = SpecialPage::getTitleFor( 'UploadStash' )->getLocalURL(); 
 	}
 
 	/**
-	 * Get the base of URLs by which one can access the files 
-	 * @return {String} url
-	 */
-	public function getBaseUrl() { 
-		return $this->baseUrl;
-	}
-
-	/** 
 	 * Get a file and its metadata from the stash.
 	 * May throw exception if session data cannot be parsed due to schema change, or key not found.
 	 * @param {Integer} $key: key
@@ -78,7 +66,7 @@ class UploadStash {
  
 		if ( !isset( $this->files[$key] ) ) {
 			if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME][$key] ) ) {
-				throw new UploadStashFileNotFoundException( "key '$key' not found in session" );
+				throw new UploadStashFileNotFoundException( "key '$key' not found in stash" );
 			}
 
 			$data = $_SESSION[UploadBase::SESSION_KEYNAME][$key];
@@ -113,7 +101,7 @@ class UploadStash {
 	 */
 	public function stashFile( $path, $data = array(), $key = null ) {
 		if ( ! file_exists( $path ) ) {
-			throw new UploadStashBadPathException( "path '$path' doesn't exist" );
+			throw new UploadStashBadPathException( "path doesn't exist" );
 		}
                 $fileProps = File::getPropsFromPath( $path );
 
@@ -196,12 +184,12 @@ class UploadStashFile extends UnregisteredLocalFile {
 		$repoTempPath = $repo->getZonePath( 'temp' );
 		if ( ( ! $repo->validateFilename( $path ) ) || 
 				( strpos( $path, $repoTempPath ) !== 0 ) ) {
-			throw new UploadStashBadPathException( "path '$path' is not valid or is not in repo temp area: '$repoTempPath'" );
+			throw new UploadStashBadPathException( 'path is not valid' );
 		}
 
 		// check if path exists! and is a plain file.
 		if ( ! $repo->fileExists( $path, FileRepo::FILES_ONLY ) ) {
-			throw new UploadStashFileNotFoundException( "cannot find path '$path'" );
+			throw new UploadStashFileNotFoundException( 'cannot find path, or not a plain file' );
 		}
 
 		parent::__construct( false, $repo, $path, false );
@@ -252,7 +240,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 		}
 
 		if ( is_null( $extension ) ) {
-			throw new UploadStashFileException( "extension '$extension' is null" );
+			throw new UploadStashFileException( "extension is null" );
 		}
 
 		$this->extension = parent::normalizeExtension( $extension );
@@ -293,6 +281,16 @@ class UploadStashFile extends UnregisteredLocalFile {
 		return $thumbName;
 	}
 
+	/**
+	 * Helper function -- given a 'subpage', return the local URL e.g. /wiki/Special:UploadStash/subpage
+	 * @param {String} $subPage
+	 * @return {String} local URL for this subpage in the Special:UploadStash space. 
+	 */
+	private function getSpecialUrl( $subPage ) {
+		return SpecialPage::getTitleFor( 'UploadStash', $subPage )->getLocalURL();
+	}
+
+
 	/** 
 	 * Get a URL to access the thumbnail 
 	 * This is required because the model of how files work requires that 
@@ -303,11 +301,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 	 * @return {String} URL to access thumbnail, or URL with partial path
 	 */
 	public function getThumbUrl( $thumbName = false ) { 
-		$path = $this->sessionStash->getBaseUrl();
-		if ( $thumbName !== false ) {
-			$path .= '/' . rawurlencode( $thumbName );
-		}
-		return $path;
+		return self::getSpecialUrl( $thumbName );
 	}
 
 	/** 
@@ -329,7 +323,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 	 */
 	public function getUrl() {
 		if ( !isset( $this->url ) ) {
-			$this->url = $this->sessionStash->getBaseUrl() . '/' . $this->getUrlName();
+			$this->url = self::getSpecialUrl( $this->getUrlName() );
 		}
 		return $this->url;
 	}
@@ -381,7 +375,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 		}
 
 		// stash the thumbnail File, and provide our caller with a way to get at its properties
-		$stashedThumbFile = $this->sessionStash->stashFile( $thumb->path, array(), $key );
+		$stashedThumbFile = $this->sessionStash->stashFile( $thumb->getPath(), array(), $key );
 		$thumb->thumbnailFile = $stashedThumbFile;
 
 		return $thumb;	

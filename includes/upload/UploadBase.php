@@ -412,9 +412,15 @@ abstract class UploadBase {
 	 * @return mixed Status indicating the whether the upload succeeded.
 	 */
 	public function performUpload( $comment, $pageText, $watch, $user ) {
-		wfDebug( "\n\n\performUpload: sum:" . $comment . ' c: ' . $pageText . ' w:' . $watch );
-		$status = $this->getLocalFile()->upload( $this->mTempPath, $comment, $pageText,
-			File::DELETE_SOURCE, $this->mFileProps, false, $user );
+		$status = $this->getLocalFile()->upload( 
+			$this->mTempPath, 
+			$comment, 
+			$pageText,
+			File::DELETE_SOURCE,
+			$this->mFileProps, 
+			false, 
+			$user 
+		);
 
 		if( $status->isGood() && $watch ) {
 			$user->addWatch( $this->getLocalFile()->getTitle() );
@@ -549,8 +555,7 @@ abstract class UploadBase {
 			'mFileProps' => $this->mFileProps
 		);
 		$file = $stash->stashFile( $this->mTempPath, $data, $key );
-		// TODO should we change the "local file" here? 
-		// $this->mLocalFile = $file;
+		$this->mLocalFile = $file;
 		return $file;
 	}
 
@@ -1120,7 +1125,15 @@ abstract class UploadBase {
 	 */
 	public function getImageInfo( $result ) {
 		$file = $this->getLocalFile();
-		$imParam = ApiQueryImageInfo::getPropertyNames();
-		return ApiQueryImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		// TODO This cries out for refactoring. We really want to say $file->getAllInfo(); here. 
+		// Perhaps "info" methods should be moved into files, and the API should just wrap them in queries.
+		if ( $file instanceof UploadStashFile ) {
+			$imParam = ApiQueryStashImageInfo::getPropertyNames();
+			$info = ApiQueryStashImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		} else {
+			$imParam = ApiQueryImageInfo::getPropertyNames();
+			$info = ApiQueryImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		}
+		return $info;
 	}
 }

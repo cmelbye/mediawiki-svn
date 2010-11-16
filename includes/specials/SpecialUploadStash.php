@@ -16,27 +16,27 @@
  * @ingroup Upload
  */
 
-class SpecialUploadStash extends SpecialPage {
-
-	static $HttpErrors = array( // FIXME: Use OutputPage::getStatusMessage() --RK
-		400 => 'Bad Request',
-		403 => 'Access Denied',
-		404 => 'File not found',
-		500 => 'Internal Server Error',
-	);
-
+class SpecialUploadStash extends UnlistedSpecialPage {
 	// UploadStash
 	private $stash;
 
-	// we should not be reading in really big files and serving them out
-	private $maxServeFileSize = 262144; // 256K
+	// Since we are directly writing the file to STDOUT, 
+	// we should not be reading in really big files and serving them out.
+	//
+	// We also don't want people using this as a file drop, even if they
+	// share credentials.
+	//
+	// This service is really for thumbnails and other such previews while
+	// uploading.
+	const MAX_SERVE_BYTES = 262144; // 256K
 
-	// $request is the request (usually wgRequest)
-	// $subpage is everything in the URL after Special:UploadStash
-	// FIXME: These parameters don't match SpecialPage::__construct()'s params at all, and are unused --RK
-	public function __construct( $request = null, $subpage = null ) {
-                parent::__construct( 'UploadStash', 'upload' );
-		$this->stash = new UploadStash();
+	public function __construct( ) {
+		parent::__construct( 'UploadStash', 'upload' );
+		try {
+			$this->stash = new UploadStash( );
+		} catch (UploadStashNotAvailableException $e) {
+			return null;
+		}
 	}
 
 	/**
@@ -44,7 +44,7 @@ class SpecialUploadStash extends SpecialPage {
 	 * n.b. Most sanity checking done in UploadStashLocalFile, so this is straightforward.
 	 * 
 	 * @param {String} $subPage: subpage, e.g. in http://example.com/wiki/Special:UploadStash/foo.jpg, the "foo.jpg" part
-  	 * @return {Boolean} success 
+	 * @return {Boolean} success 
 	 */
 	public function execute( $subPage ) {
 		global $wgOut, $wgUser;
@@ -57,23 +57,43 @@ class SpecialUploadStash extends SpecialPage {
 		// prevent callers from doing standard HTML output -- we'll take it from here
 		$wgOut->disable();
 
-		try { 
-			$file = $this->getStashFile( $subPage );
-			if ( $file->getSize() > $this->maxServeFileSize ) {
-				throw new MWException( 'file size too large' );
-			}
-			$this->outputFile( $file );
-			return true;
+		$code = 500;
+		$message = 'Unknown error';
 
-		} catch( UploadStashFileNotFoundException $e ) {
-			$code = 404;
-		} catch( UploadStashBadPathException $e ) {
-			$code = 403;
-		} catch( Exception $e ) {
-			$code = 500;
+		if ( !isset( $subPage ) || $subPage === '' ) {
+			// the user probably visited the page just to see what would happen, so explain it a bit.
+			$code = '400';
+			$message = "Missing key\n\n" 
+				   . 'This page provides access to temporarily stashed files for the user that '
+				   . 'uploaded those files. See the upload API documentation. To access a stashed file, '
+				   . 'use the URL of this page, with a slash and the key of the stashed file appended.';
+		} else {
+			try {
+				$file = $this->getStashFile( $subPage );
+				$size = $file->getSize();
+				if ( $size === 0 ) {
+					$code = 500;
+					$message = 'File is zero length';
+				} else if ( $size > self::MAX_SERVE_BYTES ) {
+					$code = 500;
+					$message = 'Cannot serve a file larger than ' . self::MAX_SERVE_BYTES . ' bytes';
+				} else {
+					$this->outputFile( $file );
+					return true;
+				}
+			} catch( UploadStashFileNotFoundException $e ) {
+				$code = 404; 
+				$message = $e->getMessage();
+			} catch( UploadStashBadPathException $e ) {
+				$code = 500;
+				$message = $e->getMessage();
+			} catch( Exception $e ) {
+				$code = 500;
+				$message = $e->getMessage();
+			}
 		}
 			
-		wfHttpError( $code, self::$HttpErrors[$code], $e->getCode(), $e->getMessage() );
+		wfHttpError( $code, OutputPage::getStatusMessage( $code ), $message );
 		return false;
 	}
 
@@ -89,8 +109,8 @@ class SpecialUploadStash extends SpecialPage {
 		// the stash key doesn't have an extension 
 		$key = $subPage;
 		$n = strrpos( $subPage, '.' );
-                if ( $n !== false ) {
-                        $key = $n ? substr( $subPage, 0, $n ) : $subPage;
+		if ( $n !== false ) {
+			$key = $n ? substr( $subPage, 0, $n ) : $subPage;
 		}
 
 		try {
@@ -119,7 +139,7 @@ class SpecialUploadStash extends SpecialPage {
 			}
 			$file = $thumbnailImage->thumbnailFile;
 		}
- 
+
 		return $file;
 	}
 
@@ -127,14 +147,12 @@ class SpecialUploadStash extends SpecialPage {
 	 * Output HTTP response for file
 	 * Side effects, obviously, of echoing lots of stuff to stdout.
 	 * @param {File} file
-	 */		
+	 */
 	private function outputFile( $file ) { 
 		header( 'Content-Type: ' . $file->getMimeType(), true );
 		header( 'Content-Transfer-Encoding: binary', true );
 		header( 'Expires: Sun, 17-Jan-2038 19:14:07 GMT', true );
-		header( 'Pragma: public', true );
-		header( 'Content-Length: ' . $file->getSize(), true ); // FIXME: PHP can handle Content-Length for you just fine --RK
+		header( 'Content-Length: ' . $file->getSize(), true ); 
 		readfile( $file->getPath() );
 	}
 }
-
