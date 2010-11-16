@@ -8,25 +8,34 @@
  * Implements regular file uploads
  */
 class UploadFromFile extends UploadBase {
-
+	protected $mUpload = null;
 
 	function initializeFromRequest( &$request ) {
+		$upload = $request->getUpload( 'wpUploadFile' );		
 		$desiredDestName = $request->getText( 'wpDestFile' );
 		if( !$desiredDestName )
-			$desiredDestName = $request->getText( 'wpUploadFile' );
-		return $this->initializePathInfo(
-			$desiredDestName,
-			$request->getFileTempName( 'wpUploadFile' ),
-			$request->getFileSize( 'wpUploadFile' )
-		);
+			$desiredDestName = $upload->getName();
+			
+		return $this->initialize( $desiredDestName, $upload );
 	}
+	
 	/**
-	 * Entry point for upload from file.
+	 * Initialize from a filename and a WebRequestUpload
 	 */
-	function initialize( $name, $tempPath, $fileSize ) {
-		 return $this->initializePathInfo( $name, $tempPath, $fileSize );
+	function initialize( $name, $webRequestUpload ) {
+		$this->mUpload = $webRequestUpload;
+		return $this->initializePathInfo( $name, 
+			$this->mUpload->getTempName(), $this->mUpload->getSize() );
 	}
 	static function isValidRequest( $request ) {
 		return (bool)$request->getFileTempName( 'wpUploadFile' );
+	}
+
+	/** 
+	 * Get the path to the file underlying the upload
+	 * @return String path to file
+	 */
+	public function getFileTempname() {
+		return $this->mUpload->getTempname();
 	}
 }

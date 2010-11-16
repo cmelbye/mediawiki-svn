@@ -35,8 +35,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryImageInfo extends ApiQueryBase {
 
-	public function __construct( $query, $moduleName ) {
-		parent :: __construct( $query, $moduleName, 'ii' );
+	public function __construct( $query, $moduleName, $prefix = 'ii' ) {
+		// We allow a subclass to override the prefix, to create a related API module.
+		// Some other parts of MediaWiki construct this with a null $prefix, which used to be ignored when this only took two arguments
+		if ( is_null( $prefix ) ) {
+			$prefix = 'ii';
+		}
+		parent::__construct( $query, $moduleName, $prefix );
 	}
 
 	public function execute() {
@@ -44,16 +49,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 
 		$prop = array_flip( $params['prop'] );
 
-		if ( $params['urlheight'] != - 1 && $params['urlwidth'] == - 1 )
-			$this->dieUsage( "iiurlheight cannot be used without iiurlwidth", 'iiurlwidth' );
-		
-		if ( $params['urlwidth'] != - 1 ) {
-			$scale = array();
-			$scale['width'] = $params['urlwidth'];
-			$scale['height'] = $params['urlheight'];
-		} else {
-			$scale = null;
-		}
+		$scale = $this->getScale( $params );
 
 		$pageIds = $this->getPageSet()->getAllTitlesByNamespace();
 		if ( !empty( $pageIds[NS_FILE] ) ) {
@@ -175,6 +171,28 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	}
 
 	/**
+	 * From parameters, construct a 'scale' array 
+	 * @param {Array} $params 
+	 * @return {null|Array} key-val array of 'width' and 'height', or null
+	 */	
+	public function getScale( $params ) {
+		$p = $this->getModulePrefix();
+		if ( $params['urlheight'] != -1 && $params['urlwidth'] == -1 ) {
+			$this->dieUsage( "${p}urlheight cannot be used without {$p}urlwidth", "{$p}urlwidth" );
+		}
+
+		if ( $params['urlwidth'] != -1 ) {
+			$scale = array();
+			$scale['width'] = $params['urlwidth'];
+			$scale['height'] = $params['urlheight'];
+		} else {
+			$scale = null;
+		}
+		return $scale;
+	}
+
+
+	/**
 	 * Get result information for an image revision
 	 * @param File f The image
 	 * @return array Result array
@@ -275,12 +293,12 @@ class ApiQueryImageInfo extends ApiQueryBase {
 				ApiBase :: PARAM_TYPE => 'timestamp'
 			),
 			'urlwidth' => array(
-				ApiBase :: PARAM_TYPE => 'integer',
-				ApiBase :: PARAM_DFLT => - 1
+				ApiBase::PARAM_TYPE => 'integer',
+				ApiBase::PARAM_DFLT => -1
 			),
 			'urlheight' => array(
-				ApiBase :: PARAM_TYPE => 'integer',
-				ApiBase :: PARAM_DFLT => - 1
+				ApiBase::PARAM_TYPE => 'integer',
+				ApiBase::PARAM_DFLT => -1
 			),
 			'continue' => null,
 		);
@@ -305,16 +323,38 @@ class ApiQueryImageInfo extends ApiQueryBase {
 				);
 	}
 
+
+	/**
+	 * Return the API documentation for the parameters. 
+	 * @return {Array} parameter documentation.
+	 */
 	public function getParamDescription() {
-		return array (
-			'prop' => 'What image information to get.',
+		$p = $this->getModulePrefix();
+		return array(
+			'prop' => array(
+				'What image information to get:',
+				' timestamp     - Adds timestamp for the uploaded version',
+				' user          - Adds the user who uploaded the image version',
+				' userid        - Add the user id that uploaded the image version',
+				' comment       - Comment on the version',
+				' parsedcomment - Parse the comment on the version',
+				' url           - Gives URL to the image and the description page',
+				' size          - Adds the size of the image in bytes and the height and width',
+				' dimensions    - Alias for size',
+				' sha1          - Adds sha1 hash for the image',
+				' mime          - Adds MIME of the image',
+				' thumbmime     - Adss MIME of the image thumbnail (requires url)',
+				' metadata      - Lists EXIF metadata for the version of the image',
+				' archivename   - Adds the file name of the archive version for non-latest versions',
+				' bitdepth      - Adds the bit depth of the version',
+			),
+			'urlwidth' => array( "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
+					    'Only the current version of the image can be scaled' ),
+			'urlheight' => "Similar to {$p}urlwidth. Cannot be used without {$p}urlwidth",
 			'limit' => 'How many image revisions to return',
 			'start' => 'Timestamp to start listing from',
 			'end' => 'Timestamp to stop listing at',
-			'urlwidth' => array( 'If iiprop=url is set, a URL to an image scaled to this width will be returned.',
-					    'Only the current version of the image can be scaled.' ),
-			'urlheight' => 'Similar to iiurlwidth. Cannot be used without iiurlwidth',
-			'continue' => 'When more results are available, use this to continue',
+			'continue' => 'If the query response includes a continue value, use it here to get another page of results'
 		);
 	}
 
