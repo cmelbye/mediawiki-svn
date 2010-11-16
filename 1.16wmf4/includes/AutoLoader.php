@@ -232,10 +232,6 @@ $wgAutoloadLocalClasses = array(
 	'TitleListDependency' => 'includes/CacheDependency.php',
 	'TransformParameterError' => 'includes/MediaTransformOutput.php',
 	'UnlistedSpecialPage' => 'includes/SpecialPage.php',
-	'UploadBase' => 'includes/upload/UploadBase.php',
-	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
-	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
-	'UploadFromUrl' => 'includes/upload/UploadFromUrl.php',
 	'User' => 'includes/User.php',
 	'UserArray' => 'includes/UserArray.php',
 	'UserArrayFromResult' => 'includes/UserArray.php',
@@ -245,6 +241,7 @@ $wgAutoloadLocalClasses = array(
 	'WatchedItem' => 'includes/WatchedItem.php',
 	'WatchlistEditor' => 'includes/WatchlistEditor.php',
 	'WebRequest' => 'includes/WebRequest.php',
+	'WebRequestUpload' => 'includes/WebRequest.php',
 	'WebResponse' => 'includes/WebResponse.php',
 	'WikiError' => 'includes/WikiError.php',
 	'WikiErrorMsg' => 'includes/WikiError.php',
@@ -324,6 +321,7 @@ $wgAutoloadLocalClasses = array(
 	'ApiQueryRevisions' => 'includes/api/ApiQueryRevisions.php',
 	'ApiQuerySearch' => 'includes/api/ApiQuerySearch.php',
 	'ApiQuerySiteinfo' => 'includes/api/ApiQuerySiteinfo.php',
+	'ApiQueryStashImageInfo' => 'includes/api/ApiQueryStashImageInfo.php',
 	'ApiQueryTags' => 'includes/api/ApiQueryTags.php',
 	'ApiQueryUserInfo' => 'includes/api/ApiQueryUserInfo.php',
 	'ApiQueryUsers' => 'includes/api/ApiQueryUsers.php',
@@ -567,6 +565,7 @@ $wgAutoloadLocalClasses = array(
 	'SpecialRecentChanges' => 'includes/specials/SpecialRecentchanges.php',
 	'SpecialRecentchangeslinked' => 'includes/specials/SpecialRecentchangeslinked.php',
 	'SpecialSearch' => 'includes/specials/SpecialSearch.php',
+	'SpecialUploadStash' => 'includes/specials/SpecialUploadStash.php',
 	'SpecialStatistics' => 'includes/specials/SpecialStatistics.php',
 	'SpecialTags' => 'includes/specials/SpecialTags.php',
 	'SpecialUpload' => 'includes/specials/SpecialUpload.php',
@@ -597,6 +596,18 @@ $wgAutoloadLocalClasses = array(
 	# includes/templates
 	'UsercreateTemplate' => 'includes/templates/Userlogin.php',
 	'UserloginTemplate' => 'includes/templates/Userlogin.php',
+
+	# includes/upload
+	'UploadBase' => 'includes/upload/UploadBase.php',
+	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
+	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
+	'UploadFromUrl' => 'includes/upload/UploadFromUrl.php',
+	'UploadStash' => 'includes/upload/UploadStash.php',
+	'UploadStashNotAvailableException' => 'includes/upload/UploadStash.php',
+	'UploadStashFileNotFoundException' => 'includes/upload/UploadStash.php',
+	'UploadStashBadPathException' => 'includes/upload/UploadStash.php',
+	'UploadStashBadVersionException' => 'includes/upload/UploadStash.php',
+	'UploadStashFileException' => 'includes/upload/UploadStash.php',
 
 	# languages
 	'Language' => 'languages/Language.php',

@@ -52,6 +52,7 @@ class ApiQuery extends ApiBase {
 		'langlinks' => 'ApiQueryLangLinks',
 		'images' => 'ApiQueryImages',
 		'imageinfo' => 'ApiQueryImageInfo',
+		'stashimageinfo' => 'ApiQueryStashImageInfo',
 		'templates' => 'ApiQueryLinks',
 		'categories' => 'ApiQueryCategories',
 		'extlinks' => 'ApiQueryExternalLinks',
