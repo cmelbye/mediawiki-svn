@@ -1191,14 +1191,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 					return false;
 				}
 			}
-<<<<<<< .mine
 		}		
 		// For IE: 
-=======
-		}
-
-		// For IE:
->>>>>>> .r76860
 		var hasObj = true;
 		try {
 			var obj = new ActiveXObject( 'ShockwaveFlash.ShockwaveFlash' );
@@ -1217,7 +1211,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		// No video tag or flash, return false ( normal "install flash" user flow )
 		return false;
 	}
-<<<<<<< .mine
 	mw.isIphone = function(){
 		return ( navigator.userAgent.indexOf('iPhone') != -1 );
 	};
@@ -1228,9 +1221,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		return ( navigator.userAgent.indexOf('iPad') != -1 );
 	};
 	// Android 2 has some restrictions vs other mobile platforms 
-=======
-	// Android 2 has some restrictions vs other mobile platforms
->>>>>>> .r76860
 	mw.isAndroid2 = function(){		
 		return ( navigator.userAgent.indexOf( 'Android 2.') != -1 );
 	};
