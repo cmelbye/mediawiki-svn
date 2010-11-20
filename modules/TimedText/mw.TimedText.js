@@ -849,7 +849,7 @@ mw.includeAllModuleMessages();
 			if( text === this.prevText[ source.category ] )
 				return ;
 
-			mw.log( 'mw.TimedText:: updateTextDisplay: ' + text );
+			//mw.log( 'mw.TimedText:: updateTextDisplay: ' + text );
 
 			var $playerTarget = this.embedPlayer.$interface;
 			var $textTarget = $playerTarget.find( '.track_' + source.category + ' span' );
@@ -1357,7 +1357,7 @@ mw.includeAllModuleMessages();
 			var _this = this;
 			var request = {
 				'list' : 'allpages',
-				'apprefix' : titleKey,
+				'apprefix' : unescape( titleKey ),
 				'apnamespace' : this.getTimedTextNS(),
 				'aplimit' : 200,
 				'prop':'revisions',
