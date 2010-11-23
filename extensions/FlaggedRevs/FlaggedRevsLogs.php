@@ -35,7 +35,6 @@ class FlaggedRevsLogs {
 		if ( !$title ) {
 			return ''; // sanity check
 		}
-		$text = '';
 		if ( $skin ) {
 			$titleLink = $skin->link( $title, $title->getPrefixedText() );
 			$text = wfMsgHtml( "stable-logentry-{$action}", $titleLink );
@@ -152,7 +151,7 @@ class FlaggedRevsLogs {
 			$ts = empty( $params[2] )
 				? Revision::getTimestampFromId( $title, $revId )
 				: $params[2];
-			$time = $wgLang->timeanddate( $ts );
+			$time = $wgLang->timeanddate( $ts, true );
 			$links .= ' (';
 			$links .= $wgUser->getSkin()->makeKnownLinkObj(
 				$title,

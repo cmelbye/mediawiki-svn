@@ -15,10 +15,12 @@ class RevisionReviewForm
 {
 	/* Form parameters which can be user given */
 	protected $page = null;
-	protected $rcid = 0;
 	protected $approve = false;
 	protected $unapprove = false;
+	protected $reject = false;
+	protected $rejectConfirm = false;
 	protected $oldid = 0;
+	protected $refid = 0;
 	protected $templateParams = '';
 	protected $imageParams = '';
 	protected $fileVersion = '';
@@ -26,16 +28,17 @@ class RevisionReviewForm
 	protected $notes = '';
 	protected $comment = '';
 	protected $dims = array();
+	protected $lastChangeTime = '';
 
-	protected $unapprovedTags = 0;
 	protected $oflags = array();
 	protected $inputLock = 0; # Disallow bad submissions
 
+	protected $user = null;
 	protected $skin = null;
 
-	public function __construct() {
-		global $wgUser;
-		$this->skin = $wgUser->getSkin();
+	public function __construct( $user ) {
+		$this->user = $user;
+		$this->skin = $user->getSkin();
 		foreach ( FlaggedRevs::getTags() as $tag ) {
 			$this->dims[$tag] = 0;
 		}
@@ -49,20 +52,32 @@ class RevisionReviewForm
 		$this->trySet( $this->page, $value );
 	}
 
-	public function getRCId() {
-		return $this->rcid;
-	}
-
-	public function setRCId( $value ) {
-		$this->trySet( $this->rcid, (int)$value );
-	}
-
 	public function setApprove( $value ) {
 		$this->trySet( $this->approve, $value );
 	}
 
 	public function setUnapprove( $value ) {
 		$this->trySet( $this->unapprove, $value );
+	}
+
+	public function setReject( $value ) {
+		$this->trySet( $this->reject, $value );
+	}
+
+	public function setRejectConfirm( $value ) {
+		$this->trySet( $this->rejectConfirm, $value );
+	}
+
+	public function setLastChangeTime( $value ) {
+		$this->trySet( $this->lastChangeTime, $value );
+	}
+
+	public function getRefId() {
+		return $this->refid;
+	}
+
+	public function setRefId( $value ) {
+		$this->trySet( $this->refid, (int)$value );
 	}
 
 	public function getOldId() {
@@ -118,8 +133,7 @@ class RevisionReviewForm
 	}
 
 	public function setNotes( $value ) {
-		global $wgUser;
-		if ( !FlaggedRevs::allowComments() || !$wgUser->isAllowed( 'validate' ) ) {
+		if ( !FlaggedRevs::allowComments() || !$this->user->isAllowed( 'validate' ) ) {
 			$value = '';
 		}
 		$this->trySet( $this->notes, $value );
@@ -193,41 +207,34 @@ class RevisionReviewForm
 	protected function checkSettings() {
 		$status = $this->checkTarget();
 		if ( $status !== true ) {
-			return $status; // bad target
+			return $status; // bad page target
+		} elseif ( !$this->oldid ) {
+			return 'review_no_oldid'; // bad revision target
 		}
-		if ( !$this->oldid ) {
-			return 'review_no_oldid';
-		}
-		# Check that this is an approval or de-approval
-		if ( $this->isApproval() === null ) {
+		# Check that an action is specified (approve, reject, de-approve)
+		if ( $this->getAction() === null ) {
 			return 'review_param_missing'; // user didn't say
 		}
 		# Fill in implicit tag data for binary flag case
-		if ( $iDims = $this->implicitDims() ) {
-			$this->dims = $iDims;
-		} else {
-			foreach ( FlaggedRevs::getDimensions() as $tag => $levels ) {
-				if ( $this->dims[$tag] === 0 ) {
-					$this->unapprovedTags++;
-				}
+		$iDims = $this->implicitDims();
+		if ( $iDims ) {
+			$this->dims = $iDims; // binary flag case
+		}
+		if ( $this->getAction() === 'approve' ) {
+			# We must at least rate each category as 1, the minimum
+			if ( in_array( 0, $this->dims, true ) ) {
+				return 'review_too_low';
 			}
-		}
-		# We must at least rate each category as 1, the minimum
-		# Exception: we can rate ALL as unapproved to depreciate a revision
-		if ( $this->unapprovedTags
-			&& $this->unapprovedTags < count( FlaggedRevs::getDimensions() ) )
-		{
-			return 'review_too_low';
-		}
-		# Special token to discourage fiddling...
-		$k = self::validationKey(
-			$this->templateParams, $this->imageParams, $this->fileVersion, $this->oldid );
-		if ( $this->validatedParams !== $k ) {
-			return 'review_bad_key';
+			# Special token to discourage fiddling with template/files...
+			$k = self::validationKey(
+				$this->templateParams, $this->imageParams, $this->fileVersion, $this->oldid );
+			if ( $this->validatedParams !== $k ) {
+				return 'review_bad_key';
+			}
 		}
 		# Check permissions and validate
 		# FIXME: invalid vs denied
-		if ( !FlaggedRevs::userCanSetFlags( $this->dims, $this->oflags ) ) {
+		if ( !FlaggedRevs::userCanSetFlags( $this->user, $this->dims, $this->oflags ) ) {
 			return 'review_denied';
 		}
 		return true;
@@ -254,21 +261,19 @@ class RevisionReviewForm
 		return null;
 	}
 
-	public function isApproval() {
-		# If all values are set to zero, this has been unapproved
-		if ( FlaggedRevs::dimensionsEmpty() ) {
-			if ( $this->approve && !$this->unapprove ) {
-				return true; // no tags & approve param given
-			} elseif ( $this->unapprove && !$this->approve ) {
-				return false;
-			}
-			return null; // nothing valid asserted
-		} else {
-			foreach ( $this->dims as $quality => $value ) {
-				if ( $value ) return true;
-			}
-			return false;
+	/*
+	* What are we doing?
+	* @return string (approve,unapprove,reject)
+	*/
+	public function getAction() {
+		if ( !$this->reject && !$this->unapprove && $this->approve ) {
+			return 'approve';
+		} elseif ( !$this->reject && $this->unapprove && !$this->approve ) {
+			return 'unapprove';
+		} elseif ( $this->reject && !$this->unapprove && !$this->approve ) {
+			return 'reject';
 		}
+		return null; // nothing valid asserted
 	}
 
 	/**
@@ -277,7 +282,6 @@ class RevisionReviewForm
 	* @return mixed (true on success, error string on failure)
 	*/
 	public function submit() {
-		global $wgUser;
 		if ( !$this->inputLock ) {
 			throw new MWException( __CLASS__ . " input fields not set yet.\n");
 		}
@@ -290,7 +294,7 @@ class RevisionReviewForm
 			return 'review_denied';
 		}
 		# We can only approve actual revisions...
-		if ( $this->isApproval() ) {
+		if ( $this->getAction() === 'approve' ) {
 			$rev = Revision::newFromTitle( $this->page, $this->oldid );
 			# Do not mess with archived/deleted revisions
 			if ( is_null( $rev ) || $rev->mDeleted ) {
@@ -298,18 +302,45 @@ class RevisionReviewForm
 			}
 			$status = $this->approveRevision( $rev );
 		# We can only unapprove approved revisions...
-		} else {
+		} elseif ( $this->getAction() === 'unapprove' ) {
 			$frev = FlaggedRevision::newFromTitle( $this->page, $this->oldid );
 			# If we can't find this flagged rev, return to page???
 			if ( is_null( $frev ) ) {
-				return 'review_bad_oldid';
+				return 'review_not_flagged';
 			}
 			$status = $this->unapproveRevision( $frev );
+		} elseif ( $this->getAction() === 'reject' ) {
+			$newRev = Revision::newFromTitle( $this->page, $this->oldid );
+			$oldRev = Revision::newFromTitle( $this->page, $this->refid );
+			# Do not mess with archived/deleted revisions
+			if ( !$oldRev || $newRev->isDeleted( Revision::DELETED_TEXT ) ) {
+				return 'review_bad_oldid';
+			} elseif ( !$newRev || $newRev->isDeleted( Revision::DELETED_TEXT ) ) {
+				return 'review_bad_oldid';
+			}
+			$srev = FlaggedRevision::newFromStable( $this->page, FR_MASTER );
+			if ( $srev && $srev->getRevId() > $oldRev->getId() ) {
+				return 'review_cannot_reject'; // not really a use case
+			}
+			# Go to confirmation screen first
+			if ( !$this->rejectConfirm ) {
+				$status = $this->rejectConfirmationForm( $oldRev, $newRev );
+				return is_string( $status ) ? $status : false; // xxx
+			}
+			$article = new Article( $this->page );
+			$new_text = $article->getUndoText( $newRev, $oldRev );
+			if ( $new_text === false ) {
+				return 'review_cannot_undo';
+			}
+			$baseRevId = $newRev->isCurrent() ? $oldRev->getId() : 0;
+			$article->doEdit( $new_text, $this->getComment(), 0, $baseRevId, $this->user );
 		}
 		# Watch page if set to do so
 		if ( $status === true ) {
-			if ( $wgUser->getOption( 'flaggedrevswatch' ) && !$this->page->userIsWatching() ) {
-				$wgUser->addWatch( $this->page );
+			if ( $this->user->getOption( 'flaggedrevswatch' )
+				&& !$this->page->userIsWatching() )
+			{
+				$this->user->addWatch( $this->page );
 			}
 		}
 		return $status;
@@ -320,90 +351,22 @@ class RevisionReviewForm
 	 * @param Revision $rev
 	 * @returns true on success, array of errors on failure
 	 */
-	private function approveRevision( $rev ) {
-		global $wgUser, $wgMemc, $wgParser, $wgEnableParserCache;
+	private function approveRevision( Revision $rev ) {
 		wfProfileIn( __METHOD__ );
-
-		$dbw = wfGetDB( DB_MASTER );		
-		$article = new Article( $this->page );
-
-		$quality = 0;
-		if ( FlaggedRevs::isQuality( $this->dims ) ) {
-			$quality = FlaggedRevs::isPristine( $this->dims ) ? 2 : 1;
-		}
-		# Our flags
+		# Revision rating flags
 		$flags = $this->dims;
-		# Some validation vars to make sure nothing changed during
-		$lastTempId = 0;
-		$lastImgTime = "0";
-		# Our template version pointers
-		$tmpset = $tmpParams = array();
-		$templateMap = explode( '#', trim( $this->templateParams ) );
-		foreach ( $templateMap as $template ) {
-			if ( !$template )
-				continue;
-
-			$m = explode( '|', $template, 2 );
-			if ( !isset( $m[0] ) || !isset( $m[1] ) || !$m[0] )
-				continue;
-
-			list( $prefixed_text, $rev_id ) = $m;
-
-			$tmp_title = Title::newFromText( $prefixed_text ); // Normalize this to be sure...
-			if ( is_null( $tmp_title ) )
-				continue; // Page must be valid!
-
-			if ( $rev_id > $lastTempId )
-				$lastTempId = $rev_id;
-
-			$tmpset[] = array(
-				'ft_rev_id' 	=> $rev->getId(),
-				'ft_namespace'  => $tmp_title->getNamespace(),
-				'ft_title' 		=> $tmp_title->getDBkey(),
-				'ft_tmp_rev_id' => $rev_id
-			);
-			if ( !isset( $tmpParams[$tmp_title->getNamespace()] ) ) {
-				$tmpParams[$tmp_title->getNamespace()] = array();
-			}
-			$tmpParams[$tmp_title->getNamespace()][$tmp_title->getDBkey()] = $rev_id;
+		$quality = 0; // quality tier from flags
+		if ( FlaggedRevs::isQuality( $flags ) ) {
+			$quality = FlaggedRevs::isPristine( $flags ) ? 2 : 1;
 		}
-		# Our image version pointers
-		$imgset = $imgParams = array();
-		$imageMap = explode( '#', trim( $this->imageParams ) );
-		foreach ( $imageMap as $image ) {
-			if ( !$image )
-				continue;
-			$m = explode( '|', $image, 3 );
-			# Expand our parameters ... <name>#<timestamp>#<key>
-			if ( !isset( $m[0] ) || !isset( $m[1] ) || !isset( $m[2] ) || !$m[0] )
-				continue;
-
-			list( $dbkey, $timestamp, $key ) = $m;
-
-			$img_title = Title::makeTitle( NS_IMAGE, $dbkey ); // Normalize
-			if ( is_null( $img_title ) )
-				continue; // Page must be valid!
-
-			if ( $timestamp > $lastImgTime )
-				$lastImgTime = $timestamp;
-
-			$fileIncludeData = array(
-				'fi_rev_id'			=> $rev->getId(),
-				'fi_name'			=> $img_title->getDBkey(),
-				'fi_img_sha1'		=> $key,
-				// b/c: fi_img_timestamp DEFAULT either NULL (new) or '' (old)
-				'fi_img_timestamp' 	=> $timestamp ? $dbw->timestamp( $timestamp ) : ''
-			);
-			$imgset[] = $fileIncludeData;
-
-			if ( !isset( $imgParams[$img_title->getDBkey()] ) ) {
-				$imgParams[$img_title->getDBkey()] = array();
-			}
-			$imgParams[$img_title->getDBkey()][$timestamp] = $key;
-		}
+		# Our template/file version pointers
+		list( $tmpVersions, $fileVersions ) = self::getIncludeVersions(
+			$this->templateParams, $this->imageParams
+		);
 		# If this is an image page, store corresponding file info
-		$fileData = array();
-		if ( $this->page->getNamespace() == NS_IMAGE && $this->fileVersion ) {
+		$fileData = array( 'name' => null, 'timestamp' => null, 'sha1' => null );
+		if ( $this->page->getNamespace() == NS_FILE && $this->fileVersion ) {
+			# Stable upload version for file pages...
 			$data = explode( '#', $this->fileVersion, 2 );
 			if ( count( $data ) == 2 ) {
 				$fileData['name'] = $this->page->getDBkey();
@@ -411,138 +374,65 @@ class RevisionReviewForm
 				$fileData['sha1'] = $data[1];
 			}
 		}
-		
+
 		# Get current stable version ID (for logging)
 		$oldSv = FlaggedRevision::newFromStable( $this->page, FR_MASTER );
-		$oldSvId = $oldSv ? $oldSv->getRevId() : 0;
-		
-		# Is this rev already flagged?
-		$flaggedOutput = false;
-		$oldfrev = FlaggedRevision::newFromTitle( $this->page, $rev->getId(), FR_MASTER );
-		if ( $oldfrev ) {
-			$flaggedOutput = FlaggedRevs::parseStableText( $article,
-				$oldfrev->getRevText(), $oldfrev->getRevId() );
-		}
-		
-		# Be loose on templates that includes other files/templates dynamically.
-		# Strict checking breaks randomized images/metatemplates...(bug 14580)
-		global $wgUseCurrentTemplates, $wgUseCurrentImages;
-		$mustMatch = !( $wgUseCurrentTemplates && $wgUseCurrentImages );
-		
-		# Set our versioning params cache
-		FlaggedRevs::setIncludeVersionCache( $rev->getId(), $tmpParams, $imgParams );
-		# Parse the text and check if all templates/files match up
-		$text = $rev->getText();
-		$stableOutput = FlaggedRevs::parseStableText( $article, $text, $rev->getId() );
-		$err =& $stableOutput->fr_includeErrors;
-		if ( $mustMatch ) { // if template/files must all be specified...
-			if ( !empty( $err )
-				|| $stableOutput->fr_newestImageTime > $lastImgTime
-				|| $stableOutput->fr_newestTemplateID > $lastTempId )
-			{
-				wfProfileOut( __METHOD__ );
-				return $err; // return templates/files with no version specified
+
+		# Is this rev already flagged? (re-review)
+		$oldFrev = null;
+		if ( $oldSv ) { // stable rev exists
+			if ( $rev->getId() == $oldSv->getRevId() ) {
+				$oldFrev = $oldSv; // save a query
+			} else {
+				$oldFrev = FlaggedRevision::newFromTitle(
+					$this->page, $rev->getId(), FR_MASTER );
 			}
-        }
-		# Clear our versioning params cache
-		FlaggedRevs::clearIncludeVersionCache( $rev->getId() );
-		
+		}
 		# Is this a duplicate review?
-		if ( $oldfrev && $flaggedOutput ) {
-			$fileSha1 = $fileData ?
-				$fileData['sha1'] : null; // stable upload version for file pages
-			$synced = (
-				$oldfrev->getTags() == $flags && // tags => quality
-				$oldfrev->getFileSha1() == $fileSha1 &&
-				$oldfrev->getComment() == $this->notes &&
-				FlaggedRevs::includesAreSynced( $stableOutput, $flaggedOutput )
-			);
-			# Don't review if the same
-			if ( $synced ) {
-				wfProfileOut( __METHOD__ );
-				return true;
-			}
+		if ( $oldFrev &&
+			$oldFrev->getTags() == $flags && // tags => quality
+			$oldFrev->getFileSha1() == $fileData['sha1'] &&
+			$oldFrev->getFileTimestamp() == $fileData['timestamp'] &&
+			$oldFrev->getComment() == $this->notes &&
+			$oldFrev->getTemplateVersions( FR_MASTER ) == $tmpVersions &&
+			$oldFrev->getFileVersions( FR_MASTER ) == $fileVersions )
+		{
+			wfProfileOut( __METHOD__ );
+			return true; // don't record if the same
 		}
 
-		# Our review entry
+		# Insert the review entry...
  		$flaggedRevision = new FlaggedRevision( array(
-			'fr_rev_id'        => $rev->getId(),
-			'fr_page_id'       => $rev->getPage(),
-			'fr_user'          => $wgUser->getId(),
-			'fr_timestamp'     => wfTimestampNow(),
-			'fr_comment'       => $this->notes,
-			'fr_quality'       => $quality,
-			'fr_tags'          => FlaggedRevision::flattenRevisionTags( $flags ),
-			'fr_img_name'      => $fileData ? $fileData['name'] : null,
-			'fr_img_timestamp' => $fileData ? $fileData['timestamp'] : null,
-			'fr_img_sha1'      => $fileData ? $fileData['sha1'] : null
+			'rev_id'        	=> $rev->getId(),
+			'page_id'       	=> $rev->getPage(),
+			'user'          	=> $this->user->getId(),
+			'timestamp'     	=> wfTimestampNow(),
+			'comment'       	=> $this->notes,
+			'quality'       	=> $quality,
+			'tags'          	=> FlaggedRevision::flattenRevisionTags( $flags ),
+			'img_name'      	=> $fileData['name'],
+			'img_timestamp' 	=> $fileData['timestamp'],
+			'img_sha1'      	=> $fileData['sha1'],
+			'templateVersions' 	=> $tmpVersions,
+			'fileVersions'     	=> $fileVersions,
 		) );
+		$flaggedRevision->insertOn();
+		# Update recent changes...
+		$rcId = $rev->isUnpatrolled(); // int
+		self::updateRecentChanges( $this->page, $rev->getId(), $rcId, true );
 
-		$dbw->begin();
-		$flaggedRevision->insertOn( $tmpset, $imgset );
-		# Avoid any lag issues
-		$this->page->resetArticleId( $rev->getPage() );
-		# Update recent changes
-		self::updateRecentChanges( $this->page, $rev->getId(), $this->rcid, true );
-		# Update the article review log
+		# Update the article review log...
+		$oldSvId = $oldSv ? $oldSv->getRevId() : 0;
 		FlaggedRevsLogs::updateLog( $this->page, $this->dims, $this->oflags,
 			$this->comment, $this->oldid, $oldSvId, true );
 
-		# Update the links tables as the stable version may now be the default page.
-		# Try using the parser cache first since we didn't actually edit the current version.
-		$parserCache = ParserCache::singleton();
-		$poutput = $parserCache->get( $article, $wgUser );
-		if ( !$poutput
-			|| !isset( $poutput->fr_newestTemplateID )
-			|| !isset( $poutput->fr_newestImageTime ) )
-		{
-			$source = $article->getContent();
-			$options = FlaggedRevs::makeParserOptions();
-			$poutput = $wgParser->parse( $source, $article->getTitle(), $options,
-				/*$lineStart*/true, /*$clearState*/true, $article->getLatest() );
+		# Get the new stable version as of now
+		$sv = FlaggedRevision::determineStable( $this->page, FR_MASTER/*consistent*/ );
+		# Update page and tracking tables and clear cache
+		$changed = FlaggedRevs::stableVersionUpdates( $this->page, $sv, $oldSv );
+		if ( $changed ) {
+			FlaggedRevs::HTMLCacheUpdates( $this->page ); // purge pages that use this page
 		}
-		# Prepare for a link tracking update
-		$u = new LinksUpdate( $this->page, $poutput );
-		# If we know that this is now the new stable version 
-		# (which it probably is), save it to the stable cache...
-		$sv = FlaggedRevision::newFromStable( $this->page, FR_MASTER/*consistent*/ );
-		if ( $sv && $sv->getRevId() == $rev->getId() ) {
-			global $wgParserCacheExpireTime;
-			$this->page->invalidateCache();
-			# Update stable cache with the revision we reviewed.
-			# Don't cache redirects; it would go unused and complicate things.
-			if ( !Title::newFromRedirect( $text ) ) {
-				FlaggedRevs::updatePageCache( $article, $wgUser, $stableOutput );
-			}
-			# We can set the sync cache key already
-			$includesSynced = true;
-			if ( $poutput->fr_newestImageTime > $stableOutput->fr_newestImageTime ) {
-				$includesSynced = false;
-			} elseif ( $poutput->fr_newestTemplateID > $stableOutput->fr_newestTemplateID ) {
-				$includesSynced = false;
-			}
-			$u->fr_stableRev = $sv; // no need to re-fetch this!
-			$u->fr_stableParserOut = $stableOutput; // no need to re-fetch this!
-			# We can set the sync cache key already.
-			$key = wfMemcKey( 'flaggedrevs', 'includesSynced', $article->getId() );
-			$data = FlaggedRevs::makeMemcObj( $includesSynced ? "true" : "false" );
-			$wgMemc->set( $key, $data, $wgParserCacheExpireTime );
-		} else {
-			# Get the old stable cache
-			$stableOutput = FlaggedRevs::getPageCache( $article, $wgUser );
-			# Clear the cache...(for page histories)
-			$this->page->invalidateCache();
-			if ( $stableOutput !== false ) {
-				# Reset stable cache if it existed, since we know it is the same.
-				FlaggedRevs::updatePageCache( $article, $wgUser, $stableOutput );
-			}
-		}
-		# Update link tracking. This will trigger extraLinksUpdate()...
-		$u->doUpdate();
-
-		$dbw->commit();
-		# Purge cache/squids for this page and any page that uses it
-		Article::onArticleEdit( $this->page );
 
 		wfProfileOut( __METHOD__ );
         return true;
@@ -552,12 +442,13 @@ class RevisionReviewForm
 	 * @param FlaggedRevision $frev
 	 * Removes flagged revision data for this page/id set
 	 */
-	private function unapproveRevision( $frev ) {
-		global $wgUser, $wgParser, $wgMemc;
+	private function unapproveRevision( FlaggedRevision $frev ) {
 		wfProfileIn( __METHOD__ );
-		
+
+		# Get current stable version ID (for logging)
+		$oldSv = FlaggedRevision::newFromStable( $this->page, FR_MASTER );
+
         $dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
 		# Delete from flaggedrevs table
 		$dbw->delete( 'flaggedrevs',
 			array( 'fr_page_id' => $frev->getPage(), 'fr_rev_id' => $frev->getRevId() ) );
@@ -567,37 +458,23 @@ class RevisionReviewForm
 		# Update recent changes
 		self::updateRecentChanges( $this->page, $frev->getRevId(), false, false );
 
-		# Get current stable version ID (for logging)
-		$oldSv = FlaggedRevision::newFromStable( $this->page, FR_MASTER );
-		$oldSvId = $oldSv ? $oldSv->getRevId() : 0;
-
 		# Update the article review log
+		$oldSvId = $oldSv ? $oldSv->getRevId() : 0;
 		FlaggedRevsLogs::updateLog( $this->page, $this->dims, $this->oflags,
 			$this->comment, $this->oldid, $oldSvId, false );
 
-		$article = new Article( $this->page );
-		# Update the links tables as a new stable version
-		# may now be the default page.
-		$parserCache = ParserCache::singleton();
-		$poutput = $parserCache->get( $article, $wgUser );
-		if ( $poutput == false ) {
-			$text = $article->getContent();
-			$options = FlaggedRevs::makeParserOptions();
-			$poutput = $wgParser->parse( $text, $article->mTitle, $options );
+		# Get the new stable version as of now
+		$sv = FlaggedRevision::determineStable( $this->page, FR_MASTER/*consistent*/ );
+		# Update page and tracking tables and clear cache
+		$changed = FlaggedRevs::stableVersionUpdates( $this->page, $sv, $oldSv );
+		if ( $changed ) {
+			FlaggedRevs::HTMLCacheUpdates( $this->page ); // purge pages that use this page
 		}
-		$u = new LinksUpdate( $this->page, $poutput );
-		$u->doUpdate();
-
-		# Clear the cache...
-		$this->page->invalidateCache();
-		# Purge cache/squids for this page and any page that uses it
-		$dbw->commit();
-		Article::onArticleEdit( $article->getTitle() );
 
 		wfProfileOut( __METHOD__ );
         return true;
     }
-	
+
 	/**
 	* Get a validation key from versioning metadata
 	* @param string $tmpP
@@ -607,15 +484,10 @@ class RevisionReviewForm
 	* @return string
 	*/
 	public static function validationKey( $tmpP, $imgP, $imgV, $rid ) {
-		global $wgReviewCodes;
-		# Fall back to $wgSecretKey/$wgProxyKey
-		if ( empty( $wgReviewCodes ) ) {
-			global $wgSecretKey, $wgProxyKey;
-			$key = $wgSecretKey ? $wgSecretKey : $wgProxyKey;
-			$p = md5( $key . $imgP . $tmpP . $rid . $imgV );
-		} else {
-			$p = md5( $wgReviewCodes[0] . $imgP . $rid . $tmpP . $imgV . $wgReviewCodes[1] );
-		}
+		global $wgSecretKey, $wgProxyKey;
+		# Fall back to $wgProxyKey
+		$key = $wgSecretKey ? $wgSecretKey : $wgProxyKey;
+		$p = md5( $key . $imgP . $tmpP . $rid . $imgV );
 		return $p;
 	}
 
@@ -646,61 +518,158 @@ class RevisionReviewForm
 		}
 		wfProfileOut( __METHOD__ );
 	}
-	
+
+	/**
+	 * Get template and image parameters from parser output to use on forms.
+	 * @param FlaggedArticle $article
+	 * @param array $templateIDs (from ParserOutput/OutputPage->mTemplateIds)
+	 * @param array $imageSHA1Keys (from ParserOutput/OutputPage->fr_fileSHA1Keys)
+	 * @returns array( templateParams, imageParams, fileVersion )
+	 */
+	public static function getIncludeParams(
+		FlaggedArticle $article, array $templateIDs, array $imageSHA1Keys
+	) {
+		$templateParams = $imageParams = $fileVersion = '';
+		# NS -> title -> rev ID mapping
+		foreach ( $templateIDs as $namespace => $t ) {
+			foreach ( $t as $dbKey => $revId ) {
+				$temptitle = Title::makeTitle( $namespace, $dbKey );
+				$templateParams .= $temptitle->getPrefixedDBKey() . "|" . $revId . "#";
+			}
+		}
+		# Image -> timestamp -> sha1 mapping
+		foreach ( $imageSHA1Keys as $dbKey => $timeAndSHA1 ) {
+			$imageParams .= $dbKey . "|" . $timeAndSHA1['ts'];
+			$imageParams .= "|" . $timeAndSHA1['sha1'] . "#";
+		}
+		# For image pages, note the displayed image version
+		if ( $article->getTitle()->getNamespace() == NS_FILE ) {
+			$file = $article->getDisplayedFile(); // File obj
+			if ( $file ) {
+				$fileVersion = $file->getTimestamp() . "#" . $file->getSha1();
+			}
+		}
+		return array( $templateParams, $imageParams, $fileVersion );
+	}
+
+	/**
+	 * Get template and image versions from form value for parser output.
+	 * @param string $templateParams
+	 * @param string $imageParams
+	 * @returns array( templateIds, fileSHA1Keys )
+	 * templateIds like ParserOutput->mTemplateIds
+	 * fileSHA1Keys like ParserOutput->fr_fileSHA1Keys
+	 */
+	public static function getIncludeVersions( $templateParams, $imageParams ) {
+		$templateIds = array();
+		$templateMap = explode( '#', trim( $templateParams ) );
+		foreach ( $templateMap as $template ) {
+			if ( !$template ) {
+				continue;
+			}
+			$m = explode( '|', $template, 2 );
+			if ( !isset( $m[0] ) || !isset( $m[1] ) || !$m[0] ) {
+				continue;
+			}
+			list( $prefixed_text, $rev_id ) = $m;
+			# Get the template title
+			$tmp_title = Title::newFromText( $prefixed_text ); // Normalize this to be sure...
+			if ( is_null( $tmp_title ) ) {
+				continue; // Page must be valid!
+			}
+			if ( !isset( $templateIds[$tmp_title->getNamespace()] ) ) {
+				$templateIds[$tmp_title->getNamespace()] = array();
+			}
+			$templateIds[$tmp_title->getNamespace()][$tmp_title->getDBkey()] = $rev_id;
+		}
+		# Our image version pointers
+		$fileSHA1Keys = array();
+		$imageMap = explode( '#', trim( $imageParams ) );
+		foreach ( $imageMap as $image ) {
+			if ( !$image ) {
+				continue;
+			}
+			$m = explode( '|', $image, 3 );
+			# Expand our parameters ... <name>#<timestamp>#<key>
+			if ( !isset( $m[0] ) || !isset( $m[1] ) || !isset( $m[2] ) || !$m[0] ) {
+				continue;
+			}
+			list( $dbkey, $timestamp, $key ) = $m;
+			# Get the file title
+			$img_title = Title::makeTitle( NS_IMAGE, $dbkey ); // Normalize
+			if ( is_null( $img_title ) ) {
+				continue; // Page must be valid!
+			}
+			$fileSHA1Keys[$img_title->getDBkey()] = array();
+			$fileSHA1Keys[$img_title->getDBkey()]['ts'] = $timestamp;
+			$fileSHA1Keys[$img_title->getDBkey()]['sha1'] = $key;
+		}
+		return array( $templateIds, $fileSHA1Keys );
+	}
+
 	########## Common form & elements ##########
+	// @TODO: move to some other class
 
 	 /**
 	 * Generates a brief review form for a page.
+	 * NOTE: use ONLY for diff-to-stable views and page version views
+	 * @param User $user
 	 * @param FlaggedArticle $article
 	 * @param Revision $rev
+	 * @param int $refId (left side version ID for diffs, $rev is the right rev)
 	 * @param array $templateIDs
 	 * @param array $imageSHA1Keys
-	 * @param bool $stableDiff this is a diff-to-stable 
 	 * @return mixed (string/false)
 	 */
 	public static function buildQuickReview(
-		FlaggedArticle $article, $rev, $templateIDs, $imageSHA1Keys, $stableDiff = false
+		User $user, FlaggedArticle $article, Revision $rev,
+		$refId = 0, $topNotice = '', $templateIDs, $imageSHA1Keys
 	) {
-		global $wgUser, $wgRequest;
-		# The revision must be valid and public
-		if ( !$rev || $rev->isDeleted( Revision::DELETED_TEXT ) ) {
-			return false;
-		}
+		global $wgOut;
 		$id = $rev->getId();
-		$skin = $wgUser->getSkin();
+		if ( $rev->isDeleted( Revision::DELETED_TEXT ) ) {
+			return false; # The revision must be valid and public
+		}
 		# Do we need to get inclusion IDs from parser output?
 		$getPOut = !( $templateIDs && $imageSHA1Keys );
 
+		$srev = $article->getStableRev();
 		# See if the version being displayed is flagged...
-		$frev = FlaggedRevision::newFromTitle( $article->getTitle(), $id );
+		if ( $id == $article->getStable() ) {
+			$frev = $srev; // avoid query
+		} else {
+			$frev = FlaggedRevision::newFromTitle( $article->getTitle(), $id );
+		}
 		$oldFlags = $frev
 			? $frev->getTags() // existing tags
-			: FlaggedRevision::expandRevisionTags( '' ); // unset tags
+			: FlaggedRevs::quickTags( FR_CHECKED ); // basic tags
+		$reviewTime = $frev ? $frev->getTimestamp() : ''; // last review of rev
+
 		# If we are reviewing updates to a page, start off with the stable revision's
 		# flags. Otherwise, we just fill them in with the selected revision's flags.
-		if ( $stableDiff ) {
-			$srev = $article->getStableRev();
+		# @TODO: do we want to carry over info for other diffs?
+		if ( $srev && $srev->getRevId() == $refId ) { // diff-to-stable
 			$flags = $srev->getTags();
 			# Check if user is allowed to renew the stable version.
 			# If not, then get the flags for the new revision itself.
-			if ( !FlaggedRevs::userCanSetFlags( $oldFlags ) ) {
+			if ( !FlaggedRevs::userCanSetFlags( $user, $oldFlags ) ) {
 				$flags = $oldFlags;
 			}
 			$reviewNotes = $srev->getComment();
 			# Re-review button is need for template/file only review case
-			$allowRereview = ( $srev->getRevId() == $id && !$article->stableVersionIsSynced() );
-		} else {
+			$reviewIncludes = ( $srev->getRevId() == $id && !$article->stableVersionIsSynced() );
+		} else { // views
 			$flags = $oldFlags;
 			// Get existing notes to pre-fill field
 			$reviewNotes = $frev ? $frev->getComment() : "";
-			$allowRereview = false; // re-review button
+			$reviewIncludes = false; // re-review button
 		}
 
 		# Disable form for unprivileged users
 		$disabled = array();
 		if ( !$article->getTitle()->quickUserCan( 'review' ) ||
 			!$article->getTitle()->quickUserCan( 'edit' ) ||
-			!FlaggedRevs::userCanSetFlags( $flags ) )
+			!FlaggedRevs::userCanSetFlags( $user, $flags ) )
 		{
 			$disabled = array( 'disabled' => 'disabled' );
 		}
@@ -713,13 +682,12 @@ class RevisionReviewForm
 		$form .= Xml::openElement( 'fieldset',
 			array( 'class' => 'flaggedrevs_reviewform noprint' ) );
 		# Add appropriate legend text
-		$legendMsg = ( FlaggedRevs::binaryFlagging() && $allowRereview )
-			? 'revreview-reflag'
-			: 'revreview-flag';
+		$legendMsg = $frev ? 'revreview-reflag' : 'revreview-flag';
 		$form .= Xml::openElement( 'legend', array( 'id' => 'mw-fr-reviewformlegend' ) );
 		$form .= "<strong>" . wfMsgHtml( $legendMsg ) . "</strong>";
 		$form .= Xml::closeElement( 'legend' ) . "\n";
 		# Show explanatory text
+		$form .= $topNotice;
 		if ( !FlaggedRevs::lowProfileUI() ) {
 			$form .= wfMsgExt( 'revreview-text', array( 'parse' ) );
 		}
@@ -734,14 +702,15 @@ class RevisionReviewForm
 
 		# Add main checkboxes/selects
 		$form .= Xml::openElement( 'span', array( 'id' => 'mw-fr-ratingselects' ) );
-		$form .= self::ratingInputs( $flags, (bool)$disabled, (bool)$frev );
+		$form .= self::ratingInputs( $user, $flags, (bool)$disabled, (bool)$frev );
 		$form .= Xml::closeElement( 'span' );
 		# Add review notes input
-		if ( FlaggedRevs::allowComments() && $wgUser->isAllowed( 'validate' ) ) {
+		if ( FlaggedRevs::allowComments() && $user->isAllowed( 'validate' ) ) {
 			$form .= "<div id='mw-fr-notebox'>\n";
 			$form .= "<p>" . wfMsgHtml( 'revreview-notes' ) . "</p>\n";
 			$params = array( 'name' => 'wpNotes', 'id' => 'wpNotes',
-				'class' => 'fr-notes-box', 'rows' => '2', 'cols' => '80' ) + $disabled;
+				'class' => 'fr-notes-box', 'rows' => '2', 'cols' => '80',
+				'onchange' => "FlaggedRevs.updateRatingForm()" ) + $disabled;
 			$form .= Xml::openElement( 'textarea', $params ) .
 				htmlspecialchars( $reviewNotes ) .
 				Xml::closeElement( 'textarea' ) . "\n";
@@ -749,43 +718,49 @@ class RevisionReviewForm
 		}
 
 		# Get versions of templates/files used
-		$imageParams = $templateParams = $fileVersion = '';
 		if ( $getPOut ) {
 			$pOutput = false;
 			# Current version: try parser cache
 			if ( $rev->isCurrent() ) {
 				$parserCache = ParserCache::singleton();
-				$pOutput = $parserCache->get( $article, $wgUser );
+				$pOutput = $parserCache->get( $article, $wgOut->parserOptions() );
 			}
 			# Otherwise (or on cache miss), parse the rev text...
-			if ( $pOutput == false ) {
+			if ( !$pOutput || !isset( $pOutput->fr_fileSHA1Keys ) ) {
 				global $wgParser, $wgEnableParserCache;
 				$text = $rev->getText();
 				$title = $article->getTitle();
 				$options = FlaggedRevs::makeParserOptions();
-				$pOutput = $wgParser->parse( $text, $title, $options );
+				$pOutput = $wgParser->parse(
+					$text, $title, $options, true, true, $article->getLatest() );
 				# Might as well save the cache while we're at it
 				if ( $rev->isCurrent() && $wgEnableParserCache ) {
-					$parserCache->save( $pOutput, $article, $wgUser );
+					$parserCache->save( $pOutput, $article, $options );
 				}
 			}
 			$templateIDs = $pOutput->mTemplateIds;
-			$imageSHA1Keys = $pOutput->fr_ImageSHA1Keys;
+			$imageSHA1Keys = $pOutput->fr_fileSHA1Keys;
 		}
 		list( $templateParams, $imageParams, $fileVersion ) =
-			FlaggedRevs::getIncludeParams( $article, $templateIDs, $imageSHA1Keys );
+			RevisionReviewForm::getIncludeParams( $article, $templateIDs, $imageSHA1Keys );
 
 		$form .= Xml::openElement( 'span', array( 'style' => 'white-space: nowrap;' ) );
 		# Hide comment input if needed
 		if ( !$disabled ) {
-			if ( count( FlaggedRevs::getDimensions() ) > 1 )
+			if ( count( FlaggedRevs::getTags() ) > 1 ) {
 				$form .= "<br />"; // Don't put too much on one line
+			}
 			$form .= "<span id='mw-fr-commentbox' style='clear:both'>" .
-				Xml::inputLabel( wfMsg( 'revreview-log' ), 'wpReason', 'wpReason', 35, '',
+				Xml::inputLabel( wfMsg( 'revreview-log' ), 'wpReason', 'wpReason', 40, '',
 					array( 'class' => 'fr-comment-box' ) ) . "&#160;&#160;&#160;</span>";
 		}
+		# Determine if there will be reject button
+		$rejectId = 0;
+		if ( $refId == $article->getStable() && $id != $refId ) {
+			$rejectId = $refId; // left rev must be stable and right one newer
+		}
 		# Add the submit buttons
-		$form .= self::submitButtons( $frev, (bool)$disabled, $allowRereview );
+		$form .= self::submitButtons( $rejectId, $frev, (bool)$disabled, $reviewIncludes );
 		# Show stability log if there is anything interesting...
 		if ( $article->isPageLocked() ) {
 			$form .= ' ' . FlaggedRevsXML::logToggle( 'revreview-log-toggle-show' );
@@ -798,22 +773,22 @@ class RevisionReviewForm
 		$form .= Xml::closeElement( 'div' ) . "\n";
 
 		# Hidden params
-		$form .= Xml::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
-		$form .= Xml::hidden( 'target', $article->getTitle()->getPrefixedDBKey() ) . "\n";
-		$form .= Xml::hidden( 'oldid', $id ) . "\n";
-		$form .= Xml::hidden( 'action', 'submit' ) . "\n";
-		$form .= Xml::hidden( 'wpEditToken', $wgUser->editToken() ) . "\n";
+		$form .= Html::hidden( 'title', $reviewTitle->getPrefixedText() ) . "\n";
+		$form .= Html::hidden( 'target', $article->getTitle()->getPrefixedDBKey() ) . "\n";
+		$form .= Html::hidden( 'refid', $refId ) . "\n";
+		$form .= Html::hidden( 'oldid', $id ) . "\n";
+		$form .= Html::hidden( 'action', 'submit' ) . "\n";
+		$form .= Html::hidden( 'wpEditToken', $user->editToken() ) . "\n";
+		$form .= Html::hidden( 'changetime', $reviewTime );
 		# Add review parameters
-		$form .= Xml::hidden( 'templateParams', $templateParams ) . "\n";
-		$form .= Xml::hidden( 'imageParams', $imageParams ) . "\n";
-		$form .= Xml::hidden( 'fileVersion', $fileVersion ) . "\n";
-		# Pass this in if given; useful for new page patrol
-		$form .= Xml::hidden( 'rcid', $wgRequest->getVal( 'rcid' ) ) . "\n";
+		$form .= Html::hidden( 'templateParams', $templateParams ) . "\n";
+		$form .= Html::hidden( 'imageParams', $imageParams ) . "\n";
+		$form .= Html::hidden( 'fileVersion', $fileVersion ) . "\n";
 		# Special token to discourage fiddling...
 		$checkCode = self::validationKey(
 			$templateParams, $imageParams, $fileVersion, $id
 		);
-		$form .= Xml::hidden( 'validatedParams', $checkCode ) . "\n";
+		$form .= Html::hidden( 'validatedParams', $checkCode ) . "\n";
 
 		$form .= Xml::closeElement( 'fieldset' );
 		$form .= Xml::closeElement( 'form' );
@@ -821,21 +796,19 @@ class RevisionReviewForm
 	}
 
 	/**
+	 * @param User $user
 	 * @param array $flags, selected flags
 	 * @param bool $disabled, form disabled
 	 * @param bool $reviewed, rev already reviewed
 	 * @returns string
 	 * Generates a main tag inputs (checkboxes/radios/selects) for review form
 	 */
-	private static function ratingInputs( $flags, $disabled, $reviewed ) {
-		$form = '';
+	private static function ratingInputs( $user, $flags, $disabled, $reviewed ) {
 		# Get all available tags for this page/user
-		list( $labels, $minLevels ) = self::ratingFormTags( $flags );
+		list( $labels, $minLevels ) = self::ratingFormTags( $user, $flags );
 		if ( $labels === false ) {
 			$disabled = true; // a tag is unsettable
 		}
-		$dimensions = FlaggedRevs::getDimensions();
-		$tags = array_keys( $dimensions );
 		# If there are no tags, make one checkbox to approve/unapprove
 		if ( FlaggedRevs::binaryFlagging() ) {
 			return '';
@@ -844,9 +817,9 @@ class RevisionReviewForm
 		# Build rating form...
 		if ( $disabled ) {
 			// Display the value for each tag as text
-			foreach ( $dimensions as $quality => $levels ) {
+			foreach ( FlaggedRevs::getTags() as $quality ) {
 				$selected = isset( $flags[$quality] ) ? $flags[$quality] : 0;
-				$items[] = "<b>" . FlaggedRevs::getTagMsg( $quality ) . ":</b> " .
+				$items[] = FlaggedRevs::getTagMsg( $quality ) . ": " .
 					FlaggedRevs::getTagValueMsg( $quality, $selected );
 			}
 		} else {
@@ -863,8 +836,8 @@ class RevisionReviewForm
 				}
 				# Show label as needed
 				if ( !FlaggedRevs::binaryFlagging() ) {
-					$item .= "<b>" . Xml::tags( 'label', array( 'for' => "wp$quality" ),
-						FlaggedRevs::getTagMsg( $quality ) ) . ":</b>\n";
+					$item .= Xml::tags( 'label', array( 'for' => "wp$quality" ),
+						FlaggedRevs::getTagMsg( $quality ) ) . ":\n";
 				}
 				# If the sum of qualities of all flags is above 6, use drop down boxes.
 				# 6 is an arbitrary value choosen according to screen space and usability.
@@ -905,13 +878,13 @@ class RevisionReviewForm
 		return $form;
 	}
 
-	private static function ratingFormTags( $selected ) {
+	private static function ratingFormTags( $user, $selected ) {
 		$labels = array();
 		$minLevels = array();
 		# Build up all levels available to user
 		foreach ( FlaggedRevs::getDimensions() as $tag => $levels ) {
 			if ( isset( $selected[$tag] ) &&
-				!FlaggedRevs::userCanSetTag( $tag, $selected[$tag] ) )
+				!FlaggedRevs::userCanSetTag( $user, $tag, $selected[$tag] ) )
 			{
 				return array( false, false ); // form will have to be disabled
 			}
@@ -919,7 +892,7 @@ class RevisionReviewForm
 			$minLevels[$tag] = false; // first non-zero level number
 			foreach ( $levels as $i => $msg ) {
 				# Some levels may be restricted or not applicable...
-				if ( !FlaggedRevs::userCanSetTag( $tag, $i ) ) {
+				if ( !FlaggedRevs::userCanSetTag( $user, $tag, $i ) ) {
 					continue; // skip this level
 				} else if ( $i > 0 && !$minLevels[$tag] ) {
 					$minLevels[$tag] = $i; // first non-zero level number
@@ -934,49 +907,65 @@ class RevisionReviewForm
 	}
 
 	/**
+	 * Generates review form submit buttons
+	 * @param int $rejectId left rev ID for "reject" on diffs
 	 * @param FlaggedRevision $frev, the flagged revision, if any
 	 * @param bool $disabled, is the form disabled?
-	 * @param bool $rereview, force the review button to be usable?
+	 * @param bool $reviewIncludes, force the review button to be usable?
 	 * @returns string
-	 * Generates one or two button submit for the review form
 	 */
-	private static function submitButtons( $frev, $disabled, $rereview = false ) {
+	private static function submitButtons(
+		$rejectId, $frev, $disabled, $reviewIncludes = false
+	) {
 		$disAttrib = array( 'disabled' => 'disabled' );
-		# Add the submit button
-		if ( FlaggedRevs::binaryFlagging() ) {
-			# We may want to re-review to change the notes ($wgFlaggedRevsComments)
-			$s = Xml::submitButton( wfMsg( 'revreview-submit-review' ),
-				array(
-					'name'  	=> 'wpApprove',
-					'id' 		=> 'mw-fr-submitreview',
-					'accesskey' => wfMsg( 'revreview-ak-review' ),
-					'title' 	=> wfMsg( 'revreview-tt-flag' ) . ' [' .
-						wfMsg( 'revreview-ak-review' ) . ']'
-				) + ( ( $disabled || ( $frev && !$rereview ) ) ? $disAttrib : array() )
-			);
+		# ACCEPT BUTTON: accept a revision
+		# We may want to re-review to change:
+		# (a) notes (b) tags (c) pending template/file changes
+		if ( FlaggedRevs::binaryFlagging() ) { // just the buttons
+			$applicable = ( !$frev || $reviewIncludes ); // no tags/notes
+			$needsChange = false; // no state change possible
+		} else { // buttons + ratings
+			$applicable = true; // tags might change
+			$needsChange = ( $frev && !$reviewIncludes );
+		}
+		$s = Xml::submitButton( wfMsgHtml( 'revreview-submit-review' ),
+			array(
+				'name'  	=> 'wpApprove',
+				'id' 		=> 'mw-fr-submit-accept',
+				'accesskey' => wfMsg( 'revreview-ak-review' ),
+				'title' 	=> wfMsg( 'revreview-tt-flag' ) . ' [' .
+					wfMsg( 'revreview-ak-review' ) . ']'
+			) + ( ( $disabled || !$applicable ) ? $disAttrib : array() )
+		);
+		# REJECT BUTTON: revert from a pending revision to the stable
+		if ( $rejectId ) {
 			$s .= ' ';
-			$s .= Xml::submitButton( wfMsg( 'revreview-submit-unreview' ),
+			$s .= Xml::submitButton( wfMsgHtml( 'revreview-submit-reject' ),
 				array(
-					'name'  => 'wpUnapprove',
-					'id' 	=> 'mw-fr-submitunreview',
-					'title' => wfMsg( 'revreview-tt-unflag' )
-				) + ( ( $disabled || !$frev ) ? $disAttrib : array() )
-			);
-		} else {
-			$s = Xml::submitButton( wfMsg( 'revreview-submit' ),
-				array(
-					'id' 		=> 'mw-fr-submitreview',
-					'accesskey' => wfMsg( 'revreview-ak-review' ),
-					'title' 	=> wfMsg( 'revreview-tt-review' ) . ' [' .
-						wfMsg( 'revreview-ak-review' ) . ']'
+					'name'  => 'wpReject',
+					'id' 	=> 'mw-fr-submit-reject',
+					'title' => wfMsg( 'revreview-tt-reject' ),
 				) + ( $disabled ? $disAttrib : array() )
 			);
 		}
+		# UNACCEPT BUTTON: revoke a revisions acceptance
+		# Hide if revision is not flagged
+		$s .= ' ';
+		$s .= Xml::submitButton( wfMsgHtml( 'revreview-submit-unreview' ),
+			array(
+				'name'  => 'wpUnapprove',
+				'id' 	=> 'mw-fr-submit-unaccept',
+				'title' => wfMsg( 'revreview-tt-unflag' ),
+				'style' => $frev ? '' : 'display:none'
+			) + ( $disabled ? $disAttrib : array() )
+		);
+		// Disable buttons unless state changes in some cases (non-JS compatible)
+		$s .= "<script type=\"text/javascript\">
+			var jsReviewNeedsChange = " . (int)$needsChange . "</script>";
 		return $s;
 	}
 
 	public function approvalSuccessHTML( $showlinks = false ) {
-		global $wgUser;
 		# Show success message
 		$form = "<div class='plainlinks'>";
 		$form .= wfMsgExt( 'revreview-successful', 'parse',
@@ -985,14 +974,13 @@ class RevisionReviewForm
 			$this->page->getPrefixedUrl(), $this->getOldId() );
 		$form .= "</div>";
 		# Handy links to special pages
-		if ( $showlinks && $wgUser->isAllowed( 'unreviewedpages' ) ) {
+		if ( $showlinks && $this->user->isAllowed( 'unreviewedpages' ) ) {
 			$form .= $this->getSpecialLinks();
 		}
 		return $form;
 	}
 
 	public function deapprovalSuccessHTML( $showlinks = false ) {
-		global $wgUser;
 		# Show success message
 		$form = "<div class='plainlinks'>";
 		$form .= wfMsgExt( 'revreview-successful2', 'parse',
@@ -1001,30 +989,137 @@ class RevisionReviewForm
 			$this->page->getPrefixedUrl(), $this->getOldId() );
 		$form .= "</div>";
 		# Handy links to special pages
-		if ( $showlinks && $wgUser->isAllowed( 'unreviewedpages' ) ) {
+		if ( $showlinks && $this->user->isAllowed( 'unreviewedpages' ) ) {
 			$form .= $this->getSpecialLinks();
 		}
 		return $form;
 	}
 
-	public function syncFailureHTML( array $status, $showlinks = false ) {
-		$form = wfMsgExt( 'revreview-changed', 'parse', $this->page->getPrefixedText() );
-		$form .= "<ul>";
-		foreach ( $status as $n => $text ) {
-			$form .= "<li><i>$text</i></li>\n";
+	/**
+	 * Output the "are you sure you want to reject this" form
+	 *
+	 * A bit hacky, but we don't have a way to pass more complicated
+	 * UI things back up, since RevisionReview expects either true
+	 * or a string message key
+	 * @return mixed (string/true)
+	 */
+	private function rejectConfirmationForm( Revision $oldRev, Revision $newRev ) {
+		global $wgOut, $wgLang, $wgContLang;
+		$thisPage = SpecialPage::getTitleFor( 'RevisionReview' );
+
+		$wgOut->addHtml( '<div class="plainlinks">' );
+
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( 'revision',
+			Revision::selectFields(),
+			array(
+				'rev_page' => $oldRev->getPage(),
+				'rev_id > ' . $dbr->addQuotes( $oldRev->getId() ),
+				'rev_id <= ' . $dbr->addQuotes( $newRev->getId() )
+			),
+			__METHOD__,
+			array( 'LIMIT' => 251 ) // sanity check
+		);
+		if ( !$dbr->numRows( $res ) ) {
+			return 'review_bad_oldid';
+		} elseif ( $dbr->numRows( $res ) > 250 ) {
+			return 'review_reject_excessive';
 		}
-		$form .= "</ul>";
-		if ( $showlinks ) {
-			$form .= wfMsg( 'returnto', $this->skin->makeLinkObj( $this->page ) );
+
+		$rejectIds = $rejectAuthors = array();
+		$UserNS = $wgContLang->getNsText( NS_USER );
+		foreach ( $res as $row ) {
+			$rev = new Revision( $row );
+			$rejectIds[] = $rev->getId();
+			$rejectAuthors[] = $rev->isDeleted( Revision::DELETED_USER )
+				? wfMsg( 'rev-deleted-user' )
+				: "[[{$UserNS}:{$rev->getUserText()}|{$rev->getUserText()}]]";
 		}
-		return $form;
+
+		// List of revisions being undone...
+		$wgOut->addWikiMsg( 'revreview-reject-text-list', count( $rejectIds ) );
+		$wgOut->addHtml( '<ul>' );
+		// FIXME: we need a generic revision list class
+		$spRevDelete = SpecialPage::getPage( 'RevisionReview' );
+		$spRevDelete->skin = $this->user->getSkin(); // XXX
+		$list = new RevDel_RevisionList( $spRevDelete, $oldRev->getTitle(), $rejectIds );
+		for ( $list->reset(); $list->current(); $list->next() ) {
+			$item = $list->current();
+			if ( $item->canView() ) {
+				$wgOut->addHTML( $item->getHTML() );
+			}
+		}
+		$wgOut->addHtml( '</ul>' );
+		if ( $newRev->isCurrent() ) {
+			// Revision this will revert to (when reverting the top X revs)...
+			$wgOut->addWikiMsg( 'revreview-reject-text-revto',
+				$oldRev->getTitle()->getPrefixedDBKey(), $oldRev->getId(),
+				$wgLang->timeanddate( $oldRev->getTimestamp(), true )
+			);
+		}
+
+		// Determine the default edit summary...
+		$oldRevAuthor = $oldRev->isDeleted( Revision::DELETED_USER )
+			? wfMsg( 'rev-deleted-user' )
+			: $oldRev->getUserText();
+		// NOTE: *-cur msg wording not safe for (unlikely) edit auto-merge
+		$rejectAuthors = array_values( array_unique( $rejectAuthors ) );
+		if ( count( $rejectAuthors ) > 3 ) {
+			$msg = $newRev->isCurrent()
+				? 'revreview-reject-summary-cur-short' 
+				: 'revreview-reject-summary-old-short';
+			$defaultSummary = wfMsgExt( $msg, 'parsemag',
+				$wgContLang->formatNum( count( $rejectIds ) ),
+				$oldRev->getId(),
+				$oldRevAuthor );
+		} else {
+			$msg = $newRev->isCurrent()
+				? 'revreview-reject-summary-cur' 
+				: 'revreview-reject-summary-old';
+			$defaultSummary = wfMsgExt( $msg, 'parsemag',
+				$wgContLang->formatNum( count( $rejectIds ) ),
+				$wgContLang->listToText( $rejectAuthors ),
+				$oldRev->getId(),
+				$oldRevAuthor );
+		}
+		// Append any review comment...
+		if ( $this->comment != '' ) {
+			if ( $defaultSummary != '' ) {
+				$defaultSummary .= wfMsgForContent( 'colon-separator' );
+			}
+			$defaultSummary .= $this->comment;
+		}
+
+		$wgOut->addHtml( '</div>' );
+
+		$form = Xml::openElement( 'form',
+			array( 'method' => 'POST', 'action' => $thisPage->getFullUrl() ) );
+		$form .= Html::hidden( 'action', 'reject' );
+		$form .= Html::hidden( 'wpReject', 1 );
+		$form .= Html::hidden( 'wpRejectConfirm', 1 );
+		$form .= Html::hidden( 'oldid', $this->oldid );
+		$form .= Html::hidden( 'refid', $this->refid );
+		$form .= Html::hidden( 'target', $oldRev->getTitle()->getPrefixedDBKey() );
+		$form .= Html::hidden( 'wpEditToken', $this->user->editToken() );
+		$form .= Html::hidden( 'changetime', $newRev->getTimestamp() );
+		$form .= Xml::inputLabel( wfMsg( 'revreview-reject-summary' ), 'wpReason',
+			'wpReason', 120, $defaultSummary ) . "<br />";
+		$form .= Html::input( 'wpSubmit', wfMsg( 'revreview-reject-confirm' ), 'submit' );
+		$form .= ' ';
+		$form .= $this->skin->link( $this->page, wfMsg( 'revreview-reject-cancel' ),
+			array( 'onClick' => 'history.back()' ),
+			array( 'oldid' => $this->refid, 'diff' => $this->oldid ) );
+		$form .= Xml::closeElement( 'form' );
+
+		$wgOut->addHtml( $form );
+		return true;
 	}
 
 	private function getSpecialLinks() {
 		$s = '<p>' . wfMsg( 'returnto',
 			$this->skin->makeLinkObj( SpecialPage::getTitleFor( 'UnreviewedPages' ) ) ) . '</p>';
 		$s .= '<p>' . wfMsg( 'returnto',
-			$this->skin->makeLinkObj( SpecialPage::getTitleFor( 'OldReviewedPages' ) ) ) . '</p>';
+			$this->skin->makeLinkObj( SpecialPage::getTitleFor( 'PendingChanges' ) ) ) . '</p>';
 		return $s;
 	}
 }

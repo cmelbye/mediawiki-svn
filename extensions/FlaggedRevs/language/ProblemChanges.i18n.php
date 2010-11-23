@@ -45,6 +45,13 @@ $messages['ar'] = array(
 	'problemchanges-category' => 'التصنيف:',
 );
 
+/** Aramaic (ܐܪܡܝܐ)
+ * @author Basharh
+ */
+$messages['arc'] = array(
+	'problemchanges-category' => 'ܣܕܪܐ:',
+);
+
 /** Egyptian Spoken Arabic (مصرى)
  * @author Meno25
  */
@@ -53,6 +60,16 @@ $messages['arz'] = array(
 	'problemchanges-legend' => 'اعرض الصفحات ذات التعديلات الموسومه التى تنتظر المراجعة',
 	'problemchanges-none' => 'لا توجد حاليًا صفحات توافق هذه المعايير',
 	'problemchanges-category' => 'التصنيف:',
+);
+
+/** Belarusian (Беларуская)
+ * @author Хомелка
+ */
+$messages['be'] = array(
+	'problemchanges' => 'Адзначаныя неправераныя змены',
+	'problemchanges-legend' => 'Пералік старонак з адзначанымі праўкамі, якія чакаюць праверкі',
+	'problemchanges-none' => 'У цяперашні час няма старонак, якія адпавядаюць гэтым умовам',
+	'problemchanges-category' => 'Катэгорыя:',
 );
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
@@ -107,6 +124,11 @@ $messages['bs'] = array(
 $messages['ca'] = array(
 	'problemchanges-none' => 'Actualment no hi ha cap pàgina que compleixi els criteris',
 	'problemchanges-category' => 'Categoria:',
+);
+
+/** Sorani (کوردی) */
+$messages['ckb'] = array(
+	'problemchanges-category' => 'پۆل:',
 );
 
 /** Czech (Česky)
@@ -189,8 +211,12 @@ $messages['es'] = array(
 
 /** Estonian (Eesti)
  * @author Avjoska
+ * @author Pikne
  */
 $messages['et'] = array(
+	'problemchanges' => 'Märgistatud ootel muudatused',
+	'problemchanges-legend' => 'Ülevaatamist ootavate märgistatud muudatustega lehekülgede loetlemine',
+	'problemchanges-none' => 'Sellistele kriteeriumitele vastavad leheküljed puuduvad praegu.',
 	'problemchanges-category' => 'Kategooria:',
 );
 
@@ -201,13 +227,27 @@ $messages['eu'] = array(
 	'problemchanges-category' => 'Kategoria:',
 );
 
+/** Persian (فارسی)
+ * @author Ebraminio
+ * @author Wayiran
+ */
+$messages['fa'] = array(
+	'problemchanges' => 'ویرایش‌های برچسب‌خوردهٔ در انتظار',
+	'problemchanges-legend' => 'صفحه‌های با ویرایش‌های برچسب‌خوردهٔ در انتظار بازبینی را فهرست کن.',
+	'problemchanges-none' => 'در حال حاضر صفحه‌ای که با این معیارها سازگار باشد وجود ندارد',
+	'problemchanges-category' => 'رده:',
+);
+
 /** Finnish (Suomi)
  * @author Cimon Avaro
  * @author Crt
  * @author Nike
+ * @author Olli
  * @author Str4nd
  */
 $messages['fi'] = array(
+	'problemchanges' => 'Merkityt odottavat muutokset',
+	'problemchanges-legend' => 'Lista sivuista, joilla on odottavia muokkauksia, jotka ovat merkittyjä',
 	'problemchanges-none' => 'Tällä hetkellä ei ole sivuja, jotka täyttävät nämä ehdot',
 	'problemchanges-category' => 'Luokka',
 );
@@ -227,7 +267,7 @@ $messages['fr'] = array(
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
-	'problemchanges' => 'Revêre los changements balisâs.',
+	'problemchanges' => 'Changements balisâs en atenta',
 	'problemchanges-legend' => 'Listar les pâges avouéc des changements balisâs en atenta de rèvision',
 	'problemchanges-none' => 'Ora, y at gins de pâge que corrèspond a cetos critèros',
 	'problemchanges-category' => 'Catègorie :',
@@ -260,22 +300,30 @@ $messages['gsw'] = array(
 	'problemchanges-category' => 'Kategorii:',
 );
 
+/** Hausa (هَوُسَ) */
+$messages['ha'] = array(
+	'problemchanges-category' => 'Rukuni:',
+);
+
 /** Hebrew (עברית)
+ * @author DoviJ
  * @author Rotem Liss
+ * @author Rotemliss
  */
 $messages['he'] = array(
-	'problemchanges' => 'בדיקת שינויים עם תגיות',
-	'problemchanges-legend' => 'רשימת הדפים הבדוקים עם עריכות עם תגיות הממתינות לבדיקה',
+	'problemchanges' => 'השינויים הממתינים עם תגיות',
+	'problemchanges-legend' => 'רשימת הדפים עם עריכות עם תגיות הממתינות לבדיקה',
 	'problemchanges-none' => 'אין כרגע דפים המתאימים לקריטריונים אלה',
 	'problemchanges-category' => 'קטגוריה:',
 );
 
 /** Croatian (Hrvatski)
  * @author Ex13
+ * @author SpeedyGonsales
  */
 $messages['hr'] = array(
-	'problemchanges' => 'Ocijeni označene promjene',
-	'problemchanges-legend' => 'Izlistaj ocjenjene stranice s oznakom izmjene čekaju ocjenu',
+	'problemchanges' => 'Označene promjene na čekanju',
+	'problemchanges-legend' => 'Popis stranica s označenim izmjenama koje čekaju ocjenu',
 	'problemchanges-none' => 'Trenutačno nema stranica koje zadovoljavaju ove kriterije',
 	'problemchanges-category' => 'Kategorija:',
 );
@@ -323,6 +371,13 @@ $messages['id'] = array(
 	'problemchanges-category' => 'Kategori:',
 );
 
+/** Igbo (Igbo)
+ * @author Ukabia
+ */
+$messages['ig'] = array(
+	'problemchanges-category' => 'Ébéonọr:',
+);
+
 /** Ido (Ido)
  * @author Malafaya
  */
@@ -332,10 +387,11 @@ $messages['io'] = array(
 
 /** Italian (Italiano)
  * @author Beta16
+ * @author Blaisorblade
  * @author Melos
  */
 $messages['it'] = array(
-	'problemchanges' => 'Revisiona le modifiche che hanno etichette',
+	'problemchanges' => 'Modifiche non controllate con etichette',
 	'problemchanges-legend' => 'Elenco delle pagine con modifiche etichettate in attesa di revisione',
 	'problemchanges-none' => 'Al momento non ci sono pagine che soddisfino tale criterio.',
 	'problemchanges-category' => 'Categoria:',
@@ -406,6 +462,16 @@ $messages['lb'] = array(
 	'problemchanges-category' => 'Kategorie:',
 );
 
+/** Limburgish (Limburgs)
+ * @author Ooswesthoesbes
+ */
+$messages['li'] = array(
+	'problemchanges' => 'Gelabelde controleerbare wieziginge',
+	'problemchanges-legend' => "Tuin óngecontroleerde pagina's mit gelabelde bewerkinge",
+	'problemchanges-none' => "'t Göf gein paasjes die aan dees kriteria vóldoon",
+	'problemchanges-category' => 'Categorie:',
+);
+
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  * @author Brest
@@ -442,6 +508,13 @@ $messages['nl'] = array(
 	'problemchanges-legend' => "Ongecontroleerde pagina's met gelabelde bewerkingen weergeven",
 	'problemchanges-none' => "Er zijn geen pagina's die voldoen aan deze criteria",
 	'problemchanges-category' => 'Categorie:',
+);
+
+/** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
+ * @author Nghtwlkr
+ */
+$messages['nn'] = array(
+	'problemchanges-category' => 'Kategori:',
 );
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
@@ -528,10 +601,13 @@ $messages['pt-br'] = array(
 
 /** Romanian (Română)
  * @author KlaudiuMihaila
+ * @author Minisarm
  * @author Stelistcristi
  */
 $messages['ro'] = array(
-	'problemchanges' => 'Revizualizați schimbările etichetate',
+	'problemchanges' => 'Modificări etichetate ca fiind în așteptare',
+	'problemchanges-legend' => 'Afișează paginile cu eticheta „modificări în așteptarea revizuirii”',
+	'problemchanges-none' => 'Nu există pagini care să îndeplinească aceste criterii',
 	'problemchanges-category' => 'Categorie:',
 );
 
@@ -556,7 +632,7 @@ $messages['ru'] = array(
 	'problemchanges-category' => 'Категория:',
 );
 
-/** Rusyn (русиньскый язык)
+/** Rusyn (Русиньскый)
  * @author Gazeb
  */
 $messages['rue'] = array(
@@ -581,7 +657,7 @@ $messages['sc'] = array(
  * @author Helix84
  */
 $messages['sk'] = array(
-	'problemchanges' => 'Skontrolovať označené zmeny',
+	'problemchanges' => 'Označené čakajúce zmeny',
 	'problemchanges-legend' => 'Vypísať zoznam stránok s označenými úpravami čakajúcimi na kontrolu',
 	'problemchanges-none' => 'Momentálne neexistujú žiadne stránky zodpovedajúce týmto požiadavkám',
 	'problemchanges-category' => 'Kategória:',
@@ -591,6 +667,9 @@ $messages['sk'] = array(
  * @author Dbc334
  */
 $messages['sl'] = array(
+	'problemchanges' => 'Označene spremembe v teku',
+	'problemchanges-legend' => 'Navaja označene strani, ki čakajo na pregled sprememb',
+	'problemchanges-none' => 'Trenutno ni nobene strani, ki bi ustrezala izbranim merilom',
 	'problemchanges-category' => 'Kategorija:',
 );
 
@@ -631,6 +710,18 @@ $messages['sv'] = array(
 	'problemchanges-legend' => 'Visa sidor med märkta ändringar som skall granskas',
 	'problemchanges-none' => 'Det finns just nu inga sidor som matchar dessa kriterier',
 	'problemchanges-category' => 'Kategori:',
+);
+
+/** Swahili (Kiswahili) */
+$messages['sw'] = array(
+	'problemchanges-category' => 'Jamii:',
+);
+
+/** Tamil (தமிழ்)
+ * @author TRYPPN
+ */
+$messages['ta'] = array(
+	'problemchanges-category' => 'பகுப்பு:',
 );
 
 /** Telugu (తెలుగు)
@@ -687,7 +778,8 @@ $messages['uk'] = array(
  * @author Candalua
  */
 $messages['vec'] = array(
-	'problemchanges' => 'Verifica i canbiamenti segnà',
+	'problemchanges' => 'Modifiche mia controlà con etichete',
+	'problemchanges-legend' => 'Elenco de le pagine con modifiche etichetà in atesa di revision',
 	'problemchanges-none' => 'Al momento no ghe xe pagine che sodisfa sti criteri',
 	'problemchanges-category' => 'Categoria:',
 );
@@ -706,10 +798,17 @@ $messages['vep'] = array(
  * @author Minh Nguyen
  */
 $messages['vi'] = array(
-	'problemchanges' => 'Duyệt các thay đổi được đánh dấu',
+	'problemchanges' => 'Các thay đổi chưa duyệt được đánh dấu',
 	'problemchanges-legend' => 'Liệt kê các trang có sửa đổi được đánh dấu mà cần được duyệt',
 	'problemchanges-none' => 'Hiện không có trang nào hợp tiêu chuẩn này.',
 	'problemchanges-category' => 'Thể loại:',
+);
+
+/** Volapük (Volapük)
+ * @author Malafaya
+ */
+$messages['vo'] = array(
+	'problemchanges-category' => 'Klad:',
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
@@ -720,7 +819,7 @@ $messages['zh-hans'] = array(
 	'problemchanges' => '标记审核',
 	'problemchanges-legend' => '列出页面正等待审核',
 	'problemchanges-none' => '目前没有页面符合这些条件',
-	'problemchanges-category' => '分类:',
+	'problemchanges-category' => '分类：',
 );
 
 /** Traditional Chinese (‪中文(繁體)‬)
@@ -731,6 +830,6 @@ $messages['zh-hant'] = array(
 	'problemchanges' => '標記審核',
 	'problemchanges-legend' => '列出頁面正等待審核',
 	'problemchanges-none' => '目前沒有頁面符合這些條件',
-	'problemchanges-category' => '分類:',
+	'problemchanges-category' => '分類：',
 );
 

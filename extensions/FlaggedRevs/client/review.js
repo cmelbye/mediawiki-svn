@@ -6,6 +6,7 @@
 * a) Disable submit in case of invalid input.
 * b) Update colors when select changes (Opera already does this).
 * c) Also remove comment box clutter in case of invalid input.
+* NOTE: all buttons should exist (perhaps hidden though)
 */
 FlaggedRevs.updateRatingForm = function() {
 	var ratingform = document.getElementById('mw-fr-ratingselects');
@@ -14,23 +15,17 @@ FlaggedRevs.updateRatingForm = function() {
 	if( disabled ) return;
 
 	var quality = true;
-	var allzero = true;
 	var somezero = false;
-	
+
+	// Determine if this is a "quality" or "incomplete" review
 	for( tag in wgFlaggedRevsParams.tags ) {
 		var controlName = "wp" + tag;
 		var levels = document.getElementsByName(controlName);
 		if( !levels.length ) continue;
+
 		var selectedlevel = 0; // default
-	
 		if( levels[0].nodeName == 'SELECT' ) {
 			selectedlevel = levels[0].selectedIndex;
-			// Update color. Opera does this already, and doing so
-			// seems to kill custom pretty opera skin form styling.
-				if( navigator.appName != 'Opera') {
-				value = levels[0].getElementsByTagName('option')[selectedlevel].value;
-				levels[0].className = 'fr-rating-option-' + value;
-			}
 		} else if( levels[0].type == 'radio' ) {
 			for( i = 0; i < levels.length; i++ ) {
 				if( levels[i].checked ) {
@@ -43,39 +38,62 @@ FlaggedRevs.updateRatingForm = function() {
 		} else {
 			return; // error: should not happen
 		}
-	
+
 		// Get quality level for this tag
 		qualityLevel = wgFlaggedRevsParams.tags[tag]['quality'];
 	
 		if( selectedlevel < qualityLevel ) {
 			quality = false; // not a quality review
 		}
-		if( selectedlevel > 0 ) {
-			allzero = false;
-		} else {
+		if( selectedlevel <= 0 ) {
 			somezero = true;
 		}
 	}
-	// Show note box only for quality revs
-	var notebox = document.getElementById('mw-fr-notebox');
-	if( notebox ) {
-		notebox.style.display = quality ? 'inline' : 'none';
+
+	// (a) If only a few levels are zero ("incomplete") then disable submission.
+	// (b) Re-enable submission for already accepted revs when ratings change.
+	var asubmit = document.getElementById('mw-fr-submit-accept');
+	if( asubmit ) {
+		asubmit.disabled = somezero ? 'disabled' : '';
+		asubmit.value = wgAjaxReview.flagMsg; // reset to "Accept"
 	}
-	// If only a few levels are zero and there is only one
-	// submit button (for review/unreview), then disable it. 
-	var rsubmit = document.getElementById('mw-fr-submitreview');
-	var usubmit = document.getElementById('mw-fr-submitunreview');
-	if( rsubmit && !usubmit ) {
-		rsubmit.disabled = ( somezero && !allzero ) ? 'disabled' : '';
-	}
-	// Clear note box data if not shown
-	var notes = document.getElementById('wpNotes');
-	if( notes ) {
-		notes.value = quality ? notes.value : '';
+
+	// Update colors of <select>
+	FlaggedRevs.updateRatingFormColors();
+}
+
+/*
+* Disable 'accept' button if the revision was already reviewed
+* NOTE: this is used so that they can be re-enabled if a rating changes
+*/
+FlaggedRevs.maybeDisableAcceptButton = function() {
+	if ( typeof(jsReviewNeedsChange) != 'undefined' && jsReviewNeedsChange == 1 ) {
+		var asubmit = document.getElementById('mw-fr-submit-accept');
+		if( asubmit ) {
+			asubmit.disabled = 'disabled';
+		}
 	}
 }
 
-addOnloadHook(FlaggedRevs.updateRatingForm);
+hookEvent( "load", FlaggedRevs.maybeDisableAcceptButton );
+
+FlaggedRevs.updateRatingFormColors = function() {
+	for( tag in wgFlaggedRevsParams.tags ) {
+		var controlName = "wp" + tag;
+		var levels = document.getElementsByName(controlName);
+		if( levels.length && levels[0].nodeName == 'SELECT' ) {
+			selectedlevel = levels[0].selectedIndex;
+			// Update color. Opera does this already, and doing so
+			// seems to kill custom pretty opera skin form styling.
+			if( navigator.appName != 'Opera' ) {
+				value = levels[0].getElementsByTagName('option')[selectedlevel].value;
+				levels[0].className = 'fr-rating-option-' + value;
+			}
+		}
+	}
+}
+
+hookEvent( "load", FlaggedRevs.updateRatingFormColors );
 
 // dependencies:
 // * ajax.js:
@@ -197,23 +215,50 @@ wgAjaxReview.processResult = function(request) {
 		window.clearTimeout(wgAjaxReview.timeoutID);
 	}
 	var tier = 0; // review tier
-	var response = request.responseText;
+	var response = request.responseText; // full response text
 	var msg = response.substr(6); // remove <err#> or <suc#>
 	var tierMatch = msg.match(/^<t#(\d)>/);
 	if( tierMatch ) {
 		tier = tierMatch[1];
 		msg = msg.substr(5); // remove <t#x>
 	}
-	var diffRevRatings = null;
-	// Errors: output any error response message
-	if( response.indexOf('<err#>') == 0 ) {
-		jsMsg( msg, 'review' ); // success/failure notice
-		window.scroll(0,0); // scroll up to notice
-	// OK: get new diff UI elements
-	} else {
-		var diffUIParams = document.getElementById("mw-fr-diff-dataform");
-		// Diffs: update the contents of the mw-fr-diff-headeritems div
+	// Some form elements...
+	var asubmit = document.getElementById('mw-fr-submit-accept');
+	var usubmit = document.getElementById('mw-fr-submit-unaccept');
+	var legend = document.getElementById('mw-fr-reviewformlegend');
+	var diffNotice = document.getElementById('mw-fr-difftostable');
+	var tagBox = document.getElementById('mw-fr-revisiontag');
+	// On success...
+	if( response.indexOf('<suc#>') == 0 ) {
+		// (a) Update document title and form buttons...
+		document.title = wgAjaxReview.actioncomplete;
+		if( asubmit && usubmit ) {
+			// Revision was flagged
+			if( asubmit.value == wgAjaxReview.sendingMsg ) {
+				asubmit.value = wgAjaxReview.flaggedMsg; // done!
+				asubmit.style.fontWeight = 'bold';
+				// Unlock and reset *unflag* button
+				usubmit.value = wgAjaxReview.unflagMsg;
+				usubmit.removeAttribute( 'style' ); // back to normal
+				usubmit.disabled = '';
+			// Revision was unflagged
+			} else if( usubmit.value == wgAjaxReview.sendingMsg ) {
+				usubmit.value = wgAjaxReview.unflaggedMsg; // done!
+				usubmit.style.fontWeight = 'bold';
+				// Unlock and reset *flag* button
+				asubmit.value = wgAjaxReview.flagMsg;
+				asubmit.removeAttribute( 'style' ); // back to normal
+				asubmit.disabled = '';
+			}
+		}
+		// (b) Remove review tag from drafts
+		if( tagBox ) tagBox.style.display = 'none';
+		// (c) Update diff-related items...
+		var diffUIParams = document.getElementById('mw-fr-diff-dataform');
 		if ( diffUIParams ) {
+			// Hide "review this" box on diffs
+			if( diffNotice ) diffNotice.style.display = 'none';
+			// Update the contents of the mw-fr-diff-headeritems div
 			wgAjaxReview.inprogress = true;
 			var args = []; // <oldid, newid>
 			args.push( diffUIParams.getElementsByTagName('input')[0].value );
@@ -225,65 +270,28 @@ wgAjaxReview.processResult = function(request) {
 				args, wgAjaxReview.processDiffHeaderItemsResult );
 			sajax_request_type = old;
 		}
-	}
-	var rsubmit = document.getElementById("mw-fr-submitreview");
-	var usubmit = document.getElementById("mw-fr-submitunreview");
-	var legend = document.getElementById("mw-fr-reviewformlegend");
-	var diffNotice = document.getElementById("mw-fr-difftostable");
-	var tagBox = document.getElementById('mw-fr-revisiontag');
-	// On success...
-	if( response.indexOf('<suc#>') == 0 ) {
-		document.title = wgAjaxReview.actioncomplete;
-		if( rsubmit ) {
-			// If flagging is just binary, flip the form
-			if( usubmit ) {
-				// Revision was flagged
-				if( rsubmit.value == wgAjaxReview.sendingMsg ) {
-					// For template review case go from re-review to review message
-					legend.innerHTML = '<strong>'+wgAjaxReview.flagLegMsg+'</strong>';
-					rsubmit.value = wgAjaxReview.flaggedMsg; // done!
-					rsubmit.style.fontWeight = 'bold';
-					// Unlock and reset *unflag* button
-					usubmit.value = wgAjaxReview.unflagMsg;
-					usubmit.removeAttribute( 'style' ); // back to normal
-					usubmit.disabled = '';
-				// Revision was unflagged
-				} else if( usubmit.value == wgAjaxReview.sendingMsg ) {
-					usubmit.value = wgAjaxReview.unflaggedMsg; // done!
-					usubmit.style.fontWeight = 'bold';
-					// Unlock and reset *flag* button
-					rsubmit.value = wgAjaxReview.flagMsg;
-					rsubmit.removeAttribute( 'style' ); // back to normal
-					rsubmit.disabled = '';
-				}
-			} else {
-				if( tier > 0 ) {
-					rsubmit.value = wgAjaxReview.flaggedMsg;
-				} else {
-					rsubmit.value = wgAjaxReview.unflaggedMsg;
-				}
-				rsubmit.style.fontWeight = 'bold';
-				rsubmit.disabled = ''; // unlock flag button
-			}
-		}
-		// Hide "review this" box on diffs
-		if( diffNotice ) diffNotice.style.display = 'none';
-		// Remove review tag from draft
-		if( tagBox ) tagBox.style.display = 'none';
 	// On failure...
 	} else {
+		// (a) Update document title and form buttons...
 		document.title = wgAjaxReview.actionfailed;
-		if( rsubmit ) {
+		if( asubmit && usubmit ) {
 			// Revision was flagged
-			if( rsubmit.value == wgAjaxReview.sendingMsg ) {
-				rsubmit.value = wgAjaxReview.flagMsg; // back to normal
-				rsubmit.disabled = ''; // unlock flag button
+			if( asubmit.value == wgAjaxReview.sendingMsg ) {
+				asubmit.value = wgAjaxReview.flagMsg; // back to normal
+				asubmit.disabled = ''; // unlock flag button
 			// Revision was unflagged
 			} else if( usubmit.value == wgAjaxReview.sendingMsg ) {
 				usubmit.value = wgAjaxReview.unflagMsg; // back to normal
 				usubmit.disabled = ''; // unlock
 			}
 		}
+		// (b) Output any error response message
+		if ( response.indexOf('<err#>') == 0 ) {
+			jsMsg( msg, 'review' ); // success/failure notice
+		} else {
+			jsMsg( request.responseText, 'review' ); // fatal notice
+		}
+		window.scroll(0,0); // scroll up to notice
 	}
 	wgAjaxReview.unlockForm();
 };
@@ -302,11 +310,11 @@ wgAjaxReview.processDiffHeaderItemsResult = function(request) {
 }
 
 wgAjaxReview.onLoad = function() {
-	var rsubmit = document.getElementById("mw-fr-submitreview");
-	if( rsubmit ) {
-		rsubmit.onclick = wgAjaxReview.ajaxCall;
+	var asubmit = document.getElementById("mw-fr-submit-accept");
+	if( asubmit ) {
+		asubmit.onclick = wgAjaxReview.ajaxCall;
 	}
-	var usubmit = document.getElementById("mw-fr-submitunreview");
+	var usubmit = document.getElementById("mw-fr-submit-unaccept");
 	if( usubmit ) {
 		usubmit.onclick = wgAjaxReview.ajaxCall;
 	}

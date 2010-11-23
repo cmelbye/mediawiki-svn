@@ -33,7 +33,7 @@ class RevisionReview extends UnlistedSpecialPage
 		}
 		$this->setHeaders();
 		
-		$this->form = new RevisionReviewForm();
+		$this->form = new RevisionReviewForm( $wgUser );
 		$form = $this->form; // convenience
 		# Our target page
 		$this->page = Title::newFromURL( $wgRequest->getVal( 'target' ) );
@@ -45,17 +45,21 @@ class RevisionReview extends UnlistedSpecialPage
 		# Param for sites with binary flagging
 		$form->setApprove( $wgRequest->getCheck( 'wpApprove' ) );
 		$form->setUnapprove( $wgRequest->getCheck( 'wpUnapprove' ) );
+		$form->setReject( $wgRequest->getCheck( 'wpReject' ) );
+		$form->setRejectConfirm( $wgRequest->getBool( 'wpRejectConfirm' ) );
 		# Rev ID
-		$oldid = $wgRequest->getInt( 'oldid' );
-		$form->setOldId( $oldid );
+		$form->setOldId( $wgRequest->getInt( 'oldid' ) );
+		$form->setRefId( $wgRequest->getInt( 'refid' ) );
 		# Special parameter mapping
 		$form->setTemplateParams( $wgRequest->getVal( 'templateParams' ) );
 		$form->setFileParams( $wgRequest->getVal( 'imageParams' ) );
 		$form->setFileVersion( $wgRequest->getVal( 'fileVersion' ) );
 		# Special token to discourage fiddling...
 		$form->setValidatedParams( $wgRequest->getVal( 'validatedParams' ) );
+		# Conflict handling
+		$form->setLastChangeTime( $wgRequest->getVal( 'changetime' ) );
 		# Tag values
-		foreach ( FlaggedRevs::getDimensions() as $tag => $levels ) {
+		foreach ( FlaggedRevs::getTags() as $tag ) {
 			# This can be NULL if we uncheck a checkbox
 			$val = $wgRequest->getInt( "wp$tag" );
 			$form->setDim( $tag, $val );
@@ -96,19 +100,16 @@ class RevisionReview extends UnlistedSpecialPage
 			// Success for either flagging or unflagging
 			if ( $status === true ) {
 				$wgOut->setPageTitle( wfMsgHtml( 'actioncomplete' ) );
-				if ( $form->isApproval() ) {
+				if ( $form->getAction() === 'approve' ) {
 					$wgOut->addHTML( $form->approvalSuccessHTML( true ) );
-				} else {
+				} elseif ( $form->getAction() === 'unapprove' ) {
 					$wgOut->addHTML( $form->deapprovalSuccessHTML( true ) );
+				} elseif ( $form->getAction() === 'reject' ) {
+					$wgOut->redirect( $this->page->getFullUrl() );
 				}
-			// Failure for unflagging
-			} elseif ( !$form->isApproval() ) {
-				$wgOut->redirect( $this->page->getFullUrl() ); // already unflagged
-			// Sync failure for flagging
-			} elseif ( is_array( $status ) ) {
-				$wgOut->setPageTitle( wfMsgHtml( 'internalerror' ) );
-				$wgOut->addHTML( $form->syncFailureHTML( $status, true ) );
-			// Any other fails for flagging...
+			} elseif ( $status === false ) {
+				// Reject confirmation screen. HACKY :(
+				return;
 			} else {
 				if ( $status === 'review_denied' ) {
 					$wgOut->permissionRequired( 'badaccess-group0' ); // protected?
@@ -116,6 +117,8 @@ class RevisionReview extends UnlistedSpecialPage
 					$wgOut->permissionRequired( 'badaccess-group0' ); // fiddling
 				} elseif ( $status === 'review_bad_oldid' ) {
 					$wgOut->showErrorPage( 'internalerror', 'revreview-revnotfound' );
+				} elseif ( $status === 'review_not_flagged' ) {
+					$wgOut->redirect( $this->page->getFullUrl() ); // already unflagged
 				} elseif ( $status === 'review_too_low' ) {
 					$wgOut->addWikiText( wfMsg( 'revreview-toolow' ) );
 				} else {
@@ -135,14 +138,14 @@ class RevisionReview extends UnlistedSpecialPage
 		if ( wfReadOnly() ) {
 			return '<err#>' . wfMsgExt( 'revreview-failed', 'parseinline' );
 		}
-		$tags = FlaggedRevs::getDimensions();
+		$tags = FlaggedRevs::getTags();
 		// Make review interface object
-		$form = new RevisionReviewForm();
+		$form = new RevisionReviewForm( $wgUser );
 		$title = null; // target page
 		$editToken = ''; // edit token
 		// Each ajax url argument is of the form param|val.
 		// This means that there is no ugly order dependance.
-		foreach ( $args as $x => $arg ) {
+		foreach ( $args as $arg ) {
 			$set = explode( '|', $arg, 2 );
 			if ( count( $set ) != 2 ) {
 				return '<err#>' . wfMsgExt( 'revreview-failed', 'parseinline' );
@@ -156,8 +159,8 @@ class RevisionReview extends UnlistedSpecialPage
 				case "oldid":
 					$form->setOldId( $val );
 					break;
-				case "rcid":
-					$form->setRCId( $val );
+				case "refid":
+					$form->setRefId( $val );
 					break;
 				case "validatedParams":
 					$form->setValidatedParams( $val );
@@ -177,6 +180,9 @@ class RevisionReview extends UnlistedSpecialPage
 				case "wpUnapprove":
 					$form->setUnapprove( $val );
 					break;
+				case "wpReject":
+					$form->setReject( $val );
+					break;
 				case "wpReason":
 					$form->setComment( $val );
 					break;
@@ -188,7 +194,7 @@ class RevisionReview extends UnlistedSpecialPage
 					break;
 				default:
 					$p = preg_replace( '/^wp/', '', $par ); // kill any "wp" prefix
-					if ( array_key_exists( $p, $tags ) ) {
+					if ( in_array( $p, $tags ) ) {
 						$form->setDim( $p, $val );
 					}
 					break;
@@ -223,23 +229,20 @@ class RevisionReview extends UnlistedSpecialPage
 		}
 		# Try submission...
 		$status = $form->submit();
-		# Approve/de-approve success
+		# Success...
 		if ( $status === true ) {
 			$tier = FlaggedRevs::getLevelTier( $form->getDims() ) + 1; // shift to 0-3
-			if ( $form->isApproval() ) {
+			if ( $form->getAction() === 'approve' ) { // approve
 				return "<suc#><t#$tier>" . $form->approvalSuccessHTML( false );
-			} else {
+			} elseif ( $form->getAction() === 'unapprove' ) { // de-approve
 				return "<suc#><t#$tier>" . $form->deapprovalSuccessHTML( false );
+			} elseif ( $form->getAction() === 'reject' ) { // revert
+				return "<suc#><t#$tier>" . $form->rejectSuccessHTML( false );
 			}
-		# De-approve failure
-		} elseif ( !$form->isApproval() ) {
-			return "<suc#><t#0>"; // failure -> already unflagged
-		# Approve sync failure
-		} elseif ( is_array( $status ) ) {
-			return '<err#>' . $form->syncFailureHTML( $status, false );
-		# Other approval failures
-		} else { // hmmm?
-			return '<err#>' . wfMsgExt( 'revreview-failed', 'parseinline' );
+		# Failure...
+		} else {
+			return '<err#>' . wfMsgExt( 'revreview-failed', 'parse' ) .
+				'<p>' . wfMsgHtml( $status ) . '</p>';
 		}
 	}
 }

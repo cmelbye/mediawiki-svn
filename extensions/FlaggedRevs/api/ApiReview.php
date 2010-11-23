@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -33,7 +33,7 @@ class ApiReview extends ApiBase {
 	 * except that it generates the template and image parameters itself.
 	 */
 	public function execute() {
-		global $wgUser;
+		global $wgUser, $wgOut;
 		$params = $this->extractRequestParams();
 		// Check basic permissions
 		if ( !$wgUser->isAllowed( 'review' ) ) {
@@ -43,7 +43,7 @@ class ApiReview extends ApiBase {
 			$this->dieUsageMsg( array( 'blockedtext' ) );
 		}
 		// Construct submit form
-		$form = new RevisionReviewForm();
+		$form = new RevisionReviewForm( $wgUser );
 		$revid = (int)$params['revid'];
 		$rev = Revision::newFromId( $revid );
 		if ( !$rev ) {
@@ -62,28 +62,30 @@ class ApiReview extends ApiBase {
 			$form->setNotes( $params['notes'] );
 		// The flagging parameters have the form 'flag_$name'.
 		// Extract them and put the values into $form->dims
-		foreach ( FlaggedRevs::getDimensions() as $tag => $levels ) {
+		foreach ( FlaggedRevs::getTags() as $tag ) {
 			$form->setDim( $tag, intval( $params['flag_' . $tag] ) );
 		}
 		if ( $form->isApproval() ) {
+			$parserOutput = null;
 			// Now get the template and image parameters needed
 			// If it is the current revision, try the parser cache first
 			$article = new FlaggedArticle( $title, $revid );
 			if ( $rev->isCurrent() ) {
 				$parserCache = ParserCache::singleton();
-				$parserOutput = $parserCache->get( $article, $wgUser );
+				$parserOutput = $parserCache->get( $article, $wgOut->parserOptions() );
 			}
-			if ( empty( $parserOutput ) ) {
+			if ( !$parserOutput || !isset( $parserOutput->fr_fileSHA1Keys ) ) {
 				// Miss, we have to reparse the page
 				global $wgParser;
 				$text = $article->getContent();
 				$options = FlaggedRevs::makeParserOptions();
-				$parserOutput = $wgParser->parse( $text, $title, $options );
+				$parserOutput = $wgParser->parse(
+					$text, $title, $options, true, true, $article->getLatest() );
 			}
 			// Set version parameters for review submission
 			list( $templateParams, $imageParams, $fileVersion ) =
-				FlaggedRevs::getIncludeParams( $article,
-					$parserOutput->mTemplateIds, $parserOutput->fr_ImageSHA1Keys );
+				RevisionReviewForm::getIncludeParams( $article,
+					$parserOutput->mTemplateIds, $parserOutput->fr_fileSHA1Keys );
 			$form->setTemplateParams( $templateParams );
 			$form->setFileParams( $imageParams );
 			$form->setFileVersion( $fileVersion );
@@ -127,7 +129,7 @@ class ApiReview extends ApiBase {
 					'permissiondenied' );
 			} else {
 				// FIXME: review_param_missing? better msg?
-				$this->dieUsage( array( 'unknownerror' ) );
+				$this->dieUsageMsg( array( 'unknownerror', '' ) );
 			}
 		}
 	}
@@ -172,7 +174,7 @@ class ApiReview extends ApiBase {
 		if ( FlaggedRevs::dimensionsEmpty() ) {
 			$desc['unapprove'] = "If set, revision will be unapproved rather than approved.";
 		} else {
-			foreach ( FlaggedRevs::getDimensions() as $flagname => $levels ) {
+			foreach ( FlaggedRevs::getTags() as $flagname ) {
 				$desc['flag_' . $flagname] = "Set the flag ''{$flagname}'' to the specified value";
 			}
 		}
@@ -194,8 +196,12 @@ class ApiReview extends ApiBase {
 			array( 'code' => 'syncfailure', 'info' => 'A sync failure has occured while reviewing. Please try again.' ),
 		) );
 	}
-	
-	public function getTokenSalt() {
+
+	public function needsToken() {
+		return true;
+	}
+
+    public function getTokenSalt() {
 		return '';
 	}
 
