@@ -56,14 +56,14 @@ class ReviewedPages extends SpecialPage
 		if ( count( $fields ) ) {
 			$form .= " " . Xml::submitButton( wfMsg( 'go' ) );
 		}
-		$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
+		$form .= Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 		$form .= "</fieldset></form>\n";
 
 		$wgOut->addHTML( $form );
 	}
 
 	protected function showPageList() {
-		global $wgOut, $wgUser, $wgLang;
+		global $wgOut, $wgLang;
 
 		$pager = new ReviewedPagesPager( $this, array(), $this->type,
 			$this->namespace, $this->hideRedirs );
@@ -71,7 +71,7 @@ class ReviewedPages extends SpecialPage
 		if ( $num ) {
 			// Text to explain level select (if there are several levels)
 			if ( FlaggedRevs::qualityVersions() ) {
-				$wgOut->addHTML( wfMsgExt( 'reviewedpages-list', array( 'parse' ), $num ) );
+				$wgOut->addWikiMsg( 'reviewedpages-list', $wgLang->formatNum( $num ) );
 			}
 			$wgOut->addHTML( $pager->getNavigationBar() );
 			$wgOut->addHTML( $pager->getBody() );
@@ -82,7 +82,7 @@ class ReviewedPages extends SpecialPage
 	}
 
 	public function formatRow( $row ) {
-		global $wgLang, $wgUser;
+		global $wgLang;
 
 		$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 		$link = $this->skin->makeKnownLinkObj( $title, $title->getPrefixedText() );
@@ -173,7 +173,7 @@ class ReviewedPagesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

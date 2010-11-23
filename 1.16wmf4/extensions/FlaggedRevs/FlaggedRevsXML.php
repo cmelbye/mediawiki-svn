@@ -70,33 +70,6 @@ class FlaggedRevsXML {
 	}
 
 	/**
-	 * Get a <select> of options of available precendents. Used for filters.
-	 * @param int $selected selected level, null for "all"
-	 * @returns string
-	 */
-	public static function getPrecedenceFilterMenu( $selected = null ) {
-		if ( is_null( $selected ) ) {
-			$selected = ''; // "all"
-		}
-		$s = Xml::label( wfMsg( 'revreview-precedencefilter' ), 'wpPrecedence' ) . "\n";
-		$s .= Xml::openElement( 'select',
-			array( 'name' => 'precedence', 'id' => 'wpPrecedence' ) );
-		$s .= Xml::option( wfMsg( 'revreview-lev-all' ), '', $selected === '' );
-		$s .= Xml::option( wfMsg( 'revreview-lev-basic' ), FLAGGED_VIS_LATEST,
-			$selected === FLAGGED_VIS_LATEST );
-		if ( FlaggedRevs::qualityVersions() ) {
-			$s .= Xml::option( wfMsg( 'revreview-lev-quality' ), FLAGGED_VIS_QUALITY,
-				$selected === FLAGGED_VIS_QUALITY );
-		}
-		if ( FlaggedRevs::pristineVersions() ) {
-			$s .= Xml::option( wfMsg( 'revreview-lev-pristine' ), FLAGGED_VIS_PRISTINE,
-				$selected === FLAGGED_VIS_PRISTINE );
-		}
-		$s .= Xml::closeElement( 'select' ) . "\n";
-		return $s;
-	}
-
-	/**
 	 * Get a <select> of default page version (stable or draft). Used for filters.
 	 * @param int $selected (0=draft, 1=stable, null=either )
 	 * @returns string
@@ -209,18 +182,11 @@ class FlaggedRevsXML {
         if ( $prettyBox ) {
         	$tag .= "<table id='mw-fr-revisionratings-box' align='center' class='$css' cellpadding='0'>";
 		}
-		foreach ( FlaggedRevs::getDimensions() as $quality => $x ) {
+		foreach ( FlaggedRevs::getTags() as $quality ) {
 			$level = isset( $flags[$quality] ) ? $flags[$quality] : 0;
 			$encValueText = wfMsgHtml( "revreview-$quality-$level" );
             $level = $flags[$quality];
-            $minlevel = FlaggedRevs::getMinQL( $quality );
-            if ( $level >= $minlevel ) {
-                $classmarker = 2;
-            } elseif ( $level > 0 ) {
-                $classmarker = 1;
-            } else {
-                $classmarker = 0;
-			}
+
             $levelmarker = $level * 20 + 20;
             if ( $prettyBox ) {
             	$tag .= "<tr><td class='fr-text' valign='middle'>" .
@@ -323,9 +289,8 @@ class FlaggedRevsXML {
 		$encPath = htmlspecialchars( FlaggedRevs::styleUrlPath() . '/img' );
 		$img = '<img id="mw-fr-revisiontoggle" class="fr-toggle-arrow"';
 		$img .= " src=\"{$encPath}/arrow-down.png\" style=\"display:none;\"";
-		$img .= ' onMouseOver="FlaggedRevs.showBoxDetails()"';
-		$img .= ' title="' . wfMsgHtml( 'revreview-toggle-title' ) . '"';
-		$img .= ' alt="' . wfMsgHtml( 'revreview-toggle-show' ) . '" />';
+		$img .= ' onMouseOver="FlaggedRevs.onBoxMouseOver()"';
+		$img .= ' alt="' . wfMsgHtml( 'revreview-toggle-title' ) . '" />';
 		return $img;
 	}
 
@@ -422,7 +387,7 @@ class FlaggedRevsXML {
 				" alt=\"$encTitle\" title=\"$encTitle\" />";
 		}
 	}
-	
+
 	/*
 	* @param FlaggedArticle $flaggedArticle
 	* @param FlaggedRevision $frev

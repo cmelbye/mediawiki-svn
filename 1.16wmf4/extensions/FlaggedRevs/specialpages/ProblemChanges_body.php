@@ -12,7 +12,7 @@ class ProblemChanges extends SpecialPage
 	}
 
 	public function execute( $par ) {
-		global $wgRequest, $wgUser, $wgOut;
+		global $wgRequest, $wgUser;
 		$this->setHeaders();
 		$this->skin = $wgUser->getSkin();
 		$this->level = $wgRequest->getInt( 'level', - 1 );
@@ -40,7 +40,7 @@ class ProblemChanges extends SpecialPage
 	}
 
 	public function showList( $par ) {
-		global $wgOut, $wgScript, $wgUser;
+		global $wgOut, $wgScript;
 		$limit = $this->parseParams( $par );
 		$pager = new ProblemChangesPager( $this, $this->level, $this->category, $this->tag );
 		// Apply limit if transcluded
@@ -52,7 +52,7 @@ class ProblemChanges extends SpecialPage
 			$wgOut->addHTML(
 				"<form action=\"$action\" method=\"get\">\n" .
 				'<fieldset><legend>' . wfMsg( 'problemchanges-legend' ) . '</legend>' .
-				Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() )
+				Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() )
 			);
 			$form =
 				( FlaggedRevs::qualityVersions()
@@ -79,20 +79,19 @@ class ProblemChanges extends SpecialPage
 				$wgOut->addHTML( $pager->getBody() );
 				$wgOut->addHTML( $pager->getNavigationBar() );
 			} else {
-				$wgOut->addHTML( wfMsgExt( 'problemchanges-none', array( 'parse' ) ) );
+				$wgOut->addWikiMsg( 'problemchanges-none' );
 			}
 		// If this page is transcluded...
 		} else {
 			if ( $pager->getNumRows() ) {
 				$wgOut->addHTML( $pager->getBody() );
 			} else {
-				$wgOut->addHTML( wfMsgExt( 'problemchanges-none', array( 'parse' ) ) );
+				$wgOut->addWikiMsg( 'problemchanges-none' );
 			}
 		}
 	}
 	
 	protected function parseParams( $par ) {
-		global $wgLang;
 		$bits = preg_split( '/\s*,\s*/', trim( $par ) );
 		$limit = false;
 		foreach ( $bits as $bit ) {
@@ -137,7 +136,7 @@ class ProblemChanges extends SpecialPage
 
 		$feed->outHeader();
 		if ( $pager->getNumRows() > 0 ) {
-			while ( $row = $pager->mResult->fetchObject() ) {
+			foreach ( $pager->mResult as $row ) {
 				$feed->outItem( $this->feedItem( $row ) );
 			}
 		}
@@ -178,7 +177,7 @@ class ProblemChanges extends SpecialPage
 		$title = Title::newFromRow( $row );
 		$link = $this->skin->makeKnownLinkObj( $title );
 		$review = $this->skin->makeKnownLinkObj( $title,
-			wfMsg( 'oldreviewed-diff' ),
+			wfMsg( 'pendingchanges-diff' ),
 			'diff=cur&oldid=' . intval($row->stable) . '&diffonly=0' );
 		# Show quality level if there are several
 		if ( FlaggedRevs::qualityVersions() ) {
@@ -197,8 +196,8 @@ class ProblemChanges extends SpecialPage
 		if ( !$this->including() && $wgUser->isAllowed( 'unreviewedpages' ) ) {
 			$uw = UnreviewedPages::usersWatching( $title );
 			$watching = $uw
-				? wfMsgExt( 'oldreviewedpages-watched', 'parsemag', $uw )
-				: wfMsgHtml( 'oldreviewedpages-unwatched' );
+				? wfMsgExt( 'pendingchanges-watched', 'parsemag', $wgLang->formatNum( $uw ) )
+				: wfMsgHtml( 'pendingchanges-unwatched' );
 			$watching = " {$watching}";
 		} else {
 			$uw = - 1;
@@ -213,13 +212,13 @@ class ProblemChanges extends SpecialPage
 			// After three days, just use days
 			if ( $hours > ( 3 * 24 ) ) {
 				$days = round( $hours / 24, 0 );
-				$age = wfMsgExt( 'oldreviewedpages-days', array( 'parsemag' ), $days );
+				$age = wfMsgExt( 'pendingchanges-days', array( 'parsemag' ), $wgLang->formatNum( $days ) );
 			// If one or more hours, use hours
 			} elseif ( $hours >= 1 ) {
 				$hours = round( $hours, 0 );
-				$age = wfMsgExt( 'oldreviewedpages-hours', array( 'parsemag' ), $hours );
+				$age = wfMsgExt( 'pendingchanges-hours', array( 'parsemag' ), $wgLang->formatNum( $hours ) );
 			} else {
-				$age = wfMsg( 'oldreviewedpages-recent' ); // hot off the press :)
+				$age = wfMsg( 'pendingchanges-recent' ); // hot off the press :)
 			}
 			// Oh-noes!
 			$css = self::getLineClass( $hours, $uw );
@@ -231,7 +230,7 @@ class ProblemChanges extends SpecialPage
 		# Show if a user is looking at this page
 		if ( $wgMemc->get( $key ) ) {
 			$underReview = ' <span class="fr-under-review">' .
-				wfMsgHtml( 'oldreviewedpages-viewing' ) . '</span>';
+				wfMsgHtml( 'pendingchanges-viewing' ) . '</span>';
 		}
 
 		return( "<li{$css}>{$link} ({$review}) <i>{$age}</i>" .
@@ -279,7 +278,7 @@ class ProblemChangesPager extends AlphabeticPager {
 		$this->mForm = $form;
 		# Must be a content page...
 		$this->namespace = FlaggedRevs::getReviewNamespaces();
-		# Sanity check level: 0 = sighted; 1 = quality; 2 = pristine
+		# Sanity check level: 0 = checked; 1 = quality; 2 = pristine
 		$this->level = ( $level >= 0 && $level <= 2 ) ? $level : - 1;
 		$this->tag = $tag;
 		$this->category = $category ? str_replace( ' ', '_', $category ) : null;
@@ -298,7 +297,7 @@ class ProblemChangesPager extends AlphabeticPager {
 	}
 
 	function getQueryInfo() {
-		global $wgUser, $wgOldChangeTagsIndex;
+		global $wgOldChangeTagsIndex;
 		$conds = $this->mConds;
 		$tables = array( 'revision', 'change_tag', 'page' );
 		$fields = array( 'page_namespace' , 'page_title', 'page_latest' );
@@ -376,7 +375,7 @@ class ProblemChangesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

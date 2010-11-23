@@ -28,11 +28,12 @@ abstract class PageStabilityForm
 	protected $oldExpiry = ''; # Old page config expiry (GMT)
 	protected $inputLock = 0; # Disallow bad submissions
 
+	protected $user = null;
 	protected $skin = null;
 
-	public function __construct() {
-		global $wgUser;
-		$this->skin = $wgUser->getSkin();
+	public function __construct( $user ) {
+		$this->user = $user;
+		$this->skin = $user->getSkin();
 	}
 
 	public function getPage() {
@@ -70,7 +71,7 @@ abstract class PageStabilityForm
 	public function getExpiry() {
 		return $this->expiry;
 	}
-	
+
 	public function setExpiry( $value ) {
 		$this->trySet( $this->expiry, $value );
 	}
@@ -86,7 +87,7 @@ abstract class PageStabilityForm
 	public function getAutoreview() {
 		return $this->autoreview;
 	}	
-	
+
 	public function setAutoreview( $value ) {
 		$this->trySet( $this->autoreview, $value );
 	}
@@ -220,7 +221,6 @@ abstract class PageStabilityForm
 	* @return mixed (true on success, error string on failure)
 	*/
 	public function submit() {
-		global $wgUser;
 		if ( !$this->inputLock ) {
 			throw new MWException( __CLASS__ . " input fields not set yet.\n");
 		}
@@ -255,27 +255,24 @@ abstract class PageStabilityForm
 		if ( $changed ) {
 			# Update logs and make a null edit
 			$nullRev = $this->updateLogsAndHistory( $reset );
-			# Null edit may have been autoreviewed already
-			$frev = FlaggedRevision::newFromTitle( $this->page, $nullRev->getId(), FR_MASTER );
-			# We may need to invalidate the page links after changing the stable version.
-			# Only do so if not already done, such as by an auto-review of the null edit.
-			$invalidate = !$frev;
-			# Check if this null edit is to be reviewed...
-			if ( !$frev && $this->reviewThis ) {
-				$flags = null;
-				$article = new Article( $this->page );
-				# Review this revision of the page...
-				$ok = FlaggedRevs::autoReviewEdit(
-					$article, $wgUser, $nullRev->getText(), $nullRev, $flags, true );
-				if( $ok ) {
-					FlaggedRevs::markRevisionPatrolled( $nullRev ); // reviewed -> patrolled
-					$invalidate = false; // links invalidated (with auto-reviewed)
+			if ( $this->reviewThis ) {
+				# Null edit may have been auto-reviewed already
+				$frev = FlaggedRevision::newFromTitle(
+					$this->page, $nullRev->getId(), FR_MASTER );
+				# Check if this null edit is to be reviewed...
+				if ( !$frev ) {
+					$flags = null;
+					$article = new Article( $this->page );
+					# Review this revision of the page...
+					$ok = FlaggedRevs::autoReviewEdit(
+						$article, $this->user, $nullRev, $flags, true );
+					if ( $ok ) {
+						FlaggedRevs::markRevisionPatrolled( $nullRev ); // reviewed -> patrolled
+					}
 				}
 			}
-			# Update the links tables as the stable version may now be the default page...
-			if ( $invalidate ) {
-				FlaggedRevs::titleLinksUpdate( $this->page );
-			}
+			# Update page and tracking tables and clear cache
+			FlaggedRevs::stableVersionUpdates( $this->page );
 		}
 		# Apply watchlist checkbox value (may be NULL)
 		$this->updateWatchlist();
@@ -331,7 +328,7 @@ abstract class PageStabilityForm
 		# Insert a null revision...
 		$dbw = wfGetDB( DB_MASTER );
 		$nullRev = Revision::newNullRevision( $dbw, $article->getId(), $comment, true );
-		$nullRevId = $nullRev->insertOn( $dbw );
+		$nullRev->insertOn( $dbw );
 		# Update page record and touch page
 		$article->updateRevisionOn( $dbw, $nullRev, $latest );
 		wfRunHooks( 'NewRevisionFromEditComplete', array( $article, $nullRev, $latest ) );
@@ -360,17 +357,16 @@ abstract class PageStabilityForm
 	* (b) Unwatch if $watchThis is false
 	*/
 	protected function updateWatchlist() {
-		global $wgUser;
 		# Apply watchlist checkbox value (may be NULL)
 		if ( $this->watchThis === true ) {
-			$wgUser->addWatch( $this->page );
+			$this->user->addWatch( $this->page );
 		} elseif ( $this->watchThis === false ) {
-			$wgUser->removeWatch( $this->page );
+			$this->user->removeWatch( $this->page );
 		}
 	}
 
 	protected function loadExpiry() {
-		# Custom expiry takes precedence
+		# Custom expiry replaces dropdown
 		if ( $this->expiry == '' ) {
 			$this->expiry = $this->expirySelection;
 			if ( $this->expiry == 'existing' ) {
@@ -380,7 +376,7 @@ abstract class PageStabilityForm
 	}
 
 	protected function loadReason() {
-		# Custom reason takes precedence
+		# Custom reason replaces dropdown
 		if ( $this->reasonSelection != 'other' ) {
 			$comment = $this->reasonSelection; // start with dropdown reason
 			if ( $this->reason != '' ) {
@@ -411,9 +407,6 @@ abstract class PageStabilityForm
 
 // Assumes $wgFlaggedRevsProtection is off
 class PageStabilityGeneralForm extends PageStabilityForm {
-	/* Form parameters which can be user given */
-	public $select = -1; # Precedence
-
 	public function getReviewThis() {
 		return $this->reviewThis;
 	}
@@ -421,14 +414,6 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 	public function setReviewThis( $value ) {
 		$this->trySet( $this->reviewThis, $value );
 	}
-
-	public function getPrecedence() {
-		return $this->select;
-	}
-
-	public function setPrecedence( $value ) {
-		$this->trySet( $this->select, $value );
-	}	
 
 	public function getOverride() {
 		return $this->override;
@@ -439,7 +424,6 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 	}
 
 	protected function reallyPreloadSettings() {
-		$this->select = $this->oldConfig['select'];
 		$this->override = $this->oldConfig['override'];
 		$this->autoreview = $this->oldConfig['autoreview'];
 		$this->expiry = $this->oldExpiry;
@@ -452,16 +436,13 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 		$this->loadReason();
 		$this->loadExpiry();
 		$this->override = $this->override ? 1 : 0; // default version settings is 0 or 1
-		if ( !FlaggedRevs::isValidPrecedence( $this->select ) ) {
-			return 'stabilize_invalid_precedence'; // invalid precedence value
-		}
 		// Check autoreview restriction setting
 		if ( $this->autoreview != '' // restriction other than 'none'
 			&& !in_array( $this->autoreview, FlaggedRevs::getRestrictionLevels() ) )
 		{
 			return 'stabilize_invalid_autoreview'; // invalid value
 		}
-		if ( !FlaggedRevs::userCanSetAutoreviewLevel( $this->autoreview ) ) {
+		if ( !FlaggedRevs::userCanSetAutoreviewLevel( $this->user, $this->autoreview ) ) {
 			return 'stabilize_denied'; // invalid value
 		}
 		return true;
@@ -472,7 +453,7 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 			'override'   => $this->override,
 			'autoreview' => $this->autoreview,
 			'expiry'     => $this->expiry, // TS_MW/infinity
-			'precedence' => $this->select
+			'precedence' => 1 // here for log hook b/c
 		);
 	}
 
@@ -506,7 +487,7 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 				'FOR UPDATE'
 			);
 			# Check if this is not the same config as the existing row (if any)
-			$changed = self::configIsDifferent( $oldRow,
+			$changed = $this->configIsDifferent( $oldRow,
 				$this->select, $this->override, $this->autoreview, $dbExpiry );
 			# If the new config is different, replace the old row...
 			if ( $changed ) {
@@ -514,7 +495,7 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 					array( 'PRIMARY' ),
 					array(
 						'fpc_page_id'  => $this->page->getArticleID(),
-						'fpc_select'   => (int)$this->select,
+						'fpc_select'   => 1, // unused
 						'fpc_override' => (int)$this->override,
 						'fpc_level'    => $this->autoreview,
 						'fpc_expiry'   => $dbExpiry
@@ -527,18 +508,16 @@ class PageStabilityGeneralForm extends PageStabilityForm {
 	}
 
 	protected function newConfigIsReset() {
-		return ( $this->select == FlaggedRevs::getPrecedence()
-			&& $this->override == FlaggedRevs::isStableShownByDefault()
+		return ( $this->override == FlaggedRevs::isStableShownByDefault()
 			&& $this->autoreview == '' );
 	}
 
 	// Checks if new config is different than the existing row
-	protected function configIsDifferent( $oldRow, $select, $override, $autoreview, $dbExpiry ) {
+	protected function configIsDifferent( $oldRow, $override, $autoreview, $dbExpiry ) {
 		if( !$oldRow ) {
 			return true; // no previous config
 		}
-		return ( $oldRow->fpc_select != $select // ...precedence changed, or...
-			|| $oldRow->fpc_override != $override // ...override changed, or...
+		return ( $oldRow->fpc_override != $override // ...override changed, or...
 			|| $oldRow->fpc_level != $autoreview // ...autoreview level changed, or...
 			|| $oldRow->fpc_expiry != $dbExpiry // ...expiry changed
 		);
@@ -586,13 +565,13 @@ class PageStabilityProtectForm extends PageStabilityForm {
 			return 'stabilize_invalid_level'; // double-check configuration
 		}
 		# Check autoreview restriction setting
-		if ( !FlaggedRevs::userCanSetAutoreviewLevel( $this->autoreview ) ) {
+		if ( !FlaggedRevs::userCanSetAutoreviewLevel( $this->user, $this->autoreview ) ) {
 			return 'stabilize_denied'; // invalid value
 		}
 		return true;
 	}
 
-	// Doesn't include 'precedence'; checked in FlaggedRevsLogs
+	// Doesn't and shouldn't include 'precedence'; checked in FlaggedRevsLogs
 	protected function getLogParams() {
 		return array(
 			'override'   => $this->override, // in case of site changes
@@ -622,7 +601,7 @@ class PageStabilityProtectForm extends PageStabilityForm {
 				'FOR UPDATE'
 			);
 			# Check if this is not the same config as the existing row (if any)
-			$changed = self::configIsDifferent( $oldRow,
+			$changed = $this->configIsDifferent( $oldRow,
 				$this->override, $this->autoreview, $dbExpiry );
 			# If the new config is different, replace the old row...
 			if ( $changed ) {

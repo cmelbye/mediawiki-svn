@@ -1,7 +1,7 @@
 <?php
 
 function flag_to_semi_protect( $db, $reason ) {
-	global $wgUser, $wgFlaggedRevsNamespaces, $wgFlaggedRevsProtection;
+	global $wgFlaggedRevsNamespaces, $wgFlaggedRevsProtection;
 	echo "Semi-protecting all flag-protected pages...\n";
 	if ( !$wgFlaggedRevsProtection ) {
 		echo "\$wgFlaggedRevsProtection not enabled!\n";
@@ -46,7 +46,6 @@ function flag_to_semi_protect( $db, $reason ) {
 			$limit = $expiry = array();
 			$desc = array(); // for output
 			foreach ( $title->getRestrictionTypes() as $type ) {
-				$newLimit = $newExpiry = '';
 				# Get existing restrictions for this action
 				$oldLimit = $title->getRestrictions( $type ); // array
 				$oldExpiry = $title->getRestrictionExpiry( $type ); // MW_TS

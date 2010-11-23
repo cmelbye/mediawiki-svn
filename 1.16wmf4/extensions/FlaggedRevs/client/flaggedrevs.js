@@ -13,6 +13,8 @@ var FlaggedRevs = {
 		'toggleShow'    	: '(+)',
 		'toggleHide'    	: '(-)'
 	},
+	/* Dropdown collapse timer */
+	'boxCollapseTimer': null,
 	/* Hide rating/diff clutter */
 	'enableShowhide': function() {
 		// Rating detail box
@@ -76,11 +78,18 @@ var FlaggedRevs = {
 			toggle.innerHTML = this.messages.toggleShow;
 		}
 	},
-	
+
+	/* Expands flag info box details on mouseOver */
+	'onBoxMouseOver': function( event ) {
+		window.clearTimeout( this.boxCollapseTimer );
+		this.boxCollapseTimer = null;
+		this.showBoxDetails();
+	},
+
 	/* Hides flag info box details on mouseOut *except* for event bubbling */
 	'onBoxMouseOut': function( event ) {
 		if( !this.isMouseOutBubble( event, 'mw-fr-revisiontag' ) ) {
-			this.hideBoxDetails();
+			this.boxCollapseTimer = window.setTimeout( this.hideBoxDetails, 150 );
 		}
 	},
 	
@@ -173,9 +182,63 @@ FlaggedRevs.updateSaveButton = function() {
 	}
 }
 
+FlaggedRevs.getRevisionContents = function() {
+	//get the contents div and replace it with actual parsed article contents via an API call.
+	var contentsDiv = document.getElementById("mw-fr-revisioncontents");
+	var prevLink = document.getElementById("differences-prevlink");
+	var nextLink = document.getElementById("differences-nextlink");
+	var timeoutId = null;
+	if( contentsDiv ) {
+		var diffUIParams = document.getElementById("mw-fr-diff-dataform");
+		var oldRevId = diffUIParams.getElementsByTagName('input')[1].value;
+		var origContents = contentsDiv.innerHTML;
+		contentsDiv.innerHTML = "<span class='loading mw-small-spinner spinner'></span><span class='loading' >" + wgRevContents.waiting + "</span>";
+		var requestArgs = 'action=parse&prop=text&format=xml';
+		if ( window.wgCurRevisionId == oldRevId && window.wgPageName ) {
+			requestArgs += '&page=' + encodeURIComponent( window.wgPageName );
+		} else {
+			requestArgs += '&oldid=' + oldRevId;
+		}
+
+		var call = jQuery.ajax({
+				url		: wgScriptPath + '/api.php',
+				type	: "GET",
+				data	: requestArgs,
+				dataType: "xml",
+				success	: function( result ) {
+					contents = jQuery(result).find("text");
+					if ( contents && contents.text() ) {
+						contentsDiv.innerHTML = contents.text();
+					} else {
+						contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
+					}
+				},
+				error	: function(xmlHttpRequest, textStatus, errThrown) {
+					contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
+				}
+			});
+	}
+	if ( prevLink ) {
+		prevLink.onclick = function() {
+			if ( call ) {
+				call.abort();
+			}
+		}
+	}
+	if ( nextLink ) {
+		nextLink.onclick = function() {
+			if ( call ) {
+				call.abort();
+			}
+		}
+	}
+}
+
 FlaggedRevs.setJSTriggers = function() {
 	FlaggedRevs.enableShowhide();
 	FlaggedRevs.setCheckTrigger();
+	FlaggedRevs.getRevisionContents();
 }
 
-hookEvent("load", FlaggedRevs.setJSTriggers);
+//TODO figure out the correct way to do this
+window.onload = FlaggedRevs.setJSTriggers;

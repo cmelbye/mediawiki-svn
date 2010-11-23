@@ -19,6 +19,7 @@ class StablePages extends SpecialPage
 
 		$this->namespace = $wgRequest->getIntOrNull( 'namespace' );
 		$this->autoreview = $wgRequest->getVal( 'restriction', '' );
+		$this->indef = $wgRequest->getBool( 'indef', false );
 
 		$this->showForm();
 		$this->showPageList();
@@ -26,7 +27,7 @@ class StablePages extends SpecialPage
 
 	protected function showForm() {
 		global $wgOut, $wgScript;
-		$wgOut->addHTML( wfMsgExt( 'stablepages-text', array( 'parseinline' ) ) );
+		$wgOut->addWikiMsg( 'stablepages-list' );
 		$fields = array();
 		# Namespace selector
 		if ( count( FlaggedRevs::getReviewNamespaces() ) > 1 ) {
@@ -36,10 +37,13 @@ class StablePages extends SpecialPage
 		if( FlaggedRevs::getRestrictionLevels() ) {
 			$fields[] = FlaggedRevsXML::getRestrictionFilterMenu( $this->autoreview );
 		}
+		$fields[] = Xml::checkLabel( wfMsg( 'stablepages-indef' ), 'indef', 
+			'stablepages-indef', $this->indef );
+		# Use form if it has options
 		if ( count( $fields ) ) {
 			$form = Xml::openElement( 'form',
 				array( 'name' => 'stablepages', 'action' => $wgScript, 'method' => 'get' ) );
-			$form .= Xml::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
+			$form .= Html::hidden( 'title', $this->getTitle()->getPrefixedDBKey() );
 			$form .= "<fieldset><legend>" . wfMsg( 'stablepages' ) . "</legend>\n";
 			$form .= implode( '&#160;', $fields ) . '&nbsp';
 			$form .= " " . Xml::submitButton( wfMsg( 'go' ) );
@@ -51,13 +55,14 @@ class StablePages extends SpecialPage
 
 	protected function showPageList() {
 		global $wgOut;
-		$pager = new StablePagesPager( $this, array(), $this->namespace, $this->autoreview );
+		$pager = new StablePagesPager(
+			$this, array(), $this->namespace, $this->autoreview, $this->indef );
 		if ( $pager->getNumRows() ) {
 			$wgOut->addHTML( $pager->getNavigationBar() );
 			$wgOut->addHTML( $pager->getBody() );
 			$wgOut->addHTML( $pager->getNavigationBar() );
 		} else {
-			$wgOut->addHTML( wfMsgExt( 'configuredpages-none', array( 'parse' ) ) );
+			$wgOut->addWikiMsg( 'stablepages-none' );
 		}
 		# Take this opportunity to purge out expired configurations
 		FlaggedRevs::purgeExpiredConfigurations();
@@ -67,19 +72,22 @@ class StablePages extends SpecialPage
 		global $wgLang;
 		$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 		# Link to page
-		$link = $this->skin->makeKnownLinkObj( $title, $title->getPrefixedText() );
+		$link = $this->skin->link( $title );
 		# Helpful utility links
 		$utilLinks = array();
-		$utilLinks[] = $this->skin->makeKnownLinkObj( $title,
-			wfMsgHtml( 'stablepages-config' ), 'action=protect' );
-		$utilLinks[] = $this->skin->makeKnownLinkObj( $title,
-			wfMsgHtml( 'history' ), 'action=history' );
-		$utilLinks[] = $this->skin->makeKnownLinkObj( SpecialPage::getTitleFor( 'Log/stable' ),
-			wfMsgHtml( 'stable-logpage' ), 'page=' . $title->getPrefixedText() );
+		$utilLinks[] = $this->skin->link( $title,
+			wfMsgHtml( 'stablepages-config' ),
+			array(), array( 'action' => 'protect' ), 'known' );
+		$utilLinks[] = $this->skin->link( $title,
+			wfMsgHtml( 'history' ),
+			array(), array( 'action' => 'history' ), 'known' );
+		$utilLinks[] = $this->skin->link( SpecialPage::getTitleFor( 'Log', 'stable' ),
+			wfMsgHtml( 'stable-logpage' ),
+			array(), array( 'page' => $title->getPrefixedText() ), 'known' );
 		# Autoreview/review restriction level
 		$restr = '';
-		if( $row->fpc_level != '' ) {
-			$restr = 'autoreview='.htmlspecialchars($row->fpc_level);
+		if ( $row->fpc_level != '' ) {
+			$restr = 'autoreview=' . htmlspecialchars( $row->fpc_level );
 			$restr = "[$restr]";
 		}
 		# When these configuration settings expire
@@ -106,9 +114,10 @@ class StablePagesPager extends AlphabeticPager {
 
 	// @param int $namespace (null for "all")
 	// @param string $autoreview ('' for "all", 'none' for no restriction)
-	function __construct( $form, $conds = array(), $namespace, $autoreview ) {
+	function __construct( $form, $conds = array(), $namespace, $autoreview, $indef ) {
 		$this->mForm = $form;
 		$this->mConds = $conds;
+		$this->indef = $indef;
 		# Must be content pages...
 		$validNS = FlaggedRevs::getReviewNamespaces();
 		if ( is_integer( $namespace ) ) {
@@ -141,8 +150,12 @@ class StablePagesPager extends AlphabeticPager {
 		}
 		$conds['page_namespace'] = $this->namespace;
 		# Be sure not to include expired items
-		$encCutoff = $this->mDb->addQuotes( $this->mDb->timestamp() );
-		$conds[] = "fpc_expiry > {$encCutoff}";
+		if( $this->indef ) {
+			$conds['fpc_expiry'] = Block::infinity();
+		} else {
+			$encCutoff = $this->mDb->addQuotes( $this->mDb->timestamp() );
+			$conds[] = "fpc_expiry > {$encCutoff}";
+		}
 		return array(
 			'tables' => array( 'flaggedpage_config', 'page' ),
 			'fields' => array( 'page_namespace', 'page_title', 'fpc_override',
@@ -160,7 +173,7 @@ class StablePagesPager extends AlphabeticPager {
 		wfProfileIn( __METHOD__ );
 		# Do a link batch query
 		$lb = new LinkBatch();
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();

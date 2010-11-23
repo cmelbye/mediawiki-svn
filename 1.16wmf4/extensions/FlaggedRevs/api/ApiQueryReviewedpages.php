@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -86,8 +86,7 @@ class ApiQueryReviewedpages extends ApiQueryGeneratorBase {
 
 		$data = array ();
 		$count = 0;
-		$db = $this->getDB();
-		while ( $row = $db->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			if ( ++$count > $limit ) {
 				// We've reached the one extra which shows that there are
 				// additional pages to be had. Stop here...
@@ -110,13 +109,16 @@ class ApiQueryReviewedpages extends ApiQueryGeneratorBase {
 				$resultPageSet->processDbRow( $row );
 			}
 		}
-		$db->freeResult( $res );
 
 		if ( is_null(  $resultPageSet ) ) {
 			$result = $this->getResult();
 			$result->setIndexedTagName( $data, 'p' );
 			$result->addValue( 'query', $this->getModuleName(), $data );
 		}
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {
@@ -171,7 +173,7 @@ class ApiQueryReviewedpages extends ApiQueryGeneratorBase {
 			'end' => 'Stop listing at this page id.',
 			'namespace' => 'The namespaces to enumerate.',
 			'filterredir' => 'How to filter for redirects',
-			'filterlevel' => 'How to filter by quality (0=sighted,1=quality)',
+			'filterlevel' => 'How to filter by quality (0=checked,1=quality)',
 			'limit' => 'How many total pages to return.',
 			'dir' => array(
 				'In which direction to list.',
