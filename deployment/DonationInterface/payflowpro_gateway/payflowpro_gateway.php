@@ -31,10 +31,12 @@ $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoColumnLetter3' ] = $dir . 'forms/
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoColumnLetter4' ] = $dir . 'forms/TwoColumnLetter4.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoColumnLetter5' ] = $dir . 'forms/TwoColumnLetter5.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoColumnLetter6' ] = $dir . 'forms/TwoColumnLetter6.php';
+$wgAutoloadClasses[ 'PayflowProGateway_Form_TwoColumnLetter7' ] = $dir . 'forms/TwoColumnLetter7.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoStepTwoColumnLetter' ] = $dir . 'forms/TwoStepTwoColumnLetter.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoStepTwoColumnLetterCA' ] = $dir . 'forms/TwoStepTwoColumnLetterCA.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoStepTwoColumnLetter2' ] = $dir . 'forms/TwoStepTwoColumnLetter2.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_TwoStepTwoColumnLetter3' ] = $dir . 'forms/TwoStepTwoColumnLetter3.php';
+$wgAutoloadClasses[ 'PayflowProGateway_Form_RapidHtml' ] = $dir . 'forms/RapidHtml.php';
 $wgAutoloadClasses[ 'PayflowProGateway_Form_SingleColumn' ] = $dir . 'forms/SingleColumn.php';
 $wgExtensionMessagesFiles['PayflowProGateway'] = $dir . 'payflowpro_gateway.i18n.php';
 $wgExtensionMessagesFiles['PayflowProGatewayCountries'] = $dir . 'payflowpro_gateway.countries.i18n.php';
@@ -120,6 +122,12 @@ $wgPayflowGatewayPaypalURL = '';
  * @var int Time in seconds
  */
 $wgPayflowSMaxAge = 6000;
+
+/**
+ * Directory for HTML forms (used by RapidHtml form class)
+ * @var string
+ */
+$wgPayflowHtmlFormDir = dirname( __FILE__ ) . "/forms/html";
 
 /**
  * Hooks required to interface with the donation extension (include <donate> on page)

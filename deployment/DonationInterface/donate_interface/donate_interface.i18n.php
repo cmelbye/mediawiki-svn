@@ -65,6 +65,20 @@ $messages['qqq'] = array(
 	'donate_interface-comment-label' => '{{Identical|Comment}}',
 );
 
+/** Angika (अंगिका)
+ * @author Angpradesh
+ */
+$messages['anp'] = array(
+	'donate_interface' => 'विकिपीडिया कॆ मदद करॊ',
+	'donate_interface-desc' => 'गेटवे विस्तारयुक्त दान पृष्ठ',
+	'donate_interface-intro' => 'कृपा करी कॆ भुगतान विधि, राशि आरू मुद्रा चुनॊ.',
+	'donate_interface-amount' => 'दान राशि',
+	'donate_interface-other-amount' => 'अन्य राशि',
+	'donate_interface-currency' => 'मुद्रा',
+	'donate_interface-gateway' => 'भुगतान विधि',
+	'donate_interface-submit-button' => 'दान करॊ',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Naudefj
  */
@@ -1296,7 +1310,7 @@ $messages['it'] = array(
 	'donate_interface-comment-message' => 'Hai un pensiero da condividere con il mondo? Inserisci massimo 200 caratteri qui:',
 	'donate_interface-comment-label' => 'Commenti:',
 	'donate_interface-anon-message' => "Indica il mio nome, accanto al mio commento, nell'elenco pubblico dei donatori.",
-	'donate_interface-email-agreement' => 'Accetto di ricevere in futuro le newsletter o e-mail da Wikimedia Foundation.',
+	'donate_interface-email-agreement' => 'Accetto di ricevere aggiornamenti occasionali dalla Wikimedia Foundation.',
 	'donate_interface-comment-title' => 'Commento pubblico',
 	'donate_interface-amount-error' => '**Si prega di inserire un importo valido**',
 	'donate_interface-GBP' => 'GBP: Sterlina inglese',
@@ -1746,6 +1760,21 @@ $messages['mt'] = array(
  * @author Servien
  */
 $messages['nds-nl'] = array(
+	'donate_interface' => 'Steun Wikimedia',
+	'donate_interface-desc' => 'Laandingspagina veur donasies dee integreert mit gateway-uutbreidingen',
+	'donate_interface-intro' => 'Kies een betaolingsmethode, bedrag en munteenheid.',
+	'donate_interface-amount' => 'Bedrag:',
+	'donate_interface-other-amount' => 'Aander bedrag',
+	'donate_interface-currency' => 'Munteenheid:',
+	'donate_interface-gateway' => 'Betaolingsmethode:',
+	'donate_interface-submit-button' => 'Geld geven',
+	'donate_interface-comment-message' => 'Wi-j een gedachte delen mit de wereld? Hieronder ku-j tot tweehonderd kerakters kwiet:',
+	'donate_interface-comment-label' => 'Opmarking:',
+	'donate_interface-anon-message' => 'Laot mien naam zien naos mien opmarking in de peblieke geldschieterslieste.',
+	'donate_interface-email-agreement' => 'Ik stem dermee in da-k netposberichen kriege van de Wikimedia Foundation.',
+	'donate_interface-comment-title' => 'Peblieke opmarking',
+	'donate_interface-amount-error' => '**Vul een bedrag in**',
+	'donate_interface-processing-error' => "Der is wat verkeerd egaon bie 't verwarken van joew verzeuk. Der is gien verwarkingsdiens beschikbaor.",
 	'donate_interface-GBP' => 'GBP: Britse pond',
 	'donate_interface-EUR' => 'EUR: Euro',
 	'donate_interface-USD' => 'USD: Amerikaanse dollar',
@@ -2442,7 +2471,7 @@ $messages['sv'] = array(
 	'donate_interface-comment-message' => 'Har du en tanke att dela med världen? Skriv upp till 200 tecken här:',
 	'donate_interface-comment-label' => 'Kommentar:',
 	'donate_interface-anon-message' => 'Visa mitt namn (bredvid min kommentar) på den offentliga givarlistan.',
-	'donate_interface-email-agreement' => 'Jag accepterar att ta emot framtida nyhetsbrev eller e-post från Wikimedia Foundation.',
+	'donate_interface-email-agreement' => 'Jag accepterar att ta emot sporadiska uppdateringar från Wikimedia Foundation.',
 	'donate_interface-comment-title' => 'Offentlig kommentar',
 	'donate_interface-amount-error' => '**Ange ett giltigt belopp**',
 	'donate_interface-processing-error' => 'Det uppstod ett fel när din begäran behandlades. 
@@ -2464,6 +2493,39 @@ Inga processorer finns tillgängliga.',
 	'donate_interface-SGD' => 'SGD: Singaporiansk dollar',
 	'donate_interface-SEK' => 'SEK: Svenska kronor',
 	'donate_interface-ILS' => 'ILS: Israeliska shekel',
+);
+
+/** Swahili (Kiswahili)
+ * @author Lloffiwr
+ * @author Muddyb Blast Producer
+ */
+$messages['sw'] = array(
+	'donate_interface' => 'Saidia Wikimedia',
+	'donate_interface-desc' => 'Ukurasa wa kwanza wa kuchangia, inayofungamana programu za milango ya malipo',
+	'donate_interface-intro' => 'Tafadhali chagua njia ya kulipa, kiasi, na aina ya fedha.',
+	'donate_interface-amount' => 'Kiasi cha mchango:',
+	'donate_interface-other-amount' => 'Kiasi kingine',
+	'donate_interface-currency' => 'Fedha:',
+	'donate_interface-gateway' => 'Njia ya kulipa:',
+	'donate_interface-submit-button' => 'Changia',
+	'donate_interface-comment-message' => 'Una maoni unayotaka kugawana na dunia? Andika herufi hadi 200 hapa:',
+	'donate_interface-comment-label' => 'Maoni:',
+	'donate_interface-anon-message' => 'Tafadhali andika jina langu (kando ya maoni yangu) katika orodha ya wachangiaji inayotolewa kwa watu wote.',
+	'donate_interface-email-agreement' => 'Nakubali nipokee taarifa mara kwa mara kutoka Wikimedia Foundation.',
+	'donate_interface-comment-title' => 'Maoni yatakayotolewa kwa watu wote',
+	'donate_interface-amount-error' => '**Tafadhali ingiza kiasi halali**',
+	'donate_interface-processing-error' => 'Imetokea hitilafu wakati wa kufanyika ombi lako.
+Mashine ya kufanyika malipo haipatikani.',
+	'donate_interface-GBP' => 'GBP: Pauni ya Uingereza',
+	'donate_interface-EUR' => 'EUR: Euro',
+	'donate_interface-USD' => 'USD: Dola ya U.S.A.',
+	'donate_interface-AUD' => 'AUD: Dola ya Australia',
+	'donate_interface-CAD' => 'CAD: Dola ya Kanada',
+	'donate_interface-CZK' => 'CZK: Koruna ya Ucheki',
+	'donate_interface-DKK' => 'DKK: Krone ya Udeni',
+	'donate_interface-HKD' => 'HKD: Dola ya Hong Kong',
+	'donate_interface-NZD' => 'NZD: Dola ya New Zealand',
+	'donate_interface-SGD' => 'SGD: Dola ya Singapore',
 );
 
 /** Tamil (தமிழ்)
@@ -2617,9 +2679,7 @@ $messages['tr'] = array(
 	'donate_interface-comment-message' => 'Dünya ile paylaşacak bir düşünceniz mi var? Buraya 200 karaktere kadar yazabilirsiniz:',
 	'donate_interface-comment-label' => 'Yorum:',
 	'donate_interface-anon-message' => 'Lütfen adımı (yorumumun yanına) umumi bağışçı listesinde listeleyin.',
-	'donate_interface-email-agreement' => "İleride Wikimedi Foundation haber postalarını ya da e-postalarını almayı kabul ediyorum.
-Bilgilerinizi asla satmayız ya da ticaret yapmayız.
-Bağışçı gizlilik poltikamız <a title='Donate/Donor Privacy' href='/wiki/Donate/Donor_Privacy'>burada</a> bulunabilir.",
+	'donate_interface-email-agreement' => "Wikimedia Foundation'dan arasıra yapılan güncellemeleri almayı kabul ediyorum.",
 	'donate_interface-comment-title' => 'Umumi yorum',
 	'donate_interface-amount-error' => '**Lütfen geçerli bir yorum girin**',
 	'donate_interface-processing-error' => 'İsteğinizin işlenmesinde bir hata oluştu.
