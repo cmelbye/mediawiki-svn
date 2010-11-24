@@ -8,9 +8,6 @@ mw.EmbedPlayerNative = {
 	//Instance Name
 	instanceOf: 'Native',
 
-	// Counts the number of times we tried to access the video element
-	grab_try_count:0,
-
 	// Flag to only load the video ( not play it )
 	onlyLoadFlag:false,
 
@@ -26,7 +23,6 @@ mw.EmbedPlayerNative = {
 
 	// If the media loaded event has been fired
 	mediaLoadedFlag: null,
-
 
 	// All the native events per:
 	// http://www.w3.org/TR/html5/video.html#mediaevents
@@ -69,10 +65,15 @@ mw.EmbedPlayerNative = {
 	 * Updates the supported features given the "type of player"
 	 */
 	updateFeatureSupport: function(){
-		// iWhatever devices appear to have a broken
-		// dom overlay implementation of video atm. (hopefully iphone OS 4 fixes this )
-		if( mw.isHTML5FallForwardNative() ) {
+		// The native controls function checks for overly support
+		// especially the special case of iPad in-dom or not support
+		if( this.useNativePlayerControls() ) {
 			this.supports.overlays = false;
+			this.supports.volumeControl = false;
+		}
+		// iOS  does not support volume control ( only iPad can have controls ) 
+		if( mw.isIpad() ){
+			this.supports.volumeControl = false;
 		}
 	},
 
@@ -85,12 +86,21 @@ mw.EmbedPlayerNative = {
 		// Reset some play state flags:
 		_this.bufferStartFlag = false;
 		_this.bufferEndFlag = false;
-
-		mw.log( "native play url:" + this.getSrc() + ' startOffset: ' + this.start_ntp + ' end: ' + this.end_ntp );
+		
+		mw.log( "native play url:" + this.getSrc( this.currentTime  ) + ' startOffset: ' + this.start_ntp + ' end: ' + this.end_ntp );
 
 		// Check if using native controls and already the "pid" is already in the DOM
-		if( this.useNativePlayerControls() && $j( '#' + this.pid ).length &&
-			typeof $j( '#' + this.pid ).get(0).play != 'undefined' ) {
+		if( ( 	this.useNativePlayerControls()
+				||
+				this.isPersistentNativePlayer()
+			)
+			&& $j( '#' + this.pid ).length 
+			&& typeof $j( '#' + this.pid ).get(0).play != 'undefined' ) {
+			
+			// Update the player source: 
+			$j( '#' + this.pid ).attr('src', this.getSrc( this.currentTime  ) );
+			$j( '#' + this.pid ).get(0).load();
+			
 			_this.postEmbedJS();
 			return ;
 		}
@@ -115,13 +125,12 @@ mw.EmbedPlayerNative = {
 		}
 		// Update required attributes
 		if( !playerAttribtues[ 'id'] ) playerAttribtues['id'] = this.pid;
-		if( !playerAttribtues['src'] ) playerAttribtues['src'] = this.getSrc();
+		if( !playerAttribtues['src'] ) playerAttribtues['src'] = this.getSrc( this.currentTime);
 
 		// If autoplay pass along to attribute ( needed for iPad / iPod no js autoplay support
 		if( this.autoplay ) {
 			playerAttribtues['autoplay'] = 'true';
 		}
-
 
 		if( !cssSet ){
 			cssSet = {};
@@ -200,7 +209,11 @@ mw.EmbedPlayerNative = {
 	monitor: function(){
 		var _this = this;
 		var vid = _this.getPlayerElement();
-
+		
+		// Update duration
+		if( vid && vid.duration ){
+			this.duration = vid.duration; 
+		}
 		// Update the bufferedPercent
 		if( vid && vid.buffered && vid.buffered.end && vid.duration ) {
 			this.bufferedPercent = ( vid.buffered.end(0) / vid.duration );
@@ -217,8 +230,6 @@ mw.EmbedPlayerNative = {
 	doSeek: function( percentage ) {
 		mw.log( 'Native::doSeek p: ' + percentage + ' : ' + this.supportsURLTimeEncoding() + ' dur: ' + this.getDuration() + ' sts:' + this.seek_time_sec );
 		this.seeking = true;
-		// Run the seeking hook
-		$j( this.embedPlayer ).trigger( 'onSeek' );
 
 		// Run the onSeeking interface update
 		this.controlBuilder.onSeek();
@@ -487,8 +498,6 @@ mw.EmbedPlayerNative = {
 		//( if not already set from interface )
 		if( !this.seeking ) {
 			this.seeking = true;
-			// Run the seeking hook (somewhat redundant )
-			$j( this ).trigger( 'onSeek' );
 
 			// Run the onSeeking interface update
 			this.controlBuilder.onSeek();
@@ -506,7 +515,6 @@ mw.EmbedPlayerNative = {
 	onseeked: function() {
 		mw.log("native:onSeeked");
 
-		mw.log("native:onSeeked:trigger");
 		// Trigger the html5 action on the parent
 		if( this.seeking && this.useNativePlayerControls() ){
 			this.seeking = false;
@@ -527,9 +535,11 @@ mw.EmbedPlayerNative = {
 	* Handle the native play event
 	*/
 	onplay: function(){
-		mw.log("EmbedPlayer:native:: OnPlay");
+		mw.log("EmbedPlayer:native:: OnPlay::" +  this._propagateEvents );
 		// Update the interface ( if paused )
-		this.parent_play();
+		if(  this._propagateEvents ){
+			this.parent_play();
+		}
 	},
 
 	/**
@@ -551,7 +561,7 @@ mw.EmbedPlayerNative = {
 			this.onLoadedCallback();
 		}
 
-		// Tigger "media loaded"
+		// Trigger "media loaded"
 		if( ! this.mediaLoadedFlag ){
 			$j( this ).trigger( 'mediaLoaded' );
 			this.mediaLoadedFlag = true;
@@ -569,7 +579,6 @@ mw.EmbedPlayerNative = {
 	*/
 	onprogress: function( event ) {
 		var e = event.originalEvent;
-		//mw.log("onprogress: e:" + e + ' ' + e.loaded + ' && ' + e.total );
 		if( e && e.loaded && e.total ) {
 			this.bufferedPercent = e.loaded / e.total;
 			this.progressEventData = e.loaded;
@@ -584,8 +593,9 @@ mw.EmbedPlayerNative = {
 	*/
 	onended: function() {
 		var _this = this;
-		mw.log( 'EmbedPlayer:native: onended:' + this.playerElement.currentTime + ' real dur:' + this.getDuration() );
-
-		this.onClipDone();
+		mw.log( 'EmbedPlayer:native: onended:' + this.playerElement.currentTime + ' real dur:' + this.getDuration() + ' ended ' + this._propagateEvents );
+		if( this._propagateEvents ){
+			this.onClipDone();
+		}
 	}
 };

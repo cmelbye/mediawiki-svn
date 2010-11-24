@@ -132,7 +132,21 @@ mw.includeAllModuleMessages();
 			$j( embedPlayer ).bind( 'play', function() {
 				// Will load and setup timedText sources (if not loaded already loaded )
 				_this.setupTextSources();
-			} );
+			} );						
+
+			// Setup display binding
+			$j( embedPlayer ).bind( 'onShowControlBar', function(event, layout ){
+				// Move the text track if present
+				embedPlayer.$interface.find( '.track' )
+				.animate( layout, 'slow' );
+			});
+			
+			$j( embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
+				// Move the text track down if present
+				embedPlayer.$interface.find( '.track' )
+				.animate( layout, 'slow' );
+			});
+			
 		},
 
 		/**
@@ -323,7 +337,6 @@ mw.includeAllModuleMessages();
 		*/
 		autoSelectSource: function() {
 			this.enabledSources = [];
-
 			// Check if any source matches our "local"
 			for( var i=0; i < this.textSources.length; i++ ) {
 				var source = this.textSources[ i ];
@@ -1395,7 +1408,6 @@ mw.includeAllModuleMessages();
 				var langKey = subPage.title.split( '.' );
 				var extension = langKey.pop();
 				langKey = langKey.pop();
-
 				//NOTE: we hard code the mw-srt type
 				// ( This is because mediaWiki srt files can have wiki-text and parsed as such )
 				if( extension == 'srt' ) {

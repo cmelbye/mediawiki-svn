@@ -482,6 +482,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}
 			return cleanRequest;
 		},
+
 		/**
 		 * Load a set of scripts. Will issue many load requests or package the
 		 * request for the resource loader
@@ -793,7 +794,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}
 			return moduleList;
 		},
-
+		
 		/**
 		 * Loads javascript or css associated with a resourceName
 		 *
@@ -1160,7 +1161,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		return $j( '#mwTempLoaderDialog' );
 	};
 	mw.isIphone = function(){
-		return ( navigator.userAgent.indexOf('iPhone') != -1 );
+		return ( navigator.userAgent.indexOf('iPhone') != -1 && ! mw.isIpad() );
 	};
 	mw.isIpod = function(){
 		return (  navigator.userAgent.indexOf('iPod') != -1 );
@@ -1181,17 +1182,44 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	 *
 	 */
 	mw.isHTML5FallForwardNative = function(){
-		// Check for a mobile html5 user agent:
-		if ( ( mw.isIphone() ) ||
-			( mw.isIpod() ) || 
-			( mw.isIpad() ) ||
-			( mw.isAndroid2() ) ||
-			// to debug in chrome / desktop safari
-			(document.URL.indexOf('forceMobileHTML5') != -1 )
-		) {
+		if( mw.isMobileHTML5() ){
 			return true;
 		}
-
+		// Fall forward native: 
+		// if the browser supports flash ( don't use html5 )
+		if( mw.supportsFlash() ){
+			return false;
+		}
+		// No flash return true if the browser supports html5 video tag with basic support for canPlayType:
+		if( mw.supportsHTML5() ){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	mw.isMobileHTML5 = function(){
+		// Check for a mobile html5 user agent:	
+		if ( (navigator.userAgent.indexOf('iPhone') != -1) || 
+			(navigator.userAgent.indexOf('iPod') != -1) || 
+			(navigator.userAgent.indexOf('iPad') != -1) ||
+			(navigator.userAgent.indexOf('Android 2.') != -1) || 
+			// Force html5 for chrome / desktop safari
+			(document.URL.indexOf('forceMobileHTML5') != -1 )
+		){
+			return true;
+		}
+		return false;
+	}
+	mw.supportsHTML5 = function(){
+		var dummyvid = document.createElement( "video" );
+		if( dummyvid.canPlayType ) {
+			return true;
+		}
+		return false;
+	}
+	
+	mw.supportsFlash = function(){
 		// Check if the client does not have flash and has the video tag
 		if ( navigator.mimeTypes && navigator.mimeTypes.length > 0 ) {
 			for ( var i = 0; i < navigator.mimeTypes.length; i++ ) {
@@ -1201,31 +1229,26 @@ if( typeof preMwEmbedConfig == 'undefined') {
 					type = type.substr( 0, semicolonPos );
 				}
 				if (type == 'application/x-shockwave-flash' ) {
-					// flash is installed don't use html5
-					return false;
+					// flash is installed 				
+					return true;
 				}
 			}
-		}		
-		// For IE: 
+		}
+
+		// for IE: 
 		var hasObj = true;
-		try {
-			var obj = new ActiveXObject( 'ShockwaveFlash.ShockwaveFlash' );
-		} catch ( e ) {
-			hasObj = false;
+		if( typeof ActiveXObject != 'undefined' ){
+			try {
+				var obj = new ActiveXObject( 'ShockwaveFlash.ShockwaveFlash' );
+			} catch ( e ) {
+				hasObj = false;
+			}
+			if( hasObj ){
+				return true;
+			}
 		}
-		if( hasObj ){
-			return false;
-		}
-		// No flash return true if the browser supports html5 video tag with basic support for canPlayType:
-		var dummyvid = document.createElement( "video" );
-		// temporary hack firefox does not work well with native player:
-		if( dummyvid.canPlayType && !$j.browser.mozilla) {
-			return true;
-		}
-		// No video tag or flash, return false ( normal "install flash" user flow )
 		return false;
 	};
-
 	/**
 	 * Similar to php isset function checks if the variable exists. Does a safe
 	 * check of a descendant method or variable

@@ -1,7 +1,7 @@
 /**
-* iFrame api mapping support
-*
-* Client side ( binds a given iFrames to expose the player api )
+* iFrame api mapping support 
+* 
+* Client side ( binds a given iFrames to expose the player api ) 
 */
 mw.IFramePlayerApiClient = function( iframe, playerProxy, options ){
 	return this.init( iframe , playerProxy, options);
@@ -48,11 +48,11 @@ mw.IFramePlayerApiClient.prototype = {
 		//mw.log("IframePlayerApiClient:: hanldeReciveMsg ");
 		// Confirm the event is coming for the target host:
 		if( event.origin != this.iframeServer){
-			mw.log("Skip msg from host does not match iFrame player: " + event.origin +
+			mw.log("Skip msg from host does not match iFrame player: " + event.origin + 
 					' != iframe Server: ' + this.iframeServer )
 			return ;
 		};
-		// Decode the message
+		// Decode the message 
 		var msgObject = JSON.parse( event.data );
 		var playerAttributes = mw.getConfig( 'EmbedPlayer.Attributes' );
 		// Before we update local attributes check that the object has not been updated by user js
@@ -60,7 +60,7 @@ mw.IFramePlayerApiClient.prototype = {
 			if( attrName != 'id' ){
 				if( _this._prevPlayerProxy[ attrName ] != _this.playerProxy[ attrName ] ){
 					mw.log( "IFramePlayerApiClient:: User js update:" + attrName + ' set to: ' + this.playerProxy[ attrName ] + ' != old: ' + _this._prevPlayerProxy[ attrName ] );
-					// Send the updated attribute back to the iframe:
+					// Send the updated attribute back to the iframe: 
 					_this.postMessage({
 						'attrName' : attrName,
 						'attrValue' : _this.playerProxy[ attrName ]
@@ -81,7 +81,7 @@ mw.IFramePlayerApiClient.prototype = {
 				}
 			}
 		}
-		// Trigger any binding events
+		// Trigger any binding events 
 		if( typeof msgObject.triggerName != 'undefined' && msgObject.triggerArgs != 'undefined') {
 			mw.log('IFramePlayerApiClient:: trigger: ' + msgObject.triggerName );
 			$j( _this.playerProxy ).trigger( msgObject.triggerName, msgObject.triggerArgs );
@@ -91,9 +91,9 @@ mw.IFramePlayerApiClient.prototype = {
 	'postMessage': function( msgObj ){
 		mw.log( "IFramePlayerApiClient:: postMessage(): " + JSON.stringify( msgObj ) );
 		$j.postMessage(
-			JSON.stringify( msgObj ),
-			mw.absoluteUrl( $j( this.iframe ).attr('src') ),
-			this.iframe.contentWindow
+			JSON.stringify( msgObj ), 
+			mw.absoluteUrl( $j( this.iframe ).attr('src') ), 
+			this.iframe.contentWindow 
 		);
 	}
 };
@@ -107,7 +107,7 @@ mw.IFramePlayerApiClient.prototype = {
 		// Append '_ifp' ( iframe player ) to id of real iframe so that 'id', and 'src' attributes don't conflict
 		var originalIframeId = ( $( this.selector ).attr( 'id' ) )? $( this.selector ).attr( 'id' ) : Math.floor( 9999999 * Math.random() );
 		var iframePlayerId = originalIframeId + '_ifp' ; // here we use random to generate a unique id
-		// Append the div element proxy after the iframe
+		// Append the div element proxy after the iframe 
 		$j( this.selector )
 			.attr('id', iframePlayerId)
 			.after(

@@ -89,7 +89,7 @@ mw.PlayerControlBuilder.prototype = {
 	},
 
 	/**
-	* Add the controls html to palyer interface
+	* Add the controls html to player interface
 	*/
 	addControls: function() {
 		// Set up local pointer to the embedPlayer
@@ -105,10 +105,15 @@ mw.PlayerControlBuilder.prototype = {
 		_this.displayOptionsMenuFlag = false;
 
 
-		// Setup the controlBar container
+		// Setup the controlBar container ( starts hidden ) 
 		var $controlBar = $j('<div />')
 			.addClass( 'ui-state-default ui-widget-header ui-helper-clearfix control-bar' )
-			.css( 'height', this.height );
+			.css( 'height', this.height )
+
+		// Controls are hidden by default if overlaying controls: 
+		if( _this.checkOverlayControls() ){
+			$controlBar.hide();
+		}
 
 		$controlBar.css( {
 			'position': 'absolute',
@@ -118,10 +123,10 @@ mw.PlayerControlBuilder.prototype = {
 		} );
 
 		// Check for overlay controls:
-		if( ! _this.checkOverlayControls() ) {
+		if( ! _this.checkOverlayControls() && ! embedPlayer.controls === false) {
 			// Add some space to interface for the control bar ( if not overlaying controls )
-			embedPlayer.$interface.css( {
-				'height' : parseInt( embedPlayer.height ) + parseInt( this.height ) +2
+			$j( embedPlayer ).css( {
+				'height' : parseInt( embedPlayer.height ) - parseInt( this.height )
 			} );
 		}
 
@@ -219,7 +224,7 @@ mw.PlayerControlBuilder.prototype = {
 		// Set target width
 		var targetWidth = windowSize.width;
 		var targetHeight = targetWidth * ( embedPlayer.getHeight() / embedPlayer.getWidth() );
-
+		
 		// Check if it exceeds the height constraint:
 		if( targetHeight > windowSize.height ){
 			targetHeight = windowSize.height;
@@ -622,13 +627,9 @@ mw.PlayerControlBuilder.prototype = {
 		// Hide the control bar
 		this.embedPlayer.$interface.find( '.control-bar')
 			.fadeOut( animateDuration );
-
-		// Move the timed text XXX this should go into timedText module
-		this.embedPlayer.$interface.find( '.track' )
-			.stop()
-			.animate( {
-				'bottom' : 10
-			}, 'slow' );
+		mw.log('about to trigger hide control bar')
+		// Allow interface items to update: 
+		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 10} );
 
 	},
 
@@ -643,18 +644,13 @@ mw.PlayerControlBuilder.prototype = {
 			$j( this.embedPlayer.getPlayerElement() ).css( 'z-index', '1' );
 		}
 		mw.log( 'PlayerControlBuilder:: ShowControlBar' );
-		// Move up text track if present
-		this.embedPlayer.$interface.find( '.track' )
-			.animate(
-				{
-					'bottom' : this.getHeight() + 10
-				},
-				animateDuration
-			);
-
+		
 		// Show interface controls
 		this.embedPlayer.$interface.find( '.control-bar' )
 			.fadeIn( animateDuration );
+		
+		// Trigger the screen overlay with layout info: 
+		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 10 } );		
 	},
 
 	/**
@@ -674,18 +670,25 @@ mw.PlayerControlBuilder.prototype = {
 		}
 
 		// If the config is false
-		if( mw.getConfig( 'EmbedPlayer.OverlayControls' ) == false){
+		if( mw.getConfig( 'EmbedPlayer.OverlayControls' ) === false){
 			return false;
 		}
+		// iPad supports overlays but the touch events mean we want the controls displayed all the 
+		// time for now. 
+		if( mw.isIpad() ){
+			return false;
+		}
+		
 
 		// Don't hide controls when content "height" is 0px ( audio tags )
 		if( this.embedPlayer.getPlayerHeight() === 0 &&
-			$j(this.embedPlayer).css('height').indexOf('%') == -1 ){
+			$j(this.embedPlayer).css('height').indexOf('%') === -1 ){
 			return false;
 		}
 		if( this.embedPlayer.controls === false ){
 			return false;
 		}
+		
 		// Past all tests OverlayControls is true:
 		return true;
 	},
