@@ -710,19 +710,13 @@ class FlaggedArticleView {
 		$diffEngine = new DifferenceEngine( $title, $srev->getRevId(), $latest );
 		$diffBody = $diffEngine->getDiffBody();
 		if ( strlen( $diffBody ) > 0 ) {
-			$nEdits = $revsSince - 1; // full diff-to-stable, no need for query
-			if ( $nEdits ) {
-				$nUsers = $title->countAuthorsBetween( $srev->getRevId(), $latest, 101 );
-				$multiNotice = DifferenceEngine::intermediateEditsMsg( $nEdits, $nUsers, 100 );
-			} else {
-				$multiNotice = '';
-			}
+			$n = $revsSince - 1; // this is the full diff-to-stable
 			$items = array();
 			$diffHtml =
 				FlaggedRevsXML::pendingEditNotice( $this->article, $srev, $revsSince ) .
 				' ' . FlaggedRevsXML::diffToggle() .
 				"<div id='mw-fr-stablediff'>" .
-				self::getFormattedDiff( $diffBody, $multiNotice, $leftNote, $rightNote ) .
+				self::getFormattedDiff( $diffBody, $n, $leftNote, $rightNote ) .
 				"</div>\n";
 			$items[] = $diffHtml;
 			$html = "<table class='flaggedrevs_viewnotice plainlinks'>";
@@ -739,12 +733,12 @@ class FlaggedArticleView {
 	}
 
 	// $n number of in-between revs
-	protected static function getFormattedDiff(
-		$diffBody, $multiNotice, $leftStatus, $rightStatus
-	) {
-		if ( $multiNotice != '' ) {
+	protected static function getFormattedDiff( $diffBody, $n, $leftStatus, $rightStatus ) {
+		if ( $n ) {
 			$multiNotice = "<tr><td colspan='4' align='center' class='diff-multi'>" .
-				$multiNotice . "</td></tr>";
+				wfMsgExt( 'diff-multi', array( 'parse' ), $n ) . "</td></tr>";
+		} else {
+			$multiNotice = '';
 		}
 		return
 			"<table border='0' width='98%' cellpadding='0' cellspacing='4' class='diff'>" .
@@ -917,7 +911,7 @@ class FlaggedArticleView {
 						wfMsgExt( 'review-edit-diff', 'parseinline' ) . ' ' .
 						FlaggedRevsXML::diffToggle() .
 						"<div id='mw-fr-stablediff'>" .
-						self::getFormattedDiff( $diffBody, '', $leftNote, $rightNote ) .
+						self::getFormattedDiff( $diffBody, false, $leftNote, $rightNote ) .
 						"</div>\n";
 					$items[] = $diffHtml;
 					$diffEngine->showDiffStyle(); // add CSS
