@@ -101,6 +101,7 @@ class UploadStash {
 	 */
 	public function stashFile( $path, $data = array(), $key = null ) {
 		if ( ! file_exists( $path ) ) {
+			wfDebug( "UploadStash: tried to stash file at '$path', but it doesn't exist\n" );
 			throw new UploadStashBadPathException( "path doesn't exist" );
 		}
                 $fileProps = File::getPropsFromPath( $path );
@@ -184,11 +185,13 @@ class UploadStashFile extends UnregisteredLocalFile {
 		$repoTempPath = $repo->getZonePath( 'temp' );
 		if ( ( ! $repo->validateFilename( $path ) ) || 
 				( strpos( $path, $repoTempPath ) !== 0 ) ) {
+			wfDebug( "UploadStash: tried to construct an UploadStashFile from a file that should already exist at '$path', but path is not valid\n" );
 			throw new UploadStashBadPathException( 'path is not valid' );
 		}
 
 		// check if path exists! and is a plain file.
 		if ( ! $repo->fileExists( $path, FileRepo::FILES_ONLY ) ) {
+			wfDebug( "UploadStash: tried to construct an UploadStashFile from a file that should already exist at '$path', but path is not found\n" );
 			throw new UploadStashFileNotFoundException( 'cannot find path, or not a plain file' );
 		}
 
@@ -365,6 +368,8 @@ class UploadStashFile extends UnregisteredLocalFile {
 
 		// returns a ThumbnailImage object containing the url and path. Note. NOT A FILE OBJECT.
 		$thumb = parent::transform( $params, $flags );
+		wfDebug( "UploadStash: generating thumbnail\n" );
+		wfDebug( print_r( $thumb, 1 ) );
 		$key = $this->thumbName($params);
 
 		// remove extension, so it's stored in the session under '120px-123456'
