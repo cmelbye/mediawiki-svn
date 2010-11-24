@@ -116,6 +116,7 @@ mw.PlayerControlBuilder.prototype = {
 			'left' : '0px',
 			'right' : '0px'
 		} );
+
 		// Check for overlay controls:
 		if( ! _this.checkOverlayControls() ) {
 			// Add some space to interface for the control bar ( if not overlaying controls )
@@ -218,6 +219,7 @@ mw.PlayerControlBuilder.prototype = {
 		// Set target width
 		var targetWidth = windowSize.width;
 		var targetHeight = targetWidth * ( embedPlayer.getHeight() / embedPlayer.getWidth() );
+
 		// Check if it exceeds the height constraint:
 		if( targetHeight > windowSize.height ){
 			targetHeight = windowSize.height;
@@ -1511,7 +1513,7 @@ mw.PlayerControlBuilder.prototype = {
 				return $j( '<div/>' )
 					.attr( {
 						'title'	: gM( 'mwe-embedplayer-play_clip' ),
-						'class'	: "ui-state-default play-btn-large"
+						'class'	: "play-btn-large"
 					} )
 					// Get dynamic position for big play button
 					.css( {
@@ -1519,7 +1521,7 @@ mw.PlayerControlBuilder.prototype = {
 						'top'	: ( ( ctrlObj.embedPlayer.getPlayerHeight() - this.h ) / 2 )
 					} )
 					// Add play hook:
-					.buttonHover().click( function() {
+					.click( function() {
 						 ctrlObj.embedPlayer.play();
 					} );
 			}

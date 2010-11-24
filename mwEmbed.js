@@ -21,7 +21,6 @@
 if ( typeof window.mw == 'undefined' ) {
 	window.mw = { };
 }
-
 /**
  * Set the mwEmbedVersion
  */
@@ -83,6 +82,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		mwConfig[ name ] = value;
 	};
+	
 	/**
 	 * Merge in a configuration value:
 	 */
@@ -793,6 +793,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}
 			return moduleList;
 		},
+
 		/**
 		 * Loads javascript or css associated with a resourceName
 		 *
@@ -1158,7 +1159,20 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		} );
 		return $j( '#mwTempLoaderDialog' );
 	};
-
+	mw.isIphone = function(){
+		return ( navigator.userAgent.indexOf('iPhone') != -1 );
+	};
+	mw.isIpod = function(){
+		return (  navigator.userAgent.indexOf('iPod') != -1 );
+	};
+	mw.isIpad = function(){
+		return ( navigator.userAgent.indexOf('iPad') != -1 );
+	};
+	// Android 2 has some restrictions vs other mobile platforms 
+	mw.isAndroid2 = function(){		
+		return ( navigator.userAgent.indexOf( 'Android 2.') != -1 );
+	};
+	
 	/**
 	 * Fallforward system by default prefers flash.
 	 *
@@ -1210,19 +1224,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 		// No video tag or flash, return false ( normal "install flash" user flow )
 		return false;
-	}
-	mw.isIphone = function(){
-		return ( navigator.userAgent.indexOf('iPhone') != -1 );
-	};
-	mw.isIpod = function(){
-		return (  navigator.userAgent.indexOf('iPod') != -1 );
-	};
-	mw.isIpad = function(){
-		return ( navigator.userAgent.indexOf('iPad') != -1 );
-	};
-	// Android 2 has some restrictions vs other mobile platforms 
-	mw.isAndroid2 = function(){		
-		return ( navigator.userAgent.indexOf( 'Android 2.') != -1 );
 	};
 
 	/**
@@ -2632,6 +2633,11 @@ function doScrollCheck() {
 		setTimeout( doScrollCheck, 1 );
 		return;
 	}
+	mw.domReady();
+}
+// temporary hack to work around dom ready breakage when loading 
+// dynamically with other dom ready scripts
+if( typeof KALTURA_LOADER_REV != 'undefined' ){
 	mw.domReady();
 }
 
