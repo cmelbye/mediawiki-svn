@@ -609,10 +609,6 @@ mw.includeAllModuleMessages();
 			});
 		},
 
-		showMiroSubs: function(){
-
-		},
-
 		/**
 		* Utility function to assist in menu build out:
 		* Get menu line item (li) html: <li><a> msgKey </a></li>
@@ -867,7 +863,7 @@ mw.includeAllModuleMessages();
 			var $playerTarget = this.embedPlayer.$interface;
 			var $textTarget = $playerTarget.find( '.track_' + source.category + ' span' );
 			// If we are missing the target add it:
-			if( $textTarget.length == 0) {
+			if( $textTarget.length == 0 ) {
 				this.addItextDiv( source.category );
 				// Re-grab the textTarget:
 				$textTarget = $playerTarget.find( '.track_' + source.category + ' span' );
@@ -884,8 +880,11 @@ mw.includeAllModuleMessages();
 				}
 				// Update text ( use "html" instead of "text" so that parsers can swap in html for formating
 				$textTarget.html( text );
+				
+				// Update any links to point to 
+				$textTarget.find( 'a' ).attr( 'target', '_new' );
 			}
-			//mw.log( ' len: ' + $textTarget.length + ' ' + $textTarget.html() );
+			// mw.log( ' len: ' + $textTarget.length + ' ' + $textTarget.html() );
 			// Update the prev text:
 			this.prevText[ source.category ] = text;
 		},
