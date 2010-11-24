@@ -159,8 +159,8 @@ class BitmapHandler extends ImageHandler {
 				// a pixel.
 				" -thumbnail " . wfEscapeShellArg( "{$physicalWidth}x{$physicalHeight}!" ) .
 				// Add the source url as a comment to the thumb, but don't add the flag if there's no comment
-				$params['comment'] !== ''
-					? " -set comment " . wfEscapeShellArg( $this->escapeMagickProperty( $params['comment'] ) )
+				$comment !== ''
+					? " -set comment " . wfEscapeShellArg( $this->escapeMagickProperty( $comment ) )
 					: '' .				
 				" -depth 8 $sharpen " .
 				wfEscapeShellArg( $this->escapeMagickOutput( $dstPath ) ) . " 2>&1";
