@@ -192,12 +192,23 @@ class RSSParser {
 		$fetch = $client->execute();
 		$this->client = $client;
 
-		if ( !$fetch->isGood() ) {
-			wfDebug( 'RSS', 'Request Failed: ' . $fetch->getWikiText() );
-			return $fetch;
+		if ( $fetch->isGood() ) {
+			$status = 200;
+		} else {
+			$status = 0;
+			foreach ( $fetch->errors as $error ) {
+				if ( $error['message'] == 'http-bad-status' ) {
+					$status = $error['params'][0];
+					break;
+				}
+			}
+			if ( $status != '304' ) {
+				wfDebug( 'RSS', 'Request Failed: ' . $fetch->getWikiText() );
+				return $fetch;
+			}
 		}
 
-		$ret = $this->responseToXML( $key );
+		$ret = $this->responseToXML( $key, $status );
 		return $ret;
 	}
 
@@ -309,9 +320,9 @@ class RSSParser {
 	 * @param $key String: the key to use to store the parsed response in the cache
 	 * @return parsed RSS object (see RSSParse) or false
 	 */
-	protected function responseToXML( $key ) {
-		wfDebugLog( 'RSS', "Got '" . $this->client->getStatus() . "', updating cache for $key" );
-		if ( $this->client->getStatus() === 304 ) {
+	protected function responseToXML( $key, $status ) {
+		wfDebugLog( 'RSS', "Got $status, updating cache for $key" );
+		if (  $status == '304' ) {
 			# Not modified, update cache
 			wfDebugLog( 'RSS', "Got 304, updating cache for $key" );
 			$this->storeInCache( $key );
