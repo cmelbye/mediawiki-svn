@@ -514,6 +514,7 @@ Vergiss nid, dyni [[Special:Preferences|{{SITENAME}}-Yystellige]] aazpasse.',
 'yourpassword'               => 'Passwort:',
 'yourpasswordagain'          => 'Passwort no mol yygee:',
 'remembermypassword'         => 'Uf däm Computer duurhaft aamälde (Maximal fir $1 {{PLURAL:$1|Tag|Täg}})',
+'securelogin-stick-https'    => 'Noch em Aamälde mit HTTPS verbunde blybe',
 'yourdomainname'             => 'Dyyni Domäne',
 'externaldberror'            => 'Entwäder s lit e Fähler bi dr externe Authentifizierung vor, oder Du derfsch Dyy extern Benutzerkonto nid aktualisiere.',
 'login'                      => 'Aamälde',
@@ -551,6 +552,7 @@ Iberprief d Schrybwys, oder mäld Di as [[Special:UserLogin/signup|neje Benutzer
 'wrongpasswordempty'         => 'Du hesch vergässe dyy Passwort yyzgee. Bitte versuech s nomol.',
 'passwordtooshort'           => 'Passwerter mien zmindescht {{PLURAL:$1|1 Zeiche|$1 Zeiche}} haa.',
 'password-name-match'        => 'Dyy Passwort muess sich vu Dyynem Benutzername unterscheide.',
+'password-too-weak'          => 'D Passwort isch z schwach un cha nit brucht wäre.',
 'mailmypassword'             => 'Es nöis Passwort schicke',
 'passwordremindertitle'      => 'Nei Passwort fir {{SITENAME}}',
 'passwordremindertext'       => 'Ebber mit dr IP-Adress $1 het e nej Passwort fir d Aamäldig bi {{SITENAME}} ($4) aagfordert, wahrschyyns Du sälber.
@@ -593,11 +595,6 @@ Wänn s Benutzerkonto us Versäh aaglait woren isch, chasch die Nochricht ignori
 'login-throttled'            => 'Du hesch z vilmol vergebli versuecht, Di aazmälde. Bitte wart, voreb Du s non emol versuechsch.',
 'loginlanguagelabel'         => 'Sproch: $1',
 'suspicious-userlogout'      => 'Dyy Versuech di abzmälde isch abbroche wore, wel s uusgsäh het, wie wänn s vun eme bschedigte Browser oder eme Cacheproxy uus gsändet woren isch.',
-'ratelimit-excluded-ips'     => ' #<!-- Die Zyyle derf nit gänderet wäre! --> <pre>
-#  Syntax:
-#   * Alles vun eme #-Zeiche bis zum Änd vu dr Zyyle isch e Kommentar
-#   * Jedi nit-lääri Zyyle isch e IP-Adräss, wu vu dr Begränzig uusgnuu isch
- #</pre> <!-- Die Zyyle derf nit gänderet wäre! -->',
 
 # JavaScript password checks
 'password-strength'            => 'Gschätzti Passwortsterki: $1',
@@ -1601,6 +1598,7 @@ Us Sicherheitsgrinde isch img_auth.php deaktiviert.',
 'listfiles_search_for'  => 'Suech noch Datei:',
 'imgfile'               => 'Datei',
 'listfiles'             => 'Lischte vo Bilder',
+'listfiles_thumb'       => 'Vorschaubilder',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Name',
 'listfiles_user'        => 'Benutzer',
@@ -1712,6 +1710,7 @@ Iberprief anderi Gleicher zue dr Vorlage, voreb Du die leschesch.',
 'statistics-edits'             => 'Sytebearbeitige',
 'statistics-edits-average'     => 'Bearbeitige pro Syte im Durchschnitt',
 'statistics-views-total'       => 'Sytenufruef insgsamt',
+'statistics-views-total-desc'  => 'Ufruef vu Syte un Spezialsyte, wu s nit git, wäre nit berucksichtigt',
 'statistics-views-peredit'     => 'Sytenufruef pro Bearbeitig',
 'statistics-users'             => 'Regischtrierti [[Special:ListUsers|Benutzer]]',
 'statistics-users-active'      => 'Aktivi Benutzer',
@@ -1748,6 +1747,8 @@ In jedere Zyylete het s Gleicher zue dr erschte un dr zwote Wyterleitig un s Zii
 'nmembers'                => '$1 {{PLURAL:$1|Syte|Sytene}}',
 'nrevisions'              => '$1 {{PLURAL:$1|Revision|Revisione}}',
 'nviews'                  => '$1 {{PLURAL:$1|Betrachtig|Betrachtige}}',
+'nimagelinks'             => 'Brucht uf $1 {{PLURAL:$1|Syte|Syte}}',
+'ntransclusions'          => 'brucht uf $1 {{PLURAL:$1|Syte|Syte}}',
 'specialpage-empty'       => 'In dr Syte het s no kei aktuälli Yytreg.',
 'lonelypages'             => 'Verwaisti Sytene',
 'lonelypagestext'         => 'Die Syte wäre nit yybunde oder s wird nit uf si verwiise in {{SITENAME}}.',

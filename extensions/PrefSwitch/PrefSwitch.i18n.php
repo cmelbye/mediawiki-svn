@@ -2509,6 +2509,7 @@ $messages['eu'] = array(
 	'prefswitch-survey-question-dislike' => 'Zer ez zenuen ezaugarri berrietan gustuko?',
 	'prefswitch-survey-question-whyoff' => 'Zergatik desaktibatu dituzu ezaugarri berriak?
 Mesedez hautatu nahi dituzun guztiak.',
+	'prefswitch-survey-question-globaloff' => 'Ezaugarri berriak ezgaitu nahi dituzu?',
 	'prefswitch-survey-answer-whyoff-hard' => 'Ezaugarriak oso zailak ziren erabiltzeko.',
 	'prefswitch-survey-answer-whyoff-didntwork' => 'Ezaugarri berriak ez zebitzaten behar bezala.',
 	'prefswitch-survey-answer-whyoff-notpredictable' => 'Ezaugarriek ez zuten ondo funtzionatzen.',
@@ -2520,6 +2521,7 @@ Mesedez hautatu nahi dituzun guztiak.',
 	'prefswitch-survey-answer-browser-other' => 'Beste nabigatzaile bat:',
 	'prefswitch-survey-question-os' => 'Zer sistema eragile erabiltzen duzu?',
 	'prefswitch-survey-answer-os-other' => 'Beste sistema eragile bat:',
+	'prefswitch-survey-answer-globaloff-yes' => 'Bao, wiki guztietan ezaugarri berriak kendu',
 	'prefswitch-survey-question-res' => 'Zein da zure pantailaren erresoluzioa?',
 	'prefswitch-title-on' => 'Ezaugarri berriak',
 	'prefswitch-title-switched-on' => 'Ongi pasa!',
@@ -3257,13 +3259,14 @@ Ass mir no besser chenne wäre, fill bitte di frejwillig Umfrog uus, voreb Du uf
 );
 
 /** Manx (Gaelg)
+ * @author MacTire02
  * @author Shimmin Beg
  */
 $messages['gv'] = array(
-	'prefswitch' => 'Corrag tosheeaght Shalee Yn-ymmydaght',
+	'prefswitch' => 'Corrag hosheeaght Shalee Yn-ymmydaght',
 	'prefswitch-link-anon' => 'Troyn as greieyn noa',
 	'tooltip-pt-prefswitch-link-anon' => 'Geddyn fys bentyn rish troyn noa',
-	'prefswitch-link-on' => 'Cur lesh mee erash',
+	'prefswitch-link-on' => 'Gow mee er-ash',
 	'tooltip-pt-prefswitch-link-on' => 'Lhiettal troyn noa',
 	'prefswitch-link-off' => 'Troyn as greieyn noa',
 	'tooltip-pt-prefswitch-link-off' => 'Prowal troyn as greieyn noa',
@@ -4662,6 +4665,7 @@ Grįžti į <span class="plainlinks">[$1 $2]</span>.',
 );
 
 /** Latvian (Latviešu)
+ * @author Geimeris
  * @author Papuass
  */
 $messages['lv'] = array(
@@ -4673,8 +4677,13 @@ $messages['lv'] = array(
 	'tooltip-pt-prefswitch-link-off' => 'Izmēģini jaunās iespējas',
 	'prefswitch-survey-true' => 'Jā',
 	'prefswitch-survey-false' => 'Nē',
+	'prefswitch-survey-cancel-off' => 'Ja Jūs vēlaties turpināt izmantot jaunās iespējas, Jūs varat atgriezties $1.',
 	'prefswitch-survey-submit-feedback' => 'Nosūtīt atsauksmi',
-	'prefswitch-survey-question-like' => 'Kas tev patika jaunajās iespējās?',
+	'prefswitch-survey-cancel-feedback' => 'Ja Jūs nevēlaties sniegt atsauksmes, Jūs varat atgriezties $1.',
+	'prefswitch-survey-question-like' => 'Kas Jums patika jaunajās iespējās?',
+	'prefswitch-survey-question-dislike' => 'Kas Jums nepatika jaunajās iespējās?',
+	'prefswitch-survey-question-globaloff' => 'Vai Jūs vēlaties, lai jaunās iespējas tiktu izslēgtas visiem Jūsu kontiem?',
+	'prefswitch-survey-answer-whyoff-didntlike-layout' => 'Man nepatika jaunās cilnes un izvietojums.',
 	'prefswitch-survey-answer-whyoff-didntlike-toolbar' => 'Man nepatika jaunā rīkjosla.',
 	'prefswitch-survey-answer-whyoff-other' => 'Cits iemesls:',
 	'prefswitch-survey-question-browser' => 'Kādu pārlūkprogrammu tu izmanto?',
@@ -4690,6 +4699,10 @@ $messages['lv'] = array(
 	'prefswitch-success-feedback' => 'Tavas atsauksmes ir nosūtītas.',
 	'prefswitch-return' => '<hr style="clear:both">
 Atgriezties uz <span class="plainlinks">[$1 $2]</span>.',
+	'prefswitch-main-feedback' => '===Atsauksmes?===
+Mēs gribētu tās no jums dzirdēt. Lūdzu dodieties uz [[$1|atsauksmju lapu]] vai arī, ja Jūs esat ieinteresēts par mūsu nebeidzamajām pūlēm programmatūras uzlabošanā, dodaties uz mūsu "[http://usability.wikimedia.org usability wiki]" papildus informācijai.',
+	'prefswitch-main-anon' => '===Atgriezties atpakaļ===
+[$1 Klikšķiniet šeit, lai izslēgtu jaunās iespējas]. Jums tiks lūgts ieiet vai vispirms izveidot savu kontu.',
 );
 
 /** Minangkabau (Baso Minangkabau)
@@ -7588,6 +7601,7 @@ $messages['tt'] = array(
 );
 
 /** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+ * @author Don Alessandro
  * @author Ильнар
  * @author Рашат Якупов
  */
@@ -7641,14 +7655,14 @@ $messages['tt-cyrl'] = array(
 {| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
 | [[Image:VectorNavigation-tt.png|401px|]]
 |-
-|  Википедия интерфейсының яңа бизәлеше <small>[[Media:VectorNavigation-tt.png|(зурайтырга)]]</small>
+|  Википедия интерфейсының яңа бизәлеше <small>[[Media:VectorNavigation-tt.png|(зурайту)]]</small>
 |}
 |-
 | align=\"center\" |
 {| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
 | [[Image:VectorEditorBasic-tt.png|401px|]]
 |-
-| Бит үзгәрткечнең төп бизәлеше <small>[[Media:VectorEditorBasic-tt.png|(зурайтырга)]]</small>
+| Бит үзгәрткечнең төп бизәлеше <small>[[Media:VectorEditorBasic-tt.png|(зурайту)]]</small>
 |}
 |-
 | align=\"center\" |
@@ -7658,7 +7672,7 @@ $messages['tt-cyrl'] = array(
 | Сылтама ясау өчен диалогның яңа бизәлеше
 |}
 |}
-«Викимедиа Фондында» сәхифәне куллану буенча махсус төркем эшли, төрле илләрдән җыелган волентерлар белән алар Википедия һәм башка вики-проектларны үстерүдә зур өлеш кертәләр. Хәзергесе вакытта без сезгә яңа интерфейс бизәлеше һәм яңа төрле үзгәрткеч тәкъдим итәбез. Бу үзгәртүләр гади кулланучыларның эшен җиңеләйтү өчен кулланыла һәм алдагы елда үткәрелгән [http://usability.wikimedia.org/wiki/Usability,_Experience,_and_Evaluation_Study сорау алуга нигезләнгән]. Яңа бизәлеш һәм уңайлылык «Викимедиа Фонды»  тарафынанбик өстенлекле проект булып тора. Тулырак мәгъләматны [http://blog.wikimedia.org/2010/05/13/a-new-look-for-wikipedia/  Викимедия блогында] карый аласыз.
+«Викимедиа Фондында» сәхифәне куллану буенча махсус төркем эшли, төрле илләрдән җыелган волонтёрлар белән алар Википедия һәм башка вики-проектларны үстерүдә зур өлеш кертәләр. Хәзергесе вакытта без сезгә яңа интерфейс бизәлеше һәм яңа төрле үзгәрткеч тәкъдим итәбез. Бу үзгәртүләр гади кулланучыларның эшен җиңеләйтү өчен кулланыла һәм алдагы елда үткәрелгән [http://usability.wikimedia.org/wiki/Usability,_Experience,_and_Evaluation_Study сорау алуга нигезләнгән]. Яңа бизәлеш һәм уңайлылык «Викимедиа Фонды»  тарафынанбик өстенлекле проект булып тора. Тулырак мәгълүматны [http://blog.wikimedia.org/2010/05/13/a-new-look-for-wikipedia/  Викимедия блогында] карый аласыз.
 
 === Без ниләр үзгәрттек ===
 * '''Навигация.''' Без навигацияне тулысынча үзгәрттек дисәк тә була. Без аны тагын да уңайлырак һәм матуррак эшләдек. Хәзер өстә урнаштырылган кыстыргычлар сезнең ниләр эшләгәнегезне, битне яисә бәхәс битен каравыгызны мы, әллә бөтенләй дә яңа бит ясавыгызны мы тулысынча аңлатып бирә. 
@@ -7686,6 +7700,7 @@ $messages['tt-cyrl'] = array(
 );
 
 /** Tatar (Latin) (Татарча/Tatarça (Latin))
+ * @author Don Alessandro
  * @author Ильнар
  */
 $messages['tt-latn'] = array(
@@ -7694,32 +7709,32 @@ $messages['tt-latn'] = array(
 {| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
 | [[Image:VectorNavigation-tt.png|401px|]]
 |-
-|  Википедия интерфейсының яңа бизәлеше <small>[[Media:VectorNavigation-tt.png|(зурайтырга)]]</small>
+|  Wikipediä interfeysınıñ yaña bizäleşe <small>[[Media:VectorNavigation-tt.png|(zuraytu)]]</small>
 |}
 |-
 | align=\"center\" |
 {| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
 | [[Image:VectorEditorBasic-tt.png|401px|]]
 |-
-| Бит үзгәрткечнең төп бизәлеше <small>[[Media:VectorEditorBasic-tt.png|(зурайтырга)]]</small>
+| Bit üzgärtkeçneñ töp bizäleşe <small>[[Media:VectorEditorBasic-tt.png|(zuraytu)]]</small>
 |}
 |-
 | align=\"center\" |
 {| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
 | [[Image:VectorLinkDialog-tt.png|401px|]]
 |-
-| Сылтама ясау өчен диалогның яңа бизәлеше
+| Sıltama yasaw öçen dialognıñ yaña bizäleşe
 |}
 |}
-«Викимедиа Фондында» сәхифәне куллану буенча махсус төркем эшли, төрле илләрдән җыелган волентерлар белән алар Википедия һәм башка вики-проектларны үстерүдә зур өлеш кертәләр. Хәзергесе вакытта без сезгә яңа интерфейс бизәлеше һәм яңа төрле үзгәрткеч тәкъдим итәбез. Бу үзгәртүләр гади кулланучыларның эшен җиңеләйтү өчен кулланыла һәм алдагы елда үткәрелгән [http://usability.wikimedia.org/wiki/Usability,_Experience,_and_Evaluation_Study сорау алуга нигезләнгән]. Яңа бизәлеш һәм уңайлылык «Викимедиа Фонды»  тарафынанбик өстенлекле проект булып тора. Тулырак мәгъләматны [http://blog.wikimedia.org/2010/05/13/a-new-look-for-wikipedia/  Викимедия блогында] карый аласыз.
+«Wikimedia Fondında» säxifäne qullanu buyınça maxsus törkem eşli, törle illärdän cıyılğan volontyorlar belän alar Wikipediä häm başqa wiki-proyektlarnı üsterüdä zur öleş kertälär. Xäzergese waqıtta bez sezgä yaña interfeys bizäleşe häm yaña törle üzgärtkeç täqdim itäbez. Bu üzgärtülär ğädi qullanuçılarnıñ eşen ciñeläytü öçen qullanıla häm aldağı yılda ütkärelgän [http://usability.wikimedia.org/wiki/Usability,_Experience,_and_Evaluation_Study soraw aluğa nigezlängän]. Yaña bizäleş häm uñaylılıq «Wikimedia Fondı»  tarafınanbik östenlekle proyekt bulıp tora. Tulıraq mäğlümatnı [http://blog.wikimedia.org/2010/05/13/a-new-look-for-wikipedia/  Wikimediä blogında] qarıy alasız.
 
-=== Без ниләр үзгәрттек ===
-* '''Навигация.''' Без навигацияне тулысынча үзгәрттек дисәк тә була. Без аны тагын да уңайлырак һәм матуррак эшләдек. Хәзер өстә урнаштырылган кыстыргычлар сезнең ниләр эшләгәнегезне, битне яисә бәхәс битен каравыгызны мы, әллә бөтенләй дә яңа бит ясавыгызны мы тулысынча аңлатып бирә. 
-* '''Үзгәртү панеле.''' Үзгәртү панелен алмаштыру нәтиҗәсендә битләрне ясау, үзгәртү тагын да тизрк һәм уңайлырак була.
-* '''Сылтама ясагыч.''' Гади сылтама ясау коралы нигезендә эчке, проект эчендә урнашкан вики-битләргә, шулай ук тышкы сәхифәләргә дә ясарга мөмкин.
-* '''Эзләү.''' Без эзләүдә булган ярдәмче хәбәрләрне тулыландыра төштек, болар барсы да сезнең эзләгән битне тизрәк һәм уңайлырак табу өчен эшләнде
-* '''Башка яңа функцияләр.''' Яңа табын ясау коралы сезгә вивда табыннарны ясауны җиңеләйтер дип уйлыйбыз.Шулай ук хатаны эзләү һәм алмаштыру функциясен өстәдек. 
-* '''Логотип.''' Без шарик-пазлның яңа бизәлешен ясадык, тулырак мәгълүмат [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d Викимедия блогында].",
+=== Bez nilär üzgärttek ===
+* '''Nawigatsiä.''' Bez nawigatsiäne tulısınça üzgärttek disäk tä bula. Bez anı tağın da uñaylıraq häm maturraq eşlädek. Xäzer östä urnaştırılğan qıstırğıçlar sezneñ nilär eşlägänegezne, bitne yäisä bäxäs biten qarawığıznı mı, ällä bötenläy dä yaña bit yasawığıznı mı tulısınça añlatıp birä. 
+* '''Üzgärtü panele.''' Üzgärtü panelen almaştıru näticäsendä bitlärne yasaw, üzgärtü tağın da tizrk häm uñaylıraq bula.
+* '''Sıltama yasağıç.''' Ğädi sıltama yasaw qoralı nigezendä eçke, proyekt eçendä urnaşqan wiki-bitlärgä, şulay uq tışqı säxifälärgä dä yasarğa mömkin.
+* '''Ezläw.''' Bez ezläwdä bulğan yärdämçe xäbärlärne tulılandıra töştek, bolar barsı da sezneñ ezlägän bitne tizräk häm uñaylıraq tabu öçen eşlände
+* '''Başqa yaña funksiälär.''' Yaña tabın yasaw qoralı sezgä wiwda tabınnarnı yasawnı ciñeläyter dip uylıybız. Şulay uq xatanı ezläw häm almaştıru funksiäsen östädek. 
+* '''Logotip.''' Bez şarik-pazlnıñ yaña bizäleşen yasadıq, tulıraq mäğlümat [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d Wikimediä blogında].",
 );
 
 /** ئۇيغۇرچە (ئۇيغۇرچە)
@@ -8050,7 +8065,7 @@ Nhóm Trải nghiệm Người dùng của Wikimedia Foundation đã làm việc
 * '''Hướng dẫn tạo liên kết:''' Một công cụ rất dễ sử dụng giúp bạn thêm liên kết đến các trang wiki khác cũng như liên kết ra các trang bên ngoài.
 * '''Cải tiến tìm kiếm:''' Chúng tôi đã cải tiến những gợi ý tìm kiếm để giúp bạn tìm được trang mình muốn nhanh chóng hơn.
 * '''Các tính năng mới khác:''' Chúng tôi cũng đã giới thiệu hướng dẫn tạo bảng để giúp tạo bảng dễ dàng hơn, rồi tính năng tìm kiếm và thay thế để đơn giản hóa việc sửa trang.
-* '''Biểu trưng Wikipedia:''' Chúng tôi đã cập nhật biểu trưng của chúng ta. Đọc thêm chi tiết tại [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d/ blog của Wikimedia Foundation].",
+* '''Biểu trưng Wikipedia:''' Chúng tôi đã cập nhật biểu trưng của chúng ta. Đọc thêm chi tiết tại [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d/ blog của Quỹ Wikimedia].",
 	'prefswitch-main-logged-changes' => "* '''Thẻ {{int:watch}}''' trở thành hình sao.
 * '''Thẻ {{int:move}}''' nằm trong trình đơn bên cạnh hộp tìm kiếm.",
 	'prefswitch-main-feedback' => '===Phản hồi?===

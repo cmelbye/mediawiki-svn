@@ -10,7 +10,7 @@
  */
 
 class SpecialUploadWizard extends SpecialPage {
-
+	// the HTML form without javascript
 	private $simpleForm;
 
 	// $request is the request (usually wgRequest)
@@ -37,7 +37,8 @@ class SpecialUploadWizard extends SpecialPage {
 	 * @param subpage, e.g. the "foo" in Special:UploadWizard/foo. 
 	 */
 	public function execute( $subPage ) {
-		global $wgScriptPath, $wgLang, $wgUser, $wgOut;
+		global $wgLang, $wgUser, $wgOut, $wgExtensionAssetsPath,
+		       $wgUploadWizardDebug, $wgUploadWizardDisableResourceLoader;
 
 		// side effects: if we can't upload, will print error page to wgOut 
 		// and return false
@@ -54,50 +55,30 @@ class SpecialUploadWizard extends SpecialPage {
 		$wgOut->addHTML( '<p class="errorbox">' . wfMsg( 'mwe-upwiz-js-off' ) . '</p>' );
 		$this->simpleForm->show();
 		$wgOut->addHTML('</noscript>');
-	
-			
+
+
+		// global javascript variables	
 		$this->addJsVars( $subPage );
-		if ( $wgResourceLoader ) {
+		
+		// dependencies (css, js)	
+		if ( !$wgUploadWizardDisableResourceLoader && class_exists( 'ResourceLoader' ) ) {
 			$wgOut->addModules( 'ext.uploadWizard' );
 		} else {
-			/* Doing resource loading the old-fashioned way for now until Resource Loader or something becomes the standard.
-			   We anticipate that Resource Loader will be available sometime in late 2010 or early 2011, 
-			   so we define scripts in the hooks that Resource Loader will expect, over in UploadWizardHooks.php.
-			*/
-			$module = UploadWizardHooks::$modules['ext.uploadWizard'];
-
-			// in ResourceLoader, these will probably have names rather than explicit script paths, or be automatically loaded
-			$dependencies = array(
-				"extensions/UploadWizard/resources/jquery.ui/ui/ui.core.js",	
-				'extensions/UploadWizard/resources/jquery.ui/ui/ui.datepicker.js',
-				'extensions/UploadWizard/resources/jquery.ui/ui/ui.progressbar.js'
-			);
-
-			$scripts = array_merge( $dependencies, $module['scripts'] );
-			if ( $wgLanguageCode !== 'en' && isset( $module['languageScripts'][$wgLanguageCode] ) ) {
-				$scripts[] = $module['languageScripts'][$wgLanguageCode];
+			$basepath = "$wgExtensionAssetsPath/UploadWizard";
+			$dependencyLoader = new UploadWizardDependencyLoader( $wgLang->getCode() );
+			if ( $wgUploadWizardDebug ) {
+				// each file as an individual script or style
+				$dependencyLoader->outputHtmlDebug( $wgOut, $basepath );
+			} else {
+				// combined & minified
+				$dependencyLoader->outputHtml( $wgOut, $basepath );
 			}
-			wfDebug( print_r( $scripts, 1 ) );
-			foreach ( $scripts as $script ) {
-				$wgOut->addScriptFile( $wgScriptPath . "/" . $script );
-			}
-
-			// after scripts, get the i18n.php stuff
-			$wgOut->addInlineScript( UploadWizardMessages::getMessagesJs( 'UploadWizard', $wgLang ) );
-	
-			// TODO RTL
-			foreach ( $module['styles'] as $style ) {
-				$wgOut->addStyle( $wgScriptPath . "/" . $style, '', '', 'ltr' );
-			}
-	
 		}
 		
 		// where the uploadwizard will go
 		// TODO import more from UploadWizard's createInterface call.
-		$wgOut->addHTML(
-			'<div id="upload-wizard" class="upload-section"><div class="loadingSpinner"></div></div>'
-		);
-
+		$wgOut->addHTML( self::getWizardHtml() );
+ 	
 	}
 
 	/**
@@ -186,6 +167,90 @@ class SpecialUploadWizard extends SpecialPage {
 		return true;
 	}
 
+	/**
+	 * Return the basic HTML structure for the entire page 
+	 * Will be enhanced by the javascript to actually do stuff
+	 * @return {String} html
+	 */
+	function getWizardHtml() {
+		// TODO loading spinner, hide these by default till enhanced?
+		return
+		  '<div id="upload-wizard" class="upload-section">'
+
+		    // the arrow steps
+		.   '<ul id="mwe-upwiz-steps">'
+		.     '<li id="mwe-upwiz-step-tutorial"><div>' . wfMsg('mwe-upwiz-step-tutorial') . '</div></li>'
+		.     '<li id="mwe-upwiz-step-file"><div>' . wfMsg('mwe-upwiz-step-file') . '</div></li>'
+		.     '<li id="mwe-upwiz-step-deeds"><div>'  . wfMsg('mwe-upwiz-step-deeds')  . '</div></li>'
+		.     '<li id="mwe-upwiz-step-details"><div>'  . wfMsg('mwe-upwiz-step-details')  . '</div></li>'
+		.     '<li id="mwe-upwiz-step-thanks"><div>'   . wfMsg('mwe-upwiz-step-thanks')  .  '</div></li>'
+		.   '</ul>'
+
+		    // the individual steps, all at once
+		.   '<div id="mwe-upwiz-content">'
+
+		.     '<div class="mwe-upwiz-stepdiv" id="mwe-upwiz-stepdiv-tutorial">'
+		.       '<div id="mwe-upwiz-tutorial">' 
+		.  	   UploadWizardTutorial::getHtml()
+		.       '</div>'
+		.       '<div class="mwe-upwiz-buttons">'
+		.          '<button class="mwe-upwiz-button-next" />'
+		.       '</div>'		
+		.     '</div>'
+
+		.     '<div class="mwe-upwiz-stepdiv ui-helper-clearfix" id="mwe-upwiz-stepdiv-file">'
+		.       '<div id="mwe-upwiz-intro">' . wfMsg('mwe-upwiz-intro') . '</div>'
+		.       '<div id="mwe-upwiz-files">'
+		.         '<div id="mwe-upwiz-upload-ctrls" class="mwe-upwiz-file">'
+		.            '<div id="mwe-upwiz-add-file-container" class="mwe-upwiz-add-files-0">'
+		.              '<a id="mwe-upwiz-add-file">' . wfMsg("mwe-upwiz-add-file-0") . '</a>'
+		.  	  '</div>'
+		.         '</div>'
+		.         '<div id="mwe-upwiz-progress" class="ui-helper-clearfix"></div>'
+		.       '</div>'
+		.       '<div class="mwe-upwiz-buttons" style="display: none"/>'
+		.          '<button class="mwe-upwiz-button-next" />'
+		.       '</div>'
+		.     '</div>'
+
+		.     '<div class="mwe-upwiz-stepdiv" id="mwe-upwiz-stepdiv-deeds">'
+		.       '<div id="mwe-upwiz-deeds-intro"></div>'
+		.       '<div id="mwe-upwiz-deeds-thumbnails" class="ui-helper-clearfix"></div>'
+		.       '<div id="mwe-upwiz-deeds" class="ui-helper-clearfix"></div>'
+		.       '<div id="mwe-upwiz-deeds-custom" class="ui-helper-clearfix"></div>'
+		.       '<div class="mwe-upwiz-buttons"/>'
+		.          '<button class="mwe-upwiz-button-next" />'
+		.       '</div>'
+		.     '</div>'
+
+		.     '<div class="mwe-upwiz-stepdiv" id="mwe-upwiz-stepdiv-details">'
+		.       '<div id="mwe-upwiz-macro">'
+		.         '<div id="mwe-upwiz-macro-progress" class="ui-helper-clearfix"></div>'
+		.         '<div id="mwe-upwiz-macro-choice">' 
+		.    	 '<div>' . wfMsg( 'mwe-upwiz-details-intro' ) . '</div>' 
+		.         '</div>'
+		.         '<div id="mwe-upwiz-macro-files"></div>'
+		.       '</div>'
+		.       '<div class="mwe-upwiz-buttons"/>'
+		.          '<button class="mwe-upwiz-button-next" />'
+		.       '</div>'
+		.     '</div>'
+
+		.     '<div class="mwe-upwiz-stepdiv" id="mwe-upwiz-stepdiv-thanks">'
+		.       '<div id="mwe-upwiz-thanks"></div>'
+		.       '<div class="mwe-upwiz-buttons"/>'
+		.          '<button class="mwe-upwiz-button-begin"></button>'
+		.          '<br/><button class="mwe-upwiz-button-home"></button>'
+		.       '</div>'		
+		.     '</div>'
+
+		.   '</div>'
+
+		.   '<div class="mwe-upwiz-clearing"></div>'
+
+		. '</div>';
+	}
+ 
 }
 
 

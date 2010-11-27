@@ -7344,7 +7344,7 @@ Als uw aanvraag is goedgekeurd, krijgt u een e-mail en daarna kunt u zich [[Spec
 	'requestaccount-dup' => "'''Let op: u bent al aangemeld met een geregistreerde gebruikersnaam.'''",
 	'requestaccount-leg-user' => 'Gebruiker',
 	'requestaccount-leg-areas' => 'Interessegebieden',
-	'requestaccount-leg-person' => 'Persoonlijke informatie',
+	'requestaccount-leg-person' => 'Persoonlijke gegevens',
 	'requestaccount-leg-other' => 'Overige informatie',
 	'requestaccount-leg-tos' => 'Gebruiksvoorwaarden',
 	'requestaccount-acc-text' => 'U ontvangt een e-mailbevestiging als uw aanvraag is ontvangen.
@@ -7445,7 +7445,7 @@ Als u deze pagina verlaat zonder het gebruikersaanvraag te bevestigen of af te w
 Wellicht is de aanvraag al afgehandeld.',
 	'confirmaccount-leg-user' => 'Gebruiker',
 	'confirmaccount-leg-areas' => 'Interessegebieden',
-	'confirmaccount-leg-person' => 'Persoonlijke informatie',
+	'confirmaccount-leg-person' => 'Persoonlijke gegevens',
 	'confirmaccount-leg-other' => 'Overige informatie',
 	'confirmaccount-name' => 'Gebruikersnaam',
 	'confirmaccount-real' => 'Naam:',
@@ -7522,7 +7522,7 @@ Er kunnen contacteerlijsten zijn die u kunt gebruiken als u meer wil te weten ko
 	'usercredentials-text' => 'Overzicht van de bevestigde referenties voor de geselecteerde gebruiker:',
 	'usercredentials-leg-user' => 'Gebruiker',
 	'usercredentials-leg-areas' => 'Interessegebieden',
-	'usercredentials-leg-person' => 'Persoonlijke informatie',
+	'usercredentials-leg-person' => 'Persoonlijke gegevens',
 	'usercredentials-leg-other' => 'Overige informatie',
 	'usercredentials-email' => 'E-mail:',
 	'usercredentials-real' => 'Echte naam:',
@@ -9178,6 +9178,7 @@ $messages['roa-tara'] = array(
  * @author Kaganer
  * @author Kv75
  * @author Lockal
+ * @author MaxSem
  * @author Rubin
  * @author Александр Сигачёв
  */
@@ -9254,7 +9255,7 @@ $3
 
 Каждая очередь заявок состоит из трёх частей: открытые заявки; заявки отложенные администраторами до получения дополнительной информации; недавно отклонённые заявки.
 
-Открыв заявку, внимательно просмотрите её, при необходимости, проверьте содержащуюся в ней информацию. Ваши действия будет записаты в журнал. Ожидается, что ваша работа по просмотру и подтверждению заявок будет независима от того, чем вы занимаетесь.",
+Открыв заявку, внимательно просмотрите её, при необходимости, проверьте содержащуюся в ней информацию. Ваши действия будет записаны в журнал. Ожидается, что ваша работа по просмотру и подтверждению заявок будет независима от того, чем вы занимаетесь.",
 	'confirmaccount-list' => 'Ниже приведён список запросов на учётные записи, ожидающие утверждения. После подтверждения заявки, создаётся новая учётная запись, а заявка удаляется из этого списка. Отклонённые заявки просто удаляются из списка.',
 	'confirmaccount-list2' => 'Ниже представлен список недавно отклонённых заявок на учётные записи, через некоторое время заявки автоматически из него удаляются. Вы всё-таки можете утвердить заявку из этого списка, но, вероятно, это требует обсуждения с администратором, отклонившем заявку.',
 	'confirmaccount-list3' => 'Ниже приведён список устаревших запросов на учётные записи, которые могут быть удалены через несколько дней. Запрашиваемые учётные записи всё ещё могут быть утверждены.',

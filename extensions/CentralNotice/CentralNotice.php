@@ -20,6 +20,7 @@ $wgNoticeProjects = array(
 	'commons',
 	'meta',
 	'wikispecies',
+	'test'
 );
 
 // Enable the notice-hosting infrastructure on this wiki...
@@ -133,19 +134,23 @@ function efCentralNoticeSchema( $updater = null ) {
 				$base . '/patches/patch-template_settings.sql' );
 			$wgExtNewTables[] = array( 'cn_notice_countries', 
 				$base . '/patches/patch-notice_countries.sql' );
+			$wgExtNewTables[] = array( 'cn_notice_projects', 
+				$base . '/patches/patch-notice_projects.sql' );
 		}
 	} else {
 		if ( $updater->getDB()->getType() == 'mysql' ) {
 			$updater->addExtensionUpdate( array( 'addTable', 'cn_notices', 
-				$base . '/CentralNotice.sql' ) );
+				$base . '/CentralNotice.sql', true ) );
 			$updater->addExtensionUpdate( array( 'addField', 'cn_notices', 'not_preferred', 
-				$base . '/patches/patch-notice_preferred.sql' ) );
+				$base . '/patches/patch-notice_preferred.sql', true ) );
 			$updater->addExtensionUpdate( array( 'addTable', 'cn_notice_languages', 
-				$base . '/patches/patch-notice_languages.sql' ) );
+				$base . '/patches/patch-notice_languages.sql', true ) );
 			$updater->addExtensionUpdate( array( 'addField', 'cn_templates', 'tmp_display_anon', 
-				$base . '/patches/patch-template_settings.sql' ) );
+				$base . '/patches/patch-template_settings.sql', true ) );
 			$updater->addExtensionUpdate( array( 'addTable', 'cn_notice_countries', 
-				$base . '/patches/patch-notice_countries.sql' ) );
+				$base . '/patches/patch-notice_countries.sql', true ) );
+			$updater->addExtensionUpdate( array( 'addTable', 'cn_notice_projects', 
+				$base . '/patches/patch-notice_projects.sql', true ) );
 		}
 	}
 	return true;

@@ -15,7 +15,7 @@ class CodeStatusListView extends CodeView {
 
 		$table_rows = '';
 		foreach ( $states as $state ) {
-			$link = $this->mSkin->link(
+			$link = $this->skin->link(
 				SpecialPage::getTitleFor( 'Code', $name . "/status/$state" ),
 				wfMsg( "code-status-".$state )
 			);
@@ -23,7 +23,8 @@ class CodeStatusListView extends CodeView {
 				. "<td>" . wfMsg( "code-status-desc-" . $state ) . "</td></tr>\n" ;
 		}
 		$wgOut->addHTML( '<table class="TablePager">'
-			. '<tr><th>toto</th><th>tata</th></tr>'
+			. '<tr><th>' . wfMsg( 'code-field-status' ) . '</th>'
+			. '<th>' . wfMsg( 'code-field-status-description' ) . '</th></tr>'
 			. $table_rows
 			. '</table>'   
 		);

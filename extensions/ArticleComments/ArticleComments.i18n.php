@@ -20,11 +20,11 @@ $messages['en'] = array(
 	'article-comments-submit-button' => 'Submit',
 	'article-comments-leave-comment-link' => 'Leave a comment ...',
 	'article-comments-invalid-field' => 'The $1 provided <nowiki>[$2]</nowiki> is invalid.',
-	'article-comments-required-field' => '$1 field is required.',
+	'article-comments-required-field' => '"$1" field is required.',
 	'article-comments-submission-failed' => 'Comment submission failed',
 	'article-comments-failure-reasons' => 'Sorry, your comment submission failed for the following {{PLURAL:$1|reason|reasons}}:',
 	'article-comments-no-comments' => 'Sorry, the page "[[$1]]" is not accepting comments at this time.',
-	'article-comments-talk-page-starter' => "<noinclude>Comments on [[$1]]\n<comments />\n----- __NOEDITSECTION__</noinclude>\n",
+	'article-comments-talk-page-starter' => "<noinclude>Comments on \"[[$1]]\"\n<comments />\n----- __NOEDITSECTION__</noinclude>\n",
 	'article-comments-commenter-said' => '$1 said ...',
 	'article-comments-summary' => 'Comment provided by $1 - via ArticleComments extension',
 	'article-comments-submission-succeeded' => 'Comment submission succeeded',
@@ -53,8 +53,11 @@ $messages['qqq'] = array(
 	'article-comments-comment-string' => '{{Identical|Comment}}',
 	'article-comments-comment-field' => '{{Identical|Comment}}',
 	'article-comments-submit-button' => '{{Identical|Submit}}',
-	'article-comments-invalid-field' => 'Shown as a list below {{msg-mw|article-comments-failure-reasons}}. With $1 being {{msg-mw|article-comments-title-string}} or {{msg-mw|article-comments-url-string}} messages, and $2 the wrong value.',
-	'article-comments-required-field' => 'Shown as a list below article-comments-failure-reasons. With $1 being one of article-comments-*-string messages.',
+	'article-comments-invalid-field' => 'Shown as a list below {{msg-mw|article-comments-failure-reasons}}. Parameters:
+* $1 is {{msg-mw|article-comments-title-string}} or {{msg-mw|article-comments-url-string}}
+* $2 is the incorrect value.',
+	'article-comments-required-field' => 'Shown as a list below article-comments-failure-reasons. Parameters:
+* $1 being is one of {{msg-mw|article-comments-title-string}}, {{msg-mw|article-comments-name-string}}, {{msg-mw|article-comments-url-string}}, {{msg-mw|article-comments-comment-string}}.',
 	'article-comments-submission-failed' => 'Page title when there are errors in the comment submission',
 	'article-comments-talk-page-starter' => 'Keep the wikisyntax as is.',
 	'article-comments-comment-bad-mode' => '{{doc-important|Do not translate the words "plain", "normal" and "wiki".}}',
@@ -197,7 +200,7 @@ $messages['br'] = array(
 	'article-comments-invalid-field' => 'An $1 roet <nowiki>[$2]</nowiki> zo direizh.',
 	'article-comments-required-field' => 'Rekis eo leuniañ ar vaezienn $1.',
 	'article-comments-submission-failed' => "C'hwitet eo bet kasadenn ar vurutelladenn",
-	'article-comments-failure-reasons' => "Ho tigarez, setu perak n'eus ket bet gallet kas ho purutelladenn :",
+	'article-comments-failure-reasons' => "Ho tigarez, n'eus ket bet gallet kas hoc'h evezhiadenn evit an {{PLURAL:$1|abeg|abegoù}} da-heul :",
 	'article-comments-no-comments' => 'Ho tigarez, n\'haller ket kas burutelladennoù diwar-benn ar pennad "[[$1]]" evit c\'hoazh.',
 	'article-comments-talk-page-starter' => '<noinclude>Evezhiadennoù war [[$1]]
 <comments />
@@ -559,6 +562,7 @@ $messages['he'] = array(
 
 /** Hungarian (Magyar)
  * @author Dani
+ * @author Glanthor Reviol
  */
 $messages['hu'] = array(
 	'article-comments-desc' => 'Megjegyzések szakasz a tartalommal rendelkező lapokra',
@@ -579,7 +583,7 @@ $messages['hu'] = array(
 	'article-comments-talk-page-starter' => '<noinclude>Hozzászólások a(z) [[$1]] laphoz
 <comments />
 ----- __NOEDITSECTION__</noinclude>',
-	'article-comments-commenter-said' => '$1 írta ...',
+	'article-comments-commenter-said' => '$1 írta …',
 	'article-comments-submission-succeeded' => 'A hozzászólás elküldése sikerült',
 	'article-comments-submission-success' => 'Sikeresen hozzászóltál a(z) „[[$1]]” című laphoz',
 	'article-comments-submission-view-all' => '[[$1|A lap összes hozzászólásának]] megtekintése',

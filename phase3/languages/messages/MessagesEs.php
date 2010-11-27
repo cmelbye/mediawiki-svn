@@ -133,6 +133,7 @@ $specialPageAliases = array(
 	'Allpages'                  => array( 'Todas', 'Todas_las_páginas' ),
 	'Prefixindex'               => array( 'PáginasPorPrefijo', 'Páginas_por_prefijo' ),
 	'Ipblocklist'               => array( 'UsuariosBloqueados', 'Lista_de_usuarios_bloqueados' ),
+	'Unblock'                   => array( 'Desbloquear' ),
 	'Specialpages'              => array( 'PáginasEspeciales', 'Páginas_especiales' ),
 	'Contributions'             => array( 'Contribuciones' ),
 	'Emailuser'                 => array( 'MandarEmailUsuario' ),
@@ -177,6 +178,8 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'ContribucionesBorradas', 'Contribuciones_Borradas' ),
 	'Tags'                      => array( 'Etiquetas' ),
 	'Activeusers'               => array( 'UsuariosActivos' ),
+	'RevisionMove'              => array( 'MoverRevision' ),
+	'ComparePages'              => array( 'CompararPáginas' ),
 );
 
 $magicWords = array(
@@ -716,6 +719,7 @@ No olvides personalizar [[Special:Preferences|tus preferencias]].',
 'yourpassword'               => 'Contraseña:',
 'yourpasswordagain'          => 'Repita la contraseña:',
 'remembermypassword'         => 'Mantenerme conectado en este navegador (hasta $1 {{PLURAL:$1|día|días}})',
+'securelogin-stick-https'    => 'Permanecer conectado a HTTPS después de iniciar sesión',
 'yourdomainname'             => 'Dominio',
 'externaldberror'            => 'Hubo un error de autenticación externa de la base de datos o bien no tienes autorización para actualizar tu cuenta externa.',
 'login'                      => 'Entrar',
@@ -754,6 +758,7 @@ Revisa la ortografía, o [[Special:UserLogin/signup|crea una nueva cuenta]].',
 Por favor, inténtalo de nuevo.',
 'passwordtooshort'           => 'Las contraseñas deben tener al menos {{PLURAL:$1|1 caracter|$1 caracteres}}.',
 'password-name-match'        => 'Tu contraseña debe ser diferente de tu nombre de usuario.',
+'password-too-weak'          => 'La contraseña proporcionada es demasiado débil y no puede ser usada.',
 'mailmypassword'             => 'Enviar una nueva contraseña por correo electrónico',
 'passwordremindertitle'      => 'Recordatorio de contraseña de {{SITENAME}}',
 'passwordremindertext'       => 'Alguien (probablemente tú, desde la dirección IP $1) solicitó que te enviáramos una nueva contraseña para tu cuenta en {{SITENAME}} ($4).
@@ -791,11 +796,6 @@ Puedes ignorar este mensaje si esta cuenta fue creada erróneamente.',
 'login-throttled'            => 'Has intentado demasiadas veces iniciar sesión. Por favor espera antes de intentarlo nuevamente.',
 'loginlanguagelabel'         => 'Idioma: $1',
 'suspicious-userlogout'      => 'Su solicitud de desconexión ha sido denegada debido a que parece que ésta ha sido envidada desde un navegador defectuoso o un proxy caché.',
-'ratelimit-excluded-ips'     => ' #<!-- Deja esta línea exactamente como esta --> <pre>
-# La sintaxis es la siguiente:
-#  * Todo desde el carácter "#" hasta el final de la línea es un comentario
-#  * Todo línea no vacía es una dirección IP excluida del límite de frecuencia
- #</pre> <!-- Deja esta línea exactamente como esta -->',
 
 # JavaScript password checks
 'password-strength'            => 'Dificultad estimada de la contraseña: $1',
@@ -1809,6 +1809,7 @@ Un click sobre el encabezamiento de la columna cambia el orden.',
 'listfiles_search_for'  => 'Buscar por nombre de imagen:',
 'imgfile'               => 'archivo',
 'listfiles'             => 'Lista de archivos',
+'listfiles_thumb'       => 'Miniatura',
 'listfiles_date'        => 'Fecha',
 'listfiles_name'        => 'Nombre',
 'listfiles_user'        => 'Usuario',
@@ -1962,6 +1963,8 @@ Las entradas <del>tachadas</del> han sido resueltas.',
 'nmembers'                => '$1 {{PLURAL:$1|artículo|artículos}}',
 'nrevisions'              => '$1 {{PLURAL:$1|revisión|revisiones}}',
 'nviews'                  => '$1 {{PLURAL:$1|vista|vistas}}',
+'nimagelinks'             => 'Usado en {{PLURAL:$1|una página|$1 páginas}}',
+'ntransclusions'          => 'usado en {{PLURAL:$1|una página|$1 páginas}}',
 'specialpage-empty'       => 'Esta página está vacía.',
 'lonelypages'             => 'Páginas huérfanas',
 'lonelypagestext'         => 'Las siguientes páginas no están enlazadas ni transcluídas en otras páginas de {{SITENAME}}.',

@@ -25,7 +25,9 @@ It matches the following blacklist entry: <code>$1</code>',
 It matches the following blacklist entry: <code>$1</code>',
 	'titleblacklist-invalid'          => 'The following {{PLURAL:$1|line|lines}} in the title blacklist {{PLURAL:$1|is|are}} invalid;
 please correct {{PLURAL:$1|it|them}} before saving:',
+	'titleblacklist-override'         => 'Ignore the blacklist',
 	'right-tboverride'                => 'Override the title blacklist',
+	'right-tboverride-account'        => 'Override the username blacklist',
 );
 
 /** Message documentation (Message documentation)
@@ -35,7 +37,9 @@ please correct {{PLURAL:$1|it|them}} before saving:',
  */
 $messages['qqq'] = array(
 	'titleblacklist-desc' => '{{desc}}',
+	'titleblacklist-override' => "Check box label on \"Create account\" form if the user has the user right ''tboverride-account''. If checked, the [[MediaWiki:Titleblacklist]] is ignored during account creation.",
 	'right-tboverride' => '{{doc-right}}',
+	'right-tboverride-account' => '{{doc-right}}',
 );
 
 /** Aragonese (Aragonés)
@@ -126,6 +130,31 @@ por favor {{PLURAL:$1|corríxila|corríxiles}} enantes de guardar:',
 	'right-tboverride' => 'Inorar la llista prieta de títulos',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'titleblacklist-desc' => 'Хәкимдәргә [[MediaWiki:Titleblacklist|ҡара]] һәм [[MediaWiki:Titlewhitelist|аҡ]] исемлек ярҙамында биттәрҙе һәм иҫәп яҙмаларын булдырыуҙы тыйырға мөмкинлек бирә.',
+	'titleblacklist' => '# Был — тыйылған исемдәр исемлеге. Күһәтелгән регуляр аңлатмаларға тап килгән биттәр һәм иҫәп яҙмалары булдырыла алмай.
+# Иҫкәрмәләр өсөн "#" ҡулланығыҙ.
+# Ғәҙәттә ҙур/бәләкәй хәрефкә һиҙгер түгел',
+	'titlewhitelist' => '# Был —исемдәрҙең аҡ исемлеге. Иҫкәрмәләр өсөн "#" ҡулланығыҙ.
+# Ғәҙәттә ҙур/бәләкәй хәрефкә һиҙгер түгел',
+	'titleblacklist-forbidden-edit' => '"$2" исеме булдырыла алмай.
+Ул түбәндәге ҡара исемлек яҙмаһы менән тап килә: <code>$1</code>',
+	'titleblacklist-forbidden-move' => '"$2" "$3" тип үҙгәртелә алмай, сөнки "$3"  исеме булдырыла алмай.
+Ул түбәндәге ҡара исемлек яҙмаһы менән тап килә: <code>$1</code>',
+	'titleblacklist-forbidden-upload' => '"$2" исемле файл булдырыла алмай.
+Ул түбәндәге ҡара исемлек яҙмаһы менән тап килә: <code>$1</code>',
+	'titleblacklist-forbidden-new-account' => '"$2" исемле ҡатнашыусы булдырыла алмай.
+Ул түбәндәге ҡара исемлек яҙмаһы менән тап килә: <code>$1</code>',
+	'titleblacklist-invalid' => 'Ҡара исемлектә түбәндәге {{PLURAL:$1|юл|юлдар}} дөрөҫ түгел;
+зинһар, һаҡлар алдынан {{PLURAL:$1|уны|уларҙы}} төҙәтегеҙ:',
+	'titleblacklist-override' => 'Ҡара исемлекте иғтибарға алмаҫҡа',
+	'right-tboverride' => 'Исемдәр ҡара исемлеген иғтибарға алмау',
+	'right-tboverride-account' => 'Ҡатнашыусы исемдәре ҡара исемлеген иғтибарға алмау',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -208,6 +237,7 @@ $messages['bn'] = array(
 
 /** Breton (Brezhoneg)
  * @author Fulup
+ * @author Gwendal
  * @author Gwenn-Ael
  * @author Y-M D
  */
@@ -228,7 +258,9 @@ Klotañ a ran gant kasadenn da heul ar roll du : <code>$1</code>',
 Klotañ a ran gant kasadenn da heul ar roll du : <code>$1</code>',
 	'titleblacklist-invalid' => 'Direizh eo al {{PLURAL:$1|linenn|linennoù}} da-heul a gaver war roll du an titloù; 
 reizhit {{PLURAL:$1|anezhi|anezho}} a-raok enrollañ :',
+	'titleblacklist-override' => 'Ober van eus al listenn zu',
 	'right-tboverride' => 'Na ober van ouzh roll du an titloù',
+	'right-tboverride-account' => 'Na ober van ouzh roll du an anvioù implijer',
 );
 
 /** Bosnian (Bosanski)
@@ -251,7 +283,9 @@ Nalazi se kao stavka na spisku zabranjenih naslova: <code>$1</code>',
 Ono se nalazi na spisku zabranjenih naslova pod stavkom: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Slijedeći red|Slijedeća $1 reda|Slijedećih $1 redova}} na spisku nepoželjnih naslova {{PLURAL:$1|je nevalidan|su nevalidna|je nevalidno}};
 molimo da {{PLURAL:$1|ga|ih}} ispravite prije spremanja:',
+	'titleblacklist-override' => 'Zanemari crnu listu',
 	'right-tboverride' => 'Zaobilaženje spiska zabranjenih naslova',
+	'right-tboverride-account' => 'Zaobilaženje spiska zabranjenih korisničkih imena',
 );
 
 /** Catalan (Català)
@@ -294,7 +328,9 @@ $messages['cs'] = array(
 	'titleblacklist-forbidden-new-account' => 'Není dovoleno zaregistrovat uživatelské jméno „$2“.
 Odpovídá následující položce černé listiny: <code>$1</code>',
 	'titleblacklist-invalid' => 'Na černé listině názvů {{PLURAL:$1|je následující řádka neplatný regulární výraz|jsou následující řádky neplatné regulární výrazy|jsou následující řádky regulární výrazy}} a je nutné {{PLURAL:$1|ji|je|je}} před uložením stránky opravit :',
+	'titleblacklist-override' => 'Ignorovat černou listinu',
 	'right-tboverride' => 'Potlačení nepovolených názvů stránek',
+	'right-tboverride-account' => 'Překonání černé listiny uživatelských jmen',
 );
 
 /** Danish (Dansk)
@@ -312,6 +348,7 @@ Det svarer til følgende blacklistpost: <code>$1</code>',
  * @author Imre
  * @author Metalhead64
  * @author Raimond Spekking
+ * @author The Evil IP address
  */
 $messages['de'] = array(
 	'titleblacklist-desc' => 'Ermöglicht Administratoren, die Erstellung unerwünschter Seiten- und Benutzernamen zu verhindern: [[MediaWiki:Titleblacklist]] und [[MediaWiki:Titlewhitelist]]',
@@ -327,7 +364,9 @@ $messages['de'] = array(
 	'titleblacklist-forbidden-new-account' => 'Die Registrierung des Benutzernames „$2“ ist nicht erwünscht.
 Folgender Eintrag aus der Liste unerwünschter Benutzernamen führte zur Ablehnung: <code>$1</code>',
 	'titleblacklist-invalid' => 'Die {{PLURAL:$1|folgende Zeile|folgenden Zeilen}} in der Sperrliste {{PLURAL:$1|ist|sind}} ungültig; bitte korrigiere diese vor dem Speichern:',
+	'titleblacklist-override' => 'Schwarze Liste ignorieren',
 	'right-tboverride' => 'Außerkraftsetzen der schwarzen Liste unerwünschter Seitennamen',
+	'right-tboverride-account' => 'Außerkraftsetzen der schwarzen Liste unerwünschter Benutzernamen',
 );
 
 /** German (formal address) (Deutsch (Sie-Form))
@@ -549,7 +588,9 @@ Dans la liste noire, il est détecté par l’entrée suivante : <code>$1</code>
 	'titleblacklist-forbidden-new-account' => 'Le nom d’utilisateur « $2 » a été banni à la création.
 Il correspond à l’entrée suivante de la liste noire : <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|La ligne suivante|Les lignes suivantes}} dans la liste noire des titres {{PLURAL:$1|est invalide. Veuillez la|sont invalides. Veuillez les}} corriger avant de publier.',
+	'titleblacklist-override' => 'Ignorer la liste noire',
 	'right-tboverride' => 'Ignorer la liste noire des titres',
+	'right-tboverride-account' => "Ignorer la liste noire des noms d'utilisateur",
 );
 
 /** Franco-Provençal (Arpetan)
@@ -617,7 +658,9 @@ Coincide coa seguinte entrada da lista negra: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'O nome de usuario "$2" foi protexido fronte á súa creación.
 Coincide coa seguinte entrada da lista negra: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|A seguinte liña|As seguintes liñas}} da lista negra {{PLURAL:$1|é inválida|son inválidas}}; por favor  {{PLURAL:$1|corríxaa|corríxaas}} antes de gardar:',
-	'right-tboverride' => 'Ignorar os títulos da lista negra (blacklist)',
+	'titleblacklist-override' => 'Ignorar a lista negra',
+	'right-tboverride' => 'Ignorar os títulos da lista negra',
+	'right-tboverride-account' => 'Ignorar a lista negra de nomes de usuario',
 );
 
 /** Swiss German (Alemannisch)
@@ -636,10 +679,13 @@ $messages['gsw'] = array(
 	'titleblacklist-forbidden-new-account' => 'D Regischtrierig vum Benutzername „$2“ isch nit gwinscht.
 Dr Name kollidiert mit däm gsperrte Name: <code>$1</code>',
 	'titleblacklist-invalid' => 'Die {{PLURAL:$1|Zyylete|Zyylete}} in dr Sperrlischt {{PLURAL:$1|isch|sin}} nit giltig; bitte korrigier si vor em Spychere:',
+	'titleblacklist-override' => 'Schwarzi Lischt ignoriere',
 	'right-tboverride' => 'Di Schwarz Lischt vu nit gwinschte Sytennäme usser Chraft setze',
+	'right-tboverride-account' => 'Di Schwarz Lischt vu nit gwinschte Benutzernäme usser Chraft setze',
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author Rotem Liss
  */
 $messages['he'] = array(
@@ -659,7 +705,9 @@ $messages['he'] = array(
 הוא מתאים לערך הבא ברשימה השחורה: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|השורה הבאה|השורות הבאות}} ברשימת הכותרות האסורות {{PLURAL:$1|אינה תקינה|אינם תקינים}};
 אנא תקנו {{PLURAL:$1|אותה|אותן}} לפני השמירה:',
+	'titleblacklist-override' => 'התעלם מהרשימה השחורה',
 	'right-tboverride' => 'עקיפת רשימת הכותרות האסורות',
+	'right-tboverride-account' => 'לעקוף את הרשימה השחורה של שמות המשתמשים',
 );
 
 /** Hindi (हिन्दी)
@@ -722,7 +770,9 @@ Kryje so ze slědowacym zaspiskom čorneje lisćiny: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'Wužiwarske mjeno "$2" bu za registrowanje zawrjene.
 Wotpowěduje slědowacemu zapiskej čorneje lisćiny: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Slědowaca linka|Slědowace linki}} w čornej lisćinje titulow {{PLURAL:$1|je njepłaćiwa|su njepłaćiwe}}; prošu skoriguj {{PLURAL:$1|ju|je}} před składowanjom:',
+	'titleblacklist-override' => 'Čornu lisćinu ignorować',
 	'right-tboverride' => 'Płaćiwosć čorneje lisćiny nastawkow zběhnyć',
+	'right-tboverride-account' => 'Płaćiwosć čorneje lisćiny wužiwarskich mjenow zběhnyć',
 );
 
 /** Hungarian (Magyar)
@@ -764,7 +814,9 @@ Illo corresponde al sequente entrata del lista nigre: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'Le creation del nomine de usator "$2" ha essite prohibite.
 Illo corresponde al sequente entrata del lista nigre: <code>$1</code>',
 	'titleblacklist-invalid' => 'Le sequente {{PLURAL:$1|linea|lineas}} in le lista nigre de titulos es invalide; per favor corrige {{PLURAL:$1|lo|los}} ante de publicar:',
+	'titleblacklist-override' => 'Ignorar le lista nigre',
 	'right-tboverride' => 'Ignorar le lista nigre de titulos',
+	'right-tboverride-account' => 'Ignorar le lista nigre de nomines de usator',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -1069,7 +1121,9 @@ $messages['mk'] = array(
 Се совпаѓа со следнава ставка на црниот список: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Следниов ред|Следниве редови}} во црниот список на наслови {{PLURAL:$1|е|се}} неважечки;
 поправете {{PLURAL:$1|го|ги}} пред да зачувате:',
+	'titleblacklist-override' => 'Занемари го црниот список',
 	'right-tboverride' => 'Занемарување на црниот список на наслови',
+	'right-tboverride-account' => 'Потиснување на црниот список на кориснички имиња',
 );
 
 /** Malayalam (മലയാളം)
@@ -1091,7 +1145,9 @@ $messages['ml'] = array(
 കരിമ്പട്ടികയിൽ കൊടുത്തിരിക്കുന്ന ഇനിപ്പറയുന്നതുമായി അതു ഒത്തുപോകുന്നു: <code>$1</code>',
 	'titleblacklist-invalid' => 'കരിമ്പട്ടികയിലെ താഴെ കൊടുത്തിരിക്കുന്ന  {{PLURAL:$1|വരി|വരികൾ}} അസാധുവാണ്.
 ദയവായി {{PLURAL:$1|അത്|അവ}} ശരിയാക്കിയ ശേഷം സേവ് ചെയ്യുക:',
+	'titleblacklist-override' => 'കരിമ്പട്ടിക അവഗണിക്കുക',
 	'right-tboverride' => 'തലക്കെട്ടിന്റെ കരിമ്പട്ടികയെ അതിലംഘിക്കുക',
+	'right-tboverride-account' => 'ഉപയോക്തൃനാമ കരിമ്പട്ടികയെ അതിലംഘിക്കുക',
 );
 
 /** Marathi (मराठी)
@@ -1180,7 +1236,9 @@ $messages['nl'] = array(
 	'titleblacklist-forbidden-upload' => 'Het bestand "$2" kan niet toegevoegd worden. Deze bestandsnaam voldoet aan de volgende beperking op de zwarte lijst: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'De gebruikersnaam "$2" kan niet aangemaakt worden omdat het voldoet aan de volgende beperking op de zwarte lijst: <code>$1</code>',
 	'titleblacklist-invalid' => 'De volgende {{PLURAL:$1|regel|regels}} in de zwarte lijst voor paginanamen {{PLURAL:$1|is|zijn}} ongeldig. Verbeter die {{PLURAL:$1|regel|regels}} alstublieft voordat u de lijst opslaat:',
+	'titleblacklist-override' => 'Zwarte lijst negeren',
 	'right-tboverride' => 'De zwarte lijst voor paginanamen omzeilen',
+	'right-tboverride-account' => 'Zwarte lijst voor gebruikersnamen negeren',
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
@@ -1264,7 +1322,9 @@ Nazwa ta pasuje do wpisu z czarnej listy: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'Utworzenie konta o nazwie „$2” nie jest możliwe.
 Nazwa ta pasuje do wpisu z czarnej listy: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Następująca linia|Następujące linie}} na liście zabronionych tytułów stron {{PLURAL:$1|jest nieprawidłowa|są nieprawidłowe}}. Popraw {{PLURAL:$1|ją|je}} przed zapisaniem:',
+	'titleblacklist-override' => 'Ignoruj czarną listę',
 	'right-tboverride' => 'Nie dotyczą go ograniczenia czarnej listy zabronionych tytułów stron',
+	'right-tboverride-account' => 'Ignorowanie czarnej listy użytkowników',
 );
 
 /** Piedmontese (Piemontèis)
@@ -1287,7 +1347,9 @@ A corispond a costa intrada dla blacklist: <code>$1</code>',
 A corispond a costa intrada dla blacklist: <code>$1</code>',
 	'titleblacklist-invalid' => "{{PLURAL:$1|La linia|Le linie}} sota ant la blacklist dij tìtoj {{PLURAL:$1|a l'é pa bon-a|a son pa bon-e}};
 për piasì {{PLURAL:$1|coregg-la|coregg-je}} prima ëd salvé:",
+	'titleblacklist-override' => 'Ignora la lista nèira',
 	'right-tboverride' => 'Sàuta la blacklist dij tìtoj',
+	'right-tboverride-account' => 'Sàuta la blacklist dij nòm utent',
 );
 
 /** Portuguese (Português)
@@ -1297,23 +1359,29 @@ për piasì {{PLURAL:$1|coregg-la|coregg-je}} prima ëd salvé:",
  * @author Waldir
  */
 $messages['pt'] = array(
-	'titleblacklist-desc' => 'Permite a proibição da criação de páginas e contas de utilizadores com títulos específicos através de uma [[MediaWiki:Titleblacklist|lista negra]] e uma [[MediaWiki:Titlewhitelist|lista de exceções]]',
+	'titleblacklist-desc' => 'Permite que os administradores proibam a criação de páginas e contas de utilizadores através de uma [[MediaWiki:Titleblacklist|lista negra]] e de uma [[MediaWiki:Titlewhitelist|lista de excepções]]',
 	'titleblacklist' => '# Esta é uma lista negra de títulos. Títulos de páginas e nomes de utilizadores que sejam filtrados por uma expressão regular desta lista, não poderão ser criados.
 # Use "#" para comentários.
 # Por omissão, esta lista não distingue maiúsculas de minúsculas',
 	'titlewhitelist' => '# Esta é uma lista branca de títulos. Use "#" para comentários.
 # Por omissão, esta lista não distingue maiúsculas de minúsculas',
-	'titleblacklist-forbidden-edit' => 'O título "$2" foi impedido de ser criado. Ele se encaixa na seguinte entrada da lista negra: <code>$1</code>',
-	'titleblacklist-forbidden-move' => '"$2" não pode ser movida para "$3" já que "$3" é um título impedido de ser criado. Se encaixa na seguinte entrada da lista-negra: <code>$1</code>',
-	'titleblacklist-forbidden-upload' => 'O ficheiro "$2" foi impedido de ser criado. Ele se encaixa na seguinte entrada da lista negra: <code>$1</code>',
-	'titleblacklist-forbidden-new-account' => 'O nome de utilizador "$2" foi banido da criação de utilizadores.
-O nome corresponde à seguinte entrada na lista negra: <code>$1</code>',
+	'titleblacklist-forbidden-edit' => 'Foi bloqueada a criação do título "$2".
+O título corresponde à seguinte entrada da lista negra: <code>$1</code>',
+	'titleblacklist-forbidden-move' => '"$2" não pode ser movida para "$3" já que foi bloqueada a criação do título "$3".
+O título corresponde à seguinte entrada da lista-negra: <code>$1</code>',
+	'titleblacklist-forbidden-upload' => 'Foi bloqueada a criação de ficheiros com o nome "$2".
+O nome corresponde à seguinte entrada da lista negra: <code>$1</code>',
+	'titleblacklist-forbidden-new-account' => 'Foi bloqueada a criação de utilizadores com o nome "$2".
+O nome corresponde à seguinte entrada da lista negra: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|A seguinte linha|As seguintes linhas}} da lista negra {{PLURAL:$1|é inválida|são inválidas}}. Por favor, {{PLURAL:$1|corrija-a|corrija-as}} antes de gravar:',
-	'right-tboverride' => 'Sobrepor a lista negra de títulos',
+	'titleblacklist-override' => 'Ignorar a lista negra',
+	'right-tboverride' => 'Ignorar a lista negra de títulos',
+	'right-tboverride-account' => 'Ignorar a lista negra de nomes de utilizador',
 );
 
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
+ * @author Giro720
  */
 $messages['pt-br'] = array(
 	'titleblacklist-desc' => 'Permite a proibição da criação de páginas e contas de utilizadores com títulos específicos através de uma [[MediaWiki:Titleblacklist|lista negra]] e uma [[MediaWiki:Titlewhitelist|lista de exceções]]',
@@ -1328,7 +1396,9 @@ $messages['pt-br'] = array(
 	'titleblacklist-forbidden-new-account' => 'O nome de utilizador "$2" foi banido da criação de utilizadores.
 O nome corresponde à seguinte entrada na lista negra: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|A seguinte linha|As seguintes linhas}} da lista negra {{PLURAL:$1|é inválida|são inválidas}}. Por gentileza, {{PLURAL:$1|corrija-a|corrija-as}} antes de salvar:',
+	'titleblacklist-override' => 'Ignorar a lista negra.',
 	'right-tboverride' => 'Sobrepor a lista negra de títulos',
+	'right-tboverride-account' => 'Sobrepor a lista negra de nomes de usuários',
 );
 
 /** Romanian (Română)
@@ -1403,7 +1473,9 @@ $messages['ru'] = array(
 	'titleblacklist-forbidden-new-account' => 'Запрещено использовать имя участника «$2».
 Имя соответствует следующей записи из чёрного списка: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Следующая строка|Следующие строки}} в списке запрещённых названий {{PLURAL:$1|не является правильным регулярным выражением|не являются правильными регулярными выражениями}}. Пожалуйста, исправьте {{PLURAL:$1|её|их}} перед сохранением:',
+	'titleblacklist-override' => 'Игнорировать чёрный список',
 	'right-tboverride' => 'игнорирование чёрного списка имён страниц',
+	'right-tboverride-account' => 'игнорирование чёрного списка имён участников',
 );
 
 /** Rusyn (Русиньскый)
@@ -1488,7 +1560,9 @@ Ustreza naslednjemu vnosu na črnem seznamu: <code>$1</code>',
 Ustreza naslednjemu vnosu na črnem seznamu: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Naslednja vrstica|Naslednji vrstici|Naslednje vrstice}} v črnem seznamu naslovov {{PLURAL:$1|je neveljavna|sta neveljavni|so neveljavne}};
 prosimo, popravite {{PLURAL:$1|jo|ju|jih}} pred shranjevanjem:',
+	'titleblacklist-override' => 'Prezri črni seznam',
 	'right-tboverride' => 'Prepisovanje črnega seznama naslovov',
+	'right-tboverride-account' => 'Prepis črnega seznama uporabniških imen',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
@@ -1757,7 +1831,9 @@ Tên này trùng với khoản sau trong danh sách đen: <code>$1</code>',
 	'titleblacklist-forbidden-new-account' => 'Không được tạo ra tài khoản “$2”.
 Nó trùng tên với một khoản mục trong danh sách đen: <code>$1</code>',
 	'titleblacklist-invalid' => '{{PLURAL:$1|Dòng|Những dòng}} sau đây trong danh sách đen về tên trang không hợp lệ; xin hãy sửa chữa {{PLURAL:$1|nó|chúng}} để tuân theo cú pháp biểu thức chính quy trước khi lưu trang:',
+	'titleblacklist-override' => 'Bỏ qua danh sách đen',
 	'right-tboverride' => 'Bỏ qua danh sách các tựa trang bị cấm',
+	'right-tboverride-account' => 'Ghi đè lên danh sách đen tên người dùng',
 );
 
 /** Volapük (Volapük)

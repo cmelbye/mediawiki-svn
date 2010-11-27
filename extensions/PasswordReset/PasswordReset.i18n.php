@@ -1032,6 +1032,21 @@ $messages['li'] = array(
 	'right-passwordreset' => "Wachwaord van 'ne gebroeker obbenuuts insjtèlle ([[Special:PasswordReset|speciaal pagina]])",
 );
 
+/** Latvian (Latviešu)
+ * @author Geimeris
+ */
+$messages['lv'] = array(
+	'passwordreset' => 'Paroles atiestatīšana',
+	'passwordreset-invalidusername' => 'Nederīgs lietotājvārds',
+	'passwordreset-emptyusername' => 'Tukšs lietotājvārda lauciņš',
+	'passwordreset-nopassmatch' => 'Paroles nesakrīt.',
+	'passwordreset-username' => 'Lietotājvārds:',
+	'passwordreset-newpass' => 'Jaunā parole:',
+	'passwordreset-confirmpass' => 'Atkārtota parole:',
+	'passwordreset-submit' => 'Atiestatīt paroli',
+	'passwordreset-success' => 'Parole atiestatīta lietotājam ar ID numuru $1',
+);
+
 /** Eastern Mari (Олык Марий)
  * @author Сай
  */
@@ -1185,7 +1200,7 @@ $messages['nl'] = array(
 	'passwordreset-badtoken' => 'Ongeldig bewerkingstoken',
 	'passwordreset-username' => 'Gebruiker:',
 	'passwordreset-newpass' => 'Nieuw wachtwoord:',
-	'passwordreset-confirmpass' => 'Bevestig wachtwoord:',
+	'passwordreset-confirmpass' => 'Wachtwoord bevestigen:',
 	'passwordreset-submit' => 'Wachtwoord opnieuw instellen',
 	'passwordreset-success' => 'Wachtwoord voor gebruikersnummer $1 is opnieuw ingesteld',
 	'passwordreset-disableuser' => 'Gebruiker deactiveren?',

@@ -85,6 +85,8 @@ abstract class Installer {
 		'envCheckMediaWikiVersion',
 		'envCheckDB',
 		'envCheckRegisterGlobals',
+		'envCheckBrokenXML',
+		'envCheckPHP531',
 		'envCheckMagicQuotes',
 		'envCheckMagicSybase',
 		'envCheckMbstring',
@@ -229,7 +231,7 @@ abstract class Installer {
 		wfRestoreWarnings();
 
 		if( $ls ) {
-			$wgCacheEpoch = $wgCommandLineMode = false;
+			require( "$IP/includes/DefaultSettings.php" );
 			require_once( "$IP/LocalSettings.php" );
 			$vars = get_defined_vars();
 			if( isset( $vars['wgUpgradeKey'] ) && $vars['wgUpgradeKey'] ) {
@@ -335,24 +337,6 @@ abstract class Installer {
 	 *
 	 * @return Status
 	 */
-	public function installDatabase( DatabaseInstaller &$installer ) {
-		if( !$installer ) {
-			$type = $this->getVar( 'wgDBtype' );
-			$status = Status::newFatal( "config-no-db", $type );
-		} else {
-			$status = $installer->setupDatabase();
-		}
-
-		return $status;
-	}
-
-	/**
-	 * TODO: document
-	 *
-	 * @param $installer DatabaseInstaller
-	 *
-	 * @return Status
-	 */
 	public function installTables( DatabaseInstaller &$installer ) {
 		$status = $installer->createTables();
 
@@ -361,17 +345,6 @@ abstract class Installer {
 		}
 		
 		return $status;
-	}
-
-	/**
-	 * TODO: document
-	 *
-	 * @param $installer DatabaseInstaller
-	 *
-	 * @return Status
-	 */
-	public function installInterwiki( DatabaseInstaller &$installer ) {
-		return $installer->populateInterwikiTable();
 	}
 
 	/**
@@ -471,6 +444,30 @@ abstract class Installer {
 	}
 
 	/**
+	 * Some versions of libxml+PHP break < and > encoding horribly
+	 */
+	public function envCheckBrokenXML() {
+		$test = new PhpXmlBugTester();
+		if ( !$test->ok ) {
+			$this->showMessage( 'config-brokenlibxml' );
+			return false;
+		}
+	}
+
+	/**
+	 * Test PHP (probably 5.3.1, but it could regress again) to make sure that
+	 * reference parameters to __call() are not converted to null
+	 */
+	public function envCheckPHP531() {
+		$test = new PhpRefCallBugTester;
+		$test->execute();
+		if ( !$test->ok ) {
+			$this->showMessage( 'config-using531' );
+			return false;
+		}
+	}
+
+	/**
 	 * Environment check for magic_quotes_runtime.
 	 */
 	public function envCheckMagicQuotes() {
@@ -539,6 +536,13 @@ abstract class Installer {
 			$this->showMessage( 'config-pcre' );
 			return false;
 		}
+		wfSuppressWarnings();
+		$regexd = preg_replace( '/[\x{0400}-\x{04FF}]/u', '', '-АБВГД-' );
+		wfRestoreWarnings();
+		if ( $regexd != '--' ) {
+			$this->showMessage( 'config-pcre-no-utf8' );
+			return false;
+		}
 	}
 
 	/**
@@ -597,7 +601,7 @@ abstract class Installer {
 	 */
 	public function envCheckDiff3() {
 		$names = array( "gdiff3", "diff3", "diff3.exe" );
-		$versionInfo = array( '$1 --version 2>&1', 'diff3 (GNU diffutils)' );
+		$versionInfo = array( '$1 --version 2>&1', 'GNU diffutils' );
 
 		$diff3 = $this->locateExecutableInDefaultPaths( $names, $versionInfo );
 
@@ -845,7 +849,7 @@ abstract class Installer {
 	 *
 	 * @return Array
 	 */
-	protected function getPossibleBinPaths() {
+	protected static function getPossibleBinPaths() {
 		return array_merge(
 			array( '/usr/bin', '/usr/local/bin', '/opt/csw/bin',
 				'/usr/gnu/bin', '/usr/sfw/bin', '/sw/bin', '/opt/local/bin' ),
@@ -869,7 +873,7 @@ abstract class Installer {
 	 * If $versionInfo is not false, only executables with a version
 	 * matching $versionInfo[1] will be returned.
 	 */
-	protected function locateExecutable( $path, $names, $versionInfo = false ) {
+	public static function locateExecutable( $path, $names, $versionInfo = false ) {
 		if ( !is_array( $names ) ) {
 			$names = array( $names );
 		}
@@ -890,7 +894,7 @@ abstract class Installer {
 					$command = "\"$command\"";
 				}
 				$file = str_replace( '$1', $command, $versionInfo[0] );
-				if ( strstr( wfShellExec( $file ), $versionInfo[1]) !== false ) {
+				if ( strstr( wfShellExec( $file ), $versionInfo[1] ) !== false ) {
 					return $command;
 				}
 			}
@@ -902,9 +906,9 @@ abstract class Installer {
 	 * Same as locateExecutable(), but checks in getPossibleBinPaths() by default
 	 * @see locateExecutable()
 	 */
-	protected function locateExecutableInDefaultPaths( $names, $versionInfo = false ) {
-		foreach( $this->getPossibleBinPaths() as $path ) {
-			$exe = $this->locateExecutable( $path, $names, $versionInfo );
+	public static function locateExecutableInDefaultPaths( $names, $versionInfo = false ) {
+		foreach( self::getPossibleBinPaths() as $path ) {
+			$exe = self::locateExecutable( $path, $names, $versionInfo );
 			if( $exe !== false ) {
 				return $exe;
 			}

@@ -1461,6 +1461,9 @@ $type: 'normal' or 'history' for old/diff views
 &$link: overridable HTML link to be passed into the message as $1
 &$forContent: overridable flag if copyright footer is shown in content language. 
 
+'SkinGetPoweredBy'
+&$text: additional 'powered by' icons in HTML
+
 'SkinSubPageSubtitle': At the beginning of Skin::subPageSubtitle()
 &$subpages: Subpage links HTML
 $skin: Skin object
@@ -1678,10 +1681,13 @@ You might set the member-variables $uploadFormTextTop and
 $uploadFormTextAfterSummary to inject text (HTML) either before
 or after the editform.
 
-'UploadForm:BeforeProcessing': DEPRECATED! at the beginning of processUpload()
+'UploadForm:BeforeProcessing': at the beginning of processUpload()
 $form: UploadForm object
 Lets you poke at member variables like $mUploadDescription before the
 file is saved.
+Do not use this hook to break upload processing. This will return the user to
+a blank form with no error message; use UploadVerification and 
+UploadVerifyFile instead
 
 'UploadCreateFromRequest': when UploadBase::createFromRequest has been called
 $type: (string) the requested upload type

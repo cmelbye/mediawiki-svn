@@ -39,7 +39,9 @@ $wgExtensionAliasesFiles['UploadWizard'] = $dir . '/UploadWizard.alias.php';
 foreach ( array( 'SpecialUploadWizard', 
 		 'UploadWizardMessages', 
 		 'ApiQueryStashImageInfo',
-		 'UploadWizardHooks' ) as $module ) {
+		 'UploadWizardHooks',
+		 'UploadWizardTutorial',
+		 'UploadWizardDependencyLoader' ) as $module ) {
 	$wgAutoloadLocalClasses[$module] = $dir . "/" . $module . ".php";
 }
 $wgAPIPropModules['stashimageinfo'] = 'ApiQueryStashImageInfo';
@@ -48,10 +50,13 @@ $wgAPIPropModules['stashimageinfo'] = 'ApiQueryStashImageInfo';
 $wgSpecialPages['UploadWizard'] = 'SpecialUploadWizard';
 $wgSpecialPageGroups['UploadWizard'] = 'media';
 
-// JS2?
 $wgResourceLoaderNamedPaths[ 'UploadWizardPage' ] = 'extensions/UploadWizard/UploadWizardPage.js';
 
 // Set up the javascript path for the loader and localization file.
 $wgExtensionJavascriptModules[ 'UploadWizard' ] = 'extensions/UploadWizard';
 
+// Disable ResourceLoader support by default, it's currently broken
+$wgUploadWizardDisableResourceLoader = true;
+
+// for ResourceLoader
 $wgHooks['ResourceLoaderRegisterModules'][] = 'UploadWizardHooks::resourceLoaderRegisterModules';

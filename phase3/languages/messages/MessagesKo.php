@@ -138,7 +138,7 @@ $specialPageAliases = array(
 	'LinkSearch'                => array( '외부링크찾기', '외부링크검색' ),
 	'DeletedContributions'      => array( '삭제된기여' ),
 	'Tags'                      => array( '태그' ),
-	'Activeusers'               => array( '활동중인사용자' ),
+	'Activeusers'               => array( '활동적인사용자', '활동중인사용자' ),
 );
 
 $magicWords = array(
@@ -207,10 +207,12 @@ $magicWords = array(
 	'img_width'             => array( '1', '$1픽셀', '$1px' ),
 	'img_center'            => array( '1', '가운데', 'center', 'centre' ),
 	'img_framed'            => array( '1', '프레임', 'framed', 'enframed', 'frame' ),
+	'img_frameless'         => array( '1', '프레임없음', 'frameless' ),
 	'img_page'              => array( '1', '문서=$1', 'page=$1', 'page $1' ),
 	'img_border'            => array( '1', '테두리', 'border' ),
 	'img_baseline'          => array( '1', '밑줄', 'baseline' ),
-	'img_sub'               => array( '1', '윗첨자', 'sub' ),
+	'img_sub'               => array( '1', '아래첨자', 'sub' ),
+	'img_super'             => array( '1', '위첨자', 'super', 'sup' ),
 	'img_top'               => array( '1', '위', 'top' ),
 	'img_middle'            => array( '1', '중간', 'middle' ),
 	'img_bottom'            => array( '1', '아래', 'bottom' ),
@@ -234,6 +236,7 @@ $magicWords = array(
 	'revisionday'           => array( '1', '판일', 'REVISIONDAY' ),
 	'revisionday2'          => array( '1', '판일2', 'REVISIONDAY2' ),
 	'revisionmonth'         => array( '1', '판월', 'REVISIONMONTH' ),
+	'revisionmonth1'        => array( '1', '판월1', 'REVISIONMONTH1' ),
 	'revisionyear'          => array( '1', '판년', 'REVISIONYEAR' ),
 	'revisiontimestamp'     => array( '1', '판타임스탬프', 'REVISIONTIMESTAMP' ),
 	'revisionuser'          => array( '1', '판사용자', 'REVISIONUSER' ),
@@ -263,6 +266,8 @@ $magicWords = array(
 	'hiddencat'             => array( '1', '__숨은분류__', '__HIDDENCAT__' ),
 	'pagesincategory'       => array( '1', '분류문서수', 'PAGESINCATEGORY', 'PAGESINCAT' ),
 	'pagesize'              => array( '1', '문서크기', 'PAGESIZE' ),
+	'index'                 => array( '1', '__색인__', '__INDEX__' ),
+	'noindex'               => array( '1', '__색인거부__', '__NOINDEX__' ),
 	'numberingroup'         => array( '1', '권한별사용자수', '그룹별사용자수', 'NUMBERINGROUP', 'NUMINGROUP' ),
 	'staticredirect'        => array( '1', '__넘겨주기고정__', '__STATICREDIRECT__' ),
 	'protectionlevel'       => array( '1', '보호수준', 'PROTECTIONLEVEL' ),
@@ -721,6 +726,7 @@ $2',
 다시 시도해 주세요.',
 'passwordtooshort'           => '암호는 적어도 $1자보다 길어야 합니다.',
 'password-name-match'        => '암호는 반드시 사용자 이름과 달라야 합니다.',
+'password-too-weak'          => '암호가 너무 약합니다. 다른 암호를 입력해주세요.',
 'mailmypassword'             => '새 암호를 이메일로 보내기',
 'passwordremindertitle'      => '{{SITENAME}}에서 보내는 새 임시 암호',
 'passwordremindertext'       => 'IP 주소 $1에서 당신에게 {{SITENAME}} ($4)의 새 암호를 보내달라고 요청했습니다.
@@ -754,11 +760,6 @@ $2',
 잠시 후에 다시 시도해주세요.',
 'loginlanguagelabel'         => '언어: $1',
 'suspicious-userlogout'      => '브라우저의 이상이 있거나 캐싱 프록시에서 로그아웃을 요청했기 때문에 로그아웃이 거부되었습니다.',
-'ratelimit-excluded-ips'     => '  #<!-- 이 줄은 그대로 두십시오 --> <pre>
-# 문법은 다음과 같습니다:
-# * "#"로 시작하는 줄은 주석입니다.
-# * 빈 줄이 아닌 줄은 제한 속도의 영향을 받지 않는 IP 주소입니다.
- #</pre> <!-- 이 줄은 그대로 두십시오 -->',
 
 # JavaScript password checks
 'password-strength'            => '예상 비밀 번호 강도: $1',
@@ -1768,6 +1769,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'listfiles_search_for'  => '다음 이름을 가진 미디어 찾기:',
 'imgfile'               => '파일',
 'listfiles'             => '파일 목록',
+'listfiles_thumb'       => '섬네일',
 'listfiles_date'        => '날짜',
 'listfiles_name'        => '이름',
 'listfiles_user'        => '사용자',
@@ -1921,6 +1923,8 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'nmembers'                => '문서 $1개',
 'nrevisions'              => '편집 $1개',
 'nviews'                  => '$1 번 읽음',
+'nimagelinks'             => '{{PLURAL:$1}}개 문서에서 사용 중',
+'ntransclusions'          => '{{PLURAL:$1}}개 문서에서 사용 중',
 'specialpage-empty'       => '명령에 대한 결과가 없습니다.',
 'lonelypages'             => '외톨이 문서 목록',
 'lonelypagestext'         => '{{SITENAME}}에서 다른 모든 문서에서 링크되거나 틀로 포함되지 않은 문서의 목록입니다.',
@@ -3475,5 +3479,9 @@ $1',
 'htmlform-submit'              => '저장',
 'htmlform-reset'               => '변경한 것을 되돌리기',
 'htmlform-selectorother-other' => '기타',
+
+# SQLite database support
+'sqlite-has-fts' => '$1 (본문 전체 검색)',
+'sqlite-no-fts'  => '$1 (본문은 검색에서 제외)',
 
 );

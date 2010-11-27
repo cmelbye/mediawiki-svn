@@ -36,7 +36,7 @@ if ( ! defined( 'Validator_VERSION' ) ) {
 	echo '<b>Warning:</b> You need to have <a href="http://www.mediawiki.org/wiki/Extension:Validator">Validator</a> installed in order to use <a href="http://www.mediawiki.org/wiki/Extension:Maps">Maps</a>.';
 }
 else {
-	define( 'Maps_VERSION', '0.7.2' );
+	define( 'Maps_VERSION', '0.7.3 alpha' );
 
 	// The different coordinate notations.
 	define( 'Maps_COORDS_FLOAT', 'float' );
@@ -113,7 +113,7 @@ else {
 	$wgAutoloadClasses['MapsGeodistance'] 			= $phDir . 'Maps_Geodistance.php';	
 	
 	// To ensure Maps remains compatible with pre 1.16.
-	if ( !array_key_exists( 'Html', $wgAutoloadClasses ) ) {
+	if ( !class_exists( 'Html' ) ) {
 		$wgAutoloadClasses['Html'] = $egMapsDir . 'compat/Html.php';
 	}	
 	
@@ -160,7 +160,6 @@ else {
 function efMapsSetup() {
 	global $wgExtensionCredits, $wgLang, $wgExtraNamespaces, $wgNamespaceAliases;
 	global $egMapsDefaultService, $egMapsAvailableServices;
-	global $egMapsDir, $egMapsUseMinJs;
 
 	// This function has been deprecated in 1.16, but needed for earlier versions.
 	// It's present in 1.16 as a stub, but lets check if it exists in case it gets removed at some point.

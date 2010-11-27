@@ -198,7 +198,7 @@ class Linker {
 
 		$attribs = array_merge(
 			$attribs,
-			$this->linkAttribs( $target, $customAttribs, $options )
+			$this->linkAttribs( $target, $customAttribs, $options, $text )
 		);
 		if ( is_null( $text ) ) {
 			$text = $this->linkText( $target );
@@ -248,7 +248,7 @@ class Linker {
 	/**
 	 * Returns the array of attributes used when linking to the Title $target
 	 */
-	private function linkAttribs( $target, $attribs, $options ) {
+	private function linkAttribs( $target, $attribs, $options, $linkText ) {
 		wfProfileIn( __METHOD__ );
 		global $wgUser;
 		$defaults = array();
@@ -279,12 +279,13 @@ class Linker {
 		}
 
 		# Get a default title attribute.
+		$known = in_array( 'known', $options );
 		if ( $target->getPrefixedText() == '' ) {
 			# A link like [[#Foo]].  This used to mean an empty title
 			# attribute, but that's silly.  Just don't output a title.
-		} elseif ( in_array( 'known', $options ) ) {
+		} elseif ( $known && strtolower($linkText) !== strtolower($target->getPrefixedText() ) ) {
 			$defaults['title'] = $target->getPrefixedText();
-		} else {
+		} elseif ( !$known ) {
 			$defaults['title'] = wfMsg( 'red-link-title', $target->getPrefixedText() );
 		}
 
@@ -324,14 +325,14 @@ class Linker {
 	 * Generate either a normal exists-style link or a stub link, depending
 	 * on the given page size.
 	 *
- 	 * @param $size Integer
- 	 * @param $nt Title object.
- 	 * @param $text String
- 	 * @param $query String
- 	 * @param $trail String
- 	 * @param $prefix String
- 	 * @return string HTML of link
- 	 * @deprecated
+	 * @param $size Integer
+	 * @param $nt Title object.
+	 * @param $text String
+	 * @param $query String
+	 * @param $trail String
+	 * @param $prefix String
+	 * @return string HTML of link
+	 * @deprecated
 	 */
 	function makeSizeLinkObj( $size, $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		global $wgUser;
@@ -427,6 +428,7 @@ class Linker {
 	 *          caption         HTML for image caption.
 	 *          link-url        URL to link to
 	 *          link-title      Title object to link to
+	 *          link-target     Value for the target attribue, only with link-url
 	 *          no-link         Boolean, suppress description link
 	 *
 	 * @param $handlerParams Array: associative array of media handler parameters, to be passed
@@ -551,8 +553,11 @@ class Linker {
 		$mtoParams = array();
 		if ( isset( $frameParams['link-url'] ) && $frameParams['link-url'] !== '' ) {
 			$mtoParams['custom-url-link'] = $frameParams['link-url'];
+			if ( isset( $frameParams['link-target'] ) ) {
+				$mtoParams['custom-target-link'] = $frameParams['link-target'];
+			}
 		} elseif ( isset( $frameParams['link-title'] ) && $frameParams['link-title'] !== '' ) {
-			$mtoParams['custom-title-link'] = $frameParams['link-title'];
+			$mtoParams['custom-title-link'] = $this->normaliseSpecialPage( $frameParams['link-title'] );
 		} elseif ( !empty( $frameParams['no-link'] ) ) {
 			// No link
 		} else {
@@ -1317,7 +1322,7 @@ class Linker {
 	 */
 	function tocLineEnd() {
 		return "</li>\n";
- 	}
+	}
 
 	/**
 	 * Wraps the TOC in a table and provides the hide/collapse javascript.
@@ -1739,7 +1744,7 @@ class Linker {
 	 */
 	function makeLink( $title, $text = '', $query = '', $trail = '' ) {
 		wfProfileIn( __METHOD__ );
-	 	$nt = Title::newFromText( $title );
+		$nt = Title::newFromText( $title );
 		if ( $nt instanceof Title ) {
 			$result = $this->makeLinkObj( $nt, $text, $query, $trail );
 		} else {

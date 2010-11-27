@@ -206,6 +206,7 @@ $1 is a placeholder and will be replaced by content during the rendering process
 	'coll-post_failed_msg' => '* $1 is a URL.
 * $2 is (probably) an explanation of the error.',
 	'coll-empty_collection' => 'Translate "empty" as in "an empty book" (adj), not "empty the book" (verb)',
+	'coll-revision' => '{{Identical|Revision}}',
 	'coll-save_collection' => '',
 	'coll-save_category' => 'Do not change <nowiki>{{MediaWiki:Coll-bookscategory}}</nowiki>. The link and category name should be in the content language.',
 	'coll-yes' => '{{Identical|Yes}}
@@ -1573,6 +1574,7 @@ $messages['ca'] = array(
 	'coll-book_creator_help' => "Vegeu [[{{MediaWiki:Coll-helppage}}|la pàgina d'ajuda dels llibres]] per més informació.",
 	'coll-start_book_creator' => 'Inicia el mode llibre',
 	'coll-book_creator_continue' => 'Continua utilitzant el creador de llibres',
+	'coll-book_creator_disable_text' => "Es desactivarà el ''creador de llibres'' i s'esborrarà el llibre en el que esteu treballant",
 	'coll-book_creator_text_article' => '{{MediaWiki:Coll-helppage}}/Text en mode llibre',
 	'coll-collection' => 'Llibre',
 	'coll-collections' => 'Llibres',
@@ -1680,14 +1682,22 @@ Si us plau, contacteu amb el vostre administrador de MediaWiki.",
 	'coll-hide_info' => 'Amaga informació',
 	'coll-order_info_article' => '{{MediaWiki:Coll-helppage}}/Ordena informacó de PediaPress',
 	'coll-suggest_title' => 'Pàgines suggerides per al vostre llibre',
+	'coll-suggest_intro_text' => "Els suggeriments estan basats en la llista actual de pàgines al llibre.
+La llista s'actualitza cada vegada que feu clic als botons d'afegir o treure.",
 	'coll-suggested_articles' => 'Suggeriments',
 	'coll-suggest_reset_bans' => 'restablir',
+	'coll-suggest_reset_bans_tooltip' => 'Mostra els suggeriments descartats',
 	'coll-suggest_add_selected' => 'Afegeix les pàgines seleccionades',
 	'coll-suggest_ban_selected' => 'Elimina les pàgines seleccionades',
 	'coll-suggest_your_book' => 'El teu llibre',
 	'coll-suggest_show' => 'mostra',
+	'coll-suggest_ban_tooltip' => 'Treu aquesta pàgina de la llista de suggeriments',
+	'coll-suggest_article_ban' => 'La pàgina <strong>$1</strong> ha estat retirada dels suggeriments ($2).',
+	'coll-suggest_article_add' => 'La pàgina <strong>$1</strong> ha estat afegida al llibre ($2).',
+	'coll-suggest_article_remove' => 'La pàgina <strong>$1</strong> ha estat retirada del vostre llibre ($2).',
 	'coll-suggest_undo_tooltip' => "Desfés l'acció",
-	'coll-suggest_undo' => 'desfer',
+	'coll-suggest_undo' => 'desfés',
+	'coll-load_local_book' => 'Feu clic a OK per a continuar el vostre llibre %TITLE% que conté %NUMPAGES% pàgines del wiki. Feu clic a Canceŀla per a esborrar-lo i començar amb un llibre buit.',
 	'right-collectionsaveasuserpage' => "Desa els llibres com a pàgina d'usuari",
 	'right-collectionsaveascommunitypage' => 'Desa els llibres com una pàgina de la comunitat',
 );
@@ -3295,6 +3305,7 @@ Kontakta ezazu, mesedez MediaWiki administratzailea.',
 	'coll-more_info' => 'Informazio gehiago erakutsi',
 	'coll-hide_info' => 'Informazioa ezkutatu',
 	'coll-suggested_articles' => 'Iradokizunak',
+	'coll-suggest_reset_bans' => 'hasieratu',
 	'coll-suggest_add_selected' => 'Gehitu aukeratutako orrialdeak',
 	'coll-suggest_ban_selected' => 'Kendu aukeratutako orrialdeak',
 	'coll-suggest_your_book' => 'Zure liburua',
@@ -6798,7 +6809,7 @@ $messages['mk'] = array(
 <a href="$1">Сепак отцртај.</a></li></ul>',
 	'coll-excluded-templates' => '* Шаблоните во категоријата [[:Category:$1|$1]] се исклучени.',
 	'coll-blacklisted-templates' => '* Шаблоните на црниот список [[:$1]] се исклучени.',
-	'coll-return_to_collection' => '<p>Врати се на <a href="$1">$2</a></p>',
+	'coll-return_to_collection' => '<p>Назад на <a href="$1">$2</a></p>',
 	'coll-book_title' => 'Порачај во печатен облик',
 	'coll-book_text' => 'Порачајте ја книгата во печатен облик од нашиот партнер.',
 	'coll-order_from_pp' => 'Прегледај со $1',
@@ -7511,7 +7522,7 @@ De lijst wordt bijgewerkt als u op de knop 'toevoegen' of 'verwijderen' klikt.",
  */
 $messages['nn'] = array(
 	'coll-desc' => '[[Special:Book|Opprett bøker]]',
-	'coll-book_creator_intro' => '<big>Ved hjelp av bokfunksjonen kan du laga ei bok utgjort av valfrie wikisider. Du kan eksportera boka til ulike format, til dømes PDF eller ODF, eller tinga ein trykt kopi.</big>',
+	'coll-book_creator_intro' => "<big>Med ''bokfunksjonen'' kan du laga ei bok som inneheld wikisider du sjølv vel ut. Du kan eksportera boka til ulike format (til dømes PDF eller ODF) eller tinga ein trykt kopi.</big>",
 	'coll-manage_your_book' => 'Administrér boka di',
 	'coll-book_creator_help' => 'Sjå [[{{MediaWiki:Coll-helppage}}|hjelpesida om bøker]] for meir informasjon.',
 	'coll-start_book_creator' => 'Start bokfunksjonen',
@@ -8400,7 +8411,7 @@ Pretende substituir o livro actual, adicionar-lhe o novo conteúdo ou cancelar o
 	'coll-limit_exceeded_title' => 'Livro demasiado grande',
 	'coll-limit_exceeded_text' => 'O seu livro é demasiado grande.
 Não podem ser adicionadas mais páginas.',
-	'coll-rendering_title' => 'A compor imagem',
+	'coll-rendering_title' => 'A compor ficheiro',
 	'coll-rendering_text' => '<p><strong>Por favor, aguarde enquanto o documento é gerado.</strong></p>
 
 <p><strong>Progresso:</strong> <span id="renderingProgress">$1</span>% <span id="renderingStatus">$2</span></p>
@@ -8412,7 +8423,7 @@ Se não o fizer, por favor use o botão "actualizar" ("refresh") do seu browser.
 	'coll-rendering_page' => '(página: $1)',
 	'coll-rendering_page_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre composição de páginas',
 	'coll-rendering_collection_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre composição de colecções',
-	'coll-rendering_finished_title' => 'Composição da imagem concluída',
+	'coll-rendering_finished_title' => 'Composição do ficheiro concluída',
 	'coll-rendering_finished_text' => '<strong>O ficheiro foi gerado.</strong>
 <strong>[$1 Transfira o ficheiro]</strong> para o seu computador.
 

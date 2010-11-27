@@ -565,7 +565,7 @@ Jaribu tena.',
 'wrongpasswordempty'         => 'Neno la siri lilikuwa tupu. Jaribu tena.',
 'passwordtooshort'           => 'Ni lazima neno la siri liwe na {{PLURAL:$1|herufi}} $1 au zaidi.',
 'password-name-match'        => 'Neno lako la siri lazima liwe tofauti na jina lako la mtumiaji.',
-'password-too-weak'          => 'Neno la siri lililopewa halina nguvu ya kutosha, kwa hiyo haliwezi kutumiwa.',
+'password-too-weak'          => 'Neno la siri lililopewa ni dhaifu mno na haliwezi kutumika.',
 'mailmypassword'             => 'Nitume neno la siri jipya kwa barua-pepe',
 'passwordremindertitle'      => 'Neno la siri jipya la muda kwa ajili ya {{SITENAME}}',
 'passwordremindertext'       => 'Mtu mmoja (yamkini wewe, kutoka anwani ya IP $1)
@@ -1005,7 +1005,7 @@ Tazama [[Special:IPBlockList|orodha ya uzuio wa IP]] kuona orodha ya zuio zilizo
 'compareselectedversions'  => 'Linganisha mapitio mawili uliyochagua',
 'showhideselectedversions' => 'Onyesha/ficha mapitio yaliyoteuliwa',
 'editundo'                 => 'tengua',
-'diff-multi'               => '(Haionyeshwi {{PLURAL:$1|pitio moja la katikati|mapitio $1 ya katikati}}.)',
+'diff-multi'               => '(Haionyeshwi {{PLURAL:$1|pitio moja la katikati lililoandikwa|mapitio $1 ya katikati yaliyoandikwa}} na {{PLURAL:$2|mtumiaji moja|watumiaji $2}})',
 
 # Search results
 'searchresults'                    => 'Matokeo ya utafutaji',

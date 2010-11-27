@@ -722,11 +722,6 @@ Możesz zignorować tę wiadomość, jeśli konto zostało utworzone przez pomy�
 Odczekaj chwilę zanim ponowisz próbę.',
 'loginlanguagelabel'         => 'Język: $1',
 'suspicious-userlogout'      => 'Żądanie wylogowania zostało odrzucone ponieważ wygląda na to, że zostało wysłane przez uszkodzoną przeglądarkę lub buforujący serwer proxy.',
-'ratelimit-excluded-ips'     => ' #<!-- nie modyfikuj tej linii --> <pre>
-# Składnia jest następująca:
-# * Wszystko od znaku „#” do końca linii uznawane jest za komentarz
-# * Każda niepusta linia, zawiera adres IP wyłączony z ograniczenia przepustowości
- #</pre> <!-- nie modyfikuj tej linii -->',
 
 # JavaScript password checks
 'password-strength'            => 'Szacowane bezpieczeństwo hasła – $1',
@@ -1882,6 +1877,7 @@ Sprawdź inne linki do szablonów, zanim usuniesz tę stronę.',
 'statistics-edits'             => 'Edycje wykonane od powstania {{GRAMMAR:D.lp|{{SITENAME}}}}',
 'statistics-edits-average'     => 'Średnia liczba edycji na stronę',
 'statistics-views-total'       => 'Całkowita liczba odwiedzin',
+'statistics-views-total-desc'  => 'Odsłony stron nieistniejących oraz specjalnych nie zostały uwzględnione.',
 'statistics-views-peredit'     => 'Liczba odwiedzin na edycję',
 'statistics-users'             => 'Zarejestrowanych [[Special:ListUsers|użytkowników]]',
 'statistics-users-active'      => 'Aktywnych użytkowników',

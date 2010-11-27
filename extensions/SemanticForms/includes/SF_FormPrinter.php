@@ -39,34 +39,34 @@ class SFFormPrinter {
       $date_type = $datatypeLabels['_dat'];
       $enum_type = 'enumeration'; // not a real type
       $page_type = $datatypeLabels['_wpg'];
-      $this->setSemanticTypeHook( $string_type, false, array( 'SFFormInputs', 'textEntryHTML' ), array( 'field_type' => 'string' ) );
-      $this->setSemanticTypeHook( $string_type, true, array( 'SFFormInputs', 'textEntryHTML' ), array( 'field_type' => 'string', 'is_list' => 'true', 'size' => '100' ) );
-      $this->setSemanticTypeHook( $text_type, false, array( 'SFFormInputs', 'textAreaHTML' ), array() );
-      $this->setSemanticTypeHook( $code_type, false, array( 'SFFormInputs', 'textAreaHTML' ), array() );
-      $this->setSemanticTypeHook( $url_type, false, array( 'SFFormInputs', 'textEntryHTML' ), array( 'field_type' => 'URL' ) );
-      $this->setSemanticTypeHook( $email_type, false, array( 'SFFormInputs', 'textEntryHTML' ), array( 'field_type' => 'email' ) );
-      $this->setSemanticTypeHook( $number_type, false, array( 'SFFormInputs', 'textEntryHTML' ), array( 'field_type' => 'number' ) );
-      $this->setSemanticTypeHook( $bool_type, false, array( 'SFFormInputs', 'checkboxHTML' ), array() );
-      $this->setSemanticTypeHook( $date_type, false, array( 'SFFormInputs', 'dateEntryHTML' ), array() );
-      $this->setSemanticTypeHook( $enum_type, false, array( 'SFFormInputs', 'dropdownHTML' ), array() );
-      $this->setSemanticTypeHook( $enum_type, true, array( 'SFFormInputs', 'checkboxesHTML' ), array() );
-      $this->setSemanticTypeHook( $page_type, false, array( 'SFFormInputs', 'textInputWithAutocompleteHTML' ), array( 'field_type' => 'page' ) );
-      $this->setSemanticTypeHook( $page_type, true, array( 'SFFormInputs', 'textInputWithAutocompleteHTML' ), array( 'field_type' => 'page', 'size' => '100', 'is_list' => 'true' ) );
+      $this->setSemanticTypeHook( $string_type, false, array( 'SFTextInput', 'getText' ), array( 'field_type' => 'string' ) );
+      $this->setSemanticTypeHook( $string_type, true, array( 'SFTextInput', 'getText' ), array( 'field_type' => 'string', 'is_list' => 'true', 'size' => '100' ) );
+      $this->setSemanticTypeHook( $text_type, false, array( 'SFTextAreaInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $code_type, false, array( 'SFTextAreaInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $url_type, false, array( 'SFTextInput', 'getText' ), array( 'field_type' => 'URL' ) );
+      $this->setSemanticTypeHook( $email_type, false, array( 'SFTextInput', 'getText' ), array( 'field_type' => 'email' ) );
+      $this->setSemanticTypeHook( $number_type, false, array( 'SFTextInput', 'getText' ), array( 'field_type' => 'number' ) );
+      $this->setSemanticTypeHook( $bool_type, false, array( 'SFCheckboxInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $date_type, false, array( 'SFDateInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $enum_type, false, array( 'SFDropdownInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $enum_type, true, array( 'SFCheckboxesInput', 'getText' ), array() );
+      $this->setSemanticTypeHook( $page_type, false, array( 'SFTextWithAutocompleteInput', 'getText' ), array( 'field_type' => 'page' ) );
+      $this->setSemanticTypeHook( $page_type, true, array( 'SFTextWithAutocompleteInput', 'getText' ), array( 'field_type' => 'page', 'size' => '100', 'is_list' => 'true' ) );
     }
     $this->mInputTypeHooks = array();
-    $this->setInputTypeHook( 'text', array( 'SFFormInputs', 'textEntryHTML' ), array() );
-    $this->setInputTypeHook( 'textarea', array( 'SFFormInputs', 'textAreaHTML' ), array() );
-    $this->setInputTypeHook( 'date', array( 'SFFormInputs', 'dateEntryHTML' ), array() );
-    $this->setInputTypeHook( 'datetime', array( 'SFFormInputs', 'dateTimeEntryHTML' ), array( 'include_timezone' => false ) );
-    $this->setInputTypeHook( 'datetime with timezone', array( 'SFFormInputs', 'dateTimeEntryHTML' ), array( 'include_timezone' => true ) );
-    $this->setInputTypeHook( 'year', array( 'SFFormInputs', 'textEntryHTML' ), array( 'size' => 4 ) );
-    $this->setInputTypeHook( 'checkbox', array( 'SFFormInputs', 'checkboxHTML' ), array() );
-    $this->setInputTypeHook( 'radiobutton', array( 'SFFormInputs', 'radioButtonHTML' ), array() );
-    $this->setInputTypeHook( 'checkboxes', array( 'SFFormInputs', 'checkboxesHTML' ), array() );
-    $this->setInputTypeHook( 'listbox', array( 'SFFormInputs', 'listboxHTML' ), array() );
-    $this->setInputTypeHook( 'combobox', array( 'SFFormInputs', 'comboboxHTML' ), array() );
-    $this->setInputTypeHook( 'category', array( 'SFFormInputs', 'categoryHTML' ), array() );
-    $this->setInputTypeHook( 'categories', array( 'SFFormInputs', 'categoriesHTML' ), array() );
+    $this->setInputTypeHook( 'text', array( 'SFTextInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'textarea', array( 'SFTextAreaInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'date', array( 'SFDateInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'datetime', array( 'SFDateTimeInput', 'getText' ), array( 'include_timezone' => false ) );
+    $this->setInputTypeHook( 'datetime with timezone', array( 'SFDateTimeInput', 'getText' ), array( 'include_timezone' => true ) );
+    $this->setInputTypeHook( 'year', array( 'SFTextInput', 'getText' ), array( 'size' => 4 ) );
+    $this->setInputTypeHook( 'checkbox', array( 'SFCheckboxInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'radiobutton', array( 'SFRadioButtonInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'checkboxes', array( 'SFCheckboxesInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'listbox', array( 'SFListBoxInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'combobox', array( 'SFComboBoxInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'category', array( 'SFCategoryInput', 'getText' ), array() );
+    $this->setInputTypeHook( 'categories', array( 'SFCategoriesInput', 'getText' ), array() );
 
     // initialize other variables
     $this->standardInputsIncluded = false;
@@ -573,6 +573,8 @@ class SFFormPrinter {
                   // html_entity_decode() is needed to turn '&gt;' to '>'
                   $vals = explode( ';', html_entity_decode( $sub_components[1] ) );
                   foreach ( $vals as $val ) {
+                    $val = trim( $val );
+                    if ( empty( $val ) ) continue;
                     $option_div_pair = explode( '=>', $val, 2 );
                     if ( count( $option_div_pair ) > 1 ) {
                       $option = $option_div_pair[0];
@@ -699,7 +701,12 @@ class SFFormPrinter {
                 $field_args['cols'] = 80;
               $sfgTabIndex++;
               $sfgFieldNum++;
-              list( $new_text, $new_javascript_text ) = SFFormInputs::textAreaHTML( '!free_text!', 'free_text', false, ( $form_is_disabled || $is_restricted ), $field_args );
+              if ( $cur_value == '' ) {
+                $default_value = '!free_text!';
+              } else {
+                $default_value = $cur_value;
+              }
+              list( $new_text, $new_javascript_text ) = SFTextAreaInput::getText( $default_value, 'free_text', false, ( $form_is_disabled || $is_restricted ), $field_args );
               if ( in_array( 'edittools', $free_text_components ) ) {
                 // borrowed from EditPage::showEditTools()
                 $options[] = 'parse';
@@ -1070,23 +1077,23 @@ END;
             if ( $tag == 'create title' || $tag == 'add title' ) {
               // handle this only if we're adding a page
               if ( ! $this->mPageTitle->exists() ) {
-                $val = $sub_components[1];
-                $form_page_title = $val;
+                $form_page_title = $sub_components[1];
               }
-            }
-            elseif ( $tag == 'edit title' ) {
+            } elseif ( $tag == 'edit title' ) {
               // handle this only if we're editing a page
               if ( $this->mPageTitle->exists() ) {
-                $val = $sub_components[1];
-                $form_page_title = $val;
+                $form_page_title = $sub_components[1];
               }
-            }
-            elseif ( $tag == 'partial form' ) {
+            } elseif ( $tag == 'query title' ) {
+              // handle this only if we're in 'RunQuery'
+              if ( $is_query ) {
+                $form_page_title = $sub_components[1];
+              }
+            } elseif ( $tag == 'partial form' ) {
               $form_is_partial = true;
               // replacement pages may have minimal matches...
               $source_page_matches_this_form = true;
-            }
-            elseif ( $tag == 'includeonly free text' || $tag == 'onlyinclude free text' ) {
+            } elseif ( $tag == 'includeonly free text' || $tag == 'onlyinclude free text' ) {
               $onlyinclude_free_text = true;
             }
           }
@@ -1343,7 +1350,7 @@ END;
           if ( ! array_key_exists( 'size', $other_args ) )
             $other_args['size'] = 100;
         }
-        list( $text, $javascript_text ) = SFFormInputs::textEntryHTML( $cur_value, $form_field->input_name, $form_field->is_mandatory, $form_field->is_disabled, $other_args );
+        list( $text, $javascript_text ) = SFTextInput::getText( $cur_value, $form_field->input_name, $form_field->is_mandatory, $form_field->is_disabled, $other_args );
       }
     }
     return array( $text, $javascript_text );

@@ -309,14 +309,7 @@ class DbTestRecorder extends DbTestPreviewer  {
 			or ! $this->db->tableExists( 'testitem' ) )
 		{
 			print "WARNING> `testrun` table not found in database. Trying to create table.\n";
-			if ( $wgDBtype === 'postgres' ) {
-				$this->db->sourceFile( dirname( __FILE__ ) . '/testRunner.postgres.sql' );
-			} elseif ( $wgDBtype === 'oracle' ) {
-				$this->db->sourceFile( dirname( __FILE__ ) . '/testRunner.ora.sql' );
-			} else {
-				$this->db->sourceFile( dirname( __FILE__ ) . '/testRunner.sql' );
-			}
-
+			$this->db->sourceFile( $this->db->patchPath( 'patch-testrun.sql' ) );
 			echo "OK, resuming.\n";
 		}
 
@@ -453,13 +446,13 @@ class RemoteTestRecorder extends TestRecorder {
 class TestFileIterator implements Iterator {
 	private $file;
 	private $fh;
-	private $parser;
+	private $parserTest; /* An instance of ParserTest (parserTests.php) or MediaWikiParserTest (phpunit) */
 	private $index = 0;
 	private $test;
 	private $lineNum;
 	private $eof;
 
-	function __construct( $file, $parser = null ) {
+	function __construct( $file, $parserTest = null ) {
 		global $IP;
 
 		$this->file = $file;
@@ -469,17 +462,13 @@ class TestFileIterator implements Iterator {
 			wfDie( "Couldn't open file '$file'\n" );
 		}
 
-		$this->parser = $parser;
+		$this->parserTest = $parserTest;
 
-		if ( $this->parser ) {
-			$this->parser->showRunFile( wfRelativePath( $this->file, $IP ) );
+		if ( $this->parserTest ) {
+			$this->parserTest->showRunFile( wfRelativePath( $this->file, $IP ) );
 		}
 
 		$this->lineNum = $this->index = 0;
-	}
-
-	function setParser( MediaWikiParserTest $parser ) {
-		$this->parser = $parser;
 	}
 
 	function rewind() {
@@ -536,10 +525,11 @@ class TestFileIterator implements Iterator {
 						wfDie( "'endarticle' without 'article' at line {$this->lineNum} of $this->file\n" );
 					}
 
-					$title = Title::newFromText( ParserTest::chomp( $data['article'] ) );
-					$aid = $title->getArticleID( Title::GAID_FOR_UPDATE );
-					if ( $aid == 0 )
+					if ( $this->parserTest ) {
+						$this->parserTest->addArticle( ParserTest::chomp( $data['article'] ), $data['text'], $this->lineNum );
+					} else {wfDie("JAJA");
 						ParserTest::addArticle( $data['article'], $data['text'], $this->lineNum );
+					}
 					$data = array();
 					$section = null;
 
@@ -555,7 +545,7 @@ class TestFileIterator implements Iterator {
 						$line = trim( $line );
 
 						if ( $line ) {
-							if ( $this->parser && !$this->parser->requireHook( $line ) ) {
+							if ( $this->parserTest && !$this->parserTest->requireHook( $line ) ) {
 								return false;
 							}
 						}
@@ -576,7 +566,7 @@ class TestFileIterator implements Iterator {
 						$line = trim( $line );
 
 						if ( $line ) {
-							if ( $this->parser && !$this->parser->requireFunctionHook( $line ) ) {
+							if ( $this->parserTest && !$this->parserTest->requireFunctionHook( $line ) ) {
 								return false;
 							}
 						}
@@ -608,9 +598,9 @@ class TestFileIterator implements Iterator {
 					if ( !isset( $data['config'] ) )
 						$data['config'] = '';
 
-					if ( $this->parser
-						 && ( ( preg_match( '/\\bdisabled\\b/i', $data['options'] ) && !$this->parser->runDisabled )
-							 || !preg_match( "/" . $this->parser->regex . "/i", $data['test'] ) )  ) {
+					if ( $this->parserTest
+						 && ( ( preg_match( '/\\bdisabled\\b/i', $data['options'] ) && !$this->parserTest->runDisabled )
+							 || !preg_match( "/" . $this->parserTest->regex . "/i", $data['test'] ) )  ) {
 						# disabled test
 						$data = array();
 						$section = null;
@@ -620,7 +610,7 @@ class TestFileIterator implements Iterator {
 
 					global $wgUseTeX;
 
-					if ( $this->parser &&
+					if ( $this->parserTest &&
 						 preg_match( '/\\bmath\\b/i', $data['options'] ) && !$wgUseTeX ) {
 						# don't run math tests if $wgUseTeX is set to false in LocalSettings
 						$data = array();
@@ -629,7 +619,7 @@ class TestFileIterator implements Iterator {
 						continue;
 					}
 
-					if ( $this->parser ) {
+					if ( $this->parserTest ) {
 						$this->test = array(
 							'test' => ParserTest::chomp( $data['test'] ),
 							'input' => ParserTest::chomp( $data['input'] ),

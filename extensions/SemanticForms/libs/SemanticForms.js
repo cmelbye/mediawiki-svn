@@ -214,6 +214,7 @@ function sf_autocomplete(input_name, container_name, values, api_url, data_type,
 function showIfSelected(input_id, options_array, div_id) {
 	the_input = document.getElementById(input_id);
 	the_div = document.getElementById(div_id);
+	if ( the_div == null ) { return; }
         for (var i in options_array) {
 		if (the_input.value == options_array[i]) {
 			the_div.style.display = ''; // return to default
@@ -249,6 +250,7 @@ function showIfSelectedInListBox(input_id, options_array, div_id) {
 // checked - otherwise, hide it
 function showIfChecked(checkbox_inputs, div_id) {
 	the_div = document.getElementById(div_id);
+	if ( the_div == null ) { return; }
         for (var i in checkbox_inputs) {
 		checkbox = document.getElementById(checkbox_inputs[i]);
 		if (checkbox != null && checkbox.checked) {
@@ -265,11 +267,15 @@ for (var i = 0; i < sfgShowOnSelectCalls.length; i++ ) {
 	eval(sfgShowOnSelectCalls[i]);
 }
 
+function existsAndVisible(field) {
+	return (field && field.offsetWidth);
+}
+
 function validate_mandatory_field(field_id, info_id) {
 	var field = document.getElementById(field_id);
 	// if there's nothing at that field ID, ignore it - it's probably
 	// a hidden field
-	if (field == null) {
+	if (!existsAndVisible(field)) {
 		return true;
 	}
 	if (field.value.replace(/\s+/, '') == '') {
@@ -302,7 +308,7 @@ function validate_mandatory_combobox(field_id, info_id) {
 	var field = jQuery('input#' + field_id);
 	// if there's nothing at that field ID, ignore it - it's probably
 	// a hidden field
-	if (field == null) {
+	if (!existsAndVisible(field)) {
 		return true;
 	}
 	// FIXME
@@ -457,6 +463,18 @@ function validate_all() {
 			document.getElementById("contentSub").appendChild(errorMsg);
 		}
 		scroll(0, 0);
+	}
+	else
+	{
+		// Ensure that invisible fields, e.g. due to "show on select",
+		// are not submitted in the HTTP POST, by setting them to
+		// "disabled". Don't disable hidden fields, though (used e.g.
+		// for edit timestamp).
+		var inputs = jQuery("form.createbox").find("input, select, textarea");
+		for (var i = 0; i < inputs.length; i++) {
+			input = inputs[i];
+			input.disabled = input.type != "hidden" && !existsAndVisible(input);
+		}
 	}
 	return (num_errors == 0);
 }

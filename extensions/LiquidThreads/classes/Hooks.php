@@ -223,10 +223,13 @@ class LqtHooks {
 		}
 
 		$thread = Threads::withRoot( new Article( $title ) );
-		$text = $thread->subject();
 
-		$title = clone $thread->topmostThread()->title();
-		$title->setFragment( '#' . $thread->getAnchorName() );
+		if ( $thread ) {
+			$text = $thread->subject();
+
+			$title = clone $thread->topmostThread()->title();
+			$title->setFragment( '#' . $thread->getAnchorName() );
+		}
 
 		return true;
 	}
@@ -445,16 +448,13 @@ class LqtHooks {
  			return true;
  		}
 
- 		LqtView::postEditUpdates(
- 			'editExisting',
- 			null,
- 			$article,
- 			$thread->article(),
- 			$thread->article(),
- 			$summary,
- 			$thread,
- 			$text
- 		);
+		LqtView::editMetadataUpdates(
+			array(
+			'root' => $article,
+			'thread' => $thread,
+			'summary' => $summary,
+			'text' => $text,
+		) );
 
  		return true;
  	}
@@ -759,5 +759,27 @@ class LqtHooks {
 		}
 		
 		$array[$title][] = $entry;
+	}
+
+	// Do not allow users to read threads on talkpages that they cannot read.
+	public static function onGetUserPermissionsErrors( $title, $user, $action, &$result ) {
+		if ( $title->getNamespace() != NS_LQT_THREAD || $action != 'read' )
+			return true;
+
+		$thread = Threads::withRoot( new Article($title) );
+
+		if ( ! $thread )
+			return true;
+
+		$talkpage = $thread->article();
+
+		$canRead = $talkpage->getTitle()->userCan( 'read', false );
+
+		if ( $canRead ) {
+			return true;
+		} else {
+			$result = false;
+			return false;
+		}
 	}
 }

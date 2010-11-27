@@ -38,12 +38,12 @@ class PostgresInstaller extends DatabaseInstaller {
 		return
 			$this->getTextBox( 'wgDBserver', 'config-db-host', array(), $this->parent->getHelpBox( 'config-db-host-help' ) ) .
 			$this->getTextBox( 'wgDBport', 'config-db-port' ) .
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
 			$this->getTextBox( 'wgDBname', 'config-db-name', array(), $this->parent->getHelpBox( 'config-db-name-help' ) ) .
 			$this->getTextBox( 'wgDBmwschema', 'config-db-schema', array(), $this->parent->getHelpBox( 'config-db-schema-help' ) ) .
 			$this->getTextBox( 'wgDBts2schema', 'config-db-ts2-schema' ) .
-			Xml::closeElement( 'fieldset' ) .
+			Html::closeElement( 'fieldset' ) .
 			$this->getInstallUserBox();
 	}
 
@@ -107,7 +107,42 @@ class PostgresInstaller extends DatabaseInstaller {
 		return $status;
 	}
 
+	public function preInstall() {
+		# Add our user callback to installSteps, right before the tables are created.
+		$callback = array(
+			'name' => 'pg-commit',
+			'callback' => array( $this, 'commitChanges' ),
+		);
+		$this->parent->addInstallStepFollowing( 'interwiki', $callback );
+	}
+
 	function setupDatabase() {
+		$status = $this->getConnection();
+		if ( !$status->isOK() ) {
+			return $status;
+		}
+		$conn = $status->value;
+
+		// Make sure that we can write to the correct schema
+		// If not, Postgres will happily and silently go to the next search_path item
+		$schema = $this->getVar( 'wgDBmwschema' );
+		$ctest = 'mediawiki_test_table';
+		$safeschema = $conn->quote_ident( $schema );
+		if ( $conn->tableExists( $ctest, $schema ) ) {
+			$conn->doQuery( "DROP TABLE $safeschema.$ctest" );
+		}
+		$res = $this->doQuery( "CREATE TABLE $safeschema.$ctest(a int)" );
+		if ( !$res ) {
+			$status->fatal( 'config-install-pg-schema-failed',
+				$this->getVar( 'wgDBuser'), $schema );
+		}
+		$conn->doQuery( "DROP TABLE $safeschema.$ctest" );
+
+		return $status;
+	}
+
+	protected function commitChanges() {
+		$this->db->query( 'COMMIT' );
 	}
 
 	function getLocalSettings() {

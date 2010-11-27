@@ -86,6 +86,8 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * The FailFunction "error handling" method has now been removed
 * $wgAdditionalMailParams added to allow setting extra options to mail() calls.
 * $wgSecureLogin & $wgSecureLoginStickHTTPS to optionaly login using HTTPS
+* (bug 25728) Added $wgPasswordSenderName to allow customise the name associed
+  with $wgPasswordSender
 
 === New features in 1.17 ===
 * (bug 10183) Users can now add personal styles and scripts to all skins via
@@ -179,8 +181,6 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 24007) Diff pages now mention the number of users having edited
   intermediate revisions
 * Added new hook GetIP
-* (bug 16574) Allow administrators to temporarily disable the account creation
-  limit for IP addresses: [[MediaWiki:Ratelimit-excluded-ips]]
 * Special:Version now displays whether a SQLite database supports full-text
   search.
 * TS_ISO_8691_BASIC was added as a time format, which is used by ResourceLoader
@@ -199,6 +199,9 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 20627) Installer should be in languages other than English
 * Support for metadata in SVG files (title, description).
 * Special:Search: Add CSS classes to 'none found' and 'create link' messages
+* Add CSS classes (including namespace and pagename) to the enhanced recent
+  changes/watchlist entries
+* (bug 22463) Add hook 'SkinGetPoweredBy' to make 'powered by' icon customizable
 
 === Bug fixes in 1.17 ===
 * (bug 17560) Half-broken deletion moved image files to deletion archive
@@ -396,6 +399,27 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 16902) Installer spews warnings when exec() and dl() are not available
 * (bug 19129) Only show MyISAM/InnoDB when supported
 * (bug 17762) Only show other e-mail options when e-mail is globally enabled
+* Cache multiple sizes of InstantCommons thumbnails
+* (bug 25488) Disallowing anonymous users to read pages no longer throws error
+  on discussion pages with vector as default skin
+* (bug 24833) Files name in includes/diff/ are now less confusing
+* (bug 25713) SpecialPage::resolveAlias() now normalise spaces to underscores
+* (bug 25829) Special:Mypage and Special:Mytalk now forward oldid, diff and dir
+  parameters
+* (bug 25175) HTML file cache now honor $wgCacheDirectory if
+  $wgFileCacheDirectory is not set
+* (bug 13353) Diff3 version checks were too strict, did not detect working diff3
+* (bug 25843) Links to special pages using link= attribute on images are now
+  normalised like normal links to special pages
+* (bug 21364) External links using link= attribute on images now respect
+  $wgExternalLinkTarget
+* (bug 17789) Added a note to the total views on Special:Statistics saying that
+  is doesn't count non-existing pages and special pages
+* (bug 17996) HTTP redirects are now combined when requesting a special page
+* (bug 19944) Link on image thumbnails no longer link to "Media:" namespace in
+  some cases
+* (bug 25670) wfFindFile() now checks the namespace of the given title, only
+  "File" and "Media" are allowed now
 
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.

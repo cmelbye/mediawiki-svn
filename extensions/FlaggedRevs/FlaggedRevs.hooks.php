@@ -44,7 +44,7 @@ class FlaggedRevsHooks {
 	* Add FlaggedRevs css/js.
 	*/
 	protected static function injectStyleAndJS() {
-		global $wgOut, $wgUser;
+		global $wgOut, $wgUser, $wgFlaggedRevStyleVersion;
 		if ( $wgOut->hasHeadItem( 'FlaggedRevs' ) ) {
 			return true; # Don't double-load
 		}
@@ -53,22 +53,20 @@ class FlaggedRevsHooks {
 		if ( !$fa || !$fa->isReviewable() ) {
 			return true;
 		}
-		global $wgJsMimeType, $wgFlaggedRevStyleVersion;
 		$stylePath = FlaggedRevs::styleUrlPath();
 		# Get JS/CSS file locations
 		$encCssFile = htmlspecialchars( "$stylePath/flaggedrevs.css?$wgFlaggedRevStyleVersion" );
 		$encJsFile = htmlspecialchars( "$stylePath/flaggedrevs.js?$wgFlaggedRevStyleVersion" );
-		
-		//TODO fix this to use the correct method
+
 		# Add CSS file
-		//$wgOut->addExtensionStyle( $encCssFile );
+		$linkedStyle = Html::linkedStyle( $encCssFile );
+		$wgOut->addHeadItem( 'FlaggedRevs', $linkedStyle );
 		# Add main JS file
-		$head = "<script type=\"{$wgJsMimeType}\" src=\"{$encJsFile}\"></script>";
-		$head .= "<link rel=\"stylesheet\" href=\"{$encCssFile}\"></link>";
+		$wgOut->addScriptFile( $encJsFile );
 		# Add review form JS for reviewers
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$encJsFile = htmlspecialchars( "$stylePath/review.js?$wgFlaggedRevStyleVersion" );
-			$head .= "\n<script type=\"{$wgJsMimeType}\" src=\"{$encJsFile}\"></script>";
+			$wgOut->addScriptFile( $encJsFile );
 		}
 		# Set basic messages for all users...
 		$msgs = array(
@@ -84,14 +82,15 @@ class FlaggedRevsHooks {
 		# Extra reviewer messages...
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$msgs['saveArticle'] = wfMsgHtml( 'savearticle' );
-			$msgs['tooltipSave'] = wfMsgHtml( 'tooltip-save' ).' ['.wfMsgHtml( 'accesskey-save' ).']';
+			$msgs['tooltipSave'] = wfMsgHtml( 'tooltip-save' ) .
+				' [' . wfMsgHtml( 'accesskey-save' ) . ']';
 			$msgs['submitArticle'] = wfMsg( 'revreview-submitedit' );
 			$msgs['tooltipSubmit'] = wfMsg( 'revreview-submitedit-title' ) .
 				' ['. wfMsg( 'accesskey-save' ) . ']';
 		}
-		$head .= "\n<script type=\"{$wgJsMimeType}\">" .
-			"FlaggedRevs.messages = " . Xml::encodeJsVar( (object)$msgs ) . ";</script>\n";
-		$wgOut->addHeadItem( 'FlaggedRevs', $head );
+		# Add msgs to JS
+		$wgOut->addInlineScript(
+			"FlaggedRevs.messages = " . Xml::encodeJsVar( (object)$msgs ) . ";" );
 
 		return true;
 	}
@@ -113,6 +112,11 @@ class FlaggedRevsHooks {
 		$globalVars['wgStableRevisionId'] = $stableId;
 		$globalVars['wgLatestRevisionId'] = $fa->getLatest();
 		$globalVars['wgPageId'] = $fa->getID();
+		$revisionContents = (object) array(
+			'error'		=> wfMsgHtml( 'revcontents-error' ),
+			'waiting'	=> wfMsgHtml( 'revcontents-waiting' )
+		);
+		$globalVars['wgRevContents'] = $revisionContents;
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$ajaxReview = (object) array(
 				'sendMsg'		 => wfMsgHtml( 'revreview-submit' ),
@@ -876,7 +880,7 @@ class FlaggedRevsHooks {
 			$quality = FlaggedRevs::getRevQuality(
 				$rc->mAttribs['rc_cur_id'], $revId, FR_MASTER );
 			// Reviewed => patrolled
-			if ( $quality !== false && $quality >= FR_SIGHTED ) {
+			if ( $quality !== false && $quality >= FR_CHECKED ) {
 				RevisionReviewForm::updateRecentChanges( $rc->getTitle(), $revId );
 				$rc->mAttribs['rc_patrolled'] = 1; // make sure irc/email notifs know status
 			}
@@ -1122,7 +1126,7 @@ class FlaggedRevsHooks {
 				}
 			}
 		}
-		# Check implicitly sighted edits
+		# Check implicitly checked edits
 		if ( $totalCheckedEditsNeeded && $wgFlaggedRevsAutoconfirm['totalCheckedEdits'] ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			$res = $dbr->select( array( 'revision', 'flaggedpages' ), '1',
@@ -1316,7 +1320,7 @@ class FlaggedRevsHooks {
 				return true;
 			}
 		}
-		# Check implicitly sighted edits
+		# Check implicitly checked edits
 		if ( $totalCheckedEditsNeeded && $wgFlaggedRevsAutopromote['totalCheckedEdits'] ) {
 			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
 			$res = $dbr->select( array( 'revision', 'flaggedpages' ), '1',

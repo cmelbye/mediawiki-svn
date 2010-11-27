@@ -1,5 +1,7 @@
  /**
-  * Javascript functions for Open Layers functionality in Maps and its extensions
+  * Javascript functions for Open Layers functionality in Maps and its extensions.
+  * 
+  * Note: This file is for backward compatibility with MediaWiki <=1.16.
   *
   * @file OpenLayerFunctions.js
   * @ingroup MapsOpenLayers
@@ -91,7 +93,7 @@ function initOpenLayer( mapName, lon, lat, zoom, mapTypes, controls, marker_data
 		}
 		
 		if ( bounds != null ) bounds.extend( marker_data[i].lonlat ); // Extend the bounds when no center is set.
-		markerLayer.addMarker( getOLMarker( markerLayer, marker_data[i], map.getProjectionObject() ) ); // Create and add the marker.
+		markerLayer.addMarker( getOLMarker( markerLayer, marker_data[i] ) ); // Create and add the marker.
 	}
 		
 	if ( bounds != null ) map.zoomToExtent( bounds ); // If a bounds object has been created, use it to set the zoom and center.
@@ -136,7 +138,7 @@ function getValidControlName( control ) {
 	return false;
 }
 	
-function getOLMarker(markerLayer, markerData, projectionObject) {
+function getOLMarker(markerLayer, markerData) {
 	var marker;
 	
 	if (markerData.icon != "") {

@@ -33,13 +33,13 @@ $namespaceNames = array(
 	NS_MEDIA            => 'Aŭdvidaĵo',
 	NS_SPECIAL          => 'Speciala',
 	NS_TALK             => 'Diskuto',
-	NS_USER             => 'Uzanto',
-	NS_USER_TALK        => 'Uzanta_diskuto',
+	NS_USER             => 'Uzulo',
+	NS_USER_TALK        => 'Uzula_diskuto',
 	NS_PROJECT_TALK     => '$1_diskuto',
 	NS_FILE             => 'Dosiero',
 	NS_FILE_TALK        => 'Dosiera_diskuto',
-	NS_MEDIAWIKI        => 'MediaWiki',
-	NS_MEDIAWIKI_TALK   => 'MediaWiki_diskuto',
+	NS_MEDIAWIKI        => 'MediaVikio',
+	NS_MEDIAWIKI_TALK   => 'MediaVikia_diskuto',
 	NS_TEMPLATE         => 'Ŝablono',
 	NS_TEMPLATE_TALK    => 'Ŝablona_diskuto',
 	NS_HELP             => 'Helpo',
@@ -49,8 +49,12 @@ $namespaceNames = array(
 );
 
 $namespaceAliases = array(
-	'Vikipediisto' => NS_USER,
+	'Vikipediisto'         => NS_USER,
 	'Vikipediista_diskuto' => NS_USER_TALK,
+	'Uzanto'               => NS_USER,
+	'Uzanta_diskuto'       => NS_USER_TALK,
+	'MediaWiki'            => NS_MEDIAWIKI,
+	'MediaWiki_diskuto'    => NS_MEDIAWIKI_TALK,
 );
 
 $specialPageAliases = array(
@@ -226,6 +230,7 @@ $magicWords = array(
 	'nse'                   => array( '0', 'NSO:', 'NSE:' ),
 	'localurl'              => array( '0', 'LOKATTT:', 'LOCALURL:' ),
 	'localurle'             => array( '0', 'LOKATTTT:', 'LOCALURLE:' ),
+	'articlepath'           => array( '0', 'ARTIKOLAPADO', 'ARTIKOLAVOJO', 'ARTICLEPATH' ),
 	'server'                => array( '0', 'SERVILO', 'SERVER' ),
 	'servername'            => array( '0', 'NOMODESERVILO', 'SERVILANOMO', 'SERVILONOMO', 'SERVERNAME' ),
 	'scriptpath'            => array( '0', 'SKRIPTO-VOJO', 'SKRIPTOVOJO', 'SKRIPTVOJO', 'SCRIPTPATH' ),
@@ -262,7 +267,7 @@ $magicWords = array(
 	'pagesincategory'       => array( '1', 'PAĜOJENKATEGORIO', 'PAGXOJENKATEGORIO', 'PAĜOJENKAT', 'PAGXOJENKAT', 'PAGESINCATEGORY', 'PAGESINCAT' ),
 	'pagesize'              => array( '1', 'PAĜOPEZO', 'PAGXOPEZO', 'PEZODEPAĜO', 'PEZODEPAGXO', 'PAGESIZE' ),
 	'index'                 => array( '1', '__INDEKSU__', '__INDEKSI__', '__INDEX__' ),
-	'noindex'               => array( '1', '__NEIINDEKSU__', '__NIU__', '__NOINDEX__' ),
+	'noindex'               => array( '1', '__NEINDEKSU__', '__NIU__', '__NOINDEX__' ),
 	'url_path'              => array( '0', 'VOJO', 'PATH' ),
 	'url_wiki'              => array( '0', 'VIKIO', 'WIKI' ),
 	'url_query'             => array( '0', 'INFORMPETO', 'QUERY' ),
@@ -765,11 +770,6 @@ Vi povas ignori ĉi mesaĝon, se ĉi konto estis kreita erare.',
 Bonvolu ĝisatendi antaŭ retrovi.',
 'loginlanguagelabel'         => 'Lingvo: $1',
 'suspicious-userlogout'      => 'Via peto por elsaluti estis malpermesita ĉar verŝajne ĝi estis sendita de trompita retumilo aŭ kaŝiganta proksima servilo.',
-'ratelimit-excluded-ips'     => ' # <!-- leave this line exactly as it is --><pre>
-# Jen la sintakso:
-#  * Ĉiu de la karaktero "#" ĝis la fino de la linio estas komento
-#  * Ĉiu nemalplena linio estas IP-adreso ekskludita de la rapidlimo
- # </pre><!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Taksita pasvorta forteco: $1',
@@ -884,7 +884,7 @@ Bonvolu inkluzivi tiujn detalojn en iuj ajn demandoj kiun vi farus.',
 
 La pasvorto por ĉi tiu nova konto povas esti ŝanĝita en la paĝo ''[[Special:ChangePassword|ŝanĝi pasvorton]]'' dum ensalutado.",
 'newarticle'                       => '(Nova)',
-'newarticletext'                   => 'Vi sekvis ligilon al paĝo jam ne ekzistanta. Se vi volas krei ĝin, ektajpu sube (vidu la [[{{MediaWiki:Helppage}}|helpopaĝo]] por klarigoj.) Se vi malintence alvenis ĉi tien, simple alklaku la retrobutonon de via retumilo.',
+'newarticletext'                   => 'Vi sekvis ligilon al paĝo ankoraŭ ne ekzistanta. Se vi volas krei ĝin, ektajpu sube (vidu la [[{{MediaWiki:Helppage}}|helpopaĝon]] por klarigoj.) Se vi malintence alvenis ĉi tien, simple alklaku la retrobutonon de via retumilo.',
 'anontalkpagetext'                 => "---- ''Jen diskutopaĝo por anonima kontribuanto kiu ne jam kreis konton aŭ ne uzas ĝin.
 Ni tial devas uzi la cifran IP-adreson por identigi lin/ŝin.
 Ĉi tia IP-adreso povas esti uzata de pluraj uzantoj.
@@ -1278,9 +1278,9 @@ Provu prefiksi vian mendon kun ''all:'' por serĉi ĉiun enhavon (inkluzivante d
 'powersearch-ns'                   => 'Serĉi en nomspacoj:',
 'powersearch-redir'                => 'Listigi alidirektilojn',
 'powersearch-field'                => 'Serĉi',
-'powersearch-togglelabel'          => 'Kontroli:',
-'powersearch-toggleall'            => 'Ĉio',
-'powersearch-togglenone'           => 'Nenio',
+'powersearch-togglelabel'          => 'Elekti:',
+'powersearch-toggleall'            => 'Ĉion',
+'powersearch-togglenone'           => 'Nenion',
 'search-external'                  => 'Ekstera serĉo',
 'searchdisabled'                   => '<p>Oni provizore malŝaltis serĉadon per la plenteksta
 indekso pro troŝarĝita servilo. Intertempe, vi povas serĉi per <i>guglo</i> aŭ per <i>jahu!</i>:</p>',

@@ -2229,7 +2229,9 @@ HTML
 
 		$script = '';
 		foreach ( $toolarray as $tool ) {
-			if ( !$tool ) continue;
+			if ( !$tool ) {
+				continue;
+			}
 
 			$params = array(
 				$image = $wgStylePath . '/common/images/' . $tool['image'],
@@ -2313,7 +2315,7 @@ HTML
 	 *
 	 * @return array
 	 */
-	public function getEditButtons(&$tabindex) {
+	public function getEditButtons( &$tabindex ) {
 		$buttons = array();
 
 		$temp = array(

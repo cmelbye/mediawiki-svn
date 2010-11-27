@@ -12,6 +12,7 @@
  * @author Daemorris
  * @author Giro720
  * @author Hamilton Abreu
+ * @author Helder.wiki
  * @author Heldergeovane
  * @author Indech
  * @author Jens Liebenau
@@ -778,11 +779,6 @@ Se a conta foi criada por engano, pode ignorar esta mensagem.',
 Aguarde antes de tentar novamente, por favor.',
 'loginlanguagelabel'         => 'Língua: $1',
 'suspicious-userlogout'      => 'O seu pedido para sair foi negado porque parece ter sido enviado por um browser danificado ou por um proxy com cache.',
-'ratelimit-excluded-ips'     => ' #<!-- deixe esta linha exactamente como está --> <pre>
-# A sintaxe é a seguinte:
-#  * Tudo desde um símbolo de cardinal (#) até ao fim da linha é um comentário
-#  * Qualquer linha que não esteja em branco é um endereço IP isento dos limites de velocidade de operação
- #</pre> <!-- deixe esta linha exactamente como está -->',
 
 # JavaScript password checks
 'password-strength'            => 'Estimativa da segurança da palavra-chave: $1',
@@ -1958,6 +1954,7 @@ A descrição na [$2 página de descrição] é mostrada abaixo.',
 'statistics-edits'             => 'Edições de página desde que a {{SITENAME}} foi instalada',
 'statistics-edits-average'     => 'Média de edições por página',
 'statistics-views-total'       => 'Total de visionamentos',
+'statistics-views-total-desc'  => 'Não estão incluídos os visionamentos de páginas inexistentes e páginas especiais',
 'statistics-views-peredit'     => 'Visionamentos por edição',
 'statistics-users'             => '[[Special:ListUsers|Utilizadores]] registados',
 'statistics-users-active'      => 'Utilizadores activos',

@@ -60,11 +60,11 @@ class MysqlInstaller extends DatabaseInstaller {
 	public function getConnectForm() {
 		return
 			$this->getTextBox( 'wgDBserver', 'config-db-host', array(), $this->parent->getHelpBox( 'config-db-host-help' ) ) .
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
 			$this->getTextBox( 'wgDBname', 'config-db-name', array(), $this->parent->getHelpBox( 'config-db-name-help' ) ) .
 			$this->getTextBox( 'wgDBprefix', 'config-db-prefix', array(), $this->parent->getHelpBox( 'config-db-prefix-help' ) ) .
-			Xml::closeElement( 'fieldset' ) .
+			Html::closeElement( 'fieldset' ) .
 			$this->getInstallUserBox();
 	}
 
@@ -366,7 +366,7 @@ class MysqlInstaller extends DatabaseInstaller {
 		if ( !$create ) {
 			// Test the web account
 			try {
-				$webConn = new Database(
+				new Database(
 					$this->getVar( 'wgDBserver' ),
 					$this->getVar( 'wgDBuser' ),
 					$this->getVar( 'wgDBpassword' ),
@@ -396,10 +396,8 @@ class MysqlInstaller extends DatabaseInstaller {
 	public function preInstall() {
 		# Add our user callback to installSteps, right before the tables are created.
 		$callback = array(
-			array(
-				'name' => 'user',
-				'callback' => array( $this, 'setupUser' ),
-			)
+			'name' => 'user',
+			'callback' => array( $this, 'setupUser' ),
 		);
 		$this->parent->addInstallStepFollowing( "tables", $callback );
 	}

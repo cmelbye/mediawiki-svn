@@ -1281,6 +1281,8 @@ $messages['arc'] = array(
 	'centralauth-admin-status-locked' => 'ܩܦܝܠܐ:',
 	'centralauth-admin-status-hidden' => 'ܛܘܫܝܐ:',
 	'globalusers' => 'ܡܟܬܒܘܬܐ ܓܘܢܝܬܐ ܕܗܕ̈ܡܐ',
+	'centralauth-login-progress' => 'ܢܫܪܐ ܥܠܠܬܟ ܠܬܪ̈ܡܝܬܐ ܕ {{int:Centralauth-groupname}} ܐܚܪ̈ܢܬܐ:',
+	'centralauth-logout-progress' => 'ܢܫܪܐ ܦܠܛܟ ܡܢ ܬܪ̈ܡܝܬܐ ܕ {{int:Centralauth-groupname}} ܐܚܪ̈ܢܬܐ:',
 	'centralauth-log-status-locked' => 'ܩܦܝܠܐ',
 	'centralauth-log-status-hidden' => 'ܛܘܫܝܐ',
 	'centralauth-log-status-none' => '(ܠܐ ܡܕܡ)',
@@ -4311,6 +4313,7 @@ $messages['cu'] = array(
 	'centralauth-finish-password' => 'таино слово :',
 	'centralauth-admin-username' => 'по́льꙃєватєлꙗ и́мѧ :',
 	'centralauth-admin-no' => 'нѣ́тъ',
+	'centralauth-prefs-status' => 'вьсѥобьщѩ по́льꙃєватєлꙗ мѣста положєниѥ',
 	'centralauth-editset-name' => 'и́мѧ :',
 );
 
@@ -6216,6 +6219,7 @@ No se harán cambios hasta que confirmes que todo parece estar bien.',
 	'centralauth-merge-step2-detail' => 'Algunas de estas cuentas no pudieron relacionarse automáticamente con la de la wiki designada como principal.
 Si estas cuentas te pertenecen, confirma que son tuyas ingresando la contraseña de las mismas.',
 	'centralauth-merge-step2-submit' => 'Confirma la información de ingreso',
+	'centralauth-login-global' => 'Iniciar sesión globalmente',
 	'centralauth-merge-dryrun-complete' => '¡Todas las cuentas existentes pueden unificarse automáticamente!
 
 Todavía no se han realizado cambios a las cuentas.',
@@ -6902,6 +6906,7 @@ $messages['fa'] = array(
 	'centralauth-merge-step2-title' => 'تایید حساب‌های کاربری بیشتر',
 	'centralauth-merge-step2-detail' => 'برخی از حساب‌های کاربری را نمی‌توان به طور خودکار با حساب ویکی اصلی مطابقت داد. اگر این حساب‌های کاربری متعلق به شما هستند، شما می‌توانید این مساله را با وارد کردن کلمه عبور این حساب‌ها تایید کنید.',
 	'centralauth-merge-step2-submit' => 'تایید اطلاعات ورود به سامانه',
+	'centralauth-login-global' => 'مرا به طور سراسری وارد سامانه کن',
 	'centralauth-merge-dryrun-complete' => 'تمامی حساب‌های کاربری موجود را می‌توان به طور خودکار یکی کرد!
 
 هنوز تغییری در حساب‌های کاربری شما داده نشده‌است.',
@@ -8788,7 +8793,7 @@ $messages['gv'] = array(
 	'centralauth-finish-password' => 'Fockle yn arrey:',
 	'centralauth-finish-login' => 'Log stiagh',
 	'centralauth-admin-username' => "Dt'ennym ymmydeyr:",
-	'centralauth-admin-info-hidden' => 'Follit:',
+	'centralauth-admin-info-hidden' => 'Keim follit:',
 	'centralauth-admin-yes' => 'ta',
 	'centralauth-admin-no' => 'cha',
 	'centralauth-admin-list-localwiki' => 'Wiki ynnydagh',
@@ -9640,6 +9645,7 @@ Twoje hesło a zregistrowana e-mejlowa adresa přirunatej so z kontami w druhich
 	'centralauth-merge-step2-title' => 'Dalše konta potwjerdźić',
 	'centralauth-merge-step2-detail' => 'Někotre z wužiwarskich kontow njemóžachu so awtomatisce zjednoćić. Hdyž su konta twoje, móžeš to z hesłom dopokazać.',
 	'centralauth-merge-step2-submit' => 'Přizjewjenske daty potwjerdźić',
+	'centralauth-login-global' => 'Globalnje přizjewić',
 	'centralauth-merge-dryrun-complete' => 'Wšě eksistowace konta dadźa so awtomatisce zjednoćić!
 
 Dotal njebuchu žane změny na twojich kontach přewjedźene.',
@@ -18659,6 +18665,11 @@ Kayrayku: $1",
 	'centralauth-editset-wikis' => 'Wikikuna:',
 	'centralauth-editset-reason' => 'Kayrayku:',
 	'centralauth-editset-submit' => 'Kachay',
+	'centralauth-editset-submit-delete' => 'Qulluy',
+	'centralauth-editset-nowikis' => 'Manam wikipas akllasqachu.',
+	'centralauth-editset-nouse' => '(mana ima)',
+	'centralauth-editset-usage' => "Kay huñukunapi llamk'achisqa:",
+	'centralauth-editset-badwikis' => 'Kay {{PLURAL:$2|wikiqa|wikikunaqa}} manam kanchu: $1.',
 	'centralauth-editset-return' => 'Qhapaq qhawanaman kutimuy',
 );
 
@@ -21578,6 +21589,7 @@ Ditt lösenord och din e-postadress kommer kontrolleras mot användarkonton på 
 	'centralauth-merge-step2-title' => 'Bekräfta fler konton',
 	'centralauth-merge-step2-detail' => 'Några av kontona kunde inte automatiskt matchas med kontot på den wiki som utsetts till hemwiki. Om dessa konton tillhör dig kan du bekräfta det genom att ange lösenorden för dem.',
 	'centralauth-merge-step2-submit' => 'Bekräfta inloggningsinformation',
+	'centralauth-login-global' => 'Logga in mig globalt',
 	'centralauth-merge-dryrun-complete' => 'Alla existerande konton kan automatiskt slås samman!
 
 Inga ändringar av dina konton har gjorts än.',
@@ -24679,11 +24691,14 @@ $messages['wuu'] = array(
  */
 $messages['yi'] = array(
 	'centralauth-groupname' => 'די וויקימעדיע פֿונדאַציע',
+	'centralauth-merge-denied' => 'אנטשולדיגט, איר האט נישט קיין דערלויבעניש פֿאַר דעם בלאַט.',
 	'centralauth-merge-step1-title' => 'אנהייבן איינלאגירן פֿאַראייניקן',
 	'centralauth-merge-step1-submit' => 'באַשטעטיקן ארײַנלאָגירן אינפֿאָרמאַציע',
+	'centralauth-login-global' => 'ארײַנלאגירן גלאבאַל',
 	'centralauth-merge-dryrun-or' => "'''אדער'''",
 	'centralauth-merge-step3-submit' => 'פֿאַראייניקן קאנטעס',
 	'centralauth-list-home-title' => 'היים וויקי',
+	'centralauth-foreign-link' => 'באַניצער $1 אויף $2',
 	'centralauth-merge-method-primary' => 'היים וויקי',
 	'centralauth-merge-method-empty' => 'קיין בײַשטײַערונגען',
 	'centralauth-merge-method-new' => 'נײַע קאנטע',
@@ -24693,15 +24708,18 @@ $messages['yi'] = array(
 	'centralauth-merge-method-empty-desc' => 'די לאקאַלע קאנטע האט מען צונוייפֿגעגאסן צוליב קיין רעדאַקטירונגען.',
 	'centralauth-finish-password' => 'פאַסווארט:',
 	'centralauth-finish-login' => 'אַרײַנלאגירן',
+	'centralauth-attach-title' => 'באַשטעטיקן קאנטע',
 	'centralauth-admin-username' => 'באַניצער נאָמען:',
 	'centralauth-admin-info-registered' => 'אײַנגעשריבן:',
 	'centralauth-admin-info-home' => 'היים וויקי:',
+	'centralauth-admin-info-locked' => 'פֿאַרשלאסן:',
 	'centralauth-admin-info-hidden' => 'באַהאַלטענער ניווא:',
 	'centralauth-admin-yes' => 'יא',
 	'centralauth-admin-no' => 'ניין',
 	'centralauth-admin-list-localwiki' => 'לאקאַלע וויקי',
 	'centralauth-admin-list-blocked' => 'בלאקירט',
 	'centralauth-admin-delete-title' => 'אויסמעקן קאנטע',
+	'centralauth-admin-delete-button' => 'אויסמעקן די קאנטע',
 	'centralauth-admin-reason' => 'אורזאַך:',
 	'centralauth-admin-status-hidden' => 'באַהאַלטן:',
 	'centralauth-seconds-ago' => 'פֿאַר $1 {{PLURAL:$1|סעקונדע|סעקונדס}}',

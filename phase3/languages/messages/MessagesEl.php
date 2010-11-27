@@ -17,6 +17,7 @@
  * @author Demmy
  * @author Flyax
  * @author Geraki
+ * @author Glavkos
  * @author Kiriakos
  * @author Lou
  * @author MF-Warburg
@@ -574,6 +575,9 @@ $messages = array(
 Παρακαλούμε περιμένετε λίγο πριν ξαναπροσπαθήσετε να μπείτε σε αυτή τη σελίδα.
 
 $1',
+'pool-timeout'      => 'Διάλειμμα αναμονής για το κλείδωμα',
+'pool-queuefull'    => 'Η δεξαμενή δεδομένων είναι πλήρης',
+'pool-errorunknown' => 'Άγνωστο σφάλμα',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => 'Σχετικά με τον ιστότοπο {{SITENAME}}',
@@ -735,6 +739,7 @@ $2',
 'yourpassword'               => 'Κωδικός:',
 'yourpasswordagain'          => 'Πληκτρολογήστε ξανά τον κωδικό',
 'remembermypassword'         => 'Διατήρηση του κωδικού πρόσβασης σε αυτόν τον υπολογιστή (για μέγιστο $1 {{PLURAL:$1|ημέρα|ημέρες}})',
+'securelogin-stick-https'    => 'Μείνετε συνδεδεμένοι με HTTPS μετά την είσοδο',
 'yourdomainname'             => 'Το domain σας:',
 'externaldberror'            => 'Είτε συνέβη κάποιο σφάλμα εξωτερικής πιστοποίησης της βάσης δεδομένων είτε δεν σας έχει επιτραπεί να ενημερώσετε τον εξωτερικό σας λογαριασμό.',
 'login'                      => 'Είσοδος',
@@ -771,6 +776,7 @@ $2',
 'wrongpasswordempty'         => 'Ο κωδικός πρόσβασης που εισάχθηκε ήταν κενός. Παρακαλούμε προσπαθήστε ξανά.',
 'passwordtooshort'           => 'Οι κωδικοί πρέπει να περιέχουν τουλάχιστον {{PLURAL:$1|1 χαρακτήρα|$1 χαρακτήρες}}.',
 'password-name-match'        => 'Ο κωδικός σου θα πρέπει να είναι διαφορετικός από το όνομα χρήστη σου.',
+'password-too-weak'          => 'Ο προτεινόμενος  κωδικός πρόσβασης είναι πολύ αδύναμος και δεν μπορεί να χρησιμοποιηθεί.',
 'mailmypassword'             => 'Αποστολή νέου κωδικού',
 'passwordremindertitle'      => 'Καινούργιος προσωρινός κωδικός για το {{SITENAME}}',
 'passwordremindertext'       => 'Κάποιος (πιθανώς εσείς, από την διεύθυνση IP $1) ζήτησε να σας στείλουμε ένα νέο κωδικό πρόσβασης για τον ιστότοπο {{SITENAME}} ($4). Ο κωδικός πρόσβασης για το χρήστη "$2" είναι τώρα "$3". Αν το κάνατε εσείς, θα πρέπει να συνδεθείτε και να αλλάξετε τον κωδικό πρόσβασης σας τώρα. Ο προσωρινός σας κωδικός πρόσβασης θα λήξει σε {{PLURAL:$5|μια ημέρα|$5 ημέρες}}.
@@ -1243,6 +1249,9 @@ $1",
 'showhideselectedversions' => 'Εμφάνιση/απόκρυψη των επιλεγμένων εκδοχών',
 'editundo'                 => 'αναίρεση',
 'diff-multi'               => '({{PLURAL:$1|Μία ενδιάμεση αναθεώρηση|$1 ενδιάμεσες αναθεωρήσεις}} από {{PLURAL:$2|ένα χρήστη|$2 χρήστες}} δεν {{PLURAL:$1|εμφανίζεται|εμφανίζονται}})',
+'diff-multi-manyusers'     => '↓ ({{Πληθυντικός: $ 1 | Μία ενδιάμεση αναθεώρηση | $ 1 ενδιάμεσες αναθεωρήσεις}} από περισσότερο από $ 2 {{πληθυντικό: $ 2 | χρήστη | χρήστες}} δεν εμφανίζονται)
+
+({{Πληθυντικός: $ 1 | Μία ενδιάμεση αναθεώρηση | $ 1 ενδιάμεσες αναθεωρήσεις}} από περισσότερο από $ 2 {{πληθυντικό: $ 2 | χρήστη | χρηστών}} δεν εμφανίζονται)',
 
 # Search results
 'searchresults'                    => 'Αποτελέσματα αναζήτησης',
@@ -1815,6 +1824,7 @@ $1',
 'listfiles_search_for'  => 'Αναζήτηση για όνομα πολυμέσου:',
 'imgfile'               => 'αρχείο',
 'listfiles'             => 'Κατάλογος εικόνων',
+'listfiles_thumb'       => '↓ Μικρογραφία',
 'listfiles_date'        => 'Ημερομηνία',
 'listfiles_name'        => 'Όνομα',
 'listfiles_user'        => 'Χρήστης',
@@ -1927,6 +1937,7 @@ $1',
 'statistics-edits'             => 'Επεξεργασίες σελίδων από τη δημιουργία του εγχειρήματος {{SITENAME}}',
 'statistics-edits-average'     => 'Μέσος όρος επεξεργασιών ανά σελίδα',
 'statistics-views-total'       => 'Συνολικές εμφανίσεις',
+'statistics-views-total-desc'  => ' Επισκέψεις σε μη  υπάρχουσες σελίδες και ειδικές σελίδες δεν συμπεριλαμβάνονται',
 'statistics-views-peredit'     => 'Εμφανίσεις ανά επεξεργασία',
 'statistics-users'             => 'Εγγεγραμμένοι [[Special:ListUsers|χρήστες]]',
 'statistics-users-active'      => 'Ενεργοί χρήστες',
@@ -1963,6 +1974,8 @@ $1',
 'nmembers'                => '$1 {{PLURAL:$1|μέλος|μέλη}}',
 'nrevisions'              => '$1 {{PLURAL:$1|αναθεώρηση|αναθεωρήσεις}}',
 'nviews'                  => '$1 {{PLURAL:$1|επίσκεψη|επισκέψεις}}',
+'nimagelinks'             => 'Χρησιμοποιείται στο  $1 {{PLURAL:$1|page|pages}}',
+'ntransclusions'          => 'χρησιμοποιείται στο $1 {{PLURAL:$1|page|pages}}',
 'specialpage-empty'       => 'Αυτή η σελίδα είναι κενή.',
 'lonelypages'             => 'Ορφανές σελίδες',
 'lonelypagestext'         => 'Οι ακόλουθες σελίδες δεν συνδέονται με ή δεν υπερκλείονται σε άλλες σελίδες στο {{SITENAME}}.',
@@ -3522,5 +3535,9 @@ $1',
 'htmlform-submit'              => 'Υποβολή',
 'htmlform-reset'               => 'Αναστροφή αλλαγών',
 'htmlform-selectorother-other' => 'Άλλο',
+
+# SQLite database support
+'sqlite-has-fts' => '$1 με υποστήριξη αναζήτησης πλήρους κειμένου',
+'sqlite-no-fts'  => '$1 χωρίς την υποστήριξη αναζήτησης πλήρους κειμένου',
 
 );

@@ -18,6 +18,7 @@
 // TODO: port the other Upload tests, and other API tests to this framework
 
 require_once( dirname( __FILE__ ) . '/RandomImageGenerator.php' );
+require_once( dirname( __FILE__ ) . '/../../../../../includes/User.php' );
 
 /* Wraps the user object, so we can also retain full access to properties like password if we log in via the API */
 class ApiTestUser {
@@ -28,8 +29,6 @@ class ApiTestUser {
 	public $user;
 
 	function __construct( $username, $realname = 'Real Name', $email = 'sample@sample.com', $groups = array() ) {
-		global $wgMinimalPasswordLength;
-
 		$this->username = $username; 
 		$this->realname = $realname; 
 		$this->email = $email;
@@ -83,7 +82,7 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 	public static $users;
 
 	function setUp() {
-		global $wgServer, $wgContLang, $wgAuth, $wgMemc, $wgRequest, $wgUser;
+		global $wgContLang, $wgAuth, $wgMemc, $wgRequest, $wgUser;
 
 		$wgMemc = new FakeMemCachedClient();
 		$wgContLang = Language::factory( 'en' );
@@ -307,7 +306,6 @@ class ApiUploadTest extends ApiTestCase {
 		global $wgUser;
 		$wgUser = self::$users['uploader']->user;
 
-		$extension = 'png';
 		$mimeType = 'image/png';
 
 		$filePath = tempnam( wfTempDir(), "" );
@@ -618,7 +616,7 @@ class ApiUploadTest extends ApiTestCase {
 		$hash = File::sha1Base36( $filePath );
 		$dupes = RepoGroup::singleton()->findBySha1( $hash );
 		$success = true;
-		foreach ( $dupes as $key => $dupe ) {
+		foreach ( $dupes as $dupe ) {
 			$success &= $this->deleteFileByTitle( $dupe->getTitle() );
 		}
 		return $success;

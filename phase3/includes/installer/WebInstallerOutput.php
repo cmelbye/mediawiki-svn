@@ -18,20 +18,32 @@
  * @since 1.17
  */
 class WebInstallerOutput {
-	
 	/**
 	 * The WebInstaller object this WebInstallerOutput is used by.
 	 *
 	 * @var WebInstaller
 	 */
 	public $parent;
-	
-	public $contents = '';
-	public $warnings = '';
-	public $headerDone = false;
+
+	/**
+	 * Buffered contents that haven't been output yet
+	 * @var String
+	 */
+	private $contents = '';
+
+	/**
+	 * Has the header (or short header) been output?
+	 * @var bool
+	 */
+	private $headerDone = false;
+
 	public $redirectTarget;
-	public $debug = true;
-	public $useShortHeader = false;
+
+	/**
+	 * Whether to use the limited header (used during CC license callbacks)
+	 * @var bool
+	 */
+	private $useShortHeader = false;
 
 	/**
 	 * Constructor.
@@ -55,16 +67,6 @@ class WebInstallerOutput {
 		$this->contents .= $html;
 	}
 
-	public function addWarning( $msg ) {
-		$this->warnings .= "<p>$msg</p>\n";
-	}
-	
-	public function addWarningMsg( $msg /*, ... */ ) {
-		$params = func_get_args();
-		array_shift( $params );
-		$this->addWarning( wfMsg( $msg, $params ) );
-	}
-
 	public function redirect( $url ) {
 		if ( $this->headerDone ) {
 			throw new MWException( __METHOD__ . ' called after sending headers' );
@@ -75,6 +77,34 @@ class WebInstallerOutput {
 	public function output() {
 		$this->flush();
 		$this->outputFooter();
+	}
+
+	/**
+	 * Get the raw vector CSS, flipping if needed
+	 * @param $dir String 'ltr' or 'rtl'
+	 * @return String
+	 */
+	public function getCSS( $dir ) {
+		$skinDir = dirname( dirname( dirname( __FILE__ ) ) ) . '/skins';
+		$vectorCssFile = "$skinDir/vector/screen.css";
+		$configCssFile = "$skinDir/common/config.css";
+		wfSuppressWarnings();
+		$css = file_get_contents( $vectorCssFile ) . "\n" . file_get_contents( $configCssFile );
+		wfRestoreWarnings();
+		if( !$css ) {
+			return "/** Your webserver cannot read $vectorCssFile or $configCssFile, please check file permissions */";
+		} elseif( $dir == 'rtl' ) {
+			$css = CSSJanus::transform( $css, true );
+		}
+		return str_replace( 'images/', '../skins/vector/images/', $css );
+	}
+
+	/**
+	 * URL for index.php?css=foobar
+	 * @return String
+	 */
+	private function getCssUrl( ) {
+		return $_SERVER['PHP_SELF'] . '?css=' . $this->getDir();
 	}
 
 	public function useShortHeader( $use = true ) {
@@ -115,6 +145,10 @@ class WebInstallerOutput {
 		);
 	}
 
+	/**
+	 * Get whether the header has been output
+	 * @return bool
+	 */
 	public function headerDone() {
 		return $this->headerDone;
 	}
@@ -141,8 +175,7 @@ class WebInstallerOutput {
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<title><?php $this->outputTitle(); ?></title>
 	<?php echo Html::linkedStyle( '../skins/common/shared.css' ) . "\n"; ?>
-	<?php echo Html::linkedStyle( '../skins/monobook/main.css' ) . "\n"; ?>
-	<?php echo Html::linkedStyle( '../skins/common/config.css' ) . "\n"; ?>
+	<?php echo Html::linkedStyle( $this->getCssUrl() ) . "\n"; ?>
 	<?php echo Html::inlineScript(  "var dbTypes = " . Xml::encodeJsVar( $dbTypes ) ) . "\n"; ?>
 	<?php echo $this->getJQuery() . "\n"; ?>
 	<?php echo $this->getJQueryTipsy() . "\n"; ?>
@@ -150,14 +183,8 @@ class WebInstallerOutput {
 </head>
 
 <?php echo Html::openElement( 'body', array( 'class' => $this->getDir() ) ) . "\n"; ?>
-<noscript>
-<style type="text/css">
-.config-help-message { display: block; }
-.config-show-help { display: none; }
-</style>
-</noscript>
-<div id="globalWrapper">
-<div id="column-content">
+<div id="mw-page-base">
+<div id="mw-head-base">
 <div id="content">
 <div id="bodyContent">
 
@@ -166,8 +193,6 @@ class WebInstallerOutput {
 	}
 
 	public function outputFooter() {
-		$this->outputWarnings();
-
 		if ( $this->useShortHeader ) {
 ?>
 </body></html>
@@ -207,8 +232,7 @@ class WebInstallerOutput {
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<meta name="robots" content="noindex, nofollow" />
 	<title><?php $this->outputTitle(); ?></title>
-	<?php echo Html::linkedStyle( '../skins/monobook/main.css' ) . "\n"; ?>
-	<?php echo Html::linkedStyle( '../skins/common/config.css' ) . "\n"; ?>
+	<?php echo Html::linkedStyle( $this->getCssUrl() ) . "\n"; ?>
 	<?php echo $this->getJQuery(); ?>
 	<?php echo $this->getJQueryTipsy() . "\n"; ?>
 	<?php echo Html::linkedScript( '../skins/common/config.js' ); ?>
@@ -229,10 +253,4 @@ class WebInstallerOutput {
 	public function getJQueryTipsy() {
 		return Html::linkedScript( "../resources/jquery/jquery.tipsy.js" );
 	}
-	
-	public function outputWarnings() {
-		$this->addHTML( $this->warnings );
-		$this->warnings = '';
-	}
-	
 }

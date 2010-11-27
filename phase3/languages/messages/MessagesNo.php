@@ -174,6 +174,8 @@ $specialPageAliases = array(
 	'Tags'                      => array( 'Tagger' ),
 	'Activeusers'               => array( 'Aktive_brukere' ),
 	'RevisionMove'              => array( 'Revisjonsflytting' ),
+	'ComparePages'              => array( 'Sammenlign_sider' ),
+	'Badtitle'                  => array( 'Ugyldig_tittel' ),
 );
 
 $magicWords = array(
@@ -702,11 +704,6 @@ Du kan ignorere denne beskjeden dersom kontoen ble opprettet ved en feil.',
 'login-throttled'            => 'Du har prøvd å logge inn med denne kontoen for mange ganger. Vent før du prøver igjen.',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din forespørsel om å logge ut ble nektet fordi den så ut til å ha bli sendt av en ødelagt nettleser eller en mellomtjener.',
-'ratelimit-excluded-ips'     => ' #<!-- leave this line exactly as it is --> <pre>
-# Syntaks er som følger:
-#   * Alt fra tegnet «#» til enden av linja er en kommentar
-#   * Hver ikke-tomme linje er en IP-adresse som er unntatt hastighetsbegrensningen
- #</pre> <!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Passordstyrke: $1',

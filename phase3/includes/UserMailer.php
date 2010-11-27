@@ -172,10 +172,13 @@ class UserMailer {
 			$headers['Message-ID'] = "<$msgid@" . $wgSMTP['IDHost'] . '>'; // FIXME
 			$headers['X-Mailer'] = 'MediaWiki mailer';
 
+			wfSuppressWarnings();
+
 			// Create the mail object using the Mail::factory method
 			$mail_object =& Mail::factory('smtp', $wgSMTP);
 			if( PEAR::isError( $mail_object ) ) {
 				wfDebug( "PEAR::Mail factory failed: " . $mail_object->getMessage() . "\n" );
+				wfRestoreWarnings();
 				return new WikiError( $mail_object->getMessage() );
 			}
 
@@ -183,9 +186,12 @@ class UserMailer {
 			$chunks = array_chunk( (array)$dest, $wgEnotifMaxRecips );
 			foreach ($chunks as $chunk) {
 				$e = self::sendWithPear($mail_object, $chunk, $headers, $body);
-				if( WikiError::isError( $e ) )
+				if( WikiError::isError( $e ) ) {
+					wfRestoreWarnings();
 					return $e;
+				}
 			}
+			wfRestoreWarnings();
 		} else	{
 			# In the following $headers = expression we removed "Reply-To: {$from}\r\n" , because it is treated differently
 			# (fifth parameter of the PHP mail function, see some lines below)
@@ -440,7 +446,7 @@ class EmailNotification {
 	 * @private
 	 */
 	function composeCommonMailtext() {
-		global $wgPasswordSender, $wgNoReplyAddress;
+		global $wgPasswordSender, $wgPasswordSenderName, $wgNoReplyAddress;
 		global $wgEnotifFromEditor, $wgEnotifRevealEditorAddress;
 		global $wgEnotifImpersonal, $wgEnotifUseRealName;
 
@@ -496,7 +502,7 @@ class EmailNotification {
 		# global configuration level.
 		$editor = $this->editor;
 		$name    = $wgEnotifUseRealName ? $editor->getRealName() : $editor->getName();
-		$adminAddress = new MailAddress( $wgPasswordSender, 'WikiAdmin' );
+		$adminAddress = new MailAddress( $wgPasswordSender, $wgPasswordSenderName );
 		$editorAddress = new MailAddress( $editor );
 		if( $wgEnotifRevealEditorAddress
 		    && ( $editor->getEmail() != '' )
@@ -622,13 +628,18 @@ class EmailNotification {
 
 } # end of class EmailNotification
 
-/**
+/**@{
  * Backwards compatibility functions
+ *
+ * @deprecated Use UserMailer methods; will be removed in 1.19
  */
 function wfRFC822Phrase( $s ) {
+	wfDeprecated( __FUNCTION__ );
 	return UserMailer::rfc822Phrase( $s );
 }
 
 function userMailer( $to, $from, $subject, $body, $replyto=null ) {
+	wfDeprecated( __FUNCTION__ );
 	return UserMailer::send( $to, $from, $subject, $body, $replyto );
 }
+/**@}*/

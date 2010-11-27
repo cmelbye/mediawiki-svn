@@ -103,9 +103,9 @@ class SpecialInterwiki extends SpecialPage {
 				Xml::input( 'wpInterwikiReason', 60, '', array( 'tabindex' => '1', 'id' => 'mw-interwiki-deletereason', 'maxlength' => '200' ) ) .
 				'</td></tr>' .
 				'<tr><td></td><td class="mw-submit">' . Xml::submitButton( $button, array( 'id' => 'mw-interwiki-submit' ) ) .
-				Xml::hidden( 'wpInterwikiPrefix', $prefix ) .
-				Xml::hidden( 'wpInterwikiAction', $action ) .
-				Xml::hidden( 'wpEditToken', $token ) .
+				Html::hidden( 'wpInterwikiPrefix', $prefix ) .
+				Html::hidden( 'wpInterwikiAction', $action ) .
+				Html::hidden( 'wpEditToken', $token ) .
 				'</td></tr>' .
 				Xml::closeElement( 'table' ) .
 				Xml::closeElement( 'form' ) .
@@ -126,7 +126,7 @@ class SpecialInterwiki extends SpecialPage {
 				$defaulturl = $row->iw_url;
 				$trans = $row->iw_trans;
 				$local = $row->iw_local;
-				$old = Xml::hidden( 'wpInterwikiPrefix', $row->iw_prefix );
+				$old = Html::hidden( 'wpInterwikiPrefix', $row->iw_prefix );
 				$topmessage = wfMsgExt( 'interwiki_edittext', array( 'parseinline' ) );
 				$intromessage = wfMsgExt( 'interwiki_editintro', array( 'parseinline' ) );
 				$button = wfMsg( 'edit' );
@@ -162,9 +162,9 @@ class SpecialInterwiki extends SpecialPage {
 				'<td class="mw-input">' . Xml::input( 'wpInterwikiURL', 60, $defaulturl, array( 'tabindex' => '1', 'maxlength' => '200', 'id' => 'mw-interwiki-url' ) ) . '</td></tr>' .
 				'<tr><td class="mw-label">' . Xml::label( $reasonmessage, 'mw-interwiki-editreason' ) . '</td>' .
 				'<td class="mw-input">' . Xml::input( 'wpInterwikiReason', 60, '', array( 'tabindex' => '1', 'id' => 'mw-interwiki-editreason', 'maxlength' => '200' ) ) .
-				Xml::hidden( 'wpInterwikiAction', $action ) .
+				Html::hidden( 'wpInterwikiAction', $action ) .
 				$old .
-				Xml::hidden( 'wpEditToken', $token ) .
+				Html::hidden( 'wpEditToken', $token ) .
 				'</td></tr>' .
 				'<tr><td></td><td class="mw-submit">' . Xml::submitButton( $button, array( 'id' => 'mw-interwiki-submit' ) ) . '</td></tr>' .
 				Xml::closeElement( 'table' ) .
@@ -249,7 +249,7 @@ class SpecialInterwiki extends SpecialPage {
 		$message_1 = wfMsgHtml( 'interwiki_1' );
 
 		$out = '
-<table width="100%" cellspacing="0" cellpadding="0" border="0" style="border:0" class="mw-interwikitable wikitable intro">
+<table width="100%" class="mw-interwikitable wikitable intro">
 <tr><th class="mw-align-left">' . $prefixmessage . '</th><td>' . wfMsgExt( 'interwiki_prefix_intro', 'parseinline' ) . '</td></tr>
 <tr><th class="mw-align-left">' . $urlmessage . '</th><td>' . wfMsgExt( 'interwiki_url_intro', 'parseinline' ) . '</td></tr>
 <tr><th class="mw-align-left">' . $localmessage . '</th><td>' . wfMsgExt( 'interwiki_local_intro', 'parseinline' ) . '</td></tr>

@@ -735,11 +735,6 @@ Waat e Wielsche, ih dat De et widder versöhks.',
 'loginlanguagelabel'         => 'Sproch: $1',
 'suspicious-userlogout'      => "Do bes '''nit''' ußjelogg.
 Et süht us, wi wann ene kappodde Brauser udder <i lang=\"en\">proxy</i>ẞööver met Zwescheschpeischer noh däm Ußlogge jefrooch hät.",
-'ratelimit-excluded-ips'     => ' #<!-- Lohß di Reih he jenou esu wi se es --> <pre>
-# Dä Opbou es:
-# * Alles fun enem #-Zeiche bes an et Engk fun ene Reih es ene Kommentaa för de Minsche
-# * Jede Reih met jet dren es en IP-Address, di vum xxxxxxxxx ußjeschloße es
-  #</pre> <!-- Lohß di Reih he jenou esu wi se es -->',
 
 # JavaScript password checks
 'password-strength'            => 'Dat Passwoot $1 (jeschäz)',
@@ -949,8 +944,7 @@ Do muss jetz Ding Änderunge och in dat <strong>bovvere</strong> Texxfeld eren b
 <strong>Nor wat em bovvere Texfeld steiht,</strong> dat weed üvvernomme un avjespeichert, wann De „<b
 style="padding:2px; background-color:#ddd; color:black">{{int:savearticle}}</b>“ klicks. Bes dohin kanns De esu off
 wie De wells op „<b style="padding:2px; background-color:#ddd; color:black">{{int:showdiff}}</b>“ un „<b
-style="padding:2px; background-color:#ddd; color:black">{{int:showpreview}}</b>“ klicke, öm ze pröfe, watte ald
-jods jemaat häs.
+style="padding:2px; background-color:#ddd; color:black">{{int:showpreview}}</b>“ klicke, öm ze pröfe, watte ald   jods jemaat häs.
 
 Alles Klor?<br /><br />',
 'yourtext'                         => 'Dinge Tex',

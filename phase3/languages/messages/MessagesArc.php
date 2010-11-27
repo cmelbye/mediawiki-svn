@@ -14,6 +14,31 @@
  * @author The Thadman
  */
 
+$namespaceNames = array(
+	NS_MEDIA            => 'ܡܝܕܝܐ',
+	NS_SPECIAL          => 'ܕܝܠܢܝܐ',
+	NS_MAIN             => '',
+	NS_TALK             => 'ܡܡܠܠܐ',
+	NS_USER             => 'ܡܦܠܚܢܐ',
+	NS_USER_TALK        => 'ܡܡܠܠܐ_ܕܡܦܠܚܢܐ',
+	NS_PROJECT_TALK     => 'ܡܡܠܠܐ_ܕ$1',
+	NS_FILE             => 'ܠܦܦܐ',
+	NS_FILE_TALK        => 'ܡܡܠܠܐ_ܕܠܦܦܐ',
+	NS_MEDIAWIKI        => 'ܡܝܕܝܐܘܝܩܝ',
+	NS_MEDIAWIKI_TALK   => 'ܡܡܠܠܐ_ܕܡܝܕܝܐܘܝܩܝ',
+	NS_TEMPLATE         => 'ܩܠܒܐ',
+	NS_TEMPLATE_TALK    => 'ܡܡܠܠܐ_ܕܩܠܒܐ',
+	NS_HELP             => 'ܥܘܕܪܢܐ',
+	NS_HELP_TALK        => 'ܡܡܠܠܐ_ܕܥܘܕܪܢܐ',
+	NS_CATEGORY         => 'ܣܕܪܐ',
+	NS_CATEGORY_TALK    => 'ܡܡܠܠܐ_ܕܣܕܪܐ',
+);
+
+$namespaceAliases = array(
+	'ܡܬܚܫܚܢܐ'        => NS_USER,
+	'ܡܡܠܠܐ_ܕܡܬܚܫܚܢܐ' => NS_USER_TALK,
+);
+
 $specialPageAliases = array(
 	'CreateAccount'             => array( 'ܒܪܝ_ܚܘܫܒܢܐ' ),
 	'Preferences'               => array( 'ܓܒܝܬ̈ܐ' ),
@@ -24,10 +49,11 @@ $specialPageAliases = array(
 	'Longpages'                 => array( 'ܦܐܬܬ̈ܐ_ܐܪ̈ܝܟܬܐ' ),
 	'Newpages'                  => array( 'ܦܐܬܬ̈ܐ_ܚܕ̈ܬܬܐ' ),
 	'Protectedpages'            => array( 'ܦܐܬܬ̈ܐ_ܢܛܝܪ̈ܬܐ' ),
+	'Protectedtitles'           => array( 'ܟܘܢܝ̈ܐ_ܢܛܝܪ̈ܐ' ),
 	'Allpages'                  => array( 'ܟܠ_ܦܐܬܬ̈ܐ' ),
 	'Specialpages'              => array( 'ܦܐܬܬ̈ܐ_ܕ̈ܝܠܢܝܬܐ' ),
 	'Contributions'             => array( 'ܫܘܬܦܘܝܬ̈ܐ' ),
-	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܟܐ' ),
+	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܗܪܟܐ', 'ܡܐ_ܐܣܪ_ܠܟܐ' ),
 	'Movepage'                  => array( 'ܫܢܝ_ܦܐܬܐ' ),
 	'Categories'                => array( 'ܣܕܪ̈ܐ' ),
 	'Allmessages'               => array( 'ܟܠ_ܐܓܪ̈ܬܐ' ),
@@ -62,26 +88,6 @@ $rtl = true;
 $defaultUserOptionOverrides = array(
 	# Swap sidebar to right side by default
 	'quickbar' => 2,
-);
-
-$namespaceNames = array(
-	NS_MEDIA            => 'ܡܝܕܝܐ',
-	NS_SPECIAL          => 'ܕܝܠܢܝܐ',
-	NS_MAIN             => '',
-	NS_TALK             => 'ܡܡܠܠܐ',
-	NS_USER             => 'ܡܬܚܫܚܢܐ',
-	NS_USER_TALK        => 'ܡܡܠܠܐ_ܕܡܬܚܫܚܢܐ',
-	NS_PROJECT_TALK     => 'ܡܡܠܠܐ_ܕ$1',
-	NS_FILE             => 'ܠܦܦܐ',
-	NS_FILE_TALK        => 'ܡܡܠܠܐ_ܕܠܦܦܐ',
-	NS_MEDIAWIKI        => 'ܡܝܕܝܐܘܝܩܝ',
-	NS_MEDIAWIKI_TALK   => 'ܡܡܠܠܐ_ܕܡܝܕܝܐܘܝܩܝ',
-	NS_TEMPLATE         => 'ܩܠܒܐ',
-	NS_TEMPLATE_TALK    => 'ܡܡܠܠܐ_ܕܩܠܒܐ',
-	NS_HELP             => 'ܥܘܕܪܢܐ',
-	NS_HELP_TALK        => 'ܡܡܠܠܐ_ܕܥܘܕܪܢܐ',
-	NS_CATEGORY         => 'ܣܕܪܐ',
-	NS_CATEGORY_TALK    => 'ܡܡܠܠܐ_ܕܣܕܪܐ',
 );
 
 $messages = array(
@@ -717,25 +723,25 @@ $messages = array(
 
 # Associated actions - in the sentence "You do not have permission to X"
 'action-read'               => 'ܩܪܝ ܦܐܬܐ ܗܕܐ',
-'action-edit'               => 'ܫܚܠܦ ܦܐܬܐ ܗܕܐ',
-'action-createpage'         => 'ܒܪܝ ܦܐܬܬ̈ܐ',
-'action-createtalk'         => 'ܒܪܝ ܦܐܬܐ ܕܡܡܠܠܐ',
-'action-createaccount'      => 'ܒܪܝ ܚܘܫܒܢܐ ܕܗܢܐ ܡܦܠܚܢܐ',
-'action-minoredit'          => 'ܫܘܕܥ ܥܠ ܫܘܚܠܦܐ ܗܢܐ ܐܝܟ ܙܥܘܪܐ',
-'action-move'               => 'ܫܢܝ ܦܐܬܐ ܗܕܐ',
-'action-move-rootuserpages' => 'ܫܢܝ ܕ̈ܦܐ ܫܪ̈ܫܝܐ ܕܡܬܚܫܚܢ̈ܐ',
-'action-movefile'           => 'ܫܢܝ ܗܢܐ ܠܦܦܐ',
-'action-upload'             => 'ܐܣܩ ܗܢܐ ܠܦܦܐ',
-'action-delete'             => 'ܫܘܦ ܦܐܬܐ ܗܕܐ',
-'action-deleterevision'     => 'ܫܘܦ ܬܢܝܬܐ ܗܕܐ',
-'action-deletedhistory'     => 'ܚܙܝ ܬܫܥܝܬܐ ܫܝܦܬܐ ܕܦܐܬܐ ܗܕܐ',
-'action-browsearchive'      => 'ܒܨܝ ܦܐܬܬ̈ܐ ܫܝܦܬ̈ܐ',
+'action-edit'               => 'ܫܚܠܦܬܐ ܕܦܐܬܐ ܗܕܐ',
+'action-createpage'         => 'ܒܪܝܬܐ ܕܦܐܬܬ̈ܐ',
+'action-createtalk'         => 'ܒܪܝܬܐ ܕܦܐܬܬ̈ܐ ܕܡܡܠܠܐ',
+'action-createaccount'      => 'ܒܪܝܬܐ ܕܚܘܫܒܢܐ ܕܗܢܐ ܡܦܠܚܢܐ',
+'action-minoredit'          => 'ܫܘܕܥܬܐ ܥܠ ܫܘܚܠܦܐ ܗܢܐ ܐܝܟ ܙܥܘܪܐ',
+'action-move'               => 'ܫܢܝܬܐ ܕܦܐܬܐ ܗܕܐ',
+'action-move-rootuserpages' => 'ܫܢܝܬܐ ܕܕ̈ܦܐ ܫܪ̈ܫܝܐ ܕܡܦܠܚܢܐ',
+'action-movefile'           => 'ܫܢܝܬܐ ܕܗܢܐ ܠܦܦܐ',
+'action-upload'             => 'ܐܣܩܬܐ ܕܗܢܐ ܠܦܦܐ',
+'action-delete'             => 'ܫܝܦܬܐ ܕܦܐܬܐ ܗܕܐ',
+'action-deleterevision'     => 'ܫܝܦܬܐ ܕܬܢܝܬܐ ܗܕܐ',
+'action-deletedhistory'     => 'ܚܙܝܬܐ ܕܬܫܥܝܬܐ ܫܝܦܬܐ ܕܦܐܬܐ ܗܕܐ',
+'action-browsearchive'      => 'ܒܘܨܝܐ ܥܠ ܦܐܬܬ̈ܐ ܫܝܦܬ̈ܐ',
 'action-undelete'           => 'ܠܐ ܫܘܦ ܦܐܬܐ ܗܕܐ',
-'action-suppressionlog'     => 'ܚܙܝ ܗܢܐ ܣܓܠܐ ܦܪܨܘܦܝܐ',
-'action-block'              => 'ܚܪܘܡ ܡܦܠܚܢܐ ܗܢܐ ܡܢ ܫܚܠܦܬܐ',
-'action-mergehistory'       => 'ܚܒܘܛ ܬܫܥܝܬܐ ܕܦܐܬܐ ܗܕܐ',
-'action-userrights'         => 'ܫܚܠܦ ܟܠ ܙܕ̈ܩܐ ܕܡܦܠܚܢܐ',
-'action-revisionmove'       => 'ܫܢܝ ܬܢܝܬ̈ܐ',
+'action-suppressionlog'     => 'ܚܙܝܬܐ ܕܗܢܐ ܣܓܠܐ ܦܪܨܘܦܝܐ',
+'action-block'              => 'ܚܪܡܬܐ ܕܡܦܠܚܢܐ ܗܢܐ ܡܢ ܫܚܠܦܬܐ',
+'action-mergehistory'       => 'ܚܒܛܬܐ ܕܬܫܥܝܬܐ ܕܦܐܬܐ ܗܕܐ',
+'action-userrights'         => 'ܫܚܠܦܬܐ ܕܟܠ ܙܕ̈ܩܐ ܕܡܦܠܚܢܐ',
+'action-revisionmove'       => 'ܫܢܝܬܐ ܕܬܢܝܬ̈ܐ',
 
 # Recent changes
 'nchanges'                    => '$1 {{PLURAL:$1|ܫܘܚܠܦܐ|ܫܘܚܠܦ̈ܐ}}',
@@ -1209,7 +1215,7 @@ $1',
 'ipboptions'                 => '2 ܫܥܬ̈ܐ:2 hours,1 ܝܘܡܐ:1 day,3 ܝܘܡܬ̈ܐ:3 days,1 ܫܒܘܥܐ:1 week,2 ܫܒܘܥ̈ܐ:2 weeks,1 ܝܪܚܐ:1 month,3 ܝܪ̈ܚܐ:3 months,6 ܝܪ̈ܚܐ:6 months,1 ܫܢܬܐ:1 year,ܕܠܐ ܣܟ:infinite',
 'ipbotheroption'             => 'ܐܚܪܢܐ',
 'ipbotherreason'             => 'ܥܠܬܐ ܐܚܪܬܐ/ܢܩܝܦܬܐ:',
-'ipbhidename'                => 'ܛܫܝ ܫܡܐ ܕܡܦܠܚܢܐ ܡܢ ܫܘܚܠܦ̈ܐ ܘܒܪ̈ܒܝܢ',
+'ipbhidename'                => 'ܛܫܝ ܫܡܐ ܕܡܦܠܚܢܐ ܡܢ ܫܘܚܠܦ̈ܐ ܘܡܟܬܒܘܬ̈ܐ',
 'badipaddress'               => 'ܐܝ ܦܝ (IP) ܠܐ ܬܪܝܨܐ:',
 'blockipsuccesssub'          => 'ܚܪܡܐ ܓܡܪ',
 'ipb-edit-dropdown'          => 'ܫܚܠܦ ܥܠܠܬ̈ܐ ܕܚܪܡܐ',
@@ -1491,7 +1497,7 @@ $1',
 'specialpages-group-login'     => 'ܥܘܠ / ܒܪܝ',
 'specialpages-group-changes'   => 'ܫܘܚܠܦ̈ܐ ܚܕ̈ܬܐ ܘܣܓܠ̈ܐ',
 'specialpages-group-users'     => 'ܡܦܠܚܢ̈ܐ ܘܙܕ̈ܩܐ',
-'specialpages-group-pages'     => 'ܒܪ̈ܒܝܢ ܕܦܐܬܬ̈ܐ',
+'specialpages-group-pages'     => 'ܡܟܬܒܘܬ̈ܐ ܕܦܐܬܬ̈ܐ',
 'specialpages-group-pagetools' => 'ܡܐܢ̈ܐ ܕܦܐܬܐ',
 'specialpages-group-wiki'      => 'ܓܠܝܬ̈ܐ ܘܡܐܢ̈ܐ ܕܘܝܩܝ',
 'specialpages-group-redirects' => 'ܨܘܝܒܐ ܕܦܐܬܐ ܕܝܠܢܝܬܐ',

@@ -31,7 +31,7 @@ class MapsOpenLayers extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsOLLayers, $egMapsOLControls;
+		global $egMapsOLLayers, $egMapsOLControls, $egMapsUseRL;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 19 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -40,9 +40,14 @@ class MapsOpenLayers extends MapsMappingService {
 		$params['controls']->setDefault( $egMapsOLControls );
 		$params['controls']->addCriteria( new CriterionInArray( self::getControlNames() ) );
 		$params['controls']->addManipulations(
-			new ParamManipulationFunctions( 'strtolower' ),
-			new ParamManipulationImplode( ',', "'" )
+			new ParamManipulationFunctions( 'strtolower' )
 		);
+		
+		if ( !$egMapsUseRL ) {
+			$params['controls']->addManipulations(
+				new ParamManipulationImplode( ',', "'" )
+			);
+		}
 		
 		$params['layers'] = new ListParameter( 'layers' );
 		$params['layers']->addManipulations( new MapsParamOLLayers() );
@@ -86,7 +91,7 @@ class MapsOpenLayers extends MapsMappingService {
 	public function createMarkersJs( array $markers ) {
 		$markerItems = array();
 		$defaultGroup = wfMsg( 'maps-markers' );
-		//.// TODO
+
 		foreach ( $markers as $marker ) {
 			$markerItems[] = MapsMapper::encodeJsVar( (object)array(
 				'lat' => $marker[0],
@@ -107,14 +112,19 @@ class MapsOpenLayers extends MapsMappingService {
 	 * @return array
 	 */
 	protected function getDependencies() {
-		global $egMapsStyleVersion, $egMapsScriptPath;
+		global $egMapsStyleVersion, $egMapsScriptPath, $egMapsUseRL;
 		
-		return array(
-			Html::linkedStyle( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/theme/default/style.css" ),
-			Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/OpenLayers.js?$egMapsStyleVersion" ),
-			Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayerFunctions.js?$egMapsStyleVersion" ),
-			Html::inlineScript( 'initOLSettings(200, 100); var msgMarkers = ' . Xml::encodeJsVar( wfMsg( 'maps-markers' ) ) . ';' )
-		);			
+		if ( $egMapsUseRL ) {
+			return array();
+		}
+		else {
+			return array(
+				Html::linkedStyle( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/theme/default/style.css" ),
+				Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/OpenLayers.js?$egMapsStyleVersion" ),
+				Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayerFunctions.js?$egMapsStyleVersion" ),
+				Html::inlineScript( 'initOLSettings(200, 100); var msgMarkers = ' . Xml::encodeJsVar( wfMsg( 'maps-markers' ) ) . ';' )
+			);				
+		}
 	}	
 	
 	/**
@@ -166,5 +176,60 @@ class MapsOpenLayers extends MapsMappingService {
 			$this->addDependency( $dependency );
 		}
 	}
+	
+	/**
+	 * @see MapsMappingService::getResourceModules
+	 * 
+	 * @since 0.7.3
+	 * 
+	 * @return array of string
+	 */
+	protected function getResourceModules() {
+		return array( 'ext.maps.openlayers', 'ext.maps.osm' );
+	}
+	
+	/**
+	 * Register the resource modules for the resource loader.
+	 * 
+	 * @since 0.7.3
+	 * 
+	 * @param ResourceLoader $resourceLoader
+	 * 
+	 * @return true
+	 */
+	public static function registerResourceLoaderModules( ResourceLoader &$resourceLoader ) {
+		global $egMapsScriptPath;
+		
+		$modules = array(
+			'ext.maps.openlayers' => array(
+				'scripts' =>   array(
+					'OpenLayers/OpenLayers.js',
+					'ext.maps.openlayers.js'
+				),
+				'styles' => array(
+					'OpenLayers/theme/default/style.css'
+				),				
+				'messages' => array(
+					'maps-markers'
+				)
+			),
+			'ext.maps.osm' => array(
+				'scripts' =>   array(
+					'OSM/OpenStreetMap.js',
+				),
+				'dependencies' => 'ext.maps.openlayers'
+			)		
+		); 
+		
+		foreach ( $modules as $name => $resources ) { 
+			$resourceLoader->register( $name, new ResourceLoaderFileModule(
+				array_merge_recursive( $resources, array( 'group' => 'ext.maps' ) ),
+				dirname( __FILE__ ),
+				$egMapsScriptPath . '/includes/services/OpenLayers'
+			) ); 
+		}
+		
+		return true;		
+	}	
 	
 }																	

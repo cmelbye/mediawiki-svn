@@ -398,23 +398,23 @@ $wgAutoloadLocalClasses = array(
 	'IBM_DB2Field' => 'includes/db/DatabaseIbm_db2.php',
 
 	# includes/diff
-	'ArrayDiffFormatter' => 'includes/diff/DifferenceEngine.php',
-	'_DiffEngine' => 'includes/diff/DifferenceEngine.php',
-	'DifferenceEngine' => 'includes/diff/DifferenceInterface.php',
-	'DiffFormatter' => 'includes/diff/DifferenceEngine.php',
-	'Diff' => 'includes/diff/DifferenceEngine.php',
-	'_DiffOp_Add' => 'includes/diff/DifferenceEngine.php',
-	'_DiffOp_Change' => 'includes/diff/DifferenceEngine.php',
-	'_DiffOp_Copy' => 'includes/diff/DifferenceEngine.php',
-	'_DiffOp_Delete' => 'includes/diff/DifferenceEngine.php',
-	'_DiffOp' => 'includes/diff/DifferenceEngine.php',
-	'_HWLDF_WordAccumulator' => 'includes/diff/DifferenceEngine.php',
-	'MappedDiff' => 'includes/diff/DifferenceEngine.php',
-	'RangeDifference' => 'includes/diff/Diff.php',
-	'TableDiffFormatter' => 'includes/diff/DifferenceEngine.php',
-	'UnifiedDiffFormatter' => 'includes/diff/DifferenceEngine.php',
-	'WikiDiff3' => 'includes/diff/Diff.php',
-	'WordLevelDiff' => 'includes/diff/DifferenceEngine.php',
+	'ArrayDiffFormatter' => 'includes/diff/WikiDiff.php',
+	'_DiffEngine' => 'includes/diff/WikiDiff.php',
+	'DifferenceEngine' => 'includes/diff/DifferenceEngine.php',
+	'DiffFormatter' => 'includes/diff/WikiDiff.php',
+	'Diff' => 'includes/diff/WikiDiff.php',
+	'_DiffOp_Add' => 'includes/diff/WikiDiff.php',
+	'_DiffOp_Change' => 'includes/diff/WikiDiff.php',
+	'_DiffOp_Copy' => 'includes/diff/WikiDiff.php',
+	'_DiffOp_Delete' => 'includes/diff/WikiDiff.php',
+	'_DiffOp' => 'includes/diff/WikiDiff.php',
+	'_HWLDF_WordAccumulator' => 'includes/diff/WikiDiff.php',
+	'MappedDiff' => 'includes/diff/WikiDiff.php',
+	'RangeDifference' => 'includes/diff/WikiDiff3.php',
+	'TableDiffFormatter' => 'includes/diff/WikiDiff.php',
+	'UnifiedDiffFormatter' => 'includes/diff/WikiDiff.php',
+	'WikiDiff3' => 'includes/diff/WikiDiff3.php',
+	'WordLevelDiff' => 'includes/diff/WikiDiff.php',
 
 	# includes/filerepo
 	'ArchivedFile' => 'includes/filerepo/ArchivedFile.php',
@@ -450,6 +450,8 @@ $wgAutoloadLocalClasses = array(
 	'WebInstallerOutput' => 'includes/installer/WebInstallerOutput.php',
 	'MysqlInstaller' => 'includes/installer/MysqlInstaller.php',
 	'MysqlUpdater' => 'includes/installer/MysqlUpdater.php',
+	'PhpXmlBugTester' => 'includes/installer/PhpBugTests.php',
+	'PhpRefCallBugTester' => 'includes/installer/PhpBugTests.php',
 	'PostgresInstaller' => 'includes/installer/PostgresInstaller.php',
 	'PostgresUpdater' => 'includes/installer/PostgresUpdater.php',
 	'SqliteInstaller' => 'includes/installer/SqliteInstaller.php',
@@ -671,11 +673,16 @@ $wgAutoloadLocalClasses = array(
 	'UserloginTemplate' => 'includes/templates/Userlogin.php',
 
 	# includes/upload
-	'UploadStash' => 'includes/upload/UploadStash.php',
 	'UploadBase' => 'includes/upload/UploadBase.php',
 	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
 	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
 	'UploadFromUrl' => 'includes/upload/UploadFromUrl.php',
+	'UploadStash' => 'includes/upload/UploadStash.php',
+	'UploadStashNotAvailableException' => 'includes/upload/UploadStash.php',
+	'UploadStashFileNotFoundException' => 'includes/upload/UploadStash.php',
+	'UploadStashBadPathException' => 'includes/upload/UploadStash.php',
+	'UploadStashBadVersionException' => 'includes/upload/UploadStash.php',
+	'UploadStashFileException' => 'includes/upload/UploadStash.php',
 
 	# languages
 	'Language' => 'languages/Language.php',
@@ -793,10 +800,6 @@ class AutoLoader {
 	static function loadClass( $class ) {
 		return class_exists( $class );
 	}
-}
-
-function wfLoadAllExtensions() {
-	AutoLoader::loadAllExtensions();
 }
 
 if ( function_exists( 'spl_autoload_register' ) ) {

@@ -65,6 +65,15 @@ abstract class PayflowProGateway_Form {
 			$this->setStylePath();
 		}
 		$wgOut->addExtensionStyle( $this->getStylePath() );
+		/**
+		 * if OWA is enabled, load the JS.  
+		 * 
+		 * We do this here (rather than in individual forms) because if OWA is 
+		 * enabled, we ALWAYS want to make sure it gets included.
+		 */
+		if(defined('OWA')){
+			$this->loadOwaJs();
+		}
 	}
 
 	/**
@@ -351,6 +360,8 @@ abstract class PayflowProGateway_Form {
 				'contribution_tracking_id' => $this->form_data[ 'contribution_tracking_id' ],
 				'data_hash' => $this->form_data[ 'data_hash' ],
 				'action' => $this->form_data[ 'action' ],
+				'owa_session' => $this->form_data[ 'owa_session' ],
+				'owa_ref' => $this->form_data[ 'owa_ref' ],
 			);
 		}
 
@@ -447,7 +458,7 @@ abstract class PayflowProGateway_Form {
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="label"></td>';
-		$form .= '<td>' . Xml::radio( 'amount', $amount, $otherChecked, array( 'id' => 'otherRadio' ) ) . Xml::input( 'amountOther', '7', $this->form_data['amountOther'], array( 'type' => 'text', 'onfocus' => 'clearField( this, "Other" )', 'onblur' => 'document.getElementById("otherRadio").value = this.value;if (this.value > 0) document.getElementById("otherRadio").checked=true;', 'maxlength' => '10', 'id' => 'amountOther' ) ) .
+		$form .= '<td>' . Xml::radio( 'amount', $amount, $otherChecked, array( 'id' => 'otherRadio' ) ) . Xml::input( 'amountOther', '7', $this->form_data['amountOther'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-other' ).'\' )', 'onblur' => 'document.getElementById("otherRadio").value = this.value;if (this.value > 0) document.getElementById("otherRadio").checked=true;', 'maxlength' => '10', 'id' => 'amountOther' ) ) .
 			' ' . $this->generateCurrencyDropdown() . '</td>';
 		$form .= '</tr>';
 		return $form;
@@ -535,8 +546,8 @@ abstract class PayflowProGateway_Form {
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="label">' . Xml::label( wfMsg( 'payflowpro_gateway-donor-name' ), 'fname' ) . '</td>';
-		$form .= '<td>' . Xml::input( 'fname', '30', $this->form_data['fname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, "First" )', 'maxlength' => '15', 'class' => 'required', 'id' => 'fname' ) ) .
-			Xml::input( 'lname', '30', $this->form_data['lname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, "Last" )', 'maxlength' => '15', 'id' => 'lname' ) ) . '</td>';
+		$form .= '<td>' . Xml::input( 'fname', '30', $this->form_data['fname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-first' ).'\' )', 'maxlength' => '15', 'class' => 'required', 'id' => 'fname' ) ) .
+			Xml::input( 'lname', '30', $this->form_data['lname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-last' ).'\' )', 'maxlength' => '15', 'id' => 'lname' ) ) . '</td>';
 		$form .= "</tr>";
 		return $form;
 	}
@@ -651,6 +662,20 @@ abstract class PayflowProGateway_Form {
 							'/extensions/DonationInterface/payflowpro_gateway/pfp_api_controller.js?284"></script>' );
 	}
 
+	protected function loadOwaJs() {
+		global $wgOut, $wgScriptPath;
+		$wgOut->addHeadItem('owa_tracker_verts', '<script type="text/javascript" src="http://owa.tesla.usability.wikimedia.org/owa/modules/base/js/owa.tracker-combined-min.js"></script>');
+		
+		$wgOut->addHeadItem( 'owa_get_info', '<script type="text/javascript" src="' .
+							$wgScriptPath .
+							'/extensions/DonationInterface/payflowpro_gateway/owa_get_info.js?284"></script>' );
+		$wgOut->addHeadItem( 'owa_tracker', '<script type="text/javascript" src="' .
+							$wgScriptPath .
+							'/extensions/DonationInterface/payflowpro_gateway/owa.tracker-combined-min.js?284"></script>' );
+							
+	}
+
+
 	/**
 	 * Generate HTML for <noscript> tags
 	 *
@@ -684,7 +709,11 @@ abstract class PayflowProGateway_Form {
 
 		$url = $wgRequest->getFullRequestURL();
 		$url_parts = wfParseUrl( $url );
-		$query_array = wfCgiToArray( $url_parts[ 'query' ] );
+		if ( isset( $url_parts[ 'query' ] ) ) {
+			$query_array = wfCgiToArray( $url_parts[ 'query' ] );
+		} else {
+			$query_array = array();
+		}
 
 		// ensure that _cache_ does not get set in the URL
 		unset( $query_array[ '_cache_' ] );

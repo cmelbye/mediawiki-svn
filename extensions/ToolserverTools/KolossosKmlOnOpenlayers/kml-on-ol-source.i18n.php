@@ -38,6 +38,18 @@ $messages['qqq'] = array(
 	'ts-kml-on-ol-all' => '{{Identical|All}}',
 );
 
+/** Afrikaans (Afrikaans)
+ * @author Naudefj
+ */
+$messages['af'] = array(
+	'ts-kml-on-ol-options' => 'Voorkeure',
+	'ts-kml-on-ol-languages' => 'Tale',
+	'ts-kml-on-ol-thumbnails' => 'Duimnaels',
+	'ts-kml-on-ol-help' => 'Help',
+	'ts-kml-on-ol-all' => 'Alle',
+	'ts-kml-on-ol-map-by' => 'Kaart deur',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author Jim-by
  */
@@ -48,6 +60,42 @@ $messages['be-tarask'] = array(
 	'ts-kml-on-ol-help' => 'Дапамога',
 	'ts-kml-on-ol-all' => 'Усе',
 	'ts-kml-on-ol-map-by' => 'Мапа',
+);
+
+/** Breton (Brezhoneg)
+ * @author Y-M D
+ */
+$messages['br'] = array(
+	'ts-kml-on-ol-options' => 'Dibarzhioù',
+	'ts-kml-on-ol-languages' => 'Yezhoù',
+	'ts-kml-on-ol-thumbnails' => 'Munudoù',
+	'ts-kml-on-ol-help' => 'Skoazell',
+	'ts-kml-on-ol-all' => 'Pep tra',
+	'ts-kml-on-ol-map-by' => 'Kartenn savet gant',
+);
+
+/** Bosnian (Bosanski)
+ * @author CERminator
+ */
+$messages['bs'] = array(
+	'ts-kml-on-ol-options' => 'Opcije',
+	'ts-kml-on-ol-languages' => 'Jezici',
+	'ts-kml-on-ol-thumbnails' => 'Smanjeni pregledi',
+	'ts-kml-on-ol-help' => 'Pomoć',
+	'ts-kml-on-ol-all' => 'Sve',
+	'ts-kml-on-ol-map-by' => 'Karta od',
+);
+
+/** Catalan (Català)
+ * @author Vriullop
+ */
+$messages['ca'] = array(
+	'ts-kml-on-ol-options' => 'Opcions',
+	'ts-kml-on-ol-languages' => 'Llengües',
+	'ts-kml-on-ol-thumbnails' => 'Miniatures',
+	'ts-kml-on-ol-help' => 'Ajuda',
+	'ts-kml-on-ol-all' => 'Totes',
+	'ts-kml-on-ol-map-by' => 'Mapa fet per',
 );
 
 /** Czech (Česky)
@@ -74,6 +122,17 @@ $messages['de'] = array(
 	'ts-kml-on-ol-map-by' => 'Karte von',
 	'ts-kml-on-ol-openstreetmap' => 'OpenStreetMap',
 	'ts-kml-on-ol-wikipedia' => 'Wikipedia',
+);
+
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'ts-kml-on-ol-options' => 'Opcije',
+	'ts-kml-on-ol-languages' => 'Rěcy',
+	'ts-kml-on-ol-thumbnails' => 'Wobrazki',
+	'ts-kml-on-ol-all' => 'Wšykne',
+	'ts-kml-on-ol-map-by' => 'Kórta wót',
 );
 
 /** French (Français)
@@ -111,6 +170,18 @@ $messages['gsw'] = array(
 	'ts-kml-on-ol-help' => 'Hilf',
 	'ts-kml-on-ol-all' => 'Alli',
 	'ts-kml-on-ol-map-by' => 'Charte vu',
+);
+
+/** Upper Sorbian (Hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'ts-kml-on-ol-options' => 'Opcije',
+	'ts-kml-on-ol-languages' => 'Rěče',
+	'ts-kml-on-ol-thumbnails' => 'Wobrazki',
+	'ts-kml-on-ol-help' => 'Pomoc',
+	'ts-kml-on-ol-all' => 'Wšě',
+	'ts-kml-on-ol-map-by' => 'Karta wot',
 );
 
 /** Interlingua (Interlingua)
@@ -215,6 +286,18 @@ $messages['pl'] = array(
 	'ts-kml-on-ol-map-by' => 'Mapa',
 );
 
+/** Piedmontese (Piemontèis)
+ * @author Dragonòt
+ */
+$messages['pms'] = array(
+	'ts-kml-on-ol-options' => 'Opsion',
+	'ts-kml-on-ol-languages' => 'Lenghe',
+	'ts-kml-on-ol-thumbnails' => 'Miniadure',
+	'ts-kml-on-ol-help' => 'Agiut',
+	'ts-kml-on-ol-all' => 'Tùit',
+	'ts-kml-on-ol-map-by' => 'Mapa da',
+);
+
 /** Portuguese (Português)
  * @author Hamilton Abreu
  */
@@ -249,5 +332,24 @@ $messages['te'] = array(
 	'ts-kml-on-ol-help' => 'సహాయం',
 	'ts-kml-on-ol-all' => 'అన్నీ',
 	'ts-kml-on-ol-map-by' => 'పటపు సౌజన్యం',
+);
+
+/** Ukrainian (Українська)
+ * @author Тест
+ */
+$messages['uk'] = array(
+	'ts-kml-on-ol-languages' => 'Мови',
+);
+
+/** Vietnamese (Tiếng Việt)
+ * @author Minh Nguyen
+ */
+$messages['vi'] = array(
+	'ts-kml-on-ol-options' => 'Tùy chọn',
+	'ts-kml-on-ol-languages' => 'Ngôn ngữ',
+	'ts-kml-on-ol-thumbnails' => 'Hình nhỏ',
+	'ts-kml-on-ol-help' => 'Trợ giúp',
+	'ts-kml-on-ol-all' => 'Tất cả',
+	'ts-kml-on-ol-map-by' => 'Bản đồ',
 );
 

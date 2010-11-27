@@ -13,7 +13,7 @@
  * @since 1.17
  */
 abstract class WebInstallerPage {
-	
+
 	/**
 	 * The WebInstaller object this WebInstallerPage belongs to.
 	 *
@@ -39,7 +39,7 @@ abstract class WebInstallerPage {
 	public function startForm() {
 		$this->addHTML(
 			"<div class=\"config-section\">\n" .
-			Xml::openElement(
+			Html::openElement(
 				'form',
 				array(
 					'method' => 'post',
@@ -50,7 +50,6 @@ abstract class WebInstallerPage {
 	}
 
 	public function endForm( $continue = 'continue' ) {
-		$this->parent->output->outputWarnings();
 		$s = "<div class=\"config-submit\">\n";
 		$id = $this->getId();
 		
@@ -88,7 +87,7 @@ abstract class WebInstallerPage {
 		return str_replace( 'WebInstaller_', '', get_class( $this ) );
 	}
 
-	public function getId() {
+	protected function getId() {
 		return array_search( $this->getName(), $this->parent->pageSequence );
 	}
 
@@ -118,12 +117,15 @@ abstract class WebInstallerPage {
 }
 
 class WebInstaller_Locked extends WebInstallerPage {
-
 	// The status of Installer::getLocalSettingsStatus()
 	private $status;
 
 	public function setLocalSettingsStatus( Status $s ) {
 		$this->status = $s;
+	}
+
+	protected function getId() {
+		return 0;
 	}
 
 	public function execute() {
@@ -150,6 +152,7 @@ class WebInstaller_Locked extends WebInstallerPage {
 	private function display() {
 		$this->startForm();
 		$this->parent->showStatusBox( $this->status );
+		$continue = false;
 		if( $this->status->isOK() && !$this->status->isGood() ) {
 			$this->addHTML( "<br />" .
 				$this->parent->getTextBox( array(
@@ -157,8 +160,9 @@ class WebInstaller_Locked extends WebInstallerPage {
 					'label' => 'config-localsettings-key',
 				) )
 			);
+			$continue = 'continue';
 		}
-		$this->endForm();
+		$this->endForm( $continue );
 	}
 }
 
@@ -235,7 +239,7 @@ class WebInstaller_Language extends WebInstallerPage {
 	 */
 	public function getLanguageSelector( $name, $label, $selectedCode ) {
 		global $wgDummyLanguageCodes;
-		$s = Xml::openElement( 'select', array( 'id' => $name, 'name' => $name ) ) . "\n";
+		$s = Html::openElement( 'select', array( 'id' => $name, 'name' => $name ) ) . "\n";
 
 		$languages = Language::getLanguageNames();
 		ksort( $languages );
@@ -314,8 +318,8 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 				"</li>\n";
 
 			$settings .=
-				Xml::openElement( 'div', array( 'id' => 'DB_wrapper_' . $type, 'class' => 'dbWrapper' ) ) .
-				Xml::element( 'h3', array(), wfMsg( 'config-header-' . $type ) ) .
+				Html::openElement( 'div', array( 'id' => 'DB_wrapper_' . $type, 'class' => 'dbWrapper' ) ) .
+				Html::element( 'h3', array(), wfMsg( 'config-header-' . $type ) ) .
 				$installer->getConnectForm() .
 				"</div>\n";
 		}
@@ -481,12 +485,12 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->getFieldSetStart( 'config-admin-box' ) .
 			$this->parent->getTextBox( array(
 				'var' => '_AdminName',
-				'label' => 'config-admin-name'
+				'label' => 'config-admin-name',
+				'help' => $this->parent->getHelpBox( 'config-admin-help' )
 			) ) .
 			$this->parent->getPasswordBox( array(
 				'var' => '_AdminPassword',
 				'label' => 'config-admin-password',
-			    'help' => $this->parent->getHelpBox( 'config-admin-help' )
 			) ) .
 			$this->parent->getPasswordBox( array(
 				'var' => '_AdminPassword2',
@@ -802,7 +806,7 @@ class WebInstaller_Options extends WebInstallerPage {
 
 		return
 			"<div class=\"config-cc-wrapper\" id=\"config-cc-wrapper\" style=\"display: none;\">\n" .
-			Xml::element( 'iframe', $iframeAttribs, '', false /* not short */ ) .
+			Html::element( 'iframe', $iframeAttribs, '', false /* not short */ ) .
 			"</div>\n";
 	}
 
@@ -813,12 +817,12 @@ class WebInstaller_Options extends WebInstallerPage {
 		$reduceJs = str_replace( '$1', '70px', $js );
 		return
 			'<p>'.
-			Xml::element( 'img', array( 'src' => $this->getVar( 'wgRightsIcon' ) ) ) .
+			Html::element( 'img', array( 'src' => $this->getVar( 'wgRightsIcon' ) ) ) .
 			'&#160;&#160;' .
 			htmlspecialchars( $this->getVar( 'wgRightsText' ) ) .
 			"</p>\n" .
 			"<p style=\"text-align: center\">" .
-			Xml::element( 'a',
+			Html::element( 'a',
 				array(
 					'href' => $this->getCCPartnerUrl(),
 					'onclick' => $expandJs,

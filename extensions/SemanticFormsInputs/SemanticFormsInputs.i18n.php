@@ -37,6 +37,10 @@ $messages['qqq'] = array(
 $messages['af'] = array(
 	'semanticformsinputs-desc' => 'Ekstra invoertipes vir [http://www.mediawiki.org/wiki/Extension:Semantic_Forms Semantic Forms]',
 	'semanticformsinputs-wrongformat' => 'Verkeerde formaat.',
+	'semanticformsinputs-close' => 'Sluit',
+	'semanticformsinputs-prev' => 'Vorige',
+	'semanticformsinputs-next' => 'Volgende',
+	'semanticformsinputs-today' => 'Vandag',
 );
 
 /** Aramaic (ܐܪܡܝܐ)
@@ -188,6 +192,18 @@ $messages['he'] = array(
 	'semanticformsinputs-prev' => 'הקודם',
 	'semanticformsinputs-next' => 'הבא',
 	'semanticformsinputs-today' => 'היום',
+);
+
+/** Upper Sorbian (Hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'semanticformsinputs-desc' => 'Přidatne zapodawanske typy za [http://www.mediawiki.org/wiki/Extension:Semantic_Forms Semantic Forms]',
+	'semanticformsinputs-wrongformat' => 'Wopačny format',
+	'semanticformsinputs-close' => 'Začinić',
+	'semanticformsinputs-prev' => 'Předchadny',
+	'semanticformsinputs-next' => 'Přichodny',
+	'semanticformsinputs-today' => 'Dźensa',
 );
 
 /** Hungarian (Magyar)

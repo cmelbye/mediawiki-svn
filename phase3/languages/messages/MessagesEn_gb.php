@@ -20,9 +20,6 @@ $specialPageAliases = array(
 );
 
 $messages = array(
-# Main script and global functions
-'nosuchactiontext' => 'The action specified by the URL is not recognised by the wiki',
-
 # Miscellaneous special pages
 'uncategorizedpages'      => 'Uncategorised pages',
 'uncategorizedcategories' => 'Uncategorised categories',

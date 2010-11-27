@@ -674,7 +674,7 @@ $messages['ba'] = array(
 	'mwe-file-thumbnail-no' => 'Файлдың исеме <b><tt>$1</tt></b> тип башлана',
 	'mwe-go-to-resource' => 'Ресурстар битенә күсергә',
 	'mwe-upload-misc-error' => 'Билдәһеҙ тейәү хатаһы',
-	'mwe-wgfogg_warning_bad_extension' => 'Һеҙ ҡулланылмаған киңәйтеүле файл һайлағанһығыҙ (<a href="http://commons.wikimedia.org/wiki/Commons:Firefogg#Supported_file_fypes">өҫтәмә мәғлүмәт</a>)',
+	'mwe-wgfogg_warning_bad_extension' => 'Һеҙ ҡулланылмаған киңәйеүле файл һайлағанһығыҙ (<a href="http://commons.wikimedia.org/wiki/Commons:Firefogg#Supported_file_fypes">өҫтәмә мәғлүмәт</a>)',
 	'mwe-thumbnail-more' => 'Ҙурайтырға',
 	'mwe-filesource' => 'Сығанаҡ:',
 	'mwe-filestatus' => 'Авторлыҡ хоҡуғы торошо:',
@@ -795,7 +795,7 @@ $messages['ba'] = array(
 	'mwe-cc_sa_title' => 'Шул уҡ шарттар менән',
 	'mwe-cc_pd_title' => 'Дөйөк милек',
 	'mwe-unknown_license' => 'Билдәһеҙ рөхсәтнамә',
-	'mwe-no-import-by-url' => 'Был ҡатнашыусы йәки вики проект ситтәге URL адрестарҙан бер нимә лә индерә алмай.
+	'mwe-no-import-by-url' => 'Был ҡатнашыусы йәки вики проект алыҫтағы URL адрестарҙан бер нимә лә индерә алмай.
 <p>Бәлки, һеҙгә танылырға кәрәктер?</p>
 <p> upload_by_url рөхсәте һеҙгә бирелгәнме?
 Вики проектта $1 рөхсәт ителгәнме?</p>',
@@ -1090,10 +1090,19 @@ $messages['be-tarask'] = array(
  */
 $messages['bg'] = array(
 	'mwe-upload-stats-fileprogress' => '$1 от $2',
+	'mwe-upload-unknown-size' => 'Неизвестен размер',
+	'mwe-successfulupload' => 'Качването беше успешно',
+	'mwe-uploaderror' => 'Грешка при качване',
+	'mwe-unknown-error' => 'Неизвестна грешка:',
+	'mwe-return-to-form' => 'Връщане към формуляра',
+	'mwe-fileexists-thumb' => 'Съществуващ файл',
+	'mwe-file-thumbnail-no' => 'Името на файла започва с <b><code>$1</code></b>',
+	'mwe-upload-misc-error' => 'Неизвестна грешка при качване',
 	'mwe-filesource' => 'Източник:',
 	'fogg-date-title' => 'Дата',
 	'fogg-license-title' => 'Лиценз',
 	'mwe-summary' => 'Резюме',
+	'mwe-cc_pd_title' => 'Обществено достояние',
 	'fogg-select_file' => 'Избиране на файл',
 	'fogg-select_new_file' => 'Избиране на нов файл',
 );
@@ -1102,6 +1111,7 @@ $messages['bg'] = array(
  * @author Fohanno
  * @author Fulup
  * @author Gwendal
+ * @author Reedy
  * @author Y-M D
  */
 $messages['br'] = array(
@@ -1240,7 +1250,7 @@ $messages['br'] = array(
 	'mwe-cc_sa_title' => 'Eskemmañ rik-ha-rik',
 	'mwe-cc_pd_title' => 'Domani foran',
 	'mwe-unknown_license' => 'Aotre-implijout dizanv',
-	'mwe-no-import-by-url' => '<b>Ne c\'hell ket</> an implijer-mañ pe ar wiki-mañ enporzhiañ danvez diwar URLoù a-bell. <p>Hag ezhomm ho peus kevreañ ?</p><p>Hag ar gwir "upload_by_url permission" ho peus ?</p><br />Hag aotreet eo bet $1 gant ar wiki ?</p>',
+	'mwe-no-import-by-url' => '<b>Ne c\'hell ket<b/> an implijer-mañ pe ar wiki-mañ enporzhiañ danvez diwar URLoù a-bell. <p>Hag ezhomm ho peus kevreañ ?</p><p>Hag ar gwir "upload_by_url permission" ho peus ?</p><br />Hag aotreet eo bet $1 gant ar wiki ?</p>',
 	'mwe-results_from' => "Disoc'hoù eus $1",
 	'mwe-missing_desc_see_source' => 'Mankout a ra un diskrivadenn evit an asset-mañ. Kit da welet ar [$1 vammenn] hag sikourit da ziskrivañ anezhi.',
 	'rsd_config_error' => 'Fazi kefluniadur eus ar skoazeller evit ouzhpennañ mediaoù : $1',

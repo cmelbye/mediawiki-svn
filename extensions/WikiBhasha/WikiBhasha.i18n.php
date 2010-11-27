@@ -1,6 +1,26 @@
 <?php
 /*
 *
+*   WikiBhasha
+*   Copyright (C) 2010, Microsoft
+*   
+*   This program is free software; you can redistribute it and/or
+*   modify it under the terms of the GNU General Public License version 2
+*   as published by the Free Software Foundation.
+*   
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*   
+*   You should have received a copy of the GNU General Public License
+*   along with this program; if not, write to the Free Software
+*   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*
+*/
+
+/*
+*
 *	If you want your extension to be used on wikis that have a multi-lingual readership, we will need to add internationalization support to the extension. 
 *
 *	1.For any text string displayed to the user, define a message. MediaWiki supports parameterized messages and that feature should be used when a message is dependent on information generated at runtime. Assign each message a lowercase message id.
@@ -28,11 +48,25 @@ $messages['qqq'] = array(
 	'wikiBhashaLink' => '{{Optional}}',
 );
 
+/** Afrikaans (Afrikaans)
+ * @author Naudefj
+ */
+$messages['af'] = array(
+	'wikibhasha-desc' => 'Toepassing om inhoud in verskeie tale te skep en sodoende die inhoud van die Engelse Wikipedia beter te gebruik',
+);
+
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  */
 $messages['be-tarask'] = array(
 	'wikibhasha-desc' => 'Дастасаваньне для стварэньня шматмоўнага зьместу, які выкарыстоўвае зьмест ангельскай Вікіпэдыі',
+);
+
+/** Breton (Brezhoneg)
+ * @author Y-M D
+ */
+$messages['br'] = array(
+	'wikibhasha-desc' => 'Ur poellad evit krouiñ danvez liesyezhek, diazezet war danvez ar Wikipedia saoznek',
 );
 
 /** Bosnian (Bosanski)
@@ -57,6 +91,13 @@ $messages['de'] = array(
 	'wikibhasha-desc' => 'Stellt eine Anwendung bereit, mit der vielsprachige Inhalte erstellt und so die der englischsprachigen Wikipedia besser genutzt werden können',
 );
 
+/** French (Français)
+ * @author Jean-Frédéric
+ */
+$messages['fr'] = array(
+	'wikibhasha-desc' => 'Application pour créer du contenu multilingue, en se basant sur le contenu de la Wikipédia en langue anglaise',
+);
+
 /** Galician (Galego)
  * @author Toliño
  */
@@ -69,6 +110,13 @@ $messages['gl'] = array(
  */
 $messages['gsw'] = array(
 	'wikibhasha-desc' => 'Aawändig, wu mer Inhalt in vile Sproche cha aalege un eso d Inhalt vu dr änglische Wikipedia besser cha nutze',
+);
+
+/** Upper Sorbian (Hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'wikibhasha-desc' => 'Aplikacija za wutworjenje wjelerěčneho wobsaha za lěpše zwužitkowanje jendźelskeje Wikipedije',
 );
 
 /** Interlingua (Interlingua)

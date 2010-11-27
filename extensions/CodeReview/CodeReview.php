@@ -73,7 +73,7 @@ $wgAutoloadClasses['CodeStatusChangeListView'] = $dir . 'ui/CodeStatusChangeList
 $wgAutoloadClasses['SpecialCode'] = $dir . 'ui/SpecialCode.php';
 $wgAutoloadClasses['CodeView'] = $dir . 'ui/SpecialCode.php';
 $wgAutoloadClasses['SpecialRepoAdmin'] = $dir . 'ui/SpecialRepoAdmin.php';
-
+$wgAutoloadClasses['WordCloud'] = $dir . 'ui/WordCloud.php';
 
 $wgSpecialPages['Code'] = 'SpecialCode';
 $wgSpecialPageGroups['Code'] = 'developer';
@@ -124,7 +124,7 @@ $wgSubversionOptions = "--non-interactive --trust-server-cert";
 $wgCodeReviewImportBatchSize = 400;
 
 // Bump the version number every time you change a CodeReview .css/.js file
-$wgCodeReviewStyleVersion = 6;
+$wgCodeReviewStyleVersion = 7;
 
 // The name of a repo which represents the code running on this wiki, used to highlight active revisions
 $wgWikiSVN = '';

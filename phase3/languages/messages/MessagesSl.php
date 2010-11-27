@@ -669,11 +669,6 @@ To sporočilo lahko prezrete, če je bil račun ustvarjen pomotoma.',
 Prosimo počakajte, preden poskusite znova.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaša zahteva za odjavo je bila zavrnjena, saj kaže, da je bila poslana iz pokvarjenega brskalnika ali proxyja s predpomnilnikom.',
-'ratelimit-excluded-ips'     => ' #<!-- pustite to vrstico takšno, kot je --> <pre>
-# Skladnja je sledeča:
-#   * Vse od znaka »#« do konca vrstice je pripomba
-#   * Vsaka neprazna vrstica je IP-naslov izključen iz omejitve ocenjevanja
- #</pre> <!-- pustite to vrstico takšno, kot je -->',
 
 # JavaScript password checks
 'password-strength'            => 'Ocenjena moč gesla: $1',
@@ -1831,6 +1826,7 @@ Preden jih izbrišete, preverite še druge povezave nanje.',
 'statistics-edits'             => 'Urejanja strani od postavitve {{GRAMMAR:rodilnik|{{SITENAME}}}}',
 'statistics-edits-average'     => 'Povprečno število urejanj na stran',
 'statistics-views-total'       => 'Vseh ogledov',
+'statistics-views-total-desc'  => 'Ogledi neoobstoječih in posebnih strani niso vključeni',
 'statistics-views-peredit'     => 'Razmerje med ogledi in urejanji',
 'statistics-users'             => 'Registrirani [[Special:ListUsers|uporabniki]]',
 'statistics-users-active'      => 'Aktivni uporabniki',

@@ -1672,6 +1672,7 @@ $messages['co'] = array(
  */
 $messages['crh-latn'] = array(
 	'sitesupport' => 'Bağışlar',
+	'wikimedia-copyright' => 'Metin <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike</a> litsenziyasınen berilgen; bazıda ilâve şartlar qullanılıp ola. Tafsilât içün <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Qullanuv Şartları</a>na baqıñız.',
 	'wikimedia-copyrightwarning' => 'Saifeni saqlap, yazğanıñıznıñ keri qaytalmaz şekilde [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] ve [http://www.gnu.org/copyleft/fdl.html GFDL] litsenziyalarınıñ şartlarına köre derc etilgenini qabul eteceksiñiz. Bu saifedeki malümatnı bundan soñ qullanacaqlarnıñ qoşqan isseñiz aqqında bare bu saifege bağlantı berip bildirecegi yeterli olacağını da qabul eteceksiñiz. Daa tafsilâtlı malümat içün [http://wikimediafoundation.org/wiki/ Qullanuv Şartlarını] baqıñız.',
 	'wikimedia-editpage-tos-summary' => 'Eger yazğan metinleriñizni er bir adam serbestçe deñiştirip ve tarqatıp olacağını istemeseñiz, olarnı mında yerleştirmeñiz.
 Eger yerleştirmege istegen metniñizni siz degil de, başqa bir adam yazğan olsa, şu metinniñ yerleştirilüvi [http://wikimediafoundation.org/wiki/Terms_of_Use Qullanuv Şartları]na uyğun olmalı, ve siz litsenziyanıñ bütün kerekli talaplarınen razı olmalısıñız.',
@@ -1682,6 +1683,7 @@ Eger yerleştirmege istegen metniñizni siz degil de, başqa bir adam yazğan ol
  */
 $messages['crh-cyrl'] = array(
 	'sitesupport' => 'Багъышлар',
+	'wikimedia-copyright' => 'Метин <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike</a> лицензиясынен берильген; базыда иляве шартлар къулланылып ола. Тафсилят ичюн <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Къулланув Шартлары</a>на бакъынъыз.',
 	'wikimedia-copyrightwarning' => 'Саифени сакълап, язгъанынъызнынъ кери къайталмаз шекильде [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] ве [http://www.gnu.org/copyleft/fdl.html GFDL] лицензияларынынъ шартларына коре дердж этильгенини къабул этеджексинъиз. Бу саифедеки малюматны бундан сонъ къулланаджакъларнынъ къошкъан иссенъиз акъкъында баре бу саифеге багъланты берип бильдиреджеги етерли оладжагъыны да къабул этеджексинъиз. Даа тафсилятлы малюмат ичюн [http://wikimediafoundation.org/wiki/ Къулланув Шартларыны] бакъынъыз.',
 	'wikimedia-editpage-tos-summary' => 'Эгер язгъан метинлеринъизни эр бир адам сербестче денъиштирип ве таркъатып оладжагъыны истемесенъиз, оларны мында ерлештирменъиз.
 Эгер ерлештирмеге истеген метнинъизни сиз дегиль де, башкъа бир адам язгъан олса, шу метиннинъ ерлештирилюви [http://wikimediafoundation.org/wiki/Terms_of_Use Къулланув Шартлары]на уйгъун олмалы, ве сиз лицензиянынъ бутюн керекли талапларынен разы олмалысынъыз.',
@@ -2766,6 +2768,7 @@ $messages['eu'] = array(
 	'sitesupport-url' => 'http://wikimediafoundation.org/wiki/Dohaintzak',
 	'sitesupport' => 'Dohaintzak',
 	'tooltip-n-sitesupport' => 'Lagundu gaitzazu',
+	'specialpages-group-contribution' => 'Dohaintzaren egilea',
 	'group-abusefilter' => 'Abusu-iragazkien editoreak',
 	'group-accountcreator' => 'Kontu sortzailea',
 	'group-arbcom' => 'Tartekaritza-taldearen kideak',
@@ -2774,12 +2777,17 @@ $messages['eu'] = array(
 	'group-bigexport' => 'Esportatzaile handiak',
 	'group-confirmed' => 'Egiaztatutako erabiltzaileak',
 	'group-editprotected' => 'Babestutako orrien editoreak',
+	'group-eliminator' => 'Ezabatzaileak',
+	'group-filemover' => 'Fitxategi mugitzaileak',
 	'group-flood' => 'Bot erabiltzaileak',
 	'group-founder' => 'Fundatzaileak',
+	'group-Image-reviewer' => 'Irudi berrikusleak',
 	'group-import' => 'Inportatzaileak',
 	'group-interface_editors' => 'Interfazeko editoreak',
 	'group-ipblock-exempt' => 'IP blokeo salbuespenak',
+	'group-OTRS-member' => 'OTRS kideak',
 	'group-patroller' => 'Patruilariak',
+	'group-researcher' => 'Ikertzaileak',
 	'group-rollbacker' => 'Desegin dezakete',
 	'group-transwiki' => 'Transwiki inportatzaileak',
 	'group-trusted' => 'Konfiantzazko lankideak',
@@ -2791,12 +2799,15 @@ $messages['eu'] = array(
 	'group-bigexport-member' => 'esportatzaile handia',
 	'group-confirmed-member' => 'egiaztatutako erabiltzailea',
 	'group-editprotected-member' => 'babestutako orrien editorea',
+	'group-eliminator-member' => 'ezabatzailea',
 	'group-filemover-member' => 'fitxategi mugitzaileak',
 	'group-flood-member' => 'bot erabiltzaileak',
 	'group-founder-member' => 'fundatzailea',
+	'group-Image-reviewer-member' => 'irudi berrikuslea',
 	'group-import-member' => 'inportatzailea',
 	'group-interface_editors-member' => 'interfazeko editorea',
 	'group-ipblock-exempt-member' => 'IP blokeo salbuespena',
+	'group-OTRS-member-member' => 'OTRS kidea',
 	'group-patroller-member' => 'patruilaria',
 	'group-researcher-member' => 'ikertzailea',
 	'group-rollbacker-member' => 'desegin dezake',
@@ -2806,16 +2817,19 @@ $messages['eu'] = array(
 	'grouppage-accountcreator' => '{{ns:project}}:Kontu sortzaileak',
 	'grouppage-arbcom' => '{{ns:project}}:Tartekaritza-taldeko kideak',
 	'grouppage-autopatrolled' => '{{ns:project}}:Autopatruilariak',
-	'grouppage-autoreviewer' => '{{ns:project}}:Aztertzaile automatikoak',
+	'grouppage-autoreviewer' => '{{ns:project}}:Autopatruilariak',
 	'grouppage-bigexport' => '{{ns:project}}:Esportatzaile handiak',
 	'grouppage-confirmed' => '{{ns:project}}:Egiaztatutako erabiltzaileak',
 	'grouppage-editprotected' => '{{ns:project}}:Babestutako orrien editoreak',
+	'grouppage-eliminator' => '{{ns:project}}:Ezabatzaileak',
 	'grouppage-filemover' => '{{ns:project}}:Fitxategi mugitzaileak',
 	'grouppage-flood' => '{{ns:project}}:Bot lankideak',
 	'grouppage-founder' => '{{ns:project}}:Fundatzaileak',
+	'grouppage-Image-reviewer' => '{{ns:project}}:Irudi berrikusleak',
 	'grouppage-import' => '{{ns:project}}:Inportatzaileak',
 	'grouppage-interface_editors' => '{{ns:project}}:Interfazeko editoreak',
 	'grouppage-ipblock-exempt' => '{{ns:project}}:IP blokeo salbuespenak',
+	'grouppage-OTRS-member' => '{{ns:project}}:OTRS kideak',
 	'grouppage-researcher' => '{{ns:project}}:Ikertzaileak',
 	'grouppage-rollbacker' => '{{ns:project}}:Desegin dezakete',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki inportatzaileak',
@@ -3149,7 +3163,7 @@ $messages['fr'] = array(
 	'group-rollbacker' => 'Révocateurs',
 	'group-transwiki' => 'Importateurs transwiki',
 	'group-trusted' => 'Utilisateurs de confiance',
-	'group-abusefilter-member' => 'modificateur de filtre antiabus',
+	'group-abusefilter-member' => 'Modificateur de filtre antiabus',
 	'group-accountcreator-member' => 'créateur de comptes',
 	'group-arbcom-member' => 'membre du comité d’arbitrage',
 	'group-autopatrolled-member' => 'patrouilleur automatique',
@@ -4242,6 +4256,7 @@ $messages['hsb'] = array(
 	'group-bigexport' => 'Wulkowuwožowarjo',
 	'group-confirmed' => 'Wobkrućeni wužiwarjo',
 	'group-editprotected' => 'Wobdźěłarjo škitanych stronow',
+	'group-eliminator' => 'Hašaki',
 	'group-filemover' => 'Přesuwarjo datajow',
 	'group-flood' => 'Botowi wužiwarjo',
 	'group-founder' => 'Załožerjo',
@@ -4263,6 +4278,7 @@ $messages['hsb'] = array(
 	'group-bigexport-member' => 'wulkowuwožowar',
 	'group-confirmed-member' => 'wobkrućeny wužiwar',
 	'group-editprotected-member' => 'wobdźěłar škitanych stronow',
+	'group-eliminator-member' => 'hašak',
 	'group-filemover-member' => 'přesuwar datajow',
 	'group-flood-member' => 'botowi wužiwarjo',
 	'group-founder-member' => 'załožer',
@@ -4284,6 +4300,7 @@ $messages['hsb'] = array(
 	'grouppage-bigexport' => '{{ns:project}}:Wulkowuwožowarjo',
 	'grouppage-confirmed' => '{{ns:project}}:Wobkrućeni wužiwarjo',
 	'grouppage-editprotected' => '{{ns:project}}:Wobdźěłarjo škitanych stronow',
+	'grouppage-eliminator' => '{{ns:project}}:Hašak',
 	'grouppage-filemover' => '{{ns:project}}:Přesuwarjo datajow',
 	'grouppage-flood' => '{{ns:project}}:Botowi wužiwarjo',
 	'grouppage-founder' => '{{ns:project}}:Załožerjo',
@@ -10070,6 +10087,7 @@ $messages['ts'] = array(
 );
 
 /** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+ * @author Don Alessandro
  * @author Rinatus
  * @author Timming
  * @author Ерней
@@ -10169,14 +10187,20 @@ $messages['tt-cyrl'] = array(
 	'group-inactive-member' => 'актив булмаган кулланучы',
 	'grouppage-inactive' => '{{ns:project}}:Актив булмаган кулланучылар',
 	'wikimedia-copyright' => 'Текст <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike</a> лицензиясе астында бирелә, аерым очракларда өстәмә шартлар эшләргә мөмкин. Өстәмә мәгълүмат өчен <a href="http://wikimediafoundation.org/wiki/Terms_of_Use/ru">Куллану шартларын</a> карагыз.',
-	'wikimedia-copyrightwarning' => "Үзгәртүләрне саклаган вакытта, сез аларның [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] һәм [http://www.gnu.org/copyleft/fdl.html GFDL] лицензияләре таләпләре буенча публикацияләвенә риза буласыз. Бу битне кулланганда, сезгә иң киме гиперсылтама яки бит URL'ы аша сылтама куелуга риза буласыз. Тулырак мәгълүмат өчен [http://wikimediafoundation.org/wiki/Terms_of_Use Terms of Use] битен карагыз.",
+	'wikimedia-copyrightwarning' => "Үзгәртүләрне саклаган вакытта, сез аларның [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] һәм [http://www.gnu.org/copyleft/fdl.html GFDL] лицензияләре таләпләре буенча публикацияләвенә риза буласыз. Бу битне кулланганда, сезгә иң киме гиперсылтама яки бит URL'ы аша сылтама куелуга риза буласыз. Тулырак мәгълүмат өчен [http://wikimediafoundation.org/wiki/Terms_of_Use Куллану шартлары] битен карагыз.",
 	'wikimedia-editpage-tos-summary' => 'Сез текстларыгыз ирекле рәвештә төзәтелүенне һәм теләгәннәр тарафыннан таратылуынны теләмәсәгез, аларны монда урнаштырмагыз.
 Сез язган текстның авторы булмасагыз, текст [http://wikimediafoundation.org/wiki/Terms_of_Use/ Куллану шартлары] белән килешкән шартларга туры килергә тиеш, һәм Сез лицензиянең таләпләренә буйсынырга килешәсез.',
 );
 
-/** Tatar (Latin) (Татарча/Tatarça (Latin)) */
+/** Tatar (Latin) (Татарча/Tatarça (Latin))
+ * @author Don Alessandro
+ */
 $messages['tt-latn'] = array(
-	'sitesupport' => 'Ximäyäçegä',
+	'sitesupport' => 'İğänä',
+	'wikimedia-copyright' => 'Tekst <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike</a> litsenziäse astında birelä, ayırım oçraqlarda östämä şartlar eşlärgä mömkin. Östämä mäğlümat öçen <a href="http://wikimediafoundation.org/wiki/Terms_of_Use/ru">Qullanu şartların</a> qarağız.',
+	'wikimedia-copyrightwarning' => "Üzgärtülärne saqlağan waqıtta, sez alarnıñ [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] häm [http://www.gnu.org/copyleft/fdl.html GFDL] litsenziäläre taläpläre buyınça publikatsiäläwenä riza bulasız. Bu bitne qullanğanda, sezgä iñ kime gipersıltama yäki bit URL'ı aşa sıltama quyıluğa riza bulasız. Tulıraq mäğlümat öçen [http://wikimediafoundation.org/wiki/Terms_of_Use Qullanu şartları] biten qarağız.",
+	'wikimedia-editpage-tos-summary' => 'Sez tekstlarığız irekle räweştä tözätelüenne häm telägännär tarafınnan taratıluınnı telämäsägez, alarnı monda urnaştırmağız.
+Sez yazğan tekstnıñ avtorı bulmasağız, tekst [http://wikimediafoundation.org/wiki/Terms_of_Use/ Qullanu şartları] belän kileşkän şartlarğa turı kilergä tieş, häm Sez litsenziäneñ taläplärenä buysınırğa kileşäsez.',
 );
 
 /** Tahitian (Reo Mā`ohi) */

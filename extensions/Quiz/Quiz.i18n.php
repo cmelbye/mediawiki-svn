@@ -194,9 +194,11 @@ $messages['ast'] = array(
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
+	'quiz_desc' => 'Һораулыҡ булдырырға мөмкинлек бирә',
 	'quiz_addedPoints' => 'Дөрөҫ яуап өсөн {{PLURAL:$1|мәрәй|мәрәй}} өҫтәлде',
 	'quiz_cutoffPoints' => 'Яңылыш яуап өсөн {{PLURAL:$1|мәрәй|мәрәй}}',
 	'quiz_ignoreCoef' => 'Һорау коэффициенттарын иҫәпкә алмаҫҡа',
@@ -546,7 +548,7 @@ $messages['eu'] = array(
 	'quiz_correction' => 'Bidali',
 	'quiz_score' => 'Zure kalifikazioa $1 / $2 da',
 	'quiz_points' => '$1 | {{PLURAL:$2|puntu 1|$2 puntu}}',
-	'quiz_reset' => 'Berrezarri',
+	'quiz_reset' => 'Hasieratu',
 );
 
 /** Persian (فارسی)
@@ -1156,7 +1158,7 @@ $messages['mk'] = array(
 	'quiz_colorWrong' => 'Погрешно',
 	'quiz_colorNA' => 'Неодговорено',
 	'quiz_colorError' => 'синтаксна грешка',
-	'quiz_correction' => 'Внеси',
+	'quiz_correction' => 'Поднеси',
 	'quiz_score' => 'Вашето бодовно салдо изнесува $1 / $2',
 	'quiz_points' => '$1 | {{PLURAL:$2|1 поен|$2 поени}}',
 	'quiz_reset' => 'Врати одново',

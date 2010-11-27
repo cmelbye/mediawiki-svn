@@ -32,6 +32,13 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	function testElementInputCanHaveAValueOfZero() {
+		$this->assertEquals(
+			'<input name="name" value="0" />',
+			Xml::input( 'name', false, 0 ),
+			'Input with a value of 0 (bug 23797)'
+		);
+	}
 	function testElementEscaping() {
 		$this->assertEquals(
 			'<element>hello &lt;there&gt; you &amp; you</element>',
@@ -82,6 +89,39 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 			'<textarea name="name" id="name" cols="20" rows="10">&lt;txt&gt;</textarea>',
 			Xml::textarea( 'name', '<txt>', 20, 10 ),
 			'textarea() with custom attribs'
+		);
+	}
+
+	#
+	# input and label
+	#
+	function testLabelCreation() {
+		$this->assertEquals(
+			'<label for="id">name</label>',
+			Xml::label( 'name', 'id' ),
+			'label() with no attribs'
+		);
+	}
+	function testLabelAttributeCanOnlyBeClass() {
+		$this->assertEquals(
+			'<label for="id">name</label>',
+			Xml::label( 'name', 'id', array( 'generated' => true ) ),
+			'label() can not be given a generated attribute'
+		);
+		$this->assertEquals(
+			'<label for="id" class="nice">name</label>',
+			Xml::label( 'name', 'id', array( 'class' => 'nice' ) ),
+			'label() can get a class attribute'
+		);
+		$this->assertEquals(
+			'<label for="id" class="nice">name</label>',
+			Xml::label( 'name', 'id', array( 
+				'generated' => true,
+				'class' => 'nice',
+				'anotherattr' => 'value',
+				)
+			),
+			'label() skip all attributes but "class"'
 		);
 	}
 

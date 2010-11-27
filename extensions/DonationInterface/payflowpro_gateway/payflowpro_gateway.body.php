@@ -108,19 +108,26 @@ EOT;
 
 		$payflow_data = payflowUser();
 
-		// if we have squid caching enabled, set the maxage
-		global $wgUseSquid, $wgPayflowSMaxAge;
-		if ( $wgUseSquid ) {
-			$wgOut->setSquidMaxage( $wgPayflowSMaxAge );
-		} 
-		
-		// establish the edit token to prevent csrf
-		$token = self::fnPayflowEditToken( $wgPayflowGatewaySalt );
+		// if _cache_ is requested by the user, do not set a session/token; dynamic data will be loaded via ajax
+		if ( $wgRequest->getText( '_cache_', false ) ) {
+			$cache = true;
+			$token = '';
+			$token_match = false;
 
-		// match token
-		$token_check = ( $wgRequest->getText( 'token' ) ) ? $wgRequest->getText( 'token' ) : $token;
-		$token_match = self::fnPayflowMatchEditToken( $token_check, $wgPayflowGatewaySalt );
-		
+			// if we have squid caching enabled, set the maxage
+			global $wgUseSquid, $wgPayflowSMaxAge;
+			if ( $wgUseSquid ) $wgOut->setSquidMaxage( $wgPayflowSMaxAge );
+		} else {
+			$cache = false;
+
+			// establish the edit token to prevent csrf
+			$token = self::fnPayflowEditToken( $wgPayflowGatewaySalt );
+
+			// match token
+			$token_check = ( $wgRequest->getText( 'token' ) ) ? $wgRequest->getText( 'token' ) : $token;
+			$token_match = $this->fnPayflowMatchEditToken( $token_check, $wgPayflowGatewaySalt );
+		}
+
 		$this->setHeaders();
 
 		// Populate form data
@@ -141,9 +148,8 @@ EOT;
 		if ( $token_match ) {
 
 			if ( $data['payment_method'] == 'processed' ) {
-				// increase the count of attempts (if we're not using Squid [which means we're using the API to control numAttempt]
-				global $wgUseSquid;
-				if ( !$wgUseSquid ) ++$data['numAttempt'];
+				// increase the count of attempts
+				++$data['numAttempt'];
 
 				// Check form for errors and redisplay with messages
 				$form_errors = $this->fnPayflowValidateForm( $data, $this->errors );
@@ -151,7 +157,9 @@ EOT;
 					$this->fnPayflowDisplayForm( $data, $this->errors );
 				} else { // The submitted form data is valid, so process it
 					// allow any external validators to have their way with the data
+					wfDebugLog( 'payflowpro_gateway', 'Preparing to query MaxMind' );
 					wfRunHooks( 'PayflowGatewayValidate', array( &$this, &$data ) );
+					wfDebugLog( 'payflowpro_gateway', 'Finished querying Maxmind' );
 
 					// if the transaction was flagged for review
 					if ( $this->action == 'review' ) {
@@ -189,7 +197,10 @@ EOT;
 				$this->fnPayflowDisplayForm( $data, $this->errors );
 			}
 		} else {
-			$this->errors['general']['token-mismatch'] = wfMsg( 'payflowpro_gateway-token-mismatch' );
+			if ( !$cache ) {
+				// if we're not caching, there's a token mismatch
+				$this->errors['general']['token-mismatch'] = wfMsg( 'payflowpro_gateway-token-mismatch' );
+			}
 			$this->fnPayflowDisplayForm( $data, $this->errors );
 		}
 	}
@@ -203,10 +214,10 @@ EOT;
 	 * The message at the top of the form can be edited in the payflow_gateway.i18n.php file
 	 */
 	public function fnPayflowDisplayForm( &$data, &$error ) {
-		global $wgOut, $wgRequest, $wgUseSquid;
+		global $wgOut, $wgRequest;
 
 		// save contrib tracking id early to track abondonment
-		if ( !$wgUseSquid && !is_null( $data[ 'contribution_tracking_id' ] )) {
+		if ( $data[ 'numAttempt' ] == '0' && ( !$wgRequest->getText( 'utm_source_id', false ) || $wgRequest->getText( '_nocache_' ) == 'true' ) ) {
 			$tracked = $this->fnPayflowSaveContributionTracking( $data );
 			if ( !$tracked ) {
 				$when = time();
@@ -372,10 +383,10 @@ EOT;
 	 * 						include in string (i.e. Vendor, password)
 	 */
 	private function fnPayflowProcessTransaction( $data, $payflow_data ) {
-		global $wgOut, $wgDonationTestingMode, $wgPayflowGatewayUseHTTPProxy, $wgPayflowGatewayHTTPProxy;
+		global $wgOut, $wgDonationTestingMode, $wgPayflowGatewayUseHTTPProxy, $wgPayflowGatewayHTTPProxy, $wgPayflowProTimeout;
 
 		// update contribution tracking
-		$this->updateContributionTracking( $data );
+		$this->updateContributionTracking( $data, defined( 'OWA' ) );
 
 		// create payflow query string, include string lengths
 		$queryArray = array(
@@ -420,7 +431,7 @@ EOT;
 		curl_setopt( $ch, CURLOPT_USERAGENT, $user_agent );
 		curl_setopt( $ch, CURLOPT_HEADER, 1 );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_TIMEOUT, 90 );
+		curl_setopt( $ch, CURLOPT_TIMEOUT, $wgPayflowProTimeout );
 		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 0 );
 		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
 		curl_setopt( $ch, CURLOPT_POSTFIELDS, $payflow_query );
@@ -439,12 +450,15 @@ EOT;
 		$i = 1;
 
 		while ( $i++ <= 3 ) {
+			wfDebugLog( 'payflowpro_gateway', 'Preparing to send transaction to PayflowPro' );
 			$result = curl_exec( $ch );
 			$headers = curl_getinfo( $ch );
 
 			if ( $headers['http_code'] != 200 && $headers['http_code'] != 403 ) {
-				sleep( 5 );
+				wfDebugLog( 'payflowpro_gateway', 'Failed sending transaction to PayflowPro, retrying' );
+				sleep( 1 );
 			} elseif ( $headers['http_code'] == 200 || $headers['http_code'] == 403 ) {
+				wfDebugLog( 'payflowpro_gateway', 'Finished sending transaction to PayflowPro' );
 				break;
 			}
 		}
@@ -880,7 +894,7 @@ EOT;
 	 * @var mixed $salt
 	 * @return bool
 	 */
-	public static function fnPayflowMatchEditToken( $val, $salt = '' ) {
+	function fnPayflowMatchEditToken( $val, $salt = '' ) {
 		// fetch a salted version of the session token
 		$sessionToken = self::fnPayflowEditToken( $salt );
 		if ( $val != $sessionToken ) {
@@ -910,6 +924,36 @@ EOT;
 		wfSetupSession();
 	}
 
+
+/**
+	 * Fetches ID for reference URL for OWA tracking
+	 * 
+	 * In the event that the URL is not already in the database, insert it
+	 * and return it's id.  Otehrewise, just return its id.
+	 * @param string $ref The reference URL
+	 * @return int The id for the reference URL - 0 if not found
+	 */
+	function get_owa_ref_id( $ref ) {
+		// Replication lag means sometimes a new event will not exist in the table yet
+		$dbw = payflowGatewayConnection();
+		$id_num = $dbw->selectField(
+			'contribution_tracking_owa_ref',
+			'id',
+			array( 'url' => $ref ),
+			__METHOD__
+		);
+		// Once we're on mysql 5, we can use replace() instead of this selectField --> insert or update hooey
+		if ( $id_num === false ) {
+			$dbw->insert(
+				'contribution_tracking_owa_ref',
+				array( 'url' => (string) $ref ),
+				__METHOD__
+			);
+			$id_num = $dbw->insertId();
+		}
+		return $id_num === false ? 0 : $id_num;
+	}
+
 	/**
 	 * Populate the $data array for the credit card form
 	 *
@@ -918,6 +962,12 @@ EOT;
 	 */
 	public function fnGetFormData( $amount, $numAttempt, $token, $order_id ) {
 		global $wgPayflowGatewayTest, $wgRequest;
+
+		// fetch ID for the url reference for OWA tracking
+		$owa_ref = $wgRequest->getText( 'owa_ref', null );
+		if( $owa_ref != null  && !is_numeric( $owa_ref )){
+			$owa_ref = $this->get_owa_ref_id( $owa_ref );
+		}
 
 		// if we're in testing mode and an action hasn't yet be specified, prepopulate the form
 		if ( !$wgRequest->getText( 'action', false ) && !$numAttempt && $wgPayflowGatewayTest ) {
@@ -965,10 +1015,12 @@ EOT;
 				'email-opt' => $wgRequest->getText( 'email-opt' ),
 				'test_string' => $wgRequest->getText( 'process' ),
 				'token' => $token,
-				'contribution_tracking_id' => $wgRequest->getText( 'contribution_tracking_id', null ),
+				'contribution_tracking_id' => $wgRequest->getText( 'contribution_tracking_id' ),
 				'data_hash' => $wgRequest->getText( 'data_hash' ),
 				'action' => $wgRequest->getText( 'action' ),
 				'gateway' => 'payflowpro',
+				'owa_session' => $wgRequest->getText( 'owa_session', null ),
+				'owa_ref' => $owa_ref,
 			);
 		} else {
 			$data = array(
@@ -1002,10 +1054,12 @@ EOT;
 				'email-opt' => $wgRequest->getText( 'email-opt' ),
 				'test_string' => $wgRequest->getText( 'process' ), // for showing payflow string during testing
 				'token' => $token,
-				'contribution_tracking_id' => $wgRequest->getText( 'contribution_tracking_id', null ),
+				'contribution_tracking_id' => $wgRequest->getText( 'contribution_tracking_id' ),
 				'data_hash' => $wgRequest->getText( 'data_hash' ),
 				'action' => $wgRequest->getText( 'action' ),
 				'gateway' => 'payflowpro', // this may need to become dynamic in the future
+				'owa_session' => $wgRequest->getText( 'owa_session', null ),
+				'owa_ref' => $owa_ref,
 			);
 		}
 		return $data;
@@ -1124,6 +1178,8 @@ EOT;
 			'utm_source' => $data['utm_source'],
 			'utm_medium' => $data['utm_medium'],
 			'utm_campaign' => $data['utm_campaign'],
+			'owa_session' => $data['owa_session'],
+			'owa_ref' => $data['owa_ref'],
 			'optout' => $optout[ 'optout' ],
 			'language' => $data['language'],
 		);

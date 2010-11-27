@@ -31,6 +31,7 @@ $messages['en'] = array(
 	'code-authors' => 'authors',
 	'code-status' => 'states',
 	'code-tags' => 'tags',
+	'code-tags-no-tags' => 'No tags exist in this repository.',
 	'code-authors-text' => 'Below is a list of repo authors in order of commit name. Local wiki accounts are shown in parentheses. Data may be cached.',
 	'code-author-haslink' => 'This author is linked to the wiki user $1',
 	'code-author-orphan' => 'This author has no link with a wiki account',
@@ -51,6 +52,7 @@ $messages['en'] = array(
 	'code-field-user' => 'Commenter',
 	'code-field-message' => 'Commit summary',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Status description',
 	'code-field-timestamp' => 'Date',
 	'code-field-comments' => 'Notes',
 	'code-field-path' => 'Path',
@@ -88,7 +90,7 @@ $messages['en'] = array(
 	'code-status-fixme' => 'fixme',
 	'code-status-desc-fixme' => 'A reviewer marked this revision introduce a bug or is broken. It should be corrected.',
 	'code-status-reverted' => 'reverted',
-	'code-status-desc-reverted' => 'Revision was thrown away by a later revision.',
+	'code-status-desc-reverted' => 'Revision was undone by a later revision.',
 	'code-status-resolved' => 'resolved',
 	'code-status-desc-resolved' => 'Revision had an issue which was addressed by a later revision.',
 	'code-status-ok' => 'ok',
@@ -358,6 +360,7 @@ $messages['af'] = array(
 	'code-rev-not-found' => "Weergawe '''$1''' bestaan nie!",
 	'code-status-new' => 'nuut',
 	'code-status-fixme' => 'fixme',
+	'code-status-reverted' => 'teruggerol',
 	'code-status-resolved' => 'opgelos',
 	'code-status-ok' => 'ok',
 	'code-status-verified' => 'geverifieer',
@@ -940,6 +943,7 @@ $messages['be-tarask'] = array(
 	'code-authors' => 'аўтары',
 	'code-status' => 'станы',
 	'code-tags' => 'тэгі',
+	'code-tags-no-tags' => 'Няма тэгаў у гэтым сховішчы.',
 	'code-authors-text' => 'Ніжэй пададзены сьпіс аўтараў сховішча ўпарадкаваны па імёнах. Рахункі лякальнай вікі паказаныя ў дужках. Гэтыя зьвесткі могуць быць кэшавая.',
 	'code-author-haslink' => 'Гэты аўтар асацыяваны з удзельнікам $1',
 	'code-author-orphan' => 'Гэты аўтар ня мае спасылкі на рахунак удзельніка вікі',
@@ -960,6 +964,7 @@ $messages['be-tarask'] = array(
 	'code-field-user' => 'Аўтар камэнтара',
 	'code-field-message' => 'Кароткае апісаньне зьменаў',
 	'code-field-status' => 'Статус',
+	'code-field-status-description' => 'Апісаньне статусу',
 	'code-field-timestamp' => 'Дата',
 	'code-field-comments' => 'Камэнтары',
 	'code-field-path' => 'Шлях',
@@ -1378,14 +1383,11 @@ URL klok : $3
 Diverrañ eus ar c\'hemmoù :
 
 $4',
-	'codereview-email-subj3' => '[$1] [$2] : merzet ez eus bet ur giladenn gant an amprouadenn emgefre',
-	'codereview-email-body3' => "Merzet ez eus bet ur giladenn gant an amprouadenn emgefre en abeg d'ar c'hemmoù degaset er stumm $1.
+	'codereview-email-subj3' => '[$1] [$2] : cheñchet en deus stad ar stumm',
+	'codereview-email-body3' => 'An implijer "$1" en deus kemmet stad $2.
 
-URL klok : $2
-
-Diverrañ evit ar c'has :
-
-$3",
+Stad kozh : $2
+Stad nevez : $3',
 	'code-stats' => 'stadegoù',
 	'code-stats-header' => 'Stadegoù evit ar sanailh $1',
 	'code-stats-main' => "D'an deiziad $1, an dastummlec'h en doa $2 {{PLURAL:$2|adweladenn|adweladenn}} gant [[Special:Code/$3/author|$4 {{PLURAL:$4|oberour|oberour}}]].",
@@ -1439,6 +1441,7 @@ $messages['bs'] = array(
 	'code-authors' => 'autori',
 	'code-status' => 'statusi',
 	'code-tags' => 'oznake',
+	'code-tags-no-tags' => 'Ne postoje oznake u ovom repozitorijumu.',
 	'code-authors-text' => 'Ispod je spisak autora repozitorijuma poredanih po imenima. Lokalni wiki računi su prikazani pod navodnicima. Podaci mogu biti keširani.',
 	'code-author-haslink' => 'Ovaj autor je povezan wiki korisničkim računom $1',
 	'code-author-orphan' => 'Ovaj autor nije povezan sa wiki računom',
@@ -1459,6 +1462,7 @@ $messages['bs'] = array(
 	'code-field-user' => 'Komentator',
 	'code-field-message' => 'Pošalji sažetak',
 	'code-field-status' => 'Stanje',
+	'code-field-status-description' => 'Opis stanja',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Bilješke',
 	'code-field-path' => 'Putanja',
@@ -1715,6 +1719,7 @@ $messages['cs'] = array(
 	'code-authors' => 'autoři',
 	'code-status' => 'stavy',
 	'code-tags' => 'značky',
+	'code-tags-no-tags' => 'V tomto úložišti neexistují žádné značky.',
 	'code-authors-text' => 'Toto je seznam autorů v úložišti seřazený podle jména. V závorkách jsou uživatelská jména na této wiki. Data mohou pocházet z cache.',
 	'code-author-haslink' => 'Tento autor je spojen s wiki uživatelem $1',
 	'code-author-orphan' => 'Tento autor není svázaný s žádným wikiuživatelem',
@@ -1735,6 +1740,7 @@ $messages['cs'] = array(
 	'code-field-user' => 'Komentující',
 	'code-field-message' => 'Komentář',
 	'code-field-status' => 'Stav',
+	'code-field-status-description' => 'Popis stavu',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Poznámky',
 	'code-field-path' => 'Cesta',
@@ -1995,6 +2001,7 @@ $messages['de'] = array(
 	'code-authors' => 'Autoren',
 	'code-status' => 'Status',
 	'code-tags' => 'Tags',
+	'code-tags-no-tags' => 'In diesem Repositorium gibt es keine Tags.',
 	'code-authors-text' => 'Es folgt die Liste der Repositoriumsautoren, nach Namen sortiert. Lokale Wikikonten werden in runden Klammern angezeigt. Daten könnten aus dem Cache stammen.',
 	'code-author-haslink' => 'Dieser Autor ist mit dem Wiki-Benutzer $1 verlinkt',
 	'code-author-orphan' => 'Dieser Autor hat keinen Link zu einem Wiki-Benutzerkonto',
@@ -2015,6 +2022,7 @@ $messages['de'] = array(
 	'code-field-user' => 'Kommentator',
 	'code-field-message' => 'Kommentar',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Status-Beschreibung',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Notizen',
 	'code-field-path' => 'Pfad',
@@ -2867,6 +2875,8 @@ $messages['es'] = array(
 	'code-status-desc-deferred' => 'La revisión no requiere revisión.',
 	'code-status-old' => 'antiguo',
 	'code-status-desc-old' => 'Revisión antigua que puede contener defectos, pero cuya verificación no se justifica.',
+	'code-signoff-field-user' => 'Usuario',
+	'code-signoff-field-date' => 'Fecha',
 	'code-pathsearch-legend' => 'Buscar revisiones en este repositorio por ruta',
 	'code-pathsearch-path' => 'Ruta:',
 	'code-pathsearch-filter' => 'Filtro aplicado:',
@@ -2904,7 +2914,7 @@ URL completa : $3
 Resumen de las confirmaciones:
 
 $4',
-	'codereview-email-subj3' => '[$1] [$2] : la prueba automática ha detectado una regresión',
+	'codereview-email-subj3' => '[$1] [$2] : El estado de revisión ha cambiado',
 	'codereview-email-body3' => 'La prueba automática ha mostrado una regresión debido a los cambios realizados en $1.
 
 URL completa: $2
@@ -2912,6 +2922,7 @@ URL completa: $2
 Resumen de confirmación:
 
 $3',
+	'codereview-email-subj4' => '[$1] [$2]: Nuevo comentario añadido, y cambiado el estado de la revisión',
 	'code-stats' => 'estadísticas',
 	'code-stats-header' => 'Estadísticas del repositorio $1',
 	'code-stats-main' => ' A la fecha de $1, el repositorio tiene $2 {{PLURAL:$2|revisión|revisiones}} hechas por [[Special:Code/$3/author|$4 {{PLURAL:$4|autor|autores}}]].',
@@ -3537,6 +3548,7 @@ $messages['fr'] = array(
 	'code-authors' => 'auteurs',
 	'code-status' => 'états',
 	'code-tags' => 'balises',
+	'code-tags-no-tags' => 'Aucun tag n’existe dans ce dépôt.',
 	'code-authors-text' => 'La liste ci-dessous présente les auteurs de dépôts triés par nom. Les comptes du wiki local sont affichés entre parenthèses. Les données peuvent provenir d’une mémoire tampon.',
 	'code-author-haslink' => 'Cet auteur est lié au compte $1 de ce wiki',
 	'code-author-orphan' => 'Cet auteur n’a pas de lien avec un compte wiki',
@@ -3557,6 +3569,7 @@ $messages['fr'] = array(
 	'code-field-user' => 'Commentateur',
 	'code-field-message' => 'Résumé de publication',
 	'code-field-status' => 'État',
+	'code-field-status-description' => 'Description de l’état',
 	'code-field-timestamp' => 'Date',
 	'code-field-comments' => 'Notes',
 	'code-field-path' => 'Chemin',
@@ -3900,6 +3913,7 @@ $messages['gl'] = array(
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
+	'code-tags-no-tags' => 'Non existe ningunha etiqueta neste repositorio.',
 	'code-authors-text' => 'A continuación está a lista cos autores das respostas ordenados por nome. As contas do wiki local móstranse entre parénteses. Os datos poden provir da memoria caché.',
 	'code-author-haslink' => 'O autor é ligado co usuario do wiki chamado $1',
 	'code-author-orphan' => 'Este autor non ten ningunha ligazón con algunha conta do wiki',
@@ -3920,6 +3934,7 @@ $messages['gl'] = array(
 	'code-field-user' => 'Comentarista',
 	'code-field-message' => 'Resumo de tarefas',
 	'code-field-status' => 'Estado',
+	'code-field-status-description' => 'Descrición do estado',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Notas',
 	'code-field-path' => 'Ruta',
@@ -4185,6 +4200,7 @@ $messages['gsw'] = array(
 	'code-authors' => 'Autore',
 	'code-status' => 'Status',
 	'code-tags' => 'Tag',
+	'code-tags-no-tags' => 'S git kei Tag in däm Repositorium.',
 	'code-authors-text' => 'Des isch d Lischt vu dr Autore, sortiert no Nämme. Lokali Wikikonte wäre in runde Chlammere ufgfiert. Date chennte us em Cache stamme.',
 	'code-author-haslink' => 'Dää Autor isch zum Wiki-Benutzer $1 vergleicht',
 	'code-author-orphan' => 'Dää Autor het kei Gleich zue me Wiki-Benutzerkonto',
@@ -4205,6 +4221,7 @@ $messages['gsw'] = array(
 	'code-field-user' => 'Kommentator',
 	'code-field-message' => 'Kommentar',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Status-Bschryybig',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Notize',
 	'code-field-path' => 'Pfad',
@@ -4706,7 +4723,7 @@ $messages['hsb'] = array(
 	'code-authors' => 'awtorojo',
 	'code-status' => 'statusy',
 	'code-tags' => 'taflički',
-	'code-authors-text' => 'To je lisćina awtorow repozitorija sortěrowanych po mjenach. Lokalne wikikonta pokazuja so w spinkach.',
+	'code-authors-text' => 'To je lisćina awtorow repozitorija sortěrowanych po mjenach. Lokalne wikikonta pokazuja so w spinkach. Daty móžeja z pufrowaka być.',
 	'code-author-haslink' => 'Tutón awtor ma wotkaz na wikijoweho wužiwarja $1',
 	'code-author-orphan' => 'Tutón awtor nima wotkaz k wikijowemu kontu',
 	'code-author-dolink' => 'Tutoho awtora z wikijowym wužiwarjom zwjazać:',
@@ -4725,6 +4742,7 @@ $messages['hsb'] = array(
 	'code-field-user' => 'Komentator',
 	'code-field-message' => 'Zjeće nahrać',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Statusowe wopisanje',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Přispomnjenki',
 	'code-field-path' => 'Šćežka',
@@ -4763,6 +4781,11 @@ $messages['hsb'] = array(
 	'code-status-verified' => 'přepruwowany',
 	'code-status-deferred' => 'zadźerženy',
 	'code-status-old' => 'stary',
+	'code-signoff-flag-inspected' => 'Inspicěrowany',
+	'code-signoff-flag-tested' => 'Testowany',
+	'code-signoff-field-user' => 'Wužiwar',
+	'code-signoff-field-flag' => 'Chorhojčka',
+	'code-signoff-field-date' => 'Datum',
 	'code-pathsearch-legend' => 'W tutym repozitoriju po šćežce pytać',
 	'code-pathsearch-path' => 'Šćežka:',
 	'code-pathsearch-filter' => 'Nałoženy filter:',
@@ -4793,21 +4816,21 @@ $4',
 	'codereview-email-subj2' => '[$1] [$2]: Naslědne změny',
 	'codereview-email-body2' => 'Wužiwar "$1" je naslědne změny k $2 činił.
 
-Dopołny URL: $3
+Dospołny URL za naslědnu wersiju: $5
+
+Dospołny URL: $3
 
 Zjeće přenjesenja:
 
 $4',
-	'codereview-email-subj3' => '[$1] [$2]: Awtomatiski test je regresiju wotkrył',
-	'codereview-email-body3' => 'Awtomatiski test je změnow w $1 dla regresiju wotkrył.
+	'codereview-email-subj3' => '[$1] [$2]: Wersijowy status je so změnił',
+	'codereview-email-body3' => 'Wužiwar "$1" je status wot $2 změnił.
 
-Dospołny URL: $2
 
-Zjeće:
-
-$3',
+Stary status: $3
+Nowy status: $4',
 	'code-stats' => 'Statistika',
-	'code-stats-header' => 'Statistika repozitorija za $1',
+	'code-stats-header' => 'Statistika repozitorija $1',
 	'code-stats-main' => 'Wot $1 repozitorij ma $2 {{PLURAL:$2|wersiju|wersiji|wersije|wersijow}} wot [[Special:Code/$3/author|$4 {{PLURAL:$4|awtora|awtorow|awtorow|awtorow}}]].',
 	'code-stats-status-breakdown' => 'Ličba wersijow na status',
 	'code-stats-fixme-breakdown' => 'Zwobraznjenje korekturow na awtora',
@@ -5024,6 +5047,7 @@ $messages['ia'] = array(
 	'code-authors' => 'autores',
 	'code-status' => 'statos',
 	'code-tags' => 'etiquettas',
+	'code-tags-no-tags' => 'Nulle etiquetta existe in iste deposito.',
 	'code-authors-text' => 'Infra es un lista de autores del deposito in ordine de nomine. Le contos del wiki local es monstrate inter parentheses. Le datos pote venir del cache.',
 	'code-author-haslink' => 'Iste autor es ligate al usator $1 de iste wiki',
 	'code-author-orphan' => 'Iste autor ha nulle ligamine con un conto wiki',
@@ -5044,6 +5068,7 @@ $messages['ia'] = array(
 	'code-field-user' => 'Commentator',
 	'code-field-message' => 'Summario de publication',
 	'code-field-status' => 'Stato',
+	'code-field-status-description' => 'Description del stato',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Notas',
 	'code-field-path' => 'Cammino',
@@ -5545,6 +5570,8 @@ $4',
  * @author Fievarsty
  * @author Fryed-peach
  * @author Hosiryuhosi
+ * @author Iwai.masaharu
+ * @author Kanon und wikipedia
  * @author Naohiro19
  * @author Whym
  * @author 青子守歌
@@ -5571,6 +5598,7 @@ $messages['ja'] = array(
 	'code-authors' => '著者',
 	'code-status' => '状態',
 	'code-tags' => 'タグ',
+	'code-tags-no-tags' => 'このリポジトリにはタグが存在しません。',
 	'code-authors-text' => '以下はコミット名順の、リポジトリ作成者の一覧です。ローカルのウィキにおけるアカウントを括弧内に示します。データはキャッシュされている場合があります。',
 	'code-author-haslink' => 'この著者はウィキの利用者 $1 と対応付けられています。',
 	'code-author-orphan' => 'この著者にはウィキのアカウントとの対応付けがありません。',
@@ -5591,6 +5619,7 @@ $messages['ja'] = array(
 	'code-field-user' => 'コメンター',
 	'code-field-message' => 'コミット要約',
 	'code-field-status' => '状態',
+	'code-field-status-description' => 'ステータスの概要',
 	'code-field-timestamp' => '日付',
 	'code-field-comments' => 'コメント',
 	'code-field-path' => 'パス',
@@ -6418,6 +6447,7 @@ $messages['lb'] = array(
 	'code-status-deferred' => 'zréckgestallt',
 	'code-status-desc-deferred' => "D'Versioun muss net nogekuckt ginn.",
 	'code-status-old' => 'al',
+	'code-status-desc-old' => 'Al Versioun mat méigleche Feeler (Bugs), déi et awer net derwäert si fir nogekuckt ze ginn.',
 	'code-signoffs' => 'Zoustëmmungen',
 	'code-signoff-flag-inspected' => 'Inspizéiert',
 	'code-signoff-flag-tested' => 'Getest',
@@ -6490,7 +6520,7 @@ $6',
 	'right-codereview-use' => 'Spezial benotzen: Code',
 	'right-codereview-add-tag' => "Nei Markéierunge bei d'Versiounen derbäisetzen",
 	'right-codereview-remove-tag' => 'Markéierungen aus Versiounen eraushuelen',
-	'right-codereview-post-comment' => "Bemierkunge Bài d'Versiounen derbäisetzen",
+	'right-codereview-post-comment' => "Bemierkunge bäi d'Versiounen derbäisetzen",
 	'right-codereview-set-status' => 'Ännere vum Status vun de Versiounen',
 	'right-codereview-signoff' => 'Ännerunge fräiginn',
 	'right-codereview-link-user' => 'Auteure mat Wiki-Benotzer verbannen (verlinken)',
@@ -6738,6 +6768,7 @@ $messages['mk'] = array(
 	'code-authors' => 'автори',
 	'code-status' => 'состојби',
 	'code-tags' => 'ознаки',
+	'code-tags-no-tags' => 'Во ова складиште нема ознаки.',
 	'code-authors-text' => 'Еве список на автори на складишта подредени по име. Сметките на локалните викија се прикажани во загради.
 Податоците може да бидат кеширани.',
 	'code-author-haslink' => 'Овој автор е сврзан со корисникот $1',
@@ -6759,6 +6790,7 @@ $messages['mk'] = array(
 	'code-field-user' => 'Коментатор',
 	'code-field-message' => 'Опис на измените',
 	'code-field-status' => 'Статус',
+	'code-field-status-description' => 'Опис на статусот',
 	'code-field-timestamp' => 'Датум',
 	'code-field-comments' => 'Белешки',
 	'code-field-path' => 'Пат',
@@ -6922,6 +6954,7 @@ $messages['ml'] = array(
 	'code-authors' => 'രചയിതാക്കൾ',
 	'code-status' => 'അവസ്ഥകൾ',
 	'code-tags' => 'റ്റാഗുകൾ',
+	'code-tags-no-tags' => 'ഈ റെപ്പോസിറ്ററിയിൽ റ്റാഗുകളൊന്നും നിലവിലില്ല.',
 	'code-authors-text' => 'താഴെ ഉൾപ്പെടുത്തിയ പേരിന്റെ ക്രമത്തിൽ റെപ്പോ രചയിതാക്കളുടെ പട്ടിക കൊടുത്തിരിക്കുന്നു. പ്രാദേശിക വിക്കി അംഗത്വങ്ങൾ കോഷ്ഠകങ്ങൾക്കുള്ളിൽ കാണാം. വിവരങ്ങൾ പ്രാദേശികമായി ശേഖരിച്ച് വെച്ചിരിക്കുന്നതാവാം.',
 	'code-author-haslink' => '$1 എന്ന വിക്കി ഉപയോക്താവുമായി ഈ രചയിതാവിനെ കണ്ണി ചേർത്തിരിക്കുന്നു',
 	'code-author-orphan' => 'വിക്കി അംഗത്വവുമായി ഈ രചിയിതാവിന് കണ്ണികളൊന്നുമില്ല',
@@ -6942,6 +6975,7 @@ $messages['ml'] = array(
 	'code-field-user' => 'അഭിപ്രായപ്പെട്ടയാൾ',
 	'code-field-message' => 'കൈക്കൊണ്ട പ്രവൃത്തിയുടെ ചുരുക്കം',
 	'code-field-status' => 'സ്ഥിതി',
+	'code-field-status-description' => 'തൽസ്ഥിതിയുടെ വിവരണം',
 	'code-field-timestamp' => 'തീയതി',
 	'code-field-comments' => 'കുറിപ്പുകൾ',
 	'code-field-path' => 'പഥം',
@@ -7394,6 +7428,7 @@ $messages['nl'] = array(
 	'code-authors' => 'auteurs',
 	'code-status' => 'statussen',
 	'code-tags' => 'labels',
+	'code-tags-no-tags' => 'Er worden geen labels gebruikt in deze repository.',
 	'code-authors-text' => 'Hieronder staat een lijst met auteurs uit de repository, gesorteerd op commitnaam.
 Lokale wikigebruikers worden binnen haakjes weergegeven.
 De gegevens kunnen uit een cache komen.',
@@ -7416,6 +7451,7 @@ De gegevens kunnen uit een cache komen.',
 	'code-field-user' => 'Opmerking door:',
 	'code-field-message' => 'Toelichting bij commit',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Statusbeschrijving',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Aantekeningen',
 	'code-field-path' => 'Pad',
@@ -7710,6 +7746,7 @@ $messages['no'] = array(
 	'code-authors' => 'forfattere',
 	'code-status' => 'tilstander',
 	'code-tags' => 'tagger',
+	'code-tags-no-tags' => 'Ingen merkelapper finnes i dette repositoriet.',
 	'code-authors-text' => 'Nedenfor er en liste over repo-forfattere sortert etter bidragsnavn. Lokale wikikontoer vises i parantes. Data kan være hurtiglagret.',
 	'code-author-haslink' => 'Denne forfatteren er lenket til wikibruker $1',
 	'code-author-orphan' => 'Denne forfatteren har ingen lenke til en wiki-konto',
@@ -7730,6 +7767,7 @@ $messages['no'] = array(
 	'code-field-user' => 'Kommentator',
 	'code-field-message' => 'Endringssammendrag',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Statusbeskrivelse',
 	'code-field-timestamp' => 'Dato',
 	'code-field-comments' => 'Notater',
 	'code-field-path' => 'Sti',
@@ -8067,6 +8105,7 @@ $messages['pl'] = array(
 	'code-authors' => 'autorzy',
 	'code-status' => 'statusy',
 	'code-tags' => 'znaczniki',
+	'code-tags-no-tags' => 'Brak znaczników w tym repozytorium.',
 	'code-authors-text' => 'Poniżej znajduje się lista autorów repozytorium w kolejności nazwy poprawki. Lokalne konta wiki są wyświetlane w nawiasach. Dane mogą pochodzi z pamięci tymczasowej.',
 	'code-author-haslink' => 'Ten autor jest podlinkowany do konta użytkownika na wiki jako $1',
 	'code-author-orphan' => 'Ten autor nie jest podlinkowany do żadnego konta użytkownika na wiki',
@@ -8087,6 +8126,7 @@ $messages['pl'] = array(
 	'code-field-user' => 'Autor komentarza',
 	'code-field-message' => 'Opis dokonanej zmiany',
 	'code-field-status' => 'Status',
+	'code-field-status-description' => 'Opis statusu',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Komentarze',
 	'code-field-path' => 'Ścieżka',
@@ -8251,6 +8291,7 @@ $messages['pms'] = array(
 	'code-authors' => 'autor',
 	'code-status' => 'stat',
 	'code-tags' => 'tichëtte',
+	'code-tags-no-tags' => 'Pa gnun-e tichëtte a esisto an sto depòsit.',
 	'code-authors-text' => "Sota a-i é na lista dj'autor dël depòsit ant l'órdin dël nòm ëd salvatagi. Ij cont dla wiki local a son mostrà antra parèntes. Ij dat a podrìo ven-e da na memòria local.",
 	'code-author-haslink' => "St'autor-sì a l'é colegà a l'utent wiki $1",
 	'code-author-orphan' => "St'autor-sì a l'ha pa gnun colegament con un cont wiki",
@@ -8271,6 +8312,7 @@ $messages['pms'] = array(
 	'code-field-user' => 'Comentador',
 	'code-field-message' => 'Resumé ëd publicassion',
 	'code-field-status' => 'Stat',
+	'code-field-status-description' => 'Descrission dlë stat',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Nòte',
 	'code-field-path' => 'Përcors',
@@ -8486,6 +8528,7 @@ $messages['pt'] = array(
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
+	'code-tags-no-tags' => 'Não existem etiquetas neste repositório.',
 	'code-authors-text' => 'Abaixo encontra-se uma lista de autores do repositório, ordenados por nome de efectivação. Contas da wiki local são mostradas entre parênteses. Os dados podem provir da cache.',
 	'code-author-haslink' => 'Este autor está associado ao utilizador wiki $1',
 	'code-author-orphan' => 'Este autor não está associado a nenhuma conta wiki',
@@ -8506,6 +8549,7 @@ $messages['pt'] = array(
 	'code-field-user' => 'Comentador',
 	'code-field-message' => 'Resumo da efectivação',
 	'code-field-status' => 'Estado',
+	'code-field-status-description' => 'Descrição do estado',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Notas',
 	'code-field-path' => 'Caminho',
@@ -8647,6 +8691,7 @@ $6',
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
  * @author Giro720
+ * @author Helder.wiki
  * @author Heldergeovane
  */
 $messages['pt-br'] = array(
@@ -8671,6 +8716,7 @@ $messages['pt-br'] = array(
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
+	'code-tags-no-tags' => 'Nenhuma etiqueta existente neste repositório.',
 	'code-authors-text' => 'Abaixo encontra-se uma lista de autores do repositório, ordenados por nome de efetivação. Contas da wiki local são mostradas entre parênteses. Os dados podem provir da cache.',
 	'code-author-haslink' => 'Este autor está ligado ao usuário wiki $1',
 	'code-author-orphan' => 'Este autor não tem ligação com uma conta wiki',
@@ -8691,6 +8737,7 @@ $messages['pt-br'] = array(
 	'code-field-user' => 'Comentário de',
 	'code-field-message' => 'Resumo de tarefas',
 	'code-field-status' => 'Estado',
+	'code-field-status-description' => 'Descrição do estado',
 	'code-field-timestamp' => 'Data',
 	'code-field-comments' => 'Notas',
 	'code-field-path' => 'Caminho',
@@ -9376,6 +9423,10 @@ $messages['rue'] = array(
 	'code-status-desc-deferred' => 'Ревізія не потребує рецензованя',
 	'code-status-old' => 'стара',
 	'code-status-desc-old' => 'Стара ревізія, котра може обсяговати хыбы, але не стоїть за то, жебы была перевірена.',
+	'code-signoff-flag-inspected' => 'Перевірене',
+	'code-signoff-field-user' => 'Хоснователь',
+	'code-signoff-field-flag' => 'Прапорок',
+	'code-signoff-field-date' => 'Датум',
 	'code-pathsearch-legend' => 'Глядати ревізії у тім усховищу подля стежкы',
 	'code-pathsearch-path' => 'Стежка:',
 	'code-pathsearch-filter' => 'Хоснованый філтер:',
@@ -9901,6 +9952,7 @@ $messages['sl'] = array(
 	'code-authors' => 'avtorji',
 	'code-status' => 'stanja',
 	'code-tags' => 'oznake',
+	'code-tags-no-tags' => 'V tej shrambi ne obstaja nobena oznaka.',
 	'code-authors-text' => 'Spodaj je seznam avtorjev shrambe razporejenih po prispevajočem imenu. Lokalni wikiračuni so prikazani v oklepajih. Podatki so lahko predpomnjeni.',
 	'code-author-haslink' => 'Ta avtor je povezan z wikiuporabnikom $1',
 	'code-author-orphan' => 'Ta avtor nima povezave z wikiračunom',
@@ -9921,6 +9973,7 @@ $messages['sl'] = array(
 	'code-field-user' => 'Komentator',
 	'code-field-message' => 'Prispevan povzetek',
 	'code-field-status' => 'Stanje',
+	'code-field-status-description' => 'Opis stanja',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Beležke',
 	'code-field-path' => 'Pot',
@@ -11760,6 +11813,7 @@ $messages['vi'] = array(
 	'code-authors' => 'tác giả',
 	'code-status' => 'tình trạng',
 	'code-tags' => 'thẻ',
+	'code-tags-no-tags' => 'Không có thẻ nào trong kho này.',
 	'code-authors-text' => 'Đây có danh sách tác giả trong kho, xếp theo tên thay đổi. Trong dấu ngoặc có tài khoản wiki địa phương. Dữ liệu có thể được lấy từ vùng nhớ đệm.',
 	'code-author-haslink' => 'Tác giả này được liên kết đến thành viên wiki $1',
 	'code-author-orphan' => 'Tác giả này chưa được liên kết đến tài khoản wiki nào',
@@ -11780,6 +11834,7 @@ $messages['vi'] = array(
 	'code-field-user' => 'Người bình luận',
 	'code-field-message' => 'Đăng tóm lược',
 	'code-field-status' => 'Trạng thái',
+	'code-field-status-description' => 'Miêu tả trạng thái',
 	'code-field-timestamp' => 'Lúc giờ',
 	'code-field-comments' => 'Ghi chú',
 	'code-field-path' => 'Đường dẫn',

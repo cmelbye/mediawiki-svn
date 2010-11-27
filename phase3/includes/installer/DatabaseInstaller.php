@@ -97,9 +97,10 @@ abstract class DatabaseInstaller {
 	/**
 	 * Connect to the database using the administrative user/password currently
 	 * defined in the session. On success, return the connection, on failure,
-	 * return a Status object.
 	 *
 	 * This may be called multiple times, so the result should be cached.
+	 *
+	 * @return Status
 	 */
 	public abstract function getConnection();
 	
@@ -373,11 +374,11 @@ abstract class DatabaseInstaller {
 	 */
 	public function getInstallUserBox() {
 		return
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-install-account' ) ) .
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-install-account' ) ) .
 			$this->getTextBox( '_InstallUser', 'config-db-username', array(), $this->parent->getHelpBox( 'config-db-install-username' ) ) .
 			$this->getPasswordBox( '_InstallPassword', 'config-db-password', array(), $this->parent->getHelpBox( 'config-db-install-password' ) ) .
-			Xml::closeElement( 'fieldset' );
+			Html::closeElement( 'fieldset' );
 	}
 
 	/**
@@ -394,14 +395,13 @@ abstract class DatabaseInstaller {
 	 *   Set this to false to show a creation checkbox.
 	 */
 	public function getWebUserBox( $noCreateMsg = false ) {
-		$name = $this->getName();
-		$s = Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-web-account' ) ) .
+		$s = Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-web-account' ) ) .
 			$this->getCheckBox(
 				'_SameAccount', 'config-db-web-account-same',
 				array( 'class' => 'hideShowRadio', 'rel' => 'dbOtherAccount' )
 			) .
-			Xml::openElement( 'div', array( 'id' => 'dbOtherAccount', 'style' => 'display: none;' ) ) .
+			Html::openElement( 'div', array( 'id' => 'dbOtherAccount', 'style' => 'display: none;' ) ) .
 			$this->getTextBox( 'wgDBuser', 'config-db-username' ) .
 			$this->getPasswordBox( 'wgDBpassword', 'config-db-password' ) .
 			$this->parent->getHelpBox( 'config-db-web-help' );
@@ -410,7 +410,7 @@ abstract class DatabaseInstaller {
 		} else {
 			$s .= $this->getCheckBox( '_CreateDBAccount', 'config-db-web-create' );
 		}
-		$s .= Xml::closeElement( 'div' ) . Xml::closeElement( 'fieldset' );
+		$s .= Html::closeElement( 'div' ) . Html::closeElement( 'fieldset' );
 		return $s;
 	}
 

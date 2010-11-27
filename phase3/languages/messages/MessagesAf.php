@@ -414,7 +414,7 @@ $messages = array(
 'postcomment'       => 'Nuwe opskrif',
 'articlepage'       => 'Lees artikel',
 'talk'              => 'Bespreking',
-'views'             => 'Aansigte',
+'views'             => 'Weergawes',
 'toolbox'           => 'Gereedskap',
 'userpage'          => 'Lees gebruikersbladsy',
 'projectpage'       => 'Lees metabladsy',
@@ -608,6 +608,7 @@ moenie vergeet om u [[Special:Preferences|persoonlike voorkeure vir {{SITENAME}}
 'yourpassword'               => 'Wagwoord:',
 'yourpasswordagain'          => 'Herhaal wagwoord',
 'remembermypassword'         => "Onthou dat ek op hierdie rekenaar ingeteken het (vir 'n maksimum van $1 {{PLURAL:$|dag|dae}})",
+'securelogin-stick-https'    => 'Bly verbind met HTTPS na aanmelding',
 'yourdomainname'             => 'U domein:',
 'externaldberror'            => "'n Databasis fout het voorgekom tydens aanmelding of u het nie toestemming om u eksterne rekening op te dateer nie.",
 'login'                      => 'Teken in',
@@ -649,6 +650,7 @@ Intekening word verbied.',
 'wrongpasswordempty'         => 'Die wagwoord was leeg. Probeer asseblief weer.',
 'passwordtooshort'           => 'Wagwoorde moet ten minste {{PLURAL:$1|1 karakter|$1 karakters}} lank wees.',
 'password-name-match'        => 'U wagwoord mag nie dieselfde as u gebruikersnaam wees nie.',
+'password-too-weak'          => 'Die verskafde wagwoord is te onveilig en kan nie gebruik word nie.',
 'mailmypassword'             => "E-pos my 'n nuwe wagwoord",
 'passwordremindertitle'      => 'Wagwoordwenk van {{SITENAME}}',
 'passwordremindertext'       => 'Iemand (waarskynlik u vanaf IP-adres $1) het \'n nuwe wagwoord vir {{SITENAME}} ($4) gevra. \'n Tydelike wagwoord is vir gebruiker "$2" geskep. Die nuwe wagwoord is "$3". U kan met die tydelike wagwoord aanteken en \'n nuwe wagwoord stel. Die tydelike wagwoord sal na {{PLURAL:$5|een dag|$5 dae}} verval.
@@ -684,11 +686,6 @@ Indien hierdie rekening foutief geskep is, kan u hierdie boodskap ignoreer.',
 Wag asseblief alvorens u weer probeer.",
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => "U versoek om af te teken is geïgnoreer omdat dit lyk asof dit deur 'n gebreekte webleser of instaanbediener gestuur is.",
-'ratelimit-excluded-ips'     => ' #<!-- los hierdie reël soos hy is --> <pre>
-# Die sintaks is as volg:
-#   * Alle teks vanaf die karakter "#" tot die einde van die reëls word as \'n opmerking gesien
-#   * Elke nie-leë reël is \'n IP-adres waarop geen snelheidsbeperkings van toepassing is nie
- #</pre> <!-- laat hierdie reël soos hy is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Geskatte wagwoordsterkte: $1',
@@ -1722,6 +1719,7 @@ Klik op die opskrifte om die tabel anders te sorteer.',
 'listfiles_search_for'  => 'Soek vir medianaam:',
 'imgfile'               => 'lêer',
 'listfiles'             => 'Lêerlys',
+'listfiles_thumb'       => 'Duimnael',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Naam',
 'listfiles_user'        => 'Gebruiker',
@@ -1872,6 +1870,8 @@ Elke ry bevat skakels na die eerste en die tweede aanstuur, asook die eerste re�
 'nmembers'                => '$1 {{PLURAL:$1|lid|lede}}',
 'nrevisions'              => '$1 {{PLURAL:$1|weergawe|weergawes}}',
 'nviews'                  => '$1 {{PLURAL:$1|keer|kere}} aangevra',
+'nimagelinks'             => 'Gebruik op {{PLURAL:$1|een bladsy|$1 bladsye}}',
+'ntransclusions'          => 'gebruik op {{PLURAL:$1|een bladsy|$1 bladsye}}',
 'specialpage-empty'       => 'Die verslag lewer geen resultate nie.',
 'lonelypages'             => 'Weesbladsye',
 'lonelypagestext'         => 'Die volgende bladsye is nie geskakel of ingesluit in ander bladsye op {{SITENAME}} nie:',

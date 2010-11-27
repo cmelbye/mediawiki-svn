@@ -227,6 +227,7 @@ $specialPageAliases = array(
 	'Watchlist'                 => array( 'רשימת_המעקב', 'רשימת_מעקב', 'רשימת_המעקב_שלי' ),
 	'Recentchanges'             => array( 'שינויים_אחרונים' ),
 	'Upload'                    => array( 'העלאה', 'העלאת_קובץ_לשרת' ),
+	'UploadStash'               => array( 'מאגר_העלאות' ),
 	'Listfiles'                 => array( 'רשימת_קבצים', 'רשימת_תמונות', 'קבצים', 'תמונות' ),
 	'Newimages'                 => array( 'קבצים_חדשים', 'תמונות_חדשות', 'גלריית_קבצים_חדשים', 'גלריית_תמונות_חדשות' ),
 	'Listusers'                 => array( 'רשימת_משתמשים', 'משתמשים' ),
@@ -810,11 +811,6 @@ $2',
 אנא המתינו לפני שתנסו שוב.',
 'loginlanguagelabel'         => 'שפה: $1',
 'suspicious-userlogout'      => 'בקשתכם לצאת מהחשבון נדחתה כיוון שנראה שהיא נשלחה על ידי דפדפן שבור או שרת פרוקסי עם זיכרון מטמון.',
-'ratelimit-excluded-ips'     => ' #<!-- נא להשאיר שורה זו בדיוק כפי שהיא --> <pre>
-# התחביר הוא כדלקמן:
-#   * כל דבר מתו "#" לסוף השורה הוא הערה
-#   * כל שורה לא ריקה היא כתובת IP שהוסרה מעליה הגבלת קצב העריכות
- #</pre> <!-- נא להשאיר שורה זו בדיוק כפי שהיא -->',
 
 # JavaScript password checks
 'password-strength'            => 'חוזק סיסמה מוערך: $1',
@@ -1963,6 +1959,7 @@ $1',
 'statistics-edits'             => 'העריכות מאז תחילת הפעולה של {{SITENAME}}',
 'statistics-edits-average'     => 'מספר העריכות הממוצע לדף',
 'statistics-views-total'       => 'מספר הצפיות הכולל',
+'statistics-views-total-desc'  => 'צפיות בדפים שאינם קיימים ובדפים מיוחדים אינן כלולות',
 'statistics-views-peredit'     => 'מספר הצפיות לעריכה',
 'statistics-users'             => 'ה[[Special:ListUsers|משתמשים]] הרשומים',
 'statistics-users-active'      => 'המשתמשים הפעילים',

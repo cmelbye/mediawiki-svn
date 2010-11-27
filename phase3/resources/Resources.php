@@ -25,7 +25,9 @@ return array(
 	
 	/* jQuery */
 	
-	'jquery' => new ResourceLoaderFileModule( array( 'scripts' => 'resources/jquery/jquery.js', 'debugRaw' => false ) ),
+	'jquery' => new ResourceLoaderFileModule( 
+		array( 'scripts' => 'resources/jquery/jquery.js', 'debugRaw' => false ) 
+	),
 	
 	/* jQuery Plugins */
 	
@@ -109,7 +111,9 @@ return array(
 	) ),
 	'jquery.ui.droppable' => new ResourceLoaderFileModule( array(
 		'scripts' => 'resources/jquery.ui/jquery.ui.droppable.js',
-		'dependencies' => array( 'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable' ),
+		'dependencies' => array( 
+			'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable' 
+		),
 	) ),
 	'jquery.ui.resizable' => new ResourceLoaderFileModule( array(
 		'scripts' => 'resources/jquery.ui/jquery.ui.resizable.js',
@@ -319,6 +323,11 @@ return array(
 		'debugScripts' => 'resources/mediawiki/mediawiki.log.js',
 		'debugRaw' => false
 	) ),
+	'mediawiki.util' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
+		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client' ),
+		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
+	) ),
 	'mediawiki.advanced.rightclickedit' => new ResourceLoaderFileModule( array(
 		'scripts' => 'resources/mediawiki.advanced/mediawiki.advanced.rightclickedit.js',
 	) ),
@@ -383,17 +392,15 @@ return array(
 			'wa' => 'resources/mediawiki.language/languages/wa.js',
 		),
 	) ),
-	'mediawiki.util' => new ResourceLoaderFileModule( array(
-		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
-		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client' ),
-		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
-	) ),
 	
 	/* mediawiki Legacy */
 	
 	'mediawiki.legacy.ajax' => new ResourceLoaderFileModule( array(
 		'scripts' => 'skins/common/ajax.js',
-		'messages' => array( 'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch', 'tooltip-ca-unwatch' ),
+		'messages' => array( 
+			'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch', 
+			'tooltip-ca-unwatch' 
+		),
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	) ),
 	'mediawiki.legacy.ajaxwatch' => new ResourceLoaderFileModule( array(

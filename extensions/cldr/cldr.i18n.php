@@ -157,10 +157,11 @@ $messages['es'] = array(
 );
 
 /** Basque (Euskara)
+ * @author An13sa
  * @author Theklan
  */
 $messages['eu'] = array(
-	'cldr-desc' => 'Lokalizatutako hizkuntza izenak eskaintzen dituen estentsioa',
+	'cldr-desc' => 'Lokalizatutako hizkuntza izenak eskaintzen dituen luzapena [http://cldr.unicode.org/index/downloads CLDR datuetan] oinarrituta',
 );
 
 /** Persian (فارسی)
@@ -225,7 +226,7 @@ $messages['gsw'] = array(
  * @author MacTire02
  */
 $messages['gv'] = array(
-	'cldr-desc' => 'Sheeyntagh ta kiarail enmyn çhengey ynnydit',
+	'cldr-desc' => 'Sheeyntagh ta kiarail enmyn çhengey ynnydit, bunnit er [http://cldr.unicode.org/index/downloads fysseree CLDR]',
 );
 
 /** Hebrew (עברית)
@@ -253,7 +254,7 @@ $messages['hil'] = array(
  * @author Michawiki
  */
 $messages['hsb'] = array(
-	'cldr-desc' => 'Rožšěrjenje, kotrež lokalizowane mjena rěčow k dispoziciji staja.',
+	'cldr-desc' => 'Rožšěrjenje, kotrež lokalizowane mjena rěčow na zakładźe [http://cldr.unicode.org/index/downloads CLDR-datow] k dispoziciji staja.',
 );
 
 /** Hungarian (Magyar)
@@ -511,7 +512,7 @@ $messages['ru'] = array(
  * @author HalanTul
  */
 $messages['sah'] = array(
-	'cldr-desc' => 'Тыллар ааттарын тылбааһын онорор тупсарыы',
+	'cldr-desc' => '[http://cldr.unicode.org/index/downloads CLDR-га] олоҕуран тыллар ааттарын тылбааһын көрдөрөр тупсарыы',
 );
 
 /** Slovak (Slovenčina)
@@ -655,7 +656,7 @@ $messages['vep'] = array(
  * @author Vinhtantran
  */
 $messages['vi'] = array(
-	'cldr-desc' => 'Phần mở rộng cung cấp tên ngôn ngữ đã địa phương hóa',
+	'cldr-desc' => 'Phần mở rộng cung cấp các tên ngôn ngữ bản ngữ dựa trên [http://cldr.unicode.org/index/downloads dữ liệu CLDR]',
 );
 
 /** Volapük (Volapük)

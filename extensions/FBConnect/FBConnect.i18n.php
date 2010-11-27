@@ -999,6 +999,7 @@ $messages['he'] = array(
 
 /** Hungarian (Magyar)
  * @author Dani
+ * @author Glanthor Reviol
  */
 $messages['hu'] = array(
 	'fbconnect' => 'Facebook Connect',
@@ -1048,7 +1049,7 @@ $1",
 	'fbconnect-choosefull' => 'A teljes neved ($1)',
 	'fbconnect-chooseauto' => 'Automatikusan generált név ($1)',
 	'fbconnect-choosemanual' => 'A választott név:',
-	'fbconnect-chooseexisting' => 'Már létező fiók',
+	'fbconnect-chooseexisting' => 'Már létező fiók ezen a wikin',
 	'fbconnect-chooseusername' => 'Felhasználónév:',
 	'fbconnect-choosepassword' => 'Jelszó:',
 	'fbconnect-updateuserinfo' => 'A következő személyes adatok frissítése:',
@@ -2050,6 +2051,91 @@ $messages['rue'] = array(
 	'fbconnect-fullname' => 'Повне мено',
 	'fbconnect-email' => 'Адреса електронічной пошты',
 	'fbconnect-language' => 'Язык',
+);
+
+/** Swedish (Svenska)
+ * @author Intima
+ * @author MaxSem
+ */
+$messages['sv'] = array(
+	'fbconnect' => 'Facebook Connect',
+	'fbconnect-desc' => 'Möjliggör för användare att [[Special:Connect|ansluta]] med sitt [http://www.facebook.com Facebook] konto. 
+ Erbjudanden autentisering baserad på Facebook grupper och användningen av FBML i wiki text',
+	'group-fb-user' => 'Facebook Connect-användare',
+	'group-fb-user-member' => 'Facebook Connect-användare',
+	'grouppage-fb-user' => '{{ns:project}}:Facebook Connect användare',
+	'group-fb-groupie' => 'Gruppmedlemmar',
+	'group-fb-groupie-member' => 'Gruppmedlemmar',
+	'grouppage-fb-groupie' => '{{ns:project}}:Gruppmedlemmar',
+	'group-fb-officer' => 'Grupp officerare',
+	'group-fb-officer-member' => 'Grupp officerare',
+	'grouppage-fb-officer' => '{{ns:project}}:Grupp officerare',
+	'group-fb-admin' => 'Grupp Administratörer',
+	'group-fb-admin-member' => 'Grupp administratör',
+	'grouppage-fb-admin' => '{{ns:project}}:Grupp administratörer',
+	'fbconnect-connect' => 'Logga in med Facebook Connect',
+	'fbconnect-convert' => 'Anslut detta konto med Facebook',
+	'fbconnect-logout' => 'Logga ut från Facebook',
+	'fbconnect-link' => 'Tillbaka till facebook.com',
+	'fbconnect-title' => 'Anslut kontot med Facebook',
+	'fbconnect-intro' => 'Denna wiki är aktiverad med Facebook Connect.
+Detta innebär att när du är ansluten, förutom de vanliga [[Wikipedia:Help:Logging in#Why log in?|fördelarna]] Du ser när du loggar in, kommer du att kunna dra nytta av några extra funktioner!',
+	'fbconnect-click-to-login' => 'Klicka för att logga in till denna webbplats via Facebook',
+	'fbconnect-click-to-connect-existing' => 'Klicka för att ansluta ditt Facebook-konto till $1',
+	'fbconnect-conv' => 'Bekvämlighet',
+	'fbconnect-convdesc' => 'Anslutna användare är automatiskt inloggade
+ Om tillåtelse ges, då denna wiki kan även använda Facebook som ett e-postmeddelande proxy så att du kan fortsätta att få viktiga meddelanden utan att avslöja din e-postadress.',
+	'fbconnect-fbml' => 'Facebook-markeringsspråk',
+	'fbconnect-fbmldesc' => 'Facebook har lämnat ett gäng inbyggda taggar som kommer att återge dynamiska data.
+Många av dessa taggar kan inkluderas i wiki text och återges på olika sätt beroende på vilken ansluten användare de betraktas av.',
+	'fbconnect-comm' => 'Kommunikation',
+	'fbconnect-commdesc' => 'Facebook Connect inleder en helt ny nivå av nätverk. 
+ Se vilka av dina vänner använder wiki, och eventuellt dela dina handlingar med dina vänner genom att komma nyhetsflödet.',
+	'fbconnect-welcome' => 'Välkomna, Facebook Connect användare!',
+	'fbconnect-loginbox' => "Eller '''login''' med Facebook:
+
+$1",
+	'fbconnect-merge' => 'Koppla din wiki konto med ditt Facebook-ID',
+	'fbconnect-logoutbox' => '$1 
+
+ Detta kommer också att logga ut dig från Facebook och alla anslutna webbplatser, inklusive $1',
+	'fbconnect-listusers-header' => '$1 och $2 privilegier överförs automatiskt från officerar och administratör titlar i Facebook-gruppen $3. 
+
+ För mer info, kontakta gruppen skapare $4.',
+	'fbconnect-error' => 'Verifieringsfel',
+	'fbconnect-errortext' => 'Ett fel uppstod under kontroll med Facebook Connect.',
+	'fbconnect-cancel' => 'Åtgärden avbröts',
+	'fbconnect-canceltext' => 'Den tidigare åtgärden avbröts av användaren.',
+	'fbconnect-invalid' => 'Ogiltigt alternativ',
+	'fbconnect-invalidtext' => 'De val du gjort på föregående sida var ogiltig',
+	'fbconnect-success' => 'Facebook verifieringen lyckades',
+	'fbconnect-successtext' => 'Du har varit framgångsrikt inloggad med Facebook Connect.',
+	'fbconnect-nickname' => 'Smeknamn',
+	'fbconnect-fullname' => 'Fullständigt namn',
+	'fbconnect-email' => 'E-postadress',
+	'fbconnect-language' => 'Språk',
+	'fbconnect-timecorrection' => 'Tidszon korrigering (timmar)',
+	'fbconnect-chooselegend' => 'Välj användarnamn',
+	'fbconnect-chooseinstructions' => 'Alla användare behöver ett smeknamn, du kan välja ett av alternativen nedan.',
+	'fbconnect-invalidname' => 'Smeknamnet du valde är redan upptaget eller inte ett giltigt smeknamn. 
+ Vänligen välj ett annat.',
+	'fbconnect-choosenick' => 'Ditt Facebook-profil namn ($1)',
+	'fbconnect-choosefirst' => 'Ditt förnamn ($1)',
+	'fbconnect-choosefull' => 'Ditt fullständiga namn ($1)',
+	'fbconnect-chooseauto' => 'Ett automatiskt genererat namn ($1)',
+	'fbconnect-choosemanual' => 'Ett valfritt namn:',
+	'fbconnect-chooseexisting' => 'Ett befintligt konto på denna wiki',
+	'fbconnect-chooseusername' => 'Användarnamn:',
+	'fbconnect-choosepassword' => 'Lösenord:',
+	'fbconnect-updateuserinfo' => 'Uppdatera följande personliga uppgifter:',
+	'fbconnect-alreadyloggedin' => "''' Du redan är inloggad som $1!'' '
+Om du vill använda Facebook Connect för att logga in i framtiden, kan du [[Special:Connect/Convert|konvertera ditt konto för att använda Facebook Connect.]]",
+	'fbconnect-error-creating-user' => 'Fel vid skapandet av användaren i den lokala databasen.',
+	'fbconnect-error-user-creation-hook-aborted' => 'En krok (förlängning) aborterade att skapa konto med meddelandet: $1',
+	'fbconnect-prefstext' => 'Facebook Connect',
+	'fbconnect-link-to-profile' => 'Facebook-profil',
+	'fbconnect-prefsheader' => "För att styra vilka händelser som kommer att pressa ett objekt till ditt nyhetsflöde på Facebook, <a id='fbConnectPushEventBar_show' href='#'>visa preferenser</a> <a id='fbConnectPushEventBar_hide' href='#' style='display:none'>dölja inställningar</a>",
+	'fbconnect-prefs-can-be-updated' => ' Du kan uppdatera dessa när som helst genom att gå till "$1"-fliken i dina inställningar.',
 );
 
 /** Telugu (తెలుగు)

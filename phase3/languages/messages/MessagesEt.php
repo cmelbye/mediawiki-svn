@@ -177,6 +177,7 @@ $magicWords = array(
 	'numberofusers'         => array( '1', 'KASUTAJAMÄÄR', 'NUMBEROFUSERS' ),
 	'numberofactiveusers'   => array( '1', 'TEGUSKASUTAJAMÄÄR', 'NUMBEROFACTIVEUSERS' ),
 	'numberofedits'         => array( '1', 'REDIGEERIMISMÄÄR', 'NUMBEROFEDITS' ),
+	'numberofviews'         => array( '1', 'VAATAMISTEARV', 'NUMBEROFVIEWS' ),
 	'pagename'              => array( '1', 'LEHEKÜLJENIMI', 'PAGENAME' ),
 	'pagenamee'             => array( '1', 'LEHEKÜLJENIMI1', 'PAGENAMEE' ),
 	'namespace'             => array( '1', 'NIMERUUM', 'NAMESPACE' ),
@@ -202,6 +203,7 @@ $magicWords = array(
 	'img_center'            => array( '1', 'keskel', 'center', 'centre' ),
 	'img_framed'            => array( '1', 'raam', 'framed', 'enframed', 'frame' ),
 	'img_frameless'         => array( '1', 'raamita', 'frameless' ),
+	'img_page'              => array( '1', 'lehekülg=$1', 'lehekülg_$1', 'page=$1', 'page $1' ),
 	'img_border'            => array( '1', 'ääris', 'border' ),
 	'sitename'              => array( '1', 'KOHANIMI', 'SITENAME' ),
 	'ns'                    => array( '0', 'NR:', 'NS:' ),
@@ -746,11 +748,6 @@ Kui kasutajakonto loomine on eksitus, võid käesolevat sõnumit lihtsalt eirata
 Palun pea nüüd pisut vahet.',
 'loginlanguagelabel'         => 'Keel: $1',
 'suspicious-userlogout'      => 'Sinu väljalogimiskatse nurjus, sest see näis olevat katkise veebilehitseja või puhverserveri saadetud.',
-'ratelimit-excluded-ips'     => '  #<!-- Jäta see rida muutmata kujule. --> <pre>
-# Süntaks:
-#  * Kõik alates märgist "#" kuni rea lõpuni on kommentaar.
-#  * Iga rida, mis ei ole tühi, on IP-aadress, millele piirang ei kehti.
-  #</pre> <!-- Jäta see rida muutmata kujule. -->',
 
 # JavaScript password checks
 'password-strength'            => 'Parooli tugevuse hinnang: $1',
@@ -940,7 +937,7 @@ Administraator, kes andmebaasi lukustas, andis järgmise selgituse: $1",
 Allpool on toodud uusim logisissekanne:",
 'semiprotectedpagewarning'         => "'''Märkus:''' See lehekülg on lukustatud nii et üksnes registreeritud kasutajad saavad seda muuta.
 Allpool on toodud uusim logisissekanne:",
-'cascadeprotectedwarning'          => "'''Hoiatus:''' See lehekülg on nii lukustatud, et ainult ülema õigustega kasutajad saavad seda redigeerida, sest lehekülg on osa {{PLURAL:$1|järgmisest|järgmisest}} kaskaadkaitsega {{PLURAL:$1|leheküljest|lehekülgedest}}:",
+'cascadeprotectedwarning'          => "'''Hoiatus:''' See lehekülg on nii lukustatud, et ainult administraatori õigustega kasutajad saavad seda redigeerida, sest lehekülg on osa {{PLURAL:$1|järgmisest|järgmisest}} kaskaadkaitsega {{PLURAL:$1|leheküljest|lehekülgedest}}:",
 'titleprotectedwarning'            => "'''Hoiatus: See lehekülg on nii lukustatud, et selle loomiseks on tarvis [[Special:ListGroupRights|eriõigusi]].'''
 Allpool on toodud uusim logisissekanne:",
 'templatesused'                    => 'Sellel leheküljel on kasutusel {{PLURAL:$1|järgnev mall|järgnevad mallid}}:',
@@ -1407,7 +1404,7 @@ See ei tohi olla pikem kui $1 {{PLURAL:$1|sümbol|sümbolit}}.',
 'userrights-reason'            => 'Põhjus:',
 'userrights-no-interwiki'      => 'Sul ei ole luba muuta kasutajaõigusi teistes vikides.',
 'userrights-nodatabase'        => 'Andmebaasi $1 ei ole olemas või pole see kohalik.',
-'userrights-nologin'           => 'Kasutaja õiguste muutmiseks, pead sa ülema õigustega kontoga [[Special:UserLogin|sisse logima]].',
+'userrights-nologin'           => 'Kasutaja õiguste muutmiseks, pead sa administraatori õigustega kontoga [[Special:UserLogin|sisse logima]].',
 'userrights-notallowed'        => 'Sulle pole antud luba jagada kasutajatele õigusi.',
 'userrights-changeable-col'    => 'Rühmad, mida sa saad muuta',
 'userrights-unchangeable-col'  => 'Rühmad, mida sa ei saa muuta',

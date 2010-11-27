@@ -57,7 +57,7 @@ $wgAutoloadClasses['MessageWriter'] = $IP . '/maintenance/language/writeMessages
  * There are few more special pages in page translation section.
  * @{
  */
-$wgAutoloadClasses['SpecialTranslate'] = $dir . 'TranslatePage.php';
+$wgAutoloadClasses['SpecialTranslate'] = $dir . 'SpecialTranslate.php';
 $wgAutoloadClasses['SpecialMagic'] = $dir . 'SpecialMagic.php';
 $wgAutoloadClasses['SpecialTranslationChanges'] = $dir . 'SpecialTranslationChanges.php';
 $wgAutoloadClasses['SpecialTranslationStats'] = $dir . 'SpecialTranslationStats.php';
@@ -110,6 +110,8 @@ $wgAutoloadClasses['TranslationStats'] = $dir . 'utils/TranslationStats.php';
 $wgAutoloadClasses['TranslationMemoryUpdater'] = $dir . 'utils/TranslationMemoryUpdater.php';
 
 $wgAutoloadClasses['TranslateYaml'] = $dir . 'utils/TranslateYaml.php';
+
+$wgAutoloadClasses['TranslateBC'] = $dir . 'utils/CompatibilityCode.php';
 /**@}*/
 
 /**

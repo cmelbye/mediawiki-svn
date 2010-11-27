@@ -365,15 +365,13 @@ class TranslationHelpers {
 		$response = FormatJson::decode( $json );
 
 		if ( $json === false ) {
-				wfWarn(  __METHOD__ . ': Http::get failed' );
+				error_log(  __METHOD__ . ': Http::get failed' );
 				// Most likely a timeout or other general error
 				self::reportTranslationServiceFailure( $serviceName );
 
 				return null;
 		} elseif ( !is_object( $response ) ) {
-				wfWarn(  __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
 				error_log(  __METHOD__ . ': Unable to parse reply: ' . strval( $json ) );
-
 				return null;
 		}
 
@@ -462,7 +460,7 @@ class TranslationHelpers {
 				return null;
 			}
 
-			wfWarn(  __METHOD__ . ': Http::get failed:' . $error );
+			error_log(  __METHOD__ . ': Http::get failed:' . $error );
 			// Most likely a timeout or other general error
 			self::reportTranslationServiceFailure( $serviceName );
 			return null;
@@ -964,25 +962,26 @@ class TranslationHelpers {
 			'page' => $this->title->getPrefixedDbKey(),
 			'loadgroup' => $this->group->getId(),
 		) );
-		$url = Xml::escapeJsString( $url );
+		$url = Xml::encodeJsVar( $url );
 
-		$dialogID = $this->dialogID();
-		$id = Sanitizer::escapeId( "tm-lazysug-$dialogID" );
+		$id = Sanitizer::escapeId( 'tm-lazysug-' . $this->dialogID() );
+		$target = self::jQueryPathId( $id );
 
-		$script = Html::inlineScript( "jQuery('#$id').load( \"$url\" )" );
+		$script = Html::inlineScript( "jQuery($target).load($url)" );
 		$spinner = Html::element( 'div', array( 'class' => 'mw-ajax-loader' ) );
 		return Html::rawElement( 'div', array( 'id' => $id ), $script . $spinner );
 	}
 
 	public function dialogID() {
-		return sha1( $this->title->getPrefixedDbKey() );
+		$hash = sha1( $this->title->getPrefixedDbKey() );
+		return substr( $hash, 0, 4 );
 	}
 
 	public function adder( $source ) {
-			$target = Xml::escapeJsString( $this->getTextareaId() );
-			$source = Xml::escapeJsString( $source );
+			$target = self::jQueryPathId( $this->getTextareaId() );
+			$source = self::jQueryPathId( $source );
 			$params = array(
-				'onclick' => "jQuery('#$target').val(jQuery('#$source').text()).focus(); return false;",
+				'onclick' => "jQuery($target).val(jQuery($source).text()).focus(); return false;",
 				'href' => '#',
 				'title' => wfMsg( 'translate-use-suggestion' )
 			);
@@ -1025,6 +1024,10 @@ class TranslationHelpers {
 		$jsEdit = TranslationEditPage::jsEdit( $target, $group );
 
 		return $wgUser->getSkin()->link( $target, $text, $jsEdit, $params );
+	}
+
+	public static function jQueryPathId( $id ) {
+		return Xml::encodeJsVar( "#$id" );
 	}
 
 	/**

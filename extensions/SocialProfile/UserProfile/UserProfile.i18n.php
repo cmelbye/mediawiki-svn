@@ -6913,8 +6913,8 @@ $messages['nl'] = array(
 	'populate-user-profile-done' => '$1 {{PLURAL:$1|profiel|profielen}} toegevoegd',
 	'user-board-title' => 'Board',
 	'user-send-board-blast' => 'Berichten aan meerdere gebruikers verzenden',
-	'user-personal-info-title' => 'Persoonlijke informatie',
-	'user-no-personal-info' => 'Geen persoonlijke informatie',
+	'user-personal-info-title' => 'Persoonlijke gegevens',
+	'user-no-personal-info' => 'Geen persoonlijke gegevens',
 	'user-personal-info-real-name' => 'Echte naam',
 	'user-personal-info-location' => 'Locatie',
 	'user-personal-info-hometown' => 'Woonplaats',
@@ -6943,7 +6943,7 @@ Klik <a href="$1">hier</a> om u aan te melden of klik <a href="$2">hier</a> om e
 	'user-profile-update-profile' => 'profiel',
 	'user-profile-default-country' => 'Verenigde Staten',
 	'user-profile-points' => '$1 {{PLURAL:$1|punt|punten}}',
-	'user-profile-section-personal' => 'Persoonlijke informatie',
+	'user-profile-section-personal' => 'Persoonlijke gegevens',
 	'user-profile-section-sportsteams' => 'Netwerken bijwerken',
 	'user-profile-section-custom' => 'Informasi bébas',
 	'user-profile-section-interests' => 'Overige informatie',
@@ -8741,6 +8741,7 @@ $messages['roa-tara'] = array(
  * @author Ferrer
  * @author Innv
  * @author Lockal
+ * @author Putnik
  * @author Rubin
  * @author Александр Сигачёв
  */
@@ -8829,7 +8830,7 @@ $messages['ru'] = array(
 	'user-profile-section-sportsteams' => 'Обновить сети',
 	'user-profile-section-custom' => 'Пользовательская информация',
 	'user-profile-section-interests' => 'Другие сведения',
-	'user-profile-section-picture' => 'Аватара',
+	'user-profile-section-picture' => 'Аватар',
 	'user-profile-section-preferences' => 'Настройки',
 	'user-profile-personal-info' => 'Сведения',
 	'user-profile-personal-name' => 'Имя',
@@ -8901,7 +8902,7 @@ $messages['ru'] = array(
 	'update_profile_nav' => '* Special:UpdateProfile|Личные сведения
 * Special:UpdateProfile/personal|Другая информация
 * Special:UpdateProfile/custom|Пользовательская информация
-* Special:UploadAvatar|Аватара
+* Special:UploadAvatar|Аватар
 * Special:UpdateProfile/preferences|Настройки',
 	'user-type-toggle-old' => 'Использовать вики-страницу участника',
 	'user-type-toggle-new' => 'Использовать социальную страницу участника',
@@ -8911,14 +8912,14 @@ $messages['ru'] = array(
 	'viewgifts' => 'Список подарков',
 	'viewsystemgifts' => 'Список наград',
 	'avatarupload-removeavatar' => 'Удалить аватару',
-	'avatarupload-currentavatar' => 'Текущая аватара $1',
-	'avatarupload-removesuccess' => 'Аватара была успешно удалена',
+	'avatarupload-currentavatar' => 'Текущий аватар $1',
+	'avatarupload-removesuccess' => 'Аватар был успешно удалён',
 	'avatarupload-removeanother' => 'Удалить другой',
 	'profilelogpage' => 'Журнал редактирования личных страниц',
 	'profilelogpagetext' => 'Это журнал редактирования личных страниц',
 	'avatarlogpage' => 'Журнал загрузки аватар',
 	'avatarlogpagetext' => 'Это журнал загрузок аватар участников',
-	'user-profile-picture-log' => 'аватара',
+	'user-profile-picture-log' => 'аватар',
 	'user-profile-picture-log-entry' => 'загрузил новую аватару',
 	'user-profile-picture-log-delete-entry' => 'удалил аватару $1',
 	'right-avatarremove' => 'Удаление аватар участников',

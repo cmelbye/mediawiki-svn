@@ -69,18 +69,22 @@ final class MapsHooks {
 	 * @return true
 	 */
 	public static function registerResourceLoaderModules( ResourceLoader &$resourceLoader ) {
-		global $wgExtensionAssetsPath;
-		
-		$modules = array(	
+		global $egMapsScriptPath;
+		/*
+		$modules = array(
+			'ext.maps.common' => array(
+			
+			),
 		);
 		
 		foreach ( $modules as $name => $resources ) { 
 			$resourceLoader->register( $name, new ResourceLoaderFileModule(
-				array_merge_recursive( $resources, array( 'group' => 'ext.maps' ) ),
-				dirname( __FILE__ ), "$wgExtensionAssetsPath/Maps"
+				$resources,
+				dirname( __FILE__ ),
+				$egMapsScriptPath'
 			) ); 
 		}
-		
+		*/
 		return true;
 	}
 	

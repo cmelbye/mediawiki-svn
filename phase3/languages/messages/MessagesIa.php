@@ -127,6 +127,9 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'Contributiones_delite' ),
 	'Tags'                      => array( 'Etiquettas' ),
 	'Activeusers'               => array( 'Usatores_active' ),
+	'RevisionMove'              => array( 'Displaciar_versiones' ),
+	'ComparePages'              => array( 'Comparar_paginas' ),
+	'Badtitle'                  => array( 'Titulo_invalide' ),
 );
 
 $messages = array(
@@ -625,11 +628,6 @@ Tu pote ignorar iste message si iste conto ha essite create in error.',
 Per favor attende ante de probar lo novemente.',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'Le requesta de clauder le session ha essite refusate proque illo pare haber essite inviate per un navigator o proxy de cache defectuose.',
-'ratelimit-excluded-ips'     => ' #<!-- non modificar in alcun modo iste linea --> <pre>
-# Le syntaxe es lo sequente:
-#  * Toto a partir de un character "#" usque al fin del linea es un commento
-#  * Omne linea non vacue es un adresse IP excludite del limite de frequentia
-  #</pre> <!-- non modificar in alcun modo iste linea -->',
 
 # JavaScript password checks
 'password-strength'            => 'Estimation del securitate del contrasigno: $1',
@@ -1800,6 +1798,7 @@ Memora verificar que non existe altere ligamines al patronos ante que tu los del
 'statistics-edits'             => 'Modificationes de paginas depost le installation de {{SITENAME}}',
 'statistics-edits-average'     => 'Media del modificationes per pagina',
 'statistics-views-total'       => 'Visitas total',
+'statistics-views-total-desc'  => 'Le visitas a paginas inexistente e special non es includite',
 'statistics-views-peredit'     => 'Visitas per modification',
 'statistics-users'             => '[[Special:ListUsers|Usatores]] registrate',
 'statistics-users-active'      => 'Usatores active',

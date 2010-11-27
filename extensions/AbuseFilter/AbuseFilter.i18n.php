@@ -3160,9 +3160,9 @@ $messages['bn'] = array(
 	'abusefilter' => 'অপব্যবহার ফিল্টার কনফিগারেশন',
 	'abuselog' => 'অপব্যবহার লগ',
 	'abusefilter-blocker' => 'অপব্যবহার পরিশ্রুতক',
-	'abusefilter-accountreserved' => 'একাউন্ট নামটি সংরক্ষিত রয়েছে অপব্যবহার-ফিল্টার দ্বারা ব্যবহারের জন্য',
-	'right-abusefilter-view' => 'অপব্যবহার-ফিল্টার দেখুন',
-	'right-abusefilter-log' => 'অপব্যবহার-লগ বই দেখুন',
+	'abusefilter-accountreserved' => 'অপব্যবহার ফিল্টারের জন্য এই একাউন্ট নামটি সংরক্ষিত।',
+	'right-abusefilter-view' => 'অপব্যবহার ফিল্টার দেখাও',
+	'right-abusefilter-log' => 'অপব্যবহার লগ দেখাও',
 	'abusefilter-log-search-user' => 'ব্যবহারকারী:',
 	'abusefilter-log-search-title' => 'শিরোনাম:',
 	'abusefilter-log-search-submit' => 'অনুসন্ধান',
@@ -4668,6 +4668,7 @@ $messages['cy'] = array(
  * @author Aputtu
  * @author Froztbyte
  * @author Lhademmor
+ * @author Sarrus
  */
 $messages['da'] = array(
 	'abusefilter-desc' => 'Anvender automatiske filtre på redigeringer',
@@ -4678,8 +4679,8 @@ Misbrugsfilteret er en automatisk mekanisme i softwaren som udfører automatisk 
 Denne grænseflade viser en liste over definerede filtre, og gør det muligt at ændre dem.',
 	'abusefilter-mustbeeditor' => 'Af sikkerhedsmæssige årsager kan denne grænseflade kun bruges af brugere med rettigheder til at ændre misbrugsfiltre.',
 	'abusefilter-warning' => "'''Advarsel:''' Denne handling er automatisk blevet identificeret som skadelig.
-Ikke-konstruktive redigeringer bliver hurtigt fjernet,
-og forstyrrende eller gentagende ikke-konstruktive redigeringer vil føre til at din konto eller computer bliver blokeret.
+Ikke-konstruktive redigeringer bliver fjernet hurtigt,
+og forstyrrende eller gentagende ikke-konstruktive redigeringer vil føre til at din konto eller ip-adresse bliver blokeret.
 Hvis du mener at dette er en konstruktiv redigering så klik på \"Gem\" igen for at bekræfte.
 En kortfattet beskrivelse af misbrugsreglen som din handling udløste er: \$1",
 	'abusefilter-disallowed' => 'Denne handling er automatisk blevet identificeret som skadelig,
@@ -4745,7 +4746,15 @@ Regelbeskrivelse: $1',
 	'abusefilter-log-linkoncontribs' => 'misbrugslog',
 	'abusefilter-log-linkoncontribs-text' => 'Misbrugslog for denne bruger',
 	'abusefilter-log-hidden' => '(post skjult)',
+	'abusefilter-log-hide' => 'Skjul eller vis',
+	'abusefilter-log-details-hidden' => 'Du kan ikke se detaljerne for denne post, fordi den er skjult for offentligheden',
+	'abusefilter-log-hide-legend' => 'Skjul loghandlig',
+	'abusefilter-log-hide-id' => 'Loghandlings-id:',
+	'abusefilter-log-hide-hidden' => 'Skjul denne loghandling for offentligheden',
 	'abusefilter-log-hide-reason' => 'Årsag:',
+	'abusefilter-log-hide-forbidden' => 'Du har ikke rettigheder til at skjule misbrugsfilterhandlinger',
+	'abusefilter-logentry-suppress' => 'Skjulte "[[$1]]"',
+	'abusefilter-logentry-unsuppress' => 'Gjorde "[[$1]]" synligt for offentligheden igen',
 	'abusefilter-management' => 'Håndtering af misbrugsfilter',
 	'abusefilter-list' => 'Alle filtre',
 	'abusefilter-list-id' => 'Filter-ID',
@@ -6308,6 +6317,7 @@ $messages['ee'] = array(
  * @author Consta
  * @author Crazymadlover
  * @author Geraki
+ * @author Glavkos
  * @author K sal 15
  * @author Konsnos
  * @author Omnipaedista
@@ -6321,11 +6331,11 @@ $messages['el'] = array(
 Το Φίλτρο Καταχρήσεων είναι ένα αυτοματοποιημένο λογισμικό που εφαρμόζει αυτόματες ευρετικές μεθόδους σε όλες τις ενέργειες.
 Αυτή η διεπαφή παρουσιάζει μία σειρά καθορισμένων φίλτρων και επιτρέπει την μετατροπή τους.',
 	'abusefilter-mustbeeditor' => 'Για λόγους ασφαλείας, μόνο χρήστες με το δικαίωμα να τροποποιούν φίλτρα καταχρήσεων είναι σε θέση να χρησιμοποιούν αυτήν την διεπαφή.',
-	'abusefilter-warning' => "'''Προειδοποίηση''': Αυτή η ενέργεια ταυτοποιήθηκε αυτόματα ως επιβλαβής.
-Μη εποικοδομητικές ή επαναλαμβανόμενες επεξεργασίες θα αναστρέφονται αυτόματα,
-και θα έχουν ως αποτέλεσμα τη φραγή του λογαριασμού ή του υπολογιστή σας.
-Αν πιστεύετε ότι αυτή η επεξεργασία είναι εποικοδομητική, μπορείτε να πατήσετε Αποθἠκευση και πάλι για να το επιβεβαιώσετε.
-Μια σύντομη περιγραφή του κανόνα καταχρήσεων στο οποίο αντιστοίχησε η ενέργειά σας είναι η εξής: $1",
+	'abusefilter-warning' => "''' Προειδοποίηση ''': αυτή η ενέργεια έχει αυτόματα εντοπιστεί ως επιβλαβής.
+Θα γίνει αναστροφή  γρήγορα σε μη εποικοδομητικές επεξεργασίες,
+και σκανδαλώδεις  ή κατ ' επανάληψη μη εποικοδομητικές επεξεργασίες  θα οδηγήσουν  το λογαριασμό σας ή τη διεύθυνση IP σας να αποκλειστεί.
+Εάν πιστεύετε ότι αυτή η  επεξεργασία  είναι εποικοδομητική, μπορείτε να κάνετε κλικ στο Υποβολή και πάλι για  να το επιβεβαιώσετε.
+Είναι μια σύντομη περιγραφή της παραβίασης με την οποία η ενέργειά σας ταιριάζει είναι: $1",
 	'abusefilter-disallowed' => 'Αυτή η ενέργεια ταυτοποιήθηκε αυτόματα ως επιβλαβής, και άρα απαγορεύεται.
 Αν πιστεύετε ότι αυτή η επεξεργασία είναι εποικοδομητική, παρακαλώ επικοινωνήστε με έναν διαχειριστή, και πληροφορήστε τον για το τι προσπαθείτε να κάνετε.
 Μια σύντομη περιγραφή του κανόνα καταχρήσεων στο οποίο αντιστοίχησε η ενέργειά σας είναι η εξής: $1',
@@ -6355,6 +6365,8 @@ $messages['el'] = array(
 	'right-abusefilter-modify-restricted' => 'Τροποποίηση φίλτρων καταχρήσεων με περιορισμένες ενέργειες',
 	'right-abusefilter-revert' => 'Αναστροφή όλων των αλλαγών από ένα δεδομένο φίλτρο καταχρήσεων',
 	'right-abusefilter-view-private' => 'Προβολἠ φίλτρων κατάχρησης που έχουν σημανθεί ως ιδιωτικά',
+	'right-abusefilter-hide-log' => 'Απόκρυψε τις  καταχωρήσεις στο αρχείο καταγραφής παραβιάσεων',
+	'right-abusefilter-hidden-log' => 'Εμφάνιση των κρυμμένων  καταχωρήσεων του ιστορικού παραβιάσεων',
 	'action-abusefilter-modify' => 'τροποποίηση φίλτρων καταχρήσεων',
 	'action-abusefilter-view' => 'εμφάνιση φίλτρων καταχρήσεων',
 	'action-abusefilter-log' => 'εμφάνιση του φίλτρου καταχρήσεων',
@@ -9780,7 +9792,7 @@ Velaquí hai unha breve descrición da regra de abuso coa que coincide a súa ac
 	'action-abusefilter-view-private' => 'ver os filtros de abusos marcados como privados',
 	'abusefilter-log' => 'Rexistro do filtro de abusos',
 	'abusefilter-log-summary' => 'Este rexistro mostra unha lista de todas as accións capturadas polos filtros.',
-	'abusefilter-log-search' => 'Procurar o rexistro de abuso',
+	'abusefilter-log-search' => 'Procurar no rexistro de abusos',
 	'abusefilter-log-search-user' => 'Usuario:',
 	'abusefilter-log-search-filter' => 'ID do filtro:',
 	'abusefilter-log-search-title' => 'Título:',
@@ -10055,13 +10067,13 @@ As etiquetas deberían ser curtas e non conter caracteres especiais.',
 	'abusefilter-exception-outofbounds' => 'O elemento $2 solicitado da lista non existe (tamaño da lista = $3) no carácter $1.',
 	'abusefilter-exception-notlist' => 'Conxunto de elementos solicitados de non conxunto no carácter $1.',
 	'abusefilter-action-tag' => 'Etiquetar',
-	'abusefilter-action-throttle' => 'Acelerar',
+	'abusefilter-action-throttle' => 'Limitar',
 	'abusefilter-action-warn' => 'Avisar',
 	'abusefilter-action-blockautopromote' => 'Bloquear a autopromoción',
 	'abusefilter-action-block' => 'Bloquear',
 	'abusefilter-action-degroup' => 'Eliminar dos grupos',
 	'abusefilter-action-rangeblock' => 'Rango do bloqueo',
-	'abusefilter-action-disallow' => 'Non permitir',
+	'abusefilter-action-disallow' => 'Impedir',
 	'abusefilter-revert-title' => 'Reverter todos os cambios feitos polo filtro $1',
 	'abusefilter-revert-intro' => 'Este formulario permítelle reverter todos os cambios feitos polo filtro de abusos $1.
 Por favor, teña coidado con esta ferramenta.',
@@ -10648,7 +10660,7 @@ $messages['gu'] = array(
  */
 $messages['gv'] = array(
 	'abusefilter-log-search-user' => 'Ymmydeyr:',
-	'abusefilter-list-status' => 'Stayd',
+	'abusefilter-list-status' => 'Staydys',
 );
 
 /** Hausa (هَوُسَ) */

@@ -186,7 +186,7 @@ $magicWords = array(
 	'language'              => array( '0', '#KIELI:', '#LANGUAGE:' ),
 	'numberofadmins'        => array( '1', 'YLLÄPITÄJÄMÄÄRÄ', 'NUMBEROFADMINS' ),
 	'formatnum'             => array( '0', 'MUOTOILELUKU', 'FORMATNUM' ),
-	'defaultsort'           => array( '1', 'OLETUSAAKKOSTUS', 'DEFAULTSORT:', 'DEFAULTSORTKEY:', 'DEFAULTCATEGORYSORT:' ),
+	'defaultsort'           => array( '1', 'AAKKOSTUS:', 'OLETUSAAKKOSTUS:', 'DEFAULTSORT:', 'DEFAULTSORTKEY:', 'DEFAULTCATEGORYSORT:' ),
 	'filepath'              => array( '0', 'TIEDOSTOPOLKU:', 'FILEPATH:' ),
 	'hiddencat'             => array( '1', '__PIILOLUOKKA__', '__HIDDENCAT__' ),
 	'pagesize'              => array( '1', 'SIVUKOKO', 'PAGESIZE' ),
@@ -239,6 +239,7 @@ $specialPageAliases = array(
 	'Allpages'                  => array( 'Kaikki_sivut' ),
 	'Prefixindex'               => array( 'Etuliiteluettelo' ),
 	'Ipblocklist'               => array( 'Muokkausestot' ),
+	'Unblock'                   => array( 'Poista_esto' ),
 	'Specialpages'              => array( 'Toimintosivut' ),
 	'Contributions'             => array( 'Muokkaukset' ),
 	'Emailuser'                 => array( 'Lähetä_sähköpostia' ),
@@ -283,6 +284,9 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'Poistetut_muokkaukset' ),
 	'Tags'                      => array( 'Merkinnät' ),
 	'Activeusers'               => array( 'Aktiiviset_käyttäjät' ),
+	'RevisionMove'              => array( 'Versioiden_siirto' ),
+	'ComparePages'              => array( 'Vertaa_sivuja' ),
+	'Badtitle'                  => array( 'Kelpaamaton_otsikko' ),
 );
 
 $linkTrail = '/^([a-zäö]+)(.*)$/sDu';
@@ -618,7 +622,12 @@ Luettelo toimintosivuista löytyy sivulta [[Special:SpecialPages|{{int:specialpa
 # General errors
 'error'                => 'Virhe',
 'databaseerror'        => 'Tietokantavirhe',
-'dberrortext'          => 'Tietokantakyselyssä oli syntaksivirhe. Syynä saattaa olla virheellinen kysely, tai se saattaa johtua ohjelmointivirheestä. Viimeinen tietokantakysely, jota yritettiin, oli: <blockquote><tt>$1</tt></blockquote>. Se tehtiin funktiosta ”<tt>$2</tt>”. Tietokanta palautti virheen ”<tt>$3: $4</tt>”.',
+'dberrortext'          => 'Tietokantakyselyssä oli syntaksivirhe.
+Se saattaa johtua ohjelmointivirheestä.
+Viimeinen tietokantakysely, jota yritettiin, oli:
+<blockquote><tt>$1</tt></blockquote>.
+Se tehtiin funktiosta ”<tt>$2</tt>”.
+Tietokanta palautti virheen ”<tt>$3: $4</tt>”.',
 'dberrortextcl'        => 'Tietokantakyselyssä oli syntaksivirhe. Viimeinen tietokantakysely, jota yritettiin, oli: ”$1”. Se tehtiin funktiosta ”$2”. Tietokanta palautti virheen ”$3: $4”.',
 'laggedslavemode'      => 'Varoitus: Sivu ei välttämättä sisällä viimeisimpiä muutoksia.',
 'readonly'             => 'Tietokanta on lukittu',
@@ -756,11 +765,6 @@ Sinun ei tarvitse huomioida tätä viestiä, jos tunnus on luotu virheellisesti.
 Odota ennen kuin yrität uudelleen.',
 'loginlanguagelabel'         => 'Kieli: $1',
 'suspicious-userlogout'      => 'Pyyntösi kirjautua ulos evättiin, koska se näytti rikkinäisen selaimen tai välimuistipalvelimen lähettämältä.',
-'ratelimit-excluded-ips'     => '#<!-- älä tee muutoksia tähän riviin --> <pre>
-# Syntaksi on seuraava:
-#  * Teksti "#" -merkin jälkeen rivin loppuun asti on kommenttia
-#  * Jokainen ei-tyhjä rivi on IP-osoite jota ei oteta huomioon määrärajassa
- #</pre> <!-- älä tee muutoksia tähän riviin -->',
 
 # JavaScript password checks
 'password-strength'            => 'Arvioitu salasanan vahvuus: $1',

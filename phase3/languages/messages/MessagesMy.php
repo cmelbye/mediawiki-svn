@@ -940,7 +940,10 @@ HTML tags ကို စစ်ဆေးပါ။',
 'tmp-create-error'    => 'ယာယီဖိုင် မဖန်တီးနိုင်ပါ။',
 'tmp-write-error'     => 'ယာယီဖိုင်ရေးသားရာတွင် အမှားဖြစ်ပေါ်နေသည်။',
 'largefileserver'     => 'ဤဖိုင်သည် ဆာဗာတွင် ခွင့်ပြုရန်သတ်မှတ်ထားသော ဖိုင်အရွယ်အစားထက် ကြီးနေသည်။',
+'savefile'            => 'ဖိုင်သိမ်းရန်',
 'uploadedimage'       => '"[[$1]]" ပုံကို တင်ပြီးပြီဖြစ်သည်',
+'uploaddisabled'      => 'Upload တင်ခြင်း ပိတ်ထားသည်။',
+'copyuploaddisabled'  => 'URL လင့်မှ Upload တင်ခြင်း ပိတ်ထားသည်။',
 'uploadvirus'         => 'ဖိုင်တွင် ဗိုင်းရပ်စ် ပါနေပါသည်။
 အသေးစိတ် - $1',
 'upload-source'       => 'ရင်းမြစ်ဖိုင်',
@@ -1427,8 +1430,13 @@ HTML tags ကို စစ်ဆေးပါ။',
 'revertmove'       => 'ပြောင်းရန်',
 
 # Export
-'export'        => 'စာမျက်နှာများကို Export ထုတ်ရန်',
-'export-submit' => 'Export ထုတ်ရန်',
+'export'            => 'စာမျက်နှာများကို Export ထုတ်ရန်',
+'export-submit'     => 'Export ထုတ်ရန်',
+'export-addcattext' => 'ကဏ္ဍမှ စာမျက်နှာများကို ပေါင်းထည့်ရန် -',
+'export-addcat'     => 'ပေါင်းထည့်ရန်',
+'export-addnstext'  => 'အမည်ညွှန်းမှ စာမျက်နှာများကို ပေါင်းထည့်ရန်',
+'export-addns'      => 'ပေါင်းထည့်ရန်',
+'export-download'   => 'ဖိုင်အဖြစ် သိမ်းရန်',
 
 # Namespace 8 related
 'allmessages'                   => 'စ​နစ်​၏​သ​တင်း​များ​',
@@ -1448,6 +1456,9 @@ HTML tags ကို စစ်ဆေးပါ။',
 # Special:Import
 'import-upload-filename' => 'ဖိုင်အမည် -',
 'import-comment'         => 'မှတ်ချက် -',
+'importbadinterwiki'     => 'ညံ့ဖျင်းသော အင်တာဝီကီလင့်',
+'importnotext'           => 'ဗလာဖြစ်နေသည် သို့မဟုတ် ဘာစာသားမှ မရှိပါ',
+'importsuccess'          => 'ထည့်သွင်းခြင်း ပြီးဆုံးပါပြီ။',
 
 # Tooltip help for the actions
 'tooltip-pt-userpage'             => 'ကိုယ်ပိုင်စာမျက်နှာ',
@@ -1493,10 +1504,13 @@ HTML tags ကို စစ်ဆေးပါ။',
 'tooltip-t-permalink'             => 'ယခုမူအတွက် ပုံသေလိပ်စာ',
 'tooltip-ca-nstab-main'           => 'မာတိကာ ကြည့်ရန်',
 'tooltip-ca-nstab-user'           => 'အသုံးပြုသူ၏ စာမျက်နှာကို ကြည့်ရန်',
+'tooltip-ca-nstab-media'          => 'မီဒီယာစာမျက်နှာကို ကြည့်ရန်',
 'tooltip-ca-nstab-special'        => 'ဤသည်မှာ အထူးစာမျက်နှာဖြစ်သည်။ ဤစာမျက်နှာကို ပြင်ဆင် မရနိုင်ပါ။',
 'tooltip-ca-nstab-project'        => 'ပရောဂျက်စာမျက်နှာကို ကြည့်ရန်',
 'tooltip-ca-nstab-image'          => 'ဖိုင်စာမျက်နှာကိုကြည့်ပါ။',
+'tooltip-ca-nstab-mediawiki'      => 'စစ္စတမ်မက်ဆေ့ကို ကြည့်ရန်',
 'tooltip-ca-nstab-template'       => 'တမ်းပလိတ်ကို ကြည့်ရန်',
+'tooltip-ca-nstab-help'           => 'အကူအညီစာမျက်နှာကို ကြည့်ရန်',
 'tooltip-ca-nstab-category'       => 'ကဏ္ဍများကို ကြည့်ရန်',
 'tooltip-minoredit'               => 'အရေးမကြီးသော တည်းဖြတ်မှုအဖြစ် မှတ်သားရန်',
 'tooltip-save'                    => 'ပြောင်းလဲထားသည်များကို သိမ်းရန်',
@@ -1504,8 +1518,15 @@ HTML tags ကို စစ်ဆေးပါ။',
 'tooltip-diff'                    => 'ဘယ်စာသား ​ပြောင်းလိုက်သည်ကို ြပရန်',
 'tooltip-compareselectedversions' => 'ရွေးချယ်ထားသော မူနှစ်ခု၏ ကွဲပြားချက်များကို ကြည့်ရန်',
 'tooltip-watch'                   => 'ဤစာမျက်နှာကို စောင့်ကြည့်စာရင်းသို့ ပေါင်းထည့်ရန်',
+'tooltip-recreate'                => 'စာမျက်နှာကို ဖျက်ပစ်လိုက်လျှင်သော်မှ ပြန်လည်ဖန်တီးပါ',
+'tooltip-upload'                  => 'Upload တင်ခြင်း စတင်ရန်',
 'tooltip-rollback'                => '"နောက်ပြန် ပြန်သွားခြင်း" သည် ဤစာမျက်နှာ၏ နောက်ဆုံး တည်းဖြတ်မူသို့ ကလစ် တစ်ချက်ဖြင့် ပြန်ပြောင်းပေးသည်။',
 'tooltip-undo'                    => '"နောက်ပြန် ပြန်သွားခြင်း" သည် ဤ တည်းဖြတ်ခြင်းကို နောက်ပြန်ပြန်ဆုတ်ပြီး နမူနာပုံနှင့်တကွ တည်းဖြတ်ရန် ပြန်ဖွင့်မည် ဖြစ်သည်။ အဘယ်ကြောင့် နောက်ပြန်သွားသည်ကို အကျဉ်းချုပ် အကြောင်းပြချက် ရေးနိုင်သည်။',
+'tooltip-preferences-save'        => 'ရေးချယ်စရာများကို သိမ်းရန်',
+'tooltip-summary'                 => 'အတိုချုပ်ထည့်ရန်',
+
+# Attribution
+'others' => 'အခြား',
 
 # Info page
 'numedits'       => 'တည်းဖြတ်မှု အရေအတွက် (စာမျက်နှာ) - $1',
@@ -1520,6 +1541,16 @@ HTML tags ကို စစ်ဆေးပါ။',
 'mw_math_html'   => 'ဖြစ်နိုင်လျှင် HTML သို့မဟုတ်ပါက PNG အဖြစ်',
 'mw_math_source' => 'TeX အဖြစ်ထားခဲ့ပါ (စာသားသာပြသည့် ဘရောက်ဇာများအတွက်)',
 'mw_math_modern' => 'ခေတ်ပေါ်ဘရောက်ဇာများအတွက် အကြံပြုသည်',
+
+# Math errors
+'math_unknown_error'    => 'အမည်မသိ အမှား',
+'math_unknown_function' => 'အမည်မသိ ဖန်ရှင်',
+
+# Patrol log
+'patrol-log-diff' => 'မူ $1',
+
+# Image deletion
+'filedeleteerror-short' => 'ဖိုင်ဖျက်ရာတွင် အမှားအယွင်း - $1',
 
 # Browsing diffs
 'previousdiff' => '← တည်းဖြတ်မူ အဟောင်း',
@@ -1582,11 +1613,24 @@ HTML tags ကို စစ်ဆေးပါ။',
 'exif-relatedsoundfile'    => 'ဆက်နွယ်သော အသံဖိုင်',
 'exif-datetimeoriginal'    => 'ဒေတာဖန်တီးခဲ့သော နေ့စွဲနှင့် အချိန်',
 'exif-exposuretime-format' => '$1 စက္ကန့် ($2)',
+'exif-flash'               => 'ဖလက်ရှ်',
 'exif-gpsaltitude'         => 'အမြင့်',
 
+'exif-subjectdistance-value' => '$1 မီတာ',
+
+'exif-meteringmode-0'   => 'မသိရှိပါ',
+'exif-meteringmode-1'   => 'ပျမ်းမျှ',
+'exif-meteringmode-5'   => 'အဆင်',
+'exif-meteringmode-6'   => 'တစ်စိတ်တစ်ပိုင်း',
 'exif-meteringmode-255' => 'အခြား',
 
-'exif-lightsource-1' => 'နေ့အလင်း',
+'exif-lightsource-0'  => 'မသိရှိပါ',
+'exif-lightsource-1'  => 'နေ့အလင်း',
+'exif-lightsource-2'  => 'မီးချောင်းအလင်းရောင်',
+'exif-lightsource-4'  => 'ဖလက်ရှ်',
+'exif-lightsource-9'  => 'ကောင်းမွန်သော ရာသီဥတု',
+'exif-lightsource-10' => 'တိမ်ထူသော ရာသီဥတု',
+'exif-lightsource-11' => 'အရိပ်',
 
 'exif-focalplaneresolutionunit-2' => 'လက်မှတ်',
 
@@ -1599,6 +1643,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 'exif-contrast-2' => 'အပြင်း',
 
 'exif-saturation-0' => 'သာမန်',
+
+'exif-sharpness-0' => 'ပုံမှန်',
 
 # External editor support
 'edit-externally'      => 'ပြင်ပ application တစ်ခုခုကိုသုံး၍ ဤဖိုင်ကို ပြင်ရန်',
@@ -1615,7 +1661,10 @@ HTML tags ကို စစ်ဆေးပါ။',
 'confirmemail' => 'အီးမေးကိုအတည်ပြုပါ',
 
 # Multipage image navigation
-'imgmultigo' => 'သွား​ပါ!',
+'imgmultipageprev' => '← ပြီးခဲ့သော စာမျက်နှာ',
+'imgmultipagenext' => 'နောက်စာမျက်နှာ →',
+'imgmultigo'       => 'သွား​ပါ!',
+'imgmultigoto'     => 'စာမျက်နှာ $1 ကို သွားရန်',
 
 # Table pager
 'table_pager_next'         => 'နောက်စာမျက်နှာ',
@@ -1680,11 +1729,13 @@ HTML tags ကို စစ်ဆေးပါ။',
 'tags-title'        => 'အမည်တွဲ',
 
 # Special:ComparePages
-'compare-page1'  => 'စာမျက်နှာတစ်',
-'compare-page2'  => 'စာမျက်နှာနှစ်',
-'compare-rev1'   => 'မူ တစ်',
-'compare-rev2'   => 'မူ နှစ်',
-'compare-submit' => 'နှိုင်းယှဉ်ရန်',
+'comparepages'     => 'စာမျက်နှာများကို နှုိင်းယှဉ်ရန်',
+'compare-selector' => 'စာမျက်နှာမူများကို နှုိင်းယှဉ်ရန်',
+'compare-page1'    => 'စာမျက်နှာတစ်',
+'compare-page2'    => 'စာမျက်နှာနှစ်',
+'compare-rev1'     => 'မူ တစ်',
+'compare-rev2'     => 'မူ နှစ်',
+'compare-submit'   => 'နှိုင်းယှဉ်ရန်',
 
 # Database error messages
 'dberr-header' => 'ဤဝီကီတွင် ပြဿနာတစ်ခု ရှိနေသည်',

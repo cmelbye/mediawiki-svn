@@ -115,6 +115,7 @@ Used as a column header for a table',
 	'whitelisttablemodby' => 'Used as a column header for a table',
 	'whitelisttablemodon' => 'Used as a column header for a table',
 	'whitelisttableedit' => '{{Identical|Edit}}',
+	'whitelisttableview' => '{{Identical|View}}',
 	'whitelisttablesetedit' => '{{Identical|Set to edit}}',
 	'whitelisttablesetview' => '{{Identical|Set to view}}',
 	'whitelisttableremove' => '{{Identical|Remove}}',
@@ -260,6 +261,7 @@ $messages['an'] = array(
  * @author Meno25
  * @author OsamaK
  * @author Ouda
+ * @author Reedy
  */
 $messages['ar'] = array(
 	'whitelistedit-desc' => 'عدل سماحات الوصول للمستخدمين المحددين',
@@ -282,7 +284,7 @@ $messages['ar'] = array(
 	'whitelisttablesetedit' => 'ضبط للتعديل',
 	'whitelisttablesetview' => 'ضبط للعرض',
 	'whitelisttableremove' => 'إزالة',
-	'whitelistnewpagesfor' => 'أضف صفحات جديدة إلى <b>$1</b القائمة البيضاء ل<br />
+	'whitelistnewpagesfor' => 'أضف صفحات جديدة إلى <b>$1</b> القائمة البيضاء ل<br />
 استخدم إما * أو % كحرف خاص',
 	'whitelistnewtabledate' => 'تاريخ الانتهاء:',
 	'whitelistnewtableedit' => 'ضبط للتعديل',

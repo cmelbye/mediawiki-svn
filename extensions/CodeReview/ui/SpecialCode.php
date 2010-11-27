@@ -1,12 +1,14 @@
 <?php
-if ( !defined( 'MEDIAWIKI' ) ) die();
 
+/**
+ * Main UI entry point. This calls the appropriate CodeView subclass and runs it
+ */
 class SpecialCode extends SpecialPage {
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'Code' , 'codereview-use' );
 	}
 
-	function execute( $subpage ) {
+	public function execute( $subpage ) {
 		global $wgOut, $wgUser, $wgExtensionAssetsPath, $wgCodeReviewStyleVersion;
 
 		if ( !$this->userCanExecute( $wgUser ) ) {
@@ -17,12 +19,12 @@ class SpecialCode extends SpecialPage {
 		$this->setHeaders();
 		$wgOut->addStyle( "$wgExtensionAssetsPath/CodeReview/codereview.css?$wgCodeReviewStyleVersion" );
 
-		$view = self::getViewFrom( $subpage );
+		$view = $this->getViewFrom( $subpage );
 		if( $view ) {
 			$view->execute();
 		} else {
 			$wgOut->addWikiText( wfMsg( 'nosuchactiontext' ) );
-			$wgOut->returnToMain( null, SpecialPage::getTitleFor( 'Code' ) );
+			$wgOut->returnToMain( null, $this->getTitle() );
 			return;
 		}
 
@@ -38,7 +40,7 @@ class SpecialCode extends SpecialPage {
 	 * Get a view object from a sub page path.
 	 * @return View object or null if no valid action could be found
 	 */
-	private static function getViewFrom( $subpage ) {
+	private function getViewFrom( $subpage ) {
 		global $wgRequest;
 
 		# Remove stray slashes
@@ -137,7 +139,7 @@ abstract class CodeView {
 
 	function __construct() {
 		global $wgUser;
-		$this->mSkin = $wgUser->getSkin();
+		$this->skin = $wgUser->getSkin();
 	}
 
 	function validPost( $permission ) {
@@ -149,20 +151,10 @@ abstract class CodeView {
 
 	abstract function execute();
 
-	/*
-	 *	returns a User object if $author has a wikiuser associated,
-	 *	of false
-	*/
-	function authorWikiUser( $author ) {
-		if ( $this->mRepo )
-			return $this->mRepo->authorWikiUser( $author );
-		return false;
-	}
-
 	function authorLink( $author, $extraParams = array() ) {
 		$repo = $this->mRepo->getName();
 		$special = SpecialPage::getTitleFor( 'Code', "$repo/author/$author" );
-		return $this->mSkin->link( $special, htmlspecialchars( $author ), array(), $extraParams );
+		return $this->skin->link( $special, htmlspecialchars( $author ), array(), $extraParams );
 	}
 
 	function statusDesc( $status ) {
@@ -234,7 +226,7 @@ abstract class SvnTablePager extends TablePager {
 	function formatRow( $row ) {
 		global $wgWikiSVN;
 		$css = "mw-codereview-status-{$row->cr_status}";
-		if ( $this->mRepo->mName == $wgWikiSVN ) {
+		if ( $this->mRepo->getName() == $wgWikiSVN ) {
 			$css .= " mw-codereview-" . ( $row-> { $this->getDefaultSort() } <= $this->mCurSVN ? 'live' : 'notlive' );
 		}
 		$s = "<tr class=\"$css\">\n";

@@ -789,7 +789,6 @@ class Parser {
 		wfProfileIn( __METHOD__ );
 		
 		$lines = StringUtils::explode( "\n", $text );
-		$text = null;
 		$out = '';
 		$td_history = array(); # Is currently a td tag open?
 		$last_tag_history = array(); # Save history of last lag activated (td, th or caption)
@@ -1260,10 +1259,9 @@ class Parser {
 			# First, do some preliminary work. This may shift some apostrophes from
 			# being mark-up to being text. It also counts the number of occurrences
 			# of bold and italics mark-ups.
-			$i = 0;
 			$numbold = 0;
 			$numitalics = 0;
-			foreach ( $arr as $r ) {
+			for ( $i = 0; $i < count( $arr ); $i++ ) {
 				if ( ( $i % 2 ) == 1 ) {
 					# If there are ever four apostrophes, assume the first is supposed to
 					# be text, and the remaining three constitute mark-up for bold text.
@@ -1287,7 +1285,6 @@ class Parser {
 						$numbold++;
 					}
 				}
-				$i++;
 			}
 
 			# If there is an odd number of both bold and italics, it is likely
@@ -4694,6 +4691,9 @@ class Parser {
 								if ( preg_match( "/^($prots)$chars+$/", $value, $m ) ) {
 									$paramName = 'link-url';
 									$this->mOutput->addExternalLink( $value );
+									if ( $this->mOptions->getExternalLinkTarget() ) {
+										$params[$type]['link-target'] = $this->mOptions->getExternalLinkTarget();
+									}
 									$validated = true;
 								}
 							} else {

@@ -51,6 +51,18 @@ $namespaceAliases = array(
 
 $magicWords = array(
 	'redirect'              => array( '0', '#வழிமாற்று', '#REDIRECT' ),
+	'img_right'             => array( '1', 'வலது', 'right' ),
+	'img_left'              => array( '1', 'இடது', 'left' ),
+	'img_none'              => array( '1', 'ஒன்றுமில்லை', 'none' ),
+	'img_center'            => array( '1', 'மையம்', 'center', 'centre' ),
+	'img_top'               => array( '1', 'மேல்', 'top' ),
+	'img_middle'            => array( '1', 'மத்தியில்', 'middle' ),
+	'img_bottom'            => array( '1', 'கீழ்', 'bottom' ),
+	'plural'                => array( '0', 'பன்மை', 'PLURAL:' ),
+	'special'               => array( '0', 'சிறப்பு', 'special' ),
+	'pagesize'              => array( '1', 'பக்க_அளவு', 'PAGESIZE' ),
+	'url_path'              => array( '0', 'வழி', 'PATH' ),
+	'url_wiki'              => array( '0', 'விக்கி', 'WIKI' ),
 );
 
 $linkTrail = "/^([\xE0\xAE\x80-\xE0\xAF\xBF]+)(.*)$/sDu";
@@ -141,7 +153,7 @@ $messages = array(
 'october'       => 'அக்டோபர்',
 'november'      => 'நவம்பர்',
 'december'      => 'டிசம்பர்',
-'january-gen'   => 'ஜனவரி',
+'january-gen'   => 'சனவரி',
 'february-gen'  => 'பெப்ரவரி',
 'march-gen'     => 'மார்ச்',
 'april-gen'     => 'ஏப்ரல்',
@@ -296,11 +308,11 @@ $1',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => '{{SITENAME}} பற்றி',
-'aboutpage'            => 'Project:விவரம்',
+'aboutpage'            => 'திட்டம்:விவரம்',
 'copyright'            => 'உள்ளடக்கங்கள் $1 இன் கீழ் கிடைக்கின்றன.',
 'copyrightpage'        => '{{ns:project}}:பதிப்புரிமை',
 'currentevents'        => 'தற்போதைய நிகழ்வுகள்',
-'currentevents-url'    => 'Project:நடப்பு நிகழ்வுகள்',
+'currentevents-url'    => 'திட்டம்:நடப்பு நிகழ்வுகள்',
 'disclaimers'          => 'பொறுப்புத் துறப்புகள்',
 'disclaimerpage'       => 'Project:பொதுவான பொறுப்புத் துறப்புகள்',
 'edithelp'             => 'தொகுத்தலுக்கான உதவி',

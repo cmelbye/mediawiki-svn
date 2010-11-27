@@ -3193,6 +3193,7 @@ Ce tu è 'nu browser assaije vecchie, o tìne 'u JavaScript disabbilitate, non g
 /** Russian (Русский)
  * @author Ahonc
  * @author Lockal
+ * @author Putnik
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
@@ -3215,9 +3216,9 @@ $messages['ru'] = array(
 	'categorytree-load' => 'загрузить',
 	'categorytree-loading' => 'загрузка…',
 	'categorytree-nothing-found' => 'Данная категория не содержит подкатегорий.',
-	'categorytree-no-subcategories' => 'нет подкатегорий.',
+	'categorytree-no-subcategories' => 'нет подкатегорий',
 	'categorytree-no-parent-categories' => 'нет родительских категорий',
-	'categorytree-no-pages' => 'нет статей и подкатегорий.',
+	'categorytree-no-pages' => 'нет статей и подкатегорий',
 	'categorytree-not-found' => 'Категория «$1» не найдена.',
 	'categorytree-error' => 'Ошибка загрузки данных.',
 	'categorytree-retry' => 'Пожалуйста, подождите и попробуйте ещё раз.',
@@ -3946,11 +3947,12 @@ $messages['to'] = array(
 
 /** Tok Pisin (Tok Pisin)
  * @author Iketsi
+ * @author Wantok
  */
 $messages['tpi'] = array(
 	'categorytree-portlet' => 'Ol grup',
 	'categorytree-category' => 'Grup:',
-	'categorytree-mode-all' => 'Ol pes',
+	'categorytree-mode-all' => 'Olgeta pes',
 );
 
 /** Turkish (Türkçe)
@@ -4230,6 +4232,7 @@ $messages['yi'] = array(
 	'categorytree-no-parent-categories' => 'נישטא קיין עלטערן קאַטעגאריעס',
 	'categorytree-no-pages' => 'נישטא קיין בלעטער אדער אונטער-קאַטעגאריעס',
 	'categorytree-not-found' => "קאַטעגאריע '''$1''' נישט געפֿונען",
+	'categorytree-error' => 'פּראָבלעם בײַם ארויפֿלאָדן דאַטן.',
 	'categorytree-retry' => 'ביטע וואַרט אַ רגע און פרובירט נאכאַמאָל',
 );
 

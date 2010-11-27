@@ -118,16 +118,24 @@ class WebInstaller extends CoreInstaller {
 		$this->exportVars();
 		$this->setupLanguage();
 
-		if( $this->getVar( '_InstallDone' ) && $this->request->getVal( 'localsettings' ) )
+		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) ) 
+			&& $this->request->getVal( 'localsettings' ) )
 		{
-			$ls = new LocalSettingsGenerator( $this );
-			$this->request->response()->header('Content-type: text/plain');
-
+			$this->request->response()->header( 'Content-type: text/plain' );
 			$this->request->response()->header(
 				'Content-Disposition: attachment; filename="LocalSettings.php"'
 			);
 
+			$ls = new LocalSettingsGenerator( $this );
 			echo $ls->getText();
+			return $this->session;
+		}
+
+		$cssDir = $this->request->getVal( 'css' );
+		if( $cssDir ) {
+			$cssDir = ( $cssDir == 'rtl' ? 'rtl' : 'ltr' );
+			$this->request->response()->header( 'Content-type: text/css' );
+			echo $this->output->getCSS( $cssDir );
 			return $this->session;
 		}
 
@@ -486,7 +494,7 @@ class WebInstaller extends CoreInstaller {
 
 		$s .= "</ul></div>\n". // end list pane
 			"<div class=\"config-page\">\n" .
-			Xml::element( 'h2', array(),
+			Html::element( 'h2', array(),
 				wfMsg( 'config-page-' . strtolower( $currentPageName ) ) );
 
 		$this->output->addHTMLNoFlush( $s );
@@ -513,7 +521,7 @@ class WebInstaller extends CoreInstaller {
 					$query['lastPage'] = $currentPageName;
 				}
 
-				$link = Xml::element( 'a',
+				$link = Html::element( 'a',
 					array(
 						'href' => $this->getUrl( $query )
 					),
@@ -529,7 +537,7 @@ class WebInstaller extends CoreInstaller {
 				$s .= $link;
 			}
 		} else {
-			$s .= Xml::element( 'span',
+			$s .= Html::element( 'span',
 				array(
 					'class' => 'config-page-disabled'
 				),
@@ -581,7 +589,7 @@ class WebInstaller extends CoreInstaller {
 		$s =
 			"<div class=\"config-info $class\">\n" .
 				"<div class=\"config-info-left\">\n" .
-				Xml::element( 'img',
+				Html::element( 'img',
 					array(
 						'src' => '../skins/common/images/' . $icon,
 						'alt' => wfMsg( 'config-information' ),
@@ -794,7 +802,6 @@ class WebInstaller extends CoreInstaller {
 				$params['value'],
 				$params['attribs'] + array(
 					'id' => $params['controlName'],
-					'class' => 'config-input-text',
 					'tabindex' => $this->nextTabIndex(),
 				)
 			) .

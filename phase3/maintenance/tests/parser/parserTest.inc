@@ -337,6 +337,7 @@ class ParserTest {
 	 * @return Boolean: true if passed all tests, false if any tests failed.
 	 */
 	public function runTestsFromFiles( $filenames ) {
+		$ok = false;
 		$GLOBALS['wgContLang'] = Language::factory( 'en' );
 		$this->recorder->start();
 		try {
@@ -1154,7 +1155,7 @@ class ParserTest {
 	 * @param $text String: the article text
 	 * @param $line Integer: the input line number, for reporting errors
 	 */
-	static public function addArticle( $name, $text, $line ) {
+	static public function addArticle( $name, $text, $line = 'unknown' ) {
 		global $wgCapitalLinks;
 
 		$text = self::chomp($text);
@@ -1162,7 +1163,8 @@ class ParserTest {
 		$oldCapitalLinks = $wgCapitalLinks;
 		$wgCapitalLinks = true; // We only need this from SetupGlobals() See r70917#c8637
 
-		$title = Title::newFromText( self::chomp($name) );
+		$name = self::chomp( $name );
+		$title = Title::newFromText( $name );
 
 		if ( is_null( $title ) ) {
 			wfDie( "invalid title ('$name' => '$title') at line $line\n" );
@@ -1171,9 +1173,7 @@ class ParserTest {
 		$aid = $title->getArticleID( Title::GAID_FOR_UPDATE );
 
 		if ( $aid != 0 ) {
-			foreach(debug_backtrace() as $bt) {
-				echo "{$bt['file']}::{$bt['line']}\n";
-			}
+			debug_print_backtrace();
 			wfDie( "duplicate article '$name' at line $line\n" );
 		}
 

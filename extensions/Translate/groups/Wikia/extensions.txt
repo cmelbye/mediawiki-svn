@@ -19,8 +19,7 @@ Auto Hubs Pages
 
 Automatic Wiki Adoption
 # Extension is not completely done yet. Ignoring unfinished parts.
-ignored = automaticwikiadoption-desc, automaticwikiadoption-description, automaticwikiadoption-mail-first-content, automaticwikiadoption-mail-first-content-HTML
-ignored = automaticwikiadoption-mail-second-content, automaticwikiadoption-mail-second-content-HTML, automaticwikiadoption-mail-adoption-content, automaticwikiadoption-mail-adoption-content-HTML
+ignored = automaticwikiadoption-desc, automaticwikiadoption-description, automaticwikiadoption-mail-first-content
 
 Badges
 file = Badges/UserBadges.i18n.php
@@ -35,6 +34,9 @@ Batch User Rights
 file = SpecialBatchUserRights/BatchUserRights.i18n.php
 aliasfile = SpecialBatchUserRights/BatchUserRights.alias.php
 
+Category Exhibition
+file = CategoryExhibition/i18n/CategoryExhibition.i18n.php
+
 Category Hubs
 
 Category Select
@@ -45,6 +47,8 @@ Comments Forum
 file = CommentsForum/Forum.i18n.php
 
 Community Messages
+
+Content Feeds
 
 Contest Tool
 file = ContestTool/SpecialContestTool.i18n.php
@@ -90,6 +94,8 @@ file = SpecialHealthcheck/HealthCheck.i18n.php
 Helper Panel
 
 Image Placeholder
+
+Image Serving
 
 Interstitial - Outbound Screen
 file = Interstitial/OutboundScreen.i18n.php
@@ -141,7 +147,12 @@ ignored = wiki-navigation, categoryblacklist, photosblacklist
 Our 404 Handler
 file = Our404Handler/SpecialOur404Handler.i18n.php
 
+Paginator
+file = Paginator/i18n/Paginator.i18n.php
+
 Partner Feed
+
+Piggyback
 
 Problem Reports
 
@@ -164,11 +175,19 @@ file = RTE/i18n/RTE.i18n.php
 RTE - CK Wikia
 file = RTE/i18n/CK.wikia.i18n.php
 
+Scribe
+file = Scribe/SpecialScribeEvents.i18n.php
+
 Search
 
 Shared Help
 
+Shared Messages
+
 Share Feature
+
+Signup
+file = SpecialSignup/Signup.i18n.php
 
 Sitemap
 aliasfile = Sitemap/Sitemap.alias.php
@@ -195,6 +214,8 @@ file = SpecialSponsorPage/Sponsor.i18n.php
 optional = sponsor-template
 
 Special Widget Dashboard
+
+Staff Log
 
 Staff Powers
 

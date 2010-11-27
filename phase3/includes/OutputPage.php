@@ -563,11 +563,6 @@ class OutputPage {
 		$nameWithTags = Sanitizer::normalizeCharReferences( Sanitizer::removeHTMLtags( $name ) );
 		$this->mPagetitle = $nameWithTags;
 
-		$taction = $this->getPageTitleActionText();
-		if( !empty( $taction ) ) {
-			$name .= ' - '.$taction;
-		}
-
 		# change "<i>foo&amp;bar</i>" to "foo&bar"
 		$this->setHTMLTitle( wfMsg( 'pagetitle', Sanitizer::stripAllTags( $nameWithTags ) ) );
 	}
@@ -2294,9 +2289,16 @@ class OutputPage {
 		return $ret;
 	}
 
-	// TODO: Document
-	protected function makeResourceLoaderLink( $skin, $modules, $only, $useESI = false ) {
-		global $wgUser, $wgLang, $wgRequest, $wgLoadScript, $wgResourceLoaderDebug, $wgResourceLoaderUseESI,
+	/**
+	 * TODO: Document
+	 * @param $skin Skin
+	 * @param $modules Array/string with the module name
+	 * @param $only string May be styles, messages or scripts
+	 * @param $useESI boolean
+	 * @return string html <script> and <style> tags
+	 */
+	protected function makeResourceLoaderLink( Skin $skin, $modules, $only, $useESI = false ) {
+		global $wgUser, $wgLang, $wgLoadScript, $wgResourceLoaderUseESI,
 			$wgResourceLoaderInlinePrivateModules;
 		// Lazy-load ResourceLoader
 		if ( is_null( $this->mResourceLoader ) ) {
@@ -2304,20 +2306,33 @@ class OutputPage {
 		}
 		// TODO: Should this be a static function of ResourceLoader instead?
 		// TODO: Divide off modules starting with "user", and add the user parameter to them
-		// Determine whether we're in debug mode
-		// Order of priority is 1) request param, 2) cookie, 3) $wg setting
-		$debug = $wgRequest->getFuzzyBool( 'debug',
-			$wgRequest->getCookie( 'resourceLoaderModule', '', $wgResourceLoaderDebug ) );
 		$query = array(
 			'lang' => $wgLang->getCode(),
-			'debug' => $debug ? 'true' : 'false',
-			'skin' => $wgUser->getSkin()->getSkinName(),
+			'debug' => ResourceLoader::inDebugMode() ? 'true' : 'false',
+			'skin' => $skin->getSkinName(),
 			'only' => $only,
 		);
-		// Remove duplicate module requests
-		$modules = array_unique( (array) $modules );
-		// Sort module names so requests are more uniform
-		sort( $modules );
+		
+		if ( !count( $modules ) ) {
+			return '';
+		}
+		
+		if ( count( $modules ) > 1 ) {
+			// Remove duplicate module requests
+			$modules = array_unique( (array) $modules );
+			// Sort module names so requests are more uniform
+			sort( $modules );
+		
+			if ( ResourceLoader::inDebugMode() ) {
+				// Recursively call us for every item
+				$links = '';
+				foreach ( $modules as $name ) {
+					$links .= $this->makeResourceLoaderLink( $skin, $name, $only, $useESI );
+				}
+				return $links;
+			}
+		}
+		
 		// Create keyed-by-group list of module objects from modules list
 		$groups = array();
 		foreach ( (array) $modules as $name ) {
@@ -2397,7 +2412,7 @@ class OutputPage {
 	 * @return String: HTML fragment
 	 */
 	function getHeadScripts( Skin $sk ) {
-		global $wgUser, $wgRequest, $wgUseSiteJs, $wgResourceLoaderDebug;
+		global $wgUser, $wgRequest, $wgUseSiteJs;
 
 		// Startup - this will immediately load jquery and mediawiki modules
 		$scripts = $this->makeResourceLoaderLink( $sk, 'startup', 'scripts', true );
@@ -2407,25 +2422,12 @@ class OutputPage {
 		$scripts .= Skin::makeGlobalVariablesScript( $sk->getSkinName() ) . "\n";
 
 		// Script and Messages "only"
-		if ( $wgRequest->getFuzzyBool( 'debug', $wgResourceLoaderDebug ) ) {
-			// Scripts
-			foreach ( $this->getModuleScripts() as $name ) {
-				$scripts .= $this->makeResourceLoaderLink( $sk, $name, 'scripts' );
-			}
-			// Messages
-			foreach ( $this->getModuleMessages() as $name ) {
-				$scripts .= $this->makeResourceLoaderLink( $sk, $name, 'messages' );
-			}
-		} else {
-			// Scripts
-			if ( count( $this->getModuleScripts() ) ) {
-				$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleScripts(), 'scripts' );
-			}
-			// Messages
-			if ( count( $this->getModuleMessages() ) ) {
-				$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleMessages(), 'messages' );
-			}
-		}
+		
+		// Scripts
+		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleScripts(), 'scripts' );
+
+		// Messages
+		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleMessages(), 'messages' );
 
 		// Modules - let the client calculate dependencies and batch requests as it likes
 		if ( $this->getModules() ) {
@@ -2505,7 +2507,7 @@ class OutputPage {
 	 * @return string HTML tag links to be put in the header.
 	 */
 	public function getHeadLinks( $sk ) {
-		global $wgFeed, $wgRequest, $wgResourceLoaderDebug;
+		global $wgFeed;
 
 		// Ideally this should happen earlier, somewhere. :P
 		$this->addDefaultMeta();
@@ -2575,16 +2577,7 @@ class OutputPage {
 			}
 		}
 
-		// Support individual script requests in debug mode
-		if ( $wgRequest->getFuzzyBool( 'debug', $wgResourceLoaderDebug ) ) {
-			foreach ( $this->getModuleStyles() as $name ) {
-				$tags[] = $this->makeResourceLoaderLink( $sk, $name, 'styles' );
-			}
-		} else {
-			if ( count( $this->getModuleStyles() ) ) {
-				$tags[] = $this->makeResourceLoaderLink( $sk, $this->getModuleStyles(), 'styles' );
-			}
-		}
+		$tags[] = $this->makeResourceLoaderLink( $sk, $this->getModuleStyles(), 'styles' );
 
 		return implode( "\n", $tags );
 	}

@@ -9,12 +9,22 @@ class CodeTagListView extends CodeView {
 
 	function execute() {
 		global $wgOut;
-		$tags = $this->mRepo->getTagList();
 		$name = $this->mRepo->getName();
-		$text = '';
-		foreach ( $tags as $tag ) {
-			$text .= "* [[Special:Code/$name/tag/$tag|$tag]]\n";
+		$list = $this->mRepo->getTagList();
+
+		if( 0 === count( $list ) ) {
+			$wgOut->addWikiMsg( 'code-tags-no-tags' );
+		} else {
+			# Show a cloud made of tags
+			$tc = new WordCloud( $list, array( $this, 'linkCallback' ) );
+			$wgOut->addHTML( $tc->showCloud() );
 		}
-		$wgOut->addWikiText( $text );
+	}
+
+	public function linkCallback( $tag, $weight ) {
+		$query = $this->mRepo->getName() . '/tag/' . $tag;
+		return Html::element( 'a', array(
+			'href' => SpecialPage::getTitleFor( 'Code', $query )->getFullURL(),
+			'class' => 'plainlinks mw-wordcloud-size-' . $weight ), $tag );
 	}
 }
