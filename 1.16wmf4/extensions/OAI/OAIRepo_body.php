@@ -327,7 +327,7 @@ class OAIRepo {
 		echo "</OAI-PMH>\n";
 
 		$size = intval( ob_get_length() );
-		$this->logRequest( $size );
+		// $this->logRequest( $size );
 	}
 
 	function responseDate() {
