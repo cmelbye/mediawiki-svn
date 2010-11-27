@@ -1286,7 +1286,7 @@ Note que, se usar os links de navegação, os botões de opção voltarão aos v
 'search-result-size'               => '$1 ({{PLURAL:$2|1 palavra|$2 palavras}})',
 'search-result-category-size'      => '{{PLURAL:$1|1 membro|$1 membros}} ({{PLURAL:$2|1 subcategoria|$2 subcategorias}}, {{PLURAL:$3|1 ficheiro|$3 ficheiros}})',
 'search-result-score'              => 'Relevancia: $1%',
-'search-redirect'                  => '(redirecionamento de $1)',
+'search-redirect'                  => '(redireccionamento de $1)',
 'search-section'                   => '(secção $1)',
 'search-suggest'                   => 'Será que queria dizer: $1',
 'search-interwiki-caption'         => 'Projectos associados',
@@ -1477,8 +1477,8 @@ Também permite que outros entrem em contacto consigo através da sua página de
 'group-autoconfirmed-member' => 'Utilizador auto-confirmado',
 'group-bot-member'           => 'robô',
 'group-sysop-member'         => 'administrador',
-'group-bureaucrat-member'    => 'Burocrata',
-'group-suppress-member'      => 'Supervisor',
+'group-bureaucrat-member'    => 'burocrata',
+'group-suppress-member'      => 'supervisor',
 
 'grouppage-user'          => '{{ns:project}}:Utilizadores',
 'grouppage-autoconfirmed' => '{{ns:project}}:Auto-confirmados',
@@ -2626,6 +2626,17 @@ Isto significa que pode mover uma página de volta para o seu nome original se a
 '''CUIDADO!'''
 Numa página popular esta operação pode representar uma mudança drástica e inesperada;
 certifique-se de que compreende as consequências da mudança antes de prosseguir, por favor.",
+'movepagetext-noredirectfixer' => "Usando o formulário abaixo, pode alterar o nome de uma página e mover todo o histórico desta para o nome novo.
+A página antiga é transformada numa página de redireccionamento para a nova.
+Verifique a existência de [[Special:DoubleRedirects|redireccionamentos duplos]] ou [[Special:BrokenRedirects|quebrados]].
+É da sua responsabilidade certificar-se de que os links continuam a apontar para onde é suposto.
+
+Note que a página '''não''' será movida se já existir uma página com o nome novo, a menos que esta página já existente esteja vazia ou seja uma página de redireccionamento e não tenha um histórico de edições.
+Isto também significa que, se se tiver enganado, pode alterar o nome da página movida de volta para o seu nome original; e que não pode sobrescrever o conteúdo de uma página existente.
+
+'''Aviso!'''
+Para páginas populares, esta operação pode representar uma mudança drástica e inesperada;
+certifique-se de que compreende as consequências da operação antes de continuar.",
 'movepagetalktext'             => "Se existir uma página de discussão associada, ela será automaticamente movida, '''a não ser que:'''
 *já exista uma página de discussão com o novo título que não esteja vazia, ou
 *desmarque a correspondente caixa de selecção abaixo.
@@ -2645,7 +2656,7 @@ Nestes casos, terá de mover a página de discussão manualmente, ou fundi-la co
 'pagemovedsub'                 => 'Página movida com sucesso',
 'movepage-moved'               => '\'\'\'"$1" foi movida para "$2"\'\'\'',
 'movepage-moved-redirect'      => 'Foi criado um redireccionamento.',
-'movepage-moved-noredirect'    => 'A criação de um redirecionamento foi suprimida.',
+'movepage-moved-noredirect'    => 'A criação de um redireccionamento foi suprimida.',
 'articleexists'                => 'Uma página com este nome já existe, ou o nome que escolheu é inválido.
 Escolha outro nome, por favor.',
 'cantmove-titleprotected'      => 'Não pode mover uma página para esse destino, porque o novo título foi protegido para evitar a sua criação',
@@ -2661,7 +2672,7 @@ Faça a fusão manual das páginas de discussão, por favor.'''",
 'movepage-max-pages'           => 'O limite de $1 {{PLURAL:$1|página movida|páginas movidas}} foi atingido; não será possível mover mais páginas de forma automática.',
 '1movedto2'                    => 'moveu [[$1]] para [[$2]]',
 '1movedto2_redir'              => 'moveu [[$1]] para [[$2]] com redireccionamento',
-'move-redirect-suppressed'     => 'redirecionamento suprimido',
+'move-redirect-suppressed'     => 'redireccionamento suprimido',
 'movelogpage'                  => 'Registo de movimento',
 'movelogpagetext'              => 'Abaixo encontra-se uma lista de páginas movidas.',
 'movesubpage'                  => '{{PLURAL:$1|Subpágina|Subpáginas}}',

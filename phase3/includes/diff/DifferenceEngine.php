@@ -607,26 +607,31 @@ CONTROL;
 	/**
 	 * Get the diff table body, without header
 	 *
-	 * @return mixed
+	 * @return mixed (string/false)
 	 */
-	function getDiffBody() {
+	public function getDiffBody() {
 		global $wgMemc;
 		wfProfileIn( __METHOD__ );
 		$this->mCacheHit = true;
 		// Check if the diff should be hidden from this user
-		if ( !$this->loadRevisionData() )
-			return '';
-		if ( $this->mOldRev && !$this->mOldRev->userCan(Revision::DELETED_TEXT) ) {
-			return '';
-		} else if ( $this->mNewRev && !$this->mNewRev->userCan(Revision::DELETED_TEXT) ) {
-			return '';
-		} else if ( $this->mOldRev && $this->mNewRev && $this->mOldRev->getID() == $this->mNewRev->getID() ) {
+		if ( !$this->loadRevisionData() ) {
+			return false;
+		} elseif ( $this->mOldRev && !$this->mOldRev->userCan( Revision::DELETED_TEXT ) ) {
+			return false;
+		} elseif ( $this->mNewRev && !$this->mNewRev->userCan( Revision::DELETED_TEXT ) ) {
+			return false;
+		}
+		// Short-circuit
+		if ( $this->mOldRev && $this->mNewRev
+			&& $this->mOldRev->getID() == $this->mNewRev->getID() )
+		{
 			return '';
 		}
 		// Cacheable?
 		$key = false;
 		if ( $this->mOldid && $this->mNewid ) {
-			$key = wfMemcKey( 'diff', 'version', MW_DIFF_VERSION, 'oldid', $this->mOldid, 'newid', $this->mNewid );
+			$key = wfMemcKey( 'diff', 'version', MW_DIFF_VERSION,
+				'oldid', $this->mOldid, 'newid', $this->mNewid );
 			// Try cache
 			if ( !$this->mRefreshCache ) {
 				$difftext = $wgMemc->get( $key );
@@ -652,7 +657,7 @@ CONTROL;
 		// Save to cache for 7 days
 		if ( !wfRunHooks( 'AbortDiffCache', array( &$this ) ) ) {
 			wfIncrStats( 'diff_uncacheable' );
-		} else if ( $key !== false && $difftext !== false ) {
+		} elseif ( $key !== false && $difftext !== false ) {
 			wfIncrStats( 'diff_cache_miss' );
 			$wgMemc->set( $key, $difftext, 7*86400 );
 		} else {
@@ -798,12 +803,12 @@ CONTROL;
 
 	/**
 	 * If there are revisions between the ones being compared, return a note saying so.
+	 * @return string
 	 */
 	function getMultiNotice() {
-		if ( !is_object($this->mOldRev) || !is_object($this->mNewRev) )
-		return '';
-
-		if( !$this->mOldPage->equals( $this->mNewPage ) ) {
+		if ( !is_object( $this->mOldRev ) || !is_object( $this->mNewRev ) ) {
+			return '';
+		} elseif ( !$this->mOldPage->equals( $this->mNewPage ) ) {
 			// Comparing two different pages? Count would be meaningless.
 			return '';
 		}
@@ -814,37 +819,35 @@ CONTROL;
 			$tmp = $oldid; $oldid = $newid; $newid = $tmp;
 		}
 
-		$n = $this->mTitle->countRevisionsBetween( $oldid, $newid );
-		if ( !$n ) {
-			return '';
-		} else {
-			global $wgLang;
-			$dbr = wfGetDB( DB_SLAVE );
-			
-			// Actually, the limit is $limit + 1. We do this so we can detect
-			// if there are > 100 authors in a given revision range. If they
-			// are, $limit will be passed to diff-multi-manyusers for l10n.
+		$nEdits = $this->mTitle->countRevisionsBetween( $oldid, $newid );
+		if ( $nEdits> 0 ) {
 			$limit = 100;
-			$res = $dbr->select( 'revision', 'DISTINCT rev_user_text',
-				array(
-					'rev_page = ' . $this->mOldRev->getPage(),
-					'rev_id > ' . $this->mOldRev->getId(),
-					'rev_id < ' . $this->mNewRev->getId()
-				), __METHOD__,
-				array( 'LIMIT' => $limit + 1 )
-			);
-			$numUsers = $dbr->numRows( $res );
-			if( $numUsers > $limit ) {
-				$msg = 'diff-multi-manyusers';
-				$numUsers = $limit;
-			} else {
-				$msg = 'diff-multi';
-			}
-			return wfMsgExt( $msg, array( 'parseinline' ), $wgLang->formatnum( $n ),
-				$wgLang->formatnum( $numUsers ) );
+			// We use ($limit + 1) so we can detect if there are > 100 authors
+			// in a given revision range. In that case, diff-multi-manyusers is used.
+			$numUsers = $this->mTitle->countAuthorsBetween( $oldid, $newid, $limit+1 );
+			return self::intermediateEditsMsg( $nEdits, $numUsers, $limit );
 		}
+		return ''; // nothing
 	}
 
+	/**
+	 * Get a notice about how many intermediate edits and users there are
+	 * @param $numEdits int
+	 * @param $numUsers int
+	 * @param $limit int
+	 * @return string
+	 */	
+	public static function intermediateEditsMsg( $numEdits, $numUsers, $limit ) {
+		global $wgLang;
+		if ( $numUsers > $limit ) {
+			$msg = 'diff-multi-manyusers';
+			$numUsers = $limit;
+		} else {
+			$msg = 'diff-multi';
+		}
+		return wfMsgExt( $msg, 'parseinline',
+			$wgLang->formatnum( $numEdits ), $wgLang->formatnum( $numUsers ) );
+	}
 
 	/**
 	 * Add the header to a diff body

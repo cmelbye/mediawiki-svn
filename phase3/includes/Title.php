@@ -329,8 +329,8 @@ class Title {
 	 * This will only return the very next target, useful for
 	 * the redirect table and other checks that don't need full recursion
 	 *
-	 * @param $text \type{\string} Text with possible redirect
-	 * @return \type{Title} The corresponding Title
+	 * @param $text String: Text with possible redirect
+	 * @return Title: The corresponding Title
 	 */
 	public static function newFromRedirect( $text ) {
 		return self::newFromRedirectInternal( $text );
@@ -595,21 +595,21 @@ class Title {
 	/**
 	 * Get the main part with underscores
 	 *
-	 * @return \type{\string} Main part of the title, with underscores
+	 * @return String: Main part of the title, with underscores
 	 */
 	public function getDBkey() { return $this->mDbkeyform; }
 
 	/**
 	 * Get the namespace index, i.e.\ one of the NS_xxxx constants.
 	 *
-	 * @return \type{\int} Namespace index
+	 * @return Integer: Namespace index
 	 */
 	public function getNamespace() { return $this->mNamespace; }
 
 	/**
 	 * Get the namespace text
 	 *
-	 * @return \type{\string} Namespace text
+	 * @return String: Namespace text
 	 */
 	public function getNsText() {
 		global $wgContLang;
@@ -3715,6 +3715,29 @@ class Title {
 	}
 
 	/**
+	 * Get the number of authors between the given revision IDs.
+	 * Used for diffs and other things that really need it.
+	 *
+	 * @param $fromRevId \type{\int} Revision ID (first before range)
+	 * @param $toRevId \type{\int} Revision ID (first after range)
+	 * @param $limit \type{\int} Maximum number of authors
+	 * @param $flags \type{\int} Title::GAID_FOR_UPDATE
+	 * @return \type{\int}
+	 */
+	public function countAuthorsBetween( $fromRevId, $toRevId, $limit, $flags = 0 ) {
+		$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
+		$res = $db->select( 'revision', 'DISTINCT rev_user_text',
+			array(
+				'rev_page = ' . $this->getArticleID(),
+				'rev_id > ' . (int)$fromRevId,
+				'rev_id < ' . (int)$toRevId
+			), __METHOD__,
+			array( 'LIMIT' => $limit )
+		);
+		return (int)$db->numRows( $res );
+	}
+
+	/**
 	 * Compare with another title.
 	 *
 	 * @param $title \type{Title}
@@ -4029,7 +4052,7 @@ class Title {
 	 * In other words, is this a content page, for the purposes of calculating
 	 * statistics, etc?
 	 *
-	 * @return \type{\bool}
+	 * @return Boolean
 	 */
 	public function isContentPage() {
 		return MWNamespace::isContent( $this->getNamespace() );

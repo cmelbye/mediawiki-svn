@@ -238,6 +238,7 @@ $messages = array(
 'jumpto'            => 'ဤနေရာသို့သွားရန် -',
 'jumptonavigation'  => 'အ​ညွှန်း​',
 'jumptosearch'      => 'ရှာ​ဖွေ​ရန်​',
+'pool-errorunknown' => 'အမည်မသိအမှား',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => '{{SITENAME}} အကြောင်း',
@@ -321,6 +322,9 @@ $messages = array(
 'viewsource'           => 'ရင်းမြစ်ကို ကြည့်ရန်',
 'viewsourcefor'        => '$1 အတွက်',
 
+# Virus scanner
+'virus-unknownscanner' => 'အမည်မသိအန်တီဗိုင်းရပ်စ် -',
+
 # Login and logout pages
 'welcomecreation'         => '== မင်္ဂလာပါ $1! ==
 သင့်အကောင့်ကို ဖန်တီးပြီးပါပြီ။
@@ -329,6 +333,7 @@ $messages = array(
 'yourpassword'            => 'စကားဝှက် -',
 'yourpasswordagain'       => 'ပြန်​ရိုက်​ပါ:',
 'remembermypassword'      => 'ဤ​ကွန်​ပျူ​တာ​တွင်​ ကျွနု်ပ်ကို​မှတ်​ထား​ရန် (အများဆုံး $1 {{PLURAL:$1|ရက်|ရက်}}ကြာ)',
+'yourdomainname'          => 'သင့်ဒိုမိန်း -',
 'login'                   => 'Log in ဝင်ရန်',
 'nav-login-createaccount' => 'Log in ဝင်ရန်/ အကောင့် လုပ်ရန်',
 'userlogin'               => 'Log in ဝင်ရန်/ အကောင့် လုပ်ရန်',
@@ -336,9 +341,12 @@ $messages = array(
 'logout'                  => 'Log out ထွက်ရန်',
 'userlogout'              => 'Log out ထွက်ရန်',
 'notloggedin'             => 'logged in ဝင်မထားပါ',
+'nologin'                 => 'အကောင့်မရှိဘဲ ဖြစ်နေပါသလား။ $1။',
 'nologinlink'             => 'အကောင့်လုပ်ရန်',
 'createaccount'           => 'အကောင့်လုပ်ရန်',
+'gotaccount'              => 'အကောင့်ရှိပြီးသားလား။ $1။',
 'gotaccountlink'          => 'Log in ဝင်ရန်',
+'createaccountmail'       => 'အီးမေးဖြင့်',
 'createaccountreason'     => 'အ​ကြောင်း​ပြ​ချက် -',
 'loginerror'              => 'Login ဝင်ခြင်း အမှား',
 'createaccounterror'      => 'ဤအကောင့်ကို မဖန်တီးနိုင်ပါ - $1',
@@ -965,6 +973,9 @@ HTML tags ကို စစ်ဆေးပါ။',
 'img-auth-nofile'       => '"$1" ဟူသည့်ဖိုင် မရှိပါ။',
 'img-auth-streaming'    => '"$1" ကို စထရင်းမင်း ဆွဲနေသည်။',
 
+# HTTP errors
+'http-invalid-url' => 'တရားမဝင်သော URL လင့် - $1',
+
 'license'            => 'လိုင်စင်သတ်မှတ်ခြင်း -',
 'license-header'     => 'လိုင်စင်သတ်မှတ်ခြင်း',
 'nolicense'          => 'ဘာမှရွေးချယ်မထားပါ',
@@ -976,6 +987,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'listfiles_search_for'  => 'မီဒီယာအမည်ကို ရှာရန် -',
 'imgfile'               => 'ဖိုင်',
 'listfiles'             => 'ဖိုင်စာရင်း',
+'listfiles_thumb'       => 'နမူနာပုံငယ်',
 'listfiles_date'        => 'နေ့စွဲ',
 'listfiles_name'        => 'အမည်',
 'listfiles_user'        => 'အသုံးပြုသူ',
@@ -1094,6 +1106,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 'wantedtemplates'         => 'အလိုရှိသော တမ်းပလိတ်များ',
 'prefixindex'             => 'ရှေ့ဆုံးမှ prefix ပါသော စာမျက်နှာ အားလုံး',
 'shortpages'              => 'စာမျက်နှာတို',
+'longpages'               => 'ရှည်လျားသောစာမျက်နှာများ',
+'protectedpages'          => 'ကာကွယ်ထားသော စာမျက်နှာများ',
 'protectedtitles'         => 'ကာကွယ်ထားသော ခေါင်းစဉ်များ',
 'protectedtitlestext'     => 'အောက်ပါခေါင်းစဉ်များကို ဖန်တီးမရအောင် ကာကွယ်ထားသည်',
 'listusers'               => 'အသုံးပြုသူစာရင်း',
@@ -1166,6 +1180,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 
 # Special:Log/newusers
 'newuserlogpage'          => 'အသုံးပြုသူအသစ်ရောက်လာခြင်း မှတ်တမ်း',
+'newuserlog-byemail'      => 'စကားဝှက်ကို အီးမေးဖြင့် ပို့လိုက်ပါပြီ။',
 'newuserlog-create-entry' => 'အသုံးပြုသူအသစ်',
 
 # Special:ListGroupRights
@@ -1219,20 +1234,22 @@ HTML tags ကို စစ်ဆေးပါ။',
 'created'                      => 'ဖန်တီးလိုက်သည်',
 
 # Delete
-'deletepage'            => 'စာမျက်နှာကိုဖျက်ပါ',
-'confirm'               => 'အတည်ပြု',
-'delete-confirm'        => '"$1"ကို ဖျက်ပါ',
-'delete-legend'         => 'ဖျက်',
-'confirmdeletetext'     => '↓ သင်သည် စာမျက်နှာတစ်ခုကို ယင်း၏ မှတ်တမ်းများနှင့်တကွ ဖျက်ပစ်တော့မည် ဖြစ်သည်။
+'deletepage'             => 'စာမျက်နှာကိုဖျက်ပါ',
+'confirm'                => 'အတည်ပြု',
+'exblank'                => 'စာမျက်နှာ ဗလာဖြစ်နေသည်',
+'delete-confirm'         => '"$1"ကို ဖျက်ပါ',
+'delete-legend'          => 'ဖျက်',
+'confirmdeletetext'      => '↓ သင်သည် စာမျက်နှာတစ်ခုကို ယင်း၏ မှတ်တမ်းများနှင့်တကွ ဖျက်ပစ်တော့မည် ဖြစ်သည်။
 ဤသို့ ဖျက်ပစ်ရန် သင် အမှန်တကယ် ရည်ရွယ်လျက်  နောက်ဆက်တွဲ အကျိုးဆက်များကို သိရှိနားလည်ပြီး [[{{MediaWiki:Policy-url}}|မူဝါဒ]] အတိုင်းလုပ်ဆောင်နေခြင်းဖြစ်ကြောင်းကို အတည်ပြုပေးပါ။',
-'actioncomplete'        => 'လုပ်ဆောင်ချက် ပြီးပြီ',
-'deletedtext'           => '"<nowiki>$1</nowiki>" ကို ဖျက်ပစ်လိုက်ပြီးဖြစ်သည်။
+'actioncomplete'         => 'လုပ်ဆောင်ချက် ပြီးပြီ',
+'deletedtext'            => '"<nowiki>$1</nowiki>" ကို ဖျက်ပစ်လိုက်ပြီးဖြစ်သည်။
 လတ်တလောဖျက်ထားသည်များ၏ မှတ်တမ်းကို $2 တွင် ကြည့်ပါ။',
-'deletedarticle'        => '[[$1]] ကို ဖျက်လိုက်သည်',
-'dellogpage'            => 'ဖျက်ထားသည်များ မှတ်တမ်း',
-'deletecomment'         => 'အ​ကြောင်း​ပြ​ချက် -',
-'deleteotherreason'     => 'အခြားသော/နောက်ထပ် အကြောင်းပြချက် -',
-'deletereasonotherlist' => 'အခြား အကြောင်းပြချက်',
+'deletedarticle'         => '[[$1]] ကို ဖျက်လိုက်သည်',
+'dellogpage'             => 'ဖျက်ထားသည်များ မှတ်တမ်း',
+'deletecomment'          => 'အ​ကြောင်း​ပြ​ချက် -',
+'deleteotherreason'      => 'အခြားသော/နောက်ထပ် အကြောင်းပြချက် -',
+'deletereasonotherlist'  => 'အခြား အကြောင်းပြချက်',
+'delete-edit-reasonlist' => 'ဖျက်ပစ်ရသော အကြောင်းရင်းများကို တည်းဖြတ်ရန်',
 
 # Rollback
 'rollbacklink' => 'နောက်ပြန် ပြန်သွားရန်',
@@ -1311,20 +1328,22 @@ HTML tags ကို စစ်ဆေးပါ။',
 'month'               => 'အဆိုပါ လမှစ၍ ( အဆိုပါလထက်လည်း စောသော) :',
 'year'                => 'အဆိုပါ နှစ်မှစ၍ ( အဆိုပါနှစ်ထက်လည်း စောသော) :',
 
-'sp-contributions-newbies'    => 'အကောင့်အသစ်များ၏ ပံ့ပိုးမှုများကိုသာ ပြရန်',
-'sp-contributions-blocklog'   => 'ပိတ်ပင်တားဆီးမှု မှတ်တမ်း',
-'sp-contributions-logs'       => 'မှတ်​တမ်း​များ​',
-'sp-contributions-talk'       => 'ဆွေးနွေးချက်',
-'sp-contributions-userrights' => 'အသုံးပြုသူ၏ အခွင့်အရေးများကို စီမံခန့်ခွဲခြင်း',
-'sp-contributions-search'     => 'ပံ့ပိုးမှုများကို ရှာရန်',
-'sp-contributions-username'   => 'IP address သို့ -',
-'sp-contributions-submit'     => 'ရှာ​ဖွေ​ရန်​',
+'sp-contributions-newbies'     => 'အကောင့်အသစ်များ၏ ပံ့ပိုးမှုများကိုသာ ပြရန်',
+'sp-contributions-newbies-sub' => 'အကောင့်အသစ်များအတွက်',
+'sp-contributions-blocklog'    => 'ပိတ်ပင်တားဆီးမှု မှတ်တမ်း',
+'sp-contributions-logs'        => 'မှတ်​တမ်း​များ​',
+'sp-contributions-talk'        => 'ဆွေးနွေးချက်',
+'sp-contributions-userrights'  => 'အသုံးပြုသူ၏ အခွင့်အရေးများကို စီမံခန့်ခွဲခြင်း',
+'sp-contributions-search'      => 'ပံ့ပိုးမှုများကို ရှာရန်',
+'sp-contributions-username'    => 'IP address သို့ -',
+'sp-contributions-submit'      => 'ရှာ​ဖွေ​ရန်​',
 
 # What links here
 'whatlinkshere'            => 'ဒီမှာ ဘာလင့်တွေရှိလဲ',
 'whatlinkshere-title'      => '"$1" ကို လင့်ထားသော စာမျက်နှာများ',
 'whatlinkshere-page'       => 'စာမျက်နှာ -',
 'linkshere'                => "အောက်ပါစာမျက်နှာများသည် '''[[:$1]]''' သို့ လင့်ထားသည် -",
+'nolinkshere'              => "'''[[:$1]]''' သို့ လင့်ထားသော စာမျက်နှာ မရှိပါ။",
 'isredirect'               => 'ပြန်ညွှန်းသော စာမျက်နှာ',
 'istemplate'               => 'ထည့်သွင်းကူးယူချက်',
 'isimage'                  => 'ပုံလင့်',
@@ -1356,6 +1375,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 'ipbotherreason'               => 'အခြားသော/နောက်ထပ် အကြောင်းပြချက် -',
 'ipbhidename'                  => 'အသုံးပြုသူအမည်ကို တည်းဖြတ်မှုများနှင့် စာရင်းမှထဲတွင် ဝှက်ထားရန်',
 'ipbwatchuser'                 => 'ဤအသုံးပြုသူ၏စာမျက်နှနှင့် ဆွေးနွေးချက်တို့ကို စောင့်ကြည့်ရန်',
+'badipaddress'                 => 'တရားမဝင်သော IP address',
+'blockipsuccesssub'            => 'ပိတ်ပင်ခြင်း အောင်မြင်သည်',
 'ipb-edit-dropdown'            => 'ပိတ်ပင်ရသောအကြောင်းရင်းများ',
 'ipb-unblock-addr'             => '$1 ကို ပိတ်ထားရာမှ ပြန်ဖွင့်ရန်',
 'ipb-unblock'                  => 'အသုံးပြုသူအမည် သို့ IP address ကို ပိတ်ထားရာမှ ပြန်ဖွင့်ပေးရန်',
@@ -1389,11 +1410,21 @@ HTML tags ကို စစ်ဆေးပါ။',
 'blocklogpage'                 => 'ပိတ်ပင်တားဆီးမှု မှတ်တမ်း',
 'blocklogentry'                => '[[$1]] ကို $2 ကြာအောင် ပိတ်ပင် တားဆီးလိုက်သည် $3',
 'unblocklogentry'              => '$1 ကို ပိတ်ထားရာမှ ပြန်ဖွင့်ရန်',
+'block-log-flags-anononly'     => 'အမည်မသိ အသုံးပြုသူများသာ',
 'block-log-flags-nocreate'     => 'အကောင့်ဖန်တီးခြင်းကို ပိတ်ထားသည်',
+'block-log-flags-noautoblock'  => 'အလိုအလျောက်ပိတ်ပင်ခြင်းကို ပိတ်ထားသည်',
+'block-log-flags-noemail'      => 'အီးမေးကို ပိတ်ပင်ထားသည်',
+'block-log-flags-nousertalk'   => 'မိမိ၏ဆွေးနွေးချက်စာမျက်နှာကို တည်းဖြတ်မရနိုင်ပါ',
+'block-log-flags-hiddenname'   => 'အသုံးပြုသူအမည် ဝှက်ထားသည်',
+'ipb_expiry_invalid'           => 'သက်တမ်းကုန်လွန်မည့် အချိန်သည် တရားမဝင်ပါ။',
+'ipb_already_blocked'          => '"$1" ကို အစကတည်းက ပိတ်ထားသည်',
+'blockme'                      => 'ကျွန်ုပ်ကို ပိတ်ရန်',
+'proxyblocksuccess'            => 'ပြီးပါပြီ။',
 
 # Move page
-'move-page-legend' => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန်',
-'movepagetext'     => "အောက်ပါပုံစံကို အသုံးပြုပါက စာမျက်နှာကို အမည်ပြောင်းလဲပေးမည် ဖြစ်ပြီး အမည်သစ်သို့ ယင်း၏ မှတ်တမ်းနှင့်တကွ ရွှေ့ပေးမည် ဖြစ်သည်။
+'move-page'               => '$1 ကို ရွှေ့ရန်',
+'move-page-legend'        => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန်',
+'movepagetext'            => "အောက်ပါပုံစံကို အသုံးပြုပါက စာမျက်နှာကို အမည်ပြောင်းလဲပေးမည် ဖြစ်ပြီး အမည်သစ်သို့ ယင်း၏ မှတ်တမ်းနှင့်တကွ ရွှေ့ပေးမည် ဖြစ်သည်။
 အမည်ဟောင်းသည် အမည်သစ်သို့ ပြန်ညွှန်းပေးမည် ဖြစ်သည်။
 သင်သည် မူလခေါင်းစဉ်သို့ ပြန်ညွှန်းများကို အလိုအလျောက် အပ်ဒိတ် update လုပ်နိုင်သည်။
 အကယ်၍ မပြုလုပ်လိုပါက [[Special:DoubleRedirects|နှစ်ခါထပ်]][[Special:BrokenRedirects|ပြန်ညွှန်း အပျက်များ]] ကို မှတ်သားရန် မမေ့ပါနှင့်။
@@ -1405,29 +1436,31 @@ HTML tags ကို စစ်ဆေးပါ။',
 '''သတိပေးချက်!'''
 ဤသည်မှာ လူဖတ်များသော စာမျက်နှာတစ်ခုဖြစ်ပါက မမျှော်လင့်ထားသော၊ ကြီးမားသော အပြောင်းအလဲတစ်ခု ဖြစ်ပေါ်လာနိုင်သည်။
 ထို့ကြောင့် ဆက်လက် မဆောင်ရွက်မီ သင်သည် နောက်ဆက်တွဲ အကျိုးဆက်များကို နားလည်ကြောင်း ကျေးဇူးပြု၍ သေချာပါစေ။",
-'movepagetalktext' => "↓ ဆက်နွယ်နေသော ဆွေးနွေးချက် စာမျက်နှာကို '''အောက်ပါအကြောင်းများ မရှိခဲ့ပါက''' အလိုအလျောက် ရွှေ့ပစ်မည် ဖြစ်သည်။
+'movepagetalktext'        => "↓ ဆက်နွယ်နေသော ဆွေးနွေးချက် စာမျက်နှာကို '''အောက်ပါအကြောင်းများ မရှိခဲ့ပါက''' အလိုအလျောက် ရွှေ့ပစ်မည် ဖြစ်သည်။
 *အကယ်၍ ဗလာမဟုတ်သော ဆွေးနွေးချက်စာမျက်နှာသည် အမည်အသစ်အောက်တွင် ရှိနှင့်ပြီး ဖြစ်ခြင်း (သို့)
 *အောက်ပါ သေတ္တာငယ် box ကို မှတ်သားခြင်း။
 
 ဤကိစ္စမျိုး ကြုံလာခဲ့ပါက သင် ဆန္ဒရှိလျှင် စာမျက်နှာကို မိမိကိုယ်တိုင် သွားရောက်ရွှေ့ပြောင်း ပေါင်းစပ်နိုင်သည်။",
-'movearticle'      => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန် -',
-'movenologin'      => 'logged in ဝင်မထားပါ',
-'newtitle'         => 'ခေါင်းစဉ်အသစ်သို့:',
-'move-watch'       => 'မူရင်းစာမျက်နှာနှင့် ဦးတည်ထားသော စာမျက်နှာတို့ကို စောင့်ကြည့်ရန်',
-'movepagebtn'      => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန်',
-'pagemovedsub'     => 'ပြောင်းရွှေ့ခြင်းအောင်မြင်သည်',
-'movepage-moved'   => '\'\'\'"$1" ကို "$2" သို့ ရွှေ့ပြီးဖြစ်သည်\'\'\'',
-'articleexists'    => 'ထိုအမည်ဖြင့် စာမျက်နှာတစ်ခု ရှိနှင့်ပြီးဖြစ်သည် (သို့) သင်ရွေးလိုက်သော အမည်သည် တရားမဝင်ပါ။
+'movearticle'             => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန် -',
+'movenologin'             => 'logged in ဝင်မထားပါ',
+'newtitle'                => 'ခေါင်းစဉ်အသစ်သို့:',
+'move-watch'              => 'မူရင်းစာမျက်နှာနှင့် ဦးတည်ထားသော စာမျက်နှာတို့ကို စောင့်ကြည့်ရန်',
+'movepagebtn'             => 'စာ​မျက်​နှာ​ကို ရွှေ့ပြောင်းရန်',
+'pagemovedsub'            => 'ပြောင်းရွှေ့ခြင်းအောင်မြင်သည်',
+'movepage-moved'          => '\'\'\'"$1" ကို "$2" သို့ ရွှေ့ပြီးဖြစ်သည်\'\'\'',
+'articleexists'           => 'ထိုအမည်ဖြင့် စာမျက်နှာတစ်ခု ရှိနှင့်ပြီးဖြစ်သည် (သို့) သင်ရွေးလိုက်သော အမည်သည် တရားမဝင်ပါ။
 ကျေးဇူးပြု၍ အခြားအမည်တစ်ခုကို ရွေးပေးပါ။',
-'talkexists'       => "'''စာမျက်နှာကို အောင်မြင်စွာ ရွှေ့ပြီးဖြစ်သည်။ သို့သော် ဆွေးနွေးချက် စာမျက်နှာကိုမူ ရွေ့မရနိုင်ပါ။ အကြောင်းမှာ ခေါင်းစဥ်အသစ်တွင် ရှိပြီးဖြစ်သောကြောင့် ဖြစ်သည်။
+'talkexists'              => "'''စာမျက်နှာကို အောင်မြင်စွာ ရွှေ့ပြီးဖြစ်သည်။ သို့သော် ဆွေးနွေးချက် စာမျက်နှာကိုမူ ရွေ့မရနိုင်ပါ။ အကြောင်းမှာ ခေါင်းစဥ်အသစ်တွင် ရှိပြီးဖြစ်သောကြောင့် ဖြစ်သည်။
 ကျေးဇူးပြု၍ ယင်းတို့ကို မိမိဘာသာ ပြန်ပေါင်းပေးပါ။'''",
-'movedto'          => 'ရွေ့​ပြောင်း​ရန်​နေ​ရာ​',
-'movetalk'         => 'ယှက်နွယ်နေသော ဆွေးနွေးချက်စာမျက်နှာများကို ရွှေ့ရန်',
-'1movedto2'        => '[[$1]]  မှ​ [[$2]] သို့​',
-'1movedto2_redir'  => 'redirect ပြန်ညွှန်းရာတွင် [[$1]] မှ [[$2]] သို့ ရွှေ့ပြီးဖြစ်သည်',
-'movelogpage'      => 'မှတ်တမ်းရွှေ့ရန်',
-'movereason'       => 'အ​ကြောင်း​ပြ​ချက် -',
-'revertmove'       => 'ပြောင်းရန်',
+'movedto'                 => 'ရွေ့​ပြောင်း​ရန်​နေ​ရာ​',
+'movetalk'                => 'ယှက်နွယ်နေသော ဆွေးနွေးချက်စာမျက်နှာများကို ရွှေ့ရန်',
+'1movedto2'               => '[[$1]]  မှ​ [[$2]] သို့​',
+'1movedto2_redir'         => 'redirect ပြန်ညွှန်းရာတွင် [[$1]] မှ [[$2]] သို့ ရွှေ့ပြီးဖြစ်သည်',
+'movelogpage'             => 'မှတ်တမ်းရွှေ့ရန်',
+'movereason'              => 'အ​ကြောင်း​ပြ​ချက် -',
+'revertmove'              => 'ပြောင်းရန်',
+'delete_and_move_confirm' => 'ဟုတ်ပါသည်။ စာမျက်နှာကို ဖျက်ပါ။',
+'immobile-source-page'    => 'ဤစာမျက်နှာကို ရွှေ့မရပါ။',
 
 # Export
 'export'            => 'စာမျက်နှာများကို Export ထုတ်ရန်',
@@ -1456,9 +1489,11 @@ HTML tags ကို စစ်ဆေးပါ။',
 # Special:Import
 'import-upload-filename' => 'ဖိုင်အမည် -',
 'import-comment'         => 'မှတ်ချက် -',
+'importstart'            => 'စာမျက်နှာများကို ထည့်သွင်းနေသည်...',
 'importbadinterwiki'     => 'ညံ့ဖျင်းသော အင်တာဝီကီလင့်',
 'importnotext'           => 'ဗလာဖြစ်နေသည် သို့မဟုတ် ဘာစာသားမှ မရှိပါ',
 'importsuccess'          => 'ထည့်သွင်းခြင်း ပြီးဆုံးပါပြီ။',
+'import-noarticle'       => 'မည်သည့်စာမျက်နှာမှ ထည့်သွင်းခြင်းမရှိပါ။',
 
 # Tooltip help for the actions
 'tooltip-pt-userpage'             => 'ကိုယ်ပိုင်စာမျက်နှာ',
@@ -1613,8 +1648,13 @@ HTML tags ကို စစ်ဆေးပါ။',
 'exif-relatedsoundfile'    => 'ဆက်နွယ်သော အသံဖိုင်',
 'exif-datetimeoriginal'    => 'ဒေတာဖန်တီးခဲ့သော နေ့စွဲနှင့် အချိန်',
 'exif-exposuretime-format' => '$1 စက္ကန့် ($2)',
+'exif-shutterspeedvalue'   => 'ရှပ်တာ အမြန်နှုန်း',
 'exif-flash'               => 'ဖလက်ရှ်',
+'exif-filesource'          => 'ဖိုင်ရင်းမြစ်',
 'exif-gpsaltitude'         => 'အမြင့်',
+'exif-gpsdatestamp'        => 'ဂျီပီအက်စ်ရက်စွဲ',
+
+'exif-componentsconfiguration-0' => 'မတည်ရှိပါ',
 
 'exif-subjectdistance-value' => '$1 မီတာ',
 
@@ -1634,6 +1674,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 
 'exif-focalplaneresolutionunit-2' => 'လက်မှတ်',
 
+'exif-sensingmethod-1' => 'မသတ်မှတ်ထားသော',
+
 'exif-scenecapturetype-3' => 'ညနေပုံ',
 
 'exif-gaincontrol-0' => 'ဘာမှမရှိ',
@@ -1646,6 +1688,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 
 'exif-sharpness-0' => 'ပုံမှန်',
 
+'exif-subjectdistancerange-1' => 'မက်ကရို',
+
 # External editor support
 'edit-externally'      => 'ပြင်ပ application တစ်ခုခုကိုသုံး၍ ဤဖိုင်ကို ပြင်ရန်',
 'edit-externally-help' => '(နောက်ထပ်သတင်းအချက်အလက်များအတွက်[http://www.mediawiki.org/wiki/Manual:External_editors တပ်ဆင်မှု လမ်းညွှန်များ] ကို ကြည့်ရန်)',
@@ -1656,6 +1700,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'watchlistall2'    => 'အားလုံး',
 'namespacesall'    => 'အားလုံး',
 'monthsall'        => 'အားလုံး',
+'limitall'         => 'အားလုံး',
 
 # E-mail address confirmation
 'confirmemail' => 'အီးမေးကိုအတည်ပြုပါ',
@@ -1672,6 +1717,7 @@ HTML tags ကို စစ်ဆေးပါ။',
 'table_pager_first'        => 'ပထမဆုံး စာမျက်နှာ',
 'table_pager_last'         => 'နောက်ဆုံးစာမျက်နှာ',
 'table_pager_limit_submit' => 'သွား​ပါ​',
+'table_pager_empty'        => 'မည်သည့်ရလဒ်မှ မရှိပါ',
 
 # Auto-summaries
 'autosumm-new' => 'စာလုံး "$1" လုံးႏွင့္ စာမ်က္ႏွာအသစ္ စလုပ္ရန္',
@@ -1727,6 +1773,8 @@ HTML tags ကို စစ်ဆေးပါ။',
 'tags'              => 'အသုံးပြုနေသော အပြောင်းအလဲစာတွဲများ',
 'tag-filter-submit' => 'စိစစ်မှု',
 'tags-title'        => 'အမည်တွဲ',
+'tags-tag'          => 'အမည်တွဲ အမည်',
+'tags-edit'         => 'ပြင်​ဆင်​ရန်',
 
 # Special:ComparePages
 'comparepages'     => 'စာမျက်နှာများကို နှုိင်းယှဉ်ရန်',
@@ -1738,7 +1786,9 @@ HTML tags ကို စစ်ဆေးပါ။',
 'compare-submit'   => 'နှိုင်းယှဉ်ရန်',
 
 # Database error messages
-'dberr-header' => 'ဤဝီကီတွင် ပြဿနာတစ်ခု ရှိနေသည်',
+'dberr-header'   => 'ဤဝီကီတွင် ပြဿနာတစ်ခု ရှိနေသည်',
+'dberr-problems' => 'ဝမ်းနည်းပါသည်။
+ဤဆိုက်သည် နည်းပညာပိုင်းဆိုင်ရာ အခက်အခဲများ ကြုံတွေ့နေရပါသည်။',
 
 # HTML forms
 'htmlform-submit'              => 'ထည့်သွင်းရန်',

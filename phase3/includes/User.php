@@ -2188,11 +2188,12 @@ class User {
 	/**
 	 * Check if user is allowed to access a feature / make an action
 	 * @param $action \string action to be checked
-	 * @return \bool True if action is allowed, else false
+	 * @return Boolean: True if action is allowed, else false
 	 */
 	function isAllowed( $action = '' ) {
-		if ( $action === '' )
+		if ( $action === '' ) {
 			return true; // In the spirit of DWIM
+		}
 		# Patrolling may not be enabled
 		if( $action === 'patrol' || $action === 'autopatrol' ) {
 			global $wgUseRCPatrol, $wgUseNPPatrol;
@@ -2206,7 +2207,7 @@ class User {
 
 	/**
 	 * Check whether to enable recent changes patrol features for this user
-	 * @return \bool True or false
+	 * @return Boolean: True or false
 	 */
 	public function useRCPatrol() {
 		global $wgUseRCPatrol;
@@ -2711,7 +2712,7 @@ class User {
 
 	/**
 	 * Get whether the user is blocked from using Special:Emailuser.
-	 * @return \bool True if blocked
+	 * @return Boolean: True if blocked
 	 */
 	function isBlockedFromEmailuser() {
 		$this->getBlockedStatus();
@@ -2720,7 +2721,7 @@ class User {
 
 	/**
 	 * Get whether the user is allowed to create an account.
-	 * @return \bool True if allowed
+	 * @return Boolean: True if allowed
 	 */
 	function isAllowedToCreateAccount() {
 		return $this->isAllowed( 'createaccount' ) && !$this->isBlockedFromCreateAccount();
@@ -2729,7 +2730,7 @@ class User {
 	/**
 	 * Get this user's personal page title.
 	 *
-	 * @return \type{Title} User's personal page title
+	 * @return Title: User's personal page title
 	 */
 	function getUserPage() {
 		return Title::makeTitle( NS_USER, $this->getName() );
@@ -2738,7 +2739,7 @@ class User {
 	/**
 	 * Get this user's talk page title.
 	 *
-	 * @return \type{Title} User's talk page title
+	 * @return Title: User's talk page title
 	 */
 	function getTalkPage() {
 		$title = $this->getUserPage();
@@ -2747,7 +2748,7 @@ class User {
 
 	/**
 	 * Get the maximum valid user ID.
-	 * @return \int User ID
+	 * @return Integer: User ID
 	 * @static
 	 */
 	function getMaxID() {
@@ -2764,7 +2765,7 @@ class User {
 	/**
 	 * Determine whether the user is a newbie. Newbies are either
 	 * anonymous IPs, or the most recently created accounts.
-	 * @return \bool True if the user is a newbie
+	 * @return Boolean: True if the user is a newbie
 	 */
 	function isNewbie() {
 		return !$this->isAllowed( 'autoconfirmed' );
@@ -2772,8 +2773,8 @@ class User {
 
 	/**
 	 * Check to see if the given clear-text password is one of the accepted passwords
-	 * @param $password \string user password.
-	 * @return \bool True if the given password is correct, otherwise False.
+	 * @param $password String: user password.
+	 * @return Boolean: True if the given password is correct, otherwise False.
 	 */
 	function checkPassword( $password ) {
 		global $wgAuth;
@@ -2813,7 +2814,7 @@ class User {
 	/**
 	 * Check if the given clear-text password matches the temporary password
 	 * sent by e-mail for password reset operations.
-	 * @return \bool True if matches, false otherwise
+	 * @return Boolean: True if matches, false otherwise
 	 */
 	function checkTemporaryPassword( $plaintext ) {
 		global $wgNewPasswordExpiry;
@@ -2871,7 +2872,7 @@ class User {
 	 *
 	 * @param $val \string Input value to compare
 	 * @param $salt \string Optional function-specific data for hashing
-	 * @return \bool Whether the token matches
+	 * @return Boolean: Whether the token matches
 	 */
 	function matchEditToken( $val, $salt = '' ) {
 		$sessionToken = $this->editToken( $salt );
@@ -2887,7 +2888,7 @@ class User {
 	 *
 	 * @param $val \string Input value to compare
 	 * @param $salt \string Optional function-specific data for hashing
-	 * @return \bool Whether the token matches
+	 * @return Boolean: Whether the token matches
 	 */
 	function matchEditTokenNoSuffix( $val, $salt = '' ) {
 		$sessionToken = $this->editToken( $salt );
@@ -3048,7 +3049,7 @@ class User {
 	/**
 	 * Is this user allowed to send e-mails within limits of current
 	 * site configuration?
-	 * @return \bool True if allowed
+	 * @return Boolean: True if allowed
 	 */
 	function canSendEmail() {
 		global $wgEnableEmail, $wgEnableUserEmail;
@@ -3063,7 +3064,7 @@ class User {
 	/**
 	 * Is this user allowed to receive e-mails within limits of current
 	 * site configuration?
-	 * @return \bool True if allowed
+	 * @return Boolean: True if allowed
 	 */
 	function canReceiveEmail() {
 		return $this->isEmailConfirmed() && !$this->getOption( 'disablemail' );
@@ -3077,7 +3078,7 @@ class User {
 	 * confirmed their address by returning a code or using a password
 	 * sent to the address from the wiki.
 	 *
-	 * @return \bool True if confirmed
+	 * @return Boolean: True if confirmed
 	 */
 	function isEmailConfirmed() {
 		global $wgEmailAuthentication;
@@ -3098,7 +3099,7 @@ class User {
 
 	/**
 	 * Check whether there is an outstanding request for e-mail confirmation.
-	 * @return \bool True if pending
+	 * @return Boolean: True if pending
 	 */
 	function isEmailConfirmationPending() {
 		global $wgEmailAuthentication;
@@ -3527,7 +3528,7 @@ class User {
 	 * @param $hash \string Password hash
 	 * @param $password \string Plain-text password to compare
 	 * @param $userId \string User ID for old-style password salt
-	 * @return \bool
+	 * @return Boolean:
 	 */
 	static function comparePasswords( $hash, $password, $userId = false ) {
 		$type = substr( $hash, 0, 3 );

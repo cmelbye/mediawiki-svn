@@ -201,7 +201,11 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * Special:Search: Add CSS classes to 'none found' and 'create link' messages
 * Add CSS classes (including namespace and pagename) to the enhanced recent
   changes/watchlist entries
-* (bug 22463) Add hook 'SkinGetPoweredBy' to make 'powered by' icon customizable
+* (bug 22463) Add hook 'SkinGetPoweredBy' to make 'powered by' icon/text
+  customizable
+* Added CSS print pagination to the print stylesheets
+* (bug 25960) Add <link rel=canonical"> for File pages of shared/foreign
+  file repositories.
 
 === Bug fixes in 1.17 ===
 * (bug 17560) Half-broken deletion moved image files to deletion archive
@@ -420,6 +424,11 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   some cases
 * (bug 25670) wfFindFile() now checks the namespace of the given title, only
   "File" and "Media" are allowed now
+* (bug 25872) Rename the HttpRequest class to MWHttpRequest to avoid conflict
+  with php extension that defines same class.
+* (bug 20591) There's now a different message on Special:MovePage when
+  $wgFixDoubleRedirects is set to false.
+* Fixed PHP warnings when updating a broken MySQL database.
 
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.

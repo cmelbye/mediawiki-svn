@@ -217,7 +217,7 @@ abstract class Installer {
 
 	/**
 	 * Determine if LocalSettings exists. If it does, return an appropriate
-	 * status for whether we should can upgrade or not.
+	 * status for whether upgrading is enabled or not.
 	 *
 	 * @return Status
 	 */
@@ -306,7 +306,7 @@ abstract class Installer {
 	 * external links work just fine.
 	 *
 	 * But in case a translator decides to throw in a #ifexist or internal link or
-	 * whatever, this function is guarded to catch attempted DB access and to present
+	 * whatever, this function is guarded to catch the attempted DB access and to present
 	 * some fallback text.
 	 *
 	 * @param $text String
@@ -361,7 +361,7 @@ abstract class Installer {
 	/**
 	 * Check if we're installing the latest version.
 	 */
-	public function envCheckMediaWikiVersion() {
+	protected function envCheckMediaWikiVersion() {
 		global $wgVersion;
 
 		if( !$this->getVar( '_ExternalHTTP' ) ) {
@@ -393,7 +393,7 @@ abstract class Installer {
 	/**
 	 * Environment check for DB types.
 	 */
-	public function envCheckDB() {
+	protected function envCheckDB() {
 		global $wgLang;
 
 		$compiledDBs = array();
@@ -437,7 +437,7 @@ abstract class Installer {
 	/**
 	 * Environment check for register_globals.
 	 */
-	public function envCheckRegisterGlobals() {
+	protected function envCheckRegisterGlobals() {
 		if( wfIniGetBool( "magic_quotes_runtime" ) ) {
 			$this->showMessage( 'config-register-globals' );
 		}
@@ -446,7 +446,7 @@ abstract class Installer {
 	/**
 	 * Some versions of libxml+PHP break < and > encoding horribly
 	 */
-	public function envCheckBrokenXML() {
+	protected function envCheckBrokenXML() {
 		$test = new PhpXmlBugTester();
 		if ( !$test->ok ) {
 			$this->showMessage( 'config-brokenlibxml' );
@@ -458,7 +458,7 @@ abstract class Installer {
 	 * Test PHP (probably 5.3.1, but it could regress again) to make sure that
 	 * reference parameters to __call() are not converted to null
 	 */
-	public function envCheckPHP531() {
+	protected function envCheckPHP531() {
 		$test = new PhpRefCallBugTester;
 		$test->execute();
 		if ( !$test->ok ) {
@@ -470,7 +470,7 @@ abstract class Installer {
 	/**
 	 * Environment check for magic_quotes_runtime.
 	 */
-	public function envCheckMagicQuotes() {
+	protected function envCheckMagicQuotes() {
 		if( wfIniGetBool( "magic_quotes_runtime" ) ) {
 			$this->showMessage( 'config-magic-quotes-runtime' );
 			return false;
@@ -480,7 +480,7 @@ abstract class Installer {
 	/**
 	 * Environment check for magic_quotes_sybase.
 	 */
-	public function envCheckMagicSybase() {
+	protected function envCheckMagicSybase() {
 		if ( wfIniGetBool( 'magic_quotes_sybase' ) ) {
 			$this->showMessage( 'config-magic-quotes-sybase' );
 			return false;
@@ -490,7 +490,7 @@ abstract class Installer {
 	/**
 	 * Environment check for mbstring.func_overload.
 	 */
-	public function envCheckMbstring() {
+	protected function envCheckMbstring() {
 		if ( wfIniGetBool( 'mbstring.func_overload' ) ) {
 			$this->showMessage( 'config-mbstring' );
 			return false;
@@ -500,7 +500,7 @@ abstract class Installer {
 	/**
 	 * Environment check for zend.ze1_compatibility_mode.
 	 */
-	public function envCheckZE1() {
+	protected function envCheckZE1() {
 		if ( wfIniGetBool( 'zend.ze1_compatibility_mode' ) ) {
 			$this->showMessage( 'config-ze1' );
 			return false;
@@ -510,7 +510,7 @@ abstract class Installer {
 	/**
 	 * Environment check for safe_mode.
 	 */
-	public function envCheckSafeMode() {
+	protected function envCheckSafeMode() {
 		if ( wfIniGetBool( 'safe_mode' ) ) {
 			$this->setVar( '_SafeMode', true );
 			$this->showMessage( 'config-safe-mode' );
@@ -520,7 +520,7 @@ abstract class Installer {
 	/**
 	 * Environment check for the XML module.
 	 */
-	public function envCheckXML() {
+	protected function envCheckXML() {
 		if ( !function_exists( "utf8_encode" ) ) {
 			$this->showMessage( 'config-xml-bad' );
 			return false;
@@ -531,7 +531,7 @@ abstract class Installer {
 	/**
 	 * Environment check for the PCRE module.
 	 */
-	public function envCheckPCRE() {
+	protected function envCheckPCRE() {
 		if ( !function_exists( 'preg_match' ) ) {
 			$this->showMessage( 'config-pcre' );
 			return false;
@@ -548,7 +548,7 @@ abstract class Installer {
 	/**
 	 * Environment check for available memory.
 	 */
-	public function envCheckMemory() {
+	protected function envCheckMemory() {
 		$limit = ini_get( 'memory_limit' );
 
 		if ( !$limit || $limit == -1 ) {
@@ -579,7 +579,7 @@ abstract class Installer {
 	/**
 	 * Environment check for compiled object cache types.
 	 */
-	public function envCheckCache() {
+	protected function envCheckCache() {
 		$caches = array();
 
 		foreach ( $this->objectCaches as $name => $function ) {
@@ -599,7 +599,7 @@ abstract class Installer {
 	/**
 	 * Search for GNU diff3.
 	 */
-	public function envCheckDiff3() {
+	protected function envCheckDiff3() {
 		$names = array( "gdiff3", "diff3", "diff3.exe" );
 		$versionInfo = array( '$1 --version 2>&1', 'GNU diffutils' );
 
@@ -617,7 +617,7 @@ abstract class Installer {
 	/**
 	 * Environment check for ImageMagick and GD.
 	 */
-	public function envCheckGraphics() {
+	protected function envCheckGraphics() {
 		$names = array( wfIsWindows() ? 'convert.exe' : 'convert' );
 		$convert = $this->locateExecutableInDefaultPaths( $names, array( '$1 -version', 'ImageMagick' ) );
 
@@ -636,7 +636,7 @@ abstract class Installer {
 	/**
 	 * Environment check for setting $IP and $wgScriptPath.
 	 */
-	public function envCheckPath() {
+	protected function envCheckPath() {
 		global $IP;
 		$IP = dirname( dirname( dirname( __FILE__ ) ) );
 
@@ -666,7 +666,7 @@ abstract class Installer {
 	/**
 	 * Environment check for setting the preferred PHP file extension.
 	 */
-	public function envCheckExtension() {
+	protected function envCheckExtension() {
 		// FIXME: detect this properly
 		if ( defined( 'MW_INSTALL_PHP5_EXT' ) ) {
 			$ext = 'php5';
@@ -681,7 +681,7 @@ abstract class Installer {
 	/**
 	 * TODO: document
 	 */
-	public function envCheckShellLocale() {
+	protected function envCheckShellLocale() {
 		$os = php_uname( 's' );
 		$supported = array( 'Linux', 'SunOS', 'HP-UX', 'Darwin' ); # Tested these
 
@@ -758,7 +758,7 @@ abstract class Installer {
 	/**
 	 * TODO: document
 	 */
-	public function envCheckUploadsDirectory() {
+	protected function envCheckUploadsDirectory() {
 		global $IP, $wgServer;
 
 		$dir = $IP . '/images/';
@@ -799,7 +799,7 @@ abstract class Installer {
 	/**
 	 * Check the libicu version
 	 */
-	public function envCheckLibicu() {
+	protected function envCheckLibicu() {
 		$utf8 = function_exists( 'utf8_normalize' );
 		$intl = function_exists( 'normalizer_normalize' );
 
@@ -867,7 +867,7 @@ abstract class Installer {
 	 * @param $path String: path to search
 	 * @param $names Array of executable names
 	 * @param $versionInfo Boolean false or array with two members:
-	 *		 0 => Command to run for version check, with $1 for the path
+	 *		 0 => Command to run for version check, with $1 for the full executable name
 	 *		 1 => String to compare the output with
 	 *
 	 * If $versionInfo is not false, only executables with a version
@@ -890,10 +890,7 @@ abstract class Installer {
 					return $command;
 				}
 
-				if ( wfIsWindows() ) {
-					$command = "\"$command\"";
-				}
-				$file = str_replace( '$1', $command, $versionInfo[0] );
+				$file = str_replace( '$1', wfEscapeShellArg( $command ), $versionInfo[0] );
 				if ( strstr( wfShellExec( $file ), $versionInfo[1] ) !== false ) {
 					return $command;
 				}

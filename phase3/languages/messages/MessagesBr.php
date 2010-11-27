@@ -1073,7 +1073,7 @@ Gwiriit ne vo ket torret red istor ar bajenn gant ar c'hemm-mañ.",
 'mergehistory-reason'              => 'Abeg :',
 
 # Merge log
-'mergelog'           => "Marilh ar c'hendeuzadennoù.",
+'mergelog'           => "Marilh ar c'hendeuzadennoù",
 'pagemerge-logentry' => 'kendeuzet [[$1]] gant [[$2]] (stummoù betek an $3)',
 'revertmerge'        => "Nullañ ar c'hendeuziñ",
 'mergelogpagetext'   => 'Setu aze roll kendeuzadennoù diwezhañ un eil pajenn istor gant eben.',
@@ -1778,6 +1778,7 @@ Diskouezet eo deskrivadur he [$2 fajenn zeskrivañ] amañ dindan.',
 'statistics-edits'             => 'Kemmoù war ar pajennoù abaoe krouidigezh {{SITENAME}}',
 'statistics-edits-average'     => "Keidenn ar c'hemmoù dre bajenn",
 'statistics-views-total'       => 'Hollad ar selladennoù',
+'statistics-views-total-desc'  => "N'haller ket mont war ar pajennoù n'eus ket anezho pe war ar pajennoù dibar.",
 'statistics-views-peredit'     => 'Keidenn gweladenniñ dre gemmoù',
 'statistics-users'             => '[[Special:ListUsers|Implijerien]] enrollet',
 'statistics-users-active'      => 'Implijerien oberiant',
@@ -2444,6 +2445,15 @@ Ne vo ket kemmet liammoù an titl kozh ha ne vo ket dilec'hiet ar bajenn gaozeal
 '''DIWALLIT!'''
 Gallout a ra kement-se bezañ ur c'hemm bras ha dic'hortoz evit ur pennad a vez sellet outi alies;
 bezit sur e komprenit mat an heuliadoù a-raok kenderc'hel ganti.",
+'movepagetext-noredirectfixer' => "Grit gant ar furmskrid a-is evit adenvel ur bajenn hag adkas an istor anezhi war-zu an anv nevez.
+Dont a raio an titl kozh da vezañ ur bajenn adkas war-zu an titl nevez.
+Gwiriit mat an [[Special:DoubleRedirects|adkasoù doubl]] hag an [[Special:BrokenRedirects|adkasoù torr]].
+Ennoc'h emañ fiziet gwiriañ e kendalc'h al liammoù da gas war-zu ar bajenn a rankont kas daveti.
+
+Notit mat ne vo '''ket''' dilec'hiet ar bajenn ma'z eus dija unan gant an titl nevez nemet e vefe goullo istor ar c'hemmoù degaset enni hag e vefe pe goullo ar bajenn pe e vefe un adkas anezhi. Gant se e c'haller adenvel ur bajenn war-zu he lec'h orin mard eo faziek an dilec'hiañ ha dibosupl eo frikañ ur bajenn zo anezhi c'hoazh. 
+
+'''Diwallit !'''
+Ur c'hemm bras ha dic'hortoz e c'hall bezañ evit ur bajenn a vez sellet outi alies ; bezit sur hoc'h eus komprenet mat an heuliadoù a-raok kenderc'hel ganti.",
 'movepagetalktext'             => "Gant se e vo adanvet ent emgefre ar bajenn gaozeal stag, ma'z eus anezhi '''nemet ma:'''
 *ec'h adanvit ur bajenn war-du ul lec'h all,
 *ez eus ur bajenn gaozeal c'hoazh gant an anv nevez, pe
@@ -2782,7 +2792,7 @@ Sur a-walc'h abalamour d'ul liamm enni a gas d'ul lec'hienn ziavaez berzet.",
 'patrol-log-header'    => 'Setu ur marilh eus ar stummoù patrouilhet.',
 'patrol-log-line'      => 'en/he deus merket ar stumm $1 eus $2 evel gwiriet $3',
 'patrol-log-auto'      => '(emgefre)',
-'patrol-log-diff'      => 'kemm $1',
+'patrol-log-diff'      => 'Adweladenn $1',
 'log-show-hide-patrol' => '$1 istor ar stummoù gwiriet',
 
 # Image deletion
@@ -3222,7 +3232,7 @@ Kadarnait mar plij e fell deoc'h krouiñ ar pennad-mañ da vat.",
 'autosumm-blank'   => 'Riñset ar bajenn',
 'autosumm-replace' => "Oc'h erlec'hiañ ar bajenn gant '$1'",
 'autoredircomment' => 'Adkas war-du [[$1]]',
-'autosumm-new'     => 'Krouet pajenn gant : $1',
+'autosumm-new'     => 'Pajenn krouet gant : "$1"',
 
 # Size units
 'size-bytes'     => '$1 o',

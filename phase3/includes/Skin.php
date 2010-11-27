@@ -1551,9 +1551,7 @@ class Skin extends Linker {
 
 		$url = htmlspecialchars( "$wgStylePath/common/images/poweredby_mediawiki_88x31.png" );
 		$text = '<a href="http://www.mediawiki.org/"><img src="' . $url . '" height="31" width="88" alt="Powered by MediaWiki" /></a>';
-
-		wfRunHooks( 'SkinGetPoweredBy', array( &$text ) );
-
+		wfRunHooks( 'SkinGetPoweredBy', array( &$text, $this ) );	
 		return $text;
 	}
 

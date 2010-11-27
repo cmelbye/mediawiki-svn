@@ -196,7 +196,7 @@ class ForeignAPIRepo extends FileRepo {
 		return $ret;
 	}
 
-	function getThumbUrl( $name, $width=-1, $height=-1, &$result ) {
+	function getThumbUrl( $name, $width=-1, $height=-1, &$result=NULL ) {
 		$data = $this->fetchImageQuery( array(
 			'titles' => 'File:' . $name,
 			'iiprop' => 'url|timestamp',
@@ -362,7 +362,7 @@ class ForeignAPIRepo extends FileRepo {
 		        $options['timeout'] = 'default';
 		}
 
-		$req = HttpRequest::factory( $url, $options );
+		$req = MWHttpRequest::factory( $url, $options );
 		$req->setUserAgent( ForeignAPIRepo::getUserAgent() );
 		$status = $req->execute();
 
