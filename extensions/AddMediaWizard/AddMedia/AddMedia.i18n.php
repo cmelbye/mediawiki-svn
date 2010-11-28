@@ -734,7 +734,7 @@ $messages['ba'] = array(
 	'fogg-title-help' => 'Һеҙҙең клиптың исеме',
 	'fogg-artist-title' => 'Автор исеме',
 	'fogg-artist-help' => 'Был клиптың авторы',
-	'fogg-date-title' => 'Дата',
+	'fogg-date-title' => 'Көнө',
 	'fogg-date-help' => 'Материалды булдырыу һәм сығарыу көнө',
 	'fogg-location-title' => 'Урыны',
 	'fogg-location-help' => 'Материалдың урынлашҡан урыны',
@@ -793,7 +793,7 @@ $messages['ba'] = array(
 	'mwe-cc_nc_title' => 'Сауҙа менән бәйле түгел',
 	'mwe-cc_nd_title' => 'Сығарылма эштәрһеҙ',
 	'mwe-cc_sa_title' => 'Шул уҡ шарттар менән',
-	'mwe-cc_pd_title' => 'Дөйөк милек',
+	'mwe-cc_pd_title' => 'Дөйөм милек',
 	'mwe-unknown_license' => 'Билдәһеҙ рөхсәтнамә',
 	'mwe-no-import-by-url' => 'Был ҡатнашыусы йәки вики проект алыҫтағы URL адрестарҙан бер нимә лә индерә алмай.
 <p>Бәлки, һеҙгә танылырға кәрәктер?</p>
@@ -1545,7 +1545,7 @@ Podeu $1, i llavors $2.",
 	'mwe-uploaded-status' => 'Carregat',
 	'mwe-transcoded-status' => 'Transcodificat',
 	'mwe-uploaded-time-remaining' => 'Temps restant: $1',
-	'mwe-upload-done' => 'La vostra càrrega <i>caldria que fos</i> accessible.',
+	'mwe-upload-done' => 'La vostra càrrega ja <i>hauria de ser</i> accessible.',
 	'mwe-add_media_wizard' => 'Afegeix un auxiliar de mitjans',
 	'mwe-media_search' => 'Cerca de mitjans',
 	'rsd_box_layout' => 'Format de la caixa',
@@ -1826,6 +1826,7 @@ Prosím vypněte <b>Firebug</b> pro tutu stránku.',
  * @author Pill
  * @author Tbleher
  * @author The Evil IP address
+ * @author ✓
  */
 $messages['de'] = array(
 	'mwe-upload-stats-fileprogress' => '$1 von $2',
@@ -2400,7 +2401,7 @@ $messages['dsb'] = array(
 	'mwe-ftype-unk' => 'Njeznaty datajowy format',
 	'rsd-wiki_commons-title' => 'Wikimedija Commons',
 	'rsd-wiki_commons' => 'Wikimedija Commons, archiw licho licencěrowanego wopśimjeśa wucbnych medijow (wobraze, awdiomaterial a wideoklipy)',
-	'rsd-kaltura-title' => 'Wšykne žrědła',
+	'rsd-kaltura-title' => 'Pytanje z Kalturu (wšykne žrědła)',
 	'rsd-kaltura' => 'Zebrane pytanje Kaltury za licho licencowane medije pśi někotarych pytańskich póbitowarjach',
 	'rsd-this_wiki-title' => 'Toś ten wiki',
 	'rsd-this_wiki-desc' => 'Lokalny wiki',
@@ -2512,6 +2513,7 @@ $messages['el'] = array(
  * @author Eliovir
  * @author Lucas
  * @author Michawiki
+ * @author Petrus Adamus
  * @author Yekrats
  */
 $messages['eo'] = array(
@@ -2586,8 +2588,8 @@ Pli pri <a target="_new" href="http://en.wikipedio.org/wiki/Frame_rate">filmer-r
 	'fogg-organization-help' => 'Nomo de organizo (studio)',
 	'fogg-copyright-title' => 'Kopirajto',
 	'fogg-copyright-help' => 'La kopirajt-statuso de la mediaĵo',
-	'fogg-license-title' => 'Permisilo',
-	'fogg-license-help' => 'La licenco de la dosiero (prefere URL de Krea Komunejo).',
+	'fogg-license-title' => 'Permesilo',
+	'fogg-license-help' => 'Permesilo de la dosiero (prefere retadreso de la Krea Komunaĵo).',
 	'fogg-contact-title' => 'Kontakto',
 	'fogg-contact-help' => 'Ligilo de kontakto',
 	'fogg-missing-webm-support' => 'Bonvolu uzi [$1 WebM-kongrua] retumilo por antaŭvidi rezultojn de WebM-videoj',
@@ -2623,7 +2625,7 @@ Post vi estas finita vian alŝutado, $2',
 	'mwe-resource_description_page' => 'Priskribo-paĝo de rimedo',
 	'mwe-link' => 'ligilo',
 	'rsd_do_insert' => 'Enmeti',
-	'mwe-cc_by_title' => 'Atribuo',
+	'mwe-cc_by_title' => 'Atribuite',
 	'mwe-cc_nc_title' => 'Ne komerca',
 	'mwe-cc_nd_title' => 'Sen derivaĵoj',
 	'mwe-cc_sa_title' => 'Samkondiĉe',
@@ -2993,6 +2995,25 @@ $messages['eu'] = array(
 	'fogg-select_url' => 'URLa aukeratu',
 	'fogg-preview' => 'Bideoa aurreikusi',
 	'fogg-hidepreview' => 'Aurreikuspena ezkutatu',
+);
+
+/** Persian (فارسی)
+ * @author ZxxZxxZ
+ */
+$messages['fa'] = array(
+	'mwe-upload-stats-fileprogress' => '$1 از $2',
+	'mwe-upload-unknown-size' => 'اندازهٔ نامعلوم',
+	'mwe-cancel-confim' => 'برای لغو اطمینان دارید؟',
+	'mwe-uploaderror' => 'خطای بارگذاری',
+	'mwe-uploadwarning' => 'هشدار بارگذاری',
+	'mwe-unknown-error' => 'خطای ناشناخته:',
+	'mwe-file-exists-duplicate' => 'این پرونده نسخه‌ای تکراری از ان پرونده‌است:',
+	'mwe-ignorewarning' => 'نادیده‌گرفتن هشدارها و ذخیرهٔ پرونده',
+	'mwe-upload-misc-error' => 'خطای ناشناخته در بارگذاری',
+	'mwe-thumbnail-more' => 'بزرگ کن',
+	'mwe-filesource' => 'مبدأ:',
+	'mwe-filestatus' => 'وضعیت حق تکثیر:',
+	'mwe-upload' => 'بارگذاری پرونده',
 );
 
 /** Finnish (Suomi)
@@ -4899,19 +4920,36 @@ $messages['io'] = array(
 );
 
 /** Italian (Italiano)
+ * @author Beta16
  * @author F. Cosoleto
  * @author Gianfranco
  */
 $messages['it'] = array(
+	'mwe-upload-stats-fileprogress' => '$1 di $2',
 	'mwe-upload-unknown-size' => 'Dimensione sconosciuta',
+	'mwe-cancel-confim' => 'Sei sicuro di voler annullare?',
+	'mwe-uploaderror' => 'Errore nel caricamento',
+	'mwe-uploadwarning' => 'Avviso di caricamento',
+	'mwe-unknown-error' => 'Errore sconosciuto:',
+	'mwe-return-to-form' => 'Torna al modulo',
 	'mwe-file-exists-duplicate' => 'Questo file è un duplicato del seguente file:',
+	'mwe-fileexists' => 'Un file con questo nome esiste già. 
+Controlla <b><code>$1</code></b> e verifica scrupolosamente che davvero si debba sostituirlo.',
+	'mwe-ignorewarning' => "Ignora l'avviso e salva comunque il file",
+	'mwe-upload-misc-error' => 'Errore di caricamento sconosciuto',
+	'mwe-thumbnail-more' => 'Ingrandisci',
+	'mwe-filesource' => 'Fonte:',
+	'mwe-filestatus' => 'Informazioni sul copyright:',
 	'fogg-preset-custom' => 'Impostazioni personalizzate',
+	'fogg-videoQuality-title' => 'Qualità video',
 	'fogg-audioQuality-title' => 'Qualità audio',
 	'fogg-width-title' => 'Larghezza video',
 	'fogg-width-help' => 'Ridimensiona alla larghezza indicata.',
 	'fogg-height-title' => 'Altezza video',
 	'fogg-height-help' => "Ridimensiona all'altezza indicata.",
 	'fogg-title-title' => 'Titolo',
+	'fogg-date-title' => 'Data',
+	'fogg-location-title' => 'Località',
 	'fogg-license-title' => 'Licenza',
 	'mwe-upload-in-progress' => 'Caricamento in corso (non chiudere la finestra)',
 	'mwe-uploaded-status' => 'Caricato',
@@ -4929,7 +4967,7 @@ $messages['it'] = array(
 	'mwe-ftype-oga' => 'file audio Ogg',
 	'mwe-ftype-ogg' => 'file video Ogg',
 	'mwe-ftype-unk' => 'Formato del file sconosciuto',
-	'fogg-installed' => 'Firefogg è installato',
+	'fogg-installed' => 'Firefogg è installato.',
 	'fogg-preview' => 'Anteprima video',
 	'fogg-hidepreview' => 'Nascondi anteprima',
 );
@@ -5511,6 +5549,7 @@ $messages['lb'] = array(
 	'mwe-ignore-any-warnings' => 'All Warnungen ignoréieren',
 	'mwe-i-would-like-to' => 'Ech wëll',
 	'mwe-upload-own-file' => 'Mäin eegent Wierk op $1 eroplueden',
+	'mwe-upload-not-my-file' => 'E Fichier op $1 eroplueden deen net mäin eegent Wierk ass',
 	'mwe-upload-in-new-win-link' => 'an enger neier Fënster oder engem neien Tab eroplueden',
 	'mwe-upload-refresh' => 'aktualiséiert Är Lëscht vum Eroplueden',
 	'mwe-upload-in-progress' => 'Eroplueden amgaang (maacht dës Fënster net zou)',
@@ -5528,6 +5567,7 @@ $messages['lb'] = array(
 	'rsd_no_results' => 'Kee Resultat bäi der Sich no <b>$1</b>',
 	'mwe-upload_tab' => 'Fichier eroplueden',
 	'rsd_layout' => 'Layout:',
+	'rsd_resource_edit' => 'Quell änneren: $1',
 	'mwe-resource_description_page' => 'Beschreiwungssäit vun der Quell',
 	'mwe-link' => 'Link',
 	'rsd_do_insert' => 'Drasetzen',
@@ -5991,8 +6031,8 @@ $messages['ml'] = array(
  */
 $messages['myv'] = array(
 	'mwe-upload-unknown-size' => 'Апак содань покшолмазо',
-	'mwe-uploaderror' => '↓ Йовкстамсто ильведькс',
-	'mwe-unknown-error' => '↓ Апак содань ильведькс:',
+	'mwe-uploaderror' => 'Йовкстамсто ильведькс',
+	'mwe-unknown-error' => 'Апак содань ильведькс:',
 	'fogg-title-title' => 'Коняксозо',
 	'fogg-artist-title' => 'Теицянзо лемезэ',
 	'fogg-date-title' => 'Ковчизэ',
@@ -7306,6 +7346,7 @@ $messages['pt'] = array(
  * @author 555
  * @author Giro720
  * @author Hamilton Abreu
+ * @author Helder.wiki
  * @author Heldergeovane
  * @author Luckas Blade
  * @author Raylton P. Sousa
@@ -7367,10 +7408,10 @@ $messages['pt-br'] = array(
 	'fogg-twopass-title' => "Codificação em passagem dupla ''(two pass)''",
 	'fogg-twopass-help' => 'A codificação em passagem dupla mantém um nível de qualidade mais constante ao fazer duas passagens sobre o ficheiro vídeo',
 	'fogg-framerate-title' => "Taxa de fotogramas ''(frame rate)''",
-	'fogg-framerate-help' => 'A taxa de fotogramas do vídeo. Mais informações acerca da <a target="_new" href="http://pt.wikipedia.org/wiki/Fotograma">taxa de fotogramas</a>.',
+	'fogg-framerate-help' => 'A taxa de fotogramas\'\'(frame rate)\'\' do vídeo. Mais informações acerca da <a target="_new" href="http://pt.wikipedia.org/wiki/Fotograma">taxa de fotogramas</a>.',
 	'fogg-aspect-title' => 'Proporção de tela',
-	'fogg-aspect-help' => 'A proporção de tela do vídeo pode ser $:3 ou 16:9. Mais informações sobrede <a target="_new" href="http://pt.wikipedia.org/wiki/Proporção de tela">Proporção de tela</a>.',
-	'fogg-keyframeInterval-title' => ' Intervalo de frame-chave',
+	'fogg-aspect-help' => 'A proporção de tela do vídeo pode ser $:3 ou 16:9. Mais informações sobre <a target="_new" href="http://pt.wikipedia.org/wiki/Proporção de tela">Proporção de tela</a>.',
+	'fogg-keyframeInterval-title' => 'Intervalo de frame-chave',
 	'fogg-keyframeInterval-help' => "O intervalo dos fotogramas chave, em fotogramas. 
 Nota: A maioria dos ''codecs'' forçam fotogramas chave se a diferença entre fotogramas é maior do que o tamanho do fotograma chave codificado. 
 Mais informações sobre <a href=\"http://en.wikipedia.org/wiki/I-frame\">fotogramas chave</a>.",
@@ -9730,6 +9771,8 @@ $messages['vi'] = array(
 	'fogg-starttime-title' => 'Giây bắt đầu',
 	'fogg-endtime-title' => 'Giây kết thúc',
 	'fogg-audioQuality-title' => 'Chất lượng âm thanh',
+	'fogg-width-title' => 'Chiều rộng video',
+	'fogg-height-title' => 'Chiều cao video',
 	'fogg-novideo-title' => 'Không có video',
 	'fogg-noaudio-title' => 'Không có âm thanh',
 	'fogg-title-title' => 'Tên',
@@ -9745,9 +9788,12 @@ $messages['vi'] = array(
 	'mwe-license_cc-by-sa' => 'Creative Commons Chia sẻ tương tự (3.0)',
 	'mwe-upload' => 'Tải tập tin lên',
 	'mwe-summary' => 'Tóm lược',
+	'mwe-date-of-work' => 'Ngày tạo tác phẩm',
 	'mwe-link-login' => 'đăng nhập',
 	'mwe-watch-this-file' => 'Theo dõi tập tin này',
 	'mwe-ignore-any-warnings' => 'Bỏ qua cảnh báo',
+	'mwe-i-would-like-to' => 'Tôi muốn',
+	'mwe-upload-in-new-win-link' => 'tải lên trong cửa sổ hay thẻ mới',
 	'mwe-upload-in-progress' => 'Đang tải lên (đừng đóng cửa sổ này)',
 	'mwe-uploaded-status' => 'Tải lên xong',
 	'mwe-transcoded-status' => 'Chuyển mã',
@@ -9789,7 +9835,7 @@ $messages['vi'] = array(
 	'mwe-ftype-ogg' => 'Tập tin video Ogg',
 	'mwe-ftype-unk' => 'Định dạng tập tin không hiểu',
 	'rsd-wiki_commons' => 'Wikimedia Commons, kho tư liệu (hình ảnh, âm thanh, và video) có giấy phép mở',
-	'rsd-kaltura-title' => 'Tất cả các nguồn',
+	'rsd-kaltura-title' => 'Tìm kiếm Kaltura (tất cả các nguồn)',
 	'rsd-this_wiki-title' => 'Wiki này',
 	'rsd-this_wiki-desc' => 'Wiki địa phương',
 	'rsd-archive_org-desc' => 'Internet Archive, thư viện số chứa tạo tác văn hóa',
@@ -10097,7 +10143,9 @@ $1 登录并且$2',
 	'mwe-review-upload' => '审阅文件$1个上传',
 );
 
-/** Traditional Chinese (‪中文(繁體)‬) */
+/** Traditional Chinese (‪中文(繁體)‬)
+ * @author Pbdragonwang
+ */
 $messages['zh-hant'] = array(
 	'mwe-upload-stats-fileprogress' => '$2中的$1',
 	'mwe-upload-unknown-size' => '未知大小',
@@ -10119,6 +10167,7 @@ $messages['zh-hant'] = array(
 	'mwe-filesource' => '來源：',
 	'mwe-filestatus' => '版權狀態：',
 	'mwe-loading-add-media-wiz' => '正在加載添加媒體嚮導',
+	'fogg-wont-upload-to-server' => '注意：你的影像檔案需要重新編碼，無法上傳到任何伺服器。',
 	'fogg-save_local_file' => '保存Ogg',
 	'fogg-help-sticky' => '幫助（點擊粘貼）',
 	'fogg-cg-preset' => '預設：<strong>$1</strong>',
@@ -10131,5 +10180,15 @@ $messages['zh-hant'] = array(
 	'fogg-webvideo-desc' => '網絡視頻Theora或Vorbis編碼400 kbit/s，最寬400相素',
 	'fogg-savebandwidth-desc' => '低帶寬Theora或Vorbis編碼164 kbit/s，最寬200相素',
 	'fogg-highquality-desc' => '高質量Theora或Vorbis編輯，最寬1080相素',
+	'fogg-webvideo-webm-desc' => 'WebM網頁影片 VP8 (600 kbit/s以及最大寬度480px)',
+	'fogg-highquality-webm-desc' => 'WebM高品質的VP8（最大寬度1080px）',
+	'fogg-videoQuality-title' => '影片品質',
+	'fogg-videoQuality-help' => '用來設置已編碼影像的<i>視覺品質</i> （如果你没有在下面的高級控制中設置bitrate的話）',
+	'fogg-starttime-title' => '開始時間',
+	'fogg-copyright-title' => '版權',
+	'fogg-license-title' => '授權',
+	'fogg-gui-title' => '製作網頁影片',
+	'mwe-upload' => '上傳檔案',
+	'mwe-summary' => '摘要',
 );
 

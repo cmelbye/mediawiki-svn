@@ -10,6 +10,11 @@ class PayflowProGateway_Form_TwoStepTwoColumn extends PayflowProGateway_Form {
 		// we only want to load this JS if the form is being rendered
 		$this->loadValidateJs(); // validation JS
 
+		$this->loadPlaceholders();
+	}
+
+	public function loadPlaceholders() {
+		global $wgOut;
 		// form placeholder values
 		$first = wfMsg( 'payflowpro_gateway-first' );
 		$last = wfMsg( 'payflowpro_gateway-last' );
@@ -29,11 +34,48 @@ function loadPlaceholders() {
 	}
 }
 addEvent( window, 'load', loadPlaceholders );
+
+function formCheck( ccform ) {
+	var msg = [ 'EmailAdd', 'Fname', 'Lname', 'Street', 'City', 'State', 'Zip', 'CardNum', 'Cvv' ];
+
+	var fields = ["emailAdd","fname","lname","street","city","state","zip","card_num","cvv" ],
+		numFields = fields.length,
+		i,
+		output = '',
+		currField = '';
+
+	for( i = 0; i < numFields; i++ ) {
+		if( document.getElementById( fields[i] ).value == '' ) {
+			currField = window['payflowproGatewayErrorMsg'+ msg[i]];
+			output += payflowproGatewayErrorMsgJs + ' ' + currField + '.\\r\\n';
+		}
+	}
+	
+	if (document.getElementById('fname').value == '$first') {
+		output += payflowproGatewayErrorMsgJs + ' first name.\\r\\n';
+	}
+	if (document.getElementById('lname').value == '$last') {
+		output += payflowproGatewayErrorMsgJs + ' last name.\\r\\n';
+	}
+
+	// validate email address
+	var apos = document.payment.emailAdd.value.indexOf("@");
+	var dotpos = document.payment.emailAdd.value.lastIndexOf(".");
+
+	if( apos < 1 || dotpos-apos < 2 ) {
+		output += payflowproGatewayErrorMsgEmail;
+	}
+	
+	if( output ) {
+		alert( output );
+		return false;
+	}
+}
 </script>
 EOT;
 		$wgOut->addHeadItem( 'placeholders', $js );
 	}
-
+	
 	/**
 	 * Required method for constructing the entire form
 	 *
@@ -74,7 +116,7 @@ EOT;
 
 		// Xml::element seems to convert html to htmlentities
 		$form .= "<p class='creditcard-error-msg'>" . $this->form_errors['retryMsg'] . "</p>";
-		$form .= Xml::openElement( 'form', array( 'name' => 'payment', 'method' => 'post', 'action' => $this->getNoCacheAction(), 'onsubmit' => 'return validate_form(this)', 'autocomplete' => 'off' ) );
+		$form .= Xml::openElement( 'form', array( 'name' => 'payment', 'method' => 'post', 'action' => $this->getNoCacheAction(), 'onsubmit' => 'return formCheck(this)', 'autocomplete' => 'off' ) );
 
 		$form .= Xml::openElement( 'div', array( 'id' => 'left-column', 'class' => 'payflow-cc-form-section' ) );
 		$form .= $this->generatePersonalContainer();
@@ -91,7 +133,7 @@ EOT;
 		$form = Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-form-submit' ) );
 		$form .= Xml::openElement( 'div', array( 'id' => 'mw-donate-submit-button' ) );
 		// $form .= Xml::submitButton( wfMsg( 'payflowpro_gateway-submit-button' ));
-		$form .= Xml::element( 'input', array( 'class' => 'button-plain', 'value' => wfMsg( 'payflowpro_gateway-cc-button' ), 'onclick' => 'submit_form( this )', 'type' => 'submit' ) );
+		$form .= Xml::element( 'input', array( 'class' => 'button-plain', 'value' => wfMsg( 'payflowpro_gateway-cc-button' ), 'type' => 'submit' ) );
 		$form .= Xml::closeElement( 'div' ); // close div#mw-donate-submit-button
 		$form .= Xml::openElement( 'div', array( 'class' => 'mw-donate-submessage', 'id' => 'payflowpro_gateway-donate-submessage' ) ) .
 		wfMsg( 'payflowpro_gateway-donate-click' );
@@ -118,7 +160,7 @@ EOT;
 	protected function generatePersonalContainer() {
 		$form = '';
 		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-personal-info' ) );                 ;
-		$form .= Xml::tags( 'h3', array( 'class' => 'payflow-cc-form-header', 'id' => 'payflow-cc-form-header-personal' ), wfMsg( 'payflowpro_gateway-cc-form-header-personal' ) );
+		//$form .= Xml::tags( 'h3', array( 'class' => 'payflow-cc-form-header', 'id' => 'payflow-cc-form-header-personal' ), wfMsg( 'payflowpro_gateway-cc-form-header-personal' ) );
 		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-donor' ) );
 
 		$form .= $this->generatePersonalFields();
@@ -159,7 +201,7 @@ EOT;
 		$form = '';
 		// credit card info
 		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-payment-info' ) );
-		$form .= Xml::tags( 'h3', array( 'class' => 'payflow-cc-form-header', 'id' => 'payflow-cc-form-header-payment' ), wfMsg( 'payflowpro_gateway-cc-form-header-payment' ) );
+		//$form .= Xml::tags( 'h3', array( 'class' => 'payflow-cc-form-header', 'id' => 'payflow-cc-form-header-payment' ), wfMsg( 'payflowpro_gateway-cc-form-header-payment' ) );
 		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-cc' ) );
 
 		$form .= $this->generatePaymentFields();

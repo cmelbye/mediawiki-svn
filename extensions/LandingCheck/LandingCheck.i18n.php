@@ -24,10 +24,21 @@ $messages['af'] = array(
 	'landingcheck' => 'Landingskontrole',
 );
 
+/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+ * @author EugeneZelenko
+ * @author Jim-by
+ */
+$messages['be-tarask'] = array(
+	'landingcheck-desc' => 'Палягчае выкарыстаньне геаграфічна лякалізаваных мэтавых старонак',
+	'landingcheck' => 'LandingCheck',
+);
+
 /** Breton (Brezhoneg)
+ * @author Fulup
  * @author Y-M D
  */
 $messages['br'] = array(
+	'landingcheck-desc' => "Aesaat a ra implij ar pajennoù emgavout geolec'helaet",
 	'landingcheck' => 'LandingCheck',
 );
 
@@ -37,6 +48,14 @@ $messages['br'] = array(
 $messages['bs'] = array(
 	'landingcheck-desc' => 'Omogućava korištenje lokalizovanje ciljne stranice povezane sa zemljom korisnika',
 	'landingcheck' => 'Provjera ciljne stranice',
+);
+
+/** Czech (Česky)
+ * @author Mormegil
+ */
+$messages['cs'] = array(
+	'landingcheck-desc' => 'Usnadňuje použití geograficky cílených lokalizovaných vstupních stránek',
+	'landingcheck' => 'LandingCheck',
 );
 
 /** German (Deutsch)
@@ -78,6 +97,14 @@ $messages['gsw'] = array(
 	'landingcheck' => 'Ziilwebsytepriefig',
 );
 
+/** Hebrew (עברית)
+ * @author Amire80
+ */
+$messages['he'] = array(
+	'landingcheck-desc' => 'מקל על השימוש בדפי נחיתה מותאמים למקום',
+	'landingcheck' => 'LandingCheck',
+);
+
 /** Upper Sorbian (Hornjoserbsce)
  * @author Michawiki
  */
@@ -92,6 +119,14 @@ $messages['hsb'] = array(
 $messages['ia'] = array(
 	'landingcheck-desc' => 'Facilita le uso de paginas de arrivata specific al position geographic e lingua del usator',
 	'landingcheck' => 'Arrivata localisate',
+);
+
+/** Japanese (日本語)
+ * @author 青子守歌
+ */
+$messages['ja'] = array(
+	'landingcheck-desc' => 'ジオタグを利用した地域化されたリンク先ページの使用を容易にします',
+	'landingcheck' => 'リンク先確認',
 );
 
 /** Luxembourgish (Lëtzebuergesch)

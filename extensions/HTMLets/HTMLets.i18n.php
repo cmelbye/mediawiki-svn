@@ -10,6 +10,8 @@ $messages = array();
 
 $messages['en'] = array(
 	'htmlets-desc' => 'Lets you inline HTML snippets from files using the <code>&lt;htmlet&gt;</code> tag',
+	'htmlets-filenotfound' => 'Cannot find HTML file $1',
+	'htmlets-loadfailed' => 'Failed to load HTML file $1',
 );
 
 /** Message documentation (Message documentation)
@@ -36,9 +38,12 @@ $messages['arz'] = array(
 
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
+ * @author Wizardist
  */
 $messages['be-tarask'] = array(
 	'htmlets-desc' => 'Дазваляе Вам выводзіць з файлаў фрагмэнты HTML з дапамогай тэга <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Немагчыма знайсьці HTML-файл $1',
+	'htmlets-loadfailed' => 'Немагчыма загрузіць HTML-файл $1',
 );
 
 /** Breton (Brezhoneg)
@@ -75,6 +80,8 @@ $messages['cs'] = array(
  */
 $messages['de'] = array(
 	'htmlets-desc' => 'Ergänzt das <code>&lt;htmlet&gt;</code>-Tag zum Einfügen von HTML-Schnipseln',
+	'htmlets-filenotfound' => 'Die Datei $1 mit dem HTML-Code konnte nicht gefunden werden',
+	'htmlets-loadfailed' => 'Die Datei $1 mit dem HTML-Code konnte nicht geladen werden',
 );
 
 /** Lower Sorbian (Dolnoserbski)
@@ -82,6 +89,8 @@ $messages['de'] = array(
  */
 $messages['dsb'] = array(
 	'htmlets-desc' => 'Zasuwa HTML-kuski z datajow z pomocu toflicki <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'HTML-dataja $1 njedajo se namakaś',
+	'htmlets-loadfailed' => 'HTML-dataja $1 njedajo se zacytaś',
 );
 
 /** Greek (Ελληνικά)
@@ -121,10 +130,13 @@ $messages['fi'] = array(
 
 /** French (Français)
  * @author Grondin
+ * @author Peter17
  * @author Verdy p
  */
 $messages['fr'] = array(
 	'htmlets-desc' => 'Vous permet d’insérer en ligne des extraits de code HTML depuis les fichiers utilisant la balise <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Impossible de trouver le fichier HTML $1',
+	'htmlets-loadfailed' => 'Impossible de charger le fichier HTML $1',
 );
 
 /** Galician (Galego)
@@ -132,6 +144,8 @@ $messages['fr'] = array(
  */
 $messages['gl'] = array(
 	'htmlets-desc' => 'Déixalle introducir liñas de conversa HTML dende ficheiros usando a etiqueta <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Non se pode atopar o ficheiro HTML $1',
+	'htmlets-loadfailed' => 'Erro ao cargar o ficheiro HTML $1',
 );
 
 /** Swiss German (Alemannisch)
@@ -139,6 +153,8 @@ $messages['gl'] = array(
  */
 $messages['gsw'] = array(
 	'htmlets-desc' => 'Ergänzt s <code>&lt;htmlet&gt;</code>-Tag zum Yyfiege vu HTML-Schnipfel',
+	'htmlets-filenotfound' => 'D Datei $1 mit em HTML-Code isch nit gfunde wore',
+	'htmlets-loadfailed' => 'D Datei $1 mit em HTML-Code het nit chenne glade wäre',
 );
 
 /** Hebrew (עברית)
@@ -167,6 +183,8 @@ $messages['hil'] = array(
  */
 $messages['hsb'] = array(
 	'htmlets-desc' => 'Zmóžnja zasunjenje HTML-kuskow z datajow z pomocu taflički <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'HTML-dataja $1 njeda so namakać',
+	'htmlets-loadfailed' => 'HTML-dataja $1 njeda so začitać',
 );
 
 /** Hungarian (Magyar)
@@ -181,6 +199,8 @@ $messages['hu'] = array(
  */
 $messages['ia'] = array(
 	'htmlets-desc' => 'Permitte incorporar fragmentos HTML ab files per medio del etiquetta <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Non pote trovar le file HTML $1',
+	'htmlets-loadfailed' => 'Falleva de cargar le file HTML $1',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -199,9 +219,12 @@ $messages['it'] = array(
 
 /** Japanese (日本語)
  * @author Fryed-peach
+ * @author 青子守歌
  */
 $messages['ja'] = array(
 	'htmlets-desc' => '<code>&lt;htmlet&gt;</code> タグを使うことでファイルからHTMLの断片をインラインに埋め込むことができる',
+	'htmlets-filenotfound' => 'HTMLファイル$1が見つかりません',
+	'htmlets-loadfailed' => 'HTMLファイル$1の読み込みに失敗しました',
 );
 
 /** Colognian (Ripoarisch)
@@ -217,6 +240,8 @@ $messages['ksh'] = array(
  */
 $messages['lb'] = array(
 	'htmlets-desc' => 'Léisst Iech HTML-Schnëppele vu Fichiere mat Hellëf vun der <code>&lt;htmlet&gt;</code> Markéierung asetzen',
+	'htmlets-filenotfound' => 'Den HTML-Fichier $1 gouf net fonnt',
+	'htmlets-loadfailed' => 'Den HTML-Fichier $1 konnt net geluede ginn',
 );
 
 /** Macedonian (Македонски)
@@ -224,6 +249,8 @@ $messages['lb'] = array(
  */
 $messages['mk'] = array(
 	'htmlets-desc' => 'Дозволува вметнување на HTML снипети (парчиња код) во самиот текст од податоци кои ја користат ознаката <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Не можам да ја пронајдам HTML-податотеката $1',
+	'htmlets-loadfailed' => 'Не успеав да ја вчитам HTML-податотеката $1',
 );
 
 /** Marathi (मराठी)
@@ -238,6 +265,8 @@ $messages['mr'] = array(
  */
 $messages['nl'] = array(
 	'htmlets-desc' => 'Voegt de tag <code>&lt;htmlet&gt;</code> toe om HTML snippets uit bestanden te kunnen gebruiken',
+	'htmlets-filenotfound' => 'Het HTML-bestand $1 is niet gevonden',
+	'htmlets-loadfailed' => 'Fout bij het laden van HTML-bestand $1',
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
@@ -249,9 +278,12 @@ $messages['nn'] = array(
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Jon Harald Søby
+ * @author Nghtwlkr
  */
 $messages['no'] = array(
 	'htmlets-desc' => 'Lar deg bruke HTML-fragmenter fra filer ved bruk av taggen <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Finner ikke HTML-filen $1',
+	'htmlets-loadfailed' => 'Kunne ikke laste HTML-filen $1',
 );
 
 /** Occitan (Occitan)
@@ -266,6 +298,8 @@ $messages['oc'] = array(
  */
 $messages['pl'] = array(
 	'htmlets-desc' => 'Umożliwia włączanie kodu HTML z plików przy użyciu znacznika <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Nie można odnaleźć pliku HTML $1',
+	'htmlets-loadfailed' => 'Nie można załadować pliku HTML $1',
 );
 
 /** Piedmontese (Piemontèis)
@@ -273,6 +307,8 @@ $messages['pl'] = array(
  */
 $messages['pms'] = array(
 	'htmlets-desc' => 'At përmëtt d\'anserì djë "snippet" HTML da file an dovrand ël tag <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'As peul pa trovess ël file HTML $1',
+	'htmlets-loadfailed' => 'Falì a carié ël file HTML $1',
 );
 
 /** Portuguese (Português)
@@ -281,13 +317,18 @@ $messages['pms'] = array(
  */
 $messages['pt'] = array(
 	'htmlets-desc' => 'Permite-lhe incluir fragmentos de HTML em linha a partir de ficheiros, usando o elemento <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Não foi possível localizar o ficheiro HTML $1',
+	'htmlets-loadfailed' => 'Erro ao carregar o ficheiro HTML $1',
 );
 
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
+ * @author Giro720
  */
 $messages['pt-br'] = array(
 	'htmlets-desc' => 'Permite-lhe inserir blocos de HTML a partir de arquivos usando a marca <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Não foi possível localizar o arquivo HTML $1',
+	'htmlets-loadfailed' => 'Erro ao carregar o arquivo HTML $1',
 );
 
 /** Tarandíne (Tarandíne)
@@ -302,6 +343,8 @@ $messages['roa-tara'] = array(
  */
 $messages['ru'] = array(
 	'htmlets-desc' => 'Позволяет вам включать из файлов фрагменты HTML с помощью тега <code>&lt;htmlet&gt;</code>',
+	'htmlets-filenotfound' => 'Не удается найти HTML-файл $1',
+	'htmlets-loadfailed' => 'Не удалось загрузить HTML-файл $1',
 );
 
 /** Slovak (Slovenčina)

@@ -507,6 +507,7 @@ Parameters are:
 * $1 is a user name
 * $2 is a date
 * $3 is a time',
+	'lqt-quote' => '{{Identical|Quote}}',
 	'lqt-search-button' => '{{Identical|Search}}',
 	'searchprofile-threads' => '{{Identical|Discussion}}',
 	'lqt-ajax-update-link' => '{{Identical|Update}}',
@@ -4494,6 +4495,8 @@ Pódpis pokazujo se awtomatiski.',
 	'lqt-edit-bump-tooltip' => 'Toś tu nitku do zachopjeńka jeje diskusijnego boka pśesunuś',
 	'lqt-historicalrevision-error' => 'Wersija, kótaruž sy wubrał, jo wobškóźona, a njedajo se zwobrazniś.',
 	'lqt-reply-subpage' => 'Wótegroniś',
+	'nstab-thread' => 'Nitka',
+	'nstab-summary' => 'Zespominanje',
 );
 
 /** Ewe (Eʋegbe)
@@ -13199,6 +13202,15 @@ $messages['pdc'] = array(
 	'lqt_newmessages' => 'Neiichkeede',
 	'lqt-talkpage-history-subtitle' => 'Fer $1',
 	'lqt-talkpage-history-tab' => 'Iwwerschrift',
+);
+
+/** Pfälzisch (Pfälzisch)
+ * @author Xqt
+ */
+$messages['pfl'] = array(
+	'lqt_delete' => 'Lesche',
+	'lqt_move_move' => 'Verschiewe',
+	'lqt-movethread' => 'Verschiewe',
 );
 
 /** Polish (Polski)

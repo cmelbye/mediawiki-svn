@@ -803,13 +803,13 @@ $messages['ba'] = array(
 	'code-field-user' => 'Комментатор',
 	'code-field-message' => 'Үҙгәртеүҙәр',
 	'code-field-status' => 'Статус',
-	'code-field-timestamp' => 'Дата',
+	'code-field-timestamp' => 'Көнө',
 	'code-field-comments' => 'Комментарийҙар',
 	'code-field-path' => 'Юл',
 	'code-field-text' => 'Комментарий',
 	'code-field-select' => 'Һайларға',
 	'code-rev-author' => 'Автор:',
-	'code-rev-date' => 'Дата:',
+	'code-rev-date' => 'Көнө:',
 	'code-rev-message' => 'Иҫкәрмә:',
 	'code-rev-repo' => 'Һаҡлағыс:',
 	'code-rev-rev' => 'Ревизия:',
@@ -1281,6 +1281,7 @@ $messages['br'] = array(
 	'code-authors' => 'aozerien',
 	'code-status' => 'statudoù',
 	'code-tags' => 'balizennoù',
+	'code-tags-no-tags' => "N'eus tikedenn ebet er sanailh-mañ",
 	'code-authors-text' => "A-is ez emañ roll an aozerien zo er fiziad en urzh an embannadurioù diwezhañ. Merket eo kontoù ar wiki lec'hel etre krommelloù. Ar roadennoù a c'hell bezañ krubuilhet.",
 	'code-author-haslink' => 'An oberour-mañ a zo liammet gant ar gont wiki $1',
 	'code-author-orphan' => "An oberour-mañ n'en deus liamm ebet gant ur gont wiki",
@@ -1301,6 +1302,7 @@ $messages['br'] = array(
 	'code-field-user' => 'Saver an evezhiadenn',
 	'code-field-message' => 'Tamm diverrañ an embannadenn',
 	'code-field-status' => 'Statud',
+	'code-field-status-description' => 'Deskrivadur ar statud',
 	'code-field-timestamp' => 'Deiziad',
 	'code-field-comments' => 'Notennoù',
 	'code-field-path' => 'Hent',
@@ -1333,14 +1335,24 @@ $messages['br'] = array(
 	'code-rev-total' => "Niver hollek a zisoc'hoù : $1",
 	'code-rev-not-found' => "N'eus ket eus an adweladenn '''$1''' !",
 	'code-status-new' => 'nevez',
+	'code-status-desc-new' => "Un oberiaden zo o c'hortoz evit an adweladenn-mañ (stad dre ziouer)",
 	'code-status-fixme' => 'da zresañ',
+	'code-status-desc-fixme' => 'Merket eo bet an adweladenn-mañ evel faziek pe dreinek gant un adlenner. Ret eo he reizhañ.',
 	'code-status-reverted' => 'distaolet',
+	'code-status-desc-reverted' => "Distaolet eo bet an adweladenn dre un adweladenn nevesoc'h.",
 	'code-status-resolved' => 'diskoulmet',
+	'code-status-desc-resolved' => "Ur gudenn a oa en adweladenn zo bet reizhet en un adweladenn nevesoc'h.",
 	'code-status-ok' => 'mat eo',
+	'code-status-desc-ok' => 'Adlennet-pizh eo bet an adweladenn hag asur eo an adlenner ez eo mat e pep keñver.',
 	'code-status-verified' => 'Gwiriet',
 	'code-status-desc-verified' => 'Amprouet eo bet an adweladenn ha mont a ra en-dro evel ma oa gortozet.',
 	'code-status-deferred' => 'ampellet',
+	'code-status-desc-deferred' => "N'eo ket dav adlenn an adweladenn.",
 	'code-status-old' => 'kozh',
+	'code-status-desc-old' => 'Adweladenn gozh dreinek evit doare met na dalvez ket ar boan bezañ adlennet.',
+	'code-signoffs' => 'Aprouadennoù',
+	'code-signoff-legend' => 'Ouzhpennañ un aprouadenn',
+	'code-signoff-submit' => 'Aprouiñ',
 	'code-signoff-flag-inspected' => 'Ensellet',
 	'code-signoff-flag-tested' => 'Amprouet',
 	'code-signoff-field-user' => 'Implijer',
@@ -1384,10 +1396,23 @@ Diverrañ eus ar c\'hemmoù :
 
 $4',
 	'codereview-email-subj3' => '[$1] [$2] : cheñchet en deus stad ar stumm',
-	'codereview-email-body3' => 'An implijer "$1" en deus kemmet stad $2.
+	'codereview-email-body3' => 'Kemmet eo bet statud $2 gant an implijer "$1".
 
-Stad kozh : $2
-Stad nevez : $3',
+Statud kozh : $3
+Stad nevez : $4',
+	'codereview-email-subj4' => '[$1] [$2]: Evezhiadenn nevez ouzhpennet, ha cheñchet statud ar sutmm',
+	'codereview-email-body4' => 'Kemmet eo bet statud $2 gant an implijer "$1".
+
+Statud kozh : $3
+Statud nevez : $4
+
+Postet ez eus bet un evezhiadenn war $2 gant an implijer "$1" ivez.
+
+URL klok : $5
+
+Evezhiadenn :
+
+$6',
 	'code-stats' => 'stadegoù',
 	'code-stats-header' => 'Stadegoù evit ar sanailh $1',
 	'code-stats-main' => "D'an deiziad $1, an dastummlec'h en doa $2 {{PLURAL:$2|adweladenn|adweladenn}} gant [[Special:Code/$3/author|$4 {{PLURAL:$4|oberour|oberour}}]].",
@@ -1411,6 +1436,7 @@ Stad nevez : $3',
 	'right-codereview-remove-tag' => "Tennañ balizennoù d'an adweladennoù",
 	'right-codereview-post-comment' => "Ouzhpennañ evezhiadennoù d'an adweladennoù",
 	'right-codereview-set-status' => 'Kemmañ statud an adweladennoù',
+	'right-codereview-signoff' => 'Aprouiñ adweladennoù',
 	'right-codereview-link-user' => "Liammañ an oberourien d'an implijerien wiki",
 	'specialpages-group-developer' => 'Ostilhoù diorren',
 );
@@ -2330,7 +2356,7 @@ $messages['dsb'] = array(
 	'code-authors' => 'awtory',
 	'code-status' => 'statusy',
 	'code-tags' => 'toflicki',
-	'code-authors-text' => 'To jo lisćina awtorow repozitoriuma sortěrowanych pó mjenjach. Lokalne wikikonta pokazuju se w spinkach.',
+	'code-authors-text' => 'To jo lisćina awtorow repozitoriuma sortěrowanych pó mjenjach. Lokalne wikikonta pokazuju se w spinkach. Daty mógu z pufrowaka byś.',
 	'code-author-haslink' => 'Awtor jo z wikijowym wužywarjom $1 zwězany',
 	'code-author-orphan' => 'Toś ten awtor njama wótkaz k wikijowemu kontoju',
 	'code-author-dolink' => 'Toś togo awtora z wikijowym wužywarjom zwězaś:',
@@ -2387,6 +2413,11 @@ $messages['dsb'] = array(
 	'code-status-verified' => 'pśekontrolěrowany',
 	'code-status-deferred' => 'wótstarcony',
 	'code-status-old' => 'stary',
+	'code-signoff-flag-inspected' => 'Inspicěrowany',
+	'code-signoff-flag-tested' => 'Testowany',
+	'code-signoff-field-user' => 'Wužywaŕ',
+	'code-signoff-field-flag' => 'Chórgojck',
+	'code-signoff-field-date' => 'Datum',
 	'code-pathsearch-legend' => 'Wersije w toś tom repozitoriumje pó sćažce pytaś',
 	'code-pathsearch-path' => 'Sćažka:',
 	'code-pathsearch-filter' => 'Nałožony filter:',
@@ -2417,19 +2448,19 @@ $4',
 	'codereview-email-subj2' => '[$1] [$2]: Naslědne změny',
 	'codereview-email-body2' => 'Wužywaŕ "$1" su naslědne změny k $2 cynił.
 
+Dopołny URL za naslědnu wersiju: $5
+
 Dopołny URL: $3
 
 Zespominanje pśenjasenja:
 
 $4',
-	'codereview-email-subj3' => '[$1] [$2]: Awtomatiski test jo regresiju nadejšeł.',
-	'codereview-email-body3' => 'Awtomatiski test jo regresiju změnow w $1 dla nadejšeł.
+	'codereview-email-subj3' => '[$1] [$2]: Status wersije jo se změnił',
+	'codereview-email-body3' => 'Wužywaŕ "$1" jo změnił status wersije  $2.
 
-Dopołny URL: $2
-
-Zapominanje:
-
-$3',
+Stary status: $3
+Nowy status: $4',
+	'codereview-email-subj4' => '[$1] [$2]: Nowy komentar pśidany a status wersije změnjony',
 	'code-stats' => 'statistiki',
 	'code-stats-header' => 'Repozitoriumowa statistika za $1',
 	'code-stats-main' => 'Wót $1 repozitorium ma $2 {{PLURAL:$2|wersiju|wersiji|wersije|wersijow}} wót [[Special:Code/$3/author|$4 {{PLURAL:$4|awtora|awtorowu|awtorow|awtorow}}]].',
@@ -3197,6 +3228,7 @@ $4',
  * @author Mardetanha
  * @author Sahim
  * @author Wayiran
+ * @author ZxxZxxZ
  */
 $messages['fa'] = array(
 	'code' => 'مرور کد',
@@ -3279,6 +3311,9 @@ $messages['fa'] = array(
 	'code-status-verified' => 'تاییدشده',
 	'code-status-deferred' => 'معوق',
 	'code-status-old' => 'قدیمی',
+	'code-signoff-field-user' => 'کاربر',
+	'code-signoff-field-flag' => 'پرچم',
+	'code-signoff-field-date' => 'تاریخ',
 	'code-pathsearch-legend' => 'جستجوی نسخه‌ها در این مخزن بر اساس مسیر',
 	'code-pathsearch-path' => 'مسیر:',
 	'code-pathsearch-filter' => 'پالایهٔ اعمال‌شده:',
@@ -4400,6 +4435,7 @@ $messages['he'] = array(
 	'code-authors' => 'כותבים',
 	'code-status' => 'מצבים',
 	'code-tags' => 'תגיות',
+	'code-tags-no-tags' => 'לא קיימים תגים במאגר זה.',
 	'code-authors-text' => 'להלן רשימת הכותבים במאגר לפי סדר שמות המסירות. חשבונות באתר הוויקי המקומי מופיעים בסוגריים. יתכן שהמידע שמור במטמון.',
 	'code-author-haslink' => 'כותב זה מקושר למשתמש הוויקי $1',
 	'code-author-orphan' => 'כותב זה אינו מקושר למשתמש בוויקי',
@@ -4420,6 +4456,7 @@ $messages['he'] = array(
 	'code-field-user' => 'מגיב',
 	'code-field-message' => 'תקציר השינוי',
 	'code-field-status' => 'מצב',
+	'code-field-status-description' => 'תיאור המצב',
 	'code-field-timestamp' => 'תאריך',
 	'code-field-comments' => 'הערות',
 	'code-field-path' => 'נתיב',
@@ -4467,6 +4504,14 @@ $messages['he'] = array(
 	'code-status-desc-deferred' => 'אין צורך לסקור את הגרסה.',
 	'code-status-old' => 'ישנה',
 	'code-status-desc-old' => 'גרסה ישנה עם אפשרות להופעת תקלות שאינן שוות את המאמץ בסקירתן.',
+	'code-signoffs' => 'חתימות',
+	'code-signoff-legend' => 'הוספת חתימה',
+	'code-signoff-submit' => 'חתימה',
+	'code-signoff-flag-inspected' => 'נבחן',
+	'code-signoff-flag-tested' => 'נבדק',
+	'code-signoff-field-user' => 'משתמש',
+	'code-signoff-field-flag' => 'דגלון',
+	'code-signoff-field-date' => 'תאריך',
 	'code-pathsearch-legend' => 'חיפוש גרסאות במאגר זה לפי נתיב',
 	'code-pathsearch-path' => 'נתיב:',
 	'code-pathsearch-filter' => 'מסנן הוחל:',
@@ -4510,10 +4555,23 @@ $4',
 מצב קודם: $3
 מצב חדש: $4',
 	'codereview-email-subj4' => '[$1] [$2]: נוספה הערה חדשה ומצב הגרסה השתנה',
+	'codereview-email-body4' => 'המשתמש "$1" החליף את המצב של $2.
+
+המצב הישן: $3
+המצב החדש: $4
+
+המשתמש "$1" הגיב גם כן על $2.
+
+הכתובת המלאה: $5
+
+הערה:
+
+$6',
 	'code-stats' => 'סטטיסטיקה',
 	'code-stats-header' => 'סטטיסטיקה עבור המאגר $1',
 	'code-stats-main' => 'נכון ל־$1, למאגר יש {{PLURAL:$2|גרסה אחת|$2 גרסאות}} מאת [[Special:Code/$3/author|{{PLURAL:$4|יוצר אחד|$4 יוצרים}}]].',
 	'code-stats-status-breakdown' => 'מספר הגרסאות למצב',
+	'code-stats-fixme-breakdown' => 'מיון של פריטים לתיקון לפי מחבר',
 	'code-stats-count' => 'מספר הגרסאות',
 	'repoadmin' => 'ניהול מאגרים',
 	'repoadmin-new-legend' => 'יצירת מאגר חדש',
@@ -4532,6 +4590,7 @@ $4',
 	'right-codereview-remove-tag' => 'הסרת תגיות מגרסאות',
 	'right-codereview-post-comment' => 'הוסף הערות לגרסאות',
 	'right-codereview-set-status' => 'שינוי מצב הגרסאות',
+	'right-codereview-signoff' => 'חתימה על גרסאות',
 	'right-codereview-link-user' => 'קישור הכותבים למשתמשי ויקי',
 	'specialpages-group-developer' => 'כלי פיתוח',
 );
@@ -4723,6 +4782,7 @@ $messages['hsb'] = array(
 	'code-authors' => 'awtorojo',
 	'code-status' => 'statusy',
 	'code-tags' => 'taflički',
+	'code-tags-no-tags' => 'W tutym repozitoriju žane taflički njejsu.',
 	'code-authors-text' => 'To je lisćina awtorow repozitorija sortěrowanych po mjenach. Lokalne wikikonta pokazuja so w spinkach. Daty móžeja z pufrowaka być.',
 	'code-author-haslink' => 'Tutón awtor ma wotkaz na wikijoweho wužiwarja $1',
 	'code-author-orphan' => 'Tutón awtor nima wotkaz k wikijowemu kontu',
@@ -4736,6 +4796,7 @@ $messages['hsb'] = array(
 	'code-author-unlinksuccess' => 'Awtor $1 bu wotwjazany',
 	'code-author-badtoken' => 'Posedźenski zmylk při pospyće, akciju wuwjesć.',
 	'code-author-total' => 'Cyłkowna ličba awtorow: $1',
+	'code-author-lastcommit' => 'Posledni přenošowanski datum',
 	'code-browsing-path' => "Přepytuja so wersije w '''$1'''",
 	'code-field-id' => 'Rewizija',
 	'code-field-author' => 'Awtor',
@@ -4773,14 +4834,26 @@ $messages['hsb'] = array(
 	'code-rev-diff-too-large' => 'Rozdźěl je přewulki za zwobraznjenje.',
 	'code-rev-purge-link' => 'Pufrowak wuprózdnić',
 	'code-rev-total' => 'Cyłkowna ličba wuslědkow: $1',
+	'code-rev-not-found' => "Wersija '''$1''' njeeksistuje!",
 	'code-status-new' => 'nowy',
+	'code-status-desc-new' => 'Wersija akciju wočakuje (standardny status)',
 	'code-status-fixme' => 'porjedźić',
+	'code-status-desc-fixme' => 'Posudźowar markěrowaše wersiju jako poškodźeny abo jako zawinowar programoweho zmylka. Wona měła so porjedźić.',
 	'code-status-reverted' => 'anulowany',
+	'code-status-desc-reverted' => 'Wersija bu přez pozdźišu wersiju cofnjena.',
 	'code-status-resolved' => 'sčinjeny',
+	'code-status-desc-resolved' => 'Wersija měješe problem, kotryž je so hižo přez pozdźišu wersiju wobdźěłał.',
 	'code-status-ok' => 'w porjadku',
+	'code-status-desc-ok' => 'Wersija je so dospołnje přepruwował a posudźowar je sej wěsty, zo wona je w kóždym nastupanju w porjadku.',
 	'code-status-verified' => 'přepruwowany',
+	'code-status-desc-verified' => 'Wersija je so testowała a funguje kaž požadana.',
 	'code-status-deferred' => 'zadźerženy',
+	'code-status-desc-deferred' => 'Wersija sej žanu přepruwowanje njewužaduje.',
 	'code-status-old' => 'stary',
+	'code-status-desc-old' => 'Stara wersija z potencielnymi programowymi zmylkami, kotrež njejsu prócy hódne je přepruwować.',
+	'code-signoffs' => 'Dopušćenja',
+	'code-signoff-legend' => 'Dopušćenje přidać',
+	'code-signoff-submit' => 'Dopušćić',
 	'code-signoff-flag-inspected' => 'Inspicěrowany',
 	'code-signoff-flag-tested' => 'Testowany',
 	'code-signoff-field-user' => 'Wužiwar',
@@ -4829,6 +4902,19 @@ $4',
 
 Stary status: $3
 Nowy status: $4',
+	'codereview-email-subj4' => '[$1] [$2]: Nowy komentar přidaty, a status wersije je so změnił',
+	'codereview-email-body4' => 'Wužiwar "$1" je status za $2 změnił.
+
+Stary status: $3
+Nowy status: $4
+
+Wužiwar "$1" je tež dnja $2 komentar pósłał.
+
+Dospołny URL: $5
+
+Komentar:
+
+$6',
 	'code-stats' => 'Statistika',
 	'code-stats-header' => 'Statistika repozitorija $1',
 	'code-stats-main' => 'Wot $1 repozitorij ma $2 {{PLURAL:$2|wersiju|wersiji|wersije|wersijow}} wot [[Special:Code/$3/author|$4 {{PLURAL:$4|awtora|awtorow|awtorow|awtorow}}]].',
@@ -4845,12 +4931,14 @@ Nowy status: $4',
 	'repoadmin-edit-view' => 'Šćežka k ViewVC:',
 	'repoadmin-edit-button' => 'W porjadku',
 	'repoadmin-edit-sucess' => 'Repozitorij "[[Special:Code/$1|$1]]" bu wuspěšnje změnjeny.',
+	'repoadmin-nav' => 'Administracija repozitorija',
 	'right-repoadmin' => 'Kodowe repozitorije zrjadować',
 	'right-codereview-use' => 'Special:Code wužiwać',
 	'right-codereview-add-tag' => 'Nowe taflički rewizijam přidać',
 	'right-codereview-remove-tag' => 'Taflički z rewizijow wotstronić',
 	'right-codereview-post-comment' => 'Komentary wo rewizijach přidać',
 	'right-codereview-set-status' => 'Status rewizijow změnić',
+	'right-codereview-signoff' => 'Wersije dopušćić',
 	'right-codereview-link-user' => 'Awtorow z wikijowymi wužiwarjemi zwjazać',
 	'specialpages-group-developer' => 'Nastroje wuwiwarjow',
 );
@@ -7043,7 +7131,7 @@ $messages['ml'] = array(
 	'code-batch-tags' => 'റ്റാഗുകൾ മാറ്റുക:',
 	'codereview-batch-title' => 'തിരഞ്ഞെടുത്ത എല്ലാ നാൾപ്പതിപ്പുകളിലും മാറ്റം‌‌വരുത്തുക',
 	'codereview-batch-submit' => 'സമർപ്പിക്കുക',
-	'code-releasenotes' => 'പുറത്തിറക്കൽ കുറിപ്പുകൾ',
+	'code-releasenotes' => 'പ്രകാശന കുറിപ്പുകൾ',
 	'code-release-legend' => 'പുറത്തിറക്കൽ കുറിപ്പുകൾ സൃഷ്ടിക്കുക',
 	'code-release-startrev' => 'ആദ്യ നാൾപ്പതിപ്പ്:',
 	'code-release-endrev' => 'അവസാന നാൾപ്പതിപ്പ്:',
@@ -9181,6 +9269,7 @@ $messages['ru'] = array(
 	'code-authors' => 'авторы',
 	'code-status' => 'состояния',
 	'code-tags' => 'метки',
+	'code-tags-no-tags' => 'В этом хранилище нет меток.',
 	'code-authors-text' => 'Ниже приведён список авторов хранилища, упорядоченный по именам. Учётные записи локальной вики показаны в скобках. Эти данные, возможно, кэшированы.',
 	'code-author-haslink' => 'Этот автор ассоциирован с участником $1',
 	'code-author-orphan' => 'Для этого автора не установлена связь с учётной записью вики-проекта',
@@ -9201,6 +9290,7 @@ $messages['ru'] = array(
 	'code-field-user' => 'Комментатор',
 	'code-field-message' => 'Описание изменений',
 	'code-field-status' => 'Статус',
+	'code-field-status-description' => 'Описание статуса',
 	'code-field-timestamp' => 'Дата',
 	'code-field-comments' => 'Комментариев',
 	'code-field-path' => 'Путь',
@@ -9248,6 +9338,14 @@ $messages['ru'] = array(
 	'code-status-desc-deferred' => 'Ревизия не требует проверки.',
 	'code-status-old' => 'старая',
 	'code-status-desc-old' => 'Старая ревизия с потенциальными ошибками, на рассмотрение которых не стоит тратить усилий.',
+	'code-signoffs' => 'Подтверждения',
+	'code-signoff-legend' => 'Добавление подтверждения',
+	'code-signoff-submit' => 'Подтвердить',
+	'code-signoff-flag-inspected' => 'Осмотрено',
+	'code-signoff-flag-tested' => 'Испытано',
+	'code-signoff-field-user' => 'Пользователь',
+	'code-signoff-field-flag' => 'Флаг',
+	'code-signoff-field-date' => 'Дата',
 	'code-pathsearch-legend' => 'Поиск в этом хранилище конкретных ревизий по их адресу',
 	'code-pathsearch-path' => 'Путь:',
 	'code-pathsearch-filter' => 'Применённые фильтры:',
@@ -9326,6 +9424,7 @@ $6',
 	'right-codereview-remove-tag' => 'Снятие меток с ревизий',
 	'right-codereview-post-comment' => 'Добавление комментариев к ревизиям',
 	'right-codereview-set-status' => 'Изменение статуса ревизий',
+	'right-codereview-signoff' => 'подтверждение ревизий',
 	'right-codereview-link-user' => 'Связь авторов с учётными записями вики-проекта',
 	'specialpages-group-developer' => 'Инструменты разработчика',
 );
@@ -9583,6 +9682,9 @@ $messages['sah'] = array(
 	'code-status-desc-deferred' => 'Ревизия көрүллэр наадата суох.',
 	'code-status-old' => 'урукку',
 	'code-status-desc-old' => 'Урукку ревизия, сыыһалардаах буолуон сөп эрээри, көннөрө сатаан таах кыаххын бараама.',
+	'code-signoff-field-user' => 'Кыттааччы',
+	'code-signoff-field-flag' => 'Бэлиэ',
+	'code-signoff-field-date' => 'Күнэ-дьыла',
 	'code-pathsearch-legend' => 'Биирдиилээн барыллары чопчу аадырыһынан көрдөөһүн',
 	'code-pathsearch-path' => 'Суола:',
 	'code-pathsearch-filter' => 'Туттуллубут сиидэлэр:',
@@ -9620,6 +9722,24 @@ $4',
 Уларыйыы туһунан:
 
 $4',
+	'codereview-email-subj3' => '[$1] [$2]: Барыл туругун уларытыы',
+	'codereview-email-body3' => '«$1» кыттааччы $2 туругун уларыппыт.
+
+Урукку туруга: $3
+Билиҥҥи туруга: $4',
+	'codereview-email-subj4' => '[$1] [$2]: Ырытыыга саҥа этии эбиллибит, барыл туруга уларыйбыт',
+	'codereview-email-body4' => '«$1» кыттааччы $2 туругун уларыппыт.
+
+Урукку туруга: $3
+Билиҥҥи туруга: $4
+
+«$1» кыттааччы эбии манна $2 этии хаалларбыт.
+
+толору URL-а: $5
+
+Этии:
+
+$6',
 	'code-stats' => 'Статистиката:',
 	'code-stats-header' => '«$1» репозиторий статистиката',
 	'code-stats-main' => 'Бу кэмҥэ $1 репозиторийга {{PLURAL:$2|биир ревизия баар|$2 ревизия баар}} [[Special:Code/$3/author|$4 {{PLURAL:$4|ааптар|ахсааннаах ааптар}}]].',

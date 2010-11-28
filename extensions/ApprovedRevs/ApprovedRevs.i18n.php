@@ -171,9 +171,14 @@ En e lec'h e vo lakaet ur bajenn wenn.",
 	'approvedrevs-viewlatest' => 'Gwelet an adweladenn diwezhañ.',
 	'approvedrevs-blankpageshown' => "N'eus bet aprouet adweladenn ebet evit ar bajenn-mañ.",
 	'approvedrevs-editwarning' => "Taolit evezh emaoc'h o tegas kemmoù e stumm diwezhañ ar bajenn-mañ; n'eo ket hemañ ar stumm aprouet zo lakaet war wel dre ziouer.",
+	'approvedrevs' => 'Adweladennoù degemeret',
 	'approvedrevs-approvedpages' => 'Pajennoù aprouet',
 	'approvedrevs-notlatestpages' => "Homañ eo an adweladenn aprouet evit ar bajenn-mañ; n'eo ket ar stumm nevesañ.",
 	'approvedrevs-unapprovedpages' => "Pajennoù n'int ket bet aprouet",
+	'approvedrevs-view' => 'Gwelet :',
+	'approvedrevs-revisionnumber' => 'Adweladenn $1',
+	'approvedrevs-approvedby' => "aprouet gant $1 d'an $2",
+	'approvedrevs-difffromlatest' => "diforc'h e-keñver ar stumm a-vremañ",
 	'right-approverevisions' => 'Merkañ un adweladenn bennak eus ur bajenn wiki evel aprouet',
 	'right-viewlinktolatest' => 'Gwelet an destenn displegañ e penn uhelañ ar pajennoù zo bet aprouet un adweladenn anezho',
 );
@@ -324,6 +329,7 @@ Anstataŭe, nula paĝo estos montrita.',
 
 /** Spanish (Español)
  * @author Crazymadlover
+ * @author Dferg
  * @author Locos epraix
  * @author Translationista
  */
@@ -345,9 +351,13 @@ En su lugar, se mostrará una página en blanco.',
 	'approvedrevs-viewlatest' => 'Ver revisión más reciente.',
 	'approvedrevs-blankpageshown' => 'No se ha aprobado una revisión de esta página.',
 	'approvedrevs-editwarning' => 'Tenga en cuenta que ahora está editando la última revisión de esta página, que no es la aprobada, que es la que se muestra de forma predeterminada.',
+	'approvedrevs' => 'Revisiones aprobadas',
 	'approvedrevs-approvedpages' => 'Páginas aprobadas',
 	'approvedrevs-notlatestpages' => 'Esta es la revisión aprobada de esta página, no es la más reciente.',
 	'approvedrevs-unapprovedpages' => 'Páginas reprobadas',
+	'approvedrevs-view' => 'Ver:',
+	'approvedrevs-revisionnumber' => 'revisión $1',
+	'approvedrevs-approvedby' => 'autorizada por $1 a las $2',
 	'right-approverevisions' => 'Establecer una cierta revisión de una página wiki como aprobada',
 	'right-viewlinktolatest' => 'Ver texto explicativo en la parte superior de las páginas que tienen una revisión aprobada',
 );
@@ -661,6 +671,8 @@ Aplaz, gëtt eng eidel Säit gewisen.',
 	'approvedrevs-unapprovedpages' => 'Net nogekuckte Säiten',
 	'approvedrevs-view' => 'Weisen:',
 	'approvedrevs-revisionnumber' => 'Versioun $1',
+	'approvedrevs-approvedby' => 'confirméiert vum $1 de(n) $2',
+	'approvedrevs-difffromlatest' => 'Ënnerscheed vun der rezenster',
 	'right-approverevisions' => 'Eng bestëmmte Versioun vun enger Säit als nogekuckt markéieren',
 	'right-viewlinktolatest' => 'Kuckt den Erklärungstext uewen op de Säiten déi nogekuckt Versiounen hunn',
 );
@@ -719,9 +731,14 @@ $messages['ml'] = array(
 	'approvedrevs-viewlatest' => 'ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് കാണുക.',
 	'approvedrevs-blankpageshown' => 'ഈ താളിന്റെ ഒരു നാൾപ്പതിപ്പും അംഗീകരിച്ചിട്ടില്ല.',
 	'approvedrevs-editwarning' => 'ഈ താളിന്റെ ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് അല്ല താങ്കൾ തിരുത്തുന്നതെന്ന് ശ്രദ്ധിക്കുക, അത് സ്വതേ പ്രദർശിപ്പിച്ചിരിക്കുന്ന പതിപ്പ് അല്ല.',
+	'approvedrevs' => 'അംഗീകരിച്ച നാൾപ്പതിപ്പുകൾ',
 	'approvedrevs-approvedpages' => 'അംഗീകരിച്ച താളുകൾ',
-	'approvedrevs-notlatestpages' => 'ഇത് ഈ താളിന്റെ അംഗീകരിച്ച നാൾപ്പതിപ്പ് ആണ്; ഇത് ഏറ്റവും പുതിയത് അല്ല.',
+	'approvedrevs-notlatestpages' => 'താളിന്റെ ഏറ്റവും പുതിയ നാൾപ്പതിപ്പ് അംഗീകരിച്ചതല്ലാത്ത താളുകൾ',
 	'approvedrevs-unapprovedpages' => 'അംഗീകരിച്ചിട്ടില്ലാത്ത താളുകൾ',
+	'approvedrevs-view' => 'കാണുക:',
+	'approvedrevs-revisionnumber' => 'നാൾപ്പതിപ്പ് $1',
+	'approvedrevs-approvedby' => '$2-നു $1 അംഗീകരിച്ചത്',
+	'approvedrevs-difffromlatest' => 'ഏറ്റവും പുതിയ പതിപ്പിൽ നിന്നുള്ള വ്യത്യാസം',
 	'right-approverevisions' => 'വിക്കി താളിന്റെ ഒരു പ്രത്യേക നാൾപ്പതിപ്പ് അംഗീകരിച്ചതായി സജ്ജീകരിക്കുക',
 	'right-viewlinktolatest' => 'അംഗീകരിച്ച നാൾപ്പതിപ്പുള്ള താളുകളുടെ മുകളിലായി ഒരു വിശദീകരണ കുറിപ്പ് പ്രദർശിപ്പിക്കുക',
 );

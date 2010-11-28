@@ -2770,6 +2770,7 @@ $messages['el'] = array(
  * @author Amikeco
  * @author ArnoLagrange
  * @author Castelobranco
+ * @author Petrus Adamus
  * @author Yekrats
  * @author Александр Сигачёв
  */
@@ -2885,7 +2886,7 @@ Notoj:
 	'coll-invalid_podpartner_title' => 'Malvalida ek-eldoneja partnero',
 	'coll-invalid_podpartner_msg' => 'La donita ek-eldoneja partnero estas malvalida.
 Bonvolu kontakti vian administranton de MediaWiki.',
-	'coll-license' => 'Licenco',
+	'coll-license' => 'Permesilo',
 	'coll-return_to' => 'Reiri al [[:$1]]',
 	'coll-more_info' => 'Montri plian informon',
 	'coll-hide_info' => 'Kaŝi informon',
@@ -4006,23 +4007,23 @@ Desexa sobrescribir o seu libro actual, anexar o novo contido ou cancelar a carg
 	'coll-limit_exceeded_text' => 'O seu libro é moi grande.
 Non se poden engadir máis páxinas.',
 	'coll-rendering_title' => 'Renderizando',
-	'coll-rendering_text' => '<p><strong>Por favor, agarde mentres o documento é xerado.</strong></p>
+	'coll-rendering_text' => '<p><strong>Por favor, agarde mentres se xera o documento.</strong></p>
 
 <p><strong>Progreso:</strong> <span id="renderingProgress">$1</span>% <span id="renderingStatus">$2</span></p>
 
 <p>Esta páxina debería refrescarse cada poucos segundos.
-Se non vai, por favor, prema no botón "Refrescar" do seu navegador.</p>',
+Se non vai, prema no botón "Refrescar" do seu navegador.</p>',
 	'coll-rendering_status' => '<strong>Estado:</strong> $1',
 	'coll-rendering_article' => '(páxina wiki: $1)',
 	'coll-rendering_page' => '(páxina: $1)',
 	'coll-rendering_page_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre o renderizado de páxinas',
 	'coll-rendering_collection_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre o renderizado de coleccións',
 	'coll-rendering_finished_title' => 'Finalizou a renderización',
-	'coll-rendering_finished_text' => '<strong>O ficheiro do documento foi xerado.</strong>
+	'coll-rendering_finished_text' => '<strong>Xerouse o documento.</strong>
 <strong>[$1 Descargue o ficheiro]</strong> no seu ordenador.
 
 Notas:
-*Non está satisfeito co ficheiro obtido? Vexa [[{{MediaWiki:Coll-helppage}}|a páxina de axuda acerca das coleccións]] para comprobar as posibilidades de melloralo.',
+*Non está satisfeito co ficheiro obtido? Vexa [[{{MediaWiki:Coll-helppage}}|a páxina de axuda acerca dos libros]] para comprobar as posibilidades de melloralo.',
 	'coll-finished_page_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre o renderizado de páxinas',
 	'coll-finished_collection_info_text_article' => '{{MediaWiki:Coll-helppage}}/Texto informativo sobre o renderizado de coleccións',
 	'coll-notfound_title' => 'Non se pode atopar o libro',
@@ -4320,6 +4321,7 @@ $messages['haw'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author Rotem Liss
  * @author Rotemliss
  * @author YaronSh
@@ -4410,12 +4412,16 @@ $messages['he'] = array(
 	'coll-rendering_status' => '<strong>מצב:</strong> $1',
 	'coll-rendering_article' => '(דף תוכן: $1)',
 	'coll-rendering_page' => '(דף: $1)',
+	'coll-rendering_page_info_text_article' => '{{MediaWiki:Coll-helppage}}/הכנת טקסט של מידע על הדף',
+	'coll-rendering_collection_info_text_article' => '{{MediaWiki:Coll-helppage}}/הכנת טקסט של מידע על האוסף',
 	'coll-rendering_finished_title' => 'היצירה הסתיימה',
 	'coll-rendering_finished_text' => '<strong>קובץ המסמך נוצר.</strong>
 <strong>[$1 הורדת הקובץ]</strong> למחשבכם.
 
 הערות:
 * אינכם מרוצים מהפלט? ב[[{{MediaWiki:Coll-helppage}}|דף העזרה על ספרים]] תוכלו למצוא אפשרויות לשיפורו.',
+	'coll-finished_page_info_text_article' => '{{MediaWiki:Coll-helppage}}/הכנת טקסט של מידע על הדף',
+	'coll-finished_collection_info_text_article' => '{{MediaWiki:Coll-helppage}}/הכנסת טקסט של מידע על הדף',
 	'coll-notfound_title' => 'הספר לא נמצא',
 	'coll-notfound_text' => 'לא ניתן למצוא את דף הספר.',
 	'coll-download_notfound_title' => 'הקובץ לא נמצא',
@@ -5561,6 +5567,7 @@ L\'elenco viene aggiornato ogni qualvolta si fa clic sui pulsanti "aggiungi" o "
  * @author Fryed-peach
  * @author JtFuruhata
  * @author Marine-Blue
+ * @author 青子守歌
  */
 $messages['ja'] = array(
 	'coll-desc' => '[[Special:Book|ブックを作成する]]',
@@ -5614,7 +5621,7 @@ $messages['ja'] = array(
 	'coll-mwserve_failed_msg' => 'レンダリングサーバーでエラーが発生しました: <nowiki>$1</nowiki>',
 	'coll-error_reponse' => 'サーバからのエラー応答',
 	'coll-empty_collection' => '空のブック',
-	'coll-revision' => '特定版: $1',
+	'coll-revision' => '版：$1',
 	'coll-save_collection_title' => 'ブックを保存して共有する',
 	'coll-save_collection_text' => '保存先の選択:',
 	'coll-login_to_save' => '後の利用のためブックを保存するには、[[Special:UserLogin|ログインまたはアカウント作成]]を行ってください。',

@@ -344,10 +344,11 @@ $messages['nds-nl'] = array(
 );
 
 /** Nepali (नेपाली)
+ * @author Bhawani Gautam Rhk
  * @author सरोज कुमार ढकाल
  */
 $messages['ne'] = array(
-	'categorytests-desc' => 'प्रकार  जाँचको कार्यहरु',
+	'categorytests-desc' => 'श्रेणी  जाँचकालागि कार्य',
 );
 
 /** Dutch (Nederlands)
@@ -555,8 +556,9 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Horacewai2
+ * @author Pbdragonwang
  */
 $messages['zh-hant'] = array(
-	'categorytests-desc' => '用於分類的测試功能',
+	'categorytests-desc' => '用於分類的測試功能',
 );
 

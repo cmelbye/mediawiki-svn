@@ -20,6 +20,18 @@ class ApprovedRevsHooks {
 	static public function setApprovedRevForParsing( &$parser, &$text, &$stripState ) {
 		global $wgRequest;
 		if ( $wgRequest->getCheck( 'wpSave' ) ) {
+			// @HACK !! If the Semantic Forms extension is being
+			// used, the form will be parsed right before the page
+			// is parsed, and there doesn't seem to be any way
+			// to determine, from within this hook function,
+			// which one is being parsed at the moment - we only
+			// want to modify the parsing of the main page, not
+			// of the form page. So look for a string that should
+			// appear in every form page, but should really never
+			// appear in non-form pages - '{{{for template'.
+			if ( strpos( $text, '{{{for template' ) !== false ) {
+				return true;
+			}
 			$title = $parser->getTitle();
 			if ( ! ApprovedRevs::pageIsApprovable( $title ) ) {
 				return true;
@@ -54,7 +66,10 @@ class ApprovedRevsHooks {
 	 * latest revision to be the approved one - don't bother logging
 	 * the approval, though; the log is reserved for manual approvals.
 	 */
-	static public function setLatestAsApproved( &$article ) {
+	static public function setLatestAsApproved( &$article , &$user, $text,
+		$summary, $flags, $unused1, $unused2, &$flags, $revision,
+		&$status, $baseRevId ) {
+
 		$title = $article->getTitle();
 		if ( ! $title->userCan( 'approverevisions' ) ) {
 			return true;
@@ -76,12 +91,8 @@ class ApprovedRevsHooks {
 				return true;
 			}
 		}
-		// the rev ID is actually passed in via the hook, but it's
-		// at the end of a very long set of parameters, so for the
-		// sake of sanity we'll just re-get it here instead
-		$latestRevisionID = $title->getLatestRevID();
 		// save approval without logging
-		ApprovedRevs::saveApprovedRevIDInDB( $title, $latestRevisionID );
+		ApprovedRevs::saveApprovedRevIDInDB( $title, $revision->getID() );
 		return true;
 	}
 
@@ -138,6 +149,15 @@ class ApprovedRevsHooks {
 
 		global $wgRequest;
 		if ( $wgRequest->getCheck( 'oldid' ) ) {
+			// If the user is looking at the latest revision,
+			// disable caching, to avoid the wiki getting the
+			// contents from the cache, and thus getting the
+			// approved contents instead (seems to be an issue
+			// only for MW >= 1.17).
+			if ( $revisionID == $article->getLatest() ) {
+				global $wgEnableParserCache;
+				$wgEnableParserCache = false;
+			}
 			return true;
 		}
 

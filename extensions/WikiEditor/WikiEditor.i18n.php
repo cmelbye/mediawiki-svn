@@ -4650,6 +4650,7 @@ $messages['cy'] = array(
 	'wikieditor-desc' => 'Yn darparu rhyngwyneb estynadwy ar gyfer golygu testun wici a llawer o fodiwlau o nodweddion arbennig',
 	'wikieditor-wikitext-tab' => 'Testun wici',
 	'wikieditor-loading' => "Wrthi'n llwytho",
+	'wikieditor-addMediaWizard-preference' => 'Galluogi\'r teclyn "Dewin ychwanegu cyfrwng"',
 	'wikieditor-preview-preference' => 'Galluogi rhagolwg ochr-yn-ochr',
 	'wikieditor-preview-tab' => 'Rhagolwg',
 	'wikieditor-preview-changes-tab' => 'Newidiadau',
@@ -4670,6 +4671,7 @@ $messages['cy'] = array(
 	'wikieditor-template-editor-dialog-title' => "Golygu'r nodyn",
 	'wikieditor-template-editor-dialog-submit' => 'Diweddarer',
 	'wikieditor-template-editor-dialog-cancel' => 'Diddymer',
+	'wikieditor-templates-preference' => 'Galluogi crebachu nodyn',
 	'wikieditor-toc-preference' => 'Galluogi rhestr gynnwys mordwyol',
 	'wikieditor-toc-show' => "Dangos 'Cynnwys'",
 	'wikieditor-toc-hide' => "Cuddio 'Cynnwys'",
@@ -11661,6 +11663,15 @@ $messages['ka'] = array(
 	'wikieditor-toolbar-help-content-indent-result' => 'ჩვეულებრივი ტექსტი<dl><dd>შეწეული ტექსტი<dl><dd>შეწეული ტექსტი</dd></dl></dd></dl>',
 );
 
+/** Kabardian (Cyrillic) (къэбэрдеибзэ/qabardjajəbza (Cyrillic))
+ * @author Bogups
+ */
+$messages['kbd-cyrl'] = array(
+	'wikieditor-toolbar-tool-reference' => 'ЩӀэупӀщӀэгъуэ',
+	'wikieditor-toolbar-section-advanced' => 'Нэхъыбу',
+	'wikieditor-toolbar-section-characters' => 'Дэмыгъэ специалхэр',
+);
+
 /** Kirmanjki (Kırmancki)
  * @author Mirzali
  */
@@ -14169,7 +14180,7 @@ $messages['mk'] = array(
 	'wikieditor-toolbar-characters-page-sinhala' => 'Синхалски',
 	'wikieditor-toolbar-characters-page-gujarati' => 'Гуџарати',
 	'wikieditor-toolbar-characters-page-thai' => 'Тајландски',
-	'wikieditor-toolbar-characters-page-lao' => 'Лаоски',
+	'wikieditor-toolbar-characters-page-lao' => 'Лаошки',
 	'wikieditor-toolbar-characters-page-khmer' => 'Кмерски',
 	'wikieditor-toolbar-section-help' => 'Помош',
 	'wikieditor-toolbar-help-heading-description' => 'Опис',
@@ -15867,7 +15878,7 @@ $messages['nn'] = array(
 	'wikieditor-toolbar-tool-olist' => 'Nummerert lista',
 	'wikieditor-toolbar-tool-olist-example' => 'Nummerert listeelement',
 	'wikieditor-toolbar-tool-indent' => 'Innrykk',
-	'wikieditor-toolbar-tool-indent-example' => 'Innrykka lina',
+	'wikieditor-toolbar-tool-indent-example' => 'Innrykt lina',
 	'wikieditor-toolbar-tool-nowiki' => 'Inga wikiformatering',
 	'wikieditor-toolbar-tool-nowiki-example' => 'Set inn uformatert tekst her',
 	'wikieditor-toolbar-tool-redirect' => 'Omdirigering',

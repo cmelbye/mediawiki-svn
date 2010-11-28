@@ -652,8 +652,14 @@ $messages['cy'] = array(
 	'ogg-play' => 'Chwarae',
 	'ogg-pause' => 'Oedi',
 	'ogg-stop' => 'Aros',
+	'ogg-play-video' => "Chwarae'r fideo",
 	'ogg-play-sound' => 'Gwrando',
+	'ogg-no-player' => 'Mae\'n ddrwg gennym, mae\'n debyg nad oes unrhyw feddalwedd chwaraewr a gefnogir ar eich system. 
+Byddwch gystal à <a href="http://www.mediawiki.org/wiki/Extension:OggHandler/Client_download">lawrlwytho chwaraewr</a>.',
 	'ogg-player-thumbnail' => 'Llun llonydd yn unig',
+	'ogg-player-soundthumb' => 'Dim chwaraewr',
+	'ogg-player-selected' => '(dethol)',
+	'ogg-use-player' => 'Dewis chwaraewr:',
 	'ogg-more' => 'Mwy...',
 	'ogg-dismiss' => 'Cau',
 	'ogg-download' => 'Islwytho ffeil',
@@ -2266,6 +2272,8 @@ $messages['myv'] = array(
 	'ogg-stop' => 'Лоткавтык',
 	'ogg-play-video' => 'Нолдык видеонть',
 	'ogg-play-sound' => 'Нолдык вайгеленть',
+	'ogg-player-selected' => '(кочказь)',
+	'ogg-dismiss' => 'Пекстамс',
 	'ogg-desc-link' => 'Те файладонть',
 );
 

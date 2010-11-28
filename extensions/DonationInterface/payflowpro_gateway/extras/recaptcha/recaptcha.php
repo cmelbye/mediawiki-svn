@@ -26,6 +26,28 @@ $wgExtensionCredits['payflowgateway_extras_recaptcha'][] = array(
 $wgPayflowRecaptchaPublicKey = '';
 $wgPayflowRecaptchaPrivateKey = '';
 
+// Timeout (in seconds) for communicating with reCatpcha
+$wgPayflowRecaptchaTimeout = 2;
+
+/**
+ * HTTP Proxy settings
+ * 
+ * Default to settings in PayflowPro Gateway
+ */
+$wgPayflowRecaptchaUseHTTPProxy = $wgPayflowGatewayUseHTTPProxy;
+$wgPayflowRecaptchaHTTPProxy = $wgPayflowGatewayHTTPProxy;
+
+/**
+ * Use SSL to communicate with reCaptcha
+ */
+$wgPayflowRecaptchaUseSSL = 1;
+
+/**
+ * The # of times to retry communicating with reCaptcha if communication fails
+ * @var int
+ */
+$wgPayflowRecaptchaComsRetryLimit = 3;
+
 $dir = dirname( __FILE__ ) . "/";
 $wgAutoloadClasses['PayflowProGateway_Extras_ReCaptcha'] = $dir . "recaptcha.body.php";
 

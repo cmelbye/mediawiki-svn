@@ -42,6 +42,9 @@ $messages['be-tarask'] = array(
 	'rss-desc' => 'Паказвае RSS-стужкі на вікі-старонках',
 	'rss-error' => 'Памылка загрузкі RSS-стужкі з $1: $2',
 	'rss-empty' => 'Памылка загрузкі RSS-стужкі з $1!',
+	'rss-fetch-nourl' => 'Выбарка выкліканая без URL-адрасу!',
+	'rss-invalid-url' => 'Няслушны URL-адрас: $1',
+	'rss-parse-error' => 'Памылка аналізу XML для RSS',
 );
 
 /** Breton (Brezhoneg)
@@ -81,6 +84,9 @@ $messages['dsb'] = array(
 	'rss-desc' => 'Zwobraznjujo RSS-kanal na wikiboku',
 	'rss-error' => 'RSS-kanal njejo dał se z $1 zacytaś: $2',
 	'rss-empty' => 'RSS-kanal njejo dał se z $1 zacytaś!',
+	'rss-fetch-nourl' => 'Wótwołanje bźez URL!',
+	'rss-invalid-url' => 'Njepłaśiwy URL: $1',
+	'rss-parse-error' => 'Zmólka pśi parsowanju XML za RSS',
 );
 
 /** Spanish (Español)

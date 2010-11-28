@@ -138,9 +138,12 @@ $messages['bg'] = array(
 
 /** Bengali (বাংলা)
  * @author Bellayet
+ * @author Wikitanvir
  */
 $messages['bn'] = array(
 	'contrib-tracking-error' => 'ত্রুটি',
+	'contrib-tracking-submitting' => 'পেমেন্ট প্রসেসরের কাছে প্রদান করা হচ্ছে...',
+	'contrib-tracking-continue' => 'আপনাকে যদি স্বয়ংক্রিয়ভাবে পুনর্নির্দেশিত করা না হয়, তবে পেপ্যাল-এ আপনার অনুদান সম্পন্ন করতে নিচের বাটনে ক্লিক করুন।',
 	'contrib-tracking-button' => 'অগ্রসর হোন',
 );
 
@@ -381,9 +384,9 @@ $messages['gl'] = array(
 	'contributiontracking-desc' => 'Seguimento das contribucións da recadación de fondos da Wikimedia',
 	'contributiontracking' => 'Seguimento das contribucións',
 	'contrib-tracking-error' => 'Erro',
-	'contrib-tracking-error-text' => 'Formulario de proposta inválido',
+	'contrib-tracking-error-text' => 'Envío do formulario inválido',
 	'contrib-tracking-submitting' => 'Enviando ao procesador de pagamentos...',
-	'contrib-tracking-continue' => 'Se non é redirixido automaticamente, faga clic no botón para completar a súa doazón por PayPal.',
+	'contrib-tracking-continue' => 'Se non es redirixido automaticamente, fai clic no botón para completar a túa doazón por PayPal.',
 	'contrib-tracking-button' => 'Continuar',
 );
 

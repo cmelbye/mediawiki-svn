@@ -1304,6 +1304,20 @@ Per ajudar-nos a millorar-les, si us plau ompliu el formulari opcional d'aquí s
 	'prefswitch-feedbackpage' => "Project:Comentaris sobre l'experiència d'usuari",
 );
 
+/** Chechen (Нохчийн)
+ * @author Sasan700
+ */
+$messages['ce'] = array(
+	'prefswitch-link-anon' => 'Керла таронаш',
+	'prefswitch-link-on' => 'Хьалхсанна дlахlоттор',
+	'tooltip-pt-prefswitch-link-on' => 'Дlайаха керла таронаш',
+	'prefswitch-link-off' => 'Керла таронаш',
+	'tooltip-pt-prefswitch-link-off' => 'Муха йу хьажа керла таронаш',
+	'prefswitch-survey-submit-off' => 'Дlайаха керла таронаш',
+	'prefswitch-title-on' => 'Керла таронаш',
+	'prefswitch-title-off' => 'Дlайаха керла таронаш',
+);
+
 /** Sorani (کوردی)
  * @author Asoxor
  * @author Marmzok
@@ -2010,6 +2024,7 @@ $messages['dsb'] = array(
 	'prefswitch-survey-question-dislike' => 'Co njespódoba se śi na nowych funkcijach?',
 	'prefswitch-survey-question-whyoff' => 'Cogodla wótšaltujoš nowe funkcije?
 Pšosym wubjeŕ wšykne, kótarež maju se nałožyś.',
+	'prefswitch-survey-question-globaloff' => 'Cośo funkcije globalnje wótšaltowaś?',
 	'prefswitch-survey-answer-whyoff-hard' => 'Wužywanje jo było pśekomplicěrowane.',
 	'prefswitch-survey-answer-whyoff-didntwork' => 'Njejo pórědnje funkcioněrowało.',
 	'prefswitch-survey-answer-whyoff-notpredictable' => 'Njejo ako pśedwiźone funkcioněrowało.',
@@ -2021,6 +2036,7 @@ Pšosym wubjeŕ wšykne, kótarež maju se nałožyś.',
 	'prefswitch-survey-answer-browser-other' => 'Drugi wobglědowak:',
 	'prefswitch-survey-question-os' => 'Kótary źěłowy system wužywaš?',
 	'prefswitch-survey-answer-os-other' => 'Drugi źěłowy system:',
+	'prefswitch-survey-answer-globaloff-yes' => 'Jo, funkcije maju se na wšyknych wikijach wótšaltowaś',
 	'prefswitch-survey-question-res' => 'Co jo rozeznaśe twójeje wobrazowki?',
 	'prefswitch-title-on' => 'Nowe funkcije',
 	'prefswitch-title-switched-on' => 'Wjele wjasela!',
@@ -4901,6 +4917,7 @@ $messages['mk'] = array(
  * @author Junaidpv
  * @author Praveenp
  * @author Shijualex
+ * @author Vssun
  */
 $messages['ml'] = array(
 	'prefswitch' => 'യൂസബിലിറ്റി ഇനിഷ്യേറ്റീവ് ക്രമീകരണങ്ങൾ മാറുക',
@@ -4937,7 +4954,7 @@ $messages['ml'] = array(
 	'prefswitch-survey-answer-os-other' => 'മറ്റ് ഓപറേറ്റിങ് സിസ്റ്റം:',
 	'prefswitch-survey-answer-globaloff-yes' => 'വേണം, സവിശേഷതകൾ എല്ലാ വിക്കികളിലും പ്രവർത്തനരഹിതമാക്കുക',
 	'prefswitch-survey-question-res' => 'താങ്കളുടെ സ്ക്രീന്‍ റെസ‌ല്യൂഷന്‍ എന്താണ്?',
-	'prefswitch-title-on' => 'പുതിയ സവിശേഷതകൾ',
+	'prefswitch-title-on' => 'പുതിയത് എന്തൊക്കെ?',
 	'prefswitch-title-switched-on' => 'ആസ്വദിക്കൂ!',
 	'prefswitch-title-off' => 'പുതിയ സവിശേഷതകൾ പ്രവർത്തനരഹിതമാക്കുക',
 	'prefswitch-title-switched-off' => 'നന്ദി',
@@ -5267,6 +5284,16 @@ Jekk jogħġbok imla l-kwestjonarju opzjonali segwenti qabel ma tagħfas "[[#pre
 	'prefswitch-survey-intro-off' => 'Grazzi talli għamilt użu mill-funzjonijiet il-ġodda.
 Biex tgħinna ntejbuhom, jekk jogħġbok imla l-kwestjonarju opzjonali segwenti qabel ma tagħfas "[[#prefswitch-survey-submit-off|{{int:Prefswitch-survey-submit-off}}]]".',
 	'prefswitch-feedbackpage' => 'Project:Rispons tal-esperjenza tal-utent',
+);
+
+/** Erzya (Эрзянь)
+ * @author Botuzhaleny-sodamo
+ */
+$messages['myv'] = array(
+	'prefswitch-link-off' => 'Од ёнкст',
+	'prefswitch-survey-submit-off' => 'Пекстамс од ёнкстнэнь',
+	'prefswitch-survey-submit-feedback' => 'Кучомс тевень коряс мельть-арсемат',
+	'prefswitch-title-switched-off' => 'Сюкпирине',
 );
 
 /** Nahuatl (Nāhuatl)
@@ -6724,6 +6751,37 @@ Vyberte prosím všetky možnosti, ktoré považujete za pravdivé.',
 	'prefswitch-success-feedback' => 'Vaše komentáre boli odoslané.',
 	'prefswitch-return' => '<hr style="clear:both">
 Späť na <span class="plainlinks">[$1 $2]</span>.',
+	'prefswitch-main' => "{| border=\"0\" align=\"right\" style=\"margin-left:1em\"
+| align=\"center\" |
+{| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
+| [[Image:VectorNavigation-en.png|401px|]]
+|-
+| Snímka obrazovky nového navigačného rozhrania Wikipédie <small>[[Media:VectorNavigation-en.png|(zväčšiť)]]</small>
+|}
+|-
+| align=\"center\" |
+{| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
+| [[Image:VectorEditorBasic-en.png|401px|]]
+|-
+| Snímka obrazovky základného rozhrania na úpravu stránky <small>[[Media:VectorEditorBasic-en.png|(zväčšiť)]]</small>
+|}
+|-
+| align=\"center\" |
+{| border=\"0\" style=\"background:#F3F3F3;border: 1px solid #CCCCCC;padding:10px;\"
+| [[Image:VectorLinkDialog-en.png|401px|]]
+|-
+| Snímka obrazovky nového dialógového okna na zadávanie odkazov
+|}
+|}
+User Experience tím Wikimedia Foundation spolupracoval dobrovoľníkmi z komunity, aby vám uľahčili prácu. Sme radi, že sa s vami môžeme podeliť o niektoré zlepšenia vrátane nového vzhľadu a správania a zjednodušených funkcií pri upravovaní. Cieľom týchto zmien je uľahčiť novým prispievateľom začať. Sú založené na našej [http://usability.wikimedia.org/wiki/Usability,_Experience,_and_Evaluation_Study minuloročnej štúdii testovania použiteľnosti]. Zlepšovanie použiteľnosti našich projektov je prioritou Wikimedia Foundation a v budúcnosti sa s vami podelíme o ďalšie novinky. Ďalšie podrobnosti získate po navštívení [http://blog.wikimedia.org/2010/05/13/a-new-look-for-wikipedia blogového príspevku].
+
+=== Toto sme zmenili ===
+* '''Navigácia:''' Zlepšili sme navigáciu pri čítaní a upravovaní stránok. Teraz záložky na vrchu každej stránky jasnejšie definujú, či sa pozeráte na stránku alebo diskusnú stránku a či ju čítate alebo upravujete.
+* '''Vylepšenia panela nástrojov úprav:''' Reorganizovali sme panel nástrojov úprav, aby sa ľahšie používal. Formátovanie je teraz jednoduchšie a intuitívnejšie.
+* '''Sprievodca tvorbou odkazov:''' Ľahko použiteľný nástroj na pridávanie odkazov na ostatné stránky wiki a tiež na externé stránky.
+* '''Vylepšenia hľadania:''' Vylepšili sme návrhy pri hľadaní, aby ste sa rýchlejšie dostali na stránku, ktorú hľadáte.
+* '''Ostatné nové vlastnosti:''' Tiež sme predstavili sprievodcu uľahčenie tvorby tabuliek a možnost Hľadať a nahradiť na zjednodušenie úprav stránok.
+* '''Logo Wikipédie:''' Aktualizovali sme naše logo. Viac sa dočítate v [http://blog.wikimedia.org/2010/05/13/wikipedia-in-3d blogu Wikimedia].",
 	'prefswitch-main-logged-changes' => "* '''Karta {{int:watch}}''' je teraz hviezdičkou.
 * '''Karta {{int:move}}''' je teraz v roletovom menu vedľa vyhľadávacieho poľa.",
 	'prefswitch-main-feedback' => '===Komentáre?===

@@ -70,7 +70,7 @@ class SpecialContact extends SpecialPage {
 			return;
 		}
 
-		$f = new EmailContactForm( $nu );
+		$f = new EmailContactForm( $nu, $par );
 
 		if ( 'success' == $action ) {
 			wfDebug( __METHOD__ . ": success.\n" );
@@ -118,12 +118,43 @@ class EmailContactForm {
 	/**
 	 * @param User $target
 	 */
-	function __construct( $target ) {
+	function __construct( $target, $par ) {
 		global $wgRequest, $wgUser;
 
+		$this->formType = $wgRequest->getText( 'formtype', $par );
+		
+		# Check for type in [[Special:Contact/type]]: change pagetext and prefill form fields
+		if ( $this->formType != '' ) {
+			$message = 'contactpage-pagetext-' . $this->formType;
+			$text = wfMsgExt( $message, 'parse' );
+			if ( !wfEmptyMsg( $message, $text ) ) {
+				$this->formularText = $text;
+			} else {
+				$this->formularText = wfMsgExt( 'contactpage-pagetext', 'parse' );
+			}
+
+			$message = 'contactpage-subject-' . $this->formType;
+			$text = wfMsgForContentNoTrans( $message );
+			if ( !wfEmptyMsg( $message, $text ) ) {
+				$this->subject = $wgRequest->getText( 'wpSubject', $text );
+			} else {
+				$this->subject = $wgRequest->getText( 'wpSubject' );
+			}
+
+			$message = 'contactpage-text-' . $this->formType;
+			$text = wfMsgForContentNoTrans( $message );
+			if ( !wfEmptyMsg( $message, $text ) ) {
+				$this->text = $wgRequest->getText( 'wpText', $text );
+			} else {
+				$this->text = $wgRequest->getText( 'wpText' );
+			}
+		} else {		
+			$this->formularText = wfMsgExt( 'contactpage-pagetext', 'parse' );
+			$this->text = $wgRequest->getText( 'wpText' );
+			$this->subject = $wgRequest->getText( 'wpSubject' );
+		}
+
 		$this->target = $target;
-		$this->text = $wgRequest->getText( 'wpText' );
-		$this->subject = $wgRequest->getText( 'wpSubject' );
 		$this->cc_me = $wgRequest->getBool( 'wpCCMe' );
 		$this->includeIP = $wgRequest->getBool( 'wpIncludeIP' );
 
@@ -188,7 +219,7 @@ class EmailContactForm {
 		#TODO: show captcha
 
 		$wgOut->setPageTitle( wfMsg( 'contactpage-title' ) );
-		$wgOut->addWikiMsg( 'contactpage-pagetext' );
+		$wgOut->addHTML( $this->formularText );
 
 		if ( $this->subject === '' ) {
 			$this->subject = wfMsgForContent( 'contactpage-defsubject' );
@@ -270,6 +301,7 @@ class EmailContactForm {
 				'</td>
 			</tr>' .
 			Html::hidden( 'wpEditToken', $token ) .
+			Html::hidden( 'formtype', $this->formType ) .
 			Xml::closeElement( 'table' ) .
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' );
@@ -363,7 +395,7 @@ class EmailContactForm {
 			$subject = wfMsgForContent( 'contactpage-subject-and-sender', $subject, $senderIP );
 		}
 
-		if( !wfRunHooks( 'ContactForm', array( &$targetAddress, &$replyto, &$subject, &$this->text ) ) ) {
+		if( !wfRunHooks( 'ContactForm', array( &$targetAddress, &$replyto, &$subject, &$this->text, $this->formType ) ) ) {
 			wfDebug( __METHOD__ . ": aborted by hook\n" );
 			return;
 		}
@@ -384,7 +416,7 @@ class EmailContactForm {
 		// unless they are emailing themselves, in which case one copy of the message is sufficient.
 		if( $this->cc_me && $this->fromaddress ) {
 			$cc_subject = wfMsg( 'emailccsubject', $this->target->getName(), $subject );
-			if( wfRunHooks( 'ContactForm', array( &$submitterAddress, &$contactSender, &$cc_subject, &$this->text ) ) ) {
+			if( wfRunHooks( 'ContactForm', array( &$submitterAddress, &$contactSender, &$cc_subject, &$this->text, $this->formType ) ) ) {
 				wfDebug( __METHOD__ . ": sending cc mail from " . $contactSender->toString() .
 					" to " . $submitterAddress->toString() . "\n" );
 				$ccResult = UserMailer::send( $submitterAddress, $contactSender, $cc_subject, $this->text );

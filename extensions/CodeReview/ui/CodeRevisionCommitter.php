@@ -1,12 +1,6 @@
 <?php
 
 class CodeRevisionCommitter extends CodeRevisionView {
-
-	function __construct( $repoName, $rev ) {
-		// Parent should set $this->mRepo, $this->mRev, $this->mReplyTarget
-		parent::__construct( $repoName, $rev );
-	}
-
 	function execute() {
 		global $wgRequest, $wgOut, $wgUser;
 
@@ -20,65 +14,17 @@ class CodeRevisionCommitter extends CodeRevisionView {
 			return;
 		}
 
+		$commentId = $this->revisionUpdate( $this->mStatus, $this->mAddTags, $this->mRemoveTags,
+			$this->mSignoffFlags, $this->text, $wgRequest->getIntOrNull( 'wpParent' ),
+			$wgRequest->getInt( 'wpReview' )
+		);
+
 		$redirTarget = null;
-		$dbw = wfGetDB( DB_MASTER );
 
-		$dbw->begin();
-		// Change the status if allowed
-		$statusChanged = false;
-		if ( $this->validPost( 'codereview-set-status' ) && $this->mRev->isValidStatus( $this->mStatus ) ) {
-			$statusChanged = $this->mRev->setStatus( $this->mStatus, $wgUser );
+		// For comments, take us back to the rev page focused on the new comment
+		if ( $commentId !== 0 && !$this->jumpToNext ) {
+			$redirTarget = $this->commentLink( $commentId );
 		}
-		$addTags = $removeTags = array();
-		if ( $this->validPost( 'codereview-add-tag' ) && count( $this->mAddTags ) ) {
-			$addTags = $this->mAddTags;
-		}
-		if ( $this->validPost( 'codereview-remove-tag' ) && count( $this->mRemoveTags ) ) {
-			$removeTags = $this->mRemoveTags;
-		}
-		// If allowed to change any tags, then do so
-		if ( count( $addTags ) || count( $removeTags ) ) {
-			$this->mRev->changeTags( $addTags, $removeTags, $wgUser );
-		}
-		// Add any signoffs
-		if ( $this->validPost( 'codereview-signoff' ) && count( $this->mSignoffFlags ) )  {
-			$this->mRev->addSignoff( $wgUser, $this->mSignoffFlags );
-		}
-		// Add any comments
-		$commentAdded = false;
-		if ( $this->validPost( 'codereview-post-comment' ) && strlen( $this->text ) ) {
-			$parent = $wgRequest->getIntOrNull( 'wpParent' );
-			$review = $wgRequest->getInt( 'wpReview' );
-			// $isPreview = $wgRequest->getCheck( 'wpPreview' );
-			$commentId = $this->mRev->saveComment( $this->text, $review, $parent );
-
-		    $commentAdded = ($commentId !== 0);
-
-			// For comments, take us back to the rev page focused on the new comment
-			if ( !$this->jumpToNext ) {
-				$redirTarget = $this->commentLink( $commentId );
-			}
-		}
-		$dbw->commit();
-
-		if ( $statusChanged || $commentAdded ) {
-			if ( $statusChanged && $commentAdded ) {
-				$url = $this->mRev->getFullUrl( $commentId );
-				$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj4', 'codereview-email-body4',
-					$wgUser->getName(), $this->mRev->getIdStringUnique(), $this->mRev->mOldStatus, $this->mRev->mStatus,
-					$url, $this->text
-				);
-			} else if ( $statusChanged ) {
-				$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj3', 'codereview-email-body3',
-					$wgUser->getName(), $this->mRev->getIdStringUnique(), $this->mRev->mOldStatus, $this->mRev->mStatus
-				);
-			} else if ( $commentAdded ) {
-			$url = $this->mRev->getFullUrl( $commentId );
-			$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj', 'codereview-email-body',
-				$wgUser->getName(), $url, $this->mRev->getIdStringUnique(), $this->text
-			);
-			}
-	    }
 
 		// Return to rev page
 		if ( !$redirTarget ) {
@@ -98,9 +44,80 @@ class CodeRevisionCommitter extends CodeRevisionView {
 		$wgOut->redirect( $redirTarget->getFullUrl( array( 'path' => $this->mPath ) ) );
 	}
 
-	public function validPost( $permission ) {
-		global $wgUser, $wgRequest;
-		return parent::validPost( $permission ) && $wgRequest->wasPosted()
-			&& $wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) );
+	/**
+	 * Does the revision database update
+	 *
+	 * @param string $status Status to set the revision to
+	 * @param Array $addTags Tags to add to the revision
+	 * @param Array $removeTags Tags to remove from the Revision
+	 * @param Array $signoffFlags
+	 * @param string $commentText Comment to add to the revision
+	 * @param null|int $parent What the parent comment is (if a subcomment)
+	 * @param int $review (unused)
+	 * @return int Comment ID if added, else 0
+	 */
+	public function revisionUpdate( $status, $addTags, $removeTags, $signoffFlags, $commentText, $parent = null,
+									  $review = 0 ) {
+
+		if ( !$this->mRev ) {
+			return false;
+		}
+
+		global $wgUser;
+
+		$dbw = wfGetDB( DB_MASTER );
+
+		$dbw->begin();
+		// Change the status if allowed
+		$statusChanged = false;
+		if ( $this->mRev->isValidStatus( $status ) && $this->validPost( 'codereview-set-status' ) ) {
+			$statusChanged = $this->mRev->setStatus( $status, $wgUser );
+		}
+		$validAddTags = $validRemoveTags = array();
+		if ( count( $addTags ) && $this->validPost( 'codereview-add-tag' ) ) {
+			$validAddTags = $addTags;
+		}
+		if ( count( $removeTags ) && $this->validPost( 'codereview-remove-tag' ) ) {
+			$validRemoveTags = $removeTags;
+		}
+		// If allowed to change any tags, then do so
+		if ( count( $validAddTags ) || count( $validRemoveTags ) ) {
+			$this->mRev->changeTags( $validAddTags, $validRemoveTags, $wgUser );
+		}
+		// Add any signoffs
+		if ( count( $signoffFlags ) && $this->validPost( 'codereview-signoff' ) )  {
+			$this->mRev->addSignoff( $wgUser, $signoffFlags );
+		}
+		// Add any comments
+		$commentAdded = false;
+		$commentId = 0;
+		if ( strlen( $commentText ) && $this->validPost( 'codereview-post-comment' ) ) {
+			// $isPreview = $wgRequest->getCheck( 'wpPreview' );
+			$commentId = $this->mRev->saveComment( $commentText, $review, $parent );
+
+		    $commentAdded = ($commentId !== 0);
+		}
+		$dbw->commit();
+
+		if ( $statusChanged || $commentAdded ) {
+			if ( $statusChanged && $commentAdded ) {
+				$url = $this->mRev->getFullUrl( $commentId );
+				$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj4', 'codereview-email-body4',
+					$wgUser->getName(), $this->mRev->getIdStringUnique(), $this->mRev->mOldStatus, $this->mRev->mStatus,
+					$url, $this->text
+				);
+			} else if ( $statusChanged ) {
+				$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj3', 'codereview-email-body3',
+					$wgUser->getName(), $this->mRev->getIdStringUnique(), $this->mRev->mOldStatus, $this->mRev->mStatus
+				);
+			} else if ( $commentAdded ) {
+				$url = $this->mRev->getFullUrl( $commentId );
+				$this->mRev->emailNotifyUsersOfChanges( 'codereview-email-subj', 'codereview-email-body',
+					$wgUser->getName(), $url, $this->mRev->getIdStringUnique(), $this->text
+				);
+			}
+	    }
+
+	    return $commentId;
 	}
 }

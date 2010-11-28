@@ -97,10 +97,11 @@ $messages['bs'] = array(
 );
 
 /** Catalan (Català)
+ * @author Martorell
  * @author Solde
  */
 $messages['ca'] = array(
-	'cldr-desc' => 'Extensió que proporciona noms localitzats de les llengües',
+	'cldr-desc' => 'Extensió que proporciona noms localitzats de les llengües, basat en [http://cldr.unicode.org/index/downloads dades CLDR]',
 );
 
 /** Czech (Česky)
@@ -115,7 +116,7 @@ $messages['cs'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
-	'cldr-desc' => "Estyniad sy'n darparu enwau ieithoedd yn iaith y wici",
+	'cldr-desc' => "Estyniad sy'n defnyddio [http://cldr.unicode.org/index/downloads data CLDR] i ddarparu enwau ieithoedd yn iaith y wici",
 );
 
 /** German (Deutsch)
@@ -130,7 +131,7 @@ $messages['de'] = array(
  * @author Michawiki
  */
 $messages['dsb'] = array(
-	'cldr-desc' => 'Rozšyrjenje, kótarež pódawa lokalizěrowane rěcne mjenja.',
+	'cldr-desc' => 'Rozšyrjenje, kótarež pódawa lokalizěrowane rěcne mjenja na zakłaźe [http://cldr.unicode.org/index/downloads CLDR data]',
 );
 
 /** Greek (Ελληνικά)
@@ -490,7 +491,7 @@ $messages['pt-br'] = array(
  * @author KlaudiuMihaila
  */
 $messages['ro'] = array(
-	'cldr-desc' => 'Extensie care oferă nume de limbi localizate',
+	'cldr-desc' => 'Extensie care oferă nume de limbi localizate pe baza [http://cldr.unicode.org/index/downloads datelor CLDR]',
 );
 
 /** Tarandíne (Tarandíne)

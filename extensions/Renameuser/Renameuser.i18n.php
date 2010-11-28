@@ -690,6 +690,7 @@ $messages['cy'] = array(
 	'renameusernew' => "Enw newydd i'r defnyddiwr:",
 	'renameuserreason' => 'Y rheswm dros ail-enwi:',
 	'renameusermove' => "Symud y tudalennau defnyddiwr a sgwrs (ac unrhyw is-dudalennau) i'r enw newydd",
+	'renameusersuppress' => "Peidiwch â gosod ailgyfeiriadau i'r enw newydd",
 	'renameuserreserve' => 'Atal yr hen enw defnyddiwr rhag cael ei ddefnyddio rhagor',
 	'renameuserwarnings' => 'Rhybuddion:',
 	'renameuserconfirm' => "Parhau gyda'r ail-enwi",
@@ -844,6 +845,7 @@ $messages['dsb'] = array(
 	'renameusernew' => 'Nowe wužywarske mě:',
 	'renameuserreason' => 'Pśicyna za pśemjenjenje',
 	'renameusermove' => 'Wužywarski a diskusijny bok (a jich pódboki) do nowego mjenja pśesunuś',
+	'renameusersuppress' => 'Dalejpósrědnjenja k nowemu mjenjoju njenapóraś',
 	'renameuserreserve' => 'Stare wužywarske mě pśeśiwo pśichodnemu wužywanjeju blokěrowaś',
 	'renameuserwarnings' => 'Warnowanja:',
 	'renameuserconfirm' => 'Jo, wužywarja pśemjeniś',
@@ -2054,6 +2056,7 @@ $messages['ko'] = array(
 	'renameusernew' => '새 이름:',
 	'renameuserreason' => '바꾸는 이유:',
 	'renameusermove' => '사용자 문서와 토론 문서, 하위 문서를 새 사용자 이름으로 이동하기',
+	'renameusersuppress' => '새 이름으로 넘겨주기를 생성하지 않기',
 	'renameuserreserve' => '나중에 이전의 이름이 사용되지 않도록 차단하기',
 	'renameuserwarnings' => '경고:',
 	'renameuserconfirm' => '예, 이름을 변경합니다.',
@@ -2491,9 +2494,11 @@ $messages['mt'] = array(
  * @author Botuzhaleny-sodamo
  */
 $messages['myv'] = array(
+	'renameusernew' => 'Од лемесь:',
 	'renameuserreserve' => 'Озавтомс ташто совицянь лементь саймес, тевс илязо нолдаво седе тов',
 	'renameuserconfirm' => 'Истя, макст совицянтень од лем',
 	'renameusersubmit' => 'Максомс',
+	'renameusererrordoesnotexist' => '"<nowiki>$1</nowiki>" совицясь арась.',
 );
 
 /** Nahuatl (Nāhuatl)

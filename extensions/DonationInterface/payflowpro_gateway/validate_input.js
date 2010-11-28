@@ -60,7 +60,6 @@ function validate_form( form ) {
 			document.payment.state.value = 'XX';
 	}
 
-
 	// validate email address
 	var apos = document.payment.emailAdd.value.indexOf("@");
 	var dotpos = document.payment.emailAdd.value.lastIndexOf(".");

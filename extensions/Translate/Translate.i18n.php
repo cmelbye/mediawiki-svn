@@ -1847,6 +1847,9 @@ $messages['ba'] = array(
 	'translate-edit' => 'үҙгәртергә',
 	'translate-talk' => 'Фекер алышыу',
 	'translate-history' => 'Тарих',
+	'translate-showsub' => '{{PLURAL:$1|Эске төркөмдө|$1 эске төркөмдө}} күрһәтергә.',
+	'translate-grouplisting' => 'Был — бөтә тәржемә ителә торған хәбәрҙәр исемлеге.
+Бөтә тәржемә ителмәгән хәбәрҙәр исемлеген ҡарау өсөн, хәбәрҙәр төркөмөнөң исеменә баҫығыҙ.',
 	'translate-task-view' => 'Бөтә яҙмаларҙы ҡарарға',
 	'translate-task-untranslated' => 'Тәржемә ителмәгән яҙмаларҙы ҡарарға',
 	'translate-task-optional' => 'Мөһим булмаған яҙмаларҙы ҡарарға',
@@ -1886,6 +1889,7 @@ $messages['ba'] = array(
 	'translate-ignored' => '(иғтибарға алынмай)',
 	'translate-edit-title' => 'Мөхәрирләү "$1"',
 	'translate-edit-definition' => 'Яҙманың билдәләмәһе',
+	'translate-edit-contribute' => 'үҙгәртергә',
 	'translate-edit-no-information' => "''Был яҙманың тасуирламаһы юҡ. Әгәр һеҙ был яҙманың ҡайҙа һәм нисек ҡулланылғанын белһәгеҙ, был яҙмаға тасуирлама өҫтәп, бүтән тәржемәселәргә ярҙам итә  алаһығыҙ.''",
 	'translate-edit-information' => '"$2" яҙмаһы тураһында мәғлүмәт ($1)',
 	'translate-edit-in-other-languages' => '"$1" яҙмаһы башҡа телдәрҙә',
@@ -1893,6 +1897,11 @@ $messages['ba'] = array(
 	'translate-edit-warnings' => 'Тулы булмаған тәржемәләр тураһында иҫкәртеү',
 	'translate-edit-tmsugs' => 'Тәржемәләр хәтеренән тәҡдимдәр',
 	'translate-edit-tmmatch' => '$1% тап килеү',
+	'translate-use-suggestion' => 'Был тәҡдимде тәржемә өлкәһенә ҡуйырға. Был бөтә хәҙерге эстәлекте алыштырасаҡ.',
+	'translate-edit-tab-list' => 'Хәбәрҙәр исемлеге',
+	'translate-edit-show-def' => 'Яҙманың билдәләмәһе',
+	'translate-edit-show-trans' => 'Тәржемә',
+	'translate-edit-show-click' => 'Ҡалыпҡа күсереү өсөн баҫығыҙ',
 	'translate-magic-pagename' => 'MediaWiki тәрәнәйтелгән тәржемәһе',
 	'translate-magic-submit' => 'Сығарырға',
 	'translate-magic-cm-export' => 'Сығарырға',
@@ -2179,6 +2188,9 @@ $messages['be-tarask'] = array(
 	'translate-edit-tmmatch' => '$1% супадзеньне',
 	'translate-use-suggestion' => 'Устаўце прапанову ў вобласьць перакладаў. Гэта заменіць увесь цяперашні зьмест.',
 	'translate-edit-tab-list' => 'Сьпіс паведамленьняў',
+	'translate-edit-show-def' => 'Вызначэньне паведамленьня',
+	'translate-edit-show-trans' => 'Пераклад',
+	'translate-edit-show-click' => 'Націсьніце для пераключэньня макету',
 	'translate-magic-pagename' => 'Пашыраны пераклад MediaWiki',
 	'translate-magic-help' => 'Вы можаце перакладаць псэўданімы спэцыяльных старонак, магічныя словы і прасторы назваў.
 
@@ -2675,6 +2687,9 @@ Ma ya d'ober ar strollad istrolladoù pe usstrolladoù kemennadennoù tennet eus
 	'translate-edit-tmmatch' => '$1% kenglotañ',
 	'translate-use-suggestion' => "Ensoc'hañ ar c'hinnig-mañ er prenestr treiñ. Erlec'hiañ a ra hollad an danvez a-vremañ.",
 	'translate-edit-tab-list' => 'Roll kemennadennoù',
+	'translate-edit-show-def' => 'Termenadur ar gemennadenn',
+	'translate-edit-show-trans' => 'Troidigezh',
+	'translate-edit-show-click' => 'Klikañ evit cheñch an tres',
 	'translate-magic-pagename' => 'Troidigezh MediaWiki astennet',
 	'translate-magic-help' => "Gallout a rit treiñ aliasoù ar pajennoù dibar, ar gerioù burzhudus hag anvioù an esaouennoù anv.
 
@@ -3776,7 +3791,7 @@ Hvis du ved hvor eller hvordan denne besked bruges, kan du hjælpe andre oversæ
 	'translate-edit-tmsugs' => 'Forslag fra oversættelseshukommelsen',
 	'translate-edit-tmmatch' => '$1 % overensstemmelse',
 	'translate-use-suggestion' => 'Sæt dette forslag i oversættelsen området. Dette erstatter alt aktuelt indhold.',
-	'translate-edit-tab-list' => 'Besked liste',
+	'translate-edit-tab-list' => 'Beskedliste',
 	'translate-magic-pagename' => 'Udvidet MediaWiki-oversættelse',
 	'translate-magic-help' => 'Du kan oversætte specialside-aliaser, magiske ord og navnerumsnavne.
 
@@ -4343,6 +4358,9 @@ $messages['dsb'] = array(
 	'translate-edit' => 'wobźěłaś',
 	'translate-talk' => 'Diskusija',
 	'translate-history' => 'Wersije',
+	'translate-showsub' => '{{PLURAL:$1|pódkupku|$1 pódkupce|$1 pódkupki|$1 pódkupkow}} pokazaś',
+	'translate-grouplisting' => 'To jo lisćina wšyknych pśełožujobnych kupkow.
+Klikni na mě kupki powěźeńkow, aby se woglědał lisćinu njepśełožonych powěźeńkow.',
 	'translate-task-view' => 'Wšykne powěsći pokazaś',
 	'translate-task-untranslated' => 'Njepśełožone powěsći pokazaś',
 	'translate-task-optional' => 'Opcionelne powěsći pokazaś',
@@ -4392,6 +4410,10 @@ Jolic kupka jo z pódkupki abo nadkupki powěźeńkow drugich kupkow, zwobraznju
 	'translate-edit-tmsugs' => 'Naraźenja z pśełožowańskego spomnjeśa',
 	'translate-edit-tmmatch' => '$1 % makanja',
 	'translate-use-suggestion' => 'Zasuń toś to naraźenje do pśełožowańskego póla. To buźo wšykne aktuelne wopśimjeśe wuměnjaś.',
+	'translate-edit-tab-list' => 'Lisćina powěźeńkow',
+	'translate-edit-show-def' => 'Definicija powěsći',
+	'translate-edit-show-trans' => 'Pśełožk',
+	'translate-edit-show-click' => 'Kliknuś, aby se wugótowanje pśešaltowało',
 	'translate-magic-pagename' => 'Rozšyrjony pśełožk MediaWiki',
 	'translate-magic-help' => 'Móžoš aliasy specialnych bokow, magiske słowa a mjenja mjenjowych rumow pśełožyś.
 
@@ -5582,6 +5604,7 @@ $messages['ext'] = array(
 /** Persian (فارسی)
  * @author Huji
  * @author Tofighi
+ * @author ZxxZxxZ
  */
 $messages['fa'] = array(
 	'translate' => 'ترجمه',
@@ -5615,8 +5638,10 @@ $messages['fa'] = array(
 	'translate-next' => 'صفحهٔ بعدی',
 	'translate-prev' => 'صفحهٔ قبلی',
 	'translate-page-description-legend' => 'اطلاعات در مورد گروه',
+	'translate-page-edit' => 'ویرایش',
 	'translate-optional' => '(اختیاری)',
 	'translate-ignored' => '(نادیده گرفته شده)',
+	'translate-edit-title' => 'ویرایش «$1»',
 	'translate-edit-definition' => 'تعریف پیغام',
 	'translate-edit-contribute' => 'مشارکت',
 	'translate-edit-no-information' => "''این پیغام دارای توضیحات نیست. اگر شما می‌دانید که این پیغام چگونه یا در کجا استفاده می‌شود، شما می‌توانید با اضافه کردن توضیحات به دیگر ترجمه‌کنندگان کمک کنید.''",
@@ -5646,6 +5671,7 @@ $messages['fa'] = array(
 	'translate-magic-special' => 'نام مستعار صفحه‌های ویژه',
 	'translate-magic-words' => 'واژه‌های جادویی',
 	'translate-magic-namespace' => 'اسم فضاهای نام',
+	'translate-magic-notsaved' => 'ویرایشتان ذخیره نشد!',
 	'translationchanges' => 'تغییرهای ترجمه',
 	'translationchanges-export' => 'صدور',
 	'translationchanges-change' => '$1: $2 توسط $3',
@@ -13315,6 +13341,16 @@ $messages['pdc'] = array(
 	'translate-import-load' => 'Feil ufflaade',
 );
 
+/** Pfälzisch (Pfälzisch)
+ * @author Xqt
+ */
+$messages['pfl'] = array(
+	'translate-edit' => 'Bearwaide',
+	'translate-page-edit' => 'bearwaide',
+	'translate-edit-title' => '„$1“ bearwaide',
+	'translate-stats-edits' => 'Bearwaidunge',
+);
+
 /** Polish (Polski)
  * @author Derbeth
  * @author Dodek
@@ -15496,6 +15532,7 @@ $messages['sah'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Singhalawap
  * @author චතුනි අලහප්පෙරුම
  * @author බිඟුවා
  */
@@ -15505,6 +15542,7 @@ $messages['si'] = array(
 	'translate-edit' => 'සංස්කරණය',
 	'translate-talk' => 'සාකච්ඡාව',
 	'translate-history' => 'ඉතිහාසය',
+	'translate-showsub' => '{{PLURAL:$1|subgroup|$1 subgroups}} පෙන්වන්න.',
 	'translate-task-view' => 'පහත කාණඩයෙහි සියළු පණිවුඩ නැරඹීමටය',
 	'translate-task-untranslated' => 'පහත කාණ්ඩයෙහි පරිවර්තනය නොකෙරුනු සියළු පණිවුඩ නැරඹීමටය',
 	'translate-task-optional' => 'පහත කාණ්ඩයෙහි වෛකල්පික පණිවුඩ නැරඹීමටය',
@@ -15533,12 +15571,14 @@ $messages['si'] = array(
 	'translate-prev' => 'පූර්ව පිටුව',
 	'translate-page-description-legend' => 'කාණ්ඩය පිළිබඳ විස්තර',
 	'translate-page-edit' => 'සංස්කරණය',
+	'translate-ext-url' => '<hr />වෙබ් අඩවිය: $1',
 	'translate-optional' => '(වෛකල්පික)',
 	'translate-ignored' => '(නොසලකන ලදි)',
 	'translate-edit-title' => '"$1" සංස්කරණය කරන්න',
 	'translate-edit-definition' => 'පණිවුඩ විග්‍රහය',
 	'translate-edit-contribute' => 'දායකවන්න',
 	'translate-edit-tmmatch' => '$1% ගැලපේ',
+	'translate-edit-show-trans' => 'පරිවර්තනය',
 	'translate-magic-module' => 'මොඩියුලය:',
 	'translate-magic-submit' => 'ආහරනය කරන්න',
 	'translate-magic-cm-export' => 'නිර්යාත',

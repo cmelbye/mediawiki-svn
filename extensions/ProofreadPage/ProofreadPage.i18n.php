@@ -256,7 +256,7 @@ $messages['ar'] = array(
 الصورة|صورة الغلاف
 الصفحات||20
 الملاحظات||10',
-	'proofreadpage_pages' => '{{PLURAL:$1|صفحة|صفحات}}',
+	'proofreadpage_pages' => '{{PLURAL:$1||صفحة واحدة|صفحتان|$1 صفحات|$1 صفحة}}',
 	'proofreadpage_specialpage_legend' => 'بحث صفحات الفهرس',
 	'proofreadpage_source' => 'المصدر',
 	'proofreadpage_source_message' => 'الإصدارة المفحوصة المستخدمة لإنشاء هذا النص',
@@ -1008,6 +1008,7 @@ beyanati||10',
  */
 $messages['dsb'] = array(
 	'indexpages' => 'Lisćina indeksowych bokow',
+	'pageswithoutscans' => 'Boki bźez skanowanjow',
 	'proofreadpage_desc' => 'Zmóžnja lažke pśirownowanje teksta z originalnym skanom',
 	'proofreadpage_namespace' => 'Bok',
 	'proofreadpage_index_namespace' => 'Indeks',
@@ -1059,6 +1060,7 @@ Pśispomnjeśa||10',
 	'proofreadpage_specialpage_legend' => 'Indeksowe boki pśepytaś',
 	'proofreadpage_source' => 'Žrědło',
 	'proofreadpage_source_message' => 'Skanowane wudaśe wužyte za napóranje toś togo teksta',
+	'right-pagequality' => 'Kawlitu boka změniś',
 );
 
 /** Ewe (Eʋegbe) */
@@ -4947,14 +4949,14 @@ $messages['vec'] = array(
 	'proofreadpage_body' => 'Corpo de la pagina (da inclùdar):',
 	'proofreadpage_footer' => 'Pié de pagina (mìa incluso)',
 	'proofreadpage_toggleheaders' => 'ativa/disativa la visibilità de le sezioni mìa incluse',
-	'proofreadpage_quality0_category' => 'Sensa testo',
-	'proofreadpage_quality1_category' => 'Da trascrivare',
-	'proofreadpage_quality2_category' => 'Con problemi',
-	'proofreadpage_quality3_category' => 'Trascrita',
-	'proofreadpage_quality4_category' => 'Verificà',
+	'proofreadpage_quality0_category' => 'Pagine sensa testo',
+	'proofreadpage_quality1_category' => 'Pagine da trascrivare',
+	'proofreadpage_quality2_category' => 'Pagine con problemi',
+	'proofreadpage_quality3_category' => 'Pagine trascrite',
+	'proofreadpage_quality4_category' => 'Pagine verificà',
 	'proofreadpage_quality0_message' => 'Sta pagina no ghe xe bisogno de trascrìvarla',
 	'proofreadpage_quality1_message' => 'Sta pagina no la xe stà gnancora trascrita',
-	'proofreadpage_quality2_message' => 'Ghe xe stà un problema durante la corezion de sta pagina',
+	'proofreadpage_quality2_message' => 'Ghe xe stà un problema durante la trascrission de sta pagina',
 	'proofreadpage_quality3_message' => 'Sta pagina la xe stà trascrita',
 	'proofreadpage_quality4_message' => 'Sta pagina la xe stà verificà da almanco do utenti',
 	'proofreadpage_index_listofpages' => 'Lista de le pagine',

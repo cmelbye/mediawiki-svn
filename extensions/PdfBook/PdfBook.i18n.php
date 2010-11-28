@@ -28,6 +28,16 @@ $messages['af'] = array(
 	'pdfbook-desc' => "Maak 'n boek van bladsye in 'n kategorie en eksporteer as 'n PDF-boek",
 );
 
+/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+ * @author EugeneZelenko
+ * @author Wizardist
+ */
+$messages['be-tarask'] = array(
+	'pdfbook-action' => 'Друкаваць у фармаце PDF',
+	'pdfbook-log' => '$1 экспартаваная як кніга ў фармаце PDF',
+	'pdfbook-desc' => 'Стварае кнігу са старонак у катэгорыі і экспартуе яе ў фармат PDF',
+);
+
 /** Breton (Brezhoneg)
  * @author Y-M D
  */
@@ -46,6 +56,14 @@ $messages['bs'] = array(
 	'pdfbook-desc' => 'Sastavlja knjigu od stranica u kategoriji i izvozi ih kao PDF knjigu',
 );
 
+/** Welsh (Cymraeg)
+ * @author Lloffiwr
+ */
+$messages['cy'] = array(
+	'pdfbook-action' => 'Argraffu ar ffurf PDF',
+	'pdfbook-desc' => 'Yn defnyddio tudalennau o rhyw gategori i lunio llyfr, ac allforio hwnnw ar ffurf llyfr PDF',
+);
+
 /** German (Deutsch)
  * @author Kghbln
  */
@@ -53,6 +71,15 @@ $messages['de'] = array(
 	'pdfbook-action' => 'Als PDF-Datei ausgeben',
 	'pdfbook-log' => '$1 wurde als Zusammenstellung in einer PDF-Datei erstellt',
 	'pdfbook-desc' => 'Ermöglicht die Erstellung von PDF-Dateien einzelner Seiten oder eine Zusammenstellung aller in einer Kategorie vorhandenen Seiten in einer PDF-Datei',
+);
+
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'pdfbook-action' => 'Ako PDF śišćaś',
+	'pdfbook-log' => '$1 jo se ako PDF-knigły eksportěrował',
+	'pdfbook-desc' => 'Staja knigły z bokow w kategoriji gromadu a eksportěrujo je ako PDF-knigły',
 );
 
 /** Basque (Euskara)
@@ -198,5 +225,13 @@ $messages['ru'] = array(
 	'pdfbook-action' => 'Печать в PDF',
 	'pdfbook-log' => '$1 экспортирована как PDF-книга',
 	'pdfbook-desc' => 'Создаёт книгу из страниц категории, преобразует её в PDF',
+);
+
+/** Swahili (Kiswahili)
+ * @author Lloffiwr
+ */
+$messages['sw'] = array(
+	'pdfbook-action' => 'Chapa kwa mtindo wa PDF',
+	'pdfbook-desc' => 'Inaunda kurasa za jamii fulani katika kitabu, na kukipeleka nje kwa mtindo wa PDF',
 );
 

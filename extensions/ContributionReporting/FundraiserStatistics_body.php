@@ -15,7 +15,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 	}
 	
 	public function execute( $sub ) {
-		global $wgOut, $wgLang, $wgScriptPath, $egFundraiserStatisticsFundraisers;
+		global $wgRequest, $wgOut, $wgUser, $wgLang, $wgScriptPath, $egFundraiserStatisticsFundraisers;
 		
 		/* Configuration (this isn't totally static data, some of it gets built on the fly) */
 		
@@ -78,7 +78,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 		
 		// Chart maximums
 		foreach ( $egFundraiserStatisticsFundraisers as $fundraiser ) {
-			foreach ( $charts as $name ) {
+			foreach ( $charts as $name => $chart ) {
 				$chartMax = $this->query( $charts[$name]['query'], $fundraiser['start'], $fundraiser['end'] );
 				if ( $chartMax > $charts[$name]['max'] ) {
 					$charts[$name]['max'] = $chartMax;
@@ -92,8 +92,9 @@ class SpecialFundraiserStatistics extends SpecialPage {
 		// HTML-time!
 		$view = 0;
 		$htmlViews = '';
-		foreach ( $egFundraiserStatisticsFundraisers as $fundraiser ) {
+		foreach ( $egFundraiserStatisticsFundraisers as $fundraiserIndex => $fundraiser ) {
 			$days = $this->query( 'dailyTotals', $fundraiser['start'], $fundraiser['end'] );
+			$mostRecentFundraiser = $fundraiserIndex == count( $egFundraiserStatisticsFundraisers ) - 1;
 			foreach ( $charts as $name => $chart ) {
 				$column = 0;
 				foreach( $days as $i => $day ) {
@@ -103,9 +104,12 @@ class SpecialFundraiserStatistics extends SpecialPage {
 					$height = $chart['factor'] * $day[$chart['index']];
 					$attributes = array(
 						'style' => "height:{$height}px",
-						'class' => "fundraiserstats-bar-{$fundraiser['id']}",
-						'onMouseOver' => "replaceView( 'fundraiserstats-view-box-{$view}' )"
+						'class' => "fundraiserstats-bar fundraiserstats-bar-{$fundraiser['id']}",
+						'rel' => "fundraiserstats-view-box-{$view}",
 					);
+					if ( $mostRecentFundraiser && $i == count( $days ) -1 ) {
+						$attributes['class'] .= ' fundraiserstats-current';
+					}
 					$charts[$name]['data'][$column] .= Xml::tags(
 						'td', array( 'valign' => 'bottom' ), Xml::element( 'div', $attributes, '', false )
 					);
@@ -145,7 +149,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 									Xml::tags(
 										'h3',
 										array( 'style' => 'float:left;color:black;' ),
-										wfMsgExt( 'fundraiserstats-day', array( 'parseinline' ), $i + 1, $fundraiser['title'] )
+										wfMsgExt( 'fundraiserstats-day', array( 'parseinline' ), $wgLang->formatNum( $i + 1 ), $fundraiser['title'] )
 									) .
 									Xml::element( 'div', array( 'style' => 'clear:both;' ), '', false )
 								)
@@ -161,13 +165,13 @@ class SpecialFundraiserStatistics extends SpecialPage {
 		// Tabs
 		$first = true;
 		$htmlCharts = Xml::openElement( 'div', array( 'class' => 'fundraiserstats-chart-tabs' ) );
-		foreach ( $charts as $chart ) {
+		foreach ( $charts as $chart => $columns ) {
 			$htmlCharts .= Xml::tags(
 				'div',
 				array(
 					'id' => "fundraiserstats-chart-{$chart}-tab",
-					'class' => 'fundraiserstats-chart-tab-' . ( $first ? 'current' : 'normal' ),
-					'onClick' => "replaceChart( 'fundraiserstats-chart-{$chart}' )"
+					'class' => 'fundraiserstats-chart-tab fundraiserstats-chart-tab-' . ( $first ? 'current' : 'normal' ),
+					'rel' => "fundraiserstats-chart-{$chart}"
 				),
 				wfMsg( 'fundraiserstats-tab-' . $chart )
 			);
@@ -244,7 +248,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 				);
 				$result = array();
 				$ytd = 0;
-				foreach ( $select as $row ) {
+				while ( $row = $dbr->fetchRow( $select ) ) {
 					$row[] = $ytd += $row[1]; // YTD
 					$result[] = $row;
 				}

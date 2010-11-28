@@ -560,6 +560,42 @@ $messages['he'] = array(
 	'article-comments-comment-missing-date-parameter' => 'תאריך ההערה חסר',
 );
 
+/** Upper Sorbian (Hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'article-comments-desc' => 'Zmóžnja komentarowy wotrězki na wobsahowych stronach',
+	'article-comments-title-string' => 'titul',
+	'article-comments-name-string' => 'Mjeno',
+	'article-comments-name-field' => 'Mjeno (trěbne)',
+	'article-comments-url-field' => 'Websydło:',
+	'article-comments-url-string' => 'URL',
+	'article-comments-comment-string' => 'Komentar',
+	'article-comments-comment-field' => 'Komentar:',
+	'article-comments-submit-button' => 'Wotpósłać',
+	'article-comments-leave-comment-link' => 'Spisaj komentar ...',
+	'article-comments-invalid-field' => 'Hódnota <nowiki>[$2]</nowiki> za $1 je njepłaćiwa.',
+	'article-comments-required-field' => 'Polo "$1" je trěbne.',
+	'article-comments-submission-failed' => 'Słanje komentara je so njeporadźiło',
+	'article-comments-failure-reasons' => 'Bohužel je so słanje twojeho komentara {{PLURAL:$1|slědowaceje přičiny|slědowaceju přinčinow|slědowacych přičinow|slědoacych přičinow}} dla njeporadźiło:',
+	'article-comments-no-comments' => 'Bohužel strona "[[$1]]" tuchwilu žane komentary njeakceptuje.',
+	'article-comments-talk-page-starter' => '<noinclude>Komentary k "[[$1]]"
+<comments />
+----- __NOEDITSECTION__</noinclude>',
+	'article-comments-commenter-said' => '$1 praješe ...',
+	'article-comments-summary' => 'Komentar je so wot $1 přez rozšěrjenje ArticleComments přepodał',
+	'article-comments-submission-succeeded' => 'Komentar wuspěšnje wotpósłany.',
+	'article-comments-submission-success' => 'Sy wuspěšnje komentar za "[[$1]]" wotpósłał',
+	'article-comments-submission-view-all' => 'Móžeš sej [[$1|wšě komentary k tej stronje]] wobhladać',
+	'article-comments-user-is-blocked' => 'Twoje wužiwarske konto je tuchwilu za wobdźěłowanje strony "[[$1]]" zablokowane.',
+	'article-comments-comment-bad-mode' => 'Njepłaćiwy modus za komentar podaty.
+K dispoziciji steja "plain", "normal" a "wiki".',
+	'article-comments-comment-missing-name-parameter' => 'Falowace mjeno',
+	'article-comments-comment-missing-date-parameter' => 'Falowacy komentarowy datum',
+	'article-comments-no-spam' => 'Znajmjeńša jedne z wotpósłanych polow bu jako spam woznamjenjene.',
+	'processcomment' => 'Komentary nastawkow předźěłać',
+);
+
 /** Hungarian (Magyar)
  * @author Dani
  * @author Glanthor Reviol
@@ -829,7 +865,7 @@ $messages['ml'] = array(
 "plain", "normal", "wiki" എന്നിവയാണ് ലഭ്യമായിട്ടുള്ളത്.',
 	'article-comments-comment-missing-name-parameter' => 'പേര് ഇല്ല',
 	'article-comments-comment-missing-date-parameter' => 'അഭിപ്രായത്തിന്റെ തീയതി ഇല്ല',
-	'article-comments-no-spam' => 'ഏതോ ഒരു ഫീൽഡ് എങ്കിലും പാഴ് എഴുത്ത് ആയി കുറിച്ചിരിക്കുന്നു.',
+	'article-comments-no-spam' => 'കുറഞ്ഞത് ഒരു ഫീൽഡ് എങ്കിലും പാഴെഴുത്ത് ആയി അടയാളപ്പെടുത്തിയിരിക്കുന്നു.',
 	'processcomment' => 'ലേഖനത്തെക്കുറിച്ചുള്ള അഭിപ്രായം പാകപ്പെടുത്തുന്നു',
 );
 
@@ -1243,6 +1279,13 @@ $messages['te'] = array(
 	'article-comments-submit-button' => 'దాఖలుచెయ్యి',
 	'article-comments-leave-comment-link' => 'వ్యాఖ్యానించండి ...',
 	'article-comments-required-field' => '$1 అనే ఖాళీ తప్పనిసరి .',
+	'article-comments-failure-reasons' => 'ఈ క్రింది {{PLURAL:$1|కారణం|కారణాల}} వల్ల మీ వ్యాఖ్య దాఖలు విఫలమైంది:',
+	'article-comments-no-comments' => 'క్షమించండి, "[[$1]]" పుటలో ప్రస్తుతం వ్యాఖ్యలని అనుమతించుటలేదు.',
+	'article-comments-talk-page-starter' => '<noinclude>"[[$1]]"పై వ్యాఖ్యలు
+<comments />
+----- __NOEDITSECTION__</noinclude>',
+	'article-comments-commenter-said' => '$1 అన్నారు ...',
+	'article-comments-submission-view-all' => '[[$1|ఆ పుటపై అన్ని వ్యాఖ్యలని]] మీరు చూడవచ్చు',
 );
 
 /** Turkish (Türkçe)

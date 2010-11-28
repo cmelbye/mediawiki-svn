@@ -2213,7 +2213,7 @@ $messages['mk'] = array(
 	'math_LatexPackageUnavailable' => 'Не може да се создаде PNG бидејќи LaTeX-пакетот „$1“ е недостапен',
 	'math_MismatchedBeginAndEnd' => 'Наредбите „$1“ и „$2“ не се совпаѓаат',
 	'math_MisplacedLimits' => 'Наредбата „$1“ може да стои само по математички оператор.
-Препорачуваме да употребите „\\mathop“.',
+Ви препорачуваме да го употребите „\\mathop“.',
 	'math_MissingCommandAfterNewcommand' => 'По „\\newcommand“ нема име на наредба, или името е недозволено.
 Мора да има определено точно една наредба;
 таа мора да почнува со коса црта „\\“ и да содржи само букви.',
@@ -3820,9 +3820,17 @@ $messages['vo'] = array(
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
+ * @author Chenxiaoqino
  * @author Gzdavidwong
  */
 $messages['zh-hans'] = array(
+	'math_CannotChangeDirectory' => '无法创建工作文件夹',
+	'math_CannotCreateTexFile' => '不能创建Tex文件',
+	'math_CannotRunLatex' => '不能运行latex',
+	'math_CannotWritePngDirectory' => '无法向PNG输出文件夹写入',
+	'math_CannotWriteTexFile' => '不能写入Tex文件',
+	'math_IllegalCharacter' => '输入中有非法字符',
+	'math_IllegalCommandInMathMode' => '命令"$1"在数学模式下不合法',
 	'math_TooManyTokens' => '输入过长',
 );
 

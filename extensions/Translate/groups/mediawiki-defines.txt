@@ -51,13 +51,12 @@ Api SVG Proxy
 Approved Revs
 aliasfile = ApprovedRevs/ApprovedRevs.alias.php
 
-Article Assessment Pilot
-
 Article Comments
 descmsg = article-comments-desc
 ignored = article-comments-prefilled-comment-text, article-comments-new-comment-heading
 ignored = article-comments-comment-contents
 
+Article Feedback
 
 Article To Category 2
 
@@ -294,6 +293,9 @@ aliasfile = CountEdits/CountEdits.alias.php
 
 Create Box
 
+Create Redirect
+aliasfile = CreateRedirect/CreateRedirect.alias.php
+
 Cross Namespace Links
 aliasfile = CrossNamespaceLinks/CrossNamespaceLinks.alias.php
 
@@ -344,6 +346,7 @@ id = ext-di-pfpg
 file = DonationInterface/payflowpro_gateway/payflowpro_gateway.i18n.php
 descmsg = payflowpro_gateway-desc
 optional = payflow_gateway-card-name-amex, payflow_gateway-card-name-visa, payflow_gateway-card-name-mc, payflow_gateway-card-name-discover
+optional = payflowpro_gateway-month
 
 # tomaszf indicates this is not used, and that it is unlikely it will be used.
 #Donation Interface - PayPal Gateway
@@ -425,6 +428,9 @@ Firefogg Chunked Upload
 descmsg = firefoggcu-desc
 
 Fixed Image
+
+Flag Page
+aliasfile = FlagPage/FlagPage.alias.php
 
 Flagged Revisions - Flagged Revs
 id = ext-flaggedrevs-flaggedrevs
@@ -909,6 +915,8 @@ ignored = proofreadpage_specialpage_text
 Protect Section
 descmsg = protectsection_desc
 
+Proxy Connect
+
 PSI NoTocNum
 magicfile = PSINoTocNum/PSINoTocNum.i18n.magic.php
 
@@ -1244,6 +1252,7 @@ Title Blacklist
 Title Key
 
 Todo
+aliasfile = Todo/Todo.alias.php
 
 Todo Tasks
 aliasfile = TodoTasks/TodoTasks.alias.php

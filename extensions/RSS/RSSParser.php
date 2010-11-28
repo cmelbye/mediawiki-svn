@@ -1,7 +1,6 @@
 <?php
 
 class RSSParser {
-	protected $charset;
 	protected $maxheads = 32;
 	protected $reversed = false;
 	protected $highlight = array();
@@ -12,7 +11,7 @@ class RSSParser {
 	protected $etag;
 	protected $lastModified;
 	protected $xml;
-	protected $ERROR;
+	protected $error;
 	protected $displayFields = array( 'author', 'title', 'encodedContent', 'description' );
 
 	public $client;
@@ -34,15 +33,6 @@ class RSSParser {
 	 */
 	function __construct( $url, $args ) {
 		$this->url = $url;
-
-		# Get charset from argument array
-		# FIXME: not used yet
-		if ( isset( $args['charset'] ) ) {
-			$this->charset = $args['charset'];
-		} else {
-			global $wgOutputEncoding;
-			$this->charset = $wgOutputEncoding;
-		}
 
 		# Get max number of headlines from argument-array
 		if ( isset( $args['max'] ) ) {
@@ -92,16 +82,11 @@ class RSSParser {
 	 *
 	 * NOTES ON FAILED REQUESTS:
 	 * If there is an HTTP error while fetching an RSS object, the cached version
-	 * will be returned, if it exists (and if $wgRSSCacheFreshOnly is false)
+	 * will be returned, if it exists.
 	 *
 	 * @return boolean Status object
 	 */
 	function fetch() {
-		global $wgRSSCacheAge, $wgRSSCacheFreshOnly;
-		global $wgRSSCacheDirectory, $wgRSSFetchTimeout;
-		global $wgRSSOutputEncoding, $wgRSSInputEncoding;
-		global $wgRSSDetectEncoding;
-
 		if ( !isset( $this->url ) ) {
 			return Status::newFatal( 'rss-fetch-nourl' );
 		}
@@ -111,7 +96,7 @@ class RSSParser {
 		// 2. if there is a hit, make sure its fresh
 		// 3. if cached obj fails freshness check, fetch remote
 		// 4. if remote fails, return stale object, or error
-		$key = wfMemcKey( $this->url );
+		$key = wfMemcKey( 'rss', $this->url );
 		$cachedFeed = $this->loadFromCache( $key );
 		if ( $cachedFeed !== false ) {
 			wfDebugLog( 'RSS', 'Outputting cached feed for ' . $this->url );
@@ -132,7 +117,7 @@ class RSSParser {
 		global $wgMemc, $wgRSSCacheCompare;
 
 		$data = $wgMemc->get( $key );
-		if ( $data === false ) {
+		if ( !is_array( $data ) ) {
 			return false;
 		}
 
@@ -160,7 +145,7 @@ class RSSParser {
 	}
 
 	/**
-	 * Store this objects (e.g. etag, lastModified, and RSS) in the cache.
+	 * Store these objects (i.e. etag, lastModified, and RSS) in the cache.
 	 * @param $key String: lookup key to associate with this item
 	 * @return boolean
 	 */
@@ -254,33 +239,25 @@ class RSSParser {
 	 * @param $frame the frame param to pass to recursiveTagParse()
 	 */
 	protected function renderItem( $item, $parser, $frame ) {
-		$parts = explode( '|', $this->itemTemplate );
+		$output = "";
+		if ( isset( $parser ) && isset( $frame ) ) {
+			$displayFields = array_flip( $this->displayFields );
+			$rendered = $this->itemTemplate;
 
-		$output = '';
-		if ( count( $parts ) > 1 && isset( $parser ) && isset( $frame ) ) {
-			$rendered = array();
-			foreach ( $this->displayFields as $field ) {
-				if ( isset($item[$field] ) ) {
-					$item[$field] = $this->highlightTerms( wfEscapeWikiText( $item[$field] ) );
-				}
-			}
-
-			foreach ( $parts as $part ) {
-				$bits = explode( '=', $part );
-				$left = null;
-
-				if ( count( $bits ) == 2 ) {
-					$left = trim( $bits[0] );
-				}
-
-				if ( isset( $item[$left] ) ) {
-					$leftValue = str_replace( '{{{' . $left . '}}}', $item[$left], $bits[1] );
-					$rendered[] = "$left = $leftValue";
+			// $info will only be an XML element name, so we're safe
+			// using it.  $item[$info] is handled by the XML parser --
+			// and that means bad RSS with stuff like
+			// <description><script>alert("hi")</script></description> will find its
+			// rogue <script> tags neutered.
+			foreach ( array_keys( $item ) as $info ) {
+				if ( isset( $displayFields[ $info ] ) ) {
+					$txt = $this->highlightTerms( htmlspecialchars( $item[ $info ] ) );
 				} else {
-					$rendered[] = $part;
+					$txt = htmlspecialchars( $item[ $info ] );
 				}
+				$rendered = str_replace( '{{{' . $info . '}}}', $txt, $rendered );
 			}
-			$output .= $parser->recursiveTagParse( implode( ' | ', $rendered ), $frame );
+			$output .= $parser->recursiveTagParse( $rendered, $frame );
 		}
 		return $output;
 	}
@@ -312,7 +289,7 @@ class RSSParser {
 			$this->rss = new RSSData( $this->xml );
 
 			// if RSS parsed successfully
-			if ( $this->rss && !$this->rss->ERROR ) {
+			if ( $this->rss && !$this->rss->error ) {
 				$this->etag = $this->client->getResponseHeader( 'Etag' );
 				$this->lastModified =
 					strtotime( $this->client->getResponseHeader( 'Last-Modified' ) );
@@ -322,7 +299,7 @@ class RSSParser {
 					count( $this->rss->items ) . ')!' );
 				$this->storeInCache( $key );
 			} else {
-				return Status::newFatal( 'rss-parse-error', $this->rss->ERROR );
+				return Status::newFatal( 'rss-parse-error', $this->rss->error );
 			}
 		}
 		return Status::newGood();
@@ -421,7 +398,7 @@ class RSSHighlighter {
 		$styleStart = "<span style='font-weight: bold; background: none repeat scroll 0%% 0%% rgb(%s); color: %s;'>";
 		$styleEnd   = '</span>';
 
-		# bg colors cribbed from Google's highlighting of search teerms
+		# bg colors cribbed from Google's highlighting of search terms
 		$bgcolor = array( '255, 255, 102', '160, 255, 255', '153, 255, 153',
 			'255, 153, 153', '255, 102, 255', '136, 0, 0', '0, 170, 0', '136, 104, 0',
 			'0, 70, 153', '153, 0, 153' );

@@ -374,6 +374,13 @@ $messages['ms'] = array(
 	'addmediawizard-desc' => 'Penambah media ajaib, dibangunkan dengan kerjasama Kaltura dan Yayasan Wikimedia',
 );
 
+/** Erzya (Эрзянь)
+ * @author Botuzhaleny-sodamo
+ */
+$messages['myv'] = array(
+	'addmediawizard-desc' => 'Поладомс медиа мастерэнть, теизь Kaltura ды "Викимедиа" Фондась вейтьсэ',
+);
+
 /** Dutch (Nederlands)
  * @author Siebrand
  */
@@ -542,8 +549,9 @@ $messages['zh-hans'] = array(
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Horacewai2
+ * @author Pbdragonwang
  */
 $messages['zh-hant'] = array(
-	'addmediawizard-desc' => '添加媒體嚮導，由Kaltura和維基媒體基金會開發',
+	'addmediawizard-desc' => '添加由Kaltura和維基媒體基金會所開發的媒體嚮導。',
 );
 

@@ -131,8 +131,21 @@ $messages['dsb'] = array(
 	'ts-kml-on-ol-options' => 'Opcije',
 	'ts-kml-on-ol-languages' => 'Rěcy',
 	'ts-kml-on-ol-thumbnails' => 'Wobrazki',
+	'ts-kml-on-ol-help' => 'Pomoc',
 	'ts-kml-on-ol-all' => 'Wšykne',
 	'ts-kml-on-ol-map-by' => 'Kórta wót',
+);
+
+/** Spanish (Español)
+ * @author Dferg
+ */
+$messages['es'] = array(
+	'ts-kml-on-ol-options' => 'Opciones',
+	'ts-kml-on-ol-languages' => 'Idiomas',
+	'ts-kml-on-ol-thumbnails' => 'Miniaturas',
+	'ts-kml-on-ol-help' => 'Ayuda',
+	'ts-kml-on-ol-all' => 'Todo',
+	'ts-kml-on-ol-map-by' => 'Mapa por',
 );
 
 /** French (Français)
@@ -236,6 +249,18 @@ $messages['mk'] = array(
 	'ts-kml-on-ol-help' => 'Помош',
 	'ts-kml-on-ol-all' => 'Сите',
 	'ts-kml-on-ol-map-by' => 'Карта:',
+);
+
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'ts-kml-on-ol-options' => 'ഐച്ഛികങ്ങൾ',
+	'ts-kml-on-ol-languages' => 'ഭാഷകൾ',
+	'ts-kml-on-ol-thumbnails' => 'ലഘുചിത്രങ്ങൾ',
+	'ts-kml-on-ol-help' => 'സഹായം',
+	'ts-kml-on-ol-all' => 'എല്ലാം',
+	'ts-kml-on-ol-map-by' => 'ഭൂപട ഉടമ',
 );
 
 /** Low German (Plattdüütsch)

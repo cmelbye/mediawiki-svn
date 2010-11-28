@@ -1394,6 +1394,7 @@ $messages['frp'] = array(
 );
 
 /** Northern Frisian (Nordfriisk)
+ * @author Murma174
  * @author Purodha
  * @author Pyt
  */
@@ -1412,13 +1413,13 @@ $messages['frr'] = array(
 	'babel-4' => 'Dideere brüker reet ham ma [[$2|$3]] aw [[$1|mamenspräklike]] schuchte.',
 	'babel-5' => 'Dideere brüker reet ham ma [[$2|$3]] aw [[$1|profäsjonäle]] schuchte.',
 	'babel-N' => 'Dideere brüker snååket [[$2|$3]] as [[$1|mamenspräke]].',
-	'babel-0-n' => 'Dideere brüker reet ham [[$1|ai]] ma [[$2|Friisk]] (unti ferstoont dåt mån ma duuchti swiirihäide).',
-	'babel-1-n' => 'Dideere brüker koon [[$1|lait]] [[$2|friisk]] snååke en leese.',
-	'babel-2-n' => 'Dideere brüker heet [[$1|ordi]] waasen foon [[$2|Friisk]].',
-	'babel-3-n' => 'Dideere brüker reet ham ma [[$2|Friisk]] aw [[$1|huuge]] schuchte.',
-	'babel-4-n' => 'Dideere brüker reet ham ma [[$2|Friisk]] aw [[$1|mamenspräklike]] schuchte.',
-	'babel-5-n' => 'Dideere brüker reet ham ma [[$2|Friisk]] aw [[$1|profäsjonäle]] schuchte.',
-	'babel-N-n' => 'Dideere brüker snååket [[$2|Friisk]] as [[$1|mamenspräke]].',
+	'babel-0-n' => 'Dideere brüker reet ham [[$1|ai]] ma [[$2|Nordfriisk]] (unti ferstoont dåt mån ma duuchti swiirihäide).',
+	'babel-1-n' => 'Dideere brüker koon [[$1|lait]] [[$2|Nordfriisk]] snååke en leese.',
+	'babel-2-n' => 'Dideere brüker heet [[$1|ordi]] waasen foon [[$2|Nordfriisk]].',
+	'babel-3-n' => 'Dideere brüker reet ham ma [[$2|Nordfriisk]] aw [[$1|huuge]] schuchte.',
+	'babel-4-n' => 'Dideere brüker reet ham ma [[$2|Nordfriisk]] aw [[$1|mamenspräklike]] schuchte.',
+	'babel-5-n' => 'Dideere brüker reet ham ma [[$2|Nordfriisk]] aw [[$1|profäsjonäle]] schuchte.',
+	'babel-N-n' => 'Dideere brüker snååket [[$2|Nordfriisk]] as [[$1|mamenspräke]].',
 );
 
 /** Friulian (Furlan)
@@ -2577,6 +2578,7 @@ $messages['lt'] = array(
 $messages['ltg'] = array(
 	'babel' => 'Lītuotuoja informaceja (Bābelis tūrņs)',
 	'babel-url' => 'Project:Bābele',
+	'babel-autocreate-reason' => 'Automatiski kategorejis „[[$1|Bābele]]“ puslopys sataiseišona.',
 	'babel-0' => 'Itys lītuotuojs [[$2|$3]] [[$1|namuok]] (ci saprūt ar lelim gryutumim).',
 	'babel-1' => 'Itys lītuotuojs [[$2|$3]] muok [[$1|suoku leidzīnī]].',
 	'babel-2' => 'Itys lītuotuojs [[$2|$3]] muok [[$1|vydyskā leidzīnī]].',
@@ -2781,6 +2783,10 @@ $messages['ml'] = array(
 	'babel' => 'ഉപയോക്താവിന്റെ ബാബേൽ വിവരണം',
 	'babel-desc' => '<code>#babel</code> എന്ന പാർസർ ഫങ്ഷൻ ചേർക്കുന്നു. ഇതു ബാബേൽ യൂസർ ബോക്സ് കോളത്തിന്റെ യാന്ത്രികമായ രൂപവത്കരണത്തിനും കസ്റ്റം ഫലകങ്ങൾ ഉൾപ്പെടുത്തുവാനും സഹായകരമാകുന്നു.',
 	'babel-url' => 'Project:ബാബേൽ',
+	'babel-autocreate-abort' => 'താങ്കൾ നൽകിയ ഉപയോക്തൃനാമം [[$1|ബാബേൽ]] വർഗ്ഗത്തിൽ സ്വയം സൃഷ്ടിക്കപ്പെടുന്നതാണ്, അങ്ങനെയൊന്ന് ഉണ്ടാക്കാനാവില്ല.',
+	'babel-autocreate-reason' => 'സ്വയം [[$1|ബാബേൽ]] വർഗ്ഗ താൾ സൃഷ്ടിക്കുന്നു.',
+	'babel-autocreate-text-levels' => 'ഈ വർഗ്ഗത്തിലുള്ള ഉപയോക്താക്കൾ അവർക്ക് $2 ഭാഷയിൽ $1 തലത്തിലുള്ള നിപുണത ഉണ്ടെന്ന് കുറിക്കുന്നു.',
+	'babel-autocreate-text-main' => 'ഈ വർഗ്ഗത്തിലുള്ള ഉപയോക്താക്കൾ അവർക്ക് $1 ഭാഷയിൽ അറിവുണ്ടെന്ന് കുറിക്കുന്നു.',
 	'babel-0' => 'ഈ ഉപയോക്താവിനു [[$2|$3]] [[$1|ഒട്ടുമേ അറിയില്ല]] (അല്ലെങ്കിൽ വളരെ ബുദ്ധിമുട്ടോടെ മനസ്സിലാക്കാൻ സാധിക്കും).',
 	'babel-1' => 'ഈ ഉപയോക്താവിനു [[$2|$3യിൽ]] [[$1|അടിസ്ഥാനജ്ഞാനം മാത്രമേ ഉള്ളൂ]].',
 	'babel-2' => 'ഈ ഉപയോക്താവിനു [[$2|$3]] എന്ന ഭാഷയിൽ [[$1|സാമാന്യ]] ജ്ഞാനമുണ്ട്.',
@@ -3780,6 +3786,14 @@ $messages['sh'] = array(
 	'babel-4-n' => 'Ovaj korisnik razumije [[$2|srpskohrvatski]] [[$1|gotovo kao maternji jezik]].',
 	'babel-5-n' => 'Ovaj korisnik govori [[$2|srpskohrvatski jezik]] na [[$1|profesionalnoj]] razini.',
 	'babel-N-n' => 'Ovaj korisnik razumije [[$2|srpskohrvatski]] kao [[$1|maternji]] jezik.',
+);
+
+/** Tachelhit (Tašlḥiyt)
+ * @author Dalinanir
+ */
+$messages['shi'] = array(
+	'babel' => '↓ Inɣmas Babel f umsqdac',
+	'babel-1-n' => '↓ Amsqdac ad dar tusna [[$1|tamzwarut]] ɣ [[$2|Tasussit]].',
 );
 
 /** Sinhala (සිංහල)

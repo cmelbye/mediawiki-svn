@@ -5386,6 +5386,7 @@ $messages['ig'] = array(
 );
 
 /** Italian (Italiano)
+ * @author Beta16
  * @author Darth Kule
  */
 $messages['it'] = array(
@@ -5403,6 +5404,7 @@ $messages['it'] = array(
 	'user-profile-personal-info' => 'Informazioni',
 	'user-profile-personal-name' => 'Nome',
 	'user-profile-personal-email' => 'Indirizzo e-mail',
+	'user-profile-personal-country' => 'Nazione',
 	'user-profile-personal-birthdate' => 'Data (MM/GG)',
 	'user-profile-personal-occupation' => 'Occupazione',
 	'user-profile-interests-books' => 'Libri',
@@ -6233,6 +6235,7 @@ Klickt <a href="$1">hei</a> fir Iech anzeloggen oder klickt <a href="$2">hei</a>
 	'user-profile-tidbits-favmoment' => 'Léiwste Sportsevenementer',
 	'user-profile-tidbits-worstmoment' => 'Schlëmmsten Ament am Sport',
 	'user-profile-tidbits-favathlete' => 'Lieblings-Sportler a firwat',
+	'user-profile-tidbits-leastfavathlete' => 'Sportler deen een net gär huet a firwat',
 	'user-profile-sports-sport' => 'Sport',
 	'user-profile-sports-title' => 'Ännert Äre léiwste Sportveräiner',
 	'user-profile-sports-notloggedintitle' => 'Ups!',
@@ -6363,8 +6366,8 @@ $messages['mk'] = array(
 	'user-stats-recruits' => '{{PLURAL:$1|Нов член|Нови членови}}',
 	'user-stats-poll-votes' => 'Анкета — {{PLURAL:$1|глас|гласа}}',
 	'user-stats-picture-game-votes' => '{{PLURAL:$1|Глас|Гласа}} во сликовна игра',
-	'user-stats-quiz-points' => 'Квиз {{PLURAL:$1|поен|поени}}',
-	'user-stats-pick-points' => "Pick 'em {{PLURAL:$1|поен|поени}}",
+	'user-stats-quiz-points' => '{{PLURAL:$1|Бод|Бодови}} на квиз',
+	'user-stats-pick-points' => "{{PLURAL:$1|Бод|Бодови}} „Pick 'em“",
 	'other-info-title' => 'Други информации',
 	'user-friends-title' => 'Пријатели',
 	'user-foes-title' => 'Непријатели',
@@ -6417,7 +6420,7 @@ $messages['mk'] = array(
 	'user-profile-update-log-section' => 'го измени заглавието',
 	'user-profile-update-profile' => 'профил',
 	'user-profile-default-country' => 'САД',
-	'user-profile-points' => '$1 {{PLURAL:$1|поен|поена}}',
+	'user-profile-points' => '$1 {{PLURAL:$1|бод|бода}}',
 	'user-profile-section-personal' => 'Лични информации',
 	'user-profile-section-sportsteams' => 'Ажурирај мрежи',
 	'user-profile-section-custom' => 'Кориснички-определени информации',
@@ -7669,6 +7672,13 @@ $messages['pdc'] = array(
  */
 $messages['pdt'] = array(
 	'user-page-link' => 'Bruckersied',
+);
+
+/** Pfälzisch (Pfälzisch)
+ * @author Xqt
+ */
+$messages['pfl'] = array(
+	'user-page-link' => 'Benutzersaid',
 );
 
 /** Polish (Polski)

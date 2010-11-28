@@ -54,6 +54,11 @@ class PayflowProGateway extends UnlistedSpecialPage {
 			$wgPayFlowProGatewayCSSVersion,
 			$wgPayflowGatewaySalt;
 
+		// make a log entry if the user has submitted the cc form
+		if ( $wgRequest->wasPosted() && $wgRequest->getText( 'order_id', 0 )) {
+			wfDebugLog( 'payflowpro_gateway', $wgRequest->getText( 'order_id' ) . " Transaction initiated." );	
+		}
+			
 		$wgOut->addExtensionStyle(
 			"{$wgScriptPath}/extensions/DonationInterface/payflowpro_gateway/payflowpro_gateway.css?284" .
 			$wgPayFlowProGatewayCSSVersion );
@@ -157,9 +162,9 @@ EOT;
 					$this->fnPayflowDisplayForm( $data, $this->errors );
 				} else { // The submitted form data is valid, so process it
 					// allow any external validators to have their way with the data
-					wfDebugLog( 'payflowpro_gateway', 'Preparing to query MaxMind' );
+					wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . " Preparing to query MaxMind" );
 					wfRunHooks( 'PayflowGatewayValidate', array( &$this, &$data ) );
-					wfDebugLog( 'payflowpro_gateway', 'Finished querying Maxmind' );
+					wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' Finished querying Maxmind' );
 
 					// if the transaction was flagged for review
 					if ( $this->action == 'review' ) {
@@ -221,7 +226,7 @@ EOT;
 			$tracked = $this->fnPayflowSaveContributionTracking( $data );
 			if ( !$tracked ) {
 				$when = time();
-				wfDebugLog( 'payflowpro_gateway', 'Unable to save data to the contribution_tracking table ' . $when );
+				wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' Unable to save data to the contribution_tracking table ' . $when );
 			}
 		}
 
@@ -450,15 +455,15 @@ EOT;
 		$i = 1;
 
 		while ( $i++ <= 3 ) {
-			wfDebugLog( 'payflowpro_gateway', 'Preparing to send transaction to PayflowPro' );
+			wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' Preparing to send transaction to PayflowPro' );
 			$result = curl_exec( $ch );
 			$headers = curl_getinfo( $ch );
 
 			if ( $headers['http_code'] != 200 && $headers['http_code'] != 403 ) {
-				wfDebugLog( 'payflowpro_gateway', 'Failed sending transaction to PayflowPro, retrying' );
+				wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' Failed sending transaction to PayflowPro, retrying' );
 				sleep( 1 );
 			} elseif ( $headers['http_code'] == 200 || $headers['http_code'] == 403 ) {
-				wfDebugLog( 'payflowpro_gateway', 'Finished sending transaction to PayflowPro' );
+				wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' Finished sending transaction to PayflowPro' );
 				break;
 			}
 		}
@@ -466,7 +471,7 @@ EOT;
 		if ( $headers['http_code'] != 200 ) {
 			$wgOut->addHTML( '<h3>No response from credit card processor.  Please try again later!</h3><p>' );
 			$when = time();
-			wfDebugLog( 'payflowpro_gateway', 'No response from credit card processor ' . $when );
+			wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . ' No response from credit card processor ' . $when );
 			curl_close( $ch );
 			exit;
 		}
@@ -517,6 +522,10 @@ EOT;
 		// interpret result code, return
 		// approved (1), denied (2), try again (3), general error (4)
 		$errorCode = $this->fnPayflowGetResponseMsg( $resultCode, $responseMsg );
+		
+		// log that the transaction is essentially complete
+		wfDebugLog( 'payflowpro_gateway', $data[ 'order_id' ] . " Transaction complete." );
+		
 		// if approved, display results and send transaction to the queue
 		if ( $errorCode == '1' ) {
 			$this->fnPayflowDisplayApprovedResults( $data, $responseArray, $responseMsg );
@@ -1221,6 +1230,7 @@ EOT;
 		$utm_source_parts[2] = 'pp';
 		$data[ 'utm_source' ] = implode( ".", $utm_source_parts );
 		$data[ 'gateway' ] = 'paypal';
+		$data[ 'currency_code' ] = $data[ 'currency' ];
 		/**
 		 * update contribution tracking
 		 */

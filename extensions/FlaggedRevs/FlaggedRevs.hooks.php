@@ -57,11 +57,11 @@ class FlaggedRevsHooks {
 		# Get JS/CSS file locations
 		$encCssFile = htmlspecialchars( "$stylePath/flaggedrevs.css?$wgFlaggedRevStyleVersion" );
 		$encJsFile = htmlspecialchars( "$stylePath/flaggedrevs.js?$wgFlaggedRevStyleVersion" );
-
 		# Add CSS file
 		$linkedStyle = Html::linkedStyle( $encCssFile );
 		$wgOut->addHeadItem( 'FlaggedRevs', $linkedStyle );
 		# Add main JS file
+		$wgOut->includeJQuery();
 		$wgOut->addScriptFile( $encJsFile );
 		# Add review form JS for reviewers
 		if ( $wgUser->isAllowed( 'review' ) ) {
@@ -110,8 +110,6 @@ class FlaggedRevsHooks {
 			$stableId = null;
 		}
 		$globalVars['wgStableRevisionId'] = $stableId;
-		$globalVars['wgLatestRevisionId'] = $fa->getLatest();
-		$globalVars['wgPageId'] = $fa->getID();
 		$revisionContents = (object) array(
 			'error'		=> wfMsgHtml( 'revcontents-error' ),
 			'waiting'	=> wfMsgHtml( 'revcontents-waiting' )
@@ -1641,15 +1639,15 @@ class FlaggedRevsHooks {
 		if ( !$fa->isReviewable() ) {
 			return true; // nothing to do here
 		}
-		$title = $history->getArticle()->getTitle();
 		# Fetch and process cache the stable revision
 		if ( !isset( $history->fr_stableRevId ) ) {
 			$history->fr_stableRevId = $fa->getStable();
 			$history->fr_pendingRevs = false;
-			if ( !$history->fr_stableRevId ) {
-				return true; // nothing to do here
-			}
 		}
+		if ( !$history->fr_stableRevId ) {
+			return true; // nothing to do here
+		}
+		$title = $history->getArticle()->getTitle();
 		$revId = (int)$row->rev_id;
 		// Pending revision: highlight and add diff link
 		$link = $class = '';
@@ -2125,6 +2123,8 @@ class FlaggedRevsHooks {
 			$wgExtPGNewFields[] = array( 'flaggedpage_config', 'fpc_level', "TEXT NULL" );
 			$wgExtNewTables[] = array( 'flaggedpage_pending',
 				"$base/postgres/patch-flaggedpage_pending.sql" );
+		} elseif ( $wgDBtype == 'sqlite' ) {
+			$wgExtNewTables[] = array( 'flaggedrevs', "$base/FlaggedRevs.sql" );
 		}
 		return true;
 	}

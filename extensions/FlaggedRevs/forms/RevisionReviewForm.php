@@ -991,7 +991,7 @@ class RevisionReviewForm
 	 * UI things back up, since RevisionReview expects either true
 	 * or a string message key
 	 */
-	private function rejectConfirmationForm( Revision $oldRev, $newRev ) {
+	private function rejectConfirmationForm( Revision $oldRev, Revision $newRev ) {
 		global $wgOut, $wgLang;
 		$thisPage = SpecialPage::getTitleFor( 'RevisionReview' );
 
@@ -1000,15 +1000,24 @@ class RevisionReviewForm
 		$dbr = wfGetDB( DB_SLAVE );
 		$oldid = $dbr->addQuotes( $oldRev->getId() );
 		$newid = $dbr->addQuotes( $newRev->getId() );
-		$res = $dbr->select( 'revision', 'rev_id',
-			array( 'rev_id > ' . $oldid, 'rev_id <= ' . $newid,
-				'rev_page' => $oldRev->getPage() ),
+		$res = $dbr->select( 'revision',
+			array( 'rev_id', 'rev_user_text' ),
+			array(
+				'rev_id > ' . $oldid,
+				'rev_id <= ' . $newid,
+				'rev_page' => $oldRev->getPage()
+			),
 			__METHOD__
 		);
+		if ( !$dbr->numRows( $res ) ) { // sanity check
+			$wgOut->redirect( $this->getPage()->getFullUrl() );
+			return;
+		}
 
-		$ids = array();
+		$rejectIds = array();
 		foreach( $res as $r ) {
-			$ids[] = $r->rev_id;
+			$rejectIds[$r->rev_id] =
+				"[[User:{$r->rev_user_text}|{$r->rev_user_text}]]";
 		}
 
 		// List of revisions being undone...
@@ -1017,7 +1026,8 @@ class RevisionReviewForm
 		// FIXME: we need a generic revision list class
 		$spRevDelete = SpecialPage::getPage( 'RevisionReview' );
 		$spRevDelete->skin = $this->user->getSkin(); // XXX
-		$list = new RevDel_RevisionList( $spRevDelete, $oldRev->getTitle(), $ids );
+		$list = new RevDel_RevisionList( $spRevDelete, $oldRev->getTitle(), 
+			array_keys( $rejectIds ) );
 		for ( $list->reset(); $list->current(); $list->next() ) {
 			$item = $list->current();
 			if ( $item->canView() ) {
@@ -1027,14 +1037,28 @@ class RevisionReviewForm
 		$wgOut->addHtml( '</ul>' );
 		// Revision this will revert to (when reverting the top X revs)...
 		if ( $newRev->isCurrent() ) {
-			$permaLink = $oldRev->getTitle()->getFullURL( 'oldid=' . $oldRev->getId() );
 			$wgOut->addWikiMsg( 'revreview-reject-text-revto',
-				$permaLink, $wgLang->timeanddate( $oldRev->getTimestamp(), true ) );
+				$oldRev->getTitle()->getPrefixedDBKey(), $oldRev->getId(),
+				$wgLang->timeanddate( $oldRev->getTimestamp(), true ) );
+			$defaultSummary = wfMsgExt( 'revreview-reject-default-summary-cur',
+				array( 'parsemag' ),
+				$wgLang->formatNum( count( $rejectIds ) ),
+				$wgLang->listToText( array_unique( array_values( $rejectIds ) ) ),
+				$wgLang->timeanddate( $oldRev->getTimestamp(), true )
+			);
+		} else {
+			$defaultSummary = wfMsgExt( 'revreview-reject-default-summary-old',
+				array( 'parsemag' ),
+				$wgLang->formatNum( count( $rejectIds ) ), 
+				$wgLang->listToText( array_unique( array_values( $rejectIds ) ) )
+			);
 		}
+
+		if( $this->comment ) {
+			$defaultSummary = "{$defaultSummary}: {$this->comment}";
+		}
+
 		$wgOut->addHtml( '</div>' );
-		
-		$defaultSummary = wfMsg( 'revreview-reject-default-summary',
-			$newRev->getUserText(), $oldRev->getId(), $oldRev->getUserText() );
 
 		$form = Xml::openElement( 'form',
 			array( 'method' => 'POST', 'action' => $thisPage->getFullUrl() )

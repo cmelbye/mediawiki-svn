@@ -35,6 +35,7 @@ $4",
 	'todo-list-change'      => 'Change',
 	'todo-list-cancel'      => 'Cancel',
 	'todo-new-item'         => 'New item',
+	'todo-not-updated'      => 'Could not update database record',
 	'todo-issue-summary'    => 'Issue summary:',
 	'todo-form-details'     => 'Details:',
 	'todo-form-email'       => 'To receive notification by e-mail when the item is closed, provide your address:',
@@ -199,6 +200,7 @@ $4',
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
+ * @author Wizardist
  */
 $messages['be-tarask'] = array(
 	'todo' => 'Сьпіс заданьняў',
@@ -226,6 +228,7 @@ $4',
 	'todo-list-change' => 'Зьмяніць',
 	'todo-list-cancel' => 'Адмяніць',
 	'todo-new-item' => 'Новае заданьне',
+	'todo-not-updated' => 'Немагчыма абнавіць запіс базы зьвестак',
 	'todo-issue-summary' => 'Агульная колькасьць:',
 	'todo-form-details' => 'Падрабязнасьці:',
 	'todo-form-email' => 'Каб атрымліваць паведамленьні пра выкананьні заданьняў па электроннай пошце, упішыце сюды свой адрас электроннай пошты:',
@@ -295,6 +298,7 @@ $4",
 	'todo-list-change' => 'Kemmañ',
 	'todo-list-cancel' => 'Nullañ',
 	'todo-new-item' => 'Elfenn nevez',
+	'todo-not-updated' => "N'eus ket bet gallet hizivaat an enrolladenn en diaz roadennoù",
 	'todo-issue-summary' => 'Diverrañ eus ar gudenn :',
 	'todo-form-details' => 'Munudoù :',
 	'todo-form-email' => "Evit resev ur c'hemenn dre bostel pa vez serr an elfenn, lakait ho postel er framm dindan :",
@@ -332,6 +336,7 @@ $4',
 	'todo-list-change' => 'Izmjena',
 	'todo-list-cancel' => 'Odustani',
 	'todo-new-item' => 'Nova stavka',
+	'todo-not-updated' => 'Ne mogu ažurirati bazu podataka',
 	'todo-issue-summary' => 'Sažetak zadatka:',
 	'todo-form-details' => 'Detalji:',
 	'todo-form-email' => 'Da bi ste dobili obavještenje putem e-maila kada je stavka zatvorena, unesite Vašu adresu ovdje:',
@@ -415,12 +420,13 @@ $messages['da'] = array(
 
 /** German (Deutsch)
  * @author ChrisiPK
+ * @author Kghbln
  * @author Revolus
  * @author Umherirrender
  */
 $messages['de'] = array(
 	'todo' => 'Aufgabenliste',
-	'todo-desc' => 'Experimentelle persönliche [[Special:Todo|Aufgabenliste]]',
+	'todo-desc' => 'Ermöglicht eine persönliche [[Special:Todo|Aufgabenliste]] (experimentell)',
 	'todo-tab' => 'Aufgaben',
 	'todo-new-queue' => 'Neu',
 	'todo-mail-subject' => 'Eintrag auf $1s Aufgabenliste abgeschlossen',
@@ -444,6 +450,7 @@ $4',
 	'todo-list-change' => 'Ändern',
 	'todo-list-cancel' => 'Abbrechen',
 	'todo-new-item' => 'Neuer Eintrag',
+	'todo-not-updated' => 'Der Datensatz konnte nicht in der Datenbank aktualisiert werden',
 	'todo-issue-summary' => 'Zusammenfassung des Auftrags:',
 	'todo-form-details' => 'Details:',
 	'todo-form-email' => 'Gib deine E-Mail-Adresse ein, um eine Benachrichtigung zu erhalten, wenn der Eintrag geschlossen wurde:',
@@ -497,6 +504,7 @@ $4',
 	'todo-list-change' => 'Změniś',
 	'todo-list-cancel' => 'Pśetergnuś',
 	'todo-new-item' => 'Nowy zapisk',
+	'todo-not-updated' => 'Datowa sajźba datoweje banki njejo se dała aktualizěrowaś',
 	'todo-issue-summary' => 'Zespominanje problema:',
 	'todo-form-details' => 'Drobnostki:',
 	'todo-form-email' => 'Zapiš swóju e-mailowu adresu, aby dostał powěsć, gaž zapisk se zacynja',
@@ -667,6 +675,7 @@ $4',
  * @author Crochet.david
  * @author IAlex
  * @author McDutchie
+ * @author Peter17
  * @author PieRRoMaN
  * @author Urhixidur
  */
@@ -696,6 +705,7 @@ $4',
 	'todo-list-change' => 'Modifier',
 	'todo-list-cancel' => 'Annuler',
 	'todo-new-item' => 'Nouvel élément',
+	'todo-not-updated' => 'Impossible de mettre à jour l’enregistrement dans la base de données',
 	'todo-issue-summary' => 'Résumé du problème :',
 	'todo-form-details' => 'Précisions :',
 	'todo-form-email' => 'Pour recevoir un courriel de notification lorsque l’élément sera fermé, inscrivez votre adresse dans le cadre ci-dessous :',
@@ -772,6 +782,7 @@ $4',
 	'todo-list-change' => 'Cambiar',
 	'todo-list-cancel' => 'Cancelar',
 	'todo-new-item' => 'Novo artigo',
+	'todo-not-updated' => 'Non se puido actualizar o rexistro da base de datos',
 	'todo-issue-summary' => 'Resumo do tema:',
 	'todo-form-details' => 'Detalles:',
 	'todo-form-email' => 'Para recibir unha notificación por correo electrónico cando o artigo esté pechado, teclee o seu enderezo aquí:',
@@ -822,6 +833,7 @@ $4',
 	'todo-list-change' => 'Ändere',
 	'todo-list-cancel' => 'Abbräche',
 	'todo-new-item' => 'Neije Yytrag',
+	'todo-not-updated' => 'Dr Datensatz het nit chenne aktualisiert wäre in dr Datebank',
 	'todo-issue-summary' => 'Zämmefassig vum Uftrag:',
 	'todo-form-details' => 'Detail:',
 	'todo-form-email' => 'Gib Dyy E-Mail-Adräss yy go ne Benochrichtigung iberchu, wänn dr Yytrag zuegmacht woren isch:',
@@ -917,6 +929,7 @@ $4',
 	'todo-list-change' => 'Změnić',
 	'todo-list-cancel' => 'Přetorhnyć',
 	'todo-new-item' => 'Nowy nadawk',
+	'todo-not-updated' => 'Datowa sadźba datoweje banki njeda so aktualizować',
 	'todo-issue-summary' => 'Zjeće wudać:',
 	'todo-form-details' => 'Podrobnosće',
 	'todo-form-email' => 'Zo by zdźělenje z e-mejlu dóstał, hdyž so nadawk kónči, zapodaj tu swoju adresu:',
@@ -992,6 +1005,7 @@ $4',
 	'todo-list-change' => 'Cambiar',
 	'todo-list-cancel' => 'Cancellar',
 	'todo-new-item' => 'Nove carga',
+	'todo-not-updated' => 'Non poteva actualisar le registro de base de datos',
 	'todo-issue-summary' => 'Summario:',
 	'todo-form-details' => 'Detalios:',
 	'todo-form-email' => 'Pro reciper notification per e-mail quando le carga es claudite, entra tu adresse hic:',
@@ -1059,6 +1073,7 @@ $messages['it'] = array(
  * @author Aotake
  * @author Fryed-peach
  * @author Hosiryuhosi
+ * @author 青子守歌
  */
 $messages['ja'] = array(
 	'todo' => 'ToDo一覧',
@@ -1086,6 +1101,7 @@ $4',
 	'todo-list-change' => '変更',
 	'todo-list-cancel' => '中止',
 	'todo-new-item' => '新規項目',
+	'todo-not-updated' => 'データベースレコードを更新できませんでした',
 	'todo-issue-summary' => '課題要約:',
 	'todo-form-details' => '詳細:',
 	'todo-form-email' => '項目が完了した際に電子メールで通知を希望するなら、あなたのアドレスをここに入力してください:',
@@ -1258,6 +1274,7 @@ $4',
 	'todo-list-change' => 'Смени',
 	'todo-list-cancel' => 'Откажи',
 	'todo-new-item' => 'Нова задача',
+	'todo-not-updated' => 'Не можев да ја подновам евиденцијата во базата',
 	'todo-issue-summary' => 'Преглед на проблемот:',
 	'todo-form-details' => 'Детали:',
 	'todo-form-email' => 'За да добивате известување по е-пошта кога некоја задача е затворена, внесете ја вашата адреса:',
@@ -1391,6 +1408,7 @@ $4',
 	'todo-list-change' => 'Wijzigen',
 	'todo-list-cancel' => 'Annuleren',
 	'todo-new-item' => 'Nieuw item',
+	'todo-not-updated' => 'Het databaserecord kon niet bijgewerkt worden',
 	'todo-issue-summary' => 'Samenvatting onderwerp:',
 	'todo-form-details' => 'Details:',
 	'todo-form-email' => 'Voer hier uw e-mailadres in om een melding te krijgen als dit onderwerp wordt gesloten:',
@@ -1401,6 +1419,7 @@ $4',
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
  * @author Frokor
+ * @author Harald Khan
  * @author Jon Harald Søby
  */
 $messages['nn'] = array(
@@ -1414,7 +1433,7 @@ $messages['nn'] = array(
 Oppgåve: $2
 Fullført: $3
 
-Oppgåva er merka som fullført, med denne kommentaren:
+Oppgåva er merkt som fullført, med denne kommentaren:
 $4',
 	'todo-invalid-item' => 'Manglande eller ugyldig oppgåve',
 	'todo-update-else-item' => 'Prøver å oppdatere ein annan person sine oppgåver',
@@ -1465,6 +1484,7 @@ $4',
 	'todo-list-change' => 'Endre',
 	'todo-list-cancel' => 'Avbryt',
 	'todo-new-item' => 'Ny oppgave',
+	'todo-not-updated' => 'Kunne ikke oppdatere databaseoppføringen',
 	'todo-issue-summary' => 'Sammendrag:',
 	'todo-form-details' => 'Detaljer:',
 	'todo-form-email' => 'Skriv inn e-postadressen din her for å mottå beskjed på e-post når oppgaven er fullført:',
@@ -1557,6 +1577,7 @@ $4',
 	'todo-list-change' => 'Zmień',
 	'todo-list-cancel' => 'Anuluj',
 	'todo-new-item' => 'Nowa pozycja',
+	'todo-not-updated' => 'Nie można wykonać aktualizacji rekordu bazy danych',
 	'todo-issue-summary' => 'Podsumowanie kwestii:',
 	'todo-form-details' => 'Szczegóły:',
 	'todo-form-email' => 'Jeśli chcesz otrzymać powiadomienie pocztą elektroniczna po zamknięciu tej pozycji, wpisz w polu poniżej swój adres e‐mail:',
@@ -1595,6 +1616,7 @@ $4",
 	'todo-list-change' => 'Cambia',
 	'todo-list-cancel' => 'Scancela',
 	'todo-new-item' => 'Element neuv',
+	'todo-not-updated' => 'As peul pa agiornesse ël record ëd database',
 	'todo-issue-summary' => 'Resumé dël problema:',
 	'todo-form-details' => 'Detaj',
 	'todo-form-email' => "Për arsèive notìfiche për pòsta eletrònica quand che l'element a l'é sarà, dà toa adrëssa:",
@@ -1644,6 +1666,7 @@ $4",
 	'todo-list-change' => 'Alterar',
 	'todo-list-cancel' => 'Cancelar',
 	'todo-new-item' => 'Novo item',
+	'todo-not-updated' => 'Não foi possível actualizar o registo na base de dados',
 	'todo-issue-summary' => 'Resumo do problema:',
 	'todo-form-details' => 'Detalhes:',
 	'todo-form-email' => 'Para receber uma notificação por correio electrónico quando esta tarefa for finalizada, escreva o seu endereço aqui:',
@@ -1654,6 +1677,7 @@ $4",
 
 /** Brazilian Portuguese (Português do Brasil)
  * @author Eduardo.mps
+ * @author Giro720
  */
 $messages['pt-br'] = array(
 	'todo' => 'Lista de tarefas',
@@ -1681,6 +1705,7 @@ $4',
 	'todo-list-change' => 'Alterar',
 	'todo-list-cancel' => 'Cancelar',
 	'todo-new-item' => 'Novo item',
+	'todo-not-updated' => 'Não foi possível atualizar o registro na base de dados',
 	'todo-issue-summary' => 'Sumário do problema:',
 	'todo-form-details' => 'Detalhes:',
 	'todo-form-email' => 'Para receber uma notificação por e-mail quando este item for fechado, escreva o seu endereço aqui:',
@@ -1758,6 +1783,7 @@ $4',
 	'todo-list-change' => 'Выбрать',
 	'todo-list-cancel' => 'Отмена',
 	'todo-new-item' => 'Новая запись',
+	'todo-not-updated' => 'Не удалось обновить запись базы данных',
 	'todo-issue-summary' => 'Краткое описание:',
 	'todo-form-details' => 'Подробности:',
 	'todo-form-email' => 'Укажите адрес эл. почты, чтобы получить уведомление о выполнении задания.',

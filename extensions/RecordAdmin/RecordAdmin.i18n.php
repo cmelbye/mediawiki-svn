@@ -474,7 +474,9 @@ $messages['de-formal'] = array(
  */
 $messages['dsb'] = array(
 	'recordadmin' => 'Administracija zapisow',
-	'recordadmin-desc' => '[[Special:RecordAdmin|Specialny bok]] za pytanje a wobźěłowanje zapisowych bokow z pomocu formulara',
+	'recordadmin-desc' => 'Zmóžnja pytanje, napšašowanja, formulara a rozpšawy wó wikidatach wótwóźonych z parametrow pśedłogow',
+	'recordadmin-specialdesc' => '[[Special:RecordAdmin|Specialny bok]] za pytanje a napóranje bokow z pomocu pśisłušnych formularow',
+	'recordadmin-noforms' => 'Tuchylu njejsu formulary, kótarež  su za pytanje a napóranje',
 	'recordadmin-select' => 'Wubjeŕ typ registracije, kótaryž ma se zastojaś',
 	'recordadmin-createtype' => 'Zapódaj mě nowego typa registracije, kótaryž ma se napóraś',
 	'recordadmin-recordtype' => 'typ registracije',
@@ -509,6 +511,8 @@ $messages['dsb'] = array(
 	'recordadmin-export-csv' => 'CSV',
 	'recordadmin-export-pdf' => 'PDF',
 	'recordadmin-notset' => 'Žeden "$1"',
+	'recordadmin-edit-info' => 'Toś ten bok wopśimujo pśedłogi, kótarež maju swójske formulary, kótarež móžoš z toś teje sajźby rejtarkow wupołniś',
+	'recordadmin-properties' => 'Kakosći',
 );
 
 /** Ewe (Eʋegbe) */
@@ -955,6 +959,8 @@ $messages['he'] = array(
 $messages['hsb'] = array(
 	'recordadmin' => 'Administracija zregistrowanjow',
 	'recordadmin-desc' => 'Pytanja, naprašowanja, formulary a rozprawy wo wikidatach z pžedłohowych parametrow',
+	'recordadmin-specialdesc' => '[[Special:RecordAdmin|Specialna strona]] za pytanje a wutworjenje stronow z pomocu zwjazanych formularow',
+	'recordadmin-noforms' => 'Tuchwilu žane formulary za pytanje a wutworjenje njejsu',
 	'recordadmin-select' => 'Wubjer typ registracijow, kotrež so maja zrjadować',
 	'recordadmin-createtype' => 'Zapodaj mjeno typa registracije, kotryž ma so wutworić',
 	'recordadmin-recordtype' => 'typ registracije',
@@ -989,6 +995,7 @@ $messages['hsb'] = array(
 	'recordadmin-export-csv' => 'CSV',
 	'recordadmin-export-pdf' => 'PDF',
 	'recordadmin-notset' => 'Žadyn "$1"',
+	'recordadmin-edit-info' => 'Tuta strona wobsahuje předłohi, kotrež maja swójske formulary, kotrež móžeš z tuteje sadźby rajtarkow wupjelnić',
 	'recordadmin-properties' => 'Kajkosće',
 );
 
@@ -1614,6 +1621,13 @@ $messages['pdc'] = array(
 	'recordadmin-editlink' => 'ennere',
 	'recordadmin-modified' => 'Gennert',
 	'recordadmin-notset' => 'Keen „$1“',
+);
+
+/** Pfälzisch (Pfälzisch)
+ * @author Xqt
+ */
+$messages['pfl'] = array(
+	'recordadmin-editlink' => 'bearwaide',
 );
 
 /** Polish (Polski)
