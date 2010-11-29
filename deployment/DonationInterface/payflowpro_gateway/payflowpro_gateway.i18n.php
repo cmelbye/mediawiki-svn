@@ -271,7 +271,7 @@ This is an error message which appears if one or more of the above fields is lef
 	'payflowpro_gateway-error-msg-street' => '{{Identical|Street}}',
 	'payflowpro_gateway-error-msg-city' => '{{Identical|City}}',
 	'payflowpro_gateway-error-msg-state' => '{{Identical|State}}',
-	'payflowpro_gateway-response-126-2' => "Here is a description of '[http://www.earlytorise.com/2009/06/12/it%E2%80%99s-good-to-know-your-credit-card-%E2%80%9Cprofile%E2%80%9D.html credit card profile]'.",
+	'payflowpro_gateway-response-126-2' => '',
 	'payflowpro_gateway-submit-button' => '{{Identical|Donate}}',
 	'payflowpro_gateway-cc-form-header-personal' => '{{Identical|Personal information}}',
 	'payflowpro_gateway-comment' => '{{Identical|Comment}}',
@@ -2461,7 +2461,7 @@ Um eine sichere und störungsfreie Abwicklung gewährleisten zu können, bedarf 
 	'payflowpro_gateway-select-amount' => 'Betrag auswählen',
 	'payflowpro_gateway-amount' => 'Betrag',
 	'payflowpro_gateway-make-a-donation' => 'Spende',
-	'payflowpro_gateway-enter-your-amount' => 'Oder gebe den Betrag im obigen Feld ein',
+	'payflowpro_gateway-enter-your-amount' => 'Oder gib den Betrag im obigen Feld ein',
 	'payflowpro_gateway-will-support-with-gift' => 'Ich werde mit einer Spende in folgender Höhe unterstützen:',
 	'payflowpro_gateway-will-make-tax-deductible-gift' => 'Ich werde eine steuerlich absetzbare Spende in folgender Höhe machen:',
 	'payflowpro_gateway-select-dollar-amount' => 'Betrag in USD auswählen',
@@ -3745,7 +3745,7 @@ Pour vous fournir une expérience sûre, sécurisée et agréable, notre formula
  * @author ChrisPtDe
  */
 $messages['frp'] = array(
-	'payflowprogateway' => 'Sotegnéd Wikimedia',
+	'payflowprogateway' => 'Balyéd orendrêt',
 	'payflowpro_gateway-desc' => 'Trètament per cârta de crèdit PayPal Payflow Pro.',
 	'payflowpro_gateway-accessible' => 'Ceta pâge est accèssibla ren que dês la pâge de donacion.',
 	'payflowpro_gateway-form-message' => 'Utilisâd lo formulèro ce-desot por balyér avouéc una cârta de crèdit, ou ben',
@@ -7487,7 +7487,7 @@ Dins d'unes cases, lo còde es situat sul costat d'esquèrra de la carta, mas es
  * @author Xqt
  */
 $messages['pdc'] = array(
-	'payflowpro_gateway-cvv-link' => 'Beischpiel',
+	'payflowpro_gateway-cvv-link' => 'Wu iss daer?',
 	'payflowpro_gateway-donor-name' => 'Naame:',
 	'payflowpro_gateway-donor-lname' => 'Familie-Naame:',
 	'payflowpro_gateway-donor-street' => 'Schtrooss:',
@@ -7496,6 +7496,7 @@ $messages['pdc'] = array(
 	'payflowpro_gateway-donor-country' => 'Land/Gegend:',
 	'payflowpro_gateway-donor-address' => 'Adress:',
 	'payflowpro_gateway-error-msg-lname' => 'Familie-Naame',
+	'payflowpro_gateway-next' => 'Neegschte',
 );
 
 /** Polish (Polski)
@@ -9597,6 +9598,8 @@ För att tillhandahålla en säker, trygg och behaglig upplevelse, kräver vårt
  */
 $messages['sw'] = array(
 	'payflowprogateway' => 'Changia sasa',
+	'payflowpro_gateway-accessible' => 'Ukarasa huu inapatikana tu kuanzia ukurasa wa mchango.',
+	'payflowpro_gateway-form-message' => 'Tumia fomu ya chini ili kuchangia na kadi ya mkopo, au',
 	'payflowpro_gateway-paypal-button' => 'Changia kwa kupitia Paypal',
 	'payflowpro_gateway-cc-button' => 'Changia kwa kupitia kadi ya mkopo',
 	'payflowpro_gateway-form-message-2' => 'Ukitaka kubadilisha kiasi au aina ya fedha, rudi katika <a href="/index.php?title=Donate">ukurasa wa kuchangia</a>',
@@ -9643,14 +9646,19 @@ $messages['sw'] = array(
 	'payflowpro_gateway-error-msg-card_num' => 'namba ya kadi ya mkopo',
 	'payflowpro_gateway-error-msg-expiration' => 'tarehe itakayokwisha kadi',
 	'payflowpro_gateway-error-msg-cvv' => 'CVV (kodi ya usalama) iliopo nyuma ya kadi yako',
+	'payflowpro_gateway-error-msg-captcha' => 'Neno au namba ya Captcha uliyoingiza si sahihi. Tafadhali jaribu tena.',
+	'payflowpro_gateway-error-msg-captcha-please' => 'Ili kusaidia kulinda usalama wa kadi yako ya mkopo, tafadhali andika herufi unazoziona juu.',
 	'payflowpro_gateway-response-0' => 'Malipo yako yamepitishwa. 
 Ahsante kwa mchango wako!',
+	'payflowpro_gateway-response-126' => 'Manunuzi yako inasubiri idhini.',
+	'payflowpro_gateway-response-126-2' => 'Baadhi ya taarifa ulizozitoa hazikuwa sawa na taarifa kamili za kadi yako ya mkopo, ama ulitoa mchango mkubwa sana. Kwa ajili ya usalama wako, mchango wako inachunguliwa. Tutakuarifu, katika barua pepe tutakayotuma kwa anwani uliotaja, kama tutashindwa kukamilisha mchango wako. Tafadhali tuma barua pepe kwa <a href="mailto:donate@wikimedia.org">donate@wikimedia.org</a> kama una maswali. Asante!',
 	'payflowpro_gateway-response-12' => 'Tafadhali uwasiliane na kampuni ya kadi yako ya mkopo ili kupata maelezo mengine.',
 	'payflowpro_gateway-response-114' => 'Tafadhali wasiliana na kampuni ya kadi yako ya mkopo ili kupata maelezo zaidi.',
 	'payflowpro_gateway-response-23' => 'Ama namba ya kadi ya mkopo au tarehe yake ya kuishia haipo sahihi.',
 	'payflowpro_gateway-response-4' => 'Kiasi batili.',
 	'payflowpro_gateway-response-24' => 'Ama namba ya kadi ya mkopo au tarehe yake ya kuishia haipo sahihi.',
 	'payflowpro_gateway-response-112' => 'Ama anwani au namba yako ya CVV (kodi ya usalama) hayapo sahihi.',
+	'payflowpro_gateway-response-125-2' => 'Kadi yako ya mkopo haikuweza kuidhinishwa. Tafadhali uhakikishe kwamba taarifa zote zilizotolewa zipo sawa na kadi, au jaribu kadi nyingine. Pia unaweza kuchangia kwa <a href="http://wikimediafoundation.org/wiki/Ways_to_Give/en">njia nyingine</a> au unaweza kuwasiliana nasi hapo <a href="mailto:donate@wikimedia.org">donate@wikimedia.org</a>. Asante kwa mchango wako.',
 	'payflowpro_gateway-response-default' => 'Ilitokea hitilafu wakati wa kufanyika malipo.
 Tafadhali jaribu baadaye tena.',
 	'php-response-declined' => 'Malipo yako hayakubaliwa.',
@@ -9671,6 +9679,7 @@ Wakati mwingine, kodi iko upande wa kushoto wa kadi, lakini <i>kila wakati</i> i
 	'payflowpro_gateway-otherways-alt' => 'Kuna <a href="http://wikimediafoundation.org/wiki/Ways_to_Give/en">njia zingine za kuchangia, kwa mfano kwa hundi</a>.',
 	'payflowpro_gateway-otherways-short' => '<a href="http://wikimediafoundation.org/wiki/Ways_to_Give/en">Njia zingine za kuchangia</a>.',
 	'payflowpro_gateway-credit-storage-processing' => 'Hatuhifadhi taarifa ya kadi yako ya mkopo, na taarifa juu yako binafsi iko chini ya <a href="http://wikimediafoundation.org/wiki/Donor_Privacy_Policy">sera ya faragha</a> yetu.',
+	'payflowpro_gateway-cc-form-header-payment' => 'Taarifa za kulipa',
 	'payflowpro_gateway-make-your-donation' => 'Changia sasa',
 	'payflowpro_gateway-state-in-us' => 'kama ndani ya Marekani',
 	'payflowpro_gateway-comment' => 'Maoni',
@@ -9738,6 +9747,7 @@ Wakati mwingine, kodi iko upande wa kushoto wa kadi, lakini <i>kila wakati</i> i
 	'payflowpro_gateway-make-a-donation' => 'Changia',
 	'payflowpro_gateway-enter-your-amount' => 'Au ingiza kiasi cha mchango katika sanduku la juu',
 	'payflowpro_gateway-will-support-with-gift' => 'Nitatoa mchango wa:',
+	'payflowpro_gateway-will-make-tax-deductible-gift' => 'Nitatoa mchango unaoweza kupunguza kodi wa:',
 	'payflowpro_gateway-select-dollar-amount' => 'Kuchagua kiasi cha dola',
 	'payflowpro_gateway-submit-my-secure-donation' => 'Wasilisha mchango wangu salama',
 	'payflowpro_gateway-next' => 'Ijayo',
