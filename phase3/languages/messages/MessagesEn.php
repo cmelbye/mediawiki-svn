@@ -1337,9 +1337,7 @@ If you do not want your writing to be edited mercilessly, then do not submit it 
 You are also promising us that you wrote this yourself, or copied it from a public domain or similar free resource (see $1 for details).
 '''Do not submit copyrighted work without permission!'''",
 'editpage-tos-summary'             => '-', # do not translate or duplicate this message to other languages
-'longpagewarning'                  => "'''Warning:''' This page is $1 kilobytes long;
-some browsers may have problems editing pages approaching or longer than 32kb.
-Please consider breaking the page into smaller sections.",
+'longpage-hint'                    => '-', # do not translate or duplicate this message to other languages
 'longpageerror'                    => "'''Error: The text you have submitted is $1 kilobytes long, which is longer than the maximum of $2 kilobytes.'''
 It cannot be saved.",
 'readonlywarning'                  => "'''Warning: The database has been locked for maintenance, so you will not be able to save your edits right now.'''
@@ -3002,7 +3000,6 @@ See [[Special:IPBlockList|IP block list]] to review blocks.',
 'ipb-edit-dropdown'               => 'Edit block reasons',
 'ipb-unblock-addr'                => 'Unblock $1',
 'ipb-unblock'                     => 'Unblock a username or IP address',
-'ipb-blocklist-addr'              => 'Existing blocks for $1',
 'ipb-blocklist'                   => 'View existing blocks',
 'ipb-blocklist-contribs'          => 'Contributions for $1',
 'unblockip'                       => 'Unblock user',

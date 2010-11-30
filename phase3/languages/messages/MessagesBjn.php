@@ -678,9 +678,6 @@ Pian jua bajanji ka kami amun Pian manulis ini saurangan, atawa manjumput ini ma
 Amun Pian kada hakun tulisan Pian dibabak kada baumpat lalu, lalu ai kada usah manyumbang di sia.<br />
 Pian jua bajanji ka kami amun Pian manulis ini saurangan, atawa manjumput ini matan sabuah asal mula ampun umum atawa nang samacam asal mula bibas (lihati $1 gasan rarincian).
 '''Jangan kirimkan gawian bahak cipta kada baijin!'''",
-'longpagewarning'                  => "'''Paringatan:''' Tungkaran ini panjangnya $1 kilubita;
-babarapa panjalajah web pinanya bamasalah mambabak tutungkaran nang parak atawa tapanjang pada 32kb.
-Muhun ditimbang-timbang marakai tungkaran ini ka dalam palih nang labih halus.",
 'longpageerror'                    => "'''Kasalahan: Naskah nang Pian kirim panjangnya $1 kilubita, nangapa tapanjang pada pamanjangnya nang kawa $2 kilubita.'''
 Nangini kada kawa disimpan.",
 'readonlywarning'                  => "'''Paringatan: Basis data sudah tasunduk gasan diharagu, jadinya Pian kada kawa manyimpan babakab Pian parhatan ini.'''
@@ -1001,6 +998,9 @@ Tarai pamintaan Pian lawan ''all:'' gasan manggagai samunyaan isi (tamasuk tungk
 'powersearch-toggleall'            => 'Samunyaan',
 'powersearch-togglenone'           => 'Kadada',
 'search-external'                  => 'Panggagaian luar',
+'searchdisabled'                   => '{{SITENAME}} panggagaian kada kawa
+Pian kawa manggagai lung Google parhatan ini.
+Catatan nang dihaharnya matan isi {{SITENAME}} kawa-ai sudah kadaluarsa.',
 
 # Quickbar
 'qbsettings'               => 'Bilahhancap',
@@ -1158,38 +1158,42 @@ Amun Pian mamilih manyadiakan ini, ini akan dipuruk gasan paminanduan kulihan ga
 'grouppage-suppress'      => '{{ns:project}}:Pangawas',
 
 # Rights
-'right-read'               => 'Mambaca tungkaran',
-'right-edit'               => 'Mambaiki tungkaran',
-'right-createpage'         => 'Ulah tutungkaran (nang lainan tutungkaran pamandiran)',
-'right-createtalk'         => 'Maulah tutungkaran pamandiran',
-'right-createaccount'      => 'Ulah akun pamuruk hanyar',
-'right-minoredit'          => 'Tandai bababakan sawagai sapalih',
-'right-move'               => 'Mamindahakan tungkaran',
-'right-move-subpages'      => 'Ugahakan tutungkaran awan subtumgkaran-nya',
-'right-move-rootuserpages' => 'Ugahakan akar tutungkaran pamuruk',
-'right-movefile'           => 'Mamindahakan barakas',
-'right-upload'             => 'Unggahakan barakas',
-'right-reupload'           => 'Manulistindih barakas nang ada',
-'right-reupload-own'       => 'Manulistindih barakas nang ada unggahan ulih urang nang sama',
-'right-upload_by_url'      => 'Hunggahakan babarakas matan sabuah URL',
-'right-autoconfirmed'      => 'Mambabak tutungkaran sami-dilindungi',
-'right-delete'             => 'Mahapus tungkaran',
-'right-bigdelete'          => 'Hapus tutungkaran awan hahalam ganal',
-'right-browsearchive'      => 'Manggagai tungkaran nang sudah dihapus',
-'right-undelete'           => 'Mambulikakan sabuah tungkaran tahapus',
-'right-suppressionlog'     => 'Tiringi log paribadi',
-'right-block'              => 'Blukir pamuruk lain mambabak',
-'right-blockemail'         => 'Blukir saurang pamuruk mangirimi suril',
-'right-editinterface'      => 'Babak antarmuha pamuruk ini',
-'right-editusercssjs'      => 'Babak pamuruk lain babarakas CSS wan JavaScript',
-'right-editusercss'        => 'Babak pamruk lain babarakas CSS',
-'right-edituserjs'         => 'Babak pamuruk lain babarakas JavaScript',
-'right-trackback'          => 'Mangirimakan sabuah panjajakan balik',
-'right-userrights'         => 'Babak sabarataan hak pamuruk',
-'right-siteadmin'          => 'Sunduk wan kadasudasunduk basisdata',
-'right-reset-passwords'    => 'Risit kakatasunduk pamuruk lain',
-'right-sendemail'          => 'Mangirim suril ka papamuruk lain',
-'right-revisionmove'       => 'Pindahakan raralatan',
+'right-read'                 => 'Mambaca tungkaran',
+'right-edit'                 => 'Mambaiki tungkaran',
+'right-createpage'           => 'Ulah tutungkaran (nang lainan tutungkaran pamandiran)',
+'right-createtalk'           => 'Maulah tutungkaran pamandiran',
+'right-createaccount'        => 'Ulah akun pamuruk hanyar',
+'right-minoredit'            => 'Tandai bababakan sawagai sapalih',
+'right-move'                 => 'Mamindahakan tungkaran',
+'right-move-subpages'        => 'Ugahakan tutungkaran awan subtumgkaran-nya',
+'right-move-rootuserpages'   => 'Ugahakan akar tutungkaran pamuruk',
+'right-movefile'             => 'Mamindahakan barakas',
+'right-upload'               => 'Unggahakan barakas',
+'right-reupload'             => 'Manulistindih barakas nang ada',
+'right-reupload-own'         => 'Manulistindih barakas nang ada unggahan ulih urang nang sama',
+'right-upload_by_url'        => 'Hunggahakan babarakas matan sabuah URL',
+'right-autoconfirmed'        => 'Mambabak tutungkaran sami-dilindungi',
+'right-delete'               => 'Mahapus tungkaran',
+'right-bigdelete'            => 'Hapus tutungkaran awan hahalam ganal',
+'right-deletedhistory'       => 'Tiringi mamasukan halam tahapus, kada banaskah tarait',
+'right-deletedtext'          => 'Tiringi naskah tahapus wan parubahan antar raralatan tahapus',
+'right-browsearchive'        => 'Manggagai tungkaran nang sudah dihapus',
+'right-undelete'             => 'Mambulikakan sabuah tungkaran tahapus',
+'right-suppressionlog'       => 'Tiringi log paribadi',
+'right-block'                => 'Blukir pamuruk lain mambabak',
+'right-blockemail'           => 'Blukir saurang pamuruk mangirimi suril',
+'right-editinterface'        => 'Babak antarmuha pamuruk ini',
+'right-editusercssjs'        => 'Babak pamuruk lain babarakas CSS wan JavaScript',
+'right-editusercss'          => 'Babak pamruk lain babarakas CSS',
+'right-edituserjs'           => 'Babak pamuruk lain babarakas JavaScript',
+'right-unwatchedpages'       => 'Tiringi sabuah daptar tutungkaran nang kada diitihi',
+'right-trackback'            => 'Mangirimakan sabuah panjajakan balik',
+'right-userrights'           => 'Babak sabarataan hak pamuruk',
+'right-userrights-interwiki' => 'Babak hahak pamuruk matan papamuruk wiwiki balain',
+'right-siteadmin'            => 'Sunduk wan buka sunduk basis data',
+'right-reset-passwords'      => 'Risit katasunduk pamuruk lain',
+'right-sendemail'            => 'Mangirim suril ka papamuruk lain',
+'right-revisionmove'         => 'Pindahakan raralatan',
 
 # User rights log
 'rightslog'  => 'Log parubahan hak masuk',
@@ -1219,6 +1223,9 @@ Amun Pian mamilih manyadiakan ini, ini akan dipuruk gasan paminanduan kulihan ga
 'action-suppressionlog'     => 'tiringi log paribadi ini',
 'action-block'              => 'blukir pamuruk ini matan mambabak',
 'action-patrol'             => "tandai babakan nang lain sawagai ta'awasi",
+'action-unwatchedpages'     => 'tiringi daptar tutungkaran nang kada diitihi',
+'action-userrights'         => 'babak sabarataan hak pamuruk',
+'action-siteadmin'          => 'sunduk atawa bukasunduk basisdata',
 'action-revisionmove'       => 'pindahi raralatan',
 
 # Recent changes
@@ -1283,17 +1290,20 @@ Tutungkaran dalam [[Special:Watchlist|daptar itihan Pian]] ditandai '''kandal'''
 'tmp-create-error'    => 'Kada kawa maulah barakas pahadangan.',
 'tmp-write-error'     => 'Kasalahan sawaktu manulis barakas pahadangan.',
 'uploadwarning'       => 'Paringatan hunggah',
-'uploadwarning-text'  => 'Muhun magaganti katarangan barakas di bawah wan cubai pulang.',
+'uploadwarning-text'  => 'Muhun mangganti katarangan barakas di bawah wan cubai pulang.',
 'savefile'            => 'Simpan barakas',
 'uploadedimage'       => 'mamuat "[[$1]]"',
-'overwroteimage'      => 'mahunggah sabuah pirsi hanyar matan "[[$1]]"',
-'uploaddisabled'      => 'Huhunggah pajah.',
+'overwroteimage'      => 'mahunggah sabuah pérsi hanyar matan "[[$1]]"',
+'uploaddisabled'      => 'Pahunggahan dipajahakan.',
 'copyuploaddisabled'  => 'Hunggah lawan URL pajah.',
 'watchthisupload'     => 'Itihi barakas ini',
 'upload-warning-subj' => 'Paringatan mahunggah',
 
 'upload-misc-error'   => 'Tasalah buat nang kada dipinandui',
-'upload-unknown-size' => 'Ukuran kadaditahui',
+'upload-unknown-size' => 'Ukuran kada dikatahui',
+
+# img_auth script messages
+'img-auth-nofile' => 'Barakas "$1" kadada.',
 
 # Special:ListFiles
 'listfiles_search_for'  => 'Gagai ngaran barakas:',

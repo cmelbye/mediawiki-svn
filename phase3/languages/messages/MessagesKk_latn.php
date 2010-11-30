@@ -937,9 +937,6 @@ Tağı da, bul mağlumat öziñiz jazğanıñızğa, ne qoğam qazınasınan nem
 Eger jazwıñızdıñ erkin öñdelwin qalamasañız, mında jarïyalamawıñız jön.<br />
 Tağı da, bul mağlumat öziñiz jazğanıñızğa, ne qoğam qazınasınan nemese sondaý aşıq qorlardan köşirilgenine bizge wäde beresiz (köbirek aqparat üşin $1 qwjatın qarañız).
 '''AWTORLIQ QUQIQPEN QORĞAWLI MAĞLUMATTI RUQSATSIZ JARÏYALAMAÑIZ!'''",
-'longpagewarning'                  => "'''QULAQTANDIRW: Bul bettiñ mölşeri — $1 kB;
-keýbir şolğıştarda bet mölşeri 32 kB jetse ne onı assa öñdew kürdeli bolwı mümkin.
-Betti birneşe kişkin bölimderge bölip köriñiz.'''",
 'longpageerror'                    => "'''QATELİK: Jöneltpek mätiniñizdin mölşeri — $1 KB, eñ köbi $2 KB ruqsat etilgen mölşerinen asqan.
 Bul saqtaý alınbaýdı.'''",
 'readonlywarning'                  => "'''QULAQTANDIRW: Derekqor baptaw üşin qulıptalğan, sondıqtan däl qazir öñdemeñizdi saqtaý almaýsız.
@@ -2041,7 +2038,6 @@ Buğattardı şolıp şığw üşin [[{{#special:Ipblocklist}}|IP buğattaw tizi
 'ipb-edit-dropdown'           => 'Buğattaw sebepterin öñdew',
 'ipb-unblock-addr'            => '$1 degendi buğattamaw',
 'ipb-unblock'                 => 'Qatıswşı atın nemese IP mekenjaýın buğattamaw',
-'ipb-blocklist-addr'          => '$1 üşin bar buğattawlardı qaraw',
 'ipb-blocklist'               => 'Bar buğattawlardı qaraw',
 'unblockip'                   => 'Qatıswşını buğattamaw',
 'unblockiptext'               => 'Tömendegi pişindi aldındağı IP mekenjaýımen ne atımen buğattalğan qatıswşığa jazw qatınawın qalpına keltiriwi üşin qoldanıñız.',

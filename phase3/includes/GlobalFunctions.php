@@ -214,7 +214,7 @@ function wfArrayDiff2_cmp( $a, $b ) {
 	} else {
 		reset( $a );
 		reset( $b );
-		while( ( list( $keyA, $valueA ) = each( $a ) ) && ( list( $keyB, $valueB ) = each( $b ) ) ) {
+		while( ( list( , $valueA ) = each( $a ) ) && ( list( , $valueB ) = each( $b ) ) ) {
 			$cmp = strcmp( $valueA, $valueB );
 			if ( $cmp !== 0 ) {
 				return $cmp;
@@ -1287,8 +1287,10 @@ function wfCheckLimits( $deflimit = 50, $optionname = 'rclimit' ) {
  */
 function wfEscapeWikiText( $text ) {
 	$text = str_replace(
-		array( '[',     '|',      ']',     '\'',    'ISBN ',     'RFC ',     '://',     "\n=",     '{{' ), # }}
-		array( '&#91;', '&#124;', '&#93;', '&#39;', 'ISBN&#32;', 'RFC&#32;', '&#58;//', "\n&#61;", '&#123;&#123;' ),
+		array( '[',     '|',      ']',     '\'',    'ISBN ',     
+			'RFC ',     '://',     "\n=",     '{{',           '}}' ),
+		array( '&#91;', '&#124;', '&#93;', '&#39;', 'ISBN&#32;', 
+			'RFC&#32;', '&#58;//', "\n&#61;", '&#123;&#123;', '&#125;&#125;' ),
 		htmlspecialchars( $text )
 	);
 	return $text;
@@ -1979,13 +1981,16 @@ define( 'TS_ISO_8601_BASIC', 9 );
  *                    function will autodetect which format is supplied and act
  *                    accordingly.
  * @param $ts Mixed: the timestamp to convert or 0 for the current timestamp
- * @return String: in the format specified in $outputtype
+ * @return Mixed: String / false The same date in the format specified in $outputtype or false
  */
 function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 	$uts = 0;
 	$da = array();
+	$strtime = '';
+	
 	if ( $ts === 0 ) {
 		$uts = time();
+		$strtime = "@$uts";
 	} elseif ( preg_match( '/^(\d{4})\-(\d\d)\-(\d\d) (\d\d):(\d\d):(\d\d)$/D', $ts, $da ) ) {
 		# TS_DB
 	} elseif ( preg_match( '/^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)$/D', $ts, $da ) ) {
@@ -1995,10 +2000,11 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 	} elseif ( preg_match( '/^-?\d{1,13}$/D', $ts ) ) {
 		# TS_UNIX
 		$uts = $ts;
+		$strtime = "@$ts"; // Undocumented?
 	} elseif ( preg_match( '/^\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}.\d{6}$/', $ts ) ) {
 		# TS_ORACLE // session altered to DD-MM-YYYY HH24:MI:SS.FF6
-		$uts = strtotime( preg_replace( '/(\d\d)\.(\d\d)\.(\d\d)(\.(\d+))?/', "$1:$2:$3",
-				str_replace( '+00:00', 'UTC', $ts ) ) );
+		$strtime = preg_replace( '/(\d\d)\.(\d\d)\.(\d\d)(\.(\d+))?/', "$1:$2:$3",
+				str_replace( '+00:00', 'UTC', $ts ) );
 	} elseif ( preg_match( '/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.*\d*)?Z$/', $ts, $da ) ) {
 		# TS_ISO_8601
 	} elseif ( preg_match( '/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(?:\.*\d*)?Z$/', $ts, $da ) ) {
@@ -2009,21 +2015,26 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		# TS_POSTGRES
 	} elseif (preg_match('/^(\d{4})\-(\d\d)\-(\d\d) (\d\d):(\d\d):(\d\d)\.\d\d\d$/',$ts,$da)) {
 		# TS_DB2
-	} elseif ( preg_match( '/^[A-Z][a-z]{2}, \d\d [A-Z][a-z]{2} \d{4} \d\d:\d\d:\d\d/', $ts ) ) {
-		# TS_RFC2822
-		$uts = strtotime( $ts );
+	} elseif ( preg_match( '/^[ \t\r\n]*([A-Z][a-z]{2},[ \t\r\n]*)?' . # Day of week
+							'\d\d?[ \t\r\n]*[A-Z][a-z]{2}[ \t\r\n]*\d{2}(?:\d{2})?' .  # dd Mon yyyy
+							'[ \t\r\n]*\d\d[ \t\r\n]*:[ \t\r\n]*\d\d[ \t\r\n]*:[ \t\r\n]*\d\d/S', $ts ) ) { # hh:mm:ss
+		# TS_RFC2822, accepting a trailing comment. See http://www.squid-cache.org/mail-archive/squid-users/200307/0122.html / r77171
+		# The regex is a superset of rfc2822 for readability 
+		$strtime = strtok( $ts, ';' );
+	} elseif ( preg_match( '/^[A-Z][a-z]{5,8}, \d\d-[A-Z][a-z]{2}-\d{2} \d\d:\d\d:\d\d/', $ts ) ) {
+		# TS_RFC850
+		$strtime = $ts;
+	} elseif ( preg_match( '/^[A-Z][a-z]{2} [A-Z][a-z]{2} +\d{1,2} \d\d:\d\d:\d\d \d{4}/', $ts ) ) {
+		# asctime
+		$strtime = $ts;
 	} else {
 		# Bogus value; fall back to the epoch...
 		wfDebug("wfTimestamp() fed bogus time value: $outputtype; $ts\n");
-		$uts = 0;
+		
+		return false;
 	}
 
-	if (count( $da ) ) {
-		// Warning! gmmktime() acts oddly if the month or day is set to 0
-		// We may want to handle that explicitly at some point
-		$uts = gmmktime( (int)$da[4], (int)$da[5], (int)$da[6],
-			(int)$da[2], (int)$da[3], (int)$da[1] );
-	}
+	
 
 	static $formats = array(
 		TS_UNIX => 'U',
@@ -2042,11 +2053,45 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		throw new MWException( 'wfTimestamp() called with illegal output type.' );
 	}
 
-	if ( TS_UNIX == $outputtype ) {
-		return $uts;
+	if ( function_exists( "date_create" ) ) {
+		if ( count( $da ) ) {
+			$ds = sprintf("%04d-%02d-%02dT%02d:%02d:%02d.00+00:00",
+				(int)$da[1], (int)$da[2], (int)$da[3],
+				(int)$da[4], (int)$da[5], (int)$da[6]);
+			
+			$d = date_create( $ds, new DateTimeZone( 'GMT' ) );
+		} elseif ( $strtime ) {
+			$d = date_create( $strtime, new DateTimeZone( 'GMT' ) );
+		} else {
+			return false;
+		}
+		
+		if ( !$d ) {
+			wfDebug("wfTimestamp() fed bogus time value: $outputtype; $ts\n");
+			return false;
+		}
+		
+		$output = $d->format( $formats[$outputtype] );
+	} else {
+		if ( count( $da ) ) {
+			// Warning! gmmktime() acts oddly if the month or day is set to 0
+			// We may want to handle that explicitly at some point
+			$uts = gmmktime( (int)$da[4], (int)$da[5], (int)$da[6],
+				(int)$da[2], (int)$da[3], (int)$da[1] );
+		} elseif ( $strtime ) {
+			$uts = strtotime( $strtime );
+		}
+		
+		if ( $uts === false ) {
+			wfDebug("wfTimestamp() can't parse the timestamp (non 32-bit time? Update php): $outputtype; $ts\n");
+			return false;
+		}
+		
+		if ( TS_UNIX == $outputtype ) {
+			return $uts;
+		}
+		$output = gmdate( $formats[$outputtype], $uts );
 	}
-
-	$output = gmdate( $formats[$outputtype], $uts );
 
 	if ( ( $outputtype == TS_RFC2822 ) || ( $outputtype == TS_POSTGRES ) ) {
 		$output .= ' GMT';
@@ -2195,7 +2240,7 @@ function wfGetSiteNotice() {
 
 /**
  * BC wrapper for MimeMagic::singleton()
- * @deprecated
+ * @deprecated No longer needed as of 1.17 (r68836).
  */
 function &wfGetMimeMagic() {
 	wfDeprecated( __FUNCTION__ );
@@ -3161,7 +3206,7 @@ function wfFindFile( $title, $options = array() ) {
 /**
  * Get an object referring to a locally registered file.
  * Returns a valid placeholder object if the file does not exist.
- * @param $title Either a string or Title object
+ * @param $title Title|String
  * @return File, or null if passed an invalid Title
  */
 function wfLocalFile( $title ) {
@@ -3451,8 +3496,8 @@ function wfObjectToArray( $object, $recursive = true ) {
 function wfMemoryLimit() {
 	global $wgMemoryLimit;
 	$memlimit = wfShorthandToInteger( ini_get( 'memory_limit' ) );
-	$conflimit = wfShorthandToInteger( $wgMemoryLimit );
 	if( $memlimit != -1 ) {
+		$conflimit = wfShorthandToInteger( $wgMemoryLimit );
 		if( $conflimit == -1 ) {
 			wfDebug( "Removing PHP's memory limit\n" );
 			wfSuppressWarnings();
@@ -3477,17 +3522,22 @@ function wfMemoryLimit() {
  */
 function wfShorthandToInteger( $string = '' ) {
 	$string = trim( $string );
-	if( empty( $string ) ) {
+	if( $string === '' ) {
 		return -1;
 	}
-	$last = strtolower( $string[strlen( $string ) - 1] );
+	$last = $string[strlen( $string ) - 1];
 	$val = intval( $string );
 	switch( $last ) {
 		case 'g':
+		case 'G':
 			$val *= 1024;
+			// break intentionally missing
 		case 'm':
+		case 'M':
 			$val *= 1024;
+			// break intentionally missing
 		case 'k':
+		case 'K':
 			$val *= 1024;
 	}
 

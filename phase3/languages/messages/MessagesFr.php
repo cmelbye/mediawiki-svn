@@ -983,11 +983,11 @@ Ce problème se produit parfois lorsque vous utilisez un serveur mandataire anon
 'editingsection'                   => 'Modification de $1 (section)',
 'editingcomment'                   => 'Modification de $1 (nouvelle section)',
 'editconflict'                     => 'Conflit de modification : $1',
-'explainconflict'                  => "Cette page a été sauvegardée après que vous avez commencé à la modifier.
-La zone de modification supérieure contient le texte tel qu’il est enregistré actuellement dans la base de données.
+'explainconflict'                  => "Cette page a été changée après que vous avez commencé à la modifier.
+La zone de modification supérieure contient le texte tel qu’il est actuellement enregistré dans la base de données.
 Vos modifications apparaissent dans la zone de modification inférieure.
 Vous allez devoir fusionner vos modifications dans le texte existant.
-'''Seul''' le texte de la zone supérieure sera sauvegardé quand vous cliquerez sur « {{int:savearticle}} ».",
+'''Seul''' le texte de la zone supérieure sera sauvegardé si vous cliquez sur « {{int:savearticle}} ».",
 'yourtext'                         => 'Votre texte',
 'storedversion'                    => 'La version enregistrée',
 'nonunicodebrowser'                => "'''Attention : Votre navigateur ne supporte pas l’Unicode.'''
@@ -1000,14 +1000,13 @@ Vous nous promettez aussi que vous avez écrit ceci vous-même, ou que vous l’
 'copyrightwarning2'                => "Toutes les contributions à {{SITENAME}} peuvent être modifiées ou supprimées par d’autres utilisateurs. Si vous ne désirez pas que vos écrits soient modifiés et distribués à volonté, merci de ne pas les soumettre ici.<br />
 Vous nous promettez aussi que vous avez écrit ceci vous-même, ou que vous l’avez copié d’une source provenant du domaine public, ou d’une ressource libre. (voir $1 pour plus de détails).
 '''N’UTILISEZ PAS DE TRAVAUX SOUS DROIT D’AUTEUR SANS AUTORISATION EXPRESSE !'''",
-'longpagewarning'                  => "'''AVERTISSEMENT : cette page a une longueur de $1 Kio ;
-certains navigateurs Web gèrent mal la modification des pages approchant ou dépassant 32 Kio. Peut-être devriez-vous diviser la page en sections plus petites.'''",
 'longpageerror'                    => "'''ERREUR : Le texte que vous avez soumis fait $1 Kio, ce qui dépasse la limite fixée à $2 Kio. Le texte ne peut pas être sauvegardé.'''",
 'readonlywarning'                  => "'''AVERTISSEMENT : la base de données a été verrouillée pour des opérations de maintenance. Vous ne pouvez donc pas publier vos modifications pour l’instant.'''
 Vous pouvez copier le texte dans un fichier texte et le conserver pour plus tard.
 
 L’administrateur ayant verrouillé la base de données a donné l’explication suivante : $1",
-'protectedpagewarning'             => "'''AVERTISSEMENT : cette page est protégée. Seuls les utilisateurs ayant le statut d’administrateur peuvent la modifier.''' La dernière entrée du journal est affichée ci-dessous pour référence :",
+'protectedpagewarning'             => "'''AVERTISSEMENT : cette page est protégée. Seuls les utilisateurs ayant le statut d’administrateur peuvent la modifier.'''<br />
+La dernière entrée du journal est affichée ci-dessous pour référence :",
 'semiprotectedpagewarning'         => "'''Note :''' Cette page a été protégée de telle façon que seuls les contributeurs enregistrés puissent la modifier. La dernière entrée du journal est affichée ci-dessous pour référence :",
 'cascadeprotectedwarning'          => "'''ATTENTION :''' Cette page a été protégée de manière à ce que seuls les administrateurs puissent l’éditer. Cette protection est héritée par son inclusion par {{PLURAL:$1|la page protégée suivante, qui a|les pages protégées suivantes, qui ont}} la « protection en cascade » activée :",
 'titleprotectedwarning'            => "'''ATTENTION : Cette page a été protégée de telle manière que des [[Special:ListGroupRights|droits spécifiques]] sont requis pour pouvoir la créer.''' La dernière entrée du journal est affichée ci-dessous pour référence :",
@@ -1081,7 +1080,7 @@ La raison donnée était ''$2''.",
 'last'                   => 'diff',
 'page_first'             => 'première',
 'page_last'              => 'dernière',
-'histlegend'             => 'Légende : ({{MediaWiki:Cur}}) = différence avec la version actuelle, ({{MediaWiki:Last}}) = différence avec la version précédente, <b>m</b> = modification mineure',
+'histlegend'             => 'Légende : ({{int:cur}}) = différence avec la version actuelle, ({{int:last}}) = différence avec la version précédente, <b>{{int:minoreditletter}}</b> = modification mineure',
 'history-fieldset-title' => 'Naviguer dans l’historique',
 'history-show-deleted'   => 'Supprimés seulement',
 'histfirst'              => 'toute première',
@@ -1427,7 +1426,7 @@ Voici une valeur générée aléatoirement que vous pouvez utiliser : $1',
 Vérifiez vos balises HTML.',
 'badsiglength'                  => 'Votre signature est trop longue.
 Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
-'yourgender'                    => 'Sexe :',
+'yourgender'                    => 'Genre :',
 'gender-unknown'                => 'Non renseigné',
 'gender-male'                   => 'Masculin',
 'gender-female'                 => 'Féminin',
@@ -1478,7 +1477,7 @@ Vous pouvez également décider de laisser les autres vous contacter via votre p
 'group'               => 'Groupe :',
 'group-user'          => 'Utilisateurs',
 'group-autoconfirmed' => 'Utilisateurs enregistrés',
-'group-bot'           => 'Bots',
+'group-bot'           => 'Robots',
 'group-sysop'         => 'Administrateurs',
 'group-bureaucrat'    => 'Bureaucrates',
 'group-suppress'      => 'Superviseurs',
@@ -2066,8 +2065,8 @@ Veuillez noter que d’autres sites peuvent avoir un lien direct vers un fichier
 'speciallogtitlelabel' => 'Titre :',
 'log'                  => 'Journaux d’opérations',
 'all-logs-page'        => 'Toutes les opérations publiques',
-'alllogstext'          => 'Affichage combiné de tous les journaux disponibles des opérations sur {{SITENAME}}.
-Vous pouvez restreindre la vue en sélectionnant un type de journal, un nom d’utilisateur ou une page affectée (tous les deux étant sensibles à la casse).',
+'alllogstext'          => 'Affichage combiné de tous les journaux disponibles sur {{SITENAME}}.<br />
+Vous pouvez restreindre la vue en sélectionnant un type de journal, un nom d’utilisateur ou une page affectée (les deux derniers étant sensibles à la casse).',
 'logempty'             => 'Aucune opération correspondante dans les journaux.',
 'log-title-wildcard'   => 'Chercher parmi les titres commençant par ce texte',
 
@@ -2521,7 +2520,6 @@ Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] p
 'ipb-edit-dropdown'               => 'Modifier les motifs de blocage par défaut',
 'ipb-unblock-addr'                => 'Débloquer $1',
 'ipb-unblock'                     => 'Débloquer un compte utilisateur ou une adresse IP',
-'ipb-blocklist-addr'              => 'Blocages existants pour $1',
 'ipb-blocklist'                   => 'Voir les blocages existants',
 'ipb-blocklist-contribs'          => 'Contributions pour $1',
 'unblockip'                       => 'Débloquer un utilisateur ou une adresse IP',

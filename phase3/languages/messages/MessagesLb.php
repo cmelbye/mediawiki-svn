@@ -815,9 +815,6 @@ Dir verspriecht ausserdeem datt Dir dësen Text selwer verfaasst hutt, oder aus 
 '''DROT KEE COPYRECHTLECH GESCHÜTZTE CONTENU OUNI ERLAABNES AN!'''",
 'copyrightwarning2'                => "W.e.g. notéiert datt all Kontributiounen op {{SITENAME}} vun anere Benotzer verännert oder geläscht kënne ginn. Wann dir dat net wëllt, da setzt näischt heihinner.<br />
 Dir verspriecht ausserdeem datt dir dësen Text selwer verfaasst hutt, oder aus dem Domaine public oder anere fräie Quelle kopéiert hutt. (cf. $1 fir méi Detailler). '''DROT KEE COPYRECHTLECH GESCHÜTZTE CONTENU AN!'''",
-'longpagewarning'                  => "'''WARNUNG: Dës Säit ass $1 kB grouss; verschidde Browser kéinte Problemer hunn, Säiten ze verschaffen, déi méi grouss wéi 32 kB sinn.
-
-Iwwerleet w.e.g., ob eng Opdeelung vun der Säit a méi kleng Abschnitter méiglich ass.'''",
 'longpageerror'                    => "'''FEELER: Den Text, den Dir Versicht ze späicheren, huet $1 KB. Dëst ass méi wéi den erlaabte Maximum vun $2 KB – dofir kann den Text net gespäichert ginn.'''",
 'readonlywarning'                  => "'''OPGEPASST: D'Datebank gouf wéinst Maintenanceaarbechte fir Säitenännerunge gespaart, dofir kënnt Dir déi Säit den Ament net ofspäicheren. Versuergt den Text a versicht d'Ännerunge méi spéit nach emol ze maachen.'''
 
@@ -1517,8 +1514,8 @@ Erwënschte {{PLURAL:\$3|Format ass|Formater sinn}}: \$2.",
 'filetype-banned-type'        => "'''.$1''' ass ee Fichersformat deen net erlaabt ass.
 Erlaabt {{PLURAL:$3|ass|sinn}}: $2.",
 'filetype-missing'            => 'De Fichier huet keng Erweiderung (wéi z. B. ".jpg").',
-'empty-file'                  => 'De Fichier deen Dir geschéckt huet war eidel.',
-'file-too-large'              => 'De Fichier deen Dir geschéckt huet war ze grouss.',
+'empty-file'                  => 'De Fichier deen Dir geschéckt hutt war eidel.',
+'file-too-large'              => 'De Fichier deen Dir geschéckt hutt war ze grouss.',
 'filename-tooshort'           => 'Den Numm vum Fichier ass ze kuerz.',
 'filetype-banned'             => 'Dësen Typ vu Fichier kann net eropgeluede ginn.',
 'verification-error'          => "Dëse Fichier huet d'Fichiers-Iwwerpréifung net passéiert.",
@@ -2318,7 +2315,6 @@ Kuckt d'[[Special:IPBlockList|IP Spär-Lëscht]] fir all Spären ze gesin.",
 'ipb-edit-dropdown'               => 'Spärgrënn änneren',
 'ipb-unblock-addr'                => 'Spär vum $1 ophiewen',
 'ipb-unblock'                     => 'Spär vun enger IP-Adress oder engem Benotzer ophiewen',
-'ipb-blocklist-addr'              => 'Aktuell Späre fir $1',
 'ipb-blocklist'                   => 'Kuckt aktuell Spären',
 'ipb-blocklist-contribs'          => 'Kontributioune fir $1',
 'unblockip'                       => 'Spär vum Benotzer ophiewen',

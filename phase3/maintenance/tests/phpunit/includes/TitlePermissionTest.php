@@ -610,9 +610,9 @@ class TitlePermissionTest extends PHPUnit_Framework_TestCase {
 		# $short
 		$this->assertEquals( array( array( 'confirmedittext' ) ),
 							 self::$title->getUserPermissionsErrors( 'move-target', self::$user ) );
+		$wgEmailConfirmToEdit = false;
 		$this->assertEquals( true, self::$title->userCan( 'move-target' ) );
 
-		$wgEmailConfirmToEdit = false;
 		# $wgEmailConfirmToEdit && !$user->isEmailConfirmed() && $action != 'createaccount'
 		$this->assertEquals( array( ),
 							 self::$title->getUserPermissionsErrors( 'move-target',
@@ -632,7 +632,7 @@ class TitlePermissionTest extends PHPUnit_Framework_TestCase {
 			self::$title->getUserPermissionsErrors( 'move-target',
 			self::$user ) );
 
-		$this->assertEquals( true,
+		$this->assertEquals( false,
 							 self::$title->userCan( 'move-target', self::$user ) );
 
 		global $wgLocalTZoffset;

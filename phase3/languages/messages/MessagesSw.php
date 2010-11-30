@@ -358,6 +358,7 @@ Watumiaji wengi mno wanajaribu kutazama ukurasa huu.
 Tafadhali subiri kwa muda kadhaa kabla ya kujaribu kufungua tena.
 
 $1',
+'pool-queuefull'    => 'Foleni ya michakato imejaa',
 'pool-errorunknown' => 'Hitilafu isiyojulikana',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -789,8 +790,6 @@ Unakuwa unaahidi kwamba maandishi unayoyaingia ni yako tu, au uliyapata kutoka b
 Ikiwa hutaki maandishi yako yasihaririwe na yeyote, basi usiyaweke hapa.<br />
 Pia una tuahidi kwamba umeandika haya wewe mwenyewe, au umenakili kutoka katika tovuti ya umma au chanzo cha wazi sawa na hiki (tazama  $1 kwa maelezo).
 '''Usiandike makala yenye hakimiliki bila ya ruhusa halali!'''",
-'longpagewarning'                  => "'''ILANI: Urefu wa ukurasa huu ni kilobaiti $1; vivinjari kadhaa vinaweza kuwa na matatizo ukihariri ukurasa wenye urefu zaidi ya kb 32 hivi.
-Tafadhali fikiria kuhusu kuvunja ukurasa kwa vipande vifupi.'''",
 'longpageerror'                    => "'''Hitilafu: Maandishi uliyoyaweka yana urefu wa kilobati $1, ambayo ni marefu kuliko kiwango cha kawaida cha kilobaiti $2.'''
 Hayawezi kuhifadhiwa.",
 'readonlywarning'                  => "'''Onyo: Hifadhidata imefungwa kwa ajili ya matengenezo, kwa hiyo hautakuwa na uwezo wa kuhifadhi maharirio yako kwa sasa.'''
@@ -971,6 +970,7 @@ Tazama [[Special:IPBlockList|orodha ya uzuio wa IP]] kuona orodha ya zuio zilizo
 'revisionmoveselectedversions' => 'Hamisha mapitio yaliyochaguliwa',
 'revmove-reasonfield'          => 'Sababu:',
 'revmove-titlefield'           => 'Ukurasa unaolengwa',
+'revmove-norevisions-title'    => 'Pitio lililolengwa ni batili',
 'revmove-nullmove-title'       => 'Jina halifai',
 'revmove-success-existing'     => '{{PLURAL:$1|Pitio moja kutoka [[$2]] limehamishwa|mapitio $1 kutoka kwa [[$2]] yamehamishwa}} kwenda ukurasa uliopo tayari unaoitwa [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Pitio moja kutoka [[$2]] limehamishwa|mapitio $1 kutoka [[$2]] yamehamishwa}} kwenda ukurasa mpya unaoitwa [[$3]].',
@@ -1277,6 +1277,9 @@ Pia unaweza kuchagua kuwawezesha watumiaji wengine wawasiliane nawe kwa kupitia 
 'right-blockemail'           => 'Kumzuia mtumiaji asitume barua-pepe',
 'right-hideuser'             => 'Kuzuia jina la mtumiaji, lisionekane mbele ya kadamnasi',
 'right-editinterface'        => 'Kuhariri kusano ya mtumiaji',
+'right-editusercssjs'        => 'Kuhariri mafaili ya CSS na JavaScript ya watumiaji wengine',
+'right-editusercss'          => 'Kuhariri mafaili ya CSS ya watumiaji wengine',
+'right-edituserjs'           => 'Kuhariri mafaili ya JavaScript ya watumiaji wengine',
 'right-import'               => 'Kuleta kurasa kutoka kwa wiki zingine',
 'right-unwatchedpages'       => 'Kutazama orodha ya kurasa zisizofuatiliwa',
 'right-mergehistory'         => 'Kuunganisha historia ya kurasa zingine',
@@ -1589,9 +1592,11 @@ Maelezo yaliyopo katika [$2 ukurasa wa maelezo ya faili] linaonyeshwa hapa.',
 # File reversion
 'filerevert'                => 'Rejesha $1',
 'filerevert-legend'         => 'Rejesha faili',
+'filerevert-intro'          => "Unataka kulirudisha faili la '''[[Media:$1|$1]]''' hadi [$4 pitio la saa $3, tarehe $2].",
 'filerevert-comment'        => 'Sababu:',
 'filerevert-defaultcomment' => 'Ilirejeshwa hadi sahihisho lile la $2, $1',
 'filerevert-submit'         => 'Rejesha',
+'filerevert-success'        => "'''[[Media:$1|$1]]''' limerudishwa hadi [$4 pitio la saa $3, tarehe $2].",
 
 # File deletion
 'filedelete'                  => 'Futa $1',
@@ -1971,6 +1976,9 @@ Tafadhali hakikisha kwamba unalenga kufanya hivyo, na kwamba unaelewa matokeo ya
 'delete-edit-reasonlist' => 'Uhariri orodha ya sababu za kufuta',
 'delete-toobig'          => 'Ukurasa huu una historia ya kuhariri ndefu sana, yenye {{PLURAL:$1|badiliko|mabadiliko}} zaidi na $1.
 Ufutaji wa kurasa hizi moja kwa moja umezuluiwa ili {{SITENAME}} isivurugwe kwa bahati mbaya.',
+'delete-warning-toobig'  => 'Ukurasa huu unao mapitio mengi, zaida ya {{PLURAL:$1|pitio|mapitio}} $1.
+Ukiufuta labda itavuruga uendeshaji wa hifadhidata ya {{SITENAME}};
+endelea kwa uangalifu.',
 
 # Rollback
 'rollback'         => 'Rejesha masahihisho',
@@ -1982,6 +1990,9 @@ ukurasa huu una mhariri mmoja tu.',
 'editcomment'      => "Muhtasari wa kuhariri ilikuwa: \"''\$1''\".",
 'revertpage'       => 'Masahihisho aliyefanya [[Special:Contributions/$2|$2]] ([[User talk:$2|Majadiliano]]) yalirejeshwa hadi sahihisho la mwisho na [[User:$1|$1]]',
 'rollback-success' => 'Masahihisho aliyeyafanya $1 yalirejeshwa hadi kufika sahihisho la mwisho aliyefanya $2.',
+
+# Edit tokens
+'sessionfailure-title' => 'Kushindikana cha kipindi',
 
 # Protect
 'protectlogpage'              => 'Kumbukumbu ya ulindaji',
@@ -2154,8 +2165,19 @@ huenda ikawa mtu mwingine ameurudisha tayari.',
 'proxyblocksuccess'          => 'Tayari.',
 
 # Developer tools
-'lockbtn'   => 'Funga hifadhidata',
-'unlockbtn' => 'Fungua hifadhidata',
+'lockdb'              => 'Kufunga hifadhidata',
+'unlockdb'            => 'Kufungua hifadhidata',
+'lockconfirm'         => 'Ndiyo, kwa kweli nataka kufunga hifadhidata.',
+'unlockconfirm'       => 'Ndiyo, kwa kweli nataka kufungua hifadhidata.',
+'lockbtn'             => 'Funga hifadhidata',
+'unlockbtn'           => 'Fungua hifadhidata',
+'locknoconfirm'       => 'Hujaweka alama katika sanduku la kuitika kitendo.',
+'lockdbsuccesssub'    => 'Kufunga hifadhidata kumefaulu',
+'unlockdbsuccesssub'  => 'Kufungua hifadhidata kumefaulu',
+'lockdbsuccesstext'   => 'Hifadhidata imefungwa.<br />
+Kumbuka [[Special:UnlockDB|kuifungua tena]] baada ya kumaliza kuitengeneza.',
+'unlockdbsuccesstext' => 'Hifadhidata imefunguliwa.',
+'databasenotlocked'   => 'Hifadhidata haijafunguliwa.',
 
 # Move page
 'move-page'                    => 'Hamisha $1',
@@ -2460,23 +2482,27 @@ likifupishwa. Nyuga zingine zitafichwa kama chaguo-msingi.
 * focallength',
 
 # EXIF tags
-'exif-imagewidth'              => 'Upana',
-'exif-imagelength'             => 'Urefu',
-'exif-artist'                  => 'Mwandishi',
-'exif-componentsconfiguration' => 'Maana ya kila kijenzi',
-'exif-makernote'               => 'Maelezo ya mtengenezaji',
-'exif-usercomment'             => 'Maoni ya mtumiaji',
-'exif-relatedsoundfile'        => 'Faili la sauti linalohusika',
-'exif-lightsource'             => 'Mwanga',
-'exif-gpslatituderef'          => 'Latitudo kwenda kaskazini au kusini',
-'exif-gpslatitude'             => 'Latitudo',
-'exif-gpslongituderef'         => 'Longitudo kwenda mashariki au magharibi',
-'exif-gpslongitude'            => 'Longitudo',
-'exif-gpsaltitude'             => 'Mwinuko',
-'exif-gpsdestlatitude'         => 'Latitudo ya kikomo',
-'exif-gpsdestlongitude'        => 'Longitudo ya kikomo',
-'exif-gpsdestdistance'         => 'Mbali wa kikomo',
-'exif-gpsdatestamp'            => 'Tarehe ya GPS',
+'exif-imagewidth'                  => 'Upana',
+'exif-imagelength'                 => 'Urefu',
+'exif-jpeginterchangeformatlength' => 'Idadi ya baiti za data ya JPEG',
+'exif-datetime'                    => 'Tarehe na saa ya kubadilisha faili',
+'exif-imagedescription'            => 'Jina la picha',
+'exif-artist'                      => 'Mwandishi',
+'exif-copyright'                   => 'Mwenye hatimiliki',
+'exif-componentsconfiguration'     => 'Maana ya kila kijenzi',
+'exif-makernote'                   => 'Maelezo ya mtengenezaji',
+'exif-usercomment'                 => 'Maoni ya mtumiaji',
+'exif-relatedsoundfile'            => 'Faili la sauti linalohusika',
+'exif-lightsource'                 => 'Mwanga',
+'exif-gpslatituderef'              => 'Latitudo kwenda kaskazini au kusini',
+'exif-gpslatitude'                 => 'Latitudo',
+'exif-gpslongituderef'             => 'Longitudo kwenda mashariki au magharibi',
+'exif-gpslongitude'                => 'Longitudo',
+'exif-gpsaltitude'                 => 'Mwinuko',
+'exif-gpsdestlatitude'             => 'Latitudo ya kikomo',
+'exif-gpsdestlongitude'            => 'Longitudo ya kikomo',
+'exif-gpsdestdistance'             => 'Mbali wa kikomo',
+'exif-gpsdatestamp'                => 'Tarehe ya GPS',
 
 'exif-unknowndate' => 'Tarehe haijulikani',
 
@@ -2759,15 +2785,23 @@ Andika jina la faili bila kiambishi awali cha "{{ns:file}}:".',
 'compare-submit'   => 'Linganisha',
 
 # Database error messages
-'dberr-header'    => 'Wiki imekuta tatizo',
-'dberr-problems'  => 'Kumradhi!
+'dberr-header'      => 'Wiki imekuta tatizo',
+'dberr-problems'    => 'Kumradhi!
 Tovuti hii inapata matatatizo wakati huu.',
-'dberr-again'     => 'Jaribu tena baada ya kusubiri dakika chache.',
-'dberr-info'      => '(Hamna mawasiliano na seva ya hifadhidata: $1)',
-'dberr-usegoogle' => 'Unaposubiri unaweza kujaribu kutafuta kwa kutumia Google.',
-'dberr-outofdate' => 'Elewa kwamba fahirisi yao ya yaliyomo katika tovuti hii inaweza kuwa imepitwa na wakati.',
+'dberr-again'       => 'Jaribu tena baada ya kusubiri dakika chache.',
+'dberr-info'        => '(Hamna mawasiliano na seva ya hifadhidata: $1)',
+'dberr-usegoogle'   => 'Unaposubiri unaweza kujaribu kutafuta kwa kutumia Google.',
+'dberr-outofdate'   => 'Elewa kwamba fahirisi yao ya yaliyomo katika tovuti hii inaweza kuwa imepitwa na wakati.',
+'dberr-cachederror' => 'Ifuatayo ni nakala ya kache ya ukurasa uliyoombwa, na huenda isiwe ya sasa.',
 
 # HTML forms
+'htmlform-invalid-input'       => 'Kuna matatizo na baadhi ya hiyo uliyoingiza',
+'htmlform-select-badoption'    => 'Thamani ulioiandika si chaguo halali.',
+'htmlform-int-invalid'         => 'Kitu ulichokiandika si namba kamili.',
+'htmlform-float-invalid'       => 'Kitu ulichokiandika si namba.',
+'htmlform-int-toolow'          => 'Namba uliyoiandika iko chini ya kiwango cha chini cha $1',
+'htmlform-int-toohigh'         => 'Namba uliyoiandika iko juu ya kiwango cha juu cha $1',
+'htmlform-required'            => 'Ni lazima kujaza kitu hapa',
 'htmlform-submit'              => 'Wasilisha',
 'htmlform-reset'               => 'Tengua mabadiliko',
 'htmlform-selectorother-other' => 'Nyingine',

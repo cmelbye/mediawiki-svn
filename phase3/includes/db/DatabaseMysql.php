@@ -52,8 +52,6 @@ class DatabaseMysql extends DatabaseBase {
 		$this->mPassword = $password;
 		$this->mDBname = $dbName;
 
-		$success = false;
-
 		wfProfileIn("dbconnect-$server");
 
 		# The kernel's default SYN retransmission period is far too slow for us,
@@ -92,7 +90,6 @@ class DatabaseMysql extends DatabaseBase {
 			wfDebug( "DB connection error\n" );
 			wfDebug( "Server: $server, User: $user, Password: " .
 				substr( $password, 0, 3 ) . "..., error: " . mysql_error() . "\n" );
-			$success = false;
 		}
 
 		wfProfileOut("dbconnect-$server");
@@ -249,7 +246,7 @@ class DatabaseMysql extends DatabaseBase {
 	 * Returns estimated count, based on EXPLAIN output
 	 * Takes same arguments as Database::select()
 	 */
-	public function estimateRowCount( $table, $vars='*', $conds='', $fname = 'Database::estimateRowCount', $options = array() ) {
+	public function estimateRowCount( $table, $vars='*', $conds='', $fname = 'DatabaseMysql::estimateRowCount', $options = array() ) {
 		$options['EXPLAIN'] = true;
 		$res = $this->select( $table, $vars, $conds, $fname, $options );
 		if ( $res === false ) {
@@ -280,6 +277,34 @@ class DatabaseMysql extends DatabaseBase {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Get information about an index into an object
+	 * Returns false if the index does not exist
+	 */
+	function indexInfo( $table, $index, $fname = 'DatabaseMysql::indexInfo' ) {
+		# SHOW INDEX works in MySQL 3.23.58, but SHOW INDEXES does not.
+		# SHOW INDEX should work for 3.x and up:
+		# http://dev.mysql.com/doc/mysql/en/SHOW_INDEX.html
+		$table = $this->tableName( $table );
+		$index = $this->indexName( $index );
+		$sql = 'SHOW INDEX FROM ' . $table;
+		$res = $this->query( $sql, $fname );
+
+		if ( !$res ) {
+			return null;
+		}
+
+		$result = array();
+
+		foreach ( $res as $row ) {
+			if ( $row->Key_name == $index ) {
+				$result[] = $row;
+			}
+		}
+
+		return empty( $result ) ? false : $result;
 	}
 
 	function selectDB( $db ) {
@@ -446,6 +471,9 @@ class DatabaseMysql extends DatabaseBase {
 		$this->query( "SET sql_big_selects=$encValue", __METHOD__ );
 	}
 
+	public function unixTimestamp( $field ) {
+		return "UNIX_TIMESTAMP($field)";
+	}
 
 	/**
 	 * Determines if the last failure was due to a deadlock
@@ -502,6 +530,56 @@ class DatabaseMysql extends DatabaseBase {
  * Legacy support: Database == DatabaseMysql
  */
 class Database extends DatabaseMysql {}
+
+/**
+ * Utility class.
+ * @ingroup Database
+ */
+class MySQLField implements Field {
+	private $name, $tablename, $default, $max_length, $nullable,
+		$is_pk, $is_unique, $is_multiple, $is_key, $type;
+
+	function __construct ( $info ) {
+		$this->name = $info->name;
+		$this->tablename = $info->table;
+		$this->default = $info->def;
+		$this->max_length = $info->max_length;
+		$this->nullable = !$info->not_null;
+		$this->is_pk = $info->primary_key;
+		$this->is_unique = $info->unique_key;
+		$this->is_multiple = $info->multiple_key;
+		$this->is_key = ( $this->is_pk || $this->is_unique || $this->is_multiple );
+		$this->type = $info->type;
+	}
+
+	function name() {
+		return $this->name;
+	}
+
+	function tableName() {
+		return $this->tableName;
+	}
+
+	function type() {
+		return $this->type;
+	}
+
+	function isNullable() {
+		return $this->nullable;
+	}
+
+	function defaultValue() {
+		return $this->default;
+	}
+
+	function isKey() {
+		return $this->is_key;
+	}
+
+	function isMultipleKey() {
+		return $this->is_multiple;
+	}
+}
 
 class MySQLMasterPos {
 	var $file, $pos;

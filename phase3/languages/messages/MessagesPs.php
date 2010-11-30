@@ -433,7 +433,7 @@ $1',
 'toc'                     => 'نيوليک',
 'showtoc'                 => 'ښکاره کول',
 'hidetoc'                 => 'پټول',
-'thisisdeleted'           => '$1 کتل او يا بيا پر ځايول؟',
+'thisisdeleted'           => '$1 کتل او يا بيازېرمل؟',
 'viewdeleted'             => '$1 کتل؟',
 'restorelink'             => '{{PLURAL:$1|يو ړنګ شوی سمون|$1 ړنګ شوي سمونونه}}',
 'feedlinks'               => 'کتنه:',
@@ -468,6 +468,7 @@ $1',
 'databaseerror'        => 'د ډاټابېز تېروتنه',
 'laggedslavemode'      => "'''ګواښنه:''' په دې مخ کې کېدای شي تازه اوسمهالېدنې نه وي.",
 'readonly'             => 'توکبنسټ تړل شوی',
+'enterlockreason'      => 'د بنديز يو سبب وليکۍ، او همداراز د بنديز د ليرې کېدلو يوه اټکليزه نېټه هم څرګنده کړۍ',
 'missing-article'      => 'توکبنسټ د "$1" $2 په نامه د ورکړ شوي مخ متن چې بايد موندلی يې وای، و نه موند.
 
 دا ستونزه اکثراً د يوه ړنګ شوي مخ د پېښليک يا توپير د تړنو په څارلو کې رامېنځ ته کېږي.
@@ -691,6 +692,8 @@ $1',
 'whitelistedittitle'               => 'که د سمادولو تکل لری نو بايد غونډال ته ورننوځۍ.',
 'whitelistedittext'                => 'ددې لپاره چې سمادول ترسره کړی تاسو بايد $1.',
 'nosuchsectiontitle'               => 'برخه و نه موندل شوه',
+'nosuchsectiontext'                => 'تاسې د يوې داسې برخې د سمون هڅه کړې چې تر اوسه پورې نشته.
+کېدای هغه مهال چې تاسې د دې مخ نه کتنه کوله، همدا برخه کوم بل ځای ته لېږدل شوې او يا هم ړنګه شوې وي.',
 'loginreqtitle'                    => 'غونډال کې ننوتنه پکار ده',
 'loginreqlink'                     => 'ننوتل',
 'loginreqpagetext'                 => 'د نورو مخونو د کتلو لپاره تاسو بايد $1 وکړۍ.',
@@ -707,6 +710,8 @@ $1',
 'userpage-userdoesnotexist'        => 'د "$1" کارن حساب نه دی ثبت شوی.
 لطفاً ځان ډاډه کړۍ چې آيا تاسې په رښتيا همدا مخ جوړول که سمول غواړۍ.',
 'userpage-userdoesnotexist-view'   => 'د "$1" کارن-حساب نه دی ثبت شوی.',
+'blocked-notice-logextract'        => 'دم مهال په دې کارن بنديز لګېدلی.
+دلته لاندې د بنديز تازه يادښت د سرچينې په توګه ورکړ شوی:',
 'clearyourcache'                   => "'''يادونه:''' د غوره توبونو د خوندي کولو وروسته، ددې لپاره چې تاسو خپل سر ته رسولي ونجونه وګورۍ نو پکار ده چې د خپل بروزر ساتل شوې حافظه تازه کړی. د '''Mozilla / Firefox / Safari:''' لپاره د ''Shift'' تڼۍ نيولې وساتی کله مو چې په ''Reload''، ټک واهه، او يا هم ''Ctrl-Shift-R'' تڼۍ کېښکاږۍ (په Apple Mac کمپيوټر باندې ''Cmd-Shift-R'' کېښکاږۍ); '''IE:''' د ''Ctrl'' تڼۍ کېښکاږۍ کله مو چې په ''Refresh'' ټک واهه، او يا هم د ''Ctrl-F5'' تڼۍ کېښکاږۍ; '''Konqueror:''' بروزر کې يواځې ''Reload'' ته ټک ورکړۍ، او يا په ''F5''; د '''Opera''' کارونکو ته پکار ده چې په بشپړه توګه د خپل کمپيوټر ساتل شوې حافظه تازه کړي چې پدې توګه کېږي ''Tools→Preferences''.",
 'usercsspreview'                   => "'''هېر مو نشي چې دا يوازې ستاسې د کارن CSS مخليدنه ده.'''
 '''تر اوسه پورې لا ستاسې بدلونونه نه دي خوندي شوي!'''",
@@ -724,8 +729,6 @@ $1',
 'yourdiff'                         => 'توپيرونه',
 'copyrightwarning'                 => "لطفاً په پام کې وساتۍ چې ټولې هغه ونډې چې تاسې يې {{SITENAME}} کې ترسره کوی هغه د $2 له مخې د خپرولو لپاره ګڼل کېږي (د لانورو تفصيلاتو لپاره $1 وګورۍ). که تاسې نه غواړۍ چې په ليکنو کې مو په بې رحمۍ سره لاسوهنې (سمونې) وشي او د نورو په غوښتنه پسې لانورې هم خپرې شي، نو دلته يې مه ځای پر ځای کوی..<br />
 تاسې زمونږ سره دا ژمنه هم کوی چې تاسې پخپله دا ليکنه کښلې، او يا مو د ټولګړو پاڼو او يا ورته وړيا سرچينو نه کاپي کړې ده '''لطفاً د ليکوال د اجازې نه پرته د خوندي رښتو ليکنې مه خپروی!'''",
-'longpagewarning'                  => "'''پاملرنه: همدا مخ $1 کيلوبايټه اوږد دی؛ کېدای شي چې ځينې کتنملونه د ۳۲ کيلوبايټ نه د اوږدو مخونو په سمونه کې ستونزه رامېنځ ته کړي.
-لطفاً د مخ په لنډولو او په وړو برخو وېشلو باندې غور وکړی.'''",
 'longpageerror'                    => "'''ستونزه: کوم متن چې دلته تاسو ليکلی، $1 کيلوبايټه اوږد دی او دا د همدې مخ د لوړترين ټاکلي بريده، $2 کيلوبايټه، څخه اوږد دی.
 ستاسو متن نه شي خوندي کېدلای.'''",
 'protectedpagewarning'             => "'''ګواښنه: همدا مخ تړل شوی او يوازې هغه کارنان په دې مخ کې بدلونونه راوستلای شي چې د پازوالۍ د آسانتياوو نه برخمن دي.'''
@@ -813,6 +816,7 @@ $1',
 'revdelete-selected'         => "'''د [[:$1]] {{PLURAL:$2|ټاکلې بڼه|ټاکلې بڼې}}:'''",
 'revdelete-hide-text'        => 'د مخکتنې متن پټول',
 'revdelete-hide-image'       => 'د دوتنې مېنځپانګه پټول',
+'revdelete-hide-name'        => 'کړنه او موخه پټول',
 'revdelete-hide-comment'     => 'د سمون لنډيز پټول',
 'revdelete-radio-same'       => '(مه بدلوه)',
 'revdelete-radio-set'        => 'هو',
@@ -840,6 +844,7 @@ $1',
 # Revision move
 'revmove-reasonfield'    => 'سبب:',
 'revmove-titlefield'     => 'د موخې مخ:',
+'revmove-badparam-title' => 'بد پاراميترونه',
 'revmove-nullmove-title' => 'بد سرليک',
 
 # History merging
@@ -862,7 +867,7 @@ $1',
 'compareselectedversions'  => 'ټاکلې بڼې سره پرتلل',
 'showhideselectedversions' => 'ټاکلې بڼې ښکاره کول/پټول',
 'editundo'                 => 'ناکړ',
-'diff-multi'               => '({{PLURAL:$1|يوه منځګړې مخليدنه نه ده ښکاره شوې|$1 منځګړې مخليدنې نه دي ښکاره شوي}}.)',
+'diff-multi'               => ' د ({{PLURAL:$2| يو کارن|$2 کارنانو}} لخوا {{PLURAL:$1|يوه منځګړې بڼه|$1 منځګړې بڼې}}د  نه ده ښکاره شوې)',
 
 # Search results
 'searchresults'                    => 'د پلټنې پايلې',
@@ -924,6 +929,8 @@ $1',
 
 # Quickbar
 'qbsettings-none'          => 'هېڅ',
+'qbsettings-fixedleft'     => 'ثابته کيڼ',
+'qbsettings-fixedright'    => 'ثابته ښي',
 'qbsettings-floatingleft'  => 'کيڼه لامبا',
 'qbsettings-floatingright' => 'ښي لامبا',
 
@@ -1042,17 +1049,20 @@ $1',
 'group-bot'        => 'روباټونه',
 'group-sysop'      => 'پازوالان',
 'group-bureaucrat' => 'بيوروکراټان',
+'group-suppress'   => 'څارونکي',
 'group-all'        => '(ټول)',
 
 'group-user-member'       => 'کارن',
 'group-bot-member'        => 'روباټ',
 'group-sysop-member'      => 'پازوال',
 'group-bureaucrat-member' => 'بيوروکراټ',
+'group-suppress-member'   => 'څارن',
 
 'grouppage-user'       => '{{ns:project}}:کارنان',
 'grouppage-bot'        => '{{ns:project}}:روباټان',
 'grouppage-sysop'      => '{{ns:project}}:پازوالان',
 'grouppage-bureaucrat' => '{{ns:project}}:بيوروکراټان',
+'grouppage-suppress'   => '{{ns:project}}:څارن',
 
 # Rights
 'right-read'                 => 'مخونه لوستل',
@@ -1162,6 +1172,7 @@ $1',
 * د يوې دوتنې د بشپړې بڼې د کارولو په موخه د '''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.jpg]]</nowiki></tt>''' کوډ وکاروۍ.
 * د '۲۰۰ پېکسل' په کچه د 'بټنوک' په توګه د يوې دوتنې کارول چې د مخ کيڼې څنډې کې او ترلاندې 'د انځور څرګندونې' ولري، نو د دې موخې لپاره د '''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.png|200px|بټنوک|کيڼ|د انځور څرګندونې]]</nowiki></tt>''' کوډ وکاروۍ.
 * د انځور د ښودلو نه پرته، د دوتنې سره د سيخې تړنې لپاره د '''<tt><nowiki>[[</nowiki>{{ns:media}}<nowiki>:File.ogg]]</nowiki></tt>''' کوډ وکاروۍ.",
+'uploadlog'             => 'د پورته شويو دوتنو يادښت',
 'uploadlogpage'         => 'د پورته شويو دوتنو يادښت',
 'uploadlogpagetext'     => 'دا لاندې د نوو پورته شوو دوتنو لړليک دی.',
 'filename'              => 'د دوتنې نوم',
@@ -1202,17 +1213,22 @@ $1',
 'upload-options'        => 'د پورته کولو خوښنې',
 'watchthisupload'       => 'همدا دوتنه کتل',
 'upload-success-subj'   => 'دوتنه پورته کېدل په برياليتوب سره ترسره شو',
+'upload-failure-subj'   => 'د پورته کېدو ستونزه',
 
 'upload-file-error'   => 'کورنۍ ستونزه',
 'upload-unknown-size' => 'ناڅرګنده کچه',
 'upload-http-error'   => 'د HTTP يوه ستونزه رامېنځ ته شوې: $1',
 
 # img_auth script messages
-'img-auth-nofile' => 'د $1 په نوم کومه دوتنه نشته.',
+'img-auth-accessdenied' => 'لاسرسی رد شو',
+'img-auth-nofile'       => 'د $1 په نوم کومه دوتنه نشته.',
 
 # HTTP errors
 'http-invalid-url' => 'ناسم URL: $1',
 'http-read-error'  => 'د HTTP د لوستلو ستونزه.',
+
+# Some likely curl errors. More could be added from <http://curl.haxx.se/libcurl/c/libcurl-errors.html>
+'upload-curl-error6' => 'URL ته لاسرسی و نه شو',
 
 'license'            => 'منښتليک:',
 'license-header'     => 'منښتليک:',
@@ -1255,6 +1271,7 @@ $1',
 'duplicatesoffile'          => 'دا لاندينۍ {{PLURAL:$1| دوتنه د همدې دوتنې غبرګونې لمېسه ده|$1 دوتنې د همدې دوتنې غبرګونې لمېسې دي}} ([[Special:FileDuplicateSearch/$2|نور تفصيل]]):',
 'sharedupload'              => 'دا دوتنه د $1 لخوا نه ده او کېدای شي چې نورې پروژې به يې هم کاروي.',
 'uploadnewversion-linktext' => 'د همدغې دوتنې نوې بڼه پورته کول',
+'shared-repo-from'          => 'د $1 لخوا',
 
 # File reversion
 'filerevert-comment' => 'سبب:',
@@ -1372,6 +1389,7 @@ $1',
 'notargettitle'           => 'بې موخې',
 'pager-newer-n'           => '{{PLURAL:$1|نوی 1|نوي $1}}',
 'pager-older-n'           => '{{PLURAL:$1|زوړ 1|زاړه $1}}',
+'suppress'                => 'څارن',
 
 # Book sources
 'booksources'               => 'د کتاب سرچينې',
@@ -1607,11 +1625,12 @@ $1',
 'undeletepage'              => 'ړنګ شوي مخونه کتل او بېرته پرځای کول',
 'viewdeletedpage'           => 'ړنګ شوي مخونه کتل',
 'undeletebtn'               => 'بېرته پرځای کول',
-'undeletelink'              => 'کتل/بيا پر ځای کول',
+'undeletelink'              => 'کتل/بيازېرمل',
 'undeleteviewlink'          => 'کتل',
 'undeletereset'             => 'بياايښودل',
 'undeletecomment'           => 'سبب:',
 'undeletedarticle'          => '"[[$1]]" بېرته پرځای شو',
+'undeletedfiles'            => '{{PLURAL:$1|1 دوتنه بيازېرمه شوه|$1 دوتنې بيازېرمه شوې}}',
 'undelete-search-box'       => 'ړنګ شوي مخونه لټول',
 'undelete-search-prefix'    => 'هغه مخونه ښکاره کړه چې پېلېږي په:',
 'undelete-search-submit'    => 'پلټل',

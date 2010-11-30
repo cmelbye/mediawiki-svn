@@ -956,9 +956,6 @@ Azt is megígéred, hogy ezt magadtól írtad, vagy egy közkincsből vagy más 
 Ha nem akarod, hogy az írásodat módosítsák, akkor ne küldd be.<br />
 Azt is megígéred, hogy ezt magadtól írtad, vagy egy közkincsből vagy más szabad forrásból másoltad (lásd a(z) $1 lapot a részletekért).
 '''NE KÜLDJ BE JOGVÉDETT MUNKÁT ENGEDÉLY NÉLKÜL!'''",
-'longpagewarning'                  => "'''FIGYELEM: Ez a lap $1 kilobájt hosszú;
-néhány böngészőnek problémát okoz a 32 kB-os vagy nagyobb lapok szerkesztése.
-Fontold meg a lap kisebb szakaszokra bontását.'''",
 'longpageerror'                    => "'''HIBA: Az általad beküldött szöveg $1 kilobájt hosszú, ami több az engedélyezett $2 kilobájtnál.
 A szerkesztést nem lehet elmenteni.'''",
 'readonlywarning'                  => "'''FIGYELMEZTETÉS: A wiki adatbázisát karbantartás miatt zárolták, ezért most nem fogod tudni elmenteni a szerkesztéseidet.
@@ -2473,7 +2470,6 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipb-edit-dropdown'               => 'Blokkolási okok szerkesztése',
 'ipb-unblock-addr'                => '$1 blokkjának feloldása',
 'ipb-unblock'                     => 'Felhasználónév vagy IP-cím blokkolásának feloldása',
-'ipb-blocklist-addr'              => '$1 aktív blokkjai',
 'ipb-blocklist'                   => 'Létező blokkok megtekintése',
 'ipb-blocklist-contribs'          => '$1 közreműködései',
 'unblockip'                       => 'Blokk feloldása',

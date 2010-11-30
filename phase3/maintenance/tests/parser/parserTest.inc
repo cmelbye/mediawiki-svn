@@ -120,7 +120,7 @@ class ParserTest {
 	}
 
 	static function setUp() {
-		global $wgParser,  $wgParserConf, $IP, $messageMemc, $wgMemc, $wgDeferredUpdateList,
+		global $wgParser, $wgParserConf, $IP, $messageMemc, $wgMemc, $wgDeferredUpdateList,
 			$wgUser, $wgLang, $wgOut, $wgRequest, $wgStyleDirectory, $wgEnableParserCache,
 			$wgMessageCache, $wgUseDatabaseMessages, $wgMsgCacheExpiry, $parserMemc,
 			$wgNamespaceAliases, $wgNamespaceProtection, $wgLocalFileRepo,
@@ -149,9 +149,9 @@ class ParserTest {
 
 		$wgEnableParserCache = false;
 		$wgDeferredUpdateList = array();
-		$wgMemc =& wfGetMainCache();
-		$messageMemc =& wfGetMessageCacheStorage();
-		$parserMemc =& wfGetParserCacheStorage();
+		$wgMemc = &wfGetMainCache();
+		$messageMemc = &wfGetMessageCacheStorage();
+		$parserMemc = &wfGetParserCacheStorage();
 
 		// $wgContLang = new StubContLang;
 		$wgUser = new User;
@@ -429,7 +429,6 @@ class ParserTest {
 			$titleText = 'Parser test';
 		}
 
-		$noxml = isset( $opts['noxml'] );
 		$local = isset( $opts['local'] );
 		$preprocessor = isset( $opts['preprocessor'] ) ? $opts['preprocessor'] : null;
 		$parser = $this->getParser( $preprocessor );

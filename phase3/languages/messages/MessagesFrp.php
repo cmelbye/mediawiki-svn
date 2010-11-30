@@ -708,6 +708,7 @@ Oubliâd pas de pèrsonalisar voutres [[Special:Preferences|prèferences dessus 
 'yourpassword'               => 'Mot de pâssa :',
 'yourpasswordagain'          => 'Confirmâd lo mot de pâssa :',
 'remembermypassword'         => 'Sè rapelar de mon branchement sur ceti navigator (por $1 jorn{{PLURAL:$1||s}} u més)',
+'securelogin-stick-https'    => 'Réstar branchiê en HTTPS aprés lo branchement',
 'yourdomainname'             => 'Voutron domêno :',
 'externaldberror'            => 'Ou ben una èrror est arrevâ avouéc la bâsa de balyês d’ôtenticacion de defôr, ou ben vos éte pas ôtorisâ a betar a jorn voutron compto de defôr.',
 'login'                      => 'Branchement',
@@ -751,6 +752,7 @@ Volyéd tornar èprovar.',
 Volyéd tornar èprovar.',
 'passwordtooshort'           => 'Voutron mot de pâssa dêt contegnir u muens $1 caractèro{{PLURAL:$1||s}}.',
 'password-name-match'        => 'Voutron mot de pâssa dêt étre difèrent de voutron nom d’utilisator.',
+'password-too-weak'          => 'Lo mot de pâssa balyê est trop fêblo et pués pôt pas étre utilisâ.',
 'mailmypassword'             => 'Recêvre un mot de pâssa novél per mèssageria èlèctronica',
 'passwordremindertitle'      => 'Mot de pâssa temporèro novél por {{SITENAME}}',
 'passwordremindertext'       => 'Quârqu’un (probâblament vos, avouéc l’adrèce IP $1) at demandâ un mot de pâssa
@@ -983,9 +985,6 @@ Vos nos assurâd asse-ben que vos éd cen ècrit vos-mémo, ou ben que vos l’�
 Se vos voléd pas que voutros ècrits seyont changiês sen gins de rèstriccion, adonc los volyéd pas sometre ique.<br />
 Vos nos assurâd asse-ben que vos éd cen ècrit vos-mémo, ou ben que vos l’éd copiyê d’una sôrsa que vint du domêno publico, ou ben d’una ressôrsa abada (vêde $1 por més de dètalys).
 '''Utilisâd gins d’ôvra desot drêt d’ôtor sen pèrmission èxprèssa !'''",
-'longpagewarning'                  => "'''ATENCION :''' ceta pâge at una longior de $1 Kio ;
-quârques navigators administront mâl lo changement de les pâges aprochient ou ben dèpassent 32 Kio.
-Pôt-étre devriâd-vos divisar la pâge en sèccions ples petiôtes.",
 'longpageerror'                    => "'''ÈRROR : lo tèxto que vos éd somês fât $1 Kio, cen que dèpâsse la limita fixâ a $2 Kio.'''
 Lo tèxto pôt pas étre sôvâ.",
 'readonlywarning'                  => "'''Atencion : la bâsa de balyês at étâ vèrrolyê por mantegnence, vos porréd vêr pas sôvar voutros changements d’abôrd.'''
@@ -1861,6 +1860,7 @@ Clicar sur un en-téta de colona pèrmèt de changiér l’ôrdre de visualisaci
 'listfiles_search_for'  => 'Rechèrchiér un nom d’un fichiér multimèdia :',
 'imgfile'               => 'fichiér',
 'listfiles'             => 'Lista des fichiérs',
+'listfiles_thumb'       => 'Figura',
 'listfiles_date'        => 'Dâta',
 'listfiles_name'        => 'Nom',
 'listfiles_user'        => 'Utilisator',
@@ -1976,6 +1976,7 @@ Oubliâd pas de controlar s’y at pas d’ôtros lims de vers los modèlos deva
 'statistics-edits'             => 'Changements de pâges dês l’enstalacion de {{SITENAME}}',
 'statistics-edits-average'     => 'Nombro moyen de changements per pâge',
 'statistics-views-total'       => 'Soma de les visualisacions',
+'statistics-views-total-desc'  => 'Les visualisacions de les pâges pas ègzistentes et de les pâges spèciâles sont pas encllues',
 'statistics-views-peredit'     => 'Visualisacions per changement',
 'statistics-users'             => '[[Special:ListUsers|Utilisators]] encartâs',
 'statistics-users-active'      => 'Utilisators actifs',
@@ -2014,6 +2015,8 @@ Les entrâs <del>barrâs</del> ont étâ solucionâs.',
 'nmembers'                => '$1 membro{{PLURAL:$1||s}}',
 'nrevisions'              => '$1 vèrsion{{PLURAL:$1||s}}',
 'nviews'                  => '$1 visualisacion{{PLURAL:$1||s}}',
+'nimagelinks'             => 'Utilisâ dessus $1 pâge{{PLURAL:$1||s}}',
+'ntransclusions'          => 'utilisâ dessus $1 pâge{{PLURAL:$1||s}}',
 'specialpage-empty'       => 'Y at gins de rèsultat a fâre vêre.',
 'lonelypages'             => 'Pâges orfenes',
 'lonelypagestext'         => 'Cetes pâges sont pas liyês ou ben encllues dês d’ôtres pâges de {{SITENAME}}.',
@@ -2544,7 +2547,6 @@ Vêde la [[Special:IPBlockList|lista ux utilisators et a les adrèces IP blocâs
 'ipb-edit-dropdown'               => 'Changiér les rêsons de blocâjo',
 'ipb-unblock-addr'                => 'Dèblocar $1',
 'ipb-unblock'                     => 'Dèblocar un compto utilisator ou ben una adrèce IP',
-'ipb-blocklist-addr'              => 'Blocâjos ègzistents por $1',
 'ipb-blocklist'                   => 'Vêde los blocâjos ègzistents',
 'ipb-blocklist-contribs'          => 'Contribucions por $1',
 'unblockip'                       => 'Dèblocar un utilisator ou ben una adrèce IP',
@@ -2652,6 +2654,17 @@ Por vèrrolyér ou ben dèvèrrolyér la bâsa de balyês, dêt étre accèssibl
 Lo viely titro vindrat una pâge de redirèccion de vers lo titro novél.
 Vos pouede betar a jorn ôtomaticament les redirèccions d’ora que pouentont vers lo titro originâl.
 Se vos chouèsésséd de pas lo fâre, assurâd-vos de controlar tota [[Special:DoubleRedirects|redirèccion dobla]] ou ben [[Special:BrokenRedirects|câssa]].
+Vos avéd la rèsponsabilitât de vos assurar que los lims continuont de pouentar vers lor dèstinacion suposâ.
+
+Notâd que la pâge serat '''pas''' dèplaciê s’y at ja una pâge avouéc lo titro novél, a muens que cela dèrriére seye voueda ou ben seye ren qu’una redirèccion et que son historico des changements seye vouedo.
+Cen vôt dére que vos pouede renomar una pâge vers sa posicion d’origina se vos éd fêt una èrror, mas que vos pouede pas ècllafar una pâge ja ègzistenta.
+
+'''ATENCION !'''
+Cen pôt provocar un changement fôrt et emprèvu por una pâge sovent vua ;
+assurâd-vos de nen avêr comprês les consèquences devant que continuar.",
+'movepagetext-noredirectfixer' => "Utilisâd lo formulèro ce-desot por renomar una pâge, en dèplacient tot son historico vers lo novél nom.
+Lo viely titro vindrat una pâge de redirèccion de vers lo titro novél.
+Controlâd bien les [[Special:DoubleRedirects|redirèccions dobles]] ou ben [[Special:BrokenRedirects|câsses]].
 Vos avéd la rèsponsabilitât de vos assurar que los lims continuont de pouentar vers lor dèstinacion suposâ.
 
 Notâd que la pâge serat '''pas''' dèplaciê s’y at ja una pâge avouéc lo titro novél, a muens que cela dèrriére seye voueda ou ben seye ren qu’una redirèccion et que son historico des changements seye vouedo.

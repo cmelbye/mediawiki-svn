@@ -624,8 +624,6 @@ $2',
 'copyrightwarning2'                => "請記得別嗰人編得正、改得正或者刪得正倷到{{SITENAME}}嗰全部貢獻。要係倷伓想自家嗰編輯好嚟嚟拕改吥，唉就莫遞交。<br />
 倷都要話正倷嗰文字係倷自家寫嗰，或者係公有領域或別嗰自由資源複製到嗰（望吖$1有別嗰資料）。
 '''冇任何許可嗰情況下請莫遞交有版權嗰作品！'''",
-'longpagewarning'                  => "'''警告：箇頁有$1 kilobytes咁長；有嗰瀏覽器會編伓正超吥32 kb嗰頁面。
-請考慮吖拿佢分到細嚸嗰小段落。'''",
 'longpageerror'                    => "'''錯誤：倷遞交嗰文字有$1 kilobytes咁長，佢長過最大嗰$2 kilobytes。存伓正倷遞交嗰文字。'''",
 'readonlywarning'                  => "'''警告: 資料庫鎖到嘞進行定期修護，眼下倷存伓正倷嗰改動。倷可以拿佢存到文檔再著。'''",
 'protectedpagewarning'             => "'''警告: 箇頁已經受保護，單只管理員許可權嗰用戶才改得正。'''",
@@ -1528,7 +1526,6 @@ $1',
 'ipb-edit-dropdown'           => '編寫封鎖原因',
 'ipb-unblock-addr'            => '解封$1',
 'ipb-unblock'                 => '解封用戶名或IP地址',
-'ipb-blocklist-addr'          => '望吖$1目前嗰封禁',
 'ipb-blocklist'               => '望吖目前嗰封禁',
 'unblockip'                   => '解封IP地址',
 'unblockiptext'               => '用下底嗰表格去恢復早先拕封嗰IP嗰編寫權。',

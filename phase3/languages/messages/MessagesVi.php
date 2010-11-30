@@ -924,7 +924,6 @@ Bạn phải đảm bảo với chúng tôi rằng chính bạn là người vi�
 'copyrightwarning2'                => "Xin chú ý rằng tất cả các đóng góp của bạn tại {{SITENAME}} có thể được sửa đổi, thay thế, hoặc xóa bỏ bởi các thành viên khác. Nếu bạn không muốn trang của bạn bị sửa đổi không thương tiếc, đừng đăng trang ở đây.<br />
 Bạn phải đảm bảo với chúng tôi rằng chính bạn là người viết nên, hoặc chép nó từ một nguồn thuộc phạm vi công cộng hoặc tự do tương đương (xem $1 để biết thêm chi tiết).
 '''ĐỪNG ĐĂNG TÁC PHẨM CÓ BẢN QUYỀN MÀ CHƯA XIN PHÉP!'''",
-'longpagewarning'                  => "'''CẢNH BÁO: Trang này dài $1 kilobyte; một số trình duyệt không tải được trang dài hơn 32 kb. Bạn nên chia nhỏ trang này thành nhiều trang.'''",
 'longpageerror'                    => "'''LỖI: Văn bạn mà bạn muốn lưu dài $1 kilobyte, dài hơn độ dài tối đa cho phép $2 kilobyte. Không thể lưu trang.'''",
 'readonlywarning'                  => "'''CẢNH BÁO: Cơ sở dữ liệu đã bị khóa để bảo dưỡng, do đó bạn không thể lưu các sửa đổi của mình. Bạn nên cắt-dán đoạn bạn vừa sửa vào một tập tin và lưu nó lại để sửa đổi sau này.'''
 
@@ -1355,7 +1354,7 @@ Không có thể lùi lại tác động này.',
 'prefs-help-signature'          => 'Các ý kiến tại trang thảo luận nên được ký tên bằng cách gõ "<nowiki>~~~~</nowiki>", nó sẽ được đổi thành chữ ký của bạn cùng với thời điểm thảo luận.',
 'badsig'                        => 'Chữ ký không hợp lệ; hãy kiểm tra thẻ HTML.',
 'badsiglength'                  => 'Chữ ký của bạn quá dài.
-Nó không được dài quá $1 {{PLURAL:$1|ký tự|ký tự}}.',
+Nó không được dài quá $1 ký tự.',
 'yourgender'                    => 'Giới tính:',
 'gender-unknown'                => 'Không chỉ rõ',
 'gender-male'                   => 'Nam',
@@ -2447,7 +2446,6 @@ $1',
 'ipb-edit-dropdown'               => 'Sửa đổi lý do cấm',
 'ipb-unblock-addr'                => 'Bỏ cấm $1',
 'ipb-unblock'                     => 'Bỏ cấm thành viên hay địa chỉ IP',
-'ipb-blocklist-addr'              => 'Tình trạng cấm hiện tại của $1',
 'ipb-blocklist'                   => 'Xem danh sách đang bị cấm',
 'ipb-blocklist-contribs'          => 'Đóng góp của $1',
 'unblockip'                       => 'Bỏ cấm thành viên',

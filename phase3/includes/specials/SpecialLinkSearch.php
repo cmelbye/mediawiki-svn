@@ -169,6 +169,22 @@ class LinkSearchPage extends QueryPage {
 	}
 
 	/**
+	 * Override to check query validity.
+	 */
+	function doQuery( $offset, $limit, $shownavigation=true ) {
+		global $wgOut;
+		list( $this->mMungedQuery,  ) = LinkSearchPage::mungeQuery( $this->mQuery, $this->mProt );
+		if( $this->mMungedQuery === false ) {
+			$wgOut->addWikiMsg( 'linksearch-error' );
+		} else {
+			// For debugging
+			// Generates invalid xhtml with patterns that contain --
+			//$wgOut->addHTML( "\n<!-- " . htmlspecialchars( $this->mMungedQuery ) . " -->\n" );
+			parent::doQuery( $offset, $limit, $shownavigation );
+		}
+	}
+
+	/**
 	 * Override to squash the ORDER BY.
 	 * We do a truncated index search, so the optimizer won't trust
 	 * it as good enough for optimizing sort. The implicit ordering

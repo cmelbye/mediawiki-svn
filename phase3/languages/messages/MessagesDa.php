@@ -611,6 +611,7 @@ Kontrollér stavemåden, eller [[Special:UserLogin/signup|opret en ny konto]].',
 'wrongpasswordempty'         => 'Du glemte at indtaste password. Prøv igen.',
 'passwordtooshort'           => 'Adgangskoden skal mindst være på $1 {{PLURAL:$1|tegn|tegn}}.',
 'password-name-match'        => 'Kodeordet må ikke være det samme som brugernavnet.',
+'password-too-weak'          => 'Det angivne password er for svagt og kan ikke bruges.',
 'mailmypassword'             => 'Send nyt password',
 'passwordremindertitle'      => 'Nyt password til {{SITENAME}}',
 'passwordremindertext'       => 'Nogen (sandsynligvis dig, fra IP-adressen $1)
@@ -831,8 +832,6 @@ Læg ingen tekster ind, hvis du ikke kan acceptere at disse kan ændres.
 
 Du bekræfter hermed også, at du selv har skrevet denne tekst eller kopieret den fra en fri kilde (se $1 for detaljer).
 '''OVERFØR IKKE OPHAVSRETSLIGT BESKYTTET INDHOLD UDEN TILLADELSE!'''",
-'longpagewarning'                  => "'''ADVARSEL: Denne side er $1 kilobyte stor; nogle browsere kan have problemer med at redigere sider der nærmer sig eller er større end 32 kb.
-Overvej om siden kan opdeles i mindre dele.'''",
 'longpageerror'                    => "'''FEJL: Teksten, som du ville gemme, er $1 kB stor. Det er større end det tilladet maksimum på $2 kB. Det er ikke muligt at gemme.'''",
 'readonlywarning'                  => "'''ADVARSEL: Databasen er låst på grund af vedligeholdelse, så du kan ikke gemme dine ændringer lige nu. Det kan godt være en god ide at kopiere din tekst til en tekstfil, så du kan gemme den til senere.'''
 
@@ -1657,6 +1656,7 @@ For optimal sikkerhed er img_auth.php deaktiveret.",
 'listfiles_search_for'  => 'Søge efter fil:',
 'imgfile'               => 'Fil',
 'listfiles'             => 'Filliste',
+'listfiles_thumb'       => 'Thumbnail',
 'listfiles_date'        => 'Dato',
 'listfiles_name'        => 'Navn',
 'listfiles_user'        => 'Bruger',
@@ -1771,6 +1771,7 @@ Husk at kontrollere for andre henvisninger til skabelonerne før de slettes.',
 'statistics-edits'             => 'Redigeringer siden {{SITENAME}} blev oprettet',
 'statistics-edits-average'     => 'Gennemsnitligt antal redigeringer per side',
 'statistics-views-total'       => 'Visninger i alt',
+'statistics-views-total-desc'  => 'Visninger på ikke-eksisterende sider og special sider er ikke inkluderet',
 'statistics-views-peredit'     => 'Visninger per redigering',
 'statistics-users'             => 'Registrerede [[Special:ListUsers|brugere]]',
 'statistics-users-active'      => 'Aktive brugere',
@@ -2320,7 +2321,6 @@ Se [[Special:IPBlockList|IP-blokeringslisten]] for alle blokeringer.',
 'ipb-edit-dropdown'               => 'Ændre spærreårsager',
 'ipb-unblock-addr'                => 'Ophæv blokeringen af "$1"',
 'ipb-unblock'                     => 'Frigive IP-adresse/bruger',
-'ipb-blocklist-addr'              => 'Aktuelle blokeringer af "$1"',
 'ipb-blocklist'                   => 'Vis alle blokeringer som er i kraft',
 'ipb-blocklist-contribs'          => 'Bidrag fra $1',
 'unblockip'                       => 'Ophæv blokering af bruger',
@@ -2414,6 +2414,17 @@ $1 er allerede blokkeret. Vil du ændre indstillingene?',
 'move-page'                    => 'Flyt $1',
 'move-page-legend'             => 'Flyt side',
 'movepagetext'                 => "Når du bruger formularen herunder vil du få omdøbt en side og flyttet hele sidens historie til det nye navn. Den gamle titel vil blive en omdirigeringsside til den nye titel. Henvisninger til den gamle titel vil ikke blive ændret. Sørg for at tjekke for dobbelte eller dårlige omdirigeringer. Du er ansvarlig for, at alle henvisninger stadig peger derhen, hvor det er meningen de skal pege. Bemærk at siden '''ikke''' kan flyttes hvis der allerede er en side med den nye titel, medmindre den side er tom eller er en omdirigering uden nogen historie. Det betyder at du kan flytte en side tilbage hvor den kom fra, hvis du kommer til at lave en fejl. <b>ADVARSEL!</b> Dette kan være en drastisk og uventet ændring for en populær side; vær sikker på, at du forstår konsekvenserne af dette før du fortsætter.",
+'movepagetext-noredirectfixer' => "Brug formularen herunder du vil omdøbe en side og flyttet hele sidens historie til det nye navn.
+Den gamle titel vil blive en omdirigeringsside til den nye titel.
+Vær sikker på at tjekke for [[Special:DoubleRedirects|dobbelte]] eller [[Special:BrokenRedirects|ødelagte omdirigeringer]].
+Du er ansvarlig for at sikre, at alle henvisninger stadig peger på et sted hvor det giver meningen at gå.
+
+Bemærk, at siden '''ikke''' kan flyttes hvis der allerede er en side med den nye titel, medmindre den er tom eller er en omdirigering, og har ingen historie.
+Det betyder at du kan omdøbe en side tilbage hvor den kom fra, hvis du laver en fejl, og du kan ikke overskrive en eksisterende side.
+
+'''Advarsel!'''
+Dette kan være en drastisk og uventet ændring for en populær side;
+du skal være sikker på at du forstår konsekvenserne af dette før du fortsætter.",
 'movepagetalktext'             => "Den tilhørende diskussionsside, hvis der er en, vil automatisk blive flyttet med siden '''medmindre:''' *Du flytter siden til et andet navnerum,
 *En ikke-tom diskussionsside allerede eksisterer under det nye navn, eller
 *Du fjerner markeringen i boksen nedenunder.

@@ -118,7 +118,7 @@ class WebInstaller extends CoreInstaller {
 		$this->exportVars();
 		$this->setupLanguage();
 
-		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) ) 
+		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) )
 			&& $this->request->getVal( 'localsettings' ) )
 		{
 			$this->request->response()->header( 'Content-type: text/plain' );
@@ -469,8 +469,9 @@ class WebInstaller extends CoreInstaller {
 	 * @param $currentPageName String
 	 */
 	private function startPageWrapper( $currentPageName ) {
-		$s = "<div class=\"config-page-wrapper\">\n" .
-			"<div class=\"config-page-list\"><ul>\n";
+		$s = "<div class=\"config-page-wrapper\">\n";
+		$s .= "<div class=\"config-page\">\n";
+		$s .= "<div class=\"config-page-list\"><ul>\n";
 		$lastHappy = -1;
 
 		foreach ( $this->pageSequence as $id => $pageName ) {
@@ -492,9 +493,8 @@ class WebInstaller extends CoreInstaller {
 			$s .= $this->getPageListItem( $pageName, true, $currentPageName );
 		}
 
-		$s .= "</ul></div>\n". // end list pane
-			"<div class=\"config-page\">\n" .
-			Html::element( 'h2', array(),
+		$s .= "</ul></div>\n"; // end list pane
+		$s .= Html::element( 'h2', array(),
 				wfMsg( 'config-page-' . strtolower( $currentPageName ) ) );
 
 		$this->output->addHTMLNoFlush( $s );
@@ -613,14 +613,14 @@ class WebInstaller extends CoreInstaller {
 		array_shift( $args );
 		$args = array_map( 'htmlspecialchars', $args );
 		$text = wfMsgReal( $msg, $args, false, false, false );
+		$html = htmlspecialchars( $text );
 		//$html = $this->parse( $text, true );
-    $html = $text;
 		return
             "<span class=\"mw-help-field-hint\"\n" .
       	    "     title=\"" . $html . "\"\n" .
     	    "     original-title=\"" . $html . "\"></span>\n";
 	}
-	
+
 	/**
 	 * Output a help box.
 	 */
@@ -687,7 +687,7 @@ class WebInstaller extends CoreInstaller {
 			"  </div>\n" .
 			"</div>\n";
 	}
-	
+
 	/**
 	 * Get a labelled text box to configure a variable.
 	 *
@@ -732,7 +732,7 @@ class WebInstaller extends CoreInstaller {
 				$params['help']
 			);
 	}
-	
+
 	/**
 	 * Get a labelled password box to configure a variable.
 	 *

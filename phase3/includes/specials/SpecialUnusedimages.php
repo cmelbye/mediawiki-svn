@@ -53,6 +53,7 @@ class UnusedimagesPage extends ImageQueryPage {
 			'join_conds' => array ( 'imagelinks' => array (
 					'LEFT JOIN', 'il_to = img_name' ) )
 		);
+
 		if ( $wgCountCategorizedImagesAsUsed ) {
 			// Order is significant
 			// TODO: Revise query to LEFT JOIN page instead

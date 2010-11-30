@@ -1475,7 +1475,7 @@ class Title {
 	 * @see checkQuickPermissions for parameter information
 	 */
 	private function checkUserBlock( $action, $user, $errors, $doExpensiveQueries, $short ) {
-		if( $short ) {
+		if( $short && count( $errors ) > 0 ) {
 			return $errors;
 		}
 
@@ -1898,21 +1898,12 @@ class Title {
 
 	/**
 	 * Is this a *valid* .css or .js subpage of a user page?
-	 * Check that the corresponding skin exists
 	 *
 	 * @return \type{\bool}
+	 * @deprecated
 	 */
 	public function isValidCssJsSubpage() {
-		if ( $this->isCssJsSubpage() ) {
-			$name = $this->getSkinFromCssJsSubpage();
-			if ( $name == 'common' ) {
-				return true;
-			}
-			$skinNames = Skin::getSkinNames();
-			return array_key_exists( $name, $skinNames );
-		} else {
-			return false;
-		}
+		return $this->isCssJsSubpage();
 	}
 
 	/**

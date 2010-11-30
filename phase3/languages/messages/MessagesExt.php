@@ -614,7 +614,6 @@ Pol otra parti, al pursal el botón \"emburacal\" mos estás asigurandu que lo e
 'copyrightwarning2'                => "Tolas contribucionis a {{SITENAME}} puein sel eitás, chambás, u esborrás pol otrus colabutaoris. Si nu estás dalcuerdu, altonci nu emburaquis ná.<br />
 Pol otra parti, al pursal el botón \"emburacal\" mos estás asigurandu que lo escrebiu á siu hechu pol tí, u copiau dun domiñu púbricu u recursu semilal (lei \$1 pa mas detallis).
 '''Cudia: Nu emburaquis labutus con Copyright sin premisu!'''",
-'longpagewarning'                  => "'''Avisu: Esta páhina tieni un grandol de $1 kilobytes; angunus escrucaoris puein tenel pobremas al eital páhinas con mas de 32 kB. Pol favol, consieri la posibiliá e devidil esta páhina en secionis mas chiqueninas.'''",
 'longpageerror'                    => "'''Marru: El testu qu'as empuntau ocupa $1 kbs (siendu polo tantu mayol de $2 kbs). Nu es posibri emburacal.'''",
 'readonlywarning'                  => "'''Alverténcia: La bassi datus s'alcuentra cerrá pol mantenimientu nesti momentu,
 razón pola que nu pueis emburacal los tus chambus agora.'''
@@ -1716,7 +1715,6 @@ Escrebi una razón concreta embahu (pol sabulugal, almientandu páhinas qu'aigan
 'ipb-edit-dropdown'           => 'Eital las razonis el tarugu',
 'ipb-unblock-addr'            => 'Desatarugal $1',
 'ipb-unblock'                 => 'Desatarugal un nombri d´usuáriu u direción IP',
-'ipb-blocklist-addr'          => 'Tarugus dessistentis de $1',
 'ipb-blocklist'               => 'Vel tarugus desistentis',
 'ipb-blocklist-contribs'      => 'Contribucionis de $1',
 'unblockip'                   => 'Desatarugal usuáriu',

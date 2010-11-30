@@ -787,6 +787,10 @@ class DatabaseMssql extends DatabaseBase {
 		return false;
 	}
 
+	public function unixTimestamp( $field ) {
+		return "DATEDIFF(s,CONVERT(datetime,'1/1/1970'),$field)";
+	}
+
 	/**
 	 * Begin a transaction, committing any previously open transaction
 	 */
@@ -824,7 +828,7 @@ class DatabaseMssql extends DatabaseBase {
 		$res = $this->doQuery( $SQL );
 		if ( !$res ) {
 			print "<b>FAILED</b>. Make sure that the user " . htmlspecialchars( $wgDBuser ) . " can write to the database</li>\n";
-			dieout( "" );
+			dieout( );
 		}
 		$this->doQuery( "DROP TABLE $ctest" );
 
@@ -1051,7 +1055,7 @@ class DatabaseMssql extends DatabaseBase {
  *
  * @ingroup Database
  */
-class MssqlField {
+class MssqlField implements Field {
 	private $name, $tablename, $default, $max_length, $nullable, $type;
 	function __construct ( $info ) {
 		$this->name = $info['COLUMN_NAME'];
@@ -1077,7 +1081,7 @@ class MssqlField {
 		return $this->max_length;
 	}
 
-	function nullable() {
+	function isNullable() {
 		return $this->nullable;
 	}
 
@@ -1117,7 +1121,7 @@ class MssqlResult {
 		foreach ( $array as $key => $value ) {
 			if ( is_array( $value ) ) {
 				$obj->$key = new stdClass();
-				array_to_obj( $value, $obj->$key );
+				$this->array_to_obj( $value, $obj->$key );
 			} else {
 				if ( !empty( $key ) ) {
 					$obj->$key = $value;

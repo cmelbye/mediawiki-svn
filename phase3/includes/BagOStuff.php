@@ -130,9 +130,14 @@ abstract class BagOStuff {
 		}
 	}
 
+	/**
+	 * @param $key String: Key yo increase
+	 * @param $value Integer: Value to add to $key (Default 1)
+	 * @return null if lock is not possible else $key value increased by $value
+	 */
 	public function incr( $key, $value = 1 ) {
 		if ( !$this->lock( $key ) ) {
-			return false;
+			return null;
 		}
 
 		$value = intval( $value );

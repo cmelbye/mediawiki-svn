@@ -662,7 +662,6 @@ Inviendi lu testhu ài la ripunsabiriddai chi lu testhu sia toiu oppuru sia i lu
 Inviendi lu testhu ài la ripunsabiriddai chi lu testhu sia toiu oppuru sia i lu pùbbriggu dumìniu (vedi $1 pa maggiori dettàgli).
 
 '''NÒ INVIÀ MATERIARI CUBERTHU DA DIRITTU D'AUTORI CHENA AUTORIZZAZIONI!'''",
-'longpagewarning'                  => "'''ATTINZIONI: Chistha pàgina è longa $1 kilobyte; zerthuni nabiggadori pudiani abé dei prubremi. Si pussìbiri suddibidì la pàgina in sezzioni o sottupàgini minori.'''",
 'longpageerror'                    => "'''ERRORI: Lu testhu ch'ài inviaddu è longu $1 kB (kilobytes), più di la misura massima cunsintidda di $2 kB. Lu testhu nò pò assé sàivvaddu.'''",
 'readonlywarning'                  => "'''ATTINZIONI: La bancadati è isthadda broccadda pa manutinzioni, dunca abà è impussìbiri saivvà li mudìfigghi. Pa no pirdhilli, copia lu testhu mudifiggaddu in un file i' lu to' elaburaddori e torra a saivvallu candu la bancadati sarà ibbruccadda.'''",
 'protectedpagewarning'             => "'''ATTINZIONI: Chista pàgina è isthadda broccadda parchì soru l'utenti cun pribiréggi di amministhradori possiano mudìfiggarla.'''",
@@ -1561,7 +1560,6 @@ $1",
 'ipb-edit-dropdown'           => 'Mutibi pa lu broccu',
 'ipb-unblock-addr'            => 'Ibbrucca $1',
 'ipb-unblock'                 => "Ibbrucca un'utenti o un'indirizzu IP",
-'ipb-blocklist-addr'          => 'Erenca i brocchi attibi pa $1',
 'ipb-blocklist'               => 'Erenca i brocchi attibi',
 'unblockip'                   => "Ibbrucca l'utenti",
 'unblockiptext'               => "Usà lu mòdulu in giossu pa turrà l'intradda i'ischrittura a un'utenti o indirizzu IP broccaddu.",

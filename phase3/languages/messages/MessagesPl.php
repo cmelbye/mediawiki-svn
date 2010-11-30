@@ -908,7 +908,6 @@ Zapisując swoją edycję, oświadczasz, że ten tekst jest Twoim dziełem lub p
 Jeśli nie chcesz, żeby Twój tekst był dowolnie zmieniany przez każdego i rozpowszechniany bez ograniczeń, nie umieszczaj go tutaj.<br />
 Zapisując swoją edycję, oświadczasz, że ten tekst jest Twoim dziełem lub pochodzi z materiałów dostępnych na warunkach ''domeny publicznej'' lub kompatybilnych (zobacz także $1).
 '''PROSZĘ NIE WPROWADZAĆ MATERIAŁÓW CHRONIONYCH PRAWEM AUTORSKIM BEZ POZWOLENIA WŁAŚCICIELA!'''",
-'longpagewarning'                  => "'''Ta strona ma {{PLURAL:$1|1 kilobajt|$1 kilobajty|$1 kilobajtów}}. Jeśli to możliwe, spróbuj podzielić tekst na mniejsze części.'''",
 'longpageerror'                    => "'''Błąd! Wprowadzony przez Ciebie tekst ma {{PLURAL:$1|1 kilobajt|$1 kilobajty|$1 kilobajtów}}. Długość tekstu nie może przekraczać {{PLURAL:$2|1 kilobajt|$2 kilobajty|$2 kilobajtów}}. Tekst nie może być zapisany.'''",
 'readonlywarning'                  => "'''Uwaga! Baza danych została zablokowana do celów administracyjnych. W tej chwili nie można zapisać nowej wersji strony. Zapisz jej treść do pliku, używając wytnij i wklej, aby zachować na później.'''
 
@@ -2089,10 +2088,10 @@ Adres e‐mailowy, który został przez Ciebie wprowadzony w [[Special:Preferenc
 'nowikiemailtitle'     => 'Brak zezwolenia na otrzymywanie e‐maili',
 'nowikiemailtext'      => 'Ten użytkownik nie chce otrzymywać wiadomości e‐mail od innych użytkowników.',
 'email-legend'         => 'Wyślij e‐mail do innego użytkownika {{GRAMMAR:D.lp|{{SITENAME}}}}',
-'emailfrom'            => 'Od:',
-'emailto'              => 'Do:',
-'emailsubject'         => 'Temat:',
-'emailmessage'         => 'Wiadomość:',
+'emailfrom'            => 'Od',
+'emailto'              => 'Do',
+'emailsubject'         => 'Temat',
+'emailmessage'         => 'Wiadomość',
 'emailsend'            => 'Wyślij',
 'emailccme'            => 'Wyślij mi kopię mojej wiadomości.',
 'emailccsubject'       => 'Kopia Twojej wiadomości do $1: $2',
@@ -2442,7 +2441,6 @@ Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrze
 'ipb-edit-dropdown'               => 'Edytuj przyczynę blokady',
 'ipb-unblock-addr'                => 'Odblokuj $1',
 'ipb-unblock'                     => 'Odblokuj użytkownika lub adres IP',
-'ipb-blocklist-addr'              => 'Istniejące blokady dla $1',
 'ipb-blocklist'                   => 'Zobacz istniejące blokady',
 'ipb-blocklist-contribs'          => 'Wkład $1',
 'unblockip'                       => 'Odblokuj użytkownika',

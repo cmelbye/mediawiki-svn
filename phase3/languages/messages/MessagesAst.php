@@ -643,7 +643,6 @@ Amás tas dexándonos afitao qu'escribisti esto tu mesmu o que lo copiasti d'una
 Amás tas dexándonos afitao qu'escribisti esto tu mesmu o que lo copiasti d'una fonte
 llibre de dominiu públicu o asemeyao (ver $1 pa más detalles).
 '''¡NUN PONGAS TRABAYOS CON DERECHOS D'AUTOR ENSIN PERMISU!'''",
-'longpagewarning'                  => "'''AVISU: Esta páxina tien más de $1 quilobytes; dellos navegadores puen tener problemes editando páxines de 32 ó más kb. Habríes dixebrar la páxina en seiciones más pequeñes.'''",
 'longpageerror'                    => "'''ERROR: El testu qu'unviasti tien $1 quilobytes, que ye
 más que'l máximu de $2 quilobytes. Nun pue ser grabáu.'''",
 'readonlywarning'                  => "'''AVISU: La base de datos ta candada por mantenimientu, polo que nun vas poder guardar les tos ediciones nestos momentos.
@@ -1882,7 +1881,6 @@ Esto debería facese sólo pa prevenir vandalismu como indiquen les [[{{MediaWik
 'ipb-edit-dropdown'               => 'Editar motivos de bloquéu',
 'ipb-unblock-addr'                => 'Desbloquiar $1',
 'ipb-unblock'                     => "Desbloquiar un nome d'usuariu o direición IP",
-'ipb-blocklist-addr'              => 'Bloqueos esistentes de $1',
 'ipb-blocklist'                   => 'Ver los bloqueos esistentes',
 'ipb-blocklist-contribs'          => 'Contribuciones de $1',
 'unblockip'                       => 'Desbloquiar usuariu',

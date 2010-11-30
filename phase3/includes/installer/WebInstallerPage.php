@@ -60,7 +60,7 @@ abstract class WebInstallerPage {
 		if ( $continue ) {
 			// Fake submit button for enter keypress
 			$s .= Xml::submitButton( wfMsg( "config-$continue" ),
-				array( 'name' => "enter-$continue", 'style' => 'display:none' ) ) . "\n";
+				array( 'name' => "enter-$continue", 'style' => 'visibility:hidden;overflow:hidden;width:1px;margin:0' ) ) . "\n";
 		}
 		
 		if ( $id !== 0 ) {
@@ -478,8 +478,8 @@ class WebInstaller_Name extends WebInstallerPage {
 			) ) .
 			$this->parent->getTextBox( array(
 				'var' => 'wgMetaNamespace',
-				'label' => '',
-				'attribs' => array( 'disabled' => '' ),
+				'label' => '', //TODO: Needs a label?
+				'attribs' => array( 'readonly' => 'readonly', 'class' => 'enabledByOther' ),
 			    
 			) ) .
 			$this->getFieldSetStart( 'config-admin-box' ) .

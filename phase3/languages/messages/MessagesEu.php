@@ -768,7 +768,6 @@ Era berean, bidaltzen ari zaren edukia zuk zeuk idatzitakoa dela edo jabetza pub
 'copyrightwarning2'                => "Mesedez, kontuan izan {{SITENAME}}(e)n egindako ekarpen guztiak besteek aldatu edo ezabatu ditzaketela. Ez baduzu besteek aldaketak egitea nahi, ez ezazu bidali.<br />
 Era berean, bidaltzen ari zaren edukia zuk zeuk idatzitakoa dela edo jabetza publikoko edo baliabide aske batetik kopiatu duzula zin egin ari zara (ikus $1 informazio gehiagorako).
 '''EZ BIDALI BAIMENIK GABEKO COPYRIGHTDUN EDUKIRIK!'''",
-'longpagewarning'                  => "'''OHARRA: Orrialde honek $1 kilobyteko tamaina du; nabigatzaile batzuek arazoak izan litzakete 32 kb-tik gorako testuekin. Mesedez, saiatu orrialdea atal txikiagoetan banatzen.'''",
 'longpageerror'                    => "'''ERROREA: Bidali duzun testuak $1 kilobyteko luzera du, eta $2 kilobyteko maximoa baino luzeagoa da. Ezin da gorde.'''",
 'readonlywarning'                  => "'''OHARRA: Datu-basea blokeatu egin da mantenu lanak burutzeko, beraz ezingo dituzu orain zure aldaketak gorde. Testua fitxategi baten kopiatu dezakezu, eta beranduago erabiltzeko gorde.
 
@@ -2217,7 +2216,6 @@ Ikus [[Special:IPBlockList|IP blokeoen zerrenda]] blokeoak aztertzeko.',
 'ipb-edit-dropdown'               => 'Blokeatzeko arrazoiak aldatu',
 'ipb-unblock-addr'                => '$1 lankide edo IP helbideari blokeoa baliogabetu',
 'ipb-unblock'                     => 'Erabiltzaile izen edo IP helbide bati blokeoa kendu',
-'ipb-blocklist-addr'              => '$1(r)en blokeoak ikusi',
 'ipb-blocklist'                   => 'Blokeaketak ikusi',
 'ipb-blocklist-contribs'          => '$1(r)en ekarpenak',
 'unblockip'                       => 'Erabiltzailea desblokeatu',

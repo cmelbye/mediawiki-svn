@@ -1,5 +1,5 @@
 /*
- * JavaScript backwards-compatibility alternatives and convenience functions
+ * JavaScript backwards-compatibility alternatives and other convenience functions
  */
 
 jQuery.extend({
@@ -15,6 +15,26 @@ jQuery.extend({
 	},
 	escapeRE : function( str ) {
 		return str.replace ( /([\\{}()|.?*+^$\[\]])/g, "\\$1" );
+	},
+	isEmpty : function( v ) {
+		var key;
+		if ( v === "" || v === 0 || v === "0" || v === null
+			|| v === false || typeof v === 'undefined' )
+		{
+			return true;
+		}
+		// the for-loop could potentially contain prototypes
+		// to avoid that we check it's length first
+		if ( v.length === 0 ) {
+			return true;
+		}
+		if ( typeof v === 'object' ) {
+			for ( key in v ) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	},
 	compareArray : function( arrThis, arrAgainst ) {
 		if ( arrThis.length != arrAgainst.length ) {
@@ -68,8 +88,8 @@ window.mediaWiki = new ( function( $ ) {
 	 *
 	 * If called with no arguments, all values will be returned.
 	 *
-	 * @param {mixed} selection Key or array of keys to get values for
-	 * @param {mixed} fallback Value to use in case key(s) do not exist (optional)
+	 * @param selection mixed Key or array of keys to get values for
+	 * @param fallback mixed Value to use in case key(s) do not exist (optional)
 	 */
 	Map.prototype.get = function( selection, fallback ) {
 		if ( typeof selection === 'object' ) {
@@ -94,8 +114,8 @@ window.mediaWiki = new ( function( $ ) {
 	/**
 	 * Sets one or multiple key/value pairs.
 	 *
-	 * @param {mixed} selection Key or object of key/value pairs to set
-	 * @param {mixed} value Value to set (optional, only in use when key is a string)
+	 * @param selection mixed Key or object of key/value pairs to set
+	 * @param value mixed Value to set (optional, only in use when key is a string)
 	 */
 	Map.prototype.set = function( selection, value ) {
 		if ( typeof selection === 'object' ) {
@@ -110,8 +130,8 @@ window.mediaWiki = new ( function( $ ) {
 	/**
 	 * Checks if one or multiple keys exist.
 	 *
-	 * @param {mixed} key Key or array of keys to check
-	 * @return {boolean} Existence of key(s)
+	 * @param selection mixed Key or array of keys to check
+	 * @return boolean Existence of key(s)
 	 */
 	Map.prototype.exists = function( selection ) {
 		if ( typeof keys === 'object' ) {
@@ -139,7 +159,7 @@ window.mediaWiki = new ( function( $ ) {
 	/**
 	 * Appends parameters for replacement
 	 *
-	 * @param {mixed} args First in a list of variadic arguments to append as message parameters
+	 * @param parameters mixed First in a list of variadic arguments to append as message parameters
 	 */
 	Message.prototype.params = function( parameters ) {
 		for ( var i = 0; i < parameters.length; i++ ) {
@@ -238,8 +258,8 @@ window.mediaWiki = new ( function( $ ) {
 	/**
 	 * Gets a message object, similar to wfMessage()
 	 *
-	 * @param {string} key Key of message to get
-	 * @param {mixed} params First argument in a list of variadic arguments, each a parameter for $
+	 * @param key string Key of message to get
+	 * @param parameters mixed First argument in a list of variadic arguments, each a parameter for $
 	 * replacement
 	 */
 	this.message = function( key, parameters ) {
@@ -256,8 +276,8 @@ window.mediaWiki = new ( function( $ ) {
 	/**
 	 * Gets a message string, similar to wfMsg()
 	 *
-	 * @param {string} key Key of message to get
-	 * @param {mixed} params First argument in a list of variadic arguments, each a parameter for $
+	 * @param key string Key of message to get
+	 * @param parameters mixed First argument in a list of variadic arguments, each a parameter for $
 	 * replacement
 	 */
 	this.msg = function( key, parameters ) {
@@ -372,7 +392,7 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Gets a list of module names that a module depends on in their proper dependency order
 		 *
-		 * @param mixed string module name or array of string module names
+		 * @param module string module name or array of string module names
 		 * @return list of dependencies
 		 * @throws Error if circular reference is detected
 		 */
@@ -404,8 +424,8 @@ window.mediaWiki = new ( function( $ ) {
 		 * state. Possible states are 'undefined', 'registered', 'loading',
 		 * 'loaded', or 'ready'
 		 *
-		 * @param mixed string or array of strings of module states to filter by
-		 * @param array list of module names to filter (optional, all modules
+		 * @param states string or array of strings of module states to filter by
+		 * @param modules array list of module names to filter (optional, all modules
 		 *   will be used by default)
 		 * @return array list of filtered module names
 		 */
@@ -446,7 +466,7 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Executes a loaded module, making it ready to use
 		 *
-		 * @param string module name to execute
+		 * @param module string module name to execute
 		 */
 		function execute( module ) {
 			if ( typeof registry[module] === 'undefined' ) {
@@ -528,9 +548,9 @@ window.mediaWiki = new ( function( $ ) {
 		 * Adds a dependencies to the queue with optional callbacks to be run
 		 * when the dependencies are ready or fail
 		 *
-		 * @param mixed string moulde name or array of string module names
-		 * @param function ready callback to execute when all dependencies are ready
-		 * @param function error callback to execute when any dependency fails
+		 * @param dependencies string module name or array of string module names
+		 * @param ready function callback to execute when all dependencies are ready
+		 * @param error function callback to execute when any dependency fails
 		 */
 		function request( dependencies, ready, error ) {
 			// Allow calling by single module name
@@ -757,11 +777,11 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Executes a function as soon as one or more required modules are ready
 		 *
-		 * @param mixed string or array of strings of modules names the callback
+		 * @param dependencies string or array of strings of modules names the callback
 		 *   dependencies to be ready before
 		 * executing
-		 * @param function callback to execute when all dependencies are ready (optional)
-		 * @param function callback to execute when if dependencies have a errors (optional)
+		 * @param ready function callback to execute when all dependencies are ready (optional)
+		 * @param error function callback to execute when if dependencies have a errors (optional)
 		 */
 		this.using = function( dependencies, ready, error ) {
 			// Validate input
@@ -796,9 +816,9 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Loads an external script or one or more modules for future use
 		 *
-		 * @param {mixed} modules either the name of a module, array of modules,
+		 * @param modules mixed either the name of a module, array of modules,
 		 *   or a URL of an external script or style
-		 * @param {string} type mime-type to use if calling with a URL of an
+		 * @param type string mime-type to use if calling with a URL of an
 		 *   external script or style; acceptable values are "text/css" and
 		 *   "text/javascript"; if no type is provided, text/javascript is
 		 *   assumed
@@ -864,8 +884,8 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Changes the state of a module
 		 *
-		 * @param mixed module string module name or object of module name/state pairs
-		 * @param string state string state name
+		 * @param module string module name or object of module name/state pairs
+		 * @param state string state name
 		 */
 		this.state = function( module, state ) {
 			if ( typeof module === 'object' ) {
@@ -883,7 +903,7 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Gets the version of a module
 		 *
-		 * @param string module name of module to get version for
+		 * @param module string name of module to get version for
 		 */
 		this.version = function( module ) {
 			if ( module in registry && 'version' in registry[module] ) {

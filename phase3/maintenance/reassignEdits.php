@@ -45,7 +45,7 @@ class ReassignEdits extends Maintenance {
 			if ( $to->getId() || $this->hasOption( 'force' ) ) {
 				# Reassign the edits
 				$report = $this->hasOption( 'report' );
-				$count = $this->doReassignEdits( $from, $to, !$this->hasOption( 'norc' ), $report );
+				$this->doReassignEdits( $from, $to, !$this->hasOption( 'norc' ), $report );
 				# If reporting, and there were items, advise the user to run without --report	
 				if ( $report ) {
 					$this->output( "Run the script again without --report to update.\n" );
@@ -101,14 +101,17 @@ class ReassignEdits extends Maintenance {
 			if ( $total ) {
 				# Reassign edits
 				$this->output( "\nReassigning current edits..." );
-				$res = $dbw->update( 'revision', $this->userSpecification( $to, 'rev_user', 'rev_user_text' ), $this->userConditions( $from, 'rev_user', 'rev_user_text' ), __METHOD__ );
+				$dbw->update( 'revision', $this->userSpecification( $to, 'rev_user', 'rev_user_text' ),
+					$this->userConditions( $from, 'rev_user', 'rev_user_text' ), __METHOD__ );
 				$this->output( "done.\nReassigning deleted edits..." );
-				$res = $dbw->update( 'archive', $this->userSpecification( $to, 'ar_user', 'ar_user_text' ), $this->userConditions( $from, 'ar_user', 'ar_user_text' ), __METHOD__ );
+				$dbw->update( 'archive', $this->userSpecification( $to, 'ar_user', 'ar_user_text' ),
+					$this->userConditions( $from, 'ar_user', 'ar_user_text' ), __METHOD__ );
 				$this->output( "done.\n" );
 				# Update recent changes if required
 				if ( $rc ) {
 					$this->output( "Updating recent changes..." );
-					$dbw->update( 'recentchanges', $this->userSpecification( $to, 'rc_user', 'rc_user_text' ), $this->userConditions( $from, 'rc_user', 'rc_user_text' ), __METHOD__ );
+					$dbw->update( 'recentchanges', $this->userSpecification( $to, 'rc_user', 'rc_user_text' ),
+						$this->userConditions( $from, 'rc_user', 'rc_user_text' ), __METHOD__ );
 					$this->output( "done.\n" );
 				}
 			}

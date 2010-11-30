@@ -8,6 +8,7 @@
  * @file
  *
  * @author Als-Holder
+ * @author Candalua
  * @author Fohanno
  * @author Fulup
  * @author Gwendal
@@ -576,7 +577,7 @@ Na zisoñjit ket resisaat ho [[Special:Preferences|penndibaboù evit {{SITENAME}
 'logout'                     => 'Digevreañ',
 'userlogout'                 => 'Digevreañ',
 'notloggedin'                => 'Digevreet',
-'nologin'                    => "N'oc'h eus kont ebet ? '''$1'''.",
+'nologin'                    => "N'hoc'h eus kont ebet ? '''$1'''.",
 'nologinlink'                => 'Krouiñ ur gont',
 'createaccount'              => 'Krouiñ ur gont nevez',
 'gotaccount'                 => "Ur gont zo ganeoc'h dija ? '''$1'''.",
@@ -638,7 +639,7 @@ Mat e vefe deoc\'h kevreañ ha cheñch ho ker-tremen bremañ.
 
 Na daolit ket evezh ouzh ar c\'hemenn-mañ m\'eo bet krouet ar gont dre fazi.',
 'usernamehasherror'          => "N'haller ket ober gant an arouezenn # en anvioù an implijerien",
-'login-throttled'            => "Betek re oc'h eus klasket kevreañ en aner.
+'login-throttled'            => "Betek re oc'h heus klasket kevreañ en aner.
 Gortozit a-raok klask en-dro.",
 'loginlanguagelabel'         => 'Yezh : $1',
 'suspicious-userlogout'      => 'Distaolet eo bet ho koulenn digevreañ rak kaset e oa bet gant ur merdeer direizhet pe krubuilhadenn ur proksi, evit doare.',
@@ -793,7 +794,7 @@ Ma ne'z a ket en-dro c'hoazh, klaskit [[Special:UserLogout|digevreañ]] hag adke
 
 ''Gweredekaet eo al linennoù HTML e {{SITENAME}}. Rak-se eo kuzh ar rakweledoù a-benn en em zifenn diouzh an tagadennoù JavaScript.''
 
-'''Mard e oa onest ar c'hemmoù oc'h eus klasket degas, klaskit en-dro. '''
+'''Mard e oa onest ar c'hemmoù hoc'h eus klasket degas, klaskit en-dro. '''
 Mar ned a ket en-dro, klaskit [[Special:UserLogout|digevreañ]] ha kevreañ en-dro.",
 'token_suffix_mismatch'            => "'''Distaolet eo bet ar c'hemmoù degaset ganeoc'h abalamour ma oa bet kemmesket an arouezennoù poentadur gant ho merdeer en daveer kemmañ. Distaolet eo bet ar c'hemmoù kuit na vije breinet ar bajennad skrid.
 C'hoarvezout a ra a-wechoù pa implijit ur servijer proksi dreinek dizanav.'''",
@@ -815,9 +816,6 @@ N'eus '''nemet''' an destenn zo en takad krec'h a vo saveteet pa klikot war \"{{
 Heñveldra, prometiñ a rit kemer perzh dre zegas skridoù savet ganeoc'h hepken pe tennet eus ur vammenn frank a wirioù.
 '''NA IMPLIJIT KET LABOURIOÙ GANT GWIRIOÙ AOZER (COPYRIGHT) HEP AOTRE D'OBER KEMENT-SE!'''",
 'copyrightwarning2'                => "Notit mat e c'hall kement degasadenn graet ganeoc'h war {{SITENAME}} bezañ kemmet, adaozet pe lamet kuit gant an implijerien all. Mar ne fell ket deoc'h e vije kemmet-digemmet ar pezh hoc'h eus skrivet na gemerit ket perzh er raktres-mañ.<br /> Gouestlañ a rit ivez eo bet savet ar boued spered ganeoc'h pe eilet diwar ur vammenn frank a wirioù pe en domani foran (gwelet $1 evit gouzout hiroc'h). '''NA IMPLIJIT KET LABOURIOÙ GANT GWIRIOÙ AOZER HEP AOTRE D'OBER KEMENT-SE!'''",
-'longpagewarning'                  => "'''KEMENN DIWALL: $1 ko eo hed ar bajenn-mañ;
-merdeerioù zo o deus poan da verañ ar pajennoù tro-dro pe en tu all da 32 ko pa vezont savet.
-Marteze e c'hallfec'h rannañ ar bajenn e rannoù bihanoc'h.'''",
 'longpageerror'                    => "'''FAZI: $1 kilobit hir eo an destenn lakaet ganeoc'h, ar pezh zo hiroc'h eget $2 kilobit, ar vent vrasañ aotreet. N'haller ket enrollañ.'''",
 'readonlywarning'                  => "'''KEMENN DIWALL : stanket eo an diaz titouroù a-benn bezañ trezalc'het; setu ne viot ket evit enrollañ ho kemmoù diouzhtu-diouzhtu eta.
 Gallout a rit eilañ-pegañ an destenn en ur restr skrid all hag enrollañ anezhi a-benn diwezhatoc'hik.'''
@@ -1303,7 +1301,7 @@ Gallout a rit lezel tud all da vont e darempred ganeoc'h dre ho pajennoù implij
 'group-autoconfirmed' => 'Implijerien bet kadarnaet ent emgefre',
 'group-bot'           => 'Botoù',
 'group-sysop'         => 'Merourien',
-'group-bureaucrat'    => 'Pennoù-bras',
+'group-bureaucrat'    => 'Burevidi',
 'group-suppress'      => 'Dindan evezh',
 'group-all'           => '(pep tra)',
 
@@ -1311,14 +1309,14 @@ Gallout a rit lezel tud all da vont e darempred ganeoc'h dre ho pajennoù implij
 'group-autoconfirmed-member' => 'Implijer bet kadarnaet ent emgefre',
 'group-bot-member'           => 'Bot',
 'group-sysop-member'         => 'Merour',
-'group-bureaucrat-member'    => 'Penn-bras',
+'group-bureaucrat-member'    => 'bureviad',
 'group-suppress-member'      => 'Dindan evezh',
 
 'grouppage-user'          => '{{ns:project}}:Implijerien',
 'grouppage-autoconfirmed' => '{{ns:project}}: Implijerien bet kadarnaet ent emgefre',
 'grouppage-bot'           => '{{ns:project}}:Botoù',
 'grouppage-sysop'         => '{{ns:project}}:Merourien',
-'grouppage-bureaucrat'    => '{{ns:project}}: Pennoù-bras',
+'grouppage-bureaucrat'    => '{{ns:project}}: Burevidi',
 'grouppage-suppress'      => '{{ns:project}}: Dindan evezh',
 
 # Rights
@@ -2343,7 +2341,6 @@ Sellit ouzh [[Special:IPBlockList|roll ar chomlec\'hioù IP ha kontoù stanket]]
 'ipb-edit-dropdown'               => 'Kemmañ an abegoù stankañ',
 'ipb-unblock-addr'                => 'Distankañ $1',
 'ipb-unblock'                     => "Distankañ un implijer pe ur chomlec'h IP",
-'ipb-blocklist-addr'              => 'Stankadennoù zo evit $1',
 'ipb-blocklist'                   => 'Teuler ur sell ouzh roll an dud stanket evit poent',
 'ipb-blocklist-contribs'          => 'Degasadennoù evit $1',
 'unblockip'                       => "Distankañ ur chomlec'h IP",
@@ -2701,7 +2698,7 @@ Talvezout a ra da ouzhpennañ un displegadenn er c\'hombod diverrañ.',
 'handheld.css'    => '/* Ar CSS lakaet amañ a dalvezo evit an ardivinkoù hezoug diouzh ar gwiskadur kefluniet e $wgHandheldStyle */',
 
 # Scripts
-'common.js'      => '* Forzh pe JavaScript amañ a vo karget evit an holl implijerien war kement pajenn lennet ganto. */',
+'common.js'      => '/* Forzh pe JavaScript amañ a vo karget evit an holl implijerien war kement pajenn lennet ganto. */',
 'standard.js'    => '/* Kement JavaScript amañ a vo karget evit an implijerien a ra gant ar gwiskadur Standard */',
 'nostalgia.js'   => '/* Kement JavaScript amañ a vo karget evit an implijerien a ra gant ar gwiskadur Melkoni */',
 'cologneblue.js' => '/* Kement JavaScript amañ a vo karget evit an implijerien a ra gant ar gwiskadur Glaz Kologn */',

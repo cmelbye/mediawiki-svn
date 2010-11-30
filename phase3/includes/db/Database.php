@@ -44,7 +44,7 @@ interface DatabaseType {
 
 	/**
 	 * The DBMS-dependent part of query()
-	 * @todo @fixme Make this private someday
+	 * @todo Fixme: Make this private someday
 	 *
 	 * @param  $sql String: SQL query.
 	 * @return Result object to feed to fetchObject, fetchRow, ...; or false on failure
@@ -147,6 +147,15 @@ interface DatabaseType {
 	 * @param $field string: field name
 	 */
 	public function fieldInfo( $table, $field );
+
+	/**
+	 * Get information about an index into an object
+	 * @param $table string: Table name
+	 * @param $index string: Index name
+	 * @param $fname string: Calling function name
+	 * @return Mixed: Database-specific index description class or false if the index does not exist
+	 */
+	function indexInfo( $table, $index, $fname = 'Database::indexInfo' );
 
 	/**
 	 * Get the number of rows affected by the last write query
@@ -595,7 +604,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 *     comment (you can use __METHOD__ or add some extra info)
 	 * @param  $tempIgnore Boolean:   Whether to avoid throwing an exception on errors...
 	 *     maybe best to catch the exception instead?
-	 * @return true for a successful write query, ResultWrapper object for a successful read query,
+	 * @return boolean|ResultWrapper true for a successful write query, ResultWrapper object for a successful read query,
 	 *     or false on failure if $tempIgnore set
 	 * @throws DBQueryError Thrown when the database returns an error of any kind
 	 */
@@ -1173,35 +1182,6 @@ abstract class DatabaseBase implements DatabaseType {
 		} else {
 			return $info !== false;
 		}
-	}
-
-
-	/**
-	 * Get information about an index into an object
-	 * Returns false if the index does not exist
-	 */
-	function indexInfo( $table, $index, $fname = 'DatabaseBase::indexInfo' ) {
-		# SHOW INDEX works in MySQL 3.23.58, but SHOW INDEXES does not.
-		# SHOW INDEX should work for 3.x and up:
-		# http://dev.mysql.com/doc/mysql/en/SHOW_INDEX.html
-		$table = $this->tableName( $table );
-		$index = $this->indexName( $index );
-		$sql = 'SHOW INDEX FROM ' . $table;
-		$res = $this->query( $sql, $fname );
-
-		if ( !$res ) {
-			return null;
-		}
-
-		$result = array();
-
-		foreach ( $res as $row ) {
-			if ( $row->Key_name == $index ) {
-				$result[] = $row;
-			}
-		}
-
-		return empty( $result ) ? false : $result;
 	}
 
 	/**
@@ -2040,6 +2020,16 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Convert a field to an unix timestamp
+	 *
+	 * @param $field String: field name
+	 * @return String: SQL statement
+	 */
+	public function unixTimestamp( $field ) {
+		return "EXTRACT(epoch FROM $field)";
+	}
+
+	/**
 	 * Determines if the last failure was due to a deadlock
 	 * STUB
 	 */
@@ -2519,7 +2509,7 @@ abstract class DatabaseBase implements DatabaseType {
 		// Ordinary variables
 		foreach ( $varnames as $var ) {
 			if ( isset( $GLOBALS[$var] ) ) {
-				$val = addslashes( $GLOBALS[$var] ); // FIXME: safety check?
+				$val = $this->addQuotes( $GLOBALS[$var] ); // FIXME: safety check?
 				$ins = str_replace( '{$' . $var . '}', $val, $ins );
 				$ins = str_replace( '/*$' . $var . '*/`', '`' . $val, $ins );
 				$ins = str_replace( '/*$' . $var . '*/', $val, $ins );
@@ -2677,57 +2667,33 @@ class Blob {
 }
 
 /**
- * Utility class.
+ * Base for all database-specific classes representing information about database fields
  * @ingroup Database
  */
-class MySQLField {
-	private $name, $tablename, $default, $max_length, $nullable,
-		$is_pk, $is_unique, $is_multiple, $is_key, $type;
+interface Field {
+	/**
+	 * Field name
+	 * @return string
+	 */
+	function name();
 
-	function __construct ( $info ) {
-		$this->name = $info->name;
-		$this->tablename = $info->table;
-		$this->default = $info->def;
-		$this->max_length = $info->max_length;
-		$this->nullable = !$info->not_null;
-		$this->is_pk = $info->primary_key;
-		$this->is_unique = $info->unique_key;
-		$this->is_multiple = $info->multiple_key;
-		$this->is_key = ( $this->is_pk || $this->is_unique || $this->is_multiple );
-		$this->type = $info->type;
-	}
+	/**
+	 * Name of table this field belongs to
+	 * @return string
+	 */
+	function tableName();
 
-	function name() {
-		return $this->name;
-	}
+	/**
+	 * Database type
+	 * @return string
+	 */
+	function type();
 
-	function tableName() {
-		return $this->tableName;
-	}
-
-	function defaultValue() {
-		return $this->default;
-	}
-
-	function maxLength() {
-		return $this->max_length;
-	}
-
-	function nullable() {
-		return $this->nullable;
-	}
-
-	function isKey() {
-		return $this->is_key;
-	}
-
-	function isMultipleKey() {
-		return $this->is_multiple;
-	}
-
-	function type() {
-		return $this->type;
-	}
+	/**
+	 * Whether this field can store NULL values
+	 * @return bool
+	 */
+	function isNullable();
 }
 
 /******************************************************************************
@@ -2870,7 +2836,7 @@ class DBConnectionError extends DBError {
 	}
 
 	function searchForm() {
-		global $wgSitename, $wgServer, $wgLang, $wgInputEncoding;
+		global $wgSitename, $wgServer, $wgLang;
 
 		$usegoogle = "You can try searching via Google in the meantime.";
 		$outofdate = "Note that their indexes of our content may be out of date.";
@@ -2884,20 +2850,23 @@ class DBConnectionError extends DBError {
 
 		$search = htmlspecialchars( @$_REQUEST['search'] );
 
+		$server = htmlspecialchars( $wgServer );
+		$sitename = htmlspecialchars( $wgSitename );
+
 		$trygoogle = <<<EOT
 <div style="margin: 1.5em">$usegoogle<br />
 <small>$outofdate</small></div>
 <!-- SiteSearch Google -->
 <form method="get" action="http://www.google.com/search" id="googlesearch">
-	<input type="hidden" name="domains" value="$wgServer" />
+	<input type="hidden" name="domains" value="$server" />
 	<input type="hidden" name="num" value="50" />
-	<input type="hidden" name="ie" value="$wgInputEncoding" />
-	<input type="hidden" name="oe" value="$wgInputEncoding" />
+	<input type="hidden" name="ie" value="UTF-8" />
+	<input type="hidden" name="oe" value="UTF-8" />
 
 	<input type="text" name="q" size="31" maxlength="255" value="$search" />
 	<input type="submit" name="btnG" value="$googlesearch" />
   <div>
-	<input type="radio" name="sitesearch" id="gwiki" value="$wgServer" checked="checked" /><label for="gwiki">$wgSitename</label>
+	<input type="radio" name="sitesearch" id="gwiki" value="$server" checked="checked" /><label for="gwiki">$sitename</label>
 	<input type="radio" name="sitesearch" id="gWWW" value="" /><label for="gWWW">WWW</label>
   </div>
 </form>

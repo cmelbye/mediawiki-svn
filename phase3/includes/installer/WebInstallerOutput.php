@@ -89,14 +89,16 @@ class WebInstallerOutput {
 		$vectorCssFile = "$skinDir/vector/screen.css";
 		$configCssFile = "$skinDir/common/config.css";
 		wfSuppressWarnings();
-		$css = file_get_contents( $vectorCssFile ) . "\n" . file_get_contents( $configCssFile );
+		$vectorCss = file_get_contents( $vectorCssFile );
+		$configCss = file_get_contents( $configCssFile );
 		wfRestoreWarnings();
+		$css = str_replace( 'images/', '../skins/vector/images/', $vectorCss ) . "\n" . str_replace( 'images/', '../skins/common/images/', $configCss );
 		if( !$css ) {
 			return "/** Your webserver cannot read $vectorCssFile or $configCssFile, please check file permissions */";
 		} elseif( $dir == 'rtl' ) {
 			$css = CSSJanus::transform( $css, true );
 		}
-		return str_replace( 'images/', '../skins/vector/images/', $css );
+		return $css;
 	}
 
 	/**
@@ -205,19 +207,17 @@ class WebInstallerOutput {
 
 
 <div id="mw-panel">
-	<div class="portlet" id="p-logo">
+	<div class="portal" id="p-logo">
 	  <a style="background-image: url(../skins/common/images/mediawiki.png);"
 	    href="http://www.mediawiki.org/"
 	    title="Main Page"></a>
 	</div>
 	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
-	<div class='portlet'><div class='pBody'>
+	<div class="portal"><div class="body">
 <?php
 	echo $this->parent->parse( wfMsgNoTrans( 'config-sidebar' ), true );
 ?>
 	</div></div>
-</div>
-
 </div>
 
 </body>

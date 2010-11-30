@@ -945,7 +945,6 @@ Deur op \"Pagina opslaon\" te klikken beleuf je ons da-j disse tekse zelf eschre
 'copyrightwarning2'                => "Waort je dat alle biedragen an {{SITENAME}} deur aander volk bewark of vort-edaon kan wönnen. A-j neet willen dat joew tekse deur aander volk bewark wönnen, slao de tekse dan neet op.<br />
 Deur op \"Pagina opslaon\" te klikken beleuf je ons da-j disse tekse zelf eschreven hemmen, of over-eneumen hemmen uut een vrieje, openbaore bron (zie \$1 veur meer infermasie).
 '''Gebruuk gien spul mit auteursrechen, a-j daor gien toestemming veur hemmen!'''",
-'longpagewarning'                  => "Disse pagina is $1 kB groot. 't Bewarken van grote pagina's kan veur preblemen zörgen bie ouwere webkiekers.",
 'longpageerror'                    => "'''Foutmelding: de tekse dee-j opslaon willen is $1 kilobytes. Dit is groter as 't toe-estaone maximum van $2 kilobytes. Joew tekse kan neet op-esleugen wönnen.'''",
 'readonlywarning'                  => "'''Waorschuwing: De databanke is op dit mement in onderhoud; 't is daorumme neet meugelijk um pagina's te wiezigen.
 Je kunnen de tekse 't beste op de computer opslaon en laoter opniej preberen de pagina te bewarken.'''
@@ -1211,7 +1210,7 @@ Klik op "Weerumme" en geef een aandere pagina dan "[[$1]]" op.',
 'compareselectedversions'  => 'Vergeliek de ekeuzen versies',
 'showhideselectedversions' => 'Ekeuzen versies weergeven/verbargen',
 'editundo'                 => 'weerummedreien',
-'diff-multi'               => '(Hier {{PLURAL:$1|zit nog 1 versie|zitten nog $1 versies tussen}}.)',
+'diff-multi'               => '(Hier {{PLURAL:$1|zit nog 1 versie|zitten nog $1 versies}} van {{PLURAL:$2|1 gebruker|$2 gebrukers}} tussen dee der neet bie staon.)',
 
 # Search results
 'searchresults'                    => 'Zeukrisseltaoten',
@@ -1711,7 +1710,7 @@ Bedenk eers of 't inderdaod de bedoeling is dat dit bestaand toe-evoeg wönnen.
 'upload-success-subj'         => 'Bestaanstoevoeging was succesvol',
 'upload-success-msg'          => "'t Bestaand [$2] steet derop. Je kunnen 't hier vienen: [[:{{ns:file}}:$1]]",
 'upload-failure-subj'         => "Prebleem bie 't toevoegen van 't bestaand",
-'upload-failure-msg'          => "Der was een prebleem bie 't toevoegen van 't bestaand:
+'upload-failure-msg'          => "Der was een prebleem bie 't toevoegen van [$2]:
 
 $1",
 'upload-warning-subj'         => "Waorschuwing veur 't toevoegen van bestanen",
@@ -2441,7 +2440,6 @@ Op de [[Special:IPBlockList|IP-blokkeerlieste]] steet een lieste mit alle blokke
 'ipb-edit-dropdown'               => 'Blokkeerredens bewarken',
 'ipb-unblock-addr'                => 'Deblokkeer $1',
 'ipb-unblock'                     => 'Deblokkeer een gebruker of IP-adres',
-'ipb-blocklist-addr'              => 'Bestaonde blokkeringen veur $1',
 'ipb-blocklist'                   => 'Bekiek bestaonde blokkeringen',
 'ipb-blocklist-contribs'          => 'Biedragen van $1',
 'unblockip'                       => 'Deblokkeer gebruker',
@@ -3355,6 +3353,7 @@ Je kunnen oek [[Special:Watchlist/edit|'t standardbewarkingsscharm gebruken]].",
 'version-hook-subscribedby'        => 'In-eschreven deur',
 'version-version'                  => '(Versie $1)',
 'version-license'                  => 'Licentie',
+'version-poweredby-others'         => 'aanderen',
 'version-software'                 => 'Pregrammetuur dee eïnstalleerd is',
 'version-software-product'         => 'Preduk',
 'version-software-version'         => 'Versie',

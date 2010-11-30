@@ -928,7 +928,6 @@ Te kinnitate ka, et kirjutasite selle ise või võtsite selle kopeerimiskitsendu
 'copyrightwarning2'                => "Pea silmas, et teised kaastöölised võivad kogu {{GRAMMAR:inessive|{{SITENAME}}}} tehtud kaastööd muuta või eemaldada. Kui sa ei soovi, et su kirjutatut halastamatult redigeeritakse, siis ära seda siia salvesta.<br />
 Sa kinnitad ka, et kirjutasid selle ise või võtsid selle kopeerimiskitsenduseta allikast (vaata ka $1).
 '''Ära saada autoriõigusega kaitstud materjali loata!'''",
-'longpagewarning'                  => "'''HOIATUS: Selle lehekülje pikkus ületab $1 kilobaiti. Mõne brauseri puhul valmistab raskusi juba 32-le kilobaidile läheneva pikkusega lehekülgede redigeerimine. Palun kaaluge selle lehekülje sisu jaotamist lühemate lehekülgede vahel.'''",
 'longpageerror'                    => "'''Viga: Lehekülje suurus on $1 kilobaiti. Lehekülge ei saa salvestada, kuna see on pikem kui maksimaalsed $2 kilobaiti.'''",
 'readonlywarning'                  => "'''Hoiatus: Andmebaas on lukustatud hooldustöödeks, nii et praegu ei saa parandusi salvestada.'''
 Võid teksti hilisemaks kasutamiseks alles hoida tekstifailina.
@@ -956,10 +955,10 @@ Võid pöörduda tagasi ja toimetada olemasolevat lehekülge või [[Special:User
 'permissionserrors'                => 'Viga õigustes',
 'permissionserrorstext'            => 'Sul pole õigust seda teha {{PLURAL:$1|järgmisel põhjusel|järgmistel põhjustel}}:',
 'permissionserrorstext-withaction' => 'Sul pole lubatud {{lcfirst:$2}} {{PLURAL:$1|järgneval põhjusel|järgnevatel põhjustel}}:',
-'recreate-moveddeleted-warn'       => "'''Hoiatus: Te loote uuesti lehte, mis on varem kustutatud.'''
+'recreate-moveddeleted-warn'       => "'''Hoiatus: Lood uuesti lehekülge, mis on varem kustutatud.'''
 
-Kaaluge, kas lehe uuesti loomine on kohane.
-Lehe eelnevad kustutamised ja teisaldamised:",
+Kaalu, kas lehekülje uuesti loomine on kohane.
+Lehekülje eelnevad kustutamised ja teisaldamised:",
 'moveddeleted-notice'              => 'See lehekülg on kustutatud.
 Allpool on esitatud lehekülje kustutamis- ja teisaldamislogi.',
 'log-fulllog'                      => 'Vaata kogu logi',
@@ -2447,7 +2446,6 @@ Kehtivaid blokeeringuid vaata [[Special:IPBlockList|blokeeringute loendist]].',
 'ipb-edit-dropdown'               => 'Muuda blokeeringu põhjuseid',
 'ipb-unblock-addr'                => 'Kustuta $1 blokeering',
 'ipb-unblock'                     => 'Kasutaja või IP-aadressi vabastamine blokeerimisest',
-'ipb-blocklist-addr'              => 'Kasutaja $1 blokeeringud',
 'ipb-blocklist'                   => 'Vaata kehtivaid keelde',
 'ipb-blocklist-contribs'          => 'Kasutaja $1 kaastöö',
 'unblockip'                       => 'Blokeerimise eemaldamine',

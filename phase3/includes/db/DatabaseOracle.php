@@ -124,7 +124,7 @@ class ORAResult {
  * Utility class.
  * @ingroup Database
  */
-class ORAField {
+class ORAField implements Field {
 	private $name, $tablename, $default, $max_length, $nullable,
 		$is_pk, $is_unique, $is_multiple, $is_key, $type;
 
@@ -157,7 +157,7 @@ class ORAField {
 		return $this->max_length;
 	}
 
-	function nullable() {
+	function isNullable() {
 		return $this->nullable;
 	}
 
@@ -839,6 +839,10 @@ class DatabaseOracle extends DatabaseBase {
 		return 'SELECT * ' . ( $all ? '':'/* UNION_UNIQUE */ ' ) . 'FROM (' . implode( $glue, $sqls ) . ')' ;
 	}
 
+	public function unixTimestamp( $field ) {
+		return "((trunc($field) - to_date('19700101','YYYYMMDD')) * 86400)";
+	}
+
 	function wasDeadlock() {
 		return $this->lastErrno() == 'OCI-00060';
 	}
@@ -973,7 +977,7 @@ class DatabaseOracle extends DatabaseBase {
 
 	function fieldInfo( $table, $field ) {
 		if ( is_array( $table ) ) {
-			throw new DBUnexpectedError( $this, 'Database::fieldInfo called with table array!' );
+			throw new DBUnexpectedError( $this, 'DatabaseOracle::fieldInfo called with table array!' );
 		}
 		return $this->fieldInfoMulti ($table, $field);
 	}
@@ -1344,7 +1348,7 @@ class DatabaseOracle extends DatabaseBase {
 		// Ordinary variables
 		foreach ( $varnames as $var ) {
 			if ( isset( $GLOBALS[$var] ) ) {
-				$val = addslashes( $GLOBALS[$var] ); // FIXME: safety check?
+				$val = $this->addQuotes( $GLOBALS[$var] ); // FIXME: safety check?
 				$ins = str_replace( '{$' . $var . '}', $val, $ins );
 				$ins = str_replace( '/*$' . $var . '*/`', '`' . $val, $ins );
 				$ins = str_replace( '/*$' . $var . '*/', $val, $ins );

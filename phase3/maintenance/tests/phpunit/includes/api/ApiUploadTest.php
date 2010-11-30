@@ -123,7 +123,7 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 	 * This is cheating a bit -- we grab a token in the correct format and then add it to the pseudo-session and to the
 	 * request, without actually requesting a "real" edit token
 	 * @param $params: key-value API params
-	 * @param $data: a structure which also contains the session
+	 * @param $session: session array
 	 */
 	protected function doApiRequestWithToken( $params, $session ) {
 		if ( $session['wsToken'] ) {
@@ -182,7 +182,7 @@ class ApiUploadTest extends ApiTestCase {
 			'lgname' => $user->username, 
 			'lgpassword' => $user->password 
 		);
-		list( $result, $request, $session ) = $this->doApiRequest( $params );
+		list( $result, , ) = $this->doApiRequest( $params );
 		$this->assertArrayHasKey( "login", $result );
 		$this->assertArrayHasKey( "result", $result['login'] );
 		$this->assertEquals( "NeedToken", $result['login']['result'] );
@@ -194,7 +194,7 @@ class ApiUploadTest extends ApiTestCase {
 			'lgname' => $user->username,
 			'lgpassword' => $user->password 
 		); 
-		list( $result, $request, $session ) = $this->doApiRequest( $params );
+		list( $result, , $session ) = $this->doApiRequest( $params );
 		$this->assertArrayHasKey( "login", $result );
 		$this->assertArrayHasKey( "result", $result['login'] );
 		$this->assertEquals( "Success", $result['login']['result'] );
@@ -280,7 +280,7 @@ class ApiUploadTest extends ApiTestCase {
 
 		$exception = false;
 		try {
-			list( $result, $request, $session ) = $this->doApiRequestWithToken( $params, $session );
+			list( $result, , ) = $this->doApiRequestWithToken( $params, $session );
 		} catch ( UsageException $e ) {
 			$exception = true;
 		}
@@ -324,7 +324,7 @@ class ApiUploadTest extends ApiTestCase {
 
 		$exception = false;
 		try {
-			list( $result, $request, $session ) = $this->doApiRequestWithToken( $params, $session );
+			$this->doApiRequestWithToken( $params, $session );
 		} catch ( UsageException $e ) {
 			$this->assertContains( 'The file you submitted was empty', $e->getMessage() );
 			$exception = true;
@@ -378,7 +378,7 @@ class ApiUploadTest extends ApiTestCase {
 
 		$exception = false;
 		try {
-			list( $result, $request, $session ) = $this->doApiRequestWithToken( $params, $session );
+			list( $result, , $session ) = $this->doApiRequestWithToken( $params, $session );
 		} catch ( UsageException $e ) {
 			$exception = true;
 		}
@@ -394,7 +394,7 @@ class ApiUploadTest extends ApiTestCase {
 
 		$exception = false;
 		try {
-			list( $result, $request, $session ) = $this->doApiRequestWithToken( $params, $session );
+			list( $result, , ) = $this->doApiRequestWithToken( $params, $session );
 		} catch ( UsageException $e ) {
 			$exception = true;
 		}

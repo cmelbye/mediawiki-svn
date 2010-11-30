@@ -360,9 +360,9 @@ abstract class Maintenance {
 		$this->addOption( 'wiki', 'For specifying the wiki ID', false, true );
 		$this->addOption( 'globals', 'Output globals at the end of processing for debugging' );
 		$this->addOption( 'memory-limit', 'Set a specific memory limit for the script, "max" for no limit or "default" to avoid changing it' );
-		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g.\n" .
-							"\t\thttp://en.wikipedia.org. This is sometimes necessary because\n" .
-							"\t\tserver name detection may fail in command line scripts.", false, true );
+		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g. " .
+				"http://en.wikipedia.org. This is sometimes necessary because " .
+				"server name detection may fail in command line scripts.", false, true );
 		// If we support a DB, show the options
 		if ( $this->getDbType() > 0 ) {
 			$this->addOption( 'dbuser', 'The DB user to use for this script', false, true );
@@ -673,11 +673,15 @@ abstract class Maintenance {
 
 		// ... and append arguments.
 		if ( $this->mArgList ) {
-			$output .= " <";
+			$output .= ' ';
 			foreach ( $this->mArgList as $k => $arg ) {
-				$output .= $arg['name'] . ">";
+				if ( $arg['require'] ) {
+					$output .= '<' . $arg['name'] . '>';
+				} else {
+					$output .= '[' . $arg['name'] . ']';
+				}
 				if ( $k < count( $this->mArgList ) - 1 )
-					$output .= " <";
+					$output .= ' ';
 			}
 		}
 		$this->output( "$output\n\n" );
@@ -692,8 +696,10 @@ abstract class Maintenance {
 
 		// Arguments description
 		foreach ( $this->mArgList as $info ) {
+			$openChar = $info['require'] ? '<' : '[';
+			$closeChar = $info['require'] ? '>' : ']';
 			$this->output(
-				wordwrap( "$tab<" . $info['name'] . ">: " .
+				wordwrap( "$tab$openChar" . $info['name'] . "$closeChar: " .
 					$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
 			);
 		}

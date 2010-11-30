@@ -301,7 +301,7 @@ class User {
 	 *    User::getCanonicalName(), except that true is accepted as an alias
 	 *    for 'valid', for BC.
 	 *
-	 * @return \type{User} The User object, or false if the username is invalid 
+	 * @return User The User object, or false if the username is invalid
 	 *    (e.g. if it contains illegal characters or is an IP address). If the
 	 *    username is not present in the database, the result will be a user object
 	 *    with a name, zero user ID and default settings.
@@ -1456,7 +1456,7 @@ class User {
 
 	/**
 	 * Get the user's ID.
-	 * @return \int The user's ID; 0 if the user is anonymous or nonexistent
+	 * @return Integer The user's ID; 0 if the user is anonymous or nonexistent
 	 */
 	function getId() {
 		if( $this->mId === null and $this->mName !== null
@@ -2573,12 +2573,13 @@ class User {
 		}
 		$dbw = wfGetDB( DB_MASTER );
 		$seqVal = $dbw->nextSequenceValue( 'user_user_id_seq' );
+
 		$fields = array(
 			'user_id' => $seqVal,
 			'user_name' => $name,
 			'user_password' => $user->mPassword,
 			'user_newpassword' => $user->mNewpassword,
-			'user_newpass_time' => $dbw->timestamp( $user->mNewpassTime ),
+			'user_newpass_time' => $dbw->timestampOrNull( $user->mNewpassTime ),
 			'user_email' => $user->mEmail,
 			'user_email_authenticated' => $dbw->timestampOrNull( $user->mEmailAuthenticated ),
 			'user_real_name' => $user->mRealName,
@@ -2612,7 +2613,7 @@ class User {
 				'user_name' => $this->mName,
 				'user_password' => $this->mPassword,
 				'user_newpassword' => $this->mNewpassword,
-				'user_newpass_time' => $dbw->timestamp( $this->mNewpassTime ),
+				'user_newpass_time' => $dbw->timestampOrNull( $this->mNewpassTime ),
 				'user_email' => $this->mEmail,
 				'user_email_authenticated' => $dbw->timestampOrNull( $this->mEmailAuthenticated ),
 				'user_real_name' => $this->mRealName,
@@ -2779,15 +2780,6 @@ class User {
 	function checkPassword( $password ) {
 		global $wgAuth;
 		$this->load();
-
-		// Even though we stop people from creating passwords that
-		// are shorter than this, doesn't mean people wont be able
-		// to. Certain authentication plugins do NOT want to save
-		// domain passwords in a mysql database, so we should
-		// check this (incase $wgAuth->strict() is false).
-		if( !$this->isValidPassword( $password ) ) {
-			return false;
-		}
 
 		if( $wgAuth->authenticate( $this->getName(), $password ) ) {
 			return true;
@@ -3215,7 +3207,7 @@ class User {
 	 * Return the set of defined explicit groups.
 	 * The implicit groups (by default *, 'user' and 'autoconfirmed')
 	 * are not included, as they are defined automatically, not in the database.
-	 * @return \type{\arrayof{\string}} Array of internal group names
+	 * @return Array of internal group names
 	 */
 	static function getAllGroups() {
 		global $wgGroupPermissions, $wgRevokePermissions;
@@ -3227,7 +3219,7 @@ class User {
 
 	/**
 	 * Get a list of all available permissions.
-	 * @return \type{\arrayof{\string}} Array of permission names
+	 * @return Array of permission names
 	 */
 	static function getAllRights() {
 		if ( self::$mAllRights === false ) {

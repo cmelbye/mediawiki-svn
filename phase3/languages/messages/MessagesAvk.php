@@ -600,7 +600,6 @@ Dere, kan rinaf suteks ik suteks male sangiskafa nuyafa klita, anton webel !
 'copyrightwarning2'                => "Vay stragal da kot webeks va {{SITENAME}} gan ar webesik zo robetar ike zo roataler ike zo rosular. Ede me djumel da rinaf suteks yo zo robetad, vaon batliz me staksel !<br />
 Rin dere abdiplekul da va webeks miv suteyel ike mal sangiskafa ok gundafa nuyafa klita ksudal (va $1 loon wil).
 '''VA COPYRIGHT SUTEKS ARIEKON MERICTANON VOL WEBEL !'''",
-'longpagewarning'                  => "'''WALZERA : batu bu tir kaikasu va $1 ko; konaki exulesiki va bu pokefu ok kaikefu gu 32 ko bak sutelara pofejed. Ton lopinaf gabot yo va bu rotir gosolparsal.'''",
 'longpageerror'                    => "'''ROKLA : Atoen krent tir $1 kilobytes. Batcoba tir lodabrotcafa dam $2 kilobytes cuge. In tir merogiwan.'''",
 'readonlywarning'                  => "'''OBRAL : batu bu kiewaginon zo abdinendar, acum va betara dure me rogiwatal. Ko iyeltak ta radimifa giwara va krent roksudal.'''",
 'protectedpagewarning'             => "'''WALZERA : batu bu zo nendar. Antaf ristus favesik vaon robetar.'''",
@@ -1637,7 +1636,6 @@ Va lazavanha (tulon ozwason va cidayanu bu se) vlevon bazel !',
 'ipb-edit-dropdown'        => 'Betara va elekaralazava',
 'ipb-unblock-addr'         => 'Va $1 dimelekara',
 'ipb-unblock'              => 'Dimelekara va favesikyolt ok IP mane',
-'ipb-blocklist-addr'       => 'Tis elekareem va $1',
 'ipb-blocklist'            => 'Wira va tis elekareem',
 'ipb-blocklist-contribs'   => 'Webereem ke $1',
 'unblockip'                => 'Grielekara va IP mane',

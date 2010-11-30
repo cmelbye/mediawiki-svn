@@ -540,6 +540,7 @@ Huwag kalimutang baguhin ang iyong [[Special:Preferences|mga kagustuhan sa {{SIT
 'yourpassword'               => 'Hudyat:',
 'yourpasswordagain'          => 'Hudyat mo uli:',
 'remembermypassword'         => 'Tandaan ang paglagda ko sa kompyuter na ito (pinakamarami na ang $1 {{PLURAL:$1|araw|mga araw}})',
+'securelogin-stick-https'    => 'Manatiling konektado sa HTTPS matapos lumagda',
 'yourdomainname'             => 'Dominyo mo:',
 'externaldberror'            => 'Maaaring may kamalian sa pagpapatotoo ng kalipunan ng mga dato o kaya hindi ka pinahintulutang isapanahon ng iyong panlabas na kuwenta o patnugutan.',
 'login'                      => 'Lumagda',
@@ -816,7 +817,6 @@ Nangangako ka rin sa amin na ikaw mismo ang sumulat nito, sumipi/kumopya nito mu
 Kung ayaw mong mabago nang labis-labis ang mga isinulat mo, mas mabuting huwag mo na lamang ipasa iyan dito.<br />
 Nangangako ka rin sa amin na ikaw ang mismong sumulat nito, o sinipi/kinopya mo ito mula sa isang pinagmulang nasa dominyo na ng publiko o katulad (tingnan ang $1 para sa mga detalye).
 '''HUWAG MAGTALA NG AKDANG NAKAKARAPATANG-ARI (NAKAKOPIRAYT) NA HINDI MUNA HUMIHINGI NG PAHINTULOT!'''",
-'longpagewarning'                  => "'''BABALA: May habang $1 ''kilobyte'' ang pahinang ito; maaaring magkaroon ng suliranin sa pagbabago ng mga pahina ang ilang mga pantingin-tinging (''browser'') malapit nang umabot o mas mahaba na sa 32kb.  Isaalang-alang ang paghahati ng pahina patungo sa mas maliliit na mga seksyon/bahagi.'''",
 'longpageerror'                    => "'''KAMALIAN: May habang $1 ''kilobyte'' ang ipinasa mong teksto, na mas mahaba kaysa $2 ''kilobyte'' na siyang pinakamataas na nakatakdang halaga.
 Hindi ito masasagip.'''",
 'readonlywarning'                  => "'''BABALA: Ikinandado ang kalipunan ng dato para sa gawaing pampagpapanatili, kaya't hindi mo pa masasagip ang mga pagbabagong ginawa mo ngayon.
@@ -1655,6 +1655,7 @@ Mababago ang pagkakapangkat-pangkat sa pamamagitan ng pagpindot sa isang paulo n
 'listfiles_search_for'  => 'Hanapin ang pangalan ng midya:',
 'imgfile'               => 'talaksan',
 'listfiles'             => 'Talaan ng talaksan',
+'listfiles_thumb'       => 'Kagyat',
 'listfiles_date'        => 'Petsa',
 'listfiles_name'        => 'Pangalan',
 'listfiles_user'        => 'Tagagamit',
@@ -2322,7 +2323,6 @@ Tingnan ang [[Special:IPBlockList|talaan ng mga hinadlangang IP]] upang makita a
 'ipb-edit-dropdown'               => 'Baguhin ang mga dahilan sa pagharang',
 'ipb-unblock-addr'                => 'Tanggalin ang pagkaharang ng $1',
 'ipb-unblock'                     => 'Tanggalin ang pagkaharang ng isang bansag o IP address',
-'ipb-blocklist-addr'              => 'Umiiral na pagharang/paghadlang para kay $1',
 'ipb-blocklist'                   => 'Tingnan ang umiiral na mga pagharang/paghadlang',
 'ipb-blocklist-contribs'          => 'Mga ambag ni $1',
 'unblockip'                       => 'Tanggalin ang pagharang/paghadlang sa tagagamit',
