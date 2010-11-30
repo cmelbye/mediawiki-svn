@@ -72,20 +72,20 @@ class LinkSearchPage extends QueryPage {
 
 		$self = $this->getTitle();
 
-	$wgOut->addWikiMsg( 'linksearch-text', '<nowiki>' . $wgLang->commaList( $wgUrlProtocols ) . '</nowiki>' );
-	$s = Xml::openElement( 'form', array( 'id' => 'mw-linksearch-form', 'method' => 'get', 'action' => $GLOBALS['wgScript'] ) ) .
-		Html::hidden( 'title', $self->getPrefixedDbKey() ) .
-		'<fieldset>' .
-		Xml::element( 'legend', array(), wfMsg( 'linksearch' ) ) .
-		Xml::inputLabel( wfMsg( 'linksearch-pat' ), 'target', 'target', 50, $target ) . ' ';
-	if ( !$wgMiserMode ) {
-		$s .= Xml::label( wfMsg( 'linksearch-ns' ), 'namespace' ) . ' ' .
-			Xml::namespaceSelector( $namespace, '' );
-	}
-	$s .=	Xml::submitButton( wfMsg( 'linksearch-ok' ) ) .
-		'</fieldset>' .
-		Xml::closeElement( 'form' );
-	$wgOut->addHTML( $s );
+		$wgOut->addWikiMsg( 'linksearch-text', '<nowiki>' . $wgLang->commaList( $wgUrlProtocols ) . '</nowiki>' );
+		$s = Xml::openElement( 'form', array( 'id' => 'mw-linksearch-form', 'method' => 'get', 'action' => $GLOBALS['wgScript'] ) ) .
+			Html::hidden( 'title', $self->getPrefixedDbKey() ) .
+			'<fieldset>' .
+			Xml::element( 'legend', array(), wfMsg( 'linksearch' ) ) .
+			Xml::inputLabel( wfMsg( 'linksearch-pat' ), 'target', 'target', 50, $target ) . ' ';
+		if ( !$wgMiserMode ) {
+			$s .= Xml::label( wfMsg( 'linksearch-ns' ), 'namespace' ) . ' ' .
+				Xml::namespaceSelector( $namespace, '' );
+		}
+		$s .=	Xml::submitButton( wfMsg( 'linksearch-ok' ) ) .
+			'</fieldset>' .
+			Xml::closeElement( 'form' );
+		$wgOut->addHTML( $s );
 
 		if( $target != '' ) {
 			$this->setParams( array( 
