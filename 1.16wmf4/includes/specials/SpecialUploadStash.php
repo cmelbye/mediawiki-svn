@@ -197,7 +197,7 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 			'method' => 'GET',
 			'timeout' => 'default'
 		);
-		$req = MWHttpRequest::factory( $scalerThumbUrl, $httpOptions );
+		$req = HttpRequest::factory( $scalerThumbUrl, $httpOptions );
 		$status = $req->execute();
 		if ( ! $status->isOK() ) {
 			$errors = $status->getErrorsArray();	
