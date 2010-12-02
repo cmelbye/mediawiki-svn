@@ -1619,24 +1619,24 @@ abstract class DatabaseBase implements DatabaseType {
 				$alias = $table;
 			}
 			// Is there a JOIN and INDEX clause for this table?
-			if ( isset($join_conds_safe[$alias]) && isset($use_index_safe[$alias]) ) {
+			if ( isset( $join_conds_safe[$alias] ) && isset( $use_index_safe[$alias] ) ) {
 				$tableClause = $join_conds_safe[$alias][0] . ' ' . $this->tableNameWithAlias( $table, $alias );
 				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$alias] ) );
-				$on = $this->makeList((array)$join_conds_safe[$alias][1], LIST_AND);
+				$on = $this->makeList( (array)$join_conds_safe[$alias][1], LIST_AND );
 				if ( $on != '' ) {
 					$tableClause .= ' ON (' . $on . ')';
 				}
 
 				$retJOIN[] = $tableClause;
 			// Is there an INDEX clause?
-			} else if ( isset($use_index_safe[$alias]) ) {
+			} else if ( isset( $use_index_safe[$alias] ) ) {
 				$tableClause = $this->tableNameWithAlias( $table, $alias );
 				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$alias] ) );
 				$ret[] = $tableClause;
 			// Is there a JOIN clause?
-			} else if ( isset($join_conds_safe[$alias]) ) {
+			} else if ( isset( $join_conds_safe[$alias] ) ) {
 				$tableClause = $join_conds_safe[$alias][0] . ' ' . $this->tableNameWithAlias( $table, $alias );
-				$on = $this->makeList((array)$join_conds_safe[$alias][1], LIST_AND);
+				$on = $this->makeList( (array)$join_conds_safe[$alias][1], LIST_AND );
 				if ( $on != '' ) {
 					$tableClause .= ' ON (' . $on . ')';
 				}
