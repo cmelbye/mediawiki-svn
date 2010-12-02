@@ -21,7 +21,19 @@ class SpecialLandingCheck extends SpecialPage {
 		
 		// Pull in query string parameters
 		$language = $wgRequest->getVal( 'language', 'en' );
-		$country = $wgRequest->getVal( 'country', 'US' );
+		
+		$country = $wgRequest->getVal( 'country' );
+		// If no country was passed, try to do GeoIP lookup
+		if ( !$country && function_exists( geoip_country_code_by_name ) ) {
+			$ip = wfGetIP();
+			if ( IP::isValid( $ip ) ) {
+				$country = geoip_country_code_by_name( $ip );
+			}
+		}
+		if ( !$country ) {
+			$country = 'US'; // Default
+		}
+		
 		$landingPage = $wgRequest->getVal( 'landing_page', 'Donate' );
 		
 		// Construct new query string for tracking
