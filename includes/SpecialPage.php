@@ -126,6 +126,7 @@ class SpecialPage {
 		'Listusers'                 => array( 'SpecialPage', 'Listusers' ),
 		'Activeusers'               => 'SpecialActiveUsers',
 		'Userrights'                => 'UserrightsPage',
+		'DisableAccount' 	    => 'SpecialDisableAccount',
 
 		# Recent changes and logs
 		'Newimages'                 => array( 'IncludableSpecialPage', 'Newimages' ),

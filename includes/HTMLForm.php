@@ -642,6 +642,7 @@ abstract class HTMLFormField {
 	public $mParams;
 	protected $mLabel;	# String label.  Set on construction
 	protected $mID;
+	protected $mClass = '';
 	protected $mDefault;
 	public $mParent;
 	
@@ -747,6 +748,10 @@ abstract class HTMLFormField {
 				throw new MWException("Invalid id '$id' passed to " . __METHOD__ );
 			}
 			$this->mID = $id;
+		}
+
+		if ( isset( $params['cssclass'] ) ) {
+			$this->mClass = $params['cssclass'];
 		}
 
 		if ( isset( $params['validation-callback'] ) ) {
