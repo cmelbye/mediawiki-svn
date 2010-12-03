@@ -144,6 +144,7 @@ class User {
 		'deletedhistory',
 		'deletedtext',
 		'deleterevision',
+		'disableaccount',
 		'edit',
 		'editinterface',
 		'editusercssjs',

@@ -452,6 +452,7 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'DeletedContributions' ),
 	'Tags'                      => array( 'Tags' ),
 	'Activeusers'               => array( 'ActiveUsers' ),
+	'DisableAccount'            => array( 'DisableAccount' ),
 );
 
 /**
@@ -1069,11 +1070,11 @@ Please enable them, then log in with your new username and password.',
 'nocookieslogin'             => '{{SITENAME}} uses cookies to log in users.
 You have cookies disabled.
 Please enable them and try again.',
-'noname'                     => 'You have not specified a valid user name.',
+'noname'                     => 'You have not specified a valid username.',
 'loginsuccesstitle'          => 'Login successful',
 'loginsuccess'               => "'''You are now logged in to {{SITENAME}} as \"\$1\".'''",
 'nosuchuser'                 => 'There is no user by the name "$1".
-User names are case sensitive.
+Usernames are case sensitive.
 Check your spelling, or [[Special:UserLogin/signup|create a new account]].',
 'nosuchusershort'            => 'There is no user by the name "<nowiki>$1</nowiki>".
 Check your spelling.',
@@ -1200,7 +1201,7 @@ If you click Save again, your edit will be saved without one.",
 'summary-preview'                  => 'Summary preview:',
 'subject-preview'                  => 'Subject/headline preview:',
 'blockedtitle'                     => 'User is blocked',
-'blockedtext'                      => "<big>'''Your user name or IP address has been blocked.'''</big>
+'blockedtext'                      => "'''Your username or IP address has been blocked.'''
 
 The block was made by $1.
 The reason given is ''$2''.
@@ -1907,6 +1908,7 @@ You can also choose to let others contact you through your user or talk page wit
 'right-override-export-depth' => 'Export pages including linked pages up to a depth of 5',
 'right-versiondetail'         => 'Show the extended software version information',
 'right-sendemail'             => 'Send e-mail to other users',
+'right-disableaccount'        => 'Disable accounts',
 
 # User rights log
 'rightslog'      => 'User rights log',
@@ -2461,7 +2463,7 @@ Please note that other web sites may link to a file with a direct URL, and so ma
 'log'                  => 'Logs',
 'all-logs-page'        => 'All public logs',
 'alllogstext'          => 'Combined display of all available logs of {{SITENAME}}.
-You can narrow down the view by selecting a log type, the user name (case-sensitive), or the affected page (also case-sensitive).',
+You can narrow down the view by selecting a log type, the username (case-sensitive), or the affected page (also case-sensitive).',
 'logempty'             => 'No matching items in log.',
 'log-title-wildcard'   => 'Search titles starting with this text',
 
@@ -4236,16 +4238,17 @@ Click "Save" to save your edit.',
 'ajax-remove-category-error'   => 'It was not possible to remove this category.
 This usually occurs when the category has been added to the page in a template.',
 
-## Special:DisableAccount
-'disableaccount-desc' => 'Allows administrators to disable individual accounts.',
-'right-disableaccount' => 'Disable accounts',
-'disableaccount' => 'Disable a user account',
-'disableaccount-user' => 'User name:',
+# Special:DisableAccount
+'disableaccount' => 'Disable an user account',
+'disableaccount-user' => 'Username:',
+'disableaccount-reason' => 'Reason:',
 'disableaccount-confirm' => "Disable this user account.
-The user will not be able to log in, reset their password, or receive email notifications.
+The user will not be able to log in, reset their password, or receive e-mail notifications.
 If the user is currently logged in anywhere, they will be immediately logged out.
 ''Note that disabling an account is not reversible without system administrator intervention.''",
 'disableaccount-mustconfirm' => 'You must confirm that you wish to disable this account.',
 'disableaccount-nosuchuser' => 'The user account "$1" does not exist.',
 'disableaccount-success' => 'The user account "$1" has been permanently disabled.',
+'disableaccount-logentry' => 'permanently disabled the user account [[$1]]',
 );
+
