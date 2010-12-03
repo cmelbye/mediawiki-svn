@@ -1077,6 +1077,7 @@ $wgMessageStructure = array(
 		'right-override-export-depth',
 		'right-versiondetail',
 		'right-sendemail',
+		'right-disableaccount',
 	),
 	'rightslog' => array(
 		'rightslog',
@@ -3139,6 +3140,17 @@ $wgMessageStructure = array(
 		'ajax-error-dismiss',
 		'ajax-remove-category-error',
 	),
+	'disableaccount' => array(
+		'disableaccount',
+		'disableaccount-user',
+		'disableaccount-reason',
+		'disableaccount-confirm',
+		'disableaccount-mustconfirm',
+		'disableaccount-confirm',
+		'disableaccount-nosuchuser',
+		'disableaccount-success',
+		'disableaccount-logentry',
+	),
 );
 
 /** Comments for each block */
@@ -3346,4 +3358,5 @@ Variants for Chinese language",
 	'db-error-messages'     => 'Database error messages',
 	'html-forms'            => 'HTML forms',
 	'ajax-category'         => 'Add categories per AJAX',
+	'disableaccount'        => 'Special:DisableAccount',
 );
