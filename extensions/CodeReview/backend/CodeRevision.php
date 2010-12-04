@@ -432,7 +432,9 @@ class CodeRevision {
 					continue;
 				}
 
-				if ( $user->canReceiveEmail() ) {
+				// canReceiveEmail() returns false for the fake watcher user, so exempt it
+				// This is ugly
+				if ( $userId == 0 || $user->canReceiveEmail() ) {
 					// Send message in receiver's language
 					$lang = array( 'language' => $user->getOption( 'language' ) );
 				
