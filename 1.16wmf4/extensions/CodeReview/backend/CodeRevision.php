@@ -410,7 +410,7 @@ class CodeRevision {
 		$dbw->commit();
 
 		// Give email notices to committer and commenters
-		global $wgCodeReviewENotif, $wgEnableEmail, $wgCodeReviewCommentWatcher;
+		global $wgCodeReviewENotif, $wgEnableEmail, $wgCodeReviewCommentWatcherEmail, $wgCodeReviewCommentWatcherName;
 		if ( $wgCodeReviewENotif && $wgEnableEmail ) {
 			// Make list of users to send emails to
 			$users = $this->getCommentingUsers();
