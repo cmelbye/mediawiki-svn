@@ -116,7 +116,7 @@ $messages['en'] = array(
 
 	'codereview-reply-link' => 'reply',
 
-	'codereview-email-subj' => '[$1] [$2]: New comment added',
+	'codereview-email-subj' => '[$1 $2]: New comment added',
 	'codereview-email-body' => 'User "$1" posted a comment on $3.
 
 Full URL: $2
@@ -125,7 +125,7 @@ Comment:
 
 $4',
 
-	'codereview-email-subj2' => '[$1] [$2]: Follow-up changes',
+	'codereview-email-subj2' => '[$1 $2]: Follow-up changes',
 	'codereview-email-body2' => 'User "$1" made follow-up changes to $2.
 
 Full URL for followed up revision: $5
@@ -345,9 +345,9 @@ $messages['aln'] = array(
 	'code-release-badrange' => 'Varg është tepër i madh!',
 	'codereview-subtitle' => 'Për $1',
 	'codereview-reply-link' => 'përgjigje',
-	'codereview-email-subj' => '[$1] [$2]: koment i ri shtuar',
+	'codereview-email-subj' => '[$1 $2]: koment i ri shtuar',
 	'codereview-email-body' => 'User "$1" postuar nje koment mbi $3. Plotë URL: $2 Komenti: $4',
-	'codereview-email-subj2' => 'Ndryshime [$1] [$2]: Ndiqni-up',
+	'codereview-email-subj2' => 'Ndryshime [$1 $2]: Ndiqni-up',
 	'codereview-email-body2' => 'User "$1" bërë ndjekjen ndryshime tek $2. Plotë URL: $3 përmbledhje angazhohen: $4',
 	'repoadmin' => 'Depo Administrata',
 	'repoadmin-new-legend' => 'Krijo një depo të re',
@@ -532,7 +532,7 @@ $messages['ar'] = array(
 	'code-release-badrange' => 'النطاق كبير للغاية!',
 	'codereview-subtitle' => 'ل$1',
 	'codereview-reply-link' => 'رد',
-	'codereview-email-subj' => '[$1] [$2]: تعليق جديد تمت إضافته',
+	'codereview-email-subj' => '[$1 $2]: تعليق جديد تمت إضافته',
 	'codereview-email-body' => 'المستخدم "$1" كتب تعليقا على $3.
 
 المسار الكامل: $2
@@ -540,7 +540,7 @@ $messages['ar'] = array(
 التعليق:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: تغييرات ملحقة',
+	'codereview-email-subj2' => '[$1 $2]: تغييرات ملحقة',
 	'codereview-email-body2' => 'المستخدم "$1" قام بتغييرات ملحقة بن$2.
 
 المسار الكامل: $3
@@ -645,7 +645,7 @@ $messages['arz'] = array(
 	'code-release-endrev' => 'آخر مراجعة:',
 	'codereview-subtitle' => 'لـ $1',
 	'codereview-reply-link' => 'رد',
-	'codereview-email-subj' => '[$1] [$2]: تعليق جديد تمت إضافته',
+	'codereview-email-subj' => '[$1 $2]: تعليق جديد تمت إضافته',
 	'codereview-email-body' => 'اليوزر "$1" كتب تعليق على $3.
 
 المسار الكامل: $2
@@ -819,7 +819,7 @@ $messages['be-tarask'] = array(
 	'code-release-badrange' => 'Занадта вялікі дыяпазон!',
 	'codereview-subtitle' => 'Для $1',
 	'codereview-reply-link' => 'адказаць',
-	'codereview-email-subj' => '[$1] [$2]: Дададзены новы камэнтар',
+	'codereview-email-subj' => '[$1 $2]: Дададзены новы камэнтар',
 	'codereview-email-body' => 'Удзельнік «$1» дадаў камэнтар для $3.
 
 Поўны URL: $2
@@ -827,7 +827,7 @@ $messages['be-tarask'] = array(
 Камэнтар:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Наступныя зьмены',
+	'codereview-email-subj2' => '[$1 $2]: Наступныя зьмены',
 	'codereview-email-body2' => 'Карыстальнік «$1» зрабіў наступныя зьмены ў $2.
 
 Поўны URL-адрас папярэдняй вэрсіі: $5
@@ -947,7 +947,7 @@ $messages['bg'] = array(
 	'code-release-badrange' => 'Обхватът е твърде голям!',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'отговаряне',
-	'codereview-email-subj' => '[$1] [$2]: Беше добавен нов коментар',
+	'codereview-email-subj' => '[$1 $2]: Беше добавен нов коментар',
 	'codereview-email-body' => 'Потребител „$1“ публикува коментар за $3.
 
 Пълен адрес: $2
@@ -1115,7 +1115,7 @@ $messages['br'] = array(
 	'code-release-badrange' => 'Re vras eo al levezon !',
 	'codereview-subtitle' => 'Evit $1',
 	'codereview-reply-link' => 'respont',
-	'codereview-email-subj' => '[$1] [$2] : evezhiadenn nevez bet ouzhpennet',
+	'codereview-email-subj' => '[$1 $2] : evezhiadenn nevez bet ouzhpennet',
 	'codereview-email-body' => 'Lakaet en deus an implijer "$1" un evezhiadenn war $3.
 
 URL klok : $2
@@ -1123,7 +1123,7 @@ URL klok : $2
 Evezhiadenn :
 
 $4',
-	'codereview-email-subj2' => "[$1] [$2] : Heuliadenn ar c'hemm",
+	'codereview-email-subj2' => "[$1 $2] : Heuliadenn ar c'hemm",
 	'codereview-email-body2' => 'Degaset ez eus bet kemmoù liammet ouzh $2 gant an implijer "$1".
 
 URL klok da heuliañ an adweladenn : $5
@@ -1264,7 +1264,7 @@ $messages['bs'] = array(
 	'code-release-badrange' => 'Raspon je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovor',
-	'codereview-email-subj' => '[$1] [$2]: Dodan novi komentar',
+	'codereview-email-subj' => '[$1 $2]: Dodan novi komentar',
 	'codereview-email-body' => 'Korisnik "$1" je napravio komentar na $3.
 
 Puni URL: $2
@@ -1272,7 +1272,7 @@ Puni URL: $2
 Komentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Slijedeće izmjene',
+	'codereview-email-subj2' => '[$1 $2]: Slijedeće izmjene',
 	'codereview-email-body2' => 'Korisnik "$1" je izvršio povezane izmjene na $2.
 
 Puni URL za povezane revizije: $5
@@ -1374,7 +1374,7 @@ $messages['ca'] = array(
 	'codereview-batch-submit' => 'Envia',
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'Contesta',
-	'codereview-email-subj' => '[$1] [$2]: Nou comentari afegit',
+	'codereview-email-subj' => '[$1 $2]: Nou comentari afegit',
 	'codereview-email-body' => 'L\'usuari "$1" ha fet un comentari a $3
 
 URL complet: $2
@@ -1501,7 +1501,7 @@ $messages['cs'] = array(
 	'code-release-badrange' => 'Rozsah je příliš velký!',
 	'codereview-subtitle' => 'Pro $1',
 	'codereview-reply-link' => 'odpovědět',
-	'codereview-email-subj' => '[$1] [$2]: Přidán nový komentář',
+	'codereview-email-subj' => '[$1 $2]: Přidán nový komentář',
 	'codereview-email-body' => 'Uživatel „$1“ přidal komentář k $3.
 
 Plné URL: $2
@@ -1509,7 +1509,7 @@ Plné URL: $2
 Komentář:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Reagující změna',
+	'codereview-email-subj2' => '[$1 $2]: Reagující změna',
 	'codereview-email-body2' => 'Uživatel „$1“ svou změnou reagoval na $2.
 
 Úplné URL původní revize: $5
@@ -1746,7 +1746,7 @@ $messages['de'] = array(
 	'code-release-badrange' => 'Der Bereich ist zu groß!',
 	'codereview-subtitle' => 'Für $1',
 	'codereview-reply-link' => 'antworten',
-	'codereview-email-subj' => '[$1] [$2]: Neuer Kommentar hinzugefügt',
+	'codereview-email-subj' => '[$1 $2]: Neuer Kommentar hinzugefügt',
 	'codereview-email-body' => 'Benutzer „$1“ hat Revision $3 kommentiert:
 
 Vollständige URL: $2
@@ -1754,7 +1754,7 @@ Vollständige URL: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Darauffolgende Änderungen',
+	'codereview-email-subj2' => '[$1 $2]: Darauffolgende Änderungen',
 	'codereview-email-body2' => 'Benutzer „$1“ machte darauffolgende Änderungen zu $2.
 
 Volle URL der darauffolgenden Version: $5
@@ -1891,7 +1891,7 @@ $messages['diq'] = array(
 	'code-release-badrange' => 'Menzil zaf derg o!',
 	'codereview-subtitle' => 'Qe $1',
 	'codereview-reply-link' => 'cewab bide',
-	'codereview-email-subj' => '[$1] [$2]: Xulasayê newî de biyo',
+	'codereview-email-subj' => '[$1 $2]: Xulasayê newî de biyo',
 	'codereview-email-body' => 'Karberê "$1"î yew xulasa se $3 rê nuşt. 
 
 Full URL: $2
@@ -1899,7 +1899,7 @@ Full URL: $2
 Xulasa:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Vurnayîşan kontrol bike',
+	'codereview-email-subj2' => '[$1 $2]: Vurnayîşan kontrol bike',
 	'codereview-email-body2' => 'Karberê "$1"î,  $2  vurna. 
 
 Full URL: $3
@@ -2028,7 +2028,7 @@ $messages['dsb'] = array(
 	'code-release-badrange' => 'Wobłuk jo pśewjeliki!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'wótegroniś',
-	'codereview-email-subj' => '[$1] [$2]: Nowy komentar pśidany',
+	'codereview-email-subj' => '[$1 $2]: Nowy komentar pśidany',
 	'codereview-email-body' => 'Wužywaŕ "$1" jo komentar wó $3 pósłał.
 
 Dopołny URL: $2
@@ -2036,7 +2036,7 @@ Dopołny URL: $2
 Komentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Naslědne změny',
+	'codereview-email-subj2' => '[$1 $2]: Naslědne změny',
 	'codereview-email-body2' => 'Wužywaŕ "$1" su naslědne změny k $2 cynił.
 
 Dopołny URL: $3
@@ -2176,7 +2176,7 @@ $messages['el'] = array(
 	'code-release-badrange' => 'Το βεληνεκές είναι πολύ μεγάλο!',
 	'codereview-subtitle' => 'Για το $1',
 	'codereview-reply-link' => 'απάντηση',
-	'codereview-email-subj' => '[$1] [$2]: Προστέθηκε νέο σχόλιο',
+	'codereview-email-subj' => '[$1 $2]: Προστέθηκε νέο σχόλιο',
 	'codereview-email-body' => 'Ο χρήστης "$1" απέστειλε κάποιο σχόλιο στο $3.
 
 Πλήρης URL: $2
@@ -2184,7 +2184,7 @@ $messages['el'] = array(
 Σχόλιο:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Παρακολούθηση αλλαγών',
+	'codereview-email-subj2' => '[$1 $2]: Παρακολούθηση αλλαγών',
 	'codereview-email-body2' => 'Ο Χρήστης "$1" πραγματοποίησε αλλαγές παρακολούθησης στο $2.
 
 Πλήρες URL: $3
@@ -2313,7 +2313,7 @@ $messages['eo'] = array(
 	'code-release-badrange' => 'Intervalo estas tro granda!',
 	'codereview-subtitle' => 'Por $1',
 	'codereview-reply-link' => 'respondo',
-	'codereview-email-subj' => '[$1] [$2]: Nova komento estis aldonita',
+	'codereview-email-subj' => '[$1 $2]: Nova komento estis aldonita',
 	'codereview-email-body' => 'Uzanto "$1" afiŝis komenton de $3.
 
 Plena URL-o: $2
@@ -2321,7 +2321,7 @@ Plena URL-o: $2
 Komento:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Postatentaj ŝanĝoj',
+	'codereview-email-subj2' => '[$1 $2]: Postatentaj ŝanĝoj',
 	'codereview-email-body2' => 'Uzanto "$1" faris postatentadajn ŝanĝojn al $2.
 
 Plena URL por la postatentadaj revizio: $5
@@ -2467,7 +2467,7 @@ $messages['es'] = array(
 	'code-release-badrange' => 'Rango es demasiado largo!',
 	'codereview-subtitle' => 'Para $1',
 	'codereview-reply-link' => 'responder',
-	'codereview-email-subj' => '[$1] [$2]: Añadido nuevo comentario',
+	'codereview-email-subj' => '[$1 $2]: Añadido nuevo comentario',
 	'codereview-email-body' => 'El usuario «$1» envió un comentario en $3.
 
 URL completa: $2
@@ -2475,7 +2475,7 @@ URL completa: $2
 Comentario:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Cambios de seguimiento',
+	'codereview-email-subj2' => '[$1 $2]: Cambios de seguimiento',
 	'codereview-email-body2' => 'El usuario "$1" ha hecho de modificaciones de seguimiento a $2.
 
 URL completa para la revisión de seguimiento: $5
@@ -2587,7 +2587,7 @@ $messages['et'] = array(
 	'code-release-badrange' => 'Vahemik on liiga suur!',
 	'codereview-subtitle' => 'Hoidla $1 jaoks',
 	'codereview-reply-link' => 'vasta',
-	'codereview-email-subj' => '[$1] [$2]: Lisatud uus kommentaar',
+	'codereview-email-subj' => '[$1 $2]: Lisatud uus kommentaar',
 	'codereview-email-body' => 'Kasutaja $1 kommenteeris koodi $3.
 
 Täielik URL: $2
@@ -2595,7 +2595,7 @@ Täielik URL: $2
 Kommentaar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Järelmuudatused',
+	'codereview-email-subj2' => '[$1 $2]: Järelmuudatused',
 	'codereview-email-body2' => 'Kasutaja $1 tegi koodile $2 järelmuudatusi.
 
 Täielik URL järelmuudatuste juurde: $5
@@ -2691,7 +2691,7 @@ $messages['eu'] = array(
 	'code-rev-submit-next' => 'Gorde eta konpondu gabeko hurrengora',
 	'codereview-batch-submit' => 'Bidali',
 	'codereview-reply-link' => 'erantzun',
-	'codereview-email-subj' => '[$1] [$2]: Iruzkin berria gehitu da',
+	'codereview-email-subj' => '[$1 $2]: Iruzkin berria gehitu da',
 	'codereview-email-body' => '"$1" lankideak $3(e)n iruzkin bat gehitu du.
 
 Helbide osoa: $2
@@ -2828,7 +2828,7 @@ $messages['fa'] = array(
 	'code-release-badrange' => 'محدوده خیلی بزرگ است!',
 	'codereview-subtitle' => 'برای $1',
 	'codereview-reply-link' => 'پاسخ',
-	'codereview-email-subj' => '[$1] [$2]: نظر جدید اضافه شد',
+	'codereview-email-subj' => '[$1 $2]: نظر جدید اضافه شد',
 	'codereview-email-body' => 'کاربر «$1» یک نظر برای $3 ارسال کرد.
 
 نشانی کامل: $2
@@ -2836,7 +2836,7 @@ $messages['fa'] = array(
 نظر:
 
 $4',
-	'codereview-email-subj2' => 'پیگیری تغییرات: [$1] [$2]',
+	'codereview-email-subj2' => 'پیگیری تغییرات: [$1 $2]',
 	'codereview-email-body2' => 'کاربر «$1» این تغییرات را به $2 داده‌است.
 
 نشانی کامل برای این نسخه‌ها: $5
@@ -2969,7 +2969,7 @@ $messages['fi'] = array(
 	'code-release-badrange' => 'Alue on liian suuri!',
 	'codereview-subtitle' => 'Varastolle $1',
 	'codereview-reply-link' => 'vastaa',
-	'codereview-email-subj' => '[$1] [$2]: Uusi kommentti lisätty',
+	'codereview-email-subj' => '[$1 $2]: Uusi kommentti lisätty',
 	'codereview-email-body' => 'Käyttäjä $1 jätti kommentin versioon $3.
 
 Täydellinen osoite: $2
@@ -2977,7 +2977,7 @@ Täydellinen osoite: $2
 Kommentti:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Myöhemmät muutokset',
+	'codereview-email-subj2' => '[$1 $2]: Myöhemmät muutokset',
 	'codereview-email-body2' => 'Käyttäjä ”$1” teki myöhemmän muutoksen versioon $2.
 
 Täydellinen URL: $3
@@ -3118,7 +3118,7 @@ $messages['fr'] = array(
 	'code-release-badrange' => 'La portée est trop grande !',
 	'codereview-subtitle' => 'Pour $1',
 	'codereview-reply-link' => 'répondre',
-	'codereview-email-subj' => '[$1] [$2] : nouveau commentaire ajouté',
+	'codereview-email-subj' => '[$1 $2] : nouveau commentaire ajouté',
 	'codereview-email-body' => 'L’utilisateur « $1 » a posté un commentaire sur $3.
 
 Lien hypertexte complet : $2
@@ -3126,7 +3126,7 @@ Lien hypertexte complet : $2
 Commentaire :
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2] : suivi de la modification',
+	'codereview-email-subj2' => '[$1 $2] : suivi de la modification',
 	'codereview-email-body2' => 'L’utilisateur « $1 » a fait des modifications sur $2.
 
 URL complète de la révision suivie : $5
@@ -3266,7 +3266,7 @@ $messages['frp'] = array(
 	'code-release-badrange' => 'La portâ est trop granta !',
 	'codereview-subtitle' => 'Por $1',
 	'codereview-reply-link' => 'rèpondre',
-	'codereview-email-subj' => '[$1] [$2] : novél comentèro apondu',
+	'codereview-email-subj' => '[$1 $2] : novél comentèro apondu',
 	'codereview-email-body' => 'L’utilisator « $1 » at postâ un comentèro dessus $3.
 
 Lim hipèrtèxto complèt : $2
@@ -3274,7 +3274,7 @@ Lim hipèrtèxto complèt : $2
 Comentèro :
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2] : survelyence du changement',
+	'codereview-email-subj2' => '[$1 $2] : survelyence du changement',
 	'codereview-email-body2' => 'L’utilisator « $1 » at fêt des changements sur $2.
 
 URL complèta de la vèrsion siuvua : $5
@@ -3430,7 +3430,7 @@ $messages['gl'] = array(
 	'code-release-badrange' => 'O rango é longo de máis!',
 	'codereview-subtitle' => 'De $1',
 	'codereview-reply-link' => 'responder',
-	'codereview-email-subj' => '[$1] [$2]: engadido un novo comentario',
+	'codereview-email-subj' => '[$1 $2]: engadido un novo comentario',
 	'codereview-email-body' => 'O usuario "$1" deixou un comentario na versión $3.
 
 Enderezo URL: $2
@@ -3438,7 +3438,7 @@ Enderezo URL: $2
 Comentario:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: seguimento de cambios',
+	'codereview-email-subj2' => '[$1 $2]: seguimento de cambios',
 	'codereview-email-body2' => 'O usuario "$1" fixo un seguimento dos cambios feitos na versión $2.
 
 URL da versión seguida: $5
@@ -3550,7 +3550,7 @@ $messages['grc'] = array(
 	'codereview-batch-submit' => 'Ὑποβάλλειν',
 	'codereview-subtitle' => 'Διὰ $1',
 	'codereview-reply-link' => 'ἀποκρίνεσθαι',
-	'codereview-email-subj' => '[$1] [$2]: Σχόλιον νέον προστεθειμένον',
+	'codereview-email-subj' => '[$1 $2]: Σχόλιον νέον προστεθειμένον',
 	'codereview-email-body' => 'Ὁ χρώμενος "$1" ἀπέσταλκεν σχόλιόν τι τῷ $3.
 
 Πλήρης URL: $2
@@ -3680,7 +3680,7 @@ $messages['gsw'] = array(
 	'code-release-badrange' => 'Dr Beryych isch z groß!',
 	'codereview-subtitle' => 'Fir $1',
 	'codereview-reply-link' => 'Antwort gee',
-	'codereview-email-subj' => '[$1] [$2]: Neije Kommentar zuegfiegt',
+	'codereview-email-subj' => '[$1 $2]: Neije Kommentar zuegfiegt',
 	'codereview-email-body' => 'Benutzer „$1“ het $3 kommentiert:
 
 Vollständigi URL: $2
@@ -3688,7 +3688,7 @@ Vollständigi URL: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Änderige wu derno chemme',
+	'codereview-email-subj2' => '[$1 $2]: Änderige wu derno chemme',
 	'codereview-email-body2' => 'Benutzer „$1“ het zue $2 Änderige wu derno chemme gmacht.
 
 Volli URL fir Änderige wu derno chemme: $5
@@ -3979,7 +3979,7 @@ $messages['hr'] = array(
 	'code-release-badrange' => 'Raspon je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovori',
-	'codereview-email-subj' => '[$1] [$2]: Dodan novi komentar',
+	'codereview-email-subj' => '[$1 $2]: Dodan novi komentar',
 	'codereview-email-body' => 'Suradnik "$1" je ostavio komentar za $3.
 
 Puni URL: $2
@@ -3987,7 +3987,7 @@ Puni URL: $2
 Komentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Sljedeće izmjene',
+	'codereview-email-subj2' => '[$1 $2]: Sljedeće izmjene',
 	'codereview-email-body2' => 'Suradnik "$1" izvršio je povezane izmjene na $2.
 
 Puni URL za povezane revizije: $5
@@ -4125,7 +4125,7 @@ $messages['hsb'] = array(
 	'code-release-badrange' => 'Wobłuk přewulki!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'wotmołwić',
-	'codereview-email-subj' => '[$1] [$2]: Nowy komentar přidaty',
+	'codereview-email-subj' => '[$1 $2]: Nowy komentar přidaty',
 	'codereview-email-body' => 'Wužiwar "$1" je komentar wo $3 pósłał.
 
 Dospołny URL: $2
@@ -4133,7 +4133,7 @@ Dospołny URL: $2
 Komentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Naslědne změny',
+	'codereview-email-subj2' => '[$1 $2]: Naslědne změny',
 	'codereview-email-body2' => 'Wužiwar "$1" je naslědne změny k $2 činił.
 
 Dopołny URL: $3
@@ -4267,7 +4267,7 @@ $messages['hu'] = array(
 	'code-release-badrange' => 'A tartomány túl nagy!',
 	'codereview-subtitle' => '$1 részére',
 	'codereview-reply-link' => 'válasz',
-	'codereview-email-subj' => '[$1] [$2]: Új hozzászólás',
+	'codereview-email-subj' => '[$1 $2]: Új hozzászólás',
 	'codereview-email-body' => '„$1” új hozzászólást fűzött az $3 változathoz.
 
 Teljes cím: $2
@@ -4275,7 +4275,7 @@ Teljes cím: $2
 Hozzászólás:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: rákövetkező változtatások',
+	'codereview-email-subj2' => '[$1 $2]: rákövetkező változtatások',
 	'codereview-email-body2' => '„$1” szerkesztő utólagos változtatásokat végzett a(z) $2 verzión.
 
 Teljes URL az adott változathoz: $5
@@ -4560,7 +4560,7 @@ $messages['id'] = array(
 	'code-release-badrange' => 'Interval terlalu besar!',
 	'codereview-subtitle' => 'Untuk $1',
 	'codereview-reply-link' => 'balas',
-	'codereview-email-subj' => '[$1] [$2]: Komenter baru ditambahkan',
+	'codereview-email-subj' => '[$1 $2]: Komenter baru ditambahkan',
 	'codereview-email-body' => 'Pengguna "$1" berkomentar pada $3.
 
 URL lengkap: $2
@@ -4568,7 +4568,7 @@ URL lengkap: $2
 Komentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]:Menindaklanjuti perubahan',
+	'codereview-email-subj2' => '[$1 $2]:Menindaklanjuti perubahan',
 	'codereview-email-body2' => 'Pengguna "$1" membbuat perubahan lanjutan terhadap $2.
 
 URL penuh untuk revisi lanjutan: $5
@@ -4647,7 +4647,7 @@ $messages['io'] = array(
 	'code-revfilter-cr_status' => 'Stando = $1',
 	'code-revfilter-cr_author' => 'Autoro = $1',
 	'codereview-batch-submit' => 'Sendez',
-	'codereview-email-subj' => '[$1] [$2]: Nova komento adjuntita',
+	'codereview-email-subj' => '[$1 $2]: Nova komento adjuntita',
 	'repoadmin-edit-button' => 'O.K.',
 );
 
@@ -4754,7 +4754,7 @@ $messages['it'] = array(
 	'code-release-badrange' => "L'intervallo è troppo ampio!",
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'rispondi',
-	'codereview-email-subj' => '[$1] [$2]: Aggiunto un commento',
+	'codereview-email-subj' => '[$1 $2]: Aggiunto un commento',
 	'codereview-email-body' => 'L\'utente "$1" ha inviato un commento a $3.
 
 URL completo: $2
@@ -4894,7 +4894,7 @@ $messages['ja'] = array(
 	'code-release-badrange' => '範囲が広すぎます！',
 	'codereview-subtitle' => '$1',
 	'codereview-reply-link' => '返信',
-	'codereview-email-subj' => '[$1] [$2]: 新規コメント追加',
+	'codereview-email-subj' => '[$1 $2]: 新規コメント追加',
 	'codereview-email-body' => '利用者「$1」が $3 にコメントをつけました。
 
 完全なURL: $2
@@ -4902,7 +4902,7 @@ $messages['ja'] = array(
 コメント:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: 追補の変更',
+	'codereview-email-subj2' => '[$1 $2]: 追補の変更',
 	'codereview-email-body2' => '利用者$1が$2に追補の変更を加えました。
 
 追補版の全URL：$5
@@ -5007,7 +5007,7 @@ $messages['jv'] = array(
 	'code-rev-submit' => 'Simpen owah-owahan',
 	'code-rev-submit-next' => 'Simpen & durung-bèrès sabanjuré',
 	'codereview-reply-link' => 'wales/walesan',
-	'codereview-email-subj' => '[$1] [$2]: Komentar anyar ditambahaké',
+	'codereview-email-subj' => '[$1 $2]: Komentar anyar ditambahaké',
 	'codereview-email-body' => 'Panganggo "$1" awèh komentar ing $3.
 
 URL jangkep: $2
@@ -5327,7 +5327,7 @@ $messages['ko'] = array(
 내용:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: 추적된 변경 사항',
+	'codereview-email-subj2' => '[$1 $2]: 추적된 변경 사항',
 	'codereview-email-body2' => '사용자 "$1"이/가 $2에 추적변경을 만들었습니다.
 
 전체 URL: $3
@@ -5456,7 +5456,7 @@ $messages['ksh'] = array(
 	'code-release-badrange' => 'Dä Berett es zoh jruhß!',
 	'codereview-subtitle' => 'För $1',
 	'codereview-reply-link' => 'antwoote',
-	'codereview-email-subj' => '[$1] [$2]: Neue Kommentaa dobei jedonn',
+	'codereview-email-subj' => '[$1 $2]: Neue Kommentaa dobei jedonn',
 	'codereview-email-body' => 'Dä Metmaacher „$1“ hät ene Kommentaa för de $3 loßjeloose.
 
 De janze URL es: $2
@@ -5464,7 +5464,7 @@ De janze URL es: $2
 Dä Kommentaa es:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: De Änderunge donoh',
+	'codereview-email-subj2' => '[$1 $2]: De Änderunge donoh',
 	'codereview-email-body2' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|Dat|De}} "$1" hät aan de Version $2 noch noch jet jedonn.
 
 Loor op de URL: $3
@@ -5595,7 +5595,7 @@ $messages['lb'] = array(
 	'code-release-badrange' => 'De Beräich ass ze grouss!',
 	'codereview-subtitle' => 'Fir $1',
 	'codereview-reply-link' => 'äntwerten',
-	'codereview-email-subj' => '[$1] [$2]: Nei Bemierkung derbäigesat',
+	'codereview-email-subj' => '[$1 $2]: Nei Bemierkung derbäigesat',
 	'codereview-email-body' => 'De Benotzer "$1" huet eng Bemierkung op $3 hannerlooss.
 
 Ganz URL: $2
@@ -5603,7 +5603,7 @@ Ganz URL: $2
 Bemierkung:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Ännerungen doropshinn',
+	'codereview-email-subj2' => '[$1 $2]: Ännerungen doropshinn',
 	'codereview-email-body2' => 'De Benotzer "$1" huet Ännerungen zu der Versioun $2 gemaach.
 
 Komplett URL vun der Ännerung: $5
@@ -5755,7 +5755,7 @@ $messages['li'] = array(
 	'code-release-badrange' => 'De reeks is te groet.',
 	'codereview-subtitle' => 'Veur $1',
 	'codereview-reply-link' => 'antjwäörje',
-	'codereview-email-subj' => '[$1] [$2]: Nuuj ópmèrking toegevoeg',
+	'codereview-email-subj' => '[$1 $2]: Nuuj ópmèrking toegevoeg',
 	'codereview-email-body' => 'Gebroeker "$1" haet \'n ópmèrking toegevoeg aan $3:
 
 Vólledige URL: $2
@@ -5763,7 +5763,7 @@ Vólledige URL: $2
 Ópmèrking:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: wieziginge mit correcties',
+	'codereview-email-subj2' => '[$1 $2]: wieziginge mit correcties',
 	'codereview-email-body2' => 'Gebroeker "$1" haet wiezigingen mit correcties veur $2 gemaak.
 
 Volledige URL nao die versie: $5
@@ -5919,7 +5919,7 @@ $messages['mk'] = array(
 	'code-release-badrange' => 'Опсегот е преголем',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'одговори',
-	'codereview-email-subj' => '[$1] [$2]: Додаден е нов коментар',
+	'codereview-email-subj' => '[$1 $2]: Додаден е нов коментар',
 	'codereview-email-body' => 'Корисникот „$1“ објави коментар за $3.
 
 Полна URL-адреса: $2
@@ -5927,7 +5927,7 @@ $messages['mk'] = array(
 Коментар:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Подоцнежни измени',
+	'codereview-email-subj2' => '[$1 $2]: Подоцнежни измени',
 	'codereview-email-body2' => 'Корисникот „$1“ направи подоцнежни промени на $2.
 
 Полна URL-адреса за подоцнежната ревизија: $5
@@ -6067,7 +6067,7 @@ $messages['ml'] = array(
 	'code-release-badrange' => 'വളരെ വലിയ പരിധി!',
 	'codereview-subtitle' => 'റെപ്പോസിറ്ററി $1',
 	'codereview-reply-link' => 'മറുപടി',
-	'codereview-email-subj' => '[$1] [$2]: പുതിയ അഭിപ്രായം ചേർത്തിരിക്കുന്നു',
+	'codereview-email-subj' => '[$1 $2]: പുതിയ അഭിപ്രായം ചേർത്തിരിക്കുന്നു',
 	'codereview-email-body' => '$3-യിൽ "$1" ഒരു അഭിപ്രായം ചേർത്തിരിക്കുന്നു.
 
 പൂർണ്ണ യൂ.ആർ.എൽ.: $2
@@ -6075,7 +6075,7 @@ $messages['ml'] = array(
 അഭിപ്രായം:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: പിന്തുടർച്ചാ മാറ്റങ്ങൾ',
+	'codereview-email-subj2' => '[$1 $2]: പിന്തുടർച്ചാ മാറ്റങ്ങൾ',
 	'codereview-email-body2' => 'ഉപയോക്താവ് "$1" $2 എന്നതിനു പിന്തുടർച്ചാ മാറ്റങ്ങൾ നടത്തിയിരിക്കുന്നു.
 
 പിന്തുടർച്ചാ നാൾപ്പതിപ്പിന്റെ പൂർണ്ണ യൂ.ആർ.എൽ.: $5
@@ -6349,7 +6349,7 @@ $messages['nds'] = array(
 	'code-release-endrev' => 'Enn-Version:',
 	'codereview-subtitle' => 'För $1',
 	'codereview-reply-link' => 'antern',
-	'codereview-email-subj' => '[$1] [$2]: Ne’en Kommentar toföögt',
+	'codereview-email-subj' => '[$1 $2]: Ne’en Kommentar toföögt',
 	'codereview-email-body' => 'Bruker „$1“ hett en Kommentarn to $3 maakt.
 
 Vulle URL: $2
@@ -6357,7 +6357,7 @@ Vulle URL: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Nakamen Ännern',
+	'codereview-email-subj2' => '[$1 $2]: Nakamen Ännern',
 	'codereview-email-body2' => 'Bruker „$1“ hett na $2 noch wedder wat ännert.
 
 Vull URL: $3
@@ -6503,7 +6503,7 @@ De gegevens kunnen uit een cache komen.',
 	'code-release-badrange' => 'De reeks is te groot.',
 	'codereview-subtitle' => 'Voor $1',
 	'codereview-reply-link' => 'antwoorden',
-	'codereview-email-subj' => '[$1] [$2]: Nieuwe opmerking toegevoegd',
+	'codereview-email-subj' => '[$1 $2]: Nieuwe opmerking toegevoegd',
 	'codereview-email-body' => 'Gebruiker "$1" heeft een opmerking toegevoegd aan $3:
 
 Volledige URL: $2
@@ -6511,7 +6511,7 @@ Volledige URL: $2
 Opmerking:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: wijzigingen met correcties',
+	'codereview-email-subj2' => '[$1 $2]: wijzigingen met correcties',
 	'codereview-email-body2' => 'Gebruiker "$1" heeft wijzigingen met correcties voor $2 gemaakt.
 
 Volledige URL naar de gecorrigeerde versie: $5
@@ -6636,7 +6636,7 @@ $messages['nn'] = array(
 	'code-release-endrev' => 'Siste revisjon:',
 	'codereview-subtitle' => 'For $1',
 	'codereview-reply-link' => 'svar',
-	'codereview-email-subj' => '[$1] [$2]: Ny kommentar lagt til',
+	'codereview-email-subj' => '[$1 $2]: Ny kommentar lagt til',
 	'codereview-email-body' => 'Brukar $1 la inn ein kommentar på $3
 
 Fullstendig adressa: $2
@@ -6644,7 +6644,7 @@ Fullstendig adressa: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Påfylgjande endringar',
+	'codereview-email-subj2' => '[$1 $2]: Påfylgjande endringar',
 	'codereview-email-body2' => 'Brukar "$1" gjorde påfylgjande endringar til $2.
 
 Full URL: $3
@@ -6773,7 +6773,7 @@ $messages['no'] = array(
 	'code-release-badrange' => 'Intervallet er for stort!',
 	'codereview-subtitle' => 'For $1',
 	'codereview-reply-link' => 'svar',
-	'codereview-email-subj' => '[$1] [$2]: Ny kommentar lagt inn',
+	'codereview-email-subj' => '[$1 $2]: Ny kommentar lagt inn',
 	'codereview-email-body' => 'Bruker $1 la inn en kommentar på $3
 
 Fullstendig URL: $2
@@ -6781,7 +6781,7 @@ Fullstendig URL: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Påfølgende endringer',
+	'codereview-email-subj2' => '[$1 $2]: Påfølgende endringer',
 	'codereview-email-body2' => 'Bruker «$1» gjorde oppfølgende endringer til $2.
 
 Full nettadresse til oppfølgende revisjon: $5
@@ -6910,7 +6910,7 @@ $messages['oc'] = array(
 	'code-release-badrange' => 'La portada es tròp granda !',
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'respondre',
-	'codereview-email-subj' => '[$1] [$2] : Comentari novèl apondut',
+	'codereview-email-subj' => '[$1 $2] : Comentari novèl apondut',
 	'codereview-email-body' => "L'utilizaire « $1 » a mandat un comentari sus $3.
 
 Adreça completa : $2
@@ -6918,7 +6918,7 @@ Adreça completa : $2
 Comentari :
 
 $4",
-	'codereview-email-subj2' => '[$1] [$2] : Modificacion seguida',
+	'codereview-email-subj2' => '[$1 $2] : Modificacion seguida',
 	'codereview-email-body2' => 'L’utilizaire « $1 » a fach de modificacions religadas e $2.
 
 URL completa : $3
@@ -7236,7 +7236,7 @@ $messages['pms'] = array(
 	'code-release-badrange' => "L'antërval a l'é tròp gròss!",
 	'codereview-subtitle' => 'Për $1',
 	'codereview-reply-link' => 'arspond',
-	'codereview-email-subj' => '[$1] [$2]: Pa gnun coment giontà',
+	'codereview-email-subj' => '[$1 $2]: Pa gnun coment giontà',
 	'codereview-email-body' => 'L\'utent "$1" a l\'ha spedì un coment su $3.
 
 Adrëssa dl\'aragnà completa: $2
@@ -7244,7 +7244,7 @@ Adrëssa dl\'aragnà completa: $2
 Coment:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Cangiament suplementar',
+	'codereview-email-subj2' => '[$1 $2]: Cangiament suplementar',
 	'codereview-email-body2' => 'L\'utent "$1" a l\'ha fàit dij cangiament suplementar a $2.
 
 Adrëssa dl\'aragnà completa apress la revision: $5
@@ -7444,7 +7444,7 @@ URL completa: $2
 Comentário:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Mudanças de seguimento',
+	'codereview-email-subj2' => '[$1 $2]: Mudanças de seguimento',
 	'codereview-email-body2' => 'O utilizador "$1" fez alterações de seguimento à $2.
 
 URL completa para a revisão de seguimento: $5
@@ -7586,7 +7586,7 @@ $messages['pt-br'] = array(
 	'code-release-badrange' => 'Intervalo demasiado grande!',
 	'codereview-subtitle' => 'Para $1',
 	'codereview-reply-link' => 'responder',
-	'codereview-email-subj' => '[$1] [$2]: Novo comentário adicionado',
+	'codereview-email-subj' => '[$1 $2]: Novo comentário adicionado',
 	'codereview-email-body' => 'O utilizador "$1" colocou um comentário em $3.
 
 URL completa: $2
@@ -7594,7 +7594,7 @@ URL completa: $2
 Comentário:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Mudanças seguintes',
+	'codereview-email-subj2' => '[$1 $2]: Mudanças seguintes',
 	'codereview-email-body2' => 'O usuário "$1" fez alterações de seguimento à $2.
 
 URL completa para a revisão de seguimento: $5
@@ -8072,7 +8072,7 @@ $messages['sah'] = array(
 	'code-release-endrev' => 'Бүтэһик барыл:',
 	'codereview-subtitle' => 'Манна $1',
 	'codereview-reply-link' => 'хоруй',
-	'codereview-email-subj' => '[$1] [$2]: Саҥа ырытыы киирбит',
+	'codereview-email-subj' => '[$1 $2]: Саҥа ырытыы киирбит',
 	'codereview-email-body' => '"$1" кыттааччы бу барылга $3 саҥа ырытыы суруйбут.
 
 Толору URL: $2
@@ -8080,7 +8080,7 @@ $messages['sah'] = array(
 Ырытыы:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Ол кэннинээҕи уларыйыылар',
+	'codereview-email-subj2' => '[$1 $2]: Ол кэннинээҕи уларыйыылар',
 	'codereview-email-body2' => '"$1" кыттааччы манна уларытыыны киллэрбит $2.
 
 Толору URL-а: $3
@@ -8177,7 +8177,7 @@ $messages['scn'] = array(
 	'code-rev-submit' => 'Canci di assignazzioni',
 	'code-rev-submit-next' => 'Assignazzioni & pròssimi nun risurvuti',
 	'codereview-reply-link' => 'Arrispunni',
-	'codereview-email-subj' => '[$1] [$2]: Cummentu novu jiunchiutu',
+	'codereview-email-subj' => '[$1 $2]: Cummentu novu jiunchiutu',
 	'codereview-email-body' => 'L\'utilizzaturi "$1" misi nu cummentu supra $3.
 
 URL cumpleta: $2
@@ -8314,7 +8314,7 @@ $messages['sk'] = array(
 	'code-release-badrange' => 'Rozsah je príliš veľký!',
 	'codereview-subtitle' => 'Pre $1',
 	'codereview-reply-link' => 'odpovedať',
-	'codereview-email-subj' => '[$1] [$2]: Pridaný nový komentár',
+	'codereview-email-subj' => '[$1 $2]: Pridaný nový komentár',
 	'codereview-email-body' => 'Používateľ „$1” poslal komentár k $3.
 
 Plný URL: $2
@@ -8322,7 +8322,7 @@ Plný URL: $2
 Komentár:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Nadväzujúce zmeny',
+	'codereview-email-subj2' => '[$1 $2]: Nadväzujúce zmeny',
 	'codereview-email-body2' => 'Používateľ „$1“ urobil v $2 nadväzujúce zmeny.
 
 Plný URL: $3
@@ -8429,7 +8429,7 @@ $messages['sr-ec'] = array(
 	'code-release-badrange' => 'Опсег је превелик!',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'одговори',
-	'codereview-email-subj' => '[$1] [$2]: Нови коментар додат',
+	'codereview-email-subj' => '[$1 $2]: Нови коментар додат',
 	'repoadmin-new-button' => 'Направи',
 	'repoadmin-edit-bug' => 'Путања до Багзиле:',
 	'repoadmin-edit-button' => 'ОК',
@@ -8519,7 +8519,7 @@ $messages['sr-el'] = array(
 	'code-release-badrange' => 'Opseg je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovori',
-	'codereview-email-subj' => '[$1] [$2]: Novi komentar dodat',
+	'codereview-email-subj' => '[$1 $2]: Novi komentar dodat',
 	'repoadmin-new-button' => 'Napravi',
 	'repoadmin-edit-bug' => 'Putanja do Bagzile:',
 	'repoadmin-edit-button' => 'OK',
@@ -8601,7 +8601,7 @@ $messages['stq'] = array(
 	'code-rev-submit' => 'Annerengen spiekerje',
 	'code-rev-submit-next' => 'Spiekerje un gung tou n naisten nit-wröigeden',
 	'codereview-reply-link' => 'oantwoudje',
-	'codereview-email-subj' => '[$1] [$2]: Näien Kommentoar bietouföiged',
+	'codereview-email-subj' => '[$1 $2]: Näien Kommentoar bietouföiged',
 	'codereview-email-body' => 'Benutser <b>$1</b> häd $3 <a href="$2">kommentierd</a>:
 
 $4',
@@ -8731,7 +8731,7 @@ $messages['sv'] = array(
 	'code-release-badrange' => 'Intervallet är för stort!',
 	'codereview-subtitle' => 'För $1',
 	'codereview-reply-link' => 'svara',
-	'codereview-email-subj' => '[$1] [$2]: Ny kommentar tillagd',
+	'codereview-email-subj' => '[$1 $2]: Ny kommentar tillagd',
 	'codereview-email-body' => 'Användaren "$1" postade en kommenter på $3
 
 Fullständig URL: $2
@@ -8739,7 +8739,7 @@ Fullständig URL: $2
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Påföljande ändringar',
+	'codereview-email-subj2' => '[$1 $2]: Påföljande ändringar',
 	'codereview-email-body2' => 'Användare "$1" gjorde påföljande ändringar till $2.
 
 Full URL:  $3
@@ -8982,7 +8982,7 @@ $messages['tg-cyrl'] = array(
 	'code-rev-submit' => 'Захираи тағйирот',
 	'code-rev-submit-next' => 'Захира шавад ва баъдии ҳалнашуда',
 	'codereview-reply-link' => 'посух',
-	'codereview-email-subj' => '[$1] [$2]: Тавзеҳи нав изофа шуд',
+	'codereview-email-subj' => '[$1 $2]: Тавзеҳи нав изофа шуд',
 	'codereview-email-body' => 'Корбар "$1" як тавзеҳе дар $3 фиристод.
 
 Нишонаи пурра: $2
@@ -9073,7 +9073,7 @@ $messages['tg-latn'] = array(
 	'code-rev-submit' => 'Zaxirai taƣjirot',
 	'code-rev-submit-next' => "Zaxira şavad va ba'diji halnaşuda",
 	'codereview-reply-link' => 'posux',
-	'codereview-email-subj' => '[$1] [$2]: Tavzehi nav izofa şud',
+	'codereview-email-subj' => '[$1 $2]: Tavzehi nav izofa şud',
 	'codereview-email-body' => 'Korbar "$1" jak tavzehe dar $3 firistod.
 
 Nişonai purra: $2
@@ -9206,7 +9206,7 @@ $messages['tk'] = array(
 	'code-release-badrange' => 'Diapazon örän uly!',
 	'codereview-subtitle' => '$1 üçin',
 	'codereview-reply-link' => 'jogap ber',
-	'codereview-email-subj' => '[$1] [$2]: Täze teswir goşuldy',
+	'codereview-email-subj' => '[$1 $2]: Täze teswir goşuldy',
 	'codereview-email-body' => '$3-de ulanyjy "$1" bir teswir iberdi.
 
 Doly URL: $2
@@ -9214,7 +9214,7 @@ Doly URL: $2
 Teswir:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Yzarlama üýtgeşmeleri',
+	'codereview-email-subj2' => '[$1 $2]: Yzarlama üýtgeşmeleri',
 	'codereview-email-body2' => 'Ulanyjy "$1" $2 üçin yzarlama üýtgeşmeleri etdi.
 
 Doly URL: $3
@@ -9345,7 +9345,7 @@ $messages['tl'] = array(
 	'code-release-badrange' => 'Napakalaki ng saklaw!',
 	'codereview-subtitle' => 'Para kay $1',
 	'codereview-reply-link' => 'tugon',
-	'codereview-email-subj' => '[$1] [$2]: Nagdagdag ng bagong puna/kumento',
+	'codereview-email-subj' => '[$1 $2]: Nagdagdag ng bagong puna/kumento',
 	'codereview-email-body' => 'Nagtala si tagagamit "$1" ng bagong kumento/puna sa $3.
 
 Buong URL: $2
@@ -9353,7 +9353,7 @@ Buong URL: $2
 Kumento:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Pangtugaygay na mga pagbabago',
+	'codereview-email-subj2' => '[$1 $2]: Pangtugaygay na mga pagbabago',
 	'codereview-email-body2' => 'Gumawa ng patugaygay na mga pagbabago si "$1" sa $2.
 
 Buong URL para sa tinugaygayang rebisyon: $5
@@ -9491,7 +9491,7 @@ $messages['tr'] = array(
 	'code-release-badrange' => 'Aralık çok büyük!',
 	'codereview-subtitle' => '$1 için',
 	'codereview-reply-link' => 'yanıtla',
-	'codereview-email-subj' => '[$1] [$2]: Yeni yorum eklendi',
+	'codereview-email-subj' => '[$1 $2]: Yeni yorum eklendi',
 	'codereview-email-body' => '$3\'de "$1" kullanıcısı bir yorum yolladı.
 
 Tam adres: $2
@@ -9499,7 +9499,7 @@ Tam adres: $2
 Yorum:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Takip değişiklikleri',
+	'codereview-email-subj2' => '[$1 $2]: Takip değişiklikleri',
 	'codereview-email-body2' => '"$1" kullanıcısı $2 için takip değişiklikleri yaptı.
 
 Tam URL: $3
@@ -9652,7 +9652,7 @@ $messages['uk'] = array(
 	'code-release-badrange' => 'Діапазон надто великий!',
 	'codereview-subtitle' => 'Для $1',
 	'codereview-reply-link' => 'відповісти',
-	'codereview-email-subj' => '[$1] [$2]: Доданий новий коментар',
+	'codereview-email-subj' => '[$1 $2]: Доданий новий коментар',
 	'codereview-email-body' => 'Користувач «$1» розмістив коментар до редакції $3.
 
 Повний URL: $2
@@ -9660,7 +9660,7 @@ $messages['uk'] = array(
 Коментар:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Подальші зміни',
+	'codereview-email-subj2' => '[$1 $2]: Подальші зміни',
 	'codereview-email-body2' => 'Користувач "$1" вніс подальші зміни відносно $2.
 
 Повне URL: $3
@@ -9796,7 +9796,7 @@ $messages['vec'] = array(
 	'code-release-badrange' => 'Intervalo massa grando!',
 	'codereview-subtitle' => 'Par $1',
 	'codereview-reply-link' => 'rispondi',
-	'codereview-email-subj' => '[$1] [$2]: Zontà un comento nóvo',
+	'codereview-email-subj' => '[$1 $2]: Zontà un comento nóvo',
 	'codereview-email-body' => 'L\'utente "$1" el gà scrito un comento su $3.
 
 URL par intiero: $2
@@ -9804,7 +9804,7 @@ URL par intiero: $2
 Comento:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]: Canbiamenti seguenti',
+	'codereview-email-subj2' => '[$1 $2]: Canbiamenti seguenti',
 	'codereview-email-body2' => 'L\'utente "$1" el gà fato dele modifiche seguenti a $2.
 
 URL de la revision: $5
@@ -10080,7 +10080,7 @@ $messages['vo'] = array(
 	'code-rev-submit' => 'Dakipön votükamis',
 	'codereview-subtitle' => 'Pro $1',
 	'codereview-reply-link' => 'gesagön',
-	'codereview-email-subj' => '[$1] [$2]: Küpet nulik peläükon',
+	'codereview-email-subj' => '[$1 $2]: Küpet nulik peläükon',
 	'repoadmin' => 'Guvam Kipedöpa',
 	'repoadmin-new-legend' => 'Jafön kipedöpi nulik',
 	'repoadmin-new-label' => 'Nem kipedöpa:',
@@ -10199,7 +10199,7 @@ $messages['yue'] = array(
 	'code-release-endrev' => '最後修訂：',
 	'codereview-subtitle' => '$1嘅代碼',
 	'codereview-reply-link' => '回覆',
-	'codereview-email-subj' => '[$1] [$2]：加咗新註解',
+	'codereview-email-subj' => '[$1 $2]：加咗新註解',
 	'codereview-email-body' => '用戶 "$1" 響 $3 貼咗一個註解。
 
 完整URL：$2
@@ -10207,7 +10207,7 @@ $messages['yue'] = array(
 註解：
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]：後繼更改',
+	'codereview-email-subj2' => '[$1 $2]：後繼更改',
 	'codereview-email-body2' => '用戶 "$1" 響 $2 整咗後繼更改。
 
 完整URL：$3
@@ -10335,7 +10335,7 @@ $messages['zh-hans'] = array(
 	'code-release-badrange' => '范围过大！',
 	'codereview-subtitle' => '对$1',
 	'codereview-reply-link' => '回复',
-	'codereview-email-subj' => '[$1] [$2]: 新的评论已添加',
+	'codereview-email-subj' => '[$1 $2]: 新的评论已添加',
 	'codereview-email-body' => '用户 "$1" 在 $3 上添加了一条评论。
 
 完成URL地址: $2
@@ -10343,7 +10343,7 @@ $messages['zh-hans'] = array(
 评论:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]：后续更改',
+	'codereview-email-subj2' => '[$1 $2]：后续更改',
 	'codereview-email-body2' => '用户“$1”对$2作出了后续更改。
 
 URL链接：$3
@@ -10470,7 +10470,7 @@ $messages['zh-hant'] = array(
 	'code-release-badrange' => '範圍過大！',
 	'codereview-subtitle' => '對$1',
 	'codereview-reply-link' => '回復',
-	'codereview-email-subj' => '[$1] [$2]: 新的評論已添加',
+	'codereview-email-subj' => '[$1 $2]: 新的評論已添加',
 	'codereview-email-body' => '用戶 "$1" 在 $3 上添加了一條評論。
 
 完成URL地址: $2
@@ -10478,7 +10478,7 @@ $messages['zh-hant'] = array(
 評論:
 
 $4',
-	'codereview-email-subj2' => '[$1] [$2]：後續更改',
+	'codereview-email-subj2' => '[$1 $2]：後續更改',
 	'codereview-email-body2' => '用戶“$1”對$2作出了後續更改。
 
 URL鏈接：$3
