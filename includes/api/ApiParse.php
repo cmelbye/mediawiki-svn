@@ -152,8 +152,18 @@ class ApiParse extends ApiBase {
 		
 		if ( isset( $prop['langlinks'] ) )
 			$result_array['langlinks'] = $this->formatLangLinks( $p_result->getLanguageLinks() );
+		if ( isset( $prop['languageshtml'] ) ) {
+			$languagesHtml = $this->languagesHtml( $p_result->getLanguageLinks() );
+			$result_array['languageshtml'] = array();
+			$result->setContent( $result_array['languageshtml'], $languagesHtml );
+		}
 		if ( isset( $prop['categories'] ) )
 			$result_array['categories'] = $this->formatCategoryLinks( $p_result->getCategories() );
+		if ( isset( $prop['categorieshtml'] ) ) {
+			$categoriesHtml = $this->categoriesHtml( $p_result->getCategories() );
+			$result_array['categorieshtml'] = array();
+			$result->setContent( $result_array['categorieshtml'], $categoriesHtml );
+		}
 		if ( isset( $prop['links'] ) )
 			$result_array['links'] = $this->formatLinks( $p_result->getLinks() );
 		if ( isset( $prop['templates'] ) )
@@ -220,6 +230,20 @@ class ApiParse extends ApiBase {
 		return $result;
 	}
 
+	private function categoriesHtml( $categories ) {
+		global $wgOut, $wgUser;
+		$wgOut->addCategoryLinks( $categories );
+		$sk = $wgUser->getSkin();
+		return $sk->getCategories();
+	}
+
+	private function languagesHtml( $languages ) {
+		global $wgOut, $wgUser;
+		$wgOut->setLanguageLinks( $languages );
+		$sk = $wgUser->getSkin();
+		return $sk->otherLanguages();
+	}
+
 	private function formatLinks( $links ) {
 		$result = array();
 		foreach ( $links as $ns => $nslinks ) {
@@ -269,7 +293,9 @@ class ApiParse extends ApiBase {
 				ApiBase :: PARAM_TYPE => array(
 					'text',
 					'langlinks',
+					'languageshtml',
 					'categories',
+					'categorieshtml',
 					'links',
 					'templates',
 					'images',
