@@ -193,7 +193,7 @@ FlaggedRevs.getRevisionContents = function() {
 		var oldRevId = diffUIParams.getElementsByTagName('input')[1].value;
 		var origContents = contentsDiv.innerHTML;
 		contentsDiv.innerHTML = "<span class='loading mw-small-spinner spinner'></span><span class='loading' >" + wgRevContents.waiting + "</span>";
-		var requestArgs = 'action=parse&prop=text&format=xml';
+		var requestArgs = 'action=parse&prop=text|categorieshtml|languageshtml&format=xml';
 		if ( window.wgCurRevisionId == oldRevId && window.wgPageName ) {
 			requestArgs += '&page=' + encodeURIComponent( window.wgPageName );
 		} else {
@@ -206,12 +206,22 @@ FlaggedRevs.getRevisionContents = function() {
 				data	: requestArgs,
 				dataType: "xml",
 				success	: function( result ) {
+					contentsDiv.innerHTML = "";
 					contents = jQuery(result).find("text");
 					if ( contents && contents.text() ) {
-						contentsDiv.innerHTML = contents.text();
+						contentsDiv.innerHTML += contents.text();
 					} else {
 						contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
 					}
+					categoryhtml = jQuery(result).find("categorieshtml");
+					if ( categoryhtml && categoryhtml.text() ) {
+						contentsDiv.innerHTML += categoryhtml.text();
+					}
+					languageshtml = jQuery(result).find("languageshtml");
+					if ( languageshtml && languageshtml.text() ) {
+						contentsDiv.innerHTML += languageshtml.text();
+					}
+					
 				},
 				error	: function(xmlHttpRequest, textStatus, errThrown) {
 					contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
@@ -240,5 +250,4 @@ FlaggedRevs.setJSTriggers = function() {
 	FlaggedRevs.getRevisionContents();
 }
 
-//TODO figure out the correct way to do this
 window.onload = FlaggedRevs.setJSTriggers;
