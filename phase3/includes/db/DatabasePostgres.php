@@ -209,7 +209,7 @@ class DatabasePostgres extends DatabaseBase {
 			&& preg_match( '/^\w+$/', $wgDBmwschema )
 			&& preg_match( '/^\w+$/', $wgDBts2schema )
 		) {
-			$safeschema = $this->quote_ident( $wgDBmwschema );
+			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 			$this->doQuery( "SET search_path = $safeschema, $wgDBts2schema, public" );
 		}
 
@@ -238,7 +238,7 @@ class DatabasePostgres extends DatabaseBase {
 		}
 		print 'version ' . htmlspecialchars( $this->numeric_version ) . " is OK.</li>\n";
 
-		$safeuser = $this->quote_ident( $wgDBuser );
+		$safeuser = $this->addIdentifierQuotes( $wgDBuser );
 		// Are we connecting as a superuser for the first time?
 		if ( $superuser ) {
 			// Are we really a superuser? Check out our rights
@@ -284,7 +284,7 @@ class DatabasePostgres extends DatabaseBase {
 						dieout( );
 					}
 					print '<li>Creating database <b>' . htmlspecialchars( $wgDBname ) . '</b>...';
-					$safename = $this->quote_ident( $wgDBname );
+					$safename = $this->addIdentifierQuotes( $wgDBname );
 					$SQL = "CREATE DATABASE $safename OWNER $safeuser ";
 					$this->doQuery( $SQL );
 					print "OK</li>\n";
@@ -337,7 +337,7 @@ class DatabasePostgres extends DatabaseBase {
 
 			// Setup the schema for this user if needed
 			$result = $this->schemaExists( $wgDBmwschema );
-			$safeschema = $this->quote_ident( $wgDBmwschema );
+			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 			if ( !$result ) {
 				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
 				$result = $this->doQuery( "CREATE SCHEMA $safeschema AUTHORIZATION $safeuser" );
@@ -398,7 +398,7 @@ class DatabasePostgres extends DatabaseBase {
 				// Let's check all four, just to be safe
 				error_reporting( 0 );
 				$ts2tables = array( 'cfg', 'cfgmap', 'dict', 'parser' );
-				$safetsschema = $this->quote_ident( $wgDBts2schema );
+				$safetsschema = $this->addIdentifierQuotes( $wgDBts2schema );
 				foreach ( $ts2tables as $tname ) {
 					$SQL = "SELECT count(*) FROM $safetsschema.pg_ts_$tname";
 					$res = $this->doQuery( $SQL );
@@ -466,7 +466,7 @@ class DatabasePostgres extends DatabaseBase {
 			if ( !$result ) {
 				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
 				error_reporting( 0 );
-				$safeschema = $this->quote_ident( $wgDBmwschema );
+				$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 				$result = $this->doQuery( "CREATE SCHEMA $safeschema" );
 				error_reporting( E_ALL );
 				if ( !$result ) {
@@ -521,9 +521,9 @@ class DatabasePostgres extends DatabaseBase {
 
 			// Fix up the search paths if needed
 			print '<li>Setting the search path for user "' . htmlspecialchars( $wgDBuser ) . '" ...';
-			$path = $this->quote_ident( $wgDBmwschema );
+			$path = $this->addIdentifierQuotes( $wgDBmwschema );
 			if ( $wgDBts2schema !== $wgDBmwschema ) {
-				$path .= ', '. $this->quote_ident( $wgDBts2schema );
+				$path .= ', '. $this->addIdentifierQuotes( $wgDBts2schema );
 			}
 			if ( $wgDBmwschema !== 'public' && $wgDBts2schema !== 'public' ) {
 				$path .= ', public';
@@ -973,7 +973,7 @@ class DatabasePostgres extends DatabaseBase {
 	 * Return the next in a sequence, save the value for retrieval via insertId()
 	 */
 	function nextSequenceValue( $seqName ) {
-		$safeseq = preg_replace( "/'/", "''", $seqName );
+		$safeseq = str_replace( "'", "''", $seqName );
 		$res = $this->query( "SELECT nextval('$safeseq')" );
 		$row = $this->fetchRow( $res );
 		$this->mInsertId = $row[0];
@@ -984,7 +984,7 @@ class DatabasePostgres extends DatabaseBase {
 	 * Return the current value of a sequence. Assumes it has been nextval'ed in this session.
 	 */
 	function currentSequenceValue( $seqName ) {
-		$safeseq = preg_replace( "/'/", "''", $seqName );
+		$safeseq = str_replace( "'", "''", $seqName );
 		$res = $this->query( "SELECT currval('$safeseq')" );
 		$row = $this->fetchRow( $res );
 		$currval = $row[0];
@@ -1242,7 +1242,7 @@ SQL;
 	 * Query whether a given schema exists. Returns the name of the owner
 	 */
 	function schemaExists( $schema ) {
-		$eschema = preg_replace( "/'/", "''", $schema );
+		$eschema = str_replace( "'", "''", $schema );
 		$SQL = "SELECT rolname FROM pg_catalog.pg_namespace n, pg_catalog.pg_roles r "
 				."WHERE n.nspowner=r.oid AND n.nspname = '$eschema'";
 		$res = $this->query( $SQL );
@@ -1298,10 +1298,6 @@ SQL;
 			return "'" . $s->fetch( $s ) . "'";
 		}
 		return "'" . pg_escape_string( $this->mConn, $s ) . "'";
-	}
-
-	function quote_ident( $s ) {
-		return '"' . preg_replace( '/"/', '""', $s ) . '"';
 	}
 
 	/**

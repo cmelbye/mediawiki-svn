@@ -772,6 +772,9 @@ Silakan menunggu sebelum mencoba lagi.',
 'loginlanguagelabel'         => 'Bahasa: $1',
 'suspicious-userlogout'      => 'Permintaan Anda untuk keluar log ditolak karena tampaknya dikirim oleh penjelajah yang rusak atau proksi penyinggah.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Kesalahan yang tidak dikenal dalam fungsi mail() PHP',
+
 # JavaScript password checks
 'password-strength'            => 'Kekuatan sandi: $1',
 'password-strength-bad'        => 'BURUK',
@@ -1506,6 +1509,7 @@ Anda juga dapat memilih untuk memungkinkan orang lain menghubungi Anda melalui h
 'right-override-export-depth' => 'Ekspor halaman termasuk halaman-halaman terkait hingga kedalaman 5',
 'right-sendemail'             => 'Mengirim surel ke pengguna lain',
 'right-revisionmove'          => 'Pindah revisi',
+'right-disableaccount'        => 'Menonaktifkan akun',
 
 # User rights log
 'rightslog'      => 'Log perubahan hak akses',
@@ -2358,11 +2362,12 @@ $1',
 'month'               => 'Sejak bulan (dan sebelumnya):',
 'year'                => 'Sejak tahun (dan sebelumnya):',
 
-'sp-contributions-newbies'             => 'Hanya pengguna-pengguna baru',
+'sp-contributions-newbies'             => 'Hanya dari para pengguna baru',
 'sp-contributions-newbies-sub'         => 'Untuk pengguna baru',
 'sp-contributions-newbies-title'       => 'Kontribusi pengguna baru',
 'sp-contributions-blocklog'            => 'Log pemblokiran',
 'sp-contributions-deleted'             => 'kontribusi pengguna yang dihapus',
+'sp-contributions-uploads'             => 'unggahan',
 'sp-contributions-logs'                => 'log',
 'sp-contributions-talk'                => 'bicara',
 'sp-contributions-userrights'          => 'pengelolaan hak pengguna',
@@ -2807,13 +2812,13 @@ Simpan ke komputer Anda lalu muatkan di sini.',
 'notacceptable'     => 'Server wiki tidak dapat menyediakan data dalam format yang dapat dibaca oleh client Anda.',
 
 # Attribution
-'anonymous'        => '{{PLURAL:$1|Pengguna|Pengguna-pengguna}} anonim di {{SITENAME}}',
+'anonymous'        => '{{PLURAL:$1|Pengguna|Para pengguna}} anonim di {{SITENAME}}',
 'siteuser'         => 'Pengguna {{SITENAME}} $1',
 'anonuser'         => 'Pengguna anonim {{SITENAME}} $1',
 'lastmodifiedatby' => 'Halaman ini terakhir kali diubah $2, $1 oleh $3.',
 'othercontribs'    => 'Didasarkan pada karya $1.',
 'others'           => 'lainnya',
-'siteusers'        => '{{PLURAL:$2|Pengguna|Pengguna-pengguna}} {{SITENAME}} $1',
+'siteusers'        => '{{PLURAL:$2|Pengguna|Para pengguna}} {{SITENAME}} $1',
 'anonusers'        => '{{PLURAL:$2||}}Pengguna anonim {{SITENAME}} $1',
 'creditspage'      => 'Penghargaan halaman',
 'nocredits'        => 'Tidak ada informasi penghargaan yang tersedia untuk halaman ini.',
@@ -3410,6 +3415,7 @@ Anda juga dapat [[Special:Watchlist/edit|menggunakan penyunting standar Anda]].'
 'version-specialpages'             => 'Halaman istimewa',
 'version-parserhooks'              => 'Kait parser',
 'version-variables'                => 'Variabel',
+'version-skins'                    => 'Kulit',
 'version-other'                    => 'Lain-lain',
 'version-mediahandlers'            => 'Penanganan media',
 'version-hooks'                    => 'Kait',
@@ -3531,5 +3537,18 @@ Keterangan tampilan:
 # SQLite database support
 'sqlite-has-fts' => '$1 dengan dukungan pencarian teks lengkap',
 'sqlite-no-fts'  => '$1 tanpa dukungan pencarian teks lengkap',
+
+# Special:DisableAccount
+'disableaccount'             => 'Penonaktifan akun pengguna',
+'disableaccount-user'        => 'Nama pengguna:',
+'disableaccount-reason'      => 'Alasan:',
+'disableaccount-confirm'     => "Nonaktifkan akun pengguna ini.
+Pengguna tidak akan dapat masuk, menyetel ulang sandi mereka, atau menerima surel pemberitahuan.
+Jika pengguna saat ini sedang masuk di mana saja, mereka akan segera dikeluarkan.
+''Perhatikan bahwa penonaktifan akun tidak dapat dibatalkan tanpa campur tangan administrator sistem.''",
+'disableaccount-mustconfirm' => 'Anda harus mengonfirmasikan bahwa Anda ingin menonaktifkan akun ini.',
+'disableaccount-nosuchuser'  => 'Akun pengguna "$1" tidak ada.',
+'disableaccount-success'     => 'Akun pengguna "$1" telah dinonaktifkan secara permanen.',
+'disableaccount-logentry'    => 'menonaktifkan secara permanen akun pengguna [[$1]]',
 
 );

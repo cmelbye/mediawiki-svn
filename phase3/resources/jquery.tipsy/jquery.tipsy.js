@@ -56,16 +56,24 @@
                 
                 if (gravity.length == 2) {
                     if (gravity.charAt(1) == 'w') {
-                        tp.left = pos.left + pos.width / 2 - 15;
+                    	if ( this.options.center ) {
+                    		tp.left = pos.left + pos.width / 2 - 15;
+                    	} else {
+                            tp.left = pos.left;
+                    	}
                     } else {
-                        tp.left = pos.left + pos.width / 2 - actualWidth + 15;
+                    	if ( this.options.center ) {
+                    		tp.left = pos.left + pos.width / 2 - actualWidth + 15;
+                    	} else {
+                    		tp.left = pos.left + pos.width;
+                    	}
                     }
                 }
                 
                 $tip.css(tp).addClass('tipsy-' + gravity);
                 
                 if (this.options.fade) {
-                    $tip.stop().css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: this.options.opacity});
+                    $tip.stop().css({opacity: 0, display: 'block', visibility: 'visible'}).animate({opacity: this.options.opacity}, 100);
                 } else {
                     $tip.css({visibility: 'visible', opacity: this.options.opacity});
                 }
@@ -74,7 +82,7 @@
         
         hide: function() {
             if (this.options.fade) {
-                this.tip().stop().fadeOut(function() { $(this).remove(); });
+                this.tip().stop().fadeOut(100, function() { $(this).remove(); });
             } else {
                 this.tip().remove();
             }
@@ -168,13 +176,14 @@
     $.fn.tipsy.defaults = {
         delayIn: 0,
         delayOut: 0,
-        fade: false,
+        fade: true,
         fallback: '',
         gravity: 'n',
+        center: true,
         html: false,
         live: false,
         offset: 0,
-        opacity: 0.8,
+        opacity: 1.0,
         title: 'title',
         trigger: 'hover'
     };

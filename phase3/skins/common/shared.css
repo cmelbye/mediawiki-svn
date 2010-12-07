@@ -823,6 +823,7 @@ div.gallerytext {
 	overflow: hidden;
 	font-size: 94%;
 	padding: 2px 4px;
+	word-wrap: break-word;
 }
 
 table.mw-enhanced-rc {
@@ -919,16 +920,28 @@ ol:lang(bn) li {
 
 /* tooltip styles */
 .mw-help-field-hint {
-	width: 11px;
-	height: 24px;
-	display: inline-block;
+	display: none;
 	padding: 0px;
+	padding-left: 15px;
 	margin-left: 2px;
 	margin-bottom: -8px;
-	background: url('images/help-question.gif') 0 50% no-repeat;
+	background-image: url('images/help-question.gif');
+	background-position: left center;
+	background-repeat: no-repeat;
+	color: #0645ad;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: .8em;
 }
 .mw-help-field-hint:hover {
-	background: url('images/help-question-hover.gif') 0 50% no-repeat;
+	background-image: url('images/help-question-hover.gif');
+}
+.mw-help-field-data {
+	display: block;
+	background-color: #d6f3ff;
+	padding:5px 8px 4px 8px;
+	border: 1px solid #5dc9f4;
+	margin-left: 20px;
 }
 .tipsy { padding: 5px 5px 10px; font-size: 12px; position: absolute; z-index: 100000; overflow: visible; }
 .tipsy-inner { padding: 5px 8px 4px 8px; background-color: #d6f3ff; color: black; border: 1px solid #5dc9f4; max-width: 300px; text-align: left; }

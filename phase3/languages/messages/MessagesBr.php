@@ -589,7 +589,7 @@ Na zisoñjit ket resisaat ho [[Special:Preferences|penndibaboù evit {{SITENAME}
 Dibabit un anv all mar plij.",
 'loginerror'                 => 'Kudenn kevreañ',
 'createaccounterror'         => 'Dibosupl krouiñ ar gont : $1',
-'nocookiesnew'               => "krouet eo bet ar gont implijer met n'hoc'h ket kevreet. {{SITENAME}} a implij toupinoù evit ar c'hrevreañ met diweredekaet eo an toupinoù ganeoc'h. Trugarez da weredekaat anezho ha da gevreañ en-dro.",
+'nocookiesnew'               => "Krouet eo bet ar gont implijer met n'oc'h ket kevreet. {{SITENAME}} a implij toupinoù evit ar c'hevreañ met diweredekaet eo an toupinoù ganeoc'h. Trugarez da weredekaat anezho ha da gevreañ en-dro.",
 'nocookieslogin'             => "{{SITENAME}} a implij toupinoù evit kevreañ met diweredekaet eo an toupinoù ganeoc'h. Trugarez da weredekaat anezho ha da gevreañ en-dro.",
 'noname'                     => "N'hoc'h eus lakaet anv implijer ebet.",
 'loginsuccesstitle'          => "Kevreet oc'h.",
@@ -643,6 +643,9 @@ Na daolit ket evezh ouzh ar c\'hemenn-mañ m\'eo bet krouet ar gont dre fazi.',
 Gortozit a-raok klask en-dro.",
 'loginlanguagelabel'         => 'Yezh : $1',
 'suspicious-userlogout'      => 'Distaolet eo bet ho koulenn digevreañ rak kaset e oa bet gant ur merdeer direizhet pe krubuilhadenn ur proksi, evit doare.',
+
+# E-mail sending
+'php-mail-error-unknown' => "Fazi dianav en arc'hwel postel () PHP",
 
 # JavaScript password checks
 'password-strength'            => 'Live surentez ar ger-tremen : $1',
@@ -1381,6 +1384,7 @@ Gallout a rit lezel tud all da vont e darempred ganeoc'h dre ho pajennoù implij
 'right-override-export-depth' => 'Ezporzhiañ ar pajennoù en ur lakaat e-barzh ar pajennoù liammet betek un donder a 5 live',
 'right-sendemail'             => "Kas ur postel d'an implijerien all",
 'right-revisionmove'          => "Dilec'hiañ an adweladennoù",
+'right-disableaccount'        => 'Diweredekaat kontoù',
 
 # User rights log
 'rightslog'      => 'Marilh statud an implijerien',
@@ -2268,6 +2272,7 @@ $1',
 'sp-contributions-newbies-title'       => "Degasadennoù implijer evit ar c'hontoù nevez",
 'sp-contributions-blocklog'            => 'Roll ar stankadennoù',
 'sp-contributions-deleted'             => 'Degasadennoù diverket',
+'sp-contributions-uploads'             => 'Enporzhiadennoù',
 'sp-contributions-logs'                => 'marilhoù',
 'sp-contributions-talk'                => 'kaozeal',
 'sp-contributions-userrights'          => 'Merañ ar gwirioù',
@@ -3418,5 +3423,18 @@ Merkañ anv ar restr hep ar rakger "{{ns:file}}:"',
 # SQLite database support
 'sqlite-has-fts' => '$1 gant enklask eus an destenn a-bezh embreget',
 'sqlite-no-fts'  => '$1 hep enklask eus an destenn a-bezh embreget',
+
+# Special:DisableAccount
+'disableaccount'             => 'Diweredekaat ur gont implijer',
+'disableaccount-user'        => 'Anv implijer :',
+'disableaccount-reason'      => 'Abeg :',
+'disableaccount-confirm'     => "Diweredekaat kont an implijer-mañ.
+Ne vo ket gouest an implijer da gevreañ na da adderaouekaat e c'her-tremen ken, n'hallo ket resev kemennadennoù dre bostel kennebeut.
+M'emañ kevreet bremañ an implijer un tu bennak e vo digevreet kerkent.
+\"Notit mat n'haller ket distreiñ war diwerekadur ur gont hep emell ur merour eus ar reizhiad.\"",
+'disableaccount-mustconfirm' => "Rankout a rit kadarnaat e fell deoc'h diweredekaat ar gont-mañ.",
+'disableaccount-nosuchuser'  => 'N\'eus ket eus ar gont implijer "$1".',
+'disableaccount-success'     => 'Diweredekaat eo bet ar gont implijer "$1" da vat.',
+'disableaccount-logentry'    => 'en/he deus diweredekaet ar gont implijer [[$1]]',
 
 );

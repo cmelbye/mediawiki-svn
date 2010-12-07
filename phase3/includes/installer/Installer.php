@@ -82,7 +82,6 @@ abstract class Installer {
 	 * @var array
 	 */
 	protected $envChecks = array(
-		'envCheckMediaWikiVersion',
 		'envCheckDB',
 		'envCheckRegisterGlobals',
 		'envCheckBrokenXML',
@@ -143,8 +142,6 @@ abstract class Installer {
 	 * @return boolean
 	 */
 	public function doEnvironmentChecks() {
-		$this->showMessage( 'config-env-php', phpversion() );
-
 		$good = true;
 
 		foreach ( $this->envChecks as $check ) {
@@ -359,38 +356,6 @@ abstract class Installer {
 	}
 
 	/**
-	 * Check if we're installing the latest version.
-	 */
-	protected function envCheckMediaWikiVersion() {
-		global $wgVersion;
-
-		if( !$this->getVar( '_ExternalHTTP' ) ) {
-			$this->showMessage( 'config-env-latest-disabled' );
-			return;
-		}
-
-		$repository = wfGetRepository();
-		$currentVersion = $repository->getLatestCoreVersion();
-
-		if ( $currentVersion === false ) {
-			# For when the request is successful but there's e.g. some silly man in
-			# the middle firewall blocking us, e.g. one of those annoying airport ones
-			$this->showMessage( 'config-env-latest-can-not-check', $repository->getLocation() );
-			return;
-		}
-
-		if( version_compare( $wgVersion, $currentVersion, '<' ) ) {
-			$this->showMessage( 'config-env-latest-old' );
-			// FIXME: this only works for the web installer!
-			$this->showHelpBox( 'config-env-latest-help', $wgVersion, $currentVersion );
-		} elseif( version_compare( $wgVersion, $currentVersion, '>' ) ) {
-			$this->showMessage( 'config-env-latest-new' );
-		} else {
-			$this->showMessage( 'config-env-latest-ok' );
-		}
-	}
-
-	/**
 	 * Environment check for DB types.
 	 */
 	protected function envCheckDB() {
@@ -421,16 +386,13 @@ abstract class Installer {
 			return false;
 		}
 
-		$this->showMessage( 'config-have-db', $wgLang->listToText( $goodNames ), count( $goodNames ) );
-
 		// Check for FTS3 full-text search module
 		$sqlite = $this->getDBInstaller( 'sqlite' );
 		if ( $sqlite->isCompiled() ) {
 			$db = new DatabaseSqliteStandalone( ':memory:' );
-			$this->showMessage( $db->getFulltextSearchModule() == 'FTS3'
-				? 'config-have-fts3'
-				: 'config-no-fts3'
-			);
+			if( $db->getFulltextSearchModule() == 'FTS3' ) {
+				$this->showMessage( 'config-no-fts3' );
+			}
 		}
 	}
 
@@ -525,7 +487,6 @@ abstract class Installer {
 			$this->showMessage( 'config-xml-bad' );
 			return false;
 		}
-		$this->showMessage( 'config-xml-good' );
 	}
 
 	/**
@@ -552,7 +513,6 @@ abstract class Installer {
 		$limit = ini_get( 'memory_limit' );
 
 		if ( !$limit || $limit == -1 ) {
-			$this->showMessage( 'config-memory-none' );
 			return true;
 		}
 
@@ -572,7 +532,7 @@ abstract class Installer {
 				$this->setVar( '_RaiseMemory', true );
 			}
 		} else {
-			$this->showMessage( 'config-memory-ok', $limit );
+			return true;
 		}
 	}
 
@@ -580,12 +540,10 @@ abstract class Installer {
 	 * Environment check for compiled object cache types.
 	 */
 	protected function envCheckCache() {
-		$caches = array();
-
+		$caches = false;
 		foreach ( $this->objectCaches as $name => $function ) {
 			if ( function_exists( $function ) ) {
 				$caches[$name] = true;
-				$this->showMessage( 'config-' . $name );
 			}
 		}
 
@@ -606,7 +564,6 @@ abstract class Installer {
 		$diff3 = $this->locateExecutableInDefaultPaths( $names, $versionInfo );
 
 		if ( $diff3 ) {
-			$this->showMessage( 'config-diff3-good', $diff3 );
 			$this->setVar( 'wgDiff3', $diff3 );
 		} else {
 			$this->setVar( 'wgDiff3', false );
@@ -641,7 +598,6 @@ abstract class Installer {
 		$IP = dirname( dirname( dirname( __FILE__ ) ) );
 
 		$this->setVar( 'IP', $IP );
-		$this->showMessage( 'config-dir', $IP );
 
 		// PHP_SELF isn't available sometimes, such as when PHP is CGI but
 		// cgi.fix_pathinfo is disabled. In that case, fall back to SCRIPT_NAME
@@ -660,7 +616,6 @@ abstract class Installer {
 
 		$uri = preg_replace( '{^(.*)/config.*$}', '$1', $path );
 		$this->setVar( 'wgScriptPath', $uri );
-		$this->showMessage( 'config-uri', $uri );
 	}
 
 	/**
@@ -673,9 +628,7 @@ abstract class Installer {
 		} else {
 			$ext = 'php';
 		}
-
 		$this->setVar( 'wgScriptExtension', ".$ext" );
-		$this->showMessage( 'config-file-extension', $ext );
 	}
 
 	/**
@@ -719,7 +672,6 @@ abstract class Installer {
 		# Try the current value of LANG.
 		if ( isset( $candidatesByLocale[ getenv( 'LANG' ) ] ) ) {
 			$this->setVar( 'wgShellLocale', getenv( 'LANG' ) );
-			$this->showMessage( 'config-shell-locale', getenv( 'LANG' ) );
 			return true;
 		}
 
@@ -728,7 +680,6 @@ abstract class Installer {
 		foreach ( $commonLocales as $commonLocale ) {
 			if ( isset( $candidatesByLocale[$commonLocale] ) ) {
 				$this->setVar( 'wgShellLocale', $commonLocale );
-				$this->showMessage( 'config-shell-locale', $commonLocale );
 				return true;
 			}
 		}
@@ -739,7 +690,6 @@ abstract class Installer {
 		if ( isset( $candidatesByLang[$wikiLang] ) ) {
 			$m = reset( $candidatesByLang[$wikiLang] );
 			$this->setVar( 'wgShellLocale', $m[0] );
-			$this->showMessage( 'config-shell-locale', $m[0] );
 			return true;
 		}
 
@@ -747,7 +697,6 @@ abstract class Installer {
 		if ( count( $candidatesByLocale ) ) {
 			$m = reset( $candidatesByLocale );
 			$this->setVar( 'wgShellLocale', $m[0] );
-			$this->showMessage( 'config-shell-locale', $m[0] );
 			return true;
 		}
 
@@ -766,7 +715,7 @@ abstract class Installer {
 		$safe = !$this->dirIsExecutable( $dir, $url );
 
 		if ( $safe ) {
-			$this->showMessage( 'config-uploads-safe' );
+			return true;
 		} else {
 			$this->showMessage( 'config-uploads-not-safe', $dir );
 		}

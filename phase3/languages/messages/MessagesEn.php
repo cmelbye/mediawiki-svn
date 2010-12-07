@@ -444,6 +444,7 @@ $specialPageAliases = array(
 	'Mypage'                    => array( 'MyPage' ),
 	'Mytalk'                    => array( 'MyTalk' ),
 	'Mycontributions'           => array( 'MyContributions' ),
+	'Myuploads'                 => array( 'MyUploads' ),
 	'Listadmins'                => array( 'ListAdmins' ),
 	'Listbots'                  => array( 'ListBots' ),
 	'Popularpages'              => array( 'PopularPages' ),
@@ -461,6 +462,7 @@ $specialPageAliases = array(
 	'RevisionMove'              => array( 'RevisionMove' ),
 	'ComparePages'              => array( 'ComparePages' ),
 	'Badtitle'                  => array( 'Badtitle' ),
+	'DisableAccount'            => array( 'DisableAccount' ),
 );
 
 /**
@@ -1071,11 +1073,11 @@ Please enable them, then log in with your new username and password.',
 'nocookieslogin'             => '{{SITENAME}} uses cookies to log in users.
 You have cookies disabled.
 Please enable them and try again.',
-'noname'                     => 'You have not specified a valid user name.',
+'noname'                     => 'You have not specified a valid username.',
 'loginsuccesstitle'          => 'Login successful',
 'loginsuccess'               => "'''You are now logged in to {{SITENAME}} as \"\$1\".'''",
 'nosuchuser'                 => 'There is no user by the name "$1".
-User names are case sensitive.
+Usernames are case sensitive.
 Check your spelling, or [[Special:UserLogin/signup|create a new account]].',
 'nosuchusershort'            => 'There is no user by the name "<nowiki>$1</nowiki>".
 Check your spelling.',
@@ -1141,6 +1143,11 @@ Please wait before trying again.',
 * Italiano|it
 * Nederlands|nl', # do not translate or duplicate this message to other languages
 'suspicious-userlogout'      => 'Your request to log out was denied because it looks like it was sent by a broken browser or caching proxy.',
+
+# E-mail sending
+'pear-mail-error'        => '$1', # do not translate or duplicate this message to other languages
+'php-mail-error'         => '$1', # do not translate or duplicate this message to other languages
+'php-mail-error-unknown' => "Unknown error in PHP's mail() function",
 
 # JavaScript password checks
 'password-strength'            => 'Estimated password strength: $1',
@@ -1214,7 +1221,7 @@ If you click \"{{int:savearticle}}\" again, your edit will be saved without one.
 'summary-preview'                  => 'Summary preview:',
 'subject-preview'                  => 'Subject/headline preview:',
 'blockedtitle'                     => 'User is blocked',
-'blockedtext'                      => "'''Your user name or IP address has been blocked.'''
+'blockedtext'                      => "'''Your username or IP address has been blocked.'''
 
 The block was made by $1.
 The reason given is ''$2''.
@@ -1293,8 +1300,12 @@ The latest block log entry is provided below for reference:',
 '''It has not yet been saved!'''",
 'userjspreview'                    => "'''Remember that you are only testing/previewing your user JavaScript.'''
 '''It has not yet been saved!'''",
+'globalcsspreview'                   => "'''Remember that you are only previewing this global CSS.'''
+'''It has not yet been saved!'''",
+'globaljspreview'                    => "'''Remember that you are only previewing this global JavaScript code.'''
+'''It has not yet been saved!'''",
 'userinvalidcssjstitle'            => "'''Warning:''' There is no skin \"\$1\".
-Remember that custom .css and .js pages use a lowercase title, e.g. {{ns:user}}:Foo/monobook.css as opposed to {{ns:user}}:Foo/Monobook.css.",
+Custom .css and .js pages use a lowercase title, e.g. {{ns:user}}:Foo/vector.css as opposed to {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Updated)',
 'note'                             => "'''Note:'''",
 'previewnote'                      => "'''Remember that this is only a preview.'''
@@ -1408,11 +1419,10 @@ Please check the comparison below to verify that this is what you want to do, an
 'undo-summary' => 'Undo revision $1 by [[Special:Contributions/$2|$2]] ([[User talk:$2|talk]])',
 
 # Account creation failure
-'cantcreateaccounttitle'          => 'Cannot create account',
-'cantcreateaccount-text'          => "Account creation from this IP address ('''$1''') has been blocked by [[User:$3|$3]].
+'cantcreateaccounttitle' => 'Cannot create account',
+'cantcreateaccount-text' => "Account creation from this IP address ('''$1''') has been blocked by [[User:$3|$3]].
 
 The reason given by $3 is ''$2''",
-'cantcreateaccount-nonblock-text' => '', # do not translate or duplicate this message to other languages
 
 # History pages
 'viewpagelogs'           => 'View logs for this page',
@@ -1949,6 +1959,7 @@ You can also choose to let others contact you through your user or talk page wit
 'right-override-export-depth' => 'Export pages including linked pages up to a depth of 5',
 'right-sendemail'             => 'Send e-mail to other users',
 'right-revisionmove'          => 'Move revisions',
+'right-disableaccount'        => 'Disable accounts',
 
 # User rights log
 'rightslog'      => 'User rights log',
@@ -2526,7 +2537,7 @@ Please note that other web sites may link to a file with a direct URL, and so ma
 'log'                  => 'Logs',
 'all-logs-page'        => 'All public logs',
 'alllogstext'          => 'Combined display of all available logs of {{SITENAME}}.
-You can narrow down the view by selecting a log type, the user name (case-sensitive), or the affected page (also case-sensitive).',
+You can narrow down the view by selecting a log type, the username (case-sensitive), or the affected page (also case-sensitive).',
 'logempty'             => 'No matching items in log.',
 'log-title-wildcard'   => 'Search titles starting with this text',
 
@@ -2924,6 +2935,7 @@ $1',
 'sp-contributions-newbies-title'       => 'User contributions for new accounts',
 'sp-contributions-blocklog'            => 'block log',
 'sp-contributions-deleted'             => 'deleted user contributions',
+'sp-contributions-uploads'             => 'uploads',
 'sp-contributions-logs'                => 'logs',
 'sp-contributions-talk'                => 'talk',
 'sp-contributions-userrights'          => 'user rights management',
@@ -4234,6 +4246,7 @@ You can also [[Special:Watchlist/edit|use the standard editor]].',
 'version-specialpages'             => 'Special pages',
 'version-parserhooks'              => 'Parser hooks',
 'version-variables'                => 'Variables',
+'version-skins'                    => 'Skins',
 'version-other'                    => 'Other',
 'version-mediahandlers'            => 'Media handlers',
 'version-hooks'                    => 'Hooks',
@@ -4358,5 +4371,18 @@ This site is experiencing technical difficulties.',
 # SQLite database support
 'sqlite-has-fts' => '$1 with full-text search support',
 'sqlite-no-fts'  => '$1 without full-text search support',
+
+# Special:DisableAccount
+'disableaccount'             => 'Disable a user account',
+'disableaccount-user'        => 'Username:',
+'disableaccount-reason'      => 'Reason:',
+'disableaccount-confirm'     => "Disable this user account.
+The user will not be able to log in, reset their password, or receive e-mail notifications.
+If the user is currently logged in anywhere, they will be immediately logged out.
+''Note that disabling an account is not reversible without system administrator intervention.''",
+'disableaccount-mustconfirm' => 'You must confirm that you wish to disable this account.',
+'disableaccount-nosuchuser'  => 'The user account "$1" does not exist.',
+'disableaccount-success'     => 'The user account "$1" has been permanently disabled.',
+'disableaccount-logentry'    => 'permanently disabled the user account [[$1]]',
 
 );

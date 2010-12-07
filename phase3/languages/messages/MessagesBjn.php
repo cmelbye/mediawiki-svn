@@ -1182,6 +1182,10 @@ Amun Pian mamilih manyadiakan ini, ini akan dipuruk gasan paminanduan kulihan ga
 'right-suppressionlog'       => 'Tiringi log paribadi',
 'right-block'                => 'Blukir pamuruk lain mambabak',
 'right-blockemail'           => 'Blukir saurang pamuruk mangirimi suril',
+'right-hideuser'             => 'Blukir sabuah ngaranpamuruk, sungkupakan ini matan umum',
+'right-ipblock-exempt'       => 'Liwati blukir IP, blukir-utumatis wan aria blukir',
+'right-proxyunbannable'      => 'Liwati utumatis blukir matan pruksi',
+'right-unblockself'          => 'Lapas blukirnya surang',
 'right-editinterface'        => 'Babak antarmuha pamuruk ini',
 'right-editusercssjs'        => 'Babak pamuruk lain babarakas CSS wan JavaScript',
 'right-editusercss'          => 'Babak pamruk lain babarakas CSS',
@@ -1194,10 +1198,12 @@ Amun Pian mamilih manyadiakan ini, ini akan dipuruk gasan paminanduan kulihan ga
 'right-reset-passwords'      => 'Risit katasunduk pamuruk lain',
 'right-sendemail'            => 'Mangirim suril ka papamuruk lain',
 'right-revisionmove'         => 'Pindahakan raralatan',
+'right-disableaccount'       => 'Kada-kawakan aakun',
 
 # User rights log
-'rightslog'  => 'Log parubahan hak masuk',
-'rightsnone' => '(kadada)',
+'rightslog'     => 'Log parubahan hak masuk',
+'rightslogtext' => 'Nangini adalah sabuah log paparubahan ka hahak pamuruk.',
+'rightsnone'    => '(kadada)',
 
 # Associated actions - in the sentence "You do not have permission to X"
 'action-read'               => 'baca tungkaran ini',
@@ -1282,6 +1288,8 @@ Tutungkaran dalam [[Special:Watchlist|daptar itihan Pian]] ditandai '''kandal'''
 'uploadedfiles'       => 'Babarakas tahunggah',
 'minlength1'          => 'Ngaran barakas musti sahikitnya asa abjad.',
 'badfilename'         => 'Ngaran barakas sudah diganti ka "$1".',
+'empty-file'          => 'Barakas nang Pian buatakan puang.',
+'file-too-large'      => 'Barakas nang Pian buatakan kaganalan.',
 'filename-tooshort'   => 'Ngaran barakas kahandapan.',
 'filetype-banned'     => 'Macam barakas ini ditangati.',
 'verification-error'  => 'Barakas nangini kada lulus paitihan.',
@@ -1296,7 +1304,15 @@ Tutungkaran dalam [[Special:Watchlist|daptar itihan Pian]] ditandai '''kandal'''
 'overwroteimage'      => 'mahunggah sabuah pérsi hanyar matan "[[$1]]"',
 'uploaddisabled'      => 'Pahunggahan dipajahakan.',
 'copyuploaddisabled'  => 'Hunggah lawan URL pajah.',
+'uploaddisabledtext'  => 'Hunggah barakas kada kawa.',
+'uploadvirus'         => 'Barakas baisi pirus!
+Ririncian: $1',
+'upload-source'       => 'Asal mula barakas',
+'sourcefilename'      => 'Ngaranbarakas asal mula:',
+'sourceurl'           => 'Asal mula URL:',
+'destfilename'        => 'Ngaranbarakas tujuan:',
 'watchthisupload'     => 'Itihi barakas ini',
+'upload-success-subj' => 'Kulihan mahunggah',
 'upload-warning-subj' => 'Paringatan mahunggah',
 
 'upload-misc-error'   => 'Tasalah buat nang kada dipinandui',
@@ -1480,7 +1496,7 @@ Parubahan-parubahan salanjutnya pada tungkaran ini dan tungkaran pamandiran tara
 Muhun mamastiakan amun Pian handak manggawi ini, bahwasa Pian paham akibatnya, wan apa nang Pian gawi ini sasuai awan [[{{MediaWiki:Policy-url}}|kabijakan {{SITENAME}}]].',
 'actioncomplete'        => 'Pangulahan tuntung',
 'deletedtext'           => '"<nowiki>$1</nowiki>" sudah tahapus. Lihati $2 sabuah rakaman gasan nang hanyar ni tahapus.',
-'deletedarticle'        => '"[[$1]]" tahapus',
+'deletedarticle'        => 'mahapus "[[$1]]"',
 'dellogpage'            => 'Log pahapusan',
 'deletecomment'         => 'Alasan:',
 'deleteotherreason'     => 'Alasan lain/tambahan:',
@@ -1597,7 +1613,7 @@ Pian kawa maubah tingkatan palindungan gasan tungkaran ini, tagal ini kada pacan
 'change-blocklink'         => 'ubah blukir',
 'contribslink'             => 'sumbangan',
 'blocklogpage'             => 'Log blukir',
-'blocklogentry'            => 'diblukir [[$1]] sampai wayah $2 $3',
+'blocklogentry'            => 'mamblukir [[$1]] sampai wayah $2 $3',
 'unblocklogentry'          => 'Mahilangakan blukir "$1"',
 'block-log-flags-nocreate' => 'Paulahan akun dipajahakan',
 

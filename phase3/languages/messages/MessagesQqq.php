@@ -34,6 +34,7 @@
  * @author GerardM
  * @author Hamilton Abreu
  * @author Helix84
+ * @author Holek
  * @author Huji
  * @author IAlex
  * @author INkubusse
@@ -386,7 +387,8 @@ Also used as title of [[Special:Search]] page in [[Special:SpecialPages]].
 \'\'\'Note:\'\'\' This is "views" as in "appearances"/"representations", \'\'\'not\'\'\' as in "visits"/"accesses".
 {{Identical|View}}',
 'toolbox'           => 'The title of the toolbox below the search menu.',
-'otherlanguages'    => 'This message is shown under the toolbox. It is used if there are interwiki links added to the page, like <tt><nowiki>[[</nowiki>en:Interwiki article]]</tt>.',
+'otherlanguages'    => 'This message is shown under the toolbox. It is used if there are interwiki links added to the page, like <tt><nowiki>[[</nowiki>en:Interwiki article]]</tt>.
+{{Identical|Otherlanguages}}',
 'redirectedfrom'    => 'The text displayed when a certain page is redirected to another page. Variable <tt>$1</tt> contains the name of the page user came from.',
 'redirectpagesub'   => 'Displayed under the page title of a page which is a redirect to another page, see [{{fullurl:Project:Translators|redirect=no}} Project:Translators] for example.
 
@@ -836,6 +838,10 @@ See also {{msg-mw|Noarticletext-nopermission}}.',
 'clearyourcache'                   => 'Text at the top of .js/.css pages',
 'usercssyoucanpreview'             => "Text displayed on every css page. The 'Show preview' part should be the same as {{msg-mw|showpreview}} (or you can use <nowiki>{{int:showpreview}}</nowiki>).",
 'userjsyoucanpreview'              => 'Text displayed on every js page.',
+'usercsspreview'                   => 'Text displayed on preview of every user .css subpage',
+'userjspreview'                    => 'Text displayed on preview of every user .js subpage',
+'globalcsspreview'                 => 'Text displayed on preview of .css pages in MediaWiki namespace',
+'globaljspreview'                  => 'Text displayed on preview of .js pages in MediaWiki namespace',
 'updated'                          => '{{Identical|Updated}}',
 'previewnote'                      => 'Note displayed when clicking on Show preview',
 'editing'                          => "Shown as page title when editing a page. \$1 is the name of the page that is being edited. Example: \"''Editing Main Page''\".",
@@ -1429,7 +1435,8 @@ See http://meta.wikimedia.org/w/index.php?title=Special%3ALog&type=rights for a 
 
 # Groups
 'group'               => '{{Identical|Group}}',
-'group-user'          => 'Name of group',
+'group-user'          => 'Name of group
+{{Identical|User}}',
 'group-autoconfirmed' => 'Name of group. On Wikimedia sites autoconfirmed users are users which are older than 4 days. After those 4 days, they have more rights.',
 'group-bot'           => 'Name of group',
 'group-sysop'         => 'Name of group',
@@ -2538,6 +2545,7 @@ This message was something like "unlock move protection" in the past.',
 
 {{Identical|Block log}}',
 'sp-contributions-deleted'             => "This is a link anchor used in [[Special:Contributions]]/''name'', when user viewing the page has the right to delete pages, or to restore deleted pages.",
+'sp-contributions-uploads'             => '{{Identical|Upload}}',
 'sp-contributions-logs'                => "Appears as an action link in the header of the Special:Contributions/''Username'' pages (e.g. \"For Somebody (talk | block log | logs)\").",
 'sp-contributions-talk'                => "This is a link anchor used in the [[Special:Contributions]]/''usernamename'' pages.
 The link appears in a list of similar ones separated by {{msg-mw|pipe-separator}}, e.g. like this:<br />
@@ -2928,6 +2936,7 @@ If the length of the translated message is over 60 characters (including spaces)
 # Stylesheets
 'common.css'   => 'CSS applied to all users.',
 'monobook.css' => 'CSS applied to users using Monobook skin.',
+'handheld.css' => 'Style that can be applied on [[w:handheld devices|handheld devices]] (e.g. mobile phones), <code>$wgHandheldStyle</code> is an optional configuration variable which specifies a style sheet file for handheld devices.',
 
 # Scripts
 'common.js'   => 'JS for all users.',
@@ -3777,5 +3786,11 @@ Used on [[Special:Tags]]. Verb. Used as display text on a link to create/edit a 
 # SQLite database support
 'sqlite-has-fts' => 'Shown on Special:Version, $1 is version',
 'sqlite-no-fts'  => 'Shown on Special:Version, $1 is version',
+
+# Special:DisableAccount
+'disableaccount-user'     => '{{Identical|Username}}',
+'disableaccount-reason'   => '{{Identical|Reason}}',
+'disableaccount-logentry' => 'This message is used as a [[Special:Log|log entry]], appearing after the username of the person who did the action. Parameters:
+* $1 is a user page',
 
 );

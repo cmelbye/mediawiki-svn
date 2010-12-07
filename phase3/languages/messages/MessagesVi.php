@@ -753,6 +753,9 @@ Xin hãy đợi chốc lát rồi thử lại.',
 'loginlanguagelabel'         => 'Ngôn ngữ: $1',
 'suspicious-userlogout'      => 'Đã bỏ qua yêu cầu đăng xuất bạn, hình như được gửi từ trình duyệt hoặc máy proxy nhớ đệm hư.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Lỗi không rõ trong hàm PHP mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Độ mạnh ước lượng của mật khẩu: $1',
 'password-strength-bad'        => 'DỞ',
@@ -1490,6 +1493,7 @@ Bạn cũng có thể lựa chọn cho phép người khác liên lạc với b�
 'right-override-export-depth' => 'Xuất trang kèm theo các trang được liên kết đến với độ sâu tối đa là 5',
 'right-sendemail'             => 'Gửi thư điện tử cho thành viên khác',
 'right-revisionmove'          => 'Di chuyển phiên bản',
+'right-disableaccount'        => 'Vô hiệu hóa tài khoản',
 
 # User rights log
 'rightslog'      => 'Nhật trình cấp quyền thành viên',
@@ -2373,6 +2377,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Đóng góp của các thành viên mới',
 'sp-contributions-blocklog'            => 'Nhật trình cấm',
 'sp-contributions-deleted'             => 'đóng góp đã bị xóa của thành viên',
+'sp-contributions-uploads'             => 'tập tin tải lên',
 'sp-contributions-logs'                => 'nhật trình',
 'sp-contributions-talk'                => 'thảo luận',
 'sp-contributions-userrights'          => 'quản lý quyền thành viên',
@@ -3573,5 +3578,18 @@ Hãy cho vào tên của tập tin, trừ tiền tố “{{ns:file}}:”.',
 # SQLite database support
 'sqlite-has-fts' => '$1 với sự hỗ trợ tìm kiếm toàn văn',
 'sqlite-no-fts'  => '$1 không có hỗ trợ tìm kiếm toàn văn',
+
+# Special:DisableAccount
+'disableaccount'             => 'Vô hiệu hóa tài khoản người dùng',
+'disableaccount-user'        => 'Tên người dùng:',
+'disableaccount-reason'      => 'Lý do:',
+'disableaccount-confirm'     => "Vô hiệu hóa tài khoản của người dùng này.
+Người dùng sẽ không thể đăng nhập, mặc định lại mật khẩu, hoặc nhận thông báo qua thư điện tử.
+Nếu người dùng đã dăng nhập vào bất cứ wiki nào trong hệ thống, nó sẽ bị đăng xuất ngay.
+''Lưu ý rằng chỉ có người quản trị hệ thống can thiệp có thể lùi lại việc vô hiệu hóa tài khoản.''",
+'disableaccount-mustconfirm' => 'Bạn phải xác nhận rằng bạn muốn vô hiệu hóa tài khoản này.',
+'disableaccount-nosuchuser'  => 'Tài khoản người dùng “$1” không tồn tại.',
+'disableaccount-success'     => 'Tài khoản người dùng “$1” đã bị vô hiệu hóa vĩnh viễn.',
+'disableaccount-logentry'    => 'đã vô hiệu hóa vĩnh viễn tài khoản của người dùng [[$1]]',
 
 );

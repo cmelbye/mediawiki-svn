@@ -665,7 +665,7 @@ abstract class Maintenance {
 			$this->output( "\n" . $this->mDescription . "\n" );
 		}
 		$output = "\nUsage: php " . basename( $this->mSelf );
-		
+
 		// ... append parameters ...
 		if ( $this->mParams ) {
 			$output .= " [--" . implode( array_keys( $this->mParams ), "|--" ) . "]";
@@ -839,6 +839,8 @@ abstract class Maintenance {
 		$wgWikiFarm = false;
 		if ( isset( $this->mOptions['conf'] ) ) {
 			$settingsFile = $this->mOptions['conf'];
+		} else if ( defined("MW_CONFIG_FILE") ) {
+			$settingsFile = MW_CONFIG_FILE;
 		} else {
 			$settingsFile = "$IP/LocalSettings.php";
 		}
@@ -1128,6 +1130,7 @@ abstract class Maintenance {
 }
 
 class FakeMaintenance extends Maintenance {
+	protected $mSelf = "FakeMaintenanceScript";
 	public function execute() {
 		return;
 	}

@@ -670,6 +670,9 @@ Prosimo počakajte, preden poskusite znova.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaša zahteva za odjavo je bila zavrnjena, saj kaže, da je bila poslana iz pokvarjenega brskalnika ali proxyja s predpomnilnikom.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Neznana napaka v funkciji PHP mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Ocenjena moč gesla: $1',
 'password-strength-bad'        => 'SLABO',
@@ -1414,6 +1417,7 @@ Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elek
 'right-override-export-depth' => 'Izvoz strani, vključno s povezaimi straneh do globine 5',
 'right-sendemail'             => 'Pošiljanje e-pošte drugim uporabnikom',
 'right-revisionmove'          => 'Prestavi redakcije',
+'right-disableaccount'        => 'Onemogočanje računov',
 
 # User rights log
 'rightslog'      => 'Dnevnik uporabniških pravic',
@@ -2318,6 +2322,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Uporabniški prispevki novih računov',
 'sp-contributions-blocklog'            => 'dnevnik blokiranja',
 'sp-contributions-deleted'             => 'izbrisani uporabnikovi prispevki',
+'sp-contributions-uploads'             => 'naložene datoteke',
 'sp-contributions-logs'                => 'dnevniki',
 'sp-contributions-talk'                => 'pogovor',
 'sp-contributions-userrights'          => 'upravljanje s pravicami uporabnikov',
@@ -3324,6 +3329,7 @@ Uporabite lahko tudi [[Special:Watchlist/edit|standardni urejevalnik]].',
 'version-specialpages'             => 'Posebne strani',
 'version-parserhooks'              => 'Razširitve razčlenjevalnika',
 'version-variables'                => 'Spremenljivke',
+'version-skins'                    => 'Kože',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Upravljavci predstavnostnih vsebin',
 'version-hooks'                    => 'Razširitve',
@@ -3446,5 +3452,18 @@ Ta stran se sooča s tehničnimi težavami.',
 # SQLite database support
 'sqlite-has-fts' => '$1 s podporo iskanju polnih besedil',
 'sqlite-no-fts'  => '$1 brez podpore iskanju polnih besedil',
+
+# Special:DisableAccount
+'disableaccount'             => 'Onemogoči uporabniški račun',
+'disableaccount-user'        => 'Uporabniško ime:',
+'disableaccount-reason'      => 'Razlog:',
+'disableaccount-confirm'     => "Onemogočite ta uporabniški račun.
+Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-poštnih obvestil.
+Če je uporabnik trenutno kjer koli prijavljen, bo nemudoma odjavljen.
+''Pomnite, da povrnitev onemogočitve računa ni mogoča brez posredovanja sistemskega upravljavca.''",
+'disableaccount-mustconfirm' => 'Potrditi morate, da želite onemogočiti ta račun.',
+'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
+'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
+'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
 
 );

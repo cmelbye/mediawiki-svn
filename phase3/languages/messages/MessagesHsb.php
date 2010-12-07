@@ -605,6 +605,9 @@ Móžeš tutu zdźělenku ignorować, jeli so wužiwarske konto zmylnje wutwori�
 'loginlanguagelabel'         => 'Rěč: $1',
 'suspicious-userlogout'      => 'Twoje naprašowanje za wotzjewjenje bu wotpokazane, dokelž zda so, jako by so přez wobškodźeny wobhladowak abo pufrowacy proksy pósłało',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Njeznaty zmylk w PHP-funkciji mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Trochowana hesłowa sylnosć: $1',
 'password-strength-bad'        => 'ŠPATNA',
@@ -1324,6 +1327,7 @@ Smě mjenje hač $1 {{PLURAL:$1|znamješko|znamješce|znamješka|znamješkow}} d
 'right-override-export-depth' => 'Strony inkluziwnje wotkazanych stronow hač do hłubokosće 5 eksportować',
 'right-sendemail'             => 'Druhim wužiwarjam e-mejl pósłać',
 'right-revisionmove'          => 'Wersije přesunyć',
+'right-disableaccount'        => 'Konta znjemóžnić',
 
 # User rights log
 'rightslog'      => 'Protokol zrjadowanja wužiwarskich prawow',
@@ -2190,6 +2194,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Wužiwarske přinoški za nowe konta',
 'sp-contributions-blocklog'            => 'protokol zablokowanjow',
 'sp-contributions-deleted'             => 'wušmórnjene wužiwarske přinoški',
+'sp-contributions-uploads'             => 'nahraća',
 'sp-contributions-logs'                => 'protokole',
 'sp-contributions-talk'                => 'diskusija',
 'sp-contributions-userrights'          => 'Zrjadowanje wužiwarskich prawow',
@@ -3164,6 +3169,7 @@ Móžeš tež [[Special:Watchlist/edit|standardnu wobdźěłowansku stronu]] wu�
 'version-specialpages'             => 'Specialne strony',
 'version-parserhooks'              => 'Parserowe hoki',
 'version-variables'                => 'Wariable',
+'version-skins'                    => 'Šaty',
 'version-other'                    => 'Druhe',
 'version-mediahandlers'            => 'Předźěłaki medijow',
 'version-hooks'                    => 'Hoki',
@@ -3284,5 +3290,18 @@ Zapodaj datajowe mjeno '''bjez''' prefiksa \"{{ns:file}}:\".",
 # SQLite database support
 'sqlite-has-fts' => '$1 połnotekstowe pytanje podpěruje.',
 'sqlite-no-fts'  => '$1 połnotekstowe pytanje njepodpěruje',
+
+# Special:DisableAccount
+'disableaccount'             => 'Wužiwarske konto znjemóžnić',
+'disableaccount-user'        => 'Wužiwarske mjeno:',
+'disableaccount-reason'      => 'Přičina:',
+'disableaccount-confirm'     => "Znjemóžń tute wužiwarske konto.
+Wužiwar njemóže so přizjewić, woje hesło wróćo stajić abo e-mejlowe zdźělenki dóstać.
+Jeli wužiwar je tuchwilu druhdźe přizjewjeny, budźe so hnydom wotzjewjeć.
+''Wobkedźbuj, zo znjemóžnjenje konta njeje rewersibelne bjez zapřimowanja administratora.''",
+'disableaccount-mustconfirm' => 'Dyrbiš wobkrućić, zo chceš tute konto znjemóžnić.',
+'disableaccount-nosuchuser'  => 'Wužiwarske konto "$1" njeeksistuje.',
+'disableaccount-success'     => 'Wužiwarske konto "$1" bu na přeco znjemóžnjene.',
+'disableaccount-logentry'    => 'je wužiwarske konto [[$1]] na přeco znjemóžnił',
 
 );

@@ -143,7 +143,7 @@ class ApiFeedWatchlist extends ApiBase {
 	private function createFeedItem( $info ) {
 		$titleStr = $info['title'];
 		$title = Title::newFromText( $titleStr );
-		if ( $this->linkToDiffs and isset( $info['revid'] ) ) {
+		if ( $this->linkToDiffs && isset( $info['revid'] ) ) {
 			$titleUrl = $title->getFullURL( array( 'diff' => $info['revid'] ) );
 		} else {
 			$titleUrl = $title->getFullURL();
@@ -189,7 +189,7 @@ class ApiFeedWatchlist extends ApiBase {
 			'allrev'     => 'Include multiple revisions of the same page within given timeframe',
 			'wlowner'    => "The user whose watchlist you want (must be accompanied by {$this->getModulePrefix()}token if it's not you)",
 			'wltoken'    => 'Security token that requested user set in their preferences',
-			'linktodiffs'      => 'Link to change differences instead of article pages'
+			'linktodiffs'=> 'Link to change differences instead of article pages'
 		);
 	}
 

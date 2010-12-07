@@ -463,6 +463,11 @@ $wgMessageStructure = array(
 		'loginlanguagelinks',
 		'suspicious-userlogout',
 	),
+	'mail' => array(
+		'pear-mail-error',
+		'php-mail-error',
+		'php-mail-error-unknown',
+	),
 	'passwordstrength' => array(
 		'password-strength',
 		'password-strength-bad',
@@ -560,6 +565,8 @@ $wgMessageStructure = array(
 		'userjsyoucanpreview',
 		'usercsspreview',
 		'userjspreview',
+		'globalcsspreview',
+		'globaljspreview',
 		'userinvalidcssjstitle',
 		'updated',
 		'note',
@@ -634,7 +641,6 @@ $wgMessageStructure = array(
 	'cantcreateaccount' => array(
 		'cantcreateaccounttitle',
 		'cantcreateaccount-text',
-		'cantcreateaccount-nonblock-text',
 	),
 	'history' => array(
 		'viewpagelogs',
@@ -1113,6 +1119,7 @@ $wgMessageStructure = array(
 		'right-override-export-depth',
 		'right-sendemail',
 		'right-revisionmove',
+		'right-disableaccount',
 	),
 	'rightslog' => array(
 		'rightslog',
@@ -1948,6 +1955,7 @@ $wgMessageStructure = array(
 		'sp-contributions-newbies-title',
 		'sp-contributions-blocklog',
 		'sp-contributions-deleted',
+		'sp-contributions-uploads',
 		'sp-contributions-logs',
 		'sp-contributions-talk',
 		'sp-contributions-userrights',
@@ -3121,6 +3129,7 @@ $wgMessageStructure = array(
 		'version-specialpages',
 		'version-parserhooks',
 		'version-variables',
+		'version-skins',
 		'version-other',
 		'version-mediahandlers',
 		'version-hooks',
@@ -3227,6 +3236,17 @@ $wgMessageStructure = array(
 		'sqlite-has-fts',
 		'sqlite-no-fts',
 	),
+	'disableaccount' => array(
+		'disableaccount',
+		'disableaccount-user',
+		'disableaccount-reason',
+		'disableaccount-confirm',
+		'disableaccount-mustconfirm',
+		'disableaccount-confirm',
+		'disableaccount-nosuchuser',
+		'disableaccount-success',
+		'disableaccount-logentry',
+	),
 );
 
 /** Comments for each block */
@@ -3256,6 +3276,7 @@ XHTML id names.",
 	'errors'              => 'General errors',
 	'virus'               => 'Virus scanner',
 	'login'               => 'Login and logout pages',
+	'mail'                => 'E-mail sending',
 	'passwordstrength'    => 'JavaScript password checks',
 	'resetpass'           => 'Password reset dialog',
 	'toolbar'             => 'Edit page toolbar',
@@ -3439,4 +3460,5 @@ Variants for Chinese language",
 	'db-error-messages'     => 'Database error messages',
 	'html-forms'            => 'HTML forms',
 	'sqlite'                => 'SQLite database support',
+	'disableaccount'        => 'Special:DisableAccount',
 );

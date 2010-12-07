@@ -762,6 +762,9 @@ $2',
 'loginlanguagelabel'         => 'Язык: $1',
 'suspicious-userlogout'      => 'Ваш запрос на завершение сеанса отклонён, так как он похож на запрос, отправленный некорректным браузером или кэширующим прокси.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Неизвестная ошибка в PHP-функции mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Оценка стойкости пароля: $1',
 'password-strength-bad'        => 'ПЛОХАЯ',
@@ -1504,6 +1507,7 @@ $1",
 'right-override-export-depth' => 'экспортирование страниц, включая связанные страницы с глубиной до 5',
 'right-sendemail'             => 'отправлять электронную почту другим участникам',
 'right-revisionmove'          => 'перенос версий страниц',
+'right-disableaccount'        => 'отключить учётные записи',
 
 # User rights log
 'rightslog'      => 'Журнал прав участника',
@@ -2388,6 +2392,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Вклад с недавно созданных учётных записей',
 'sp-contributions-blocklog'            => 'блокировки',
 'sp-contributions-deleted'             => 'удалённые правки участника',
+'sp-contributions-uploads'             => 'загрузки',
 'sp-contributions-logs'                => 'журналы',
 'sp-contributions-talk'                => 'обсуждение',
 'sp-contributions-userrights'          => 'управление правами участника',
@@ -3462,6 +3467,7 @@ $1',
 'version-specialpages'             => 'Служебные страницы',
 'version-parserhooks'              => 'Перехватчики синтаксического анализатора',
 'version-variables'                => 'Переменные',
+'version-skins'                    => 'Темы оформления',
 'version-other'                    => 'Иное',
 'version-mediahandlers'            => 'Обработчики медиа',
 'version-hooks'                    => 'Перехватчики',
@@ -3582,5 +3588,18 @@ MediaWiki распространяется в надежде, что она бу
 # SQLite database support
 'sqlite-has-fts' => '$1 с поддержкой полнотекстового поиска',
 'sqlite-no-fts'  => '$1 без поддержки полнотекстового поиска',
+
+# Special:DisableAccount
+'disableaccount'             => 'Отключение учётной записи участника',
+'disableaccount-user'        => 'Имя участника:',
+'disableaccount-reason'      => 'Причина:',
+'disableaccount-confirm'     => "Отключение этой учетной записи участника. 
+Участник не сможет войти в систему, сбросить свой пароль, получать уведомления по электронной почте. 
+Если участник в данный момент уже совершил вход в систему, то его сеанс будет немедленно прерван.
+''Обратите внимание, что отключение учётной записи нельзя отменить без вмешательства системного администратора.''",
+'disableaccount-mustconfirm' => 'Вы должны подтвердить, что вы хотите отключить эту учётную запись.',
+'disableaccount-nosuchuser'  => 'Не существует учетной записи участника «$1».',
+'disableaccount-success'     => 'Учетная запись участника «$1» была отключена навсегда.',
+'disableaccount-logentry'    => 'навсегда отключил учётную запись [[$1]]',
 
 );

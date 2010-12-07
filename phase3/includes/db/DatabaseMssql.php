@@ -460,14 +460,14 @@ class DatabaseMssql extends DatabaseBase {
 					$sql .= ',';
 				}
 				if ( is_string( $value ) ) {
-					$sql .= $this->quote_ident( $value );
+					$sql .= $this->addIdentifierQuotes( $value );
 				} elseif ( is_null( $value ) ) {
 					$sql .= 'null';
 				} elseif ( is_array( $value ) || is_object( $value ) ) {
 					if ( is_object( $value ) && strtolower( get_class( $value ) ) == 'blob' ) {
-						$sql .= $this->quote_ident( $value->fetch() );
+						$sql .= $this->addIdentifierQuotes( $value->fetch() );
 					}  else {
-						$sql .= $this->quote_ident( serialize( $value ) );
+						$sql .= $this->addIdentifierQuotes( serialize( $value ) );
 					}
 				} else {
 					$sql .= $value;
@@ -995,10 +995,6 @@ class DatabaseMssql extends DatabaseBase {
 		} else {
 			return parent::addQuotes( $s );
 		}
-	}
-
-	function quote_ident( $s ) {
-		return "'" . str_replace( "'", "''", $s ) . "'";
 	}
 
 	function selectDB( $db ) {

@@ -640,6 +640,9 @@ Waart w.e.g. ier Dir et nach eng Kéier versicht.",
 'loginlanguagelabel'         => 'Sprooch: $1',
 'suspicious-userlogout'      => 'Är Ufro fir Iech auszeloggen gouf refuséiert well et esou ausgesäit wéi wann se vun engem Futtise Browser oder Proxy-Tëschespäicher kënnt.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Onbekannte Feeler an der PHP-Mail-Fonctioun',
+
 # JavaScript password checks
 'password-strength'            => 'Geschate Stäerkt vum Passwuert: $1',
 'password-strength-bad'        => 'SCHLECHT',
@@ -1377,6 +1380,7 @@ Dir kënnt et och zouloossen datt aner Benotzer iech - iwwert e Link op Ärer Be
 'right-override-export-depth' => 'Säiten exportéieren inklusiv de verlinkte Säite bis zu enger Déift vu 5',
 'right-sendemail'             => 'Anere Benotzer E-Maile schécken',
 'right-revisionmove'          => 'Versioune réckelen',
+'right-disableaccount'        => 'Benotzerkonten desaktivéieren',
 
 # User rights log
 'rightslog'      => 'Logbuch vun de Benotzerrechter',
@@ -2246,6 +2250,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Kontributioune vun neie Benotzer',
 'sp-contributions-blocklog'            => 'Spärlescht',
 'sp-contributions-deleted'             => 'geläschte Benotzer-Kontributiounen',
+'sp-contributions-uploads'             => 'Eropgeluede Fichieren',
 'sp-contributions-logs'                => 'Logbicher',
 'sp-contributions-talk'                => 'diskutéieren',
 'sp-contributions-userrights'          => 'Verwaltung vun de Benotzerrechter',
@@ -3354,5 +3359,18 @@ Gitt den Numm vum Fichier ouni de Prefix \"{{ns:file}}:\" an.",
 # SQLite database support
 'sqlite-has-fts' => "$1 ënnerstëtzt d'Volltextsich",
 'sqlite-no-fts'  => "$1 ënnerstëtzt d'Volltextsich net",
+
+# Special:DisableAccount
+'disableaccount'             => 'E Benotzerkont desaktivéieren',
+'disableaccount-user'        => 'Benotzernumm:',
+'disableaccount-reason'      => 'Grond:',
+'disableaccount-confirm'     => "Dëse Benotzerkont desaktivéieren.
+De Benotzer ka sech net méi aloggen, säi Passwuert änneren, a kritt och keng Noriichte méi per Mail.
+Wann e Benotzer elo iergendwou ageloggt ass da gëtt hien direkt ausgeloggt.
+''Denkt drun datt desaktivéiere vun engem Kont net ka réckgängeg gemaach ginn ouni d'Interventioun vun engem Administrateur vum System.''",
+'disableaccount-mustconfirm' => 'Dir musst confirméieren datt Dir dëse Kont desaktivéiere wëllt.',
+'disableaccount-nosuchuser'  => 'De Benotzerkont "$1" gëtt et net.',
+'disableaccount-success'     => 'De Benotzerkont "$1" gouf definitiv desaktivéiert.',
+'disableaccount-logentry'    => 'huet de Benotzer [[$1]] definitiv desaktivéiert',
 
 );

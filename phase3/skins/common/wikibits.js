@@ -63,7 +63,7 @@ window.addOnloadHook = function( hookFunct ) {
 	} else {
 		hookFunct();  // bug in MSIE script loading
 	}
-}
+};
 
 window.importScript = function( page ) {
 	// TODO: might want to introduce a utility function to match wfUrlencode() in PHP
@@ -71,7 +71,7 @@ window.importScript = function( page ) {
 		encodeURIComponent(page.replace(/ /g,'_')).replace(/%2F/ig,'/').replace(/%3A/ig,':') +
 		'&action=raw&ctype=text/javascript';
 	return importScriptURI( uri );
-}
+};
 
 window.loadedScripts = {}; // included-scripts tracker
 window.importScriptURI = function( url ) {
@@ -84,11 +84,11 @@ window.importScriptURI = function( url ) {
 	s.setAttribute( 'type', 'text/javascript' );
 	document.getElementsByTagName('head')[0].appendChild( s );
 	return s;
-}
+};
 
 window.importStylesheet = function( page ) {
 	return importStylesheetURI( wgScript + '?action=raw&ctype=text/css&title=' + encodeURIComponent( page.replace(/ /g,'_') ) );
-}
+};
 
 window.importStylesheetURI = function( url, media ) {
 	var l = document.createElement( 'link' );
@@ -100,7 +100,7 @@ window.importStylesheetURI = function( url, media ) {
 	}
 	document.getElementsByTagName('head')[0].appendChild( l );
 	return l;
-}
+};
 
 window.appendCSS = function( text ) {
 	var s = document.createElement( 'style' );
@@ -113,7 +113,7 @@ window.appendCSS = function( text ) {
 	}
 	document.getElementsByTagName('head')[0].appendChild( s );
 	return s;
-}
+};
 
 // Special stylesheet links for Monobook only (see bug 14717)
 if ( typeof stylepath != 'undefined' && skin == 'monobook' ) {
@@ -170,7 +170,7 @@ window.showTocToggle = function() {
 			toggleToc();
 		}
 	}
-}
+};
 
 window.changeText = function( el, newText ) {
 	// Safari work around
@@ -179,7 +179,7 @@ window.changeText = function( el, newText ) {
 	} else if ( el.firstChild && el.firstChild.nodeValue ) {
 		el.firstChild.nodeValue = newText;
 	}
-}
+};
 
 window.killEvt = function( evt ) {
 	evt = evt || window.event || window.Event; // W3C, IE, Netscape
@@ -190,7 +190,7 @@ window.killEvt = function( evt ) {
 		evt.cancelBubble = true; // IE
 	}
 	return false; // Don't follow the link (IE)
-}
+};
 
 window.toggleToc = function() {
 	var tocmain = document.getElementById( 'toc' );
@@ -209,7 +209,7 @@ window.toggleToc = function() {
 		tocmain.className = 'toc tochidden';
 	}
 	return false;
-}
+};
 
 window.mwEditButtons = [];
 window.mwCustomEditButtons = []; // eg to add in MediaWiki:Common.js
@@ -220,7 +220,7 @@ window.escapeQuotes = function( text ) {
 	re = new RegExp( "\\n", "g" );
 	text = text.replace( re, "\\n" );
 	return escapeQuotesHTML( text );
-}
+};
 
 window.escapeQuotesHTML = function( text ) {
 	var re = new RegExp( '&', "g" );
@@ -232,7 +232,7 @@ window.escapeQuotesHTML = function( text ) {
 	re = new RegExp( '>', "g" );
 	text = text.replace( re, "&gt;" );
 	return text;
-}
+};
 
 /**
  * Set the accesskey prefix based on browser detection.
@@ -291,7 +291,7 @@ window.updateTooltipAccessKeys = function( nodeList ) {
 			element.setAttribute( 'title', tip );
 		}
 	}
-}
+};
 
 /**
  * Add a link to one of the portlet menus on the page, including:
@@ -384,7 +384,7 @@ window.addPortletLink = function( portlet, href, text, id, tooltip, accesskey, n
 	}
 
 	return item;
-}
+};
 
 window.getInnerText = function( el ) {
 	if ( el.getAttribute( 'data-sort-value' ) !== null ) {
@@ -418,12 +418,12 @@ window.getInnerText = function( el ) {
 		}
 	}
 	return str;
-}
+};
 
 /* Dummy for deprecated function */
 window.ta = [];
 window.akeytt = function( doId ) {
-}
+};
 
 window.checkboxes = undefined;
 window.lastCheckbox = undefined;
@@ -433,7 +433,7 @@ window.setupCheckboxShiftClick = function() {
 	lastCheckbox = null;
 	var inputs = document.getElementsByTagName( 'input' );
 	addCheckboxClickHandlers( inputs );
-}
+};
 
 window.addCheckboxClickHandlers = function( inputs, start ) {
 	if ( !start ) {
@@ -461,7 +461,7 @@ window.addCheckboxClickHandlers = function( inputs, start ) {
 			addCheckboxClickHandlers( inputs, finish );
 		}, 200 );
 	}
-}
+};
 
 window.checkboxClickHandler = function( e ) {
 	if ( typeof e == 'undefined' ) {
@@ -488,7 +488,7 @@ window.checkboxClickHandler = function( e ) {
 	}
 	lastCheckbox = this.index;
 	return true;
-}
+};
 
 
 /*
@@ -539,7 +539,7 @@ window.getElementsByClassName = function( oElm, strTagName, oClassNames ) {
 		}
 	}
 	return ( arrReturnElements );
-}
+};
 
 window.redirectToFragment = function( fragment ) {
 	var match = navigator.userAgent.match(/AppleWebKit\/(\d+)/);
@@ -568,7 +568,7 @@ window.redirectToFragment = function( fragment ) {
 			});
 		}
 	}
-}
+};
 
 /*
  * Table sorting script based on one (c) 1997-2006 Stuart Langridge and Joost
@@ -601,7 +601,7 @@ window.sortables_init = function() {
 		}
 		ts_makeSortable( tables[ti] );
 	}
-}
+};
 
 window.ts_makeSortable = function( table ) {
 	var firstRow;
@@ -632,11 +632,11 @@ window.ts_makeSortable = function( table ) {
 	if ( ts_alternate_row_colors ) {
 		ts_alternate( table );
 	}
-}
+};
 
 window.ts_getInnerText = function( el ) {
 	return getInnerText( el );
-}
+};
 
 window.ts_resortTable = function( lnk ) {
 	// get the span
@@ -763,7 +763,7 @@ window.ts_resortTable = function( lnk ) {
 	if ( ts_alternate_row_colors ) {
 		ts_alternate( table );
 	}
-}
+};
 
 window.ts_initTransformTable = function() {
 	if ( typeof wgSeparatorTransformTable == 'undefined'
@@ -816,11 +816,11 @@ window.ts_initTransformTable = function() {
 			"[-+\u2212]?" + digitClass + "+%?" + // Generic localised
 		")$", "i"
 	);
-}
+};
 
 window.ts_toLowerCase = function( s ) {
 	return s.toLowerCase();
-}
+};
 
 window.ts_dateToSortKey = function( date ) {
 	// y2k notes: two digit years less than 50 are treated as 20XX, greater than 50 are treated as 19XX
@@ -885,7 +885,7 @@ window.ts_dateToSortKey = function( date ) {
 		}
 	}
 	return '00000000';
-}
+};
 
 window.ts_parseFloat = function( s ) {
 	if ( !s ) {
@@ -906,15 +906,15 @@ window.ts_parseFloat = function( s ) {
 	}
 	var num = parseFloat( s.replace(/[, ]/g, '').replace("\u2212", '-') );
 	return ( isNaN( num ) ? -Infinity : num );
-}
+};
 
 window.ts_currencyToSortKey = function( s ) {
 	return ts_parseFloat(s.replace(/[^-\u22120-9.,]/g,''));
-}
+};
 
 window.ts_sort_generic = function( a, b ) {
 	return a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : a[2] - b[2];
-}
+};
 
 window.ts_alternate = function( table ) {
 	// Take object table and get all it's tbodies.
@@ -937,7 +937,7 @@ window.ts_alternate = function( table ) {
 			tableRows[j].className = newClassName + ( j % 2 == 0 ? 'even' : 'odd' );
 		}
 	}
-}
+};
 
 /*
  * End of table sorting code
@@ -997,7 +997,7 @@ window.jsMsg = function( message, className ) {
 		messageDiv.innerHTML = message;
 	}
 	return true;
-}
+};
 
 /**
  * Inject a cute little progress spinner after the specified element
@@ -1015,7 +1015,7 @@ window.injectSpinner = function( element, id ) {
 	} else {
 		element.parentNode.appendChild( spinner );
 	}
-}
+};
 
 /**
  * Remove a progress spinner added with injectSpinner()
@@ -1027,7 +1027,7 @@ window.removeSpinner = function( id ) {
 	if( spinner ) {
 		spinner.parentNode.removeChild( spinner );
 	}
-}
+};
 
 window.runOnloadHook = function() {
 	// don't run anything below this for non-dom browsers
@@ -1047,7 +1047,7 @@ window.runOnloadHook = function() {
 	for ( var i = 0; i < onloadFuncts.length; i++ ) {
 		onloadFuncts[i]();
 	}
-}
+};
 
 /**
  * Add an event handler to an element
@@ -1062,11 +1062,11 @@ window.addHandler = function( element, attach, handler ) {
 	} else if( element.attachEvent ) {
 		element.attachEvent( 'on' + attach, handler );
 	}
-}
+};
 
 window.hookEvent = function( hookName, hookFunct ) {
 	addHandler( window, hookName, hookFunct );
-}
+};
 
 /**
  * Add a click event handler to an element
@@ -1076,7 +1076,7 @@ window.hookEvent = function( hookName, hookFunct ) {
  */
 window.addClickHandler = function( element, handler ) {
 	addHandler( element, 'click', handler );
-}
+};
 
 /**
  * Removes an event handler from an element
@@ -1091,7 +1091,7 @@ window.removeHandler = function( element, remove, handler ) {
 	} else if( window.detachEvent ) {
 		element.detachEvent( 'on' + remove, handler );
 	}
-}
+};
 // note: all skins should call runOnloadHook() at the end of html output,
 //      so the below should be redundant. It's there just in case.
 hookEvent( 'load', runOnloadHook );

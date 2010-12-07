@@ -58,7 +58,7 @@ abstract class WebInstallerPage {
 		}
 		
 		if ( $continue ) {
-			// Fake submit button for enter keypress
+			// Fake submit button for enter keypress (bug 26267)
 			$s .= Xml::submitButton( wfMsg( "config-$continue" ),
 				array( 'name' => "enter-$continue", 'style' => 'visibility:hidden;overflow:hidden;width:1px;margin:0' ) ) . "\n";
 		}
@@ -201,7 +201,6 @@ class WebInstaller_Language extends WebInstallerPage {
 				if ( isset( $languages[$contLang] ) ) {
 					$this->setVar( 'wgLanguageCode', $contLang );
 				}
-				$this->setVar( '_ExternalHTTP', $r->getBool( 'config__ExternalHTTP' ) );
 				return 'continue';
 			}
 		} elseif ( $this->parent->showSessionWarning ) {
@@ -221,15 +220,7 @@ class WebInstaller_Language extends WebInstallerPage {
 		$this->startForm();
 		$s = Html::hidden( 'LanguageRequestTime', time() ) .
 			$this->getLanguageSelector( 'UserLang', 'config-your-language', $userLang, $this->parent->getHelpBox( 'config-your-language-help' ) ) .
-			$this->getLanguageSelector( 'ContLang', 'config-wiki-language', $contLang, $this->parent->getHelpBox( 'config-wiki-language-help' ) ) .
-			$this->parent->getCheckBox(
-				array(
-					'var' => '_ExternalHTTP',
-					'label' => 'config-allow-requests',
-				    'help' => $this->parent->getHelpBox( 'config-allow-requests-help' )
-				)
-			);
-
+			$this->getLanguageSelector( 'ContLang', 'config-wiki-language', $contLang, $this->parent->getHelpBox( 'config-wiki-language-help' ) );
 		$this->addHTML( $s );
 		$this->endForm();
 	}
@@ -590,9 +581,7 @@ class WebInstaller_Name extends WebInstallerPage {
 		$valid = false;
 		$pwd = $this->getVar( '_AdminPassword' );
 		$user = User::newFromName( $cname );
-		if ( ( isset ( $pwd ) ) && ( $user != null ) ) {
-    		$valid = $user->getPasswordValidity( $pwd );
-		}
+		$valid = $user && $user->getPasswordValidity( $pwd );
 		if ( strval( $pwd ) === '' ) {
 			# $user->getPasswordValidity just checks for $wgMinimalPasswordLength.
 			# This message is more specific and helpful.
@@ -726,13 +715,11 @@ class WebInstaller_Options extends WebInstallerPage {
 			    'help' => $this->parent->getHelpBox( 'config-logo-help' )
 			) )
 		);
-		$canUse = $this->getVar( '_ExternalHTTP' ) ?
-			'config-instantcommons-good' : 'config-instantcommons-bad';
 		$this->addHTML(
 			$this->parent->getCheckBox( array(
 				'var' => 'wgUseInstantCommons',
 				'label' => 'config-instantcommons',
-			    'help' => $this->parent->getHelpBox( 'config-instantcommons-help', wfMsgNoTrans( $canUse ) )
+			    'help' => $this->parent->getHelpBox( 'config-instantcommons-help' )
 			) ) .
 			$this->getFieldSetEnd()
 		);
@@ -942,14 +929,20 @@ class WebInstaller_Install extends WebInstallerPage {
 class WebInstaller_Complete extends WebInstallerPage {
 	
 	public function execute() {
+		// Pop up a dialog box, to make it difficult for the user to forget 
+		// to download the file
+		$lsUrl = $GLOBALS['wgServer'] . $this->parent->getURL( array( 'localsettings' => 1 ) );
+		$this->parent->request->response()->header( "Refresh: 0;$lsUrl" );
+
 		$this->startForm();
 		$this->addHTML(
 			$this->parent->getInfoBox(
 				wfMsgNoTrans( 'config-install-done',
-					$GLOBALS['wgServer'] . $this->parent->getURL( array( 'localsettings' => 1 ) ),
+					$lsUrl,
 					$GLOBALS['wgServer'] .
 						$this->getVar( 'wgScriptPath' ) . '/index' .
-						$this->getVar( 'wgScriptExtension' )
+						$this->getVar( 'wgScriptExtension' ),
+					'<downloadlink/>'
 				), 'tick-32.png'
 			)
 		);
@@ -985,6 +978,7 @@ abstract class WebInstaller_Document extends WebInstallerPage {
 
 	public  function execute() {
 		$text = $this->getFileContents();
+		$text = $this->formatTextFile( $text );
 		$this->parent->output->addWikiText( $text );
 		$this->startForm();
 		$this->endForm( false );
@@ -995,24 +989,21 @@ abstract class WebInstaller_Document extends WebInstallerPage {
 	}
 
 	protected function formatTextFile( $text ) {
-		$text = str_replace( array( '<', '{{', '[[' ),
-			array( '&lt;', '&#123;&#123;', '&#91;&#91;' ), $text );
-		// replace numbering with [1], [2], etc with MW-style numbering
-		$text = preg_replace( "/\r?\n(\r?\n)?\\[\\d+\\]/m", "\\1#", $text );
+		// Use Unix line endings, escape some wikitext stuff
+		$text = str_replace( array( '<', '{{', '[[', "\r" ),
+			array( '&lt;', '&#123;&#123;', '&#91;&#91;', '' ), $text );
 		// join word-wrapped lines into one
 		do {
 			$prev = $text;
-			$text = preg_replace( "/\n([\\*#])([^\r\n]*?)\r?\n([^\r\n#\\*:]+)/", "\n\\1\\2 \\3", $text );
+			$text = preg_replace( "/\n([\\*#\t])([^\n]*?)\n([^\n#\\*:]+)/", "\n\\1\\2 \\3", $text );
 		} while ( $text != $prev );
+		// Replace tab indents with colons
+		$text = preg_replace( '/^\t\t/m', '::', $text );
+		$text = preg_replace( '/^\t/m', ':', $text );
 		// turn (bug nnnn) into links
 		$text = preg_replace_callback('/bug (\d+)/', array( $this, 'replaceBugLinks' ), $text );
 		// add links to manual to every global variable mentioned
 		$text = preg_replace_callback('/(\$wg[a-z0-9_]+)/i', array( $this, 'replaceConfigLinks' ), $text );
-		// special case for <pre> - formatted links
-		do {
-			$prev = $text;
-			$text = preg_replace( '/^([^\\s].*?)\r?\n[\\s]+(https?:\/\/)/m', "\\1\n:\\2", $text );
-		} while ( $text != $prev );
 		return $text;
 	}
 
@@ -1029,49 +1020,18 @@ abstract class WebInstaller_Document extends WebInstallerPage {
 }
 
 class WebInstaller_Readme extends WebInstaller_Document {
-	
 	protected function getFileName() { return 'README'; }
-
-	public function getFileContents() {
-		return $this->formatTextFile( parent::getFileContents() );
-	}
-	
 }
 
 class WebInstaller_ReleaseNotes extends WebInstaller_Document {
-	
 	protected function getFileName() { return 'RELEASE-NOTES'; }
-
-	public function getFileContents() {
-		return $this->formatTextFile( parent::getFileContents() );
-	}
-	
 }
 
 class WebInstaller_UpgradeDoc extends WebInstaller_Document {
-	
 	protected function getFileName() { return 'UPGRADE'; }
-
-	public function getFileContents() {
-		return $this->formatTextFile( parent::getFileContents() );
-	}
-	
 }
 
 class WebInstaller_Copying extends WebInstaller_Document {
-	
 	protected function getFileName() { return 'COPYING'; }
-
-	public function getFileContents() {
-		$text = parent::getFileContents();
-		$text = str_replace( "\x0C", '', $text );
-		$text = preg_replace_callback( '/\n[ \t]+/m', array( 'WebInstaller_Copying', 'replaceLeadingSpaces' ), $text );
-		$text = '<tt>' . nl2br( $text ) . '</tt>';
-		return $text;
-	}
-
-	private static function replaceLeadingSpaces( $matches ) {
-		return "\n" . str_repeat( '&#160;', strlen( $matches[0] ) );
-	}
-	
 }
+

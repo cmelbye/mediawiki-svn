@@ -26,7 +26,6 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
-
 # Create a site configuration object. Not used for much in a default install
 if ( !defined( 'MW_PHP4' ) ) {
 	require_once( "$IP/includes/SiteConfiguration.php" );
@@ -35,7 +34,7 @@ if ( !defined( 'MW_PHP4' ) ) {
 /** @endcond */
 
 /** MediaWiki version number */
-$wgVersion = '1.17alpha';
+$wgVersion = '1.18alpha';
 
 /** Name of the site. It must be changed in LocalSettings.php */
 $wgSitename         = 'MediaWiki';
@@ -73,7 +72,7 @@ $wgServer = $wgProto.'://' . $serverName;
 # If the port is a non-standard one, add it to the URL
 if(    isset( $_SERVER['SERVER_PORT'] )
 	&& !strpos( $serverName, ':' )
-    && (    ( $wgProto == 'http' && $_SERVER['SERVER_PORT'] != 80 )
+	&& (    ( $wgProto == 'http' && $_SERVER['SERVER_PORT'] != 80 )
 	 || ( $wgProto == 'https' && $_SERVER['SERVER_PORT'] != 443 ) ) ) {
 
 	$wgServer .= ":" . $_SERVER['SERVER_PORT'];
@@ -140,7 +139,6 @@ $wgScript           = false;
  * Defaults to "{$wgScriptPath}/redirect{$wgScriptExtension}".
  */
 $wgRedirectScript   = false; ///< defaults to
-/**@}*/
 
 /**
  * The URL path to load.php.
@@ -148,6 +146,8 @@ $wgRedirectScript   = false; ///< defaults to
  * Defaults to "{$wgScriptPath}/load{$wgScriptExtension}".
  */
 $wgLoadScript           = false;
+
+/**@}*/
 
 /************************************************************************//**
  * @name   URLs and file paths
@@ -504,9 +504,9 @@ $wgRepositoryBaseUrl = "http://commons.wikimedia.org/wiki/File:";
  * This is the list of preferred extensions for uploading files. Uploading files
  * with extensions not in this list will trigger a warning.
  *
- * WARNING: If you add any OpenOffice or Microsoft Office file formats here, 
- * such as odt or doc, and untrusted users are allowed to upload files, then 
- * your wiki will be vulnerable to cross-site request forgery (CSRF). 
+ * WARNING: If you add any OpenOffice or Microsoft Office file formats here,
+ * such as odt or doc, and untrusted users are allowed to upload files, then
+ * your wiki will be vulnerable to cross-site request forgery (CSRF).
  */
 $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg' );
 
@@ -544,7 +544,7 @@ $wgMimeTypeBlacklist = array(
 	'application/x-opc+zip',
 );
 
-/** 
+/**
  * This is a flag to determine whether or not to check file extensions on upload.
  *
  * WARNING: setting this to false is insecure for public wikis.
@@ -555,7 +555,7 @@ $wgCheckFileExtensions = true;
  * If this is turned off, users may override the warning for files not covered
  * by $wgFileExtensions.
  *
- * WARNING: setting this to false is insecure for public wikis. 
+ * WARNING: setting this to false is insecure for public wikis.
  */
 $wgStrictFileExtensions = true;
 
@@ -1602,6 +1602,14 @@ $wgUseFileCache = false;
 $wgFileCacheDirectory = false;
 
 /**
+ * Depth of the subdirectory hierarchy to be created under
+ * $wgFileCacheDirectory.  The subdirectories will be named based on
+ * the MD5 hash of the title.  A value of 0 means all cache files will
+ * be put directly into the main file cache directory.
+ */
+$wgFileCacheDepth = 2;
+
+/**
  * Keep parsed pages in a cache (objectcache table or memcached)
  * to speed up output of the same page viewed by another user with the
  * same options.
@@ -1656,6 +1664,17 @@ $wgUseETag = false;
  * a grace period.
  */
 $wgClockSkewFudge = 5;
+
+/**
+ * Invalidate various caches when LocalSettings.php changes. This is equivalent
+ * to setting $wgCacheEpoch to the modification time of LocalSettings.php, as
+ * was previously done in the default LocalSettings.php file.
+ *
+ * On high-traffic wikis, this should be set to false, to avoid the need to 
+ * check the file modification time, and to avoid the performance impact of
+ * unnecessary cache invalidations. 
+ */
+$wgInvalidateCacheOnLocalSettingsChange = true;
 
 /** @} */ # end of cache settings
 
@@ -2263,6 +2282,45 @@ $wgDisableOutputCompression = false;
 $wgExperimentalHtmlIds = true;
 
 /**
+ * Abstract list of footer icons for skins in place of old copyrightico and poweredbyico code
+ * You can add new icons to the built in copyright or poweredby, or you can create
+ * a new block. Though note that you may need to add some custom css to get good styling
+ * of new blocks in monobook. vector and modern should work without any special css.
+ * 
+ * $wgFooterIcons itself is a key/value array.
+ * The key os the name of a block that the icons will be wrapped in.
+ * The final id varries by skin; Monobook and Vector will turn poweredby into f-poweredbyico
+ * while Modern turns it into mw_poweredby.
+ * The value is a key/value array of icons. The key may or may not be used by the
+ * skin but it can be used to find the icon and unset it or change the icon if needed.
+ * This is useful for disabling icons that are set by extensions.
+ * The value should be either a string or an array.
+ * If it is a string it will be output directly, however some skins may choose to ignore it.
+ * An array is the preferred format for the icon, the following keys are used:
+ *   src: An absolute url to the image to use for the icon, this is recommended
+ *        but not required, however some skins will ignore icons without an image
+ *   url: The url to use in the <a> arround the text or icon, if not set an <a> will not be outputted
+ *   alt: This is the text form of the icon, it will be displayed without an image in
+ *        skins like Modern or if src is not set, and will otherwise be used as
+ *        the alt="" for the image. This key is required.
+ *   width and height: If the icon specified by src is not of the standard size
+ *                     you can specify the size of image to use with these keys.
+ *                     Otherwise they will default to the standard 88x31.
+ */
+$wgFooterIcons = array(
+	"copyright" => array(
+		"copyright" => array(), // placeholder for the built in copyright icon
+	),
+	"poweredby" => array(
+		"mediawiki" => array(
+			"src" => null, // Defaults to "$wgStylePath/common/images/poweredby_mediawiki_88x31.png"
+			"url" => "http://www.mediawiki.org/",
+			"alt" => "Powered by MediaWiki",
+		)
+	),
+);
+
+/**
  * Search form behavior for Vector skin only
  * true = use an icon search button
  * false = use Go & Search buttons
@@ -2300,7 +2358,7 @@ $wgBetterDirectionality = false;
  */
 
 /**
- * Client-side resource modules. Extensions should add their module definitions 
+ * Client-side resource modules. Extensions should add their module definitions
  * here.
  *
  * Example:
@@ -2331,8 +2389,8 @@ $wgResourceLoaderMaxage = array(
 );
 
 /**
- * Whether to embed private modules inline with HTML output or to bypass 
- * caching and check the user parameter against $wgUser to prevent 
+ * Whether to embed private modules inline with HTML output or to bypass
+ * caching and check the user parameter against $wgUser to prevent
  * unauthorized access to private modules.
  */
 $wgResourceLoaderInlinePrivateModules = true;
@@ -2439,8 +2497,15 @@ $wgNamespaceAliases = array();
  */
 $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
 
-$wgLocalInterwiki   = 'w';
-$wgInterwikiExpiry = 10800; # Expiry time for cache of interwiki table
+/**
+ * The interwiki prefix of the current wiki, or false if it doesn't have one.
+ */
+$wgLocalInterwiki   = false;
+
+/**
+ * Expiry time for cache of interwiki table
+ */
+$wgInterwikiExpiry = 10800;
 
 /** Interwiki caching settings.
 	$wgInterwikiCache specifies path to constant database file
@@ -3199,6 +3264,11 @@ $wgGroupPermissions['bureaucrat']['noratelimit'] = true;
 #$wgGroupPermissions['suppress']['suppressrevision'] = true;
 // For private suppression log access
 #$wgGroupPermissions['suppress']['suppressionlog'] = true;
+
+// Permission to disable user accounts
+// Note that disabling an account is not reversible without a system administrator
+// who has direct access to the database
+#$wgGroupPermissions['bureaucrat']['disableaccount']  = true;
 
 /**
  * The developer group is deprecated, but can be activated if need be
@@ -4628,6 +4698,7 @@ $wgLogActions = array(
 	'protect/unprotect' => 'unprotectedarticle',
 	'protect/move_prot' => 'movedarticleprotection',
 	'rights/rights'     => 'rightslogentry',
+	'rights/disable'    => 'disableaccount-logentry',
 	'delete/delete'     => 'deletedarticle',
 	'delete/restore'    => 'undeletedarticle',
 	'delete/revision'   => 'revdelete-logentry',
@@ -5154,37 +5225,6 @@ $wgPoolCounterConf = null;
  * To disable file delete/restore temporarily
  */
 $wgUploadMaintenance = false;
-
-/**
- * The location of the MediaWiki package repository to use.
- *
- * @since 1.17
- * @var string
- */
-$wgRepositoryApiLocation = 'http://www.mediawiki.org/w/api.php';
-
-/**
- * The location of the remote web interface for the selected repository.
- *
- * @since 1.17
- * @var string
- */
-$wgRepositoryLocation = 'http://www.mediawiki.org/wiki/Special:Repository';
-
-/**
- * List of package states to filter update detection and extension listing on.
- *
- * @since 1.17
- * @var array
- */
-$wgRepositoryPackageStates = array(
-	//'dev',
-	//'alpha',
-	'beta',
-	//'rc',
-	'stable',
-	//'deprecated',
-);
 
 /**
  * Allows running of selenium tests via maintenance/tests/RunSeleniumTests.php

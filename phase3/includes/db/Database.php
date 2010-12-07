@@ -604,7 +604,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 *     comment (you can use __METHOD__ or add some extra info)
 	 * @param  $tempIgnore Boolean:   Whether to avoid throwing an exception on errors...
 	 *     maybe best to catch the exception instead?
-	 * @return boolean|ResultWrapper true for a successful write query, ResultWrapper object for a successful read query,
+	 * @return boolean or ResultWrapper. true for a successful write query, ResultWrapper object for a successful read query,
 	 *     or false on failure if $tempIgnore set
 	 * @throws DBQueryError Thrown when the database returns an error of any kind
 	 */
@@ -1576,12 +1576,14 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
-	 * Get an aliased table name.
+	 * Get an aliased table name
+	 * e.g. tableName AS newTableName
+	 *
 	 * @param $name string Table name, see tableName()
 	 * @param $alias string Alias (optional)
 	 * @return string SQL name for aliased table. Will not alias a table to its own name
 	 */
-	public function tableNameWithAlias( $name, $alias ) {
+	public function tableNameWithAlias( $name, $alias = false ) {
 		if ( !$alias || $alias == $name ) {
 			return $this->tableName( $name );
 		} else {
@@ -1590,6 +1592,8 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Gets an array of aliased table names
+	 *
 	 * @param $tables array( [alias] => table )
 	 * @return array of strings, see tableNameWithAlias()
 	 */
@@ -1688,6 +1692,27 @@ abstract class DatabaseBase implements DatabaseType {
 			# conversion is not 1:1.
 			return "'" . $this->strencode( $s ) . "'";
 		}
+	}
+
+	/**
+	 * Quotes an identifier using `backticks` or "double quotes" depending on the database type.
+	 * MySQL uses `backticks` while basically everything else uses double quotes.
+	 * Since MySQL is the odd one out here the double quotes are our generic
+	 * and we implement backticks in DatabaseMysql.
+	 */ 	 
+	public function addIdentifierQuotes( $s ) {
+		return '"' . str_replace( '"', '""', $s ) . '"';
+	}
+
+	/**
+	 * Backwards compatibility, identifier quoting originated in DatabasePostgres
+	 * which used quote_ident which does not follow our naming conventions
+	 * was renamed to addIdentifierQuotes.
+	 * @deprecated use addIdentifierQuotes
+	 */
+	function quote_ident( $s ) {
+		wfDeprecated( __METHOD__ );
+		return $this->addIdentifierQuotes( $s );
 	}
 
 	/**
@@ -2497,6 +2522,32 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Database independent variable replacement, replaces a set of named variables
+	 * in a sql statement with the contents of their global variables.
+	 * Supports '{$var}' `{$var}` and / *$var* / (without the spaces) style variables
+	 * 
+	 * '{$var}' should be used for text and is passed through the database's addQuotes method
+	 * `{$var}` should be used for identifiers (eg: table and database names), it is passed through
+	 *          the database's addIdentifierQuotes method which can be overridden if the database
+	 *          uses something other than backticks.
+	 * / *$var* / is just encoded, besides traditional dbprefix and tableoptions it's use should be avoided
+	 * 
+	 * @param $ins String: SQL statement to replace variables in
+	 * @param $varnames Array: Array of global variable names to replace
+	 * @return String The new SQL statement with variables replaced
+	 */
+	protected function replaceGlobalVars( $ins, $varnames ) {
+		foreach ( $varnames as $var ) {
+			if ( isset( $GLOBALS[$var] ) ) {
+				$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $GLOBALS[$var] ), $ins ); // replace '{$var}'
+				$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $GLOBALS[$var] ), $ins ); // replace `{$var}`
+				$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $GLOBALS[$var] ) , $ins ); // replace /*$var*/
+			}
+		}
+		return $ins;
+	}
+
+	/**
 	 * Replace variables in sourced SQL
 	 */
 	protected function replaceVars( $ins ) {
@@ -2506,15 +2557,7 @@ abstract class DatabaseBase implements DatabaseType {
 			'wgDBadminuser', 'wgDBadminpassword', 'wgDBTableOptions',
 		);
 
-		// Ordinary variables
-		foreach ( $varnames as $var ) {
-			if ( isset( $GLOBALS[$var] ) ) {
-				$val = $this->addQuotes( $GLOBALS[$var] ); // FIXME: safety check?
-				$ins = str_replace( '{$' . $var . '}', $val, $ins );
-				$ins = str_replace( '/*$' . $var . '*/`', '`' . $val, $ins );
-				$ins = str_replace( '/*$' . $var . '*/', $val, $ins );
-			}
-		}
+		$ins = $this->replaceGlobalVars( $ins, $varnames );
 
 		// Table prefixes
 		$ins = preg_replace_callback( '!/\*(?:\$wgDBprefix|_)\*/([a-zA-Z_0-9]*)!',

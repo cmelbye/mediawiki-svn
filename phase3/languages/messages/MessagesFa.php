@@ -17,6 +17,7 @@
  * @author Mardetanha
  * @author Meisam
  * @author Meno25
+ * @author Mjbmr
  * @author Roozbeh Pournader <roozbeh at gmail.com>
  * @author Wayiran
  * @author ZxxZxxZ
@@ -904,6 +905,9 @@ $2',
 'loginlanguagelabel'         => 'زبان: $1',
 'suspicious-userlogout'      => 'درخواست شما برای خروج از سامانه رد شد زیرا به نظر می‌رسد که این درخواست توسط یک مرورگر معیوب یا پروکسی میانگیر ارسال شده باشد.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'خطای ناشناخته در تابع  mail() پی‌اچ‌پی',
+
 # JavaScript password checks
 'password-strength'            => 'تخمین قدرت گذرواژه: $1',
 'password-strength-bad'        => 'بد',
@@ -1652,6 +1656,7 @@ $1",
 'right-override-export-depth' => 'برون‌ریزی صفحه‌ها شامل صفحه‌های پیوند شده تا عمق ۵',
 'right-sendemail'             => 'ارسال پست الکترونیک به دیگر کاربران',
 'right-revisionmove'          => 'ادغام نسخه‌ها',
+'right-disableaccount'        => 'غیر فعال کردن حساب‌ها',
 
 # User rights log
 'rightslog'      => 'سیاههٔ اختیارات کاربر',
@@ -2040,7 +2045,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'statistics-pages'             => 'صفحه‌ها',
 'statistics-pages-desc'        => 'تمام صفحه‌های این ویکی، از جمله صفحه‌های بحث، تغییر مسیر و غیره',
 'statistics-files'             => 'پرونده‌های بارگذاری شده',
-'statistics-edits'             => 'از زمانی که نرم‌افزار ارتقا یافته‌است تعداد ویرایش‌ها بر روی {{SITENAME}} این تعداد بوده‌است:',
+'statistics-edits'             => 'ویرایش صفحه‌ها از هنگامی که {{SITENAME}} راه‌اندازی شده',
 'statistics-edits-average'     => 'متوسط ویرایش‌ها بر روی صفحات',
 'statistics-views-total'       => 'مجموع بازدیدها',
 'statistics-views-total-desc'  => 'مشاهدات به صفحه‌های ناموجود و صفحه‌های ویژه شامل نشده‌است',
@@ -2531,6 +2536,7 @@ $1',
 'sp-contributions-newbies-title'       => 'مشارکت‌های کاربری برای حساب‌های تازه‌کار',
 'sp-contributions-blocklog'            => 'سیاههٔ بسته‌شدن‌ها',
 'sp-contributions-deleted'             => 'مشارکت‌های حذف شدهٔ کاربر',
+'sp-contributions-uploads'             => 'بارگذاری‌ها',
 'sp-contributions-logs'                => 'سیاهه‌ها',
 'sp-contributions-talk'                => 'بحث',
 'sp-contributions-userrights'          => 'مدیریت اختیارات کاربر',
@@ -3596,6 +3602,7 @@ $1',
 'version-specialpages'             => 'صفحه‌های ویژه',
 'version-parserhooks'              => 'قلاب‌های تجزیه‌گر',
 'version-variables'                => 'متغیرها',
+'version-skins'                    => 'پوسته‌ها',
 'version-other'                    => 'غیره',
 'version-mediahandlers'            => 'به‌دست‌گیرنده‌های رسانه‌ها',
 'version-hooks'                    => 'قلاب‌ها',
@@ -3717,5 +3724,18 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 با پشتیبانی از جستجو در متن کامل',
 'sqlite-no-fts'  => '$1 بدون پشتیبانی از جستجو در متن کامل',
+
+# Special:DisableAccount
+'disableaccount'             => 'غیر فعال کردن یک حساب کاربری',
+'disableaccount-user'        => 'نام کاربری:',
+'disableaccount-reason'      => 'دلیل:',
+'disableaccount-confirm'     => "غیر فعال کردن این حساب کاربری.
+این کاربر قادر به ورود به سامانه نخواهد بود، نمی‌تواند گذرواژه را تعویض کند و همچنین نمی‌تواند پست الکترونیکی دریافت کند. 
+اگر این کاربر در حال حاضر وارد سیستم شده باشد به سرعت از سیستم خارج می‌شود.
+''توجه داشته باشید که غیر فعال کردن یک حساب کاربری بدون دخالت مدیر سامانه قابل برگشت است.''",
+'disableaccount-mustconfirm' => 'شما باید تأیید کنید که مایل به غیر فعال کردن این حساب کاربری هستید.',
+'disableaccount-nosuchuser'  => 'حساب کاربری "$1" وجود ندارد.',
+'disableaccount-success'     => 'حساب کاربری "$1" برای همیشه غیر فعال شده است.',
+'disableaccount-logentry'    => 'حساب کاربری [[$1]] برای همیشه غیر فعال شده است',
 
 );

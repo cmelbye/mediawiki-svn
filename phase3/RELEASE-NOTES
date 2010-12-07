@@ -87,6 +87,16 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 25728) Added $wgPasswordSenderName to allow customise the name associed
   with $wgPasswordSender
 * Sysops now have the "suppressredirect" right by default
+* (bug 22463) $wgFooterIcons added to allow configuration of the icons shown in
+  the footers of skins.
+* $wgFileCacheDepth can be used to set the depth of the subdirectory hierarchy
+  used for the file cache. Default value is 2, which matches former behavior 
+* It's no longer necessary for LocalSettings.php to include DefaultSettings.php.
+* It's no longer necessary to set $wgCacheEpoch to the file modification time
+  of LocalSettings.php, in LocalSettings.php itself. Instead, this is done 
+  automatically if $wgInvalidateCacheOnLocalSettingsChange is true (which is 
+  the default). 
+* (bug 26253) $wgPostCommitUpdateList has been removed
 
 === New features in 1.17 ===
 * (bug 10183) Users can now add personal styles and scripts to all skins via
@@ -214,6 +224,13 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   Parameters: $1 shows the formatted textsize in Byte/KB/MB, $2 is the raw
   number of the textsize in Byte
 * (bug 3276) Give image <gallery>s fluid width
+* Added uploads link to page subtitle in Special:Contributions
+* Added Special:Myuploads special page that redirects to Special:Listfiles
+* The footerlinks used in Monobook/Vector/Modern are now part of common skin
+  code, SkinTemplateOutputPageBeforeExec can be used to customize the list.
+* Special wrapping setups can now define MW_CONFIG_FILE to load a config file
+  other than LocalSettings.php. This is like MW_CONFIG_CALLBACK but works in
+  some cases where MW_CONFIG_CALLBACK will not work.
 
 === Bug fixes in 1.17 ===
 * (bug 17560) Half-broken deletion moved image files to deletion archive
@@ -442,6 +459,16 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * Show "skin does not exist error" only when the skin is inputted in the wrong
   case.
 * (bug 26164) Potential html injection when the database server isn't available
+* (bug 26160) Upload description set by extensions are not propagated
+* (bug 9675) generateSitemap.php now takes an --urlpath parameter to allow
+  absolute URLs in the sitemap index (as required e.g. by Google)
+* Partial workaround for bug 6220: at least make files on shared repositories
+  show up as (struck-out) bluelinks instead of redlinks on Special:WantedFiles
+* rebuildFileCache.php no longer creates inappropriate cache files for redirects
+* (bug 23119) WikiError class and subclasses are now marked as deprecated
+* (bug 18372) $wgFileExtensions will now override $wgFileBlacklist 
+* (bug 10871) Javascript and CSS pages in MediaWiki namespace are no longer treated
+  as wikitext on preview.
 
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.
@@ -542,6 +569,7 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 26125) prop=imageinfo&iiprop=size now returns the page count if the 
   file is a multi-page file
 * (bug 10268) Added linktodiffs parameter on action=feedwatchlist
+* (bug 26219) Show API limits for multi values in description
 
 === Languages updated in 1.17 ===
 
@@ -616,7 +644,7 @@ built up on MediaWiki.org, and is covered under the GNU Free Documentation
 License (except for pages that explicitly state that their contents are in
 the public domain) :
 
-  http://www.mediawiki.org/wiki/Documentation
+	http://www.mediawiki.org/wiki/Documentation
 
 
 === Mailing list ===
@@ -624,11 +652,11 @@ the public domain) :
 A MediaWiki-l mailing list has been set up distinct from the Wikipedia
 wikitech-l list:
 
-  http://lists.wikimedia.org/mailman/listinfo/mediawiki-l
+	http://lists.wikimedia.org/mailman/listinfo/mediawiki-l
 
 A low-traffic announcements-only list is also available:
 
-  http://lists.wikimedia.org/mailman/listinfo/mediawiki-announce
+	http://lists.wikimedia.org/mailman/listinfo/mediawiki-announce
 
 It's highly recommended that you sign up for one of these lists if you're
 going to run a public MediaWiki, so you can be notified of security fixes.

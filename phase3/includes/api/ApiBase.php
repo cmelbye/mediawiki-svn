@@ -366,10 +366,22 @@ abstract class ApiBase {
 								}
 								break;
 						}
+
+						if ( isset( $paramSettings[self::PARAM_ISMULTI] ) ) {
+							$isArray = is_array( $paramSettings[self::PARAM_TYPE] );
+
+							if ( !$isArray
+									|| $isArray && count( $paramSettings[self::PARAM_TYPE] ) > self::LIMIT_SML1) {
+								$desc .= $paramPrefix . "Maximum number of values " .
+									self::LIMIT_SML1 . " (" . self::LIMIT_SML2 . " for bots)";
+							}
+						}
 					}
 				}
 
-				$default = is_array( $paramSettings ) ? ( isset( $paramSettings[self::PARAM_DFLT] ) ? $paramSettings[self::PARAM_DFLT] : null ) : $paramSettings;
+				$default = is_array( $paramSettings )
+						? ( isset( $paramSettings[self::PARAM_DFLT] ) ? $paramSettings[self::PARAM_DFLT] : null )
+						: $paramSettings;
 				if ( !is_null( $default ) && $default !== false ) {
 					$desc .= $paramPrefix . "Default: $default";
 				}

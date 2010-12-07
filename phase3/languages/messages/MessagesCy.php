@@ -286,7 +286,7 @@ $messages = array(
 'vector-view-edit'               => 'Golygu',
 'vector-view-history'            => 'Gweld yr hanes',
 'vector-view-view'               => 'Darllen',
-'vector-view-viewsource'         => 'Dagos côd y dudalen',
+'vector-view-viewsource'         => 'Dangos côd y dudalen',
 'actions'                        => 'Gweithrediadau',
 'namespaces'                     => 'Parthau',
 'variants'                       => 'Amrywiolion',
@@ -328,13 +328,13 @@ $messages = array(
 'talk'              => 'Sgwrs',
 'views'             => 'Golygon',
 'toolbox'           => 'Blwch offer',
-'userpage'          => 'Gwyliwch dudalen y defnyddiwr',
+'userpage'          => 'Gweld tudalen y defnyddiwr',
 'projectpage'       => 'Gweld tudalen y wici',
 'imagepage'         => 'Gweld tudalen y ffeil',
 'mediawikipage'     => 'Gweld tudalen y neges',
-'templatepage'      => 'Dangos y dudalen templed',
+'templatepage'      => 'Dangos y dudalen nodyn',
 'viewhelppage'      => 'Dangos y dudalen gymorth',
-'categorypage'      => 'Dangos tudalen gategori',
+'categorypage'      => 'Dangos tudalen y categori',
 'viewtalkpage'      => 'Gweld y sgwrs',
 'otherlanguages'    => 'Ieithoedd eraill',
 'redirectedfrom'    => '(Ailgyfeiriad oddi wrth $1)',
@@ -588,6 +588,9 @@ Rhydd ichi anwybyddu\'r neges hon os mai camgymeriad oedd creu\'r cyfrif.',
 Oedwch ychydig cyn mentro eto.',
 'loginlanguagelabel'         => 'Iaith: $1',
 'suspicious-userlogout'      => 'Gwrthodwyd eich cais i allgofnodi oherwydd ei fod yn ymddangos mai gweinydd wedi torri neu ddirprwy gelc a anfonodd y cais.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Gwall anhysbys yng ngweithrediad post() PHP',
 
 # JavaScript password checks
 'password-strength'            => 'Amcangyfrif o gryfder y cyfrinair: $1',
@@ -1326,6 +1329,7 @@ Gallwch hefyd adael i eraill anfon e-bost atoch trwy'r cyswllt ar eich tudalen d
 'right-override-export-depth' => 'Allforio tudalennau gan gynnwys tudalennau cysylltiedig hyd at ddyfnder o 5',
 'right-sendemail'             => 'Anfon e-bost at ddefnyddwyr eraill',
 'right-revisionmove'          => 'Symud diwygiadau',
+'right-disableaccount'        => 'Analluogi cyfrifon',
 
 # User rights log
 'rightslog'      => 'Lòg galluoedd defnyddiwr',
@@ -2201,6 +2205,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Cyfraniadau defnyddwyr newydd',
 'sp-contributions-blocklog'            => 'Lòg blocio',
 'sp-contributions-deleted'             => 'cyfraniadau defnyddiwr i dudalennau dilëedig',
+'sp-contributions-uploads'             => 'Llwythiadau',
 'sp-contributions-logs'                => 'logiau',
 'sp-contributions-talk'                => 'sgwrs',
 'sp-contributions-userrights'          => 'rheoli galluoedd defnyddwyr',
@@ -3188,6 +3193,7 @@ Gallwch hefyd [[Special:Watchlist/edit|ddefnyddio\'r rhestr arferol]].',
 'version-specialpages'             => 'Tudalennau arbennig',
 'version-parserhooks'              => 'Bachau dosrannydd',
 'version-variables'                => 'Newidynnau',
+'version-skins'                    => 'Gweddau',
 'version-other'                    => 'Arall',
 'version-mediahandlers'            => 'Trinyddion cyfryngau',
 'version-hooks'                    => 'Bachau',
@@ -3309,5 +3315,18 @@ Rhowch enw\'r ffeil heb y rhagddodiad "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 gyda chymorth chwilio yr holl destun',
 'sqlite-no-fts'  => '$1 heb gymorth chwiliad yr holl destun',
+
+# Special:DisableAccount
+'disableaccount'             => 'Analluogi cyfrif defnyddiwr',
+'disableaccount-user'        => 'Enw defnyddiwr:',
+'disableaccount-reason'      => 'Rheswm:',
+'disableaccount-confirm'     => "Analluogu cyfrif y defnyddiwr hwn. 
+Ni fydd y defnyddiwr yn gallu mewngofnodi, ailosod ei gyfrinair, na derbyn hysbysiadau e-bost. 
+Os yw'r defnyddiwr wedi mewngofnodi rhywle ar hyn o bryd, bydd yn cael ei allgofnodi'n syth. 
+''Noder nad oes modd gwrthdroi'r weithred o anablu cyfrif heb ymyrraeth gweinyddwr y system.''",
+'disableaccount-mustconfirm' => "Mae'n rhaid i chi gadarnhau eich bod am analluogi'r cyfrif hwn.",
+'disableaccount-nosuchuser'  => 'Nid oes cyfrif defnyddiwr o\'r enw "$1" ar gael.',
+'disableaccount-success'     => 'Analluogwyd cyfrif y defnyddiwr "$1" yn barhaol.',
+'disableaccount-logentry'    => 'wedi analluogi cyfrif y defnyddiwr [[$1]] yn barhaol',
 
 );

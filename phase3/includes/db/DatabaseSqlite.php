@@ -530,10 +530,6 @@ class DatabaseSqlite extends DatabaseBase {
 		}
 	}
 
-	function quote_ident( $s ) {
-		return $s;
-	}
-
 	function buildLike() {
 		$params = func_get_args();
 		if ( count( $params ) > 0 && is_array( $params[0] ) ) {

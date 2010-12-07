@@ -1631,6 +1631,29 @@ class Skin extends Linker {
 	}
 
 	/**
+	 * Renders a $wgFooterIcons icon acording to the method's arguments
+	 * @param $icon Array: The icon to build the html for, see $wgFooterIcons for the format of this array
+	 * @param $withImage Boolean: Whether to use the icon's image or output a text-only footericon
+	 */
+	function makeFooterIcon( $icon, $withImage = 'withImage' ) {
+		if ( is_string( $icon ) ) {
+			$html = $icon;
+		} else { // Assuming array
+			$url = $icon["url"];
+			unset( $icon["url"] );
+			if ( isset( $icon["src"] ) && $withImage === 'withImage' ) {
+				$html = Html::element( 'img', $icon ); // do this the lazy way, just pass icon data as an attribute array
+			} else {
+				$html = htmlspecialchars( $icon["alt"] );
+			}
+			if ( $url ) {
+				$html = Html::rawElement( 'a', array( "href" => $url ), $html );
+			}
+		}
+		return $html;
+	}
+
+	/**
 	 * Gets the link to the wiki's main page.
 	 * @return string
 	 */
@@ -1646,7 +1669,7 @@ class Skin extends Linker {
 		return $s;
 	}
 
-	private function footerLink( $desc, $page ) {
+	public function footerLink( $desc, $page ) {
 		// if the link description has been set to "-" in the default language,
 		if ( wfMsgForContent( $desc )  == '-' ) {
 			// then it is disabled, for all languages.
@@ -2034,6 +2057,30 @@ class Skin extends Linker {
 				array( 'known', 'noclasses' )
 			);
 		}
+	}
+
+	/**
+	 * Return a fully resolved style path url to images or styles stored in the common folder.
+	 * This method returns a url resolved using the configured skin style path
+	 * and includes the style version inside of the url.
+	 * @param $name String: The name or path of the common file to return the full path for.
+	 * @return String The fully resolved style path url including styleversion
+	 */
+	function getCommonStylePath( $name ) {
+		global $wgStylePath, $wgStyleVersion;
+		return "{$wgStylePath}/common/$name?{$wgStyleVersion}";
+	}
+
+	/**
+	 * Return a fully resolved style path url to images or styles stored in the curent skins's folder.
+	 * This method returns a url resolved using the configured skin style path
+	 * and includes the style version inside of the url.
+	 * @param $name String: The name or path of the skin resource file to return the full path for.
+	 * @return String The fully resolved style path url including styleversion
+	 */
+	function getSkinStylePath( $name ) {
+		global $wgStylePath, $wgStyleVersion;
+		return "{$wgStylePath}/{$this->stylename}/$name?{$wgStyleVersion}";
 	}
 
 	/* these are used extensively in SkinTemplate, but also some other places */

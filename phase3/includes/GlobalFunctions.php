@@ -854,7 +854,7 @@ function wfMsgWikiHtml( $key ) {
  *   <i>content</i>: fetch message for content language instead of interface
  * Also can accept a single associative argument, of the form 'language' => 'xx':
  *   <i>language</i>: Language object or language code to fetch message for
- *       (overriden by <i>content</i>), its behaviour with parser, parseinline
+ *       (overriden by <i>content</i>), its behaviour with parse, parseinline
  *       and parsemag is undefined.
  * Behavior for conflicting options (e.g., parse+parseinline) is undefined.
  */
@@ -1287,9 +1287,9 @@ function wfCheckLimits( $deflimit = 50, $optionname = 'rclimit' ) {
  */
 function wfEscapeWikiText( $text ) {
 	$text = str_replace(
-		array( '[',     '|',      ']',     '\'',    'ISBN ',     
+		array( '[',     '|',      ']',     '\'',    'ISBN ',
 			'RFC ',     '://',     "\n=",     '{{',           '}}' ),
-		array( '&#91;', '&#124;', '&#93;', '&#39;', 'ISBN&#32;', 
+		array( '&#91;', '&#124;', '&#93;', '&#39;', 'ISBN&#32;',
 			'RFC&#32;', '&#58;//', "\n&#61;", '&#123;&#123;', '&#125;&#125;' ),
 		htmlspecialchars( $text )
 	);
@@ -1987,7 +1987,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 	$uts = 0;
 	$da = array();
 	$strtime = '';
-	
+
 	if ( $ts === 0 ) {
 		$uts = time();
 		$strtime = "@$uts";
@@ -2034,7 +2034,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		return false;
 	}
 
-	
+
 
 	static $formats = array(
 		TS_UNIX => 'U',
@@ -2058,7 +2058,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 			$ds = sprintf("%04d-%02d-%02dT%02d:%02d:%02d.00+00:00",
 				(int)$da[1], (int)$da[2], (int)$da[3],
 				(int)$da[4], (int)$da[5], (int)$da[6]);
-			
+
 			$d = date_create( $ds, new DateTimeZone( 'GMT' ) );
 		} elseif ( $strtime ) {
 			$d = date_create( $strtime, new DateTimeZone( 'GMT' ) );
@@ -2081,12 +2081,12 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		} elseif ( $strtime ) {
 			$uts = strtotime( $strtime );
 		}
-		
+
 		if ( $uts === false ) {
 			wfDebug("wfTimestamp() can't parse the timestamp (non 32-bit time? Update php): $outputtype; $ts\n");
 			return false;
 		}
-		
+
 		if ( TS_UNIX == $outputtype ) {
 			return $uts;
 		}
@@ -2510,7 +2510,7 @@ function wfDl( $extension ) {
  * @param $cmd String Command line, properly escaped for shell.
  * @param &$retval optional, will receive the program's exit code.
  *                 (non-zero is usually failure)
- * @param $environ Array optional environment variables which should be 
+ * @param $environ Array optional environment variables which should be
  *                 added to the executed command environment.
  * @return collected stdout as a string (trailing newlines stripped)
  */
@@ -2545,22 +2545,22 @@ function wfShellExec( $cmd, &$retval = null, $environ = array() ) {
 	$envcmd = '';
 	foreach( $environ as $k => $v ) {
 		if ( wfIsWindows() ) {
-			/* Surrounding a set in quotes (method used by wfEscapeShellArg) makes the quotes themselves 
-			 * appear in the environment variable, so we must use carat escaping as documented in 
-			 * http://technet.microsoft.com/en-us/library/cc723564.aspx 
-			 * Note however that the quote isn't listed there, but is needed, and the parentheses 
+			/* Surrounding a set in quotes (method used by wfEscapeShellArg) makes the quotes themselves
+			 * appear in the environment variable, so we must use carat escaping as documented in
+			 * http://technet.microsoft.com/en-us/library/cc723564.aspx
+			 * Note however that the quote isn't listed there, but is needed, and the parentheses
 			 * are listed there but doesn't appear to need it.
 			 */
 			$envcmd .= "set $k=" . preg_replace( '/([&|()<>^"])/', '^\\1', $v ) . ' && ';
 		} else {
-			/* Assume this is a POSIX shell, thus required to accept variable assignments before the command 
+			/* Assume this is a POSIX shell, thus required to accept variable assignments before the command
 			 * http://www.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_09_01
 			 */
 			$envcmd .= "$k=" . escapeshellarg( $v ) . ' ';
 		}
 	}
 	$cmd = $envcmd . $cmd;
-	
+
 	if ( wfIsWindows() ) {
 		if ( version_compare( PHP_VERSION, '5.3.0', '<' ) && /* Fixed in 5.3.0 :) */
 			( version_compare( PHP_VERSION, '5.2.1', '>=' ) || php_uname( 's' ) == 'Windows NT' ) )
@@ -2859,18 +2859,36 @@ function wfMakeUrlIndex( $url ) {
 
 /**
  * Do any deferred updates and clear the list
- * TODO: This could be in Wiki.php if that class made any sense at all
+ *
+ * @param $commit String: set to 'commit' to commit after every update to
+ *                prevent lock contention
  */
-function wfDoUpdates() {
-	global $wgPostCommitUpdateList, $wgDeferredUpdateList;
+function wfDoUpdates( $commit = '' ) {
+	global $wgDeferredUpdateList;
+
+	wfProfileIn( __METHOD__ );
+
+	// No need to get master connections in case of empty updates array
+	if ( !count( $wgDeferredUpdateList ) ) {
+		wfProfileOut( __METHOD__ );
+		return;
+	}
+
+	$doCommit = $commit == 'commit';
+	if ( $doCommit ) {
+		$dbw = wfGetDB( DB_MASTER );
+	}
+
 	foreach ( $wgDeferredUpdateList as $update ) {
 		$update->doUpdate();
+
+		if ( $doCommit && $dbw->trxLevel() ) {
+			$dbw->commit();
+		}
 	}
-	foreach ( $wgPostCommitUpdateList as $update ) {
-		$update->doUpdate();
-	}
+
 	$wgDeferredUpdateList = array();
-	$wgPostCommitUpdateList = array();
+	wfProfileOut( __METHOD__ );
 }
 
 /**
@@ -3206,7 +3224,7 @@ function wfFindFile( $title, $options = array() ) {
 /**
  * Get an object referring to a locally registered file.
  * Returns a valid placeholder object if the file does not exist.
- * @param $title Title|String
+ * @param $title Title or String
  * @return File, or null if passed an invalid Title
  */
 function wfLocalFile( $title ) {
@@ -3581,24 +3599,4 @@ function wfArrayMap( $function, $input ) {
 		}
 	}
 	return $ret;
-}
-
-/**
- * Returns the PackageRepository object for interaction with the package repository.
- * 
- * TODO: Make the repository type also configurable. 
- * 
- * @since 1.17
- * 
- * @return PackageRepository
- */
-function wfGetRepository() {
-	global $wgRepositoryApiLocation;
-	static $repository = false;
-	
-	if ( $repository === false ) {
-		$repository = new DistributionRepository( $wgRepositoryApiLocation );
-	}
-	
-	return $repository;
 }

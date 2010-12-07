@@ -1,9 +1,20 @@
 (function( $ ) {
 	$( document ).ready( function() {
 
-		// Generate the tool tips
-		$( '.mw-help-field-hint' ).tipsy( { gravity : 'se', opacity: '0.9' } );
 
+		// Set up the help system
+		$( '.mw-help-field-data' )
+			.hide()
+			.closest( '.mw-help-field-container' )
+				.find( '.mw-help-field-hint' )
+					.show()
+					.click( function() {
+						$(this)
+							.closest( '.mw-help-field-container' )
+								.find( '.mw-help-field-data' )
+									.slideToggle( 'fast' );
+					} );
+		
 		// Show/hide code for DB-specific options
 		// FIXME: Do we want slow, fast, or even non-animated (instantaneous) showing/hiding here?
 		$( '.dbRadio' ).each( function() { $( '#' + $(this).attr( 'rel' ) ).hide(); } );

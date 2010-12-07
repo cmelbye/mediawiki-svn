@@ -825,6 +825,9 @@ Veuillez attendre avant d’essayer à nouveau.',
 'loginlanguagelabel'         => 'Langue : $1',
 'suspicious-userlogout'      => 'Votre demande de déconnexion a été refusée car il semble qu’elle a été envoyée par un navigateur cassé ou la mise en cache d’un proxy.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Erreur inconnue dans la fonction mail() de PHP.',
+
 # JavaScript password checks
 'password-strength'            => 'Niveau de sécurité du mot de passe : $1',
 'password-strength-bad'        => 'faible',
@@ -1423,7 +1426,7 @@ Voici une valeur générée aléatoirement que vous pouvez utiliser : $1',
 'yournick'                      => 'Signature pour les discussions :',
 'prefs-help-signature'          => 'Les commentaires sur les pages de discussion doivent être signés avec « <nowiki>~~~~</nowiki> », qui sera converti par votre signature et un horodatage.',
 'badsig'                        => 'Signature brute incorrecte.
-Vérifiez vos balises HTML.',
+Vérifiez les balises HTML.',
 'badsiglength'                  => 'Votre signature est trop longue.
 Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'yourgender'                    => 'Genre :',
@@ -1481,7 +1484,7 @@ Vous pouvez également décider de laisser les autres vous contacter via votre p
 'group-sysop'         => 'Administrateurs',
 'group-bureaucrat'    => 'Bureaucrates',
 'group-suppress'      => 'Superviseurs',
-'group-all'           => 'Tous',
+'group-all'           => '(tous)',
 
 'group-user-member'          => 'utilisateur',
 'group-autoconfirmed-member' => 'utilisateur enregistré',
@@ -1559,6 +1562,7 @@ Vous pouvez également décider de laisser les autres vous contacter via votre p
 'right-override-export-depth' => 'Exporter les pages en incluant les pages liées jusqu’à une profondeur de 5 niveaux',
 'right-sendemail'             => 'Envoyer un courriel aux autres utilisateurs',
 'right-revisionmove'          => 'Déplacer des révisions',
+'right-disableaccount'        => 'Désactiver des comptes',
 
 # User rights log
 'rightslog'      => 'Journal des modifications de droits d’utilisateurs',
@@ -1678,7 +1682,7 @@ Voyez la [[Special:NewFiles|galerie des nouvelles images]] pour une présentatio
 'filedesc'                    => 'Description',
 'fileuploadsummary'           => 'Description :',
 'filereuploadsummary'         => 'Modifications du fichier :',
-'filestatus'                  => 'Statut des droits d’auteur :',
+'filestatus'                  => 'Statut du droit d’auteur :',
 'filesource'                  => 'Source :',
 'uploadedfiles'               => 'Fichiers téléversés',
 'ignorewarning'               => 'Ignorer l’avertissement et sauvegarder le fichier.',
@@ -2450,6 +2454,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contributions d’utilisateurs parmi les nouveaux comptes',
 'sp-contributions-blocklog'            => 'journal des blocages',
 'sp-contributions-deleted'             => 'contributions supprimées',
+'sp-contributions-uploads'             => 'imports',
 'sp-contributions-logs'                => 'journaux',
 'sp-contributions-talk'                => 'discuter',
 'sp-contributions-userrights'          => 'gérer les droits',
@@ -3621,5 +3626,18 @@ Entrez le nom du fichier sans le préfixe « {{ns:file}}: ».',
 # SQLite database support
 'sqlite-has-fts' => '$1 avec recherche en texte intégral supportée',
 'sqlite-no-fts'  => '$1 sans recherche en texte intégral supportée',
+
+# Special:DisableAccount
+'disableaccount'             => 'Désactiver un compte utilisateur',
+'disableaccount-user'        => 'Nom d’utilisateur :',
+'disableaccount-reason'      => 'Motif :',
+'disableaccount-confirm'     => "Désactiver ce compte utilisateur.
+L’utilisateur ne pourra plus s’identifier, ni réinitialiser son mot de passe, ni recevoir des notifications par courrier électronique.
+Si l’utilisateur est actuellement identifié quelque part, il sera immédiatement déconnecté.
+''Notez que la désactivation d’un compte n’est pas réversible sans intervention d’un administrateur système.''",
+'disableaccount-mustconfirm' => 'Vous devez confirmer que vous souhaitez désactiver ce compte.',
+'disableaccount-nosuchuser'  => "Le compte utilisateur « $1 » n'existe pas.",
+'disableaccount-success'     => 'Le compte utilisateur « $1 » a été définitivement désactivé.',
+'disableaccount-logentry'    => 'a désactivé définitivement le compte utilisateur [[$1]]',
 
 );

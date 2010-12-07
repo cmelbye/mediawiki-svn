@@ -622,6 +622,9 @@ Móžoš toś te zdźělenje ignorowaś, jolic toś te konto jo se jano zamólnj
 'loginlanguagelabel'         => 'Rěc: $1',
 'suspicious-userlogout'      => 'Twójo póžedanje za wótzjawjenim jo se wótpokazało, dokulaž zda se, až jo se pósłało pśez wobškóźony wobglědowak abo pufrowański proksy',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Njeznata zmólka w PHP-funkciji mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Pówoblicona gronidłowa wjelikosć: $1',
 'password-strength-bad'        => 'ŠPATNA',
@@ -1341,6 +1344,7 @@ Móžoš toś ten bok wužywaś, aby slědk stajił swóje nastajenja na standar
 'right-override-export-depth' => 'Boki inkluziwnje wótkazanych bokow až do dłyma 5 eksportěrowaś',
 'right-sendemail'             => 'Drugim wužywarjam e-mail pósłaś',
 'right-revisionmove'          => 'Wersije pśesunuś',
+'right-disableaccount'        => 'Konta znjemóžniś',
 
 # User rights log
 'rightslog'      => 'Protokol wužywarskich pšawow',
@@ -2207,6 +2211,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Wužywarske pśinoski nowych kontow',
 'sp-contributions-blocklog'            => 'Protokol blokěrowanjow',
 'sp-contributions-deleted'             => 'Wulašowane wužywarske pśinoski',
+'sp-contributions-uploads'             => 'nagraśa',
 'sp-contributions-logs'                => 'protokole',
 'sp-contributions-talk'                => 'diskusija',
 'sp-contributions-userrights'          => 'Zastojanje wužywarskich pšawow',
@@ -3188,6 +3193,7 @@ Móžoš teke [[Special:Watchlist/edit|standardny wobźěłowański bok wužywa�
 'version-specialpages'             => 'Specialne boki',
 'version-parserhooks'              => 'Parserowe kokule',
 'version-variables'                => 'Wariable',
+'version-skins'                    => 'Suknje',
 'version-other'                    => 'Druge',
 'version-mediahandlers'            => 'Pśeźěłaki medijow',
 'version-hooks'                    => 'Kokule',
@@ -3303,5 +3309,18 @@ Zapódaj datajowe mě bźez prefiksa "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => 'Wersija $1 z pódpěru za połnotekstowe pytanje',
 'sqlite-no-fts'  => 'Wersija $1 bźez pódpěry za połnotekstowe pytanje',
+
+# Special:DisableAccount
+'disableaccount'             => 'Wužywarske konto znjemóžniś',
+'disableaccount-user'        => 'Wužywarske mě:',
+'disableaccount-reason'      => 'Pśicyna:',
+'disableaccount-confirm'     => "Znjemóžni toś to wužywarske konto.
+Wužywaŕ njamóžo se pśizjawiś, jogo gronidło slědk stajiś abo e-mailowe powěźeńki dostaś.
+Jolic wužywaŕ jo tuchylu hynźi pśizjawjony, buźo se ned wótzjawiś.
+''Źiwaj na to, až znjemóžnjanje konto njejo rewersibelne bźez zapśimowanja systemowego administratora.''",
+'disableaccount-mustconfirm' => 'Musyš wobkšuśiś, až coš toś to konto znjemóžniś.',
+'disableaccount-nosuchuser'  => 'Wužywaŕ konto "$1" njeeksistěrujo.',
+'disableaccount-success'     => 'Wužywarske konto "$1" jo se na pśecej znjemóžniło.',
+'disableaccount-logentry'    => 'jo wužywarske konto [[$1]] na pśecej znjemóžnił',
 
 );

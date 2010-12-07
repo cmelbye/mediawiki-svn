@@ -173,7 +173,7 @@ encapsulateSelection: function( options ) {
 					if ( preRange.compareEndPoints( "StartToEnd", preRange ) == 0 ) {
 						preFinished = true;
 					} else {
-						preRange.moveEnd( "character", -1 )
+						preRange.moveEnd( "character", -1 );
 						if ( preRange.text == preText ) {
 							rawPreText += "\r\n";
 						} else {
@@ -185,7 +185,7 @@ encapsulateSelection: function( options ) {
 					if ( periRange.compareEndPoints( "StartToEnd", periRange ) == 0 ) {
 						periFinished = true;
 					} else {
-						periRange.moveEnd( "character", -1 )
+						periRange.moveEnd( "character", -1 );
 						if ( periRange.text == periText ) {
 							rawPeriText += "\r\n";
 						} else {
@@ -197,7 +197,7 @@ encapsulateSelection: function( options ) {
 					if ( postRange.compareEndPoints("StartToEnd", postRange) == 0 ) {
 						postFinished = true;
 					} else {
-						postRange.moveEnd( "character", -1 )
+						postRange.moveEnd( "character", -1 );
 						if ( postRange.text == postText ) {
 							rawPostText += "\r\n";
 						} else {

@@ -57,9 +57,6 @@ $title = $wgRequest->getVal( 'title' );
 
 # Set title from request parameters
 $wgTitle = $mediaWiki->checkInitialQueries( $title, $action );
-if( $wgTitle === null ) {
-	unset( $wgTitle );
-}
 
 wfProfileOut( 'main-misc-setup' );
 
@@ -74,7 +71,7 @@ if( $wgUseAjax && $action == 'ajax' ) {
 	exit;
 }
 
-if( $wgUseFileCache && isset( $wgTitle ) ) {
+if( $wgUseFileCache && $wgTitle !== null ) {
 	wfProfileIn( 'main-try-filecache' );
 	// Raw pages should handle cache control on their own,
 	// even when using file cache. This reduces hits from clients.
@@ -89,7 +86,6 @@ if( $wgUseFileCache && isset( $wgTitle ) ) {
 			# Do any stats increment/watchlist stuff
 			$wgArticle = MediaWiki::articleFromTitle( $wgTitle );
 			$wgArticle->viewUpdates();
-			# Tell $wgOut that output is taken care of
 			wfProfileOut( 'main-try-filecache' );
 			$mediaWiki->restInPeace();
 			exit;
@@ -100,10 +96,8 @@ if( $wgUseFileCache && isset( $wgTitle ) ) {
 
 # Setting global variables in mediaWiki
 $mediaWiki->setVal( 'action', $action );
-$mediaWiki->setVal( 'CommandLineMode', $wgCommandLineMode );
 $mediaWiki->setVal( 'DisabledActions', $wgDisabledActions );
 $mediaWiki->setVal( 'DisableHardRedirects', $wgDisableHardRedirects );
-$mediaWiki->setVal( 'DisableInternalSearch', $wgDisableInternalSearch );
 $mediaWiki->setVal( 'EnableCreativeCommonsRdf', $wgEnableCreativeCommonsRdf );
 $mediaWiki->setVal( 'EnableDublinCoreRdf', $wgEnableDublinCoreRdf );
 $mediaWiki->setVal( 'JobRunRate', $wgJobRunRate );
@@ -113,10 +107,6 @@ $mediaWiki->setVal( 'UseExternalEditor', $wgUseExternalEditor );
 $mediaWiki->setVal( 'UsePathInfo', $wgUsePathInfo );
 
 $mediaWiki->performRequestForTitle( $wgTitle, $wgArticle, $wgOut, $wgUser, $wgRequest );
-$mediaWiki->finalCleanup( $wgDeferredUpdateList, $wgOut );
-
-# Not sure when $wgPostCommitUpdateList gets set, so I keep this separate from finalCleanup
-$mediaWiki->doUpdates( $wgPostCommitUpdateList );
+$mediaWiki->finalCleanup( $wgOut );
 
 $mediaWiki->restInPeace();
-

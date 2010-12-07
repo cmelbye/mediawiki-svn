@@ -101,9 +101,8 @@ class CategoryViewer {
 	 * Format the category data list.
 	 *
 	 * @return string HTML output
-	 * @private
 	 */
-	function getHTML() {
+	public function getHTML() {
 		global $wgOut, $wgCategoryMagicGallery, $wgContLang;
 		wfProfileIn( __METHOD__ );
 
@@ -422,10 +421,10 @@ class CategoryViewer {
 	 */
 	function formatList( $articles, $articles_start_char, $cutoff = 6 ) {
 		if ( count ( $articles ) > $cutoff ) {
-			return $this->columnList( $articles, $articles_start_char );
+			return self::columnList( $articles, $articles_start_char );
 		} elseif ( count( $articles ) > 0 ) {
 			// for short lists of articles in categories.
-			return $this->shortList( $articles, $articles_start_char );
+			return self::shortList( $articles, $articles_start_char );
 		}
 		return '';
 	}

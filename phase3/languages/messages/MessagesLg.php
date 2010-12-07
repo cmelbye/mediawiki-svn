@@ -139,13 +139,24 @@ $messages = array(
 'index-category'                 => "Empapula ezikkirizidwa okuteekebwa ku nkalala z'enfo ezinoonyesebwa",
 'noindex-category'               => "Empapula ezigaanidwa okuteekebwa ku nkalala z'enfo ezinoonyesebwa",
 
-'about'      => 'Okutangaaza',
-'newwindow'  => '(bijjira mu kadirisa kapya)',
-'cancel'     => 'Biveeko',
-'mypage'     => 'Enfo yange',
-'mytalk'     => 'Yogera nange',
-'navigation' => 'Endagiriro',
-'and'        => '&#32;ne',
+'mainpagetext'      => 'MediaWiki kati ewangidwa ku sisitemu yo',
+'mainpagedocfooter' => "Okuyiga ku nkozesa ya sofutiweya owa wiki, kebera [http://meta.wikimedia.org/wiki/Help:Contents Okulagirira Abakozesa].
+
+== Amagezi agakuyamba okutandika ==
+* [http://www.mediawiki.org/wiki/Manual:Configuration_settings Lukalala lw'eby'enteekateeka yo]
+* [http://www.mediawiki.org/wiki/Manual:FAQ Ebiter'okubuuzibwa ku MediaWiki]
+* [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce Wewandise ofunenga amawulire aga email ag'ebifa ku MediaWiki]",
+
+'about'         => 'Okutangaaza',
+'article'       => 'Lupapula lwa nsonga',
+'newwindow'     => '(bijjira mu kadirisa kapya)',
+'cancel'        => 'Biveeko',
+'moredotdotdot' => 'Era...',
+'mypage'        => 'Enfo yange',
+'mytalk'        => 'Yogera nange',
+'anontalk'      => "Yogera-nange ow'endagiriro ya IP eno",
+'navigation'    => 'Endagiriro',
+'and'           => '&#32;ne',
 
 # Cologne Blue skin
 'qbfind'         => 'Noonya',
@@ -157,14 +168,19 @@ $messages = array(
 'faqpage'        => 'Project:Ebitera okubuuzibwa ku',
 
 # Vector skin
-'vector-action-delete'   => 'Gyawo olupapula luno',
-'vector-action-move'     => 'Simbuliza',
-'vector-action-protect'  => 'Ssiba',
-'vector-view-create'     => 'Lukolewo',
-'vector-view-edit'       => 'Kyusa',
-'vector-view-history'    => 'Ennanda ya fayiro eno',
-'vector-view-viewsource' => "Kebera obulambike obw'ennono obw'olupapula luno",
-'namespaces'             => 'Makuŋaanyizo',
+'vector-action-addsection' => 'Tandikawo emboozi endala',
+'vector-action-delete'     => 'Gyawo olupapula luno',
+'vector-action-move'       => 'Simbuliza',
+'vector-action-protect'    => 'Ssiba',
+'vector-action-undelete'   => 'Zawo',
+'vector-action-unprotect'  => 'Gyako ebikugizo',
+'vector-view-create'       => 'Lukolewo',
+'vector-view-edit'         => 'Kyusa',
+'vector-view-history'      => 'Ennanda ya fayiro eno',
+'vector-view-view'         => 'Soma',
+'vector-view-viewsource'   => "Kebera obulambike obw'ennono obw'olupapula luno",
+'actions'                  => "By'oyinza okukola",
+'namespaces'               => 'Makuŋaanyizo',
 
 'errorpagetitle'    => 'Kiremya',
 'returnto'          => 'Dda ku $1.',
@@ -252,13 +268,14 @@ $messages = array(
 'red-link-title'          => '$1 (olupapula olwogera ku kino terunakolebwawo)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
-'nstab-main'     => 'Lupapula',
-'nstab-user'     => 'Enfo ya memba',
-'nstab-special'  => 'Olupapula olwawule',
-'nstab-project'  => 'Ekkuŋaanizo erya kawefube',
-'nstab-image'    => 'Fayiro',
-'nstab-template' => 'Lutiba',
-'nstab-category' => 'Ttuluba lya',
+'nstab-main'      => 'Lupapula',
+'nstab-user'      => 'Enfo ya memba',
+'nstab-special'   => 'Olupapula olwawule',
+'nstab-project'   => 'Ekkuŋaanizo erya kawefube',
+'nstab-image'     => 'Fayiro',
+'nstab-mediawiki' => 'Obubaka',
+'nstab-template'  => 'Lutiba',
+'nstab-category'  => 'Ttuluba lya',
 
 # General errors
 'missing-article'     => "Mu ggwanika ya data mubadde musuubidwamu bigambo ebikola olupapula \"\$1\" \$2, tebisangidwamu.

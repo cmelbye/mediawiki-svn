@@ -353,7 +353,7 @@ $messages = array(
 'tog-underline'               => 'Links unterstreichen:',
 'tog-highlightbroken'         => 'Links auf nicht vorhandene Seiten hervorheben <a href="" class="new">Beispiel</a> (Alternative: wie dieser<a href="" class="internal">?</a>)',
 'tog-justify'                 => 'Text als Blocksatz',
-'tog-hideminor'               => 'Kleine Änderungen ausblenden',
+'tog-hideminor'               => 'Kleine Änderungen in den „Letzten Änderungen“ ausblenden',
 'tog-hidepatrolled'           => 'Kontrollierte Änderungen in den „Letzten Änderungen“ ausblenden',
 'tog-newpageshidepatrolled'   => 'Kontrollierte Seiten in den „Neuen Seiten“ ausblenden',
 'tog-extendwatchlist'         => 'Erweiterte Beobachtungsliste zur Anzeige aller Änderungen',
@@ -832,6 +832,9 @@ Bitte warte, bevor du es erneut probierst.',
 'loginlanguagelabel'         => 'Sprache: $1',
 'suspicious-userlogout'      => 'Deine Abmeldeanfrage wurde verweigert, da sie vermutlich von einem defekten Browser oder einem Cache-Proxy gesendet wurde.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Unbekannter Fehler mit der Funktion mail() von PHP',
+
 # JavaScript password checks
 'password-strength'            => 'Geschätzte Passwortstärke: $1',
 'password-strength-bad'        => 'SCHLECHT',
@@ -965,7 +968,7 @@ Zur Information folgt ein aktueller Auszug aus dem Benutzersperr-Logbuch:',
 '''Beachte:''' Nach dem Speichern musst du deinen Browser anweisen, die neue Version zu laden: '''Mozilla/Firefox:''' ''Strg-Shift-R'', '''Internet Explorer:''' ''Strg-F5'', '''Opera:''' ''F5'', '''Safari:''' ''Cmd-Shift-R'', '''Konqueror:''' ''F5''.",
 'userjspreview'                    => "== Vorschau deines Benutzer-JavaScript ==
 '''Beachte:''' Nach dem Speichern musst du deinen Browser anweisen, die neue Version zu laden: '''Mozilla/Firefox:''' ''Strg-Shift-R'', '''Internet Explorer:''' ''Strg-F5'', '''Opera:''' ''F5'', '''Safari:''' ''Cmd-Shift-R'', '''Konqueror:''' ''F5''.",
-'userinvalidcssjstitle'            => "'''Achtung:''' Skin „$1“ existiert nicht. Bedenke, dass benutzerspezifische .css- und .js-Seiten mit einem Kleinbuchstaben anfangen müssen, also beispielsweise ''{{ns:user}}:Mustermann/monobook.css'' an Stelle von ''{{ns:user}}:Mustermann/Monobook.css''.",
+'userinvalidcssjstitle'            => "'''Achtung:''' Die Benutzeroberfläche „$1“ existiert nicht. Bedenke, dass benutzerspezifische .css- und .js-Seiten mit einem Kleinbuchstaben anfangen müssen, also beispielsweise ''{{ns:user}}:Mustermann/monobook.css'' an Stelle von ''{{ns:user}}:Mustermann/Monobook.css''.",
 'updated'                          => '(Geändert)',
 'note'                             => "'''Hinweis:'''",
 'previewnote'                      => "'''Dies ist nur eine Vorschau, die Seite wurde noch nicht gespeichert!'''",
@@ -1350,7 +1353,7 @@ Stelle sicher, dass die Versionsgeschichte einer Seite historisch korrekt ist.',
 'prefsnologin'                  => 'Nicht angemeldet',
 'prefsnologintext'              => 'Du musst <span class="plainlinks">[{{fullurl:{{#special:UserLogin}}|returnto=$1}} angemeldet]</span> sein, um deine Einstellungen ändern zu können.',
 'changepassword'                => 'Passwort ändern',
-'prefs-skin'                    => 'Skin',
+'prefs-skin'                    => 'Benutzeroberfläche',
 'skin-preview'                  => 'Vorschau',
 'prefs-math'                    => 'TeX',
 'datedefault'                   => 'Standard',
@@ -1413,7 +1416,7 @@ Hier ein zufällig generierter Wert, den du verwenden kannst: $1',
 'prefs-files'                   => 'Dateien',
 'prefs-custom-css'              => 'Benutzerdefinierte CSS',
 'prefs-custom-js'               => 'Benutzerdefiniertes JavaScript',
-'prefs-common-css-js'           => 'Gemeinsames CSS/JavaScript aller Skins:',
+'prefs-common-css-js'           => 'Gemeinsames CSS/JavaScript aller Benutzeroberflächen:',
 'prefs-reset-intro'             => 'Du kannst diese Seite verwenden, um die Einstellungen auf die Standards zurückzusetzen.
 Dies kann nicht mehr rückgängig gemacht werden.',
 'prefs-emailconfirm-label'      => 'E-Mail-Bestätigung:',
@@ -1564,6 +1567,7 @@ Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt
 'right-override-export-depth' => 'Exportiere Seiten einschließlich verlinkter Seiten bis zu einer Tiefe von 5',
 'right-sendemail'             => 'E-Mails an andere Benutzer senden',
 'right-revisionmove'          => 'Versionen verschieben',
+'right-disableaccount'        => 'Benutzerkonto deaktivieren',
 
 # User rights log
 'rightslog'      => 'Rechte-Logbuch',
@@ -1887,7 +1891,7 @@ Eine [[Special:WhatLinksHere/$2|vollständige Liste]] ist verfügbar.',
 'uploadnewversion-linktext' => 'Eine neue Version dieser Datei hochladen',
 'shared-repo-from'          => 'aus $1',
 'shared-repo'               => 'einem gemeinsam genutzten Medienarchiv',
-'filepage.css'              => '/* CSS an dieser Stelle wirkt sich auf die Dateibeschreibungsseite aus, auch auf fremden Client-Wikis */',
+'filepage.css'              => '/* Das folgende CSS wird auf Dateibeschreibungsseiten, auch auf fremden Client-Wikis, geladen. */',
 
 # File reversion
 'filerevert'                => 'Zurücksetzen von „$1“',
@@ -2440,6 +2444,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Benutzerbeiträge von neuen Benutzern',
 'sp-contributions-blocklog'            => 'Sperr-Logbuch',
 'sp-contributions-deleted'             => 'Gelöschte Beiträge',
+'sp-contributions-uploads'             => 'Hochgeladene Dateien',
 'sp-contributions-logs'                => 'Logbücher',
 'sp-contributions-talk'                => 'Diskussion',
 'sp-contributions-userrights'          => 'Benutzerrechteverwaltung',
@@ -2858,15 +2863,15 @@ Alle Transwiki-Import-Aktionen werden im [[Special:Log/import|Import-Logbuch]] p
 'tooltip-summary'                 => 'Gib eine kurze Zusammenfassung ein',
 
 # Stylesheets
-'common.css'      => '/* CSS an dieser Stelle wirkt sich auf alle Skins aus */',
-'standard.css'    => '/* CSS an dieser Stelle wirkt sich auf den Klassik-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'nostalgia.css'   => '/* CSS an dieser Stelle wirkt sich auf den Nostalgie-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'common.css'      => '/* Das folgende CSS wird für alle Benutzeroberflächen geladen. */',
+'standard.css'    => '/* Das folgende CSS wird für Benutzer der Klassik-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'nostalgia.css'   => '/* Das folgende CSS wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
 'cologneblue.css' => '/* CSS an dieser Stelle wirkt sich auf den Kölnisch-Blau-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'monobook.css'    => '/* CSS an dieser Stelle wirkt sich auf den Monobook-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'myskin.css'      => '/* CSS an dieser Stelle wirkt sich auf den MySkin-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'chick.css'       => '/* CSS an dieser Stelle wirkt sich auf den Küken-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'simple.css'      => '/* CSS an dieser Stelle wirkt sich auf den Einfach-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'modern.css'      => '/* CSS an dieser Stelle wirkt sich auf den Modern-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */
+'monobook.css'    => '/* Das folgende CSS wird für Benutzer der Monobook-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'myskin.css'      => '/* Das folgende CSS wird für Benutzer der MySkin-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'chick.css'       => '/* Das folgende CSS wird für Benutzer der Küken-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'simple.css'      => '/* Das folgende CSS wird für Benutzer der Einfach-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'modern.css'      => '/* Das folgende CSS wird für Benutzer der Modern-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */
 
 /* Kleinschreibung in Navigationsbereichen verhindern */
 .portlet h5,
@@ -2876,21 +2881,21 @@ Alle Transwiki-Import-Aktionen werden im [[Special:Log/import|Import-Logbuch]] p
 #preftoc a {
     text-transform: none;
 }',
-'vector.css'      => '/* CSS an dieser Stelle wirkt sich auf den Vector-Skin aus. Für allgemeingültige Skin-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
-'print.css'       => '/* CSS an dieser Stelle wirkt sich auf die Druckausgabe aus */',
-'handheld.css'    => '/* CSS an dieser Stelle wirkt sich auf Handheld-Geräte, basierend auf den in $wgHandheldStyle konfigurierten Skin, aus */',
+'vector.css'      => '/* Das folgende CSS wird für Benutzer der Vector-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
+'print.css'       => '/* Das folgende CSS wird in der Druckausgabe geladen. */',
+'handheld.css'    => '/* Das folgende CSS wird für Handheld-Geräte, basierend auf der in $wgHandheldStyle konfigurierten Benutzeroberfläche, geladen. */',
 
 # Scripts
 'common.js'      => '/* Das folgende JavaScript wird für alle Benutzer geladen. */',
-'standard.js'    => '/* Das folgende JavaScript wird für Benutzer geladen, die den Klassik-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'nostalgia.js'   => '/* Das folgende JavaScript wird für Benutzer geladen, die den Nostalgie-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'standard.js'    => '/* Das folgende JavaScript wird für Benutzer der Klassik-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'nostalgia.js'   => '/* Das folgende JavaScript wird für Benutzer der Nostalgie-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
 'cologneblue.js' => '/* Das folgende JavaScript wird für Benutzer geladen, die den Kölnisch-Blau-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'monobook.js'    => '/* Das folgende JavaScript wird für Benutzer geladen, die den Monobook-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'myskin.js'      => '/* Das folgende JavaScript wird für Benutzer geladen, die den Myskin-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'chick.js'       => '/* Das folgende JavaScript wird für Benutzer geladen, die den Küken-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'simple.js'      => '/* Das folgende JavaScript wird für Benutzer geladen, die den Einfach-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'modern.js'      => '/* Das folgende JavaScript wird für Benutzer geladen, die den Modern-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
-'vector.js'      => '/* Das folgende JavaScript wird für Benutzer geladen, die den Vector-Skin verwenden. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'monobook.js'    => '/* Das folgende JavaScript wird für Benutzer der Monobook-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'myskin.js'      => '/* Das folgende JavaScript wird für Benutzer der Myskin-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'chick.js'       => '/* Das folgende JavaScript wird für Benutzer der Küken-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'simple.js'      => '/* Das folgende JavaScript wird für Benutzer der Einfach-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'modern.js'      => '/* Das folgende JavaScript wird für Benutzer der Modern-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
+'vector.js'      => '/* Das folgende JavaScript wird für Benutzer der Vector-Benutzeroberfläche geladen. Allgemeingültiges JavaScript bitte in [[MediaWiki:Common.js]] eintragen. */',
 
 # Metadata
 'nodublincore'      => 'Dublin-Core-RDF-Metadaten sind auf diesem Server deaktiviert.',
@@ -3469,13 +3474,14 @@ Du kannst auch die [[Special:Watchlist/edit|Standard-Bearbeitungsseite]] benutze
 'version-specialpages'             => 'Spezialseiten',
 'version-parserhooks'              => 'Parser-Hooks',
 'version-variables'                => 'Variablen',
+'version-skins'                    => 'Benutzeroberflächen',
 'version-other'                    => 'Anderes',
 'version-mediahandlers'            => 'Medien-Handler',
 'version-hooks'                    => "Schnittstellen ''(Hooks)''",
 'version-extension-functions'      => 'Funktionsaufrufe',
 'version-parser-extensiontags'     => "Parser-Erweiterungen ''(tags)''",
 'version-parser-function-hooks'    => 'Parser-Funktionen',
-'version-skin-extension-functions' => 'Skin-Erweiterungs-Funktionen',
+'version-skin-extension-functions' => 'Benutzeroberflächen-Erweiterungs-Funktionen',
 'version-hook-name'                => 'Schnittstellenname',
 'version-hook-subscribedby'        => 'Aufruf von',
 'version-version'                  => '(Version $1)',
@@ -3589,5 +3595,18 @@ Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
 # SQLite database support
 'sqlite-has-fts' => 'Version $1 mit Unterstützung für die Volltextsuche',
 'sqlite-no-fts'  => 'Version $1 ohne Unterstützung für die Volltextsuche',
+
+# Special:DisableAccount
+'disableaccount'             => 'Ein Benutzerkonto deaktivieren',
+'disableaccount-user'        => 'Benutzername:',
+'disableaccount-reason'      => 'Grund:',
+'disableaccount-confirm'     => "Deaktivieren dieses Benutzerkontos.
+Der Benutzer wird nicht mehr in der Lage sein sich anzumelden, das Passwort zurückzusetzen oder E-Mail-Benachrichtigungen zu empfangen.
+Sofern der Benutzer momentan angemeldet ist, wird er umgehend abgemeldet.
+''Es ist zu beachten, das die Deaktivierung eines Benutzerkontos nicht mehr ohne das Eingreifen eines Systemadministrators rückgängig gemacht werden kann.''",
+'disableaccount-mustconfirm' => 'Die Deaktivierung dieses Benutzerkontos muss nun bestätigt werden.',
+'disableaccount-nosuchuser'  => 'Das Benutzerkonto „$1“ ist nicht vorhanden.',
+'disableaccount-success'     => 'Das Benutzerkonto „$1“ wurde dauerhaft deaktiviert.',
+'disableaccount-logentry'    => 'deaktivierte das Benutzerkonto [[$1]] dauerhaft.',
 
 );

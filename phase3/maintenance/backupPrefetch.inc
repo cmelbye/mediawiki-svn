@@ -3,7 +3,7 @@
  * Helper class for the --prefetch option of dumpTextPass.php
  *
  * @file
- * @ingrouo Maintenance
+ * @ingroup Maintenance
  */
 
 /**
@@ -19,7 +19,6 @@
  * - text contents are immutable and should not change once
  *   recorded, so the previous dump is a reliable source
  *
- * Requires the XMLReader PECL extension.
  * @ingroup Maintenance
  */
 class BaseDump {

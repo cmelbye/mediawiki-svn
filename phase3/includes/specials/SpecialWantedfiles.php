@@ -34,18 +34,30 @@ class WantedFilesPage extends WantedQueryPage {
 	function __construct() {
 		SpecialPage::__construct( 'Wantedfiles' );
 	}
+	
+	/**
+	 * KLUGE: The results may contain false positives for files
+	 * that exist e.g. in a shared repo.  Setting this at least
+	 * keeps them from showing up as redlinks in the output, even
+	 * if it doesn't fix the real problem (bug 6220).
+	 */
+	function forceExistenceCheck() {
+		return true;
+	}
 
 	function getQueryInfo() {
 		return array (
-			'tables' => array ( 'imagelinks', 'page' ),
+			'tables' => array ( 'imagelinks' ),
 			'fields' => array ( "'" . NS_FILE . "' AS namespace",
 					'il_to AS title',
 					'COUNT(*) AS value' ),
-			'conds' => array ( 'page_title IS NULL' ),
+			'conds' => array ( 'img_name IS NULL' ),
 			'options' => array ( 'GROUP BY' => 'il_to' ),
-			'join_conds' => array ( 'page' => array ( 'LEFT JOIN',
-				array ( 'il_to = page_title',
-					'page_namespace' => NS_FILE ) ) )
+			'join_conds' => array ( 'image' => 
+				array ( 'LEFT JOIN',
+					array ( 'il_to = img_name' ) 
+				) 
+			)
 		);
 	}
 }

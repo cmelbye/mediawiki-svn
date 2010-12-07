@@ -91,11 +91,11 @@ if ( !function_exists( 'version_compare' )
 
 # Start the autoloader, so that extensions can derive classes from core files
 require_once( "$IP/includes/AutoLoader.php" );
+# Load default settings
+require_once( "$IP/includes/DefaultSettings.php" );
 
 if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	# Use a callback function to configure MediaWiki
-	require_once( "$IP/includes/DefaultSettings.php" );
-
 	$callback = MW_CONFIG_CALLBACK;
 	# PHP 5.1 doesn't support "class::method" for call_user_func, so split it
 	if ( strpos( $callback, '::' ) !== false ) {
@@ -103,17 +103,19 @@ if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	}
 	call_user_func( $callback );
 } else {
-	# LocalSettings.php is the per site customization file. If it does not exit
-	# the wiki installer need to be launched or the generated file moved from
+	if ( !defined('MW_CONFIG_FILE') )
+		define('MW_CONFIG_FILE', "$IP/LocalSettings.php");
+	
+	# LocalSettings.php is the per site customization file. If it does not exist
+	# the wiki installer needs to be launched or the generated file moved from
 	# ./config/ to ./
-	if( !file_exists( "$IP/LocalSettings.php" ) ) {
-		require_once( "$IP/includes/DefaultSettings.php" ); # used for printing the version
+	if( !file_exists( MW_CONFIG_FILE ) ) {
 		require_once( "$IP/includes/templates/NoLocalSettings.php" );
 		die();
 	}
 
 	# Include site settings. $IP may be changed (hopefully before the AutoLoader is invoked)
-	require_once( "$IP/LocalSettings.php" );
+	require_once( MW_CONFIG_FILE );
 }
 
 if ( $wgEnableSelenium ) {
@@ -124,15 +126,10 @@ wfProfileOut( 'WebStart.php-conf' );
 
 wfProfileIn( 'WebStart.php-ob_start' );
 # Initialise output buffering
-
 # Check that there is no previous output or previously set up buffers, because
 # that would cause us to potentially mix gzip and non-gzip output, creating a
 # big mess.
-# In older versions of PHP ob_get_level() returns 0 if there is no buffering or
-# previous output, in newer versions the default output buffer is always set up
-# and ob_get_level() returns 1. In this case we check that the buffer is empty.
-# FIXME: Check that this is the right way to handle this
-if ( !defined( 'MW_NO_OUTPUT_BUFFER' ) && ( ob_get_level() == 0 || ( ob_get_level() == 1 && ob_get_contents() === '' ) ) ) {
+if ( !defined( 'MW_NO_OUTPUT_BUFFER' ) && ob_get_level() == 0 ) {
 	require_once( "$IP/includes/OutputHandler.php" );
 	ob_start( 'wfOutputHandler' );
 }

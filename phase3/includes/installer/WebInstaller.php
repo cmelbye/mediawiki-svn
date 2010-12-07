@@ -99,6 +99,10 @@ class WebInstaller extends CoreInstaller {
 		parent::__construct();
 		$this->output = new WebInstallerOutput( $this );
 		$this->request = $request;
+
+		// Add parser hook for WebInstaller_Complete
+		global $wgParser;
+		$wgParser->setHook( 'downloadlink', array( $this, 'downloadLinkHook' ) );		
 	}
 
 	/**
@@ -121,7 +125,7 @@ class WebInstaller extends CoreInstaller {
 		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) )
 			&& $this->request->getVal( 'localsettings' ) )
 		{
-			$this->request->response()->header( 'Content-type: text/plain' );
+			$this->request->response()->header( 'Content-type: application/x-httpd-php' );
 			$this->request->response()->header(
 				'Content-Disposition: attachment; filename="LocalSettings.php"'
 			);
@@ -329,6 +333,25 @@ class WebInstaller extends CoreInstaller {
 	private function getSessionSavePath() {
 		$parts = explode( ';', ini_get( 'session.save_path' ), 2 );
 		return count( $parts ) == 1 ? $parts[0] : $parts[1];
+	}
+
+	/**
+	 * Get a hash of data identifying this MW installation.
+	 *
+	 * This is used by config/index.php to prevent multiple installations of MW
+	 * on the same cookie domain from interfering with each other.
+	 */
+	public function getFingerprint() {
+		// Get the base URL of the installation
+		$url = $this->request->getFullRequestURL();
+		if ( preg_match( '!^(.*)/[^/]*/[^/]*$!', $url, $m ) ) {
+			$url = $m[1];
+		}
+		return md5( serialize( array(
+			'local path' => dirname( dirname( __FILE__ ) ),
+			'url' => $url,
+			'version' => $GLOBALS['wgVersion']
+		) ) );
 	}
 
 	/**
@@ -614,11 +637,13 @@ class WebInstaller extends CoreInstaller {
 		$args = array_map( 'htmlspecialchars', $args );
 		$text = wfMsgReal( $msg, $args, false, false, false );
 		$html = htmlspecialchars( $text );
-		//$html = $this->parse( $text, true );
-		return
-            "<span class=\"mw-help-field-hint\"\n" .
-      	    "     title=\"" . $html . "\"\n" .
-    	    "     original-title=\"" . $html . "\"></span>\n";
+		$html = $this->parse( $text, true );
+		
+		
+		return "<div class=\"mw-help-field-container\">\n" .
+		         "<span class=\"mw-help-field-hint\">" . wfMsgHtml( 'config-help' ) . "</span>\n" .
+		         "<span class=\"mw-help-field-data\">" . $html . "</span>\n" .
+		       "</div>\n";
 	}
 
 	/**
@@ -796,6 +821,7 @@ class WebInstaller extends CoreInstaller {
 
 		return
 			"<div class=\"config-input-check\">\n" .
+			$params['help'] .
 			"<label>\n" .
 			Xml::check(
 				$params['controlName'],
@@ -807,7 +833,6 @@ class WebInstaller extends CoreInstaller {
 			) .
 			$labelText . "\n" .
 			"</label>\n" .
-			$params['help'] .
 			"</div>\n";
 	}
 
@@ -935,4 +960,15 @@ class WebInstaller extends CoreInstaller {
 		return $url;
 	}
 
+	public function downloadLinkHook( $text, $attribs, $parser  ) {
+		$img = Html::element( 'img', array( 
+			'src' => '../skins/common/images/download-32.png',
+			'width' => '32',
+			'height' => '32',
+		) );
+		$anchor = Html::rawElement( 'a', 
+			array( 'href' => $this->getURL( array( 'localsettings' => 1 ) ) ),
+			$img . ' ' . wfMsgHtml( 'config-download-localsettings' ) );
+		return Html::rawElement( 'div', array( 'class' => 'config-download-link' ), $anchor );
+	}
 }

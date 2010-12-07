@@ -133,6 +133,7 @@ class SpecialPage {
 		'Listbots'                  => array( 'SpecialRedirectToSpecial', 'Listbots', 'Listusers', 'bot' ),
 		'Activeusers'               => 'SpecialActiveUsers',
 		'Userrights'                => 'UserrightsPage',
+		'DisableAccount' 	    => 'SpecialDisableAccount',
 
 		# Recent changes and logs
 		'Newimages'                 => array( 'IncludableSpecialPage', 'Newimages' ),
@@ -190,6 +191,7 @@ class SpecialPage {
 		'Mycontributions'           => 'SpecialMycontributions',
 		'Mypage'                    => 'SpecialMypage',
 		'Mytalk'                    => 'SpecialMytalk',
+		'Myuploads'                 => 'SpecialMyuploads',
 		'Revisiondelete'            => 'SpecialRevisionDelete',
 		'RevisionMove'              => 'SpecialRevisionMove',
 		'Specialpages'              => 'SpecialSpecialpages',
@@ -1014,5 +1016,20 @@ class SpecialMycontributions extends UnlistedSpecialPage {
 	function getRedirect( $subpage ) {
 		global $wgUser;
 		return SpecialPage::getTitleFor( 'Contributions', $wgUser->getName() );
+	}
+}
+
+/**
+ * Redirect to Special:Listfiles?user=$wgUser
+ */
+class SpecialMyuploads extends UnlistedSpecialPage {
+	function __construct() {
+		parent::__construct( 'Myuploads' );
+		$this->mAllowedRedirectParams = array( 'limit' );
+	}
+	
+	function getRedirect( $subpage ) {
+		global $wgUser;
+		return SpecialPage::getTitleFor( 'Listfiles', $wgUser->getName() );
 	}
 }

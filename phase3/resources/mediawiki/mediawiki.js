@@ -350,7 +350,7 @@ window.mediaWiki = new ( function( $ ) {
 			function pad( a, b, c ) {
 				return [a < 10 ? '0' + a : a, b < 10 ? '0' + b : b, c < 10 ? '0' + c : c].join( '' );
 			}
-			var d = new Date()
+			var d = new Date();
 			d.setTime( timestamp * 1000 );
 			return [
 				pad( d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate() ), 'T',
@@ -910,7 +910,7 @@ window.mediaWiki = new ( function( $ ) {
 				return formatVersionNumber( registry[module].version );
 			}
 			return null;
-		}
+		};
 
 		/* Cache document ready status */
 
@@ -954,7 +954,7 @@ window.mediaWiki = new ( function( $ ) {
 		 */
 		this.Cdata = function( value ) {
 			this.value = value;
-		}
+		};
 
 		/**
 		 * Create an HTML element string, with safe escaping.

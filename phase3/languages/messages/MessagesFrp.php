@@ -1562,6 +1562,7 @@ Vos pouede asse-ben dècidar de lèssiér los ôtros sè veriér vers vos avoué
 'right-override-export-depth' => 'Èxportar les pâges en encllusent les pâges liyês tant qu’a una provondior de 5 nivéls',
 'right-sendemail'             => 'Mandar un mèssâjo ux ôtros utilisators',
 'right-revisionmove'          => 'Dèplaciér des vèrsions',
+'right-disableaccount'        => 'Dèsactivar des comptos',
 
 # User rights log
 'rightslog'      => 'Jornal des changements de statut d’utilisator',
@@ -2476,6 +2477,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contribucions d’utilisators permié los comptos novéls',
 'sp-contributions-blocklog'            => 'jornal des blocâjos',
 'sp-contributions-deleted'             => 'contribucions suprimâs',
+'sp-contributions-uploads'             => 'tèlèchargements',
 'sp-contributions-logs'                => 'jornals',
 'sp-contributions-talk'                => 'discutar',
 'sp-contributions-userrights'          => 'administrar los drêts d’utilisator',
@@ -3724,5 +3726,18 @@ Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
 # SQLite database support
 'sqlite-has-fts' => '$1 avouéc rechèrche en tèxto complèt recognua',
 'sqlite-no-fts'  => '$1 sen rechèrche en tèxto complèt recognua',
+
+# Special:DisableAccount
+'disableaccount'             => 'Dèsactivar un compto utilisator',
+'disableaccount-user'        => 'Nom d’utilisator :',
+'disableaccount-reason'      => 'Rêson :',
+'disableaccount-confirm'     => "Dèsactivar cél compto utilisator.
+L’utilisator porrat pas més sè branchiér, ni tornar inicialisar son mot de pâssa, ni recêvre des notificacions per mèssageria èlèctronica.
+Se l’utilisator est orendrêt branchiê a quârqu’un sens, serat dèbranchiê d’abôrd.
+''Notâd que la dèsactivacion d’un compto est pas revèrsibla sen entèrvencion d’un administrator sistèmo.''",
+'disableaccount-mustconfirm' => 'Vos dête confirmar que vos souhètâd dèsactivar cél compto.',
+'disableaccount-nosuchuser'  => 'Lo compto utilisator « $1 » ègziste pas.',
+'disableaccount-success'     => 'Lo compto utilisator « $1 » at étâ dèsactivâ por de bon.',
+'disableaccount-logentry'    => 'at dèsactivâ por de bon lo compto utilisator [[$1]]',
 
 );
