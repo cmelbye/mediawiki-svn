@@ -259,14 +259,28 @@ class DjVuImage {
 					$txt = UtfNormal::cleanUp( $txt );
 				}
 				$txt = preg_replace( "/[\013\035\037]/", "", $txt );
-				$txt = htmlspecialchars($txt);
-				$txt = preg_replace( "/\((page\s[\d-]*\s[\d-]*\s[\d-]*\s[\d-]*\s*\&quot;([^<]*?)\&quot;\s*|)\)/s", "<PAGE value=\"$2\" />", $txt  );
+				$reg = <<<EOR
+					/\(page\s[\d-]*\s[\d-]*\s[\d-]*\s[\d-]*\s*"
+					((?>    # Text to match is composed of atoms of either:
+					  \\\\. # - any escaped character 
+					  |     # - any character different from " and \
+					  [^"\\\\]+
+					)*?)
+					"\s*\)
+					| # Or page can be empty ; in this case, djvutxt dumps ()
+					\(\s*()\)/sx
+EOR;
+				$txt = preg_replace_callback( $reg, array( $this, 'pageTextCallback' ), $txt );
 				$txt = "<DjVuTxt>\n<HEAD></HEAD>\n<BODY>\n" . $txt . "</BODY>\n</DjVuTxt>\n";
 				$xml = preg_replace( "/<DjVuXML>/", "<mw-djvu><DjVuXML>", $xml );
 				$xml = $xml . $txt. '</mw-djvu>' ;
 			}
 		}
 		return $xml;
+	}
+
+	function pageTextCallback( $matches ) {
+		return '<PAGE value="' . htmlspecialchars( $matches[1] ) . '" />';
 	}
 
 	/**
