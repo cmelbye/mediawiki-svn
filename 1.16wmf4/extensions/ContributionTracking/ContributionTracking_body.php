@@ -5,16 +5,36 @@ class ContributionTracking extends UnlistedSpecialPage {
 		parent::__construct( 'ContributionTracking' );
 	}
 
+	function get_owa_ref_id($ref){
+		// Replication lag means sometimes a new event will not exist in the table yet
+		$dbw = contributionTrackingConnection(); //wfGetDB( DB_MASTER );
+		$id_num = $dbw->selectField(
+			'contribution_tracking_owa_ref',
+			'id',
+			array( 'url' => $ref ),
+			__METHOD__
+		);
+		// Once we're on mysql 5, we can use replace() instead of this selectField --> insert or update hooey
+		if ( $id_num === false ) {
+			$dbw->insert(
+				'contribution_tracking_owa_ref',
+				array( 'url' => (string) $event_name ),
+				__METHOD__
+			);
+			$id_num = $dbw->insertId();
+		}
+		return $id_num === false ? 0 : $id_num;
+	}
+
+
 	function execute( $language ) {
-		global $wgRequest, $wgOut;
-		wfLoadExtensionMessages( 'ContributionTracking' );
+		global $wgRequest, $wgOut, $wgContributionTrackingPayPalIPN, $wgContributionTrackingReturnToURLDefault,
+			$wgContributionTrackingPayPalRecurringIPN, $wgContributionTrackingPayPalBusiness;
 		
 		if ( !preg_match( '/^[a-z-]+$/', $language ) ) {
 			$language = 'en';
 		}
 		$this->lang = Language::factory( $language );
-		wfLoadExtensionMessages( 'ContributionTracking' );
-		wfLoadExtensionMessages( 'ContributionTracking', $language );
 		
 		$this->setHeaders();
 		
@@ -28,6 +48,11 @@ class ContributionTracking extends UnlistedSpecialPage {
 
 		$ts = $db->timestamp();
 
+		$owa_ref = $wgRequest->getText('owa_ref', null);
+		if($owa_ref != null  && !is_numeric($owa_ref)){
+			$owa_ref = $this->get_owa_ref_id($owa_ref);
+		}
+
 		$tracked_contribution = array(
 			'note' => $wgRequest->getText('comment', null),
 			'referrer' => $wgRequest->getText('referrer', null),
@@ -37,6 +62,8 @@ class ContributionTracking extends UnlistedSpecialPage {
 			'utm_campaign' => $wgRequest->getText('utm_campaign', null),
 			'optout' => ($wgRequest->getCheck('email-opt', 0) ? 0 : 1),
 			'language' => $wgRequest->getText('language', null),
+			'owa_session' => $wgRequest->getText('owa_session', null),
+			'owa_ref' => $owa_ref,
 			'ts' => $ts,
 		);
 		
@@ -58,33 +85,57 @@ class ContributionTracking extends UnlistedSpecialPage {
 		if( $returnTitle ) {
 			$returnto = $returnTitle->getFullUrl();
 		} else {
-			$returnto = "http://wikimediafoundation.org/wiki/Thank_You/$language";
+			$returnto = $wgContributionTrackingReturnToURLDefault . "/$language";
 		}
 		
 		// Set the action and tracking ID fields
 		$repost = array();
 		$action = 'http://wikimediafoundation.org/';
+		$amount_field_name = 'amount'; // the amount fieldname may be different depending on the service
 		if ( $gateway == 'paypal' ) {
+			
 			$action = 'https://www.paypal.com/cgi-bin/webscr';
+
+			/*
+			Commenting this out until we're ready to launch premiums.
+			// Premiums
+			if ( $wgRequest->getCheck( 'shirt') ) {
+				$repost['on0'] = 'Shirt Size';
+				$repost['os0'] = $wgRequest->getText( 'size', null );
+				$repost['no_shipping'] = 2;
+			}
+			*/
 			
 			// Tracking
 			$repost['on0'] = 'contribution_tracking_id';
 			
 			// PayPal
-			$repost['business'] = 'donations@wikimedia.org';
+			$repost['business'] = $wgContributionTrackingPayPalBusiness;
 			$repost['item_name'] = 'One-time donation';
 			$repost['item_number'] = 'DONATE';
-			$repost['cmd'] = '_xclick';
 			$repost['no_note'] = '0';
-			$repost['notify_url'] = 'https://civicrm.wikimedia.org/fundcore_gateway/paypal';
 			$repost['return'] = $returnto;
-			
 			$repost['currency_code'] = $wgRequest->getText( 'currency_code', 'USD' );
 			
 			// additional fields to pass to PayPal from single-step credit card form
 			$repost[ 'first_name' ] = $wgRequest->getText( 'fname', null );
 			$repost[ 'last_name' ] = $wgRequest->getText( 'lname', null );
 			$repost[ 'email' ] = $wgRequest->getText( 'email', null );
+			
+			// if this is a recurring donation, we have add'l fields to send to paypal
+			if ( $wgRequest->getText( 'recurring_paypal' ) == 'true' ) {
+				$repost[ 't3' ] = "M"; // The unit of measurement for for p3 (M = month)
+				$repost[ 'p3' ] = '1'; // Billing cycle duration
+				$repost[ 'srt' ] = '12'; // # of billing cycles
+				$repost[ 'src' ] = '1'; // Make this 'recurring' 
+				$repost[ 'sra' ] = '1'; // Turn on re-attempt on failure
+				$repost[ 'cmd' ] = '_xclick-subscriptions';
+				$amount_field_name = 'a3';
+				$repost['notify_url'] = $wgContributionTrackingPayPalRecurringIPN;
+			} else {
+				$repost['cmd'] = '_xclick';
+				$repost['notify_url'] = $wgContributionTrackingPayPalIPN;
+			}
 		}
 		else if ( $gateway == 'moneybookers' ) {
 			$action = 'https://www.moneybookers.com/app/payment.pl';
@@ -104,13 +155,15 @@ class ContributionTracking extends UnlistedSpecialPage {
 		}
 		
 		// Normalized amount
-		$repost['amount'] = $wgRequest->getVal( 'amount' );
+		$repost[ $amount_field_name ] = $wgRequest->getVal( 'amount' );
 		if ( $wgRequest->getVal( 'amountGiven' ) ) {
-			$repost['amount'] = $wgRequest->getVal( 'amountGiven' );
+			$repost[ $amount_field_name ] = $wgRequest->getVal( 'amountGiven' );
 		}
 		
 		// Tracking
+		// passing contrib tracking id in two places to ease transition to new model (custom field)
 		$repost['os0'] = $contribution_tracking_id;
+		$repost['custom'] = $contribution_tracking_id;
 		
 		$wgOut->addWikiText( "{{2009/Donate-banner/$language}}" );
 		$wgOut->addHTML( $this->msgWiki( 'contrib-tracking-submitting' ) );
@@ -142,6 +195,7 @@ class ContributionTracking extends UnlistedSpecialPage {
 	function msg( $key ) {
 		return wfMsgExt( $key, array( 'escape', 'language' => $this->lang ) );
 	}
+
 
 	function msgWiki( $key ) {
 		return wfMsgExt( $key, array( 'parse', 'language' => $this->lang ) );

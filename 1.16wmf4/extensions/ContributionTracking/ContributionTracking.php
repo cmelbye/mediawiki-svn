@@ -23,11 +23,72 @@ $wgExtensionMessagesFiles['ContributionTracking'] = $dir . 'ContributionTracking
 $wgExtensionAliasesFiles['ContributionTracking'] = $dir . 'ContributionTracking.alias.php';
 $wgAutoloadClasses['ContributionTracking'] = $dir . 'ContributionTracking_body.php';
 $wgSpecialPages['ContributionTracking'] = 'ContributionTracking';
+//this only works if contribution tracking is inside a mediawiki DB, which typically it isn't.
+//$wgHooks['LoadExtensionSchemaUpdates'][] = 'efContributionTrackingLoadUpdates'; 
+
+/**
+ * The default 'return to' URL for a thank you page after posting to the contribution
+ * 
+ * NO trailing slash, please
+ */
+$wgContributionTrackingReturnToURLDefault = 'http://wikimediafoundation.org/wiki/Thank_You';
 
 $wgContributionTrackingDBserver = $wgDBserver;
 $wgContributionTrackingDBname = $wgDBname;
 $wgContributionTrackingDBuser = $wgDBuser;
 $wgContributionTrackingDBpassword = $wgDBpassword;
+
+/**
+ * IPN listener address for regular PayPal trxns
+ */
+$wgContributionTrackingPayPalIPN = 'https://civicrm.wikimedia.org/fundcore_gateway/paypal';
+
+/**
+ * IPN listener address for recurring payment PayPal trxns
+ */
+$wgContributionTrackingPayPalRecurringIPN = 'https://civicrm.wikimedia.org/fundcore_gateway/paypal';
+
+/**
+ * 'Business' string for PayPal 
+ */
+$wgContributionTrackingPayPalBusiness = 'donations@wikimedia.org';
+
+function efContributionTrackingLoadUpdates(){
+ 	global $wgExtNewTables, $wgExtNewFields;
+ 	$dir = dirname( __FILE__ ) . '/';
+ 	$wgExtNewTables[] = array( 'contribution_tracking', $dir . 'ContributionTracking.sql' );
+ 	$wgExtNewTables[] = array( 'contribution_tracking_owa_ref', $dir . 'ContributionTracking_OWA_ref.sql' );
+ 	
+ 	$wgExtNewFields[] = array(
+ 		'contribution_tracking',
+ 		'owa_session',
+ 		$dir . 'patch-owa.sql',
+ 	);
+ 	return true; 	
+	
+}
+
+	//convert a referrer URL to an index in the owa_ref table
+function ef_contribution_tracking_owa_get_ref_id($ref){
+		// Replication lag means sometimes a new event will not exist in the table yet
+		$dbw = contributionTrackingConnection();
+		$id_num = $dbw->selectField(
+			'contribution_tracking_owa_ref',
+			'id',
+			array( 'url' => $ref ),
+			__METHOD__
+		);
+		// Once we're on mysql 5, we can use replace() instead of this selectField --> insert or update hooey
+		if ( $id_num === false ) {
+			$dbw->insert(
+				'contribution_tracking_owa_ref',
+				array( 'url' => (string) $ref ),
+				__METHOD__
+			);
+			$id_num = $dbw->insertId();
+		}
+		return $id_num === false ? 0 : $id_num;
+	}
 
 function contributionTrackingConnection() {
 	global $wgContributionTrackingDBserver, $wgContributionTrackingDBname;
