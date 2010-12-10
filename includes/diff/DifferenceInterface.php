@@ -414,6 +414,10 @@ CONTROL;
 		wfProfileIn( __METHOD__ );
 
 		$wgOut->addHTML( "<hr /><h2>{$this->mPagetitle}</h2>\n" );
+		if ( !wfRunHooks( 'ArticleContentOnDiff', array( $this, $wgOut ) ) ) {
+			return;
+		}
+
 		# Add deleted rev tag if needed
 		if( !$this->mNewRev->userCan(Revision::DELETED_TEXT) ) {
 			$wgOut->wrapWikiMsg( "<div class='mw-warning plainlinks'>\n$1</div>\n", 'rev-deleted-text-permission' );
@@ -443,18 +447,16 @@ CONTROL;
 				$wgOut->addHTML( htmlspecialchars( $this->mNewtext ) );
 				$wgOut->addHTML( "\n</pre>\n" );
 			}
-		} elseif( wfRunHooks( 'ArticleContentOnDiff', array( $this, $wgOut ) ) ) {
-			if ( $pCache ) {
-				$article = new Article( $this->mTitle, 0 );
-				$pOutput = ParserCache::singleton()->get( $article, $wgOut->parserOptions() );
-				if( $pOutput ) {
-					$wgOut->addParserOutput( $pOutput );
-				} else {
-					$article->doViewParse();
-				} 
+		} elseif ( $pCache ) {
+			$article = new Article( $this->mTitle, 0 );
+			$pOutput = ParserCache::singleton()->get( $article, $wgOut->parserOptions() );
+			if( $pOutput ) {
+				$wgOut->addParserOutput( $pOutput );
 			} else {
-				$wgOut->addWikiTextTidy( $this->mNewtext );
-			}
+				$article->doViewParse();
+			} 
+		} else {
+			$wgOut->addWikiTextTidy( $this->mNewtext );
 		}
 	
 		if( is_object( $this->mNewRev ) && !$this->mNewRev->isCurrent() ) {
