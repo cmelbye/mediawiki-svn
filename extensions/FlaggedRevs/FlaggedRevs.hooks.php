@@ -1813,13 +1813,13 @@ class FlaggedRevsHooks {
 	/*
 	 * If an article is reviewable, get custom article contents from the FlaggedArticleView
 	 */
-	public static function onArticleContentOnDiff( $diffEngine, $out, $newRevId ) {
+	public static function onArticleContentOnDiff( $diffEngine, $out ) {
 		$fa = FlaggedArticle::getTitleInstance( $out->getTitle() );
 		if ( !$fa->isReviewable() ) {
 			return true; // nothing to do
 		}
 		$view = FlaggedArticleView::singleton();
-		$view->addCustomContentHtml( $out, $newRevId );
+		$view->addCustomContentHtml( $out, $diffEngine->getNewid() );
 		return false;
 	}
 
