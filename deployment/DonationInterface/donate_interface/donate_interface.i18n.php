@@ -288,15 +288,25 @@ $messages['be-tarask'] = array(
 );
 
 /** Bulgarian (Български)
+ * @author Spiritia
  * @author Turin
  */
 $messages['bg'] = array(
-	'donate_interface-amount' => 'Сума на дарението:',
+	'donate_interface' => 'Подкрепете Уикимедия',
+	'donate_interface-desc' => 'Начална дарителска страница,интегрираща порталните разширения',
+	'donate_interface-intro' => 'Моля, изберете метод на плащане, размер и валута.',
+	'donate_interface-amount' => 'Размер на дарението:',
 	'donate_interface-other-amount' => 'Друга сума',
 	'donate_interface-currency' => 'Валута:',
 	'donate_interface-gateway' => 'Начин на плащане:',
 	'donate_interface-submit-button' => 'Даряване',
+	'donate_interface-comment-message' => 'Искате ли да споделите нещо със света? Поставете тук вашия коментар (до 200 знака):',
 	'donate_interface-comment-label' => 'Коментар:',
+	'donate_interface-anon-message' => 'Искам името ми да бъде включено (наред с коментара ми) в публичния лист на дарителите.',
+	'donate_interface-email-agreement' => 'Съгласен съм от време на време да получавам новини от Фондация Уикимедия.',
+	'donate_interface-comment-title' => 'Публичен коментар',
+	'donate_interface-amount-error' => 'Моля, въведете коректна сума',
+	'donate_interface-processing-error' => 'Настъпи грешка при обработката на заявката ви. Нямаше налични процесори.',
 	'donate_interface-GBP' => 'GBP: британска лира',
 	'donate_interface-EUR' => 'EUR: евро',
 	'donate_interface-USD' => 'USD: американски долар',
@@ -2782,6 +2792,44 @@ Uygun işlemci bulunmuyor.',
 	'donate_interface-ILS' => 'ILS: İsrail Şekeli',
 );
 
+/** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+ * @author Ильнар
+ */
+$messages['tt-cyrl'] = array(
+	'donate_interface' => 'Викимедиа Фондына ярдәм итик!',
+	'donate_interface-desc' => 'Иганәләр җыю һәм киңәйтелмәләр кертүче - шлюзлар җите',
+	'donate_interface-intro' => 'Зинһар, түләү ысулын, сумманы һәм акча берәмлеген сайлагыз.',
+	'donate_interface-amount' => 'Иганә күләме:',
+	'donate_interface-other-amount' => 'Башка күләм',
+	'donate_interface-currency' => 'Акча берәмлеге:',
+	'donate_interface-gateway' => 'Түләү ысулы:',
+	'donate_interface-submit-button' => 'Иганә',
+	'donate_interface-comment-message' => 'Нидер әйтергә телисезме? Сез монда 200 хәрефкә кадәр үзегезнең хатыгызны калдыра аласыз:',
+	'donate_interface-comment-label' => 'Искәрмә:',
+	'donate_interface-anon-message' => 'Зинһар, минем исемне (искәрмә янында)  иганә итүчеләр исемлегендә күрсәтегез.',
+	'donate_interface-email-agreement' => 'Мин Викимедиа Фондыннан хәбәрләр алырга риза.',
+	'donate_interface-comment-title' => 'Гомум җәмәгатчелеккә бирелгән искәрмә',
+	'donate_interface-amount-error' => '**Зинһар, билгеле бер акча күләмен кертегез**',
+	'donate_interface-processing-error' => 'Сезнең соравыгызны эшкәрткән вакытта хаталар килеп чыкты. Билгеле бер эшкәрткечләр юк.',
+	'donate_interface-GBP' => 'GBP: Бөекбритания фунт стерлинглары',
+	'donate_interface-EUR' => 'EUR: Евро',
+	'donate_interface-USD' => 'USD: АКШ доллары',
+	'donate_interface-AUD' => 'AUD: Австралия доллары',
+	'donate_interface-CAD' => 'CAD: Канада доллары',
+	'donate_interface-CHF' => 'CHF: Швейцар франкы',
+	'donate_interface-CZK' => 'CZK: Чех кронасы',
+	'donate_interface-DKK' => 'DKK: Дат кронасы',
+	'donate_interface-HKD' => 'HKD: Һонконг доллары',
+	'donate_interface-HUF' => 'HUF: Венгер форинты',
+	'donate_interface-JPY' => 'JPY: Япон йенасы',
+	'donate_interface-NZD' => 'NZD: Яңа Зеландия доллары',
+	'donate_interface-NOK' => 'NOK: Норвегия кронасы',
+	'donate_interface-PLN' => 'PLN: Польша злотые',
+	'donate_interface-SGD' => 'SGD: Сингапур доллары',
+	'donate_interface-SEK' => 'SEK: Швед кронасы',
+	'donate_interface-ILS' => 'ILS: Израиль шекеле',
+);
+
 /** Ukrainian (Українська)
  * @author Ahonc
  * @author NickK
@@ -2955,6 +3003,7 @@ $messages['yue'] = array(
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Bencmq
  * @author Chenxiaoqino
+ * @author Kuailong
  */
 $messages['zh-hans'] = array(
 	'donate_interface' => '资助维基媒体',
@@ -2968,7 +3017,7 @@ $messages['zh-hans'] = array(
 	'donate_interface-comment-message' => '有想法希望与世界分享？请在此填写不超过200字的评论：',
 	'donate_interface-comment-label' => '评论：',
 	'donate_interface-anon-message' => '请在我的评论边上附上我的名字。',
-	'donate_interface-email-agreement' => '我同意接受来自维基媒体基金会的邮件。',
+	'donate_interface-email-agreement' => '我同意维基媒体基金会不定期向我发送的邮件。',
 	'donate_interface-comment-title' => '公开的评论',
 	'donate_interface-amount-error' => '**请输入有效的数额**',
 	'donate_interface-processing-error' => '处理您的请求时出错了。没有可用的处理器。',
