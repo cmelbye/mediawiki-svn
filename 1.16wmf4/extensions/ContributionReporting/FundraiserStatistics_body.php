@@ -93,8 +93,9 @@ class SpecialFundraiserStatistics extends SpecialPage {
 		// HTML-time!
 		$view = 0;
 		$htmlViews = '';
-		foreach ( $egFundraiserStatisticsFundraisers as $fundraiser ) {
+		foreach ( $egFundraiserStatisticsFundraisers as $fundraiserIndex => $fundraiser ) {
 			$days = $this->query( 'dailyTotals', $fundraiser['start'], $fundraiser['end'] );
+			$mostRecentFundraiser = $fundraiserIndex == count( $egFundraiserStatisticsFundraisers ) - 1;
 			foreach ( $charts as $name => $chart ) {
 				$column = 0;
 				foreach( $days as $i => $day ) {
@@ -104,9 +105,12 @@ class SpecialFundraiserStatistics extends SpecialPage {
 					$height = $chart['factor'] * $day[$chart['index']];
 					$attributes = array(
 						'style' => "height:{$height}px",
-						'class' => "fundraiserstats-bar-{$fundraiser['id']}",
-						'onMouseOver' => "replaceView( 'fundraiserstats-view-box-{$view}' )"
+						'class' => "fundraiserstats-bar fundraiserstats-bar-{$fundraiser['id']}",
+						'rel' => "fundraiserstats-view-box-{$view}",
 					);
+					if ( $mostRecentFundraiser && $i == count( $days ) -1 ) {
+						$attributes['class'] .= ' fundraiserstats-current';
+					}
 					$charts[$name]['data'][$column] .= Xml::tags(
 						'td', array( 'valign' => 'bottom' ), Xml::element( 'div', $attributes, '', false )
 					);
@@ -146,7 +150,7 @@ class SpecialFundraiserStatistics extends SpecialPage {
 									Xml::tags(
 										'h3',
 										array( 'style' => 'float:left;color:black;' ),
-										wfMsgExt( 'fundraiserstats-day', array( 'parseinline' ), $i + 1, $fundraiser['title'] )
+										wfMsgExt( 'fundraiserstats-day', array( 'parseinline' ), $wgLang->formatNum( $i + 1 ), $fundraiser['title'] )
 									) .
 									Xml::element( 'div', array( 'style' => 'clear:both;' ), '', false )
 								)
@@ -170,8 +174,8 @@ class SpecialFundraiserStatistics extends SpecialPage {
 				'div',
 				array(
 					'id' => "fundraiserstats-chart-{$chart}-tab",
-					'class' => 'fundraiserstats-chart-tab-' . ( $first ? 'current' : 'normal' ),
-					'onClick' => "replaceChart( 'fundraiserstats-chart-{$chart}' )"
+					'class' => 'fundraiserstats-chart-tab fundraiserstats-chart-tab-' . ( $first ? 'current' : 'normal' ),
+					'rel' => "fundraiserstats-chart-{$chart}"
 				),
 				wfMsg( 'fundraiserstats-tab-' . $chart )
 			);
