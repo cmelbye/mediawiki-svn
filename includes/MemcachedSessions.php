@@ -64,6 +64,11 @@ function memsess_read( $id ) {
  */
 function memsess_write( $id, $data ) {
 	global $wgMemc;
+	wfDebug( "writing data to memcached session $id\n===========\n" );
+	if ( isset( $_SESSION['wsUploadData'] ) ) {
+		wfDebug( print_r( array_keys( $_SESSION['wsUploadData'] ), 1 ) );
+	}
+	wfDebug( "\n=============\n" );
 	$wgMemc->set( memsess_key( $id ), $data, 3600 );
 	return true;
 }
