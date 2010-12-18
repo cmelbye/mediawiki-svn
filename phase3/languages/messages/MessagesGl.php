@@ -845,7 +845,7 @@ Velaquí está a última entrada do rexistro de bloqueos, por se quere consultal
 'userjspreview'                    => "'''Lembre que só está probando/previsualizando o seu JavaScript de usuario.'''
 '''Este aínda non foi gardado!'''",
 'userinvalidcssjstitle'            => "'''Aviso:''' non hai ningún tema chamado \"\$1\".
-Lembre que as páxinas .css e .js personalizadas utilizan un título en minúsculas, como por exemplo {{ns:user}}:Foo/monobook.css no canto de {{ns:user}}:Foo/Monobook.css.",
+Lembre que as páxinas .css e .js personalizadas utilizan un título en minúsculas, como por exemplo {{ns:user}}:Foo/vector.css no canto de {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Actualizado)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Lembre que esta é só unha vista previa e que aínda non gardou os seus cambios!'''",
@@ -1114,7 +1114,7 @@ Vexa a [[Special:IPBlockList|lista de enderezos IP bloqueados]] para comprobar a
 'revmove-norevisions-title'    => 'A revisión especificada é incorrecta',
 'revmove-norevisions'          => 'Non especificou unha ou máis revisións sobre as que levar a cabo esta operación; ou poida tamén que a revisión especificada non exista.',
 'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'As páxinas de orixe e destino son idénticas. Volva atrás e introduza un nome de páxina diferente de "[[$1]]".',
+'revmove-nullmove'             => 'As páxinas de orixe e destino son idénticas. Volva atrás e introduza un nome de páxina diferente de "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Moveuse unha revisión de "[[$2]]"|Movéronse $1 revisións de "[[$2]]"}} á páxina "[[$3]]".',
 'revmove-success-created'      => '{{PLURAL:$1|Moveuse unha revisión de "[[$2]]"|Movéronse $1 revisións de "[[$2]]"}} á nova páxina "[[$3]]", creada hai uns intres.',
 
@@ -3377,6 +3377,7 @@ Tamén pode [[Special:Watchlist/edit|empregar o editor normal]].',
 'version-specialpages'             => 'Páxinas especiais',
 'version-parserhooks'              => 'Asociadores analíticos',
 'version-variables'                => 'Variábeis',
+'version-skins'                    => 'Aparencias',
 'version-other'                    => 'Outros',
 'version-mediahandlers'            => 'Executadores de multimedia',
 'version-hooks'                    => 'Asociadores',

@@ -888,7 +888,7 @@ Allpool on toodud viimane blokeerimislogi sissekanne:',
 'usercsspreview'                   => "'''Ära unusta, et seda versiooni sinu isiklikust stiililehest pole veel salvestatud!'''",
 'userjspreview'                    => "'''Ära unusta, et see versioon sinu isiklikust JavaScriptist on alles salvestamata!'''",
 'userinvalidcssjstitle'            => "'''Hoiatus:''' Kujundust nimega \"\$1\" ei ole.
-Ära unusta, et kasutaja isiklikud .css- ja .js-lehed kasutavad väiketähega algavaid nimesid, näiteks  {{ns:user}}:Juhan Julm/monobook.css ja mitte {{ns:user}}:Juhan Julm/Monobook.css.",
+Ära unusta, et kasutaja isiklikud .css- ja .js-lehed kasutavad väiketähega algavaid nimesid, näiteks  {{ns:user}}:Juhan Julm/vector.css ja mitte {{ns:user}}:Juhan Julm/Vector.css.",
 'updated'                          => '(Värskendatud)',
 'note'                             => "'''Meeldetuletus:'''",
 'previewnote'                      => "'''Ära unusta, et see on kõigest eelvaade!'''
@@ -1153,7 +1153,7 @@ Mine eelmisele leheküljele tagasi ja proovi uuesti.',
 'revmove-norevisions'          => 'Selle toimingu sooritamiseks pole ühtegi sihtredaktsiooni määratud või määratud redaktsiooni pole olemas.',
 'revmove-nullmove-title'       => 'Halb pealkiri',
 'revmove-nullmove'             => 'Lähte- ja sihtlehekülg ei saa olla samad.
-Mine eelmisele leheküljele tagasi ja vali pealkirjast "[[$1]]" erinev pealkiri.',
+Mine eelmisele leheküljele tagasi ja vali pealkirjast "$1" erinev pealkiri.',
 'revmove-success-existing'     => '{{PLURAL:$1|Üks redaktsioon|$1 redaktsiooni}} leheküljelt [[$2]] on teisaldatud olemasolevale leheküljele [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Üks redaktsioon|$1 redaktsiooni}} leheküljelt [[$2]] on teisaldatud vastloodud leheküljele [[$3]].',
 
@@ -1581,8 +1581,8 @@ See ei tohi olla pikem kui $1 {{PLURAL:$1|sümbol|sümbolit}}.',
 'recentchangeslinked-title'    => 'Leheküljega "$1" seotud muudatused',
 'recentchangeslinked-backlink' => '← $1',
 'recentchangeslinked-noresult' => 'Antud ajavahemiku jooksul ei ole lingitud lehekülgedel muudatusi tehtud.',
-'recentchangeslinked-summary'  => "See on viimaste muudatuste nimekiri lehekülgedel, kuhu lähevad lingid antud leheküljelt (või antud kategooria liikmetele).
-Leheküljed, mis lähevad [[Special:Watchlist|Jälgimisloendi]] koosseisu, on esiletoodud '''rasvasena'''.",
+'recentchangeslinked-summary'  => "Siin on loetletud määratud leheküljelt viidatud (või määratud kategooria) lehekülgedel tehtud viimased muudatused.
+Sinu [[Special:Watchlist|jälgimisloendi]] leheküljed on  '''rasvaselt''' esile toodud.",
 'recentchangeslinked-page'     => 'Lehekülje nimi:',
 'recentchangeslinked-to'       => 'Näita hoopis muudatusi lehekülgedel, mis sellele lehele lingivad',
 
@@ -2570,11 +2570,10 @@ See tähendab, et kogemata ei saa üle kirjutada juba olemasolevat lehekülge, k
 Tegu võib olla väga loetava lehekülje jaoks tõsise ja ootamatu muudatusega;
 enne jätkamist teadvusta palun tagajärgi.",
 'movepagetalktext'             => "Koos artiklileheküljega teisaldatakse automaatselt ka arutelulehekülg, '''välja arvatud juhtudel, kui:'''
-*liigutate lehekülge ühest nimeruumist teise,
-*uue nime all on juba olemas mittetühi arutelulehekülg või
-*jätate alumise kastikese märgistamata.
+*uue pealkirja all on juba arutelulehekülg, mis pole tühi;
+*jätad alloleva märkeruudu valimata.
 
-Neil juhtudel teisaldage arutelulehekülg soovi korral eraldi või ühendage ta omal käel uue aruteluleheküljega.",
+Neil juhtudel saad lehekülje soovi korral käsitsi teisaldada või liita.",
 'movearticle'                  => 'Teisalda lehekülg',
 'moveuserpage-warning'         => "'''Hoiatus:''' Oled teisaldamas kasutajalehekülge. Pane tähele, et teisaldatakse ainult lehekülg ja kasutajat '''ei''' nimetata ümber.",
 'movenologin'                  => 'Te ei ole sisse loginud',

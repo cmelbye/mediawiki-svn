@@ -7,9 +7,12 @@
  * @ingroup Language
  * @file
  *
+ * @author Akaniji
  * @author Alexsh
  * @author Aotake
+ * @author Aphaia
  * @author Broad-Sky
+ * @author Chatama
  * @author Chinneeb
  * @author Emk
  * @author Fievarsty
@@ -31,11 +34,13 @@
  * @author Mizusumashi
  * @author Muttley
  * @author Mzm5zbC3
+ * @author Ohgi
  * @author Suisui
  * @author Web comic
  * @author Whym
  * @author Yanajin66
  * @author לערי ריינהארט
+ * @author 欅
  * @author 青子守歌
  */
 
@@ -456,7 +461,7 @@ $messages = array(
 'category-empty'                 => "''このカテゴリには、ページまたはメディアがひとつもありません。''",
 'hidden-categories'              => '{{PLURAL:$1|隠しカテゴリ}}',
 'hidden-category-category'       => '隠しカテゴリ',
-'category-subcat-count'          => '{{PLURAL:$2|このカテゴリには、次の下位カテゴリのみ含まれています。|このカテゴリには、次の$1下位カテゴリが含まれており、そのうち$2カテゴリが表示されています。}}',
+'category-subcat-count'          => '{{PLURAL:$2|このカテゴリには、次の下位カテゴリのみ含まれています。|このカテゴリには、次の$2下位カテゴリが含まれており、そのうち$1カテゴリが表示されています。}}',
 'category-subcat-count-limited'  => 'このカテゴリには、次の{{PLURAL:$1|$1下位カテゴリ}}が含まれています。',
 'category-article-count'         => '{{PLURAL:$2|このカテゴリには、次のページのみ含まれています。|以下の$2ページがこのカテゴリに含まれており、そのうち$1ページが表示されています。}}',
 'category-article-count-limited' => '以下のページ{{PLURAL:$1|$1ページ}}が、現在のカテゴリに含まれています。',
@@ -618,7 +623,7 @@ $1',
 'toc'                     => '目次',
 'showtoc'                 => '表示',
 'hidetoc'                 => '非表示',
-'thisisdeleted'           => '$1を閲覧または復元しますか？',
+'thisisdeleted'           => '$1を閲覧または復帰しますか？',
 'viewdeleted'             => '$1を表示しますか？',
 'restorelink'             => '削除された$1編集',
 'feedlinks'               => 'フィード：',
@@ -978,8 +983,12 @@ IPアドレスは複数の利用者の間で共有されていることがあり
 '''まだ保存されていません！'''",
 'userjspreview'                    => "'''利用者JavaScriptを試験、プレビューしています。'''
 '''まだ保存されていません！'''",
+'sitecsspreview'                   => "'''全体に適用されるCSSをプレビューしています。'''
+'''まだ保存されていません！'''",
+'sitejspreview'                    => "'''全体に適用されるJavaScriptをプレビューしています。'''
+'''まだ保存されていません！'''",
 'userinvalidcssjstitle'            => "'''警告：'''「$1」という外装はありません。
-.cssと.jsページを編集する際には、ページ名を小文字にすることを忘れないでください（例えば、{{ns:user}}:Hoge/Monobook.cssではなく{{ns:user}}:Hoge/monobook.cssとなります）。",
+.cssと.jsページを編集する際には、ページ名を小文字にすることを忘れないでください（例えば、{{ns:user}}:Hoge/Vector.cssではなく{{ns:user}}:Hoge/vector.cssとなります）。",
 'updated'                          => '（更新）',
 'note'                             => "'''お知らせ：'''",
 'previewnote'                      => "'''これはプレビューです。'''
@@ -1210,7 +1219,7 @@ $1",
 'revdelete-restricted'        => '管理者に対する制限を適用しました',
 'revdelete-unrestricted'      => '管理者に対する制限を除去しました',
 'revdelete-hid'               => '$1を隠しました',
-'revdelete-unhid'             => '$1を現しました。',
+'revdelete-unhid'             => '$1の版指定削除を解除しました',
 'revdelete-log-message'       => '$2版に対して$1',
 'logdelete-log-message'       => '$2の{{PLURAL:$2|操作}}に対して$1',
 'revdelete-hide-current'      => '$1$2の項目の非表示に失敗しました：これは最新版であるため。
@@ -1253,7 +1262,7 @@ $1",
 'revmove-norevisions'          => '指定した版が存在しないか、この機能を利用するために1つ以上の版を指定していません。',
 'revmove-nullmove-title'       => '不正なページ名',
 'revmove-nullmove'             => '移動元と移動先のページが同一のものです。
-ページを戻り、「[[$1]]」とは違う名前を選択してください。',
+ページを戻り、「$1」とは違う名前を選択してください。',
 'revmove-success-existing'     => '{{PLURAL:$1|$1版が、[[$2]]から}}既存のページ[[$3]]へ移動されました。',
 'revmove-success-created'      => '{{PLURAL:$1|$1版が、[[$2]]から}}新規作成されたページ[[$3]]へ移動されました。',
 
@@ -1643,7 +1652,7 @@ HTMLタグを見直してください。',
 'action-revisionmove'         => '版の移動',
 
 # Recent changes
-'nchanges'                          => '$1変更',
+'nchanges'                          => '$1回の変更',
 'recentchanges'                     => '最近の更新',
 'recentchanges-legend'              => '最近の更新のオプション',
 'recentchangestext'                 => 'このページでそのウィキへの最近の更新を追跡。',
@@ -1683,10 +1692,10 @@ HTMLタグを見直してください。',
 'recentchangeslinked-toolbox'  => '関連する変更',
 'recentchangeslinked-title'    => '「$1」と関連する変更',
 'recentchangeslinked-noresult' => '指定期間中に指定ページのリンク先に変更はありませんでした。',
-'recentchangeslinked-summary'  => "これは、指定されたページへリンクしている（もしくは、指定されたカテゴリに含まれている）ページに最近加えられた変更の一覧です。
+'recentchangeslinked-summary'  => "これは、指定したページからリンクされている（もしくは、指定したカテゴリに含まれている）ページに最近加えられた変更の一覧です。
 [[Special:Watchlist|自分のウォッチリスト]]にあるページは'''太字'''で表示されています。",
 'recentchangeslinked-page'     => 'ページ名：',
-'recentchangeslinked-to'       => '代わりに、指定されたページにリンクされているページの変更を表示',
+'recentchangeslinked-to'       => '代わりに、指定したページへのリンク元での変更を表示',
 
 # Upload
 'upload'                      => 'ファイルをアップロード',
@@ -1990,11 +1999,11 @@ contenttype/subtypeの形式で指定してください（例：<tt>image/jpeg</
 'unusedtemplateswlh'  => 'リンク元',
 
 # Random page
-'randompage'         => '無作為ページ',
+'randompage'         => 'Random page',
 'randompage-nopages' => '次の{{PLURAL:$2|名前空間}}：$1には、ページがありません。',
 
 # Random redirect
-'randomredirect'         => '無作為抽出された転送',
+'randomredirect'         => 'Random redirect',
 'randomredirect-nopages' => '「$1」名前空間には、転送がありません。',
 
 # Statistics
@@ -2319,7 +2328,7 @@ $NEWPAGE
 'exblank'                => '白紙ページ',
 'delete-confirm'         => '「$1」の削除',
 'delete-legend'          => '削除',
-'historywarning'         => "'''警告：'''削除しようとしているページには。約$1版の履歴があります：",
+'historywarning'         => "'''警告：'''削除しようとしているページには、約$1版の履歴があります：",
 'confirmdeletetext'      => 'ページをすべての履歴とともに削除しようとしています。
 本当にこの操作を行いたいか、操作の結果を理解しているか、およびこの操作が[[{{MediaWiki:Policy-url}}|方針]]に従っているかどうか、確認をしてください。',
 'actioncomplete'         => '完了しました',
@@ -2445,11 +2454,11 @@ $2による最後の版へ変更されました。',
 '''''{{int:undeletereset}}'''''をクリックすると、コメント欄と全てのチェックボックスが消去されます。",
 'undeleterevisions'            => '$1版が保存されています',
 'undeletehistory'              => 'ページの復帰を行うと、すべての特定版が履歴に復帰します。ページが削除された後に、同じ名前で新しいページが作成されていた場合、復帰した特定版は、その前の履歴として出現します。',
-'undeleterevdel'               => '表示されるページまたはファイルの版が部分的に削除された状態となる場合、復帰できません。
-このような場合、最新の削除版のチェックを外すか、その版を現す必要があります。',
+'undeleterevdel'               => '復帰した結果、版指定削除されているページまたはファイルの版が最新となる場合、復帰は実行されません。
+このような場合、版指定削除されていない版が最新となるようにチェックするか、その版の版指定削除を解除する必要があります。',
 'undeletehistorynoadmin'       => 'このページは削除されています。
-削除された理由は、削除する前にこのペ時を編集していた利用者の詳細と共に、以下の概要に表示されています。
-これらの削除版の実際の本文は、管理者のみが閲覧できます。',
+以下に、削除前にこのページを編集していた利用者の詳細情報と共に、この削除の理由が示されています。
+削除された各版の本文は管理者のみが使用可能です。',
 'undelete-revision'            => '$3によるページ$1の$4$5の削除版：',
 'undeleterevision-missing'     => '不正な、あるいは存在しない版です。
 間違ったリンクを辿ったか、この版は既に復帰されたか、もしくは保存版から除去された可能性があります。',
@@ -2492,20 +2501,20 @@ $1',
 'blanknamespace' => '（標準）',
 
 # Contributions
-'contributions'       => '利用者の投稿',
-'contributions-title' => '利用者の投稿：$1',
-'mycontris'           => '自分の投稿',
+'contributions'       => '利用者の投稿記録',
+'contributions-title' => '利用者の投稿記録：$1',
+'mycontris'           => '自分の投稿記録',
 'contribsub2'         => '利用者:$1（$2）',
 'nocontribs'          => 'これらの条件に一致する変更は見つかりませんでした。',
 'uctop'               => '（最新）',
 'month'               => 'これ以前の月：',
 'year'                => 'これ以前の年：',
 
-'sp-contributions-newbies'             => '新しいアカウントの投稿のみ表示',
+'sp-contributions-newbies'             => '新しいアカウントの投稿のみを表示',
 'sp-contributions-newbies-sub'         => '新しいアカウントのみ',
-'sp-contributions-newbies-title'       => '新しいアカウントの利用者投稿',
+'sp-contributions-newbies-title'       => '新しいアカウント利用者の投稿記録',
 'sp-contributions-blocklog'            => 'ブロック記録',
-'sp-contributions-deleted'             => '利用者の削除された投稿',
+'sp-contributions-deleted'             => '利用者の削除された投稿記録',
 'sp-contributions-uploads'             => 'アップロード',
 'sp-contributions-logs'                => '記録',
 'sp-contributions-talk'                => 'トーク',
@@ -2615,14 +2624,14 @@ $1のブロックの理由は「$2」です。',
 参考のため、ブロックの記録を以下に示します：',
 'blocklog-showsuppresslog'        => 'この利用者は以前にブロックされ、隠されたことがあります。
 参考のため、隠蔽記録を以下に示します：',
-'blocklogentry'                   => '有効期限$2で[[$1]]をブロックしました$3',
-'reblock-logentry'                => '有効期限を$2で[[$1]]のブロック設定を変更しました$3',
-'blocklogtext'                    => 'このページは利用者ブロックと解除の記録です。
+'blocklogentry'                   => '[[$1]] を$2ブロックしました。ブロックの内容は$3です',
+'reblock-logentry'                => '[[$1]]ブロック設定を$2に変更しました。ブロックの内容は$3です',
+'blocklogtext'                    => 'このページは利用者のブロックと解除の記録です。
 自動的にブロックされたIPアドレスは表示されていません。
-現時点で有効な追放とブロックの一覧は[[Special:IPBlockList|IPブロック一覧]]をご覧ください。',
+現時点で有効なブロックは[[Special:IPBlockList|ブロックの一覧]]をご覧ください。',
 'unblocklogentry'                 => '$1のブロックを解除しました',
 'block-log-flags-anononly'        => '匿名利用者のみ',
-'block-log-flags-nocreate'        => 'アカウント作成無効',
+'block-log-flags-nocreate'        => 'アカウント作成のブロック',
 'block-log-flags-noautoblock'     => '自動ブロック無効',
 'block-log-flags-noemail'         => 'メール送信のブロック',
 'block-log-flags-nousertalk'      => '自身のトークページの編集禁止',
@@ -3441,29 +3450,29 @@ Variants for Chinese language
 'confirmemail_loggedin'     => 'メールアドレスは確認されました。',
 'confirmemail_error'        => '確認情報を保存する際にエラーが発生しました。',
 'confirmemail_subject'      => '{{SITENAME}} メールアドレスの確認',
-'confirmemail_body'         => 'だれか（おそらく自分自身）が、IPアドレス$1から、
+'confirmemail_body'         => 'だれかが、IPアドレス$1から、
 このメールアドレスで{{SITENAME}}のアカウント「$2」を登録しました。
 
-このアカウントが本当に自分ものであるか確認して、
+このアカウントが本当に自分のものであるか確認して、
 {{SITENAME}}のメール機能を有効にするには、以下のURLをブラウザーで開いてください：
 
 $3
 
-もしアカウントの登録をした覚えが*ない*場合は、
+もしアカウントの登録をした覚えがない場合は、
 次のURLをブラウザーで開いて、メール確認を中止してください：
 
 $5
 
 この確認用コードは、$4に期限切れになります。',
-'confirmemail_body_changed' => 'だれか（おそらく自分自身）が、IPアドレス$1から
+'confirmemail_body_changed' => 'だれかが、IPアドレス$1から
 {{SITENAME}}でアカウント「$2」の電子メールアドレスをこのアドレスに変更しました。
 
-このアカウントが本当に自身のものであることを確認し、
-{{SITENAME}}のメール機能を再有効化にするには、以下のURLをブラウザーで開いてください：
+このアカウントが本当に自分のものであるならば、
+{{SITENAME}}のメール機能を再び有効化にするために、以下のURLをブラウザーで開いてください：
 
 $3
 
-もし自分のアカウントで*ない*場合は、
+もし自分のアカウントでない場合は、
 次のURLをブラウザーで開いて、電子メール確認を中止してください：
 
 $5
@@ -3498,7 +3507,7 @@ $1',
 
 # Separators for various lists, etc.
 'comma-separator' => '、',
-'word-separator'  => '、',
+'word-separator'  => '',
 
 # Multipage image navigation
 'imgmultipageprev' => '&larr;前ページ',
@@ -3637,7 +3646,7 @@ $1',
 'version-specialpages'             => '特別ページ',
 'version-parserhooks'              => '構文解析フック',
 'version-variables'                => '変数',
-'version-skins'                    => '外装',
+'version-skins'                    => 'スキン',
 'version-other'                    => 'その他',
 'version-mediahandlers'            => 'メディアハンドラー',
 'version-hooks'                    => 'フック',
@@ -3724,7 +3733,7 @@ MediaWikiは、有用であることを期待して配布されていますが�
 'tags-description-header' => '詳細な意味の説明',
 'tags-hitcount-header'    => 'タグが付与された変更',
 'tags-edit'               => '編集',
-'tags-hitcount'           => '$1変更',
+'tags-hitcount'           => '$1回の変更',
 
 # Special:ComparePages
 'comparepages'     => 'ページの比較',

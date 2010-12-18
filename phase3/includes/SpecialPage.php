@@ -116,7 +116,7 @@ class SpecialPage {
 		'Listredirects'             => array( 'ListredirectsPage' ),
 
 		# Login/create account
-		'Userlogin'                 => array( 'SpecialPage', 'Userlogin' ),
+		'Userlogin'                 => 'LoginForm',
 		'CreateAccount'             => array( 'SpecialRedirectToSpecial', 'CreateAccount', 'Userlogin', 'signup', array( 'uselang' ) ),
 
 		# Users and rights
@@ -133,7 +133,7 @@ class SpecialPage {
 		'Listbots'                  => array( 'SpecialRedirectToSpecial', 'Listbots', 'Listusers', 'bot' ),
 		'Activeusers'               => 'SpecialActiveUsers',
 		'Userrights'                => 'UserrightsPage',
-		'DisableAccount' 	    => 'SpecialDisableAccount',
+		'DisableAccount'            => 'SpecialDisableAccount',
 
 		# Recent changes and logs
 		'Newimages'                 => array( 'IncludableSpecialPage', 'Newimages' ),
@@ -150,7 +150,7 @@ class SpecialPage {
 		'MIMEsearch'                => array( 'SpecialPage', 'MIMEsearch' ),
 		'FileDuplicateSearch'       => array( 'SpecialPage', 'FileDuplicateSearch' ),
 		'Upload'                    => 'SpecialUpload',
-		'UploadStash'        => 'SpecialUploadStash',
+		'UploadStash'               => 'SpecialUploadStash',
 
 		# Wiki data and tools
 		'Statistics'                => 'SpecialStatistics',
@@ -224,7 +224,7 @@ class SpecialPage {
 		}
 
 		if( !$wgDisableInternalSearch ) {
-			self::$mList['Search'] = array( 'SpecialPage', 'Search' );
+			self::$mList['Search'] = 'SpecialSearch';
 		}
 
 		if( $wgEmailAuthentication ) {
@@ -702,7 +702,16 @@ class SpecialPage {
 	 * @param $file String: file which is included by execute(). It is also constructed from $name by default
 	 * @param $includable Boolean: whether the page can be included in normal pages
 	 */
-	function __construct( $name = '', $restriction = '', $listed = true, $function = false, $file = 'default', $includable = false ) {
+	public function __construct( $name = '', $restriction = '', $listed = true, $function = false, $file = 'default', $includable = false ) {
+		$this->init( $name, $restriction, $listed, $function, $file, $includable );
+	}
+
+	/**
+	 * Do the real work for the constructor, mainly so __call() can intercept
+	 * calls to SpecialPage()
+	 * @see __construct() for param docs
+	 */
+	private function init( $name, $restriction, $listed, $function, $file, $includable ) {
 		$this->mName = $name;
 		$this->mRestriction = $restriction;
 		$this->mListed = $listed;
@@ -716,6 +725,29 @@ class SpecialPage {
 			$this->mFile = dirname(__FILE__) . "/specials/Special$name.php";
 		} else {
 			$this->mFile = $file;
+		}
+	}
+
+	/**
+	 * Use PHP's magic __call handler to get calls to the old PHP4 constructor
+	 * because PHP E_STRICT yells at you for having __construct() and SpecialPage()
+	 *
+	 * @param $fName String Name of called method
+	 * @param $a Array Arguments to the method
+	 * @deprecated Call isn't deprecated, but SpecialPage::SpecialPage() is
+	 */
+	public function __call( $fName, $a ) {
+		// Sometimes $fName is SpecialPage, sometimes it's specialpage. <3 PHP
+		if( strtolower( $fName ) == 'specialpage' ) {
+			// Debug messages now, warnings in 1.19 or 1.20?
+			wfDebug( "Deprecated SpecialPage::SpecialPage() called, use __construct();\n" );
+			$name = isset( $a[0] ) ? $a[0] : '';
+			$restriction = isset( $a[1] ) ? $a[1] : '';
+			$listed = isset( $a[2] ) ? $a[2] : true;
+			$function = isset( $a[3] ) ? $a[3] : false;
+			$file = isset( $a[4] ) ? $a[4] : 'default';
+			$includable = isset( $a[5] ) ? $a[5] : false;
+			$this->init( $name, $restriction, $listed, $function, $file, $includable );
 		}
 	}
 

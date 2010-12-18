@@ -793,17 +793,18 @@ li.gallerybox {
 	border: solid 2px white;
 	display: -moz-inline-box;
 }
-ul.gallery {
-	margin: 2px;
-	padding: 2px;
-	background-color: white;
-	display: block;
-}
 
 ul.gallery, li.gallerybox {
 	display: inline-block;
 	zoom: 1;
 	*display: inline;
+}
+
+ul.gallery {
+	margin: 2px;
+	padding: 2px;
+	background-color: white;
+	display: block;
 }
 
 li.gallerycaption {
@@ -882,19 +883,6 @@ td.mw-enhanced-rc {
 /* Sort arrows added by SortableTables */
 a.sortheader {
 	margin: 0 0.3em;
-}
-
-.grid-table {
-	display: table;
-}
-
-.grid-row {
-	display: table-row;
-}
-
-.grid-cell {
-	display: table-cell;
-	padding: 0.33ex;
 }
 
 /* Localised ordered list numbering for some languages */

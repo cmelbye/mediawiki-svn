@@ -1617,8 +1617,7 @@ class OutputPage {
 		$sk = $wgUser->getSkin();
 
 		// Add base resources
-		$this->addModules( array( 'mediawiki.legacy.wikibits' ) );
-		$this->addModules( array( 'mediawiki.util' ) );
+		$this->addModules( array( 'mediawiki.legacy.wikibits', 'mediawiki.util' ) );
 
 		// Add various resources if required
 		if ( $wgUseAjax ) {
@@ -1627,7 +1626,7 @@ class OutputPage {
 			wfRunHooks( 'AjaxAddScript', array( &$this ) );
 
 			if( $wgAjaxWatch && $wgUser->isLoggedIn() ) {
-				$this->addModules( 'mediawiki.legacy.ajaxwatch' );
+				$this->addModules( 'mediawiki.action.watch.ajax' );
 			}
 
 			if ( $wgEnableMWSuggest && !$wgUser->getOption( 'disablesuggest', false ) ) {
@@ -1700,21 +1699,6 @@ class OutputPage {
 			}
 		}
 		print $outs;
-	}
-
-	/**
-	 * @todo document
-	 */
-	public static function setEncodings() {
-		global $wgInputEncoding, $wgOutputEncoding;
-
-		$wgInputEncoding = strtolower( $wgInputEncoding );
-
-		if ( empty( $_SERVER['HTTP_ACCEPT_CHARSET'] ) ) {
-			$wgOutputEncoding = strtolower( $wgOutputEncoding );
-			return;
-		}
-		$wgOutputEncoding = $wgInputEncoding;
 	}
 
 	/**
@@ -1818,9 +1802,7 @@ class OutputPage {
 		$this->mRedirect = '';
 		$this->mBodytext = '';
 
-		array_unshift( $params, 'parse' );
-		array_unshift( $params, $msg );
-		$this->addHTML( call_user_func_array( 'wfMsgExt', $params ) );
+		$this->addWikiMsgArray( $msg, $params );
 
 		$this->returnToMain();
 	}
@@ -1905,7 +1887,7 @@ class OutputPage {
 		$this->setPageTitle( wfMsg( 'loginreqtitle' ) );
 		$this->setHtmlTitle( wfMsg( 'errorpagetitle' ) );
 		$this->setRobotPolicy( 'noindex,nofollow' );
-		$this->setArticleFlag( false );
+		$this->setArticleRelated( false );
 
 		$loginTitle = SpecialPage::getTitleFor( 'Userlogin' );
 		$loginLink = $skin->link(
@@ -2231,8 +2213,8 @@ class OutputPage {
 		$ret .= Html::element( 'title', null, $this->getHTMLTitle() ) . "\n";
 
 		$ret .= implode( "\n", array(
-			$this->getHeadLinks( $sk ),
-			$this->buildCssLinks(),
+			$this->getHeadLinks(),
+			$this->buildCssLinks( $sk ),
 			$this->getHeadItems(),
 		) );
 		if ( $sk->usercss ) {
@@ -2458,7 +2440,7 @@ class OutputPage {
 			$action = $wgRequest->getVal( 'action', 'view' );
 			if( $this->mTitle && $this->mTitle->isJsSubpage() && $sk->userCanPreview( $action ) ) {
 				# XXX: additional security check/prompt?
-				$this->addInlineScript( $wgRequest->getText( 'wpTextbox1' ) );
+				$scripts .= Html::inlineScript( "\n" . $wgRequest->getText( 'wpTextbox1' ) . "\n" ) . "\n";
 			} else {
 				$scripts .= $this->makeResourceLoaderLink(
 					$sk, array( 'user', 'user.options' ), 'scripts'
@@ -2517,7 +2499,7 @@ class OutputPage {
 	/**
 	 * @return string HTML tag links to be put in the header.
 	 */
-	public function getHeadLinks( Skin $sk ) {
+	public function getHeadLinks() {
 		global $wgFeed;
 
 		// Ideally this should happen earlier, somewhere. :P
@@ -2588,15 +2570,6 @@ class OutputPage {
 			}
 		}
 
-		// Split the styles into two groups, not user (0) and user (1)
-		$styles = array( array(), array() );
-		$resourceLoader = $this->getResourceLoader();
-		foreach ( $this->getModuleStyles() as $name ) {
-			$styles[$resourceLoader->getModule( $name )->getGroup() === 'user' ? 1 : 0][] = $name;
-		}
-		// Add styles to tags, user modules last
-		$tags[] = $this->makeResourceLoaderLink( $sk, $styles[0], 'styles' );
-		$tags[] = $this->makeResourceLoaderLink( $sk, $styles[1], 'styles' );
 		return implode( "\n", $tags );
 	}
 
@@ -2654,8 +2627,23 @@ class OutputPage {
 	 * Build a set of <link>s for the stylesheets specified in the $this->styles array.
 	 * These will be applied to various media & IE conditionals.
 	 */
-	public function buildCssLinks() {
-		return implode( "\n", $this->buildCssLinksArray() );
+	public function buildCssLinks( $sk ) {
+		// Split the styles into three groups
+		$styles = array( 'other' => array(), 'user' => array(), 'site' => array() );
+		$resourceLoader = $this->getResourceLoader();
+		foreach ( $this->getModuleStyles() as $name ) {
+			$group = $resourceLoader->getModule( $name )->getGroup();
+			// Modules in groups named "other" or anything different than "user" or "site" will
+			// be placed in the "other" group
+			$styles[isset( $style[$group] ) ? $group : 'other'][] = $name;
+		}
+		// Add tags created using legacy methods
+		$tags = $this->buildCssLinksArray();
+		// Add ResourceLoader module style tags
+		$tags[] = $this->makeResourceLoaderLink(
+			$sk, array_merge( $styles['other'], $styles['site'], $styles['user'] ), 'styles'
+		);
+		return implode( "\n", $tags );
 	}
 
 	public function buildCssLinksArray() {

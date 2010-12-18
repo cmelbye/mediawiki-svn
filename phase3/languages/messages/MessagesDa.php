@@ -795,7 +795,7 @@ Loggen over den seneste blokering ses nedenfor:',
 'usercsspreview'                   => "'''Husk at dette kun er en forhåndsvisning af dit eget css.
 '''Det er ikke gemt endnu!'''",
 'userjspreview'                    => "'''Husk at du kun tester/forhåndsviser dit eget javascript, det er ikke gemt endnu!'''",
-'userinvalidcssjstitle'            => "'''Advarsel:''' Der findes intet skin „$1“. Tænk på, at brugerspecifikke .css- og .js-sider begynder med små bogstaver, altså f.eks. ''{{ns:user}}:Hansen/monobook.css'' og ikke ''{{ns:user}}:Hansen/Monobook.css''.",
+'userinvalidcssjstitle'            => "'''Advarsel:''' Der findes intet skin „$1“. Tænk på, at brugerspecifikke .css- og .js-sider begynder med små bogstaver, altså f.eks. ''{{ns:user}}:Hansen/vector.css'' og ikke ''{{ns:user}}:Hansen/Vector.css''.",
 'updated'                          => '(Opdateret)',
 'note'                             => "'''Bemærk:'''",
 'previewnote'                      => 'Husk at dette er kun en forhåndsvisning, siden er ikke gemt endnu!',
@@ -1053,7 +1053,7 @@ Vend tilbage til forrige side og prøv igen.',
 'revmove-norevisions'          => 'Du har ikke angivet en eller flere målversioner for at udføre denne funktion eller den angivne version eksisterer ikke.',
 'revmove-nullmove-title'       => 'Forkert titel',
 'revmove-nullmove'             => 'Slutsiden kan ikke være identisk med startsiden.
-Vend tilbage til forrige side og vælg et andet navn fra "[[$1]]".',
+Vend tilbage til forrige side og vælg et andet navn fra "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|En version fra [[$2]] er|$1 versioner fra [[$2]] er}} blevet flyttet til den eksisterende side [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|En version fra [[$2]] er|$1 versioner fra [[$2]] er}} blevet flyttet til den nyligt oprettede side [[$3]].',
 

@@ -1300,9 +1300,9 @@ The latest block log entry is provided below for reference:',
 '''It has not yet been saved!'''",
 'userjspreview'                    => "'''Remember that you are only testing/previewing your user JavaScript.'''
 '''It has not yet been saved!'''",
-'globalcsspreview'                   => "'''Remember that you are only previewing this global CSS.'''
+'sitecsspreview'                   => "'''Remember that you are only previewing this CSS.'''
 '''It has not yet been saved!'''",
-'globaljspreview'                    => "'''Remember that you are only previewing this global JavaScript code.'''
+'sitejspreview'                    => "'''Remember that you are only previewing this JavaScript code.'''
 '''It has not yet been saved!'''",
 'userinvalidcssjstitle'            => "'''Warning:''' There is no skin \"\$1\".
 Custom .css and .js pages use a lowercase title, e.g. {{ns:user}}:Foo/vector.css as opposed to {{ns:user}}:Foo/Vector.css.",
@@ -1589,7 +1589,7 @@ Go back to the previous page and try again.',
 'revmove-norevisions'          => 'You have not specified one or more target revisions to perform this function or the specified revision does not exist.',
 'revmove-nullmove-title'       => 'Bad title',
 'revmove-nullmove'             => 'The target page cannot be the same as the source page.
-Go back to the previous page and choose a different name from "[[$1]]".',
+Go back to the previous page and choose a different name from "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|One revision from [[$2]] has|$1 revisions from [[$2]] have}} been moved to the existing page [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|One revision from [[$2]] has|$1 revisions from [[$2]] have}} been moved to the newly created page [[$3]].',
 
@@ -3455,7 +3455,7 @@ You can view its source',
 'nostalgia.css'   => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
 'cologneblue.css' => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
 'monobook.css'    => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
-'myskin.css'      => '/* CSS placed here will affect users of the Myskin skin */', # only translate this message to other languages if you have to change it
+'myskin.css'      => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
 'chick.css'       => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
 'simple.css'      => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
 'modern.css'      => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
@@ -3469,7 +3469,7 @@ You can view its source',
 'nostalgia.js'   => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
 'cologneblue.js' => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
 'monobook.js'    => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
-'myskin.js'      => '/* Any JavaScript here will be loaded for users using the Myskin skin */', # only translate this message to other languages if you have to change it
+'myskin.js'      => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
 'chick.js'       => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
 'simple.js'      => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
 'modern.js'      => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
@@ -4384,5 +4384,14 @@ If the user is currently logged in anywhere, they will be immediately logged out
 'disableaccount-nosuchuser'  => 'The user account "$1" does not exist.',
 'disableaccount-success'     => 'The user account "$1" has been permanently disabled.',
 'disableaccount-logentry'    => 'permanently disabled the user account [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Upload stash',
+'uploadstash-summary'  => 'This page provides access to files which are uploaded (or in the process of uploading) but are not yet published to the wiki. These files are not visible to anyone but the user who uploaded them.',
+'uploadstash-clear'    => 'Clear stashed files',
+'uploadstash-nofiles'  => 'You have no stashed files.',
+'uploadstash-badtoken' => 'Performing of that action was unsuccessful, perhaps because your editing credentials expired. Try again.',
+'uploadstash-errclear' => 'Clearing the files was unsuccessful.',
+'uploadstash-refresh'  => 'Refresh the list of files',
 
 );

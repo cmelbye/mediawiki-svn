@@ -774,8 +774,12 @@ Le ultime entrata del registro de blocadas es reproducite ci infra pro informati
 '''Le modificationes non ha ancora essite salveguardate!'''",
 'userjspreview'                    => "'''Non oblida que isto es solmente un test/previsualisation de tu JavaScript personalisate.'''
 '''Illo non ha ancora essite salveguardate!'''",
-'userinvalidcssjstitle'            => "'''Attention:''' Le stilo \"\$1\" non existe.
-Memora que le paginas .css and .js personalisate usa un titulo in minusculas, p.ex. {{ns:user}}:Foo/monobook.css e non {{ns:user}}:Foo/Monobook.css.",
+'sitecsspreview'                   => "'''Non oblida que isto es solmente un previsualisation de iste CSS.'''
+'''Le modificationes non ha ancora essite salveguardate!'''",
+'sitejspreview'                    => "'''Non oblida que isto es solmente un previsualisation de iste codice JavaScript.'''
+'''Le modificationes non ha ancora essite salveguardate!'''",
+'userinvalidcssjstitle'            => "'''Attention:''' Le apparentia \"\$1\" non existe.
+Memora que le paginas .css and .js personalisate usa un titulo in minusculas, p.ex. {{ns:user}}:Foo/vector.css e non {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Actualisate)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Isto es solmente un previsualisation.'''
@@ -1049,7 +1053,7 @@ Vide le [[Special:IPBlockList|lista de blocadas IP]] pro le lista de bannimentos
 'revmove-norevisions-title'    => 'Le version de destination es invalide',
 'revmove-norevisions'          => 'Tu non ha specificate un o plus versiones de destination pro executar iste function o le version specificate non existe.',
 'revmove-nullmove-title'       => 'Titulo invalide',
-'revmove-nullmove'             => 'Le paginas de origine e de destination es identic. Per favor preme "retro" e entra un nomine de pagina differente de "[[$1]]".',
+'revmove-nullmove'             => 'Le paginas de origine e de destination es identic. Per favor preme "retro" e entra un nomine de pagina differente de "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al pagina existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al nove pagina [[$3]].',
 
@@ -1177,7 +1181,7 @@ Nota que lor indices del contento de {{SITENAME}} pote esser obsolete.',
 'prefsnologin'                  => 'Tu non ha aperite un session',
 'prefsnologintext'              => 'Tu debe <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aperir un session] pro poter configurar tu preferentias.',
 'changepassword'                => 'Cambiar contrasigno',
-'prefs-skin'                    => 'Stilo',
+'prefs-skin'                    => 'Apparentia',
 'skin-preview'                  => 'Previsualisation',
 'prefs-math'                    => 'Mathematica',
 'datedefault'                   => 'Nulle preferentia',
@@ -3345,6 +3349,7 @@ Tu pote etiam [[Special:Watchlist/edit|usar le editor standard]].',
 'version-specialpages'             => 'Paginas special',
 'version-parserhooks'              => 'Uncinos del analysator syntactic',
 'version-variables'                => 'Variabiles',
+'version-skins'                    => 'Apparentias',
 'version-other'                    => 'Altere',
 'version-mediahandlers'            => 'Executores de media',
 'version-hooks'                    => 'Uncinos',
@@ -3479,5 +3484,14 @@ Si le usator es actualmente authenticate alicubi, su session essera immediatemen
 'disableaccount-nosuchuser'  => 'Le conto de usator "$1" non existe.',
 'disableaccount-success'     => 'Le conto de usator "$1" ha essite disactivate permanentemente.',
 'disableaccount-logentry'    => 'disactivava permanentemente le conto de usator [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Pila de files incargate',
+'uploadstash-summary'  => 'Iste pagina forni accesso al files que ha essite incargate (o que es in le processo de incargamento) ma non es ancora publicate in le wiki. Iste files es solmente visibile pro le usator qui los incargava.',
+'uploadstash-clear'    => 'Rader le pila de files incargate',
+'uploadstash-nofiles'  => 'Il non ha files in le pila.',
+'uploadstash-badtoken' => 'Le execution de iste action non succedeva, forsan proque le datos del session expirava. Tenta lo de novo.',
+'uploadstash-errclear' => 'Le radimento del files non succedeva.',
+'uploadstash-refresh'  => 'Refrescar le lista de files',
 
 );

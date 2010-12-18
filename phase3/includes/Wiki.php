@@ -7,9 +7,6 @@
 class MediaWiki {
 	var $params = array();
 
-	/** Constructor */
-	function __construct() {}
-
 	/**
 	 * Stores key/value pairs to circumvent global variables
 	 * Note that keys are case-insensitive!
@@ -52,6 +49,9 @@ class MediaWiki {
 		wfProfileIn( __METHOD__ );
 
 		$output->setTitle( $title );
+		if( $request->getVal( 'printable' ) === 'yes' ) {
+			$output->setPrintable();
+		}
 
 		wfRunHooks( 'BeforeInitialize', array( &$title, &$article, &$output, &$user, $request, $this ) );
 
@@ -104,10 +104,7 @@ class MediaWiki {
 	 * @return Title object to be $wgTitle
 	 */
 	function checkInitialQueries( $title, $action ) {
-		global $wgOut, $wgRequest, $wgContLang;
-		if( $wgRequest->getVal( 'printable' ) === 'yes' ) {
-			$wgOut->setPrintable();
-		}
+		global $wgRequest, $wgContLang;
 
 		$curid = $wgRequest->getInt( 'curid' );
 		if( $wgRequest->getCheck( 'search' ) ) {
@@ -382,19 +379,19 @@ class MediaWiki {
 	 * Do a job from the job queue
 	 */
 	function doJobs() {
-		$jobRunRate = $this->getVal( 'JobRunRate' );
+		global $wgJobRunRate;
 
-		if( $jobRunRate <= 0 || wfReadOnly() ) {
+		if( $wgJobRunRate <= 0 || wfReadOnly() ) {
 			return;
 		}
-		if( $jobRunRate < 1 ) {
+		if( $wgJobRunRate < 1 ) {
 			$max = mt_getrandmax();
-			if( mt_rand( 0, $max ) > $max * $jobRunRate ) {
+			if( mt_rand( 0, $max ) > $max * $wgJobRunRate ) {
 				return;
 			}
 			$n = 1;
 		} else {
-			$n = intval( $jobRunRate );
+			$n = intval( $wgJobRunRate );
 		}
 
 		while ( $n-- && false != ( $job = Job::pop() ) ) {

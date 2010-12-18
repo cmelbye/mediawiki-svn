@@ -749,8 +749,12 @@ Rejea kumbukumbu ya uzuio ya mwisho inayoandikwa chini:',
 '''Haijahifadhiwa bado!'''",
 'userjspreview'                    => "'''Kumbuka kwamba unajaribu/kuhakiki mandhari ya ukurasa wako wa JavaScript tu.'''
 '''Haijahifadhiwa bado!'''",
+'sitecsspreview'                   => "'''Kumbuka kwamba unahakiki tu mandhari ya CSS hii.'''
+'''Haijahifadhiwa bado!'''",
+'sitejspreview'                    => "'''Kumbuka kwamba unahakiki tu mandhari ya JavaScript hii.'''
+'''Haijahifadhiwa bado!'''",
 'userinvalidcssjstitle'            => "'''Onyo:''' Hakuna umbo \"\$1\".
-Kumbuka kwamba desturi ya kurasa za .css na .js hutumia herufi ndogo, yaani, {{ns:user}}:Foo/monobook.css na si {{ns:user}}:Foo/Monobook.css.",
+Kumbuka kwamba desturi ya kurasa za .css na .js hutumia herufi ndogo, yaani, {{ns:user}}:Foo/vector.css na si {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Imesasishwa)',
 'note'                             => "'''Taarifa:'''",
 'previewnote'                      => "'''Hii ni hakikisho tu; mabadiliko hayajahifadhiwa bado!'''",
@@ -2090,6 +2094,7 @@ huenda ikawa mtu mwingine ameurudisha tayari.',
 'sp-contributions-newbies-sub' => 'Kwa akaunti mpya',
 'sp-contributions-blocklog'    => 'Kumbukumbu ya uzuio',
 'sp-contributions-deleted'     => 'michango iliyofutwa ya mtumiaji',
+'sp-contributions-uploads'     => 'vipakizaji',
 'sp-contributions-logs'        => 'kumbukumbu',
 'sp-contributions-talk'        => 'majadiliano',
 'sp-contributions-userrights'  => 'usimamizi wa wezo za mtumiaji',

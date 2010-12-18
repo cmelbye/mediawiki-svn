@@ -652,7 +652,7 @@ Foar Information foulget n aktuellen Iendraach uut dät Benutser-Logbouk:',
 '''Beoachtje:''' Ätter dät Spiekerjen moast du dien Browser anwiese, ju näie Version tou leeden: '''Mozilla/Firefox:''' ''Strg-Shift-R'', '''Internet Explorer:''' ''Strg-F5'', '''Opera:''' ''F5'', '''Safari:''' ''Cmd-Shift-R'', '''Konqueror:''' ''F5''.",
 'userjspreview'                    => "== Foarschau fon dien Benutser-CSS ==
 '''Beoachtje:''' Ätter dät Spiekerjen moast du dien Browser kweede, ju näie Version tou leeden: '''Mozilla/Firefox:''' ''Strg-Shift-R'', '''Internet Explorer:''' ''Strg-F5'', '''Opera:''' ''F5'', '''Safari:''' ''Cmd-Shift-R'', '''Konqueror:''' ''F5''.",
-'userinvalidcssjstitle'            => "'''Woarschauenge:''' Deer existiert neen Skin \"\$1\". Betoank jädden, dät benutserspezifiske .css- un .js-Sieden män n Littek-Bouksteeuwe anfange mouten, also t.B. ''{{ns:user}}:Mustermann/monobook.css'', nit ''{{ns:user}}:Mustermann/Monobook.css''.",
+'userinvalidcssjstitle'            => "'''Woarschauenge:''' Deer existiert neen Skin \"\$1\". Betoank jädden, dät benutserspezifiske .css- un .js-Sieden män n Littek-Bouksteeuwe anfange mouten, also t.B. ''{{ns:user}}:Mustermann/vector.css'', nit ''{{ns:user}}:Mustermann/Vector.css''.",
 'updated'                          => '(Annerd)',
 'note'                             => "'''Waiwiesenge:'''",
 'previewnote'                      => "'''Dit is man ne Foarschau, die Artikkel wuude noch nit spiekerd!'''",
@@ -905,7 +905,7 @@ Wröigje do Logbouke.',
 'revmove-norevisions-title'    => 'Uunjäildige Sielversion',
 'revmove-norevisions'          => 'Du hääst neen Sielversion ounroat, uum disse Aktion truchtoufieren of ju ounroate Version bestoant nit.',
 'revmove-nullmove-title'       => 'Uungultigen Tittel',
-'revmove-nullmove'             => 'Wälle- un Sielsiede sunt identisk. Klik ap "tourääch" un reek n uur Siedennoome as "[[$1]]" ien.',
+'revmove-nullmove'             => 'Wälle- un Sielsiede sunt identisk. Klik ap "tourääch" un reek n uur Siedennoome as "$1" ien.',
 'revmove-success-existing'     => '{{PLURAL:$1|Ne Version fon [[$2]] wuud|$1 Versione fon [[$2]] wuuden}} tou ju existierende Siede [[$3]] ferschäuwen.',
 
 # History merging

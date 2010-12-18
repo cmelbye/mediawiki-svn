@@ -687,6 +687,9 @@ Wag asseblief alvorens u weer probeer.",
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => "U versoek om af te teken is geïgnoreer omdat dit lyk asof dit deur 'n gebreekte webleser of instaanbediener gestuur is.",
 
+# E-mail sending
+'php-mail-error-unknown' => 'Onbekende fout in PHP se mail()-funksie',
+
 # JavaScript password checks
 'password-strength'            => 'Geskatte wagwoordsterkte: $1',
 'password-strength-bad'        => 'SLEG',
@@ -820,8 +823,12 @@ Die laaste inskrywing in die blokkeerlogboek word hieronder vertoon:',
 'usercsspreview'                   => "'''Onthou hierdie is slegs 'n voorskou van u persoonlike CSS.'''
 '''Dit is nog nie gestoor nie!'''",
 'userjspreview'                    => "'''Onthou hierdie is slegs 'n toets/voorskou van u gebruiker-JavaScript, dit is nog nie gestoor nie.'''",
+'sitecsspreview'                   => "'''Onthou dat u na 'n voorskou van die globale CSS-kode kyk.'''
+'''Dit is nog nie gestoor nie!'''",
+'sitejspreview'                    => "'''Onthou dat u na 'n voorskou van die globale JavaScript-kode kyk.'''
+'''Dit is nog nie gestoor nie!'''",
 'userinvalidcssjstitle'            => "'''Waarskuwing:''' daar is nie 'n omslag \"\$1\" nie.
-Onthou dat u eie .css- en .js-bladsye met 'n kleinletter begin, byvoorbeeld {{ns:user}}:Naam/monobook.css in plaas van {{ns:user}}:Naam/Monobook.css.",
+Onthou dat u eie .css- en .js-bladsye met 'n kleinletter begin, byvoorbeeld {{ns:user}}:Naam/vector.css in plaas van {{ns:user}}:Naam/Vector.css.",
 'updated'                          => '(Gewysig)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Onthou dat hierdie slegs 'n voorskou is en nog nie gestoor is nie!'''",
@@ -1086,7 +1093,7 @@ Kyk na die [[Special:IPBlockList|IP-blokkeerlys]] om die huidige blokkades te si
 'revmove-norevisions-title'    => 'Ongeldige teiken-weergawe',
 'revmove-norevisions'          => 'U het nie een of meer teiken-weergawes gespesifiseer om die funksie te kan uitvoer nie; of die gespesifiseerde weergawe bestaan nie.',
 'revmove-nullmove-title'       => 'Ongeldige titel',
-'revmove-nullmove'             => 'Die bron- en teiken-bladsye is identies. Kliek op "terug" en verskaf \'n bladsynaam (nie "[[$1]]" nie).',
+'revmove-nullmove'             => 'Die bron- en teiken-bladsye is identies. Kliek op "terug" en verskaf \'n bladsynaam (nie "$1" nie).',
 'revmove-success-existing'     => '{{PLURAL:$1|Een weergawe van [[$2]] is|$1 weergawes van [[$2]] is}} na die bestaande bladsy [[$3]] geskuif.',
 'revmove-success-created'      => '{{PLURAL:$1|Een weergawe van [[$2]] is|$1 weergawes van [[$2]] is}} na die nuutgeskepte bladsy [[$3]] verskuif.',
 
@@ -1428,6 +1435,7 @@ U kan ook besluit om e-pos te ontvang as ander gebruikers u gebruikers- of bespr
 'right-override-export-depth' => "Eksporteer bladsye insluitend geskakelde bladsye tot 'n diepte van 5",
 'right-sendemail'             => 'Stuur e-pos aan ander gebruikers',
 'right-revisionmove'          => 'Skuif wysigings',
+'right-disableaccount'        => 'Deaktiveer gebruikers',
 
 # User rights log
 'rightslog'      => 'Gebruikersregtelogboek',
@@ -2324,6 +2332,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Bydraes van nuwe gebruikers',
 'sp-contributions-blocklog'            => 'blokkeer-logboek',
 'sp-contributions-deleted'             => 'geskrapte gebruikersbydraes',
+'sp-contributions-uploads'             => 'oplaaie',
 'sp-contributions-logs'                => 'logboeke',
 'sp-contributions-talk'                => 'bespreking',
 'sp-contributions-userrights'          => 'bestuur gebruikersregte',
@@ -3314,6 +3323,7 @@ U kan ook die [[Special:Watchlist/edit|standaard opdaterigskerm gebruik]].',
 'version-specialpages'             => 'Spesiale bladsye',
 'version-parserhooks'              => 'Ontlederhoeke',
 'version-variables'                => 'Veranderlikes',
+'version-skins'                    => 'Omslae',
 'version-other'                    => 'Ander',
 'version-mediahandlers'            => 'Mediaverwerkers',
 'version-hooks'                    => 'Hoeke',
@@ -3435,5 +3445,14 @@ Verskaf die lêernaam sonder die "{{ns:file}}:" voorvoegsel.',
 # SQLite database support
 'sqlite-has-fts' => 'Weergawe $1 met ondersteuning vir vol-teks soektogte ("full-text search")',
 'sqlite-no-fts'  => 'Weergawe $1 sonder ondersteuning vir vol-teks soektogte ("full-text search")',
+
+# Special:DisableAccount
+'disableaccount'             => "Deaktiveer 'n gebruiker",
+'disableaccount-user'        => 'Gebruikernaam:',
+'disableaccount-reason'      => 'Rede:',
+'disableaccount-mustconfirm' => 'U moet bevestig dat u hierdie gebruiker wil deaktiveer.',
+'disableaccount-nosuchuser'  => 'Die gebruiker "$1" bestaan nie.',
+'disableaccount-success'     => 'Die gebruiker "$1" is permanent gedeaktiveer.',
+'disableaccount-logentry'    => 'het die gebruiker [[$1]] permanent gedeaktiveer',
 
 );

@@ -724,8 +724,12 @@ Dyma'r cofnod lòg diweddaraf, er gwybodaeth:",
 'usercsspreview'                   => "'''Cofiwch - dim ond rhagolwg o'ch CSS defnyddiwr yw hwn.'''
 '''Nid yw wedi'i gadw eto!'''",
 'userjspreview'                    => "'''Cofiwch -- dim ond rhagolwg o'ch JavaScript yw hwn; nid yw wedi'i gadw eto!'''",
+'sitecsspreview'                   => "'''Cofiwch - dim ond rhagolwg o'ch CSS yw hwn.'''
+'''Nid yw wedi'i gadw eto!'''",
+'sitejspreview'                    => "'''Cofiwch - dim ond rhagolwg o'ch côd JavaScript yw hwn.'''
+'''Nid yw wedi'i rhoi ar gadw eto!'''",
 'userinvalidcssjstitle'            => "'''Rhybudd:''' Nid oes gwedd o'r enw \"\$1\".
-Cofiwch bod y tudalennau .css a .js yn defnyddio llythrennau bach, e.e. {{ns:user}}:Foo/monobook.css yn hytrach na {{ns:user}}:Foo/Monobook.css.",
+Cofiwch bod y tudalennau .css a .js yn defnyddio llythrennau bach, e.e. {{ns:user}}:Foo/vector.css yn hytrach na {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Diweddariad)',
 'note'                             => "'''Dalier sylw:'''",
 'previewnote'                      => "'''Cofiwch taw rhagolwg yw hwn; nid yw'r dudalen wedi ei chadw eto.'''",
@@ -989,7 +993,7 @@ Gallwch weld rhestr y gwaharddiadau a'r blociau gweithredol ar y [[Special:IPBlo
 'revmove-norevisions-title'    => 'Penwyd diwygiad annilys',
 'revmove-norevisions'          => "Nid ydych wedi nodi un neu ragor o ddiwygiadau i'w symud, ynteu nid yw'r diwygiad a nodwyd ar gael.",
 'revmove-nullmove-title'       => 'Teitl gwallus',
-'revmove-nullmove'             => 'Mae\'r un enw ar dudalennau\'r ffynhonnell a\'r cyrchfan. Pwyswch y botwm "Nôl" a phennwch enw tudalen heblaw "[[$1]]".',
+'revmove-nullmove'             => 'Mae\'r un enw ar dudalennau\'r ffynhonnell a\'r cyrchfan. Pwyswch y botwm "Nôl" a phennwch enw tudalen heblaw "$1".',
 'revmove-success-existing'     => "{{PLURAL:$1|Cafodd un diwygiad o [[$2]] ei|$1 diwygiad o [[$2]] eu}} symud i'r dudalen [[$3]].",
 'revmove-success-created'      => "{{PLURAL:$1|Cafodd un diwygiad o [[$2]] ei|$1 diwygiad o [[$2]] eu}} symud i'r dudalen sydd newydd gael ei chreu [[$3]].",
 

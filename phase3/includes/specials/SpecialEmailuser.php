@@ -57,7 +57,6 @@ class SpecialEmailUser extends UnlistedSpecialPage {
 				'id' => 'mw-emailuser-recipient',
 			),
 			'Target' => array(
-				'name' => 'wpTarget',
 				'type' => 'hidden',
 				'default' => $this->mTargetObj->getName(),
 			),
@@ -279,7 +278,7 @@ class SpecialEmailUser extends UnlistedSpecialPage {
 
 		$status = UserMailer::send( $to, $mailFrom, $subject, $text, $replyTo );
 
-		if( !$status->isGood() && false ) {
+		if( !$status->isGood() ) {
 			return $status;
 		} else {
 			// if the user requested a copy of this mail, do this now,

@@ -20,9 +20,9 @@ abstract class WebInstallerPage {
 	 * @var WebInstaller
 	 */
 	public $parent;
-	
+
 	public abstract function execute();
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -49,28 +49,28 @@ abstract class WebInstallerPage {
 		);
 	}
 
-	public function endForm( $continue = 'continue' ) {
+	public function endForm( $continue = 'continue', $back = 'back' ) {
 		$s = "<div class=\"config-submit\">\n";
 		$id = $this->getId();
-		
+
 		if ( $id === false ) {
 			$s .= Html::hidden( 'lastPage', $this->parent->request->getVal( 'lastPage' ) );
 		}
-		
+
 		if ( $continue ) {
 			// Fake submit button for enter keypress (bug 26267)
 			$s .= Xml::submitButton( wfMsg( "config-$continue" ),
 				array( 'name' => "enter-$continue", 'style' => 'visibility:hidden;overflow:hidden;width:1px;margin:0' ) ) . "\n";
 		}
-		
-		if ( $id !== 0 ) {
-			$s .= Xml::submitButton( wfMsg( 'config-back' ),
+
+		if ( $back ) {
+			$s .= Xml::submitButton( wfMsg( "config-$back" ),
 				array(
-					'name' => 'submit-back',
+					'name' => "submit-$back",
 					'tabindex' => $this->parent->nextTabIndex()
 				) ) . "\n";
 		}
-		
+
 		if ( $continue ) {
 			$s .= Xml::submitButton( wfMsg( "config-$continue" ),
 				array(
@@ -78,7 +78,7 @@ abstract class WebInstallerPage {
 					'tabindex' => $this->parent->nextTabIndex(),
 				) ) . "\n";
 		}
-		
+
 		$s .= "</div></form></div>\n";
 		$this->addHTML( $s );
 	}
@@ -116,58 +116,8 @@ abstract class WebInstallerPage {
 	}
 }
 
-class WebInstaller_Locked extends WebInstallerPage {
-	// The status of Installer::getLocalSettingsStatus()
-	private $status;
-
-	public function setLocalSettingsStatus( Status $s ) {
-		$this->status = $s;
-	}
-
-	protected function getId() {
-		return 0;
-	}
-
-	public function execute() {
-		$r = $this->parent->request;
-		if( !$r->wasPosted() || !$this->status->isOK() ) {
-			$this->display();
-			return 'output';
-		} else {
-			$key = $r->getText( 'config_wpUpgradeKey' );
-			if( !$key || $key !== $this->getVar( '_UpgradeKey' ) ) {
-				$this->parent->showError( 'config-localsettings-badkey' );
-				$this->display();
-				return 'output';
-			} else {
-				$this->setVar( '_LocalSettingsLocked', false );
-				return 'continue';
-			}
-		}
-	}
-
-	/**
-	 * Display stuff to the end user
-	 */
-	private function display() {
-		$this->startForm();
-		$this->parent->showStatusBox( $this->status );
-		$continue = false;
-		if( $this->status->isOK() && !$this->status->isGood() ) {
-			$this->addHTML( "<br />" .
-				$this->parent->getTextBox( array(
-					'var' => 'wpUpgradeKey',
-					'label' => 'config-localsettings-key',
-				) )
-			);
-			$continue = 'continue';
-		}
-		$this->endForm( $continue );
-	}
-}
-
 class WebInstaller_Language extends WebInstallerPage {
-	
+
 	public function execute() {
 		global $wgLang;
 		$r = $this->parent->request;
@@ -222,7 +172,7 @@ class WebInstaller_Language extends WebInstallerPage {
 			$this->getLanguageSelector( 'UserLang', 'config-your-language', $userLang, $this->parent->getHelpBox( 'config-your-language-help' ) ) .
 			$this->getLanguageSelector( 'ContLang', 'config-wiki-language', $contLang, $this->parent->getHelpBox( 'config-wiki-language-help' ) );
 		$this->addHTML( $s );
-		$this->endForm();
+		$this->endForm( 'continue', false );
 	}
 
 	/**
@@ -242,11 +192,151 @@ class WebInstaller_Language extends WebInstallerPage {
 		$s .= "\n</select>\n";
 		return $this->parent->label( $label, $name, $s );
 	}
-	
+
+}
+
+class WebInstaller_ExistingWiki extends WebInstallerPage {
+	public function execute() {
+		// If there is no LocalSettings.php, continue to the installer welcome page
+		$vars = $this->parent->getExistingLocalSettings();
+		if ( !$vars ) {
+			return 'skip';
+		}
+
+		// Check if the upgrade key supplied to the user has appeared in LocalSettings.php
+		if ( $vars['wgUpgradeKey'] !== false
+			&& $this->getVar( '_UpgradeKeySupplied' )
+			&& $this->getVar( 'wgUpgradeKey' ) === $vars['wgUpgradeKey'] )
+		{
+			// It's there, so the user is authorized
+			$status = $this->handleExistingUpgrade( $vars );
+			if ( $status->isOK() ) {
+				return 'skip';
+			} else {
+				$this->startForm();
+				$this->parent->showStatusBox( $status );
+				$this->endForm( 'continue' );
+				return 'output';
+			}
+			return $this->handleExistingUpgrade( $vars );
+		}
+
+		// If there is no $wgUpgradeKey, tell the user to add one to LocalSettings.php
+		if ( $vars['wgUpgradeKey'] === false ) {
+			if ( $this->getVar( 'wgUpgradeKey', false ) === false ) {
+				$this->parent->generateUpgradeKey();
+				$this->setVar( '_UpgradeKeySupplied', true );
+			}
+			$this->startForm();
+			$this->addHTML( $this->parent->getInfoBox(
+				wfMsgNoTrans( 'config-upgrade-key-missing',
+					"<pre>\$wgUpgradeKey = '" . $this->getVar( 'wgUpgradeKey' ) . "';</pre>" )
+			) );
+			$this->endForm( 'continue' );
+			return 'output';
+		}
+
+		// If there is an upgrade key, but it wasn't supplied, prompt the user to enter it
+
+		$r = $this->parent->request;
+		if ( $r->wasPosted() ) {
+			$key = $r->getText( 'config_wgUpgradeKey' );
+			if( !$key || $key !== $vars['wgUpgradeKey'] ) {
+				$this->parent->showError( 'config-localsettings-badkey' );
+				$this->showKeyForm();
+				return 'output';
+			}
+			// Key was OK
+			$status = $this->handleExistingUpgrade( $vars );
+			if ( $status->isOK() ) {
+				return 'continue';
+			} else {
+				$this->parent->showStatusBox( $status );
+				$this->showKeyForm();
+				return 'output';
+			}
+		} else {
+			$this->showKeyForm();
+			return 'output';
+		}
+	}
+
+	/**
+	 * Show the "enter key" form
+	 */
+	protected function showKeyForm() {
+		$this->startForm();
+		$this->addHTML(
+			$this->parent->getInfoBox( wfMsgNoTrans( 'config-localsettings-upgrade' ) ).
+			'<br />' .
+			$this->parent->getTextBox( array(
+				'var' => 'wgUpgradeKey',
+				'label' => 'config-localsettings-key',
+				'attribs' => array( 'autocomplete' => 'off' ),
+			) )
+		);
+		$this->endForm( 'continue' );
+	}
+
+	protected function importVariables( $names, $vars ) {
+		$status = Status::newGood();
+		foreach ( $names as $name ) {
+			if ( !isset( $vars[$name] ) ) {
+				$status->fatal( 'config-localsettings-incomplete', $name );
+			}
+			$this->setVar( $name, $vars[$name] );
+		}
+		return $status;
+	}
+
+	/**
+	 * Initiate an upgrade of the existing database
+	 * @param $vars Variables from LocalSettings.php and AdminSettings.php
+	 * @return Status
+	 */
+	protected function handleExistingUpgrade( $vars ) {
+		// Check $wgDBtype
+		if ( !isset( $vars['wgDBtype'] ) || !in_array( $vars['wgDBtype'], Installer::getDBTypes() ) ) {
+			return Status::newFatal( 'config-localsettings-connection-error', '' );
+		}
+
+		// Set the relevant variables from LocalSettings.php
+		$requiredVars = array( 'wgDBtype', 'wgDBuser', 'wgDBpassword' );
+		$status = $this->importVariables( $requiredVars , $vars );
+		$installer = $this->parent->getDBInstaller();
+		$status->merge( $this->importVariables( $installer->getGlobalNames(), $vars ) );
+		if ( !$status->isOK() ) {
+			return $status;
+		}
+
+		if ( isset( $vars['wgDBadminuser'] ) ) {
+			$this->setVar( '_InstallUser', $vars['wgDBadminuser'] );
+		} else {
+			$this->setVar( '_InstallUser', $vars['wgDBuser'] );
+		}
+		if ( isset( $vars['wgDBadminpassword'] ) ) {
+			$this->setVar( '_InstallPassword', $vars['wgDBadminpassword'] );
+		} else {
+			$this->setVar( '_InstallPassword', $vars['wgDBpassword'] );
+		}
+
+		// Test the database connection
+		$status = $installer->getConnection();
+		if ( !$status->isOK() ) {
+			// Adjust the error message to explain things correctly
+			$status->replaceMessage( 'config-connection-error',
+				'config-localsettings-connection-error' );
+			return $status;
+		}
+
+		// All good
+		$this->setVar( '_ExistingDBSettings', true );
+		return $status;
+	}
 }
 
 class WebInstaller_Welcome extends WebInstallerPage {
-	
+
 	public function execute() {
 		if ( $this->parent->request->wasPosted() ) {
 			if ( $this->getVar( '_Environment' ) ) {
@@ -262,12 +352,16 @@ class WebInstaller_Welcome extends WebInstallerPage {
 			$this->endForm();
 		}
 	}
-	
+
 }
 
 class WebInstaller_DBConnect extends WebInstallerPage {
-	
+
 	public function execute() {
+		if ( $this->getVar( '_ExistingDBSettings' ) ) {
+			return 'skip';
+		}
+
 		$r = $this->parent->request;
 		if ( $r->wasPosted() ) {
 			$status = $this->submit();
@@ -334,14 +428,17 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 		}
 		return $installer->submitConnectForm();
 	}
-	
+
 }
 
 class WebInstaller_Upgrade extends WebInstallerPage {
-	
+
 	public function execute() {
 		if ( $this->getVar( '_UpgradeDone' ) ) {
-			if ( $this->parent->request->wasPosted() ) {
+			// Allow regeneration of LocalSettings.php, unless we are working 
+			// from a pre-existing LocalSettings.php file and we want to avoid
+			// leaking its contents
+			if ( $this->parent->request->wasPosted() && !$this->getVar( '_ExistingDBSettings' ) ) {
 				// Done message acknowledged
 				return 'continue';
 			} else {
@@ -389,22 +486,30 @@ class WebInstaller_Upgrade extends WebInstallerPage {
 
 	public function showDoneMessage() {
 		$this->startForm();
+		$regenerate = !$this->getVar( '_ExistingDBSettings' );
+		if ( $regenerate ) {
+			$msg = 'config-upgrade-done';
+		} else {
+			$msg = 'config-upgrade-done-no-regenerate';
+		}
+		$this->parent->disableLinkPopups();
 		$this->addHTML(
 			$this->parent->getInfoBox(
-				wfMsgNoTrans( 'config-upgrade-done',
+				wfMsgNoTrans( $msg,
 					$GLOBALS['wgServer'] .
 						$this->getVar( 'wgScriptPath' ) . '/index' .
 						$this->getVar( 'wgScriptExtension' )
 				), 'tick-32.png'
 			)
 		);
-		$this->endForm( 'regenerate' );
+		$this->parent->restoreLinkPopups();
+		$this->endForm( $regenerate ? 'regenerate' : false, false );
 	}
-	
+
 }
 
 class WebInstaller_DBSettings extends WebInstallerPage {
-	
+
 	public function execute() {
 		$installer = $this->parent->getDBInstaller( $this->getVar( 'wgDBtype' ) );
 
@@ -433,7 +538,7 @@ class WebInstaller_DBSettings extends WebInstallerPage {
 }
 
 class WebInstaller_Name extends WebInstallerPage {
-	
+
 	public function execute() {
 		$r = $this->parent->request;
 		if ( $r->wasPosted() ) {
@@ -471,7 +576,7 @@ class WebInstaller_Name extends WebInstallerPage {
 				'var' => 'wgMetaNamespace',
 				'label' => '', //TODO: Needs a label?
 				'attribs' => array( 'readonly' => 'readonly', 'class' => 'enabledByOther' ),
-			    
+
 			) ) .
 			$this->getFieldSetStart( 'config-admin-box' ) .
 			$this->parent->getTextBox( array(
@@ -601,11 +706,11 @@ class WebInstaller_Name extends WebInstallerPage {
 		}
 		return $retVal;
 	}
-	
+
 }
 
 class WebInstaller_Options extends WebInstallerPage {
-	
+
 	public function execute() {
 		if ( $this->getVar( '_SkipOptional' ) == 'skip' ) {
 			return 'skip';
@@ -880,7 +985,7 @@ class WebInstaller_Options extends WebInstallerPage {
 		$this->parent->setVar( '_Extensions', $extsToInstall );
 		return true;
 	}
-	
+
 }
 
 class WebInstaller_Install extends WebInstallerPage {
@@ -923,11 +1028,11 @@ class WebInstaller_Install extends WebInstallerPage {
 			$this->parent->showStatusBox( $status );
 		}
 	}
-	
+
 }
 
 class WebInstaller_Complete extends WebInstallerPage {
-	
+
 	public function execute() {
 		// Pop up a dialog box, to make it difficult for the user to forget 
 		// to download the file
@@ -935,6 +1040,7 @@ class WebInstaller_Complete extends WebInstallerPage {
 		$this->parent->request->response()->header( "Refresh: 0;$lsUrl" );
 
 		$this->startForm();
+		$this->parent->disableLinkPopups();
 		$this->addHTML(
 			$this->parent->getInfoBox(
 				wfMsgNoTrans( 'config-install-done',
@@ -946,12 +1052,13 @@ class WebInstaller_Complete extends WebInstallerPage {
 				), 'tick-32.png'
 			)
 		);
-		$this->endForm( false );
+		$this->parent->restoreLinkPopups();
+		$this->endForm( false, false );
 	}
 }
 
 class WebInstaller_Restart extends WebInstallerPage {
-	
+
 	public function execute() {
 		$r = $this->parent->request;
 		if ( $r->wasPosted() ) {
@@ -969,11 +1076,11 @@ class WebInstaller_Restart extends WebInstallerPage {
 		$this->addHTML( $s );
 		$this->endForm( 'restart' );
 	}
-	
+
 }
 
 abstract class WebInstaller_Document extends WebInstallerPage {
-	
+
 	protected abstract function getFileName();
 
 	public  function execute() {
@@ -1016,7 +1123,7 @@ abstract class WebInstaller_Document extends WebInstallerPage {
 		return '<span class="config-plainlink">[http://www.mediawiki.org/wiki/Manual:' .
 			$matches[1] . ' ' . $matches[1] . ']</span>';
 	}
-	
+
 }
 
 class WebInstaller_Readme extends WebInstaller_Document {

@@ -712,8 +712,8 @@ class Linker {
 
 				wfProfileOut( __METHOD__ );
 				return '<a href="' . htmlspecialchars( $href ) . '" class="new" title="' .
-								htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
-								htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
+					htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
+					htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
 			} else {
 				wfProfileOut( __METHOD__ );
 				return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
@@ -1937,7 +1937,6 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeStubLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		// wfDeprecated( __METHOD__ );
 		return $this->makeColouredLinkObj( $nt, 'stub', $text, $query, $trail, $prefix );
 	}
 
@@ -1956,7 +1955,6 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeColouredLinkObj( $nt, $colour, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		// wfDeprecated( __METHOD__ );
 		if ( $colour != '' ) {
 			$style = $this->getInternalLinkAttributesObj( $nt, $text, $colour );
 		} else $style = '';

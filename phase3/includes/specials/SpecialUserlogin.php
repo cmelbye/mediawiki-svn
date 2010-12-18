@@ -22,24 +22,11 @@
  */
 
 /**
- * Constructor
- */
-function wfSpecialUserlogin( $par = '' ) {
-	global $wgRequest;
-	if( session_id() == '' ) {
-		wfSetupSession();
-	}
-
-	$form = new LoginForm( $wgRequest, $par );
-	$form->execute();
-}
-
-/**
  * Implements Special:UserLogin
  *
  * @ingroup SpecialPage
  */
-class LoginForm {
+class LoginForm extends SpecialPage {
 
 	const SUCCESS = 0;
 	const NO_NAME = 1;
@@ -56,23 +43,34 @@ class LoginForm {
 	const NEED_TOKEN = 12;
 	const WRONG_TOKEN = 13;
 
-	var $mName, $mPassword, $mRetype, $mReturnTo, $mCookieCheck, $mPosted;
+	var $mUsername, $mPassword, $mRetype, $mReturnTo, $mCookieCheck, $mPosted;
 	var $mAction, $mCreateaccount, $mCreateaccountMail, $mMailmypassword;
 	var $mLoginattempt, $mRemember, $mEmail, $mDomain, $mLanguage;
 	var $mSkipCookieCheck, $mReturnToQuery, $mToken, $mStickHTTPS;
 
 	private $mExtUser = null;
 
+	public function __construct( $request = null ) {
+		parent::__construct( 'Userlogin' );
+
+		if ( $request === null ) {
+			global $wgRequest;
+			$this->load( $wgRequest );
+		} else {
+			$this->load( $request );
+		}
+	}
+
 	/**
-	 * Constructor
-	 * @param $request WebRequest: a WebRequest object passed by reference
-	 * @param $par String: subpage parameter
+	 * Loader
+	 *
+	 * @param $request WebRequest object
 	 */
-	function __construct( &$request, $par = '' ) {
+	function load( $request ) {
 		global $wgAuth, $wgHiddenPrefs, $wgEnableEmail, $wgRedirectOnLogin;
 
-		$this->mType = ( $par == 'signup' ) ? $par : $request->getText( 'type' ); # Check for [[Special:Userlogin/signup]]
-		$this->mName = $request->getText( 'wpName' );
+		$this->mType = $request->getText( 'type' );
+		$this->mUsername = $request->getText( 'wpName' );
 		$this->mPassword = $request->getText( 'wpPassword' );
 		$this->mRetype = $request->getText( 'wpRetype' );
 		$this->mDomain = $request->getText( 'wpDomain' );
@@ -123,7 +121,15 @@ class LoginForm {
 		}
 	}
 
-	function execute() {
+	public function execute( $par ) {
+		if ( session_id() == '' ) {
+			wfSetupSession();
+		}
+
+		if ( $par == 'signup' ) { # Check for [[Special:Userlogin/signup]]
+			$this->mType = 'signup';
+		}
+
 		if ( !is_null( $this->mCookieCheck ) ) {
 			$this->onCookieRedirectCheck( $this->mCookieCheck );
 			return;
@@ -148,7 +154,7 @@ class LoginForm {
 		global $wgOut;
 
 		if ( $this->mEmail == '' ) {
-			$this->mainLoginForm( wfMsgExt( 'noemail', array( 'parsemag', 'escape' ), $this->mName ) );
+			$this->mainLoginForm( wfMsgExt( 'noemail', array( 'parsemag', 'escape' ), $this->mUsername ) );
 			return;
 		}
 
@@ -167,8 +173,6 @@ class LoginForm {
 		$u->addNewUserLogEntry( true, $this->mReason );
 
 		$wgOut->setPageTitle( wfMsg( 'accmailtitle' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
 
 		if( !$result->isGood() ) {
 			$this->mainLoginForm( wfMsg( 'mailerror', $result->getWikiText() ) );
@@ -227,8 +231,6 @@ class LoginForm {
 			# Confirm that the account was created
 			$self = SpecialPage::getTitleFor( 'Userlogin' );
 			$wgOut->setPageTitle( wfMsgHtml( 'accountcreated' ) );
-			$wgOut->setArticleRelated( false );
-			$wgOut->setRobotPolicy( 'noindex,nofollow' );
 			$wgOut->addHTML( wfMsgWikiHtml( 'accountcreatedtext', $u->getName() ) );
 			$wgOut->returnToMain( false, $self );
 			wfRunHooks( 'AddNewAccount', array( $u, false ) );
@@ -258,7 +260,7 @@ class LoginForm {
 		// create a local account and login as any domain user). We only need
 		// to check this for domains that aren't local.
 		if( 'local' != $this->mDomain && $this->mDomain != '' ) {
-			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mName ) || !$wgAuth->authenticate( $this->mName, $this->mPassword ) ) ) {
+			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mUsername ) || !$wgAuth->authenticate( $this->mUsername, $this->mPassword ) ) ) {
 				$this->mainLoginForm( wfMsg( 'wrongpassword' ) );
 				return false;
 			}
@@ -304,7 +306,7 @@ class LoginForm {
 		}
 
 		# Now create a dummy user ($u) and check if it is valid
-		$name = trim( $this->mName );
+		$name = trim( $this->mUsername );
 		$u = User::newFromName( $name, 'creatable' );
 		if ( !is_object( $u ) ) {
 			$this->mainLoginForm( wfMsg( 'noname' ) );
@@ -433,7 +435,7 @@ class LoginForm {
 	public function authenticateUserData() {
 		global $wgUser, $wgAuth, $wgMemc;
 
-		if ( $this->mName == '' ) {
+		if ( $this->mUsername == '' ) {
 			return self::NO_NAME;
 		}
 
@@ -456,7 +458,7 @@ class LoginForm {
 
 		$throttleCount = 0;
 		if ( is_array( $wgPasswordAttemptThrottle ) ) {
-			$throttleKey = wfMemcKey( 'password-throttle', wfGetIP(), md5( $this->mName ) );
+			$throttleKey = wfMemcKey( 'password-throttle', wfGetIP(), md5( $this->mUsername ) );
 			$count = $wgPasswordAttemptThrottle['count'];
 			$period = $wgPasswordAttemptThrottle['seconds'];
 
@@ -481,16 +483,16 @@ class LoginForm {
 		// creates the user in the database. Until we load $wgUser, checking
 		// for user existence using User::newFromName($name)->getId() below
 		// will effectively be using stale data.
-		if ( $wgUser->getName() === $this->mName ) {
-			wfDebug( __METHOD__ . ": already logged in as {$this->mName}\n" );
+		if ( $wgUser->getName() === $this->mUsername ) {
+			wfDebug( __METHOD__ . ": already logged in as {$this->mUsername}\n" );
 			return self::SUCCESS;
 		}
 
-		$this->mExtUser = ExternalUser::newFromName( $this->mName );
+		$this->mExtUser = ExternalUser::newFromName( $this->mUsername );
 
 		# TODO: Allow some magic here for invalid external names, e.g., let the
 		# user choose a different wiki name.
-		$u = User::newFromName( $this->mName );
+		$u = User::newFromName( $this->mUsername );
 		if( !( $u instanceof User ) || !User::isUsableName( $u->getName() ) ) {
 			return self::ILLEGAL;
 		}
@@ -639,7 +641,7 @@ class LoginForm {
 				self::clearLoginToken();
 
 				// Reset the throttle
-				$key = wfMemcKey( 'password-throttle', wfGetIP(), md5( $this->mName ) );
+				$key = wfMemcKey( 'password-throttle', wfGetIP(), md5( $this->mUsername ) );
 				global $wgMemc;
 				$wgMemc->delete( $key );
 
@@ -671,9 +673,9 @@ class LoginForm {
 				break;
 			case self::NOT_EXISTS:
 				if( $wgUser->isAllowed( 'createaccount' ) ) {
-					$this->mainLoginForm( wfMsgWikiHtml( 'nosuchuser', htmlspecialchars( $this->mName ) ) );
+					$this->mainLoginForm( wfMsgWikiHtml( 'nosuchuser', htmlspecialchars( $this->mUsername ) ) );
 				} else {
-					$this->mainLoginForm( wfMsg( 'nosuchusershort', htmlspecialchars( $this->mName ) ) );
+					$this->mainLoginForm( wfMsg( 'nosuchusershort', htmlspecialchars( $this->mUsername ) ) );
 				}
 				break;
 			case self::WRONG_PASS:
@@ -693,7 +695,7 @@ class LoginForm {
 				break;
 			case self::USER_BLOCKED:
 				$this->mainLoginForm( wfMsgExt( 'login-userblocked',
-					array( 'parsemag', 'escape' ), $this->mName ) );
+					array( 'parsemag', 'escape' ), $this->mUsername ) );
 				break;
 			default:
 				throw new MWException( 'Unhandled case value' );
@@ -732,7 +734,7 @@ class LoginForm {
 
 		# Check for hooks
 		$error = null;
-		if ( !wfRunHooks( 'UserLoginMailPassword', array( $this->mName, &$error ) ) ) {
+		if ( !wfRunHooks( 'UserLoginMailPassword', array( $this->mUsername, &$error ) ) ) {
 			$this->mainLoginForm( $error );
 			return;
 		}
@@ -756,11 +758,11 @@ class LoginForm {
 			return;
 		}
 
-		if ( $this->mName == '' ) {
+		if ( $this->mUsername == '' ) {
 			$this->mainLoginForm( wfMsg( 'noname' ) );
 			return;
 		}
-		$u = User::newFromName( $this->mName );
+		$u = User::newFromName( $this->mUsername );
 		if( !$u instanceof User ) {
 			$this->mainLoginForm( wfMsg( 'noname' ) );
 			return;
@@ -884,8 +886,6 @@ class LoginForm {
 		global $wgOut, $wgUser;
 
 		$wgOut->setPageTitle( wfMsg( 'loginsuccesstitle' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
 		$wgOut->addWikiMsg( $msgname, $wgUser->getName() );
 		$wgOut->addHTML( $injected_html );
 
@@ -909,8 +909,6 @@ class LoginForm {
 		# out.
 
 		$wgOut->setPageTitle( wfMsg( 'cantcreateaccounttitle' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
 
 		$ip = wfGetIP();
 		$blocker = User::whoIs( $wgUser->mBlock->mBy );
@@ -950,11 +948,11 @@ class LoginForm {
 			}
 		}
 
-		if ( $this->mName == '' ) {
+		if ( $this->mUsername == '' ) {
 			if ( $wgUser->isLoggedIn() ) {
-				$this->mName = $wgUser->getName();
+				$this->mUsername = $wgUser->getName();
 			} else {
-				$this->mName = $wgRequest->getCookie( 'UserName' );
+				$this->mUsername = $wgRequest->getCookie( 'UserName' );
 			}
 		}
 
@@ -1001,7 +999,7 @@ class LoginForm {
 		}
 
 		$template->set( 'header', '' );
-		$template->set( 'name', $this->mName );
+		$template->set( 'name', $this->mUsername );
 		$template->set( 'password', $this->mPassword );
 		$template->set( 'retype', $this->mRetype );
 		$template->set( 'email', $this->mEmail );
@@ -1057,8 +1055,6 @@ class LoginForm {
 			$wgOut->setPageTitle( wfMsg( 'userloginnocreate' ) );
 		}
 
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
 		$wgOut->disallowUserJs(); // just in case...
 		$wgOut->addTemplate( $template );
 	}

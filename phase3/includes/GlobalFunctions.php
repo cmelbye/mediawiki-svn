@@ -225,15 +225,6 @@ function wfArrayDiff2_cmp( $a, $b ) {
 }
 
 /**
- * Seed Mersenne Twister
- * No-op for compatibility; only necessary in PHP < 4.2.0
- * @deprecated. Remove in 1.18
- */
-function wfSeedRandom() {
-	wfDeprecated(__FUNCTION__);
-}
-
-/**
  * Get a random decimal value between 0 and 1, in a way
  * not likely to give duplicate values for any realistic
  * number of articles.
@@ -306,7 +297,6 @@ function wfUrlencode( $s ) {
 function wfDebug( $text, $logonly = false ) {
 	global $wgOut, $wgDebugLogFile, $wgDebugComments, $wgProfileOnly, $wgDebugRawPage;
 	global $wgDebugLogPrefix, $wgShowDebug;
-	static $recursion = 0;
 
 	static $cache = array(); // Cache of unoutputted messages
 	$text = wfDebugTimer() . $text;
@@ -319,21 +309,11 @@ function wfDebug( $text, $logonly = false ) {
 	if ( ( $wgDebugComments || $wgShowDebug ) && !$logonly ) {
 		$cache[] = $text;
 
-		if ( !isset( $wgOut ) ) {
-			return;
+		if ( isset( $wgOut ) && StubObject::isRealObject( $wgOut ) ) {
+			// add the message and any cached messages to the output
+			array_map( array( $wgOut, 'debug' ), $cache );
+			$cache = array();
 		}
-		if ( !StubObject::isRealObject( $wgOut ) ) {
-			if ( $recursion ) {
-				return;
-			}
-			$recursion++;
-			$wgOut->_unstub();
-			$recursion--;
-		}
-
-		// add the message and possible cached ones to the output
-		array_map( array( $wgOut, 'debug' ), $cache );
-		$cache = array();
 	}
 	if ( $wgDebugLogFile != '' && !$wgProfileOnly ) {
 		# Strip unprintables; they can switch terminal modes when binary data
@@ -1298,30 +1278,6 @@ function wfEscapeWikiText( $text ) {
 
 /**
  * @todo document
- */
-function wfQuotedPrintable( $string, $charset = '' ) {
-	# Probably incomplete; see RFC 2045
-	if( empty( $charset ) ) {
-		global $wgInputEncoding;
-		$charset = $wgInputEncoding;
-	}
-	$charset = strtoupper( $charset );
-	$charset = str_replace( 'ISO-8859', 'ISO8859', $charset ); // ?
-
-	$illegal = '\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff=';
-	$replace = $illegal . '\t ?_';
-	if( !preg_match( "/[$illegal]/", $string ) ) {
-		return $string;
-	}
-	$out = "=?$charset?Q?";
-	$out .= preg_replace( "/([$replace])/e", 'sprintf("=%02X",ord("$1"))', $string );
-	$out .= '?=';
-	return $out;
-}
-
-
-/**
- * @todo document
  * @return float
  */
 function wfTime() {
@@ -1486,8 +1442,12 @@ function wfEscapeShellArg( ) {
 		}
 
 		if ( wfIsWindows() ) {
-			// Escaping for an MSVC-style command line parser
-			// Ref: http://mailman.lyra.org/pipermail/scite-interest/2002-March/000436.html
+			// Escaping for an MSVC-style command line parser and CMD.EXE
+			// Refs: 
+			//  * http://web.archive.org/web/20020708081031/http://mailman.lyra.org/pipermail/scite-interest/2002-March/000436.html
+			//  * http://technet.microsoft.com/en-us/library/cc723564.aspx
+			//  * Bug #13518
+			//  * CR r63214
 			// Double the backslashes before any double quotes. Escape the double quotes.
 			$tokens = preg_split( '/(\\\\*")/', $arg, -1, PREG_SPLIT_DELIM_CAPTURE );
 			$arg = '';
@@ -2029,7 +1989,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		$strtime = $ts;
 	} else {
 		# Bogus value; fall back to the epoch...
-		wfDebug("wfTimestamp() fed bogus time value: $outputtype; $ts\n");
+		wfDebug("wfTimestamp() fed bogus time value: TYPE=$outputtype; VALUE=$ts\n");
 		
 		return false;
 	}
@@ -2240,7 +2200,7 @@ function wfGetSiteNotice() {
 
 /**
  * BC wrapper for MimeMagic::singleton()
- * @deprecated No longer needed as of 1.17 (r68836).
+ * @deprecated No longer needed as of 1.17 (r68836). Remove in 1.19.
  */
 function &wfGetMimeMagic() {
 	wfDeprecated( __FUNCTION__ );
@@ -3292,9 +3252,10 @@ function wfBoolToStr( $value ) {
 
 /**
  * Load an extension messages file
- * @deprecated in 1.16 (warnings in 1.18, removed in ?)
+ * @deprecated in 1.16, warnings in 1.18, remove in 1.20
  */
 function wfLoadExtensionMessages( $extensionName, $langcode = false ) {
+	wfDeprecated( __FUNCTION__ );
 }
 
 /**

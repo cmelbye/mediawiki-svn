@@ -1142,16 +1142,23 @@ class Title {
 	}
 
 	/**
-	 * Determines if $wgUser is unable to edit this page because it has been protected
+	 * Determines if $user is unable to edit this page because it has been protected
 	 * by $wgNamespaceProtection.
 	 *
+	 * @param $user User object, $wgUser will be used if not passed
 	 * @return \type{\bool}
 	 */
-	public function isNamespaceProtected() {
-		global $wgNamespaceProtection, $wgUser;
+	public function isNamespaceProtected( User $user = null ) {
+		global $wgNamespaceProtection;
+
+		if ( $user === null ) {
+			global $wgUser;
+			$user = $wgUser;
+		}
+
 		if ( isset( $wgNamespaceProtection[$this->mNamespace] ) ) {
 			foreach ( (array)$wgNamespaceProtection[$this->mNamespace] as $right ) {
-				if ( $right != '' && !$wgUser->isAllowed( $right ) ) {
+				if ( $right != '' && !$user->isAllowed( $right ) ) {
 					return true;
 				}
 			}
@@ -1352,7 +1359,7 @@ class Title {
 		}
 
 		# Check $wgNamespaceProtection for restricted namespaces
-		if ( $this->isNamespaceProtected() ) {
+		if ( $this->isNamespaceProtected( $user ) ) {
 			$ns = $this->mNamespace == NS_MAIN ?
 				wfMsg( 'nstab-main' ) : $this->getNsText();
 			$errors[] = $this->mNamespace == NS_MEDIAWIKI ?
@@ -2455,7 +2462,7 @@ class Title {
 	 * This clears some fields in this object, and clears any associated
 	 * keys in the "bad links" section of the link cache.
 	 *
-	 * - This is called from Article::insertNewArticle() to allow
+	 * - This is called from Article::doEdit() and Article::insertOn() to allow
 	 * loading of the new page_id. It's also called from
 	 * Article::doDeleteArticle()
 	 *
@@ -3748,11 +3755,11 @@ class Title {
 	 */
 	public function countRevisionsBetween( $old, $new ) {
 		$dbr = wfGetDB( DB_SLAVE );
-		return (int)$dbr->selectField( 'revision', 'count(*)',
-			'rev_page = ' . intval( $this->getArticleId() ) .
-			' AND rev_id > ' . intval( $old ) .
-			' AND rev_id < ' . intval( $new ),
-			__METHOD__
+		return (int)$dbr->selectField( 'revision', 'count(*)', array(
+				'rev_page' => intval( $this->getArticleId() ),
+				'rev_id > ' . intval( $old ),
+				'rev_id < ' . intval( $new )
+			), __METHOD__
 		);
 	}
 
@@ -3770,7 +3777,7 @@ class Title {
 		$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
 		$res = $db->select( 'revision', 'DISTINCT rev_user_text',
 			array(
-				'rev_page = ' . $this->getArticleID(),
+				'rev_page' => $this->getArticleID(),
 				'rev_id > ' . (int)$fromRevId,
 				'rev_id < ' . (int)$toRevId
 			), __METHOD__,

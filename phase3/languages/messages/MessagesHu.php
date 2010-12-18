@@ -777,6 +777,9 @@ Várj egy kicsit, mielőtt újra próbálkozol.',
 'loginlanguagelabel'         => 'Nyelv: $1',
 'suspicious-userlogout'      => 'A kijelentkezési kérésed vissza lett utasítva, mert úgy tűnik, hogy egy hibás böngésző vagy gyorsítótárazó proxy küldte.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Ismeretlen hiba a PHP mail() függvényében',
+
 # JavaScript password checks
 'password-strength'            => 'Becsült jelszóerősség: $1',
 'password-strength-bad'        => 'GYENGE',
@@ -918,7 +921,7 @@ A blokkolási napló legutóbbi ide vonatkozó bejegyzése a következő:',
 'userjsyoucanpreview'              => "'''Tipp:''' mentés előtt használd az „{{int:showpreview}}” gombot az új JavaScipted teszteléséhez.",
 'usercsspreview'                   => "'''Ne felejtsd el, hogy ez csak a felhasználói CSS-ed előnézete és még nincs elmentve!'''",
 'userjspreview'                    => "'''Ne felejtsd el, hogy még csak teszteled a felhasználói JavaScriptedet, és még nincs elmentve!'''",
-'userinvalidcssjstitle'            => "'''Figyelem:''' Nincs „$1” nevű felület. A felületekhez tartozó .css/.js oldalak kisbetűvel kezdődnek, például ''{{ns:user}}:Gipsz Jakab/monobook.css'' és nem ''{{ns:user}}:Gipsz Jakab/Monobook.css''.",
+'userinvalidcssjstitle'            => "'''Figyelem:''' Nincs „$1” nevű felület. A felületekhez tartozó .css/.js oldalak kisbetűvel kezdődnek, például ''{{ns:user}}:Gipsz Jakab/vector.css'' és nem ''{{ns:user}}:Gipsz Jakab/Vector.css''.",
 'updated'                          => '(frissítve)',
 'note'                             => "'''Megjegyzés:'''",
 'previewnote'                      => "'''Ne feledd, hogy ez csak előnézet, a változtatásaid még nincsenek elmentve!'''",
@@ -1181,7 +1184,7 @@ Ellenőrizd a naplókat.',
 'revmove-norevisions-title'    => 'Érvénytelen célváltozat',
 'revmove-norevisions'          => 'Nem adtad meg az(oka)t a lapváltozato(ka)t, mely(ek)en végre akarod hajtani ezt a műveletet, vagy a kiválasztott lapváltozat nem létezik.',
 'revmove-nullmove-title'       => 'Hibás cím',
-'revmove-nullmove'             => 'A forrás és a céllap megegyezik. Kattints a „Vissza” gombra, majd adj meg a jelenlegi, „[[$1]]” címtől különbözőt.',
+'revmove-nullmove'             => 'A forrás és a céllap megegyezik. Kattints a „Vissza” gombra, majd adj meg a jelenlegi, „$1” címtől különbözőt.',
 'revmove-success-existing'     => '{{PLURAL:$1|Egy|$1}} lapváltozat át lett helyezve a(z) [[$2]] lapról a már létező [[$3]] lapra.',
 'revmove-success-created'      => '{{PLURAL:$1|Egy|$1}} lapváltozat át lett helyezve a(z) [[$2]] lapról az újonnan létrehozott [[$3]] lapra.',
 

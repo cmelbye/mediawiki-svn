@@ -919,7 +919,7 @@ un em '''Konqueror''': ''F5'' —
 et ess en bunte Welt!",
 'userinvalidcssjstitle'            => '<strong>Opjepass:</strong> Et jitt kein Ussinn met däm Name: „<strong>$1</strong>“ -
 denk dran, dat ene Metmaacher eije Dateie för et Ussinn han kann, un dat die met kleine Buchstave
-aanfange dun, alsu etwa: {{ns:user}}:Name/monobook.css, un {{ns:user}}:Name/monobook.js heiße.',
+aanfange dun, alsu etwa: {{ns:user}}:Name/vector.css, un {{ns:user}}:Name/vector.js heiße.',
 'updated'                          => '(Aanjepack)',
 'note'                             => "'''Opjepass:'''",
 'previewnote'                      => "'''Heh kütt nor de Vör-Aansich - Ding Änderunge sin noch nit jesechert!'''",
@@ -1195,7 +1195,7 @@ Jang retuur, un donn_et norr_ens probeere.',
 'revmove-norevisions-title'    => 'Enem Ziel sing Version es nit jöltesch',
 'revmove-norevisions'          => 'Do häs kein Version udder Versione ußjesoht, udder di aanjejovve Version udder Versione jidd_et nit.',
 'revmove-nullmove-title'       => 'Dä Tittel es onjöltesch',
-'revmove-nullmove'             => 'Mer kann kein Version vun ein Sigg op desellve Sigg ömträcke. Jangk retuur un söhk en annder Sigg uß, wi „[[$1]]“.',
+'revmove-nullmove'             => 'Mer kann kein Version vun ein Sigg op desellve Sigg ömträcke. Jangk retuur un söhk en annder Sigg uß, wi „$1“.',
 'revmove-success-existing'     => '{{PLURAL:$1|Ein Version|$1 Versione|Kei Version}} vun dä Sigg „[[$2]]“ {{PLURAL:$1|es|sin|wood}} noh dä Sigg „[[$3]]“ ömjetrocke{{PLURAL:$1|&#32;woode|&#32;woode|}}, di et allerdengs alld joof.',
 'revmove-success-created'      => '{{PLURAL:$1|Ein Version|$1 Versione|Kei Version}} vun dä Sigg „[[$2]]“ {{PLURAL:$1|es|sin|wood}} noh dä neu aanjelaate Sigg „[[$3]]“ ömjetrocke{{PLURAL:$1|&#32;woode.|&#32;woode.|.}}',
 

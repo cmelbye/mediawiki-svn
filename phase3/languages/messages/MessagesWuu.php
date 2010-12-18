@@ -594,7 +594,7 @@ $2',
 '''还弗曾保存！'''",
 'userjspreview'                    => "'''注意侬只是垃许测试／预览侬个 JavaScript。'''
 '''还弗曾保存！'''",
-'userinvalidcssjstitle'            => "'''警告：''' 弗存在皮肤\"\$1\"。注意自定义个 .css 搭 .js 页要使用小写标题，譬如，{{ns:user}}:Foo/monobook.css 弗同于 {{ns:user}}:Foo/Monobook.css。",
+'userinvalidcssjstitle'            => "'''警告：''' 弗存在皮肤\"\$1\"。注意自定义个 .css 搭 .js 页要使用小写标题，譬如，{{ns:user}}:Foo/vector.css 弗同于 {{ns:user}}:Foo/Vector.css。",
 'updated'                          => '（已更新）',
 'note'                             => "'''注意：'''",
 'previewnote'                      => "'''该个还只是预览；改动还朆保存！'''",
@@ -852,7 +852,7 @@ $1",
 'revmove-norevisions'          => '侬还弗曾指定一只或者多只目标修订版本去完成箇只功能或者指定修订版本弗存在。',
 'revmove-nullmove-title'       => '箇只标题弗来三',
 'revmove-nullmove'             => '目标页面弗可以搭来源页面相同。
-请回转先前个页面再输入搭 "[[$1]]" 两样个名字。',
+请回转先前个页面再输入搭 "$1" 两样个名字。',
 'revmove-success-existing'     => '[[$2]]里向个{{PLURAL:$1|一次修订版本|$1次修订版本}}已经移动至现在只页面[[$3]]。',
 'revmove-success-created'      => '[[$2]]里向个{{PLURAL:$1|一次修订版本|$1次修订版本}}已经移动至新建页面[[$3]]。',
 

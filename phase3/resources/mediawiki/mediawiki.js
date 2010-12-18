@@ -50,6 +50,67 @@ jQuery.extend({
 			}
 		}
 		return true;
+	},
+	compareObject : function( objectA, objectB ) {
+	
+		// Do a simple check if the types match
+		if ( typeof( objectA ) == typeof( objectB ) ) {
+	
+			// Only loop over the contents if it really is an object
+			if ( typeof( objectA ) == 'object' ) {
+				// If they are aliases of the same object (ie. mw and mediaWiki) return now
+				if ( objectA === objectB ) {
+					return true;
+				} else {
+					// Iterate over each property
+					for ( var prop in objectA ) {
+						// Check if this property is also present in the other object
+						if ( prop in objectB ) {
+							// Compare the types of the properties
+							var type = typeof( objectA[prop] );
+							if ( type == typeof( objectB[prop] ) ) {
+								// Recursively check objects inside this one
+								switch ( type ) {
+									case 'object' :
+										if ( !$.compareObject( objectA[prop], objectB[prop] ) ) {
+											return false;
+										}
+										break;
+									case 'function' :
+										// Functions need to be strings to compare them properly
+										if ( objectA[prop].toString() !== objectB[prop].toString() ) {
+											return false;
+										}
+										break;
+									default:
+										// Strings, numbers
+										if ( objectA[prop] !== objectB[prop] ) {
+											return false;
+										}
+										break;
+								}
+							} else {
+								return false;
+							}
+						} else {
+							return false;
+						}
+					}
+					// Check for properties in B but not in A
+					// This is about 15% faster (tested in Safari 5 and Firefox 3.6)
+					// ...than incrementing a count variable in the above and below loops
+					// See also: http://www.mediawiki.org/wiki/ResourceLoader/Default_modules/compareObject_test#Results
+					for ( var prop in objectB ) {
+						if ( !( prop in objectA ) ) {
+							return false;
+						}
+					}
+				}
+			}
+		} else {
+			return false;
+		}
+		return true;
 	}
 });
 
@@ -81,7 +142,7 @@ window.mediaWiki = new ( function( $ ) {
 	 */
 	function Map( global ) {
 		this.values = ( global === true ) ? window : {};
-	};
+	}
 
 	/**
 	 * Gets the value of a key, or a list of key/value pairs for an array of keys.
@@ -154,7 +215,7 @@ window.mediaWiki = new ( function( $ ) {
 		this.map = map;
 		this.key = key;
 		this.parameters = typeof parameters === 'undefined' ? [] : $.makeArray( parameters );
-	};
+	}
 
 	/**
 	 * Appends parameters for replacement
@@ -225,7 +286,67 @@ window.mediaWiki = new ( function( $ ) {
 	 * User object
 	 */
 	function User() {
+
+		/* Private Members */
+
+		var that = this;
+
+		/* Public Members */
+
 		this.options = new Map();
+
+		/* Public Methods */
+
+		/*
+		 * Generates a random user session ID (32 alpha-numeric characters).
+		 * 
+		 * This information would potentially be stored in a cookie to identify a user during a
+		 * session. It's uniqueness should not be depended on.
+		 * 
+		 * @return string random set of 32 alpha-numeric characters
+		 */
+		function generateSessionId() {
+			var id = '';
+			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+			for ( var i = 0, r; i < 32; i++ ) {
+				r = Math.floor( Math.random() * seed.length );
+				id += seed.substring( r, r + 1 );
+			}
+			return id;
+		}
+
+		/*
+		 * Gets the current user's name.
+		 * 
+		 * @return mixed user name string or null if users is anonymous
+		 */
+		this.name = function() {
+			return mediaWiki.config.get( 'wgUserName' );
+		};
+
+		/*
+		 * Gets the current user's name or a random session ID automatically generated and kept in
+		 * a cookie.
+		 * 
+		 * Do not use this method before the first call to mediaWiki.loader.go(), it depends on
+		 * jquery.cookie, which is added to the first payload just after mediaWiki is defined, but
+		 * won't be loaded until the first call to go().
+		 * 
+		 * @return string user name or random session ID
+		 */
+		this.sessionId = function () {
+			var name = that.name();
+			if ( name ) {
+				return name;
+			}
+			var sessionId = $.cookie( 'mediaWiki.user.sessionId' );
+			if ( typeof sessionId == 'undefined' || sessionId == null ) {
+				sessionId = generateSessionId();
+			}
+			// Set cookie if not set, or renew it if already set
+			$.cookie( 'mediaWiki.user.sessionId', sessionId, { 'expires': 30, 'path': '/' } );
+			return sessionId;
+		};
 	}
 
 	/* Public Members */
@@ -237,11 +358,16 @@ window.mediaWiki = new ( function( $ ) {
 	this.log = function() { };
 
 	/*
+	 * Make the Map-class publicly available
+	 */
+	this.Map = Map;
+
+	/*
 	 * List of configuration values
 	 *
 	 * In legacy mode the values this object wraps will be in the global space
 	 */
-	this.config = new Map( LEGACY_GLOBALS );
+	this.config = new this.Map( LEGACY_GLOBALS );
 
 	/*
 	 * Information about the current user
@@ -251,7 +377,7 @@ window.mediaWiki = new ( function( $ ) {
 	/*
 	 * Localization system
 	 */
-	this.messages = new Map();
+	this.messages = new this.Map();
 
 	/* Public Methods */
 
@@ -341,7 +467,7 @@ window.mediaWiki = new ( function( $ ) {
 				}
 			}
 			return true;
-		};
+		}
 
 		/**
 		 * Generates an ISO8601 "basic" string from a UNIX timestamp
@@ -417,7 +543,7 @@ window.mediaWiki = new ( function( $ ) {
 				return resolved;
 			}
 			throw new Error( 'Invalid module argument: ' + module );
-		};
+		}
 
 		/**
 		 * Narrows a list of module names down to those matching a specific
@@ -1020,6 +1146,9 @@ if ( typeof startUp === 'function' ) {
 	startUp();
 	delete startUp;
 }
+
+// Add jQuery Cookie to initial payload (used in mediaWiki.user)
+mediaWiki.loader.load( 'jquery.cookie' );
 
 // Alias $j to jQuery for backwards compatibility
 window.$j = jQuery;

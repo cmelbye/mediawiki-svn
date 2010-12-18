@@ -89,10 +89,20 @@ class Parser {
 	const MARKER_SUFFIX = "-QINU\x7f";
 
 	# Persistent:
-	var $mTagHooks, $mTransparentTagHooks, $mFunctionHooks, $mFunctionSynonyms, $mVariables;
-	var $mSubstWords, $mImageParams, $mImageParamsMagicArray, $mStripList, $mMarkerIndex;
-	var $mPreprocessor, $mExtLinkBracketedRegex, $mUrlProtocols, $mDefaultStripList;
-	var $mVarCache, $mConf, $mFunctionTagHooks;
+	var $mTagHooks = array();
+	var $mTransparentTagHooks = array();
+	var $mFunctionHooks = array();
+	var $mFunctionSynonyms = array( 0 => array(), 1 => array() );
+	var $mFunctionTagHooks = array();
+	var $mStripList  = array();
+	var $mDefaultStripList  = array();
+	var $mVarCache = array();
+	var $mImageParams = array();
+	var $mImageParamsMagicArray = array();
+	var $mMarkerIndex = 0;
+	var $mFirstCall = true;
+	var $mVariables, $mSubstWords; # Initialised by initialiseVariables()
+	var $mConf, $mPreprocessor, $mExtLinkBracketedRegex, $mUrlProtocols; # Initialised in constructor
 
 
 	# Cleared with clearState():
@@ -103,6 +113,7 @@ class Parser {
 	var $mTplExpandCache; # empty-frame expansion cache
 	var $mTplRedirCache, $mTplDomCache, $mHeadings, $mDoubleUnderscores;
 	var $mExpensiveFunctionCount; # number of expensive parser function calls
+	var $mUser; # User object; only used when doing pre-save transform
 
 	# Temporary
 	# These are variables reset at least once per parse regardless of $clearState
@@ -110,8 +121,10 @@ class Parser {
 	var $mTitle;        # Title context, used for self-link rendering and similar things
 	var $mOutputType;   # Output type, one of the OT_xxx constants
 	var $ot;            # Shortcut alias, see setOutputType()
+	var $mRevisionObject; # The revision object of the specified revision ID
 	var $mRevisionId;   # ID to display in {{REVISIONID}} tags
 	var $mRevisionTimestamp; # The timestamp of the specified revision ID
+	var $mRevisionUser; # Userto display in {{REVISIONUSER}} tag
 	var $mRevIdForTs;   # The revision ID which was used to fetch the timestamp
 
 	/**
@@ -121,16 +134,9 @@ class Parser {
 	 */
 	function __construct( $conf = array() ) {
 		$this->mConf = $conf;
-		$this->mTagHooks = array();
-		$this->mTransparentTagHooks = array();
-		$this->mFunctionHooks = array();
-		$this->mFunctionTagHooks = array();
-		$this->mFunctionSynonyms = array( 0 => array(), 1 => array() );
-		$this->mDefaultStripList = $this->mStripList = array();
 		$this->mUrlProtocols = wfUrlProtocols();
 		$this->mExtLinkBracketedRegex = '/\[(\b(' . wfUrlProtocols() . ')'.
 			'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x00-\\x08\\x0a-\\x1F]*?)\]/S';
-		$this->mVarCache = array();
 		if ( isset( $conf['preprocessorClass'] ) ) {
 			$this->mPreprocessorClass = $conf['preprocessorClass'];
 		} elseif ( extension_loaded( 'domxml' ) ) {
@@ -142,8 +148,6 @@ class Parser {
 		} else {
 			$this->mPreprocessorClass = 'Preprocessor_Hash';
 		}
-		$this->mMarkerIndex = 0;
-		$this->mFirstCall = true;
 	}
 
 	/**
@@ -197,8 +201,10 @@ class Parser {
 		$this->mInPre = false;
 		$this->mLinkHolders = new LinkHolderArray( $this );
 		$this->mLinkID = 0;
-		$this->mRevisionTimestamp = $this->mRevisionId = null;
+		$this->mRevisionObject = $this->mRevisionTimestamp =
+			$this->mRevisionId = $this->mRevisionUser = null;
 		$this->mVarCache = array();
+		$this->mUser = null;
 
 		/**
 		 * Prefix for temporary replacement strings for the multipass parser.
@@ -271,10 +277,14 @@ class Parser {
 		$this->setTitle( $title ); # Page title has to be set for the pre-processor
 
 		$oldRevisionId = $this->mRevisionId;
+		$oldRevisionObject = $this->mRevisionObject;
 		$oldRevisionTimestamp = $this->mRevisionTimestamp;
+		$oldRevisionUser = $this->mRevisionUser;
 		if ( $revid !== null ) {
 			$this->mRevisionId = $revid;
+			$this->mRevisionObject = null;
 			$this->mRevisionTimestamp = null;
+			$this->mRevisionUser = null;
 		}
 		$this->setOutputType( self::OT_HTML );
 		wfRunHooks( 'ParserBeforeStrip', array( &$this, &$text, &$this->mStripState ) );
@@ -334,7 +344,7 @@ class Parser {
 				|| $wgDisableTitleConversion
 				|| isset( $this->mDoubleUnderscores['nocontentconvert'] )
 				|| isset( $this->mDoubleUnderscores['notitleconvert'] )
-				|| $this->mOutput->getDisplayTitle() !== false ) ) 
+				|| $this->mOutput->getDisplayTitle() !== false ) )
 		{
 			$convruletitle = $wgContLang->getConvRuleTitle();
 			if ( $convruletitle ) {
@@ -422,7 +432,9 @@ class Parser {
 		$this->mOutput->setText( $text );
 
 		$this->mRevisionId = $oldRevisionId;
+		$this->mRevisionObject = $oldRevisionObject;
 		$this->mRevisionTimestamp = $oldRevisionTimestamp;
+		$this->mRevisionUser = $oldRevisionUser;
 		wfProfileOut( $fname );
 		wfProfileOut( __METHOD__ );
 
@@ -499,6 +511,16 @@ class Parser {
 	}
 
 	/**
+	 * Set the current user.
+	 * Should only be used when doing pre-save transform.
+	 *
+	 * @param $user Mixed: User object or null (to reset)
+	 */
+	function setUser( $user ) {
+		$this->mUser = $user;
+	}
+
+	/**
 	 * Accessor for mUniqPrefix.
 	 *
 	 * @return String
@@ -520,9 +542,9 @@ class Parser {
 	 * Set the context title
 	 */
 	function setTitle( $t ) {
- 		if ( !$t || $t instanceof FakeTitle ) {
- 			$t = Title::newFromText( 'NO TITLE' );
- 		}
+		if ( !$t || $t instanceof FakeTitle ) {
+			$t = Title::newFromText( 'NO TITLE' );
+		}
 
 		if ( strval( $t->getFragment() ) !== '' ) {
 			# Strip the fragment to avoid various odd effects
@@ -619,6 +641,19 @@ class Parser {
 		} else {
 			return $this->mOptions->getInterfaceMessage() ? $wgLang : $wgContLang;
 		}
+	}
+
+	/**
+	 * Get a User object either from $this->mUser, if set, or from the
+	 * ParserOptions object otherwise
+	 *
+	 * @return User object
+	 */
+	function getUser() {
+		if ( !is_null( $this->mUser ) ) {
+			return $this->mUser;
+		}
+		return $this->mOptions->getUser();
 	}
 
 	/**
@@ -787,7 +822,7 @@ class Parser {
 	 */
 	function doTableStuff( $text ) {
 		wfProfileIn( __METHOD__ );
-		
+
 		$lines = StringUtils::explode( "\n", $text );
 		$out = '';
 		$td_history = array(); # Is currently a td tag open?
@@ -797,22 +832,10 @@ class Parser {
 		$has_opened_tr = array(); # Did this table open a <tr> element?
 		$indent_level = 0; # indent level of the table
 
-		$table_tag = 'table';
-		$tr_tag = 'tr';
-		$th_tag = 'th';
-		$td_tag = 'td';
-		$caption_tag = 'caption';
-
-		$extra_table_attribs = null;
-		$extra_tr_attribs = null;
-		$extra_td_attribs = null;
-
-		$convert_style = false;
-
 		foreach ( $lines as $outLine ) {
 			$line = trim( $outLine );
 
-			if ( $line === '' ) { # empty line, go to next line			
+			if ( $line === '' ) { # empty line, go to next line
 				$out .= $outLine."\n";
 				continue;
 			}
@@ -825,31 +848,9 @@ class Parser {
 				$indent_level = strlen( $matches[1] );
 
 				$attributes = $this->mStripState->unstripBoth( $matches[2] );
+				$attributes = Sanitizer::fixTagAttributes( $attributes , 'table' );
 
-				$attr = Sanitizer::decodeTagAttributes( $attributes );
-
-				$mode = @$attr['mode'];
-				if ( !$mode ) $mode = 'data';
-
-				if ( $mode == 'grid' || $mode == 'layout' ) {
-					$table_tag = 'div';
-					$tr_tag = 'div';
-					$th_tag = 'div';
-					$td_tag = 'div';
-					$caption_tag = 'div';
-
-					$extra_table_attribs = array( 'class' => 'grid-table' );
-					$extra_tr_attribs = array( 'class' => 'grid-row' );
-					$extra_td_attribs = array( 'class' => 'grid-cell' );
-
-					$convert_style = true;
-				} 
-
-				if ($convert_style) $attr['style'] = Sanitizer::styleFromAttributes( $attr );
-				$attr = Sanitizer::validateTagAttributes( $attr, $table_tag );
-				$attributes = Sanitizer::collapseTagAttributes( $attr, $extra_table_attribs );
-
-				$outLine = str_repeat( '<dl><dd>' , $indent_level ) . "<$table_tag{$attributes}>";
+				$outLine = str_repeat( '<dl><dd>' , $indent_level ) . "<table{$attributes}>";
 				array_push( $td_history , false );
 				array_push( $last_tag_history , '' );
 				array_push( $tr_history , false );
@@ -861,15 +862,15 @@ class Parser {
 				continue;
 			} elseif ( substr( $line , 0 , 2 ) === '|}' ) {
 				# We are ending a table
-				$line = "</$table_tag>" . substr( $line , 2 );
+				$line = '</table>' . substr( $line , 2 );
 				$last_tag = array_pop( $last_tag_history );
 
 				if ( !array_pop( $has_opened_tr ) ) {
-					$line = "<$tr_tag><$td_tag></$td_tag></$tr_tag>{$line}";
+					$line = "<tr><td></td></tr>{$line}";
 				}
 
 				if ( array_pop( $tr_history ) ) {
-					$line = "</$tr_tag>{$line}";
+					$line = "</tr>{$line}";
 				}
 
 				if ( array_pop( $td_history ) ) {
@@ -883,12 +884,7 @@ class Parser {
 
 				# Whats after the tag is now only attributes
 				$attributes = $this->mStripState->unstripBoth( $line );
-
-				$attr = Sanitizer::decodeTagAttributes( $attributes );
-				if ($convert_style) $attr['style'] = Sanitizer::styleFromAttributes( $attr );
-				$attr = Sanitizer::validateTagAttributes( $attr, $tr_tag );
-				$attributes = Sanitizer::collapseTagAttributes( $attr, $extra_tr_attribs );
-
+				$attributes = Sanitizer::fixTagAttributes( $attributes, 'tr' );
 				array_pop( $tr_attributes );
 				array_push( $tr_attributes, $attributes );
 
@@ -898,7 +894,7 @@ class Parser {
 				array_push( $has_opened_tr , true );
 
 				if ( array_pop( $tr_history ) ) {
-					$line = "</$tr_tag>";
+					$line = '</tr>';
 				}
 
 				if ( array_pop( $td_history ) ) {
@@ -936,7 +932,7 @@ class Parser {
 					if ( $first_character !== '+' ) {
 						$tr_after = array_pop( $tr_attributes );
 						if ( !array_pop( $tr_history ) ) {
-							$previous = "<$tr_tag{$tr_after}>\n";
+							$previous = "<tr{$tr_after}>\n";
 						}
 						array_push( $tr_history , true );
 						array_push( $tr_attributes , '' );
@@ -951,11 +947,11 @@ class Parser {
 					}
 
 					if ( $first_character === '|' ) {
-						$last_tag = $td_tag;
+						$last_tag = 'td';
 					} elseif ( $first_character === '!' ) {
-						$last_tag = $th_tag;
+						$last_tag = 'th';
 					} elseif ( $first_character === '+' ) {
-						$last_tag = $caption_tag;
+						$last_tag = 'caption';
 					} else {
 						$last_tag = '';
 					}
@@ -965,24 +961,15 @@ class Parser {
 					# A cell could contain both parameters and data
 					$cell_data = explode( '|' , $cell , 2 );
 
-					$attributes = '';
-
 					# Bug 553: Note that a '|' inside an invalid link should not
 					# be mistaken as delimiting cell parameters
 					if ( strpos( $cell_data[0], '[[' ) !== false ) {
-						if ($extra_td_attribs) $attributes = Sanitizer::collapseTagAttributes( $extra_td_attribs );
-						$cell = "{$previous}<{$last_tag}{$attributes}>{$cell}";
+						$cell = "{$previous}<{$last_tag}>{$cell}";
 					} elseif ( count( $cell_data ) == 1 ) {
-						if ($extra_td_attribs) $attributes = Sanitizer::collapseTagAttributes( $extra_td_attribs );
-						$cell = "{$previous}<{$last_tag}{$attributes}>{$cell_data[0]}";
+						$cell = "{$previous}<{$last_tag}>{$cell_data[0]}";
 					} else {
 						$attributes = $this->mStripState->unstripBoth( $cell_data[0] );
-
-						$attr = Sanitizer::decodeTagAttributes( $attributes );
-						if ($convert_style) $attr['style'] = Sanitizer::styleFromAttributes( $attr );
-						$attr = Sanitizer::validateTagAttributes( $attr, $last_tag );
-						$attributes = Sanitizer::collapseTagAttributes( $attr, $extra_td_attribs );
-
+						$attributes = Sanitizer::fixTagAttributes( $attributes , $last_tag );
 						$cell = "{$previous}<{$last_tag}{$attributes}>{$cell_data[1]}";
 					}
 
@@ -996,16 +983,16 @@ class Parser {
 		# Closing open td, tr && table
 		while ( count( $td_history ) > 0 ) {
 			if ( array_pop( $td_history ) ) {
-				$out .= "</$td_tag>\n";
+				$out .= "</td>\n";
 			}
 			if ( array_pop( $tr_history ) ) {
-				$out .= "</$tr_tag>\n";
+				$out .= "</tr>\n";
 			}
 			if ( !array_pop( $has_opened_tr ) ) {
-				$out .= "<$tr_tag><$td_tag></$td_tag></$tr_tag>\n" ;
+				$out .= "<tr><td></td></tr>\n" ;
 			}
 
-			$out .= "</$table_tag>\n";
+			$out .= "</table>\n";
 		}
 
 		# Remove trailing line-ending (b/c)
@@ -1014,7 +1001,7 @@ class Parser {
 		}
 
 		# special case: don't return empty table
-		if ( $out === "<$table_tag>\n<$tr_tag><$td_tag></$td_tag></$tr_tag>\n</$table_tag>" ) {
+		if ( $out === "<table>\n<tr><td></td></tr>\n</table>" ) {
 			$out = '';
 		}
 
@@ -1107,10 +1094,10 @@ class Parser {
 				(\\b(?:$prots)$urlChar+) |  # m[3]: Free external links" . '
 				(?:RFC|PMID)\s+([0-9]+) |   # m[4]: RFC or PMID, capture number
 				ISBN\s+(\b                  # m[5]: ISBN, capture number
-				    (?: 97[89] [\ \-]? )?   # optional 13-digit ISBN prefix
-				    (?: [0-9]  [\ \-]? ){9} # 9 digits with opt. delimiters
-				    [0-9Xx]                 # check digit
-				    \b)
+					(?: 97[89] [\ \-]? )?   # optional 13-digit ISBN prefix
+					(?: [0-9]  [\ \-]? ){9} # 9 digits with opt. delimiters
+					[0-9Xx]                 # check digit
+					\b)
 			)!x', array( &$this, 'magicLinkCallback' ), $text );
 		wfProfileOut( __METHOD__ );
 		return $text;
@@ -1410,7 +1397,7 @@ class Parser {
 	/**
 	 * Replace external links (REL)
 	 *
- 	 * Note: this is all very hackish and the order of execution matters a lot.
+	 * Note: this is all very hackish and the order of execution matters a lot.
 	 * Make sure to run maintenance/parserTests.php if you change this code.
 	 *
 	 * @private
@@ -1587,7 +1574,7 @@ class Parser {
 			$imagematch = false;
 		}
 		if ( $this->mOptions->getAllowExternalImages()
-		     || ( $imagesexception && $imagematch ) ) {
+			 || ( $imagesexception && $imagematch ) ) {
 			if ( preg_match( self::EXT_IMAGE_REGEX, $url ) ) {
 				# Image found
 				$text = $sk->makeExternalImage( $url );
@@ -1647,7 +1634,7 @@ class Parser {
 		$sk = $this->mOptions->getSkin( $this->mTitle );
 		$holders = new LinkHolderArray( $this );
 
-	 	# split the entire text string on occurences of [[
+		# split the entire text string on occurences of [[
 		$a = StringUtils::explode( '[[', ' ' . $s );
 		# get the first element (all text up to first [[), and remove the space we added
 		$s = $a->current();
@@ -1842,9 +1829,10 @@ class Parser {
 				$text = $link;
 			} else {
 				# Bug 4598 madness. Handle the quotes only if they come from the alternate part
-				# [[Lista d''e paise d''o munno]] -> <a href="">Lista d''e paise d''o munno</a>
-				# [[Criticism of Harry Potter|Criticism of ''Harry Potter'']] -> <a href="Criticism of Harry Potter">Criticism of <i>Harry Potter</i></a>
-				$text = $this->doQuotes($text);
+				# [[Lista d''e paise d''o munno]] -> <a href="...">Lista d''e paise d''o munno</a>
+				# [[Criticism of Harry Potter|Criticism of ''Harry Potter'']] 
+				#    -> <a href="Criticism of Harry Potter">Criticism of <i>Harry Potter</i></a>
+				$text = $this->doQuotes( $text );
 			}
 
 			# Link not escaped by : , create the various objects
@@ -1906,7 +1894,7 @@ class Parser {
 					 * Strip the whitespace Category links produce, see bug 87
 					 * @todo We might want to use trim($tmp, "\n") here.
 					 */
-					$s .= trim( $prefix . $trail, "\n" ) == '' ? '': $prefix . $trail;
+					$s .= trim( $prefix . $trail, "\n" ) == '' ? '' : $prefix . $trail;
 
 					wfProfileOut( __METHOD__."-category" );
 					continue;
@@ -2984,6 +2972,7 @@ class Parser {
 		$originalTitle = $part1;
 
 		# $args is a list of argument nodes, starting from index 0, not including $part1
+		# *** FIXME if piece['parts'] is null then the call to getLength() below won't work b/c this $args isn't an object
 		$args = ( null == $piece['parts'] ) ? array() : $piece['parts'];
 		wfProfileOut( __METHOD__.'-setup' );
 
@@ -3453,9 +3442,9 @@ class Parser {
 		$text = $frame->getArgument( $argName );
 		if (  $text === false && $parts->getLength() > 0
 		  && (
-		    $this->ot['html']
-		    || $this->ot['pre']
-		    || ( $this->ot['wiki'] && $frame->isTemplate() )
+			$this->ot['html']
+			|| $this->ot['pre']
+			|| ( $this->ot['wiki'] && $frame->isTemplate() )
 		  )
 		) {
 			# No match in frame, use the supplied default
@@ -3579,7 +3568,7 @@ class Parser {
 	 * @return Boolean: false if this inclusion would take it over the maximum, true otherwise
 	 */
 	function incrementIncludeSize( $type, $size ) {
-		if ( $this->mIncludeSizes[$type] + $size > $this->mOptions->getMaxIncludeSize( $type ) ) {
+		if ( $this->mIncludeSizes[$type] + $size > $this->mOptions->getMaxIncludeSize() ) {
 			return false;
 		} else {
 			$this->mIncludeSizes[$type] += $size;
@@ -3646,7 +3635,7 @@ class Parser {
 			$this->mOutput->setIndexPolicy( 'index' );
 			$this->addTrackingCategory( 'index-category' );
 		}
-		
+
 		# Cache all double underscores in the database
 		foreach ( $this->mDoubleUnderscores as $key => $val ) {
 			$this->mOutput->setProperty( $key, '' );
@@ -3700,7 +3689,7 @@ class Parser {
 		global $wgMaxTocLevel, $wgContLang, $wgHtml5, $wgExperimentalHtmlIds;
 
 		$doNumberHeadings = $this->mOptions->getNumberHeadings();
-		
+
 		# Inhibit editsection links if requested in the page
 		if ( isset( $this->mDoubleUnderscores['noeditsection'] ) ) {
 			$showEditLink = 0;
@@ -3891,8 +3880,8 @@ class Parser {
 					'noninitial' );
 			}
 
-			# HTML names must be case-insensitively unique (bug 10721). 
-			# This does not apply to Unicode characters per 
+			# HTML names must be case-insensitively unique (bug 10721).
+			# This does not apply to Unicode characters per
 			# http://dev.w3.org/html5/spec/infrastructure.html#case-sensitivity-and-string-comparison
 			# FIXME: We may be changing them depending on the current locale.
 			$arrayKey = strtolower( $safeHeadline );
@@ -4043,6 +4032,7 @@ class Parser {
 		$options->resetUsage();
 		$this->mOptions = $options;
 		$this->setTitle( $title );
+		$this->setUser( $user );
 		$this->setOutputType( self::OT_WIKI );
 
 		if ( $clearState ) {
@@ -4055,6 +4045,9 @@ class Parser {
 		$text = str_replace( array_keys( $pairs ), array_values( $pairs ), $text );
 		$text = $this->pstPass2( $text, $user );
 		$text = $this->mStripState->unstripBoth( $text );
+
+		$this->setUser( null ); #Reset
+
 		return $text;
 	}
 
@@ -4734,9 +4727,9 @@ class Parser {
 
 		# Will the image be presented in a frame, with the caption below?
 		$imageIsFramed = isset( $params['frame']['frame'] ) ||
-		                 isset( $params['frame']['framed'] ) ||
-		                 isset( $params['frame']['thumbnail'] ) ||
-		                 isset( $params['frame']['manualthumb'] );
+						 isset( $params['frame']['framed'] ) ||
+						 isset( $params['frame']['thumbnail'] ) ||
+						 isset( $params['frame']['manualthumb'] );
 
 		# In the old days, [[Image:Foo|text...]] would set alt text.  Later it
 		# came to also set the caption, ordinary text after the image -- which
@@ -4989,30 +4982,44 @@ class Parser {
 	}
 
 	/**
+	 * Get the revision object for $this->mRevisionId
+	 *
+	 * @return either a Revision object or null
+	 */
+	protected function getRevisionObject() {
+		if ( !is_null( $this->mRevisionObject ) ) {
+			return $this->mRevisionObject;
+		}
+		if ( is_null( $this->mRevisionId ) ) {
+			return null;
+		}
+
+		$this->mRevisionObject = Revision::newFromId( $this->mRevisionId );
+		return $this->mRevisionObject;
+	}
+
+	/**
 	 * Get the timestamp associated with the current revision, adjusted for
 	 * the default server-local timestamp
 	 */
 	function getRevisionTimestamp() {
 		if ( is_null( $this->mRevisionTimestamp ) ) {
 			wfProfileIn( __METHOD__ );
-			global $wgContLang;
-			$dbr = wfGetDB( DB_SLAVE );
-			$timestamp = $dbr->selectField( 'revision', 'rev_timestamp',
-					array( 'rev_id' => $this->mRevisionId ), __METHOD__ );
 
-			# Normalize timestamp to internal MW format for timezone processing.
-			# This has the added side-effect of replacing a null value with
-			# the current time, which gives us more sensible behavior for
-			# previews.
-			$timestamp = wfTimestamp( TS_MW, $timestamp );
+			$revObject = $this->getRevisionObject();
+			$timestamp = $revObject ? $revObject->getTimestamp() : false;
 
-			# The cryptic '' timezone parameter tells to use the site-default
-			# timezone offset instead of the user settings.
-			#
-			# Since this value will be saved into the parser cache, served
-			# to other users, and potentially even used inside links and such,
-			# it needs to be consistent for all visitors.
-			$this->mRevisionTimestamp = $wgContLang->userAdjust( $timestamp, '' );
+			if( $timestamp !== false ) {
+				global $wgContLang;
+
+				# The cryptic '' timezone parameter tells to use the site-default
+				# timezone offset instead of the user settings.
+				#
+				# Since this value will be saved into the parser cache, served
+				# to other users, and potentially even used inside links and such,
+				# it needs to be consistent for all visitors.
+				$this->mRevisionTimestamp = $wgContLang->userAdjust( $timestamp, '' );
+			}
 
 			wfProfileOut( __METHOD__ );
 		}
@@ -5025,16 +5032,18 @@ class Parser {
 	 * @return String: user name
 	 */
 	function getRevisionUser() {
-		# if this template is subst: the revision id will be blank,
-		# so just use the current user's name
-		if ( $this->mRevisionId ) {
-			$revision = Revision::newFromId( $this->mRevisionId );
-			$revuser = $revision->getUserText();
-		} else {
-			global $wgUser;
-			$revuser = $wgUser->getName();
+		if( is_null( $this->mRevisionUser ) ) {
+			$revObject = $this->getRevisionObject();
+
+			# if this template is subst: the revision id will be blank,
+			# so just use the current user's name
+			if( $revObject ) {
+				$this->mRevisionUser = $revObject->getUserText();
+			} elseif( $this->ot['wiki'] || $this->mOptions->getIsPreview() ) {
+				$this->mRevisionUser = $this->getUser()->getName();
+			}
 		}
-		return $revuser;
+		return $this->mRevisionUser;
 	}
 
 	/**

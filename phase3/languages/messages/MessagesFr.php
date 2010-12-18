@@ -603,7 +603,7 @@ $1',
 'privacypage'          => 'Project:Confidentialité',
 
 'badaccess'        => 'Erreur de permission',
-'badaccess-group0' => 'Vous n’avez pas les droits suffisants pour réaliser l’action que vous demandez.',
+'badaccess-group0' => 'Vous n’avez pas les droits suffisants pour réaliser l’action demandée.',
 'badaccess-groups' => 'L’action que vous essayez de réaliser n’est accessible qu’aux utilisateurs {{PLURAL:$2|du groupe|des groupes}} : $1.',
 
 'versionrequired'     => 'Version $1 de MediaWiki nécessaire',
@@ -907,7 +907,7 @@ La raison invoquée est la suivante : ''$2''.
 * Compte bloqué : $7.
 
 Vous pouvez contacter $1 ou un autre [[{{MediaWiki:Grouppage-sysop}}|administrateur]] pour en discuter.
-Vous ne pouvez utiliser la fonction « Envoyer un courriel à cet utilisateur » que si une adresse de courriel valide est spécifiée dans vos [[Special:Preferences|préférences]] et que cette fonctionnalité n’a pas été bloquée.
+Vous ne pouvez utiliser la fonction « {{MediaWiki:emailpage}} » que si une adresse de courriel valide est spécifiée dans vos [[Special:Preferences|préférences]] et que cette fonctionnalité n’a pas été bloquée.
 Votre adresse IP actuelle est $3 et votre identifiant de blocage est $5.
 Veuillez préciser ces indications dans toutes les requêtes que vous ferez.",
 'autoblockedtext'                  => "Votre adresse IP a été bloquée automatiquement car elle a été utilisée par un autre utilisateur, lui-même bloqué par $1.
@@ -965,7 +965,11 @@ La dernière entrée du registre des blocages est indiquée ci-dessous à titre 
 'usercsspreview'                   => "'''Rappelez-vous que vous n’êtes qu’en train de prévisualiser votre propre feuille CSS.'''
 '''Elle n’a pas encore été enregistrée !'''",
 'userjspreview'                    => "'''Rappelez-vous que vous êtes en train de visualiser ou de tester votre code JavaScript et qu’il n’a pas encore été enregistré !'''",
-'userinvalidcssjstitle'            => "'''Attention :''' il n’existe pas d’habillage « $1 ». Rappelez-vous que les pages personnelles avec extensions .css et .js utilisent des titres en minuscules, par exemple {{ns:user}}:Foo/monobook.css et non {{ns:user}}:Foo/Monobook.css.",
+'sitecsspreview'                   => "'''Rappelez-vous que vous êtes seulement en train de prévisualiser cette feuille CSS globale.'''
+'''Elle n’a pas encore été enregistrée !'''",
+'sitejspreview'                    => "'''Rappelez-vous que vous êtes seulement en train de prévisualiser ce code Javascript global.'''
+'''Il n’a pas encore été enregistré !'''",
+'userinvalidcssjstitle'            => "'''Attention :''' il n’existe pas d’habillage « $1 ». Rappelez-vous que les pages personnelles avec extensions .css et .js utilisent des titres en minuscules, par exemple {{ns:user}}:Foo/vector.css et non {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Mis à jour)',
 'note'                             => "'''Note :'''",
 'previewnote'                      => "'''Attention, ce texte n’est qu’une prévisualisation et n’a pas encore été publié !'''",
@@ -1224,7 +1228,7 @@ Voir la [[Special:IPBlockList|liste des adresses IP et utilisateurs bloqués]] p
 'revmove-norevisions-title'    => 'Révision cible invalide',
 'revmove-norevisions'          => 'Vous n’avez pas spécifié un ou plusieurs révisions cibles pour effectuer cette fonctionnalité ou la révision spécifiée n’existe pas.',
 'revmove-nullmove-title'       => 'Mauvais titre',
-'revmove-nullmove'             => 'Les pages source et cible sont identiques. Veuillez cliquer sur « précédent » et entrez un nom de page différent de « [[$1]] ».',
+'revmove-nullmove'             => 'Les pages source et cible sont identiques. Veuillez cliquer sur « précédent » et entrez un nom de page différent de « $1 ».',
 'revmove-success-existing'     => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page existante [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page [[$3]] nouvellement créée.',
 
@@ -2520,8 +2524,8 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 'ipb-change-block'                => 'Bloquer à nouveau cet utilisateur avec ces paramètres',
 'badipaddress'                    => 'Adresse IP incorrecte',
 'blockipsuccesssub'               => 'Blocage réussi',
-'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué.<br />
-Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour réviser les blocages.',
+'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué{{GENDER:$1||e|}}.<br />
+Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour revoir les blocages.',
 'ipb-edit-dropdown'               => 'Modifier les motifs de blocage par défaut',
 'ipb-unblock-addr'                => 'Débloquer $1',
 'ipb-unblock'                     => 'Débloquer un compte utilisateur ou une adresse IP',
@@ -2884,7 +2888,7 @@ Permet de rétablir la version précédente et d’ajouter un motif dans la boî
 'nostalgia.css'   => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Nostalgia. */',
 'cologneblue.css' => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Cologne Blue. */',
 'monobook.css'    => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Monobook. */',
-'myskin.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Myskin. */',
+'myskin.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage MySkin. */',
 'chick.css'       => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Chick. */',
 'simple.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Simple. */',
 'modern.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Modern. */',
@@ -3505,6 +3509,7 @@ Vous pouvez aussi [[Special:Watchlist/edit|utiliser l’éditeur normal]].',
 'version-specialpages'             => 'Pages spéciales',
 'version-parserhooks'              => 'Greffons du parseur',
 'version-variables'                => 'Variables',
+'version-skins'                    => 'Habillages',
 'version-other'                    => 'Divers',
 'version-mediahandlers'            => 'Manipulateurs de médias',
 'version-hooks'                    => 'Greffons',

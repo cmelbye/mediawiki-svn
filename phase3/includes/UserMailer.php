@@ -58,7 +58,7 @@ class MailAddress {
 		if ( $this->name != '' && !wfIsWindows() ) {
 			global $wgEnotifUseRealName;
 			$name = ( $wgEnotifUseRealName && $this->realName ) ? $this->realName : $this->name;
-			$quoted = wfQuotedPrintable( $name );
+			$quoted = UserMailer::quotedPrintable( $name );
 			if ( strpos( $quoted, '.' ) !== false || strpos( $quoted, ',' ) !== false ) {
 				$quoted = '"' . $quoted . '"';
 			}
@@ -162,7 +162,7 @@ class UserMailer {
 			if ( $replyto ) {
 				$headers['Reply-To'] = $replyto->toString();
 			}
-			$headers['Subject'] = wfQuotedPrintable( $subject );
+			$headers['Subject'] = self::quotedPrintable( $subject );
 			$headers['Date'] = date( 'r' );
 			$headers['MIME-Version'] = '1.0';
 			$headers['Content-type'] = ( is_null( $contentType ) ?
@@ -223,12 +223,19 @@ class UserMailer {
 			ini_set( 'html_errors', '0' );
 			set_error_handler( array( 'UserMailer', 'errorHandler' ) );
 
-			if ( is_array( $to ) ) {
-				foreach ( $to as $recip ) {
-					$sent = mail( $recip->toString(), wfQuotedPrintable( $subject ), $body, $headers, $wgAdditionalMailParams );
+			// We need to check for safe_mode, because mail() throws an E_NOTICE
+			// on the 5th parameter when it's turned on
+			$sm = wfIniGetBool( 'safe_mode' );
+
+			if ( !is_array( $to ) ) {
+				$to = array( $to );
+			}
+			foreach ( $to as $recip ) {
+				if( $sm ) {
+					$sent = mail( $recip->toString(), self::quotedPrintable( $subject ), $body, $headers );
+				} else {
+					$sent = mail( $recip->toString(), self::quotedPrintable( $subject ), $body, $headers, $wgAdditionalMailParams );
 				}
-			} else {
-				$sent = mail( $to->toString(), wfQuotedPrintable( $subject ), $body, $headers, $wgAdditionalMailParams );
 			}
 
 			restore_error_handler();
@@ -263,6 +270,30 @@ class UserMailer {
 	public static function rfc822Phrase( $phrase ) {
 		$phrase = strtr( $phrase, array( "\r" => '', "\n" => '', '"' => '' ) );
 		return '"' . $phrase . '"';
+	}
+
+	/**
+	 * Converts a string into quoted-printable format
+	 * @since 1.17
+	 */
+	public static function quotedPrintable( $string, $charset = '' ) {
+		# Probably incomplete; see RFC 2045
+		if( empty( $charset ) ) {
+			global $wgInputEncoding;
+			$charset = $wgInputEncoding;
+		}
+		$charset = strtoupper( $charset );
+		$charset = str_replace( 'ISO-8859', 'ISO8859', $charset ); // ?
+
+		$illegal = '\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff=';
+		$replace = $illegal . '\t ?_';
+		if( !preg_match( "/[$illegal]/", $string ) ) {
+			return $string;
+		}
+		$out = "=?$charset?Q?";
+		$out .= preg_replace( "/([$replace])/e", 'sprintf("=%02X",ord("$1"))', $string );
+		$out .= '?=';
+		return $out;
 	}
 }
 
@@ -631,15 +662,19 @@ class EmailNotification {
 /**@{
  * Backwards compatibility functions
  *
- * @deprecated Use UserMailer methods; will be removed in 1.19
+ * @deprecated Use UserMailer method deprecated in 1.18, remove in 1.19.
  */
 function wfRFC822Phrase( $s ) {
 	wfDeprecated( __FUNCTION__ );
 	return UserMailer::rfc822Phrase( $s );
 }
 
+/**
+ * @deprecated Use UserMailer method deprecated in 1.18, remove in 1.19.
+ */
 function userMailer( $to, $from, $subject, $body, $replyto = null ) {
 	wfDeprecated( __FUNCTION__ );
 	return UserMailer::send( $to, $from, $subject, $body, $replyto );
 }
+
 /**@}*/

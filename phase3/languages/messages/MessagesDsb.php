@@ -755,7 +755,7 @@ Nejnowšy zapisk blokěrowańskego protokola pódawa se dołojce ako referenca:'
 'usercsspreview'                   => "'''Źiwaj na to, až wobglědujoš se jano pśeglěd swójogo wužywarskego CSS. Njejo se hyšći składował!'''",
 'userjspreview'                    => "== Pśeglěd Wašogo wužywarskego JavaScripta ==
 '''Glědaj:''' Pó składowanju musyš swójomu browseroju kazaś, aby nowu wersiju pokazał: '''Mozilla/Firefox:''' ''Strg-Shift-R'', '''Internet Explorer:''' ''Strg-F5'', '''Opera:''' ''F5'', '''Safari:''' ''Cmd-Shift-R'', '''Konqueror:''' ''F5''.",
-'userinvalidcssjstitle'            => "'''Warnowanje:''' Njeeksistěrujo šat „$1“. Pšosym mysli na to, až wužywaju .css- a .js-boki mały pismik, na pś. ''{{ns:user}}:Pśikładowa/monobook.css'' město ''{{ns:user}}:Pśikładowa/Monobook.css''.",
+'userinvalidcssjstitle'            => "'''Warnowanje:''' Njeeksistěrujo šat „$1“. Pšosym mysli na to, až wužywaju .css- a .js-boki mały pismik, na pś. ''{{ns:user}}:Pśikładowa/vector.css'' město ''{{ns:user}}:Pśikładowa/Vector.css''.",
 'updated'                          => '(Zaktualizěrowane)',
 'note'                             => "'''Pokazka:'''",
 'previewnote'                      => "'''To jo jano pśeglěd, bok njejo hyšći składowany!'''",
@@ -1009,7 +1009,7 @@ Pšosym pśeglědaj protokole.',
 'revmove-norevisions-title'    => 'Njepłaśiwa celowa wersija',
 'revmove-norevisions'          => 'Njejsy jadnu celowu wersiju abo wěcej celowych wersijow pódał, aby toś tu funkciju wuwjadł abo pódana wersija njeeksistěrujo.',
 'revmove-nullmove-title'       => 'Njepłaśiwy titel',
-'revmove-nullmove'             => 'Žrědłowy a celowy bok stej identeskejl. Pšosym klikni na "slědk" a zapódaj druge mě boka  ako "[[$1]]".',
+'revmove-nullmove'             => 'Žrědłowy a celowy bok stej identeskejl. Pšosym klikni na "slědk" a zapódaj druge mě boka  ako "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Jadna wersija jo se wót [[$2]]|$1 wersiji stej se wót [[$2]]|$1 wersije su se wót [[$2]]|$1 wersijow jo se wót [[$2]]}} k eksistěrujucemu bokoju  [[$3]] {{PLURAL:$1|pśesunuła|pśesunułej|pśesunuli|pśesunuło}}.',
 'revmove-success-created'      => '{{PLURAL:$1|Jadna wersija jo se wót [[$2]]|$1 wersiji stej se wót [[$2]]|$1 wersije su se wót [[$2]]|$1 wersijow jo se wót [[$2]]}} k rowno napóranemu bokoju  [[$3]] {{PLURAL:$1|pśesunuła|pśesunułej|pśesunuli|pśesunuło}}.',
 

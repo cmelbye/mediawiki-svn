@@ -213,33 +213,29 @@ abstract class Installer {
 	}
 
 	/**
-	 * Determine if LocalSettings exists. If it does, return an appropriate
-	 * status for whether upgrading is enabled or not.
+	 * Determine if LocalSettings.php exists. If it does, return its variables, 
+	 * merged with those from AdminSettings.php, as an array.
 	 *
-	 * @return Status
+	 * @return Array
 	 */
-	public function getLocalSettingsStatus() {
+	public function getExistingLocalSettings() {
 		global $IP;
 
-		$status = Status::newGood();
-
 		wfSuppressWarnings();
-		$ls = file_exists( "$IP/LocalSettings.php" );
+		$_lsExists = file_exists( "$IP/LocalSettings.php" );
 		wfRestoreWarnings();
 
-		if( $ls ) {
-			require( "$IP/includes/DefaultSettings.php" );
-			require_once( "$IP/LocalSettings.php" );
-			$vars = get_defined_vars();
-			if( isset( $vars['wgUpgradeKey'] ) && $vars['wgUpgradeKey'] ) {
-				$status->warning( 'config-localsettings-upgrade' );
-				$this->setVar( '_UpgradeKey', $vars['wgUpgradeKey' ] );
-			} else {
-				$status->fatal( 'config-localsettings-noupgrade' );
-			}
+		if( !$_lsExists ) {
+			return false;
 		}
+		unset($_lsExists);
 
-		return $status;
+		require( "$IP/includes/DefaultSettings.php" );
+		require( "$IP/LocalSettings.php" );
+		if ( file_exists( "$IP/AdminSettings.php" ) ) {
+			require( "$IP/AdminSettings.php" );
+		}
+		return get_defined_vars();
 	}
 
 	/**
@@ -327,6 +323,19 @@ abstract class Installer {
 		return $html;
 	}
 
+	public function getParserOptions() {
+		return $this->parserOptions;
+	}
+
+	public function disableLinkPopups() {
+		$this->parserOptions->setExternalLinkTarget( false );
+	}
+
+	public function restoreLinkPopups() {
+		global $wgExternalLinkTarget;
+		$this->parserOptions->setExternalLinkTarget( $wgExternalLinkTarget );
+	}
+
 	/**
 	 * TODO: document
 	 *
@@ -340,7 +349,7 @@ abstract class Installer {
 		if( $status->isOK() ) {
 			LBFactory::enableBackend();
 		}
-		
+
 		return $status;
 	}
 
@@ -390,7 +399,7 @@ abstract class Installer {
 		$sqlite = $this->getDBInstaller( 'sqlite' );
 		if ( $sqlite->isCompiled() ) {
 			$db = new DatabaseSqliteStandalone( ':memory:' );
-			if( $db->getFulltextSearchModule() == 'FTS3' ) {
+			if( $db->getFulltextSearchModule() != 'FTS3' ) {
 				$this->showMessage( 'config-no-fts3' );
 			}
 		}
@@ -540,7 +549,7 @@ abstract class Installer {
 	 * Environment check for compiled object cache types.
 	 */
 	protected function envCheckCache() {
-		$caches = false;
+		$caches = array();
 		foreach ( $this->objectCaches as $name => $function ) {
 			if ( function_exists( $function ) ) {
 				$caches[$name] = true;
@@ -561,7 +570,7 @@ abstract class Installer {
 		$names = array( "gdiff3", "diff3", "diff3.exe" );
 		$versionInfo = array( '$1 --version 2>&1', 'GNU diffutils' );
 
-		$diff3 = $this->locateExecutableInDefaultPaths( $names, $versionInfo );
+		$diff3 = self::locateExecutableInDefaultPaths( $names, $versionInfo );
 
 		if ( $diff3 ) {
 			$this->setVar( 'wgDiff3', $diff3 );
@@ -576,7 +585,7 @@ abstract class Installer {
 	 */
 	protected function envCheckGraphics() {
 		$names = array( wfIsWindows() ? 'convert.exe' : 'convert' );
-		$convert = $this->locateExecutableInDefaultPaths( $names, array( '$1 -version', 'ImageMagick' ) );
+		$convert = self::locateExecutableInDefaultPaths( $names, array( '$1 -version', 'ImageMagick' ) );
 
 		if ( $convert ) {
 			$this->setVar( 'wgImageMagickConvertCommand', $convert );

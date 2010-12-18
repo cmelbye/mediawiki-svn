@@ -11,6 +11,7 @@
  * @author Bombola
  * @author Dbl2010
  * @author Don Alessandro
+ * @author Emperyan
  * @author Erkan Yilmaz
  * @author Fryed-peach
  * @author Hanberke
@@ -902,7 +903,7 @@ Son engelleme günlüğü girdisi referans için aşağıda sağlanmıştır:',
 'userjsyoucanpreview'              => "'''İpucu:''' Kaydetmeden önce \"{{int:showpreview}}\"e tıklayarak yeni JavaScript'inizi test edin.",
 'usercsspreview'                   => "'''Sadece kullanıcı CSS dosyanızın önizlemesini görüyorsun.''' '''Kullanıcı CSS dosyası henüz kaydolmadı!'''",
 'userjspreview'                    => "'''Sadece test ediyorsun ya da önizleme görüyorsun - kullanıcı JavaScript'i henüz kaydolmadı.'''",
-'userinvalidcssjstitle'            => "''Uyarı:''' \"\$1\" adıyla bir tema yoktur. tema-adı.css ve .js dosyalarının adları küçük harf ile yazması gerek, yani {{ns:user}}:Temel/'''M'''onobook.css değil, {{ns:user}}:Temel/'''m'''onobook.css.",
+'userinvalidcssjstitle'            => "''Uyarı:''' \"\$1\" adıyla bir tema yoktur. tema-adı.css ve .js dosyalarının adları küçük harf ile yazması gerek, yani {{ns:user}}:Temel/'''V'''ector.css değil, {{ns:user}}:Temel/'''v'''ector.css.",
 'updated'                          => '(Güncellendi)',
 'note'                             => "'''Not: '''",
 'previewnote'                      => "'''Bu yalnızca bir önizlemedir, ve değişiklikleriniz henüz kaydedilmemiştir!'''",
@@ -1165,7 +1166,7 @@ Lütfen günlükleri kontrol edin.',
 'revmove-norevisions-title'    => 'Geçersiz hedef revizyonu',
 'revmove-norevisions'          => 'Bu işlevi yerine getirmek için bir ya da daha fazla hedef sürümünü belirlemediniz ya da belirtilen sürüm bulunmamaktadır.',
 'revmove-nullmove-title'       => 'Kötü başlık',
-'revmove-nullmove'             => 'Kaynak ve hedef sayfaları aynıdır. Lütfen "geri" gidip "[[$1]]" dan başka bir sayfa ismi giriniz.',
+'revmove-nullmove'             => 'Kaynak ve hedef sayfaları aynıdır. Lütfen "geri" gidip "$1" dan başka bir sayfa ismi giriniz.',
 'revmove-success-existing'     => '{{PLURAL:$1|[[$2]] den bir sürüm|$1 sürüm [[$2]] den}}varolan [[$3]] sayfasına taşındı.',
 'revmove-success-created'      => '{{PLURAL:$1|[[$2]] den bir sürüm|$1 sürüm [[$2]] den}}yeni yaratılan [[$3]] sayfasına taşındı.',
 
@@ -1905,7 +1906,7 @@ Sıradaki liste sadece bu dosyaya bağlantı veren {{PLURAL:$1|ilk dosyayı|ilk 
 'statistics-views-peredit'     => 'Değişiklik başına görüntüleme',
 'statistics-users'             => 'Kayıtlı [[Special:ListUsers|kullanıcılar]]',
 'statistics-users-active'      => 'Aktif kullanıcılar',
-'statistics-users-active-desc' => 'Son {{PLURAL:$1|1 günde|$1 günde}} çalışma yapan kullanıcılar',
+'statistics-users-active-desc' => 'Son {{PLURAL:$1|gün|$1 günde}} çalışma yapan kullanıcılar',
 'statistics-mostpopular'       => 'En popüler maddeler',
 
 'disambiguations'      => 'Anlam ayrım sayfaları',

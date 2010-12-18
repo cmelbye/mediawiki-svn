@@ -126,7 +126,7 @@ class Article {
 		$this->insertRedirectEntry( $retval );
 		return $retval;
 	}
-	
+
 	/**
 	 * Insert or update the redirect table entry for this page to indicate
 	 * it redirects to $rt .
@@ -166,7 +166,7 @@ class Article {
 		// recurse through to only get the final target
 		return $this->getRedirectURL( Title::newFromRedirectRecurse( $text ) );
 	}
-	
+
 	/**
 	 * Get the Title object or URL to use for a redirect. We use Title
 	 * objects for same-wiki, non-special redirects and URLs for everything
@@ -966,11 +966,11 @@ class Article {
 						if ( $oldid === $this->getLatest() && $this->useParserCache( false ) ) {
 							$this->mParserOutput = $parserCache->get( $this, $parserOptions );
 							if ( $this->mParserOutput ) {
-								wfDebug( __METHOD__ . ": showing parser cache for current rev permalink\n" );								
+								wfDebug( __METHOD__ . ": showing parser cache for current rev permalink\n" );
 								$wgOut->addParserOutput( $this->mParserOutput );
 								$wgOut->setRevisionId( $this->mLatest );
 								$outputDone = true;
-								break;								
+								break;
 							}
 						}
 					}
@@ -1002,10 +1002,9 @@ class Article {
 					# Run the parse, protected by a pool counter
 					wfDebug( __METHOD__ . ": doing uncached parse\n" );
 
-					$this->checkTouched();
 					$key = $parserCache->getKey( $this, $parserOptions );
 					$poolArticleView = new PoolWorkArticleView( $this, $key, $useParserCache, $parserOptions );
-					
+
 					if ( !$poolArticleView->execute() ) {
 						# Connection or timeout error
 						wfProfileOut( __METHOD__ );
@@ -1482,10 +1481,10 @@ class Article {
 		if ( !$this->isCurrent() || $wgOut->isPrintable() ) {
 			$parserOptions->setEditSection( false );
 		}
-		
+
 		$useParserCache = $this->useParserCache( $oldid );
 		$this->outputWikiText( $this->getContent(), $useParserCache, $parserOptions );
-		
+
 		return true;
 	}
 
@@ -1501,12 +1500,12 @@ class Article {
 		global $wgOut;
 		$parserCache = ParserCache::singleton();
 		$options = clone $this->getParserOptions();
-		
+
 		if ( $wgOut->isPrintable() ) {
 			$options->setIsPrintable( true );
 			$options->setEditSection( false );
 		}
-		
+
 		$output = $parserCache->getDirty( $this, $options );
 
 		if ( $output ) {
@@ -1570,7 +1569,7 @@ class Article {
 			}
 		}
 
-		$imageUrl = $wgStylePath . '/common/images/redirect' . $imageDir . '.png';		
+		$imageUrl = $wgStylePath . '/common/images/redirect' . $imageDir . '.png';
 		return '<div class="redirectMsg">' .
 			Html::element( 'img', array( 'src' => $imageUrl, 'alt' => '#REDIRECT' ) ) .
 			'<span class="redirectText">' . $link . '</span></div>';
@@ -1675,7 +1674,7 @@ class Article {
 			$form  = Html::openElement( 'form', $formParams );
 			$form .= Xml::submitButton( wfMsg( 'confirm_purge_button' ) );
 			$form .= Html::closeElement( 'form' );
-			
+
 			$wgOut->addHTML( $form );
 			$wgOut->addWikiMsg( 'confirm-purge-bottom' );
 
@@ -2152,6 +2151,7 @@ class Article {
 					'parent_id'  => $this->mLatest,
 					'user'       => $user->getId(),
 					'user_text'  => $user->getName(),
+					'timestamp'  => $now
 				) );
 
 				$dbw->begin();
@@ -2183,7 +2183,8 @@ class Article {
 					# Update recentchanges
 					if ( !( $flags & EDIT_SUPPRESS_RC ) ) {
 						# Mark as patrolled if the user can do so
-						$patrolled = $wgUseRCPatrol && $this->mTitle->userCan( 'autopatrol' );
+						$patrolled = $wgUseRCPatrol && !count(
+							$this->mTitle->getUserPermissionsErrors( 'autopatrol', $user ) );
 						# Add RC row to the DB
 						$rc = RecentChange::notifyEdit( $now, $this->mTitle, $isminor, $user, $summary,
 							$this->mLatest, $this->getTimestamp(), $bot, '', $oldsize, $newsize,
@@ -2255,7 +2256,8 @@ class Article {
 				'text'       => $text,
 				'user'       => $user->getId(),
 				'user_text'  => $user->getName(),
-				) );
+				'timestamp'  => $now
+			) );
 			$revisionId = $revision->insertOn( $dbw );
 
 			$this->mTitle->resetArticleID( $newid );
@@ -2270,7 +2272,8 @@ class Article {
 				global $wgUseRCPatrol, $wgUseNPPatrol;
 
 				# Mark as patrolled if the user can do so
-				$patrolled = ( $wgUseRCPatrol || $wgUseNPPatrol ) && $this->mTitle->userCan( 'autopatrol' );
+				$patrolled = ( $wgUseRCPatrol || $wgUseNPPatrol ) && !count(
+					$this->mTitle->getUserPermissionsErrors( 'autopatrol', $user ) );
 				# Add RC row to the DB
 				$rc = RecentChange::notifyNew( $now, $this->mTitle, $isminor, $user, $summary, $bot,
 					'', strlen( $text ), $revisionId, $patrolled );
@@ -4332,7 +4335,7 @@ class Article {
 	*/
 	public static function getAutosummary( $oldtext, $newtext, $flags ) {
 		global $wgContLang;
-		
+
 		# Decide what kind of autosummary is needed.
 
 		# Redirect autosummaries
@@ -4446,7 +4449,7 @@ class Article {
 			$this->mParserOptions->enableLimitReport();
 		}
 
-		// Clone to allow modifications of the return value without affecting 
+		// Clone to allow modifications of the return value without affecting
 		// the cache
 		return clone $this->mParserOptions;
 	}
@@ -4571,7 +4574,7 @@ class Article {
 	 * consider, so it's not appropriate to use there.
 	 *
 	 * @since 1.16 (r52326) for LiquidThreads
-	 * 
+	 *
 	 * @param $oldid mixed integer Revision ID or null
 	 */
 	public function getParserOutput( $oldid = null ) {
@@ -4620,21 +4623,21 @@ class Article {
 
 class PoolWorkArticleView extends PoolCounterWork {
 	private $mArticle;
-	
+
 	function __construct( $article, $key, $useParserCache, $parserOptions ) {
 		parent::__construct( 'ArticleView', $key );
 		$this->mArticle = $article;
 		$this->cacheable = $useParserCache;
 		$this->parserOptions = $parserOptions;
 	}
-	
+
 	function doWork() {
 		return $this->mArticle->doViewParse();
 	}
-	
+
 	function getCachedWork() {
 		global $wgOut;
-		
+
 		$parserCache = ParserCache::singleton();
 		$this->mArticle->mParserOutput = $parserCache->get( $this->mArticle, $this->parserOptions );
 
@@ -4648,21 +4651,21 @@ class PoolWorkArticleView extends PoolCounterWork {
 		}
 		return false;
 	}
-	
+
 	function fallback() {
 		return $this->mArticle->tryDirtyCache();
 	}
-	
+
 	function error( $status ) {
 		global $wgOut;
 
 		$wgOut->clearHTML(); // for release() errors
 		$wgOut->enableClientCache( false );
 		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		
+
 		$errortext = $status->getWikiText( false, 'view-pool-error' );
 		$wgOut->addWikiText( '<div class="errorbox">' . $errortext . '</div>' );
-		
+
 		return false;
 	}
 }

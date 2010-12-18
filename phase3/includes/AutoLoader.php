@@ -57,7 +57,6 @@ $wgAutoloadLocalClasses = array(
 	'DBABagOStuff' => 'includes/BagOStuff.php',
 	'DependencyWrapper' => 'includes/CacheDependency.php',
 	'DiffHistoryBlob' => 'includes/HistoryBlob.php',
-	'DistributionRepository' => 'includes/DistributionRepository.php',
 	'DjVuImage' => 'includes/DjVuImage.php',
 	'DoubleReplacer' => 'includes/StringUtils.php',
 	'DublinCoreRdf' => 'includes/Metadata.php',
@@ -172,7 +171,6 @@ $wgAutoloadLocalClasses = array(
 	'MWNamespace' => 'includes/Namespace.php',
 	'OldChangesList' => 'includes/ChangesList.php',
 	'OutputPage' => 'includes/OutputPage.php',
-	'PackageRepository' => 'includes/PackageRepository.php',
 	'PageQueryPage' => 'includes/PageQueryPage.php',
 	'PageHistory' => 'includes/HistoryPage.php',
 	'PageHistoryPager' => 'includes/HistoryPage.php',
@@ -700,45 +698,49 @@ $wgAutoloadLocalClasses = array(
 	'LanguageConverter' => 'languages/LanguageConverter.php',
 
 	# maintenance
-	'AnsiTermColorer' => 'maintenance/tests/testHelpers.inc',
 	'ConvertLinks' => 'maintenance/convertLinks.php',
-	'DbTestPreviewer' => 'maintenance/tests/testHelpers.inc',
-	'DbTestRecorder' => 'maintenance/tests/testHelpers.inc',
 	'DeleteArchivedFilesImplementation' => 'maintenance/deleteArchivedFiles.inc',
 	'DeleteArchivedRevisionsImplementation' => 'maintenance/deleteArchivedRevisions.inc',
 	'DeleteDefaultMessages' => 'maintenance/deleteDefaultMessages.php',
-	'DummyTermColorer' => 'maintenance/tests/testHelpers.inc',
-	'ParserTest' => 'maintenance/tests/parser/parserTest.inc',
-	'ParserTestParserHook' => 'maintenance/tests/parser/parserTestsParserHook.php',
-	'ParserTestStaticParserHook' => 'maintenance/tests/parser/parserTestsStaticParserHook.php',
 	'PopulateCategory' => 'maintenance/populateCategory.php',
 	'PopulateLogSearch' => 'maintenance/populateLogSearch.php',
 	'PopulateParentId' => 'maintenance/populateParentId.php',
 	'PopulateRevisionLength' => 'maintenance/populateRevisionLength.php',
-	'RemoteTestRecorder' => 'maintenance/tests/testHelpers.inc',
 	'SevenZipStream' => 'maintenance/7zip.inc',
 	'Sqlite' => 'maintenance/sqlite.inc',
-	'TestFileIterator' => 'maintenance/tests/testHelpers.inc',
-	'TestRecorder' => 'maintenance/tests/testHelpers.inc',
 	'UpdateCollation' => 'maintenance/updateCollation.php',
 	'UpdateRestrictions' => 'maintenance/updateRestrictions.php',
 	'UserDupes' => 'maintenance/userDupes.inc',
-
-	# maintenance/tests/selenium
-	'Selenium' => 'maintenance/tests/selenium/Selenium.php',
-	'SeleniumLoader' => 'maintenance/tests/selenium/SeleniumLoader.php',
-	'SeleniumTestCase' => 'maintenance/tests/selenium/SeleniumTestCase.php',
-	'SeleniumTestConsoleLogger' => 'maintenance/tests/selenium/SeleniumTestConsoleLogger.php',
-	'SeleniumTestHTMLLogger' => 'maintenance/tests/selenium/SeleniumTestHTMLLogger.php',
-	'SeleniumTestListener' => 'maintenance/tests/selenium/SeleniumTestListener.php',
-	'SeleniumTestSuite' => 'maintenance/tests/selenium/SeleniumTestSuite.php',
-	'SeleniumConfig' => 'maintenance/tests/selenium/SeleniumConfig.php',
 
 	# maintenance/language
 	'csvStatsOutput' => 'maintenance/language/StatOutputs.php',
 	'statsOutput' => 'maintenance/language/StatOutputs.php',
 	'textStatsOutput' => 'maintenance/language/StatOutputs.php',
 	'wikiStatsOutput' => 'maintenance/language/StatOutputs.php',
+
+	# tests
+	'AnsiTermColorer' => 'tests/testHelpers.inc',
+	'DbTestPreviewer' => 'tests/testHelpers.inc',
+	'DbTestRecorder' => 'tests/testHelpers.inc',
+	'DummyTermColorer' => 'tests/testHelpers.inc',
+	'RemoteTestRecorder' => 'tests/testHelpers.inc',
+	'TestFileIterator' => 'tests/testHelpers.inc',
+	'TestRecorder' => 'tests/testHelpers.inc',
+
+	# tests/parser
+	'ParserTest' => 'tests/parser/parserTest.inc',
+	'ParserTestParserHook' => 'tests/parser/parserTestsParserHook.php',
+	'ParserTestStaticParserHook' => 'tests/parser/parserTestsStaticParserHook.php',
+
+	# tests/selenium
+	'Selenium' => 'tests/selenium/Selenium.php',
+	'SeleniumLoader' => 'tests/selenium/SeleniumLoader.php',
+	'SeleniumTestCase' => 'tests/selenium/SeleniumTestCase.php',
+	'SeleniumTestConsoleLogger' => 'tests/selenium/SeleniumTestConsoleLogger.php',
+	'SeleniumTestHTMLLogger' => 'tests/selenium/SeleniumTestHTMLLogger.php',
+	'SeleniumTestListener' => 'tests/selenium/SeleniumTestListener.php',
+	'SeleniumTestSuite' => 'tests/selenium/SeleniumTestSuite.php',
+	'SeleniumConfig' => 'tests/selenium/SeleniumConfig.php',
 );
 
 class AutoLoader {
@@ -788,16 +790,6 @@ class AutoLoader {
 		require( $filename );
 
 		return true;
-	}
-
-	static function loadAllExtensions() {
-		global $wgAutoloadClasses;
-
-		foreach ( $wgAutoloadClasses as $class => $file ) {
-			if ( !( class_exists( $class, false ) || interface_exists( $class, false ) ) ) {
-				require( $file );
-			}
-		}
 	}
 
 	/**

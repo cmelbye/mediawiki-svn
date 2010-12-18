@@ -47,6 +47,7 @@ class WebInstaller extends CoreInstaller {
 	 */
 	public $pageSequence = array(
 		'Language',
+		'ExistingWiki',
 		'Welcome',
 		'DBConnect',
 		'Upgrade',
@@ -102,7 +103,7 @@ class WebInstaller extends CoreInstaller {
 
 		// Add parser hook for WebInstaller_Complete
 		global $wgParser;
-		$wgParser->setHook( 'downloadlink', array( $this, 'downloadLinkHook' ) );		
+		$wgParser->setHook( 'downloadlink', array( $this, 'downloadLinkHook' ) );
 	}
 
 	/**
@@ -175,15 +176,7 @@ class WebInstaller extends CoreInstaller {
 		# Get the page name.
 		$pageName = $this->request->getVal( 'page' );
 
-		# Check LocalSettings status
-		$localSettings = $this->getLocalSettingsStatus();
-
-		if( !$localSettings->isGood() && $this->getVar( '_LocalSettingsLocked' ) ) {
-			$pageName = 'Locked';
-			$pageId = false;
-			$page = $this->getPageByName( $pageName );
-			$page->setLocalSettingsStatus( $localSettings );
-		} elseif ( in_array( $pageName, $this->otherPages ) ) {
+		if ( in_array( $pageName, $this->otherPages ) ) {
 			# Out of sequence
 			$pageId = false;
 			$page = $this->getPageByName( $pageName );
@@ -284,22 +277,6 @@ class WebInstaller extends CoreInstaller {
 	 * Start the PHP session. This may be called before execute() to start the PHP session.
 	 */
 	public function startSession() {
-		$sessPath = $this->getSessionSavePath();
-
-		if( $sessPath != '' ) {
-			if( strval( ini_get( 'open_basedir' ) ) != '' ) {
-				// we need to skip the following check when open_basedir is on.
-				// The session path probably *wont* be writable by the current
-				// user, and telling them to change it is bad. Bug 23021.
-			} elseif( !is_dir( $sessPath ) || !is_writeable( $sessPath ) ) {
-				$this->showError( 'config-session-path-bad', $sessPath );
-				return false;
-			}
-		} else {
-			// If the path is unset it'll default to some system bit, which *probably* is ok...
-			// not sure how to actually get what will be used.
-		}
-
 		if( wfIniGetBool( 'session.auto_start' ) || session_id() ) {
 			// Done already
 			return true;
@@ -316,23 +293,6 @@ class WebInstaller extends CoreInstaller {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the value of session.save_path
-	 *
-	 * Per http://www.php.net/manual/en/session.configuration.php#ini.session.save-path,
-	 * this may have an initial integer value to indicate the depth of session
-	 * storage (eg /tmp/a/b/c). Explode on ; and check and see if this part is
-	 * there or not. Should also allow paths with semicolons in them (if you
-	 * really wanted your session files stored in /tmp/some;dir) which PHP
-	 * supposedly supports.
-	 *
-	 * @return String
-	 */
-	private function getSessionSavePath() {
-		$parts = explode( ';', ini_get( 'session.save_path' ), 2 );
-		return count( $parts ) == 1 ? $parts[0] : $parts[1];
 	}
 
 	/**
@@ -620,7 +580,7 @@ class WebInstaller extends CoreInstaller {
 				) . "\n" .
 				"</div>\n" .
 				"<div class=\"config-info-right\">\n" .
-					$this->parse( $text ) . "\n" .
+					$this->parse( $text, true ) . "\n" .
 				"</div>\n" .
 				"<div style=\"clear: left;\"></div>\n" .
 			"</div>\n";
@@ -638,8 +598,7 @@ class WebInstaller extends CoreInstaller {
 		$text = wfMsgReal( $msg, $args, false, false, false );
 		$html = htmlspecialchars( $text );
 		$html = $this->parse( $text, true );
-		
-		
+
 		return "<div class=\"mw-help-field-container\">\n" .
 		         "<span class=\"mw-help-field-hint\">" . wfMsgHtml( 'config-help' ) . "</span>\n" .
 		         "<span class=\"mw-help-field-data\">" . $html . "</span>\n" .
@@ -961,12 +920,12 @@ class WebInstaller extends CoreInstaller {
 	}
 
 	public function downloadLinkHook( $text, $attribs, $parser  ) {
-		$img = Html::element( 'img', array( 
+		$img = Html::element( 'img', array(
 			'src' => '../skins/common/images/download-32.png',
 			'width' => '32',
 			'height' => '32',
 		) );
-		$anchor = Html::rawElement( 'a', 
+		$anchor = Html::rawElement( 'a',
 			array( 'href' => $this->getURL( array( 'localsettings' => 1 ) ) ),
 			$img . ' ' . wfMsgHtml( 'config-download-localsettings' ) );
 		return Html::rawElement( 'div', array( 'class' => 'config-download-link' ), $anchor );

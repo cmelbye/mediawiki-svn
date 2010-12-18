@@ -942,7 +942,7 @@ La dèrriére entrâ du jornal des blocâjos est disponibla ce-desot :',
 'userjspreview'                    => "'''Rapelâd-vos que vos éte aprés èprovar ou ben prèvisualisar voutron code JavaScript.'''
 '''Il at p’oncor étâ sôvâ !'''",
 'userinvalidcssjstitle'            => "'''Atencion :''' ègziste gins d’habelyâjo « $1 ».
-Rapelâd-vos que les pâges a sè avouéc èxtensions .css et .js utilisont des titros en petiôtes lètres, per ègzemplo {{ns:user}}:Foo/monobook.css et pas {{ns:user}}:Foo/Monobook.css.",
+Rapelâd-vos que les pâges a sè avouéc èxtensions .css et .js utilisont des titros en petiôtes lètres, per ègzemplo {{ns:user}}:Foo/vector.css et pas {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Betâ a jorn)',
 'note'                             => "'''Nota :'''",
 'previewnote'                      => "'''Rapelâd-vos que ceti tèxto est ren qu’una prèvisualisacion.'''
@@ -1218,7 +1218,7 @@ Volyéd clicar dessus « Devant » et pués tornâd èprovar.',
 'revmove-norevisions'          => 'Vos éd pas spècefiâ yona ou ben un mouél de vèrsions cibes por fâre cela fonccionalitât ou ben la vèrsion spècefiâ ègziste pas.',
 'revmove-nullmove-title'       => 'Crouyo titro',
 'revmove-nullmove'             => 'Les pâges sôrsa et ciba sont pariéres.
-Volyéd clicar dessus « Devant » et pués buchiéd un nom de pâge difèrent de « [[$1]] ».',
+Volyéd clicar dessus « Devant » et pués buchiéd un nom de pâge difèrent de « $1 ».',
 'revmove-success-existing'     => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge ègzistenta [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge [[$3]] novèlament fêta.',
 

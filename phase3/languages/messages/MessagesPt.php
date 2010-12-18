@@ -931,7 +931,11 @@ Para referência, o último registo de bloqueio é apresentado abaixo:',
 Este ainda não foi gravado!'''",
 'userjspreview'                    => "'''Lembre-se que está apenas a testar ou antever o seu JavaScript particular.'''
 Este ainda não foi gravado!",
-'userinvalidcssjstitle'            => "'''Aviso:''' Não existe um tema \"\$1\". Lembre-se que as páginas .css e  .js utilizam um título em minúsculas, exemplo: {{ns:user}}:Alguém/monobook.css aposto a {{ns:user}}:Alguém/Monobook.css.",
+'sitecsspreview'                   => "'''Lembre-se de que está apenas a antever este CSS.'''
+'''Ele ainda não foi gravado!'''",
+'sitejspreview'                    => "'''Lembre-se de que está apenas a antever este código JavaScript.'''
+'''Ele ainda não foi gravado!'''",
+'userinvalidcssjstitle'            => "'''Aviso:''' Não existe um tema \"\$1\". Lembre-se que as páginas .css e  .js têm um título em minúsculas, exemplo: {{ns:user}}:Alguém/vector.css em vez de {{ns:user}}:Alguém/Vector.css.",
 'updated'                          => '(Actualizado)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Lembre-se que esta é apenas uma antevisão do resultado.'''
@@ -1205,7 +1209,7 @@ Veja a [[Special:IPBlockList|lista de bloqueios]] para uma lista de banimentos e
 'revmove-norevisions-title'    => 'A revisão especificada é inválida',
 'revmove-norevisions'          => 'Não especificou uma ou mais revisões sobre as quais deve ser executada esta operação, ou a revisão que especificou não existe.',
 'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "[[$1]]".',
+'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página recém-criada [[$3]].',
 
@@ -3616,5 +3620,14 @@ Se neste momento o utilizador estiver autenticado algures, sairá de imediato.
 'disableaccount-nosuchuser'  => 'A conta de utilizador "$1" não existe.',
 'disableaccount-success'     => 'A conta de utilizador "$1" foi desactivada permanentemente.',
 'disableaccount-logentry'    => 'desactivou permanentemente a conta [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheiros escondidos',
+'uploadstash-summary'  => 'Esta página dá acesso aos ficheiros enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes ficheiros não são visíveis para ninguém, excepto para o utilizador que os enviou.',
+'uploadstash-clear'    => 'Apagar os ficheiros escondidos',
+'uploadstash-nofiles'  => 'Não tem ficheiros escondidos.',
+'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
+'uploadstash-errclear' => 'Não foi possível apagar os ficheiros.',
+'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 );
