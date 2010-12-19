@@ -6,7 +6,7 @@
 * This function calculates the common range of a list of
 * IPs. It should be set to update on keyUp.
 */
-function updateCIDRresult() {
+window.updateCIDRresult = function() {
 	var form = document.getElementById( 'mw-checkuser-cidrform' );
 	if( !form ) {
 		return; // no JS form
@@ -20,7 +20,7 @@ function updateCIDRresult() {
 	// Each line should have one IP or range
 	if( text.indexOf("\n") != -1 ) {
 		var ips = text.split("\n");
-	// Try some other delimiters too
+	// Try some other delimiters too...
 	} else if( text.indexOf("\t") != -1 ) {
 		var ips = text.split("\t");
 	} else if( text.indexOf(",") != -1 ) {
@@ -35,49 +35,43 @@ function updateCIDRresult() {
 	var bin_prefix = 0;
 	var prefix_cidr = 0;
 	var prefix = new String( '' );
+	var foundV4 = false;
+	var foundV6 = false;
 	// Go through each IP in the list, get its binary form, and
 	// track the largest binary prefix among them...
 	for( var i = 0; i < ips.length; i++ ) {
-		var invalid = false;
 		// ...in the spirit of block.js, call this "addy"
-		var addy = ips[i];
-		// @TODO: get some core JS IP functions
+		var addy = ips[i].replace(/^\s*|\s*$/, '' ); // trim
 		// Match the first IP in each list (ignore other garbage)
-		var ipV4 = addy.match(/(^|\b)(\d+\.\d+\.\d+\.\d+)(\/\d+)?\b/);
-		// Regexp has 3 cases: (starts with '::',ends with '::',neither)
-		var ipV6 = !addy.match(/::.*::/) // not ambiguous
-			&& addy.match(/(^|\b)(:(:[0-9A-Fa-f]{1,4}){1,7}|[0-9A-Fa-f]{1,4}(::?[0-9A-Fa-f]{1,4}){0,6}::|[0-9A-Fa-f]{1,4}(::?[0-9A-Fa-f]{1,4}){1,7})(\/\d+)?\b/);
+		var ipV4 = isIPv4Address( addy, true ); // from block.js
+		var ipV6 = isIPv6Address( addy, true ); // from block.js
+		var ip_cidr = addy.match(/^(.*)(?:\/(\d+))?$/);
 		// Binary form
 		var bin = new String( '' );
 		// Convert the IP to binary form: IPv4
 		if( ipV4 ) {
-			var ip = ipV4[2];
-			var cidr = ipV4[3]; // CIDR, if it exists
+			foundV4 = true;
+			if ( foundV6 ) { // disjoint address space
+				prefix = '';
+				break;
+			}
+			var ip = ip_cidr[1];
+			var cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
 			// Get each quad integer
 			var blocs = ip.split('.');
 			// IANA 1.0.0.0/8, 2.0.0.0/8
-			if( blocs[0] < 3 ) {
-				continue;
-			}
+			if( blocs[0] <= 2 ) continue;
 			for( var x = 0; x < blocs.length; x++ ) {
 				bloc = parseInt( blocs[x], 10 );
-				if( bloc > 255 ) {
-					invalid = true; // bad IP!
-					break; // bad IP!
-				}
 				bin_block = bloc.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 8 ) {
 					bin_block = '0' + bin_block; // pad out as needed
 				}
 				bin += bin_block;
 			}
-			if( invalid ) {
-				continue; // move to next IP
-			}
 			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
 			if( cidr ) {
-				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
 				bin = bin.substring( 0, cidr ); // truncate bin
 			}
 			// Init bin_prefix
@@ -98,7 +92,8 @@ function updateCIDRresult() {
 			// CIDR too small?
 			if( prefix_cidr < 16 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' + Math.pow( 2, 32 - prefix_cidr );
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' +
+					Math.pow( 2, 32 - prefix_cidr );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -122,14 +117,15 @@ function updateCIDRresult() {
 			}
 		// Convert the IP to binary form: IPv6
 		} else if( ipV6 ) {
-			var ip = ipV6[2];
-			var cidr = ipV6[0].match( /\/\d+$/ );
-			cidr = cidr ? cidr[0] : false;
-			var abbrevs = ip.match( /::/g );
-			if( abbrevs && abbrevs.length > 1 ) {
-				continue; // bad IP!
+			foundV6 = true;
+			if ( foundV4 ) { // disjoint address space
+				prefix = '';
+				break;
 			}
+			var ip = ip_cidr[1];
+			var cidr = ip_cidr[2] ? ip_cidr[2] : null; // CIDR, if it exists
 			// Expand out "::"s
+			var abbrevs = ip.match( /::/g );
 			if( abbrevs && abbrevs.length > 0 ) {
 				var colons = ip.match( /:/g );
 				var needed = 7 - ( colons.length - 2 ); // 2 from "::"
@@ -139,7 +135,8 @@ function updateCIDRresult() {
 					needed--;
 				}
 				ip = ip.replace( '::', insert + ':' );
-				// For IPs that start with "::", correct the final IP so that it starts with '0' and not ':'
+				// For IPs that start with "::", correct the final IP
+				// so that it starts with '0' and not ':'
 				if( ip[0] == ':' ) {
 					ip = '0' + ip;
 				}
@@ -148,10 +145,6 @@ function updateCIDRresult() {
 			var blocs = ip.split(':');
 			for( var x = 0; x <= 7; x++ ) {
 				bloc = blocs[x] ? blocs[x] : '0';
-				if( bloc > 'ffff' ) {
-					invalid = true; // bad IP!
-					break; // bad IP!
-				}
 				int_block = hex2int( bloc ); // convert hex -> int
 				bin_block = int_block.toString( 2 ); // concat bin with binary form of bloc
 				while( bin_block.length < 16 ) {
@@ -159,13 +152,9 @@ function updateCIDRresult() {
 				}
 				bin += bin_block;
 			}
-			if( invalid ) {
-				continue; // move to next IP
-			}
 			prefix = ''; // Rebuild formatted bin_prefix for each IP
 			// Apply any valid CIDRs
 			if( cidr ) {
-				cidr = cidr.match( /\d+$/ )[0]; // get rid of slash
 				bin = bin.substring( 0, cidr ); // truncate bin
 			}
 			// Init bin_prefix
@@ -186,7 +175,8 @@ function updateCIDRresult() {
 			// CIDR too small?
 			if( prefix_cidr < 96 ) {
 				document.getElementById( 'mw-checkuser-cidr-res' ).value = '!';
-				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;' + Math.pow( 2, 128 - prefix_cidr );
+				document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '&gt;'
+					+ Math.pow( 2, 128 - prefix_cidr );
 				return; // too big
 			}
 			// Build the IP in dotted-quad form
@@ -224,11 +214,11 @@ function updateCIDRresult() {
 		document.getElementById( 'mw-checkuser-ipnote' ).innerHTML = '';
 	}
 
-}
+};
 addOnloadHook( updateCIDRresult );
 
 // Utility function to convert hex to integers
-function hex2int( hex ) {
+window.hex2int = function( hex ) {
 	hex = new String( hex );
 	hex = hex.toLowerCase();
 	var intform = 0;
@@ -260,4 +250,4 @@ function hex2int( hex ) {
 		intform += digit * Math.pow( 16, hex.length - 1 - i );
 	}
 	return intform;
-}
+};

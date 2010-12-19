@@ -7,7 +7,7 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-define( 'DATA_TRANSFER_VERSION', '0.3.6' );
+define( 'DATA_TRANSFER_VERSION', '0.3.7' );
 
 // constants for special properties
 define( 'DT_SP_HAS_XML_GROUPING', 1 );
@@ -31,6 +31,7 @@ $dtgIP = dirname( __FILE__ );
 ##
 
 // register all special pages and other classes
+$wgAutoloadClasses['DTUtils'] = $dtgIP . '/includes/DT_Utils.php';
 $wgSpecialPages['ViewXML'] = 'DTViewXML';
 $wgAutoloadClasses['DTViewXML'] = $dtgIP . '/specials/DT_ViewXML.php';
 $wgSpecialPages['ImportXML'] = 'DTImportXML';

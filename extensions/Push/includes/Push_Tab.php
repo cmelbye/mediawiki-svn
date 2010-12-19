@@ -124,52 +124,14 @@ final class PushTab {
 		
 		$wgOut->addHTML(
 			Html::hidden( 'pageName', $wgTitle->getFullText(), array( 'id' => 'pageName' ) ) .
-			Html::hidden( 'siteName', $wgSitename, array( 'id' => 'siteName' ) ) . 
-			Html::hidden( 'pushRevId', PushFunctions::getRevisionToPush( $wgTitle ), array( 'id' => 'pushRevId' ) )
+			Html::hidden( 'siteName', $wgSitename, array( 'id' => 'siteName' ) )
 		);
 		
-		if ( count( $egPushTargets ) == 1 ) {
-			self::displayLonelyPushItem();
-		}
-		else {
-			self::displayPushList();
-		}
+		self::displayPushList();
 		
-		if ( $wgUser->isAllowed( 'pushadmin' ) ) {
-			// TODO
-			//self::displayNewPushItem();
-		}
+		self::displayPushOptions();
 		
 		return false;
-	}
-	
-	/**
-	 * Displays a target to push to for when there is only a single target.
-	 * 
-	 * @since 0.1
-	 */	
-	protected static function displayLonelyPushItem() {
-		global $wgOut, $wgTitle, $egPushTargets;
-
-		$targetNames = array_keys( $egPushTargets );
-		
-		$wgOut->addHTML(
-			'<table><tr><td><b>' . htmlspecialchars( wfMsgExt( 'push-tab-push-to', 'parsemag', $targetNames[0] ) ) . '</b><br /><i>' .
-			Html::element(
-				'a',
-				array( 'href' => $egPushTargets[$targetNames[0]] . '/index.php?title=' . $wgTitle->getFullText(), 'rel' => 'nofollow' ),
-				wfMsgExt( 'push-remote-page-link-full', 'parsemag', $wgTitle->getFullText(), $targetNames[0] )
-			) . '</i></td><td>&#160;&#160;&#160;' .
-			Html::element(
-				'button',
-				array(
-					'class' => 'push-button',
-					'pushtarget' => $egPushTargets[$targetNames[0]],
-					'style' => 'width: 125px; height: 30px',
-				),
-				wfMsg( 'push-button-text' )
-			) . '</td></tr></table>'
-		);
 	}
 	
 	/**
@@ -186,12 +148,12 @@ final class PushTab {
 				array(),
 				Html::element(
 					'th',
-					array(),
+					array( 'width' => '200px' ),
 					wfMsg( 'push-targets' )
 				) .
 				Html::element(
 					'th',
-					array(),
+					array( 'style' => 'min-width:400px;' ),
 					wfMsg( 'push-remote-pages' )
 				) .
 				Html::element(
@@ -206,27 +168,30 @@ final class PushTab {
 			$items[] = self::getPushItem( $name, $url );
 		}
 		
-		$items[] = Html::rawElement(
-			'tr',
-			array(),
-			Html::element(
-				'th',
-				array( 'colspan' => 2, 'style' => 'text-align: left' ),
-				wfMsgExt( 'push-targets-total', 'parsemag', $wgLang->formatNum( count( $egPushTargets ) ) )
-			) .
-			Html::rawElement(
-				'th',
-				array( 'width' => '125px' ),
+		// If there is more then one item, display the 'push all' row.
+		if ( count( $egPushTargets ) > 1 ) {
+			$items[] = Html::rawElement(
+				'tr',
+				array(),
 				Html::element(
-					'button',
-					array(
-						'id' => 'push-all-button',
-						'style' => 'width: 125px; height: 30px',
-					),
-					wfMsg( 'push-button-all' )
-				)				
-			)
-		);
+					'th',
+					array( 'colspan' => 2, 'style' => 'text-align: left' ),
+					wfMsgExt( 'push-targets-total', 'parsemag', $wgLang->formatNum( count( $egPushTargets ) ) )
+				) .
+				Html::rawElement(
+					'th',
+					array( 'width' => '125px' ),
+					Html::element(
+						'button',
+						array(
+							'id' => 'push-all-button',
+							'style' => 'width: 125px; height: 30px',
+						),
+						wfMsg( 'push-button-all' )
+					)				
+				)
+			);			
+		}
 		
 		$wgOut->addHtml(
 			Html::rawElement(
@@ -250,6 +215,9 @@ final class PushTab {
 	protected static function getPushItem( $name, $url ) {
 		global $wgTitle;
 		
+		static $targetId = 0;
+		$targetId++;
+		
 		return Html::rawElement(
 			'tr',
 			array(),
@@ -260,12 +228,30 @@ final class PushTab {
 			) .
 			Html::rawElement(
 				'td',
-				array(),
+				array( 'height' => '45px' ),
 				Html::element(
 					'a',
-					array( 'href' => $url . '/index.php?title=' . $wgTitle->getFullText(), 'rel' => 'nofollow' ),
+					array(
+						'href' => $url . '/index.php?title=' . $wgTitle->getFullText(),
+						'rel' => 'nofollow',
+						'id' => 'targetlink' . $targetId
+					),
 					wfMsgExt( 'push-remote-page-link', 'parsemag', $wgTitle->getFullText(), $name ) 
-				)
+				) . 
+				Html::element(
+					'div',
+					array(
+						'id' => 'targetinfo' . $targetId,
+						'style' => 'display:none; color:darkgray'
+					)
+				) .
+				Html::element(
+					'div',
+					array(
+						'id' => 'targeterrors' . $targetId,
+						'style' => 'display:none; color:darkred'
+					)
+				)				
 			) .	
 			Html::rawElement(
 				'td',
@@ -276,32 +262,99 @@ final class PushTab {
 						'class' => 'push-button',
 						'pushtarget' => $url,
 						'style' => 'width: 125px; height: 30px',
+						'targetid' => $targetId,
+						'targetname' => $name
 					),
 					wfMsg( 'push-button-text' )
 				)
 			)
 		);
-		
-		// TODO: add edit and delete stuff
 	}
 	
 	/**
-	 * Displays a form via which a new push item can be added.
+	 * Outputs the HTML for the push options.
 	 * 
-	 * @since 0.1
+	 * @since 0.4
 	 */
-	protected static function displayNewPushItem() {
-		global $wgOut;
+	protected static function displayPushOptions() {
+		global $wgOut, $wgUser;
 		
-		$wgOut->addHtml(
-			Html::element(
-				'h2',
-				array(),
-				wfMsg( 'push-add-target' )
+		$wgOut->addHTML( '<h3>' . htmlspecialchars( wfMsg( 'push-tab-push-options' ) ) . '</h3>' );
+		
+		self::displayIncTemplatesOption();
+		
+		if ( $wgUser->isAllowed( 'filepush' ) ) {
+			self::displayIncFilesOption();
+		}
+	}
+	
+	/**
+	 * Outputs the HTML for the "include templates" option.
+	 * 
+	 * @since 0.4
+	 */
+	protected static function displayIncTemplatesOption() {
+		global $wgOut, $wgTitle, $wgLang, $egPushIncTemplates;
+		
+		$usedTemplates = array_keys(
+			PushFunctions::getTemplates(
+				array( $wgTitle->getFullText() ),
+				array( $wgTitle->getFullText() => true )
 			)
 		);
 		
-		// TODO
+		array_shift( $usedTemplates );
+
+		$wgOut->addInlineScript(
+			'var wgPushTemplates = ' . json_encode( $usedTemplates ) . ';'
+		);				
+		
+		foreach ( $usedTemplates as &$template ) {
+			$template = "[[$template]]";
+		}
+
+		$wgOut->addHTML(
+			Html::rawElement(
+				'div',
+				array( 'id' => 'divIncTemplates', 'style' => 'display: table-cell' ),
+				Xml::check( 'checkIncTemplates', $egPushIncTemplates, array( 'id' => 'checkIncTemplates' ) ) .
+				Html::element(
+					'label',
+					array( 'id' => 'lblIncTemplates', 'for' => 'checkIncTemplates' ),
+					wfMsg( 'push-tab-inc-templates' )
+				) .		
+				'&#160;' . 
+				Html::rawElement(
+					'div',
+					array( 'style' => 'display:inline; opacity:0', 'id' => 'txtTemplateList' ),
+					count( $usedTemplates ) > 0 ?
+						 wfMsgExt( 'push-tab-used-templates', 'parseinline', $wgLang->listToText( $usedTemplates ), count( $usedTemplates ) ) :
+						 htmlspecialchars( wfMsg( 'push-tab-no-used-templates' ) )
+				)				
+			)
+		);		
+	}
+	
+	/**
+	 * Outputs the HTML for the "include files" option.
+	 * 
+	 * @since 0.4
+	 */	
+	protected static function displayIncFilesOption() {
+		global $wgOut, $wgTitle, $egPushIncFiles;
+		
+		$wgOut->addHTML(
+			Html::rawElement(
+				'div',
+				array( 'id' => 'divIncFiles' ),
+				Xml::check( 'checkIncFiles', $egPushIncFiles, array( 'id' => 'checkIncFiles' ) ) .
+				Html::element(
+					'label',
+					array( 'id' => 'lblIncFiles', 'for' => 'checkIncFiles' ),
+					wfMsg( 'push-tab-inc-files' )
+				) 			
+			)
+		);			
 	}
 	
 }

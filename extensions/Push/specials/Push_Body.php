@@ -19,7 +19,7 @@ class SpecialPush extends SpecialPage {
 	 * @since 0.1
 	 */
 	public function __construct() {
-		parent::__construct( 'Push', 'push' );
+		parent::__construct( 'Push', 'bulkpush' );
 	}
 	
 	/**
@@ -119,7 +119,7 @@ class SpecialPush extends SpecialPage {
 	 * @param string $pages
 	 */
 	protected function doPush( $pages ) {
-		global $wgOut, $wgLang, $wgRequest, $wgSitename, $egPushTargets, $egPushBulkWorkers;
+		global $wgOut, $wgLang, $wgRequest, $wgSitename, $wgTitle, $egPushTargets, $egPushBulkWorkers, $egPushBatchSize;
 		
 		$pageSet = array(); // Inverted index of all pages to look up
 
@@ -135,24 +135,24 @@ class SpecialPush extends SpecialPage {
 
 		// Look up any linked pages if asked...
 		if( $wgRequest->getCheck( 'templates' ) ) {
-			$pageSet = $this->getTemplates( array_keys( $pageSet ), $pageSet );
+			$pageSet = PushFunctions::getTemplates( array_keys( $pageSet ), $pageSet );
 		}
 
 		$pages = array_keys( $pageSet );		
 		
 		$targets = array();
 		$links = array();
-		$revisions = array();
 		
-		foreach ( $pages as $page ) {
-			$revisions[$page] = PushFunctions::getRevisionToPush( Title::newFromText( $page ) );
-		}
-		
-		foreach ( $egPushTargets as $targetName => $targetUrl ) {
-			if ( $wgRequest->getCheck( str_replace( ' ', '_', $targetName ) ) ) {
-				$targets[$targetName] = $targetUrl;
-				$links[] = "[$targetUrl $targetName]";
+		if ( count( $egPushTargets ) > 1 ) {
+			foreach ( $egPushTargets as $targetName => $targetUrl ) {
+				if ( $wgRequest->getCheck( str_replace( ' ', '_', $targetName ) ) ) {
+					$targets[$targetName] = $targetUrl;
+					$links[] = "[$targetUrl $targetName]";
+				}
 			}
+		}
+		else {
+			$targets = $egPushTargets;
 		}
 		
 		$wgOut->addWikiMsg( 'push-special-pushing-desc', $wgLang->listToText( $links ), $wgLang->formatNum( count( $pages ) ) );
@@ -170,14 +170,16 @@ class SpecialPush extends SpecialPage {
 					array( 'class' => 'innerResultBox' ),
 					Html::element( 'ul', array( 'id' => 'pushResultList' ) )
 				)
-			)
+			) . '<br />' .
+			Html::element( 'a', array( 'href' => $wgTitle->getInternalURL() ), wfMsg( 'push-special-return' ) )
 		);
 		
 		$wgOut->addInlineScript(
 			'var wgPushPages = ' . json_encode( $pages ) . ';' .
-			'var wgPushRevs = ' . json_encode( $revisions ) . ';' .
 			'var wgPushTargets = ' . json_encode( $targets ) . ';' .
-			'var wgPushWorkerCount = ' . $egPushBulkWorkers . ';'
+			'var wgPushWorkerCount = ' . $egPushBulkWorkers . ';' .
+			'var wgPushBatchSize = ' . $egPushBatchSize . ';' .
+			'var wgPushIncFiles = ' . ( $wgRequest->getCheck( 'files' ) ? 'true' : 'false' ) . ';'
 		);
 		
 		$this->loadJs();
@@ -187,7 +189,7 @@ class SpecialPush extends SpecialPage {
 	 * @since 0.2
 	 */
 	protected function displayPushInterface( $arg, $pages ) {
-		global $wgOut, $wgUser, $wgRequest, $egPushTargets;
+		global $wgOut, $wgUser, $wgRequest, $egPushTargets, $egPushIncTemplates, $egPushIncFiles;
 		
 		$wgOut->addWikiMsg( 'push-special-description' );
 
@@ -202,7 +204,21 @@ class SpecialPush extends SpecialPage {
 		$form .= Xml::element( 'textarea', array( 'name' => 'pages', 'cols' => 40, 'rows' => 10 ), $pages, false );
 		$form .= '<br />';
 
-		$form .= Xml::checkLabel( wfMsg( 'export-templates' ), 'templates', 'wpExportTemplates', false ) . '<br />';
+		$form .= Xml::checkLabel(
+			wfMsg( 'export-templates' ),
+			'templates',
+			'wpPushTemplates',
+			$wgRequest->wasPosted() ? $wgRequest->getCheck( 'templates' ) : $egPushIncTemplates
+		) . '<br />';
+		
+		if ( $wgUser->isAllowed( 'filepush' ) ) {
+			$form .= Xml::checkLabel(
+				wfMsg( 'push-special-inc-files' ),
+				'files',
+				'wpPushFiles',
+				$wgRequest->wasPosted() ? $wgRequest->getCheck( 'files' ) : $egPushIncFiles
+			) . '<br />';				
+		}
 		
 		if ( count( $egPushTargets ) == 1 ) {
 			$names = array_keys( $egPushTargets );
@@ -212,7 +228,9 @@ class SpecialPush extends SpecialPage {
 			$form .= '<b>' . htmlspecialchars( wfMsg( 'push-special-select-targets' ) ) . '</b><br />';
 			
 			foreach ( $egPushTargets as $targetName => $targetUrl ) {
-				$form .= Xml::checkLabel( $targetName, str_replace( ' ', '_', $targetName ), $targetName, true ) . '<br />';
+				$checkName = str_replace( ' ', '_', $targetName );
+				$checked = $wgRequest->wasPosted() ? $wgRequest->getCheck( $checkName ) : true;
+				$form .= Xml::checkLabel( $targetName, $checkName, $targetName, $checked ) . '<br />';
 			}
 		}
 		
@@ -293,62 +311,6 @@ class SpecialPush extends SpecialPage {
 			$pages[] = $n;
 		}
 		return $pages;
-	}	
-
-	/**
-	 * Expand a list of pages to include templates used in those pages.
-	 * 
-	 * @since 0.2
-	 * 
-	 * @param $inputPages array list of titles to look up
-	 * @param $pageSet array associative array indexed by titles for output
-	 * 
-	 * @return array associative array index by titles
-	 */
-	private function getTemplates( $inputPages, $pageSet ) {
-		return $this->getLinks( $inputPages, $pageSet,
-			'templatelinks',
-			array( 'tl_namespace AS namespace', 'tl_title AS title' ),
-			array( 'page_id=tl_from' )
-		);
-	}
-	
-	/**
-	 * Expand a list of pages to include items used in those pages.
-	 * 
-	 * @since 0.2
-	 */
-	protected function getLinks( $inputPages, $pageSet, $table, $fields, $join ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		
-		foreach( $inputPages as $page ) {
-			$title = Title::newFromText( $page );
-			
-			if( $title ) {
-				$pageSet[$title->getPrefixedText()] = true;
-				/// @todo Fixme: May or may not be more efficient to batch these
-				///        by namespace when given multiple input pages.
-				$result = $dbr->select(
-					array( 'page', $table ),
-					$fields,
-					array_merge(
-						$join,
-						array(
-							'page_namespace' => $title->getNamespace(),
-							'page_title' => $title->getDBkey()
-						)
-					),
-					__METHOD__
-				);
-				
-				foreach( $result as $row ) {
-					$template = Title::makeTitle( $row->namespace, $row->title );
-					$pageSet[$template->getPrefixedText()] = true;
-				}
-			}
-		}
-		
-		return $pageSet;
 	}	
 	
 	/**

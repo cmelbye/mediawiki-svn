@@ -245,6 +245,41 @@ $messages['hsb'] = array(
 	'ts-citegen-base-disabled' => 'Zmylk: Datowa banka %s njesteji k dispoziciji.',
 );
 
+/** Interlingua (Interlingua)
+ * @author McDutchie
+ */
+$messages['ia'] = array(
+	'ts-citegen-Title' => 'Generator de patronos de citation',
+	'ts-citegen-Send' => 'Generar',
+	'ts-citegen-Input-title' => 'Entrata',
+	'ts-citegen-Input-text' => 'Isto es un generator de patronos de citation. Con illo, tu pote rapidemente completar le patronos de citation in le editiones de Wikipedia in varie linguas. Per favor completa le datos (%s) in le campos hic infra, e le script tentara completar le patronos. Nota ben que il non importa in qual campos tu mitte le datos de entrata. Le script cerca automaticamente le patrono correspondente al entrata date.',
+	'ts-citegen-Option-append-author-link' => 'Adjunger in le patrono le wiki-ligamines verso le autor',
+	'ts-citegen-Option-append-newlines' => 'Comenciar un nove linea post cata parametro',
+	'ts-citegen-Option-add-references' => 'Adder etiquettas <ref> circa le patronos de citation',
+	'ts-citegen-Option-add-list' => 'Crear un wiki-lista de patronos de citation',
+	'ts-citegen-Output-title' => 'Resultato',
+	'ts-citegen-Output-select-disclaimer' => 'Le selection de un lingua de patrono non garanti que le patrono specific es disponibile in iste lingua. Iste campo lista le linguas disponibile de cata patrono supportate, i.e. illo pote presentar le lingua francese proque solmente {{Cite book}} es supportate.',
+	'ts-citegen-Wrong-input' => '%s: non identificate como entrata correcte.',
+	'ts-citegen-Parsers' => 'Analysatores syntactic',
+	'ts-citegen-Skins' => 'Resultato',
+	'ts-citegen-Skin-skins' => 'Apparentias',
+	'ts-citegen-Skin-outputformat' => 'Formato de output',
+	'ts-citegen-Template-lang' => 'Lingua de patrono',
+	'ts-citegen-Sources-title' => 'Fontes',
+	'ts-citegen-Sources-text' => 'Hic infra es le lista del fontes usate.',
+	'ts-citegen-Sidebar-title' => 'Generator de citationes',
+	'ts-citegen-Sidebar-add-Firefox' => 'Adder al barra lateral',
+	'ts-citegen-Sidebar-add-Opera' => 'Adder al "Hotlist"',
+	'ts-citegen-Sidebar-add-IE-Mac' => 'Adder al "Page Holder"',
+	'ts-citegen-Sidebar-add-IE-Mac-details' => 'Un vice que le pagina ha essite cargate, aperi tu "Page Holder", clicca super "Add" e postea usa le button "Page Holder Favorites" pro immagazinar lo como un favorite de Page Holder.',
+	'ts-citegen-Tools' => 'Instrumentos',
+	'ts-citegen-Other-languages' => 'Altere linguas',
+	'ts-citegen-Save-it' => 'Consulta actual',
+	'ts-citegen-Errors-title' => 'Errores',
+	'ts-citegen-Unavailable-SQL' => 'Error: Le base de datos Toolserver es indisponibile. MySQL retornava: %s',
+	'ts-citegen-base-disabled' => 'Error: le base de datos %s es indisponibile',
+);
+
 /** Indonesian (Bahasa Indonesia)
  * @author IvanLanin
  */
@@ -284,7 +319,10 @@ $messages['id'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
+	'ts-citegen-Send' => 'Generéieren',
+	'ts-citegen-Option-append-author-link' => "Wikilinken op den Auteur an d'Schabloun derbäisetzen",
 	'ts-citegen-Output-title' => 'Resultat',
+	'ts-citegen-Skin-skins' => 'Skins/Layout',
 	'ts-citegen-Template-lang' => 'Sprooch vun der Schabloun',
 	'ts-citegen-Sources-title' => 'Quellen',
 	'ts-citegen-Other-languages' => 'Aner Sproochen',
@@ -350,9 +388,12 @@ $messages['nl'] = array(
 	'ts-citegen-Skin-outputformat' => 'Uitvoerformaat',
 	'ts-citegen-Template-lang' => 'Sjabloontaal',
 	'ts-citegen-Sources-title' => 'Bronnen',
+	'ts-citegen-Sources-text' => 'Hieronder staat een lijst met gebruikte bronnen.',
+	'ts-citegen-Sidebar-title' => 'Citaatgenerator',
 	'ts-citegen-Sidebar-add-Firefox' => 'Toevoegen aan het menu',
 	'ts-citegen-Sidebar-add-Opera' => 'Toevoegen aan de hotlist',
 	'ts-citegen-Sidebar-add-IE-Mac' => 'Toevoegen aan de paginahouder',
+	'ts-citegen-Sidebar-add-IE-Mac-details' => 'Als deze pagina is geladen, kunt u uw Page Holder openen, klikken op "Toevoegen" en daarna de knop Page Holder Favorites gebruiken om deze op te slaan als een Page Holder Favorite.',
 	'ts-citegen-Tools' => 'Hulpmiddelen',
 	'ts-citegen-Other-languages' => 'Andere talen',
 	'ts-citegen-Save-it' => 'Huidige zoekopdracht',
@@ -399,9 +440,94 @@ $messages['pl'] = array(
 
 /** Portuguese (Português)
  * @author Giro720
+ * @author Hamilton Abreu
+ * @author Waldir
  */
 $messages['pt'] = array(
-	'ts-citegen-Title' => 'Gerador de predefinição de citação',
+	'ts-citegen-Title' => 'Gerador de predefinições de citação',
+	'ts-citegen-Send' => 'Gerar',
+	'ts-citegen-Input-title' => 'Entrada',
+	'ts-citegen-Input-text' => 'Este é um gerador de predefinições de citação. Usando-o, pode preencher rapidamente as predefinições de citação nas várias edições linguísticas da Wikipédia. Por favor, preencha os dados (%s) nos campos abaixo, e o script tentará completar as predefinições. Lembre-se de que não importa em que campo coloca os dados de entrada. O script fará corresponder automaticamente a predefinição correcta aos dados fornecidos.',
+	'ts-citegen-Option-append-author-link' => 'Adicionar os links wiki do autor à predefinição',
+	'ts-citegen-Option-append-newlines' => 'Acrescentar novas linhas após cada parâmetro.',
+	'ts-citegen-Option-add-references' => 'Adicionar etiquetas <ref> em torno das predefinições de citação',
+	'ts-citegen-Option-add-list' => 'Criar uma lista wiki de predefinições de citação',
+	'ts-citegen-Output-title' => 'Resultado',
+	'ts-citegen-Output-select-disclaimer' => 'Escolher uma língua para a predefinição não garante que a predefinição específica esteja disponível na sua língua. Este campo lista as línguas disponíveis de todas as predefinições suportadas, ou seja, ele pode listar "francês" mesmo que apenas {{citar livro}} seja suportado nessa língua.',
+	'ts-citegen-Wrong-input' => '%s: não identificado como entrada correcta.',
+	'ts-citegen-Parsers' => 'Analisadores',
+	'ts-citegen-Skins' => 'Resultado',
+	'ts-citegen-Skin-skins' => 'Temas',
+	'ts-citegen-Skin-outputformat' => 'Formato de saída',
+	'ts-citegen-Template-lang' => 'Língua da predefinição',
+	'ts-citegen-Sources-title' => 'Referências',
+	'ts-citegen-Sources-text' => 'Abaixo encontra-se a lista de referências utilizadas.',
+	'ts-citegen-Sidebar-title' => 'Gerador de citação',
+	'ts-citegen-Sidebar-add-Firefox' => 'Adicionar à barra lateral',
+	'ts-citegen-Sidebar-add-Opera' => 'Adicionar ao Hotlist',
+	'ts-citegen-Sidebar-add-IE-Mac' => 'Adicionar ao Fixador de Páginas',
+	'ts-citegen-Sidebar-add-IE-Mac-details' => "Depois da página ter sido carregada, abra o Fixador de Páginas, clique 'Adicionar' e use o botão Preferidos do Fixador de Páginas para armazenar a página como uma Preferida.",
+	'ts-citegen-Tools' => 'Ferramentas',
+	'ts-citegen-Other-languages' => 'Outras línguas',
+	'ts-citegen-Save-it' => 'Consulta actual',
+	'ts-citegen-Errors-title' => 'Erros',
+	'ts-citegen-Unavailable-SQL' => 'Erro: A base de dados Toolserver não está disponível. O MySQL devolveu o erro: %s',
+	'ts-citegen-base-disabled' => 'Erro: A base de dados %s não está disponível',
+);
+
+/** Brazilian Portuguese (Português do Brasil)
+ * @author Giro720
+ * @author Waldir
+ */
+$messages['pt-br'] = array(
+	'ts-citegen-Send' => 'Gerar',
+	'ts-citegen-Input-title' => 'Entrada',
+	'ts-citegen-Input-text' => 'Este é um gerador de predefinição de citação. Usando-o, você pode preencher rapidamente as predefinições de citação nas várias línguas de edições da Wikipédia. Por favor, preencha os dados (%s) nos campos abaixo, e o script tentará completar as predefinições. Lembre-se de que não importa em qual campo você coloca os dados de entrada. O script automaticamente irá corresponder a predefinição correta com os dados fornecidos.',
+	'ts-citegen-Option-append-author-link' => 'Adicionar os links wiki do autor para a predefinição',
+);
+
+/** Russian (Русский)
+ * @author Lockal
+ */
+$messages['ru'] = array(
+	'ts-citegen-Title' => 'Генератор шаблона цитирования',
+	'ts-citegen-Send' => 'Сгенерировать',
+	'ts-citegen-Input-title' => 'Входные данные',
+	'ts-citegen-Input-text' => 'Это генератор шаблонов цитирования. С помощью него вы можете быстро заполнить шаблоны цитирования в различных языковых разделах Википедии. Пожалуйста, заполните данные (%s) в поля ниже, и скрипт попытается заполнить шаблоны. Порядок заполнения полей не имеет значения: скрипт автоматически подберёт правильный порядок для введённых данных.',
+	'ts-citegen-Option-append-author-link' => 'Добавить в шаблон вики-ссылки на авторов',
+	'ts-citegen-Option-append-newlines' => 'Добавить переносы строк после каждого параметра',
+	'ts-citegen-Option-add-references' => 'Добавить теги <ref> вокруг шаблона цитирования.',
+	'ts-citegen-Option-add-list' => 'Создать вики-список из шаблонов цитирования',
+	'ts-citegen-Output-title' => 'Результат',
+	'ts-citegen-Output-select-disclaimer' => 'Выбор языка шаблона не гарантирует, что этот конкретный шаблон доступен на вашем языке. В этом поле перечислены доступные языки для каждого поддерживаемого шаблона, то есть в нём может быть французский только из-за того, что в разделе поддерживается {{Cite book}}.',
+	'ts-citegen-Wrong-input' => '%s: значение не определено как правильный ввод.',
+	'ts-citegen-Parsers' => 'Парсеры',
+	'ts-citegen-Skins' => 'Результат',
+	'ts-citegen-Skin-skins' => 'Темы оформления',
+	'ts-citegen-Skin-outputformat' => 'Выходной формат',
+	'ts-citegen-Template-lang' => 'Язык шаблона',
+	'ts-citegen-Sources-title' => 'Источники',
+	'ts-citegen-Sources-text' => 'Ниже представлен список использованных источников.',
+	'ts-citegen-Sidebar-title' => 'Генератор цитирований',
+	'ts-citegen-Sidebar-add-Firefox' => 'Добавить на боковую панель',
+	'ts-citegen-Sidebar-add-Opera' => 'Добавить в Hotlist',
+	'ts-citegen-Sidebar-add-IE-Mac' => 'Добавить в Page Holder',
+	'ts-citegen-Sidebar-add-IE-Mac-details' => 'После загрузки страницы откройте Page Holder, нажмите «Add», после чего используйте кнопку Page Holder Favorites для сохранения страницы в качестве избранной.',
+	'ts-citegen-Tools' => 'Инструменты',
+	'ts-citegen-Other-languages' => 'Другие языки',
+	'ts-citegen-Save-it' => 'Текущий запрос',
+	'ts-citegen-Errors-title' => 'Ошибки',
+	'ts-citegen-Unavailable-SQL' => 'Ошибка: база данных тулсервера недоступна. Ответ MySQL: %s',
+	'ts-citegen-base-disabled' => 'Ошибка: база данных %s недоступна',
+);
+
+/** Swedish (Svenska)
+ * @author Ainali
+ */
+$messages['sv'] = array(
+	'ts-citegen-Output-title' => 'Resultat',
+	'ts-citegen-Sources-title' => 'Källor',
+	'ts-citegen-Errors-title' => 'Fel',
 );
 
 /** Telugu (తెలుగు)
@@ -420,6 +546,7 @@ $messages['te'] = array(
 $messages['vi'] = array(
 	'ts-citegen-Option-append-newlines' => 'Xuống dòng sau mỗi tham số',
 	'ts-citegen-Option-add-references' => 'Kẹp các bản mẫu chú thích vào trong thẻ <ref>',
+	'ts-citegen-Option-add-list' => 'Tạo danh sách bản mẫu chú thích',
 	'ts-citegen-Output-title' => 'Kết quả',
 	'ts-citegen-Parsers' => 'Bộ phân tích',
 	'ts-citegen-Skin-skins' => 'Hình dạng',

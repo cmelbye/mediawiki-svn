@@ -208,6 +208,7 @@ Please do not use wikitext or HTML here.',
 
 /** Message documentation (Message documentation)
  * @author EugeneZelenko
+ * @author Guillom
  * @author Kghbln
  * @author Lloffiwr
  * @author McDutchie
@@ -223,7 +224,7 @@ $messages['qqq'] = array(
 	'mwe-upwiz-remove' => '{{Identical|Remove}}',
 	'mwe-upwiz-upload' => '{{Identical|Upload}}',
 	'mwe-upwiz-source-thirdparty-accept' => '{{Identical|OK}}',
-	'mwe-upwiz-desc' => 'Apparently this is followed by a language name (or language selector)',
+	'mwe-upwiz-desc' => 'This is followed by a language name in a drop-down language selector.',
 	'mwe-upwiz-title' => '{{Identical|Title}}',
 	'mwe-upwiz-location' => '{{Identical|Location}}',
 	'mwe-upwiz-license' => '',
@@ -787,6 +788,7 @@ Arabat ober gant kod wiki pe HTML amañ.',
 $messages['bs'] = array(
 	'uploadwizard' => 'Čarobnjak za postavljanje',
 	'uploadwizard-desc' => 'Čarobnjak za postavljanje, razvijen pomoću sredstava za multimedijsku upotrebljivost',
+	'mwe-upwiz-js-off' => 'Čarobnjak za postavljanje koristi JavaScript za poboljšani interfejs. Vaš preglednik ili ne podržava JavaScript ili mu je JavaScript ugašena, pa tako mi prikazujemo jednostavni obrazac za postavljanje.',
 	'mwe-loading-upwiz' => 'Učitavam čarobnjak za postavljanje',
 	'mwe-upwiz-code-unknown' => 'Nepoznati jezik',
 	'mwe-upwiz-step-tutorial' => 'Saznajte',
@@ -805,6 +807,7 @@ $messages['bs'] = array(
 	'mwe-upwiz-api-error-missingresult' => 'Nismo mogli da otkrijemo da li je kopiranje uspjelo.',
 	'mwe-upwiz-api-error-missingparam' => 'Postavljanje nije imalo sve neophodne podatke (možda je greška u ovom postavljaču.)',
 	'mwe-upwiz-api-error-invalid-session-key' => 'Server nije mogao naći tu datoteku u vašim postavljenim datotekama.',
+	'mwe-upwiz-api-error-copyuploaddisabled' => 'Postavljanja putem kopiranja su onemogućena.',
 	'mwe-upwiz-api-error-mustbeloggedin' => 'Niste pravilno prijavljeni.',
 	'mwe-upwiz-api-error-empty-file' => 'Datoteka koju ste poslali je bila prazna.',
 	'mwe-upwiz-api-error-file-too-large' => 'Datoteka koju ste poslali je bila prevelika.',
@@ -815,22 +818,65 @@ $messages['bs'] = array(
 	'mwe-upwiz-api-error-verification-error' => 'Ova datoteka je možda oštećenja ili ima pogrešan nastavak.',
 	'mwe-upwiz-api-error-hookaborted' => 'Izmjena koji ste pokušali načiniti je obustavljena preko kuke proširenja.',
 	'mwe-upwiz-api-error-unknown-error' => 'Desila se neka greška pri pokušaju postavljanja vaše datoteke.',
+	'mwe-upwiz-api-error-internal-error' => 'Pojavio se neki problem sa obradom vašeg postavljanja na wiki.',
 	'mwe-upwiz-api-error-overwrite' => 'Pisanje preko postojeće datoteke nije dopušteno.',
+	'mwe-upwiz-api-error-badtoken' => "''Token'' koji smo koristili za vašu identifikaciju na ovaj server nije bio ispravan.",
+	'mwe-upwiz-api-error-fetchfileerror' => 'Pojavio se neki problem pri dobijanju podataka o datoteci.',
+	'mwe-upwiz-api-warning-duplicate' => 'Već postoji jedna datoteka na ovoj wiki sa istim sadržajem',
+	'mwe-upwiz-api-warning-exists' => 'Već postoji jedna datoteka na ovoj wiki sa istim imenom',
+	'mwe-upwiz-tutorial-error-localized-file-missing' => 'Žao nam je, nismo mogli naći uputstvo na vašem jeziku. Može se prikazati samo engleska verzija.',
+	'mwe-upwiz-tutorial-error-file-missing' => 'Žao nam je, nismo mogli naći nijednu datoteku za pomoć koji bi trebala biti ovdje. Molimo kontaktirajte vašeg administratora sistema.',
+	'mwe-upwiz-tutorial-error-cannot-transform' => 'Žao nam je, nismo mogli naći smanjenu sliku objašnjenja da može stati na ovaj ekran. Ovo može biti privremeni problem sa Wikimedia Commonsom, pokušajte kasnije.',
+	'mwe-upwiz-help-desk' => 'Odjel za pomoć',
 	'mwe-upwiz-add-file-n' => 'Dodaj drugu datoteku',
 	'mwe-upwiz-add-file-0' => 'Odaberite medijsku datoteku za postavljanje',
+	'mwe-upwiz-add-file-0-free' => 'Odaberite medijsku datoteku za doniranje',
 	'mwe-upwiz-browse' => 'Pregledaj ...',
 	'mwe-upwiz-transport-started' => 'Počinjem...',
 	'mwe-upwiz-uploading' => 'Šaljem...',
 	'mwe-upwiz-transported' => 'Slanje završeno...',
 	'mwe-upwiz-stashed-upload' => 'U redu',
+	'mwe-upwiz-getting-metadata' => 'Preuzimam podatke o datoteki i preglede...',
+	'mwe-upwiz-failed' => 'Neuspjelo.',
+	'mwe-upwiz-click-here' => 'Kliknite ovdje da odaberete datoteku',
+	'mwe-upwiz-editing' => 'uređivanje ...',
 	'mwe-upwiz-remove' => 'Ukloni',
+	'mwe-upwiz-remove-upload' => 'Uklonite ovu datoteku iz spiska datoteka za postavljanje',
 	'mwe-upwiz-remove-description' => 'Ukloni ovaj opis',
 	'mwe-upwiz-upload' => 'Slanje datoteke',
+	'mwe-upwiz-file-all-ok' => 'Sve datoteke su uspješno postavljene!',
+	'mwe-upwiz-file-some-failed' => 'Postavljanje nekih datoteka nije uspjelo.',
+	'mwe-upwiz-file-retry' => 'Pokušaj ponovno postavljanje nepostavljenih datoteka',
+	'mwe-upwiz-next-file-despite-failures' => 'Ipak nastavi',
+	'mwe-upwiz-file-all-failed' => 'Nijedno postavljanje nije bilo uspješno.',
+	'mwe-upwiz-upload-count' => '$1 od $2 {{PLURAL:$2|datoteka postavljena|datoteke postavljene|datoteka postavljeno}}',
+	'mwe-upwiz-progressbar-uploading' => 'postavljam',
 	'mwe-upwiz-finished' => 'Završeno!',
+	'mwe-upwiz-secs-remaining' => 'Još $1 {{PLURAL:$1|sekunda|sekunde|sekundi}}',
+	'mwe-upwiz-mins-secs-remaining' => 'Još $1 {{PLURAL:$1|minuta|minute|minuta}} i $2 {{PLURAL:$2|sekunda|sekunde|sekundi}}',
+	'mwe-upwiz-hrs-mins-secs-remaining' => 'Još $1 {{PLURAL:$1|sat|sata|sati}}, $2 {{PLURAL:$2|minuta|minute|minuta}} i $3 {{PLURAL:$3|sekunda|sekunde|sekundi}}',
 	'mwe-upwiz-deeds-custom-prompt' => 'Ili:',
 	'mwe-upwiz-source-thirdparty-accept' => 'U redu',
 	'mwe-upwiz-more-options' => 'više opcija...',
 	'mwe-upwiz-fewer-options' => 'manje opcija...',
+	'mwe-upwiz-desc-add-0' => 'dodaj opis',
+	'mwe-upwiz-title' => 'Naslov',
+	'mwe-upwiz-categories-another' => 'Dodaj druge kategorije',
+	'mwe-upwiz-about-this-work' => 'O ovom radu',
+	'mwe-upwiz-media-type' => 'Vrsta medije',
+	'mwe-upwiz-date-created' => 'Datum pravljenja',
+	'mwe-upwiz-location' => 'Lokacija',
+	'mwe-upwiz-copyright-info' => 'Prava izdavanja',
+	'mwe-upwiz-author' => 'Autor(i)',
+	'mwe-upwiz-license' => 'Prava izdavanja',
+	'mwe-upwiz-about-format' => 'O datoteci',
+	'mwe-upwiz-filename-tag' => 'Naziv datoteke:',
+	'mwe-upwiz-other' => 'Ostale informacije',
+	'mwe-upwiz-showall' => 'prikaži sve',
+	'mwe-upwiz-source' => 'Izvor',
+	'mwe-upwiz-macro-edit-intro' => 'Prvo odaberite licencu iznad, zatim možete dodati opise i druge podatke za vaše datoteke koje postavljate.',
+	'mwe-upwiz-macro-edit' => 'Ažuriranje opisa',
+	'mwe-upwiz-thanks-intro' => 'Hvala na postavljanju!',
 	'mwe-upwiz-cancel' => 'Odustani',
 	'mwe-upwiz-thumbnail-more' => 'Uvećajte',
 	'mwe-upwiz-overwrite' => 'Zamijeni datoteku',
@@ -1671,25 +1717,35 @@ $messages['fa'] = array(
 
 /** Finnish (Suomi)
  * @author Silvonen
+ * @author Tofu II
  */
 $messages['fi'] = array(
 	'mwe-upwiz-code-unknown' => 'Tuntematon kieli',
+	'mwe-upwiz-add-file-n' => 'Lisää toinen tiedosto',
+	'mwe-upwiz-transport-started' => 'Aloitetaan...',
 	'mwe-upwiz-transported' => 'OK',
 	'mwe-upwiz-stashed-upload' => 'OK',
+	'mwe-upwiz-editing' => 'Muokataan...',
 	'mwe-upwiz-remove-description' => 'Poista tämä kuvaus',
 	'mwe-upwiz-finished' => 'Päättynyt!',
 	'mwe-upwiz-source-thirdparty-accept' => 'OK',
+	'mwe-upwiz-more-options' => 'Lisää asetuksia...',
 	'mwe-upwiz-title' => 'Otsikko',
 	'mwe-upwiz-location' => 'Sijainti',
 	'mwe-upwiz-filename-tag' => 'Tiedostonimi:',
 	'mwe-upwiz-showall' => 'näytä kaikki',
 	'mwe-upwiz-ok' => 'OK',
+	'mwe-upwiz-cancel' => 'Peruuta',
 	'mwe-upwiz-thumbnail-more' => 'Suurenna',
 	'mwe-upwiz-overwrite' => 'Korvaa tiedosto',
 	'mwe-upwiz-next' => 'Seuraava',
 	'mwe-upwiz-next-deeds' => 'Seuraava',
 	'mwe-upwiz-next-details' => 'Seuraava',
+	'mwe-upwiz-home' => 'Mene wikin kotisivulle',
+	'mwe-upwiz-license-show-all-any-license' => 'Lisää vaihtoehtoja',
+	'mwe-upwiz-license-show-all' => 'Käytä eri lisenssiä',
 	'mwe-upwiz-error-blank' => 'Tämä kenttä on pakollinen.',
+	'mwe-upwiz-categories' => 'Kategoriat',
 );
 
 /** French (Français)
@@ -3450,6 +3506,14 @@ $messages['kn'] = array(
 	'mwe-upwiz-categories-add' => 'ಸೇರಿಸು',
 );
 
+/** Korean (한국어)
+ * @author Kwj2772
+ */
+$messages['ko'] = array(
+	'uploadwizard' => '파일 올리기 마법사',
+	'mwe-upwiz-step-tutorial' => '알아보기',
+);
+
 /** Colognian (Ripoarisch)
  * @author Purodha
  */
@@ -3475,6 +3539,8 @@ $messages['lb'] = array(
 	'mwe-upwiz-api-error-http' => 'Et gouf e Feeler beim Verbanne mam Service.',
 	'mwe-upwiz-api-error-unknown-code' => 'De Server huet e Feeler signaliséiert, dee mir net verstinn: "$1"',
 	'mwe-upwiz-api-error-uploaddisabled' => "D'Eroplueden ass op dëser Wiki ausgeschalt.",
+	'mwe-upwiz-api-error-nomodule' => "D'Wiki konnt den eropgeluedene Fichier net verschaffen.",
+	'mwe-upwiz-api-error-badaccess-groups' => 'Et ass Iech net erlaabt fir Fichieren op dës Wiki eropzelueden. Kuckt w.e.g. no zu wat fir engem Grupp datt Dir gehéiert.',
 	'mwe-upwiz-api-error-stashfailed' => "D'Wiki konnt de Fichier net späicheren.",
 	'mwe-upwiz-api-error-mustbeloggedin' => 'Dir sidd net richteg ageloggt.',
 	'mwe-upwiz-api-error-empty-file' => 'De Fichier deen Dir geschéckt hutt war eidel.',
@@ -3487,6 +3553,7 @@ $messages['lb'] = array(
 	'mwe-upwiz-api-error-unknown-error' => 'Beim Versuch fir Äre Fichier eropzelueden ass eppes schif gaang',
 	'mwe-upwiz-api-error-overwrite' => "D'Iwwerschreiwe vun engem Fichier ass net erlaabt.",
 	'mwe-upwiz-api-error-fetchfileerror' => 'Beim Opruffe vum Fichier huet eppes net fonctionnéiert.',
+	'mwe-upwiz-api-warning-duplicate' => 'Et gëtt schonn en anere Fichier op dem selwechten Inhalt op der Wiki',
 	'mwe-upwiz-api-warning-exists' => 'Et gëtt op der Wiki schonn e Fichier mat dem selwechten Numm',
 	'mwe-upwiz-help-desk' => 'Helpdesk',
 	'mwe-upwiz-add-file-n' => 'En anere Fichier derbäisetzen',
@@ -3504,6 +3571,7 @@ $messages['lb'] = array(
 	'mwe-upwiz-remove-upload' => 'Dëse Fichier vun der Lëscht vun de Fichieren, déi eropgeluede solle ginn, erofhuelen',
 	'mwe-upwiz-remove-description' => 'Dës Beschreiwung ewechhuelen',
 	'mwe-upwiz-upload' => 'Eroplueden',
+	'mwe-upwiz-file-retry' => 'Déi Fichieren déi net eropgeluede goufen nach emol probéieren',
 	'mwe-upwiz-next-file-despite-failures' => 'Trotzdem weiderfueren',
 	'mwe-upwiz-file-all-failed' => "D'Eropluede vun alle Fichieren huet net fonctionnéiert",
 	'mwe-upwiz-upload-count' => '$1 {{PLURAL:$1|Fichier|Fichiere}} vu(n) $2 {{PLURAL:$2|Fichier|Fichieren}} eropgelueden',
@@ -6187,6 +6255,7 @@ $messages['wuu'] = array(
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
  * @author Wmr89502270
  */
 $messages['zh-hans'] = array(
@@ -6194,6 +6263,7 @@ $messages['zh-hans'] = array(
 	'uploadwizard-desc' => '上传精灵的开发是供多媒体可用性发展',
 	'mwe-loading-upwiz' => '上传精灵载入中...',
 	'mwe-upwiz-code-unknown' => '未知的语言',
+	'mwe-upwiz-step-tutorial' => '学',
 	'mwe-upwiz-step-file' => '上载',
 	'mwe-upwiz-step-deeds' => '发布权',
 	'mwe-upwiz-step-details' => '描述',
@@ -6201,14 +6271,21 @@ $messages['zh-hans'] = array(
 	'mwe-upwiz-add-file-n' => '添加另一个文件',
 	'mwe-upwiz-add-file-0' => '点击这里上载文件',
 	'mwe-upwiz-browse' => '浏览 ...',
+	'mwe-upwiz-transport-started' => '正在开始',
 	'mwe-upwiz-uploading' => '上传中 ...',
 	'mwe-upwiz-transported' => '确定',
 	'mwe-upwiz-stashed-upload' => '确定',
+	'mwe-upwiz-failed' => '失败',
 	'mwe-upwiz-click-here' => '点击这里选择一个文件',
 	'mwe-upwiz-editing' => '编辑中 ...',
+	'mwe-upwiz-remove' => '拿掉',
 	'mwe-upwiz-remove-upload' => '从上传的文件列表中删除此文件',
 	'mwe-upwiz-remove-description' => '删除此说明',
 	'mwe-upwiz-upload' => '上载',
+	'mwe-upwiz-file-all-ok' => '所有上载都成功！',
+	'mwe-upwiz-file-some-failed' => '一些上载失败。',
+	'mwe-upwiz-file-retry' => '重试失败的上载',
+	'mwe-upwiz-file-all-failed' => '没有一个上载成功。',
 	'mwe-upwiz-upload-count' => '在$2{{PLURAL:$2|个|个}}档案之中，$1个档案已上传',
 	'mwe-upwiz-progressbar-uploading' => '上传中',
 	'mwe-upwiz-finished' => '完成！',

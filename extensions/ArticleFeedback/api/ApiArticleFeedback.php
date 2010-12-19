@@ -54,19 +54,19 @@ class ApiArticleFeedback extends ApiBase {
 		foreach( $wgArticleFeedbackRatings as $rating ) {
 			$lastRating = false;
 			if ( isset( $lastRatings[$rating] ) ) {
-				$lastRating = $lastRatings[$rating];
+				$lastRating = intval( $lastRatings[$rating] );
 			}
 
 			$thisRating = false;
 			if ( isset( $params["r{$rating}"] ) ) {
-				$thisRating = $params["r{$rating}"];
+				$thisRating = intval( $params["r{$rating}"] );
 			}
 
 			$this->insertPageRating( $pageId, $rating, ( $thisRating - $lastRating ),
-					( $lastRating === false && $thisRating !== false )
+					$thisRating, $lastRating
 			);
 
-			$this->insertUserRatings( $pageId, $revisionId, $wgUser, $token, $rating, $thisRating );
+			$this->insertUserRatings( $pageId, $revisionId, $wgUser, $token, $rating, $thisRating, $params['bucket'] );
 		}
 
 		$r = array( 'result' => 'Success' );
@@ -79,10 +79,29 @@ class ApiArticleFeedback extends ApiBase {
 	 * @param $pageId Integer: Page Id
 	 * @param $ratingId Integer: Rating Id
 	 * @param $updateAddition Integer: Difference between user's last rating (if applicable)
-	 * @param $newRating Boolean: Whether this is a new rating (for update, whether this increases the count)
+	 * @param $thisRating Integer|Boolean: Value of the Rating
+	 * @param $lastRating Integer|Boolean: Value of the last Rating
 	 */
-	private function insertPageRating( $pageId, $ratingId, $updateAddition, $newRating ) {
+	private function insertPageRating( $pageId, $ratingId, $updateAddition, $thisRating, $lastRating ) {
 		$dbw = wfGetDB( DB_MASTER );
+
+		// 0 == No change in rating count
+		// 1 == No rating last time (or new rating), and now there is
+		// -1 == Rating last time, but abstained this time
+		$countChange = 0;
+		if ( $lastRating === false || $lastRating === 0 ) {
+			if ( $thisRating === 0 ) {
+				$countChange = 0;
+			} else {
+				$countChange = 1;
+			}
+		} else { // Last rating was > 0
+			if ( $thisRating === 0 ) {
+				$countChange = -1;
+			} else {
+				$countChange = 0;
+			}
+		}
 
 		$dbw->insert(
 			'article_feedback_pages',
@@ -100,7 +119,7 @@ class ApiArticleFeedback extends ApiBase {
 			'article_feedback_pages',
 			array(
 				'aap_total = aap_total + ' . $updateAddition,
-				'aap_count = aap_count + ' . ( $newRating ? 1 : 0 ),
+				'aap_count = aap_count + ' . $countChange,
 			),
 			array(
 				'aap_page_id' => $pageId,
@@ -119,8 +138,9 @@ class ApiArticleFeedback extends ApiBase {
 	 * @param $token Array: Token if necessary
 	 * @param $ratingId Integer: Rating Id
 	 * @param $ratingValue Integer: Value of the Rating
+	 * @param $bucket Integer: Which rating widget was the user shown
 	 */
-	private function insertUserRatings( $pageId, $revisionId, $user, $token, $ratingId, $ratingValue ) {
+	private function insertUserRatings( $pageId, $revisionId, $user, $token, $ratingId, $ratingValue, $bucket ) {
 		$dbw = wfGetDB( DB_MASTER );
 
 		$timestamp = $dbw->timestamp();
@@ -136,6 +156,7 @@ class ApiArticleFeedback extends ApiBase {
 					'aa_timestamp' => $timestamp,
 					'aa_rating_id' => $ratingId,
 					'aa_rating_value' => $ratingValue,
+					'aa_design_bucket' => $bucket
 				),
 				$token
 			),
@@ -178,11 +199,18 @@ class ApiArticleFeedback extends ApiBase {
 				ApiBase::PARAM_ISMULTI => false,
 			),
 			'anontoken' => null,
+			'bucket' => array(
+				ApiBase::PARAM_TYPE => 'integer',
+				ApiBase::PARAM_REQUIRED => true,
+				ApiBase::PARAM_ISMULTI => false,
+				ApiBase::PARAM_MIN => 1
+			)
 		);
 
 		foreach( $wgArticleFeedbackRatings as $rating ) {
 			$ret["r{$rating}"] = array(
 				ApiBase::PARAM_TYPE => 'limit',
+				ApiBase::PARAM_REQUIRED => true,
 				ApiBase::PARAM_DFLT => 0,
 				ApiBase::PARAM_MIN => 0,
 				ApiBase::PARAM_MAX => 5,
@@ -198,6 +226,7 @@ class ApiArticleFeedback extends ApiBase {
 			'pageid' => 'Page ID to submit feedback for',
 			'revid' => 'Revision ID to submit feedback for',
 			'anontoken' => 'Token for anonymous users',
+			'bucket' => 'Which rating widget was shown to the user'
 		);
 		foreach( $wgArticleFeedbackRatings as $rating ) {
 		        $ret["r{$rating}"] = "Rating {$rating}";

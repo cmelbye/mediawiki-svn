@@ -4387,13 +4387,21 @@ $messages['cu'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
+	'mergeaccount' => 'Statws mewngofnodi unedig',
 	'centralauth-groupname' => 'Sefydliad Wikimedia',
 	'centralauth-merge-step1-submit' => "Cadarnhau'r manylion mewngofnodi",
+	'centralauth-merge-step2-title' => 'Cadarnhau rhagor o gyfrifon',
 	'centralauth-login-global' => 'Mewngofnodi wici-gyfan',
 	'centralauth-merge-dryrun-or' => "'''neu'''",
 	'centralauth-merge-step3-detail' => "Rydych yn barod i greu'ch cyfrif unedig, gyda'r wicïau canlynol ynghlwm wrtho:",
 	'centralauth-merge-step3-submit' => "Uno'r cyfrifon",
 	'centralauth-list-home-title' => 'Wici cartref',
+	'centralauth-merge-method-empty' => 'dim cyfraniadau',
+	'centralauth-merge-method-mail' => 'cadarnhawyd ag e-bost',
+	'centralauth-merge-method-password' => 'cadarnhawyd â chyfrinair',
+	'centralauth-merge-method-new' => 'cyfrif newydd',
+	'centralauth-finish-password' => 'Cyfrinair:',
+	'centralauth-finish-login' => 'Mewngofnodi',
 	'centralauth-admin-manage' => "Trin data'r defnyddiwr",
 	'centralauth-admin-username' => "Enw'r defnyddiwr:",
 	'centralauth-admin-lookup-ro' => 'Edrych ar y wybodaeth am y defnyddiwr',
@@ -5007,7 +5015,7 @@ Du kannst eine Gruppe anschauen, bearbeiten oder eine eine Gruppe erstellen.',
 	'centralauth-editset-type' => 'Typ:',
 	'centralauth-editset-wikis' => 'Wikis:<br />(getrennt durch Leerzeichen)',
 	'centralauth-editset-reason' => 'Grund:',
-	'centralauth-editset-submit' => 'OK',
+	'centralauth-editset-submit' => 'Speichern',
 	'centralauth-editset-submit-delete' => 'Löschen',
 	'centralauth-editset-badname' => 'Du hast einen ungültigen oder leeren Gruppennamen angegeben.',
 	'centralauth-editset-badtype' => 'Du hast einen ungültigen Typ angegeben.',
@@ -6747,8 +6755,11 @@ Kui ka globaalne konto kuulub sulle, saad selle konto liita, sisestades globaals
 	'centralauth-admin-info-editcount' => 'Redigeerimiste koguarv:',
 	'centralauth-admin-info-locked' => 'Lukustatud:',
 	'centralauth-admin-info-hidden' => 'Peitmistase:',
+	'centralauth-admin-nohome' => 'teadmata',
 	'centralauth-admin-yes' => 'jah',
 	'centralauth-admin-no' => 'ei',
+	'centralauth-admin-hidden-list' => 'avalikest loenditest',
+	'centralauth-admin-hidden-oversight' => 'varjatud',
 	'centralauth-admin-list-legend-ro' => 'Kohalike kontode loend',
 	'centralauth-admin-unattached' => 'ühendamata',
 	'centralauth-admin-blocked' => 'Blokeeritud aegumistähtajaga $3 kell $4.
@@ -6829,6 +6840,7 @@ Kasutajanime muutmisega eraldatakse kohalik kasutaja globaalsest.',
 	'centralauth-log-entry-chgstatus' => 'muutis globaalse konto "$1" olekut. Määratud: $2. Ärastatud: $3',
 	'centralauth-log-status-locked' => 'lukustatud',
 	'centralauth-log-status-hidden' => 'peidetud',
+	'centralauth-log-status-oversighted' => 'varjatud',
 	'centralauth-log-status-none' => '(ei midagi)',
 	'centralauth-rightslog-name' => 'Globaalsete õiguste logi',
 	'centralauth-rightslog-entry-usergroups' => 'muutis kasutaja $1 globaalse rühma liikmesuse rühmast $2 rühma $3',
@@ -9258,8 +9270,11 @@ $messages['he'] = array(
 );
 
 /** Hindi (हिन्दी)
+ * @author Akansha
  * @author Kaustubh
  * @author Kiranmayee
+ * @author Shyam123.ckp
+ * @author Suman
  * @author आलोक
  */
 $messages['hi'] = array(
@@ -9283,6 +9298,7 @@ $messages['hi'] = array(
 	'centralauth-merge-step2-detail' => 'आपके द्वारा डेसिग्नेटेड होम विकिके साथ कुछ खाता जोड़ नहीं पाये हैं।
 अगर यह खातें आपके ही हैं, तो आप उनके लिये इस्तेमालमें लाया जाने वाला कूटशब्द देकर निश्चित कर सकतें हैं।',
 	'centralauth-merge-step2-submit' => 'लॉग इन ज़ानकारी जाँचें',
+	'centralauth-login-global' => 'प्रमाणित-लॉगिन वैश्विक केंद्रीय',
 	'centralauth-merge-dryrun-complete' => 'सभी खातें अपने आप एकत्रित किये जा सकतें हैं।
 
 अभीतक आपके खातोंमें बदलाव नहीं किये गये हैं।',
@@ -9298,9 +9314,8 @@ $messages['hi'] = array(
 	'centralauth-merge-step3-submit' => 'खातें जोडें',
 	'centralauth-complete' => 'खाता एकत्रिकरण पूरा हुआ!',
 	'centralauth-incomplete' => 'खाता एकत्रिकरण पूरा नहीं हुआ!',
-	'centralauth-complete-text' => 'अब आप किसी भी विकिमीडिया विकिपर नया खाता बनाये बिना लॉग इन कर सकतें हैं;
-एकही सदस्यनाम और कूटशब्द विकिपीडिया, विक्शनरी, विकिताबें तथा अन्य सभी भाषाओंके सभी प्रकल्पोंमें इस्तेमाल किया जा सकता हैं।',
-	'centralauth-incomplete-text' => 'एक बार आपका यूनिफाइड लॉग इन तैयार हो जायें, फिर आप कोईभी विकिमीडिया विकिपर नया खाता खोले बिना लॉग इन कर सकतें हैं; एकही सदस्यनाम और कूटशब्द विकिपीडिया, विक्शनरी, विकिताबें तथा अन्य सभी भाषाओंके सभी प्रकल्पोंमें इस्तेमाल किया जा सकता हैं।',
+	'centralauth-complete-text' => 'केंद्रीय प्रमाणित-पूर्ण पाठ',
+	'centralauth-incomplete-text' => 'केंद्रीय प्रमाणित-अधूरा पाठ',
 	'centralauth-not-owner-text' => '$2 पे "$1" यह सदस्यनाम अपनेआप दिया गया हैं।
 
 अगर यह आप ही हैं, तो आप उस अकाउंटका मुख्य कूटशब्द यहां देकर लॉग इन एकत्रिकरण प्रक्रिया को पूरा कर सकतें हैं:',
@@ -9323,7 +9338,10 @@ $messages['hi'] = array(
 	'centralauth-merge-method-password' => 'कूटशब्द के द्वारा निश्चित किया गया',
 	'centralauth-merge-method-admin' => 'प्रबंधक एकत्रित खाता',
 	'centralauth-merge-method-new' => 'नया खाता',
-	'centralauth-merge-method-login' => 'लॉग इन के द्वारा निश्चित किया',
+	'centralauth-merge-method-login' => 'प्रमाणित मर्ज विधि लॉगिन केंद्रीय',
+	'centralauth-merge-method-primary-desc' => 'घर विकि के लिए पासवर्ड दर्ज करें.
+मर्ज-विधि प्राथमिक अधिकार का वर्णन इस विकी जिस पर खाता शुरू में विलय कर दिया गया है.
+ध्यान दें कि यह है कि उपयोगकर्ता की असली घर विकी से अलग हो सकता.',
 	'centralauth-finish-title' => 'एकत्रिकरण खतम करें',
 	'centralauth-finish-text' => 'अगर निम्नलिखित अकाउंट आपही के हैं तो उनके कूटशब्द देकर आप इन्हें एकत्रित कर सकतें हैं:',
 	'centralauth-finish-password' => 'कूटशब्द:',
@@ -9341,7 +9359,7 @@ $messages['hi'] = array(
 अगर एकत्रित अकाउंट आपकाही हैं, तो उसका कूटशब्द देकर आप इसे जोड सकतें हैं:',
 	'centralauth-attach-submit' => 'खाता स्थलांतरित करें',
 	'centralauth-attach-success' => 'खाता एकत्रित खातेसे जोड दिया गया हैं।',
-	'centralauth' => 'यूनिफाईड लॉग इन प्रबंधन',
+	'centralauth' => 'केंद्रीय प्रमाणित',
 	'centralauth-admin-manage' => 'सदस्य डाटा का व्यवस्थापन करें',
 	'centralauth-admin-username' => 'सदस्यनाम:',
 	'centralauth-admin-permission' => 'सिर्फ स्टिवार्ड्स ही अन्य सदस्योंके खाते एकत्रित कर सकतें हैं।',
@@ -9352,10 +9370,12 @@ $messages['hi'] = array(
 	'centralauth-admin-info-hidden' => 'छुपाया हुआ:',
 	'centralauth-admin-yes' => 'हां',
 	'centralauth-admin-no' => 'नहीं',
+	'centralauth-admin-list-legend-ro' => 'स्थानीय खातों की सूची',
 	'centralauth-admin-unattached' => 'ना जुडे हुए अकाउंट',
 	'centralauth-admin-list-localwiki' => 'स्थानिक विकि',
 	'centralauth-admin-list-attached-on' => 'को जुडे हुए',
 	'centralauth-admin-list-method' => 'पद्धती',
+	'centralauth-admin-list-blocked' => 'केंद्रीय सत्ता प्रशासन की सूची अवरुद्ध',
 	'centralauth-admin-unmerge' => 'चुने हुए अलग करें',
 	'centralauth-admin-merge' => 'चुने हुए एकत्रित करें',
 	'centralauth-admin-bad-input' => 'चुनने में गलती हुई हैं',
@@ -9372,6 +9392,7 @@ $messages['hi'] = array(
 	'centralauth-admin-delete-nonexistent' => 'गलती: "<nowiki>$1</nowiki>" यह विश्व खाता अस्तित्वमें नहीं हैं।',
 	'centralauth-token-mismatch' => 'माफ किजीये, सेशन डाटाके खो जाने से आपकी अर्जी भेज नहीं पा रहें हैं।',
 	'centralauth-admin-reason' => 'कारण:',
+	'centralauth-admin-logsnippet' => 'पिछले वैश्विक खाते में परिवर्तन',
 	'globalusers' => 'वैश्विक सदस्य सूची',
 	'centralauth-listusers-locked' => 'ताला लगा हुआ',
 	'centralauth-listusers-attached' => '[[User:$1|लोकल स्तरपर अस्तित्व]]',
@@ -9391,10 +9412,11 @@ $messages['hi'] = array(
 	'centralauth-prefs-count-unattached' => '$1 {{PLURAL:$1|प्रकल्पमें|प्रकल्पोंमें}} आपके खाते (जिन्हें आपने निश्चित नहीं किया हैं) बचे हुए हैं।',
 	'centralauth-prefs-detail-unattached' => 'आपके एकत्रित अकाउंटमें इस साईटको निश्चित नहीं किया गया हैं।',
 	'centralauth-prefs-manage' => 'आपके ग्लोबल अकाउंटको मैनेज करें',
+	'centralauth-prefs-view' => 'देखें वैश्विक उपयोगकर्ता जानकारी',
 	'centralauth-invalid-wiki' => 'ऐसा विकि नहीं हैं DB: $1',
 	'centralauth-account-exists' => 'खाता खोल नहीं सकते: पूछा गया सदस्यनाम पहले से विश्व खाते के लिये सुरक्षित हैं।',
-	'centralauth-login-progress' => 'विकिमीडीया के अन्य प्रकल्पोंमें आपको लॉग इन किया जा रहा हैं:',
-	'centralauth-logout-progress' => 'विकिमीडीया के अन्य प्रकल्पोंसे आपको लॉग आउट किया जा रहा हैं:',
+	'centralauth-login-progress' => 'केंद्रीय प्रमाणित-लॉगिन प्रगति',
+	'centralauth-logout-progress' => 'केंद्रीय प्रमाणित-लॉगआउट प्रगति',
 	'centralauth-log-name' => 'वैश्विक अकाउंट व्यवस्थापन सूची',
 	'centralauth-log-header' => 'इस सूची में वैश्विक खातोंसे संबंधित कार्य दर्शाये गये हैं: हटाना, ताला लगाना तथा ताला खोलना।',
 	'centralauth-log-entry-delete' => '"$1" वैश्विक खाता हटाया गया हैं',
@@ -9402,10 +9424,14 @@ $messages['hi'] = array(
 	'centralauth-log-entry-unlock' => '"$1" का ताला खोल दिया गया हैं',
 	'centralauth-log-entry-hide' => '"$1" वैश्विक अकाउंट छुपायें',
 	'centralauth-log-entry-unhide' => '"$1" वैश्विक अकाउंट दर्शायें',
+	'centralauth-log-status-locked' => 'ब्लॉक किया हुआ हैं',
+	'centralauth-log-status-hidden' => 'छिपा हुआ',
+	'centralauth-log-status-oversighted' => 'ओवरसाईट',
 	'centralauth-rightslog-name' => 'वैश्विक अधिकार बदलाव सूची',
 	'centralauth-rightslog-entry-usergroups' => '$1 का वैश्विक गट सदस्यत्व $2 से $3 को बदला',
 	'centralauth-rightslog-entry-groupperms' => '$1 के गट अधिकार $2 से $3 को बदलें',
-	'centralauth-rightslog-header' => 'यह वैश्विक गटोंपर हुए कार्योंकी सूची हैं: सदस्यत्व और अधिकार बदलाव',
+	'centralauth-rightslog-header' => 'केंद्रीय प्रमाणित-अधिकार लॉग इन-हैडर',
+	'autologin' => 'हेतु स्वचालित लॉगइन',
 	'centralauth-autologin-desc' => 'यह विशेष पृष्ठ मीडियाविकिके खासगी इस्तेमाल का हैं।
 जब आप [[Special:UserLogin|लॉग इन]] करेंगे, मध्यवर्ती लॉग इन यंत्रणा आपके ब्राउझरको सभी जुडे हुए डोमेनसे यह पृष्ठ चित्र कडीयाँ इस्तेमाल कर मँगानेकी सूचना देगा।
 आपने यह पृष्ठ कोईभी ज़ानकारी दिये बिना मँगाया हैं, इसलिये यह कुछ नहीं करेगा।',
@@ -9429,6 +9455,8 @@ $messages['hi'] = array(
 	'centralauth-editgroup-member-edit' => '$2 ([[MediaWiki:Group-$1-member|बदलें]])',
 	'centralauth-editgroup-members' => 'सदस्य सूची:',
 	'centralauth-editgroup-members-link' => '[[Special:GlobalUsers/$1|$2 अधिकार होने वाले सदस्योंकी सूची]]',
+	'centralauth-editgroup-restrictions' => 'सेट विकी की जहां इस समूह सक्रिय है',
+	'centralauth-editgroup-noset' => 'केंद्रीय प्रमाणित समूह, नहीं सेट संपादित करें',
 	'centralauth-editgroup-submit' => 'ग्रुप अधिकारोंमें किये बदलाव संजोयें',
 	'centralauth-editgroup-perms' => 'दिये हुए अधिकार:',
 	'centralauth-editgroup-reason' => 'कारण:',
@@ -9437,6 +9465,16 @@ $messages['hi'] = array(
 [[Special:GlobalGroupPermissions|ग्रुप व्यवस्थापन की ओर वापस जायें]]',
 	'centralauth-globalgrouppermissions-knownwiki' => 'जिस विकिपर उनका खाता हैं ऐसा विकि चुनें:',
 	'centralauth-globalgroupmembership-badknownwiki' => "आपने दिये हुए विकिपर (''$2'') '''$1''' यह वैश्विक सदस्य कार्यरत नहीं हैं। आप शायद गलत सदस्यको अधिकार दे रहें हैं!",
+	'centralauth-editset-legend-rw' => 'संपादित करें या विकी सेट बनाने के लिए',
+	'centralauth-editset-intro-rw' => 'निम्नलिखित विकि सेट पहले से ही बनाया गया है
+आप देख सकते हैं और उनमें से किसी को संशोधित कर सकते हैं या एक नया सेट बनाने के लिए',
+	'centralauth-editset-legend-new' => 'नए विकी बनाना सेट',
+	'centralauth-editset-submit-delete' => 'हटाएँ',
+	'centralauth-editset-badname' => 'अवैध या खाली सेट नाम',
+	'centralauth-editset-badtype' => 'अवैध प्रकार निर्धारित किया है',
+	'centralauth-editset-setexists' => 'उस नाम के साथ सेट पहले से मौजूद है',
+	'centralauth-editset-success' => 'विकी सफलतापूर्वक बदल से',
+	'centralauth-editset-success-delete' => 'सफलतापूर्वक नष्ट कर दिया विकी सेट',
 	'right-globalgroupmembership' => 'वैश्विक ग्रुप सदस्यत्व बदलें',
 	'right-centralauth-merge' => 'उनके खाते एकत्रित करें',
 	'right-globalgrouppermissions' => 'वैश्विक ग्रुपोंको मैनेज करें',
@@ -20231,6 +20269,7 @@ $messages['shi'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Thameera123
  * @author නන්දිමිතුරු
  * @author බිඟුවා
  */
@@ -20252,6 +20291,8 @@ $messages['si'] = array(
 කරුණු වලට එකඟ විය හැකි බවට ඔබ විසින් තහවුරු කරන තෙක් කිසිදු වෙනසක් සිදු නොකරනු ලැබේ.',
 	'centralauth-merge-step1-submit' => 'ප්‍රවිෂ්ට වීමේ තොරතුරු තහවුරු කරන්න',
 	'centralauth-merge-step2-title' => 'තවත් ගිණුම් තහවුරු කරන්න',
+	'centralauth-merge-step2-detail' => 'සමහරක් ගිණුම් නියම කරන ලද නිවාස විකියට ස්වයංක්‍රීයව ගැළපිය නොහැකි විය.
+මේ ගිණුම් අයිති ඔබට නම්, ඒ ගිණුම් සඳහා මුරපද ලබාදීමෙන් ඒවා අයිති ඔබට බව තහවුරු කළ හැකිය.',
 	'centralauth-merge-step2-submit' => 'ප්‍රවිෂ්ට වීමේ තොරතුරු තහවුරු කරන්න',
 	'centralauth-merge-dryrun-complete' => 'පවතින සියළු ගිණුම් ස්වයංක්‍රීයව සංයුක්ත කල හැක!
 
@@ -20315,12 +20356,24 @@ $messages['si'] = array(
 	'centralauth-admin-info-editcount' => 'සම්පූර්ණ සංස්කරණ ගණන:',
 	'centralauth-admin-info-locked' => 'අහුරා:',
 	'centralauth-admin-info-hidden' => 'සඟවා:',
+	'centralauth-admin-nohome' => 'නිර්ණය කිරීමට නොහැකි විය',
 	'centralauth-admin-yes' => 'ඔව්',
 	'centralauth-admin-no' => 'නැත',
+	'centralauth-admin-hidden-list' => 'පොදු ලයිස්තුවලින්',
+	'centralauth-admin-list-legend-ro' => 'පෙදෙසි ගිණුම් ලයිස්තුව',
+	'centralauth-admin-list-legend-rw' => 'පෙදෙසි ගිණුම් වෙන් කරන්න',
 	'centralauth-admin-unattached' => 'නොබැඳි ගිණුම්',
+	'centralauth-admin-blocked' => 'වාරණය කරන ලදී. $3, $4 දී කල් ඉකුත්වේ.
+හේතුව: $2',
+	'centralauth-admin-blocked-indef' => 'අනිශ්චිත කාලයකට වාරණය කරන ලදී.
+හේතුව: $1',
+	'centralauth-admin-blocklog' => 'වාරණ ලොගය',
 	'centralauth-admin-list-localwiki' => 'ස්ථානික විකිය',
 	'centralauth-admin-list-attached-on' => 'බැඳී ඇත්තේ',
+	'centralauth-admin-list-method' => 'ක්‍රමය',
+	'centralauth-admin-list-editcount' => 'ගණන සංස්කරණය කරන්න',
 	'centralauth-admin-list-blocked' => 'ඇහිරීම',
+	'centralauth-admin-unmerge' => 'තේරීම් වෙන්කරන්න',
 	'centralauth-admin-merge' => 'ඒකාබද්ධ කිරීම තෝරාගැණිනි',
 	'centralauth-admin-delete-title' => 'ගිණුම මකන්න',
 	'centralauth-admin-delete-button' => 'මෙම ගිණුම මකන්න',

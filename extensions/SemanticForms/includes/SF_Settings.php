@@ -116,12 +116,5 @@ $sfgFancyBoxIncluded = false;
 # Global variables for Javascript
 # ##
 $sfgAdderButtons = array();
-$sfgRemoverButtons = array();
-$sfgShowOnSelectCalls = array();
-$sfgJSValidationCalls = array();
-$sfgAutocompleteMappings = array();
-$sfgAutocompleteDataTypes = array();
+$sfgShowOnSelect = array();
 $sfgAutocompleteValues = array();
-$sfgComboBoxInputs = array();
-$sfgAutogrowInputs = array();
-$sfgFancyBoxInputs = array();

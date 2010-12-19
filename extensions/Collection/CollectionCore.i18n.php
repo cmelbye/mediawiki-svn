@@ -71,6 +71,7 @@ $messages['en'] = array(
  * @author Aotake
  * @author EugeneZelenko
  * @author Fryed-peach
+ * @author Lloffiwr
  * @author Mormegil
  * @author Siebrand
  * @author Teak
@@ -78,7 +79,9 @@ $messages['en'] = array(
 $messages['qqq'] = array(
 	'coll-print_export' => 'Caption of a frame in the toolbar (on the left-hand side of the screen), similar to {{msg-mw|toolbox}} or {{msg-mw|otherlanguages}}.',
 	'coll-create_a_book' => '{{Identical|Books}}',
-	'coll-download_as' => '{{Identical|Download}}',
+	'coll-download_as' => '$1 is a file format.
+
+{{Identical|Download}}',
 	'coll-download_as_tooltip' => '* $1 is some file format(s)',
 	'coll-bookscategory' => '{{Identical|Book}}',
 	'coll-clear_collection' => '',
@@ -247,9 +250,35 @@ $messages['ast'] = array(
 );
 
 /** Bashkir (Башҡорт)
+ * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
+	'coll-print_export' => 'Баҫтырырға/сығарырға',
+	'coll-create_a_book' => 'Китап булдырырға',
+	'coll-create_a_book_tooltip' => 'Китап йәки биттәр йыйынтығын булдырырға',
+	'coll-book_creator' => 'Китап оҫтаһы',
+	'coll-download_as' => '$1 форматында күсереп алырға',
+	'coll-download_as_tooltip' => 'Был вики-биттең $1 өлгөһөн күсереп алырға',
+	'coll-disable' => 'һүндерергә',
+	'coll-book_creator_disable' => 'Китап оҫтаһын һүндерергә',
+	'coll-book_creator_disable_tooltip' => 'Китап оҫтаһын ҡүлланыуҙы туҡтатырға',
+	'coll-add_linked_article' => 'Бәйле вики-битте китабығыҙға өҫтәргә',
+	'coll-remove_linked_article' => 'Бәйле вики-битте китабығыҙҙан юйырға',
+	'coll-add_category' => 'Был категорияны китабығыҙға өҫтәргә',
+	'coll-add_category_tooltip' => 'Был категорияның вики-биттәрен китабығыҙға өҫтәргә',
+	'coll-add_this_page' => 'Был битте китабығыҙға өҫтәргә',
+	'coll-add_page_tooltip' => 'Ағымдағы вики-битте китабығыҙға өҫтәргә',
+	'coll-bookscategory' => 'Китаптар',
+	'coll-clear_collection' => 'Китапты таҙартырға',
+	'coll-clear_collection_confirm' => 'Һеҙ ысынлап та китабығыҙҙы тулыһынса таҙартырға теләйһегеҙме?',
+	'coll-clear_collection_tooltip' => 'Бөтә вики-биттәрҙе ағымдағы китабығыҙҙан юйырға',
+	'coll-help' => 'Белешмә',
+	'coll-help_tooltip' => 'Китап булдырыу тураһында белешмә күрһәтергә',
+	'coll-helppage' => 'Help:Китаптар',
+	'coll-load_collection' => 'Китап тейәргә',
+	'coll-load_collection_tooltip' => 'Был китапты ағымдағы китабығыҙ рәүешендә тейәргә',
+	'coll-n_pages' => '$1 {{PLURAL:$1|бит}}',
 	'coll-printable_version_pdf' => 'PDF өлгөһө',
 	'coll-remove_this_page' => 'Был битте китабығыҙҙан сығарығыҙ',
 	'coll-remove_page_tooltip' => 'Ағымдағы вики-битте китабығыҙҙан сығарырға',
@@ -3001,11 +3030,19 @@ $messages['sw'] = array(
 	'coll-print_export' => 'Chapa/peleka nje',
 	'coll-create_a_book' => 'Kutunga kitabu',
 	'coll-create_a_book_tooltip' => 'Utunge kitabu au mkusanyiko wa kurasa',
-	'coll-book_creator' => 'Mtunga kitabu',
+	'coll-book_creator' => 'Kitunga kitabu',
+	'coll-download_as' => 'Pakua kama $1',
+	'coll-download_as_tooltip' => 'Pakua aina $1 ya ukurasa wiki huu',
 	'coll-disable' => 'lemaza',
+	'coll-book_creator_disable' => 'Lemaza kitunga kitabu',
+	'coll-book_creator_disable_tooltip' => 'Acha kutumia kitunga kitabu',
+	'coll-add_linked_article' => 'Ingiza ukurasa mwingine ulioungwa katika kitabu chako',
+	'coll-remove_linked_article' => 'Ondoa ukurasa mwingine ulioungwa kutoka katika kitabu chako',
 	'coll-bookscategory' => 'Vitabu',
 	'coll-help' => 'Msaada',
-	'coll-helppage' => 'Msaada:Vitabu',
+	'coll-helppage' => 'Help:Vitabu',
+	'coll-n_pages' => '{{PLURAL:$1|ukurasa|kurasa}} $1',
+	'coll-printable_version_pdf' => 'Mtindo wa PDF',
 	'coll-show_collection' => 'Onyesha kitabu',
 	'coll-not_addable' => 'Ukarasa huu hauwezi kuingizwa',
 	'coll-suggest_empty' => 'tupu',

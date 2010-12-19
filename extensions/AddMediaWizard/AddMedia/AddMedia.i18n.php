@@ -1111,6 +1111,9 @@ $messages['bg'] = array(
 	'mwe-summary' => 'Резюме',
 	'mwe-uploaded-time-remaining' => 'Оставащо време: $1',
 	'mwe-cc_pd_title' => 'Обществено достояние',
+	'mwe-results_from' => 'Резултати от $1',
+	'mwe-upload-a-file' => 'Качване на нов файл',
+	'rsd-this_wiki-title' => 'Това уики',
 	'fogg-select_file' => 'Избиране на файл',
 	'fogg-select_new_file' => 'Избиране на нов файл',
 	'fogg-please-install-install-linktext' => 'Инсталиране на Firefogg',
@@ -4177,6 +4180,17 @@ $messages['he'] = array(
 	'fogg-badtoken' => 'האסימון אינו תקין',
 );
 
+/** Hindi (हिन्दी)
+ * @author Akansha
+ */
+$messages['hi'] = array(
+	'mwe-summary' => 'सारांश',
+	'mwe-date-of-work' => 'काम की तिथि',
+	'mwe-error_not_loggedin' => 'तुम में लॉग इन होना प्रकट नहीं होता है या क्या करना है विशेषाधिकारों अपलोड नहीं',
+	'mwe-error-not-loggedin-file' => 'तुम में लॉग इन होना प्रकट नहीं करते या वहाँ सॉफ्टवेयर में एक त्रुटि थी',
+	'mwe-link-login' => 'लॉग इन',
+);
+
 /** Croatian (Hrvatski)
  * @author Herr Mlinka
  * @author SpeedyGonsales
@@ -5832,8 +5846,8 @@ $messages['mk'] = array(
 	'fogg-cg-advVideo' => 'Напредни поставки за видео кодирање',
 	'fogg-cg-advAudio' => 'Напредни поставки за аудио кодирање',
 	'fogg-preset-custom' => 'Кориснички нагодувања',
-	'fogg-webvideo-desc' => 'Мрежно видео Theora, Vorbis 400 kbit/сек и максимална ширина од 400 пиксели',
-	'fogg-savebandwidth-desc' => 'Теснопојасна (нископроточна) Theora, Vorbis 164 kbit/сек и максимална ширина од 200 пиксели',
+	'fogg-webvideo-desc' => 'Мрежно видео Theora, Vorbis 400 кбит/с и максимална ширина од 400 пиксели',
+	'fogg-savebandwidth-desc' => 'Теснопојасна (нископроточна) Theora, Vorbis 164 кбит/с и максимална ширина од 200 пиксели',
 	'fogg-highquality-desc' => 'Висококвалитетна Theora, Vorbis со максимална ширина од 1080 пиксели',
 	'fogg-webvideo-webm-desc' => 'Мрежно видео WebM со VP8 (600 kbit\\/сек и макс. ширина: 480 пиксели)',
 	'fogg-highquality-webm-desc' => 'WebM со висококвалитетен VP8  (макс. ширина: 1080 пиксели)',
@@ -5854,7 +5868,7 @@ $messages['mk'] = array(
 	'fogg-height-title' => 'Видео висина',
 	'fogg-height-help' => 'Смени големина до дадена висина.',
 	'fogg-videoBitrate-title' => 'Видео проточност',
-	'fogg-videoBitrate-help' => 'Проточноста на видеоснимката ја определува битовата стапка на кодирање за влезниот видео-проток (кбит/сек)',
+	'fogg-videoBitrate-help' => 'Проточноста на видеоснимката ја определува битовата стапка на кодирање за влезниот видео-проток (кбит/с)',
 	'fogg-twopass-title' => 'Двопроодно кодирање',
 	'fogg-twopass-help' => 'Двојнопроодното кодирање овозможува попостојан квалитет со тоа што проаѓа два пати по видео податотеката',
 	'fogg-framerate-title' => 'Кадрова честота',

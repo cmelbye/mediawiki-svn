@@ -45,9 +45,11 @@ class FlaggedRevsHooks {
 	*/
 	protected static function injectStyleAndJS() {
 		global $wgOut, $wgUser, $wgFlaggedRevStyleVersion;
-		if ( $wgOut->hasHeadItem( 'FlaggedRevs' ) ) {
+		static $loadedModules = false;
+		if ( $loadedModules ) {
 			return true; # Don't double-load
 		}
+		$loadedModules = true;
 		$fa = FlaggedArticleView::globalArticleInstance();
 		# Try to only add to relevant pages
 		if ( !$fa || !$fa->isReviewable() ) {
@@ -1225,12 +1227,12 @@ class FlaggedRevsHooks {
 				return true;
 			}
 		}
+		$dbr = wfGetDB( DB_SLAVE );
 		# See if the page actually has sufficient content...
 		if ( $wgFlaggedRevsAutopromote['userpageBytes'] > 0 ) {
 			if ( !$user->getUserPage()->exists() ) {
 				return true;
 			}
-			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
 			$size = $dbr->selectField( 'page', 'page_len',
 				array( 'page_namespace' => $user->getUserPage()->getNamespace(),
 					'page_title' => $user->getUserPage()->getDBkey() ),
@@ -1263,64 +1265,38 @@ class FlaggedRevsHooks {
 				}
 			}
 		}
-		# Check if this user is sharing IPs with another users
-		if ( $wgFlaggedRevsAutopromote['uniqueIPAddress'] ) {
-			$uid = $user->getId();
-
-			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
-			$shared = $dbr->selectField( 'recentchanges', '1',
-				array( 'rc_ip' => wfGetIP(),
-					"rc_user != '$uid'" ),
-				__METHOD__,
-				array( 'USE INDEX' => 'rc_ip' ) );
-			if ( $shared ) {
-				# Make a key to store the results
-				$wgMemc->set( $sTestKey, 'true', 3600 * 24 * 7 );
-				return true;
-			}
-		}
-		# Check if the user has any recent content edits
-		if ( $wgFlaggedRevsAutopromote['recentContentEdits'] > 0 ) {
-			global $wgContentNamespaces;
-		
-			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
-			$res = $dbr->select( 'recentchanges', '1',
-				array( 'rc_user_text' => $user->getName(),
-					'rc_namespace' => $wgContentNamespaces ),
-				__METHOD__,
-				array( 'USE INDEX' => 'rc_ns_usertext',
-					'LIMIT' => $wgFlaggedRevsAutopromote['recentContentEdits'] )
-			);
-			if ( $dbr->numRows( $res ) < $wgFlaggedRevsAutopromote['recentContentEdits'] ) {
-				return true;
-			}
-		}
+		$deletedEdits = $recentEdits = 0;
+		# Get one plus the surplus of edits needed
+		$minDiff = $user->getEditCount() - $wgFlaggedRevsAutopromote['edits'] + 1;
 		# Check to see if the user has so many deleted edits that
 		# they don't actually enough live edits. This is because
 		# $user->getEditCount() is the count of edits made, not live.
-		if ( $wgFlaggedRevsAutopromote['excludeDeleted'] ) {
-			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
-			$minDiff = $user->getEditCount() - $wgFlaggedRevsAutopromote['days'] + 1;
-			# Use an estimate if the number starts to get large
-			if ( $minDiff <= 100 ) {
-				$res = $dbr->select( 'archive', '1',
-					array( 'ar_user_text' => $user->getName() ),
-					__METHOD__,
-					array( 'USE INDEX' => 'usertext_timestamp', 'LIMIT' => $minDiff ) );
-				$deletedEdits = $dbr->numRows( $res );
-			} else {
-				$deletedEdits = $dbr->estimateRowCount( 'archive', '1',
-					array( 'ar_user_text' => $user->getName() ),
-					__METHOD__,
-					array( 'USE INDEX' => 'usertext_timestamp' ) );
-			}
-			if ( $deletedEdits >= $minDiff ) {
-				return true;
-			}
+		# NOTE: check skipped if the query gets large (due to high edit count surplus)
+		if ( $wgFlaggedRevsAutopromote['excludeDeleted'] && $minDiff <= 200 ) {
+			$res = $dbr->select( 'archive', '1',
+				array( 'ar_user_text' => $user->getName() ),
+				__METHOD__,
+				array( 'USE INDEX' => 'usertext_timestamp', 'LIMIT' => $minDiff ) );
+			$deletedEdits = $dbr->numRows( $res );
+		}
+		# Check to see if the user made almost all their edits at
+		# the last minute and delay promotion if that is the case.
+		if ( $wgFlaggedRevsAutopromote['excludeLastDays'] > 0 ) {
+			$cutoff_unixtime = time() - 86400*$wgFlaggedRevsAutopromote['excludeLastDays'];
+			$encCutoff = $dbr->addQuotes( $dbr->timestamp( $cutoff_unixtime ) );
+			$res = $dbr->select( 'revision', '1',
+				array( 'rev_user' => $user->getId(), "rev_timestamp > $encCutoff" ),
+				__METHOD__,
+				array( 'USE INDEX' => 'user_timestamp', 'LIMIT' => $minDiff )
+			);
+			$recentEdits = $dbr->numRows( $res );
+		}
+		# Are too many edits deleted or too recent to count?
+		if ( ( $deletedEdits + $recentEdits ) >= $minDiff ) {
+			return true;
 		}
 		# Check implicitly checked edits
 		if ( $totalCheckedEditsNeeded && $wgFlaggedRevsAutopromote['totalCheckedEdits'] ) {
-			$dbr = isset( $dbr ) ? $dbr : wfGetDB( DB_SLAVE );
 			$res = $dbr->select( array( 'revision', 'flaggedpages' ), '1',
 				array( 'rev_user' => $user->getId(),
 					'fp_page_id = rev_page', 'fp_stable >= rev_id' ),
@@ -1618,9 +1594,9 @@ class FlaggedRevsHooks {
 	) {
 		$tables[] = 'flaggedpages';
 		$join_conds['flaggedpages'] = array( 'LEFT JOIN', 'fp_page_id = rc_cur_id' );
-		if( is_array( $select ) ) {
-			$dbr = wfGetDB( DB_SLAVE );
-			$select[] = $dbr->tableName( 'flaggedpages' ) . '.*';
+		if ( is_array( $select ) ) { // RCL
+			$select[] = 'fp_stable';
+			$select[] = 'fp_pending_since';
 		}
 		return true;
 	}
@@ -1631,6 +1607,7 @@ class FlaggedRevsHooks {
 		global $wgUser;
 		if ( $wgUser->isAllowed( 'review' ) ) {
 			$fields[] = 'fp_stable';
+			$fields[] = 'fp_pending_since';
 			$tables[] = 'flaggedpages';
 			$join_conds['flaggedpages'] = array( 'LEFT JOIN', 'fp_page_id = rc_cur_id' );
 		}
@@ -1759,7 +1736,7 @@ class FlaggedRevsHooks {
 		global $wgUser;
 		$title = $rc->getTitle(); // convenience
 		if ( !FlaggedRevs::inReviewNamespace( $title )
-			|| empty( $rc->mAttribs['rc_this_oldid'] )
+			|| empty( $rc->mAttribs['rc_this_oldid'] ) // rev, not log
 			|| !array_key_exists( 'fp_stable', $rc->mAttribs ) )
 		{
 			return true; // confirm that page is in reviewable namespace
@@ -1773,8 +1750,8 @@ class FlaggedRevsHooks {
 				$rlink = wfMsgHtml( 'revreview-unreviewedpage' );
 				$css = 'flaggedrevs-unreviewed';
 			}
-		// page is reviewed and has pending edits
-		} elseif ( $rc->mAttribs['rc_this_oldid'] > $rc->mAttribs['fp_stable'] ) {
+		// page is reviewed and has pending edits (use timestamps; bug 15515)
+		} elseif ( $rc->mAttribs['rc_timestamp'] > $rc->mAttribs['fp_pending_since'] ) {
 			$rlink = $list->skin->link(
 				$title,
 				wfMsgHtml( 'revreview-reviewlink' ),
@@ -1827,7 +1804,7 @@ class FlaggedRevsHooks {
 			return true; // nothing to do
 		}
 		$view = FlaggedArticleView::singleton();
-		$view->addCustomContentHtml( $out );
+		$view->addCustomContentHtml( $out, $diffEngine->getNewid() );
 		return false;
 	}
 
@@ -2087,55 +2064,55 @@ class FlaggedRevsHooks {
 		if ( $wgDBtype == 'mysql' ) {
 			// Initial install tables (current schema)
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs', "$base/FlaggedRevs.sql" ) );
+				'flaggedrevs', "$base/FlaggedRevs.sql", true ) );
 			// Updates (in order)...
 			$du->addExtensionUpdate( array( 'addField',
-				'flaggedpage_config', 'fpc_expiry', "$base/mysql/patch-fpc_expiry.sql" ) );
+				'flaggedpage_config', 'fpc_expiry', "$base/mysql/patch-fpc_expiry.sql", true ) );
 			$du->addExtensionUpdate( array( 'addIndex',
-				'flaggedpage_config', 'fpc_expiry', "$base/mysql/patch-expiry-index.sql" ) );
+				'flaggedpage_config', 'fpc_expiry', "$base/mysql/patch-expiry-index.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs_promote', "$base/mysql/patch-flaggedrevs_promote.sql" ) );
+				'flaggedrevs_promote', "$base/mysql/patch-flaggedrevs_promote.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedpages', "$base/mysql/patch-flaggedpages.sql" ) );
+				'flaggedpages', "$base/mysql/patch-flaggedpages.sql", true ) );
 			$du->addExtensionUpdate( array( 'addField',
-				'flaggedrevs', 'fr_img_name', "$base/mysql/patch-fr_img_name.sql" ) );
+				'flaggedrevs', 'fr_img_name', "$base/mysql/patch-fr_img_name.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs_tracking', "$base/mysql/patch-flaggedrevs_tracking.sql" ) );
+				'flaggedrevs_tracking', "$base/mysql/patch-flaggedrevs_tracking.sql", true ) );
 			$du->addExtensionUpdate( array( 'addField',
-				'flaggedpages', 'fp_pending_since', "$base/mysql/patch-fp_pending_since.sql" ) );
+				'flaggedpages', 'fp_pending_since', "$base/mysql/patch-fp_pending_since.sql", true ) );
 			$du->addExtensionUpdate( array( 'addField',
-				'flaggedpage_config', 'fpc_level', "$base/mysql/patch-fpc_level.sql" ) );
+				'flaggedpage_config', 'fpc_level', "$base/mysql/patch-fpc_level.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedpage_pending', "$base/mysql/patch-flaggedpage_pending.sql" ) );
+				'flaggedpage_pending', "$base/mysql/patch-flaggedpage_pending.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs_stats', "$base/mysql/patch-flaggedrevs_stats.sql" ) );
+				'flaggedrevs_stats', "$base/mysql/patch-flaggedrevs_stats.sql", true ) );
 		} elseif ( $wgDBtype == 'postgres' ) {
 			// Initial install tables (current schema)
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs', "$base/FlaggedRevs.pg.sql" ) );
+				'flaggedrevs', "$base/FlaggedRevs.pg.sql", true ) );
 			// Updates (in order)...
 			$du->addExtensionUpdate( array( 'addField',
 				'flaggedpage_config', 'fpc_expiry', "TIMESTAMPTZ NULL" ) );
 			$du->addExtensionUpdate( array( 'addIndex',
-				'flaggedpage_config', 'fpc_expiry', "$base/postgres/patch-expiry-index.sql" ) );
+				'flaggedpage_config', 'fpc_expiry', "$base/postgres/patch-expiry-index.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs_promote', "$base/postgres/patch-flaggedrevs_promote.sql" ) );
+				'flaggedrevs_promote', "$base/postgres/patch-flaggedrevs_promote.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedpages', "$base/postgres/patch-flaggedpages.sql" ) );
+				'flaggedpages', "$base/postgres/patch-flaggedpages.sql", true ) );
 			$du->addExtensionUpdate( array( 'addIndex',
-				'flaggedrevs', 'fr_img_sha1', "$base/postgres/patch-fr_img_name.sql" ) );
+				'flaggedrevs', 'fr_img_sha1', "$base/postgres/patch-fr_img_name.sql", true ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs_tracking', "$base/postgres/patch-flaggedrevs_tracking.sql" ) );
+				'flaggedrevs_tracking', "$base/postgres/patch-flaggedrevs_tracking.sql", true ) );
 			$du->addExtensionUpdate( array( 'addIndex',
-				'flaggedpages', 'fp_pending_since', "$base/postgres/patch-fp_pending_since.sql" ) );
+				'flaggedpages', 'fp_pending_since', "$base/postgres/patch-fp_pending_since.sql", true ) );
 			$du->addExtensionUpdate( array( 'addField',
 				'flaggedpage_config', 'fpc_level', "TEXT NULL" ) );
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedpage_pending', "$base/postgres/patch-flaggedpage_pending.sql" ) );
+				'flaggedpage_pending', "$base/postgres/patch-flaggedpage_pending.sql", true ) );
 			// @TODO: PG stats table???
 		} elseif ( $wgDBtype == 'sqlite' ) {
 			$du->addExtensionUpdate( array( 'addTable',
-				'flaggedrevs', "$base/FlaggedRevs.sql" ) );
+				'flaggedrevs', "$base/FlaggedRevs.sql", true ) );
 		}
 		return true;
 	}

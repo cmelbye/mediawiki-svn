@@ -253,10 +253,12 @@ $messages['bs'] = array(
 );
 
 /** Catalan (Català)
+ * @author El libre
  * @author Solde
  */
 $messages['ca'] = array(
 	'article-comments-title-string' => 'títol',
+	'article-comments-name-string' => 'Nom',
 	'article-comments-name-field' => 'Nom (requerit):',
 	'article-comments-url-field' => 'Pàgina web:',
 	'article-comments-url-string' => 'URL',
@@ -264,6 +266,10 @@ $messages['ca'] = array(
 	'article-comments-comment-field' => 'Comentari:',
 	'article-comments-submit-button' => 'Tramet',
 	'article-comments-leave-comment-link' => 'Deixa un comentari ...',
+	'article-comments-required-field' => 'El camp "$1" és obligatori.',
+	'article-comments-comment-missing-name-parameter' => 'Falta el nom',
+	'article-comments-comment-missing-date-parameter' => 'Falta la data del comentari',
+	'processcomment' => "Processa el comentari a l'article",
 );
 
 /** Czech (Česky)
@@ -1318,6 +1324,15 @@ $messages['shi'] = array(
 	'article-comments-commenter-said' => '$1 inna',
 	'article-comments-summary' => 'Aɣfawal (awnit) llid yiwi  $1 - z dar  usiɣzif iwnitn n imlan',
 	'article-comments-submission-succeeded' => 'Afuḍ n iwnit (aɣfawal)  issufɣ',
+	'article-comments-submission-success' => 'Tuznt mzyan aɣfawal f « [[$1]] »',
+	'article-comments-submission-view-all' => 'Tzḍart adark ilin iɣfawaln kullutn f umla yad [[$1|ɣid]]',
+	'article-comments-user-is-blocked' => 'Amiḍan (compte) nk iqn f tirra d uẓṛig ɣ  « [[$1]] ».',
+	'article-comments-comment-bad-mode' => 'Askar lli tkfit i uɣfawal urt igi. 
+Iskarn lli illan gan "plain", "normal" d "wiki".',
+	'article-comments-comment-missing-name-parameter' => 'Assaɣ ur illin',
+	'article-comments-comment-missing-date-parameter' => 'Asakud n uɣfawal lli ur illan',
+	'article-comments-no-spam' => 'yan iɣd uggar n nigran llin illan iga gar igr (spam)',
+	'processcomment' => 'Askr n uɣfawal f umla',
 );
 
 /** Slovenian (Slovenščina)

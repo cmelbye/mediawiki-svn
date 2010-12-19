@@ -1824,7 +1824,7 @@ Sie kann auch zur Erstellung neuer und Löschung alter Meldungen verwendet werde
 	'centralnotice-notice-name' => 'Name der Notiz',
 	'centralnotice-end-date' => 'Enddatum',
 	'centralnotice-enabled' => 'Aktiviert',
-	'centralnotice-modify' => 'OK',
+	'centralnotice-modify' => 'Speichern',
 	'centralnotice-save-banner' => 'Vorlage speichern',
 	'centralnotice-preview' => 'Vorschau',
 	'centralnotice-add-new' => 'Füge eine neue zentrale Meldung hinzu',
@@ -2631,6 +2631,8 @@ Samuti saab sellega teateid lisada või vanu teateid eemaldada.',
 	'centralnotice-add-template' => 'Lisa mall',
 	'centralnotice-show-notices' => 'Näita teateid',
 	'centralnotice-list-templates' => 'Mallide list',
+	'centralnotice-multiple' => 'Mitmed ($1)',
+	'centralnotice-all-projects' => 'Kõik projektid',
 	'centralnotice-translations' => 'Tõlked',
 	'centralnotice-translate-to' => 'Tõlgi',
 	'centralnotice-translate' => 'Tõlgi',
@@ -2935,6 +2937,7 @@ $messages['fa'] = array(
  * @author Nike
  * @author Olli
  * @author Tarmo
+ * @author Tofu II
  */
 $messages['fi'] = array(
 	'centralnotice' => 'Keskitettyjen tiedotteiden ylläpito',
@@ -3053,6 +3056,7 @@ Lisää alapuolella sellainen',
 	'centralnotice-allocation' => 'Jakaminen',
 	'centralnotice-view-allocation' => 'Näytä bannerin jakaminen',
 	'centralnotice-allocation-instructions' => 'Valitse ympäristö, jossa haluaisit nähdä bannerin jakamisen:',
+	'centralnotice-languages' => 'Kielet',
 	'centralnotice-country' => 'Maa',
 	'centralnotice-no-allocation' => 'Ei kohdistettuja bannereita.',
 	'centralnotice-allocation-description' => 'Bannerin kohdistus $1.$2 maassa $3:',
@@ -3791,9 +3795,16 @@ $messages['he'] = array(
 
 /** Hindi (हिन्दी)
  * @author Kaustubh
+ * @author Suman
  */
 $messages['hi'] = array(
 	'centralnotice-desc' => 'सेंट्रल साईटनोटिस बढ़ायें',
+	'centralnotice-day' => 'दिन',
+	'centralnotice-year' => 'सन',
+	'centralnotice-month' => 'माह',
+	'centralnotice-hours' => 'घंटा',
+	'centralnotice-min' => 'मिनट',
+	'centralnotice-project-lang' => 'परियोजना भाषा',
 );
 
 /** Croatian (Hrvatski)
@@ -10317,6 +10328,7 @@ $messages['yue'] = array(
  * @author Chenxiaoqino
  * @author Chenzw
  * @author Gzdavidwong
+ * @author Hydra
  * @author Kuailong
  * @author Liangent
  * @author PhiLiP
@@ -10348,6 +10360,7 @@ $messages['zh-hans'] = array(
 	'centralnotice-show-notices' => '显示通告',
 	'centralnotice-list-templates' => '列出模板',
 	'centralnotice-multiple' => '较多($1)',
+	'centralnotice-all-projects' => '所有项目',
 	'centralnotice-translations' => '翻译',
 	'centralnotice-translate-to' => '翻译到',
 	'centralnotice-translate' => '翻译',
@@ -10435,6 +10448,8 @@ $messages['zh-hans'] = array(
 	'centralnotice-allocation' => '配额',
 	'centralnotice-view-allocation' => '察看横幅配额',
 	'centralnotice-allocation-instructions' => '选择你想察看横幅配额的环境',
+	'centralnotice-languages' => '语言',
+	'centralnotice-projects' => '项目',
 	'centralnotice-country' => '国家',
 	'centralnotice-no-allocation' => '没有配给横幅',
 	'centralnotice-percentage' => '百分比',

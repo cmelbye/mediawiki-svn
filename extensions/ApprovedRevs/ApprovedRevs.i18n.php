@@ -149,6 +149,14 @@ $messages['be-tarask'] = array(
 	'right-viewlinktolatest' => 'прагляд тлумачальнага тэксту ў версе старонак, якія маюць зацьверджаныя вэрсіі',
 );
 
+/** Bulgarian (Български)
+ * @author DCLXVI
+ */
+$messages['bg'] = array(
+	'approvedrevs-viewlatest' => 'Преглед на най-скорошната редакция.',
+	'approvedrevs' => 'Одобрени редакции',
+);
+
 /** Breton (Brezhoneg)
  * @author Fulup
  * @author Y-M D
@@ -215,6 +223,23 @@ Umjesto toga, bit će prikazana prazna stranica.',
 	'approvedrevs-difffromlatest' => 'razl od posljednje',
 	'right-approverevisions' => 'Postavi određenu reviziju wiki stranice kao odobrenu',
 	'right-viewlinktolatest' => 'Vidi tekst objašnjenja na vrhu stranica koje imaju odobrenu reviziju',
+);
+
+/** Catalan (Català)
+ * @author El libre
+ */
+$messages['ca'] = array(
+	'approvedrevs-approve' => 'aprova',
+	'approvedrevs-unapprove' => 'desaprova',
+	'approvedrevs-viewlatest' => 'Veure revisió més recent.',
+	'approvedrevs-blankpageshown' => 'Cap revisió ha estat aprovat per aquesta pàgina.',
+	'approvedrevs' => 'Revisions aprovades',
+	'approvedrevs-approvedpages' => 'Totes les pàgines amb una revisió aprovada',
+	'approvedrevs-unapprovedpages' => 'Pàgines no aprovades',
+	'approvedrevs-view' => 'Veure:',
+	'approvedrevs-revisionnumber' => 'revisió $1',
+	'approvedrevs-approvedby' => 'aprovat per $1 el $2',
+	'approvedrevs-difffromlatest' => 'difereix del darrer',
 );
 
 /** Czech (Česky) */
@@ -319,6 +344,7 @@ $messages['el'] = array(
  * @author Yekrats
  */
 $messages['eo'] = array(
+	'approvedrevs-desc' => 'Marki solan revizion de paĝo kiel aprobita',
 	'approvedrevs-logname' => 'Protokolo pri aprobado de revizioj',
 	'approvedrevs-logdesc' => 'Jen protokolo de revizioj aprobitaj.',
 	'approvedrevs-approve' => 'aprobi',
@@ -332,9 +358,16 @@ Anstataŭe, nula paĝo estos montrita.',
 	'approvedrevs-unapproveaction' => 'malestabli apbrobitan revizion por "[[$1]]"',
 	'approvedrevs-notlatest' => 'Jen la aprobita revizio de ĉi tiu paĝo; ĝi ne estas la plej lastatempa.',
 	'approvedrevs-approvedandlatest' => 'Jen la aprobita revizio de ĉi tiu paĝo, kaj ankaŭ estis la plej lastatempa.',
+	'approvedrevs-viewlatest' => 'Vidi plej lastan revizion.',
+	'approvedrevs-blankpageshown' => 'Neniu revizio estis aprobita por ĉi tiu paĝo.',
+	'approvedrevs' => 'Aprobitaj revizioj',
 	'approvedrevs-approvedpages' => 'Aprobitaj paĝoj',
-	'approvedrevs-notlatestpages' => 'Jen la aprobita revizio de ĉi tiu paĝo; ĝi ne estas la plej lastatempa.',
+	'approvedrevs-notlatestpages' => 'Paĝoj kies aprobita revizio ne estas la plej lasta.',
 	'approvedrevs-unapprovedpages' => 'Malaprobitaj paĝoj',
+	'approvedrevs-view' => 'Vidi:',
+	'approvedrevs-revisionnumber' => 'revizio $1',
+	'approvedrevs-approvedby' => 'aprobita de $1 je $2',
+	'approvedrevs-difffromlatest' => 'Diferenco de la lasta revizio',
 );
 
 /** Spanish (Español)

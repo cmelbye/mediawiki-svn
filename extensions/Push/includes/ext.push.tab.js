@@ -12,19 +12,51 @@
 	if ( typeof mediaWiki === 'undefined' ) {
 		mediaWiki = new Object();
 		
-		mediaWiki.msg = function( message ) {
-			return window.wgPushMessages[message];
+		mediaWiki.msg = function() {
+			message = window.wgPushMessages[arguments[0]];
+			
+			for ( var i = arguments.length - 1; i > 0; i-- ) {
+				message = message.replace( '$' + i, arguments[i] );
+			}
+			
+			return message;
 		}
 	}
+	
+	var pages;
+	var imageRequestMade = false;
+	var images = false;
+	var imagePushRequests = [];
+	
+	$.each($(".push-button"), function(i,v) {
+		getRemoteArticleInfo( $(v).attr( 'targetid' ), $(v).attr( 'pushtarget' ) );
+	});	
 	
 	$('.push-button').click(function() {
 		this.disabled = true;
 		this.innerHTML = mediaWiki.msg( 'push-button-pushing' );
 		
-		getLocalArtcileAndContinue(
+		var errorDiv = $( '#targeterrors' + $(this).attr( 'targetid' ) );
+		errorDiv.fadeOut( 'fast' );			
+		
+		if ( $('#checkIncTemplates').attr('checked') ) {
+			pages = window.wgPushTemplates;
+			pages.unshift( $('#pageName').attr('value') );
+		}
+		else {
+			pages = [$('#pageName').attr('value')];
+		}
+		
+		initiatePush(
 			this,
-			$(this).attr( 'pushtarget' )
+			pages,
+			$(this).attr( 'pushtarget' ),
+			$(this).attr( 'targetname' )
 		);
+		
+		if ( $('#checkIncFiles').length != 0 && $('#checkIncFiles').attr('checked') && !imageRequestMade ) {
+			getIncludedImages();
+		}
 	});
 	
 	$('#push-all-button').click(function() {
@@ -35,148 +67,175 @@
 		});
 	});	
 	
-	function getLocalArtcileAndContinue( sender, targetUrl ) {
-		var revId = $('#pushRevId').attr('value');
+	$('#divIncTemplates').hover(
+		function() {
+			$('#txtTemplateList').fadeTo( 
+				( $('#txtTemplateList').css( 'opacity' ) == 0 ? 'slow' : 'fast' ),
+				1
+			);
+		},
+		function() {
+			$('#txtTemplateList').fadeTo( 'fast', 0.5 )
+		}
+	);
+	
+	function getRemoteArticleInfo( targetId, targetUrl ) {
+		$.getJSON(
+			targetUrl + '/api.php?callback=?',
+			{
+				'action': 'query',
+				'format': 'json',
+				'prop': 'revisions',
+				'rvprop': 'timestamp|user|comment',
+				'titles': $('#pageName').attr('value'),
+			},
+			function( data ) {
+				if ( data.query ) {
+					var infoDiv = $( '#targetinfo' + targetId );
+					
+					for ( first in data.query.pages ) break;
+					
+					if ( first == '-1' ) {
+						$( '#targetlink' + targetId ).attr( {'class': 'new'} );
+						var message = mediaWiki.msg( 'push-tab-not-created' );
+					}
+					else {
+						$( '#targetlink' + targetId ).attr( {'class': ''} );
+						
+						var revision = data.query.pages[first].revisions[0];
+						var dateTime = revision.timestamp.split( 'T' );
+
+						var message = mediaWiki.msg(
+							'push-tab-last-edit',
+							revision.user,
+							dateTime[0],
+							dateTime[1].replace( 'Z', '' )
+						);
+					}
+					
+					infoDiv.text( message );
+					infoDiv.fadeIn( 'slow' );
+				}
+			}
+		);
+	}
+	
+	function initiatePush( sender, pages, targetUrl, targetName ) {
+		$.getJSON(
+			wgScriptPath + '/api.php',
+			{
+				'action': 'push',
+				'format': 'json',
+				'page': pages.join( '|' ),
+				'targets': targetUrl
+			},
+			function( data ) {
+				if ( data.error ) {
+					handleError( sender, targetUrl, data.error );
+				}
+				else if ( data.length > 0 && data[0].edit && data[0].edit.captcha ) {
+					handleError( sender, targetUrl, { info: mediaWiki.msg( 'push-err-captacha', targetName ) } );
+				}
+				else {
+					if ( $('#checkIncFiles').length != 0 && $('#checkIncFiles').attr('checked') ) {
+						setButtonToImgPush( sender, targetUrl, targetName );
+					}
+					else {
+						sender.innerHTML = mediaWiki.msg( 'push-button-completed' );
+						setTimeout( function() {reEnableButton( sender, targetUrl, targetName );}, 1000 );
+					}
+				}
+			}
+		); 	
+	}
+	
+	function setButtonToImgPush( button, targetUrl, targetName ) {
+		button.innerHTML = mediaWiki.msg( 'push-button-pushing-files' );
+		imagePushRequests.push( { 'sender': button, 'targetUrl': targetUrl, 'targetName': targetName } );
+		startImagesPush();			
+	}
+	
+	function getIncludedImages() {
+		imageRequestMade = true;
 		
 		$.getJSON(
 			wgScriptPath + '/api.php',
 			{
 				'action': 'query',
+				'prop': 'images',
 				'format': 'json',
-				'prop': 'revisions',
-				'rvprop': 'timestamp|user|comment|content',
-				'titles': $('#pageName').attr('value'),
-				'rvstartid': revId,
-				'rvendid': revId,
+				'titles': pages.join( '|' ), 
 			},
 			function( data ) {
-				if ( data.error ) {
-					handleError( sender, targetUrl, data.error );
-				}
-				else {
-					sender.innerHTML = sender.innerHTML + '.';
-					for (first in data.query.pages) break;
-					doLoginAndContinue( sender, targetUrl, data.query.pages[first] );
-				}
-			}
-		); 		
-	}
-	
-	function doLoginAndContinue( sender, targetUrl, page ) {
-		if ( false ) { // TODO
-			var name = ''; // TODO
-			var password = ''; // TODO			
-			
-			$.post( 
-				targetUrl + '/api.php',
-				{
-					'action': 'login',
-					'format': 'json',
-					'lgname': name,
-					'lgpassword': password,
-				},
-				function( data ) {
-					if ( data.error ) {
-						handleError( sender, targetUrl, data.error );
-					}
-					else {
-						if ( data.login.result == "NeedToken" ) {
-							confirmLoginTokenAndContinue( sender, targetUrl, page, data.login.token, name, password );
-						}
-						else {
-							getEditTokenAndContinue( sender, targetUrl, page );
+				if ( data.query ) {
+					images = [];
+					
+					for ( page in data.query.pages ) {
+						if ( data.query.pages[page].images ) {
+							for ( var i = data.query.pages[page].images.length - 1; i >= 0; i-- ) {
+								if ( $.inArray( data.query.pages[page].images[i].title, images ) == -1 ) {
+									images.push( data.query.pages[page].images[i].title );
+								}
+							}							
 						}
 					}
-				}
-			);				
-		}
-		else {
-			getEditTokenAndContinue( sender, targetUrl, page );
-		}
-	}
-	
-	function confirmLoginTokenAndContinue( sender, targetUrl, page, token, name, password ) {
-		$.post( 
-			targetUrl + '/api.php',
-			{
-				'action': 'login',
-				'format': 'json',
-				'lgname': name,
-				'lgpassword': password,
-				'lgtoken': token 
-			},
-			function( data ) {
-				if ( data.error ) {
-					handleError( sender, targetUrl, data.error );
+					
+					startImagesPush();
 				}
 				else {
-					getEditTokenAndContinue( sender, targetUrl, page );
+					alert( mediaWiki.msg( 'push-tab-err-fileinfo' ) );
 				}
 			}
 		);		
 	}
 	
-	function getEditTokenAndContinue( sender, targetUrl, page ) {
-		$.getJSON(
-			targetUrl + '/api.php',
-			{
-				'action': 'query',
-				'format': 'json',
-				'intoken': 'edit',
-				'prop': 'info',
-				'titles': page.title,
-			},
-			function( data ) {
-				if ( data.error ) {
-					handleError( sender, targetUrl, data.error );
-				}
-				else {
-					sender.innerHTML = sender.innerHTML + '.';
-					for (first in data.query.pages) break;
-					doPush( sender, targetUrl, page, data.query.pages[first].edittoken );
-				}
-			}
-		); 
-	}	
-	
-	function doPush( sender, targetUrl, page, token ) {
-		var summary = mediaWiki.msg( 'push-import-revision-message' );
-		summary = summary.replace( '$1', $('#siteName').attr('value') );
-		summary = summary.replace( '$2', page.revisions[0].user );
-		
-		var comment = '';
-		if ( page.revisions[0].comment ) {
-			comment = mediaWiki.msg( 'push-import-revision-comment' );
-			comment = comment.replace( '$1', page.revisions[0].comment );
+	function startImagesPush() {
+		if ( images !== false ) {
+			var req;
+			while ( req = imagePushRequests.pop() ) {
+				initiateImagePush( req.sender, req.targetUrl, req.targetName );
+			}			
 		}
-		
-		summary = summary.replace( '$3', comment );
-		
-		$.post( 
-			targetUrl + '/api.php',
-			{
-				'action': 'edit',
-				'format': 'json',
-				'token': token,
-				'title': page.title,
-				'summary': summary,
-				'text': page.revisions[0].*
-			},
-			function( data ) {
-				if ( data.error ) {
-					handleError( sender, targetUrl, data.error );
-				}
-				else {
-					sender.innerHTML = mediaWiki.msg( 'push-button-completed' );
-					setTimeout( function() {reEnableButton( sender );}, 1000 );
-				}
-			}
-		);	
 	}
 	
-	function reEnableButton( button ) {
+	function initiateImagePush( sender, targetUrl, targetName ) {
+		$.getJSON(
+			wgScriptPath + '/api.php',
+			{
+				'action': 'pushimages',
+				'format': 'json',
+				'images': images.join( '|' ), 
+				'targets': targetUrl
+			},
+			function( data ) {
+				var fail = false;
+				
+				for ( i in data ) {
+					if ( data[i].error ) {
+						handleError( sender, targetUrl, { info: mediaWiki.msg( 'push-tab-err-filepush', data[i].error.info ) } );
+						fail = true;
+						break;
+					}
+					else if ( !data[i].upload ) {
+						handleError( sender, targetUrl, { info: mediaWiki.msg( 'push-tab-err-filepush-unknown' ) } );
+						fail = true;
+						break;						
+					}
+				}
+
+				if ( !fail ) {
+					sender.innerHTML = mediaWiki.msg( 'push-button-completed' );
+					setTimeout( function() {reEnableButton( sender, targetUrl, targetName );}, 1000 );						
+				}
+			}
+		);			
+	}
+	
+	function reEnableButton( button, targetUrl, targetName ) {
 		button.innerHTML = mediaWiki.msg( 'push-button-text' );
 		button.disabled = false;
+		
+		getRemoteArticleInfo( $(button).attr( 'targetid' ), $(button).attr( 'pushtarget' ) );
 		
 		var pushAllButton = $('#push-all-button');
 		
@@ -194,13 +253,18 @@
 			if ( !hasDisabled ) {
 				pushAllButton.attr( "disabled", false );
 				pushAllButton.text( mediaWiki.msg( 'push-button-all' ) );
-			}
+			}			
 		}
-	}
+	}	
 	
 	function handleError( sender, targetUrl, error ) {
-		alert( error.info );
-		sender.innerHTML = mediaWiki.msg( 'push-button-failed' );		
+		var errorDiv = $( '#targeterrors' + $(sender).attr( 'targetid' ) );
+
+		errorDiv.text( error.info );
+		errorDiv.fadeIn( 'slow' );			
+		
+		sender.innerHTML = mediaWiki.msg( 'push-button-failed' );	
+		setTimeout( function() {reEnableButton( sender );}, 2500 );
 	}
 	
 } ); })(jQuery);

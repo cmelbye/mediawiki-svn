@@ -1265,11 +1265,13 @@ $messages['eu'] = array(
 /** Persian (فارسی)
  * @author Huji
  * @author Ladsgroup
+ * @author Mjbmr
  */
 $messages['fa'] = array(
 	'babel' => 'اطلاعات کاربری بابل',
 	'babel-desc' => 'دستور تجزیه‌گر <code>#babel</code> را اضافه می‌کند که امکان ایجاد خودکار جعبه‌های کاربری بابل با قابلیت گنجاندن الگوهای دلخواه را فراهم می‌کند',
 	'babel-url' => 'Project:بابل',
+	'babel-autocreate-reason' => 'ایجاد خودکار صفحه رده [[$1|بابل]].',
 	'babel-autocreate-text-levels' => 'کاربران این رده توانایی $1 را در زبان $2 دارند',
 	'babel-directionality' => 'rtl',
 	'babel-0' => 'این کاربر [[$2|$3]] را در حد [[$1|نمی‌فهمد]] (یا به سختی می‌فهمد).',
@@ -3792,11 +3794,11 @@ $messages['sh'] = array(
  * @author Dalinanir
  */
 $messages['shi'] = array(
-	'babel' => '↓ Inɣmas Babil f umsqdac',
-	'babel-desc' => 'Zayd awur <code>#babil</code> lli radd immurzm s utumatik yat tanaka (taznbilt) nu umsqdac Babil d mas rad yaf an ig timuḍimin n idɣarn.',
-	'babel-url' => '↓ Project:Babil',
-	'babel-autocreate-abort' => 'Assaɣ n usqdac llin tskcmt ittuyskar bac an ig utumatik tilɣiwin  [[$1|Babil]] d ur ikls (iqqiyd)',
-	'babel-autocreate-reason' => '↓ Askr utumatik n [[$1|Babil]] talɣa .',
+	'babel' => '↓ Inɣmas Babel f umsqdac',
+	'babel-desc' => 'Zayd awur <code>#babel</code> lli radd immurzm s utumatik yat tanaka (taznbilt) nu umsqdac Babil d mas rad yaf an ig timuḍimin n idɣarn.',
+	'babel-url' => 'Project:Babel',
+	'babel-autocreate-abort' => 'Assaɣ n usqdac llin tskcmt ittuyskar bac an ig utumatik tilɣiwin  [[$1|Babel]] d ur ikls (iqqiyd)',
+	'babel-autocreate-reason' => '↓ Askr utumatik n [[$1|Babel]] talɣa .',
 	'babel-autocreate-text-levels' => '↓ Mdn v talɣa yad ar mmaln mas llan ɣ uswir n $1 i tutlayt n $2.',
 	'babel-autocreate-text-main' => ' Imqdacn ɣ talɣa yad ar mlan masd darsn tusna ɣ  tutlayt $1.',
 	'babel-0' => '↓ Amdan ad ur dar n tusna ɣ [[$1|walu]] (niɣd dars tamukrist iggutn ɣ tusna n tutlayt ad)[[$2|$3]].',

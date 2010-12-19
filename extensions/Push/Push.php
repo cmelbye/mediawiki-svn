@@ -3,11 +3,14 @@
 /**
  * Initialization file for the Push extension.
  * 
- * On MediaWiki.org: 		http://www.mediawiki.org/wiki/Extension:Push
+ * Documentation:	 		http://www.mediawiki.org/wiki/Extension:Push
+ * Support					http://www.mediawiki.org/wiki/Extension_talk:Push
  * Source code:             http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/Push
  *
  * @file Push.php
  * @ingroup Push
+ *
+ * @licence GNU GPL v3
  *
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
@@ -22,7 +25,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
-define( 'Push_VERSION', '0.3 alpha' );
+define( 'Push_VERSION', '0.6 alpha' );
 
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
@@ -36,20 +39,25 @@ $wgExtensionCredits['other'][] = array(
 );
 
 $useExtensionPath = version_compare( $wgVersion, '1.16', '>=' ) && isset( $wgExtensionAssetsPath ) && $wgExtensionAssetsPath;
-$egPushScriptPath 	= ( $useExtensionPath ? $wgExtensionAssetsPath : $wgScriptPath . '/extensions' ) . '/Push';
+$egPushScriptPath = ( $useExtensionPath ? $wgExtensionAssetsPath : $wgScriptPath . '/extensions' ) . '/Push';
 $egPushIP = dirname( __FILE__ );
 unset( $useExtensionPath );
 
-$wgExtensionMessagesFiles['Push'] = $egPushIP . '/Push.i18n.php';
-$wgExtensionAliasesFiles['Push'] = $egPushIP . '/Push.alias.php';
+$wgExtensionMessagesFiles['Push'] 			= $egPushIP . '/Push.i18n.php';
+$wgExtensionAliasesFiles['Push'] 			= $egPushIP . '/Push.alias.php';
 
-$wgAutoloadClasses['PushHooks'] = $egPushIP . '/Push.hooks.php';
-$wgAutoloadClasses['PushTab'] = $egPushIP . '/includes/Push_Tab.php';
-$wgAutoloadClasses['PushFunctions'] = $egPushIP . '/includes/Push_Functions.php';
-$wgAutoloadClasses['SpecialPush'] = $egPushIP . '/specials/Push_Body.php';
+$wgAutoloadClasses['PushHooks'] 			= $egPushIP . '/Push.hooks.php';
+$wgAutoloadClasses['ApiPush'] 				= $egPushIP . '/api/ApiPush.php';
+$wgAutoloadClasses['ApiPushImages'] 		= $egPushIP . '/api/ApiPushImages.php';
+$wgAutoloadClasses['PushTab'] 				= $egPushIP . '/includes/Push_Tab.php';
+$wgAutoloadClasses['PushFunctions'] 		= $egPushIP . '/includes/Push_Functions.php';
+$wgAutoloadClasses['SpecialPush'] 			= $egPushIP . '/specials/Push_Body.php';
 
 $wgSpecialPages['Push'] = 'SpecialPush';
 $wgSpecialPageGroups['Push'] = 'pagetools';
+
+$wgAPIModules['push'] = 'ApiPush';
+$wgAPIModules['pushimages'] = 'ApiPushImages';
 
 $wgHooks['UnknownAction'][] = 'PushTab::onUnknownAction';
 $wgHooks['SkinTemplateTabs'][] = 'PushTab::displayTab';
@@ -65,14 +73,23 @@ $egPushJSMessages = array(
 	'push-button-completed',
 	'push-button-failed',
 	'push-import-revision-message',
-	'push-import-revision-comment',
 	'push-button-text',
 	'push-button-all',
-	'push-special-item-getting',
-	'push-special-item-pushing-to',
+	'push-special-item-pushing',
 	'push-special-item-completed',
 	'push-special-item-failed',
 	'push-special-push-done',
+	'push-err-captacha',
+	'push-tab-last-edit',
+	'push-tab-not-created',
+	'push-err-captcha-page',
+	'push-button-pushing-files',
+	'push-special-err-imginfo-failed',
+	'push-special-obtaining-fileinfo',
+	'push-special-pushing-file',
+	'push-tab-err-fileinfo',
+	'push-tab-err-filepush',
+	'push-tab-err-filepush-unknown',
 );
 
 // For backward compatibility with MW < 1.17.
@@ -97,3 +114,4 @@ if ( is_callable( array( 'OutputPage', 'addModules' ) ) ) {
 }
 
 require_once 'Push_Settings.php';
+

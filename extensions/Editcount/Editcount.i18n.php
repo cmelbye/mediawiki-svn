@@ -100,6 +100,8 @@ $messages['arz'] = array(
  */
 $messages['as'] = array(
 	'editcount' => 'সম্পাদনা লেখ',
+	'editcount-desc' => 'সদস্যৰ [[Special:Editcount|সম্পাদনা সংখ্যা]] দেখুৱাওক',
+	'editcount_username' => 'সদস্য',
 	'editcount_submit' => 'দাখিল',
 	'editcount_total' => 'মূঠ',
 );
@@ -1135,10 +1137,15 @@ $messages['sv'] = array(
 	'editcount_total' => 'Total',
 );
 
-/** Swahili (Kiswahili) */
+/** Swahili (Kiswahili)
+ * @author Lloffiwr
+ */
 $messages['sw'] = array(
+	'editcount' => 'Idadi ya maharirio',
+	'editcount-desc' => 'Inonyesha [[Special:Editcount|idadi ya maharirio]] ya mtumiaji',
 	'editcount_username' => 'Mtumiaji:',
 	'editcount_submit' => 'Wasilisha',
+	'editcount_total' => 'Jumla',
 );
 
 /** Silesian (Ślůnski)

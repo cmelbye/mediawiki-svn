@@ -462,6 +462,7 @@ $messages['ba'] = array(
 	'fundraiserstats-tab-averages' => 'Уртаса (USD)',
 	'fundraiserstats-tab-maximums' => 'Иң күптәре (USD)',
 	'fundraiserstats-tab-ytd' => 'Йыл башынан (USD)',
+	'fundraiserstats-instructions' => 'Кәрәкле көн өсөн статистиканы ҡарау өсөн, курсорҙы ошо көндөң бағанаһына килтерегеҙ. Төрлө йылдар өсөн мәғлүмәт төрлө төҫ менән күрһәтелгән.',
 );
 
 /** Belarusian (Беларуская)
@@ -1486,6 +1487,7 @@ $messages['et'] = array(
 	'fundraiserstats-tab-averages' => 'Keskmised (USD)',
 	'fundraiserstats-tab-maximums' => 'Maksimumid (USD)',
 	'fundraiserstats-tab-ytd' => 'Sel aastal (USD)',
+	'fundraiserstats-instructions' => 'Ükskõik millise päeva arvandmete nägemiseks libista kursor üle selle päeva tulba. Iga aasta on graafikul erinevat värvi.',
 );
 
 /** Basque (Euskara)
@@ -3075,6 +3077,7 @@ $messages['lb'] = array(
 	'fundraiserstats-tab-averages' => 'Duerchschnëtt (USD)',
 	'fundraiserstats-tab-maximums' => 'Maximumen (USD)',
 	'fundraiserstats-tab-ytd' => 'Joer-bis-Datum (USD)',
+	'fundraiserstats-instructions' => "Fir d'Statistike fir iergendeen Dag ze gesinn, setzt de Curseur iwwert d'Colonne fir deen Dag. All Joer ass eng aner Faarf am Grafik.",
 );
 
 /** Limburgish (Limburgs)

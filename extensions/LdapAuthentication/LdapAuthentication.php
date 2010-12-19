@@ -165,7 +165,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 			return true;
 		}
 
-		$this->ldapconn = $this->connect();
+		$this->connect();
 		if ( $this->ldapconn ) {
 			$this->printDebug( "Successfully connected", NONSENSITIVE );
 
@@ -204,11 +204,15 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 	 *
 	 * @access private
 	 */
-	function connect() {
+	function connect( $domain='' ) {
 		global $wgLDAPServerNames;
 		global $wgLDAPPort;
 		global $wgLDAPEncryptionType;
 		global $wgLDAPOptions;
+
+		if ( $domain == '' ) {
+			$domain = $_SESSION['wsDomain'];
+		}
 
 		$this->printDebug( "Entering Connect", NONSENSITIVE );
 		
@@ -218,8 +222,8 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 		}
 
 		// If the admin didn't set an encryption type, we default to tls
-		if ( isset( $wgLDAPEncryptionType[$_SESSION['wsDomain']] ) ) {
-			$encryptionType = $wgLDAPEncryptionType[$_SESSION['wsDomain']];
+		if ( isset( $wgLDAPEncryptionType[$domain] ) ) {
+			$encryptionType = $wgLDAPEncryptionType[$domain];
 		} else {
 			$encryptionType = "tls";
 		}
@@ -244,12 +248,12 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 		// Make a space separated list of server strings with the ldap:// or ldaps://
 		// string added.
 		$servers = "";
-		$tmpservers = $wgLDAPServerNames[$_SESSION['wsDomain']];
+		$tmpservers = $wgLDAPServerNames[$domain];
 		$tok = strtok( $tmpservers, " " );
 		while ( $tok ) {
-			if ( isset( $wgLDAPPort[$_SESSION['wsDomain']] ) ) {
-				$this->printDebug( "Using non-standard port: " . $wgLDAPPort[$_SESSION['wsDomain']], SENSITIVE );
-				$servers = $servers . " " . $serverpre . $tok . ":" . $wgLDAPPort[$_SESSION['wsDomain']];
+			if ( isset( $wgLDAPPort[$domain] ) ) {
+				$this->printDebug( "Using non-standard port: " . $wgLDAPPort[$domain], SENSITIVE );
+				$servers = $servers . " " . $serverpre . $tok . ":" . $wgLDAPPort[$domain];
 			} else {
 				$servers = $servers . " " . $serverpre . $tok;
 			}
@@ -264,8 +268,8 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 		ldap_set_option( $this->ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3 );
 		ldap_set_option( $this->ldapconn, LDAP_OPT_REFERRALS, 0 );
 
-		if ( isset( $wgLDAPOptions[$_SESSION['wsDomain']] ) ) {
-			$options = $wgLDAPOptions[$_SESSION['wsDomain']];
+		if ( isset( $wgLDAPOptions[$domain] ) ) {
+			$options = $wgLDAPOptions[$domain];
 			foreach ( $options as $key => $value ) {
 				if ( !ldap_set_option( $this->ldapconn, constant( $key ), $value ) ) {
 					$this->printDebug( "Can't set option to LDAP! Option code and value: " . $key . "=" . $value, 1 );
@@ -708,7 +712,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 
 		$this->email = $user->getEmail();
 		$this->realname = $user->getRealName();
-		$username = $user->getName();
+		$username = strtolower( $user->getName() );
 
 		$pass = $this->getPasswordHash( $password );
 
@@ -718,7 +722,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 
 			$this->userdn = $this->getSearchString( $username );
 			if ( '' == $this->userdn ) {
-				$this->printDebug( "$this->userdn is blank, attempting to use wgLDAPWriteLocation", NONSENSITIVE );
+				$this->printDebug( "userdn is blank, attempting to use wgLDAPWriteLocation", NONSENSITIVE );
 				if ( isset( $wgLDAPWriteLocation[$_SESSION['wsDomain']] ) ) {
 					$this->printDebug( "wgLDAPWriteLocation is set, using that", NONSENSITIVE );
 					$this->userdn = $wgLDAPSearchAttributes[$_SESSION['wsDomain']] . "=" .
@@ -747,7 +751,16 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 			if ( '' != $this->realname ) { $values["cn"] = $this->realname; }
 				else { $values["cn"] = $username; }
 			$values["userpassword"] = $pass;
-			$values["objectclass"] = "inetorgperson";
+			$values["objectclass"] = array( "inetorgperson" );
+
+			$result = true;
+			# Let other extensions modify the user object before creation
+			wfRunHooks( 'LDAPSetCreationValues', array( $this, $username, &$values, &$result ) );
+			if ( ! $result ) {
+				$this->printDebug( "Failed to add user because LDAPSetCreationValues returned false", NONSENSITIVE );
+				@ldap_unbind();
+				return false;
+			}
 
 			if ( isset ( $wgLDAPAuthAttribute[$_SESSION['wsDomain']] ) ) {
 				$values[$wgLDAPAuthAttribute[$_SESSION['wsDomain']]] = "true";
@@ -1047,7 +1060,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 			$this->printDebug( "Created a regular filter: $filter", SENSITIVE );
 		}
 
-		$attributes = array( "*" );
+		$attributes = array( "*", "memberof" );
 		$base = $this->getBaseDN( USERDN );
 
 		$this->printDebug( "Using base: $base", SENSITIVE );
@@ -1080,7 +1093,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 			return $this->userInfo;
 		}
 
-		$entry = @ldap_read( $this->ldapconn, $this->userdn, "objectclass=*" );
+		$entry = @ldap_read( $this->ldapconn, $this->userdn, "objectclass=*", array( '*', 'memberof' ) );
 		$userInfo = @ldap_get_entries( $this->ldapconn, $entry );
 		if ( $userInfo["count"] < 1 ) {
 			$this->fetchedUserInfo = false;
@@ -1113,30 +1126,28 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 			$this->printDebug( "Retrieving preferences", NONSENSITIVE );
 			$prefs = $wgLDAPPreferences[$_SESSION['wsDomain']];
 			foreach ( array_keys( $prefs ) as $key ) {
+				$attr = strtolower( $prefs[$key] );
+				if ( isset( $this->userInfo[0][$attr] ) ) {
+					$value = $this->userInfo[0][$attr][0];
+				} else {
+					continue;
+				}
 				switch ( $key ) {
 					case "email":
-						if ( isset( $this->userInfo[0]["$prefs[$key]"] ) ) {
-							$this->email = $this->userInfo[0]["$prefs[$key]"][0];
-							$this->printDebug( "Retrieved email ($this->email) using attribute ($prefs[$key])", NONSENSITIVE );
-						}
+						$this->email = $value;
+						$this->printDebug( "Retrieved email ($this->email) using attribute ($attr)", NONSENSITIVE );
 						break;
 					case "language":
-						if ( isset( $this->userInfo[0]["$prefs[$key]"] ) ) {
-							$this->lang = $this->userInfo[0][$prefs[$key]][0];
-							$this->printDebug( "Retrieved language ($this->lang) using attribute ($prefs[$key])", NONSENSITIVE );
-						}
+						$this->lang = $value;
+						$this->printDebug( "Retrieved language ($this->lang) using attribute ($attr)", NONSENSITIVE );
 						break;
 					case "nickname":
-						if ( isset( $this->userInfo[0]["$prefs[$key]"] ) ) {
-							$this->nickname = $this->userInfo[0]["$prefs[$key]"][0];
-							$this->printDebug( "Retrieved nickname ($this->nickname) using attribute ($prefs[$key])", NONSENSITIVE );
-						}
+						$this->nickname = $value;
+						$this->printDebug( "Retrieved nickname ($this->nickname) using attribute ($attr)", NONSENSITIVE );
 						break;
 					case "realname":
-						if ( isset( $this->userInfo[0]["$prefs[$key]"] ) ) {
-							$this->realname = $this->userInfo[0]["$prefs[$key]"][0];
-							$this->printDebug( "Retrieved realname ($this->realname) using attribute ($prefs[$key])", NONSENSITIVE );
-						}
+						$this->realname = $value;
+						$this->printDebug( "Retrieved realname ($this->realname) using attribute ($prefs[$key])", NONSENSITIVE );
 						break;
 				}
 			}
@@ -1367,8 +1378,11 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 							}
 						}
 					}
+					$this->printDebug( "Got the following groups:", SENSITIVE, $groups["dn"] );
 
 					$this->userLDAPGroups = $groups;
+				} else {
+					$this->printDebug( "memberOf attribute isn't set", NONSENSITIVE );
 				}
 			} else {
 				$this->printDebug( "Searching for the groups", NONSENSITIVE );
@@ -1752,7 +1766,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 	 * @return string
 	 * @access private
 	 */
-	function getLdapEscapedString ( $string ) {
+	function getLdapEscapedString( $string ) {
 		// Make the string LDAP compliant by escaping *, (, ) , \ & NUL
 		return str_replace(
 			array( "*", "(", ")", "\\", "\x00" ), // replace this
@@ -1768,7 +1782,7 @@ class LdapAuthenticationPlugin extends AuthPlugin {
 	 * @return string
 	 * @access private
 	 */
-	function getBaseDN ( $type ) {
+	function getBaseDN( $type ) {
 		global $wgLDAPBaseDNs, $wgLDAPGroupBaseDNs, $wgLDAPUserBaseDNs;
 
 		$this->printDebug( "Entering getBaseDN", NONSENSITIVE );

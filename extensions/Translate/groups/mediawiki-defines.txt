@@ -113,6 +113,8 @@ ignored = cb_lbracket_op, cb_rbracket_op, cb_ge_op, cb_le_op, cb_eq_op
 Category Intersection
 aliasfile = CategoryIntersection/CategoryIntersection.alias.php
 
+Category Members On Sidebar
+
 Category Multisort
 
 Category Multisort Chinese
@@ -663,6 +665,8 @@ descmsg = lqt-desc
 optional = lqt_rc_ellipsis
 ignored = lqt_header_warning_before_big
 
+Live Translate
+
 Livelets
 
 Localisation Update
@@ -885,7 +889,8 @@ Poem
 Pool Counter
 file = PoolCounter/PoolCounterClient.i18n.php
 
-Post comment
+# Insufficient escaping and other issues
+# Post comment
 
 POV Watch
 file = PovWatch/PovWatch.i18n.php
@@ -1220,6 +1225,8 @@ descmsg = spl3-desc
 
 Sudo
 aliasfile = Sudo/Sudo.alias.php
+
+SVG Edit
 
 SVG Zoom
 ignored = svgzoom

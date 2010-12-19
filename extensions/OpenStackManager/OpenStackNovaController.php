@@ -24,9 +24,10 @@ class OpenStackNovaController {
 		if ( isset( $this->instances[$instanceId] ) && !$reload ) {
 			$instance = $this->instances[$instanceId];
 		} else {
-			$instance = $this->novaConnection->describe_instances( $instanceId );
-			$instance = $instance->body->reservationSet->item;
-			$this->instances["$instance->instancesSet->item->instanceId"] = $instance;
+			$response = $this->novaConnection->describe_instances( $instanceId );
+			$instance = new OpenStackNovaInstance($response->body->reservationSet->item);
+			$instanceId = $instance->getInstanceId();
+			$this->instances["$instanceId"] = $instance;
 		}
 		return $instance;
 	}
@@ -34,10 +35,12 @@ class OpenStackNovaController {
 	function getInstances( $reload = false ) {
 		if ( count( $this->instances ) == 0 || $reload ) {
 			$this->instances = array();
-			$instances = $this->novaConnection->describe_instances();
-			$instances = $instances->body->reservationSet->item;
+			$response = $this->novaConnection->describe_instances();
+			$instances = $response->body->reservationSet->item;
 			foreach ( $instances as $instance ) {
-				$this->instances["$instance->instancesSet->item->instanceId"] = $instance;
+				$instance = new OpenStackNovaInstance($instance);
+				$instanceId = $instance->getInstanceId();
+				$this->instances["$instanceId"] = $instance;
 			}
 		}
 		return $this->instances;
@@ -65,10 +68,12 @@ class OpenStackNovaController {
 	function getKeypairs( $reload = false ) {
 		if ( count( $this->keypairs ) == 0 || $reload ) {
 			$this->keypairs = array();
-			$keypairs = $this->novaConnection->describe_key_pairs();
-			$keypairs = $keypairs->body->keypairsSet->item;
+			$response = $this->novaConnection->describe_key_pairs();
+			$keypairs = $response->body->keypairsSet->item;
 			foreach ( $keypairs as $keypair ) {
-				$this->keypairs["$keypair->keyName"] = $keypair;
+				$keypair = new OpenStackNovaKeypair( $keypair );
+				$keyname = $keypair->getKeyName();
+				$this->keypairs["$keyname"] = $keypair;
 			}
 		}
 		return $this->keypairs;
@@ -88,20 +93,31 @@ class OpenStackNovaController {
 		return $this->availabilityZones;
 	}
 
-	function createInstance( $image, $key, $instanceType, $availabilityZone ) {
+	function createInstance( $instanceName, $image, $key, $instanceType, $availabilityZone ) {
 		# 1, 1 is min and max number of instances to create.
 		# We never want to make more than one at a time.
-		$instance = $this->novaConnection->run_instances($image, 1, 1, array(
+		$response = $this->novaConnection->run_instances($image, 1, 1, array(
 			'KeyName' => $key,
 			'InstanceType' => $instanceType,
 			'Placement.AvailabilityZone' => $availabilityZone,
+			'DisplayName' => $instanceName,
 		));
 
-		$instance = $instance->body->reservationSet->item;
-		$instanceId = $instance->instancesSet->item->instanceId;
+		$instance = new OpenStackNovaInstance( $response->body->reservationSet->item );
+		$instanceId = $instance->getInstanceId();
 		$this->instances["$instanceId"] = $instance;
 
-		return $instanceId;
+		return $instance;
+	}
+
+	function importKeyPair( $keyName, $key ) {
+		$response = $this->novaConnection->import_key_pair( $keyName, $key );
+
+		$keypair = new OpenStackNovaKeypair( $response->body );
+		$keyName = $keypair->getKeyName();
+		$this->keypairs["$keyName"] = $keypair;
+
+		return $keypair;
 	}
 
 }

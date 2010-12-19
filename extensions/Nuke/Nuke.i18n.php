@@ -147,6 +147,7 @@ $messages['ba'] = array(
 	'nuke-submit-user' => 'Үтәргә',
 	'nuke-submit-delete' => 'Һайланғандарҙы юйырға',
 	'right-nuke' => 'Биттәрҙе күпләп юйыу',
+	'nuke-select' => 'Һайланған: $1',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -618,6 +619,7 @@ gib e Kommentar yy un druck uf dr Leschchnopf.',
 	'nuke-submit-user' => 'Hol Lischt',
 	'nuke-submit-delete' => 'Lesche',
 	'right-nuke' => 'Masseleschig vu Syte',
+	'nuke-select' => 'Uuswehle: $1',
 );
 
 /** Manx (Gaelg)
@@ -1365,6 +1367,7 @@ Mitte 'u nome de l'utende o l'indirizze IP pe avè 'n'elenghe de le pàggene de 
 	'nuke-submit-user' => 'Veje',
 	'nuke-submit-delete' => "Scangelle 'a selezione",
 	'right-nuke' => 'Scangellazione de masse de le pàggene',
+	'nuke-select' => 'Scacchie: $1',
 );
 
 /** Russian (Русский)

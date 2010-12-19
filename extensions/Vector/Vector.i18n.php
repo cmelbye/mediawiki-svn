@@ -926,8 +926,8 @@ $messages['ku-latn'] = array(
  */
 $messages['kw'] = array(
 	'vector-collapsiblenav-more' => 'Moy a yethow',
-	'vector-editwarning-warning' => 'Mar pedho\'why gara an folen-ma, why a alja kelly chanjyow eus gwres genowgh.
-Mars owgh why omgelmys, why a ell dialosegy an gwarnyans-ma yn trogh "Chanjya" agas dewisyansow.',
+	'vector-editwarning-warning' => 'Mar qwrewgh whi gara an folen-ma, whi a alja kelly chanjyow eus gwres genowgh.
+Mars owgh whi omgelmys, whi a ell dialosegy an gwarnyans-ma yn trogh "Chanjya" agas dewisyansow.',
 	'vector-editwarning-preference' => 'Gwra ow gwarnya pan von gara folen chanjya gen chanjyow nag eus gwithys',
 	'vector-simplesearch-search' => 'Whilas',
 	'vector-simplesearch-containing' => 'ow sensy...',
@@ -1466,6 +1466,7 @@ Om du är inloggad kan du slå av den här varningen under "Redigering" i dina i
  */
 $messages['sw'] = array(
 	'vector' => 'Mabadiliko ya kuendeleza kusano ya Vector',
+	'vector-desc' => 'Inaboresha kusano kwa ajili ya watumiaji wa umbo la Vector.',
 	'vector-collapsiblenav-preference' => 'Kuwezesha vitu vikunjike katika orodha ya urambazaji, katika umbo la Vector',
 	'vector-collapsiblenav-more' => 'Lugha zingine',
 	'vector-editwarning-warning' => 'Ukitoka kwenye ukurasa huu labda utapoteza madabiliko uliyoyafanya.
@@ -1626,6 +1627,8 @@ Nếu đã đăng nhập, bạn có thể tắt cảnh báo này tại mục “
  */
 $messages['vo'] = array(
 	'vector-collapsiblenav-more' => 'Püks pluik',
+	'vector-simplesearch-search' => 'Suk',
+	'vector-simplesearch-containing' => 'ninädöl...',
 );
 
 /** Mingrelian (მარგალური) */

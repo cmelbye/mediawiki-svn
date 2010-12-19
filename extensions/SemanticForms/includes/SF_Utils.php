@@ -174,9 +174,12 @@ END;
 		$scripts[] = "$sfgScriptPath/libs/jquery-ui/jquery.ui.position.min.js";
 		$scripts[] = "$sfgScriptPath/libs/jquery-ui/jquery.ui.autocomplete.min.js";
 		$scripts[] = "$sfgScriptPath/libs/jquery.fancybox-1.3.1.js";
+		$scripts[] = "$sfgScriptPath/libs/SF_autogrow.js";
 
 		if ( $wgFCKEditorDir )
 			$scripts[] = "$wgScriptPath/$wgFCKEditorDir/fckeditor.js";
+		$scripts[] = "$sfgScriptPath/libs/SemanticForms.js";
+
 		global $wgOut;
 		foreach ( $scripts as $js ) {
 			if ( $parser ) {
@@ -186,12 +189,6 @@ END;
 				$wgOut->addScriptFile( $js );
 			}
 		}
-		// The Semantic Forms custom Javascript needs to be included
-		// at the end of the page, after the relevant HTML elements
-		// have been defined.
-		$js = "$sfgScriptPath/libs/SemanticForms.js";
-		$script = "<script type=\"$wgJsMimeType\" src=\"$js\"></script>\n";
-		$wgOut->addHTML( $script );
 		if ( !$parser )
 			$wgOut->addMeta( 'robots', 'noindex,nofollow' );
 	}
@@ -472,5 +469,14 @@ END;
 
 		$parser->mOutput->setProperty( 'formdefinition', $form_def );
 		return true;
+	}
+
+	/*
+	 * Loads messages only for MediaWiki versions that need it (< 1.16)
+	 */
+	public static function loadMessages() {
+		if ( version_compare( $wgVersion, '1.16', '<' ) ) {
+			wfLoadExtensionMessages( 'SemanticForms' );
+		}
 	}
 }

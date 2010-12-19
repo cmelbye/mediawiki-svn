@@ -198,14 +198,6 @@ var mwSVG = {
 
 svgEditor.addExtension("mediawiki", {
 	callback: function() {
-		// Load up the original file!
-		var filename = mwSVG.config('wgTitle');
-		mwSVG.fetchSVG(filename, function(xmlSource, textStatus, xhr) {
-			svgCanvas.clear();
-			svgCanvas.setSvgString(xmlSource);
-			svgEditor.updateCanvas();
-		});
-
 		// Add save/close buttons...
 		$('body').append('<div id="mw-svgedit-buttons">' +
 			'<button id="mw-svgedit-save"></button>' +
@@ -214,11 +206,13 @@ svgEditor.addExtension("mediawiki", {
 		$('#mw-svgedit-buttons').attr('style', 'position: absolute; top: 4px; right: 4px; text-align: right');
 
 		$('#mw-svgedit-save')
-			.text('Save and close')
+			.text(mediaWiki.msg('svgedit-editor-save-close'))
 			.click(function() {
+				$('#mw-svgedit-spinner').show();
 				var svg = svgCanvas.getSvgString();
 				var comment = "Modified in svg-edit";
 				mwSVG.saveSVG(filename, svg, comment, function(data, textStatus, xhr) {
+					$('#mw-svgedit-spinner').hide();
 					if (data.upload && data.upload.result == "Success") {
 						// refresh parent window
 						window.parent.location = window.parent.location;
@@ -229,7 +223,7 @@ svgEditor.addExtension("mediawiki", {
 			});
 
 		$('#mw-svgedit-close')
-			.text('Cancel')
+			.text(mediaWiki.msg('svgedit-editor-close'))
 			.click(function() {
 				if (window.parent) {
 					window.parent.$('#svg-edit').remove();
@@ -237,6 +231,29 @@ svgEditor.addExtension("mediawiki", {
 					window.close();
 				}
 			});
+
+		// Loading spinner...
+		$('body').append('<div id="mw-svgedit-spinner"></div>')
+		$('#mw-svgedit-spinner')
+			.attr('style', 'position: absolute;' +
+				           'top: 0;' +
+						   'left: 0;' +
+						   'right: 0;' +
+						   'bottom: 0;' +
+						   'background: rgba(0,0,0,0.5)' +
+						   ' url("../images/ajax-loader.gif")' +
+						   ' 50%' +
+						   ' no-repeat;' +
+						   'z-index: 999999')
+
+		// Load up the original file!
+		var filename = mwSVG.config('wgTitle');
+		mwSVG.fetchSVG(filename, function(xmlSource, textStatus, xhr) {
+			svgCanvas.clear();
+			svgCanvas.setSvgString(xmlSource);
+			svgEditor.updateCanvas();
+			$('#mw-svgedit-spinner').hide();
+		});
+
 	}
 });
-

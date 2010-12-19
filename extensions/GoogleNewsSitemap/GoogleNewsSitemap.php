@@ -1,10 +1,10 @@
 <?php
 if ( !defined( 'MEDIAWIKI' ) ) {
-	echo <<<EOT
+    echo <<<EOT
 To install GoogleNewsSitemap extension, an extension special page, put the following line in LocalSettings.php:
 require_once( dirname(__FILE__) . '/extensions/GoogleNewsSitemap/GoogleNewsSitemap.php' );
 EOT;
-	exit( 1 );
+    exit( 1 );
 }
 
 /**
@@ -47,8 +47,8 @@ EOT;
  * FIXME requests
  *  use=Mediawiki:GoogleNewsSitemap_Feedname     Parameter to allow on-site control of feed
  **
- * @file
- * @intogroup Extensions
+ * @addtogroup Extensions
+ *
  * @author Amgine <amgine.saewyc@gmail.com>
  * @copyright Copyright © 2009, Amgine
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
@@ -57,6 +57,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'GoogleNewsSitemap',
 	'author' => 'Amgine',
+	'description' => 'Outputs xml based on defined criteria',
 	'descriptionmsg' => 'gnsm-desc',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:GoogleNewsSitemap',
 );
@@ -65,6 +66,6 @@ $dir = dirname( __FILE__ ) . '/';
 $wgExtensionMessagesFiles['GoogleNewsSitemap'] = $dir . 'GoogleNewsSitemap.i18n.php';
 $wgExtensionAliasesFiles['GoogleNewsSitemap'] = $dir . 'GoogleNewsSitemap.alias.php';
 $wgAutoloadClasses['GoogleNewsSitemap'] = $dir . 'GoogleNewsSitemap_body.php';
-$wgAutoloadClasses['FeedSitemapItem'] = $dir . 'FeedSitemapItem.php';
-$wgAutoloadClasses['SitemapFeed'] = $dir . 'FeedSitemapItem.php';
+$wgAutoloadClasses['FeedSMItem'] = $dir . 'FeedSMItem.php';
+$wgAutoloadClasses['SitemapFeed'] = $dir . 'SitemapFeed.php';
 $wgSpecialPages['GoogleNewsSitemap'] = 'GoogleNewsSitemap';

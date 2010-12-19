@@ -3662,6 +3662,7 @@ Efallai:
 	'lqt_hist_moved_talkpage' => 'Symudwyd',
 	'lqt_hist_listing_subtitle' => 'Yn dangos yr hanes ar restr',
 	'lqt_hist_view_whole_thread' => 'Gweld hanes y trywydd cyfan',
+	'lqt_hist_no_revisions_error' => 'Nid oes gan y trywydd hwn unrhyw hanes diwygio.',
 	'lqt_youhavenewmessages' => 'Mae [[$1|negeseuon newydd]] gennych.',
 	'lqt_subject' => 'Pwnc:',
 	'lqt_noreason' => 'Dim rheswm wedi ei grybwyll.',
@@ -3680,6 +3681,8 @@ Efallai:
 	'lqt-new-messages' => '✒ Mae negeseuon newydd ar gael i chi.',
 	'lqt-history-time' => 'Amser',
 	'lqt-history-user' => 'Defnyddiwr',
+	'lqt-movethread' => 'Symud',
+	'lqt-menu-trigger' => 'Mwy',
 	'lqt-preview-signature' => '(rhagolwg)',
 	'lqt-newmessages-n' => 'Negeseuon newydd ($1)',
 	'lqt_newmessages' => 'Negeseuon newydd',
@@ -5561,6 +5564,8 @@ Allkiri kuvatakse iseenesest.',
 	'lqt-edit-bump-tooltip' => 'Liiguta see lõim arutelulehekülje algusesse',
 	'lqt-historicalrevision-error' => 'Sinu valitud redaktsioon rikutud ja seda ei saa vaadata.',
 	'lqt-reply-subpage' => 'vasta',
+	'nstab-thread' => 'Lõim',
+	'nstab-summary' => 'Kokkuvõte',
 );
 
 /** Basque (Euskara)
@@ -11583,10 +11588,10 @@ $messages['mk'] = array(
 	'lqt-searching' => 'Пребарување на нишки',
 	'lqt-read-message' => 'Означи како прочитано',
 	'lqt-read-message-tooltip' => 'Отстрани ја оваа нишка од новите пораки.
-Сепак ќе биде видлива на оригиналната страница за разговор',
+Сепак ќе биде видлива на изворната страница за разговор',
 	'lqt-read-all' => 'Означи ги сите како прочитани',
 	'lqt-read-all-tooltip' => 'Острани ги сите нишки од новите пораки.
-Тие сепак ќе бидат видливи на нивните оригинални страници за разговор.
+Тие сепак ќе бидат видливи на нивните изворни страници за разговор.
 Оваа операција е неповратна.',
 	'lqt-marked-read' => "Нишката '''$1'''  е означена како причитана.",
 	'lqt-count-marked-read' => '$1 {{PLURAL:$1|порака означена како прочитана|пораки означени како прочитани}}.',
@@ -19129,6 +19134,7 @@ $messages['vo'] = array(
 	'lqt-history-comment' => 'Küpet',
 	'lqt-movethread' => 'Topätükön',
 	'lqt-quote' => 'Saitön',
+	'lqt-search-button' => 'Sukön',
 	'searchprofile-threads' => 'Bespiks',
 	'lqt-change-subject' => 'Votükön yegädi',
 	'lqt-save-subject' => 'Dakipön',
