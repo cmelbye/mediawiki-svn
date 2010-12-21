@@ -1,4 +1,3 @@
-* Make INNER JOIN implicit in Unusedimages?
 * Reuse UncategorizedPages code in UncategorizedImages somehow
 * Make UncategorizedPages parameterized by namespace
 * Run potentially inexpensive queries by Domas

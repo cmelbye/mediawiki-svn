@@ -27,18 +27,21 @@
  * @ingroup SpecialPage
  */
 class UnusedimagesPage extends ImageQueryPage {
-
-	// inexpensive?
-	function isExpensive() { return true; }
-
 	function __construct( $name = 'Unusedimages' ) {
 		parent::__construct( $name );
+	}
+	
+	function isExpensive() {
+		return true;
 	}
 	
 	function sortDescending() {
 		return false;
 	}
-	function isSyndicated() { return false; }
+	
+	function isSyndicated() {
+		return false;
+	}
 
 	function getQueryInfo() {
 		global $wgCountCategorizedImagesAsUsed;
@@ -56,18 +59,15 @@ class UnusedimagesPage extends ImageQueryPage {
 
 		if ( $wgCountCategorizedImagesAsUsed ) {
 			// Order is significant
-			// TODO: Revise query to LEFT JOIN page instead
-			$retval['tables'] = array ( 'page', 'categorylinks',
-					'imagelinks', 'image' );
+			$retval['tables'] = array ( 'image', 'page', 'categorylinks',
+					'imagelinks' );
 			$retval['conds']['page_namespace'] = NS_FILE;
 			$retval['conds'][] = 'cl_from IS NULL';
+			$retval['conds'][] = 'img_name = page_title';
 			$retval['join_conds']['categorylinks'] = array (
 					'LEFT JOIN', 'cl_from = page_id' );
 			$retval['join_conds']['imagelinks'] = array (
 					'LEFT JOIN', 'il_to = page_title' );
-			// TODO: Make this one implicit?
-			$retval['join_conds']['image'] = array (
-					'INNER JOIN', 'img_name = page_title' );
 		}
 		return $retval;
 	}
