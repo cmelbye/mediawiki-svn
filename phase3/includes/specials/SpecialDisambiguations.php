@@ -28,7 +28,7 @@
  */
 class DisambiguationsPage extends PageQueryPage {
 
-	function __construct( $name = 'Disamiguations' ) {
+	function __construct( $name = 'Disambiguations' ) {
 		parent::__construct( $name );
 	}
 

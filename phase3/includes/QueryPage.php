@@ -53,7 +53,7 @@ wfRunHooks( 'wgQueryPages', array( &$wgQueryPages ) );
 
 global $wgDisableCounters;
 if ( !$wgDisableCounters )
-	$wgQueryPages[] = array( 'PopularPagesPage', 'Popularpages'             );
+	$wgQueryPages[] = array( 'PopularPagesPage', 'Popularpages' );
 
 
 /**
