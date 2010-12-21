@@ -48,7 +48,6 @@ class FileDuplicateSearchPage extends QueryPage {
 		return array(
 			'tables' => array( 'image' ),
 			'fields' => array(
-				"'FileDuplicateSearch' AS type",
 				'img_name AS title',
 				'img_sha1 AS value',
 				'img_user_text',
