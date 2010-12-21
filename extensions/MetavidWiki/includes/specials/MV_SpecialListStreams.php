@@ -12,14 +12,6 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-
-/*function doSpecialListStreams($par = null) {
-	list( $limit, $offset ) = wfCheckLimits();
-	$rep = new MV_SpecialListStreams();
-	return $rep->doQuery( $offset, $limit );
-}
-SpecialPage::addPage( new SpecialPage('Mv_List_Streams','',true,'doSpecialListStreams',false) );
-*/
 class MV_SpecialListStreams extends SpecialPage {
 	public function __construct() {
 		parent::__construct( 'Mv_List_Streams' );
@@ -30,12 +22,11 @@ class MV_SpecialListStreams extends SpecialPage {
 		return $rep->doQuery( $offset, $limit );
 	}
 }
-class MV_SpecialQueryStreams extends QueryPage {
-
-	function getName() {
-		return "MV_List_Streams";
+class MV_SpecialListStreams extends QueryPage {
+	public function __construct( $name = 'Mv_List_Streams' ) {
+		parent::__construct( $name );
 	}
-
+	
 	function isExpensive() {
 		return false;
 	}
@@ -47,7 +38,7 @@ class MV_SpecialQueryStreams extends QueryPage {
 	}
 
 	function getQueryInfo() {
-				// $relations = $dbr->tableName( 'smw_relations' );
+		// $relations = $dbr->tableName( 'smw_relations' );
 		// $NSrel = SMW_NS_RELATION;
 		# QueryPage uses the value from this SQL in an ORDER clause.
 		/*return "SELECT 'Relations' as type,
@@ -71,9 +62,14 @@ class MV_SpecialQueryStreams extends QueryPage {
 	}
 
 	function getOrder() {
-		return ' ORDER BY `mv_streams`.`date_start_time` DESC ';
+		return ' ORDER BY date_start_time DESC ';
 			// ($this->sortDescending() ? 'DESC' : '');
 	}
+	
+	function getOrderFields() {
+		return array( 'date_start_time' );
+	}
+	
 	function sortDescending() {
 		return false;
 	}
