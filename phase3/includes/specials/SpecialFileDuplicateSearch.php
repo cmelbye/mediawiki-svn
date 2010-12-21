@@ -44,19 +44,18 @@ class FileDuplicateSearchPage extends QueryPage {
 		return array( 'filename' => $this->filename );
 	}
 
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		$image = $dbr->tableName( 'image' );
-		$hash = $dbr->addQuotes( $this->hash );
-
-		return "SELECT 'FileDuplicateSearch' AS type,
-				img_name AS title,
-				img_sha1 AS value,
-				img_user_text,
-				img_timestamp
-			FROM $image
-			WHERE img_sha1 = $hash
-			";
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'image' ),
+			'fields' => array(
+				"'FileDuplicateSearch' AS type",
+				'img_name AS title',
+				'img_sha1 AS value',
+				'img_user_text',
+				'img_timestamp'
+			),
+			'conds' => array( 'img_sha1' => $this->hash )
+		);
 	}
 
 	function formatResult( $skin, $result ) {
