@@ -148,7 +148,7 @@ class SpecialPage {
 		'Listfiles'                 => array( 'SpecialPage', 'Listfiles' ),
 		'Filepath'                  => 'SpecialFilepath',
 		'MIMEsearch'                => 'MIMEsearchPage',
-		'FileDuplicateSearch'       => array( 'SpecialPage', 'FileDuplicateSearch' ),
+		'FileDuplicateSearch'       => 'FileDuplicateSearchPage',
 		'Upload'                    => 'SpecialUpload',
 		'UploadStash'               => 'SpecialUploadStash',
 
