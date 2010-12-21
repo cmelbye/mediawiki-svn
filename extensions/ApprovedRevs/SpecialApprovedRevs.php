@@ -163,7 +163,7 @@ class SpecialApprovedRevsPage extends QueryPage {
 				'conds' => array( "ar.page_id IS NULL" )
 			);
 		} else { // all approved pages
-						return array(
+			return array(
 				'tables' => array( 'ar' => 'approved_revs', 'p' => 'page' ),
 				'fields' => array(
 					'p.page_id AS id',
