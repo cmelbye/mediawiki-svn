@@ -127,16 +127,34 @@ abstract class QueryPage extends SpecialPage {
 	 * an integer; non-numeric values are useful only for sorting the
 	 * initial query (except if they're timestamps, see usesTimestamps()).
 	 *
-	 * Don't include an ORDER or LIMIT clause, they will be added
+	 * Don't include an ORDER or LIMIT clause, they will be added.
+	 *
+	 * If this function is not overridden or returns something other than
+	 * an array, getSQL() will be used instead. This is for backwards
+	 * compatibility only and is strongly deprecated.
 	 * @return array
+	 * @since 1.18
 	 */
-	abstract function getQueryInfo();
+	function getQueryInfo() {
+		return null;
+	}
+	
+	/**
+	 * For back-compat, subclasses may return a raw SQL query here, as a string.
+	 * This is stronly deprecated; getQueryInfo() should be overridden instead.
+	 * @return string
+	 * @deprecated
+	 */
+	function getSQL() {
+		throw new MWException( "Bug in a QueryPage: doesn't implement getQueryInfo() nor getQuery() properly" );
+	}
 
 	/**
 	 * Subclasses return an array of fields to order by here. Don't append
 	 * DESC to the field names, that'll be done automatically if
-	 * sortDescending() returns true
+	 * sortDescending() returns true.
 	 * @return array
+	 * @since 1.18
 	 */
 	function getOrderFields() {
 		return array( 'value' );
@@ -333,25 +351,33 @@ abstract class QueryPage extends SpecialPage {
 				$field .= ' DESC';
 			}
 		}
-		if ( !is_array( @$query['options'] ) ) {
-			$options = array ();
-		}
-		if ( count( $order ) ) {
-			$query['options']['ORDER BY'] = implode( ', ', $order );
-		}
-		if ( $limit !== false ) {
-			$query['options']['LIMIT'] = intval( $limit );
-		}
-		if ( $offset !== false ) {
-			$query['options']['OFFSET'] = intval( $offset );
-		}
+		if ( is_array( $query ) ) {
+			if ( !is_array( @$query['options'] ) ) {
+				$options = array ();
+			}
+			if ( count( $order ) ) {
+				$query['options']['ORDER BY'] = implode( ', ', $order );
+			}
+			if ( $limit !== false ) {
+				$query['options']['LIMIT'] = intval( $limit );
+			}
+			if ( $offset !== false ) {
+				$query['options']['OFFSET'] = intval( $offset );
+			}
 
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( (array)@$query['tables'],
-				(array)@$query['fields'],
-				(array)@$query['conds'], $fname,
-				$query['options'], (array)@$query['join_conds']
-		);
+			$dbr = wfGetDB( DB_SLAVE );
+			$res = $dbr->select( (array)@$query['tables'],
+					(array)@$query['fields'],
+					(array)@$query['conds'], $fname,
+					$query['options'], (array)@$query['join_conds']
+			);
+		} else {
+			// Old-fashioned raw SQL style, deprecated
+			$sql = $this->getSQL();
+			$sql .= ' ORDER BY ' . implode( ', ', $order );
+			$sql = $dbr->limitResult( $sql, $limit, $offset );
+			$res = $dbr->query( $sql );
+		}
 		return $dbr->resultObject( $res );
 	}
 
