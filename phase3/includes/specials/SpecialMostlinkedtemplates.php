@@ -31,16 +31,7 @@
 class MostlinkedTemplatesPage extends QueryPage {
 
 	function __construct() {
-		SpecialPage::__construct( 'Mostlinkedtemplates' );
-	}
-
-	/**
-	 * Name of the report
-	 *
-	 * @return String
-	 */
-	public function getName() {
-		return 'Mostlinkedtemplates';
+		parent::__construct( 'Mostlinkedtemplates' );
 	}
 
 	/**
