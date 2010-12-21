@@ -35,7 +35,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 	}
 	
 	function execute( $par ) {
-		global $wgRequest, $wgContLang, $wgCapitalLinks;
+		global $wgRequest;
 		$this->prefix = Title::capitalize( $wgRequest->getVal( 'prefix', $par ), NS_MAIN );
 		parent::execute( $par );
 	}
@@ -91,8 +91,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 		if ( $this->prefix ) {
 			// TODO: Include namespace so this is indexed
 			$dbr = wfGetDb( DB_SLAVE );
-			$encPrefix = $dbr->escapeLike( $this->prefix );
-			$query['conds'][] = "page_title LIKE '{$encPrefix}%'";
+			$query['conds'][] = 'page_title ' . $dbr->buildLike( $encPrefix, $dbr->anyString() );
 		}
 		return $query;
 	}
