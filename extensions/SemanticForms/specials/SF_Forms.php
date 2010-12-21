@@ -7,27 +7,13 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-class SFForms extends SpecialPage {
-
+class SFForms extends QueryPage {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
-		parent::__construct( 'Forms' );
+	function __construct( $name = 'Forms' ) {
+		parent::__construct( $name );
 		wfLoadExtensionMessages( 'SemanticForms' );
-	}
-
-	function execute( $query ) {
-		$this->setHeaders();
-		list( $limit, $offset ) = wfCheckLimits();
-		$rep = new FormsPage();
-		return $rep->doQuery( $offset, $limit );
-	}
-}
-
-class FormsPage extends QueryPage {
-	function getName() {
-		return "Forms";
 	}
 
 	function isExpensive() { return false; }
