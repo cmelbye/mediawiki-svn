@@ -34,7 +34,7 @@
 class WantedTemplatesPage extends WantedQueryPage {
 
 	function __construct() {
-		SpecialPage::__construct( 'Wantedtemplates' );
+		parent::__construct( 'Wantedtemplates' );
 	}
 
 	function getQueryInfo() {

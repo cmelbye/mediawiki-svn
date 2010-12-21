@@ -31,7 +31,7 @@
 class WantedCategoriesPage extends WantedQueryPage {
 
 	function __construct() {
-		SpecialPage::__construct( 'Wantedcategories' );
+		parent::__construct( 'Wantedcategories' );
 	}
 
 	function getQueryInfo() {

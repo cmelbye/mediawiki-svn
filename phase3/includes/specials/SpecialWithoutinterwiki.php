@@ -31,7 +31,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 	private $prefix = '';
 
 	function __construct() {
-		SpecialPage::__construct( 'Withoutinterwiki' );
+		parent::__construct( 'Withoutinterwiki' );
 	}
 	
 	function execute( $par ) {

@@ -32,7 +32,7 @@
 class WantedFilesPage extends WantedQueryPage {
 
 	function __construct() {
-		SpecialPage::__construct( 'Wantedfiles' );
+		parent::__construct( 'Wantedfiles' );
 	}
 	
 	/**

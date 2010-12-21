@@ -29,7 +29,7 @@
 class WantedPagesPage extends WantedQueryPage {
 	var $nlinks;
 	function __construct( $inc = false, $nlinks = true ) {
-		SpecialPage::__construct( 'Wantedpages' );
+		parent::__construct( 'Wantedpages' );
 		$this->setListoutput( $inc );
 		$this->nlinks = $nlinks;
 	}
