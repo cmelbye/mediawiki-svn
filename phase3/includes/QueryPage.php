@@ -168,6 +168,16 @@ abstract class QueryPage extends SpecialPage {
 		global $wgDisableQueryPages;
 		return $wgDisableQueryPages;
 	}
+	
+	/**
+	 * Is the output of this query cacheable? Non-cacheable expensive pages
+	 * will be disabled in miser mode and will not have their results written
+	 * to the querycache table.
+	 * @return Boolean
+	 */
+	public function isCacheable() {
+		return true;
+	}
 
 	/**
 	 * Whether or not the output of the page in question is retrieved from
@@ -245,7 +255,7 @@ abstract class QueryPage extends SpecialPage {
 		$fname = get_class( $this ) . '::recache';
 		$dbw = wfGetDB( DB_MASTER );
 		$dbr = wfGetDB( DB_SLAVE, array( $this->getName(), __METHOD__, 'vslow' ) );
-		if ( !$dbw || !$dbr ) {
+		if ( !$dbw || !$dbr || !$this->isCacheable() ) {
 			return false;
 		}
 
@@ -339,10 +349,11 @@ abstract class QueryPage extends SpecialPage {
 	}
 
 	function doQuery( $limit, $offset = false ) {
-		if( $this->isCached() )
+		if( $this->isCached() && $this->isCacheable() ) {
 			return $this->fetchFromCache( $limit, $offset );
-		else
+		} else {
 			return $this->reallyDoQuery( $limit, $offset );
+		}
 	}
 	
 	/**
@@ -390,6 +401,12 @@ abstract class QueryPage extends SpecialPage {
 
 		$this->setHeaders();
 		$wgOut->setSyndicated( $this->isSyndicated() );
+		
+		if ( $this->isCached() && !$this->isCacheable() ) {
+			$wgOut->setSyndicated( false );
+			$wgOut->addWikiMsg( 'querypage-disabled' );
+			return 0;
+		}
 
 		// TODO: Use doQuery()
 		//$res = null;

@@ -1606,6 +1606,7 @@ $wgMessageStructure = array(
 		'pager-newer-n',
 		'pager-older-n',
 		'suppress',
+		'querypage-disabled',
 	),
 	'booksources' => array(
 		'booksources',
