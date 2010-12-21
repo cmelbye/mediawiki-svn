@@ -36,11 +36,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 	
 	function execute( $par ) {
 		global $wgRequest, $wgContLang, $wgCapitalLinks;
-		$prefix = $wgRequest->getVal( 'prefix', $par );
-		if( $wgCapitalLinks ) {
-			$prefix = $wgContLang->ucfirst( $prefix );
-		}
-		$this->prefix = $prefix;
+		$this->prefix = Title::capitalize( $wgRequest->getVal( 'prefix', $par ), NS_MAIN );
 		parent::execute( $par );
 	}
 
@@ -100,16 +96,4 @@ class WithoutInterwikiPage extends PageQueryPage {
 		}
 		return $query;
 	}
-
-	function setPrefix( $prefix = '' ) {
-		$this->prefix = $prefix;
-	}
-
-}
-
-function wfSpecialWithoutinterwiki() {
-	global $wgRequest;
-	list( $limit, $offset ) = wfCheckLimits();
-	// Only searching the mainspace anyway
-	$prefix = Title::capitalize( $wgRequest->getVal( 'prefix' ), NS_MAIN );
 }
