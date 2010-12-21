@@ -71,7 +71,7 @@ class WantedPagesPage extends WantedQueryPage {
 				'page AS pg2' => array ( 'LEFT JOIN',
 					'pg2.page_id = pl_from' ) )
 		);
-		// TODO: find and migrate WantedPages::getSQL hook usage
+		// Replacement WantedPages::getSQL
 		wfRunHooks( 'WantedPages::getQueryInfo',
 				array( &$this, &$query ) );
 		return $query;

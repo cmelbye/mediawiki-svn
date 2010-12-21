@@ -1,5 +1,4 @@
 * Make INNER JOIN implicit in Unusedimages?
-* Find and migrate code using WantedPages::getSQL hook
 * Reuse UncategorizedPages code in UncategorizedImages somehow
 * Make UncategorizedPages parameterized by namespace
 * Run potentially inexpensive queries by Domas
