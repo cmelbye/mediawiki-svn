@@ -10,7 +10,7 @@ if(!defined('MEDIAWIKI')) {
 	die(1);
 }
 
-$wgExtensionCredits['other'][] = array(
+$wgExtensionCredits[version_compare($wgVersion, '1.17alpha', '>=') ? 'antispam' : 'other'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'SimpleAntiSpam',
 	'descriptionmsg' => 'simpleantispam-desc',

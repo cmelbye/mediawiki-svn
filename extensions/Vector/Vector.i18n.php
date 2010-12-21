@@ -549,7 +549,7 @@ $messages['fa'] = array(
  */
 $messages['fi'] = array(
 	'vector' => 'Käyttöliittymän parannukset Vectorille',
-	'vector-desc' => 'Parantaa käyttöliittymän osia Vector-ulkonäöstä.',
+	'vector-desc' => 'Parantaa käyttöliittymän osia Vector-ulkoasusta.',
 	'vector-collapsiblenav-preference' => 'Ota käyttöön navigaatiovalikon kohteiden piilottaminen Vector-ulkoasussa',
 	'vector-collapsiblenav-more' => 'Muilla kielillä',
 	'vector-editwarning-warning' => 'Tältä sivulta poistuminen saattaa aiheuttaa kaikkien tekemiesi muutosten katoamisen.
@@ -1408,6 +1408,7 @@ To opozorilo lahko onemogočite v razdelku »Urejanje« svojih nastavitev.',
  * @author Mikullovci11
  */
 $messages['sq'] = array(
+	'vector-collapsiblenav-more' => 'Gjuhët tjera',
 	'vector-simplesearch-search' => 'Kërko',
 	'vector-simplesearch-containing' => 'përmban ...',
 );

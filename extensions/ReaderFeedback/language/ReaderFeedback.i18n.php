@@ -224,6 +224,41 @@ $messages['ast'] = array(
 	'readerfeedback-finished' => '¡Gracies!',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'readerfeedback-desc' => 'Биттәрҙе тикшереү уҡыусыларға категориялар буйынса баһалауҙар рәүешендә баһаламалар ебәрергә мөмкинлек бирә',
+	'readerfeedback' => 'Һеҙ был бит тураһында нимә уйлайһығыҙ?',
+	'readerfeedback-text' => "''Зинһар, түбәндәге битте баһалау өсөн бер аҙ ваҡытығыҙҙы бүлегеҙ. Һеҙҙең баһаламағыҙ бик мөһим һәм беҙгә сайтыбыҙҙы яҡшыртырға ярҙам итә.''",
+	'readerfeedback-reliability' => 'Дөрөҫлөк',
+	'readerfeedback-completeness' => 'Тулылыҡ',
+	'readerfeedback-npov' => 'Битарафлыҡ',
+	'readerfeedback-presentation' => 'Бәйән итеү',
+	'readerfeedback-overall' => 'Дөйөм баһа',
+	'readerfeedback-level-none' => '(һайланмаған)',
+	'readerfeedback-level-0' => 'Насар',
+	'readerfeedback-level-1' => 'Түбән',
+	'readerfeedback-level-2' => 'Уртаса',
+	'readerfeedback-level-3' => 'Яҡшы',
+	'readerfeedback-level-4' => 'Бик шәп',
+	'readerfeedback-submit' => 'Ебәрергә',
+	'readerfeedback-main' => 'Тик эстәлекле биттәр генә баһалана ала.',
+	'readerfeedback-success' => "'''Был битте баһалауығыҙ өсөн рәхмәт!''' ([$2 һөҙөмтәләрҙе ҡарарға]) ([$3 иҫкәрмәләрегеҙ йәки һорауҙарығыҙ бармы?]).",
+	'readerfeedback-voted' => "'''Һеҙ был битте баһалағанһығыҙ инде, буғай''' ([$2 һөҙөмтәләрҙе ҡарарға]) ([$3 иҫкәрмәләрегеҙ йәки һорауҙарығыҙ бармы?]).",
+	'readerfeedback-error' => "'''Был битте баһалау ваҡытында хата килеп сыҡты''' ([$2 һөҙөмтәләрҙе ҡарарға]) ([$3 иҫкәрмәләрегеҙ йәки һорауҙарығыҙ бармы?]).",
+	'readerfeedback-submitting' => 'Ебәреү...',
+	'readerfeedback-finished' => 'Рәхмәт!',
+	'readerfeedback-tagfilter' => 'Билдә:',
+	'readerfeedback-tierfilter' => 'Баһа:',
+	'readerfeedback-tier-high' => 'Юғары',
+	'readerfeedback-tier-medium' => 'Уртаса',
+	'readerfeedback-tier-poor' => 'Түбән',
+	'tooltip-ca-ratinghist' => 'Уҡыусыларҙың бsл биткә баһаһы',
+	'specialpages-group-feedback' => 'Уҡыусылар фекере',
+	'readerfeedback-tt-review' => 'Тикшереүҙе ебәрергә',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -2015,6 +2050,7 @@ $messages['ps'] = array(
  * @author Hamilton Abreu
  * @author Lijealso
  * @author Malafaya
+ * @author Raylton P. Sousa
  * @author Waldir
  */
 $messages['pt'] = array(
@@ -2022,7 +2058,7 @@ $messages['pt'] = array(
 	'readerfeedback' => 'O que acha desta página?',
 	'readerfeedback-text' => "''Por favor, dedique um momento a avaliar esta página. A sua opinião é importante e ajuda-nos a melhorar o ''site''.''",
 	'readerfeedback-reliability' => 'Confiabilidade',
-	'readerfeedback-completeness' => 'Completitude',
+	'readerfeedback-completeness' => 'Abrangência',
 	'readerfeedback-npov' => 'Neutralidade',
 	'readerfeedback-presentation' => 'Apresentação',
 	'readerfeedback-overall' => 'em Geral',
@@ -2053,13 +2089,14 @@ $messages['pt'] = array(
  * @author Giro720
  * @author Hamilton Abreu
  * @author Luckas Blade
+ * @author Raylton P. Sousa
  */
 $messages['pt-br'] = array(
 	'readerfeedback-desc' => 'A validação de páginas permite que os leitores as avaliem, atribuindo-lhes avaliações categóricas',
 	'readerfeedback' => 'O que você acha desta página?',
 	'readerfeedback-text' => "''Por gentileza, dedique um momento para avaliar esta página. Sua opinião é importante e nos ajuda a melhorar o website.''",
 	'readerfeedback-reliability' => 'Confiabilidade',
-	'readerfeedback-completeness' => 'Completeza',
+	'readerfeedback-completeness' => 'Abrangência',
 	'readerfeedback-npov' => 'Neutralidade',
 	'readerfeedback-presentation' => 'Apresentação',
 	'readerfeedback-overall' => 'Em geral',

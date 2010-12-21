@@ -7300,16 +7300,100 @@ $messages['sgs'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Budhajeewa
+ * @author Thameera123
  * @author නන්දිමිතුරු
  */
 $messages['si'] = array(
+	'globalblocking-desc' => 'IP ලිපිනය [[Special:GlobalBlockList|විකියන් කිහිපයකදී අවහිර කිරීමට]] [[Special:GlobalBlock|ඉඩදෙයි]]',
+	'globalblocking-block' => 'IP ලිපිනයක් ගෝලීයව වාරණය කරන්න',
+	'globalblocking-modify-intro' => 'මෙම ගෝලීය අවහිරතාවයේ තත්වය වෙනස් කෙරුමට මෙම ෆෝරමය භාවිතා කළ හැක.',
+	'globalblocking-block-intro' => 'සියළුම විකියන්හීදි IP ලිපිනයක් වාරණය කිරීමට මෙම පිටුව භාවිතා කළ හැක.',
+	'globalblocking-block-reason' => 'හේතුව:',
+	'globalblocking-block-otherreason' => 'වෙනත්/අමතර හේතු:',
+	'globalblocking-block-reasonotherlist' => 'අනෙකුත් හේතුව',
+	'globalblocking-block-reason-dropdown' => '* පොදු වාරණ හේතු
+** විකියන් කිහිපයකදී ස්පෑමීම
+** විකියන් කිහිපයක් අපයෝජනය කිරීම
+** විනාශකාරීත්වය',
+	'globalblocking-block-edit-dropdown' => 'වාරණ හේතූන් සංස්කරණය කරන්න',
+	'globalblocking-block-expiry' => 'කල් ඉකුත්වීම:',
+	'globalblocking-block-expiry-other' => 'අනෙකුත් කල් ඉකුත්වීම් වේලාව',
+	'globalblocking-block-expiry-otherfield' => 'අනෙකුත් වේලාව:',
+	'globalblocking-block-legend' => 'IP ලිපිනයක් ගෝලීයව වාරණය කරන්න',
 	'globalblocking-block-options' => 'විකල්පයන්:',
+	'globalblocking-block-errors' => 'පහත සඳහන් {{PLURAL:$1|හේතුව|හේතූන්}} නිසා වාරණය අසාර්ථක විය:',
+	'globalblocking-block-ipinvalid' => 'ඔබ ඇතුළත් කළ IP ලිපිනය ($1) සදොස්ය. 
+ඔබට පරිශීලක නමක් ඇතුළත් කළ නොහැකි බව සළකන්න!',
+	'globalblocking-block-expiryinvalid' => 'ඔබ ඇතුල් කළ කල් ඉකුතුව ($1) සදොස්ය.',
+	'globalblocking-block-submit' => 'මෙම IP ලිපිනය ගෝලීයව වාරණය කරන්න',
+	'globalblocking-modify-submit' => 'මෙම ගෝලීය වාරණය වෙනස් කරන්න',
+	'globalblocking-block-success' => '$1 IP ලිපිනය සියළුම ව්‍යාපෘතීන්හිදී සාර්ථකව වාරණය කෙරිනි.',
+	'globalblocking-modify-success' => '$1 සඳහා වූ ගෝලීය වාරණය සාර්ථකව වෙනස් කෙරිනි',
+	'globalblocking-block-successsub' => 'සාර්ථකව ගෝලීය වාරණය කෙරිනි',
+	'globalblocking-modify-successsub' => 'සාර්ථකව ගෝලීය වාරණය වෙනස් කෙරිනි',
+	'globalblocking-block-alreadyblocked' => '$1 IP ලිපිනය දැනටම ගෝලීයව වාරණය කර ඇත.
+ඔබට [[Special:GlobalBlockList|ගෝලීය වාරණ ලයිස්තුව]] මගින් දැනට පවතින වාරණය දැකගත හැක,
+එසේ නැතිනම් මෙම ෆෝරමය නැවත එවීමෙන් දැනට පවතින වාරණයේ සැකසුම් වෙනස් කළ හැක.',
+	'globalblocking-block-bigrange' => 'ඔබ දැක්වූ පරාසය ($1) වාරණය සඳහා විශාල වැඩිය.
+ඔබට උපරිම වශයෙන් ලිපින 65,536ක්(/පරාස 16ක්) වාරණය කළ හැක.',
+	'globalblocking-list' => 'ගෝලීයව වාරණය කළ IP ලිපින ලයිස්තුව',
+	'globalblocking-search-legend' => 'ගෝලීය වාරණයක් සඳහා සොයන්න',
 	'globalblocking-search-ip' => 'අන්තර්ජාල ලිපිනය:',
+	'globalblocking-search-submit' => 'වාරණ සඳහා සොයන්න',
+	'globalblocking-list-ipinvalid' => 'ඔබ සෙවූ IP ලිපිනය ($1) සදොස්ය.
+කරුණාකර නිවැරදි IP ලිපිනයක් ඇතුලත් කරන්න.',
+	'globalblocking-search-errors' => 'පහත සඳහන් {{PLURAL:$1|හේතුව|හේතූන්}} නිසා සෙවුම අසාර්ථක විය:',
+	'globalblocking-list-expiry' => 'කල් ඉකුත්වීම $1',
 	'globalblocking-list-anononly' => 'නිර්නාමිකයන් පමණයි',
 	'globalblocking-list-unblock' => 'ඉවත්කරන්න',
+	'globalblocking-list-whitelisted' => 'පෙදෙසිව අක්‍රීය කළේ $1: $2',
 	'globalblocking-list-whitelist' => 'ස්ථානික තත්ත්වය',
+	'globalblocking-list-modify' => 'වෙනස් කරන්න',
+	'globalblocking-list-noresults' => 'ඉල්ලුම් කළ IP ලිපිනය වාරණය කර නැත',
+	'globalblocking-goto-block' => 'IP ලිපිනයක් ගෝලීයව වාරණය කරන්න',
+	'globalblocking-goto-unblock' => 'ගෝලීය වාරණයක් ඉවත් කරන්න',
+	'globalblocking-goto-status' => 'ගෝලීය වාරණයක පෙදෙසි තත්වය වෙනස් කරන්න',
+	'globalblocking-return' => 'ගෝලීය වාරණ ලයිස්තුවට නැවත පිවිසෙන්න',
+	'globalblocking-notblocked' => 'ඔබ ඇතුළත් කළ IP ලිපිනය ($1) ගෝලීයව වාරණය කර නැත',
+	'globalblocking-unblock' => 'ගෝලීය වාරණයක් ඉවත් කරන්න',
+	'globalblocking-unblock-ipinvalid' => 'ඔබ ඇතුළත් කළ IP ලිපිනය ($1) අවලංගු එකකි. 
+ඔබට පරිශීලක නමක් ඇතුළත් කළ නොහැකි බව කරුණාවෙන් සළකන්න.',
+	'globalblocking-unblock-legend' => 'ගෝලීය වාරණයක් ඉවත් කරන්න',
+	'globalblocking-unblock-submit' => 'ගෝලීය වාරණය ඉවත් කරන්න',
 	'globalblocking-unblock-reason' => 'හේතුව:',
+	'globalblocking-unblock-unblocked' => "'''$1''' IP ලිපිනයේ #$2 ගෝලීය වාරණය සාර්ථකව ඉවත් කරන ලදී",
+	'globalblocking-unblock-errors' => 'පහත සඳහන් {{PLURAL:$1|හේතුව|හේතූන්}} නිසා ගෝලීය වාරණය ඉවත් කිරීම අසාර්ථක විය:',
+	'globalblocking-unblock-successsub' => 'ගෝලීය වාරණය සාර්ථකව ඉවත්කරන ලදී',
+	'globalblocking-unblock-subtitle' => 'ගෝලීය වාරණය ඉවත් කරමින්',
+	'globalblocking-unblock-intro' => 'මෙමෙ පෝරමය ඔබට ගෝලීය වාරණයක් ඉවත් කිරීම සඳහා භාවිතා කළ හැකිය.',
+	'globalblocking-whitelist' => 'ගෝලීය වාරණවල පෙදෙසි තත්වය',
+	'globalblocking-whitelist-notapplied' => 'ගෝලීය වාරණ මෙම විකියට අදාළ නැත,
+එබැවින් මෙහි ගෝලීය වාරණවල පෙදෙසි තත්වය වෙනස් කළ නොහැක.',
+	'globalblocking-whitelist-legend' => 'පෙදෙසි තත්වය වෙනස් කරන්න',
 	'globalblocking-whitelist-reason' => 'හේතුව:',
+	'globalblocking-whitelist-status' => 'පෙදෙසි තත්වය:',
+	'globalblocking-whitelist-statuslabel' => '{{SITENAME}} හි ගෝලීය වාරණය අවලංගු කරන්න',
+	'globalblocking-whitelist-submit' => 'පෙදෙසි තත්වය වෙනස් කරන්න',
+	'globalblocking-whitelist-whitelisted' => "{{SITENAME}} හි '''$1''' IP ලිපිනයේ #$2 ගෝලීය වාරණය සාර්ථකව ඉවත් කරන ලදී",
+	'globalblocking-whitelist-dewhitelisted' => "{{SITENAME}} හි '''$1''' IP ලිපිනයේ #$2 ගෝලීය වාරණය සාර්ථකව නැවත සක්‍රීීය කරන ලදී",
+	'globalblocking-whitelist-successsub' => 'පෙදෙසි තත්වය සාර්ථකව වෙනස් විය',
+	'globalblocking-whitelist-nochange' => 'ඔබ මේ වාරණයේ පෙදෙසි තත්වයට වෙනසක් සිදුකර නැත.
+[[Special:GlobalBlockList|ගෝලීය වාරණ ලයිස්තුවට ආපසු යන්න]].',
+	'globalblocking-block-logentry' => '$2 ඉකුත්වීම් කාලයක් සහිතව [[$1]] ගෝලීයව වාරණය කෙරිනි',
+	'globalblocking-block2-logentry' => '[[$1]] ගෝලීයව වාරණය කරනලදී ($2)',
+	'globalblocking-unblock-logentry' => '[[$1]] වෙත පනවා තිබූ ගෝලීය වාරණය ඉවත් කෙරිනි',
+	'globalblocking-modify-logentry' => '[[$1]] වෙත පනවා තිබූ ගෝලීය වාරණය වෙනස් කෙරිනි ($2)',
+	'globalblocking-logentry-noexpiry' => 'කල් ඉකුතුවක් නියම කර නැත',
+	'globalblocking-loglink' => '$1 IP ලිපිනය ගෝලීය වාරණය කෙරිනි ([[{{#Special:GlobalBlockList}}/$1|සම්පූර්ණ විස්තර]]).',
+	'globalblocking-showlog' => 'මෙම IP ලිපිනය මීට පෙර අවහිර කරනු ලැබ ඇත.
+අවහිරි කිරීම් ලඝු සටහන යොමුව සඳහා පහතින් සපයනු ලැබේ:',
+	'globalblocklist' => 'ගෝලීයව වාරණය කළ IP ලිපින ලයිස්තුව',
+	'globalblock' => 'IP ලිපිනයක් ගෝලීයව වාරණය කරන්න',
+	'removeglobalblock' => 'ගෝලීය වාරණයක් ඉවත් කරන්න',
+	'right-globalblock' => 'ගෝලීය වාරණ තනන්න',
+	'right-globalunblock' => 'ගෝලීය වාරණ ඉවත් කරන්න',
+	'right-globalblock-exempt' => 'ගෝලීය වාරණ මගහරින්න',
 );
 
 /** Slovak (Slovenčina)
@@ -7536,6 +7620,22 @@ Dnevnik blokiranja je na voljo spodaj:',
 	'right-globalunblock' => 'Odstranjevanje globalnih blokad',
 	'right-globalblock-whitelist' => 'Onemogočanje globalnih blokad na lokalni ravni',
 	'right-globalblock-exempt' => 'Izmikanje globalnim blokadam',
+);
+
+/** Albanian (Shqip)
+ * @author Mikullovci11
+ */
+$messages['sq'] = array(
+	'globalblocking-block-reason' => 'Arsyeja:',
+	'globalblocking-block-reasonotherlist' => 'Arsye tjetër',
+	'globalblocking-block-expiry-otherfield' => 'Kohë tjetër:',
+	'globalblocking-block-options' => 'Opcionet:',
+	'globalblocking-search-ip' => 'IP Adresë/përdorues',
+	'globalblocking-list-unblock' => 'grise',
+	'globalblocking-list-whitelist' => 'statusi lokal',
+	'globalblocking-list-modify' => 'modifiko',
+	'globalblocking-unblock-reason' => 'Arsyeja:',
+	'globalblocking-whitelist-reason' => 'Arsyeja:',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))
@@ -9010,6 +9110,7 @@ $messages['wuu'] = array(
  * @author פוילישער
  */
 $messages['yi'] = array(
+	'globalblocking-block' => 'בלאקירן גלאבאַליש IP אַדרעס',
 	'globalblocking-block-reason' => 'אורזאַך:',
 	'globalblocking-block-otherreason' => 'אַנדער/נאך א סיבה:',
 	'globalblocking-block-reasonotherlist' => 'אַנדער סיבה',
@@ -9021,8 +9122,16 @@ $messages['yi'] = array(
 	'globalblocking-block-expiry' => 'אויסלאז:',
 	'globalblocking-block-expiry-other' => 'אַנדער אויסלאז צײַט',
 	'globalblocking-block-expiry-otherfield' => 'אַנדער צײַט:',
+	'globalblocking-search-ip' => 'IP אַדרעס:',
+	'globalblocking-list-expiry' => 'אויסלאז $1',
+	'globalblocking-list-unblock' => 'אַראָפּנעמען',
 	'globalblocking-unblock-reason' => 'אורזאַך:',
 	'globalblocking-whitelist-reason' => 'אורזאַך:',
+	'globalblocking-block-logentry' => 'בלאקירט גלאבאַליש "[[$1]]" מיט אן אויסלאז צײַט פֿון $2',
+	'globalblocking-block2-logentry' => 'בלאקירט גלאבאַליש [[$1]] ($2)',
+	'globalblocking-unblock-logentry' => 'אַוועקגענומען גלאבאלע פאַרשפּאַרן פֿון [[$1]]',
+	'globalblocking-logentry-expiry' => 'ביז $1',
+	'globalblocking-logentry-noexpiry' => 'קיין אויסלאז צײַט',
 	'removeglobalblock' => 'אויפהייבן גלאבאלן בלאק',
 );
 

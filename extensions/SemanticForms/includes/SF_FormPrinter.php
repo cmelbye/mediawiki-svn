@@ -559,10 +559,9 @@ class SFFormPrinter {
                   $default_value = $sub_components[1];
                 } elseif ( $sub_components[0] == 'preload' ) {
                   // free text field has special handling
-                  if ( $field_name == 'free text' || $field_name = '<freetext>' ) {
+                  if ( $field_name == 'free text' || $field_name == '<freetext>' ) {
                     $free_text_preload_page = $sub_components[1];
                   } else {
-                    // this variable is not used
                     $preload_page = $sub_components[1];
                   }
                 } elseif ( $sub_components[0] == 'show on select' ) {
@@ -660,9 +659,13 @@ class SFFormPrinter {
             $cur_value = '';
 	  }
 
-          if ( $cur_value == null ) {
-            // set to default value specified in the form, if it's there
-            $cur_value = $default_value;
+          if ( is_null( $cur_value ) ) {
+            if ( $default_value ) {
+              // Set to the default value specified in the form, if it's there.
+              $cur_value = $default_value;
+            } elseif ( $preload_page ) {
+              $cur_value = SFFormUtils::getPreloadedText( $preload_page );
+            }
           }
 
           // if the user is editing a page, and that page contains a call to
@@ -751,7 +754,10 @@ END;
                 if ( count( $cur_value ) == 1 ) {
                   // manually load SMW's message values here, in case they
                   // didn't get loaded before
-                  wfLoadExtensionMessages( 'SemanticMediaWiki' );
+                  global $wgVersion;
+                  if ( version_compare( $wgVersion, '1.16', '<' ) ) {
+                    wfLoadExtensionMessages( 'SemanticMediaWiki' );
+                  }
                   $words_for_false = explode( ',', wfMsgForContent( 'smw_false_words' ) );
                   // for each language, there's a series of words that are
                   // equal to false - get the word in the series that matches
@@ -766,7 +772,10 @@ END;
                   }
                   $cur_value_in_template = $no;
                 } elseif ( count( $cur_value ) == 2 ) {
-                  wfLoadExtensionMessages( 'SemanticMediaWiki' );
+                  global $wgVersion;
+                  if ( version_compare( $wgVersion, '1.16', '<' ) ) {
+                    wfLoadExtensionMessages( 'SemanticMediaWiki' );
+                  }
                   $words_for_true = explode( ',', wfMsgForContent( 'smw_true_words' ) );
                   // get the value in the 'true' series that tends to be "yes",
                   // and go with that one - generally, that's the third word
@@ -1154,7 +1163,9 @@ END;
          $form_text .= SFFormUtils::hiddenFieldHTML( 'partial', 1 );
        } else {
          $free_text = null;
-         $existing_page_content = preg_replace( '/²\{(.*?)\}²/s', '{{\1}}', $existing_page_content );
+         $existing_page_content = preg_replace( array( '/²\{/m','/\}²/m' ),
+           array( '{{','}}' ),
+           $existing_page_content );
          $existing_page_content = preg_replace( '/\{\{\{insertionpoint\}\}\}/', '', $existing_page_content );
        }
     } elseif ( $source_is_page ) {

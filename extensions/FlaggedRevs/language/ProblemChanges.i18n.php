@@ -10,6 +10,7 @@ $messages = array();
 
 $messages['en'] = array(
 	'problemchanges' => 'Tagged pending changes',
+	'problemchanges-list' => 'This page lists [[{{MediaWiki:Validationpage}}|reviewed]] pages having one or more tagged edits awaiting review. A list of valid change tags can be found at [[Special:Tags]].',
 	'problemchanges-legend' => 'List pages with tagged edits pending review',
 	'problemchanges-none' => 'There are currently no pages meeting these criteria',
 	'problemchanges-category' => 'Category:',
@@ -78,6 +79,7 @@ $messages['be'] = array(
  */
 $messages['be-tarask'] = array(
 	'problemchanges' => 'Пазначаныя нерэцэнзаваныя зьмены',
+	'problemchanges-list' => 'На гэтай старонцы пададзены сьпіс [[{{MediaWiki:Validationpage}}|рэцэнзаваных]] старонак, якія маюць адно ці болей рэдагаваньняў, чакаючых рэцэнзіі. Сьпіс дзейных тэгаў зьменаў можна знайсьці на старонцы [[Special:Tags]].',
 	'problemchanges-legend' => 'Сьпіс старонак з пазначанымі рэдагаваньнямі, якія чакаюць рэцэнзаваньня',
 	'problemchanges-none' => 'Зараз няма старонак, якія адпавядаюць гэтым крытэрам',
 	'problemchanges-category' => 'Катэгорыя:',
@@ -113,6 +115,7 @@ $messages['br'] = array(
  */
 $messages['bs'] = array(
 	'problemchanges' => 'Označene promjene na čekanju',
+	'problemchanges-list' => 'Ova stranica prikazuje [[{{MediaWiki:Validationpage}}|pregledane]] stranice koje imaju jednu ili više označenih izmjena koje čekaju provjeru. Spisak valjanih oznaka izmjena se može naći na stranici [[Special:Tags]].',
 	'problemchanges-legend' => 'Spisak stranica sa označenim izmjenama koje čekaju pregled',
 	'problemchanges-none' => 'Trenutno nema stranica koje zadovoljavaju ove kriterije',
 	'problemchanges-category' => 'Kategorija:',
@@ -151,6 +154,7 @@ $messages['cs'] = array(
  */
 $messages['de'] = array(
 	'problemchanges' => 'Gekennzeichnete unmarkierte Änderungen',
+	'problemchanges-list' => 'Diese Spezialseite zeigt [[{{MediaWiki:Validationpage}}|markierte]] Seiten mit einer oder mehreren gekennzeichneten Bearbeitungen, die noch markiert werden müssen. Eine Liste der gültigen Änderungskennzeichen ist auf der Spezialseite [[Special:Tags|Kennzeichen]] verfügbar.',
 	'problemchanges-legend' => 'Liste der Seiten, deren letzte Version noch nicht markiert wurde',
 	'problemchanges-none' => 'Es gibt zurzeit keine Seiten, die diese Kriterien erfüllen.',
 	'problemchanges-category' => 'Kategorie:',
@@ -172,6 +176,8 @@ $messages['diq'] = array(
  */
 $messages['dsb'] = array(
 	'problemchanges' => 'Markěrowane njedocynjone změny',
+	'problemchanges-list' => 'Toś ten bok nalicyjo [[{{MediaWiki:Validationpage}}|pśeglědane]] boki, kótarež maju markěrowane změny, kótarež cakaju na pśeglědanje.
+Lisćina płaśiwych změnowych markow jo w [[Special:Tags]].',
 	'problemchanges-legend' => 'Lisćina bokow z markěrowanymi změnami, kótarež hyšći njejsu pśeglědane',
 	'problemchanges-none' => 'Tuchylu žedne boki njewótpowěduju toś tym kriterijam',
 	'problemchanges-category' => 'Kategorija:',
@@ -295,6 +301,7 @@ $messages['grc'] = array(
  */
 $messages['gsw'] = array(
 	'problemchanges' => 'Markierti hängigi Änderige',
+	'problemchanges-list' => 'Die Spezialsyte zeigt [[{{MediaWiki:Validationpage}}|markierti]] Syte mit eire oder mehrere gchännzeichnte Bearbeitige, wu no mien amrkiert wäre. E Lischt vu dr giltigen Änderigschännzeiche git s uf dr Spezialsyte [[Special:Tags|Chännzeiche]].',
 	'problemchanges-legend' => 'Lischt vu Syte mit markierte Bearbeitige, wu nonig prieft sin',
 	'problemchanges-none' => 'Zur Zyt träffe fir kei Syte die Kriterie zue',
 	'problemchanges-category' => 'Kategorii:',
@@ -306,12 +313,14 @@ $messages['ha'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author DoviJ
  * @author Rotem Liss
  * @author Rotemliss
  */
 $messages['he'] = array(
 	'problemchanges' => 'השינויים הממתינים עם תגיות',
+	'problemchanges-list' => 'הדף הזה מציג רשימה של דפים [[{{MediaWiki:Validationpage}}|בדוקים]] שיש להם עריכה מתויגת אחת או יותר שיש לבדוק. רשימה של תגי שינוי תקינים נמצא בדף [[Special:Tags]].',
 	'problemchanges-legend' => 'רשימת הדפים עם עריכות עם תגיות הממתינות לבדיקה',
 	'problemchanges-none' => 'אין כרגע דפים המתאימים לקריטריונים אלה',
 	'problemchanges-category' => 'קטגוריה:',
@@ -333,6 +342,8 @@ $messages['hr'] = array(
  */
 $messages['hsb'] = array(
 	'problemchanges' => 'Markěrowane njepřepruwowane změny',
+	'problemchanges-list' => 'Tuta strona nalistuje [[{{MediaWiki:Validationpage}}|přepruwowane]] strony, kotrež maja markěrowane změny, kotrež na přepruwowanje čakaja.
+Lisćina płaćiwych změnowych markow je w [[Special:Tags]].',
 	'problemchanges-legend' => 'Lisćina stronow z markěrowanymi změnami, kotrež dyrbja so hišće přepruwować',
 	'problemchanges-none' => 'Strony, kotrež tutym kriterijam wotpowěduja, tuchwilu njejsu',
 	'problemchanges-category' => 'Kategorija:',
@@ -366,6 +377,7 @@ $messages['ia'] = array(
  */
 $messages['id'] = array(
 	'problemchanges' => 'Pemberian label penundaan perubahan',
+	'problemchanges-list' => 'Halaman ini berisi daftar halaman [[{{MediaWiki:Validationpage}}|tertinjau]] yang memiliki satu atau lebih suntingan bertanda menunggu tinjauan. Daftar tag perubahan yang berlaku dapat ditemukan pada [[Special:Tags]].',
 	'problemchanges-legend' => 'Daftarkan halaman dengan suntingan bertag menunggu tinjauan',
 	'problemchanges-none' => 'Saat ini tidak ada halaman yang memenuhi kriteria tersebut',
 	'problemchanges-category' => 'Kategori:',
@@ -478,6 +490,7 @@ $messages['li'] = array(
  */
 $messages['mk'] = array(
 	'problemchanges' => 'Означени промени во исчекување',
+	'problemchanges-list' => 'Оваа страница наведува [[{{MediaWiki:Validationpage}}|прегледани]] страници со едно или повеќе означени уредувања во исчекување на проверка. Список на важечки ознаки за промени ќе најдете на [[Special:Tags]].',
 	'problemchanges-legend' => 'Список на страници со означени уредувања во исчекување на проверка',
 	'problemchanges-none' => 'Моментално нема страници кои ги задоволуваат овие критериуми',
 	'problemchanges-category' => 'Категорија:',
@@ -488,6 +501,7 @@ $messages['mk'] = array(
  */
 $messages['ml'] = array(
 	'problemchanges' => 'റ്റാഗോടെ അവശേഷിക്കുന്ന മാറ്റങ്ങൾ',
+	'problemchanges-list' => 'ഈ താളിൽ [[{{MediaWiki:Validationpage}}|സംശോധന ശേഷം]] ഉണ്ടായ ഒന്നോ അതിലധികമോ ടാഗുകൾ ചേർത്ത് സംശോധനത്തിനായി അവശേഷിക്കുന്ന താളുകൾ നൽകിയിരിക്കുന്നു. സാധുവായ ടാഗുകളുടെ പട്ടിക [[Special:Tags]] എന്ന താളിൽ കാണാവുന്നതാണ്.',
 	'problemchanges-legend' => 'തിരുത്തലുകളിൽ സംശോധനം പ്രതിക്ഷിക്കുന്നവ എന്ന റ്റാഗുള്ള താളുകളുടെ പട്ടിക',
 	'problemchanges-none' => 'ഈ മാനദണ്ഡങ്ങളുമായി ഒത്തു പോകുന്ന താളുകൾ ഒന്നും ഇപ്പോൾ ലഭ്യമല്ല',
 	'problemchanges-category' => 'വർഗ്ഗം:',
@@ -553,6 +567,7 @@ $messages['pdc'] = array(
  */
 $messages['pl'] = array(
 	'problemchanges' => 'Przeglądanie wątpliwych zmian',
+	'problemchanges-list' => 'Na tej stronie znajduje się spis [[{{MediaWiki:Validationpage}}|przejrzanych]] stron, które mają jedną lub więcej oznakowanych edycji czekających na przejrzenie. Listę prawidłowych oznakowań można sprawdzić na stronie [[Special:Tags]].',
 	'problemchanges-legend' => 'Lista stron z oznakowanymi wersjami oczekującymi na przejrzenie',
 	'problemchanges-none' => 'Obecnie nie ma stron spełniających podane kryteria',
 	'problemchanges-category' => 'Kategoria',
@@ -564,6 +579,7 @@ $messages['pl'] = array(
  */
 $messages['pms'] = array(
 	'problemchanges' => 'Modìfiche etichëttà an cors',
+	'problemchanges-list' => "Sta pàgina-sì a lista le pàgine [[{{MediaWiki:Validationpage}}|revisionà]] ch'a l'han un-a o pi modìfiche tichëttà ch'a speto revision. Na lista ëd tichëtte ëd cambiament bon-e as peul trovesse a [[Special:Tags]].",
 	'problemchanges-legend' => 'Lista le pàgine con ëd le revision pendente ëd modìfiche etichëttà',
 	'problemchanges-none' => 'A-i é pa al moment ëd pàgine che a sodisfo sto criteri-sì',
 	'problemchanges-category' => 'Categorìa:',
@@ -583,6 +599,7 @@ $messages['ps'] = array(
  */
 $messages['pt'] = array(
 	'problemchanges' => 'Alterações pendentes que foram assinaladas',
+	'problemchanges-list' => 'Esta página lista as [[{{MediaWiki:Validationpage}}|páginas sujeitas a revisão]] com edições pendentes marcadas com etiquetas de edição. Pode encontrar uma lista da etiquetas de edição válidas em [[Special:Tags]].',
 	'problemchanges-legend' => 'Listar páginas com edições marcadas a aguardar revisão',
 	'problemchanges-none' => 'De momento, não há páginas que satisfaçam estes critérios',
 	'problemchanges-category' => 'Categoria:',
@@ -594,6 +611,7 @@ $messages['pt'] = array(
  */
 $messages['pt-br'] = array(
 	'problemchanges' => 'Alterações pendentes que foram assinaladas',
+	'problemchanges-list' => 'Esta página lista as [[{{MediaWiki:Validationpage}}|páginas sujeitas a revisão]] com uma ou mais edições pendentes marcadas com etiquetas de edição. Você pode encontrar uma lista da etiquetas de edição válidas em [[Special:Tags]].',
 	'problemchanges-legend' => 'Listar páginas com edições assinaladas aguardando revisão',
 	'problemchanges-none' => 'Atualmente não existem páginas que satisfaçam estes critérios',
 	'problemchanges-category' => 'Categoria:',
@@ -627,6 +645,7 @@ $messages['roa-tara'] = array(
  */
 $messages['ru'] = array(
 	'problemchanges' => 'Отмеченные непроверенные изменения',
+	'problemchanges-list' => 'На этой странице перечислены  [[{{MediaWiki:Validationpage}}|проверенные]] страницы, имеющие помеченные правки, ожидающие проверки. Список допустимых меток можно найти на странице [[Special:Tags]].',
 	'problemchanges-legend' => 'Список cтраниц с отмеченными правками, ожидающими проверки',
 	'problemchanges-none' => 'В настоящее время нет отвечающих этим условиям страниц',
 	'problemchanges-category' => 'Категория:',
@@ -668,6 +687,7 @@ $messages['sk'] = array(
  */
 $messages['sl'] = array(
 	'problemchanges' => 'Označene spremembe v teku',
+	'problemchanges-list' => 'Ta stran navaja [[{{MediaWiki:Validationpage}}|{{PLURAL:$1|pregledano|pregledani|pregledane}}]] {{PLURAL:$1|stran, ki ima|strani, ki imata|strani, ki imajo}} eno ali več označenih urejanj, čakajočih na pregled. Seznam veljavnih oznak sprememb je na voljo na [[Special:Tags]].',
 	'problemchanges-legend' => 'Navaja označene strani, ki čakajo na pregled sprememb',
 	'problemchanges-none' => 'Trenutno ni nobene strani, ki bi ustrezala izbranim merilom',
 	'problemchanges-category' => 'Kategorija:',
@@ -799,6 +819,7 @@ $messages['vep'] = array(
  */
 $messages['vi'] = array(
 	'problemchanges' => 'Các thay đổi chưa duyệt được đánh dấu',
+	'problemchanges-list' => 'Đây là [[{{MediaWiki:Validationpage}}|các trang đã duyệt]] có thêm sửa đổi đánh dấu đang chờ duyệt. Xem các thẻ đánh dấu hợp lệ tại [[Special:Tags]].',
 	'problemchanges-legend' => 'Liệt kê các trang có sửa đổi được đánh dấu mà cần được duyệt',
 	'problemchanges-none' => 'Hiện không có trang nào hợp tiêu chuẩn này.',
 	'problemchanges-category' => 'Thể loại:',

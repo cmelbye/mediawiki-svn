@@ -1588,11 +1588,18 @@ $messages['sh'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Budhajeewa
  * @author බිඟුවා
  */
 $messages['si'] = array(
+	'quiz_shuffle' => 'ප්‍රශ්න අනුපිළිවෙල වෙනස් කරන්න',
 	'quiz_colorRight' => 'නිවැරදි',
 	'quiz_colorWrong' => 'වැරදි',
+	'quiz_colorNA' => 'පිළිතුරුදී නැත',
+	'quiz_correction' => 'යොමන්න',
+	'quiz_score' => 'ඔබේ ලකුණ $1 / $2 ය',
+	'quiz_points' => '$1 | {{PLURAL:$2|එක් ලකුණක්|ලකුණු $2 ක්}}',
+	'quiz_reset' => 'ප්‍රත්‍යාරම්භ කරන්න',
 );
 
 /** Slovak (Slovenčina)
@@ -1636,6 +1643,7 @@ $messages['sl'] = array(
 /** Albanian (Shqip)
  * @author Cradel
  * @author Ergon
+ * @author Mikullovci11
  */
 $messages['sq'] = array(
 	'quiz_desc' => 'Lejon krijimin e enigmave',
@@ -1643,7 +1651,12 @@ $messages['sq'] = array(
 	'quiz_shuffle' => 'Përziej pyetjet',
 	'quiz_colorRight' => 'Korrekt',
 	'quiz_colorWrong' => 'Gabim',
+	'quiz_colorNA' => "S'ka përgjigje",
+	'quiz_colorError' => 'Gabim sintakse',
 	'quiz_correction' => 'Dërgo',
+	'quiz_score' => 'Rezultati juaj është $ 1 / $ 2',
+	'quiz_points' => '$1 | {{PLURAL:$2|1 pikë|$2 pikë}}',
+	'quiz_reset' => 'Riktheje',
 );
 
 /** Serbian Cyrillic ekavian (Српски (ћирилица))

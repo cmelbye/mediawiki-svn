@@ -624,6 +624,8 @@ EOT;
 		$countries = countryCodes();
 		$transaction['country_name'] = $countries[$data['country']];
 		$transaction['country_code'] = $data['country'];
+		$transaction['country_name2'] = $countries[$data['country2']];
+		$transaction['country_code2'] = $data['country2'];
 		// put all data into one array
 		$optout = $this->determineOptOut( $data );
 		$data[ 'anonymous' ] = $optout[ 'anonymous' ];
@@ -712,6 +714,8 @@ EOT;
 		$countries = countryCodes();
 		$transaction['country_name'] = $countries[$data['country']];
 		$transaction['country_code'] = $data['country'];
+		$transaction['country_name2'] = $countries[$data['country2']];
+		$transaction['country_code2'] = $data['country2'];
 		// put all data into one array
 		$transaction += array_merge( $data, $responseArray );
 
@@ -1008,6 +1012,15 @@ EOT;
 				'state' => 'CA',
 				'zip' => '94104',
 				'country' => 840,
+				'fname2' => 'Testy',
+				'lname2' => 'Testerson',
+				'street2' => '123 Telegraph Ave.',
+				'city2' => 'Berkeley',
+				'state2' => 'CA',
+				'zip2' => '94703',
+				'country2' => 840,
+				'size' => 'small',
+				'premium_language' => 'es',
 				'card_num' => $card_nums[ $cards[ $card_index ]][ $card_num_index ],
 				'card' => $cards[ $card_index ],
 				'expiration' => date( 'my', strtotime( '+1 year 1 month' ) ),
@@ -1045,7 +1058,16 @@ EOT;
 				'city' => $wgRequest->getText( 'city' ),
 				'state' => $wgRequest->getText( 'state' ),
 				'zip' => $wgRequest->getText( 'zip' ),
-				'country' => $wgRequest->getText( 'country', "840" ),
+				'country' => $wgRequest->getText( 'country' ),
+				'fname2' => $wgRequest->getText( 'fname' ),
+				'lname2' => $wgRequest->getText( 'lname' ),
+				'street2' => $wgRequest->getText( 'street' ),
+				'city2' => $wgRequest->getText( 'city' ),
+				'state2' => $wgRequest->getText( 'state' ),
+				'zip2' => $wgRequest->getText( 'zip' ),
+				'country2' => $wgRequest->getText( 'country' ),
+				'size' => $wgRequest->getText( 'size' ),
+				'premium_language' => $wgRequest->getText( 'premium_language', "en" ),
 				'card_num' => str_replace( ' ', '', $wgRequest->getText( 'card_num' ) ),
 				'card' => $wgRequest->getText( 'card' ),
 				'expiration' => $wgRequest->getText( 'mos' ) . substr( $wgRequest->getText( 'year' ), 2, 2 ),
@@ -1058,7 +1080,7 @@ EOT;
 				'utm_source' => self::getUtmSource(),
 				'utm_medium' => $wgRequest->getText( 'utm_medium' ),
 				'utm_campaign' => $wgRequest->getText( 'utm_campaign' ),
-				// try to honr the user-set language (uselang), otherwise the language set in the URL (language)
+				// try to honor the user-set language (uselang), otherwise the language set in the URL (language)
 				'language' => $wgRequest->getText( 'uselang', $wgRequest->getText( 'language' ) ),
 				'comment-option' => $wgRequest->getText( 'comment-option' ),
 				'comment' => $wgRequest->getText( 'comment' ),

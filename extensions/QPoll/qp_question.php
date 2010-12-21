@@ -7,6 +7,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 abstract class qp_AbstractQuestion {
 
 	var $parser; // an instance of parser from parser tag hook
+	var $ppframe; // an instance of PPFrame (parser context)
 	var $mState = ''; // current state of question parsing (no error)
 	# error message which occured during the question header parsing that will be output later at rendering stage
 	var $headerErrorMessage = 'Unknown error';
@@ -39,12 +40,14 @@ abstract class qp_AbstractQuestion {
 	# Constructor
 	# @public
 	# @param  $parser an instance of parser from parser tag hook
+	# @param  $frame an instance of PPFrame (parser context)
 	# @param  $beingCorrected		boolean
 	# @param  $questionId				the identifier of the question used to gernerate input names
 	# @param  $showResults				poll's showResults (may be overriden in the question)
-	function __construct( &$parser, $beingCorrected, $questionId, $showResults ) {
+	function __construct( &$parser, &$frame, $beingCorrected, $questionId, $showResults ) {
 		global $wgRequest;
 		$this->parser = &$parser;
+		$this->ppframe = &$frame;
 		$this->mRequest = &$wgRequest;
 		$this->mQuestionId = $questionId;
 		$this->mBeingCorrected = $beingCorrected;
@@ -88,7 +91,7 @@ abstract class qp_AbstractQuestion {
 	# @param    $state - sets new question state (note that the 'error' state cannot be changed)
 	function bodyErrorMessage( $msg, $state ) {
 		$prev_state = $this->getState();
-		$this->setState( $state );
+		$this->setState( $state, $msg );
 		# return the message only for the first error occured
 		# (this one has to be short, that's why title attribute is being used)
 		return ( $prev_state == '' ) ? '<span class="proposalerror" title="' . $msg . '">???</span> ' : '';
@@ -180,7 +183,7 @@ abstract class qp_AbstractQuestion {
 				$spanState->cellsLeft = $this->mCategorySpans[ $spanState->id ]['count'];
 				if ( $spanState->cellsLeft < 2 ) {
 					$text = $this->bodyErrorMessage( wfMsg( 'qp_error_too_few_spans' ), 'error' ) . $text;
-					$row[ $catId ][ 'style' ] = QP_CSS_ERROR_STYLE;
+					QP_Renderer::addClass( $row[ $catId ], 'error' );
 				}
 				$spanState->isDrawing = $spanState->cellsLeft != 1 && $spanState->cellsLeft != count( $this->mCategories );
 				# hightlight only spans of count != 1 and count != count(categories)
@@ -214,11 +217,12 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 	# Constructor
 	# @public
 	# @param  $parser an instance of parser from parser tag hook
+	# @param  $frame an instance of PPFrame (parser context)
 	# @param  $type							type of question (taken from DB)
 	# @param  $questionId				the identifier of the question used to gernerate input names
 	# @param  $showResults			poll's showResults (may be overriden in the question)
-	function __construct( &$parser, $type, $questionId, $showResults ) {
-		parent::__construct( $parser, false, $questionId, $showResults );
+	function __construct( &$parser, &$frame, $type, $questionId, $showResults ) {
+		parent::__construct( $parser, $frame, false, $questionId, $showResults );
 		$this->mType = $type;
 	}
 
@@ -259,7 +263,7 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 			$row[] = array( '__tag'=>'td', 0=>"", 'style'=>'border:none;', '__end'=>"\n" );
 		}
 		foreach( $this->mCategories as &$cat ) {
-			$row[] = $this->parser->recursiveTagParse( $cat['name'] );
+			$row[] = $this->parser->recursiveTagParse( $cat['name'], $this->ppframe );
 		}
 		if ( !$this->proposalsFirst ) {
 			// add empty <th> at the end of row to "compensate" proposal text
@@ -277,7 +281,7 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 				$row[] = array( '__tag'=>'td', 0=>"", 'style'=>'border:none;', '__end'=>"\n" );
 			}
 			foreach( $this->mCategorySpans as &$span ) {
-				$row[] = array( "count"=>$span['count'], 0=>$this->parser->recursiveTagParse( $span['name'] ) );
+				$row[] = array( "count"=>$span['count'], 0=>$this->parser->recursiveTagParse( $span['name'], $this->ppframe ) );
 			}
 			if ( !$this->proposalsFirst ) {
 				// add empty <th> at the end of row to "compensate" proposal text
@@ -301,12 +305,12 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 			if ( $this->categoriesStyle != '' ) {
 				qp_Renderer::applyAttrsToRow( $spansRow, array( 'style'=>$this->categoriesStyle ) );
 			}
-			$this->addRow( $spansRow, array( 'class'=>'spans'), 'th', array( 'count'=>$this->spanType, 'name'=>0 ) );
+			$this->addRow( $spansRow, array( 'class'=>'spans' ), 'th', array( 'count'=>$this->spanType, 'name'=>0 ) );
 		}
 		if ( $this->categoriesStyle != '' ) {
 			qp_Renderer::applyAttrsToRow( $catRow, array( 'style'=>$this->categoriesStyle ) );
 		}
-		$this->addRow( $catRow, array( 'class'=>'categories'), 'th', array( 'name'=>0 ) );
+		$this->addRow( $catRow, array( 'class'=>'categories' ), 'th', array( 'name'=>0 ) );
 		foreach ( $this->mProposalText as $proposalId => $text ) {
 			$row = Array();
 			$rawClass = 'proposal';
@@ -320,7 +324,7 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 					$this->renderSpan( $name, $catDesc, $text, $rawClass, $spanState );
 					break;
 				}
-				$row[ $catId ][ 'class' ] = $spanState->className;
+				QP_Renderer::addClass( $row[ $catId ], $spanState->className );
 				if ( $this->showResults['type'] != 0 ) {
 					# there ars some stat in row (not necessarily all cells, because size of question table changes dynamically)
 					$row[ $catId ][ 0 ] = $this->{'addShowResults' . $this->showResults['type']}( $proposalId, $catId );
@@ -328,7 +332,7 @@ class qp_QuestionStats extends qp_AbstractQuestion {
 					$row[ $catId ][ 0 ] = '';
 				}
 			}
-			$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text ) );
+			$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text, $this->ppframe ) );
 			if ( $this->proposalsFirst ) {
 				# first element is proposaltext
 				array_unshift( $row, $text );
@@ -576,12 +580,12 @@ class qp_Question extends qp_AbstractQuestion {
 			if ( $this->categoriesStyle != '' ) {
 				qp_Renderer::applyAttrsToRow( $spansRow, array( 'style'=>$this->categoriesStyle ) );
 			}
-			$this->addRow( $spansRow, array( 'class'=>'spans'), 'th', array( 'count'=>$this->spanType, 'name'=>0 ) );
+			$this->addRow( $spansRow, array( 'class'=>'spans' ), 'th', array( 'count'=>$this->spanType, 'name'=>0 ) );
 		}
 		if ( $this->categoriesStyle != '' ) {
 			qp_Renderer::applyAttrsToRow( $catRow, array( 'style'=>$this->categoriesStyle ) );
 		}
-		$this->addRow( $catRow, array( 'class'=>'categories'), 'th', array( 'name'=>0 ) );
+		$this->addRow( $catRow, array( 'class'=>'categories' ), 'th', array( 'name'=>0 ) );
 	}
 
 	function singleChoiceParseBody() {
@@ -633,7 +637,7 @@ class qp_Question extends qp_AbstractQuestion {
 							$text = $this->bodyErrorMessage( wfMsg( 'qp_error_unanswered_span' ), 'NA' ) . $text;
 							# highlight current span to indicate an error
 							for ( $i = $catId, $j = $this->mCategorySpans[ $spanState->id ]['count']; $j > 0; $i--, $j-- ) {
-								$row[$i][ 'style' ] = QP_CSS_ERROR_STYLE;
+								QP_Renderer::addClass( $row[$i], 'error' );
 							}
 							$rawClass = 'proposalerror';
 						}
@@ -653,7 +657,7 @@ class qp_Question extends qp_AbstractQuestion {
 							$text = $this->bodyErrorMessage( wfMsg( 'qp_error_non_unique_choice' ), 'NA' ) . $text;
 							$rawClass = 'proposalerror';
 							unset( $inp[ 'checked' ] );
-							$row[ $catId ][ 'style' ] = QP_CSS_ERROR_STYLE;
+							QP_Renderer::addClass( $row[ $catId ], 'error' );
 						}
 					} else {
 						$spanState->wasChecked = true;
@@ -664,7 +668,7 @@ class qp_Question extends qp_AbstractQuestion {
 					$this->mProposalCategoryId[ $proposalId ][] = $catId;
 					$this->mProposalCategoryText[ $proposalId ][] = '';
 				}
-				$row[ $catId ][ 'class' ] = $spanState->className;
+				QP_Renderer::addClass( $row[ $catId ], $spanState->className );
 				if ( $this->mSubType == 'unique' ) {
 					# unique (question,category,proposal) "coordinate" for javascript
 					$inp[ 'id' ] = 'uq' . $this->mQuestionId . 'c' . $catId . 'p' . $proposalId;
@@ -673,7 +677,7 @@ class qp_Question extends qp_AbstractQuestion {
 						# if there was no previous errors, hightlight the whole row
 						if ( $this->getState() == '' ) {
 							foreach( $row as &$cell ) {
-								$cell[ 'style' ] = QP_CSS_ERROR_STYLE;
+								QP_Renderer::addClass( $cell, 'error' );
 							}
 						}
 						$text = $this->bodyErrorMessage( wfMsg( 'qp_error_unique' ), 'error' ) . $text;
@@ -695,7 +699,7 @@ class qp_Question extends qp_AbstractQuestion {
 			if( trim( $text ) == '' ) {
 				$text = $this->bodyErrorMessage( wfMsg( 'qp_error_proposal_text_empty' ), 'error' );
 				foreach( $row as &$cell ) {
-					$cell[ 'style' ] = QP_CSS_ERROR_STYLE;
+					QP_Renderer::addClass( $cell, 'error' );
 				}
 				$rawClass = 'proposalerror';
 			}
@@ -704,14 +708,14 @@ class qp_Question extends qp_AbstractQuestion {
 				# if there was no previous errors, hightlight the whole row
 				if ( $this->getState() == '' ) {
 					foreach( $row as &$cell ) {
-						$cell[ 'style' ] = QP_CSS_ERROR_STYLE;
+						QP_Renderer::addClass( $cell, 'error' );
 					}
 				}
 				$text = $this->bodyErrorMessage( wfMsg( 'qp_error_no_answer' ), 'NA' ) . $text;
 				$rawClass = 'proposalerror';
 			}
 			if ( $text !== null ) {
-				$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text ) );
+				$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text, $this->ppframe ) );
 				if ( $this->proposalsFirst ) {
 					# first element is proposaltext
 					array_unshift( $row, $text );
@@ -827,26 +831,38 @@ class qp_Question extends qp_AbstractQuestion {
 					$row[ $catId ][ 0 ] = $inp;
 				}
 			}
-			# If the proposal text is empty, the question has a syntax error.
-			if( trim( $text ) == '' ) {
-				$text = $this->bodyErrorMessage( wfMsg( "qp_error_proposal_text_empty" ), "error" );
-				foreach( $row as &$cell ) {
-					$cell[ 'style' ] = QP_CSS_ERROR_STYLE;
+			try {
+				# if there is only one category defined and it is not a textfield,
+				# the question has a syntax error
+				if ( count( $matches ) < 2 && $matches[0] != '<>' ) {
+					$text = $this->bodyErrorMessage( wfMsg( 'qp_error_too_few_categories' ), 'error' );
+					throw new Exception( 'qp_error' );
 				}
-				$rawClass = 'proposalerror';
-			}
-			# If the proposal was submitted but unanswered
-			if ( $this->mBeingCorrected && !array_key_exists( $proposalId, $this->mProposalCategoryId ) ) {
-				# if there was no previous errors, hightlight the whole row
-				if ( $this->getState() == '' ) {
-					foreach( $row as &$cell ) {
-						$cell[ 'style' ] = QP_CSS_ERROR_STYLE;
+				# If the proposal text is empty, the question has a syntax error.
+				if( trim( $text ) == '' ) {
+					$text = $this->bodyErrorMessage( wfMsg( "qp_error_proposal_text_empty" ), "error" );
+					throw new Exception( 'qp_error' );
+				}
+				# If the proposal was submitted but unanswered
+				if ( $this->mBeingCorrected && !array_key_exists( $proposalId, $this->mProposalCategoryId ) ) {
+					$prev_state = $this->getState();
+					$text = $this->bodyErrorMessage( wfMsg( 'qp_error_no_answer' ), 'NA' ) . $text;
+					# if there was no previous errors, hightlight the whole row
+					if ( $prev_state == '' ) {
+						throw new Exception( 'qp_error' );
 					}
 				}
-				$text = $this->bodyErrorMessage( wfMsg( 'qp_error_no_answer' ), 'NA' ) . $text;
-				$rawClass = 'proposalerror';
+			} catch( Exception $e ) {
+				if ( $e->getMessage() == 'qp_error' ) {
+					foreach( $row as &$cell ) {
+						QP_Renderer::addClass( $cell, 'error' );
+					}
+					$rawClass = 'proposalerror';
+				} else {
+					throw new MWException( $e->getMessage() );
+				}
 			}
-			$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text ) );
+			$text = array( '__tag'=>'td', '__end'=>"\n", 'class'=>'proposaltext', 'style'=>$this->proposalTextStyle, 0=>$this->parser->recursiveTagParse( $text, $this->ppframe ) );
 			if ( $this->proposalsFirst ) {
 				# first element is proposaltext
 				array_unshift( $row, $text );
@@ -910,19 +926,19 @@ class qp_Question extends qp_AbstractQuestion {
 		if ( $curr_elem != '' ) {
 			$categories[] = $curr_elem;
 		}
+		$categories = array_map( 'trim', $categories );
 		# analyze previousely build "raw" categories array
 		# Less than two categories is a syntax error.
-		if ( !array_key_exists( 1, $categories ) ) {
-			$categories[0] .= $this->bodyErrorMessage( wfMsg( "qp_error_too_few_categories" ), "error" );
+		if ( $this->mType != 'mixedChoice' && count( $categories ) < 2 ) {
+			$categories[0] .= $this->bodyErrorMessage( wfMsg( 'qp_error_too_few_categories' ), 'error' );
 		}
 		foreach( $categories as $catkey => $category ) {
-			$category = trim( $category );
 			# If a category name is empty, the question has a syntax error.
-			if( $category == "") {
-				$category = $this->bodyErrorMessage( wfMsg( "qp_error_category_name_empty" ), "error" );
+			if( $category == '' ) {
+				$category = $this->bodyErrorMessage( wfMsg( 'qp_error_category_name_empty' ), 'error' );
 			}
 			$this->mCategories[ $catkey ]["name"] = $category;
-			$row[] = $this->parser->recursiveTagParse( $category );
+			$row[] = $this->parser->recursiveTagParse( $category, $this->ppframe );
 		}
 		
 		# cut unused categories rows which are presented in DB but were removed from article
@@ -1004,7 +1020,10 @@ class qp_Question extends qp_AbstractQuestion {
 			}
 			# fill undefined spans with the last span value
 			$SpanCategDelta = count( $this->mCategories ) - count( $spans[0] );
-			$lastDefinedSpanKey = array_pop( array_diff( array_keys( $spans[1] ), array_keys( $spans[1], "", true ) ) );
+			# temporary var $diff used to avoid warning in E_STRICT mode
+			$diff = array_diff( array_keys( $spans[1] ), array_keys( $spans[1], "", true ) );
+			$lastDefinedSpanKey = array_pop( $diff );
+			unset( $diff );
 			if ($lastDefinedSpanKey !== null) {
 				if ( $SpanCategDelta > 0 ) {
 					# increase the length of last defined span value to match total lenth of categories
@@ -1037,7 +1056,7 @@ class qp_Question extends qp_AbstractQuestion {
 				if ( $spanCategory=="" ) {
 					$colspan++;
 				} else {
-					$row[] = array( "count"=>$colspan + $colspanBase, 0=>$this->parser->recursiveTagParse( $spanCategory ) );
+					$row[] = array( "count"=>$colspan + $colspanBase, 0=>$this->parser->recursiveTagParse( $spanCategory, $this->ppframe ) );
 					if ( $spanType == "|") { // "!" is a comment header, not a real category span
 						$this->mCategorySpans[ $categorySpanId ]['name'] = $spanCategory;
 						$this->mCategorySpans[ $categorySpanId ]['count'] = $colspan;

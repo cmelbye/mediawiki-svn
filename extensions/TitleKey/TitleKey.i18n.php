@@ -57,6 +57,13 @@ $messages['az'] = array(
 	'titlekey-desc' => 'Adın ilk hərflərinə görə ipucu axtarış sürgüsü',
 );
 
+/** Bashkir (Башҡорт)
+ * @author Assele
+ */
+$messages['ba'] = array(
+	'titlekey-desc' => 'Исемдең тәүге хәрефтәре буйынса эҙләү тәҡдимдәре ҡоралы',
+);
+
 /** Southern Balochi (بلوچی مکرانی)
  * @author Mostafadaneshvar
  */
@@ -67,9 +74,10 @@ $messages['bcc'] = array(
 /** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
  * @author EugeneZelenko
  * @author Red Winged Duck
+ * @author Wizardist
  */
 $messages['be-tarask'] = array(
-	'titlekey-desc' => 'Праграмная забесьпячэньне для падказак па першых літарах назвы ў пошуку',
+	'titlekey-desc' => 'Праграмная забесьпячэньне для пошукавых падказак па першых літарах назвы',
 );
 
 /** Breton (Brezhoneg)

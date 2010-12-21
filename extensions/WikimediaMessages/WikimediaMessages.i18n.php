@@ -778,14 +778,15 @@ $messages['arz'] = array(
 );
 
 /** Assamese (অসমীয়া)
+ * @author Chaipau
  * @author Psneog
  * @author Rajuonline
  */
 $messages['as'] = array(
 	'sitesupport' => 'দান-বৰঙনি',
 	'tooltip-n-sitesupport' => 'আমাক সহায় কৰক!',
-	'group-Staff' => 'কর্মীবৃন্দ',
-	'group-Staff-member' => 'কর্মচাৰী',
+	'group-Staff' => 'কৰ্মীবৃন্দ',
+	'group-Staff-member' => 'কৰ্মচাৰী',
 );
 
 /** Asturian (Asturianu)
@@ -2561,9 +2562,9 @@ $messages['el'] = array(
 	'group-inactive' => 'Ανενεργοί χρήστες',
 	'group-inactive-member' => 'Ανενεργός χρήστης',
 	'grouppage-inactive' => '{{ns:project}}:Ανενεργοί χρήστες',
-	'wikimedia-copyright' => 'Όλα τα κείμενα είναι διαθέσιμα υπό την <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.el">Creative Commons Attribution/Share-Alike License</a>· μπορεί να ισχύουν και πρόσθετοι όροι. Δείτε τους <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a> για λεπτομέρειες.',
-	'wikimedia-copyrightwarning' => "Αποθηκεύοντας, συμφωνείτε χωρίς δικαίωμα ανάκλησης την δημοσίευση του υλικού υπό τους όρους της [http://creativecommons.org/licenses/by-sa/3.0/deed.el Creative Commons Attribution/Share-Alike License 3.0] και της [http://www.gnu.org/copyleft/fdl.html GFDL]. Συμφωνείτε να σας αποδίδεται η πατρότητα από τρίτους χρήστες, κατ'ελάχιστο, μέσω ενός υπερσύνδεσμου ή URL προς την σελίδα στην οποία συνεισφέρετε. Δείτε τους [http://wikimediafoundation.org/wiki/Terms_of_Use Όρους Χρήσης] για λεπτομέρειες.",
-	'wikimedia-editpage-tos-summary' => 'Αν δεν θέλετε το κείμενό σας να υποστεί επεξεργασία και να αναδιανεμηθεί κατά βούληση, τότε μην το καταχωρείτε εδώ. Αν δεν το γράψατε ο ίδιος, τότε πρέπει να είναι διαθέσιμο υπό όρους σύμφωνους με τους [http://wikimediafoundation.org/wiki/Terms_of_Use Όρους Χρήσης], και συμφωνείτε να ακολουθήσετε οποιεσδήποτε απαιτήσεις αδειοδότησης.',
+	'wikimedia-copyright' => 'Όλα τα κείμενα είναι διαθέσιμα υπό την <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.el">Creative Commons Attribution/Share-Alike License</a>· μπορεί να ισχύουν και πρόσθετοι όροι. Δείτε τους <a href="http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82">Όρους Χρήσης</a> για λεπτομέρειες.',
+	'wikimedia-copyrightwarning' => "Αποθηκεύοντας, συμφωνείτε χωρίς δικαίωμα ανάκλησης την δημοσίευση του υλικού υπό τους όρους της [http://creativecommons.org/licenses/by-sa/3.0/deed.el Creative Commons Attribution/Share-Alike License 3.0] και της [http://www.gnu.org/copyleft/fdl.html GFDL]. Συμφωνείτε να σας αποδίδεται η πατρότητα από τρίτους χρήστες, κατ'ελάχιστο, μέσω ενός υπερσύνδεσμου ή URL προς την σελίδα στην οποία συνεισφέρετε. Δείτε τους http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82 Όρους Χρήσης] για λεπτομέρειες.",
+	'wikimedia-editpage-tos-summary' => 'Αν δεν θέλετε το κείμενό σας να υποστεί επεξεργασία και να αναδιανεμηθεί κατά βούληση, τότε μην το καταχωρείτε εδώ. Αν δεν το γράψατε ο ίδιος, τότε πρέπει να είναι διαθέσιμο υπό όρους σύμφωνους με τους [http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82 Όρους Χρήσης], και συμφωνείτε να ακολουθήσετε οποιεσδήποτε απαιτήσεις αδειοδότησης.',
 );
 
 /** Emiliano-Romagnolo (Emiliàn e rumagnòl) */
@@ -5116,6 +5117,7 @@ $messages['it'] = array(
  * @author JtFuruhata
  * @author Meno25
  * @author Suisui
+ * @author W.CC
  * @author Whym
  * @author 青子守歌
  */
@@ -5130,7 +5132,7 @@ $messages['ja'] = array(
 	'group-arbcom' => '裁定委員会委員',
 	'group-autopatrolled' => '自動巡回者',
 	'group-autoreviewer' => '自動査読者',
-	'group-bigexport' => '大規模書き出し者',
+	'group-bigexport' => '大規模エクスポート担当者',
 	'group-confirmed' => '承認された利用者',
 	'group-editprotected' => '保護ページ編集者',
 	'group-eliminator' => '削除者',
@@ -5138,21 +5140,21 @@ $messages['ja'] = array(
 	'group-flood' => 'ボット扱い利用者',
 	'group-founder' => '創設者',
 	'group-Image-reviewer' => '画像査読者',
-	'group-import' => '取り込み者',
+	'group-import' => 'インポート担当者',
 	'group-interface_editors' => 'インターフェイス編集者',
 	'group-ipblock-exempt' => 'IPブロック適用除外者',
 	'group-OTRS-member' => 'OTRSメンバー',
 	'group-patroller' => '巡回者',
 	'group-researcher' => '調査者',
 	'group-rollbacker' => '巻き戻し者',
-	'group-transwiki' => 'ウィキ間移動の取り込み者',
+	'group-transwiki' => 'ウィキ間インポート担当者',
 	'group-trusted' => '信頼された利用者',
 	'group-abusefilter-member' => '不正利用フィルター編集者',
 	'group-accountcreator-member' => 'アカウント作成者',
 	'group-arbcom-member' => '裁定委員会委員',
 	'group-autopatrolled-member' => '自動巡回者',
 	'group-autoreviewer-member' => '自動査読者',
-	'group-bigexport-member' => '大規模書き出し者',
+	'group-bigexport-member' => '大規模エクスポート担当者',
 	'group-confirmed-member' => '承認された利用者',
 	'group-editprotected-member' => '保護されたページ編集者',
 	'group-eliminator-member' => '削除者',
@@ -5160,21 +5162,21 @@ $messages['ja'] = array(
 	'group-flood-member' => 'ボット扱い利用者',
 	'group-founder-member' => '創設者',
 	'group-Image-reviewer-member' => '画像査読者',
-	'group-import-member' => '取り込み者',
+	'group-import-member' => 'インポート担当者',
 	'group-interface_editors-member' => 'インターフェイス編集者',
 	'group-ipblock-exempt-member' => 'IPブロック適用除外者',
 	'group-OTRS-member-member' => 'OTRSメンバー',
 	'group-patroller-member' => '巡回者',
 	'group-researcher-member' => '調査者',
 	'group-rollbacker-member' => '巻き戻し者',
-	'group-transwiki-member' => 'ウィキ間移動の取り込み者',
+	'group-transwiki-member' => 'ウィキ間インポート担当者',
 	'group-trusted-member' => '信頼された利用者',
 	'grouppage-abusefilter' => '{{ns:project}}:不正利用フィルター編集者',
 	'grouppage-accountcreator' => '{{ns:project}}:アカウント作成者',
 	'grouppage-arbcom' => '{{ns:project}}:裁定委員会委員',
 	'grouppage-autopatrolled' => '{{ns:project}}:自動巡回者',
 	'grouppage-autoreviewer' => '{{ns:project}}:自動査読者',
-	'grouppage-bigexport' => '{{ns:project}}:大規模書き出し者',
+	'grouppage-bigexport' => '{{ns:project}}:大規模エクスポート担当者',
 	'grouppage-confirmed' => '{{ns:project}}:承認された利用者',
 	'grouppage-editprotected' => '{{ns:project}}:保護ページ編集者',
 	'grouppage-eliminator' => '{{ns:project}}:削除者',
@@ -5182,13 +5184,13 @@ $messages['ja'] = array(
 	'grouppage-flood' => '{{ns:project}}:ボット扱い利用者',
 	'grouppage-founder' => '{{ns:project}}:創設者',
 	'grouppage-Image-reviewer' => '{{ns:project}}:画像査読者',
-	'grouppage-import' => '{{ns:project}}:取り込み者',
+	'grouppage-import' => '{{ns:project}}:インポート担当者',
 	'grouppage-interface_editors' => '{{ns:project}}:インターフェイス編集者',
 	'grouppage-ipblock-exempt' => '{{ns:project}}:IPブロック適用除外',
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRSメンバー',
 	'grouppage-researcher' => '{{ns:project}}:調査者',
 	'grouppage-rollbacker' => '{{ns:project}}:巻き戻し者',
-	'grouppage-transwiki' => '{{ns:project}}:ウィキ間移動の取り込み者',
+	'grouppage-transwiki' => '{{ns:project}}:ウィキ間インポート担当者',
 	'grouppage-trusted' => '{{ns:project}}:信頼された利用者',
 	'group-steward' => 'スチュワード',
 	'group-sysadmin' => 'システム管理者',
@@ -9154,6 +9156,7 @@ $messages['so'] = array(
 
 /** Albanian (Shqip)
  * @author Dori
+ * @author Mikullovci11
  * @author Puntori
  */
 $messages['sq'] = array(
@@ -9162,11 +9165,15 @@ $messages['sq'] = array(
 	'group-accountcreator' => 'Krijuesit e kontove',
 	'group-founder' => 'Themeluesit',
 	'group-import' => 'Importuesit',
+	'group-flood-member' => 'përdorues robotike',
 	'group-founder-member' => 'themelues',
 	'group-import-member' => 'importues',
 	'group-steward' => 'Përgjegjës',
+	'group-sysadmin' => 'Sistemi administrativ',
+	'group-Global_bot' => 'Robotet global',
 	'group-Staff' => 'Stafi',
 	'group-steward-member' => 'Përgjegjës',
+	'group-Global_bot-member' => 'robot global',
 	'group-Staff-member' => 'anëtar i stafit',
 	'group-coder' => 'Koduesit',
 	'group-coder-member' => 'kodues',

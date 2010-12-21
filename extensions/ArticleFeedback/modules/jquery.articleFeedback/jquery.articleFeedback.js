@@ -25,9 +25,6 @@ $.articleFeedback = {
 		<div style="clear:both;"></div>\
 	</div>\
 </div>\
-<div class="articleFeedback-dialog" rel="survey"><div class="articleFeedback-buffer"><div class="articleFeedback-title">Take a survey?</div></div></div>\
-<div class="articleFeedback-dialog" rel="register"><div class="articleFeedback-buffer"><div class="articleFeedback-title">Create an account?</div></div></div>\
-<div class="articleFeedback-dialog" rel="edit"><div class="articleFeedback-buffer"><div class="articleFeedback-title">Edit a page?</div></div></div>\
 		',
 		'rating': '\
 <div class="articleFeedback-rating">\
@@ -38,6 +35,16 @@ $.articleFeedback = {
 	<div class="articleFeedback-rating-meter articleFeedback-visibleWith-report"><div></div></div>\
 	<div class="articleFeedback-rating-count articleFeedback-visibleWith-report"></div>\
 	<div style="clear:both;"></div>\
+</div>\
+		',
+		'pitch': '\
+<div class="articleFeedback-pitch">\
+	<div class="articleFeedback-buffer">\
+		<div class="articleFeedback-title"></div>\
+		<div class="articleFeedback-message"></div>\
+		<button class="articleFeedback-accept"></button>\
+		<button class="articleFeedback-reject"></button>\
+	</div>\
 </div>\
 		'
 	},
@@ -65,7 +72,7 @@ $.articleFeedback = {
 		'submit': function() {
 			var context = this;
 			// Lock the submit button -- TODO: lock the star inputs too
-			context.$ui.find( 'button[type=submit]' ).button( { 'disabled': true } );
+			context.$ui.find( '.articleFeedback-submit' ).button( { 'disabled': true } );
 			
 			// Build data from form values
 			var data = {};
@@ -82,8 +89,8 @@ $.articleFeedback = {
 				'data': $.extend( data, {
 					'action': 'articlefeedback',
 					'format': 'json',
-					'anontoken': mw.user.sessionId(),
-					'userid': mw.user.sessionId(),
+					'anontoken': mw.user.id(),
+					'userid': mw.user.id(),
 					'pageid': mw.config.get( 'wgArticleId' ),
 					'revid': mw.config.get( 'wgCurRevisionId' ),
 					'bucket': context.options.bucket
@@ -110,8 +117,8 @@ $.articleFeedback = {
 					'format': 'json',
 					'list': 'articlefeedback',
 					'afpageid': mw.config.get( 'wgArticleId' ),
-					'afanontoken': mw.user.sessionId(),
-					'afuserrating': mw.user.sessionId()
+					'afanontoken': mw.user.id(),
+					'afuserrating': mw.user.id()
 				},
 				'success': function( data ) {
 					var context = this;
@@ -199,6 +206,33 @@ $.articleFeedback = {
 						}
 					} )
 					.end()
+				.each( function() {
+					for ( key in context.options.pitches ) {
+						$( $.articleFeedback.tpl.pitch )
+						.attr( 'rel', key )
+						.find( '.articleFeedback-title' )
+							.text( mw.msg( context.options.pitches[key].title ) )
+							.end()
+						.find( '.articleFeedback-message' )
+							.text( mw.msg( context.options.pitches[key].message ) )
+							.end()
+						.find( '.articleFeedback-accept' )
+							.text( mw.msg( context.options.pitches[key].accept ) )
+							.click( function() {
+								context.options.pitches[key].action();
+								$(this).closest( '.articleFeedback-pitch' ).fadeOut();
+							} )
+							.button()
+							.end()
+						.find( '.articleFeedback-reject' )
+							.text( mw.msg( context.options.pitches[key].reject ) )
+							.click( function() {
+								$(this).closest( '.articleFeedback-pitch' ).fadeOut();
+							} )
+							.end()
+						.appendTo( $(this) );
+					}
+				} )
 				.localize( { 'prefix': 'articlefeedback-' } )
 				// Activate tooltips
 				.find( '[title]' )
@@ -215,6 +249,14 @@ $.articleFeedback = {
 					.button()
 					.click( function() {
 						$.articleFeedback.fn.submit.call( context );
+						for ( key in context.options.pitches ) {
+							if ( context.options.pitches[key].condition() ) {
+								context.$ui
+									.find( '.articleFeedback-pitch[rel="' + key + '"]' )
+										.show();
+								break;
+							}
+						}
 					} )
 					.end()
 				// Hide report elements initially
@@ -341,7 +383,7 @@ $.fn.articleFeedback = function() {
 		var context = $(this).data( 'articleFeedback-context' );
 		if ( !context ) {
 			// Create context
-			context = { '$ui': $(this), 'options': { 'ratings': {}, 'bucket': 0 } };
+			context = { '$ui': $(this), 'options': { 'ratings': {}, 'pitches': {},'bucket': 0 } };
 			// Allow customization through an options argument
 			if ( typeof args[0] === 'object' ) {
 				context = $.extend( context, { 'options': args[0] } );

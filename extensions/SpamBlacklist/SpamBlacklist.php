@@ -7,7 +7,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	exit;
 }
 
-$wgExtensionCredits['other'][] = array(
+$wgExtensionCredits[version_compare($wgVersion, '1.17alpha', '>=') ? 'antispam' : 'other'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'SpamBlacklist',
 	'author'         => 'Tim Starling',

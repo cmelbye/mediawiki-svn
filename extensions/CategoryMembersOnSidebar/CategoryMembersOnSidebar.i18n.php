@@ -22,6 +22,13 @@ $messages['be-tarask'] = array(
 	'categorymembersonsidebar-desc' => 'Дадае старонкі ў катэгорыі ў бакавую панэль',
 );
 
+/** Breton (Brezhoneg)
+ * @author Fulup
+ */
+$messages['br'] = array(
+	'categorymembersonsidebar-desc' => 'Ouzhpennañ izili ar rummad er varrenn gostez',
+);
+
 /** Bosnian (Bosanski)
  * @author CERminator
  */
@@ -41,6 +48,27 @@ $messages['ca'] = array(
  */
 $messages['de'] = array(
 	'categorymembersonsidebar-desc' => 'Ermöglicht die Anzeige der einer Kategorie zugeordneten Seiten in der Seitenleiste',
+);
+
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'categorymembersonsidebar-desc' => 'Pśidawa boki kategorije do bócnice',
+);
+
+/** Spanish (Español)
+ * @author Sanbec
+ */
+$messages['es'] = array(
+	'categorymembersonsidebar-desc' => 'Añade miembros de la categoría a la barra lateral',
+);
+
+/** Galician (Galego)
+ * @author Toliño
+ */
+$messages['gl'] = array(
+	'categorymembersonsidebar-desc' => 'Engade membros de categorías na barra lateral',
 );
 
 /** Swiss German (Alemannisch)
@@ -85,10 +113,31 @@ $messages['mk'] = array(
 	'categorymembersonsidebar-desc' => 'Додава членови на категорија во страничната лента',
 );
 
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Nghtwlkr
+ */
+$messages['no'] = array(
+	'categorymembersonsidebar-desc' => 'Legger til kategorimedlemmer på sidepanelet',
+);
+
+/** Piedmontese (Piemontèis)
+ * @author Dragonòt
+ */
+$messages['pms'] = array(
+	'categorymembersonsidebar-desc' => 'A gionta ij mémber ëd la categorìa an sla bara lateral',
+);
+
 /** Portuguese (Português)
  * @author Hamilton Abreu
  */
 $messages['pt'] = array(
+	'categorymembersonsidebar-desc' => 'Adiciona membros de categorias à barra lateral',
+);
+
+/** Brazilian Portuguese (Português do Brasil)
+ * @author Giro720
+ */
+$messages['pt-br'] = array(
 	'categorymembersonsidebar-desc' => 'Adiciona membros de categorias à barra lateral',
 );
 
@@ -104,5 +153,12 @@ $messages['roa-tara'] = array(
  */
 $messages['ru'] = array(
 	'categorymembersonsidebar-desc' => 'Добавляет членов категории на боковую панель',
+);
+
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
+ */
+$messages['zh-hans'] = array(
+	'categorymembersonsidebar-desc' => '侧栏上添加类别成员',
 );
 

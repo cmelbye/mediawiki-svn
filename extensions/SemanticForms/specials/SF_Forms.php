@@ -13,7 +13,7 @@ class SFForms extends QueryPage {
 	 */
 	function __construct( $name = 'Forms' ) {
 		parent::__construct( $name );
-		wfLoadExtensionMessages( 'SemanticForms' );
+		SFUtils::loadMessages();
 	}
 
 	function isExpensive() { return false; }
@@ -23,7 +23,7 @@ class SFForms extends QueryPage {
 	function getPageHeader() {
 		global $wgUser;
 		
-		wfLoadExtensionMessages( 'SemanticForms' );
+		SFUtils::loadMessages();
 		
 		$sk = $wgUser->getSkin();
 		$cf = SpecialPage::getPage( 'CreateForm' );

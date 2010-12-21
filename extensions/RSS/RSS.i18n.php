@@ -176,6 +176,18 @@ $messages['gsw'] = array(
 	'rss-parse-error' => 'Fähler bim Parse vu XML fir RSS',
 );
 
+/** Hebrew (עברית)
+ * @author Amire80
+ */
+$messages['he'] = array(
+	'rss-desc' => 'מציג הזנת RSS על דף ויקי',
+	'rss-error' => 'נכשלה טעינת הזנת RSS מ־$1: $2',
+	'rss-empty' => 'נכשלה טעינת הזנת RSS מ־$1!',
+	'rss-fetch-nourl' => 'קריאה לאחזור ללא כתובת URL!',
+	'rss-invalid-url' => 'כתובת URL לא תקינה: $1',
+	'rss-parse-error' => 'שגיאה בניתוח XML עבור RSS',
+);
+
 /** Upper Sorbian (Hornjoserbsce)
  * @author Michawiki
  */
@@ -297,6 +309,9 @@ $messages['no'] = array(
 	'rss-desc' => 'Viser en RSS-mating på en wikiside',
 	'rss-error' => 'Kunne ikke laste RSS-mating fra $1: $2',
 	'rss-empty' => 'Kunne ikke laste RSS-mating fra $1.',
+	'rss-fetch-nourl' => 'Henting kallet uten en URL!',
+	'rss-invalid-url' => 'Ikke en gyldig URL: $1',
+	'rss-parse-error' => 'Feil ved XML-tolkning for RSS',
 );
 
 /** Polish (Polski)

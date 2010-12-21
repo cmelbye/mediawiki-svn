@@ -78,6 +78,7 @@ Used as XML tag name.',
 Used as XML tag name.',
 	'dt_import_selectfile' => '$1 is the file format: either CSV or XML',
 	'dt_import_encodingtype' => 'The type of encoding for the file: either UTF-8 or UTF-16',
+	'dt_import_skipexisting' => '{{Identical|Skip}}',
 	'dt_import_editsummary' => '$1 is the file format: either CSV or XML',
 	'dt_import_success' => 'Parameters:
 * $1 is the number of pages
@@ -483,9 +484,9 @@ $messages['da'] = array(
  * @author Umherirrender
  */
 $messages['de'] = array(
-	'datatransfer-desc' => 'Ermöglicht den Export von Daten im XML-Format sowie den Import von Daten im XML- und CSV-Format.',
+	'datatransfer-desc' => 'Ermöglicht den Export von Daten im XML-Format sowie den Import von Daten im XML- und CSV-Format',
 	'viewxml' => 'XML ansehen',
-	'dt_viewxml_docu' => 'Bitte auswählen, welche Kategorien und Namensräume im XML-Format angezeigt werden sollen.',
+	'dt_viewxml_docu' => 'Bitte auswählen, welche Kategorien und Namensräume im XML-Format angezeigt werden sollen:',
 	'dt_viewxml_categories' => 'Kategorien',
 	'dt_viewxml_namespaces' => 'Namensräume',
 	'dt_viewxml_simplifiedformat' => 'Vereinfachtes Format',
@@ -498,7 +499,7 @@ $messages['de'] = array(
 	'dt_xml_title' => 'Titel',
 	'dt_xml_id' => 'ID',
 	'dt_xml_freetext' => 'Freitext',
-	'importxml' => 'XML importieren',
+	'importxml' => 'XML-Datei importieren',
 	'dt_import_selectfile' => 'Bitte die zu importierende $1-Datei auswählen:',
 	'dt_import_encodingtype' => 'Zeichenkodierung:',
 	'dt_import_forexisting' => 'Im Fall von Seiten, die bereits vorhanden sind:',
@@ -512,13 +513,6 @@ $messages['de'] = array(
 	'importcsv' => 'CSV-Datei importieren',
 	'dt_importcsv_badheader' => "'''Fehler:''' Der Kopf der Spalte $1, „$2“, muss entweder „$3“, „$4“ oder im Format „Vorlagenname[Feldname]“ sein",
 	'right-datatransferimport' => 'Daten importieren',
-);
-
-/** German (formal address) (Deutsch (Sie-Form))
- * @author Imre
- */
-$messages['de-formal'] = array(
-	'dt_viewxml_docu' => 'Bitte wählen Sie aus, welche Kategorien und Namensräume im XML-Format angezeigt werden sollen.',
 );
 
 /** Lower Sorbian (Dolnoserbski)
@@ -720,6 +714,7 @@ $messages['fi'] = array(
 	'importxml' => 'XML-tuonti',
 	'dt_import_selectfile' => 'Valitse $1-tiedosto tuotavaksi:',
 	'dt_import_encodingtype' => 'Merkistötyyppi:',
+	'dt_import_skipexisting' => 'Ohita',
 	'dt_import_summarydesc' => 'Tuonnin yhteenveto',
 	'dt_import_editsummary' => '$1-tuonti',
 	'dt_import_importing' => 'Tuodaan...',
@@ -816,6 +811,10 @@ $messages['gl'] = array(
 	'importxml' => 'Importar XML',
 	'dt_import_selectfile' => 'Por favor, seleccione o ficheiro $1 a importar:',
 	'dt_import_encodingtype' => 'Tipo de codificación:',
+	'dt_import_forexisting' => 'Para páxinas que xa existen:',
+	'dt_import_overwriteexisting' => 'Sobrescribir o contido existente',
+	'dt_import_skipexisting' => 'Saltar',
+	'dt_import_appendtoexisting' => 'Engadir ao contido existente',
 	'dt_import_summarydesc' => 'Resumo da importación:',
 	'dt_import_editsummary' => 'Importación en $1',
 	'dt_import_importing' => 'Importando...',
@@ -1166,6 +1165,7 @@ $messages['it'] = array(
  * @author Aotake
  * @author Fryed-peach
  * @author JtFuruhata
+ * @author Ohgi
  * @author 青子守歌
  */
 $messages['ja'] = array(
@@ -1187,6 +1187,8 @@ $messages['ja'] = array(
 	'importxml' => 'XMLインポート',
 	'dt_import_selectfile' => 'インポートする $1 ファイルを選択してください:',
 	'dt_import_encodingtype' => 'エンコーディング方式:',
+	'dt_import_forexisting' => 'すでに存在するページの場合：',
+	'dt_import_skipexisting' => 'スキップ',
 	'dt_import_summarydesc' => '移入の概要：',
 	'dt_import_editsummary' => '$1 のインポート',
 	'dt_import_importing' => 'インポート中…',
@@ -1591,6 +1593,10 @@ $messages['no'] = array(
 	'importxml' => 'Importer XML',
 	'dt_import_selectfile' => 'Vennligst velg $1-filen som skal importeres:',
 	'dt_import_encodingtype' => 'Tegnkodingstype:',
+	'dt_import_forexisting' => 'For sider som allerede finnes:',
+	'dt_import_overwriteexisting' => 'Skriv over eksisterende innhold',
+	'dt_import_skipexisting' => 'Hopp over',
+	'dt_import_appendtoexisting' => 'Tilføy til eksisterende innhold',
 	'dt_import_summarydesc' => 'Importsammendrag:',
 	'dt_import_editsummary' => '$1-importering',
 	'dt_import_importing' => 'Importerer...',
@@ -1709,6 +1715,10 @@ $messages['pms'] = array(
 	'importxml' => 'Ampòrta XML',
 	'dt_import_selectfile' => 'Për piasì selession-a ël file $1 da amporté:',
 	'dt_import_encodingtype' => 'Tipo ëd codìfica:',
+	'dt_import_forexisting' => "Për pàgine ch'a esisto già:",
+	'dt_import_overwriteexisting' => 'Coaté contnù esistent',
+	'dt_import_skipexisting' => 'Saoté',
+	'dt_import_appendtoexisting' => 'Gionta a contnù esistent',
 	'dt_import_summarydesc' => "Somari dj'amportassion:",
 	'dt_import_editsummary' => '$1 ampòrta',
 	'dt_import_importing' => "An camin ch'as ampòrta...",
@@ -1793,6 +1803,10 @@ $messages['pt-br'] = array(
 	'importxml' => 'Importar XML',
 	'dt_import_selectfile' => 'Por favor selecione o arquivo $1 para importar:',
 	'dt_import_encodingtype' => 'Codificação:',
+	'dt_import_forexisting' => 'Para páginas que já existem:',
+	'dt_import_overwriteexisting' => 'Sobrescrever o conteúdo existente',
+	'dt_import_skipexisting' => 'Pular',
+	'dt_import_appendtoexisting' => 'Adicionar ao conteúdo existente',
 	'dt_import_summarydesc' => 'Resumo da importação:',
 	'dt_import_editsummary' => 'Importação de $1',
 	'dt_import_importing' => 'Importando...',

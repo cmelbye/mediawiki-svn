@@ -217,9 +217,15 @@ class ApiPush extends ApiBase {
 	protected function doPush( Title $title, array $revision, array $targets ) {
 		foreach ( $targets as $target ) {			
 			$token = $this->getEditToken( $title, $target );
-
+			
 			if ( $token !== false ) {
-				$this->pushToTarget( $title, $revision, $target, $token );
+				$doPush = true;
+				
+				wfRunHooks( 'PushAPIBeforePush', array( &$title, &$revision, &$target, &$token, &$doPush ) );
+				
+				if ( $doPush ) {
+					$this->pushToTarget( $title, $revision, $target, $token );
+				}
 			}
 		}
 	}
@@ -310,8 +316,8 @@ class ApiPush extends ApiBase {
 		$summary = wfMsgExt(
 			'push-import-revision-message',
 			'parsemag',
-			$wgSitename,
-			$revision['user']
+			$wgSitename
+			//$revision['user']
 		);
 
 		$requestData = array(

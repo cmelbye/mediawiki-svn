@@ -521,6 +521,7 @@ Kirjoita käyttäjänimi tai IP-osoite, niin saat listan poistettavista sivuista
 	'nuke-submit-user' => 'Siirry',
 	'nuke-submit-delete' => 'Poista valitut',
 	'right-nuke' => 'Massapoistaa sivuja',
+	'nuke-select' => 'Valitse: $1',
 );
 
 /** French (Français)
@@ -1179,6 +1180,7 @@ Skriv inn eit brukarnamn eller ei IP-adressa for å få ei lista over sider som 
 
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Jon Harald Søby
+ * @author Nghtwlkr
  */
 $messages['no'] = array(
 	'nuke' => 'Massesletting',
@@ -1190,6 +1192,7 @@ $messages['no'] = array(
 	'nuke-submit-user' => 'Gå',
 	'nuke-submit-delete' => 'Slett valgte',
 	'right-nuke' => 'Slette sider <i>en masse</i>',
+	'nuke-select' => 'Velg: $1',
 );
 
 /** Northern Sotho (Sesotho sa Leboa)
@@ -1681,6 +1684,7 @@ $messages['ug-latn'] = array(
 
 /** Ukrainian (Українська)
  * @author Ahonc
+ * @author Тест
  */
 $messages['uk'] = array(
 	'nuke' => 'Масове вилучення',
@@ -1694,6 +1698,7 @@ $messages['uk'] = array(
 	'nuke-submit-user' => 'Виконати',
 	'nuke-submit-delete' => 'Вилучити обрані',
 	'right-nuke' => 'Масове вилучення сторінок',
+	'nuke-select' => 'Вибір: $1',
 );
 
 /** Vèneto (Vèneto)

@@ -102,6 +102,20 @@ $messages['de'] = array(
 	'createredirect-save' => 'Seite speichern',
 );
 
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'createredirect' => 'Dalejpósrědnjenje napóraś',
+	'createredirect-desc' => 'Pśidawa specialny bok [[Special:CreateRedirect|CreateRedirect]] za lažke napóranje dalejpósrědnjenjow',
+	'createredirect-error' => 'Zmólka: Awtenfikacija jo se njeraźiła.',
+	'createredirect-instructions' => 'Z pomocu toś togo formulara móžoš dalejpósrědnjenje napóraś abo eksistěrowacy bok pśez dalejpósrědnjenje wuměniś.',
+	'createredirect-page-title' => 'Titel boka:',
+	'createredirect-redirect-done' => 'Dalejpósrědnjenje wót "$1" do "$2" napórane',
+	'createredirect-redirect-to' => 'Dalej pósrědniś do:',
+	'createredirect-save' => 'Bok składowaś',
+);
+
 /** Greek (Ελληνικά)
  * @author Glavkos
  */
@@ -116,11 +130,34 @@ $messages['el'] = array(
 	'createredirect-save' => 'Αποθήκευση σελίδας',
 );
 
+/** Spanish (Español)
+ * @author Sanbec
+ */
+$messages['es'] = array(
+	'createredirect' => 'Crear una redirección',
+	'createredirect-desc' => 'Añade una [[Special:CreateRedirect|página especial]] para crear redirecciones de una manera sencilla',
+	'createredirect-error' => 'Error : Fallo de la identificación.',
+	'createredirect-instructions' => 'Empleando el formulario de abajo, puede crear una página de redirección o sustituir una página existente por una redirección.',
+	'createredirect-page-title' => 'Título de la página:',
+	'createredirect-redirect-done' => 'Redirección creada de «$1» hacia «$2»',
+	'createredirect-redirect-to' => 'Redirigir a:',
+	'createredirect-save' => 'Guardar la página',
+);
+
 /** Persian (فارسی)
  * @author Mjbmr
  */
 $messages['fa'] = array(
 	'createredirect-save' => 'ذخیره صفحه',
+);
+
+/** Finnish (Suomi)
+ * @author Crt
+ */
+$messages['fi'] = array(
+	'createredirect' => 'Luo ohjaus',
+	'createredirect-desc' => 'Lisää [[Special:CreateRedirect|toimintosivun]], jolla voi helposti luoda ohjauksia.',
+	'createredirect-save' => 'Tallenna sivu',
 );
 
 /** French (Français)

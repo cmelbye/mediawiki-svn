@@ -3153,7 +3153,7 @@ $messages['fi'] = array(
 	'configure-ext-ext-dependencies' => "'''Varoitus:''' Tämä laajennus vaatii {{PLURAL:$2|seuraavan laajennuksen|seuraavien laajennuksien}} aktivoimisen: $1.",
 	'configure-ext-ext-dependency-err' => "'''Virhe:''' Laajennus $1 vaatii laajennuksen $2 käyttöönoton.",
 	'configure-ext-doc' => 'Katso verkkodokumentaatio',
-	'configure-ext-schemachange' => "'''Varoitus:''' tämä liitännäinen vaatii tietokannan päivityksen toimiakseen oikein!",
+	'configure-ext-schemachange' => "'''Varoitus:''' tämä laajennus vaatii [http://www.mediawiki.org/wiki/Manual:Update.php tietokannan päivityksen] toimiakseen oikein!",
 	'configure-ext-settings' => 'Asetukset',
 	'configure-ext-settings-dep-errors' => 'Laajennusta ei voida ottaa käyttöön, koska {{PLURAL:$1|seuraavalla asetuksella|seuraavilla asetuksilla}} on epäkelpo arvo:',
 	'configure-ext-settings-dep-error' => '$1: vaadittu arvo: $2, nykyinen arvo: $3',
@@ -3213,7 +3213,6 @@ Luo se tai muuta asetusta käyttääksesi tätä laajennusta.',
 	'configure-section-enotif' => 'Sähköpostihuomautus',
 	'configure-section-localization' => 'Kotoistus',
 	'configure-section-timezone' => 'Aikavyöhyke',
-	'configure-section-zh-conversion' => 'Kiinalainen muunnos',
 	'configure-section-debug' => 'Virheiden jäljitys',
 	'configure-section-profiling' => 'Profilointi',
 	'configure-section-site' => 'Sivuston mukautus',
@@ -11503,13 +11502,14 @@ $messages['wuu'] = array(
  * @author פוילישער
  */
 $messages['yi'] = array(
+	'configure-desc-group' => 'גרופע',
 	'configure-js-remove' => 'אויסמעקן',
 	'configure-old-changes' => 'ענדערונגען',
+	'configure-section-pages' => 'בלעטער',
 	'configure-section-email' => 'ע-פאסט',
 	'configure-section-enotif' => 'ע־פאסט אָנזאָג',
 	'configure-section-localization' => 'לאקאַליזאַציע',
 	'configure-section-timezone' => 'צײַט זאנע:',
-	'configure-section-zh-conversion' => 'כינעזיש־פֿאַרוואַנדלונג',
 	'configure-section-css-js' => 'CSS און JavaScript',
 	'configure-section-namespaces' => 'נאָמענטיילן',
 	'configure-section-category' => 'קאַטעגאָריעס',
@@ -11519,7 +11519,9 @@ $messages['yi'] = array(
 	'configure-section-copyright' => 'קאפירעכט',
 	'configure-view' => 'זען',
 	'configure-throttle-action-edit' => 'רעדאַקטירן',
+	'configure-throttle-action-move' => 'באַװעגן',
 	'configure-throttle-action-rollback' => 'צוריקדרייען',
+	'configure-throttle-group' => 'טיפ',
 	'configure-condition-description-3' => 'ע-פּאָסט באַשטעטיקט',
 );
 

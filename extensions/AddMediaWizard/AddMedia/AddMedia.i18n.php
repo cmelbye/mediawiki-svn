@@ -1108,7 +1108,9 @@ $messages['bg'] = array(
 	'fogg-license-title' => 'Лиценз',
 	'mwe-select_file' => 'Избиране на файл',
 	'mwe-upload' => 'Качване на файл',
+	'mwe-destfilename' => 'Целево име на файл:',
 	'mwe-summary' => 'Резюме',
+	'mwe-upload-in-new-win-link' => 'качване в нов прозорец или раздел',
 	'mwe-uploaded-time-remaining' => 'Оставащо време: $1',
 	'mwe-cc_pd_title' => 'Обществено достояние',
 	'mwe-results_from' => 'Резултати от $1',
@@ -10041,6 +10043,8 @@ $messages['vo'] = array(
  * @author פוילישער
  */
 $messages['yi'] = array(
+	'mwe-upload-stats-fileprogress' => '$1 פֿון $2',
+	'mwe-uploaderror' => 'אַרויפֿלאָדן פֿעלער',
 	'fogg-copyright-title' => 'קאפירעכט',
 );
 

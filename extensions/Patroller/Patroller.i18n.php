@@ -42,6 +42,7 @@ $messages['en'] = array(
 
 /** Message documentation (Message documentation)
  * @author Aotake
+ * @author EugeneZelenko
  * @author Ferrer
  * @author Jon Harald Søby
  * @author Purodha
@@ -51,6 +52,7 @@ $messages['qqq'] = array(
 	'patrol-desc' => '{{desc}}',
 	'patrol-revert' => '{{Identical|Revert}}',
 	'patrol-revert-reason' => '{{Identical|Reason}}',
+	'patrol-skip' => '{{Identical|Skip}}',
 	'patrol-reverting' => '{{Identical|Revert}}',
 	'patrol-reverted-ok' => '{{Identical|Revert}}',
 	'patrol-reverted-failed' => '{{Identical|Revert}}',
@@ -201,8 +203,29 @@ $messages['arz'] = array(
  * @author Assele
  */
 $messages['ba'] = array(
+	'patrol' => 'Тикшереү',
+	'patrol-desc' => 'Эш йөкләмәһен бүлеү менән яҡшыртылған тикшереү интерфейсы',
+	'patrol-endorse' => 'Раҫларға',
+	'patrol-revert' => 'Кире алырға',
+	'patrol-revert-reason' => 'Сәбәп:',
+	'patrol-skip' => 'Торғоҙоп ҡалдырырға',
+	'patrol-reverting' => 'Кире алыу: $1',
+	'patrol-nonefound' => 'Тикшереү өсөн кәрәкле өлгөләрҙе табып булмай.',
+	'patrol-endorsed-ok' => 'Өлгө тикшерелгән тип билдәләнде.',
+	'patrol-endorsed-failed' => 'Өлгөнө тикшерелгән тип билдәләп булмай.',
+	'patrol-reverted-ok' => 'Өлгө кире алынды.',
+	'patrol-reverted-failed' => 'Өлгөнө кире алып булманы.',
+	'patrol-skipped-ok' => 'Өлгө торғоҙоп ҡалдырылды.',
+	'patrol-reasons' => '* Ябай вандаллыҡ
+* Яңы ҡатнашыусыны һынау
+* Фекер алышыу битен ҡара',
+	'patrol-another' => 'Мөмкин булһа, икенсе өлгөнө күрһәтергә.',
+	'patrol-stopped' => 'Һеҙ икенсе өлгөнө тикшермәҫкә булдығыҙ. $1',
+	'patrol-resume' => 'Дауам итер өсөн, ошонда баҫығыҙ.',
 	'group-patroller' => 'Тикшереүселәр',
 	'group-patroller-member' => 'тикшереүсе',
+	'grouppage-patroller' => '{{ns:project}}:Тикшерелеүсе',
+	'right-patroller' => 'Биттәрҙе тикшереү',
 );
 
 /** Bikol Central (Bikol Central)

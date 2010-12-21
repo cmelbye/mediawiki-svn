@@ -76,6 +76,24 @@ $messages['eo'] = array(
 	'svgedit-desc' => 'Redakti desegnojn SVG en foliumilo per [http://code.google.com/p/svg-edit/ SVG-Edit]',
 );
 
+/** Finnish (Suomi)
+ * @author Crt
+ */
+$messages['fi'] = array(
+	'svgedit-editbutton-edit' => 'Muokkaa piirrosta',
+	'svgedit-editor-save-close' => 'Tallenna ja sulje',
+	'svgedit-editor-close' => 'Peruuta',
+);
+
+/** French (Français)
+ * @author Otourly
+ */
+$messages['fr'] = array(
+	'svgedit-editbutton-edit' => 'Modifiez le dessin',
+	'svgedit-editor-save-close' => 'Enregistrer et fermer',
+	'svgedit-editor-close' => 'Annuler',
+);
+
 /** Swiss German (Alemannisch)
  * @author Als-Holder
  */
@@ -114,6 +132,14 @@ $messages['id'] = array(
 	'svgedit-editor-save-close' => 'Simpan dan tutup',
 	'svgedit-editor-close' => 'Batalkan',
 	'svgedit-desc' => 'Penyuntingan gambar SVG via peramban dengan [http://code.google.com/p/svg-edit/ SVG-Edit]',
+);
+
+/** Japanese (日本語)
+ * @author Ohgi
+ */
+$messages['ja'] = array(
+	'svgedit-editor-save-close' => '保存して閉じる',
+	'svgedit-editor-close' => 'キャンセル',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -156,6 +182,16 @@ $messages['pt'] = array(
 	'svgedit-desc' => 'Edição de desenhos SVG no próprio browser, com o [http://code.google.com/p/svg-edit/ SVG-Edit]',
 );
 
+/** Brazilian Portuguese (Português do Brasil)
+ * @author Giro720
+ */
+$messages['pt-br'] = array(
+	'svgedit-editbutton-edit' => 'Editar desenho',
+	'svgedit-editor-save-close' => 'Salvar e fechar',
+	'svgedit-editor-close' => 'Cancelar',
+	'svgedit-desc' => 'Edição de desenhos SVG no próprio navegador, com o [http://code.google.com/p/svg-edit/ SVG-Edit]',
+);
+
 /** Russian (Русский)
  * @author Александр Сигачёв
  */
@@ -164,5 +200,13 @@ $messages['ru'] = array(
 	'svgedit-editor-save-close' => 'Сохранить и закрыть',
 	'svgedit-editor-close' => 'Отмена',
 	'svgedit-desc' => 'Редактирование SVG-изображений в браузере с помощью [http://code.google.com/p/svg-edit/ SVG-Edit]',
+);
+
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
+$messages['te'] = array(
+	'svgedit-editor-save-close' => 'భద్రపరిచి మూసేయి',
+	'svgedit-editor-close' => 'రద్దు',
 );
 

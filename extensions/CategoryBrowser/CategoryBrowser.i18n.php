@@ -238,9 +238,11 @@ $messages['bg'] = array(
 	'cb_cat_subcats' => 'подкатегории',
 	'cb_cat_pages' => 'страници',
 	'cb_cat_files' => 'файлове',
+	'cb_apply_button' => 'Прилагане',
 	'cb_all_op' => 'Всички',
 	'cb_or_op' => 'или',
 	'cb_and_op' => 'и',
+	'cb_edit_remove_hint' => 'Изтриване, ако е възможно',
 );
 
 /** Breton (Brezhoneg)
@@ -398,6 +400,33 @@ Dennoch sollte, sofern irgend möglich, der Browser aktualisiert oder gewechselt
 	'cb_edit_paste_right_hint' => 'Operator an nächstmöglicher Position einfügen (sofern möglich)',
 );
 
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'categorybrowser' => 'Wobglědowak kategorijow',
+	'cb_show_no_parents_only' => 'Jano kategorije pokazaś, kótarež njamaju nadrědowane kategorije.',
+	'cb_cat_name_filter' => 'Kategoriju pó mjenju pytaś:',
+	'cb_cat_name_filter_ci' => 'Wjelikopisanje ignorěrowaś',
+	'cb_has_subcategories' => '$1 {{PLURAL:$1|pódkategorija|pódkategoriji|pódkategorije|pódkategorijow}}',
+	'cb_has_pages' => '$1 {{PLURAL:$1|bok|boka|boki|bokow}}',
+	'cb_has_files' => '$1 {{PLURAL:$1|dataja|dataji|dataje|datajow}}',
+	'cb_has_parentcategories' => 'nadrědowane kategorije (jolic eksistěruju)',
+	'cb_previous_items_link' => 'Pjerwjejšny',
+	'cb_next_items_link' => 'Pśiducy',
+	'cb_next_items_stats' => '(wót $1)',
+	'cb_cat_subcats' => 'pódkategorije',
+	'cb_cat_pages' => 'boki',
+	'cb_cat_files' => 'dataje',
+	'cb_apply_button' => 'Nałožyś',
+	'cb_all_op' => 'Wšykne',
+	'cb_or_op' => 'abo',
+	'cb_and_op' => 'a',
+	'cb_edit_left_hint' => 'Nalěwo gibnuś, jolic móžno',
+	'cb_edit_right_hint' => 'Napšawo gibnuś, jolic móžno',
+	'cb_edit_remove_hint' => 'Wulašowaś, jolic móžno',
+);
+
 /** Esperanto (Esperanto)
  * @author Yekrats
  */
@@ -487,11 +516,12 @@ $messages['fa'] = array(
 
 /** Finnish (Suomi)
  * @author Centerlink
+ * @author Crt
  * @author Nike
  */
 $messages['fi'] = array(
 	'categorybrowser' => 'Luokkaselain',
-	'categorybrowser-desc' => 'Tarjoaa [[Special:CategoryBrowser |erikoissivun]] suodattamaan pois kansoitetuimmat luokat ja navigoimaan niillä AJAX-rajapintaa käyttäen',
+	'categorybrowser-desc' => 'Tarjoaa [[Special:CategoryBrowser|toimintosivun]] suodattamaan pois suosituimmat luokat ja navigoimaan niillä AJAX-rajapintaa käyttäen.',
 	'cb_requires_javascript' => 'Luokkaselainlaajennus edellyttää, että JavaScript on käytössä selaimessa.',
 	'cb_ie6_warning' => 'Ehtomuokkain ei toimi Internet Explorer 6.0 -selaimessa tai sitä varhaisemmissa selaimissa. 
 Esimääriteltyjen ehtojen selailun pitäisi kuitenkin toimia normaalisti.
@@ -500,7 +530,7 @@ Vaihda tai päivitä selaintasi, jos mahdollista.',
 	'cb_cat_name_filter' => 'Etsi luokkaa nimen avulla:',
 	'cb_cat_name_filter_clear' => 'Nollaa luokkanimisuodattimen napsauttamalla',
 	'cb_cat_name_filter_ci' => 'Kirjainkoosta riippuva',
-	'cb_copy_line_hint' => 'Käytä [+] ja [>+]-painikkeita kopioimaan ja liittämään operaattoreita valittuun lausekkeseen',
+	'cb_copy_line_hint' => 'Käytä painikkeita [+] ja [>+] kopioidaksesi ja liittääksesi operaattoreita valittuun lausekkeeseen',
 	'cb_has_subcategories' => '$1 {{PLURAL:$1|alaluokka|alaluokkaa}}',
 	'cb_has_pages' => '$1 {{PLURAL:$1|sivu|sivua}}',
 	'cb_has_files' => '$1 {{PLURAL:$1|tiedosto|tiedostoa}}',
@@ -511,7 +541,7 @@ Vaihda tai päivitä selaintasi, jos mahdollista.',
 	'cb_cat_subcats' => 'alaluokat',
 	'cb_cat_pages' => 'sivut',
 	'cb_cat_files' => 'tiedostot',
-	'cb_apply_button' => 'Sovella',
+	'cb_apply_button' => 'Käytä',
 	'cb_all_op' => 'Kaikki',
 	'cb_or_op' => 'tai',
 	'cb_and_op' => 'ja',

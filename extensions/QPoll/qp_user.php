@@ -37,9 +37,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "This file is part of the QPoll extension. It is not a valid entry point.\n" );
 }
 
-define( 'QP_CSS_ERROR_COLOR1' , "LightYellow" );
 define( 'QP_CSS_ERROR_COLOR2', "#D700D7" );
-define( 'QP_CSS_ERROR_STYLE', 'background-color: ' . QP_CSS_ERROR_COLOR1 . ';' );
 
 define( 'QP_ERROR_MISSED_TITLE', 1 );
 define( 'QP_ERROR_INVALID_ADDRESS', 2 );
@@ -92,11 +90,11 @@ class qp_Setup {
 	public static $cache_control = false;
 	/* end of default configuration settings */
 
-	static function entities( &$s ) {
+	static function entities( $s ) {
 		return htmlentities( $s, ENT_COMPAT, 'UTF-8' );
 	}
 
-	static function specialchars( &$s ) {
+	static function specialchars( $s ) {
 		return htmlspecialchars( $s, ENT_COMPAT, 'UTF-8' );
 	}
 
@@ -144,9 +142,9 @@ class qp_Setup {
 		self::$ScriptPath = $wgScriptPath . '/extensions' . ( ( $top_dir == 'extensions' ) ? '' : '/' . $top_dir ); 
 		$wgExtensionMessagesFiles['QPoll'] = self::$ExtDir . '/qp_i18n.php';
 		$wgAutoloadClasses['PollResults'] = self::$ExtDir . '/qp_results.php';
-		$wgAutoloadClasses['qp_Question'] = self::$ExtDir . '/qp_question.php';
+		$wgAutoloadClasses['qp_Question'] =
 		$wgAutoloadClasses['qp_QuestionStats'] = self::$ExtDir . '/qp_question.php';
-		$wgAutoloadClasses['qp_PollStore'] = self::$ExtDir . '/qp_pollstore.php';
+		$wgAutoloadClasses['qp_PollStore'] =
 		$wgAutoloadClasses['qp_QuestionData'] = self::$ExtDir . '/qp_pollstore.php';
 		$wgAutoloadClasses['qp_QueryPage'] = self::$ExtDir . '/qp_results.php';
 		// TODO: Use the new technique for i18n of special page aliases
@@ -154,10 +152,11 @@ class qp_Setup {
 		// TODO: Use the new technique for i18n of magic words
 		// instantiating fake instance for PHP < 5.2.3, which does not support 'Class::method' type of callbacks
 		$qp_Setup = new qp_Setup;
-		$wgHooks['LanguageGetMagic'][]       = $qp_Setup;
-		$wgHooks['MediaWikiPerformAction'][] = $qp_Setup;
-		$wgHooks['ParserFirstCallInit'][] = $qp_Setup;
-		$wgHooks['LoadAllMessages'][] = $qp_Setup;
+		$wgHooks['LanguageGetMagic'][] =
+		$wgHooks['MediaWikiPerformAction'][] =
+		$wgHooks['ParserFirstCallInit'][] =
+		$wgHooks['LoadAllMessages'][] =
+		$wgHooks['ResourceLoaderRegisterModules'][] = $qp_Setup;
 	}
 
 	static function onLoadAllMessages() {
@@ -186,13 +185,14 @@ class qp_Setup {
 
 	static function clearCache() {
 		if ( self::$cache_control ) {
+			global $parserMemc;
 			$parserCache = ParserCache::singleton();
 			$key = $parserCache->getKey( self::$article, self::$user );
-			$parserCache->mMemc->delete( $key );
+			$parserMemc->delete( $key );
 			self::$article->doPurge();
 		}
 	}
-	
+
 	static function onMediaWikiPerformAction( $output, $article, $title, $user, $request, $wiki ) {
 		global $wgCookiePrefix;
 		global $qp_enable_showresults; // deprecated since v0.6.5
@@ -236,21 +236,24 @@ class qp_Setup {
 	 * Register the extension with the WikiText parser.
 	 */
 	static function onParserFirstCallInit() {
-		global $wgParser;
-		global $wgExtensionCredits;
-		global $wgQPollFunctionsHook;
-		global $wgContLang;
-		global $wgJsMimeType, $wgOut;
-		# Ouput the style and the script to the header once for all.
-		$head  = '<style type="text/css">' . "\n";
-		$head .= '.qpoll .fatalerror { border: 1px solid gray; padding: 4px; ' . QP_CSS_ERROR_STYLE . ' }' . "\n";
-		$head .= '</style>' . "\n";
-		$head .= '<script type="' . $wgJsMimeType . '" src="' . self::$ScriptPath . '/qp_user.js"></script>' . "\n";
-		$wgOut->addScript( $head );
-		$wgOut->addExtensionStyle( self::$ScriptPath . '/qp_user.css' );
-		if ( $wgContLang->isRTL() ) {
-			$wgOut->addExtensionStyle( self::$ScriptPath . '/qp_user_rtl.css' );
+		global $wgOut;
+		if ( class_exists( 'ResourceLoader' ) ) {
+			# MW 1.17+
+			// $wgOut->addModules( 'jquery' );
+			$wgOut->addModules( 'ext.qpoll' );
+		} else {
+			# MW < 1.17
+			global $wgJsMimeType, $wgContLang;
+			# Ouput the style and the script to the header once for all.
+			$head = '<script type="' . $wgJsMimeType . '" src="' . self::$ScriptPath . '/qp_user.js"></script>' . "\n";
+			$wgOut->addScript( $head );
+			$wgOut->addExtensionStyle( self::$ScriptPath . '/qp_user.css' );
+			if ( $wgContLang->isRTL() ) {
+				$wgOut->addExtensionStyle( self::$ScriptPath . '/qp_user_rtl.css' );
+			}
 		}
+		global $wgParser;
+		global $wgQPollFunctionsHook;
 		# setup tag hook
 		$wgParser->setHook( 'qpoll', array( 'qp_Setup', 'renderPoll' ) );
 		$wgQPollFunctionsHook = new qp_FunctionsHook();
@@ -260,24 +263,46 @@ class qp_Setup {
 	}
 
 	/**
+	 * MW 1.17+ ResourceLoader module hook (JS,CSS)
+	 */
+	static function onResourceLoaderRegisterModules( $resourceLoader ) {
+		global $wgExtensionAssetsPath;
+		$localpath = dirname( __FILE__ );
+		$remotepath = "$wgExtensionAssetsPath/QPoll";
+		$resourceLoader->register(
+			array(
+				'ext.qpoll' => new ResourceLoaderFileModule(
+					array(
+						'scripts' => 'qp_user.js',
+						'styles' => 'qp_user.css'
+					),
+					$localpath,
+					$remotepath
+				)
+			)
+		);
+		return true;
+	}
+
+	/**
 	 * Call the poll parser on an input text.
 	 * 
 	 * @param  $input				Text between <qpoll> and </qpoll> tags, in QPoll syntax.
 	 * @param  $argv				An array containing any arguments passed to the extension
 	 * @param  &$parser				The wikitext parser.
-	 * 
+	 * @param  &$frame			PPFrame object passed in MW 1.16+
 	 * @return 						An HTML poll.
 	 */
 
 	/* @param  $input				Text between <qpoll> and </qpoll> tags, in QPoll syntax. */
-	static function renderPoll( $input, $argv, $parser ) {
+	static function renderPoll( $input, $argv, $parser, $frame = false ) {
 		if ( !self::$cache_control ) {
 			$parser->disableCache();
 		}
 		if ( array_key_exists( 'address', $argv ) ) {
-			$qpoll = new qp_PollStats( $argv, $parser );
+			$qpoll = new qp_PollStats( $argv, $parser, $frame );
 		} else {
-			$qpoll = new qp_Poll( $argv, $parser );
+			$qpoll = new qp_Poll( $argv, $parser, $frame );
 		}
 		return $qpoll->parsePoll( $input );
 	}
@@ -299,6 +324,7 @@ class qp_AbstractPoll {
 	static $messagesLoaded = false; // check whether the extension localized messages are loaded
 
 	var $parser; // parser for parsing tags content
+	var $ppframe; // parser context passed in MW 1.16+; unused in MW 1.15
 	var $username;
 
 	# an ID of the poll on current page (used in declaration/voting mode)
@@ -325,9 +351,10 @@ class qp_AbstractPoll {
 	 * 
 	 * @public
 	 */
-	function __construct( $argv, &$parser ) {
+	function __construct( $argv, &$parser, &$frame ) {
 		global $wgUser, $wgRequest, $wgLanguageCode;
 		$this->parser = &$parser;
+		$this->ppframe = $frame;
 		$this->mRequest = &$wgRequest;
 		$this->mResponse = $wgRequest->response();
 		# Determine which messages will be used, according to the language.
@@ -521,8 +548,8 @@ class qp_AbstractPoll {
  */
 class qp_PollStats extends qp_AbstractPoll {
 
-	function __construct( $argv, &$parser ) {
-		parent::__construct( $argv, $parser );
+	function __construct( $argv, &$parser, &$frame ) {
+		parent::__construct( $argv, $parser, $frame );
 		$this->pollAddr = trim( $argv['address'] );
 		# statistical mode is active, but qp_Setup::$global_showresults still can be false
 		if ( qp_Setup::$global_showresults == 0 ) {
@@ -571,7 +598,7 @@ class qp_PollStats extends qp_AbstractPoll {
 		unset( $unparsedAttributes[0] );
 		# first pass: parse the headers
 		foreach ( $this->pollStore->Questions as &$qdata ) {
-			$question = new qp_QuestionStats( $this->parser, $qdata->type, $qdata->question_id, $this->showResults );
+			$question = new qp_QuestionStats( $this->parser, $this->ppframe, $qdata->type, $qdata->question_id, $this->showResults );
 			if ( isset( $unparsedAttributes[$qdata->question_id] ) ) {
 				$attr_str = $unparsedAttributes[$qdata->question_id];
 			} else {
@@ -664,7 +691,7 @@ class qp_PollStats extends qp_AbstractPoll {
 			0=>array( '__tag'=>'div', '__end'=>"\n", 'class'=>'header',
 				0=>array( '__tag'=>'span', 'class'=>'questionId', 0=>$question->mQuestionId )
 			),
-			1=>$this->parser->recursiveTagParse( $question->mCommonQuestion . "\n" )
+			1=>$this->parser->recursiveTagParse( $question->mCommonQuestion . "\n", $this->ppframe )
 		);
 		$tags[] = &$output_table;
 		return qp_Renderer::renderHTMLobject( $tags );
@@ -677,8 +704,8 @@ class qp_PollStats extends qp_AbstractPoll {
  */
 class qp_Poll extends qp_AbstractPoll {
 
-	function __construct( $argv, &$parser ) {
-		parent::__construct( $argv, $parser );
+	function __construct( $argv, &$parser, &$frame ) {
+		parent::__construct( $argv, $parser, $frame );
 		# order_id is used to sort out polls on the Special:PollResults statistics page
 		$this->mOrderId = self::$sOrderId;
 		# Determine if this poll is being corrected or not, according to the pollId
@@ -975,7 +1002,7 @@ class qp_Poll extends qp_AbstractPoll {
 	#          $body   : the text of question body (starting with body header which defines categories and spans, followed by proposal list)
 	# @return            question object with parsed headers and no data loaded
 	function parseQuestionHeader( $header, $body ) {
-		$question = new qp_Question( $this->parser, $this->mBeingCorrected, ++$this->mQuestionId, $this->showResults );
+		$question = new qp_Question( $this->parser, $this->ppframe, $this->mBeingCorrected, ++$this->mQuestionId, $this->showResults );
 		# parse questions common question and XML attributes
 		$question->parseMainHeader( $header );
 		if ( $question->getState() != 'error' ) {
@@ -1043,7 +1070,7 @@ class qp_Poll extends qp_AbstractPoll {
 			0=>array( '__tag'=>'div', '__end'=>"\n", 'class'=>'header',
 				0=>array( '__tag'=>'span', 'class'=>'questionId', 0=>$question->mQuestionId )
 			),
-			1=>$this->parser->recursiveTagParse( $question->mCommonQuestion . "\n" )
+			1=>$this->parser->recursiveTagParse( $question->mCommonQuestion . "\n", $this->ppframe )
 		);
 		$tags[] = &$output_table;
 		return qp_Renderer::renderHTMLobject( $tags );
@@ -1119,6 +1146,19 @@ class qp_Renderer {
 			$tag_val = $tag;
 		}
 		return $tag_open . $tag_val . $tag_close;
+	}
+
+	/**
+	 * add one or more of CSS class names to tag class attribute
+	 */
+	static function addClass( &$tag, $className ) {
+		if ( !isset( $tag['class'] ) ) {
+			$tag['class'] = $className;
+			return;
+		}
+		if ( array_search( $className, explode( ' ', $tag['class'] ) ) === false ) {
+			$tag['class'] .= " $className";
+		}
 	}
 
 	# creates one "htmlobject" row of the table
@@ -1197,7 +1237,9 @@ class qp_Renderer {
 	}
 
 	static function displayRow( $row, $rowattrs = "", $celltag = "td", $attribute_maps = null ) {
-		return self::renderHTMLobject( self::newRow( $row, $rowattrs, $celltag, $attribute_maps ) );
+		# temporary var $tagsrow used to avoid warning in E_STRICT mode
+		$tagsrow = self::newRow( $row, $rowattrs, $celltag, $attribute_maps );
+		return self::renderHTMLobject( $tagsrow );
 	}
 
 	// use newRow() or addColumn() to add resulting row/column to the table

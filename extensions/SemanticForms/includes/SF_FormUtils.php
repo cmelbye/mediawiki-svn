@@ -31,15 +31,7 @@ class SFFormUtils {
 	}
 
 	static function hiddenFieldHTML( $input_name, $cur_value ) {
-		$input = self::buttonHTML( array(
-			'type' => 'hidden',
-			'name' => $input_name,
-			'value' => $cur_value,
-		) );
-		return <<<END
-	$input
-
-END;
+		return "\t\t\t" . Xml::hidden( $input_name, $cur_value ) . "\n";
 	}
 
 	/**
@@ -49,8 +41,10 @@ END;
 	static function unhandledFieldsHTML( $template_contents ) {
 		$text = "";
 		foreach ( $template_contents as $key => $value ) {
-			if ( $key != '' && !is_numeric( $key ) )
+			if ( !is_null( $key ) && !is_numeric( $key ) ) {
+				$key = urlencode( $key );
 				$text .= self::hiddenFieldHTML( "_unhandled_$key", $value );
+			}
 		}
 		return $text;
 	}
@@ -64,7 +58,7 @@ END;
 		$additional_template_text = "";
 		foreach ( $wgRequest->getValues() as $key => $value ) {
 			if ( substr( $key, 0, 11 ) == '_unhandled_' ) {
-				$field_name = substr( $key, 11 );
+				$field_name = urldecode( substr( $key, 11 ) );
 				$additional_template_text .= "|$field_name=$value\n";
 			}
 		}
@@ -140,8 +134,7 @@ END;
 	 * Helper function to display a simple button
 	 */
 	static function buttonHTML( $values ) {
-		$button_html = Xml::element( 'input', $values, '' );
-		return "		$button_html\n";
+		return "\t\t" . Xml::element( 'input', $values, '' ) . "\n";
 	}
 
 	static function saveButtonHTML( $is_disabled, $label = null, $attr = array() ) {

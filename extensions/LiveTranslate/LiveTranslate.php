@@ -47,7 +47,7 @@ $wgExtensionMessagesFiles['LiveTranslate'] 			= $egLiveTranslateIP . '/LiveTrans
 
 $wgAutoloadClasses['LiveTranslateHooks'] 			= $egLiveTranslateIP . '/LiveTranslate.hooks.php';
 $wgAutoloadClasses['ApiLiveTranslate']	 			= $egLiveTranslateIP . '/api/ApiLiveTranslate.php';
-$wgAutoloadClasses['LiveTranslateFunctions']	 	= $egLiveTranslateIP . '/includes/LiveTranslateFunctions.php';
+$wgAutoloadClasses['LiveTranslateFunctions']	 	= $egLiveTranslateIP . '/includes/LiveTranslate_Functions.php';
 
 $wgAPIModules['livetranslate'] = 'ApiLiveTranslate';
 
@@ -57,7 +57,8 @@ $wgHooks['ArticleSaveComplete'][] = 'LiveTranslateHooks::onArticleSaveComplete';
 $wgHooks['OutputPageBeforeHTML'][] = 'LiveTranslateHooks::onOutputPageBeforeHTML';
 
 $egLTJSMessages = array(
-
+	'livetranslate-button-translate',
+	'livetranslate-button-translating',
 );
 
 // For backward compatibility with MW < 1.17.

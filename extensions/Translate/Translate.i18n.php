@@ -1669,9 +1669,9 @@ $messages['as'] = array(
 	'translate-history' => 'ইতিহাস',
 	'translate-showsub' => ' {{PLURAL:$1|subgroup|$1 subgroups}} দেখুৱাওক',
 	'translate-grouplisting' => 'এইখন ভাঙনি কৰিব পৰা সকলো গোটৰ তালিকা।
-ভাঙনি নোহোৱা বার্ত্তাবোৰ চাবলৈ বার্ত্তাগোটৰ নামটোত ক্লিক কৰক।',
+ভাঙনি নোহোৱা বাৰ্ত্তাবোৰ চাবলৈ বাৰ্ত্তাগোটৰ নামটোত ক্লিক কৰক।',
 	'translate-task-view' => 'সকলো বাৰ্তা',
-	'translate-task-untranslated' => 'ভাঙনি নোহোৱা সকলো বার্ত্তা',
+	'translate-task-untranslated' => 'ভাঙনি নোহোৱা সকলো বাৰ্ত্তা',
 	'translate-task-problematic' => 'আপদযোক্ত বাৰ্তা দেখোৱাওক',
 	'translate-task-review' => 'সালসলনিসমূহৰ পুনৰ্বিবেচনা',
 	'translate-task-reviewall' => 'সকলো ভাঙনি পুনৰ্বিবেচনা',
@@ -1691,6 +1691,9 @@ $messages['as'] = array(
 	'translate-prev' => 'পূৰ্ববৰ্তী পৃষ্ঠা',
 	'translate-page-description-legend' => 'এই গোটটোৰ বিষয়ে সবিশেষ',
 	'translate-page-edit' => 'সম্পাদনা',
+	'translate-optional' => '(বিকল্পিত)',
+	'translate-ignored' => '(উপেক্ষিত)',
+	'translate-edit-title' => '"$1" সম্পাদন কৰক',
 	'translate-edit-contribute' => 'বৰঙণি',
 	'translate-edit-information' => '"$2" বাৰ্তাটোৰৰ বিষয়ে সবিশেষ ($1)',
 	'translate-edit-in-other-languages' => 'আন ভাষাত বাৰ্তা "$1"',
@@ -5721,13 +5724,13 @@ $messages['fa'] = array(
  */
 $messages['fi'] = array(
 	'translate' => 'Käännä',
-	'translate-desc' => '[[Special:Translate|Toimintosivu]], jolla voi kääntää MediaWikiä ja muutakin',
+	'translate-desc' => '[[Special:Translate|Toimintosivu]], jolla voi kääntää MediaWikiä ja muutakin.',
 	'translate-edit' => 'muokkaa',
 	'translate-talk' => 'keskustelu',
 	'translate-history' => 'historia',
 	'translate-showsub' => 'Näytä {{PLURAL:$1|alaryhmä|$1 alaryhmää}}.',
 	'translate-grouplisting' => 'Tämä on kaikkien käännettävien ryhmien luettelo.
-Näpsäytä viestiryhmänimeä katsoaksesi kääntämättömien viestien luetteloa.',
+Saat listan kääntämättömistä viesteistä napsauttamalla ryhmän nimeä.',
 	'translate-task-view' => 'nähdä kaikki viestit',
 	'translate-task-untranslated' => 'nähdä kaikki kääntämättömät viestit',
 	'translate-task-optional' => 'nähdä valinnaiset viestit',
@@ -5924,7 +5927,7 @@ Alasivun ”translators” tulee käyttää mallinetta [[:{{ns:template}}:User|U
 	'translate-manage-nochanges' => 'Tämän ryhmän viestien määritelmiin ei ole mitään muutoksia.',
 	'translate-manage-nochanges-other' => 'Ei ollut mitään muutoksia tälle kielelle. 
 Käytä alla olevaa linkkiä palataksesi ryhmän yksityiskohtanäkymään.',
-	'translate-manage-inconsistent' => 'Havaittu epäjohdonmukaisuus pyynnössä. 
+	'translate-manage-inconsistent' => 'Pyynnön tiedot ovat epäjohdonmukaisia. 
 Tarkista muutokset ja yritä uudelleen. 
 Yksityiskohdat: $1.',
 	'translate-manage-import-ok' => 'Tuotiin uusi versio sivusta $1.',
@@ -8997,7 +9000,7 @@ Subhalaman "penerjemah" harus berisi templat [[:{{ns:template}}:User|User]], men
 Gunakan pranala berikut untuk kembali ke tampilan rincian kelompok.',
 	'translate-manage-inconsistent' => 'Ketidakkonsistenan terdeteksi pada permintaan.
 Periksa ulang perubahan yang dilakukan dan cobalah lagi.
-Detil: $1.',
+Detail: $1.',
 	'translate-manage-toolong' => 'Waktu proses maksimum {{PLURAL:$1||}}$1 detik telah terlampaui.
 Mohon kirimkan kembali formulir untuk melanjutkan proses.',
 	'translate-manage-import-ok' => 'Impor versi baru dari halaman $1.',
@@ -9035,7 +9038,7 @@ $1',
 Tidak dapat menentukan grup dan bahasa dari kepala berkas.',
 	'translate-import-err-warnings' => "Berkas ini tidak diciptakan dengan benar.
 Pastikan penyunting Anda tidak membuang ''field'' msgctxt.
-Detil: $1",
+Detail: $1",
 	'translate-js-next' => 'Simpan dan buka selanjutnya',
 	'translate-js-nonext' => 'Ini adalah pesan terakhir di halaman ini.',
 	'translate-js-skip' => 'Lewati ke selanjutnya',

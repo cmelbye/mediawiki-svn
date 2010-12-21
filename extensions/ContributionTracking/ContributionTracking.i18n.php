@@ -422,6 +422,8 @@ $messages['gl'] = array(
 	'contrib-tracking-continue' => 'Se non es redirixido automaticamente, fai clic no botón para completar a túa doazón por PayPal.',
 	'contrib-tracking-redirect' => 'Serás redirixido automaticamente ao PayPal para completar a túa doazón.',
 	'contrib-tracking-button' => 'Continuar',
+	'contrib-tracking-item-name-onetime' => 'Doazón única',
+	'contrib-tracking-item-name-recurring' => 'Doazón mensual recorrente',
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
@@ -457,6 +459,7 @@ $messages['gu'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author Rotem Liss
  * @author YaronSh
  */
@@ -469,10 +472,13 @@ $messages['he'] = array(
 	'contrib-tracking-continue' => 'אם ההפניה אינה מתבצעת אוטומטית, לחצו על הכפתור כדי להשלים את תרומתכם באתר PayPal.',
 	'contrib-tracking-redirect' => 'כעת תתבצע העברה אוטומטית ל־PayPal כדי להשלים את תרומתך.',
 	'contrib-tracking-button' => 'המשך',
+	'contrib-tracking-item-name-onetime' => 'תרומה חד־פעמית',
+	'contrib-tracking-item-name-recurring' => 'תרומה חודשית חוזרת',
 );
 
 /** Croatian (Hrvatski)
  * @author Dalibor Bosits
+ * @author SpeedyGonsales
  */
 $messages['hr'] = array(
 	'contributiontracking-desc' => 'Praćenje doprinosa za Wikimedijino prikupljanje sredstava',
@@ -481,7 +487,10 @@ $messages['hr'] = array(
 	'contrib-tracking-error-text' => 'Neispravno podnošenje obrasca',
 	'contrib-tracking-submitting' => 'Podnošenje obrascu za plaćanje...',
 	'contrib-tracking-continue' => 'Ako niste automatski preusmjereni, kliknite na tipku kako biste dovršili svoju donaciju s PayPalom.',
+	'contrib-tracking-redirect' => 'Bit ćete automatski preusmjereni na PayPal za dovršetak vaše donacije.',
 	'contrib-tracking-button' => 'Nastavi',
+	'contrib-tracking-item-name-onetime' => 'Jednokratna donacija',
+	'contrib-tracking-item-name-recurring' => 'Mjesečna ponavljajuća donacija',
 );
 
 /** Upper Sorbian (Hornjoserbsce)
@@ -576,6 +585,7 @@ $messages['it'] = array(
 /** Japanese (日本語)
  * @author Fryed-peach
  * @author Mizusumashi
+ * @author Ohgi
  * @author 青子守歌
  */
 $messages['ja'] = array(
@@ -587,6 +597,8 @@ $messages['ja'] = array(
 	'contrib-tracking-continue' => '自動的に転送されない場合は、ボタンを押して PayPal での寄付を終えてください。',
 	'contrib-tracking-redirect' => '寄付を完了するため、PayPalに自動的に転送されます。',
 	'contrib-tracking-button' => '続行',
+	'contrib-tracking-item-name-onetime' => '1回だけ寄付',
+	'contrib-tracking-item-name-recurring' => '月ごとに定期寄付',
 );
 
 /** Javanese (Basa Jawa)
@@ -811,6 +823,7 @@ $messages['nn'] = array(
 /** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
  * @author Finnrind
  * @author Jon Harald Søby
+ * @author Nghtwlkr
  */
 $messages['no'] = array(
 	'contributiontracking-desc' => 'Bidragssporing for Wikimedias innsamling',
@@ -819,7 +832,10 @@ $messages['no'] = array(
 	'contrib-tracking-error-text' => 'Ugyldig skjema',
 	'contrib-tracking-submitting' => 'Sender til betalingshåndtering...',
 	'contrib-tracking-continue' => 'Om du ikke omdirigeres automatisk, klikk på knappen for å gjennomføre donasjonen hos PayPal.',
+	'contrib-tracking-redirect' => 'Du vil automatisk bli omdirigert til PayPal for å fullføre donasjonen din.',
 	'contrib-tracking-button' => 'Fortsett',
+	'contrib-tracking-item-name-onetime' => 'Engangsdonasjon',
+	'contrib-tracking-item-name-recurring' => 'Regelmessige månedlige donasjoner',
 );
 
 /** Occitan (Occitan)
@@ -872,6 +888,8 @@ $messages['pms'] = array(
 	'contrib-tracking-continue' => "S'it ses pa rediressionà automaticament, sgnaca ël boton për completé toa donassion a PayPal.",
 	'contrib-tracking-redirect' => 'It saras rediressionà automaticament su PayPal për completé toa donassion.',
 	'contrib-tracking-button' => 'Continua',
+	'contrib-tracking-item-name-onetime' => 'Donassion sìngola',
+	'contrib-tracking-item-name-recurring' => 'Donassion recorenta mensil',
 );
 
 /** Pashto (پښتو)
@@ -1145,6 +1163,8 @@ $messages['uk'] = array(
 	'contrib-tracking-continue' => 'Якщо ви не були автоматично перенаправлені, натисніть на кнопку, щоб завершити вашу пожертву на сайті PayPal.',
 	'contrib-tracking-redirect' => 'Ви будете автоматично перенаправлені на PayPal для завершення вашого пожертвування.',
 	'contrib-tracking-button' => 'Продовжити',
+	'contrib-tracking-item-name-onetime' => 'Одноразове пожертвування',
+	'contrib-tracking-item-name-recurring' => 'Періодичне щомісячне пожертвування',
 );
 
 /** Vèneto (Vèneto)

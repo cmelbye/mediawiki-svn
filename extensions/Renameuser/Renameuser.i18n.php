@@ -3278,10 +3278,14 @@ $messages['sh'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Budhajeewa
  * @author නන්දිමිතුරු
+ * @author ශ්වෙත
  */
 $messages['si'] = array(
 	'renameuser' => 'පරිශීලකයා යළි-නම්කරන්න',
+	'renameuser-linkoncontribs' => 'පරිශීලකයා යළි-නම්කරන්න',
+	'renameuser-linkoncontribs-text' => 'මෙම පරිශීලකයා ප්‍රති-නම් කරන්න',
 	'renameuser-desc' => "පරිශීලකයෙක් යළි-නම්කරනු වස් [[Special:Renameuser|විශේෂ පිටුවක්]] එක් කරන්න (''renameuser'' අයිතිය අවශ්‍යයි)",
 	'renameuserold' => 'වත්මන් පරිශීලක නාමය:',
 	'renameusernew' => 'නව පරිශීලක නාමය:',
@@ -3290,9 +3294,25 @@ $messages['si'] = array(
 	'renameuserreserve' => 'පැරණි පරිශීලක නම අනාගත භාවිතයෙන් වාරණය කරන්න',
 	'renameuserwarnings' => 'අවවාදයන්:',
 	'renameuserconfirm' => 'ඔව්, පරිශීලකයා යළි-නම්කරන්න',
+	'renameusersubmit' => 'යොමන්න',
 	'renameusererrordoesnotexist' => '"<nowiki>$1</nowiki>" පරිශීලකයා නොපවතී.',
 	'renameusererrorexists' => '"<nowiki>$1</nowiki>" පරිශීලකයා දැනටමත් පවතියි.',
 	'renameusererrorinvalid' => '"<nowiki>$1</nowiki>" පරිශීලක නාමය අනීතිකයි.',
+	'renameusererrortoomany' => 'පරිශීලක "<nowiki>$1</nowiki>" විසින්   {{PLURAL:$2|එක් දායකත්වයකට|දායකත්ව $2 කට}} හිමිකම් කියන අතර, {{PLURAL:$3|එක් දායකත්වයකට|දායකත්ව$3 කට }} වඩා වැඩි ගණනකට හිමිකම් කියන පරිශීලකයෙකු යළි-නම්කිරීම අඩවියෙහි කාර්ය සාධනයට අහිතකර බලපෑම් ඇති කරනු ඇත.',
+	'renameuser-error-request' => 'ඉල්ලීම ලැබීමේ දෝෂයක් හට ගැනිනි.
+කරුණාකර ආපසු ගොස් නැවත උත්සාහ කරන්න.',
+	'renameuser-error-same-user' => 'ඔබට පරිශීලකයෙක් පෙර තිබූ නමටම ප්‍රතිනම්කළ නොහැක.',
+	'renameusersuccess' => '"<nowiki>$1</nowiki>" පරිශීලකයා "<nowiki>$2</nowiki>" වෙත ප්‍රතිනම් කෙරිනි.',
+	'renameuser-page-moved' => ' $1 පිටුව $2 වෙත ගෙනයන ලදි.',
+	'renameuser-page-unmoved' => ' $1 පිටුව  $2 වෙත ගෙනයා නොහැක.',
+	'renameuserlogpage' => 'පරිශීලක ප්‍රතිනම්කෙරුම් ලොගය',
+	'renameuserlogpagetext' => 'මෙය පරිශීලක නාම වෙනස්වීම් පිළිබඳ ලඝු-සටහනකි.',
+	'renameuserlogentry' => '$1, "$2" ලෙස ප්‍රතිනම් කෙරිනි',
+	'renameuser-log' => '{{PLURAL:$1|එක් සංස්කරණයක්|සංස්කරණ $1 ක්}}. හේතුව: $2',
+	'renameuser-move-log' => 'පරිශීලක "[[User:$1|$1]]", "[[User:$2|$2]]" වෙත ප්‍රතිනම්කරන අතරතුර පිටුව ස්‍වයංක්‍රීයව ගෙනයන ලදී',
+	'right-renameuser' => 'පරිශීලකයන් ප්‍රතිනම් කරන්න',
+	'renameuser-renamed-notice' => 'මෙම පරිශීලකයා ප්‍රතිනම්කර ඇත.
+ප්‍රතිනම්කෙරුම් ලඝු-සටහන පහත දක්වා ඇත.',
 );
 
 /** Slovak (Slovenčina)
@@ -3382,12 +3402,16 @@ $messages['sli'] = array(
 
 /** Albanian (Shqip)
  * @author Dori
+ * @author Mikullovci11
  */
 $messages['sq'] = array(
 	'renameuser' => 'Ndërrim përdoruesi',
+	'renameuser-linkoncontribs' => 'Ndërrim përdoruesi',
 	'renameuserold' => 'Emri i tanishëm',
 	'renameusernew' => 'Emri i ri',
 	'renameusermove' => 'Zhvendos faqet e përdoruesit dhe të diskutimit (dhe nën-faqet e tyre) tek emri i ri',
+	'renameuserwarnings' => 'Paralajmërimet:',
+	'renameuserconfirm' => 'Po, ndërrojë emrin e përdoruesit',
 	'renameusersubmit' => 'Ndryshoje',
 	'renameusererrordoesnotexist' => 'Përdoruesi me emër "<nowiki>$1</nowiki>" nuk ekziston',
 	'renameusererrorexists' => 'Përdoruesi me emër "<nowiki>$1</nowiki>" ekziston',

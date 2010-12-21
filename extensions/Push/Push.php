@@ -25,7 +25,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
-define( 'Push_VERSION', '0.6 alpha' );
+define( 'Push_VERSION', '0.7 alpha' );
 
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
@@ -90,6 +90,10 @@ $egPushJSMessages = array(
 	'push-tab-err-fileinfo',
 	'push-tab-err-filepush',
 	'push-tab-err-filepush-unknown',
+	'push-tab-embedded-files',
+	'push-tab-no-embedded-files',
+	'push-tab-files-override',
+	'push-tab-template-override',
 );
 
 // For backward compatibility with MW < 1.17.

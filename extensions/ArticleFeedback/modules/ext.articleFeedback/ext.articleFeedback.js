@@ -6,26 +6,73 @@
 
 var config = {
 	'ratings': {
-		'wellsourced': {
+		'trustworthy': {
 			'id': '1',
-			'label': 'articlefeedback-field-wellsourced-label',
-			'tip': 'articlefeedback-field-wellsourced-tip'
+			'label': 'articlefeedback-field-trustworthy-label',
+			'tip': 'articlefeedback-field-trustworthy-tip'
 		},
-		'neutral': {
+		'unbiased': {
 			'id': '2',
-			'label': 'articlefeedback-field-neutral-label',
-			'tip': 'articlefeedback-field-neutral-tip'
+			'label': 'articlefeedback-field-unbiased-label',
+			'tip': 'articlefeedback-field-unbiased-tip'
 		},
 		'complete': {
 			'id': '3',
 			'label': 'articlefeedback-field-complete-label',
 			'tip': 'articlefeedback-field-complete-tip'
 		},
-		'readable': {
+		'wellwritten': {
 			'id': '4',
-			'label': 'articlefeedback-field-readable-label',
-			'tip': 'articlefeedback-field-readable-tip'
+			'label': 'articlefeedback-field-wellwritten-label',
+			'tip': 'articlefeedback-field-wellwritten-tip'
 		}
+	},
+	'pitches': {
+		'takesurvey': {
+			'condition': function() {
+				// If already taken survey, return false
+				return true;
+			},
+			'action': function() {
+				// Do something
+			},
+			'title': 'articlefeedback-pitch-takesurvey-title',
+			'message': 'articlefeedback-pitch-takesurvey-message',
+			'accept': 'articlefeedback-pitch-takesurvey-accept',
+			'reject': 'articlefeedback-pitch-reject'
+		},
+		'createaccount': {
+			'condition': function() {
+				// If user is logged in, return false
+				if ( !mediaWiki.user.anonymous() ) {
+					return false;
+				}
+				return true;
+			},
+			'action': function() {
+				// Do something
+			},
+			'title': 'articlefeedback-pitch-createaccount-title',
+			'message': 'articlefeedback-pitch-createaccount-message',
+			'accept': 'articlefeedback-pitch-createaccount-accept',
+			'reject': 'articlefeedback-pitch-reject'
+		},
+		'makefirstedit': {
+			'condition': function() {
+				// If user is not logged in, return false
+				if ( mediaWiki.user.anonymous() ) {
+					return false;
+				}
+				return true;
+			},
+			'action': function() {
+				// Do something
+			},
+			'title': 'articlefeedback-pitch-makefirstedit-title',
+			'message': 'articlefeedback-pitch-makefirstedit-message',
+			'accept': 'articlefeedback-pitch-makefirstedit-accept',
+			'reject': 'articlefeedback-pitch-reject'
+		},
 	}
 };
 // Bucket 1 - load at the bottom of the article

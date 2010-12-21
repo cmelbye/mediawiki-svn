@@ -24,9 +24,7 @@
 	}
 	
 	var pages;
-	var imageRequestMade = false;
-	var images = false;
-	var imagePushRequests = [];
+	var targetData = [];
 	
 	$.each($(".push-button"), function(i,v) {
 		getRemoteArticleInfo( $(v).attr( 'targetid' ), $(v).attr( 'pushtarget' ) );
@@ -53,10 +51,6 @@
 			$(this).attr( 'pushtarget' ),
 			$(this).attr( 'targetname' )
 		);
-		
-		if ( $('#checkIncFiles').length != 0 && $('#checkIncFiles').attr('checked') && !imageRequestMade ) {
-			getIncludedImages();
-		}
 	});
 	
 	$('#push-all-button').click(function() {
@@ -69,8 +63,14 @@
 	
 	$('#divIncTemplates').hover(
 		function() {
+			var isHidden = $('#txtTemplateList').css( 'opacity' ) == 0;
+			
+			if ( isHidden ) {
+				$('#txtTemplateList').css( 'display', 'inline' );
+			}
+			
 			$('#txtTemplateList').fadeTo( 
-				( $('#txtTemplateList').css( 'opacity' ) == 0 ? 'slow' : 'fast' ),
+				isHidden? 'slow' : 'fast',
 				1
 			);
 		},
@@ -79,7 +79,61 @@
 		}
 	);
 	
+	$('#divIncTemplates').click(function() {
+		setIncludeFilesText();
+		displayTargetsConflictStatus();
+	});
+	
+	$('#divIncFiles').click(function() {
+		displayTargetsConflictStatus();
+	});	
+	
+	$('#divIncFiles').hover(
+		function() {
+			var isHidden = $('#txtFileList').css( 'opacity' ) == 0;
+			
+			if ( isHidden ) {
+				$('#txtFileList').css( 'display', 'inline' );
+				setIncludeFilesText();
+			}
+			
+			$('#txtFileList').fadeTo( 
+					isHidden ? 'slow' : 'fast',
+				1
+			);
+		},
+		function() {
+			$('#txtFileList').fadeTo( 'fast', 0.5 )
+		}
+	);	
+	
+	function setIncludeFilesText() {
+		if ( $('#checkIncFiles').length != 0 ) {
+			var files = window.wgPushPageFiles;
+
+			if ( $('#checkIncTemplates').attr('checked') ) {
+				files = files.concat( window.wgPushTemplateFiles );
+			}
+
+			if ( files.length > 0 ) {
+				$('#txtFileList').text( '(' + mediaWiki.msg( 'push-tab-embedded-files' ) );
+				
+				for ( i in files ) {
+					if ( i > 0 ) $('#txtFileList').append( ', ' );
+					$('#txtFileList').append( $( '<a>' ).attr( 'href', window.wgPushIndexPath + '?title=' + files[i] ).text( files[i] ) );
+				}
+				
+				$('#txtFileList').append( ')' );
+			}
+			else {
+				$('#txtFileList').text( mediaWiki.msg( 'push-tab-no-embedded-files' ) );
+			}
+		}
+	}
+	
 	function getRemoteArticleInfo( targetId, targetUrl ) {
+		var pageName = $('#pageName').attr('value');
+		
 		$.getJSON(
 			targetUrl + '/api.php?callback=?',
 			{
@@ -87,22 +141,36 @@
 				'format': 'json',
 				'prop': 'revisions',
 				'rvprop': 'timestamp|user|comment',
-				'titles': $('#pageName').attr('value'),
+				'titles': [pageName]
+					.concat( window.wgPushTemplates )
+					.concat( window.wgPushPageFiles )
+					.concat( window.wgPushTemplateFiles )
+					.join( '|' ),
 			},
 			function( data ) {
 				if ( data.query ) {
 					var infoDiv = $( '#targetinfo' + targetId );
+
+					var existingPages = [];
+					var remotePage = false;
 					
-					for ( first in data.query.pages ) break;
-					
-					if ( first == '-1' ) {
-						$( '#targetlink' + targetId ).attr( {'class': 'new'} );
-						var message = mediaWiki.msg( 'push-tab-not-created' );
+					for ( remotePageId in data.query.pages ) {
+						if ( remotePageId > 0 ) {
+							if ( data.query.pages[remotePageId].title == pageName ) {
+								remotePage = data.query.pages[remotePageId]; 
+							}
+							else {
+								existingPages.push( data.query.pages[remotePageId] );
+							}
+						}
 					}
-					else {
+					
+					targetData[targetId] = { 'existingPages': existingPages };
+					
+					if ( remotePage ) {
 						$( '#targetlink' + targetId ).attr( {'class': ''} );
 						
-						var revision = data.query.pages[first].revisions[0];
+						var revision = remotePage.revisions[0];
 						var dateTime = revision.timestamp.split( 'T' );
 
 						var message = mediaWiki.msg(
@@ -110,14 +178,79 @@
 							revision.user,
 							dateTime[0],
 							dateTime[1].replace( 'Z', '' )
-						);
+						);						
+					}
+					else {
+						$( '#targetlink' + targetId ).attr( {'class': 'new'} );
+						var message = mediaWiki.msg( 'push-tab-not-created' );
 					}
 					
 					infoDiv.text( message );
 					infoDiv.fadeIn( 'slow' );
+					
+					displayTargetConflictStatus( targetId );
 				}
 			}
 		);
+	}
+	
+	function displayTargetsConflictStatus() {
+		$.each($(".push-button"), function(i,v) {
+			displayTargetConflictStatus( $(v).attr( 'targetid' ) );
+		});		
+	}
+	
+	function displayTargetConflictStatus( targetId ) {
+		if ( !targetData[targetId] ) {
+			// It's possible the request to retrieve this data failed, so don't do anything when this is the case.
+			return;
+		}
+		
+		if ( $('#checkIncTemplates').attr('checked') ) {
+			var overideTemplates = [];
+			
+			for ( remotePageId in targetData[targetId].existingPages ) {
+				if ( targetData[targetId].existingPages[remotePageId].ns == 10 ) {
+					// Add the template, but get rid of the namespace prefix first.
+					overideTemplates.push( targetData[targetId].existingPages[remotePageId].title.split( ':', 2 )[1] );
+				}
+			}
+			
+			if ( overideTemplates.length > 0 ) {
+				$( '#targettemplateconflicts' + targetId )
+					.text( mediaWiki.msg( 'push-tab-template-override', overideTemplates.join( ', ' ) ) )
+					.fadeIn( 'slow' );
+			}
+			else {
+				$( '#targettemplateconflicts' + targetId ).fadeOut( 'slow' );
+			}
+		}
+		else {
+			$( '#targettemplateconflicts' + targetId ).fadeOut( 'fast' );
+		}		
+		
+		if ( $('#checkIncFiles').length != 0 && $('#checkIncFiles').attr('checked') ) {
+			var overideFiles = [];
+			
+			for ( remotePageId in targetData[targetId].existingPages ) {
+				if ( targetData[targetId].existingPages[remotePageId].ns == 6 ) {
+					// Add the file, but get rid of the namespace prefix first.
+					overideFiles.push( targetData[targetId].existingPages[remotePageId].title.split( ':', 2 )[1] );
+				}
+			}
+			
+			if ( overideFiles.length > 0 ) {
+				$( '#targetfileconflicts' + targetId )
+					.text( mediaWiki.msg( 'push-tab-files-override', overideFiles.join( ', ' ) ) )
+					.fadeIn( 'slow' );
+			}
+			else {
+				$( '#targetfileconflicts' + targetId ).fadeOut( 'slow' );
+			}			
+		}
+		else {
+			$( '#targetfileconflicts' + targetId ).fadeOut( 'fast' );
+		}		
 	}
 	
 	function initiatePush( sender, pages, targetUrl, targetName ) {
@@ -151,54 +284,12 @@
 	
 	function setButtonToImgPush( button, targetUrl, targetName ) {
 		button.innerHTML = mediaWiki.msg( 'push-button-pushing-files' );
-		imagePushRequests.push( { 'sender': button, 'targetUrl': targetUrl, 'targetName': targetName } );
-		startImagesPush();			
-	}
-	
-	function getIncludedImages() {
-		imageRequestMade = true;
-		
-		$.getJSON(
-			wgScriptPath + '/api.php',
-			{
-				'action': 'query',
-				'prop': 'images',
-				'format': 'json',
-				'titles': pages.join( '|' ), 
-			},
-			function( data ) {
-				if ( data.query ) {
-					images = [];
-					
-					for ( page in data.query.pages ) {
-						if ( data.query.pages[page].images ) {
-							for ( var i = data.query.pages[page].images.length - 1; i >= 0; i-- ) {
-								if ( $.inArray( data.query.pages[page].images[i].title, images ) == -1 ) {
-									images.push( data.query.pages[page].images[i].title );
-								}
-							}							
-						}
-					}
-					
-					startImagesPush();
-				}
-				else {
-					alert( mediaWiki.msg( 'push-tab-err-fileinfo' ) );
-				}
-			}
-		);		
-	}
-	
-	function startImagesPush() {
-		if ( images !== false ) {
-			var req;
-			while ( req = imagePushRequests.pop() ) {
-				initiateImagePush( req.sender, req.targetUrl, req.targetName );
-			}			
-		}
+		initiateImagePush( button, targetUrl, targetName );
 	}
 	
 	function initiateImagePush( sender, targetUrl, targetName ) {
+		var images = window.wgPushPageFiles.concat( window.wgPushTemplateFiles );
+		
 		$.getJSON(
 			wgScriptPath + '/api.php',
 			{

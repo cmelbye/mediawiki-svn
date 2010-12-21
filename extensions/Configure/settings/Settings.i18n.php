@@ -3311,6 +3311,7 @@ $messages['bg'] = array(
 	'configure-setting-wgAllDBsAreLocalhost' => 'Мълчаливо презаписване на всички връзки към базата данни на локалния хост.',
 	'configure-setting-wgDBname' => 'Име на използваната база от данни',
 	'configure-setting-wgDBpassword' => 'Парола за $wgDBuser',
+	'configure-setting-wgDBadminpassword' => 'Парола за $wgDBadminuser',
 	'configure-setting-wgDBtype' => 'Тип на използваната база от данни',
 	'configure-setting-wgSharedTables' => 'Таблици за споделяне',
 	'configure-setting-wgIgnoreImageErrors' => 'Без показване на съобщения за грешка за файлове',
@@ -21545,8 +21546,11 @@ $messages['vo'] = array(
  */
 $messages['yi'] = array(
 	'configure-setting-wgArticleRobotPolicies-key' => 'בלאַטנאָמען:',
+	'configure-setting-wgExtraLanguageNames-key' => 'שפּראַך קאָד',
 	'configure-setting-wgExtraLanguageNames-value' => 'נאָמען',
+	'configure-setting-wgSpecialPageGroups-key' => 'גרופע',
 	'configure-setting-wgDebugLogGroups-value' => 'טעקע',
+	'configure-setting-wgXhtmlNamespaces-key' => 'נאָמענטייל',
 );
 
 /** Simplified Chinese (‪中文(简体)‬)
