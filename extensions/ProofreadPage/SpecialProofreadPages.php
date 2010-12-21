@@ -5,7 +5,8 @@
  */
 
 class ProofreadPages extends QueryPage {
-
+	protected $index_namespace, $searchTerm;
+	
 	public function __construct( $name = 'IndexPages' ) {
 		parent::__construct( $name );
 		$this->index_namespace = wfMsgForContent( 'proofreadpage_index_namespace' );
@@ -18,25 +19,25 @@ class ProofreadPages extends QueryPage {
 		list( $limit, $offset ) = wfCheckLimits();
 		$wgOut->addWikiText( wfMsgForContentNoTrans( 'proofreadpage_specialpage_text' ) );
 		$searchList = array();
-		$searchTerm = $wgRequest->getText( 'key' );
+		$this->searchTerm = $wgRequest->getText( 'key' );
 		if( !$wgDisableTextSearch ) {
 			$wgOut->addHTML(
 				Xml::openElement( 'form' ) .
 				Xml::openElement( 'fieldset' ) .
 				Xml::element( 'legend', null, wfMsg( 'proofreadpage_specialpage_legend' ) ) .
-				Xml::input( 'key', 20, $searchTerm ) . ' ' .
+				Xml::input( 'key', 20, $this->searchTerm ) . ' ' .
 				Xml::submitButton( wfMsg( 'ilsubmit' ) ) .
 				Xml::closeElement( 'fieldset' ) .
 				Xml::closeElement( 'form' )
 			);
-			if( $searchTerm ) {
+			if( $this->searchTerm ) {
 				$index_namespace = $this->index_namespace;
 				$index_ns_index = MWNamespace::getCanonicalIndex( strtolower( $index_namespace ) );
 				$searchEngine = SearchEngine::create();
 				$searchEngine->setLimitOffset( $limit, $offset );
 				$searchEngine->setNamespaces( array( $index_ns_index ) );
 				$searchEngine->showRedirects = false;
-				$textMatches = $searchEngine->searchText( $searchTerm );
+				$textMatches = $searchEngine->searchText( $this->searchTerm );
 				$escIndex = preg_quote( $index_namespace, '/' );
 				while( $result = $textMatches->next() ) {
 					if ( preg_match( "/^$escIndex:(.*)$/", $result->getTitle(), $m ) ) {
@@ -74,17 +75,12 @@ class ProofreadPages extends QueryPage {
 		}
 		return array(
 			'tables' => array( 'pr_index', 'page' ),
-			'fields' => array( 'page_title AS title', 'pr_count',
+			'fields' => array( 'page_title AS title', '2*pr_q4+pr_q3 AS value', 'pr_count',
 			'pr_q0', 'pr_q1', 'pr_q2' ,'pr_q3', 'pr_q4' ),
 			'conds' => $conds,
 			'options' => array(),
 			'join_conds' => array( 'page' => array( 'LEFT JOIN', 'page_id=pr_page_id' ) )
 		);
-	}
-
-	function getOrder() {
-		return ' ORDER BY 2*pr_q4+pr_q3 ' .
-			( $this->sortDescending() ? 'DESC' : '' );  // FIXME: This causes a filesort
 	}
 
 	function sortDescending() {
