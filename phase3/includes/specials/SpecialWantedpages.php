@@ -55,8 +55,8 @@ class WantedPagesPage extends WantedQueryPage {
 		global $wgWantedPagesThreshold;
 		$count = $wgWantedPagesThreshold - 1;
 		$query = array (
-			'tables' => array ( 'pagelinks', 'page AS pg1',
-					'page AS pg2' ),
+			'tables' => array ( 'pagelinks', 'pg1' => 'page',
+					'pg2' => 'page' ),
 			'fields' => array ( 'pl_namespace AS namespace',
 					'pl_title AS title',
 					'COUNT(*) AS value' ),
