@@ -59,7 +59,7 @@ class StalepagesPage extends QueryPage
 		$dateString = $db->timestamp($date);
 		return array(
 			'tables' => array( 'page', 'revision' ),
-			'fields' => array( 'page_namespace AS namespace', 'page_title AS title' ),
+			'fields' => array( 'page_namespace AS namespace', 'page_title AS title', 'rev_timestamp AS value' ),
 			'conds' => array( 'page_latest=rev_id',
 				'page_namespace' => NS_MAIN,
 				'page_is_redirect=0',
