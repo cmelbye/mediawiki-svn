@@ -45,9 +45,9 @@ class MV_SpecialQueryStreams extends QueryPage {
 	function getPageHeader() {
 		return '<p>' . wfMsg( 'mv_list_streams_docu' ) . "</p><br />\n";
 	}
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		// $relations = $dbr->tableName( 'smw_relations' );
+
+	function getQueryInfo() {
+				// $relations = $dbr->tableName( 'smw_relations' );
 		// $NSrel = SMW_NS_RELATION;
 		# QueryPage uses the value from this SQL in an ORDER clause.
 		/*return "SELECT 'Relations' as type,
@@ -63,13 +63,13 @@ class MV_SpecialQueryStreams extends QueryPage {
 		 * stream length
 		 * formats available
 		 * number of associative metadata chunks */
-		return "SELECT
-				`id` as `stream_id`,
-				`name` as title,
-				`name` as value " .
-				"FROM " . $dbr->tableName( 'mv_streams' );
 
+		return array(
+			'tables' => array( 'mv_streams' ),
+			'fields' => array( 'id AS stream_id', 'name AS title', 'name AS value' )
+		);
 	}
+
 	function getOrder() {
 		return ' ORDER BY `mv_streams`.`date_start_time` DESC ';
 			// ($this->sortDescending() ? 'DESC' : '');
