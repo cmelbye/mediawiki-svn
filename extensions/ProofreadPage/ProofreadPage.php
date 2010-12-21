@@ -20,6 +20,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 $wgExtensionFunctions[] = 'wfProofreadPage';
+$wgRunHooks['wgQueryPages'][] = 'wfProofreadPageAddQueryPages';
 
 $dir = dirname( __FILE__ ) . '/';
 $wgExtensionMessagesFiles['ProofreadPage'] = $dir . 'ProofreadPage.i18n.php';
@@ -37,10 +38,9 @@ $wgExtensionCredits['other'][] = array(
 );
 
 # special page
-$wgAutoloadClasses['IndexPagesPage'] = $dir . 'SpecialProofreadPages.php';
-$wgSpecialPages['IndexPages'] = 'IndexPagesPage';
-$wgSpecialPageGroups['IndexPages'] = 'pages'
-$wgQueryPages['IndexPagesPage'] = 'IndexPages';
+$wgAutoloadClasses['ProofreadPages'] = $dir . 'SpecialProofreadPages.php';
+$wgSpecialPages['IndexPages'] = 'ProofreadPages';
+$wgSpecialPageGroups['IndexPages'] = 'pages';
 
 # special page
 $wgAutoloadClasses['PagesWithoutScans'] = $dir . 'SpecialPagesWithoutScans.php';
@@ -81,5 +81,11 @@ $wgResourceModules += array(
 
 function wfProofreadPage() {
 	new ProofreadPage;
+	return true;
+}
+
+function wfProofreadPageAddQueryPages( &$wgQueryPages ) {
+	$wgQueryPages['ProofreadPages'] = 'IndexPages';
+	$wgQueryPages['PagesWithoutScans'] = 'PagesWithoutScans';
 	return true;
 }
