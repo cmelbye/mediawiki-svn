@@ -32,7 +32,7 @@
 class MostlinkedCategoriesPage extends QueryPage {
 
 	function __construct() {
-		SpecialPage::__construct( 'Mostlinkedcategories' );
+		parent::__construct( 'Mostlinkedcategories' );
 	}
 	
 	function isExpensive() { return true; }
@@ -41,8 +41,7 @@ class MostlinkedCategoriesPage extends QueryPage {
 	function getQueryInfo() {
 		return array (
 			'tables' => array ( 'categorylinks' ),
-			'fields' => array ( "'" . NS_CATEGORY . "' AS namespace",
-					'cl_to AS title',
+			'fields' => array ( 'cl_to AS title',
 					'COUNT(*) AS value' ),
 			'options' => array ( 'GROUP BY' => 'cl_to' )
 		);
@@ -56,26 +55,27 @@ class MostlinkedCategoriesPage extends QueryPage {
 	function preprocessResults( $db, $res ) {
 		$batch = new LinkBatch;
 		foreach ( $res as $row ) {
-			$batch->add( $row->namespace, $row->title );
+			$batch->add( NS_CATEGORY, $row->title );
 		}
 		$batch->execute();
 
 		// Back to start for display
-		if ( $db->numRows( $res ) > 0 )
+		if ( $db->numRows( $res ) > 0 ) {
 			// If there are no rows we get an error seeking.
 			$db->dataSeek( $res, 0 );
+		}
 	}
 
 	function formatResult( $skin, $result ) {
 		global $wgLang, $wgContLang;
 
-		$nt = Title::makeTitle( $result->namespace, $result->title );
+		$nt = Title::makeTitle( NS_CATEGORY, $result->title );
 		$text = $wgContLang->convert( $nt->getText() );
 
 		$plink = $skin->link( $nt, htmlspecialchars( $text ) );
 
-		$nlinks = wfMsgExt( 'nmembers', array( 'parsemag', 'escape'),
+		$nlinks = wfMsgExt( 'nmembers', array( 'parsemag', 'escape' ),
 			$wgLang->formatNum( $result->value ) );
-		return wfSpecialList($plink, $nlinks);
+		return wfSpecialList( $plink, $nlinks );
 	}
 }
