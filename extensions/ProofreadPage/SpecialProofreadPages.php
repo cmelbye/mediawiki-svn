@@ -6,9 +6,9 @@
 
 class ProofreadPages extends QueryPage {
 
-	public function __construct() {
-		parent::__construct( 'IndexPages' );
-		$this->index_namespace = preg_quote( wfMsgForContent( 'proofreadpage_index_namespace' ), '/' );
+	public function __construct( $name = 'IndexPages' ) {
+		parent::__construct( $name );
+		$this->index_namespace = wfMsgForContent( 'proofreadpage_index_namespace' );
 	}
 
 	public function execute( $parameters ) {
@@ -37,8 +37,9 @@ class ProofreadPages extends QueryPage {
 				$searchEngine->setNamespaces( array( $index_ns_index ) );
 				$searchEngine->showRedirects = false;
 				$textMatches = $searchEngine->searchText( $searchTerm );
+				$escIndex = preg_quote( $index_namespace, '/' );
 				while( $result = $textMatches->next() ) {
-					if ( preg_match( "/^$index_namespace:(.*)$/", $result->getTitle(), $m ) ) {
+					if ( preg_match( "/^$escIndex:(.*)$/", $result->getTitle(), $m ) ) {
 						array_push( $searchList, str_replace( ' ' , '_' , $m[1] ) );
 					}
 				}
@@ -68,7 +69,7 @@ class ProofreadPages extends QueryPage {
 				$index_ns_index = MWNamespace::getCanonicalIndex( strtolower( $index_namespace ) );
 				$conds = array( 'page_namespace' => $index_ns_index, 'page_title' => $this->searchList );
 			} else {
-				$conds = array( 'false' ); // FIXME: This is ugly
+				$conds = null;
 			}
 		}
 		return array(
