@@ -77,6 +77,13 @@ abstract class QueryPage extends SpecialPage {
 	 */
 	var $offset = 0;
 	var $limit = 0;
+	
+	/**
+	 * The number of rows returned by the query. Reading this variable
+	 * only makes sense in functions that are run after the query has been
+	 * done, such as preprocessResults() and formatRow().
+	 */
+	protected $numRows;
 
 	/**
 	 * Wheter to show prev/next links
@@ -443,7 +450,7 @@ abstract class QueryPage extends SpecialPage {
 
 		}
 
-		$num = $dbr->numRows($res);
+		$this->numRows = $dbr->numRows( $res );
 
 		$this->preprocessResults( $dbr, $res );
 
@@ -452,12 +459,12 @@ abstract class QueryPage extends SpecialPage {
 		# Top header and navigation
 		if( $this->shownavigation ) {
 			$wgOut->addHTML( $this->getPageHeader() );
-			if( $num > 0 ) {
-				$wgOut->addHTML( '<p>' . wfShowingResults( $this->offset, $num ) . '</p>' );
+			if( $this->numRows > 0 ) {
+				$wgOut->addHTML( '<p>' . wfShowingResults( $this->offset, $this->numRows ) . '</p>' );
 				# Disable the "next" link when we reach the end
 				$paging = wfViewPrevNext( $this->offset, $this->limit,
 					$this->getTitle( $par ),
-					wfArrayToCGI( $this->linkParameters() ), ( $num < $this->limit ) );
+					wfArrayToCGI( $this->linkParameters() ), ( $this->numRows < $this->limit ) );
 				$wgOut->addHTML( '<p>' . $paging . '</p>' );
 			} else {
 				# No results to show, so don't bother with "showing X of Y" etc.
@@ -475,7 +482,7 @@ abstract class QueryPage extends SpecialPage {
 			$wgUser->getSkin(),
 			$dbr, # Should use a ResultWrapper for this
 			$res,
-			$dbr->numRows( $res ),
+			$this->numRows,
 			$this->offset );
 
 		# Repeat the paging links at the bottom
@@ -485,7 +492,7 @@ abstract class QueryPage extends SpecialPage {
 
 		$wgOut->addHTML( Xml::closeElement( 'div' ) );
 
-		return $num;
+		return $this->numRows;
 	}
 
 	/**
