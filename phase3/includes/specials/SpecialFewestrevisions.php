@@ -29,8 +29,8 @@
  */
 class FewestrevisionsPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Fewestrevisions' );
+	function __construct( $name = 'Fewestrevisions' ) {
+		parent::__construct( $name );
 	}
 	
 	function isExpensive() {

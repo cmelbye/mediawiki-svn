@@ -31,8 +31,8 @@
  */
 class UnwatchedpagesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Unwatchedpages', 'unwatchedpages' );
+	function __construct( $name = 'Unwatchedpages' ) {
+		parent::__construct( $name, 'unwatchedpages' );
 	}
 	
 	// inexpensive?

@@ -30,8 +30,8 @@
  */
 class ListredirectsPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Listredirects' );
+	function __construct( $name = 'Listredirects' ) {
+		parent::__construct( $name );
 	}
 	
 	// inexpensive?

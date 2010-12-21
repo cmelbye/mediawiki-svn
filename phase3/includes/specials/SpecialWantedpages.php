@@ -27,11 +27,8 @@
  * @ingroup SpecialPage
  */
 class WantedPagesPage extends WantedQueryPage {
-	var $nlinks;
-	function __construct( $inc = false, $nlinks = true ) {
-		parent::__construct( 'Wantedpages' );
-		$this->setListoutput( $inc );
-		$this->nlinks = $nlinks;
+	function __construct( $name = 'Wantedpages' ) {
+		parent::__construct( $name );
 	}
 		
 	function execute( $par ) {

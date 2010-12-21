@@ -30,8 +30,8 @@
 // FIXME: Use an instance of UncategorizedPagesPage or something
 class UncategorizedImagesPage extends ImageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Uncategorizedimages' );
+	function __construct( $name = 'Uncategorizedimages' ) {
+		parent::__construct( $name );
 	}
 
 	function sortDescending() {

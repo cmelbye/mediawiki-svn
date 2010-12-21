@@ -24,8 +24,8 @@
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
  */
 class MostrevisionsPage extends FewestrevisionsPage {
-	function __construct() {
-		SpecialPage::__construct( 'Mostrevisions' );
+	function __construct( $name = 'Mostrevisions' ) {
+		parent::__construct( $name );
 	}
 	
 	function sortDescending() {

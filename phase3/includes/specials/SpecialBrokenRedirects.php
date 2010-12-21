@@ -29,8 +29,8 @@
  */
 class BrokenRedirectsPage extends PageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'BrokenRedirects' );
+	function __construct( $name = 'BrokenRedirects' ) {
+		parent::__construct( $name );
 	}
 	
 	// inexpensive?

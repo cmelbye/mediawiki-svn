@@ -31,8 +31,8 @@
  */
 class MostcategoriesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Mostcategories' );
+	function __construct( $name = 'Mostcategories' ) {
+		parent::__construct( $name );
 	}
 	
 	function isExpensive() { return true; }

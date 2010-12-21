@@ -31,8 +31,8 @@
  */
 class MostimagesPage extends ImageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Mostimages' );
+	function __construct( $name = 'Mostimages' ) {
+		parent::__construct( $name );
 	}
 	
 	function isExpensive() { return true; }

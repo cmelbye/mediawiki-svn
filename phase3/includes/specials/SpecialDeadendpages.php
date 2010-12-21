@@ -28,8 +28,8 @@
  */
 class DeadendPagesPage extends PageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Deadendpages' );
+	function __construct( $name = 'Deadendpages' ) {
+		parent::__construct( $name );
 	}
 
 	function getPageHeader() {
@@ -77,9 +77,10 @@ class DeadendPagesPage extends PageQueryPage {
 	function getOrderFields() {
 		// For some crazy reason ordering by a constant
 		// causes a filesort
-		if( count( MWNamespace::getContentNamespaces() ) > 1 )
+		if( count( MWNamespace::getContentNamespaces() ) > 1 ) {
 			return array( 'page_namespace', 'page_title' );
-		else
+		} else {
 			return array( 'page_title' );
+		}
 	}
 }

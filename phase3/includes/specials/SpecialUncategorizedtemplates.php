@@ -29,19 +29,8 @@
  * @ingroup SpecialPage
  */
 class UncategorizedTemplatesPage extends UncategorizedPagesPage {
-
-	var $requestedNamespace = NS_TEMPLATE;
-	
 	public function __construct() {
-		SpecialPage::__construct( 'Uncategorizedtemplates' );
+		parent::__construct( 'Uncategorizedtemplates' );
+		$this->requestedNamespace = NS_TEMPLATE;
 	}
-}
-
-/**
- * Main execution point
- */
-function wfSpecialUncategorizedtemplates() {
-	list( $limit, $offset ) = wfCheckLimits();
-	$utp = new UncategorizedTemplatesPage();
-	$utp->doQuery( $offset, $limit );
 }

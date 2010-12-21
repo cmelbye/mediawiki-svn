@@ -31,8 +31,8 @@
  */
 class WantedFilesPage extends WantedQueryPage {
 
-	function __construct() {
-		parent::__construct( 'Wantedfiles' );
+	function __construct( $name = 'Wantedfiles' ) {
+		parent::__construct( $name );
 	}
 	
 	/**

@@ -28,8 +28,8 @@
  */
 class DisambiguationsPage extends PageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Disambiguations' );
+	function __construct( $name = 'Disamiguations' ) {
+		parent::__construct( $name );
 	}
 
 	function isExpensive() { return true; }

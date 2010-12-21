@@ -31,8 +31,8 @@ class UnusedimagesPage extends ImageQueryPage {
 	// inexpensive?
 	function isExpensive() { return true; }
 
-	function __construct() {
-		SpecialPage::__construct( 'Unusedimages' );
+	function __construct( $name = 'Unusedimages' ) {
+		parent::__construct( $name );
 	}
 	
 	function sortDescending() {

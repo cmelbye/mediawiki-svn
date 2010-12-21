@@ -34,8 +34,8 @@ class LinkSearchPage extends QueryPage {
 		$this->mProt = $params['protocol'];
 	}
 
-	function __construct() {
-		SpecialPage::__construct( 'LinkSearch' );
+	function __construct( $name = 'LinkSearch' ) {
+		parent::__construct( $name );
 	}
 	
 	function execute( $par ) {
@@ -94,7 +94,7 @@ class LinkSearchPage extends QueryPage {
 				'protocol' => $protocol ) );
 			parent::execute( $par );
 			if( $this->mMungedQuery === false )
-			   $wgOut->addWikiText( wfMsg( 'linksearch-error' ) );
+				$wgOut->addWikiText( wfMsg( 'linksearch-error' ) );
 		}
 	}
 
@@ -111,7 +111,7 @@ class LinkSearchPage extends QueryPage {
 	static function mungeQuery( $query , $prot ) {
 		$field = 'el_index';
 		$rv = LinkFilter::makeLike( $query , $prot );
-		if ($rv === false) {
+		if ( $rv === false ) {
 			// LinkFilter doesn't handle wildcard in IP, so we'll have to munge here.
 			if (preg_match('/^(:?[0-9]{1,3}\.)+\*\s*$|^(:?[0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]*\*\s*$/', $query)) {
 				$rv = $prot . rtrim($query, " \t*") . '%';

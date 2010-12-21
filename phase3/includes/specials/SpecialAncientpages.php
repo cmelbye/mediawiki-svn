@@ -28,8 +28,8 @@
  */
 class AncientPagesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Ancientpages' );
+	function __construct( $name = 'Ancientpages' ) {
+		parent::__construct( $name );
 	}
 
 	function isExpensive() {
@@ -67,6 +67,6 @@ class AncientPagesPage extends QueryPage {
 			$title,
 			htmlspecialchars( $wgContLang->convert( $title->getPrefixedText() ) )
 		);
-		return wfSpecialList($link, htmlspecialchars($d) );
+		return wfSpecialList( $link, htmlspecialchars($d) );
 	}
 }

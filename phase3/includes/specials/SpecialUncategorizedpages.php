@@ -28,10 +28,10 @@
  */
 // FIXME: Make $requestedNamespace selectable, unify all subclasses into one
 class UncategorizedPagesPage extends PageQueryPage {
-	var $requestedNamespace = false;
+	protected $requestedNamespace = false;
 
-	function __construct() {
-		SpecialPage::__construct( 'Uncategorizedpages' );
+	function __construct( $name = 'Uncategorizedpages' ) {
+		parent::__construct( $name );
 	}
 
 	function sortDescending() {

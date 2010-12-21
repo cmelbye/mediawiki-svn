@@ -33,8 +33,8 @@
  */
 class WantedTemplatesPage extends WantedQueryPage {
 
-	function __construct() {
-		parent::__construct( 'Wantedtemplates' );
+	function __construct( $name = 'Wantedtemplates' ) {
+		parent::__construct( $name );
 	}
 
 	function getQueryInfo() {

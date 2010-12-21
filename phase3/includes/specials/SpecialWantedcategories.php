@@ -30,8 +30,8 @@
  */
 class WantedCategoriesPage extends WantedQueryPage {
 
-	function __construct() {
-		parent::__construct( 'Wantedcategories' );
+	function __construct( $name = 'Wantedcategories' ) {
+		parent::__construct( $name );
 	}
 
 	function getQueryInfo() {

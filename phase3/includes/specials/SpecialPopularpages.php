@@ -28,8 +28,8 @@
  */
 class PopularPagesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Popularpages' );
+	function __construct( $name = 'Popularpages' ) {
+		parent::__construct( $name );
 	}
 
 	function isExpensive() {

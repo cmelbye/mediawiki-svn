@@ -32,8 +32,8 @@
  */
 class MostlinkedPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Mostlinked' );
+	function __construct( $name = 'Mostlinked' ) {
+		parent::__construct( $name );
 	}
 	
 	function isExpensive() { return true; }

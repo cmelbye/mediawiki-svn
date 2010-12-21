@@ -31,8 +31,8 @@
  */
 class UnusedtemplatesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Unusedtemplates' );
+	function __construct( $name = 'Unusedtemplates' ) {
+		parent::__construct( $name );
 	}
 	
 	// inexpensive?

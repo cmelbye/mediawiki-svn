@@ -29,8 +29,8 @@
  */
 class LonelyPagesPage extends PageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Lonelypages' );
+	function __construct( $name = 'Lonelypages' ) {
+		parent::__construct( $name );
 	}
 	
 	function getPageHeader() {
@@ -72,10 +72,11 @@ class LonelyPagesPage extends PageQueryPage {
 	
 	function getOrderFields() {
 		// For some crazy reason ordering by a constant
-		// causes a filesort
-		if( count( MWNamespace::getContentNamespaces() ) > 1 )
+		// causes a filesort in MySQL 5
+		if( count( MWNamespace::getContentNamespaces() ) > 1 ) {
 			return array( 'page_namespace', 'page_title' );
-		else
+		} else {
 			return array( 'page_title' );
+		}
 	}
 }

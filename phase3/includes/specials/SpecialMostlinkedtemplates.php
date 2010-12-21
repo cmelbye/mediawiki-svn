@@ -30,8 +30,8 @@
  */
 class MostlinkedTemplatesPage extends QueryPage {
 
-	function __construct() {
-		parent::__construct( 'Mostlinkedtemplates' );
+	function __construct( $name = 'Mostlinkedtemplates' ) {
+		parent::__construct( $name );
 	}
 
 	/**

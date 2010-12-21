@@ -29,8 +29,8 @@
  */
 class ShortPagesPage extends QueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'Shortpages' );
+	function __construct( $name = 'Shortpages' ) {
+		parent::__construct( $name );
 	}
 
 	// inexpensive?

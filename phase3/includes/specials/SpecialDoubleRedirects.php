@@ -29,8 +29,8 @@
  */
 class DoubleRedirectsPage extends PageQueryPage {
 
-	function __construct() {
-		SpecialPage::__construct( 'DoubleRedirects' );
+	function __construct( $name = 'DoubleRedirects' ) {
+		parent::__construct( $name );
 	}
 	
 	// inexpensive?

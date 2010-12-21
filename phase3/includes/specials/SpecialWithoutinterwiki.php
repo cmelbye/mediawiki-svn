@@ -30,8 +30,8 @@
 class WithoutInterwikiPage extends PageQueryPage {
 	private $prefix = '';
 
-	function __construct() {
-		parent::__construct( 'Withoutinterwiki' );
+	function __construct( $name = 'Withoutinterwiki' ) {
+		parent::__construct( $name );
 	}
 	
 	function execute( $par ) {

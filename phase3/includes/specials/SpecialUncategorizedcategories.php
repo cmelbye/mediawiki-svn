@@ -27,11 +27,8 @@
  * @ingroup SpecialPage
  */
 class UncategorizedCategoriesPage extends UncategorizedPagesPage {
-
-	var $requestedNamespace = NS_CATEGORY;
-	
-	function __construct() {
-		SpecialPage::__construct( 'Uncategorizedcategories' );
+	function __construct( $name = 'Uncategorizedcategories' ) {
+		parent::__construct( $name );
 		$this->requestedNamespace = NS_CATEGORY;
 	}
 }

@@ -29,8 +29,8 @@ class UnusedCategoriesPage extends QueryPage {
 	// inexpensive?
 	function isExpensive() { return true; }
 
-	function __construct() {
-		SpecialPage::__construct( 'Unusedcategories' );
+	function __construct( $name = 'Unusedcategories' ) {
+		parent::__construct( $name );
 	}
 
 	function getPageHeader() {
