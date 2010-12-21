@@ -53,6 +53,9 @@ class CommandLineInstaller extends Maintenance {
 		/* $this->addOption( 'dbtsearch2schema', 'The schema for the tsearch2 DB in pg (public)', false, true ); */
 		/* $this->addOption( 'namespace', 'The project namespace (same as the name)', false, true ); */
 		$this->addOption( 'env-checks', "Run environment checks only, don't change anything" );
+		$this->addOption( 'upgrade',
+			'Allow the upgrade to continue despite an existing LocalSettings.php', false, true );
+
 	}
 
 	public function execute() {

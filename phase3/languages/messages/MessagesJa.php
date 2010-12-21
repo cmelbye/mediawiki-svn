@@ -36,6 +36,8 @@
  * @author Mzm5zbC3
  * @author Ohgi
  * @author Suisui
+ * @author Vigorous action
+ * @author W.CC
  * @author Web comic
  * @author Whym
  * @author Yanajin66
@@ -778,6 +780,8 @@ $2',
 'nocookieslogin'             => '{{SITENAME}}ではログインにクッキーを使用します。
 クッキーが無効になっているようです。
 クッキーを有効にして、もう一度試してください。',
+'nocookiesfornew'            => '発信元を確認できなかったため、アカウントは作成されませんでした。
+クッキーが有効になっていることを確認の上、このページをリロードしてもう一度お試しください。',
 'noname'                     => '利用者名を正しく指定していません。',
 'loginsuccesstitle'          => 'ログイン成功',
 'loginsuccess'               => "'''{{SITENAME}}に「$1」としてログインしました。'''",
@@ -983,9 +987,9 @@ IPアドレスは複数の利用者の間で共有されていることがあり
 '''まだ保存されていません！'''",
 'userjspreview'                    => "'''利用者JavaScriptを試験、プレビューしています。'''
 '''まだ保存されていません！'''",
-'sitecsspreview'                   => "'''全体に適用されるCSSをプレビューしています。'''
+'sitecsspreview'                   => "'''ここでは、CSSをプレビューしているだけに過ぎません。'''
 '''まだ保存されていません！'''",
-'sitejspreview'                    => "'''全体に適用されるJavaScriptをプレビューしています。'''
+'sitejspreview'                    => "'''ここでは、JavaScriptをプレビューしているだけに過ぎません。'''
 '''まだ保存されていません！'''",
 'userinvalidcssjstitle'            => "'''警告：'''「$1」という外装はありません。
 .cssと.jsページを編集する際には、ページ名を小文字にすることを忘れないでください（例えば、{{ns:user}}:Hoge/Vector.cssではなく{{ns:user}}:Hoge/vector.cssとなります）。",
@@ -1689,7 +1693,7 @@ HTMLタグを見直してください。',
 # Recent changes linked
 'recentchangeslinked'          => '関連する変更',
 'recentchangeslinked-feed'     => '関連する変更',
-'recentchangeslinked-toolbox'  => '関連する変更',
+'recentchangeslinked-toolbox'  => '関連ページの更新状況',
 'recentchangeslinked-title'    => '「$1」と関連する変更',
 'recentchangeslinked-noresult' => '指定期間中に指定ページのリンク先に変更はありませんでした。',
 'recentchangeslinked-summary'  => "これは、指定したページからリンクされている（もしくは、指定したカテゴリに含まれている）ページに最近加えられた変更の一覧です。
@@ -2164,7 +2168,7 @@ contenttype/subtypeの形式で指定してください（例：<tt>image/jpeg</
 # Special:DeletedContributions
 'deletedcontributions'             => '利用者の削除された投稿',
 'deletedcontributions-title'       => '利用者の削除された投稿',
-'sp-deletedcontributions-contribs' => '投稿',
+'sp-deletedcontributions-contribs' => '投稿記録',
 
 # Special:LinkSearch
 'linksearch'       => '外部リンク',
@@ -2367,7 +2371,7 @@ $NEWPAGE
 
 このページの最後の編集は[[User:$3|$3]]（[[User talk:$3|トーク]]{{int:pipe-separator}}[[Special:Contributions/$3|{{int:contribslink}}]]）によるものです。',
 'editcomment'       => "編集内容の要約：「''$1''」",
-'revertpage'        => '[[Special:Contributions/$2|$2]]（[[User talk:$2|トーク]]）による編集を[[User:$1|$1]]による最新版へ差し戻しました',
+'revertpage'        => '[[Special:Contributions/$2|$2]]（[[User talk:$2|トーク]]）による編集を[[User:$1|$1]]による直前の版へ差し戻しました',
 'revertpage-nouser' => '（利用者名削除）による編集を[[User:$1|$1]]による最新版へ差し戻しました',
 'rollback-success'  => '$1による編集を差し戻しました。
 $2による最後の版へ変更されました。',
@@ -2502,7 +2506,7 @@ $1',
 
 # Contributions
 'contributions'       => '利用者の投稿記録',
-'contributions-title' => '利用者の投稿記録：$1',
+'contributions-title' => '$1の投稿記録',
 'mycontris'           => '自分の投稿記録',
 'contribsub2'         => '利用者:$1（$2）',
 'nocontribs'          => 'これらの条件に一致する変更は見つかりませんでした。',
@@ -2616,7 +2620,7 @@ $1',
 'blocklink'                       => 'ブロック',
 'unblocklink'                     => 'ブロックを解除',
 'change-blocklink'                => 'ブロックを変更',
-'contribslink'                    => '投稿',
+'contribslink'                    => '投稿記録',
 'autoblocker'                     => '使用中のIPアドレスが「[[User:$1|$1]]」に使用されたため、自動ブロックされています。
 $1のブロックの理由は「$2」です。',
 'blocklogpage'                    => 'ブロック記録',
@@ -2624,7 +2628,7 @@ $1のブロックの理由は「$2」です。',
 参考のため、ブロックの記録を以下に示します：',
 'blocklog-showsuppresslog'        => 'この利用者は以前にブロックされ、隠されたことがあります。
 参考のため、隠蔽記録を以下に示します：',
-'blocklogentry'                   => '[[$1]] を$2ブロックしました。ブロックの内容は$3です',
+'blocklogentry'                   => '[[$1]] を$2ブロックしました。ブロックの詳細$3',
 'reblock-logentry'                => '[[$1]]ブロック設定を$2に変更しました。ブロックの内容は$3です',
 'blocklogtext'                    => 'このページは利用者のブロックと解除の記録です。
 自動的にブロックされたIPアドレスは表示されていません。
@@ -2916,10 +2920,10 @@ hideuser権限を持っていないため、この利用者のブロックを閲
 'tooltip-n-mainpage'              => 'メインページに移動',
 'tooltip-n-mainpage-description'  => 'メインページに移動する',
 'tooltip-n-portal'                => 'このプロジェクトについて、できること、情報を入手する場所',
-'tooltip-n-currentevents'         => '最近の出来事の背景情報を見つける',
+'tooltip-n-currentevents'         => '最近の出来事について予備知識を得る',
 'tooltip-n-recentchanges'         => 'ウィキにおける最近の更新の一覧',
-'tooltip-n-randompage'            => '無作為抽出されたページの読み込み',
-'tooltip-n-help'                  => '情報を得る場所です',
+'tooltip-n-randompage'            => '無作為に抽出されたページの読み込み',
+'tooltip-n-help'                  => '情報を得る場所',
 'tooltip-t-whatlinkshere'         => 'ここにリンクしている全ウィキのページの一覧',
 'tooltip-t-recentchangeslinked'   => 'ここにリンクしている全ウィキのページの最近の変更',
 'tooltip-feed-rss'                => 'このページのRSSフィード',
@@ -3087,8 +3091,8 @@ $1',
 'file-info'            => '（ファイルサイズ：$1、MIMEタイプ：$2）',
 'file-info-size'       => '（$1×$2ピクセル、ファイルサイズ：$3、MIMEタイプ：$4）',
 'file-nohires'         => '<small>高解像度版はありません。</small>',
-'svg-long-desc'        => '（SVGファイル、名義上$1×$2ピクセル、ファイルサイズ：$3）',
-'show-big-image'       => '完全解像度',
+'svg-long-desc'        => '（SVGファイル、$1×$2ピクセル、ファイルサイズ：$3）',
+'show-big-image'       => '高解像度での画像',
 'show-big-image-thumb' => '<small>このプレビューのサイズ：$1×$2ピクセル</small>',
 'file-info-gif-looped' => 'ループします',
 'file-info-gif-frames' => '$1フレーム',
@@ -3646,6 +3650,7 @@ $1',
 'version-specialpages'             => '特別ページ',
 'version-parserhooks'              => '構文解析フック',
 'version-variables'                => '変数',
+'version-antispam'                 => 'スパム対策',
 'version-skins'                    => 'スキン',
 'version-other'                    => 'その他',
 'version-mediahandlers'            => 'メディアハンドラー',
@@ -3782,5 +3787,13 @@ MediaWikiは、有用であることを期待して配布されていますが�
 'disableaccount-nosuchuser'  => '利用者アカウント「$1」は存在しません。',
 'disableaccount-success'     => '利用者アカウント「$1」は、永久に無効化されています。',
 'disableaccount-logentry'    => '利用者アカウント[[$1]]を永久に無効化',
+
+# Special:UploadStash
+'uploadstash-summary'  => 'このページでは、アップロードされた、もしくはアップロード中の、ウィキ上でまだ公開されていないファイルへアクセスを提供します。これらのファイルをアップロードした利用者が閲覧することは可能ですが、それ以外の利用者は閲覧できません。',
+'uploadstash-clear'    => '未公開ファイルを消去',
+'uploadstash-nofiles'  => '未公開ファイルはありません。',
+'uploadstash-badtoken' => '実行することができませんでした。これは、編集するための認証が無効になったためである可能性があります。再度お試しください。',
+'uploadstash-errclear' => 'ファイルの消去に失敗しました。',
+'uploadstash-refresh'  => 'ファイルの一覧を更新',
 
 );

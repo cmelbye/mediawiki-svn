@@ -1,5 +1,12 @@
 #!/bin/sh
 
+has_binary () {
+    if [ -z `which $1` ]; then
+        return 1
+    fi
+    return 0
+}
+
 if [ `id -u` -ne 0 ]; then
     echo '*** ERROR' Must be root to run
     exit 1
@@ -10,6 +17,8 @@ if ( has_binary phpunit ); then
 else if ( has_binary pear ); then
     echo Installing phpunit with pear
     pear channel-discover pear.phpunit.de
+    pear channel-discover components.ez.no
+    pear channel-discover pear.symfony-project.com
     pear install phpunit/PHPUnit
 else if ( has_binary apt-get ); then
     echo Installing phpunit with apt-get

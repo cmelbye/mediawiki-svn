@@ -1073,6 +1073,9 @@ Please enable them, then log in with your new username and password.',
 'nocookieslogin'             => '{{SITENAME}} uses cookies to log in users.
 You have cookies disabled.
 Please enable them and try again.',
+'nocookiesfornew'            => "The user account wasn't created, as we couldn't confirm its source.
+Ensure you have cookies enabled, reload this page and try again.",
+'nocookiesforlogin'          => '{{int:nocookieslogin}}', # only translate this message to other languages if you have to change it
 'noname'                     => 'You have not specified a valid username.',
 'loginsuccesstitle'          => 'Login successful',
 'loginsuccess'               => "'''You are now logged in to {{SITENAME}} as \"\$1\".'''",
@@ -4247,6 +4250,7 @@ You can also [[Special:Watchlist/edit|use the standard editor]].',
 'version-specialpages'             => 'Special pages',
 'version-parserhooks'              => 'Parser hooks',
 'version-variables'                => 'Variables',
+'version-antispam'                 => 'Spam prevention',
 'version-skins'                    => 'Skins',
 'version-other'                    => 'Other',
 'version-mediahandlers'            => 'Media handlers',

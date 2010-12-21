@@ -2398,13 +2398,12 @@ abstract class DatabaseBase implements DatabaseType {
 	 * 		using $filename
 	 */
 	function sourceFile( $filename, $lineCallback = false, $resultCallback = false, $fname = false ) {
+		wfSuppressWarnings();
 		$fp = fopen( $filename, 'r' );
+		wfRestoreWarnings();
 
 		if ( false === $fp ) {
-			if ( !defined( "MEDIAWIKI_INSTALL" ) )
-				throw new MWException( "Could not open \"{$filename}\".\n" );
-			else
-				return "Could not open \"{$filename}\".\n";
+			throw new MWException( "Could not open \"{$filename}\".\n" );
 		}
 
 		if ( !$fname ) {
@@ -2415,12 +2414,8 @@ abstract class DatabaseBase implements DatabaseType {
 			$error = $this->sourceStream( $fp, $lineCallback, $resultCallback, $fname );
 		}
 		catch ( MWException $e ) {
-			if ( defined( "MEDIAWIKI_INSTALL" ) ) {
-				$error = $e->getMessage();
-			} else {
-				fclose( $fp );
-				throw $e;
-			}
+			fclose( $fp );
+			throw $e;
 		}
 
 		fclose( $fp );
