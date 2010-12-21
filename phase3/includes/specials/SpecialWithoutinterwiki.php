@@ -91,7 +91,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 		if ( $this->prefix ) {
 			// TODO: Include namespace so this is indexed
 			$dbr = wfGetDb( DB_SLAVE );
-			$query['conds'][] = 'page_title ' . $dbr->buildLike( $encPrefix, $dbr->anyString() );
+			$query['conds'][] = 'page_title ' . $dbr->buildLike( $this->Prefix, $dbr->anyString() );
 		}
 		return $query;
 	}
