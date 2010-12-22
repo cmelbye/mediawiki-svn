@@ -352,24 +352,24 @@ abstract class QueryPage extends SpecialPage {
 			}
 		}
 		if ( is_array( $query ) ) {
-			if ( !is_array( @$query['options'] ) ) {
-				$options = array ();
-			}
+			$tables = isset( $query['tables'] ) ? (array)$query['tables'] : array();
+			$fields = isset( $query['fields'] ) ? (array)$query['fields'] : array();
+			$conds = isset( $query['conds'] ) ? (array)$query['conds'] : array();
+			$options = isset( $query['options'] ) ? (array)$query['options'] : array();
+			$join_conds = isset( $query['join_conds'] ) ? (array)$query['join_conds'] : array();
 			if ( count( $order ) ) {
-				$query['options']['ORDER BY'] = implode( ', ', $order );
+				$options['ORDER BY'] = implode( ', ', $order );
 			}
 			if ( $limit !== false ) {
-				$query['options']['LIMIT'] = intval( $limit );
+				$options['LIMIT'] = intval( $limit );
 			}
 			if ( $offset !== false ) {
-				$query['options']['OFFSET'] = intval( $offset );
+				$options['OFFSET'] = intval( $offset );
 			}
 
 			$dbr = wfGetDB( DB_SLAVE );
-			$res = $dbr->select( (array)@$query['tables'],
-					(array)@$query['fields'],
-					(array)@$query['conds'], $fname,
-					$query['options'], (array)@$query['join_conds']
+			$res = $dbr->select( $tables, $fields, $conds, $fname,
+					$options, $join_conds
 			);
 		} else {
 			// Old-fashioned raw SQL style, deprecated
