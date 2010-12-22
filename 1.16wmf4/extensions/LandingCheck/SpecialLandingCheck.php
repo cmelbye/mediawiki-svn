@@ -24,6 +24,7 @@ class SpecialLandingCheck extends SpecialPage {
 		
 		$country = $wgRequest->getVal( 'country' );
 		// If no country was passed, try to do GeoIP lookup
+		// Requires php5-geoip package
 		if ( !$country && function_exists( geoip_country_code_by_name ) ) {
 			$ip = wfGetIP();
 			if ( IP::isValid( $ip ) ) {
@@ -41,6 +42,7 @@ class SpecialLandingCheck extends SpecialPage {
 			'utm_source' => $wgRequest->getVal( 'utm_source' ),
 			'utm_medium' => $wgRequest->getVal( 'utm_medium' ),
 			'utm_campaign' => $wgRequest->getVal( 'utm_campaign' ),
+			'country_code' => $country,
 			'referrer' => $wgRequest->getHeader( 'referer' )
 		) );
 		
