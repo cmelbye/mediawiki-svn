@@ -21,11 +21,7 @@ var FlaggedRevs = {
 		var toggle = document.getElementById('mw-fr-revisiontoggle');
 		if( toggle ) {
 			toggle.style.display = 'inline';
-			var ratings = document.getElementById('mw-fr-revisiondetails');
-			if( ratings ) {
-				ratings.style.display = 'none';
 			}
-		}
 		// Diff detail box
 		toggle = document.getElementById('mw-fr-difftoggle');
 		if( toggle ) {
@@ -164,7 +160,7 @@ FlaggedRevs.setCheckTrigger = function() {
 	if( checkbox ) {
 		checkbox.onclick = FlaggedRevs.updateSaveButton;
 	}
-}
+};
 
 FlaggedRevs.updateSaveButton = function() {
 	var checkbox = document.getElementById("wpReviewEdit");
@@ -180,7 +176,7 @@ FlaggedRevs.updateSaveButton = function() {
 			save.title = FlaggedRevs.messages.tooltipSubmit;
 		}
 	}
-}
+};
 
 FlaggedRevs.getRevisionContents = function() {
 	//get the contents div and replace it with actual parsed article contents via an API call.
@@ -193,7 +189,7 @@ FlaggedRevs.getRevisionContents = function() {
 		var oldRevId = diffUIParams.getElementsByTagName('input')[1].value;
 		var origContents = contentsDiv.innerHTML;
 		contentsDiv.innerHTML = "<span class='loading mw-small-spinner spinner'></span><span class='loading' >" + wgRevContents.waiting + "</span>";
-		var requestArgs = 'action=parse&prop=text&format=xml';
+		var requestArgs = 'action=parse&prop=text|categorieshtml|languageshtml&format=xml';
 		if ( window.wgCurRevisionId == oldRevId && window.wgPageName ) {
 			requestArgs += '&page=' + encodeURIComponent( window.wgPageName );
 		} else {
@@ -206,12 +202,22 @@ FlaggedRevs.getRevisionContents = function() {
 				data	: requestArgs,
 				dataType: "xml",
 				success	: function( result ) {
+					contentsDiv.innerHTML = "";
 					contents = jQuery(result).find("text");
 					if ( contents && contents.text() ) {
-						contentsDiv.innerHTML = contents.text();
+						contentsDiv.innerHTML += contents.text();
 					} else {
 						contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
 					}
+					categoryhtml = jQuery(result).find("categorieshtml");
+					if ( categoryhtml && categoryhtml.text() ) {
+						contentsDiv.innerHTML += categoryhtml.text();
+					}
+					languageshtml = jQuery(result).find("languageshtml");
+					if ( languageshtml && languageshtml.text() ) {
+						contentsDiv.innerHTML += "<div class='langlinks' >" + languageshtml.text() + "</div>";
+					}
+					
 				},
 				error	: function(xmlHttpRequest, textStatus, errThrown) {
 					contentsDiv.innerHTML = wgRevContents.error + " " + origContents;
@@ -223,22 +229,21 @@ FlaggedRevs.getRevisionContents = function() {
 			if ( call ) {
 				call.abort();
 			}
+		};
 		}
-	}
 	if ( nextLink ) {
 		nextLink.onclick = function() {
 			if ( call ) {
 				call.abort();
 			}
+		};
 		}
-	}
-}
+};
 
 FlaggedRevs.setJSTriggers = function() {
 	FlaggedRevs.enableShowhide();
 	FlaggedRevs.setCheckTrigger();
 	FlaggedRevs.getRevisionContents();
-}
+};
 
-//TODO figure out the correct way to do this
 window.onload = FlaggedRevs.setJSTriggers;

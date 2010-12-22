@@ -45,9 +45,11 @@ class FlaggedRevsHooks {
 	*/
 	protected static function injectStyleAndJS() {
 		global $wgOut, $wgUser, $wgFlaggedRevStyleVersion;
-		if ( $wgOut->hasHeadItem( 'FlaggedRevs' ) ) {
+		static $loadedModules = false;
+		if ( $loadedModules ) {
 			return true; # Don't double-load
 		}
+		$loadedModules = true;
 		$fa = FlaggedArticleView::globalArticleInstance();
 		# Try to only add to relevant pages
 		if ( !$fa || !$fa->isReviewable() ) {
@@ -58,8 +60,7 @@ class FlaggedRevsHooks {
 		$encCssFile = htmlspecialchars( "$stylePath/flaggedrevs.css?$wgFlaggedRevStyleVersion" );
 		$encJsFile = htmlspecialchars( "$stylePath/flaggedrevs.js?$wgFlaggedRevStyleVersion" );
 		# Add CSS file
-		$linkedStyle = Html::linkedStyle( $encCssFile );
-		$wgOut->addHeadItem( 'FlaggedRevs', $linkedStyle );
+		$wgOut->addExtensionStyle( $encCssFile );
 		# Add main JS file
 		$wgOut->includeJQuery();
 		$wgOut->addScriptFile( $encJsFile );
@@ -1607,6 +1608,7 @@ class FlaggedRevsHooks {
 		# Highlight unchecked content
 		$queryInfo['tables'][] = 'flaggedpages';
 		$queryInfo['fields'][] = 'fp_stable';
+		$queryInfo['fields'][] = 'fp_pending_since';
 		$queryInfo['join_conds']['flaggedpages'] = array( 'LEFT JOIN', "fp_page_id = rev_page" );
 		return true;
 	}
@@ -1642,7 +1644,10 @@ class FlaggedRevsHooks {
 		}
 		# Fetch and process cache the stable revision
 		if ( !isset( $history->fr_stableRevId ) ) {
-			$history->fr_stableRevId = $fa->getStable();
+			$srev = $fa->getStableRev();
+			$history->fr_stableRevId = $srev ? $srev->getRevId() : null;
+			$history->fr_stableRevUTS = $srev ? // bug 15515
+				wfTimestamp( TS_UNIX, $srev->getRevTimestamp() ) : null;
 			$history->fr_pendingRevs = false;
 		}
 		if ( !$history->fr_stableRevId ) {
@@ -1652,7 +1657,7 @@ class FlaggedRevsHooks {
 		$revId = (int)$row->rev_id;
 		// Pending revision: highlight and add diff link
 		$link = $class = '';
-		if ( $revId > $history->fr_stableRevId ) {
+		if ( wfTimestamp( TS_UNIX, $row->rev_timestamp ) > $history->fr_stableRevUTS ) {
 			$class = 'flaggedrevs-pending';
 			$link = wfMsgExt( 'revreview-hist-pending-difflink', 'parseinline',
 				$title->getPrefixedText(), $history->fr_stableRevId, $revId );
@@ -1740,7 +1745,9 @@ class FlaggedRevsHooks {
 		} elseif ( isset( $row->fr_quality ) ) {
 			$ret = '<span class="' . FlaggedRevsXML::getQualityColor( $row->fr_quality ) .
 				'">' . $ret . '</span>';
-		} elseif ( isset( $row->fp_stable ) && $row->rev_id > $row->fp_stable ) {
+		} elseif ( isset( $row->fp_pending_since )
+			&& $row->rev_timestamp >= $row->fp_pending_since ) // bug 15515
+		{
 			$ret = '<span class="flaggedrevs-pending">' . $ret . '</span>';
 		} elseif ( !isset( $row->fp_stable ) ) {
 			$ret = '<span class="flaggedrevs-unreviewed">' . $ret . '</span>';
@@ -1820,7 +1827,7 @@ class FlaggedRevsHooks {
 			return true; // nothing to do
 		}
 		$view = FlaggedArticleView::singleton();
-		$view->addCustomContentHtml( $out );
+		$view->addCustomContentHtml( $out, $diffEngine->getNewid() );
 		return false;
 	}
 

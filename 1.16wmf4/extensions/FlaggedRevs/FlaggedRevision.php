@@ -311,8 +311,8 @@ class FlaggedRevision {
 			'fr_img_sha1'      => $this->getFileSha1()
 		);
 		# Update flagged revisions table
-		$dbw->replace( 'flaggedrevs', array( array( 'fr_page_id', 'fr_rev_id' ) ),
-            $revRow, __METHOD__ );
+		$dbw->replace( 'flaggedrevs',
+			array( array( 'fr_page_id', 'fr_rev_id' ) ), $revRow, __METHOD__ );
 		# Clear out any previous garbage...
 		$dbw->delete( 'flaggedtemplates',
             array( 'ft_rev_id' => $this->getRevId() ), __METHOD__ );
@@ -388,14 +388,23 @@ class FlaggedRevision {
 	}
 
 	/**
+	 * Check if the corresponding revision is the current revision
+	 * Note: here for convenience
+	 * @return bool
+	 */
+	public function revIsCurrent() {
+		$rev = $this->getRevision(); // corresponding revision
+		return ( $rev ? $rev->isCurrent() : false );
+	}
+
+	/**
 	 * Get timestamp of the corresponding revision
+	 * Note: here for convenience
 	 * @return string revision timestamp in MW format
 	 */
 	public function getRevTimestamp() {
-		# Get corresponding revision
-		$rev = $this->getRevision();
-		$timestamp = $rev ? $rev->getTimestamp() : "0";
-		return $timestamp;
+		$rev = $this->getRevision(); // corresponding revision
+		return ( $rev ? $rev->getTimestamp() : "0" );
 	}
 
 	/**
@@ -474,7 +483,7 @@ class FlaggedRevision {
 				array( 'ft_rev_id' => $this->getRevId() ),
 				__METHOD__
 			);
-			foreach( $res as $row ) {
+			foreach ( $res as $row ) {
 				if ( !isset( $this->mTemplates[$row->ft_namespace] ) ) {
 					$this->mTemplates[$row->ft_namespace] = array();
 				}
@@ -500,7 +509,7 @@ class FlaggedRevision {
 				array( 'fi_rev_id' => $this->getRevId() ),
 				__METHOD__
 			);
-			foreach( $res as $row ) {
+			foreach ( $res as $row ) {
                 $reviewedTS = trim( $row->fi_img_timestamp ); // may be ''/NULL
                 $reviewedTS = $reviewedTS ? wfTimestamp( TS_MW, $reviewedTS ) : '0';
 				$this->mFiles[$row->fi_name] = array();
@@ -534,7 +543,7 @@ class FlaggedRevision {
                     'flaggedpages' => array( 'LEFT JOIN', 'fp_page_id = page_id' )
                 )
 			);
-			foreach( $res as $row ) {
+			foreach ( $res as $row ) {
 				if ( !isset( $this->mStableTemplates[$row->ft_namespace] ) ) {
 					$this->mStableTemplates[$row->ft_namespace] = array();
 				}
@@ -627,7 +636,7 @@ class FlaggedRevision {
 			)
 		);
 		$tmpChanges = array();
-		foreach( $ret as $row ) {
+		foreach ( $ret as $row ) {
 			$title = Title::makeTitleSafe( $row->tl_namespace, $row->tl_title );
 			$revIdDraft = (int)$row->page_latest; // may be NULL
 			if ( FlaggedRevs::inclusionSetting() == FR_INCLUDES_STABLE ) {
@@ -637,8 +646,16 @@ class FlaggedRevision {
 				$revIdStable = (int)$row->ft_tmp_rev_id; // may be NULL
 			}
 			# Compare to current...
+			$updated = false; // edited/created
+			if ( $revIdDraft && $revIdDraft > $revIdStable ) {
+				$dRev = Revision::newFromId( $revIdDraft );
+				$sRev = Revision::newFromId( $revIdStable );
+				# Don't do this for null edits (like protection) (bug 25919)
+				if ( $dRev && $sRev && $dRev->getTextId() != $sRev->getTextId() ) {
+					$updated = true;
+				}
+			}
 			$deleted = ( !$revIdDraft && $revIdStable ); // later deleted
-			$updated = ( $revIdDraft && $revIdDraft > $revIdStable ); // edited/created
 			if ( $deleted || $updated ) {
 				$tmpChanges[] = array( $title, $revIdStable );
 			}
@@ -690,7 +707,7 @@ class FlaggedRevision {
             )
 		);
 		$fileChanges = array();
-		foreach( $ret as $row ) {
+		foreach ( $ret as $row ) {
 			$title = Title::makeTitleSafe( NS_FILE, $row->il_to );
 			$reviewedTS = trim( $row->fi_img_timestamp ); // may be ''/NULL
             $reviewedTS = $reviewedTS ? wfTimestamp( TS_MW, $reviewedTS ) : null;

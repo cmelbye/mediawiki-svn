@@ -974,23 +974,14 @@ class FlaggedArticleView {
 			return true;
 		}
 		if ( !FlaggedRevs::useOnlyIfProtected() ) {
-			$links = array();
+			# Add links to lists of unreviewed pages and pending changes in this category
 			$category = $this->article->getTitle()->getText();
-			# Add link to list of unreviewed pages in this category
-			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
-				SpecialPage::getTitleFor( 'UnreviewedPages' ),
-				wfMsgHtml( 'unreviewedpages' ),
-				'category=' . urlencode( $category )
-			);
-			# Add link to list of pages in this category with pending edits
-			$links[] = $wgUser->getSkin()->makeKnownLinkObj(
-				SpecialPage::getTitleFor( 'PendingChanges' ),
-				wfMsgHtml( 'pendingchanges' ),
-				'category=' . urlencode( $category )
-			);
-			$quickLinks = implode( ' / ', $links );
 			$wgOut->appendSubtitle(
-				"<span id='mw-fr-category-oldreviewed'>$quickLinks</span>"
+				Html::rawElement(
+					'span',
+					array( 'class' => 'plainlinks', 'id' => 'mw-fr-category-oldreviewed' ), 
+					wfMsgExt( 'flaggedrevs-categoryview', 'parseinline', urlencode( $category ) )
+				)
 			);
 		}
 		return true;
@@ -1188,9 +1179,19 @@ class FlaggedArticleView {
 			// We are looking a the stable version or an old reviewed one
 			$tabs['read']['class'] = 'selected';
 		} elseif ( self::isViewAction( $action ) ) {
-			// Are we looking at a draft/current revision?
-			// Note: there may *just* be template/file changes.
-			if ( $wgOut->getRevisionId() >= $srev->getRevId() ) {
+			$ts = null;
+			if ( $wgOut->getRevisionId() ) { // @TODO: avoid same query in Skin.php
+				$ts = ( $wgOut->getRevisionId() == $this->article->getLatest() )
+					? $this->article->getTimestamp() // skip query
+					: Revision::getTimestampFromId( $title, $wgOut->getRevisionId() );
+			}
+			// Are we looking at a pending revision?
+			if ( $ts > $srev->getRevTimestamp() ) { // bug 15515
+				$tabs['draft']['class'] .= ' selected';
+			// Are there *just* pending template/file changes.
+			} elseif ( $this->article->onlyTemplatesOrFilesPending()
+				&& $wgOut->getRevisionId() == $this->article->getStable() )
+			{
 				$tabs['draft']['class'] .= ' selected';
 			// Otherwise, fallback to regular tab behavior
 			} else {
@@ -1440,43 +1441,43 @@ class FlaggedArticleView {
 	* Add [checked version] and such to left and right side of diff
 	*/
 	protected static function diffReviewMarkers( FlaggedArticle $article, $oldRev, $newRev ) {
-		$form = '';
-
+		$table = '';
 		$srev = $article->getStableRev();
-		$stableId = $srev ? $srev->getRevId() : 0;
 		# Diff between two revisions
 		if ( $oldRev && $newRev ) {
-			list( $msg, $class ) = self::getDiffRevMsgAndClass( $oldRev, $stableId );
-			$form .= "<table class='fr-diff-ratings'><tr>";
-			$form .= "<td width='50%' align='center'>";
-			$form .= "<span class='$class'>[" .
+			list( $msg, $class ) = self::getDiffRevMsgAndClass( $oldRev, $srev );
+			$table .= "<table class='fr-diff-ratings'><tr>";
+			$table .= "<td width='50%' align='center'>";
+			$table .= "<span class='$class'>[" .
 				wfMsgHtml( $msg ) . "]</span>";
 
-			list( $msg, $class ) = self::getDiffRevMsgAndClass( $newRev, $stableId );
-			$form .= "</td><td width='50%' align='center'>";
-			$form .= "<span class='$class'>[" .
+			list( $msg, $class ) = self::getDiffRevMsgAndClass( $newRev, $srev );
+			$table .= "</td><td width='50%' align='center'>";
+			$table .= "<span class='$class'>[" .
 				wfMsgHtml( $msg ) . "]</span>";
 
-			$form .= "</td></tr></table>\n";
+			$table .= "</td></tr></table>\n";
 		# New page "diffs" - just one rev
 		} elseif ( $newRev ) {
-			list( $msg, $class ) = self::getDiffRevMsgAndClass( $newRev, $stableId );
-			$form .= "<table class='fr-diff-ratings'>";
-			$form .= "<tr><td align='center'><span class='$class'>";
-			$form .= '[' . wfMsgHtml( $msg ) . ']';
-			$form .= "</span></td></tr></table>\n";
+			list( $msg, $class ) = self::getDiffRevMsgAndClass( $newRev, $srev );
+			$table .= "<table class='fr-diff-ratings'>";
+			$table .= "<tr><td align='center'><span class='$class'>";
+			$table .= '[' . wfMsgHtml( $msg ) . ']';
+			$table .= "</span></td></tr></table>\n";
 		}
-		return $form;
+		return $table;
 	}
 
-	protected static function getDiffRevMsgAndClass( Revision $rev, $stableId ) {
+	protected static function getDiffRevMsgAndClass(
+		Revision $rev, FlaggedRevision $srev = null
+	) {
 		$tier = FlaggedRevs::getRevQuality( $rev->getPage(), $rev->getId() );
 		if ( $tier !== false ) {
 			$msg = $tier
 				? 'revreview-hist-quality'
 				: 'revreview-hist-basic';
 		} else {
-			$msg = ( $stableId && $rev->getId() > $stableId )
+			$msg = ( $srev && $rev->getTimestamp() > $srev->getRevTimestamp() ) // bug 15515
 				? 'revreview-hist-pending'
 				: 'revreview-hist-draft';
 		}
@@ -1558,7 +1559,7 @@ class FlaggedArticleView {
 		return ( $srev && $oldRev && $newRev
 			&& $oldRev->getPage() == $newRev->getPage() // no multipage diffs
 			&& $oldRev->getId() == $srev->getRevId()
-			&& $newRev->getTimestamp() >= $oldRev->getTimestamp()
+			&& $newRev->getTimestamp() >= $oldRev->getTimestamp() // no backwards diffs
  		);
 	}
 
@@ -1812,9 +1813,9 @@ class FlaggedArticleView {
 	 * to the specific revision. This will be replaced with article content
 	 * using javascript and an api call.
 	 */
-	public function addCustomContentHtml( OutputPage $out ) {
+	public function addCustomContentHtml( OutputPage $out, $newRevId ) {
 		$this->load();
-		if ( $out->getRevisionId() ) {
+		if ( $newRevId ) {
 			$out->addHTML( "<div id='mw-fr-revisioncontents' class='plainlinks'>" );
 			$out->addWikiMsg( 'revcontents-getcontents',
 				$this->article->getTitle()->getPrefixedDBKey(), $out->getRevisionId() );
