@@ -78,7 +78,6 @@ class DisambiguationsPage extends PageQueryPage {
 			wfDebug("Mediawiki:disambiguationspage message does not link to any templates!\n");
 		}
 		
-		// FIXME: What are pagelinks and p2 doing here?
 		return array (
 			'tables' => array( 'templatelinks', 'p1' => 'page', 'pagelinks', 'p2' => 'page' ),
 			'fields' => array( 'p1.page_namespace AS namespace',
