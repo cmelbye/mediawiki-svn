@@ -40,7 +40,8 @@ class PNGMetadataExtractor {
 			'warning'     => 'ContentWarning',
 			'url'         => 'Identifier', # Not sure if this is best mapping. Maybe WebStatement.
 			'label'       => 'Label',
-			/* Other potentially useful things - Creation Time, Document */
+			'creation time' => 'DateTimeDigitized',
+			/* Other potentially useful things - Document */
 		);
 
 		$showXMP = function_exists( 'xml_parser_create_ns' );
@@ -94,7 +95,7 @@ class PNGMetadataExtractor {
 					$duration += $fctldur['delay_num'] / $fctldur['delay_den'];
 				}
 			} elseif ( $chunk_type == "iTXt" ) {
-				// Extracts iTXt chunks, uncompressing if neccesary.
+				// Extracts iTXt chunks, uncompressing if necessary.
 				$buf = fread( $fh, $chunk_size );
 				$items = array();
 				if ( preg_match( 
@@ -237,6 +238,41 @@ class PNGMetadataExtractor {
 					wfDebug( __METHOD__ . " Cannot decompress zTXt chunk due to lack of zlib. Skipping." );
 					fseek( $fh, $chunk_size, SEEK_CUR );
 				}
+			} elseif ( $chunk_type == 'tIME' ) {
+				// last mod timestamp.
+				if( $chunk_size !== 7 ) { throw new Exception( __METHOD__ . ": tIME wrong size" ); return; }
+				$buf = fread( $fh, $chunk_size );
+				if( !$buf ) { throw new Exception( __METHOD__ . ": Read error" ); return; }
+
+				// Note: spec says this should be UTC.
+				$t = unpack( "ny/Cm/Cd/Ch/Cmin/Cs", $buf );
+				$strTime = sprintf( "%04d%02d%02d%02d%02d%02d",
+					$t['y'], $t['m'], $t['d'], $t['h'],
+					$t['min'], $t['s'] );
+
+				$exifTime = wfTimestamp( TS_EXIF, $strTime );
+
+				if ( $exifTime ) {
+					$text['DateTime'] = $exifTime;
+				}
+
+			} elseif ( $chunk_type == 'pHYs' ) {
+				// how big pixels are (dots per meter).
+				if( $chunk_size !== 9 ) { throw new Exception( __METHOD__ . ": pHYs wrong size" ); return; }
+				$buf = fread( $fh, $chunk_size );
+				if( !$buf ) { throw new Exception( __METHOD__ . ": Read error" ); return; }
+
+				$dim = unpack( "Nwidth/Nheight/Cunit", $buf );
+				if ( $dim['unit'] == 1 ) {
+					// unit is meters
+					// (as opposed to 0 = undefined )
+					$text['XResolution'] = $dim['width']
+						. '/100';
+					$text['YResolution'] = $dim['height']
+						. '/100';
+					$text['ResolutionUnit'] = 3;
+					// 3 = dots per cm (from Exif).
+				}
 
 			} elseif ( $chunk_type == "IEND" ) {
 				break;
@@ -251,6 +287,32 @@ class PNGMetadataExtractor {
 			$duration *= $loopCount;
 		}
 
+		if ( isset( $text['DateTimeDigitized'] ) ) {
+			// Convert date format from rfc2822 to exif.
+			foreach ( $text['DateTimeDigitized'] as $name => &$value ) {
+				if ( $name === '_type' ) {
+					continue;
+				}
+
+				// fixme: currently timezones are ignored.
+				// possibly should be wfTimestamp's
+				// responsibility. (at least for numeric TZ)
+				$formatted = wfTimestamp( TS_EXIF, $value );
+				if ( $formatted ) {
+					// Only change if we could convert the
+					// date.
+					// The png standard says it should be
+					// in rfc2822 format, but not required.
+					// In general for the exif stuff we
+					// prettify the date if we can, but we
+					// display as-is if we cannot or if
+					// it is invalid.
+					// So do the same here.
+
+					$value = $formatted;
+				}
+			}
+		}
 		return array(
 			'frameCount' => $frameCount,
 			'loopCount' => $loopCount,
