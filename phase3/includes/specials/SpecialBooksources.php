@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Booksources
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -65,7 +69,6 @@ class SpecialBookSources extends SpecialPage {
 	public static function isValidISBN( $isbn ) {
 		$isbn = self::cleanIsbn( $isbn );
 		$sum = 0;
-		$check = -1;
 		if( strlen( $isbn ) == 13 ) {
 			for( $i = 0; $i < 12; $i++ ) {
 				if($i % 2 == 0) {
@@ -95,7 +98,6 @@ class SpecialBookSources extends SpecialPage {
 		return false;
 	}
 
-
 	/**
 	 * Trim ISBN and remove characters which aren't required
 	 *
@@ -116,7 +118,7 @@ class SpecialBookSources extends SpecialPage {
 		$title = self::getTitleFor( 'Booksources' );
 		$form  = '<fieldset><legend>' . wfMsgHtml( 'booksources-search-legend' ) . '</legend>';
 		$form .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
-		$form .= Xml::hidden( 'title', $title->getPrefixedText() );
+		$form .= Html::hidden( 'title', $title->getPrefixedText() );
 		$form .= '<p>' . Xml::inputLabel( wfMsg( 'booksources-isbn' ), 'isbn', 'isbn', 20, $this->isbn );
 		$form .= '&#160;' . Xml::submitButton( wfMsg( 'booksources-go' ) ) . '</p>';
 		$form .= Xml::closeElement( 'form' );
@@ -164,6 +166,6 @@ class SpecialBookSources extends SpecialPage {
 	 */
 	private function makeListItem( $label, $url ) {
 		$url = str_replace( '$1', $this->isbn, $url );
-		return '<li><a href="' . htmlspecialchars( $url ) . '">' . htmlspecialchars( $label ) . '</a></li>';
+		return '<li><a href="' . htmlspecialchars( $url ) . '" class="external">' . htmlspecialchars( $label ) . '</a></li>';
 	}
 }

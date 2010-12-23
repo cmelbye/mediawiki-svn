@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on May 13, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on May 13, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -78,7 +79,6 @@ class ApiQueryLangLinks extends ApiQueryBase {
 		$res = $this->select( __METHOD__ );
 
 		$count = 0;
-		$db = $this->getDB();
 		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
 				// We've reached the one extra which shows that
@@ -87,6 +87,12 @@ class ApiQueryLangLinks extends ApiQueryBase {
 				break;
 			}
 			$entry = array( 'lang' => $row->ll_lang );
+			if ( $params['url'] ) {
+				$title = Title::newFromText( "{$row->ll_lang}:{$row->ll_title}" );
+				if ( $title ) {
+					$entry['url'] = $title->getFullURL();
+				}
+			}
 			ApiResult::setContent( $entry, $row->ll_title );
 			$fit = $this->addPageSubItem( $row->ll_from, $entry );
 			if ( !$fit ) {
@@ -94,6 +100,10 @@ class ApiQueryLangLinks extends ApiQueryBase {
 				break;
 			}
 		}
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {
@@ -106,6 +116,7 @@ class ApiQueryLangLinks extends ApiQueryBase {
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
 			),
 			'continue' => null,
+			'url' => false,
 		);
 	}
 
@@ -113,6 +124,7 @@ class ApiQueryLangLinks extends ApiQueryBase {
 		return array(
 			'limit' => 'How many langlinks to return',
 			'continue' => 'When more results are available, use this to continue',
+			'url' => 'Whether to get the full URL',
 		);
 	}
 
@@ -129,7 +141,7 @@ class ApiQueryLangLinks extends ApiQueryBase {
 	protected function getExamples() {
 		return array(
 			'Get interlanguage links from the [[Main Page]]:',
-			'  api.php?action=query&prop=langlinks&titles=Main%20Page&redirects',
+			'  api.php?action=query&prop=langlinks&titles=Main%20Page&redirects=',
 		);
 	}
 

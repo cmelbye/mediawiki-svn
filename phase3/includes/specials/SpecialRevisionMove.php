@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:RevisionMove
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -33,17 +37,13 @@
  * **** NOTE: This feature is EXPERIMENTAL.  ****
  * **** Do not use on any productive system. ****
  *
- * @file
  * @ingroup SpecialPage
- */
-
-/* TODO In case page_deleted gets introduced some day, use it.
- *      Currently it is possible with RevisionMove to make the latest revision
- *      of a page a RevisionDeleted one. When that happens, the user is presented
- *      an empty page with no error message whatsoever (in case he is not permitted
- *      to view deleted edits).
+ * @todo In case page_deleted gets introduced some day, use it.
+ *       Currently it is possible with RevisionMove to make the latest revision
+ *       of a page a RevisionDeleted one. When that happens, the user is presented
+ *       an empty page with no error message whatsoever (in case he is not permitted
+ *       to view deleted edits).
 */
-
 class SpecialRevisionMove extends UnlistedSpecialPage {
 	# common objects
 	var $mOldTitle; # Title object.
@@ -69,7 +69,7 @@ class SpecialRevisionMove extends UnlistedSpecialPage {
 	 * Mostly initializes variables and calls either showForm() or submit()
 	 */
 	public function execute( $par ) {
-		global $wgUser, $wgOut, $wgSkin;
+		global $wgUser, $wgOut;
 
 		$this->setHeaders();
 		$this->outputHeader();
@@ -149,11 +149,11 @@ class SpecialRevisionMove extends UnlistedSpecialPage {
 				'action' => $this->getTitle()->getLocalUrl( array( 'action' => 'submit' ) ),
 				'id' => 'mw-revmove-form' ) ) .
 			Xml::fieldset( wfMsg( 'revmove-legend' ) ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
-			Xml::hidden( 'oldTitle', $this->mOldTitle->getPrefixedText() ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			Html::hidden( 'oldTitle', $this->mOldTitle->getPrefixedText() ) .
 			'<div>' . Xml::inputLabel( wfMsg( 'revmove-reasonfield' ), 'wpReason', 'revmove-reasonfield', 60 ) . '</div>' .
 			Xml::inputLabel( wfMsg( 'revmove-titlefield' ), 'newTitle', 'revmove-titlefield', 20, $this->mOldTitle->getPrefixedText() ) .
-			Xml::hidden( 'ids', implode( ',', $this->mIds ) ) .
+			Html::hidden( 'ids', implode( ',', $this->mIds ) ) .
 			Xml::submitButton( wfMsg( 'revmove-submit' ),
 							array( 'name' => 'wpSubmit' ) ) .
 			Xml::closeElement( 'fieldset' ) . "\n" .
@@ -234,8 +234,6 @@ class SpecialRevisionMove extends UnlistedSpecialPage {
 	 * This function actually move the revision. NEVER call this function, call submit()
 	 */
 	protected function moveRevisions() {
-		global $wgOut;
-
 		$oldArticle = new Article( $this->mOldTitle );
 		$newArticle = new Article( $this->mNewTitle );
 
@@ -303,7 +301,6 @@ class SpecialRevisionMove extends UnlistedSpecialPage {
 				array( 'page_id = ' . $this->mOldTitle->getArticleID() ),
 				__METHOD__
 			);
-			$deletedOldPage = true;
 		} else {
 			# page_latest has to be updated
 			$currentOldPageRev = Revision::newFromId( $this->mOldTitle->getLatestRevID() );
@@ -343,7 +340,7 @@ class SpecialRevisionMove extends UnlistedSpecialPage {
 	protected function queryLatestTimestamp( &$dbw, $articleId, $conds = array() ) {
 		$timestampNewRow = $dbw->selectRow(
 			'revision',
-			'max(rev_timestamp) as maxtime',
+			'max(rev_timestamp) AS maxtime',
 			array_merge( array( 'rev_page' => $articleId ), $conds ),
 			__METHOD__
 		);

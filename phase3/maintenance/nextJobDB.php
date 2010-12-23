@@ -41,7 +41,7 @@ class nextJobDB extends Maintenance {
 		# If we didn't get it from the cache
 		if ( !$pendingDBs ) {
 			$pendingDBs = $this->getPendingDbs( $type );
-			$wgMemc->get( $mckey, $pendingDBs, 300 );
+			$wgMemc->set( $mckey, $pendingDBs, 300 );
 		}
 		# If we've got a pending job in a db, display it.
 		if ( $pendingDBs ) {
@@ -64,7 +64,7 @@ class nextJobDB extends Maintenance {
 			$dbsByMaster[$lb->getServerName( 0 )][] = $db;
 		}
 
-		foreach ( $dbsByMaster as $master => $dbs ) {
+		foreach ( $dbsByMaster as $dbs ) {
 			$dbConn = wfGetDB( DB_MASTER, array(), $dbs[0] );
 			$stype = $dbConn->addQuotes( $type );
 

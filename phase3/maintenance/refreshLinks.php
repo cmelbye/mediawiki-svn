@@ -1,5 +1,7 @@
 <?php
 /**
+ * Refresh link tables.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -35,10 +37,10 @@ class RefreshLinks extends Maintenance {
 	}
 
 	public function execute() {
+		$max = $this->getOption( 'm', 0 );
 		if ( !$this->hasOption( 'dfn-only' ) ) {
 			$start = $this->getArg( 0, 1 );
 			$new = $this->getOption( 'new-only', false );
-			$max = $this->getOption( 'm', false );
 			$end = $this->getOption( 'e', 0 );
 			$redir = $this->getOption( 'redirects-only', false );
 			$oldRedir = $this->getOption( 'old-redirects-only', false );
@@ -109,7 +111,7 @@ class RefreshLinks extends Maintenance {
 			);
 			$num = $dbr->numRows( $res );
 			$this->output( "$num new articles...\n" );
-	
+
 			$i = 0;
 			foreach ( $res as $row ) {
 				if ( !( ++$i % $reportingInterval ) ) {
@@ -119,7 +121,7 @@ class RefreshLinks extends Maintenance {
 				if ( $redirectsOnly )
 					$this->fixRedirect( $row->page_id );
 				else
-					$this->fixLinksFromArticle( $row->page_id );
+					self::fixLinksFromArticle( $row->page_id );
 			}
 		} else {
 			if ( !$end ) {
@@ -129,9 +131,9 @@ class RefreshLinks extends Maintenance {
 			}
 			$this->output( "Refreshing redirects table.\n" );
 			$this->output( "Starting from page_id $start of $end.\n" );
-	
+
 			for ( $id = $start; $id <= $end; $id++ ) {
-	
+
 				if ( !( $id % $reportingInterval ) ) {
 					$this->output( "$id\n" );
 					wfWaitForSlaves( $maxLag );
@@ -144,12 +146,12 @@ class RefreshLinks extends Maintenance {
 				$this->output( "Starting from page_id $start of $end.\n" );
 
 				for ( $id = $start; $id <= $end; $id++ ) {
-	
+
 					if ( !( $id % $reportingInterval ) ) {
 						$this->output( "$id\n" );
 						wfWaitForSlaves( $maxLag );
 					}
-					$this->fixLinksFromArticle( $id );
+					self::fixLinksFromArticle( $id );
 				}
 			}
 		}
@@ -160,29 +162,27 @@ class RefreshLinks extends Maintenance {
 	 * @param $id int The page_id of the redirect
 	 */
 	private function fixRedirect( $id ) {
-		global $wgTitle, $wgArticle;
-	
-		$wgTitle = Title::newFromID( $id );
+		$title = Title::newFromID( $id );
 		$dbw = wfGetDB( DB_MASTER );
-	
-		if ( is_null( $wgTitle ) ) {
+
+		if ( is_null( $title ) ) {
 			// This page doesn't exist (any more)
 			// Delete any redirect table entry for it
 			$dbw->delete( 'redirect', array( 'rd_from' => $id ),
 				__METHOD__ );
 			return;
 		}
-		$wgArticle = new Article( $wgTitle );
-	
-		$rt = $wgArticle->followRedirect();
-	
+		$article = new Article( $title );
+
+		$rt = $article->followRedirect();
+
 		if ( !$rt || !is_object( $rt ) ) {
-			// $wgTitle is not a redirect
+			// $title is not a redirect
 			// Delete any redirect table entry for it
 			$dbw->delete( 'redirect', array( 'rd_from' => $id ),
 				__METHOD__ );
 		} else {
-			$wgArticle->updateRedirectOn( $dbw, $rt );
+			$article->updateRedirectOn( $dbw, $rt );
 		}
 	}
 
@@ -190,28 +190,27 @@ class RefreshLinks extends Maintenance {
 	 * Run LinksUpdate for all links on a given page_id
 	 * @param $id int The page_id
 	 */
-	private function fixLinksFromArticle( $id ) {
-		global $wgTitle, $wgParser;
+	public static function fixLinksFromArticle( $id ) {
+		global $wgParser;
 
-		$wgTitle = Title::newFromID( $id );
+		$title = Title::newFromID( $id );
 		$dbw = wfGetDB( DB_MASTER );
 
-		$linkCache =& LinkCache::singleton();
-		$linkCache->clear();
+		LinkCache::singleton()->clear();
 
-		if ( is_null( $wgTitle ) ) {
+		if ( is_null( $title ) ) {
 			return;
 		}
 		$dbw->begin();
 
-		$revision = Revision::newFromTitle( $wgTitle );
+		$revision = Revision::newFromTitle( $title );
 		if ( !$revision ) {
 			return;
 		}
 
 		$options = new ParserOptions;
-		$parserOutput = $wgParser->parse( $revision->getText(), $wgTitle, $options, true, true, $revision->getId() );
-		$update = new LinksUpdate( $wgTitle, $parserOutput, false );
+		$parserOutput = $wgParser->parse( $revision->getText(), $title, $options, true, true, $revision->getId() );
+		$update = new LinksUpdate( $title, $parserOutput, false );
 		$update->doUpdate();
 		$dbw->commit();
 	}

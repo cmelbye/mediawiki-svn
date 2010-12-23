@@ -12,7 +12,7 @@ addOnloadHook( function() {
 	}
 } );
 
-var htmlforms = {
+window.htmlforms = {
 	'selectOrOtherSelectChanged' : function( e ) {
 		var select;
 		if ( !e ) {
@@ -30,11 +30,7 @@ var htmlforms = {
 		var id = select.id;
 		var textbox = document.getElementById( id + '-other' );
 
-		if ( select.value == 'other' ) {
-			textbox.disabled = false;
-		} else {
-			textbox.disabled = true;
-		}
+		textbox.disabled = ( select.value != 'other' );
 	}
-}
+};
 

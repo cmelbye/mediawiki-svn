@@ -2,6 +2,21 @@
 /**
  * Rewrite the messages array in the files languages/messages/MessagesXx.php.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup MaintenanceLanguage
  * @defgroup MaintenanceLanguage MaintenanceLanguage
@@ -21,9 +36,8 @@ require_once( 'writeMessagesArray.inc' );
  * @param $removeDupes Remove the duplicated messages?
  * @param $dupeMsgSource The source file intended to remove from the array.
  */
-function rebuildLanguage( $code, $write, $listUnknown, $removeUnknown, $removeDupes, $dupeMsgSource ) {
-	global $wgLanguages;
-	$messages = $wgLanguages->getMessages( $code );
+function rebuildLanguage( $languages, $code, $write, $listUnknown, $removeUnknown, $removeDupes, $dupeMsgSource ) {
+	$messages = $languages->getMessages( $code );
 	$messages = $messages['all'];
 	if ( $removeDupes ) {
 		$messages = removeDupes( $messages, $dupeMsgSource );
@@ -96,13 +110,13 @@ $wgRemoveUnknownMessages = isset( $options['remove-unknown'] );
 $wgRemoveDuplicateMessages = isset( $options['remove-duplicates'] );
 
 # Get language objects
-$wgLanguages = new languages();
+$languages = new languages();
 
 # Write all the language
 if ( $wgCode == 'all' ) {
-	foreach ( $wgLanguages->getLanguages() as $language ) {
-		rebuildLanguage( $language, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
+	foreach ( $languages->getLanguages() as $languageCode ) {
+		rebuildLanguage( $languages, $languageCode, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
 	}
 } else {
-	rebuildLanguage( $wgCode, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
+	rebuildLanguage( $languages, $wgCode, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
 }

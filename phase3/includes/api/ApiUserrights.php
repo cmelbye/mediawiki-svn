@@ -1,10 +1,11 @@
 <?php
 
 /**
- * Created on Mar 24, 2009
- * API for MediaWiki 1.8+
  *
- * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ *
+ * Created on Mar 24, 2009
+ *
+ * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +21,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -54,16 +57,16 @@ class ApiUserrights extends ApiBase {
 		$this->getResult()->setIndexedTagName( $r['removed'], 'group' );
 		$this->getResult()->addValue( null, $this->getModuleName(), $r );
 	}
-	
+
+	/**
+	 * @return User
+	 */
 	private function getUser() {
 		if ( $this->mUser !== null ) {
 			return $this->mUser;
 		}
 
 		$params = $this->extractRequestParams();
-		if ( is_null( $params['user'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'user' ) );
-		}
 
 		$form = new UserrightsPage;
 		$status = $form->fetchUser( $params['user'] );
@@ -88,7 +91,10 @@ class ApiUserrights extends ApiBase {
 
 	public function getAllowedParams() {
 		return array (
-			'user' => null,
+			'user' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'add' => array(
 				ApiBase::PARAM_TYPE => User::getAllGroups(),
 				ApiBase::PARAM_ISMULTI => true
@@ -118,10 +124,8 @@ class ApiUserrights extends ApiBase {
 		return 'Add/remove a user to/from groups';
 	}
 
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'user' ),
-		) );
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

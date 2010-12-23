@@ -27,7 +27,7 @@
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class RebuildTextIndex extends Maintenance {
- 	const RTI_CHUNK_SIZE = 500;
+	const RTI_CHUNK_SIZE = 500;
 	private $db;
 
 	public function __construct() {
@@ -40,17 +40,27 @@ class RebuildTextIndex extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgTitle, $wgDBtype;
+		global $wgTitle;
 
 		// Shouldn't be needed for Postgres
-		if ( $wgDBtype == 'postgres' ) {
+		$this->db = wfGetDB( DB_MASTER );
+		if ( $this->db->getType() == 'postgres' ) {
 			$this->error( "This script is not needed when using Postgres.\n", true );
 		}
-	
+
 		$this->db = wfGetDB( DB_MASTER );
+		if ( $this->db->getType() == 'sqlite' ) {
+			if ( !$this->db->getFulltextSearchModule() ) {
+				$this->error( "Your version of SQLite module for PHP doesn't support full-text search (FTS3).\n" );
+			}
+			if ( !$this->db->checkForEnabledSearch() ) {
+				$this->error( "Your database schema is not configured for full-text search support. Run update.php.\n" );
+			}
+		}
+
 		$wgTitle = Title::newFromText( "Rebuild text index script" );
-	
-		if ( $wgDBtype == 'mysql' ) {
+
+		if ( $this->db->getType() == 'mysql' ) {
 			$this->dropMysqlTextIndex();
 			$this->populateSearchIndex();
 			$this->createMysqlTextIndex();
@@ -58,7 +68,7 @@ class RebuildTextIndex extends Maintenance {
 			$this->clearSearchIndex();
 			$this->populateSearchIndex();
 		}
-	
+
 		$this->output( "Done.\n" );
 	}
 
@@ -71,9 +81,11 @@ class RebuildTextIndex extends Maintenance {
 		$count = $s->count;
 		$this->output( "Rebuilding index fields for {$count} pages...\n" );
 		$n = 0;
-	
+
 		while ( $n < $count ) {
-			$this->output( $n . "\n" );
+			if ( $n ) {
+				$this->output( $n . "\n" );
+			}
 			$end = $n + self::RTI_CHUNK_SIZE - 1;
 
 			$res = $this->db->select( array( 'page', 'revision', 'text' ),
@@ -81,13 +93,12 @@ class RebuildTextIndex extends Maintenance {
 				array( "page_id BETWEEN $n AND $end", 'page_latest = rev_id', 'rev_text_id = old_id' ),
 				__METHOD__
 				);
-	
+
 			foreach ( $res as $s ) {
 				$revtext = Revision::getRevisionText( $s );
 				$u = new SearchUpdate( $s->page_id, $s->page_title, $revtext );
 				$u->doUpdate();
 			}
-			$this->db->freeResult( $res );
 			$n += self::RTI_CHUNK_SIZE;
 		}
 	}

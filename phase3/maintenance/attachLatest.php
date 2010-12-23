@@ -3,7 +3,7 @@
  * quick hackjob to fix damages imports on wikisource
  * page records have page_latest wrong
  *
- * Copyright (C) 2005 Brion Vibber <brion@pobox.com>
+ * Copyright © 2005 Brion Vibber <brion@pobox.com>
  * http://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,19 +21,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class AttachLatest extends Maintenance {
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->addOption( "fix", "Actually fix the entries, will dry run otherwise" );
 		$this->mDescription = "Fix page_latest entries in the page table";
 	}
-	
+
 	public function execute() {
 		$this->output( "Looking for pages with page_latest set to 0...\n" );
 		$dbw = wfGetDB( DB_MASTER );
@@ -55,7 +56,7 @@ class AttachLatest extends Maintenance {
 				$this->output( wfWikiID() . " $pageId [[$name]] can't find latest rev time?!\n" );
 				continue;
 			}
-	
+
 			$revision = Revision::loadFromTimestamp( $dbw, $title, $latestTime );
 			if ( is_null( $revision ) ) {
 				$this->output( wfWikiID() . " $pageId [[$name]] latest time $latestTime, can't find revision id\n" );
@@ -69,7 +70,6 @@ class AttachLatest extends Maintenance {
 			}
 			$n++;
 		}
-		$dbw->freeResult( $result );
 		$this->output( "Done! Processed $n pages.\n" );
 		if ( !$this->hasOption( 'fix' ) ) {
 			$this->output( "This was a dry run; rerun with --fix to update page_latest.\n" );

@@ -1,10 +1,10 @@
 <?php
-
 /**
- * Created on Sep 4, 2007
- * API for MediaWiki 1.8+
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ *
+ * Created on Sep 4, 2007
+ *
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -58,9 +60,6 @@ class ApiBlock extends ApiBase {
 			return;
 		}
 
-		if ( is_null( $params['user'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'user' ) );
-		}
 		if ( !$wgUser->isAllowed( 'block' ) ) {
 			$this->dieUsageMsg( array( 'cantblock' ) );
 		}
@@ -135,7 +134,10 @@ class ApiBlock extends ApiBase {
 
 	public function getAllowedParams() {
 		return array(
-			'user' => null,
+			'user' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'token' => null,
 			'gettoken' => false,
 			'expiry' => 'never',
@@ -170,10 +172,9 @@ class ApiBlock extends ApiBase {
 	public function getDescription() {
 		return 'Block a user';
 	}
-	
+
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'user' ),
 			array( 'cantblock' ),
 			array( 'canthide' ),
 			array( 'cantblock-email' ),
@@ -181,7 +182,11 @@ class ApiBlock extends ApiBase {
 			array( 'ipbnounblockself' ),
 		) );
 	}
-	
+
+	public function needsToken() {
+		return true;
+	}
+
 	public function getTokenSalt() {
 		return '';
 	}
@@ -189,7 +194,7 @@ class ApiBlock extends ApiBase {
 	protected function getExamples() {
 		return array(
 			'api.php?action=block&user=123.5.5.12&expiry=3%20days&reason=First%20strike',
-			'api.php?action=block&user=Vandal&expiry=never&reason=Vandalism&nocreate&autoblock&noemail'
+			'api.php?action=block&user=Vandal&expiry=never&reason=Vandalism&nocreate=&autoblock=&noemail='
 		);
 	}
 

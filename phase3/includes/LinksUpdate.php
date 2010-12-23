@@ -30,7 +30,7 @@ class LinksUpdate {
 	 * @param $parserOutput ParserOutput: output from a full parse of this page
 	 * @param $recursive Boolean: queue jobs for recursive updates?
 	 */
-	function LinksUpdate( $title, $parserOutput, $recursive = true ) {
+	function __construct( $title, $parserOutput, $recursive = true ) {
 		global $wgAntiLockFlags;
 
 		if ( $wgAntiLockFlags & ALF_NO_LINK_LOCK ) {
@@ -247,7 +247,7 @@ class LinksUpdate {
 				'page_touched < ' . $this->mDb->addQuotes( $now )
 			), __METHOD__
 		);
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$ids[] = $row->page_id;
 		}
 		if ( !count( $ids ) ) {
@@ -351,8 +351,6 @@ class LinksUpdate {
 	function getLinkInsertions( $existing = array() ) {
 		$arr = array();
 		foreach( $this->mLinks as $ns => $dbkeys ) {
-			# array_diff_key() was introduced in PHP 5.1, there is a compatibility function
-			# in GlobalFunctions.php
 			$diffs = isset( $existing[$ns] ) ? array_diff_key( $dbkeys, $existing[$ns] ) : $dbkeys;
 			foreach ( $diffs as $dbk => $id ) {
 				$arr[] = array(
@@ -426,17 +424,47 @@ class LinksUpdate {
 	 * @private
 	 */
 	function getCategoryInsertions( $existing = array() ) {
-		global $wgContLang;
+		global $wgContLang, $wgCategoryCollation;
 		$diffs = array_diff_assoc( $this->mCategories, $existing );
 		$arr = array();
 		foreach ( $diffs as $name => $sortkey ) {
 			$nt = Title::makeTitleSafe( NS_CATEGORY, $name );
 			$wgContLang->findVariantLink( $name, $nt, true );
+
+			if ( $this->mTitle->getNamespace() == NS_CATEGORY ) {
+				$type = 'subcat';
+			} elseif ( $this->mTitle->getNamespace() == NS_FILE ) {
+				$type = 'file';
+			} else {
+				$type = 'page';
+			}
+
+			# TODO: This is kind of wrong, because someone might set a sort
+			# key prefix that's the same as the default sortkey for the
+			# title.  This should be fixed by refactoring code to replace
+			# $sortkey in this array by a prefix, but it's basically harmless
+			# (Title::moveTo() has had the same issue for a long time).
+			if ( $this->mTitle->getCategorySortkey() == $sortkey ) {
+				$prefix = '';
+				$sortkey = $wgContLang->convertToSortkey( $sortkey );
+			} else {
+				# Treat custom sortkeys as a prefix, so that if multiple
+				# things are forced to sort as '*' or something, they'll
+				# sort properly in the category rather than in page_id
+				# order or such.
+				$prefix = $sortkey;
+				$sortkey = $wgContLang->convertToSortkey(
+					$this->mTitle->getCategorySortkey( $prefix ) );
+			}
+
 			$arr[] = array(
 				'cl_from'    => $this->mId,
 				'cl_to'      => $name,
 				'cl_sortkey' => $sortkey,
-				'cl_timestamp' => $this->mDb->timestamp()
+				'cl_timestamp' => $this->mDb->timestamp(),
+				'cl_sortkey_prefix' => $prefix,
+				'cl_collation' => $wgCategoryCollation,
+				'cl_type' => $type,
 			);
 		}
 		return $arr;
@@ -485,8 +513,6 @@ class LinksUpdate {
 	function getInterwikiInsertions( $existing = array() ) {
 		$arr = array();
 		foreach( $this->mInterwikis as $prefix => $dbkeys ) {
-			# array_diff_key() was introduced in PHP 5.1, there is a compatibility function
-			# in GlobalFunctions.php
 			$diffs = isset( $existing[$prefix] ) ? array_diff_key( $dbkeys, $existing[$prefix] ) : $dbkeys;
 			foreach ( $diffs as $dbk => $id ) {
 				$arr[] = array(
@@ -498,8 +524,6 @@ class LinksUpdate {
 		}
 		return $arr;
 	}
-
-
 
 	/**
 	 * Given an array of existing links, returns those links which are not in $this
@@ -604,13 +628,12 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'pagelinks', array( 'pl_namespace', 'pl_title' ),
 			array( 'pl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( !isset( $arr[$row->pl_namespace] ) ) {
 				$arr[$row->pl_namespace] = array();
 			}
 			$arr[$row->pl_namespace][$row->pl_title] = 1;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -622,13 +645,12 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'templatelinks', array( 'tl_namespace', 'tl_title' ),
 			array( 'tl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( !isset( $arr[$row->tl_namespace] ) ) {
 				$arr[$row->tl_namespace] = array();
 			}
 			$arr[$row->tl_namespace][$row->tl_title] = 1;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -640,10 +662,9 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'imagelinks', array( 'il_to' ),
 			array( 'il_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$arr[$row->il_to] = 1;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -655,10 +676,9 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'externallinks', array( 'el_to' ),
 			array( 'el_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$arr[$row->el_to] = 1;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -670,10 +690,9 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'categorylinks', array( 'cl_to', 'cl_sortkey' ),
 			array( 'cl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$arr[$row->cl_to] = $row->cl_sortkey;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -686,7 +705,7 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'langlinks', array( 'll_lang', 'll_title' ),
 			array( 'll_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$arr[$row->ll_lang] = $row->ll_title;
 		}
 		return $arr;
@@ -700,13 +719,12 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'iwlinks', array( 'iwl_prefix', 'iwl_title' ),
 			array( 'iwl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			if ( !isset( $arr[$row->iwl_prefix] ) ) {
 				$arr[$row->iwl_prefix] = array();
 			}
 			$arr[$row->iwl_prefix][$row->iwl_title] = 1;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 
@@ -718,10 +736,9 @@ class LinksUpdate {
 		$res = $this->mDb->select( 'page_props', array( 'pp_propname', 'pp_value' ),
 			array( 'pp_page' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		while ( $row = $this->mDb->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$arr[$row->pp_propname] = $row->pp_value;
 		}
-		$this->mDb->freeResult( $res );
 		return $arr;
 	}
 

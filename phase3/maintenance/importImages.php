@@ -11,6 +11,21 @@
  *      - fetch metadata from source wiki for each file to import.
  *      - commit the fetched metadata to the destination wiki while submitting.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance
  * @author Rob Church <robchur@gmail.com>
@@ -33,7 +48,7 @@ if ( count( $args ) > 0 ) {
 	if ( isset( $options['protect'] ) && isset( $options['unprotect'] ) )
 			die( "Cannot specify both protect and unprotect.  Only 1 is allowed.\n" );
 
-if ( isset( $options['protect'] ) && $options['protect'] == 1 )
+	if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 			die( "You must specify a protection option.\n" );
 
 	# Prepare the list of allowed extensions
@@ -61,10 +76,10 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 		$checkUserBlock = false;
 	}
 
-	# Get --from 
+	# Get --from
 	$from = @$options['from'];
 
-	# Get sleep time. 
+	# Get sleep time.
 	$sleep = @$options['sleep'];
 	if ( $sleep ) $sleep = (int)$sleep;
 
@@ -72,8 +87,8 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 	$limit = @$options['limit'];
 	if ( $limit ) $limit = (int)$limit;
 
-	# Get the upload comment
-	$comment = NULL;
+	# Get the upload comment. Provide a default one in case there's no comment given.
+	$comment = 'Importing image file';
 
 	if ( isset( $options['comment-file'] ) ) {
 		$comment =  file_get_contents( $options['comment-file'] );
@@ -92,17 +107,17 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 
 	# Batch "upload" operation
 	if ( ( $count = count( $files ) ) > 0 ) {
-	
+
 		foreach ( $files as $file ) {
 			$base = wfBaseName( $file );
-	
+
 			# Validate a title
 			$title = Title::makeTitleSafe( NS_FILE, $base );
 			if ( !is_object( $title ) ) {
 				echo( "{$base} could not be imported; a valid title cannot be produced\n" );
 				continue;
 			}
-	
+
 			if ( $from ) {
 				if ( $from == $title->getDBkey() ) {
 					$from = NULL;
@@ -149,67 +164,69 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 				$svar = 'added';
 			}
 
-            if ( isset( $options['source-wiki-url'] ) ) {
-                /* find comment text directly from source wiki, through MW's API */
-                $real_comment = getFileCommentFromSourceWiki( $options['source-wiki-url'], $base );
-                if ( $real_comment === false )
-                    $commentText = $comment;
-                else
-                    $commentText = $real_comment;
+			if ( isset( $options['source-wiki-url'] ) ) {
+				/* find comment text directly from source wiki, through MW's API */
+				$real_comment = getFileCommentFromSourceWiki( $options['source-wiki-url'], $base );
+				if ( $real_comment === false )
+					$commentText = $comment;
+				else
+					$commentText = $real_comment;
 
-                /* find user directly from source wiki, through MW's API */
-                $real_user = getFileUserFromSourceWiki( $options['source-wiki-url'], $base );
-                if ( $real_user === false ) {
-                    $wgUser = $user;
-                } else {
-                    $wgUser = User::newFromName( $real_user );
-                    if ( $wgUser === false ) {
-                        # user does not exist in target wiki
-                        echo ( "failed: user '$real_user' does not exist in target wiki." );
-                        continue;
-                    }
-                }
-            } else {
-                # Find comment text
-                $commentText = false;
+				/* find user directly from source wiki, through MW's API */
+				$real_user = getFileUserFromSourceWiki( $options['source-wiki-url'], $base );
+				if ( $real_user === false ) {
+					$wgUser = $user;
+				} else {
+					$wgUser = User::newFromName( $real_user );
+					if ( $wgUser === false ) {
+						# user does not exist in target wiki
+						echo ( "failed: user '$real_user' does not exist in target wiki." );
+						continue;
+					}
+				}
+			} else {
+				# Find comment text
+				$commentText = false;
 
-                if ( $commentExt ) {
-                    $f = findAuxFile( $file, $commentExt );
-                    if ( !$f ) {
-                        echo( " No comment file with extension {$commentExt} found for {$file}, using default comment. " );
-                    } else {
-                        $commentText = file_get_contents( $f );
-                        if ( !$f ) {
-                            echo( " Failed to load comment file {$f}, using default comment. " );
-                        }
-                    }
-                }
+				if ( $commentExt ) {
+					$f = findAuxFile( $file, $commentExt );
+					if ( !$f ) {
+						echo( " No comment file with extension {$commentExt} found for {$file}, using default comment. " );
+					} else {
+						$commentText = file_get_contents( $f );
+						if ( !$f ) {
+							echo( " Failed to load comment file {$f}, using default comment. " );
+						}
+					}
+				}
 
-                if ( !$commentText ) {
-                    $commentText = $comment;
-                }
-            }
+				if ( !$commentText ) {
+					$commentText = $comment;
+				}
+			}
 
 
-			# Import the file	
+			# Import the file
 			if ( isset( $options['dry'] ) ) {
 				echo( " publishing {$file} by '" . $wgUser->getName() . "', comment '$commentText'... " );
 			} else {
 				$archive = $image->publish( $file );
-				if ( WikiError::isError( $archive ) || !$archive->isGood() ) {
-					echo( "failed.\n" );
+				if ( !$archive->isGood() ) {
+					echo( "failed. (" .
+						$archive->getWikiText() .
+						")\n" );
 					$failed++;
 					continue;
 				}
 			}
-			
+
 			$doProtect = false;
 			$restrictions = array();
-			
+
 			global $wgRestrictionLevels;
-			
+
 			$protectLevel = isset( $options['protect'] ) ? $options['protect'] : null;
-			
+
 			if ( $protectLevel && in_array( $protectLevel, $wgRestrictionLevels ) ) {
 					$restrictions['move'] = $protectLevel;
 					$restrictions['edit'] = $protectLevel;
@@ -234,19 +251,19 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 						// Wait for slaves.
 						sleep( 2.0 );
 						wfWaitForSlaves( 1.0 );
-						
+
 						echo( "\nSetting image restrictions ... " );
 						if ( $article->updateRestrictions( $restrictions ) )
-								echo( "done.\n" );
+							echo( "done.\n" );
 						else
-								echo( "failed.\n" );
+							echo( "failed.\n" );
 				}
 
 			} else {
-				echo( "failed.\n" );
+				echo( "failed. (at recordUpload stage)\n" );
 				$svar = 'failed';
 			}
-			
+
 			$$svar++;
 			$processed++;
 
@@ -256,7 +273,7 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 			if ( $sleep )
 				sleep( $sleep );
 		}
-		
+
 		# Print out some statistics
 		echo( "\n" );
 		foreach ( array( 'count' => 'Found', 'limit' => 'Limit', 'ignored' => 'Ignored',
@@ -265,7 +282,7 @@ if ( isset( $options['protect'] ) && $options['protect'] == 1 )
 			if ( $$var > 0 )
 				echo( "{$desc}: {$$var}\n" );
 		}
-		
+
 	} else {
 		echo( "No suitable files could be found for import.\n" );
 	}
@@ -292,7 +309,7 @@ Options:
 --overwrite		Overwrite existing images with the same name (default is to skip them)
 --limit=<num>		Limit the number of images to process. Ignored or skipped images are not counted.
 --from=<name>		Ignore all files until the one with the given name. Useful for resuming
-                        aborted imports. <name> should be the file's canonical database form.
+						aborted imports. <name> should be the file's canonical database form.
 --skip-dupes		Skip images that were already uploaded under a different name (check SHA1)
 --sleep=<sec> 		Sleep between files. Useful mostly for debugging.
 --user=<username> 	Set username of uploader, default 'Maintenance script'
@@ -306,7 +323,7 @@ Options:
 --protect=<protect>     Specify the protect value (autoconfirmed,sysop)
 --unprotect             Unprotects all uploaded images
 --source-wiki-url   if specified, take User and Comment data for each imported file from this URL.
-                    For example, --source-wiki-url="http://en.wikipedia.org/"
+					For example, --source-wiki-url="http://en.wikipedia.org/"
 
 TEXT;
 	exit( 1 );

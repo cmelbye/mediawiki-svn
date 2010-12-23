@@ -1,7 +1,19 @@
 <?php
+/**
+ * Sqlite-specific installer.
+ *
+ * @file
+ * @ingroup Deployment
+ */
 
+/**
+ * Class for setting up the MediaWiki database using SQLLite.
+ *
+ * @ingroup Deployment
+ * @since 1.17
+ */
 class SqliteInstaller extends DatabaseInstaller {
-	
+
 	protected $globalNames = array(
 		'wgDBname',
 		'wgSQLiteDataDir',
@@ -29,14 +41,11 @@ class SqliteInstaller extends DatabaseInstaller {
 	}
 
 	public function getConnectForm() {
-		return $this->getTextBox( 'wgSQLiteDataDir', 'config-sqlite-dir' ) .
-			$this->parent->getHelpBox( 'config-sqlite-dir-help' ) .
-			$this->getTextBox( 'wgDBname', 'config-db-name' ) .
-			$this->parent->getHelpBox( 'config-sqlite-name-help' );
+		return $this->getTextBox( 'wgSQLiteDataDir', 'config-sqlite-dir', array(), $this->parent->getHelpBox( 'config-sqlite-dir-help' ) ) .
+			$this->getTextBox( 'wgDBname', 'config-db-name', array(), $this->parent->getHelpBox( 'config-sqlite-name-help' ) );
 	}
 
 	public function submitConnectForm() {
-		global $wgSQLiteDataDir;
 		$this->setVarsFromRequest( array( 'wgSQLiteDataDir', 'wgDBname' ) );
 
 		$dir = realpath( $this->getVar( 'wgSQLiteDataDir' ) );
@@ -111,14 +120,6 @@ class SqliteInstaller extends DatabaseInstaller {
 		return parent::needsUpgrade();
 	}
 
-	public function getSettingsForm() {
-		return false;
-	}
-
-	public function submitSettingsForm() {
-		return Status::newGood();
-	}
-
 	public function setupDatabase() {
 		$dir = $this->getVar( 'wgSQLiteDataDir' );
 
@@ -148,24 +149,12 @@ class SqliteInstaller extends DatabaseInstaller {
 	}
 
 	public function createTables() {
-		global $IP;
-		$status = $this->getConnection();
-		if ( !$status->isOK() ) {
-			return $status;
-		}
-		// Process common MySQL/SQLite table definitions
-		$err = $this->db->sourceFile( "$IP/maintenance/tables.sql" );
-		if ( $err !== true ) {
-			//@todo or...?
-			$this->db->reportQueryError( $err, 0, $sql, __FUNCTION__ );
-		}
-		return $this->setupSearchIndex();
+		$status = parent::createTables();
+		return $this->setupSearchIndex( $status );
 	}
 
-	public function setupSearchIndex() {
+	public function setupSearchIndex( &$status ) {
 		global $IP;
-
-		$status = Status::newGood();
 
 		$module = $this->db->getFulltextSearchModule();
 		$fts3tTable = $this->db->checkForEnabledSearch();
@@ -173,27 +162,9 @@ class SqliteInstaller extends DatabaseInstaller {
 			$status->warning( 'config-sqlite-fts3-downgrade' );
 			$this->db->sourceFile( "$IP/maintenance/sqlite/archives/searchindex-no-fts.sql" );
 		} elseif ( !$fts3tTable && $module == 'FTS3' ) {
-			$status->warning( 'config-sqlite-fts3-add' );
 			$this->db->sourceFile( "$IP/maintenance/sqlite/archives/searchindex-fts3.sql" );
-		} else {
-			$status->warning( 'config-sqlite-fts3-ok' );
 		}
-
 		return $status;
-	}
-
-	public function doUpgrade() {
-		global $wgDatabase;
-		LBFactory::enableBackend();
-		$wgDatabase = wfGetDB( DB_MASTER );
-		ob_start( array( 'SqliteInstaller', 'outputHandler' ) );
-		do_all_updates( false, true );
-		ob_end_flush();
-		return true;
-	}
-
-	public static function outputHandler( $string ) {
-		return htmlspecialchars( $string );
 	}
 
 	public function getLocalSettings() {
@@ -202,5 +173,4 @@ class SqliteInstaller extends DatabaseInstaller {
 "# SQLite-specific settings
 \$wgSQLiteDataDir    = \"{$dir}\";";
 	}
-	
 }

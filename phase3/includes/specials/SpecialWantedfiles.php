@@ -1,5 +1,8 @@
 <?php
 /**
+ * Implements Special:Wantedfiles
+ *
+ * Copyright © 2008 Soxred93
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,50 +18,46 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
- * Querypage that lists the most wanted files - implements Special:Wantedfiles
  *
  * @file
  * @ingroup SpecialPage
- *
  * @author Soxred93 <soxred93@gmail.com>
- * @copyright Copyright © 2008, Soxred93
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
+ */
+
+/**
+ * Querypage that lists the most wanted files
+ *
+ * @ingroup SpecialPage
  */
 class WantedFilesPage extends WantedQueryPage {
 
-	function getName() {
-		return 'Wantedfiles';
+	function __construct( $name = 'Wantedfiles' ) {
+		parent::__construct( $name );
+	}
+	
+	/**
+	 * KLUGE: The results may contain false positives for files
+	 * that exist e.g. in a shared repo.  Setting this at least
+	 * keeps them from showing up as redlinks in the output, even
+	 * if it doesn't fix the real problem (bug 6220).
+	 */
+	function forceExistenceCheck() {
+		return true;
 	}
 
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		list( $imagelinks, $page ) = $dbr->tableNamesN( 'imagelinks', 'page' );
-		$name = $dbr->addQuotes( $this->getName() );
-		return
-			"
-			SELECT
-				$name as type,
-				" . NS_FILE . " as namespace,
-				il_to as title,
-				COUNT(*) as value
-			FROM $imagelinks
-			LEFT JOIN $page ON il_to = page_title AND page_namespace = ". NS_FILE ."
-			WHERE page_title IS NULL
-			GROUP BY il_to
-			";
+	function getQueryInfo() {
+		return array (
+			'tables' => array ( 'imagelinks', 'image' ),
+			'fields' => array ( "'" . NS_FILE . "' AS namespace",
+					'il_to AS title',
+					'COUNT(*) AS value' ),
+			'conds' => array ( 'img_name IS NULL' ),
+			'options' => array ( 'GROUP BY' => 'il_to' ),
+			'join_conds' => array ( 'image' => 
+				array ( 'LEFT JOIN',
+					array ( 'il_to = img_name' ) 
+				) 
+			)
+		);
 	}
-}
-
-/**
- * constructor
- */
-function wfSpecialWantedFiles() {
-	list( $limit, $offset ) = wfCheckLimits();
-
-	$wpp = new WantedFilesPage();
-
-	$wpp->doQuery( $offset, $limit );
 }

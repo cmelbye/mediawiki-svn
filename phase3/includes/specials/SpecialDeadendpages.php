@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Deadenpages
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +16,20 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
- * @file
+ * A special page that list pages that contain no link to other pages
+ *
  * @ingroup SpecialPage
  */
 class DeadendPagesPage extends PageQueryPage {
 
-	function getName( ) {
-		return "Deadendpages";
+	function __construct( $name = 'Deadendpages' ) {
+		parent::__construct( $name );
 	}
 
 	function getPageHeader() {
@@ -36,11 +41,13 @@ class DeadendPagesPage extends PageQueryPage {
 	 *
 	 * @return true
 	 */
-	function isExpensive( ) {
-		return 1;
+	function isExpensive() {
+		return true;
 	}
 
-	function isSyndicated() { return false; }
+	function isSyndicated() {
+		return false; 
+	}
 
 	/**
 	 * @return false
@@ -49,28 +56,30 @@ class DeadendPagesPage extends PageQueryPage {
 		return false;
 	}
 
-	/**
-	 * @return string an sqlquery
-	 */
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		list( $page, $pagelinks ) = $dbr->tableNamesN( 'page', 'pagelinks' );
-		return "SELECT 'Deadendpages' as type, page_namespace AS namespace, page_title as title, page_title AS value " .
-	"FROM $page LEFT JOIN $pagelinks ON page_id = pl_from " .
-	"WHERE pl_from IS NULL " .
-	"AND page_namespace = 0 " .
-	"AND page_is_redirect = 0";
+	function getQueryInfo() {
+		return array(
+			'tables' => array( 'page', 'pagelinks' ),
+			'fields' => array( 'page_namespace AS namespace',
+					'page_title AS title',
+					'page_title AS value'
+			),
+			'conds' => array( 'pl_from IS NULL',
+					'page_namespace' => MWNamespace::getContentNamespaces(),
+					'page_is_redirect' => 0
+			),
+			'join_conds' => array( 'pagelinks' => array( 'LEFT JOIN', array(
+					'page_id=pl_from'
+			) ) )
+		);
 	}
-}
-
-/**
- * Constructor
- */
-function wfSpecialDeadendpages() {
-
-	list( $limit, $offset ) = wfCheckLimits();
-
-	$depp = new DeadendPagesPage();
-
-	return $depp->doQuery( $offset, $limit );
+	
+	function getOrderFields() {
+		// For some crazy reason ordering by a constant
+		// causes a filesort
+		if( count( MWNamespace::getContentNamespaces() ) > 1 ) {
+			return array( 'page_namespace', 'page_title' );
+		} else {
+			return array( 'page_title' );
+		}
+	}
 }

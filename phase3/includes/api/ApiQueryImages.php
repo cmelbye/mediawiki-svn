@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on May 13, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on May 13, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -83,7 +84,6 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 		}
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
 
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		if ( is_null( $resultPageSet ) ) {
@@ -108,7 +108,7 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 		} else {
 			$titles = array();
 			$count = 0;
-			foreach ( $result as $row ) {
+			foreach ( $res as $row ) {
 				if ( ++$count > $params['limit'] ) {
 					// We've reached the one extra which shows that
 					// there are additional pages to be had. Stop here...
@@ -120,6 +120,10 @@ class ApiQueryImages extends ApiQueryGeneratorBase {
 			}
 			$resultPageSet->populateFromTitles( $titles );
 		}
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function getAllowedParams() {

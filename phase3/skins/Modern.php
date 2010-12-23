@@ -21,18 +21,7 @@ class SkinModern extends SkinTemplate {
 	var $skinname = 'modern', $stylename = 'modern',
 		$template = 'ModernTemplate', $useHeadElement = true;
 
-	/*
-	 * We don't like the default getPoweredBy, the icon clashes with the
-	 * skin L&F.
-	 */
-	function getPoweredBy() {
-		global	$wgVersion;
-		return "<div class='mw_poweredby'>Powered by MediaWiki $wgVersion</div>";
-	}
-
 	function setupSkinUserCss( OutputPage $out ){
-		global $wgStyleVersion, $wgJsMimeType, $wgStylePath;
-
 		// Do not call parent::setupSkinUserCss(), we have our own print style
 		$out->addStyle( 'common/shared.css', 'screen' );
 		$out->addStyle( 'modern/main.css', 'screen' );
@@ -56,7 +45,7 @@ class ModernTemplate extends MonoBookTemplate {
 	 * @access private
 	 */
 	function execute() {
-		global $wgRequest, $wgOut;
+		global $wgRequest;
 		$this->skin = $skin = $this->data['skin'];
 		$action = $wgRequest->getText( 'action' );
 
@@ -182,18 +171,26 @@ class ModernTemplate extends MonoBookTemplate {
 	<div id="footer"<?php $this->html('userlangattributes') ?>>
 			<ul id="f-list">
 <?php
-		$footerlinks = array(
-			'lastmod', 'viewcount', 'numberofwatchingusers', 'credits', 'copyright',
-			'privacy', 'about', 'disclaimer', 'tagline',
-		);
-		foreach( $footerlinks as $aLink ) {
+		foreach( $this->getFooterLinks("flat") as $aLink ) {
 			if( isset( $this->data[$aLink] ) && $this->data[$aLink] ) {
 ?>				<li id="<?php echo$aLink?>"><?php $this->html($aLink) ?></li>
 <?php 		}
 		}
 ?>
 			</ul>
-		<?php echo $this->html("poweredbyico"); ?>
+<?php
+		foreach ( $this->getFooterIcons("nocopyright") as $blockName => $footerIcons ) { ?>
+			<div id="mw_<?php echo htmlspecialchars($blockName); ?>">
+<?php
+			foreach ( $footerIcons as $icon ) { ?>
+				<?php echo $this->skin->makeFooterIcon( $icon, 'withoutImage' ); ?>
+
+<?php
+			} ?>
+			</div>
+<?php
+		}
+?>
 	</div>
 
 	<?php $this->html('bottomscripts'); /* JS call to runBodyOnloadHook */ ?>

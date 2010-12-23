@@ -1,4 +1,26 @@
 <?php
+/**
+ * Moves blobs indexed by trackBlobs.php to a specified list of destination
+ * clusters, and recompresses them in the process.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance ExternalStorage
+ */
 
 $optionsWithArgs = RecompressTracked::getOptionsWithArgs();
 require( dirname( __FILE__ ) . '/../commandLine.inc' );
@@ -7,8 +29,8 @@ if ( count( $args ) < 1 ) {
 	echo "Usage: php recompressTracked.php [options] <cluster> [... <cluster>...]
 Moves blobs indexed by trackBlobs.php to a specified list of destination clusters, and recompresses them in the process. Restartable.
 
-Options: 
-    --procs <procs>         Set the number of child processes (default 1)
+Options:
+	--procs <procs>         Set the number of child processes (default 1)
 	--copy-only             Copy only, do not update the text table. Restart without this option to complete.
 	--debug-log <file>      Log debugging data to the specified file
 	--info-log <file>       Log progress messages to the specified file
@@ -109,8 +131,8 @@ class RecompressTracked {
 
 	/**
 	 * Wait until the selected slave has caught up to the master.
-	 * This allows us to use the slave for things that were committed in a 
-	 * previous part of this batch process. 
+	 * This allows us to use the slave for things that were committed in a
+	 * previous part of this batch process.
 	 */
 	function syncDBs() {
 		$dbw = wfGetDB( DB_MASTER );
@@ -496,7 +518,7 @@ class RecompressTracked {
 	 *
 	 * This is done in a single transaction to provide restartable behaviour
 	 * without data loss.
-	 * 
+	 *
 	 * The transaction is kept short to reduce locking.
 	 */
 	function moveTextRow( $textId, $url ) {
@@ -592,7 +614,7 @@ class RecompressTracked {
 			$this->finishIncompleteMoves( array( 'bt_text_id' => $textIds ) );
 			$this->syncDBs();
 		}
-		
+
 		$trx = new CgzCopyTransaction( $this, $this->orphanBlobClass );
 
 		$res = wfGetDB( DB_SLAVE )->select(
@@ -613,7 +635,7 @@ class RecompressTracked {
 				$this->critical( "Error: cannot load revision text for old_id=$textId" );
 				continue;
 			}
-			
+
 			if ( !$trx->addItem( $text, $row->old_id ) ) {
 				$this->debug( "[orphan]: committing blob with " . $trx->getSize() . " rows" );
 				$trx->commit();
@@ -625,7 +647,7 @@ class RecompressTracked {
 		$trx->commit();
 	}
 
-	/** 
+	/**
 	 * Wait for slaves (quietly)
 	 */
 	function waitForSlaves() {
@@ -704,8 +726,8 @@ class CgzCopyTransaction {
 
 		// Check to see if the target text_ids have been moved already.
 		//
-		// We originally read from the slave, so this can happen when a single 
-		// text_id is shared between multiple pages. It's rare, but possible 
+		// We originally read from the slave, so this can happen when a single
+		// text_id is shared between multiple pages. It's rare, but possible
 		// if a delete/move/undelete cycle splits up a null edit.
 		//
 		// We do a locking read to prevent closer-run race conditions.

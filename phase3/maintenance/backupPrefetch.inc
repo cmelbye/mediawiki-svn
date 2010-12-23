@@ -1,42 +1,28 @@
 <?php
-
-// Some smart guy removed XMLReader's global constants from PHP 5.1
-// and replaced them with class constants. Breaking source compatibility
-// is SUPER awesome, and I love languages which do this constantly!
-$xmlReaderConstants = array(
-	"NONE",
-	"ELEMENT",
-	"ATTRIBUTE",
-	"TEXT",
-	"CDATA",
-	"ENTITY_REF",
-	"ENTITY",
-	"PI",
-	"COMMENT",
-	"DOC",
-	"DOC_TYPE",
-	"DOC_FRAGMENT",
-	"NOTATION",
-	"WHITESPACE",
-	"SIGNIFICANT_WHITESPACE",
-	"END_ELEMENT",
-	"END_ENTITY",
-	"XML_DECLARATION",
-	"LOADDTD",
-	"DEFAULTATTRS",
-	"VALIDATE",
-	"SUBST_ENTITIES" );
-foreach ( $xmlReaderConstants as $name ) {
-	$fullName = "XMLREADER_$name";
-	$newName = "XMLReader::$name";
-	if ( !defined( $fullName ) ) {
-		if ( defined( $newName ) ) {
-			define( $fullName, constant( $newName ) );
-		} else {
-			// broken or missing the extension...
-		}
-	}
-}
+/**
+ * Helper class for the --prefetch option of dumpTextPass.php
+ *
+ * Copyright © 2005 Brion Vibber <brion@pobox.com>
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance
+ */
 
 /**
  * Readahead helper for making large MediaWiki data dumps;
@@ -51,7 +37,6 @@ foreach ( $xmlReaderConstants as $name ) {
  * - text contents are immutable and should not change once
  *   recorded, so the previous dump is a reliable source
  *
- * Requires the XMLReader PECL extension.
  * @ingroup Maintenance
  */
 class BaseDump {
@@ -149,11 +134,11 @@ class BaseDump {
 			return false;
 		}
 		while ( $this->reader->read() ) {
-			if ( $this->reader->nodeType == XMLREADER_ELEMENT &&
+			if ( $this->reader->nodeType == XMLReader::ELEMENT &&
 				$this->reader->name == $name ) {
 				return true;
 			}
-			if ( $this->reader->nodeType == XMLREADER_END_ELEMENT &&
+			if ( $this->reader->nodeType == XMLReader::END_ELEMENT &&
 				$this->reader->name == $parent ) {
 				$this->debug( "BaseDump::skipTo found </$parent> searching for <$name>" );
 				return false;
@@ -180,12 +165,12 @@ class BaseDump {
 		$buffer = "";
 		while ( $this->reader->read() ) {
 			switch( $this->reader->nodeType ) {
-			case XMLREADER_TEXT:
-//			case XMLREADER_WHITESPACE:
-			case XMLREADER_SIGNIFICANT_WHITESPACE:
+			case XMLReader::TEXT:
+//			case XMLReader::WHITESPACE:
+			case XMLReader::SIGNIFICANT_WHITESPACE:
 				$buffer .= $this->reader->value;
 				break;
-			case XMLREADER_END_ELEMENT:
+			case XMLReader::END_ELEMENT:
 				return $buffer;
 			}
 		}

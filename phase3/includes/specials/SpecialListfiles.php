@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Listfiles
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +16,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
+ *
  * @file
  * @ingroup SpecialPage
  */
@@ -49,7 +48,7 @@ class ImageListPager extends TablePager {
 			$this->mDefaultDirection = false;
 		}
 		
-		$userName = $wgRequest->getText( 'username', $par );
+		$userName = $wgRequest->getText( 'user', $par );
 		if ( $userName ) {
 			$nt = Title::newFromText( $userName, NS_USER );
 			if ( !is_null( $nt ) ) {
@@ -75,6 +74,7 @@ class ImageListPager extends TablePager {
 		if ( !$this->mFieldNames ) {
 			global $wgMiserMode;
 			$this->mFieldNames = array(
+				'thumb' => wfMsg( 'listfiles_thumb' ),
 				'img_timestamp' => wfMsg( 'listfiles_date' ),
 				'img_name' => wfMsg( 'listfiles_name' ),
 				'img_user_text' => wfMsg( 'listfiles_user' ),
@@ -101,6 +101,7 @@ class ImageListPager extends TablePager {
 		$tables = array( 'image' );
 		$fields = array_keys( $this->getFieldNames() );
 		$fields[] = 'img_user';
+		$fields[array_search('thumb', $fields)] = 'img_name AS thumb';
 		$options = $join_conds = array();
 
 		# Depends on $wgMiserMode
@@ -108,9 +109,11 @@ class ImageListPager extends TablePager {
 			$tables[] = 'oldimage';
 
 			# Need to rewrite this one
-			foreach ( $fields as &$field )
-				if ( $field == 'count' )
-					$field = 'COUNT(oi_archive_name) as count';
+			foreach ( $fields as &$field ) {
+				if ( $field == 'count' ) {
+					$field = 'COUNT(oi_archive_name) AS count';
+				}
+			}
 			unset( $field );
 
 			$dbr = wfGetDB( DB_SLAVE );
@@ -140,7 +143,7 @@ class ImageListPager extends TablePager {
 		if ( $this->mResult->numRows() ) {
 			$lb = new LinkBatch;
 			$this->mResult->seek( 0 );
-			while ( $row = $this->mResult->fetchObject() ) {
+			foreach ( $this->mResult as $row ) {
 				if ( $row->img_user ) {
 					$lb->add( NS_USER, str_replace( ' ', '_', $row->img_user_text ) );
 				}
@@ -154,6 +157,10 @@ class ImageListPager extends TablePager {
 	function formatValue( $field, $value ) {
 		global $wgLang;
 		switch ( $field ) {
+			case 'thumb':
+				$file = wfLocalFile( $value );
+				$thumb = $file->transform( array( 'width' => 180 ) );
+				return $thumb->toHtml( array( 'desc-link' => true ) );
 			case 'img_timestamp':
 				return htmlspecialchars( $wgLang->timeanddate( $value, true ) );
 			case 'img_name':
@@ -197,10 +204,10 @@ class ImageListPager extends TablePager {
 								'id' => 'mw-ilsearch',
 			) );
 		}
-		$inputForm['username'] = Html::input( 'username', $this->mUserName, 'text', array(
+		$inputForm['username'] = Html::input( 'user', $this->mUserName, 'text', array(
 						'size' => '40',
 						'maxlength' => '255',
-						'id' => 'mw-listfiles-username',
+						'id' => 'mw-listfiles-user',
 		) );
 		$s = Html::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'id' => 'mw-listfiles-form' ) ) .
 			Xml::fieldset( wfMsg( 'listfiles' ) ) .
@@ -229,7 +236,7 @@ class ImageListPager extends TablePager {
 		$queries = parent::getPagingQueries();
 		if ( !is_null( $this->mUserName ) ) {
 			# Append the username to the query string
-			foreach ( $queries as $key => &$query ) {
+			foreach ( $queries as &$query ) {
 				$query['username'] = $this->mUserName;
 			}
 		}

@@ -164,7 +164,7 @@ abstract class IndexPager implements Pager {
 	}
 
 	/**
-	 * Return the result wrapper.
+	 * @return ResultWrapper The result wrapper.
 	 */
 	function getResult() {
 		return $this->mResult;
@@ -194,8 +194,12 @@ abstract class IndexPager implements Pager {
 	function extractResultInfo( $offset, $limit, ResultWrapper $res ) {
 		$numRows = $res->numRows();
 		if ( $numRows ) {
+			# Remove any table prefix from index field
+			$parts = explode( '.', $this->mIndexField );
+			$indexColumn = end( $parts );
+			
 			$row = $res->fetchRow();
-			$firstIndex = $row[$this->mIndexField];
+			$firstIndex = $row[$indexColumn];
 
 			# Discard the extra result row if there is one
 			if ( $numRows > $this->mLimit && $numRows > 1 ) {
@@ -205,7 +209,7 @@ abstract class IndexPager implements Pager {
 				$this->mPastTheEndIndex = $this->mPastTheEndRow->$indexField;
 				$res->seek( $numRows - 2 );
 				$row = $res->fetchRow();
-				$lastIndex = $row[$this->mIndexField];
+				$lastIndex = $row[$indexColumn];
 			} else {
 				$this->mPastTheEndRow = null;
 				# Setting indexes to an empty string means that they will be
@@ -215,7 +219,7 @@ abstract class IndexPager implements Pager {
 				$this->mPastTheEndIndex = '';
 				$res->seek( $numRows - 1 );
 				$row = $res->fetchRow();
-				$lastIndex = $row[$this->mIndexField];
+				$lastIndex = $row[$indexColumn];
 			}
 		} else {
 			$firstIndex = '';
@@ -933,7 +937,9 @@ abstract class TablePager extends IndexPager {
 	function getNavigationBar() {
 		global $wgStylePath, $wgContLang;
 
-		if ( !$this->isNavigationBarShown() ) return '';
+		if ( !$this->isNavigationBarShown() ) {
+			return '';
+		}
 
 		$path = "$wgStylePath/common/images";
 		$labels = array(
@@ -1041,20 +1047,26 @@ abstract class TablePager extends IndexPager {
 	function getLimitForm() {
 		global $wgScript;
 
+		return Xml::openElement(
+			'form',
+			array(
+				'method' => 'get',
+				'action' => $wgScript
+			) ) . "\n" . $this->getLimitDropdown() . "</form>\n";
+	}
+
+	/**
+	 * Gets a limit selection dropdown
+	 *
+	 * @return string
+	 */
+	function getLimitDropdown() {
 		# Make the select with some explanatory text
 		$msgSubmit = wfMsgHtml( 'table_pager_limit_submit' );
-		return
-			Xml::openElement(
-				'form',
-				array(
-					'method' => 'get',
-					'action' => $wgScript
-				)
-			) . "\n" .
-			wfMsgHtml( 'table_pager_limit', $this->getLimitSelect() ) .
+
+		return wfMsgHtml( 'table_pager_limit', $this->getLimitSelect() ) .
 			"\n<input type=\"submit\" value=\"$msgSubmit\"/>\n" .
-			$this->getHiddenFields( array( 'limit' ) ) .
-			"</form>\n";
+			$this->getHiddenFields( array( 'limit' ) );
 	}
 
 	/**

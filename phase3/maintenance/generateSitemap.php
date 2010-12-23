@@ -4,6 +4,9 @@ define( 'GS_TALK', -1 );
 /**
  * Creates a sitemap for the site
  *
+ * Copyright © 2005, Ævar Arnfjörð Bjarmason, Jens Frank <jeluf@gmx.de> and
+ * Brion Vibber <brion@pobox.com>
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -19,16 +22,10 @@ define( 'GS_TALK', -1 );
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
- *
- * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason
- * @copyright Copyright © 2005, Jens Frank <jeluf@gmx.de>
- * @copyright Copyright © 2005, Brion Vibber <brion@pobox.com>
- *
  * @see http://www.sitemaps.org/
  * @see http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
- *
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
@@ -60,11 +57,11 @@ class GenerateSitemap extends Maintenance {
 	var $fspath;
 
 	/**
-	 * The path to append to the domain name
+	 * The URL path to prepend to filenames in the index; should resolve to the same directory as $fspath
 	 *
 	 * @var string
 	 */
-	var $path;
+	var $urlpath;
 
 	/**
 	 * Whether or not to use compression
@@ -129,11 +126,8 @@ class GenerateSitemap extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = "Creates a sitemap for the site";
-		$this->addOption( 'fspath', 'The file system path to save to, e.g. /tmp/sitemap' .
-									"\n\t\tdefaults to current directory", false, true );
-		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g.\n" .
-									"\t\thttp://en.wikipedia.org. This is sometimes necessary because\n" .
-									"\t\tserver name detection may fail in command line scripts.", false, true );
+		$this->addOption( 'fspath', 'The file system path to save to, e.g. /tmp/sitemap; defaults to current directory', false, true );
+		$this->addOption( 'urlpath', 'The URL path corresponding to --fspath, prepended to filenames in the index; defaults to an empty string', false, true );
 		$this->addOption( 'compress', 'Compress the sitemap files, can take value yes|no, default yes', false, true );
 	}
 
@@ -141,11 +135,14 @@ class GenerateSitemap extends Maintenance {
 	 * Execute
 	 */
 	public function execute() {
-		global $wgScriptPath;
 		$this->setNamespacePriorities();
 		$this->url_limit = 50000;
 		$this->size_limit = pow( 2, 20 ) * 10;
 		$this->fspath = self::init_path( $this->getOption( 'fspath', getcwd() ) );
+		$this->urlpath = $this->getOption( 'urlpath', "" );
+		if ( $this->urlpath !== "" && substr( $this->urlpath, -1 ) !== '/' ) {
+			$this->urlpath .= '/';
+		}
 		$this->compress = $this->getOption( 'compress', 'yes' ) !== 'no';
 		$this->dbr = wfGetDB( DB_SLAVE );
 		$this->generateNamespaces();
@@ -391,7 +388,7 @@ class GenerateSitemap extends Maintenance {
 	function indexEntry( $filename ) {
 		return
 			"\t<sitemap>\n" .
-			"\t\t<loc>$filename</loc>\n" .
+			"\t\t<loc>{$this->urlpath}$filename</loc>\n" .
 			"\t\t<lastmod>{$this->timestamp}</lastmod>\n" .
 			"\t</sitemap>\n";
 	}

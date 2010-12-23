@@ -1,8 +1,14 @@
 <?php
+/**
+ * Foreign file accessible through api.php requests.
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
-/** 
- * Very hacky and inefficient
- * do not use :D
+/**
+ * Foreign file accessible through api.php requests.
+ * Very hacky and inefficient, do not use :D
  *
  * @ingroup FileRepo
  */
@@ -18,7 +24,7 @@ class ForeignAPIFile extends File {
 	
 	static function newFromTitle( $title, $repo ) {
 		$data = $repo->fetchImageQuery( array(
-                        'titles' => 'File:' . $title->getText(),
+                        'titles' => 'File:' . $title->getDBKey(),
                         'iiprop' => self::getProps(),
                         'prop' => 'imageinfo',
 			'iimetadataversion' => mediaHandler::getMetadataVersion()
@@ -62,10 +68,10 @@ class ForeignAPIFile extends File {
 			return parent::transform( $params, $flags );
 		}
 		$thumbUrl = $this->repo->getThumbUrlFromCache(
-				$this->getName(),
-				isset( $params['width'] ) ? $params['width'] : -1,
-				isset( $params['height'] ) ? $params['height'] : -1 );
-		return $this->handler->getTransform( $this, 'bogus', $thumbUrl, $params );;
+			$this->getName(),
+			isset( $params['width'] ) ? $params['width'] : -1,
+			isset( $params['height'] ) ? $params['height'] : -1 );
+		return $this->handler->getTransform( $this, 'bogus', $thumbUrl, $params );
 	}
 
 	// Info we can get from API...
@@ -150,15 +156,13 @@ class ForeignAPIFile extends File {
 	 */
 	function getThumbPath( $suffix = '' ) {
 		if ( $this->repo->canCacheThumbs() ) {
-			global $wgUploadDirectory;
-			$path = $wgUploadDirectory . '/thumb/' . $this->getHashPath( $this->getName() );
+			$path = $this->repo->getZonePath('thumb') . '/' . $this->getHashPath( $this->getName() );
 			if ( $suffix ) {
 				$path = $path . $suffix . '/';
 			}
 			return $path;
-		}
-		else {
-			return null;	
+		} else {
+			return null;
 		}
 	}
 	

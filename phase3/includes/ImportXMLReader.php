@@ -1,5 +1,11 @@
 <?php
 /**
+ * XML file reader for the page data importer
+ *
+ * @file
+ */
+
+/**
  * implements Special:Import
  * @ingroup SpecialPage
  */
@@ -602,7 +608,6 @@ class WikiImporter {
 	private function processTitle( $text ) {
 		$workTitle = $text;
 		$origTitle = Title::newFromText( $workTitle );
-		$title = null;
 
 		if( !is_null( $this->mTargetNamespace ) && !is_null( $origTitle ) ) {
 			$title = Title::makeTitle( $this->mTargetNamespace,
@@ -614,9 +619,10 @@ class WikiImporter {
 		if( is_null( $title ) ) {
 			// Invalid page title? Ignore the page
 			$this->notice( "Skipping invalid page title '$workTitle'" );
+			return false;
 		} elseif( $title->getInterwiki() != '' ) {
 			$this->notice( "Skipping interwiki page title '$workTitle'" );
-			$title = null;
+			return false;
 		}
 
 		return array( $origTitle, $title );

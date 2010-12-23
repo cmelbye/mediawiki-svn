@@ -1,4 +1,9 @@
 <?php
+/**
+ * Parser functions provided by MediaWiki core
+ *
+ * @file
+ */
 
 /**
  * Various core parser functions, registered in Parser::firstCallInit()
@@ -81,7 +86,7 @@ class CoreParserFunctions {
 	static function intFunction( $parser, $part1 = '' /*, ... */ ) {
 		if ( strval( $part1 ) !== '' ) {
 			$args = array_slice( func_get_args(), 2 );
-			$message = wfMsgGetKey( $part1, true, false, false );
+			$message = wfMsgGetKey( $part1, true, $parser->getOptions()->getUserLang(), false );
 			$message = wfMsgReplaceArgs( $message, $args );
 			$message = $parser->replaceVariables( $message ); // like $wgMessageCache->transform()
 			return $message;
@@ -95,7 +100,7 @@ class CoreParserFunctions {
 
 		$date = trim( $date );
 
-		$pref = $parser->mOptions->getDateFormat();
+		$pref = $parser->getOptions()->getDateFormat();
 
 		// Specify a different default date format other than the the normal default
 		// iff the user has 'default' for their setting
@@ -239,13 +244,12 @@ class CoreParserFunctions {
 		if ( is_object( $title ) && $title->getNamespace() == NS_USER )
 			$user = $title->getText();
 
-		// check parameter, or use $wgUser if in interface message
+		// check parameter, or use the ParserOptions if in interface message
 		$user = User::newFromName( $user );
 		if ( $user ) {
 			$gender = $user->getOption( 'gender' );
-		} elseif ( $parser->mOptions->getInterfaceMessage() ) {
-			global $wgUser;
-			$gender = $wgUser->getOption( 'gender' );
+		} elseif ( $parser->getOptions()->getInterfaceMessage() ) {
+			$gender = $parser->getOptions()->getUser()->getOption( 'gender' );
 		}
 		$ret = $parser->getFunctionLang()->gender( $gender, $forms );
 		wfProfileOut( __METHOD__ );
@@ -605,7 +609,7 @@ class CoreParserFunctions {
 			return '';
 		else
 			return( '<span class="error">' .
-				wfMsg( 'duplicate-defaultsort',
+				wfMsgForContent( 'duplicate-defaultsort',
 						 htmlspecialchars( $old ),
 						 htmlspecialchars( $text ) ) .
 				'</span>' );
@@ -628,7 +632,6 @@ class CoreParserFunctions {
 	 * Parser function to extension tag adaptor
 	 */
 	public static function tagObj( $parser, $frame, $args ) {
-		$xpath = false;
 		if ( !count( $args ) ) {
 			return '';
 		}
@@ -643,7 +646,7 @@ class CoreParserFunctions {
 		$stripList = $parser->getStripList();
 		if ( !in_array( $tagName, $stripList ) ) {
 			return '<span class="error">' .
-				wfMsg( 'unknown_extension_tag', $tagName ) .
+				wfMsgForContent( 'unknown_extension_tag', $tagName ) .
 				'</span>';
 		}
 

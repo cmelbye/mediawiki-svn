@@ -59,7 +59,7 @@ class Linker {
 	 * @param $unused String: unused
 	 * @param $class String: the contents of the class attribute, default none
 	 */
-	function getInternalLinkAttributes( $title, $unused = null, $class='' ) {
+	function getInternalLinkAttributes( $title, $unused = null, $class = '' ) {
 		$title = urldecode( $title );
 		$title = str_replace( '_', ' ', $title );
 		return $this->getLinkAttributesInternal( $title, $class );
@@ -76,7 +76,7 @@ class Linker {
 	 *   attribute; if false, default to the name of the page we're linking to
 	 */
 	function getInternalLinkAttributesObj( $nt, $unused = null, $class = '', $title = false ) {
-		if( $title === false ) {
+		if ( $title === false ) {
 			$title = $nt->getPrefixedText();
 		}
 		return $this->getLinkAttributesInternal( $title, $class );
@@ -92,7 +92,7 @@ class Linker {
 		if ( $class != '' ) {
 			$r .= " class=\"$class\"";
 		}
-		if ( $title != '') {
+		if ( $title != '' ) {
 			$r .= " title=\"$title\"";
 		}
 		return $r;
@@ -112,7 +112,7 @@ class Linker {
 			$colour = 'mw-redirect';
 		} elseif ( $threshold > 0 &&
 			   $t->exists() && $t->getLength() < $threshold &&
-			   MWNamespace::isContent( $t->getNamespace() ) ) {
+			   $t->isContentPage() ) {
 			# Page is a stub
 			$colour = 'stub';
 		}
@@ -158,13 +158,13 @@ class Linker {
 	 */
 	public function link( $target, $text = null, $customAttribs = array(), $query = array(), $options = array() ) {
 		wfProfileIn( __METHOD__ );
-		if( !$target instanceof Title ) {
+		if ( !$target instanceof Title ) {
 			return "<!-- ERROR -->$text";
 		}
 		$options = (array)$options;
 
 		$ret = null;
-		if( !wfRunHooks( 'LinkBegin', array( $this, $target, &$text,
+		if ( !wfRunHooks( 'LinkBegin', array( $this, $target, &$text,
 		&$customAttribs, &$query, &$options, &$ret ) ) ) {
 			wfProfileOut( __METHOD__ );
 			return $ret;
@@ -175,37 +175,37 @@ class Linker {
 
 		# If we don't know whether the page exists, let's find out.
 		wfProfileIn( __METHOD__ . '-checkPageExistence' );
-		if( !in_array( 'known', $options ) and !in_array( 'broken', $options ) ) {
-			if( $target->isKnown() ) {
-				$options []= 'known';
+		if ( !in_array( 'known', $options ) and !in_array( 'broken', $options ) ) {
+			if ( $target->isKnown() ) {
+				$options[] = 'known';
 			} else {
-				$options []= 'broken';
+				$options[] = 'broken';
 			}
 		}
 		wfProfileOut( __METHOD__ . '-checkPageExistence' );
 
 		$oldquery = array();
-		if( in_array( "forcearticlepath", $options ) && $query ){
+		if ( in_array( "forcearticlepath", $options ) && $query ) {
 			$oldquery = $query;
 			$query = array();
 		}
 
 		# Note: we want the href attribute first, for prettiness.
 		$attribs = array( 'href' => $this->linkUrl( $target, $query, $options ) );
-		if( in_array( 'forcearticlepath', $options ) && $oldquery ){
+		if ( in_array( 'forcearticlepath', $options ) && $oldquery ) {
 			$attribs['href'] = wfAppendQuery( $attribs['href'], wfArrayToCgi( $oldquery ) );
 		}
 
 		$attribs = array_merge(
 			$attribs,
-			$this->linkAttribs( $target, $customAttribs, $options )
+			$this->linkAttribs( $target, $customAttribs, $options, $text )
 		);
-		if( is_null( $text ) ) {
+		if ( is_null( $text ) ) {
 			$text = $this->linkText( $target );
 		}
 
 		$ret = null;
-		if( wfRunHooks( 'LinkEnd', array( $this, $target, $options, &$text, &$attribs, &$ret ) ) ) {
+		if ( wfRunHooks( 'LinkEnd', array( $this, $target, $options, &$text, &$attribs, &$ret ) ) ) {
 			$ret = Html::rawElement( 'a', $attribs, $text );
 		}
 
@@ -216,7 +216,7 @@ class Linker {
 	/**
 	 * Identical to link(), except $options defaults to 'known'.
 	 */
-	public function linkKnown( $target, $text = null, $customAttribs = array(), $query = array(), $options = array('known','noclasses') ) {
+	public function linkKnown( $target, $text = null, $customAttribs = array(), $query = array(), $options = array( 'known', 'noclasses' ) ) {
 		return $this->link( $target, $text, $customAttribs, $query, $options );
 	}
 
@@ -227,7 +227,7 @@ class Linker {
 		wfProfileIn( __METHOD__ );
 		# We don't want to include fragments for broken links, because they
 		# generally make no sense.
-		if( in_array( 'broken', $options ) and $target->mFragment !== '' ) {
+		if ( in_array( 'broken', $options ) and $target->mFragment !== '' ) {
 			$target = clone $target;
 			$target->mFragment = '';
 		}
@@ -235,7 +235,7 @@ class Linker {
 		# If it's a broken link, add the appropriate query pieces, unless
 		# there's already an action specified, or unless 'edit' makes no sense
 		# (i.e., for a nonexistent special page).
-		if( in_array( 'broken', $options ) and empty( $query['action'] )
+		if ( in_array( 'broken', $options ) and empty( $query['action'] )
 		and $target->getNamespace() != NS_SPECIAL ) {
 			$query['action'] = 'edit';
 			$query['redlink'] = '1';
@@ -248,47 +248,44 @@ class Linker {
 	/**
 	 * Returns the array of attributes used when linking to the Title $target
 	 */
-	private function linkAttribs( $target, $attribs, $options ) {
+	private function linkAttribs( $target, $attribs, $options, $linkText ) {
 		wfProfileIn( __METHOD__ );
 		global $wgUser;
 		$defaults = array();
 
-		if( !in_array( 'noclasses', $options ) ) {
+		if ( !in_array( 'noclasses', $options ) ) {
 			wfProfileIn( __METHOD__ . '-getClasses' );
 			# Now build the classes.
 			$classes = array();
 
-			if( in_array( 'broken', $options ) ) {
+			if ( in_array( 'broken', $options ) ) {
 				$classes[] = 'new';
 			}
 
-			if( $target->isExternal() ) {
+			if ( $target->isExternal() ) {
 				$classes[] = 'extiw';
 			}
 
-			# Note that redirects never count as stubs here.
-			if ( !in_array( 'broken', $options ) && $target->isRedirect() ) {
-				$classes[] = 'mw-redirect';
-			} elseif( $target->isContentPage() ) {
-				# Check for stub.
-				$threshold = $wgUser->getOption( 'stubthreshold' );
-				if( $threshold > 0 and $target->exists() and $target->getLength() < $threshold ) {
-					$classes[] = 'stub';
+			if ( !in_array( 'broken', $options ) ) { # Avoid useless calls to LinkCache (see r50387)
+				$colour = $this->getLinkColour( $target, $wgUser->getStubThreshold() );
+				if ( $colour !== '' ) {
+					$classes[] = $colour; # mw-redirect or stub
 				}
 			}
-			if( $classes != array() ) {
+			if ( $classes != array() ) {
 				$defaults['class'] = implode( ' ', $classes );
 			}
 			wfProfileOut( __METHOD__ . '-getClasses' );
 		}
 
 		# Get a default title attribute.
-		if( $target->getPrefixedText() == '' ) {
+		$known = in_array( 'known', $options );
+		if ( $target->getPrefixedText() == '' ) {
 			# A link like [[#Foo]].  This used to mean an empty title
 			# attribute, but that's silly.  Just don't output a title.
-		} elseif( in_array( 'known', $options ) ) {
+		} elseif ( $known && strtolower($linkText) !== strtolower($target->getPrefixedText() ) ) {
 			$defaults['title'] = $target->getPrefixedText();
-		} else {
+		} elseif ( !$known ) {
 			$defaults['title'] = wfMsg( 'red-link-title', $target->getPrefixedText() );
 		}
 
@@ -296,10 +293,10 @@ class Linker {
 		# over that, deleting all "false" attributes.
 		$ret = array();
 		$merged = Sanitizer::mergeAttributes( $defaults, $attribs );
-		foreach( $merged as $key => $val ) {
+		foreach ( $merged as $key => $val ) {
 			# A false value suppresses the attribute, and we don't want the
 			# href attribute to be overridden.
-			if( $key != 'href' and $val !== false ) {
+			if ( $key != 'href' and $val !== false ) {
 				$ret[$key] = $val;
 			}
 		}
@@ -312,13 +309,13 @@ class Linker {
 	 */
 	private function linkText( $target ) {
 		# We might be passed a non-Title by make*LinkObj().  Fail gracefully.
-		if( !$target instanceof Title ) {
+		if ( !$target instanceof Title ) {
 			return '';
 		}
 
 		# If the target is just a fragment, with no title, we return the frag-
 		# ment text.  Otherwise, we return the title text itself.
-		if( $target->getPrefixedText() === '' and $target->getFragment() !== '' ) {
+		if ( $target->getPrefixedText() === '' and $target->getFragment() !== '' ) {
 			return htmlspecialchars( $target->getFragment() );
 		}
 		return htmlspecialchars( $target->getPrefixedText() );
@@ -328,17 +325,20 @@ class Linker {
 	 * Generate either a normal exists-style link or a stub link, depending
 	 * on the given page size.
 	 *
- 	 * @param $size Integer
- 	 * @param $nt Title object.
- 	 * @param $text String
- 	 * @param $query String
- 	 * @param $trail String
- 	 * @param $prefix String
- 	 * @return string HTML of link
+	 * @param $size Integer
+	 * @param $nt Title object.
+	 * @param $text String
+	 * @param $query String
+	 * @param $trail String
+	 * @param $prefix String
+	 * @return string HTML of link
+	 * @deprecated
 	 */
 	function makeSizeLinkObj( $size, $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		global $wgUser;
-		$threshold = intval( $wgUser->getOption( 'stubthreshold' ) );
+		wfDeprecated( __METHOD__ );
+
+		$threshold = $wgUser->getStubThreshold();
 		$colour = ( $size < $threshold ) ? 'stub' : '';
 		// FIXME: replace deprecated makeColouredLinkObj by link()
 		return $this->makeColouredLinkObj( $nt, $colour, $text, $query, $trail, $prefix );
@@ -360,7 +360,9 @@ class Linker {
 	function normaliseSpecialPage( Title $title ) {
 		if ( $title->getNamespace() == NS_SPECIAL ) {
 			list( $name, $subpage ) = SpecialPage::resolveAliasWithSubpage( $title->getDBkey() );
-			if ( !$name ) return $title;
+			if ( !$name ) {
+				return $title;
+			}
 			$ret = SpecialPage::getTitleFor( $name, $subpage );
 			$ret->mFragment = $title->getFragment();
 			return $ret;
@@ -392,9 +394,9 @@ class Linker {
 			$alt = $this->fnamePart( $url );
 		}
 		$img = '';
-		$success = wfRunHooks('LinkerMakeExternalImage', array( &$url, &$alt, &$img ) );
-		if(!$success) {
-			wfDebug("Hook LinkerMakeExternalImage changed the output of external image with url {$url} and alt text {$alt} to {$img}\n", true);
+		$success = wfRunHooks( 'LinkerMakeExternalImage', array( &$url, &$alt, &$img ) );
+		if ( !$success ) {
+			wfDebug( "Hook LinkerMakeExternalImage changed the output of external image with url {$url} and alt text {$alt} to {$img}\n", true );
 			return $img;
 		}
 		return Html::element( 'img',
@@ -426,24 +428,25 @@ class Linker {
 	 *          caption         HTML for image caption.
 	 *          link-url        URL to link to
 	 *          link-title      Title object to link to
+	 *          link-target     Value for the target attribue, only with link-url
 	 *          no-link         Boolean, suppress description link
 	 *
 	 * @param $handlerParams Array: associative array of media handler parameters, to be passed
 	 *       to transform(). Typical keys are "width" and "page".
 	 * @param $time String: timestamp of the file, set as false for current
 	 * @param $query String: query params for desc url
+	 * @param $widthOption: Used by the parser to remember the user preference thumbnailsize
 	 * @return String: HTML for an image, with links, wrappers, etc.
 	 */
-	function makeImageLink2( Title $title, $file, $frameParams = array(), $handlerParams = array(), $time = false, $query = "" ) {
+	function makeImageLink2( Title $title, $file, $frameParams = array(), $handlerParams = array(), $time = false, $query = "", $widthOption = null ) {
 		$res = null;
-		if( !wfRunHooks( 'ImageBeforeProduceHTML', array( &$this, &$title,
+		if ( !wfRunHooks( 'ImageBeforeProduceHTML', array( &$this, &$title,
 		&$file, &$frameParams, &$handlerParams, &$time, &$res ) ) ) {
 			return $res;
 		}
 
-		global $wgContLang, $wgUser, $wgThumbLimits, $wgThumbUpright;
 		if ( $file && !$file->allowInlineDisplay() ) {
-			wfDebug( __METHOD__.': '.$title->getPrefixedDBkey()." does not allow inline display\n" );
+			wfDebug( __METHOD__ . ': ' . $title->getPrefixedDBkey() . " does not allow inline display\n" );
 			return $this->link( $title );
 		}
 
@@ -467,31 +470,32 @@ class Linker {
 		if ( $file && !isset( $hp['width'] ) ) {
 			$hp['width'] = $file->getWidth( $page );
 
-			if( isset( $fp['thumbnail'] ) || isset( $fp['framed'] ) || isset( $fp['frameless'] ) || !$hp['width'] ) {
-				$wopt = $wgUser->getOption( 'thumbsize' );
-
-				if( !isset( $wgThumbLimits[$wopt] ) ) {
-					 $wopt = User::getDefaultOption( 'thumbsize' );
+			if ( isset( $fp['thumbnail'] ) || isset( $fp['framed'] ) || isset( $fp['frameless'] ) || !$hp['width'] ) {
+				global $wgThumbLimits, $wgThumbUpright;
+				if ( !isset( $widthOption ) || !isset( $wgThumbLimits[$widthOption] ) ) {
+					$widthOption = User::getDefaultOption( 'thumbsize' );
 				}
 
 				// Reduce width for upright images when parameter 'upright' is used
 				if ( isset( $fp['upright'] ) && $fp['upright'] == 0 ) {
 					$fp['upright'] = $wgThumbUpright;
 				}
-				// Use width which is smaller: real image width or user preference width
 				// For caching health: If width scaled down due to upright parameter, round to full __0 pixel to avoid the creation of a lot of odd thumbs
 				$prefWidth = isset( $fp['upright'] ) ?
-					round( $wgThumbLimits[$wopt] * $fp['upright'], -1 ) :
-					$wgThumbLimits[$wopt];
-				if ( $hp['width'] <= 0 || $prefWidth < $hp['width'] ) {
-					if( !isset( $hp['height'] ) ) {
-						$hp['width'] = $prefWidth;
-					}
+					round( $wgThumbLimits[$widthOption] * $fp['upright'], -1 ) :
+					$wgThumbLimits[$widthOption];
+
+				// Use width which is smaller: real image width or user preference width
+				// Unless image is scalable vector.
+				if ( !isset( $hp['height'] ) && ( $hp['width'] <= 0 ||
+						$prefWidth < $hp['width'] || $file->isVectorized() ) ) {
+					$hp['width'] = $prefWidth;
 				}
 			}
 		}
 
 		if ( isset( $fp['thumbnail'] ) || isset( $fp['manualthumb'] ) || isset( $fp['framed'] ) ) {
+			global $wgContLang;
 			# Create a thumbnail. Alignment depends on language
 			# writing direction, # right aligned for left-to-right-
 			# languages ("Western languages"), left-aligned
@@ -502,7 +506,7 @@ class Linker {
 			if ( $fp['align'] == '' ) {
 				$fp['align'] = $wgContLang->alignEnd();
 			}
-			return $prefix.$this->makeThumbLink2( $title, $file, $fp, $hp, $time, $query ).$postfix;
+			return $prefix . $this->makeThumbLink2( $title, $file, $fp, $hp, $time, $query ) . $postfix;
 		}
 
 		if ( $file && isset( $fp['frameless'] ) ) {
@@ -514,7 +518,7 @@ class Linker {
 			}
 		}
 
-		if ( $file && $hp['width'] ) {
+		if ( $file && isset( $hp['width'] ) ) {
 			# Create a resized image, without the additional thumbnail features
 			$thumb = $file->transform( $hp );
 		} else {
@@ -522,7 +526,7 @@ class Linker {
 		}
 
 		if ( !$thumb ) {
-			$s = $this->makeBrokenImageLinkObj( $title, $fp['title'], '', '', '', $time==true );
+			$s = $this->makeBrokenImageLinkObj( $title, $fp['title'], '', '', '', $time == true );
 		} else {
 			$params = array(
 				'alt' => $fp['alt'],
@@ -536,11 +540,11 @@ class Linker {
 		if ( $fp['align'] != '' ) {
 			$s = "<div class=\"float{$fp['align']}\">{$s}</div>";
 		}
-		return str_replace("\n", ' ',$prefix.$s.$postfix);
+		return str_replace( "\n", ' ', $prefix . $s . $postfix );
 	}
 
 	/**
-	 * Get the link parameters for MediaTransformOutput::toHtml() from given 
+	 * Get the link parameters for MediaTransformOutput::toHtml() from given
 	 * frame parameters supplied by the Parser.
 	 * @param $frameParams The frame parameters
 	 * @param $query An optional query string to add to description page links
@@ -549,8 +553,11 @@ class Linker {
 		$mtoParams = array();
 		if ( isset( $frameParams['link-url'] ) && $frameParams['link-url'] !== '' ) {
 			$mtoParams['custom-url-link'] = $frameParams['link-url'];
+			if ( isset( $frameParams['link-target'] ) ) {
+				$mtoParams['custom-target-link'] = $frameParams['link-target'];
+			}
 		} elseif ( isset( $frameParams['link-title'] ) && $frameParams['link-title'] !== '' ) {
-			$mtoParams['custom-title-link'] = $frameParams['link-title'];
+			$mtoParams['custom-title-link'] = $this->normaliseSpecialPage( $frameParams['link-title'] );
 		} elseif ( !empty( $frameParams['no-link'] ) ) {
 			// No link
 		} else {
@@ -571,7 +578,7 @@ class Linker {
 	 * @param $framed Boolean
 	 * @param $manualthumb String
 	 */
-	function makeThumbLinkObj( Title $title, $file, $label = '', $alt, $align = 'right', $params = array(), $framed=false , $manualthumb = "" ) {
+	function makeThumbLinkObj( Title $title, $file, $label = '', $alt, $align = 'right', $params = array(), $framed = false , $manualthumb = "" ) {
 		$frameParams = array(
 			'alt' => $alt,
 			'caption' => $label,
@@ -583,7 +590,7 @@ class Linker {
 	}
 
 	function makeThumbLink2( Title $title, $file, $frameParams = array(), $handlerParams = array(), $time = false, $query = "" ) {
-		global $wgStylePath, $wgContLang;
+		global $wgStylePath;
 		$exists = $file && $file->exists();
 
 		# Shortcuts
@@ -608,7 +615,7 @@ class Linker {
 			if ( isset( $fp['manualthumb'] ) ) {
 				# Use manually specified thumbnail
 				$manual_title = Title::makeTitleSafe( NS_FILE, $fp['manualthumb'] );
-				if( $manual_title ) {
+				if ( $manual_title ) {
 					$manual_img = wfFindFile( $manual_title );
 					if ( $manual_img ) {
 						$thumb = $manual_img->getUnscaledThumb( $hp );
@@ -640,13 +647,13 @@ class Linker {
 		# So we don't need to pass it here in $query. However, the URL for the
 		# zoom icon still needs it, so we make a unique query for it. See bug 14771
 		$url = $title->getLocalURL( $query );
-		if( $page ) {
+		if ( $page ) {
 			$url = wfAppendQuery( $url, 'page=' . urlencode( $page ) );
 		}
 
 		$s = "<div class=\"thumb t{$fp['align']}\"><div class=\"thumbinner\" style=\"width:{$outerWidth}px;\">";
-		if( !$exists ) {
-			$s .= $this->makeBrokenImageLinkObj( $title, $fp['title'], '', '', '', $time==true );
+		if ( !$exists ) {
+			$s .= $this->makeBrokenImageLinkObj( $title, $fp['title'], '', '', '', $time == true );
 			$zoomIcon = '';
 		} elseif ( !$thumb ) {
 			$s .= htmlspecialchars( wfMsg( 'thumbnail_error', '' ) );
@@ -661,15 +668,15 @@ class Linker {
 			if ( isset( $fp['framed'] ) ) {
 				$zoomIcon = "";
 			} else {
-				$zoomIcon =  '<div class="magnify">'.
+				$zoomIcon =  '<div class="magnify">' .
 					'<a href="' . htmlspecialchars( $url ) . '" class="internal" ' .
-						'title="' . htmlspecialchars( wfMsg( 'thumbnail-more' ) ) . '">'.
+						'title="' . htmlspecialchars( wfMsg( 'thumbnail-more' ) ) . '">' .
 					'<img src="' . htmlspecialchars( $wgStylePath ) . '/common/images/magnify-clip.png" ' .
 						'width="15" height="11" alt="" /></a></div>';
 			}
 		}
 		$s .= '  <div class="thumbcaption">' . $zoomIcon . $fp['caption'] . "</div></div></div>";
-		return str_replace("\n", ' ', $s);
+		return str_replace( "\n", ' ', $s );
 	}
 
 	/**
@@ -684,57 +691,57 @@ class Linker {
 	 * @return String
 	 */
 	public function makeBrokenImageLinkObj( $title, $text = '', $query = '', $trail = '', $prefix = '', $time = false ) {
-		global $wgEnableUploads, $wgUploadNavigationUrl;
-		if( $title instanceof Title ) {
+		global $wgEnableUploads, $wgUploadMissingFileUrl;
+		if ( $title instanceof Title ) {
 			wfProfileIn( __METHOD__ );
 			$currentExists = $time ? ( wfFindFile( $title ) != false ) : false;
-			if( ( $wgUploadNavigationUrl || $wgEnableUploads ) && !$currentExists ) {
-				if( $text == '' )
-					$text = htmlspecialchars( $title->getPrefixedText() );
 
+			list( $inside, $trail ) = self::splitTrail( $trail );
+			if ( $text == '' )
+				$text = htmlspecialchars( $title->getPrefixedText() );
+
+			if ( ( $wgUploadMissingFileUrl || $wgEnableUploads ) && !$currentExists ) {
 				$redir = RepoGroup::singleton()->getLocalRepo()->checkRedirect( $title );
-				if( $redir ) {
+
+				if ( $redir ) {
 					wfProfileOut( __METHOD__ );
-					return $this->makeKnownLinkObj( $title, $text, $query, $trail, $prefix );
+					return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
 				}
-				
+
 				$href = $this->getUploadUrl( $title, $query );
 
-
-				list( $inside, $trail ) = self::splitTrail( $trail );
-
 				wfProfileOut( __METHOD__ );
-				return '<a href="' . htmlspecialchars( $href ) . '" class="new" title="' . 
-								htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
-								htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
+				return '<a href="' . htmlspecialchars( $href ) . '" class="new" title="' .
+					htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
+					htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
 			} else {
 				wfProfileOut( __METHOD__ );
-				return $this->makeKnownLinkObj( $title, $text, $query, $trail, $prefix );
+				return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
 			}
 		} else {
 			return "<!-- ERROR -->{$prefix}{$text}{$trail}";
 		}
 	}
-	
+
 	/**
 	 * Get the URL to upload a certain file
-	 * 
+	 *
 	 * @param $destFile Title object of the file to upload
 	 * @param $query String: urlencoded query string to prepend
 	 * @return String: urlencoded URL
 	 */
 	protected function getUploadUrl( $destFile, $query = '' ) {
-		global $wgUploadNavigationUrl;
+		global $wgUploadMissingFileUrl;
 		$q = 'wpDestFile=' . $destFile->getPartialUrl();
-		if( $query != '' )
+		if ( $query != '' )
 			$q .= '&' . $query;
 
-		if( $wgUploadNavigationUrl ) {
-			return wfAppendQuery( $wgUploadNavigationUrl, $q );
+		if ( $wgUploadMissingFileUrl ) {
+			return wfAppendQuery( $wgUploadMissingFileUrl, $q );
 		} else {
 			$upload = SpecialPage::getTitleFor( 'Upload' );
 			return $upload->getLocalUrl( $q );
-		}	
+		}
 	}
 
 	/**
@@ -748,12 +755,12 @@ class Linker {
 	 * @todo Handle invalid or missing images better.
 	 */
 	public function makeMediaLinkObj( $title, $text = '', $time = false ) {
-		if( is_null( $title ) ) {
-			### HOTFIX. Instead of breaking, return empty string.
+		if ( is_null( $title ) ) {
+			# # # HOTFIX. Instead of breaking, return empty string.
 			return $text;
 		} else {
 			$img  = wfFindFile( $title, array( 'time' => $time ) );
-			if( $img ) {
+			if ( $img ) {
 				$url  = $img->getURL();
 				$class = 'internal';
 			} else {
@@ -761,7 +768,7 @@ class Linker {
 				$class = 'new';
 			}
 			$alt = htmlspecialchars( $title->getText(),  ENT_QUOTES );
-			if( $text == '' ) {
+			if ( $text == '' ) {
 				$text = $alt;
 			}
 			$u = htmlspecialchars( $url );
@@ -775,12 +782,9 @@ class Linker {
 	 * Usage example: $skin->specialLink( 'recentchanges' )
 	 */
 	function specialLink( $name, $key = '' ) {
-		global $wgContLang;
-
 		if ( $key == '' ) { $key = strtolower( $name ); }
-		$pn = $wgContLang->ucfirst( $name );
-		return $this->makeKnownLink( $wgContLang->specialPage( $pn ),
-		  wfMsg( $key ) );
+
+		return $this->linkKnown( SpecialPage::getTitleFor( $name ) , wfMsg( $key ) );
 	}
 
 	/**
@@ -800,24 +804,28 @@ class Linker {
 	 * hook play with them, *then* expand it all at once.
 	 */
 	function makeExternalLink( $url, $text, $escape = true, $linktype = '', $attribs = array() ) {
-		if ( isset( $attribs[ 'class' ] ) ) $class = $attribs[ 'class' ]; # yet another hack :(
-		else $class =  'external ' . $linktype;
+		if ( isset( $attribs['class'] ) ) {
+			# yet another hack :(
+			$class = $attribs['class'];
+		} else {
+			$class =  "external $linktype";
+		}
 
 		$attribsText = $this->getExternalLinkAttributes( $class );
 		$url = htmlspecialchars( $url );
-		if( $escape ) {
+		if ( $escape ) {
 			$text = htmlspecialchars( $text );
 		}
 		$link = '';
-		$success = wfRunHooks('LinkerMakeExternalLink', array( &$url, &$text, &$link, &$attribs, $linktype ) );
-		if(!$success) {
-			wfDebug("Hook LinkerMakeExternalLink changed the output of link with url {$url} and text {$text} to {$link}\n", true);
+		$success = wfRunHooks( 'LinkerMakeExternalLink', array( &$url, &$text, &$link, &$attribs, $linktype ) );
+		if ( !$success ) {
+			wfDebug( "Hook LinkerMakeExternalLink changed the output of link with url {$url} and text {$text} to {$link}\n", true );
 			return $link;
 		}
 		if ( $attribs ) {
 			$attribsText .= Html::expandAttributes( $attribs );
 		}
-		return '<a href="'.$url.'"'.$attribsText.'>'.$text.'</a>';
+		return '<a href="' . $url . '"' . $attribsText . '>' . $text . '</a>';
 	}
 
 	/**
@@ -828,7 +836,7 @@ class Linker {
 	 * @private
 	 */
 	function userLink( $userId, $userText ) {
-		if( $userId == 0 ) {
+		if ( $userId == 0 ) {
 			$page = SpecialPage::getTitleFor( 'Contributions', $userText );
 		} else {
 			$page = Title::makeTitle( NS_USER, $userText );
@@ -847,21 +855,21 @@ class Linker {
 	 * @param $edits Integer: user edit count (optional, for performance)
 	 * @return String: HTML fragment
 	 */
-	public function userToolLinks( $userId, $userText, $redContribsWhenNoEdits = false, $flags = 0, $edits=null ) {
+	public function userToolLinks( $userId, $userText, $redContribsWhenNoEdits = false, $flags = 0, $edits = null ) {
 		global $wgUser, $wgDisableAnonTalk, $wgSysopUserBans, $wgLang;
 		$talkable = !( $wgDisableAnonTalk && 0 == $userId );
 		$blockable = ( $wgSysopUserBans || 0 == $userId ) && !$flags & self::TOOL_LINKS_NOBLOCK;
 
 		$items = array();
-		if( $talkable ) {
+		if ( $talkable ) {
 			$items[] = $this->userTalkLink( $userId, $userText );
 		}
-		if( $userId ) {
+		if ( $userId ) {
 			// check if the user has an edit
 			$attribs = array();
-			if( $redContribsWhenNoEdits ) {
-				$count = !is_null($edits) ? $edits : User::edits( $userId );
-				if( $count == 0 ) {
+			if ( $redContribsWhenNoEdits ) {
+				$count = !is_null( $edits ) ? $edits : User::edits( $userId );
+				if ( $count == 0 ) {
 					$attribs['class'] = 'new';
 				}
 			}
@@ -869,11 +877,11 @@ class Linker {
 
 			$items[] = $this->link( $contribsPage, wfMsgHtml( 'contribslink' ), $attribs );
 		}
-		if( $blockable && $wgUser->isAllowed( 'block' ) ) {
+		if ( $blockable && $wgUser->isAllowed( 'block' ) ) {
 			$items[] = $this->blockLink( $userId, $userText );
 		}
 
-		if( $items ) {
+		if ( $items ) {
 			return ' <span class="mw-usertoollinks">(' . $wgLang->pipeList( $items ) . ')</span>';
 		} else {
 			return '';
@@ -886,7 +894,7 @@ class Linker {
 	 * @param $userText String: user name or IP address
 	 * @param $edits Integer: user edit count (optional, for performance)
 	 */
-	public function userToolLinksRedContribs( $userId, $userText, $edits=null ) {
+	public function userToolLinksRedContribs( $userId, $userText, $edits = null ) {
 		return $this->userToolLinks( $userId, $userText, true, 0, $edits );
 	}
 
@@ -922,15 +930,15 @@ class Linker {
 	 * @return String: HTML fragment
 	 */
 	function revUserLink( $rev, $isPublic = false ) {
-		if( $rev->isDeleted( Revision::DELETED_USER ) && $isPublic ) {
+		if ( $rev->isDeleted( Revision::DELETED_USER ) && $isPublic ) {
 			$link = wfMsgHtml( 'rev-deleted-user' );
-		} else if( $rev->userCan( Revision::DELETED_USER ) ) {
+		} else if ( $rev->userCan( Revision::DELETED_USER ) ) {
 			$link = $this->userLink( $rev->getUser( Revision::FOR_THIS_USER ),
 				$rev->getUserText( Revision::FOR_THIS_USER ) );
 		} else {
 			$link = wfMsgHtml( 'rev-deleted-user' );
 		}
-		if( $rev->isDeleted( Revision::DELETED_USER ) ) {
+		if ( $rev->isDeleted( Revision::DELETED_USER ) ) {
 			return '<span class="history-deleted">' . $link . '</span>';
 		}
 		return $link;
@@ -943,9 +951,9 @@ class Linker {
 	 * @return string HTML
 	 */
 	function revUserTools( $rev, $isPublic = false ) {
-		if( $rev->isDeleted( Revision::DELETED_USER ) && $isPublic ) {
+		if ( $rev->isDeleted( Revision::DELETED_USER ) && $isPublic ) {
 			$link = wfMsgHtml( 'rev-deleted-user' );
-		} else if( $rev->userCan( Revision::DELETED_USER ) ) {
+		} else if ( $rev->userCan( Revision::DELETED_USER ) ) {
 			$userId = $rev->getUser( Revision::FOR_THIS_USER );
 			$userText = $rev->getUserText( Revision::FOR_THIS_USER );
 			$link = $this->userLink( $userId, $userText ) .
@@ -953,7 +961,7 @@ class Linker {
 		} else {
 			$link = wfMsgHtml( 'rev-deleted-user' );
 		}
-		if( $rev->isDeleted( Revision::DELETED_USER ) ) {
+		if ( $rev->isDeleted( Revision::DELETED_USER ) ) {
 			return ' <span class="history-deleted">' . $link . '</span>';
 		}
 		return $link;
@@ -975,7 +983,7 @@ class Linker {
 	 * @param $title Mixed: Title object (to generate link to the section in autocomment) or null
 	 * @param $local Boolean: whether section links should refer to local page
 	 */
-	function formatComment($comment, $title = null, $local = false) {
+	function formatComment( $comment, $title = null, $local = false ) {
 		wfProfileIn( __METHOD__ );
 
 		# Sanitize text a bit:
@@ -1049,11 +1057,11 @@ class Linker {
 			}
 		}
 		$auto = "$link$auto";
-		if( $pre ) {
+		if ( $pre ) {
 			# written summary $presep autocomment (summary /* section */)
 			$auto = wfMsgExt( 'autocomment-prefix', array( 'escapenoentities', 'content' ) ) . $auto;
 		}
-		if( $post ) {
+		if ( $post ) {
 			# autocomment $postsep written summary (/* section */ summary)
 			$auto .= wfMsgExt( 'colon-separator', array( 'escapenoentities', 'content' ) );
 		}
@@ -1093,33 +1101,33 @@ class Linker {
 		$comment = $match[0];
 
 		# fix up urlencoded title texts (copied from Parser::replaceInternalLinks)
-		if( strpos( $match[1], '%' ) !== false ) {
-			$match[1] = str_replace( array('<', '>'), array('&lt;', '&gt;'), urldecode($match[1]) );
+		if ( strpos( $match[1], '%' ) !== false ) {
+			$match[1] = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), urldecode( $match[1] ) );
 		}
 
 		# Handle link renaming [[foo|text]] will show link as "text"
-		if( $match[3] != "" ) {
+		if ( $match[3] != "" ) {
 			$text = $match[3];
 		} else {
 			$text = $match[1];
 		}
 		$submatch = array();
 		$thelink = null;
-		if( preg_match( '/^' . $medians . '(.*)$/i', $match[1], $submatch ) ) {
+		if ( preg_match( '/^' . $medians . '(.*)$/i', $match[1], $submatch ) ) {
 			# Media link; trail not supported.
 			$linkRegexp = '/\[\[(.*?)\]\]/';
 			$title = Title::makeTitleSafe( NS_FILE, $submatch[1] );
 			$thelink = $this->makeMediaLinkObj( $title, $text );
 		} else {
 			# Other kind of link
-			if( preg_match( $wgContLang->linkTrail(), $match[4], $submatch ) ) {
+			if ( preg_match( $wgContLang->linkTrail(), $match[4], $submatch ) ) {
 				$trail = $submatch[1];
 			} else {
 				$trail = "";
 			}
 			$linkRegexp = '/\[\[(.*?)\]\]' . preg_quote( $trail, '/' ) . '/';
-			if (isset($match[1][0]) && $match[1][0] == ':')
-				$match[1] = substr($match[1], 1);
+			if ( isset( $match[1][0] ) && $match[1][0] == ':' )
+				$match[1] = substr( $match[1], 1 );
 			list( $inside, $trail ) = Linker::splitTrail( $trail );
 
 			$linkText = $text;
@@ -1127,11 +1135,11 @@ class Linker {
 				$match[1], $linkText );
 
 			$target = Title::newFromText( $linkTarget );
-			if( $target ) {
-				if( $target->getText() == '' && $target->getInterwiki() === ''
+			if ( $target ) {
+				if ( $target->getText() == '' && $target->getInterwiki() === ''
 					&& !$this->commentLocal && $this->commentContextTitle )
 				{
-					$newTarget = clone( $this->commentContextTitle );
+					$newTarget = clone ( $this->commentContextTitle );
 					$newTarget->setFragment( '#' . $target->getFragment() );
 					$target = $newTarget;
 				}
@@ -1141,7 +1149,7 @@ class Linker {
 				) . $trail;
 			}
 		}
-		if( $thelink ) {
+		if ( $thelink ) {
 			// If the link is still valid, go ahead and replace it in!
 			$comment = preg_replace( $linkRegexp, StringUtils::escapeRegexReplacement( $thelink ), $comment, 1 );
 		}
@@ -1163,9 +1171,9 @@ class Linker {
 
 		# Some namespaces don't allow subpages,
 		# so only perform processing if subpages are allowed
-		if( $contextTitle && MWNamespace::hasSubpages( $contextTitle->getNamespace() ) ) {
+		if ( $contextTitle && MWNamespace::hasSubpages( $contextTitle->getNamespace() ) ) {
 			$hash = strpos( $target, '#' );
-			if( $hash !== false ) {
+			if ( $hash !== false ) {
 				$suffix = substr( $target, $hash );
 				$target = substr( $target, 0, $hash );
 			} else {
@@ -1174,41 +1182,41 @@ class Linker {
 			# bug 7425
 			$target = trim( $target );
 			# Look at the first character
-			if( $target != '' && $target{0} === '/' ) {
+			if ( $target != '' && $target { 0 } === '/' ) {
 				# / at end means we don't want the slash to be shown
 				$m = array();
 				$trailingSlashes = preg_match_all( '%(/+)$%', $target, $m );
-				if( $trailingSlashes ) {
-					$noslash = $target = substr( $target, 1, -strlen($m[0][0]) );
+				if ( $trailingSlashes ) {
+					$noslash = $target = substr( $target, 1, -strlen( $m[0][0] ) );
 				} else {
 					$noslash = substr( $target, 1 );
 				}
 
-				$ret = $contextTitle->getPrefixedText(). '/' . trim($noslash) . $suffix;
-				if( $text === '' ) {
+				$ret = $contextTitle->getPrefixedText() . '/' . trim( $noslash ) . $suffix;
+				if ( $text === '' ) {
 					$text = $target . $suffix;
 				} # this might be changed for ugliness reasons
 			} else {
 				# check for .. subpage backlinks
 				$dotdotcount = 0;
 				$nodotdot = $target;
-				while( strncmp( $nodotdot, "../", 3 ) == 0 ) {
+				while ( strncmp( $nodotdot, "../", 3 ) == 0 ) {
 					++$dotdotcount;
 					$nodotdot = substr( $nodotdot, 3 );
 				}
-				if($dotdotcount > 0) {
+				if ( $dotdotcount > 0 ) {
 					$exploded = explode( '/', $contextTitle->GetPrefixedText() );
-					if( count( $exploded ) > $dotdotcount ) { # not allowed to go below top level page
+					if ( count( $exploded ) > $dotdotcount ) { # not allowed to go below top level page
 						$ret = implode( '/', array_slice( $exploded, 0, -$dotdotcount ) );
 						# / at the end means don't show full path
-						if( substr( $nodotdot, -1, 1 ) === '/' ) {
+						if ( substr( $nodotdot, -1, 1 ) === '/' ) {
 							$nodotdot = substr( $nodotdot, 0, -1 );
-							if( $text === '' ) {
+							if ( $text === '' ) {
 								$text = $nodotdot . $suffix;
 							}
 						}
 						$nodotdot = trim( $nodotdot );
-						if( $nodotdot != '' ) {
+						if ( $nodotdot != '' ) {
 							$ret .= '/' . $nodotdot;
 						}
 						$ret .= $suffix;
@@ -1235,7 +1243,7 @@ class Linker {
 		// '*' used to be the comment inserted by the software way back
 		// in antiquity in case none was provided, here for backwards
 		// compatability, acc. to brion -ævar
-		if( $comment == '' || $comment == '*' ) {
+		if ( $comment == '' || $comment == '*' ) {
 			return '';
 		} else {
 			$formatted = $this->formatComment( $comment, $title, $local );
@@ -1253,16 +1261,16 @@ class Linker {
 	 * @return String: HTML fragment
 	 */
 	function revComment( Revision $rev, $local = false, $isPublic = false ) {
-		if( $rev->getRawComment() == "" ) return "";
-		if( $rev->isDeleted( Revision::DELETED_COMMENT ) && $isPublic ) {
+		if ( $rev->getRawComment() == "" ) return "";
+		if ( $rev->isDeleted( Revision::DELETED_COMMENT ) && $isPublic ) {
 			$block = " <span class=\"comment\">" . wfMsgHtml( 'rev-deleted-comment' ) . "</span>";
-		} else if( $rev->userCan( Revision::DELETED_COMMENT ) ) {
+		} else if ( $rev->userCan( Revision::DELETED_COMMENT ) ) {
 			$block = $this->commentBlock( $rev->getComment( Revision::FOR_THIS_USER ),
 				$rev->getTitle(), $local );
 		} else {
 			$block = " <span class=\"comment\">" . wfMsgHtml( 'rev-deleted-comment' ) . "</span>";
 		}
-		if( $rev->isDeleted( Revision::DELETED_COMMENT ) ) {
+		if ( $rev->isDeleted( Revision::DELETED_COMMENT ) ) {
 			return " <span class=\"history-deleted\">$block</span>";
 		}
 		return $block;
@@ -1290,8 +1298,8 @@ class Linker {
 	/**
 	 * Finish one or more sublevels on the Table of Contents
 	 */
-	function tocUnindent($level) {
-		return "</li>\n" . str_repeat( "</ul>\n</li>\n", $level>0 ? $level : 0 );
+	function tocUnindent( $level ) {
+		return "</li>\n" . str_repeat( "</ul>\n</li>\n", $level > 0 ? $level : 0 );
 	}
 
 	/**
@@ -1314,7 +1322,7 @@ class Linker {
 	 */
 	function tocLineEnd() {
 		return "</li>\n";
- 	}
+	}
 
 	/**
 	 * Wraps the TOC in a table and provides the hide/collapse javascript.
@@ -1322,22 +1330,13 @@ class Linker {
 	 * @param $toc String: html of the Table Of Contents
 	 * @return String: full html of the TOC
 	 */
-	function tocList($toc) {
-		$title = wfMsgHtml('toc') ;
+	function tocList( $toc ) {
+		$title = wfMsgHtml( 'toc' ) ;
 		return
 		   '<table id="toc" class="toc"><tr><td>'
 		 . '<div id="toctitle"><h2>' . $title . "</h2></div>\n"
 		 . $toc
-		 # no trailing newline, script should not be wrapped in a
-		 # paragraph
-		 . "</ul>\n</td></tr></table>"
-		 . Html::inlineScript(
-			'if (window.showTocToggle) {'
-			. ' var tocShowText = "' . Xml::escapeJsString( wfMsg('showtoc') ) . '";'
-			. ' var tocHideText = "' . Xml::escapeJsString( wfMsg('hidetoc') ) . '";'
-			. ' showTocToggle();'
-			. ' } ' )
-		. "\n";
+		 . "</ul>\n</td></tr></table>\n";
 	}
 
 	/**
@@ -1378,16 +1377,19 @@ class Linker {
 	 *   to be included in the link, like "&section=$section"
 	 * @param $tooltip string The tooltip to use for the link: will be escaped
 	 *   and wrapped in the 'editsectionhint' message
+	 * @param $lang    string Language code
 	 * @return         string HTML to use for edit link
 	 */
-	public function doEditSectionLink( Title $nt, $section, $tooltip = null ) {
+	public function doEditSectionLink( Title $nt, $section, $tooltip = null, $lang = false ) {
 		// HTML generated here should probably have userlangattributes
 		// added to it for LTR text on RTL pages
 		$attribs = array();
-		if( !is_null( $tooltip ) ) {
-			$attribs['title'] = wfMsg( 'editsectionhint', $tooltip );
+		if ( !is_null( $tooltip ) ) {
+			# Bug 25462: undo double-escaping.
+			$tooltip = Sanitizer::decodeCharReferences( $tooltip );
+			$attribs['title'] = wfMsgReal( 'editsectionhint', array( $tooltip ), true, $lang );
 		}
-		$link = $this->link( $nt, wfMsg('editsection'),
+		$link = $this->link( $nt, wfMsgExt( 'editsection', array( 'language' => $lang ) ),
 			$attribs,
 			array( 'action' => 'edit', 'section' => $section ),
 			array( 'noclasses', 'known' )
@@ -1396,27 +1398,27 @@ class Linker {
 		# Run the old hook.  This takes up half of the function . . . hopefully
 		# we can rid of it someday.
 		$attribs = '';
-		if( $tooltip ) {
-			$attribs = wfMsgHtml( 'editsectionhint', htmlspecialchars( $tooltip ) );
+		if ( $tooltip ) {
+			$attribs = htmlspecialchars( wfMsgReal( 'editsectionhint', array( $tooltip ), true, $lang ) );
 			$attribs = " title=\"$attribs\"";
 		}
 		$result = null;
-		wfRunHooks( 'EditSectionLink', array( &$this, $nt, $section, $attribs, $link, &$result ) );
-		if( !is_null( $result ) ) {
+		wfRunHooks( 'EditSectionLink', array( &$this, $nt, $section, $attribs, $link, &$result, $lang ) );
+		if ( !is_null( $result ) ) {
 			# For reverse compatibility, add the brackets *after* the hook is
 			# run, and even add them to hook-provided text.  (This is the main
 			# reason that the EditSectionLink hook is deprecated in favor of
 			# DoEditSectionLink: it can't change the brackets or the span.)
-			$result = wfMsgHtml( 'editsection-brackets', $result );
+			$result = wfMsgExt( 'editsection-brackets', array( 'escape', 'replaceafter', 'language' => $lang ), $result );
 			return "<span class=\"editsection\">$result</span>";
 		}
 
 		# Add the brackets and the span, and *then* run the nice new hook, with
 		# clean and non-redundant arguments.
-		$result = wfMsgHtml( 'editsection-brackets', $link );
+		$result = wfMsgExt( 'editsection-brackets', array( 'escape', 'replaceafter', 'language' => $lang ), $link );
 		$result = "<span class=\"editsection\">$result</span>";
 
-		wfRunHooks( 'DoEditSectionLink', array( $this, $nt, $section, $tooltip, &$result ) );
+		wfRunHooks( 'DoEditSectionLink', array( $this, $nt, $section, $tooltip, &$result, $lang ) );
 		return $result;
 	}
 
@@ -1441,7 +1443,7 @@ class Linker {
 			. " <span class=\"mw-headline\" id=\"$anchor\">$text</span>"
 			. "</h$level>";
 		if ( $legacyAnchor !== false ) {
-			$ret = "<a id=\"$legacyAnchor\"></a>$ret";
+			$ret = "<div id=\"$legacyAnchor\"></div>$ret";
 		}
 		return $ret;
 	}
@@ -1497,17 +1499,20 @@ class Linker {
 		$title = $rev->getTitle();
 		$query = array(
 			'action' => 'rollback',
-			'from' => $rev->getUserText()
+			'from' => $rev->getUserText(),
+			'token' => $wgUser->editToken( array( $title->getPrefixedText(), $rev->getUserText() ) ),
 		);
-		if( $wgRequest->getBool( 'bot' ) ) {
+		if ( $wgRequest->getBool( 'bot' ) ) {
 			$query['bot'] = '1';
 			$query['hidediff'] = '1'; // bug 15999
 		}
-		$query['token'] = $wgUser->editToken( array( $title->getPrefixedText(),
-			$rev->getUserText() ) );
-		return $this->link( $title, wfMsgHtml( 'rollbacklink' ),
+		return $this->link( 
+			$title, 
+			wfMsgHtml( 'rollbacklink' ),
 			array( 'title' => wfMsg( 'tooltip-rollback' ) ),
-			$query,	array( 'known', 'noclasses' ) );
+			$query,	
+			array( 'known', 'noclasses' ) 
+		);
 	}
 
 	/**
@@ -1526,7 +1531,7 @@ class Linker {
 		if ( count( $templates ) > 0 ) {
 			# Do a batch existence check
 			$batch = new LinkBatch;
-			foreach( $templates as $title ) {
+			foreach ( $templates as $title ) {
 				$batch->addObj( $title );
 			}
 			$batch->execute();
@@ -1552,7 +1557,7 @@ class Linker {
 				} else {
 					$protected = '';
 				}
-				if( $titleObj->quickUserCan( 'edit' ) ) {
+				if ( $titleObj->quickUserCan( 'edit' ) ) {
 					$editLink = $this->link(
 						$titleObj,
 						wfMsg( 'editlink' ),
@@ -1629,18 +1634,21 @@ class Linker {
 	public function titleAttrib( $name, $options = null ) {
 		wfProfileIn( __METHOD__ );
 
-		$tooltip = wfMsg( "tooltip-$name" );
-		# Compatibility: formerly some tooltips had [alt-.] hardcoded
-		$tooltip = preg_replace( "/ ?\[alt-.\]$/", '', $tooltip );
-
-		# Message equal to '-' means suppress it.
-		if ( wfEmptyMsg( "tooltip-$name", $tooltip ) || $tooltip == '-' ) {
+		if ( wfEmptyMsg( "tooltip-$name" ) ) {
 			$tooltip = false;
+		} else {
+			$tooltip = wfMsg( "tooltip-$name" );
+			# Compatibility: formerly some tooltips had [alt-.] hardcoded
+			$tooltip = preg_replace( "/ ?\[alt-.\]$/", '', $tooltip );
+			# Message equal to '-' means suppress it.
+			if (  $tooltip == '-' ) {
+				$tooltip = false;
+			}
 		}
 
 		if ( $options == 'withaccess' ) {
 			$accesskey = $this->accesskey( $name );
-			if( $accesskey !== false ) {
+			if ( $accesskey !== false ) {
 				if ( $tooltip === false || $tooltip === '' ) {
 					$tooltip = "[$accesskey]";
 				} else {
@@ -1666,18 +1674,20 @@ class Linker {
 	public function accesskey( $name ) {
 		wfProfileIn( __METHOD__ );
 
-		$accesskey = wfMsg( "accesskey-$name" );
-
-		# FIXME: Per standard MW behavior, a value of '-' means to suppress the
-		# attribute, but this is broken for accesskey: that might be a useful
-		# value.
-		if( $accesskey != '' && $accesskey != '-' && !wfEmptyMsg( "accesskey-$name", $accesskey ) ) {
-			wfProfileOut( __METHOD__ );
-			return $accesskey;
+		if ( wfEmptyMsg( "accesskey-$name" ) ) {
+			$accesskey = false;
+		} else {
+			$accesskey = wfMsg( "accesskey-$name" );
+			if ( $accesskey === '' || $accesskey === '-' ) {
+				# FIXME: Per standard MW behavior, a value of '-' means to suppress the
+				# attribute, but this is broken for accesskey: that might be a useful
+				# value.
+				$accesskey = false;
+			}
 		}
 
 		wfProfileOut( __METHOD__ );
-		return false;
+		return $accesskey;
 	}
 
 	/**
@@ -1737,11 +1747,11 @@ class Linker {
 	 */
 	function makeLink( $title, $text = '', $query = '', $trail = '' ) {
 		wfProfileIn( __METHOD__ );
-	 	$nt = Title::newFromText( $title );
+		$nt = Title::newFromText( $title );
 		if ( $nt instanceof Title ) {
 			$result = $this->makeLinkObj( $nt, $text, $query, $trail );
 		} else {
-			wfDebug( 'Invalid title passed to Linker::makeLink(): "'.$title."\"\n" );
+			wfDebug( 'Invalid title passed to Linker::makeLink(): "' . $title . "\"\n" );
 			$result = $text == "" ? $title : $text;
 		}
 
@@ -1764,12 +1774,12 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 * @param $aprops String: extra attributes to the a-element
 	 */
-	function makeKnownLink( $title, $text = '', $query = '', $trail = '', $prefix = '',$aprops = '') {
+	function makeKnownLink( $title, $text = '', $query = '', $trail = '', $prefix = '', $aprops = '' ) {
 		$nt = Title::newFromText( $title );
 		if ( $nt instanceof Title ) {
 			return $this->makeKnownLinkObj( $nt, $text, $query, $trail, $prefix , $aprops );
 		} else {
-			wfDebug( 'Invalid title passed to Linker::makeKnownLink(): "'.$title."\"\n" );
+			wfDebug( 'Invalid title passed to Linker::makeKnownLink(): "' . $title . "\"\n" );
 			return $text == '' ? $title : $text;
 		}
 	}
@@ -1792,7 +1802,7 @@ class Linker {
 		if ( $nt instanceof Title ) {
 			return $this->makeBrokenLinkObj( $nt, $text, $query, $trail );
 		} else {
-			wfDebug( 'Invalid title passed to Linker::makeBrokenLink(): "'.$title."\"\n" );
+			wfDebug( 'Invalid title passed to Linker::makeBrokenLink(): "' . $title . "\"\n" );
 			return $text == '' ? $title : $text;
 		}
 	}
@@ -1816,7 +1826,7 @@ class Linker {
 		if ( $nt instanceof Title ) {
 			return $this->makeStubLinkObj( $nt, $text, $query, $trail );
 		} else {
-			wfDebug( 'Invalid title passed to Linker::makeStubLink(): "'.$title."\"\n" );
+			wfDebug( 'Invalid title passed to Linker::makeStubLink(): "' . $title . "\"\n" );
 			return $text == '' ? $title : $text;
 		}
 	}
@@ -1837,12 +1847,12 @@ class Linker {
 	 *                      the end of the link.
 	 * @param $prefix String: optional prefix. As trail, only before instead of after.
 	 */
-	function makeLinkObj( $nt, $text= '', $query = '', $trail = '', $prefix = '' ) {
+	function makeLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		wfProfileIn( __METHOD__ );
 
 		$query = wfCgiToArray( $query );
 		list( $inside, $trail ) = Linker::splitTrail( $trail );
-		if( $text === '' ) {
+		if ( $text === '' ) {
 			$text = $this->linkText( $nt );
 		}
 
@@ -1905,10 +1915,9 @@ class Linker {
 		wfProfileIn( __METHOD__ );
 
 		list( $inside, $trail ) = Linker::splitTrail( $trail );
-		if( $text === '' ) {
+		if ( $text === '' ) {
 			$text = $this->linkText( $title );
 		}
-		$nt = $this->normaliseSpecialPage( $title );
 
 		$ret = $this->link( $title, "$prefix$text$inside", array(),
 			wfCgiToArray( $query ), 'broken' ) . $trail;
@@ -1931,7 +1940,6 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeStubLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		wfDeprecated( __METHOD__ );
 		return $this->makeColouredLinkObj( $nt, 'stub', $text, $query, $trail, $prefix );
 	}
 
@@ -1950,7 +1958,7 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeColouredLinkObj( $nt, $colour, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		if($colour != ''){
+		if ( $colour != '' ) {
 			$style = $this->getInternalLinkAttributesObj( $nt, $text, $colour );
 		} else $style = '';
 		return $this->makeKnownLinkObj( $nt, $text, $query, $trail, $prefix, '', $style );
@@ -2029,7 +2037,7 @@ class Linker {
 	 */
 	public function editSectionLink( Title $nt, $section, $hint = '' ) {
 		wfDeprecated( __METHOD__ );
-		if( $hint === '' ) {
+		if ( $hint === '' ) {
 			# No way to pass an actual empty $hint here!  The new interface al-
 			# lows this, so we have to do this for compatibility.
 			$hint = null;
@@ -2038,7 +2046,7 @@ class Linker {
 	}
 
 	/**
-	 * Returns the attributes for the tooltip and access key
+	 * Returns the attributes for the tooltip and access key.
 	 */
 	public function tooltipAndAccesskeyAttribs( $name ) {
 		global $wgEnableTooltipsAndAccesskeys;
@@ -2065,7 +2073,6 @@ class Linker {
 	public function tooltipAndAccesskey( $name ) {
 		return Xml::expandAttributes( $this->tooltipAndAccesskeyAttribs( $name ) );
 	}
-
 
 	/** @deprecated Returns raw bits of HTML, use titleAttrib() */
 	public function tooltip( $name, $options = null ) {

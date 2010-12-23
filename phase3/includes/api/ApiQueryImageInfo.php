@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 6, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on July 6, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -35,8 +36,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryImageInfo extends ApiQueryBase {
 
-	public function __construct( $query, $moduleName ) {
-		parent::__construct( $query, $moduleName, 'ii' );
+	public function __construct( $query, $moduleName, $prefix = 'ii' ) {
+		// We allow a subclass to override the prefix, to create a related API module.
+		// Some other parts of MediaWiki construct this with a null $prefix, which used to be ignored when this only took two arguments
+		if ( is_null( $prefix ) ) {
+			$prefix = 'ii';
+		}
+		parent::__construct( $query, $moduleName, $prefix );
 	}
 
 	public function execute() {
@@ -44,17 +50,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 
 		$prop = array_flip( $params['prop'] );
 
-		if ( $params['urlheight'] != - 1 && $params['urlwidth'] == - 1 ) {
-			$this->dieUsage( 'iiurlheight cannot be used without iiurlwidth', 'iiurlwidth' );
-		}
-
-		if ( $params['urlwidth'] != - 1 ) {
-			$scale = array();
-			$scale['width'] = $params['urlwidth'];
-			$scale['height'] = $params['urlheight'];
-		} else {
-			$scale = null;
-		}
+		$scale = $this->getScale( $params );
 
 		$pageIds = $this->getPageSet()->getAllTitlesByNamespace();
 		if ( !empty( $pageIds[NS_FILE] ) ) {
@@ -183,6 +179,28 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	}
 
 	/**
+	 * From parameters, construct a 'scale' array 
+	 * @param $params Array: 
+	 * @return Array or Null: key-val array of 'width' and 'height', or null
+	 */	
+	public function getScale( $params ) {
+		$p = $this->getModulePrefix();
+		if ( $params['urlheight'] != -1 && $params['urlwidth'] == -1 ) {
+			$this->dieUsage( "${p}urlheight cannot be used without {$p}urlwidth", "{$p}urlwidth" );
+		}
+
+		if ( $params['urlwidth'] != -1 ) {
+			$scale = array();
+			$scale['width'] = $params['urlwidth'];
+			$scale['height'] = $params['urlheight'];
+		} else {
+			$scale = null;
+		}
+		return $scale;
+	}
+
+
+	/**
 	 * Get result information for an image revision
 	 *
 	 * @param $file File object
@@ -196,8 +214,14 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		if ( isset( $prop['timestamp'] ) ) {
 			$vals['timestamp'] = wfTimestamp( TS_ISO_8601, $file->getTimestamp() );
 		}
-		if ( isset( $prop['user'] ) ) {
-			$vals['user'] = $file->getUser();
+		if ( isset( $prop['user'] ) || isset( $prop['userid'] ) ) {
+
+			if ( isset( $prop['user'] ) ) {
+				$vals['user'] = $file->getUser();
+			}
+			if ( isset( $prop['userid'] ) ) {
+				$vals['userid'] = $file->getUser( 'id' );
+			}
 			if ( !$file->getUser( 'id' ) ) {
 				$vals['anon'] = '';
 			}
@@ -206,6 +230,11 @@ class ApiQueryImageInfo extends ApiQueryBase {
 			$vals['size'] = intval( $file->getSize() );
 			$vals['width'] = intval( $file->getWidth() );
 			$vals['height'] = intval( $file->getHeight() );
+			
+			$pageCount = $file->pageCount();
+			if ( $pageCount !== false ) {
+				$vals['pagecount'] = $pageCount;
+			}
 		}
 		if ( isset( $prop['url'] ) ) {
 			if ( !is_null( $scale ) && !$file->isOld() ) {
@@ -222,7 +251,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 						$vals['thumbwidth'] = intval( $file->getWidth() );
 						$vals['thumbheight'] = intval( $file->getHeight() );
 					}
-					
+
 					if ( isset( $prop['thumbmime'] ) ) {
 						$thumbFile = UnregisteredLocalFile::newFromPath( $mto->getPath(), false );
 						$vals['thumbmime'] = $thumbFile->getMimeType();
@@ -235,6 +264,12 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		if ( isset( $prop['comment'] ) ) {
 			$vals['comment'] = $file->getDescription();
 		}
+		if ( isset( $prop['parsedcomment'] ) ) {
+			global $wgUser;
+			$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( 
+					$file->getDescription(), $file->getTitle() );
+		}
+		
 		if ( isset( $prop['sha1'] ) ) {
 			$vals['sha1'] = wfBaseConvert( $file->getSha1(), 36, 16, 40 );
 		}
@@ -260,6 +295,12 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		return $vals;
 	}
 
+	/*
+	 *
+	 * @param $metadata Array
+	 * @param $result ApiResult
+	 * @return Array
+	 */
 	public static function processMetaData( $metadata, $result ) {
 		$retval = array();
 		if ( is_array( $metadata ) ) {
@@ -275,6 +316,10 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		}
 		$result->setIndexedTagName( $retval, 'metadata' );
 		return $retval;
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	private function getContinueStr( $img ) {
@@ -304,11 +349,11 @@ class ApiQueryImageInfo extends ApiQueryBase {
 			),
 			'urlwidth' => array(
 				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_DFLT => - 1
+				ApiBase::PARAM_DFLT => -1
 			),
 			'urlheight' => array(
 				ApiBase::PARAM_TYPE => 'integer',
-				ApiBase::PARAM_DFLT => - 1
+				ApiBase::PARAM_DFLT => -1
 			),
 			'metadataversion' => array(
 				ApiBase::PARAM_TYPE => 'string',
@@ -325,7 +370,9 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		return array(
 			'timestamp',
 			'user',
+			'userid',
 			'comment',
+			'parsedcomment',
 			'url',
 			'size',
 			'dimensions', // For backwards compatibility with Allimages
@@ -338,33 +385,40 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		);
 	}
 
+
+	/**
+	 * Return the API documentation for the parameters. 
+	 * @return {Array} parameter documentation.
+	 */
 	public function getParamDescription() {
 		$p = $this->getModulePrefix();
 		return array(
 			'prop' => array(
 				'What image information to get:',
-				' timestamp    - Adds timestamp for the uploaded version',
-				' user         - Adds user for uploaded the image version',
-				' comment      - Comment on the version',
-				' url          - Gives URL to the image and the description page',
-				' size         - Adds the size of the image in bytes and the height and width',
-				' dimensions   - Alias for size',
-				' sha1         - Adds sha1 hash for the image',
-				' mime         - Adds MIME of the image',
-				' thumbmime    - Adss MIME of the image thumbnail (requires url)',
-				' metadata     - Lists EXIF metadata for the version of the image',
-				' archivename  - Adds the file name of the archive version for non-latest versions',
-				' bitdepth     - Adds the bit depth of the version',
-            ),
-			'limit' => 'How many image revisions to return',
-			'start' => 'Timestamp to start listing from',
-			'end' => 'Timestamp to stop listing at',
+				' timestamp     - Adds timestamp for the uploaded version',
+				' user          - Adds the user who uploaded the image version',
+				' userid        - Add the user ID that uploaded the image version',
+				' comment       - Comment on the version',
+				' parsedcomment - Parse the comment on the version',
+				' url           - Gives URL to the image and the description page',
+				' size          - Adds the size of the image in bytes and the height and width',
+				' dimensions    - Alias for size',
+				' sha1          - Adds SHA-1 hash for the image',
+				' mime          - Adds MIME type of the image',
+				' thumbmime     - Adss MIME type of the image thumbnail (requires url)',
+				' metadata      - Lists EXIF metadata for the version of the image',
+				' archivename   - Adds the file name of the archive version for non-latest versions',
+				' bitdepth      - Adds the bit depth of the version',
+			),
 			'urlwidth' => array( "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
 					    'Only the current version of the image can be scaled' ),
 			'urlheight' => "Similar to {$p}urlwidth. Cannot be used without {$p}urlwidth",
+			'limit' => 'How many image revisions to return',
+			'start' => 'Timestamp to start listing from',
+			'end' => 'Timestamp to stop listing at',
 			'metadataversion' => array( "Version of metadata to use. if 'latest' is specified, use latest version.", 
 						"Defaults to '1' for bacwards compatability" ),
-			'continue' => 'When more results are available, use this to continue',
+			'continue' => 'If the query response includes a continue value, use it here to get another page of results'
 		);
 	}
 

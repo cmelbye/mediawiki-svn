@@ -1,10 +1,10 @@
 <?php
-
 /**
- * Created on Sep 7, 2007
- * API for MediaWiki 1.8+
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ *
+ * Created on Sep 7, 2007
+ *
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -125,6 +127,10 @@ class ApiUnblock extends ApiBase {
 			array( 'ipbblocked' ),
 			array( 'ipbnounblockself' ),
 		) );
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

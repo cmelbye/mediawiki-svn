@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Contributions
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +16,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
  * Special:Contributions, show user contributions in a paged list
- * @file
+ *
  * @ingroup SpecialPage
  */
 
@@ -30,7 +34,7 @@ class SpecialContributions extends SpecialPage {
 	}
 
 	public function execute( $par ) {
-		global $wgUser, $wgOut, $wgLang, $wgRequest;
+		global $wgUser, $wgOut, $wgRequest;
 
 		$this->setHeaders();
 		$this->outputHeader();
@@ -223,6 +227,14 @@ class SpecialContributions extends SpecialPage {
 					)
 				);
 			}
+			# Uploads
+			$tools[] = $sk->linkKnown(
+				SpecialPage::getTitleFor( 'Listfiles' ),
+				wfMsgHtml( 'sp-contributions-uploads' ),
+				array(),
+				array( 'user' => $nt->getText() )
+			);
+			
 			# Other logs link
 			$tools[] = $sk->linkKnown(
 				SpecialPage::getTitleFor( 'Log' ),
@@ -327,7 +339,7 @@ class SpecialContributions extends SpecialPage {
 			$this->opts['topOnly'] = false;
 		}
 
-		$f = Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
+		$f = Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'class' => 'mw-contributions-form' ) );
 
 		# Add hidden params for tracking except for parameters in $skipParameters
 		$skipParameters = array( 'namespace', 'deletedOnly', 'target', 'contribs', 'year', 'month', 'topOnly' );
@@ -335,42 +347,38 @@ class SpecialContributions extends SpecialPage {
 			if( in_array( $name, $skipParameters ) ) {
 				continue;
 			}
-			$f .= "\t" . Xml::hidden( $name, $value ) . "\n";
+			$f .= "\t" . Html::hidden( $name, $value ) . "\n";
 		}
 
 		$tagFilter = ChangeTags::buildTagFilterSelector( $this->opts['tagFilter'] );
 
-		$f .= '<fieldset>' .
-			Xml::element( 'legend', array(), wfMsg( 'sp-contributions-search' ) ) .
+		$f .= 	Xml::fieldset( wfMsg( 'sp-contributions-search' ) ) .
 			Xml::radioLabel( wfMsgExt( 'sp-contributions-newbies', array( 'parsemag' ) ),
-				'contribs', 'newbie' , 'newbie', $this->opts['contribs'] == 'newbie' ? true : false ) . '<br />' .
+				'contribs', 'newbie' , 'newbie', $this->opts['contribs'] == 'newbie' ) . '<br />' .
 			Xml::radioLabel( wfMsgExt( 'sp-contributions-username', array( 'parsemag' ) ),
-				'contribs' , 'user', 'user', $this->opts['contribs'] == 'user' ? true : false ) . ' ' .
+				'contribs' , 'user', 'user', $this->opts['contribs'] == 'user' ) . ' ' .
 			Html::input( 'target', $this->opts['target'], 'text', array(
 				'size' => '20',
 				'required' => ''
 			) + ( $this->opts['target'] ? array() : array( 'autofocus' ) ) ) . ' '.
-			'<span style="white-space: nowrap">' .
-			Xml::label( wfMsg( 'namespace' ), 'namespace' ) . ' ' .
-			Xml::namespaceSelector( $this->opts['namespace'], '' ) .
-			'</span>' .
+			Html::rawElement( 'span', array( 'style' => 'white-space: nowrap' ),
+				Xml::label( wfMsg( 'namespace' ), 'namespace' ) . ' ' .
+				Xml::namespaceSelector( $this->opts['namespace'], '' )
+			) .
 			Xml::checkLabel( wfMsg( 'history-show-deleted' ),
 				'deletedOnly', 'mw-show-deleted-only', $this->opts['deletedOnly'] ) . '<br />' .
 			Xml::tags( 'p', null, Xml::checkLabel( wfMsg( 'sp-contributions-toponly' ),
 				'topOnly', 'mw-show-top-only', $this->opts['topOnly'] ) ) .
 			( $tagFilter ? Xml::tags( 'p', null, implode( '&#160;', $tagFilter ) ) : '' ) .
-			Xml::openElement( 'p' ) .
-			'<span style="white-space: nowrap">' .
-			Xml::dateMenu( $this->opts['year'], $this->opts['month'] ) .
-			'</span>' . ' ' .
-			Xml::submitButton( wfMsg( 'sp-contributions-submit' ) ) .
-			Xml::closeElement( 'p' );
-
+			Html::rawElement( 'p', array( 'style' => 'white-space: nowrap' ),
+				Xml::dateMenu( $this->opts['year'], $this->opts['month'] ) . ' ' .
+				Xml::submitButton( wfMsg( 'sp-contributions-submit' ) )
+			) . ' ';	
 		$explain = wfMsgExt( 'sp-contributions-explain', 'parseinline' );
-		if( !wfEmptyMsg( 'sp-contributions-explain', $explain ) )
+		if( !wfEmptyMsg( 'sp-contributions-explain', $explain ) ) {
 			$f .= "<p id='mw-sp-contributions-explain'>{$explain}</p>";
-
-		$f .= '</fieldset>' .
+		}
+		$f .= Xml::closeElement('fieldset' ) .
 			Xml::closeElement( 'form' );
 		return $f;
 	}
@@ -380,16 +388,14 @@ class SpecialContributions extends SpecialPage {
 	 * @param $type String
 	 */
 	protected function feed( $type ) {
-		global $wgRequest, $wgFeed, $wgFeedClasses, $wgFeedLimit;
+		global $wgFeed, $wgFeedClasses, $wgFeedLimit, $wgOut;
 
 		if( !$wgFeed ) {
-			global $wgOut;
 			$wgOut->addWikiMsg( 'feed-unavailable' );
 			return;
 		}
 
 		if( !isset( $wgFeedClasses[$type] ) ) {
-			global $wgOut;
 			$wgOut->addWikiMsg( 'feed-invalid' );
 			return;
 		}
@@ -418,7 +424,7 @@ class SpecialContributions extends SpecialPage {
 
 		$feed->outHeader();
 		if( $pager->getNumRows() > 0 ) {
-			while( $row = $pager->mResult->fetchObject() ) {
+			foreach ( $pager->mResult as $row ) {
 				$feed->outItem( $this->feedItem( $row ) );
 			}
 		}
@@ -426,10 +432,10 @@ class SpecialContributions extends SpecialPage {
 	}
 
 	protected function feedTitle() {
-		global $wgContLanguageCode, $wgSitename;
+		global $wgLanguageCode, $wgSitename;
 		$page = SpecialPage::getPage( 'Contributions' );
 		$desc = $page->getDescription();
-		return "$wgSitename - $desc [$wgContLanguageCode]";
+		return "$wgSitename - $desc [$wgLanguageCode]";
 	}
 
 	protected function feedItem( $row ) {
@@ -616,7 +622,7 @@ class ContribsPager extends ReverseChronologicalPager {
 			$page->isRedirect() ? array( 'redirect' => 'no' ) : array()
 		);
 		# Mark current revisions
-		$difftext = $topmarktext = '';
+		$topmarktext = '';
 		if( $row->rev_id == $row->page_latest ) {
 			$topmarktext .= '<span class="mw-uctop">' . $this->messages['uctop'] . '</span>';
 			# Add rollback link

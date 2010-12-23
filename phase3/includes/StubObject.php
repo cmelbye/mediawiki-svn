@@ -100,7 +100,7 @@ class StubObject {
 				throw new MWException( "Unstub loop detected on call of \${$this->mGlobal}->$name from $caller\n" );
 			}
 			wfDebug( "Unstubbing \${$this->mGlobal} on call of \${$this->mGlobal}::$name from $caller\n" );
-			$obj = $GLOBALS[$this->mGlobal] = $this->_newObject();
+			$GLOBALS[$this->mGlobal] = $this->_newObject();
 			--$recursionLevel;
 			wfProfileOut( $fname );
 		}
@@ -122,8 +122,8 @@ class StubContLang extends StubObject {
 	}
 
 	function _newObject() {
-		global $wgContLanguageCode;
-		$obj = Language::factory( $wgContLanguageCode );
+		global $wgLanguageCode;
+		$obj = Language::factory( $wgLanguageCode );
 		$obj->initEncoding();
 		$obj->initContLang();
 		return $obj;
@@ -146,7 +146,7 @@ class StubUserLang extends StubObject {
 	}
 
 	function _newObject() {
-		global $wgContLanguageCode, $wgRequest, $wgUser, $wgContLang;
+		global $wgLanguageCode, $wgRequest, $wgUser, $wgContLang;
 		$code = $wgRequest->getVal( 'uselang', $wgUser->getOption( 'language' ) );
 		// BCP 47 - letter case MUST NOT carry meaning
 		$code = strtolower( $code );
@@ -154,41 +154,14 @@ class StubUserLang extends StubObject {
 		# Validate $code
 		if( empty( $code ) || !preg_match( '/^[a-z-]+$/', $code ) || ( $code === 'qqq' ) ) {
 			wfDebug( "Invalid user language code\n" );
-			$code = $wgContLanguageCode;
+			$code = $wgLanguageCode;
 		}
 
-		if( $code === $wgContLanguageCode ) {
+		if( $code === $wgLanguageCode ) {
 			return $wgContLang;
 		} else {
 			$obj = Language::factory( $code );
 			return $obj;
 		}
-	}
-}
-
-/**
- * Stub object for the user. The initialisation of the will depend of
- * $wgCommandLineMode. If it's true, it will be an anonymous user and if it's
- * false, the user will be loaded from credidentails provided by cookies. This
- * object have to be in $wgUser global.
- */
-class StubUser extends StubObject {
-
-	function __construct() {
-		parent::__construct( 'wgUser' );
-	}
-
-	function __call( $name, $args ) {
-		return $this->_call( $name, $args );
-	}
-
-	function _newObject() {
-		global $wgCommandLineMode;
-		if( $wgCommandLineMode ) {
-			$user = new User;
-		} else {
-			$user = User::newFromSession();
-		}
-		return $user;
 	}
 }

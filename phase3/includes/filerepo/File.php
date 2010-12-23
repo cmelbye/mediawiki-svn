@@ -1,4 +1,10 @@
 <?php
+/**
+ * Base code for files.
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
 /**
  * Implements some public methods and some protected utility functions which
@@ -259,6 +265,19 @@ abstract class File {
 			return 0;
 		}
 	}
+
+	/**
+         *  Return true if the file is vectorized
+         */
+        public function isVectorized() {
+                $handler = $this->getHandler();
+                if ( $handler ) {
+                        return $handler->isVectorized( $this );
+                } else {
+                        return false;
+                }
+        }
+
 
 	/**
 	 * Get handler-specific metadata
@@ -529,6 +548,7 @@ abstract class File {
 	 * @deprecated use transform()
 	 */
 	public function getThumbnail( $width, $height=-1, $render = true ) {
+		wfDeprecated( __METHOD__ );
 		$params = array( 'width' => $width );
 		if ( $height != -1 ) {
 			$params['height'] = $height;
@@ -542,7 +562,7 @@ abstract class File {
 	 * @param $params Array: an associative array of handler-specific parameters.
 	 *                Typical keys are width, height and page.
 	 * @param $flags Integer: a bitfield, may contain self::RENDER_NOW to force rendering
-	 * @return MediaTransformOutput
+	 * @return MediaTransformOutput | false
 	 */
 	function transform( $params, $flags = 0 ) {
 		global $wgUseSquid, $wgIgnoreImageErrors, $wgThumbnailEpoch, $wgServer;
@@ -576,7 +596,7 @@ abstract class File {
 			$thumbPath = $this->getThumbPath( $thumbName );
 			$thumbUrl = $this->getThumbUrl( $thumbName );
 
-			if ( $this->repo->canTransformVia404() && !($flags & self::RENDER_NOW ) ) {
+			if ( $this->repo && $this->repo->canTransformVia404() && !($flags & self::RENDER_NOW ) ) {
 				$thumb = $this->handler->getTransform( $this, $thumbPath, $thumbUrl, $params );
 				break;
 			}
@@ -887,6 +907,7 @@ abstract class File {
 	 * @deprecated Use HTMLCacheUpdate, this function uses too much memory
 	 */
 	function getLinksTo( $options = array() ) {
+		wfDeprecated( __METHOD__ );
 		wfProfileIn( __METHOD__ );
 
 		// Note: use local DB not repo DB, we want to know local links
@@ -906,14 +927,14 @@ abstract class File {
 
 		$retVal = array();
 		if ( $db->numRows( $res ) ) {
-			while ( $row = $db->fetchObject( $res ) ) {
-				if ( $titleObj = Title::newFromRow( $row ) ) {
+			foreach ( $res as $row ) {
+				$titleObj = Title::newFromRow( $row );
+				if ( $titleObj ) {
 					$linkCache->addGoodLinkObj( $row->page_id, $titleObj, $row->page_len, $row->page_is_redirect, $row->page_latest );
 					$retVal[] = $titleObj;
 				}
 			}
 		}
-		$db->freeResult( $res );
 		wfProfileOut( __METHOD__ );
 		return $retVal;
 	}
@@ -1048,7 +1069,7 @@ abstract class File {
 	}
 
 	/**
-	 * Returns the number of pages of a multipage document, or NULL for
+	 * Returns the number of pages of a multipage document, or false for
 	 * documents which aren't multipage documents
 	 */
 	function pageCount() {
@@ -1098,8 +1119,19 @@ abstract class File {
 
 	/**
 	 * Get the HTML text of the description page, if available
+	 * For local files ImagePage does not use it, because it skips the parser cache.
 	 */
 	function getDescriptionText() {
+		if( $this->isLocal() ) {
+			global $wgParser;
+			$revision = Revision::newFromTitle( $this->title );
+			if ( !$revision ) return false;
+			$text = $revision->getText();
+			if ( !$text ) return false;
+			$pout = $wgParser->parse( $text, $this->title, new ParserOptions() );
+			return $pout->getText();
+		}
+
 		global $wgMemc, $wgLang;
 		if ( !$this->repo->fetchDescription ) {
 			return false;
@@ -1196,7 +1228,16 @@ abstract class File {
 		if ( $info['fileExists'] ) {
 			$magic = MimeMagic::singleton();
 
-			$info['mime'] = $magic->guessMimeType( $path, $ext );
+			if ( $ext === true ) {
+				$i = strrpos( $path, '.' );
+				$ext = strtolower( $i ? substr( $path, $i + 1 ) : '' );
+			}
+
+			# mime type according to file contents
+			$info['file-mime'] = $magic->guessMimeType( $path, false );
+			# logical mime type
+			$info['mime'] = $magic->improveTypeFromExtension( $info['file-mime'], $ext );
+
 			list( $info['major_mime'], $info['minor_mime'] ) = self::splitMime( $info['mime'] );
 			$info['media_type'] = $magic->getMediaType( $path, $info['mime'] );
 

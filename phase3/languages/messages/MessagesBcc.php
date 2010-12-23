@@ -8,6 +8,7 @@
  * @file
  *
  * @author Mostafadaneshvar
+ * @author ZxxZxxZ
  */
 
 $fallback = 'fa';
@@ -157,6 +158,7 @@ $messages = array(
 'tog-watchdefault'            => 'هورکن صفحاتی که من اصلاح کتن ته منی لیست چارگ',
 'tog-watchmoves'              => 'هور کن صفحاتی که من جاه په جاه کت ته منی لیست چارگ',
 'tog-watchdeletion'           => 'هور کن صفحاتی که من ته لیست چارگ که من حذف کتن',
+'tog-minordefault'            => 'په طور پیش فرض کل اصلاحات آ په داب جزی مشخص کن',
 'tog-previewontop'            => 'بازبین پیش دار پیش چه جعبه اصلاح',
 'tog-previewonfirst'          => 'ته اولین اصلاح بازبینی پیش دار',
 'tog-nocache'                 => 'ذخیره کتن صفحه یا غیر فعال کن',
@@ -286,31 +288,20 @@ $messages = array(
 'faqpage'        => 'Project:ب.ج.س',
 
 # Vector skin
-'vector-action-addsection'   => 'هور کتن عنوان',
-'vector-action-delete'       => 'زورگ',
-'vector-action-move'         => 'جاه په جاه',
-'vector-action-protect'      => 'حفاظت',
-'vector-action-undelete'     => 'ترینگ',
-'vector-action-unprotect'    => 'حفاظت درگیزگ',
-'vector-namespace-category'  => 'دسته',
-'vector-namespace-help'      => 'تاک راهنما',
-'vector-namespace-image'     => 'فایل',
-'vector-namespace-main'      => 'تاک',
-'vector-namespace-media'     => 'تاک مدیا',
-'vector-namespace-mediawiki' => 'کوله',
-'vector-namespace-project'   => 'تاک پروژه',
-'vector-namespace-special'   => 'حاصین تاک',
-'vector-namespace-talk'      => 'گپ',
-'vector-namespace-template'  => 'تمپلت',
-'vector-namespace-user'      => 'کاربر تاک',
-'vector-view-create'         => 'شرکتن',
-'vector-view-edit'           => 'اصلاح',
-'vector-view-history'        => 'چارتن تاریح',
-'vector-view-view'           => 'وانتن',
-'vector-view-viewsource'     => 'پیشدارگ بن جاه',
-'actions'                    => 'کاران',
-'namespaces'                 => 'فضانامان',
-'variants'                   => 'گوشگان',
+'vector-action-addsection' => 'هور کتن عنوان',
+'vector-action-delete'     => 'زورگ',
+'vector-action-move'       => 'جاه په جاه',
+'vector-action-protect'    => 'حفاظت',
+'vector-action-undelete'   => 'ترینگ',
+'vector-action-unprotect'  => 'حفاظت درگیزگ',
+'vector-view-create'       => 'شرکتن',
+'vector-view-edit'         => 'اصلاح',
+'vector-view-history'      => 'چارتن تاریح',
+'vector-view-view'         => 'وانتن',
+'vector-view-viewsource'   => 'پیشدارگ بن جاه',
+'actions'                  => 'کاران',
+'namespaces'               => 'فضانامان',
+'variants'                 => 'گوشگان',
 
 'errorpagetitle'    => 'حطا',
 'returnto'          => 'تررگ به $1.',
@@ -729,7 +720,7 @@ $2',
 'usercsspreview'                   => "''''بزان که شما فقط وتی CSS کاربری بازبینی کنین. هنگنت آیی ذخیره نه بوتت!''''",
 'userjspreview'                    => "''''په یاد دار که شما فقط وتی کاربری  JavaScript بازبینی/آزمایش کنگیت، هنگت ذخیره نه بوتت!''''",
 'userinvalidcssjstitle'            => "'''هوژاری:''هچ جلدی نیست\"\$1\".
-بزان که صفحات .css و .js چه عناوین گون هوردین حرف استفاده کننت، مثلا {{ns:user}}:Foo/monobook.css بدل به په {{ns:user}}:Foo/Monobook.css.",
+بزان که صفحات .css و .js چه عناوین گون هوردین حرف استفاده کننت، مثلا {{ns:user}}:Foo/vector.css بدل به په {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(په روچ بیتگین)',
 'note'                             => "'''یادداشت:'''",
 'previewnote'                      => "'''شی فقط یک بازبینی انت;
@@ -753,7 +744,7 @@ $2',
 بالادی ناحیه متن شامل متن صفحه همی داب که هنگت هست.
 شمی تغییرات ته جهلیگین ناحیه متن جاه کیت.
 شما بایدن وتی تغییرات آن گون هنوکین متن چن و بند کنیت.
-'''فقط''' ناحیه بالادی متن وهدی که شما دکمه  \"Save page\" ذخیره بنت.",
+'''فقط''' ناحیه بالادی متن وهدی که شما دکمه  \"{{int:savearticle}}\" ذخیره بنت.",
 'yourtext'                         => 'شمی متن',
 'storedversion'                    => 'نسخه ی ذخیره ای',
 'nonunicodebrowser'                => "'''هوژاری: شمی بروزر گون یونی کد تنظیم کار نکنت. یک اطراف-کار جاهینن که شما را اجازه دنت صفحات راحت اصلاح کنیت: non-ASCII کاراتران ته جعبه اصلاح په داب کدان hexadecimal جاه کاینت.",
@@ -768,9 +759,6 @@ $2',
 اگر شما نه لوٹیت شمی نوشتاک گون بی رحمی اصلاح مه بنت، اچه شما آیء ادان دیم مه دهیت.<br />
 شما هنچوش ما را قول دهیت که شما شی وت نوشتت یا ایء چه یک دامین عمومی یا هنچوشین آزاتین منبع کپی کتیت.(بچار $1 په جزییات).
 ''' نوشتاکی که حق کپی دارنت بی اجازت دیم مه دهیت!'''",
-'longpagewarning'                  => "'''هوژاری. ای صفحه $1 کیلوبایت نت;
-لهتی چه بروزران شاید مشکلاتی چه دست رسی و اصلاح صفحات گیش چه 32ک.ب داشته بنت.
-لطفا توجه کنیت په هورد کتن صفحه په هوردترین چنٹ. '''",
 'longpageerror'                    => "'''حطا: متنی که شما دیم داتت $1 کیلو بایتت، که چه گیشترین حد $2 کیلوبایت مزن
 آی نه تونیت ذخیره بوت.'''",
 'readonlywarning'                  => "'''هوژاری: دیتابیس به تعمیرات کبلنت، اچه شما نه تونیت وتی اصلاحات هنو ذخیره کنیت.
@@ -963,7 +951,7 @@ $1",
 'mergehistory-invalid-destination' => 'صفحه مقصد باید یک معتبرین عنوانی بیت.',
 'mergehistory-autocomment'         => 'چن و بند بوت  [[:$1]] په [[:$2]]',
 'mergehistory-comment'             => 'چن و بند بوت [[:$1]] په[[:$2]]: $3',
-'mergehistory-same-destination'    => 'صفحه مبدا و مقصد یکی نه بنت',
+'mergehistory-same-destination'    => 'صفحهٔ مبدأ و مقصد نمی‌تواند یکی باشد',
 'mergehistory-reason'              => 'دلیل:',
 
 # Merge log
@@ -1412,7 +1400,6 @@ $1",
 لطفا برگردیت و ای فایل گون نوکین نامی آپلود کنیت.[[File:$1|انگشتی|مرکز|$1]]',
 'file-exists-duplicate'       => 'ای فایل کپیء چه جهلیگین  {{PLURAL:$1|فایل|فایلان}}:',
 'file-deleted-duplicate'      => 'یک فایلی په داب ای فایل ([[$1]]) پیسرتر حذف بوتگت. شما بایدن تاریح حذف آ فایلء دگه بچاریت',
-'successfulupload'            => 'آپلود موفق',
 'uploadwarning'               => 'هوژاری آپلود',
 'savefile'                    => 'ذخیره فایل',
 'uploadedimage'               => 'اپلود بوت "[[$1]]"',
@@ -1448,6 +1435,7 @@ JD # Jenoptik
 MGP # Pentax
 PICT # misc.
  #</pre> <!-- leave this line exactly as it is -->',
+'upload-success-subj'         => 'آپلود موفق',
 
 'upload-proto-error'        => 'اشتباه پروتوکل',
 'upload-proto-error-text'   => 'آپلود دراین نیاز په URL آنی داریت که شروع بیت گون  <code>http://</code> یا <code>ftp://</code>.',
@@ -1814,7 +1802,6 @@ PICT # misc.
 # Watchlist
 'watchlist'            => 'منی لیست چارگ',
 'mywatchlist'          => 'منی لیست چارگ',
-'watchlistfor'         => "(په '''$1''')",
 'nowatchlist'          => 'شما را هچ چیزی ته وتی لیست چارگ نیست.',
 'watchlistanontext'    => 'لطفا  $1 په دیستن یا اصلاح ایتیمان ته وتی لیست چارگء',
 'watchnologin'         => 'وارد نه بی تگیت',
@@ -2138,7 +2125,6 @@ $1',
 'ipb-edit-dropdown'               => 'اصلاح کن دلایل محدودیت',
 'ipb-unblock-addr'                => 'رفع محدودیت  $1',
 'ipb-unblock'                     => 'نام کاربری یا آدرس آی پی رفع محدودیت کن',
-'ipb-blocklist-addr'              => 'به گند هستین محدودیت په $1',
 'ipb-blocklist'                   => 'به گند هنوکین محدودیتان',
 'ipb-blocklist-contribs'          => 'مشارکت په $1',
 'unblockip'                       => 'کاربر رفع محدودیت کن',
@@ -2238,7 +2224,7 @@ $1',
 
 توجه کینت صفحه جاه په جاه نه بیت اگه یک صفحه ای گون نوکین عنوان هست، مگر شی که آی هالیک بیت یا یک غیرمسقیم و پی سرین تاریح اصلاح می بیت. شی په ای معنی اینت که شما تونیت یک صفحه ای آ نامی بدل کینت که  آی نام په خطا عوض بیت و شما نه توینت یک صفحه ی نامی بازنویسی کنیت.
 
-''''هوژاری!''''  
+''''هوژاری!''''
 شی ممکننت یک تغییر آنی و نه لوٹتگین په یک معروفین صفحه ای بیت;
 لصفا مطمین بیت شما عواقب شی زانیت پیش چه دیم روگآ",
 'movepagetalktext'             => "همراهی گپان صفحه اتوماتیک گون آی جاه په چاه بنت ''''مگر:''''

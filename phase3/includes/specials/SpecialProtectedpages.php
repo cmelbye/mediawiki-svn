@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Protectedpages
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +16,30 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
+ *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * @todo document
+ * A special page that lists protected pages
+ *
  * @ingroup SpecialPage
  */
-class ProtectedPagesForm {
+class SpecialProtectedpages extends SpecialPage {
 
 	protected $IdLevel = 'level';
 	protected $IdType  = 'type';
 
-	public function showList( $msg = '' ) {
+	public function __construct() {
+		parent::__construct( 'Protectedpages' );
+	}
+
+	public function execute( $par ) {
 		global $wgOut, $wgRequest;
 
-		if( $msg != "" ) {
-			$wgOut->setSubtitle( $msg );
-		}
+		$this->setHeaders();
+		$this->outputHeader();
 
 		// Purge expired entries on one in every 10 queries
 		if( !mt_rand( 0, 10 ) ) {
@@ -95,7 +98,6 @@ class ProtectedPagesForm {
 			$description_items[] = wfMsg( 'protect-summary-cascade' );
 		}
 
-		$expiry_description = '';
 		$stxt = '';
 
 		if( $row->pr_expiry != 'infinity' && strlen($row->pr_expiry) ) {
@@ -156,7 +158,7 @@ class ProtectedPagesForm {
 		return Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', array(), wfMsg( 'protectedpages' ) ) .
-			Xml::hidden( 'title', $title->getPrefixedDBkey() ) . "\n" .
+			Html::hidden( 'title', $title->getPrefixedDBkey() ) . "\n" .
 			$this->getNamespaceMenu( $namespace ) . "&#160;\n" .
 			$this->getTypeMenu( $type ) . "&#160;\n" .
 			$this->getLevelMenu( $level ) . "&#160;\n" .
@@ -306,7 +308,7 @@ class ProtectedPagesPager extends AlphabeticPager {
 	function getStartBody() {
 		# Do a link batch query
 		$lb = new LinkBatch;
-		while( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->page_namespace, $row->page_title );
 		}
 		$lb->execute();
@@ -351,12 +353,4 @@ class ProtectedPagesPager extends AlphabeticPager {
 	function getIndexField() {
 		return 'pr_id';
 	}
-}
-
-/**
- * Constructor
- */
-function wfSpecialProtectedpages() {
-	$ppForm = new ProtectedPagesForm();
-	$ppForm->showList();
 }

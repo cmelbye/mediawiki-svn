@@ -1,21 +1,27 @@
 <?php
-# Copyright (C) 2004 Brion Vibber <brion@pobox.com>, 2008 Aaron Schulz
-# http://www.mediawiki.org/
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# http://www.gnu.org/copyleft/gpl.html
+/**
+ * Contain classes to list log entries
+ *
+ * Copyright © 2004 Brion Vibber <brion@pobox.com>, 2008 Aaron Schulz
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
 
 class LogEventsList {
 	const NO_ACTION_LINK = 1;
@@ -89,8 +95,7 @@ class LogEventsList {
 
 		$tagSelector = ChangeTags::buildTagFilterSelector( $tagFilter );
 
-		$html = '';
-		$html .= Xml::hidden( 'title', $special );
+		$html = Html::hidden( 'title', $special );
 
 		// Basic selectors
 		$html .= $this->getTypeMenu( $types ) . "\n";
@@ -157,7 +162,7 @@ class LogEventsList {
 			);
 
 			$links[$type] = wfMsgHtml( "log-show-hide-{$type}", $link );
-			$hiddens .= Xml::hidden( "hide_{$type}_log", $val ) . "\n";
+			$hiddens .= Html::hidden( "hide_{$type}_log", $val ) . "\n";
 		}
 		// Build links
 		return '<small>'.$wgLang->pipeList( $links ) . '</small>' . $hiddens;
@@ -315,7 +320,6 @@ class LogEventsList {
 	}
 
 	private function logUserLinks( $row ) {
-		$userLinks = '';
 		if( self::isDeleted( $row, LogPage::DELETED_USER ) ) {
 			$userLinks = '<span class="history-deleted">' .
 				wfMsgHtml( 'rev-deleted-user' ) . '</span>';
@@ -331,7 +335,6 @@ class LogEventsList {
 	}
 
 	private function logAction( $row, $title, $paramArray ) {
-		$action = '';
 		if( self::isDeleted( $row, LogPage::DELETED_ACTION ) ) {
 			$action = '<span class="history-deleted">' .
 				wfMsgHtml( 'rev-deleted-event' ) . '</span>';
@@ -344,7 +347,6 @@ class LogEventsList {
 	
 	private function logComment( $row ) {
 		global $wgContLang;
-		$comment = '';
 		if( self::isDeleted( $row, LogPage::DELETED_COMMENT ) ) {
 			$comment = '<span class="history-deleted">' .
 				wfMsgHtml( 'rev-deleted-comment' ) . '</span>';
@@ -357,7 +359,7 @@ class LogEventsList {
 
 	// @TODO: split up!
 	private function logActionLinks( $row, $title, $paramArray, &$comment ) {
-		global $wgUser, $wgLang;
+		global $wgUser;
 		if( ( $this->flags & self::NO_ACTION_LINK ) // we don't want to see the action
 			|| self::isDeleted( $row, LogPage::DELETED_ACTION ) ) // action is hidden
 		{
@@ -458,7 +460,6 @@ class LogEventsList {
 			if( count($paramArray) >= 1 ) {
 				$revdel = SpecialPage::getTitleFor( 'Revisiondelete' );
 				// $paramArray[1] is a CSV of the IDs
-				$Ids = explode( ',', $paramArray[0] );
 				$query = $paramArray[0];
 				// Link to each hidden object ID, $paramArray[1] is the url param
 				$revert = '(' . $this->skin->link(
@@ -576,7 +577,7 @@ class LogEventsList {
 	public static function userCanBitfield( $bitfield, $field ) {
 		if( $bitfield & $field ) {
 			global $wgUser;
-			$permission = '';
+
 			if ( $bitfield & LogPage::DELETED_RESTRICTED ) {
 				$permission = 'suppressrevision';
 			} else {
@@ -913,7 +914,6 @@ class LogPager extends ReverseChronologicalPager {
 	}
 
 	public function getQueryInfo() {
-		global $wgOut;
 		$tables = array( 'logging', 'user' );
 		$this->mConds[] = 'user_id = log_user';
 		$index = array();
@@ -966,7 +966,7 @@ class LogPager extends ReverseChronologicalPager {
 		# Do a link batch query
 		if( $this->getNumRows() > 0 ) {
 			$lb = new LinkBatch;
-			while( $row = $this->mResult->fetchObject() ) {
+			foreach ( $this->mResult as $row ) {
 				$lb->add( $row->log_namespace, $row->log_title );
 				$lb->addObj( Title::makeTitleSafe( NS_USER, $row->user_name ) );
 				$lb->addObj( Title::makeTitleSafe( NS_USER_TALK, $row->user_name ) );
@@ -1089,6 +1089,7 @@ class LogViewer {
 	 * Take over the whole output page in $wgOut with the log display.
 	 */
 	public function show() {
+		global $wgOut;
 		# Set title and add header
 		$this->list->showHeader( $pager->getType() );
 		# Show form options

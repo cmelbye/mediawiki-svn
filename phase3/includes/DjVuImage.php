@@ -1,8 +1,8 @@
 <?php
-
 /**
+ * DjVu image handler
  *
- * Copyright (C) 2006 Brion Vibber <brion@pobox.com>
+ * Copyright © 2006 Brion Vibber <brion@pobox.com>
  * http://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  */
 
 /**
@@ -247,6 +248,7 @@ class DjVuImage {
 			wfProfileIn( 'djvutxt' );
 			$cmd = wfEscapeShellArg( $wgDjvuTxt ) . ' --detail=page ' . wfEscapeShellArg( $this->mFilename ) ;
 			wfDebug( __METHOD__.": $cmd\n" );
+			$retval = '';
 			$txt = wfShellExec( $cmd, $retval );
 			wfProfileOut( 'djvutxt' );
 			if( $retval == 0) {
@@ -264,16 +266,17 @@ class DjVuImage {
 					| # Or page can be empty ; in this case, djvutxt dumps ()
 					\(\s*()\)/sx
 EOR;
-				$txt = preg_replace_callback( $reg,
-				 	create_function('$matches', 'return \'<PAGE value="\'.htmlspecialchars($matches[1]).\'" />\';'),
-					$txt );
-
+				$txt = preg_replace_callback( $reg, array( $this, 'pageTextCallback' ), $txt );
 				$txt = "<DjVuTxt>\n<HEAD></HEAD>\n<BODY>\n" . $txt . "</BODY>\n</DjVuTxt>\n";
 				$xml = preg_replace( "/<DjVuXML>/", "<mw-djvu><DjVuXML>", $xml );
 				$xml = $xml . $txt. '</mw-djvu>' ;
 			}
 		}
 		return $xml;
+	}
+
+	function pageTextCallback( $matches ) {
+		return '<PAGE value="' . htmlspecialchars( $matches[1] ) . '" />';
 	}
 
 	/**

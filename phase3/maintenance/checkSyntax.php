@@ -17,9 +17,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
- 
+
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class CheckSyntax extends Maintenance {
@@ -77,11 +78,11 @@ class CheckSyntax extends Maintenance {
 			// Compat stuff, explodes on PHP 5.3
 			"includes/NamespaceCompat.php$",
 			);
-	
+
 		$this->mNoStyleCheckPaths = array(
 			// Third-party code we don't care about
 			"/activemq_stomp/",
-			"EmailPage/phpMailer",
+			"EmailPage/PHPMailer",
 			"FCKeditor/fckeditor/",
 			'\bphplot-',
 			"/svggraph/",
@@ -104,7 +105,8 @@ class CheckSyntax extends Maintenance {
 			if ( !$f ) {
 				$this->error( "Can't open file $file\n", true );
 			}
-			while ( $path = trim( fgets( $f ) ) ) {
+			$path = trim( fgets( $f ) );
+			while ( $path ) {
 				$this->addPath( $path );
 			}
 			fclose( $f );
@@ -112,6 +114,7 @@ class CheckSyntax extends Maintenance {
 		} elseif ( $this->hasOption( 'modified' ) ) {
 			$this->output( "Retrieving list from Subversion... " );
 			$parentDir = wfEscapeShellArg( dirname( __FILE__ ) . '/..' );
+			$retval = null;
 			$output = wfShellExec( "svn status --ignore-externals $parentDir", $retval );
 			if ( $retval ) {
 				$this->error( "Error retrieving list from Subversion!\n", true );
@@ -121,7 +124,7 @@ class CheckSyntax extends Maintenance {
 
 			preg_match_all( '/^\s*[AM].{7}(.*?)\r?$/m', $output, $matches );
 			foreach ( $matches[1] as $file ) {
-				if ( self::isSuitableFile( $file ) && !is_dir( $file ) ) {
+				if ( $this->isSuitableFile( $file ) && !is_dir( $file ) ) {
 					$this->mFiles[] = $file;
 				}
 			}
@@ -130,7 +133,7 @@ class CheckSyntax extends Maintenance {
 
 		$this->output( 'Building file list...', 'listfiles' );
 
-		// Only check files in these directories. 
+		// Only check files in these directories.
 		// Don't just put $IP, because the recursive dir thingie goes into all subdirs
 		$dirs = array(
 			$IP . '/includes',
@@ -157,7 +160,7 @@ class CheckSyntax extends Maintenance {
 
 		$this->output( 'done.', 'listfiles' );
 	}
-	
+
 	/**
 	 * Returns true if $file is of a type we can check
 	 */

@@ -54,11 +54,12 @@ $messages = array(
 'tog-editsection'             => 'Равдис «баив æй» æрвитæн тексты алы хайы дæр',
 'tog-editsectiononrightclick' => 'Сæргондыл рахиз æркъæппæй фарсы хæйттæ ив (JavaScript)',
 'tog-showtoc'                 => 'Сæргæндты номхыгъд æвдис (æртæ сæргондæй фылдæр цы фарсы ис, уым)',
-'tog-rememberpassword'        => 'Системæ бахъуыды кæнæд мæ пароль ацы компьютерыл.',
+'tog-rememberpassword'        => 'Системæ бахъуыды кæнæд мæ пароль ацы компьютерыл (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Æз цы фæрстæ райдайын, уыдонмæ мæ цæст дарын мæ фæнды',
 'tog-watchdefault'            => 'Æз цы фæрстæ ивын, уыдонмæ мæ цæст дарын мæ фæнды',
 'tog-watchmoves'              => 'Æз цы фæрсты нæмттæ ивын, уыдонмæ мæ цæст дарын мæ фæнды',
 'tog-watchdeletion'           => 'Æз цы фæрстæ аппарын, уыдонмæ мæ цæст дарын мæ фæнды',
+'tog-minordefault'            => 'Æппæт ивддзинæдтæ банысан кæн куыд чысылтæ',
 'tog-previewontop'            => 'Разæркасты рудзынг ивыны рудзынджы уæлдæр',
 'tog-enotifwatchlistpages'    => 'Электронон постæй мæм хъуысынгæнинаг æрвыст уа, æз цы фæрстæм мæ цæст дарын, уыдонæй иу куы ивд æрцæуа, уæд',
 'tog-enotifusertalkpages'     => 'Электронон постæй мæм хъуысынгæнинаг æрвыст уа, мæ дискусси куы ивд æрцæуа, уæд',
@@ -168,17 +169,11 @@ $messages = array(
 'qbspecialpages' => 'Сæрмагонд фæрстæ',
 
 # Vector skin
-'vector-namespace-category' => 'Категори',
-'vector-namespace-image'    => 'Файл',
-'vector-namespace-main'     => 'Фарс',
-'vector-namespace-project'  => 'Проекты фарс',
-'vector-namespace-template' => 'Шаблон',
-'vector-namespace-user'     => 'Архайæджы фарс',
-'vector-view-create'        => 'Скæн æй',
-'vector-view-edit'          => 'Фен æй',
-'vector-view-history'       => 'Истори',
-'vector-view-view'          => 'Кæс',
-'vector-view-viewsource'    => 'Йæ код фен',
+'vector-view-create'     => 'Скæн æй',
+'vector-view-edit'       => 'Баив æй',
+'vector-view-history'    => 'Истори',
+'vector-view-view'       => 'Кæс',
+'vector-view-viewsource' => 'Йæ код фен',
 
 'errorpagetitle'    => 'Рæдыд',
 'returnto'          => '$1 фарсмæ раздæх.',
@@ -268,8 +263,8 @@ $messages = array(
 'viewdeleted'         => '$1 фенын дæ фæнды?',
 'site-rss-feed'       => '$1 — RSS-уадздзаг',
 'site-atom-feed'      => '$1 — Atom-уадздзаг',
-'page-rss-feed'       => '«$1» — RSS-уадздзаг',
-'page-atom-feed'      => '«$1» — Atom-уадздзаг',
+'page-rss-feed'       => '$1 — RSS-лæсæн',
+'page-atom-feed'      => '$1 — Atom-лæсæн',
 'red-link-title'      => '$1 (фыст нæма у)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
@@ -321,7 +316,7 @@ $messages = array(
 'yourname'                => 'Архайæджы ном:',
 'yourpassword'            => 'Пароль:',
 'yourpasswordagain'       => 'Дæ пароль иу хатт ма:',
-'remembermypassword'      => 'Системæ бахъуыды кæнæд мæ пароль ацы компьютерыл',
+'remembermypassword'      => 'Системæ бахъуыды кæнæд мæ пароль ацы компьютерыл (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'          => 'Дæ домен:',
 'login'                   => 'Дæхи бавдис системæйæн',
 'nav-login-createaccount' => 'Системæйæн дæхи бавдис',
@@ -384,9 +379,6 @@ $messages = array(
 'editingsection'         => 'Ивыс $1 (фарсы хай)',
 'editconflict'           => 'Ивыны конфликт: $1',
 'yourtext'               => 'Дæхи текст',
-'longpagewarning'        => "'''РАГФÆДЗАХСТ: Ацы фарсы бæрцуат у $1 килобайты.
-Сæ бæрцуат 32 килобайтæй фылдæр кæмæн у, ахæм фæрстæ иуæй-иу браузерты раст нæ зынынц.
-Кæд ахæм вариант и, уæд ацы фарсæй цалдæр фарсы скæн.'''",
 'templatesused'          => 'Ацы фарсы ис {{PLURAL:$1|шаблон|шаблоны}}:',
 'template-protected'     => '(æхгæд)',
 'template-semiprotected' => '(æрдæг-æхгæд)',
@@ -570,16 +562,16 @@ $3',
 'recentchangeslinked-page'    => 'Фарсы ном:',
 
 # Upload
-'upload'           => 'Ног файл сæвæр',
-'uploadbtn'        => 'Ног файл сæвæр',
-'uploadnologin'    => 'Системæйæн дæхи нæ бацамыдтай',
-'uploaderror'      => 'Файл сæвæрыны рæдыд',
-'filename'         => 'Файлы ном',
-'minlength1'       => 'Файлы номы хъуамæ æппынкъаддæр иу дамгъæ уа.',
-'successfulupload' => 'Файлы сæвæрд фæрæстмæ',
-'savefile'         => 'Бавæр æй',
-'uploadvirus'      => 'Файлы разынд вирус! Кæс $1',
-'watchthisupload'  => 'Ацы файлмæ дæ цæст æрдар',
+'upload'              => 'Ног файл сæвæр',
+'uploadbtn'           => 'Ног файл сæвæр',
+'uploadnologin'       => 'Системæйæн дæхи нæ бацамыдтай',
+'uploaderror'         => 'Файл сæвæрыны рæдыд',
+'filename'            => 'Файлы ном',
+'minlength1'          => 'Файлы номы хъуамæ æппынкъаддæр иу дамгъæ уа.',
+'savefile'            => 'Бавæр æй',
+'uploadvirus'         => 'Файлы разынд вирус! Кæс $1',
+'watchthisupload'     => 'Ацы файлмæ дæ цæст æрдар',
+'upload-success-subj' => 'Файлы сæвæрд фæрæстмæ',
 
 'upload-file-error' => 'Мидæг рæдыд',
 
@@ -667,7 +659,9 @@ $3',
 
 # Special:Categories
 'categories'                    => 'Категоритæ',
-'categoriespagetext'            => 'Мæнæ ахæм категоритæ ирон Википедийы ис.',
+'categoriespagetext'            => 'Мæнæ ахæм категоритæ ирон Википедийы ис.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 'special-categories-sort-count' => 'нымæцмæ гæсгæ равæр',
 'special-categories-sort-abc'   => 'алфавитмæ гæсгæ равæр',
 
@@ -728,7 +722,7 @@ $3',
 'protect-othertime'      => 'Æндæр рæстæг:',
 'protect-othertime-op'   => 'æндæр рæстæг',
 'protect-otherreason'    => 'Æндæр аххос/уæлæмхасæн:',
-'protect-otherreason-op' => 'æндæр кæнæ уæлæмхасæн аххос',
+'protect-otherreason-op' => 'Æндæр аххос',
 'restriction-type'       => 'Бартæ:',
 
 # Restrictions (nouns)
@@ -745,7 +739,7 @@ $3',
 'uctop'               => '(уæле баззад)',
 
 'sp-contributions-blocklog' => 'Хъодыты лог',
-'sp-contributions-talk'     => 'Ныхас',
+'sp-contributions-talk'     => 'Дискусси',
 
 # What links here
 'whatlinkshere'            => 'Цавæр æрвитæнтæ цæуынц ардæм',

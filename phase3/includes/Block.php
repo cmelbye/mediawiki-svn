@@ -531,7 +531,7 @@ class Block {
 				# No results, don't autoblock anything
 				wfDebug( "No IP found to retroactively autoblock\n" );
 			} else {
-				while ( $row = $dbr->fetchObject( $res ) ) {
+				foreach ( $res as $row ) {
 					if ( $row->rc_ip ) {
 						$this->doAutoblock( $row->rc_ip );
 					}
@@ -815,7 +815,7 @@ class Block {
 			// IPv6
 			if ( IP::isIPv6( $range ) && $parts[1] >= 64 && $parts[1] <= 128 ) {
 				$bits = $parts[1];
-				$ipint = IP::toUnsigned6( $parts[0] );
+				$ipint = IP::toUnsigned( $parts[0] );
 				# Native 32 bit functions WON'T work here!!!
 				# Convert to a padded binary number
 				$network = wfBaseConvert( $ipint, 10, 2, 128 );
@@ -857,6 +857,16 @@ class Block {
 	public static function infinity() {
 		# This is a special keyword for timestamps in PostgreSQL, and
 		# works with CHAR(14) as well because "i" sorts after all numbers.
+
+		# BEGIN DatabaseMssql hack
+		# Since MSSQL doesn't recognize the infinity keyword, set date manually.
+		# TO-DO: Refactor for better DB portability and remove magic date
+		$dbr = wfGetDB( DB_SLAVE );
+		if ( $dbr->getType() == 'mssql' ) {
+			return '3000-01-31 00:00:00.000';
+		}
+		# End DatabaseMssql hack
+
 		return 'infinity';
 	}
 

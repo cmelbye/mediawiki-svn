@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 13, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Oct 13, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -48,12 +49,14 @@ class ApiFeedWatchlist extends ApiBase {
 		return new ApiFormatFeedWrapper( $this->getMain() );
 	}
 
+	private $linkToDiffs = false;
+
 	/**
 	 * Make a nested call to the API to request watchlist items in the last $hours.
 	 * Wrap the result as an RSS/Atom feed.
 	 */
 	public function execute() {
-		global $wgFeedClasses, $wgFeedLimit, $wgSitename, $wgContLanguageCode;
+		global $wgFeedClasses, $wgFeedLimit, $wgSitename, $wgLanguageCode;
 
 		try {
 			$params = $this->extractRequestParams();
@@ -61,7 +64,6 @@ class ApiFeedWatchlist extends ApiBase {
 			// limit to the number of hours going from now back
 			$endTime = wfTimestamp( TS_MW, time() - intval( $params['hours'] * 60 * 60 ) );
 
-			$dbr = wfGetDB( DB_SLAVE );
 			// Prepare parameters for nested request
 			$fauxReqArr = array(
 				'action' => 'query',
@@ -70,7 +72,7 @@ class ApiFeedWatchlist extends ApiBase {
 				'list' => 'watchlist',
 				'wlprop' => 'title|user|comment|timestamp',
 				'wldir' => 'older', // reverse order - from newest to oldest
-				'wlend' => $dbr->timestamp( $endTime ),	// stop at this time
+				'wlend' => $endTime, // stop at this time
 				'wllimit' => ( 50 > $wgFeedLimit ) ? $wgFeedLimit : 50
 			);
 
@@ -79,6 +81,12 @@ class ApiFeedWatchlist extends ApiBase {
 			}
 			if ( !is_null( $params['wltoken'] ) ) {
 				$fauxReqArr['wltoken'] = $params['wltoken'];
+			}
+
+			// Support linking to diffs instead of article
+			if ( $params['linktodiffs'] ) {
+				$this->linkToDiffs = true;
+				$fauxReqArr['wlprop'] .= '|ids';
 			}
 
 			// Check for 'allrev' parameter, and if found, show all revisions to each page on wl.
@@ -101,7 +109,7 @@ class ApiFeedWatchlist extends ApiBase {
 				$feedItems[] = $this->createFeedItem( $info );
 			}
 
-			$feedTitle = $wgSitename . ' - ' . wfMsgForContent( 'watchlist' ) . ' [' . $wgContLanguageCode . ']';
+			$feedTitle = $wgSitename . ' - ' . wfMsgForContent( 'watchlist' ) . ' [' . $wgLanguageCode . ']';
 			$feedUrl = SpecialPage::getTitleFor( 'Watchlist' )->getFullURL();
 
 			$feed = new $wgFeedClasses[$params['feedformat']] ( $feedTitle, htmlspecialchars( wfMsgForContent( 'watchlist' ) ), $feedUrl );
@@ -113,7 +121,7 @@ class ApiFeedWatchlist extends ApiBase {
 			// Error results should not be cached
 			$this->getMain()->setCacheMaxAge( 0 );
 
-			$feedTitle = $wgSitename . ' - Error - ' . wfMsgForContent( 'watchlist' ) . ' [' . $wgContLanguageCode . ']';
+			$feedTitle = $wgSitename . ' - Error - ' . wfMsgForContent( 'watchlist' ) . ' [' . $wgLanguageCode . ']';
 			$feedUrl = SpecialPage::getTitleFor( 'Watchlist' )->getFullURL();
 
 			$feedFormat = isset( $params['feedformat'] ) ? $params['feedformat'] : 'rss';
@@ -135,7 +143,11 @@ class ApiFeedWatchlist extends ApiBase {
 	private function createFeedItem( $info ) {
 		$titleStr = $info['title'];
 		$title = Title::newFromText( $titleStr );
-		$titleUrl = $title->getFullURL();
+		if ( $this->linkToDiffs && isset( $info['revid'] ) ) {
+			$titleUrl = $title->getFullURL( array( 'diff' => $info['revid'] ) );
+		} else {
+			$titleUrl = $title->getFullURL();
+		}
 		$comment = isset( $info['comment'] ) ? $info['comment'] : null;
 		$timestamp = $info['timestamp'];
 		$user = $info['user'];
@@ -165,7 +177,8 @@ class ApiFeedWatchlist extends ApiBase {
 			),
 			'wltoken' => array(
 				ApiBase::PARAM_TYPE => 'string'
-			)
+			),
+			'linktodiffs' => false,
 		);
 	}
 
@@ -174,8 +187,9 @@ class ApiFeedWatchlist extends ApiBase {
 			'feedformat' => 'The format of the feed',
 			'hours'      => 'List pages modified within this many hours from now',
 			'allrev'     => 'Include multiple revisions of the same page within given timeframe',
-			'wlowner'     => "The user whose watchlist you want (must be accompanied by {$this->getModulePrefix()}token if it's not you)",
-			'wltoken'    => 'Security token that requested user set in their preferences'
+			'wlowner'    => "The user whose watchlist you want (must be accompanied by {$this->getModulePrefix()}token if it's not you)",
+			'wltoken'    => 'Security token that requested user set in their preferences',
+			'linktodiffs'=> 'Link to change differences instead of article pages'
 		);
 	}
 
@@ -185,7 +199,8 @@ class ApiFeedWatchlist extends ApiBase {
 
 	protected function getExamples() {
 		return array(
-			'api.php?action=feedwatchlist'
+			'api.php?action=feedwatchlist',
+			'api.php?action=feedwatchlist&allrev=allrev&linktodiffs=&hours=6'
 		);
 	}
 

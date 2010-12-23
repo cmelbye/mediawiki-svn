@@ -2,7 +2,7 @@
 /**
  * Simple script that try to find documented hook and hooks actually
  * in the code and show what's missing.
- * 
+ *
  * This script assumes that:
  * - hooks names in hooks.txt are at the beginning of a line and single quoted.
  * - hooks names in code are the first parameter of wfRunHooks.
@@ -11,6 +11,8 @@
  * with the ones at http://www.mediawiki.org/wiki/Manual:Hooks
  *
  * Any instance of wfRunHooks that doesn't meet these parameters will be noted.
+ *
+ * Copyright © Ashar Voultoiz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,11 +29,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
- *
- * @author Ashar Voultoiz <hashar@altern.org>
- * @copyright Copyright © Ashar voultoiz
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public Licence 2.0 or later
+ * @author Ashar Voultoiz <hashar at free dot fr>
  */
 
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
@@ -60,13 +60,17 @@ class FindHooks extends Maintenance {
 			$IP . '/includes/db/',
 			$IP . '/includes/diff/',
 			$IP . '/includes/filerepo/',
+			$IP . '/includes/installer/',
 			$IP . '/includes/parser/',
+			$IP . '/includes/resourceloader/',
 			$IP . '/includes/search/',
 			$IP . '/includes/specials/',
 			$IP . '/includes/upload/',
 			$IP . '/languages/',
 			$IP . '/maintenance/',
 			$IP . '/maintenance/tests/',
+			$IP . '/maintenance/tests/parser/',
+			$IP . '/maintenance/tests/phpunit/suites/',
 			$IP . '/skins/',
 		);
 
@@ -74,17 +78,17 @@ class FindHooks extends Maintenance {
 			$potential = array_merge( $potential, $this->getHooksFromPath( $dir ) );
 			$bad = array_merge( $bad, $this->getBadHooksFromPath( $dir ) );
 		}
-	
+
 		$potential = array_unique( $potential );
 		$bad = array_unique( $bad );
 		$todo = array_diff( $potential, $documented );
 		$deprecated = array_diff( $documented, $potential );
-	
+
 		// let's show the results:
 		$this->printArray( 'Undocumented', $todo );
 		$this->printArray( 'Documented and not found', $deprecated );
 		$this->printArray( 'Unclear hook calls', $bad );
-	
+
 		if ( count( $todo ) == 0 && count( $deprecated ) == 0 && count( $bad ) == 0 )
 			$this->output( "Looks good!\n" );
 	}
@@ -145,7 +149,8 @@ class FindHooks extends Maintenance {
 	 */
 	private function getHooksFromPath( $path ) {
 		$hooks = array();
-		if ( $dh = opendir( $path ) ) {
+		$dh = opendir( $path );
+		if ( $dh ) {
 			while ( ( $file = readdir( $dh ) ) !== false ) {
 				if ( filetype( $path . $file ) == 'file' ) {
 					$hooks = array_merge( $hooks, $this->getHooksFromFile( $path . $file ) );
@@ -180,7 +185,8 @@ class FindHooks extends Maintenance {
 	 */
 	private function getBadHooksFromPath( $path ) {
 		$hooks = array();
-		if ( $dh = opendir( $path ) ) {
+		$dh = opendir( $path );
+		if ( $dh ) {
 			while ( ( $file = readdir( $dh ) ) !== false ) {
 				# We don't want to read this file as it contains bad calls to wfRunHooks()
 				if ( filetype( $path . $file ) == 'file' && !$path . $file == __FILE__ ) {

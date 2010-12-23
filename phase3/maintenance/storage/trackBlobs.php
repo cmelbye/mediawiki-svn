@@ -1,4 +1,26 @@
 <?php
+/**
+ * Adds blobs from a given external storage cluster to the blob_tracking table.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance
+ * @see wfWaitForSlaves()
+ */
 
 require( dirname( __FILE__ ) . '/../commandLine.inc' );
 
@@ -55,7 +77,7 @@ class TrackBlobs {
 			'AND LOWER(CONVERT(LEFT(old_text,22) USING latin1)) = \'o:15:"historyblobstub"\'',
 			__METHOD__
 		);
-		
+
 		if ( $exists ) {
 			echo "Integrity check failed: found HistoryBlobStub objects in your text table.\n" .
 				"This script could destroy these objects if it continued. Run resolveStubs.php\n" .
@@ -343,7 +365,7 @@ class TrackBlobs {
 			// Find actual blobs that weren't tracked by the previous passes
 			// This is a set-theoretic difference A \ B, or in bitwise terms, A & ~B
 			$orphans = gmp_and( $actualBlobs, gmp_com( $this->trackedBlobs[$cluster] ) );
-			
+
 			// Traverse the orphan list
 			$insertBatch = array();
 			$id = 0;

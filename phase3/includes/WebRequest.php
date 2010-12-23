@@ -1,34 +1,27 @@
 <?php
 /**
  * Deal with importing all those nasssty globals and things
+ *
+ * Copyright © 2003 Brion Vibber <brion@pobox.com>
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
-
-# Copyright (C) 2003 Brion Vibber <brion@pobox.com>
-# http://www.mediawiki.org/
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# http://www.gnu.org/copyleft/gpl.html
-
-
-/**
- * Some entry points may use this file without first enabling the
- * autoloader.
- */
-if ( !function_exists( '__autoload' ) ) {
-	require_once( dirname(__FILE__) . '/normal/UtfNormal.php' );
-}
 
 /**
  * The WebRequest class encapsulates getting at data passed in the
@@ -44,7 +37,12 @@ if ( !function_exists( '__autoload' ) ) {
  */
 class WebRequest {
 	protected $data, $headers = array();
-	private $_response;
+
+	/**
+	 * Lazy-init response object
+	 * @var WebResponse
+	 */
+	private $response;
 
 	public function __construct() {
 		/// @todo Fixme: this preemptive de-quoting can interfere with other web libraries
@@ -66,6 +64,11 @@ class WebRequest {
 	 */
 	public function interpolateTitle() {
 		global $wgUsePathInfo;
+
+		// bug 16019: title interpolation on API queries is useless and sometimes harmful
+		if ( defined( 'MW_API' ) ) {
+			return;
+		}
 
 		if ( $wgUsePathInfo ) {
 			// PATH_INFO is mangled due to http://bugs.php.net/bug.php?id=31892
@@ -352,7 +355,20 @@ class WebRequest {
 	 * @return Boolean
 	 */
 	public function getBool( $name, $default = false ) {
-		return $this->getVal( $name, $default ) ? true : false;
+		return (bool)$this->getVal( $name, $default );
+	}
+	
+	/**
+	 * Fetch a boolean value from the input or return $default if not set.
+	 * Unlike getBool, the string "false" will result in boolean false, which is
+	 * useful when interpreting information sent from JavaScript.
+	 *
+	 * @param $name String
+	 * @param $default Boolean
+	 * @return Boolean
+	 */
+	public function getFuzzyBool( $name, $default = false ) {
+		return $this->getBool( $name, $default ) && strcasecmp( $this->getVal( $name ), 'false' ) !== 0;
 	}
 
 	/**
@@ -372,11 +388,11 @@ class WebRequest {
 
 	/**
 	 * Fetch a text string from the given array or return $default if it's not
-	 * set. \r is stripped from the text, and with some language modules there
-	 * is an input transliteration applied. This should generally be used for
-	 * form <textarea> and <input> fields. Used for user-supplied freeform text
-	 * input (for which input transformations may be required - e.g. Esperanto
-	 * x-coding).
+	 * set. Carriage returns are stripped from the text, and with some language
+	 * modules there is an input transliteration applied. This should generally
+	 * be used for form <textarea> and <input> fields. Used for user-supplied
+	 * freeform text input (for which input transformations may be required - e.g.
+	 * Esperanto x-coding).
 	 *
 	 * @param $name String
 	 * @param $default String: optional
@@ -435,19 +451,19 @@ class WebRequest {
 	 * @return Boolean
 	 */
 	public function checkSessionCookie() {
-		return isset( $_COOKIE[session_name()] );
+		return isset( $_COOKIE[ session_name() ] );
 	}
 
 	/**
 	 * Get a cookie from the $_COOKIE jar
 	 *
 	 * @param $key String: the name of the cookie
-	 * @param $default Mixed: what to return if the value isn't found
 	 * @param $prefix String: a prefix to use for the cookie name, if not $wgCookiePrefix
+	 * @param $default Mixed: what to return if the value isn't found
 	 * @return Mixed: cookie value or $default if the cookie not set
 	 */
-	public function getCookie( $key, $default = null, $prefix = '' ) {
-		if( !$prefix ) {
+	public function getCookie( $key, $prefix = null, $default = null ) {
+		if( $prefix === null ) {
 			global $wgCookiePrefix;
 			$prefix = $wgCookiePrefix;
 		}
@@ -570,15 +586,23 @@ class WebRequest {
 		global $wgUser;
 
 		$limit = $this->getInt( 'limit', 0 );
-		if( $limit < 0 ) $limit = 0;
+		if( $limit < 0 ) {
+			$limit = 0;
+		}
 		if( ( $limit == 0 ) && ( $optionname != '' ) ) {
 			$limit = (int)$wgUser->getOption( $optionname );
 		}
-		if( $limit <= 0 ) $limit = $deflimit;
-		if( $limit > 5000 ) $limit = 5000; # We have *some* limits...
+		if( $limit <= 0 ) {
+			$limit = $deflimit;
+		}
+		if( $limit > 5000 ) {
+			$limit = 5000; # We have *some* limits...
+		}
 
 		$offset = $this->getInt( 'offset', 0 );
-		if( $offset < 0 ) $offset = 0;
+		if( $offset < 0 ) {
+			$offset = 0;
+		}
 
 		return array( $limit, $offset );
 	}
@@ -590,23 +614,20 @@ class WebRequest {
 	 * @return string or NULL if no such file.
 	 */
 	public function getFileTempname( $key ) {
-		if( !isset( $_FILES[$key] ) ) {
-			return null;
-		}
-		return $_FILES[$key]['tmp_name'];
+		$file = new WebRequestUpload( $this, $key );
+		return $file->getTempName();
 	}
 
 	/**
 	 * Return the size of the upload, or 0.
 	 *
+	 * @deprecated
 	 * @param $key String:
 	 * @return integer
 	 */
 	public function getFileSize( $key ) {
-		if( !isset( $_FILES[$key] ) ) {
-			return 0;
-		}
-		return $_FILES[$key]['size'];
+		$file = new WebRequestUpload( $this, $key );
+		return $file->getSize();
 	}
 
 	/**
@@ -616,10 +637,8 @@ class WebRequest {
 	 * @return integer
 	 */
 	public function getUploadError( $key ) {
-		if( !isset( $_FILES[$key] ) || !isset( $_FILES[$key]['error'] ) ) {
-			return 0/*UPLOAD_ERR_OK*/;
-		}
-		return $_FILES[$key]['error'];
+		$file = new WebRequestUpload( $this, $key );
+		return $file->getError();
 	}
 
 	/**
@@ -634,31 +653,33 @@ class WebRequest {
 	 * @return string or NULL if no such file.
 	 */
 	public function getFileName( $key ) {
-		global $wgContLang;
-		if( !isset( $_FILES[$key] ) ) {
-			return null;
-		}
-		$name = $_FILES[$key]['name'];
+		$file = new WebRequestUpload( $this, $key );
+		return $file->getName();
+	}
 
-		# Safari sends filenames in HTML-encoded Unicode form D...
-		# Horrid and evil! Let's try to make some kind of sense of it.
-		$name = Sanitizer::decodeCharReferences( $name );
-		$name = $wgContLang->normalize( $name );
-		wfDebug( "WebRequest::getFileName() '" . $_FILES[$key]['name'] . "' normalized to '$name'\n" );
-		return $name;
+	/**
+	 * Return a WebRequestUpload object corresponding to the key
+	 *
+	 * @param @key string
+	 * @return WebRequestUpload
+	 */
+	public function getUpload( $key ) {
+		return new WebRequestUpload( $this, $key );
 	}
 
 	/**
 	 * Return a handle to WebResponse style object, for setting cookies,
 	 * headers and other stuff, for Request being worked on.
+	 *
+	 * @return WebResponse
 	 */
 	public function response() {
 		/* Lazy initialization of response object for this request */
-		if ( !is_object( $this->_response ) ) {
+		if ( !is_object( $this->response ) ) {
 			$class = ( $this instanceof FauxRequest ) ? 'FauxResponse' : 'WebResponse';
-			$this->_response = new $class();
+			$this->response = new $class();
 		}
-		return $this->_response;
+		return $this->response;
 	}
 
 	/**
@@ -680,6 +701,9 @@ class WebRequest {
 			}
 		} else {
 			$name = 'HTTP_' . str_replace( '-', '_', $name );
+			if ( $name === 'HTTP_CONTENT_LENGTH' && !isset( $_SERVER[$name] ) ) {
+				$name = 'CONTENT_LENGTH';
+			}
 			if ( isset( $_SERVER[$name] ) ) {
 				return $_SERVER[$name];
 			} else {
@@ -695,8 +719,9 @@ class WebRequest {
 	 * @return Mixed
 	 */
 	public function getSessionData( $key ) {
-		if( !isset( $_SESSION[$key] ) )
+		if( !isset( $_SESSION[$key] ) ) {
 			return null;
+		}
 		return $_SESSION[$key];
 	}
 
@@ -736,36 +761,160 @@ class WebRequest {
 		$ext = substr( $pi, $dotPos );
 		return !in_array( $ext, array( $wgScriptExtension, '.php', '.php5' ) );
 	}
-	
+
 	/**
 	 * Parse the Accept-Language header sent by the client into an array
 	 * @return array( languageCode => q-value ) sorted by q-value in descending order
+	 * May contain the "language" '*', which applies to languages other than those explicitly listed.
+	 * This is aligned with rfc2616 section 14.4
 	 */
 	public function getAcceptLang() {
 		// Modified version of code found at http://www.thefutureoftheweb.com/blog/use-accept-language-header
-		if ( !isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		$acceptLang = $this->getHeader( 'Accept-Language' );
+		if ( !$acceptLang ) {
 			return array();
 		}
-		
+
+		// Return the language codes in lower case
+		$acceptLang = strtolower( $acceptLang );
+
 		// Break up string into pieces (languages and q factors)
 		$lang_parse = null;
-		preg_match_all( '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0(\.[0-9]+))?)?/i',
-			$_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse );
-		
+		preg_match_all( '/([a-z]{1,8}(-[a-z]{1,8})?|\*)\s*(;\s*q\s*=\s*(1|0(\.[0-9]+)?)?)?/',
+			$acceptLang, $lang_parse );
+
 		if ( !count( $lang_parse[1] ) ) {
 			return array();
 		}
+
 		// Create a list like "en" => 0.8
 		$langs = array_combine( $lang_parse[1], $lang_parse[4] );
 		// Set default q factor to 1
 		foreach ( $langs as $lang => $val ) {
 			if ( $val === '' ) {
 				$langs[$lang] = 1;
+			} else if ( $val == 0 ) {
+				unset($langs[$lang]);
 			}
 		}
+
 		// Sort list
 		arsort( $langs, SORT_NUMERIC );
 		return $langs;
+	}
+}
+
+/**
+ * Object to access the $_FILES array
+ */
+class WebRequestUpload {
+	protected $request;
+	protected $doesExist;
+	protected $fileInfo;
+
+	/**
+	 * Constructor. Should only be called by WebRequest
+	 *
+	 * @param $request WebRequest The associated request
+	 * @param $key string Key in $_FILES array (name of form field)
+	 */
+	public function __construct( $request, $key ) {
+		$this->request = $request;
+		$this->doesExist = isset( $_FILES[$key] );
+		if ( $this->doesExist ) {
+			$this->fileInfo = $_FILES[$key];
+		}
+	}
+
+	/**
+	 * Return whether a file with this name was uploaded.
+	 *
+	 * @return bool
+	 */
+	public function exists() {
+		return $this->doesExist;
+	}
+
+	/**
+	 * Return the original filename of the uploaded file
+	 *
+	 * @return mixed Filename or null if non-existent
+	 */
+	public function getName() {
+		if ( !$this->exists() ) {
+			return null;
+		}
+
+		global $wgContLang;
+		$name = $this->fileInfo['name'];
+
+		# Safari sends filenames in HTML-encoded Unicode form D...
+		# Horrid and evil! Let's try to make some kind of sense of it.
+		$name = Sanitizer::decodeCharReferences( $name );
+		$name = $wgContLang->normalize( $name );
+		wfDebug( __METHOD__ . ": {$this->fileInfo['name']} normalized to '$name'\n" );
+		return $name;
+	}
+
+	/**
+	 * Return the file size of the uploaded file
+	 *
+	 * @return int File size or zero if non-existent
+	 */
+	public function getSize() {
+		if ( !$this->exists() ) {
+			return 0;
+		}
+
+		return $this->fileInfo['size'];
+	}
+
+	/**
+	 * Return the path to the temporary file
+	 *
+	 * @return mixed Path or null if non-existent
+	 */
+	public function getTempName() {
+		if ( !$this->exists() ) {
+			return null;
+		}
+
+		return $this->fileInfo['tmp_name'];
+	}
+
+	/**
+	 * Return the upload error. See link for explanation
+	 * http://www.php.net/manual/en/features.file-upload.errors.php
+	 *
+	 * @return int One of the UPLOAD_ constants, 0 if non-existent
+	 */
+	public function getError() {
+		if ( !$this->exists() ) {
+			return 0; # UPLOAD_ERR_OK
+		}
+
+		return $this->fileInfo['error'];
+	}
+
+	/**
+	 * Returns whether this upload failed because of overflow of a maximum set
+	 * in php.ini
+	 *
+	 * @return bool
+	 */
+	public function isIniSizeOverflow() {
+		if ( $this->getError() == UPLOAD_ERR_INI_SIZE ) {
+			# PHP indicated that upload_max_filesize is exceeded
+			return true;
+		}
+
+		$contentLength = $this->request->getHeader( 'CONTENT_LENGTH' );
+		if ( $contentLength > wfShorthandToInteger( ini_get( 'post_max_size' ) ) ) {
+			# post_max_size is exceeded
+			return true;
+		}
+
+		return false;
 	}
 }
 
@@ -777,7 +926,6 @@ class WebRequest {
 class FauxRequest extends WebRequest {
 	private $wasPosted = false;
 	private $session = array();
-	private $response;
 
 	/**
 	 * @param $data Array of *non*-urlencoded key => value pairs, the
@@ -822,7 +970,25 @@ class FauxRequest extends WebRequest {
 	}
 
 	public function appendQuery( $query ) {
-		$this->notImplemented( __METHOD__ );
+		global $wgTitle;
+		$basequery = '';
+		foreach( $this->data as $var => $val ) {
+			if ( $var == 'title' ) {
+				continue;
+			}
+			if ( is_array( $val ) ) {
+				/* This will happen given a request like
+				 * http://en.wikipedia.org/w/index.php?title[]=Special:Userlogin&returnto[]=Main_Page
+				 */
+				continue;
+			}
+			$basequery .= '&' . urlencode( $var ) . '=' . urlencode( $val );
+		}
+		$basequery .= '&' . $query;
+
+		# Trim the extra &
+		$basequery = substr( $basequery, 1 );
+		return $wgTitle->getLocalURL( $basequery );
 	}
 
 	public function getHeader( $name ) {

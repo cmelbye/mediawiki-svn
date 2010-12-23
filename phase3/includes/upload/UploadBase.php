@@ -25,7 +25,7 @@ abstract class UploadBase {
 	const EMPTY_FILE = 3;
 	const MIN_LENGTH_PARTNAME = 4;
 	const ILLEGAL_FILENAME = 5;
-	const OVERWRITE_EXISTING_FILE = 7;
+	const OVERWRITE_EXISTING_FILE = 7; # Not used anymore; handled by verifyPermissions()
 	const FILETYPE_MISSING = 8;
 	const FILETYPE_BADTYPE = 9;
 	const VERIFICATION_ERROR = 10;
@@ -223,7 +223,7 @@ abstract class UploadBase {
 	 * Verify whether the upload is sane.
 	 * @return mixed self::OK or else an array with error information
 	 */
-	public function verifyUpload( ) {
+	public function verifyUpload() {
 		/**
 		 * If there was no filename or a zero size given, give up quick.
 		 */
@@ -236,7 +236,10 @@ abstract class UploadBase {
 		 */
 		global $wgMaxUploadSize;
 		if( $this->mFileSize > $wgMaxUploadSize ) {
-			return array( 'status' => self::FILE_TOO_LARGE );
+			return array( 
+				'status' => self::FILE_TOO_LARGE,
+				'max' => $wgMaxUploadSize,
+			);
 		}
 
 		/**
@@ -255,7 +258,7 @@ abstract class UploadBase {
 		/**
 		 * Make sure this file can be created
 		 */
-		$result = $this->validateNameAndOverwrite();
+		$result = $this->validateName();
 		if( $result !== true ) {
 			return $result;
 		}
@@ -263,7 +266,6 @@ abstract class UploadBase {
 		$error = '';
 		if( !wfRunHooks( 'UploadVerification',
 				array( $this->mDestName, $this->mTempPath, &$error ) ) ) {
-			// @fixme This status needs another name...
 			return array( 'status' => self::HOOK_ABORTED, 'error' => $error );
 		}
 
@@ -276,7 +278,7 @@ abstract class UploadBase {
 	 * @return mixed true if valid, otherwise and array with 'status'
 	 * and other keys
 	 **/
-	public function validateNameAndOverwrite() {
+	protected function validateName() {
 		$nt = $this->getTitle();
 		if( is_null( $nt ) ) {
 			$result = array( 'status' => $this->mTitleError );
@@ -290,26 +292,16 @@ abstract class UploadBase {
 		}
 		$this->mDestName = $this->getLocalFile()->getName();
 
-		/**
-		 * In some cases we may forbid overwriting of existing files.
-		 */
-		$overwrite = $this->checkOverwrite();
-		if( $overwrite !== true ) {
-			return array(
-				'status' => self::OVERWRITE_EXISTING_FILE,
-				'overwrite' => $overwrite
-			);
-		}
 		return true;
 	}
 
 	/**
 	 * Verify the mime type
-	 * @param $magic MagicMime object
+	 *
 	 * @param $mime string representing the mime
 	 * @return mixed true if the file is verified, an array otherwise
 	 */
-	protected function verifyMimeType( $magic, $mime ) {
+	protected function verifyMimeType( $mime ) {
 		global $wgVerifyMimeType;
 		if ( $wgVerifyMimeType ) {
 			wfDebug ( "\n\nmime: <$mime> extension: <{$this->mFinalExtension}>\n\n");
@@ -326,6 +318,8 @@ abstract class UploadBase {
 			$fp = fopen( $this->mTempPath, 'rb' );
 			$chunk = fread( $fp, 256 );
 			fclose( $fp );
+
+			$magic = MimeMagic::singleton();
 			$extMime = $magic->guessTypesForExtension( $this->mFinalExtension );
 			$ieTypes = $magic->getIEMimeTypes( $this->mTempPath, $chunk, $extMime );
 			foreach ( $ieTypes as $ieType ) {
@@ -344,15 +338,16 @@ abstract class UploadBase {
 	 * @return mixed true of the file is verified, array otherwise.
 	 */
 	protected function verifyFile() {
+		# get the title, even though we are doing nothing with it, because
+		# we need to populate mFinalExtension 
+		$this->getTitle();
+		
 		$this->mFileProps = File::getPropsFromPath( $this->mTempPath, $this->mFinalExtension );
 		$this->checkMacBinary();
 
-		# magically determine mime type
-		$magic = MimeMagic::singleton();
-		$mime = $magic->guessMimeType( $this->mTempPath, false );
-
 		# check mime type, if desired
-		$status = $this->verifyMimeType( $magic, $mime );
+		$mime = $this->mFileProps[ 'file-mime' ];
+		$status = $this->verifyMimeType( $mime );
 		if ( $status !== true ) {
 			return $status;
 		}
@@ -362,7 +357,7 @@ abstract class UploadBase {
 			return array( 'uploadscripted' );
 		}
 		if( $this->mFinalExtension == 'svg' || $mime == 'image/svg+xml' ) {
-			if( self::detectScriptInSvg( $this->mTempPath ) ) {
+			if( $this->detectScriptInSvg( $this->mTempPath ) ) {
 				return array( 'uploadscripted' );
 			}
 		}
@@ -374,12 +369,31 @@ abstract class UploadBase {
 		if ( $virus ) {
 			return array( 'uploadvirus', $virus );
 		}
+
+		$handler = MediaHandler::getHandler( $mime );
+		if ( $handler ) {
+			$handlerStatus = $handler->verifyUpload( $this->mTempPath );
+			if ( !$handlerStatus->isOK() ) {
+				$errors = $handlerStatus->getErrorsArray();
+				return reset( $errors );
+			}
+		}
+
+		wfRunHooks( 'UploadVerifyFile', array( $this, $mime, &$status ) );
+		if ( $status !== true ) {
+			return $status;
+		}
+
 		wfDebug( __METHOD__ . ": all clear; passing.\n" );
 		return true;
 	}
 
 	/**
-	 * Check whether the user can edit, upload and create the image.
+	 * Check whether the user can edit, upload and create the image. This
+	 * checks only against the current title; if it returns errors, it may
+	 * very well be that another title will not give errors. Therefore
+	 * isAllowed() should be called as well for generic is-user-blocked or
+	 * can-user-upload checking.
 	 *
 	 * @param $user the User object to verify the permissions against
 	 * @return mixed An array as returned by getUserPermissionsErrors or true
@@ -406,6 +420,12 @@ abstract class UploadBase {
 			$permErrors = array_merge( $permErrors, wfArrayDiff2( $permErrorsCreate, $permErrors ) );
 			return $permErrors;
 		}
+		
+		$overwriteError = $this->checkOverwrite( $user );
+		if ( $overwriteError !== true ) {
+			return array( array( $overwriteError ) );
+		}
+		
 		return true;
 	}
 
@@ -420,7 +440,6 @@ abstract class UploadBase {
 		$localFile = $this->getLocalFile();
 		$filename = $localFile->getName();
 		$n = strrpos( $filename, '.' );
-		$partname = $n ? substr( $filename, 0, $n ) : $filename;
 
 		/**
 		 * Check whether the resulting filename is different from the desired one,
@@ -485,10 +504,15 @@ abstract class UploadBase {
 	 * @return mixed Status indicating the whether the upload succeeded.
 	 */
 	public function performUpload( $comment, $pageText, $watch, $user ) {
-		wfDebug( "\n\n\performUpload: sum: " . $comment . ' c: ' . $pageText .
-			' w: ' . $watch );
-		$status = $this->getLocalFile()->upload( $this->mTempPath, $comment, $pageText,
-			File::DELETE_SOURCE, $this->mFileProps, false, $user );
+		$status = $this->getLocalFile()->upload( 
+			$this->mTempPath, 
+			$comment, 
+			$pageText,
+			File::DELETE_SOURCE,
+			$this->mFileProps, 
+			false, 
+			$user 
+		);
 
 		if( $status->isGood() ) {
 			if ( $watch ) {
@@ -579,6 +603,9 @@ abstract class UploadBase {
 	}
 
 	/**
+	 * NOTE: Probably should be deprecated in favor of UploadStash, but this is sometimes
+	 * called outside that context.
+	 *
 	 * Stash a file in a temporary directory for later processing
 	 * after the user has confirmed it.
 	 *
@@ -596,38 +623,35 @@ abstract class UploadBase {
 	}
 
 	/**
-	 * Stash a file in a temporary directory for later processing,
-	 * and save the necessary descriptive info into the session.
-	 * Returns a key value which will be passed through a form
-	 * to pick up the path info on a later invocation.
+	 * If the user does not supply all necessary information in the first upload form submission (either by accident or
+	 * by design) then we may want to stash the file temporarily, get more information, and publish the file later.
 	 *
-	 * @return Integer: session key
+	 * This method will stash a file in a temporary directory for later processing, and save the necessary descriptive info
+	 * into the user's session.
+	 * This method returns the file object, which also has a 'sessionKey' property which can be passed through a form or 
+	 * API request to find this stashed file again.
+	 *
+	 * @param $key String: (optional) the session key used to find the file info again. If not supplied, a key will be autogenerated.
+	 * @return File: stashed file
 	 */
-	public function stashSession() {
-		$status = $this->saveTempUploadedFile( $this->mDestName, $this->mTempPath );
-		if( !$status->isOK() ) {
-			# Couldn't save the file.
-			return false;
-		}
-
-		$key = $this->getSessionKey();
-		$_SESSION[self::SESSION_KEYNAME][$key] = array(
-			'mTempPath'       => $status->value,
-			'mFileSize'       => $this->mFileSize,
-			'mFileProps'      => $this->mFileProps,
-			'version'         => self::SESSION_VERSION,
+	public function stashSessionFile( $key = null ) { 
+		$stash = new UploadStash();
+		$data = array( 
+			'mFileProps' => $this->mFileProps
 		);
-		return $key;
+		$file = $stash->stashFile( $this->mTempPath, $data, $key );
+		$this->mLocalFile = $file;
+		return $file;
 	}
 
 	/**
-	 * Generate a random session key from stash in cases where we want
-	 * to start an upload without much information
+	 * Stash a file in a temporary directory, returning a key which can be used to find the file again. See stashSessionFile().
+	 *
+	 * @param $key String: (optional) the session key used to find the file info again. If not supplied, a key will be autogenerated.
+	 * @return String: session key
 	 */
-	protected function getSessionKey() {
-		$key = mt_rand( 0, 0x7fffffff );
-		$_SESSION[self::SESSION_KEYNAME][$key] = array();
-		return $key;
+	public function stashSession( $key = null ) {
+		return $this->stashSessionFile( $key )->getSessionKey();
 	}
 
 	/**
@@ -1002,12 +1026,11 @@ abstract class UploadBase {
 	 *
 	 * @return mixed true on success, error string on failure
 	 */
-	private function checkOverwrite() {
-		global $wgUser;
+	private function checkOverwrite( $user ) {
 		// First check whether the local file can be overwritten
 		$file = $this->getLocalFile();
 		if( $file->exists() ) {
-			if( !self::userCanReUpload( $wgUser, $file ) ) {
+			if( !self::userCanReUpload( $user, $file ) ) {
 				return 'fileexists-forbidden';
 			} else {
 				return true;
@@ -1018,7 +1041,7 @@ abstract class UploadBase {
 		 * wfFindFile finds a file, it exists in a shared repository.
 		 */
 		$file = wfFindFile( $this->getTitle() );
-		if ( $file && !$wgUser->isAllowed( 'reupload-shared' ) ) {
+		if ( $file && !$user->isAllowed( 'reupload-shared' ) ) {
 			return 'fileexists-shared-forbidden';
 		}
 
@@ -1175,15 +1198,34 @@ abstract class UploadBase {
 		return $blacklist;
 	}
 
+	/**
+	 * Gets image info about the file just uploaded. 
+	 *
+	 * Also has the effect of setting metadata to be an 'indexed tag name' in returned API result if 
+	 * 'metadata' was requested. Oddly, we have to pass the "result" object down just so it can do that
+	 * with the appropriate format, presumably. 
+	 *
+	 * @param $result ApiResult:
+	 * @return Array: image info
+	 */
 	public function getImageInfo( $result ) {
 		$file = $this->getLocalFile();
-		$imParam = ApiQueryImageInfo::getPropertyNames();
-		return ApiQueryImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		// TODO This cries out for refactoring. We really want to say $file->getAllInfo(); here. 
+		// Perhaps "info" methods should be moved into files, and the API should just wrap them in queries.
+		if ( $file instanceof UploadStashFile ) {
+			$imParam = ApiQueryStashImageInfo::getPropertyNames();
+			$info = ApiQueryStashImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		} else {
+			$imParam = ApiQueryImageInfo::getPropertyNames();
+			$info = ApiQueryImageInfo::getInfo( $file, array_flip( $imParam ), $result );
+		}
+		return $info;
 	}
 
+
 	public function convertVerifyErrorToStatus( $error ) {
-		$args = func_get_args();
-		array_shift($args);
-		return Status::newFatal( $this->getVerificationErrorCode( $error ), $args );
+		$code = $error['status'];
+		unset( $code['status'] );
+		return Status::newFatal( $this->getVerificationErrorCode( $code ), $error );
 	}
 }

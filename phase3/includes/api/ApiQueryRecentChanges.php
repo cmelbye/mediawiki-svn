@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Oct 19, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Oct 19, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -40,9 +41,12 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		parent::__construct( $query, $moduleName, 'rc' );
 	}
 
-	private $fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_flags = false,
-			$fld_timestamp = false, $fld_title = false, $fld_ids = false,
-			$fld_sizes = false;
+	private $fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
+			$fld_flags = false, $fld_timestamp = false, $fld_title = false, $fld_ids = false,
+			$fld_sizes = false, $fld_redirect = false, $fld_patrolled = false, $fld_loginfo = false, $fld_tags = false;
+
+	private $tokenFunctions;
+
 	/**
 	 * Get an array mapping token names to their handler functions.
 	 * The prototype for a token function is func($pageid, $title, $rc)
@@ -77,22 +81,22 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 
 		// The patrol token is always the same, let's exploit that
 		static $cachedPatrolToken = null;
-		if ( !is_null( $cachedPatrolToken ) ) {
-			return $cachedPatrolToken;
+		if ( is_null( $cachedPatrolToken ) ) {
+			$cachedPatrolToken = $wgUser->editToken( 'patrol' );
 		}
-
-		$cachedPatrolToken = $wgUser->editToken();
+		
 		return $cachedPatrolToken;
 	}
 
 	/**
 	 * Sets internal state to include the desired properties in the output.
-	 * @param $prop associative array of properties, only keys are used here
+	 * @param $prop Array associative array of properties, only keys are used here
 	 */
 	public function initProperties( $prop ) {
 		$this->fld_comment = isset( $prop['comment'] );
 		$this->fld_parsedcomment = isset( $prop['parsedcomment'] );
 		$this->fld_user = isset( $prop['user'] );
+		$this->fld_userid = isset( $prop['userid'] );
 		$this->fld_flags = isset( $prop['flags'] );
 		$this->fld_timestamp = isset( $prop['timestamp'] );
 		$this->fld_title = isset( $prop['title'] );
@@ -108,6 +112,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 	 * Generates and outputs the result of this query based upon the provided parameters.
 	 */
 	public function execute() {
+		global $wgUser;
 		/* Get the parameters of the request. */
 		$params = $this->extractRequestParams();
 
@@ -116,7 +121,6 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		 * 		AND rc_timestamp < $end AND rc_namespace = $namespace
 		 * 		AND rc_deleted = '0'
 		 */
-		$db = $this->getDB();
 		$this->addTables( 'recentchanges' );
 		$index = array( 'recentchanges' => 'rc_timestamp' ); // May change
 		$this->addWhereRange( 'rc_timestamp', $params['dir'], $params['start'], $params['end'] );
@@ -142,9 +146,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			}
 
 			// Check permissions
-			global $wgUser;
 			if ( isset( $show['patrolled'] ) || isset( $show['!patrolled'] ) ) {
-				$this->getMain()->setVaryCookie();
 				if ( !$wgUser->useRCPatrol() && !$wgUser->useNPPatrol() ) {
 					$this->dieUsage( 'You need the patrol right to request the patrolled flag', 'permissiondenied' );
 				}
@@ -165,7 +167,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			$this->addWhereIf( 'page_is_redirect = 0 OR page_is_redirect IS NULL', isset( $show['!redirect'] ) );
 		}
 
-		if ( !is_null( $params['user'] ) && !is_null( $param['excludeuser'] ) ) {
+		if ( !is_null( $params['user'] ) && !is_null( $params['excludeuser'] ) ) {
 			$this->dieUsage( 'user and excludeuser cannot be used together', 'user-excludeuser' );
 		}
 
@@ -189,7 +191,8 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			'rc_cur_id',
 			'rc_type',
 			'rc_moved_to_ns',
-			'rc_moved_to_title'
+			'rc_moved_to_title',
+			'rc_deleted'
 		) );
 
 		/* Determine what properties we need to display. */
@@ -199,9 +202,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			/* Set up internal members based upon params. */
 			$this->initProperties( $prop );
 
-			global $wgUser;
-			if ( $this->fld_patrolled && !$wgUser->useRCPatrol() && !$wgUser->useNPPatrol() )
-			{
+			if ( $this->fld_patrolled && !$wgUser->useRCPatrol() && !$wgUser->useNPPatrol() ) {
 				$this->dieUsage( 'You need the patrol right to request the patrolled flag', 'permissiondenied' );
 			}
 
@@ -211,7 +212,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			$this->addFieldsIf( 'rc_last_oldid', $this->fld_ids );
 			$this->addFieldsIf( 'rc_comment', $this->fld_comment || $this->fld_parsedcomment );
 			$this->addFieldsIf( 'rc_user', $this->fld_user );
-			$this->addFieldsIf( 'rc_user_text', $this->fld_user );
+			$this->addFieldsIf( 'rc_user_text', $this->fld_user || $this->fld_userid );
 			$this->addFieldsIf( 'rc_minor', $this->fld_flags );
 			$this->addFieldsIf( 'rc_bot', $this->fld_flags );
 			$this->addFieldsIf( 'rc_new', $this->fld_flags );
@@ -222,8 +223,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			$this->addFieldsIf( 'rc_log_type', $this->fld_loginfo );
 			$this->addFieldsIf( 'rc_log_action', $this->fld_loginfo );
 			$this->addFieldsIf( 'rc_params', $this->fld_loginfo );
-			if ( $this->fld_redirect || isset( $show['redirect'] ) || isset( $show['!redirect'] ) )
-			{
+			if ( $this->fld_redirect || isset( $show['redirect'] ) || isset( $show['!redirect'] ) ) {
 				$this->addTables( 'page' );
 				$this->addJoinConds( array( 'page' => array( 'LEFT JOIN', array( 'rc_namespace=page_namespace', 'rc_title=page_title' ) ) ) );
 				$this->addFields( 'page_is_redirect' );
@@ -250,7 +250,6 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 
 		$count = 0;
 		/* Perform the actual query. */
-		$db = $this->getDB();
 		$res = $this->select( __METHOD__ );
 
 		/* Iterate through the rows, adding data extracted from them to our query result. */
@@ -340,8 +339,16 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		}
 
 		/* Add user data and 'anon' flag, if use is anonymous. */
-		if ( $this->fld_user ) {
-			$vals['user'] = $row->rc_user_text;
+		if ( $this->fld_user || $this->fld_userid ) {
+
+			if ( $this->fld_user ) {
+				$vals['user'] = $row->rc_user_text;
+			}
+
+			if ( $this->fld_userid ) {
+				$vals['userid'] = $row->rc_user;
+			}
+
 			if ( !$row->rc_user ) {
 				$vals['anon'] = '';
 			}
@@ -378,7 +385,6 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 
 		if ( $this->fld_parsedcomment && isset( $row->rc_comment ) ) {
 			global $wgUser;
-			$this->getMain()->setVaryCookie();
 			$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( $row->rc_comment, $title );
 		}
 
@@ -415,9 +421,6 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		}
 
 		if ( !is_null( $this->token ) ) {
-			// Don't cache tokens
-			$this->getMain()->setCachePrivate();
-			
 			$tokenFunctions = $this->getTokenFunctions();
 			foreach ( $this->token as $t ) {
 				$val = call_user_func( $tokenFunctions[$t], $row->rc_cur_id,
@@ -451,6 +454,24 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		}
 	}
 
+	public function getCacheMode( $params ) {
+		if ( isset( $params['show'] ) ) {
+			foreach ( $params['show'] as $show ) {
+				if ( $show === 'patrolled' || $show === '!patrolled' ) {
+					return 'private';
+				}
+			}
+		}
+		if ( isset( $params['token'] ) ) {
+			return 'private';
+		}
+		if ( !is_null( $params['prop'] ) && in_array( 'parsedcomment', $params['prop'] ) ) {
+			// formatComment() calls wfMsg() among other things
+			return 'anon-public-user-private';
+		}
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'start' => array(
@@ -482,6 +503,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => 'title|timestamp|ids',
 				ApiBase::PARAM_TYPE => array(
 					'user',
+					'userid',
 					'comment',
 					'parsedcomment',
 					'flags',
@@ -543,15 +565,16 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 			'prop' => array(
 				'Include additional pieces of information',
 				' user           - Adds the user responsible for the edit and tags if they are an IP',
+				' userid         - Adds the user id responsible for the edit',
 				' comment        - Adds the comment for the edit',
 				' parsedcomment  - Adds the parsed comment for the edit',
 				' flags          - Adds flags for the edit',
 				' timestamp      - Adds timestamp of the edit',
 				' title          - Adds the page title of the edit',
-				' ids            - Adds the page id, recent changes id and the new and old revision id',
+				' ids            - Adds the page ID, recent changes ID and the new and old revision ID',
 				' sizes          - Adds the new and old page length in bytes',
 				' redirect       - Tags edit if page is a redirect',
-				' patrolled      - Tags edits have have been patrolled',
+				' patrolled      - Tags edits that have been patrolled',
 				' loginfo        - Adds log information (logid, logtype, etc) to log entries',
 				' tags           - Lists tags for the entry',
 			),

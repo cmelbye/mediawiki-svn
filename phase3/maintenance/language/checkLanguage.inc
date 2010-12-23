@@ -1,4 +1,25 @@
 <?php
+/**
+ * Helper class for checkLanguage.php script.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup MaintenanceLanguage
+ */
 
 /**
  * @ingroup MaintenanceLanguage
@@ -383,7 +404,7 @@ ENDS;
 	 * @return The checks results as wiki text.
 	 */
 	function outputWiki() {
-		global $wgContLang, $IP;
+		global $wgContLang;
 		$detailText = '';
 		$rows[] = '! Language !! Code !! Total !! ' . implode( ' !! ', array_diff( $this->checks, $this->nonMessageChecks() ) );
 		foreach ( $this->results as $code => $results ) {
@@ -444,8 +465,8 @@ EOL;
 	 * @return True if there are any results, false if not.
 	 */
 	protected function isEmpty() {
-		foreach( $this->results as $code => $results ) {
-			foreach( $results as $check => $messages ) {
+		foreach( $this->results as $results ) {
+			foreach( $results as $messages ) {
 				if( !empty( $messages ) ) {
 					return false;
 				}

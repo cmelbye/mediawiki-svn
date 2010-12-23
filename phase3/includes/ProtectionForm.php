@@ -1,6 +1,8 @@
 <?php
 /**
- * Copyright (C) 2005 Brion Vibber <brion@pobox.com>
+ * Page protection
+ *
+ * Copyright © 2005 Brion Vibber <brion@pobox.com>
  * http://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
@@ -17,6 +19,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 /**
@@ -326,18 +330,18 @@ class ProtectionForm {
 	 * @return String: HTML form
 	 */
 	function buildForm() {
-		global $wgUser, $wgLang;
+		global $wgUser, $wgLang, $wgOut;
 
 		$mProtectreasonother = Xml::label( wfMsg( 'protectcomment' ), 'wpProtectReasonSelection' );
 		$mProtectreason = Xml::label( wfMsg( 'protect-otherreason' ), 'mwProtect-reason' );
 
 		$out = '';
 		if( !$this->disabled ) {
-			$out .= $this->buildScript();
+			$wgOut->addModules( 'mediawiki.legacy.protect' );
 			$out .= Xml::openElement( 'form', array( 'method' => 'post',
 				'action' => $this->mTitle->getLocalUrl( 'action=protect' ),
 				'id' => 'mw-Protect-Form', 'onsubmit' => 'ProtectionForm.enableUnchainedInputs(true)' ) );
-			$out .= Xml::hidden( 'wpEditToken',$wgUser->editToken() );
+			$out .= Html::hidden( 'wpEditToken',$wgUser->editToken() );
 		}
 
 		$out .= Xml::openElement( 'fieldset' ) .
@@ -504,8 +508,8 @@ class ProtectionForm {
 		}
 
 		if ( !$this->disabled ) {
-			$out .= Xml::closeElement( 'form' ) .
-				$this->buildCleanupScript();
+			$out .= Xml::closeElement( 'form' );
+			$wgOut->addScript( $this->buildCleanupScript() );
 		}
 
 		return $out;
@@ -568,12 +572,7 @@ class ProtectionForm {
 			return $msg;
 		}
 	}
-
-	function buildScript() {
-		global $wgStylePath, $wgStyleVersion;
-		return Html::linkedScript( "$wgStylePath/common/protect.js?$wgStyleVersion.1" );
-	}
-
+	
 	function buildCleanupScript() {
 		global $wgRestrictionLevels, $wgGroupPermissions;
 		$script = 'var wgCascadeableLevels=';
@@ -593,7 +592,7 @@ class ProtectionForm {
 		$encOptions = Xml::encodeJsVar( $options );
 
 		$script .= "ProtectionForm.init($encOptions)";
-		return Html::inlineScript( $script );
+		return Html::inlineScript( "if ( window.mediaWiki ) { $script }" );
 	}
 
 	/**

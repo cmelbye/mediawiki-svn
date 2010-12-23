@@ -9,6 +9,7 @@
  *
  * @author Cessator
  * @author Friðrik Bragi Dýrfjörð
+ * @author Gott wisst
  * @author Jóna Þórunn
  * @author Krun
  * @author Maxí
@@ -211,7 +212,7 @@ $specialPageAliases = array(
 	'Invalidateemail'           => array( 'Rangt netfang' ),
 );
 
-$separatorTransformTable = array(',' => '.', '.' => ',' );
+$separatorTransformTable = array( ',' => '.', '.' => ',' );
 $linkPrefixExtension = true;
 $linkTrail = '/^([áðéíóúýþæöa-z-–]+)(.*)$/sDu';
 
@@ -236,6 +237,7 @@ $messages = array(
 'tog-watchdefault'            => 'Bæta síðum sem ég breyti á vaktlistann minn',
 'tog-watchmoves'              => 'Bæta síðum sem ég færi á vaktlistann minn',
 'tog-watchdeletion'           => 'Bæta síðum sem ég eyði á vaktlistann minn',
+'tog-minordefault'            => 'Merkja allar breytingar sem minniháttar sjálfgefið',
 'tog-previewontop'            => 'Sýna forskoðun á undan breytingarkassanum',
 'tog-previewonfirst'          => 'Sýna forskoðun með fyrstu breytingu',
 'tog-nocache'                 => 'Óvirkja skyndiminni síðna',
@@ -366,27 +368,17 @@ $messages = array(
 'faqpage'        => 'Project:Algengar spurningar',
 
 # Vector skin
-'vector-action-addsection'   => 'Bæta við umræðu',
-'vector-action-delete'       => 'Eyða',
-'vector-action-move'         => 'Færa',
-'vector-action-protect'      => 'Vernda',
-'vector-action-unprotect'    => 'Afvernda',
-'vector-namespace-category'  => 'Flokkur',
-'vector-namespace-help'      => 'Hjálparsíða',
-'vector-namespace-image'     => 'Skrá',
-'vector-namespace-main'      => 'Síða',
-'vector-namespace-mediawiki' => 'Melding',
-'vector-namespace-project'   => 'Verkefnissíða',
-'vector-namespace-special'   => 'Kerfissíða',
-'vector-namespace-talk'      => 'Umræða',
-'vector-namespace-template'  => 'Snið',
-'vector-namespace-user'      => 'Notandasíða',
-'vector-view-create'         => 'Skapa',
-'vector-view-edit'           => 'Breyta',
-'vector-view-history'        => 'Breytingaskrá',
-'vector-view-view'           => 'Lesa',
-'vector-view-viewsource'     => 'Sýna frumkóða',
-'namespaces'                 => 'Nafnrými',
+'vector-action-addsection' => 'Bæta við umræðu',
+'vector-action-delete'     => 'Eyða',
+'vector-action-move'       => 'Færa',
+'vector-action-protect'    => 'Vernda',
+'vector-action-unprotect'  => 'Afvernda',
+'vector-view-create'       => 'Skapa',
+'vector-view-edit'         => 'Breyta',
+'vector-view-history'      => 'Breytingaskrá',
+'vector-view-view'         => 'Lesa',
+'vector-view-viewsource'   => 'Sýna frumkóða',
+'namespaces'               => 'Nafnrými',
 
 'errorpagetitle'    => 'Villa',
 'returnto'          => 'Aftur á: $1.',
@@ -808,7 +800,8 @@ Vinsamlegast reyndu aftur síðar. Ef það virkar ekki heldur skaltu reyna að 
 'editingsection'                   => 'Breyti $1 (hluta)',
 'editingcomment'                   => 'Breyti $1 (nýr hluti)',
 'editconflict'                     => 'Breytingaárekstur: $1',
-'explainconflict'                  => 'Síðunni hefur verið breytt síðan þú byrjaðir að gera breytingar á henni, textinn í efri reitnum inniheldur núverandi útgáfu úr gagnagrunni og sá neðri inniheldur þína útgáfu, þú þarft hér að færa breytingar sem þú vilt halda úr neðri reitnum í þann efri og vista síðuna. <strong>Aðeins</strong> texti úr efri reitnum mun vera vistaður þegar þú vistar.',
+'explainconflict'                  => "Síðunni hefur verið breytt síðan þú byrjaðir að gera breytingar á henni, textinn í efri reitnum inniheldur núverandi útgáfu úr gagnagrunni og sá neðri inniheldur þína útgáfu, þú þarft hér að færa breytingar sem þú vilt halda úr neðri reitnum í þann efri og vista síðuna. 
+'''Aðeins''' texti úr efri reitnum mun vera vistaður þegar þú vistar.",
 'yourtext'                         => 'Þinn texti',
 'storedversion'                    => 'Geymd útgáfa',
 'editingold'                       => "'''ATH: Þú ert að breyta gamalli útgáfu þessarar síðu og munu allar breytingar sem gerðar hafa verið á henni frá þeirri útgáfu vera fjarlægðar ef þú vistar.'''",
@@ -820,9 +813,6 @@ Vinsamlegast reyndu aftur síðar. Ef það virkar ekki heldur skaltu reyna að 
 Ef þú vilt ekki að textanum verði breytt skaltu ekki senda hann inn hér.<br />
 Þú lofar okkur einnig að þú hafir skrifað þetta sjálfur, að efnið sé í almannaeigu eða að það heyri undir frjálst leyfi. (sjá $1).
 '''EKKI SENDA INN HÖFUNDARRÉTTARVARIÐ EFNI ÁN LEYFIS RÉTTHAFA!'''",
-'longpagewarning'                  => "'''VIÐVÖRUN: Þessi síða er $1 kílóbæta löng; sumir
-vafrar gætu átt erfitt með að gera breytingar á síðum sem nálgast eða eru lengri en 32 kb.
-Vinsamlegast íhugaðu að skipta síðunni niður í smærri einingar.'''",
 'longpageerror'                    => "'''VILLA: Textinn sem þú sendir inn er $1 kílóbæti að lengd, en hámarkið er $2 kílóbæti. Ekki er hægt að vista textann.'''",
 'readonlywarning'                  => "'''AÐVÖRUN: Gagnagrunninum hefur verið læst til að unnt sé að framkvæma viðhaldsaðgerðir, svo þú getur ekki vistað breytingar þínar núna.
 Þú kannt að vilja að klippa og líma textann í textaskjal og vista hann fyrir síðar.'''
@@ -1226,14 +1216,9 @@ Ef þú kýst að gefa það upp, verður það notað til að gefa þér heiðu
 'recentchanges-legend'              => 'Stillingar nýlegra breytinga',
 'recentchangestext'                 => 'Hér geturðu fylgst með nýjustu breytingunum.',
 'recentchanges-feed-description'    => 'Hér er hægt að fylgjast með nýlegum breytingum á {{SITENAME}}.',
-'recentchanges-label-legend'        => 'Skýring: $1.',
-'recentchanges-legend-newpage'      => '$1 - ný síða',
 'recentchanges-label-newpage'       => 'Þessi breyting skapaði nýja síðu',
-'recentchanges-legend-minor'        => '$1 - smá breyting',
 'recentchanges-label-minor'         => 'Þetta er minniháttar breyting',
-'recentchanges-legend-bot'          => '$1 - breyting vélmennis',
 'recentchanges-label-bot'           => 'Þessi breytingar var gerð af vélmenni',
-'recentchanges-legend-unpatrolled'  => '$1 - breyting án eftirlits',
 'recentchanges-label-unpatrolled'   => 'Þessi breyting hefur ekki verið yfirfarin',
 'rcnote'                            => "Að neðan {{PLURAL:$1|er '''1''' breyting|eru síðustu '''$1''' breytingar}} síðast {{PLURAL:$2|liðinn dag|liðna '''$2''' daga}}, frá $5, $4.",
 'rcnotefrom'                        => "Að neðan eru breytingar síðan '''$2''' (allt að '''$1''' sýndar).",
@@ -1313,7 +1298,6 @@ Gjörðu svo vel og endurnefndu skrána og hladdu henni inn aftur.',
 'large-file'             => 'Það er mælt með að skrár séu ekki stærri en $1; þessi skrá er $2.',
 'fileexists'             => "Skrá með þessu nafni er þegar til, skoðaðu '''<tt>[[:$1]]</tt>''' ef þú ert óviss um hvort þú viljir breyta henni, ekki verður skrifað yfir gömlu skránna hlaðiru inn nýrri með sama nafni heldur verður núverandi útgáfa geymd í útgáfusögu.
 [[$1|thumb]]",
-'successfulupload'       => 'Innhlaðning tókst',
 'uploadwarning'          => 'Aðvörun',
 'savefile'               => 'Vista',
 'uploadedimage'          => 'hlóð inn „[[$1]]“',
@@ -1325,6 +1309,7 @@ Gjörðu svo vel og endurnefndu skrána og hladdu henni inn aftur.',
 'upload-maxfilesize'     => 'Hámarks skráarstærð: $1',
 'watchthisupload'        => 'Vakta þessa skrá',
 'filewasdeleted'         => 'Skrá af sama nafni hefur áður verið hlaðið inn og síðan eytt. Þú ættir að athuga $1 áður en þú hleður skránni inn.',
+'upload-success-subj'    => 'Innhlaðning tókst',
 
 'upload-proto-error'  => 'Vitlaus samskiptaregla',
 'upload-file-error'   => 'Innri villa',
@@ -1611,7 +1596,6 @@ Sjá einnig [[Special:WantedCategories|eftirsótta flokka]].',
 # Watchlist
 'watchlist'            => 'Vaktlistinn',
 'mywatchlist'          => 'Vaktlistinn',
-'watchlistfor'         => "(fyrir '''$1''')",
 'nowatchlist'          => 'Vaktlistinn er tómur.',
 'watchlistanontext'    => 'Vinsamlegast $1 til að skoða eða breyta vaktlistanum þínum.',
 'watchnologin'         => 'Óinnskráð(ur)',
@@ -1858,7 +1842,6 @@ Sjá [[Special:IPBlockList|bannaðar notendur og vistföng]] fyrir yfirlit yfir 
 'ipb-edit-dropdown'           => 'Breyta ástæðu fyrir banni',
 'ipb-unblock-addr'            => 'Afbanna $1',
 'ipb-unblock'                 => 'Afbanna notanda eða vistfang',
-'ipb-blocklist-addr'          => 'Núverandi bönn fyrir $1',
 'ipb-blocklist'               => 'Sjá núverandi bönn',
 'ipb-blocklist-contribs'      => 'Framlög fyrir $1',
 'unblockip'                   => 'Afbanna notanda',

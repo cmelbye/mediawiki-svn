@@ -2,6 +2,21 @@
 /**
  * Fsck for MediaWiki
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance ExternalStorage
  */
@@ -70,7 +85,7 @@ class CheckStorage {
 			$dbr->ping();
 			$res = $dbr->select( 'revision', array( 'rev_id', 'rev_text_id' ),
 				array( "rev_id BETWEEN $chunkStart AND $chunkEnd" ), $fname );
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$this->oldIdMap[$row->rev_id] = $row->rev_text_id;
 			}
 			$dbr->freeResult( $res );
@@ -85,7 +100,7 @@ class CheckStorage {
 			$objectRevs = array();
 			$res = $dbr->select( 'text', array( 'old_id', 'old_flags' ),
 				'old_id IN (' . implode( ',', $this->oldIdMap ) . ')', $fname );
-			while ( $row = $dbr->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				$flags = $row->old_flags;
 				$id = $row->old_id;
 
@@ -139,13 +154,13 @@ class CheckStorage {
 			if ( count( $externalRevs ) ) {
 				$res = $dbr->select( 'text', array( 'old_id', 'old_flags', 'old_text' ),
 					array( 'old_id IN (' . implode( ',', $externalRevs ) . ')' ), $fname );
-				while ( $row = $dbr->fetchObject( $res ) ) {
+				foreach ( $res as $row ) {
 					$urlParts = explode( '://', $row->old_text, 2 );
 					if ( count( $urlParts ) !== 2 || $urlParts[1] == '' ) {
 						$this->error( 'restore text', "Error: invalid URL \"{$row->old_text}\"", $row->old_id );
 						continue;
 					}
-					list( $proto, $path ) = $urlParts;
+					list( $proto, ) = $urlParts;
 					if ( $proto != 'DB' ) {
 						$this->error( 'restore text', "Error: invalid external protocol \"$proto\"", $row->old_id );
 						continue;
@@ -164,7 +179,7 @@ class CheckStorage {
 
 			// Check external concat blobs for the right header
 			$this->checkExternalConcatBlobs( $externalConcatBlobs );
-			
+
 			// Check external normal blobs for existence
 			if ( count( $externalNormalBlobs ) ) {
 				if ( is_null( $this->dbStore ) ) {
@@ -177,7 +192,7 @@ class CheckStorage {
 					$res = $extDb->select( $blobsTable,
 						array( 'blob_id' ),
 						array( 'blob_id IN( ' . implode( ',', $blobIds ) . ')' ), $fname );
-					while ( $row = $extDb->fetchObject( $res ) ) {
+					foreach ( $res as $row ) {
 						unset( $xBlobIds[$row->blob_id] );
 					}
 					$extDb->freeResult( $res );
@@ -196,7 +211,7 @@ class CheckStorage {
 				$headerLength = 300;
 				$res = $dbr->select( 'text', array( 'old_id', 'old_flags', "LEFT(old_text, $headerLength) AS header" ),
 					array( 'old_id IN (' . implode( ',', $objectRevs ) . ')' ), $fname );
-				while ( $row = $dbr->fetchObject( $res ) ) {
+				foreach ( $res as $row ) {
 					$oldId = $row->old_id;
 					$matches = array();
 					if ( !preg_match( '/^O:(\d+):"(\w+)"/', $row->header, $matches ) ) {
@@ -247,7 +262,7 @@ class CheckStorage {
 				$headerLength = 300;
 				$res = $dbr->select( 'text', array( 'old_id', 'old_flags', "LEFT(old_text, $headerLength) AS header" ),
 					array( 'old_id IN (' . implode( ',', array_keys( $concatBlobs ) ) . ')' ), $fname );
-				while ( $row = $dbr->fetchObject( $res ) ) {
+				foreach ( $res as $row ) {
 					$flags = explode( ',', $row->old_flags );
 					if ( in_array( 'external', $flags ) ) {
 						// Concat blob is in external storage?
@@ -346,7 +361,7 @@ class CheckStorage {
 		if ( is_null( $this->dbStore ) ) {
 			$this->dbStore = new ExternalStoreDB;
 		}
-		
+
 		foreach ( $externalConcatBlobs as $cluster => $oldIds ) {
 			$blobIds = array_keys( $oldIds );
 			$extDb =& $this->dbStore->getSlave( $cluster );
@@ -355,7 +370,7 @@ class CheckStorage {
 			$res = $extDb->select( $blobsTable,
 				array( 'blob_id', "LEFT(blob_text, $headerLength) AS header" ),
 				array( 'blob_id IN( ' . implode( ',', $blobIds ) . ')' ), $fname );
-			while ( $row = $extDb->fetchObject( $res ) ) {
+			foreach ( $res as $row ) {
 				if ( strcasecmp( $row->header, CONCAT_HEADER ) ) {
 					$this->error( 'restore text', "Error: invalid header on target $cluster/{$row->blob_id} of two-part ES URL",
 						$oldIds[$row->blob_id] );
@@ -383,7 +398,7 @@ class CheckStorage {
 
 		$revFileName = "$wgTmpDirectory/broken-revlist-$wgDBname";
 		$filteredXmlFileName = "$wgTmpDirectory/filtered-$wgDBname.xml";
-		
+
 		// Write revision list
 		if ( !file_put_contents( $revFileName, implode( "\n", $revIds ) ) ) {
 			echo "Error writing revision list, can't restore text\n";
@@ -416,7 +431,7 @@ class CheckStorage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbr->ping();
 		$dbw->ping();
-		
+
 		$source = new ImportStreamSource( $file );
 		$importer = new WikiImporter( $source );
 		$importer->setRevisionCallback( array( &$this, 'importRevision' ) );
@@ -429,8 +444,8 @@ class CheckStorage {
 		$id = $revision->getID();
 		$text = $revision->getText();
 		if ( $text === '' ) {
-			// This is what happens if the revision was broken at the time the 
-			// dump was made. Unfortunately, it also happens if the revision was 
+			// This is what happens if the revision was broken at the time the
+			// dump was made. Unfortunately, it also happens if the revision was
 			// legitimately blank, so there's no way to tell the difference. To
 			// be safe, we'll skip it and leave it broken
 			$id = $id ? $id : '';

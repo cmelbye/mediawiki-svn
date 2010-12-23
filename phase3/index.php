@@ -41,41 +41,31 @@ $preIP = dirname( __FILE__ );
 require_once( "$preIP/includes/WebStart.php" );
 
 # Initialize MediaWiki base class
-require_once( "$preIP/includes/Wiki.php" );
 $mediaWiki = new MediaWiki();
 
 wfProfileIn( 'main-misc-setup' );
-OutputPage::setEncodings(); # Not really used yet
 
 $maxLag = $wgRequest->getVal( 'maxlag' );
 if( !is_null( $maxLag ) && !$mediaWiki->checkMaxLag( $maxLag ) ) {
 	exit;
 }
 
-# Query string fields
-$action = $wgRequest->getVal( 'action', 'view' );
-$title = $wgRequest->getVal( 'title' );
-
 # Set title from request parameters
-$wgTitle = $mediaWiki->checkInitialQueries( $title, $action );
-if( $wgTitle === null ) {
-	unset( $wgTitle );
-}
+$wgTitle = $mediaWiki->checkInitialQueries( $wgRequest );
 
 wfProfileOut( 'main-misc-setup' );
 
-#
+$action = $wgRequest->getVal( 'action' );
+
 # Send Ajax requests to the Ajax dispatcher.
-#
 if( $wgUseAjax && $action == 'ajax' ) {
-	require_once( $IP . '/includes/AjaxDispatcher.php' );
 	$dispatcher = new AjaxDispatcher();
 	$dispatcher->performAction();
 	$mediaWiki->restInPeace();
 	exit;
 }
 
-if( $wgUseFileCache && isset( $wgTitle ) ) {
+if( $wgUseFileCache && $wgTitle !== null ) {
 	wfProfileIn( 'main-try-filecache' );
 	// Raw pages should handle cache control on their own,
 	// even when using file cache. This reduces hits from clients.
@@ -91,7 +81,9 @@ if( $wgUseFileCache && isset( $wgTitle ) ) {
 			$wgArticle = MediaWiki::articleFromTitle( $wgTitle );
 			$wgArticle->viewUpdates();
 			# Tell $wgOut that output is taken care of
+			$wgOut->disable();
 			wfProfileOut( 'main-try-filecache' );
+			$mediaWiki->finalCleanup( $wgOut );
 			$mediaWiki->restInPeace();
 			exit;
 		}
@@ -100,24 +92,14 @@ if( $wgUseFileCache && isset( $wgTitle ) ) {
 }
 
 # Setting global variables in mediaWiki
-$mediaWiki->setVal( 'action', $action );
-$mediaWiki->setVal( 'CommandLineMode', $wgCommandLineMode );
-$mediaWiki->setVal( 'DisabledActions', $wgDisabledActions );
 $mediaWiki->setVal( 'DisableHardRedirects', $wgDisableHardRedirects );
-$mediaWiki->setVal( 'DisableInternalSearch', $wgDisableInternalSearch );
 $mediaWiki->setVal( 'EnableCreativeCommonsRdf', $wgEnableCreativeCommonsRdf );
 $mediaWiki->setVal( 'EnableDublinCoreRdf', $wgEnableDublinCoreRdf );
-$mediaWiki->setVal( 'JobRunRate', $wgJobRunRate );
 $mediaWiki->setVal( 'Server', $wgServer );
 $mediaWiki->setVal( 'SquidMaxage', $wgSquidMaxage );
 $mediaWiki->setVal( 'UseExternalEditor', $wgUseExternalEditor );
 $mediaWiki->setVal( 'UsePathInfo', $wgUsePathInfo );
 
 $mediaWiki->performRequestForTitle( $wgTitle, $wgArticle, $wgOut, $wgUser, $wgRequest );
-$mediaWiki->finalCleanup( $wgDeferredUpdateList, $wgOut );
-
-# Not sure when $wgPostCommitUpdateList gets set, so I keep this separate from finalCleanup
-$mediaWiki->doUpdates( $wgPostCommitUpdateList );
-
+$mediaWiki->finalCleanup( $wgOut );
 $mediaWiki->restInPeace();
-

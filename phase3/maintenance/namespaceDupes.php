@@ -52,7 +52,7 @@ class NamespaceConflictChecker extends Maintenance {
 		} else {
 			$retval = $this->checkAll( $fix, $suffix );
 		}
-	
+
 		if ( $retval ) {
 			$this->output( "\nLooks good!\n" );
 		} else {
@@ -68,9 +68,9 @@ class NamespaceConflictChecker extends Maintenance {
 	private function checkAll( $fix, $suffix = '' ) {
 		global $wgContLang, $wgNamespaceAliases, $wgCanonicalNamespaceNames;
 		global $wgCapitalLinks;
-		
+
 		$spaces = array();
-		
+
 		// List interwikis first, so they'll be overridden
 		// by any conflicting local namespaces.
 		foreach ( $this->getInterwikiList() as $prefix ) {
@@ -96,7 +96,7 @@ class NamespaceConflictChecker extends Maintenance {
 		foreach ( $wgContLang->getNamespaceAliases() as $name => $ns ) {
 			$spaces[$name] = $ns;
 		}
-		
+
 		// We'll need to check for lowercase keys as well,
 		// since we're doing case-sensitive searches in the db.
 		foreach ( $spaces as $name => $ns ) {
@@ -119,10 +119,10 @@ class NamespaceConflictChecker extends Maintenance {
 				}
 			}
 		}
-		
+
 		ksort( $spaces );
 		asort( $spaces );
-		
+
 		$ok = true;
 		foreach ( $spaces as $name => $ns ) {
 			$ok = $this->checkNamespace( $ns, $name, $fix, $suffix ) && $ok;
@@ -142,7 +142,6 @@ class NamespaceConflictChecker extends Maintenance {
 		foreach ( $result as $row ) {
 			$prefixes[] = $row->iw_prefix;
 		}
-		$this->db->freeResult( $result );
 		return $prefixes;
 	}
 
@@ -170,7 +169,7 @@ class NamespaceConflictChecker extends Maintenance {
 		}
 		return $ok;
 	}
-	
+
 	/**
 	 * @todo: do this for reals
 	 */
@@ -198,15 +197,15 @@ class NamespaceConflictChecker extends Maintenance {
 			// An interwiki; try an alternate encoding with '-' for ':'
 			$titleSql = $this->db->buildConcat( array( "'$prefix-'", $titleSql ) );
 		}
-                                     
+
 		$sql = "SELECT {$page}_id    AS id,
-		               {$page}_title AS oldtitle,
-		               $encNamespace + {$page}_namespace AS namespace,
-			       $titleSql     AS title,
-			       {$page}_namespace AS oldnamespace
-		          FROM {$table}
-		         WHERE ( {$page}_namespace=0 OR {$page}_namespace=1 )
-		           AND {$page}_title " . $this->db->buildLike( $name . ':', $this->db->anyString() );
+					   {$page}_title AS oldtitle,
+					   $encNamespace + {$page}_namespace AS namespace,
+				   $titleSql     AS title,
+				   {$page}_namespace AS oldnamespace
+				  FROM {$table}
+				 WHERE ( {$page}_namespace=0 OR {$page}_namespace=1 )
+				   AND {$page}_title " . $this->db->buildLike( $name . ':', $this->db->anyString() );
 
 		$result = $this->db->query( $sql, __METHOD__ );
 
@@ -214,8 +213,6 @@ class NamespaceConflictChecker extends Maintenance {
 		foreach ( $result as $row ) {
 			$set[] = $row;
 		}
-		$this->db->freeResult( $result );
-
 		return $set;
 	}
 
@@ -266,11 +263,12 @@ class NamespaceConflictChecker extends Maintenance {
 				$row->title .= $suffix;
 				$this->output( "...  *** new title {$row->title}\n" );
 				$title = Title::makeTitleSafe( $row->namespace, $row->title );
-				if ( ! $title ) {
+				if ( !$title ) {
 					$this->output( "... !!! invalid title\n" );
 					return false;
 				}
-				if ( $id = $title->getArticleId() ) {
+				$id = $title->getArticleId();
+				if ( $id ) {
 					$this->output( "...  *** page exists with ID $id ***\n" );
 				} else {
 					break;

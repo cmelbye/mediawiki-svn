@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:MIMESearch
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +16,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
- * A special page to search for files by MIME type as defined in the
- * img_major_mime and img_minor_mime fields in the image table
  *
  * @file
  * @ingroup SpecialPage
- *
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
 /**
@@ -34,49 +28,60 @@
  * @ingroup SpecialPage
  */
 class MIMEsearchPage extends QueryPage {
-	var $major, $minor;
+	protected $major, $minor;
 
-	function MIMEsearchPage( $major, $minor ) {
-		$this->major = $major;
-		$this->minor = $minor;
+	function __construct( $name = 'MIMEsearch' ) {
+		parent::__construct( $name );
 	}
 
-	function getName() { return 'MIMEsearch'; }
-
-	/**
-	 * Due to this page relying upon extra fields being passed in the SELECT it
-	 * will fail if it's set as expensive and misermode is on
-	 */
 	function isExpensive() { return true; }
 	function isSyndicated() { return false; }
+	function isCacheable() { return false; }
 
 	function linkParameters() {
-		$arr = array( $this->major, $this->minor );
-		$mime = implode( '/', $arr );
-		return array( 'mime' => $mime );
+		return array( 'mime' => "{$this->major}/{$this->minor}" );
 	}
-
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		$image = $dbr->tableName( 'image' );
-		$major = $dbr->addQuotes( $this->major );
-		$minor = $dbr->addQuotes( $this->minor );
-
-		return
-			"SELECT 'MIMEsearch' AS type,
-				" . NS_FILE . " AS namespace,
-				img_name AS title,
-				img_major_mime AS value,
-
-				img_size,
-				img_width,
-				img_height,
-				img_user_text,
-				img_timestamp
-			FROM $image
-			WHERE img_major_mime = $major AND img_minor_mime = $minor
-			";
+	
+	public function getQueryInfo() {
+		return array(
+			'tables' => array( 'image' ),
+			'fields' => array( "'" . NS_FILE . "' AS namespace",
+					'img_name AS title',
+					'img_major_mime AS value',
+					'img_size',
+					'img_width',
+					'img_height',
+					'img_user_text',
+					'img_timestamp' ),
+			'conds' => array( 'img_major_mime' => $this->major,
+					'img_minor_mime' => $this->minor )
+		);
 	}
+	
+	function execute( $par ) {
+		global $wgRequest, $wgOut;
+		$mime = $par ? $par : $wgRequest->getText( 'mime' );
+		
+		$this->setHeaders();
+		$this->outputHeader();
+		$wgOut->addHTML(
+			Xml::openElement( 'form', array( 'id' => 'specialmimesearch', 'method' => 'get', 'action' => SpecialPage::getTitleFor( 'MIMEsearch' )->getLocalUrl() ) ) .
+			Xml::openElement( 'fieldset' ) .
+			Html::hidden( 'title', SpecialPage::getTitleFor( 'MIMEsearch' )->getPrefixedText() ) .
+			Xml::element( 'legend', null, wfMsg( 'mimesearch' ) ) .
+			Xml::inputLabel( wfMsg( 'mimetype' ), 'mime', 'mime', 20, $mime ) . ' ' .
+			Xml::submitButton( wfMsg( 'ilsubmit' ) ) .
+			Xml::closeElement( 'fieldset' ) .
+			Xml::closeElement( 'form' )
+		);
+
+		list( $this->major, $this->minor ) = self::parseMIME( $mime );
+		if ( $this->major == '' || $this->minor == '' || !self::isValidType( $this->major ) ) {
+			return;
+		}
+		parent::execute( $par );
+	}
+		
 
 	function formatResult( $skin, $result ) {
 		global $wgContLang, $wgLang;
@@ -89,7 +94,7 @@ class MIMEsearchPage extends QueryPage {
 		);
 
 		$download = $skin->makeMediaLinkObj( $nt, wfMsgHtml( 'download' ) );
-		$bytes = wfMsgExt( 'nbytes', array( 'parsemag', 'escape'),
+		$bytes = wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
 			$wgLang->formatNum( $result->img_size ) );
 		$dimensions = htmlspecialchars( wfMsg( 'widthheight',
 			$wgLang->formatNum( $result->img_width ),
@@ -100,63 +105,34 @@ class MIMEsearchPage extends QueryPage {
 
 		return "($download) $plink . . $dimensions . . $bytes . . $user . . $time";
 	}
-}
+	
+	protected static function parseMIME( $str ) {
+		// searched for an invalid MIME type.
+		if( strpos( $str, '/' ) === false ) {
+			return array( '', '' );
+		}
 
-/**
- * Output the HTML search form, and constructs the MIMEsearchPage object.
- */
-function wfSpecialMIMEsearch( $par = null ) {
-	global $wgRequest, $wgOut;
+		list( $major, $minor ) = explode( '/', $str, 2 );
 
-	$mime = isset( $par ) ? $par : $wgRequest->getText( 'mime' );
-
-	$wgOut->addHTML(
-		Xml::openElement( 'form', array( 'id' => 'specialmimesearch', 'method' => 'get', 'action' => SpecialPage::getTitleFor( 'MIMEsearch' )->getLocalUrl() ) ) .
-		Xml::openElement( 'fieldset' ) .
-		Xml::hidden( 'title', SpecialPage::getTitleFor( 'MIMEsearch' )->getPrefixedText() ) .
-		Xml::element( 'legend', null, wfMsg( 'mimesearch' ) ) .
-		Xml::inputLabel( wfMsg( 'mimetype' ), 'mime', 'mime', 20, $mime ) . ' ' .
-		Xml::submitButton( wfMsg( 'ilsubmit' ) ) .
-		Xml::closeElement( 'fieldset' ) .
-		Xml::closeElement( 'form' )
-	);
-
-	list( $major, $minor ) = wfSpecialMIMEsearchParse( $mime );
-	if ( $major == '' or $minor == '' or !wfSpecialMIMEsearchValidType( $major ) )
-		return;
-	$wpp = new MIMEsearchPage( $major, $minor );
-
-	list( $limit, $offset ) = wfCheckLimits();
-	$wpp->doQuery( $offset, $limit );
-}
-
-function wfSpecialMIMEsearchParse( $str ) {
-	// searched for an invalid MIME type.
-	if( strpos( $str, '/' ) === false) {
-		return array ('', '');
+		return array(
+			ltrim( $major, ' ' ),
+			rtrim( $minor, ' ' )
+		);
 	}
-
-	list( $major, $minor ) = explode( '/', $str, 2 );
-
-	return array(
-		ltrim( $major, ' ' ),
-		rtrim( $minor, ' ' )
-	);
-}
-
-function wfSpecialMIMEsearchValidType( $type ) {
-	// From maintenance/tables.sql => img_major_mime
-	$types = array(
-		'unknown',
-		'application',
-		'audio',
-		'image',
-		'text',
-		'video',
-		'message',
-		'model',
-		'multipart'
-	);
-
-	return in_array( $type, $types );
+	
+	protected static function isValidType( $type ) {
+		// From maintenance/tables.sql => img_major_mime
+		$types = array(
+			'unknown',
+			'application',
+			'audio',
+			'image',
+			'text',
+			'video',
+			'message',
+			'model',
+			'multipart'
+		);
+		return in_array( $type, $types );
+	}
 }

@@ -1,10 +1,10 @@
 <?php
-
 /**
- * Created on Jun 30, 2007
- * API for MediaWiki 1.8+
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ *
+ * Created on Jun 30, 2007
+ *
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -28,7 +30,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * API module that facilitates deleting pages. The API eqivalent of action=delete.
+ * API module that facilitates deleting pages. The API equivalent of action=delete.
  * Requires API write mode to be enabled.
  *
  * @ingroup API
@@ -47,8 +49,6 @@ class ApiDelete extends ApiBase {
 	 * result object.
 	 */
 	public function execute() {
-		global $wgUser;
-
 		$params = $this->extractRequestParams();
 
 		$this->requireOnlyOneParameter( $params, 'title', 'pageid' );
@@ -82,7 +82,6 @@ class ApiDelete extends ApiBase {
 				$this->dieUsageMsg( reset( $retval ) ); // We don't care about multiple errors, just report one of them
 			}
 
-			$watch = 'nochange';
 			// Deprecated parameters
 			if ( $params['watch'] ) {
 				$watch = 'watch';
@@ -98,6 +97,11 @@ class ApiDelete extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $r );
 	}
 
+	/**
+	 *
+	 * @param &$title Title
+	 * @param $token String
+	 */
 	private static function getPermissionsError( &$title, $token ) {
 		global $wgUser;
 
@@ -142,8 +146,8 @@ class ApiDelete extends ApiBase {
 		}
 
 		$error = '';
-		if ( !wfRunHooks( 'ArticleDelete', array( &$article, &$wgUser, &$reason, $error ) ) ) {
-			$this->dieUsageMsg( array( 'hookaborted', $error ) );
+		if ( !wfRunHooks( 'ArticleDelete', array( &$article, &$wgUser, &$reason, &$error ) ) ) {
+			return array( array( 'hookaborted', $error ) );
 		}
 
 		// Luckily, Article.php provides a reusable delete function that does the hard work for us
@@ -154,6 +158,15 @@ class ApiDelete extends ApiBase {
 		return array( array( 'cannotdelete', $article->mTitle->getPrefixedText() ) );
 	}
 
+	/**
+	 * @static
+	 * @param $token
+	 * @param $title
+	 * @param $oldimage
+	 * @param $reason
+	 * @param $suppress bool
+	 * @return \type|array|Title
+	 */
 	public static function deleteFile( $token, &$title, $oldimage, &$reason = null, $suppress = false ) {
 		$errors = self::getPermissionsError( $title, $token );
 		if ( count( $errors ) ) {
@@ -215,8 +228,11 @@ class ApiDelete extends ApiBase {
 					'nochange'
 				),
 			),
-			'unwatch' => false,
-			'oldimage' => null
+			'unwatch' => array(
+				ApiBase::PARAM_DFLT => false,
+				ApiBase::PARAM_DEPRECATED => true,
+			),
+			'oldimage' => null,
 		);
 	}
 
@@ -245,6 +261,10 @@ class ApiDelete extends ApiBase {
 			array( 'notanarticle' ),
 			array( 'hookaborted', 'error' ),
 		) );
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {

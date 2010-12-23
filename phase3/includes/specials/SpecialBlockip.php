@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Blockip
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,60 +16,63 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
- * Constructor for Special:Blockip page
  *
  * @file
  * @ingroup SpecialPage
  */
-function wfSpecialBlockip( $par ) {
-	global $wgUser, $wgOut, $wgRequest;
-
-	# Can't block when the database is locked
-	if( wfReadOnly() ) {
-		$wgOut->readOnlyPage();
-		return;
-	}
-	# Permission check
-	if( !$wgUser->isAllowed( 'block' ) ) {
-		$wgOut->permissionRequired( 'block' );
-		return;
-	}
-
-	$ipb = new IPBlockForm( $par );
-	
-	# bug 15810: blocked admins should have limited access here
-	if ( $wgUser->isBlocked() ) {
-		$status = IPBlockForm::checkUnblockSelf( $ipb->BlockAddress );
-		if ( $status !== true ) {
-			throw new ErrorPageError( 'badaccess', $status );
-		}
-	}
-
-	$action = $wgRequest->getVal( 'action' );
-	if( 'success' == $action ) {
-		$ipb->showSuccess();
-	} elseif( $wgRequest->wasPosted() && 'submit' == $action &&
-		$wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
-		$ipb->doSubmit();
-	} else {
-		$ipb->showForm( '' );
-	}
-}
 
 /**
- * Form object for the Special:Blockip page.
+ * A special page that allows users with 'block' right to block users from
+ * editing pages and other actions
  *
  * @ingroup SpecialPage
  */
-class IPBlockForm {
-	var $BlockAddress, $BlockExpiry, $BlockReason;
+class IPBlockForm extends SpecialPage {
+	var $BlockAddress, $BlockExpiry, $BlockReason, $BlockReasonList, $BlockOther, $BlockAnonOnly, $BlockCreateAccount,
+		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock;
 	// The maximum number of edits a user can have and still be hidden
 	const HIDEUSER_CONTRIBLIMIT = 1000;
 
-	public function __construct( $par ) {
+	public function __construct() {
+		parent::__construct( 'Blockip', 'block' );
+	}
+
+	public function execute( $par ) {
+		global $wgUser, $wgOut, $wgRequest;
+
+		# Can't block when the database is locked
+		if( wfReadOnly() ) {
+			$wgOut->readOnlyPage();
+			return;
+		}
+		# Permission check
+		if( !$this->userCanExecute( $wgUser ) ) {
+			$wgOut->permissionRequired( 'block' );
+			return;
+		}
+
+		$this->setup( $par );
+	
+		# bug 15810: blocked admins should have limited access here
+		if ( $wgUser->isBlocked() ) {
+			$status = IPBlockForm::checkUnblockSelf( $this->BlockAddress );
+			if ( $status !== true ) {
+				throw new ErrorPageError( 'badaccess', $status );
+			}
+		}
+
+		$action = $wgRequest->getVal( 'action' );
+		if( 'success' == $action ) {
+			$this->showSuccess();
+		} elseif( $wgRequest->wasPosted() && 'submit' == $action &&
+			$wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
+			$this->doSubmit();
+		} else {
+			$this->showForm( '' );
+		}
+	}
+
+	private function setup( $par ) {
 		global $wgRequest, $wgUser, $wgBlockAllowsUTEdit;
 
 		$this->BlockAddress = $wgRequest->getVal( 'wpBlockAddress', $wgRequest->getVal( 'ip', $par ) );
@@ -160,7 +164,7 @@ class IPBlockForm {
 		# Show other blocks from extensions, i.e. GlockBlocking and TorBlock
 		if( count( $otherBlockedMsgs ) ) {
 			$wgOut->addHTML(
-				Html::rawElement( 'h2', array(), wfMsgExt( 'ipb-otherblocks-header', 'parseinline',  count( $otherBlockedMsgs ) ) ) . "\n"
+				Html::rawElement( 'h2', array(), wfMsgExt( 'ipb-otherblocks-header', 'parseinline', count( $otherBlockedMsgs ) ) ) . "\n"
 			);
 			$list = '';
 			foreach( $otherBlockedMsgs as $link ) {
@@ -185,16 +189,15 @@ class IPBlockForm {
 			list( $show, $value ) = explode( ':', $option );
 			$show = htmlspecialchars( $show );
 			$value = htmlspecialchars( $value );
-			$blockExpiryFormOptions .= Xml::option( $show, $value, $this->BlockExpiry === $value ? true : false ) . "\n";
+			$blockExpiryFormOptions .= Xml::option( $show, $value, $this->BlockExpiry === $value ) . "\n";
 		}
 
 		$reasonDropDown = Xml::listDropDown( 'wpBlockReasonList',
 			wfMsgForContent( 'ipbreason-dropdown' ),
 			wfMsgForContent( 'ipbreasonotherlist' ), $this->BlockReasonList, 'wpBlockDropDown', 4 );
 
-		global $wgStylePath, $wgStyleVersion;
+		$wgOut->addModules( 'mediawiki.legacy.block' );
 		$wgOut->addHTML(
-			Xml::tags( 'script', array( 'type' => 'text/javascript', 'src' => "$wgStylePath/common/block.js?$wgStyleVersion" ), '' ) .
 			Xml::openElement( 'form', array( 'method' => 'post', 'action' => $titleObj->getLocalURL( 'action=submit' ), 'id' => 'blockip' ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', null, wfMsg( 'blockip-legend' ) ) .
@@ -356,11 +359,10 @@ class IPBlockForm {
 				</td>
 			</tr>" .
 			Xml::closeElement( 'table' ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
-			( $alreadyBlocked ? Xml::hidden( 'wpChangeBlock', 1 ) : "" ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			( $alreadyBlocked ? Html::hidden( 'wpChangeBlock', 1 ) : "" ) .
 			Xml::closeElement( 'fieldset' ) .
-			Xml::closeElement( 'form' ) .
-			Xml::tags( 'script', array( 'type' => 'text/javascript' ), 'updateBlockOptions()' ) . "\n"
+			Xml::closeElement( 'form' )
 		);
 
 		$wgOut->addHTML( $this->getConvenienceLinks() );
@@ -808,22 +810,9 @@ class IPBlockForm {
 	 * @return string
 	 */
 	private function getBlockListLink( $skin ) {
-		$list = SpecialPage::getTitleFor( 'Ipblocklist' );
-		$query = array();
-
-		if( $this->BlockAddress ) {
-			$addr = strtr( $this->BlockAddress, '_', ' ' );
-			$message = wfMsg( 'ipb-blocklist-addr', $addr );
-			$query['ip'] = $this->BlockAddress;
-		} else {
-			$message = wfMsg( 'ipb-blocklist' );
-		}
-
 		return $skin->linkKnown(
-			$list,
-			htmlspecialchars( $message ),
-			array(),
-			$query
+			SpecialPage::getTitleFor( 'Ipblocklist' ),
+			wfMsg( 'ipb-blocklist' )
 		);
 	}
 

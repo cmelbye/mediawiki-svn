@@ -1,40 +1,41 @@
 <?php
-//
-// +---------------------------------------------------------------------------+
-// | memcached client, PHP                                                     |
-// +---------------------------------------------------------------------------+
-// | Copyright (c) 2003 Ryan T. Dean <rtdean@cytherianage.net>                 |
-// | All rights reserved.                                                      |
-// |                                                                           |
-// | Redistribution and use in source and binary forms, with or without        |
-// | modification, are permitted provided that the following conditions        |
-// | are met:                                                                  |
-// |                                                                           |
-// | 1. Redistributions of source code must retain the above copyright         |
-// |    notice, this list of conditions and the following disclaimer.          |
-// | 2. Redistributions in binary form must reproduce the above copyright      |
-// |    notice, this list of conditions and the following disclaimer in the    |
-// |    documentation and/or other materials provided with the distribution.   |
-// |                                                                           |
-// | THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR      |
-// | IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES |
-// | OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.   |
-// | IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,          |
-// | INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT  |
-// | NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF  |
-// | THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.         |
-// +---------------------------------------------------------------------------+
-// | Author: Ryan T. Dean <rtdean@cytherianage.net>                            |
-// | Heavily influenced by the Perl memcached client by Brad Fitzpatrick.      |
-// |   Permission granted by Brad Fitzpatrick for relicense of ported Perl     |
-// |   client logic under 2-clause BSD license.                                |
-// +---------------------------------------------------------------------------+
-//
-// $TCAnet$
-//
+/**
+ * +---------------------------------------------------------------------------+
+ * | memcached client, PHP                                                     |
+ * +---------------------------------------------------------------------------+
+ * | Copyright (c) 2003 Ryan T. Dean <rtdean@cytherianage.net>                 |
+ * | All rights reserved.                                                      |
+ * |                                                                           |
+ * | Redistribution and use in source and binary forms, with or without        |
+ * | modification, are permitted provided that the following conditions        |
+ * | are met:                                                                  |
+ * |                                                                           |
+ * | 1. Redistributions of source code must retain the above copyright         |
+ * |    notice, this list of conditions and the following disclaimer.          |
+ * | 2. Redistributions in binary form must reproduce the above copyright      |
+ * |    notice, this list of conditions and the following disclaimer in the    |
+ * |    documentation and/or other materials provided with the distribution.   |
+ * |                                                                           |
+ * | THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR      |
+ * | IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES |
+ * | OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.   |
+ * | IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,          |
+ * | INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT  |
+ * | NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+ * | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY     |
+ * | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT       |
+ * | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF  |
+ * | THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.         |
+ * +---------------------------------------------------------------------------+
+ * | Author: Ryan T. Dean <rtdean@cytherianage.net>                            |
+ * | Heavily influenced by the Perl memcached client by Brad Fitzpatrick.      |
+ * |   Permission granted by Brad Fitzpatrick for relicense of ported Perl     |
+ * |   client logic under 2-clause BSD license.                                |
+ * +---------------------------------------------------------------------------+
+ *
+ * @file
+ * $TCAnet$
+ */
 
 /**
  * This is the PHP client for memcached - a distributed memory cache daemon.
@@ -239,7 +240,7 @@ class MWMemcached {
 	/**
 	 * Memcache initializer
 	 *
-	 * @param $args Associative array of settings
+	 * @param $args Array Associative array of settings
 	 *
 	 * @return  mixed
 	 */
@@ -272,7 +273,11 @@ class MWMemcached {
 	 *
 	 * @param $key String: key to set with data
 	 * @param $val Mixed: value to store
-	 * @param $exp Integer: (optional) time to expire data at
+	 * @param $exp Integer: (optional) Expiration time. This can be a number of seconds
+	 * to cache for (up to 30 days inclusive).  Any timespans of 30 days + 1 second or
+	 * longer must be the timestamp of the time at which the mapping should expire. It
+	 * is safe to use timestamps in all cases, regardless of exipration
+	 * eg: strtotime("+3 hour")
 	 *
 	 * @return Boolean
 	 */
@@ -284,10 +289,10 @@ class MWMemcached {
 	// {{{ decr()
 
 	/**
-	 * Decriment a value stored on the memcache server
+	 * Decrease a value stored on the memcache server
 	 *
-	 * @param $key String: key to decriment
-	 * @param $amt Integer: (optional) amount to decriment
+	 * @param $key String: key to decrease
+	 * @param $amt Integer: (optional) amount to decrease
 	 *
 	 * @return Mixed: FALSE on failure, value on success
 	 */
@@ -505,7 +510,9 @@ class MWMemcached {
 	 * @param $key String: key to increment
 	 * @param $amt Integer: (optional) amount to increment
 	 *
-	 * @return Integer: new key value?
+	 * @return Integer: null if the key does not exist yet (this does NOT
+	 * create new mappings if the key does not exist). If the key does
+	 * exist, this returns the new value for that key.
 	 */
 	public function incr( $key, $amt = 1 ) {
 		return $this->_incrdecr( 'incr', $key, $amt );
@@ -519,7 +526,11 @@ class MWMemcached {
 	 *
 	 * @param $key String: key to set value as
 	 * @param $value Mixed: value to store
-	 * @param $exp Integer: (optional) experiation time
+	 * @param $exp Integer: (optional) Expiration time. This can be a number of seconds
+	 * to cache for (up to 30 days inclusive).  Any timespans of 30 days + 1 second or
+	 * longer must be the timestamp of the time at which the mapping should expire. It
+	 * is safe to use timestamps in all cases, regardless of exipration
+	 * eg: strtotime("+3 hour")
 	 *
 	 * @return Boolean
 	 */
@@ -576,7 +587,11 @@ class MWMemcached {
 	 *
 	 * @param $key String: key to set value as
 	 * @param $value Mixed: value to set
-	 * @param $exp Integer: (optional) Experiation time
+	 * @param $exp Integer: (optional) Expiration time. This can be a number of seconds
+	 * to cache for (up to 30 days inclusive).  Any timespans of 30 days + 1 second or
+	 * longer must be the timestamp of the time at which the mapping should expire. It
+	 * is safe to use timestamps in all cases, regardless of exipration
+	 * eg: strtotime("+3 hour")
 	 *
 	 * @return Boolean: TRUE on success
 	 */
@@ -906,7 +921,11 @@ class MWMemcached {
 	 * @param $cmd String: command to perform
 	 * @param $key String: key to act on
 	 * @param $val Mixed: what we need to store
-	 * @param $exp Integer: when it should expire
+	 * @param $exp Integer: (optional) Expiration time. This can be a number of seconds
+	 * to cache for (up to 30 days inclusive).  Any timespans of 30 days + 1 second or
+	 * longer must be the timestamp of the time at which the mapping should expire. It
+	 * is safe to use timestamps in all cases, regardless of exipration
+	 * eg: strtotime("+3 hour")
 	 *
 	 * @return Boolean
 	 * @access private

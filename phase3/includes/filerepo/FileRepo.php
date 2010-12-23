@@ -1,8 +1,15 @@
 <?php
+/**
+ * Base code for file repositories.
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
 /**
- * Base class for file repositories
+ * Base class for file repositories.
  * Do not instantiate, use a derived class.
+ *
  * @ingroup FileRepo
  */
 abstract class FileRepo {
@@ -156,7 +163,7 @@ abstract class FileRepo {
 	 */
 	function findFiles( $items ) {
 		$result = array();
-		foreach ( $items as $index => $item ) {
+		foreach ( $items as $item ) {
 			if ( is_array( $item ) ) {
 				$title = $item['title'];
 				$options = $item;
@@ -166,8 +173,9 @@ abstract class FileRepo {
 				$options = array();
 			}
 			$file = $this->findFile( $title, $options );
-			if ( $file )
+			if ( $file ) {
 				$result[$file->getTitle()->getDBkey()] = $file;
+			}
 		}
 		return $result;
 	}
@@ -258,7 +266,6 @@ abstract class FileRepo {
 	 * Get the name of an image from its title object
 	 */
 	function getNameFromTitle( $title ) {
-		global $wgCapitalLinks;
 		if ( $this->initialCapital != MWNamespace::isCapitalized( NS_FILE ) ) {
 			global $wgContLang;
 			$name = $title->getUserCaseDBKey();
@@ -308,7 +315,7 @@ abstract class FileRepo {
 	 */
 	function makeUrl( $query = '', $entry = 'index' ) {
 		$ext = isset( $this->scriptExtension ) ? $this->scriptExtension : '.php';
-		return wfAppendQuery( "{$this->scriptDirUrl}/{$entry}{$ext}?", $query ); 
+		return wfAppendQuery( "{$this->scriptDirUrl}/{$entry}{$ext}", $query ); 
 	} 
 
 	/**
@@ -379,7 +386,7 @@ abstract class FileRepo {
 	 */
 	function getDescriptionStylesheetUrl() {
 		if ( $this->scriptDirUrl ) {
-			return self::makeUrl( 'title=MediaWiki:Filepage.css&' .
+			return $this->makeUrl( 'title=MediaWiki:Filepage.css&' .
 				wfArrayToCGI( Skin::getDynamicStylesheetQuery() ) );
 		}
 	}

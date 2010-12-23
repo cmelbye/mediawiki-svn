@@ -115,7 +115,7 @@ class StringUtils {
 		return $output;
 	}
 
-	/*
+	/**
 	 * Perform an operation equivalent to
 	 *
 	 *   preg_replace( "!$startDelim(.*)$endDelim!$flags", $replace, $subject )
@@ -125,6 +125,7 @@ class StringUtils {
 	 * @param $replace String: replacement string. May contain $1, which will be
 	 *                 replaced by the text between the delimiters
 	 * @param $subject String to search
+	 * @param $flags String: regular expression flags
 	 * @return String: The string with the matches replaced
 	 */
 	static function delimiterReplace( $startDelim, $endDelim, $replace, $subject, $flags = '' ) {

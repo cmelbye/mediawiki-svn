@@ -51,6 +51,7 @@ $maintenance->setup();
 $self = $maintenance->getName();
 
 # Setup the profiler
+global $IP;
 if ( file_exists( "$IP/StartProfiler.php" ) ) {
 	require_once( "$IP/StartProfiler.php" );
 } else {
@@ -60,14 +61,14 @@ if ( file_exists( "$IP/StartProfiler.php" ) ) {
 // Some other requires
 require_once( "$IP/includes/AutoLoader.php" );
 require_once( "$IP/includes/Defines.php" );
+require_once( "$IP/includes/DefaultSettings.php" );
 
 if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	# Use a callback function to configure MediaWiki
-	require_once( "$IP/includes/DefaultSettings.php" );
-
 	$callback = MW_CONFIG_CALLBACK;
+	# PHP 5.1 doesn't support "class::method" for call_user_func, so split it
 	if ( strpos( $callback, '::' ) !== false ) {
-		$callback = explode( '::', $callback, 2);
+		$callback = explode( '::', $callback, 2 );
 	}
 	call_user_func( $callback );
 } elseif ( file_exists( "$IP/wmf-config/wikimedia-mode" ) ) {

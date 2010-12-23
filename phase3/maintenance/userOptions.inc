@@ -1,5 +1,22 @@
 <?php
 /**
+ * Helper class for userOptions.php script.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance
  */
@@ -83,7 +100,7 @@ class userOptions {
 
 	#
 	# Modes.
-	# 
+	#
 
 	/** List default options and their value */
 	private function LISTER( ) {
@@ -111,7 +128,7 @@ class userOptions {
 			__METHOD__
 			);
 
-		while ( $id = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $id ) {
 
 			$user = User::newFromId( $id->user_id );
 
@@ -161,7 +178,7 @@ class userOptions {
 			__METHOD__
 			);
 
-		while ( $id = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $id ) {
 
 			$user = User::newFromId( $id->user_id );
 
@@ -174,7 +191,7 @@ class userOptions {
 					print "Setting {$this->mAnOption} for $username from '{$this->mOldValue}' to '{$this->mNewValue}'): ";
 				}
 
-				// Change value 
+				// Change value
 				$user->setOption( $this->mAnOption, $this->mNewValue );
 
 				// Will not save the settings if run with --dry
@@ -212,25 +229,25 @@ This script pass through all users and change one of their options.
 The new option is NOT validated.
 
 Usage:
-    php userOptions.php --list
-    php userOptions.php [user option] --usage
-    php userOptions.php [options] <user option> --old <old value> --new <new value>
+	php userOptions.php --list
+	php userOptions.php [user option] --usage
+	php userOptions.php [options] <user option> --old <old value> --new <new value>
 
 Switchs:
-    --list : list available user options and their default value
+	--list : list available user options and their default value
 
-    --usage : report all options statistics or just one if you specify it.
+	--usage : report all options statistics or just one if you specify it.
 
-    --old <old value> : the value to look for
-    --new <new value> : new value to update users with
+	--old <old value> : the value to look for
+	--new <new value> : new value to update users with
 
 Options:
-    --nowarn: hides the 5 seconds warning
-    --quiet : do not print what is happening
-    --dry   : do not save user settings back to database
+	--nowarn: hides the 5 seconds warning
+	--quiet : do not print what is happening
+	--dry   : do not save user settings back to database
 
 USAGE;
-    exit( 0 );
+	exit( 0 );
 	}
 
 	/** The warning message and countdown */

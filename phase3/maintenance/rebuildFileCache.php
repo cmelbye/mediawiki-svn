@@ -54,13 +54,12 @@ class RebuildFileCache extends Maintenance {
 		}
 
 		$_SERVER['HTTP_ACCEPT_ENCODING'] = 'bgzip'; // hack, no real client
-		OutputPage::setEncodings(); # Not really used yet
 
 		# Do remaining chunk
 		$end += $this->mBatchSize - 1;
 		$blockStart = $start;
 		$blockEnd = $start + $this->mBatchSize - 1;
-	
+
 		$dbw = wfGetDB( DB_MASTER );
 		// Go through each page and save the output
 		while ( $blockEnd <= $end ) {
@@ -113,7 +112,7 @@ class RebuildFileCache extends Maintenance {
 			wfWaitForSlaves( 5 );
 		}
 		$this->output( "Done!\n" );
-	
+
 		// Remove these to be safe
 		if ( isset( $wgTitle ) )
 			unset( $wgTitle );

@@ -1,7 +1,7 @@
 /**
  * CSS in this file is used by *all* skins (that have any CSS at all).  Be
  * careful what you put in here, since what looks good in one skin may not in
- * another, but don't ignore the poor non-Monobook users either.
+ * another, but don't ignore the poor pre-Monobook users either.
  */
 
 /* Colored watchlist and recent changes numbers */
@@ -794,31 +794,35 @@ table.mw_metadata ul.metadata-langlist {
 }
 
 /* Galleries */
-table.gallery {
-	border: 1px solid #ccc;
-	margin: 2px;
-	padding: 2px;
-	background-color: white;
-}
-
-table.gallery tr {
-	vertical-align: top;
-}
-
-table.gallery td {
+/* These display attributes look nonsensical, but are needed to support IE and FF2 */
+li.gallerybox {
 	vertical-align: top;
 	background-color: #f9f9f9;
 	border: solid 2px white;
-}
-table.gallery caption {
-	font-weight: bold;
+	display: -moz-inline-box;
 }
 
-div.gallerybox {
+ul.gallery, li.gallerybox {
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+
+ul.gallery {
 	margin: 2px;
+	padding: 2px;
+	background-color: white;
+	display: block;
 }
 
-div.gallerybox div.thumb {
+li.gallerycaption {
+	font-weight: bold;
+	text-align: center;
+	display: block;
+	word-wrap: break-word;
+}
+
+li.gallerybox div.thumb {
 	text-align: center;
 	border: 1px solid #ccc;
 	margin: 2px;
@@ -828,18 +832,7 @@ div.gallerytext {
 	overflow: hidden;
 	font-size: 94%;
 	padding: 2px 4px;
-}
-
-table.mw-enhanced-rc {
-	background: none;
-	border:0;
-	border-spacing:0;
-}
-td.mw-enhanced-rc {
-	white-space:nowrap;
-	padding:0;
-	vertical-align:top;
-	font-family:monospace
+	word-wrap: break-word;
 }
 
 #mw-addcategory-prompt {
@@ -888,15 +881,55 @@ a.sortheader {
 	margin: 0 0.3em;
 }
 
-.grid-table {
-	display: table;
+/* Localised ordered list numbering for some languages */
+ol:lang(bcc) li,
+ol:lang(bqi) li,
+ol:lang(fa) li,
+ol:lang(glk) li,
+ol:lang(kk-arab) li,
+ol:lang(mzn) li {
+	list-style-type: -moz-persian;
+	list-style-type: persian;
 }
 
-.grid-row {
-	display: table-row;
+ol:lang(ckb) li {
+	list-style-type: -moz-arabic-indic;
+	list-style-type: arabic-indic;
 }
 
-.grid-cell {
-	display: table-cell;
-	padding: 0.33ex;
+ol:lang(bn) li {
+	list-style-type: -moz-bengali;
+	list-style-type: bengali;
 }
+
+/* tooltip styles */
+.mw-help-field-hint {
+	display: none;
+	padding: 0px;
+	padding-left: 15px;
+	margin-left: 2px;
+	margin-bottom: -8px;
+	background-image: url('images/help-question.gif');
+	background-position: left center;
+	background-repeat: no-repeat;
+	color: #0645ad;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: .8em;
+}
+.mw-help-field-hint:hover {
+	background-image: url('images/help-question-hover.gif');
+}
+.mw-help-field-data {
+	display: block;
+	background-color: #d6f3ff;
+	padding:5px 8px 4px 8px;
+	border: 1px solid #5dc9f4;
+	margin-left: 20px;
+}
+.tipsy { padding: 5px 5px 10px; font-size: 12px; position: absolute; z-index: 100000; overflow: visible; }
+.tipsy-inner { padding: 5px 8px 4px 8px; background-color: #d6f3ff; color: black; border: 1px solid #5dc9f4; max-width: 300px; text-align: left; }
+.tipsy-arrow { position: absolute; background: url( 'images/tipsy-arrow.gif' ) no-repeat top left; width: 13px; height: 13px; }
+.tipsy-se .tipsy-arrow { bottom: -2px; right: 10px; background-position: 0% 100%; }
+
+

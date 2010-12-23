@@ -6,17 +6,26 @@
 .config-section {
 	margin-top: 2em;
 }
+.config-block {
+	margin-top: 2em;
+	display: block;
 
-.config-label {
-	clear: left;
+}
+.config-block-label {
+	display: block;
+	margin-bottom: .2em;
+}
+.config-block-label label, .config-label {
 	font-weight: bold;
-	width: 10em;
-	float: left;
-	text-align: right;
-	padding-right: 1em;
+	padding-right: .5em;
 	padding-top: .2em;
 }
-
+.config-block-elements {
+	margin-left: 2em;
+}
+.config-block-elements li {
+	list-style: none;
+}
 .config-input {
 	clear: left;
 	zoom: 100%; /* IE hack */
@@ -30,15 +39,16 @@
 	float: right;
 	width: 12em;
 	border: 1px solid #aaa;
+	background: #fff;
 	padding: 0.5em;
-	margin: 0.5em;
+	/* 3em left margin to leave space between the list and the page-content */
+	margin: 0.5em 0.5em 0.5em 3.5em;
 }
 
 .config-page {
-	padding: 0.5em 2em 0.5em 2em;
-	/* 15em right margin to leave space for 12em page list */
-	margin: 0.5em 15em 0.5em 0.5em;
-	border: 1px solid #aaa;
+	padding: 0.5em 0.5em 0.5em 2em;
+	margin: 0.5em 0.5em 0.5em 0.5em;
+	background: #eee;
 }
 
 .config-submit {
@@ -76,40 +86,16 @@
 
 .config-info-right {
 	margin: 0.5em 0.5em 0.5em 49px;
-	width: 30em;
 }
 
 .config-page-current {
 	font-weight: bold;
 }
 
-.config-help-wrapper {
-	clear: left;
-	margin: 0 0 2em 12em;
-	padding-top: 1em;
-}
-.config-show-help, .config-hide-help {
-	margin-left: 14em;
-}
-.config-hide-help { display: none; }
-.config-show-help a, .config-hide-help a {
-	background-image: url(images/help-22.png);
-	background-position: 0 0;
-	background-repeat: no-repeat;
-	display: inline-block;
-	height: 26px;
-	padding-left: 26px;
-}
-
-.config-help-message {
-	font-size: 85%;
-	display: none;
-}
-
 .config-message {
 	display: list-item;
 	line-height: 1.5em;
-	list-style-image: url(../skins/common/images/bullet.gif);
+	list-style-image: url(images/bullet.gif);
 	list-style-type: square;
 }
 
@@ -156,7 +142,7 @@
 .config-cc-wrapper {
 	clear: left;
 	/* If you change this height, also change it in WebInstaller_Options::submitCC() */
-	height: 54em; 
+	height: 54em;
 }
 
 .config-plainlink a {
@@ -166,4 +152,8 @@
 
 #config-memcachewrapper {
 	display: none;
+}
+.config-download-link {
+	font-size: 1.8em;
+	margin-left: 2em;
 }

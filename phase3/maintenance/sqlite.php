@@ -29,6 +29,7 @@ class SqliteMaintenance extends Maintenance {
 		$this->addOption( 'vacuum', 'Clean up database by removing deleted pages. Decreases database file size' );
 		$this->addOption( 'integrity', 'Check database for integrity' );
 		$this->addOption( 'backup-to', 'Backup database to the given file', false, true );
+		$this->addOption( 'check-syntax', 'Check SQL file(s) for syntax errors', false, true );
 	}
 
 	/**
@@ -40,14 +41,17 @@ class SqliteMaintenance extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgDBtype;
-		
-		if ( $wgDBtype != 'sqlite' ) {
-			$this->error( "This maintenance script requires a SQLite database.\n" );
-			return;
+		// Should work even if we use a non-SQLite database
+		if ( $this->hasOption( 'check-syntax' ) ) {
+			$this->checkSyntax();
 		}
 
 		$this->db = wfGetDB( DB_MASTER );
+
+		if ( $this->db->getType() != 'sqlite' ) {
+			$this->error( "This maintenance script requires a SQLite database.\n" );
+			return;
+		}
 
 		if ( $this->hasOption( 'vacuum' ) ) {
 			$this->vacuum();
@@ -106,6 +110,20 @@ class SqliteMaintenance extends Maintenance {
 		wfSuppressWarnings( true );
 		$this->output( "   Releasing lock...\n" );
 		$this->db->query( 'COMMIT TRANSACTION', __METHOD__ );
+	}
+
+	private function checkSyntax() {
+		if ( !Sqlite::IsPresent() ) {
+			$this->error( "Error: SQLite support not found\n" );
+		}
+		$files = array( $this->getOption( 'check-syntax' ) );
+		$files += $this->mArgs;
+		$result = Sqlite::checkSqlSyntax( $files );
+		if ( $result === true ) {
+			$this->output( "SQL syntax check: no errors detected.\n" );
+		} else {
+			$this->error( "Error: $result\n" );
+		}
 	}
 }
 

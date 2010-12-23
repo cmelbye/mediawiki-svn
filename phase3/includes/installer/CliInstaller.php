@@ -1,9 +1,18 @@
 <?php
+/**
+ * Core installer command line interface.
+ *
+ * @file
+ * @ingroup Deployment
+ */
 
-class CliInstaller extends Installer {
-
-	/* The maintenance class in effect */
-	private $maint;
+/**
+ * Class for the core installer command line interface.
+ *
+ * @ingroup Deployment
+ * @since 1.17
+ */
+class CliInstaller extends CoreInstaller {
 
 	private $optionMap = array(
 		'dbtype' => 'wgDBtype',
@@ -22,10 +31,20 @@ class CliInstaller extends Installer {
 		'dbschema' => 'wgDBmwschema',
 		'dbts2schema' => 'wgDBts2schema',
 		'dbpath' => 'wgSQLiteDataDir',
+		'scriptpath' => 'wgScriptPath',
+		'upgrade' => 'cliUpgrade', /* As long as it isn't $confItems
+									* in LocalSettingsGenerator, we
+									* should be fine. */
 	);
 
-	/** Constructor */
-	function __construct( $siteName, $admin = null, $option = array() ) {
+	/**
+	 * Constructor.
+	 *
+	 * @param $siteName
+	 * @param $admin
+	 * @param $option Array
+	 */
+	function __construct( $siteName, $admin = null, array $option = array() ) {
 		parent::__construct();
 
 		foreach ( $this->optionMap as $opt => $global ) {
@@ -44,6 +63,7 @@ class CliInstaller extends Installer {
 		}
 
 		$this->setVar( 'wgSitename', $siteName );
+
 		if ( $admin ) {
 			$this->setVar( '_AdminName', $admin );
 		}
@@ -64,39 +84,68 @@ class CliInstaller extends Installer {
 	 * Main entry point.
 	 */
 	public function execute() {
+		global $cliUpgrade;
+
+		$vars = $this->getExistingLocalSettings();
+		if( $vars && ( !isset( $cliUpgrade ) || $cliUpgrade !== "yes" )  ) {
+			$this->showStatusMessage(
+				Status::newFatal( "config-localsettings-cli-upgrade" )
+			);
+		}
+
 		$this->performInstallation(
-			array( $this, 'startStage'),
+			array( $this, 'startStage' ),
 			array( $this, 'endStage' )
 		);
 	}
 
+	/**
+	 * Write LocalSettings.php to a given path
+	 *
+	 * @param $path String Full path to write LocalSettings.php to
+	 */
+	public function writeConfigurationFile( $path ) {
+		$ls = new LocalSettingsGenerator( $this );
+		$ls->writeFile( "$path/LocalSettings.php" );
+	}
+
 	public function startStage( $step ) {
-		$this->showMessage( wfMsg( "config-install-$step") .
+		$this->showMessage( wfMsg( "config-install-$step" ) .
 			wfMsg( 'ellipsis' ) . wfMsg( 'word-separator' ) );
 	}
 
 	public function endStage( $step, $status ) {
-		$warnings = $status->getWarningsArray();
-		if ( !$status->isOk() ) {
-			$this->showStatusMessage( $status );
-			echo "\n";
-			exit;
-		} elseif ( count($warnings) !== 0 ) {
-			foreach ( $status->getWikiTextArray( $warnings ) as $w ) {
-				$this->showMessage( $w . wfMsg( 'ellipsis') .
-					wfMsg( 'word-separator' ) );
-			}
-		}
-		$this->showMessage( wfMsg( 'config-install-step-done' ) ."\n");
+		$this->showStatusMessage( $status );
+		$this->showMessage( wfMsg( 'config-install-step-done' ) . "\n" );
 	}
 
 	public function showMessage( $msg /*, ... */ ) {
-		echo html_entity_decode( strip_tags( $msg ), ENT_QUOTES );
+		$params = func_get_args();
+		array_shift( $params );
+
+		/* parseinline has the nasty side-effect of putting encoded
+		 * angle brackets, around the message, so the substr removes
+		 * them. */
+		$text = substr( wfMsgExt( $msg, array( 'parseinline' ), $params ), 4, -4 );
+		$text = preg_replace( '/<a href="(.*?)".*?>(.*?)<\/a>/', '$2 &lt;$1&gt;', $text );
+		echo html_entity_decode( strip_tags( $text ), ENT_QUOTES ) . "\n";
 		flush();
 	}
 
-	public function showStatusMessage( $status ) {
-		$this->showMessage( $status->getWikiText() );
-	}
+	public function showStatusMessage( Status $status ) {
+		$warnings = array_merge( $status->getWarningsArray(),
+			$status->getErrorsArray() );
 
+		if ( count( $warnings ) !== 0 ) {
+			foreach ( $status->getWikiTextArray( $warnings ) as $w ) {
+				$this->showMessage( $w . wfMsg( 'ellipsis' ) .
+					wfMsg( 'word-separator' ) );
+			}
+		}
+
+		if ( !$status->isOk() ) {
+			echo "\n";
+			exit;
+		}
+	}
 }

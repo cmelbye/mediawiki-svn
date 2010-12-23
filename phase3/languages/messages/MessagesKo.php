@@ -138,7 +138,7 @@ $specialPageAliases = array(
 	'LinkSearch'                => array( '외부링크찾기', '외부링크검색' ),
 	'DeletedContributions'      => array( '삭제된기여' ),
 	'Tags'                      => array( '태그' ),
-	'Activeusers'               => array( '활동중인사용자' ),
+	'Activeusers'               => array( '활동적인사용자', '활동중인사용자' ),
 );
 
 $magicWords = array(
@@ -207,10 +207,12 @@ $magicWords = array(
 	'img_width'             => array( '1', '$1픽셀', '$1px' ),
 	'img_center'            => array( '1', '가운데', 'center', 'centre' ),
 	'img_framed'            => array( '1', '프레임', 'framed', 'enframed', 'frame' ),
+	'img_frameless'         => array( '1', '프레임없음', 'frameless' ),
 	'img_page'              => array( '1', '문서=$1', 'page=$1', 'page $1' ),
 	'img_border'            => array( '1', '테두리', 'border' ),
 	'img_baseline'          => array( '1', '밑줄', 'baseline' ),
-	'img_sub'               => array( '1', '윗첨자', 'sub' ),
+	'img_sub'               => array( '1', '아래첨자', 'sub' ),
+	'img_super'             => array( '1', '위첨자', 'super', 'sup' ),
 	'img_top'               => array( '1', '위', 'top' ),
 	'img_middle'            => array( '1', '중간', 'middle' ),
 	'img_bottom'            => array( '1', '아래', 'bottom' ),
@@ -234,6 +236,7 @@ $magicWords = array(
 	'revisionday'           => array( '1', '판일', 'REVISIONDAY' ),
 	'revisionday2'          => array( '1', '판일2', 'REVISIONDAY2' ),
 	'revisionmonth'         => array( '1', '판월', 'REVISIONMONTH' ),
+	'revisionmonth1'        => array( '1', '판월1', 'REVISIONMONTH1' ),
 	'revisionyear'          => array( '1', '판년', 'REVISIONYEAR' ),
 	'revisiontimestamp'     => array( '1', '판타임스탬프', 'REVISIONTIMESTAMP' ),
 	'revisionuser'          => array( '1', '판사용자', 'REVISIONUSER' ),
@@ -263,6 +266,8 @@ $magicWords = array(
 	'hiddencat'             => array( '1', '__숨은분류__', '__HIDDENCAT__' ),
 	'pagesincategory'       => array( '1', '분류문서수', 'PAGESINCATEGORY', 'PAGESINCAT' ),
 	'pagesize'              => array( '1', '문서크기', 'PAGESIZE' ),
+	'index'                 => array( '1', '__색인__', '__INDEX__' ),
+	'noindex'               => array( '1', '__색인거부__', '__NOINDEX__' ),
 	'numberingroup'         => array( '1', '권한별사용자수', '그룹별사용자수', 'NUMBERINGROUP', 'NUMINGROUP' ),
 	'staticredirect'        => array( '1', '__넘겨주기고정__', '__STATICREDIRECT__' ),
 	'protectionlevel'       => array( '1', '보호수준', 'PROTECTIONLEVEL' ),
@@ -293,22 +298,23 @@ $messages = array(
 'tog-hideminor'               => '사소한 편집을 최근 바뀜에서 숨기기',
 'tog-hidepatrolled'           => '최근 바뀜에서 검토된 편집을 숨기기',
 'tog-newpageshidepatrolled'   => '새 문서 목록에서 검토된 문서를 숨기기',
-'tog-extendwatchlist'         => '주시문서 목록에서 최근 바뀜 대신 모든 편집 보기',
+'tog-extendwatchlist'         => '주시문서 목록에서 가장 최근의 편집만이 아닌 모든 편집을 보기',
 'tog-usenewrc'                => '향상된 최근 바뀜 (자바스크립트)',
 'tog-numberheadings'          => '머릿글 번호 매기기',
 'tog-showtoolbar'             => '편집창에 툴바 보이기 (자바스크립트)',
 'tog-editondblclick'          => '더블클릭으로 문서 편집하기 (자바스크립트)',
-'tog-editsection'             => '‘편집’ 링크로 부분을 편집하는 기능 켜기',
+'tog-editsection'             => '[편집] 링크로 부분 편집하기',
 'tog-editsectiononrightclick' => '제목을 오른쪽 클릭해서 부분 편집하기 (자바스크립트)',
 'tog-showtoc'                 => '문서의 차례 보여주기 (머릿글이 4개 이상인 경우)',
-'tog-rememberpassword'        => '이 컴퓨터에서 로그인 상태를 저장하기 (최대 $1일)',
+'tog-rememberpassword'        => '이 브라우저에서 로그인 상태를 저장하기 (최대 $1일)',
 'tog-watchcreations'          => '내가 처음 만드는 문서를 주시문서 목록에 추가',
 'tog-watchdefault'            => '내가 편집하는 문서를 주시문서 목록에 추가',
 'tog-watchmoves'              => '내가 이동하는 문서를 주시문서 목록에 추가',
 'tog-watchdeletion'           => '내가 삭제하는 문서를 주시문서 목록에 추가',
+'tog-minordefault'            => '‘사소한 편집’을 기본적으로 선택하기',
 'tog-previewontop'            => '편집상자 앞에 미리보기 보이기',
 'tog-previewonfirst'          => '처음 편집할 때 미리보기 보기',
-'tog-nocache'                 => '문서 캐시 끄기',
+'tog-nocache'                 => '브라우저의 문서 캐시 끄기',
 'tog-enotifwatchlistpages'    => '주시문서가 바뀌면 이메일로 알림',
 'tog-enotifusertalkpages'     => '내 토론 문서가 바뀌면 이메일로 알림',
 'tog-enotifminoredits'        => '사소한 편집도 이메일로 알림',
@@ -319,7 +325,7 @@ $messages = array(
 'tog-externaleditor'          => '외부 편집기를 기본 편집기로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요)',
 'tog-externaldiff'            => '외부 비교 도구를 기본 도구로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요)',
 'tog-showjumplinks'           => '접근성을 위한 "이동" 링크 쓰기 (일부 스킨에서만 작동)',
-'tog-uselivepreview'          => '실시간 미리 보기 사용하기 (자바스크립트, 실험적 기능)',
+'tog-uselivepreview'          => '실시간 미리 보기 사용하기 (자바스크립트 사용, 시험 중)',
 'tog-forceeditsummary'        => '편집 요약을 쓰지 않았을 때 알려주기',
 'tog-watchlisthideown'        => '주시문서 목록에서 내 편집을 숨기기',
 'tog-watchlisthidebots'       => '주시문서 목록에서 봇 편집을 숨기기',
@@ -451,17 +457,6 @@ $messages = array(
 'vector-action-protect'          => '보호',
 'vector-action-undelete'         => '되살리기',
 'vector-action-unprotect'        => '보호 해제',
-'vector-namespace-category'      => '분류',
-'vector-namespace-help'          => '도움말',
-'vector-namespace-image'         => '파일',
-'vector-namespace-main'          => '문서',
-'vector-namespace-media'         => '미디어 문서',
-'vector-namespace-mediawiki'     => '메시지',
-'vector-namespace-project'       => '프로젝트 문서',
-'vector-namespace-special'       => '특수 문서',
-'vector-namespace-talk'          => '토론',
-'vector-namespace-template'      => '틀',
-'vector-namespace-user'          => '사용자 문서',
 'vector-simplesearch-preference' => '향상된 검색어 제안 사용하기 (벡터 스킨 전용)',
 'vector-view-create'             => '생성',
 'vector-view-edit'               => '편집',
@@ -531,6 +526,9 @@ $messages = array(
 이 문서를 다시 열기 전에 잠시만 기다려주세요.
 
 $1',
+'pool-timeout'      => '잠금 대기 중 타임아웃',
+'pool-queuefull'    => '풀 큐가 가득 찼습니다.',
+'pool-errorunknown' => '알 수 없는 오류',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => '{{SITENAME}} 소개',
@@ -620,7 +618,7 @@ $1',
 'dberrortextcl'        => '데이터베이스 쿼리 구문 오류가 발생했습니다.
 마지막으로 요청한 데이터베이스 쿼리는 "$2" 함수에서 쓰인
 "$1"
-입니다. 
+입니다.
 데이터베이스는 "$3: $4" 오류를 일으켰습니다.',
 'laggedslavemode'      => "'''주의:''' 문서가 최근에 바뀐 내용이 아닐 수도 있습니다.",
 'readonly'             => '데이터베이스 잠김',
@@ -691,6 +689,7 @@ $2',
 'yourpassword'               => '비밀번호:',
 'yourpasswordagain'          => '암호 재입력:',
 'remembermypassword'         => '이 컴퓨터에서 로그인 상태를 저장하기 (최대 $1일)',
+'securelogin-stick-https'    => '로그인 후에도 HTTPS 연결 상태를 유지합니다.',
 'yourdomainname'             => '도메인 이름',
 'externaldberror'            => '외부 인증 데이터베이스에 오류가 있거나, 외부 계정을 갱신할 권한이 없습니다.',
 'login'                      => '로그인',
@@ -707,6 +706,7 @@ $2',
 'gotaccount'                 => "계정이 이미 있다면, '''$1'''.",
 'gotaccountlink'             => '로그인하세요',
 'createaccountmail'          => '이메일로 보내기',
+'createaccountreason'        => '이유:',
 'badretype'                  => '암호가 서로 다릅니다.',
 'userexists'                 => '입력하신 사용자 이름이 이미 등록되어 있습니다.
 다른 이름으로 만들어주십시오.',
@@ -728,6 +728,7 @@ $2',
 다시 시도해 주세요.',
 'passwordtooshort'           => '암호는 적어도 $1자보다 길어야 합니다.',
 'password-name-match'        => '암호는 반드시 사용자 이름과 달라야 합니다.',
+'password-too-weak'          => '암호가 너무 약합니다. 다른 암호를 입력해주세요.',
 'mailmypassword'             => '새 암호를 이메일로 보내기',
 'passwordremindertitle'      => '{{SITENAME}}에서 보내는 새 임시 암호',
 'passwordremindertext'       => 'IP 주소 $1에서 당신에게 {{SITENAME}} ($4)의 새 암호를 보내달라고 요청했습니다.
@@ -762,6 +763,15 @@ $2',
 'loginlanguagelabel'         => '언어: $1',
 'suspicious-userlogout'      => '브라우저의 이상이 있거나 캐싱 프록시에서 로그아웃을 요청했기 때문에 로그아웃이 거부되었습니다.',
 
+# JavaScript password checks
+'password-strength'            => '예상 비밀 번호 강도: $1',
+'password-strength-bad'        => '나쁨',
+'password-strength-mediocre'   => '별로 좋지 않음',
+'password-strength-acceptable' => '양호',
+'password-strength-good'       => '좋음',
+'password-retype'              => '비밀번호 확인:',
+'password-retype-mismatch'     => '비밀번호가 맞지 않습니다.',
+
 # Password reset dialog
 'resetpass'                 => '비밀번호 바꾸기',
 'resetpass_announce'        => '이메일로 받은 임시 암호로 로그인했습니다. 로그인을 마치려면 새 암호를 입력해 주세요:',
@@ -787,7 +797,7 @@ $2',
 'link_sample'     => '링크 제목',
 'link_tip'        => '내부 링크',
 'extlink_sample'  => 'http://www.example.com 사이트 이름',
-'extlink_tip'     => '외부 사이트 링크 (앞에 http://를 붙여야 합니다.)',
+'extlink_tip'     => '외부 사이트 링크 (주소 앞에 http://가 있어야 합니다.)',
 'headline_sample' => '제목',
 'headline_tip'    => '2단계 문단 제목',
 'math_sample'     => '여기에 수식을 쓰세요',
@@ -879,8 +889,12 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 'userjsyoucanpreview'              => "'''안내''': JS 문서를 저장하기 전에 ‘{{int:showpreview}}’ 기능을 통해 작동을 확인해주세요.",
 'usercsspreview'                   => "'''이것은 사용자 CSS의 미리 보기이며, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userjspreview'                    => "'''이것은 자바스크립트 미리 보기로, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
+'sitecsspreview'                   => "'''이것은 모두에게 적용되는 CSS의 미리 보기입니다.'''
+'''아직 저장하지 않았다는 것을 주의해 주세요!'''",
+'sitejspreview'                    => "'''이것은 모두에게 적용되는 자바스크립트의 미리 보기입니다.'''
+'''아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userinvalidcssjstitle'            => "'''경고''': ‘$1’ 스킨은 없습니다.
-.css와 .js 문서의 제목은 {{ns:user}}:Foo/monobook.css 처럼 소문자로 써야 합니다. {{ns:user}}:Foo/Monobook.css 와 같이 대문자로 쓸 경우 작동하지 않습니다.",
+.css와 .js 문서의 제목은 {{ns:user}}:Foo/vector.css 처럼 소문자로 써야 합니다. {{ns:user}}:Foo/Vector.css 와 같이 대문자로 쓸 경우 작동하지 않습니다.",
 'updated'                          => '(바뀜)',
 'note'                             => "'''주의:'''",
 'previewnote'                      => "'''지금 미리 보기로 보고 있는 내용은 아직 저장되지 않았습니다!'''",
@@ -900,7 +914,7 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 'explainconflict'                  => "문서를 편집하는 도중에 누군가 이 문서를 고쳤습니다.
 위쪽의 문서가 지금 바뀐 문서이고, 아래쪽의 문서가 당신이 편집한 문서입니다.
 아래쪽의 내용을 위쪽에 적절히 합쳐 주시기 바랍니다.
-\"저장\"을 누르면 '''위쪽의 편집 내역만''' 저장됩니다.",
+\"{{int:savearticle}}\"을 누르면 '''위쪽의 편집 내역만''' 저장됩니다.",
 'yourtext'                         => '당신의 편집',
 'storedversion'                    => '현재 문서',
 'nonunicodebrowser'                => "'''주의: 당신의 웹 브라우저가 유니코드를 완벽하게 지원하지 않습니다. 몇몇 문자가 16진수 코드로 나타날 수 있습니다.'''",
@@ -909,12 +923,11 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 이것을 저장하면 최근에 편집된 부분이 사라질 수 있습니다.'''",
 'yourdiff'                         => '차이',
 'copyrightwarning'                 => "{{SITENAME}}에서의 모든 기여는 $2 라이선스로 배포된다는 점을 유의해 주세요 (자세한 내용에 대해서는 $1 문서를 읽어주세요). 만약 여기에 동의하지 않는다면 문서를 저장하지 말아 주세요.<br />
-또 당신이 쓴 글은 직접 작성했거나 퍼블릭 도메인과 같은 자유 문서에서 가져왔다는 것을 보증해야 합니다.
+또한, 직접 작성했거나 퍼블릭 도메인과 같은 자유 문서에서 가져왔다는 것을 보증해야 합니다.
 '''저작권이 있는 내용을 허가 없이 저장하지 마세요!'''",
 'copyrightwarning2'                => "{{SITENAME}}에서의 모든 기여는 다른 사용자가 편집, 수정, 삭제할 수 있다는 점을 유의해 주세요. 만약 여기에 동의하지 않는다면, 문서를 저장하지 말아 주세요.<br />
-또 당신이 쓴 글은 직접 작성했거나, 퍼블릭 도메인과 같은 자유 문서에서 가져왔다는 것을 보증해야 합니다 (자세한 내용에 대해서는 $1 문서를 읽어 주세요).
+또한, 직접 작성했거나 퍼블릭 도메인과 같은 자유 문서에서 가져왔다는 것을 보증해야 합니다 (자세한 내용에 대해서는 $1 문서를 읽어 주세요).
 '''저작권이 있는 내용을 허가 없이 저장하지 마세요!'''",
-'longpagewarning'                  => "'''주의: 이 문서의 용량이 $1킬로바이트입니다. 몇몇 웹 브라우저에서는 32킬로바이트 이상의 문서를 편집할 때 문제가 발생할 수 있습니다. 만약의 경우를 대비하여, 문서를 여러 문단으로 나누어서 편집할 수 있습니다.'''",
 'longpageerror'                    => "'''오류: 문서의 크기가 $1킬로바이트로서 가능한 최대 크기인 $2킬로바이트보다 큽니다. 저장할 수 없습니다.'''",
 'readonlywarning'                  => "'''주의: 데이터베이스가 관리를 위해 잠겨 있습니다. 따라서 문서를 편집한 내용을 지금 저장할 수 없습니다.
 편집 내용을 복사 붙여넣기 등을 사용하여 일단 다른 곳에 저장한 후, 나중에 다시 시도해 주세요.'''
@@ -1181,11 +1194,13 @@ $1",
 # Diffs
 'history-title'            => '‘$1’ 문서의 변경 내력',
 'difference'               => '(버전 사이의 차이)',
+'difference-multipage'     => '(문서간의 차이)',
 'lineno'                   => '$1번째 줄:',
 'compareselectedversions'  => '선택된 판들을 비교하기',
 'showhideselectedversions' => '선택한 판을 보이기/숨기기',
 'editundo'                 => '편집 취소',
-'diff-multi'               => '(중간의 편집 $1 개 숨겨짐)',
+'diff-multi'               => '({{PLURAL:$2|한 사용자의|사용자 $2명의}} 중간의 편집 $1개 숨겨짐)',
+'diff-multi-manyusers'     => '({{PLURAL:$2|한 사용자의|사용자 $2명 이상의}} 중간의 편집 $1개 숨겨짐)',
 
 # Search results
 'searchresults'                    => '검색 결과',
@@ -1231,7 +1246,7 @@ $1",
 'search-mwsuggest-enabled'         => '검색어 제안 있음',
 'search-mwsuggest-disabled'        => '검색어 제안 없음',
 'search-relatedarticle'            => '관련',
-'mwsuggest-disable'                => 'AJAX 추천 기능 끄기',
+'mwsuggest-disable'                => 'AJAX 검색어 제안 끄기',
 'searcheverything-enable'          => '모든 이름공간에서 찾기',
 'searchrelated'                    => '관련',
 'searchall'                        => '모두',
@@ -1295,6 +1310,7 @@ $1",
 'contextlines'                  => '결과마다 보이는 줄 수:',
 'contextchars'                  => '각 줄에 보이는 글 수:',
 'stub-threshold'                => '링크를 <a href="#" class="stub">토막글</a> 형식으로 표시할 문서 크기 (바이트 수):',
+'stub-threshold-disabled'       => '비활성화됨',
 'recentchangesdays'             => '최근 바뀜에 표시할 날짜 수:',
 'recentchangesdays-max'         => '(최대 $1일)',
 'recentchangescount'            => '기본으로 표시할 편집 수:',
@@ -1451,7 +1467,7 @@ $1",
 'right-blockemail'            => '다른 사용자가 이메일을 보내지 못하도록 차단',
 'right-hideuser'              => '사용자 이름을 차단하고 숨김',
 'right-ipblock-exempt'        => 'IP 차단, 자동 차단, 광역 차단을 무시',
-'right-proxyunbannable'       => '프록시 자동 차단을 우회',
+'right-proxyunbannable'       => '프록시 자동 차단을 적용하지 않음',
 'right-unblockself'           => '자기 자신을 차단 해제하기',
 'right-protect'               => '보호 수준 변경 및 보호된 문서 편집',
 'right-editprotected'         => '보호된 문서 편집 (연쇄적 보호 제외)',
@@ -1477,7 +1493,6 @@ $1",
 'right-override-export-depth' => '5단계로 링크된 문서를 포함하여 문서를 내보내기',
 'right-sendemail'             => '다른 사용자에게 이메일 보내기',
 'right-revisionmove'          => '특정 판 옮기기',
-'right-selenium'              => '셀레늄 테스트 실행',
 
 # User rights log
 'rightslog'      => '사용자 권한 기록',
@@ -1528,14 +1543,9 @@ $1",
 'recentchanges-legend'              => '최근 바뀜 설정',
 'recentchangestext'                 => '위키의 최근 바뀜 내역이 나와 있습니다.',
 'recentchanges-feed-description'    => '위키의 최근 바뀜',
-'recentchanges-label-legend'        => '범례: $1.',
-'recentchanges-legend-newpage'      => '$1 - 새 문서',
 'recentchanges-label-newpage'       => '새로운 문서',
-'recentchanges-legend-minor'        => '$1 - 사소한 편집',
 'recentchanges-label-minor'         => '사소한 편집',
-'recentchanges-legend-bot'          => '$1 - 봇 편집',
 'recentchanges-label-bot'           => '봇의 편집',
-'recentchanges-legend-unpatrolled'  => '$1 - 검토되지 않은 편집',
 'recentchanges-label-unpatrolled'   => '아직 검토되지 않은 편집',
 'rcnote'                            => "다음은 $4 $5 까지의 '''$2'''일동안 바뀐 '''$1'''개의 문서입니다.",
 'rcnotefrom'                        => "다음은 '''$2'''에서부터 바뀐 '''$1'''개의 문서입니다.",
@@ -1656,7 +1666,6 @@ $1",
 파일을 업로드하길 원하신다면 뒤로 돌아가서 다른 이름으로 시도해 주시기 바랍니다. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => '{{PLURAL:$1}}현재 올리고 있는 파일이 아래 파일과 중복됩니다:',
 'file-deleted-duplicate'      => '이 파일과 같은 파일 ([[$1]])이 이전에 삭제된 적이 있습니다. 파일을 다시 올리기 전에 문서의 삭제 기록을 확인해 주시기 바랍니다.',
-'successfulupload'            => '올리기 성공',
 'uploadwarning'               => '올리기 경고',
 'uploadwarning-text'          => '아래의 파일 설명을 수정하고 다시 시도해 주세요.',
 'savefile'                    => '파일 저장',
@@ -1699,11 +1708,14 @@ JD # 제놉틱
 MGP # 펜탁스
 PICT # 기타
  #</pre> <!-- 이 줄은 그대로 두십시오. -->',
-'upload-successful-msg'       => '당신이 올린 파일이 여기 있습니다: $1',
+'upload-success-subj'         => '올리기 성공',
+'upload-success-msg'          => '파일을 [$2]에서 성공적으로 올렸습니다. 당신이 올린 파일이 여기 있습니다: [[:{{ns:file}}:$1]]',
 'upload-failure-subj'         => '올리기 실패',
-'upload-failure-msg'          => '파일을 올리는 중 문제가 발생했습니다:
+'upload-failure-msg'          => '[$2]에서 파일을 올리는 중 문제가 발생했습니다:
 
 $1',
+'upload-warning-subj'         => '파일 올리기 경고',
+'upload-warning-msg'          => '[$2]에서 파일을 올리는 데 문제가 있습니다. 이 문제를 해결하려면 [[Special:Upload/stash/$1|올리기 양식]]으로 되돌아가십시오.',
 
 'upload-proto-error'        => '잘못된 프로토콜',
 'upload-proto-error-text'   => '파일을 URL로 올리려면 <code>http://</code>이나 <code>ftp://</code>로 시작해야 합니다.',
@@ -1762,6 +1774,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'listfiles_search_for'  => '다음 이름을 가진 미디어 찾기:',
 'imgfile'               => '파일',
 'listfiles'             => '파일 목록',
+'listfiles_thumb'       => '섬네일',
 'listfiles_date'        => '날짜',
 'listfiles_name'        => '이름',
 'listfiles_user'        => '사용자',
@@ -1789,15 +1802,16 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'imagelinks'                        => '파일 링크',
 'linkstoimage'                      => '다음 $1개의 문서가 이 파일을 사용하고 있습니다:',
 'linkstoimage-more'                 => '$1개 이상의 문서가 이 파일을 가리키고 있습니다.
-다음 목록은 이 파일을 가리키는 처음 $1개 문서만 보여주고 있습니다. 
+다음 목록은 이 파일을 가리키는 처음 $1개 문서만 보여주고 있습니다.
 이 파일을 가리키는 모든 문서를 보려면 [[Special:WhatLinksHere/$2|여기]]를 참고해 주십시오.',
 'nolinkstoimage'                    => '이 파일을 사용하는 문서가 없습니다.',
 'morelinkstoimage'                  => '이 파일이 쓰이고 있는 문서 목록 [[Special:WhatLinksHere/$1|더 보기]].',
 'redirectstofile'                   => '다음 파일 $1개가 이 파일로 넘겨주고 있습니다:',
 'duplicatesoffile'                  => '다음 파일 $1개가 이 파일과 중복됩니다 ([[Special:FileDuplicateSearch/$2|자세한 정보]]):',
 'sharedupload'                      => '이 파일은 $1으로부터 왔고, 다른 프로젝트에서 사용하고 있을 가능성이 있습니다.',
-'sharedupload-desc-there'           => '이 파일은 $1(으)로부터 왔고, 다른 프로젝트에서 사용하고 있을 가능성이 있습니다. [$2 해당 파일 문서]에서 자세한 정보를 확인해주세요.',
-'sharedupload-desc-here'            => '이 파일은 $1(으)로부터 왔고, 다른 프로젝트에서 사용하고 있을 가능성이 있습니다.
+'sharedupload-desc-there'           => '이 파일은 $1에 있으며, 다른 프로젝트에서 사용하고 있을 가능성이 있습니다.
+[$2 해당 파일]에 대한 자세한 정보를 확인해주세요.',
+'sharedupload-desc-here'            => '이 파일은 $1에 있으며, 다른 프로젝트에서 사용하고 있을 가능성이 있습니다.
 [$2 해당 파일]에 대한 설명이 아래에 나와 있습니다.',
 'filepage-nofile'                   => '해당 이름으로 된 파일이 없습니다.',
 'filepage-nofile-link'              => '해당 이름으로 된 파일이 없습니다. [$1 파일을 올릴 수] 있습니다.',
@@ -1876,9 +1890,10 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'statistics-edits'             => '{{SITENAME}} 설치 후 문서의 전체 편집 횟수',
 'statistics-edits-average'     => '문서당 평균 편집 횟수',
 'statistics-views-total'       => '총 방문 수',
+'statistics-views-total-desc'  => '존재하지 않는 문서나 특수 문서에 대한 방문수는 집계되지 않았습니다.',
 'statistics-views-peredit'     => '편집당 방문 횟수',
 'statistics-users'             => '등록된 [[Special:ListUsers|사용자]]',
-'statistics-users-active'      => '활동 중인 사용자',
+'statistics-users-active'      => '활동적인 사용자',
 'statistics-users-active-desc' => '최근 $1일 동안 활동한 사용자',
 'statistics-mostpopular'       => '가장 많이 읽힌 문서',
 
@@ -1891,7 +1906,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'doubleredirects'            => '이중 넘겨주기 목록',
 'doubleredirectstext'        => '이 문서는 다른 넘겨주기 문서로 넘겨주고 있는 문서의 목록입니다.
 매 줄에는 첫 번째 문서와 두 번째 문서의 링크가 있습니다. 그리고 보통 첫 번째 문서가 넘겨주어야 할 "실제" 문서인 두 번째 넘겨주기의 대상이 있습니다.
-<s>취소선이 그인</s> 부분은 이미 해결되었습니다.',
+<del>취소선이 그인</del> 부분은 이미 해결되었습니다.',
 'double-redirect-fixed-move' => '[[$1]] 문서를 옮겼습니다. 이 문서는 이제 [[$2]] 문서로 넘겨줍니다.',
 'double-redirect-fixer'      => '넘겨주기 수리꾼',
 
@@ -1914,6 +1929,8 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'nmembers'                => '문서 $1개',
 'nrevisions'              => '편집 $1개',
 'nviews'                  => '$1 번 읽음',
+'nimagelinks'             => '{{PLURAL:$1}}개 문서에서 사용 중',
+'ntransclusions'          => '{{PLURAL:$1}}개 문서에서 사용 중',
 'specialpage-empty'       => '명령에 대한 결과가 없습니다.',
 'lonelypages'             => '외톨이 문서 목록',
 'lonelypagestext'         => '{{SITENAME}}에서 다른 모든 문서에서 링크되거나 틀로 포함되지 않은 문서의 목록입니다.',
@@ -1979,7 +1996,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 # Special:Log
 'specialloguserlabel'  => '이름:',
 'speciallogtitlelabel' => '제목:',
-'log'                  => '로그 목록',
+'log'                  => '기록 목록',
 'all-logs-page'        => '모든 공개 기록',
 'alllogstext'          => '{{SITENAME}}에서의 기록이 모두 나와 있습니다.
 로그 종류, 계정 이름, 문서 이름을 선택해서 볼 수 있습니다. 검색시에는 대소문자를 구별합니다.',
@@ -2034,7 +2051,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'listusers-blocked'  => '(차단됨)',
 
 # Special:ActiveUsers
-'activeusers'            => '활동 중인 사용자 목록',
+'activeusers'            => '활동적인 사용자 목록',
 'activeusers-intro'      => '다음은 최근 $1일 동안 활동한 사용자의 목록입니다.',
 'activeusers-count'      => '최근 $3일 사이의 편집 $1개',
 'activeusers-from'       => '다음으로 시작하는 사용자를 보기:',
@@ -2103,7 +2120,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 # Watchlist
 'watchlist'            => '주시문서 목록',
 'mywatchlist'          => '내 주시문서 목록',
-'watchlistfor'         => "('''$1'''의 목록)",
+'watchlistfor2'        => '사용자:$1 $2',
 'nowatchlist'          => '주시하는 문서가 아직 없습니다.',
 'watchlistanontext'    => '주시문서 목록을 보거나 고치려면 $1 하세요.',
 'watchnologin'         => '로그인하지 않음',
@@ -2225,7 +2242,8 @@ $UNWATCHURL
 
 # Protect
 'protectlogpage'              => '문서 보호 기록',
-'protectlogtext'              => '아래의 목록은 문서 보호와 보호 해제 기록입니다.',
+'protectlogtext'              => '아래의 목록은 문서 보호와 보호 해제 기록입니다.
+현재 보호된 문서의 목록에 대해서는 [[Special:ProtectedPages|보호된 문서 목록]]을 참고하십시오.',
 'protectedarticle'            => '‘[[$1]]’ 문서를 보호함',
 'modifiedarticleprotection'   => '‘[[$1]]’ 문서의 보호 설정을 변경함',
 'unprotectedarticle'          => '‘[[$1]]’ 문서를 보호 해제함',
@@ -2274,7 +2292,7 @@ $UNWATCHURL
 # Restrictions (nouns)
 'restriction-edit'   => '편집',
 'restriction-move'   => '이동',
-'restriction-create' => '만들기',
+'restriction-create' => '생성',
 'restriction-upload' => '올리기',
 
 # Restriction levels
@@ -2425,7 +2443,6 @@ $1',
 'ipb-edit-dropdown'               => '차단 이유 목록 편집하기',
 'ipb-unblock-addr'                => '$1 차단 해제하기',
 'ipb-unblock'                     => '사용자/IP 주소 차단 해제하기',
-'ipb-blocklist-addr'              => '$1의 현재 차단 기록 보기',
 'ipb-blocklist'                   => '현재 차단 기록 보기',
 'ipb-blocklist-contribs'          => '$1의 기여',
 'unblockip'                       => '사용자 차단 해제',
@@ -2589,6 +2606,7 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 'immobile-source-page'         => '이 문서는 이동할 수 없습니다.',
 'immobile-target-page'         => '새 이름으로 옮길 수 없습니다.',
 'imagenocrossnamespace'        => '파일을 파일이 아닌 이름공간으로 옮길 수 없습니다.',
+'nonfile-cannot-move-to-file'  => '파일이 아닌 문서를 파일 이름공간으로 옮길 수 없습니다.',
 'imagetypemismatch'            => '새 파일의 확장자가 원래의 확장자와 일치하지 않습니다.',
 'imageinvalidfilename'         => '새 파일 이름이 잘못되었습니다.',
 'fix-double-redirects'         => '기존 이름을 가리키는 넘겨주기를 갱신',
@@ -2761,7 +2779,7 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 'tooltip-recreate'                => '문서를 편집하는 중 삭제되어도 새로 만들기',
 'tooltip-upload'                  => '파일 올리기 시작',
 'tooltip-rollback'                => '"되돌리기" 기능을 사용하면 이 문서에 대한 마지막 기여자의 편집을 모두 되돌릴 수 있습니다.',
-'tooltip-undo'                    => '"편집 취소" 기능을 사용하면 이 편집이 되돌려지고, 차이보기 기능이 미리보기 형식으로 나타납니다. 
+'tooltip-undo'                    => '"편집 취소" 기능을 사용하면 이 편집이 되돌려지고, 차이보기 기능이 미리보기 형식으로 나타납니다.
 편집 요약에 이 편집을 왜 되돌리는지에 대한 이유를 쓸 수 있습니다.',
 'tooltip-preferences-save'        => '환경 설정 저장하기',
 'tooltip-summary'                 => '짧은 편집 요약을 적어주세요',
@@ -2827,7 +2845,7 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 'mw_math_html'   => '가능한 한 HTML로, 나머지는 PNG로',
 'mw_math_source' => 'TeX로 남겨둠 (텍스트 브라우저용)',
 'mw_math_modern' => '최신 브라우저 사용자에게 권장',
-'mw_math_mathml' => '가능하면 MathML로 (실험적인 기능)',
+'mw_math_mathml' => '가능하면 MathML로 (시험 중)',
 
 # Math errors
 'math_failure'          => '해석 실패',
@@ -2856,7 +2874,7 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 'patrol-log-header'    => '이 기록은 검토된 문서에 대한 기록입니다.',
 'patrol-log-line'      => '$2 문서의 $1을 검토함 $3',
 'patrol-log-auto'      => '(자동)',
-'patrol-log-diff'      => '$1판',
+'patrol-log-diff'      => '제$1번 판',
 'log-show-hide-patrol' => '검토 기록을 $1',
 
 # Image deletion
@@ -3003,7 +3021,7 @@ Variants for Chinese language
 'exif-focalplaneyresolution'       => '초점면 Y방향 해상도',
 'exif-focalplaneresolutionunit'    => '초점면 해상도 단위',
 'exif-subjectlocation'             => '대상 위치',
-'exif-exposureindex'               => '노출 지수',
+'exif-exposureindex'               => '노출 값',
 'exif-sensingmethod'               => '감지 방식',
 'exif-filesource'                  => '파일 출처',
 'exif-scenetype'                   => '촬영 모드',
@@ -3077,7 +3095,7 @@ Variants for Chinese language
 'exif-exposureprogram-2' => '일반 프로그램',
 'exif-exposureprogram-3' => '조리개 우선',
 'exif-exposureprogram-4' => '셔터 우선',
-'exif-exposureprogram-5' => '크리에이티브 프로그램 (깊이 부분 우선)',
+'exif-exposureprogram-5' => '크리에이티브 프로그램 (피사계 심도 우선)',
 'exif-exposureprogram-6' => '액션 프로그램 (빠른 셔터 속도에 치중)',
 'exif-exposureprogram-7' => '인물 사진 모드 (배경을 초점 밖으로 하여 대상을 강조)',
 'exif-exposureprogram-8' => '풍경 모드 (초점이 배경인 풍경 사진용)',
@@ -3360,6 +3378,13 @@ $1',
 'version-hook-subscribedby'        => '훅이 사용된 위치',
 'version-version'                  => '(버전 $1)',
 'version-license'                  => '라이센스',
+'version-poweredby-credits'        => "이 위키는 '''[http://www.mediawiki.org/ MediaWiki]'''를 기반으로 작동합니다. Copyright © 2001-$1 $2.",
+'version-poweredby-others'         => '그 외 다른 개발자',
+'version-license-info'             => '미디어위키는 자유 소프트웨어입니다. 당신은 자유 소프트웨어 재단이 발표한 GNU 일반 공중 사용 허가서 버전 2나 그 이후 버전에 따라 이 파일을 재배포하거나 수정할 수 있습니다.
+
+미디어위키가 유용하게 사용될 수 있기를 바라지만 상용으로 사용되거나 특정 목적에 맞을 것이라는 것을 보증하지 않습니다. 자세한 내용은 GNU 일반 공중 사용 허가서 전문을 참고하십시오.
+
+당신은 이 프로그램을 통해 [{{SERVER}}{{SCRIPTPATH}}/COPYING GNU 일반 공중 사용 허가서 전문]을 받았습니다; 그렇지 않다면, Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA로 편지를 보내주시거나 [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 온라인]으로 읽어보시기 바랍니다.',
 'version-software'                 => '설치된 프로그램',
 'version-software-product'         => '제품',
 'version-software-version'         => '버전',
@@ -3459,5 +3484,9 @@ $1',
 'htmlform-submit'              => '저장',
 'htmlform-reset'               => '변경한 것을 되돌리기',
 'htmlform-selectorother-other' => '기타',
+
+# SQLite database support
+'sqlite-has-fts' => '$1 (본문 전체 검색)',
+'sqlite-no-fts'  => '$1 (본문은 검색에서 제외)',
 
 );

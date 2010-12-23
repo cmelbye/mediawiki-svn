@@ -1,9 +1,13 @@
 <?php
 /**
- * @defgroup Search Search
+ * Basic search engine
  *
  * @file
  * @ingroup Search
+ */
+
+/**
+ * @defgroup Search Search
  */
 
 /**
@@ -17,6 +21,14 @@ class SearchEngine {
 	var $searchTerms = array();
 	var $namespaces = array( NS_MAIN );
 	var $showRedirects = false;
+
+	function __construct($db = null) {
+		if ( $db ) {
+			$this->db = $db;
+		} else {
+			$this->db = wfGetDB( DB_SLAVE );
+		}
+	}
 
 	/**
 	 * Perform a full text search query and return a result set.
@@ -104,9 +116,10 @@ class SearchEngine {
 		$allSearchTerms = array( $searchterm );
 
 		if ( $wgContLang->hasVariants() ) {
-			$allSearchTerms = array_merge( $allSearchTerms, $wgContLang->convertLinkToAllVariants( $searchterm ) );
+			$allSearchTerms = array_merge( $allSearchTerms, $wgContLang->autoConvertToAllVariants( $searchterm ) );
 		}
 
+		$titleResult = null;
 		if ( !wfRunHooks( 'SearchGetNearMatchBefore', array( $allSearchTerms, &$titleResult ) ) ) {
 			return $titleResult;
 		}
@@ -378,10 +391,11 @@ class SearchEngine {
 	 */
 	public static function create() {
 		global $wgSearchType;
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = null;
 		if ( $wgSearchType ) {
 			$class = $wgSearchType;
 		} else {
+			$dbr = wfGetDB( DB_SLAVE );
 			$class = $dbr->getSearchEngine();
 		}
 		$search = new $class( $dbr );
@@ -843,7 +857,7 @@ class SearchNearMatchResultSet extends SearchResultSet {
 class SearchHighlighter {
 	var $mCleanWikitext = true;
 
-	function SearchHighlighter( $cleanupWikitext = true ) {
+	function __construct( $cleanupWikitext = true ) {
 		$this->mCleanWikitext = $cleanupWikitext;
 	}
 
@@ -857,7 +871,7 @@ class SearchHighlighter {
 	 * @return String
 	 */
 	public function highlightText( $text, $terms, $contextlines, $contextchars ) {
-		global $wgLang, $wgContLang;
+		global $wgContLang;
 		global $wgSearchHighlightBoundaries;
 		$fname = __METHOD__;
 
@@ -1131,8 +1145,6 @@ class SearchHighlighter {
 	 * @return String
 	 */
 	function extract( $text, $start, $end, &$posStart = null, &$posEnd = null ) {
-		global $wgContLang;
-
 		if ( $start != 0 )
 			$start = $this->position( $text, $start, 1 );
 		if ( $end >= strlen( $text ) )
@@ -1283,7 +1295,7 @@ class SearchHighlighter {
      * @return String
      */
     public function highlightSimple( $text, $terms, $contextlines, $contextchars ) {
-        global $wgLang, $wgContLang;
+        global $wgContLang;
         $fname = __METHOD__;
 
         $lines = explode( "\n", $text );

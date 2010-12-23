@@ -2,7 +2,7 @@
 /**
  * XHTML sanitizer for MediaWiki
  *
- * Copyright (C) 2002-2005 Brion Vibber <brion@pobox.com> et al
+ * Copyright © 2002-2005 Brion Vibber <brion@pobox.com> et al
  * http://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,10 +40,11 @@ define( 'MW_CHAR_REFS_REGEX',
  * Allows some... latitude.
  * Used in Sanitizer::fixTagAttributes and Sanitizer::decodeTagAttributes
  */
-$attrib = '[A-Za-z0-9]';
+$attribFirst = '[:A-Z_a-z]';
+$attrib = '[:A-Z_a-z-.0-9]';
 $space = '[\x09\x0a\x0d\x20]';
 define( 'MW_ATTRIBS_REGEX',
-	"/(?:^|$space)((?:xml:|xmlns:)?$attrib+)
+	"/(?:^|$space)({$attribFirst}{$attrib}*)
 	  ($space*=$space*
 		(?:
 		 # The attribute value: quoted or alone
@@ -367,7 +368,8 @@ class Sanitizer {
 				'h2', 'h3', 'h4', 'h5', 'h6', 'cite', 'code', 'em', 's',
 				'strike', 'strong', 'tt', 'var', 'div', 'center',
 				'blockquote', 'ol', 'ul', 'dl', 'table', 'caption', 'pre',
-				'ruby', 'rt' , 'rb' , 'rp', 'p', 'span', 'u', 'abbr'
+				'ruby', 'rt' , 'rb' , 'rp', 'p', 'span', 'abbr', 'dfn',
+				'kbd', 'samp'
 			);
 			$htmlsingle = array(
 				'br', 'hr', 'li', 'dt', 'dd'
@@ -626,7 +628,7 @@ class Sanitizer {
 	 * @todo Check for unique id attribute :P
 	 */
 	static function validateAttributes( $attribs, $whitelist ) {
-		global $wgAllowRdfaAttributes, $wgAllowMicrodataAttributes;
+		global $wgAllowRdfaAttributes, $wgAllowMicrodataAttributes, $wgHtml5;
 
 		$whitelist = array_flip( $whitelist );
 		$hrefExp = '/^(' . wfUrlProtocols() . ')[^\s]+$/';
@@ -642,7 +644,8 @@ class Sanitizer {
 				continue;
 			}
 
-			if( !isset( $whitelist[$attribute] ) ) {
+			# Allow any attribute beginning with "data-", if in HTML5 mode
+			if ( !($wgHtml5 && preg_match( '/^data-/i', $attribute )) && !isset( $whitelist[$attribute] ) ) {
 				continue;
 			}
 
@@ -747,7 +750,7 @@ class Sanitizer {
 
 		// Decode escape sequences and line continuation
 		// See the grammar in the CSS 2 spec, appendix D.
-		static $decodeRegex, $reencodeTable;
+		static $decodeRegex;
 		if ( !$decodeRegex ) {
 			$space = '[\\x20\\t\\r\\n\\f]';
 			$nl = '(?:\\n|\\r\\n|\\r|\\f)';
@@ -793,51 +796,6 @@ class Sanitizer {
 		}
 	}
 
-	/** 
-	* Take an associative array of attribute name/value pairs
-	* and generate a css style representing all the style-related
-	* attributes. If there already a style attribute in the array,
-	* it is also included in the value returned.
-	*/
-	static function styleFromAttributes( $attributes ) {
-		$styles = array();
-
-		foreach ( $attributes as $attribute => $value ) {
-			if ( $attribute == 'bgcolor' ) {
-				$styles[] = "background-color: $value";
-			} else if ( $attribute == 'border' ) {
-				$styles[] = "border-width: $value";
-			} else if ( $attribute == 'align' ) {
-				$styles[] = "text-align: $value";
-			} else if ( $attribute == 'valign' ) {
-				$styles[] = "vertical-align: $value";
-			} else if ( $attribute == 'width' ) {
-				if ( preg_match( '/\d+/', $value ) === false ) {
-				      $value .= 'px';
-				}
-
-				$styles[] = "width: $value";
-			} else if ( $attribute == 'height' ) {
-				if ( preg_match( '/\d+/', $value ) === false ) {
-				      $value .= 'px';
-				}
-
-				$styles[] = "height: $value";
-			} else if ( $attribute == 'nowrap' ) {
-				if ( $value ) {
-					$styles[] = "white-space: nowrap";
-				}
-			}
-		}
-
-		if ( isset( $attributes[ 'style' ] ) ) {
-			$styles[] = $attributes[ 'style' ];
-		} 
-
-		if ( !$styles ) return '';
-		else return implode( '; ', $styles );
-	}
-
 	/**
 	 * Take a tag soup fragment listing an HTML element's attributes
 	 * and normalize it to well-formed XML, discarding unwanted attributes.
@@ -855,66 +813,24 @@ class Sanitizer {
 	 *
 	 * @param $text String
 	 * @param $element String
-	 * @param $defaults Array (optional) associative array of default attributes to splice in. 
-	 *			class and style attributes are combined. Otherwise, values from
-	 *			$attributes take precedence over values from $defaults.
 	 * @return String
 	 */
-	static function fixTagAttributes( $text, $element, $defaults = null ) {
+	static function fixTagAttributes( $text, $element ) {
 		if( trim( $text ) == '' ) {
 			return '';
 		}
 
-		$decoded = Sanitizer::decodeTagAttributes( $text );
-		$stripped = Sanitizer::validateTagAttributes( $decoded, $element );
-		$attribs = Sanitizer::collapseTagAttributes( $stripped, $defaults );
+		$stripped = Sanitizer::validateTagAttributes(
+			Sanitizer::decodeTagAttributes( $text ), $element );
 
-		return $attribs;
-	}
-
-	/**
-	 * Take an associative array or attribute name/value pairs
-	 * and collapses it to well-formed XML.
-	 * Does not filter attributes.
-	 * Output is safe for further wikitext processing, with escaping of
-	 * values that could trigger problems.
-	 *
-	 * - Double-quotes all attribute values
-	 * - Prepends space if there are attributes.
-	 *
-	 * @param $attributes Array is an associative array of attribute name/value pairs. 
-	 * 			Assumed to be sanitized already.
-	 * @param $defaults Array (optional) associative array of default attributes to splice in. 
-	 *			class and style attributes are combined. Otherwise, values from
-	 *			$attributes take precedence over values from $defaults.
-	 * @return String
-	 */
-	static function collapseTagAttributes( $attributes, $defaults = null ) {
-		if ( $defaults ) {
-			foreach( $defaults as $attribute => $value ) {
-				if ( isset( $attributes[ $attribute ] ) ) {
-					if ( $attribute == 'class' ) {
-						$value .= ' '. $attributes[ $attribute ];
-					} else if ( $attribute == 'style' ) {
-						$value .= '; ' . $attributes[ $attribute ];
-					} else {
-						continue;
-					}
-				}
-
-				$attributes[ $attribute ] = $value;
-			}
-		}
-
-		$chunks = array();
-
-		foreach( $attributes as $attribute => $value ) {
+		$attribs = array();
+		foreach( $stripped as $attribute => $value ) {
 			$encAttribute = htmlspecialchars( $attribute );
 			$encValue = Sanitizer::safeEncodeAttribute( $value );
 
-			$chunks[] = "$encAttribute=\"$encValue\"";
+			$attribs[] = "$encAttribute=\"$encValue\"";
 		}
-		return count( $chunks ) ? ' ' . implode( ' ', $chunks ) : '';
+		return count( $attribs ) ? ' ' . implode( ' ', $attribs ) : '';
 	}
 
 	/**
@@ -979,7 +895,9 @@ class Sanitizer {
 	 *
 	 * To ensure we don't have to bother escaping anything, we also strip ', ",
 	 * & even if $wgExperimentalIds is true.  TODO: Is this the best tactic?
-	 * We also strip # because it upsets IE6.
+	 * We also strip # because it upsets IE, and % because it could be
+	 * ambiguous if it's part of something that looks like a percent escape
+	 * (which don't work reliably in fragments cross-browser).
 	 *
 	 * @see http://www.w3.org/TR/html401/types.html#type-name Valid characters
 	 *                                                          in the id and
@@ -1005,7 +923,7 @@ class Sanitizer {
 
 		if ( $wgHtml5 && $wgExperimentalHtmlIds && !in_array( 'legacy', $options ) ) {
 			$id = Sanitizer::decodeCharReferences( $id );
-			$id = preg_replace( '/[ \t\n\r\f_\'"&#]+/', '_', $id );
+			$id = preg_replace( '/[ \t\n\r\f_\'"&#%]+/', '_', $id );
 			$id = trim( $id, '_' );
 			if ( $id === '' ) {
 				# Must have been all whitespace to start with.
@@ -1442,10 +1360,10 @@ class Sanitizer {
 			'em'         => $common,
 			'strong'     => $common,
 			'cite'       => $common,
-			# dfn
+			'dfn'        => $common,
 			'code'       => $common,
-			# samp
-			# kbd
+			'samp'       => $common,
+			'kbd'        => $common,
 			'var'        => $common,
 			'abbr'       => $common,
 			# acronym

@@ -621,6 +621,13 @@ class LocalisationCache {
 			}
 		}
 		$this->store->finishWrite();
+		
+		# Clear out the MessageBlobStore
+		# HACK: If using a null (i.e. disabled) storage backend, we
+		# can't write to the MessageBlobStore either
+		if ( !$this->store instanceof LCStore_Null ) {
+			MessageBlobStore::clear();
+		}
 
 		wfProfileOut( __METHOD__ );
 	}
@@ -722,24 +729,24 @@ interface LCStore {
 	 * @param $code Language code
 	 * @param $key Cache key
 	 */
-	public function get( $code, $key );
+	function get( $code, $key );
 
 	/**
 	 * Start a write transaction.
 	 * @param $code Language code
 	 */
-	public function startWrite( $code );
+	function startWrite( $code );
 
 	/**
 	 * Finish a write transaction.
 	 */
-	public function finishWrite();
+	function finishWrite();
 
 	/**
 	 * Set a key to a given value. startWrite() must be called before this
 	 * is called, and finishWrite() must be called afterwards.
 	 */
-	public function set( $key, $value );
+	function set( $key, $value );
 
 }
 

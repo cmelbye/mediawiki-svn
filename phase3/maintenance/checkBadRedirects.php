@@ -18,9 +18,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
- 
+
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class CheckBadRedirects extends Maintenance {
@@ -36,11 +37,11 @@ class CheckBadRedirects extends Maintenance {
 			array( 'page' ),
 			array( 'page_namespace', 'page_title', 'page_latest' ),
 			array( 'page_is_redirect' => 1 ) );
-	
+
 		$count = $result->numRows();
 		$this->output( "Found $count total redirects.\n" .
 						"Looking for bad redirects:\n\n" );
-	
+
 		foreach ( $result as $row ) {
 			$title = Title::makeTitle( $row->page_namespace, $row->page_title );
 			$rev = Revision::newFromId( $row->page_latest );

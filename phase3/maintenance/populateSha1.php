@@ -52,9 +52,7 @@ class PopulateSha1 extends Maintenance {
 			$res = $dbw->select( 'image', array( 'img_name' ), array( 'img_sha1' => '' ), __METHOD__ );
 		}
 		$imageTable = $dbw->tableName( 'image' );
-		$oldimageTable = $dbw->tableName( 'oldimage' );
-		$batch = array();
-	
+
 		if ( $method == 'pipe' ) {
 			// @fixme kill this and replace with a second unbuffered DB connection.
 			global $wgDBuser, $wgDBserver, $wgDBpassword, $wgDBname;
@@ -64,7 +62,7 @@ class PopulateSha1 extends Maintenance {
 			$this->output( "Using pipe method\n" );
 			$pipe = popen( $cmd, 'w' );
 		}
-	
+
 		$numRows = $res->numRows();
 		$i = 0;
 		foreach ( $res as $row ) {

@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 7, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Sep 7, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,12 +38,18 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryRevisions extends ApiQueryBase {
 
+	private $diffto, $difftotext, $expandTemplates, $generateXML, $section,
+		$token;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'rv' );
 	}
 
 	private $fld_ids = false, $fld_flags = false, $fld_timestamp = false, $fld_size = false,
-			$fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_content = false, $fld_tags = false;
+			$fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
+			$fld_content = false, $fld_tags = false;
+
+	private $tokenFunctions;
 
 	protected function getTokenFunctions() {
 		// tokenname => function
@@ -105,7 +112,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$this->dieUsage( 'titles, pageids or a generator was used to supply multiple pages, but the limit, startid, endid, dirNewer, user, excludeuser, start and end parameters may only be used on a single page.', 'multpages' );
 		}
 
-		$this->diffto = $this->difftotext = null;
 		if ( !is_null( $params['difftotext'] ) ) {
 			$this->difftotext = $params['difftotext'];
 		} elseif ( !is_null( $params['diffto'] ) ) {
@@ -134,7 +140,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 
 		$db = $this->getDB();
-		$this->addTables( array( 'page', 'revision' ) );
+		$this->addTables( 'page' );
 		$this->addFields( Revision::selectFields() );
 		$this->addWhere( 'page_id = rev_page' );
 
@@ -148,12 +154,22 @@ class ApiQueryRevisions extends ApiQueryBase {
 		$this->fld_comment = isset ( $prop['comment'] );
 		$this->fld_parsedcomment = isset ( $prop['parsedcomment'] );
 		$this->fld_size = isset ( $prop['size'] );
+		$this->fld_userid = isset( $prop['userid'] );
 		$this->fld_user = isset ( $prop['user'] );
 		$this->token = $params['token'];
 
 		// Possible indexes used
 		$index = array();
 
+		$userMax = ( $this->fld_content ? ApiBase::LIMIT_SML1 : ApiBase::LIMIT_BIG1 );
+		$botMax  = ( $this->fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2 );
+		$limit = $params['limit'];
+		if ( $limit == 'max' ) {
+			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
+			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
+		}
+
+		
 		if ( !is_null( $this->token ) || $pageCount > 0 ) {
 			$this->addFields( Revision::selectPageFields() );
 		}
@@ -192,6 +208,15 @@ class ApiQueryRevisions extends ApiQueryBase {
 
 			$this->expandTemplates = $params['expandtemplates'];
 			$this->generateXML = $params['generatexml'];
+			$this->parseContent = $params['parse'];
+			if ( $this->parseContent ) {
+				// Must manually initialize unset limit
+				if ( is_null( $limit ) ) {
+					$limit = 1;
+				}
+				// We are only going to parse 1 revision per request
+				$this->validateLimit( 'limit', $limit, 1, 1, 1 );
+			}
 			if ( isset( $params['section'] ) ) {
 				$this->section = $params['section'];
 			} else {
@@ -199,13 +224,9 @@ class ApiQueryRevisions extends ApiQueryBase {
 			}
 		}
 
-		$userMax = ( $this->fld_content ? ApiBase::LIMIT_SML1 : ApiBase::LIMIT_BIG1 );
-		$botMax  = ( $this->fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2 );
-		$limit = $params['limit'];
-		if ( $limit == 'max' ) {
-			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
-			$this->getResult()->addValue( 'limits', $this->getModuleName(), $limit );
-		}
+		//Bug 24166 - API error when using rvprop=tags
+		$this->addTables( 'revision' );
+
 
 		if ( $enumRevMode ) {
 			// This is mostly to prevent parameter errors (and optimize SQL?)
@@ -318,7 +339,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 		$this->addOption( 'LIMIT', $limit + 1 );
 		$this->addOption( 'USE INDEX', $index );
 
-		$data = array();
 		$count = 0;
 		$res = $this->select( __METHOD__ );
 
@@ -364,13 +384,20 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$vals['minor'] = '';
 		}
 
-		if ( $this->fld_user ) {
+		if ( $this->fld_user || $this->fld_userid ) {
 			if ( $revision->isDeleted( Revision::DELETED_USER ) ) {
 				$vals['userhidden'] = '';
 			} else {
-				$vals['user'] = $revision->getUserText();
-				if ( !$revision->getUser() ) {
+				if ( $this->fld_user ) {
+					$vals['user'] = $revision->getUserText();
+				}
+				$userid = $revision->getUser();
+				if ( !$userid ) {
 					$vals['anon'] = '';
+				}
+
+				if ( $this->fld_userid ) {
+					$vals['userid'] = $userid;
 				}
 			}
 		}
@@ -388,14 +415,13 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$vals['commenthidden'] = '';
 			} else {
 				$comment = $revision->getComment();
-				
+
 				if ( $this->fld_comment ) {
 					$vals['comment'] = $comment;
 				}
 
 				if ( $this->fld_parsedcomment ) {
 					global $wgUser;
-					$this->getMain()->setVaryCookie();
 					$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( $comment, $title );
 				}
 			}
@@ -412,9 +438,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 
 		if ( !is_null( $this->token ) ) {
-			// Don't cache tokens
-			$this->getMain()->setCachePrivate();
-			
 			$tokenFunctions = $this->getTokenFunctions();
 			foreach ( $this->token as $t ) {
 				$val = call_user_func( $tokenFunctions[$t], $title->getArticleID(), $title, $revision );
@@ -427,14 +450,13 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 
 		$text = null;
+		global $wgParser;
 		if ( $this->fld_content || !is_null( $this->difftotext ) ) {
 			$text = $revision->getText();
 			// Expand templates after getting section content because
 			// template-added sections don't count and Parser::preprocess()
 			// will have less input
 			if ( $this->section !== false ) {
-				global $wgParser;
-
 				$text = $wgParser->getSection( $text, $this->section, false );
 				if ( $text === false ) {
 					$this->dieUsage( "There is no section {$this->section} in r" . $revision->getId(), 'nosuchsection' );
@@ -443,7 +465,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 		}
 		if ( $this->fld_content && !$revision->isDeleted( Revision::DELETED_TEXT ) ) {
 			if ( $this->generateXML ) {
-				global $wgParser;
 				$wgParser->startExternalParse( $title, new ParserOptions(), OT_PREPROCESS );
 				$dom = $wgParser->preprocessToDom( $text );
 				if ( is_callable( array( $dom, 'saveXML' ) ) ) {
@@ -454,9 +475,31 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$vals['parsetree'] = $xml;
 
 			}
-			if ( $this->expandTemplates ) {
-				global $wgParser;
+			if ( $this->expandTemplates && !$this->parseContent ) {
 				$text = $wgParser->preprocess( $text, $title, new ParserOptions() );
+			}
+			if ( $this->parseContent ) {
+				global $wgEnableParserCache;
+			
+				$popts = new ParserOptions();
+				$popts->setTidy( true );
+				
+				$articleObj = new Article( $title );
+
+				$p_result = false;
+				$pcache = ParserCache::singleton();
+				if ( $wgEnableParserCache ) {
+					$p_result = $pcache->get( $articleObj, $popts );
+				}
+				if ( !$p_result ) {
+					$p_result = $wgParser->parse( $text, $title, $popts );
+
+					if ( $wgEnableParserCache ) {
+						$pcache->save( $p_result, $articleObj, $popts );
+					}
+				}
+				
+				$text = $p_result->getText();
 			}
 			ApiResult::setContent( $vals, $text );
 		} elseif ( $this->fld_content ) {
@@ -488,6 +531,17 @@ class ApiQueryRevisions extends ApiQueryBase {
 		return $vals;
 	}
 
+	public function getCacheMode( $params ) {
+		if ( isset( $params['token'] ) ) {
+			return 'private';
+		}
+		if ( !is_null( $params['prop'] ) && in_array( 'parsedcomment', $params['prop'] ) ) {
+			// formatComment() calls wfMsg() among other things
+			return 'anon-public-user-private';
+		}
+		return 'public';
+	}
+
 	public function getAllowedParams() {
 		return array(
 			'prop' => array(
@@ -498,6 +552,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 					'flags',
 					'timestamp',
 					'user',
+					'userid',
 					'size',
 					'comment',
 					'parsedcomment',
@@ -539,6 +594,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 			'tag' => null,
 			'expandtemplates' => false,
 			'generatexml' => false,
+			'parse' => false,
 			'section' => null,
 			'token' => array(
 				ApiBase::PARAM_TYPE => array_keys( $this->getTokenFunctions() ),
@@ -558,7 +614,8 @@ class ApiQueryRevisions extends ApiQueryBase {
 				' ids            - The ID of the revision',
 				' flags          - Revision flags (minor)',
 				' timestamp      - The timestamp of the revision',
-				' user           - Gives user to make the revision',
+				' user           - User that made the revision',
+				' userid         - User id of revision creator',
 				' size           - Length of the revision',
 				' comment        - Comment by the user for revision',
 				' parsedcomment  - Parsed comment by the user for the revision',
@@ -575,6 +632,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 			'excludeuser' => 'Exclude revisions made by user',
 			'expandtemplates' => 'Expand templates in revision content',
 			'generatexml' => 'Generate XML parse tree for revision content',
+			'parse' => 'Parse revision content. For performance reasons if this option is used, rvlimit is enforced to 1.',
 			'section' => 'Only retrieve the content of this section number',
 			'token' => 'Which tokens to obtain for each revision',
 			'continue' => 'When more results are available, use this to continue',

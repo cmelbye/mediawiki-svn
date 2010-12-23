@@ -1,29 +1,5 @@
 <?php
 /**
- * @file
- * @ingroup Maintenance
- * @defgroup Maintenance Maintenance
- */
-
-// Define this so scripts can easily find doMaintenance.php
-define( 'DO_MAINTENANCE', dirname( __FILE__ ) . '/doMaintenance.php' );
-$maintClass = false;
-
-// Make sure we're on PHP5 or better
-if ( version_compare( PHP_VERSION, '5.0.0' ) < 0 ) {
-	echo( "Sorry! This version of MediaWiki requires PHP 5; you are running " .
-		PHP_VERSION . ".\n\n" .
-		"If you are sure you already have PHP 5 installed, it may be installed\n" .
-		"in a different path from PHP 4. Check with your system administrator.\n" );
-	die();
-}
-
-/**
- * Abstract maintenance class for quickly writing and churning out
- * maintenance scripts with minimal effort. All that _must_ be defined
- * is the execute() method. See docs/maintenance.txt for more info
- * and a quick demo of how to use it.
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -38,6 +14,39 @@ if ( version_compare( PHP_VERSION, '5.0.0' ) < 0 ) {
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance
+ * @defgroup Maintenance Maintenance
+ */
+
+// Define this so scripts can easily find doMaintenance.php
+define( 'DO_MAINTENANCE', dirname( __FILE__ ) . '/doMaintenance.php' );
+$maintClass = false;
+
+// Make sure we're on PHP5 or better
+if ( version_compare( PHP_VERSION, '5.1.0' ) < 0 ) {
+	die ( "Sorry! This version of MediaWiki requires PHP 5.1.x; you are running " .
+		PHP_VERSION . ".\n\n" .
+		"If you are sure you already have PHP 5.1.x or higher installed, it may be\n" .
+		"installed in a different path from PHP " . PHP_VERSION . ". Check with your system\n" .
+		"administrator.\n" );
+}
+
+// Wrapper for posix_isatty()
+if ( !function_exists( 'posix_isatty' ) ) {
+	# We default as considering stdin a tty (for nice readline methods)
+	# but treating stout as not a tty to avoid color codes
+	function posix_isatty( $fd ) {
+		return !$fd;
+	}
+}
+
+/**
+ * Abstract maintenance class for quickly writing and churning out
+ * maintenance scripts with minimal effort. All that _must_ be defined
+ * is the execute() method. See docs/maintenance.txt for more info
+ * and a quick demo of how to use it.
  *
  * @author Chad Horohoe <chad@anyonecanedit.org>
  * @since 1.16
@@ -93,10 +102,16 @@ abstract class Maintenance {
 	protected static $mCoreScripts = null;
 
 	/**
-	 * Default constructor. Children should call this if implementing
+	 * Default constructor. Children should call this *first* if implementing
 	 * their own constructors
 	 */
 	public function __construct() {
+		// Setup $IP, using MW_INSTALL_PATH if it exists
+		global $IP;
+		$IP = strval( getenv( 'MW_INSTALL_PATH' ) ) !== ''
+			? getenv( 'MW_INSTALL_PATH' )
+			: realpath( dirname( __FILE__ ) . '/..' );
+
 		$this->addDefaultParams();
 		register_shutdown_function( array( $this, 'outputChanneled' ), false );
 	}
@@ -159,6 +174,22 @@ abstract class Maintenance {
 	}
 
 	/**
+	 * Remove an option.  Useful for removing options that won't be used in your script.
+	 * @param $name String: the option to remove.
+	 */
+	protected function deleteOption( $name ) {
+		unset( $this->mParams[$name] );
+	}
+
+	/**
+	 * Set the description text.
+	 * @param $text String: the text of the description
+	 */
+	protected function addDescription( $text ) {
+		$this->mDescription = $text;
+	}
+
+	/**
 	 * Does a given argument exist?
 	 * @param $argId Integer: the integer value (from zero) for the arg
 	 * @return Boolean
@@ -211,6 +242,10 @@ abstract class Maintenance {
 		$input = fgets( $f, $len );
 		fclose( $f );
 		return rtrim( $input );
+	}
+
+	public function isQuiet() {
+		return $this->mQuiet;
 	}
 
 	/**
@@ -330,6 +365,10 @@ abstract class Maintenance {
 		$this->addOption( 'conf', 'Location of LocalSettings.php, if not default', false, true );
 		$this->addOption( 'wiki', 'For specifying the wiki ID', false, true );
 		$this->addOption( 'globals', 'Output globals at the end of processing for debugging' );
+		$this->addOption( 'memory-limit', 'Set a specific memory limit for the script, "max" for no limit or "default" to avoid changing it' );
+		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g. " .
+				"http://en.wikipedia.org. This is sometimes necessary because " .
+				"server name detection may fail in command line scripts.", false, true );
 		// If we support a DB, show the options
 		if ( $this->getDbType() > 0 ) {
 			$this->addOption( 'dbuser', 'The DB user to use for this script', false, true );
@@ -349,7 +388,7 @@ abstract class Maintenance {
 	 * @param $classFile String: full path of where the child is
 	 * @return Maintenance child
 	 */
-	protected function runChild( $maintClass, $classFile = null ) {
+	public function runChild( $maintClass, $classFile = null ) {
 		// If we haven't already specified, kill setup procedures
 		// for child scripts, we've already got a sane environment
 		self::disableSetup();
@@ -382,10 +421,10 @@ abstract class Maintenance {
 	 * Do some sanity checking and basic setup
 	 */
 	public function setup() {
-		global $IP, $wgCommandLineMode, $wgRequestTime;
+		global $wgCommandLineMode, $wgRequestTime;
 
 		# Abort if called from a web server
-		if ( isset( $_SERVER ) && array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
+		if ( isset( $_SERVER ) && isset( $_SERVER['REQUEST_METHOD'] ) ) {
 			$this->error( 'This script must be run from the command line', true );
 		}
 
@@ -409,9 +448,12 @@ abstract class Maintenance {
 			// command-line mode is on, regardless of PHP version.
 		}
 
+		$this->loadParamsAndArgs();
+		$this->maybeHelp();
+
 		# Set the memory limit
 		# Note we need to set it again later in cache LocalSettings changed it
-		ini_set( 'memory_limit', $this->memoryLimit() );
+		$this->adjustMemoryLimit();
 
 		# Set max execution time to 0 (no limit). PHP.net says that
 		# "When running PHP from the command line the default setting is 0."
@@ -423,27 +465,38 @@ abstract class Maintenance {
 		# Define us as being in MediaWiki
 		define( 'MEDIAWIKI', true );
 
-		# Setup $IP, using MW_INSTALL_PATH if it exists
-		$IP = strval( getenv( 'MW_INSTALL_PATH' ) ) !== ''
-			? getenv( 'MW_INSTALL_PATH' )
-			: realpath( dirname( __FILE__ ) . '/..' );
-
 		$wgCommandLineMode = true;
 		# Turn off output buffering if it's on
 		@ob_end_flush();
 
-		$this->loadParamsAndArgs();
-		$this->maybeHelp();
 		$this->validateParamsAndArgs();
 	}
 
 	/**
 	 * Normally we disable the memory_limit when running admin scripts.
 	 * Some scripts may wish to actually set a limit, however, to avoid
-	 * blowing up unexpectedly.
+	 * blowing up unexpectedly. We also support a --memory-limit option,
+	 * to allow sysadmins to explicitly set one if they'd prefer to override
+	 * defaults (or for people using Suhosin which yells at you for trying
+	 * to disable the limits)
 	 */
 	public function memoryLimit() {
-		return -1;
+		$limit = $this->getOption( 'memory-limit', 'max' );
+		$limit = trim( $limit, "\" '" ); // trim quotes in case someone misunderstood
+		return $limit;
+	}
+
+	/**
+	 * Adjusts PHP's memory limit to better suit our needs, if needed.
+	 */
+	protected function adjustMemoryLimit() {
+		$limit = $this->memoryLimit();
+		if ( $limit == 'max' ) {
+			$limit = -1; // no memory limit
+		}
+		if ( $limit != 'default' ) {
+			ini_set( 'memory_limit', $limit );
+		}
 	}
 
 	/**
@@ -597,52 +650,70 @@ abstract class Maintenance {
 	 * @param $force boolean Whether to force the help to show, default false
 	 */
 	protected function maybeHelp( $force = false ) {
+		if( !$force && !$this->hasOption( 'help' ) ) {
+			return;
+		}
+
 		$screenWidth = 80; // TODO: Caculate this!
 		$tab = "    ";
 		$descWidth = $screenWidth - ( 2 * strlen( $tab ) );
 
 		ksort( $this->mParams );
-		if ( $this->hasOption( 'help' ) || $force ) {
-			$this->mQuiet = false;
+		$this->mQuiet = false;
 
-			if ( $this->mDescription ) {
-				$this->output( "\n" . $this->mDescription . "\n" );
-			}
-			$output = "\nUsage: php " . basename( $this->mSelf );
-			if ( $this->mParams ) {
-				$output .= " [--" . implode( array_keys( $this->mParams ), "|--" ) . "]";
-			}
-			if ( $this->mArgList ) {
-				$output .= " <";
-				foreach ( $this->mArgList as $k => $arg ) {
-					$output .= $arg['name'] . ">";
-					if ( $k < count( $this->mArgList ) - 1 )
-						$output .= " <";
-				}
-			}
-			$this->output( "$output\n" );
-			foreach ( $this->mParams as $par => $info ) {
-				$this->output(
-					wordwrap( "$tab$par : " . $info['desc'], $descWidth,
-							"\n$tab$tab" ) . "\n"
-				);
-			}
-			foreach ( $this->mArgList as $info ) {
-				$this->output(
-					wordwrap( "$tab<" . $info['name'] . "> : " .
-						$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
-				);
-			}
-			die( 1 );
+		// Description ...
+		if ( $this->mDescription ) {
+			$this->output( "\n" . $this->mDescription . "\n" );
 		}
+		$output = "\nUsage: php " . basename( $this->mSelf );
+
+		// ... append parameters ...
+		if ( $this->mParams ) {
+			$output .= " [--" . implode( array_keys( $this->mParams ), "|--" ) . "]";
+		}
+
+		// ... and append arguments.
+		if ( $this->mArgList ) {
+			$output .= ' ';
+			foreach ( $this->mArgList as $k => $arg ) {
+				if ( $arg['require'] ) {
+					$output .= '<' . $arg['name'] . '>';
+				} else {
+					$output .= '[' . $arg['name'] . ']';
+				}
+				if ( $k < count( $this->mArgList ) - 1 )
+					$output .= ' ';
+			}
+		}
+		$this->output( "$output\n\n" );
+
+		// Parameters description
+		foreach ( $this->mParams as $par => $info ) {
+			$this->output(
+				wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
+						"\n$tab$tab" ) . "\n"
+			);
+		}
+
+		// Arguments description
+		foreach ( $this->mArgList as $info ) {
+			$openChar = $info['require'] ? '<' : '[';
+			$closeChar = $info['require'] ? '>' : ']';
+			$this->output(
+				wordwrap( "$tab$openChar" . $info['name'] . "$closeChar: " .
+					$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
+			);
+		}
+
+		die( 1 );
 	}
 
 	/**
 	 * Handle some last-minute setup here.
 	 */
 	public function finalSetup() {
-		global $wgCommandLineMode, $wgShowSQLErrors;
-		global $wgProfiling, $IP, $wgDBadminuser, $wgDBadminpassword;
+		global $wgCommandLineMode, $wgShowSQLErrors, $wgServer;
+		global $wgProfiling, $wgDBadminuser, $wgDBadminpassword;
 		global $wgDBuser, $wgDBpassword, $wgDBservers, $wgLBFactoryConf;
 
 		# Turn off output buffering again, it might have been turned on in the settings files
@@ -651,6 +722,11 @@ abstract class Maintenance {
 		}
 		# Same with these
 		$wgCommandLineMode = true;
+
+		# Override $wgServer
+		if( $this->hasOption( 'server') ) {
+			$wgServer = $this->getOption( 'server', $wgServer );
+		}
 
 		# If these were passed, use them
 		if ( $this->mDbUser ) {
@@ -674,18 +750,25 @@ abstract class Maintenance {
 				$wgLBFactoryConf['serverTemplate']['user'] = $wgDBuser;
 				$wgLBFactoryConf['serverTemplate']['password'] = $wgDBpassword;
 			}
+			LBFactory::destroyInstance();
 		}
 
-		if ( defined( 'MW_CMDLINE_CALLBACK' ) ) {
-			$fn = MW_CMDLINE_CALLBACK;
-			$fn();
-		}
+		$this->afterFinalSetup();
 
 		$wgShowSQLErrors = true;
 		@set_time_limit( 0 );
-		ini_set( 'memory_limit', $this->memoryLimit() );
+		$this->adjustMemoryLimit();
 
 		$wgProfiling = false; // only for Profiler.php mode; avoids OOM errors
+	}
+
+	/**
+	 * Execute a callback function at the end of initialisation
+	 */
+	protected function afterFinalSetup() {
+		if ( defined( 'MW_CMDLINE_CALLBACK' ) ) {
+			call_user_func( MW_CMDLINE_CALLBACK );
+		}
 	}
 
 	/**
@@ -740,7 +823,6 @@ abstract class Maintenance {
 
 		putenv( 'wikilang=' . $lang );
 
-		$DP = $IP;
 		ini_set( 'include_path', ".:$IP:$IP/includes:$IP/languages:$IP/maintenance" );
 
 		if ( $lang == 'test' && $site == 'wikipedia' ) {
@@ -753,11 +835,13 @@ abstract class Maintenance {
 	 * @return String
 	 */
 	public function loadSettings() {
-		global $wgWikiFarm, $wgCommandLineMode, $IP, $DP;
+		global $wgWikiFarm, $wgCommandLineMode, $IP;
 
 		$wgWikiFarm = false;
 		if ( isset( $this->mOptions['conf'] ) ) {
 			$settingsFile = $this->mOptions['conf'];
+		} else if ( defined("MW_CONFIG_FILE") ) {
+			$settingsFile = MW_CONFIG_FILE;
 		} else {
 			$settingsFile = "$IP/LocalSettings.php";
 		}
@@ -772,10 +856,10 @@ abstract class Maintenance {
 
 		if ( !is_readable( $settingsFile ) ) {
 			$this->error( "A copy of your installation's LocalSettings.php\n" .
-			  			"must exist and be readable in the source directory.", true );
+						"must exist and be readable in the source directory.\n" .
+						"Use --conf to specify it." , true );
 		}
 		$wgCommandLineMode = true;
-		$DP = $IP;
 		return $settingsFile;
 	}
 
@@ -978,4 +1062,74 @@ abstract class Maintenance {
 		return $title;
 	}
 
+	/**
+	 * Prompt the console for input
+	 * @param $prompt String what to begin the line with, like '> '
+	 * @return String response
+	 */
+	public static function readconsole( $prompt = '> ' ) {
+		static $isatty = null;
+		if ( is_null( $isatty ) ) {
+			$isatty = posix_isatty( 0 /*STDIN*/ );
+		}
+
+		if ( $isatty && function_exists( 'readline' ) ) {
+			return readline( $prompt );
+		} else {
+			if ( $isatty ) {
+				$st = self::readlineEmulation( $prompt );
+			} else {
+				if ( feof( STDIN ) ) {
+					$st = false;
+				} else {
+					$st = fgets( STDIN, 1024 );
+				}
+			}
+			if ( $st === false ) return false;
+			$resp = trim( $st );
+			return $resp;
+		}
+	}
+
+	/**
+	 * Emulate readline()
+	 * @param $prompt String what to begin the line with, like '> '
+	 * @return String
+	 */
+	private static function readlineEmulation( $prompt ) {
+		$bash = Installer::locateExecutableInDefaultPaths( array( 'bash' ) );
+		if ( !wfIsWindows() && $bash ) {
+			$retval = false;
+			$encPrompt = wfEscapeShellArg( $prompt );
+			$command = "read -er -p $encPrompt && echo \"\$REPLY\"";
+			$encCommand = wfEscapeShellArg( $command );
+			$line = wfShellExec( "$bash -c $encCommand", $retval );
+
+			if ( $retval == 0 ) {
+				return $line;
+			} elseif ( $retval == 127 ) {
+				// Couldn't execute bash even though we thought we saw it.
+				// Shell probably spit out an error message, sorry :(
+				// Fall through to fgets()...
+			} else {
+				// EOF/ctrl+D
+				return false;
+			}
+		}
+
+		// Fallback... we'll have no editing controls, EWWW
+		if ( feof( STDIN ) ) {
+			return false;
+		}
+		print $prompt;
+		return fgets( STDIN, 1024 );
+	}
 }
+
+class FakeMaintenance extends Maintenance {
+	protected $mSelf = "FakeMaintenanceScript";
+	public function execute() {
+		return;
+	}
+}
+

@@ -176,7 +176,7 @@ class ConfEditor {
 				// Has it got a comma already?
 				if ( strpos( $lastEltPath, '@extra' ) === false && !$lastEltInfo['hasComma'] ) {
 					// No comma, insert one after the value region
-					list( $start, $end ) = $this->findValueRegion( $lastEltPath );
+					list( , $end ) = $this->findValueRegion( $lastEltPath );
 					$this->replaceSourceRegion( $end - 1, $end - 1, ',' );
 				}
 
@@ -184,7 +184,7 @@ class ConfEditor {
 				list( $start, $end ) = $this->findDeletionRegion( $lastEltPath );
 
 				if ( $key === null ) {
-					list( $indent, $arrowIndent ) = $this->getIndent( $start );
+					list( $indent, ) = $this->getIndent( $start );
 					$textToInsert = "$indent$value,";
 				} else {
 					list( $indent, $arrowIndent ) = 
@@ -202,12 +202,12 @@ class ConfEditor {
 				if ( $firstEltPath === false ) {
 					throw new MWException( "Can't find array element of \"$path\"" );
 				}
-				list( $start, $end ) = $this->findDeletionRegion( $firstEltPath );
+				list( $start, ) = $this->findDeletionRegion( $firstEltPath );
 				$info = $this->pathInfo[$firstEltPath];
 
 				// Make the text to insert
 				if ( $key === null ) {
-					list( $indent, $arrowIndent ) = $this->getIndent( $start );
+					list( $indent, ) = $this->getIndent( $start );
 					$textToInsert = "$indent$value,";
 				} else {
 					list( $indent, $arrowIndent ) = 
@@ -336,7 +336,7 @@ class ConfEditor {
 		// Split all copy operations with a source corresponding to the region
 		// in question.
 		$newEdits = array();
-		foreach ( $this->edits as $i => $edit ) {
+		foreach ( $this->edits as $edit ) {
 			if ( $edit[0] !== 'copy' ) {
 				$newEdits[] = $edit;
 				continue;
@@ -427,7 +427,7 @@ class ConfEditor {
 	 */
 	function findValueRegion( $pathName ) {
 		if ( !isset( $this->pathInfo[$pathName] ) ) {
-			throw new MWEXception( "Can't find path \"$pathName\"" );
+			throw new MWException( "Can't find path \"$pathName\"" );
 		}
 		$path = $this->pathInfo[$pathName];
 		if ( $path['valueStartByte'] === false || $path['valueEndByte'] === false ) {
@@ -510,7 +510,6 @@ class ConfEditor {
 			$indent = false;
 		}
 		if ( $indent !== false && $arrowPos !== false ) {
-			$textToInsert = "$indent$key ";
 			$arrowIndentLength = $arrowPos - $pos - $indentLength - strlen( $key );
 			if ( $arrowIndentLength > 0 ) {
 				$arrowIndent = str_repeat( ' ', $arrowIndentLength );
@@ -537,7 +536,7 @@ class ConfEditor {
 
 			switch ( $state ) {
 			case 'file':
-				$token = $this->expect( T_OPEN_TAG );
+				$this->expect( T_OPEN_TAG );
 				$token = $this->skipSpace();
 				if ( $token->isEnd() ) {
 					break 2;
@@ -836,7 +835,6 @@ class ConfEditor {
 	 * not call except from popPath() or nextPath().
 	 */
 	function endPath() {
-		$i = count( $this->pathStack ) - 1;
 		$key = '';
 		foreach ( $this->pathStack as $pathInfo ) {
 			if ( $key !== '' ) {

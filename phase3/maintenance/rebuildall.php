@@ -30,9 +30,8 @@ class RebuildAll extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgDBtype;
 		// Rebuild the text index
-		if ( $wgDBtype != 'postgres' ) {
+		if ( wfGetDB( DB_SLAVE )->getType() != 'postgres' ) {
 			$this->output( "** Rebuilding fulltext search index (if you abort this will break searching; run this script again to fix):\n" );
 			$rebuildText = $this->runChild( 'RebuildTextIndex', 'rebuildtextindex.php' );
 			$rebuildText->execute();
@@ -47,7 +46,7 @@ class RebuildAll extends Maintenance {
 		$this->output( "\n\n** Rebuilding links tables -- this can take a long time. It should be safe to abort via ctrl+C if you get bored.\n" );
 		$rebuildLinks = $this->runChild( 'RefreshLinks', 'refreshLinks.php' );
 		$rebuildLinks->execute();
-		
+
 		$this->output( "Done.\n" );
 	}
 }

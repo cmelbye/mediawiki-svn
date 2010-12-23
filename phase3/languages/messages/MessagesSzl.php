@@ -36,11 +36,12 @@ $messages = array(
 'tog-editsection'             => 'Kożdo tajla zajty sprowjano uosobno',
 'tog-editsectiononrightclick' => 'Klikńyńće prawym kneflym myszy na titlu tajli<br />napoczyno jigo sprowjańy(JavaScript)',
 'tog-showtoc'                 => 'Pokoż spis treśći (na zajtach, kere majům wjyncyj jak trzi tajle)',
-'tog-rememberpassword'        => 'Pamjyntej můj ausdruk na tym komputrze',
+'tog-rememberpassword'        => 'Pamjyntej můj ausdruk na tym komputrze (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Dowom pozůr na zajty, kere żech naszkryfloł',
 'tog-watchdefault'            => 'Dowom pozůr na zajty, kere żech sprowjoł',
 'tog-watchmoves'              => 'Dowom pozůr na zajty, kere żech przećepnył',
 'tog-watchdeletion'           => 'Dowom pozůr na zajty, kere żech wyćepnył',
+'tog-minordefault'            => 'Kożde moje sprowjańy je ńywjelge',
 'tog-previewontop'            => 'Pokoż poglůnd przed placym sprowjańo',
 'tog-previewonfirst'          => 'Pokoż poglůnd zajty przi pjyrszym sprowjańu',
 'tog-nocache'                 => 'Wypńij podrynczno pamjyńć',
@@ -455,7 +456,7 @@ Coby powstřimać nadužyća, možliwość wysyuańa připůmńeń naštalowano 
 'resetpass_forbidden'       => 'Ńy idźe sam půmjyńyć hasuůw.',
 'resetpass-no-info'         => 'Muśysz być zalogowany, coby uzyskać bezpostrzedńi dostymp do tyj zajty.',
 'resetpass-submit-loggedin' => 'Zmjyń hasło',
-'resetpass-wrong-oldpass'   => 'Felerne tymczasowe abo aktualne hasło. 
+'resetpass-wrong-oldpass'   => 'Felerne tymczasowe abo aktualne hasło.
 Możliwe co właśńy zmjyńiłżeś swoje hasło abo poprosiłżeś uo nowe tymczasowe hasło.',
 'resetpass-temp-password'   => 'Tymczasowe hasło:',
 
@@ -547,7 +548,7 @@ Jeli ježeś anůnimowym užytkowńikym a wydowo Ći śe, aže zamjyščůne sam
 'usercsspreview'                   => "'''Pamjyntej, aže to je na raźe ino podglůnd Twojego arkuša stylůw CSS.'''
 '''Ńic ješče ńy zostouo naškryflone!'''",
 'userjspreview'                    => "'''Pamjyntej, aže to je na raźe ino podglůnd Twojego JavaScriptu - nic ješče ńy zostouo naškryflone!'''",
-'userinvalidcssjstitle'            => "'''Pozůr:''' Ńy mo skůrki uo mjańe \"\$1\". Pamjyntej, aže zajty užytkowńika zawjyrajůnce CSS i JavaScript powinny začynać śe mouům buchštabům, np. {{ns:user}}:Foo/monobook.css.",
+'userinvalidcssjstitle'            => "'''Pozůr:''' Ńy mo skůrki uo mjańe \"\$1\". Pamjyntej, aže zajty užytkowńika zawjyrajůnce CSS i JavaScript powinny začynać śe mouům buchštabům, np. {{ns:user}}:Foo/vector.css.",
 'updated'                          => '(Pomjyńano)',
 'note'                             => "'''Pozůr:'''",
 'previewnote'                      => "'''To je ino podglůnd - artikel ješče ńy je naškryflany!'''",
@@ -563,11 +564,11 @@ Jeli ježeś anůnimowym užytkowńikym a wydowo Ći śe, aže zamjyščůne sam
 'editingsection'                   => 'Sprowjosz $1 (sekcyjo)',
 'editingcomment'                   => 'Sprowjosz "$1" (kůmyntorz)',
 'editconflict'                     => 'Kůnflikt sprowjyń: $1',
-'explainconflict'                  => 'Ktoś zdůnžyu wćepać swoja wersyjo artikla ńim žeś naškryflou sprowjyńy.
+'explainconflict'                  => "Ktoś zdůnžyu wćepać swoja wersyjo artikla ńim žeś naškryflou sprowjyńy.
 We polu edycyji na wjyrchu moš tekst zajty aktůalńy naškryflany w baźe danych.
 Twoje pomjyńańo sům we polu edycyji půnižyj.
 By wćepać swoje pomjyńańo muśiš pomjyńać tekst w polu na wjyrchu.
-<b>Tylko</b> tekst z pola na wjyrchu bydźe naškryflany we baźe jak wciśńeš "Škryflej".<br />',
+'''Tylko''' tekst z pola na wjyrchu bydźe naškryflany we baźe jak wciśńeš \"{{int:savearticle}}\".",
 'yourtext'                         => 'Twůj tekst',
 'storedversion'                    => 'Naškryflano wersyjo',
 'nonunicodebrowser'                => "'''Pozůr! Twoja přeglůndorka ńy umje poprowńy rozpoznować kodowańo UTF-8 (Unicode). Bestož wšyjske znoki, kerych Twoja přeglůndorka ńy umje rozpoznować, zamjeńůno na jejich kody heksadecymalne.'''",
@@ -578,7 +579,6 @@ By wćepać swoje pomjyńańo muśiš pomjyńać tekst w polu na wjyrchu.
 'copyrightwarning2'                => "Pamjyntej uo tym, aže couki wkuod do {{GRAMMAR:MS.lp|{{SITENAME}}}} može być sprowjany, pomjyńany abo wyćepany bez inkšych užytkownikůw. Jak ńy chceš, coby koždy můg go zmjyńać i dali rozpowšychńać bez uograničyń, ńy wćepuj go sam.<br />
 Škryflajůnc sam tukej pośwjadčoš tyž, co te pisańy je twoje wuasne, abo žeś go wźůn(a) s matyrjouůw kere sům na public domain, abo kůmpatybilne (kuknij tyž: $1).
 '''PROŠA ŃY WĆEPYWAĆ SAM MATYRJOUŮW KERE SŮM CHRŮŃONE PRAWYM AUTORSKIM BEZ DOZWOLEŃO WUAŚĆIĆELA!'''",
-'longpagewarning'                  => "'''Dej pozůr: Ta zajta je $1 kilobajt-y/-ůw wjelgo; w ńykerych přyglůndarkach můgům wystůmpić problymy w sprowjańu zajtůw kere majům wjyncyj jak 32 kilobajty. Kejbyś ůmjou, podźel tekst na myńše tajle.'''",
 'longpageerror'                    => "'''Feler: Tekst kery žeś sam wćepywou mo $1 kilobajtůw. Maksymalno dugość tekstu ńy može być wjynkšo kej $2 kilobajtůw. Twůj tekst ńy bydźe sam naškryflany.'''",
 'readonlywarning'                  => "'''Dej pozůr: Baza danych zostoua filowo zawarto skuli potřeb admińistracyjnych. Bestůž ńy do śe terozki naškryflać Twojich pomjyńań. Radzymy přećepać nowy tekst kajś do plika tekstowego (wytnij/wklej) a wćepać sam zaś po uodymkńyńću bazy.'''
 
@@ -1128,7 +1128,6 @@ Jak chceš wćepać ta, bydźeš muśou zmjyńić mjano wćepywanygo terozki pli
 Idź nazod i wćepej tyn plik pod inkšym mjanym. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tyn plik je kopjům {{PLURAL:$1|plika|nastypujůncych plikůw:}}',
 'file-deleted-duplicate'      => 'Identyczny plik jak tyn plik ([[$1]]) zostoł wyćepany. Sprowdź historyja wyćepań tamtygo plika ńim wćepńesz go nazod.',
-'successfulupload'            => 'Wćepańe plika udouo śe',
 'uploadwarning'               => 'Uostřežyńe uo wćepywańu',
 'savefile'                    => 'Naškryflej plik',
 'uploadedimage'               => 'wćepano "[[$1]]"',
@@ -1147,6 +1146,7 @@ Idź nazod i wćepej tyn plik pod inkšym mjanym. [[File:$1|thumb|center|$1]]',
 Zastanůw śe, čy powinno śe go sam wćepywać.
 Rejer wyćepań tygo plika je podany půńižej, cobyś miou wygoda:",
 'filename-bad-prefix'         => "Mjano plika, kery wćepuješ, začyno śe uod '''\"\$1\"''' &ndash; je to mjano nojčynśćy připisywane autůmatyčńy bez cyfrowe fotoaparaty, uůno ńy dowo žodnych informacyji uo zawartośći plika. Prošymy cobyś nadou plikowi inkše, lepij zrozůmjaue mjano.",
+'upload-success-subj'         => 'Wćepańe plika udouo śe',
 
 'upload-proto-error'      => 'Ńyprowiduowy protokůu',
 'upload-proto-error-text' => 'Zdalne přesůuańy plikůw wymago podańo adresu URL kery začyno śe na <code>http://</code> abo <code>ftp://</code>.',
@@ -1395,7 +1395,8 @@ Możesz zawyńźić liczba wyńikůw wybjerajůnc typ rejeru, mjano użytkowńik
 
 # Special:Categories
 'categories'                    => 'Kategoryje',
-'categoriespagetext'            => 'Zajta przedstowjo lista katygoryji s zajtůma a plikůma. [[Special:UnusedCategories|Ńyużywane kategoryj]] ńy zostoły tukej pokozane.
+'categoriespagetext'            => 'Zajta przedstowjo lista katygoryji s zajtůma a plikůma.
+[[Special:UnusedCategories|Ńyużywane kategoryj]] ńy zostoły tukej pokozane.
 Kukńij tyż [[Special:WantedCategories|ńyistńyjůnce kategoryje]].',
 'categoriesfrom'                => 'Pokož kategoryje začynajůnc uod:',
 'special-categories-sort-count' => 'sortowanie wedle ličby',
@@ -1467,7 +1468,6 @@ Adres e-brifa, kery zostoł bez Ćebje wkludzůny we [[Special:Preferences|Twoji
 # Watchlist
 'watchlist'            => 'Pozorlista',
 'mywatchlist'          => 'Moja pozůrlista',
-'watchlistfor'         => "(dla užytkowńika '''$1''')",
 'nowatchlist'          => 'Ńy ma žodnych pozycyji na liśće zajtůw, na kere dowoš pozůr.',
 'watchlistanontext'    => '$1 coby uobejřeć abo sprowjać elymynty listy zajtůw, na kere dowoš pozůr',
 'watchnologin'         => 'Ńy jest žeś zalůgowany',
@@ -1783,7 +1783,6 @@ Přyńdź do [[Special:IPBlockList|listy zawartych adresůw IP]] coby přejřeć
 'ipb-edit-dropdown'               => 'Sprowjej powody zawjyrańo uod sprowjyń',
 'ipb-unblock-addr'                => 'Uodymknij $1',
 'ipb-unblock'                     => 'Uodymknij užytkowńika abo adres IP',
-'ipb-blocklist-addr'              => 'Istńejůnce zawarća uod sprowjyń lů $1',
 'ipb-blocklist'                   => 'Zoboč istńijůnce zawarća',
 'ipb-blocklist-contribs'          => 'Wkłod $1',
 'unblockip'                       => 'Uodymkńij sprowjyńo užytkowńikowi',

@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on July 7, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on July 7, 2007
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -39,6 +40,10 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 
 	public function execute() {
 		$this->run();
+	}
+
+	public function getCacheMode( $params ) {
+		return 'public';
 	}
 
 	public function executeGenerator( $resultPageSet ) {
@@ -192,8 +197,8 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 		return array(
 			'prop' => array(
 				'What pieces of information to include',
-				' ids    - Adds the id of page',
-				' title  - Adds the title and namespace id of the page',
+				' ids    - Adds the ID of page',
+				' title  - Adds the title and namespace ID of the page',
 				' url    - Adds the URL used in the page',
 			),
 			'offset' => 'Used for paging. Use the value returned for "continue"',

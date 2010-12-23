@@ -17,8 +17,9 @@ class Autopromote {
 		$promote = array();
 
 		foreach ( $wgAutopromote as $group => $cond ) {
-			if ( self::recCheckCondition( $cond, $user ) )
+			if ( self::recCheckCondition( $cond, $user ) ) {
 				$promote[] = $group;
+			}
 		}
 
 		wfRunHooks( 'GetAutoPromoteGroups', array( $user, &$promote ) );
@@ -74,7 +75,7 @@ class Autopromote {
 				}
 
 				return $res;
-			} elseif ( $cond[0] = '!' ) {
+			} elseif ( $cond[0] == '!' ) {
 				foreach ( array_slice( $cond, 1 ) as $subcond ) {
 					if ( self::recCheckCondition( $subcond, $user ) ) {
 						return false;
@@ -104,6 +105,7 @@ class Autopromote {
 	 * @return bool Whether the condition is true for the user
 	 */
 	private static function checkCondition( $cond, User $user ) {
+		global $wgEmailAuthentication;
 		if ( count( $cond ) < 1 ) {
 			return false;
 		}
@@ -111,7 +113,6 @@ class Autopromote {
 		switch( $cond[0] ) {
 			case APCOND_EMAILCONFIRMED:
 				if ( User::isValidEmailAddr( $user->getEmail() ) ) {
-					global $wgEmailAuthentication;
 					if ( $wgEmailAuthentication ) {
 						return (bool)$user->getEmailAuthenticationTimestamp();
 					} else {
@@ -143,7 +144,7 @@ class Autopromote {
 					throw new MWException( "Unrecognized condition {$cond[0]} for autopromotion!" );
 				}
 
-				return $result ? true : false;
+				return (bool)$result;
 		}
 	}
 }

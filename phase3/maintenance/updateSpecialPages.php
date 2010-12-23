@@ -18,9 +18,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
- 
+
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class UpdateSpecialPages extends Maintenance {
@@ -82,11 +83,15 @@ class UpdateSpecialPages extends Maintenance {
 				$this->output( "No such special page: $special\n" );
 				exit;
 			}
-			if ( !class_exists( $class ) ) {
-				$file = $specialObj->getFile();
-				require_once( $file );
+			if ( $specialObj instanceof QueryPage ) {
+				$queryPage = $specialObj;
+			} else {
+				if ( !class_exists( $class ) ) {
+					$file = $specialObj->getFile();
+					require_once( $file );
+				}
+				$queryPage = new $class;
 			}
-			$queryPage = new $class;
 
 			if ( !$this->hasOption( 'only' ) || $this->getOption( 'only' ) == $queryPage->getName() ) {
 				$this->output( sprintf( '%-30s ',  $special ) );

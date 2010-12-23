@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Recentchanges
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +16,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
- * Implements Special:Recentchanges
+ * A special page that lists last changes made to the wiki
+ *
  * @ingroup SpecialPage
  */
 class SpecialRecentChanges extends IncludableSpecialPage {
@@ -306,6 +311,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		$dbr = wfGetDB( DB_SLAVE );
 		$limit = $opts['limit'];
 		$namespace = $opts['namespace'];
+		$select = '*';
 		$invert = $opts['invert'];
 
 		// JOIN on watchlist for users
@@ -318,14 +324,17 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 			$tables[] = 'page';
 			$join_conds['page'] = array('LEFT JOIN', 'rc_cur_id=page_id');
 		}
-		// Tag stuff.
-		$fields = array();
-		// Fields are * in this case, so let the function modify an empty array to keep it happy.
-		ChangeTags::modifyDisplayQuery(
-			$tables, $fields, $conds, $join_conds, $query_options, $opts['tagfilter']
-		);
+		if ( !$this->including() ) {
+			// Tag stuff.
+			// Doesn't work when transcluding. See bug 23293
+			$fields = array();
+			// Fields are * in this case, so let the function modify an empty array to keep it happy.
+			ChangeTags::modifyDisplayQuery(
+				$tables, $fields, $conds, $join_conds, $query_options, $opts['tagfilter']
+			);
+		}
 
-		if ( !wfRunHooks( 'SpecialRecentChangesQuery', array( &$conds, &$tables, &$join_conds, $opts, &$query_options ) ) )
+		if ( !wfRunHooks( 'SpecialRecentChangesQuery', array( &$conds, &$tables, &$join_conds, $opts, &$query_options, &$select ) ) )
 			return false;
 
 		// Don't use the new_namespace_time timestamp index if:
@@ -333,8 +342,8 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		// (b) We want all pages NOT in a certain namespaces (inverted)
 		// (c) There is a tag to filter on (use tag index instead)
 		// (d) UNION + sort/limit is not an option for the DBMS
-		if( is_null($namespace)
-			|| $invert
+		if( is_null( $namespace )
+			|| ( $invert && !is_null( $namespace ) )
 			|| $opts['tagfilter'] != ''
 			|| !$dbr->unionSupportsOrderAndLimit() )
 		{
@@ -345,7 +354,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		// We have a new_namespace_time index! UNION over new=(0,1) and sort result set!
 		} else {
 			// New pages
-			$sqlNew = $dbr->selectSQLText( $tables, '*',
+			$sqlNew = $dbr->selectSQLText( $tables, $select,
 				array( 'rc_new' => 1 ) + $conds,
 				__METHOD__,
 				array( 'ORDER BY' => 'rc_timestamp DESC', 'LIMIT' => $limit,
@@ -484,11 +493,11 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 
 		$unconsumed = $opts->getUnconsumedValues();
 		foreach( $unconsumed as $key => $value ) {
-			$out .= Xml::hidden( $key, $value );
+			$out .= Html::hidden( $key, $value );
 		}
 
 		$t = $this->getTitle();
-		$out .= Xml::hidden( 'title', $t->getPrefixedText() );
+		$out .= Html::hidden( 'title', $t->getPrefixedText() );
 		$form = Xml::tags( 'form', array( 'action' => $wgScript ), $out );
 		$panel[] = $form;
 		$panelString = implode( "\n", $panel );
@@ -496,8 +505,6 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		$wgOut->addHTML(
 			Xml::fieldset( wfMsg( 'recentchanges-legend' ), $panelString, array( 'class' => 'rcoptions' ) )
 		);
-
-		$wgOut->addHTML( ChangesList::flagLegend() );
 
 		$this->setBottomText( $wgOut, $opts );
 	}

@@ -1,7 +1,6 @@
 <?php
 /**
- * @file
- * @ingroup SpecialPage Watchlist
+ * Implements Special:Watchlist
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage Watchlist
  */
 
 /**
@@ -36,7 +38,7 @@ function wfSpecialWatchlist( $par ) {
 		$wgUser->saveSettings();
 	}
 	
-	global $wgServer, $wgScriptPath, $wgFeedClasses;
+	global $wgFeedClasses;
 	$apiParams = array( 'action' => 'feedwatchlist', 'allrev' => 'allrev',
 						'wlowner' => $wgUser->getName(), 'wltoken' => $wlToken );
 	$feedTemplate = wfScript('api').'?';
@@ -66,8 +68,7 @@ function wfSpecialWatchlist( $par ) {
 
 	$wgOut->setPageTitle( wfMsg( 'watchlist' ) );
 
-	$sub  = wfMsgExt( 'watchlistfor', 'parseinline', $wgUser->getName() );
-	$sub .= '<br />' . WatchlistEditor::buildTools( $wgUser->getSkin() );
+	$sub  = wfMsgExt( 'watchlistfor2', array( 'parseinline', 'replaceafter' ), $wgUser->getName(), WatchlistEditor::buildTools( $wgUser->getSkin() ) );
 	$wgOut->setSubtitle( $sub );
 
 	if( ( $mode = WatchlistEditor::getMode( $wgRequest, $par ) ) !== false ) {
@@ -173,9 +174,7 @@ function wfSpecialWatchlist( $par ) {
 	# Possible where conditions
 	$conds = array();
 
-	if( $days <= 0 ) {
-		$andcutoff = '';
-	} else {
+	if( $days > 0 ) {
 		$conds[] = "rc_timestamp > '".$dbr->timestamp( time() - intval( $days * 86400 ) )."'";
 	}
 
@@ -240,7 +239,7 @@ function wfSpecialWatchlist( $par ) {
 					'id' => 'mw-watchlist-resetbutton' ) ) .
 				wfMsgExt( 'wlheader-showupdated', array( 'parseinline' ) ) . ' ' .
 				Xml::submitButton( wfMsg( 'enotif_reset' ), array( 'name' => 'dummy' ) ) .
-				Xml::hidden( 'reset', 'all' ) .
+				Html::hidden( 'reset', 'all' ) .
 				Xml::closeElement( 'form' );
 	}
 	$form .= '<hr />';
@@ -315,22 +314,20 @@ function wfSpecialWatchlist( $par ) {
 	$form .= Xml::namespaceSelector( $nameSpace, '' ) . '&#160;';
 	$form .= Xml::checkLabel( wfMsg('invert'), 'invert', 'nsinvert', $invert ) . '&#160;';
 	$form .= Xml::submitButton( wfMsg( 'allpagessubmit' ) ) . '</p>';
-	$form .= Xml::hidden( 'days', $days );
+	$form .= Html::hidden( 'days', $days );
 	if( $hideMinor )
-		$form .= Xml::hidden( 'hideMinor', 1 );
+		$form .= Html::hidden( 'hideMinor', 1 );
 	if( $hideBots )
-		$form .= Xml::hidden( 'hideBots', 1 );
+		$form .= Html::hidden( 'hideBots', 1 );
 	if( $hideAnons )
-		$form .= Xml::hidden( 'hideAnons', 1 );
+		$form .= Html::hidden( 'hideAnons', 1 );
 	if( $hideLiu )
-		$form .= Xml::hidden( 'hideLiu', 1 );
+		$form .= Html::hidden( 'hideLiu', 1 );
 	if( $hideOwn )
-		$form .= Xml::hidden( 'hideOwn', 1 );
+		$form .= Html::hidden( 'hideOwn', 1 );
 	$form .= Xml::closeElement( 'form' );
 	$form .= Xml::closeElement( 'fieldset' );
 	$wgOut->addHTML( $form );
-
-	$wgOut->addHTML( ChangesList::flagLegend() );
 
 	# If there's nothing to show, stop here
 	if( $numRows == 0 ) {
@@ -342,7 +339,7 @@ function wfSpecialWatchlist( $par ) {
 
 	/* Do link batch query */
 	$linkBatch = new LinkBatch;
-	while ( $row = $dbr->fetchObject( $res ) ) {
+	foreach ( $res as $row ) {
 		$userNameUnderscored = str_replace( ' ', '_', $row->rc_user_text );
 		if ( $row->rc_user != 0 ) {
 			$linkBatch->add( NS_USER, $userNameUnderscored );
@@ -359,7 +356,7 @@ function wfSpecialWatchlist( $par ) {
 	
 	$s = $list->beginRecentChangesList();
 	$counter = 1;
-	while ( $obj = $dbr->fetchObject( $res ) ) {
+	foreach ( $res as $obj ) {
 		# Make RC entry
 		$rc = RecentChange::newFromRow( $obj );
 		$rc->counter = $counter++;
@@ -386,7 +383,6 @@ function wfSpecialWatchlist( $par ) {
 	}
 	$s .= $list->endRecentChangesList();
 
-	$dbr->freeResult( $res );
 	$wgOut->addHTML( $s );
 }
 
@@ -478,7 +474,6 @@ function wlCountItems( &$user, $talk = true ) {
 		array( 'wl_user' => $user->mId ), 'wlCountItems' );
 	$row = $dbr->fetchObject( $res );
 	$count = $row->count;
-	$dbr->freeResult( $res );
 
 	# Halve to remove talk pages if needed
 	if( !$talk )

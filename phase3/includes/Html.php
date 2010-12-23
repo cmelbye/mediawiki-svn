@@ -1,21 +1,27 @@
 <?php
-# Copyright © 2009 Aryeh Gregor
-# http://www.mediawiki.org/
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# http://www.gnu.org/copyleft/gpl.html
+/**
+ * Collection of methods to generate HTML content
+ *
+ * Copyright © 2009 Aryeh Gregor
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
 
 /**
  * This class is a collection of static functions that serve two purposes:
@@ -541,8 +547,7 @@ class Html {
 	}
 
 	/**
-	 * Convenience function to produce an input element with type=hidden, like
-	 * Xml::hidden.
+	 * Convenience function to produce an input element with type=hidden
 	 *
 	 * @param $name    string name attribute
 	 * @param $value   string value attribute
@@ -571,10 +576,12 @@ class Html {
 		global $wgHtml5;
 		$attribs['name'] = $name;
 		if ( !$wgHtml5 ) {
-			if ( !isset( $attribs['cols'] ) )
+			if ( !isset( $attribs['cols'] ) ) {
 				$attribs['cols'] = "";
-			if ( !isset( $attribs['rows'] ) )
+			}
+			if ( !isset( $attribs['rows'] ) ) {
 				$attribs['rows'] = "";
+			}
 		}
 		return self::element( 'textarea', $attribs, $value );
 	}
@@ -595,7 +602,7 @@ class Html {
 			$ret .= "<?xml version=\"1.0\" encoding=\"$wgOutputEncoding\" ?" . ">\n";
 		}
 
-		global $wgHtml5, $wgHtml5Version, $wgWellFormedXml, $wgDocType, $wgDTD;
+		global $wgHtml5, $wgHtml5Version, $wgDocType, $wgDTD;
 		global $wgXhtmlNamespaces, $wgXhtmlDefaultNamespace;
 		if ( $wgHtml5 ) {
 			$ret .= "<!DOCTYPE html>\n";
@@ -610,7 +617,9 @@ class Html {
 			}
 		}
 		$html = Html::openElement( 'html', $attribs );
-		if ( $html ) $html .= "\n";
+		if ( $html ) {
+			$html .= "\n";
+		}
 		$ret .= $html;
 		return $ret;
 	}
@@ -623,12 +632,12 @@ class Html {
 	 */
 	public static function isXmlMimeType( $mimetype ) {
 		switch ( $mimetype ) {
-		case 'text/xml':
-		case 'application/xhtml+xml':
-		case 'application/xml':
-			return true;
-		default:
-			return false;
+			case 'text/xml':
+			case 'application/xhtml+xml':
+			case 'application/xml':
+				return true;
+			default:
+				return false;
 		}
 	}
 }

@@ -1,11 +1,10 @@
 <?php
-
 /**
+ *
+ *
  * Created on Jul 2, 2007
  *
- * API for MediaWiki 1.8+
- *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -41,7 +42,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 	public function execute() {
 		global $wgUser;
-		$this->getMain()->setVaryCookie();
 		// Before doing anything at all, let's check permissions
 		if ( !$wgUser->isAllowed( 'deletedhistory' ) ) {
 			$this->dieUsage( 'You don\'t have permission to view deleted revision information', 'permissiondenied' );
@@ -52,6 +52,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$prop = array_flip( $params['prop'] );
 		$fld_revid = isset( $prop['revid'] );
 		$fld_user = isset( $prop['user'] );
+		$fld_userid = isset( $prop['userid'] );
 		$fld_comment = isset( $prop['comment'] );
 		$fld_parsedcomment = isset ( $prop['parsedcomment'] );
 		$fld_minor = isset( $prop['minor'] );
@@ -62,7 +63,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$result = $this->getResult();
 		$pageSet = $this->getPageSet();
 		$titles = $pageSet->getTitles();
-		$data = array();
 
 		// This module operates in three modes:
 		// 'revs': List deleted revs for certain titles
@@ -87,6 +87,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		}
 		if ( $fld_user ) {
 			$this->addFields( 'ar_user_text' );
+		}
+		if ( $fld_userid ) {
+			$this->addFields( 'ar_user' );
 		}
 		if ( $fld_comment || $fld_parsedcomment ) {
 			$this->addFields( 'ar_comment' );
@@ -115,7 +118,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 		if ( $limit == 'max' ) {
 			$limit = $this->getMain()->canApiHighLimits() ? $botMax : $userMax;
-			$this->getResult()->addValue( 'limits', $this->getModuleName(), $limit );
+			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
 		}
 
 		$this->validateLimit( 'limit', $limit, 1, $userMax, $botMax );
@@ -203,6 +206,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			if ( $fld_user ) {
 				$rev['user'] = $row->ar_user_text;
 			}
+			if ( $fld_userid ) {
+				$rev['userid'] = $row->ar_user;
+			}
 			if ( $fld_comment ) {
 				$rev['comment'] = $row->ar_comment;
 			}
@@ -210,8 +216,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$title = Title::makeTitle( $row->ar_namespace, $row->ar_title );
 
 			if ( $fld_parsedcomment ) {
-				global $wgUser;
-				$this->getMain()->setVaryCookie();
 				$rev['parsedcomment'] = $wgUser->getSkin()->formatComment( $row->ar_comment, $title );
 			}
 			if ( $fld_minor && $row->ar_minor_edit == 1 ) {
@@ -293,6 +297,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => array(
 					'revid',
 					'user',
+					'userid',
 					'comment',
 					'parsedcomment',
 					'minor',
@@ -313,8 +318,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'limit' => 'The maximum amount of revisions to list',
 			'prop' => array(
 				'Which properties to get',
-				' revid          - Adds the revision id of the deleted revision',
-				' user           - Adds user who made the revision',
+				' revid          - Adds the revision ID of the deleted revision',
+				' user           - Adds the user who made the revision',
+				' userid         - Adds the user ID whom made the revision',
 				' comment        - Adds the comment of the revision',
 				' parsedcomment  - Adds the parsed comment of the revision',
 				' minor          - Tags if the revision is minor',
@@ -361,7 +367,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'List the first 50 deleted revisions in the main namespace (mode 3):',
 			'  api.php?action=query&list=deletedrevs&drdir=newer&drlimit=50',
 			'List the first 50 deleted pages in the Talk namespace (mode 3):',
-			'  api.php?action=query&list=deletedrevs&drdir=newer&drlimit=50&drnamespace=1&drunique',
+			'  api.php?action=query&list=deletedrevs&drdir=newer&drlimit=50&drnamespace=1&drunique=',
 		);
 	}
 

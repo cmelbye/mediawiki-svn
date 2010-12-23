@@ -113,7 +113,7 @@ $dateFormats = array(
 	'dmy both' => 'j "di" M Y "a lis" H:i',
 );
 
-$separatorTransformTable = array(',' => "\xc2\xa0", '.' => ',' );
+$separatorTransformTable = array( ',' => "\xc2\xa0", '.' => ',' );
 
 $messages = array(
 # User preference toggles
@@ -128,8 +128,9 @@ $messages = array(
 'tog-editsection'             => 'Inserìs un leam [cambie] pe editazion veloç di une sezion',
 'tog-editsectiononrightclick' => 'Modifiche une sezion fracant cul tast diestri<br /> sui titui des sezions (JavaScript)',
 'tog-showtoc'                 => 'Mostre la tabele dai contignûts pes pagjinis cun plui di 3 sezions',
-'tog-rememberpassword'        => 'Visiti tes prossimis sessions',
+'tog-rememberpassword'        => 'Visiti tes prossimis sessions (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchdefault'            => 'Zonte in automatic lis pagjinis che o cambii inte liste di chês tignudis di voli',
+'tog-minordefault'            => 'Imposte come opzion predeterminade ducj i cambiaments come piçui',
 'tog-previewontop'            => 'Mostre anteprime parsore dal spazi pe modifiche',
 'tog-previewonfirst'          => 'Mostre anteprime te prime modifiche',
 'tog-nocache'                 => 'No stâ tignî in memorie (caching) lis pagjinis',
@@ -243,23 +244,17 @@ $messages = array(
 'qbspecialpages' => 'Pagjinis speciâls',
 
 # Vector skin
-'vector-action-addsection'   => 'Gnove sezion',
-'vector-action-delete'       => 'Elimine',
-'vector-action-move'         => 'Môf',
-'vector-action-protect'      => 'Protêç',
-'vector-namespace-category'  => 'Categorie',
-'vector-namespace-image'     => 'File',
-'vector-namespace-main'      => 'Pagjine',
-'vector-namespace-mediawiki' => 'Messaç',
-'vector-namespace-template'  => 'Model',
-'vector-namespace-user'      => 'Pagjine dal utent',
-'vector-view-create'         => 'Cree',
-'vector-view-edit'           => 'Cambie',
-'vector-view-history'        => 'Cjale il storic',
-'vector-view-view'           => 'Lei',
-'vector-view-viewsource'     => 'Cjale risultive',
-'actions'                    => 'Azions',
-'variants'                   => 'Variants',
+'vector-action-addsection' => 'Gnove sezion',
+'vector-action-delete'     => 'Elimine',
+'vector-action-move'       => 'Môf',
+'vector-action-protect'    => 'Protêç',
+'vector-view-create'       => 'Cree',
+'vector-view-edit'         => 'Cambie',
+'vector-view-history'      => 'Cjale il storic',
+'vector-view-view'         => 'Lei',
+'vector-view-viewsource'   => 'Cjale risultive',
+'actions'                  => 'Azions',
+'variants'                 => 'Variants',
 
 'errorpagetitle'    => 'Erôr',
 'returnto'          => 'Torne a $1.',
@@ -551,16 +546,15 @@ o ben [{{fullurl:{{FULLPAGENAME}}|action=edit}} cambiâ cheste pagjine]</span>.'
 'editingsection'                   => 'Cambiament di $1 (sezion)',
 'editingcomment'                   => 'Cambiament di $1 (gnove sezion)',
 'editconflict'                     => 'Conflit inte modifiche: $1',
-'explainconflict'                  => 'Cualchidun altri al à cambiât cheste pagjine di cuant che tu âs començât a modificâle.
+'explainconflict'                  => "Cualchidun altri al à cambiât cheste pagjine di cuant che tu âs començât a modificâle.
 La aree di test disore e conten il test de pagjine che esist cumò, i tiei cambiaments a son mostrâts inte aree disot.
 Tu varâs di inserî di gnûf i tiei cambiaments tal test esistint.
-<b>Dome</b> il test in alt al vignarà salvât cuant che tu frachis su "Salve pagjine".<br />',
+'''Dome''' il test in alt al vignarà salvât cuant che tu frachis su \"{{int:savearticle}}\".",
 'editingold'                       => "'''ATENZION: tu stâs cambiant une version vecje e no inzornade di cheste pagjine. Se tu la salvis, ducj i cambiaments fats di chê volte in ca a laran pierdûts.'''",
 'yourdiff'                         => 'Difarencis',
 'copyrightwarning'                 => "Note: ducj i contribûts a {{SITENAME}} a si considerin come dâts fûr sot de licence $2 (cjale $1 pai detais). Se no tu vuelis che i tiei tescj a podedin jessi modificâts e tornâts a dâ fûr di ognidun cence limits, no stâ mandâju a {{SITENAME}}.<br />
 Cun di plui, inviant il test tu declaris che tu âs scrit tu chest o tu lu âs copiât di une sorzint tal domini public o di une sorzint libare.
 '''NO STÂ MANDÂ MATERIÂL CUVIERT DAL DIRIT DI AUTÔR CENCE AUTORIZAZION!'''",
-'longpagewarning'                  => "'''ATENZION: cheste pagjine e je grande $1 kilobytes; cualchi sgarfadôr al podarès vê problemis a modificâ pagjinis di 32 kb o plui grandis. Considere par plasê la pussibilitât di dividi la pagjine in sezions plui piçulis.'''",
 'readonlywarning'                  => "'''ATENZION: La base di dâts e je blocade par vie de manutenzion, par cui no si podin salvâ lis modifichis par cumò. Par no pierdilis, tu puedis copiâ e tacâ il test inserît fin cumò e salvâlu intun file di test.'''
 
 L'aministradôr che al à blocât la base di dâts al à ufiert chest spiegazion: $1",
@@ -875,7 +869,6 @@ Par includi une figure intune pagjine, dopre un leam inte form
 'badfilename'           => 'File non gambiât in "$1".',
 'filetype-missing'      => 'Il file nol à une estension (par esempli ".jpg").',
 'file-exists-duplicate' => 'Chest file al è un duplicât {{PLURAL:$1|dal file |dai files ca sot:}}',
-'successfulupload'      => 'Cjamât sù cun sucès',
 'savefile'              => 'Salve file',
 'uploadedimage'         => 'cjamât sù "$1"',
 'overwroteimage'        => 'al à cjamât une gnove version di «[[$1]]»',
@@ -884,6 +877,7 @@ Par includi une figure intune pagjine, dopre un leam inte form
 'sourcefilename'        => 'Non dal file origjinâl:',
 'destfilename'          => 'Non dal file di destinazion:',
 'watchthisupload'       => 'Ten di voli',
+'upload-success-subj'   => 'Cjamât sù cun sucès',
 
 'upload-unknown-size' => 'Dimension no cognossude',
 
@@ -1122,7 +1116,6 @@ Cjale ancje lis [[Special:WantedCategories|categoriis desideradis]].',
 # Watchlist
 'watchlist'            => 'Tignûts di voli',
 'mywatchlist'          => 'Tignûts di voli',
-'watchlistfor'         => "(par '''$1''')",
 'nowatchlist'          => 'Nissun element al è tignût di voli.',
 'watchnologin'         => 'No tu sês jentrât',
 'watchnologintext'     => "Tu 'nd âs di [[Special:UserLogin|jentrâ]] par modificâ la liste des pagjinis tignudis di voli.",
@@ -1174,7 +1167,7 @@ Par plasê, da la conferme che tu vuelis fâlu, che tu capissis lis conseguencis
 'actioncomplete'        => 'Azion completade',
 'deletedtext'           => '"<nowiki>$1</nowiki>" al è stât eliminât.
 Cjale $2 par une liste des ultimis eliminazions.',
-'deletedarticle'        => 'eliminât "$1"',
+'deletedarticle'        => 'eliminât "[[$1]]"',
 'dellogpage'            => 'Regjistri des eliminazions',
 'deletionlog'           => 'regjistri eliminazions',
 'reverted'              => 'Tornât ae version precedente',
@@ -1511,7 +1504,7 @@ Sielç par plasê un altri non.',
 # Bad image list
 'bad_image_list' => 'Il formât al è cussi:
 
-a vegnin considerâts dome i elements des listis (riis che a scomencin cul catatar *). 
+a vegnin considerâts dome i elements des listis (riis che a scomencin cul catatar *).
 Il prin leam intune rie al à di jessi un leam aun file indesiderâtI.
 I leams sucessîfs, su la stesse rie, a son considerâts come ecezions (ven a stâi pagjinis dulà che il file al pues jessi inserît normalmentri).',
 

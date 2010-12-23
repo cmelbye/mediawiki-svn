@@ -17,6 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
@@ -31,7 +32,7 @@ class CleanupSpam extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgLocalDatabases;
+		global $wgLocalDatabases, $wgUser;
 
 		$username = wfMsg( 'spambot_username' );
 		$wgUser = User::newFromName( $username );
@@ -44,7 +45,7 @@ class CleanupSpam extends Maintenance {
 		if ( !$like ) {
 			$this->error( "Not a valid hostname specification: $spec", true );
 		}
-	
+
 		if ( $this->hasOption( 'all' ) ) {
 			// Clean up spam on all wikis
 			$this->output( "Finding spam on " . count( $wgLocalDatabases ) . " wikis\n" );
@@ -87,12 +88,12 @@ class CleanupSpam extends Maintenance {
 			$this->error( "Internal error: no page for ID $id" );
 			return;
 		}
-	
+
 		$this->output( $title->getPrefixedDBkey() . " ..." );
 		$rev = Revision::newFromTitle( $title );
 		$revId = $rev->getId();
 		$currentRevId = $revId;
-	
+
 		while ( $rev && LinkFilter::matchEntry( $rev->getText() , $domain ) ) {
 			# Revision::getPrevious can't be used in this way before MW 1.6 (Revision.php 1.26)
 			# $rev = $rev->getPrevious();
@@ -122,7 +123,6 @@ class CleanupSpam extends Maintenance {
 				$article->doEdit( $rev->getText(), wfMsg( 'spam_reverting', $domain ), EDIT_UPDATE );
 			}
 			$dbw->commit();
-			wfDoUpdates();
 		}
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 /**
  * Include most things that's need to customize the site
+ *
+ * @file
  */
 
 /**
@@ -29,6 +31,7 @@ if ( !isset( $wgVersion ) ) {
 // Set various default paths sensibly...
 if( $wgScript === false ) $wgScript = "$wgScriptPath/index$wgScriptExtension";
 if( $wgRedirectScript === false ) $wgRedirectScript = "$wgScriptPath/redirect$wgScriptExtension";
+if( $wgLoadScript === false ) $wgLoadScript = "$wgScriptPath/load$wgScriptExtension";
 
 if( $wgArticlePath === false ) {
 	if( $wgUsePathInfo ) {
@@ -58,6 +61,28 @@ if( $wgDeletedDirectory === false ) $wgDeletedDirectory = "{$wgUploadDirectory}/
 
 if( isset( $wgFileStore['deleted']['directory'] ) ) {
 	$wgDeletedDirectory = $wgFileStore['deleted']['directory'];
+}
+
+if( isset($wgFooterIcons["copyright"]) &&
+  isset($wgFooterIcons["copyright"]["copyright"]) &&
+  $wgFooterIcons["copyright"]["copyright"] === array() ) {
+	if ( isset( $wgCopyrightIcon ) && $wgCopyrightIcon ) {
+		$wgFooterIcons["copyright"]["copyright"] = $wgCopyrightIcon;
+	} elseif ( $wgRightsIcon || $wgRightsText ) {
+		$wgFooterIcons["copyright"]["copyright"] = array(
+			"url" => $wgRightsUrl,
+			"src" => $wgRightsIcon,
+			"alt" => $wgRightsText,
+		);
+	} else {
+		unset($wgFooterIcons["copyright"]["copyright"]);
+	}
+}
+
+if( isset($wgFooterIcons["poweredby"]) &&
+  isset($wgFooterIcons["poweredby"]["mediawiki"]) &&
+  $wgFooterIcons["poweredby"]["mediawiki"]["src"] === null ) {
+	$wgFooterIcons["poweredby"]["mediawiki"]["src"] = "$wgStylePath/common/images/poweredby_mediawiki_88x31.png";
 }
 
 /**
@@ -166,7 +191,6 @@ require_once( "$IP/includes/Namespace.php" );
 require_once( "$IP/includes/ProxyTools.php" );
 require_once( "$IP/includes/ObjectCache.php" );
 require_once( "$IP/includes/ImageFunctions.php" );
-require_once( "$IP/includes/StubObject.php" );
 wfProfileOut( $fname.'-includes' );
 wfProfileIn( $fname.'-misc1' );
 
@@ -174,7 +198,7 @@ wfProfileIn( $fname.'-misc1' );
 wfMemoryLimit();
 
 /**
- * Set up the timezone, suppressing the pseudo-security warning in PHP 5.1+ 
+ * Set up the timezone, suppressing the pseudo-security warning in PHP 5.1+
  * that happens whenever you use a date function without the timezone being
  * explicitly set. Inspired by phpMyAdmin's treatment of the problem.
  */
@@ -182,20 +206,25 @@ wfSuppressWarnings();
 date_default_timezone_set( date_default_timezone_get() );
 wfRestoreWarnings();
 
-$wgIP = false; # Load on demand
 # Can't stub this one, it sets up $_GET and $_REQUEST in its constructor
 $wgRequest = new WebRequest;
 
 # Useful debug output
+global $wgCommandLineMode;
 if ( $wgCommandLineMode ) {
 	wfDebug( "\n\nStart command line script $self\n" );
 } else {
 	wfDebug( "Start request\n\n" );
 	# Output the REQUEST_URI. This is not supported by IIS in rewrite mode,
 	# so use an alternative
-	$requestUri = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : 
-		( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ? $_SERVER['HTTP_X_ORIGINAL_URL'] :
-		$_SERVER['PHP_SELF'] );
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$requestUri = $_SERVER['REQUEST_URI'];
+	} elseif ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
+		$requestUri = $_SERVER['HTTP_X_ORIGINAL_URL'];
+	} else {
+		$requestUri = $_SERVER['PHP_SELF'];
+	}
+
 	wfDebug( "{$_SERVER['REQUEST_METHOD']} {$requestUri}\n" );
 
 	if ( $wgDebugPrintHttpHeaders ) {
@@ -265,6 +294,9 @@ if ( !$wgHtml5Version && $wgHtml5 && $wgAllowRdfaAttributes ) {
 	else $wgHtml5Version = 'HTML+RDFa 1.0';
 }
 
+if ( $wgInvalidateCacheOnLocalSettingsChange ) {
+	$wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( "$IP/LocalSettings.php" ) ) );
+}
 
 wfProfileOut( $fname.'-misc1' );
 wfProfileIn( $fname.'-memcached' );
@@ -305,8 +337,8 @@ $wgCookiePrefix = strtr($wgCookiePrefix, "=,; +.\"'\\[", "__________");
 if( !wfIniGetBool( 'session.auto_start' ) )
 	session_name( $wgSessionName ? $wgSessionName : $wgCookiePrefix . '_session' );
 
-if( !defined( 'MW_NO_SESSION' ) ) {
-	if( !$wgCommandLineMode && ( $wgRequest->checkSessionCookie() || isset( $_COOKIE[$wgCookiePrefix.'Token'] ) ) ) {
+if( !defined( 'MW_NO_SESSION' ) && !$wgCommandLineMode ) {
+	if( $wgRequest->checkSessionCookie() || isset( $_COOKIE[$wgCookiePrefix.'Token'] ) ) {
 		wfIncrStats( 'request_with_session' );
 		wfSetupSession();
 		$wgSessionStarted = true;
@@ -323,14 +355,13 @@ $wgContLang = new StubContLang;
 
 // Now that variant lists may be available...
 $wgRequest->interpolateTitle();
-
-$wgUser = new StubUser;
+$wgUser = $wgCommandLineMode ? new User : User::newFromSession();
 $wgLang = new StubUserLang;
 $wgOut = new StubObject( 'wgOut', 'OutputPage' );
 $wgParser = new StubObject( 'wgParser', $wgParserConf['class'], array( $wgParserConf ) );
 
 $wgMessageCache = new StubObject( 'wgMessageCache', 'MessageCache',
-	array( $messageMemc, $wgUseDatabaseMessages, $wgMsgCacheExpiry, wfWikiID() ) );
+	array( $messageMemc, $wgUseDatabaseMessages, $wgMsgCacheExpiry ) );
 
 wfProfileOut( $fname.'-globals' );
 wfProfileIn( $fname.'-User' );
@@ -353,7 +384,6 @@ wfProfileOut( $fname.'-User' );
 wfProfileIn( $fname.'-misc2' );
 
 $wgDeferredUpdateList = array();
-$wgPostCommitUpdateList = array();
 
 if ( $wgAjaxUploadDestCheck ) $wgAjaxExportList[] = 'SpecialUpload::ajaxGetExistsWarning';
 

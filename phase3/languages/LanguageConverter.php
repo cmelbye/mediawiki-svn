@@ -1,11 +1,24 @@
 <?php
-
 /**
  * Contains the LanguageConverter class and ConverterRule class
- * @ingroup Language
  *
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
+ * @ingroup Language
  */
 
 /**
@@ -121,20 +134,18 @@ class LanguageConverter {
 
 	/**
 	 * Get preferred language variant.
-	 * @param $fromUser Boolean: get it from $wgUser's preferences
-	 * @param $fromHeader Boolean: get it from Accept-Language
 	 * @return String: the preferred language code
 	 */
-	public function getPreferredVariant( $fromUser = true, $fromHeader = false ) {
-		global $wgDefaultLanguageVariant;
+	public function getPreferredVariant() {
+		global $wgDefaultLanguageVariant, $wgUser;
 
 		$req = $this->getURLVariant();
 
-		if ( $fromUser && !$req ) {
+		if ( $wgUser->isLoggedIn() && !$req ) {
 			$req = $this->getUserVariant();
 		}
 
-		if ( $fromHeader && !$req ) {
+		elseif ( !$req ) {
 			$req = $this->getHeaderVariant();
 		}
 
@@ -146,6 +157,26 @@ class LanguageConverter {
 		// not memoized (i.e. there return value is not cached) since
 		// new information might appear during processing after this
 		// is first called.
+		if ( $req ) {
+			return $req;
+		}
+		return $this->mMainLanguageCode;
+	}
+
+	/**
+	 * Get default variant.
+	 * This function would not be affected by user's settings or headers
+	 * @return String: the default variant code
+	 */
+	public function getDefaultVariant() {
+		global $wgDefaultLanguageVariant;
+
+		$req = $this->getURLVariant();
+
+		if ( $wgDefaultLanguageVariant && !$req ) {
+			$req = $this->validateVariant( $wgDefaultLanguageVariant );
+		}
+
 		if ( $req ) {
 			return $req;
 		}
@@ -170,9 +201,8 @@ class LanguageConverter {
 	 *
 	 * @return Mixed: variant if one found, false otherwise.
 	 */
-	protected function getURLVariant() {
+	public function getURLVariant() {
 		global $wgRequest;
-		$ret = null;
 
 		if ( $this->mURLVariant ) {
 			return $this->mURLVariant;
@@ -195,7 +225,6 @@ class LanguageConverter {
 	 */
 	protected function getUserVariant() {
 		global $wgUser;
-		$ret = null;
 
 		// memoizing this function wreaks havoc on parserTest.php
 		/* if ( $this->mUserVariant ) { */
@@ -217,7 +246,6 @@ class LanguageConverter {
 		return $this->mUserVariant = $this->validateVariant( $ret );
 	}
 
-
 	/**
 	 * Determine the language variant from the Accept-Language header.
 	 *
@@ -225,7 +253,6 @@ class LanguageConverter {
 	 */
 	protected function getHeaderVariant() {
 		global $wgRequest;
-		$ret = null;
 
 		if ( $this->mHeaderVariant ) {
 			return $this->mHeaderVariant;
@@ -233,29 +260,13 @@ class LanguageConverter {
 
 		// see if some supported language variant is set in the
 		// http header.
-		$acceptLanguage = $wgRequest->getHeader( 'Accept-Language' );
-		if ( !$acceptLanguage ) {
+		$languages = array_keys( $wgRequest->getAcceptLang() );
+		if ( empty( $languages ) ) {
 			return null;
-		}
-
-		// explode by comma
-		$result = StringUtils::explode( ',', strtolower( $acceptLanguage ) );
-		$languages = array();
-
-		foreach ( $result as $elem ) {
-			// if $elem likes 'zh-cn;q=0.9'
-			if ( ( $posi = strpos( $elem, ';' ) ) !== false ) {
-				// get the real language code likes 'zh-cn'
-				$languages[] = substr( $elem, 0, $posi );
-			} else {
-				$languages[] = $elem;
-			}
 		}
 
 		$fallback_languages = array();
 		foreach ( $languages as $language ) {
-			// strip whitespace
-			$language = trim( $language );
 			$this->mHeaderVariant = $this->validateVariant( $language );
 			if ( $this->mHeaderVariant ) {
 				break;
@@ -447,7 +458,7 @@ class LanguageConverter {
 
 	/**
 	 * Apply manual conversion rules.
-	 * 
+	 *
 	 * @param $convRule Object: Object of ConverterRule
 	 */
 	protected function applyManualConv( $convRule ) {
@@ -456,7 +467,7 @@ class LanguageConverter {
 		// Bug 24072: $mConvRuleTitle was overwritten by other manual
 		// rule(s) not for title, this breaks the title conversion.
 		$newConvRuleTitle = $convRule->getTitle();
-		if( $newConvRuleTitle ) {
+		if ( $newConvRuleTitle ) {
 			// So I add an empty check for getTitle()
 			$this->mConvRuleTitle = $newConvRuleTitle;
 		}
@@ -532,7 +543,7 @@ class LanguageConverter {
 		$variant = $this->getPreferredVariant();
 		return $this->convertTo( $text, $variant );
 	}
-	
+
 	/**
 	 * Same as convert() except a extra parameter to custom variant.
 	 *
@@ -560,13 +571,11 @@ class LanguageConverter {
 		$out = '';
 		$length = strlen( $text );
 		while ( $startPos < $length ) {
-			$m = false;
 			$pos = strpos( $text, '-{', $startPos );
-			
+
 			if ( $pos === false ) {
 				// No more markup, append final segment
 				$out .= $this->autoConvert( substr( $text, $startPos ), $variant );
-				$startPos = $length;
 				return $out;
 			}
 
@@ -595,7 +604,7 @@ class LanguageConverter {
 	protected function recursiveConvertRule( $text, $variant, &$startPos, $depth = 0 ) {
 		// Quick sanity check (no function calls)
 		if ( $text[$startPos] !== '-' || $text[$startPos + 1] !== '{' ) {
-			throw new MWException( __METHOD__.': invalid input string' );
+			throw new MWException( __METHOD__ . ': invalid input string' );
 		}
 
 		$startPos += 2;
@@ -628,7 +637,7 @@ class LanguageConverter {
 						$inner .= '-{';
 						if ( !$warningDone ) {
 							$inner .= '<span class="error">' .
-								wfMsgForContent( 'language-converter-depth-warning', 
+								wfMsgForContent( 'language-converter-depth-warning',
 									$this->mMaxDepth ) .
 								'</span>';
 							$warningDone = true;
@@ -647,7 +656,7 @@ class LanguageConverter {
 					$this->applyManualConv( $rule );
 					return $rule->getDisplay();
 				default:
-					throw new MWException( __METHOD__.': invalid regex match' );
+					throw new MWException( __METHOD__ . ': invalid regex match' );
 			}
 		}
 
@@ -841,7 +850,7 @@ class LanguageConverter {
 
 		if ( strpos( $code, '/' ) === false ) {
 			$txt = $wgMessageCache->get( 'Conversiontable', true, $code );
-			if( $txt === false ){
+			if ( $txt === false ) {
 				# FIXME: this method doesn't seem to be expecting
 				# this possible outcome...
 				$txt = '&lt;Conversiontable&gt;';
@@ -881,7 +890,6 @@ class LanguageConverter {
 			}
 		}
 
-
 		// parse the mappings in this page
 		$blocks = StringUtils::explode( '-{', $txt );
 		$ret = array();
@@ -907,7 +915,6 @@ class LanguageConverter {
 		}
 		$parsed[$key] = true;
 
-
 		// recursively parse the subpages
 		if ( $recursive ) {
 			foreach ( $sublinks as $link ) {
@@ -918,7 +925,7 @@ class LanguageConverter {
 
 		if ( $this->mUcfirst ) {
 			foreach ( $ret as $k => $v ) {
-				$ret[Language::ucfirst( $k )] = Language::ucfirst( $v );
+				$ret[$this->mLangObj->ucfirst( $k )] = $this->mLangObj->ucfirst( $v );
 			}
 		}
 		return $ret;
@@ -976,11 +983,10 @@ class LanguageConverter {
 	 * Wrap math into rawoutput -{R| math }- syntax.
 	 */
 	public function armourMath( $text ) {
-		// we need to convert '-{' and '}-' to '-&#123;' and '&#125;-'
-		// to avoid a unwanted '}-' appeared after the math-image.
+		// convert '-{' and '}-' to '-&#123;' and '&#125;-' to prevent
+		// any unwanted markup appearing in the math image tag.
 		$text = strtr( $text, array( '-{' => '-&#123;', '}-' => '&#125;-' ) );
-		$ret = "-{R|$text}-";
-		return $ret;
+		return $text;
 	}
 
 	/**
@@ -1131,7 +1137,6 @@ class ConverterRule {
 	 */
 	function parseRules() {
 		$rules = $this->mRules;
-		$flags = $this->mFlags;
 		$bidtable = array();
 		$unidtable = array();
 		$variants = $this->mConverter->mVariants;
@@ -1279,7 +1284,7 @@ class ConverterRule {
 			}
 			/*for unidirectional array fill to convert tables */
 			if ( ( $manLevel[$v] == 'bidirectional' || $manLevel[$v] == 'unidirectional' )
-				&& isset( $unidtable[$v] ) ) 
+				&& isset( $unidtable[$v] ) )
 			{
 				if ( isset( $this->mConvTable[$v] ) ) {
 					$this->mConvTable[$v] = array_merge( $this->mConvTable[$v], $unidtable[$v] );
@@ -1299,7 +1304,6 @@ class ConverterRule {
 			$variant = $this->mConverter->getPreferredVariant();
 		}
 
-		$variants = $this->mConverter->mVariants;
 		$this->parseFlags();
 		$flags = $this->mFlags;
 

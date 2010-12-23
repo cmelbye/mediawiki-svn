@@ -1,5 +1,8 @@
 <?php
 /**
+ * Job queue base code
+ *
+ * @file
  * @defgroup JobQueue JobQueue
  */
 
@@ -114,7 +117,6 @@ abstract class Job {
 				return false;
 			}
 		}
-		$offset = $row->job_id;
 
 		// Try to delete it from the master
 		$dbw = wfGetDB( DB_MASTER );

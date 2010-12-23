@@ -1,6 +1,7 @@
 <?php
 /**
  * File for magic words
+ *
  * See docs/magicword.txt
  *
  * @file
@@ -60,6 +61,7 @@ class MagicWord {
 		'numberofarticles',
 		'numberoffiles',
 		'numberofedits',
+		'articlepath',
 		'sitename',
 		'server',
 		'servername',
@@ -514,7 +516,6 @@ class MagicWordArray {
 	 * Add a magic word by name
 	 */
 	public function add( $name ) {
-		global $wgContLang;
 		$this->names[] = $name;
 		$this->hash = $this->baseRegex = $this->regex = null;
 	}
@@ -647,7 +648,6 @@ class MagicWordArray {
 		}
 		// This shouldn't happen either
 		throw new MWException( __METHOD__.': parameter not found' );
-		return array( false, false );
 	}
 
 	/**
@@ -657,7 +657,6 @@ class MagicWordArray {
 	 * Both elements are false if there was no match.
 	 */
 	public function matchVariableStartToEnd( $text ) {
-		global $wgContLang;
 		$regexes = $this->getVariableStartToEndRegex();
 		foreach ( $regexes as $regex ) {
 			if ( $regex !== '' ) {
@@ -721,7 +720,7 @@ class MagicWordArray {
 				continue;
 			}
 			if ( preg_match( $regex, $text, $m ) ) {
-				list( $id, $param ) = $this->parseMatch( $m );
+				list( $id, ) = $this->parseMatch( $m );
 				if ( strlen( $m[0] ) >= strlen( $text ) ) {
 					$text = '';
 				} else {

@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Andrijko Z.
  * @author Sura
  * @author Triple-ADHD-AS
  * @author Игорь Бродский
@@ -100,11 +101,12 @@ $messages = array(
 'tog-editsection'             => 'Ozutada "Redaktiruida"-kosketuz kaikuččen sekcijan täht',
 'tog-editsectiononrightclick' => 'Redaktiruida sekcijad hiren oiktal plokul pälkirjutesele (JavaScript)',
 'tog-showtoc'                 => 'Ozutada südäimišt (lehtpoled, kudambil om enamba, mi 3 pälkirjutest)',
-'tog-rememberpassword'        => 'Muštta minun kävutajan nimi neciš kompjuteras',
+'tog-rememberpassword'        => 'Muštta minun kävutajan nimi neciš kompjuteras (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Ližata kaik minai sätud lehtpoled minun kaclendkirjuteshe',
 'tog-watchdefault'            => 'Ližata kaik minai toižetadud lehtpoled minun kaclendkirjuteshe',
 'tog-watchmoves'              => 'Ližata kaik minai udesnimitadud lehtpoled minun kaclendkirjuteshe',
 'tog-watchdeletion'           => 'Ližata kaik minai čutud lehtpoled minun kaclendkirjuteshe',
+'tog-minordefault'            => 'Znamoita äugotižjärgendusen mödhe kaik toižetused penikš',
 'tog-previewontop'            => 'Panda ezikacund redaktiruindan iknan edehe',
 'tog-previewonfirst'          => 'Ozutada ezikacund redaktiruindan augotades',
 'tog-nocache'                 => "Kel'ta lehtpoliden keširuind",
@@ -244,31 +246,20 @@ $messages = array(
 'faqpage'        => 'Project:PPK',
 
 # Vector skin
-'vector-action-addsection'   => 'Ližada tem',
-'vector-action-delete'       => 'Čuta poiš',
-'vector-action-move'         => 'Udesnimitada',
-'vector-action-protect'      => 'Kaita',
-'vector-action-undelete'     => 'Pördutada',
-'vector-action-unprotect'    => 'Heitta kaičend',
-'vector-namespace-category'  => 'Kategorii',
-'vector-namespace-help'      => "Abun lehtpol'",
-'vector-namespace-image'     => 'Fail',
-'vector-namespace-main'      => "Lehtpol'",
-'vector-namespace-media'     => "Medialehtpol'",
-'vector-namespace-mediawiki' => 'Kirjeine',
-'vector-namespace-project'   => "Projektan lehtpol'",
-'vector-namespace-special'   => "Specialine lehtpol'",
-'vector-namespace-talk'      => 'Diskussii',
-'vector-namespace-template'  => 'Šablon',
-'vector-namespace-user'      => "Kävutajan lehtpol'",
-'vector-view-create'         => 'Säta',
-'vector-view-edit'           => 'Redaktiruida',
-'vector-view-history'        => 'Kacta istorii',
-'vector-view-view'           => 'Lugeda',
-'vector-view-viewsource'     => 'Kacta purtkehe',
-'actions'                    => 'Tegendad',
-'namespaces'                 => 'Nimiavaruded',
-'variants'                   => 'Variantad',
+'vector-action-addsection' => 'Ližada tem',
+'vector-action-delete'     => 'Čuta poiš',
+'vector-action-move'       => 'Udesnimitada',
+'vector-action-protect'    => 'Kaita',
+'vector-action-undelete'   => 'Pördutada',
+'vector-action-unprotect'  => 'Heitta kaičend',
+'vector-view-create'       => 'Säta',
+'vector-view-edit'         => 'Redaktiruida',
+'vector-view-history'      => 'Kacta istorii',
+'vector-view-view'         => 'Lugeda',
+'vector-view-viewsource'   => 'Kacta purtkehe',
+'actions'                  => 'Tegendad',
+'namespaces'               => 'Nimiavaruded',
+'variants'                 => 'Variantad',
 
 'errorpagetitle'    => 'Petuz',
 'returnto'          => 'Pörttas lehtpolele $1.',
@@ -423,7 +414,7 @@ Andmusiden baz pördi petusen "$3: $4"',
 
 Mugoi situacii sündub tobjimalaz, konz kävutai ladib lähtta lehtpolen toižetuzistorijaha vanhtunut i čutud kosketustme.
 
-Ku azj ei ole neciš, ka tö, nägub, olet löudnuded vigan programmas. Olgat hüväd, kirjutagat necen polhe [[Special:ListUsers/sysop|administratorale]]. 
+Ku azj ei ole neciš, ka tö, nägub, olet löudnuded vigan programmas. Olgat hüväd, kirjutagat necen polhe [[Special:ListUsers/sysop|administratorale]].
 Ližakat URL.',
 'missingarticle-rev'   => '(versii № $1)',
 'missingarticle-diff'  => '(Ero: $1, $2)',
@@ -484,7 +475,7 @@ Algat unohtagoi [[Special:Preferences|järgeta personaližikš]] sait.',
 'yourname'                => 'Kävutajan nimi:',
 'yourpassword'            => 'Peitsana:',
 'yourpasswordagain'       => 'Kirjutagat peitsana udes:',
-'remembermypassword'      => 'Panda muštho minun tulendandmused neciš kompjuteras',
+'remembermypassword'      => 'Panda muštho minun tulendandmused neciš kompjuteras (enintään $1 {{PLURAL:$1|päivä|päivää}})',
 'yourdomainname'          => 'Teiden domen:',
 'externaldberror'         => 'Ozaižihe petuz autentifikacijan, kudamb tehtihe andmusiden irdbazan turbiš, aigan, vai teile ei ulotu oiktusid toižetada ičetoi irdregistracijad.',
 'login'                   => 'Kirjutadas sistemha',
@@ -618,7 +609,7 @@ Sü: ''$2''.
 * Blokiruindan lopaig: $6
 * Blokiruidud kävutai: $7
 
-Otkat sil'mnägubale, miše teile ei sa oigeta kirješt administratorale, ku tö et olgoi sanuded registracijad i et olgoi vahvištoitnuded ičetoi e-počtan adresad 
+Otkat sil'mnägubale, miše teile ei sa oigeta kirješt administratorale, ku tö et olgoi sanuded registracijad i et olgoi vahvištoitnuded ičetoi e-počtan adresad
 [[Special:Preferences|teiden järgendusiden lehtpolel]], vai teile oma kel'tnuded kirjeižid oigendamha blokiruindan aigan.
 Teiden IP-adres om $3, teiden blokiruindan ID om #$5.
 Olgat hüväd, kirjutagat nened andmused kaikiš kirjeižiš administratorile.",
@@ -630,7 +621,7 @@ Sü: ''$2''.
 * Blokiruindan lopaig: $6
 * Blokiruidud kävutai: $7
 
-Otkat sil'mnägubale, miše teile ei sa oigeta kirješt administratorale, ku tö et olgoi sanuded registracijad i et olgoi vahvištoitnuded ičetoi e-počtan adresad 
+Otkat sil'mnägubale, miše teile ei sa oigeta kirješt administratorale, ku tö et olgoi sanuded registracijad i et olgoi vahvištoitnuded ičetoi e-počtan adresad
 [[Special:Preferences|teiden järgendusiden lehtpolel]], vai teile oma kel'tnuded kirjeižid oigendamha blokiruindan aigan.
 Teiden IP-adres om $3, teiden blokiruindan ID om #$5.
 Olgat hüväd, kirjutagat nened andmused kaikiš kirjeižiš administratorile.",
@@ -649,11 +640,11 @@ Voib olda, se om sirtud vai čutud poiš lugemižen aigan.',
 'loginreqpagetext'                 => 'Teile pidab $1, miše lugeda toižid lehtpolid.',
 'accmailtitle'                     => 'Peitsana om oigetud.',
 'newarticle'                       => '(Uz’)',
-'newarticletext'                   => "Tö tulit kosketustme lehtpolele, kudamb ei olend tehtud völ. 
+'newarticletext'                   => "Tö tulit kosketustme lehtpolele, kudamb ei olend tehtud völ.
 Miše säta lehtpol', kirjutaškakat alemba sijatud iknas (kc. [[{{MediaWiki:Helppage}}|abun lehtpol']], miše sada ližainformacijad).
 Ku tö olet petnus tänna tuldes, pingat teiden kaclimen '''tagaze'''-kingitimele.",
 'noarticletext'                    => 'Necil lehtpolel ei ole nügüd\' tekstad.
-Tö voit [[Special:Search/{{PAGENAME}}|ectä nece nimi]] toižil lehtpolil, 
+Tö voit [[Special:Search/{{PAGENAME}}|ectä nece nimi]] toižil lehtpolil,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ectä pojavid aigkirjoiden kirjutesid],
 vai [{{fullurl:{{FULLPAGENAME}}|action=edit}} redaktiruida nece lehtpol\']</span>.',
 'userpage-userdoesnotexist'        => "Kävutajan nimed «$1» ei ole. Todeks-ik tahtoit säta vai toižetada nece lehtpol'?",
@@ -687,17 +678,14 @@ Ku tö et tahtkoi, miše teiden tekstad levitaižiba da redaktiruižiba miččed
 Tö vahvištoitat mugažo, miše olet toižetusiden avtoran vai olet kopiruinuded tekstad joudjas purtkespäi.
 
 '''ALGAT SIJAKOI LASKMATA AVTORANOIKTUSEL KAITUD MATERIALOID!'''",
-'longpagewarning'                  => "'''HOMAIKAT:''' Necen lehtpolen suruz om $1 kb;
-erasil kaclimil om problemoid, konz ned kaceltas 32 kb ülitajid lehtpolid.
-Olgat hüväd, jagakat lehtpol' penembihe paloihe.",
 'longpageerror'                    => "'''PETUZ: Teiden tekstan suruz om $1 kb, a lasktud maksimum om $2 kb.'''
 Ei voi kirjutada muštho.",
 'protectedpagewarning'             => "'''VARUTUZ: nece lehtpol' om luklostadud, sidä voidas redaktiruida vaiše administratorad.'''
 Alemba om anttud jäl'gmäine aiglehtesen kirjutez:",
 'semiprotectedpagewarning'         => "'''Tedotuz:''' Nece lehtpol' om kaitud redaktiruindaspäi; vaiše registriruidud kävutajad voidas redaktiruida sidä.
 Alemba om anttud jäl'gmäine aiglehtesen kirjutez:",
-'cascadeprotectedwarning'          => "'''Homaikat:''' Nece lehtpol' om luklostadud muga, miše vaiše kävutajad administratoriden privilegijoidenke voidas 
-redaktiruida sidä, sikš miše se oli mülütadud {{PLURAL:$1|neche lehtpol'he, kudamban|nenihe lehtpolihe, kudambiden}} 
+'cascadeprotectedwarning'          => "'''Homaikat:''' Nece lehtpol' om luklostadud muga, miše vaiše kävutajad administratoriden privilegijoidenke voidas
+redaktiruida sidä, sikš miše se oli mülütadud {{PLURAL:$1|neche lehtpol'he, kudamban|nenihe lehtpolihe, kudambiden}}
 täht oli sätud kaskadkaičend:",
 'titleprotectedwarning'            => "'''Homaikat: Nece lehtpol' om luklostadud, sikš pidab sada [[Special:ListGroupRights|specialižed oiktused]], miše säta se.'''
 Alemba om anttud jäl'gmäine aiglehtesen kirjutez:",
@@ -1060,6 +1048,7 @@ Ku tö kirjutat sen, nece nimi kävutadas, miše ozutada lehtpolen toižetajad.'
 'prefs-advancedrendering'     => 'Ližaopcijad',
 'prefs-advancedsearchoptions' => 'Ližaopcijad',
 'prefs-advancedwatchlist'     => 'Ližaopcijad',
+'prefs-displayrc'             => 'Nägun opcijad',
 'prefs-diffs'                 => 'Erod',
 
 # User rights
@@ -1206,14 +1195,9 @@ Ku tö kirjutat sen, nece nimi kävutadas, miše ozutada lehtpolen toižetajad.'
 'recentchanges-legend'              => 'Tantoižiden toižetusiden järgendused',
 'recentchangestext'                 => 'Necil lehtpolil om tantoižid toižetusid {{SITENAME}}-saital.',
 'recentchanges-feed-description'    => "Kacelta jäl'gmäižid toižetusid wikiš neciš valus.",
-'recentchanges-label-legend'        => 'Legend: $1.',
-'recentchanges-legend-newpage'      => "$1 - uz' lehtpol'",
 'recentchanges-label-newpage'       => 'Nece redakcii sädi uden lehtpolen',
-'recentchanges-legend-minor'        => '$1 - penikaine redakcii',
 'recentchanges-label-minor'         => 'Nece redakcii om penikaine',
-'recentchanges-legend-bot'          => '$1 - botan redakcii',
 'recentchanges-label-bot'           => 'Necen redakcijan tegi bot',
-'recentchanges-legend-unpatrolled'  => '$1 - patruliruimatoi redakcii',
 'recentchanges-label-unpatrolled'   => 'Necidä redakcijad ei völ patruliruinugoi',
 'rcnote'                            => "Alahan om ozutadud {{PLURAL:$1| '''1''' toižetuz|'''$1''' toižetust}} {{PLURAL:$2|jäl'gmäižes päiväs|jäl'gmäižiš '''$2''' päiviš}}, aigal $5, $4.",
 'rcnotefrom'                        => "Alemba oma anttud toižetused '''$2'''-späi ( '''$1'''-hesai).",
@@ -1290,7 +1274,6 @@ Lasktud {{PLURAL:\$3|failan tip om|failoiden tipad oma}} \$2.",
 Voib olda, necen sü om vär failannimen kirjutamine.
 Olgat hüväd, kodvgat, todeks-ik tö tahtoit jügutoitta nece fail.",
 'file-exists-duplicate'      => 'Nece fail om {{PLURAL:$1|necen failan|neniden failoiden}} dublikat:',
-'successfulupload'           => 'Jügutoitand lopihe satusekahas',
 'uploadwarning'              => 'Varutuz jügutoitmižes',
 'savefile'                   => 'Kirjutada fail',
 'uploadedimage'              => 'om jügutoitnu "[[$1]]"',
@@ -1307,6 +1290,7 @@ Olgat hüväd, kodvgat, todeks-ik tö tahtoit jügutoitta nece fail.",
 'upload-maxfilesize'         => 'Failan maksimaline suruz: $1',
 'upload-description'         => 'failan ümbrikirjutand',
 'watchthisupload'            => 'Kacelta necidä failad',
+'upload-success-subj'        => 'Jügutoitand lopihe satusekahas',
 
 'upload-proto-error'        => 'Vär protokol',
 'upload-proto-error-text'   => 'Miše jügutoitta edahanpäi, kävutagat URL, kudamb augotase <code>http://</code> vai <code>ftp://</code>.',
@@ -1649,7 +1633,6 @@ Kc. mugažo [[Special:WantedCategories|ectud kategorijoiden nimikirjutez]].',
 # Watchlist
 'watchlist'          => 'Kaclendnimikirjutez',
 'mywatchlist'        => 'Minun kaclendnimikirjutez',
-'watchlistfor'       => "('''$1''')",
 'nowatchlist'        => "Teiden kaclendnimikirjutez om pall'az.",
 'watchlistanontext'  => 'Olgat hüväd, $1, miše lugeda vai redaktiruida teiden kaclendnimikirjutez.',
 'watchnologin'       => 'Pidab kirjutadas sistemha',
@@ -1742,13 +1725,13 @@ Kc. $2, miše lugeda tantoižiden čudandoiden nimikirjutez.',
 'deletereasonotherlist'  => 'Toinejitte sü',
 'deletereason-dropdown'  => '*Tipižed čudandan süd:
 ** Avtoran pakičend
-** Avtoran oiktusen murenduz 
+** Avtoran oiktusen murenduz
 ** Vandalizm',
 'delete-edit-reasonlist' => 'Redaktiruida čudandan süiden nimikirjutez',
 'delete-toobig'          => "Necil lehtpolel om avar redaktiruinadan istorii - enamba {{PLURAL:$1|versii|versijad}}.
 Mugoižiden lehtpoliden čudand om kel'tud, miše sait radaiži normaližikš.",
-'delete-warning-toobig'  => 'Necil lehtpolel om avar redaktiruinadan istorii - enamba $1 {{PLURAL:$1|versii|versijad}}. 
-Mugoižiden lehtpoliden čudand voiži telustada {{SITENAME}}-saitan andmuzbazan normaližele radole. 
+'delete-warning-toobig'  => 'Necil lehtpolel om avar redaktiruinadan istorii - enamba $1 {{PLURAL:$1|versii|versijad}}.
+Mugoižiden lehtpoliden čudand voiži telustada {{SITENAME}}-saitan andmuzbazan normaližele radole.
 Tehkat kaik varumujandanke!',
 
 # Rollback
@@ -1954,7 +1937,6 @@ Kc. [[Special:IPBlockList|blokiruidud IP-adresoiden nimikirjuteshe]].',
 'ipb-edit-dropdown'               => 'Redaktiruida süiden nimikirjutez',
 'ipb-unblock-addr'                => 'Heitta blokiruind kävutajalpäi $1',
 'ipb-unblock'                     => 'Heitta blokiruind kävutajan nimelpäi vai IP-adresalpäi',
-'ipb-blocklist-addr'              => 'Kävutajan $1 aktualižed blokiruindad',
 'ipb-blocklist'                   => 'Ozutada aktualižed blokiruindad',
 'ipb-blocklist-contribs'          => 'Kävutajan $1 tond',
 'unblockip'                       => 'Heitta blokiruind IP-adresalpäi',

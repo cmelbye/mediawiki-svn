@@ -19,6 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
@@ -38,14 +39,11 @@ class UpdateDoubleWidthSearch extends Maintenance {
 	}
 
 	public function execute() {
-		$quiet = $this->hasOption( 'q' );
 		$maxLockTime = $this->getOption( 'l', 20 );
-		$lockTime = time();
 
 		$dbw = wfGetDB( DB_MASTER );
 		if ( $dbw->getType() !== 'mysql' ) {
-			$this->output( "This change is only needed on MySQL, quitting.\n" );
-			exit( 1 );
+			$this->error( "This change is only needed on MySQL, quitting.\n", true );
 		}
 
 		$res = $this->findRows( $dbw );
@@ -62,8 +60,8 @@ class UpdateDoubleWidthSearch extends Maintenance {
 		$searchindex = $dbw->tableName( 'searchindex' );
 		$regexp = '[[:<:]]u8efbd([89][1-9a]|8[b-f]|90)[[:>:]]';
 		$sql = "SELECT si_page FROM $searchindex
-                 WHERE ( si_text RLIKE '$regexp' )
-                    OR ( si_title RLIKE '$regexp' )";
+				 WHERE ( si_text RLIKE '$regexp' )
+					OR ( si_title RLIKE '$regexp' )";
 		return $dbw->query( $sql, __METHOD__ );
 	}
 }

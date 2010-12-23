@@ -34,7 +34,7 @@ $namespaceNames = array(
 	NS_CATEGORY         => 'Turkum',
 	NS_CATEGORY_TALK    => 'Turkum_munozarasi',
 );
-	
+
 $namespaceAliases = array(
 	'Mediya'                => NS_MEDIA,
 	'MediyaViki'            => NS_MEDIAWIKI,
@@ -223,7 +223,7 @@ Shuni e'tiborga olingki, ayrim sahifalar siz brauzeringiz keshini tozalamaguning
 'yourname'                => 'Foydalanuvchi nomi',
 'yourpassword'            => "Maxfiy so'z",
 'yourpasswordagain'       => "Maxfiy so'zni qayta kiriting",
-'remembermypassword'      => "Hisob ma'lumotlarini shu kompyuterda eslab qolish",
+'remembermypassword'      => "Hisob ma'lumotlarini shu kompyuterda eslab qolish (for a maximum of $1 {{PLURAL:$1|day|days}})",
 'login'                   => 'Kirish',
 'nav-login-createaccount' => 'Kirish / Hisob yaratish',
 'loginprompt'             => "{{SITENAME}}ga kirish uchun kukilar yoqilgan bo'lishi kerak.",
@@ -293,8 +293,6 @@ Siz shuningdek bu yozganlaringiz sizniki yoki erkin litsenziya ostida ekanligini
 'copyrightwarning2'          => "Iltimos, shuni esda tutingki, {{SITENAME}} sahifalaridagi barcha matnlar boshqa foydalanuvchilar tomonidan tahrirlanishi, almashtirilishi yoki o'chirilishi mumkin. Agar siz yozgan ma'lumotlaringizni bunday tartibda tahrirlanishiga rozi bo'lmasangiz, unda uni bu yerga joylashtirmang.<br />
 Bundan tashqari, siz ushbu ma'lumotlarni o'zingiz yozgan bo'lishingiz yoki ruxsat berilgan internet manzilidan yoki shu kabi erkin resursdan nusxa olgan bo'lishingiz lozim (Qo'shimcha ma'lumotlar ushun $1 sahifasiga murojaat qiling).
 '''MUALLIFLIK HUQUQI QO'YILGAN ISHLARNI RUXSATSIZ BU YERGA JOYLASHTIRMANG!'''",
-'longpagewarning'            => "'''DIQQAT: Ushbu sahifa hajmi $1 kilobaytdir; ayrim browser'lar 32 kb dan oshiq hajmli sahifalarni tahrirlashda muammolarga duch kelishi mumkin.
-Agar sizda shunday muammolar yuzaga kelsa, iltimos, sahifani butunlay emas, qismlab tahrirlang.'''",
 'templatesused'              => 'Ushbu sahifada ishlatilgan andozalar:',
 'template-protected'         => '(himoyalangan)',
 'template-semiprotected'     => '(yarim-himoyalangan)',
@@ -475,7 +473,9 @@ Bu yerda: (joriy) = hozirgi koʻrinish bilan farq,
 
 # Special:Categories
 'categories'         => 'Turkumlar',
-'categoriespagetext' => 'Ushbu turkumlarda sahifa yoki fayllar mavjud.',
+'categoriespagetext' => 'Ushbu turkumlarda sahifa yoki fayllar mavjud.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:Log/newusers
 'newuserlog-create-entry' => 'Yangi foydalanuvchi',
@@ -486,7 +486,6 @@ Bu yerda: (joriy) = hozirgi koʻrinish bilan farq,
 # Watchlist
 'watchlist'        => 'Kuzatuv roʻyxatim',
 'mywatchlist'      => 'Kuzatuv roʻyxatim',
-'watchlistfor'     => "('''$1''' uchun)",
 'nowatchlist'      => "Kuzatuv ro'yxatingizda hech narsa yo'q.",
 'addedwatch'       => "Kuzatuv ro'yxatiga qo'shildi",
 'addedwatchtext'   => "\"[[:\$1]]\" sahifasi sizning [[Special:Watchlist|kuzatuv ro'yxatingizga]] qo'shildi. Bu sahifada va unga mos munozara sahifasida bo'ladigan kelajakdagi o'zgarishlar bu yerda ro'yxatga olinadi, hamda bu sahifa topish qulay bo'lishi uchun [[Special:RecentChanges|yangi o'zgarishlar ro'yxati]]da '''qalin''' harflar bilan ko'rsatiladi.

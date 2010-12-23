@@ -2,7 +2,7 @@
 /**
  * We want to make this whole thing as seamless as possible to the
  * end-user. Unfortunately, we can't do _all_ of the work in the class
- * because A) included files are not in global scope, but in the scope 
+ * because A) included files are not in global scope, but in the scope
  * of their caller, and B) MediaWiki has way too many globals. So instead
  * we'll kinda fake it, and do the requires() inline. <3 PHP
  *
@@ -24,7 +24,7 @@
  * @ingroup Maintenance
  */
 
-require_once( "Maintenance.php" );
+require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 
 class DeleteSelfExternals extends Maintenance {
@@ -33,7 +33,7 @@ class DeleteSelfExternals extends Maintenance {
 		$this->mDescription = 'Delete self-references to $wgServer from externallinks';
 		$this->mBatchSize = 1000;
 	}
-	
+
 	public function execute() {
 		global $wgServer;
 		$this->output( "Deleting self externals from $wgServer\n" );
@@ -45,7 +45,7 @@ class DeleteSelfExternals extends Maintenance {
 				. $db->buildLike( $wgServer . '/', $db->anyString() ), $this->mBatchSize );
 			$this->output( "Deleting a batch\n" );
 			$db->query( $q );
-			if ( !$db->affectedRows() ) exit( 0 );
+			if ( !$db->affectedRows() ) return;
 		}
 	}
 }

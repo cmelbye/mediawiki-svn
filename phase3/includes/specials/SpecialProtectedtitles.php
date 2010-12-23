@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Protectedtitles
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +16,30 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
+ *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * @todo document
+ * A special page that list protected titles from creation
+ *
  * @ingroup SpecialPage
  */
-class ProtectedTitlesForm {
+class SpecialProtectedtitles extends SpecialPage {
 
 	protected $IdLevel = 'level';
 	protected $IdType  = 'type';
 
-	function showList( $msg = '' ) {
+	public function __construct() {
+		parent::__construct( 'Protectedtitles' );
+	}
+
+	function execute( $par ) {
 		global $wgOut, $wgRequest;
 
-		if ( $msg != "" ) {
-			$wgOut->setSubtitle( $msg );
-		}
+		$this->setHeaders();
+		$this->outputHeader();
 
 		// Purge expired entries on one in every 10 queries
 		if ( !mt_rand( 0, 10 ) ) {
@@ -51,7 +54,7 @@ class ProtectedTitlesForm {
 
 		$pager = new ProtectedTitlesPager( $this, array(), $type, $level, $NS, $sizetype, $size );
 
-		$wgOut->addHTML( $this->showOptions( $NS, $type, $level, $sizetype, $size ) );
+		$wgOut->addHTML( $this->showOptions( $NS, $type, $level ) );
 
 		if ( $pager->getNumRows() ) {
 			$s = $pager->getNavigationBar();
@@ -69,7 +72,7 @@ class ProtectedTitlesForm {
 	 * Callback function to output a restriction
 	 */
 	function formatRow( $row ) {
-		global $wgUser, $wgLang, $wgContLang;
+		global $wgUser, $wgLang;
 
 		wfProfileIn( __METHOD__ );
 
@@ -87,7 +90,7 @@ class ProtectedTitlesForm {
 
 		$description_items[] = $protType;
 
-		$expiry_description = ''; $stxt = '';
+		$stxt = '';
 
 		if ( $row->pt_expiry != 'infinity' && strlen($row->pt_expiry) ) {
 			$expiry = Block::decodeExpiry( $row->pt_expiry );
@@ -106,11 +109,9 @@ class ProtectedTitlesForm {
 	 * @param $namespace Integer:
 	 * @param $type string
 	 * @param $level string
-	 * @param $sizetype Unused
-	 * @param $size Unused
 	 * @private
 	 */
-	function showOptions( $namespace, $type='edit', $level, $sizetype, $size ) {
+	function showOptions( $namespace, $type='edit', $level ) {
 		global $wgScript;
 		$action = htmlspecialchars( $wgScript );
 		$title = SpecialPage::getTitleFor( 'Protectedtitles' );
@@ -118,7 +119,7 @@ class ProtectedTitlesForm {
 		return "<form action=\"$action\" method=\"get\">\n" .
 			'<fieldset>' .
 			Xml::element( 'legend', array(), wfMsg( 'protectedtitles' ) ) .
-			Xml::hidden( 'title', $special ) . "&#160;\n" .
+			Html::hidden( 'title', $special ) . "&#160;\n" .
 			$this->getNamespaceMenu( $namespace ) . "&#160;\n" .
 			$this->getLevelMenu( $level ) . "&#160;\n" .
 			"&#160;" . Xml::submitButton( wfMsg( 'allpagessubmit' ) ) . "\n" .
@@ -177,7 +178,7 @@ class ProtectedTitlesForm {
  * @todo document
  * @ingroup Pager
  */
-class ProtectedtitlesPager extends AlphabeticPager {
+class ProtectedTitlesPager extends AlphabeticPager {
 	public $mForm, $mConds;
 
 	function __construct( $form, $conds = array(), $type, $level, $namespace, $sizetype='', $size=0 ) {
@@ -195,7 +196,7 @@ class ProtectedtitlesPager extends AlphabeticPager {
 		$this->mResult->seek( 0 );
 		$lb = new LinkBatch;
 
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$lb->add( $row->pt_namespace, $row->pt_title );
 		}
 
@@ -227,12 +228,3 @@ class ProtectedtitlesPager extends AlphabeticPager {
 	}
 }
 
-/**
- * Constructor
- */
-function wfSpecialProtectedtitles() {
-
-	$ppForm = new ProtectedTitlesForm();
-
-	$ppForm->showList();
-}

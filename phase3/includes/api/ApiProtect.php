@@ -1,10 +1,10 @@
 <?php
-
 /**
- * Created on Sep 1, 2007
- * API for MediaWiki 1.8+
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ *
+ * Created on Sep 1, 2007
+ *
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,16 +39,8 @@ class ApiProtect extends ApiBase {
 	}
 
 	public function execute() {
-		global $wgUser, $wgRestrictionTypes, $wgRestrictionLevels;
+		global $wgUser, $wgRestrictionLevels;
 		$params = $this->extractRequestParams();
-
-		$titleObj = null;
-		if ( !isset( $params['title'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'title' ) );
-		}
-		if ( empty( $params['protections'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'protections' ) );
-		}
 
 		$titleObj = Title::newFromText( $params['title'] );
 		if ( !$titleObj ) {
@@ -149,10 +143,14 @@ class ApiProtect extends ApiBase {
 
 	public function getAllowedParams() {
 		return array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'token' => null,
 			'protections' => array(
-				ApiBase::PARAM_ISMULTI => true
+				ApiBase::PARAM_ISMULTI => true,
+				ApiBase::PARAM_REQUIRED => true,
 			),
 			'expiry' => array(
 				ApiBase::PARAM_ISMULTI => true,
@@ -198,8 +196,6 @@ class ApiProtect extends ApiBase {
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'title' ),
-			array( 'missingparam', 'protections' ),
 			array( 'invalidtitle', 'title' ),
 			array( 'toofewexpiries', 'noofexpiries', 'noofprotections' ),
 			array( 'create-titleexists' ),
@@ -211,13 +207,17 @@ class ApiProtect extends ApiBase {
 		) );
 	}
 
+	public function needsToken() {
+		return true;
+	}
+
 	public function getTokenSalt() {
-		return null;
+		return '';
 	}
 
 	protected function getExamples() {
 		return array(
-			'api.php?action=protect&title=Main%20Page&token=123ABC&protections=edit=sysop|move=sysop&cascade&expiry=20070901163000|never',
+			'api.php?action=protect&title=Main%20Page&token=123ABC&protections=edit=sysop|move=sysop&cascade=&expiry=20070901163000|never',
 			'api.php?action=protect&title=Main%20Page&token=123ABC&protections=edit=all|move=all&reason=Lifting%20restrictions'
 		);
 	}

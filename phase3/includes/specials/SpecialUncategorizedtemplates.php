@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Uncategorizedtemplates
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +16,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
+ *
  * @file
  * @ingroup SpecialPage
+ * @author Rob Church <robchur@gmail.com>
  */
 
 /**
@@ -27,23 +27,10 @@
  * template namespace
  *
  * @ingroup SpecialPage
- * @author Rob Church <robchur@gmail.com>
  */
 class UncategorizedTemplatesPage extends UncategorizedPagesPage {
-
-	var $requestedNamespace = NS_TEMPLATE;
-
-	public function getName() {
-		return 'Uncategorizedtemplates';
+	public function __construct( $name = 'Uncategorizedtemplates' ) {
+		parent::__construct( $name );
+		$this->requestedNamespace = NS_TEMPLATE;
 	}
-
-}
-
-/**
- * Main execution point
- */
-function wfSpecialUncategorizedtemplates() {
-	list( $limit, $offset ) = wfCheckLimits();
-	$utp = new UncategorizedTemplatesPage();
-	$utp->doQuery( $offset, $limit );
 }

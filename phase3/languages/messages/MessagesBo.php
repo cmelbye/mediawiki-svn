@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Freeyak
  */
 
 $digitTransformTable = array(
@@ -23,6 +24,25 @@ $digitTransformTable = array(
 );
 
 $messages = array(
+# User preference toggles
+'tog-underline'             => 'འོག་ཐིག་འཐེན་པ།',
+'tog-highlightbroken'       => 'ནང་འབྲེལ་མཚམས་ཐིག་<a hred="" class="new">ལྟ་བུ།</a>(ཡང་ན།<a href=""class="internal">?ལྟ་བུ།</a>)',
+'tog-justify'               => 'ཚིག་གི་ཚད་སྙོམས་པ།',
+'tog-hideminor'             => 'རྩོམ་སྒྲིག་ཆུང་ཚགས་སྦས་བ།',
+'tog-hidepatrolled'         => 'ལྟ་ཞིབ་བྱས་པའི་རྩོམ་སྒྲིག་སྦས་བ།',
+'tog-newpageshidepatrolled' => 'ཤོག་ངོས་གསར་བར་ལྟ་ཞིབ་བྱས་པའི་རྩོམ་སྒྲིག་སྦས་བ།',
+
+'underline-always'  => 'ནམ་ཡང་།',
+'underline-never'   => 'ནམ་ཡང་མིན།',
+'underline-default' => 'རྒྱས་བ་འདྲེན་པ།',
+
+# Font style option in Special:Preferences
+'editfont-style'     => 'རྩོམ་སྒྲིག་ཡིག་གཟུགས།',
+'editfont-default'   => 'རྒྱས་པ་འདྲེན་པ།',
+'editfont-monospace' => 'བར་ཚད་མཉམ་པའི་ཡིག་གཟུགས།',
+'editfont-sansserif' => 'ཡིག་གཟུགས་རྭ་མེད།',
+'editfont-serif'     => 'ཡིག་གཟུགས་རྭ་ཅན།',
+
 # Dates
 'sunday'        => 'གཟའ་ཉི་མ།',
 'monday'        => 'གཟའ་ཟླ་བ།',
@@ -38,19 +58,19 @@ $messages = array(
 'thu'           => 'གཟའ་ཕུར་བུ།',
 'fri'           => 'གཟའ་པ་སངས།',
 'sat'           => 'གཟའ་སྤེན་པ།',
-'january'       => 'ཟླ་དང་པོ།',
-'february'      => 'ཟླ་གཉིས་པ།',
-'march'         => 'ཟླ་གསུམ།',
-'april'         => 'ཟླ་བཞི་བ།',
-'may_long'      => 'ཟླ་ལྔ་བ།',
-'june'          => 'ཟླ་དྲུག་པ།',
-'july'          => 'ཟླ་བདུན་པ།',
-'august'        => 'ཟླ་བརྒྱད་པ།',
-'september'     => 'ཟླ་དགུ་བ།',
-'october'       => 'ཟླ་བཅུ་བ།',
-'november'      => 'ཟླ་བཅུ་གཅིག་པ།',
-'december'      => 'ཟླ་བཅུ་གཉིས་པ།',
-'january-gen'   => 'ཟླ་དང་པོ།',
+'january'       => 'སྤྱི་ཟླ་དང་པོ།',
+'february'      => 'སྤྱི་ཟླ་གཉིས་པ།',
+'march'         => 'སྤྱི་ཟླ་གསུམ་པ།',
+'april'         => 'སྤྱི་ཟླ་བཞི་བ།',
+'may_long'      => 'སྤྱི་ཟླ་ལྔ་བ།',
+'june'          => 'སྤྱི་ཟླ་དྲུག་པ།',
+'july'          => 'སྤྱི་ཟླ་བདུན་པ།',
+'august'        => 'སྤྱི་ཟླ་བརྒྱད་པ།',
+'september'     => 'སྤྱི་ཟླ་དགུ་བ།',
+'october'       => 'སྤྱི་ཟླ་བཅུ་བ།',
+'november'      => 'སྤྱི་ཟླ་བཅུ་གཅིག་པ།',
+'december'      => 'སྤྱི་ཟླ་བཅུ་གཉིས་པ།',
+'january-gen'   => 'སྤྱི་ཟླ་དང་པོ།',
 'february-gen'  => 'ཟླ་གཉིས་པ།',
 'march-gen'     => 'ཟླ་གསུམ།',
 'april-gen'     => 'ཟླ་བཞི་བ།',
@@ -62,98 +82,154 @@ $messages = array(
 'october-gen'   => 'ཟླ་བཅུ་བ།',
 'november-gen'  => 'ཟླ་བཅུ་གཅིག་པ།',
 'december-gen'  => 'ཟླ་བཅུ་གཉིས་པ།',
-'jan'           => 'ཟླ་དང་པོ།',
-'feb'           => 'ཟླ་གཉིས་པ།',
-'mar'           => 'ཟླ་གསུམ།',
-'apr'           => 'ཟླ་བཞི་བ།',
-'may'           => 'ཟླ་ལྔ་བ།',
-'jun'           => 'ཟླ་དྲུག་པ།',
-'jul'           => 'ཟླ་བདུན་པ།',
-'aug'           => 'ཟླ་བརྒྱད་པ།',
-'sep'           => 'ཟླ་དགུ་བ།',
-'oct'           => 'ཟླ་བཅུ་བ།',
-'nov'           => 'ཟླ་བཅུ་གཅིག་པ།',
-'dec'           => 'ཟླ་བཅུ་གཉིས་པ།',
+'jan'           => 'སྤྱི་ཟླ་དང་པོ།',
+'feb'           => 'སྤྱི་ཟླ་གཉིས་པ།',
+'mar'           => 'སྤྱི་ཟླ་གསུམ་པ།',
+'apr'           => 'སྤྱི་ཟླ་བཞི་བ།',
+'may'           => 'སྤྱི་ཟླ་ལྔ་བ།',
+'jun'           => 'སྤྱི་ཟླ་དྲུག་པ།',
+'jul'           => 'སྤྱི་ཟླ་བདུན་པ།',
+'aug'           => 'སྤྱི་ཟླ་བརྒྱད་པ།',
+'sep'           => 'སྤྱི་ཟླ་དགུ་བ།',
+'oct'           => 'སྤྱི་ཟླ་བཅུ་བ།',
+'nov'           => 'སྤྱི་ཟླ་བཅུ་གཅིག་པ།',
+'dec'           => 'སྤྱི་ཟླ་བཅུ་གཉིས་པ།',
 
 # Categories related messages
-'subcategories' => 'རིགས་ཕལ་བ།',
+'pagecategories' => 'རིགས་$1',
+'subcategories'  => 'རིགས་ཕལ་བ།',
 
 'about'      => 'ཨཱབོཨུཏ་',
+'newwindow'  => '(སྒེའུ་ཁུང་གསར་བར་ཕྱེས་ཞིག',
 'cancel'     => 'དོར་བ།',
 'mytalk'     => 'ངའི་གླེང་མོལ།',
-'navigation' => 'དཀར་ཆག',
+'navigation' => 'ལམ་སྟོན།',
 
 # Cologne Blue skin
 'qbedit'         => 'རྩོམ་སྒྲིག',
 'qbspecialpages' => 'དམིཊ་བསལ་གྱི་བཟོ་བཅོས།',
 
+'tagline'          => '{{SITENAME}}འབྲེལ་གནས།',
 'help'             => 'རོགས་རམ།',
-'search'           => 'འཚོལ།',
-'searchbutton'     => 'འཚོལ།',
+'search'           => 'འཚོལ་བ།',
+'searchbutton'     => 'འཚོལ་བ།',
 'go'               => 'སོང་།',
 'searcharticle'    => 'སོང་།',
 'history_short'    => 'རྗེས་ཐོ།',
-'printableversion' => 'དཔར་ཐུབ་པའི་དྲ་ངོས།',
+'printableversion' => 'དཔར་ཐུབ་པ།',
 'permalink'        => 'རྟག་བརྟན་གྱི་དྲ་འབྲེལ།',
 'edit'             => 'རྩོམ་སྒྲིག',
 'delete'           => 'གསུབ་པ།',
 'protect'          => 'སྲུང་བ།',
+'protect_change'   => 'སྒྱུར་བཅོས།',
+'talkpagelinktext' => 'གླེང་མོལ།',
+'personaltools'    => 'སྒེར་ཀྱི་ལག་ཆ།',
 'talk'             => 'གྲོས་བསྡུར།',
+'views'            => 'སྣང་ཚུལ།',
 'toolbox'          => 'ལག་ཆ།',
-'jumptonavigation' => 'དཀར་ཆག',
+'otherlanguages'   => 'སྐད་རིགས་གཞན།',
+'lastmodifiedat'   => 'དྲ་ངོས་འདི་$1ཉིན་$2ལ་བཅོས་པའི་བསྒྱུར་བཅོས་མཐའ་མ་རེད།',
+'jumpto'           => 'ཆོམས།',
+'jumptonavigation' => 'འཆོངས།',
 'jumptosearch'     => 'འཚོལ།',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
-'aboutsite'            => 'ཨཱབོཨུཏ་ {{SITENAME}}',
-'aboutpage'            => 'Project:ཨཱབོཨུཏ་',
+'aboutsite'            => '{{SITENAME}}-དྲ་བའི་གནས་ཚུལ།',
+'aboutpage'            => 'Project:དྲ་བའི་སྐོར།',
+'copyright'            => 'དྲ་བའི་ནང་དོན་$1སྟེང་དུ་ཡོད།',
 'currentevents'        => 'ད་ལྟའི་བྱ་བ།',
 'currentevents-url'    => 'Project:ད་ལྟའི་བྱ་བ།',
+'disclaimers'          => 'དགག་བྱ།',
+'disclaimerpage'       => 'Project:སྤྱིའི་དགག་བྱ།',
 'edithelp'             => 'རྩོམ་སྒྲིག་གི་རོགས་རམ།',
+'edithelppage'         => 'རོགས་རམ། / རྩོམ་སྒྲིག',
 'mainpage'             => 'གཙོ་ངོས།',
 'mainpage-description' => 'གཙོ་ངོས།',
 'portal'               => 'ཁོངས་མི་འདུ་ར།',
+'privacy'              => 'སྒེར་ཁྲིམས།',
+'privacypage'          => 'Project: སྒེར་ཁྲིམས།',
 
-'editsection' => 'རྩོམ་སྒྲིག',
-'editold'     => 'རྩོམ་སྒྲིག',
+'retrievedfrom'   => '"$1"ལས་རྙེད་པ།',
+'editsection'     => 'རྩོམ་སྒྲིག་ཚན་པ།',
+'editold'         => 'རྩོམ་སྒྲིག',
+'editlink'        => 'བཟོ་བཅོས།',
+'editsectionhint' => 'རྩོམ་སྒྲིག་ཚན་པ།$1',
+'showtoc'         => 'སྟོན།',
+'hidetoc'         => 'སྦས་ཤིག',
+'site-rss-feed'   => '$1 ཡི་RSS འབྱུང་ཁུངས།',
+'site-atom-feed'  => '$1 ཡི་Atom འབྱུང་ཁུངས།',
+'red-link-title'  => '$1མ་རྙེད་པ།',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'རྩོམ་ཡིག',
-'nstab-special'   => 'ཁྱད་པར་བ།',
+'nstab-special'   => 'དམིཊ་གསལ་དྲ་ངོས།',
+'nstab-image'     => 'ཡིག་ཆ།',
 'nstab-mediawiki' => 'སྐད་ཆ།',
 
 # General errors
-'viewsource' => 'འབྱོང་ཁོངས་ལ་ལྟ་བ།',
+'viewsource' => 'འབྱུང་ཁོངས་ལ་ལྟ་བ།',
 
 # Login and logout pages
-'yourname'           => 'དྲ་མིང་།',
-'yourpassword'       => 'ལམ་ཡིག',
-'yourpasswordagain'  => 'ལམ་ཡིག་ཡང་གཏག་བྱོས།',
-'remembermypassword' => 'ངའི་དྲ་མིང་འདིར་གསོག་པ།',
-'login'              => 'ནང་འཛུལ།',
-'userlogin'          => 'ནང་འཛུལ། / ཐོ་འགོད།',
-'logout'             => 'ཕྱིར་འབུད།',
-'userlogout'         => 'ཕྱིར་འབུད།',
-'notloggedin'        => 'ནང་འཛུལ་བྱས་མེད།',
-'nologinlink'        => 'ཐོ་ཞིག་འགོད་པ།',
-'createaccount'      => 'ཐོ་འགོད།',
-'gotaccountlink'     => 'ནང་འཛུལ།',
+'yourname'                => 'དྲ་མིང་།',
+'yourpassword'            => 'ལམ་ཡིག',
+'yourpasswordagain'       => 'ལམ་ཡིག་ཡང་གཏག་བྱོས།',
+'remembermypassword'      => 'ངའི་དྲ་མིང་འདིར་གསོག་པ། (for a maximum of $1 {{PLURAL:$1|day|days}})',
+'login'                   => 'ནང་འཛུལ།',
+'nav-login-createaccount' => 'ནང་འཛུལ། / ཐོ་འགོད།',
+'userlogin'               => 'ནང་འཛུལ། / ཐོ་འགོད།',
+'logout'                  => 'ཕྱིར་འབུད།',
+'userlogout'              => 'ཕྱིར་འབུད།',
+'notloggedin'             => 'ནང་འཛུལ་བྱས་མེད།',
+'nologinlink'             => 'ཐོ་ཞིག་འགོད་པ།',
+'createaccount'           => 'ཐོ་འགོད།',
+'gotaccountlink'          => 'ནང་འཛུལ།',
 
 # Edit pages
-'summary'      => 'བསྡུས་དོན།:',
-'minoredit'    => 'འདི་རྩོམ་སྒྲིག་ཚར་མེད།',
-'watchthis'    => 'དྲ་ངོས་འདི་ལ་མཉམ་འཇོག་པ།',
-'savearticle'  => 'དྲ་ངོས་ཉར་བ།',
-'showpreview'  => 'སྔ་ལྟས་སྟོན།',
-'showdiff'     => 'བཟོས་བཅོས་སྟོན།',
-'loginreqlink' => 'ནང་འཛུལ།',
-'newarticle'   => '(ཎེཝ་)',
+'summary'            => 'བསྡུས་དོན།:',
+'subject'            => 'འགོ་བརྗོད།',
+'minoredit'          => 'རྩོམ་སྒྲིག་ཕྲན་བུ།',
+'watchthis'          => 'དྲ་ངོས་འདི་ལ་གཟིགས།',
+'savearticle'        => 'དྲ་ངོས་ཉར་བ།',
+'showpreview'        => 'སྔ་མ་སྟོན་ཅིག',
+'showdiff'           => 'བཟོས་བཅོས་སྟོན།',
+'loginreqlink'       => 'ནང་འཛུལ།',
+'newarticle'         => '(ཎེཝ་)',
+'template-protected' => 'སྲུང་སྐྱོབ་འོག་ཡོད་པ།',
 
 # History pages
-'cur'  => 'ད་ལྟ།',
-'last' => 'མཐའ་མ།',
+'revisionasof'     => '$1 ལ་བཅོས་པ།',
+'previousrevision' => ' ← བཟོ་བཅོས་སྔ་མ།',
+'cur'              => 'ད་ལྟ།',
+'last'             => 'མཐའ་མ།',
+'histfirst'        => 'སྔ་ཤོས།',
+'histlast'         => 'ཕྱི་ཤོས།',
+
+# Revision deletion
+'rev-delundel'   => 'སྟོན་པ། / སྦས་བ།',
+'revdel-restore' => 'བཅོས་སུ་རུང་བ།',
+
+# Merge log
+'revertmerge' => 'སྦྱར་ཟིན་དགར་བ།',
+
+# Diffs
+'lineno'   => 'ཐིག་ཕྲེང་$1:',
+'editundo' => 'ཕྱིར་ལེན་པ།',
 
 # Search results
-'powersearch' => 'འཚོལ།',
+'searchresults'             => 'རྙེད་དོན།',
+'searchresults-title'       => '$1བཙལ་འབྲས།',
+'searchsubtitle'            => 'ཁྱེད་ཀྱིས་\'\'\'[[:$1]]\'\'\' ([[Special:Prefixindex/$1|all pages starting with "$1"]]{{int:pipe-separator}}[[Special:WhatLinksHere/$1|all pages that link to "$1"]])བཙལ་འདུག',
+'notitlematches'            => 'ཤོག་ངོས་འགོ་བརྗོད་འདྲ་འཚུངས་མི་འདུག',
+'nextn'                     => 'རྗེས་མ་$1',
+'viewprevnext'              => '($1 {{int:pipe-separator}} $2) ($3)ལ་ལྟ་བ།',
+'search-result-size'        => 'རྙེད་དོན།',
+'search-section'            => '（ཚན་པ $1)',
+'search-suggest'            => '$1 ལ་ཟེར་བ་ཡིན་ནམ།',
+'search-mwsuggest-enabled'  => 'བསླབ་བྱ་ཡོད།',
+'search-mwsuggest-disabled' => 'བསླབ་བྱ་མེད།',
+'powersearch'               => 'ཞིབ་འཚོལ།',
+'powersearch-ns'            => 'མིང་གནས་ནང་འཚོལ་བ།',
+'powersearch-field'         => 'འཚོལ་བ།',
 
 # Preferences page
 'mypreferences'     => 'ངའི་ལེགས་སྒྲིག',
@@ -166,8 +242,11 @@ $messages = array(
 
 # Recent changes
 'recentchanges'   => 'ཉེ་བའི་བཟོ་བཅོས།',
-'minoreditletter' => 'ཨཾི',
-'newpageletter'   => 'ཎེ',
+'diff'            => 'མི་འདྲ་ས།',
+'hist'            => 'རྗེས་ཐོ།',
+'show'            => 'སྟོན་ཅིག',
+'minoreditletter' => 'ཉུང།',
+'newpageletter'   => 'ཤོག་གསར།',
 
 # Recent changes linked
 'recentchangeslinked'         => 'འབྲེལ་བའི་བཟོ་བཅོས།',
@@ -175,12 +254,18 @@ $messages = array(
 'recentchangeslinked-toolbox' => 'འབྲེལ་བའི་བཟོ་བཅོས།',
 
 # Upload
-'upload'            => 'ཡར་འཇོག',
+'upload'            => 'ཡིག་ཆ་ཡར་འཇོག',
 'uploadbtn'         => 'ཡར་འཇོག',
 'uploadnologin'     => 'ནང་འཛུལ་བྱས་མེད།',
 'filedesc'          => 'བསྡུས་དོན།',
 'fileuploadsummary' => 'བསྡུས་དོན།:',
 'watchthisupload'   => 'དྲ་ངོས་འདི་ལ་མཉམ་འཇོག་པ།',
+
+# File description page
+'filehist-current'  => 'ད་ལྟ།',
+'filehist-datetime' => 'ཚེས་གྲངས། / དུས་ཚོད།',
+'filehist-user'     => 'བེད་སྤྱོད་བྱེད་མི།',
+'filehist-comment'  => 'བསམ་ཚུལ།',
 
 # Random page
 'randompage' => 'རང་མོས་ཤོག་ངོས།',
@@ -189,6 +274,7 @@ $messages = array(
 'brokenredirects-delete' => 'གསུབ་པ།',
 
 # Miscellaneous special pages
+'nbytes'            => 'བྷེ་གྲངས་$1',
 'newpages-username' => 'དྲ་མིང་།:',
 'move'              => 'སྤོར།',
 
@@ -209,41 +295,81 @@ $messages = array(
 'watch'         => 'མཉམ་འཇོག',
 'watchthispage' => 'དྲ་ངོས་འདི་ལ་མཉམ་འཇོག་པ།',
 
+# Delete
+'deletedarticle' => '"[[$1]]"གསུབས་ཟིན།',
+
 # Restrictions (nouns)
 'restriction-edit' => 'རྩོམ་སྒྲིག',
 'restriction-move' => 'སྤོར།',
 
 # Undelete
+'undeletelink'           => 'ལྟ་བ། / བསྐྱར་འདྲེན།',
 'undelete-search-submit' => 'འཚོལ།',
+
+# Namespace form on various pages
+'namespace'      => 'མིང་གནས།',
+'blanknamespace' => 'གཙོ་ངོས།',
 
 # Contributions
 'contributions' => 'བཀོལ་མིའི་བྱས་རྗེས།',
 'mycontris'     => 'ངའི་བྱས་རྗེས།',
 
 # What links here
-'whatlinkshere' => 'དྲ་འབྲེལ་ཅི་ཞིག',
+'whatlinkshere' => 'འབྲེལ་བའི་དྲ་བ།',
 
 # Block/unblock
 'ipbreason'          => 'རྒྱུ་མཚན།',
 'ipblocklist-submit' => 'འཚོལ།',
+'blocklink'          => 'འགོག་པ།',
+'unblocklink'        => 'བཀག་པ་ཕྱེ་བ།',
+'change-blocklink'   => 'བཀག་ཟིན་བསྒྱུར་བ།',
+'contribslink'       => 'བྱས་རྗེས།',
 
 # Move page
 'movearticle' => 'སྤོར་ངོས།',
 'movenologin' => 'ནང་འཛུལ་བྱས་མེད།',
 'move-watch'  => 'དྲ་ངོས་འདི་ལ་མཉམ་འཇོག་པ།',
 'movereason'  => 'རྒྱུ་མཚན།',
+'revertmove'  => 'ཕྱིར་ལོག',
 
 # Namespace 8 related
 'allmessages' => 'མ་ལག་གི་སྐད་ཆ།',
 
 # Tooltip help for the actions
-'tooltip-pt-preferences' => 'ངའི་ལེགས་སྒྲིག',
-'tooltip-pt-logout'      => 'ཕྱིར་འབུད།',
-'tooltip-ca-move'        => 'ཨཾོབེ༹་ ཐིས་ པགེ་',
-'tooltip-p-logo'         => 'གཙོ་ངོས།',
+'tooltip-pt-mytalk'              => 'ཁྱེད་ཀྱི་གླེང་མོལ་ཤོག་ངོས།',
+'tooltip-pt-preferences'         => 'ངའི་ལེགས་སྒྲིག',
+'tooltip-pt-login'               => 'ནང་འཛུལ།',
+'tooltip-pt-logout'              => 'ཕྱིར་འབུད།',
+'tooltip-ca-talk'                => 'གྲོས་མོལ།',
+'tooltip-ca-edit'                => 'ཁྱེད་ཀྱིས་དྲ་ངོས་འདི་རྩོམ་སྒྲིག་བྱེད་ཆོག ཉར་ཚགས་མ་བྱས་པའི་སྔོན་དུ་ཐེབ་གཅུ་སྒང་མ་སྤྱོད་རོགས།',
+'tooltip-ca-history'             => 'བཟོ་བཅོས་སྔ་མ།',
+'tooltip-ca-move'                => 'ཤོག་ངོས་འདི་སྤོར་བ།',
+'tooltip-search'                 => 'ལག་ཆ་འཚོལ།',
+'tooltip-search-go'              => 'སོང་།',
+'tooltip-search-fulltext'        => 'ཚིག་འདི་འཚོལ།',
+'tooltip-p-logo'                 => 'གཙོ་ངོས།',
+'tooltip-n-mainpage'             => 'གཙོ་ངོས།',
+'tooltip-n-mainpage-description' => 'གཙོ་ངོས་ལ་ལྟ་བ།',
+'tooltip-n-portal'               => 'རྒྱལ་སྒོ།',
+'tooltip-n-recentchanges'        => 'ཉེ་བའི་བཟོ་བཅོས།',
+'tooltip-n-randompage'           => 'རང་འགུལ་དྲ་ངོས།',
+'tooltip-n-help'                 => 'རོགས་རམ།',
+'tooltip-t-whatlinkshere'        => 'འདིར་འབྲེལ་བའི་ཝེ་ཁེ་དྲ་ངོས་ཡོངས་རྫོགས།',
+'tooltip-t-recentchangeslinked'  => 'ཉེ་བའི་བཟོ་བཅོས།',
+'tooltip-t-upload'               => 'ཡིག་ཆ་ཡར་འཇུག',
+'tooltip-t-specialpages'         => 'དམིཊ་གསལ་དྲ་ངོས་རྣམས།',
+'tooltip-t-print'                => 'དཔར་ཐུབ་པའི་མི་འདྲ་ཆོས།',
+'tooltip-t-permalink'            => 'རྟག་བརྟན་གྱི་དྲ་བར་འཇུག་པ།',
+'tooltip-ca-nstab-main'          => 'དྲ་ངོས་ནང་དོན་ལ་ལྟ་བ།',
+'tooltip-ca-nstab-special'       => 'དྲ་ངོས་འདི་དམིགས་གསལ་བ་ཡིན་པས་བཟོ་བཅོས་རྒྱག་མི་ཆོག',
+'tooltip-ca-nstab-image'         => 'ཡིག་ཆར་ལྟ་བ།',
+'tooltip-save'                   => 'བཟོ་བཅོས་ཉར་ཚགས་བྱོས།',
 
 # Special:NewFiles
 'ilsubmit' => 'འཚོལ།',
+
+# 'all' in various places, this might be different for inflected languages
+'namespacesall' => 'ཡོངས་རྫོགས།',
 
 # Multipage image navigation
 'imgmultigo' => 'སོང་།!',
@@ -252,6 +378,6 @@ $messages = array(
 'table_pager_limit_submit' => 'སོང་།',
 
 # Special:SpecialPages
-'specialpages' => 'དམིཊ་བསལ་གྱི་བཟོ་བཅོས།',
+'specialpages' => 'ཁྱད་པར་བ།',
 
 );

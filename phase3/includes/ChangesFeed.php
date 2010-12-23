@@ -27,8 +27,8 @@ class ChangesFeed {
 	 * @return ChannelFeed subclass or false on failure
 	 */
 	public function getFeedObject( $title, $description ) {
-		global $wgSitename, $wgContLanguageCode, $wgFeedClasses, $wgTitle;
-		$feedTitle = "$wgSitename  - {$title} [$wgContLanguageCode]";
+		global $wgSitename, $wgLanguageCode, $wgFeedClasses, $wgTitle;
+		$feedTitle = "$wgSitename  - {$title} [$wgLanguageCode]";
 		if( !isset($wgFeedClasses[$this->format] ) )
 			return false;
 		return new $wgFeedClasses[$this->format](
@@ -45,8 +45,7 @@ class ChangesFeed {
 	 * @return null or true
 	 */
 	public function execute( $feed, $rows, $lastmod, $opts ) {
-		global $messageMemc, $wgFeedCacheTimeout;
-		global $wgSitename, $wgLang, $wgRenderHashAppend;
+		global $wgLang, $wgRenderHashAppend;
 
 		if ( !FeedUtils::checkFeedOutput( $this->format ) ) {
 			return;

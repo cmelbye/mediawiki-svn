@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Undelete
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +16,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
  * Used to show archived pages and eventually restore them.
+ *
  * @ingroup SpecialPage
  */
 class PageArchive {
@@ -487,7 +492,7 @@ class PageArchive {
 		$revision = null;
 		$restored = 0;
 
-		while( $row = $ret->fetchObject() ) {
+		foreach ( $ret as $row ) {
 			// Check for key dupes due to shitty archive integrity.
 			if( $row->ar_rev_id ) {
 				$exists = $dbw->selectField( 'revision', '1', array('rev_id' => $row->ar_rev_id), __METHOD__ );
@@ -540,7 +545,8 @@ class PageArchive {
 			}
 		} else {
 			// Revision couldn't be created. This is very weird
-			return self::UNDELETE_UNKNOWNERR;
+			wfDebug( "Undelete: unknown error...\n" );
+			return false;
 		}
 
 		return $restored;
@@ -708,7 +714,7 @@ class UndeleteForm extends SpecialPage {
 				'method' => 'get',
 				'action' => $wgScript ) ) .
 			Xml::fieldset( wfMsg( 'undelete-search-box' ) ) .
-			Xml::hidden( 'title',
+			Html::hidden( 'title',
 				$this->getTitle()->getPrefixedDbKey() ) .
 			Xml::inputLabel( wfMsg( 'undelete-search-prefix' ),
 				'prefix', 'prefix', 20,
@@ -721,7 +727,7 @@ class UndeleteForm extends SpecialPage {
 
 	// Generic list of deleted pages
 	private function showList( $result ) {
-		global $wgLang, $wgContLang, $wgUser, $wgOut;
+		global $wgLang, $wgUser, $wgOut;
 
 		if( $result->numRows() == 0 ) {
 			$wgOut->addWikiMsg( 'undelete-no-results' );
@@ -733,7 +739,7 @@ class UndeleteForm extends SpecialPage {
 		$sk = $wgUser->getSkin();
 		$undelete = $this->getTitle();
 		$wgOut->addHTML( "<ul>\n" );
-		while( $row = $result->fetchObject() ) {
+		foreach ( $result as $row ) {
 			$title = Title::makeTitleSafe( $row->ar_namespace, $row->ar_title );
 			$link = $sk->linkKnown(
 				$undelete,
@@ -1015,7 +1021,7 @@ class UndeleteForm extends SpecialPage {
 	}
 
 	private function showHistory( ) {
-		global $wgLang, $wgUser, $wgOut;
+		global $wgUser, $wgOut;
 
 		$sk = $wgUser->getSkin();
 		if( $this->mAllowed ) {
@@ -1053,7 +1059,7 @@ class UndeleteForm extends SpecialPage {
 		# Batch existence check on user and talk pages
 		if( $haveRevisions ) {
 			$batch = new LinkBatch();
-			while( $row = $revisions->fetchObject() ) {
+			foreach ( $revisions as $row ) {
 				$batch->addObj( Title::makeTitleSafe( NS_USER, $row->ar_user_text ) );
 				$batch->addObj( Title::makeTitleSafe( NS_USER_TALK, $row->ar_user_text ) );
 			}
@@ -1062,7 +1068,7 @@ class UndeleteForm extends SpecialPage {
 		}
 		if( $haveFiles ) {
 			$batch = new LinkBatch();
-			while( $row = $files->fetchObject() ) {
+			foreach ( $files as $row ) {
 				$batch->addObj( Title::makeTitleSafe( NS_USER, $row->fa_user_text ) );
 				$batch->addObj( Title::makeTitleSafe( NS_USER_TALK, $row->fa_user_text ) );
 			}
@@ -1137,11 +1143,10 @@ class UndeleteForm extends SpecialPage {
 		if( $haveRevisions ) {
 			# The page's stored (deleted) history:
 			$wgOut->addHTML("<ul>");
-			$target = urlencode( $this->mTarget );
 			$remaining = $revisions->numRows();
 			$earliestLiveTime = $this->mTargetObj->getEarliestRevTime();
 
-			while( $row = $revisions->fetchObject() ) {
+			foreach ( $revisions as $row ) {
 				$remaining--;
 				$wgOut->addHTML( $this->formatRevisionRow( $row, $earliestLiveTime, $remaining, $sk ) );
 			}
@@ -1154,7 +1159,7 @@ class UndeleteForm extends SpecialPage {
 		if( $haveFiles ) {
 			$wgOut->addHTML( Xml::element( 'h2', null, wfMsg( 'filehist' ) ) . "\n" );
 			$wgOut->addHTML( "<ul>" );
-			while( $row = $files->fetchObject() ) {
+			foreach ( $files as $row ) {
 				$wgOut->addHTML( $this->formatFileRow( $row, $sk ) );
 			}
 			$files->free();
@@ -1163,8 +1168,8 @@ class UndeleteForm extends SpecialPage {
 
 		if ( $this->mAllowed ) {
 			# Slip in the hidden controls here
-			$misc  = Xml::hidden( 'target', $this->mTarget );
-			$misc .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+			$misc  = Html::hidden( 'target', $this->mTarget );
+			$misc .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 			$misc .= Xml::closeElement( 'form' );
 			$wgOut->addHTML( $misc );
 		}
@@ -1257,7 +1262,6 @@ class UndeleteForm extends SpecialPage {
 		if( $this->mAllowed && $row->fa_storage_key ) {
 			$checkBox = Xml::check( "fileid" . $row->fa_id );
 			$key = urlencode( $row->fa_storage_key );
-			$target = urlencode( $this->mTarget );
 			$pageLink = $this->getFileLink( $file, $this->getTitle(), $ts, $key, $sk );
 		} else {
 			$checkBox = '';

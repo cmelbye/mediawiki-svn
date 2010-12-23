@@ -81,7 +81,7 @@ class SkinStandard extends Skin {
 		$s .= "\n<br />" . $wgLang->pipeList( array(
 			$this->mainPageLink(),
 			$this->aboutLink(),
-			$this->specialLink( 'recentchanges' ),
+			$this->specialLink( 'Recentchanges' ),
 			$this->searchForm() ) )
 			. '<br /><span id="pagestats">' . $this->pageStats() . '</span>';
 
@@ -103,7 +103,6 @@ class SkinStandard extends Skin {
 
 	function quickBar() {
 		global $wgOut, $wgUser, $wgRequest, $wgContLang;
-		global $wgEnableUploads, $wgRemoteUploads;
 
 		wfProfileIn( __METHOD__ );
 
@@ -131,7 +130,7 @@ class SkinStandard extends Skin {
 		}
 
 		if( $wgUser->isLoggedIn() ) {
-			$s.= $this->specialLink( 'watchlist' ) ;
+			$s.= $this->specialLink( 'Watchlist' ) ;
 			$s .= $sep . $this->linkKnown(
 				SpecialPage::getTitleFor( 'Contributions' ),
 				wfMsg( 'mycontris' ),
@@ -187,7 +186,8 @@ class SkinStandard extends Skin {
 					}
 
 					$link = $this->mTitle->getText();
-					if( $nstext = $wgContLang->getNsText( $tns ) ) { # add namespace if necessary
+					$nstext = $wgContLang->getNsText( $tns );
+					if( $nstext ) { # add namespace if necessary
 						$link = $nstext . ':' . $link;
 					}
 
@@ -214,10 +214,6 @@ class SkinStandard extends Skin {
 					),
 					array( 'known', 'noclasses' )
 				);
-
-			#if( $tns%2 && $action!='edit' && !$wpPreview) {
-				#$s.= '<br />'.$this->linkKnown( Title::newFromText( $wgTitle->getPrefixedText() ),wfMsg('postcomment'),array(),array('action'=>'edit','section'=>'new'));
-			#}
 
 			/*
 			watching could cause problems in edit mode:
@@ -268,7 +264,7 @@ class SkinStandard extends Skin {
 			$s .= $this->getUploadLink() . $sep;
 		}
 
-		$s .= $this->specialLink( 'specialpages' );
+		$s .= $this->specialLink( 'Specialpages' );
 
 		global $wgSiteSupportPage;
 		if( $wgSiteSupportPage ) {

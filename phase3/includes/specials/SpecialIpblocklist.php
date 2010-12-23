@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:ipblocklist
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +16,15 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
- * Implements Special:ipblocklist
+ * A special page that lists existing blocks and allows users with the 'block'
+ * permission to remove blocks
+ *
  * @ingroup SpecialPage
  */
 class IPUnblockForm extends SpecialPage {
@@ -65,10 +71,10 @@ class IPUnblockForm extends SpecialPage {
 	
 			# bug 15810: blocked admins should have limited access here
 			if ( $wgUser->isBlocked() ) {
-				if ( $id ) {
+				if ( $this->id ) {
 					# This doesn't pick up on autoblocks, but admins
 					# should have the ipblock-exempt permission anyway
-					$block = Block::newFromID( $id );
+					$block = Block::newFromID( $this->id );
 					$user = User::newFromName( $block->mAddress );
 				} else {
 					$user = User::newFromName( $ip );
@@ -195,7 +201,6 @@ class IPUnblockForm extends SpecialPage {
 			}
 			$ip = $block->getRedactedName();
 		} else {
-			$block = new Block();
 			$ip = trim( $ip );
 			if ( substr( $ip, 0, 1 ) == "#" ) {
 				$id = substr( $ip, 1 );
@@ -270,7 +275,6 @@ class IPUnblockForm extends SpecialPage {
 		}
 
 		$conds = array();
-		$matches = array();
 		// Is user allowed to see all the blocks?
 		if ( !$wgUser->isAllowed( 'hideuser' ) )
 			$conds['ipb_deleted'] = 0;
@@ -280,7 +284,8 @@ class IPUnblockForm extends SpecialPage {
 			$conds['ipb_id'] = substr( $this->ip, 1 );
 		// Single IPs
 		} elseif ( IP::isIPAddress( $this->ip ) && strpos( $this->ip, '/' ) === false ) {
-			if( $iaddr = IP::toHex( $this->ip ) ) {
+			$iaddr = IP::toHex( $this->ip );
+			if( $iaddr ) {
 				# Only scan ranges which start in this /16, this improves search speed
 				# Blocks should not cross a /16 boundary.
 				$range = substr( $iaddr, 0, 4 );
@@ -362,7 +367,7 @@ class IPUnblockForm extends SpecialPage {
 	}
 
 	function searchForm() {
-		global $wgScript, $wgRequest, $wgLang;
+		global $wgScript, $wgLang;
 
 		$showhide = array( wfMsg( 'show' ), wfMsg( 'hide' ) );
 		$nondefaults = array();
@@ -403,9 +408,12 @@ class IPUnblockForm extends SpecialPage {
 
 	/**
 	 * Makes change an option link which carries all the other options
+	 *
 	 * @param $title see Title
-	 * @param $override
-	 * @param $options
+	 * @param $override Array: special query string options, will override the
+	 *                  ones in $options
+	 * @param $options Array: query string options
+	 * @param $active Boolean: whether to display the link in bold
 	 */
 	function makeOptionsLink( $title, $override, $options, $active = false ) {
 		global $wgUser;
@@ -476,7 +484,6 @@ class IPUnblockForm extends SpecialPage {
 
 		$line = wfMsgReplaceArgs( $msg['blocklistline'], array( $formattedTime, $blocker, $target, $properties ) );
 
-		$unblocklink = '';
 		$changeblocklink = '';
 		$toolLinks = '';
 		if ( $wgUser->isAllowed( 'block' ) ) {
@@ -536,7 +543,7 @@ class IPBlocklistPager extends ReverseChronologicalPager {
 		# Faster way
 		# Usernames and titles are in fact related by a simple substitution of space -> underscore
 		# The last few lines of Title::secureAndSplit() tell the story.
-		while ( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$name = str_replace( ' ', '_', $row->ipb_by_text );
 			$lb->add( NS_USER, $name );
 			$lb->add( NS_USER_TALK, $name );

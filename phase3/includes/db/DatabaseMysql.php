@@ -1,5 +1,12 @@
 <?php
 /**
+ * This is the MySQL database abstraction layer.
+ *
+ * @file
+ * @ingroup Database
+ */
+
+/**
  * Database abstraction object for mySQL
  * Inherit all methods and properties of Database::Database()
  *
@@ -24,8 +31,7 @@ class DatabaseMysql extends DatabaseBase {
 		global $wgAllDBsAreLocalhost;
 		wfProfileIn( __METHOD__ );
 
-		# Test for missing mysql.so
-		# First try to load it
+		# Load mysql.so if we don't have it
 		wfDl( 'mysql' );
 
 		# Fail now
@@ -45,8 +51,6 @@ class DatabaseMysql extends DatabaseBase {
 		$this->mUser = $user;
 		$this->mPassword = $password;
 		$this->mDBname = $dbName;
-
-		$success = false;
 
 		wfProfileIn("dbconnect-$server");
 
@@ -70,10 +74,10 @@ class DatabaseMysql extends DatabaseBase {
 				# Create a new connection...
 				$this->mConn = mysql_connect( $realServer, $user, $password, true );
 			}
-			if ($this->mConn === false) {
+			#if ( $this->mConn === false ) {
 				#$iplus = $i + 1;
 				#wfLogDBError("Connect loop error $iplus of $max ($server): " . mysql_errno() . " - " . mysql_error()."\n");
-			}
+			#}
 		}
 		$phpError = $this->restoreErrorHandler();
 		# Always log connection errors
@@ -86,7 +90,6 @@ class DatabaseMysql extends DatabaseBase {
 			wfDebug( "DB connection error\n" );
 			wfDebug( "Server: $server, User: $user, Password: " .
 				substr( $password, 0, 3 ) . "..., error: " . mysql_error() . "\n" );
-			$success = false;
 		}
 
 		wfProfileOut("dbconnect-$server");
@@ -112,6 +115,8 @@ class DatabaseMysql extends DatabaseBase {
 				global $wgDBmysql5;
 				if( $wgDBmysql5 ) {
 					$this->query( 'SET NAMES utf8', __METHOD__ );
+				} else {
+					$this->query( 'SET NAMES binary', __METHOD__ );
 				}
 				// Set SQL mode, default is turning them all off, can be overridden or skipped with null
 				global $wgSQLMode;
@@ -241,22 +246,20 @@ class DatabaseMysql extends DatabaseBase {
 	 * Returns estimated count, based on EXPLAIN output
 	 * Takes same arguments as Database::select()
 	 */
-	public function estimateRowCount( $table, $vars='*', $conds='', $fname = 'Database::estimateRowCount', $options = array() ) {
+	public function estimateRowCount( $table, $vars='*', $conds='', $fname = 'DatabaseMysql::estimateRowCount', $options = array() ) {
 		$options['EXPLAIN'] = true;
 		$res = $this->select( $table, $vars, $conds, $fname, $options );
-		if ( $res === false )
+		if ( $res === false ) {
 			return false;
+		}
 		if ( !$this->numRows( $res ) ) {
-			$this->freeResult($res);
 			return 0;
 		}
 
 		$rows = 1;
-		while( $plan = $this->fetchObject( $res ) ) {
+		foreach ( $res as $plan ) {
 			$rows *= $plan->rows > 0 ? $plan->rows : 1; // avoid resetting to zero
 		}
-
-		$this->freeResult($res);
 		return $rows;
 	}
 
@@ -276,6 +279,34 @@ class DatabaseMysql extends DatabaseBase {
 		return false;
 	}
 
+	/**
+	 * Get information about an index into an object
+	 * Returns false if the index does not exist
+	 */
+	function indexInfo( $table, $index, $fname = 'DatabaseMysql::indexInfo' ) {
+		# SHOW INDEX works in MySQL 3.23.58, but SHOW INDEXES does not.
+		# SHOW INDEX should work for 3.x and up:
+		# http://dev.mysql.com/doc/mysql/en/SHOW_INDEX.html
+		$table = $this->tableName( $table );
+		$index = $this->indexName( $index );
+		$sql = 'SHOW INDEX FROM ' . $table;
+		$res = $this->query( $sql, $fname );
+
+		if ( !$res ) {
+			return null;
+		}
+
+		$result = array();
+
+		foreach ( $res as $row ) {
+			if ( $row->Key_name == $index ) {
+				$result[] = $row;
+			}
+		}
+
+		return empty( $result ) ? false : $result;
+	}
+
 	function selectDB( $db ) {
 		$this->mDBname = $db;
 		return mysql_select_db( $db, $this->mConn );
@@ -289,6 +320,13 @@ class DatabaseMysql extends DatabaseBase {
 			$sQuoted = mysql_real_escape_string( $s, $this->mConn );
 		}
 		return $sQuoted;
+	}
+
+	/**
+	 * MySQL uses `backticks` for identifier quoting instead of the sql standard "double quotes".
+	 */
+	public function addIdentifierQuotes( $s ) {
+		return "`" . $this->strencode( $s ) . "`";
 	}
 
 	function ping() {
@@ -315,8 +353,11 @@ class DatabaseMysql extends DatabaseBase {
 			return $this->mFakeSlaveLag;
 		}
 		$res = $this->query( 'SHOW PROCESSLIST', __METHOD__ );
+		if( !$res ) {
+			return false;
+		}
 		# Find slave SQL thread
-		while ( $row = $this->fetchObject( $res ) ) {
+		foreach( $res as $row ) {
 			/* This should work for most situations - when default db
 			 * for thread is not specified, it had no events executed,
 			 * and therefore it doesn't know yet how lagged it is.
@@ -356,7 +397,7 @@ class DatabaseMysql extends DatabaseBase {
 		return 'LOW_PRIORITY';
 	}
 
-	function getSoftwareLink() {
+	public static function getSoftwareLink() {
 		return '[http://www.mysql.com/ MySQL]';
 	}
 
@@ -373,7 +414,6 @@ class DatabaseMysql extends DatabaseBase {
 		$lockName = $this->addQuotes( $lockName );
 		$result = $this->query( "SELECT GET_LOCK($lockName, $timeout) AS lockstatus", $method );
 		$row = $this->fetchObject( $result );
-		$this->freeResult( $result );
 
 		if( $row->lockstatus == 1 ) {
 			return true;
@@ -438,6 +478,9 @@ class DatabaseMysql extends DatabaseBase {
 		$this->query( "SET sql_big_selects=$encValue", __METHOD__ );
 	}
 
+	public function unixTimestamp( $field ) {
+		return "UNIX_TIMESTAMP($field)";
+	}
 
 	/**
 	 * Determines if the last failure was due to a deadlock
@@ -494,6 +537,56 @@ class DatabaseMysql extends DatabaseBase {
  * Legacy support: Database == DatabaseMysql
  */
 class Database extends DatabaseMysql {}
+
+/**
+ * Utility class.
+ * @ingroup Database
+ */
+class MySQLField implements Field {
+	private $name, $tablename, $default, $max_length, $nullable,
+		$is_pk, $is_unique, $is_multiple, $is_key, $type;
+
+	function __construct ( $info ) {
+		$this->name = $info->name;
+		$this->tablename = $info->table;
+		$this->default = $info->def;
+		$this->max_length = $info->max_length;
+		$this->nullable = !$info->not_null;
+		$this->is_pk = $info->primary_key;
+		$this->is_unique = $info->unique_key;
+		$this->is_multiple = $info->multiple_key;
+		$this->is_key = ( $this->is_pk || $this->is_unique || $this->is_multiple );
+		$this->type = $info->type;
+	}
+
+	function name() {
+		return $this->name;
+	}
+
+	function tableName() {
+		return $this->tableName;
+	}
+
+	function type() {
+		return $this->type;
+	}
+
+	function isNullable() {
+		return $this->nullable;
+	}
+
+	function defaultValue() {
+		return $this->default;
+	}
+
+	function isKey() {
+		return $this->is_key;
+	}
+
+	function isMultipleKey() {
+		return $this->is_multiple;
+	}
+}
 
 class MySQLMasterPos {
 	var $file, $pos;

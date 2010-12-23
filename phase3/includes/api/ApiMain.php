@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 4, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Sep 4, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,16 +20,15 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @defgroup API API
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
 	// Eclipse helper - will be ignored in production
 	require_once( 'ApiBase.php' );
 }
-
-/**
- * @defgroup API API
- */
 
 /**
  * This is the main API class, used for both external and internal processing.
@@ -65,6 +63,7 @@ class ApiMain extends ApiBase {
 		'feedwatchlist' => 'ApiFeedWatchlist',
 		'help' => 'ApiHelp',
 		'paraminfo' => 'ApiParamInfo',
+		'rsd' => 'ApiRsd',
 
 		// Write modules
 		'purge' => 'ApiPurge',
@@ -102,7 +101,9 @@ class ApiMain extends ApiBase {
 		'txt' => 'ApiFormatTxt',
 		'txtfm' => 'ApiFormatTxt',
 		'dbg' => 'ApiFormatDbg',
-		'dbgfm' => 'ApiFormatDbg'
+		'dbgfm' => 'ApiFormatDbg',
+		'dump' => 'ApiFormatDump',
+		'dumpfm' => 'ApiFormatDump',
 	);
 
 	/**
@@ -118,20 +119,21 @@ class ApiMain extends ApiBase {
 		),
 		'apihighlimits'	=> array(
 			'msg' => 'Use higher limits in API queries (Slow queries: $1 results; Fast queries: $2 results). The limits for slow queries also apply to multivalue parameters.',
-			'params' => array( ApiMain::LIMIT_SML2, ApiMain::LIMIT_BIG2 )
+			'params' => array( ApiBase::LIMIT_SML2, ApiBase::LIMIT_BIG2 )
 		)
 	);
 
 	private $mPrinter, $mModules, $mModuleNames, $mFormats, $mFormatNames;
 	private $mResult, $mAction, $mShowVersions, $mEnableWrite, $mRequest;
-	private $mInternalMode, $mSquidMaxage, $mModule, $mVaryCookie;
+	private $mInternalMode, $mSquidMaxage, $mModule;
 
-	private $mCacheControl = array( 'must-revalidate' => true );
+	private $mCacheMode = 'private';
+	private $mCacheControl = array();
 
 	/**
 	 * Constructs an instance of ApiMain that utilizes the module and format specified by $request.
 	 *
-	 * @param $request object - if this is an instance of FauxRequest, errors are thrown and no printing occurs
+	 * @param $request WebRequest - if this is an instance of FauxRequest, errors are thrown and no printing occurs
 	 * @param $enableWrite bool should be set to true if the api may modify data
 	 */
 	public function __construct( $request, $enableWrite = false ) {
@@ -169,7 +171,6 @@ class ApiMain extends ApiBase {
 
 		$this->mSquidMaxage = - 1; // flag for executeActionWithErrorHandling()
 		$this->mCommit = false;
-		$this->mVaryCookie = false;
 	}
 
 	/**
@@ -181,6 +182,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Return the request object that contains client's request
+	 * @return WebRequest
 	 */
 	public function getRequest() {
 		return $this->mRequest;
@@ -188,6 +190,8 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Get the ApiResult object associated with current request
+	 *
+	 * @return ApiResult
 	 */
 	public function getResult() {
 		return $this->mResult;
@@ -199,9 +203,11 @@ class ApiMain extends ApiBase {
 	public function getModule() {
 		return $this->mModule;
 	}
-	
+
 	/**
 	 * Get the result formatter object. Only works after setupExecuteAction()
+	 *
+	 * @return ApiFormatBase
 	 */
 	public function getPrinter() {
 		return $this->mPrinter;
@@ -216,24 +222,72 @@ class ApiMain extends ApiBase {
 			's-maxage' => $maxage
 		) );
 	}
-	
+
 	/**
-	 * Make sure Cache-Control: private is set. Use this when the output of a request
-	 * is for the current recipient only and should not be cached in any shared cache.
+	 * Set the type of caching headers which will be sent.
+	 *
+	 * @param $mode String One of:
+	 *    - 'public':     Cache this object in public caches, if the maxage or smaxage
+	 *         parameter is set, or if setCacheMaxAge() was called. If a maximum age is
+	 *         not provided by any of these means, the object will be private.
+	 *    - 'private':    Cache this object only in private client-side caches.
+	 *    - 'anon-public-user-private': Make this object cacheable for logged-out
+	 *         users, but private for logged-in users. IMPORTANT: If this is set, it must be
+	 *         set consistently for a given URL, it cannot be set differently depending on
+	 *         things like the contents of the database, or whether the user is logged in.
+	 *
+	 *  If the wiki does not allow anonymous users to read it, the mode set here
+	 *  will be ignored, and private caching headers will always be sent. In other words,
+	 *  the "public" mode is equivalent to saying that the data sent is as public as a page
+	 *  view.
+	 *
+	 *  For user-dependent data, the private mode should generally be used. The
+	 *  anon-public-user-private mode should only be used where there is a particularly
+	 *  good performance reason for caching the anonymous response, but where the
+	 *  response to logged-in users may differ, or may contain private data.
+	 *
+	 *  If this function is never called, then the default will be the private mode.
+	 */
+	public function setCacheMode( $mode ) {
+		if ( !in_array( $mode, array( 'private', 'public', 'anon-public-user-private' ) ) ) {
+			wfDebug( __METHOD__ . ": unrecognised cache mode \"$mode\"\n" );
+			// Ignore for forwards-compatibility
+			return;
+		}
+
+		if ( !in_array( 'read', User::getGroupPermissions( array( '*' ) ), true ) ) {
+			// Private wiki, only private headers
+			if ( $mode !== 'private' ) {
+				wfDebug( __METHOD__ . ": ignoring request for $mode cache mode, private wiki\n" );
+				return;
+			}
+		}
+
+		wfDebug( __METHOD__ . ": setting cache mode $mode\n" );
+		$this->mCacheMode = $mode;
+	}
+
+	/**
+	 * @deprecated Private caching is now the default, so there is usually no
+	 * need to call this function. If there is a need, you can use
+	 * $this->setCacheMode('private')
 	 */
 	public function setCachePrivate() {
-		$this->setCacheControl( array( 'private' => true ) );
+		$this->setCacheMode( 'private' );
 	}
 
 	/**
 	 * Set directives (key/value pairs) for the Cache-Control header.
 	 * Boolean values will be formatted as such, by including or omitting
 	 * without an equals sign.
+	 *
+	 * Cache control values set here will only be used if the cache mode is not
+	 * private, see setCacheMode().
 	 */
 	public function setCacheControl( $directives ) {
 		$this->mCacheControl = $directives + $this->mCacheControl;
 	}
-	
+
 	/**
 	 * Make sure Vary: Cookie and friends are set. Use this when the output of a request
 	 * may be cached for anons but may not be cached for logged-in users.
@@ -241,26 +295,11 @@ class ApiMain extends ApiBase {
 	 * WARNING: This function must be called CONSISTENTLY for a given URL. This means that a
 	 * given URL must either always or never call this function; if it sometimes does and
 	 * sometimes doesn't, stuff will break.
+	 *
+	 * @deprecated Use setCacheMode( 'anon-public-user-private' )
 	 */
 	public function setVaryCookie() {
-		$this->mVaryCookie = true;
-	}
-	
-	/**
-	 * Actually output the Vary: Cookie header and its friends, if flagged with setVaryCookie().
-	 * Outputs the appropriate X-Vary-Options header and Cache-Control: private if needed.
-	 */
-	private function outputVaryCookieHeader() {
-		global $wgUseXVO, $wgOut;
-		if ( $this->mVaryCookie ) {
-			header( 'Vary: Cookie' );
-			if ( $wgUseXVO ) {
-				header( $wgOut->getXVO() );
-				if ( $wgOut->haveCacheVaryCookies() ) {
-					$this->setCacheControl( array( 'private' => true ) );
-				}
-			}
-		}
+		$this->setCacheMode( 'anon-public-user-private' );
 	}
 
 	/**
@@ -313,8 +352,7 @@ class ApiMain extends ApiBase {
 			$errCode = $this->substituteResultWithError( $e );
 
 			// Error results should not be cached
-			$this->setCacheMaxAge( 0 );
-			$this->setCachePrivate();
+			$this->setCacheMode( 'private' );
 
 			$headerStr = 'MediaWiki-API-Error: ' . $errCode;
 			if ( $e->getCode() === 0 ) {
@@ -330,10 +368,41 @@ class ApiMain extends ApiBase {
 			$this->mPrinter->safeProfileOut();
 			$this->printResult( true );
 		}
-		
-		// If this wiki is private, don't cache anything ever
-		if ( ! in_array( 'read', User::getGroupPermissions( array( '*' ) ), true ) ) {
-			$this->setCachePrivate();
+
+		// Send cache headers after any code which might generate an error, to
+		// avoid sending public cache headers for errors.
+		$this->sendCacheHeaders();
+
+		if ( $this->mPrinter->getIsHtml() && !$this->mPrinter->isDisabled() ) {
+			echo wfReportTime();
+		}
+
+		ob_end_flush();
+	}
+
+	protected function sendCacheHeaders() {
+		if ( $this->mCacheMode == 'private' ) {
+			header( 'Cache-Control: private' );
+			return;
+		}
+
+		if ( $this->mCacheMode == 'anon-public-user-private' ) {
+			global $wgUseXVO, $wgOut;
+			header( 'Vary: Accept-Encoding, Cookie' );
+			if ( $wgUseXVO ) {
+				header( $wgOut->getXVO() );
+				if ( $wgOut->haveCacheVaryCookies() ) {
+					// Logged in, mark this request private
+					header( 'Cache-Control: private' );
+					return;
+				}
+				// Logged out, send normal public headers below
+			} elseif ( session_id() != '' ) {
+				// Logged in or otherwise has session (e.g. anonymous users who have edited)
+				// Mark request private
+				header( 'Cache-Control: private' );
+				return;
+			} // else no XVO and anonymous, send public headers below
 		}
 
 		// If nobody called setCacheMaxAge(), use the (s)maxage parameters
@@ -344,11 +413,20 @@ class ApiMain extends ApiBase {
 			$this->mCacheControl['max-age'] = $this->getParameter( 'maxage' );
 		}
 
-		// Set the cache expiration at the last moment, as any errors may change the expiration.
-		// if $this->mSquidMaxage == 0, the expiry time is set to the first second of unix epoch
-		$exp = min( $this->mCacheControl['s-maxage'], $this->mCacheControl['max-age'] );
-		$expires = ( $exp == 0 ? 1 : time() + $exp );
-		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $expires ) );
+		if ( !$this->mCacheControl['s-maxage'] && !$this->mCacheControl['max-age'] ) {
+			// Public cache not requested
+			// Sending a Vary header in this case is harmless, and protects us
+			// against conditional calls of setCacheMaxAge().
+			header( 'Cache-Control: private' );
+			return;
+		}
+
+		$this->mCacheControl['public'] = true;
+
+		// Send an Expires header
+		$maxAge = min( $this->mCacheControl['s-maxage'], $this->mCacheControl['max-age'] );
+		$expiryUnixTime = ( $maxAge == 0 ? 1 : time() + $maxAge );
+		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $expiryUnixTime ) );
 
 		// Construct the Cache-Control header
 		$ccHeader = '';
@@ -366,18 +444,12 @@ class ApiMain extends ApiBase {
 		}
 
 		header( "Cache-Control: $ccHeader" );
-		$this->outputVaryCookieHeader();
-
-		if ( $this->mPrinter->getIsHtml() && !$this->mPrinter->isDisabled() ) {
-			echo wfReportTime();
-		}
-
-		ob_end_flush();
 	}
 
 	/**
 	 * Replace the result data with the information about an exception.
 	 * Returns the error code
+	 * @param $e Exception
 	 */
 	protected function substituteResultWithError( $e ) {
 		// Printer may not be initialized if the extractRequestParams() fails for the main module
@@ -447,7 +519,7 @@ class ApiMain extends ApiBase {
 			$this->getResult()->addValue( null, 'requestid', $requestid );
 		}
 		$servedby = $this->getParameter( 'servedby' );
-		if( $servedby ) {
+		if ( $servedby ) {
 			$this->getResult()->addValue( null, 'servedby', wfHostName() );
 		}
 
@@ -465,7 +537,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Set up the module for response
-	 * @return Object the module that will handle this action
+	 * @return ApiBase The module that will handle this action
 	 */
 	protected function setupModule() {
 		// Instantiate the module requested by the user
@@ -518,10 +590,10 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Check for sufficient permissions to execute
-	 * @param $module object An Api module
+	 * @param $module ApiBase An Api module
 	 */
 	protected function checkExecutePermissions( $module ) {
-		global $wgUser, $wgGroupPermissions;
+		global $wgUser;
 		if ( $module->isReadMode() && !in_array( 'read', User::getGroupPermissions( array( '*' ) ), true ) &&
 			!$wgUser->isAllowed( 'read' ) )
 		{
@@ -542,7 +614,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Check POST for external response and setup result printer
-	 * @param $module object An Api module
+	 * @param $module ApiBase An Api module
 	 * @param $params Array an array with the request parameters
 	 */
 	protected function setupExternalResponse( $module, $params ) {
@@ -572,7 +644,9 @@ class ApiMain extends ApiBase {
 
 		$this->checkExecutePermissions( $module );
 
-		if ( !$this->checkMaxLag( $module, $params ) ) return;
+		if ( !$this->checkMaxLag( $module, $params ) ) {
+			return;
+		}
 
 		if ( !$this->mInternalMode ) {
 			$this->setupExternalResponse( $module, $params );
@@ -670,23 +744,23 @@ class ApiMain extends ApiBase {
 		return array(
 			'',
 			'',
-			'******************************************************************',
-			'**                                                              **',
-			'**  This is an auto-generated MediaWiki API documentation page  **',
-			'**                                                              **',
-			'**                  Documentation and Examples:                 **',
-			'**               http://www.mediawiki.org/wiki/API              **',
-			'**                                                              **',
-			'******************************************************************',
+			'******************************************************************************************',
+			'**                                                                                      **',
+			'**              This is an auto-generated MediaWiki API documentation page              **',
+			'**                                                                                      **',
+			'**                            Documentation and Examples:                               **',
+			'**                         http://www.mediawiki.org/wiki/API                            **',
+			'**                                                                                      **',
+			'******************************************************************************************',
 			'',
-			'Status:          All features shown on this page should be working, but the API',
-			'                 is still in active development, and  may change at any time.',
-			'                 Make sure to monitor our mailing list for any updates',
+			'Status:                All features shown on this page should be working, but the API',
+			'                       is still in active development, and  may change at any time.',
+			'                       Make sure to monitor our mailing list for any updates',
 			'',
-			'Documentation:   http://www.mediawiki.org/wiki/API',
-			'Mailing list:    http://lists.wikimedia.org/mailman/listinfo/mediawiki-api',
-			'Api Announcements:    http://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce',
-			'Bugs & Requests: http://bugzilla.wikimedia.org/buglist.cgi?component=API&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&order=bugs.delta_ts',
+			'Documentation:         http://www.mediawiki.org/wiki/API',
+			'Mailing list:          http://lists.wikimedia.org/mailman/listinfo/mediawiki-api',
+			'Api Announcements:     http://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce',
+			'Bugs & Requests:       http://bugzilla.wikimedia.org/buglist.cgi?component=API&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&order=bugs.delta_ts',
 			'',
 			'',
 			'',
@@ -711,7 +785,7 @@ class ApiMain extends ApiBase {
 	protected function getCredits() {
 		return array(
 			'API developers:',
-			'    Roan Kattouw <Firstname>.<Lastname>@home.nl (lead developer Sep 2007-present)',
+			'    Roan Kattouw <Firstname>.<Lastname>@gmail.com (lead developer Sep 2007-present)',
 			'    Victor Vasiliev - vasilvv at gee mail dot com',
 			'    Bryan Tong Minh - bryan . tongminh @ gmail . com',
 			'    Sam Reed - sam @ reedyboy . net',
@@ -759,7 +833,7 @@ class ApiMain extends ApiBase {
 
 		$astriks = str_repeat( '*** ', 10 );
 		$msg .= "\n\n$astriks Modules  $astriks\n\n";
-		foreach ( $this->mModules as $moduleName => $unused ) {
+		foreach ( array_keys( $this->mModules ) as $moduleName ) {
 			$module = new $this->mModules[$moduleName] ( $this, $moduleName );
 			$msg .= self::makeHelpMsgHeader( $module, 'action' );
 			$msg2 = $module->makeHelpMsg();
@@ -778,7 +852,7 @@ class ApiMain extends ApiBase {
 		}
 
 		$msg .= "\n$astriks Formats  $astriks\n\n";
-		foreach ( $this->mFormats as $formatName => $unused ) {
+		foreach ( array_keys( $this->mFormats ) as $formatName ) {
 			$module = $this->createPrinterByName( $formatName );
 			$msg .= self::makeHelpMsgHeader( $module, 'format' );
 			$msg2 = $module->makeHelpMsg();

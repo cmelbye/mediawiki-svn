@@ -22,7 +22,11 @@ class ImagePage extends Article {
 		$this->dupes = null;
 		$this->repo = null;
 	}
-	
+
+	/**
+	 * @param  $file File:
+	 * @return void
+	 */
 	public function setFile( $file ) {
 		$this->displayImg = $file;
 		$this->img = $file;
@@ -66,7 +70,7 @@ class ImagePage extends Article {
 		$diffOnly = $wgRequest->getBool( 'diffonly', $wgUser->getOption( 'diffonly' ) );
 
 		if ( $this->mTitle->getNamespace() != NS_FILE || ( isset( $diff ) && $diffOnly ) ) {
-			return Article::view();
+			return parent::view();
 		}
 			
 		$this->loadFile();
@@ -76,7 +80,7 @@ class ImagePage extends Article {
 				// mTitle is the same as the redirect target so ask Article
 				// to perform the redirect for us.
 				$wgRequest->setVal( 'diffonly', 'true' );
-				return Article::view();
+				return parent::view();
 			} else {
 				// mTitle is not the same as the redirect target so it is 
 				// probably the redirect page itself. Fake the redirect symbol
@@ -106,7 +110,7 @@ class ImagePage extends Article {
 
 		# No need to display noarticletext, we use our own message, output in openShowImage()
 		if ( $this->getID() ) {
-			Article::view();
+			parent::view();
 		} else {
 			# Just need to set the right headers
 			$wgOut->setArticleFlag( true );
@@ -143,14 +147,9 @@ class ImagePage extends Article {
 			$wgOut->addHTML( $html );
 
 		if ( $showmeta ) {
-			global $wgStylePath, $wgStyleVersion;
-			$expand = htmlspecialchars( Xml::escapeJsString( wfMsg( 'metadata-expand' ) ) );
-			$collapse = htmlspecialchars( Xml::escapeJsString( wfMsg( 'metadata-collapse' ) ) );
 			$wgOut->addHTML( Xml::element( 'h2', array( 'id' => 'metadata' ), wfMsg( 'metadata' ) ) . "\n" );
 			$wgOut->addWikiText( $this->makeMetadataTable( $formattedMetadata ) );
-			$wgOut->addScriptFile( 'metadata.js' );
-			$wgOut->addHTML(
-				"<script type=\"text/javascript\">attachMetadataToggle('mw_metadata', '$expand', '$collapse');</script>\n" );
+			$wgOut->addModules( array( 'mediawiki.legacy.metadata' ) );
 		}
 		
 		$css = $this->repo->getDescriptionStylesheetUrl();
@@ -291,7 +290,7 @@ class ImagePage extends Article {
 		if ( $this->img && !$this->img->isLocal() && 0 == $this->getID() ) {
 			return '';
 		}
-		return Article::getContent();
+		return parent::getContent();
 	}
 
 	protected function openShowImage() {
@@ -300,8 +299,6 @@ class ImagePage extends Article {
 
 		$this->loadFile();
 
-		$full_url  = $this->displayImg->getURL();
-		$linkAttribs = false;
 		$sizeSel = intval( $wgUser->getOption( 'imagesize' ) );
 		if ( !isset( $wgImageLimits[$sizeSel] ) ) {
 			$sizeSel = User::getDefaultOption( 'imagesize' );
@@ -332,9 +329,7 @@ class ImagePage extends Article {
 			$width = $width_orig;
 			$height_orig = $this->displayImg->getHeight( $page );
 			$height = $height_orig;
-			$mime = $this->displayImg->getMimeType();
-			$showLink = false;
-			$linkAttribs = array( 'href' => $full_url );
+
 			$longDesc = $this->displayImg->getLongDesc();
 
 			wfRunHooks( 'ImageOpenShowImageInlineBefore', array( &$this, &$wgOut ) );
@@ -366,20 +361,16 @@ class ImagePage extends Article {
 					);
 				} else {
 					# Image is small enough to show full size on image page
-					$msgbig = htmlspecialchars( $this->displayImg->getName() );
 					$msgsmall = wfMsgExt( 'file-nohires', array( 'parseinline' ) );
 				}
 
 				$params['width'] = $width;
 				$thumbnail = $this->displayImg->transform( $params );
 
-				$anchorclose = "<br />";
-				if ( $this->displayImg->mustRender() ) {
-					$showLink = true;
-				} else {
-					$anchorclose .=
-						$msgsmall .
-						'<br />' . Xml::tags( 'a', $linkAttribs,  $msgbig ) . "$dirmark " . $longDesc;
+				$showLink = true;
+				$anchorclose = '';
+				if ( !$this->displayImg->mustRender() ) {
+					$anchorclose = "<br />" . $msgsmall;
 				}
 
 				$isMulti = $this->displayImg->isMultipage() && $this->displayImg->pageCount() > 1;
@@ -438,7 +429,6 @@ class ImagePage extends Article {
 						'onchange' => 'document.pageselector.submit();',
 					);
 
-					$option = array();
 					for ( $i = 1; $i <= $count; $i++ ) {
 						$options[] = Xml::option( $wgLang->formatNum( $i ), $i, $i == $page );
 					}
@@ -449,7 +439,7 @@ class ImagePage extends Article {
 					$wgOut->addHTML(
 						'</td><td><div class="multipageimagenavbox">' .
 						Xml::openElement( 'form', $formParams ) .
-						Xml::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
+						Html::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
 						wfMsgExt( 'imgmultigoto', array( 'parseinline', 'replaceafter' ), $select ) .
 						Xml::submitButton( wfMsg( 'imgmultigo' ) ) .
 						Xml::closeElement( 'form' ) .
@@ -472,23 +462,22 @@ class ImagePage extends Article {
 
 			if ( $showLink ) {
 				$filename = wfEscapeWikiText( $this->displayImg->getName() );
-				$medialink = "[[Media:$filename|$filename]]";
+				$linktext = $filename;
+				if ( isset( $msgbig ) ) {
+					$linktext = wfEscapeWikiText( $msgbig );
+				}
+				$medialink = "[[Media:$filename|$linktext]]";
 
 				if ( !$this->displayImg->isSafeFile() ) {
 					$warning = wfMsgNoTrans( 'mediawarning' );
 					$wgOut->addWikiText( <<<EOT
-<div class="fullMedia">
-<span class="dangerousLink">{$medialink}</span>$dirmark
-<span class="fileInfo">$longDesc</span>
-</div>
+<div class="fullMedia"><span class="dangerousLink">{$medialink}</span>$dirmark <span class="fileInfo">$longDesc</span></div>
 <div class="mediaWarning">$warning</div>
 EOT
 						);
 				} else {
 					$wgOut->addWikiText( <<<EOT
-<div class="fullMedia">
-{$medialink}{$dirmark}
-<span class="fileInfo">$longDesc</span>
+<div class="fullMedia">{$medialink}{$dirmark} <span class="fileInfo">$longDesc</span>
 </div>
 EOT
 					);
@@ -528,10 +517,14 @@ EOT
 		$descUrl = $this->img->getDescriptionUrl();
 		$descText = $this->img->getDescriptionText();
 
+		/* Add canonical to head if there is no local page for this shared file */
+		if( $descUrl && $this->getID() == 0 ) {
+			$wgOut->addLink( array( 'rel' => 'canonical', 'href' => $descUrl ) );
+		}
+
 		$wrap = "<div class=\"sharedUploadNotice\">\n$1\n</div>\n";
 		$repo = $this->img->getRepo()->getDisplayName();
 
-		$msg = '';
 		if ( $descUrl && $descText && wfMsgNoTrans( 'sharedupload-desc-here' ) !== '-'  ) {
 			$wgOut->wrapWikiMsg( $wrap, array( 'sharedupload-desc-here', $repo, $descUrl ) );
 		} elseif ( $descUrl && wfMsgNoTrans( 'sharedupload-desc-there' ) !== '-' ) {
@@ -653,7 +646,7 @@ EOT
 		$sk = $wgUser->getSkin();
 		$count = 0;
 		$elements = array();
-		while ( $s = $res->fetchObject() ) {
+		foreach ( $res as $s ) {
 			$count++;
 			if ( $count <= $limit ) {
 				// We have not yet reached the extra one that tells us there is more to fetch
@@ -761,7 +754,7 @@ EOT
 		$this->loadFile();
 		if ( !$this->img->exists() || !$this->img->isLocal() || $this->img->getRedirected() ) {
 			// Standard article deletion
-			Article::delete();
+			parent::delete();
 			return;
 		}
 		$deleter = new FileDeleteForm( $this->img );
@@ -880,7 +873,7 @@ class ImageHistoryList {
 	}
 
 	public function imageHistoryLine( $iscur, $file ) {
-		global $wgUser, $wgLang, $wgContLang;
+		global $wgUser, $wgLang;
 
 		$timestamp = wfTimestamp( TS_MW, $file->getTimestamp() );
 		$img = $iscur ? $file->getName() : $file->getArchiveName();
@@ -889,7 +882,7 @@ class ImageHistoryList {
 		$description = $file->getDescription();
 
 		$local = $this->current->isLocal();
-		$row = $css = $selected = '';
+		$row = $selected = '';
 
 		// Deletion link
 		if ( $local && ( $wgUser->isAllowed( 'delete' ) || $wgUser->isAllowed( 'deletedhistory' ) ) ) {
@@ -1015,6 +1008,7 @@ class ImageHistoryList {
 		}
 		$row .= '</td>';
 
+		$rowClass = null;
 		wfRunHooks( 'ImagePageFileHistoryLine', array( $this, $file, &$row, &$rowClass ) );
 		$classAttr = $rowClass ? " class='$rowClass'" : "";
 

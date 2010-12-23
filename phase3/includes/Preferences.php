@@ -29,13 +29,16 @@ class Preferences {
 	static $defaultPreferences = null;
 	static $saveFilters = array(
 			'timecorrection' => array( 'Preferences', 'filterTimezoneInput' ),
+			'cols' => array( 'Preferences', 'filterIntval' ),
+			'rows' => array( 'Preferences', 'filterIntval' ),
+			'rclimit' => array( 'Preferences', 'filterIntval' ),
+			'wllimit' => array( 'Preferences', 'filterIntval' ),
+			'searchlimit' => array( 'Preferences', 'filterIntval' ),
 	);
 
 	static function getPreferences( $user ) {
 		if ( self::$defaultPreferences )
 			return self::$defaultPreferences;
-
-		global $wgRCMaxAge;
 
 		$defaultPreferences = array();
 
@@ -62,10 +65,9 @@ class Preferences {
 		}
 
 		## Prod in defaults from the user
-		global $wgDefaultUserOptions;
 		foreach ( $defaultPreferences as $name => &$info ) {
 			$prefFromUser = self::getOptionFromUser( $name, $info, $user );
-			$field = HTMLForm::loadInputFromParameters( $info ); // For validation
+			$field = HTMLForm::loadInputFromParameters( $name, $info ); // For validation
 			$defaultOptions = User::getDefaultOptions();
 			$globalDefault = isset( $defaultOptions[$name] )
 				? $defaultOptions[$name]
@@ -101,7 +103,7 @@ class Preferences {
 			$prefix = isset( $info['prefix'] ) ? $info['prefix'] : $name;
 			$val = array();
 
-			foreach ( $options as $label => $value ) {
+			foreach ( $options as $value ) {
 				if ( $user->getOption( "$prefix$value" ) ) {
 					$val[] = $value;
 				}
@@ -231,10 +233,10 @@ class Preferences {
 		}
 
 		// Language
-		global $wgContLanguageCode;
+		global $wgLanguageCode;
 		$languages = Language::getLanguageNames( false );
-		if ( !array_key_exists( $wgContLanguageCode, $languages ) ) {
-			$languages[$wgContLanguageCode] = $wgContLanguageCode;
+		if ( !array_key_exists( $wgLanguageCode, $languages ) ) {
+			$languages[$wgLanguageCode] = $wgLanguageCode;
 		}
 		ksort( $languages );
 
@@ -474,8 +476,6 @@ class Preferences {
 
 		$selectedSkin = $user->getOption( 'skin' );
 		if ( in_array( $selectedSkin, array( 'cologneblue', 'standard' ) ) ) {
-			global $wgLang;
-
 			$settings = array_flip( $wgLang->getQuickbarSettings() );
 
 			$defaultPreferences['quickbar'] = array(
@@ -534,7 +534,7 @@ class Preferences {
 		$nowlocal = Xml::element( 'span', array( 'id' => 'wpLocalTime' ),
 			$wgLang->time( $now = wfTimestampNow(), true ) );
 		$nowserver = $wgLang->time( $now, false ) .
-			Xml::hidden( 'wpServerTime', substr( $now, 8, 2 ) * 60 + substr( $now, 10, 2 ) );
+			Html::hidden( 'wpServerTime', substr( $now, 8, 2 ) * 60 + substr( $now, 10, 2 ) );
 
 		$defaultPreferences['nowserver'] = array(
 			'type' => 'info',
@@ -588,8 +588,8 @@ class Preferences {
 			);
 		}
 
-		$stubThresholdValues = array( 0, 50, 100, 500, 1000, 2000, 5000, 10000 );
-		$stubThresholdOptions = array();
+		$stubThresholdValues = array( 50, 100, 500, 1000, 2000, 5000, 10000 );
+		$stubThresholdOptions = array( wfMsg( 'stub-threshold-disabled' ) => 0 );
 		foreach ( $stubThresholdValues as $value ) {
 			$stubThresholdOptions[wfMsg( 'size-bytes', $value )] = $value;
 		}
@@ -709,6 +709,11 @@ class Preferences {
 			'type' => 'toggle',
 			'section' => 'editing/advancedediting',
 			'label-message' => 'tog-showtoolbar',
+		);
+		$defaultPreferences['minordefault'] = array(
+			'type' => 'toggle',
+			'section' => 'editing/advancedediting',
+			'label-message' => 'tog-minordefault',
 		);
 
 		if ( $wgUseExternalEditor ) {
@@ -1065,7 +1070,6 @@ class Preferences {
 				$wgDefaultUserOptions['date'] = 'default';
 			}
 
-			$idCnt = 0;
 			$epoch = wfTimestampNow();
 			foreach ( $dateopts as $key ) {
 				if ( $key == 'default' ) {
@@ -1113,7 +1117,8 @@ class Preferences {
 					$wgLang->formatNum( $wgMaxSigChars )
 				)
 			);
-		} elseif ( !empty( $alldata['fancysig'] ) &&
+		} elseif ( isset( $alldata['fancysig'] ) &&
+				$alldata['fancysig'] &&
 				false === $wgParser->validateSig( $signature ) ) {
 			return Xml::element( 'span', array( 'class' => 'error' ), wfMsg( 'badsig' ) );
 		} else {
@@ -1123,7 +1128,7 @@ class Preferences {
 
 	static function cleanSignature( $signature, $alldata ) {
 		global $wgParser;
-		if ( $alldata['fancysig'] ) {
+		if ( isset( $alldata['fancysig'] ) && $alldata['fancysig'] ) {
 			$signature = $wgParser->cleanSig( $signature );
 		} else {
 			// When no fancy sig used, make sure ~{3,5} get removed.
@@ -1214,6 +1219,10 @@ class Preferences {
 		}
 		return $opt;
 	}
+	
+	static function filterIntval( $value, $alldata ){
+		return intval( $value );
+	}
 
 	static function filterTimezoneInput( $tz, $alldata ) {
 		$data = explode( '|', $tz, 3 );
@@ -1223,7 +1232,6 @@ class Preferences {
 				return $tz;
 			default:
 				$data = explode( ':', $tz, 2 );
-				$minDiff = 0;
 				if ( count( $data ) == 2 ) {
 					$data[0] = intval( $data[0] );
 					$data[1] = intval( $data[1] );
@@ -1273,8 +1281,8 @@ class Preferences {
 					# Mail a temporary password to the dirty address.
 					# User can come back through the confirmation URL to re-enable email.
 					$result = $wgUser->sendConfirmationMail( $oldaddr != '' );
-					if ( WikiError::isError( $result ) ) {
-						return wfMsg( 'mailerror', htmlspecialchars( $result->getMessage() ) );
+					if ( !$result->isGood() ) {
+						return htmlspecialchars( $result->getWikiText( 'mailerror' ) );
 					} elseif ( $entryPoint == 'ui' ) {
 						$result = 'eauth';
 					}
@@ -1329,7 +1337,7 @@ class Preferences {
 			$wgOut->redirect( $url );
 		}
 
-		return true;
+		return Status::newGood();
 	}
 
 	public static function loadOldSearchNs( $user ) {

@@ -132,11 +132,11 @@ class LinkCache {
 	 * @return Integer
 	 */
 	public function addLinkObj( $nt ) {
-		global $wgAntiLockFlags, $wgProfiler;
+		global $wgAntiLockFlags;
 		wfProfileIn( __METHOD__ );
 
 		$key = $nt->getPrefixedDBkey();
-		if ( $this->isBadLink( $key ) ) {
+		if ( $this->isBadLink( $key ) || $nt->isExternal() ) {
 			wfProfileOut( __METHOD__ );
 			return 0;
 		}

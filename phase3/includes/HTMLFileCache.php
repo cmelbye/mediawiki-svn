@@ -30,7 +30,7 @@ class HTMLFileCache {
 
 	public function fileCacheName() {
 		if( !$this->mFileCache ) {
-			global $wgCacheDirectory, $wgFileCacheDirectory, $wgRequest;
+			global $wgCacheDirectory, $wgFileCacheDirectory, $wgFileCacheDepth;
 
 			if ( $wgFileCacheDirectory ) {
 				$dir = $wgFileCacheDirectory;
@@ -42,17 +42,21 @@ class HTMLFileCache {
 
 			# Store raw pages (like CSS hits) elsewhere
 			$subdir = ($this->mType === 'raw') ? 'raw/' : '';
+
 			$key = $this->mTitle->getPrefixedDbkey();
-			$hash = md5( $key );
+			if ( $wgFileCacheDepth > 0 ) {
+				$hash = md5( $key );
+				for ( $i = 1; $i <= $wgFileCacheDepth; $i++ ) {
+					$subdir .= substr( $hash, 0, $i ) . '/';
+				}
+			}
 			# Avoid extension confusion
 			$key = str_replace( '.', '%2E', urlencode( $key ) );
-	
-			$hash1 = substr( $hash, 0, 1 );
-			$hash2 = substr( $hash, 0, 2 );
-			$this->mFileCache = "{$wgFileCacheDirectory}/{$subdir}{$hash1}/{$hash2}/{$key}.html";
+			$this->mFileCache = "{$dir}/{$subdir}{$key}.html";
 
-			if( $this->useGzip() )
+			if( $this->useGzip() ) {
 				$this->mFileCache .= '.gz';
+			}
 
 			wfDebug( __METHOD__ . ": {$this->mFileCache}\n" );
 		}
@@ -134,7 +138,7 @@ class HTMLFileCache {
 
 	/* Working directory to/from output */
 	public function loadFromFileCache() {
-		global $wgOut, $wgMimeType, $wgOutputEncoding, $wgContLanguageCode;
+		global $wgOut, $wgMimeType, $wgOutputEncoding, $wgLanguageCode;
 		wfDebug( __METHOD__ . "()\n");
 		$filename = $this->fileCacheName();
 		// Raw pages should handle cache control on their own,
@@ -142,7 +146,7 @@ class HTMLFileCache {
 		if( $this->mType !== 'raw' ) {
 			$wgOut->sendCacheControl();
 			header( "Content-Type: $wgMimeType; charset={$wgOutputEncoding}" );
-			header( "Content-Language: $wgContLanguageCode" );
+			header( "Content-Language: $wgLanguageCode" );
 		}
 
 		if( $this->useGzip() ) {

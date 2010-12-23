@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Statistics
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +16,28 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
- * Special page lists various statistics, including the contents of
- * `site_stats`, plus page view details if enabled
  *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * Some statistics about the wiki
+ * Special page lists various statistics, including the contents of
+ * `site_stats`, plus page view details if enabled
+ *
+ * @ingroup SpecialPage
  */
 class SpecialStatistics extends SpecialPage {
 	
 	private $views, $edits, $good, $images, $total, $users,
-			$activeUsers, $admins, $numJobs = 0;
+			$activeUsers, $admins = 0;
 	
 	public function __construct() {
 		parent::__construct( 'Statistics' );
 	}
 	
 	public function execute( $par ) {
-		global $wgOut, $wgRequest, $wgMessageCache, $wgMemc;
+		global $wgOut, $wgMemc;
 		global $wgDisableCounters, $wgMiserMode;
 		
 		$this->setHeaders();
@@ -51,7 +50,6 @@ class SpecialStatistics extends SpecialPage {
 		$this->users = SiteStats::users();
 		$this->activeUsers = SiteStats::activeUsers();
 		$this->admins = SiteStats::numberingroup('sysop');
-		$this->numJobs = SiteStats::jobs();
 		$this->hook = '';
 	
 		# Staticic - views
@@ -69,11 +67,6 @@ class SpecialStatistics extends SpecialPage {
 				SiteStatsUpdate::cacheUpdate( $dbw );
 				$wgMemc->set( $key, '1', 24*3600 ); // don't update for 1 day
 			}
-		}
-	
-		# Do raw output
-		if( $wgRequest->getVal( 'action' ) == 'raw' ) {
-			$this->doRawOutput();
 		}
 
 		$text = Xml::openElement( 'table', array( 'class' => 'wikitable mw-statistics-table' ) );
@@ -123,7 +116,6 @@ class SpecialStatistics extends SpecialPage {
 	 * @return string table row in HTML format
 	 */
 	private function formatRow( $text, $number, $trExtraParams = array(), $descMsg = '', $descMsgParam = '' ) {
-		global $wgStylePath;
 		if( $descMsg ) {
 			$descriptionText = wfMsgExt( $descMsg, array( 'parseinline' ), $descMsgParam );
 			if ( !wfEmptyMsg( $descMsg, $descriptionText ) ) {
@@ -195,6 +187,7 @@ class SpecialStatistics extends SpecialPage {
 						'statistics-users-active-desc',
 						$wgLang->formatNum( $wgActiveUserDays ) );
 	}
+
 	private function getGroupStats() {
 		global $wgGroupPermissions, $wgImplicitGroups, $wgLang, $wgUser;
 		$sk = $wgUser->getSkin();
@@ -241,6 +234,7 @@ class SpecialStatistics extends SpecialPage {
 		}
 		return $text;
 	}
+
 	private function getViewsStats() {
 		global $wgLang;
 		return Xml::openElement( 'tr' ) .
@@ -248,12 +242,13 @@ class SpecialStatistics extends SpecialPage {
 			Xml::closeElement( 'tr' ) .
 				$this->formatRow( wfMsgExt( 'statistics-views-total', array( 'parseinline' ) ),
 					$wgLang->formatNum( $this->views ),
-						array ( 'class' => 'mw-statistics-views-total' ) ) .
+						array ( 'class' => 'mw-statistics-views-total' ), 'statistics-views-total-desc' ) .
 				$this->formatRow( wfMsgExt( 'statistics-views-peredit', array( 'parseinline' ) ),
 					$wgLang->formatNum( sprintf( '%.2f', $this->edits ? 
 						$this->views / $this->edits : 0 ) ),
 						array ( 'class' => 'mw-statistics-views-peredit' ) );
 	}
+
 	private function getMostViewedPages() {
 		global $wgLang, $wgUser;
 		$text = '';
@@ -280,7 +275,7 @@ class SpecialStatistics extends SpecialPage {
 				$text .= Xml::openElement( 'tr' );
 				$text .= Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-mostpopular', array( 'parseinline' ) ) );
 				$text .= Xml::closeElement( 'tr' );
-				while( $row = $res->fetchObject() ) {
+				foreach ( $res as $row ) {
 					$title = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
 					if( $title instanceof Title ) {
 						$text .= $this->formatRow( $sk->link( $title ),
@@ -292,7 +287,7 @@ class SpecialStatistics extends SpecialPage {
 			}
 		return $text;
 	}
-	
+
 	private function getOtherStats( $stats ) {
 		global $wgLang;
 
@@ -311,21 +306,5 @@ class SpecialStatistics extends SpecialPage {
 		}
 		
 		return $return;
-	}
-	
-	/**
-	 * Do the action=raw output for this page. Legacy, but we support
-	 * it for backwards compatibility
-	 * http://lists.wikimedia.org/pipermail/wikitech-l/2008-August/039202.html
-	 */
-	private function doRawOutput() {
-		global $wgOut;
-		$wgOut->disable();
-		header( 'Pragma: nocache' );
-		echo "total=" . $this->total . ";good=" . $this->good . ";views=" . 
-				$this->views . ";edits=" . $this->edits . ";users=" . $this->users . ";";
-		echo "activeusers=" . $this->activeUsers . ";admins=" . $this->admins . 
-				";images=" . $this->images . ";jobs=" . $this->numJobs . "\n";
-		return;
 	}
 }

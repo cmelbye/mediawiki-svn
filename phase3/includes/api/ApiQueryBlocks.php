@@ -1,11 +1,10 @@
 <?php
-
 /**
+ *
+ *
  * Created on Sep 10, 2007
  *
- * API for MediaWiki 1.8+
- *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -60,9 +61,6 @@ class ApiQueryBlocks extends ApiQueryBase {
 		$fld_flags = isset( $prop['flags'] );
 
 		$result = $this->getResult();
-		$pageSet = $this->getPageSet();
-		$titles = $pageSet->getTitles();
-		$data = array();
 
 		$this->addTables( 'ipblocks' );
 		$this->addFields( 'ipb_auto' );
@@ -127,9 +125,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 				'ipb_auto' => 0
 			) );
 		}
-		
-		// Make sure private data (deleted blocks) isn't cached
-		$this->getMain()->setVaryCookie();
+
 		if ( !$wgUser->isAllowed( 'hideuser' ) ) {
 			$this->addWhereFld( 'ipb_deleted', 0 );
 		}
@@ -142,7 +138,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 		$res = $this->select( __METHOD__ );
 
 		$count = 0;
-		while ( $row = $res->fetchObject() ) {
+		foreach ( $res as $row ) {
 			if ( ++$count > $params['limit'] ) {
 				// We've had enough
 				$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->ipb_timestamp ) );
@@ -276,7 +272,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 			'limit' => 'The maximum amount of blocks to list',
 			'prop' => array(
 				'Which properties to get',
-				' id         - Adds the id of the block',
+				' id         - Adds the ID of the block',
 				' user       - Adds the username of the blocked user',
 				' by         - Adds the username of the blocking admin',
 				' timestamp  - Adds the timestamp of when the block was given',

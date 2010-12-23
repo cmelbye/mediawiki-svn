@@ -1,11 +1,10 @@
 <?php
-
 /**
+ *
+ *
  * Created on July 30, 2007
  *
- * API for MediaWiki 1.8+
- *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -35,6 +36,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
  class ApiQueryUsers extends ApiQueryBase {
 
+	private $tokenFunctions, $prop;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'us' );
 	}
@@ -43,7 +46,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	 * Get an array mapping token names to their handler functions.
 	 * The prototype for a token function is func($user)
 	 * it should return a token or false (permission denied)
-	 * @return array(tokenname => function)
+	 * @return Array tokenname => function
 	 */
 	protected function getTokenFunctions() {
 		// Don't call the hooks twice
@@ -72,8 +75,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 	public function execute() {
 		$params = $this->extractRequestParams();
-		$result = $this->getResult();
-		$r = array();
 
 		if ( !is_null( $params['prop'] ) ) {
 			$this->prop = array_flip( $params['prop'] );
@@ -104,7 +105,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		}
 
 		if ( count( $goodNames ) ) {
-			$db = $this->getDb();
 			$this->addTables( 'user', 'u1' );
 			$this->addFields( 'u1.*' );
 			$this->addWhereFld( 'u1.user_name', $goodNames );
@@ -121,7 +121,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				$this->addJoinConds( array(
 					'ipblocks' => array( 'LEFT JOIN', 'ipb_user=u1.user_id' ),
 					$u2 => array( 'LEFT JOIN', 'ipb_by=u2.user_id' ) ) );
-				$this->addFields( array( 'ipb_reason', 'u2.user_name AS blocker_name' ) );
+				$this->addFields( array( 'ipb_reason', 'u2.user_name AS blocker_name', 'ipb_expiry' ) );
 			}
 
 			$data = array();
@@ -147,6 +147,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->blocker_name ) ) {
 					$data[$name]['blockedby'] = $row->blocker_name;
 					$data[$name]['blockreason'] = $row->ipb_reason;
+					$data[$name]['blockexpiry'] = $row->ipb_expiry;
 				}
 
 				if ( isset( $this->prop['emailable'] ) && $user->canReceiveEmail() ) {
@@ -162,9 +163,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				}
 
 				if ( !is_null( $params['token'] ) ) {
-					// Don't cache tokens
-					$this->getMain()->setCachePrivate();
-					
 					$tokenFunctions = $this->getTokenFunctions();
 					foreach ( $params['token'] as $t ) {
 						$val = call_user_func( $tokenFunctions[$t], $user );
@@ -205,9 +203,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			} else {
 				if ( isset( $this->prop['groups'] ) && isset( $data[$u]['groups'] ) ) {
 					$autolist = ApiQueryUsers::getAutoGroups( User::newFromName( $u ) );
-					
+
 					$data[$u]['groups'] = array_merge( $autolist, $data[$u]['groups'] );
-				
+
 					$this->getResult()->setIndexedTagName( $data[$u]['groups'], 'g' );
 				}
 			}
@@ -222,7 +220,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		}
 		return $this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
 	}
-	
+
 	/**
 	* Gets all the groups that a user is automatically a member of
 	* @return array
@@ -235,6 +233,14 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		}
 
 		return array_merge( $groups, Autopromote::getAutopromoteGroups( $user ) );
+	}
+
+	public function getCacheMode( $params ) {
+		if ( isset( $params['token'] ) ) {
+			return 'private';
+		} else {
+			return 'public';
+		}
 	}
 
 	public function getAllowedParams() {
@@ -265,12 +271,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return array(
 			'prop' => array(
 				'What pieces of information to include',
-				'  blockinfo    - tags if the user is blocked, by whom, and for what reason',
-				'  groups       - lists all the groups the user belongs to',
-				'  editcount    - adds the user\'s edit count',
-				'  registration - adds the user\'s registration timestamp',
-				'  emailable    - tags if the user can and wants to receive e-mail through [[Special:Emailuser]]',
-				'  gender       - tags the gender of the user. Returns "male", "female", or "unknown"',
+				'  blockinfo    - Tags if the user is blocked, by whom, and for what reason',
+				'  groups       - Lists all the groups the user(s) belongs to',
+				'  rights       - Lists all the rights the user(s) has',
+				'  editcount    - Adds the user\'s edit count',
+				'  registration - Adds the user\'s registration timestamp',
+				'  emailable    - Tags if the user can and wants to receive e-mail through [[Special:Emailuser]]',
+				'  gender       - Tags the gender of the user. Returns "male", "female", or "unknown"',
 			),
 			'users' => 'A list of users to obtain the same information for',
 			'token' => 'Which tokens to obtain for each user',

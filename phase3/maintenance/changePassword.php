@@ -2,6 +2,8 @@
 /**
  * Change the password of a given user
  *
+ * Copyright © 2005, Ævar Arnfjörð Bjarmason
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,9 +19,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
- * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  * @ingroup Maintenance
  */
 
@@ -32,7 +33,7 @@ class ChangePassword extends Maintenance {
 		$this->addOption( "password", "The password to use", true, true );
 		$this->mDescription = "Change a user's password";
 	}
-	
+
 	public function execute() {
 		$user = User::newFromName( $this->getOption( 'user' ) );
 		if ( !$user->getId() ) {

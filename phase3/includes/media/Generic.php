@@ -1,6 +1,7 @@
 <?php
 /**
  * Media-handling base classes and generic functionality
+ *
  * @file
  * @ingroup Media
  */
@@ -210,6 +211,10 @@ abstract class MediaHandler {
 	 */
 	function pageCount( $file ) { return false; }
 	/**
+	 * The material is vectorized and thus scaling is lossless
+	 */
+	function isVectorized( $file ) { return false; }
+	/**
 	 * False if the handler is disabled for all files
 	 */
 	function isEnabled() { return true; }
@@ -371,6 +376,20 @@ abstract class MediaHandler {
 	 * Modify the parser object post-transform
 	 */
 	function parserTransformHook( $parser, $file ) {}
+
+	/**
+	 * File validation hook called on upload.
+	 *
+	 * If the file at the given local path is not valid, or its MIME type does not 
+	 * match the handler class, a Status object should be returned containing
+	 * relevant errors.
+	 * 
+	 * @param $fileName The local path to the file.
+	 * @return Status object
+	 */
+	function verifyUpload( $fileName ) {
+		return Status::newGood();
+	}
 
 	/**
 	 * Check for zero-sized thumbnails. These can be generated when

@@ -43,7 +43,7 @@ tinytext mediumtext text char varchar varbinary binary
 timestamp datetime
 tinyblob mediumblob blob
 );
-$datatype .= q{|ENUM\([\"\w, ]+\)};
+$datatype .= q{|ENUM\([\"\w\', ]+\)};
 $datatype = qr{($datatype)};
 
 my $typeval = qr{(\(\d+\))?};
@@ -141,50 +141,6 @@ sub parse_sql {
 	return \%info;
 
 } ## end of parse_sql
-
-## Read in the parser test information
-my $parsefile = '../parserTests.inc';
-open my $pfh, '<', $parsefile or die qq{Could not open "$parsefile": $!\n};
-my $stat = 0;
-my %ptable;
-while (<$pfh>) {
-	if (!$stat) {
-		if (/function listTables/) {
-			$stat = 1;
-		}
-		next;
-	}
-	$ptable{$1}=2 while m{'(\w+)'}g;
-	last if /\);/;
-}
-close $pfh or die qq{Could not close "$parsefile": $!\n};
-
-my $OK_NOT_IN_PTABLE = '
-change_tag
-filearchive
-logging
-profiling
-querycache_info
-searchindex
-tag_summary
-trackbacks
-transcache
-user_newtalk
-updatelog
-valid_tag
-';
-
-## Make sure all tables in main tables.sql are accounted for in the parsertest.
-for my $table (sort keys %{$old{'../tables.sql'}}) {
-	$ptable{$table}++;
-	next if $ptable{$table} > 2;
-	next if $OK_NOT_IN_PTABLE =~ /\b$table\b/;
-	print qq{Table "$table" is in the schema, but not used inside of parserTest.inc\n};
-}
-## Any that are used in ptables but no longer exist in the schema?
-for my $table (sort grep { $ptable{$_} == 2 } keys %ptable) {
-	print qq{Table "$table" ($ptable{$table}) used in parserTest.inc, but not found in schema\n};
-}
 
 for my $oldfile (@old) {
 
@@ -316,6 +272,8 @@ rc_log_type     varbinary(255) TEXT
 
 ## Simple text-only strings:
 ar_flags          tinyblob       TEXT
+cl_collation      varbinary(32)  TEXT
+cl_sortkey        varbinary(230) TEXT
 ct_params         blob           TEXT
 fa_minor_mime     varbinary(100) TEXT
 fa_storage_group  varbinary(16)  TEXT # Just 'deleted' for now, should stay plain text
@@ -326,8 +284,8 @@ ipb_range_start   tinyblob       TEXT # hexadecimal
 img_minor_mime    varbinary(100) TEXT
 lc_lang           varbinary(32)  TEXT
 lc_value          varbinary(32)  TEXT
-
 img_sha1          varbinary(32)  TEXT
+iw_wikiid         varchar(64)    TEXT
 job_cmd           varbinary(60)  TEXT # Should we limit to 60 as well?
 keyname           varbinary(255) TEXT # No tablename prefix (objectcache)
 ll_lang           varbinary(20)  TEXT # Language code
@@ -335,6 +293,9 @@ lc_value          mediumblob     TEXT
 log_params        blob           TEXT # LF separated list of args
 log_type          varbinary(10)  TEXT
 ls_field          varbinary(32)  TEXT
+md_deps           mediumblob     TEXT # JSON
+mr_blob           mediumblob     TEXT # JSON
+mr_lang           varbinary(32)  TEXT
 oi_minor_mime     varbinary(100) TEXT
 oi_sha1           varbinary(32)  TEXT
 old_flags         tinyblob       TEXT
@@ -368,6 +329,7 @@ iwl_prefix      varbinary(20)  TEXT
 ## Text URLs:
 el_index blob           TEXT
 el_to    blob           TEXT
+iw_api   blob           TEXT
 iw_url   blob           TEXT
 tb_url   blob           TEXT
 tc_url   varbinary(255) TEXT

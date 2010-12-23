@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Dec 01, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Dec 01, 2007
  *
  * Copyright © 2007 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -33,11 +34,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiParse extends ApiBase {
 
+	private $section;
+
 	public function __construct( $main, $action ) {
 		parent::__construct( $main, $action );
 	}
 
 	public function execute() {
+		// The data is hot but user-dependent, like page views, so we set vary cookies
+		$this->getMain()->setCacheMode( 'anon-public-user-private' );
+
 		// Get parameters
 		$params = $this->extractRequestParams();
 		$text = $params['text'];
@@ -50,7 +56,6 @@ class ApiParse extends ApiBase {
 			$this->dieUsage( 'The page parameter cannot be used together with the text and title parameters', 'params' );
 		}
 		$prop = array_flip( $params['prop'] );
-		$revid = false;
 
 		if ( isset( $params['section'] ) ) {
 			$this->section = $params['section'];
@@ -71,7 +76,7 @@ class ApiParse extends ApiBase {
 
 		$popts = new ParserOptions();
 		$popts->setTidy( true );
-		$popts->enableLimitReport();
+		$popts->enableLimitReport( !$params['disablepp'] );
 		$redirValues = null;
 		if ( !is_null( $oldid ) || !is_null( $pageid ) || !is_null( $page ) ) {
 			if ( !is_null( $oldid ) ) {
@@ -84,15 +89,36 @@ class ApiParse extends ApiBase {
 					$this->dieUsage( "You don't have permission to view deleted revisions", 'permissiondenied' );
 				}
 
-				$text = $rev->getText( Revision::FOR_THIS_USER );
 				$titleObj = $rev->getTitle();
+
 				$wgTitle = $titleObj;
 
-				if ( $this->section !== false ) {
-					$text = $this->getSectionText( $text, 'r' . $rev );
-				}
+				//If for some reason the "oldid" is actually the current revision, it may be cached
+				if ( $titleObj->getLatestRevID() === $oldid ) {
+					$p_result = false;
+					$pcache = ParserCache::singleton();
+					if ( $wgEnableParserCache ) {
+						$p_result = $pcache->get( $titleObj, $popts );
+					}
+					if ( !$p_result ) {
+						$text = $rev->getText( Revision::FOR_THIS_USER );
+						$p_result = $wgParser->parse( $text, $titleObj, $popts );
 
-				$p_result = $wgParser->parse( $text, $titleObj, $popts );
+						if ( $wgEnableParserCache ) {
+							$pcache->save( $p_result, $titleObj, $popts );
+						}
+					}
+				} else {
+					$text = $rev->getText( Revision::FOR_THIS_USER );
+
+					$wgTitle = $titleObj;
+
+					if ( $this->section !== false ) {
+						$text = $this->getSectionText( $text, 'r' . $rev );
+					}
+
+					$p_result = $wgParser->parse( $text, $titleObj, $popts );
+				}
 			} else {
 				if ( !is_null ( $pageid ) ) {
 					$titleObj = Title::newFromID( $pageid );
@@ -162,7 +188,6 @@ class ApiParse extends ApiBase {
 
 			if ( $params['pst'] || $params['onlypst'] ) {
 				$text = $wgParser->preSaveTransform( $text, $titleObj, $wgUser, $popts );
-				$this->getMain()->setVaryCookie();
 			}
 			if ( $params['onlypst'] ) {
 				// Build a result and bail out
@@ -188,15 +213,24 @@ class ApiParse extends ApiBase {
 
 		if ( !is_null( $params['summary'] ) ) {
 			$result_array['parsedsummary'] = array();
-			$this->getMain()->setVaryCookie();
 			$result->setContent( $result_array['parsedsummary'], $wgUser->getSkin()->formatComment( $params['summary'], $titleObj ) );
 		}
 
 		if ( isset( $prop['langlinks'] ) ) {
 			$result_array['langlinks'] = $this->formatLangLinks( $p_result->getLanguageLinks() );
 		}
+		if ( isset( $prop['languageshtml'] ) ) {
+			$languagesHtml = $this->languagesHtml( $p_result->getLanguageLinks() );
+			$result_array['languageshtml'] = array();
+			$result->setContent( $result_array['languageshtml'], $languagesHtml );
+		}
 		if ( isset( $prop['categories'] ) ) {
 			$result_array['categories'] = $this->formatCategoryLinks( $p_result->getCategories() );
+		}
+		if ( isset( $prop['categorieshtml'] ) ) {
+			$categoriesHtml = $this->categoriesHtml( $p_result->getCategories() );
+			$result_array['categorieshtml'] = array();
+			$result->setContent( $result_array['categorieshtml'], $categoriesHtml );
 		}
 		if ( isset( $prop['links'] ) ) {
 			$result_array['links'] = $this->formatLinks( $p_result->getLinks() );
@@ -223,7 +257,6 @@ class ApiParse extends ApiBase {
 		if ( isset( $prop['headitems'] ) || isset( $prop['headhtml'] ) ) {
 			$out = new OutputPage;
 			$out->addParserOutputNoText( $p_result );
-			$this->getMain()->setVaryCookie();
 			$userSkin = $wgUser->getSkin();
 		}
 
@@ -235,14 +268,14 @@ class ApiParse extends ApiBase {
 
 			$scripts = array( $out->getHeadScripts( $userSkin ) );
 
-			$result_array['headitems'] = array_merge( $headItems , $css, $scripts );
+			$result_array['headitems'] = array_merge( $headItems, $css, $scripts );
 		}
 
 		if ( isset( $prop['headhtml'] ) ) {
 			$result_array['headhtml'] = array();
 			$result->setContent( $result_array['headhtml'], $out->headElement( $userSkin ) );
 		}
-		
+
 		if ( isset( $prop['iwlinks'] ) ) {
 			$result_array['iwlinks'] = $this->formatIWLinks( $p_result->getInterwikiLinks() );
 		}
@@ -303,6 +336,20 @@ class ApiParse extends ApiBase {
 		return $result;
 	}
 
+	private function categoriesHtml( $categories ) {
+		global $wgOut, $wgUser;
+		$wgOut->addCategoryLinks( $categories );
+		$sk = $wgUser->getSkin();
+		return $sk->getCategories();
+	}
+
+	private function languagesHtml( $languages ) {
+		global $wgOut, $wgUser;
+		$wgOut->setLanguageLinks( $languages );
+		$sk = $wgUser->getSkin();
+		return $sk->otherLanguages();
+	}
+
 	private function formatLinks( $links ) {
 		$result = array();
 		foreach ( $links as $ns => $nslinks ) {
@@ -322,15 +369,15 @@ class ApiParse extends ApiBase {
 	private function formatIWLinks( $iw ) {
 		$result = array();
 		foreach ( $iw as $prefix => $titles ) {
-			foreach ( $titles as $title => $id ) {
+			foreach ( array_keys( $titles ) as $title ) {
 				$entry = array();
 				$entry['prefix'] = $prefix;
-				
+
 				$title = Title::newFromText( "{$prefix}:{$title}" );
 				if ( $title ) {
 					$entry['url'] = $title->getFullURL();
 				}
-				
+
 				$this->getResult()->setContent( $entry, $title->getFullText() );
 				$result[] = $entry;
 			}
@@ -385,7 +432,9 @@ class ApiParse extends ApiBase {
 				ApiBase::PARAM_TYPE => array(
 					'text',
 					'langlinks',
+					'languageshtml',
 					'categories',
+					'categorieshtml',
 					'links',
 					'templates',
 					'images',
@@ -402,6 +451,7 @@ class ApiParse extends ApiBase {
 			'onlypst' => false,
 			'uselang' => null,
 			'section' => null,
+			'disablepp' => false,
 		);
 	}
 
@@ -418,14 +468,16 @@ class ApiParse extends ApiBase {
 			'prop' => array(
 				'Which pieces of information to get',
 				' text           - Gives the parsed text of the wikitext',
-				' langlinks      - Gives the langlinks the parsed wikitext',
-				' categories     - Gives the categories of the parsed wikitext',
+				' langlinks      - Gives the language links in the parsed wikitext',
+				' categories     - Gives the categories in the parsed wikitext',
+				' categorieshtml - Gives the HTML version of the categories',
+				' languageshtml  - Gives the HTML version of the language links',
 				' links          - Gives the internal links in the parsed wikitext',
 				' templates      - Gives the templates in the parsed wikitext',
 				' images         - Gives the images in the parsed wikitext',
 				' externallinks  - Gives the external links in the parsed wikitext',
 				' sections       - Gives the sections in the parsed wikitext',
-				' revid          - Adds the revision id of the parsed page',
+				' revid          - Adds the revision ID of the parsed page',
 				' displaytitle   - Adds the title of the parsed wikitext',
 				' headitems      - Gives items to put in the <head> of the page',
 				' headhtml       - Gives parsed <head> of the page',
@@ -442,6 +494,7 @@ class ApiParse extends ApiBase {
 			),
 			'uselang' => 'Which language to parse the request in',
 			'section' => 'Only retrieve the content of this section number',
+			'disablepp' => 'Disable the PP Report from the parser output',
 		);
 	}
 

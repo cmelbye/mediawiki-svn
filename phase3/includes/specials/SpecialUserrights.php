@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Userrights
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +16,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
- * Special page to allow managing user group membership
  *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * A class to manage user levels rights.
+ * Special page to allow managing user group membership
+ *
  * @ingroup SpecialPage
  */
 class UserrightsPage extends SpecialPage {
@@ -159,7 +157,7 @@ class UserrightsPage extends SpecialPage {
 	 * @return null
 	 */
 	function saveUserGroups( $username, $reason = '' ) {
-		global $wgRequest, $wgUser, $wgGroupsAddToSelf, $wgGroupsRemoveFromSelf;
+		global $wgRequest, $wgOut;
 
 		$status = $this->fetchUser( $username );
 		if( !$status->isOK() ) {
@@ -376,14 +374,13 @@ class UserrightsPage extends SpecialPage {
 	function switchForm() {
 		global $wgOut, $wgScript;
 		$wgOut->addHTML(
-			Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'name' => 'uluser', 'id' => 'mw-userrights-form1' ) ) .
-			Xml::hidden( 'title',  $this->getTitle()->getPrefixedText() ) .
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'userrights-lookup-user' ) ) .
-			Xml::inputLabel( wfMsg( 'userrights-user-editname' ), 'user', 'username', 30, $this->mTarget ) . ' ' .
+			Html::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'name' => 'uluser', 'id' => 'mw-userrights-form1' ) ) .
+			Html::hidden( 'title',  $this->getTitle()->getPrefixedText() ) .
+			Xml::fieldset( wfMsg( 'userrights-lookup-user' ) ) .
+			Xml::inputLabel( wfMsg( 'userrights-user-editname' ), 'user', 'username', 30, str_replace( '_', ' ', $this->mTarget ) ) . ' ' .
 			Xml::submitButton( wfMsg( 'editusergroup' ) ) .
-			Xml::closeElement( 'fieldset' ) .
-			Xml::closeElement( 'form' ) . "\n"
+			Html::closeElement( 'fieldset' ) .
+			Html::closeElement( 'form' ) . "\n"
 		);
 	}
 
@@ -442,8 +439,8 @@ class UserrightsPage extends SpecialPage {
 		}
 		$wgOut->addHTML(
 			Xml::openElement( 'form', array( 'method' => 'post', 'action' => $this->getTitle()->getLocalURL(), 'name' => 'editGroup', 'id' => 'mw-userrights-form2' ) ) .
-			Xml::hidden( 'user', $this->mTarget ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken( $this->mTarget ) ) .
+			Html::hidden( 'user', $this->mTarget ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken( $this->mTarget ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', array(), wfMsg( 'userrights-editusergroup' ) ) .
 			wfMsgExt( 'editinguser', array( 'parse' ), wfEscapeWikiText( $user->getName() ) ) .
@@ -537,7 +534,7 @@ class UserrightsPage extends SpecialPage {
 		foreach( $columns as $name => $column ) {
 			if( $column === array() )
 				continue;
-			$ret .= xml::element( 'th', null, wfMsg( 'userrights-' . $name . '-col' ) );
+			$ret .= Xml::element( 'th', null, wfMsg( 'userrights-' . $name . '-col' ) );
 		}
 		$ret.= "</tr>\n<tr>\n";
 		foreach( $columns as $column ) {

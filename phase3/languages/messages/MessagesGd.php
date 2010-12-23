@@ -36,6 +36,7 @@ $messages = array(
 'tog-watchdefault'            => 'Cuir duilleagan a dheasaicheas mi air mo chlàr-faire',
 'tog-watchmoves'              => 'Cuir duilleagan a ghluaiseas mi air mo chlàr-faire',
 'tog-watchdeletion'           => 'Cuir duilleagan a sguabas mi às air mo chlàr-faire',
+'tog-minordefault'            => 'Comharraich gach mùthadh mar mhùthadh beag a ghnàth',
 'tog-previewontop'            => "Nochd an ro-shealladh os cionn a' bhogsa deasachaidh",
 'tog-previewonfirst'          => "Nochd an ro-shealladh nuair a nithear a' chiad deasachadh",
 'tog-nocache'                 => 'Cuir à comas tasgadh nan duilleagan',
@@ -166,31 +167,20 @@ $messages = array(
 'faqpage'        => 'Project:CÀBHA',
 
 # Vector skin
-'vector-action-addsection'   => 'Cuir ris cuspair',
-'vector-action-delete'       => 'Sguab às',
-'vector-action-move'         => 'Gluais',
-'vector-action-protect'      => 'Dìon',
-'vector-action-undelete'     => 'Neo-dhèan an sguabadh às',
-'vector-action-unprotect'    => 'Neo-dhìon',
-'vector-namespace-category'  => 'Roinn',
-'vector-namespace-help'      => 'An duilleag cobharach',
-'vector-namespace-image'     => 'Faidhle',
-'vector-namespace-main'      => 'Duilleag',
-'vector-namespace-media'     => 'Duilleag mheadhanan',
-'vector-namespace-mediawiki' => 'Teachdaireachd',
-'vector-namespace-project'   => "Duilleag a' phròiseict",
-'vector-namespace-special'   => 'Duilleag shònraichte',
-'vector-namespace-talk'      => 'Deasbaireachd',
-'vector-namespace-template'  => 'Teamplaid',
-'vector-namespace-user'      => "Duilleag a' chleachdaiche",
-'vector-view-create'         => 'Cruthaich',
-'vector-view-edit'           => 'Deasaich',
-'vector-view-history'        => 'Seall an eachdraidh',
-'vector-view-view'           => 'Leugh',
-'vector-view-viewsource'     => 'Seall an tùs',
-'actions'                    => 'Gnìomhan',
-'namespaces'                 => 'Namespaces',
-'variants'                   => 'Tionndaidhean',
+'vector-action-addsection' => 'Cuir ris cuspair',
+'vector-action-delete'     => 'Sguab às',
+'vector-action-move'       => 'Gluais',
+'vector-action-protect'    => 'Dìon',
+'vector-action-undelete'   => 'Neo-dhèan an sguabadh às',
+'vector-action-unprotect'  => 'Neo-dhìon',
+'vector-view-create'       => 'Cruthaich',
+'vector-view-edit'         => 'Deasaich',
+'vector-view-history'      => 'Seall an eachdraidh',
+'vector-view-view'         => 'Leugh',
+'vector-view-viewsource'   => 'Seall an tùs',
+'actions'                  => 'Gnìomhan',
+'namespaces'               => 'Namespaces',
+'variants'                 => 'Tionndaidhean',
 
 'errorpagetitle'    => 'Mearachd',
 'returnto'          => 'Till a $1.',
@@ -481,21 +471,21 @@ Cha deach na mùthaidhean agad a shàbhaladh fhathast!",
 'editing'                => "A' deasachadh $1",
 'editingsection'         => "A' deasachadh $1 (earrann)",
 'editconflict'           => 'Mì-chòrdadh deasachaidh: $1',
-'explainconflict'        => 'Tha cuideigin eile air an duilleag seo a mhùthadh on a thòisich thu fhèin air a dheasachadh.
-Tha am bogsa teacsa gu h-àrd a\' nochdadh na duilleige mar a tha i an-dràsta.
-Tha na mùthaidhean agadsa sa bhogsa gu h-ìosal. 
-Bidh agad ris na mùthaidhean agad fhilleadh a-steach san teacsa làithreach. 
-Cha dèid <b>ach an teacsa gu h-àrd</b> a shàbhaladh nuair a bhriogas tu air "Sàbhail an duilleag".<p>',
+'explainconflict'        => "Tha cuideigin eile air an duilleag seo a mhùthadh on a thòisich thu fhèin air a dheasachadh.
+Tha am bogsa teacsa gu h-àrd a' nochdadh na duilleige mar a tha i an-dràsta.
+Tha na mùthaidhean agadsa sa bhogsa gu h-ìosal.
+Bidh agad ris na mùthaidhean agad fhilleadh a-steach san teacsa làithreach.
+Cha dèid '''ach an teacsa gu h-àrd''' a shàbhaladh nuair a bhriogas tu air \"{{int:savearticle}}\".",
 'yourtext'               => 'An teacsa agad',
 'storedversion'          => 'Lethbhreac taisgte',
-'editingold'             => "'''RABHADH: Tha thu a' deasachadh lethbhreac seann-aimsireil na duilleige seo. 
+'editingold'             => "'''RABHADH: Tha thu a' deasachadh lethbhreac seann-aimsireil na duilleige seo.
 Ma shàbhalas tu seo, thèid gach mùthadh air chall a rinneadh a-mach on mhùthadh seo.'''",
 'yourdiff'               => 'Caochlaidhean',
 'copyrightwarning'       => "Thoir an aire gu bheilear a' tuigsinn gu bheil gach rud a chuireas tu ri {{SITENAME}} air a leigeil mu sgaoil fo $2 (see $1 airson mion-fhiosrachadh).
 Mura bi thu toilichte 's daoine eile a' deasachadh gun tròcair na sgrìobh tu 's 'ga sgaoileadh mar a thogras iad, na cuir an-seo e.<br />
 Tha thu a' toirt geall cuideachd gun do sgrìobh thu fhèin seo no gun do rinn thu lethbhreac dheth o àrainn phoblach no tùs saor coltach ris.
 '''Na cuir ann rudan fo chòir lethbhric gun chead!'''",
-'copyrightwarning2'      => "Ged a thatar gur moladh {{SITENAME}} a chruthachadh, a mheudachadh, is a leasachadh, thèid droch dheasaicheidhean a chur air imrich gu luath. 
+'copyrightwarning2'      => "Ged a thatar gur moladh {{SITENAME}} a chruthachadh, a mheudachadh, is a leasachadh, thèid droch dheasaicheidhean a chur air imrich gu luath.
 Mur eil thu ag iarraidh an sgrìobhaidh agad a dheasaichear is a sgaoilear le càch, na cuir e.<br />
 Ma dh'fhoilleachas tu rudeigin an seo, bidh tu a' dearbhadh gun do sgrìobh thu fhèin e, no gur ann às an raon phòballach a thàinig e; thoir aire '''nach eil''' sin a' gabhail a-staigh duilleagan-lìn mar as àbhaist (seall $1 airson barrachd fiosrachaidh). <br />
 '''NA CLEACHDAIBH SAOTHAIR FO DHLIGHE-SGRÌOBHAIDH GUN CHEAD!'''",
@@ -709,7 +699,9 @@ Tha duilleagan air [[Special:Watchlist|do chlàr-faire]] ann an litrichean '''tr
 
 # Special:Categories
 'categories'         => 'Gnethan',
-'categoriespagetext' => "Tha na gnethan a leanas anns a'wiki.",
+'categoriespagetext' => 'The following {{PLURAL:$1|category contains|categories contain}} pages or media.
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
 'linksearch' => 'Ceanglaichean dhan taobh a-muigh',
@@ -732,7 +724,6 @@ Tha duilleagan air [[Special:Watchlist|do chlàr-faire]] ann an litrichean '''tr
 # Watchlist
 'watchlist'          => 'Mo chlàr-faire',
 'mywatchlist'        => 'Mo chlàr-faire',
-'watchlistfor'       => "(do '''$1''')",
 'nowatchlist'        => "Chan eil altan air d' fhaire.",
 'addedwatch'         => 'Air a chur ri do chlàr-faire',
 'addedwatchtext'     => "Chaidh an duilleag \"[[:\$1]]\" a chur ri [[Special:Watchlist|do chlàr-faire]].

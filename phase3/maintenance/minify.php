@@ -1,6 +1,24 @@
 <?php
 /**
  * Minify a file or set of files
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance
  */
 
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
@@ -48,13 +66,12 @@ class MinifyScript extends Maintenance {
 			$inDir = dirname( $inPath );
 
 			if ( strpos( $inName, '.min.' ) !== false ) {
-				echo "Skipping $inName\n";
+				$this->error( "Skipping $inName\n" );
 				continue;
 			}
 
 			if ( !file_exists( $inPath ) ) {
-				$this->error( "File does not exist: $arg" );
-				exit( 1 );
+				$this->error( "File does not exist: $arg", true );
 			}
 
 			$extension = $this->getExtension( $inName );
@@ -80,7 +97,7 @@ class MinifyScript extends Maintenance {
 
 	public function minify( $inPath, $outPath ) {
 		$extension = $this->getExtension( $inPath );
-		echo basename( $inPath ) . ' -> ' . basename( $outPath ) . '...';
+		$this->output( basename( $inPath ) . ' -> ' . basename( $outPath ) . '...' );
 
 		$inText = file_get_contents( $inPath );
 		if ( $inText === false ) {
@@ -97,13 +114,16 @@ class MinifyScript extends Maintenance {
 			case 'js':
 				$outText = JSMin::minify( $inText );
 				break;
+			case 'css':
+				$outText = CSSMin::minify( $inText );
+				break;
 			default:
 				$this->error( "No minifier defined for extension \"$extension\"" );
 		}
 
 		fwrite( $outFile, $outText );
 		fclose( $outFile );
-		echo " ok\n";
+		$this->output( " ok\n" );
 	}
 }
 

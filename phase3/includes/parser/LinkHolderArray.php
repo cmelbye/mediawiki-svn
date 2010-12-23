@@ -1,5 +1,13 @@
 <?php
+/**
+ * Holder of replacement pairs for wiki links
+ *
+ * @file
+ */
 
+/**
+ * @ingroup Parser
+ */
 class LinkHolderArray {
 	var $internals = array(), $interwikis = array();
 	var $size = 0;
@@ -97,9 +105,8 @@ class LinkHolderArray {
 	 * Get the stub threshold
 	 */
 	function getStubThreshold() {
-		global $wgUser;
 		if ( !isset( $this->stubThreshold ) ) {
-			$this->stubThreshold = $wgUser->getOption('stubthreshold');
+			$this->stubThreshold = $this->parent->getUser()->getStubThreshold();
 		}
 		return $this->stubThreshold;
 	}
@@ -132,7 +139,7 @@ class LinkHolderArray {
 		global $wgContLang;
 
 		$colours = array();
-		$sk = $this->parent->getOptions()->getSkin();
+		$sk = $this->parent->getOptions()->getSkin( $this->parent->mTitle );
 		$linkCache = LinkCache::singleton();
 		$output = $this->parent->getOutput();
 
@@ -150,8 +157,7 @@ class LinkHolderArray {
 		$query = false;
 		$current = null;
 		foreach ( $this->internals as $ns => $entries ) {
-			foreach ( $entries as $index => $entry ) {
-				$key = 	"$ns:$index";
+			foreach ( $entries as $entry ) {
 				$title = $entry['title'];
 				$pdbk = $entry['pdbk'];
 
@@ -164,6 +170,8 @@ class LinkHolderArray {
 				# Check if it's a static known link, e.g. interwiki
 				if ( $title->isAlwaysKnown() ) {
 					$colours[$pdbk] = '';
+				} elseif ( $ns == NS_SPECIAL ) {
+					$colours[$pdbk] = 'new';
 				} elseif ( ( $id = $linkCache->getGoodLinkID( $pdbk ) ) != 0 ) {
 					$colours[$pdbk] = $sk->getLinkColour( $title, $threshold );
 					$output->addLink( $title, $id );
@@ -194,7 +202,7 @@ class LinkHolderArray {
 
 			# Fetch data and form into an associative array
 			# non-existent = broken
-			while ( $s = $dbr->fetchObject($res) ) {
+			foreach ( $res as $s ) {
 				$title = Title::makeTitle( $s->page_namespace, $s->page_title );
 				$pdbk = $title->getPrefixedDBkey();
 				$linkCache->addGoodLinkObj( $s->page_id, $title, $s->page_len, $s->page_is_redirect, $s->page_latest );
@@ -269,7 +277,7 @@ class LinkHolderArray {
 
 		wfProfileIn( __METHOD__ );
 		# Make interwiki link HTML
-		$sk = $this->parent->getOptions()->getSkin();
+		$sk = $this->parent->getOptions()->getSkin( $this->parent->mTitle );
 		$output = $this->parent->getOutput();
 		$replacePairs = array();
 		foreach( $this->interwikis as $key => $link ) {
@@ -294,30 +302,52 @@ class LinkHolderArray {
 		$variantMap = array(); // maps $pdbkey_Variant => $keys (of link holders)
 		$output = $this->parent->getOutput();
 		$linkCache = LinkCache::singleton();
-		$sk = $this->parent->getOptions()->getSkin();
+		$sk = $this->parent->getOptions()->getSkin( $this->parent->mTitle );
 		$threshold = $this->getStubThreshold();
-
-		// Add variants of links to link batch
+		$titlesToBeConverted = '';
+		$titlesAttrs = array();
+		
+		// Concatenate titles to a single string, thus we only need auto convert the
+		// single string to all variants. This would improve parser's performance
+		// significantly.
 		foreach ( $this->internals as $ns => $entries ) {
 			foreach ( $entries as $index => $entry ) {
-				$key = "$ns:$index";
 				$pdbk = $entry['pdbk'];
-				$title = $entry['title'];
-				$titleText = $title->getText();
-
-				// generate all variants of the link title text
-				$allTextVariants = $wgContLang->convertLinkToAllVariants($titleText);
-
-				// if link was not found (in first query), add all variants to query
-				if ( !isset($colours[$pdbk]) ){
-					foreach($allTextVariants as $textVariant){
-						if($textVariant != $titleText){
-							$variantTitle = Title::makeTitle( $ns, $textVariant );
-							if(is_null($variantTitle)) continue;
-							$linkBatch->addObj( $variantTitle );
-							$variantMap[$variantTitle->getPrefixedDBkey()][] = $key;
-						}
+				// we only deal with new links (in its first query)
+				if ( !isset( $colours[$pdbk] ) ) {
+					$title = $entry['title'];
+					$titleText = $title->getText();
+					$titlesAttrs[] = array(
+						'ns' => $ns,
+						'key' => "$ns:$index",
+						'titleText' => $titleText,
+					);					
+					// separate titles with \0 because it would never appears
+					// in a valid title
+					$titlesToBeConverted .= $titleText . "\0";
+				}
+			}
+		}
+		
+		// Now do the conversion and explode string to text of titles
+		$titlesAllVariants = $wgContLang->autoConvertToAllVariants( $titlesToBeConverted );
+		$allVariantsName = array_keys( $titlesAllVariants );
+		foreach ( $titlesAllVariants as &$titlesVariant ) {
+			$titlesVariant = explode( "\0", $titlesVariant );
+		}
+		$l = count( $titlesAttrs );
+		// Then add variants of links to link batch
+		for ( $i = 0; $i < $l; $i ++ ) {
+			foreach ( $allVariantsName as $variantName ) {
+				$textVariant = $titlesAllVariants[$variantName][$i];
+				extract( $titlesAttrs[$i] );
+				if($textVariant != $titleText){
+					$variantTitle = Title::makeTitle( $ns, $textVariant );
+					if( is_null( $variantTitle ) ) {
+						continue;
 					}
+					$linkBatch->addObj( $variantTitle );
+					$variantMap[$variantTitle->getPrefixedDBkey()][] = $key;
 				}
 			}
 		}
@@ -326,7 +356,7 @@ class LinkHolderArray {
 		$categoryMap = array(); // maps $category_variant => $category (dbkeys)
 		$varCategories = array(); // category replacements oldDBkey => newDBkey
 		foreach( $output->getCategoryLinks() as $category ){
-			$variants = $wgContLang->convertLinkToAllVariants($category);
+			$variants = $wgContLang->autoConvertToAllVariants( $category );
 			foreach($variants as $variant){
 				if($variant != $category){
 					$variantTitle = Title::newFromDBkey( Title::makeName(NS_CATEGORY,$variant) );
@@ -349,7 +379,7 @@ class LinkHolderArray {
 			$linkcolour_ids = array();
 
 			// for each found variants, figure out link holders and replace
-			while ( $s = $dbr->fetchObject($varRes) ) {
+			foreach ( $varRes as $s ) {
 
 				$variantTitle = Title::makeTitle( $s->page_namespace, $s->page_title );
 				$varPdbk = $variantTitle->getPrefixedDBkey();

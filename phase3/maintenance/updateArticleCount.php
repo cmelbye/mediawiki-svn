@@ -18,6 +18,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  * @author Rob Church <robchur@gmail.com>
  */
@@ -40,7 +41,7 @@ class UpdateArticleCount extends Maintenance {
 		$this->namespaces = $wgContentNamespaces;
 		$this->output( "Counting articles..." );
 		$result = $this->count();
-	
+
 		if ( $result !== false ) {
 			$this->output( "found {$result}.\n" );
 			if ( $this->hasOption( 'update' ) ) {
@@ -92,7 +93,6 @@ class UpdateArticleCount extends Maintenance {
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->query( $this->makeSql( $dbr ), __METHOD__ );
 		$row = $dbr->fetchObject( $res );
-		$dbr->freeResult( $res );
 		return $row ? $row->pagecount : false;
 	}
 }

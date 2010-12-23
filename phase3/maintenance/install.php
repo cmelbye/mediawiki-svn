@@ -20,42 +20,65 @@
  * @see wfWaitForSlaves()
  */
 
-define( 'MW_CONFIG_CALLBACK', 'Installer::overrideConfig' );
+define( 'MW_CONFIG_CALLBACK', 'CoreInstaller::overrideConfig' );
 
 require_once( dirname( dirname( __FILE__ ) )."/maintenance/Maintenance.php" );
 
 class CommandLineInstaller extends Maintenance {
 	public function __construct() {
 		parent::__construct();
+		global $IP;
 
 		$this->addArg( 'name', 'The name of the wiki', true);
 
-		$this->addArg( 'admin', 'The username of the wiki administrator (WikiSysop)', true);
-		$this->addOption( 'pass', 'The password for the wiki administrator.	 You will be prompted for this if it isn\'t provided', false, true);
-		$this->addOption( 'email', 'The email for the wiki administrator', false, true);
+		$this->addArg( 'admin', 'The username of the wiki administrator (WikiSysop)', true );
+		$this->addOption( 'pass', 'The password for the wiki administrator. You will be prompted for this if it isn\'t provided', false, true );
+		$this->addOption( 'email', 'The email for the wiki administrator', false, true );
+		$this->addOption( 'scriptpath', 'The relative path of the wiki in the web server (/wiki)', false, true );
 
 		$this->addOption( 'lang', 'The language to use (en)', false, true );
 		/* $this->addOption( 'cont-lang', 'The content language (en)', false, true ); */
 
 		$this->addOption( 'dbtype', 'The type of database (mysql)', false, true );
-		/* $this->addOption( 'dbhost', 'The database host (localhost)', false, true ); */
-		/* $this->addOption( 'dbport', 'The database port (3306 for mysql, 5432 for pg)', false, true ); */
+		$this->addOption( 'dbserver', 'The database host (localhost)', false, true );
+		$this->addOption( 'dbport', 'The database port; only for PostgreSQL (5432)', false, true );
 		$this->addOption( 'dbname', 'The database name (my_wiki)', false, true );
 		$this->addOption( 'dbpath', 'The path for the SQLite DB (/var/data)', false, true );
 		$this->addOption( 'installdbuser', 'The user to use for installing (root)', false, true );
 		$this->addOption( 'installdbpass', 'The pasword for the DB user to install as.', false, true );
+		$this->addOption( 'dbuser', 'The user to use for normal operations (wikiuser)', false, true );
+		$this->addOption( 'dbpass', 'The pasword for the DB user for normal operations', false, true );
+		$this->addOption( 'confpath', "Path to write LocalSettings.php to, default $IP", false, true );
 		/* $this->addOption( 'dbschema', 'The schema for the MediaWiki DB in pg (mediawiki)', false, true ); */
 		/* $this->addOption( 'dbtsearch2schema', 'The schema for the tsearch2 DB in pg (public)', false, true ); */
 		/* $this->addOption( 'namespace', 'The project namespace (same as the name)', false, true ); */
+		$this->addOption( 'env-checks', "Run environment checks only, don't change anything" );
+		$this->addOption( 'upgrade',
+			'Allow the upgrade to continue despite an existing LocalSettings.php', false, true );
+
 	}
 
 	public function execute() {
+		global $IP, $wgTitle;
+		$siteName = isset( $this->mArgs[0] ) ? $this->mArgs[0] : "Don't care"; // Will not be set if used with --env-checks
 		$adminName = isset( $this->mArgs[1] ) ? $this->mArgs[1] : null;
+		$wgTitle = Title::newFromText( 'Installer script' );
 
 		$installer =
-			new CliInstaller( $this->mArgs[0], $adminName, $this->mOptions );
+			new CliInstaller( $siteName, $adminName, $this->mOptions );
 
-		$installer->execute();
+		if ( $this->hasOption( 'env-checks' ) ) {
+			$installer->doEnvironmentChecks();
+		} else {
+			$installer->execute();
+			$installer->writeConfigurationFile( $this->getOption( 'confpath', $IP ) );
+		}
+	}
+
+	protected function validateParamsAndArgs() {
+		if ( !$this->hasOption( 'env-checks' ) ) {
+			parent::validateParamsAndArgs();
+		}
 	}
 }
 

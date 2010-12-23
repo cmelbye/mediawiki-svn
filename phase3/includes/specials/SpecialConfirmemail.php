@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Confirmemail and Special:Invalidateemail
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -77,11 +81,11 @@ class EmailConfirmation extends UnlistedSpecialPage {
 	function showRequestForm() {
 		global $wgOut, $wgUser, $wgLang, $wgRequest;
 		if( $wgRequest->wasPosted() && $wgUser->matchEditToken( $wgRequest->getText( 'token' ) ) ) {
-			$ok = $wgUser->sendConfirmationMail();
-			if ( WikiError::isError( $ok ) ) {
-				$wgOut->addWikiMsg( 'confirmemail_sendfailed', $ok->toString() );
-			} else {
+			$status = $wgUser->sendConfirmationMail();
+			if ( $status->isGood() ) {
 				$wgOut->addWikiMsg( 'confirmemail_sent' );
+			} else {
+				$wgOut->addWikiText( $status->getWikiText( 'confirmemail_sendfailed' ) );
 			}
 		} else {
 			if( $wgUser->isEmailConfirmed() ) {
@@ -98,7 +102,7 @@ class EmailConfirmation extends UnlistedSpecialPage {
 			}
 			$wgOut->addWikiMsg( 'confirmemail_text' );
 			$form  = Xml::openElement( 'form', array( 'method' => 'post', 'action' => $this->getTitle()->getLocalUrl() ) );
-			$form .= Xml::hidden( 'token', $wgUser->editToken() );
+			$form .= Html::hidden( 'token', $wgUser->editToken() );
 			$form .= Xml::submitButton( wfMsg( 'confirmemail_send' ) );
 			$form .= Xml::closeElement( 'form' );
 			$wgOut->addHTML( $form );
@@ -146,6 +150,7 @@ class EmailInvalidation extends UnlistedSpecialPage {
 		$this->setHeaders();
 
 		if ( wfReadOnly() ) {
+			global $wgOut;         
 			$wgOut->readOnlyPage();
 			return;
 		}

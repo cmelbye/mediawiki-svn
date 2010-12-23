@@ -22,16 +22,20 @@ $specialPageAliases = array(
 	'Disambiguations'           => array( '消歧義頁' ),
 	'Recentchanges'             => array( '近期變動' ),
 	'Ancientpages'              => array( '最舊頁面' ),
+	'Unblock'                   => array( '解除封鎖' ),
 	'Blockme'                   => array( '封禁我' ),
 	'Blockip'                   => array( '查封用戶' ),
 	'Lockdb'                    => array( '鎖定數據庫' ),
 	'Unlockdb'                  => array( '解除數據庫鎖定' ),
+	'Userrights'                => array( '用戶權限' ),
+	'MIMEsearch'                => array( 'MIME搜索' ),
 	'FileDuplicateSearch'       => array( '搜索重復文件' ),
 	'Unwatchedpages'            => array( '未被監視的頁面' ),
 	'Listredirects'             => array( '重定向頁面列表' ),
 	'Revisiondelete'            => array( '刪除或恢復版本' ),
 	'Randomredirect'            => array( '隨機重定向頁面' ),
 	'Withoutinterwiki'          => array( '沒有跨語言鏈接的頁面' ),
+	'Invalidateemail'           => array( '無法識別的電郵地址' ),
 	'LinkSearch'                => array( '搜索網頁鏈接' ),
 );
 
@@ -99,6 +103,7 @@ $messages = array(
 'tog-underline'            => '連結標注底線',
 'tog-hideminor'            => '近期變動中隱藏細微修改',
 'tog-usenewrc'             => '增強版近期變動 (JavaScript)',
+'tog-minordefault'         => '預設將編輯設定為細微修改',
 'tog-enotifwatchlistpages' => '當我監視的頁面改變時發電子郵件給我',
 'tog-shownumberswatching'  => '顯示監視數目',
 'tog-uselivepreview'       => '使用即時預覽 (JavaScript) (試驗中)',
@@ -242,7 +247,6 @@ $messages = array(
 'nonunicodebrowser'          => "'''警告: 您的瀏覽器不相容Unicode編碼。這裡有一個工作區將使您能安全地編輯頁面: 非ASCII字元將以十六進製編碼模式出現在編輯框中。'''",
 'editingold'                 => "'''警告：你正在編輯的是本頁的舊版本。
 如果你保存它的話，在本版本之後的任何修改都會遺失。'''",
-'longpagewarning'            => "'''警告: 本頁長度達$1 kB；一些瀏覽器將無法編輯長過32KB頁面。請考慮將本文切割成幾個小段落。'''",
 'longpageerror'              => "'''錯誤: 您所提交的文字長度有$1KB，這大於$2KB的最大值。該文字不能被儲存。'''",
 'protectedpagewarning'       => "'''警告: 本頁已經被保護，只有擁有管理員許可權的使用者才可修改。'''",
 'semiprotectedpagewarning'   => "'''注意:''' 本頁面被鎖定，僅限註冊使用者編輯。",
@@ -480,9 +484,6 @@ $messages = array(
 'specialloguserlabel' => '使用者:',
 'alllogstext'         => '綜合顯示上傳、刪除、保護、封鎖以及站務日誌。',
 
-# Special:Categories
-'categoriespagetext' => '以下列出所有的頁面分類。',
-
 # Special:ListUsers
 'listusersfrom'      => '給定顯示使用者條件:',
 'listusers-noresult' => '找不到使用者。',
@@ -511,7 +512,7 @@ $messages = array(
 將來有關此頁面及其討論頁的任何修改將會在那裡列出，
 而且還會在[[Special:RecentChanges|近期變動]]中
 以'''粗體'''形式列出以使起更容易識別。",
-'removedwatchtext'  => '頁面「<nowiki>$1</nowiki>」已經從您的監視頁面中移除。',
+'removedwatchtext'  => '頁面「[[:$1]]」已經從您的監視頁面中移除。',
 'watchlist-details' => '不包含討論頁，您的監視列表共有 $1 頁。',
 
 'enotif_impersonal_salutation' => '{{SITENAME}}使用者',
@@ -546,11 +547,11 @@ $NEWPAGE
 請確定您要進行此項操作，並且了解其後果，同時您的行為符合[[{{MediaWiki:Policy-url}}]]。',
 'deletedtext'       => '「<nowiki>$1</nowiki>」已經被刪除。
 最近刪除的紀錄請參見$2。',
-'deletedarticle'    => '已刪除「$1」',
+'deletedarticle'    => '已刪除「[[$1]]」',
 'dellogpagetext'    => '以下是最近刪除的紀錄列表。
 所有的時間都是使用伺服器時間。',
 'reverted'          => '復原到早期版本',
-'deletecomment'     => '刪除理由',
+'deletecomment'     => '原因：',
 
 # Rollback
 'rollback'         => '復原',
@@ -596,7 +597,7 @@ $NEWPAGE
 'undeletedrevisions-files'     => '$1 個版本和 $2 個檔案被復原',
 'undeletedfiles'               => '$1 個檔案被復原',
 'cannotundelete'               => '復原失敗；可能之前已經被其他人復原。',
-'undeletedpage'                => "<big>'''$1已經被復原'''</big> 請參考[[Special:Log/delete|刪除日誌]]來查詢刪除及復原記錄。",
+'undeletedpage'                => "'''$1已經被復原''' 請參考[[Special:Log/delete|刪除日誌]]來查詢刪除及復原記錄。",
 'undelete-missing-filearchive' => '由於檔案存檔 ID $1 不在資料庫中，不能在檔案存檔中復原。它可能已經反刪除了。',
 
 # Contributions

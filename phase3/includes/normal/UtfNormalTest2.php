@@ -1,5 +1,11 @@
 #!/usr/bin/php
 <?php
+/**
+ * Other tests for the unicode normalization module
+ *
+ * @file
+ * @ingroup UtfNormal
+ */
 
 if( php_sapi_name() != 'cli' ) {
 	die( "Run me from the command line please.\n" );
@@ -7,8 +13,13 @@ if( php_sapi_name() != 'cli' ) {
 
 // From http://unicode.org/Public/UNIDATA/NormalizationTest.txt
 $file = "NormalizationTest.txt";
-$sep = ';';
-$comment = "#";
+
+// Anything after this character is a comment
+define ( 'COMMENT', '#' );
+
+// Semicolons are used to separate the columns
+define ( 'SEPARATOR', ';' );
+
 $f = fopen($file, "r");
 
 /**
@@ -62,7 +73,7 @@ assert_options(ASSERT_QUIET_EVAL, 1);
 assert_options(ASSERT_CALLBACK, 'my_assert');
 
 function my_assert( $file, $line, $code ) {
-	global $col, $count, $lineNo;
+	global $col, $lineNo;
 	echo "Assertion that '$code' failed on line $lineNo ($col[5])\n";
 }
 
@@ -202,12 +213,10 @@ function unistr($c) {
 }
 
 function getRow( $f ) {
-	global $comment, $sep;
-
 	$row = fgets( $f );
 	if( $row === false ) return false;
 	$row = rtrim($row);
-	$pos = strpos( $row, $comment );
+	$pos = strpos( $row, COMMENT );
 	$pos2 = strpos( $row, ")" );
 	if( $pos === 0 ) return array($row);
 	$c = "";
@@ -219,8 +228,8 @@ function getRow( $f ) {
 	}
 
 	$ret = array();
-	foreach(explode( $sep, $row ) as $ent) {
-		if(trim($ent) !== "") {
+	foreach( explode( SEPARATOR, $row ) as $ent ) {
+		if( trim( $ent ) !== "" ) {
 			$ret[] = unistr($ent);
 		}
 	}

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Listgrouprights
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -41,10 +45,9 @@ class SpecialListGroupRights extends SpecialPage {
 	 * Show the special page
 	 */
 	public function execute( $par ) {
-		global $wgOut, $wgImplicitGroups, $wgMessageCache;
+		global $wgOut, $wgImplicitGroups;
 		global $wgGroupPermissions, $wgRevokePermissions, $wgAddGroups, $wgRemoveGroups;
 		global $wgGroupsAddToSelf, $wgGroupsRemoveFromSelf;
-		$wgMessageCache->loadAllMessages();
 
 		$this->setHeaders();
 		$this->outputHeader();
@@ -57,8 +60,23 @@ class SpecialListGroupRights extends SpecialPage {
 				'</tr>'
 		);
 
-		foreach( $wgGroupPermissions as $group => $permissions ) {
-			$groupname = ( $group == '*' ) ? 'all' : $group; // Replace * with a more descriptive groupname
+		$allGroups = array_unique( array_merge( 
+			array_keys( $wgGroupPermissions ),
+			array_keys( $wgRevokePermissions ),
+			array_keys( $wgAddGroups ),
+			array_keys( $wgRemoveGroups ),
+			array_keys( $wgGroupsAddToSelf ),
+			array_keys( $wgGroupsRemoveFromSelf )
+		) );
+		asort( $allGroups );
+				
+		foreach ( $allGroups as $group ) {
+			$permissions = isset( $wgGroupPermissions[$group] ) 
+				? $wgGroupPermissions[$group] 
+				: array();
+			$groupname = ( $group == '*' ) // Replace * with a more descriptive groupname
+				? 'all' 
+				: $group; 
 
 			$msg = wfMsg( 'group-' . $groupname );
 			if ( wfEmptyMsg( 'group-' . $groupname, $msg ) || $msg == '' ) {

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Handler functions for Ajax requests
+ *
  * @file
  * @ingroup Ajax
  */
@@ -49,7 +51,7 @@ function js_unescape( $source, $iconv_to = 'UTF-8' ) {
 	}
 
 	if ( $iconv_to != "UTF-8" ) {
-		$decodedStr = iconv( "UTF-8", $iconv_to, $decodedStr );
+		$decodedStr = iconv( "utf-8", $iconv_to, $decodedStr );
 	}
 
 	return $decodedStr;

@@ -1,5 +1,17 @@
 <?php
+/**
+ * PostgreSQL-specific installer.
+ *
+ * @file
+ * @ingroup Deployment
+ */
 
+/**
+ * Class for setting up the MediaWiki database using Postgres.
+ *
+ * @ingroup Deployment
+ * @since 1.17
+ */
 class PostgresInstaller extends DatabaseInstaller {
 
 	protected $globalNames = array(
@@ -12,14 +24,7 @@ class PostgresInstaller extends DatabaseInstaller {
 		'wgDBts2schema',
 	);
 
-	protected $internalDefaults = array(
-		'_InstallUser' => 'postgres',
-		'_InstallPassword' => '',
-	);
-
 	var $minimumVersion = '8.1';
-
-	var $conn;
 
 	function getName() {
 		return 'postgres';
@@ -31,23 +36,20 @@ class PostgresInstaller extends DatabaseInstaller {
 
 	function getConnectForm() {
 		return
-			$this->getTextBox( 'wgDBserver', 'config-db-host' ) .
-			$this->parent->getHelpBox( 'config-db-host-help' ) . 
+			$this->getTextBox( 'wgDBserver', 'config-db-host', array(), $this->parent->getHelpBox( 'config-db-host-help' ) ) .
 			$this->getTextBox( 'wgDBport', 'config-db-port' ) .
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
-			$this->getTextBox( 'wgDBname', 'config-db-name' ) .
-			$this->parent->getHelpBox( 'config-db-name-help' ) .
-			$this->getTextBox( 'wgDBmwschema', 'config-db-schema' ) .
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
+			$this->getTextBox( 'wgDBname', 'config-db-name', array(), $this->parent->getHelpBox( 'config-db-name-help' ) ) .
+			$this->getTextBox( 'wgDBmwschema', 'config-db-schema', array(), $this->parent->getHelpBox( 'config-db-schema-help' ) ) .
 			$this->getTextBox( 'wgDBts2schema', 'config-db-ts2-schema' ) .
-			$this->parent->getHelpBox( 'config-db-schema-help' ) .
-			Xml::closeElement( 'fieldset' ) .
+			Html::closeElement( 'fieldset' ) .
 			$this->getInstallUserBox();
 	}
 
 	function submitConnectForm() {
 		// Get variables from the request
-		$newValues = $this->setVarsFromRequest( array( 'wgDBserver', 'wgDBport', 
+		$newValues = $this->setVarsFromRequest( array( 'wgDBserver', 'wgDBport',
 			'wgDBname', 'wgDBmwschema', 'wgDBts2schema' ) );
 
 		// Validate them
@@ -73,53 +75,76 @@ class PostgresInstaller extends DatabaseInstaller {
 		}
 
 		// Try to connect
-		if ( $status->isOK() ) {
-			$status->merge( $this->attemptConnection() );
-		}
+		$status->merge( $this->getConnection() );
 		if ( !$status->isOK() ) {
 			return $status;
 		}
 
 		// Check version
-		$version = $this->conn->getServerVersion();
+		$version = $this->db->getServerVersion();
 		if ( version_compare( $version, $this->minimumVersion ) < 0 ) {
 			return Status::newFatal( 'config-postgres-old', $this->minimumVersion, $version );
 		}
+
+		$this->setVar( 'wgDBuser', $this->getVar( '_InstallUser' ) );
+		$this->setVar( 'wgDBpassword', $this->getVar( '_InstallPassword' ) );
 		return $status;
 	}
 
-	function attemptConnection() {
+	function getConnection() {
 		$status = Status::newGood();
 
 		try {
-			$this->conn = new DatabasePostgres( 
+			$this->db = new DatabasePostgres(
 				$this->getVar( 'wgDBserver' ),
 				$this->getVar( '_InstallUser' ),
 				$this->getVar( '_InstallPassword' ),
-				'postgres' );
-			$status->value = $this->conn;
+				$this->getVar( 'wgDBname' ) );
+			$status->value = $this->db;
 		} catch ( DBConnectionError $e ) {
 			$status->fatal( 'config-connection-error', $e->getMessage() );
 		}
 		return $status;
 	}
 
-	function getConnection() {
-		return $this->attemptConnection();
-	}
-
-	function getSettingsForm() {
-		return false;
-	}
-
-	function submitSettingsForm() {
-		return Status::newGood();
+	public function preInstall() {
+		# Add our user callback to installSteps, right before the tables are created.
+		$callback = array(
+			'name' => 'pg-commit',
+			'callback' => array( $this, 'commitChanges' ),
+		);
+		$this->parent->addInstallStepFollowing( 'interwiki', $callback );
 	}
 
 	function setupDatabase() {
+		$status = $this->getConnection();
+		if ( !$status->isOK() ) {
+			return $status;
+		}
+		$conn = $status->value;
+
+		// Make sure that we can write to the correct schema
+		// If not, Postgres will happily and silently go to the next search_path item
+		$schema = $this->getVar( 'wgDBmwschema' );
+		$ctest = 'mediawiki_test_table';
+		$safeschema = $conn->addIdentifierQuotes( $schema );
+		if ( $conn->tableExists( $ctest, $schema ) ) {
+			$conn->query( "DROP TABLE $safeschema.$ctest" );
+		}
+		$res = $conn->query( "CREATE TABLE $safeschema.$ctest(a int)" );
+		if ( !$res ) {
+			$status->fatal( 'config-install-pg-schema-failed',
+				$this->getVar( 'wgDBuser'), $schema );
+		}
+		$conn->query( "DROP TABLE $safeschema.$ctest" );
+
+		return $status;
 	}
 
-	function createTables() {
+	function commitChanges() {
+		$this->db->query( 'COMMIT' );
+
+		return Status::newGood();
 	}
 
 	function getLocalSettings() {
@@ -131,5 +156,14 @@ class PostgresInstaller extends DatabaseInstaller {
 \$wgDBport           = \"{$port}\";
 \$wgDBmwschema       = \"{$schema}\";
 \$wgDBts2schema      = \"{$ts2}\";";
+	}
+
+	public function preUpgrade() {
+		global $wgDBuser, $wgDBpassword;
+
+		# Normal user and password are selected after this step, so for now
+		# just copy these two
+		$wgDBuser = $this->getVar( '_InstallUser' );
+		$wgDBpassword = $this->getVar( '_InstallPassword' );
 	}
 }

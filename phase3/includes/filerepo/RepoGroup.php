@@ -1,14 +1,19 @@
 <?php
 /**
- * @defgroup FileRepo FileRepo
+ * Prioritized list of file repositories
  *
  * @file
  * @ingroup FileRepo
  */
 
 /**
- * @ingroup FileRepo
+ * @defgroup FileRepo FileRepo
+ */
+
+/**
  * Prioritized list of file repositories
+ *
+ * @ingroup FileRepo
  */
 class RepoGroup {
 	var $localRepo, $foreignRepos, $reposInitialised = false;
@@ -95,10 +100,15 @@ class RepoGroup {
 			}
 		}
 
+		if ( $title->getNamespace() != NS_MEDIA && $title->getNamespace() != NS_FILE ) {
+			throw new MWException( __METHOD__ . ' received an Title object with incorrect namespace' );
+		}
+
 		# Check the cache
 		if ( empty( $options['ignoreRedirect'] )
 			&& empty( $options['private'] )
-			&& empty( $options['bypassCache'] ) )
+			&& empty( $options['bypassCache'] )
+			&& $title->getNamespace() == NS_FILE )
 		{
 			$useCache = true;
 			$time = isset( $options['time'] ) ? $options['time'] : '';
@@ -227,7 +237,7 @@ class RepoGroup {
 		if ( !$this->reposInitialised ) {
 			$this->initialiseRepos();
 		}
-		foreach ( $this->foreignRepos as $key => $repo ) {
+		foreach ( $this->foreignRepos as $repo ) {
 			if ( $repo->name == $name)
 				return $repo;
 		}

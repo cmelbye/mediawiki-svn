@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:DeletedContributions
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -276,7 +280,7 @@ class DeletedContributionsPage extends SpecialPage {
 			return;
 		}
 
-		global $wgOut, $wgLang, $wgRequest;
+		global $wgOut, $wgRequest;
 
 		$wgOut->setPageTitle( wfMsgExt( 'deletedcontributions-title', array( 'parsemag' ) ) );
 
@@ -463,7 +467,7 @@ class DeletedContributionsPage extends SpecialPage {
 	 * @param $options Array: the options to be included.
 	 */
 	function getForm( $options ) {
-		global $wgScript, $wgRequest;
+		global $wgScript;
 
 		$options['title'] = SpecialPage::getTitleFor( 'DeletedContributions' )->getPrefixedText();
 		if ( !isset( $options['target'] ) ) {
@@ -490,7 +494,7 @@ class DeletedContributionsPage extends SpecialPage {
 			if ( in_array( $name, array( 'namespace', 'target', 'contribs' ) ) ) {
 				continue;
 			}
-			$f .= "\t" . Xml::hidden( $name, $value ) . "\n";
+			$f .= "\t" . Html::hidden( $name, $value ) . "\n";
 		}
 
 		$f .=  Xml::openElement( 'fieldset' ) .

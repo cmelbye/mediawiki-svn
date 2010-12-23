@@ -8,6 +8,7 @@
  * @file
  *
  * @author MichaelFrey
+ * @author The Evil IP address
  */
 
 $fallback = 'de';
@@ -15,9 +16,7 @@ $separatorTransformTable = array( ',' => "'", '.' => ',' );
 
 $messages = array(
 # Edit pages
-'longpagewarning' => "'''WARNUNG: Diese Seite ist $1 KB gross; einige Browser könnten Probleme haben, Seiten zu bearbeiten, die grösser als 32 KB sind.
-Überlege bitte, ob eine Aufteilung der Seite in kleinere Abschnitte möglich ist.'''",
-'longpageerror'   => "'''FEHLER: Der Text, den du zu speichern versuchst, ist $1 KB gross. Das ist grösser als das erlaubte Maximum von $2 KB – Speicherung nicht möglich.'''",
+'longpageerror' => "'''Fehler: Der Text, den du zu speichern versuchst, ist $1 KB gross. Das ist grösser als das erlaubte Maximum von $2 KB – Speicherung nicht möglich.'''",
 
 # Parser/template warnings
 'post-expand-template-inclusion-warning'  => 'Warnung: Die Grösse eingebundener Vorlagen ist zu gross, einige Vorlagen können nicht eingebunden werden.',
@@ -57,18 +56,6 @@ Die Ausgabe kann durch die Auswahl des Logbuchtyps, des Benutzers oder des Seite
 'minimum-size' => 'Mindestgrösse',
 'maximum-size' => 'Maximalgrösse:',
 
-# Block/unblock
-'ipbreason-dropdown' => '* Allgemeine Sperrgründe
-** Löschen von Seiten
-** Einstellen unsinniger Seiten
-** Fortgesetzte Verstösse gegen die Richtlinien für Weblinks
-** Verstoss gegen den Grundsatz „Keine persönlichen Angriffe“
-* Benutzerspezifische Sperrgründe
-** Ungeeigneter Benutzername
-** Neuanmeldung eines unbeschränkt gesperrten Benutzers
-* IP-spezifische Sperrgründe
-** Proxy, wegen Vandalismus einzelner Benutzer längerfristig gesperrt',
-
 # Thumbnails
 'djvu_page_error' => 'DjVu-Seite ausserhalb des Seitenbereichs',
 
@@ -76,7 +63,7 @@ Die Ausgabe kann durch die Auswahl des Logbuchtyps, des Benutzers oder des Seite
 'importuploaderrorsize' => 'Das Hochladen der Importdatei ist fehlgeschlagen. Die Datei ist grösser als die maximal erlaubte Dateigrösse.',
 
 # Media information
-'imagemaxsize'   => 'Maximale Bildgrösse auf Bildbeschreibungsseiten:',
+'imagemaxsize'   => "Maximale Bildgrösse:<br />''(für Dateibeschreibungsseiten)''",
 'file-info'      => '(Dateigrösse: $1, MIME-Typ: $2)',
 'file-info-size' => '($1 × $2 Pixel, Dateigrösse: $3, MIME-Typ: $4)',
 

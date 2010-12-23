@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on August 16, 2007
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on August 16, 2007
  *
  * Copyright © 2007 Iker Labarga <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -45,10 +46,6 @@ class ApiEditPage extends ApiBase {
 		global $wgUser;
 		$params = $this->extractRequestParams();
 
-		if ( is_null( $params['title'] ) ) {
-			$this->dieUsageMsg( array( 'missingparam', 'title' ) );
-		}
-
 		if ( is_null( $params['text'] ) && is_null( $params['appendtext'] ) &&
 				is_null( $params['prependtext'] ) &&
 				$params['undo'] == 0 )
@@ -59,6 +56,37 @@ class ApiEditPage extends ApiBase {
 		$titleObj = Title::newFromText( $params['title'] );
 		if ( !$titleObj || $titleObj->isExternal() ) {
 			$this->dieUsageMsg( array( 'invalidtitle', $params['title'] ) );
+		}
+		
+		if( $params['redirect'] ) {
+			if( $titleObj->isRedirect() ) {
+				$oldTitle = $titleObj;
+				
+				$titles = Title::newFromRedirectArray( Revision::newFromTitle( $oldTitle )->getText( Revision::FOR_THIS_USER ) );
+				//array_shift( $titles );
+				
+				$this->getResult()->addValue( null, 'foo', $titles );
+				
+				
+				$redirValues = array();
+				foreach ( $titles as $id => $newTitle ) {
+					
+					if( !isset( $titles[ $id - 1 ] ) ) {
+						$titles[ $id - 1 ] = $oldTitle;
+					}
+					
+					$redirValues[] = array(
+						'from' => $titles[ $id - 1 ]->getPrefixedText(),
+						'to' => $newTitle->getPrefixedText()
+					);
+					
+					$titleObj = $newTitle;
+				}
+		
+				$this->getResult()->setIndexedTagName( $redirValues, 'r' );
+				$this->getResult()->addValue( null, 'redirects', $redirValues );
+
+			}
 		}
 
 		// Some functions depend on $wgTitle == $ep->mTitle
@@ -176,10 +204,10 @@ class ApiEditPage extends ApiBase {
 		if ( !is_null( $params['starttimestamp'] ) && $params['starttimestamp'] != '' ) {
 			$reqArr['wpStarttime'] = wfTimestamp( TS_MW, $params['starttimestamp'] );
 		} else {
-			$reqArr['wpStarttime'] = $reqArr['wpEdittime'];	// Fake wpStartime
+			$reqArr['wpStarttime'] = wfTimestampNow();	// Fake wpStartime
 		}
 
-		if ( $params['minor'] )	{
+		if ( $params['minor'] || ( !$params['notminor'] && $wgUser->getOption( 'minordefault' ) ) )	{
 			$reqArr['wpMinoredit'] = '';
 		}
 
@@ -244,6 +272,8 @@ class ApiEditPage extends ApiBase {
 
 		$retval = $ep->internalAttemptSave( $result, $wgUser->isAllowed( 'bot' ) && $params['bot'] );
 		$wgRequest = $oldRequest;
+		global $wgMaxArticleSize;
+
 		switch( $retval ) {
 			case EditPage::AS_HOOK_ERROR:
 			case EditPage::AS_HOOK_ERROR_EXPECTED:
@@ -266,7 +296,6 @@ class ApiEditPage extends ApiBase {
 
 			case EditPage::AS_MAX_ARTICLE_SIZE_EXCEEDED:
 			case EditPage::AS_CONTENT_TOO_BIG:
-				global $wgMaxArticleSize;
 				$this->dieUsageMsg( array( 'contenttoobig', $wgMaxArticleSize ) );
 
 			case EditPage::AS_READ_ONLY_PAGE_ANON:
@@ -319,19 +348,18 @@ class ApiEditPage extends ApiBase {
 						$newArticle->getTimestamp() );
 				}
 				break;
-			
+
 			case EditPage::AS_SUMMARY_NEEDED:
 				$this->dieUsageMsg( array( 'summaryrequired' ) );
 
 			case EditPage::AS_END:
 				// This usually means some kind of race condition
-				// or DB weirdness occurred. 
-				if ( is_array( $result ) && count( $result ) > 0 ) {
-					$this->dieUsageMsg( array( 'unknownerror', $result[0][0] ) );
-				}
-				
-				// Unknown error, but no specific error message
-				// Fall through
+				// or DB weirdness occurred. Fall through to throw an unknown
+				// error.
+
+				// This needs fixing higher up, as Article::doEdit should be
+				// used rather than Article::updateArticle, so that specific
+				// error conditions can be returned
 			default:
 				$this->dieUsageMsg( array( 'unknownerror', $retval ) );
 		}
@@ -354,7 +382,6 @@ class ApiEditPage extends ApiBase {
 		global $wgMaxArticleSize;
 
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'title' ),
 			array( 'missingtext' ),
 			array( 'invalidtitle', 'title' ),
 			array( 'createonly-exists' ),
@@ -388,7 +415,10 @@ class ApiEditPage extends ApiBase {
 
 	protected function getAllowedParams() {
 		return array(
-			'title' => null,
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'section' => null,
 			'text' => null,
 			'token' => null,
@@ -429,6 +459,10 @@ class ApiEditPage extends ApiBase {
 			'undoafter' => array(
 				ApiBase::PARAM_TYPE => 'integer'
 			),
+			'redirect' => array(
+				ApiBase::PARAM_TYPE => 'boolean',
+				ApiBase::PARAM_DFLT => false,
+			),
 		);
 	}
 
@@ -463,7 +497,12 @@ class ApiEditPage extends ApiBase {
 			'appendtext' => "Add this text to the end of the page. Overrides {$p}text",
 			'undo' => "Undo this revision. Overrides {$p}text, {$p}prependtext and {$p}appendtext",
 			'undoafter' => 'Undo all revisions from undo to this one. If not set, just undo one revision',
+			'redirect' => 'Automatically resolve redirects',
 		);
+	}
+
+	public function needsToken() {
+		return true;
 	}
 
 	public function getTokenSalt() {
@@ -475,7 +514,7 @@ class ApiEditPage extends ApiBase {
 			'Edit a page (anonymous user):',
 			'    api.php?action=edit&title=Test&summary=test%20summary&text=article%20content&basetimestamp=20070824123454&token=%2B\\',
 			'Prepend __NOTOC__ to a page (anonymous user):',
-			'    api.php?action=edit&title=Test&summary=NOTOC&minor&prependtext=__NOTOC__%0A&basetimestamp=20070824123454&token=%2B\\',
+			'    api.php?action=edit&title=Test&summary=NOTOC&minor=&prependtext=__NOTOC__%0A&basetimestamp=20070824123454&token=%2B\\',
 			'Undo r13579 through r13585 with autosummary (anonymous user):',
 			'    api.php?action=edit&title=Test&undo=13585&undoafter=13579&basetimestamp=20070824123454&token=%2B\\',
 		);

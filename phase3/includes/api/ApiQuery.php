@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 7, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Sep 7, 2006
  *
  * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -43,7 +44,7 @@ class ApiQuery extends ApiBase {
 
 	private $mPropModuleNames, $mListModuleNames, $mMetaModuleNames;
 	private $mPageSet;
-	private $params, $redirect;
+	private $params, $redirects, $convertTitles;
 
 	private $mQueryPropModules = array(
 		'info' => 'ApiQueryInfo',
@@ -53,11 +54,13 @@ class ApiQuery extends ApiBase {
 		'langlinks' => 'ApiQueryLangLinks',
 		'images' => 'ApiQueryImages',
 		'imageinfo' => 'ApiQueryImageInfo',
+		'stashimageinfo' => 'ApiQueryStashImageInfo',
 		'templates' => 'ApiQueryLinks',
 		'categories' => 'ApiQueryCategories',
 		'extlinks' => 'ApiQueryExternalLinks',
 		'categoryinfo' => 'ApiQueryCategoryInfo',
 		'duplicatefiles' => 'ApiQueryDuplicateFiles',
+		'pageprops' => 'ApiQueryPageProps',
 	);
 
 	private $mQueryListModules = array(
@@ -85,6 +88,7 @@ class ApiQuery extends ApiBase {
 		'users' => 'ApiQueryUsers',
 		'random' => 'ApiQueryRandom',
 		'protectedtitles' => 'ApiQueryProtectedTitles',
+		'querypage' => 'ApiQueryQueryPage',
 	);
 
 	private $mQueryMetaModules = array(
@@ -174,7 +178,7 @@ class ApiQuery extends ApiBase {
 	function getModules() {
 		return array_merge( $this->mQueryPropModules, $this->mQueryListModules, $this->mQueryMetaModules );
 	}
-	
+
 	/**
 	 * Get whether the specified module is a prop, list or a meta query module
 	 * @param $moduleName string Name of the module to find type for
@@ -184,15 +188,15 @@ class ApiQuery extends ApiBase {
 		if ( array_key_exists ( $moduleName, $this->mQueryPropModules ) ) {
 			return 'prop';
 		}
-		
+
 		if ( array_key_exists ( $moduleName, $this->mQueryListModules ) ) {
 			return 'list';
 		}
-		
+
 		if ( array_key_exists ( $moduleName, $this->mQueryMetaModules ) ) {
 			return 'meta';
 		}
-		
+
 		return null;
 	}
 
@@ -232,9 +236,15 @@ class ApiQuery extends ApiBase {
 		$this->instantiateModules( $modules, 'list', $this->mQueryListModules );
 		$this->instantiateModules( $modules, 'meta', $this->mQueryMetaModules );
 
+		$cacheMode = 'public';
+
 		// If given, execute generator to substitute user supplied data with generated data.
 		if ( isset( $this->params['generator'] ) ) {
-			$this->executeGeneratorModule( $this->params['generator'], $modules );
+			$generator = $this->newGenerator( $this->params['generator'] );
+			$params = $generator->extractRequestParams();
+			$cacheMode = $this->mergeCacheMode( $cacheMode,
+				$generator->getCacheMode( $params ) );
+			$this->executeGeneratorModule( $generator, $modules );
 		} else {
 			// Append custom fields and populate page/revision information
 			$this->addCustomFldsToPageSet( $modules, $this->mPageSet );
@@ -246,11 +256,35 @@ class ApiQuery extends ApiBase {
 
 		// Execute all requested modules.
 		foreach ( $modules as $module ) {
+			$params = $module->extractRequestParams();
+			$cacheMode = $this->mergeCacheMode(
+				$cacheMode, $module->getCacheMode( $params ) );
 			$module->profileIn();
 			$module->execute();
 			wfRunHooks( 'APIQueryAfterExecute', array( &$module ) );
 			$module->profileOut();
 		}
+
+		// Set the cache mode
+		$this->getMain()->setCacheMode( $cacheMode );
+	}
+
+	/**
+	 * Update a cache mode string, applying the cache mode of a new module to it.
+	 * The cache mode may increase in the level of privacy, but public modules
+	 * added to private data do not decrease the level of privacy.
+	 */
+	protected function mergeCacheMode( $cacheMode, $modCacheMode ) {
+		if ( $modCacheMode === 'anon-public-user-private' ) {
+			if ( $cacheMode !== 'private' ) {
+				$cacheMode = 'anon-public-user-private';
+			}
+		} elseif ( $modCacheMode === 'public' ) {
+			// do nothing, if it's public already it will stay public
+		} else { // private
+			$cacheMode = 'private';
+		}
+		return $cacheMode;
 	}
 
 	/**
@@ -269,9 +303,9 @@ class ApiQuery extends ApiBase {
 
 	/**
 	 * Create instances of all modules requested by the client
-	 * @param $modules array to append instatiated modules to
+	 * @param $modules Array to append instantiated modules to
 	 * @param $param string Parameter name to read modules from
-	 * @param $moduleList array(modulename => classname)
+	 * @param $moduleList Array array(modulename => classname)
 	 */
 	private function instantiateModules( &$modules, $param, $moduleList ) {
 		$list = @$this->params[$param];
@@ -308,7 +342,7 @@ class ApiQuery extends ApiBase {
 			$result->setIndexedTagName( $normValues, 'n' );
 			$result->addValue( 'query', 'normalized', $normValues );
 		}
-		
+
 		// Title conversions
 		$convValues = array();
 		foreach ( $pageSet->getConvertedTitles() as $rawTitleStr => $titleStr ) {
@@ -321,7 +355,7 @@ class ApiQuery extends ApiBase {
 		if ( count( $convValues ) ) {
 			$result->setIndexedTagName( $convValues, 'c' );
 			$result->addValue( 'query', 'converted', $convValues );
-		}		
+		}
 
 		// Interwiki titles
 		$intrwValues = array();
@@ -351,9 +385,7 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'redirects', $redirValues );
 		}
 
-		//
 		// Missing revision elements
-		//
 		$missingRevIDs = $pageSet->getMissingRevisionIDs();
 		if ( count( $missingRevIDs ) ) {
 			$revids = array();
@@ -366,9 +398,7 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'badrevids', $revids );
 		}
 
-		//
 		// Page elements
-		//
 		$pages = array();
 
 		// Report any missing titles
@@ -394,9 +424,9 @@ class ApiQuery extends ApiBase {
 			$vals = array();
 			ApiQueryBase::addTitleInfo( $vals, $title );
 			$vals['special'] = '';
-			if ( $title->getNamespace() == NS_SPECIAL && 
+			if ( $title->getNamespace() == NS_SPECIAL &&
 					!SpecialPage::exists( $title->getText() ) ) {
-				$vals['missing'] = '';			
+				$vals['missing'] = '';
 			} elseif ( $title->getNamespace() == NS_MEDIA &&
 					!wfFindFile( $title ) ) {
 				$vals['missing'] = '';
@@ -425,45 +455,64 @@ class ApiQuery extends ApiBase {
 			$result->addValue( 'query', 'pages', $pages );
 		}
 		if ( $this->params['export'] ) {
-			$exporter = new WikiExporter( $this->getDB() );
-			// WikiExporter writes to stdout, so catch its
-			// output with an ob
-			ob_start();
-			$exporter->openStream();
-			foreach ( @$pageSet->getGoodTitles() as $title ) {
-				if ( $title->userCanRead() ) {
-					$exporter->pageByTitle( $title );
-				}
-			}
-			$exporter->closeStream();
-			$exportxml = ob_get_contents();
-			ob_end_clean();
-
-			// Don't check the size of exported stuff
-			// It's not continuable, so it would cause more
-			// problems than it'd solve
-			$result->disableSizeCheck();
-			if ( $this->params['exportnowrap'] ) {
-				$result->reset();
-				// Raw formatter will handle this
-				$result->addValue( null, 'text', $exportxml );
-				$result->addValue( null, 'mime', 'text/xml' );
-			} else {
-				$r = array();
-				ApiResult::setContent( $r, $exportxml );
-				$result->addValue( 'query', 'export', $r );
-			}
-			$result->enableSizeCheck();
+			$this->doExport( $pageSet, $result );
 		}
 	}
 
 	/**
-	 * For generator mode, execute generator, and use its output as new
-	 * ApiPageSet
-	 * @param $generatorName string Module name
-	 * @param $modules array of module objects
+	 * @param  $pageSet ApiPageSet Pages to be exported
+	 * @param  $result ApiResult Result to output to
 	 */
-	protected function executeGeneratorModule( $generatorName, $modules ) {
+	private function doExport( $pageSet, $result )	{
+		$exportTitles = array();
+		$titles = $pageSet->getGoodTitles();
+		if( count( $titles ) ) {
+			foreach ( $titles as $title ) {
+				if ( $title->userCanRead() ) {
+					$exportTitles[] = $title;
+				}
+			}
+		}
+		// only export when there are titles
+		if ( !count( $exportTitles ) ) {
+			return;
+		}
+
+		$exporter = new WikiExporter( $this->getDB() );
+		// WikiExporter writes to stdout, so catch its
+		// output with an ob
+		ob_start();
+		$exporter->openStream();
+		foreach ( $exportTitles as $title ) {
+			$exporter->pageByTitle( $title );
+		}
+		$exporter->closeStream();
+		$exportxml = ob_get_contents();
+		ob_end_clean();
+
+		// Don't check the size of exported stuff
+		// It's not continuable, so it would cause more
+		// problems than it'd solve
+		$result->disableSizeCheck();
+		if ( $this->params['exportnowrap'] ) {
+			$result->reset();
+			// Raw formatter will handle this
+			$result->addValue( null, 'text', $exportxml );
+			$result->addValue( null, 'mime', 'text/xml' );
+		} else {
+			$r = array();
+			ApiResult::setContent( $r, $exportxml );
+			$result->addValue( 'query', 'export', $r );
+		}
+		$result->enableSizeCheck();
+	}
+
+	/**
+	 * Create a generator object of the given type and return it
+	 * @param $generatorName string Module name
+	 * @return ApiQueryGeneratorBase
+	 */
+	public function newGenerator( $generatorName ) {
 		// Find class that implements requested generator
 		if ( isset( $this->mQueryListModules[$generatorName] ) ) {
 			$className = $this->mQueryListModules[$generatorName];
@@ -472,17 +521,23 @@ class ApiQuery extends ApiBase {
 		} else {
 			ApiBase::dieDebug( __METHOD__, "Unknown generator=$generatorName" );
 		}
-
-		// Generator results
-		$resultPageSet = new ApiPageSet( $this, $this->redirects, $this->convertTitles );
-
-		// Create and execute the generator
 		$generator = new $className ( $this, $generatorName );
 		if ( !$generator instanceof ApiQueryGeneratorBase ) {
 			$this->dieUsage( "Module $generatorName cannot be used as a generator", 'badgenerator' );
 		}
-
 		$generator->setGeneratorMode();
+		return $generator;
+	}
+
+	/**
+	 * For generator mode, execute generator, and use its output as new
+	 * ApiPageSet
+	 * @param $generator ApiQueryGeneratorBase Generator Module
+	 * @param $modules array of module objects
+	 */
+	protected function executeGeneratorModule( $generator, $modules ) {
+		// Generator results
+		$resultPageSet = new ApiPageSet( $this, $this->redirects, $this->convertTitles );
 
 		// Add any additional fields modules may need
 		$generator->requestExtraData( $this->mPageSet );
@@ -539,15 +594,15 @@ class ApiQuery extends ApiBase {
 		$this->mPageSet = null;
 		$this->mAllowedGenerators = array(); // Will be repopulated
 
-		$astriks = str_repeat( '--- ', 8 );
-		$astriks2 = str_repeat( '*** ', 10 );
-		$msg .= "\n$astriks Query: Prop  $astriks\n\n";
+		$querySeparator = str_repeat( '--- ', 8 );
+		$moduleSeparator = str_repeat( '*** ', 10 );
+		$msg .= "\n$querySeparator Query: Prop  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryPropModules, 'prop' );
-		$msg .= "\n$astriks Query: List  $astriks\n\n";
+		$msg .= "\n$querySeparator Query: List  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryListModules, 'list' );
-		$msg .= "\n$astriks Query: Meta  $astriks\n\n";
+		$msg .= "\n$querySeparator Query: Meta  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryMetaModules, 'meta' );
-		$msg .= "\n\n$astriks2 Modules: continuation  $astriks2\n\n";
+		$msg .= "\n\n$moduleSeparator Modules: continuation  $moduleSeparator\n\n";
 
 		// Perform the base call last because the $this->mAllowedGenerators
 		// will be updated inside makeHelpMsgHelper()
@@ -559,7 +614,7 @@ class ApiQuery extends ApiBase {
 
 	/**
 	 * For all modules in $moduleList, generate help messages and join them together
-	 * @param $moduleList array(modulename => classname)
+	 * @param $moduleList Array array(modulename => classname)
 	 * @param $paramName string Parameter name
 	 * @return string
 	 */
@@ -605,7 +660,8 @@ class ApiQuery extends ApiBase {
 			'generator' => array( 'Use the output of a list as the input for other prop/list/meta items',
 					'NOTE: generator parameter names must be prefixed with a \'g\', see examples' ),
 			'redirects' => 'Automatically resolve redirects',
-			'converttitles' => "Convert titles to other variants if necessary. Only works if the wiki's content language supports variant conversion.",
+			'converttitles' => array( "Convert titles to other variants if necessary. Only works if the wiki's content language supports variant conversion.",
+					'Languages that support variant conversion include kk, ku, gan, tg, sr, zh' ),
 			'indexpageids' => 'Include an additional pageids section listing all returned page IDs',
 			'export' => 'Export the current revisions of all given or generated pages',
 			'exportnowrap' => 'Return the export XML without wrapping it in an XML result (same format as Special:Export). Can only be used with export',

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Classes to show various lists of changes:
+ * - watchlist
+ * - related changes
+ * - recent changes
+ *
+ * @file
+ */
 
 /**
  * @todo document
@@ -17,16 +25,12 @@ class RCCacheEntry extends RecentChange {
 }
 
 /**
- * Class to show various lists of changes:
- * - what links here
- * - related changes
- * - recent changes
+ * Base class for all changes lists
  */
 class ChangesList {
-	# Called by history lists and recent changes
 	public $skin;
 	protected $watchlist = false;
-
+	
 	/**
 	* Changeslist contructor
 	* @param $skin Skin
@@ -77,21 +81,19 @@ class ChangesList {
 		}
 	}
 
-
 	/**
 	 * Returns the appropriate flags for new page, minor change and patrolling
-	 * @param $new Boolean
-	 * @param $minor Boolean
-	 * @param $patrolled Boolean
+	 * @param $flags Associative array of 'flag' => Bool
 	 * @param $nothing String to use for empty space
-	 * @param $bot Boolean
 	 * @return String
 	 */
-	protected function recentChangesFlags( $new, $minor, $patrolled, $nothing = '&#160;', $bot = false ) {
-		$f = $new ? self::flag( 'newpage' ) : $nothing;
-		$f .= $minor ? self::flag( 'minor' ) : $nothing;
-		$f .= $bot ? self::flag( 'bot' ) : $nothing;
-		$f .= $patrolled ? self::flag( 'unpatrolled' ) : $nothing;
+	protected function recentChangesFlags( $flags, $nothing = '&#160;' ) {
+		$f = '';
+		foreach( array( 'newpage', 'minor', 'bot', 'unpatrolled' ) as $flag ){
+			$f .= isset( $flags[$flag] ) && $flags[$flag]
+				? self::flag( $flag )
+				: $nothing;
+		}
 		return $f;
 	}
 
@@ -107,63 +109,18 @@ class ChangesList {
 	public static function flag( $key ) {
 		static $messages = null;
 		if ( is_null( $messages ) ) {
-			foreach ( explode( ' ', 'minoreditletter boteditletter newpageletter ' .
-			'unpatrolledletter recentchanges-label-minor recentchanges-label-bot ' .
-			'recentchanges-label-newpage recentchanges-label-unpatrolled' ) as $msg ) {
-				$messages[$msg] = wfMsgExt( $msg, 'escapenoentities' );
+			$messages = array( 
+				'newpage' => array( 'newpageletter', 'recentchanges-label-newpage' ), 
+				'minor' => array( 'minoreditletter', 'recentchanges-label-minor' ), 
+				'bot' => array( 'boteditletter', 'recentchanges-label-bot' ), 
+				'unpatrolled' => array( 'unpatrolledletter', 'recentchanges-label-unpatrolled' ), 
+			);
+			foreach( $messages as $key => &$value ) {
+				$value[0] = wfMsgExt( $value[0], 'escapenoentities' );
+				$value[1] = wfMsgExt( $value[1], 'escapenoentities' );
 			}
 		}
-		# Inconsistent naming, bleh
-		if ( $key == 'newpage' || $key == 'unpatrolled' ) {
-			$key2 = $key;
-		} else {
-			$key2 = $key . 'edit';
-		}
-		return "<abbr class=\"$key\" title=\""
-			. $messages["recentchanges-label-$key"] . "\">"
-			. $messages["${key2}letter"]
-			. '</abbr>';
-	}
-
-	/**
-	 * Some explanatory wrapper text for the given flag, to be used in a legend
-	 * explaining what the flags mean.  For instance, "N - new page".  See
-	 * also flag().
-	 *
-	 * @param $key String: 'newpage', 'unpatrolled', 'minor', or 'bot'
-	 * @return String: Raw HTML
-	 */
-	private static function flagLine( $key ) {
-		return wfMsgExt( "recentchanges-legend-$key", array( 'escapenoentities',
-			'replaceafter' ), self::flag( $key ) );
-	}
-
-	/**
-	 * A handy legend to tell users what the little "m", "b", and so on mean.
-	 *
-	 * @return String: Raw HTML
-	 */
-	public static function flagLegend() {
-		global $wgGroupPermissions, $wgLang;
-
-		$flags = array( self::flagLine( 'newpage' ),
-			self::flagLine( 'minor' ) );
-
-		# Don't show info on bot edits unless there's a bot group of some kind
-		foreach ( $wgGroupPermissions as $rights ) {
-			if ( isset( $rights['bot'] ) && $rights['bot'] ) {
-				$flags[] = self::flagLine( 'bot' );
-				break;
-			}
-		}
-
-		if ( self::usePatrol() ) {
-			$flags[] = self::flagLine( 'unpatrolled' );
-		}
-
-		return '<div class="mw-rc-label-legend">' .
-			wfMsgExt( 'recentchanges-label-legend', 'parseinline',
-			$wgLang->commaList( $flags ) ) . '</div>';
+		return "<abbr class='$key' title='" . $messages[$key][1] . "'>" . $messages[$key][0] . '</abbr>';
 	}
 
 	/**
@@ -544,8 +501,15 @@ class OldChangesList extends ChangesList {
 		} else {
 			$this->insertDiffHist( $s, $rc, $unpatrolled );
 			# M, N, b and ! (minor, new, bot and unpatrolled)
-			$s .= $this->recentChangesFlags( $rc->mAttribs['rc_new'], $rc->mAttribs['rc_minor'],
-				$unpatrolled, '', $rc->mAttribs['rc_bot'] );
+			$s .= $this->recentChangesFlags( 
+				array(
+					'new' => $rc->mAttribs['rc_new'], 
+					'minor' => $rc->mAttribs['rc_minor'],
+					'unpatrolled' => $unpatrolled, 
+					'bot' => $rc->mAttribs['rc_bot'] 
+				),
+				''
+			);
 			$this->insertArticleLink( $s, $rc, $unpatrolled, $watched );
 		}
 		# Edit/log timestamp
@@ -597,14 +561,14 @@ class EnhancedChangesList extends ChangesList {
 	 * @return String
 	 */
 	public function beginRecentChangesList() {
-		global $wgStylePath, $wgStyleVersion;
+		global $wgOut;
 		$this->rc_cache = array();
 		$this->rcMoveIndex = 0;
 		$this->rcCacheIndex = 0;
 		$this->lastdate = '';
 		$this->rclistOpen = false;
-		$script = Html::linkedScript( $wgStylePath . "/common/enhancedchanges.js?$wgStyleVersion" );
-		return $script;
+		$wgOut->addModuleStyles( 'mediawiki.special.changeslist' );
+		return '';
 	}
 	/**
 	 * Format a line for enhanced recentchange (aka with javascript and block of lines).
@@ -630,7 +594,7 @@ class EnhancedChangesList extends ChangesList {
 			# Process current cache
 			$ret = $this->recentChangesBlock();
 			$this->rc_cache = array();
-			$ret .= Xml::element( 'h4', null, $date );
+			$ret .= Xml::element( 'h4', null, $date ) . "\n";
 			$this->lastdate = $date;
 		}
 
@@ -773,7 +737,15 @@ class EnhancedChangesList extends ChangesList {
 
 		wfProfileIn( __METHOD__ );
 
-		$r = '<table class="mw-enhanced-rc"><tr>';
+		# Add the namespace and title of the block as part of the class
+		if ( $block[0]->mAttribs['rc_log_type'] ) {
+			# Log entry
+			$classes = 'collapsible collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $block[0]->mAttribs['rc_log_type'] . '-' . $block[0]->mAttribs['rc_title'] );
+		} else {
+			$classes = 'collapsible collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-ns' . $block[0]->mAttribs['rc_namespace'] . '-' . $block[0]->mAttribs['rc_title'] );
+		}
+		$r = Html::openElement( 'table', array( 'class' => $classes ) ) .
+			Html::openElement( 'tr' );
 
 		# Collate list of users
 		$userlinks = array();
@@ -833,23 +805,28 @@ class EnhancedChangesList extends ChangesList {
 		$users = ' <span class="changedby">[' . 
 			implode( $this->message['semicolon-separator'], $users ) . ']</span>';
 
-		# ID for JS visibility toggle
-		$jsid = $this->rcCacheIndex;
-		# onclick handler to toggle hidden/expanded
-		$toggleLink = "onclick='toggleVisibility($jsid); return false'";
 		# Title for <a> tags
 		$expandTitle = htmlspecialchars( wfMsg( 'rc-enhanced-expand' ) );
 		$closeTitle = htmlspecialchars( wfMsg( 'rc-enhanced-hide' ) );
 
-		$tl = "<span id='mw-rc-openarrow-$jsid' class='mw-changeslist-expanded' style='visibility:hidden'><a href='#' $toggleLink title='$expandTitle'>" . $this->sideArrow() . "</a></span>";
-		$tl .= "<span id='mw-rc-closearrow-$jsid' class='mw-changeslist-hidden' style='display:none'><a href='#' $toggleLink title='$closeTitle'>" . $this->downArrow() . "</a></span>";
-		$r .= '<td class="mw-enhanced-rc">'.$tl.'&#160;';
+		$tl = "<span class='collapsible-expander'>"
+			. "<span class='mw-rc-openarrow'>"
+			. "<a href='#' title='$expandTitle'>{$this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) )}</a>"
+			. "</span><span class='mw-rc-closearrow'>"
+			. "<a href='#' title='$closeTitle'>{$this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) )}</a>"
+			. "</span></span>";
+		$r .= "<td>$tl</td>";
 
 		# Main line
-		$r .= $this->recentChangesFlags( $isnew, false, $unpatrolled, '&#160;', $bot );
+		$r .= '<td class="mw-enhanced-rc">' . $this->recentChangesFlags( array(
+			'new' => $isnew, 
+			'minor' => false, 
+			'unpatrolled' => $unpatrolled, 
+			'bot' => $bot ,
+		) );
 
 		# Timestamp
-		$r .= '&#160;'.$block[0]->timestamp.'&#160;</td><td style="padding:0px;">';
+		$r .= '&#160;'.$block[0]->timestamp.'&#160;</td><td>';
 
 		# Article link
 		if( $namehidden ) {
@@ -937,11 +914,7 @@ class EnhancedChangesList extends ChangesList {
 		$r .= $users;
 		$r .= $this->numberofWatchingusers($block[0]->numberofWatchingusers);
 
-		$r .= "</td></tr></table>\n";
-
 		# Sub-entries
-		$r .= '<div id="mw-rc-subentries-'.$jsid.'" class="mw-changeslist-hidden">';
-		$r .= '<table class="mw-enhanced-rc">';
 		foreach( $block as $rcObj ) {
 			# Extract fields from DB into the function scope (rc_xxxx variables)
 			// FIXME: Would be good to replace this extract() call with something
@@ -951,10 +924,14 @@ class EnhancedChangesList extends ChangesList {
 			extract( $rcObj->mAttribs );
 
 			#$r .= '<tr><td valign="top">'.$this->spacerArrow();
-			$r .= '<tr><td style="vertical-align:top;font-family:monospace; padding:0px;">';
-			$r .= $this->spacerIndent() . $this->spacerIndent();
-			$r .= $this->recentChangesFlags( $rc_new, $rc_minor, $rcObj->unpatrolled, '&#160;', $rc_bot );
-			$r .= '&#160;</td><td style="vertical-align:top; padding:0px;"><span style="font-family:monospace">';
+			$r .= '<tr><td></td><td class="mw-enhanced-rc">';
+			$r .= $this->recentChangesFlags( array(
+				'new' => $rc_new, 
+				'minor' => $rc_minor, 
+				'unpatrolled' => $rcObj->unpatrolled, 
+				'bot' => $rc_bot, 
+			) );
+			$r .= '&#160;</td><td class="mw-enhanced-rc-nested"><span class="mw-enhanced-rc-time">';
 
 			$params = $queryParams;
 
@@ -1012,7 +989,7 @@ class EnhancedChangesList extends ChangesList {
 
 			$r .= "</td></tr>\n";
 		}
-		$r .= "</table></div>\n";
+		$r .= "</table>\n";
 
 		$this->rcCacheIndex++;
 
@@ -1037,42 +1014,6 @@ class EnhancedChangesList extends ChangesList {
 	}
 
 	/**
-	 * Generate HTML for a right- or left-facing arrow,
-	 * depending on language direction.
-	 * @return String: HTML <img> tag
-	 */
-	protected function sideArrow() {
-		global $wgContLang;
-		$dir = $wgContLang->isRTL() ? 'l' : 'r';
-		return $this->arrow( $dir, '+', wfMsg( 'rc-enhanced-expand' ) );
-	}
-
-	/**
-	 * Generate HTML for a down-facing arrow
-	 * depending on language direction.
-	 * @return String: HTML <img> tag
-	 */
-	protected function downArrow() {
-		return $this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) );
-	}
-
-	/**
-	 * Generate HTML for a spacer image
-	 * @return String: HTML <img> tag
-	 */
-	protected function spacerArrow() {
-		return $this->arrow( '', codepointToUtf8( 0xa0 ) ); // non-breaking space
-	}
-
-	/**
-	 * Add a set of spaces
-	 * @return String: HTML <td> tag
-	 */
-	protected function spacerIndent() {
-		return '&#160;&#160;&#160;&#160;&#160;';
-	}
-
-	/**
 	 * Enhanced RC ungrouped line.
 	 * @return String: a HTML formated line (generated using $r)
 	 */
@@ -1084,19 +1025,32 @@ class EnhancedChangesList extends ChangesList {
 		# Extract fields from DB into the function scope (rc_xxxx variables)
 		// FIXME: Would be good to replace this extract() call with something
 		// that explicitly initializes variables.
-		$classes = array(); // TODO implement
+		// TODO implement
 		extract( $rcObj->mAttribs );
 		$query['curid'] = $rc_cur_id;
 
-		$r = '<table class="mw-enhanced-rc"><tr>';
-		$r .= '<td class="mw-enhanced-rc">' . $this->spacerArrow() . '&#160;';
+		if( $rc_log_type ) {
+			# Log entry
+			$classes = 'mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $rc_log_type . '-' . $rcObj->mAttribs['rc_title'] );
+		} else {
+			$classes = 'mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-ns' . $rcObj->mAttribs['rc_namespace'] . '-' . $rcObj->mAttribs['rc_title'] );
+		}
+		$r = Html::openElement( 'table', array( 'class' => $classes ) ) .
+			Html::openElement( 'tr' );
+
+		$r .= '<td class="mw-enhanced-rc">' . $this->arrow( '', codepointToUtf8( 0xa0 ) );
 		# Flag and Timestamp
 		if( $rc_type == RC_MOVE || $rc_type == RC_MOVE_OVER_REDIRECT ) {
 			$r .= '&#160;&#160;&#160;&#160;'; // 4 flags -> 4 spaces
 		} else {
-			$r .= $this->recentChangesFlags( $rc_type == RC_NEW, $rc_minor, $rcObj->unpatrolled, '&#160;', $rc_bot );
+			$r .= $this->recentChangesFlags( array(
+				'new' => $rc_type == RC_NEW, 
+				'minor' => $rc_minor, 
+				'unpatrolled' => $rcObj->unpatrolled, 
+				'bot' => $rc_bot 
+			) );
 		}
-		$r .= '&#160;'.$rcObj->timestamp.'&#160;</td><td style="padding:0px;">';
+		$r .= '&#160;'.$rcObj->timestamp.'&#160;</td><td>';
 		# Article or log link
 		if( $rc_log_type ) {
 			$logtitle = Title::newFromText( "Log/$rc_log_type", NS_SPECIAL );

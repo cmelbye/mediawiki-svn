@@ -24,9 +24,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
- 
+
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class UpdateSearchIndex extends Maintenance {
@@ -61,7 +62,7 @@ class UpdateSearchIndex extends Maintenance {
 			}
 		}
 		$lockTime = $this->getOption( 'l', 20 );
-		
+
 		$this->doUpdateSearchIndex( $start, $end, $lockTime );
 		if ( is_writable( dirname( realpath( $posFile ) ) ) ) {
 			$file = fopen( $posFile, 'w' );
@@ -69,13 +70,13 @@ class UpdateSearchIndex extends Maintenance {
 				fwrite( $file, $end );
 				fclose( $file );
 			} else {
-				$this->output( "*** Couldn't write to the $posFile!\n" );
+				$this->error( "*** Couldn't write to the $posFile!\n" );
 			}
 		} else {
-			$this->output( "*** Couldn't write to the $posFile!\n" );
+			$this->error( "*** Couldn't write to the $posFile!\n" );
 		}
 	}
-	
+
 	private function doUpdateSearchIndex( $start, $end, $maxLockTime ) {
 		global $wgDisableSearchUpdate;
 
@@ -109,6 +110,7 @@ class UpdateSearchIndex extends Maintenance {
 			$title = $titleObj->getPrefixedDBkey();
 			$this->output( "$title..." );
 			$u = new SearchUpdate( $row->rc_cur_id, $title, false );
+			$u->doUpdate();
 			$this->output( "\n" );
 		} elseif ( $row->rc_type !== RC_LOG ) {
 			$this->updateSearchIndexForPage( $dbw, $row->rc_cur_id );

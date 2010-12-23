@@ -31,7 +31,7 @@ class DumpSisterSites extends Maintenance {
 		parent::__construct();
 		$this->mDescription = "Quickie page name dump script for SisterSites usage";
 	}
-	
+
 	public function execute() {
 		$dbr = wfGetDB( DB_SLAVE );
 		$dbr->bufferResults( false );
@@ -48,7 +48,6 @@ class DumpSisterSites extends Maintenance {
 			$text = $title->getPrefixedText();
 			$this->output( "$url $text\n" );
 		}
-		$dbr->freeResult( $result );
 	}
 }
 

@@ -48,6 +48,12 @@ $namespaceAliases = array(
 	'Categoría_discusión' => NS_CATEGORY_TALK,
 );
 
+$specialPageAliases = array(
+	'Statistics'                => array( 'Estadístiques' ),
+	'Log'                       => array( 'Rexistru' ),
+	'Blockip'                   => array( 'Bloquiar', 'BloquiarIP', 'BloquiarUsuariu' ),
+);
+
 $messages = array(
 # User preference toggles
 'tog-underline'               => 'Sorrayar enllaces:',
@@ -64,11 +70,12 @@ $messages = array(
 'tog-editsection'             => "Activar la edición de seiciones per aciu d'enllaces [editar]",
 'tog-editsectiononrightclick' => 'Activar la edición de seiciones calcando col botón<br /> drechu enriba los títulos de seición (JavaScript)',
 'tog-showtoc'                 => 'Amosar índiz (pa páxines con más de 3 encabezaos)',
-'tog-rememberpassword'        => 'Recordar la clave ente sesiones',
+'tog-rememberpassword'        => 'Recordar la clave ente sesiones (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Añader les páxines que creo a la mio llista de vixilancia',
 'tog-watchdefault'            => "Añader les páxines qu'edito a la mio llista de vixilancia",
 'tog-watchmoves'              => 'Añader les páxines que muevo a la mio llista de vixilancia',
 'tog-watchdeletion'           => "Añader les páxines qu'esborro a la mio llista de vixilancia",
+'tog-minordefault'            => 'Marcar toles ediciones como menores por defeutu',
 'tog-previewontop'            => "Amosar previsualización enantes de la caxa d'edición",
 'tog-previewonfirst'          => 'Amosar previsualización na primer edición',
 'tog-nocache'                 => 'Desactivar la caché de les páxines',
@@ -411,7 +418,7 @@ Nun t'escaezas d'escoyer les tos [[Special:Preferences|preferencies de {{SITENAM
 'yourname'                   => "Nome d'usuariu:",
 'yourpassword'               => 'Clave:',
 'yourpasswordagain'          => 'Reescribi la to clave:',
-'remembermypassword'         => 'Recordar la mio identificación nesti ordenador',
+'remembermypassword'         => 'Recordar la mio identificación nesti ordenador (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'             => 'El to dominiu:',
 'externaldberror'            => "O hebo un error de l'autenticación esterna de la base de datos o nun tienes permisu p'actualizar la to cuenta esterna.",
 'login'                      => 'Entrar',
@@ -600,7 +607,7 @@ o [{{fullurl:{{FULLPAGENAME}}|action=edit}} editar ésta equí]</span>.',
 'usercsspreview'                   => "'''Recuerda que namái tas previsualizando'l to CSS d'usuariu.'''
 '''¡Tovía nun ta guardáu!'''",
 'userjspreview'                    => "'''¡Recuerda que namái tas probando/previsualizando'l to JavaScript d'usuariu, entá nun se grabó!'''",
-'userinvalidcssjstitle'            => "'''Avisu:''' Nun hai piel \"\$1\". Recuerda que les páxines personalizaes .css y .js usen un títulu en minúscules, p. ex. {{ns:user}}:Foo/monobook.css en cuenta de {{ns:user}}:Foo/Monobook.css.",
+'userinvalidcssjstitle'            => "'''Avisu:''' Nun hai piel \"\$1\". Recuerda que les páxines personalizaes .css y .js usen un títulu en minúscules, p. ex. {{ns:user}}:Foo/vector.css en cuenta de {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Actualizao)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''¡Alcuérdate de qu'esto ye sólo una previsualización y los cambeos entá nun se grabaron!'''",
@@ -623,7 +630,7 @@ que pasa cuando tas usando un proxy anónimu basáu en web que seya problemátic
 Na área de testu d'enriba ta'l testu de la páxina como ta nestos momentos.
 Los tos cambeos amuésense na área de testu d'embaxo.
 Vas tener que fusionar los tos cambeos dientro del testu esistente.
-'''Namái''' va guardase'l testu de l'área d'enriba cuando calques en \"Guardar páxina\".",
+'''Namái''' va guardase'l testu de l'área d'enriba cuando calques en \"{{int:savearticle}}\".",
 'yourtext'                         => 'El to testu',
 'storedversion'                    => 'Versión almacenada',
 'nonunicodebrowser'                => "'''AVISU: El to navegador nun cumple la norma unicode. Hai un sistema alternativu que te permite editar páxines de forma segura: los carauteres non-ASCII apaecerán na caxa d'edición como códigos hexadecimales.'''",
@@ -636,7 +643,6 @@ Amás tas dexándonos afitao qu'escribisti esto tu mesmu o que lo copiasti d'una
 Amás tas dexándonos afitao qu'escribisti esto tu mesmu o que lo copiasti d'una fonte
 llibre de dominiu públicu o asemeyao (ver $1 pa más detalles).
 '''¡NUN PONGAS TRABAYOS CON DERECHOS D'AUTOR ENSIN PERMISU!'''",
-'longpagewarning'                  => "'''AVISU: Esta páxina tien más de $1 quilobytes; dellos navegadores puen tener problemes editando páxines de 32 ó más kb. Habríes dixebrar la páxina en seiciones más pequeñes.'''",
 'longpageerror'                    => "'''ERROR: El testu qu'unviasti tien $1 quilobytes, que ye
 más que'l máximu de $2 quilobytes. Nun pue ser grabáu.'''",
 'readonlywarning'                  => "'''AVISU: La base de datos ta candada por mantenimientu, polo que nun vas poder guardar les tos ediciones nestos momentos.
@@ -1214,7 +1220,6 @@ Si tovía asina quies xubir el ficheru, por favor vuelvi atrás y usa otru nome.
 Si tovía asina quies xubir l'archivu, por favor vuelvi atrás y usa otru nome. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => 'Esti archivu ye un duplicáu {{PLURAL:$1|del siguiente archivu|de los siguientes archivos}}:',
 'file-deleted-duplicate'      => 'Yá se desanició enantes un ficheru idénticu a esti ([[$1]]). Deberíes revisar el historial del ficheru enantes de xubilu otra vuelta.',
-'successfulupload'            => 'Xubida correuta',
 'uploadwarning'               => "Avisu de xubíes d'archivos",
 'savefile'                    => 'Grabar archivu',
 'uploadedimage'               => 'xubió "[[$1]]"',
@@ -1233,6 +1238,7 @@ Si tovía asina quies xubir l'archivu, por favor vuelvi atrás y usa otru nome. 
 Habríes considerar si ye afechisco continuar xubiendo esti archivu.
 Amuésase equí'l rexistru d'esborraos pa esti archivu a los efeutos oportunos:",
 'filename-bad-prefix'         => "El nome del archivu que tas xubiendo entama con '''\"\$1\"''', que ye un nome non descriptivu típicamente asignáu automáticamente poles cámares dixitales. Por favor escueyi un nome más descriptivu pal to archivu.",
+'upload-success-subj'         => 'Xubida correuta',
 
 'upload-proto-error'      => 'Protocolu incorreutu',
 'upload-proto-error-text' => "La xubida remota requier que l'URL entame por <code>http://</code> o <code>ftp://</code>.",
@@ -1563,7 +1569,6 @@ La direición de corréu electrónicu qu'especificasti nes [[Special:Preferences
 # Watchlist
 'watchlist'            => 'La mio páxina de vixilancia',
 'mywatchlist'          => 'La mio páxina de vixilancia',
-'watchlistfor'         => "(pa '''$1''')",
 'nowatchlist'          => 'La to llista de vixilancia ta vacia.',
 'watchlistanontext'    => 'Por favor $1 pa ver o editar entraes na to llista de vixilancia.',
 'watchnologin'         => 'Non identificáu',
@@ -1876,7 +1881,6 @@ Esto debería facese sólo pa prevenir vandalismu como indiquen les [[{{MediaWik
 'ipb-edit-dropdown'               => 'Editar motivos de bloquéu',
 'ipb-unblock-addr'                => 'Desbloquiar $1',
 'ipb-unblock'                     => "Desbloquiar un nome d'usuariu o direición IP",
-'ipb-blocklist-addr'              => 'Bloqueos esistentes de $1',
 'ipb-blocklist'                   => 'Ver los bloqueos esistentes',
 'ipb-blocklist-contribs'          => 'Contribuciones de $1',
 'unblockip'                       => 'Desbloquiar usuariu',

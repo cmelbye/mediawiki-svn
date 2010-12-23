@@ -7,6 +7,9 @@
  * @ingroup Language
  * @file
  *
+ * @author Auwris
+ * @author Break Through Pain
+ * @author Dark Eagle
  * @author Garas
  * @author Homo
  * @author Hugo.arg
@@ -41,92 +44,92 @@ $namespaceNames = array(
 );
 
 $specialPageAliases = array(
-	'DoubleRedirects'           => array( 'Dvigubi peradesavimai' ),
-	'BrokenRedirects'           => array( 'Peradresavimai į niekur' ),
+	'DoubleRedirects'           => array( 'Dvigubi_peradesavimai' ),
+	'BrokenRedirects'           => array( 'Peradresavimai_į_niekur' ),
 	'Disambiguations'           => array( 'Nukreipiamieji' ),
 	'Userlogin'                 => array( 'Prisijungimas' ),
 	'Userlogout'                => array( 'Atsijungimas' ),
-	'CreateAccount'             => array( 'Sukurti paskyrą' ),
+	'CreateAccount'             => array( 'Sukurti_paskyrą' ),
 	'Preferences'               => array( 'Nustatymai' ),
 	'Watchlist'                 => array( 'Stebimieji' ),
-	'Recentchanges'             => array( 'Naujausi keitimai' ),
+	'Recentchanges'             => array( 'Naujausi_keitimai' ),
 	'Upload'                    => array( 'Įkėlimas' ),
-	'Listfiles'                 => array( 'Paveikslėlių sąrašas' ),
-	'Newimages'                 => array( 'Nauji paveikslėliai' ),
-	'Listusers'                 => array( 'Naudotojų sąrašas' ),
-	'Listgrouprights'           => array( 'Grupių teisių sąrašas' ),
+	'Listfiles'                 => array( 'Paveikslėlių_sąrašas' ),
+	'Newimages'                 => array( 'Nauji_paveikslėliai' ),
+	'Listusers'                 => array( 'Naudotojų_sąrašas' ),
+	'Listgrouprights'           => array( 'Grupių_teisių_sąrašas' ),
 	'Statistics'                => array( 'Statistika' ),
-	'Randompage'                => array( 'Atsitiktinis puslapis' ),
-	'Lonelypages'               => array( 'Vieniši puslapiai' ),
-	'Uncategorizedpages'        => array( 'Puslapiai be kategorijų' ),
-	'Uncategorizedcategories'   => array( 'Kategorijos be subkategorijų' ),
-	'Uncategorizedimages'       => array( 'Paveikslėliai be kategorijų' ),
-	'Uncategorizedtemplates'    => array( 'Šablonai be kategorijų' ),
-	'Unusedcategories'          => array( 'Nenaudojamos kategorijos' ),
-	'Unusedimages'              => array( 'Nenaudojami paveikslėliai' ),
-	'Wantedpages'               => array( 'Trokštamiausi puslapiai', 'Blogos nuorodos' ),
-	'Wantedcategories'          => array( 'Trokštamiausios kategorijos' ),
-	'Wantedfiles'               => array( 'Trokštami failai' ),
-	'Wantedtemplates'           => array( 'Trokštami šablonai' ),
-	'Mostlinked'                => array( 'Turintys daugiausiai nuorodų' ),
-	'Mostlinkedcategories'      => array( 'Kategorijos turinčios daugiausiai nuorodų' ),
+	'Randompage'                => array( 'Atsitiktinis_puslapis' ),
+	'Lonelypages'               => array( 'Vieniši_puslapiai' ),
+	'Uncategorizedpages'        => array( 'Puslapiai_be_kategorijų' ),
+	'Uncategorizedcategories'   => array( 'Kategorijos_be_subkategorijų' ),
+	'Uncategorizedimages'       => array( 'Paveikslėliai_be_kategorijų' ),
+	'Uncategorizedtemplates'    => array( 'Šablonai_be_kategorijų' ),
+	'Unusedcategories'          => array( 'Nenaudojamos_kategorijos' ),
+	'Unusedimages'              => array( 'Nenaudojami_paveikslėliai' ),
+	'Wantedpages'               => array( 'Trokštamiausi_puslapiai', 'Blogos_nuorodos' ),
+	'Wantedcategories'          => array( 'Trokštamiausios_kategorijos' ),
+	'Wantedfiles'               => array( 'Trokštami_failai' ),
+	'Wantedtemplates'           => array( 'Trokštami_šablonai' ),
+	'Mostlinked'                => array( 'Turintys_daugiausiai_nuorodų' ),
+	'Mostlinkedcategories'      => array( 'Kategorijos_turinčios_daugiausiai_nuorodų' ),
 	'Mostlinkedtemplates'       => array( 'Šablonai' ),
-	'Mostimages'                => array( 'Daugiausiai naudojami paveikslėliai' ),
-	'Mostcategories'            => array( 'Daugiausiai naudojamos kategorijos' ),
-	'Mostrevisions'             => array( 'Daugiausiai keičiami' ),
-	'Fewestrevisions'           => array( 'Mažiausiai keičiami' ),
-	'Shortpages'                => array( 'Trumpiausi puslapiai' ),
-	'Longpages'                 => array( 'Ilgiausi puslapiai' ),
-	'Newpages'                  => array( 'Naujausi puslapiai' ),
-	'Ancientpages'              => array( 'Seniausi puslapiai' ),
+	'Mostimages'                => array( 'Daugiausiai_naudojami_paveikslėliai' ),
+	'Mostcategories'            => array( 'Daugiausiai_naudojamos_kategorijos' ),
+	'Mostrevisions'             => array( 'Daugiausiai_keičiami' ),
+	'Fewestrevisions'           => array( 'Mažiausiai_keičiami' ),
+	'Shortpages'                => array( 'Trumpiausi_puslapiai' ),
+	'Longpages'                 => array( 'Ilgiausi_puslapiai' ),
+	'Newpages'                  => array( 'Naujausi_puslapiai' ),
+	'Ancientpages'              => array( 'Seniausi_puslapiai' ),
 	'Deadendpages'              => array( 'Puslapiai-aklavietės' ),
-	'Protectedpages'            => array( 'Užrakinti puslapiai' ),
-	'Protectedtitles'           => array( 'Apsaugoti pavadinimai' ),
-	'Allpages'                  => array( 'Visi puslapiai' ),
+	'Protectedpages'            => array( 'Užrakinti_puslapiai' ),
+	'Protectedtitles'           => array( 'Apsaugoti_pavadinimai' ),
+	'Allpages'                  => array( 'Visi_puslapiai' ),
 	'Prefixindex'               => array( 'Prasidedantys' ),
-	'Ipblocklist'               => array( 'IP blokavimų sąrašas' ),
-	'Specialpages'              => array( 'Specialieji puslapiai' ),
+	'Ipblocklist'               => array( 'IP_blokavimų_sąrašas' ),
+	'Specialpages'              => array( 'Specialieji_puslapiai' ),
 	'Contributions'             => array( 'Indėlis' ),
-	'Emailuser'                 => array( 'Rašyti laišką' ),
-	'Confirmemail'              => array( 'Elektroninio pašto patvirtinimas' ),
-	'Whatlinkshere'             => array( 'Kas į čia rodo' ),
-	'Recentchangeslinked'       => array( 'Pakeitimai susijusiuose puslapiuose' ),
-	'Movepage'                  => array( 'Puslapio pervadinimas' ),
-	'Blockme'                   => array( 'Užblokuoti mane' ),
-	'Booksources'               => array( 'Knygų šaltiniai' ),
+	'Emailuser'                 => array( 'Rašyti_laišką' ),
+	'Confirmemail'              => array( 'Elektroninio_pašto_patvirtinimas' ),
+	'Whatlinkshere'             => array( 'Kas_į_čia_rodo' ),
+	'Recentchangeslinked'       => array( 'Pakeitimai_susijusiuose_puslapiuose' ),
+	'Movepage'                  => array( 'Puslapio_pervadinimas' ),
+	'Blockme'                   => array( 'Užblokuoti_mane' ),
+	'Booksources'               => array( 'Knygų_šaltiniai' ),
 	'Categories'                => array( 'Kategorijos' ),
 	'Export'                    => array( 'Eksportas' ),
 	'Version'                   => array( 'Versija' ),
-	'Allmessages'               => array( 'Visi pranešimai' ),
+	'Allmessages'               => array( 'Visi_pranešimai' ),
 	'Log'                       => array( 'Sąrašas', 'Sąrašai' ),
-	'Blockip'                   => array( 'Blokuoti IP' ),
+	'Blockip'                   => array( 'Blokuoti_IP' ),
 	'Undelete'                  => array( 'Netrinti' ),
 	'Import'                    => array( 'Importas' ),
-	'Lockdb'                    => array( 'Užrakinti duomenų bazę' ),
-	'Unlockdb'                  => array( 'Atrakinti duomenų bazę' ),
-	'Userrights'                => array( 'Naudotojo teisės' ),
-	'MIMEsearch'                => array( 'MIME paieška' ),
-	'FileDuplicateSearch'       => array( 'Failo dublikatų paieška' ),
-	'Unwatchedpages'            => array( 'Nestebimi puslapiai' ),
-	'Listredirects'             => array( 'Peradresavimų sąrašas' ),
-	'Revisiondelete'            => array( 'Redagavimo ištrynimas' ),
-	'Unusedtemplates'           => array( 'Nenaudojami šablonai' ),
-	'Randomredirect'            => array( 'Atsitiktinis peradresavimas' ),
-	'Mypage'                    => array( 'Mano puslapis' ),
-	'Mytalk'                    => array( 'Mano aptarimas' ),
-	'Mycontributions'           => array( 'Mano indėlis' ),
-	'Listadmins'                => array( 'Administratorių sąrašas' ),
-	'Listbots'                  => array( 'Botų sąrašas' ),
-	'Popularpages'              => array( 'Populiarūs puslapiai' ),
+	'Lockdb'                    => array( 'Užrakinti_duomenų_bazę' ),
+	'Unlockdb'                  => array( 'Atrakinti_duomenų_bazę' ),
+	'Userrights'                => array( 'Naudotojo_teisės' ),
+	'MIMEsearch'                => array( 'MIME_paieška' ),
+	'FileDuplicateSearch'       => array( 'Failo_dublikatų_paieška' ),
+	'Unwatchedpages'            => array( 'Nestebimi_puslapiai' ),
+	'Listredirects'             => array( 'Peradresavimų_sąrašas' ),
+	'Revisiondelete'            => array( 'Redagavimo_ištrynimas' ),
+	'Unusedtemplates'           => array( 'Nenaudojami_šablonai' ),
+	'Randomredirect'            => array( 'Atsitiktinis_peradresavimas' ),
+	'Mypage'                    => array( 'Mano_puslapis' ),
+	'Mytalk'                    => array( 'Mano_aptarimas' ),
+	'Mycontributions'           => array( 'Mano_indėlis' ),
+	'Listadmins'                => array( 'Administratorių_sąrašas' ),
+	'Listbots'                  => array( 'Botų_sąrašas' ),
+	'Popularpages'              => array( 'Populiarūs_puslapiai' ),
 	'Search'                    => array( 'Paieška' ),
-	'Resetpass'                 => array( 'Slaptažodžio atstatymas' ),
-	'Withoutinterwiki'          => array( 'Be interwiki' ),
-	'MergeHistory'              => array( 'Sujungti istoriją' ),
-	'Filepath'                  => array( 'Kelias iki failo' ),
-	'Invalidateemail'           => array( 'Nutraukti elektroninio pašto galiojimą' ),
-	'Blankpage'                 => array( 'Tuščias puslapis' ),
-	'LinkSearch'                => array( 'Nuorodų paieška' ),
-	'DeletedContributions'      => array( 'Ištrintas indėlis' ),
+	'Resetpass'                 => array( 'Slaptažodžio_atstatymas' ),
+	'Withoutinterwiki'          => array( 'Be_interwiki' ),
+	'MergeHistory'              => array( 'Sujungti_istoriją' ),
+	'Filepath'                  => array( 'Kelias_iki_failo' ),
+	'Invalidateemail'           => array( 'Nutraukti_elektroninio_pašto_galiojimą' ),
+	'Blankpage'                 => array( 'Tuščias_puslapis' ),
+	'LinkSearch'                => array( 'Nuorodų_paieška' ),
+	'DeletedContributions'      => array( 'Ištrintas_indėlis' ),
 	'Tags'                      => array( 'Žymos' ),
 );
 
@@ -156,7 +159,7 @@ $magicWords = array(
 );
 
 $fallback8bitEncoding = 'windows-1257';
-$separatorTransformTable = array(',' => "\xc2\xa0", '.' => ',' );
+$separatorTransformTable = array( ',' => "\xc2\xa0", '.' => ',' );
 
 $dateFormats = array(
 	'ymd time' => 'H:i',
@@ -184,14 +187,15 @@ $messages = array(
 'tog-editsection'             => 'Įjungti skyrelių redagavimą naudojant nuorodas [taisyti]',
 'tog-editsectiononrightclick' => 'Įjungti skyrelių redagavimą paspaudus skyrelio pavadinimą dešiniuoju pelės klavišu (JavaScript)',
 'tog-showtoc'                 => 'Rodyti turinį, jei puslapyje daugiau nei 3 skyreliai',
-'tog-rememberpassword'        => 'Prisiminti prisijungimo informaciją šiame kompiuteryje',
+'tog-rememberpassword'        => 'Prisiminti prisijungimo informaciją šioje naršyklėje (daugiausiai $1 {{PLURAL:$1|dieną|dienas|dienų}})',
 'tog-watchcreations'          => 'Pridėti puslapius, kuriuos sukuriu, į stebimų sąrašą',
 'tog-watchdefault'            => 'Pridėti puslapius, kuriuos redaguoju, į stebimų sąrašą',
 'tog-watchmoves'              => 'Pridėti puslapius, kuriuos perkeliu, į stebimų sąrašą',
 'tog-watchdeletion'           => 'Pridėti puslapius, kuriuos ištrinu, į stebimų sąrašą',
+'tog-minordefault'            => 'Pagal nutylėjimą pažymėti redagavimus kaip smulkius',
 'tog-previewontop'            => 'Rodyti peržiūrą virš redagavimo lauko',
 'tog-previewonfirst'          => 'Rodyti peržiūrą pirmą kartą pakeitus',
-'tog-nocache'                 => 'Nenaudoti puslapių kaupimo',
+'tog-nocache'                 => 'Išjungti interneto naršyklės puslapių podėlį',
 'tog-enotifwatchlistpages'    => 'Siųsti man laišką, kai pakeičiamas puslapis, kurį stebiu',
 'tog-enotifusertalkpages'     => 'Siųsti man laišką, kai pakeičiamas mano naudotojo aptarimo puslapis',
 'tog-enotifminoredits'        => 'Siųsti man laišką, kai puslapio keitimas yra smulkus',
@@ -329,31 +333,21 @@ $messages = array(
 'faqpage'        => 'Project:DUK',
 
 # Vector skin
-'vector-action-addsection'   => 'Pridėti temą',
-'vector-action-delete'       => 'Ištrinti',
-'vector-action-move'         => 'Perkelti',
-'vector-action-protect'      => 'Užrakinti',
-'vector-action-undelete'     => 'Atkurti',
-'vector-action-unprotect'    => 'Atrakinti',
-'vector-namespace-category'  => 'Kategorija',
-'vector-namespace-help'      => 'Pagalbos puslapis',
-'vector-namespace-image'     => 'Failas',
-'vector-namespace-main'      => 'Puslapis',
-'vector-namespace-media'     => 'Media puslapis',
-'vector-namespace-mediawiki' => 'Pranešimas',
-'vector-namespace-project'   => 'Projekto puslapis',
-'vector-namespace-special'   => 'Specialusis puslapis',
-'vector-namespace-talk'      => 'Diskusija',
-'vector-namespace-template'  => 'Šablonas',
-'vector-namespace-user'      => 'Naudotojo puslapis',
-'vector-view-create'         => 'Kurti',
-'vector-view-edit'           => 'Redaguoti',
-'vector-view-history'        => 'Istorija',
-'vector-view-view'           => 'Skaityti',
-'vector-view-viewsource'     => 'Žiūrėti kodą',
-'actions'                    => 'Veiksmai',
-'namespaces'                 => 'Vardų sritys',
-'variants'                   => 'Variantai',
+'vector-action-addsection'       => 'Pridėti temą',
+'vector-action-delete'           => 'Ištrinti',
+'vector-action-move'             => 'Perkelti',
+'vector-action-protect'          => 'Užrakinti',
+'vector-action-undelete'         => 'Atkurti',
+'vector-action-unprotect'        => 'Atrakinti',
+'vector-simplesearch-preference' => 'Įjungti išplėstinius paieškos pasiūlymus (tik „Vector“ išvaizda)',
+'vector-view-create'             => 'Kurti',
+'vector-view-edit'               => 'Redaguoti',
+'vector-view-history'            => 'Istorija',
+'vector-view-view'               => 'Skaityti',
+'vector-view-viewsource'         => 'Žiūrėti kodą',
+'actions'                        => 'Veiksmai',
+'namespaces'                     => 'Vardų sritys',
+'variants'                       => 'Variantai',
 
 'errorpagetitle'    => 'Klaida',
 'returnto'          => 'Grįžti į $1.',
@@ -414,6 +408,9 @@ Pernelyg daug naudotojų skaito šį puslapį.
 Prašome palaukti ir bandyti į šį puslapį patekti dar kartą.
 
 $1',
+'pool-timeout'      => 'Baigėsi laikas laukiant užrakto',
+'pool-queuefull'    => 'Telkinio eilė pilna',
+'pool-errorunknown' => 'Nežinoma klaida',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => 'Apie {{SITENAME}}',
@@ -578,7 +575,8 @@ Jūsų paskyra buvo sukurta. Nepamirškite pakeisti savo [[Special:Preferences|{
 'yourname'                   => 'Naudotojo vardas:',
 'yourpassword'               => 'Slaptažodis:',
 'yourpasswordagain'          => 'Pakartokite slaptažodį:',
-'remembermypassword'         => 'Prisiminti šią informaciją šiame kompiuteryje',
+'remembermypassword'         => 'Prisiminti prisijungimo duomenis šiame kompiuteryje (daugiausiai $1 {{PLURAL:$1|dieną|dienas|dienų}})',
+'securelogin-stick-https'    => 'Likite prisijungę prie HTTPS po prisijungimo',
 'yourdomainname'             => 'Jūsų domenas:',
 'externaldberror'            => 'Yra arba išorinė autorizacijos duomenų bazės klaida arba jums neleidžiama atnaujinti jūsų išorinės paskyros.',
 'login'                      => 'Prisijungti',
@@ -595,6 +593,7 @@ Jūsų paskyra buvo sukurta. Nepamirškite pakeisti savo [[Special:Preferences|{
 'gotaccount'                 => "Jau turite paskyrą? '''$1'''.",
 'gotaccountlink'             => 'Prisijunkite',
 'createaccountmail'          => 'el. paštu',
+'createaccountreason'        => 'Priežastis:',
 'badretype'                  => 'Įvesti slaptažodžiai nesutampa.',
 'userexists'                 => 'Įvestasis naudotojo vardas jau naudojamas.
 Prašome pasirinkti kitą vardą.',
@@ -605,7 +604,7 @@ Prašome pasirinkti kitą vardą.',
 'noname'                     => 'Jūs nesate nurodęs teisingo naudotojo vardo.',
 'loginsuccesstitle'          => 'Sėkmingai prisijungėte',
 'loginsuccess'               => "'''Dabar jūs prisijungęs prie {{SITENAME}} kaip „$1“.'''",
-'nosuchuser'                 => 'Nėra jokio naudotojo, turinčio vardą „$1“. 
+'nosuchuser'                 => 'Nėra jokio naudotojo, turinčio vardą „$1“.
 Naudotojų varduose skiriamos didžiosios ir mažosios raidės.
 Patikrinkite rašybą, arba [[Special:UserLogin/signup|sukurkite naują paskyrą]].',
 'nosuchusershort'            => 'Nėra jokio naudotojo, pavadinto „<nowiki>$1</nowiki>“. Patikrinkite rašybą.',
@@ -615,6 +614,7 @@ Patikrinkite rašybą, arba [[Special:UserLogin/signup|sukurkite naują paskyrą
 'wrongpasswordempty'         => 'Įvestas slaptažodis yra tuščias. Pamėginkite vėl.',
 'passwordtooshort'           => 'Slaptažodžiai turi būti bent $1 {{PLURAL:$1|simbolio|simbolių|simbolių}} ilgio.',
 'password-name-match'        => 'Jūsų slaptažodis turi skirtis nuo jūsų naudotojo vardo.',
+'password-too-weak'          => 'Pateiktas slaptažodis yra per silpnas ir negali būti naudojamas.',
 'mailmypassword'             => 'Atsiųsti naują slaptažodį el. paštu',
 'passwordremindertitle'      => 'Laikinasis {{SITENAME}} slaptažodis',
 'passwordremindertext'       => 'Kažkas (tikriausiai jūs, IP adresu $1)
@@ -658,6 +658,15 @@ Jūs galite nekreipti dėmesio į laišką, jei ši paskyra buvo sukurta per kla
 Palaukite prieš bandant vėl.',
 'loginlanguagelabel'         => 'Kalba: $1',
 'suspicious-userlogout'      => 'Jūsų prašymas atsijungti buvo atmestas, nes, atrodo, jį klaidingai išsiuntė naršyklė arba spartinantysis tarpinis serveris.',
+
+# JavaScript password checks
+'password-strength'            => 'Apskaičiuotas slaptažodžio stiprumas: $1',
+'password-strength-bad'        => 'BLOGAS',
+'password-strength-mediocre'   => 'vidutiniškas',
+'password-strength-acceptable' => 'priimtinas',
+'password-strength-good'       => 'geras',
+'password-retype'              => 'Čia pakartokite slaptažodį',
+'password-retype-mismatch'     => 'Slaptažodžiai nesutampa',
 
 # Password reset dialog
 'resetpass'                 => 'Keisti slaptažodį',
@@ -713,7 +722,8 @@ Jūs galbūt jau sėkmingai pakeitėte savo slaptažodį ar gavote naują laikin
 'anonpreviewwarning'               => "''Jūs nesate prisijungęs. Išsaugojant jūsų IP adresas bus rodomas šio puslapio redagavimo istorijoje.''",
 'missingsummary'                   => "'''Priminimas:''' Jūs nenurodėte keitimo komentaro. Jei vėl paspausite Įšsaugoti, jūsų keitimas bus išsaugotas be jo.",
 'missingcommenttext'               => 'Prašome įvesti komentarą.',
-'missingcommentheader'             => "'''Priminimas:''' Jūs nenurodėte skyrelio/antraštės šiam komentarui. Jei vėl paspausite Išsaugoti, jūsų keitimas bus įrašytas be jo.",
+'missingcommentheader'             => "'''Priminimas:''' Jūs nenurodėte šio komentaro pavadinimo/antraštės.
+Jei vėl paspausite „{{int:savearticle}}“, jūsų keitimas bus įrašytas be jo.",
 'summary-preview'                  => 'Komentaro peržiūra:',
 'subject-preview'                  => 'Skyrelio/antraštės peržiūra:',
 'blockedtitle'                     => 'Naudotojas yra užblokuotas',
@@ -782,11 +792,11 @@ Jūs galite [[Special:Search/{{PAGENAME}}|ieškoti šio puslapio pavadinimo]] ki
 'blocked-notice-logextract'        => 'Šis naudotojas šiuo metu yra užblokuotas.
 Žemiau pateikiamas paskutinis blokavimo istorijos įrašas:',
 'clearyourcache'                   => "'''Dėmesio:''' Išsaugoję jums gali prireikti išvalyti jūsų naršyklės podėlį, kad pamatytumėte pokyčius. '''Mozilla / Safari / Konqueror:''' laikydami ''Shift'' pasirinkite ''Atsiųsti iš naujo'', arba paspauskite ''Ctrl-Shift-R'' (sistemoje Apple Mac ''Cmd-Shift-R''); '''IE:''' laikydami ''Ctrl'' paspauskite ''Atnaujinti'', arba paspauskite ''Ctrl-F5''; '''Konqueror:''' tiesiog paspauskite ''Perkrauti'' mygtuką, arba paspauskite ''F5''; '''Opera''' naudotojams gali prireikti pilnai išvalyti jų podėlį ''Priemonės→Nuostatos''.",
-'usercssyoucanpreview'             => "'''Patarimas:''' Naudokite „Rodyti peržiūrą“ mygtuką, kad išmėgintumėte savo naująjį CSS prieš išsaugant.",
-'userjsyoucanpreview'              => "'''Patarimas:''' Naudokite „Rodyti peržiūrą“ mygtuką, kad išmėgintumėte savo naująjį JS prieš išsaugant.",
+'usercssyoucanpreview'             => "'''Patarimas:''' Naudokite „{{int:showpreview}}“ mygtuką, kad išmėgintumėte savo naująjį CSS prieš išsaugant.",
+'userjsyoucanpreview'              => "'''Patarimas:''' Naudokite „{{int:showpreview}}“ mygtuką, kad išmėgintumėte savo naująjį JS prieš išsaugant.",
 'usercsspreview'                   => "'''Nepamirškite, kad jūs tik peržiūrit savo naudotojo CSS, jis dar nebuvo išsaugotas!'''",
 'userjspreview'                    => "'''Nepamirškite, kad jūs tik testuojat/peržiūrit savo naudotojo JavaScript, jis dar nebuvo išsaugotas!'''",
-'userinvalidcssjstitle'            => "'''Dėmesio:''' Nėra jokios išvaizdos „$1“. Nepamirškite, kad savo .css ir .js puslapiai naudoja pavadinimą mažosiomis raidėmis, pvz., {{ns:user}}:Foo/monobook.css, o ne {{ns:user}}:Foo/Monobook.css.",
+'userinvalidcssjstitle'            => "'''Dėmesio:''' Nėra jokios išvaizdos „$1“. Nepamirškite, kad savo .css ir .js puslapiai naudoja pavadinimą mažosiomis raidėmis, pvz., {{ns:user}}:Foo/vector.css, o ne {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Atnaujinta)',
 'note'                             => "'''Pastaba:'''",
 'previewnote'                      => "'''Nepamirškite, kad tai tik peržiūra, pakeitimai dar nėra išsaugoti!'''",
@@ -807,7 +817,7 @@ Prašome pamėginti vėl. Jei tai nepadeda, pamėginkite atsijungti ir prisijung
 Viršutiniame tekstiniame lauke pateikta šiuo metu esanti puslapio versija.
 Jūsų keitimai pateikti žemiau esančiame lauke.
 Jums reikia sujungti jūsų pakeitimus su esančia versija.
-Kai paspausite „Įrašyti“, bus įrašytas '''tik''' tekstas viršutiniame tekstiniame lauke.",
+Kai paspausite „{{int:savearticle}}“, bus įrašytas '''tik''' tekstas viršutiniame tekstiniame lauke.",
 'yourtext'                         => 'Jūsų tekstas',
 'storedversion'                    => 'Išsaugota versija',
 'nonunicodebrowser'                => "'''ĮSPĖJIMAS: Jūsų naršyklė nepalaiko unikodo. Kad būtų saugu redaguoti puslapį, ne ASCII simboliai redagavimo lauke bus rodomi kaip šešioliktainiai kodai.'''",
@@ -821,9 +831,6 @@ Jūs taip pat pasižadate, kad tai jūsų pačių rašytas turinys arba kopijuot
 Taip pat jūs pasižadate, kad tai jūsų pačių rašytas tekstas arba kopijuotas
 iš viešų ar panašių nemokamų šaltinių (detaliau - $1).
 '''NEKOPIJUOKITE AUTORINĖMIS TEISĖMIS APSAUGOTŲ DARBŲ BE LEIDIMO!'''",
-'longpagewarning'                  => "'''DĖMESIO: Šis puslapis yra $1 kilobaitų ilgio; kai kurios
-naršyklės gali turėti problemų redaguojant puslapius beveik ar virš 32 kB.
-Prašome pamėginti puslapį padalinti į keletą smulkesnių dalių.'''",
 'longpageerror'                    => "'''KLAIDA: Tekstas, kurį pateikėte, yra $1 kilobaitų ilgio,
 kuris yra didesnis nei daugiausiai leistini $2 kilobaitai. Jis nebus išsaugotas.'''",
 'readonlywarning'                  => "'''DĖMESIO: Duomenų bazė buvo užrakinta techninei profilaktikai, todėl šiuo metu negalėsite išsaugoti savo pakeitimų. Siūlome nusikopijuoti tekstą į tekstinį failą ir vėliau jį čia išsaugoti.'''
@@ -1041,10 +1048,24 @@ Prašome patikrinti sąrašus.',
 Žiūrėkite [[Special:IPBlockList|IP blokavimų sąrašą]], kad rastumėte dabar veikiančius draudimus ir blokavimus.',
 
 # Revision move
+'moverevlogentry'              => '{{PLURAL:$3|perkelta $3 versija|perkeltos $3 versijos|perkeltos $3 versijų}} iš $1 į $2',
 'revisionmove'                 => 'Daugiau versijų iš „$1“',
+'revmove-explain'              => 'Šie pakeitimai bus perkelti iš $1 į nurodytą paskirties puslapį. Jeigu paskirties puslapio nėra, jis bus sukurtas. Priešingu atveju šie pakeitimai bus sujungti su puslapio istorija.',
+'revmove-legend'               => 'Nurodykite paskirties puslapį ir komentarą',
 'revmove-submit'               => 'Perkelti versijas į pasirinktą puslapį',
 'revisionmoveselectedversions' => 'Perkelti pasirinktas versijas',
 'revmove-reasonfield'          => 'Priežastis:',
+'revmove-titlefield'           => 'Paskirties puslapis:',
+'revmove-badparam-title'       => 'Netinkami parametrai',
+'revmove-badparam'             => 'Jūsų užklausoje yra negalimų parametrų ar jų nepakanka.
+Grįžkite į ankstesnį puslapį ir bandykite dar kartą.',
+'revmove-norevisions-title'    => 'Neleistina paskirties versija',
+'revmove-norevisions'          => 'Nenurodėte nė vienos versijos arba nurodyta versija neegzistuoja.',
+'revmove-nullmove-title'       => 'Blogas pavadinimas',
+'revmove-nullmove'             => 'Puslapis, į kurį perkeliamas keitimas, negali būti tokio paties pavadinimo, kaip šaltinio puslapis.
+Grįžkite į ankstesnį puslapį ir pasirinkite kitą pavadinimą iš "$1".',
+'revmove-success-existing'     => '{{PLURAL:$1|[[$2]] keitimas buvo perkeltas|$1 [[$2]] keitimai buvo perkelti}} į egzistuojantį puslapį [[$3]].',
+'revmove-success-created'      => '{{PLURAL:$1|Vienas [[$2]] keitimas buvo|$1 [[$2]] keitimai buvo}} perkelti į naujai sukurtą puslapį [[$3]].',
 
 # History merging
 'mergehistory'                     => 'Sujungti puslapių istorijas',
@@ -1079,11 +1100,13 @@ Prašome patikrinti sąrašus.',
 # Diffs
 'history-title'            => '„$1“ versijų istorija',
 'difference'               => '(Skirtumai tarp versijų)',
+'difference-multipage'     => '(Skirtumai tarp puslapių)',
 'lineno'                   => 'Eilutė $1:',
 'compareselectedversions'  => 'Palyginti pasirinktas versijas',
 'showhideselectedversions' => 'Rodyti/slėpti pasirinktas versijas',
 'editundo'                 => 'atšaukti',
-'diff-multi'               => '($1 {{PLURAL:$1|tarpinis keitimas nėra rodomas|tarpiniai keitimai nėra rodomi|tarpinių keitimų nėra rodoma}}.)',
+'diff-multi'               => '($2 {{PLURAL:$2|naudotojo|naudotojų|naudotojų}} $1 {{PLURAL:$1|tarpinis keitimas nėra rodomas|tarpiniai keitimai nėra rodomi|tarpinių keitimų nėra rodoma}})',
+'diff-multi-manyusers'     => '(daugiau nei $2 {{PLURAL:$2|naudotojo|naudotojų|naudotojų}} $1 {{PLURAL:$1|tarpinis keitimas nėra rodomas|tarpiniai keitimai nėra rodomi|tarpinių keitimų nėra rodoma}})',
 
 # Search results
 'searchresults'                    => 'Paieškos rezultatai',
@@ -1193,6 +1216,7 @@ Prašome patikrinti sąrašus.',
 'contextlines'                  => 'Eilučių rezultate:',
 'contextchars'                  => 'Konteksto simbolių eilutėje:',
 'stub-threshold'                => 'Puslapį žymėti <a href="#" class="stub">nebaigtu</a>, jei mažesnis nei:',
+'stub-threshold-disabled'       => 'Išjungtas',
 'recentchangesdays'             => 'Rodomos dienos paskutinių keitimų sąraše:',
 'recentchangesdays-max'         => '(daugiausiai $1 {{PLURAL:$1|diena|dienos|dienų}})',
 'recentchangescount'            => 'Numatytasis rodomas keitimų skaičius:',
@@ -1266,6 +1290,8 @@ Jei jūs jį įvesite, jis bus naudojamas pažymėti jūsų darbą.',
 'prefs-advancedsearchoptions'   => 'Papildomi nustatymai',
 'prefs-advancedwatchlist'       => 'Papildomi nustatymai',
 'prefs-displayrc'               => 'Rodymo nustatymai',
+'prefs-displaysearchoptions'    => 'Rodymo nuostatos',
+'prefs-displaywatchlist'        => 'Rodymo nuostatos',
 'prefs-diffs'                   => 'Skirtumai',
 
 # User rights
@@ -1427,14 +1453,9 @@ teisės",
 'recentchanges-legend'              => 'Naujausių keitimų parinktys',
 'recentchangestext'                 => 'Šiame puslapyje yra patys naujausi pakeitimai šiame projekte.',
 'recentchanges-feed-description'    => 'Sekite pačius naujausius projekto keitimus šiame šaltinyje.',
-'recentchanges-label-legend'        => 'Paaiškinimai: $1.',
-'recentchanges-legend-newpage'      => '$1 - naujas puslapis',
 'recentchanges-label-newpage'       => 'Šiuo keitimu sukurtas naujas puslapis',
-'recentchanges-legend-minor'        => '$1 - smulkus pakeitimas',
 'recentchanges-label-minor'         => 'Tai smulkus pakeitimas',
-'recentchanges-legend-bot'          => '$1 - automatizuotas keitimas',
 'recentchanges-label-bot'           => 'Šį keitimą atliko automatinė programa',
-'recentchanges-legend-unpatrolled'  => '$1 - nepatikrintas keitimas',
 'recentchanges-label-unpatrolled'   => 'Šis keitimas dar nebuvo patikrintas',
 'rcnote'                            => "Žemiau yra {{PLURAL:$1|'''1''' pakeitimas|paskutiniai '''$1''' pakeitimai|paskutinių '''$1''' pakeitimų}} per {{PLURAL:$2|dieną|paskutiniąsias '''$2''' dienas|paskutiniųjų '''$2''' dienų}} skaičiuojant nuo $5, $4.",
 'rcnotefrom'                        => "Žemiau yra pakeitimai pradedant '''$2''' (rodoma iki '''$1''' pakeitimų).",
@@ -1520,6 +1541,7 @@ Norėdami panaudoti įkeltą failą puslapyje, naudokite tokias nuorodas:
 'filename-tooshort'           => 'Failo pavadinimas per trumpas.',
 'filetype-banned'             => 'Šis failo tipas yra uždraustas.',
 'verification-error'          => 'Šis failas nepraėjo patikrinimo.',
+'hookaborted'                 => 'Pakeitimą, kurį bandėte atlikti, nutraukė priedo gaudlys.',
 'illegal-filename'            => 'Failo vardas neleidžiamas.',
 'overwrite'                   => 'Perrašyti esamą failą neleidžiama.',
 'unknown-error'               => 'Įvyko nežinoma klaida.',
@@ -1541,7 +1563,7 @@ Prašome pasirinkti kitą vardą.",
 'fileexists-thumbnail-yes'    => "Failas turbūt yra sumažinto dydžio failas ''(miniatiūra)''. [[$1|thumb]]
 Prašome peržiūrėti failą '''<tt>[[:$1]]</tt>'''.
 Jeigu tai yra toks pats pradinio dydžio paveikslėlis, tai įkelti papildomos miniatūros nereikia.",
-'file-thumbnail-no'           => "Failo pavadinimas prasideda  '''<tt>$1</tt>'''. 
+'file-thumbnail-no'           => "Failo pavadinimas prasideda  '''<tt>$1</tt>'''.
 Atrodo, kad yra sumažinto dydžio paveikslėlis ''(miniatiūra)''.
 Jei jūs turite šį paveisklėlį pilna raiška, įkelkite šitą, priešingu atveju prašome pakeisti failo pavadinimą.",
 'fileexists-forbidden'        => 'Failas tokiu pačiu vardu jau egzistuoja ir negali būti perrašytas;
@@ -1550,7 +1572,6 @@ prašome eiti atgal ir įkelti šį failą kitu vardu. [[File:$1|thumb|center|$1
 Jei visvien norite įkelti savo failą, prašome eiti atgal ir įkelti šį failą kitu vardu. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Šis failas yra {{PLURAL:$1|šio failo|šių failų}} dublikatas:',
 'file-deleted-duplicate'      => 'Failas, identiškas šiam failui ([[$1]]), seniau buvo ištrintas. Prieš įkeldami jį vėl patikrinkite šio failo ištrynimo istoriją.',
-'successfulupload'            => 'Įkelta sėkmingai',
 'uploadwarning'               => 'Dėmesio',
 'uploadwarning-text'          => 'Prašome pakeisti failo aprašymą ir bandykite dar kartą.',
 'savefile'                    => 'Išsaugoti failą',
@@ -1578,11 +1599,14 @@ Patikrinkite ''file_uploads'' nustatą.",
 Jūs turėtumėte nuspręsti, ar verta toliau įkeldinėti šį failą.
 Šio failo šalinimų istorija yra pateikta dėl patogumo:",
 'filename-bad-prefix'         => "Jūsų įkeliamas failas prasideda su '''„$1“''', bet tai yra neapibūdinantis pavadinimas, dažniausiai priskirtas skaitmeninių kamerų. Prašome suteikti labiau apibūdinantį pavadinimą savo failui.",
-'upload-successful-msg'       => 'Jūsų įkėlimą galima rasti čia: $1',
+'upload-success-subj'         => 'Įkelta sėkmingai',
+'upload-success-msg'          => 'Jūsų įkėlimas iš [$2] buvo sėkmingas. Jį galima rasti čia: [[:{{ns:file}}:$1]]',
 'upload-failure-subj'         => 'Įkėlimo problema',
-'upload-failure-msg'          => 'Įvyko įkėlimo problema:
+'upload-failure-msg'          => 'Įvyko įkėlimo iš [$2] problema:
 
 $1',
+'upload-warning-subj'         => 'Įkėlimo įspėjimas',
+'upload-warning-msg'          => 'Įvyko įkėlimo iš [$2] problema. Jums reikėtų grįžti į [[Special:Upload/stash/$1|įkėlimo formą]], norint išspręsti šią problemą.',
 
 'upload-proto-error'        => 'Neteisingas protokolas',
 'upload-proto-error-text'   => 'Nuotoliniai įkėlimas reikalauja, kad URL prasidėtų <code>http://</code> arba <code>ftp://</code>.',
@@ -1643,6 +1667,7 @@ Paspaudę ant stulpelio antraštės pakeiste išrikiavimą.',
 'listfiles_search_for'  => 'Ieškoti failo pavadinimo:',
 'imgfile'               => 'failas',
 'listfiles'             => 'Failų sąrašas',
+'listfiles_thumb'       => 'Miniatiūra',
 'listfiles_date'        => 'Data',
 'listfiles_name'        => 'Pavadinimas',
 'listfiles_user'        => 'Naudotojas',
@@ -1651,41 +1676,42 @@ Paspaudę ant stulpelio antraštės pakeiste išrikiavimą.',
 'listfiles_count'       => 'Versijos',
 
 # File description page
-'file-anchor-link'          => 'Failas',
-'filehist'                  => 'Paveikslėlio istorija',
-'filehist-help'             => 'Paspauskite ant datos/laiko, kad pamatytumėte failą tokį, koks jis buvo tuo metu.',
-'filehist-deleteall'        => 'trinti visus',
-'filehist-deleteone'        => 'trinti',
-'filehist-revert'           => 'grąžinti',
-'filehist-current'          => 'dabartinis',
-'filehist-datetime'         => 'Data/Laikas',
-'filehist-thumb'            => 'Miniatiūra',
-'filehist-thumbtext'        => 'Versijos $1 miniatiūra',
-'filehist-nothumb'          => 'Nėra miniatiūros',
-'filehist-user'             => 'Naudotojas',
-'filehist-dimensions'       => 'Matmenys',
-'filehist-filesize'         => 'Failo dydis',
-'filehist-comment'          => 'Komentaras',
-'filehist-missing'          => 'Failo nėra',
-'imagelinks'                => 'Failų nuorodos',
-'linkstoimage'              => '{{PLURAL:$1|Šis puslapis|Šie puslapiai}} nurodo į šį failą:',
-'linkstoimage-more'         => 'Daugiau nei $1 {{PLURAL:$1|puslapis|puslapiai|puslapių}} rodo į šį failą.
+'file-anchor-link'                  => 'Failas',
+'filehist'                          => 'Paveikslėlio istorija',
+'filehist-help'                     => 'Paspauskite ant datos/laiko, kad pamatytumėte failą tokį, koks jis buvo tuo metu.',
+'filehist-deleteall'                => 'trinti visus',
+'filehist-deleteone'                => 'trinti',
+'filehist-revert'                   => 'grąžinti',
+'filehist-current'                  => 'dabartinis',
+'filehist-datetime'                 => 'Data/Laikas',
+'filehist-thumb'                    => 'Miniatiūra',
+'filehist-thumbtext'                => 'Versijos $1 miniatiūra',
+'filehist-nothumb'                  => 'Nėra miniatiūros',
+'filehist-user'                     => 'Naudotojas',
+'filehist-dimensions'               => 'Matmenys',
+'filehist-filesize'                 => 'Failo dydis',
+'filehist-comment'                  => 'Komentaras',
+'filehist-missing'                  => 'Failo nėra',
+'imagelinks'                        => 'Failų nuorodos',
+'linkstoimage'                      => '{{PLURAL:$1|Šis puslapis|Šie puslapiai}} nurodo į šį failą:',
+'linkstoimage-more'                 => 'Daugiau nei $1 {{PLURAL:$1|puslapis|puslapiai|puslapių}} rodo į šį failą.
 Šis sąrašas rodo tik {{PLURAL:$1|puslapio|pirmų $1 puslapių}} nuorodas į šį failą.
 Yra pasiekiamas ir [[Special:WhatLinksHere/$2|visas sąrašas]].',
-'nolinkstoimage'            => 'Į failą nenurodo joks puslapis.',
-'morelinkstoimage'          => 'Žiūrėti [[Special:WhatLinksHere/$1|daugiau nuorodų]] į šį failą.',
-'redirectstofile'           => '{{PLURAL:$1|Šis failas|$1 failai}} peradresuoja į šį failą:',
-'duplicatesoffile'          => 'Šis failas turi {{PLURAL:$1|$1 dublikatą|$1 dublikatus|$1 dublikatų}} ([[Special:FileDuplicateSearch/$2|daugiau informacijos]]):',
-'sharedupload'              => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.',
-'sharedupload-desc-there'   => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.
+'nolinkstoimage'                    => 'Į failą nenurodo joks puslapis.',
+'morelinkstoimage'                  => 'Žiūrėti [[Special:WhatLinksHere/$1|daugiau nuorodų]] į šį failą.',
+'redirectstofile'                   => '{{PLURAL:$1|Šis failas|$1 failai}} peradresuoja į šį failą:',
+'duplicatesoffile'                  => 'Šis failas turi {{PLURAL:$1|$1 dublikatą|$1 dublikatus|$1 dublikatų}} ([[Special:FileDuplicateSearch/$2|daugiau informacijos]]):',
+'sharedupload'                      => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.',
+'sharedupload-desc-there'           => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.
 Norėdami sužinoti daugiau, žiūrėkite [$2 failo aprašymą].',
-'sharedupload-desc-here'    => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.
+'sharedupload-desc-here'            => 'Šis failas yra iš $1 ir gali būti naudojamas kituose projektuose.
 Informacija iš [$2 failo aprašymo puslapio] yra pateikiama žemiau.',
-'filepage-nofile'           => 'Joks failas su duotu pavadinimu neegzistuoja.',
-'filepage-nofile-link'      => 'Joks failas su duotu pavadinimu neegzistuoja, bet vis dar galite [$1 jį įkelti].',
-'uploadnewversion-linktext' => 'Įkelti naują failo versiją',
-'shared-repo-from'          => 'iš $1',
-'shared-repo'               => 'bendrosios failų saugyklos',
+'filepage-nofile'                   => 'Joks failas su duotu pavadinimu neegzistuoja.',
+'filepage-nofile-link'              => 'Joks failas su duotu pavadinimu neegzistuoja, bet vis dar galite [$1 jį įkelti].',
+'uploadnewversion-linktext'         => 'Įkelti naują failo versiją',
+'shared-repo-from'                  => 'iš $1',
+'shared-repo'                       => 'bendrosios failų saugyklos',
+'shared-repo-name-wikimediacommons' => 'Vikiteka',
 
 # File reversion
 'filerevert'                => 'Sugrąžinti $1',
@@ -1755,6 +1781,7 @@ Informacija iš [$2 failo aprašymo puslapio] yra pateikiama žemiau.',
 'statistics-edits'             => 'Puslapių redagavimų skaičius nuo {{SITENAME}} sukūrimo',
 'statistics-edits-average'     => 'Vidutinis redakcijų kiekis puslapiui',
 'statistics-views-total'       => 'Iš viso peržiūrų',
+'statistics-views-total-desc'  => 'Neegzistuojančių ir specialiųjų puslapių parodymai neįtraukti',
 'statistics-views-peredit'     => 'Peržiūrų skaičius redakcijai',
 'statistics-users'             => 'Registruotų [[Special:ListUsers|naudotojų]]',
 'statistics-users-active'      => 'Aktyvių naudotojų',
@@ -1770,7 +1797,7 @@ Puslapis laikomas daugiaprasmiu puslapiu, jei jis naudoja šabloną, kuris yra n
 'doubleredirects'            => 'Dvigubi peradresavimai',
 'doubleredirectstext'        => 'Šiame puslapyje yra puslapių, kurie nukreipia į kitus peradresavimo puslapius, sąrašas.
 Kiekvienoje eilutėje yra nuorodos į pirmąjį ir antrąjį peradresavimą, taip pat antrojo peradresavimo paskirtis, kuris paprastai yra „tikrasis“ paskirties puslapis, į kurį pirmasis peradresavimas ir turėtų rodyti.
-<s>Išbraukti</s> įrašai yra išspręsti.',
+<del>Išbraukti</del> įrašai yra išspręsti.',
 'double-redirect-fixed-move' => '[[$1]] buvo perkeltas, dabar tai peradresavimas į [[$2]]',
 'double-redirect-fixer'      => 'Peradresavimų tvarkyklė',
 
@@ -1793,6 +1820,8 @@ Kiekvienoje eilutėje yra nuorodos į pirmąjį ir antrąjį peradresavimą, tai
 'nmembers'                => '$1 {{PLURAL:$1|narys|nariai|narių}}',
 'nrevisions'              => '$1 {{PLURAL:$1|keitimas|keitimai|keitimų}}',
 'nviews'                  => '$1 {{PLURAL:$1|parodymas|parodymai|parodymų}}',
+'nimagelinks'             => 'Naudojama $1 {{PLURAL:$1|puslapyje|puslapiuose|puslapių}}',
+'ntransclusions'          => 'naudojama $1 {{PLURAL:$1|puslapyje|puslapiuose|puslapių}}',
 'specialpage-empty'       => 'Šiai ataskaitai nėra rezultatų.',
 'lonelypages'             => 'Vieniši puslapiai',
 'lonelypagestext'         => 'Į šiuos puslapius nėra nuorodų ar įtraukimų iš kitų {{SITENAME}} puslapių.',
@@ -1982,7 +2011,7 @@ El. pašto adresas, kurį įvedėte [[Special:Preferences|savo naudotojo nustaty
 # Watchlist
 'watchlist'            => 'Stebimi puslapiai',
 'mywatchlist'          => 'Stebimi puslapiai',
-'watchlistfor'         => "(naudotojo '''$1''')",
+'watchlistfor2'        => 'Naudotojo $1 $2',
 'nowatchlist'          => 'Neturite nei vieno stebimo puslapio.',
 'watchlistanontext'    => 'Prašome $1, kad peržiūrėtumėte ar pakeistumėte elementus savo stebimųjų sąraše.',
 'watchnologin'         => 'Neprisijungęs',
@@ -2103,7 +2132,8 @@ Paskutimas keitimas darytas naudotojo [[User:$3|$3]] ([[User talk:$3|Aptarimas]]
 grąžinta prieš tai buvusi $2 versija.',
 
 # Edit tokens
-'sessionfailure' => 'Atrodo yra problemų su jūsų prisijungimo sesija; šis veiksmas buvo atšauktas kaip atsargumo priemonė prieš sesijos vogimą.
+'sessionfailure-title' => 'Sesijos klaida',
+'sessionfailure'       => 'Atrodo yra problemų su jūsų prisijungimo sesija; šis veiksmas buvo atšauktas kaip atsargumo priemonė prieš sesijos vogimą.
 Prašome paspausti „atgal“ ir perkraukite puslapį iš kurio atėjote, ir pamėginkite vėl.',
 
 # Protect
@@ -2247,6 +2277,7 @@ Pateikiamas paskutinis blokavimo istorijos įrašas.',
 Paskutinis blokavimo įrašas pateikiamas žemiau:',
 'sp-contributions-search'              => 'Ieškoti įnašo',
 'sp-contributions-username'            => 'IP adresas arba naudotojo vardas:',
+'sp-contributions-toponly'             => 'Rodyti tik paskutinius keitimus',
 'sp-contributions-submit'              => 'Ieškoti',
 
 # What links here
@@ -2307,7 +2338,6 @@ Aplankykite [[Special:IPBlockList|IP blokavimų istoriją]] norėdami jį perži
 'ipb-edit-dropdown'               => 'Redaguoti blokavimų priežastis',
 'ipb-unblock-addr'                => 'Atblokuoti $1',
 'ipb-unblock'                     => 'Atblokuoti naudotojo vardą arba IP adresą',
-'ipb-blocklist-addr'              => 'Egzistuojantys $1 blokavimai',
 'ipb-blocklist'                   => 'Rodyti egzistuončius blokavimus',
 'ipb-blocklist-contribs'          => '$1 indėlis',
 'unblockip'                       => 'Atblokuoti naudotoją',
@@ -2429,6 +2459,18 @@ o egzistuojančių puslapių sugadinti negalite.
 Jei pervadinate populiarų puslapį, tai gali sukelti nepageidaujamų
 šalutinių efektų, dėl to šį veiksmą vykdykite tik įsitikinę,
 kad suprantate visas pasekmes.",
+'movepagetext-noredirectfixer' => "Naudodamiesi žemiau pateikta forma, pervadinsite puslapį perkeldami visą jo istoriją į naująjį pavadinimą.
+Senasis pavadinimas taps nukreipiamuoju puslapiu į naująjį.
+Nuorodos į senąjį puslapį nebus automatiškai pakeistos, todėl būtinai
+patikrinkite, ar nesukūrėte [[Special:DoubleRedirects|dvigubų]] ar [[Special:BrokenRedirects|neveikiančių]] nukreipimų.
+Jūs esate atsakingas už tai, kad nuorodos rodytų į ten, kur ir norėta.
+
+Primename, kad puslapis '''nebus''' pervadintas, jei jau yra puslapis nauju pavadinimu, nebent tas puslapis yra tuščias arba nukreipiamasis ir neturi redagavimo istorijos.
+Taigi, jūs galite pervadinti puslapį seniau naudotu vardu, jei prieš tai jis buvo per klaidą pervadintas, o egzistuojančių puslapių sugadinti negalite.
+
+'''Dėmesio!'''
+Jei pervadinate populiarų puslapį, tai gali sukelti nepageidaujamų šalutinių efektų,
+dėl to šį veiksmą vykdykite tik įsitikinę, kad suprantate visas pasekmes.",
 'movepagetalktext'             => "Susietas aptarimo puslapis bus automatiškai perkeltas kartu su juo, '''išskyrus:''':
 *Puslapis nauju pavadinimu jau turi netuščią aptarimo puslapį, arba
 *Paliksite žemiau esančia varnelę nepažymėtą.
@@ -2487,6 +2529,7 @@ Paskirties puslapis „[[:$1]]“ jau yra. Ar norite jį ištrinti, kad galėtum
 'immobile-source-page'         => 'Šio puslapio perkelti negalima.',
 'immobile-target-page'         => 'Negalima perkelti į paskirtąją vietą.',
 'imagenocrossnamespace'        => 'Negalima pervadinti failo į ne failo vardų sritį',
+'nonfile-cannot-move-to-file'  => 'Negalima perkelti ne failo į failų vardų sritį',
 'imagetypemismatch'            => 'Naujas failo plėtinys neatitinka jo tipo',
 'imageinvalidfilename'         => 'Failo pavadinimas yra klaidingas',
 'fix-double-redirects'         => 'Atnaujinti peradresavimus, kad šie rodytų į originalų straipsnio pavadinimą',
@@ -2712,6 +2755,8 @@ Leidžia pridėti atmetimo priežastį komentaruose',
 'skinname-myskin'      => 'Mano išvaizda',
 'skinname-chick'       => 'Chick',
 'skinname-simple'      => 'Paprasta',
+'skinname-modern'      => 'Moderni',
+'skinname-vector'      => 'Vektorinė',
 
 # Math options
 'mw_math_png'    => 'Visada formuoti PNG',
@@ -2780,6 +2825,9 @@ Jį paleidus jūsų sistema gali būti pažeista.",
 'show-big-image-thumb' => '<small>Šios peržiūros dydis: $1 × $2 taškų</small>',
 'file-info-gif-looped' => 'ciklinis',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|kadras|kadrai|kadrų}}',
+'file-info-png-looped' => 'ciklinis',
+'file-info-png-repeat' => 'grota $1 {{PLURAL:$1|kartą|kartus|kartų}}',
+'file-info-png-frames' => '$1 {{PLURAL:$1|kadras|kadrai|kadrų}}',
 
 # Special:NewFiles
 'newimages'             => 'Naujausių failų galerija',
@@ -3181,6 +3229,7 @@ Prašome patvirtinti, kad tikrai norite iš naujo sukurti puslapį.",
 'table_pager_first'        => 'Pirmas puslapis',
 'table_pager_last'         => 'Paskutinis puslapis',
 'table_pager_limit'        => 'Rodyti po $1 puslapyje',
+'table_pager_limit_label'  => 'Elementai puslapyje:',
 'table_pager_limit_submit' => 'Rodyti',
 'table_pager_empty'        => 'Jokių rezultatų',
 
@@ -3210,8 +3259,8 @@ Prašome patvirtinti, kad tikrai norite iš naujo sukurti puslapį.",
 'watchlistedit-noitems'        => 'Jūsų stebimųjų sąraše nėra jokių puslapių.',
 'watchlistedit-normal-title'   => 'Redaguoti stebimųjų sąrašą',
 'watchlistedit-normal-legend'  => 'Šalinti puslapius iš stebimųjų sąrašo',
-'watchlistedit-normal-explain' => 'Žemiau yra rodomi puslapiai jūsų stebimųjų sąraše. 
-Norėdami pašalinti puslapį, prie jo uždėkite varnelė ir paspauskite „{{int:Watchlistedit-normal-submit}}“. 
+'watchlistedit-normal-explain' => 'Žemiau yra rodomi puslapiai jūsų stebimųjų sąraše.
+Norėdami pašalinti puslapį, prie jo uždėkite varnelė ir paspauskite „{{int:Watchlistedit-normal-submit}}“.
 Jūs taip pat galite [[Special:Watchlist/raw|redaguoti grynąjį stebimųjų sąrašą]].',
 'watchlistedit-normal-submit'  => 'Šalinti puslapius',
 'watchlistedit-normal-done'    => '$1 {{PLURAL:$1|puslapis buvo pašalintas|puslapiai buvo pašalinti|puslapių buvo pašalinta}} iš jūsų stebimųjų sąrašo:',
@@ -3253,6 +3302,13 @@ Jūs taip pat galite [[Special:Watchlist/edit|naudoti standartinį redaktorių]]
 'version-hook-subscribedby'        => 'Užsakyta',
 'version-version'                  => '(Versija $1)',
 'version-license'                  => 'Licencija',
+'version-poweredby-credits'        => "Šis projektas naudoja '''[http://www.mediawiki.org/ MediaWiki]''', autorystės teisės © 2001-$1 $2.",
+'version-poweredby-others'         => 'kiti',
+'version-license-info'             => 'MediaWiki yra nemokama programinė įranga; galite ją platinti ir/arba modifikuoti pagal GNU General Public License, kurią publikuoja Free Software Foundation; taikoma 2-oji licenzijos versija arba (Jūsų pasirinkimu) bet kuri vėlesnė versija. 
+
+MediaWiki yra platinama su viltimi, kad ji bus naudinga, bet BE JOKIOS GARANTIJOS; be jokios numanomos PARDAVIMO arba TINKAMUMO TAM TIKRAM TIKSLUI garantijos. Daugiau informacijos galite sužinoti GNU General Public License. 
+
+Jūs turėjote gauti [{{SERVER}}{{SCRIPTPATH}}/COPYING GNU General Public License kopiją] kartu su šia programa, jei ne, rašykite Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, JAV arba [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html perskaitykite ją internete].',
 'version-software'                 => 'Įdiegta programinė įranga',
 'version-software-product'         => 'Produktas',
 'version-software-version'         => 'Versija',
@@ -3322,6 +3378,15 @@ Jūs taip pat galite [[Special:Watchlist/edit|naudoti standartinį redaktorių]]
 'tags-edit'               => 'taisyti',
 'tags-hitcount'           => '$1 {{PLURAL:$1|pakeitimas|pakeitimai|pakeitimų}}',
 
+# Special:ComparePages
+'comparepages'     => 'Palyginti puslapius',
+'compare-selector' => 'Palyginti puslapio keitimus',
+'compare-page1'    => 'Puslapis 1',
+'compare-page2'    => 'Puslapis 2',
+'compare-rev1'     => 'Pirma versija',
+'compare-rev2'     => 'Antra versija',
+'compare-submit'   => 'Palyginti',
+
 # Database error messages
 'dberr-header'      => 'Ši svetainė turi problemų.',
 'dberr-problems'    => 'Atsiprašome! Svetainei iškilo techninių problemų.',
@@ -3342,5 +3407,9 @@ Jūs taip pat galite [[Special:Watchlist/edit|naudoti standartinį redaktorių]]
 'htmlform-submit'              => 'Siųsti',
 'htmlform-reset'               => 'Atšaukti pakeitimus',
 'htmlform-selectorother-other' => 'Kita',
+
+# SQLite database support
+'sqlite-has-fts' => '$1 su visatekstės paieškos palaikymu',
+'sqlite-no-fts'  => '$1 be visatekstės paieškos palaikymo',
 
 );

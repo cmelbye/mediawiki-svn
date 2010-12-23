@@ -1,4 +1,25 @@
 <?php
+/**
+ * Script to fix bug 20757.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Maintenance ExternalStorage
+ */
 
 require_once( dirname( __FILE__ ) . '/../Maintenance.php' );
 
@@ -14,7 +35,7 @@ class FixBug20757 extends Maintenance {
 		$this->addOption( 'dry-run', 'Report only' );
 		$this->addOption( 'start', 'old_id to start at', false, true );
 	}
-	
+
 	function execute() {
 		$dbr = wfGetDB( DB_SLAVE );
 		$dbw = wfGetDB( DB_MASTER );
@@ -130,7 +151,6 @@ class FixBug20757 extends Maintenance {
 			}
 
 			// Process the stubs
-			$stubsToFix = array();
 			foreach ( $stubs as $primaryId => $stub ) {
 				$secondaryId = $stub['secondaryId'];
 				if ( !isset( $trackedBlobs[$secondaryId] ) ) {
@@ -145,7 +165,7 @@ class FixBug20757 extends Maintenance {
 						print "$primaryId: unrecoverable: secondary row is missing\n";
 						++$numBad;
 					} elseif ( $this->isUnbrokenStub( $stub, $secondaryRow ) ) {
-						// Not broken yet, and not in the tracked clusters so it won't get 
+						// Not broken yet, and not in the tracked clusters so it won't get
 						// broken by the current RCT run.
 						++$numGood;
 					} elseif ( strpos( $secondaryRow->old_flags, 'external' ) !== false ) {
@@ -206,7 +226,7 @@ class FixBug20757 extends Maintenance {
 						__METHOD__
 					);
 
-					// Add a blob_tracking row so that the new reference can be recompressed 
+					// Add a blob_tracking row so that the new reference can be recompressed
 					// without needing to run trackBlobs.php again
 					$dbw->insert( 'blob_tracking',
 						array(

@@ -22,7 +22,7 @@ $messages = array(
 'tog-showtoolbar'          => "Kamukile hloli ye ng'i toolbar (bulukezi JavaScript)",
 'tog-editondblclick'       => "Hloli ye ng'i petulo di 'klik' dubo (JavaScript)",
 'tog-editsection'          => "Nyembulisize [hloli ye ng'i] di akes di lyangutukezi ling'ki",
-'tog-rememberpassword'     => 'Askevusize zwa menuhile kwa bye kompyuta.',
+'tog-rememberpassword'     => 'Askevusize zwa menuhile kwa bye kompyuta (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'       => 'Pusize petulo a hloli di zwa mukoloko di kentezi',
 'tog-watchdefault'         => "Pusize petulo a hloli ye ng'i di zwa mukoloko di kentezi",
 'tog-watchmoves'           => 'Pusize petulo a nyanganyisoze di zwa mukoloko di kentezi',
@@ -277,7 +277,7 @@ Query: $2",
 'yourname'                => 'Sebelu:',
 'yourpassword'            => 'Sebu dafi:',
 'yourpasswordagain'       => 'Ritapi sebu dafi:',
-'remembermypassword'      => 'Askevusize zwa menuhile kwa bye kompyuta.',
+'remembermypassword'      => 'Askevusize zwa menuhile kwa bye kompyuta (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'          => 'Zwa domeni:',
 'login'                   => 'Menuhile',
 'nav-login-createaccount' => 'Menuhile / ipupezi sebelu',
@@ -398,8 +398,6 @@ A sa nca di bufosi, tampi '''back'''.",
 'copyrightwarning'           => "Xete kenki di {{SITENAME}} sa rilisi kwa $2 (fatukile $1 di pagu). A ni tokwezi zwa selt sa kenki a ridistributi kwa tokwi, ni bulukezi.<br />
 A sumekezi zwa selt sa dya, a kopisize di publiki domeni, a ike risorsi.
 '''NI BULUKEZI SELT KOPINITUMELELO E NI TUMELELO!'''",
-'longpagewarning'            => "'''AGTU: Bye petulo sa $1 kilobytes; browser sa di bufosikaku hloli ye ng'i petulo plusu di 32 kilobytes.
-Konsidisize takubikinalisize.'''",
 'templatesused'              => 'Yegani sebelize di bye petulo:',
 'templatesusedpreview'       => 'Yegani sebelize kwa bye PendiBe:',
 'template-protected'         => '(sa bukelezi)',
@@ -728,7 +726,6 @@ dicon sa sosize ni sa meli di kupo sebelu.',
 # Watchlist
 'watchlist'         => 'Zwa mukoloko di kentezi',
 'mywatchlist'       => 'Zwa mukoloko di kentezi',
-'watchlistfor'      => "(di '''$1''')",
 'watchnologin'      => 'A ni sa menuhile',
 'watchnologintext'  => "A sa [[Special:UserLogin|menuhile]] di hloli ye ng'i zwa mukoloko di kentezi.",
 'addedwatch'        => 'Tumbelize a mukoloko di kentezi',
@@ -886,7 +883,7 @@ Petulo sa '''no''' nyanganyisize di nca nom e nca nom sa xete, xete a sa petulo 
 Petulo populari sa drastiki bufosi e nyanganyisize;
 a sa gukilize di nyanganyisize.",
 'movepagetalktext' => "Bulelezi sa nyanganyisize '''teri:'''
-*Bulelezi e selt sa kwa nca nom, 
+*Bulelezi e selt sa kwa nca nom,
 *Okižekilize sisebelisoni.
 
 Teri yaki, a nyanganyisize.",

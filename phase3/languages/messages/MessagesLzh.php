@@ -59,9 +59,9 @@ $digitTransformTable = array(
 	',' => '',
 );
 
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Default messages
-#-------------------------------------------------------------------
+# -------------------------------------------------------------------
 # Allowed characters in keys are: A-Z, a-z, 0-9, underscore (_) and
 # hyphen (-). If you need more characters, you may be able to change
 # the regex in MagicWord::initRegex
@@ -85,6 +85,7 @@ $messages = array(
 'tog-rememberpassword'        => '符節通越（達至$1日）',
 'tog-watchcreations'          => '哨己撰',
 'tog-watchdefault'            => '哨己纂',
+'tog-minordefault'            => '慣為校',
 'tog-previewontop'            => '頂草覽',
 'tog-previewonfirst'          => '覽首修',
 'tog-nocache'                 => '莫謄文',
@@ -232,17 +233,6 @@ $messages = array(
 'vector-action-protect'          => '緘',
 'vector-action-undelete'         => '覽刪',
 'vector-action-unprotect'        => '啟',
-'vector-namespace-category'      => '類',
-'vector-namespace-help'          => '助',
-'vector-namespace-image'         => '檔',
-'vector-namespace-main'          => '文',
-'vector-namespace-media'         => '雅',
-'vector-namespace-mediawiki'     => '訊',
-'vector-namespace-project'       => '策',
-'vector-namespace-special'       => '奇',
-'vector-namespace-talk'          => '議',
-'vector-namespace-template'      => '模',
-'vector-namespace-user'          => '齋',
 'vector-simplesearch-preference' => '增尋之案（限Vector皮）',
 'vector-view-create'             => '立',
 'vector-view-edit'               => '纂',
@@ -312,6 +302,9 @@ $messages = array(
 欲試候之。
 
 $1',
+'pool-timeout'      => '待鎖超時',
+'pool-queuefull'    => '池隊滿之',
+'pool-errorunknown' => '未明之錯',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => '述{{SITENAME}}',
@@ -431,7 +424,10 @@ $1',
 'viewsource'           => '覽源',
 'viewsourcefor'        => '$1',
 'actionthrottled'      => '無為',
-'protectedinterface'   => '此頁司版，緘之以遠濫。',
+'actionthrottledtext'  => '基反垃圾之量，於短時中限欲，爾之上限已過。數分後再試之。',
+'protectedpagetext'    => '該頁被錮無纂也。',
+'viewsourcetext'       => '爾可視及複之本頁之原始碼。',
+'protectedinterface'   => '此頁司版，錮之以遠濫。',
 'editinginterface'     => "'''警示：'''此頁司版，一髮牽身，惠慎之。如譯之，可慮[http://translatewiki.net/wiki/Main_Page?setlang=zh-hant translatewiki.net]也，為MediaWiki軟件本地化之計劃也。",
 'sqlhidden'            => '（SQL隱然）',
 'cascadeprotected'     => '此頁"迭緘"矣。$1頁牽連如下：
@@ -456,7 +452,8 @@ $2',
 'yourname'                   => '名',
 'yourpassword'               => '符節',
 'yourpasswordagain'          => '復核節',
-'remembermypassword'         => '符節通越（達至$1日）',
+'remembermypassword'         => '吾之簿通越（達至$1日）',
+'securelogin-stick-https'    => '登後仍以HTTPS通接',
 'externaldberror'            => '認庫之錯或禁更爾之外簿。',
 'login'                      => '登簿',
 'nav-login-createaccount'    => '登簿、增簿',
@@ -472,6 +469,7 @@ $2',
 'gotaccount'                 => '有簿矣哉？往$1。',
 'gotaccountlink'             => '登簿',
 'createaccountmail'          => '同郵',
+'createaccountreason'        => '因：',
 'badretype'                  => '符節不合也。',
 'userexists'                 => '簿名存矣，惠更之',
 'loginerror'                 => '登簿誤然',
@@ -489,6 +487,7 @@ $2',
 'wrongpasswordempty'         => '缺符節，惠補之。',
 'passwordtooshort'           => '符節莫逾$1字。',
 'password-name-match'        => '符節與簿名異也。',
+'password-too-weak'          => '符節弱乃無用也。',
 'mailmypassword'             => '遣吾符節',
 'passwordremindertitle'      => '新臨符節自{{SITENAME}}',
 'passwordremindertext'       => '$1求遣{{SITENAME}}（$4）："$2"之臨符節為"$3"。日到有$5。
@@ -519,6 +518,18 @@ $2',
 請候再試之。',
 'loginlanguagelabel'         => '語：$1',
 'suspicious-userlogout'      => '爾欲無離也，可由壞瀏覽器或快枝代理呈送之。',
+
+# E-mail sending
+'php-mail-error-unknown' => '於 PHP mail() 參數現錯',
+
+# JavaScript password checks
+'password-strength'            => '預之符節強度：$1',
+'password-strength-bad'        => '壞',
+'password-strength-mediocre'   => '中等',
+'password-strength-acceptable' => '可受',
+'password-strength-good'       => '良好',
+'password-retype'              => '在此重鍵符節',
+'password-retype-mismatch'     => '符節不配',
 
 # Password reset dialog
 'resetpass'                 => '變符',
@@ -571,8 +582,9 @@ $2',
 'showdiff'                         => '示異',
 'anoneditwarning'                  => "'''警示：'''子未登簿，IP將誌。",
 'anonpreviewwarning'               => "''子未登簿，IP將誌。''",
-'missingsummary'                   => "''''醒示：'''子未概之，復存則文倍焉。",
+'missingsummary'                   => "'''醒示：'''子未概之，復「{{int:savearticle}}」則文倍焉。",
 'missingcommenttext'               => '請贊之',
+'missingcommentheader'             => "'''醒示：'''子未概標之，復「{{int:savearticle}}」則文倍焉。",
 'summary-preview'                  => '覽概：',
 'subject-preview'                  => '覽題：',
 'blockedtitle'                     => '子見禁',
@@ -622,11 +634,15 @@ $2',
 '''Internet Explorer:'''押''Ctrl''並點''重新整理''，或合鍵''Ctrl-F5''。",
 'usercssyoucanpreview'             => "'''訣：'''CSS應先「{{int:showpreview}}」而後存。",
 'userjsyoucanpreview'              => "'''訣：'''JavaScript應先「{{int:showpreview}}」而後存。",
-'usercsspreview'                   => "'''預覽CSS。'''
-'''尚未儲焉。'''",
-'userjspreview'                    => "'''預覽JavaScript。'''
-'''尚未儲焉。'''",
-'userinvalidcssjstitle'            => "'''警：'''\"\$1\"無此面版。自製者，全名務小寫，如{{ns:user}}:Foo/monobook.css 而非{{ns:user}}:Foo/Monobook.css",
+'usercsspreview'                   => "'''預覽簿CSS。'''
+'''尚未儲焉！'''",
+'userjspreview'                    => "'''預覽簿JavaScript。'''
+'''尚未儲焉！'''",
+'sitecsspreview'                   => "'''預覽此CSS。'''
+'''尚未儲焉！'''",
+'sitejspreview'                    => "'''預覽此JavaScript。'''
+'''尚未儲焉！'''",
+'userinvalidcssjstitle'            => "'''警：'''\"\$1\"無此面版。自製者，全名務小寫，如{{ns:user}}:Foo/vector.css 而非{{ns:user}}:Foo/Vector.css",
 'updated'                          => '（新）',
 'note'                             => "'''註'''",
 'previewnote'                      => "'''此乃預覽，尚未儲焉。'''",
@@ -640,8 +656,8 @@ $2',
 'editingsection'                   => '纂節$1',
 'editingcomment'                   => '贊$1',
 'editconflict'                     => '纂沖$1',
-'explainconflict'                  => '子纂與他人沖，上者時也，下者子也，望子合之。
-註，<b>惟</b>上文儲焉<br />',
+'explainconflict'                  => "子纂與他人沖，上者時也，下者子也，望子合之。
+註，'''{{int:savearticle}}'''上文儲焉",
 'yourtext'                         => '子也',
 'storedversion'                    => '時也',
 'nonunicodebrowser'                => "'''警示：覽器不識萬國碼，以十六進位數代之，以保纂可也。'''",
@@ -651,16 +667,15 @@ $2',
 '''萬勿盜版！'''",
 'copyrightwarning2'                => "{{SITENAME}}全文，允眾人撰、纂、刪、校。不喜他纂，但去可矣。<br />
 文務親撰，或謄公本，如$1。'''萬勿盜版！'''",
-'longpagewarning'                  => "'''警示：此頁長$1仟位元組，逾卅二，覽器恐不盡堪，望縮斷之。'''",
 'longpageerror'                    => "'''警示：文長$1仟位元組，越幅$2，未能儲焉。'''",
 'readonlywarning'                  => "'''警示：修庫藏，存儲謝焉。惠謄文備用之。'''
 
 鎖者曰：「$1」",
-'protectedpagewarning'             => "'''警示：庫藏鎖矣，惟有秩纂之。'''
+'protectedpagewarning'             => "'''警示：庫藏錮矣，惟有秩纂之。'''
 近誌下曰參詳之：",
-'semiprotectedpagewarning'         => "'''註記'''庫藏鎖矣，惟登簿纂之。
+'semiprotectedpagewarning'         => "'''註記'''庫藏錮矣，惟登簿纂之。
 近誌下曰參詳之：",
-'cascadeprotectedwarning'          => "'''警示：'''此頁鎖錮矣，唯有秩纂之，乃因{{PLURAL:$1|一|多}}頁連誅之：",
+'cascadeprotectedwarning'          => "'''警示：'''此頁錮矣，唯有秩纂之，乃因{{PLURAL:$1|一|多}}頁連誅之：",
 'titleprotectedwarning'            => "'''警告：此頁錮矣，乃需[[Special:ListGroupRights|權]]用之。'''
 近誌下曰參詳之：",
 'templatesused'                    => '此文用模：',
@@ -789,7 +804,7 @@ $2',
 'revdelete-legend'            => '見，規之以',
 'revdelete-hide-text'         => '藏審文',
 'revdelete-hide-image'        => '藏檔容',
-'revdelete-hide-comment'      => '藏贊',
+'revdelete-hide-comment'      => '藏摘',
 'revdelete-hide-user'         => '簿、IP址以藏',
 'revdelete-hide-restricted'   => '廢有秩與簿之事',
 'revdelete-radio-same'        => '（無改）',
@@ -799,8 +814,8 @@ $2',
 'revdelete-unsuppress'        => '復審解限',
 'revdelete-log'               => '因：',
 'revdelete-submit'            => '擇{{PLURAL:$1|審}}使之',
-'revdelete-logentry'          => '[[$1]]之見審動矣',
-'logdelete-logentry'          => '[[$1]]之事見動矣',
+'revdelete-logentry'          => '「[[$1]]」之見審動矣',
+'logdelete-logentry'          => '「[[$1]]」之事見動矣',
 'revdelete-success'           => "'''見審已更也。'''",
 'revdelete-failure'           => "'''見審無更也：'''
 $1",
@@ -855,7 +870,7 @@ $1",
 'revmove-norevisions-title'    => '無效之標審',
 'revmove-norevisions'          => '爾未定一或多之審作此或無存也。',
 'revmove-nullmove-title'       => '壞題',
-'revmove-nullmove'             => '標源之題不可同也。返試他名之。',
+'revmove-nullmove'             => '標源之題不可同也。返「$1」試他名之。',
 'revmove-success-existing'     => '由[[$2]]中遷現頁[[$3]]有審{{PLURAL:$1|一|$1}}。',
 'revmove-success-created'      => '由[[$2]]中遷新頁[[$3]]有審{{PLURAL:$1|一|$1}}。',
 
@@ -893,11 +908,13 @@ $1",
 # Diffs
 'history-title'            => '$1之誌',
 'difference'               => '（辨異）',
+'difference-multipage'     => '（辨頁）',
 'lineno'                   => '列$1：',
 'compareselectedversions'  => '辨二擇',
 'showhideselectedversions' => '示／藏之擇',
 'editundo'                 => '悔',
-'diff-multi'               => '（未示之審有$1）',
+'diff-multi'               => '（$2作未示之審有$1）',
+'diff-multi-manyusers'     => '（$2多作未示之審有$1）',
 
 # Search results
 'searchresults'                    => '得尋',
@@ -914,7 +931,7 @@ $1",
 'nextn'                            => '次{{PLURAL:$1|$1}}',
 'viewprevnext'                     => '見（$1 {{int:pipe-separator}} $2）（$3）',
 'searchmenu-legend'                => '尋選',
-'searchmenu-exists'                => "'''在此wiki中有頁為\"[[:\$1]]\"'''",
+'searchmenu-exists'                => "'''在此wiki中有頁為\"[[:\$1]]\"。'''",
 'searchmenu-new'                   => "'''在此wiki上建頁\"[[:\$1]]\"！'''",
 'searchhelp-url'                   => 'Help:目錄',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|查此首之頁]]',
@@ -998,6 +1015,8 @@ $1",
 'resultsperpage'                => '頁示尋',
 'contextlines'                  => '尋分列',
 'contextchars'                  => '列有字',
+'stub-threshold'                => '<a href="#" class="stub">短頁連</a>格式門檻（位元組）：',
+'stub-threshold-disabled'       => '禁',
 'recentchangesdays'             => '近易示日：',
 'recentchangesdays-max'         => '最大有$1',
 'recentchangescount'            => '修著凡幾︰',
@@ -1067,6 +1086,8 @@ $1",
 'prefs-advancedsearchoptions'   => '進',
 'prefs-advancedwatchlist'       => '進',
 'prefs-displayrc'               => '示項',
+'prefs-displaysearchoptions'    => '示項',
+'prefs-displaywatchlist'        => '示項',
 'prefs-diffs'                   => '異',
 
 # User rights
@@ -1180,7 +1201,7 @@ $1",
 'right-override-export-depth' => '出有五層深之頁',
 'right-sendemail'             => '擬書傳予他簿',
 'right-revisionmove'          => '遷審',
-'right-selenium'              => '試Selenium',
+'right-disableaccount'        => '停簿',
 
 # User rights log
 'rightslog'  => '職權志',
@@ -1228,14 +1249,9 @@ $1",
 'recentchanges-legend'              => '近易項',
 'recentchangestext'                 => '共筆揮新，悉列於此。',
 'recentchanges-feed-description'    => '跟wiki源之近易。',
-'recentchanges-label-legend'        => '例： $1',
-'recentchanges-legend-newpage'      => '$1 - 新頁',
 'recentchanges-label-newpage'       => '此纂開新頁',
-'recentchanges-legend-minor'        => '$1 - 細纂',
 'recentchanges-label-minor'         => '此乃細纂',
-'recentchanges-legend-bot'          => '$1 - 機纂',
 'recentchanges-label-bot'           => '此乃機纂',
-'recentchanges-legend-unpatrolled'  => '$1 - 未巡之纂',
 'recentchanges-label-unpatrolled'   => '此乃未巡之纂',
 'rcnote'                            => "下為自$4$5起，'''$2'''日內'''$1'''近易也。",
 'rcnotefrom'                        => "下為自'''$2'''至'''$1'''之易也。",
@@ -1333,7 +1349,6 @@ $1",
 'filepageexists'             => "此檔之述於'''<tt>[[:$1]]</tt>'''存矣，檔未存也。爾入述無存也。要現之，爾需纂之。",
 'file-exists-duplicate'      => '此檔乃重檔{{PLURAL:$1|一|數}}：',
 'file-deleted-duplicate'     => '此檔（[[$1]]）前刪。爾需查刪錄再貢之。',
-'successfulupload'           => '檔案安矣',
 'uploadwarning'              => '慎焉！',
 'uploadwarning-text'         => '改下檔述再試之。',
 'savefile'                   => '存之',
@@ -1356,11 +1371,14 @@ $1",
 'upload-wasdeleted'          => "'''警示：復獻棄檔，慎續之。'''
 誌刪如下：",
 'filename-bad-prefix'        => "獻檔以'''「$1」'''首，常由相機瞎造，惠更述之。",
-'upload-successful-msg'      => '爾之貢見於此：$1',
+'upload-success-subj'        => '檔案安矣',
+'upload-success-msg'         => '爾自[$2]之貢安矣，見於此：[[:{{ns:file}}:$1]]',
 'upload-failure-subj'        => '貢問',
-'upload-failure-msg'         => '爾之貢現問也：
+'upload-failure-msg'         => '爾自[$2]之貢現問也：
 
 $1',
+'upload-warning-subj'        => '貢警',
+'upload-warning-msg'         => '爾自[$2]之貢出問。爾可回[[Special:Upload/stash/$1|貢表]]修此問。',
 
 'upload-too-many-redirects' => '網址含多轉',
 'upload-unknown-size'       => '未知之積',
@@ -1414,6 +1432,7 @@ $1',
 'listfiles_search_for'  => '以媒名尋：',
 'imgfile'               => '檔',
 'listfiles'             => '見檔',
+'listfiles_thumb'       => '縮',
 'listfiles_date'        => '時',
 'listfiles_name'        => '名',
 'listfiles_user'        => '簿',
@@ -1526,6 +1545,7 @@ $1',
 'statistics-edits'             => '自{{SITENAME}}設之頁纂數',
 'statistics-edits-average'     => '每頁均纂數',
 'statistics-views-total'       => '閱總',
+'statistics-views-total-desc'  => '不包無存之頁與奇頁之閱數',
 'statistics-views-peredit'     => '每纂閱數',
 'statistics-users'             => '註[[Special:ListUsers|簿]]',
 'statistics-users-active'      => '活簿',
@@ -1537,7 +1557,7 @@ $1',
 
 'doubleredirects'            => '窮渡',
 'doubleredirectstext'        => '頁下窮渡，迭列以示。首尾宿合，宜正渡之。
-<s>劃</s>已解之。',
+<del>劃</del>已解之。',
 'double-redirect-fixed-move' => '[[$1]]遷畢，現渡至[[$2]]',
 'double-redirect-fixer'      => '修渡',
 
@@ -1560,6 +1580,8 @@ $1',
 'nmembers'                => '$1戶',
 'nrevisions'              => '$1審',
 'nviews'                  => '$1閱',
+'nimagelinks'             => '用以頁有$1',
+'ntransclusions'          => '用以頁有$1',
 'lonelypages'             => '孤寡',
 'lonelypagestext'         => '頁下無鏈或含',
 'uncategorizedpages'      => '欲訂',
@@ -1740,7 +1762,7 @@ $1',
 # Watchlist
 'watchlist'            => '哨站',
 'mywatchlist'          => '哨站',
-'watchlistfor'         => "（'''$1'''之哨）",
+'watchlistfor2'        => '$1之哨 $2',
 'nowatchlist'          => '無哨',
 'watchlistanontext'    => '$1以治哨',
 'watchnologin'         => '未登簿',
@@ -1804,8 +1826,9 @@ $NEWPAGE
 # Delete
 'deletepage'             => '刪頁',
 'confirm'                => '准',
-'excontent'              => "文乃'$1'",
-'excontentauthor'        => "文乃'$1'，乃[[Special:Contributions/$2|$2]]獨作。",
+'excontent'              => '文乃「$1」',
+'excontentauthor'        => '文乃「$1」，乃「[[Special:Contributions/$2|$2]]」獨作。',
+'exbeforeblank'          => '清文前乃為：「$1」',
 'exblank'                => '缺頁',
 'delete-confirm'         => '刪"$1"',
 'delete-legend'          => '刪',
@@ -1912,9 +1935,9 @@ $NEWPAGE
 'viewdeletedpage'              => '覽刪',
 'undeletepagetext'             => '如下之$1頁已刪，備謄以還；曆滿乃清之。',
 'undelete-fieldset-title'      => '復審',
-'undeleteextrahelp'            => "欲還題，撤核後令'''''還刪'''''。
+'undeleteextrahelp'            => "欲還題，撤核後令'''''{{int:undeletebtn}}'''''。
 欲還某審，核之再令。
-欲清核、贊，令之'''''歸白'''''。",
+欲清核、贊，令之'''''{{int:undeletereset}}'''''。",
 'undeleterevisions'            => '審備$1',
 'undeletehistory'              => '如還題，審亦隨焉；若存同題，還如誌，不以代焉。',
 'undeleterevdel'               => '新審不牽，難還也；銷、見之以篤還。',
@@ -1970,6 +1993,7 @@ $1',
 'sp-contributions-newbies-title'       => '新進之功績',
 'sp-contributions-blocklog'            => '誌禁',
 'sp-contributions-deleted'             => '已刪之積',
+'sp-contributions-uploads'             => '貢',
 'sp-contributions-logs'                => '誌',
 'sp-contributions-talk'                => '議',
 'sp-contributions-userrights'          => '秉治權任',
@@ -2038,7 +2062,6 @@ $1',
 'ipb-edit-dropdown'               => '改證',
 'ipb-unblock-addr'                => '赦$1',
 'ipb-unblock'                     => '赦簿、址',
-'ipb-blocklist-addr'              => '$1之禁',
 'ipb-blocklist'                   => '列禁',
 'ipb-blocklist-contribs'          => '$1勛績',
 'unblockip'                       => '赦簿',
@@ -2049,9 +2072,9 @@ $1',
 'ipblocklist'                     => '列禁簿、禁址',
 'ipblocklist-legend'              => '尋禁簿',
 'ipblocklist-username'            => '簿名、IP址：',
-'ipblocklist-sh-userblocks'       => '$1次禁簿',
-'ipblocklist-sh-tempblocks'       => '$1次臨禁',
-'ipblocklist-sh-addressblocks'    => '$1次禁單IP',
+'ipblocklist-sh-userblocks'       => '$1禁簿',
+'ipblocklist-sh-tempblocks'       => '$1臨禁',
+'ipblocklist-sh-addressblocks'    => '$1禁單IP',
 'ipblocklist-submit'              => '尋',
 'ipblocklist-localblock'          => '本禁',
 'ipblocklist-otherblocks'         => '他{{PLURAL:$1|禁|禁}}',
@@ -2129,7 +2152,13 @@ $1已被禁矣。爾是否改此置？',
 
 囑之者，新題若非空、渡、缺誌，則舊'''不遷'''焉。存頁勿覆，而誤遷可悔也。
 
-<b>警示</b>
+'''警示！'''
+膾炙遷焉，禍生不測；戒慎行之。",
+'movepagetext-noredirectfixer' => "函下遷頁，誌隨新往、舊題作渡、取佐欲移。欲查[[Special:DoubleRedirects|防窮]]、[[Special:BrokenRedirects|斷渡]]之。
+
+囑之者，新題若非空、渡、缺誌，則舊'''不遷'''焉。存頁勿覆，而誤遷可悔也。
+
+'''警示！'''
 膾炙遷焉，禍生不測；戒慎行之。",
 'movearticle'                  => '遷文：',
 'moveuserpage-warning'         => "'''警：'''爾將遷頁齋。注之遷齋後之簿名乃為''無''變也。",
@@ -2175,7 +2204,8 @@ $1已被禁矣。爾是否改此置？',
 'immobile-target-namespace-iw' => '無移至垮維基，此乃無效也。',
 'immobile-source-page'         => '此頁無動也。',
 'immobile-target-page'         => '無動至標之標題。',
-'imagenocrossnamespace'        => '非勳檔至非檔名間',
+'imagenocrossnamespace'        => '非動檔至非檔名間',
+'nonfile-cannot-move-to-file'  => '非動非檔至檔名間',
 'imagetypemismatch'            => '其新副檔名非配其類也',
 'imageinvalidfilename'         => '標之檔名乃無效也',
 'fix-double-redirects'         => '更指原題之任渡',
@@ -2649,9 +2679,9 @@ $1',
 
 # Auto-summaries
 'autosumm-blank'   => '盡除之',
-'autosumm-replace' => "置為'$1'",
+'autosumm-replace' => '置為「$1」',
 'autoredircomment' => '渡至[[$1]]',
-'autosumm-new'     => '新文：$1',
+'autosumm-new'     => '新文「$1」',
 
 # Size units
 'size-bytes' => '$1 位元組',
@@ -2700,6 +2730,7 @@ $1',
 'version-specialpages'             => '奇頁',
 'version-parserhooks'              => '語鈎',
 'version-variables'                => '變數',
+'version-skins'                    => '皮',
 'version-other'                    => '他',
 'version-mediahandlers'            => '媒處',
 'version-hooks'                    => '鈎',
@@ -2711,6 +2742,13 @@ $1',
 'version-hook-subscribedby'        => '用於',
 'version-version'                  => '（版 $1）',
 'version-license'                  => '牌',
+'version-poweredby-credits'        => "此 Wiki 以 '''[http://www.mediawiki.org/ MediaWiki]''' 之驅，權 © 2001-$1 $2。",
+'version-poweredby-others'         => '其他',
+'version-license-info'             => 'MediaWiki乃自由軟件；爾依自由軟件基金會之GNU通用公共授權之款，就此本程序再發佈及／或修；依之二版（自選之）或後之。
+
+MediaWiki乃為用之發，無擔之責也；亦無售目之默擔也。參GNU通用公共授權之詳。
+
+爾乃收附本程序之[{{SERVER}}{{SCRIPTPATH}}/COPYING GNU通用公共授權副本]；如無者，致函至自由軟件基金會：51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA，或[http://www.gnu.org/licenses/old-licenses/gpl-2.0.html 閱之]。',
 'version-software'                 => '裝件',
 'version-software-product'         => '品',
 'version-software-version'         => '版',
@@ -2791,5 +2829,31 @@ $1',
 'htmlform-submit'              => '呈',
 'htmlform-reset'               => '復',
 'htmlform-selectorother-other' => '他',
+
+# SQLite database support
+'sqlite-has-fts' => '$1 含全文之尋',
+'sqlite-no-fts'  => '$1 不含全文之尋',
+
+# Special:DisableAccount
+'disableaccount'             => '停簿',
+'disableaccount-user'        => '簿名：',
+'disableaccount-reason'      => '因：',
+'disableaccount-confirm'     => "停此簿。
+此簿無登、重設符節，或收知電。
+若用之，乃立去。
+''意停簿無系秩之介無回也。''",
+'disableaccount-mustconfirm' => '爾須確乃認停爾之簿也。',
+'disableaccount-nosuchuser'  => '「$1」之簿無存也。',
+'disableaccount-success'     => '「$1」之簿已久停簿。',
+'disableaccount-logentry'    => '久停之簿[[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => '貢貯',
+'uploadstash-summary'  => '此頁乃已貢物（正貢）但未發wiki之地也。非貢之本人乃無視也。',
+'uploadstash-clear'    => '清貯',
+'uploadstash-nofiles'  => '爾無貯貢也。',
+'uploadstash-badtoken' => '此動作無行也，或爾之幣已過。再試之。',
+'uploadstash-errclear' => '清貢無功也。',
+'uploadstash-refresh'  => '重載貢表',
 
 );

@@ -1,5 +1,22 @@
 <?php
 /**
+ * Performs fuzz-style testing of MediaWiki's preprocessor.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance
  */
@@ -99,7 +116,7 @@ class PPFuzzTester {
 			$s .= $this->hairs[$hairIndex];
 		}
 		// Send through the UTF-8 normaliser
-		// This resolves a few differences between the old preprocessor and the 
+		// This resolves a few differences between the old preprocessor and the
 		// XML-based one, which doesn't like illegals and converts line endings.
 		// It's done by the MW UI, so it's a reasonably legitimate thing to do.
 		global $wgContLang;
@@ -140,7 +157,7 @@ class PPFuzzTest {
 
 	function templateHook( $title ) {
 		$titleText = $title->getPrefixedDBkey();
-		
+
 		if ( !isset( $this->templates[$titleText] ) ) {
 			$finalTitle = $title;
 			if ( count( $this->templates ) >= $this->parent->maxTemplates ) {
@@ -182,7 +199,7 @@ class PPFuzzTest {
 
 	function getReport() {
 		$s = "Title: " . $this->title->getPrefixedDBkey() . "\n" .
-//			"Output type: {$this->outputType}\n" . 
+//			"Output type: {$this->outputType}\n" .
 			"Entry point: {$this->entryPoint}\n" .
 			"User: " . ( $this->fancySig ? 'fancy' : 'no-fancy' ) . ' ' . var_export( $this->nickname, true ) . "\n" .
 			"Main text: " . var_export( $this->mainText, true ) . "\n";

@@ -1,28 +1,31 @@
 <?php
-#
-# Copyright (C) 2003-2004 Brion Vibber <brion@pobox.com>
-# http://www.mediawiki.org/
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# http://www.gnu.org/copyleft/gpl.html
-
 /**
- * @defgroup Cache Cache
+ * Classes to cache objects in PHP accelerators, SQL database or DBA files
+ *
+ * Copyright © 2003-2004 Brion Vibber <brion@pobox.com>
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  * @ingroup Cache
+ */
+
+/**
+ * @defgroup Cache Cache
  */
 
 /**
@@ -127,14 +130,18 @@ abstract class BagOStuff {
 		}
 	}
 
+	/**
+	 * @param $key String: Key to increase
+	 * @param $value Integer: Value to add to $key (Default 1)
+	 * @return null if lock is not possible else $key value increased by $value
+	 */
 	public function incr( $key, $value = 1 ) {
 		if ( !$this->lock( $key ) ) {
-			return false;
+			return null;
 		}
 
 		$value = intval( $value );
 
-		$n = false;
 		if ( ( $n = $this->get( $key ) ) !== false ) {
 			$n += $value;
 			$this->set( $key, $n ); // exptime?
@@ -233,14 +240,12 @@ class SqlBagOStuff extends BagOStuff {
 	var $lastExpireAll = 0;
 
 	protected function getDB() {
-		global $wgDBtype;
-
 		if ( !isset( $this->db ) ) {
 			/* We must keep a separate connection to MySQL in order to avoid deadlocks
 			 * However, SQLite has an opposite behaviour.
 			 * @todo Investigate behaviour for other databases
 			 */
-			if ( $wgDBtype == 'sqlite' ) {
+			if ( wfGetDB( DB_MASTER )->getType() == 'sqlite' ) {
 				$this->db = wfGetDB( DB_MASTER );
 			} else {
 				$this->lb = wfGetLBFactory()->newMainLB();
@@ -307,8 +312,9 @@ class SqlBagOStuff extends BagOStuff {
 		}
 		try {
 			$db->begin();
-			$db->delete( 'objectcache', array( 'keyname' => $key ), __METHOD__ );
-			$db->insert( 'objectcache',
+			// (bug 24425) use a replace if the db supports it instead of
+			// delete/insert to avoid clashes with conflicting keynames
+			$db->replace( 'objectcache', array( 'keyname' ),
 				array(
 					'keyname' => $key,
 					'value' => $db->encodeBlob( $this->serialize( $value ) ),
@@ -352,14 +358,14 @@ class SqlBagOStuff extends BagOStuff {
 				// Missing
 				$db->commit();
 
-				return false;
+				return null;
 			}
 			$db->delete( 'objectcache', array( 'keyname' => $key ), __METHOD__ );
 			if ( $this->isExpired( $row->exptime ) ) {
 				// Expired, do not reinsert
 				$db->commit();
 
-				return false;
+				return null;
 			}
 
 			$oldValue = intval( $this->unserialize( $db->decodeBlob( $row->value ) ) );
@@ -374,7 +380,7 @@ class SqlBagOStuff extends BagOStuff {
 		} catch ( DBQueryError $e ) {
 			$this->handleWriteError( $e );
 
-			return false;
+			return null;
 		}
 
 		return $newValue;
@@ -857,9 +863,11 @@ class WinCacheBagOStuff extends BagOStuff {
 	 * @return bool
 	 */
 	public function set( $key, $value, $expire = 0 ) {
-		wincache_ucache_set( $key, serialize( $value ), $expire );
+		$result = wincache_ucache_set( $key, serialize( $value ), $expire );
 
-		return true;
+		/* wincache_ucache_set returns an empty array on success if $value
+		   was an array, bool otherwise */
+		return ( is_array( $result ) && $result === array() ) || $result;
 	}
 
 	/**
@@ -879,6 +887,10 @@ class WinCacheBagOStuff extends BagOStuff {
 		$info = wincache_ucache_info();
 		$list = $info['ucache_entries'];
 		$keys = array();
+
+		if ( is_null( $list ) ) {
+			return array();
+		}
 
 		foreach ( $list as $entry ) {
 			$keys[] = $entry['key_name'];

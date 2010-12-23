@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:Movepage
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,98 +16,89 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- */
-
-/**
+ *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * Constructor
- */
-function wfSpecialMovepage( $par = null ) {
-	global $wgUser, $wgOut, $wgRequest, $action;
-
-	# Check for database lock
-	if ( wfReadOnly() ) {
-		$wgOut->readOnlyPage();
-		return;
-	}
-
-	$target = isset( $par ) ? $par : $wgRequest->getVal( 'target' );
-
-	// Yes, the use of getVal() and getText() is wanted, see bug 20365
-	$oldTitleText = $wgRequest->getVal( 'wpOldTitle', $target );
-	$newTitleText = $wgRequest->getText( 'wpNewTitle' );
-
-	$oldTitle = Title::newFromText( $oldTitleText );
-	$newTitle = Title::newFromText( $newTitleText );
-
-	if( is_null( $oldTitle ) ) {
-		$wgOut->showErrorPage( 'notargettitle', 'notargettext' );
-		return;
-	}
-	if( !$oldTitle->exists() ) {
-		$wgOut->showErrorPage( 'nopagetitle', 'nopagetext' );
-		return;
-	}
-
-	# Check rights
-	$permErrors = $oldTitle->getUserPermissionsErrors( 'move', $wgUser );
-	if( !empty( $permErrors ) ) {
-		$wgOut->showPermissionsErrorPage( $permErrors );
-		return;
-	}
-
-	$form = new MovePageForm( $oldTitle, $newTitle );
-
-	if ( 'submit' == $action && $wgRequest->wasPosted()
-		&& $wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
-		$form->doSubmit();
-	} else {
-		$form->showForm( '' );
-	}
-}
-
-/**
- * HTML form for Special:Movepage
+ * A special page that allows users to change page titles
+ *
  * @ingroup SpecialPage
  */
-class MovePageForm {
+class MovePageForm extends UnlistedSpecialPage {
 	var $oldTitle, $newTitle; # Objects
 	var $reason; # Text input
 	var $moveTalk, $deleteAndMove, $moveSubpages, $fixRedirects, $leaveRedirect, $moveOverShared; # Checks
 
 	private $watch = false;
 
-	function __construct( $oldTitle, $newTitle ) {
-		global $wgRequest, $wgUser;
-		$target = isset($par) ? $par : $wgRequest->getVal( 'target' );
-		$this->oldTitle = $oldTitle;
-		$this->newTitle = $newTitle;
-		$this->reason = $wgRequest->getText( 'wpReason' );
-		if ( $wgRequest->wasPosted() ) {
-			$this->moveTalk = $wgRequest->getBool( 'wpMovetalk', false );
-			$this->fixRedirects = $wgRequest->getBool( 'wpFixRedirects', false );
-			$this->leaveRedirect = $wgRequest->getBool( 'wpLeaveRedirect', false );
-		} else {
-			$this->moveTalk = $wgRequest->getBool( 'wpMovetalk', true );
-			$this->fixRedirects = $wgRequest->getBool( 'wpFixRedirects', true );
-			$this->leaveRedirect = $wgRequest->getBool( 'wpLeaveRedirect', true );
+	public function __construct() {
+		parent::__construct( 'Movepage' );
+	}
+
+	public function execute( $par ) {
+		global $wgUser, $wgOut, $wgRequest;
+
+		# Check for database lock
+		if ( wfReadOnly() ) {
+			$wgOut->readOnlyPage();
+			return;
 		}
+
+		$this->setHeaders();
+		$this->outputHeader();
+
+		$target = !is_null( $par ) ? $par : $wgRequest->getVal( 'target' );
+
+		// Yes, the use of getVal() and getText() is wanted, see bug 20365
+		$oldTitleText = $wgRequest->getVal( 'wpOldTitle', $target );
+		$newTitleText = $wgRequest->getText( 'wpNewTitle' );
+
+		$this->oldTitle = Title::newFromText( $oldTitleText );
+		$this->newTitle = Title::newFromText( $newTitleText );
+
+		if( is_null( $this->oldTitle ) ) {
+			$wgOut->showErrorPage( 'notargettitle', 'notargettext' );
+			return;
+		}
+		if( !$this->oldTitle->exists() ) {
+			$wgOut->showErrorPage( 'nopagetitle', 'nopagetext' );
+			return;
+		}
+
+		# Check rights
+		$permErrors = $this->oldTitle->getUserPermissionsErrors( 'move', $wgUser );
+		if( !empty( $permErrors ) ) {
+			$wgOut->showPermissionsErrorPage( $permErrors );
+			return;
+		}
+
+		$def = !$wgRequest->wasPosted();
+
+		$this->reason = $wgRequest->getText( 'wpReason' );
+		$this->moveTalk = $wgRequest->getBool( 'wpMovetalk', $def );
+		$this->fixRedirects = $wgRequest->getBool( 'wpFixRedirects', $def );
+		$this->leaveRedirect = $wgRequest->getBool( 'wpLeaveRedirect', $def );
 		$this->moveSubpages = $wgRequest->getBool( 'wpMovesubpages', false );
 		$this->deleteAndMove = $wgRequest->getBool( 'wpDeleteAndMove' ) && $wgRequest->getBool( 'wpConfirm' );
 		$this->moveOverShared = $wgRequest->getBool( 'wpMoveOverSharedFile', false );
 		$this->watch = $wgRequest->getCheck( 'wpWatch' ) && $wgUser->isLoggedIn();
+
+		if ( 'submit' == $wgRequest->getVal( 'action' ) && $wgRequest->wasPosted()
+			&& $wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
+			$this->doSubmit();
+		} else {
+			$this->showForm( '' );
+		}
 	}
 
 	/**
 	 * Show the form
 	 *
-	 * @param $err Mixed: error message. May either be a string message name or 
-	 *    array message name and parameters, like the second argument to 
-	 *    OutputPage::wrapWikiMsg(). 
+	 * @param $err Mixed: error message. May either be a string message name or
+	 *    array message name and parameters, like the second argument to
+	 *    OutputPage::wrapWikiMsg().
 	 */
 	function showForm( $err ) {
 		global $wgOut, $wgUser, $wgContLang, $wgFixDoubleRedirects;
@@ -153,7 +145,8 @@ class MovePageForm {
 			if ($this->oldTitle->getNamespace() == NS_USER && !$this->oldTitle->isSubpage() ) {
 				$wgOut->wrapWikiMsg( "<div class=\"error mw-moveuserpage-warning\">\n$1\n</div>", 'moveuserpage-warning' );
 			}
-			$wgOut->addWikiMsg( 'movepagetext' );
+			$wgOut->addWikiMsg( $wgFixDoubleRedirects ? 'movepagetext' :
+				'movepagetext-noredirectfixer' );
 			$movepagebtn = wfMsg( 'movepagebtn' );
 			$submitVar = 'wpMove';
 			$confirm = false;
@@ -164,14 +157,14 @@ class MovePageForm {
 			$submitVar = 'wpMoveOverSharedFile';
 			$err = '';
 		}
-		
+
 		$oldTalk = $this->oldTitle->getTalkPage();
 		$considerTalk = ( !$this->oldTitle->isTalkPage() && $oldTalk->exists() );
 
 		$dbr = wfGetDB( DB_SLAVE );
 		if ( $wgFixDoubleRedirects ) {
-			$hasRedirects = $dbr->selectField( 'redirect', '1', 
-				array( 
+			$hasRedirects = $dbr->selectField( 'redirect', '1',
+				array(
 					'rd_namespace' => $this->oldTitle->getNamespace(),
 					'rd_title' => $this->oldTitle->getDBkey(),
 				) , __METHOD__ );
@@ -183,7 +176,6 @@ class MovePageForm {
 			$wgOut->addWikiMsg( 'movepagetalktext' );
 		}
 
-		$titleObj = SpecialPage::getTitleFor( 'Movepage' );
 		$token = htmlspecialchars( $wgUser->editToken() );
 
 		if ( !empty($err) ) {
@@ -214,7 +206,7 @@ class MovePageForm {
 		}
 
 		$wgOut->addHTML(
-			 Xml::openElement( 'form', array( 'method' => 'post', 'action' => $titleObj->getLocalURL( 'action=submit' ), 'id' => 'movepage' ) ) .
+			 Xml::openElement( 'form', array( 'method' => 'post', 'action' => $this->getTitle()->getLocalURL( 'action=submit' ), 'id' => 'movepage' ) ) .
 			 Xml::openElement( 'fieldset' ) .
 			 Xml::element( 'legend', null, wfMsg( 'move-page-legend' ) ) .
 			 Xml::openElement( 'table', array( 'border' => '0', 'id' => 'mw-movepage-table' ) ) .
@@ -232,7 +224,7 @@ class MovePageForm {
 				"</td>
 				<td class='mw-input'>" .
 					Xml::input( 'wpNewTitle', 40, $wgContLang->recodeForEdit( $newTitle->getPrefixedText() ), array( 'type' => 'text', 'id' => 'wpNewTitle' ) ) .
-					Xml::hidden( 'wpOldTitle', $this->oldTitle->getPrefixedText() ) .
+					Html::hidden( 'wpOldTitle', $this->oldTitle->getPrefixedText() ) .
 				"</td>
 			</tr>
 			<tr>
@@ -262,7 +254,7 @@ class MovePageForm {
 				<tr>
 					<td></td>
 					<td class='mw-input' >" .
-						Xml::checkLabel( wfMsg( 'move-leave-redirect' ), 'wpLeaveRedirect', 
+						Xml::checkLabel( wfMsg( 'move-leave-redirect' ), 'wpLeaveRedirect',
 							'wpLeaveRedirect', $this->leaveRedirect ) .
 					"</td>
 				</tr>"
@@ -274,7 +266,7 @@ class MovePageForm {
 				<tr>
 					<td></td>
 					<td class='mw-input' >" .
-						Xml::checkLabel( wfMsg( 'fix-double-redirects' ), 'wpFixRedirects', 
+						Xml::checkLabel( wfMsg( 'fix-double-redirects' ), 'wpFixRedirects',
 							'wpFixRedirects', $this->fixRedirects ) .
 					"</td>
 				</tr>"
@@ -313,7 +305,7 @@ class MovePageForm {
 			);
 		}
 
-		$watchChecked = $wgUser->isLoggedIn() && ($this->watch || $wgUser->getBoolOption( 'watchmoves' ) 
+		$watchChecked = $wgUser->isLoggedIn() && ($this->watch || $wgUser->getBoolOption( 'watchmoves' )
 			|| $this->oldTitle->userIsWatching());
 		# Don't allow watching if user is not logged in
 		if( $wgUser->isLoggedIn() ) {
@@ -326,7 +318,7 @@ class MovePageForm {
 			</tr>");
 		}
 
-		$wgOut->addHTML( "	
+		$wgOut->addHTML( "
 				{$confirm}
 			<tr>
 				<td>&#160;</td>
@@ -335,7 +327,7 @@ class MovePageForm {
 				"</td>
 			</tr>" .
 			Xml::closeElement( 'table' ) .
-			Xml::hidden( 'wpEditToken', $token ) .
+			Html::hidden( 'wpEditToken', $token ) .
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' ) .
 			"\n"
@@ -347,7 +339,7 @@ class MovePageForm {
 	}
 
 	function doSubmit() {
-		global $wgOut, $wgUser, $wgRequest, $wgMaximumMovedPages, $wgLang;
+		global $wgOut, $wgUser, $wgMaximumMovedPages, $wgLang;
 		global $wgFixDoubleRedirects;
 
 		if ( $wgUser->pingLimiter( 'move' ) ) {
@@ -365,7 +357,7 @@ class MovePageForm {
 			# Disallow deletions of big articles
 			$bigHistory = $article->isBigDeletion();
 			if( $bigHistory && !$nt->userCan( 'bigdelete' ) ) {
-				global $wgLang, $wgDeleteRevisionsLimit;
+				global $wgDeleteRevisionsLimit;
 				$this->showForm( array('delete-toobig', $wgLang->formatNum( $wgDeleteRevisionsLimit ) ) );
 				return;
 			}
@@ -387,16 +379,16 @@ class MovePageForm {
 		}
 
 		# Show a warning if the target file exists on a shared repo
-		if ( $nt->getNamespace() == NS_FILE 
+		if ( $nt->getNamespace() == NS_FILE
 			&& !( $this->moveOverShared && $wgUser->isAllowed( 'reupload-shared' ) )
-			&& !RepoGroup::singleton()->getLocalRepo()->findFile( $nt ) 
+			&& !RepoGroup::singleton()->getLocalRepo()->findFile( $nt )
 			&& wfFindFile( $nt ) )
 		{
 			$this->showForm( array('file-exists-sharedrepo') );
 			return;
-			
+
 		}
-		
+
 		if ( $wgUser->isAllowed( 'suppressredirect' ) ) {
 			$createRedirect = $this->leaveRedirect;
 		} else {
@@ -452,7 +444,7 @@ class MovePageForm {
 		# would mean that you couldn't move them back in one operation, which
 		# is bad.  FIXME: A specific error message should be given in this
 		# case.
-		
+
 		// FIXME: Use Title::moveSubpages() here
 		$dbr = wfGetDB( DB_MASTER );
 		if( $this->moveSubpages && (
@@ -566,8 +558,8 @@ class MovePageForm {
 			$wgUser->removeWatch( $ot );
 			$wgUser->removeWatch( $nt );
 		}
-		
-		# Re-clear the file redirect cache, which may have been polluted by 
+
+		# Re-clear the file redirect cache, which may have been polluted by
 		# parsing in messages above. See CR r56745.
 		# FIXME: needs a more robust solution inside FileRepo.
 		if( $ot->getNamespace() == NS_FILE ) {

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Implements Special:MergeHistory
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +16,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
@@ -138,9 +142,9 @@ class SpecialMergeHistory extends SpecialPage {
 			'<fieldset>' .
 			Xml::element( 'legend', array(),
 				wfMsg( 'mergehistory-box' ) ) .
-			Xml::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
-			Xml::hidden( 'submitted', '1' ) .
-			Xml::hidden( 'mergepoint', $this->mTimestamp ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
+			Html::hidden( 'submitted', '1' ) .
+			Html::hidden( 'mergepoint', $this->mTimestamp ) .
 			Xml::openElement( 'table' ) .
 			"<tr>
 				<td>".Xml::label( wfMsg( 'mergehistory-from' ), 'target' )."</td>
@@ -157,7 +161,7 @@ class SpecialMergeHistory extends SpecialPage {
 	}
 
 	private function showHistory() {
-		global $wgLang, $wgUser, $wgOut;
+		global $wgUser, $wgOut;
 
 		$this->sk = $wgUser->getSkin();
 
@@ -221,11 +225,11 @@ class SpecialMergeHistory extends SpecialPage {
 
 		# When we submit, go by page ID to avoid some nasty but unlikely collisions.
 		# Such would happen if a page was renamed after the form loaded, but before submit
-		$misc = Xml::hidden( 'targetID', $this->mTargetObj->getArticleID() );
-		$misc .= Xml::hidden( 'destID', $this->mDestObj->getArticleID() );
-		$misc .= Xml::hidden( 'target', $this->mTarget );
-		$misc .= Xml::hidden( 'dest', $this->mDest );
-		$misc .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+		$misc = Html::hidden( 'targetID', $this->mTargetObj->getArticleID() );
+		$misc .= Html::hidden( 'destID', $this->mDestObj->getArticleID() );
+		$misc .= Html::hidden( 'target', $this->mTarget );
+		$misc .= Html::hidden( 'dest', $this->mDest );
+		$misc .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 		$misc .= Xml::closeElement( 'form' );
 		$wgOut->addHTML( $misc );
 
@@ -434,7 +438,7 @@ class MergeHistoryPager extends ReverseChronologicalPager {
 		$batch = new LinkBatch();
 		# Give some pointers to make (last) links
 		$this->mForm->prevId = array();
-		while( $row = $this->mResult->fetchObject() ) {
+		foreach ( $this->mResult as $row ) {
 			$batch->addObj( Title::makeTitleSafe( NS_USER, $row->rev_user_text ) );
 			$batch->addObj( Title::makeTitleSafe( NS_USER_TALK, $row->rev_user_text ) );
 
@@ -455,7 +459,6 @@ class MergeHistoryPager extends ReverseChronologicalPager {
 	}
 
 	function formatRow( $row ) {
-		$block = new Block;
 		return $this->mForm->formatRevisionRow( $row );
 	}
 

@@ -16,12 +16,28 @@
  * that make output slow when doxygen parses language files.
  * - the menu doesnt work, got disabled at revision 13740. Need to code it.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  * @todo document
  * @ingroup Maintenance
  *
- * @author Ashar Voultoiz <thoane@altern.org>
+ * @author Ashar Voultoiz <hashar at free dot fr>
+ * @author Brion Vibber
+ * @author Alexandre Emsenhuber
  * @version first release
  */
 
@@ -36,9 +52,6 @@ if ( php_sapi_name() != 'cli' ) {
 
 /** Figure out the base directory for MediaWiki location */
 $mwPath = dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR;
-
-/** Global variable: temporary directory */
-$tmpPath = '/tmp/';
 
 /** doxygen binary script */
 $doxygenBin = 'doxygen';
@@ -66,6 +79,9 @@ $exclude = '';
 #
 # Functions
 #
+
+define( 'MEDIAWIKI', true );
+require_once( "$mwPath/includes/GlobalFunctions.php" );
 
 /**
  * Read a line from the shell
@@ -129,15 +145,14 @@ function getSvnRevision( $dir ) {
  * @param $currentVersion String: Version number of the software
  * @param $svnstat String: path to the svnstat file
  * @param $input String: Path to analyze.
- * @param $exclude String: Additionals path regex to exlcude 
- *                 (LocalSettings.php, AdminSettings.php and .svn directories are always excluded)
+ * @param $exclude String: Additionals path regex to exlcude
+ *                 (LocalSettings.php, AdminSettings.php, .svn and .git directories are always excluded)
  */
 function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath, $currentVersion, $svnstat, $input, $exclude ) {
-	global $tmpPath;
 
 	$template = file_get_contents( $doxygenTemplate );
 
-	// Replace template placeholders by correct values.	
+	// Replace template placeholders by correct values.
 	$replacements = array(
 		'{{OUTPUT_DIRECTORY}}' => $outputDirectory,
 		'{{STRIP_FROM_PATH}}'  => $stripFromPath,
@@ -147,7 +162,7 @@ function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath,
 		'{{EXCLUDE}}'          => $exclude,
 	);
 	$tmpCfg = str_replace( array_keys( $replacements ), array_values( $replacements ), $template );
-	$tmpFileName = $tmpPath . 'mwdocgen' . rand() . '.tmp';
+	$tmpFileName = tempnam( wfTempDir(), 'mwdocgen-' );
 	file_put_contents( $tmpFileName , $tmpCfg ) or die( "Could not write doxygen configuration to file $tmpFileName\n" );
 
 	return $tmpFileName;

@@ -20,6 +20,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
@@ -43,7 +44,7 @@ class UpdateRestrictions extends Maintenance {
 			$this->error( "Nothing to do.", true );
 		}
 		$end = $db->selectField( 'page', 'MAX(page_id)', false, __METHOD__ );
-	
+
 		# Do remaining chunk
 		$end += $this->mBatchSize - 1;
 		$blockStart = $start;

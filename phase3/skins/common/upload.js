@@ -1,4 +1,4 @@
-function licenseSelectorCheck() {
+window.licenseSelectorCheck = function() {
 	var selector = document.getElementById( "wpLicense" );
 	var selection = selector.options[selector.selectedIndex].value;
 	if( selector.selectedIndex > 0 ) {
@@ -9,9 +9,9 @@ function licenseSelectorCheck() {
 	}
 	// We might show a preview
 	wgUploadLicenseObj.fetchPreview( selection );
-}
+};
 
-function wgUploadSetup() {
+window.wgUploadSetup = function() {
 	// Disable URL box if the URL copy upload source type is not selected
 	var e = document.getElementById( 'wpSourceTypeurl' );
 	if( e ) {
@@ -84,15 +84,14 @@ function wgUploadSetup() {
 		document.getElementById( wgUploadSourceIds[i] ).onchange = function (e) {
 			fillDestFilename( this.id );
 		};
-}
+};
 
 /**
  * Iterate over all upload source fields and disable all except the selected one.
  * 
- * @param enabledId The id of the selected radio button 
  * @return emptiness
  */
-function toggleUploadInputs() {
+window.toggleUploadInputs = function() {
 	// Iterate over all rows with UploadSourceField
 	var rows;
 	if ( document.getElementsByClassName ) {
@@ -124,9 +123,9 @@ function toggleUploadInputs() {
 				inputs[j].disabled = !isChecked;
 		}
 	}
-}
+};
 
-var wgUploadWarningObj = {
+window.wgUploadWarningObj = {
 	'responseCache' : { '' : '&nbsp;' },
 	'nameToCheck' : '',
 	'typing': false,
@@ -210,9 +209,9 @@ var wgUploadWarningObj = {
 			element.innerHTML = text;
 		}
 	}
-}
+};
 
-function fillDestFilename(id) {
+window.fillDestFilename = function(id) {
 	if (!wgUploadAutoFill) {
 		return;
 	}
@@ -264,16 +263,19 @@ function fillDestFilename(id) {
 			if( e ) e.className = 'error';
 
 			// Clear wpDestFile as well
-			var e = document.getElementById( 'wpDestFile' )
+			var e = document.getElementById( 'wpDestFile' );
 			if( e ) e.value = '';
 
 			return false;
 		}
 	}
 
-	// Capitalise first letter and replace spaces by underscores
-	// FIXME: $wgCapitalizedNamespaces
-	fname = fname.charAt(0).toUpperCase().concat(fname.substring(1,10000)).replace(/ /g, '_');
+	// Replace spaces by underscores
+	fname = fname.replace( / /g, '_' );
+	// Capitalise first letter if needed
+	if ( wgCapitalizeUploads ) {
+		fname = fname.charAt( 0 ).toUpperCase().concat( fname.substring( 1, 10000 ) );
+	}
 
 	// Output result
 	var destFile = document.getElementById('wpDestFile');
@@ -281,20 +283,16 @@ function fillDestFilename(id) {
 		destFile.value = fname;
 		wgUploadWarningObj.checkNow(fname) ;
 	}
-}
+};
 
-function toggleFilenameFiller() {
+window.toggleFilenameFiller = function() {
 	if(!document.getElementById) return;
 	var upfield = document.getElementById('wpUploadFile');
 	var destName = document.getElementById('wpDestFile').value;
-	if (destName=='' || destName==' ') {
-		wgUploadAutoFill = true;
-	} else {
-		wgUploadAutoFill = false;
-	}
-}
+	wgUploadAutoFill = ( destName == '' || destName == ' ' );
+};
 
-var wgUploadLicenseObj = {
+window.wgUploadLicenseObj = {
 
 	'responseCache' : { '' : '' },
 
@@ -338,6 +336,6 @@ var wgUploadLicenseObj = {
 			previewPanel.innerHTML = preview;
 	}
 
-}
+};
 
 addOnloadHook( wgUploadSetup );

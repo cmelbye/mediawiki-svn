@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Created on Sep 5, 2006
  *
- * API for MediaWiki 1.8+
+ *
+ * Created on Sep 5, 2006
  *
  * Copyright © 2006, 2010 Yuri Astrakhan <Firstname><Lastname>@gmail.com
  *
@@ -21,6 +20,8 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 /**
@@ -50,6 +51,8 @@ abstract class ApiBase {
 	const PARAM_MIN = 5; // Lowest value allowed for a parameter. Only applies if TYPE='integer'
 	const PARAM_ALLOW_DUPLICATES = 6; // Boolean, do we allow the same value to be set more than once when ISMULTI=true
 	const PARAM_DEPRECATED = 7; // Boolean, is the parameter deprecated (will show a warning)
+	const PARAM_REQUIRED = 8; // Boolean, is the parameter required?
+	const PARAM_RANGE_ENFORCE = 9; // Boolean, if MIN/MAX are set, enforce (die) these? Only applies if TYPE='integer' Use with extreme caution
 
 	const LIMIT_BIG1 = 500; // Fast query, std user limit
 	const LIMIT_BIG2 = 5000; // Fast query, bot/sysop limit
@@ -57,6 +60,7 @@ abstract class ApiBase {
 	const LIMIT_SML2 = 500; // Slow query, bot/sysop limit
 
 	private $mMainModule, $mModuleName, $mModulePrefix;
+	private $mParamCache = array();
 
 	/**
 	 * Constructor
@@ -178,8 +182,7 @@ abstract class ApiBase {
 		if ( isset( $data['warnings'][$this->getModuleName()] ) ) {
 			// Don't add duplicate warnings
 			$warn_regex = preg_quote( $warning, '/' );
-			if ( preg_match( "/{$warn_regex}(\\n|$)/", $data['warnings'][$this->getModuleName()]['*'] ) )
-			{
+			if ( preg_match( "/{$warn_regex}(\\n|$)/", $data['warnings'][$this->getModuleName()]['*'] ) ) {
 				return;
 			}
 			$oldwarning = $data['warnings'][$this->getModuleName()]['*'];
@@ -251,8 +254,11 @@ abstract class ApiBase {
 						$examples
 					);
 				}
-				$msg .= 'Example' . ( count( $examples ) > 1 ? 's' : '' ) . ":\n  ";
-				$msg .= implode( $lnPrfx, $examples ) . "\n";
+
+				if ( count( $examples ) > 0 ) {
+					$msg .= 'Example' . ( count( $examples ) > 1 ? 's' : '' ) . ":\n  ";
+					$msg .= implode( $lnPrfx, $examples ) . "\n";
+				}
 			}
 
 			if ( $this->getMain()->getShowVersions() ) {
@@ -306,6 +312,12 @@ abstract class ApiBase {
 					$desc = "DEPRECATED! $desc";
 				}
 
+				$required = isset( $paramSettings[self::PARAM_REQUIRED] ) ?
+					$paramSettings[self::PARAM_REQUIRED] : false;
+				if ( $required ) {
+					$desc .= $paramPrefix . "This parameter is required";
+				}
+
 				$type = isset( $paramSettings[self::PARAM_TYPE] ) ? $paramSettings[self::PARAM_TYPE] : null;
 				if ( isset( $type ) ) {
 					if ( isset( $paramSettings[self::PARAM_ISMULTI] ) ) {
@@ -324,15 +336,21 @@ abstract class ApiBase {
 								$choices[] =  $t;
 							}
 						}
-						$desc .= $paramPrefix . $nothingPrompt . $prompt . implode( ', ', $choices );
+                                                $desc .= $paramPrefix . $nothingPrompt . $prompt;
+                                                $choicesstring = implode( ', ', $choices );
+                                                $desc .= wordwrap( $choicesstring, 100, "\n                       " );
 					} else {
 						switch ( $type ) {
 							case 'namespace':
 								// Special handling because namespaces are type-limited, yet they are not given
-								$desc .= $paramPrefix . $prompt . implode( ', ', ApiBase::getValidNamespaces() );
+								$desc .= $paramPrefix . $prompt . implode( ', ', MWNamespace::getValidNamespaces() );
 								break;
 							case 'limit':
-								$desc .= $paramPrefix . "No more than {$paramSettings[self :: PARAM_MAX]} ({$paramSettings[self::PARAM_MAX2]} for bots) allowed";
+								$desc .= $paramPrefix . "No more than {$paramSettings[self :: PARAM_MAX]}";
+								if ( isset( $paramSettings[self::PARAM_MAX2] ) ) {
+									$desc .= " ({$paramSettings[self::PARAM_MAX2]} for bots)";
+								}
+								$desc .= ' allowed';
 								break;
 							case 'integer':
 								$hasMin = isset( $paramSettings[self::PARAM_MIN] );
@@ -350,10 +368,22 @@ abstract class ApiBase {
 								}
 								break;
 						}
+
+						if ( isset( $paramSettings[self::PARAM_ISMULTI] ) ) {
+							$isArray = is_array( $paramSettings[self::PARAM_TYPE] );
+
+							if ( !$isArray
+									|| $isArray && count( $paramSettings[self::PARAM_TYPE] ) > self::LIMIT_SML1) {
+								$desc .= $paramPrefix . "Maximum number of values " .
+									self::LIMIT_SML1 . " (" . self::LIMIT_SML2 . " for bots)";
+							}
+						}
 					}
 				}
 
-				$default = is_array( $paramSettings ) ? ( isset( $paramSettings[self::PARAM_DFLT] ) ? $paramSettings[self::PARAM_DFLT] : null ) : $paramSettings;
+				$default = is_array( $paramSettings )
+						? ( isset( $paramSettings[self::PARAM_DFLT] ) ? $paramSettings[self::PARAM_DFLT] : null )
+						: $paramSettings;
 				if ( !is_null( $default ) && $default !== false ) {
 					$desc .= $paramPrefix . "Default: $default";
 				}
@@ -479,16 +509,20 @@ abstract class ApiBase {
 	 * @return array
 	 */
 	public function extractRequestParams( $parseLimit = true ) {
-		$params = $this->getFinalParams();
-		$results = array();
+		// Cache parameters, for performance and to avoid bug 24564.
+		if ( !isset( $this->mParamCache[$parseLimit] ) ) {
+			$params = $this->getFinalParams();
+			$results = array();
 
-		if ( $params ) { // getFinalParams() can return false
-			foreach ( $params as $paramName => $paramSettings ) {
-				$results[$paramName] = $this->getParameterFromSettings( $paramName, $paramSettings, $parseLimit );
+			if ( $params ) { // getFinalParams() can return false
+				foreach ( $params as $paramName => $paramSettings ) {
+					$results[$paramName] = $this->getParameterFromSettings(
+						$paramName, $paramSettings, $parseLimit );
+				}
 			}
+			$this->mParamCache[$parseLimit] = $results;
 		}
-
-		return $results;
+		return $this->mParamCache[$parseLimit];
 	}
 
 	/**
@@ -512,8 +546,8 @@ abstract class ApiBase {
 		array_shift( $required );
 
 		$intersection = array_intersect( array_keys( array_filter( $params,
-				create_function( '$x', 'return !is_null($x) && $x !== false;' )
-			) ), $required );
+				array( $this, "parameterNotEmpty" ) ) ), $required );
+
 		if ( count( $intersection ) > 1 ) {
 			$this->dieUsage( 'The parameters ' . implode( ', ', $intersection ) . ' can not be used together', 'invalidparammix' );
 		} elseif ( count( $intersection ) == 0 ) {
@@ -522,35 +556,32 @@ abstract class ApiBase {
 	}
 
 	/**
-	 * Returns an array of the namespaces (by integer id) that exist on the
-	 * wiki. Used primarily in help documentation.
-	 * @return array
+	 * Callback function used in requireOnlyOneParameter to check whether reequired parameters are set
+	 *
+	 * @param  $x object Parameter to check is not null/false
+	 * @return bool
+	 */
+	private function parameterNotEmpty( $x ) {
+		return !is_null( $x ) && $x !== false;
+	}
+
+	/**
+	 * @deprecated use MWNamespace::getValidNamespaces()
 	 */
 	public static function getValidNamespaces() {
-		static $mValidNamespaces = null;
-
-		if ( is_null( $mValidNamespaces ) ) {
-			global $wgCanonicalNamespaceNames;
-			$mValidNamespaces = array( NS_MAIN ); // Doesn't appear in $wgCanonicalNamespaceNames for some reason
-			foreach ( array_keys( $wgCanonicalNamespaceNames ) as $ns ) {
-				if ( $ns > 0 ) {
-					$mValidNamespaces[] = $ns;
-				}
-			}
-		}
-
-		return $mValidNamespaces;
+		return MWNamespace::getValidNamespaces();
 	}
 
 	/**
 	 * Return true if we're to watch the page, false if not, null if no change.
 	 * @param $watchlist String Valid values: 'watch', 'unwatch', 'preferences', 'nochange'
 	 * @param $titleObj Title the page under consideration
-	 * @param $userOption The user option to consider when $watchlist=preferences. 
+	 * @param $userOption String The user option to consider when $watchlist=preferences.
 	 * 	If not set will magically default to either watchdefault or watchcreations
 	 * @returns mixed
 	 */
 	protected function getWatchlistValue ( $watchlist, $titleObj, $userOption = null ) {
+		global $wgUser;
 		switch ( $watchlist ) {
 			case 'watch':
 				return true;
@@ -559,7 +590,6 @@ abstract class ApiBase {
 				return false;
 
 			case 'preferences':
-				global $wgUser;
 				# If the user is already watching, don't bother checking
 				if ( $titleObj->userIsWatching() ) {
 					return null;
@@ -584,7 +614,7 @@ abstract class ApiBase {
 	 * Set a watch (or unwatch) based the based on a watchlist parameter.
 	 * @param $watch String Valid values: 'watch', 'unwatch', 'preferences', 'nochange'
 	 * @param $titleObj Title the article's title to change
-	 * @param $userOption The user option to consider when $watch=preferences
+	 * @param $userOption String The user option to consider when $watch=preferences
 	 */
 	protected function setWatch ( $watch, $titleObj, $userOption = null ) {
 		$value = $this->getWatchlistValue( $watch, $titleObj, $userOption );
@@ -619,12 +649,14 @@ abstract class ApiBase {
 			$type = gettype( $paramSettings );
 			$dupes = false;
 			$deprecated = false;
+			$required = false;
 		} else {
 			$default = isset( $paramSettings[self::PARAM_DFLT] ) ? $paramSettings[self::PARAM_DFLT] : null;
 			$multi = isset( $paramSettings[self::PARAM_ISMULTI] ) ? $paramSettings[self::PARAM_ISMULTI] : false;
 			$type = isset( $paramSettings[self::PARAM_TYPE] ) ? $paramSettings[self::PARAM_TYPE] : null;
 			$dupes = isset( $paramSettings[self::PARAM_ALLOW_DUPLICATES] ) ? $paramSettings[self::PARAM_ALLOW_DUPLICATES] : false;
 			$deprecated = isset( $paramSettings[self::PARAM_DEPRECATED] ) ? $paramSettings[self::PARAM_DEPRECATED] : false;
+			$required = isset( $paramSettings[self::PARAM_REQUIRED] ) ? $paramSettings[self::PARAM_REQUIRED] : false;
 
 			// When type is not given, and no choices, the type is the same as $default
 			if ( !isset( $type ) ) {
@@ -647,7 +679,7 @@ abstract class ApiBase {
 			$value = $this->getMain()->getRequest()->getVal( $encParamName, $default );
 
 			if ( isset( $value ) && $type == 'namespace' ) {
-				$type = ApiBase::getValidNamespaces();
+				$type = MWNamespace::getValidNamespaces();
 			}
 		}
 
@@ -662,19 +694,28 @@ abstract class ApiBase {
 				switch ( $type ) {
 					case 'NULL': // nothing to do
 						break;
-					case 'string': // nothing to do
+					case 'string':
+						if ( $required && $value === '' ) {
+							$this->dieUsageMsg( array( 'missingparam', $paramName ) );
+						}
+
 						break;
 					case 'integer': // Force everything using intval() and optionally validate limits
-
-						$value = is_array( $value ) ? array_map( 'intval', $value ) : intval( $value );
 						$min = isset ( $paramSettings[self::PARAM_MIN] ) ? $paramSettings[self::PARAM_MIN] : null;
 						$max = isset ( $paramSettings[self::PARAM_MAX] ) ? $paramSettings[self::PARAM_MAX] : null;
+						$enforceLimits = isset ( $paramSettings[self::PARAM_RANGE_ENFORCE] )
+								? $paramSettings[self::PARAM_RANGE_ENFORCE] : false;
 
 						if ( !is_null( $min ) || !is_null( $max ) ) {
-							$values = is_array( $value ) ? $value : array( $value );
-							foreach ( $values as &$v ) {
-								$this->validateLimit( $paramName, $v, $min, $max );
-							}
+						    if ( is_array( $value ) ) {
+							    $value = array_map( 'intval', $value );
+							    foreach ( $value as &$v ) {
+									$this->validateLimit( $paramName, $v, $min, $max, null, $enforceLimits );
+								}
+						    } else {
+							    $value = intval( $value );
+							    $this->validateLimit( $paramName, $value, $min, $max, null, $enforceLimits );
+						    }
 						}
 						break;
 					case 'limit':
@@ -691,15 +732,16 @@ abstract class ApiBase {
 						$min = isset( $paramSettings[self::PARAM_MIN] ) ? $paramSettings[self::PARAM_MIN] : 0;
 						if ( $value == 'max' ) {
 							$value = $this->getMain()->canApiHighLimits() ? $paramSettings[self::PARAM_MAX2] : $paramSettings[self::PARAM_MAX];
-							$this->getResult()->addValue( 'limits', $this->getModuleName(), $value );
+							$this->getResult()->setParsedLimit( $this->getModuleName(), $value );
 						} else {
 							$value = intval( $value );
 							$this->validateLimit( $paramName, $value, $min, $paramSettings[self::PARAM_MAX], $paramSettings[self::PARAM_MAX2] );
 						}
 						break;
 					case 'boolean':
-						if ( $multi )
+						if ( $multi ) {
 							ApiBase::dieDebug( __METHOD__, "Multi-values not supported for $encParamName" );
+						}
 						break;
 					case 'timestamp':
 						if ( $multi ) {
@@ -713,8 +755,8 @@ abstract class ApiBase {
 						break;
 					case 'user':
 						if ( !is_array( $value ) ) {
-                            $value = array( $value );
-                        }
+							$value = array( $value );
+						}
 
 						foreach ( $value as $key => $val ) {
 							$title = Title::makeTitleSafe( NS_USER, $val );
@@ -723,11 +765,11 @@ abstract class ApiBase {
 							}
 							$value[$key] = $title->getText();
 						}
-						
+
 						if ( !$multi ) {
-                            $value = $value[0];
-                        }
-                        break;
+							$value = $value[0];
+						}
+						break;
 					default:
 						ApiBase::dieDebug( __METHOD__, "Param $encParamName's type is unknown - $type" );
 				}
@@ -742,6 +784,8 @@ abstract class ApiBase {
 			if ( $deprecated && $value !== false ) {
 				$this->setWarning( "The $encParamName parameter has been deprecated." );
 			}
+		} else if ( $required ) {
+			$this->dieUsageMsg( array( 'missingparam', $paramName ) );
 		}
 
 		return $value;
@@ -806,10 +850,13 @@ abstract class ApiBase {
 	 * @param $min int Minimum value
 	 * @param $max int Maximum value for users
 	 * @param $botMax int Maximum value for sysops/bots
+	 * @param $enforceLimits Boolean Whether to enforce (die) if value is outside limits
 	 */
-	function validateLimit( $paramName, &$value, $min, $max, $botMax = null ) {
+	function validateLimit( $paramName, &$value, $min, $max, $botMax = null, $enforceLimits = false ) {
 		if ( !is_null( $min ) && $value < $min ) {
-			$this->setWarning( $this->encodeParamName( $paramName ) . " may not be less than $min (set to $value)" );
+
+			$msg = $this->encodeParamName( $paramName ) . " may not be less than $min (set to $value)";
+			$this->warnOrDie( $msg, $enforceLimits );
 			$value = $min;
 		}
 
@@ -823,13 +870,29 @@ abstract class ApiBase {
 		if ( !is_null( $max ) && $value > $max ) {
 			if ( !is_null( $botMax ) && $this->getMain()->canApiHighLimits() ) {
 				if ( $value > $botMax ) {
-					$this->setWarning( $this->encodeParamName( $paramName ) . " may not be over $botMax (set to $value) for bots or sysops" );
+					$msg = $this->encodeParamName( $paramName ) . " may not be over $botMax (set to $value) for bots or sysops";
+					$this->warnOrDie( $msg, $enforceLimits );
 					$value = $botMax;
 				}
 			} else {
-				$this->setWarning( $this->encodeParamName( $paramName ) . " may not be over $max (set to $value) for users" );
+				$msg = $this->encodeParamName( $paramName ) . " may not be over $max (set to $value) for users";
+				$this->warnOrDie( $msg, $enforceLimits );
 				$value = $max;
 			}
+		}
+	}
+
+	/**
+	 * Adds a warning to the output, else dies
+	 *
+	 * @param  $msg String Message to show as a warning, or error message if dying
+	 * @param  $enforceLimits Boolean Whether this is an enforce (die)
+	 */
+	private function warnOrDie( $msg, $enforceLimits = false ) {
+		if ( $enforceLimits ) {
+			$this->dieUsage( $msg, 'integeroutofrange' );
+		} else {
+			$this->setWarning( $msg );
 		}
 	}
 
@@ -842,7 +905,7 @@ abstract class ApiBase {
 	public static function truncateArray( &$arr, $limit ) {
 		$modified = false;
 		while ( count( $arr ) > $limit ) {
-			$junk = array_pop( $arr );
+			array_pop( $arr );
 			$modified = true;
 		}
 		return $modified;
@@ -959,7 +1022,6 @@ abstract class ApiBase {
 		'createonly-exists' => array( 'code' => 'articleexists', 'info' => "The article you tried to create has been created already" ),
 		'nocreate-missing' => array( 'code' => 'missingtitle', 'info' => "The article you tried to edit doesn't exist" ),
 		'nosuchrcid' => array( 'code' => 'nosuchrcid', 'info' => "There is no change with rcid ``\$1''" ),
-		'cantpurge' => array( 'code' => 'cantpurge', 'info' => "Only users with the 'purge' right can purge pages via the API" ),
 		'protect-invalidaction' => array( 'code' => 'protect-invalidaction', 'info' => "Invalid protection type ``\$1''" ),
 		'protect-invalidlevel' => array( 'code' => 'protect-invalidlevel', 'info' => "Invalid protection level ``\$1''" ),
 		'toofewexpiries' => array( 'code' => 'toofewexpiries', 'info' => "\$1 expiry timestamps were provided where \$2 were needed" ),
@@ -1080,6 +1142,14 @@ abstract class ApiBase {
 	}
 
 	/**
+	 * Returns whether this module requires a Token to execute
+	 * @returns bool
+	 */
+	public function needsToken() {
+		return false;
+	}
+
+	/**
 	 * Returns the token salt if there is one, '' if the module doesn't require a salt, else false if the module doesn't need a token
 	 * @returns bool
 	 */
@@ -1089,7 +1159,7 @@ abstract class ApiBase {
 
 	/**
 	* Gets the user for whom to get the watchlist
-	*  
+	*
 	* @returns User
 	*/
 	public function getWatchlistUser( $params ) {
@@ -1104,8 +1174,6 @@ abstract class ApiBase {
 				$this->dieUsage( 'Incorrect watchlist token provided -- please set a correct token in Special:Preferences', 'bad_wltoken' );
 			}
 		} else {
-			// User not determined by URL, so don't cache
-			$this->getMain()->setVaryCookie();
 			if ( !$wgUser->isLoggedIn() ) {
 				$this->dieUsage( 'You must be logged-in to have a watchlist', 'notloggedin' );
 			}
@@ -1121,6 +1189,15 @@ abstract class ApiBase {
 	public function getPossibleErrors() {
 		$ret = array();
 
+		$params = $this->getFinalParams();
+		if ( $params ) {
+			foreach ( $params as $paramName => $paramSettings ) {
+				if ( isset( $paramSettings[ApiBase::PARAM_REQUIRED] ) ) {
+					$ret[] = array( 'missingparam', $paramName );
+				}
+			}
+		}
+
 		if ( $this->mustBePosted() ) {
 			$ret[] = array( 'mustbeposted', $this->getModuleName() );
 		}
@@ -1134,7 +1211,7 @@ abstract class ApiBase {
 			$ret[] = array( 'writedisabled' );
 		}
 
-		if ( $this->getTokenSalt() !== false ) {
+		if ( $this->needsToken() ) {
 			$ret[] = array( 'missingparam', 'token' );
 			$ret[] = array( 'sessionfailure' );
 		}

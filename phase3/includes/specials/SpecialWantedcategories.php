@@ -1,5 +1,8 @@
 <?php
 /**
+ * Implements Special:Wantedcategories
+ *
+ * Copyright © 2005 Ævar Arnfjörð Bjarmason
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,40 +18,34 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup SpecialPage
  */
 
 /**
  * A querypage to list the most wanted categories - implements Special:Wantedcategories
  *
- * @file
  * @ingroup SpecialPage
- *
- * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
- * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason
- * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 class WantedCategoriesPage extends WantedQueryPage {
 
-	function getName() {
-		return 'Wantedcategories';
+	function __construct( $name = 'Wantedcategories' ) {
+		parent::__construct( $name );
 	}
 
-	function getSQL() {
-		$dbr = wfGetDB( DB_SLAVE );
-		list( $categorylinks, $page ) = $dbr->tableNamesN( 'categorylinks', 'page' );
-		$name = $dbr->addQuotes( $this->getName() );
-		return
-			"
-			SELECT
-				$name as type,
-				" . NS_CATEGORY . " as namespace,
-				cl_to as title,
-				COUNT(*) as value
-			FROM $categorylinks
-			LEFT JOIN $page ON cl_to = page_title AND page_namespace = ". NS_CATEGORY ."
-			WHERE page_title IS NULL
-			GROUP BY cl_to
-			";
+	function getQueryInfo() {
+		return array (
+			'tables' => array ( 'categorylinks', 'page' ),
+			'fields' => array ( "'" . NS_CATEGORY . "' AS namespace",
+					'cl_to AS title',
+					'COUNT(*) AS value' ),
+			'conds' => array ( 'page_title IS NULL' ),
+			'options' => array ( 'GROUP BY' => 'cl_to' ),
+			'join_conds' => array ( 'page' => array ( 'LEFT JOIN',
+				array ( 'page_title = cl_to',
+					'page_namespace' => NS_CATEGORY ) ) )
+		);
 	}
 
 	function formatResult( $skin, $result ) {
@@ -71,15 +68,4 @@ class WantedCategoriesPage extends WantedQueryPage {
 			$wgLang->formatNum( $result->value ) );
 		return wfSpecialList($plink, $nlinks);
 	}
-}
-
-/**
- * constructor
- */
-function wfSpecialWantedCategories() {
-	list( $limit, $offset ) = wfCheckLimits();
-
-	$wpp = new WantedCategoriesPage();
-
-	$wpp->doQuery( $offset, $limit );
 }

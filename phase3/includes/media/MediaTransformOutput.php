@@ -1,5 +1,7 @@
 <?php
 /**
+ * Base class for the output of file transformation methods.
+ *
  * @file
  * @ingroup Media
  */
@@ -113,7 +115,7 @@ class ThumbnailImage extends MediaTransformOutput {
 	 * @param $page Integer: page number, for multipage files
 	 * @private
 	 */
-	function ThumbnailImage( $file, $url, $width, $height, $path = false, $page = false ) {
+	function __construct( $file, $url, $width, $height, $path = false, $page = false ) {
 		$this->file = $file;
 		$this->url = $url;
 		# These should be integers when they get here.
@@ -142,6 +144,7 @@ class ThumbnailImage extends MediaTransformOutput {
 	 *     desc-query   String, description link query params
 	 *     custom-url-link    Custom URL to link to
 	 *     custom-title-link  Custom Title object to link to
+	 *     custom target-link Value of the target attribute, for custom-target-link
 	 *
 	 * For images, desc-link and file-link are implemented as a click-through. For
 	 * sounds and videos, they may be displayed in other ways.
@@ -161,6 +164,9 @@ class ThumbnailImage extends MediaTransformOutput {
 			$linkAttribs = array( 'href' => $options['custom-url-link'] );
 			if ( !empty( $options['title'] ) ) {
 				$linkAttribs['title'] = $options['title'];
+			}
+			if ( !empty( $options['custom-target-link'] ) ) {
+				$linkAttribs['target'] = $options['custom-target-link'];
 			}
 		} elseif ( !empty( $options['custom-title-link'] ) ) {
 			$title = $options['custom-title-link'];

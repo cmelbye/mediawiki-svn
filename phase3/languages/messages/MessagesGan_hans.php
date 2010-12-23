@@ -8,6 +8,8 @@
  * @file
  *
  * @author Liangent
+ * @author Lokal Profil
+ * @author PhiLiP
  * @author Philip <philip.npc@gmail.com>
  * @author Symane
  * @author Urhixidur
@@ -43,11 +45,12 @@ $messages = array(
 'tog-editsection'             => '可以用[编写]链接来编写个别段落',
 'tog-editsectiononrightclick' => '可以按右键来编写只把子段落（JavaScript）',
 'tog-showtoc'                 => '超过三只标题就显到目录',
-'tog-rememberpassword'        => '到个只电脑记到偶𠮶密码',
+'tog-rememberpassword'        => '到个只电脑记到偶𠮶密码 (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => '拿偶开嘞𠮶页面加到偶𠮶监视列表',
 'tog-watchdefault'            => '拿偶改嘞𠮶页面加到偶𠮶监视列表',
 'tog-watchmoves'              => '拿偶动嘞𠮶页面加到偶𠮶监视列表',
 'tog-watchdeletion'           => '拿偶删撇𠮶页面加到偶𠮶监视列表',
+'tog-minordefault'            => '全部𠮶编辑设成细修改',
 'tog-previewontop'            => '到编辑框𠮶上首显示预览',
 'tog-previewonfirst'          => '头道修改时显示预览',
 'tog-nocache'                 => '停用页面𠮶缓存',
@@ -188,31 +191,20 @@ $messages = array(
 'faqpage'        => 'Project:问得蛮多𠮶问题',
 
 # Vector skin
-'vector-action-addsection'   => '添主题',
-'vector-action-delete'       => '删吥',
-'vector-action-move'         => '移吥',
-'vector-action-protect'      => '护到',
-'vector-action-undelete'     => '望下删吥𠮶页面',
-'vector-action-unprotect'    => '解除保护',
-'vector-namespace-category'  => '分类',
-'vector-namespace-help'      => '帮助页',
-'vector-namespace-image'     => '档案',
-'vector-namespace-main'      => '页面',
-'vector-namespace-media'     => '媒体页',
-'vector-namespace-mediawiki' => '介面',
-'vector-namespace-project'   => '计划页',
-'vector-namespace-special'   => '特别页',
-'vector-namespace-talk'      => '谈詑',
-'vector-namespace-template'  => '模板',
-'vector-namespace-user'      => '用户页',
-'vector-view-create'         => '创建',
-'vector-view-edit'           => '编辑',
-'vector-view-history'        => '望下历史',
-'vector-view-view'           => '读',
-'vector-view-viewsource'     => '望下原始码',
-'actions'                    => '动作',
-'namespaces'                 => '空间名',
-'variants'                   => '变换',
+'vector-action-addsection' => '添主题',
+'vector-action-delete'     => '删吥',
+'vector-action-move'       => '移吥',
+'vector-action-protect'    => '护到',
+'vector-action-undelete'   => '望下删吥𠮶页面',
+'vector-action-unprotect'  => '解除保护',
+'vector-view-create'       => '创建',
+'vector-view-edit'         => '编辑',
+'vector-view-history'      => '望下历史',
+'vector-view-view'         => '读',
+'vector-view-viewsource'   => '望下原始码',
+'actions'                  => '动作',
+'namespaces'               => '空间名',
+'variants'                 => '变换',
 
 'errorpagetitle'    => '错误',
 'returnto'          => '回到$1。',
@@ -421,13 +413,14 @@ $2',
 'yourname'                   => '用户名：',
 'yourpassword'               => '密码：',
 'yourpasswordagain'          => '输过道密码：',
-'remembermypassword'         => '让电脑记到密码',
+'remembermypassword'         => '让电脑记到密码 (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'yourdomainname'             => '倷𠮶域名：',
 'externaldberror'            => '外部验证数据库出错，或倷更新伓正倷𠮶外部帐户。',
 'login'                      => '登入',
 'nav-login-createaccount'    => '登入/新开只帐户',
 'loginprompt'                => '要开到cookies才登入得正{{SITENAME}}。',
 'userlogin'                  => '登入/新开只帐户',
+'userloginnocreate'          => '登入',
 'logout'                     => '退出',
 'userlogout'                 => '退出',
 'notloggedin'                => '冇登入',
@@ -437,6 +430,7 @@ $2',
 'gotaccount'                 => "有喽帐户？ '''$1'''.",
 'gotaccountlink'             => '登入',
 'createaccountmail'          => '通过email',
+'createaccountreason'        => '原因:',
 'badretype'                  => '倷输𠮶密码伓合。',
 'userexists'                 => '倷输𠮶用户名系人家𠮶，选过只喽！',
 'loginerror'                 => '登入错误',
@@ -474,16 +468,21 @@ $2',
 要系帐户创建不对𠮶话，倷就莫搭个只消息。',
 'loginlanguagelabel'         => '语言: $1',
 
+# JavaScript password checks
+'password-retype' => '输过道密码：',
+
 # Password reset dialog
-'resetpass'           => '设过帐户密码',
-'resetpass_announce'  => '倷系用到临时email𠮶代码登入𠮶。要登正入，倷要到个首设定只新密码:',
-'resetpass_header'    => '设过密码',
-'oldpassword'         => '老密码：',
-'newpassword'         => '新密码：',
-'retypenew'           => '确认密码:',
-'resetpass_submit'    => '设定密码同到登入',
-'resetpass_success'   => '倷𠮶密码改正喽！正帮倷登入...',
-'resetpass_forbidden' => '到{{SITENAME}}上改伓正密码',
+'resetpass'                 => '设过帐户密码',
+'resetpass_announce'        => '倷系用到临时email𠮶代码登入𠮶。要登正入，倷要到个首设定只新密码:',
+'resetpass_header'          => '设过密码',
+'oldpassword'               => '老密码：',
+'newpassword'               => '新密码：',
+'retypenew'                 => '确认密码:',
+'resetpass_submit'          => '设定密码同到登入',
+'resetpass_success'         => '倷𠮶密码改正喽！正帮倷登入...',
+'resetpass_forbidden'       => '到{{SITENAME}}上改伓正密码',
+'resetpass-submit-loggedin' => '设过帐户密码',
+'resetpass-submit-cancel'   => '取消',
 
 # Edit page toolbar
 'bold_sample'     => '粗体字',
@@ -567,15 +566,15 @@ $2',
 'userjsyoucanpreview'              => "'''提示:''' 存到前请用'望吖起'来测吖倷𠮶新JS 。",
 'usercsspreview'                   => "'''注意倷单系到预览倷个人𠮶 CSS，内容哈冇保存！'''",
 'userjspreview'                    => "'''注意倷单系到测试／预览倷个人𠮶 JavaScript，内容哈冇保存！'''",
-'userinvalidcssjstitle'            => "'''警告:''' 冇\"\$1\"𠮶皮肤。请记到自定义𠮶 .css 同 .js 页要用小写。就话，{{ns:user}}:Foo/monobook.css 伓等同 {{ns:user}}:Foo/Monobook.css。",
+'userinvalidcssjstitle'            => "'''警告:''' 冇\"\$1\"𠮶皮肤。请记到自定义𠮶 .css 同 .js 页要用小写。就话，{{ns:user}}:Foo/vector.css 伓等同 {{ns:user}}:Foo/Vector.css。",
 'updated'                          => '（更新正喽）',
 'note'                             => "'''注意:'''",
 'previewnote'                      => "'''请记到个光系预览，内容哈冇保存！'''",
 'previewconflict'                  => '个只预览系上首文字编辑区𠮶内容。倷选择保存𠮶话佢才会保存到。',
 'session_fail_preview'             => "'''对伓住！个只段落𠮶资料跌吥嘞，偶个俚处理伓正倷𠮶编辑。请试过吖。哈系扤伓正𠮶话，试吖退出后登入过。'''",
-'session_fail_preview_html'        => "'''对伓住！相关𠮶程式资料跌吥嘞，偶个俚处理伓正倷𠮶编辑。''' 
+'session_fail_preview_html'        => "'''对伓住！相关𠮶程式资料跌吥嘞，偶个俚处理伓正倷𠮶编辑。'''
 
-''个只wiki开放正嘞原HTML码，预览弆到嘞以防止JavaScript𠮶攻击。'' 
+''个只wiki开放正嘞原HTML码，预览弆到嘞以防止JavaScript𠮶攻击。''
 
 '''要系佢系合法编辑𠮶，请试过吖。哈系扤伓正𠮶话，试吖退出后登入过。'''",
 'token_suffix_mismatch'            => "'''倷𠮶用户端𠮶编辑信毁吥嘞嚸标点符号字符，啖𠮶话倷𠮶编辑就拖拒绝嘞。
@@ -601,8 +600,6 @@ $2',
 'copyrightwarning2'                => "请记得别𠮶人编得正、改得正或者删得正倷到{{SITENAME}}𠮶全部贡献。要系倷伓想自家𠮶编辑好嚟嚟拖改吥，唉就莫递交。<br />
 倷都要话正倷𠮶文字系倷自家写𠮶，或者系公有领域或别𠮶自由资源复制到𠮶（望吖$1有别𠮶资料）。
 '''冇任何许可𠮶情况下请莫递交有版权𠮶作品！'''",
-'longpagewarning'                  => "'''警告：个页有$1 kilobytes咁长；有𠮶浏览器会编伓正超吥32 kb𠮶页面。
-请考虑吖拿佢分到细嚸𠮶小段落。'''",
 'longpageerror'                    => "'''错误：倷递交𠮶文字有$1 kilobytes咁长，佢长过最大𠮶$2 kilobytes。存伓正倷递交𠮶文字。'''",
 'readonlywarning'                  => "'''警告: 数据库锁到嘞进行定期修护，眼下倷存伓正倷𠮶改动。倷可以拿佢存到文档再著。'''",
 'protectedpagewarning'             => "'''警告: 个页已经受保护，单只管理员权限𠮶用户才改得正。'''",
@@ -628,6 +625,7 @@ $2',
 为到方便，个页𠮶删除记录已经到下底提供:",
 'moveddeleted-notice'              => '个只版面已经拕删吥喽。
 下头提供个只版面𠮶删除日志，以供参考。',
+'edit-conflict'                    => '编辑仗。',
 
 # "Undo" feature
 'undo-success' => '个只编辑可以拖取销。请检查吖以确定个系倷想扤𠮶，接到保存修改去完成撤销编辑。',
@@ -674,6 +672,7 @@ $2',
 'rev-deleted-text-permission' => '个页𠮶改动从共用文档挪吥嘞。到[{{fullurl:{{#Special:Log}}/suppress|page={{PAGENAMEE}}}} 删除日志] 里度倷话伓定有详细𠮶资料。',
 'rev-deleted-text-view'       => '个页𠮶改动从共用文档挪吥嘞。作为本站𠮶管理员，倷查看得正；到[{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} 删除日志] 里度有详细𠮶资料。',
 'rev-delundel'                => '显示/弆到',
+'rev-showdeleted'             => '敨开',
 'revisiondelete'              => '删除/反删除修改',
 'revdelete-nooldid-title'     => '冇目标修订',
 'revdelete-nooldid-text'      => '倷冇话个只操作𠮶目标修改。',
@@ -917,9 +916,9 @@ $2',
 要眵或要寻先前上传𠮶图像请去[[Special:FileList|图像列表]]，上传同删除会记到[[Special:Log/upload|上传日志]]里度。
 
 要系想扻文件到页面，用得正下底𠮶方式链接:
-'''[[{{ns:file}}:File.jpg]]''',
-'''[[{{ns:file}}:File.png|alt text]]''' 或
-'''[[{{ns:media}}:File.ogg]]''' 直接连接到个只文件。",
+'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.jpg]]</nowiki></tt>''',
+'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.png|alt text]]</nowiki></tt>''' 或
+'''<tt><nowiki>[[</nowiki>{{ns:media}}<nowiki>:File.ogg]]</nowiki></tt>''' 直接连接到个只文件。",
 'upload-permitted'            => '容许𠮶文件类型：$1。',
 'upload-preferred'            => '优先𠮶文件类型：$1。',
 'upload-prohibited'           => '禁止𠮶文件类型：$1。',
@@ -953,7 +952,6 @@ $2',
 'file-thumbnail-no'           => "个只档案名系以'''<tt>$1</tt>'''开头。佢好像一只图像𠮶缩小版''（缩图）''。如果倷有个只图像𠮶完整版，伓然请再改过只档名。",
 'fileexists-forbidden'        => '个只档案名已存在；请回头并换过只新𠮶名称来上传个只档案。[[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => '到共用档案库里度有嘞同名𠮶档案；请回头并换过只新𠮶名称来上传个只档案。[[File:$1|thumb|center|$1]]',
-'successfulupload'            => '上传正嘞',
 'uploadwarning'               => '上传警告',
 'savefile'                    => '保存盘案',
 'uploadedimage'               => '上传正嘞"[[$1]]"',
@@ -971,6 +969,7 @@ $2',
 倷要想正系真𠮶上传个只档案。
 为到方便起见，个只档案𠮶删除记录到下底提供嘞:",
 'filename-bad-prefix'         => "倷上传𠮶档案名系以'''\"\$1\"'''做开头𠮶，通常个种冇意义𠮶名字系数码相机度𠮶自动编排。请到倷𠮶档案拣过只更加有意义𠮶名字。",
+'upload-success-subj'         => '上传正嘞',
 
 'upload-proto-error'      => '协定错误',
 'upload-proto-error-text' => '远程上传要求 URL 用 <code>http://</code> 或 <code>ftp://</code> 开头。',
@@ -1201,7 +1200,9 @@ $2',
 
 # Special:Categories
 'categories'         => '页面分类',
-'categoriespagetext' => '下底𠮶分类包到页面或系媒体文件。',
+'categoriespagetext' => '下底𠮶分类包到页面或系媒体文件。
+[[Special:UnusedCategories|Unused categories]] are not shown here.
+Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
 'linksearch' => '外部连结',
@@ -1242,7 +1243,6 @@ $2',
 # Watchlist
 'watchlist'            => '监视列表',
 'mywatchlist'          => '偶𠮶监视列表',
-'watchlistfor'         => "（'''$1'''𠮶监视列表'）",
 'nowatchlist'          => '倷𠮶监视列表什哩都冇有。',
 'watchlistanontext'    => '请$1眵吖或改吖倷𠮶监视列表。',
 'watchnologin'         => '冇登入',
@@ -1499,7 +1499,6 @@ $1',
 'ipb-edit-dropdown'           => '编写封锁原因',
 'ipb-unblock-addr'            => '解封$1',
 'ipb-unblock'                 => '解封用户名或IP地址',
-'ipb-blocklist-addr'          => '望吖$1目前𠮶封禁',
 'ipb-blocklist'               => '望吖目前𠮶封禁',
 'unblockip'                   => '解封IP地址',
 'unblockiptext'               => '用下底𠮶表格去恢复早先拖封𠮶IP𠮶编写权。',
@@ -2155,11 +2154,11 @@ $1',
 'confirmemail_loggedin'   => '倷𠮶email地址已得到确认。',
 'confirmemail_error'      => '确认过程出错。',
 'confirmemail_subject'    => '{{SITENAME}}电子邮件地址确认',
-'confirmemail_body'       => 'IP地址$1𠮶用户（可能系倷）到{{SITENAME}}注册嘞帐户"$2"，并一同用嘞倷𠮶email地址。 
+'confirmemail_body'       => 'IP地址$1𠮶用户（可能系倷）到{{SITENAME}}注册嘞帐户"$2"，并一同用嘞倷𠮶email地址。
 
-请确认个只帐户系归倷𠮶，接到启动{{SITENAME}}里头𠮶email功能。请到浏览器开到下底𠮶链接: 
+请确认个只帐户系归倷𠮶，接到启动{{SITENAME}}里头𠮶email功能。请到浏览器开到下底𠮶链接:
 
-$3 
+$3
 
 如果个*伓系*倷，就冇必要打开个只链接。确认码会到$4时间过期。',
 
