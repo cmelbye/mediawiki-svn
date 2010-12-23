@@ -2894,24 +2894,21 @@ mw.RemoteSearchDriver.prototype = {
 
 			// Update cancel button
 			$j( buttonPaneSelector ).append(
-				$j('<a />')
-				.attr('href', "#")
-				.addClass( "preview_close" )
-				.text( gM('mwe-do-more-modification' ) )
-				.click( function() {
-					$j( '#rsd_preview_display' ).remove();
-					var restoreTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
-						gM( 'rsd_resource_edit', resource.title );
-
-					// Restore title:
-					$j( _this.target_container ).dialog( 'option', 'title', restoreTitle );
-
-					// Restore buttons (from the clipEdit object::)
-					_this.clipEdit.updateInsertControlActions();
-					return false;
-				})
+				$j.btnHtml( gM('mwe-do-more-modification' ), 'preview_close', 'pencil' )				
 			);
+			$j( buttonPaneSelector ).find('.preview_close')
+			.click( function() {
+				$j( '#rsd_preview_display' ).remove();
+				var restoreTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
+					gM( 'rsd_resource_edit', resource.title );
 
+				// Restore title:
+				$j( _this.target_container ).dialog( 'option', 'title', restoreTitle );
+
+				// Restore buttons (from the clipEdit object::)
+				_this.clipEdit.updateInsertControlActions();
+				return false;
+			})
 			// Get the preview wikitext
 			var embed_code = _this.getEmbedCode( resource );
 			var pos = $j( _this.target_textbox ).textSelection( 'getCaretPosition' );
