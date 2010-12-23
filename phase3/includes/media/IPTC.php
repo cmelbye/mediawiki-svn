@@ -371,15 +371,12 @@ class IPTC {
 			return null;
 		}
 
-		if ( substr($date, 0, 4) < "1902" ) {
-			// We run into the reverse y2k38 bug.
-			// Avoid using wfTimestamp as it doesn't work for pre-1902 dates
-			return substr( $date, 0, 4 ) . ':'
-				. substr( $date, 4, 2 ) . ':'
-				. substr( $date, 6, 2 );
-		}
-		
 		$unixTS = wfTimestamp( TS_UNIX, $date . substr( $time, 0, 6 ));
+		if ( $unixTS === false ) {
+			wfDebugLog( 'iptc', "IPTC: can't convert date to TS_UNIX: $date $time." );
+			return null;
+		}
+
 		$tz = ( intval( substr( $time, 7, 2 ) ) *60*60 )
 			+ ( intval( substr( $time, 9, 2 ) ) * 60 );
 
@@ -388,6 +385,10 @@ class IPTC {
 		}
 
 		$finalTimestamp = wfTimestamp( TS_EXIF, $unixTS + $tz );
+		if ( $finalTimestamp === false ) {
+			wfDebugLog( 'iptc', "IPTC: can't make final timestamp. Date: " . ( $unixTS + $tz ) );
+			return null;
+		}
 		if ( $dateOnly ) {
 			//return the date only
 			return substr( $finalTimestamp, 0, 10 );

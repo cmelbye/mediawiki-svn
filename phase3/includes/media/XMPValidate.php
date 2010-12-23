@@ -234,9 +234,7 @@ class XMPValidate {
 			//Extra check for empty string necessary due to TZ but no second case.
 			$res[6] = isset( $res[6] ) && $res[6] != '' ? $res[6] : '00';
 
-			if ( !isset( $res[7] ) || $res[7] === 'Z' || $res[1] >= '2038' || $res[1] < '1902' ) {
-				// timezone processing has y2k38 problem so pretend not set if
-				// before 1902 or after 2037.
+			if ( !isset( $res[7] ) || $res[7] === 'Z' ) {
 				$val = $res[1] . ':' . $res[2] . ':' . $res[3]
 					. ' ' . $res[4] . ':' . $res[5] . ':' . $res[6];
 				return;

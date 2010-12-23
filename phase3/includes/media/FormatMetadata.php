@@ -99,8 +99,14 @@ class FormatMetadata {
 					continue;
 				}
 				$tags[$tag] = intval( $h[0] / $h[1] )
-					. ':' . intval( $m[0] / $m[1] )
+					. ':' . str_pad( intval( $m[0] / $m[1] ), 2, '0', STR_PAD_LEFT )
 					. ':' . str_pad( intval( $s[0] / $s[1] ), 2, '0', STR_PAD_LEFT );
+
+				$time = wfTimestamp( TS_MW, '1971:01:01 ' . $tags[$tag] );
+				// the 1971:01:01 is just a placeholder, and not shown to user.
+				if ( $time ) {
+					$tags[$tag] = $wgLang->time( $time );
+				}
 				continue;
 			}
 
@@ -224,18 +230,20 @@ class FormatMetadata {
 				case 'DateTimeMetadata':
 					if ( $val == '0000:00:00 00:00:00' || $val == '    :  :     :  :  ' ) {
 						$val = wfMsg( 'exif-unknowndate' );
-					} elseif ( preg_match( '/^(?:\d{4}):(?:\d\d):(?:\d\d) (?:\d\d):(?:\d\d):(?:\d\d)$/', $val ) ) {
-						$val = $wgLang->timeanddate( wfTimestamp( TS_MW, $val ) );
-					} elseif ( preg_match( '/^(?:\d{4}):(?:\d\d):(?:\d\d)$/', $val ) ) {
-						// avoid using wfTimestamp here for the pre-1902 photos
-						// due to reverse y2k38 bug. $wgLang->timeanddate() is also
-						// broken on dates from before 1902 so don't worry about it
-						// in the above case (not to mention that most photos from the
-						// 1800's don't have a time recorded anyways).
-						$val = $wgLang->date( substr( $val, 0, 4 )
+					} elseif ( preg_match( '/^(?:\d{4}):(?:\d\d):(?:\d\d) (?:\d\d):(?:\d\d):(?:\d\d)$/D', $val ) ) {
+						$time = wfTimestamp( TS_MW, $val );
+						if ( $time ) {
+							$val = $wgLang->timeanddate( $time );
+						}
+					} elseif ( preg_match( '/^(?:\d{4}):(?:\d\d):(?:\d\d)$/D', $val ) ) {
+						// If only the date but not the time is filled in.
+						$time = wfTimestamp( TS_MW, substr( $val, 0, 4 )
 							. substr( $val, 5, 2 )
 							. substr( $val, 8, 2 )
 							. '000000' );
+						if ( $time ) {
+							$val = $wgLang->date( $time );
+						}
 					}
 					// else it will just output $val without formatting it.
 					break;
