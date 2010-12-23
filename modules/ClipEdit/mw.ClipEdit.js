@@ -458,7 +458,7 @@ mw.ClipEdit.prototype = {
 		var _this = this;
 		var eb = $j( '#embed_vid' ).get( 0 );
 		// turn on preview to avoid onDone actions
-		eb.preview_mode = true;
+		eb.previewMode = true;
 		$j( '#' + this.target_control_display ).html( '<h3>' + gM( 'mwe-clipedit-edit-video-tools' ) + '</h3>' );
 		if ( eb.supportsURLTimeEncoding() ) {
 			if ( eb.end_ntp ) {
@@ -739,19 +739,19 @@ mw.ClipEdit.prototype = {
 				$j( '#mw_layout_' + _this.resource.layout )[0].checked = true;
 
 				// Left radio click
-				$j( '#mw_layout_left,#mw_layout_left_img' ).click( function() {
+				$j( '#mw_layout_left,#mw_layout_left_img' ).click( function( event ) {
 					$j( '#mw_layout_right' )[0].checked = false;
 					$j( '#mw_layout_left' )[0].checked = true;
 					_this.resource.layout = 'left';
-					return true;
+					event.stopPropagation();
 				} );
 
 				// Right radio click
-				$j( '#mw_layout_right,#mw_layout_right_img' ).click( function() {
+				$j( '#mw_layout_right,#mw_layout_right_img' ).click( function( event ) {
 					$j( '#mw_layout_left' )[0].checked = false;
 					$j( '#mw_layout_right' )[0].checked = true;
 					_this.resource.layout = 'right';
-					return true;
+					event.stopPropagation();
 				} );
 			break;
 			case 'crop':
