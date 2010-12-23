@@ -2116,38 +2116,31 @@ mw.RemoteSearchDriver.prototype = {
 
 		mw.log( 'did append to: ' + _this.target_container );
 
-		// issue a loadResourceImage request if needed ( image is > than target display resolution )
-		if ( mediaType == 'image' && resource.width > targetWidth ) {
-			_this.loadResourceImage(
-				resource,
-				{
-					'width': targetWidth,
-					'height' : targetHeight
-				},
-				function( img_src ) {
-					$j('#clip_edit_disp').empty().append(
-						$j( '<img />' )
-						.attr( {
-							'id' : 'rsd_edit_img',
-							'src' : img_src,
-							'width': targetWidth,
-							'height' : targetHeight
-						} )
-					);
-				}
-			);
-		} else if ( mediaType == 'image' ) {
-			//Just use the asset url directly
-			$j('#clip_edit_disp').empty().append(
-				$j( '<img />' )
-				.attr( {
-					'id' : 'rsd_edit_img',
-					'src' : resource.src,
-					'width' : resource.width,
-					'height' : resource.height
-				} )
-			)
-		}
+		// check if the size is small
+		if( resource.width < targetWidth ){
+			targetWidth = resource.width;
+			targetHeight = resource.height;
+		}		
+		
+		// issue a loadResourceImage request:
+		_this.loadResourceImage(
+			resource,
+			{
+				'width': targetWidth,
+				'height' : targetHeight
+			},
+			function( img_src ) {
+				$j('#clip_edit_disp').empty().append(
+					$j( '<img />' )
+					.attr( {
+						'id' : 'rsd_edit_img',
+						'src' : img_src,
+						'width': targetWidth,
+						'height' : targetHeight
+					} )
+				);
+			}
+		);
 
 		// Also fade in the container:
 		$j( '#rsd_resource_edit' ).animate( {
