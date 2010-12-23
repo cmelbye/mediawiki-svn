@@ -2875,11 +2875,9 @@ mw.RemoteSearchDriver.prototype = {
 					'background-color' : '#FFF',
 					'padding' : '1em'
 				}).loadingSpinner()
-			)
+			);
 
 			var buttonPaneSelector = _this.target_container + '~ .ui-dialog-buttonpane';
-			var origTitle = $j( _this.target_container ).dialog( 'option', 'title' );
-
 			// Update title:
 			$j( _this.target_container ).dialog( 'option', 'title',
 				gM( 'mwe-preview_insert_resource', resource.title ) );
@@ -2902,9 +2900,11 @@ mw.RemoteSearchDriver.prototype = {
 				.text( gM('mwe-do-more-modification' ) )
 				.click( function() {
 					$j( '#rsd_preview_display' ).remove();
+					var restoreTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
+						gM( 'rsd_resource_edit', resource.title );
 
 					// Restore title:
-					$j( _this.target_container ).dialog( 'option', 'title', origTitle );
+					$j( _this.target_container ).dialog( 'option', 'title', restoreTitle );
 
 					// Restore buttons (from the clipEdit object::)
 					_this.clipEdit.updateInsertControlActions();
