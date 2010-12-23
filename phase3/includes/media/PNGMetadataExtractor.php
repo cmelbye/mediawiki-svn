@@ -24,7 +24,7 @@ class PNGMetadataExtractor {
 	static function getMetadata( $filename ) {
 		self::$png_sig = pack( "C8", 137, 80, 78, 71, 13, 10, 26, 10 );
 		self::$CRC_size = 4;
-		/* based on list at http://owl.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData 
+		/* based on list at http://owl.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
 		 * and http://www.w3.org/TR/PNG/#11keywords
 		 */
 		self::$text_chunks = array(
@@ -53,23 +53,24 @@ class PNGMetadataExtractor {
 		);
 
 		$showXMP = function_exists( 'xml_parser_create_ns' );
-		
+
 		$frameCount = 0;
 		$loopCount = 1;
 		$duration = 0.0;
 		$text = array();
 
-		if (!$filename)
+		if ( !$filename ) {
 			throw new Exception( __METHOD__ . ": No file name specified" );
-		elseif ( !file_exists($filename) || is_dir($filename) )
+		} elseif ( !file_exists( $filename ) || is_dir( $filename ) ) {
 			throw new Exception( __METHOD__ . ": File $filename does not exist" );
-		
+		}
+
 		$fh = fopen( $filename, 'r' );
-		
-		if (!$fh) {
+
+		if ( !$fh ) {
 			throw new Exception( __METHOD__ . ": Unable to open file $filename" );
 		}
-		
+
 		// Check for the PNG header
 		$buf = fread( $fh, 8 );
 		if ( $buf != self::$png_sig ) {
@@ -77,22 +78,22 @@ class PNGMetadataExtractor {
 		}
 
 		// Read chunks
-		while( !feof( $fh ) ) {
+		while ( !feof( $fh ) ) {
 			$buf = fread( $fh, 4 );
-			if( !$buf ) {
+			if ( !$buf ) {
 				throw new Exception( __METHOD__ . ": Read error" );
 			}
-			$chunk_size = unpack( "N", $buf);
+			$chunk_size = unpack( "N", $buf );
 			$chunk_size = $chunk_size[1];
 
 			$chunk_type = fread( $fh, 4 );
-			if( !$chunk_type ) {
+			if ( !$chunk_type ) {
 				throw new Exception( __METHOD__ . ": Read error" );
 			}
 
 			if ( $chunk_type == "acTL" ) {
 				$buf = fread( $fh, $chunk_size );
-				if( !$buf ) {
+				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
 
@@ -101,21 +102,23 @@ class PNGMetadataExtractor {
 				$loopCount = $actl['plays'];
 			} elseif ( $chunk_type == "fcTL" ) {
 				$buf = fread( $fh, $chunk_size );
-				if( !$buf ) {
+				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
-				$buf = substr( $buf, 20 );	
+				$buf = substr( $buf, 20 );
 
 				$fctldur = unpack( "ndelay_num/ndelay_den", $buf );
-				if( $fctldur['delay_den'] == 0 ) $fctldur['delay_den'] = 100;
-				if( $fctldur['delay_num'] ) {
+				if ( $fctldur['delay_den'] == 0 ) {
+					$fctldur['delay_den'] = 100;
+				}
+				if ( $fctldur['delay_num'] ) {
 					$duration += $fctldur['delay_num'] / $fctldur['delay_den'];
 				}
 			} elseif ( $chunk_type == "iTXt" ) {
 				// Extracts iTXt chunks, uncompressing if necessary.
 				$buf = fread( $fh, $chunk_size );
 				$items = array();
-				if ( preg_match( 
+				if ( preg_match(
 					'/^([^\x00]{1,79})\x00(\x00|\x01)\x00([^\x00]*)(.)[^\x00]*\x00(.*)$/Ds',
 					$buf, $items )
 				) {
@@ -137,7 +140,7 @@ class PNGMetadataExtractor {
 						// if no lang specified use x-default like in xmp.
 						$items[3] = 'x-default';
 					}
-					
+
 					// if compressed
 					if ( $items[2] == "\x01" ) {
 						if ( function_exists( 'gzuncompress' ) && $items[4] === "\x00" ) {
@@ -146,7 +149,7 @@ class PNGMetadataExtractor {
 							wfRestoreWarnings();
 
 							if ( $items[5] === false ) {
-								//decompression failed
+								// decompression failed
 								wfDebug( __METHOD__ . ' Error decompressing iTxt chunk - ' . $items[1] );
 								fseek( $fh, self::$CRC_size, SEEK_CUR );
 								continue;
@@ -164,9 +167,8 @@ class PNGMetadataExtractor {
 					$text[ $finalKeyword ]['_type'] = 'lang';
 
 				} else {
-					//Error reading iTXt chunk
+					// Error reading iTXt chunk
 					throw new Exception( __METHOD__ . ": Read error on iTXt chunk" );
-					return;
 				}
 
 			} elseif ( $chunk_type == 'tEXt' ) {
@@ -177,7 +179,6 @@ class PNGMetadataExtractor {
 				list( $keyword, $content ) = explode( "\x00", $buf, 2 );
 				if ( $keyword === '' || $content === '' ) {
 					throw new Exception( __METHOD__ . ": Read error on tEXt chunk" );
-					return;
 				}
 
 				// Theoretically should be case-sensitive, but in practise...
@@ -188,12 +189,11 @@ class PNGMetadataExtractor {
 					continue;
 				}
 				wfSuppressWarnings();
-				$content = iconv( 'ISO-8859-1', 'UTF-8', $content);
+				$content = iconv( 'ISO-8859-1', 'UTF-8', $content );
 				wfRestoreWarnings();
 
 				if ( $content === false ) {
 					throw new Exception( __METHOD__ . ": Read error (error with iconv)" );
-					return;
 				}
 
 				$finalKeyword = self::$text_chunks[ $keyword ];
@@ -209,7 +209,6 @@ class PNGMetadataExtractor {
 					list( $keyword, $postKeyword ) = explode( "\x00", $buf, 2 );
 					if ( $keyword === '' || $postKeyword === '' ) {
 						throw new Exception( __METHOD__ . ": Read error on zTXt chunk" );
-						return;
 					}
 					// Theoretically should be case-sensitive, but in practise...
 					$keyword = strtolower( $keyword );
@@ -232,19 +231,18 @@ class PNGMetadataExtractor {
 					wfRestoreWarnings();
 
 					if ( $content === false ) {
-						//decompression failed
+						// decompression failed
 						wfDebug( __METHOD__ . ' Error decompressing zTXt chunk - ' . $keyword );
 						fseek( $fh, self::$CRC_size, SEEK_CUR );
 						continue;
 					}
 
 					wfSuppressWarnings();
-					$content = iconv( 'ISO-8859-1', 'UTF-8', $content);
+					$content = iconv( 'ISO-8859-1', 'UTF-8', $content );
 					wfRestoreWarnings();
 
 					if ( $content === false ) {
 						throw new Exception( __METHOD__ . ": Read error (error with iconv)" );
-						return;
 					}
 
 					$finalKeyword = self::$text_chunks[ $keyword ];
@@ -257,9 +255,13 @@ class PNGMetadataExtractor {
 				}
 			} elseif ( $chunk_type == 'tIME' ) {
 				// last mod timestamp.
-				if( $chunk_size !== 7 ) { throw new Exception( __METHOD__ . ": tIME wrong size" ); return; }
+				if ( $chunk_size !== 7 ) {
+					throw new Exception( __METHOD__ . ": tIME wrong size" );
+				}
 				$buf = fread( $fh, $chunk_size );
-				if( !$buf ) { throw new Exception( __METHOD__ . ": Read error" ); return; }
+				if ( !$buf ) {
+					throw new Exception( __METHOD__ . ": Read error" );
+				}
 
 				// Note: spec says this should be UTC.
 				$t = unpack( "ny/Cm/Cd/Ch/Cmin/Cs", $buf );
@@ -275,9 +277,14 @@ class PNGMetadataExtractor {
 
 			} elseif ( $chunk_type == 'pHYs' ) {
 				// how big pixels are (dots per meter).
-				if( $chunk_size !== 9 ) { throw new Exception( __METHOD__ . ": pHYs wrong size" ); return; }
+				if ( $chunk_size !== 9 ) {
+					throw new Exception( __METHOD__ . ": pHYs wrong size" );
+				}
+
 				$buf = fread( $fh, $chunk_size );
-				if( !$buf ) { throw new Exception( __METHOD__ . ": Read error" ); return; }
+				if ( !$buf ) {
+					throw new Exception( __METHOD__ . ": Read error" );
+				}
 
 				$dim = unpack( "Nwidth/Nheight/Cunit", $buf );
 				if ( $dim['unit'] == 1 ) {
@@ -300,7 +307,7 @@ class PNGMetadataExtractor {
 		}
 		fclose( $fh );
 
-		if( $loopCount > 1 ) {
+		if ( $loopCount > 1 ) {
 			$duration *= $loopCount;
 		}
 
@@ -336,6 +343,6 @@ class PNGMetadataExtractor {
 			'duration' => $duration,
 			'text' => $text,
 		);
-		
+
 	}
 }
