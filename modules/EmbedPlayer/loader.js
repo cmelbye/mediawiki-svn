@@ -1,7 +1,6 @@
 /**
 * EmbedPlayer loader
 */
-
 /**
 * Default player module configuration
 */
@@ -12,6 +11,10 @@
 		// can be set to false per embed player via overlayControls attribute
 		'EmbedPlayer.OverlayControls' : true,
 
+		// If the iPad should use html controls ( can't use fullscreen or control volume, 
+		// but lets you support overlays ie html controls ads etc. )
+		'EmbedPlayer.EnableIpadHTMLControls': false, 
+		
 		'EmbedPlayer.LibraryPage': 'http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library',
 
 		// A default apiProvider ( ie where to lookup subtitles, video properties etc )
@@ -37,8 +40,11 @@
 			// An icon image url ( should be a 12x12 image or data url )
 			'iconurl' : false
 		},
-
-
+		
+		// If the player should wait for metadata like video size and duration, before trying to draw
+		// the player interface. 
+		'EmbedPlayer.WaitForMeta' : true,
+		
 		// Set the browser player warning flag displays warning for non optimal playback
 		"EmbedPlayer.ShowNativeWarning" : true,
 
@@ -76,12 +82,61 @@
 		// Number of milliseconds between interface updates
 		'EmbedPlayer.MonitorRate' : 250,
 
-		// If the embedPlayer should accept arguments from
+		// If the embedPlayer should accept arguments passed in from iframe postMessages calls
 		'EmbedPlayer.EnalbeIFramePlayerServer' : false,
-
-		'EmbedPLayer.IFramePlayer.DomainWhiteList' : '*'
+		
+		// If embedPlayer should support server side temporal urls for seeking options are 
+		// flash|always|none default is support for flash only.
+		'EmbedPlayer.EnableURLTimeEncoding' : 'flash',
+		
+		// The domains which can read and send events to the video player
+		'EmbedPLayer.IFramePlayer.DomainWhiteList' : '*',
+		
+		// If the iframe should send and receive javascript events across domains via postMessage 
+		'EmbedPlayer.EnableIframeApi' : false
 	} );
+	
+	/**
+	 * The base source attribute checks also see:
+	 * http://dev.w3.org/html5/spec/Overview.html#the-source-element
+	 */
+	mw.setDefaultConfig( 'EmbedPlayer.SourceAttributes', [
+		// source id
+		'id',
 
+		// media url
+		'src',
+
+		// Title string for the source asset
+		'title',
+
+		// boolean if we support temporal url requests on the source media
+		'URLTimeEncoding',
+
+		// Media has a startOffset ( used for plugins that
+		// display ogg page time rather than presentation time
+		'startOffset',
+
+		// A hint to the duration of the media file so that duration
+		// can be displayed in the player without loading the media file
+		'durationHint',
+
+		// Media start time
+		'start',
+
+		// Media end time
+		'end',
+
+		// If the source is the default source
+		'default',
+		
+		// Title of the source
+		'title',
+		
+		// titleKey ( used for api lookups TODO move into mediaWiki specific support
+		'titleKey'
+	] );
+	
 	/*
 	 * The default video attributes supported by embedPlayer
 	 */
@@ -263,8 +318,9 @@
 	});
 
 	mw.rewritePagePlayerTags = function( callback ) {
-		mw.log( 'EmbedPlayer:: Document::' + mw.documentHasPlayerTags() );
-		if( mw.documentHasPlayerTags() ) {
+		var rewriteCount = mw.documentHasPlayerTags()
+		mw.log( 'EmbedPlayer:: Document::' + rewriteCount);
+		if( rewriteCount ) {
 			var rewriteElementCount = 0;
 
 			// Set each player to loading ( as early on as possible )
@@ -290,8 +346,8 @@
 		} else {
 			callback();
 		}
-	}
-
+	};
+	
 	/**
 	* Add the module loader function:
 	*/
@@ -324,8 +380,7 @@
 		];
 
 		// Pass every tag being rewritten through the update request function
-		$j( mw.getConfig( 'EmbedPlayer.RewriteTags' ) ).each( function() {
-			var playerElement = this;
+		$j( mw.getConfig( 'EmbedPlayer.RewriteTags' ) ).each( function(inx, playerElement) {
 			mw.embedPlayerUpdateLibraryRequest( playerElement, dependencyRequest[ 1 ] )
 		} );
 
@@ -337,19 +392,19 @@
 		// Do short detection, to avoid extra player library request in ~most~ cases.
 		//( If browser is firefox include native, if browser is IE include java )
 		if( $j.browser.msie ) {
-			dependencyRequest[0].push( 'mw.EmbedPlayerJava' )
+			dependencyRequest[0].push( 'mw.EmbedPlayerJava' );
 		}
 
 		// Safari gets slower load since we have to detect ogg support
 		if( !!document.createElement('video').canPlayType && !$j.browser.safari ) {
 			dependencyRequest[0].push( 'mw.EmbedPlayerNative' )
 		}
-
 		// Check if the iFrame player server is enabled:
-		if (mw.getConfig('EmbedPlayer.EnableIFramePlayerServer')) {
-			dependencyRequest.push('mw.EmbedPlayerNative');
-			dependencyRequest.push('$j.postMessage');
-			dependencyRequest.push('mw.IFramePlayerApiServer');
+		//alert('ifmra' + mw.getConfig('EmbedPlayer.EnableIframeApi'));
+		if ( mw.getConfig('EmbedPlayer.EnableIframeApi') ) {
+			dependencyRequest[0].push('mw.EmbedPlayerNative');
+			dependencyRequest[0].push('$j.postMessage');
+			dependencyRequest[0].push('mw.IFramePlayerApiServer');
 		}
 
 		// Return the set of libs to be loaded
@@ -384,8 +439,8 @@
 			dependencyRequest.push( 'mw.style.PlayerSkin' + skinCaseName );
 		}
 
-		// Check if the iFrame player server is enabled:
-		if( mw.getConfig('EmbedPlayer.EnalbeIFramePlayerServer') ){
+		// Check if the iFrame api server should be loaded ( iframe api is on ):
+		if( mw.getConfig('EmbedPlayer.EnableIframeApi') ){
 			dependencyRequest.push(	'mw.IFramePlayerApiServer' );
 		}
 

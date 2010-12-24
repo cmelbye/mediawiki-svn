@@ -7,14 +7,19 @@
 
 	mw.addResourcePaths( {
 		"mw.Playlist" : "mw.Playlist.js",
-		"mw.PlaylistHandlerMediaRss" : "mw.PlaylistHandlerMediaRss.js"
+		"mw.PlaylistHandlerMediaRss" : "mw.PlaylistHandlerMediaRss.js",
+		"mw.PlaylistLayoutJQueryUi" : "mw.PlaylistLayoutJQueryUi.js",	
+		"mw.PlaylistLayoutMobile" : "mw.PlaylistLayoutMobile.js"	
 	});
 
 	// Set the default config
 	mw.setDefaultConfig( {
 		// Playlist layout 'vertical' or 'horizontal'
 		'Playlist.layout' : 'vertical',
-
+		
+		// Skin, presently 'jqueryui' or 'jquerymobile' supported
+		"Playlist.Skin" : "jqueryui",
+			
 		// Player aspect ratio
 		'Playlist.playerAspect' : '4:3',
 
@@ -30,8 +35,9 @@
 
 	// Module loader
 	mw.addModuleLoader( 'Playlist', function(){
-		var resourceList = ["mw.Playlist", "mw.PlaylistHandlerMediaRss" ]
-		return resourceList;
+		// TODO loader should check playlist configuration and conditionally load the MobileTheme
+		//, 'mw.PlaylistThemeUi', 'mw.PlaylistLayoutMobile'
+		return ["mw.Playlist", "mw.PlaylistHandlerMediaRss"];
 	});
 
 

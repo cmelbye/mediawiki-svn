@@ -14,13 +14,13 @@
 	color:white;
 }
 
-.loadingSpinner{
+.loadingSpinner {
 	width:32px;
 	height:32px;
 	display:block;
 	padding:0px;
 	background-image: url('images/loading_ani.gif');
-	margin: auto ;	
+	margin: auto;
 }
 .cssLoadingSpinner {
 	position:relative;

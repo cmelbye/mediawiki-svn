@@ -13,11 +13,14 @@
 // Setup the mwEmbedFrame
 $myMwEmbedFrame = new mwEmbedFrame();
 
+$mwEmbedRoot = dirname( __FILE__ );
+
 // @@TODO temporary HACK to override to kalturaIframe 
-// ( need to refactor embedFrame into a more abstract class )
+// ( need to refactor embedFrame into an abstract class )
 // @@TODO Need a php based configuration system for modules so they 
 // can extend / override entry points
-if( isset( $myMwEmbedFrame->kwidgetid ) ){
+
+if( isset( $myMwEmbedFrame->kwidgetid ) ){	
 	require(  dirname( __FILE__ ) . '/modules/KalturaSupport/kalturaIframe.php');
 	exit(1);
 }
@@ -48,6 +51,8 @@ class mwEmbedFrame {
 	);
 	var $playerIframeId = 'iframeVid';
 	var $debug = false;
+        var $theme = 'kdark';
+        
 	
 	// When used in direct source mode the source asset.
 	// NOTE: can be an array of sources in cases of "many" sources set
@@ -57,9 +62,13 @@ class mwEmbedFrame {
 		//parse input:
 		$this->parseRequest();
 	}
-	
+
 	// Parse the embedFrame request and sanitize input
 	private function parseRequest(){
+		if( isset($_REQUEST['iaid'])  &&  include('/petabox/setup.inc') ){
+		  Video::mwEmbedSetup(); // archive.org media
+		}
+          
 		// Check for / attribute type request and update "REQUEST" global 
 		// ( uses kaltura standard entry_id/{entryId} request )
 		// normalize to the REQUEST object
@@ -88,6 +97,14 @@ class mwEmbedFrame {
 			}
 		}
 
+                // Check for non-default theme.  
+		if( isset( $_REQUEST['theme'] )  &&
+                    in_array($_REQUEST['theme'],
+                             array('darkness','le-frog', 'redmond','start',
+                                   'sunny', 'kdark')) ){
+                  $this->theme = $_REQUEST['theme'];
+                }
+                
 		// Check for debug flag
 		if( isset( $_REQUEST['debug'] ) ){
 			$this->debug = true;
@@ -128,7 +145,7 @@ class mwEmbedFrame {
 	
 	function outputIFrame( ){
 		// Setup the embed string based on attribute set:
-		$embedResourceList = 'window.jQuery,mwEmbed,mw.style.mwCommon,$j.fn.menu,mw.style.jquerymenu,mw.EmbedPlayer,mw.EmbedPlayerNative,mw.EmbedPlayerJava,mw.PlayerControlBuilder,$j.fn.hoverIntent,mw.style.EmbedPlayer,$j.cookie,$j.ui,mw.style.ui_redmond,$j.widget,$j.ui.mouse,mw.PlayerSkinKskin,mw.style.PlayerSkinKskin,mw.TimedText,mw.style.TimedText,$j.ui.slider';
+		$embedResourceList = 'window.jQuery,mwEmbed,mw.style.mwCommon,$j.fn.menu,mw.style.jquerymenu,mw.EmbedPlayer,mw.EmbedPlayerNative,mw.EmbedPlayerJava,mw.PlayerControlBuilder,$j.fn.hoverIntent,mw.style.EmbedPlayer,$j.cookie,$j.ui,mw.style.ui_'.$this->theme.',$j.widget,$j.ui.mouse,mw.PlayerSkinKskin,mw.style.PlayerSkinKskin,mw.TimedText,mw.style.TimedText,$j.ui.slider';
 		
 		if( isset( $this->kentryid ) ){
 			 $embedResourceList.= ',' . implode(',', array(
@@ -141,7 +158,6 @@ class mwEmbedFrame {
 					'mw.KWidgetSupport',
 					'mw.KAnalytics', 
 					'mw.KDPMapping',
-					'mw.MobileAdTimeline',
 					'mw.KAds'
 			) );
 		}
@@ -177,7 +193,7 @@ class mwEmbedFrame {
 			mw.setConfig( 'EmbedPlayer.EnableFullscreen', false );
 
 			// Enable the iframe player server:
-			mw.setConfig( 'EmbedPlayer.EnableIFramePlayerServer', true );
+			mw.setConfig( 'EmbedPlayer.EnableIframeApi', true );
 			
 			mw.ready(function(){
 				// Bind window resize to reize the player: 
@@ -190,7 +206,6 @@ class mwEmbedFrame {
 				});
 			});
 		</script>
-		
   </head>
   <body>  
   <?

@@ -132,21 +132,62 @@ mw.includeAllModuleMessages();
 			$j( embedPlayer ).bind( 'play', function() {
 				// Will load and setup timedText sources (if not loaded already loaded )
 				_this.setupTextSources();
-			} );						
+			} );	
+			
+			// Resize the timed text font size per window width
+			$j( embedPlayer ).bind( 'closeFullScreen openFullScreen', function() {
+				var textOffset = _this.embedPlayer.controlBuilder.fullscreenMode ? 30 : 10;
+				embedPlayer.$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss({
+					'width' :  embedPlayer.getWidth(),
+					'height' : embedPlayer.$interface.height()
+				}) ).css({
+					// Get the text size scale then set it to control bar height + 10 px; 
+					'bottom': ( _this.embedPlayer.controlBuilder.getHeight() + textOffset ) + 'px'
+				})
+				
+			});
+			
+			// Update the timed text size
+			$j( embedPlayer ).bind( 'onResizePlayer', function(e, size, animate) {
+				if (animate) {
+					embedPlayer.$interface.find( '.track' ).animate( _this.getInterfaceSizeTextCss( size ) );
+				} else {
+					embedPlayer.$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss( size ) );
+				}
+			});
 
 			// Setup display binding
 			$j( embedPlayer ).bind( 'onShowControlBar', function(event, layout ){
 				// Move the text track if present
 				embedPlayer.$interface.find( '.track' )
-				.animate( layout, 'slow' );
+				.stop()
+				.animate( layout, 'fast' );
 			});
 			
 			$j( embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
 				// Move the text track down if present
 				embedPlayer.$interface.find( '.track' )
-				.animate( layout, 'slow' );
+				.stop()
+				.animate( layout, 'fast' );
 			});
 			
+		},
+		
+		/**
+		* Get the fullscreen text css
+		*/
+		getInterfaceSizeTextCss: function( size ) {			
+			//mw.log(' win size is: ' + $j( window ).width() + ' ts: ' + textSize );
+			return {
+				'font-size' : this.getInterfaceSizePercent( size ) + '%'
+			};
+		},
+		getInterfaceSizePercent: function( size ) {
+			// Some arbitrary scale relative to window size ( 400px wide is text size 105% )
+			var textSize = size.width / 5;
+			if( textSize < 95 ) textSize = 95;
+			if( textSize > 200 ) textSize = 200;
+			return textSize;
 		},
 
 		/**
@@ -251,7 +292,7 @@ mw.includeAllModuleMessages();
 			var inlineSources = this.embedPlayer.mediaElement.getSources( 'text' );
 			// Add all the sources to textSources
 			for( var i = 0 ; i < inlineSources.length ; i++ ) {
-				// make a new textSource:
+				// Make a new textSource:
 				var source = new TextSource( inlineSources[i] );
 				this.textSources.push( source );
 			}
@@ -262,12 +303,11 @@ mw.includeAllModuleMessages();
 				callback();
 				return ;
 			}
-
 			// Try to get sources from text provider:
 			var provider_id = ( this.embedPlayer.apiProvider ) ? this.embedPlayer.apiProvider : 'local';
 			var apiUrl = mw.getApiProviderURL( provider_id );
-			var assetKey = 	this.embedPlayer.apiTitleKey;
-			if( !apiUrl || !assetKey ) {
+			var apiTitleKey = 	this.embedPlayer.apiTitleKey;
+			if( !apiUrl || !apiTitleKey ) {
 				mw.log("Error: loading source without apiProvider or apiTitleKey");
 				return ;
 			}
@@ -279,7 +319,7 @@ mw.includeAllModuleMessages();
 			} );
 
 			// Load the textProvider sources
-			this.textProvider.loadSources( assetKey, function( textSources ) {
+			this.textProvider.loadSources( apiTitleKey, function( textSources ) {
 				for( var i=0; i < textSources.length; i++ ) {
 					var textSource = textSources[ i ];
 					// Try to insert the track source:
@@ -305,6 +345,7 @@ mw.includeAllModuleMessages();
 					// Add the sources to the parent embedPlayer
 					// ( in case other interfaces want to access them )
 					var embedSource = _this.embedPlayer.mediaElement.tryAddSource( textElm );
+				
 					// Get a "textSource" object:
 					var source = new TextSource( embedSource, _this.textProvider );
 					_this.textSources.push( source );
@@ -368,8 +409,8 @@ mw.includeAllModuleMessages();
 		},
 
 		// Get the current source sub captions
-		getCurrentSubSource: function( callback ){
-			mw.log("getCurrentSubSource:: enabled source:" + this.enabledSources.length);
+		loadCurrentSubSrouce: function( callback ){
+			mw.log("loadCurrentSubSrouce:: enabled source:" + this.enabledSources.length);
 			for( var i =0; i < this.enabledSources.length; i++ ){
 				var source = this.enabledSources[i];
 				if( source.category == 'SUB' ){
@@ -529,7 +570,7 @@ mw.includeAllModuleMessages();
 				$dialog.dialog( 'option', 'buttons', null );
 
 				// Check if the category does not already exist:
-				mw.getJSON( apiUrl, {'titles': videoTitle, 'prop': 'categories'}, function(data){
+				mw.getJSON( apiUrl, {'titles': videoTitle, 'prop': 'categories'}, function( data ){
 					if( data && data.query && data.query.pages ){
 						for( var i in data.query.pages ){
 							// we only request a single page:
@@ -920,7 +961,7 @@ mw.includeAllModuleMessages();
 
 				// Scale the text Relative to player size:
 				$track.css(
-					this.embedPlayer.controlBuilder.getInterfaceSizeTextCss({
+					this.getInterfaceSizeTextCss({
 						'width' :  this.embedPlayer.getWidth(),
 						'height' : this.embedPlayer.getHeight()
 					})
@@ -1038,14 +1079,13 @@ mw.includeAllModuleMessages();
 				mw.log("Error: no handler for type: " + this.getMIMEType() );
 				return ;
 			}
-
 			// Try to load src via textProvider:
 			if( this.textProvider && this.titleKey ) {
 				this.textProvider.loadTitleKey( this.titleKey, function( data ) {
 					if( data ) {
 						_this.captions = handler( data );
 					}
-					mw.log("mw.TimedText:: parsed " + _this.captions.length + ' captions');
+					mw.log("mw.TimedText:: loaded from titleKey: " + _this.captions.length + ' captions');
 					// Update the loaded state:
 					_this.loaded = true;
 					if( callback ) {
@@ -1065,6 +1105,7 @@ mw.includeAllModuleMessages();
 				$j.get( this.getSrc(), function( data ) {
 					// Parse and load captions:
 					_this.captions = handler( data );
+					mw.log("mw.TimedText:: loaded from srt file: " + _this.captions.length + ' captions');
 					// Update the loaded state:
 					_this.loaded = true;
 					if( callback ) {
@@ -1341,14 +1382,14 @@ mw.includeAllModuleMessages();
 		},
 
 		/**
-		 * Loads all available source for a given assetKey
+		 * Loads all available source for a given apiTitleKey
 		 *
-		 * @param {String} assetKey For mediaWiki the assetKey is the "wiki title"
+		 * @param {String} apiTitleKey For mediaWiki the apiTitleKey is the "wiki title"
 		 */
-		loadSources: function( assetKey, callback ) {
+		loadSources: function( apiTitleKey, callback ) {
 			var request = {};
 			var _this = this;
-			this.getSourcePages( assetKey, function( sourcePages ) {
+			this.getSourcePages( apiTitleKey, function( sourcePages ) {
 				if( ! sourcePages.query.allpages ) {
 					//Check if a shared asset
 					mw.log( 'no subtitle pages found');

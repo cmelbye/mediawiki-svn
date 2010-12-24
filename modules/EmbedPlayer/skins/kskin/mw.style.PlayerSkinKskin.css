@@ -26,15 +26,13 @@
 	}
 }
 /*.ui-state-default */
-.k-player .play-btn-large.ui-state-hover {
+.k-player .play-btn-large:hover {
 	background: url(images/ksprite.png) no-repeat 28px -377px;
 }
 
 /* control icons: */
-.k-player .ui-state-default .ui-icon,.k-player .ui-state-hover .ui-icon
-	{
-	background: transparent url(images/ksprite.png) no-repeat scroll 0 -48px
-		;
+.k-player .ui-state-default .ui-icon,.k-player .ui-state-hover .ui-icon{
+	background: transparent url(images/ksprite.png) no-repeat scroll 0 -48px;
 }
 
 .k-player .ui-state-default .ui-icon-arrow-4-diag {

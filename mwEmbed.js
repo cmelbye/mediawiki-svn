@@ -41,7 +41,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 ( function( mw ) {
 	// The version of mwEmbed
 	mw.version = MW_EMBED_VERSION;
-
+	
 	// List valid skins here:
 	mw.validSkins = [ 'mvpcf', 'kskin' ];
 
@@ -57,6 +57,10 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	// Local scope configuration var:
 	if( !mwConfig ){
 		var mwConfig = { };
+	}
+	
+	if( !mwNonDefaultConfigList ){
+		var mwNonDefaultConfigList = [];
 	}
 
 	// mw scope mwUserConfig var. Stores user configuration
@@ -81,41 +85,18 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			return ;
 		}
 		mwConfig[ name ] = value;
+		mwNonDefaultConfigList.push( name );
 	};
 	
-	/**
-	 * Merge in a configuration value:
-	 */
-	mw.mergeConfig = function( name, value ){
-		if( typeof name == 'object' ) {
-			$j.each( name, function( inx, val) {
-				mw.setConfig( inx, val );
-			});
-			return ;
-		}
-		// Check if we should "merge" the config
-		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
-			if ( value.constructor.toString().indexOf("Array") != -1 &&
-				 mwConfig[ name ].constructor.toString().indexOf("Array") != -1 ){
-				// merge in the array
-				mwConfig[ name ] = $j.merge( mwConfig[ name ], value );
-			} else {
-				for( var i in value ){
-					mwConfig[ name ][ i ] = value[ i ];
-				}
-			}
-			return ;
-		}
-		// else do a normal setConfig
-		mwConfig[ name ] = value;
-	};
+	// Apply any pre-setup config:
+	mw.setConfig( preMwEmbedConfig );
 
 	/**
 	 * Set a default config value Will only update configuration if no value is
 	 * present
 	 *
 	 * @param [Mixed]
-	 *            value Set configuration name to value {Object} Will iderate
+	 *            value Set configuration name to value {Object} Will idorate
 	 *            through each key and call setDefaultConfig {String} Will set
 	 *            configuration by string name to value
 	 */
@@ -126,15 +107,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}
 			return ;
 		}
-		// Only update the controls if undefined
-
-		if( typeof mwConfig[ name ] == 'undefined' ) {
+		if( typeof mwConfig[ name ] == 'undefined'  ) {
 			mwConfig[ name ] = value;
 			return ;
-		}
-		// Check if we should "merge" the config
-		if( typeof value == 'object' && typeof mwConfig[ name ] == 'object' ) {
-			mw.mergeConfig( name, value);
 		}
 	};
 
@@ -151,6 +126,18 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			return mwConfig[ name ];
 		return false;
 	};
+	/**
+	 * Get all the non-default configuration 
+	 * ( useful for passing state to iframes in limited hash url length of a few K  ) 
+	 */
+	mw.getNonDefaultConfigObject = function(){
+		var nonDefaultConfig = {};
+		for( var i =0 ; i < mwNonDefaultConfigList.length; i ++){
+			var configKey = mwNonDefaultConfigList[i];
+			nonDefaultConfig[ configKey ] = mw.getConfig( configKey );
+		}
+		return nonDefaultConfig;
+	}
 
 	/**
 	 * Loads the mwUserConfig from a cookie.
@@ -866,8 +853,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				// Send warning if resourceName is not defined
 				if(! mw.isset( resourceName )
 					&& mwLoadDoneCB[ resourceName ] != 'done' ) {
-					mw.log( 'Possible Error: ' + resourceName +' not set in time, or not defined in:' + "\n"
-						+ _this.getResourcePath( resourceName ) );
+					// mw.log( 'Possible Error: ' + resourceName +' not set in time, or not defined in:' + "\n"
+					// + _this.getResourcePath( resourceName ) );
 				}
 
 				// If ( debug mode ) and the script include is missing resource
@@ -1160,8 +1147,14 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		} );
 		return $j( '#mwTempLoaderDialog' );
 	};
+	
 	mw.isIphone = function(){
 		return ( navigator.userAgent.indexOf('iPhone') != -1 && ! mw.isIpad() );
+	};
+	// Uses hack described at: 
+	// http://www.bdoran.co.uk/2010/07/19/detecting-the-iphone4-and-resolution-with-javascript-or-php/
+	mw.isIphone4 = function(){
+		return ( mw.isIphone() && ( window.devicePixelRatio && window.devicePixelRatio >= 2 ) );		
 	};
 	mw.isIpod = function(){
 		return (  navigator.userAgent.indexOf('iPod') != -1 );
@@ -1185,6 +1178,10 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		if( mw.isMobileHTML5() ){
 			return true;
 		}
+		// Check for url flag to force html5:
+		if( document.URL.indexOf('forceMobileHTML5') != -1 ){
+			return true;
+		}
 		// Fall forward native: 
 		// if the browser supports flash ( don't use html5 )
 		if( mw.supportsFlash() ){
@@ -1200,23 +1197,25 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	
 	mw.isMobileHTML5 = function(){
 		// Check for a mobile html5 user agent:	
-		if ( (navigator.userAgent.indexOf('iPhone') != -1) || 
-			(navigator.userAgent.indexOf('iPod') != -1) || 
-			(navigator.userAgent.indexOf('iPad') != -1) ||
-			(navigator.userAgent.indexOf('Android 2.') != -1) || 
-			// Force html5 for chrome / desktop safari
-			(document.URL.indexOf('forceMobileHTML5') != -1 )
+		if ( mw.isIphone() || 
+			 mw.isIpod() || 
+			 mw.isIpad() ||
+			 mw.isAndroid2()
 		){
 			return true;
 		}
 		return false;
 	}
 	mw.supportsHTML5 = function(){
+		// Blackberry is evil in its response to canPlayType calls. 
+		if( navigator.userAgent.indexOf('BlackBerry') != -1 ){
+			return false ;
+		}
 		var dummyvid = document.createElement( "video" );
 		if( dummyvid.canPlayType ) {
 			return true;
 		}
-		return false;
+		return false;	
 	}
 	
 	mw.supportsFlash = function(){
@@ -1353,7 +1352,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		if ( mw.getConfig( 'Mw.LogPrepend' ) ){
 			string = mw.getConfig( 'Mw.LogPrepend' ) + string;
 		}
-
+		// To debug stack size ( useful for iPad / safari that have a 100 call stack limit
+		//string = mw.getCallStack().length -1 + ' : ' + string;
+		
 		if ( window.console ) {
 			window.console.log( string );
 		} else {
@@ -1376,7 +1377,49 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			}*/
 		}
 	};
-
+	mw.getCallStack = function(){
+		var stringifyArguments = function(args) {
+	        for (var i = 0; i < args.length; ++i) {
+	            var arg = args[i];
+	            if (arg === undefined) {
+	                args[i] = 'undefined';
+	            } else if (arg === null) {
+	                args[i] = 'null';
+	            } else if (arg.constructor) {
+	                if (arg.constructor === Array) {
+	                    if (arg.length < 3) {
+	                        args[i] = '[' + stringifyArguments(arg) + ']';
+	                    } else {
+	                        args[i] = '[' + stringifyArguments(Array.prototype.slice.call(arg, 0, 1)) + '...' + stringifyArguments(Array.prototype.slice.call(arg, -1)) + ']';
+	                    }
+	                } else if (arg.constructor === Object) {
+	                    args[i] = '#object';
+	                } else if (arg.constructor === Function) {
+	                    args[i] = '#function';
+	                } else if (arg.constructor === String) {
+	                    args[i] = '"' + arg + '"';
+	                }
+	            }
+	        }
+	        return args.join(',');
+	    };
+		var getStack = function(curr){
+			var ANON = '{anonymous}', fnRE = /function\s*([\w\-$]+)?\s*\(/i,
+            stack = [], fn, args, maxStackSize = 100;
+        
+	        while (curr && stack.length < maxStackSize) {
+	            fn = fnRE.test(curr.toString()) ? RegExp.$1 || ANON : ANON;
+	            args = Array.prototype.slice.call(curr['arguments']);
+	            stack[stack.length] = fn + '(' + stringifyArguments(args) + ')';
+	            curr = curr.caller;
+	        }
+	        return stack;
+		}
+		// Add stack size ( iPad has 100 stack size limit )
+		var stack = getStack( arguments.callee );
+		return stack;
+	}
+	
 	// Setup the local mwOnLoadFunctions array:
 	var mwOnLoadFunctions = [];
 
@@ -1418,14 +1461,14 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		while( mwOnLoadFunctions.length ) {
 			mwOnLoadFunctions.shift()();
 		}
-
 		// Sets mwReadyFlag to true so that future mw.ready run the
 		// callback directly
 		mwReadyFlag = true;
 
 		// Once we have run all the queued functions
-		mw.loader.runModuleLoadQueue();
-
+		setTimeout(function(){
+			mw.loader.runModuleLoadQueue();
+		},1);
 	};
 
 
@@ -2026,17 +2069,16 @@ mw.absoluteUrl = function( src, contextUrl ) {
 		}
 		mwSetupFlag = true;
 
-		// Apply any pre-setup config:
-		mw.setConfig( preMwEmbedConfig );
-
-
 		mw.log( 'mw:setupMwEmbed SRC:: ' + mw.getMwEmbedSrc() );
 
 		// Check core mwEmbed loader.js file ( to get configuration and paths )
 		mw.checkCoreLoaderFile( function(){
 			// Make sure we have jQuery
 			mw.load( 'window.jQuery', function() {
-
+				
+				// Set up mvEmbed utility jQuery bindings
+				mw.dojQueryBindings();
+				
 				// Add jQuery to $j var.
 				if ( ! window[ '$j' ] ) {
 					window[ '$j' ] = jQuery.noConflict();
@@ -2067,10 +2109,7 @@ mw.absoluteUrl = function( src, contextUrl ) {
 						} );
 
 						// Update the magic keywords
-						mw.Language.magicSetup();
-
-						// Set up mvEmbed utility jQuery bindings
-						mw.dojQueryBindings();
+						mw.Language.magicSetup();						
 
 
 						// Special Hack for conditional jquery ui inclusion ( once
@@ -2219,6 +2258,7 @@ mw.absoluteUrl = function( src, contextUrl ) {
 				return ;
 			}
 			var componentName = enabledComponents.shift();
+			componentName = componentName.replace(/"/g,'');
 			mw.load( componentName, function(){
 				loadEnabledComponents( enabledComponents );
 			} );
@@ -2234,6 +2274,7 @@ mw.absoluteUrl = function( src, contextUrl ) {
 				return ;
 			}
 			var moduleName = enabledModules.shift();
+			moduleName = moduleName.replace(/"/g,'');
 			mw.setConfig( 'loaderContext', 'modules/' + moduleName + '/' );
 			mw.load( 'modules/' + moduleName + '/loader.js', function(){
 				loadEnabledModules( enabledModules );
@@ -2379,66 +2420,85 @@ mw.absoluteUrl = function( src, contextUrl ) {
 	};
 
 	/**
-	 * Runs all the triggers on a given object with a single "callback"
-	 *
-	 * Normal tirgger calls will run the callback directly multiple times for
-	 * every binded function.
-	 *
-	 * With runTriggersCallback() callback is not called until all the binded
-	 * events have been run.
-	 *
-	 * @param {object}
-	 *            targetObject Target object to run triggers on
-	 * @param {string}
-	 *            triggerName Name of trigger to be run
-	 * @param {function}
-	 *            callback Function called once all triggers have been run
-	 *
-	 */
-	mw.runTriggersCallback = function( targetObject, triggerName, callback ){
-		mw.log( 'mw.runTriggersCallback:: ' + triggerName );
-		// If events are not present directly run callback
-		if( ! $j( targetObject ).data( 'events' ) ||
-				! $j( targetObject ).data( 'events' )[ triggerName ] ) {
-			mw.log( ' trigger name not found: ' + triggerName );
-			callback();
-			return ;
-		}
-		var callbackSet = $j( targetObject ).data( 'events' )[ triggerName ];
-		if( !callbackSet || callbackSet.length === 0 ){
-			mw.log( ' No events run the callback directly: ' + triggerName );
-			// No events run the callback directly
-			callback();
-			return ;
-		}
-		// Set the callbackCount
-		var callbackCount = ( callbackSet.length )? callbackSet.length : 1;
-
-		mw.log(" runTriggersCallback:: " + callbackCount );
-		var callInx = 0;
-		$j( targetObject ).trigger( triggerName, function() {
-			callInx++;
-			if( callInx == callbackCount ){
-				//mw.log(" callbackCountReached run:: " + callback);
-				// Run callback
-				callback();
-			}
-		} );
-	};
-	/**
 	 * Utility jQuery bindings Setup after jQuery is available ).
 	 */
 	mw.dojQueryBindings = function() {
 		mw.log( 'mw.dojQueryBindings' );
 		( function( $ ) {
+			
+			/**
+			 * Runs all the triggers on all the named bindings of an object with a single callback
+			 * 
+			 * NOTE THIS REQUIRES JQUERY 1.4.2 and above
+			 *
+			 * Normal jQuery tirgger calls will run the callback directly multiple times for
+			 * every binded function.
+			 *
+			 * With triggerQueueCallback() callback is not called until all the binded
+			 * events have been run.
+			 *
+			 * @param {string}
+			 *            triggerName Name of trigger to be run
+			 * @param {object=}
+			 *            arguments Optional arguments object to be passed to the callback
+			 * @param {function}
+			 *            callback Function called once all triggers have been run
+			 *
+			 */
+			$.fn.triggerQueueCallback = function( triggerName, triggerParam, callback ){
+				var targetObject = this;
+				// Support optional triggerParam data
+				if( !callback && typeof triggerParam == 'function' ){
+					callback = triggerParam;
+					triggerParam = null;
+				}
+				// Support namespaced event segmentation ( jQuery 
+				var triggerBaseName = triggerName.split(".")[0]; 
+				var triggerNamespace = triggerName.split(".")[1];
+				// Get the callback set 
+				var callbackSet = [];
+				if( ! triggerNamespace ){
+					callbackSet = $j( targetObject ).data( 'events' )[ triggerBaseName ];
+				} else{		
+					$j.each( $j( targetObject ).data( 'events' )[ triggerBaseName ], function( inx, bindObject ){
+						if( bindObject.namespace ==  triggerNamespace ){
+							callbackSet.push( bindObject );
+						}
+					});
+				}
 
+				if( !callbackSet || callbackSet.length === 0 ){
+					mw.log( '"mwEmbed::jQuery.triggerQueueCallback: No events run the callback directly: ' + triggerName );
+					// No events run the callback directly
+					callback();
+					return ;
+				}
+				
+				// Set the callbackCount
+				var callbackCount = ( callbackSet.length )? callbackSet.length : 1;
+				//mw.log("mwEmbed::jQuery.triggerQueueCallback: " + triggerName + ' number of queued functions:' + callbackCount );
+				var callInx = 0;
+				var doCallbackCheck = function() {
+					mw.log( 'callback for: ' + mw.getCallStack()[0] + callInx);
+					callInx++;
+					if( callInx == callbackCount ){
+						callback();
+					}
+				};
+				if( triggerParam ){
+					$( this ).trigger( triggerName, [ triggerParam, doCallbackCheck ]);
+				} else {
+					$( this ).trigger( triggerName, [ doCallbackCheck ] );
+				}
+			};
+			
 			/**
 			 * Set a given selector html to the loading spinner:
 			 */
 			$.fn.loadingSpinner = function( ) {
 				if ( this ) {
-					$j( this ).html(
-						$j( '<div />' )
+					$( this ).html(
+						$( '<div />' )
 							.addClass( "loadingSpinner" )
 					);
 				}
@@ -2687,7 +2747,7 @@ if( mw.isStaticPackge() && !window.jQuery ){
  */
 
 if( window.jQuery ){
-	if( ! mw.versionIsAtLeast( '1.4.0', jQuery.fn.jquery ) ){
+	if( ! mw.versionIsAtLeast( '1.4.2', jQuery.fn.jquery ) ){
 		if( window.console && window.console.log ) {
 			console.log( 'Error mwEmbed requires jQuery 1.4 or above' );
 		}

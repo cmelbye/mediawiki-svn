@@ -75,6 +75,7 @@ mw.EmbedPlayerNative = {
 		if( mw.isIpad() ){
 			this.supports.volumeControl = false;
 		}
+		this.parent_updateFeatureSupport();
 	},
 
 	/**
@@ -87,7 +88,7 @@ mw.EmbedPlayerNative = {
 		_this.bufferStartFlag = false;
 		_this.bufferEndFlag = false;
 		
-		mw.log( "native play url:" + this.getSrc( this.currentTime  ) + ' startOffset: ' + this.start_ntp + ' end: ' + this.end_ntp );
+		mw.log( "EmbedPlayerNative:: play url:" + this.getSrc( this.currentTime  ) + ' startOffset: ' + this.start_ntp + ' end: ' + this.end_ntp );
 
 		// Check if using native controls and already the "pid" is already in the DOM
 		if( ( 	this.useNativePlayerControls()
@@ -124,14 +125,14 @@ mw.EmbedPlayerNative = {
 			playerAttribtues = {};
 		}
 		// Update required attributes
-		if( !playerAttribtues[ 'id'] ) playerAttribtues['id'] = this.pid;
+		if( !playerAttribtues['id'] ) playerAttribtues['id'] = this.pid;
 		if( !playerAttribtues['src'] ) playerAttribtues['src'] = this.getSrc( this.currentTime);
 
 		// If autoplay pass along to attribute ( needed for iPad / iPod no js autoplay support
 		if( this.autoplay ) {
 			playerAttribtues['autoplay'] = 'true';
 		}
-
+		
 		if( !cssSet ){
 			cssSet = {};
 		}
@@ -150,7 +151,7 @@ mw.EmbedPlayerNative = {
 			// Add the special nativeEmbedPlayer to avoid any rewrites of of this video tag.
 			.addClass( 'nativeEmbedPlayerPid' )
 			.attr( playerAttribtues )
-			.css( cssSet );
+			.css( cssSet )
 	},
 
 	/**
@@ -359,6 +360,84 @@ mw.EmbedPlayerNative = {
 		return this.playerElement.currentTime;
 	},
 
+	
+	/**
+	 * switchPlaySrc switches the player source working around a few bugs in
+	 * browsers
+	 * 
+	 * @param {string}
+	 *            src Video url Source to switch to.
+	 * @param {function}
+	 *            switchCallback Function to call once the source has been switched
+	 * @param {function}
+	 *            doneCallback Function to call once the clip has completed playback
+	 */
+	switchPlaySrc: function( src, switchCallback, doneCallback ){
+		var _this = this;
+		mw.log( 'EmbedPlayerNative:: switchPlaySrc:' + src + ' native time: ' + this.getPlayerElement().currentTime );
+		// Update some parent embedPlayer vars: 
+		this.duration = 0;
+		this.currentTime = 0;
+		this.previousTime = 0;
+		var vid = this.getPlayerElement();		
+		if ( vid ) {
+			try {
+				// issue a play request on the source
+				vid.play();
+				setTimeout(function(){
+					// Remove all native player bindings
+					$j(vid).unbind();
+					vid.pause();
+					// Local scope update source and play function to work around google chrome
+					// bug
+					var updateSrcAndPlay = function() {
+						var vid = _this.getPlayerElement();
+						if (!vid){
+							mw.log( 'Error: switchPlaySrc no vid');
+							return ;
+						}
+						vid.src = src;
+						// Give iOS 50ms to figure out the src got updated ( iPad OS 3.0 )
+						setTimeout(function() {
+							var vid = _this.getPlayerElement();
+							if (!vid){
+								mw.log( 'Error: switchPlaySrc no vid');
+								return ;
+							}	
+							vid.load();
+							vid.play();
+							// Wait another 100ms then bind the end event and any custom events
+							// for the switchCallback
+							setTimeout(function() {
+								var vid = _this.getPlayerElement();																
+								// add the end binding: 
+								$j(vid).bind('ended', function( event ) {
+									if(typeof doneCallback == 'function' ){
+										doneCallback();
+									}
+									return false;
+								})
+								if (typeof switchCallback == 'function') {
+									switchCallback(vid);
+								}
+							}, 100);
+						}, 100);
+					};
+					if (navigator.userAgent.toLowerCase().indexOf('chrome') != -1) {
+						// Null the src and wait 50ms ( helps unload video without crashing
+						// google chrome 7.x )
+						vid.src = '';
+						setTimeout(updateSrcAndPlay, 100);
+					} else {
+						updateSrcAndPlay();
+					}
+				}, 100 );
+			} catch (e) {
+				mw.log("Error: Error in swiching source playback");
+			}
+		}
+	},
+	
 	/**
 	* Pause the video playback
 	* calls parent_pause to update the interface
@@ -514,9 +593,8 @@ mw.EmbedPlayerNative = {
 	*/
 	onseeked: function() {
 		mw.log("native:onSeeked");
-
 		// Trigger the html5 action on the parent
-		if( this.seeking && this.useNativePlayerControls() ){
+		if( this.seeking ){
 			this.seeking = false;
 			$j( this ).trigger( 'seeked' );
 		}
@@ -527,8 +605,10 @@ mw.EmbedPlayerNative = {
 	* Handle the native paused event
 	*/
 	onpause: function(){
-		mw.log( "EmbedPlayer:native: OnPaused" );
-		this.parent_pause();
+		mw.log( "EmbedPlayer:native: OnPaused:: " +  this._propagateEvents );
+		if(  this._propagateEvents ){
+			this.parent_pause();
+		}
 	},
 
 	/**

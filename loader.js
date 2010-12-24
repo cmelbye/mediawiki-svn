@@ -131,6 +131,7 @@ mw.addResourcePaths( {
 	"mw.Api"				: "components/mw.Api.js",
 	"Modernizr" 			: "libraries/jquery/plugins/modernizr.js",
 	"JSON" 					: "libraries/json/json2.js",
+	"MD5"					: "libraries/crypto/MD5.js",
 
 	"$j.replaceText.js"		: "libraries/jquery/plugins/jquery.replaceText.js",
 
@@ -198,7 +199,6 @@ mw.addResourcePaths( {
 
 
 } );
-
 // Add a special css dependency for $j.ui
 mw.addStyleResourceDependency( {
 	'$j.ui' : ( 'mw.style.ui_' + mw.getConfig( 'jQueryUISkin' ) )

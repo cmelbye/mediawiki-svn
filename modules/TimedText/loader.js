@@ -14,9 +14,13 @@
 		"RemoteMwTimedText" : "remotes/RemoteMwTimedText.js"
 	} );
 	
-	mw.setDefaultConfig( 'EmbedPlayer.SourceAttributes', [ 
-	   'srclang'
-	]);
+	// Merge in timed text related attributes: TODO add merge config support with some way to 
+	// clasify configuration as "default" vs custom. 
+	var sourceAttr = mw.getConfig( 'EmbedPlayer.SourceAttributes');
+	mw.setConfig( 'EmbedPlayer.SourceAttributes', $j.extend( sourceAttr, [
+	   'srclang',
+	   'category'
+	]) );
 	
 	mw.setDefaultConfig( {
 		// If the Timed Text interface should be displayed:

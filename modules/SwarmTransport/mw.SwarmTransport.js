@@ -48,7 +48,7 @@ mw.SwarmTransport = {
 		$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {
 			var playerLib = _this.getPluginLibrary();
 			// Add the swarmTransport playerType
-			mw.EmbedTypes.players.defaultPlayers['video/swarmTransport'] = [ playerLib ];
+			mw.EmbedTypes.players.defaultPlayers['video/swarmTransport'] = [ playerLib ];  
 
 			// Build the swarm Transport Player
 			var swarmTransportPlayer = new mediaPlayer( 'swarmTransportPlayer', ['video/swarmTransport' ], playerLib );
@@ -58,10 +58,13 @@ mw.SwarmTransport = {
 		});
 
 	},
-	// check if the swam player exists and return its associated player library
+	// Check if the swam player exists and return its associated player library
 	getPluginLibrary: function(){
 		// Check for swarmTransport global in javascript ( firefox )
 		if( typeof window['swarmTransport'] != 'undefined' ){
+			return 'Native';
+		}
+		if( typeof window['tswiftTransport'] != 'undefined' ){
 			return 'Native';
 		}
 		// Look for swarm player:
@@ -70,7 +73,20 @@ mw.SwarmTransport = {
 		}
 		return false;
 	},
-
+	getTorrentLookupObj: function(){
+		if( typeof window['swarmTransport'] != 'undefined' ){
+			return {
+				'url':	mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ),
+				'protocol' : 'tribe://'
+			}
+		}
+		if( typeof window['tswiftTransport'] != 'undefined' ){
+			return {
+				'url' : mw.getConfig( 'TSwiftTransport.TorrentLookupUrl' ),
+				'protocol' : 'tswift://'
+			}
+		}
+	},
 	addSwarmSource: function( embedPlayer, callback ) {
 		var _this = this;
 
@@ -86,11 +102,15 @@ mw.SwarmTransport = {
 			'url' : mw.absoluteUrl( source.getSrc() )
 		};
 
-		mw.log( 'SwarmTransport:: lookup torrent url: ' + mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ) + "\n" + mw.absoluteUrl( source.getSrc() ));
-
+		mw.log( 'SwarmTransport:: lookup torrent url: ' +
+				mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ) + "\n" +
+				mw.absoluteUrl( source.getSrc() )
+			);
+		
+		var torrentLookup = this.getTorrentLookupObj();
 		// Setup function to run in context based on callback result
 		$j.getJSON(
-			mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ) + '?jsonp=?',
+			torrentLookup.url + '?jsonp=?',
 			torrentLookupRequest,
 			function( data ){
 				// Check if the torrent is ready:
@@ -106,7 +126,7 @@ mw.SwarmTransport = {
 					.attr( {
 						'type' : 'video/swarmTransport',
 						'title': gM('mwe-swarmtransport-stream-ogg'),
-						'src': 'tribe://' + data.torrent,
+						'src': torrentLookup.protocol + data.torrent,
 						'default' : true
 					} )
 					.get( 0 )

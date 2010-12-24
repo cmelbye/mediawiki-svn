@@ -3,6 +3,9 @@
 * 
 * Client side ( binds a given iFrames to expose the player api ) 
 */
+
+( function( mw ) {
+	
 mw.IFramePlayerApiClient = function( iframe, playerProxy, options ){
 	return this.init( iframe , playerProxy, options);
 }
@@ -83,13 +86,13 @@ mw.IFramePlayerApiClient.prototype = {
 		}
 		// Trigger any binding events 
 		if( typeof msgObject.triggerName != 'undefined' && msgObject.triggerArgs != 'undefined') {
-			mw.log('IFramePlayerApiClient:: trigger: ' + msgObject.triggerName );
+			//mw.log('IFramePlayerApiClient:: trigger: ' + msgObject.triggerName );
 			$j( _this.playerProxy ).trigger( msgObject.triggerName, msgObject.triggerArgs );
 		}
 		// @@TODO:: Allow extending modules to wrap these api events ( kaltura kdp javascript emulation ? )
 	},
 	'postMessage': function( msgObj ){
-		mw.log( "IFramePlayerApiClient:: postMessage(): " + JSON.stringify( msgObj ) );
+		//mw.log( "IFramePlayerApiClient:: postMessage(): " + JSON.stringify( msgObj ) );
 		$j.postMessage(
 			JSON.stringify( msgObj ), 
 			mw.absoluteUrl( $j( this.iframe ).attr('src') ), 
@@ -106,7 +109,7 @@ mw.IFramePlayerApiClient.prototype = {
 		}
 		// Append '_ifp' ( iframe player ) to id of real iframe so that 'id', and 'src' attributes don't conflict
 		var originalIframeId = ( $( this.selector ).attr( 'id' ) )? $( this.selector ).attr( 'id' ) : Math.floor( 9999999 * Math.random() );
-		var iframePlayerId = originalIframeId + '_ifp' ; // here we use random to generate a unique id
+		var iframePlayerId = originalIframeId + '_ifp' ; // use random to generate a unique id
 		// Append the div element proxy after the iframe 
 		$j( this.selector )
 			.attr('id', iframePlayerId)
@@ -123,7 +126,13 @@ mw.IFramePlayerApiClient.prototype = {
 		if( !iframe['playerApi'] ){
 			iframe['playerApi'] = new mw.IFramePlayerApiClient( iframe, playerProxy, options );
 		}
+		
+		// Allow modules to extend the 'iframe' based player
+		$j( mw ).trigger( 'newIframeEmbedPlayerEvent', playerProxy);
+		
 		// Return the player proxy for chaining player events / attributes
 		return $j( playerProxy );
 	};
 } )( jQuery );
+
+} )( window.mw );

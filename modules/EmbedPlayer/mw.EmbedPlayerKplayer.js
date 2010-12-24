@@ -93,10 +93,10 @@ mw.EmbedPlayerKplayer = {
 		}, 100);
 
 		// Flash player loses its bindings once it changes sizes::
-		$j(_this).bind('closeFullScreenEvent', function() {
+		$j(_this).bind('openFullScreen', function() {
 			_this.postEmbedJS();
 		});
-		$j(_this).bind('openFullScreenEvent', function() {
+		$j(_this).bind('closeFullScreen', function() {
 			_this.postEmbedJS();
 		})
 
@@ -212,19 +212,20 @@ mw.EmbedPlayerKplayer = {
 	 */
 	doSeek : function(percentage) {
 		var _this = this;
+		var seekTime = percentage * this.getDuration();
+		mw.log( 'EmbedPlayerKalturaKplayer:: doSeek: ' + percentage + ' time:' + seekTime );
 		if (this.supportsURLTimeEncoding()) {
 
 			// Make sure we could not do a local seek instead:
 			if (!(percentage < this.bufferedPercent
 					&& this.playerElement.duration && !this.didSeekJump)) {
 				// We support URLTimeEncoding call parent seek:
-				this.parent_doSeek(percentage);
+				this.parent_doSeek( percentage );
 				return;
 			}
 		}
 
-		if (this.playerElement) {
-			var seekTime = percentage * this.getDuration();
+		if (this.playerElement) {		
 			// Issue the seek to the flash player:
 			this.playerElement.sendNotification('doSeek', seekTime);
 
