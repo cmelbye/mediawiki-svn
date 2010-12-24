@@ -595,7 +595,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 
 			} else {
 				// Set the video tag inner html remove extra player
-				$j( '#' + vidId ).after( html_out ).remove();
+				$j( '#' + vidId ).html( html_out );
 				$j( '#mwe_' + vidId ).embedPlayer( checkForIframePlayerParam );
 			}							
 			
