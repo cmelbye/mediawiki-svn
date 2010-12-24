@@ -865,7 +865,7 @@ mw.RemoteSearchDriver.prototype = {
 		$j( _this.target_container ).dialog( {
 			bgiframe: true,
 			autoOpen: true,
-			modal: true,
+			//modal: true,
 			width: $j(window).width()-50,
 			height: $j(window).height()-50,
 			position : 'center',
@@ -878,7 +878,7 @@ mw.RemoteSearchDriver.prototype = {
 				_this.onCancelResourceEdit();
 				$j( this ).parents( '.ui-dialog' ).fadeOut( 'slow' );
 			}
-		} );
+		} )
 		//$j( _this.target_container ).dialogFitWindow();
 
 		// Add the window resize hook to keep dialog layout
@@ -2124,7 +2124,7 @@ mw.RemoteSearchDriver.prototype = {
 		
 		// issue a loadResourceImage request:
 		_this.loadResourceImage(
-			resource,
+			resource,	
 			{
 				'width': targetWidth,
 				'height' : targetHeight

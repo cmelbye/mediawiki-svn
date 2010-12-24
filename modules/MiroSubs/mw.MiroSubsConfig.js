@@ -29,7 +29,8 @@ mw.MiroSubsConfig = {
 	getConfig : function( embedPlayer, callback ){
 		var _this = this;
 
-		if( _this.isConfigReady( callback ) ){
+		if( _this.isConfigReady() ){
+			callback();			
 			// if config is ready stop chain
 			return true;
 		}
@@ -40,6 +41,7 @@ mw.MiroSubsConfig = {
 		// Set initial config
 		this.config = this.getDefaultConfig();
 
+		
 		// Make sure we are logged in::
 		mw.getUserName( function( userName ){
 			mw.log( "MiroSubsConfig::getUserName: " + userName );
@@ -52,7 +54,8 @@ mw.MiroSubsConfig = {
 				return false;
 			} else {
 				_this.config.username = userName;
-				if( _this.isConfigReady( callback ) ){
+				if( _this.isConfigReady() ){
+					callback();
 					return true;
 				}
 			}
@@ -64,21 +67,23 @@ mw.MiroSubsConfig = {
 			_this.config.subtitles = miroSubs;
 
 			// Once everything is setup issue the callback with the miro config:
-			if( _this.isConfigReady( callback ) ){
+			if( _this.isConfigReady() ){
+				callback();
 				return true;
 			}
 		});
 	},
+	getTargetLanguage: function( callback ){
+		
+	},
 	// Check all async values for config ready run the callback if its ready
-	isConfigReady: function( callback ){
-		if( !this.config ){
-			return false;
-		}
-		if( this.config.subtitles
+	isConfigReady: function(){
+		if( this.config 
+			&&
+			this.config.subtitles
 			&&
 			this.config.username
 		){
-			callback( this.config )
 			return true;
 		}
 		return false;
