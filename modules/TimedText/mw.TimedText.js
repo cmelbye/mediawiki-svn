@@ -145,16 +145,15 @@ mw.includeAllModuleMessages();
 			
 			// Resize the timed text font size per window width
 			$j( embedPlayer ).bind( 'onCloseFullScreen onOpenFullScreen', function() {
-			
 				var textOffset = _this.embedPlayer.controlBuilder.fullscreenMode ? 30 : 10;
 				
-				mw.log( 'set text size to: ' + _this.getInterfaceSizeTextCss({
-					'width' :  embedPlayer.getWidth(),
+				mw.log( 'TimedText::set text size for: : ' + embedPlayer.$interface.width() + ' = ' + _this.getInterfaceSizeTextCss({
+					'width' :  embedPlayer.$interface.width(),
 					'height' : embedPlayer.$interface.height()
 				})['font-size'] );
 				
 				embedPlayer.$interface.find( '.track' ).css( _this.getInterfaceSizeTextCss({
-					'width' :  embedPlayer.getWidth(),
+					'width' :  embedPlayer.$interface.width(),
 					'height' : embedPlayer.$interface.height()
 				}) ).css({
 					// Get the text size scale then set it to control bar height + 10 px; 
@@ -165,10 +164,7 @@ mw.includeAllModuleMessages();
 			
 			// Update the timed text size
 			$j( embedPlayer ).bind( 'onResizePlayer', function(e, size, animate) {
-				mw.log( 'set text size to: ' + _this.getInterfaceSizeTextCss({
-					'width' :  embedPlayer.getWidth(),
-					'height' : embedPlayer.$interface.height()
-				})['font-size'] );
+				mw.log( 'TimedText::onResizePlayer: ' + _this.getInterfaceSizeTextCss(size)['font-size'] );
 				if (animate) {
 					embedPlayer.$interface.find( '.track' ).animate( _this.getInterfaceSizeTextCss( size ) );
 				} else {

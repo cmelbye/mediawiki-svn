@@ -1303,8 +1303,15 @@ mw.PlayerControlBuilder.prototype = {
 					if( embedPlayer.selectedPlayer.id == supportingPlayers[i].id && is_selected ) {
 						// Active player ( no link )
 						$playerLine = $j( '<span />' )
-						.text(
-						 	supportingPlayers[i].getName()
+						.append(
+							$j('<a />')
+							.attr({
+								'href' : '#'					
+							})
+							.addClass( 'active')
+							.text( 
+									supportingPlayers[i].getName()
+						 	)
 						);
 						//.addClass( 'ui-state-highlight ui-corner-all' ); removed by ran
 					} else {
@@ -1346,10 +1353,10 @@ mw.PlayerControlBuilder.prototype = {
 							} )
 							.hover(
 								function(){
-									$j( this ).addClass('ui-state-active');
+									$j( this ).addClass('active');
 								},
 								function(){
-									$j( this ).removeClass('ui-state-active');
+									$j( this ).removeClass('active');
 								}
 							);
 					}
