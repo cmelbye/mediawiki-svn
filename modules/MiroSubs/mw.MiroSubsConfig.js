@@ -6,6 +6,7 @@ mw.includeAllModuleMessages();
  * http://dev.universalsubtitles.org/widget/api_demo.html
  */
 mw.MiroSubsConfig = {
+	config : null,
 	openDialog: function( embedPlayer, dialogReadyCallback ){
 		var _this = this;
 		this.getConfig( embedPlayer , function( config ){
@@ -29,8 +30,8 @@ mw.MiroSubsConfig = {
 	getConfig : function( embedPlayer, callback ){
 		var _this = this;
 
-		if( _this.isConfigReady() ){
-			callback();			
+		if( this.config ){
+			callback( this.config );			
 			// if config is ready stop chain
 			return true;
 		}
@@ -40,7 +41,13 @@ mw.MiroSubsConfig = {
 
 		// Set initial config
 		this.config = this.getDefaultConfig();
-
+		
+		// Check both the user name and subtitles have been set:
+		var isConfigReady = function(){
+			if( _this.config.username && _this.config.subtitles ){
+				callback( _this.config );
+			}
+		};
 		
 		// Make sure we are logged in::
 		mw.getUserName( function( userName ){
@@ -51,13 +58,9 @@ mw.MiroSubsConfig = {
 					'content' : gM('mwe-mirosubs-subs-please-login-desc')
 				});
 				callback( false );
-				return false;
 			} else {
 				_this.config.username = userName;
-				if( _this.isConfigReady() ){
-					callback();
-					return true;
-				}
+				isConfigReady();
 			}
 		});
 		// Get the subtitles
@@ -65,29 +68,16 @@ mw.MiroSubsConfig = {
 			mw.log("MiroSubsConfig::getSubsInMiroFormat: got" + miroSubs.length + ' subs');
 			// no failure for miro subs ( just an empty object )
 			_this.config.subtitles = miroSubs;
-
-			// Once everything is setup issue the callback with the miro config:
-			if( _this.isConfigReady() ){
-				callback();
-				return true;
-			}
+			isConfigReady();
 		});
 	},
-	getTargetLanguage: function( callback ){
+	/**
+	 * Present a dialog to get the target language
+	 */
+	getTargetLanguageDialog: function( callback ){
 		
 	},
-	// Check all async values for config ready run the callback if its ready
-	isConfigReady: function(){
-		if( this.config 
-			&&
-			this.config.subtitles
-			&&
-			this.config.username
-		){
-			return true;
-		}
-		return false;
-	},
+	
 	getDefaultConfig: function(){
 		var _this = this;
 		return {

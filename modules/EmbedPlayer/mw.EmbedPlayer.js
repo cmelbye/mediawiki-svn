@@ -14,6 +14,43 @@
 mw.includeAllModuleMessages();
 
 
+/**
+ * The base source attribute checks also see:
+ * http://dev.w3.org/html5/spec/Overview.html#the-source-element
+ */
+mw.setDefaultConfig( 'EmbedPlayer.SourceAttributes', [
+	// source id
+	'id',
+
+	// media url
+	'src',
+
+	// Title string for the source asset
+	'title',
+
+	// boolean if we support temporal url requests on the source media
+	'URLTimeEncoding',
+
+	// Media has a startOffset ( used for plugins that
+	// display ogg page time rather than presentation time
+	'startOffset',
+
+	// A hint to the duration of the media file so that duration
+	// can be displayed in the player without loading the media file
+	'durationHint',
+
+	// Media start time
+	'start',
+
+	// Media end time
+	'end',
+
+	// If the source is the default source
+	'default',
+
+	// titleKey ( used for api lookups )
+	'titleKey'
+] );
 
 /**
  * Adds jQuery binding for embedPlayer
@@ -142,7 +179,7 @@ mw.includeAllModuleMessages();
 			}
 
 		});
-	}
+	};
 
 } )( jQuery );
 
@@ -202,7 +239,6 @@ EmbedPlayerManager.prototype = {
 	 * are called;
 	 *
 	 * _this.checkPlayerSources() 
-	 * _this.checkForTimedText() // TODO Should be moved to TimedText module!!!
 	 * _this.setupSourcePlayer() 
 	 * _this.inheritEmbedPlayer()
 	 * _this.selectedPlayer.load() 
@@ -488,7 +524,7 @@ EmbedPlayerManager.prototype = {
 		}
 		if ( is_ready ) {
 			// Be sure to remove any player loader spinners
-			$j('.playerLoadingSpinner').remove();
+			$j('.loadingSpinner').remove();
 
 			mw.log( "EmbedPlayer::All on-page players ready run playerManager callbacks" );
 			// Run queued functions
@@ -565,6 +601,7 @@ mediaSource.prototype = {
 		}
 
 		var sourceAttr = mw.getConfig( 'EmbedPlayer.SourceAttributes' );
+
 		for ( var i = 0; i < sourceAttr.length; i++ ) { // array loop:
 			var attr = sourceAttr[ i ];
 			var attr_value = element.getAttribute( attr );
@@ -1231,8 +1268,8 @@ mw.EmbedPlayer.prototype = {
 	// being updated)
 	'thumbnail_updating' : false,
 
-	// Thumbnail display flag
-	'thumbnail_disp' : true,
+	// Poster display flag
+	'posterDisplayed' : true,
 
 	// Local variable to hold CMML meeta data about the current clip
 	// for more on CMML see: http://wiki.xiph.org/CMML
@@ -1259,6 +1296,9 @@ mw.EmbedPlayer.prototype = {
 	,
 	// if player events should be Propagated
 	'_propagateEvents': true,
+	
+	// If the onDone interface should be displayed
+	'onDoneInterfaceFlag': true,
 
 
 	/**
@@ -1403,8 +1443,8 @@ mw.EmbedPlayer.prototype = {
 		this._propagateEvents = false;
 	},
 	restoreEventPropagation: function(){
-		this.startMonitor();
 		this._propagateEvents = true;
+		this.startMonitor();
 	},
 	
 	enableSeekBar: function(){
@@ -1420,7 +1460,7 @@ mw.EmbedPlayer.prototype = {
 	 * For plugin-players to update supported features
 	 */
 	updateFeatureSupport: function(){
-		$j( this ).trigger('updateFeatureSupport', this.supports );
+		$j( this ).trigger('updateFeatureSupportEvent', this.supports );
 		return ;
 	},
 
@@ -1561,7 +1601,7 @@ mw.EmbedPlayer.prototype = {
 			// callback
 			// Run embedPlayer sources hook
 			$j( _this ).triggerQueueCallback( 'checkPlayerSourcesEvent', function(){
-				_this.checkForTimedText();
+				_this.setupSourcePlayer();
 			});
 		};
 
@@ -1576,6 +1616,14 @@ mw.EmbedPlayer.prototype = {
 			return ;
 		} else {
 			finishCheckPlayerSources();
+		}
+	},
+	/**
+	 * Empty the player sources
+	 */
+	emptySources: function(){
+		if( this.mediaElement ){
+			this.mediaElement.sources = [];
 		}
 	},
 
@@ -1668,38 +1716,6 @@ mw.EmbedPlayer.prototype = {
 	},
 
 	/**
-	 * Check if we should load the timedText interface or not.
-	 *
-	 * Note we check for text sources outside of
-	 */
-	isTimedTextSupported: function() {
-		// Check for timed text sources or api/ roe url
-		if ( ( this.roe || this.apiTitleKey ||
-			this.mediaElement.textSourceExists() ) ) {
-			return true;
-		} else {
-			return false;
-		}
-	},
-
-	/**
-	 * Check for timed Text support and load necessary libraries
-	 */
-	checkForTimedText: function( ) {
-		var _this = this;
-		mw.log( 'EmbedPlayer::checkForTimedText: ' + _this.id );
-		// Check for timedText support
-		if( this.isTimedTextSupported() ) {
-			mw.load( 'TimedText', function() {
-				$j( '#' + _this.id ).timedText();
-				_this.setupSourcePlayer();
-			});
-			return ;
-		}
-		_this.setupSourcePlayer();
-	},
-
-	/**
 	 * Set up the select source player
 	 *
 	 * issues autoSelectSource call
@@ -1770,17 +1786,20 @@ mw.EmbedPlayer.prototype = {
 			_this.updateFeatureSupport();
 
 			_this.getDuration();
-
-			_this.showPlayer();
-
-			// Call the global player manager to inform this video interface is
-			// ready:
-			mw.playerManager.playerReady( _this );
-
-			// Run the callback if provided
-			if ( typeof callback == 'function' ){
-				callback();
-			}
+			
+			// Run player display with timeout to avoid function stacking 
+			setTimeout(function(){
+				_this.showPlayer();
+				// Call the global player manager to inform this video interface is
+				// ready:
+				mw.playerManager.playerReady( _this );
+	
+				// Run the callback if provided
+				if ( typeof callback == 'function' ){
+					callback();
+				}
+			},1);
+			
 		} );
 	},
 
@@ -1824,7 +1843,7 @@ mw.EmbedPlayer.prototype = {
 	 */
 	getTimeRange: function() {
 		var end_time = (this.controlBuilder.longTimeDisp)? '/' + mw.seconds2npt( this.getDuration() ) : '';
-		var default_time_range = '0:00:00' + end_time;
+		var default_time_range = '0:00' + end_time;
 		if ( !this.mediaElement )
 			return default_time_range;
 		if ( !this.mediaElement.selectedSource )
@@ -1948,9 +1967,12 @@ mw.EmbedPlayer.prototype = {
 			// Run the ended trigger ( allow the ended object to prevent default
 			// actions )
 			mw.log("EmbedPlayer::onClipDone:Trigger ended");
-			$j( this ).trigger( 'ended', onDoneActionObject );
-
-			if( onDoneActionObject.runBaseControlDone ){
+			
+			this.tempDisableEvents();
+			// TOOD we should improve the end event flow
+			$j( this ).trigger( 'ended' );			
+			
+			if( this.onDoneInterfaceFlag ){
 
 				// Check if we have the "loop" property set
 				if( this.loop ) {
@@ -1983,7 +2005,7 @@ mw.EmbedPlayer.prototype = {
 	 */
 	showThumbnail: function() {
 		var _this = this;
-		mw.log( 'EmbedPlayer::showThumbnail' + this.thumbnail_disp );
+		mw.log( 'EmbedPlayer::showThumbnail' + this.posterDisplayed );
 
 		// Close Menu Overlay:
 		this.controlBuilder.closeMenuOverlay();
@@ -1992,7 +2014,7 @@ mw.EmbedPlayer.prototype = {
 		this.updatePosterHTML();
 
 		this.paused = true;
-		this.thumbnail_disp = true;
+		this.posterDisplayed = true;
 		// Make sure the controlBuilder bindings are up-to-date
 		this.controlBuilder.addControlBindings();
 
@@ -2007,14 +2029,14 @@ mw.EmbedPlayer.prototype = {
 	/**
 	 * Show the player
 	 */
-	showPlayer : function () {
-		//alert( 'show player? :' + this.controls + ' is persist:' + this.isPersistentNativePlayer() );
+	showPlayer: function () {
 		mw.log( 'EmbedPlayer:: Show player: ' + this.id + ' interace: w:' + this.width + ' h:' + this.height );
 		var _this = this;
 		// Set-up the local controlBuilder instance:
 		this.controlBuilder = new mw.PlayerControlBuilder( this );
 		var _this = this;
-
+		
+		
 		// Make sure we have mwplayer_interface
 		if( $j( this ).parent( '.mwplayer_interface' ).length == 0 ) {
 			// Select "player"
@@ -2025,7 +2047,6 @@ mw.EmbedPlayer.prototype = {
 					'width' : this.width + 'px',
 					'height' : this.height + 'px',
 					'position' : 'relative',
-					'background' : '#000'
 				})
 			)
 			// position the "player" absolute inside the relative interface
@@ -2044,6 +2065,12 @@ mw.EmbedPlayer.prototype = {
 				'left' : '0px',
 				'background': null
 			});
+			// if controls are not overlay add controlBuilder height to interface
+			if( !this.controlBuilder.checkOverlayControls() ){
+				this.$interface.css('height', this.height + this.controlBuilder.getHeight() );
+			}
+			
+			
 			$j( this ).show();
 			this.controls = true;
 		}
@@ -2065,7 +2092,7 @@ mw.EmbedPlayer.prototype = {
 			// Issue a non-blocking play request
 			setTimeout(function(){
 				_this.play();
-			},0)
+			},1)
 		}
 
 	},
@@ -2230,7 +2257,7 @@ mw.EmbedPlayer.prototype = {
 			if ( this.thumbnail_updating == true )
 				$j( '#new_img_thumb_' + this.id ).stop().remove();
 
-			if ( this.thumbnail_disp ) {
+			if ( this.posterDisplayed ) {
 				mw.log( 'set to thumb:' + src );
 				this.thumbnail_updating = true;
 				$j( this ).append(
@@ -2634,19 +2661,16 @@ mw.EmbedPlayer.prototype = {
 		this.controlBuilder.closeMenuOverlay();
 
 		// Check if thumbnail is being displayed and embed html
-		if ( this.thumbnail_disp ) {
+		if ( this.posterDisplayed ) {
 			if ( !this.selectedPlayer ) {
 				this.showPluginMissingHTML();
 				return;
 			} else {
-				this.thumbnail_disp = false;
-				// hide any button if present: 
+				this.posterDisplayed = false;
+				// Hide any button if present: 
 				this.$interface.find( '.play-btn-large' ).remove();				
 				this.doEmbedHTML();
 			}
-		} else {
-			// the plugin is already being displayed
-			this.seeking = false;
 		}
 		
 		// If we previously finished playing this clip run the "replay hook"
@@ -2733,9 +2757,11 @@ mw.EmbedPlayer.prototype = {
 		.attr( 'title', gM( 'mwe-embedplayer-play_clip' ) );
 	},
 	
+	/**
+	 * Disable event _propagateEvents for 10ms ( helps avoid event stacking )
+	 */
 	tempDisableEvents: function(){
 		var _this = this;
-		// Disable event _propagateEvents for 10ms ( avoid pause play trigger stacking )
 		this._propagateEvents = false;
 		setTimeout( function(){
 			_this._propagateEvents = true;
@@ -2768,6 +2794,8 @@ mw.EmbedPlayer.prototype = {
 		// Reset current time and prev time and seek offset
 		this.currentTime = this.previousTime = 	this.serverSeekTime = 0;
 
+		this.stopMonitor();
+		
 		// Issue pause to update interface (only call this parent)
 		if( !this.paused ){
 			this.paused = true;
@@ -2794,8 +2822,6 @@ mw.EmbedPlayer.prototype = {
 			mw.log("EmbedPlayer::Stop:: Reset play head")
 			this.updatePlayHead( 0 );
 					
-			// Bind play-btn-large play
-			//this.addPlayBtnLarge();
 		}
 	},
 
@@ -2911,7 +2937,7 @@ mw.EmbedPlayer.prototype = {
 	 * @return {Boolean} true if playing false if not playing
 	 */
 	isPlaying : function() {
-		if ( this.thumbnail_disp ) {
+		if ( this.posterDisplayed ) {
 			// in stopped state
 			return false;
 		} else if ( this.paused ) {
@@ -2937,16 +2963,17 @@ mw.EmbedPlayer.prototype = {
 	 * @return {Boolean} true if stopped false if playing
 	 */
 	isStopped: function() {
-		return this.thumbnail_disp;
+		return this.posterDisplayed;
 	},
 
-	// xxx temporary hack we need a better stop monitor system
+	// TODO temporary hack we need a better stop monitor system
 	stopMonitor: function(){
-		this.thumbnail_disp = true;
+		clearInterval( this.monitorInterval );
+		this.monitorInterval = 0;
 	},
-	// xxx temporary hack we need a better stop monitor system
+	// TODO temporary hack we need a better stop monitor system
 	startMonitor: function(){
-		this.thumbnail_disp = false;
+		this.monitor();
 	},
 
 	/**
@@ -3018,7 +3045,7 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		//mw.log( 'Monitor:: ' + this.currentTime + ' duration: ' + ( parseInt(
-		// this.getDuration() ) + 1 ) + ' is seeking: ' + this.seeking );
+		//		this.getDuration() ) + 1 ) + ' is seeking: ' + this.seeking );
 		
 		if ( this.currentTime >= 0 && this.duration ) {
 			if ( !this.userSlide && !this.seeking ) {
@@ -3078,8 +3105,7 @@ mw.EmbedPlayer.prototype = {
 			}
 		} else {
 			// If stopped "stop" monitor:
-			clearInterval( this.monitorInterval );
-			this.monitorInterval = 0;
+			this.stopMonitor();
 		}
 
 		// mw.log('trigger:monitor:: ' + this.currentTime );
@@ -3140,12 +3166,12 @@ mw.EmbedPlayer.prototype = {
 	 *      perc Value between 0 and 1 for position of playhead
 	 */
 	updatePlayHead: function( perc ) {
+		//mw.log( 'EmbedPlayer: updatePlayHead:  '+ perc);
 		$playHead = this.$interface.find( '.play_head' );
 		if ( this.controls && $playHead.length != 0 ) {
 			var val = parseInt( perc * 1000 );
 			$playHead.slider( 'value', val );
 		}
-		// @@todo should have 'progress' trigger the same as html5
 		$j( this ).trigger('updatePlayHeadPercent', perc);
 	},
 

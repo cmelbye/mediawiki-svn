@@ -7,8 +7,7 @@
 
 mw.addMessageKeys( [
 	"mwe-timedtext-language-subtitles-for-clip",
-	"mwe-timedtext-language-no-subtitles-for-clip",
-	"mwe-timedtext-all-subtitles"
+	"mwe-timedtext-language-no-subtitles-for-clip"
 ]);
 
 RemoteMwTimedText = function( options ) {
@@ -82,8 +81,8 @@ RemoteMwTimedText.prototype = {
 			_this.embedPlayerLang();
 		});
 	},
-	/*
-	* embeds a player with the current language key pre selected
+	/**
+	* Embeds a player with the current language key pre selected
 	*/
 	embedPlayerLang: function() {
 		var _this = this;
@@ -124,16 +123,14 @@ RemoteMwTimedText.prototype = {
 				// Add the page msg to the top
 				$j( _this.target ).prepend(
 					$j('<h3>')
-						.html(
-							gM( pageMsgKey, [ mw.Language.names[ _this.langKey ], $fileLink.html() ] )
-						)
+					.html(
+						gM( pageMsgKey, [ mw.Language.names[ _this.langKey ], $fileLink.html() ] )
+					)
 				);
 				// Select the language if possible:
 				if( source ) {
 					player.timedText.selectTextSource( source );
 				}
-				// Un-hide the player
-				$j('.videoLoading').show();
 			} );
 		} );
 	},

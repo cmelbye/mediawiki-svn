@@ -525,7 +525,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 			if( $j( '#' + vidId ).parents( '.gallerybox,.filehistory' ).length ){
 				$j( '#' + vidId ).after(
 					 $j( '<div />')
-					.css( {
+					.css({
 						'width' : $pimg.attr('width' ),
 						'height' :$pimg.attr( 'height' ),
 						'position' : 'relative',

@@ -106,6 +106,7 @@ mw.Playlist.prototype = {
 			// Empty the target and setup player and playerList divs
 			$j( _this.target )
 			.empty()
+			.addClass( 'ui-widget-content' )
 			.css('position', 'relative' )
 			.append(
 				$j( '<span />' )
@@ -521,11 +522,11 @@ mw.Playlist.prototype = {
 
 			// Setup ondone playing binding to play next clip (if autoContinue is true )
 			if( _this.sourceHandler.autoContinue == true ){
-				$j( embedPlayer ).unbind('ended').bind( 'ended', function(event, onDoneActionObject ){
+				$j( embedPlayer ).unbind('ended').bind( 'ended', function(event ){
 					// Play next clip
 					if( _this.clipIndex + 1 < _this.sourceHandler.getClipCount() ){
 						// Update the onDone action object to not run the base control done:
-						onDoneActionObject.runBaseControlDone = false;
+						embedPlayer.onDoneInterfaceFlag = false;
 						_this.clipIndex++;
 
 						// update the player and play the next clip
@@ -536,7 +537,7 @@ mw.Playlist.prototype = {
 					} else {
 						mw.log("Reached end of playlist run normal end action" );
 						// Update the onDone action object to not run the base control done:
-						onDoneActionObject.runBaseControlDone = true;
+						embedPlayer.onDoneInterfaceFlag = true;
 					}
 				})
 			}
@@ -575,11 +576,12 @@ mw.Playlist.prototype = {
 					'border': '0px',
 					'width' : '100%'
 				})
+				.addClass('ui-state-active')
 				.append(
 					$j('<tr />')
 					.append(
 						$j( '<td />')
-						.css('width', _this.itemThumbWidth + 'px' )
+						.css('width', _this.itemThumbWidth + 'px' )					
 						.append(
 							$j('<img />')
 							.attr({
