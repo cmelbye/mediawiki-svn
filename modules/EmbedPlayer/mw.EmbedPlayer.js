@@ -2374,6 +2374,10 @@ mw.EmbedPlayer.prototype = {
 			if( this.isPersistentNativePlayer() && mw.getConfig('EmbedPlayer.EnableIpadHTMLControls') ){
 				return false;
 			} else {
+				// Set warning that your trying to do iPad controls without persistent native player: 
+				if( mw.getConfig('EmbedPlayer.EnableIpadHTMLControls') ){
+					mw.log("Error:: Trying to set EnableIpadHTMLControls without Persistent Native Player");
+				}
 				return true;
 			}
 		}
@@ -2673,24 +2677,23 @@ mw.EmbedPlayer.prototype = {
 			}
 		}
 		
-		// If we previously finished playing this clip run the "replay hook"
-		if( this.donePlayingCount > 0 && !this.paused) {
-			mw.log("replayEvent");
-			$j( this ).trigger( 'replayEvent' );
-		}
-		
 	
 		if( this.paused === true ){
-			this.paused = false;
-			
+			this.paused = false;			
 			// Check if we should Trigger the play event
 			if( this.bubbleEventCheck() ) {
 				mw.log("EmbedPlayer:: trigger play even::" + !this.paused);
-				if(  this._propagateEvents ){
+				if(  this._propagateEvents ){	
 					$j( this ).trigger( 'play' );
 					_this.tempDisableEvents();
 				}
 			}
+		}
+		
+		// If we previously finished playing this clip run the "replay hook"
+		if( this.donePlayingCount > 0 && !this.paused) {
+			mw.log("replayEvent");
+			$j( this ).trigger( 'replayEvent' );
 		}
 
 		this.$interface.find('.play-btn span')
@@ -2737,7 +2740,7 @@ mw.EmbedPlayer.prototype = {
 			if( this.bubbleEventCheck() ){
 				mw.log('EmbedPlayer:trigger pause:' + this.paused);
 				if(  this._propagateEvents ){
-					$j( this ).trigger('pause' );
+					$j( this ).trigger( 'pause' );
 					_this.tempDisableEvents();
 				}
 			}

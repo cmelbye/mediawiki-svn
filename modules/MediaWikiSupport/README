@@ -1,0 +1,4 @@
+This folder should contain all the mediaWiki specific helpers. 
+
+* Related to the embedPlayer this allows you to use mediaWiki title keys to pull in video assets. 
+* Any utilities that are not part of core resource loader components ( api helper )

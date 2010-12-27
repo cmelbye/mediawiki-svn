@@ -7,18 +7,13 @@ mw.includeAllModuleMessages();
  */
 mw.MiroSubsConfig = {
 	config : null,
-	openDialog: function( embedPlayer, dialogReadyCallback ){
+	openDialog: function( embedPlayer ){
 		var _this = this;
 		this.getConfig( embedPlayer , function( config ){
 			if( !config ){
 				return ;
-			}
-			// xxx NOTE there are some weird async display issues
-			// that only seem to be resolvable with timeouts for DOM actions
-			setTimeout(function(){
-				dialogReadyCallback();
-			}, 100);
-			// Show the dialog
+			}			
+			// Show the dialog ( wait 500ms because of weird async DOM issues with mirosub wiget
 			setTimeout(function(){
 				_this.mirosubs = mirosubs.api.openDialog( config );
 			}, 800);
@@ -44,10 +39,21 @@ mw.MiroSubsConfig = {
 		
 		// Check both the user name and subtitles have been set:
 		var isConfigReady = function(){
-			if( _this.config.username && _this.config.subtitles ){
+			if( _this.config.username 
+					&& 
+				_this.config.subtitles 
+					&&
+				_this.config.languageKey
+			){
 				callback( _this.config );
 			}
 		};
+		
+		// Get the language selection from user input ( dialog )
+		_this.getContentLanguage( function( langKey ){
+			_this.config.languageKey = langKey;
+			isConfigReady();
+		});
 		
 		// Make sure we are logged in::
 		mw.getUserName( function( userName ){
@@ -71,6 +77,22 @@ mw.MiroSubsConfig = {
 			isConfigReady();
 		});
 	},
+	
+	getContentLanguage: function(){
+		var $dialog = mw.addDialog( {
+			'title' : gM("mwe-mirosubs-content-language"),
+			'width' : 450,
+			'content' : $j('<div />').append(
+					$j('<h3 />').text( gM("mwe-mirosubs-content-language") ),
+					$j('<input/>').attr({
+						'id' : 'mwe-mirosubs-save-summary',
+						'size': '35'
+					}).val( gM('mwe-mirosubs-save-default') )
+				),
+			'buttons' : buttons
+		});
+	},
+	
 	/**
 	 * Present a dialog to get the target language
 	 */
@@ -83,9 +105,6 @@ mw.MiroSubsConfig = {
 		return {
 			// By default the config status is 'ok'
 			'status' : 'ok',
-
-			// Default language key 'en':
-			'languageKey' : 'en',
 
 			'closeListener': function(){
 				// close event refresh page?
