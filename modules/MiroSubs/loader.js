@@ -8,7 +8,8 @@
 		"mwe-mirosubs-add-universal-subtitles" : "Universal subtitles editor",
 		"mwe-mirosubs-loading-universal-subtitles" : "Loading <i>universal subtitles</i> editor"
 	});
-	// add as loader dependency 'mw.style.mirosubsMenu'
+	
+	// Add as loader dependency 'mw.style.mirosubsMenu'
 	mw.addResourcePaths( {
 		"mirosubs" : "mirosubs/mirosubs-api.min.js",
 		"mw.MiroSubsConfig" : "mw.MiroSubsConfig.js",
@@ -18,10 +19,12 @@
 
 	mw.setDefaultConfig( {
 		'MiroSubs.EnableUniversalSubsEditor': true
-	})
+	});
 
 	mw.addModuleLoader( 'MiroSubs', function(){
-		var resourceList = [ "mirosubs", "mw.style.mirosubswidget", "mw.MiroSubsConfig" ];
+		var resourceList = [ "mirosubs", "mw.style.mirosubswidget", "mw.MiroSubsConfig",
+		                     "mw.ui.languageSelectBox", "mw.Language.names", "$j.ui.autocomplete",
+		                     "$j.ui.combobox" ];
 		return resourceList;
 	});
 
@@ -43,9 +46,6 @@
 						mw.addLoaderDialog( gM('mwe-mirosubs-loading-universal-subtitles') );
 						// Load miro subs:
 						mw.load( 'MiroSubs', function(){
-							// Close loader dialog
-							mw.closeLoaderDialog();
-							
 							// Open the mirosubs dialog:
 							mw.MiroSubsConfig.openDialog( embedPlayer );
 						});

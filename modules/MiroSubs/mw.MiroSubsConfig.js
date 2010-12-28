@@ -13,7 +13,7 @@ mw.MiroSubsConfig = {
 			if( !config ){
 				return ;
 			}			
-			// Show the dialog ( wait 500ms because of weird async DOM issues with mirosub wiget
+			// Show the dialog ( wait 500ms because of weird async DOM issues with mirosub widget
 			setTimeout(function(){
 				_this.mirosubs = mirosubs.api.openDialog( config );
 			}, 800);
@@ -41,53 +41,80 @@ mw.MiroSubsConfig = {
 		var isConfigReady = function(){
 			if( _this.config.username 
 					&& 
-				_this.config.subtitles 
-					&&
-				_this.config.languageKey
+				_this.config.subtitles
 			){
 				callback( _this.config );
 			}
 		};
 		
-		// Get the language selection from user input ( dialog )
-		_this.getContentLanguage( function( langKey ){
-			_this.config.languageKey = langKey;
-			isConfigReady();
-		});
-		
-		// Make sure we are logged in::
-		mw.getUserName( function( userName ){
-			mw.log( "MiroSubsConfig::getUserName: " + userName );
-			if( !userName ){
-				mw.addDialog({
-					'title' : gM('mwe-mirosubs-subs-please-login'),
-					'content' : gM('mwe-mirosubs-subs-please-login-desc')
-				});
-				callback( false );
-			} else {
-				_this.config.username = userName;
-				isConfigReady();
-			}
-		});
-		// Get the subtitles
-		_this.getSubsInMiroFormat( function( miroSubs ){
-			mw.log("MiroSubsConfig::getSubsInMiroFormat: got" + miroSubs.length + ' subs');
-			// no failure for miro subs ( just an empty object )
-			_this.config.subtitles = miroSubs;
-			isConfigReady();
-		});
-	},
+		var getConfigWithPlayerLang = function(){
+			// Set the default languageKey from player recommendation:  
+			_this.config.languageKey = embedPlayer.timedText.getCurrentLangKey();
+			// Get the language selection from user input ( dialog )
+			_this.getUserSelectLanguage( function( langKey ){
+				// Update the language key based on user selection
+				_this.config.languageKey = langKey;
 	
-	getContentLanguage: function(){
+				// Make sure we are logged in::
+				mw.getUserName( function( userName ){
+					mw.log( "MiroSubsConfig::getUserName: " + userName );
+					if( !userName ){
+						mw.addDialog({
+							'title' : gM('mwe-mirosubs-subs-please-login'),
+							'content' : gM('mwe-mirosubs-subs-please-login-desc')
+						});
+						callback( false );
+					} else {
+						_this.config.username = userName;
+						isConfigReady();
+					}
+				});
+				// Get the subtitles
+				_this.getSubsInMiroFormat( function( miroSubs ){
+					mw.log("MiroSubsConfig::getSubsInMiroFormat: got" + miroSubs.length + ' subs');
+					// no failure for miro subs ( just an empty object )
+					_this.config.subtitles = miroSubs;
+					isConfigReady();
+				});
+				
+			});
+		}
+		// Make sure the player has selected auto-selected source if it can ( to have a good recommend content language
+		if( embedPlayer.timedText.getCurrentLangKey() ){
+			getConfigWithPlayerLang();
+		} else {
+			embedPlayer.timedText.setupTextSources( function(){
+				getConfigWithPlayerLang();
+			});
+		}
+	},
+	/* 
+	 * present a language selection dialog 
+	 * 
+	 * issue the callback with the selected language code. 
+	 * @param {function} callback
+	 */
+	getUserSelectLanguage: function( callback ){
+		var buttons = { };
+		buttons[ gM( 'mwe-ok' ) ] = function() {
+			// read the 
+			callback( $j('#mwe-mirosubs-lang-select').val() );
+		};
+		buttons[ gM( 'mwe-cancel' ) ] = function() {
+			$j( this ).dialog('close');
+		};
+		
 		var $dialog = mw.addDialog( {
 			'title' : gM("mwe-mirosubs-content-language"),
 			'width' : 450,
 			'content' : $j('<div />').append(
-					$j('<h3 />').text( gM("mwe-mirosubs-content-language") ),
-					$j('<input/>').attr({
-						'id' : 'mwe-mirosubs-save-summary',
-						'size': '35'
-					}).val( gM('mwe-mirosubs-save-default') )
+					$j('<div />').text( 
+						gM("mwe-mirosubs-select-language") 
+					),
+					mw.ui.languageSelectBox( {
+						'id' : 'mwe-mirosubs-lang-select',
+						'selectedLanguageKey' : this.config.languageKey
+					} )
 				),
 			'buttons' : buttons
 		});
@@ -253,36 +280,27 @@ mw.MiroSubsConfig = {
 	// Get the existing subtitles in miro format
 	getSubsInMiroFormat: function( callback ){
 		var _this = this;
-		var playerTimedText = this.embedPlayer.timedText;
-
-		playerTimedText.setupTextSources( function(){
-			var miroJsonSubs = [];
-			// NOTE the autoselected default language is a tricky issue
-			// We need to add support for language selection in the config object save callback
-
-			// Get the current text source captions
-			playerTimedText.loadCurrentSubSrouce( function( source ){
-				var captions = source.captions;
-				mw.log('getSubsInMiroFormat:: source sub length:' + captions.length );
-				_this.config.languageKey = source.srclang;
-				for( var i = 0; i < captions.length ; i ++ ){
-					var caption = captions[i];
-					var miroSub = {
-						'subtitle_id': 'sub_' + i,
-						'text': caption.content,
-						'sub_order': i+1
-					};
-					if( caption.end == 0){
-						miroSub.start_time = -1;
-						miroSub.end_time = -1;
-					} else {
-						miroSub.start_time = caption.start;
-						miroSub.end_time = caption.end;
-					}
-					miroJsonSubs.push( miroSub );
+		var miroJsonSubs = [];
+		// Get the current text source captions
+		this.embedPlayer.timedText.getSubCaptions(_this.config.languageKey, function( captions ){
+			mw.log('MiroSubsConfig:: getSubsInMiroFormat:' + _this.config.languageKey + ' source sub length:' + captions.length );
+			for( var i = 0; i < captions.length ; i ++ ){
+				var caption = captions[i];
+				var miroSub = {
+					'subtitle_id': 'sub_' + i,
+					'text': caption.content,
+					'sub_order': i+1
+				};
+				if( caption.end == 0){
+					miroSub.start_time = -1;
+					miroSub.end_time = -1;
+				} else {
+					miroSub.start_time = caption.start;
+					miroSub.end_time = caption.end;
 				}
-			});
-			callback( miroJsonSubs );
+				miroJsonSubs.push( miroSub );
+			}
 		});
+		callback( miroJsonSubs );
 	}
 };
