@@ -484,6 +484,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		 */
 		cleanLoadRequest: function( loadRequest ){
 			var cleanRequest = [];
+			if( ! loadRequest ){
+				return [];
+			}
 			if( typeof loadRequest == 'string' )
 				return loadRequest;
 			for( var i =0;i < loadRequest.length; i++ ){
