@@ -105,7 +105,7 @@ mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ];
 
 
 // Special embedplayer handler ( iframe )
-if( mwReqParam['embedplayer'] == 'yes' ){	
+if( mwReqParam['embedplayer'] == 'yes' ){
 	// No fullscreen in iframe for now:
 	mw.setConfig( 'EmbedPlayer.EnableFullscreen', false );
 	// No subtitle editor ( cross domain issues ) 

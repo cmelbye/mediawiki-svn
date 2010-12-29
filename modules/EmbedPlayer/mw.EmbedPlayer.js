@@ -2041,7 +2041,7 @@ mw.EmbedPlayer.prototype = {
 				.css({
 					'width' : this.width + 'px',
 					'height' : this.height + 'px',
-					'position' : 'relative',
+					'position' : 'relative'
 				})
 			)
 			// position the "player" absolute inside the relative interface
@@ -2069,7 +2069,7 @@ mw.EmbedPlayer.prototype = {
 		}
 		if(  !this.useNativePlayerControls() && !this.isPersistentNativePlayer() && !_this.controlBuilder.checkOverlayControls() ){
 			// give the interface more space for the controls: 
-			this.$interface.css('height', this.height + _this.controlBuilder.height );
+			this.$interface.css('height', this.height + _this.controlBuilder.height )
 		}
 		
 		// Update Thumbnail for the "player"

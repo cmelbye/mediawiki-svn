@@ -685,7 +685,9 @@ mw.SequencerTimeline.prototype = {
 	drawClipThumb: function ( smilElement , relativeTime, callback ){
 		var _this = this;
 		var smil = this.sequencer.getSmil();
-		mw.log("SequencerTimeline::drawClipThumb " + relativeTime);
+		
+		mw.log( "SequencerTimeline::drawClipThum:" + _this.getTimelineClipId( smilElement ) );
+		
 		var clipButtonCss = {
 			'position' : 'absolute',
 			'bottom' : '2px',
@@ -755,7 +757,19 @@ mw.SequencerTimeline.prototype = {
 		.find('.loadingSpinner').remove();
 
 		var $thumbTarget = $j( '#' + _this.getTimelineClipId( smilElement ) ).find('.thumbTraget');
-
+		// Check the type of the asset and draw: 
+		if( smil.getRefType( smilElement ) == 'audio' ){
+			smil.getLayout().drawSmilElementToTarget( smilElement, $thumbTarget, relativeTime, callback );
+		} else {
+			_this.drawClipThumbImage( $thumbTarget, smilElement, relativeTime, callback )
+		}
+	},
+	/**
+	 * Draw the clip Thumb image ( for video and image assets ) 
+	 */
+	drawClipThumbImage: function( $thumbTarget, smilElement, relativeTime, callback ){
+		var _this = this;
+		var smil = this.sequencer.getSmil();
 		// Check for a "poster" image use that temporarily while we wait for the video to seek and draw
 		if( $j( smilElement ) .attr('poster') ){
 			var img = new Image();
