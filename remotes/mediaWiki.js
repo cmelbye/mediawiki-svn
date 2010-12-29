@@ -546,8 +546,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 						.css({
 							'position' : 'absolute',
 							'top' : ( parseInt( $pimg.attr( 'height' ) ) /2 ) -25,
-							'maring-left' : 'auto',
-							'maring-right' : 'auto'
+							'left' :  ( parseInt( $pimg.attr( 'width' ) ) /2 ) -35
 						})
 
 						.addClass( 'play-btn-large' )

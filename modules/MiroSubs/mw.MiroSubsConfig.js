@@ -9,12 +9,14 @@ mw.MiroSubsConfig = {
 	config : null,
 	openDialog: function( embedPlayer ){
 		var _this = this;
-		this.getConfig( embedPlayer , function( config ){
+		this.getConfig( embedPlayer, function( config ){
 			if( !config ){
 				return ;
 			}			
 			// Show the dialog ( wait 500ms because of weird async DOM issues with mirosub widget
-			setTimeout(function(){
+			setTimeout( function(){
+				mw.closeLoaderDialog();
+				$j(document).scrollTop(0);
 				_this.mirosubs = mirosubs.api.openDialog( config );
 			}, 800);
 		});
@@ -97,8 +99,11 @@ mw.MiroSubsConfig = {
 	getUserSelectLanguage: function( callback ){
 		var buttons = { };
 		buttons[ gM( 'mwe-ok' ) ] = function() {
+			$j( this ).dialog('close');
+			// add a loader dialog: 
+			mw.addLoaderDialog( gM('mwe-mirosubs-loading-universal-subtitles') );
 			// read the 
-			callback( $j('#mwe-mirosubs-lang-select').val() );
+			callback( $j('#mwe-mirosubs-lang-select').val() );			
 		};
 		buttons[ gM( 'mwe-cancel' ) ] = function() {
 			$j( this ).dialog('close');

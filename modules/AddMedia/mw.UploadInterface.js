@@ -118,10 +118,10 @@ mw.UploadDialogInterface.prototype = {
 			)
 		);
 
-		this.statusKey = options.statusType;
+		this.statusType = options.statusType;
 		
-		var statusKey = ( this.statusType == 'transcode' ) ? 'mwe-transcoded-status' : 'mwe-uploaded-status';
-		$progressContainer.find( '#up-status-state' ).text( gM( statusKey, 0 ) );
+		var statusType = ( this.statusType == 'transcode' ) ? 'mwe-transcoded-status' : 'mwe-uploaded-status';
+		$progressContainer.find( '#up-status-state' ).text( gM( statusType, 0 ) );
 		
 
 		// Add the estimated time remaining
@@ -157,8 +157,8 @@ mw.UploadDialogInterface.prototype = {
 
 		$j( '#up-progressbar' ).progressbar( 'value', parseInt( fraction * 100 ) );
 		
-		var statusKey = ( this.statusType == 'transcode' ) ? 'mwe-transcoded-status' : 'mwe-uploaded-status';
-		$j( '#up-status-state' ).html( gM( statusKey, parseInt( fraction * 100 ) ) );
+		var statusType = ( this.statusType == 'transcode' ) ? 'mwe-transcoded-status' : 'mwe-uploaded-status';
+		$j( '#up-status-state' ).html( gM( statusType, parseInt( fraction * 100 ) ) );
 
 		if ( _this.uploadBeginTime) {
 			var elapsedMilliseconds = ( new Date() ).getTime() - _this.uploadBeginTime;

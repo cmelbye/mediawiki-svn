@@ -1211,7 +1211,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 				// TODO error handling:
 				mw.log( 'encoding failed' );
 			}
-		}
+		};
 		encodingStatus();
 	},
 
