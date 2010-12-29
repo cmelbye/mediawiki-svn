@@ -1152,7 +1152,7 @@ $messages['hr'] = array(
 	'donate_interface-comment-message' => 'Želite li nešto poručiti? Napišite poruku do 200 znakova ovdje:',
 	'donate_interface-comment-label' => 'Komentar:',
 	'donate_interface-anon-message' => 'Molim navedite moje ime (uz moj komentar) na javni popis donatora.',
-	'donate_interface-email-agreement' => 'Slažem se s primanjem obavijesti potem e-pošte od Wikimedia zaklade.',
+	'donate_interface-email-agreement' => 'Slažem se s primanjem obavijesti e-poštom od Wikimedia zaklade.',
 	'donate_interface-comment-title' => 'Javni komentar',
 	'donate_interface-amount-error' => '**Molimo unesite valjani iznos**',
 	'donate_interface-processing-error' => 'Došlo je do pogreške u obradi vašeg zahtjeva. 
@@ -2227,6 +2227,17 @@ Nenhuma das plataformas está disponível.',
 	'donate_interface-SGD' => 'SGD: Dólar de Singapura',
 	'donate_interface-SEK' => 'SEK: Coroa sueca',
 	'donate_interface-ILS' => 'ILS: Shekel (Israel)',
+);
+
+/** Quechua (Runa Simi)
+ * @author AlimanRuna
+ */
+$messages['qu'] = array(
+	'donate_interface' => 'Wikimediata yanapay',
+	'donate_interface-amount' => "Hayk'a qarana:",
+	'donate_interface-other-amount' => 'Wakin chhika',
+	'donate_interface-currency' => 'Kañina:',
+	'donate_interface-submit-button' => 'Qarana',
 );
 
 /** Romanian (Română)
