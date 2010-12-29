@@ -1567,6 +1567,9 @@ mw.includeAllModuleMessages();
 			for ( var i=0; i < sourcePages.query.allpages.length; i++ ) {
 
 				var subPage = sourcePages.query.allpages[i];
+				if( !subPage || !subPage.title ){
+					continue;
+				}
 				var langKey = subPage.title.split( '.' );
 				var extension = langKey.pop();
 				langKey = langKey.pop();
