@@ -1253,7 +1253,7 @@ mw.PlayerControlBuilder.prototype = {
 		$shareInterface.append(
 
 			$j( '<textarea />' )
-			.attr( 'rows', 1 )
+			.attr( 'rows', 4 )
 			.html( embed_code )
 			.click( function() {
 				$j( this ).select();
