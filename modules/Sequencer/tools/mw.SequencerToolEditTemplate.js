@@ -1,7 +1,7 @@
 /**
  * Extend the base tools prototype with Edit Template tool
  */
-$j.extend( mw.SequencerTools.prototype, {
+$j.extend( true, mw.SequencerTools.prototype, {
 	tools : {
 		'templateedit' : {
 			'editWidgets' : ['editTemplate'],
@@ -34,7 +34,7 @@ $j.extend( mw.SequencerTools.prototype, {
 				$j( target ).loadingSpinner();
 	
 				if( ! $j( smilElement).attr('apititlekey') ){
-					mw.log("Error: can't grab template without title key")
+					mw.log("Error: can't grab template without title key");
 					return ;
 				}
 				// Get the template wikitext
@@ -43,12 +43,12 @@ $j.extend( mw.SequencerTools.prototype, {
 				.getTemplateText( $j( smilElement).attr('apititlekey'), function( templateText ){
 					//mw.log("GotTemplateText: " + templateText );
 					if( ! templateText || typeof templateText != 'string' ){
-						mw.log("Error: could not get wikitext form titlekey: " + $j( smilElement).attr('apititlekey'))
+						mw.log("Error: could not get wikitext form titlekey: " + $j( smilElement).attr('apititlekey'));
 						return ;
 					}
 					$j( target ).empty().append(
 						$j('<h3 />').text( gM('mwe-sequencer-edittemplate-params') )
-					)
+					);
 	
 					// This is not supposed to be perfect ..
 					// just get you 'most' of the input vars 'most' of the time via the greedy regEx:
@@ -81,13 +81,13 @@ $j.extend( mw.SequencerTools.prototype, {
 								_this.editWidgets.editTemplate.onChange(
 									_this,
 									smilElement
-								)
+								);
 							})
 							.parent()
 							,
 							$j('<div />')
 							.css('clear', 'both')
-						)
+						);
 					}
 	
 	

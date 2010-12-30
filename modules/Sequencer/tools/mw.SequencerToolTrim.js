@@ -3,7 +3,7 @@
  * Extend the base tools prototype with Trim function: 
  * @dependency ToolDuration
  */
-$j.extend( mw.SequencerTools.prototype, {
+$j.extend( true, mw.SequencerTools.prototype, {
 	tools: {
 		'trim': {
 			'editWidgets' : [ 'trimTimeline' ],
@@ -64,7 +64,7 @@ $j.extend( mw.SequencerTools.prototype, {
 			// Return the trimTimeline edit widget
 			'draw': function( _this, target, smilElement ){
 				var smil = _this.sequencer.getSmil();
-				var sliderScale = 2000 // assume slider is never more than 2000 pixles wide.
+				var sliderScale = 2000; // assume slider is never more than 2000 pixles wide.
 				// check if thumbs are supported
 				/*if( _this.sequencer.getSmil().getRefType( smilElement ) == 'video' ){
 					$j(target).append(
@@ -81,10 +81,10 @@ $j.extend( mw.SequencerTools.prototype, {
 				// Some slider functions
 				var sliderToTime = function( sliderval ){
 					return parseInt( fullClipDuration * ( sliderval / sliderScale ) );
-				}
+				};
 				var timeToSlider = function( time ){
 					return parseInt( ( time / fullClipDuration ) * sliderScale );
-				}
+				};
 	
 				// Special flag to prevent slider updates from propgating if the change was based on user input
 				var onInputChangeFlag = false;

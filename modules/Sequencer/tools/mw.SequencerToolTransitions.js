@@ -1,7 +1,7 @@
 /**
  * Extend the base tools prototype with transition tool
  */
-$j.extend( mw.SequencerTools.prototype, {
+$j.extend( true, mw.SequencerTools.prototype, {
 	tools : {
 		'transitions' : {
 			'editWidgets' : ['editTransitions'],

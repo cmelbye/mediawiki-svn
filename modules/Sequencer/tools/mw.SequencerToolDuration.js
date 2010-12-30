@@ -1,7 +1,7 @@
 /**
  * Extend the base tools prototype with duration attribute edit: 
  */
-$j.extend( mw.SequencerTools.prototype, {
+$j.extend( true, mw.SequencerTools.prototype, {
 	tools : {
 		'duration':{
 			'editableAttributes' : [ 'dur' ],

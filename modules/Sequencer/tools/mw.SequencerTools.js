@@ -11,7 +11,7 @@ mw.SequencerTools = function( sequencer ) {
 
 // Set up the mvSequencer object
 mw.SequencerTools.prototype = {
-	init: function(	sequencer ){
+	init: function(	sequencer ){	
 		this.sequencer = sequencer;
 	},
 
@@ -49,7 +49,7 @@ mw.SequencerTools.prototype = {
 							'name': paramName,
 							'value' : value
 						})
-					)
+					);
 				} else {
 					// Update the param value
 					$paramNode.attr( 'value', value);
@@ -72,7 +72,7 @@ mw.SequencerTools.prototype = {
 			},
 			getSmilVal : function( _this, smilElement, attributeName ){
 				if( $j( smilElement ).attr( attributeName ) ){
-					return $j( smilElement ).attr( attributeName )
+					return $j( smilElement ).attr( attributeName );
 				}
 				// Check for a default value
 				if( _this.editableAttributes[ attributeName ].defaultValue ){
@@ -126,7 +126,7 @@ mw.SequencerTools.prototype = {
 						)
 					,
 					'target' : '_new'
-				})
+				});
 				// follow the link the link
 				return true;
 			}
@@ -139,18 +139,18 @@ mw.SequencerTools.prototype = {
 					// preview done, restore original state:
 					$j(clickButton).replaceWith (
 						_this.getEditAction( smilElement, 'preview' )
-					)
+					);
 				});
 				// xxx todo update preview button to "pause" / "play"
 				var doPause = function(){
 					$j( clickButton ).find( '.ui-icon')
 						.removeClass( 'ui-icon-pause' )
-						.addClass( 'ui-icon-play' )
+						.addClass( 'ui-icon-play' );
 					$j( clickButton ).find('.btnText').text(
 						gM('mwe-sequencer-preview-continue')
-					)
+					);
 					_this.sequencer.getEmbedPlayer().pause();
-				}
+				};
 				var doPlay = function(){
 					// setup pause button:
 					$j( clickButton ).find( '.ui-icon')
@@ -158,13 +158,13 @@ mw.SequencerTools.prototype = {
 						.addClass( 'ui-icon-pause' )
 					$j( clickButton ).find('.btnText').text(
 						gM('mwe-sequencer-preview-pause')
-					)
+					);
 					// keep the target preview end time:
 					// xxx should probably refactor this.. a bit of abstraction leak here:
 					_this.sequencer.getEmbedPlayer().play(
 						_this.sequencer.getEmbedPlayer().playSegmentEndTime
 					);
-				}
+				};
 				$j( clickButton ).unbind().click(function(){
 					if( _this.sequencer.getEmbedPlayer().paused ){
 						doPlay();
@@ -213,7 +213,7 @@ mw.SequencerTools.prototype = {
 	setDefaultText: function(){
 		this.sequencer.getEditToolTarget().html(
 			this.getDefaultText()
-		)
+		);
 	},
 	getEditToolInputId: function( toolId, attributeName){
 		return 'editTool_' + toolId + '_' + attributeName.replace('/\s/', '');
@@ -226,8 +226,8 @@ mw.SequencerTools.prototype = {
 
 		// If tools are displayed update them
 		if( this.sequencer.getEditToolTarget().find('.editToolsContainer').lenght ){
-			this.drawClipEditTools()
-		}
+			this.drawClipEditTools();
+		};
 
 	},
 	getToolSet: function( refType ){
@@ -303,7 +303,7 @@ mw.SequencerTools.prototype = {
 				.append(
 					$j('<h3 />').text( gM('mwe-sequencer-tools-' + toolId + '-desc') )
 				)
-			)
+			);
 			var $toolContainer = $toolsContainer.find( '#tooltab_' + toolId );
 
 			// Build out the attribute list for the given tool ( if the tool has directly editable attributes )
@@ -337,7 +337,7 @@ mw.SequencerTools.prototype = {
 						_this,
 						$j( '#editWidgets_' + editWidgetId ),
 						smilElement
-					)
+					);
 					// Output a float divider:
 					$toolContainer.append( $j('<div />').addClass( 'ui-helper-clearfix' ) );
 				}
@@ -346,7 +346,7 @@ mw.SequencerTools.prototype = {
 
 		// Add tab bindings
 		$toolsContainer.tabs({
-			select: function(event, ui) {
+			select: function( event, ui ) {
 				_this.setCurrentToolId( $j( ui.tab ).attr('href').replace('#tooltab_', '') );
 				// trigger select tool event: 
 				$j( _this ).trigger( 'toolSelect' );
@@ -363,6 +363,7 @@ mw.SequencerTools.prototype = {
 			'right' : '0px',
 			'overflow' : 'auto'
 		});
+		
 		// Build out global edit Actions buttons after the container
 		for( var editActionId in this.editActions ){
 			// Check if the edit action has a conditional display:
