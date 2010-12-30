@@ -36,9 +36,9 @@ function loadPlaceholders() {
 addEvent( window, 'load', loadPlaceholders );
 
 function formCheck( ccform ) {
-	var msg = [ 'EmailAdd', 'Fname', 'Lname', 'Street', 'City', 'State', 'Zip', 'CardNum', 'Cvv' ];
+	var msg = [ 'EmailAdd', 'Fname', 'Lname', 'Street', 'City', 'Zip', 'CardNum', 'Cvv' ];
 
-	var fields = ["emailAdd","fname","lname","street","city","state","zip","card_num","cvv" ],
+	var fields = ["emailAdd","fname","lname","street","city","zip","card_num","cvv" ],
 		numFields = fields.length,
 		i,
 		output = '',
@@ -56,6 +56,10 @@ function formCheck( ccform ) {
 	}
 	if (document.getElementById('lname').value == '$last') {
 		output += payflowproGatewayErrorMsgJs + ' last name.\\r\\n';
+	}
+	var countryField = document.getElementById( 'country' );
+	if( countryField.options[countryField.selectedIndex].value == '' ) {
+		output += payflowproGatewayErrorMsgJs + ' ' + window['payflowproGatewayErrorMsgCountry'] + '.\\r\\n';
 	}
 
 	// validate email address

@@ -69,6 +69,7 @@ class PayflowProGateway extends UnlistedSpecialPage {
 			'payflowproGatewayErrorMsgCity' => wfMsg( 'payflowpro_gateway-error-msg-city' ),
 			'payflowproGatewayErrorMsgState' => wfMsg( 'payflowpro_gateway-error-msg-state' ),
 			'payflowproGatewayErrorMsgZip' => wfMsg( 'payflowpro_gateway-error-msg-zip' ),
+			'payflowproGatewayErrorMsgCountry' => wfMsg( 'payflowpro_gateway-error-msg-country' ),
 			'payflowproGatewayErrorMsgCardNum' => wfMsg( 'payflowpro_gateway-error-msg-card_num' ),
 			'payflowproGatewayErrorMsgExpiration' => wfMsg( 'payflowpro_gateway-error-msg-expiration' ),
 			'payflowproGatewayErrorMsgCvv' => wfMsg( 'payflowpro_gateway-error-msg-cvv' ),
@@ -277,7 +278,9 @@ EOT;
 	/**
 	 * Checks posted form data for errors and returns array of messages
 	 */
-	private function fnPayflowValidateForm( $data, &$error ) {
+	private function fnPayflowValidateForm( &$data, &$error ) {
+		global $wgPayflowPriceFloor, $wgPayflowPriceCieling;
+		
 		// begin with no errors
 		$error_result = '0';
 
@@ -309,7 +312,9 @@ EOT;
 		}
 
 		// check amount
-		if ( !preg_match( '/^\d+(\.(\d+)?)?$/', $data['amount'] ) || $data['amount'] == "0.00" ) {
+		if ( !preg_match( '/^\d+(\.(\d+)?)?$/', $data[ 'amount' ] ) || 
+			( (float) $this->convert_to_usd( $data[ 'currency' ], $data[ 'amount' ] ) < (float) $wgPayflowPriceFloor || 
+				(float) $this->convert_to_usd( $data[ 'currency' ], $data[ 'amount' ] ) > (float) $wgPayflowPriceCieling ) ) {
 			$error['invalidamount'] = wfMsg( 'payflowpro_gateway-error-msg-invalid-amount' );
 			$error_result = '1';
 		}
@@ -323,59 +328,20 @@ EOT;
 			$error_result = '1';
 		}
 
-		// validate that credit card number entered is correct for the brand
-		switch( $data['card'] ) {
-			case 'american':
-				// pattern for Amex
-				$pattern = '/^3[47][0-9]{13}$/';
-
-				// if the pattern doesn't match
-				if ( !preg_match( $pattern, $data['card_num']  ) ) {
-					$error_result = '1';
-					$error['card'] = wfMsg( 'payflowpro_gateway-error-msg-amex' );
-				}
-
-				break;
-
-			case 'mastercard':
-				// pattern for Mastercard
-				$pattern = '/^5[1-5][0-9]{14}$/';
-
-				// if pattern doesn't match
-				if ( !preg_match( $pattern, $data['card_num'] ) ) {
-					$error_result = '1';
-					$error['card'] = wfMsg( 'payflowpro_gateway-error-msg-mc' );
-				}
-
-				break;
-
-			case 'visa':
-				// pattern for Visa
-				$pattern = '/^4[0-9]{12}(?:[0-9]{3})?$/';
-
-				// if pattern doesn't match
-				if ( !preg_match( $pattern, $data['card_num'] ) ) {
-					$error_result = '1';
-					$error['card'] = wfMsg( 'payflowpro_gateway-error-msg-visa' );
-				}
-
-				break;
-
-			case 'discover':
-				// pattern for Discover
-				$pattern = '/^6(?:011|5[0-9]{2})[0-9]{12}$/';
-
-				// if pattern doesn't match
-				if ( !preg_match( $pattern, $data['card_num'] ) ) {
-					$error_result = '1';
-					$error['card'] = wfMsg( 'payflowpro_gateway-error-msg-discover' );
-				}
-
-				break;
-
-
-
-		} // end switch
+		// validate that credit card number entered is correct and set the card type
+		if ( preg_match( '/^3[47][0-9]{13}$/', $data[ 'card_num' ] ) ) { // american express
+			$data[ 'card' ] = 'american';
+		} elseif ( preg_match( '/^5[1-5][0-9]{14}$/', $data[ 'card_num' ] ) ) { //	mastercard
+			$data[ 'card' ] = 'mastercard';
+		} elseif ( preg_match( '/^4[0-9]{12}(?:[0-9]{3})?$/', $data[ 'card_num' ] ) ) {// visa
+			$data[ 'card' ] = 'visa';
+		} elseif ( preg_match( '/^6(?:011|5[0-9]{2})[0-9]{12}$/', $data[ 'card_num' ] ) ) { // discover
+			$data[ 'card' ] = 'discover';
+		} else { // an invalid credit card number was entered
+			$error_result = '1';
+			$error[ 'card_num' ] = wfMsg( 'payflowpro_gateway-error-msg-card-num' );
+		}
+		
 		return $error_result;
 	}
 
@@ -1297,5 +1263,83 @@ EOT;
 		openlog( $identifier, LOG_ODELAY, LOG_SYSLOG );
 		syslog( $log_level, $msg );
 		closelog();	
+	}
+	
+	/**
+	 * Convert an amount for a particular currency to an amount in USD
+	 * 
+	 * This is grosley rudimentary and likely wildly inaccurate.
+	 * This mimicks the hard-coded values used by the WMF to convert currencies
+	 * for validatoin on the front-end on the first step landing pages of their
+	 * donation process - the idea being that we can get a close approximation
+	 * of converted currencies to ensure that contributors are not going above
+	 * or below the price ceiling/floor, even if they are using a non-US currency.
+	 * 
+	 * In reality, this probably ought to use some sort of webservice to get real-time
+	 * conversion rates.
+	 *  
+	 * @param $currency_code
+	 * @param $amount
+	 * @return unknown_type
+	 */
+	public function convert_to_usd( $currency_code, $amount ) {
+		switch ( strtoupper( $currency_code ) ) {
+			case 'USD':
+				$usd_amount = $amount / 1;
+				break;
+			case 'GBP':
+				$usd_amount = $amount / 1;
+				break;
+			case 'EUR':
+				$usd_amount = $amount / 1;
+				break;
+			case 'AUD':
+				$usd_amount = $amount / 2;
+				break;
+			case 'CAD':
+				$usd_amount = $amount / 1;
+				break;
+			case 'CHF':
+				$usd_amount = $amount / 1;
+				break;
+			case 'CZK':
+				$usd_amount = $amount / 20;
+				break;
+			case 'DKK':
+				$usd_amount = $amount / 5;
+				break;
+			case 'HKD':
+				$usd_amount = $amount / 10;
+				break;
+			case 'HUF':
+				$usd_amount = $amount / 200;
+				break;
+			case 'JPY':
+				$usd_amount = $amount / 100;
+				break;
+			case 'NZD':
+				$usd_amount = $amount / 2;
+				break;
+			case 'NOK':
+				$usd_amount = $amount / 10;
+				break;
+			case 'PLN':
+				$usd_amount = $amount / 5;
+				break;
+			case 'SGD':
+				$usd_amount = $amount / 2;
+				break;
+			case 'SEK':
+				$usd_amount = $amount / 10;
+				break;
+			case 'ILS':
+				$usd_amount = $amount / 5;
+				break;
+			default:
+				$usd_amount = $amount;
+				break;
+		}
+		
+		return $usd_amount;
 	}
 } // end class

@@ -1,3 +1,25 @@
+#premium-confirmation {
+	text-align: center;
+}
+#premium-values {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+#premium-size {
+	margin: 0.2em 0;
+}
+#premium-language {
+	text-align: center;
+	background-color: #162b46;
+	width:200px;
+	height: 92px;
+	margin: 0 auto;
+}
+#premium-language img {
+	display: block;
+	margin: 0;
+}
+
 .payflow-cc-form-section {
         float: none;
         margin-right: 0em;
