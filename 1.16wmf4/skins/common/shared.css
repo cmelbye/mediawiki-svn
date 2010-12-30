@@ -140,6 +140,12 @@ p.mw-revdel-editreasons {
 	float: right;
 }
 
+body.rtl p.mw-ipb-conveniencelinks, body.rtl p.mw-protect-editreasons,
+body.rtl p.mw-filedelete-editreasons, body.rtl p.mw-delete-editreasons,
+body.rtl p.mw-revdel-editreasons {
+	float: left;
+}
+
 /* Search results */
 .searchresults {
 }
