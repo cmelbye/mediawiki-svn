@@ -10,6 +10,8 @@ class WikiEditorHooks {
 	
 	/* Static Members */
 	
+	static $modulesAdded = false;
+
 	static $scripts = array(
 		'raw' => array(
 			array( 'src' => 'Modules/Highlight/Highlight.js', 'version' => 5 ),
@@ -411,7 +413,11 @@ class WikiEditorHooks {
 	 */
 	 public static function addModules( &$toolbar ) {
 		global $wgUser, $wgWikiEditorModules, $wgUsabilityInitiativeResourceMode;
-		
+
+		if ( self::$modulesAdded ) {
+			return true;
+		}
+
 		// Modules
 		$preferences = array();
 		$enabledModules = array();
@@ -470,6 +476,7 @@ class WikiEditorHooks {
 			'wgWikiEditorPreferences' => $preferences,
 			'wgWikiEditorEnabledModules' => $enabledModules,
 		) );
+		self::$modulesAdded = true;
 		return true;
 	}
 	
