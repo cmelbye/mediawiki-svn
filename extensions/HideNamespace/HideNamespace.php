@@ -1,65 +1,54 @@
 <?php
 
 /**
- * Extension HideNamespace - Hides namespace in the header and title when a page is in specified namespace
- * or when the {{#hidens:}} parser function is called.
+ * Extension HideNamespace
+ * Allows hiding namespace in the page title.
  *
  * @file
  * @ingroup Extensions
  * @author Matěj Grabovský (mgrabovsky.github.com)
- * @copyright © 2010, Matěj Grabovský
  * @license GNU General Public Licence 2.0 or later
  */
 
-if( !defined('MEDIAWIKI') ) {
-	echo( "This file is an extension to the MediaWiki software and cannot be used standalone.\n" );
+if( !defined( 'MEDIAWIKI' ) ) {
+	echo 'This file is an extension to the MediaWiki software and ',
+		'cannot be used standalone.', PHP_EOL;
 	die();
 }
 
-$dir = dirname( __FILE__ ) . '/';
+$dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
 $wgExtensionMessagesFiles['HideNamespace'] = $dir . 'HideNamespace.i18n.php';
-$wgHooks['LanguageGetMagic'][] = 'wfHideNamespaceSetupLanguageGetMagic';
 
 $wgExtensionFunctions[] = 'wfHideNamespaceSetup';
 $wgExtensionCredits['other'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'HideNamespace',
-	'description'    => 'Hides namespace in the header and title when a page is in specified namespace or when the <code><nowiki>{{#hidens:}}</nowiki></code> parser function is called.',
 	'descriptionmsg' => 'hidens-desc',
-	'version'        => '1.4.1a',
+	'version'        => '1.4.2a',
 	'author'         => 'Matěj Grabovský',
 	'url'            => 'http://www.mediawiki.org/wiki/Extension:HideNamespace',
 );
 
 function wfHideNamespaceSetup() {
-	global $wgParser, $wgHooks;
+	global $wgHooks;
 
 	$extHidensObj = new ExtensionHideNamespace;
 
 	// Register hooks
+	$wgHooks['ParserFirstCallInit'][] = array( &$extHidensObj, 'registerParser' );
+	$wgHooks['LanguageGetMagic'][] = array( &$extHidensObj, 'onLanguageGetMagic' );
 	$wgHooks['ArticleViewHeader'][] = array( &$extHidensObj, 'onArticleViewHeader' );
 	$wgHooks['BeforePageDisplay'][] = array( &$extHidensObj, 'onBeforePageDisplay' );
-	$wgHooks['ParserFirstCallInit'][] = array( &$extHidensObj, 'registerParser' );
-}
-
-function wfHideNamespaceSetupLanguageGetMagic( &$mw, $lang ) {
-	require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'HideNamespace.i18n.magic.php' );
-
-	$mw = array_merge( $mw, $magicWords['en'] );
-	if( $lang !== 'en' && isset( $magicWords[$lang] ) )
-		$mw = array_merge( $mw, $magicWords[$lang] );
-
-	return true;
 }
 
 class ExtensionHideNamespace {
-	private static $namespace, $namespaceL10n;
-	private static $forceHide = false, $forceShow = false;
+	private $namespace, $namespaceText;
+	private $hide = null;
 
 	/**
-	 * Register our parser functions.
+	 * Register the parser functions
 	 */
-	function registerParser( &$parser ) {
+	public function registerParser( $parser ) {
 		$parser->setFunctionHook( 'hidens', array( &$this, 'hideNs' ) );
 		$parser->setFunctionHook( 'showns', array( &$this, 'showNs' ) );
 
@@ -67,65 +56,82 @@ class ExtensionHideNamespace {
 	}
 
 	/**
-	 * Callback for our parser function {{#hidens:}}.
-	 * Force to hide the namespace.
+	 * Get localized magic words
 	 */
-	function hideNs( &$parser ) {
-		self::$forceHide = true;
+	public function onLanguageGetMagic( &$mw, $lang ) {
+		require( dirname( __FILE__ ) . DIRECTORY_SEPARATOR .
+			'HideNamespace.i18n.magic.php' );
 
-		return '';
-	}
-
-	/**
-	 * Callback for our parser function {{#showns:}}.
-	 * Force to show the namespace.
-	 */
-	function showNs( &$parser ) {
-		self::$forceShow = true;
-
-		return '';
-	}
-
-	/**
-	 * Callback for the ArticleViewHeader hook.
-	 * Saves namespace identifier and localized namespace name to the $namespace and $namespaceL10n variables.
-	 */
-	function onArticleViewHeader( $article, $outputDone, $enableParserCcache ) {
-		self::$namespace = $article->mTitle->mNamespace;
-
-		if( self::$namespace === NS_MAIN ) {
-			self::$namespaceL10n = '';
-		} else {
-			self::$namespaceL10n = substr( $article->mTitle->getPrefixedText(), 0,
-				strpos( $article->mTitle->getPrefixedText(),':' ) );
+		$mw = array_merge( $mw, $magicWords['en'] );
+		if( $lang !== 'en' && isset( $magicWords[$lang] ) ) {
+			$mw = array_merge( $mw, $magicWords[$lang] );
 		}
 
 		return true;
 	}
 
 	/**
-	 * Callback for the OutputPageBeforeHTML hook.
-	 * "Hides" the namespace in the header and in title.
+	 * Callback for our parser function {{#hidens:}}
 	 */
-	function onBeforePageDisplay( &$out, $skin ) {
-		if( self::$namespace === NS_MAIN )
-			return true;
+	public function hideNs() {
+		$this->hide = true;
 
-		global $wgHideNsNamespaces;
+		return null;
+	}
 
-		/**
-		 * Hide the namespace if:
-		 *   the page's namespace is contained in the $wgHideNsNamespaces array or
-		 *   the {{#hidens:}} function was called
-		 * but not when the {{#showns:}} function was called
-		 */
+	/**
+	 * Callback for our parser function {{#showns:}}
+	 */
+	public function showNs() {
+		$this->hide = false;
 
-		if( ( (isset($wgHideNsNamespaces) && in_array(self::$namespace, $wgHideNsNamespaces)) || self::$forceHide ) &&
-		    !self::$forceShow )
-		{
-			$out->setPageTitle( substr( $out->getPageTitle(), strlen( self::$namespaceL10n ) + 1 ) );
+		return null;
+	}
+
+	/**
+	 * Callback for the ArticleViewHeader hook.
+	 *
+	 * Retrieves the namespace and localized namespace text and decides whether the
+	 * namespace should be hidden
+	 */
+	public function onArticleViewHeader( $article ) {
+		global $wgHidensNamespaces, $wgContLang;
+
+		$this->namespace = $article->getTitle()->getNamespace();
+		$this->namespaceText = $wgContLang->getNsText( $this->namespace );
+
+		if( $this->namespace == NS_MAIN ) {
+			$this->hide = false;
+		} else {
+			/**
+			* Hide namespace if either
+			* -  it was forced by user (with {{#hidens:}}) or
+			* -  the current namespace is in $wgHidensNamespaces AND
+			*      {{#showns:}} wasn't called
+			*/
+			$visibilityForced = !is_null( $this->hide );
+			$hideByUser = $visibilityForced && $this->hide;
+			$hideBySetting = isset( $wgHidensNamespaces ) &&
+				in_array( $this->namespace, $wgHidensNamespaces );
+
+			$this->hide = $hideByUser || ( $hideBySetting && $this->hide !== false );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Callback for the OutputPageBeforeHTML hook
+	 *
+	 * Removes the namespace from article header and page title
+	 */
+	public function onBeforePageDisplay( $out ) {
+		if( $this->hide ) {
+			$out->setPageTitle( mb_substr( $out->getPageTitle(),
+				mb_strlen( $this->namespaceText ) + 1 ) );
 		}
 
 		return true;
 	}
 }
+
