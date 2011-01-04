@@ -41,8 +41,8 @@ mw.MiroSubsConfig = {
 		
 		// Check both the user name and subtitles have been set:
 		var isConfigReady = function(){
-			if( _this.config.username 
-					&& 
+			if( _this.config.username
+					&&
 				_this.config.subtitles
 			){
 				callback( _this.config );
@@ -90,8 +90,8 @@ mw.MiroSubsConfig = {
 			});
 		}
 	},
-	/* 
-	 * present a language selection dialog 
+	/**
+	 * Present a language selection dialog 
 	 * 
 	 * issue the callback with the selected language code. 
 	 * @param {function} callback
@@ -123,13 +123,6 @@ mw.MiroSubsConfig = {
 				),
 			'buttons' : buttons
 		});
-	},
-	
-	/**
-	 * Present a dialog to get the target language
-	 */
-	getTargetLanguageDialog: function( callback ){
-		
 	},
 	
 	getDefaultConfig: function(){

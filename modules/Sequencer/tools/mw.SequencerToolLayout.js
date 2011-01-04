@@ -50,16 +50,38 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				// Register the change for undo redo
 				_this.sequencer.getActionsEdit().registerEdit();
 			},
-			
+			/**
+			 * TODO should combine with onPanzoomChange above
+			 */
 			'onRotateChange':  function( _this, smilElement ){
 				var rotateVal = $j('#' +_this.getEditToolInputId( 'layout', 'rotate')).val();
+				// Update smil value: 
+				$j(smilElement).attr( 'rotate', rotateVal );
+				
+				// Update rotate display
+				_this.sequencer.getSmil()
+				.getLayout()
+				.rotateLayout(
+					smilElement
+				);
+				
+				// Update the timeline clip display
+				var $thumbTraget = $j( '#' + _this.sequencer.getTimeline().getTimelineClipId( smilElement ) ).find('.thumbTraget');
+				_this.sequencer.getSmil()
+				.getLayout()
+				.rotateLayout(
+					smilElement,
+					$thumbTraget,
+					$thumbTraget.find('img').get(0)
+				);
+				
 				// Register the change for undo redo
 				_this.sequencer.getActionsEdit().registerEdit();				
 			},
 			
 			//Rest layout button? ( restores default position )
 			// presently NOT CALLED.
-			'getRestLayoutBtn': function(){
+			'getRestLayoutBtn': function( _this, smilElement ){
 				$j.button({
 					'icon' : 'arrow-4',
 					'text' : gM( 'mwe-sequencer-tools-panzoomhelper-resetlayout' )
@@ -68,13 +90,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				.css('float', 'left')
 				.hide()
 				.click(function(){
-					// Restore default SMIL setting
-					_this.editableTypes['display'].update(
-						_this,
-						smilElement,
-						'panzoom',
-						_this.editableAttributes['panzoom'].defaultValue
-					);
+					// TODO: Restore default SMIL setting				
 				});
 			},
 			'getOrginalHelperCss': function( _this ){
@@ -286,7 +302,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					$playerUI.find('.layoutHelper').hide();
 				}				
 				
-				$j(_this).bind('toolSelect', function(){
+				$j( _this ).bind('toolSelect.seqTools', function(){
 					if( _this.getCurrentToolId() == 'layout'){
 						$playerUI.find('.layoutHelper').fadeIn('fast');
 					} else {

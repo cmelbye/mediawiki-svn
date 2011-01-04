@@ -43,7 +43,7 @@ mw.SequencerTools.prototype = {
 			update: function( _this, smilElement, paramName, value){
 				// Check if the param already exists
 				$paramNode = $j( smilElement ).find( "[name='"+ paramName + "']" );
-				if( $paramNode.length == 0){
+				if( $paramNode.length == 0 ){
 					$j( smilElement ).append(
 						$j('<param />').attr({
 							'name': paramName,
@@ -225,7 +225,7 @@ mw.SequencerTools.prototype = {
 		var _this = this;
 
 		// If tools are displayed update them
-		if( this.sequencer.getEditToolTarget().find('.editToolsContainer').lenght ){
+		if( this.sequencer.getEditToolTarget().find('.editToolsContainer').length ){
 			this.drawClipEditTools();
 		};
 
@@ -243,7 +243,7 @@ mw.SequencerTools.prototype = {
 	},
 	drawClipEditTools: function( smilElement, selectedToolId ){
 		var _this = this;
-
+		mw.log( "SequencerTool:: drawClipEditTools:" + smilElement + ' :' + selectedToolId );
 		// Update the current clip and tool :
 		if( smilElement ){
 			this.setCurrentsmilElement( smilElement );
@@ -275,14 +275,13 @@ mw.SequencerTools.prototype = {
 								this.getCurrentsmilElement()
 							)
 						);
-		mw.log( 'Adding ' + toolSet.length + ' tools for ' +
+		mw.log( 'SequencerTools::drawClipEditTools: Adding ' + toolSet.length + ' tools for ' +
 				this.sequencer.getSmil().getRefType( this.getCurrentsmilElement() ) +
 				' current tool: ' + _this.getCurrentToolId()
 			);
-
+		
 		var toolTabIndex = 0;
 		$j.each( toolSet, function( inx, toolId ){
-
 			var tool = _this.tools[ toolId ];
 			if( _this.getCurrentToolId() == toolId){
 				toolTabIndex = inx;
@@ -333,7 +332,7 @@ mw.SequencerTools.prototype = {
 						.attr('id', 'editWidgets_' + editWidgetId)
 					);
 					// Draw the binded widget:
-					_this.editWidgets[editWidgetId].draw(
+					_this.editWidgets[ editWidgetId ].draw(
 						_this,
 						$j( '#editWidgets_' + editWidgetId ),
 						smilElement
@@ -343,17 +342,18 @@ mw.SequencerTools.prototype = {
 				}
 			}
 		});
-
+		
 		// Add tab bindings
 		$toolsContainer.tabs({
 			select: function( event, ui ) {
 				_this.setCurrentToolId( $j( ui.tab ).attr('href').replace('#tooltab_', '') );
-				// trigger select tool event: 
-				$j( _this ).trigger( 'toolSelect' );
 			},
 			selected : toolTabIndex
 		});
 
+		// Update the selected tool
+		_this.setCurrentToolId(	toolSet[ toolTabIndex ] );
+		
 		var $editActions = $j('<div />')
 		.css({
 			'position' : 'absolute',
@@ -391,6 +391,7 @@ mw.SequencerTools.prototype = {
 	},
 	setCurrentToolId: function( toolId ){
 		this.currentToolId = toolId;
+		$j( this ).trigger( 'toolSelect' );
 	},
 
 	getEditAction: function( smilElement, editActionId ){
@@ -410,7 +411,7 @@ mw.SequencerTools.prototype = {
 			})
 			.click( function(){
 				return editAction.action( this, _this, smilElement );
-			})
+			});
 		return $actionButton;
 	},
 	/* get the editiable attribute input html */
@@ -458,7 +459,7 @@ mw.SequencerTools.prototype = {
 						$j( this ).val()
 				);
 			}
-		})
+		});
 	},
 	getInputBox: function( config ){
 		var _this = this;

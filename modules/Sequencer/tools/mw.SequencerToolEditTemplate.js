@@ -89,8 +89,6 @@ $j.extend( true, mw.SequencerTools.prototype, {
 							.css('clear', 'both')
 						);
 					}
-	
-	
 				});
 			}
 		}
