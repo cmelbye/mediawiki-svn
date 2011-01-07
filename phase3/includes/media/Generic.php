@@ -323,17 +323,46 @@ abstract class MediaHandler {
 
 
 	/**
-	 * @todo Fixme: document this!
-	 * 'value' thingy goes into a wikitext table; it used to be escaped but
-	 * that was incompatible with previous practice of customized display
+	 * This is used to generate an array element for each metadata value
+	 * That array is then used to generate the table of metadata values
+	 * on the image page 
+	 *
+	 * @param &$array Array An array containing elements for each type of visibility
+	 * and each of those elements being an array of metadata items. This function adds
+	 * a value to that array.
+	 * @param $visibility String ('visible' or 'collapsed') if this value is hidden
+	 * by default.
+	 * @param $type String type of metadata tag (currently always 'exif')
+	 * @param $id String the name of the metadata tag (like 'artist' for example).
+	 * its name in the table displayed is the message "$type-$id" (Ex exif-artist ).
+	 * @param $value String thingy goes into a wikitext table; it used to be escaped but
+	 * that was incompatible with previous practise of customized display
 	 * with wikitext formatting via messages such as 'exif-model-value'.
 	 * So the escaping is taken back out, but generally this seems a confusing
 	 * interface.
+	 * @param $param String value to pass to the message for the name of the field
+	 * as $1. Currently this parameter doesn't seem to ever be used.
+	 *
+	 * @return Array $array but with the new metadata field added.
+	 *
+	 * Note, everything here is passed through the parser later on (!)
 	 */
 	protected static function addMeta( &$array, $visibility, $type, $id, $value, $param = false ) {
+		$msgName = "$type-$id";
+		if ( wfEmptyMsg( $msgName ) ) {
+			// This is for future compatibility when using instant commons.
+			// So as to not display as ugly a name if a new metadata 
+			// property is defined that we don't know about
+			// (not a major issue since such a property would be collapsed
+			// by default).
+			wfDebug( __METHOD__ . ' Unknown metadata name: ' . $id . "\n" );
+			$name = wfEscapeWikiText( $id );
+		} else {
+			$name = wfMsg( $msgName, $param );
+		}
 		$array[$visibility][] = array(
 			'id' => "$type-$id",
-			'name' => wfMsg( "$type-$id", $param ),
+			'name' => $name,
 			'value' => $value
 		);
 	}

@@ -17,7 +17,7 @@
  *
  * @ingroup Media
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
- * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason, 2009 Brent Garber
+ * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason, 2009 Brent Garber, 2010 Brian Wolff
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @see http://exif.org/Exif2-2.PDF The Exif 2.2 specification
  * @file
@@ -818,13 +818,15 @@ class FormatMetadata {
 	* This is public on the basis it might be useful outside of this class.
 	* 
 	* @param $vals Array array of values
-	* @param $type Type of array (either lang, ul, ol).
+	* @param $type String Type of array (either lang, ul, ol).
 	* lang = language assoc array with keys being the lang code
 	* ul = unordered list, ol = ordered list
 	* type can also come from the '_type' member of $vals.
+	* @param $noHtml Boolean If to avoid returning anything resembling
+	* html. (Ugly hack for backwards compatibility with old mediawiki). 
 	* @return String single value (in wiki-syntax).
 	*/
-	public static function flattenArray( $vals, $type = 'ul' ) {
+	public static function flattenArray( $vals, $type = 'ul', $noHtml = false ) {
 		if ( isset( $vals['_type'] ) ) {
 			$type = $vals['_type'];
 			unset( $vals['_type'] );
@@ -880,7 +882,7 @@ class FormatMetadata {
 					}
 					$content .= self::langItem(
 						$vals[$cLang], $cLang,
-						 $isDefault );
+						 $isDefault, $noHtml );
 
 					unset( $vals[$cLang] );
 				}
@@ -892,20 +894,29 @@ class FormatMetadata {
 						continue;
 					}
 					$content .= self::langItem( $item,
-						$lang );
+						$lang, false, $noHtml );
 				}
 				if ( $defaultItem !== false ) {
 					$content = self::langItem( $defaultItem,
-						$defaultLang, true )
+						$defaultLang, true, $noHtml )
 						 . $content;
+				}
+				if ( $noHtml ) {
+					return $content;
 				}
 				return '<ul class="metadata-langlist">' .
 					$content .
 					'</ul>';
 			case 'ol':
+				if ( $noHtml ) {
+					return "\n#" . implode( "\n#", $vals );
+				}
 				return "<ol><li>" . implode( "</li>\n<li>", $vals ) . '</li></ol>';
 			case 'ul':
 			default:
+				if ( $noHtml ) {
+					return "\n*" . implode( "\n*", $vals );
+				}
 				return "<ul><li>" . implode( "</li>\n<li>", $vals ) . '</li></ul>';
 			}
 		}
@@ -914,31 +925,41 @@ class FormatMetadata {
 	 *
 	 * @param $value String value (this is not escaped)
 	 * @param $lang String lang code of item or false
-	 * @param $default if it is default value.
+	 * @param $default Boolean if it is default value.
+	 * @param $noHtml Boolean If to avoid html (for back-compat)
 	 * @return language item (Note: despite how this looks,
 	 * 	this is treated as wikitext not html).
 	 */
-	private static function langItem( $value, $lang, $default = false ) {
+	private static function langItem( $value, $lang, $default = false, $noHtml = false ) {
 		global $wgContLang;
 		if ( $lang === false && $default === false) {
 			throw new MWException('$lang and $default cannot both '
 				. 'be false.');
 		}
 
-		$wrappedValue = '<span class="mw-metadata-lang-value">'
-			. $value . '</span>';
+		if ( $noHtml ) {
+			$wrappedValue = $value;
+		} else {
+			$wrappedValue = '<span class="mw-metadata-lang-value">'
+				. $value . '</span>';
+		}
 
 		if ( $lang === false ) {
+			if ( $noHtml ) {
+				return wfMsg( 'metadata-langitem-default',
+					$wrappedValue ) . "\n\n";
+			} /* else */
 			return '<li class="mw-metadata-lang-default">'
 				. wfMsg( 'metadata-langitem-default',
 					$wrappedValue )
 				. "</li>\n";
 		}
-		$langName = $wgContLang->getLanguageName( strtolower( $lang ) );
+
+		$lowLang = strtolower( $lang );
+		$langName = $wgContLang->getLanguageName( $lowLang );
 		if ( $langName === '' ) {
 			//try just the base language name. (aka en-US -> en ).
-			list( $langPrefix ) = explode( '-', strtolower( $lang ),
-				2 );
+			list( $langPrefix ) = explode( '-', $lowLang, 2 );
 			$langName = $wgContLang->getLanguageName( $langPrefix );
 			if ( $langName === '' ) {
 				// give up.
@@ -946,6 +967,12 @@ class FormatMetadata {
 			}
 		}
 		// else we have a language specified
+
+		if ( $noHtml ) {
+			return '*' . wfMsg( 'metadata-langitem',
+				$wrappedValue, $langName, $lang );
+		} /* else: */
+
 		$item = '<li class="mw-metadata-lang-code-'
 			. $lang;
 		if ( $default ) {

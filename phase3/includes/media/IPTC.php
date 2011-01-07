@@ -10,9 +10,6 @@ class IPTC {
         * form that can be handled by mediawiki. Generally called from
         * BitmapMetadataHandler::doApp13.
         *
-        * At the moment this is more of an outline, and is definitely
-        * not complete.
-        * @todo finish for other iptc values
         * @see http://www.iptc.org/std/IIM/4.1/specification/IIMV4.1.pdf
         *
         * @param String $data app13 block from jpeg containing iptc/iim data
