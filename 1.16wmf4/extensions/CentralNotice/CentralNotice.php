@@ -31,8 +31,8 @@ $wgNoticeInfrastructure = true;
 // The name of the database which hosts the centralized campaign data
 $wgCentralDBname = '';
 
-// The path to Special Pages on the wiki that hosts the CentralNotice infrastructure
-// For example 'http://meta.wikimedia.org/wiki/'
+// The script path on the wiki that hosts the CentralNotice infrastructure
+// For example 'http://meta.wikimedia.org/w/index.php'
 $wgCentralPagePath = '';
 
 // Enable the loader itself
@@ -74,11 +74,6 @@ $dir = dirname( __FILE__ ) . '/';
 $wgExtensionMessagesFiles['CentralNotice'] = $dir . 'CentralNotice.i18n.php';
 $wgExtensionAliasesFiles['CentralNotice'] = $dir . 'CentralNotice.alias.php';
 
-$wgAvailableRights[] = 'centralnotice-admin';
-$wgAvailableRights[] = 'centralnotice-translate';
-$wgGroupPermissions['sysop']['centralnotice-admin'] = true; // Only sysops can make change
-$wgGroupPermissions['sysop']['centralnotice-translate'] = true; // Only sysops can make change
-
 function efCentralNoticeSetup() {
 	global $wgHooks, $wgNoticeInfrastructure, $wgAutoloadClasses, $wgSpecialPages;
 	global $wgCentralNoticeLoader;
@@ -107,6 +102,10 @@ function efCentralNoticeSetup() {
 	$wgAutoloadClasses['TemplatePager'] = $dir . 'TemplatePager.php';
 
 	if ( $wgNoticeInfrastructure ) {
+		// Register user rights
+		$wgAvailableRights[] = 'centralnotice-admin';
+		$wgGroupPermissions['sysop']['centralnotice-admin'] = true; // Only sysops can make change
+	
 		$wgSpecialPages['CentralNotice'] = 'CentralNotice';
 		$wgSpecialPageGroups['CentralNotice'] = 'wiki'; // Wiki data and tools"
 
