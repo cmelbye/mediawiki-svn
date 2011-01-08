@@ -24,52 +24,12 @@ var mwCoreComponentList = [
 	'mw.Api'
 ];
 
-
-/**
-* The default set of enabled modules
-* ( Modules can also be enabled via mediaWiki extensions )
-*
-* Each enabledModules array value should be a name
-* of a folder in mwEmbed/modules
-*
-* Modules must define a loader.js file in the root
-*  of the module folder.
-*
-* A loader file should only include:
-*  * Class paths of the module classes
-*  * Style sheets of the module
-*  * Loader function(s) that load module classes
-*  * Any code you want run on all pages like checking the DOM
-*  		for a tag that invokes your loader.
-*
-* When using the scriptLoader the enabledModules loader code
-*  is transcluded into base mwEmbed class include.
-*/
-var mwEnabledModuleList = [
-	'AddMedia',
-	'ClipEdit',
-	'EmbedPlayer',
-	'ApiProxy',
-	'Sequencer',
-	'TimedText',
-	'SmilPlayer',
-	'Playlist',
-	'SwarmTransport',
-	'SyntaxHighlighter',
-	'MiroSubs',
-	'PlayerThemer',
-	'MediaWikiSupport'
-];
-
 /**
 * mwEmbed default config values.
 */
 mw.setDefaultConfig ( {
 	// Default coreComponents:
 	'coreComponents' : mwCoreComponentList,
-
-	// Default enabled modules:
-	'enabledModules' : mwEnabledModuleList,
 
 	// Default jquery ui skin name
 	'jQueryUISkin' : 'redmond',
@@ -152,6 +112,7 @@ mw.addResourcePaths( {
 	"mw.style.ui_le-frog" : "skins/jquery.ui.themes/le-frog/jquery-ui-1.7.2.css",
 	"mw.style.ui_start" : "skins/jquery.ui.themes/start/jquery-ui-1.7.2.css",
 	"mw.style.ui_sunny" : "skins/jquery.ui.themes/sunny/jquery-ui-1.7.2.css",
+	"mw.style.ui_kdark" : "skins/jquery.ui.themes/kaltura-dark/jquery-ui-1.7.2.css",
 
 	"mw.style.mwCommon"		: "skins/common/mw.style.mwCommon.css",
 

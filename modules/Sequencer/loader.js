@@ -102,6 +102,7 @@
 			 	'$j.fn.layout',
 
 				// UI components used in the sequencer interface:
+			 	'$j.ui',
 			 	'$j.widget',
 			 	'$j.ui.mouse',
 			 	'$j.ui.position',

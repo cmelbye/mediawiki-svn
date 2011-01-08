@@ -67,7 +67,7 @@
 	// On new embed player check if we need to add timedText
 	$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ){
 		if( mw.isTimedTextSupported( embedPlayer) ){
-			if( ! embedPlayer.timedText ) {
+			if( ! embedPlayer.timedText && mw.TimedText ) {
 				embedPlayer.timedText = new mw.TimedText( embedPlayer );
 			}
 		}
@@ -84,7 +84,12 @@
 		}
 		// Check for timed text sources or api/ roe url
 		if ( 
-			( embedPlayer.roe || embedPlayer.apititlekey || embedPlayer.apiTitleKey ) 
+			(	 $j( embedPlayer ).attr( embedPlayer.roe ) 
+				|| 
+				$j( embedPlayer ).attr('apititlekey')
+				||  
+				$j( embedPlayer ).attr('apiTitleKey' )
+			)
 			|| 
 			( embedPlayer.mediaElement && embedPlayer.mediaElement.textSourceExists() )	
 			||

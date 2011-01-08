@@ -906,6 +906,9 @@ mw.RemoteSearchDriver.prototype = {
 
 		this.$resultsContainer = $j('<div />').attr({
 			id : "rsd_results_container"
+		}).css({
+			'position' : 'relative',
+			'bottom' : '30px'
 		});
 
 		$mainContainer.append( this.$filtersContainer );

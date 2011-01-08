@@ -2068,8 +2068,8 @@ mw.EmbedPlayer.prototype = {
 			this.controls = true;
 		}
 		if(  !this.useNativePlayerControls() && !this.isPersistentNativePlayer() && !_this.controlBuilder.checkOverlayControls() ){
-			// give the interface more space for the controls: 
-			this.$interface.css('height', this.height + _this.controlBuilder.height )
+			// Update the video size per available control space.
+			$j(this).css('height', this.height - _this.controlBuilder.height );
 		}
 		
 		// Update Thumbnail for the "player"
@@ -2491,6 +2491,8 @@ mw.EmbedPlayer.prototype = {
 					unescape( this.apiTitleKey ).replace( /^(File:|Image:)/ , '' ) ) +
 				'?' + mw.getConfig( 'Mw.AppendWithJS' ) +
 				'&embedplayer=yes';
+		} else if ( typeof(mw.IA) != 'undefined') {
+                  var iframeUrl = mw.IA.embedUrl();
 		} else {
 			// old style embed:
 			var iframeUrl = mw.getMwEmbedPath() + 'mwEmbedFrame.php?';
