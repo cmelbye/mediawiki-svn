@@ -7,7 +7,13 @@
 
 	// Loader configuration options ( all runtime options are stored in mw.SequencerConfig.js )
 	mw.setDefaultConfig({
-		'Sequencer.KalturaPlayerEditOverlay' : false
+		
+		// Extends the embedPlayer sequencer clips to include attribution 'edit sequence' link on pause
+		'Sequencer.KalturaPlayerEditOverlay' : false,
+		
+		// If the sequencer should use swam transport urls for audio and video. 
+		// this can be helpful for a large local cache. 
+		'Sequencer.UseSwamTransport' : false
 	});
 
 
@@ -127,7 +133,7 @@
 				classRequest.push('mw.style.SequencerRemote');
 			}
 		}
-	})
+	});
 
 
 } )( window.mw );
