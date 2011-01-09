@@ -34,7 +34,7 @@ if( document.URL.indexOf( 'embedplayer=yes' ) !== -1 ){
 	mwReqParam['embedplayer'] = 'yes';
 }
 
-mwReqParam['debug'] = true;
+//mwReqParam['debug'] = true;
 
 // Setup up some globals to wrap mwEmbed mw.ready and mw.setConfig functions
 
