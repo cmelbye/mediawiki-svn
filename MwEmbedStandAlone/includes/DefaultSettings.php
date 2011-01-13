@@ -9,22 +9,20 @@
 // The default cache directory
 $wgScriptCacheDirectory = realpath( dirname( __FILE__ ) ) . '/cache';
 
-// The absolute or relative path to mwEmbed install folder.
-// by default its the entry point minus the entry point name:
-$wgMwEmbedPathUrl = str_replace( 
-	// List entry points: 
-	array( 'mwEmbedFrame.php', 'ResourceLoader.php',  'mwEmbedLoader.php'),
-	'', 
-	$_SERVER['SCRIPT_NAME']
-);
 
-// Url to the resource loader php script: 
-$wgResourceLoaderUrl = 'http://www.kaltura.org/apis/html5lib/mwEmbed/ResourceLoader.php';
+/**
+ * Guess at URL to resource loader load.php 
+ */
+$wgResourceLoaderUrl = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
+$wgResourceLoaderUrl.= 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['PATH_INFO'] . '/load.php';
 
 // The list of enabled modules 
 $wgMwEmbedEnabledModules = array();
 
 // By default we enable every module in the "modules" folder
+// We include /modules/{moduleName}/{moduleName}.php after localsettings.php to give a chance 
+// for local configuration to override the set of enabled modules
+
 $d = dir( realpath( dirname( __FILE__ ) )  . '/../modules' );	
 while (false !== ($entry = $d->read())) {
 	if( substr( $entry, 0, 1 ) != '.' ){
