@@ -164,6 +164,11 @@ $wgCRUDPAddress = false;
 $wgCRUDPPort = false;
 $wgCRUDPPrefix = '';
 
+/**
+ * Length of time to cache repo stats for
+ */
+$wgCodeReviewRepoStatsCacheTime = 6 * 60 * 60; // 6 Hours
+
 # Schema changes
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCodeReviewSchemaUpdates';
 
