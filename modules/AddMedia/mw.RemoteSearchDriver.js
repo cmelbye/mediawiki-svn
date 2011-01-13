@@ -2302,7 +2302,7 @@ mw.RemoteSearchDriver.prototype = {
 			);
 			mw.log( 'append html: ' + embedHtml );
 			$j( '#clip_edit_disp' ).html( embedHtml );
-
+			var cat = $j.fn.embedPlayer;
 			// Make sure we have the 'EmbedPlayer' module:
 			mw.load( 'EmbedPlayer', function() {
 				// Strange concurrency issue with callbacks

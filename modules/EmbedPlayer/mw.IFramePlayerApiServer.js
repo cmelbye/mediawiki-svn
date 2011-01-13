@@ -19,7 +19,13 @@
 
 // Bind apiServer to newEmbedPlayers:
 $j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {	
-	embedPlayer['iFrameServer'] = new mw.IFramePlayerApiServer( embedPlayer );
+	// Check if the iFrame player api is enabled and we have a parent iframe url: 
+	if ( mw.getConfig('EmbedPlayer.EnableIframeApi') 
+			&& 
+		mw.getConfig( 'EmbedPlayer.IframeParentUrl' ) 
+	){
+		embedPlayer['iFrameServer'] = new mw.IFramePlayerApiServer( embedPlayer );
+	}
 });
 
 mw.IFramePlayerApiServer = function( embedPlayer ){
@@ -27,8 +33,11 @@ mw.IFramePlayerApiServer = function( embedPlayer ){
 }
 
 mw.IFramePlayerApiServer.prototype = {	
-	// Exported methods populated by native video/audio tag api. 
-	'exportedBindings': [],
+	// Exported bindings / events. ( all the native html5 events are added in 'init' )		
+	'exportedBindings': [
+	     'playerReady',
+	     'monitorEvent'
+	],
 		
 	'init': function( embedPlayer ){
 		this.embedPlayer = embedPlayer;
@@ -41,13 +50,13 @@ mw.IFramePlayerApiServer.prototype = {
 				this.exportedBindings.push( bindName );
 			}
 		}
-		this.exportedBindings.push( 'monitorEvent' );
 		
 		// Allow modules to extend the list of iframeExported bindings
-		$j( mw ).trigger( 'AddIframeExportedBindings', [ this.exportedBindings ]);
+		$j( mw ).trigger( 'AddIframePlayerBindings', [ this.exportedBindings ]);
 		
 		this._addIframeListener();
 		this._addIframeSender();
+		$j( mw ).trigger( 'newIframePlayerServerSide', [embedPlayer]);
 	},
 	
 	/**
@@ -73,22 +82,25 @@ mw.IFramePlayerApiServer.prototype = {
 			mw.log("Error: iFramePlayerApiServer:: could not parse parent url. \n" +
 				"Player events will be dissabled");
 		}
+		// Set the initial attributes once player is "ready"
+		$j( this.embedPlayer ).bind( 'playerReady', function(){
+			_this.sendPlayerAttributes();
+		});		
 		// On monitor event package the attributes for cross domain delivery:
 		$j( this.embedPlayer ).bind( 'monitorEvent', function(){			
 			_this.sendPlayerAttributes();
 		})
-		// Set the initial attributes once player is "ready"
-		$j( this.embedPlayer ).bind( 'playerReady', function(){
-			_this.sendPlayerAttributes();
-		});
 
 		$j.each( this.exportedBindings, function( inx, bindName ){
 			$j( _this.embedPlayer ).bind( bindName, function( event ){				
 				var argSet = $j.makeArray( arguments );
 				// remove the event from the arg set
 				argSet.shift();
-				
-				//mw.log("IFramePlayerApiServer::postMessage: bindName: " + bindName + ' arg:' + argSet );
+				// protect against a jQuery event getting past as an arguments:
+				if( argSet[0] && argSet[0].originalEvent ){
+					argSet.shift();
+				}
+				//mw.log("IFramePlayerApiServer::postMessage:: " + bindName + ' arg count:' + argSet.length );
 				_this.postMessage({
 					'triggerName' : bindName,
 					'triggerArgs' : argSet
