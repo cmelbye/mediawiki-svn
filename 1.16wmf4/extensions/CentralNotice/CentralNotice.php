@@ -59,12 +59,17 @@ $wgNoticeServerTimeout = 0;
 // Source for live counter information
 $wgNoticeCounterSource = "http://donate.wikimedia.org/counter.php";
 
+// Domain to set global cookies for.
+// Example: '.wikipedia.org'
+// This setting is currently shared with CentralAuth extension.
+$wgCentralAuthCookieDomain = '';
+
 $wgExtensionFunctions[] = 'efCentralNoticeSetup';
 
 $wgExtensionCredits['other'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'CentralNotice',
-	'author'         => 'Brion Vibber',
+	'author'         => array( 'Brion Vibber', 'Ryan Kaldari' ),
 	'url'            => 'http://www.mediawiki.org/wiki/Extension:CentralNotice',
 	'descriptionmsg' => 'centralnotice-desc',
 );
@@ -91,16 +96,19 @@ function efCentralNoticeSetup() {
 		$wgHooks['SiteNoticeAfter'][] = 'efCentralNoticeDisplay';
 		$wgHooks['SkinAfterBottomScripts'][] = 'efCentralNoticeGeoLoader';
 	}
-	
+
 	$wgSpecialPages['BannerLoader'] = 'SpecialBannerLoader';
 	$wgAutoloadClasses['SpecialBannerLoader'] = $dir . 'SpecialBannerLoader.php';
-	
+
 	$wgSpecialPages['BannerListLoader'] = 'SpecialBannerListLoader';
 	$wgAutoloadClasses['SpecialBannerListLoader'] = $dir . 'SpecialBannerListLoader.php';
-	
+
 	$wgSpecialPages['BannerController'] = 'SpecialBannerController';
 	$wgAutoloadClasses['SpecialBannerController'] = $dir . 'SpecialBannerController.php';
-	
+
+	$wgSpecialPages['HideBanners'] = 'SpecialHideBanners';
+	$wgAutoloadClasses['SpecialHideBanners'] = $dir . 'SpecialHideBanners.php';
+
 	$wgAutoloadClasses['CentralNotice'] = $dir . 'SpecialCentralNotice.php';
 	$wgAutoloadClasses['CentralNoticeDB'] = $dir . 'CentralNotice.db.php';
 	$wgAutoloadClasses['TemplatePager'] = $dir . 'TemplatePager.php';
