@@ -1459,7 +1459,7 @@ CREATE TABLE /*_*/file_props (
   -- Textual property value, if present
   fp_value_text varbinary(255)
 ) /*$wgDBTableOptions*/;
-CREATE INDEX /*i*/fp_id_key ON /*_*/file_props (fp_id, fp_key);
+CREATE INDEX /*i*/fp_rev_id_key ON /*_*/file_props (fp_rev_id, fp_key);
 CREATE INDEX /*i*/fp_key_value_int ON /*_*/file_props (fp_key, fp_value_int);
 CREATE INDEX /*i*/fp_key_value_text ON /*_*/file_props (fp_key, fp_value_text);
 
