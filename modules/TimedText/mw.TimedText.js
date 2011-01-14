@@ -148,7 +148,7 @@ mw.includeAllModuleMessages();
 			
 			// Resize the timed text font size per window width
 			$j( embedPlayer ).bind( 'onCloseFullScreen onOpenFullScreen', function() {
-				var textOffset = _this.embedPlayer.controlBuilder.fullscreenMode ? 30 : 10;
+				var textOffset = _this.embedPlayer.controlBuilder.fullscreenMode ? 35 : 15;
 				
 				mw.log( 'TimedText::set text size for: : ' + embedPlayer.$interface.width() + ' = ' + _this.getInterfaceSizeTextCss({
 					'width' :  embedPlayer.$interface.width(),
@@ -188,7 +188,7 @@ mw.includeAllModuleMessages();
 				embedPlayer.$interface.find( '.track' )
 				.stop()
 				.animate( layout, 'fast' );
-			});
+			});			
 			
 		},
 		/**
@@ -1084,7 +1084,7 @@ mw.includeAllModuleMessages();
 					})
 				).css({
 					'line-height' : '1.6em'
-				})
+				});
 
 				$playerTarget.append( $track );
 				

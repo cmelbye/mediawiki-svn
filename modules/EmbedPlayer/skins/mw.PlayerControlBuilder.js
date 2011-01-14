@@ -707,7 +707,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeOut( animateDuration );
 		//mw.log('about to trigger hide control bar')
 		// Allow interface items to update: 
-		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 10} );
+		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 15} );
 
 	},
 
@@ -728,7 +728,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeIn( animateDuration );
 		
 		// Trigger the screen overlay with layout info: 
-		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 10 } );		
+		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 15 } );		
 	},
 
 	/**
