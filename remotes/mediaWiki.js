@@ -91,6 +91,9 @@ mw.setConfig( 'ApiProxy.DomainWhiteList',
 	[ /wikimedia\.org$/ , /wikipedia\.org$/ , /wiktionary.org$/ , /wikinews.org$/ , /wikibooks.org$/ , /wikisource.org$/ , /wikiversity.org$/ , /wikiquote.org$/ ]
 );
 
+if( typeof mwAddMediaConfig == 'undefined'){
+	mwAddMediaConfig = {};
+}
 // Set legacy add media wizard config 
 mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ]
 
