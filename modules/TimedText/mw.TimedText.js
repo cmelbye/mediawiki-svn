@@ -284,8 +284,8 @@ mw.includeAllModuleMessages();
 		getInterfaceSizePercent: function( size ) {
 			// Some arbitrary scale relative to window size ( 400px wide is text size 105% )
 			var textSize = size.width / 5;
-			if( textSize < 95 ) textSize = 95;
-			if( textSize > 200 ) textSize = 200;
+			if( textSize < 110 ) textSize = 110;
+			if( textSize > 220 ) textSize = 220;
 			return textSize;
 		},
 
