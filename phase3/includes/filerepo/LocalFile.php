@@ -1283,6 +1283,11 @@ class LocalFile extends File {
 		$dbw = $this->repo->getMasterDB();
 		$dbw->rollback();
 	}
+	
+	public function properties() {
+		return new FileProperties( $this );
+	}
+	
 } // LocalFile class
 
 # ------------------------------------------------------------------------------
