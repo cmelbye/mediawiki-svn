@@ -1,0 +1,176 @@
+= MediaWiki release notes =
+
+Security reminder: MediaWiki does not require PHP's register_globals
+setting since version 1.2.0. If you have it on, turn it *off* if you can.
+
+== MediaWiki 1.18 ==
+
+THIS IS NOT A RELEASE YET
+
+MediaWiki is now using a "continuous integration" development model with
+quarterly snapshot releases. The latest development code is always kept
+"ready to run", and in fact runs our own sites on Wikipedia.
+
+Release branches will continue to receive security updates for about a year
+from first release, but nonessential bugfixes and feature developments
+will be made on the development trunk and appear in the next quarterly release.
+
+Those wishing to use the latest code instead of a branch release can obtain
+it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
+
+=== Configuration changes in 1.18 ===
+* The WantedPages::getSQL hook has been removed and replaced with
+  WantedPages::getQueryInfo . This may break older extensions.
+* $wgUseCombinedLoginLink controls whether to output a combined login / create account
+  link in the personal bar, or to output separate login and create account links
+* Skin names are no longer created based on a ucfirst version of the key in $wgValidSkinNames but now
+  the value. This means for $wgValidSkinNames["monobook"] = "MonoBook"; the skin
+  loader will no longer try loading SkinMonobook and will instead load SkinMonoBook.
+* The parser now attempts to output markers for editsection tokens and defer the rendering
+  of them so skin and language specific markup does not need to be saved inside the parser cache
+  note that this changes the cache key making all old entries in the parser cache invalid you
+  can set $wgUseEditSectionTokens to false to disable this and keep your old parser cache entries.
+  Note that this feature should reduce parser cache fragmentation when enabled.
+* $wgMaxUploadSize may now be set to an array to specify the upload size limit 
+  per upload type.
+* $wgAPICacheHelp added in 1.16 is now removed. To disable API help caching, set
+  $wgAPICacheHelpTimeout = 0;
+
+=== New features in 1.18 ===
+* Added a special page, disabled by default, that allows users with the
+  'disableaccount' privilege to permanently deactivate user accounts.
+* (bug 8130) Query pages should limit to content namespaces, not just main namespace 
+* Search suggestions (other than in the Vector skin) will now use the HTML5
+  datalist feature where supported, currently only Firefox 4.
+* Special:Contribs now redirects to Special:Contributions
+* (bug 6672) Images are now autorotated according to their EXIF orientation. 
+  This only affects thumbnails; the source remains unrotated.
+* (bug 25708) Update case mappings and normalization to Unicode 6.0.0
+
+=== Bug fixes in 1.18 ===
+* (bug 23119) WikiError class and subclasses are now marked as deprecated
+* (bug 10871) Javascript and CSS pages in MediaWiki namespace are no longer
+  treated as wikitext on preview.
+* (bug 22753) Output from update.php is more clear when things changed, entries
+  indicating nothing changed are now all prefixed by "..."
+* Page existence is now not revealed (in the colour of the tabs) to users who
+  cannot read the page in question.
+* (bug 19006) {{REVISIONUSER}} no longer acts like {{CURRENTUSER}} in some cases
+* (bug 16019) $wgArticlePath = "/$1" no longer breaks API edit/watch actions
+* (bug 18372) File types blacklisted by $wgFileBlacklist will no longer be shown as
+  "Permitted file types" on the upload form
+* (bug 26379) importImages.php gives more descriptive error message on failure.
+* (bug 26410) + signs are no longer treated as spaces in internal links if 
+  link has a % sign in it.
+* (bug 26412) Search results headers no longer show a bogus edit link.
+* (bug 26540) Fixed wrong call to applyPatch in MysqlUpdater
+* (bug 26574) Added 'upload' to $wgRestrictionTypes, allowing upload protected 
+  pages to be queried via the API and Special:ProtectedPages, and allowing 
+  disabling upload protection by removing it from $wgRestrictionTypes.
+* If an edit summary exceeds 250 bytes and is truncated, add an ellipse
+* (bug 26638) Database error pages display correctly in RTL languages
+* (bug 26187) Confirmrecreate no longer parses the edit summary
+* (bug 25506) Exception is thrown if OutputPage::parse is called inside a tag hook,
+  which would reset parser state
+* (bug 26208) Mark directionality of some interlanguage links
+* (bug 26034) Make the "View / Read" tab in content_navigation style tabs remain
+  selected when the action is "purge".
+* (bug 14267) Support a MediaWiki:Mainpage-nstab override for the subject namespace
+  tab on the mainpage of a wiki.
+
+=== API changes in 1.18 ===
+* (bug 26339) Throw warning when truncating an overlarge API result
+* (bug 14869) Add API module for accessing QueryPage-based special pages
+* (bug 14020) API for Special:Unwatchedpages
+* (bug 24287) Wrap API Help output at 100 characters
+* Add a realname uiprop option to query=userinfo so a user's realname can be extracted
+* Add a &watchuser option to ApiBlock
+* (bug 26541) Generator-ise ApiQueryRecentChanges
+* action=parse now correctly returns an error for nonexistent pages
+* (bug 25767) Add userrights properties to allusers and users query lists
+* (bug 26558) list=allusers auprop=groups does not list groups a user is automatically a member of
+* (bug 26559) list=allusers auprop=rights does not match list=users usprop=rights
+* (bug 26560) On allusers if limit < total number of users, last user gets duplicate
+* (bug 25135) add "normalized" to action=parse
+* (bug 26460) Add support for listing category members by category pageid
+* (bug 26482) add a imimages param to prop=images
+* (bug 26498) allow LinksUpdate with API
+* (bug 26485) add a elextlinks param to prop=extlinks
+* (bug 26483) add a iwtitles param to prop=iwlinks
+* (bug 26484) add a lltitles param to prop=langlinks
+* (bug 26480) add a pppageprops param to prop=pageprops
+* (bug 26650) Remove $wgAPICacheHelp in favour of $wgAPICacheHelpTimeout
+
+=== Languages updated in 1.18 ===
+
+MediaWiki supports over 330 languages. Many localisations are updated
+regularly. Below only new and removed languages are listed, as well as
+changes to languages because of Bugzilla reports.
+
+== Compatibility ==
+
+MediaWiki 1.18 requires PHP 5.1 (5.2 recommended). PHP 4 is no longer
+supported.
+
+MySQL 3.23.x is no longer supported; some older hosts may need to upgrade.
+At this time we still recommend 4.0, but 4.1/5.0 will work fine in most cases.
+
+
+== Upgrading ==
+
+1.18 has several database changes since 1.17, and will not work without schema
+updates.
+
+If upgrading from before 1.11, and you are using a wiki as a commons reposito-
+ry, make sure that it is updated as well. Otherwise, errors may arise due to
+database schema changes.
+
+If upgrading from before 1.7, you may want to run refreshLinks.php to ensure
+new database fields are filled with data.
+
+If you are upgrading from MediaWiki 1.4.x or earlier, some major database
+changes are made, and there is a slightly higher chance that things could
+break. Don't forget to always back up your database before upgrading!
+
+See the file UPGRADE for more detailed upgrade instructions.
+
+
+=== Caveats ===
+
+Some output, particularly involving user-supplied inline HTML, may not
+produce 100% valid or well-formed XHTML output. Testers are welcome to
+set $wgMimeType = "application/xhtml+xml"; to test for remaining problem
+cases, but this is not recommended on live sites. (This must be set for
+MathML to display properly in Mozilla.)
+
+For notes on 1.17.x and older releases, see HISTORY.
+
+
+=== Online documentation ===
+
+Documentation for both end-users and site administrators is currently being
+built up on MediaWiki.org, and is covered under the GNU Free Documentation
+License (except for pages that explicitly state that their contents are in
+the public domain) :
+
+	http://www.mediawiki.org/wiki/Documentation
+
+
+=== Mailing list ===
+
+A MediaWiki-l mailing list has been set up distinct from the Wikipedia
+wikitech-l list:
+
+	http://lists.wikimedia.org/mailman/listinfo/mediawiki-l
+
+A low-traffic announcements-only list is also available:
+
+	http://lists.wikimedia.org/mailman/listinfo/mediawiki-announce
+
+It's highly recommended that you sign up for one of these lists if you're
+going to run a public MediaWiki, so you can be notified of security fixes.
+
+
+=== IRC help ===
+
+There's usually someone online in #mediawiki on irc.freenode.net
