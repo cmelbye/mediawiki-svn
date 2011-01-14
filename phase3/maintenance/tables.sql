@@ -307,12 +307,7 @@ CREATE TABLE /*_*/revision (
 
   -- Key to revision.rev_id
   -- This field is used to add support for a tree structure (The Adjacency List Model)
-  rev_parent_id int unsigned default NULL,
-
-  -- Key to file_props.fp_id
-  -- For revisions with no associated file properties, this is NULL
-  rev_fileprops_id int unsigned default NULL
-
+  rev_parent_id int unsigned default NULL
 ) /*$wgDBTableOptions*/ MAX_ROWS=10000000 AVG_ROW_LENGTH=1024;
 -- In case tables are created as MyISAM, use row hints for MySQL <5.0 to avoid 4GB limit
 
@@ -1451,12 +1446,12 @@ CREATE INDEX /*i*/lic_name ON /*_*/license (lic_name);
 CREATE INDEX /*i*/lic_count ON /*_*/license (lic_count);
 
 -- Table for tracking file properties
--- Each file property (fp_id) can have multiple rows in this table,
+-- Each file revision (fp_rev_id) can have multiple rows in this table,
 -- allowing for multiple properties and multiple values for each property.
 -- Properties can have a numerical value, a text value, or both.
 CREATE TABLE /*_*/file_props (
-  -- File property ID. This is the same for each row referring to the same file revision
-  fp_id int unsigned NOT NULL,
+  -- Revision these properties apply to. Key to revision.rev_id
+  fp_rev_id int unsigned NOT NULL,
   -- Property key
   fp_key varbinary(255) NOT NULL,
   -- Numerical property value, if present
