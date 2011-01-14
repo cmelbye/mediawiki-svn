@@ -173,6 +173,10 @@ class MysqlUpdater extends DatabaseUpdater {
 			array( 'addTable', 'module_deps',                       'patch-module_deps.sql' ),
 			array( 'dropIndex', 'archive', 'ar_page_revid',         'patch-archive_kill_ar_page_revid.sql' ),
 			array( 'addIndex', 'archive', 'ar_revid',               'patch-archive_ar_revid.sql' ),
+			
+			// 1.18
+			array( 'addTable', 'license',                           'patch-license.sql' ),
+			array( 'addTable', 'file_props',                        'patch-file_props.sql' ),
 		);
 	}
 

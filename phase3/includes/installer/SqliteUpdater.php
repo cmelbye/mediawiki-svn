@@ -51,6 +51,10 @@ class SqliteUpdater extends DatabaseUpdater {
 			array( 'doCollationUpdate' ),
 			array( 'addTable', 'msg_resource',                      'patch-msg_resource.sql' ),
 			array( 'addTable', 'module_deps',                       'patch-module_deps.sql' ),
+			
+			// 1.18
+			array( 'addTable', 'license',                           'patch-license.sql' ),
+			array( 'addTable', 'file_props',                        'patch-file_props.sql' ),
 		);
 	}
 
