@@ -258,7 +258,8 @@ class Revision {
 			'rev_minor_edit',
 			'rev_deleted',
 			'rev_len',
-			'rev_parent_id'
+			'rev_parent_id',
+			'rev_fileprops_id',
 		);
 	}
 	
@@ -301,6 +302,7 @@ class Revision {
 			$this->mMinorEdit = intval( $row->rev_minor_edit );
 			$this->mTimestamp =         $row->rev_timestamp;
 			$this->mDeleted   = intval( $row->rev_deleted );
+			$this->mFileProps = intval( $row->rev_file_props );
 
 			if( !isset( $row->rev_parent_id ) )
 				$this->mParentId = is_null($row->rev_parent_id) ? null : 0;
@@ -342,6 +344,7 @@ class Revision {
 			$this->mDeleted   = isset( $row['deleted']    ) ? intval( $row['deleted']    ) : 0;
 			$this->mSize      = isset( $row['len']        ) ? intval( $row['len']        ) : null;
 			$this->mParentId  = isset( $row['parent_id']  ) ? intval( $row['parent_id']  ) : null;
+			$this->mFileProps = isset( $row['file_props'] ) ? intval( $row['file_props'] ) : 0;
 
 			// Enforce spacing trimming on supplied text
 			$this->mComment   = isset( $row['comment']    ) ?  trim( strval( $row['comment'] ) ) : null;
@@ -434,6 +437,10 @@ class Revision {
 	 */
 	public function getPage() {
 		return $this->mPage;
+	}
+	
+	public function getFilePropsVersion() {
+		return $this->mFileProps;
 	}
 
 	/**
@@ -854,7 +861,8 @@ class Revision {
 				'rev_deleted'    => $this->mDeleted,
 				'rev_len'        => $this->mSize,
 				'rev_parent_id'  => is_null($this->mParentId) ?
-					$this->getPreviousRevisionId( $dbw ) : $this->mParentId
+					$this->getPreviousRevisionId( $dbw ) : $this->mParentId,
+				'rev_file_props' => $this->mFileProps,
 			), __METHOD__
 		);
 
