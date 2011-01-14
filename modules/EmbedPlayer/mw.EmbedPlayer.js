@@ -988,6 +988,7 @@ mediaElement.prototype = {
 	 */
 	autoSelectSource: function() {
 		mw.log( 'EmbedPlayer::mediaElement::autoSelectSource' );
+		var _this = this;
 		// Select the default source
 		var playableSources = this.getPlayableSources();
 		var flash_flag = ogg_flag = false;
@@ -996,13 +997,16 @@ mediaElement.prototype = {
 		if( playableSources.length == 0 ){
 			return false;
 		}
+		var setSelectedSource = function( source ){
+			_this.selectedSource = source;
+		};
 
 		// Set via user-preference
 		for ( var source = 0; source < playableSources.length; source++ ) {
 			var mimeType = playableSources[source].mimeType;
 			if ( mw.EmbedTypes.players.preference[ 'format_preference' ] == mimeType ) {
-				 mw.log( 'Set via preference: ' + playableSources[source].mimeType );
-				 this.selectedSource = playableSources[source];
+				 mw.log( 'EmbedPlayer::autoSelectSource: Set via preference: ' + playableSources[source].mimeType );
+				 setSelectedSource( playableSources[source] );
 				 return true;
 			}
 		}
@@ -1010,8 +1014,8 @@ mediaElement.prototype = {
 		// Set via marked default:
 		for ( var source = 0; source < playableSources.length; source++ ) {
 			if ( playableSources[ source ].markedDefault ) {
-				mw.log( 'Set via marked default: ' + playableSources[source].markedDefault );
-				this.selectedSource = playableSources[source];
+				mw.log( 'EmbedPlayer::autoSelectSource: Set via marked default: ' + playableSources[source].markedDefault );
+				setSelectedSource( playableSources[source] );
 				return true;
 			}
 		}
@@ -1021,8 +1025,8 @@ mediaElement.prototype = {
 			var mimeType = playableSources[source].mimeType;
 			var player = mw.EmbedTypes.players.defaultPlayer( mimeType );
 			if ( player && player.library == 'Native'	) {
-				mw.log('EmbedPlayer::Set native playback');
-				this.selectedSource = playableSources[ source ];
+				mw.log('EmbedPlayer::autoSelectSource: Set via native playback');
+				setSelectedSource( playableSources[ source ] );
 				return true;
 			}
 		}
@@ -1039,16 +1043,16 @@ mediaElement.prototype = {
 					player.library == 'Kplayer'
 				)
 			) {
-				mw.log('Set h264 via native or flash fallback');
-				this.selectedSource = playableSources[ source ];
+				mw.log('EmbedPlayer::autoSelectSource: Set h264 via native or flash fallback');
+				 setSelectedSource( playableSources[ source ] );
 				return true;
 			}
 		};
 
 		// Else just select first source
 		if ( !this.selectedSource ) {
-			mw.log( 'set via first source:' + playableSources[0] );
-			this.selectedSource = playableSources[0];
+			mw.log( 'EmbedPlayer::autoSelectSource: Set via first source:' + playableSources[0] );
+			 setSelectedSource( playableSources[0] );
 			return true;
 		}
 		// No Source found so no source selected
@@ -1255,7 +1259,10 @@ mw.EmbedPlayer.prototype = {
 	// Buffer flags
 	'bufferStartFlag' : false,
 	'bufferEndFlag' : false,
-
+	
+	// For supporting media fragments stores the play end time 
+	'pauseTime' : null,
+	
 	// On done playing
 	'donePlayingCount' : 0
 	,
@@ -2050,16 +2057,50 @@ mw.EmbedPlayer.prototype = {
 			this.$interface.hide();
 		}
 
+		// Update temporal url if present
+		this.updateTemporalUrl();
+		
+		
 		if ( this.autoplay ) {
 			mw.log( 'EmbedPlayer::showPlayer::activating autoplay' );
 			// Issue a non-blocking play request
 			setTimeout(function(){
 				_this.play();
-			},1)
+			},1);
 		}
 
 	},
-
+	/**
+	 * Media framgments handler based on: 
+	 * http://www.w3.org/2008/WebVideo/Fragments/WD-media-fragments-spec/#fragment-dimensions
+	 * 
+	 * We support seconds and npt ( normal play time ) 
+	 * 
+	 * Updates the player per fragment url info if present
+	 * 
+	 */
+	updateTemporalUrl: function(){
+		var sourceHash = /[^\#]+$/.exec( this.getSrc() ).toString();
+		if( sourceHash.indexOf('t=') === 0 ){
+			// parse the times 
+			var times = sourceHash.substr(2).split(',');
+			if( times[0] ){
+				// update the current time
+				this.currentTime = mw.npt2seconds( times[0].toString() );
+			}
+			if( times[1] ){
+				this.pauseTime = mw.npt2seconds( times[1].toString() );
+				// ignore invalid ranges: 
+				if( this.pauseTime < this.currentTime ){
+					this.pauseTime = null;
+				}
+			}
+			// Update the play head
+			this.updatePlayHead( this.currentTime / this.duration );
+			// Update status: 
+			this.controlBuilder.setStatus( mw.seconds2npt( this.currentTime ) );
+		}
+	},
 	/**
 	 * Get missing plugin html (check for user included code)
 	 *
@@ -2953,6 +2994,11 @@ mw.EmbedPlayer.prototype = {
 		// Update the previousTime ( so we can know if the user-javascript
 		// changed currentTime )
 		_this.previousTime = _this.currentTime;
+		
+		if( _this.pauseTime && _this.currentTime >  _this.pauseTime ){
+			_this.pause();
+			_this.pauseTime = null;
+		}
 
 
 		// Check if volume was set outside of embed player function
@@ -3108,66 +3154,6 @@ mw.EmbedPlayer.prototype = {
 			$playHead.slider( 'value', val );
 		}
 		$j( this ).trigger('updatePlayHeadPercent', perc);
-	},
-
-	/**
-	 * Highlight a section of video on the playhead
-	 *
-	 * @param {Object}
-	 *      options Provides "start" time & "end" time to highlight
-	 */
-	highlightPlaySection:function( options ) {
-		mw.log( 'highlightPlaySection' );
-		var eid = ( this.pc ) ? this.pc.pp.id:this.id;
-		var dur = this.getDuration();
-		// set the left percet and update the slider:
-		rel_start_sec = mw.npt2seconds( options['start'] );
-		// remove the startOffset if relevent:
-		if ( this.startOffset )
-			rel_start_sec = rel_start_sec - this.startOffset
-
-		var slider_perc = 0;
-		if ( rel_start_sec <= 0 ) {
-			left_perc = 0;
-			options['start'] = mw.seconds2npt( this.startOffset );
-			rel_start_sec = 0;
-			this.updatePlayHead( 0 );
-		} else {
-			left_perc = parseInt( ( rel_start_sec / dur ) * 100 ) ;
-			slider_perc = ( left_perc / 100 );
-		}
-
-		mw.log( "slider perc:" + slider_perc );
-		if ( ! this.isPlaying() ) {
-			this.updatePlayHead( slider_perc );
-		}
-
-		width_perc = parseInt( ( ( mw.npt2seconds( options['end'] ) - mw.npt2seconds( options['start'] ) ) / dur ) * 100 ) ;
-		if ( ( width_perc + left_perc ) > 100 ) {
-			width_perc = 100 - left_perc;
-		}
-		// mw.log('should hl: '+rel_start_sec+ '/' + dur + ' re:' +
-		// rel_end_sec+' lp:' + left_perc + ' width: ' + width_perc);
-		$j( '#mv_seeker_' + eid + ' .mv_highlight' ).css( {
-			'left' : left_perc + '%',
-			'width' : width_perc + '%'
-		} ).show();
-
-		this.jump_time = options['start'];
-		this.serverSeekTime = mw.npt2seconds( options['start'] );
-		// trim output to
-		this.controlBuilder.setStatus( gM( 'mwe-embedplayer-seek_to', mw.seconds2npt( this.serverSeekTime ) ) );
-		mw.log( 'DO update: ' + this.jump_time );
-		this.updateThumbTime( rel_start_sec );
-	},
-
-	/**
-	 * Hides the playhead highlight
-	 */
-	hideHighlight: function() {
-		var eid = ( this.pc ) ? this.pc.pp.id:this.id;
-		$j( '#mv_seeker_' + eid + ' .mv_highlight' ).hide();
-		this.controlBuilder.setStatus( this.getTimeRange() );
 	},
 
 

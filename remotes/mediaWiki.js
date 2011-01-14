@@ -458,8 +458,8 @@ function rewrite_for_OggHandler( vidIdList ) {
 			timeHash= '#t=' + $startTime.text();
 			// if we have a start time also look for endtime
 			var $endTime = $j( '#' + vidId ).parent().find('.endtime');
-			if( $endTime.lenght ){
-				timeHash += $endTime.text();
+			if( $endTime.length ){
+				timeHash += ',' + $endTime.text();
 			}
 		}
 		// Update the video source with the temporal time hash:
