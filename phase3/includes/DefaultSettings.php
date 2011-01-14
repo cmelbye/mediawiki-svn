@@ -4841,6 +4841,7 @@ $wgSpecialPageGroups = array(
 	'MIMEsearch'                => 'media',
 	'FileDuplicateSearch'       => 'media',
 	'Filepath'                  => 'media',
+	'LicenseManager'            => 'media',
 
 	'Listusers'                 => 'users',
 	'Activeusers'               => 'users',

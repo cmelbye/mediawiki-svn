@@ -2063,6 +2063,9 @@ Possible alternatives to the word 'content' are 'subject matter' or 'wiki subjec
 
 'fewestrevisions' => 'Name of a special page displayed in [[Special:SpecialPages]].',
 
+# License manager
+'licensemanager'          => 'Name of a special page displayed in [[Special:SpecialPages]].',
+
 # Miscellaneous special pages
 'nbytes'                  => 'Message used on the history page of a wiki page. Each version of a page consist of a number of bytes. $1 is the number of bytes that the page uses. Uses plural as configured for a language based on $1.',
 'ncategories'             => "Used in the special page '[[Special:MostCategories]]' in brackets after each entry on the list signifying how many categories a page is part of. $1 is the number of categories.",

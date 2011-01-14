@@ -464,6 +464,7 @@ $specialPageAliases = array(
 	'ComparePages'              => array( 'ComparePages' ),
 	'Badtitle'                  => array( 'Badtitle' ),
 	'DisableAccount'            => array( 'DisableAccount' ),
+	'LicenseManager'            => array( 'LicenseManager' ),
 );
 
 /**
@@ -2449,6 +2450,9 @@ It now redirects to [[$2]].',
 
 'fewestrevisions'         => 'Pages with the fewest revisions',
 'fewestrevisions-summary' => '', # do not translate or duplicate this message to other languages
+
+# LicenseManager
+'licensemanager'          => 'License manager',
 
 # Miscellaneous special pages
 'nbytes'                          => '$1 {{PLURAL:$1|byte|bytes}}',

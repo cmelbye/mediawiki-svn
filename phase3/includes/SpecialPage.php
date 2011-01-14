@@ -151,6 +151,7 @@ class SpecialPage {
 		'FileDuplicateSearch'       => 'FileDuplicateSearchPage',
 		'Upload'                    => 'SpecialUpload',
 		'UploadStash'               => 'SpecialUploadStash',
+		'LicenseManager'            => 'SpecialLicenseManager',
 
 		# Wiki data and tools
 		'Statistics'                => 'SpecialStatistics',
