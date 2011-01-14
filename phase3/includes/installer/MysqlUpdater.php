@@ -177,6 +177,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			// 1.18
 			array( 'addTable', 'license',                           'patch-license.sql' ),
 			array( 'addTable', 'file_props',                        'patch-file_props.sql' ),
+			array( 'addField', 'revision', 'rev_fileprops_id',      'patch-rev_fileprops_id.sql' ),
 		);
 	}
 
