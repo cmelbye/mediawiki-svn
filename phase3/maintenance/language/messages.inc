@@ -1557,6 +1557,9 @@ $wgMessageStructure = array(
 		'fewestrevisions',
 		'fewestrevisions-summary',
 	),
+	'licensemanager' => array(
+		'licensemanager',
+	),
 	'specialpages' => array(
 		'nbytes',
 		'ncategories',

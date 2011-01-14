@@ -38,6 +38,9 @@ class SpecialLicenseManager extends SpecialPage {
 		global $wgRequest, $wgOut;
 
 		$this->setHeaders();
-		// TODO
+		
 	}
+}
+
+class LicensePager extends IndexPager {
 }
