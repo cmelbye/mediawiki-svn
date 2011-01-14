@@ -782,19 +782,19 @@ mediaSource.prototype = {
 	 */
 	detectType: function( uri ) {
 		// NOTE: if media is on the same server as the javascript
-		// we can issue a HEAD request and read the mime type of the media ...
-		// ( this will detect media mime type independently of the url name)
+		// we can issue a HEAD request and read the mime type of the media...
+		// ( this will detect media mime type independently of the url name )
 		// http://www.jibbering.com/2002/4/httprequest.html
-		var end_inx = ( uri.indexOf( '?' ) != -1 ) ? uri.indexOf( '?' ) : uri.length;
-		var no_param_uri = uri.substr( 0, end_inx );
-		switch( no_param_uri.substr( no_param_uri.lastIndexOf( '.' )+1 ).toLowerCase() ) {
+		var urlParts =  mw.parseUri( uri );
+		// Get the extension from the url or from the relative name: 
+		var ext = ( urlParts.file )?  /[^.]+$/.exec( urlParts.file )  :  /[^.]+$/.exec( uri );
+		switch( ext.toString().toLowerCase() ) {
 			case 'smil':
 			case 'sml':
-				return 'application/smil'
+				return 'application/smil';
 			break;
 			case 'm4v':
 			case 'mp4':
-			case 'mov':
 				return 'video/h264';
 			break;
 			case 'webm':
@@ -829,6 +829,7 @@ mediaSource.prototype = {
 				return 'video/mpeg';
 			break;
 		}
+		mw.log( "Error: could not detect type of media src: " + uri );
 	}
 };
 
@@ -2628,12 +2629,10 @@ mw.EmbedPlayer.prototype = {
 		if( this.paused === true ){
 			this.paused = false;			
 			// Check if we should Trigger the play event
-			if( this.bubbleEventCheck() ) {
-				mw.log("EmbedPlayer:: trigger play even::" + !this.paused);
-				if(  this._propagateEvents ){	
-					$j( this ).trigger( 'play' );
-					_this.tempDisableEvents();
-				}
+			mw.log("EmbedPlayer:: trigger play even::" + !this.paused);
+			if(  this._propagateEvents ){	
+				$j( this ).trigger( 'play' );
+				_this.tempDisableEvents();
 			}
 		}
 		
@@ -2659,18 +2658,6 @@ mw.EmbedPlayer.prototype = {
 		this.monitor();		
 	},
 	/**
-	 * Returns true if the event should be triggered or false if not
-	 *
-	 * @@FIXME:: firefox nightlies now Do NOT bubble events. Once release tag
-	 *      every version after that
-	 */
-	bubbleEventCheck: function(){
-		if( $j.browser.webkit ){
-			return true;
-		}
-		return false;
-	},
-	/**
 	 * Base embed pause Updates the play/pause button state.
 	 *
 	 * There is no general way to pause the video must be overwritten by embed
@@ -2682,14 +2669,10 @@ mw.EmbedPlayer.prototype = {
 		// controls:
 		if( this.paused === false ){
 			this.paused = true;
-			mw.log( "EmbedPlayer:: pause: " + this._propagateEvents );
-			
-			if( this.bubbleEventCheck() ){
-				mw.log('EmbedPlayer:trigger pause:' + this.paused);
-				if(  this._propagateEvents ){
-					$j( this ).trigger( 'pause' );
-					_this.tempDisableEvents();
-				}
+			mw.log('EmbedPlayer:trigger pause:' + this.paused);
+			if(  this._propagateEvents ){
+				$j( this ).trigger( 'pause' );
+				_this.tempDisableEvents();
 			}
 		}
 

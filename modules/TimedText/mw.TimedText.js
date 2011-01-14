@@ -47,7 +47,7 @@ mw.includeAllModuleMessages();
 		enabledSources: null,
 		
 		/**
-		 * The current langauge key
+		 * The current language key
 		 */
 		currentLangKey : null,
 		
@@ -106,7 +106,6 @@ mw.includeAllModuleMessages();
 		 */
 		init: function( embedPlayer, options ) {
 			var _this = this;
-			mw.log("TimedText: init() ");
 			this.embedPlayer = embedPlayer;
 			this.options = options;
 
@@ -297,7 +296,6 @@ mw.includeAllModuleMessages();
 		* @param {Function} callback Function to be called once text sources are setup.
 		*/
 		setupTextSources: function( callback ) {
-			mw.log( 'mw.TimedText::setupTextSources');
 			var _this = this;
 			if( this.textSourceSetupFlag ) {
 				if( callback ) {

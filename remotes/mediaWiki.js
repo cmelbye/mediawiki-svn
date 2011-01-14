@@ -34,7 +34,7 @@ if( document.URL.indexOf( 'embedplayer=yes' ) !== -1 ){
 	mwReqParam['embedplayer'] = 'yes';
 }
 
-//mwReqParam['debug'] = true;
+// mwReqParam['debug'] = true;
 
 // Setup up some globals to wrap mwEmbed mw.ready and mw.setConfig functions
 
@@ -447,6 +447,24 @@ function rewrite_for_OggHandler( vidIdList ) {
 		var re = new RegExp( /videoUrl(&quot;:?\s*)*([^&]*)/ );
 		src = re.exec( rewriteHTML )[2];
 
+		var timeHash = '';
+		// Check for temporal url in document hash
+		if( location.hash.indexOf('#t=') === 0 ){
+			timeHash = location.hash;
+		}
+		// Check for temporal url in template hack
+		var $startTime = $j( '#' + vidId ).parent().find('.starttime');
+		if( $startTime.length ){
+			timeHash= '#t=' + $startTime.text();
+			// if we have a start time also look for endtime
+			var $endTime = $j( '#' + vidId ).parent().find('.endtime');
+			if( $endTime.lenght ){
+				timeHash += $endTime.text();
+			}
+		}
+		// Update the video source with the temporal time hash:
+		src+=timeHash;
+		
 		var apiTitleKey = src.split( '/' );
 		apiTitleKey = decodeURI( apiTitleKey[ apiTitleKey.length - 1 ] );
 
@@ -472,7 +490,6 @@ function rewrite_for_OggHandler( vidIdList ) {
 
 		if ( src ) {
 			var html_out = '';
-
 			var common_attr = ' id="mwe_' + vidId + '" ' +
 				'apiTitleKey="' + apiTitleKey + '" ' +
 				'src="' + src + '" ' +
