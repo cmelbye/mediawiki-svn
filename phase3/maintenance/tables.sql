@@ -1437,19 +1437,31 @@ CREATE TABLE /*_*/module_deps (
 ) /*$wgDBTableOptions*/;
 CREATE UNIQUE INDEX /*i*/md_module_skin ON /*_*/module_deps (md_module, md_skin);
 
+-- Table listing licenses used for files on the wiki
 CREATE TABLE /*_*/license (
   lic_id int unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  -- Internal license name. Display name is stored in i18n message
   lic_name varbinary(255) NOT NULL,
+  -- URL to the legally valid license text. Localized or more understandable versions are stored in an i18n message
   lic_url varbinary(255) NOT NULL,
+  -- Counter counting the number of files with this license
   lic_count int signed NOT NULL DEFAULT 0
 ) /*$wgDBTableOptions*/;
 CREATE INDEX /*i*/lic_name ON /*_*/license (lic_name);
 CREATE INDEX /*i*/lic_count ON /*_*/license (lic_count);
 
+-- Table for tracking file properties
+-- Each file property (fp_id) can have multiple rows in this table,
+-- allowing for multiple properties and multiple values for each property.
+-- Properties can have a numerical value, a text value, or both.
 CREATE TABLE /*_*/file_props (
-  fp_id int unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  -- File property ID. This is the same for each row referring to the same file revision
+  fp_id int unsigned NOT NULL,
+  -- Property key
   fp_key varbinary(255) NOT NULL,
+  -- Numerical property value, if present
   fp_value_int int signed,
+  -- Textual property value, if present
   fp_value_text varbinary(255)
 ) /*$wgDBTableOptions*/;
 CREATE INDEX /*i*/fp_id_key ON /*_*/file_props (fp_id, fp_key);
