@@ -307,7 +307,11 @@ CREATE TABLE /*_*/revision (
 
   -- Key to revision.rev_id
   -- This field is used to add support for a tree structure (The Adjacency List Model)
-  rev_parent_id int unsigned default NULL
+  rev_parent_id int unsigned default NULL,
+
+  -- Key to file_props.fp_id
+  -- For revisions with no associated file properties, this is NULL
+  rev_fileprops_id int unsigned default NULL
 
 ) /*$wgDBTableOptions*/ MAX_ROWS=10000000 AVG_ROW_LENGTH=1024;
 -- In case tables are created as MyISAM, use row hints for MySQL <5.0 to avoid 4GB limit
@@ -1432,5 +1436,24 @@ CREATE TABLE /*_*/module_deps (
   md_deps mediumblob NOT NULL
 ) /*$wgDBTableOptions*/;
 CREATE UNIQUE INDEX /*i*/md_module_skin ON /*_*/module_deps (md_module, md_skin);
+
+CREATE TABLE /*_*/license (
+  lic_id int unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  lic_name varbinary(255) NOT NULL,
+  lic_url varbinary(255) NOT NULL,
+  lic_count int signed NOT NULL DEFAULT 0
+) /*$wgDBTableOptions*/;
+CREATE INDEX /*i*/lic_name ON /*_*/license (lic_name);
+CREATE INDEX /*i*/lic_count ON /*_*/license (lic_count);
+
+CREATE TABLE /*_*/file_props (
+  fp_id int unsigned NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  fp_key varbinary(255) NOT NULL,
+  fp_value_int int signed,
+  fp_value_text varbinary(255)
+) /*$wgDBTableOptions*/;
+CREATE INDEX /*i*/fp_id_key ON /*_*/file_props (fp_id, fp_key);
+CREATE INDEX /*i*/fp_key_value_int ON /*_*/file_props (fp_key, fp_value_int);
+CREATE INDEX /*i*/fp_key_value_text ON /*_*/file_props (fp_key, fp_value_text);
 
 -- vim: sw=2 sts=2 et
