@@ -1082,7 +1082,9 @@ mw.includeAllModuleMessages();
 						'width' :  this.embedPlayer.getWidth(),
 						'height' : this.embedPlayer.getHeight()
 					})
-				);
+				).css({
+					'line-height' : '1.6em'
+				})
 
 				$playerTarget.append( $track );
 				
