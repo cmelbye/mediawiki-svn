@@ -1285,12 +1285,12 @@ mw.includeAllModuleMessages();
 		// Optimize: we could use javascript strings functions instead of jQuery XML parsing:
 		$j( '<div>' + data + '</div>' ).find('p').each( function() {
 			currentPtext = $j(this).html();
-			//mw.log( 'pText: ' + currentPtext );
+			mw.log( 'pText: ' + currentPtext );
 
 			//Check if the p matches the "all in one line" match:
 			var m = currentPtext
 			.replace('--&gt;', '-->')
-			.match(/\d+\s([\d\-]+):([\d\-]+):([\d\-]+)(?:,([\d\-]+))?\s*--?>\s*([\d\-]+):([\d\-]+):([\d\-]+)(?:,([\d\-]+))?\n?(.*)/);
+			.match(/\d+\s([\d\-]+):([\d\-]+):([\d\-]+)(?:,([\d\-]+))?\s*--?>\s*([\d\-]+):([\d\-]+):([\d\-]+)(?:,([\d\-]+))?\n?(.*\n?.*)/);
 
 			if (m) {
 				var startMs = (m[4])? (parseInt(m[4], 10) / 1000):0;
@@ -1307,9 +1307,11 @@ mw.includeAllModuleMessages();
 					(parseInt(m[7], 10)) +
 					endMs,
 				'content': $j.trim( m[9] )
-				});
+				});			
+				mw.log( $j.trim( m[9] )  );
 				return true;
-			}
+			}			
+			
 			// Else check for multi-line match:
 			if( parseInt( currentPtext ) == currentPtext ) {
 				if( curentCap.length != 0) {
