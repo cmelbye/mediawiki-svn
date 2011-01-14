@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r184';
+var mwRemoteVersion = 'r185';
 
 // Log the mwRemote version makes it easy to debug cache issues
 if( window.console ){
@@ -90,6 +90,10 @@ mw.setConfig( 'Mw.AppendWithJS', 'withJS=MediaWiki:MwEmbed.js');
 mw.setConfig( 'ApiProxy.DomainWhiteList',
 	[ /wikimedia\.org$/ , /wikipedia\.org$/ , /wiktionary.org$/ , /wikinews.org$/ , /wikibooks.org$/ , /wikisource.org$/ , /wikiversity.org$/ , /wikiquote.org$/ ]
 );
+
+// Set legacy add media wizard config 
+mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ]
+
 
 // Legacy Add media wizard config: 
 if( typeof mwAddMediaConfig == 'undefined'){
