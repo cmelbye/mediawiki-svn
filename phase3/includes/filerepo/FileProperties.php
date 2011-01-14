@@ -301,4 +301,21 @@ class FileLicense {
 			$this->insert();
 		}
 	}
+	
+	/**
+	 * Returns a key suitable for wfMsg() to get the license text
+	 * 
+	 * @return string
+	 */
+	public function getLicenseTextKey () {
+		return "License-{$this->name}-text";
+	}
+	/**
+	 * Returns a key suitabale for wfMsg() to get the license title
+	 * 
+	 * @return string
+	 */
+	public function getLicenseTitleKey () {
+		return "License-{$this->name}-title";
+	}
 }

@@ -2335,6 +2335,10 @@ The description on its [$2 file description page] there is shown below.',
 'shared-repo'                       => 'a shared repository',
 'shared-repo-name-wikimediacommons' => 'Wikimedia Commons', # only translate this message to other languages if you have to change it
 'filepage.css'                      => '/* CSS placed here is included on the file description page, also included on foreign client wikis */', # only translate this message to other languages if you have to change it
+'imagepage-copyright-information'   => 'Copyright information',
+'imagepage-wiki-author'             => 'Author: [[User:$1|$2]]',
+'imagepage-author'                  => 'Author: $1',
+'imagepage-license'                 => 'License: $1',
 
 # File reversion
 'filerevert'                => 'Revert $1',

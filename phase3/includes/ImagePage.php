@@ -126,6 +126,9 @@ class ImagePage extends Article {
 			}
 			$wgOut->addHTML( '<div id="shared-image-desc">' . $this->mExtraDescription . "</div>\n" );
 		}
+		
+		# Show the file properties
+		$this->showFileProperties();
 
 		$this->closeShowImage();
 		$this->imageHistory();
@@ -587,6 +590,41 @@ EOT
 	}
 
 	protected function closeShowImage() { } # For overloading
+
+	/**
+	 * Show the file properties 
+	 */
+	protected function showFileProperties() {
+		$props = $this->img->properties();
+		$authors = $props->getAuthors();
+		$licenses = $props->getLicenses();
+		if ( $authors || $licenses ) {
+			global $wgOut;
+			
+			$header = wfMessage( 'imagepage-copyright-information' );
+			$wgOut->addWikiText( '== ' . $header->escaped() . " ==\n" );
+			
+			foreach ( $authors as $author ) {
+				$userId = $author->getUserId();
+				if ( $userId ) {
+					$user = User::newFromId( $userId );
+					$wgOut->addWikiMsg( 'imagepage-wiki-author',
+						$user->getName(), $author->getText() );
+				} else {
+					$wgOut->addWikiMsg( 'imagepage-author',
+						$author->getText() );					
+				}
+			}
+			
+			foreach ( $licenses as $license ) {
+				$title = wfMessage( $license->getLicenseTitleKey() );
+				$text = wfMessage( $license->getLicenseTextKey() );
+				
+				$wgOut->addWikiMsg( 'imagepage-license', 
+					$title->escaped(), $text->escaped() );
+			}
+		}
+	}
 
 	/**
 	 * If the page we've just displayed is in the "Image" namespace,
