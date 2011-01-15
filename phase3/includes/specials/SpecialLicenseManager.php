@@ -35,12 +35,60 @@ class SpecialLicenseManager extends SpecialPage {
 	}
 
 	function execute( $par ) {
+		// TODO: edit through Special:LicenseManager/123
+		// TODO: table instead of ul/li
+		// TODO: edit/delete restrictions
+		// TODO: keep Special:LicenseManager for write actions, move list to separate special page
+		// TODO: rm legal URL, add text of corresponding MW msgs
 		global $wgRequest, $wgOut;
-
 		$this->setHeaders();
-		
+		$pager = new LicensePager( $this );
+		$wgOut->addHTML( $pager->getBody() );
 	}
 }
 
-class LicensePager extends IndexPager {
+class LicensePager extends AlphabeticPager {
+	protected $mSpecialPage;
+	
+	public function __construct( $specialpage ) {
+		parent::__construct();
+		$this->mSpecialPage = $specialpage;
+	}
+	public function getQueryInfo() {
+		return array(
+			'tables' => 'license',
+			'fields' => array( 'lic_id', 'lic_name', 'lic_url', 'lic_count' ),
+		);
+	}
+	
+	public function getIndexField() {
+		return 'lic_name';
+	}
+	
+	public function getStartBody() {
+		return "<ul>";
+	}
+	
+	public function getEndBody() {
+		return "</ul>";
+	}
+	
+	public function formatRow( $row ) {
+		global $wgUser, $wgLang;
+		$sk = $wgUser->getSkin();
+		$editlink = $sk->link( $this->mSpecialPage->getTitle(),
+			wfMsg( 'licensemanager-edit-link' ),
+			array(),
+			array( 'edit' => $row->lic_id )
+		);
+		$deletelink = $sk->link( $this->mSpecialPage->getTitle(),
+			wfMsg( 'licensemanager-delete-link' ),
+			array(),
+			array( 'delete' => $row->lic_id )
+		);
+		$name = htmlspecialchars( $row->lic_name );
+		$urlLink = $sk->makeExternalLink( $row->lic_url, wfMsg( 'licensemanager-url-link' ) );
+		$count = wfMsg( 'licensemanager-filecount', $wgLang->formatNum( $row->lic_count ) );
+		return "<li>" . wfMsgHtml( 'licensemanager-row', $name, $urlLink, $count, $editlink, $deletelink ) . "</li>";
+	}
 }

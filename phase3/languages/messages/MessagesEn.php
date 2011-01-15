@@ -2456,7 +2456,13 @@ It now redirects to [[$2]].',
 'fewestrevisions-summary' => '', # do not translate or duplicate this message to other languages
 
 # LicenseManager
+// TODO: qqq, messages.inc
 'licensemanager'          => 'License manager',
+'licensemanager-row'      => '$1 ($2) ($3) ($4) ($5)',
+'licensemanager-url-link' => 'legal text',
+'licensemanager-edit-link' => 'edit',
+'licensemanager-delete-link' => 'delete',
+'licensemanager-filecount' => 'used for $1 {{PLURAL:$1|file|files}}',
 
 # Miscellaneous special pages
 'nbytes'                          => '$1 {{PLURAL:$1|byte|bytes}}',
