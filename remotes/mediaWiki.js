@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r185';
+var mwRemoteVersion = 'r186';
 
 // Log the mwRemote version makes it easy to debug cache issues
 if( window.console ){
@@ -531,8 +531,8 @@ function rewrite_for_OggHandler( vidIdList ) {
 							'height' : $j(window).height()
 						}); 
 					});
-				}
-			}
+				};
+			};
 			
 			
 			// If the video is part of a "gallery box" use light-box linker instead
