@@ -9,16 +9,33 @@ mw.includeAllModuleMessages();
 */
 mw.P2PNextTransport = {
 	// The transport objects
-	transportObjects: null
+	transportObjects: null,
 	
 	addPlayerHooks: function(){
 		var _this = this;
+		
+		// Add the P2PNextTransport player to available player types:
+		$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {	
+			$.each( _this.getTransportObjects(), function(na, transportObject ){
+				
+				// Add the transportObject playerType
+				mw.EmbedTypes.getMediaPlayers().defaultPlayers[ transportObject.mime ] = [ transportObject.playerLib ]; 
+				
+				// Build the Transport Player
+				var transportPlayer = new mediaPlayer( transportObject.name + 'TransportPlayer', [ transportObject.mime ], transportObject.playerLib );
+				
+				// Add the P2PNextTransport "player"
+				mw.EmbedTypes.getMediaPlayers().addPlayer( transportPlayer );
+			});
+		});
+
+		
 		// Bind some hooks to every player:
 		$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
 
 			// Setup the "embedCode" binding to swap in an updated url
 			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
-				// Confirm P2PNextTransport add-on is available ( defines swarmTransport var )
+				// Confirm P2PNextTransport add-on is available 
 				if( _this.getTransportObjects().length ){
 					// Add the swarm source
 					_this.addTransportSources( embedPlayer, function( status ){
@@ -49,28 +66,11 @@ mw.P2PNextTransport = {
 
 		} );
 
-
-		// Add the P2PNextTransport player to available player types:
-		$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {			
-			$.each( this.getTransportObjects(), function(na, transportObject ){
-				
-				// Add the transportObject playerType
-				mw.EmbedTypes.getMediaPlayers().defaultPlayers[ transportObject.mime ] = [ transportObject.playerLib ]; 
-				
-				// Build the Transport Player
-				var transportPlayer = new mediaPlayer( transportObject.name + 'TransportPlayer', [ transportObject.mime ], transportObject.playerLib );
-				
-				// Add the P2PNextTransport "player"
-				mw.EmbedTypes.getMediaPlayers().addPlayer( transportPlayer );
-			});
-			
-		});
-
 	},
 	// Gets what transport objects that holds all the custom methods per the transport type
 	//	returns [] empty array if no transport object is found. 
 	getTransportObjects: function(){
-		if( this.transportObjects  == null ){
+		if( this.transportObjects  != null ){
 			return this.transportObjects;
 		}
 		this.transportObjects = [];
@@ -79,7 +79,7 @@ mw.P2PNextTransport = {
 			'name'  : 'swarm',
 			'mime': 'video/swarmTransport',
 			'playerLib' : 'Native',
-			'lookupUrl' : mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ),
+			'lookupUrl' : mw.getConfig( 'P2PNextTransport.SwarmLookupUrl' ),
 			'protocol' : 'tribe://'
 		};
 		if( typeof window['swarmTransport'] != 'undefined' ){
@@ -90,29 +90,27 @@ mw.P2PNextTransport = {
 		try{
 			if( mw.EmbedTypes.testActiveX( 'P2PNext.SwarmPlayer' ) ){
 				this.transportObjects.push(  
-					$j.extend( baseSwarmObj, {						
+					$j.extend( {}, baseSwarmObj, {						
 						'playerLib': 'SwarmVlc'
 					}) 
 				);
 			}
 		} catch (e ){
-			mw.log(" Error:: SwarmTransport:testActiveX( 'P2PNext.SwarmPlayer' failed ");
+			mw.log(" Error:: P2PNextTransport:testActiveX( 'P2PNext.SwarmPlayer' failed ");
 		}
 		
 		// if tswift is supported it presently "overrides" 'swarm'
 		if( typeof window['tswiftTransport'] != 'undefined' ){
 			this.transportObjects.push(
-				$j.extend( baseSwarmObj, {
+				$j.extend( {}, baseSwarmObj, {
 					'name' : 'swift',
 					'mime': 'video/swiftTransport',
-					'lookupUrl' : mw.getConfig( 'TSwiftTransport.TorrentLookupUrl' ),
+					'lookupUrl' : mw.getConfig( 'P2PNextTransport.SwiftLookupUrl' ),
 					'protocol' : 'tswift://'
 				})
 			);
-		}
-	
-		this.transportType = false;
-		return this.transportType;
+		}	
+		return this.transportObjects;
 	},
 	
 	addTransportSources: function( embedPlayer, callback ) {
@@ -126,25 +124,16 @@ mw.P2PNextTransport = {
 			return ;
 		}
 		$.each( this.getTransportObjects(), function(inx, transportObject ){
-			// Setup the torrent request:
-			var torrentLookupRequest = {
-				'url' : mw.absoluteUrl( source.getSrc() )
-			};
-			
-			mw.log( 'SwarmTransport:: lookup torrent url: ' +
-				mw.getConfig( 'SwarmTransport.TorrentLookupUrl' ) + "\n" +
-				mw.absoluteUrl( source.getSrc() )
-			);
-			transportLookupCount++;
-
 			// Setup function to run in context based on callback result
 			$j.getJSON(
 				transportObject.lookupUrl + '?jsonp=?',
-				torrentLookupRequest,
+				{
+					'url' : mw.absoluteUrl( source.getSrc() )
+				},
 				function( data ){									
 					// Check if the torrent is ready:
 					if( !data.torrent ){
-						mw.log( "SwarmTransport: Torrent not ready status: " + data.status.text );
+						mw.log( "P2PNext: ( " + transportObject.lookupUrl + " ) Torrent not ready status: " + data.status.text );
 						callback( false );
 						return ;
 					}
@@ -155,7 +144,7 @@ mw.P2PNextTransport = {
 						.attr( {
 							'type' : 'video/swarmTransport',
 							'title': gM('mwe-swarmtransport-stream-ogg'),
-							'src': torrentLookup.protocol + data.torrent,
+							'src': transportObject.protocol + data.torrent,
 							'default' : true
 						} )
 						.get( 0 )

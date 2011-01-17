@@ -8,7 +8,7 @@
 ( function( mw ) {
 
 	mw.addResourcePaths( {
-		"mw.P2PNextTransport" : "mw.P2PTransport.js",
+		"mw.P2PNextTransport" : "mw.P2PNextTransport.js",
 		"mw.EmbedPlayerSwarmVlc" : "mw.EmbedPlayerSwarmVlc.js"
 	});
 
@@ -27,12 +27,12 @@
  		/**
  		* Swarm Lookup service url
  		*/
- 		'SwarmTransport.TorrentLookupUrl': 'http://url2torrent.net/get/',
+ 		'P2PNextTransport.SwarmLookupUrl': 'http://url2torrent.net/get/',
  		
  		/**
  		* TSwift Swarm Lookup service url
  		*/
- 		'TSwiftTransport.TorrentLookupUrl': 'http://url2torrent.p2p-next.org/get/'
+ 		'P2PNextTransport.SwiftLookupUrl': 'http://url2torrent.p2p-next.org/get/'
 	});
 
 	// Add the mw.SwarmTransport to the embedPlayer loader:
