@@ -9,7 +9,7 @@ class FileProperties {
 	 * @param $revision int Revision id
 	 */
 	public function __construct( $file, $revision = null ) {
-		$this->file = file;
+		$this->file = $file;
 		$this->revId = $revision;
 		
 		$this->authors = array();
@@ -69,14 +69,14 @@ class FileProperties {
 	public function getAuthors() {
 		return $this->authors;
 	}
-	
+
 	/**
-	 * Save the licenses and authors to the database
+	 * Save the licenses and authors to the database and create a new revision
 	 * 
 	 * @param $comment string Edit summary
 	 * @param $minor bool Minor edit
-	 */
-	public function save( $comment, $minor = false ) {
+	 */	
+	public function saveWithNewRevision( $comment, $minor = false ) {
 		$dbw = $this->file->getRepo()->getMasterDB();
 		
 		$rev = Revision::newNullRevision( $dbw, 
@@ -84,12 +84,22 @@ class FileProperties {
 			$comment, $minor );
 		$rev->insertOn( $dbw );
 		
-		$id = $rev->getId();
+		$this->save( $rev->getId() );		
+	}
+	
+	/**
+	 * Save the licenses and authors to the database associated with a certain
+	 * revision
+	 * 
+	 * @param $revId int Revision id
+	 */
+	public function save( $revId ) {
+		$dbw = $this->file->getRepo()->getMasterDB();
 		
 		$insert = array();
 		foreach ( $this->authors as $author ) {
 			$a = array( 
-				'fp_rev_id' => $id,
+				'fp_rev_id' => $revId,
 				'fp_key' => 'author',
 				'fp_value_int' => $author->getId()
 			);
@@ -102,7 +112,7 @@ class FileProperties {
 		}
 		foreach ( $this->licenses as $license ) {
 			$insert[] = array(
-				'fp_rev_id' => $id,
+				'fp_rev_id' => $revId,
 				'fp_key' => 'license',
 				'fp_value_int' => $license->getId(),
 			);
@@ -110,6 +120,8 @@ class FileProperties {
 		
 		
 		$dbw->insert( 'file_props', $insert, __METHOD__ );
+		
+		$this->revId = $revId;
 	}
 }
 
