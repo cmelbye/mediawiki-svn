@@ -368,7 +368,6 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		 * 
 		 */
 		load: function( loadRequest, instanceCallback ) {
-			// mw.log("mw.load:: " + loadRequest );
 			var _this = this;
 
 			// Throw out any loadRequests that are not strings

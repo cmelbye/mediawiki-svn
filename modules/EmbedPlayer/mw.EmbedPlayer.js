@@ -138,11 +138,6 @@ mw.setDefaultConfig( 'EmbedPlayer.SourceAttributes', [
 			}
 		});
 
-		// If we have not detected browser plugin embed types do that now
-		if( ! mw.EmbedTypes.players ){
-			mw.EmbedTypes.init();
-		}
-
 		// Create the Global Embed Player Manager ( if not already created )
 		if( ! mw.playerManager ) {
 			mw.log( "EmbedPlayer::Create the player manager:" );
@@ -344,9 +339,9 @@ EmbedPlayerManager.prototype = {
 			return false;
 		}
 		// If we don't have a native player don't wait for metadata
-		if( !mw.EmbedTypes.players.isSupportedPlayer( 'oggNative') &&
-			!mw.EmbedTypes.players.isSupportedPlayer( 'webmNative') &&
-			!mw.EmbedTypes.players.isSupportedPlayer( 'h264Native' ) )
+		if( !mw.EmbedTypes.getMediaPlayers().isSupportedPlayer( 'oggNative') &&
+			!mw.EmbedTypes.getMediaPlayers().isSupportedPlayer( 'webmNative') &&
+			!mw.EmbedTypes.getMediaPlayers().isSupportedPlayer( 'h264Native' ) )
 		{
 			return false;
 		}
@@ -976,7 +971,7 @@ mediaElement.prototype = {
 			if ( i == index ) {
 				this.selectedSource = playableSources[i];
 				// Update the user selected format:
-				mw.EmbedTypes.players.setFormatPreference( playableSources[i].mimeType );
+				mw.EmbedTypes.getMediaPlayers().setFormatPreference( playableSources[i].mimeType );
 				break;
 			}
 		}
@@ -1004,7 +999,7 @@ mediaElement.prototype = {
 		// Set via user-preference
 		for ( var source = 0; source < playableSources.length; source++ ) {
 			var mimeType = playableSources[source].mimeType;
-			if ( mw.EmbedTypes.players.preference[ 'format_preference' ] == mimeType ) {
+			if ( mw.EmbedTypes.getMediaPlayers().preference[ 'format_preference' ] == mimeType ) {
 				 mw.log( 'EmbedPlayer::autoSelectSource: Set via preference: ' + playableSources[source].mimeType );
 				 setSelectedSource( playableSources[source] );
 				 return true;
@@ -1023,7 +1018,7 @@ mediaElement.prototype = {
 		// Prefer native playback
 		for ( var source = 0; source < playableSources.length; source++ ) {
 			var mimeType = playableSources[source].mimeType;
-			var player = mw.EmbedTypes.players.defaultPlayer( mimeType );
+			var player = mw.EmbedTypes.getMediaPlayers().defaultPlayer( mimeType );
 			if ( player && player.library == 'Native'	) {
 				mw.log('EmbedPlayer::autoSelectSource: Set via native playback');
 				setSelectedSource( playableSources[ source ] );
@@ -1034,7 +1029,7 @@ mediaElement.prototype = {
 		// Set h264 via native or flash fallback
 		for ( var source = 0; source < playableSources.length; source++ ) {
 			var mimeType = playableSources[source].mimeType;
-			var player = mw.EmbedTypes.players.defaultPlayer( mimeType );
+			var player = mw.EmbedTypes.getMediaPlayers().defaultPlayer( mimeType );
 			if ( mimeType == 'video/h264'
 				&& player
 				&& (
@@ -1104,7 +1099,7 @@ mediaElement.prototype = {
 	 * Checks if media is a playable type
 	 */
 	isPlayableType: function( mimeType ) {
-		if ( mw.EmbedTypes.players.defaultPlayer( mimeType ) ) {
+		if ( mw.EmbedTypes.getMediaPlayers().defaultPlayer( mimeType ) ) {
 			return true;
 		} else {
 			return false;
@@ -1704,7 +1699,7 @@ mw.EmbedPlayer.prototype = {
 		if ( !this.mediaElement.selectedSource ) {
 			mw.log( 'setupSourcePlayer:: no sources, type:' + this.type );
 		} else {
-			this.selectedPlayer = mw.EmbedTypes.players.defaultPlayer( this.mediaElement.selectedSource.mimeType );
+			this.selectedPlayer = mw.EmbedTypes.getMediaPlayers().defaultPlayer( this.mediaElement.selectedSource.mimeType );
 		}
 
 		if ( this.selectedPlayer ) {
@@ -3517,8 +3512,8 @@ mediaPlayers.prototype =
  */
 mw.EmbedTypes = {
 
-	 // List of players supported
-	 players: null,
+	 // MediaPlayers object ( supports methods for quering set of browser players ) 
+	mediaPlayers: null,
 
 	 // Detect flag for completion
 	 detect_done:false,
@@ -3532,6 +3527,16 @@ mw.EmbedTypes = {
 		// detect supported types
 		this.detect();
 		this.detect_done = true;
+	},
+	
+	getMediaPlayers: function(){
+		if( this.mediaPlayers  ){
+			return this.mediaPlayers;
+		}
+		this.mediaPlayers = new mediaPlayers();
+		// detect available players
+		this.detectPlayers();
+		return this.mediaPlayers;
 	},
 
 	/**
@@ -3552,13 +3557,11 @@ mw.EmbedTypes = {
 	/**
 	 * Detects what plug-ins the client supports
 	 */
-	detect: function() {
-		mw.log( "embedPlayer: running detect" );
-		this.players = new mediaPlayers();
+	detectPlayers: function() {
+		mw.log( "embedPlayer: running detect" );		
 		// every browser supports html rendering:
-		this.players.addPlayer( htmlPlayer );
-		// In Mozilla, navigator.javaEnabled() only tells us about preferences,
-		// we need to
+		this.mediaPlayers.addPlayer( htmlPlayer );
+		// In Mozilla, navigator.javaEnabled() only tells us about preferences, we need to
 		// search navigator.mimeTypes to see if it's installed
 		try{
 			var javaEnabled = navigator.javaEnabled();
@@ -3569,34 +3572,33 @@ mw.EmbedTypes = {
 		var uniqueMimesOnly = $j.browser.opera || $j.browser.safari;
 
 		// Opera will switch off javaEnabled in preferences if java can't be
-		// found.
-		// And it doesn't register an application/x-java-applet mime type like
+		// found. And it doesn't register an application/x-java-applet mime type like
 		// Mozilla does.
 		if ( javaEnabled && ( navigator.appName == 'Opera' ) ) {
-			this.players.addPlayer( cortadoPlayer );
+			this.mediaPlayers.addPlayer( cortadoPlayer );
 		}
 
 		// ActiveX plugins
 		if ( $j.browser.msie ) {
 			// check for flash
 			if ( this.testActiveX( 'ShockwaveFlash.ShockwaveFlash' ) ) {
-				this.players.addPlayer( kplayer );
-				// this.players.addPlayer( flowPlayer );
+				this.mediaPlayers.addPlayer( kplayer );
+				// this.mediaPlayers.addPlayer( flowPlayer );
 			}
 			 // VLC
 			 if ( this.testActiveX( 'VideoLAN.VLCPlugin.2' ) ) {
-				 this.players.addPlayer( vlcPlayer );
+				 this.mediaPlayers.addPlayer( vlcPlayer );
 			 }
 
 			 // Java ActiveX
 			 if ( this.testActiveX( 'JavaWebStart.isInstalled' ) ) {
-				 this.players.addPlayer( cortadoPlayer );
+				 this.mediaPlayers.addPlayer( cortadoPlayer );
 			 }
 
 			 // quicktime (currently off)
 			 // if ( this.testActiveX(
 				// 'QuickTimeCheckObject.QuickTimeCheck.1' ) )
-			 // this.players.addPlayer(quicktimeActiveXPlayer);
+			 // this.mediaPlayers.addPlayer(quicktimeActiveXPlayer);
 		 }
 		// <video> element
 		if ( typeof HTMLVideoElement == 'object' // Firefox, Safari
@@ -3608,26 +3610,26 @@ mw.EmbedTypes = {
 				if( dummyvid.canPlayType ) {
 					// Add the webm player
 					if( dummyvid.canPlayType('video/webm; codecs="vp8, vorbis"') ){
-						this.players.addPlayer( webmNativePlayer );
+						this.mediaPlayers.addPlayer( webmNativePlayer );
 					}
 
 					// Test for h264:
 					if ( dummyvid.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"' ) ) {
-						this.players.addPlayer( h264NativePlayer );
+						this.mediaPlayers.addPlayer( h264NativePlayer );
 					}
 					// For now if Android assume we support h264Native (FIXME
 					// test on real devices )
 					if ( mw.isAndroid2() ){
-						this.players.addPlayer( h264NativePlayer );
+						this.mediaPlayers.addPlayer( h264NativePlayer );
 					}
 
 					// Test for ogg
 					if ( dummyvid.canPlayType( 'video/ogg; codecs="theora,vorbis"' ) ) {
-						this.players.addPlayer( oggNativePlayer );
+						this.mediaPlayers.addPlayer( oggNativePlayer );
 					// older versions of safari do not support canPlayType,
 				  	// but xiph qt registers mimetype via quicktime plugin
 					} else if ( this.supportedMimeType( 'video/ogg' ) ) {
-						this.players.addPlayer( oggNativePlayer );
+						this.mediaPlayers.addPlayer( oggNativePlayer );
 					}
 				}
 			} catch ( e ) {
@@ -3650,43 +3652,43 @@ mw.EmbedTypes = {
 					pluginName = '';
 				}
 				if ( pluginName.toLowerCase() == 'vlc multimedia plugin' || pluginName.toLowerCase() == 'vlc multimedia plug-in' ) {
-					this.players.addPlayer( vlcPlayer );
+					this.mediaPlayers.addPlayer( vlcPlayer );
 					continue;
 				}
 
 				if ( type == 'application/x-java-applet' ) {
-					this.players.addPlayer( cortadoPlayer );
+					this.mediaPlayers.addPlayer( cortadoPlayer );
 					continue;
 				}
 
 				if ( (type == 'video/mpeg' || type == 'video/x-msvideo') &&
 					pluginName.toLowerCase() == 'vlc multimedia plugin' ) {
-					this.players.addPlayer( vlcMozillaPlayer );
+					this.mediaPlayers.addPlayer( vlcMozillaPlayer );
 				}
 
 				if ( type == 'application/ogg' ) {
 					if ( pluginName.toLowerCase() == 'vlc multimedia plugin' ) {
-						this.players.addPlayer( vlcMozillaPlayer );
+						this.mediaPlayers.addPlayer( vlcMozillaPlayer );
 					// else if ( pluginName.indexOf( 'QuickTime' ) > -1 )
-					// this.players.addPlayer(quicktimeMozillaPlayer);
+					// this.mediaPlayers.addPlayer(quicktimeMozillaPlayer);
 					} else {
-						this.players.addPlayer( oggPluginPlayer );
+						this.mediaPlayers.addPlayer( oggPluginPlayer );
 					}
 					continue;
 				} else if ( uniqueMimesOnly ) {
 					if ( type == 'application/x-vlc-player' ) {
-						this.players.addPlayer( vlcMozillaPlayer );
+						this.mediaPlayers.addPlayer( vlcMozillaPlayer );
 						continue;
 					} else if ( type == 'video/quicktime' ) {
-						// this.players.addPlayer(quicktimeMozillaPlayer);
+						// this.mediaPlayers.addPlayer(quicktimeMozillaPlayer);
 						continue;
 					}
 				}
 
 				if ( type == 'application/x-shockwave-flash' ) {
 
-					this.players.addPlayer( kplayer );
-					// this.players.addPlayer( flowPlayer );
+					this.mediaPlayers.addPlayer( kplayer );
+					// this.mediaPlayers.addPlayer( flowPlayer );
 
 					// check version to add omtk:
 					if( navigator.plugins["Shockwave Flash"] ){
@@ -3703,7 +3705,7 @@ mw.EmbedTypes = {
 
 		// Allow extensions to detect and add their own "players"
 		mw.log("trigger::embedPlayerUpdateMediaPlayersEvent");
-		$j( mw ).trigger( 'embedPlayerUpdateMediaPlayersEvent' , this.players );
+		$j( mw ).trigger( 'embedPlayerUpdateMediaPlayersEvent' , this.mediaPlayers );
 
 	},
 

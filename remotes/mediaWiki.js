@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r186';
+var mwRemoteVersion = 'r187';
 
 // Log the mwRemote version makes it easy to debug cache issues
 if( window.console ){
@@ -75,8 +75,8 @@ mw.setConfig( 'EmbedPlayer.KalturaAttribution', true );
 // The sequencer clips should include attribution 'edit sequence' link on pause
 mw.setConfig( 'Sequencer.KalturaPlayerEditOverlay', true );
 
-// If the swarm p2p transport stream should be used for clients that have it installed
-mw.setConfig( 'SwarmTransport.Enable', true );
+// If the p2p next transports if the clients has them installed
+mw.setConfig( 'P2PNextTransport.Enable', true );
 
 // Sequencer should only load asset from upload.wikimedia.org:
 mw.setConfig( 'SmilPlayer.AssetDomainWhiteList', ['upload.wikimedia.org'] );
@@ -389,8 +389,8 @@ function mwLoadPlayer( callback ){
 		'mw.TimedText',
 		'mw.style.TimedText',
 
-		// mwSwarmTransport module
-		'mw.SwarmTransport',
+		// P2PNextTransport module
+		'mw.P2PNextTransport',
 
 		// Sequencer remote:
 		'mw.MediaWikiRemoteSequencer',
@@ -676,6 +676,9 @@ function mwGetReqArgs() {
 * 	classSet saves round trips to the server by grabbing things we will likely need in the first request.
 * @param {callback} function callback to be called once mwEmbed is ready
 */
+var mwAlreadyRequestedUi = false;
+var mwQueuedLoadMwEmbedFunctions = [];
+var mwForceUiComponents = '$j.ui,$j.widget,$j.ui.mouse,$j.ui.button,$j.ui.draggable,$j.ui.position,$j.ui.resizable,$j.ui.slider,$j.ui.dialog';
 function loadMwEmbed( classSet, callback ) {
 	if( typeof classSet == 'function') {
 		callback = classSet;
@@ -684,10 +687,16 @@ function loadMwEmbed( classSet, callback ) {
 		mw.load( classSet, callback);
 		return ;
 	}
+	if( mwAlreadyRequestedUi !== false ){
+		mwQueuedLoadMwEmbedFunctions.push(function(){
+			mw.load( classSet, callback);
+		});
+	}
 	var doLoadMwEmbed = function(){
 		// Inject mwEmbed
 		var rurl = mwEmbedHostPath + '/ResourceLoader.php?class=';
-
+		var classRequest = '';
+		
 		var coma = '';
 		// Add jQuery too if we need it:
 		if ( typeof window.jQuery == 'undefined'
@@ -695,25 +704,46 @@ function loadMwEmbed( classSet, callback ) {
 			// force load jquery if version 1.3.2 ( issues with '1.3.2' .data handling )
 			jQuery.fn.jquery == '1.3.2')
 		{
-			rurl += 'window.jQuery';
+			classRequest += 'window.jQuery';
 			coma = ',';
 		}
 		// Add Core mwEmbed lib ( if not already defined )
 		if( typeof MW_EMBED_VERSION == 'undefined' ){
-			rurl += coma + 'mwEmbed,mw.style.mwCommon';
+			classRequest += coma + 'mwEmbed,mw.style.mwCommon';
 			coma = ',';
 		}
-
+		// Force any ui components: 
+		if( !mwAlreadyRequestedUi){
+			classRequest += coma + mwForceUiComponents;
+			mwAlreadyRequestedUi = true;
+		}
+		
 		// Add requested classSet to scriptLoader request
 		for( var i=0; i < classSet.length; i++ ){
 			var cName = classSet[i];
-			// always include our version of the library ( too many crazy conflicts with old library versions )
-			rurl += ',' + cName;
+			// don't load ui compoents force loaded above
+			if(! mwIsset( cName )  && cName.indexOf( '$j.ui') == -1 ){
+				classRequest += ',' + cName;
+			}
 		}
+		
+		// Check for empty class request
+		if( classRequest == ''){
+			if( callback )
+				callback();
+			return ;
+		}
+		// Add class request and any custom arguments
+		rurl += classRequest + '&' + mwGetReqArgs();
 
-		// Add the remaining arguments
-		rurl += '&' + mwGetReqArgs();
-		$j.getScript( rurl,  callback);
+		$j.getScript( rurl,  function(){
+			if( callback )
+				callback();
+			// Run any queued requests: 
+			while( mwQueuedLoadMwEmbedFunctions.length ){
+				mwQueuedLoadMwEmbedFunctions.shift()();
+			}
+		});
 	};
 	
 	// Wait for jQuery ui to be loaded ( so that we can override it ) 
@@ -734,6 +764,32 @@ function loadMwEmbed( classSet, callback ) {
 	};
 	waitForJqueryUi();
 }
+
+/**
+ * Similar to php isset function checks if the variable exists. Does a safe
+ * check of a descendant method or variable
+ * 
+ * @param {String}
+ *            objectPath
+ * @return {Boolean} true if objectPath exists false if objectPath is
+ *         undefined
+ */
+mwIsset = function( objectPath ) {
+	if ( !objectPath || typeof objectPath != 'string') {
+		return false;
+	}
+	var pathSet = objectPath.split( '.' );
+	var cur_path = '';
+
+	for ( var p = 0; p < pathSet.length; p++ ) {
+		cur_path = ( cur_path == '' ) ? cur_path + pathSet[p] : cur_path + '.' + pathSet[p];
+		eval( 'var ptest = typeof ( ' + cur_path + ' ); ' );
+		if ( ptest == 'undefined' ) {
+			return false;
+		}
+	}
+	return true;
+};
 
 /**
  * Check if the gadget is installed
