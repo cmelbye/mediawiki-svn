@@ -26,6 +26,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+if ( version_compare( $wgVersion, '1.17', '<' ) ) {
+	die( '<b>Error:</b> This version of Semantic Maps requires MediaWiki 1.17 or above; use Maps 0.7.x for older versions.' );
+}
+
 // Show a warning if Maps is not loaded.
 if ( ! defined( 'Maps_VERSION' ) ) {
 	die( '<b>Error:</b> You need to have <a href="http://www.mediawiki.org/wiki/Extension:Maps">Maps</a> installed in order to use <a href="http://www.mediawiki.org/wiki/Extension:Semantic Maps">Semantic Maps</a>.<br />' );
@@ -38,12 +42,10 @@ if ( ! defined( 'SMW_VERSION' ) ) {
 
 // Only initialize the extension when all dependencies are present.
 if ( defined( 'Maps_VERSION' ) && defined( 'SMW_VERSION' ) ) {
-	define( 'SM_VERSION', '0.7.4 alpha' );
+	define( 'SM_VERSION', '0.8 alpha' );
 
-	$useExtensionPath = version_compare( $wgVersion, '1.16', '>=' ) && isset( $wgExtensionAssetsPath ) && $wgExtensionAssetsPath;
-	$smgScriptPath 	= ( $useExtensionPath ? $wgExtensionAssetsPath : $wgScriptPath . '/extensions' ) . '/SemanticMaps';	
+	$smgScriptPath 	= $wgExtensionAssetsPath . '/SemanticMaps';	
 	$smgDir 		= dirname( __FILE__ ) . '/';
-	unset( $useExtensionPath );
 
 	$smgStyleVersion = $wgStyleVersion . '-' . SM_VERSION;
 
