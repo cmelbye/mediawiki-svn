@@ -318,10 +318,12 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @see ResourceLoaderModule::getFileDependencies
 	 */
 	public function getModifiedTime( ResourceLoaderContext $context ) {
+		
 		if ( isset( $this->modifiedTime[$context->getHash()] ) ) {
 			return $this->modifiedTime[$context->getHash()];
 		}
 		wfProfileIn( __METHOD__ );
+
 		
 		$files = array();
 		
@@ -338,7 +340,6 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		foreach ( $skinFiles as $styleFiles ) {
 			$files = array_merge( $files, $styleFiles );
 		}
-		
 		// Final merge, this should result in a master list of dependent files
 		$files = array_merge(
 			$files,
@@ -348,10 +349,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' ),
 			$this->loaderScripts
 		);
+
 		$files = array_map( array( $this, 'getLocalPath' ), $files );
 		// File deps need to be treated separately because they're already prefixed
 		$files = array_merge( $files, $this->getFileDependencies( $context->getSkin() ) );
-		
 		// If a module is nothing but a list of dependencies, we need to avoid 
 		// giving max() an empty array
 		if ( count( $files ) === 0 ) {
@@ -486,7 +487,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @return String: CSS data in script file
 	 */
 	protected function readStyleFile( $path, $flip ) {	
-		$localPath = $this->getLocalPath( $path );
+		$localPath = $this->getLocalPath( $path ); 
 		$style = file_get_contents( $localPath );
 		if ( $style === false ) {
 			throw new MWException( __METHOD__.": style file not found: \"$localPath\"" );

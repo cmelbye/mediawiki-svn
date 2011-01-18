@@ -1272,9 +1272,9 @@ window.mediaWiki = new ( function( $ ) {
 
 /* Auto-register from pre-loaded startup scripts */
 
-if ( typeof startUp === 'function' ) {
-	startUp();
-	delete startUp;
+if ( typeof mwStartUp === 'function' ) {
+	mwStartUp();
+	delete mwStartUp;
 }
 
 // Add jQuery Cookie to initial payload (used in mediaWiki.user)

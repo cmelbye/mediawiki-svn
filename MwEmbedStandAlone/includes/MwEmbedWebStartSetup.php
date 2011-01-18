@@ -59,7 +59,13 @@ if ( $IP === false ) {
 
 
 # Start the autoloader, so that extensions can derive classes from core files
-require_once( "$IP/includes/mwEmbedAutoLoader.php" );
+require_once( "$IP/includes/MwEmbedAutoLoader.php" );
+
+# Include the mediaWiki stubs.php file ( will stub out un-needed functionality from mediaWiki
+require_once( "$IP/includes/MwEmbedMediaWikiStubs.php" );
+
+# Include global mediaWiki functions
+require_once( "$IP/includes/MwEmbedMediaWikiGlobalFunctions.php" );
 
 # Load default settings
 require_once( "$IP/includes/DefaultSettings.php" );
@@ -77,3 +83,10 @@ if( !file_exists( MW_CONFIG_FILE ) ) {
 
 # Load local settings
 require_once( "$IP/LocalSettings.php" );
+
+# Include utility files: 
+require_once( "$IP/includes/Hooks.php");
+
+# Create the wgRequest global: 
+$wgRequest = new WebRequest;
+

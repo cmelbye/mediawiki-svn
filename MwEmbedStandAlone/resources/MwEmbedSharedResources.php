@@ -3,24 +3,7 @@
 return array(
 
 	/* Special resources who have their own classes */
-
-	'site' => array( 'class' => 'ResourceLoaderSiteModule' ),
-	'startup' => array( 'class' => 'ResourceLoaderStartUpModule' ),
-	'user' => array( 'class' => 'ResourceLoaderUserModule' ),
-	'user.options' => array( 'class' => 'ResourceLoaderUserOptionsModule' ),
-
-	/* Skins */
-
-	'skins.vector' => array(
-		'styles' => array( 'skins/vector/screen.css' => array( 'media' => 'screen' ) ),
-	),
-	'skins.monobook' => array(
-		'styles' => array(
-			'skins/monobook/main.css' => array( 'media' => 'screen' ),
-			// Honor $wgHandheldStyle. This is kind of evil
-			//$GLOBALS['wgHandheldStyle'] => array( 'media' => 'handheld' ),
-		),
-	),
+	'startup' => array( 'class' => 'MwEmbedResourceLoaderStartUpModule' ),
 
 	/* jQuery */
 
@@ -341,39 +324,15 @@ return array(
 		'debugScripts' => 'resources/mediawiki/mediawiki.log.js',
 		'debugRaw' => false
 	),
+	/*
 	'mediawiki.util' => array(
 		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
 		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client', 'jquery.cookie', 'jquery.placeholder', 'jquery.makeCollapsible' ),
 		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
 	),
-	'mediawiki.action.history' => array(
-		'scripts' => 'resources/mediawiki.action/mediawiki.action.history.js',
-		'dependencies' => 'mediawiki.legacy.history',
-	),
-	'mediawiki.action.view.rightClickEdit' => array(
-		'scripts' => 'resources/mediawiki.action/mediawiki.action.view.rightClickEdit.js',
-	),
-	'mediawiki.action.watch.ajax' => array(
-		'scripts' => 'resources/mediawiki.action/mediawiki.action.watch.ajax.js',
-		'dependencies' => 'mediawiki.util',
-	),
-	'mediawiki.special.preferences' => array(
-		'scripts' => 'resources/mediawiki.special/mediawiki.special.preferences.js',
-		'styles' => 'resources/mediawiki.special/mediawiki.special.preferences.css',
-		'messages' => array( 'email-address-validity-valid', 'email-address-validity-invalid' ),
-	),
-	'mediawiki.special.changeslist' => array(
-		'styles' => 'resources/mediawiki.special/mediawiki.special.changeslist.css',
-		'dependencies' => array( 'jquery.makeCollapsible' ),
-	),
-	'mediawiki.special.search' => array(
-		'scripts' => 'resources/mediawiki.special/mediawiki.special.search.js',
-	),
-	'mediawiki.special.upload' => array(
-		// @todo: merge in remainder of mediawiki.legacy.upload
-		'scripts' => 'resources/mediawiki.special/mediawiki.special.upload.js',
-		'messages' => array( 'widthheight', 'size-bytes', 'size-kilobytes', 'size-megabytes', 'size-gigabytes' ),
-	),
+	*/
+
+	
 	'mediawiki.language' => array(
 		'scripts' => 'resources/mediawiki.language/mediawiki.language.js',
 		'languageScripts' => array(
@@ -425,7 +384,7 @@ return array(
 		),
 	),
 
-	'mediawiki.language.parser' => new ResourceLoaderFileModule( array(
+	'mediawiki.language.parser' => new MwEmbedResourceLoaderFileModule( array(
 		'scripts' => 'resources/mediawiki.language/mediawiki.language.parser.js',
 		'dependencies' => array( 'mediawiki.language', 'mediawiki.util' ),
 		'debugScripts' => 'resources/mediawiki.language/mediawiki.language.parserTest.js',
@@ -434,97 +393,4 @@ return array(
 		'messages' => array( 'undelete_short', 'category-subcat-count' )
 	) ),
 	
-	
-	/* mediawiki Legacy */
-
-	'mediawiki.legacy.ajax' => array(
-		'scripts' => 'skins/common/ajax.js',
-		'messages' => array(
-			'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch', 'tooltip-ca-unwatch',
-		),
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.block' => array(
-		'scripts' => 'skins/common/block.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.commonPrint' => array(
-		'styles' => array( 'skins/common/commonPrint.css' => array( 'media' => 'print' ) ),
-	),
-	'mediawiki.legacy.config' => array(
-		'scripts' => 'skins/common/config.js',
-		'styles' => array( 'skins/common/config.css', 'skins/common/config-cc.css' ),
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.diff' => array(
-		'scripts' => 'skins/common/diff.js',
-		'styles' => 'skins/common/diff.css',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.edit' => array(
-		'scripts' => 'skins/common/edit.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.history' => array(
-		'scripts' => 'skins/common/history.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.htmlform' => array(
-		'scripts' => 'skins/common/htmlform.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.IEFixes' => array(
-		'scripts' => 'skins/common/IEFixes.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.metadata' => array(
-		'scripts' => 'skins/common/metadata.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-		'messages' => array( 'metadata-expand', 'metadata-collapse' ),
-	),
-	'mediawiki.legacy.mwsuggest' => array(
-		'scripts' => 'skins/common/mwsuggest.js',
-		'dependencies' => array( 'mediawiki.legacy.wikibits', 'jquery.client' ),
-		'messages' => array( 'search-mwsuggest-enabled', 'search-mwsuggest-disabled' ),
-	),
-	'mediawiki.legacy.password' => array(
-		'scripts' => 'skins/common/password.js',
-		'styles' => 'skins/common/password.css',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.prefs' => array(
-		'scripts' => 'skins/common/prefs.js',
-		'dependencies' => array( 'mediawiki.legacy.wikibits', 'mediawiki.legacy.htmlform' ),
-	),
-	'mediawiki.legacy.preview' => array(
-		'scripts' => 'skins/common/preview.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.protect' => array(
-		'scripts' => 'skins/common/protect.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.search' => array(
-		'scripts' => 'skins/common/search.js',
-		'styles' => 'skins/common/search.css',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.shared' => array(
-		'styles' => array( 'skins/common/shared.css' => array( 'media' => 'screen' ) ),
-	),
-	'mediawiki.legacy.oldshared' => array(
-		'styles' => array( 'skins/common/oldshared.css' => array( 'media' => 'screen' ) ),
-	),
-	'mediawiki.legacy.upload' => array(
-		'scripts' => 'skins/common/upload.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.wikibits' => array(
-		'scripts' => 'skins/common/wikibits.js',
-		'dependencies' => 'mediawiki.language',
-		'messages' => array( 'showtoc', 'hidetoc' ),
-	),
-	'mediawiki.legacy.wikiprintable' => array(
-		'styles' => array( 'skins/common/wikiprintable.css' => array( 'media' => 'print' ) ),
-	),
 );

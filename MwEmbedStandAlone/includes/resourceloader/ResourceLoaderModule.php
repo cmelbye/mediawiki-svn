@@ -147,6 +147,7 @@ abstract class ResourceLoaderModule {
 	 * @return Array: List of files
 	 */
 	public function getFileDependencies( $skin ) {
+		print_r( debug_backtrace() );
 		// Try in-object cache first
 		if ( isset( $this->fileDeps[$skin] ) ) {
 			return $this->fileDeps[$skin];

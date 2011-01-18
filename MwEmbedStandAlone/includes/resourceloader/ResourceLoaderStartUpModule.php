@@ -146,7 +146,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 
 	public function getScript( ResourceLoaderContext $context ) {
 		global $IP, $wgLoadScript;
-
 		$out = file_get_contents( "$IP/resources/startup.js" );
 		if ( $context->getOnly() === 'scripts' ) {
 			// Build load query for jquery and mediawiki modules
@@ -167,19 +166,18 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			// Startup function
 			$configuration = $this->getConfig( $context );
 			$registrations = self::getModuleRegistrations( $context );
-			$out .= "var startUp = function() {\n" . 
+			$out .= "var mwStartUp = function() {\n" . 
 				"\t$registrations\n" . 
 				"\t" . Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) ) . 
 				"};\n";
 			
 			// Conditional script injection
 			$scriptTag = Html::linkedScript( $wgLoadScript . '?' . wfArrayToCGI( $query ) );
-			$out .= "if ( isCompatible() ) {\n" . 
+			$out .= "if ( mwIsCompatible() ) {\n" . 
 				"\t" . Xml::encodeJsCall( 'document.write', array( $scriptTag ) ) . 
 				"}\n" . 
 				"delete isCompatible;";
-		}
-
+		}	
 		return $out;
 	}
 

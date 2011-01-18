@@ -62,7 +62,7 @@ class ResourceLoader {
 		// Get file dependency information
 		$res = $dbr->select( 'module_deps', array( 'md_module', 'md_deps' ), array(
 				'md_module' => $modules,
-				'md_skin' => $context->getSkin()
+				'md_skin' => $skin,
 			), __METHOD__
 		);
 
@@ -196,7 +196,6 @@ class ResourceLoader {
 	 */
 	public function register( $name, $info = null ) {
 		wfProfileIn( __METHOD__ );
-
 		// Allow multiple modules to be registered in one call
 		if ( is_array( $name ) ) {
 			foreach ( $name as $key => $value ) {
@@ -211,6 +210,14 @@ class ResourceLoader {
 			throw new MWException(
 				'ResourceLoader duplicate registration error. ' . 
 				'Another module has already been registered as ' . $name
+			);
+		}
+		
+		// Check empty names register calls
+		if ( trim( $name ) == '' ) {
+			// Trying to register module with empty name
+			throw new MWException(
+				'ResourceLoader empty module name registration error'
 			);
 		}
 
@@ -249,7 +256,7 @@ class ResourceLoader {
 	 * @param $name String: Module name
 	 * @return Mixed: ResourceLoaderModule if module has been registered, null otherwise
 	 */
-	public function getModule( $name ) {
+	public function getModule( $name ) {		
 		if ( !isset( $this->modules[$name] ) ) {
 			if ( !isset( $this->moduleInfos[$name] ) ) {
 				// No such module
@@ -265,7 +272,7 @@ class ResourceLoader {
 					$class = 'ResourceLoaderFileModule';
 				} else {
 					$class = $info['class'];
-				}
+				}				
 				$object = new $class( $info );
 			}
 			$object->setName( $name );
@@ -326,7 +333,6 @@ class ResourceLoader {
 			// Add exception to the output as a comment
 			$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 		}
-
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
 
 		// To send Last-Modified and support If-Modified-Since, we need to detect 
@@ -345,7 +351,6 @@ class ResourceLoader {
 				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 			}
 		}
-
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
 
 		if ( $context->getOnly() === 'styles' ) {
@@ -391,10 +396,9 @@ class ResourceLoader {
 				return;
 			}
 		}
-		
+
 		// Generate a response
 		$response = $this->makeModuleResponse( $context, $modules, $missing );
-		
 		// Prepend comments indicating exceptions
 		$response = $exceptions . $response;
 

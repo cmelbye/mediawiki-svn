@@ -1,6 +1,6 @@
 <?php
 /**
- * This defines autoloading handler for whole MediaWiki framework
+ * This defines autoloading handler for ( mwEmbed ) framework
  *
  * @file
  */
@@ -14,11 +14,21 @@ global $wgAutoloadLocalClasses;
 
 $wgAutoloadLocalClasses = array(
 
+	# Files copied without modification from mediaWiki
 	'ResourceLoader' => 'includes/resourceloader/ResourceLoader.php',
 	'ResourceLoaderContext' => 'includes/resourceloader/ResourceLoaderContext.php',
 	'ResourceLoaderModule' => 'includes/resourceloader/ResourceLoaderModule.php',
 	'ResourceLoaderFileModule' => 'includes/resourceloader/ResourceLoaderFileModule.php',
 	'ResourceLoaderStartUpModule' => 'includes/resourceloader/ResourceLoaderStartUpModule.php',
+
+	'CSSJanus' => 'includes/libs/CSSJanus.php',
+	'CSSMin' => 'includes/libs/CSSMin.php',
+	'JSMin' => 'includes/libs/JSMin.php',
+
+	# MwEmbed files ( that get autoloaded ):
+	'MwEmbedResourceLoader' => 'includes/MwEmbedResourceLoader.php',
+	'MwEmbedResourceLoaderFileModule' => 'includes/MwEmbedResourceLoaderFileModule.php',
+	'MwEmbedResourceLoaderStartUpModule' => 'includes/MwEmbedResourceLoaderStartUpModule.php',
 
 );
 

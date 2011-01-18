@@ -14,21 +14,35 @@ $wgScriptCacheDirectory = realpath( dirname( __FILE__ ) ) . '/cache';
  * Guess at URL to resource loader load.php 
  */
 $wgResourceLoaderUrl = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
-$wgResourceLoaderUrl.= 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['PATH_INFO'] . '/load.php';
-
+$wgResourceLoaderUrl.= '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/load.php';
+$wgLoadScript = $wgResourceLoaderUrl;
 // The list of enabled modules 
 $wgMwEmbedEnabledModules = array();
-
 // By default we enable every module in the "modules" folder
-// We include /modules/{moduleName}/{moduleName}.php after localsettings.php to give a chance 
+// Modules are registered after localsettings.php to give a chance 
 // for local configuration to override the set of enabled modules
-
 $d = dir( realpath( dirname( __FILE__ ) )  . '/../modules' );	
 while (false !== ($entry = $d->read())) {
 	if( substr( $entry, 0, 1 ) != '.' ){
 		$wgMwEmbedEnabledModules[] = $entry;
 	}
 }
+
+/**
+ * Client-side resource modules. Extensions should add their module definitions
+ * here. The mwEmbed
+ *
+ * Example:
+ *   $wgResourceModules['ext.myExtension'] = array(
+ *      'scripts' => 'myExtension.js',
+ *      'styles' => 'myExtension.css',
+ *      'dependencies' => array( 'jquery.cookie', 'jquery.tabIndex' ),
+ *      'localBasePath' => dirname( __FILE__ ),
+ *      'remoteExtPath' => 'MyExtension',
+ *   );
+ */
+$wgResourceModules = array();
+
 
 /*********************************************************
  * Default Kaltura Configuration: 

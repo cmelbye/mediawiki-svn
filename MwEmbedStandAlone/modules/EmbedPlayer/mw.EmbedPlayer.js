@@ -782,53 +782,54 @@ mediaSource.prototype = {
 	 */
 	detectType: function( uri ) {
 		// NOTE: if media is on the same server as the javascript
-		// we can issue a HEAD request and read the mime type of the media ...
-		// ( this will detect media mime type independently of the url name)
+		// we can issue a HEAD request and read the mime type of the media...
+		// ( this will detect media mime type independently of the url name )
 		// http://www.jibbering.com/2002/4/httprequest.html
-		var end_inx = ( uri.indexOf( '?' ) != -1 ) ? uri.indexOf( '?' ) : uri.length;
-		var no_param_uri = uri.substr( 0, end_inx );
-		switch( no_param_uri.substr( no_param_uri.lastIndexOf( '.' )+1 ).toLowerCase() ) {
+		var urlParts =  mw.parseUri( uri );
+		// Get the extension from the url or from the relative name: 
+		var ext = ( urlParts.file )? urlParts.file.substr( -4 ) : uri.substr( -4 );
+		switch( ext.toLowerCase() ) {
 			case 'smil':
-			case 'sml':
-				return 'application/smil'
+			case '.sml':
+				return 'application/smil';
 			break;
-			case 'm4v':
-			case 'mp4':
-			case 'mov':
+			case '.m4v':
+			case '.mp4':
 				return 'video/h264';
 			break;
 			case 'webm':
 				return 'video/webm';
 			break;
-			case 'srt':
+			case '.srt':
 				return 'text/x-srt';
 			break;
-			case 'flv':
+			case '.flv':
 				return 'video/x-flv';
 			break;
-			case 'ogg':
-			case 'ogv':
+			case '.ogg':
+			case '.ogv':
 				return 'video/ogg';
 			break;
-			case 'oga':
+			case '.oga':
 				return 'audio/ogg';
 			break;
-			case 'anx':
+			case '.anx':
 				return 'video/ogg';
 			break;
-			case 'xml':
+			case '.xml':
 				return 'text/xml';
 			break;
-			case 'avi':
+			case '.avi':
 				return 'video/x-msvideo';
 			break;
-			case 'mpg':
+			case '.mpg':
 				return 'video/mpeg';
 			break;
-			case 'mpeg':
+			case '.mpeg':
 				return 'video/mpeg';
 			break;
 		}
+		mw.log( "Error: could not detect type of media src: " + uri );
 	}
 };
 
