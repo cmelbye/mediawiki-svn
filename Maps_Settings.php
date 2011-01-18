@@ -248,6 +248,10 @@ $egMapsUseRL = false; //method_exists( 'OutputPage', 'addModules' );
 		# Google Geocoder services.
 		$egGoogleMapsKey = ''; # http://code.google.com/apis/maps/signup.html
 		
+		# If your wiki is accessable via multiple urls, you'll need multiple keys.
+		# Example: $egGoogleMapsKeys['http://yourdomain.tld/something'] = 'your key';
+		$egGoogleMapsKeys = array();
+		
 		# Integer. The default zoom of a map. This value will only be used when the
 		# user does not provide one.
 		$egMapsGoogleMapsZoom = 14;
