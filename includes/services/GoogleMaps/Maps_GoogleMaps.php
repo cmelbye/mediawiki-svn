@@ -134,6 +134,15 @@ class MapsGoogleMaps extends MapsMappingService {
 	}
 
 	/**
+	 * @see MapsMappingService::getMapObject
+	 * 
+	 * @since 0.8
+	 */
+	public function getMapObject() {
+		
+	}
+	
+	/**
 	 * @see MapsMappingService::createMarkersJs
 	 * 
 	 * @since 0.6.5
@@ -211,7 +220,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	 */
 	protected function getDependencies() {
 		global $wgLang;
-		global $egGoogleMapsKeys, $egGoogleMapsKey, $egMapsStyleVersion, $egMapsScriptPath;
+		global $egGoogleMapsKeys, $egGoogleMapsKey;
 		
 		$langCode = self::getMappedLanguageCode( $wgLang->getCode() ); 
 		
@@ -302,14 +311,14 @@ class MapsGoogleMaps extends MapsMappingService {
 			'div',
 			array(
 				'class' => 'outer-more',
-				'id' => htmlspecialchars( "$mapName-outer-more" )
+				'id' => "$mapName-outer-more"
 			),
 			'<form action="">' .
 			Html::rawElement(
 				'div',
 				array(
 					'class' => 'more-box',
-					'id' => htmlspecialchars( "$mapName-more-box" )
+					'id' => "$mapName-more-box"
 				),
 				$overlayHtml
 			) .
@@ -320,7 +329,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	/**
 	 * @see MapsMappingService::getResourceModules
 	 * 
-	 * @since 0.7.4
+	 * @since 0.8
 	 * 
 	 * @return array of string
 	 */
@@ -334,7 +343,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	/**
 	 * Register the resource modules for the resource loader.
 	 * 
-	 * @since 0.7.4
+	 * @since 0.8
 	 * 
 	 * @param ResourceLoader $resourceLoader
 	 * 
@@ -346,10 +355,16 @@ class MapsGoogleMaps extends MapsMappingService {
 		$modules = array(
 			'ext.maps.googlemaps2' => array(
 				'scripts' =>   array(
-					'ext.maps.googlemaps2.js'
+					'ext.maps.googlemaps2.js',
+					'ext.maps.googlemaps2.css',
 				),
 				'messages' => array(
-					'maps-markers'
+					'maps-markers',
+					'maps_overlays',
+					'maps_photos',
+					'maps_videos',
+					'maps_wikipedia',
+					'maps_webcams'
 				)
 			),
 		);

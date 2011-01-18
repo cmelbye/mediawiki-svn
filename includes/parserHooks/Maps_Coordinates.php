@@ -131,7 +131,7 @@ class MapsCoordinates extends ParserHook {
 	/**
 	 * @see ParserHook::getDescription()
 	 * 
-	 * @since 0.7.4
+	 * @since 0.8
 	 */
 	public function getDescription() {
 		return wfMsg( 'maps-coordinates-description' );

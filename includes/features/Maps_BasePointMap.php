@@ -93,8 +93,6 @@ abstract class MapsBasePointMap {
 			$this->zoom = $this->service->getDefaultZoom();
 		}
 		
-		$this->markerJs = $this->service->createMarkersJs( $this->markerData );
-		
 		$this->addSpecificMapHTML( $parser );
 		
 		global $wgTitle;

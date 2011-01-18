@@ -18,11 +18,15 @@
      	new GLayer("com.google.webcams")
      ];
 
+	for ( mapName in window. ) {
+		
+	}
+	
      /**
       * Returns GMarker object on the provided location. It will show a popup baloon
       * with title and label when clicked, if either of these is set.
       */
-     function createGMarker( markerData ) {
+	function createGMarker( markerData ) {
      	var marker;
      	
      	if ( markerData.icon != '' ) {

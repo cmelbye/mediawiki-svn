@@ -113,16 +113,4 @@ interface iMappingService {
 	 */
 	function getMapId( $increment = true );
 
-	/**
-	 * Creates a JS array with marker meta data that can be used to construct a 
-	 * map with markers via a function in this services JS file.
-	 * 
-	 * @since 0.6.5
-	 * 
-	 * @param array $markers
-	 * 
-	 * @return string
-	 */	
-	function createMarkersJs( array $markers );	
-
 }
