@@ -142,17 +142,17 @@ class MapsGoogleMaps extends MapsMappingService {
 		$markerItems = array();
 
 		foreach ( $markers as $marker ) {
-			$markerItems[] = MapsMapper::encodeJsVar( (object)array(
+			$markerItems[] = array(
 				'lat' => $marker[0],
 				'lon' => $marker[1],
 				'title' => $marker[2],
 				'label' =>$marker[3],
 				'icon' => $marker[4]
-			) );
+			);
 		}
 		
-		// Create a string containing the marker JS.
-		return '[' . implode( ',', $markerItems ) . ']';
+		// Return a string containing the marker JS.
+		return json_encode( $markerItems );
 	}
 	
 	/**
@@ -211,15 +211,24 @@ class MapsGoogleMaps extends MapsMappingService {
 	 */
 	protected function getDependencies() {
 		global $wgLang;
-		global $egGoogleMapsKey, $egMapsStyleVersion, $egMapsScriptPath;
+		global $egGoogleMapsKeys, $egGoogleMapsKey, $egMapsStyleVersion, $egMapsScriptPath, $egMapsUseRL;
 		
 		$langCode = self::getMappedLanguageCode( $wgLang->getCode() ); 
 		
-		return array(
-			Html::linkedScript( "http://maps.google.com/maps?file=api&v=2&key=$egGoogleMapsKey&hl=$langCode" ),
-			Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps/GoogleMapFunctions.js?$egMapsStyleVersion" ),
-			Html::inlineScript( 'window.unload = GUnload; var msgOverlays = ' . Xml::encodeJsVar( wfMsg( 'maps_overlays' ) ) . ';' )
+		$dependencies = array();
+		
+		$dependencies[] = Html::inlineScript(
+			'var googleMapsKey = '. json_encode( $egGoogleMapsKey ) . ';' .
+			'var googleMapsKeys = '. json_encode( $egGoogleMapsKeys ) . ';'  .
+			'var googleLangCode = '. json_encode( $langCode ) . ';'
 		);
+		
+		if ( !$egMapsUseRL ) {
+			$dependencies[] = Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps/ext.maps.googlemaps2.js?$egMapsStyleVersion" );
+			$dependencies[] = Html::inlineScript( 'var msgOverlays = ' . Xml::encodeJsVar( wfMsg( 'maps_overlays' ) ) . ';' );
+		}
+		
+		return $dependencies;
 	}
 	
 	/**
@@ -294,32 +303,6 @@ class MapsGoogleMaps extends MapsMappingService {
 		$overlayHtml = '';
 		$onloadFunctions = array();
 		
-		foreach ( $overlays as $overlay => $isOn ) {
-			$overlay = strtolower( $overlay );
-			
-			if ( in_array( $overlay, $overlayNames ) ) {
-				if ( !in_array( $overlay, $addedOverlays ) ) {
-					$addedOverlays[] = $overlay;
-					$label = wfMsg( 'maps_' . $overlay );
-					$urlNr = self::$overlayData[$overlay];
-					
-					$overlayHtml .= Html::input(
-						"$mapName-overlay-box",
-						null,
-						'checkbox',
-						array(
-							'id' => "$mapName-overlay-box-$overlay",
-							'onclick' => "switchGLayer(GMaps['$mapName'], this.checked, GOverlays[$urlNr])"
-						)
-					) . htmlspecialchars( $label ) . '<br />' ;
-					
-					if ( $isOn ) {
-						$onloadFunctions[] = "addOnloadHook( function() { initiateGOverlay('$mapName-overlay-box-$overlay', '$mapName', $urlNr) } );";
-					}
-				}
-			}
-		}
-		
 		$output .= Html::rawElement(
 			'div',
 			array(
@@ -336,63 +319,55 @@ class MapsGoogleMaps extends MapsMappingService {
 				$overlayHtml
 			) .
 			'</form>'
-		);
-			
-		// If the overlays JS and CSS has not yet loaded, do it.
-		if ( empty( $egMapsGoogleOverlLoaded ) ) {
-			$egMapsGoogleOverlLoaded = true;
-			
-			$this->addDependency(
-				$this->getOverlayCss()
-				. Html::inlineScript( 'var timer_' . htmlspecialchars( $mapName ) . ';' . implode( "\n", $onloadFunctions ) )
-			);
-		}		
+		);	
 	}
 	
 	/**
-	 * Returns CSS for the overlays. 
+	 * @see MapsMappingService::getResourceModules
+	 * 
+	 * @since 0.7.4
+	 * 
+	 * @return array of string
 	 */
-	protected function getOverlayCss() {
-		return Html::inlineStyle( <<<EOT
-.inner-more {
-	text-align:center;
-	font-size:12px;
-	background-color: #fff;
-	color: #000;
-	border: 1px solid #fff;
-	border-right-color: #b0b0b0;
-	border-bottom-color: #c0c0c0;
-	width:7em;
-	cursor: pointer;
-}
-
-.inner-more.highlight {
-	font-weight: bold;
-	border: 1px solid #483D8B;
-	border-right-color: #6495ed;
-	border-bottom-color: #6495ed;
-} 
-
-.more-box {  position:absolute;
-	top:25px; left:0px;
-	margin-top:-1px;
-	font-size:12px;
-	padding: 6px 4px;
-	width:120px;
-	background-color: #fff;
-	color: #000;
-	border: 1px solid gray;
-	border-top:1px solid #e2e2e2;
-	display: none;
-	cursor:default;
-}
-
-.more-box.highlight {
-	width:119px;
-	border-width:2px;
-}
-EOT
+	protected function getResourceModules() {
+		return array_merge(
+			parent::getResourceModules(),
+			array( 'ext.maps.googlemaps2' )
 		);
 	}
+	
+	/**
+	 * Register the resource modules for the resource loader.
+	 * 
+	 * @since 0.7.4
+	 * 
+	 * @param ResourceLoader $resourceLoader
+	 * 
+	 * @return true
+	 */
+	public static function registerResourceLoaderModules( ResourceLoader &$resourceLoader ) {
+		global $egMapsScriptPath, $egMapsOLLayerModules;
+		
+		$modules = array(
+			'ext.maps.googlemaps2' => array(
+				'scripts' =>   array(
+					'ext.maps.googlemaps2.js'
+				),
+				'messages' => array(
+					'maps-markers'
+				)
+			),
+		);
+
+		foreach ( $modules as $name => $resources ) { 
+			$resourceLoader->register( $name, new ResourceLoaderFileModule(
+				array_merge_recursive( $resources, array( 'group' => 'ext.maps' ) ),
+				dirname( __FILE__ ),
+				$egMapsScriptPath . '/includes/services/GoogleMaps'
+			) ); 
+		}
+		
+		return true;		
+	}		
 	
 }								

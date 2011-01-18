@@ -32,35 +32,6 @@ final class MapsMapper {
 	}
 	
 	/**
-	 * Adds a string of JavaScript as dependency for a mapping service
-	 * after wrapping it in an onload hook and script tag. This is sort
-	 * of a hack, but it takes care of the difference between artciles
-	 * and special pages.
-	 * 
-	 * @since 0.7
-	 * 
-	 * @param iMappingService $service 
-	 * @param string $script
-	 */
-	public static function addInlineScript( iMappingService $service, $script ) {
-		static $addOnloadJs = false;
-		
-		if ( method_exists( 'OutputPage', 'addModules' ) && !$addOnloadJs ) {
-			global $egMapsScriptPath, $egMapsStyleVersion;
-			
-			$service->addDependency(
-				Html::linkedScript( "$egMapsScriptPath/includes/mapsonload.js?$egMapsStyleVersion" )
-			);
-			
-			$addOnloadJs = true;
-		} 		
-		
-		$service->addDependency( Html::inlineScript( 
-			( method_exists( 'OutputPage', 'addModules' ) ? 'addMapsOnloadHook' : 'addOnloadHook' ) . "( function() { $script } );"
-		) );
-	}
-	
-	/**
 	 * Encode a variable of unknown type to JavaScript.
 	 * Arrays are converted to JS arrays, objects are converted to JS associative
 	 * arrays (objects). So cast your PHP associative arrays to objects before

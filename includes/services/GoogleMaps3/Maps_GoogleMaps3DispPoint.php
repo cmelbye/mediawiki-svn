@@ -14,30 +14,13 @@ final class MapsGoogleMaps3DispPoint extends MapsBasePointMap {
 	 * @see MapsBaseMap::addSpecificMapHTML
 	 */
 	public function addSpecificMapHTML( Parser $parser ) {
-		$mapName = $this->service->getMapId();
-		
-		$this->output .= Html::element(
+		return Html::element(
 			'div',
 			array(
-				'id' => $mapName,
+				'id' => $this->service->getMapId(),
 				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;"
 			),
 			null
-		);
-		
-		MapsMapper::addInlineScript( $this->service, <<<EOT
-		initGMap3(
-			"$mapName",
-			{
-				zoom: $this->zoom,
-				lat: $this->centreLat,
-				lon: $this->centreLon,	
-				types: [],
-				mapTypeId: $this->type
-			},
-			$this->markerJs
-		);
-EOT
 		);
 	}
 	

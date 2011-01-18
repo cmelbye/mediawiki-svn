@@ -33,35 +33,10 @@ class MapsOpenLayersDispMap extends MapsBaseMap {
 	 * @since 0.7.3
 	 */
 	public function getMapHTML( array $params, Parser $parser ) {
-		global $wgLang, $egMapsUseRL;
-
-		$mapName = $this->service->getMapId();
-		
-		if ( !$egMapsUseRL ) {
-			$langCode = $wgLang->getCode();
-			$centreLat = MapsMapper::encodeJsVar( $params['centre']['lat'] );
-			$centreLon = MapsMapper::encodeJsVar( $params['centre']['lon'] );
-			$zoom = MapsMapper::encodeJsVar( $params['zoom'] );
-			
-			MapsMapper::addInlineScript( $this->service, <<<EOT
-			initOpenLayer(
-				"$mapName",
-				$centreLon,
-				$centreLat,
-				$zoom,
-				{$params['layers']},
-				[{$params['controls']}],
-				[],
-				"$langCode"
-			);
-EOT
-			);			
-		}
-
 		return Html::element(
 			'div',
 			array(
-				'id' => $mapName,
+				'id' => $this->service->getMapId(),
 				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )

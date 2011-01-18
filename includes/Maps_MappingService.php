@@ -50,24 +50,6 @@ abstract class MapsMappingService implements iMappingService {
 	protected $resourceModules = array();
 	
 	/**
-	 * A list of dependencies (header items) that have been added.
-	 * 
-	 * @since 0.6.3
-	 * 
-	 * @var array
-	 */
-	private $addedDependencies = array();
-	
-	/**
-	 * A list of dependencies (header items) that need to be added.
-	 * 
-	 * @since 0.6.3
-	 * 
-	 * @var array
-	 */
-	private $dependencies = array();
-	
-	/**
 	 * Constructor. Creates a new instance of MapsMappingService.
 	 * 
 	 * @since 0.6.3
@@ -114,60 +96,14 @@ abstract class MapsMappingService implements iMappingService {
 	 * @since 0.6.3
 	 */
 	public final function addDependencies( &$parserOrOut ) {
-		global $egMapsUseRL;
-		
-		$dependencies = $this->getDependencyHtml();
-		
 		// Only add a head item when there are dependencies.
 		if ( $parserOrOut instanceof Parser ) {
-			if ( $dependencies ) {
-				$parserOrOut->getOutput()->addHeadItem( $dependencies );
-			}
-			
-			if ( $egMapsUseRL /* method_exists( $parserOrOut->getOutput(), 'addModules' ) */ ) {
-				$parserOrOut->getOutput()->addModules( $this->getResourceModules() );
-			}
+			$parserOrOut->getOutput()->addModules( $this->getResourceModules() );
 		} 
 		else if ( $parserOrOut instanceof OutputPage ) { 
-			if ( $dependencies ) {
-				$parserOrOut->addHeadItem( md5( $dependencies ), $dependencies );
-			}
-			
-			if ( $egMapsUseRL /* method_exists( $parserOrOut, 'addModules' ) */ ) {
-				$parserOrOut->addModules( $this->getResourceModules() );
-			}
-		}			
-	}
-	
-	/**
-	 * @see iMappingService::getDependencyHtml 
-	 * 
-	 * @since 0.6.3
-	 */
-	public final function getDependencyHtml() {
-		$allDependencies = array_merge( $this->getDependencies(), $this->dependencies );
-		$dependencies = array();
-		
-		// Only add dependnecies that have not yet been added.
-		foreach ( $allDependencies as $dependency ) {
-			if ( !in_array( $dependency, $this->addedDependencies ) ) {
-				$dependencies[] = $dependency;
-				$this->addedDependencies[] = $dependency;
-			}
+			$parserOrOut->addModules( $this->getResourceModules() );
 		}
-		
-		// If there are dependencies, put them all together in a string, otherwise return false.
-		return count( $dependencies ) > 0 ? implode( '', $dependencies ) : false;
 	}
-	
-	/**
-	 * @see iMappingService::addDependency
-	 * 
-	 * @since 0.6.3
-	 */
-	public final function addDependency( $dependencyHtml ) {
-		$this->dependencies[] = $dependencyHtml;
-	}	
 	
 	/**
 	 * @see iMappingService::getName
@@ -218,17 +154,6 @@ abstract class MapsMappingService implements iMappingService {
 	 */
 	public function hasAlias( $alias ) {
 		return in_array( $alias, $this->aliases );
-	}
-	
-	/**
-	 * Returns a list of html fragments, such as script includes, the current service depends on.
-	 * 
-	 * @since 0.6.3
-	 * 
-	 * @return array
-	 */
-	protected function getDependencies() {
-		return array();
 	}
 	
 	/**

@@ -155,7 +155,7 @@ else {
  * @return true
  */
 function efMapsSetup() {
-	global $wgExtensionCredits, $wgLang, $wgExtraNamespaces, $wgNamespaceAliases, $wgVersion;
+	global $wgExtensionCredits, $wgLang, $wgExtraNamespaces, $wgNamespaceAliases;
 
 	if ( is_null( $wgExtraNamespaces ) ) {
 		$wgExtraNamespaces = array();
