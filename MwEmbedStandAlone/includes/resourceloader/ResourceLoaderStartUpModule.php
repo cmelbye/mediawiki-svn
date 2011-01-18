@@ -148,17 +148,21 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		global $IP, $wgLoadScript;
 		$out = file_get_contents( "$IP/resources/startup.js" );
 		if ( $context->getOnly() === 'scripts' ) {
+			// Get the latest version
+			$version = 0;
+			$modules = $this->getStartupModuleList();
+			foreach( $modules as $moduleName){
+				$version = max( $version, $context->getResourceLoader()->getModule( 'jquery' )->getModifiedTime( $context ) );
+			}
+			
 			// Build load query for jquery and mediawiki modules
 			$query = array(
-				'modules' => implode( '|', array( 'jquery', 'mediawiki' ) ),
+				'modules' => implode( '|',  $modules ),
 				'only' => 'scripts',
 				'lang' => $context->getLanguage(),
 				'skin' => $context->getSkin(),
 				'debug' => $context->getDebug() ? 'true' : 'false',
-				'version' => wfTimestamp( TS_ISO_8601_BASIC, round( max(
-					$context->getResourceLoader()->getModule( 'jquery' )->getModifiedTime( $context ),
-					$context->getResourceLoader()->getModule( 'mediawiki' )->getModifiedTime( $context )
-				), -2 ) )
+				'version' => wfTimestamp( TS_ISO_8601_BASIC, round( $version, -2 ) )
 			);
 			// Ensure uniform query order
 			ksort( $query );
@@ -180,7 +184,9 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		}	
 		return $out;
 	}
-
+	private function getStartupModuleList(){
+		return array( 'jquery', 'mediawiki' );
+	}
 	public function getModifiedTime( ResourceLoaderContext $context ) {
 		global $IP, $wgCacheEpoch;
 

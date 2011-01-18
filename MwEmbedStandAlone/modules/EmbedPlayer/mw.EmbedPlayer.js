@@ -859,9 +859,6 @@ mediaElement.prototype = {
 	// Selected mediaSource element.
 	selectedSource: null,
 
-	// Media element thumbnail
-	thumbnail: null,
-
 	// Media element linkback
 	linkback: null,
 
@@ -1070,9 +1067,9 @@ mediaElement.prototype = {
 	},
 
 	/**
-	 * Returns the thumbnail URL for the media element.
+	 * Returns the poster URL for the media element.
 	 *
-	 * @returns {String} thumbnail URL
+	 * @returns {String} poster URL
 	 */
 	getPosterSrc: function( ) {
 		return this.poster;
@@ -1315,9 +1312,6 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		// Set the poster:
-		if ( $j( element ).attr( 'thumbnail' ) ) {
-			_this.poster = $j( element ).attr( 'thumbnail' );
-		}
 		if ( $j( element ).attr( 'poster' ) ) {
 			_this.poster = $j( element ).attr( 'poster' );
 		}
@@ -1971,7 +1965,7 @@ mw.EmbedPlayer.prototype = {
 		// Close Menu Overlay:
 		this.controlBuilder.closeMenuOverlay();
 
-		// update the thumbnail html:
+		// update the Poster html:
 		this.updatePosterHTML();
 
 		this.paused = true;
@@ -1979,7 +1973,7 @@ mw.EmbedPlayer.prototype = {
 		// Make sure the controlBuilder bindings are up-to-date
 		this.controlBuilder.addControlBindings();
 
-		// Once the thumbnail is shown run the mediaReady trigger (if not using
+		// Once the Poster is shown run the mediaReady trigger (if not using
 		// native controls)
 		if( !this.useNativePlayerControls() ){
 			mw.log("mediaLoaded");

@@ -16,7 +16,7 @@
  * * Opera 9+
  * * Chrome 1+
  */
-var isCompatible = function() {
+var mwIsCompatible = function() {
 	// IE < 6
 	if ( navigator.appVersion.indexOf( 'MSIE' ) !== -1
 		&& parseFloat( navigator.appVersion.split( 'MSIE' )[1] ) < 6 )

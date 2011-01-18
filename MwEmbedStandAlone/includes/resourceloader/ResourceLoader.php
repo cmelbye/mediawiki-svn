@@ -191,6 +191,7 @@ class ResourceLoader {
 	 *   multiple-registration calling style.
 	 * @throws MWException: If a duplicate module registration is attempted
 	 * @throws MWException: If something other than a ResourceLoaderModule is being registered
+	 * @throws MWException: If an empty module name is being registered
 	 * @return Boolean: False if there were any errors, in which case one or more modules were not
 	 *     registered
 	 */

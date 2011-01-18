@@ -19,6 +19,7 @@ class MwEmbedResourceLoader extends ResourceLoader {
 		$this->register( include( "$IP/resources/MwEmbedSharedResources.php" ) );
 		// Register extension modules
 		wfRunHooks( 'ResourceLoaderRegisterModules', array( &$this ) );
+
 		$this->register( $wgResourceModules );
 		
 		wfProfileOut( __METHOD__ );

@@ -16,7 +16,13 @@ function wfProfileOut($na){
 function wfDebug( $text, $logonly = false ) {
 	return ;
 }
-
+// Stub userLang ( if no language code provided 
+class UserLang {
+	// getCode (default english )
+	public function getCode(){
+		return 'en';
+	}
+}
 // MWException stub:
 class MWException extends Exception {
 }

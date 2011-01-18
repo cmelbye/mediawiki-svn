@@ -90,3 +90,15 @@ require_once( "$IP/includes/Hooks.php");
 # Create the wgRequest global: 
 $wgRequest = new WebRequest;
 
+$wgLang = new UserLang();
+
+# Register / load all the mwEmbed modules
+foreach( $wgMwEmbedEnabledModules as $moduleName ){
+	$modulePath = "modules/$moduleName";
+	if( is_file( "$IP/$modulePath/$moduleName.php" ) ){
+		MwEmbedResourceManager::register( $modulePath );
+	}
+}
+# Add the resource loader hook:
+$wgHooks['ResourceLoaderRegisterModules'][] = 'MwEmbedResourceManager::registerModules';
+

@@ -29,6 +29,7 @@ $wgAutoloadLocalClasses = array(
 	'MwEmbedResourceLoader' => 'includes/MwEmbedResourceLoader.php',
 	'MwEmbedResourceLoaderFileModule' => 'includes/MwEmbedResourceLoaderFileModule.php',
 	'MwEmbedResourceLoaderStartUpModule' => 'includes/MwEmbedResourceLoaderStartUpModule.php',
+	'MwEmbedResourceManager' => 'includes/MwEmbedResourceManager.php',
 
 );
 

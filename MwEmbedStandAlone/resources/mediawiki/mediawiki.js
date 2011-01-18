@@ -299,7 +299,7 @@ window.mediaWiki = new ( function( $ ) {
 			// Check the parameters type
 			if( parameters[index] && ( typeof parameters[index] == 'function' || parameters[index] instanceof jQuery ) ){
 				useSwapIndex = true;
-				return '<span id="mw_message_swap_index_' + index +'"></span>'
+				return '<span id="mw_message_swap_index_' + index +'"></span>';
 			} else {
 				// directly swap in the index or a missing index indicator ( $1{int}
 				return ( index in parameters ) ? parameters[index] : '$' + match;
@@ -930,7 +930,7 @@ window.mediaWiki = new ( function( $ ) {
 				}
 				// Load asynchronously after doumument ready
 				if ( ready ) {
-					setTimeout( function() { $( 'body' ).append( request() ); }, 0 )
+					setTimeout( function() { $( 'body' ).append( request() ); }, 0 );
 				} else {
 					document.write( request() );
 				}
@@ -1043,7 +1043,7 @@ window.mediaWiki = new ( function( $ ) {
 			// Validate input
 			if ( typeof dependencies !== 'object' && typeof dependencies !== 'string' ) {
 				throw new Error( 'dependencies must be a string or an array, not a ' +
-					typeof dependencies )
+					typeof dependencies );
 			}
 			// Allow calling with a single dependency as a string
 			if ( typeof dependencies === 'string' ) {
@@ -1083,7 +1083,7 @@ window.mediaWiki = new ( function( $ ) {
 			// Validate input
 			if ( typeof modules !== 'object' && typeof modules !== 'string' ) {
 				throw new Error( 'dependencies must be a string or an array, not a ' +
-					typeof dependencies )
+					typeof dependencies );
 			}
 			// Allow calling with an external script or single dependency as a string
 			if ( typeof modules === 'string' ) {
