@@ -503,7 +503,8 @@ abstract class UploadBase {
 	 *
 	 * @return mixed Status indicating the whether the upload succeeded.
 	 */
-	public function performUpload( $comment, $pageText, $watch, $user ) {
+	public function performUpload( $comment, $pageText, $watch, $user, 
+			$properties = array() ) {
 		$status = $this->getLocalFile()->upload( 
 			$this->mTempPath, 
 			$comment, 
@@ -515,6 +516,10 @@ abstract class UploadBase {
 		);
 
 		if( $status->isGood() ) {
+			$propertiesObj = $this->getLocalFile()->properties();
+			$propertiesObj->set( $properties );
+			$propertiesObj->save( $this->getTitle()->getLatestRevID( Title::GAID_FOR_UPDATE ) );
+			
 			if ( $watch ) {
 				$user->addWatch( $this->getLocalFile()->getTitle() );
 			}
