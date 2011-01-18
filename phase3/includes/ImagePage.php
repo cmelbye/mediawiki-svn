@@ -596,8 +596,8 @@ EOT
 	 */
 	protected function showFileProperties() {
 		$props = $this->img->properties();
-		$authors = $props->getAuthors();
-		$licenses = $props->getLicenses();
+		$authors = $props->get( 'author' );
+		$licenses = $props->get( 'license' );
 		if ( $authors || $licenses ) {
 			global $wgOut;
 			

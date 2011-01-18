@@ -1,6 +1,11 @@
 <?php
 
 class FileProperties {
+	public static $propertyClasses = array( 
+		'license' => 'FileLicense', 
+		'author' => 'FileAuthor',
+	);
+	
 	/**
 	 * Constructor for the FileProperties class that represents proeprties
 	 * associated with a file.
@@ -12,8 +17,8 @@ class FileProperties {
 		$this->file = $file;
 		$this->revId = $revision;
 		
-		$this->authors = array();
-		$this->licenses = array();
+		$this->props = array();
+		$this->propsByType = array();
 		
 		$this->load();
 	}
@@ -23,6 +28,7 @@ class FileProperties {
 	 */
 	public function load() {
 		if ( !$this->revId ) {
+			// Load from the latest revision by default
 			$this->revId = $this->file->getTitle()->getLatestRevID();
 		}
 
@@ -38,40 +44,72 @@ class FileProperties {
 	 * Construct FileAuthor and FileProperties objects from a database result
 	 */
 	protected function loadFromResult( $res ) {
-		$repo = $this->file->getRepo();
-		$result = array();
-		
 		foreach ( $res as $row ) {
-			switch ( $row->fp_key ) {
-				case 'author':
-					$this->authors[] = FileAuthor::newFromRow( $row );
-					break;
-				case 'license':
-					$this->licenses[] = FileLicense::newFromRow( $repo, $row );
-					break;
+			if ( isset( self::$propertyClasses[$row->fp_key] ) ) {
+				// Call the constructor
+				$prop = call_user_func( self::$propertyClasses[$row->fp_key] . 
+					'::newFromRow', $this->file, $row );
+				
+				$this->props[] = $prop;
+				if ( !isset( $this->propsByType[$row->fp_key] ) ) {
+					$this->propsByType[$row->fp_key] = array();
+				}
+				$this->propsByType[$row->fp_key][] = $prop;
 			}
 		}
 		
-		if ( $this->licenses ) {
-			FileLicense::loadArray( $this->licenses );
+		foreach ( self::$propertyClasses as $key => $class ) {
+			// Batch load properties
+			if ( !empty( $this->propsByType[$key] ) ) {
+				call_user_func( "$class::loadArray", $this->propsByType[$key] );
+			}
 		}
 	}
 	
 	/**
-	 * Get all licenses associated with this file
+	 * Get all properties of $type, or all if null or omitted
+	 * 
+	 * @param $type mixed 
+	 * @return array
 	 */
-	public function getLicenses() {
-		return $this->licenses;
+	public function get( $type = null ) {
+		if ( is_null( $type ) ) {
+			return $this->props;
+		}
+		return isset( $this->propsByType[$type] ) ? 
+			$this->propsByType[$type] : array();
+	}
+	
+	/**
+	 * Deleted all properties and sets them to the passed array
+	 * 
+	 * @param $props array
+	 */
+	public function set( $props ) {
+		$this->props = array();
+		$this->propsByType = array();
+		
+		$this->append( $props );
 	}
 	/**
-	 * Get all authors associated with this file
+	 * Appends an array of properties to the current properties
+	 * 
+	 * @param $props array
 	 */
-	public function getAuthors() {
-		return $this->authors;
+	public function append( $props ) {
+		foreach ( $props as $prop ) {
+			$this->props[] = $prop;
+			
+			$key = $prop->getKey();
+			if ( !isset( $this->propsByType[$key] ) ) {
+				$this->propsByType = array();
+			}
+			$this->propsByType[$key] = $prop;
+		}
 	}
 
 	/**
-	 * Save the licenses and authors to the database and create a new revision
+	 * Save the properties to the database and create a new revision
 	 * 
 	 * @param $comment string Edit summary
 	 * @param $minor bool Minor edit
@@ -97,27 +135,14 @@ class FileProperties {
 		$dbw = $this->file->getRepo()->getMasterDB();
 		
 		$insert = array();
-		foreach ( $this->authors as $author ) {
-			$a = array( 
+		foreach ( $this->props as $prop ) {
+			$insert[] = array( 
 				'fp_rev_id' => $revId,
-				'fp_key' => 'author',
-				'fp_value_int' => $author->getId()
-			);
-			
-			$text = $author->getText();
-			if ( $text ) {
-				$a['fp_value_text'] = $text;
-			}
-			$insert[] = $a;
-		}
-		foreach ( $this->licenses as $license ) {
-			$insert[] = array(
-				'fp_rev_id' => $revId,
-				'fp_key' => 'license',
-				'fp_value_int' => $license->getId(),
+				'fp_key' => $prop->getKey(),
+				'fp_value_int' => $prop->getIntValue(),
+				'fp_value_string' => $prop->getStringValue(),
 			);
 		}
-		
 		
 		$dbw->insert( 'file_props', $insert, __METHOD__ );
 		
@@ -125,14 +150,67 @@ class FileProperties {
 	}
 }
 
-class FileAuthor {
+/**
+ * Base class for file properties
+ */
+abstract class FileProperty {
+	/**
+	 * Create a new property object from a row
+	 * 
+	 * @param $file File
+	 * @param $row Stdclass
+	 */
+	public static function newFromRow( $file, $row ) {
+		throw new MWException( __CLASS__ . ' does not implement newFromRow' );
+	}
+	/**
+	 * Load any other information for an array of properties
+	 * 
+	 * @param &$array array
+	 */
+	public static function loadArray( &$array ) {}
+	/**
+	 * Get the key name
+	 * 
+	 * @return string
+	 */
+	abstract public function getKey();
+	/**
+	 * Get the string value; null by default
+	 * 
+	 * @return string|null
+	 */
+	public function getStringValue() {
+		return null;
+	}
+	/**
+	 * Get the int value; null by default
+	 * 
+	 * @return int|null
+	 */
+	public function getIntValue() {
+		return null;
+	}
+	/**
+	 * Sets the value
+	 * 
+	 * @param $value int|string
+	 */
+	abstract public function setValue( $value );
+}
+
+/**
+ * FileAuthor class that represents the author of a file; possibly a wiki user
+ */
+class FileAuthor extends FileProperty {
 	/**
 	 * Construct a FileAuthor object from a database row
 	 * 
+	 * @param $file File
 	 * @param $row Stdclass 
 	 * @return FileAuthor
 	 */
-	public static function newFromRow( $row ) {
+	public static function newFromRow( $file, $row ) {
 		return new self( $row->fp_value_int, $row->fp_value_text );
 	}
 	/**
@@ -150,7 +228,7 @@ class FileAuthor {
 	 * 
 	 * @return int
 	 */
-	public function getUserId() {
+	public function getIntValue() {
 		return $this->id;
 	}
 	/**
@@ -158,21 +236,43 @@ class FileAuthor {
 	 * 
 	 * @return string
 	 */
-	public function getText() {
+	public function getStringValue() {
 		return $this->text;
+	}
+	
+	public function getKey() { 
+		return 'author';
+	}
+	
+	/**
+	 * Sets the name or user id of the author. Changing either the id or the name
+	 * does not change the other property
+	 * 
+	 * @param $value string 
+	 */
+	public function setValue( $value ) {
+		if ( is_string( $value ) ) {
+			$this->name = $value;
+		} elseif ( is_int( $value ) ) {
+			$this->id = $value;
+		}
 	}
 }
 
-class FileLicense {
+/**
+ * FileLicense class that represents the license of a file and provides access
+ * to the extended license attributes
+ */
+class FileLicense extends FileProperty {
 	/**
 	 * Initialize a license object from a row
 	 * 
-	 * @param $repo FileRepo
+	 * @param $file File
 	 * @param $row Stdclass
 	 * @return FileLicense
 	 */
-	public static function newFromRow( $repo, $row ) {
-		$license = new self( $repo );
+	public static function newFromRow( $file, $row ) {
+		$license = new self( $file->getRepo() );
 		$license->id = $row->fp_value_int;
 		return $license;
 	}
@@ -200,15 +300,45 @@ class FileLicense {
 		$this->name = null;
 		$this->url = null;
 		$this->count = 0;
+		$this->exists = null;
 	}
-	public function getId() {
+	public function getKey() {
+		return 'license';
+	}
+	/**
+	 * Tries to load the license id and returns it
+	 * 
+	 * @return int|null
+	 */
+	public function getIntValue() {
+		if ( is_null( $this->id ) ) {
+			$this->load();
+		}
 		return $this->id;
 	}
-	public function getName() {
+	/**
+	 * Tries to load the license name and returns it
+	 * 
+	 * @return string|null
+	 */
+	public function getStringValue() {
+		if ( is_null( $this->name ) ) {
+			$this->load();
+		}
 		return $this->name;
 	}
-	public function setName( $name ) {
-		$this->name = $name;
+	/**
+	 * Sets the license name or id and sets the other property to null
+	 */
+	public function setValue( $value ) {
+		$this->exists = null;
+		if ( is_string( $value ) ) {
+			$this->id = null;
+			$this->name = $value;
+		} elseif ( is_int( $value ) ) {
+			$this->id = $value;
+			$this->name = null;
+		}
 	}
 	public function getUrl() {
 		return $this->url;
@@ -219,7 +349,36 @@ class FileLicense {
 	public function getCount() {
 		return $this->count;
 	}
+	public function incrementCount( $inc ) {
+		$this->count += $inc;
+	}
+	public function exists() {
+		return $this->exists;
+	}
 	
+	public function load() {
+		if ( !is_null( $this->exists ) ) {
+			// Already loaded
+			return;
+		}
+		
+		$a = array( $this );
+		if ( !is_null( $this->id ) ) {
+			$from = 'id';
+		} elseif ( !is_null( $this->name ) ) {
+			$from = 'name';
+		} else {
+			throw new MWException( 'Trying to load bogus license' );
+		}
+		self::loadArrayFrom( $a, $from );
+		
+		$this->exists = (bool)count( $a );
+	}
+	
+	public static function loadArray( &$licenses ) {
+		self::loadArrayFrom( $licenses, 'id' );
+	}
+
 	/**
 	 * Initializes an uninitialized array of FileLicense objects from the db.
 	 * Removes non-existent licenses from the array. Allows loading from id or
@@ -228,15 +387,15 @@ class FileLicense {
 	 * @param &$licenses array Array of FileLicense objects
 	 * @param $loadFrom string id|name depending on from which field to load
 	 */
-	public static function loadArray( &$licenses, $loadFrom = 'id' ) {
+	public static function loadArrayFrom( &$licenses, $loadFrom ) {
 		$licenseIds = array();
 		foreach ( $licenses as $license ) {
 			switch ( $loadFrom ) {
 				case 'id':
-					$licenseIds[] = $license->getId();
+					$licenseIds[] = $license->getIntValue();
 					break;
 				case 'name':
-					$licenseIds[] = $license->getName();
+					$licenseIds[] = $license->getStringValue();
 					break;
 			}
 			
@@ -276,6 +435,7 @@ class FileLicense {
 		$this->name = $row->lic_name;
 		$this->url = $row->lic_url;
 		$this->count = $row->lic_count;
+		$this->exists = true;
 	}
 	
 	/**
@@ -284,7 +444,7 @@ class FileLicense {
 	public function insert() {
 		$dbw = $this->repo->getMasterDb();
 		$dbw->insert( 'licenses', array( 
-			'lic_name' => $this->getName(),
+			'lic_name' => $this->getStringValue(),
 			'lic_url' => $this->getUrl(),
 			'lic_count' => 0 ),
 			__METHOD__ );
@@ -296,15 +456,17 @@ class FileLicense {
 	public function update() {
 		$dbw = $this->repo->getMasterDb();
 		$dbw->update( 'licenses', array(
-			'lic_name' => $this->getName(),
+			'lic_name' => $this->getStringValue(),
 			'lic_url' => $this->getUrl(),
-			'lic_count' => $this->count + 1 ),
+			'lic_count' => $this->count ),
 			array( 'lic_id' => $this->id ),
 			__METHOD__ );
 	}
 	/**
 	 * Inserts a new license into the database if this license does not have
-	 * an id, updates it otherwise
+	 * an id, updates it otherwise. This updates the properties of this 
+	 * license, as opposed to changing the license for this file. If you want
+	 * to change the license of this file, you need to use FileProperties::save
 	 */
 	public function save() {
 		if ( $this->id ) {
