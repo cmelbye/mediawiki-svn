@@ -32,7 +32,6 @@ mw.P2PNextTransport = {
 		
 		// Bind some hooks to every player:
 		$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
-
 			// Setup the "embedCode" binding to swap in an updated url
 			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
 				// Confirm P2PNextTransport add-on is available 
@@ -122,7 +121,7 @@ mw.P2PNextTransport = {
 			mw.log("Warning: addSwarmSource: could not find video/ogg source to generate torrent from");
 			callback();
 			return ;
-		}
+		}		
 		$.each( this.getTransportObjects(), function(inx, transportObject ){
 			// Setup function to run in context based on callback result
 			$j.getJSON(
@@ -132,23 +131,32 @@ mw.P2PNextTransport = {
 				},
 				function( data ){									
 					// Check if the torrent is ready:
-					if( !data.torrent ){
+					if( !data.torrent && !	data ){
 						mw.log( "P2PNext: ( " + transportObject.lookupUrl + " ) Torrent not ready status: " + data.status.text );
 						callback( false );
 						return ;
 					}
-					mw.log( 'SwarmTransport: addSwarmSource for: ' + source.getSrc() + "\n\nGot:" + data.torrent );
-					// XXX need to update preference
+					mw.log( 'P2PNextTransport: addSwarmSource for: ' + source.getSrc() + "\n\nGot:" + data.torrent );
+
+					var transportSrc = '';
+					// Set the source via transportObject type
+					if( transportObject.name == 'swift'){
+						transportSrc = data.swift;
+					} else {
+						transportSrc = transportObject.protocol + data.torrent;
+					}
 					embedPlayer.mediaElement.tryAddSource(
 						$j('<source />')
 						.attr( {
-							'type' : 'video/swarmTransport',
-							'title': gM('mwe-swarmtransport-stream-ogg'),
-							'src': transportObject.protocol + data.torrent,
+							'type' : transportObject.mime,
+							'title': gM('mwe-' + transportObject.name + 'transport-stream-ogg' ),
+							'src': transportSrc,
 							'default' : true
 						} )
 						.get( 0 )
 					);
+					// XXX need to update preference
+					
 					callback( true );
 				}
 			);

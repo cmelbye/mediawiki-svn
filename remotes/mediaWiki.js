@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r187';
+var mwRemoteVersion = 'r188';
 
 // Log the mwRemote version makes it easy to debug cache issues
 if( window.console ){
@@ -95,7 +95,7 @@ if( typeof mwAddMediaConfig == 'undefined'){
 	mwAddMediaConfig = {};
 }
 // Set legacy add media wizard config 
-mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ]
+mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ];
 
 
 // Legacy Add media wizard config: 
@@ -541,7 +541,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 					 $j( '<div />')
 					.css({
 						'width' : $pimg.attr('width' ),
-						'height' :$pimg.attr( 'height' ),
+						'height' : $pimg.attr( 'height' ),
 						'position' : 'relative',
 						'background-color' : '#FFF'
 					})
