@@ -116,14 +116,7 @@ else {
 	$wgAutoloadClasses['MapsGeocode'] 				= $phDir . 'Maps_Geocode.php';
 	$wgAutoloadClasses['MapsGeodistance'] 			= $phDir . 'Maps_Geodistance.php';	
 	
-	// To ensure Maps remains compatible with pre 1.16.
-	if ( !class_exists( 'Html' ) ) {
-		$wgAutoloadClasses['Html'] = $egMapsDir . 'compat/Html.php';
-	}	
-	
-	if ( version_compare( $wgVersion, '1.16alpha', '>=' ) ) {
-		$wgExtensionMessagesFiles['MapsMagic'] = $egMapsDir . 'Maps.i18n.magic.php';
-	}		
+ 	$wgExtensionMessagesFiles['MapsMagic'] = $egMapsDir . 'Maps.i18n.magic.php';
 	
 	$wgExtensionMessagesFiles['Maps'] = $egMapsDir . 'Maps.i18n.php';
 
@@ -163,12 +156,6 @@ else {
  */
 function efMapsSetup() {
 	global $wgExtensionCredits, $wgLang, $wgExtraNamespaces, $wgNamespaceAliases, $wgVersion;
-
-	// This function has been deprecated in 1.16, but needed for earlier versions.
-	// It's present in 1.16 as a stub, but lets check if it exists in case it gets removed at some point.
-	if ( version_compare( $wgVersion, '1.15', '<=' ) ) {
-		wfLoadExtensionMessages( 'Maps' );
-	}
 
 	if ( is_null( $wgExtraNamespaces ) ) {
 		$wgExtraNamespaces = array();
