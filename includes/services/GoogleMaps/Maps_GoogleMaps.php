@@ -211,7 +211,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	 */
 	protected function getDependencies() {
 		global $wgLang;
-		global $egGoogleMapsKeys, $egGoogleMapsKey, $egMapsStyleVersion, $egMapsScriptPath, $egMapsUseRL;
+		global $egGoogleMapsKeys, $egGoogleMapsKey, $egMapsStyleVersion, $egMapsScriptPath;
 		
 		$langCode = self::getMappedLanguageCode( $wgLang->getCode() ); 
 		
@@ -222,11 +222,6 @@ class MapsGoogleMaps extends MapsMappingService {
 			'var googleMapsKeys = '. json_encode( $egGoogleMapsKeys ) . ';'  .
 			'var googleLangCode = '. json_encode( $langCode ) . ';'
 		);
-		
-		if ( !$egMapsUseRL ) {
-			$dependencies[] = Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps/ext.maps.googlemaps2.js?$egMapsStyleVersion" );
-			$dependencies[] = Html::inlineScript( 'var msgOverlays = ' . Xml::encodeJsVar( wfMsg( 'maps_overlays' ) ) . ';' );
-		}
 		
 		return $dependencies;
 	}

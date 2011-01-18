@@ -31,7 +31,7 @@ class MapsOpenLayers extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsOLLayers, $egMapsOLControls, $egMapsUseRL;
+		global $egMapsOLLayers, $egMapsOLControls;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 19 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -42,12 +42,6 @@ class MapsOpenLayers extends MapsMappingService {
 		$params['controls']->addManipulations(
 			new ParamManipulationFunctions( 'strtolower' )
 		);
-		
-		if ( !$egMapsUseRL ) {
-			$params['controls']->addManipulations(
-				new ParamManipulationImplode( ',', "'" )
-			);
-		}
 		
 		$params['layers'] = new ListParameter( 'layers' );
 		$params['layers']->addManipulations( new MapsParamOLLayers() );
@@ -104,27 +98,6 @@ class MapsOpenLayers extends MapsMappingService {
 		
 		// Create a string containing the marker JS.
 		return '[' . implode( ',', $markerItems ) . ']';
-	}	
-	
-	/**
-	 * @see MapsMappingService::getDependencies
-	 * 
-	 * @return array
-	 */
-	protected function getDependencies() {
-		global $egMapsStyleVersion, $egMapsScriptPath, $egMapsUseRL;
-		
-		if ( $egMapsUseRL ) {
-			return array();
-		}
-		else {
-			return array(
-				Html::linkedStyle( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/theme/default/style.css" ),
-				Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayers/OpenLayers.js?$egMapsStyleVersion" ),
-				Html::linkedScript( "$egMapsScriptPath/includes/services/OpenLayers/OpenLayerFunctions.js?$egMapsStyleVersion" ),
-				Html::inlineScript( 'initOLSettings(200, 100); var msgMarkers = ' . Xml::encodeJsVar( wfMsg( 'maps-markers' ) ) . ';' )
-			);				
-		}
 	}	
 	
 	/**
