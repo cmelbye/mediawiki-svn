@@ -136,8 +136,12 @@ mw.P2PNextTransport = {
 						callback( false );
 						return ;
 					}
+					if( !data.torrent || !data.swift ){
+						mw.log( 'P2PNextTransport: could not get p2p source status:' + data.text );
+						return ;
+					}
 					mw.log( 'P2PNextTransport: addSwarmSource for: ' + source.getSrc() + "\n\nGot:" + data.torrent );
-
+					
 					var transportSrc = '';
 					// Set the source via transportObject type
 					if( transportObject.name == 'swift'){

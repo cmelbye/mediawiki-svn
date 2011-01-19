@@ -318,7 +318,7 @@
 		// Allow modules to do tag rewrites as well: 
 		var doModuleTagRewrites = function(){			
 			$j(mw).triggerQueueCallback( 'LoadeRewritePlayerTags', callback );
-		}	
+		};
 		
 		if( mw.documentHasPlayerTags() ) {
 			var rewriteElementCount = 0;
