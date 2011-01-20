@@ -676,10 +676,13 @@ function mwGetReqArgs() {
 * 	classSet saves round trips to the server by grabbing things we will likely need in the first request.
 * @param {callback} function callback to be called once mwEmbed is ready
 */
-var mwAlreadyRequestedUi = false;
+var mwAlreadyRequestedUi = null;
 var mwQueuedLoadMwEmbedFunctions = [];
-var mwForceUiComponents = '$j.ui,$j.widget,$j.ui.mouse,$j.ui.button,$j.ui.draggable,$j.ui.position,$j.ui.resizable,$j.ui.slider,$j.ui.dialog';
 function loadMwEmbed( classSet, callback ) {
+	var mwForceUiComponents = '$j.ui,$j.widget,$j.ui.mouse,$j.ui.button,$j.ui.draggable,$j.ui.position,$j.ui.resizable,$j.ui.slider,$j.ui.dialog';
+	if( !mwQueuedLoadMwEmbedFunctions){
+		mwQueuedLoadMwEmbedFunctions = [];
+	}
 	if( typeof classSet == 'function') {
 		callback = classSet;
 	}
@@ -687,10 +690,11 @@ function loadMwEmbed( classSet, callback ) {
 		mw.load( classSet, callback);
 		return ;
 	}
-	if( mwAlreadyRequestedUi !== false ){
+	if( mwAlreadyRequestedUi  ){
 		mwQueuedLoadMwEmbedFunctions.push(function(){
 			mw.load( classSet, callback);
 		});
+		return ;
 	}
 	var doLoadMwEmbed = function(){
 		// Inject mwEmbed
