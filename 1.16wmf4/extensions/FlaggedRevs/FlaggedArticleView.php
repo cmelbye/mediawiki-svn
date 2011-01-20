@@ -301,7 +301,7 @@ class FlaggedArticleView {
 		// set to override given the relevant conditions (like &stable=0) or there
 		// is no stable version.
 		} else {
-	   		$this->showDraftVersion( $srev, $tag, $prot );
+			$this->showDraftVersion( $srev, $tag, $prot );
 		}
 		$encJS = ''; // JS events to use
 		# Some checks for which tag CSS to use
@@ -1135,20 +1135,20 @@ class FlaggedArticleView {
 		// XXX: shouldn't the session slave position check handle this?
 		$flags = ( $action == 'rollback' ) ? FR_MASTER : 0;
 		$srev = $this->article->getStableRev( $flags );
-	   	if ( !$srev ) {
+		if ( !$srev ) {
 			return true; // No stable revision exists
 		}
 		$synced = $this->article->stableVersionIsSynced();
 		$pendingEdits = !$synced && $this->article->isStableShownByDefault();
 		// Set the edit tab names as needed...
-	   	if ( $pendingEdits ) {
-	   		if ( isset( $views['edit'] ) ) {
+		if ( $pendingEdits ) {
+			if ( isset( $views['edit'] ) ) {
 				$views['edit']['text'] = wfMsg( 'revreview-edit' );
-	   		}
-	   		if ( isset( $views['viewsource'] ) ) {
+			}
+			if ( isset( $views['viewsource'] ) ) {
 				$views['viewsource']['text'] = wfMsg( 'revreview-source' );
 			}
-	   	}
+		}
 		# Add "pending changes" tab if the page is not synced
 		if ( !$synced ) {
 			$this->addDraftTab( $views, $srev, $action, $type );
@@ -1162,18 +1162,18 @@ class FlaggedArticleView {
 	) {
 		global $wgRequest, $wgOut;
 		$title = $this->article->getTitle(); // convenience
-	 	$tabs = array(
-	 		'read' => array( // view stable
+		$tabs = array(
+			'read' => array( // view stable
 				'text'  => '', // unused
 				'href'  => $title->getLocalUrl( 'stable=1' ),
-	 			'class' => ''
-	 		),
-	 		'draft' => array( // view draft
+				'class' => ''
+			),
+			'draft' => array( // view draft
 				'text'  => wfMsg( 'revreview-current' ),
 				'href'  => $title->getLocalUrl( 'stable=0&redirect=no' ),
-	 			'class' => 'collapsible'
-	 		),
-	 	);
+				'class' => 'collapsible'
+			),
+		);
 		// Set tab selection CSS
 		if ( $this->pageOverride() || $wgRequest->getVal( 'stableid' ) ) {
 			// We are looking a the stable version or an old reviewed one
@@ -1236,8 +1236,8 @@ class FlaggedArticleView {
 				}
 			}
 		}
-	   	// Replaces old tabs with new tabs
-	   	$views = $newViews;
+		// Replaces old tabs with new tabs
+		$views = $newViews;
 	}
 
 	/**
@@ -1560,7 +1560,7 @@ class FlaggedArticleView {
 			&& $oldRev->getPage() == $newRev->getPage() // no multipage diffs
 			&& $oldRev->getId() == $srev->getRevId()
 			&& $newRev->getTimestamp() >= $oldRev->getTimestamp() // no backwards diffs
- 		);
+		);
 	}
 
 	/**

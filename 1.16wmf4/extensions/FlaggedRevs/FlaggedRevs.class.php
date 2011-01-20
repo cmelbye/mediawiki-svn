@@ -501,7 +501,7 @@ class FlaggedRevs {
 		if ( $resetManager ) {
 			$incManager->clear(); // reset the FRInclusionManager as needed
 		}
-	   	return $parserOut;
+		return $parserOut;
 	}
 
 	/**
@@ -631,7 +631,7 @@ class FlaggedRevs {
 
 	# ################ Tracking/cache update update functions #################
 
- 	/**
+	/**
 	* Update the page tables with a new stable version.
 	* @param Title $title
 	* @param mixed $sv, the new stable version (optional)
@@ -675,7 +675,7 @@ class FlaggedRevs {
 		return $changed;
 	}
 
- 	/**
+	/**
 	* @param Title $title
 	* Updates squid cache for a title. Defers till after main commit().
 	*/
@@ -684,7 +684,7 @@ class FlaggedRevs {
 		$wgDeferredUpdateList[] = new FRSquidUpdate( $title );
 	}
 
- 	/**
+	/**
 	* @param Article $article
 	* @param Revision $rev, the new stable version
 	* @param mixed $latest, the latest rev ID (optional)
@@ -745,7 +745,7 @@ class FlaggedRevs {
 		return true;
 	}
 
- 	/**
+	/**
 	* @param Article $article
 	* @param mixed $latest, the latest rev ID (optional)
 	* Updates the flaggedpage_pending table
@@ -814,7 +814,7 @@ class FlaggedRevs {
 		$dbw->insert( 'flaggedpage_pending', $data, __METHOD__ );
 	}
 
- 	/**
+	/**
 	* Do cache updates for when the stable version of a page changed.
 	* Invalidates/purges pages that include the given page.
 	* @param Title $title
@@ -830,7 +830,7 @@ class FlaggedRevs {
 		$wgDeferredUpdateList[] = new FRExtraCacheUpdate( $title );
 	}
 
- 	/**
+	/**
 	* Invalidates/purges pages where only stable version includes this page.
 	* @param Title $title
 	*/
@@ -1249,7 +1249,7 @@ class FlaggedRevs {
 		return ( in_array( $ns, $namespaces ) );
 	}
 
-   	/**
+	/**
 	* Clear FlaggedRevs tracking tables for this page
 	* @param mixed $pageId (int or array)
 	*/
@@ -1260,7 +1260,7 @@ class FlaggedRevs {
 		$dbw->delete( 'flaggedpage_pending', array( 'fpp_page_id' => $pageId ), __METHOD__ );
 	}
 
-   	/**
+	/**
 	* Clear tracking table of stable-only links for this page
 	* @param mixed $pageId (int or array)
 	*/
