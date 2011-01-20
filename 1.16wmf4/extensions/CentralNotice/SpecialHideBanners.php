@@ -5,7 +5,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * Unlisted Special Page to set cookies for hiding banners across all wikis.
+ * Unlisted Special Page which sets a cookie for hiding banners across all languages of a project.
  */
 class SpecialHideBanners extends UnlistedSpecialPage {
 	function __construct() {
@@ -13,8 +13,8 @@ class SpecialHideBanners extends UnlistedSpecialPage {
 	}
 
 	function execute( $par ) {
-		global $wgAllowHideBanners, $wgRequest, $wgOut;
-
+		global $wgOut;
+		
 		$this->setHideCookie();
 
 		$wgOut->disable();
@@ -27,9 +27,14 @@ class SpecialHideBanners extends UnlistedSpecialPage {
 	}
 	
 	function setHideCookie() {
-		global $wgCentralAuthCookieDomain, $wgCookieSecure, $wgCookieHttpOnly;
+		global $wgNoticeCookieDomain, $wgCookieSecure;
 		$exp = time() + 86400 * 14; // Cookie expires after 2 weeks
+		if ( is_callable( 'CentralAuthUser', 'getCookieDomain' ) ) {
+			$cookieDomain = CentralAuthUser::getCookieDomain();
+		} else {
+			$cookieDomain = $wgNoticeCookieDomain;
+		}
 		// Hide banners for this domain
-		setcookie( 'hidesnmessage', '1', $exp, '/', $wgCentralAuthCookieDomain, $wgCookieSecure, $wgCookieHttpOnly );
+		setcookie( 'hidesnmessage', '1', $exp, '/', $cookieDomain, $wgCookieSecure );
 	}
 }
