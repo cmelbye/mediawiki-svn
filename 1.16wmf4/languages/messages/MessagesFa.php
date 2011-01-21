@@ -23,7 +23,7 @@
 $namespaceNames = array(
 	NS_MEDIA            => 'مدیا',
 	NS_SPECIAL          => 'ویژه',
-	NS_MAIN	            => '',
+	NS_MAIN             => '',
 	NS_TALK             => 'بحث',
 	NS_USER             => 'کاربر',
 	NS_USER_TALK        => 'بحث_کاربر',
@@ -41,6 +41,8 @@ $namespaceNames = array(
 );
 
 $namespaceAliases = array(
+	'رسانه' => NS_MEDIA,
+	'رسانه‌ای' => NS_MEDIA,
 	'تصویر' => NS_FILE,
 	'بحث_تصویر' => NS_FILE_TALK,
 );
