@@ -670,6 +670,32 @@ function mwGetReqArgs() {
 }
 
 /**
+ * Similar to php isset function checks if the variable exists. Does a safe
+ * check of a descendant method or variable
+ * 
+ * @param {String}
+ *            objectPath
+ * @return {Boolean} true if objectPath exists false if objectPath is
+ *         undefined
+ */
+mwIsset = function( objectPath ) {
+	if ( !objectPath || typeof objectPath != 'string') {
+		return false;
+	}
+	var pathSet = objectPath.split( '.' );
+	var cur_path = '';
+
+	for ( var p = 0; p < pathSet.length; p++ ) {
+		cur_path = ( cur_path == '' ) ? cur_path + pathSet[p] : cur_path + '.' + pathSet[p];
+		eval( 'var ptest = typeof ( ' + cur_path + ' ); ' );
+		if ( ptest == 'undefined' ) {
+			return false;
+		}
+	}
+	return true;
+};
+
+/**
 * Load the mwEmbed library:
 *
 * @param {mixed} function or classSet to preload
@@ -769,31 +795,6 @@ function loadMwEmbed( classSet, callback ) {
 	waitForJqueryUi();
 }
 
-/**
- * Similar to php isset function checks if the variable exists. Does a safe
- * check of a descendant method or variable
- * 
- * @param {String}
- *            objectPath
- * @return {Boolean} true if objectPath exists false if objectPath is
- *         undefined
- */
-mwIsset = function( objectPath ) {
-	if ( !objectPath || typeof objectPath != 'string') {
-		return false;
-	}
-	var pathSet = objectPath.split( '.' );
-	var cur_path = '';
-
-	for ( var p = 0; p < pathSet.length; p++ ) {
-		cur_path = ( cur_path == '' ) ? cur_path + pathSet[p] : cur_path + '.' + pathSet[p];
-		eval( 'var ptest = typeof ( ' + cur_path + ' ); ' );
-		if ( ptest == 'undefined' ) {
-			return false;
-		}
-	}
-	return true;
-};
 
 /**
  * Check if the gadget is installed
