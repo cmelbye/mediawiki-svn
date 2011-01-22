@@ -36,7 +36,7 @@
 	});
 
 	// Add the mw.SwarmTransport to the embedPlayer loader:
-	$j( mw ).bind( 'LoaderEmbedPlayerUpdateRequest', function( event, playerElement, classRequest ) {
+	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		// If the swarm transport is enabled add mw.SwarmTransport to the request.
 		if( mw.getConfig( 'SwarmTransport.Enable' ) ) {
 			

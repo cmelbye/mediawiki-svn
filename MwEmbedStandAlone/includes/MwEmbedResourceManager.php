@@ -35,8 +35,7 @@ class MwEmbedResourceManager {
 		$wgExtensionMessagesFiles[ 'MwEmbed.' . $moduleName ] = $fullResourcePath . '/' . $moduleName . '.i18n.php';				
 		
 		// Get the mwEmbed module config		
-		$moduleInfo = require_once( $fullResourcePath . '/' . $moduleName . '.php' );
-		$resourceList = $moduleInfo['resources'];
+		$resourceList = require_once( $fullResourcePath . '/' . $moduleName . '.php' );
 		// Look for special 'messages' => 'moduleFile' key and load all modules file messages:
 		foreach( $resourceList as $name => $resources ){
 			if( isset( $resources['messageFile'] ) && is_file( $fullResourcePath . '/' .$resources['messageFile'] ) ){
@@ -46,12 +45,7 @@ class MwEmbedResourceManager {
 					 $resourceList[ $name ][ 'messages' ][] = $msgKey;
 				}
 			}
-		};
-		
-		// If the module has a loader.js add it to the resource list: 
-		if( is_file( $fullResourcePath . '/loader.js' ) ){
-			$resourceList[$moduleName. '.loader'] = array( 'loaderScripts' => 'loader.js' );
-		}
+		};		
 		// @@TODO add $moduleInfo['config']
 		
 		// Add the resource list into the module set with its provided path 

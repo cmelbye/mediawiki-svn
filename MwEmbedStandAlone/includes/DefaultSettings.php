@@ -28,6 +28,13 @@ while (false !== ($entry = $d->read())) {
 	}
 }
 
+// Also populate $wgMwEmbedModuleConfig[ {ModuleName} ] array so that LocalSettings.php does not
+// get unset array errors
+$wgMwEmbedModuleConfig = array();
+foreach( $wgMwEmbedEnabledModules as $mwEmbedModuleName ){
+	$wgMwEmbedModuleConfig[ $mwEmbedModuleName ] = array();
+}
+
 /**
  * Client-side resource modules. Extensions should add their module definitions
  * here. The mwEmbed

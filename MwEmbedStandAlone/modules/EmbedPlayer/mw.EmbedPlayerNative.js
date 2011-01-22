@@ -199,7 +199,7 @@ mw.EmbedPlayerNative = {
 						_this['on' + eventName ].apply( _this, argArray);
 					} else {
 						// No local handler directly propagate the event to the abstract object:
-						$j( _this ).trigger( eventName, argArray )
+						$j( _this ).trigger( eventName, argArray );
 					}
 				}
 			})
@@ -469,7 +469,6 @@ mw.EmbedPlayerNative = {
 	* calls parent_play to update the interface
 	*/
 	play: function( ) {
-
 		this.getPlayerElement();
 		this.parent_play(); // update interface
 		if ( this.playerElement && this.playerElement.play ) {

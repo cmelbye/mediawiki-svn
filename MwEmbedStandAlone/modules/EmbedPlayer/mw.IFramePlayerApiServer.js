@@ -36,7 +36,9 @@ mw.IFramePlayerApiServer.prototype = {
 	// Exported bindings / events. ( all the native html5 events are added in 'init' )		
 	'exportedBindings': [
 	     'playerReady',
-	     'monitorEvent'
+	     'monitorEvent',
+	     'onOpenFullScreen',
+	     'onCloseFullScreen'
 	],
 		
 	'init': function( embedPlayer ){
@@ -54,34 +56,37 @@ mw.IFramePlayerApiServer.prototype = {
 		// Allow modules to extend the list of iframeExported bindings
 		$j( mw ).trigger( 'AddIframePlayerBindings', [ this.exportedBindings ]);
 		
-		this._addIframeListener();
-		this._addIframeSender();
+		this.addIframeListener();
+		this.addIframeSender();
 		$j( mw ).trigger( 'newIframePlayerServerSide', [embedPlayer]);
 	},
 	
 	/**
 	 * Listens to requested methods and triggers their action
 	 */
-	'_addIframeListener': function(){
+	'addIframeListener': function(){
 		var _this = this;		
 		mw.log('IFramePlayerApiServer::_addIframeListener');
 		$j.receiveMessage( function( event ) {			
 			_this.hanldeMsg( event );
-		}, this.parentUrl );	
+		}, this.getParentUrl() );	
 	},
-	
-	/**
-	 * Add iframe sender bindings:
-	 */
-	'_addIframeSender': function(){		
-		var _this = this;		
-		// Get the parent page URL as it was passed in, for browsers that don't support
-		// window.postMessage (this URL could be hard-coded).
-		this.parentUrl = mw.getConfig( 'EmbedPlayer.IframeParentUrl' );
-		if(!this.parentUrl){
+	getParentUrl: function(){
+		var purl = mw.getConfig( 'EmbedPlayer.IframeParentUrl' );
+		if(!purl){
 			mw.log("Error: iFramePlayerApiServer:: could not parse parent url. \n" +
 				"Player events will be dissabled");
 		}
+		return purl;
+	},
+	/**
+	 * Add iframe sender bindings:
+	 */
+	'addIframeSender': function(){		
+		var _this = this;		
+		// Get the parent page URL as it was passed in, for browsers that don't support
+		// window.postMessage (this URL could be hard-coded).
+		
 		// Set the initial attributes once player is "ready"
 		$j( this.embedPlayer ).bind( 'playerReady', function(){
 			_this.sendPlayerAttributes();
@@ -130,17 +135,17 @@ mw.IFramePlayerApiServer.prototype = {
 		} )
 	},
 	
-	'postMessage': function( msgObj ){		
+	'postMessage': function( msgObject ){		
 		try {
-			var messageString = JSON.stringify( msgObj );
+			var messageString = JSON.stringify( msgObject );
 		} catch ( e ){
-			mw.log("Error: could not JSON object: " + msgObj + ' ' + e);
+			mw.log("Error: could not JSON object: " + msgObject + ' ' + e);
 			return ;
-		}
+		}	
 		// By default postMessage sends the message to the parent frame:		
 		$j.postMessage( 
 			messageString,
-			this.parentUrl,
+			this.getParentUrl(),
 			window.parent
 		);
 	},
@@ -151,7 +156,7 @@ mw.IFramePlayerApiServer.prototype = {
 	 * @param {string} event
 	 */
 	'hanldeMsg': function( event ){
-		//mw.log( 'IFramePlayerApiServer:: hanldeMsg ');
+		mw.log( 'IFramePlayerApiServer:: hanldeMsg: ' +  event.data );
 		// Check if the server should even be enabled 
 		if( !mw.getConfig( 'EmbedPlayer.EnableIframeApi' )){
 			mw.log( 'Error: Loading iFrame playerApi but config EmbedPlayer.EnableIframeApi is false');

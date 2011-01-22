@@ -99,6 +99,7 @@ foreach( $wgMwEmbedEnabledModules as $moduleName ){
 		MwEmbedResourceManager::register( $modulePath );
 	}
 }
+
 # Add the resource loader hook:
 $wgHooks['ResourceLoaderRegisterModules'][] = 'MwEmbedResourceManager::registerModules';
 

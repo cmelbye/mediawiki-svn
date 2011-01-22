@@ -126,7 +126,7 @@
 	});
 
 	// If doing player overlays include remote for player hooks
-	$j( mw ).bind( 'LoaderEmbedPlayerUpdateRequest', function( event, playerElement, classRequest ) {
+	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		if( mw.getConfig( 'Sequencer.KalturaPlayerEditOverlay' )){
 			if( $j.inArray( 'mw.MediaWikiRemoteSequencer', classRequest ) == -1 ) {
 				classRequest.push('mw.MediaWikiRemoteSequencer');

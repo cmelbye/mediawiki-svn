@@ -29,7 +29,7 @@
 	} );
 
 	// Add the mw.SmilPlayer to the embedPlayer loader:
-	$j( mw ).bind( 'LoaderEmbedPlayerUpdateRequest', function( event, playerElement, resourceRequest ) {
+	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, resourceRequest ) {
 		var smilPlayerLibrarySet = [
 			"mw.SmilHooks",
 			"mw.Smil",

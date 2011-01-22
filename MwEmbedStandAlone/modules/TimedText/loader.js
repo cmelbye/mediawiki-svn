@@ -58,7 +58,7 @@
 
 	// Update the player loader request with timedText library if the embedPlayer
 	// includes timedText tracks.
-	$j( mw ).bind( 'LoaderEmbedPlayerUpdateRequest', function( event, playerElement, classRequest ) {
+	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		if( mw.isTimedTextSupported( playerElement ) ) {
 			classRequest = $j.merge( classRequest, mwTimedTextRequestSet );
 		}
