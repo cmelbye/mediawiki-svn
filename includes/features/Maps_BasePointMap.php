@@ -17,35 +17,22 @@ abstract class MapsBasePointMap {
 	 */
 	protected $service;
 	
-	protected $centreLat, $centreLon;
-	protected $markerJs;
-
-	protected $output = '';
+	protected $markerData = array();
 	
-	protected $markerString;
-	
-	private $specificParameters = false;
-	private $markerData = array();
+	/**
+	 * Returns the HTML to display the map.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array $params
+	 * @param $parser
+	 * 
+	 * @return string
+	 */
+	protected abstract function getMapHTML( array $params, Parser $parser );	
 	
 	public function __construct( iMappingService $service ) {
 		$this->service = $service;
-	}
-	
-	/**
-	 * Sets the map properties as class fields.
-	 * 
-	 * @param array $mapProperties
-	 */
-	protected function setMapProperties( array $mapProperties ) {
-		foreach ( $mapProperties as $paramName => $paramValue ) {
-			if ( !property_exists( __CLASS__, $paramName ) ) {
-				$this-> { $paramName } = $paramValue;
-			}
-			else {
-				// If this happens in any way, it could be a big vunerability, so throw an exception.
-				throw new Exception( 'Attempt to override a class field during map property assignment. Field name: ' . $paramName );
-			}
-		}
 	}
 	
 	/**
@@ -81,19 +68,17 @@ abstract class MapsBasePointMap {
 	 * 
 	 * @return html
 	 */
-	public final function getMapHtml( array $params, Parser $parser ) {
-		$this->setMapProperties( $params );
-		
-		$this->setMarkerData();
+	public final function renderMap( array $params, Parser $parser ) {
+		$this->setMarkerData( $params );
 
-		$this->setCentre();
+		$this->setCentre( $params );
 		
 		// TODO
-		if ( count( $this->markerData ) <= 1 && $this->zoom == 'null' ) {
+		/*if ( count( $this->markerData ) <= 1 && $this->zoom == 'null' ) {
 			$this->zoom = $this->service->getDefaultZoom();
-		}
+		}*/
 		
-		$this->addSpecificMapHTML( $parser );
+		$output = $this->getMapHTML( $params, $parser ) . $this->getJSON( $params, $parser );
 		
 		global $wgTitle;
 		if ( $wgTitle->getNamespace() == NS_SPECIAL ) {
@@ -104,8 +89,43 @@ abstract class MapsBasePointMap {
 			$this->service->addDependencies( $parser );			
 		}
 		
-		return $this->output;
+		return $output;
 	}
+	
+	/**
+	 * Returns the JSON with the maps data.
+	 *
+	 * @since 0.8
+	 *
+	 * @param array $params
+	 * @param Parser $parser
+	 * 
+	 * @return string
+	 */	
+	protected function getJSON( array $params, Parser $parser ) {
+		$object = $this->getJSONObject( $params, $parser );
+		
+		if ( $object === false ) {
+			return '';
+		}
+		
+		// TODO
+		return Html::inlineScript( "maps=[]; maps['{$this->service->getName()}']=[]; maps['{$this->service->getName()}'].push(" . json_encode( $object ) . ')' );
+	}
+	
+	/**
+	 * Returns a PHP object to encode to JSON with the map data.
+	 *
+	 * @since 0.8
+	 *
+	 * @param array $params
+	 * @param Parser $parser
+	 * 
+	 * @return mixed
+	 */	
+	protected function getJSONObject( array $params, Parser $parser ) {
+		return $params;
+	}	
 	
 	/**
 	 * Fills the $markerData array with the locations and their meta data.
@@ -170,7 +190,7 @@ abstract class MapsBasePointMap {
 	 * Sets the $centre_lat and $centre_lon fields.
 	 * Note: this needs to be done AFTRE the maker coordinates are set.
 	 */
-	protected function setCentre() {
+	protected function setCentre( array &$params ) {
 		global $egMapsDefaultMapCentre;
 		
 		if ( $this->centre === false ) {
@@ -186,7 +206,7 @@ abstract class MapsBasePointMap {
 				$this->centreLon = 'null';
 			}
 			else  {
-				$this->setCentreToDefault();
+				$this->setCentreToDefault( $params );
 			}
 			
 		}
@@ -199,7 +219,7 @@ abstract class MapsBasePointMap {
 				$this->centreLon = Xml::escapeJsString( $this->centre['lon'] );
 			}
 			else { // If it's false, the coordinate was invalid, or geocoding failed. Either way, the default's should be used.
-				$this->setCentreToDefault();
+				$this->setCentreToDefault( $params );
 			}
 		}
 
@@ -211,7 +231,7 @@ abstract class MapsBasePointMap {
 	 * 
 	 * @since 0.7
 	 */
-	protected function setCentreToDefault() {
+	protected function setCentreToDefault( array &$params ) {
 		global $egMapsDefaultMapCentre;
 		
 		$centre = MapsGeocoders::attemptToGeocode( $egMapsDefaultMapCentre, $this->geoservice, $this->service->getName() );
@@ -220,6 +240,7 @@ abstract class MapsBasePointMap {
 			throw new Exception( 'Failed to parse the default centre for the map. Please check the value of $egMapsDefaultMapCentre.' );
 		}
 		else {
+			//$params['centre'] = 
 			$this->centreLat = Xml::escapeJsString( $centre['lat'] );
 			$this->centreLon = Xml::escapeJsString( $centre['lon'] );			
 		}

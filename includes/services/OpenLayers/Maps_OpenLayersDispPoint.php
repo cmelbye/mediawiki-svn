@@ -11,14 +11,14 @@
 class MapsOpenLayersDispPoint extends MapsBasePointMap {
 	
 	/**
-	 * @see MapsBaseMap::addSpecificMapHTML
+	 * @see MapsBasePointMap::getMapHTML()
 	 */
-	public function addSpecificMapHTML( Parser $parser ) {
+	public function addSpecificMapHTML( array $params, Parser $parser ) {
 		return Html::element(
 			'div',
 			array(
 				'id' => $this->service->getMapId(),
-				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
+				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
 		);

@@ -272,14 +272,16 @@ class MapsGoogleMaps extends MapsMappingService {
 	/**
 	 * Adds the needed output for the overlays control.
 	 * 
-	 * @param string $output
 	 * @param string $mapName
 	 * @param string $overlays
 	 * @param string $controls
 	 * 
 	 * FIXME: layer onload function kills maps for some reason
+	 * TODO: integrate this properly with Validator
+	 * 
+	 * @return string
 	 */
-	public function addOverlayOutput( &$output, $mapName, $overlays, $controls ) {
+	public function getOverlayOutput( $mapName, $overlays, $controls ) {
 		global $egMapsGMapOverlays, $egMapsGoogleOverlLoaded;
 		
 		// Check to see if there is an overlays control.
@@ -307,7 +309,7 @@ class MapsGoogleMaps extends MapsMappingService {
 		$overlayHtml = '';
 		$onloadFunctions = array();
 		
-		$output .= Html::rawElement(
+		return Html::rawElement(
 			'div',
 			array(
 				'class' => 'outer-more',

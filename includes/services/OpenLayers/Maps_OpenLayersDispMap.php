@@ -29,8 +29,6 @@ class MapsOpenLayersDispMap extends MapsBaseMap {
 	
 	/**
 	 * @see MapsBaseMap::getMapHTML
-	 * 
-	 * @since 0.7.3
 	 */
 	public function getMapHTML( array $params, Parser $parser ) {
 		return Html::element(

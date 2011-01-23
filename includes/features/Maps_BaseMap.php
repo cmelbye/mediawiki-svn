@@ -59,7 +59,7 @@ abstract class MapsBaseMap {
 	 * Handles the request from the parser hook by doing the work that's common for all
 	 * mapping services, calling the specific methods and finally returning the resulting output.
 	 *
-	 * @since 0.7.3
+	 * @since 0.8
 	 *
 	 * @param array $params
 	 * @param Parser $parser
@@ -67,19 +67,13 @@ abstract class MapsBaseMap {
 	 * @return html
 	 */
 	public final function renderMap( array $params, Parser $parser ) {
-		global $egMapsUseRL;
-		
 		$this->setCentre( $params );
 		
 		if ( $params['zoom'] == 'null' ) {
 			$params['zoom'] = $this->service->getDefaultZoom();
 		}
 		
-		$output = $this->getMapHTML( $params, $parser );
-		
-		if ( $egMapsUseRL ) {
-			$output .= $this->getJSON( $params, $parser );
-		}
+		$output = $this->getMapHTML( $params, $parser ) . $this->getJSON( $params, $parser );
 		
 		global $wgTitle;
 		if ( $wgTitle->getNamespace() == NS_SPECIAL ) {
@@ -130,6 +124,10 @@ abstract class MapsBaseMap {
 	
 	/**
 	 * Translates the coordinates field to the centre field and makes sure it's set to it's default when invalid. 
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array &$params
 	 */
 	protected function setCentre( array &$params ) {
 		// If it's false, the coordinate was invalid, or geocoding failed. Either way, the default's should be used.

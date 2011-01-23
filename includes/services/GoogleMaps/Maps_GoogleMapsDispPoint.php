@@ -10,22 +10,19 @@
  */
 final class MapsGoogleMapsDispPoint extends MapsBasePointMap {
 
-	protected function initSpecificParamInfo( array &$parameters ) {
-	}
-	
 	/**
-	 * @see MapsBaseMap::addSpecificMapHTML
+	 * @see MapsBasePointMap::getMapHTML
 	 */
-	public function addSpecificMapHTML( Parser $parser ) {
+	public function getMapHTML( array $params, Parser $parser ) {
 		$mapName = $this->service->getMapId();
 		
-		$this->service->addOverlayOutput( $this->output, $mapName, $this->overlays, $this->controls );
+		$output = $this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] );
 
-		return Html::element(
+		return $output . Html::element(
 			'div',
 			array(
 				'id' => $mapName,
-				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
+				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
 		);
