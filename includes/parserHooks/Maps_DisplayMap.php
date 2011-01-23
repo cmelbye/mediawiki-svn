@@ -68,7 +68,7 @@ class MapsDisplayMap extends ParserHook {
 		$params['coordinates'] = new Parameter( 'coordinates' );
 		$params['coordinates']->addAliases( 'coords', 'location', 'address' );
 		$params['coordinates']->addCriteria( new CriterionIsLocation() );
-		$params['coordinates']->addManipulations( new MapsParamCoordSet() );		
+		$params['coordinates']->addManipulations( new MapsParamLocation() );		
 		$params['coordinates']->addDependencies( 'mappingservice', 'geoservice' );
 		$params['coordinates']->setDescription( wfMsg( 'maps-displaymap-par-coordinates' ) );
 		

@@ -72,6 +72,7 @@ else {
 	$wgAutoloadClasses['iMappingService'] 			= $incDir . 'iMappingService.php';
 	$wgAutoloadClasses['MapsMappingServices'] 		= $incDir . 'Maps_MappingServices.php';
 	$wgAutoloadClasses['MapsMappingService'] 		= $incDir . 'Maps_MappingService.php';
+	$wgAutoloadClasses['MapsSettings']		 		= $incDir . 'Maps_Settings.php';
 	
 	// Autoload the "includes/criteria/" classes.
 	$criDir = $incDir . 'criteria/';
@@ -80,31 +81,35 @@ else {
 	$wgAutoloadClasses['CriterionIsLocation'] 		= $criDir . 'CriterionIsLocation.php';
 	$wgAutoloadClasses['CriterionMapDimension'] 	= $criDir . 'CriterionMapDimension.php';
 	$wgAutoloadClasses['CriterionMapLayer'] 		= $criDir . 'CriterionMapLayer.php';
+	unset( $criDir );
 	
 	// Autoload the "includes/features/" classes.
 	$ftDir = $incDir . '/features/';
 	$wgAutoloadClasses['MapsBaseMap'] 				= $ftDir . 'Maps_BaseMap.php';
 	$wgAutoloadClasses['MapsBasePointMap'] 			= $ftDir . 'Maps_BasePointMap.php';	
+	unset( $ftDir );
 	
 	// Autoload the "includes/geocoders/" classes.
 	$geoDir = $incDir . 'geocoders/';
 	$wgAutoloadClasses['MapsGeonamesGeocoder'] 		= $geoDir . 'Maps_GeonamesGeocoder.php';
 	$wgAutoloadClasses['MapsGoogleGeocoder'] 		= $geoDir . 'Maps_GoogleGeocoder.php';
 	$wgAutoloadClasses['MapsYahooGeocoder'] 		= $geoDir . 'Maps_YahooGeocoder.php';
+	unset( $geoDir );
 	
 	// Autoload the "includes/layers/" classes.
 	$lyrDir = $incDir . 'layers/';
 	$wgAutoloadClasses['MapsImageLayer'] 			= $lyrDir . 'Maps_ImageLayer.php';
 	$wgAutoloadClasses['MapsKMLLayer'] 				= $lyrDir . 'Maps_KMLLayer.php';
+	unset( $lyrDir );
 	
 	// Autoload the "includes/manipulations/" classes.
 	$manDir = $incDir . 'manipulations/';
-	$wgAutoloadClasses['MapsParamCoordSet'] 		= $manDir . 'Maps_ParamCoordSet.php';
 	$wgAutoloadClasses['MapsParamDimension'] 		= $manDir . 'Maps_ParamDimension.php';
 	$wgAutoloadClasses['MapsParamImage'] 			= $manDir . 'Maps_ParamImage.php';
 	$wgAutoloadClasses['MapsParamLocation'] 		= $manDir . 'Maps_ParamLocation.php';
 	$wgAutoloadClasses['MapsParamService'] 			= $manDir . 'Maps_ParamService.php';
 	$wgAutoloadClasses['MapsParamZoom'] 			= $manDir . 'Maps_ParamZoom.php';
+	unset( $manDir );
 	
 	// Autoload the "includes/parserHooks/" classes.
 	$phDir = $incDir . '/parserHooks/';
@@ -115,6 +120,8 @@ else {
 	$wgAutoloadClasses['MapsFinddestination'] 		= $phDir . 'Maps_Finddestination.php';
 	$wgAutoloadClasses['MapsGeocode'] 				= $phDir . 'Maps_Geocode.php';
 	$wgAutoloadClasses['MapsGeodistance'] 			= $phDir . 'Maps_Geodistance.php';	
+	unset( $phDir );
+	unset( $incDir );
 	
  	$wgExtensionMessagesFiles['MapsMagic'] = $egMapsDir . 'Maps.i18n.magic.php';
 	

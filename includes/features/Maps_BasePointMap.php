@@ -25,7 +25,7 @@ abstract class MapsBasePointMap {
 	 * @since 0.8
 	 * 
 	 * @param array $params
-	 * @param $parser
+	 * @param Parser $parser
 	 * 
 	 * @return string
 	 */
@@ -69,14 +69,7 @@ abstract class MapsBasePointMap {
 	 * @return html
 	 */
 	public final function renderMap( array $params, Parser $parser ) {
-		$this->setMarkerData( $params );
-
-		$this->setCentre( $params );
-		
-		// TODO
-		/*if ( count( $this->markerData ) <= 1 && $this->zoom == 'null' ) {
-			$this->zoom = $this->service->getDefaultZoom();
-		}*/
+		$this->handleMarkerData( $params );
 		
 		$output = $this->getMapHTML( $params, $parser ) . $this->getJSON( $params, $parser );
 		
@@ -128,122 +121,32 @@ abstract class MapsBasePointMap {
 	}	
 	
 	/**
-	 * Fills the $markerData array with the locations and their meta data.
-	 */
-	private function setMarkerData() {
-		global $wgTitle;
-		
-		// New parser object to render popup contents with.
-		$parser = new Parser();			
-		
-		$this->title = $parser->parse( $this->title, $wgTitle, new ParserOptions() )->getText();
-		$this->label = $parser->parse( $this->label, $wgTitle, new ParserOptions() )->getText();
-		
-		// Each $args is an array containg the coordinate set as first element, possibly followed by meta data. 
-		foreach ( $this->coordinates as $args ) {
-			$markerData = MapsCoordinateParser::parseCoordinates( array_shift( $args ) );
-
-			if ( !$markerData ) continue;
-			
-			$markerData = array( $markerData['lat'], $markerData['lon'] );
-			
-			if ( count( $args ) > 0 ) {
-				// Parse and add the point specific title if it's present.
-				$markerData['title'] = $parser->parse( $args[0], $wgTitle, new ParserOptions() )->getText();
-				
-				if ( count( $args ) > 1 ) {
-					// Parse and add the point specific label if it's present.
-					$markerData['label'] = $parser->parse( $args[1], $wgTitle, new ParserOptions() )->getText();
-					
-					if ( count( $args ) > 2 ) {
-						// Add the point specific icon if it's present.
-						$markerData['icon'] = $args[2];
-					}
-				}
-			}
-			
-			// If there is no point specific icon, use the general icon parameter when available.
-			if ( !array_key_exists( 'icon', $markerData ) ) {
-				$markerData['icon'] = $this->icon;
-			}
-			
-			if ( $markerData['icon'] != '' ) {
-				$markerData['icon'] = MapsMapper::getImageUrl( $markerData['icon'] );
-			}
-			
-			// Temporary fix, will refactor away later
-			// TODO
-			$markerData = array_values( $markerData );
-			if ( count( $markerData ) < 5 ) {
-				if ( count( $markerData ) < 4 ) {
-					$markerData[] = '';
-				}				
-				$markerData[] = '';
-			} 
-			
-			$this->markerData[] = $markerData;
-		}
-		
-	}
-
-	/**
-	 * Sets the $centre_lat and $centre_lon fields.
-	 * Note: this needs to be done AFTRE the maker coordinates are set.
-	 */
-	protected function setCentre( array &$params ) {
-		global $egMapsDefaultMapCentre;
-		
-		if ( $this->centre === false ) {
-			if ( count( $this->markerData ) == 1 ) {
-				// If centre is not set and there is exactly one marker, use its coordinates.
-				$this->centreLat = Xml::escapeJsString( $this->markerData[0][0] );
-				$this->centreLon = Xml::escapeJsString( $this->markerData[0][1] );				
-			}
-			elseif ( count( $this->markerData ) > 1 ) {
-				// If centre is not set and there are multiple markers, set the values to null,
-				// to be auto determined by the JS of the mapping API.
-				$this->centreLat = 'null';
-				$this->centreLon = 'null';
-			}
-			else  {
-				$this->setCentreToDefault( $params );
-			}
-			
-		}
-		else { // If a centre value is set, geocode when needed and use it.
-			$this->centre = MapsGeocoders::attemptToGeocode( $this->centre, $this->geoservice, $this->service->getName() );
-			
-			// If the centre is not false, it will be a valid coordinate, which can be used to set the latitude and longitutde.
-			if ( $this->centre ) {
-				$this->centreLat = Xml::escapeJsString( $this->centre['lat'] );
-				$this->centreLon = Xml::escapeJsString( $this->centre['lon'] );
-			}
-			else { // If it's false, the coordinate was invalid, or geocoding failed. Either way, the default's should be used.
-				$this->setCentreToDefault( $params );
-			}
-		}
-
-	}
-	
-	/**
-	 * Attempts to set the centreLat and centreLon fields to the Maps default.
-	 * When this fails (aka the default is not valid), an exception is thrown.
+	 * Converts the data in the coordinates parameter to JSON-ready objects.
+	 * These get stored in the locations parameter, and the coordinates on gets deleted.
 	 * 
-	 * @since 0.7
+	 * @since 0.8
+	 * 
+	 * @param array &$params
 	 */
-	protected function setCentreToDefault( array &$params ) {
-		global $egMapsDefaultMapCentre;
-		
-		$centre = MapsGeocoders::attemptToGeocode( $egMapsDefaultMapCentre, $this->geoservice, $this->service->getName() );
-		
-		if ( $centre === false ) {
-			throw new Exception( 'Failed to parse the default centre for the map. Please check the value of $egMapsDefaultMapCentre.' );
+	protected function handleMarkerData( array &$params ) {
+		global $wgTitle;
+
+		$parser = new Parser();			
+		$iconUrl = MapsMapper::getImageUrl( $params['icon'] );
+		$params['locations'] = array();
+
+		foreach ( $params['coordinates'] as $location ) {
+			if ( $location->isValid() ) {
+				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
+				
+				$jsonObj['title'] = $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText();
+				$jsonObj['text'] = $parser->parse( $jsonObj['text'], $wgTitle, new ParserOptions() )->getText();
+				
+				$params['locations'][] = $jsonObj;				
+			}
 		}
-		else {
-			//$params['centre'] = 
-			$this->centreLat = Xml::escapeJsString( $centre['lat'] );
-			$this->centreLon = Xml::escapeJsString( $centre['lon'] );			
-		}
+		
+		unset( $params['coordinates'] );
 	}
-	
+
 }

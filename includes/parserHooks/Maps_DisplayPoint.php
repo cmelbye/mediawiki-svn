@@ -68,7 +68,7 @@ class MapsDisplayPoint extends ParserHook {
 		$params['coordinates'] = new ListParameter( 'coordinates', $type === ParserHook::TYPE_FUNCTION ? ';' : "\n" );
 		$params['coordinates']->addAliases( 'coords', 'location', 'address', 'addresses', 'locations' );
 		$params['coordinates']->addCriteria( new CriterionIsLocation( $type === ParserHook::TYPE_FUNCTION ? '~' : '|' ) );
-		$params['coordinates']->addManipulations( new MapsParamCoordSet( $type === ParserHook::TYPE_FUNCTION ? '~' : '|' ) );		
+		$params['coordinates']->addManipulations( new MapsParamLocation( $type === ParserHook::TYPE_FUNCTION ? '~' : '|' ) );		
 		$params['coordinates']->addDependencies( 'mappingservice', 'geoservice' );
 		$params['coordinates']->setDescription( wfMsg( 'maps-displaypoints-par-coordinates' ) );
 		
