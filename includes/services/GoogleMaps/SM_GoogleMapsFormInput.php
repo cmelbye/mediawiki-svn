@@ -43,44 +43,16 @@ class SMGoogleMapsFormInput extends SMFormInput {
 	}
 	
 	/**
-	 * @see MapsMapFeature::addSpecificFormInputHTML
+	 * @see MapsMapFeature::getMapHTML
 	 */
-	public function addSpecificMapHTML() {
-		$mapName = $this->service->getMapId( false );
-		
-		// Remove the overlays control in case it's present.
-		// TODO: make less insane
-		if ( in_string( 'overlays', $this->controls ) ) {
-			$this->controls = str_replace( array( ",'overlays'", "'overlays'," ), '', $this->controls );
-		}
-		
-		$this->output .= Html::element(
+	public function getMapHTML() {
+		return Html::element(
 			'div',
 			array(
-				'id' => $mapName,
+				'id' => $this->service->getMapId( false ),
 				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
-		);
-		
-		MapsMapper::addInlineScript( $this->service, <<<EOT
-		makeGoogleMapFormInput(
-			"$mapName", 
-			"$this->coordsFieldName",
-			{
-				lat: $this->centreLat,
-				lon: $this->centreLon,
-				zoom: $this->zoom,
-				type: $this->type,
-				types: [$this->types],
-				controls: [$this->controls],
-				scrollWheelZoom: $this->autozoom,
-				kml: [$this->kml]
-			},
-			{$this->markerCoords['lat']},
-			{$this->markerCoords['lon']}	
-		);
-EOT
 		);
 	}
 

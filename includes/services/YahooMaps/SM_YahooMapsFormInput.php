@@ -56,32 +56,13 @@ class SMYahooMapsFormInput extends SMFormInput {
 	 * @see MapsMapFeature::addSpecificMapHTML
 	 */
 	public function addSpecificMapHTML() {
-		$mapName = $this->service->getMapId( false );
-		
-		$this->output .= Html::element(
+		return Html::element(
 			'div',
 			array(
-				'id' => $mapName,
+				'id' => $this->service->getMapId( false ),
 				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
-		);
-		
-		MapsMapper::addInlineScript( $this->service, <<<EOT
-		makeFormInputYahooMap(
-			"$mapName",
-			"$this->coordsFieldName",
-			$this->centreLat,
-			$this->centreLon,
-			$this->zoom,
-			$this->type,
-			[$this->types],
-			[$this->controls],
-			$this->autozoom,
-			{$this->markerCoords['lat']},
-			{$this->markerCoords['lon']}
-		);
-EOT
 		);
 
 	}

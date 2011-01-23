@@ -34,37 +34,14 @@ class SMOpenLayersFormInput extends SMFormInput {
 	 * @see MapsMapFeature::addSpecificMapHTML
 	 */
 	public function addSpecificMapHTML() {
-		global $wgLang;
-		
-		$mapName = $this->service->getMapId( false );
-		
-		$this->output .= Html::element(
+		return Html::element(
 			'div',
 			array(
-				'id' => $mapName,
+				'id' => $this->service->getMapId( false ),
 				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
 		);
-		
-		$langCode = $wgLang->getCode();
-		
-		MapsMapper::addInlineScript( $this->service,<<<EOT
-		makeFormInputOpenLayer(
-			"$mapName",
-			"$this->coordsFieldName",
-			$this->centreLat,
-			$this->centreLon,
-			$this->zoom,
-			{$this->markerCoords['lat']},
-			{$this->markerCoords['lon']},
-			{$this->layers},
-			[$this->controls],
-			"$langCode"
-		);
-EOT
-		);
-		
 	}
 	
 }

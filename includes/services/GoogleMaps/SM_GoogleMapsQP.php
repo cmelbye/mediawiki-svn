@@ -25,37 +25,19 @@ class SMGoogleMapsQP extends SMMapPrinter {
 	}
 	
 	/**
-	 * @see SMMapPrinter::addSpecificMapHTML
+	 * @see SMMapPrinter::getMapHTML
 	 */
-	public function addSpecificMapHTML() {
+	public function getMapHTML() {
 		$mapName = $this->service->getMapId();	
+		$output = $this->service->getOverlayOutput( $mapName, $this->overlays, $this->controls );
 		
-		$this->service->addOverlayOutput( $this->output, $mapName, $this->overlays, $this->controls );
-		
-		$this->output .= Html::element(
+		return $output . Html::element(
 			'div',
 			array(
 				'id' => $mapName,
 				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
 			),
 			wfMsg( 'maps-loading-map' )
-		);
-		
-		MapsMapper::addInlineScript( $this->service, <<<EOT
-		initializeGoogleMap("$mapName", 
-			{
-				lat: $this->centreLat,
-				lon: $this->centreLon,
-				zoom: $this->zoom,
-				type: $this->type,
-				types: [$this->types],
-				controls: [$this->controls],
-				scrollWheelZoom: $this->autozoom,
-				kml: [$this->kml]
-			},
-			$this->markerJs	
-		);
-EOT
 		);
 	}
 	
