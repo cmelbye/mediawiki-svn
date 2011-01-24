@@ -22,7 +22,7 @@
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class RefreshCategoryCounts extends Maintenance {
-	const REPORTING_INTERVAL = 1000;
+	const REPORTING_INTERVAL = 100;
 
 	public function __construct() {
 		$this->mDescription = 'Refreshes category counts';
@@ -46,6 +46,7 @@ class RefreshCategoryCounts extends Maintenance {
 		$maxlag = intval( $maxlag );
 		$throttle = intval( $throttle );
 		$id = $start;
+		$wiki = $dbw->getWikiID();
 
 		$i = 0;
 		while ( true ) {
@@ -74,7 +75,7 @@ class RefreshCategoryCounts extends Maintenance {
 
 			$i++;
 			if ( !( $i % self::REPORTING_INTERVAL ) ) {
-				$this->output( "$id\n" );
+				$this->output( "$wiki: $id\n" );
 				wfWaitForSlaves( $maxlag );
 			}
 			usleep( $throttle * 1000 );
