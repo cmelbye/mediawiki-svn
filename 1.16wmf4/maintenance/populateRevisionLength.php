@@ -26,11 +26,12 @@ class PopulateRevisionLength extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = "Populates rev_len";
-		$this->setBatchSize( 200 );
+		$this->setBatchSize( 2000 );
 	}
 
 	public function execute() {
 		$db = wfGetDB( DB_MASTER );
+		$wiki = $db->getWikiID();
 		if ( !$db->tableExists( 'revision' ) ) {
 			$this->error( "revision table does not exist", true );
 		}
@@ -51,7 +52,8 @@ class PopulateRevisionLength extends Maintenance {
 		$count = 0;
 		$missing = 0;
 		while( $blockStart <= $end ) {
-			$this->output( "...doing rev_id from $blockStart to $blockEnd\n" );
+			$this->output( "$wiki ... doing rev_id from $blockStart to $blockEnd (total: $end) " );
+			$tstart=microtime( true );
 			$res = $db->select( 'revision',
 					    Revision::selectFields(),
 					    array( "rev_id >= $blockStart",
@@ -78,6 +80,10 @@ class PopulateRevisionLength extends Maintenance {
 			}
 			$blockStart += $this->mBatchSize;
 			$blockEnd += $this->mBatchSize;
+			$tend = microtime( true );
+			$tspent = $tend - $tstart;
+			$testimated = ($end - $blockEnd)*1.0 / ($blockEnd - $blockStart) * $tspent /3600;
+			$this->output( sprintf( "            in %01.2f seconds, estimated completion in %01.1f hours\n", $tspent, $testimated ) );
 			wfWaitForSlaves( 5 );
 		}
 		$logged = $db->insert( 'updatelog',
