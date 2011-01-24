@@ -85,6 +85,7 @@ class SpecialPrefSwitch extends SpecialPage {
 					$globalUser->getName(),
 					true
 				);
+
 				if ( $remoteUser ) {
 					self::switchOffUser( $remoteUser );
 				}
@@ -94,10 +95,23 @@ class SpecialPrefSwitch extends SpecialPage {
 	
 	private static function switchOffUser( $user ) {
 		global $wgPrefSwitchPrefs;
-		foreach ( $wgPrefSwitchPrefs['off'] as $pref => $value ) {
+		// HACK check they don't already have a setting
+		$dbname = $user instanceof UserRightsProxy ? $user->getDBName() : false;
+		$dbw = wfGetDb( DB_MASTER, array(), $dbname );
+		$res = $dbw->select( 'user_properties', 'up_property', array( 'up_user' => $user->getID(), 'up_property' => array_keys( $wgPrefSwitchPrefs['off'] ) ), __METHOD__ );
+		$alreadySet = array();
+		foreach ( $res as $row ) {
+			$alreadySet[$row->up_property] = true;
+		}
+		foreach ( array_diff_key( $wgPrefSwitchPrefs['off'], $alreadySet ) as $pref => $value ) {
 			$user->setOption( $pref, $value );
 		}
 		$user->saveSettings();
+		// HACK close the connection so s3 doesn't get overloaded
+		// but don't close the currnet wiki's connection
+		if ( $dbname ) {
+			$dbw->close();
+		}
 	}
 
 	/* Functions */
