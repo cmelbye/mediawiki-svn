@@ -68,9 +68,10 @@ class RefreshLinks extends Maintenance {
 		$wgUser->setOption('math', MW_MATH_SOURCE);
 
 		# Don't generate extension images (e.g. Timeline)
-		if( method_exists( $wgParser, "clearTagHooks" ) ) {
-			$wgParser->clearTagHooks();
-		}
+		# FIXME: this breaks extension tag hooks adding categories and such (e.g. ProofreadPage)
+		#if( method_exists( $wgParser, "clearTagHooks" ) ) {
+		#	$wgParser->clearTagHooks();
+		#}
 
 		# Don't use HTML tidy
 		$wgUseTidy = false;
