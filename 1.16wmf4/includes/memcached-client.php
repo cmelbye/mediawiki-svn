@@ -916,7 +916,9 @@ class MWMemcached {
 		if ( $this->_have_zlib && $this->_compress_enable &&
 			 $this->_compress_threshold && $len >= $this->_compress_threshold )
 		{
-			$c_val = gzcompress( $val, 9 );
+			wfProfileIn( __METHOD__.'-gzcompress' );
+			$c_val = gzcompress( $val, 3 );
+			wfProfileOut( __METHOD__.'-gzcompress' );
 			$c_len = strlen( $c_val );
 
 			if ( $c_len < $len * ( 1 - self::COMPRESSION_SAVINGS ) ) {
