@@ -36,6 +36,8 @@ if ( @$_SERVER['REQUEST_URI'] == '/w/index.php?title=United_States&action=submit
 		$wgProfiler->setProfileID( 'dewiki' );
 	} elseif ( $host == 'zh.wikipedia.org' ) {
 		$wgProfiler->setProfileID( 'zhwiki' );
+	} elseif ( $host == 'flaggedrevs.labs.wikimedia.org' ) {
+		$wgProfiler->setProfileID( 'flaggedrevs' );
 	} else {
 		$wgProfiler->setProfileID( 'others' );
 	}
