@@ -306,7 +306,12 @@ class Parser
 		 */
 
 		global $wgUseTidy, $wgAlwaysUseTidy, $wgContLang, $wgDisableLangConversion, $wgDisableTitleConversion;
-		$fname = __METHOD__.'-' . wfGetCaller();
+		$caller = wfGetCaller();
+		if ( $caller == 'call_user_func_array' ) {
+			// unstub?
+			$caller = wfGetCaller( 6 );
+		}
+		$fname = __METHOD__.'-' . $caller;
 		wfProfileIn( __METHOD__ );
 		wfProfileIn( $fname );
 

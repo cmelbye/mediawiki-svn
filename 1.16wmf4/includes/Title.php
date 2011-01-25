@@ -2191,7 +2191,8 @@ class Title {
 		$success = $dbw->update( 'page',
 			array( 'page_touched' => $dbw->timestamp() ),
 			$this->pageCond(),
-			__METHOD__
+			#__METHOD__
+			wfGetAllCallers()
 		);
 		HTMLFileCache::clearFileCache( $this );
 		return $success;
