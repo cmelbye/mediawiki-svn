@@ -3,7 +3,8 @@
 'video audio source track'.replace(/\w+/g,function( n ){ document.createElement( n ) } );
 
 /**
- * mwEmbed.core includes shared mwEmbed utilities  
+ * mwEmbedSupport includes shared mwEmbed utilities that either
+ * wrap core mediawiki functionality or support legacy mwEmbed module code  
  * 
  * @license
  * mwEmbed
@@ -15,8 +16,10 @@
  * @url http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library
  *
  * Libraries used include code license in headers
+ * 
+ * @dependency 
  */
-
+alert('wtf');
 
 ( function( mw, $ ) {
 
@@ -35,49 +38,45 @@
 	}
 	
 	/**
-	 * Enables pages to target a "interfaces ready" state. 
+	 * Enables javascript to target a "interfaces ready" state. 
 	 * 
-	 * TODO make it work!
+	 * mw.ready is equivalent to calling:  
+	 * $j(mw).bind( 'InterfacesReady', callback );
 	 * 
 	 * This is different from jQuery(document).ready() ( jQuery ready is not
 	 * friendly with dynamic includes and not friendly with core interface
-	 * asynchronous build out. )
+	 * asynchronous build out. ) This allows an interface to do async calls and be globally ready
+	 * 
+	 * For example making <video> tags on the page have a video api even if the browser
+	 * does not support html5. 
 	 * 
 	 * @param {Function}
 	 *            callback Function to run once DOM and jQuery are ready
-	 */
-	var mwOnLoadFunctions = [];	// Setup the local mwOnLoadFunctions array:		
-	var mwReadyFlag = false; // mw Ready flag ( set once mwEmbed is ready )
+	 */	
 	mw.ready = function( callback ) {						
-		if( mwReadyFlag === false ) {		
+		if( mw.interfacesReadyFlag  === false ) {		
 			// Add the callbcak to the onLoad function stack
-			mwOnLoadFunctions.push ( callback );						
+			$j( mw ).bind( 'InterfacesReady', callback );
 		} else { 
 			// If mwReadyFlag is already "true" issue the callback directly:
 			callback();
 		}		
 	};
 	
-	// add a domReady setup infterface trigger
-	SetupInterface
-	/**
-	 * Runs all the queued functions called by mwEmbedSetup
-	 */ 
-	mw.runReadyFunctions = function ( ) {
-		mw.log('mw.runReadyFunctions: ' + mwOnLoadFunctions.length );				
-		// Run any pre-setup ready functions
-		while( preMwEmbedReady.length ){
-			preMwEmbedReady.shift()();
-		}		
-		// Run all the queued functions:
-		while( mwOnLoadFunctions.length ) {
-			mwOnLoadFunctions.shift()();
-		}							
-		// Sets mwReadyFlag to true so that future mw.ready run the
-		// callback directly
-		mwReadyFlag = true;			
-		
-	};	
+	// mw.interfacesReadyFlag ( set to true once interfaces are ready )
+	mw.interfacesReadyFlag = false; 
+	
+	// Once interfaces are ready update the mwReadyFlag
+	$j( mw ).bind('InterfacesReady', function(){ mw.interfacesReadyFlag  = true } );	
+	
+	// Once the DOM is ready start setting up interfaces
+	$j( document ).ready(function(){
+		$j( mw ).triggerQueueCallback('SetupInterface', function(){
+			// All interfaces have been setup trigger InterfacesReady event
+			$j( mw ).trigger( 'InterfacesReady' );
+		});
+	});
+
 	
 	/**
 	 * Aliased functions 

@@ -161,6 +161,20 @@ class Html {
 	public static function linkedScript( $url ) {
 		return '<script src="' . htmlspecialchars( $url) . '" type="text/javascript"></script>';
 	}
+	/**
+	 * Output a <script> tag with the given contents.  TODO: do some useful
+	 * escaping as well, like if $contents contains literal '</script>' or (for
+	 * XML) literal "]]>".
+	 *
+	 * @param $contents string JavaScript
+	 * @return string Raw HTML
+	 */
+	public static function inlineScript( $contents ) {
+		if ( preg_match( '/[<&]/', $contents ) ) {
+			$contents = "/*<![CDATA[*/$contents/*]]>*/";
+		}
+		return '<script type"text/javascript">'. $contents . '</script>';
+	}
 }
 
 

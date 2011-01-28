@@ -150,12 +150,11 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		if ( $context->getOnly() === 'scripts' ) {
 			// Get the latest version
 			$version = 0;
-			$modules = $this->getStartupModuleList();
+			$modules = $this->getStartupModuleList();			
 			foreach( $modules as $moduleName){
-				$version = max( $version, $context->getResourceLoader()->getModule( 'jquery' )->getModifiedTime( $context ) );
-			}
-			
-			// Build load query for jquery and mediawiki modules
+				$version = max( $version, $context->getResourceLoader()->getModule( $moduleName )->getModifiedTime( $context ) );
+			}			
+			// Build load query for StartupModules 
 			$query = array(
 				'modules' => implode( '|',  $modules ),
 				'only' => 'scripts',
@@ -180,11 +179,11 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			$out .= "if ( mwIsCompatible() ) {\n" . 
 				"\t" . Xml::encodeJsCall( 'document.write', array( $scriptTag ) ) . 
 				"}\n" . 
-				"delete isCompatible;";
+				"delete mwIsCompatible;";
 		}	
 		return $out;
 	}
-	private function getStartupModuleList(){
+	public function getStartupModuleList(){
 		return array( 'jquery', 'mediawiki' );
 	}
 	public function getModifiedTime( ResourceLoaderContext $context ) {

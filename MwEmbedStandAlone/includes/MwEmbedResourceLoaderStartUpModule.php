@@ -30,6 +30,20 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 		}
 		return $this->fileDeps[$skin];*/
 	}
+	/**
+	 * mwEmbedStartup is dependent on mwEmbedSupport 
+	 */
+	public function getStartupModuleList(){
+		// Startup modules don't respect dependency manually add 'jquery.triggerQueueCallback', 'mwEmbedSupport'
+		return array( 'jquery', 'mediawiki', 'mwEmbedSupport' );
+	}
+	
+	public function getScript( ResourceLoaderContext $context ) {
+		$out = parent::getScript( $context );
+		// Append mediaWiki.loader.go() for stand alone context:
+		$out.=  Xml::encodeJsCall( 'document.write', array( Html::inlineScript( "mediaWiki.loader.go();" ) ) );
+		return $out;		
+	}
 	
 	protected function getConfig( $context ) {
 		// @@todo set all the configuration variables 
