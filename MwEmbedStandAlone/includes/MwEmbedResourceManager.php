@@ -46,6 +46,13 @@ class MwEmbedResourceManager {
 				}
 			}
 		};		
+		// Check for module loader:
+		if( is_file( $fullResourcePath . '/' . $moduleName . '.loader.js' )){
+			$resourceList[ $moduleName . '.loader' ] = array(
+				'loaderScript' => $moduleName . '.loader.js'
+			);
+		}
+		
 		// @@TODO add $moduleInfo['config']
 		
 		// Add the resource list into the module set with its provided path 
@@ -59,6 +66,7 @@ class MwEmbedResourceManager {
 	 */
 	public static function registerModules( &$resourceLoader ) {
 		global $IP;
+		print_r( self::$moduleSet );
 		// Register all the resources with the resource loader
 		foreach( self::$moduleSet as $path => $modules ) {
 			foreach ( $modules as $name => $resources ) {							

@@ -41,7 +41,6 @@
 		// Hide videonojs class
 		$( '.videonojs' ).hide();
 
-		if()
 		
 		// Set up the embed video player class request: (include the skin js as well)
 		var dependencySet = [

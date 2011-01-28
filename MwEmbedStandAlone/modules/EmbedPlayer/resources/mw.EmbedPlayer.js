@@ -1975,47 +1975,25 @@ mw.EmbedPlayer.prototype = {
 	 *      [misssingType] missing type mime
 	 */
 	showPluginMissingHTML: function( ) {
-		mw.log("showPluginMissingHTML");
-		// Get mime type for unsuported formats:
-		var missingType = '';
-		var or = '';
-		for ( var i = 0; i < this.mediaElement.sources.length; i++ ) {
-			missingType += or + this.mediaElement.sources[i].mimeType;
-			or = ' or ';
-		}
-		// Remove the loading spinner if present:
-		$j('.playerLoadingSpinner,.loadingSpinner').remove();
-
-		// If the native video is already displayed hide it:
-		if( $j( '#' + this.pid ).length != 0 ){
-			$j('#loadingSpinner_' + this.id ).remove();
-			$j( '#' + this.pid ).hide()
-		}
-		if( this.mediaElement.sources.length == 0 ){
-			// hide the pid if present:
-			$j( '#pid_' + this.id ).hide();
-			$j( this ).show().html(
-				$j('<span />').text(
-					gM('mwe-embedplayer-missing-source')
-				)
-			);
-			return ;
-		}
-		var source = this.mediaElement.sources[0];
-		// Check if we have user defined missing html msg:
-		 $j( this ).html(
-		 	$j('<div />').append(
-		 		gM( 'mwe-embedplayer-generic_missing_plugin', missingType ),
-		 		$j( '<br />' ),
-		 		$j( '<a />' )
-		 		.attr( {
-		 			'title' : gM( 'mwe-embedplayer-download_clip' ),
-		 			'href' : source.src
-		 		})
-		 		.text( gM( 'mwe-embedplayer-download_clip' ) )
-		 	)
-		 );
-		// hide
+		mw.log("EmbedPlayer::showPluginMissingHTML");
+		// Control builder ( for play button )
+		this.controlBuilder = new mw.PlayerControlBuilder( this );
+		
+		// Remove loader
+		$j('#loadingSpinner_' + this.id ).remove();
+		
+		// Get mime type for un-supported formats:
+		this.updatePosterHTML();
+		
+		// Set the play button to the first available source: 
+		$j(this).find('.play-btn-large')
+		.unbind('click')
+		.wrap(
+			$j('<a />').attr( {
+				'href': this.mediaElement.sources[0].getSrc(),
+				'title' : gM('mwe-embedplayer-play_clip')
+			} )
+		)
 	},
 
 	/**
