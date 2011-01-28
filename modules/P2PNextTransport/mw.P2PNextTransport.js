@@ -34,14 +34,34 @@ mw.P2PNextTransport = {
 		$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
 			// Setup the "embedCode" binding to swap in an updated url
 			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
+				// Add binding for source selection preference  
+				$j( embedPlayer.mediaElement ).bind('AutoSelectSource', function( event, playableSources ){
+					// Check for swift and swarm ( prefer swift )
+					$j.each( playableSources, function(inx, source){						
+						if( source.mimeType == 'video/swiftTransport'){
+							embedPlayer.mediaElement.selectedSource = source;
+							// break loop do no more checks
+							return false;
+						}
+						if( source.mimeType == 'video/swarmTransport'){
+							embedPlayer.mediaElement.selectedSource = source;
+							// continue looking for swift
+							return true;
+						}
+					});					
+				});
+				
+				
 				// Confirm P2PNextTransport add-on is available 
+
 				if( _this.getTransportObjects().length ){
 					// Add the swarm source
-					_this.addTransportSources( embedPlayer, function( status ){
+					_this.addTransportSources( embedPlayer, function( status ){						
 						// Check if the status returned true 
 						if( status ){
 							// Update the source if paused
 							if( embedPlayer.paused ) {
+								
 								// Re setup sources
 								embedPlayer.setupSourcePlayer();
 							}
@@ -121,8 +141,8 @@ mw.P2PNextTransport = {
 			mw.log("Warning: addSwarmSource: could not find video/ogg source to generate torrent from");
 			callback();
 			return ;
-		}		
-		$.each( this.getTransportObjects(), function(inx, transportObject ){
+		}
+		$.each( this.getTransportObjects(), function( inx, transportObject ){
 			// Setup function to run in context based on callback result
 			$j.getJSON(
 				transportObject.lookupUrl + '?jsonp=?',
@@ -131,21 +151,16 @@ mw.P2PNextTransport = {
 				},
 				function( data ){									
 					// Check if the torrent is ready:
-					if( !data.torrent && !	data ){
-						mw.log( "P2PNext: ( " + transportObject.lookupUrl + " ) Torrent not ready status: " + data.status.text );
+					if( !data || !data.torrent || !data.swift  ) {
+						mw.log( "P2PNext: ( " + transportObject.lookupUrl + " ) Not ready ");
 						callback( false );
 						return ;
-					}
-					if( !data.torrent || !data.swift ){
-						mw.log( 'P2PNextTransport: could not get p2p source status:' + data.text );
-						return ;
-					}
-					mw.log( 'P2PNextTransport: addSwarmSource for: ' + source.getSrc() + "\n\nGot:" + data.torrent );
-					
-					var transportSrc = '';
+					}					
+					var transportSrc = '';					
 					// Set the source via transportObject type
 					if( transportObject.name == 'swift'){
 						transportSrc = data.swift;
+						
 					} else {
 						transportSrc = transportObject.protocol + data.torrent;
 					}
@@ -155,14 +170,13 @@ mw.P2PNextTransport = {
 							'type' : transportObject.mime,
 							'title': gM('mwe-' + transportObject.name + 'transport-stream-ogg' ),
 							'src': transportSrc,
-							'default' : true
+							// Set default if "swift"
+							'default' :true 
 						} )
 						.get( 0 )
 					);
-					// XXX need to update preference
-					
 					callback( true );
-				}
+				}				
 			);
 		})
 	},

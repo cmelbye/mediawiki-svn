@@ -978,8 +978,7 @@ mediaElement.prototype = {
 	},
 
 	/**
-	 * Selects the default source via cookie preference, default marked, or by
-	 * id order
+	 * Selects the default source via cookie preference, default marked, or by id order
 	 */
 	autoSelectSource: function() {
 		mw.log( 'EmbedPlayer::mediaElement::autoSelectSource' );
@@ -1005,6 +1004,13 @@ mediaElement.prototype = {
 				 return true;
 			}
 		}
+		
+		// Set via module driven preference:
+		$j(this).trigger( 'AutoSelectSource', [ playableSources ] );
+		if( _this.selectedSource ){
+			return true;
+		}
+		
 
 		// Set via marked default:
 		for ( var source = 0; source < playableSources.length; source++ ) {
