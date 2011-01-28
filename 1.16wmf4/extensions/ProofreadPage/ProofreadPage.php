@@ -33,7 +33,7 @@ $wgSpecialPages['IndexPages'] = 'ProofreadPages';
 $wgSpecialPageGroups['IndexPages'] = 'pages';
 
 # Bump the version number every time you change proofread.js
-$wgProofreadPageVersion = 26;
+$wgProofreadPageVersion = 27;
 
 # Max width of zoomable image
 $wgProofreadPageMaxWidth = 2048;
