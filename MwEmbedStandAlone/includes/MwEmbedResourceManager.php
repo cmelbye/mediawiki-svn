@@ -10,6 +10,7 @@
 class MwEmbedResourceManager {
 	
 	protected static $moduleSet = array();
+	protected static $moduleConfig = array();
 	
 	/**
 	 * Register mwEmbeed resource set 
@@ -35,7 +36,7 @@ class MwEmbedResourceManager {
 		$wgExtensionMessagesFiles[ 'MwEmbed.' . $moduleName ] = $fullResourcePath . '/' . $moduleName . '.i18n.php';				
 		
 		// Get the mwEmbed module config		
-		$resourceList = require_once( $fullResourcePath . '/' . $moduleName . '.php' );
+		$resourceList = include( $fullResourcePath . '/' . $moduleName . '.php' );
 		// Look for special 'messages' => 'moduleFile' key and load all modules file messages:
 		foreach( $resourceList as $name => $resources ){
 			if( isset( $resources['messageFile'] ) && is_file( $fullResourcePath . '/' .$resources['messageFile'] ) ){
@@ -53,12 +54,22 @@ class MwEmbedResourceManager {
 			);
 		}
 		
-		// @@TODO add $moduleInfo['config']
+		// Check for module config ( @@TODO support per-module config )
+		$configPath =  $fullResourcePath . '/' . $moduleName . '.config.php';  
+		if( is_file( $configPath ) ){
+			self::$moduleConfig[ $moduleName ] = include( $configPath );
+		}
 		
 		// Add the resource list into the module set with its provided path 
 		self::$moduleSet[ $mwEmbedResourcePath ] = $resourceList;		
 	}
 	
+	public static function registerConfigVars( &$vars ){
+		foreach( self::$moduleConfig as $moduleName => $config ){
+			$vars = array_merge( $vars, $config ); 
+		}
+		return $vars;
+	}
 	/**
 	 * ResourceLoaderRegisterModules hook
 	 * 

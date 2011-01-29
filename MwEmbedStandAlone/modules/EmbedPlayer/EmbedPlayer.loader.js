@@ -10,10 +10,10 @@
 	*/
 	$( mw ).bind( 'SetupInterface', function( event, callback ){
 		
-		// Allow modules to do tag rewrites as well: 
+		// Allow modules to extend EmbedPlayerRewritePlayerTags rewrites as well: 
 		var doModuleTagRewrites = function(){			
-			$(mw).triggerQueueCallback( 'LoadeRewritePlayerTags', callback );
-		}
+			$( mw ).triggerQueueCallback( 'EmbedPlayerRewritePlayerTags', callback );
+		};
 		// Check if we have tags to rewrite: 
 		if( $( mw.getConfig( 'EmbedPlayer.RewriteTags' )  ).length ) {
 			var rewriteElementCount = 0;
@@ -70,14 +70,14 @@
 			mw.getConfig( 'EmbedPlayer.IframeParentUrl' ) 
 		){
 			dependencySet.push('mw.EmbedPlayerNative');
-			dependencySet.push('$.postMessage');
+			dependencySet.push('jquery.postMessage');
 			dependencySet.push('mw.IFramePlayerApiServer');
 		}
 		
 		// Allow modules to update the set of dependencies: 
 		var rewriteElementCount = 0;
-		$.each( playerSelect, function(inx, playerElement){
-			
+		$( playerSelect).each( function(inx, playerElement){
+
 			// Assign an the element an ID ( if its missing one )
 			if ( $( playerElement ).attr( "id" ) == '' ) {
 				$( playerElement ).attr( "id", 'v' + ( rewriteElementCount++ ) );
@@ -86,7 +86,7 @@
 			// Add an overlay loader
 			$( playerElement )
 				.getAbsoluteOverlaySpinner()
-				.attr('id', 'loadingSpinner_' + $( element ).attr('id') )
+				.attr('id', 'loadingSpinner_' + $( playerElement ).attr('id') )
 				.addClass( 'playerLoadingSpinner' );
 			
 			// Add core "skin/interface" loader			
@@ -107,7 +107,12 @@
 		
 		// Do the request and process the playerElements with updated dependency set
 		mediaWiki.loader.using( dependencySet, function(){
+			setTimeout( function(){
+				var cat = mw.processEmbedPlayers;
+				debugger;
+			}, 300);
 			// EmbedPlayer should be ready: 
+			//mw.processEmbedPlayers( playerSelect, readyCallback );
 		});
 	};
 

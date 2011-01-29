@@ -193,6 +193,46 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 
 	return $output;
 }
+// simple mediaWiki msg retrival: 
+$wgMessageCache = array();
+function wfMsgExt( $key, $options = array() ){
+	global $wgLoadedMsgKeysFlag, $wgMessageCache, $mwLanguageCode;
+
+	$langKey = ( $options['language'] )? $options['language'] : 'en';
+	
+	// Check if $wgMessageCache is empty, if so poulate will all its messages:
+	if( count( $wgMessageCache) === 0){
+		mwEmbedLoadMsgKeys( $langKey );
+	}	
+	if ( isset( $wgMessageCache[ $key ] ) ) {
+		return $wgMessageCache[ $key ];
+	} else {
+		return '[' . $key . ']';
+	}	
+}
+
+/**
+ * Load all the msg keys into $wgMessageCache
+ * @param $langKey String Language key to be used
+ */
+function mwEmbedLoadMsgKeys( $langKey ){
+	global $wgExtensionMessagesFiles, $wgMessageCache;
+
+	foreach( $wgExtensionMessagesFiles as $msgFile ){
+		if( !is_file( $msgFile ) ) {
+			throw new MWException( "Missing msgFile: " . htmlspecialchars( $msgFile ) . "\n" );
+		}
+		require( $msgFile );
+		// First include the English fallback:
+		$wgMessageCache = array_merge( $wgMessageCache, $messages[ 'en' ] );
+		
+		// Then override with the current language:
+		if( isset( $messages[ $langKey ] ) ) {
+			$wgMessageCache = array_merge( $wgMessageCache, $messages[ $langKey ] );
+		}
+	}
+	$wgLoadedMsgKeysFlag = true;
+}
 
 // Memcached stubs:
 /**

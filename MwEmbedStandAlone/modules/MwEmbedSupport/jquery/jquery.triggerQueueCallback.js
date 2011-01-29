@@ -69,4 +69,4 @@
 			$( this ).trigger( triggerName, [ doCallbackCheck ] );
 		}
 	};
-} )( window.mw );
+} )( jQuery );

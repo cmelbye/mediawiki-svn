@@ -1,34 +1,34 @@
-<?php 
+<?php
 
 	// Register all the EmbedPlayer modules 
 	return array(
 			"mw.EmbedPlayer" => array( 
 				'scripts' => array( 
-					"resources/mw.EmbedPlayer.js", 
+					"players/mw.EmbedPlayer.js", 
 					"skins/mw.PlayerControlBuilder.js",
 				),
 				'dependencies' => array(
+
 					// jQuery dependencies: 
 					'jquery.hoverIntent',
 					'jquery.cookie',
 					'jquery.ui.mouse',
-					'$.fn.menu',
-					'mw.style.jquerymenu',
-					'$.ui.slider'					
+					'jquery.menu',
+					'jquery.ui.slider'					
 				),
 				'styles' => "skins/mw.style.EmbedPlayer.css",
 				'messageFile' => 'EmbedPlayer.i18n.php',			
 			),
 				
-			"mw.EmbedPlayerKplayer"	=> array( 'scripts'=> "resources/mw.EmbedPlayerKplayer.js" ),
-			"mw.EmbedPlayerGeneric"	=> array( 'scripts'=> "resources/mw.EmbedPlayerGeneric.js" ),
-			"mw.EmbedPlayerJava" => array( 'scripts'=> "resources/mw.EmbedPlayerJava.js"),
-			"mw.EmbedPlayerNative"	=> array( 'scripts'=> "resources/mw.EmbedPlayerNative.js" ),
+			"mw.EmbedPlayerKplayer"	=> array( 'scripts'=> "players/mw.EmbedPlayerKplayer.js" ),
+			"mw.EmbedPlayerGeneric"	=> array( 'scripts'=> "players/mw.EmbedPlayerGeneric.js" ),
+			"mw.EmbedPlayerJava" => array( 'scripts'=> "players/mw.EmbedPlayerJava.js"),
+			"mw.EmbedPlayerNative"	=> array( 'scripts'=> "players/mw.EmbedPlayerNative.js" ),
 			
-			"mw.EmbedPlayerVlc" => array( 'scripts'=> "resources/mw.EmbedPlayerVlc.js" ),
+			"mw.EmbedPlayerVlc" => array( 'scripts'=> "players/mw.EmbedPlayerVlc.js" ),
 			
-			"mw.IFramePlayerApiServer" => array( 'scripts' => "resources/mw.IFramePlayerApiServer.js" ),
-			"mw.IFramePlayerApiClient" => array( 'scripts' => "resources/mw.IFramePlayerApiClient.js" ),
+			"mw.IFramePlayerApiServer" => array( 'scripts' => "iframeApi/mw.IFramePlayerApiServer.js" ),
+			"mw.IFramePlayerApiClient" => array( 'scripts' => "iframeApi/mw.IFramePlayerApiClient.js" ),
 		
 			"mw.PlayerSkinKskin" => array( 	'scripts' => "skins/kskin/mw.PlayerSkinKskin.js",
 											'styles' => "skins/kskin/mw.style.PlayerSkinKskin.css"),

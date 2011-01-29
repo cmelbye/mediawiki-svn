@@ -17,9 +17,8 @@
  *
  * Libraries used include code license in headers
  * 
- * @dependency 
+ * @dependencies  
  */
-alert('wtf');
 
 ( function( mw, $ ) {
 
@@ -38,17 +37,19 @@ alert('wtf');
 	}
 	
 	/**
-	 * Enables javascript to target a "interfaces ready" state. 
+	 * Enables javascript modules and pages to target a "interfaces ready" state. 
 	 * 
 	 * mw.ready is equivalent to calling:  
 	 * $j(mw).bind( 'InterfacesReady', callback );
 	 * 
 	 * This is different from jQuery(document).ready() ( jQuery ready is not
 	 * friendly with dynamic includes and not friendly with core interface
-	 * asynchronous build out. ) This allows an interface to do async calls and be globally ready
+	 * asynchronous build out. ) This allows core interface components to do async conditional
+	 * load calls, and trigger a ready event once the javascript interface build out is complete
 	 * 
 	 * For example making <video> tags on the page have a video api even if the browser
-	 * does not support html5. 
+	 * does not support html5 requires dynamic loading that can only happen once the page dom is
+	 * ready 
 	 * 
 	 * @param {Function}
 	 *            callback Function to run once DOM and jQuery are ready
@@ -87,7 +88,7 @@ alert('wtf');
 		mediaWiki.config.set( name, value );
 	};
 	mw.getConfig = function( name, value ){
-		mediaWiki.config.get( name, value );
+		return mediaWiki.config.get( name, value );
 	};
 	mw.setDefaultConfig = function( name, value ){
 		if( ! mediaWiki.config.get( name ) ){
@@ -98,6 +99,13 @@ alert('wtf');
 		mediaWiki.using( resources, callback, function(){
 			// failed to load
 		});
+	};	
+	
+	/**
+	 * legacy support to get the mwEmbed resource path:
+	 */
+	mw.getMwEmbedPath = function(){
+		 return mediaWiki.config.get( 'wgLoadScript' ).replace('load.php', '');
 	};
 	
 	/**
@@ -110,20 +118,22 @@ alert('wtf');
 			});
 			return ;
 		}
-		// Check if we should "merge" the config
-		if( typeof value == 'object' && typeof mw.getConfig( name ) == 'object' ) {
-			if ( value.constructor.toString().indexOf("Array") != -1 &&
-				mw.getConfig( name ).constructor.toString().indexOf("Array") != -1 
-			){
-				// merge in the array
-				mw.setConfig( name, $j.merge( mw.getConfig( name ), value ) );
-			} else {
-				mw.setConfig( name, value );
-			}
+		if( !mediaWiki.config.get( name )){
+			mw.setConfig( name, value );
 			return ;
 		}
-		// else do a normal setConfig
-		mw.setConfig( name, value );
+		if( typeof mediaWiki.config.get( name ) == 'object' ){
+			mw.setConfig( name, $.extend( mediaWiki.config.get( name ), value ) );
+		}		
+	};
+	
+	
+	/**
+	 * gM ( get Message ) in js2 conflated jQuery return type with string return type
+	 * Do a legacy check for input parameters and 'do the right thing' 
+	 */
+	window.gM = function( key, parameters ){
+		
 	};
 	
 	/**

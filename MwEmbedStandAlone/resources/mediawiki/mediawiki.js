@@ -576,8 +576,8 @@ window.mediaWiki = new ( function( $ ) {
 		var jobs = [];
 		// Flag indicating that requests should be suspended
 		var suspended = true;
-		// Flag inidicating that document ready has occured
-		var ready = false;
+		// Flag inidicating that document is ready 
+		var documentReady = false;
 		// Marker element for adding dynamic styles
 		var $marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' );
 
@@ -614,7 +614,7 @@ window.mediaWiki = new ( function( $ ) {
 				pad( d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds() ), 'Z'
 			].join( '' );
 		}
-
+		
 		/**
 		 * Recursively resolves dependencies and detects circular references
 		 */
@@ -853,6 +853,47 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			return sorted;
 		}
+		
+		/**
+		 * Appends a set of scripts to the dom
+		 * @param url {Mixed} Array or single url string
+		 */
+		function appendScripts( url, callback, error ){
+			if( ! url )
+				return ;
+			if( $.isArray( url ) ){
+				var requestCount = 0;
+				$.each( url, function(inx, singleUrl ){
+					requestCount++;
+					appendScripts( singleUrl, function(){
+						requestCount--;
+						if( requestCount == 0 && typeof callback == 'function')
+							callback();
+					});
+				});
+				return ;
+			}
+			
+			// Load asynchronously after document ready
+			if ( documentReady ) {
+				// Load without jQuery to avoid $.globalEval issue				
+				var script = document.createElement( "script" );
+				script.setAttribute( 'src', url );
+				script.setAttribute( 'type', 'text/javascript' );
+				if( callback ){
+					script.onload = callback;		
+				}
+				document.getElementsByTagName("body")[ 0 ].appendChild( script );
+			} else {
+				var script = mediaWiki.html.element( 'script',
+						{ type: 'text/javascript', src: url }, '' );
+				document.write( script );
+				// document.write blocks script execution so we can directly run the callback: 
+				if( callback ){
+					callback();
+				}
+			}
+		}
 
 		/* Public Methods */
 
@@ -917,23 +958,16 @@ window.mediaWiki = new ( function( $ ) {
 				// include modules which are already loaded
 				batch = [];
 				// Asynchronously append a script tag to the end of the body
-				function request() {
-					var html = '';
+				function getRequestUrs() {
+					var urls = [];
 					for ( var r = 0; r < requests.length; r++ ) {
 						requests[r] = sortQuery( requests[r] );
 						// Build out the HTML
-						var src = mediaWiki.config.get( 'wgLoadScript' ) + '?' + $.param( requests[r] );
-						html += mediaWiki.html.element( 'script',
-							{ type: 'text/javascript', src: src }, '' );
+						urls.push( mediaWiki.config.get( 'wgLoadScript' ) + '?' + $.param( requests[r] ) );
 					}
-					return html;
+					return urls;
 				}
-				// Load asynchronously after doumument ready
-				if ( ready ) {
-					setTimeout( function() { $( 'body' ).append( request() ); }, 0 );
-				} else {
-					document.write( request() );
-				}
+				appendScripts( getRequestUrs() );
 			}
 		};
 
@@ -1097,13 +1131,7 @@ window.mediaWiki = new ( function( $ ) {
 							.attr( 'href', modules ) );
 						return true;
 					} else if ( type === 'text/javascript' || typeof type === 'undefined' ) {
-						var script = mediaWiki.html.element( 'script',
-							{ type: 'text/javascript', src: modules }, '' );
-						if ( ready ) {
-							$( 'body' ).append( script );
-						} else {
-							document.write( script );
-						}
+						appendScripts( modules );
 						return true;
 					}
 					// Unknown type
@@ -1170,7 +1198,7 @@ window.mediaWiki = new ( function( $ ) {
 
 		/* Cache document ready status */
 
-		$(document).ready( function() { ready = true; } );
+		$(document).ready( function() { documentReady = true; } );
 	} )();
 
 	/** HTML construction helper functions */

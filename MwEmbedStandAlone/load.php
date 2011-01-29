@@ -30,6 +30,6 @@ require ( dirname( __FILE__ ) . '/includes/MwEmbedWebStartSetup.php' );
 
 // Respond to resource loading request
 $resourceLoader = new MwEmbedResourceLoader();
-$resourceLoader->respond( new ResourceLoaderContext( $resourceLoader, $wgRequest ) );
+$resourceLoader->respond( new MwEmbedResourceLoaderContext( $resourceLoader, $wgRequest ) );
 
 

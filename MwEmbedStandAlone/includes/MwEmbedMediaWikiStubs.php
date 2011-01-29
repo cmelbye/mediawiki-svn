@@ -95,7 +95,7 @@ class Xml {
 		$s .= ");\n";
 		return $s;
 	}
-/**
+	/**
 	 * Returns an escaped string suitable for inclusion in a string literal
 	 * for JavaScript source code.
 	 * Illegal control characters are assumed not to be present.
@@ -192,7 +192,7 @@ class MessageBlobStore {
 		$blobs = array();
 		foreach( $modules as $name => $module ){
 			$messages = array();
-			foreach ( $module->getMessages() as $key ) {
+			foreach ( $module->getMessages() as $key ) {		
 				$messages[$key] = wfMsgExt( $key, array( 'language' => $lang ) );
 			}
 			if( count( $messages ) ){
@@ -200,6 +200,19 @@ class MessageBlobStore {
 			}
 		}
 		return $blobs;
+	}
+}
+
+/**
+ * MediaWiki abstracts the json functions with fallbacks
+ * here we just map directly to the native php call: 
+ */
+class FormatJson{
+	public static function encode($value, $isHtml=false){
+		return json_encode($value);
+	}
+	public static function decode( $value, $assoc=false ){
+		return json_decode( $value, $assoc );
 	}
 }
 

@@ -169,9 +169,9 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			// Startup function
 			$configuration = $this->getConfig( $context );
 			$registrations = self::getModuleRegistrations( $context );
-			$out .= "var mwStartUp = function() {\n" . 
+			$out .= "var mwStartUp = function() {\n" . 				
+				"\t" . Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) ) .
 				"\t$registrations\n" . 
-				"\t" . Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) ) . 
 				"};\n";
 			
 			// Conditional script injection

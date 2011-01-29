@@ -34,8 +34,8 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 	 * mwEmbedStartup is dependent on mwEmbedSupport 
 	 */
 	public function getStartupModuleList(){
-		// Startup modules don't respect dependency manually add 'jquery.triggerQueueCallback', 'mwEmbedSupport'
-		return array( 'jquery', 'mediawiki', 'mwEmbedSupport' );
+		// Startup modules don't respect dependency manually add 'mwEmbedSupport' dependencies
+		return array( 'jquery', 'mediawiki', 'jquery.triggerQueueCallback', 'jquery.mwEmbedUtil', 'mwEmbedSupport' );
 	}
 	
 	public function getScript( ResourceLoaderContext $context ) {
@@ -46,8 +46,15 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 	}
 	
 	protected function getConfig( $context ) {
-		// @@todo set all the configuration variables 
-		$vars = array();
+		global $wgLoadScript; 
+		
+		
+		$vars = array(
+			'wgLoadScript' => $wgLoadScript,
+			'debug' => $context->getDebug(),
+			'skin' => $context->getSkin(),
+			'wgUserLanguage' => $context->getLanguage(),
+		);
 		wfRunHooks( 'ResourceLoaderGetConfigVars', array( &$vars ) );
 		
 		return $vars;

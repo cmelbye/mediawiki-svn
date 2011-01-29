@@ -13,9 +13,9 @@ $wgScriptCacheDirectory = realpath( dirname( __FILE__ ) ) . '/cache';
 /**
  * Guess at URL to resource loader load.php 
  */
-$wgResourceLoaderUrl = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
-$wgResourceLoaderUrl.= '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/load.php';
-$wgLoadScript = $wgResourceLoaderUrl;
+$protocol = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
+$wgServer = $protocol . '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
+$wgLoadScript = $wgServer . 'load.php';
 // The list of enabled modules 
 $wgMwEmbedEnabledModules = array();
 // By default we enable every module in the "modules" folder
