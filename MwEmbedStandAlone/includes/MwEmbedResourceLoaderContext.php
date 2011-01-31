@@ -5,7 +5,6 @@
  * of a specific loader request
  */
 class MwEmbedResourceLoaderContext extends ResourceLoaderContext{
-	
 	public function getDirection() {
 		if ( $this->direction === null ) {
 			$this->direction = $this->request->getVal( 'dir' );
@@ -13,5 +12,5 @@ class MwEmbedResourceLoaderContext extends ResourceLoaderContext{
 		return $this->direction;
 	}
 }
-	
+
 ?>

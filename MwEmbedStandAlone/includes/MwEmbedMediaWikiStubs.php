@@ -7,10 +7,15 @@
 /**
  * global functions
  */
+$wgSimpleProfile = array();
 function wfProfileIn($na){
+	global $wgSimpleProfile;
+	$wgSimpleProfile[$na] =  microtime();
 	return ;
 }
 function wfProfileOut($na){
+	global $wgSimpleProfile;
+	$wgSimpleProfile[$na] = microtime() -  $wgSimpleProfile[$na];
 	return ;
 }
 function wfDebug( $text, $logonly = false ) {
@@ -246,7 +251,14 @@ class WebRequest {
 	 * @return Boolean
 	 */
 	public function getFuzzyBool( $name, $default = false ) {
-		return ( isset( $this->data[ $name ] ) )? ( $this->data[ $name ] ) : $default;
+		if( isset( $this->data[ $name ] ) ){
+			if( $this->data[ $name ] === 'false' ){
+				return false;
+			}
+			return true;
+		} else {
+			return $default;
+		}
 	}
 	
 	/**

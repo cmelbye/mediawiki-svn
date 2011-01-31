@@ -411,7 +411,7 @@ class ResourceLoader {
 
 		// Remove the output buffer and output the response
 		ob_end_clean();
-		echo $response;
+		return $response;
 
 		wfProfileOut( __METHOD__ );
 	}

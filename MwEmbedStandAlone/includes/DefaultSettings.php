@@ -22,6 +22,9 @@ $wgScriptPath = '';
 // Default Load Script path
 $wgLoadScript = $wgServer . $wgScriptPath . 'load.php';
 
+// If we should use simple php file cache infront of resource loader 
+// helps performance in situations where you don't reverse proxy the resource loader.  
+$mwUsePoorManSquidProxy = true;
 
 // The list of enabled modules 
 $wgMwEmbedEnabledModules = array();
@@ -60,7 +63,25 @@ $wgResourceModules = array();
 /* Default skin can be any jquery based skin */
 $wgDefaultSkin = 'kaltura-dark';
 
+// If the resource loader is in 'debug mode'
+$wgResourceLoaderDebug = false;
 
+
+/**
+ * Maximum time in seconds to cache resources served by the resource loader
+ */
+$wgResourceLoaderMaxage = array(
+	'versioned' => array(
+		// Squid/Varnish but also any other public proxy cache between the client and MediaWiki
+		'server' => 30 * 24 * 60 * 60, // 30 days
+		// On the client side (e.g. in the browser cache).
+		'client' => 30 * 24 * 60 * 60, // 30 days
+	),
+	'unversioned' => array(
+		'server' => 5 * 60, // 5 minutes
+		'client' => 5 * 60, // 5 minutes
+	),
+);
 
 /*********************************************************
  * Default Kaltura Configuration: 

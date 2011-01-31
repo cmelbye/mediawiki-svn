@@ -27,6 +27,7 @@ $wgAutoloadLocalClasses = array(
 
 	# MwEmbed files ( that get autoloaded ):
 	'MwEmbedResourceLoaderContext' => 'includes/MwEmbedResourceLoaderContext.php',
+	'MwEmbedPoorManSquidProxy' => 'includes/MwEmbedPoorManSquidProxy.php',
 	'MwEmbedResourceLoader' => 'includes/MwEmbedResourceLoader.php',
 	'MwEmbedResourceLoaderFileModule' => 'includes/MwEmbedResourceLoaderFileModule.php',
 	'MwEmbedResourceLoaderStartUpModule' => 'includes/MwEmbedResourceLoaderStartUpModule.php',

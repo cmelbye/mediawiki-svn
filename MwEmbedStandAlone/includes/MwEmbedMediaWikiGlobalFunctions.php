@@ -279,9 +279,11 @@ function mweSaveFileToCache ( $key, $data){
 	global $IP;
 	$filePath = mwGetFilePathFromKey( $key );
 	$path = dirname( $filePath );
-	$ok = mkdir( $path, 0777, true ); // PHP5 <3	
-	if( !$ok ){
-		return false;	
+	if( !is_dir($path ) ){
+		$ok = mkdir( $path, 0777, true ); // PHP5 <3	
+		if( !$ok ){
+			return false;
+		}
 	}
 	return @file_put_contents( $filePath, serialize( $data ) );
 }
