@@ -238,7 +238,7 @@ class WebRequest {
 	 * @return String
 	 */
 	public function getVal( $name, $default = null ) {
-		return ( isset( $this->data[ $name ] ) )? (string)$this->data[ $name ] : $default;
+		return ( isset( $this->data[ $name ] ) )? (string) $this->data[ $name ] : $default;
 	}
 	
 	/**

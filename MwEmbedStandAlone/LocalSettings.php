@@ -11,4 +11,3 @@
  *  $wgMwEmbedModuleConfig[ {ModuleName} ][ {configuration name} ] = value;
  */
 
-?>

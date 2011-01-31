@@ -1,5 +1,5 @@
 <?php 
-
+// quick MwEmbedPoorManSquidProxy implementation
 class MwEmbedPoorManSquidProxy {
 	public static $hash = null;
 	public static $debug = null;
@@ -8,6 +8,7 @@ class MwEmbedPoorManSquidProxy {
 		global $wgDefaultSkin, $wgResourceLoaderMaxage, $wgResourceLoaderDebug, $wgRequest;
 		$request = $wgRequest;
 		self::$debug = $request->getFuzzyBool( 'debug', $wgResourceLoaderDebug ) ;
+		
 		// Never respond in debug mode getDebug
 		if( self::$debug ){
 			return ;
@@ -21,7 +22,8 @@ class MwEmbedPoorManSquidProxy {
 		if ( !$skin ) {
 			$skin = $wgDefaultSkin;
 		}		
-		$only = $request->getVal( 'only' );
+		$only = $request->getVal( 'only', 'scripts' );
+		die('wf' . $only  );
 		$version = $request->getVal( 'version' );
 		
 		// Set the version: 	
@@ -50,7 +52,7 @@ class MwEmbedPoorManSquidProxy {
 		}
 		
 		// Check if we can send a 304 to the client:
-		// 'If-Modified-Since' and 'version' we can assume there is no modification:
+		// 'If-Modified-Since' and '$version' we can assume there is no modification:
 		$ims = $request->getHeader( 'If-Modified-Since' );
 		if ( $ims !== false && $version ) {
 			for ( $i = 0; $i < ob_get_level(); $i++ ) {
@@ -69,6 +71,7 @@ class MwEmbedPoorManSquidProxy {
 			header( 'Content-Type: text/javascript' );
 		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $fileTime ) );
+		// no private cache in mwEmbed resource loader land ( both smaxage )
 		header( "Cache-Control: public, max-age=$smaxage, s-maxage=$smaxage" );
 		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $smaxage + time() ) );
 
