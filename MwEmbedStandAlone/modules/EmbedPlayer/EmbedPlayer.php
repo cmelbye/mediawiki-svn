@@ -8,7 +8,9 @@
 					"skins/mw.PlayerControlBuilder.js",
 				),
 				'dependencies' => array(
-
+					// mwEmbed support: 
+					'mwEmbedSupport',
+				
 					// jQuery dependencies: 
 					'jquery.hoverIntent',
 					'jquery.cookie',

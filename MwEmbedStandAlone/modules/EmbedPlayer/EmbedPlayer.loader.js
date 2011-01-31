@@ -108,11 +108,8 @@
 		// Do the request and process the playerElements with updated dependency set
 		mediaWiki.loader.using( dependencySet, function(){
 			setTimeout( function(){
-				var cat = mw.processEmbedPlayers;
-				debugger;
+				mw.processEmbedPlayers( playerSelect, readyCallback );
 			}, 300);
-			// EmbedPlayer should be ready: 
-			//mw.processEmbedPlayers( playerSelect, readyCallback );
 		});
 	};
 

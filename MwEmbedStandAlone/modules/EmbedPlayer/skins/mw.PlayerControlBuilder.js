@@ -163,6 +163,7 @@ mw.PlayerControlBuilder.prototype = {
 		mw.log( 'PlayerControlsBuilder:: addControlComponents into:' + this.available_width );
 		// Build the supportedComponets list
 		this.supportedComponets = $j.extend( this.supportedComponets, embedPlayer.supports );
+		
 		$j(embedPlayer).trigger( 'addControlBarComponent', this);
 			
 		// Check for Attribution button
@@ -174,6 +175,11 @@ mw.PlayerControlBuilder.prototype = {
 		if( mw.getConfig( 'EmbedPlayer.EnableFullscreen' ) === false ){
 			this.supportedComponets[ 'fullscreen'] = false;
 		}
+		// Check if the options item is available  
+		if( mw.getConfig( 'EmbedPlayer.EnableOptionsMenu' ) === false ){
+			this.supportedComponets[ 'options'] = false;
+		}
+		
 		
 		var addComponent = function( component_id ){
 			if ( _this.supportedComponets[ component_id ] ) {
@@ -225,6 +231,7 @@ mw.PlayerControlBuilder.prototype = {
 	*/
 	getAspectPlayerWindowCss: function( windowSize ) {
 		var embedPlayer = this.embedPlayer;
+		var _this = this;
 		// Setup target height width based on max window size
 		if( !windowSize ){
 			var windowSize = {
@@ -244,8 +251,15 @@ mw.PlayerControlBuilder.prototype = {
 		var offsetTop = ( targetHeight < windowSize.height )? ( windowSize.height- targetHeight ) / 2 : 0;
 		var offsetLeft = ( targetWidth < windowSize.width )? ( windowSize.width- targetWidth ) / 2 : 0;
 
-		//mw.log(" targetWidth: " + targetWidth + ' windowSize.width: ' + windowSize.width + ' :: ' + ( windowSize.width- targetWidth ) / 2 );
+		// See if we need to leave space for control bar
+		if( !_this.checkOverlayControls() ){
+			targetHeight =  targetHeight - this.height;
+			offsetTop = offsetTop - this.height;
+			if( offsetTop < 0 ) offsetTop = 0;
+		}
+		//mw.log("left: " + offsetLeft + " targetWidth: " + targetWidth + ' windowSize.width: ' + windowSize.width + ' :: ' + ( windowSize.width- targetWidth ) / 2 );
 		return {
+			'position' : 'absolute',
 			'height': targetHeight,
 			'width' : targetWidth,
 			'top' : offsetTop,
@@ -257,7 +271,11 @@ mw.PlayerControlBuilder.prototype = {
 	* Get the fullscreen play button css
 	*/
 	getFullscreenPlayButtonCss: function( size ) {
+		var _this = this;
 		var pos = this.getAspectPlayerWindowCss( size );
+		if( !_this.checkOverlayControls() ){
+			pos.top = pos.top - this.height;
+		}
 		return {
 			'left' : ( ( pos.width - this.getComponentWidth( 'playButtonLarge' ) ) / 2 ),
 			'top' : ( ( pos.height - this.getComponentHeight( 'playButtonLarge' ) ) / 2 )
@@ -269,22 +287,33 @@ mw.PlayerControlBuilder.prototype = {
 	 *  doFullScreenPlayer to enable fullscreen mode
 	 *  restoreWindowPlayer to restore window mode
 	 */
-	toggleFullscreen: function() {
+	toggleFullscreen: function( forceClose ) {
 		var _this = this;
-		if( this.fullscreenMode ){
-			this.restoreWindowPlayer();
-			$j( this.embedPlayer ).trigger( 'onCloseFullScreen' );
-		}else{
-			this.doFullScreenPlayer( function(){
+
+		// Check if iFrame mode ( fullscreen is handled by the iframe parent dom )
+		if(  mw.getConfig('EmbedPlayer.IsIframePlayer' ) ){
+			if( this.fullscreenMode ){
+				$j( _this.embedPlayer ).trigger( 'onCloseFullScreen' );
+				this.fullscreenMode = false;
+			} else {
 				$j( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
-			});		
+				this.fullscreenMode = true;
+			}
+			return ;
+		}
+		
+		// Do normal in-page fullscreen handling: 
+		if( this.fullscreenMode ){			
+			this.restoreWindowPlayer();
+		}else{			
+			this.doFullScreenPlayer();		
 		}
 	},
 
 	/**
 	* Do full-screen mode
 	*/
-	doFullScreenPlayer: function( callback) {
+	doFullScreenPlayer: function( callback) {		
 		mw.log(" controlBuilder :: toggle full-screen ");
 		// Setup pointer to control builder :
 		var _this = this;
@@ -356,7 +385,7 @@ mw.PlayerControlBuilder.prototype = {
 		var topOffset = '0px';
 		var leftOffset = '0px';
 
-		//Check if we have an offsetParent
+		// Check if we have an offsetParent
 		if( $interface.offsetParent().get(0).tagName.toLowerCase() != 'body' ) {
 			topOffset = -this.windowOffset.top + 'px';
 			leftOffset = -this.windowOffset.left + 'px';
@@ -369,15 +398,18 @@ mw.PlayerControlBuilder.prototype = {
 		} );
 
 		// Overflow hidden in fullscreen:
-		$interface.css('overlow', 'hidden');
-
+		$interface.css( 'overlow', 'hidden' );
+		
 		// Resize the player keeping aspect and with the widow scroll offset:
 		embedPlayer.resizePlayer({
 			'top' : topOffset,
 			'left' : leftOffset,
 			'width' : $j( window ).width(),
 			'height' : $j( window ).height()
-		}, true, callback);
+		}, true, function(){
+			// Trigger the enter fullscreen event 
+			$j( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
+		});
 
 		// Remove absolute css of the interface parents
 		$interface.parents().each( function() {
@@ -387,7 +419,7 @@ mw.PlayerControlBuilder.prototype = {
 				$j( this ).css( 'position', null );
 				mw.log(' should update position: ' + $j( this ).css( 'position' ) );
 			}
-		} );
+		});
 
 
 
@@ -397,22 +429,24 @@ mw.PlayerControlBuilder.prototype = {
 			_this.mouseMovedFlag = true;
 		});
 		
-		// Check every 2 seconds reset flag status:
-		function checkMovedMouse(){
-			if( _this.fullscreenMode ){
-				if( _this.mouseMovedFlag ){
-					_this.mouseMovedFlag = false;
-					_this.showControlBar();
-					// Once we move the mouse keep displayed for 4 seconds
-					setTimeout(checkMovedMouse, 4000);
-				} else {
-					// Check for mouse movement every 250ms
-					_this.hideControlBar();
-					setTimeout(checkMovedMouse, 250 );
+		// Check every 2 seconds reset flag status if controls are overlay
+		if( _this.checkOverlayControls() ){
+			function checkMovedMouse(){
+				if( _this.fullscreenMode ){
+					if( _this.mouseMovedFlag ){
+						_this.mouseMovedFlag = false;
+						_this.showControlBar();
+						// Once we move the mouse keep displayed for 4 seconds
+						setTimeout(checkMovedMouse, 4000);
+					} else {
+						// Check for mouse movement every 250ms
+						_this.hideControlBar();
+						setTimeout(checkMovedMouse, 250 );
+					}
 				}
-			}
-		};
-		checkMovedMouse();
+			};
+			checkMovedMouse();
+		}
 
 		// Bind Scroll position update
 
@@ -442,11 +476,11 @@ mw.PlayerControlBuilder.prototype = {
 		var _this = this;
 		// Update interface container:
 		var interfaceCss = {
-				'top' : ( size.top ) ? size.top : '0px',
-				'left' : ( size.left ) ? size.left : '0px',
-				'width' : size.width,
-				'height' : size.height
-			};
+			'top' : ( size.top ) ? size.top : '0px',
+			'left' : ( size.left ) ? size.left : '0px',
+			'width' : size.width,
+			'height' : size.height
+		};
 		// Set up local pointer to interface:
 		var embedPlayer = this.embedPlayer;
 		var $interface = embedPlayer.$interface;
@@ -538,7 +572,9 @@ mw.PlayerControlBuilder.prototype = {
 			'left' 	: ( ( embedPlayer.getWidth() - this.getComponentWidth( 'playButtonLarge' ) ) / 2 ),
 			'top'	: ( ( embedPlayer.getHeight() -this.getComponentHeight( 'playButtonLarge' ) ) / 2 )
 		});
-
+		
+		// Trigger the onCloseFullscreen event: 
+		$j( this.embedPlayer ).trigger( 'onCloseFullScreen' );
 	},
 
 	/**
@@ -559,7 +595,7 @@ mw.PlayerControlBuilder.prototype = {
 	* addControlBindings
 	* Adds control hooks once controls are in the DOM
 	*/
-	addControlBindings: function( ) {
+	addControlBindings: function() {
 		// Set up local pointer to the embedPlayer
 		var embedPlayer = this.embedPlayer;
 		var _this = this;
@@ -707,7 +743,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeOut( animateDuration );
 		//mw.log('about to trigger hide control bar')
 		// Allow interface items to update: 
-		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 10} );
+		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 15} );
 
 	},
 
@@ -728,7 +764,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeIn( animateDuration );
 		
 		// Trigger the screen overlay with layout info: 
-		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 10 } );		
+		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 15 } );		
 	},
 
 	/**
@@ -786,7 +822,7 @@ mw.PlayerControlBuilder.prototype = {
 			return false;
 		}
 		// See if we have we have ogg support
-		var supportingPlayers = mw.EmbedTypes.players.getMIMETypePlayers( 'video/ogg' );
+		var supportingPlayers = mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( 'video/ogg' );
 		for ( var i = 0; i < supportingPlayers.length; i++ ) {
 
 			if ( supportingPlayers[i].id == 'oggNative'
@@ -801,17 +837,17 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Chrome's webM support is oky though:
 		if( /chrome/.test(navigator.userAgent.toLowerCase() ) &&
-			mw.EmbedTypes.players.getMIMETypePlayers( 'video/webm' ).length ){
+			mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( 'video/webm' ).length ){
 			return false;
 		}
 
 
 		// Check for h264 and or flash/flv source and playback support and don't show warning
 		if(
-			( mw.EmbedTypes.players.getMIMETypePlayers( 'video/h264' ).length
+			( mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( 'video/h264' ).length
 			&& this.embedPlayer.mediaElement.getSources( 'video/h264' ).length )
 			||
-			( mw.EmbedTypes.players.getMIMETypePlayers( 'video/x-flv' ).length
+			( mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( 'video/x-flv' ).length
 			&& this.embedPlayer.mediaElement.getSources( 'video/x-flv' ).length )
 		){
 			// No firefox link if a h.264 or flash/flv stream is present
@@ -1308,7 +1344,7 @@ mw.PlayerControlBuilder.prototype = {
 
 		$j.each( embedPlayer.mediaElement.getPlayableSources(), function( sourceId, source ) {
 
-			var isPlayable = (typeof mw.EmbedTypes.players.defaultPlayer( source.getMIMEType() ) == 'object' );
+			var isPlayable = (typeof mw.EmbedTypes.getMediaPlayers().defaultPlayer( source.getMIMEType() ) == 'object' );
 			var is_selected = ( source.getSrc() == embedPlayer.mediaElement.selectedSource.getSrc() );
 
 			$playerSelect.append(
@@ -1320,7 +1356,7 @@ mw.PlayerControlBuilder.prototype = {
 				$playerList = $j('<ul />');
 				// output the player select code:
 
-				var supportingPlayers = mw.EmbedTypes.players.getMIMETypePlayers( source.getMIMEType() );
+				var supportingPlayers = mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( source.getMIMEType() );
 
 				for ( var i = 0; i < supportingPlayers.length ; i++ ) {
 
@@ -1365,7 +1401,7 @@ mw.PlayerControlBuilder.prototype = {
 								embedPlayer.mediaElement.selectSource( sourceId );
 								var playableSources = embedPlayer.mediaElement.getPlayableSources();
 
-								mw.EmbedTypes.players.setPlayerPreference(
+								mw.EmbedTypes.getMediaPlayers().setPlayerPreference(
 									player_id,
 									playableSources[ sourceId ].getMIMEType()
 								);
@@ -1556,8 +1592,8 @@ mw.PlayerControlBuilder.prototype = {
 					} )
 					// Add play hook:
 					.click( function() {
-						 ctrlObj.embedPlayer.play();						
-						 return false; // Event Stop Propagation
+						ctrlObj.embedPlayer.play();						
+						return false; // Event Stop Propagation
 					} );
 			}
 		},

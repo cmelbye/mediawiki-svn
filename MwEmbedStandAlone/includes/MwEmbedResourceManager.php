@@ -37,6 +37,7 @@ class MwEmbedResourceManager {
 		
 		// Get the mwEmbed module config		
 		$resourceList = include( $fullResourcePath . '/' . $moduleName . '.php' );
+		
 		// Look for special 'messages' => 'moduleFile' key and load all modules file messages:
 		foreach( $resourceList as $name => $resources ){
 			if( isset( $resources['messageFile'] ) && is_file( $fullResourcePath . '/' .$resources['messageFile'] ) ){
@@ -46,7 +47,8 @@ class MwEmbedResourceManager {
 					 $resourceList[ $name ][ 'messages' ][] = $msgKey;
 				}
 			}
-		};		
+		};
+		
 		// Check for module loader:
 		if( is_file( $fullResourcePath . '/' . $moduleName . '.loader.js' )){
 			$resourceList[ $moduleName . '.loader' ] = array(
@@ -70,6 +72,7 @@ class MwEmbedResourceManager {
 		}
 		return $vars;
 	}
+	
 	/**
 	 * ResourceLoaderRegisterModules hook
 	 * 

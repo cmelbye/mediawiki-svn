@@ -15,7 +15,14 @@ $wgScriptCacheDirectory = realpath( dirname( __FILE__ ) ) . '/cache';
  */
 $protocol = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
 $wgServer = $protocol . '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
-$wgLoadScript = $wgServer . 'load.php';
+
+// By default set $wgScriptPath to empty
+$wgScriptPath = '';
+
+// Default Load Script path
+$wgLoadScript = $wgServer . $wgScriptPath . 'load.php';
+
+
 // The list of enabled modules 
 $wgMwEmbedEnabledModules = array();
 // By default we enable every module in the "modules" folder
@@ -50,6 +57,10 @@ foreach( $wgMwEmbedEnabledModules as $mwEmbedModuleName ){
  */
 $wgResourceModules = array();
 
+/* Default skin can be any jquery based skin */
+$wgDefaultSkin = 'kaltura-dark';
+
+
 
 /*********************************************************
  * Default Kaltura Configuration: 
@@ -67,8 +78,6 @@ $wgKalturaServiceBase = '/api_v3/index.php?';
 
 // Default expire time for ui conf api queries in seconds 
 $wgKalturaUiConfCacheTime = 600;
-
-
 
 
 /*********************************************************

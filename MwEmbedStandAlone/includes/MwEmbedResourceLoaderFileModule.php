@@ -35,6 +35,7 @@ class MwEmbedResourceLoaderFileModule extends ResourceLoaderFileModule {
 		}
 		return $this->fileDeps[$skin];
 	}
+	
 	/**
 	 * Get the last modification timestamp of the message blob for this
 	 * module in a given language.

@@ -86,11 +86,13 @@ return array(
 		'skinStyles' => array(
 			'default' => array(
 				'resources/jquery.ui/themes/default/jquery.ui.core.css',
-				'resources/jquery.ui/themes/default/jquery.ui.theme.css',
+				// ( theme is handled by mwEmbed )
+				//'resources/jquery.ui/themes/default/jquery.ui.theme.css',
 			),
 			'vector' => array(
 				'resources/jquery.ui/themes/vector/jquery.ui.core.css',
-				'resources/jquery.ui/themes/vector/jquery.ui.theme.css',
+				// ( theme is handled by mwEmbed )
+				//'resources/jquery.ui/themes/vector/jquery.ui.theme.css',
 			),
 		),
 		'dependencies' => 'jquery',

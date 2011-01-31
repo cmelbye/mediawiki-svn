@@ -476,7 +476,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @param $path String: File path of script file to read
 	 * @return String: CSS data in script file
 	 */
-	protected function readStyleFile( $path, $flip ) {	
+	protected function readStyleFile( $path, $flip ) {
+		global $wgServer;	
 		$localPath = $this->getLocalPath( $path ); 
 		$style = file_get_contents( $localPath );
 		if ( $style === false ) {
@@ -491,7 +492,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			$dirname = '';
 		}
 		$dir = $this->getLocalPath( $dirname );
-		$remoteDir = $this->getRemotePath( $dirname );
+		$remoteDir = $wgServer . $this->getRemotePath( $dirname );
 		// Get and register local file references
 		$this->localFileRefs = array_merge( 
 			$this->localFileRefs, 

@@ -578,9 +578,19 @@ window.mediaWiki = new ( function( $ ) {
 		var suspended = true;
 		// Flag inidicating that document is ready 
 		var documentReady = false;
+		
 		// Marker element for adding dynamic styles
-		var $marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' );
-
+		var $marker = null ; // lazy init
+		var getMarker = function(){
+			if( $marker )
+				return $marker;
+			$marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' )
+			if( ! $marker.length ){
+				$marker = $( '<meta />').attr( 'name', 'ResourceLoaderDynamicStyles' )
+						  .appendTo( 'head' );
+			}
+			return $marker;
+		};
 		/* Private Methods */
 
 		function compare( a, b ) {
@@ -737,15 +747,15 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Add style sheet to document
 			if ( typeof registry[module].style === 'string' && registry[module].style.length ) {
-				$marker.before( mediaWiki.html.element( 'style',
+				getMarker().before( mediaWiki.html.element( 'style',
 						{ type: 'text/css' },
 						new mediaWiki.html.Cdata( registry[module].style )
 					) );
 			} else if ( typeof registry[module].style === 'object'
 				&& !( registry[module].style instanceof Array ) )
 			{
-				for ( var media in registry[module].style ) {
-					$marker.before( mediaWiki.html.element( 'style',
+				for ( var media in registry[module].style ) {					
+					getMarker().before( mediaWiki.html.element( 'style',
 						{ type: 'text/css', media: media },
 						new mediaWiki.html.Cdata( registry[module].style[media] )
 					) );

@@ -33,6 +33,11 @@
 		var triggerNamespace = triggerName.split(".")[1];
 		// Get the callback set
 		var callbackSet = [];
+		if( !$j( targetObject ).data( 'events' ) ){
+			// No events run the callback directly
+			callback();
+			return ;
+		}
 		if( ! triggerNamespace ){
 			callbackSet = $j( targetObject ).data( 'events' )[ triggerBaseName ];
 		} else{		
@@ -42,7 +47,7 @@
 				}
 			});
 		}
-	
+
 		if( !callbackSet || callbackSet.length === 0 ){
 			mw.log( '"mwEmbed::jQuery.triggerQueueCallback: No events run the callback directly: ' + triggerName );
 			// No events run the callback directly
@@ -56,8 +61,6 @@
 		// + ' number of queued functions:' + callbackCount );
 		var callInx = 0;
 		var doCallbackCheck = function() {
-			// mw.log( 'callback for: ' + mw.getCallStack()[0] +
-			// callInx);
 			callInx++;
 			if( callInx == callbackCount ){
 				callback();

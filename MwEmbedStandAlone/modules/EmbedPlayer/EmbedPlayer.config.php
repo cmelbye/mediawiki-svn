@@ -80,7 +80,7 @@
 	
 			// Default player skin name
 			"EmbedPlayer.DefaultSkin" => "mvpcf",
-	
+
 			// Number of milliseconds between interface updates
 			'EmbedPlayer.MonitorRate' => 250,
 	

@@ -96,7 +96,7 @@
 		}
 	};
 	mw.load = function( resources, callback ){
-		mediaWiki.using( resources, callback, function(){
+		mediaWiki.loader.using( resources, callback, function(){
 			// failed to load
 		});
 	};	
@@ -132,8 +132,23 @@
 	 * gM ( get Message ) in js2 conflated jQuery return type with string return type
 	 * Do a legacy check for input parameters and 'do the right thing' 
 	 */
-	window.gM = function( key, parameters ){
-		
+	window.gM = function( key, args ){
+		var paramaters = [];
+		if( $.isArray( args ) ){
+			paramaters = args;
+		} else {
+			paramaters = $.makeArray( arguments ).slice(1);
+		}
+		// Check if we have to use the jquery method or can use the native get msg support
+		for(var i=0;i < paramaters.length; i++){
+			var param = paramaters[i];
+			if( typeof param == 'function' || param instanceof jQuery ){
+				// TODO use mwMessage response
+				return $j( '<span />').text( mediaWiki.msg( key, paramaters) );
+			}
+		};
+		// Else use normal mediaWiki string based gM
+		return mediaWiki.msg( key, paramaters);
 	};
 	
 	/**
@@ -142,6 +157,73 @@
 	 * TOOD some of these utility functions are used in the upload Wizard, break them out into 
 	 * associated files. 
 	 */		
+	/**
+	 * parseUri 1.2.2 (c) Steven Levithan <stevenlevithan.com> MIT License
+	 */
+	mw.parseUri = function (str) {
+		var	o   = mw.parseUri.options,
+			m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+			uri = {},
+			i   = 14;
+	
+		while (i--) uri[o.key[i]] = m[i] || "";
+	
+		uri[o.q.name] = {};
+		uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+			if ($1) uri[o.q.name][$1] = $2;
+		});
+	
+		return uri;
+	};
+		
+	/**
+	 * A version comparison utility function Handles version of types
+	 * {Major}.{MinorN}.{Patch}
+	 * 
+	 * Note this just handles version numbers not patch letters.
+	 * 
+	 * @param {String}
+	 *            minVersion Minnium version needed
+	 * @param {String}
+	 *            clientVersion Client version to be checked
+	 * 
+	 * @return true if the version is at least of minVersion false if the
+	 *         version is less than minVersion
+	 */
+	mw.versionIsAtLeast = function( minVersion, clientVersion ) {
+		var minVersionParts = minVersion.split('.');
+		var clientVersionParts = clientVersion.split('.');
+		for( var i =0; i < minVersionParts.length; i++ ) {
+			if( parseInt( clientVersionParts[i] ) > parseInt( minVersionParts[i] ) ) {
+				return true;
+			}
+			if( parseInt( clientVersionParts[i] ) < parseInt( minVersionParts[i] ) ) {
+				return false;
+			}
+		}
+		// Same version:
+		return true;
+	};
+	
+	/**
+	 * Parse URI function
+	 * 
+	 * For documentation on its usage see:
+	 * http://stevenlevithan.com/demo/parseuri/js/
+	 */
+	mw.parseUri.options = {
+		strictMode: false,
+		key: ["source", "protocol", "authority", "userInfo", "user", "password", "host",
+				"port", "relative", "path", "directory", "file", "query", "anchor"],
+		q: {
+			name: "queryKey",
+			parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+		},
+		parser: {
+			strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+			loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+		}
+	};
 	
 	/**
 	 * Given a float number of seconds, returns npt format response. ( ignore
