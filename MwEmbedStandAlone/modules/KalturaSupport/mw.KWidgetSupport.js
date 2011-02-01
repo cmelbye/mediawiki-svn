@@ -1,3 +1,5 @@
+( function( mw, $ ) {
+	
 mw.KWidgetSupport = function( options ) {
 	// Create KWidgetSupport instance
 	return this.init( options );
@@ -18,9 +20,9 @@ mw.KWidgetSupport.prototype = {
 	addPlayerHooks: function( ){
 		var _this = this;		
 		// Add the hooks to the player manager
-		$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
+		$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 			// Add hook for check player sources to use local kEntry ID source check:
-			$j( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
+			$( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
 				// Load all the player configuration from kaltura: 
 
 				_this.loadPlayerData( embedPlayer, function( playerData ){
@@ -32,8 +34,8 @@ mw.KWidgetSupport.prototype = {
 					if( playerData.accessControl ){
 						var acStatus = _this.getAccessControlStatus( playerData.accessControl );
 						if( acStatus !== true ){
-							$j('.loadingSpinner').remove();
-							$j(embedPlayer).replaceWith( acStatus );
+							$('.loadingSpinner').remove();
+							$(embedPlayer).replaceWith( acStatus );
 							return ;
 						}
 					}					
@@ -48,7 +50,7 @@ mw.KWidgetSupport.prototype = {
 						embedPlayer.duration = playerData.meta.duration;
 						// We have to assign embedPlayer metadata as an attribute to bridge the iframe
 						embedPlayer.kalturaPlayerMetaData = playerData.meta;
-						$j( embedPlayer ).trigger( 'KalturaSupport.metaDataReady', embedPlayer.kalturaPlayerMetaData );
+						$( embedPlayer ).trigger( 'KalturaSupport.metaDataReady', embedPlayer.kalturaPlayerMetaData );
 					}
 					
 					// Add kaltura analytics if we have a session if we have a client ( set in loadPlayerData ) 									
@@ -59,9 +61,9 @@ mw.KWidgetSupport.prototype = {
 					// Check for uiConf	
 					if( playerData.uiConf ){
 						// Store the parsed uiConf in the embedPlayer object:
-						embedPlayer.$uiConf = $j( playerData.uiConf );
+						embedPlayer.$uiConf = $( playerData.uiConf );
 						// Trigger the check kaltura uiConf event					
-						$j( embedPlayer ).triggerQueueCallback( 'KalturaSupport.checkUiConf', embedPlayer.$uiConf, function(){
+						$( embedPlayer ).triggerQueueCallback( 'KalturaSupport.checkUiConf', embedPlayer.$uiConf, function(){
 							// Ui-conf file checks done
 							callback();
 						});
@@ -84,7 +86,7 @@ mw.KWidgetSupport.prototype = {
 		var _this = this;
 		this.kClient = mw.KApiPlayerLoader( {
 			'widget_id' : widgetId, 
-			'entry_id' : entryId,
+			'entry_id' : entryId
 		}, function( playerData ){
 			
 			// Check access control 
@@ -110,18 +112,18 @@ mw.KWidgetSupport.prototype = {
 		var playerRequest = {};
 		
 		// Check for widget id	 
-		if( ! $j( embedPlayer ).attr( 'kwidgetid' ) ){
-			mw.log( "Error: missing required widget paramater")
+		if( ! $( embedPlayer ).attr( 'kwidgetid' ) ){
+			mw.log( "Error: missing required widget paramater");
 			callback( false );
 			return false;
 		} else {
-			playerRequest.widget_id = $j( embedPlayer ).attr( 'kwidgetid' );
+			playerRequest.widget_id = $( embedPlayer ).attr( 'kwidgetid' );
 		}
 		
 		// Check if the entryId is of type url: 
-		if( !this.checkForUrlEntryId( embedPlayer ) && $j( embedPlayer ).attr( 'kentryid' ) ){
+		if( !this.checkForUrlEntryId( embedPlayer ) && $( embedPlayer ).attr( 'kentryid' ) ){
 			// Add entry_id playerLoader call			
-			playerRequest.entry_id =  $j( embedPlayer ).attr( 'kentryid' );
+			playerRequest.entry_id =  $( embedPlayer ).attr( 'kentryid' );
 		}
 		
 		// Add the uiconf_id 
@@ -131,7 +133,7 @@ mw.KWidgetSupport.prototype = {
 		var bootstrapData = mw.getConfig("KalturaSupport.BootstrapPlayerData");
 		// Insure the bootStrap data has all the required info: 
 		if( bootstrapData 
-			&& bootstrapData.partner_id ==  $j( embedPlayer ).attr( 'kwidgetid' ).replace('_', '')
+			&& bootstrapData.partner_id ==  $( embedPlayer ).attr( 'kwidgetid' ).replace('_', '')
 			&&  bootstrapData.ks 
 		){
 			this.kClient = mw.kApiGetPartnerClient( playerRequest.widget_id );
@@ -194,17 +196,17 @@ mw.KWidgetSupport.prototype = {
 	 * Check if the entryId is a url ( add source and do not include in request ) 
 	 */
 	checkForUrlEntryId:function( embedPlayer ){
-		if( $j( embedPlayer ).attr( 'kentryid' ) 
+		if( $( embedPlayer ).attr( 'kentryid' ) 
 				&& 
-			$j( embedPlayer ).attr( 'kentryid' ).indexOf('://') != -1 )
+			$( embedPlayer ).attr( 'kentryid' ).indexOf('://') != -1 )
 		{
 			embedPlayer.mediaElement.tryAddSource(
-					$j('<source />')
+					$('<source />')
 					.attr( {
-						'src' : $j( embedPlayer ).attr( 'kentryid' )
+						'src' : $( embedPlayer ).attr( 'kentryid' )
 					} )
 					.get( 0 )
-				)
+				);
 			return true;
 		}
 		return false;
@@ -220,10 +222,10 @@ mw.KWidgetSupport.prototype = {
 		mw.log( 'KWidgetSupport::addEntryIdSources:');
 
 		// Set the poster ( if not already set ) 
-		if( !embedPlayer.poster && $j( embedPlayer ).attr( 'kentryid' ) ){
+		if( !embedPlayer.poster && $( embedPlayer ).attr( 'kentryid' ) ){
 			embedPlayer.poster = mw.getKalturaThumbUrl({
 				'partner_id' : this.kClient.getPartnerId(),
-				'entry_id' : $j( embedPlayer ).attr( 'kentryid' ),
+				'entry_id' : $( embedPlayer ).attr( 'kentryid' ),
 				'width' : embedPlayer.getWidth(),
 				'height' :  embedPlayer.getHeight()
 			});			
@@ -240,7 +242,7 @@ mw.KWidgetSupport.prototype = {
 				deviceSources[ sources[i]['data-flavorid'] ] = sources[i].src;
 			}
 			// Unset existing DOM source children ( so that html5 video hacks work better ) 
-			$j('#' + embedPlayer.pid).find('source').remove();
+			$('#' + embedPlayer.pid).find('source').remove();
 			// Empty the embedPlayers sources ( we don't want iPad h.264 being used for iPhone devices ) 
 			embedPlayer.mediaElement.sources = [];
 			// Update the set of sources in the embedPlayer ( might cause issues with other plugins ) 
@@ -254,7 +256,7 @@ mw.KWidgetSupport.prototype = {
 		for( var i=0;i < sources.length ; i++) {
 			mw.log( 'KWidgetSupport:: addSource::' + embedPlayer.id + ' : ' +  sources[i].src + ' type: ' +  sources[i].type);
 			embedPlayer.mediaElement.tryAddSource(
-				$j('<source />')
+				$('<source />')
 				.attr( {
 					'src' : sources[i].src,
 					'type' : sources[i].type
@@ -322,7 +324,7 @@ mw.KWidgetSupport.prototype = {
 				'src': src,
 				'type': type
 			} );
-		}
+		};
 
 		// If on an iPad or iPhone4 use iPad Source
 		if( mw.isIpad() || mw.isIphone4() ) {
@@ -370,7 +372,7 @@ mw.KWidgetSupport.prototype = {
 		}
 		return sources;
 	}
-}
+};
 
 //Setup the kWidgetSupport global if not already set
 if( !window.kWidgetSupport ){
@@ -384,7 +386,7 @@ if( mw.playerManager ){
 	kWidgetSupport.addPlayerHooks();
 } else {
 	mw.log( 'KWidgetSupport::bind:EmbedPlayerManagerReady');
-	$j( mw ).bind( 'EmbedPlayerManagerReady', function(){
+	$( mw ).bind( 'EmbedPlayerManagerReady', function(){
 		mw.log( "KWidgetSupport::EmbedPlayerManagerReady" );
 		kWidgetSupport.addPlayerHooks();
 	});
@@ -395,6 +397,7 @@ if( mw.playerManager ){
  */
 mw.getEntryIdSourcesFromApi = function( widgetId, entryId, callback ){
 	kWidgetSupport.getEntryIdSourcesFromApi( widgetId, entryId, callback);
-}
+};
 
 
+} )( window.mediaWiki, window.jQuery );

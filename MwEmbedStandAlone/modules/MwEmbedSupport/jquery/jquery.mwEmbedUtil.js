@@ -9,8 +9,8 @@
 	 */
 	$.fn.loadingSpinner = function( ) {
 		if ( this ) {
-			$j( this ).html(
-				$j( '<div />' )
+			$( this ).html(
+				$( '<div />' )
 					.addClass( "loadingSpinner" )
 			);
 		}
@@ -21,16 +21,16 @@
 	 * element does not display child elements, ( images, video )
 	 */
 	$.fn.getAbsoluteOverlaySpinner = function(){
-		var pos = $j( this ).offset();				
-		var posLeft = (  $j( this ).width() ) ? 
-			parseInt( pos.left + ( .5 * $j( this ).width() ) -16 ) : 
+		var pos = $( this ).offset();				
+		var posLeft = (  $( this ).width() ) ? 
+			parseInt( pos.left + ( .5 * $( this ).width() ) -16 ) : 
 			pos.left + 30;
 			
-		var posTop = (  $j( this ).height() ) ? 
-			parseInt( pos.top + ( .5 * $j( this ).height() ) -16 ) : 
+		var posTop = (  $( this ).height() ) ? 
+			parseInt( pos.top + ( .5 * $( this ).height() ) -16 ) : 
 			pos.top + 30;
 		
-		var $spinner = $j('<div />')
+		var $spinner = $('<div />')
 			.loadingSpinner()				
 			.css({
 				'width' : 32,
@@ -39,7 +39,7 @@
 				'top' : posTop + 'px',
 				'left' : posLeft + 'px'
 			});
-		$j('body').append( $spinner	);
+		$('body').append( $spinner	);
 		return $spinner;
 	};
 			
@@ -79,7 +79,7 @@
 		var options = $j.extend( {}, mw_default_button_options, options);
 		
 		// Button:
-		var $button = $j('<a />')			
+		var $button = $('<a />')			
 			.attr('href', '#')
 			.addClass( 'ui-state-default ui-corner-all ui-icon_link' );
 		// Add css if set:
@@ -94,8 +94,8 @@
 		
 		// return the button: 
 		$button.append(
-				$j('<span />').addClass( 'ui-icon ui-icon-' + options.icon ),
-				$j('<span />').addClass( 'btnText' )	
+				$('<span />').addClass( 'ui-icon ui-icon-' + options.icon ),
+				$('<span />').addClass( 'btnText' )	
 				.text( options.text )
 		)
 		.buttonHover(); // add buttonHover binding;		
@@ -107,12 +107,12 @@
 	
 	// Shortcut to bind hover state
 	$.fn.buttonHover = function() {
-		$j( this ).hover(
+		$( this ).hover(
 			function() {
-				$j( this ).addClass( 'ui-state-hover' );
+				$( this ).addClass( 'ui-state-hover' );
 			},
 			function() {
-				$j( this ).removeClass( 'ui-state-hover' );
+				$( this ).removeClass( 'ui-state-hover' );
 			}
 		);
 		return this;
@@ -129,12 +129,12 @@
 		if ( !options )
 			var options = { };
 		options = $j.extend( opt_default, options );
-		$j( this.selector ).dialog( 'option', 'width', $j( window ).width() - options.hspace );
-		$j( this.selector ).dialog( 'option', 'height', $j( window ).height() - options.vspace );
-		$j( this.selector ).dialog( 'option', 'position', 'center' );
+		$( this.selector ).dialog( 'option', 'width', $( window ).width() - options.hspace );
+		$( this.selector ).dialog( 'option', 'height', $( window ).height() - options.vspace );
+		$( this.selector ).dialog( 'option', 'position', 'center' );
 			// update the child position: (some of this should be pushed
 			// up-stream via dialog config options
-		$j( this.selector + '~ .ui-dialog-buttonpane' ).css( {
+		$( this.selector + '~ .ui-dialog-buttonpane' ).css( {
 			'position':'absolute',
 			'left':'0px',
 			'right':'0px',

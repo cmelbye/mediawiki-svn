@@ -13,6 +13,7 @@
 *     Dispatches updates to an iframe target for upload proxy
 *
 */
+( function( mw, $ ) {
 mw.addMessages({
 	"mwe-upload-in-progress" : "Upload in progress (do not close this window)",
 	"mwe-uploaded-status" : "$1% Uploaded",
@@ -57,13 +58,13 @@ mw.UploadDialogInterface.prototype = {
 		this.uploadBeginTime = ( new Date() ).getTime();
 
 		// Remove the old instance if present
-		if( $j( '#upProgressDialog' ).length != 0 ) {
-			$j( '#upProgressDialog' ).dialog( 'destroy' ).remove();
+		if( $( '#upProgressDialog' ).length != 0 ) {
+			$( '#upProgressDialog' ).dialog( 'destroy' ).remove();
 		}
 
 		// Add a new one
-		$j( 'body' ).append(
-			$j( '<div />')
+		$( 'body' ).append(
+			$( '<div />')
 			.attr( 'id', "upProgressDialog" )
 		);
 
@@ -71,7 +72,7 @@ mw.UploadDialogInterface.prototype = {
 			options.title = gM('mwe-upload-in-progress');
 		}
 
-		$j( '#upProgressDialog' ).dialog( {
+		$( '#upProgressDialog' ).dialog( {
 			title : options.title,
 			bgiframe: true,
 			modal: true,
@@ -93,7 +94,7 @@ mw.UploadDialogInterface.prototype = {
 
 		mw.log( 'upProgressDialog::dialog done' );
 
-		var $progressContainer = $j('<div />')
+		var $progressContainer = $('<div />')
 			.attr('id', 'up-pbar-container')
 			.css({
 				'height' : '15px'
@@ -101,7 +102,7 @@ mw.UploadDialogInterface.prototype = {
 
 		// Add the progress bar
 		$progressContainer.append(
-			$j('<div />')
+			$('<div />')
 				.attr('id', 'up-progressbar')
 				.css({
 					'height' : '15px'
@@ -109,11 +110,11 @@ mw.UploadDialogInterface.prototype = {
 		);
 
 		// Add the status container
-		$progressContainer.append( $j('<span />' )
+		$progressContainer.append( $('<span />' )
 			.attr( 'id', 'up-status-container')
 			.css( 'float', 'left' )
 			.append(
-				$j( '<span />' )
+				$( '<span />' )
 				.attr( 'id', 'up-status-state' )
 			)
 		);
@@ -126,20 +127,20 @@ mw.UploadDialogInterface.prototype = {
 
 		// Add the estimated time remaining
 		$progressContainer.append(
-			$j('<span />')
+			$('<span />')
 			.attr( 'id', 'up-etr' )
 			.css( 'float', 'right' )
 			.text( gM( 'mwe-uploaded-time-remaining', '' ) )
 		);
 
 		// Add the status container to dialog div
-		$j( '#upProgressDialog' ).empty().append( $progressContainer	);
+		$( '#upProgressDialog' ).empty().append( $progressContainer	);
 
 		// Open the empty progress window
-		$j( '#upProgressDialog' ).dialog( 'open' );
+		$( '#upProgressDialog' ).dialog( 'open' );
 
 		// Create progress bar
-		$j( '#up-progressbar' ).progressbar({
+		$( '#up-progressbar' ).progressbar({
 			value: 0
 		});
 	},
@@ -155,21 +156,21 @@ mw.UploadDialogInterface.prototype = {
 	updateProgress: function( fraction, loaded, contentLength ) {
 		var _this = this;
 
-		$j( '#up-progressbar' ).progressbar( 'value', parseInt( fraction * 100 ) );
+		$( '#up-progressbar' ).progressbar( 'value', parseInt( fraction * 100 ) );
 		
 		var statusType = ( this.statusType == 'transcode' ) ? 'mwe-transcoded-status' : 'mwe-uploaded-status';
-		$j( '#up-status-state' ).html( gM( statusType, parseInt( fraction * 100 ) ) );
+		$( '#up-status-state' ).html( gM( statusType, parseInt( fraction * 100 ) ) );
 
 		if ( _this.uploadBeginTime) {
 			var elapsedMilliseconds = ( new Date() ).getTime() - _this.uploadBeginTime;
 			if (fraction > 0.0 && elapsedMilliseconds > 0) { // or some other minimums for good data
 				var fractionPerMillisecond = fraction / elapsedMilliseconds;
 				var remainingSeconds = parseInt( ( ( 1.0 - fraction ) / fractionPerMillisecond ) / 1000 );
-				$j( '#up-etr' ).html( gM( 'mwe-uploaded-time-remaining', mw.seconds2npt( remainingSeconds ) ) );
+				$( '#up-etr' ).html( gM( 'mwe-uploaded-time-remaining', mw.seconds2npt( remainingSeconds ) ) );
 			}
 		}
 		if( loaded && contentLength ){
-			$j( '#up-status-container' ).text(
+			$( '#up-status-container' ).text(
 				gM( 'mwe-upload-stats-fileprogress',
 					[
 						mw.Language.formatSize( data.upload['loaded'] ),
@@ -178,7 +179,7 @@ mw.UploadDialogInterface.prototype = {
 				)
 			);
 		} else if ( loaded ){
-			$j( '#up-status-container' ).text(
+			$( '#up-status-container' ).text(
 				gM( 'mwe-upload-stats-fileprogress',
 					[
 						mw.Language.formatSize( data.upload['loaded'] ),
@@ -199,7 +200,7 @@ mw.UploadDialogInterface.prototype = {
 		//confirm:
 		if ( confirm( gM( 'mwe-cancel-confim' ) ) ) {
 			// NOTE: (cancel the encode / upload)
-			$j( dialogElement ).dialog( 'close' );
+			$( dialogElement ).dialog( 'close' );
 		}
 	},
 
@@ -209,7 +210,7 @@ mw.UploadDialogInterface.prototype = {
 	setLoading: function( ) {
 		this.action_done = false;
 		//Update the progress dialog (no bar without XHR request)
-		$j( '#upProgressDialog' ).loadingSpinner();
+		$( '#upProgressDialog' ).loadingSpinner();
 	},
 
 	/**
@@ -230,17 +231,17 @@ mw.UploadDialogInterface.prototype = {
 			// If no buttons are specified, add a close button
 			buttons = {};
 			buttons[ gM( 'mwe-ok' ) ] = function() {
-				$j( this ).dialog( 'close' ).remove();
+				$( this ).dialog( 'close' ).remove();
 			};
 		}
 
-		$j( '#upProgressDialog' ).dialog( 'option', 'title', title_txt );
+		$( '#upProgressDialog' ).dialog( 'option', 'title', title_txt );
 		if ( !msg ) {
-			$j( '#upProgressDialog' ).loadingSpinner();
+			$( '#upProgressDialog' ).loadingSpinner();
 		} else {
-			$j( '#upProgressDialog' ).html( msg );
+			$( '#upProgressDialog' ).html( msg );
 		}
-		$j( '#upProgressDialog' ).dialog( 'option', 'buttons', buttons );
+		$( '#upProgressDialog' ).dialog( 'option', 'buttons', buttons );
 	},
 
 
@@ -340,7 +341,7 @@ mw.UploadDialogInterface.prototype = {
 				return false;
 			}
 
-			mw.log( 'get remote error key: ' + error_msg_key[ error_code ] )
+			mw.log( 'get remote error key: ' + error_msg_key[ error_code ] );
 			mw.getRemoteMsg( error_msg_key[ error_code ], function() {
 				_this.setPrompt(
 					gM( 'mwe-uploaderror' ),
@@ -366,7 +367,7 @@ mw.UploadDialogInterface.prototype = {
 		if ( apiRes.upload && apiRes.upload.warnings ) {
 			var wmsg = '<ul>';
 			for ( var wtype in apiRes.upload.warnings ) {
-				var winfo = apiRes.upload.warnings[wtype]
+				var winfo = apiRes.upload.warnings[wtype];
 				wmsg += '<li>';
 				switch ( wtype ) {
 					case 'duplicate':
@@ -404,12 +405,12 @@ mw.UploadDialogInterface.prototype = {
 			// Show warning
 			_this.setPrompt(
 				gM( 'mwe-uploadwarning' ),
-				$j('<div />')
+				$('<div />')
 				.append(
-					$j( '<h3 />' )
+					$( '<h3 />' )
 					.text( gM( 'mwe-uploadwarning' ) ),
 
-					$j('<span />')
+					$('<span />')
 					.html( wmsg )
 				),
 				buttons );
@@ -422,7 +423,7 @@ mw.UploadDialogInterface.prototype = {
 	 * return to the upload form handler
 	 */
 	returnToForm: function( dialogElement ){
-		$j( dialogElement ).dialog( 'close' );
+		$( dialogElement ).dialog( 'close' );
 		//retun to form actions
 		this.sendUploadAction( 'returnToForm' );
 
@@ -453,7 +454,7 @@ mw.UploadDialogInterface.prototype = {
 		var buttons = {};
 		// "Return" button
 		buttons[ gM( 'mwe-return-to-form' ) ] = function() {
-			$j( this ).dialog( 'destroy' ).remove();
+			$( this ).dialog( 'destroy' ).remove();
 			_this.sendUploadAction( 'returnToForm' );
 			_this.sendUploadAction( 'disableDirectSubmit' );
 		}
@@ -464,7 +465,7 @@ mw.UploadDialogInterface.prototype = {
 		_this.action_done = true;
 		_this.setPrompt(
 			gM( 'mwe-successfulupload' ),
-			$j('<a />')
+			$('<a />')
 			.attr( 'href', url )
 			.html(
 				gM( 'mwe-upload-done')
@@ -479,7 +480,7 @@ mw.UploadDialogInterface.prototype = {
 	 */
 	close: function() {
 		this.action_done = true;
-		$j( '#upProgressDialog' ).dialog( 'destroy' ).remove();
+		$( '#upProgressDialog' ).dialog( 'destroy' ).remove();
 	},
 
 	/**
@@ -490,7 +491,7 @@ mw.UploadDialogInterface.prototype = {
 		mw.log( 'f: getCancelButton()' );
 		var cancelBtn = [];
 		cancelBtn[ gM( 'mwe-cancel' ) ] = function() {
-			$j( this ).dialog( 'close' );
+			$( this ).dialog( 'close' );
 		};
 		return cancelBtn;
 	}
@@ -558,3 +559,5 @@ mw.UploadIframeUI.prototype = {
 	}
 
 };
+
+} )( window.mediaWiki, window.jQuery );

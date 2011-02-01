@@ -16,7 +16,7 @@ mw.ready( function() {
 	mw.log( 'load ApiProxy' );
 	mw.load( 'ApiProxy', function() {
 		// Clear out the page content ( not needed for iframe proxy )
-		$j( 'body' ).html( '' );
+		$( 'body' ).html( '' );
 		mw.ApiProxy.server();
 	} );
 } );

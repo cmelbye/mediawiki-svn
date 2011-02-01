@@ -16,7 +16,7 @@ if( ! mw.ui ){
 mw.ui.languageSelectBox = function( options ){
 	// Build a select object 
 	// TODO test string construction instead of jQuery build out for performance  
-	var $langSelect = $j('<select />')
+	var $langSelect = $('<select />')
 	if( options.id )
 		$langSelect.attr( 'id',  options.id );
 	
@@ -34,13 +34,13 @@ mw.ui.languageSelectBox = function( options ){
 			optionAttr['selected'] = 'true';
 		}
 		$langSelect.append(
-			$j('<option />')
+			$('<option />')
 				.attr( optionAttr )
 				.text( langKey + ', ' + mw.Language.names[langKey] )
 		);
 	}
 	/*var $comboboxContainer = 
-		$j('<div />')
+		$('<div />')
 		.css({
 			'position': 'relative',
 			'overflow': 'auto'

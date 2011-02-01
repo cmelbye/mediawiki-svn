@@ -31,7 +31,7 @@ mw.PlaylistHandlerMediaRss.prototype = {
 
 		// Note this only works with local sources
 		$j.get( mw.absoluteUrl( this.getSrc() ), function( data ){
-			_this.$rss = $j( data );
+			_this.$rss = $( data );
 			callback( _this.$rss );
 		});
 	},
@@ -51,19 +51,19 @@ mw.PlaylistHandlerMediaRss.prototype = {
 
 	getClipSources: function( clipIndex, callback ){
 		var _this = this;
-		var $item = $j( this.$rss.find('item')[ clipIndex ] );
+		var $item = $( this.$rss.find('item')[ clipIndex ] );
 		var clipSources = [];
 		$j.each( $item.get(0).getElementsByTagNameNS( _this.mediaNS, 'content' ), function( inx, mediaContent){
-			if( $j( mediaContent ).get(0).nodeName == 'media:content' ){
+			if( $( mediaContent ).get(0).nodeName == 'media:content' ){
 				clipSource = {}
-				if( $j( mediaContent ).attr('url' ) ){
-					clipSource.src = $j( mediaContent ).attr('url' );
+				if( $( mediaContent ).attr('url' ) ){
+					clipSource.src = $( mediaContent ).attr('url' );
 				}
-				if( $j( mediaContent ).attr('type' ) ){
-					clipSource.type = $j( mediaContent ).attr('type' );
+				if( $( mediaContent ).attr('type' ) ){
+					clipSource.type = $( mediaContent ).attr('type' );
 				}
-				if( $j( mediaContent ).attr( 'duration' ) ) {
-					clipSource.durationHint = $j( mediaContent ).attr('duration' );
+				if( $( mediaContent ).attr( 'duration' ) ) {
+					clipSource.durationHint = $( mediaContent ).attr('duration' );
 				}
 				clipSources.push( clipSource );
 			}
@@ -84,9 +84,9 @@ mw.PlaylistHandlerMediaRss.prototype = {
 	getClipPoster: function ( clipIndex ){
 		var $item = this.$rss.find('item').eq( clipIndex );
 		var mediaThumb = $item.get(0).getElementsByTagNameNS( this.mediaNS, 'thumbnail' );
-		mw.log( 'mw.PlaylistMediaRss::getClipPoster: ' + $j( mediaThumb ).attr('url' ) );
-		if( mediaThumb && $j( mediaThumb ).attr('url' ) ){
-			return $j( mediaThumb ).attr('url' );
+		mw.log( 'mw.PlaylistMediaRss::getClipPoster: ' + $( mediaThumb ).attr('url' ) );
+		if( mediaThumb && $( mediaThumb ).attr('url' ) ){
+			return $( mediaThumb ).attr('url' );
 		}
 
 		// return missing thumb url
@@ -99,7 +99,7 @@ mw.PlaylistHandlerMediaRss.prototype = {
 		var $item = this.$rss.find('item').eq( clipIndex ) ;
 		var mediaTitle = $item.get(0).getElementsByTagNameNS( this.mediaNS, 'title' );
 		if( mediaTitle ){
-			return $j( mediaTitle ).text();
+			return $( mediaTitle ).text();
 		}
 		mw.log("Error could not find title for clip: " + clipIndex );
 		return gM('mwe-mediarss-untitled');
@@ -109,9 +109,9 @@ mw.PlaylistHandlerMediaRss.prototype = {
 		// return the first found media duration
 		var $item = this.$rss.find('item').eq( clipIndex ) ;
 		var itemDuration = 0;
-		$j( $item.get(0).getElementsByTagNameNS( this.mediaNS, 'content' ) ).each( function( inx, mediaContent ){
-			if( $j( mediaContent ).attr( 'duration' ) ) {
-				itemDuration = $j( mediaContent ).attr( 'duration' );
+		$( $item.get(0).getElementsByTagNameNS( this.mediaNS, 'content' ) ).each( function( inx, mediaContent ){
+			if( $( mediaContent ).attr( 'duration' ) ) {
+				itemDuration = $( mediaContent ).attr( 'duration' );
 				// end for loop
 				return false;
 			}

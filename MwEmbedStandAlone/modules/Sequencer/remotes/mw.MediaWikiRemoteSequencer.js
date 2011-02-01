@@ -49,17 +49,17 @@ mw.getRemoteSequencerLink = function( url ){
 };
 
 // Add player pause binding if config is set::
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	if( mw.getConfig( 'Sequencer.KalturaPlayerEditOverlay' )){
 
-		var embedPlayerId = $j( embedPlayer ).attr( 'id' );
+		var embedPlayerId = $( embedPlayer ).attr( 'id' );
 
 		// hide if the main menu is requested
-		$j( embedPlayer ).bind( 'displayMenuOverlay', function(){
-			$j( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
+		$( embedPlayer ).bind( 'displayMenuOverlay', function(){
+			$( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
 		});
 
-		$j( embedPlayer ).bind( 'pause', function() {
+		$( embedPlayer ).bind( 'pause', function() {
 			// Don't display if near the end of playback ( causes double fade in conflict with ended event )
 			mw.remoteSequencerAddEditOverlay( embedPlayerId );
 
@@ -68,7 +68,7 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 			return true;
 		});
 
-		$j( embedPlayer ).bind( 'ended', function( onDoneAction ){
+		$( embedPlayer ).bind( 'ended', function( onDoneAction ){
 			if( embedPlayer.currentTime != 0 ){
 				return ;
 			}
@@ -77,17 +77,17 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 
 			// show the credits screen after 3.5 seconds
 			setTimeout(function(){
-				$j( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
+				$( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
 				embedPlayer.$interface.find('.k-menu').fadeIn('fast');
 			}, 3500);
 
 			// On end runs before interface bindings (give the dom 10ms to build out the menu )
 			setTimeout(function(){
-				$j( embedPlayer ).siblings( '.k-menu' ).hide();
+				$( embedPlayer ).siblings( '.k-menu' ).hide();
 			}, 10);
 		});
-		$j( embedPlayer ).bind( 'play', function(){
-			$j( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
+		$( embedPlayer ).bind( 'play', function(){
+			$( embedPlayer ).siblings( '.kalturaEditOverlay' ).fadeOut( 'fast' );
 			embedPlayer.controlBuilder.displayOptionsMenuFlag = false;
 			return true ;
 		});
@@ -95,7 +95,7 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	}
 });
 mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
-	var embedPlayer = $j( '#' + embedPlayerId ).get(0);
+	var embedPlayer = $( '#' + embedPlayerId ).get(0);
 
 	// Check if we can do the overlay::
 	if( !embedPlayer.supports['overlays']
@@ -108,7 +108,7 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 		return ;
 	}
 
-	if(! $j( '#' + embedPlayerId ).siblings( '.kalturaEditOverlay' ).length ){
+	if(! $( '#' + embedPlayerId ).siblings( '.kalturaEditOverlay' ).length ){
 
 		var seqTitle = embedPlayer.apiTitleKey
 			.replace( 'Sequence-', 'Sequence:');
@@ -129,8 +129,8 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 				'target' : '_new',
 				'title' : gM('mwe-embedplayer-kaltura-platform-title')
 			};
-		$j( '#' + embedPlayerId ).before(
-			$j( '<div />' )
+		$( '#' + embedPlayerId ).before(
+			$( '<div />' )
 			.addClass( 'kalturaEditOverlay' )
 			.css({
 				'position' : 'absolute',
@@ -143,7 +143,7 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 				'z-index': 1
 			})
 			.append(
-				$j('<div />')
+				$('<div />')
 				.css({
 					'position' : 'absolute',
 
@@ -159,7 +159,7 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 				})
 				.append(
 					gM('mwe-sequencer-you-can-edit-this-video',
-						$j('<a />')
+						$('<a />')
 						.attr({
 							'href': editLink,
 							'target': '_new'
@@ -178,17 +178,17 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 							return true;
 						})
 					),
-					$j( '<br />' )
+					$( '<br />' )
 					,
 					gM( 'mwe-sequencer-using-kaltura-video-editor',
-						$j('<a />')
+						$('<a />')
 						.attr( kalturaLinkAttr )
 					)
 					,
-					$j('<a />')
+					$('<a />')
 					.attr( kalturaLinkAttr )
 					.append(
-						$j('<div />')
+						$('<div />')
 						.addClass('mwe-kalturaLogoLarge')
 					)
 				)
@@ -197,7 +197,7 @@ mw.remoteSequencerAddEditOverlay = function( embedPlayerId ){
 		);
 	}
 
-	$j( '#' + embedPlayerId ).siblings( '.kalturaEditOverlay' )
+	$( '#' + embedPlayerId ).siblings( '.kalturaEditOverlay' )
 	.fadeIn('fast');
 };
 mw.MediaWikiRemoteSequencer = function( options ) {
@@ -235,16 +235,16 @@ mw.MediaWikiRemoteSequencer.prototype = {
 		var _this = this;
 		if( wgArticleId == 0 ) {
 			// Update create button
-			$j('#ca-edit a')
-				.html( $j('<span />').text( gM('mwe-sequencer-create-sequence' ) ) )
+			$('#ca-edit a')
+				.html( $('<span />').text( gM('mwe-sequencer-create-sequence' ) ) )
 				.click(function(){
 					_this.showEditor();
 					return false;
 				});
 
-			$j( this.target ).html(
+			$( this.target ).html(
 				gM("mwe-sequencer-no-sequence-create",
-					$j('<a />').attr('href','#').click(function() {
+					$('<a />').attr('href','#').click(function() {
 						_this.showEditor();
 						return false;
 					})
@@ -252,8 +252,8 @@ mw.MediaWikiRemoteSequencer.prototype = {
 			);
 		} else {
 			// Update edit button
-			$j('#ca-edit a')
-				.html( $j('<span />').text( gM('mwe-sequencer-edit-sequence' ) ) )
+			$('#ca-edit a')
+				.html( $('<span />').text( gM('mwe-sequencer-edit-sequence' ) ) )
 				.click(function(){
 					_this.showEditor();
 					return false;
@@ -266,8 +266,8 @@ mw.MediaWikiRemoteSequencer.prototype = {
 	showViewFlattenedFile: function(){
 		var _this = this;
 		//just update the edit button:
-		$j('#ca-edit a')
-		.html( $j('<span />').text( gM('mwe-sequencer-edit-sequence' ) ) )
+		$('#ca-edit a')
+		.html( $('<span />').text( gM('mwe-sequencer-edit-sequence' ) ) )
 		.click(function(){
 			_this.showEditor();
 			return false;
@@ -276,9 +276,9 @@ mw.MediaWikiRemoteSequencer.prototype = {
 
 	showEditUI: function(){
 		var _this = this;
-		$j('#bodyContent')
+		$('#bodyContent')
 		.append(
-			$j('<div />')
+			$('<div />')
 			.css({
 				'position' : 'relative',
 				'width' : '100%',
@@ -287,18 +287,18 @@ mw.MediaWikiRemoteSequencer.prototype = {
 			.attr({
 				'id': 'sequencerContainer'
 			}),
-			$j('<div />')
+			$('<div />')
 			.append(
-				gM("mwe-sequencer-restore-text-edit", $j('<a />').click(function(){
-					$j('#sequencerContainer').hide();
-					$j('#editform,#toolbar').show();
+				gM("mwe-sequencer-restore-text-edit", $('<a />').click(function(){
+					$('#sequencerContainer').hide();
+					$('#editform,#toolbar').show();
 				}) )
 			)
 			.css( {'cursor': 'pointer', 'font-size':'x-small' })
 		);
 		// load the sequence editor with the sequencerContainer target
 		mw.load( 'Sequencer', function(){
-			$j('#sequencerContainer').sequencer( _this.getSequencerConfig() );
+			$('#sequencerContainer').sequencer( _this.getSequencerConfig() );
 		});
 	},
 
@@ -321,14 +321,14 @@ mw.MediaWikiRemoteSequencer.prototype = {
 				'redirects' : true // automatically follow redirects
 			};
 
-			var $embedPlayer = $j('<div />');
+			var $embedPlayer = $('<div />');
 			mw.getJSON( request, function( data ){
 				if(!data.query || !data.query.pages || data.query.pages[-1]){
 					// no flattened file found
 					$embedPlayer.append(
-						$j( '<div />').append(
+						$( '<div />').append(
 							gM('mwe-sequencer-not-published',
-								$j('<a />').click( function(){
+								$('<a />').click( function(){
 									_this.showEditor();
 								}).css('cursor', 'pointer')
 							)
@@ -346,9 +346,9 @@ mw.MediaWikiRemoteSequencer.prototype = {
 							if( page.revisions[0].revid < wgCurRevisionId ){
 								// flattened file out of date
 								$embedPlayer.append(
-									$j('<div />').append(
+									$('<div />').append(
 										gM('mwe-sequencer-published-out-of-date',
-											$j('<a />').click( function(){
+											$('<a />').click( function(){
 												_this.showEditor();
 											}).css('cursor', 'pointer')
 										)
@@ -369,7 +369,7 @@ mw.MediaWikiRemoteSequencer.prototype = {
 							// Append a player to the embedPlayer target
 							// -- special title key sequence name bound
 							$embedPlayer.append(
-								$j('<video />')
+								$('<video />')
 								.attr({
 									'id' : 'embedSequencePlayer',
 									'poster' : imageinfo.thumburl,
@@ -383,7 +383,7 @@ mw.MediaWikiRemoteSequencer.prototype = {
 								})
 								.append(
 									// ogg source
-									$j('<source />')
+									$('<source />')
 									.attr({
 										'type': 'video/ogg',
 										'src' : imageinfo.url
@@ -398,8 +398,8 @@ mw.MediaWikiRemoteSequencer.prototype = {
 				// Copy the category links if present
 
 				// Display embed sequence
-				$j( _this.target ).empty().append(
-					$j('<div />')
+				$( _this.target ).empty().append(
+					$('<div />')
 					.addClass( 'sequencer-player')
 					.css({
 						'float' : 'left',
@@ -411,7 +411,7 @@ mw.MediaWikiRemoteSequencer.prototype = {
 					,
 
 					// Embed player
-					$j('<div />')
+					$('<div />')
 					.addClass( 'sequencer-embed-helper')
 					.css({
 						'margin-left': '430px'
@@ -419,19 +419,19 @@ mw.MediaWikiRemoteSequencer.prototype = {
 
 					// Text embed code
 					.append(
-						$j('<h3 />')
+						$('<h3 />')
 						.text( gM('mwe-sequencer-embed-sequence') )
 						,
-						$j('<span />' )
+						$('<span />' )
 						.text( gM('mwe-sequencer-embed-sequence-desc') )
 						,
-						$j('<br />'),
-						$j('<textarea />')
+						$('<br />'),
+						$('<textarea />')
 						.css({
 							'width' : '100%',
 							'height' : '200px'
 						}).focus(function(){
-							$j(this).select();
+							$(this).select();
 						})
 						.append(
 							_this.getSequenceEmbedCode()
@@ -439,18 +439,18 @@ mw.MediaWikiRemoteSequencer.prototype = {
 					),
 
 					// Add a clear both to give content body height
-					$j('<div />').css( { 'clear': 'both' } )
+					$('<div />').css( { 'clear': 'both' } )
 
 				);
 				// add cat links if set;
 				if( _this.catLinks ){
-					$j( _this.target ).append(
-						$j('<div />').html( _this.catLinks )
+					$( _this.target ).append(
+						$('<div />').html( _this.catLinks )
 					);
 				}
 
 				// Rewrite the player
-				$j('#embedSequencePlayer').embedPlayer();
+				$('#embedSequencePlayer').embedPlayer();
 			}); // load json player data
 		})
 	},
@@ -468,8 +468,8 @@ mw.MediaWikiRemoteSequencer.prototype = {
 	showEditor: function(){
 		var _this = this;
 
-		$j('body').append(
-			$j('<div />')
+		$('body').append(
+			$('<div />')
 			.attr('id', "edit_sequence_container")
 			.css({
 				'position' : 'absolute',
@@ -482,17 +482,17 @@ mw.MediaWikiRemoteSequencer.prototype = {
 				'z-index' : '1001'
 			})
 			.append(
-				$j('<div />').append(
+				$('<div />').append(
 					gM('mwe-sequencer-loading-sequencer'),
-					$j('<span />').loadingSpinner()
+					$('<span />').loadingSpinner()
 				)
 				.css( {'width':'200px', 'margin':'auto'})
 			)
 		)
 		mw.load( 'Sequencer', function(){
 			// Send a jquery ui style destroy command ( in case the editor is re-invoked )
-			$j('#edit_sequence_container').sequencer( 'destroy');
-			$j('#edit_sequence_container').sequencer( _this.getSequencerConfig() );
+			$('#edit_sequence_container').sequencer( 'destroy');
+			$('#edit_sequence_container').sequencer( _this.getSequencerConfig() );
 		});
 	},
 	getSequencerConfig: function(){

@@ -1,53 +1,50 @@
 /**
  */
 
-mw.includeAllModuleMessages();
+( function( mw, $ ) {
 
 /**
 * Setup the sequencer jQuery binding:
 */
 
-( function( $ ) {
-	$.fn.sequencer = function( options ) {
-		// Debugger
-		if( $j( this.selector ).length == 0 ){
-			mw.log("mw.Sequencer::Error missing target container");
-			return;
-		}
-		var seqContainer = $j( this.selector ).get(0);
+$.fn.sequencer = function( options ) {
+	// Debugger
+	if( $( this.selector ).length == 0 ){
+		mw.log("mw.Sequencer::Error missing target container");
+		return;
+	}
+	var seqContainer = $( this.selector ).get(0);
 
-		// Support jQuery ui style 'destroy' call
-		if( options == 'destroy' ){
-			if( seqContainer['sequencer'] )
-				delete seqContainer['sequencer'];
-			return this;
-		}
-
-
-		// Check if we already have a sequencer associated with this target
-		if( seqContainer['sequencer'] ){
-			// xxx todo: pass on the options / action
-			return ;
-		}
-		options['interfaceContainer'] = this.selector;
-
-		// Issue a request to get the CSS file (if not already included):
-		mw.log( 'Sequencer:: create new Sequencer' );
-
-		// Initialize the sequence object (it will take over from there)
-		seqContainer['sequencer'] = new mw.Sequencer( options );
-
-		// Draw the sequencer UI
-		seqContainer['sequencer'].drawUI();
-
-		// Return the sequence jQuery object
+	// Support jQuery ui style 'destroy' call
+	if( options == 'destroy' ){
+		if( seqContainer['sequencer'] )
+			delete seqContainer['sequencer'];
 		return this;
+	}
 
-	};
-} )( jQuery );
+
+	// Check if we already have a sequencer associated with this target
+	if( seqContainer['sequencer'] ){
+		// xxx todo: pass on the options / action
+		return ;
+	}
+	options['interfaceContainer'] = this.selector;
+
+	// Issue a request to get the CSS file (if not already included):
+	mw.log( 'Sequencer:: create new Sequencer' );
+
+	// Initialize the sequence object (it will take over from there)
+	seqContainer['sequencer'] = new mw.Sequencer( options );
+
+	// Draw the sequencer UI
+	seqContainer['sequencer'].drawUI();
+
+	// Return the sequence jQuery object
+	return this;
+
+};
 
 // Wrap in mw closure to avoid global variables
-( function( mw ) {
 
 /**
  * The set of valid sequencer options
@@ -329,9 +326,9 @@ mw.Sequencer.prototype = {
 	 */
 	getUiLayout: function(){
 		var _this = this;
-		// xxx There is probably a cleaner way to generate a list of jQuery objects than $j('new').children();
-		return $j('<div />').append(
-			$j('<div />')
+		// xxx There is probably a cleaner way to generate a list of jQuery objects than $('new').children();
+		return $('<div />').append(
+			$('<div />')
 			.addClass( "mwseq-menu" )
 			.css({
 				'position':'absolute',
@@ -344,7 +341,7 @@ mw.Sequencer.prototype = {
 			.text( gM('mwe-sequencer-loading-menu') )
 			,
 
-			$j('<div />')
+			$('<div />')
 			.addClass('resizableLayout')
 			.css({
 				'position':'absolute',
@@ -354,13 +351,13 @@ mw.Sequencer.prototype = {
 				'bottom':'0px'
 			})
 			.append(
-				$j('<div />')
+				$('<div />')
 					.addClass( "ui-layout-center mwseq-edit" )
 					.html( _this.getTools().getDefaultText() ),
-				$j('<div />')
+				$('<div />')
 					.addClass( "ui-layout-east mwseq-player" )
 					.text( gM('mwe-sequencer-loading-player') ),
-				$j('<div />')
+				$('<div />')
 					.addClass( "ui-layout-south mwseq-timeline" )
 					.text( gM('mwe-sequencer-loading-timeline') )
 			)
@@ -375,8 +372,8 @@ mw.Sequencer.prototype = {
 		return this.getContainer().find( '.mwseq-edit' );
 	},
 	getContainer: function(){
-		return $j( this.interfaceContainer );
+		return $( this.interfaceContainer );
 	}
 }
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

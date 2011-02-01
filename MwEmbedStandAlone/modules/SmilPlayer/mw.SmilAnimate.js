@@ -1,9 +1,11 @@
 /**
 * Handles the smil animate class
 */
+( function( mw, $ ) {
+	
 mw.SmilAnimate = function( smilObject ){
 	return this.init( smilObject );
-}
+};
 mw.SmilAnimate.prototype = {
 
 	// Constructor:
@@ -48,7 +50,7 @@ mw.SmilAnimate.prototype = {
 		this.smil.getBody().getElementsForTime( time, function( smilElement ){
 			//mw.log( 'check element: '+ time + ' ' + _this.smil.getSmilElementPlayerID( smilElement ) );
 			// var relativeTime = time - smilElement.parentTimeOffset;
-			var relativeTime = time - $j( smilElement ).data ( 'startOffset' );
+			var relativeTime = time - $( smilElement ).data ( 'startOffset' );
 			switch( _this.smil.getRefType( smilElement ) ){
 				case 'auido':
 				case 'video':
@@ -77,7 +79,7 @@ mw.SmilAnimate.prototype = {
 	*/
 	animateTransform: function( smilElement, animateTime, deltaTime, callback ){
 		var _this = this;
-		//mw.log("SmilAnimate::animateTransform:" + $j( smilElement).attr('id') + ' AnimateTime: ' + animateTime + ' delta:' + deltaTime);
+		//mw.log("SmilAnimate::animateTransform:" + $( smilElement).attr('id') + ' AnimateTime: ' + animateTime + ' delta:' + deltaTime);
 
 		// Check for deltaTime to animate over, if zero
 		if( !deltaTime || deltaTime === 0 ){
@@ -161,7 +163,7 @@ mw.SmilAnimate.prototype = {
 
 		// Let transition check for updates
 		if( refType == 'img' || refType=='video' ){
-			 if( $j( smilElement ).attr('transIn') || $j( smilElement ).attr('transOut') ){
+			 if( $( smilElement ).attr('transIn') || $( smilElement ).attr('transOut') ){
 				return true;
 			 }
 		}
@@ -170,7 +172,7 @@ mw.SmilAnimate.prototype = {
 		// since any our supported keyframe granularity will be equal to deltaTime ie 1/4 a second.
 		if( refType == 'img' ){
 			// Confirm a child animate is in-range
-			if( $j( smilElement ).find( 'animate' ).length ) {
+			if( $( smilElement ).find( 'animate' ).length ) {
 				// Check if there are animate elements in range:
 				if( this.getSmilAnimateInRange( smilElement, animateTime) ){
 					return true;
@@ -180,12 +182,12 @@ mw.SmilAnimate.prototype = {
 
 		// Check if we need to do a smilText clear:
 		if( refType == 'smiltext' ){
-			var el = $j( smilElement ).get(0);
+			var el = $( smilElement ).get(0);
 			for ( var i=0; i < el.childNodes.length; i++ ) {
 				var node = el.childNodes[i];
 				// Check for text Node type:
 				if( node.nodeName == 'clear' ) {
-					var clearTime = this.smil.parseTime( $j( node ).attr( 'begin') );
+					var clearTime = this.smil.parseTime( $( node ).attr( 'begin') );
 					//mw.log( ' ct: ' + clearTime + ' >= ' + animateTime + ' , ' + deltaTime );
 					if( clearTime >= animateTime && clearTime <= ( animateTime + deltaTime ) ) {
 						return true;
@@ -247,7 +249,7 @@ mw.SmilAnimate.prototype = {
 	transformMediaForTime: function( smilElement, animateTime, callback ){
 		// Get the video element
 		var assetId = this.smil.getSmilElementPlayerID( smilElement );
-		var media = $j('#' + assetId ).find('audio,video').get( 0 );
+		var media = $('#' + assetId ).find('audio,video').get( 0 );
 		
 		if( !media ){
 			mw.log("Error: transformMediaForTime could not find media asest: " + assetId );
@@ -256,15 +258,15 @@ mw.SmilAnimate.prototype = {
 
 		var mediaSeekTime = animateTime;
 		//Add the clipBegin if set
-		if( $j( smilElement ).attr( 'clipBegin') &&
-			this.smil.parseTime( $j( smilElement ).attr( 'clipBegin') ) )
+		if( $( smilElement ).attr( 'clipBegin') &&
+			this.smil.parseTime( $( smilElement ).attr( 'clipBegin') ) )
 		{
-			mediaSeekTime += this.smil.parseTime( $j( smilElement ).attr( 'clipBegin') );
+			mediaSeekTime += this.smil.parseTime( $( smilElement ).attr( 'clipBegin') );
 		}
 
 		// Register a buffer ready callback
 		this.smil.getBuffer().mediaBufferSeek( smilElement, mediaSeekTime, function() {
-			mw.log( "SmilAnimate::transformMediaForTime: seek complete:" + $j( smilElement ).attr('id') );
+			mw.log( "SmilAnimate::transformMediaForTime: seek complete:" + $( smilElement ).attr('id') );
 			if( callback )
 				callback();
 		});
@@ -277,7 +279,7 @@ mw.SmilAnimate.prototype = {
 		var $media = $j ( '#' + this.smil.getSmilElementPlayerID( smilElement ) );
 
 		// Set activePlayback flag ( informs edit and buffer actions )
-		$j( smilElement ).data('activePlayback', true)
+		$( smilElement ).data('activePlayback', true);
 
 		// Make the video is being displayed and get a pointer to the video element:
 		var media = $media.show().find('audio,video').get( 0 );
@@ -289,7 +291,7 @@ mw.SmilAnimate.prototype = {
 		// ( buffer delays management things insync below this range )
 
 		// Bind to play event and issue the initial "play" request
-		$j( media ).bind('play', function(){
+		$( media ).bind('play', function(){
 			if( callback ){
 				callback();
 				callback = null;
@@ -304,7 +306,7 @@ mw.SmilAnimate.prototype = {
 	transformTextForTime: function( textElement, animateTime ) {
 		//mw.log("transformTextForTime:: " + animateTime );
 
-		if( $j( textElement ).children().length == 0 ){
+		if( $( textElement ).children().length == 0 ){
 			// no text transform children
 			return ;
 		}
@@ -314,14 +316,14 @@ mw.SmilAnimate.prototype = {
 		// Set initial textValue:
 		var textValue ='';
 
-		var el = $j( textElement ).get(0);
+		var el = $( textElement ).get(0);
 		for ( var i=0; i < el.childNodes.length; i++ ) {
 			var node = el.childNodes[i];
 			// Check for text Node type:
 			if( node.nodeType == 3 ) {
 				textValue += node.nodeValue;
 			} else if( node.nodeName == 'clear' ){
-				var clearTime = this.smil.parseTime( $j( node ).attr( 'begin') );
+				var clearTime = this.smil.parseTime( $( node ).attr( 'begin') );
 				if( clearTime > animateTime ){
 					break;
 				}
@@ -332,34 +334,34 @@ mw.SmilAnimate.prototype = {
 
 		// Update the text value target
 		// xxx need to profile update vs check value
-		$j( '#' + this.smil.getSmilElementPlayerID( textElement ) )
+		$( '#' + this.smil.getSmilElementPlayerID( textElement ) )
 		.html(
-			$j('<span />')
+			$('<span />')
 			// Add the text value
 			.text( textValue )
 			.css( textCss	)
-		)
+		);
 	},
 
 	transformImageForTime: function( smilImgElement, animateTime ) {
 		var _this = this;
 		//mw.log( "transformImageForTime:: animateTime:" + animateTime );
 
-		if( $j( smilImgElement ).children().length == 0 ){
+		if( $( smilImgElement ).children().length == 0 ){
 			// No animation transform children
 			return ;
 		}
 
 		var animateInRange = _this.getSmilAnimateInRange( smilImgElement, animateTime, function( animateElement ){
-			// mw.log('animateInRange callback::' + $j( animateElement ).attr( 'attributeName' ) );
-			switch( $j( animateElement ).attr( 'attributeName' ) ) {
+			// mw.log('animateInRange callback::' + $( animateElement ).attr( 'attributeName' ) );
+			switch( $( animateElement ).attr( 'attributeName' ) ) {
 				case 'panZoom':
 					// Get the pan zoom css for "this" time
 					_this.transformPanZoom ( smilImgElement, animateElement, animateTime );
 				break;
 				default:
 					mw.log("Error unrecognized Animation attributName: " +
-						 $j( animateElement ).attr( 'attributeName' ) );
+						 $( animateElement ).attr( 'attributeName' ) );
 			}
 		});
 		// No animate elements in range, make sure we transform to previous or to initial state if time is zero
@@ -386,9 +388,9 @@ mw.SmilAnimate.prototype = {
 		var _this = this;
 		var animateInRange = false;
 		// Get transform elements in range
-		$j( smilImgElement ).find( 'animate' ).each( function( inx, animateElement ){
-			var begin = _this.smil.parseTime( $j( animateElement ).attr( 'begin') );
-			var duration = _this.smil.parseTime( $j( animateElement ).attr( 'dur') );
+		$( smilImgElement ).find( 'animate' ).each( function( inx, animateElement ){
+			var begin = _this.smil.parseTime( $( animateElement ).attr( 'begin') );
+			var duration = _this.smil.parseTime( $( animateElement ).attr( 'dur') );
 			//mw.log( "getSmilAnimateInRange:: b:" + begin +" < " + animateTime + " && b+d: " + ( begin + duration ) + " > " + animateTime );
 
 			// Check if the animate element is in range
@@ -410,19 +412,19 @@ mw.SmilAnimate.prototype = {
 	*/
 	transformPanZoom: function( smilImgElement, animateElement, animateTime ){
 		var _this = this;
-		var begin = this.smil.parseTime( $j( animateElement ).attr( 'begin') );
-		var duration = this.smil.parseTime( $j( animateElement ).attr( 'dur') );
+		var begin = this.smil.parseTime( $( animateElement ).attr( 'begin') );
+		var duration = this.smil.parseTime( $( animateElement ).attr( 'dur') );
 
 		// internal offset
 		var relativeAnimationTime = animateTime - begin;
 
 		// Get target panZoom for given animateTime
-		var animatePoints = $j( animateElement ).attr('values').split( ';' );
+		var animatePoints = $( animateElement ).attr('values').split( ';' );
 
 		// Get the target interpreted value
 		var targetValue = this.getInterpolatePointsValue( animatePoints, relativeAnimationTime, duration );
 
-		//mw.log( "SmilAnimate::transformPanZoom: source points: " + $j( animateElement ).attr('values') + " target:" + targetValue.join(',') );
+		//mw.log( "SmilAnimate::transformPanZoom: source points: " + $( animateElement ).attr('values') + " target:" + targetValue.join(',') );
 
 		// Let Top Width Height
 		// translate values into % values
@@ -465,10 +467,10 @@ mw.SmilAnimate.prototype = {
 
 		// get a pointer to the html target:
 		if( !$target ) {
-			$target = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ));
+			$target = $( '#' + this.smil.getSmilElementPlayerID( smilElement ));
 		}
 		if( !htmlElement){
-			htmlElement = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0);
+			htmlElement = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0);
 		}
 		
 		_this.checkForRefTransformWrap( $target );
@@ -492,12 +494,12 @@ mw.SmilAnimate.prototype = {
 	updateElementRotation:  function( smilElement, $target ){
 		var _this = this;
 		// Check if we even need to do a rotate operation:
-		var rotateDeg = $j( smilElement ).attr('rotate');
+		var rotateDeg = $( smilElement ).attr('rotate');
 		if( ! rotateDeg ){
 			return ;
 		}
 		if( !$target ) {
-			$target = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ));
+			$target = $( '#' + this.smil.getSmilElementPlayerID( smilElement ));
 		}
 		_this.checkForRefTransformWrap( $target );
 		
@@ -511,7 +513,7 @@ mw.SmilAnimate.prototype = {
 		if( $target.parent( '.refTransformWrap' ).length == 0 ){			
 			$target
 			.wrap(
-				$j( '<div />' )
+				$( '<div />' )
 				.css( {
 					'top' : '0px',
 					'left' : '0px',
@@ -557,5 +559,6 @@ mw.SmilAnimate.prototype = {
 		}
 		return targetValue;
 	}
+};
 
-}
+} )( window.mediaWiki, window.jQuery );

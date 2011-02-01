@@ -2,6 +2,8 @@
  * The "kaltura player" embedPlayer interface for fallback h.264 and flv video format support
  */
 // Called from the kdp.swf
+( function( mw, $ ) {
+	
 function jsInterfaceReadyFunc() {
 	return true;
 }
@@ -69,7 +71,7 @@ mw.EmbedPlayerKplayer = {
 		attributes.name = this.pid;
 
 		mw.log(" about to add the pid container");
-		$j(this).html($j('<div />').attr('id', this.pid + '_container'));
+		$(this).html($('<div />').attr('id', this.pid + '_container'));
 		// Call swm dom loaded function:
 		swfobject.callDomLoadFunctions();
 		// Do the flash embedding with embedSWF
@@ -79,7 +81,7 @@ mw.EmbedPlayerKplayer = {
 
 		// Direct object embed
 		/*
-		 * $j( this ).html( '<object
+		 * $( this ).html( '<object
 		 * classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="780"
 		 * height="420">'+ '<param name="movie" value="myContent.swf" />'+ '<!--[if
 		 * !IE]>-->'+ '<object type="application/x-shockwave-flash"
@@ -92,10 +94,10 @@ mw.EmbedPlayerKplayer = {
 		}, 100);
 
 		// Flash player loses its bindings once it changes sizes::
-		$j(_this).bind('onOpenFullScreen', function() {
+		$(_this).bind('onOpenFullScreen', function() {
 			_this.postEmbedJS();
 		});
-		$j(_this).bind('onCloseFullScreen', function() {
+		$(_this).bind('onCloseFullScreen', function() {
 			_this.postEmbedJS();
 		});
 	},
@@ -115,7 +117,7 @@ mw.EmbedPlayerKplayer = {
 			'playerUpdatePlayhead' : 'onUpdatePlayhead',
 			'bytesTotalChange' : 'onBytesTotalChange',
 			'bytesDownloadedChange' : 'onBytesDownloadedChange'
-		}
+		};
 
 		if (this.playerElement && this.playerElement.addJsListener) {
 			$j.each( bindEventMap, function( bindName, localMethod ) {
@@ -233,7 +235,7 @@ mw.EmbedPlayerKplayer = {
 			}, 500);
 		} else {
 			// try to do a play then seek:
-			this.doPlayThenSeek(percentage)
+			this.doPlayThenSeek(percentage);
 		}
 		// Run the onSeeking interface update
 		this.controlBuilder.onSeek();
@@ -249,91 +251,91 @@ mw.EmbedPlayerKplayer = {
 		mw.log('flash::doPlayThenSeek::');
 		var _this = this;
 		// issue the play request
-	this.play();
-
-	// let the player know we are seeking
-	_this.seeking = true;
-
-	var getPlayerCount = 0;
-	var readyForSeek = function() {
-		_this.getPlayerElement();
-		// if we have duration then we are ready to do the seek ( flash can't
-		// seek untill there is some buffer )
-		if (_this.playerElement && _this.playerElement.sendNotification
-				&& _this.getDuration() && _this.bufferedPercent) {
-			var seekTime = percentage * _this.getDuration();
-			// Issue the seek to the flash player:
-			_this.playerElement.sendNotification('doSeek', seekTime);
-		} else {
-			// Try to get player for 20 seconds:
-			if (getPlayerCount < 400) {
-				setTimeout(readyForSeek, 50);
-				getPlayerCount++;
+		this.play();
+	
+		// let the player know we are seeking
+		_this.seeking = true;
+	
+		var getPlayerCount = 0;
+		var readyForSeek = function() {
+			_this.getPlayerElement();
+			// if we have duration then we are ready to do the seek ( flash can't
+			// seek untill there is some buffer )
+			if (_this.playerElement && _this.playerElement.sendNotification
+					&& _this.getDuration() && _this.bufferedPercent) {
+				var seekTime = percentage * _this.getDuration();
+				// Issue the seek to the flash player:
+				_this.playerElement.sendNotification('doSeek', seekTime);
 			} else {
-				mw.log('Error:doPlayThenSeek failed');
+				// Try to get player for 20 seconds:
+				if (getPlayerCount < 400) {
+					setTimeout(readyForSeek, 50);
+					getPlayerCount++;
+				} else {
+					mw.log('Error:doPlayThenSeek failed');
+				}
 			}
+		};
+		readyForSeek();
+	},
+	
+	/**
+	 * Issues a volume update to the playerElement
+	 * 
+	 * @param {Float}
+	 *            percentage Percentage to update volume to
+	 */
+	setPlayerElementVolume : function(percentage) {
+		if (this.playerElement && this.playerElement.sendNotification) {
+			this.playerElement.sendNotification('changeVolume', percentage);
 		}
+	},
+	
+	/**
+	 * function called by flash at set interval to update the playhead.
+	 */
+	onUpdatePlayhead : function(playheadValue) {
+		this.flashCurrentTime = playheadValue;
+	},
+	
+	/**
+	 * function called by flash when the total media size changes
+	 */
+	onBytesTotalChange : function(data, id) {
+		this.bytesTotal = data.newValue;
+	},
+	
+	/**
+	 * function called by flash applet when download bytes changes
+	 */
+	onBytesDownloadedChange : function(data, id) {
+		mw.log('onBytesDownloadedChange');
+		this.bytesLoaded = data.newValue;
+		this.bufferedPercent = this.bytesLoaded / this.bytesTotal;
+	
+		// Fire the parent html5 action
+		$(this).trigger('progress', {
+			'loaded' : this.bytesLoaded,
+			'total' : this.bytesTotal
+		});
+	},
+	
+	/**
+	 * Get the embed player time
+	 */
+	getPlayerElementTime : function() {
+		// update currentTime
+		return this.flashCurrentTime;
+	},
+	
+	/**
+	 * Get the embed fla object player Element
+	 */
+	getPlayerElement : function() {
+		this.playerElement = document.getElementById(this.pid);
+		return this.playerElement;
 	}
-	readyForSeek();
-},
-
-/**
- * Issues a volume update to the playerElement
- * 
- * @param {Float}
- *            percentage Percentage to update volume to
- */
-setPlayerElementVolume : function(percentage) {
-	if (this.playerElement && this.playerElement.sendNotification) {
-		this.playerElement.sendNotification('changeVolume', percentage);
-	}
-},
-
-/**
- * function called by flash at set interval to update the playhead.
- */
-onUpdatePlayhead : function(playheadValue) {
-	this.flashCurrentTime = playheadValue;
-},
-
-/**
- * function called by flash when the total media size changes
- */
-onBytesTotalChange : function(data, id) {
-	this.bytesTotal = data.newValue;
-},
-
-/**
- * function called by flash applet when download bytes changes
- */
-onBytesDownloadedChange : function(data, id) {
-	mw.log('onBytesDownloadedChange');
-	this.bytesLoaded = data.newValue;
-	this.bufferedPercent = this.bytesLoaded / this.bytesTotal;
-
-	// Fire the parent html5 action
-	$j(this).trigger('progress', {
-		'loaded' : this.bytesLoaded,
-		'total' : this.bytesTotal
-	});
-},
-
-/**
- * Get the embed player time
- */
-getPlayerElementTime : function() {
-	// update currentTime
-	return this.flashCurrentTime;
-},
-
-/**
- * Get the embed fla object player Element
- */
-getPlayerElement : function() {
-	this.playerElement = document.getElementById(this.pid);
-	return this.playerElement;
-}
-}
+};
 
 /**
  * function called once player is ready.
@@ -1246,3 +1248,5 @@ var swfobject = function() {
 		}
 	};
 }();
+
+} )( window.mediaWiki, window.jQuery );

@@ -1,5 +1,5 @@
 // include all module messages
-mw.includeAllModuleMessages();
+( function( mw, $ ) {
 
 /**
  * Generates a miro subs config also see:
@@ -16,7 +16,7 @@ mw.MiroSubsConfig = {
 			// Show the dialog ( wait 500ms because of weird async DOM issues with mirosub widget
 			setTimeout( function(){
 				mw.closeLoaderDialog();
-				$j(document).scrollTop(0);
+				$(document).scrollTop(0);
 				_this.mirosubs = mirosubs.api.openDialog( config );
 			}, 800);
 		});
@@ -80,7 +80,7 @@ mw.MiroSubsConfig = {
 				});
 				
 			});
-		}
+		};
 		// Make sure the player has selected auto-selected source if it can ( to have a good recommend content language
 		if( embedPlayer.timedText.getCurrentLangKey() ){
 			getConfigWithPlayerLang();
@@ -99,21 +99,21 @@ mw.MiroSubsConfig = {
 	getUserSelectLanguage: function( callback ){
 		var buttons = { };
 		buttons[ gM( 'mwe-ok' ) ] = function() {
-			$j( this ).dialog('close');
+			$( this ).dialog('close');
 			// add a loader dialog: 
 			mw.addLoaderDialog( gM('mwe-mirosubs-loading-universal-subtitles') );
 			// read the 
-			callback( $j('#mwe-mirosubs-lang-select').val() );			
+			callback( $('#mwe-mirosubs-lang-select').val() );			
 		};
 		buttons[ gM( 'mwe-cancel' ) ] = function() {
-			$j( this ).dialog('close');
+			$( this ).dialog('close');
 		};
 		
 		var $dialog = mw.addDialog( {
 			'title' : gM("mwe-mirosubs-content-language"),
 			'width' : 450,
-			'content' : $j('<div />').append(
-					$j('<div />').text( 
+			'content' : $('<div />').append(
+					$('<div />').text( 
 						gM("mwe-mirosubs-select-language") 
 					),
 					mw.ui.languageSelectBox( {
@@ -189,14 +189,14 @@ mw.MiroSubsConfig = {
 		// Add a dialog to get save summary
 		var buttons ={};
 		buttons[ gM('mwe-mirosubs-save-subs') ] = function(){
-			var summary = $j('#mwe-mirosubs-save-summary').val();
+			var summary = $('#mwe-mirosubs-save-summary').val();
 			// Append link to gadget:
 			summary+= ' using [[Commons:Universal_Subtitles|UniversalSubs]]';
 			callback( summary );
 			// set dialog to loading
-			$j( this ).html( $j('<div />').append(
+			$( this ).html( $('<div />').append(
 					gM('mwe-mirosubs-saving-subs'),
-					$j('<div />')
+					$('<div />')
 					.loadingSpinner()
 				)
 			)
@@ -205,16 +205,16 @@ mw.MiroSubsConfig = {
 		};
 		buttons[ gM('mwe-cancel') ] = function(){
 			callback( false );
-			$j( this ).dialog( 'close' );
+			$( this ).dialog( 'close' );
 		};
 		// Reduce the z-index so we can put the model ontop:
-		//$j('.mirosubs-modal-widget-bg,.mirosubs-modal-widget').css( 'z-index', 10 );
+		//$('.mirosubs-modal-widget-bg,.mirosubs-modal-widget').css( 'z-index', 10 );
 		var $dialog = mw.addDialog( {
 			'title' : gM("mwe-mirosubs-save-summary"),
 			'width' : 450,
-			'content' : $j('<div />').append(
-					$j('<h3 />').text( gM("mwe-mirosubs-save-summary") ),
-					$j('<input/>').attr({
+			'content' : $('<div />').append(
+					$('<h3 />').text( gM("mwe-mirosubs-save-summary") ),
+					$('<input/>').attr({
 						'id' : 'mwe-mirosubs-save-summary',
 						'size': '35'
 					}).val( gM('mwe-mirosubs-save-default') )
@@ -302,3 +302,5 @@ mw.MiroSubsConfig = {
 		callback( miroJsonSubs );
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

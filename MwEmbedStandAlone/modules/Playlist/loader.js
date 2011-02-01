@@ -52,7 +52,7 @@
 			return ;
 		}
 		// Set the target to loading
-		$j( this.selector ).loadingSpinner();
+		$( this.selector ).loadingSpinner();
 
 		// Set the target
 		options[ 'target' ] = _this.selector;

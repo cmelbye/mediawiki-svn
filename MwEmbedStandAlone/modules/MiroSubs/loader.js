@@ -3,7 +3,7 @@
 */
 
 // Wrap in mw to not pollute global namespace
-( function( mw ) {
+( function( mw, $ ) {
 	mw.addMessages({
 		"mwe-mirosubs-add-universal-subtitles" : "Universal subtitles editor",
 		"mwe-mirosubs-loading-universal-subtitles" : "Loading <i>universal subtitles</i> editor"
@@ -28,19 +28,19 @@
 		return resourceList;
 	});
 
-	$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+	$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 		// Check if the Miro Editor is enabled and the player has an apiTitleKey
 		if( mw.getConfig( 'MiroSubs.EnableUniversalSubsEditor' )
 			&&
 			embedPlayer.apiTitleKey
 		){
 			// Build out the menu in the loader ( to load mirosubs interface on-demand )
-			$j( embedPlayer ).bind( 'TimedText.BuildCCMenu', function( event, langMenu ){
+			$( embedPlayer ).bind( 'TimedText.BuildCCMenu', function( event, langMenu ){
 
 				// Load the miro subs menu style ( will be part of the loader dependency later on)
 				mw.load( 'mw.style.mirosubsMenu' );
 
-				$j( langMenu ).append(
+				$( langMenu ).append(
 					$j.getLineItem( gM( 'mwe-mirosubs-add-universal-subtitles'), 'mirosubs', function() {
 						// Show loader
 						mw.addLoaderDialog( gM('mwe-mirosubs-loading-universal-subtitles') );
@@ -58,4 +58,4 @@
 	});
 
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

@@ -1,6 +1,8 @@
+( function( mw, $ ) {
+	
 mw.PlaylistHandlerKalturaRss = function( Playlist ){
 	return this.init( Playlist );
-}
+};
 
 mw.PlaylistHandlerKalturaRss.prototype = {
 	// Set the media rss namespace
@@ -33,7 +35,7 @@ mw.PlaylistHandlerKalturaRss.prototype = {
 				var playerRequest = {
 					'entry_id' : kEmbedSettings.entryId,
 					'widget_id' : kEmbedSettings.widgetId
-				}	
+				};
 				var clipDuration = clipSources[0].duration;		
 				
 				// Make sure we have a client session established: 
@@ -50,7 +52,8 @@ mw.PlaylistHandlerKalturaRss.prototype = {
 			} else {
 				mw.log("Error: kalturaPlaylist MediaRss used with multiple sources or non-kaltura flash applet url");
 			}			
-		})
+		});
 	}
-}
-	
+};
+
+} )( window.mediaWiki, window.jQuery );

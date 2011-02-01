@@ -2,7 +2,7 @@
 * TimedText loader.
 */
 // Scope everything in "mw" ( keeps the global namespace clean )
-( function( mw ) {
+( function( mw, $ ) {
 
 	mw.addResourcePaths( {
 		"mw.TimedText" : "mw.TimedText.js",
@@ -58,14 +58,14 @@
 
 	// Update the player loader request with timedText library if the embedPlayer
 	// includes timedText tracks.
-	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
+	$( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		if( mw.isTimedTextSupported( playerElement ) ) {
 			classRequest = $j.merge( classRequest, mwTimedTextRequestSet );
 		}
 	} );
 	
 	// On new embed player check if we need to add timedText
-	$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+	$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 		if( mw.isTimedTextSupported( embedPlayer) ){
 			if( ! embedPlayer.timedText && mw.TimedText ) {
 				embedPlayer.timedText = new mw.TimedText( embedPlayer );
@@ -85,14 +85,14 @@
 		// Check for timed text sources or api/ roe url
 		if ( 
 			(
-				$j( embedPlayer ).attr('apititlekey')
+				$( embedPlayer ).attr('apititlekey')
 				||  
-				$j( embedPlayer ).attr('apiTitleKey' )
+				$( embedPlayer ).attr('apiTitleKey' )
 			)
 			|| 
 			( embedPlayer.mediaElement && embedPlayer.mediaElement.textSourceExists() )	
 			||
-			$j( embedPlayer ).find( 'track' ).length != 0
+			$( embedPlayer ).find( 'track' ).length != 0
 		) {
 			return true;
 		} else {
@@ -122,4 +122,4 @@
 		]
 	]);
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

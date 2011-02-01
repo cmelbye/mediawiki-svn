@@ -1,3 +1,5 @@
+( function( mw, $ ) {
+
 mw.SmilLayout = function( $layout ){
 	return this.init( $layout );
 };
@@ -61,7 +63,7 @@ mw.SmilLayout.prototype = {
 			this.targetWidth = this.smil.embedPlayer.getWidth();
 			this.targetHeight = this.smil.embedPlayer.getHeight();
 
-			this.$rootLayout = $j('<div />' )
+			this.$rootLayout = $('<div />' )
 				.attr( 'id', _this.smil.embedPlayer.id + '_smil-root-layout' )
 				.addClass( 'smilRootLayout' )
 				.css( {
@@ -98,7 +100,7 @@ mw.SmilLayout.prototype = {
 		var _this = this;
 
 		// Check for quick "show" path:
-		var $targetElement = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) );
+		var $targetElement = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) );
 
 		if( $targetElement.length ){
 			$targetElement.show();
@@ -127,7 +129,7 @@ mw.SmilLayout.prototype = {
 		var smilType = this.smil.getRefType( smilElement );
 		
 		// Give the static content a getSmilElementPlayerID for player layer control
-		var $target = $j('<div />')
+		var $target = $('<div />')
 			.attr('id', _this.smil.getSmilElementPlayerID( smilElement ) )
 			.css({
 				'width':'100%',
@@ -135,7 +137,7 @@ mw.SmilLayout.prototype = {
 				'position' : 'absolute',
 				'top' : '0px',
 				'left' : '0px'
-			})
+			});
 		$regionTarget.append( $target );
 		
 		switch( smilType ){
@@ -158,11 +160,11 @@ mw.SmilLayout.prototype = {
 		}
 
 		mw.log( "Error: Could not find smil layout transform for element type: " +
-				smilType + ' of type ' + $j( smilElement ).attr( 'type' ) );
-		$regionTarget.append( $j('<span />')
+				smilType + ' of type ' + $( smilElement ).attr( 'type' ) );
+		$regionTarget.append( $('<span />')
 				.attr( 'id' , this.smil.getSmilElementPlayerID( smilElement ) )
 				.text( 'Error: unknown type:' + smilType )
-		)
+		);
 	},
 
 	drawSmilElementToTarget: function( smilElement, $target, relativeTime, callback ){
@@ -174,7 +176,7 @@ mw.SmilLayout.prototype = {
 		// Parse the time in case it came in as human input
 		relativeTime = this.smil.parseTime( relativeTime );
 		
-		mw.log('SmilLayout::drawSmilElementToTarget: ' + $j(smilElement).attr('id') + ' relative time:' + relativeTime );
+		mw.log('SmilLayout::drawSmilElementToTarget: ' + $(smilElement).attr('id') + ' relative time:' + relativeTime );
 
 		switch ( this.smil.getRefType( smilElement ) ){
 			case 'video':
@@ -184,14 +186,14 @@ mw.SmilLayout.prototype = {
 			case 'img':
 				// xxx We should use canvas here but for now just hack it up:
 				$target.html(
-					$j('<img />')
+					$('<img />')
 					.attr({
 						'src' : this.smil.getAssetUrl(
-								$j( smilElement).attr( 'src' )
+								$( smilElement).attr( 'src' )
 							)
 					})
 				);
-				var img = $target.find('img').get(0)
+				var img = $target.find('img').get(0);
 				_this.getNaturalSize( img, function( natrualSize ){
 					_this.fitMeetBest(
 						img,
@@ -203,7 +205,7 @@ mw.SmilLayout.prototype = {
 					);
 					
 					// Check for panZoom attribute
-					if( $j( smilElement ).attr('panZoom') ){
+					if( $( smilElement ).attr('panZoom') ){
 						_this.panZoomLayout( smilElement, $target, img );
 					}
 					
@@ -231,18 +233,18 @@ mw.SmilLayout.prototype = {
 				return ;
 			break;
 			case 'audio':
-				var titleStr = ( $j( smilElement ).attr('title') ) ?
-						$j( smilElement ).attr('title') :
+				var titleStr = ( $( smilElement ).attr('title') ) ?
+						$( smilElement ).attr('title') :
 						gM( 'mwe-sequencer-untitled-audio' );
 
 				// draw an audio icon / title the target
 				$target.append(
-					$j('<span />')
+					$('<span />')
 					.addClass( 'ui-icon ui-icon-volume-on')
 					.attr('title', titleStr)
 					.css( 'position', 'absolute')
 					,
-					$j('<span />')
+					$('<span />')
 					.attr('title', titleStr)
 					.css({
 						'position': 'absolute',
@@ -252,7 +254,7 @@ mw.SmilLayout.prototype = {
 					.text( titleStr )
 				)
 			break;
-		}
+		};
 		// assume direct callback if callback not passed in content type switch
 		if( callback )
 			callback();
@@ -261,11 +263,11 @@ mw.SmilLayout.prototype = {
 	getVideoCanvasThumb: function( smilElement, $target, relativeTime, callback ){
 		var _this = this;
 		var naturaSize = {};
-		var drawElement = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).find('video').get(0);
+		var drawElement = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).find('video').get(0);
 		mw.log( "SmilLayout:: getVideoCanvasThumb ");
 		var drawFrame = function( drawElement ){			
 			if( !drawElement ){
-				mw.log( 'Error: SmilLayout::getVideoCanvasThumb:Draw element not loaded or defined')
+				mw.log( 'Error: SmilLayout::getVideoCanvasThumb:Draw element not loaded or defined');
 				return ;
 			}
 			mw.log( "SmilLayout::getVideoCanvasThumb: drawFrame " );
@@ -278,7 +280,7 @@ mw.SmilLayout.prototype = {
 			// NOTE canvas scale issue prevents redraw at thumb resolution
 			// xxx should revisit thumb size issue:
 			try{
-				$target.html( $j('<canvas />')
+				$target.html( $('<canvas />')
 					.attr({
 						height: naturaSize.height,
 						width : naturaSize.width
@@ -298,11 +300,11 @@ mw.SmilLayout.prototype = {
 			if( callback ){
 				callback();
 			}
-		}
+		};
 
 		// Check if relativeTime transform matches current absolute time then
 		// render directly:
-		var drawTime = ( relativeTime + this.smil.parseTime( $j( smilElement ).attr('clipBegin') ) );
+		var drawTime = ( relativeTime + this.smil.parseTime( $( smilElement ).attr('clipBegin') ) );
 		if( this.smil.isSameFrameTime( drawElement.currentTime, drawTime ) ) {
 			mw.log("SmilLayout::getVideoCanvasThumb: Draw time:" + drawTime + " matches video time drawFrame NOW:" +drawElement.currentTime );
 			drawFrame( drawElement );
@@ -310,14 +312,14 @@ mw.SmilLayout.prototype = {
 			// check if we need to spawn a video copy for the draw request
 			mw.log( 'SmilLayout::getVideoCanvasThumb: Clone object' );
 			// span new draw element
-			var $tmpFrameNode = $j( smilElement ).clone();
-			$tmpFrameNode.attr('id', $j( smilElement).attr('id') + '_tmpFrameNode' );
+			var $tmpFrameNode = $( smilElement ).clone();
+			$tmpFrameNode.attr('id', $( smilElement).attr('id') + '_tmpFrameNode' );
 			this.smil.getBuffer().bufferedSeekRelativeTime( $tmpFrameNode, relativeTime, function(){
 				// update the drawElement
-				drawElement = $j( '#' + _this.smil.getSmilElementPlayerID( $tmpFrameNode ) ).get(0);
+				drawElement = $( '#' + _this.smil.getSmilElementPlayerID( $tmpFrameNode ) ).get(0);
 				drawFrame( drawElement );
 				// Remove the temporary node from dom
-				$j( drawElement ).remove();
+				$( drawElement ).remove();
 			});
 		}
 	},
@@ -326,7 +328,7 @@ mw.SmilLayout.prototype = {
 	 * Get a region target for a given smilElement
 	 */
 	getRegionTarget: function( smilElement ){
-		var regionId = $j( smilElement ).attr( 'region');
+		var regionId = $( smilElement ).attr( 'region');
 		if( regionId ){
 			var $regionTarget = this.$rootLayout.find( '#' + regionId );
 			// Check for region target in $rootLayout
@@ -360,9 +362,9 @@ mw.SmilLayout.prototype = {
 	 * Return the video
 	 */
 	getSmilVideoPlayerHtml: function( smilElement ){
-		return $j('<video />')
+		return $('<video />')
 			.attr( {
-				'src' : this.smil.getAssetUrl( $j( smilElement ).attr( 'src' ) )
+				'src' : this.smil.getAssetUrl( $( smilElement ).attr( 'src' ) )
 			} )
 			.addClass( 'smilFillWindow' )
 	},
@@ -371,9 +373,9 @@ mw.SmilLayout.prototype = {
 	 * Return audio element ( by default audio tracks are hidden )
 	 */
 	getSmilAudioPlayerHtml: function ( smilElement ){
-		return $j('<audio />')
+		return $('<audio />')
 		.attr( {
-			'src' : this.smil.getAssetUrl( $j( smilElement ).attr( 'src' ) )
+			'src' : this.smil.getAssetUrl( $( smilElement ).attr( 'src' ) )
 		} )
 		.css( {
 			'width': '0px',
@@ -392,7 +394,7 @@ mw.SmilLayout.prototype = {
 			$target.empty().append(
 				_this.getScaledHtml(
 					 	// The scaled template:
-						$j( $j( smilElement).data('templateHtmlCache') ),
+						$( $( smilElement).data('templateHtmlCache') ),
 
 						// The smilElement
 						smilElement,
@@ -406,33 +408,33 @@ mw.SmilLayout.prototype = {
 				callback();
 		}
 		// Check if we have the result data in the cache:
-		if( $j( smilElement).data('templateHtmlCache') ){
+		if( $( smilElement).data('templateHtmlCache') ){
 			addTemplateHtmlToTarget()
 			if( callback )
 				callback();
 			return ;
 		}
 
-		mw.log("getSmilTemplateHtml:: x-wikitemplate:: " + $j( smilElement).attr( 'apititlekey' ) + " to target:" + $target.attr('class'));;
+		mw.log("getSmilTemplateHtml:: x-wikitemplate:: " + $( smilElement).attr( 'apititlekey' ) + " to target:" + $target.attr('class'));;
 		// build a wikitext call ( xml keys lose case when put into xml )
-		var templateKey = $j( smilElement).attr( 'apititlekey' );
+		var templateKey = $( smilElement).attr( 'apititlekey' );
 		if(!templateKey){
 			mw.log("Error: wikitemplate without title key")
 			return ;
 		} else {
 			templateKey = templateKey.replace('Template:', '');
-		}
-		var apiProviderUrl = mw.getApiProviderURL( $j( smilElement).attr('apiprovider') );
+		};
+		var apiProviderUrl = mw.getApiProviderURL( $( smilElement).attr('apiprovider') );
 		if(!apiProviderUrl){
 			mw.log("Error: wikitemplate without api provider url")
-		}
+		};
 
 		var wikiTextTemplateCall = '{{' + templateKey ;
 		var paramText = '';
-		$j( smilElement).find('param').each(function( inx, paramNode ){
-			paramText +='|' + $j( paramNode ).attr('name') +
+		$( smilElement).find('param').each(function( inx, paramNode ){
+			paramText +='|' + $( paramNode ).attr('name') +
 						'= ' +
-						$j( paramNode ).attr('value') +
+						$( paramNode ).attr('value') +
 						"\n";
 		});
 		// Close up the template call
@@ -456,28 +458,29 @@ mw.SmilLayout.prototype = {
 		mw.getJSON( apiProviderUrl, request, function( data ){
 			if( data && data.parse && data.parse.text && data.parse.text['*'] ){
 				// Mediawiki protects against xss but filter the parsed text 'just in case'
-				$j( smilElement).data('templateHtmlCache',
-					_this.smil.getFilterdHtml( data.parse.text['*'] ).html()
+				$( smilElement).data('templateHtmlCache',
+					_this.smil.getFilterdHtml( data.parse.text['*'] ).html();
 				)
 				// Check if we have a load callback associated with the smilElement:
-				if( $j( smilElement ).data('loadCallback') ){
-					 $j( smilElement ).data('loadCallback')();
+				if( $( smilElement ).data('loadCallback') ){
+					 $( smilElement ).data('loadCallback')();
 				}
 				addTemplateHtmlToTarget();
 			} else{
 				mw.log("Error: addSmilCDATAHtml could not get template data from the wiki")
 			}
-			if( callback )
+			if( callback ){
 				callback();
+			}
 		});
 	},
 
 	getSmilCDATAHtml: function( smilElement, targetWidth){
 
-		mw.log("getSmilCDATAHtml:" + $j( smilElement ).attr('id') +' :' + targetWidth );
+		mw.log("getSmilCDATAHtml:" + $( smilElement ).attr('id') +' :' + targetWidth );
 
 		// Get "clean" smil data
-		var el = $j( smilElement ).get(0);
+		var el = $( smilElement ).get(0);
 		var xmlCdata = '';
 		for ( var i=0; i < el.childNodes.length; i++ ) {
 			var node = el.childNodes[i];
@@ -507,18 +510,18 @@ mw.SmilLayout.prototype = {
 			$htmlLayout.find('img').each( function(inx, image ){
 				// make sure each image is loaded before we transform,
 				// AND updates $htmlLayout output in-place
-				$j( image ).load(function(){
+				$( image ).load(function(){
 					// if the image has an height or width scale by scalePercent
-					if ( $j( image ).width() ){
-						var imageTargetWidth = scalePercent* $j( image ).width();
-						var imageTargetHeight = scalePercent* $j( image ).height()
+					if ( $( image ).width() ){
+						var imageTargetWidth = scalePercent* $( image ).width();
+						var imageTargetHeight = scalePercent* $( image ).height();
 					} else if( image.naturalWidth ){
 						// check natural width?
 						imageTargetWidth = scalePercent * image.naturalWidth;
 						imageTargetHeight = scalePercent * image.naturalHeight;
 					}
 					// scale the image:
-					$j( image ).css({
+					$( image ).css({
 						 'width' : imageTargetWidth,
 						 'height' :imageTargetHeight
 					})
@@ -527,13 +530,13 @@ mw.SmilLayout.prototype = {
 
 			// Switch any named font-size attribute to em
 			$htmlLayout.find('[style]').each( function(inx, node){
-				if( $j(node).css('font-size') ){
-					if( _this.emFontSizeMap[ $j(node).css('font-size') ] ){
-						$j(node).css('font-size', _this.emFontSizeMap[ $j(node).css('font-size') ] );
-					} else if( $j(node).css('font-size').indexOf('px') != -1 ) {
+				if( $(node).css('font-size') ){
+					if( _this.emFontSizeMap[ $(node).css('font-size') ] ){
+						$(node).css('font-size', _this.emFontSizeMap[ $(node).css('font-size') ] );
+					} else if( $(node).css('font-size').indexOf('px') != -1 ) {
 						// Translate absolute pixel size to relative
-						$j(node).css('font-size',
-							( ( fontScalePercent  ) * parseFloat( $j(node).css('font-size') ) ) + 'px'
+						$(node).css('font-size',
+							( ( fontScalePercent  ) * parseFloat( $(node).css('font-size') ) ) + 'px'
 						);
 					}
 				}
@@ -544,7 +547,7 @@ mw.SmilLayout.prototype = {
 		}
 
 		// Return the cdata
-		return $j('<div />')
+		return $('<div />')
 			// Wrap in font-size percentage relative to virtual size
 			.css( {
 				'font-size': ( scalePercent *100 ) + '%',
@@ -568,20 +571,20 @@ mw.SmilLayout.prototype = {
 		// If the textElement has no child node directly set the text value
 		// ( if has child nodes, text will be selected by time in
 		// SmilAnimate.transformTextForTime )
-		if( $j( textElement ).children().length == 0 ){
+		if( $( textElement ).children().length == 0 ){
 			mw.log( 'Direct text value to: ' + textValue);
-			textValue = $j( textElement ).text();
+			textValue = $( textElement ).text();
 		}
 
 		var textCss = _this.transformSmilCss( textElement );
 
 		// Return the htmlElement
-		return $j('<span />')
+		return $('<span />')
 			.attr( 'id' , this.smil.getSmilElementPlayerID( textElement ) )
 			// Wrap in font-size percentage relative to virtual size
 			.css( 'font-size', ( ( this.targetWidth / this.getVirtualWidth() )*100 ) + '%' )
 			.html(
-				$j('<span />')
+				$('<span />')
 				// Transform smil css into html css:
 				.css( textCss	)
 				// Add the text value
@@ -597,10 +600,10 @@ mw.SmilLayout.prototype = {
 	 */
 	getSmilImgHtml: function( smilImg ) {
 		var _this = this;
-		var $image = $j('<img />')
+		var $image = $('<img />')
 		.attr( {
 			'id' : this.smil.getSmilElementPlayerID( smilImg ),
-			'src' : this.smil.getAssetUrl( $j( smilImg ).attr( 'src' ) )
+			'src' : this.smil.getAssetUrl( $( smilImg ).attr( 'src' ) )
 		} )
 		// default width 100% upper left
 		.css({
@@ -615,7 +618,7 @@ mw.SmilLayout.prototype = {
 	doSmilElementLayout: function( smilElement ){
 		var _this = this;
 
-		var img = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0);
+		var img = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0);
 		_this.getNaturalSize( img, function( naturalSize) {
 			_this.doAssetLayout( smilElement , naturalSize);
 		});
@@ -640,11 +643,11 @@ mw.SmilLayout.prototype = {
 				'height' : media.naturalHeight
 			} )
 		} else {
-			$j( media ).load(function(){
+			$( media ).load(function(){
 				callback( {
 					'width' : media.naturalWidth,
 					'height' : media.naturalHeight
-				} )
+				} );
 			});
 		}
 	},
@@ -654,7 +657,7 @@ mw.SmilLayout.prototype = {
 	doAssetLayout: function( smilElement, naturalSize ){
 		var _this = this;
 		// We default smil layout to meetBest
-		var fitMode = $j( smilElement).attr('fit');
+		var fitMode = $( smilElement).attr('fit');
 		if( !fitMode ){
 			fitMode = 'meetBest'
 		}
@@ -664,7 +667,7 @@ mw.SmilLayout.prototype = {
 				'height' : this.smil.embedPlayer.getHeight()
 			}
 			this.fitMeetBest(
-				$j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0),
+				$( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).get(0),
 				naturalSize,
 				targetSize
 			);
@@ -673,11 +676,11 @@ mw.SmilLayout.prototype = {
 		}
 
 		// Check for panZoom attribute
-		if( $j( smilElement).attr('panZoom') ){
+		if( $( smilElement).attr('panZoom') ){
 			_this.panZoomLayout( smilElement );
 		}
 		// Check for rotate property: 
-		if( $j( smilElement).attr('rotate') ){
+		if( $( smilElement).attr('rotate') ){
 			_this.rotateLayout( smilElement );
 		}
 	},
@@ -693,7 +696,7 @@ mw.SmilLayout.prototype = {
 		mw.log('SmilLayout::fitMeetBest: ns'+ natrualSize.width + ' ts: ' + targetSize.width +
 				' css: w:' + imageCss.width + ' h:' + imageCss.height);
 		// update the layout of the element
-		$j( element ).css( imageCss );
+		$( element ).css( imageCss );
 	},
 
 	getDominateAspectTransform: function( natrualSize, targetSize, transformPercent ){
@@ -712,7 +715,7 @@ mw.SmilLayout.prototype = {
 				' taspect: ' + targetSize.width + '/' + targetSize.height + ' = ' + ( targetSize.width / targetSize.height )
 			);*/
 
-		var targetAspect = ( parseFloat( targetSize.width ) / parseFloat( targetSize.height ) )
+		var targetAspect = ( parseFloat( targetSize.width ) / parseFloat( targetSize.height ) );
 		var natrualAspect = ( natrualSize.width / natrualSize.height );
 
 		// pad the natural size ratio by .01 so that aspect ratio rounding does not
@@ -750,12 +753,12 @@ mw.SmilLayout.prototype = {
 	 */
 	panZoomLayout: function( smilElement, $target, layoutElement ){
 		var _this = this;
-		//mw.log( 'panZoomLayout:' + $j( smilElement).attr('id') );
-		var panZoom = $j( smilElement).attr('panZoom').split(',');
+		//mw.log( 'panZoomLayout:' + $( smilElement).attr('id') );
+		var panZoom = $( smilElement).attr('panZoom').split(',');
 		if( !layoutElement ){
-			var layoutElement = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).find('img,video').get(0);
+			var layoutElement = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).find('img,video').get(0);
 			if( !layoutElement){
-				mw.log('Error getting layoutElement for ' + $j( smilElement).attr('id') );
+				mw.log('Error getting layoutElement for ' + $( smilElement).attr('id') );
 			}
 		}
 
@@ -806,10 +809,10 @@ mw.SmilLayout.prototype = {
 	 */
 	getRootLayoutHtml: function(){
 		var _this = this;
-		var $layoutContainer = $j( '<div />' );
+		var $layoutContainer = $( '<div />' );
 		this.$dom.find( 'region' ).each( function( inx, regionElement ) {
 			$layoutContainer.append(
-				$j( '<div />' )
+				$( '<div />' )
 				.addClass('smilRegion' )
 				.css({
 					'position' : 'absolute'
@@ -940,7 +943,7 @@ mw.SmilLayout.prototype = {
 	 * Transform smil attributes into html attributes
 	 */
 	transformSmilAttributes: function ( smilElement ){
-		$smilElement = $j( smilElement );
+		$smilElement = $( smilElement );
 		var smilAttributes = {
 			'xml:id' : 'id',
 			'id' : 'id'
@@ -965,7 +968,7 @@ mw.SmilLayout.prototype = {
 	 *            $smilElement The smil element to be transformed
 	 */
 	transformSmilCss: function( smilElement, targetWidth ){
-		$smilElement = $j( smilElement );
+		$smilElement = $( smilElement );
 
 		// Set target with to master targetWidth if unset.
 		if( ! targetWidth ){
@@ -1012,3 +1015,5 @@ mw.SmilLayout.prototype = {
 		return cssAttributes;
 	}
 }
+
+} )( window.mediaWiki, window.jQuery );

@@ -177,11 +177,11 @@ metavidSearch.prototype = {
 
 		// update the interface:
 		mw.log( 'update title to: ' + resource['title'] );
-		$j( '#rsd_resource_title' ).html( gM( 'rsd_resource_edit', resource['title'] ) );
+		$( '#rsd_resource_title' ).html( gM( 'rsd_resource_edit', resource['title'] ) );
 
 		// if the video is "roe" based select the ogg stream
 		if ( resource.roe_url && resource.pSobj.provider.stream_import_key ) {
-			var source = $j( '#embed_vid' ).get( 0 ).mediaElement.getSourceById( resource.pSobj.provider.stream_import_key );
+			var source = $( '#embed_vid' ).get( 0 ).mediaElement.getSourceById( resource.pSobj.provider.stream_import_key );
 			if ( !source ) {
 				mw.log( 'Error::could not find source: ' + resource.pSobj.provider.stream_import_key );
 			} else {
@@ -235,7 +235,7 @@ metavidSearch.prototype = {
 	* @param {Object} resource Resource to transform
 	*/
 	addEmbedInfo : function( resource, embed_id ) {
-		var sources = $j( '#' + embed_id ).get( 0 ).mediaElement.getSources();
+		var sources = $( '#' + embed_id ).get( 0 ).mediaElement.getSources();
 		resource.other_versions = '*[' + resource['roe_url'] + ' XML of all Video Formats and Timed Text]' + "\n";
 		for ( var i in sources ) {
 			var cur_source = sources[i];
@@ -268,7 +268,7 @@ metavidSearch.prototype = {
 * Takes in a string returns an xml dom object
 *
 * NOTE: this should be deprecated in favor of jquery xml parsing
-* $j( xml_string )
+* $( xml_string )
 *
 * @param {String} str String of XML content to be parsed
 * @return

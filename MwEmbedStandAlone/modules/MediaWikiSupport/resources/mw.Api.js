@@ -2,12 +2,11 @@
 * API Helper functions
 */
 
-( function( mw ) {
+( function( mw, $ ) {
 	// xxx note we should namespace the following helper functions into Api class.
 	mw.Api = {};
 
 	/**
-	*
 	* Helper function to get latest revision text for a given title
 	*
 	* Assumes "follow redirects"
@@ -340,7 +339,7 @@
 			// Timeout also results in callback( false ) ( no user found)
 			callback( false );
 		} );
-	}
+	};
 
 	/**
 	* Get the api url for a given content provider key
@@ -349,8 +348,11 @@
 	* 	local wiki api if no apiProvider is set
 	*/
 	mw.getApiProviderURL = function( providerId ) {
-		if( mw.getConfig( providerId + '_apiurl') ) {
-			return mw.getConfig( providerId + '_apiurl');
+		if( mw.getConfig( 'MediaWiki.ApiProviders') 
+				&&
+			mw.getConfig( 'MediaWiki.ApiProviders')[ providerId ]
+		){
+			return mw.getConfig( 'MediaWiki.ApiProviders')[ providerId ].url;
 		}
 		return mw.getLocalApiUrl();
 	};
@@ -362,10 +364,15 @@
 	* 	false
 	*/
 	mw.getLocalApiUrl = function() {
-		if ( typeof wgServer != 'undefined' && typeof wgScriptPath != 'undefined' ) {
-			return wgServer + wgScriptPath + '/api.php';
+		if( typeof mw.getConfig('wgServer') != 'undefined' 
+				&& 
+			typeof mw.getConfig('wgScriptPath') != 'undefined' 
+		){
+			return	mw.getConfig( 'wgServer') +
+					mw.getConfig( 'wgScriptPath' ) + '/api.php';
 		}
+		mw.log('Error trying to get local api url without ')
 		return false;
 	};
 
-}) ( window.mediaWiki );
+}) ( window.mediaWiki, window.jQuery );

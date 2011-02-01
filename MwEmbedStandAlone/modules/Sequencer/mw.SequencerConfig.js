@@ -7,7 +7,7 @@
  *
  */
 // Wrap in mw closure
-( function( mw ) {
+( function( mw, $ ) {
 	// Define the class name
 	mw.SequencerConfig = true;
 
@@ -44,5 +44,5 @@
 		// Default timeline audio or collapsed timeline height
 		"Sequencer.TimelineColapsedTrackSize" : 35
 	});
-
-} )( window.mw );
+	
+} )( window.mediaWiki, window.jQuery );

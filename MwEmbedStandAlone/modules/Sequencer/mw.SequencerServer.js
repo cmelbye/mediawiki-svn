@@ -5,7 +5,7 @@
 */
 
 //Wrap in mw closure
-( function( mw ) {
+( function( mw, $ ) {
 
 	var SEQUENCER_PAYLOADKEY = '@gadgetSequencePayload@_$%^%';
 
@@ -432,4 +432,4 @@
 	};
 
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

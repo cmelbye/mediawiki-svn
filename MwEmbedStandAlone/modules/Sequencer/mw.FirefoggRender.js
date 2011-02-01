@@ -5,15 +5,15 @@
 /*
 * Set the jQuery bindings:
 */
-( function( $ ) {
-	$.fn.firefoggRender = function( options ) {
-		if(!options)
-			options = {};
-		options.playerTarget = this.selector;
-		var myFogg = new mw.FirefoggRender( options );
-		return myFogg;
-	};
-} )( jQuery );
+( function( mw, $ ) {
+	
+$.fn.firefoggRender = function( options ) {
+	if(!options)
+		options = {};
+	options.playerTarget = this.selector;
+	var myFogg = new mw.FirefoggRender( options );
+	return myFogg;
+};
 
 
 mw.FirefoggRender = function( options ) {
@@ -96,13 +96,13 @@ mw.FirefoggRender.prototype = {
 		}
 		// If no height width provided use target DOM width/height
 		if( !this.renderOptions.width && !this.renderOptions.height ) {
-			this.renderOptions.width = $j(this.playerTarget).width();
-			this.renderOptions.height = $j(this.playerTarget).height();
+			this.renderOptions.width = $(this.playerTarget).width();
+			this.renderOptions.height = $(this.playerTarget).height();
 		}
 
 	},
 	getPlayer: function(){
-		return $j( this.playerTarget ).get( 0 );
+		return $( this.playerTarget ).get( 0 );
 	},
 	// Start rendering
 	doRender: function() {
@@ -145,7 +145,7 @@ mw.FirefoggRender.prototype = {
 			previusAudioTime = currentAudio.startTime + currentAudio.duration;
 		}
 		// xxx localize status?
-		$j( _this.statusTarget ).text( 'rendering' );
+		$( _this.statusTarget ).text( 'rendering' );
 		// Now issue the save video as call
 		_this.doNextFrame();
 		return true;
@@ -167,8 +167,8 @@ mw.FirefoggRender.prototype = {
 		}
 
 		_this.getPlayer().setCurrentTime( _this.renderTime, function() {
-			_this.fogg.addFrame( $j( _this.playerTarget ).attr( 'id' ) );
-			//	$j( _this.statusTarget ).text( "AddFrame::" + ( Math.round( _this.renderTime * 1000 ) / 1000 ) );
+			_this.fogg.addFrame( $( _this.playerTarget ).attr( 'id' ) );
+			//	$( _this.statusTarget ).text( "AddFrame::" + ( Math.round( _this.renderTime * 1000 ) / 1000 ) );
 			_this.renderTime += _this.interval;
 
 			if ( _this.renderTime >= _this.getPlayer().getDuration() || ! _this.continueRendering ) {
@@ -205,7 +205,7 @@ mw.FirefoggRender.prototype = {
 		var _this = this;
 		// Check if we are still rendering
 		var rstatus = _this.fogg.renderstatus();
-		$j( _this.statusTarget ).text( rstatus );
+		$( _this.statusTarget ).text( rstatus );
 		if ( rstatus != 'done' && rstatus != 'rendering failed' ) {
 			setTimeout( function() {
 				_this.checkRenderStatus();
@@ -223,3 +223,5 @@ mw.FirefoggRender.prototype = {
 		}
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

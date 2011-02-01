@@ -8,7 +8,7 @@
  * 
  * For per module configuration see modules/{moduleName}/{moduleName}.config.php
  * Module configuration options can be set via: 
- *  $wgMwEmbedModuleConfig[ {ModuleName} ][ {configuration name} ] = value;
+ *  $wgMwEmbedModuleConfig[ {configuration name} ] = value;
  */
 
 $wgResourceLoaderDebug = true;

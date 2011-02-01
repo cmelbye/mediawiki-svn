@@ -19,7 +19,7 @@
 					'jquery.ui.slider'					
 				),
 				'styles' => "skins/mw.style.EmbedPlayer.css",
-				'messageFile' => 'EmbedPlayer.i18n.php',			
+				'messageFile' => 'EmbedPlayer.i18n.php',		
 			),
 				
 			"mw.EmbedPlayerKplayer"	=> array( 'scripts'=> "players/mw.EmbedPlayerKplayer.js" ),

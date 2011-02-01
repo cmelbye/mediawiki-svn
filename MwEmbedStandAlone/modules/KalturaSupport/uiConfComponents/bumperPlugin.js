@@ -3,8 +3,8 @@
 */
 // ( can be removed once we move to the new resource loader )
 var bumperPlugin = true;
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
-	$j( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+	$( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
 		
 		//<plugin id="bumper" bumperentryid="1_187nvs4c" clickurl="http://www.nokia.com" lockui="true" playonce="false" presequence="1" width="100%" height="100%"></plugin>
 		
@@ -18,7 +18,7 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 			if( bumperEntryId ){
 				mw.log( "KWidget:: checkUiConf: get sources for " + bumperEntryId);
 				var originalSrc = embedPlayer.getSrc();
-				mw.getEntryIdSourcesFromApi( $j( embedPlayer ).attr( 'kwidgetid' ), bumperEntryId, function( sources ){
+				mw.getEntryIdSourcesFromApi( $( embedPlayer ).attr( 'kwidgetid' ), bumperEntryId, function( sources ){
 					var bumperSource =  sources[0].src;
 					
 					// Check if we are doing ads ( should always come before bumper ) and add bumper to 
@@ -37,7 +37,7 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 					}
 					
 					// Add to the bumper per entry id:						
-					$j( embedPlayer ).unbind('play.bumper').bind('play.bumper', function(){	
+					$( embedPlayer ).unbind('play.bumper').bind('play.bumper', function(){	
 						// Don't play the bumper 
 						// we don't use the "playonce" attribute (check of the kdp is function)
 						//if( $bumbPlug.attr('playonce') == "true" && embedPlayer.bumperPlayCount >= 1){
@@ -59,11 +59,11 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 							// restore the original source:
 							embedPlayer.switchPlaySrc( originalSrc );
 							embedPlayer.enableSeekBar();
-							$j( embedPlayer ).unbind('click.bumper');
+							$( embedPlayer ).unbind('click.bumper');
 						});
 					});
 					if( bumperClickUrl ){
-						$j( embedPlayer ).bind( 'click.bumper', function(){
+						$( embedPlayer ).bind( 'click.bumper', function(){
 							// try to do a popup:
 							if(!clickedBumper){
 								clickedBumper = true;

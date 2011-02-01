@@ -190,12 +190,12 @@ baseRemoteSearch.prototype = {
 			}
 			if ( node != null && attr_name != null ) {
 				if ( typeof attr_name == 'string' ) {
-					tag_val = $j.trim( $j( node ).attr( attr_name ) );
+					tag_val = $j.trim( $( node ).attr( attr_name ) );
 				} else {
 					var attr_vals = { };
 					for ( var j in attr_name ) {
-						if ( $j( node ).attr( attr_name[j] ).length != 0 )
-							attr_vals[ attr_name[j] ] = $j.trim( $j(node).attr( attr_name[j]) ).replace(/(<([^>]+)>)/ig,"");
+						if ( $( node ).attr( attr_name[j] ).length != 0 )
+							attr_vals[ attr_name[j] ] = $j.trim( $(node).attr( attr_name[j]) ).replace(/(<([^>]+)>)/ig,"");
 					}
 					tag_val = attr_vals ;
 				}
@@ -318,7 +318,7 @@ baseRemoteSearch.prototype = {
 			options.width = ( resource.width > 600 )? 600 : resource.width;
 		}
 
-		var $titleLink = $j( '<a />' )
+		var $titleLink = $( '<a />' )
 		.attr({
 			'title' : stripedTitle,
 			'href' : resource.link
@@ -327,14 +327,14 @@ baseRemoteSearch.prototype = {
 
 		var providerTitle = gM('rsd-' + this.provider.id + '-title');
 
-		$providerLink = $j( '<a />')
+		$providerLink = $( '<a />')
 		.attr({
 			'href' : this.provider.homepage,
 			'title' : providerTitle
 		})
 		.text( providerTitle )
 
-		$importResourceDiv = $j('<div />')
+		$importResourceDiv = $('<div />')
 		.addClass ( "mw-imported-resource" )
 		.css({
 			'width':parseInt( options.width ) + 'px'
@@ -346,7 +346,7 @@ baseRemoteSearch.prototype = {
 			gM( 'mwe-import-description', [$titleLink, $providerLink])
 		)
 		// return the $importResourceDiv html:
-		return $j('<div />').append( $importResourceDiv ).html();
+		return $('<div />').append( $importResourceDiv ).html();
 	},
 	/**
 	* Get the embed html specifically for an image type resource Object.
@@ -356,7 +356,7 @@ baseRemoteSearch.prototype = {
 	*/
 	getImageEmbedHTML:function( resource, options ) {
 		// if crop is null do base output:
-		var $img = $j('<img />')
+		var $img = $('<img />')
 		.attr({
 			'src' : resource.edit_url,
 			'style' : options.style
@@ -365,10 +365,10 @@ baseRemoteSearch.prototype = {
 			$img.attr( 'id', options['id'] );
 		}
 		if ( resource.crop == null ) {
-			return $j('<div />').append( $img ).html();
+			return $('<div />').append( $img ).html();
 		}
 		// Else do crop output:
-		$cropHtml = $j('<div />')
+		$cropHtml = $('<div />')
 			.css({
 				'width' : resource.crop.w,
 				'height' : resource.crop.h,
@@ -376,7 +376,7 @@ baseRemoteSearch.prototype = {
 				'position' : 'relative'
 			})
 			.append(
-				$j('<div />')
+				$('<div />')
 				.css({
 					'position' : 'relative',
 					'top' : '-' + resource.crop.y,
@@ -384,7 +384,7 @@ baseRemoteSearch.prototype = {
 				})
 				.append( $img )
 			)
-		return $j('<div />').append( $cropHtml ).html();
+		return $('<div />').append( $cropHtml ).html();
 	},
 
 	/**

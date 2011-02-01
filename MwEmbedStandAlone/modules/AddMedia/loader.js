@@ -3,7 +3,7 @@
 */
 
 // Wrap in mw to not pollute global namespace
-( function( mw ) {
+( function( mw, $ ) {
 
 	mw.addMessages( {
 		"mwe-loading-add-media-wiz" : "Loading add media wizard"
@@ -121,4 +121,5 @@
 		return request;
 	} );
 
-} )( window.mw );
+
+} )( window.mediaWiki, window.jQuery );

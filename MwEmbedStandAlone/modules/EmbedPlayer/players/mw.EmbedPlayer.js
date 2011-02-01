@@ -1559,84 +1559,6 @@ mw.EmbedPlayer.prototype = {
 	},
 
 	/**
-	 * Load Source video info from mediaWiki Api title key ( this.apiTitleKey )
-	 *
-	 * @@todo move this to mediaWiki player module
-	 * @param {Function}
-	 *      callback Function called once loading is complete
-	 */
-	loadSourceFromApi: function( callback ){
-		var _this = this;
-		if( !_this.apiTitleKey ){
-			mw.log( 'Error no apiTitleKey');
-			return false;
-		}
-
-		// Set local apiProvider via config if not defined
-		if( !_this.apiProvider ) {
-			_this.apiProvider = mw.getConfig( 'EmbedPlayer.ApiProvider' );
-		}
-
-		// Setup the request
-		var request = {
-			'prop': 'imageinfo',
-			// In case the user added File: or Image: to the apiKey:
-			'titles': 'File:' + unescape( this.apiTitleKey ).replace( /^(File:|Image:)/ , '' ),
-			'iiprop': 'url|size|dimensions|metadata',
-			'iiurlwidth': _this.width,
-			'redirects' : true // automatically resolve redirects
-		};
-
-		// Run the request:
-		mw.getJSON( mw.getApiProviderURL( _this.apiProvider ), request, function( data ){
-			if ( data.query.pages ) {
-				for ( var i in data.query.pages ) {
-					if( i == '-1' ) {
-						callback( false );
-						return ;
-					}
-					var page = data.query.pages[i];
-				}
-			}	else {
-				callback( false );
-				return ;
-			}
-			// Make sure we have imageinfo:
-			if( ! page.imageinfo || !page.imageinfo[0] ){
-				callback( false );
-				return ;
-			}
-			var imageinfo = page.imageinfo[0];
-
-			// Set the poster
-			_this.poster = imageinfo.thumburl;
-
-			// Add the media src
-			_this.mediaElement.tryAddSource(
-				$('<source />')
-				.attr( 'src', imageinfo.url )
-				.get( 0 )
-			);
-
-			// Set the duration
-			if( imageinfo.metadata[2]['name'] == 'length' ) {
-				_this.duration = imageinfo.metadata[2]['value'];
-			}
-
-			// Set the width height
-			// Make sure we have an accurate aspect ratio
-			if( imageinfo.height != 0 && imageinfo.width != 0 ) {
-				_this.height = parseInt( _this.width * ( imageinfo.height / imageinfo.width ) );
-			}
-
-			// Update the css for the player interface
-			$( _this ).css( 'height', _this.height);
-
-			callback();
-		});
-	},
-
-	/**
 	 * Set up the select source player
 	 *
 	 * issues autoSelectSource call
@@ -2418,56 +2340,49 @@ mw.EmbedPlayer.prototype = {
 	* NOTE this could probably share a bit more code with getShareEmbedVideoJs
 	*/
 	getShareIframeObject: function(){
+		// allow modules to generate the iframe:
+		var iframeEmbedCode ={};
+		$( this ).trigger( 'GetShareIframeCode', [ iframeEmbedCode ] );
+		if( iframeEmbedCode.code ){
+			return frameEmbedCode.code;
+		}		
+		// old style embed:
+		var iframeUrl = mw.getMwEmbedPath() + 'mwEmbedFrame.php?';
+		var params = {'src[]':[]};
 
-		// If using a gadget do the new embed format:
-		// NOTE this should be factored out into mediaWiki gadget helper
-		if( typeof wgServer != 'undefined' && typeof mwCheckForGadget != 'undefined' ){
-			var iframeUrl = wgServer + 
-				wgArticlePath.replace( /\$1/, 'File:' + 
-					unescape( this.apiTitleKey ).replace( /^(File:|Image:)/ , '' ) ) +
-				'?' + mw.getConfig( 'Mw.AppendWithJS' ) +
-				'&embedplayer=yes';
-		} else if ( typeof(mw.IA) != 'undefined') {
-                  var iframeUrl = mw.IA.embedUrl();
+		// TODO move to mediaWiki Support module
+		if( this.apiTitleKey ) {
+			params.apiTitleKey = this.apiTitleKey;
+			if ( this.apiProvider ) {
+				// Commons always uses the commons api provider ( special hack should refactor )
+				if( mw.parseUri( document.URL ).host == 'commons.wikimedia.org'){
+					 this.apiProvider = 'commons';
+				}
+				params.apiProvider = this.apiProvider;
+			}
 		} else {
-			// old style embed:
-			var iframeUrl = mw.getMwEmbedPath() + 'mwEmbedFrame.php?';
-			var params = {'src[]':[]};
-
-			// TODO move to mediaWiki Support module
-			if( this.apiTitleKey ) {
-				params.apiTitleKey = this.apiTitleKey;
-				if ( this.apiProvider ) {
-					// Commons always uses the commons api provider ( special hack should refactor )
-					if( mw.parseUri( document.URL ).host == 'commons.wikimedia.org'){
-						 this.apiProvider = 'commons';
-					}
-					params.apiProvider = this.apiProvider;
-				}
-			} else {
-				// Output all the video sources:
-				for( var i=0; i < this.mediaElement.sources.length; i++ ){
-					var source = this.mediaElement.sources[i];
-					if( source.src ) {
-                                          params['src[]'].push(mw.absoluteUrl( source.src ));
-					}
-				}
-				// Output the poster attr
-				if( this.poster ){
-					params.poster = this.poster;
+			// Output all the video sources:
+			for( var i=0; i < this.mediaElement.sources.length; i++ ){
+				var source = this.mediaElement.sources[i];
+				if( source.src ) {
+                                      params['src[]'].push(mw.absoluteUrl( source.src ));
 				}
 			}
-
-			// Set the skin if set to something other than default
-			if( this.skinName ){
-				params.skin = this.skinName;
+			// Output the poster attr
+			if( this.poster ){
+				params.poster = this.poster;
 			}
-
-			if( this.duration ) {
-				params.durationHint = parseFloat( this.duration );
-			}
-			iframeUrl += $j.param( params );
 		}
+
+		// Set the skin if set to something other than default
+		if( this.skinName ){
+			params.skin = this.skinName;
+		}
+
+		if( this.duration ) {
+			params.durationHint = parseFloat( this.duration );
+		}
+		iframeUrl += $j.param( params );
 
 		// Set up embedFrame src path
 		var embedCode = '&lt;iframe src=&quot;' + mw.html.escape( iframeUrl ) + '&quot; ';

@@ -1,4 +1,5 @@
-
+( function( mw, $ ) {
+	
 // Define the SmilHooks object
 mw.SmilHooks = {
 	addSmilPlayer: function(){
@@ -18,24 +19,24 @@ mw.SmilHooks = {
 };
 
 // Add the smil player to available player types:
-$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {
+$( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {
 	mw.SmilHooks.addSmilPlayer();
 } );
 
 // Tell embedPlayer not to wait for height / width metadata in cases of smil documents
-$j( mw ).bind( 'checkPlayerWaitForMetaData', function( event, playerElement ) {
+$( mw ).bind( 'checkPlayerWaitForMetaData', function( event, playerElement ) {
 	if( mw.CheckElementForSMIL( playerElement ) ){
 		playerElement.waitForMeta = false;
 	}
 });
 
 // Bind the smil check for sources
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	// Add the smil player ( in case we were dynamically loaded and EmbedPlayerManagerReady has already been called )
 	mw.SmilHooks.addSmilPlayer();
 
 	// Setup the "embedCode" binding to swap in an updated url
-	$j( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
+	$( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
 		mw.log( "SmilHooks::checkPlayerSources" );
 		// Make sure there is a smil source:
 		if( embedPlayer.mediaElement.getSources( 'application/smil' ).length ){
@@ -55,3 +56,4 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	} );
 });
 
+} )( window.mediaWiki, window.jQuery );

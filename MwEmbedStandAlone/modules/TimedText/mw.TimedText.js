@@ -130,7 +130,7 @@ mw.includeAllModuleMessages();
 			// Set up embedPlayer hooks:
 			
 			// Check for timed text support:
-			$j( embedPlayer ).bind( 'addControlBarComponent', function(event, controlBar ){
+			$( embedPlayer ).bind( 'addControlBarComponent', function(event, controlBar ){
 				if( mw.isTimedTextSupported( embedPlayer ) ){
 					controlBar.supportedComponets['timedText'] = true;
 					controlBar.components['timedText'] = _this.getTimedTextButton();					
@@ -138,17 +138,17 @@ mw.includeAllModuleMessages();
 			});
 			
 			
-			$j( embedPlayer ).bind( 'monitorEvent', function() {
+			$( embedPlayer ).bind( 'monitorEvent', function() {
 				_this.monitor();
 			} );
 
-			$j( embedPlayer ).bind( 'play', function() {
+			$( embedPlayer ).bind( 'play', function() {
 				// Will load and setup timedText sources (if not loaded already loaded )
 				_this.setupTextSources();
 			} );	
 			
 			// Resize the timed text font size per window width
-			$j( embedPlayer ).bind( 'onCloseFullScreen onOpenFullScreen', function() {
+			$( embedPlayer ).bind( 'onCloseFullScreen onOpenFullScreen', function() {
 				var textOffset = _this.embedPlayer.controlBuilder.fullscreenMode ? 30 : 10;
 				
 				mw.log( 'TimedText::set text size for: : ' + embedPlayer.$interface.width() + ' = ' + _this.getInterfaceSizeTextCss({
@@ -167,7 +167,7 @@ mw.includeAllModuleMessages();
 			});
 			
 			// Update the timed text size
-			$j( embedPlayer ).bind( 'onResizePlayer', function(e, size, animate) {
+			$( embedPlayer ).bind( 'onResizePlayer', function(e, size, animate) {
 				mw.log( 'TimedText::onResizePlayer: ' + _this.getInterfaceSizeTextCss(size)['font-size'] );
 				if (animate) {
 					embedPlayer.$interface.find( '.track' ).animate( _this.getInterfaceSizeTextCss( size ) );
@@ -177,14 +177,14 @@ mw.includeAllModuleMessages();
 			});
 
 			// Setup display binding
-			$j( embedPlayer ).bind( 'onShowControlBar', function(event, layout ){
+			$( embedPlayer ).bind( 'onShowControlBar', function(event, layout ){
 				// Move the text track if present
 				embedPlayer.$interface.find( '.track' )
 				.stop()
 				.animate( layout, 'fast' );
 			});
 			
-			$j( embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
+			$( embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
 				// Move the text track down if present
 				embedPlayer.$interface.find( '.track' )
 				.stop()
@@ -212,11 +212,11 @@ mw.includeAllModuleMessages();
 			return {
 				'w': 28,
 				'o': function( ctrlObj ) {
-					$textButton = $j( '<div />' )
+					$textButton = $( '<div />' )
 						.attr( 'title', gM( 'mwe-embedplayer-timed_text' ) )
 						.addClass( "ui-state-default ui-corner-all ui-icon_link rButton timed-text" )
 						.append(
-							$j( '<span />' )
+							$( '<span />' )
 							.addClass( "ui-icon ui-icon-comment" )
 						)
 						// Captions binding:
@@ -239,7 +239,7 @@ mw.includeAllModuleMessages();
 		* Get the fullscreen text css
 		*/
 		getInterfaceSizeTextCss: function( size ) {			
-			//mw.log(' win size is: ' + $j( window ).width() + ' ts: ' + textSize );
+			//mw.log(' win size is: ' + $( window ).width() + ' ts: ' + textSize );
 			return {
 				'font-size' : this.getInterfaceSizePercent( size ) + '%'
 			};
@@ -252,7 +252,7 @@ mw.includeAllModuleMessages();
 			var loc = embedPlayer.$interface.find( '.rButton.timed-text' ).offset();
 			mw.log('showTextInterface::' + embedPlayer.id + ' t' + loc.top + ' r' + loc.right);
 
-			var $menu = $j( '#timedTextMenu_' + embedPlayer.id );
+			var $menu = $( '#timedTextMenu_' + embedPlayer.id );
 			//This may be unnecessary .. we just need to show a spinner somewhere
 			if ( $menu.length != 0 ) {
 				// Hide show the menu:
@@ -264,8 +264,8 @@ mw.includeAllModuleMessages();
 				}
 			}else{
 				//Setup the menu:
-				$j('body').append(
-					$j('<div>')
+				$('body').append(
+					$('<div>')
 						.addClass('ui-widget ui-widget-content ui-corner-all')
 						.attr( 'id', 'timedTextMenu_' + embedPlayer.id )
 						.css( {
@@ -279,7 +279,7 @@ mw.includeAllModuleMessages();
 
 				);
 				// Load text interface ( if not already loaded )
-				$j( '#' + embedPlayer.id ).timedText( 'showMenu', '#timedTextMenu_' + embedPlayer.id );
+				$( '#' + embedPlayer.id ).timedText( 'showMenu', '#timedTextMenu_' + embedPlayer.id );
 			}
 		},
 		getInterfaceSizePercent: function( size ) {
@@ -424,7 +424,7 @@ mw.includeAllModuleMessages();
 					var textSource = textSources[ i ];
 					// Try to insert the track source:
 					var textElm = document.createElement( 'track' );
-					$j( textElm ).attr({
+					$( textElm ).attr({
 						'category'	: 'SUB',
 						'srclang' 	: textSource.srclang,
 						'type'		: _this.timedTextExtMime[ textSource.extension ],
@@ -432,13 +432,13 @@ mw.includeAllModuleMessages();
 					});
 
 					// Build the url for downloading the text:
-					$j( textElm ).attr('src',
+					$( textElm ).attr('src',
 						_this.textProvider.apiUrl.replace('api.php', 'index.php?title=') +
 						encodeURIComponent( textSource.titleKey ) + '&action=raw&ctype=text/x-srt'
 					);
 
 					// Add a title
-					$j( textElm ).attr('title',
+					$( textElm ).attr('title',
 						gM('mwe-timedtext-key-language', [textSource.srclang, mw.Language.names[ textSource.srclang ] ] )
 					);
 
@@ -563,7 +563,7 @@ mw.includeAllModuleMessages();
 		* @param {Element} item Item selected
 		*/
 		selectMenuItem: function( item ) {
-			mw.log("selectMenuItem: " + $j( item ).find('a').attr('class') );
+			mw.log("selectMenuItem: " + $( item ).find('a').attr('class') );
 		},
 
 		/**
@@ -622,7 +622,7 @@ mw.includeAllModuleMessages();
 
 
 			// Build the source list menu item:
-			$menu = $j( '<ul>' );
+			$menu = $( '<ul>' );
 			// Show text menu item ( if there are sources)
 			if( _this.textSources.length != 0 ) {
 				$menu.append(
@@ -651,7 +651,7 @@ mw.includeAllModuleMessages();
 			}
 
 			// Allow other modules to add to the timed text menu:
-			$j( _this.embedPlayer ).trigger( 'TimedText.BuildCCMenu', $menu ) ;
+			$( _this.embedPlayer ).trigger( 'TimedText.BuildCCMenu', $menu ) ;
 
 			return $menu;
 		},
@@ -664,17 +664,17 @@ mw.includeAllModuleMessages();
 				var apiUrl = _this.textProvider.apiUrl;
 				var videoTitle = 'File:' + _this.embedPlayer.apiTitleKey.replace('File:|Image:', '');
 				var catName = mw.getConfig( 'TimedText.NeedsTranscriptCategory' );
-				var $dialog = $j(this);
+				var $dialog = $(this);
 
 				var subRequestCategoryUrl = apiUrl.replace('api.php', 'index.php') +
 					'?title=Category:' + catName.replace(/ /g, '_');
 
 				var buttonOk= {};
 				buttonOk[gM('mwe-ok')] =function(){
-					$j(this).dialog('close');
+					$(this).dialog('close');
 				};
 				// Set the loadingSpinner:
-				$j( this ).loadingSpinner();
+				$( this ).loadingSpinner();
 				// Turn off buttons while loading
 				$dialog.dialog( 'option', 'buttons', null );
 
@@ -730,7 +730,7 @@ mw.includeAllModuleMessages();
 				});
 			};
 			buttons[ gM('mwe-cancel') ] = function(){
-				$j(this).dialog('close');
+				$(this).dialog('close');
 			};
 			mw.addDialog({
 				'title' : gM( 'mwe-timedtext-request-subs'),
@@ -832,7 +832,7 @@ mw.includeAllModuleMessages();
 			layoutOptions.push( 'below' );
 			layoutOptions.push( 'off' );
 
-			$ul = $j('<ul>');
+			$ul = $('<ul>');
 			$j.each( layoutOptions, function( na, layoutMode ) {
 				var icon = ( _this.config.layout == layoutMode ) ? 'bullet' : 'radio-on';
 				$ul.append(
@@ -963,11 +963,11 @@ mw.includeAllModuleMessages();
 					sourcesWithoutCategory.push( _this.getLiSource( source ) );
 				}
 			}
-			var $langMenu = $j('<ul>');
+			var $langMenu = $('<ul>');
 			// Check if we have multiple categories ( if not just list them under the parent menu item)
 			if( catSourceCount > 1 ) {
 				for(var catKey in catSourceList) {
-					$catChildren = $j('<ul>');
+					$catChildren = $('<ul>');
 					for(var i=0; i < catSourceList[ catKey ].length; i++) {
 						$catChildren.append(
 							catSourceList[ catKey ][i]
@@ -1064,7 +1064,7 @@ mw.includeAllModuleMessages();
 			var layoutMode = this.getLayoutMode();
 			if( layoutMode == 'ontop' ) {
 				this.embedPlayer.controlBuilder.displayOptionsMenuFlag = false;
-				var $track = $j('<div>')
+				var $track = $('<div>')
 					.addClass( 'track' + ' ' + 'track_' + category )
 					.css( {
 						'position':'absolute',
@@ -1075,7 +1075,7 @@ mw.includeAllModuleMessages();
 						'text-align':'center'
 					})
 					.append(
-						$j('<span \>')
+						$('<span \>')
 					);
 
 				// Scale the text Relative to player size:
@@ -1094,7 +1094,7 @@ mw.includeAllModuleMessages();
 				var belowBarHeight = 60;
 				// Append before controls:
 				$playerTarget.find( '.control-bar' ).before(
-					$j('<div>').addClass( 'track' + ' ' + 'track_' + category )
+					$('<div>').addClass( 'track' + ' ' + 'track_' + category )
 						.css({
 							'position' : 'absolute',
 							'top' : this.embedPlayer.getHeight(),
@@ -1105,7 +1105,7 @@ mw.includeAllModuleMessages();
 							'text-align' : 'center',
 							'padding-top' : '5px'
 						} ).append(
-							$j('<span>').css( {
+							$('<span>').css( {
 								'color':'white'
 							} )
 						)
@@ -1118,7 +1118,7 @@ mw.includeAllModuleMessages();
 						'height': height
 					});
 				}
-				mw.log( ' height of ' + this.embedPlayer.id + ' is now: ' + $j( '#' + this.embedPlayer.id ).height() );
+				mw.log( ' height of ' + this.embedPlayer.id + ' is now: ' + $( '#' + this.embedPlayer.id ).height() );
 			}
 			mw.log( 'should have been appended: ' + $playerTarget.find('.track').length );
 		}
@@ -1283,8 +1283,8 @@ mw.includeAllModuleMessages();
 		var curentCap = [];
 		var parseNextAsTime = false;
 		// Optimize: we could use javascript strings functions instead of jQuery XML parsing:
-		$j( '<div>' + data + '</div>' ).find('p').each( function() {
-			currentPtext = $j(this).html();
+		$( '<div>' + data + '</div>' ).find('p').each( function() {
+			currentPtext = $(this).html();
 			//mw.log( 'pText: ' + currentPtext );
 
 			//Check if the p matches the "all in one line" match:
@@ -1410,13 +1410,13 @@ mw.includeAllModuleMessages();
 	 */
 	function parseCMML( data ) {
 		var captions = [ ];
-		$j( data ).find( 'clip' ).each( function( inx, clip ) {
+		$( data ).find( 'clip' ).each( function( inx, clip ) {
 			var content, start, end;
 			// mw.log(' on clip ' + clip.id);
-			start = mw.npt2seconds( $j( clip ).attr( 'start' ).replace( 'npt:', '' ) );
-			end = mw.npt2seconds( $j( clip ).attr( 'end' ).replace( 'npt:', '' ) );
+			start = mw.npt2seconds( $( clip ).attr( 'start' ).replace( 'npt:', '' ) );
+			end = mw.npt2seconds( $( clip ).attr( 'end' ).replace( 'npt:', '' ) );
 
-			$j( clip ).find( 'body' ).each( function( binx, bn ) {
+			$( clip ).find( 'body' ).each( function( binx, bn ) {
 				if ( bn.textContent ) {
 					content = bn.textContent;
 				} else if ( bn.text ) {
@@ -1646,8 +1646,8 @@ mw.includeAllModuleMessages();
 		if( typeof options == 'undefined' )
 			options = {};
 
-		$j( this.selector ).each(function() {
-			var embedPlayer = $j(this).get(0);
+		$( this.selector ).each(function() {
+			var embedPlayer = $(this).get(0);
 
 			// Setup timed text for the given player:
 			if( ! embedPlayer.timedText ) {

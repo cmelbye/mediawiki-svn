@@ -25,14 +25,14 @@ mw.SequencerActionsView.prototype = {
 			'width' : 800,
 			'height' : 600,
 			'resizable': false,
-			'content' : $j('<div />')
+			'content' : $('<div />')
 				.append(
 				// Add a loading div
-				$j('<div />')
+				$('<div />')
 				.addClass('syntaxhighlighter_loader')
 				.loadingSpinner(),
 
-				$j('<pre />')
+				$('<pre />')
 				.addClass( 'brush: xml; ruler: true;' )
 				.css({
 					'display': 'none'
@@ -44,7 +44,7 @@ mw.SequencerActionsView.prototype = {
 		})
 
 		// load and run the syntax highlighter:
-		$j( $viewSmilXmlDialog.find('pre') ).syntaxHighlighter( function(){
+		$( $viewSmilXmlDialog.find('pre') ).syntaxHighlighter( function(){
 			$viewSmilXmlDialog.find('.syntaxhighlighter_loader').remove();
 			$viewSmilXmlDialog.find('.syntaxhighlighter').css('height', '520px');
 			$viewSmilXmlDialog.find('pre').fadeIn();

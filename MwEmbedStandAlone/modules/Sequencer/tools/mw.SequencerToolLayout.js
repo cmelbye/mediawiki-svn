@@ -27,7 +27,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 	editWidgets: {
 		'layout' : {
 			'onPanzoomChange': function( _this, smilElement ){
-				var panZoomVal = $j('#' +_this.getEditToolInputId( 'layout', 'panZoom')).val();
+				var panZoomVal = $('#' +_this.getEditToolInputId( 'layout', 'panZoom')).val();
 				mw.log("panzoom change:" + panZoomVal );
 	
 				// Update on the current smil clip display:
@@ -39,7 +39,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				
 				// Update the timeline clip display
 				// xxx this should be abstracted to timeline handler for smil clip updates above
-				var $thumbTraget = $j( '#' + _this.sequencer.getTimeline().getTimelineClipId( smilElement ) ).find('.thumbTraget');
+				var $thumbTraget = $( '#' + _this.sequencer.getTimeline().getTimelineClipId( smilElement ) ).find('.thumbTraget');
 				_this.sequencer.getSmil()
 				.getLayout()
 				.panZoomLayout(
@@ -54,9 +54,9 @@ $j.extend( true, mw.SequencerTools.prototype, {
 			 * TODO should combine with onPanzoomChange above
 			 */
 			'onRotateChange':  function( _this, smilElement ){
-				var rotateVal = $j('#' +_this.getEditToolInputId( 'layout', 'rotate')).val();
+				var rotateVal = $('#' +_this.getEditToolInputId( 'layout', 'rotate')).val();
 				// Update smil value: 
-				$j(smilElement).attr( 'rotate', rotateVal );
+				$(smilElement).attr( 'rotate', rotateVal );
 				
 				// Update rotate display
 				_this.sequencer.getSmil()
@@ -66,7 +66,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				);
 				
 				// Update the timeline clip display
-				var $thumbTraget = $j( '#' + _this.sequencer.getTimeline().getTimelineClipId( smilElement ) ).find('.thumbTraget');
+				var $thumbTraget = $( '#' + _this.sequencer.getTimeline().getTimelineClipId( smilElement ) ).find('.thumbTraget');
 				_this.sequencer.getSmil()
 				.getLayout()
 				.rotateLayout(
@@ -128,7 +128,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					stop: function( event, ui){
 						// run the onChange ?
 						// Restore original css for the layout helper
-						$j(this).css( orginalHelperCss );
+						$(this).css( orginalHelperCss );
 						// trigger the 'change'
 						_thisEditWidget.onPanzoomChange( _this, smilElement );
 					}
@@ -150,7 +150,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					},
 					stop: function( event, ui){
 						// Restore original css
-						$j(this).css( orginalHelperCss );
+						$(this).css( orginalHelperCss );
 						// trigger the change
 						_thisEditWidget.onPanzoomChange( _this, smilElement);
 					}
@@ -161,19 +161,19 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				.mousedown( function( event ){
 					rotateMouseUpHandler = false;
 					// track mouse movement at a set interval
-					var rotateStart = ( $j( smilElement ).attr( 'rotate' ) )? $j( smilElement ).attr( 'rotate' ) : 0;
+					var rotateStart = ( $( smilElement ).attr( 'rotate' ) )? $( smilElement ).attr( 'rotate' ) : 0;
 					var mouseStartX = event.pageX;
 					var prevMouseDiffDeg = 0;
-					$j(document).bind('mousemove.rotateHelper', function( event ){
+					$(document).bind('mousemove.rotateHelper', function( event ){
 						// Apply css transform 
 						var mouseDiffDeg = ( mouseStartX - event.pageX ) % 360;
 						
 						// Save some computing costs on identical horizontal pixel moves
 						if( prevMouseDiffDeg != mouseDiffDeg){
 							// Update the user input tool input value:
-							$j('#' +_this.getEditToolInputId( 'layout', 'rotate' ) ).val( rotateStart - mouseDiffDeg);
+							$('#' +_this.getEditToolInputId( 'layout', 'rotate' ) ).val( rotateStart - mouseDiffDeg);
 							// Update the smil DOM: 
-							$j( smilElement ).attr( 'rotate', rotateStart - mouseDiffDeg);	
+							$( smilElement ).attr( 'rotate', rotateStart - mouseDiffDeg);	
 							// Update display: 
 							_this.sequencer.getSmil()
 							.getLayout()
@@ -185,7 +185,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					})
 					.bind('mouseup.rotateHelper', function( event ){
 						// unbind the document events:
-						$j(document).unbind('mousemove.rotateHelper mouseup.rotateHelper');
+						$(document).unbind('mousemove.rotateHelper mouseup.rotateHelper');
 						// Trigger the change:
 						_thisEditWidget.onRotateChange(  _this, smilElement );
 					});
@@ -193,7 +193,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				});				
 			},
 			'getRotateHelper' : function( _this, smilElement){
-				return $j('<div />')
+				return $('<div />')
 					.attr('title', gM('mwe-sequencer-clip-rotate-desc') )
 					.addClass( 'rotateHelper ui-state-default ui-corner-all')
 					.css({
@@ -205,7 +205,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 						'cursor': 'crosshair'
 					})
 					.append(
-						$j('<span />').addClass( 'ui-icon ui-icon-arrowrefresh-1-e' )
+						$('<span />').addClass( 'ui-icon ui-icon-arrowrefresh-1-e' )
 					);
 			},
 			'updatePanZoomFromUiValue': function( _this, smilElement, startPanZoomVal, layout ){
@@ -236,10 +236,10 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				var smilPanZoomValue = pz.join(', ');
 
 				// Update the smil DOM:
-				$j( smilElement ).attr( 'panZoom', smilPanZoomValue );
+				$( smilElement ).attr( 'panZoom', smilPanZoomValue );
 
 				// Update the user input tool input value:
-				$j('#' +_this.getEditToolInputId( 'layout', 'panZoom')).val( smilPanZoomValue );
+				$('#' +_this.getEditToolInputId( 'layout', 'panZoom')).val( smilPanZoomValue );
 
 				// Animate the update on the current smil clip display:
 				_this.sequencer.getSmil()
@@ -250,8 +250,8 @@ $j.extend( true, mw.SequencerTools.prototype, {
 			},
 			
 			'getPanZoomVal' : function( _this, smilElement ){
-				if( $j( smilElement ).attr( 'panZoom') ){
-					return $j( smilElement ).attr( 'panZoom');
+				if( $( smilElement ).attr( 'panZoom') ){
+					return $( smilElement ).attr( 'panZoom');
 				}
 				return _this.editableAttributes['panZoom'].defaultValue;
 			},
@@ -262,19 +262,19 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				var _thisEditWidget = this;
 				
 				// Add a input box binding:
-				$j('#' +_this.getEditToolInputId( 'layout', 'panZoom'))
+				$('#' +_this.getEditToolInputId( 'layout', 'panZoom'))
 				.change(function(){
 					_thisEditWidget.onPanzoomChange( _this, smilElement, target );
 				});
 				
-				$j('#' +_this.getEditToolInputId( 'layout', 'rotate'))
+				$('#' +_this.getEditToolInputId( 'layout', 'rotate'))
 				.change(function(){
 					_thisEditWidget.onRotateChange( _this, smilElement, target );
 				});
 				
 				// Add descriptive text: 
-				$j( target ).append(
-					$j('<h3 />').html(
+				$( target ).append(
+					$('<h3 />').html(
 						gM('mwe-sequencer-tools-panzoomhelper-desc')
 					)
 				);				
@@ -287,7 +287,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 
 				// Append the resize helper as an overlay on the player:
 				$playerUI.append(
-					$j('<div />')
+					$('<div />')
 					.css( _thisEditWidget.getOrginalHelperCss( _this ) )
 					.addClass("ui-widget-content layoutHelper")
 					.text( gM('mwe-sequencer-tools-panzoomhelper') )
@@ -302,7 +302,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					$playerUI.find('.layoutHelper').hide();
 				}				
 				
-				$j( _this ).bind('toolSelect.seqTools', function(){
+				$( _this ).bind('toolSelect.seqTools', function(){
 					if( _this.getCurrentToolId() == 'layout'){
 						$playerUI.find('.layoutHelper').fadeIn('fast');
 					} else {
@@ -311,7 +311,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				});
 				
 				// Bind to resize player events to keep the helper centered
-				$j( _this.sequencer.getEmbedPlayer() ).bind('onResizePlayer', function(event, size){
+				$( _this.sequencer.getEmbedPlayer() ).bind('onResizePlayer', function(event, size){
 					$playerUI.find('.layoutHelper').css( {
 						'left' : size.width/2 - 60,
 						'top' : size.height/2 - 50

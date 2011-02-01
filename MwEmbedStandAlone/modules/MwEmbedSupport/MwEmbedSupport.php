@@ -12,6 +12,7 @@ return array(
 		),				
 		'messageFile' => 'MwEmbedSupport.i18n.php',
 	),	
+	
 	// All the mwEmbed Support components that are not needed for mwEmbed loader.js files:  
 	// Right now this is only css files. 
 	'mwEmbedSupport' => array(

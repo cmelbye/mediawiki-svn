@@ -36,7 +36,7 @@ class MwEmbedResourceManager {
 		if( is_file( $fullResourcePath . '/' . $moduleName . '.i18n.php' ) ){
 			$wgExtensionMessagesFiles[ 'MwEmbed.' . $moduleName ] = $fullResourcePath . '/' . $moduleName . '.i18n.php';				
 		}		
-		// Get the mwEmbed module config		
+		// Get the mwEmbed module resource registration: 		
 		$resourceList = include( $fullResourcePath . '/' . $moduleName . '.php' );
 		
 		// Look for special 'messages' => 'moduleFile' key and load all modules file messages:
@@ -57,10 +57,10 @@ class MwEmbedResourceManager {
 			);
 		}
 		
-		// Check for module config ( @@TODO support per-module config )
+		// Check for module config ( @@TODO support per-module config )		
 		$configPath =  $fullResourcePath . '/' . $moduleName . '.config.php';  
 		if( is_file( $configPath ) ){
-			self::$moduleConfig[ $moduleName ] = include( $configPath );
+			self::$moduleConfig = array_merge( self::$moduleConfig, include( $configPath ) );
 		}
 		
 		// Add the resource list into the module set with its provided path 
@@ -68,9 +68,14 @@ class MwEmbedResourceManager {
 	}
 	
 	public static function registerConfigVars( &$vars ){
-		foreach( self::$moduleConfig as $moduleName => $config ){
-			$vars = array_merge( $vars, $config ); 
+		// Allow localSettings.php to override any module config by updating $wgMwEmbedModuleConfig var
+		global $wgMwEmbedModuleConfig;
+		foreach( self::$moduleConfig as $key => $value ){
+			if( ! isset( $wgMwEmbedModuleConfig[ $key ] ) ){
+				$wgMwEmbedModuleConfig[$key] = $value;
+			}
 		}
+		$vars = array_merge( $vars, $wgMwEmbedModuleConfig ); 
 		return $vars;
 	}
 	

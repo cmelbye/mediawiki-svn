@@ -22,7 +22,7 @@ mw.IFramePlayerApiClient.prototype = {
 		this.iframe = iframe;
 		this.playerProxy = playerProxy;
 		// Set the iframe server
-		var srcParts = mw.parseUri( mw.absoluteUrl( $j(this.iframe).attr('src') ) );
+		var srcParts = mw.parseUri( mw.absoluteUrl( $(this.iframe).attr('src') ) );
 		this.iframeServer = srcParts.protocol + '://' + srcParts.authority;
 		
 		this.addPlayerSendApi();
@@ -34,7 +34,7 @@ mw.IFramePlayerApiClient.prototype = {
 		var _this = this;		
 		
 		// Allow modules to extend the list of iframeExported bindings
-		$j( mw ).trigger( 'AddIframePlayerMethods', [ this.exportedMethods ]);
+		$( mw ).trigger( 'AddIframePlayerMethods', [ this.exportedMethods ]);
 		
 		$j.each( this.exportedMethods, function(na, method){
 			_this.playerProxy[ method ] = function(){
@@ -56,41 +56,41 @@ mw.IFramePlayerApiClient.prototype = {
 		parentsAbsoluteList = [];
 		var fullscreenMode = false;
 		var orgSize  = {
-			'width' : $j( _this.iframe ).width(),
-			'height' : $j( _this.iframe ).height(),
+			'width' : $( _this.iframe ).width(),
+			'height' : $( _this.iframe ).height(),
 			'position' : null
 		}
 			
 		var doFullscreen = function(){	
 			// Make the iframe fullscreen
-			$j( _this.iframe ).css({
+			$( _this.iframe ).css({
 				'z-index': mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
 				'position': 'absolute',
 				'top' : 0,
 				'left' : 0,
-				'width' : $j(window).width(),
-				'height' : $j(window).height()
+				'width' : $(window).width(),
+				'height' : $(window).height()
 			})
 			
 			// Remove absolute css of the interface parents
-			$j( _this.iframe ).parents().each( function() {
-				//mw.log(' parent : ' + $j( this ).attr('id' ) + ' class: ' + $j( this ).attr('class') + ' pos: ' + $j( this ).css( 'position' ) );
-				if( $j( this ).css( 'position' ) == 'absolute' ) {
-					parentsAbsoluteList.push( $j( this ) );
-					$j( this ).css( 'position', null );
+			$( _this.iframe ).parents().each( function() {
+				//mw.log(' parent : ' + $( this ).attr('id' ) + ' class: ' + $( this ).attr('class') + ' pos: ' + $( this ).css( 'position' ) );
+				if( $( this ).css( 'position' ) == 'absolute' ) {
+					parentsAbsoluteList.push( $( this ) );
+					$( this ).css( 'position', null );
 				}
 			} );
 		}
 		var restoreWindowMode = function(){
-			$j( _this.iframe ).css( orgSize );
+			$( _this.iframe ).css( orgSize );
 			// restore any parent absolute pos: 
-			$j(parentsAbsoluteList).each( function() {	
-				$j( this ).css( 'position', 'absolute' );
+			$(parentsAbsoluteList).each( function() {	
+				$( this ).css( 'position', 'absolute' );
 			} );
 		};
 		
-		$j( this.playerProxy ).bind( 'onOpenFullScreen', doFullscreen);
-		$j( this.playerProxy ).bind( 'onCloseFullScreen', restoreWindowMode);
+		$( this.playerProxy ).bind( 'onOpenFullScreen', doFullscreen);
+		$( this.playerProxy ).bind( 'onCloseFullScreen', restoreWindowMode);
 		
 	},
 	/**
@@ -132,16 +132,16 @@ mw.IFramePlayerApiClient.prototype = {
 		// Trigger any binding events 
 		if( typeof msgObject.triggerName != 'undefined' && msgObject.triggerArgs != 'undefined') {
 			//mw.log('IFramePlayerApiClient:: trigger: ' + msgObject.triggerName );
-			$j( _this.playerProxy ).trigger( msgObject.triggerName, msgObject.triggerArgs );
+			$( _this.playerProxy ).trigger( msgObject.triggerName, msgObject.triggerArgs );
 		}
 	},
 	'postMessage': function( msgObject ){
 		/*mw.log( "IFramePlayerApiClient:: postMessage(): " + JSON.stringify( msgObject ) + 
 				' iframe: ' +  this.iframe + ' cw:' + this.iframe.contentWindow + 
-				' src: ' + mw.absoluteUrl( $j( this.iframe ).attr('src')  ) );*/
+				' src: ' + mw.absoluteUrl( $( this.iframe ).attr('src')  ) );*/
 		$j.postMessage(
 			JSON.stringify( msgObject ), 
-			mw.absoluteUrl( $j( this.iframe ).attr('src') ), 
+			mw.absoluteUrl( $( this.iframe ).attr('src') ), 
 			this.iframe.contentWindow 
 		);
 	}
@@ -151,7 +151,7 @@ mw.IFramePlayerApiClient.prototype = {
 ( function( $ ) {
 	$.fn.iFramePlayer = function( readyCallback ){
 		if( ! this.selector ){
-			this.selector = $j( this ).get(0);
+			this.selector = $( this ).get(0);
 		}
 		// Append '_ifp' ( iframe player ) to id of real iframe so that 'id', and 'src' attributes don't conflict
 		var originalIframeId = ( $( this.selector ).attr( 'id' ) )? $( this.selector ).attr( 'id' ) : Math.floor( 9999999 * Math.random() );
@@ -159,15 +159,15 @@ mw.IFramePlayerApiClient.prototype = {
 		var iframePlayerId = originalIframeId + '_ifp' ; 
 		
 		// Append the div element proxy after the iframe 
-		$j( this.selector )
+		$( this.selector )
 			.attr('id', iframePlayerId)
 			.after(
 				$('<div />')
 				.attr( 'id', originalIframeId )
 			);
 		
-		var playerProxy = $j( '#' + originalIframeId ).get(0);		
-		var iframe = $j('#' + iframePlayerId).get(0);
+		var playerProxy = $( '#' + originalIframeId ).get(0);		
+		var iframe = $('#' + iframePlayerId).get(0);
 		if(!iframe){
 			mw.log("Error invalide iFramePlayer request");
 			return false;
@@ -177,15 +177,15 @@ mw.IFramePlayerApiClient.prototype = {
 		}
 		
 		// Allow modules to extend the 'iframe' based player
-		$j( mw ).trigger( 'newIframePlayerClientSide', [ playerProxy ]);
+		$( mw ).trigger( 'newIframePlayerClientSide', [ playerProxy ]);
 		
 		// Bind the iFrame player ready callback
 		if( readyCallback ){
-			$j( playerProxy ).bind( 'playerReady', readyCallback )
+			$( playerProxy ).bind( 'playerReady', readyCallback )
 		};
 		
 		// Return the player proxy for chaining player events / attributes
-		return $j( playerProxy );
+		return $( playerProxy );
 	};
 } )( jQuery );
 

@@ -3,7 +3,7 @@
 */
 
 //Wrap in mw closure
-( function( mw ) {
+( function( mw, $ ) {
 
 mw.SequencerAddByUri = function( sequencer ) {
 	return this.init( sequencer );
@@ -82,7 +82,7 @@ mw.SequencerAddByUri.prototype = {
 					remoteSearchDriver.loadSearchLib( provider, function( provider ){
 						var titleKey = provider.sObj.getTitleKeyFromMwUrl( importString );
 						if( !titleKey ){
-							$dialog.html( gM('mwe-sequencer-import-url-not-supported', 'commons.wikimedia.org' ) )
+							$dialog.html( gM('mwe-sequencer-import-url-not-supported', 'commons.wikimedia.org' ) );
 							// continue for loop ( if we can't get a title from the mediaWiki url )
 							return true;
 						}
@@ -109,7 +109,7 @@ mw.SequencerAddByUri.prototype = {
 							// Parse any parameters we can find:
 							var apiProvider = '';
 							if( mw.parseUri(provider.apiUrl ).host == 'commons.wikimedia.org' ){
-								apiProvider = 'commons'
+								apiProvider = 'commons';
 							} else {
 								// xxx we need to abstract the remoteSearch driver provider logic
 								// into a provider class
@@ -154,4 +154,4 @@ mw.SequencerAddByUri.prototype = {
 	}
 };
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

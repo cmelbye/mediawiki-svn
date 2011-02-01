@@ -1,7 +1,8 @@
 /**
 * Handles buffer information for the smilObject
 */
-
+( function( mw, $ ) {
+	
 mw.SmilBuffer = function( smilObject ){
 	return this.init( smilObject );
 };
@@ -52,7 +53,7 @@ mw.SmilBuffer.prototype = {
 		var minTimeBuffred = false;
 		var maxTimeBuffred = 0;
 		this.smil.getBody().getElementsForTime( bufferedStartTime, function( smilElement ){
-			var relativeStartTime = $j( smilElement ).data ( 'startOffset' );
+			var relativeStartTime = $( smilElement ).data ( 'startOffset' );
 			var nodeBufferedPercent = _this.getElementPercentLoaded( smilElement );
 
 			// xxx BUG in firefox buffer sometimes hangs at 93-99%
@@ -67,7 +68,7 @@ mw.SmilBuffer.prototype = {
 			var nodeBuffredTime = relativeStartTime +
 				( _this.smil.getBody().getClipDuration( smilElement ) * nodeBufferedPercent );
 
-			//mw.log(" asset:" + $j( smilElement ).attr('id') + ' is buffered:' + nodeBufferedPercent + 'buffer time: ' + nodeBuffredTime );
+			//mw.log(" asset:" + $( smilElement ).attr('id') + ' is buffered:' + nodeBufferedPercent + 'buffer time: ' + nodeBuffredTime );
 
 
 			// Update min time buffered ( if the element is not 100% buffered )
@@ -121,7 +122,7 @@ mw.SmilBuffer.prototype = {
 		// Get all active elements for requested bufferTime
 		this.smil.getBody().getElementsForTime( bufferTime, function( smilElement){
 			// If the element is in "activePlayback" ( don't try to load it )
-			if( ! $j( smilElement ).data('activePlayback' ) ){
+			if( ! $( smilElement ).data('activePlayback' ) ){
 				// Start loading active assets
 				_this.loadElement( smilElement );
 			}
@@ -147,14 +148,14 @@ mw.SmilBuffer.prototype = {
 		var _this = this;
 
 		// If the element is not already in the DOM add it as an invisible element
-		if( $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length == 0 ){
+		if( $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length == 0 ){
 			// Draw the element
 			_this.smil.getLayout().drawElement( smilElement );
 			// Hide the element ( in modern browsers this should not cause a flicker
 			// because DOM update are displayed at a given dom draw rate )
 			_this.smil.getLayout().hideElement( smilElement );
 			mw.log('loadElement::Add:' + this.smil.getSmilElementPlayerID( smilElement ) +
-					' len: ' + $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length );
+					' len: ' + $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length );
 		}
 
 		// Start "loading" the asset (for now just audio/video )
@@ -162,7 +163,7 @@ mw.SmilBuffer.prototype = {
 		switch( this.smil.getRefType( smilElement ) ){
 			case 'audio':
 			case 'video':
-				var media = $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) )
+				var media = $( '#' + this.smil.getSmilElementPlayerID( smilElement ) )
 								.find('audio,video').get(0);
 				if( !media ){
 					break;
@@ -198,7 +199,7 @@ mw.SmilBuffer.prototype = {
 		}
 		// for other ref types check if element is in the dom
 		// xxx todo hook into image / template loaders
-		if( $j( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length == 0 ){
+		if( $( '#' + this.smil.getSmilElementPlayerID( smilElement ) ).length == 0 ){
 			return 0;
 		} else {
 			return 1;
@@ -211,7 +212,7 @@ mw.SmilBuffer.prototype = {
 	getMediaPercetLoaded: function ( smilElement ){
 		var _this = this;
 		var assetId = this.smil.getSmilElementPlayerID( smilElement );
-		var $media = $j( '#' + assetId ).find('audio,video');
+		var $media = $( '#' + assetId ).find('audio,video');
 
 		// if the asset is not in the DOM return zero:
 		if( $media.length == 0 ){
@@ -299,14 +300,14 @@ mw.SmilBuffer.prototype = {
 	 */
 	bufferedSeekRelativeTime: function( smilElement, relativeTime, callback ){
 		var absoluteTime = relativeTime;
-		if( $j( smilElement ).attr('clipBegin') ){
-			absoluteTime += this.smil.parseTime( $j( smilElement ).attr('clipBegin') );
+		if( $( smilElement ).attr('clipBegin') ){
+			absoluteTime += this.smil.parseTime( $( smilElement ).attr('clipBegin') );
 		}
 		mw.log("SmilBuffer::bufferedSeekRelativeTime:" + this.smil.getSmilElementPlayerID( smilElement ) + ' relativeTime: ' + relativeTime + ' absoluteTime:' + absoluteTime );
 		
-		$j( smilElement ).data('activeSeek', true);
+		$( smilElement ).data('activeSeek', true);
 		var instanceCallback = function(){			
-			$j( smilElement ).data('activeSeek', false);
+			$( smilElement ).data('activeSeek', false);
 			callback();
 		};
 		switch( this.smil.getRefType( smilElement ) ){
@@ -351,8 +352,8 @@ mw.SmilBuffer.prototype = {
 	canPlayMediaTime: function( smilVideoElement, time ){
 		var _this = this;
 		var assetId = this.smil.getSmilElementPlayerID( smilVideoElement );
-		var $media = $j( '#' + assetId ).find('audio,video');
-		var vid = $j( '#' + assetId ).get( 0 );
+		var $media = $( '#' + assetId ).find('audio,video');
+		var vid = $( '#' + assetId ).get( 0 );
 		// if the video element is not in the dom its not ready:
 		if( $media.length == 0 || !$media.get(0) ){
 			return false;
@@ -395,22 +396,22 @@ mw.SmilBuffer.prototype = {
 		var assetId = this.smil.getSmilElementPlayerID( smilElement );
 
 		// Set a load callback for the asset:
-		$j( smilElement ).data('loadCallback',callback);
+		$( smilElement ).data('loadCallback',callback);
 		this.loadElement( smilElement );
-		mw.log( "loadMwTemplateCallback:: drwa img: " + assetId + ' ' + $j( '#' + assetId ).length );
+		mw.log( "loadMwTemplateCallback:: drwa img: " + assetId + ' ' + $( '#' + assetId ).length );
 	},
 
 	loadImageCallback: function ( smilElement, callback ){
 		var assetId = this.smil.getSmilElementPlayerID( smilElement );
 		// Make sure the image is in the dom ( load it )
 		this.loadElement( smilElement );
-		mw.log( "loadImageCallback:: drwa img: " + assetId + ' found:' + $j( '#' + assetId ).length );
+		mw.log( "loadImageCallback:: drwa img: " + assetId + ' found:' + $( '#' + assetId ).length );
 		// If we already have naturalHeight no need for loading callback
-		if( $j( '#' + assetId ).get(0).naturalHeight ){
+		if( $( '#' + assetId ).get(0).naturalHeight ){
 			mw.log( "loadImageCallback: " +assetId + ' already ready: run callback' );
 			callback();
 		} else {
-			$j( '#' + assetId ).find('img').load( callback );
+			$( '#' + assetId ).find('img').load( callback );
 		}
 	},
 	/**
@@ -422,7 +423,7 @@ mw.SmilBuffer.prototype = {
 		
 		// Make sure the target video is in the dom:
 		this.loadElement( smilElement );
-		var $media = $j( '#' + assetId ).find('audio,video');
+		var $media = $( '#' + assetId ).find('audio,video');
 		var media = $media.get(0);
 		
 		mw.log("SmilBuffer::mediaBufferSeek: " + assetId + ' ctime:' + media.currentTime + ' seekTime:' + seekTime );
@@ -504,7 +505,7 @@ mw.SmilBuffer.prototype = {
 
 		// Make sure the target video is in the dom:
 		this.loadElement( smilElement );
-		var $media = $j( '#' + assetId ).find('audio,video');
+		var $media = $( '#' + assetId ).find('audio,video');
 		var media = $media.get(0);
 		
 		// Add the asset to the loading set (if not there already )
@@ -559,3 +560,5 @@ mw.SmilBuffer.prototype = {
 		}
 	}*/
 };
+
+} )( window.mediaWiki, window.jQuery );

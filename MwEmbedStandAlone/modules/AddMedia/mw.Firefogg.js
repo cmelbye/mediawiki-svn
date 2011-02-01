@@ -2,7 +2,7 @@
  * Firefogg support.
  * autodetects: new upload api or old http POST.
  */
-
+( function( mw, $ ) {
 mw.addMessages({
 	"mwe-upload-transcoded-status" : "%1 Transcoded",
 	"mwe-upload-transcode-in-progress" : "Transcode and upload in progress (do not close this window)",
@@ -117,7 +117,7 @@ var default_firefogg_options = {
 		//  need to refactor as described in init :: installCheckMode
 		if ( myFogg && ! myFogg.installCheckMode ) {
 			myFogg.doRewrite( );
-			var selectorElement = $j( this.selector ).get( 0 );
+			var selectorElement = $( this.selector ).get( 0 );
 			selectorElement[ 'uploadHandler' ] = myFogg;
 		}
 	}
@@ -220,10 +220,10 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 	 */
 	doRewrite: function( callback ) {
 		var _this = this;
-		mw.log( 'sel len: ' + this.selector + '::' + $j( this.selector ).length +
-				' tag:' + $j( this.selector ).get( 0 ).tagName );
-		if ( $j( this.selector ).length >= 0 ) {
-			if ( $j( this.selector ).get( 0 ).tagName.toLowerCase() == 'input' ) {
+		mw.log( 'sel len: ' + this.selector + '::' + $( this.selector ).length +
+				' tag:' + $( this.selector ).get( 0 ).tagName );
+		if ( $( this.selector ).length >= 0 ) {
+			if ( $( this.selector ).get( 0 ).tagName.toLowerCase() == 'input' ) {
 				_this.form_type = 'upload';
 			}
 		}
@@ -256,7 +256,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 				}
 			}
 		});
-		$j( this.selector ).append( out ).hide();
+		$( this.selector ).append( out ).hide();
 	},
 
 	/**
@@ -302,18 +302,18 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 				comma = ',';
 			}
 		});
-		$j( hide_target_list ).hide();
+		$( hide_target_list ).hide();
 
 		// Now show the form
-		$j( _this.selector ).show();
+		$( _this.selector ).show();
 		if ( _this.getFirefogg() ) {
 			// Firefogg enabled
 			// If we're in upload mode, show the input filename
 			if ( _this.form_type == 'upload' )
-				$j( _this.target_input_file_name ).show();
+				$( _this.target_input_file_name ).show();
 
 			// Show the select file button
-			$j( this.target_btn_select_file )
+			$( this.target_btn_select_file )
 				.unbind()
 				.attr( 'disabled', false )
 				.css( { 'display': 'inline' } )
@@ -322,7 +322,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 				} );
 
 			// Set up the click handler for the filename box
-			$j( this.target_input_file_name )
+			$( this.target_input_file_name )
 				.unbind()
 				.attr( 'readonly', 'readonly' )
 				.click( function() {
@@ -333,7 +333,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 
 		// Set up the click handler for the "save local file" button
 		if( _this.target_btn_save_local_file ) {
-			$j( _this.target_btn_save_local_file )
+			$( _this.target_btn_save_local_file )
 			.unbind()
 			.click( function() {
 				_this.doLocalEncodeAndSave();
@@ -362,12 +362,12 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 
 			// Add the use_latest if not present:
 			if ( !this.target_use_latest_firefox ) {
-				$j( this.selector ).after(
-					$j( '<div />' )
+				$( this.selector ).after(
+					$( '<div />' )
 					.addClass( 'target_use_latest_firefox' )
 					.html(
 						gM('fogg-use_latest_firefox',
-							$j('<a />')
+							$('<a />')
 							.attr({
 								'href' : 'http://www.mozilla.com/firefox/?from=firefogg',
 								'target' : "_new"
@@ -383,11 +383,11 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 
 			// Add the upload msg if we are "uploading"
 			if ( _this.form_type == 'upload' ) {
-				$j( _this.target_use_latest_firefox )
+				$( _this.target_use_latest_firefox )
 				.prepend( upMsg );
 			}
 
-			$j( _this.target_use_latest_firefox ).show();
+			$( _this.target_use_latest_firefox ).show();
 			return ;
 		}
 		mw.log( 'mw.Firefogg::should show install link');
@@ -397,8 +397,8 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		if( firefoggUrl ) {
 			// Add the target please install in not present:
 			if ( !this.target_please_install ) {
-				$j( this.selector ).after(
-					$j('<div />')
+				$( this.selector ).after(
+					$('<div />')
 					.addClass( 'ui-corner-all target_please_install' )
 					.css({
 						'border' : 'thin solid black',
@@ -408,17 +408,17 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 				this.target_please_install = this.selector + ' ~ .target_please_install';
 			}
 			// Add the install msg
-			$j( _this.target_please_install )
+			$( _this.target_please_install )
 				.append(
 					upMsg,
 					gM( 'fogg-please-install',
 						// Install link
-						$j('<a />')
+						$('<a />')
 						.text( gM( "fogg-please-install-install-linktext" ) )
 						.attr('href', firefoggUrl ),
 
 						// About link
-						$j('<a />')
+						$('<a />')
 						.text( gM( "fogg-please-install-about-linktext" ) )
 						.attr({
 							'href' : 'http://commons.wikimedia.org/wiki/Commons:Firefogg',
@@ -495,23 +495,23 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		// Change the file browser to type text. We can't simply change the attribute so
 		// we have to delete and recreate.
 		var inputTag = '<input ';
-		$j.each( $j( this.selector ).get( 0 ).attributes, function( i, attr ) {
+		$j.each( $( this.selector ).get( 0 ).attributes, function( i, attr ) {
 			var val = attr.value;
 			if ( attr.name == 'type' )
 				val = 'text';
 			inputTag += attr.name + '="' + val + '" ';
 		} );
-		if ( !$j( this.selector ).attr( 'style' ) )
+		if ( !$( this.selector ).attr( 'style' ) )
 			inputTag += 'style="display:inline" ';
 
-		var id = $j( this.selector ).attr( 'name' ) + '_firefogg-control';
+		var id = $( this.selector ).attr( 'name' ) + '_firefogg-control';
 		inputTag += '/><span id="' + id + '"></span>';
 
 		mw.log( 'set input: ' + inputTag );
 
-		$j( this.selector ).replaceWith( inputTag );
+		$( this.selector ).replaceWith( inputTag );
 
-		this.target_input_file_name = 'input[name=' + $j( this.selector ).attr( 'name' ) + ']';
+		this.target_input_file_name = 'input[name=' + $( this.selector ).attr( 'name' ) + ']';
 
 		// Point the selector at the span we just created
 		this.selector = '#' + id;
@@ -521,8 +521,8 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		this.bindControls();
 	},
 	appendFirebugWarning : function(){
-		$j( this.selector ).after(
-			$j( '<div />' )
+		$( this.selector ).after(
+			$( '<div />' )
 			.addClass( 'ui-state-error ui-corner-all' )
 			.html( gM( 'fogg-warning-firebug' ) )
 			.css({
@@ -548,19 +548,19 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		}
 
 		// Add the preview button and canvas
-		$j( '#upProgressDialog' ).append(
-			$j('<div />')
+		$( '#upProgressDialog' ).append(
+			$('<div />')
 			.css({
 				"clear" : 'both',
 				'height' : '3em'
 			}),
 			buttonHtml,
-			$j('<div />')
+			$('<div />')
 			.css({
 				"padding" : '10px'
 			})
 			.append(
-				$j( '<canvas />' )
+				$( '<canvas />' )
 				.css('margin', 'auto' )
 				.attr( 'id', 'fogg_preview_canvas')
 			)
@@ -568,11 +568,11 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 
 		// Set the initial state
 		if ( _this.show_preview == true ) {
-			$j( '#fogg_preview_canvas' ).show();
+			$( '#fogg_preview_canvas' ).show();
 		}
 
 		// Bind the preview button
-		$j( '#upProgressDialog .fogg_preview' ).buttonHover().click( function() {
+		$( '#upProgressDialog .fogg_preview' ).buttonHover().click( function() {
 			return _this.onPreviewClick( this );
 		});
 	},
@@ -581,7 +581,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 	 * onclick handler for the hide/show preview button
 	 */
 	onPreviewClick: function( sourceNode ) {
-		var button = $j( sourceNode );
+		var button = $( sourceNode );
 		var icon = button.children( '.ui-icon' );
 		mw.log( "click .fogg_preview" + icon.attr( 'class' ) );
 
@@ -591,14 +591,14 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 			this.show_preview = true;
 			icon.removeClass( 'ui-icon-triangle-1-e' ).addClass( 'ui-icon-triangle-1-s' );
 			button.children( '.btnText' ).text( gM( 'fogg-hidepreview' ) );
-			$j( '#fogg_preview_canvas' ).show( 'fast' );
+			$( '#fogg_preview_canvas' ).show( 'fast' );
 		} else {
 			// Hide preview
 			// Toggle button class and set button text to "show".
 			this.show_preview = false;
 			icon.removeClass( 'ui-icon-triangle-1-s' ).addClass( 'ui-icon-triangle-1-e' );
 			button.children( '.btnText' ).text( gM( 'fogg-preview' ) );
-			$j( '#fogg_preview_canvas' ).hide( 'slow' );
+			$( '#fogg_preview_canvas' ).hide( 'slow' );
 		}
 		// Don't follow the # link
 		return false;
@@ -610,24 +610,24 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 	renderPreview: function() {
 		var _this = this;
 		// Set up the hidden video to pull frames from
-		if( $j( '#fogg_preview_vid' ).length == 0 )
-			$j( 'body' ).append(
-				$j('<video />')
+		if( $( '#fogg_preview_vid' ).length == 0 )
+			$( 'body' ).append(
+				$('<video />')
 				.attr( 'id', "fogg_preview_vid")
 				.css( "display", 'none' )
 			);
-		var v = $j( '#fogg_preview_vid' ).get( 0 );
+		var v = $( '#fogg_preview_vid' ).get( 0 );
 
 		function seekToEnd() {
-			var v = $j( '#fogg_preview_vid' ).get( 0 );
+			var v = $( '#fogg_preview_vid' ).get( 0 );
 			if( v ) {
 				// Seek to near the end of the clip ( arbitrary -.4 seconds from end )
 				v.currentTime = v.duration - 0.4;
 			}
 		}
 		function renderFrame() {
-			var v = $j( '#fogg_preview_vid' ).get( 0 );
-			var canvas = $j( '#fogg_preview_canvas' ).get( 0 );
+			var v = $( '#fogg_preview_vid' ).get( 0 );
+			var canvas = $( '#fogg_preview_canvas' ).get( 0 );
 			if ( canvas ) {
 				canvas.width = 160;
 				canvas.height = canvas.width * v.videoHeight / v.videoWidth;
@@ -637,7 +637,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		}
 		function preview() {
 			// Initialize the video if it is not set up already
-			var v = $j( '#fogg_preview_vid' ).get( 0 );
+			var v = $( '#fogg_preview_vid' ).get( 0 );
 			if ( v.src != _this.fogg.previewUrl ) {
 				mw.log( 'init preview with url:' + _this.fogg.previewUrl );
 				v.src = _this.fogg.previewUrl;
@@ -675,7 +675,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		} else {
 			// No configured form selector
 			// Use the first form descendant of the current container
-			return $j( this.selector ).parents( 'form:first' ).get( 0 );
+			return $( this.selector ).parents( 'form:first' ).get( 0 );
 		}
 	},
 
@@ -709,8 +709,8 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		}
 
 		// Hide the "select file" button and show "select new"
-		$j( _this.target_btn_select_file ).hide();
-		$j( _this.target_btn_select_new_file)
+		$( _this.target_btn_select_file ).hide();
+		$( _this.target_btn_select_new_file)
 			.show()
 			.unbind()
 			.click( function() {
@@ -722,12 +722,12 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 
 		// If we're in passthrough mode, update the interface (if not a form)
 		if ( settings['passthrough'] == true && _this.form_type == 'local' ) {
-			$j( _this.target_passthrough_mode ).show();
+			$( _this.target_passthrough_mode ).show();
 		} else {
-			$j( _this.target_passthrough_mode ).hide();
+			$( _this.target_passthrough_mode ).hide();
 			// Show the "save file" button if this is a local form
 			if ( _this.form_type == 'local' ) {
-				$j( _this.target_btn_save_local_file ).show();
+				$( _this.target_btn_save_local_file ).show();
 			} // else the upload will be done on form submit
 		}
 
@@ -735,7 +735,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		mw.log( " should update: " + _this.target_input_file_name +
 				' to: ' + _this.fogg.sourceFilename );
 
-		$j( _this.target_input_file_name )
+		$( _this.target_input_file_name )
 			.val( _this.fogg.sourceFilename )
 			.show();
 
@@ -837,7 +837,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 			var dummyvid = document.createElement( "video" );
 			if( !dummyvid.canPlayType('video/webm; codecs="vp8, vorbis"') ) {
 				videoEmbedCode = gM('fogg-missing-webm-support',
-					$j('<a />')
+					$('<a />')
 					.attr({
 						'href' : 'http://www.webmproject.org/users/',
 						'target' : '_new'
@@ -846,17 +846,17 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 			}
 		}
 		_this.ui.setPrompt( gM( 'fogg-encoding-done' ),
-			$j( '<div />' ).append(
+			$( '<div />' ).append(
 				gM( 'fogg-encoding-done' ),
-				$j('<br>' ),
+				$('<br>' ),
 				videoEmbedCode
 			)
 		);
 		//Load the video and set a callback:
-		var v = $j( '#fogg_final_vid' ).get( 0 );
+		var v = $( '#fogg_final_vid' ).get( 0 );
 		if( v ) {
 			function resizeVid() {
-				var v = $j( '#fogg_final_vid' ).get(0);
+				var v = $( '#fogg_final_vid' ).get(0);
 				if ( v.videoWidth > 720 ) {
 					var vW = 720;
 					var vH = 720 * v.videoHeight / v.videoWidth;
@@ -865,18 +865,18 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 					var vH = v.videoHeight;
 				}
 				//reize the video:
-				$j( v ).css({
+				$( v ).css({
 					'width': vW,
 					'height': vH
 				});
 				//if large video resize the dialog box:
 				if( vW + 5 > 400 ) {
 					//also resize the dialog box
-					$j( '#upProgressDialog' ).dialog( 'option', 'width', vW + 20 );
-					$j( '#upProgressDialog' ).dialog( 'option', 'height', vH + 120 );
+					$( '#upProgressDialog' ).dialog( 'option', 'width', vW + 20 );
+					$( '#upProgressDialog' ).dialog( 'option', 'height', vH + 120 );
 
 					//also position the dialog container
-					$j( '#upProgressDialog') .dialog( 'option', 'position', 'center' );
+					$( '#upProgressDialog') .dialog( 'option', 'position', 'center' );
 				}
 			}
 			v.removeEventListener( "loadedmetadata", resizeVid, true );
@@ -1004,11 +1004,11 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 			_this.createPreviewControls();
 		}
 		// Update the formData 'comment' per the upload description
-		$j(this.form).find("[name='comment']").val( _this.getUploadDescription() );
+		$(this.form).find("[name='comment']").val( _this.getUploadDescription() );
 
 		// Get the input form data into an array
 		mw.log( 'get this.formData ::' );
-		var data = $j( this.form ).serializeArray();
+		var data = $( this.form ).serializeArray();
 		this.formData = {};
 		for ( var i = 0; i < data.length; i++ ) {
 			if ( data[i]['name'] ) {
@@ -1222,7 +1222,7 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 	 */
 	doUploadStatus: function() {
 		var _this = this;
-		$j( '#up-status-state' ).html( 
+		$( '#up-status-state' ).html( 
 				gM( 'mwe-uploaded-status', 0 ) 
 		);
 
@@ -1319,9 +1319,11 @@ mw.Firefogg.prototype = { // extends mw.BaseUploadHandler
 		if ( confirm( gM( 'mwe-cancel-confim' ) ) ) {
 			this.action_done = true;
 			this.fogg.cancel();
-			$j( dialogElement ).empty().dialog( 'close' );
+			$( dialogElement ).empty().dialog( 'close' );
 		}
 		// Don't follow the # link:
 		return false;
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

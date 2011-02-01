@@ -2,6 +2,8 @@
 * Swarm VLC embed
 * inherits EmbedPlayerVlc
 */
+( function( mw, $ ) {
+	
 mw.EmbedPlayerSwarmVlc = {
 
 	//Instance Name:
@@ -10,7 +12,7 @@ mw.EmbedPlayerSwarmVlc = {
 	doEmbedHTML: function() {
 		var _this = this;
 		var oggHttpSource = this.mediaElement.getSources( 'video/ogg' )[0];
-		$j( this ).html(
+		$( this ).html(
 			'<object classid="clsid:98FF91C0-A3B8-11DF-8555-0002A5D5C51B" ' +
 				'name="' + this.pid + '" ' +
 				'id="' + this.pid + '" events="True" target="" ' +
@@ -25,7 +27,7 @@ mw.EmbedPlayerSwarmVlc = {
 		);
 		setTimeout( function() {
 			// make sure the object is the correct size ( IE appears to do weird stuff with object tags )
-			$j( '#' + _this.pid ).css( {
+			$( '#' + _this.pid ).css( {
 				'width' : _this.getPlayerWidth(),
 				'height' : _this.getPlayerHeight()
 			})
@@ -43,4 +45,6 @@ if( typeof mw.EmbedPlayerVlc == 'undefined' ){
 			mw.EmbedPlayerSwarmVlc[ i ] = mw.EmbedPlayerVlc[i];
 		}
 	};
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

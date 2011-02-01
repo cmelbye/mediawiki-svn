@@ -2,7 +2,7 @@
  * Add the messages text:
  */
 
-mw.includeAllModuleMessages();
+( function( mw, $ ) {
 
 /**
 * Define mw.SwarmTransport object:
@@ -12,10 +12,10 @@ mw.SwarmTransport = {
 	addPlayerHooks: function(){
 		var _this = this;
 		// Bind some hooks to every player:
-		$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
+		$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 
 			// Setup the "embedCode" binding to swap in an updated url
-			$j( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
+			$( embedPlayer ).bind( 'CheckPlayerSourcesEvent', function( event, callback ) {
 				// Confirm SwarmTransport add-on is available ( defines swarmTransport var )
 				if( _this.getPluginLibrary() ){
 					// Add the swarm source
@@ -36,7 +36,7 @@ mw.SwarmTransport = {
 
 			// Check if we have a "recommend" binding and provide an xpi install link
 			mw.log('SwarmTransport::bind:addControlBindingsEvent');
-			$j( embedPlayer ).bind( 'addControlBindingsEvent', function(){
+			$( embedPlayer ).bind( 'addControlBindingsEvent', function(){
 				if( mw.getConfig( 'SwarmTransport.Recommend' ) && _this.getPluginLibrary() ){
 					embedPlayer.controlBuilder.doWarningBindinng(
 						'recommendSwarmTransport',
@@ -49,7 +49,7 @@ mw.SwarmTransport = {
 
 
 		// Add the swarmTransport player to available player types:
-		$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {
+		$( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {
 			var playerLib = _this.getPluginLibrary();
 			// Add the swarmTransport playerType
 			mw.EmbedTypes.players.defaultPlayers['video/swarmTransport'] = [ playerLib ];  
@@ -130,7 +130,7 @@ mw.SwarmTransport = {
 				mw.log( 'SwarmTransport: addSwarmSource for: ' + source.getSrc() + "\n\nGot:" + data.torrent );
 				// XXX need to update preference
 				embedPlayer.mediaElement.tryAddSource(
-					$j('<source />')
+					$('<source />')
 					.attr( {
 						'type' : 'video/swarmTransport',
 						'title': gM('mwe-swarmtransport-stream-ogg'),
@@ -153,3 +153,5 @@ mw.SwarmTransport = {
 
 // Add player bindings for swarm Transport
 mw.SwarmTransport.addPlayerHooks();
+
+} )( window.mediaWiki, window.jQuery );

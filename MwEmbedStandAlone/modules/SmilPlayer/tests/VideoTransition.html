@@ -7,15 +7,15 @@
 	<script type="text/javascript">
 		mw.setConfig( 'EmbedPlayer.OverlayControls', false );
 		mw.ready(function(){
-			$j( "#seekInputTime" ).blur( function(){ 
-				var smilVid = $j('#videoTransition').get(0);
-				$j('#seekInProgress').show();
-				smilVid.setCurrentTime( parseFloat( $j(this).val() ), function() {
-					$j('#seekInProgress').hide();
+			$( "#seekInputTime" ).blur( function(){ 
+				var smilVid = $('#videoTransition').get(0);
+				$('#seekInProgress').show();
+				smilVid.setCurrentTime( parseFloat( $(this).val() ), function() {
+					$('#seekInProgress').hide();
 				});
 			});
-			$j('#startBuffer').click( function(){
-				$j('#videoTransition').get(0).load();
+			$('#startBuffer').click( function(){
+				$('#videoTransition').get(0).load();
 			});
 		});
 	</script>

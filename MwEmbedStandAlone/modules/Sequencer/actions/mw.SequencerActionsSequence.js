@@ -21,9 +21,9 @@ mw.SequencerActionsSequence.prototype = {
 	 */
 	newSequence : function(){
 		var _this = this;
-		var $content = $j('<div />').append(
+		var $content = $('<div />').append(
 				gM('mwe-sequencer-new-summary' ),
-				$j('<input />')
+				$('<input />')
 				.css({ 'width': 400 })
 				.attr({
 					'id' : 'sequenceNewNameInput',
@@ -35,7 +35,7 @@ mw.SequencerActionsSequence.prototype = {
 		// XXX todo we should have an autocomplete on sequence name!
 
 		var buttons = {};
-		buttons[ gM('mwe-cancel') ] = function(){ $j( this ).dialog( 'cancel' ); };
+		buttons[ gM('mwe-cancel') ] = function(){ $( this ).dialog( 'cancel' ); };
 
 		// For now just support server based open .. ideally we could browse for file
 		var $dialog = mw.addDialog({
@@ -63,20 +63,20 @@ mw.SequencerActionsSequence.prototype = {
 				'href' : '#'
 			}).click( function(){
 				// Update the link
-				$j(this).attr({
+				$(this).attr({
 					'href':
 						mw.getRemoteSequencerLink(
 							mw.html.escape(
 								_this.sequencer.getServer().getSequenceEditUrl(
 										// ( Sequence: is automatically pre-appended with getSequencePageUrl
 										// ( don't use Sequence: in the title )
-										$j('#sequenceNewNameInput').val().replace(/Sequence:/i, '')
+										$('#sequenceNewNameInput').val().replace(/Sequence:/i, '')
 								)
 							)
 						)
 				});
 				// Close the dialog
-				$j(this).dialog( 'close' );
+				$(this).dialog( 'close' );
 				// Follow the link
 				return true;
 			})
@@ -87,9 +87,9 @@ mw.SequencerActionsSequence.prototype = {
 	 */
 	open: function(){
 		var _this = this;
-		var $content = $j('<div />').append(
+		var $content = $('<div />').append(
 				gM('mwe-sequencer-open-summary' ),
-				$j('<input />')
+				$('<input />')
 				.css({ 'width': 400 })
 				.attr({
 					'id' : 'sequenceOpenNameInput',
@@ -100,7 +100,7 @@ mw.SequencerActionsSequence.prototype = {
 			);
 		// XXX todo we should have an autocomplete on sequence name!
 		var buttons = {};
-		buttons[ gM('mwe-cancel') ] = function(){ $j( this ).dialog( 'cancel' ); };
+		buttons[ gM('mwe-cancel') ] = function(){ $( this ).dialog( 'cancel' ); };
 
 		// For now just support server based open .. ideally we could browse for file
 		var $dialog = mw.addDialog({
@@ -128,20 +128,20 @@ mw.SequencerActionsSequence.prototype = {
 				'href' : '#'
 			}).click( function(){
 				// Update the link
-				$j(this).attr({
+				$(this).attr({
 					'href':
 						mw.getRemoteSequencerLink(
 							mw.html.escape(
 								_this.sequencer.getServer().getSequenceViewUrl(
 										// ( Sequence: is automatically pre-appended with getSequencePageUrl
 										// ( don't use Sequence: in the title )
-										$j('#sequenceOpenNameInput').val().replace(/Sequence:/i, '')
+										$('#sequenceOpenNameInput').val().replace(/Sequence:/i, '')
 								)
 							)
 						)
 				});
 				// Close the dialog
-				$j(this).dialog( 'close' );
+				$(this).dialog( 'close' );
 				// Follow the link
 				return true;
 			})
@@ -166,7 +166,7 @@ mw.SequencerActionsSequence.prototype = {
 		if( !_this.sequencer.getServer().hasLocalChanges() ){
 			$dialog.html( gM('mwe-sequencer-save-no-changes') );
 			var closeButton = {};
-			closeButton[ gM('mwe-ok') ]= function(){ $j(this).dialog('close'); };
+			closeButton[ gM('mwe-ok') ]= function(){ $(this).dialog('close'); };
 			$dialog.dialog( "option", "buttons", closeButton);
 			return ;
 		}
@@ -190,11 +190,11 @@ mw.SequencerActionsSequence.prototype = {
 		var saveDialogButtons = {};
 		saveDialogButtons[ gM('mwe-sequencer-menu-sequence-save-desc') ] = function(){
 			// grab the save summary before setting dialog to loading:
-			var saveSummary = $j('#sequenceSaveSummary').val();
+			var saveSummary = $('#sequenceSaveSummary').val();
 			// set dialog to loading
 			$dialog.empty().append(
 				gM('mwe-sequencer-saving_wait' ),
-				$j('<div />').loadingSpinner()
+				$('<div />').loadingSpinner()
 			);
 			// Remove buttons while loading
 			$dialog.dialog( "option", "buttons", {} );
@@ -214,7 +214,7 @@ mw.SequencerActionsSequence.prototype = {
 					}
 					// Only let the user hit 'ok'
 					var closeButton = {};
-					closeButton[gM('mwe-ok')]= function(){ $j(this).dialog('close') };
+					closeButton[gM('mwe-ok')]= function(){ $(this).dialog('close') };
 					$dialog.dialog( "option", "buttons", closeButton);
 				}
 			);
@@ -225,7 +225,7 @@ mw.SequencerActionsSequence.prototype = {
 
 		$dialog.empty().append(
 			gM('mwe-sequencer-save-summary' ),
-			$j('<input />')
+			$('<input />')
 			.css({ 'width': 400 })
 			.attr({
 				'id' : 'sequenceSaveSummary',
@@ -280,13 +280,13 @@ mw.SequencerActionsSequence.prototype = {
 				_this.save();
 			};
 			buttons[ gM('mwe-cancel') ] = function(){
-				$j( this ).dialog( 'close' );
+				$( this ).dialog( 'close' );
 			}
 			$dialog.dialog( 'option', 'buttons', buttons);
 			return;
 		}
 
-		$dialog.append( $j('<div />').loadingSpinner() );
+		$dialog.append( $('<div />').loadingSpinner() );
 
 		// Check if the published version is already the latest
 		_this.sequencer.getServer().isPublished( function( isPublished ){
@@ -294,7 +294,7 @@ mw.SequencerActionsSequence.prototype = {
 				$dialog.empty().text( gM('mwe-sequencer-already-published') )
 				var buttons = {};
 				buttons[ gM('mwe-ok') ] = function(){
-					$j( this ).dialog( 'close' );
+					$( this ).dialog( 'close' );
 				}
 				$dialog.dialog( 'option', 'buttons', buttons);
 			} else {
@@ -313,7 +313,7 @@ mw.SequencerActionsSequence.prototype = {
 		});
 		if ( !myFogg.getFirefogg() ) {
 			$dialog.empty().append(
-				$j('<div />').attr('id', 'show_install_firefogg')
+				$('<div />').attr('id', 'show_install_firefogg')
 			);
 			myFogg.showInstallFirefog( '#show_install_firefogg' );
 			return ;
@@ -323,7 +323,7 @@ mw.SequencerActionsSequence.prototype = {
 		$dialog.dialog( "option", "title", gM('mwe-sequencer-running-publish') );
 
 		$dialog.empty().append(
-			$j( '<video />' )
+			$( '<video />' )
 			.attr({
 				'id': 'publishVideoTarget',
 				'src' : _this.sequencer.getDataUrl(),
@@ -334,14 +334,14 @@ mw.SequencerActionsSequence.prototype = {
 				'height' : '300px'
 			})
 			,
-			$j('<div />' )
+			$('<div />' )
 			.css( 'clear', 'both' ),
-			$j('<span />' ).text( gM( 'mwe-sequencer-publishing-status') ),
-			$j('<span />' ).attr( 'id', 'firefoggStatusTarget' ),
-			$j('<span />').attr('id', 'firefoggPercentDone')
+			$('<span />' ).text( gM( 'mwe-sequencer-publishing-status') ),
+			$('<span />' ).attr( 'id', 'firefoggStatusTarget' ),
+			$('<span />').attr('id', 'firefoggPercentDone')
 			.css('float', 'right')
 			.text("%"),
-			$j('<div />')
+			$('<div />')
 			.attr( 'id', 'firefoggProgressbar')
 			.css({
 				'width': '100%',
@@ -351,7 +351,7 @@ mw.SequencerActionsSequence.prototype = {
 		);
 
 		// Embed the player and continue application flow
-		$j('#publishVideoTarget').embedPlayer({
+		$('#publishVideoTarget').embedPlayer({
 			'controls' : false
 		}, function(){
 
@@ -360,23 +360,23 @@ mw.SequencerActionsSequence.prototype = {
 			setTimeout(function(){
 
 				// this should be depreciated ( hidden interface bug in mwEmbed ?)
-				$j('#publishVideoTarget').parent().show();
+				$('#publishVideoTarget').parent().show();
 
 				// Start up the render
-				var foggRender = $j('#publishVideoTarget').firefoggRender({
+				var foggRender = $('#publishVideoTarget').firefoggRender({
 					'statusTarget' : '#firefoggStatusTarget',
 					'saveToLocalFile' : localFile,
 					'onProgress' : function( progress ){
 						var progressPrecent = ( Math.round( progress * 10000 ) / 100 );
-						$j('#firefoggPercentDone').text(
+						$('#firefoggPercentDone').text(
 								progressPrecent +
 							'%'
 						)
-						$j("#firefoggProgressbar").progressbar({
+						$("#firefoggProgressbar").progressbar({
 							"value" : Math.round( progress * 100 )
 						});
 						// xxx WTF? no idea why progressbar above is not working
-						$j("#firefoggProgressbar .ui-progressbar-value").css('width', Math.round( progress * 10000 ) / 100 + '%');
+						$("#firefoggProgressbar .ui-progressbar-value").css('width', Math.round( progress * 10000 ) / 100 + '%');
 					},
 					'doneRenderCallback': function( fogg ){
 						if( localFile ){
@@ -389,7 +389,7 @@ mw.SequencerActionsSequence.prototype = {
 				var buttons = {};
 				buttons[ gM('mwe-cancel') ] = function(){
 					foggRender.stopRender();
-					$j( this ).dialog( 'close' );
+					$( this ).dialog( 'close' );
 				}
 				// Add cancel button
 				$dialog.dialog( "option", "buttons", buttons );
@@ -407,10 +407,10 @@ mw.SequencerActionsSequence.prototype = {
 	// @param {firefogg Object}
 	uploadRenderedVideo: function( $dialog, fogg ){
 		var _this = this;
-		$j( '#firefoggStatusTarget' ).text( gM('mwe-sequencer-publishing-uploading' ) );
+		$( '#firefoggStatusTarget' ).text( gM('mwe-sequencer-publishing-uploading' ) );
 		var updateUploadStatus = function(){
 			if( fogg.status() == 'uploading' ){
-				$j('#firefoggPercentDone').text(
+				$('#firefoggPercentDone').text(
 					( Math.round( fogg.progress() * 10000 ) / 100 ) +
 					'%'
 				)
@@ -481,14 +481,14 @@ mw.SequencerActionsSequence.prototype = {
 		$dialog.dialog( 'option', 'title', gM('mwe-sequencer-publishing-success' ) );
 		var button = {};
 		button[ gM('mwe-ok') ] = function(){
-			$j( this ).dialog('close')
+			$( this ).dialog('close')
 		};
 		$dialog.dialog( 'option', 'button', button );
 		// for some reason we lose button height :( (jquery bug ? )
 		$dialog.parent().css( 'height', $dialog.height() + 100 );
 
 		$dialog.empty().html( gM('mwe-sequencer-publishing-success-desc',
-			$j('<a />')
+			$('<a />')
 			.attr({
 				'target': '_new',
 				'href': wgArticlePath.replace( '$1', 'File:' +_this.sequencer.getServer().getVideoFileName()	)
@@ -497,7 +497,7 @@ mw.SequencerActionsSequence.prototype = {
 		// Update the buttons
 		var buttons = {};
 		buttons[ gM('mwe-ok') ] = function(){
-			$j( this ).dialog('close');
+			$( this ).dialog('close');
 		};
 		$dialog.dialog( 'option', 'buttons', buttons);
 	},
@@ -514,7 +514,7 @@ mw.SequencerActionsSequence.prototype = {
 			};
 			buttons[ gM('mwe-sequencer-menu-sequence-exit-desc') ] = function(){
 				_this.closeSequencer();
-				$j(this).dialog('close');
+				$(this).dialog('close');
 			}
 			// Confirm the user wants to exit
 			mw.addDialog( {
@@ -538,7 +538,7 @@ mw.SequencerActionsSequence.prototype = {
 						_this.sequencer.getServer().hasSequenceBeenSavedOrPublished()
 					);
 				}
-				$j( this ).remove();
+				$( this ).remove();
 			}
 		);
 	}

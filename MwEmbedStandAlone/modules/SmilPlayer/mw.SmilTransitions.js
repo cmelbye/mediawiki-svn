@@ -1,3 +1,4 @@
+( function( mw, $ ) {
 /**
 * Handles the smil transitions
 */
@@ -15,8 +16,8 @@ mw.SmilTransitions.prototype = {
 		var inRangeTransitions = [];
 		var transitionDirections = ['transIn', 'transOut'];
 		$j.each( transitionDirections, function(inx, transitionDirection ){
-			if( $j( smilElement ).attr( transitionDirection ) ){
-				$transition = _this.smil.$dom.find( '#' + $j( smilElement ).attr( transitionDirection) );
+			if( $( smilElement ).attr( transitionDirection ) ){
+				$transition = _this.smil.$dom.find( '#' + $( smilElement ).attr( transitionDirection) );
 				var transitionDuration = _this.smil.parseTime( $transition.attr('dur') );
 				// Check if the transition is in range
 				var percent = false;
@@ -58,8 +59,8 @@ mw.SmilTransitions.prototype = {
 	transformTransitionOverlay: function( smilElement, animateTime ) {
 		var _this = this;
 		/*mw.log('SmilTransitions::transformTransitionOverlay:' + animateTime +
-				' tIn:' + $j( smilElement ).attr( 'transIn' ) +
-				' tOut:' + $j( smilElement ).attr( 'transOut' ) );*/
+				' tIn:' + $( smilElement ).attr( 'transIn' ) +
+				' tOut:' + $( smilElement ).attr( 'transOut' ) );*/
 
 		// Get the transition in range
 		var transitionInRange = this.getTransitionInRange( smilElement, animateTime );
@@ -73,18 +74,18 @@ mw.SmilTransitions.prototype = {
 	 */
 	hideTransitionElements: function ( smilElement ){
 		// for now just hide
-		if( $j( smilElement ).attr( 'transIn' ) ){
-			$j( '#' +
+		if( $( smilElement ).attr( 'transIn' ) ){
+			$( '#' +
 				this.getTransitionOverlayId(
-					this.smil.$dom.find( '#' + $j( smilElement ).attr( 'transIn' ) ),
+					this.smil.$dom.find( '#' + $( smilElement ).attr( 'transIn' ) ),
 					smilElement
 				)
 			).hide();
 		}
-		if( $j( smilElement ).attr( 'transOut' ) ){
-			$j( '#' +
+		if( $( smilElement ).attr( 'transOut' ) ){
+			$( '#' +
 				this.getTransitionOverlayId(
-					this.smil.$dom.find( '#' + $j( smilElement ).attr( 'transOut' ) ),
+					this.smil.$dom.find( '#' + $( smilElement ).attr( 'transOut' ) ),
 					smilElement
 				)
 			).hide();
@@ -131,12 +132,12 @@ mw.SmilTransitions.prototype = {
 			'_doColorOverlay': function( _this, percent, $transition, smilElement ){
 				// Add the overlay if missing
 				var transitionOverlayId = _this.getTransitionOverlayId( $transition, smilElement );
-				if( $j( '#' + transitionOverlayId ).length == 0 ){
+				if( $( '#' + transitionOverlayId ).length == 0 ){
 
 					// Add the transition to the smilElements "region"
 					// xxx might want to have layout drive the draw a bit more
 					_this.smil.getLayout().getRegionTarget( smilElement ).append(
-						$j('<div />')
+						$('<div />')
 							.attr('id', transitionOverlayId)
 							.addClass( 'smilFillWindow' )
 							.addClass( 'smilTransitionOverlay' )
@@ -145,10 +146,10 @@ mw.SmilTransitions.prototype = {
 				}
 				//mw.log(' SET COLOR:: ' + $transition.attr( 'fadeColor') );
 				// Update the color:
-				$j( '#' + transitionOverlayId ).css( 'background-color', $transition.attr( 'fadeColor'))
+				$( '#' + transitionOverlayId ).css( 'background-color', $transition.attr( 'fadeColor'))
 
 				// Update the overlay opacity
-				$j( '#' + transitionOverlayId ).show().css( 'opacity', percent );
+				$( '#' + transitionOverlayId ).show().css( 'opacity', percent );
 			},
 			'fadeFromColor': function( _this, percent, $transition, smilElement ){
 				// Invert the percentage since we setting opacity from full color we are fading from
@@ -161,7 +162,7 @@ mw.SmilTransitions.prototype = {
 			},
 			'crossfade': function( _this, percent, $transition, smilElement ){
 				// fade "ourselves" ... in cases of overlapping timelines this will create a true cross fade
-				$j( '#' + _this.smil.getSmilElementPlayerID( smilElement ) ).css( 'opacity', percent );
+				$( '#' + _this.smil.getSmilElementPlayerID( smilElement ) ).css( 'opacity', percent );
 			}
 		}
 	},
@@ -169,6 +170,6 @@ mw.SmilTransitions.prototype = {
 	getTransitionOverlayId: function( $transition, smilElement) {
 		 return this.smil.getSmilElementPlayerID( smilElement ) + '_' + $transition.attr('id');
 	}
+};
 
-
-}
+} )( window.mediaWiki, window.jQuery );

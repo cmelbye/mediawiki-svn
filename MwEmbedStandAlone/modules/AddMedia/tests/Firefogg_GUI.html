@@ -96,31 +96,31 @@ display:none;
 <script type="text/javascript">
 mw.ready(function(){
 	mw.load( 'AddMedia.FirefoggGUI', function(){
-		$j('#firefogg_app').firefoggGUI({
+		$('#firefogg_app').firefoggGUI({
 			'encoder_interface'	: true,
 			'encode_local' 		: true
 		});
-		$j( '#fogg-status' ).append(
+		$( '#fogg-status' ).append(
 			gM('fogg-wont-upload-to-server' ),
-			$j('<br />' ), $j('<br />' )
+			$('<br />' ), $('<br />' )
 		);
 
 		for( var i = 0; i < langSupported.length; i++ ){
 			var urlParts = mw.parseUri( document.URL );
-			$j( '#fogg-status' ).append(
-				$j('<a />').text(
+			$( '#fogg-status' ).append(
+				$('<a />').text(
 					mw.Language.names[	langSupported[i] ]
 				)
 				.attr( {
 					'href': urlParts.protocol + '://' + urlParts.host +
 						urlParts.path + '?uselang=' + langSupported[i]
 				} ),
-				$j('<span />').text( ' | ' )
+				$('<span />').text( ' | ' )
 			)
 		}
-		$j( '#fogg-status' ).append(
-			$j( '<br />'),	$j( '<br />'),
-			$j( '<a />' )
+		$( '#fogg-status' ).append(
+			$( '<br />'),	$( '<br />'),
+			$( '<a />' )
 			.attr( {
 				'href': "http://translatewiki.net/w/i.php?title=Special%3ATranslate&task=untranslated&group=ext-addmediawizard-addmedia&language=en&limit=100",
 				'target' : '_new'
@@ -128,7 +128,7 @@ mw.ready(function(){
 			.text( 'Help Translate' )
 		)
 		// once we translate fogg-gui-title we can uncomment this line:
-		// $j( '#foggMakeTitle').text( gM('fogg-gui-title') );
+		// $( '#foggMakeTitle').text( gM('fogg-gui-title') );
 	});
 
 });

@@ -3,7 +3,7 @@
 */
 
 //Wrap in mw closure
-( function( mw ) {
+( function( mw, $ ) {
 
 mw.SequencerAddMedia = function( sequencer ) {
 	return this.init( sequencer );
@@ -54,17 +54,17 @@ mw.SequencerAddMedia.prototype = {
 				callback( _this.remoteSearchDriver );
 			});
 		} else {
-			callback (_this.remoteSearchDriver )
+			callback (_this.remoteSearchDriver );
 		}
 	},
 	// Get the menu widget that drives the search and upload tab selection
 	getMenuWidget: function(){
 		var _this = this;
 		var widgetFocus = false;
-		return $j('<span />')
+		return $('<span />')
 			.append(
-				$j('<form />').append(
-					$j('<input />')
+				$('<form />').append(
+					$('<input />')
 					.addClass( 'searchMedia')
 					.val(
 						_this.getDefaultSearchText()
@@ -73,7 +73,7 @@ mw.SequencerAddMedia.prototype = {
 					.focus( function(){
 						// on the first focus clear the input and update the color
 						if( !widgetFocus ){
-							$j(this)
+							$(this)
 							.css('color', '#000')
 							.val('');
 						}
@@ -106,7 +106,7 @@ mw.SequencerAddMedia.prototype = {
 					// don't follow the button link
 					return false;
 				})
-			)
+			);
 	},
 	proccessRequest: function(){
 		var _this = this;
@@ -133,11 +133,11 @@ mw.SequencerAddMedia.prototype = {
 	 */
 	getResourceFromAsset: function( asset ){
 		var _this = this;
-		if( ! $j( asset ).attr('id') ){
-			mw.log( "Error getResourceFromAsset:: missing asset id" + $j( asset ).attr('id') );
+		if( ! $( asset ).attr('id') ){
+			mw.log( "Error getResourceFromAsset:: missing asset id" + $( asset ).attr('id') );
 			return false;
 		}
-		return _this.remoteSearchDriver.getResourceFromId( $j( asset ).attr('id') );
+		return _this.remoteSearchDriver.getResourceFromId( $( asset ).attr('id') );
 	},
 
 	/**
@@ -149,14 +149,14 @@ mw.SequencerAddMedia.prototype = {
 		this.sequencer.getEditToolTarget()
 			.find(".rsd_res_item")
 			.draggable({
-				connectToSortable: $j( _this.sequencer.getTimeline().getTracksContainer().find('.clipTrackSet') ),
+				connectToSortable: $( _this.sequencer.getTimeline().getTracksContainer().find('.clipTrackSet') ),
 				start: function( event, ui ){
 					// give the target timeline some extra space:
 					_this.sequencer.getTimeline().expandTrackSetSize();
 				},
 				helper: function() {
 					// Append a li to the sortable list
-					return $j( this )
+					return $( this )
 						.clone ()
 						.appendTo( 'body' )
 						.css({
@@ -174,13 +174,13 @@ mw.SequencerAddMedia.prototype = {
 	 *  a smil xml tree
 	 */
 	getSmilClipFromAsset: function( assetElement, callback ){
-		var resource = this.getResourceFromAsset( assetElement )
+		var resource = this.getResourceFromAsset( assetElement );
 		this.getSmilClipFromResource ( resource, callback );
 	},
 
 	getSmilClipFromWikiTemplate: function( titleKey, providerKey, callback){
 		mw.log('SequencerAddMedia::getSmilClipFromWikiTemplate: ' + titleKey + ' provider: ' + providerKey);
-		return $j( '<ref />' )
+		return $( '<ref />' )
 			.attr({
 				'type': "application/x-wikitemplate",
 				'apiTitleKey' : titleKey,
@@ -188,7 +188,7 @@ mw.SequencerAddMedia.prototype = {
 				'apiProvider' : providerKey,
 				// Set template based titles to default image duration:
 				'dur': mw.getConfig( 'Sequencer.AddMediaImageDuration' )
-			})
+			});
 	},
 
 	/**
@@ -212,7 +212,7 @@ mw.SequencerAddMedia.prototype = {
 		if( resource.mime.indexOf( 'audio/') != -1 ){
 			tagType = 'audio';
 		}
-		var $smilRef = $j( '<' + tagType + ' />')
+		var $smilRef = $( '<' + tagType + ' />');
 
 		// Set the default duration for images
 		if( tagType == 'img' ){
@@ -232,7 +232,7 @@ mw.SequencerAddMedia.prototype = {
 			'title' : 'title',
 			'src' : 'src',
 			'poster' : 'poster'
-		}
+		};
 		for( var i in resourceAttributeMap ){
 			if( resource[i] ){
 				$smilRef.attr( resourceAttributeMap[i], resource[i] );
@@ -246,12 +246,12 @@ mw.SequencerAddMedia.prototype = {
 		for( var i in resourceParamMap ){
 			if( resource[i] ){
 				$smilRef.append(
-					$j( '<param />')
+					$( '<param />')
 					.attr({
 						'name' : resourceParamMap[i],
 						'value' : resource[i]
 					})
-				)
+				);
 			}
 		}
 		// Check if the source asset is smaller than our target import size in both width and height:
@@ -264,7 +264,7 @@ mw.SequencerAddMedia.prototype = {
 		}
 
 		// Get the dominate aspect ratio so we can
-		var targetAspect = mw.getConfig( 'Sequencer.AddMediaImageWidth' ) / mw.getConfig( 'Sequencer.AddMediaImageHeight' )
+		var targetAspect = mw.getConfig( 'Sequencer.AddMediaImageWidth' ) / mw.getConfig( 'Sequencer.AddMediaImageHeight' );
 		var fileAspect = resource.width / resource.height;
 
 		var requestWidth = mw.getConfig( 'Sequencer.AddMediaImageWidth' );
@@ -280,11 +280,11 @@ mw.SequencerAddMedia.prototype = {
 				'width' : requestWidth
 			},
 			function( imageObj ){
-				$smilRef.attr('src', imageObj.url )
+				$smilRef.attr('src', imageObj.url );
 				callback( $smilRef.get(0) );
 			}
 		)
 	}
 }
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

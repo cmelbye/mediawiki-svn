@@ -2,7 +2,7 @@
  * Simple form output jquery binding
  * enables dynamic form output to a given target
  */
-
+( function( mw, $ ) {
 mw.addMessages( {
 	"mwe-select_file" : "Select file",
 	"mwe-select_ownwork" : "I am uploading entirely my own work, and licensing it under:",
@@ -65,20 +65,20 @@ mw.UploadForm = { };
 		}
 
 		// Build out the menu
-		$j( uploadMenuTarget ).empty().append(
-			$j( '<span />' )
+		$( uploadMenuTarget ).empty().append(
+			$( '<span />' )
 			.text(
 				gM('mwe-i-would-like-to' )
 			),
 
-			$j( '<br />' )
+			$( '<br />' )
 		);
 
 
 
 		// Set provider Target
 		for( var uploadTargetId in options.uploadTargets ){
-			$j( uploadMenuTarget ).append(
+			$( uploadMenuTarget ).append(
 				getProviderUploadLinks( uploadTargetId )
 			);
 		}
@@ -100,14 +100,14 @@ mw.UploadForm = { };
 
 		// First do a reality check on the options:
 		if ( !options.apiUrl ) {
-			$j( options.target ).html( 'Error: Missing api target' );
+			$( options.target ).html( 'Error: Missing api target' );
 			return false;
 		}
 
 		// Get an edit Token for "uploading"
 		mw.getToken( options.apiUrl, 'File:MyRandomFileTokenCheck.jpg', function( eToken ) {
 			if ( !eToken || eToken == '+\\' ) {
-				$j( options.target ).html( gM( 'mwe-error_not_loggedin' ) );
+				$( options.target ).html( gM( 'mwe-error_not_loggedin' ) );
 				return false;
 			}
 			// Update the options Token
@@ -117,7 +117,7 @@ mw.UploadForm = { };
 			mw.getUserName( options.apiUrl, function( userName ) {
 				if( !userName ) {
 					gM( 'mwe-error-not-loggedin-file',
-					 	$j( '<a />' )
+					 	$( '<a />' )
 					 	.text( gM('mwe-link-login') )
 					 	.attr('attr', options.apiUrl.replace( 'api.php', 'index.php' ) + '?title=Special:UserLogin' )
 					 )
@@ -129,14 +129,14 @@ mw.UploadForm = { };
 				addUploadForm( options );
 
 				// By default disable:
-				$j( '#wpUploadBtn' ).attr( 'disabled', 'disabled' );
+				$( '#wpUploadBtn' ).attr( 'disabled', 'disabled' );
 
 				// Set up basic license binding:
-				$j( '#wpLicence' ).click( function( ) {
-					if ( $j( this ).is( ':checked' ) ) {
-						$j( '#wpUploadBtn' ).removeAttr( 'disabled' );
+				$( '#wpLicence' ).click( function( ) {
+					if ( $( this ).is( ':checked' ) ) {
+						$( '#wpUploadBtn' ).removeAttr( 'disabled' );
 					} else {
-						$j( '#wpUploadBtn' ).attr( 'disabled', 'disabled' );
+						$( '#wpUploadBtn' ).attr( 'disabled', 'disabled' );
 					}
 				} );
 
@@ -153,8 +153,8 @@ mw.UploadForm = { };
 				}
 
 				// Do remote or local destination check:
-				$j( "#wpDestFile" ).change( function( ) {
-					$j( "#wpDestFile" ).doDestCheck( {
+				$( "#wpDestFile" ).change( function( ) {
+					$( "#wpDestFile" ).doDestCheck( {
 						'apiUrl' : options.apiUrl,
 						'warn_target':'#wpDestFile-warning'
 					} );
@@ -171,7 +171,7 @@ mw.UploadForm = { };
 	function setupLocalUploadBindings( options ) {
 
 		mw.load( 'AddMedia.firefogg', function( ) {
-			$j( "#wpUploadFile" ).firefogg( {
+			$( "#wpUploadFile" ).firefogg( {
 				// An api url (we won't submit directly to action of the form)
 				'apiUrl' : options.apiUrl,
 
@@ -186,8 +186,8 @@ mw.UploadForm = { };
 
 				'selectFileCb' : function( fileName ) {
 					// Update our local target:
-					$j('#wpDestFile').val( fileName );
-					$j( "#wpDestFile" ).doDestCheck( {
+					$('#wpDestFile').val( fileName );
+					$( "#wpDestFile" ).doDestCheck( {
 						'apiUrl' : options.apiUrl,
 						'warn_target' : "#wpDestFile-warning"
 					} );
@@ -195,7 +195,7 @@ mw.UploadForm = { };
 
 				'returnToFormCb' : function(){
 					// Enable upload button and remove loader
-					$j( '#wpUploadBtn' )
+					$( '#wpUploadBtn' )
 					.attr( 'disabled', null )
 					.parent()
 					.find( '.loadingSpinner' )
@@ -217,8 +217,8 @@ mw.UploadForm = { };
 		// Update with basic info template:
 		// TODO: it would be nice to have a template generator class
 		// this is basically a simple version of the commons form hack
-		var desc = $j('#comment-desc').val();
-		var date = $j('#comment-date').val();
+		var desc = $('#comment-desc').val();
+		var date = $('#comment-date').val();
 
 		if( !options.userName ){
 			mw.log( "Error:: buildAssetDescription :: no userName" );
@@ -226,7 +226,7 @@ mw.UploadForm = { };
 
 		// Update the template if the user does not already have template code:
 		if( desc.indexOf('{{Information') == -1) {
-			$j('#wpUploadDescription').val(
+			$('#wpUploadDescription').val(
 				'== {{int:filedesc}} ==' + "\n" +
 				'{{Information' + "\n" +
 				'|Description={{en|' + desc + "\n}}\n" +
@@ -248,7 +248,7 @@ mw.UploadForm = { };
 		// Set the "firefogg warning"
 		// ( note AddMedia.firefogg will be loaded by the same url should be cached )
 		mw.load( 'AddMedia.firefogg', function( ) {
-			$j( options.target ).find( '.remote-browse-file' ).firefogg( {
+			$( options.target ).find( '.remote-browse-file' ).firefogg( {
 				'installCheckMode' : true
 			});
 		} );
@@ -256,7 +256,7 @@ mw.UploadForm = { };
 		mw.load( 'ApiProxy', function( ) {
 			var fileIframeName = mw.ApiProxy.browseFile( {
 				//Target div to put the iframe browser button:
-				'target' : 	$j( options.target ).find( '.remote-browse-file' ),
+				'target' : 	$( options.target ).find( '.remote-browse-file' ),
 
 				'token' : options.eToken,
 
@@ -269,16 +269,16 @@ mw.UploadForm = { };
 				// File Destination Name change callback:
 				'selectFileCb' : function( fileName ) {
 					// Update our local target:
-					$j('#wpDestFile').val( fileName );
+					$('#wpDestFile').val( fileName );
 					// Run a destination file name check on the remote target
-					$j('#wpDestFile').doDestCheck( {
+					$('#wpDestFile').doDestCheck( {
 						'apiUrl' : options.apiUrl,
 						'warn_target': '#file-warning'
 					} );
 				},
 				'returnToFormCb' : function(){
 					// Enable upload button and remove loader
-					$j( '#wpUploadBtn' )
+					$( '#wpUploadBtn' )
 					.attr( 'disabled', null )
 					.parent()
 					.find( '.loadingSpinner' )
@@ -289,7 +289,7 @@ mw.UploadForm = { };
 					mw.log("timed out in setting up setupApiFileBrowseProxy");
 					$targetFileBrowse.html(
 						gM( 'mwe-error-not-loggedin-file',
-						 	$j( '<a />' )
+						 	$( '<a />' )
 						 	.text( gM('mwe-link-login') )
 						 	.attr('attr', options.apiUrl.replace( 'api.php', 'index.php' ) + '?title=Special:UserLogin' )
 						 )
@@ -298,28 +298,28 @@ mw.UploadForm = { };
 			} );
 
 			// Setup submit binding:
-			$j('#wpUploadBtn').click( function(){
+			$('#wpUploadBtn').click( function(){
 
 				// Update the asset description:
 				buildAssetDescription( options );
 
 				// Dissable upload button and add loader:
-				$j( '#wpUploadBtn' )
+				$( '#wpUploadBtn' )
 				.attr( 'disabled', 'disabled' )
 				.before(
-					$j('<span />').loadingSpinner()
+					$('<span />').loadingSpinner()
 				);
 
 				// Setup the form data:
 				var formData = {
-					'filename' : $j( '#wpDestFile' ).val(),
-					'comment' : $j( '#wpUploadDescription' ).val()
+					'filename' : $( '#wpDestFile' ).val(),
+					'comment' : $( '#wpUploadDescription' ).val()
 				}
 
-				if( $j( '#wpWatchthis' ).is( ':checked' ) ) {
+				if( $( '#wpWatchthis' ).is( ':checked' ) ) {
 					formData[ 'watch' ] = 'true';
 				}
-				if( $j('#wpIgnoreWarning' ).is( ':checked' ) ) {
+				if( $('#wpIgnoreWarning' ).is( ':checked' ) ) {
 					formData[ 'ignorewarnings' ] = 'true';
 				}
 
@@ -335,7 +335,7 @@ mw.UploadForm = { };
 			} );
 
 			// Overwide the form submit:
-			$j( '#suf_upload' ).submit( function(){
+			$( '#suf_upload' ).submit( function(){
 				// Only support form submit via button click
 				return false;
 			});
@@ -353,19 +353,19 @@ mw.UploadForm = { };
 		var searchProvider = remoteSearchDriver.content_providers[ uploadTargetId ];
 
 		var apiUrl = uploadProvider.apiUrl;
-		$uploadLinksContainer = $j( '<div />' );
+		$uploadLinksContainer = $( '<div />' );
 
 		if( uploadProvider.providerDescription ){
-			$uploadLinksContainer.append( $j('<br />'),
+			$uploadLinksContainer.append( $('<br />'),
 				uploadProvider.providerDescription
 			);
 		}
-		var $uploadLinksList = 	$j('<ul />');
+		var $uploadLinksList = 	$('<ul />');
 
 		// Upload your own file
 		$uploadLinksList.append(
-			$j('<li />').append(
-				$j( '<a />' )
+			$('<li />').append(
+				$( '<a />' )
 				.attr( {
 					'href' : '#'
 				} )
@@ -379,7 +379,7 @@ mw.UploadForm = { };
 						return false;
 					}
 
-					$j( uploadMenuTarget ).empty().loadingSpinner();
+					$( uploadMenuTarget ).empty().loadingSpinner();
 
 					// if selectUploadProviderCb is set run the callback
 					if( selectUploadProviderCb ) {
@@ -418,8 +418,8 @@ mw.UploadForm = { };
 
 		// Upload a file not your own ( link to special:upload for that api url )
 		$uploadLinksList.append (
-			$j('<li />').append(
-				$j( '<a />' )
+			$('<li />').append(
+				$( '<a />' )
 				.attr( {
 					'href' : '#',
 					'target' : '_new'
@@ -445,9 +445,9 @@ mw.UploadForm = { };
 	function showUploadInTab(uploadTargetId, uploadMenuTarget, msgKey ){
 		var uploadProvider = remoteSearchDriver.getUploadTargets()[ uploadTargetId ];
 		//Show refresh link
-		$j( uploadMenuTarget ).empty().html(
+		$( uploadMenuTarget ).empty().html(
 			gM( msgKey,
-				$j('<a />')
+				$('<a />')
 				.attr( {
 					'href' : uploadProvider.uploadPage,
 					'target' : "_new"
@@ -456,7 +456,7 @@ mw.UploadForm = { };
 					gM("mwe-upload-in-new-win-link")
 				),
 
-				$j('<a />')
+				$('<a />')
 				.attr( {
 					'href' : '#'
 				} )
@@ -468,7 +468,7 @@ mw.UploadForm = { };
 		);
 		// NOTE: if gM supported jquery object a bit better
 		// we could bind the link above in the gM call
-		$j( uploadMenuTarget ).find( '.user-upload-refresh' )
+		$( uploadMenuTarget ).find( '.user-upload-refresh' )
 		.click( function( ) {
 			remoteSearchDriver.showUserRecentUploads( uploadTargetId );
 			return false;
@@ -485,8 +485,8 @@ mw.UploadForm = { };
 		}
 
 		// Build an upload form:
-		$j( options.target ).empty().append(
-			$j( '<form />' ).attr( {
+		$( options.target ).empty().append(
+			$( '<form />' ).attr( {
 				'id' : "suf_upload",
 				'name' : "suf_upload",
 				'enctype' : "multipart/form-data",
@@ -496,25 +496,25 @@ mw.UploadForm = { };
 		);
 
 		//Set the uploadForm target
-		var $uploadForm = $j( options.target ).find('#suf_upload');
+		var $uploadForm = $( options.target ).find('#suf_upload');
 
 		// Add hidden input
 		$uploadForm.append(
-			$j( '<input />')
+			$( '<input />')
 			.attr( {
 				'type' : "hidden",
 				'name' : "action",
 				'value' : "upload"
 			}),
 
-			$j( '<input />')
+			$( '<input />')
 			.attr( {
 				'type' : "hidden",
 				'name' : "format",
 				'value' : "jsonfm"
 			}),
 
-			$j( '<input />')
+			$( '<input />')
 			.attr( {
 				'type' : "hidden",
 				'id' : "wpEditToken",
@@ -525,18 +525,18 @@ mw.UploadForm = { };
 
 		// Add upload File input
 		$uploadForm.append(
-			$j( '<label />' ).attr({
+			$( '<label />' ).attr({
 				'for' : "wpUploadFile"
 			})
 			.text( gM( 'mwe-select_file' ) ),
 
-			$j( '<br />' )
+			$( '<br />' )
 		);
 
 		// Output the upload file button ( check for cross domain )
 		if( mw.isLocalDomain( options.apiUrl ) ) {
 			$uploadForm.append(
-				$j( '<input />')
+				$( '<input />')
 				.attr( {
 					'id' : 'wpUploadFile',
 					'type' : "file",
@@ -545,7 +545,7 @@ mw.UploadForm = { };
 				} )
 				.css( 'display', 'inline' ),
 
-				$j( '<br />' )
+				$( '<br />' )
 			);
 		} else {
 			/**
@@ -554,7 +554,7 @@ mw.UploadForm = { };
 			* to the target api location
 			*/
 			$uploadForm.append(
-				$j( '<div />' )
+				$( '<div />' )
 				.addClass( 'remote-browse-file' )
 				.loadingSpinner()
 			);
@@ -562,14 +562,14 @@ mw.UploadForm = { };
 
 		// Add destination fileName
 		$uploadForm.append(
-			$j( '<label />' ).attr({
+			$( '<label />' ).attr({
 				'for' : "wpDestFile"
 			})
 			.text( gM( 'mwe-destfilename' ) ),
 
-			$j( '<br />' ),
+			$( '<br />' ),
 
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'id' : 'wpDestFile',
 				'name' : 'wpDestFile',
@@ -582,16 +582,16 @@ mw.UploadForm = { };
 
 		// Add upload description:
 		$uploadForm.append(
-			$j( '<br />' ),
-			$j( '<label />' )
+			$( '<br />' ),
+			$( '<label />' )
 			.attr({
 				'for' : "comment-desc"
 			})
 			.text( gM( 'mwe-summary' ) ),
 
-			$j( '<br />' ),
+			$( '<br />' ),
 
-			$j( '<textarea />' )
+			$( '<textarea />' )
 			.attr( {
 				'id' : "comment-desc",
 				'cols' : "30",
@@ -600,11 +600,11 @@ mw.UploadForm = { };
 				'tabindex' : "3"
 			} ),
 
-			$j( '<br />' )
+			$( '<br />' )
 		);
 		// Add the hidden wpUploadDescription
 		$uploadForm.append(
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'id' : "wpUploadDescription",
 				'type' : "hidden",
@@ -615,15 +615,15 @@ mw.UploadForm = { };
 
 		//Add date of work
 		$uploadForm.append(
-			$j( '<label />' )
+			$( '<label />' )
 			.attr({
 				'for' : "comment-date"
 			})
 			.text( gM( 'mwe-date-of-work' ) ),
 
-			$j( '<br />' ),
+			$( '<br />' ),
 
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'id' : "comment-date",
 				'size' : 15,
@@ -636,17 +636,17 @@ mw.UploadForm = { };
 				verticalOffset: 40,
 				dateFormat: 'yy-mm-dd',
 				onSelect: function( dateText ) {
-					$j( this ).val( dateText );
+					$( this ).val( dateText );
 				},
 				beforeShow: function() {
-					$j('#ui-datepicker-div').css({
+					$('#ui-datepicker-div').css({
 						'z-index': 10001
 					});
 					return true;
 				}
 			}),
 
-			$j( '<br />' )
+			$( '<br />' )
 		);
 
 
@@ -654,7 +654,7 @@ mw.UploadForm = { };
 
 		// Add watchlist checkbox
 		$uploadForm.append(
-			$j('<input />')
+			$('<input />')
 			.attr({
 				'type' : 'checkbox',
 				'value' : 'true',
@@ -663,7 +663,7 @@ mw.UploadForm = { };
 				'tabindex' : "5"
 			}),
 
-			$j( '<label />' )
+			$( '<label />' )
 			.attr( {
 				'for' : "wpWatchthis"
 			} )
@@ -672,7 +672,7 @@ mw.UploadForm = { };
 
 		// Add ignore warning checkbox:
 		$uploadForm.append(
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'type' : "checkbox",
 				'value' : "true",
@@ -681,7 +681,7 @@ mw.UploadForm = { };
 				'tabindex' : "6"
 			} ),
 
-			$j( '<label />' )
+			$( '<label />' )
 			.attr({
 				'for' : "wpIgnoreWarning"
 			})
@@ -689,32 +689,32 @@ mw.UploadForm = { };
 				gM( 'mwe-ignore-any-warnings' )
 			),
 
-			$j( '<br />' )
+			$( '<br />' )
 		);
 
 		// Add warning div:
 		$uploadForm.append(
-			$j( '<div />' )
+			$( '<div />' )
 			.attr({
 				'id' : "wpDestFile-warning"
 			}),
 
-			$j( '<div />' )
+			$( '<div />' )
 			.css( {
 				'clear' : 'both'
 			}),
 
-			$j( '<p />' )
+			$( '<p />' )
 		);
 
 		// Add own work text and checkbox:
 		$uploadForm.append(
-			$j( '<span />')
+			$( '<span />')
 			.text( gM( 'mwe-select_ownwork' ) ),
 
-			$j( '<br />' ),
+			$( '<br />' ),
 
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'type' : "checkbox",
 				'id' : "wpLicence",
@@ -722,15 +722,15 @@ mw.UploadForm = { };
 				'value' : "cc-by-sa"
 			}),
 
-			$j( '<span />' )
+			$( '<span />' )
 			.text( gM( 'mwe-license_cc-by-sa' ) ),
 
-			$j( '<p />' )
+			$( '<p />' )
 		);
 
 		// Add the submit button:
 		$uploadForm.append(
-			$j( '<input />' )
+			$( '<input />' )
 			.attr( {
 				'type' : "submit",
 				'accesskey' : "s",
@@ -745,4 +745,4 @@ mw.UploadForm = { };
 	};
 
 
-} )( window.mw.UploadForm );
+} )( window.mediaWiki, window.jQuery );

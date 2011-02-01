@@ -5,7 +5,7 @@
  */
 
 // scope in mw
-( function( mw ) {
+( function( mw, $ ) {
 	mw.KDPMapping = function( ) {
 		// Create a Player Manage
 		return this.init();
@@ -32,30 +32,30 @@
 			var _this = this;
 
 			// Add the hooks to the player manager			
-			$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {		
+			$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {		
 				// Add the addJsListener and sendNotification maps
 				embedPlayer.addJsListener = function(listenerString, globalFuncName){
-					_this.addJsListener( embedPlayer, listenerString, window[ globalFuncName ] )
-				}
+					_this.addJsListener( embedPlayer, listenerString, window[ globalFuncName ] );
+				};
 				
 				embedPlayer.removeJsListener = function(listenerString, callback){
-					_this.removeJsListener( embedPlayer, listenerString, callback )
-				}				
+					_this.removeJsListener( embedPlayer, listenerString, callback );
+				};		
 				
 				embedPlayer.sendNotification = function( notificationName, notificationData ){
-					_this.sendNotification( embedPlayer, notificationName, notificationData)
-				}
+					_this.sendNotification( embedPlayer, notificationName, notificationData);
+				};
 				
 				embedPlayer.evaluate = function( objectString ){
 					return _this.evaluate( embedPlayer, objectString);
-				}
+				};
 				
 				// TODO per KDP docs this should be "setAttribute" but thats a protected native method. 
 				// the emulation has to do something more tricky like listen to componentName changes 
 				// in the attribute space!
 				embedPlayer.setKDPAttribute = function( componentName, property, value ) {
 					_this.setKDPAttribute( embedPlayer, componentName, property, value );
-				}
+				};
 			});
 		},
 		
@@ -66,19 +66,19 @@
 			var _this = this;
 			mw.log( "KDPMapping::addIframePlayerHooksClient" );
 
-			$j( mw ).bind( 'AddIframePlayerMethods', function( event, playerMethods ){
+			$( mw ).bind( 'AddIframePlayerMethods', function( event, playerMethods ){
 				playerMethods.push( 'addJsListener',  'sendNotification' );
 				// NOTE we don't export evaluate since we need to run it synchronously
 			});
 			
-			$j( mw ).bind( 'newIframePlayerClientSide', function( event, playerProxy ) {		
-				$j( playerProxy ).bind('jsListenerEvent', function(event, globalFuncName, listenerArgs){
+			$( mw ).bind( 'newIframePlayerClientSide', function( event, playerProxy ) {		
+				$( playerProxy ).bind('jsListenerEvent', function(event, globalFuncName, listenerArgs){
 					window[ globalFuncName ].apply( this, listenerArgs );
-				})
+				});
 				// Directly build out the evaluate call on the playerProxy
 				playerProxy.evaluate = function( objectString ){
 					return _this.evaluate( playerProxy, objectString);					
-				}
+				};
 			});
 			
 		},
@@ -90,23 +90,23 @@
 			var _this = this;
 			mw.log("KDPMapping::addIframePlayerHooksServer");
 			
-			$j( mw ).bind( 'AddIframePlayerBindings', function( event, exportedBindings){
+			$( mw ).bind( 'AddIframePlayerBindings', function( event, exportedBindings){
 				exportedBindings.push( 'jsListenerEvent' );
 			});
 			
-			$j( mw ).bind( 'newIframePlayerServerSide', function( event, embedPlayer ){
+			$( mw ).bind( 'newIframePlayerServerSide', function( event, embedPlayer ){
 				
 				embedPlayer.addJsListener = function(listenerString, globalFuncName){
 					_this.addJsListener(embedPlayer, listenerString, function(){
 						var args = [ globalFuncName, $j.makeArray( arguments ) ];
-						$j( embedPlayer ).trigger( 'jsListenerEvent', args )
+						$( embedPlayer ).trigger( 'jsListenerEvent', args );
 					});
 				};
 				
 				// Identical to non-iframe sendNotification
 				embedPlayer.sendNotification = function( notificationName, notificationData ){
-					_this.sendNotification( embedPlayer, notificationName, notificationData)
-				}
+					_this.sendNotification( embedPlayer, notificationName, notificationData);
+				};
 				
 			});
 		},
@@ -184,23 +184,23 @@
 			//mw.log("KDPMapping:: addJsListener: " + eventName + ' cb:' + callbackFuncName );			
 			switch( eventName ){
 				case 'volumeChanged': 
-					$j( embedPlayer ).bind('volumeChanged', function(percent){
+					$( embedPlayer ).bind('volumeChanged', function(percent){
 						callback( {'newVolume' : percent }, embedPlayer.id );
 					});
 				break;
 				case 'playerStateChange':					
 					// Kind of tricky should do a few bindings to 'pause', 'play', 'ended', 'buffering/loading'
-					$j( embedPlayer ).bind('pause', function(){						
+					$( embedPlayer ).bind('pause', function(){						
 						callback( 'pause', embedPlayer.id );
 					});
 					
-					$j( embedPlayer ).bind('play', function(){
+					$( embedPlayer ).bind('play', function(){
 						callback( 'play', embedPlayer.id );
 					});
 					
 					break;
 				case 'playerPlayEnd': 
-					$j( embedPlayer ).bind("ended", function(){
+					$( embedPlayer ).bind("ended", function(){
 						// TODO document what data ended should include
 						callback( {}, embedPlayer.id );
 					});
@@ -209,12 +209,12 @@
 					// TODO add in duration change support
 					break;
 				case 'playerUpdatePlayhead':
-					$j( embedPlayer ).bind('monitorEvent', function(){
+					$( embedPlayer ).bind('monitorEvent', function(){
 						callback( embedPlayer.currentTime,  embedPlayer.id );
-					})
+					});
 					break;	
 				case 'entryReady': 
-					$j( embedPlayer ).bind( 'KalturaSupport.metaDataReady', function( event, meta ) {				
+					$( embedPlayer ).bind( 'KalturaSupport.metaDataReady', function( event, meta ) {				
 						callback( meta );
 					});
 					break;
@@ -229,17 +229,17 @@
 			var callback = window[ callbackFuncName ];
 			switch( eventName ){
 				case 'volumeChanged': 
-					$j( embedPlayer ).unbind('volumeChanged');
+					$( embedPlayer ).unbind('volumeChanged');
 					break;
 				case 'playerStateChange':					
-					$j( embedPlayer ).unbind('pause');
-					$j( embedPlayer ).unbind('play');
+					$( embedPlayer ).unbind('pause');
+					$( embedPlayer ).unbind('play');
 					break;
 				case 'durationChange': 
 					// TODO add in duration change support
 					break;
 				case 'playerUpdatePlayhead':
-					$j( embedPlayer).unbind('monitorEvent');
+					$( embedPlayer).unbind('monitorEvent');
 					break;				
 			}			
 			callback();				
@@ -271,9 +271,9 @@
 					break;
 				case 'changeMedia':
 					// Add a loader to the embed player: 
-					$j( '#' + embedPlayer.pid )
+					$( '#' + embedPlayer.pid )
 					.getAbsoluteOverlaySpinner()
-					.attr('id', embedPlayer.id + '_mappingSpinner' )
+					.attr('id', embedPlayer.id + '_mappingSpinner' );
 					
 					// Update the entry id
 					embedPlayer.kentryid = notificationData.entryId;
@@ -281,7 +281,7 @@
 					// Update the poster
 					embedPlayer.updatePosterSrc( 
 						mw.getKalturaThumbUrl({
-							'partner_id': $j( embedPlayer ).attr( 'kwidgetid' ).replace('_', ''),
+							'partner_id': $( embedPlayer ).attr( 'kwidgetid' ).replace('_', ''),
 							'entry_id' : embedPlayer.kentryid,
 							'width' : embedPlayer.getWidth(),
 							'height' :  embedPlayer.getHeight()
@@ -295,8 +295,8 @@
 					embedPlayer.onDoneInterfaceFlag = false;
 					
 					// Load new sources per the entry id via the checkPlayerSourcesEvent hook:
-					$j( embedPlayer ).triggerQueueCallback( 'CheckPlayerSourcesEvent', function(){
-						$j( '#' + embedPlayer.id + '_mappingSpinner' ).remove();
+					$( embedPlayer ).triggerQueueCallback( 'CheckPlayerSourcesEvent', function(){
+						$( '#' + embedPlayer.id + '_mappingSpinner' ).remove();
 
 						// Check if native player controls ( then switch directly ) type: 
 						if( embedPlayer.useNativePlayerControls() || embedPlayer.isPersistentNativePlayer() ){
@@ -324,4 +324,4 @@
 		window.KDPMapping = new mw.KDPMapping();
 	}
 	
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

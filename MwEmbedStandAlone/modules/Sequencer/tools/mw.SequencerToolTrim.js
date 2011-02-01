@@ -26,13 +26,13 @@ $j.extend( true, mw.SequencerTools.prototype, {
 			'onChange': function( _this, smilElement ){
 				var smil = _this.sequencer.getSmil();
 				// Update the preview thumbs
-				var $target = $j( '#editWidgets_trimTimeline' );
+				var $target = $( '#editWidgets_trimTimeline' );
 				/**
 				 * Currently we disable thumb preview updates since multiple seeks are costly
 				 */
 				/*var updateDurationThumb = function(){
 					// Check the duration:
-					var clipDur = $j('#editTool_trim_dur').val();
+					var clipDur = $('#editTool_trim_dur').val();
 					if( clipDur ){
 						// Render a thumbnail for the updated duration
 						smil.getLayout().drawSmilElementToTarget(
@@ -43,11 +43,11 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					}
 				}
 	
-				var clipBeginTime = $j('#editTool_trim_clipBegin').val();
+				var clipBeginTime = $('#editTool_trim_clipBegin').val();
 				if( !clipBeginTime ){
 					$target.find('.trimStartThumb').hide();
 				} else {
-					mw.log("Should update trimStartThumb::" + $j(smilElement).attr('clipBegin') );
+					mw.log("Should update trimStartThumb::" + $(smilElement).attr('clipBegin') );
 					// Render a thumbnail for relative start time = 0
 					smil.getLayout().drawSmilElementToTarget(
 						smilElement,
@@ -67,12 +67,12 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				var sliderScale = 2000; // assume slider is never more than 2000 pixles wide.
 				// check if thumbs are supported
 				/*if( _this.sequencer.getSmil().getRefType( smilElement ) == 'video' ){
-					$j(target).append(
-						$j('<div />')
+					$(target).append(
+						$('<div />')
 						.addClass( 'trimStartThumb ui-corner-all' ),
-						$j('<div />')
+						$('<div />')
 						.addClass( 'trimEndThumb ui-corner-all' ),
-						$j('<div />').addClass('ui-helper-clearfix')
+						$('<div />').addClass('ui-helper-clearfix')
 					)
 				}*/
 				// The local scope fullClipDuration
@@ -93,9 +93,9 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					if( fullClipDuration ){
 						// Update the slider
 						var sliderTime = ( sliderIndex == 0 )? timeToSlider( timeValue ) :
-							timeToSlider( timeValue + smil.parseTime( $j('#' + _this.getEditToolInputId( 'trim', 'clipBegin') ).val() ) );
+							timeToSlider( timeValue + smil.parseTime( $('#' + _this.getEditToolInputId( 'trim', 'clipBegin') ).val() ) );
 	
-						$j('#'+_this.sequencer.id + '_trimTimeline' )
+						$('#'+_this.sequencer.id + '_trimTimeline' )
 							.slider(
 								"values",
 								sliderIndex,
@@ -120,15 +120,15 @@ $j.extend( true, mw.SequencerTools.prototype, {
 				};
 	
 				// Add a trim binding:
-				$j('#' + _this.getEditToolInputId( 'trim', 'clipBegin') )
+				$('#' + _this.getEditToolInputId( 'trim', 'clipBegin') )
 				.change( function(){
-					var timeValue = smil.parseTime( $j(this).val() );
+					var timeValue = smil.parseTime( $(this).val() );
 					onInputChange( 0, timeValue);
 				});
 	
-				 $j('#' + _this.getEditToolInputId( 'trim', 'dur') )
+				 $('#' + _this.getEditToolInputId( 'trim', 'dur') )
 				.change( function(){
-					var timeValue = smil.parseTime( $j(this).val() );
+					var timeValue = smil.parseTime( $(this).val() );
 					onInputChange( 1, timeValue );
 				});
 	
@@ -140,14 +140,14 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					// update the local scope global
 					fullClipDuration = clipDuration;
 	
-					var startSlider = timeToSlider( smil.parseTime( $j('#editTool_trim_clipBegin').val() ) );
+					var startSlider = timeToSlider( smil.parseTime( $('#editTool_trim_clipBegin').val() ) );
 					var sliderValues = [
 						startSlider,
-						startSlider + timeToSlider( smil.parseTime( $j('#editTool_trim_dur').val() ) )
+						startSlider + timeToSlider( smil.parseTime( $('#editTool_trim_dur').val() ) )
 					];
 					// Return a trim tool binded to smilElement id update value events.
-					$j(target).append(
-						$j('<div />')
+					$(target).append(
+						$('<div />')
 						.attr( 'id', _this.sequencer.id + '_trimTimeline' )
 						.css({
 							'position': 'absolute',
@@ -162,10 +162,10 @@ $j.extend( true, mw.SequencerTools.prototype, {
 							values: sliderValues,
 							slide: function(event, ui) {
 	
-								$j('#' + _this.getEditToolInputId( 'trim', 'clipBegin') ).val(
+								$('#' + _this.getEditToolInputId( 'trim', 'clipBegin') ).val(
 									mw.seconds2npt( sliderToTime( ui.values[0] ), true )
 								);
-								$j('#' + _this.getEditToolInputId( 'trim', 'dur') ).val(
+								$('#' + _this.getEditToolInputId( 'trim', 'dur') ).val(
 									mw.seconds2npt( sliderToTime( ui.values[1] - ui.values[0] ), true )
 								);
 							},

@@ -127,12 +127,12 @@ $(document).ready(function() {
 /*
 // when mw is ready we can begin programming it
 mw.ready( function(){
-	vid =  $j('#myVid');
+	vid =  $('#myVid');
 
     vid.bind( "play", function(e) { logME('* playback started'); });
 
   
-  vidcon = $j('#vid1');
+  vidcon = $('#vid1');
   console.log(vidcon);
 
     vid.addEventListener( "ended", function(e) { logME('* playback ended'); });
@@ -147,7 +147,7 @@ mw.ready( function(){
     //vid.bind( 'seeking', function(e) { logME('* seeking fired') });
 
   
-  //$j(mediaEvents).each(function (i, e) {
+  //$(mediaEvents).each(function (i, e) {
     //var event = e.event;
     //console.log( event ); // function(e) { logME('* ' + e.event + ' fired: ' + e.logMessage); console.log(e); });
     //console.log( e.logMessage );
@@ -161,19 +161,19 @@ mw.ready( function(){
 
 	//update the player and selected src
 	function updateTypeLoop(){
-		vid =  $j('#vid1').get(0);
+		vid =  $('#vid1').get(0);
 		if( vid.mediaElement && vid.mediaElement.selectedSource ){
-			$j('#format').text( vid.mediaElement.selectedSource.getTitle() );
+			$('#format').text( vid.mediaElement.selectedSource.getTitle() );
 		}
 		if( vid.selectedPlayer ) {
-			$j('#playertitle').text( vid.selectedPlayer.getName() );
+			$('#playertitle').text( vid.selectedPlayer.getName() );
 		  // setTimeout(updateTypeLoop, 1000);
 	  }
   }
 	setTimeout(updateTypeLoop, 1000);
 	// Chose Player
-	$j('#chooseplayer').click(function(){
-		var vid =  $j('#vid1').get(0);
+	$('#chooseplayer').click(function(){
+		var vid =  $('#vid1').get(0);
 		if( vid ){
 			vid.controlBuilder.displayOverlay(  
 				vid.controlBuilder.getPlayerSelect()
@@ -185,8 +185,8 @@ mw.ready( function(){
   // note we should do a complete event maping: 
 	//	var playerEvents = ['play', 'pause', 'seeking', 'seeked' ];
 	//	$j.each(playerEvents, function( na, eventName ){
-	//		$j('#myVid').bind(eventName, function(){
-	//			$j('#playerLog').append( eventName + "\n");
+	//		$('#myVid').bind(eventName, function(){
+	//			$('#playerLog').append( eventName + "\n");
 			}); 
 		});		
 	});	

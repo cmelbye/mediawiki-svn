@@ -1,7 +1,8 @@
-
+( function( mw, $ ) {
+	
 mw.PlaylistHandlerKaltura = function( options ){
 	return this.init( options );
-}
+};
 
 mw.PlaylistHandlerKaltura.prototype = {
 	clipList:null,
@@ -48,11 +49,11 @@ mw.PlaylistHandlerKaltura.prototype = {
 			
 			
 			// Add all playlists to playlistSet
-			var $uiConf = $j(  playerData.uiConf );				
+			var $uiConf = $(  playerData.uiConf );				
 			
 			// Check for autoContinue ( we check false state so that by default we autoContinue ) 
 			_this.autoContinue = 
-				( $uiConf.find("uiVars [key='playlistAPI.autoContinue']").attr('value') == 'false' )? false: true
+				( $uiConf.find("uiVars [key='playlistAPI.autoContinue']").attr('value') == 'false' )? false: true;
 													
 			// Find all the playlists by number  
 			for( var i=0; i < 50 ; i ++ ){
@@ -62,7 +63,7 @@ mw.PlaylistHandlerKaltura.prototype = {
 					_this.playlistSet.push( { 
 						'name' : playlistName,
 						'playlist_id' : playlist_id
-					} )
+					} );
 				} else {
 					break;
 				}
@@ -81,7 +82,7 @@ mw.PlaylistHandlerKaltura.prototype = {
 		});
 	},
 	hasMultiplePlaylists: function(){
-		return ( this.playlistSet.length > 1 )
+		return ( this.playlistSet.length > 1 );
 	},
 	getPlaylistSet: function(){
 		return this.playlistSet;
@@ -105,11 +106,11 @@ mw.PlaylistHandlerKaltura.prototype = {
 			
 			// The api does strange things with multi-playlist vs single playlist
 			if( playlistDataResult[0].id ){
-				playlistData = playlistDataResult
+				playlistData = playlistDataResult;
 			} else if( playlistDataResult[0][0].id ){
 				playlistData = playlistDataResult[0];
 			} else {
-				mw.log("Error: kaltura playlist:" + playlist_id + " could not load:" + playlistData.code)
+				mw.log("Error: kaltura playlist:" + playlist_id + " could not load:" + playlistData.code);
 			}
 			
 			mw.log( 'kPlaylistGrabber::Got playlist of length::' +   playlistData.length );
@@ -152,11 +153,11 @@ mw.PlaylistHandlerKaltura.prototype = {
 	},
 	
 	applyCustomClipData:function( embedPlayer, clipIndex ){
-		$j( embedPlayer ).attr({
+		$( embedPlayer ).attr({
 			'kentryid' : this.getClip( clipIndex ).id,
 			'kwidgetid' : this.widget_id
 		});		
-		$j( embedPlayer ).data( 'kuiconf', this.uiConfData );
+		$( embedPlayer ).data( 'kuiconf', this.uiConfData );
 	},
 	
 	/**
@@ -176,4 +177,6 @@ mw.PlaylistHandlerKaltura.prototype = {
 	getClipDuration: function ( clipIndex ) {	
 		return this.getClip( clipIndex ).duration;
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

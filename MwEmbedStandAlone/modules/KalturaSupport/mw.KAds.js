@@ -4,19 +4,21 @@
 
 
 //Global mw.addKAd manager
+( function( mw, $ ) {
+	
 mw.addKalturaAds = function( embedPlayer, $adConfig, callback ) {
 	embedPlayer.ads = new mw.KAds( embedPlayer, $adConfig, callback );
-}
+};
 
 mw.sendBeaconUrl = function( beaconUrl ){
-	$j('body').append( 
-		$j( '<img />' ).attr({				
+	$('body').append( 
+		$( '<img />' ).attr({				
 			'src' : beaconUrl,
 			'width' : 0,
 			'height' : 0
 		})
 	);
-}
+};
 
 mw.KAds = function( embedPlayer, $adConfig, callback) {
 	// Create a Player Manager
@@ -88,7 +90,7 @@ mw.KAds.prototype = {
 			}
 		};
 		// Add timeline events: 	
-		$j(namedAdTimelineTypes).each( function( na, adTypePrefix ){		
+		$(namedAdTimelineTypes).each( function( na, adTypePrefix ){		
 			var adConf = {};
 
 			$j.each(adAttributeMap, function( adAttributeName,  displayConfName ){
@@ -110,7 +112,7 @@ mw.KAds.prototype = {
 				});
 			} else {
 				// No async request
-				addAdCheckLoadDone( adTypePrefix, adConf )
+				addAdCheckLoadDone( adTypePrefix, adConf );
 			}
 		});										
 		// Check if no ads had to be loaded ( no ads in _this.$adConfig )
@@ -129,11 +131,11 @@ mw.KAds.prototype = {
 					_this._getCompanionObject( companionType, companions[i]  )
 				);
 			}
-		}
+		};
 		if( this.$adConfig.attr( 'htmlCompanions' ) ) {
 			addCompanions( 'html',  this.$adConfig.attr( 'htmlCompanions' ) );			
 		} else if( this.$adConfig.attr( 'flashCompanions' ) ){
-			addCompanions( 'flash', this.$adConfig.attr( 'flashCompanions' ) )
+			addCompanions( 'flash', this.$adConfig.attr( 'flashCompanions' ) );
 		}
 		return companionTargets;
 	},
@@ -146,4 +148,6 @@ mw.KAds.prototype = {
 			'height' :  companionParts[2]
 		};
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

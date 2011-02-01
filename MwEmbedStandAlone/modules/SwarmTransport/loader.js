@@ -5,7 +5,7 @@
 /**
 * Default player module configuration
 */
-( function( mw ) {
+( function( mw, $ ) {
 
 	mw.addResourcePaths( {
 		"mw.SwarmTransport" : "mw.SwarmTransport.js",
@@ -36,7 +36,7 @@
 	});
 
 	// Add the mw.SwarmTransport to the embedPlayer loader:
-	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
+	$( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		// If the swarm transport is enabled add mw.SwarmTransport to the request.
 		if( mw.getConfig( 'SwarmTransport.Enable' ) ) {
 			
@@ -53,4 +53,4 @@
 		}
 	});
 
-})( window.mw );
+} )( window.mediaWiki, window.jQuery );

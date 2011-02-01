@@ -6,7 +6,7 @@
 
 */
 
-( function( mw ) {
+( function( mw, $ ) {
 
 	// Setup the global mw.Language var:
 	mw.Language = { };
@@ -239,7 +239,7 @@
 					// Setup the jqueryMessage if not set
 					if( !$jQueryMessage ){
 						// Setup the message as html to search for jquery swap points
-						$jQueryMessage = $j( '<span />' ).html( this.message );
+						$jQueryMessage = $( '<span />' ).html( this.message );
 					}
 					mw.log(" current jQueryMessage::: " + $jQueryMessage.html() );
 					// Find swap target
@@ -282,7 +282,7 @@
 	 */
 	mw.Language.isMsgKeyDefined = function( msgKey ){
 		if( messageCache[ msgKey ] ){
-			return true
+			return true;
 		}
 		return false;
 	};
@@ -302,7 +302,7 @@
 			mw.Language.doneSetup = true;
 		}
 
-	}
+	};
 
 	/**
 	 * Plural form transformations, needed for some languages.
@@ -454,7 +454,7 @@
 		// Make sure the langKey has a transformClass:
 		for( var i = 0; i < mw.Language.transformClass.length ; i++ ) {
 			if( langKey == mw.Language.transformClass[i] ){
-				return langKey
+				return langKey;
 			}
 		}
 		// By default return the base 'en' class
@@ -488,7 +488,7 @@
 		var request = {
 			'meta': 'allmessages',
 			'ammessages': ammessages
-		}
+		};
 		mw.getJSON( request, function( data ) {
 			if ( data.query.allmessages ) {
 				var msgs = data.query.allmessages;
@@ -500,7 +500,7 @@
 			}
 			callback();
 		} );
-	}
+	};
 
 	/**
 	 * Format a size in bytes for output, using an appropriate
@@ -565,7 +565,7 @@
 		}
 		// @@todo read language code and give periods or comas:
 		return addSeparatorsNF( num, '.', ',' );
-	}
+	};
 
 
 	/**
@@ -1095,34 +1095,13 @@
 	};
 
 
-}) ( window.mw );
-
-
 // Load in js2 stopgap global msgs into proper location:
 if ( typeof gMsg != 'undefined' ) {
-	mw.addMessages( gMsg )
+	mw.addMessages( gMsg );
 }
 
 // Set global gM shortcut:
 window[ 'gM' ] = mw.getMsg;
 
 
-/**
-* Add the core mvEmbed Messages ( will be localized by script server )
-*/
-mw.addMessages( {
-	"mwe-loading_txt" : "Loading ...",
-	"mwe-size-gigabytes" : "$1 GB",
-	"mwe-size-megabytes" : "$1 MB",
-	"mwe-size-kilobytes" : "$1 K",
-	"mwe-size-bytes" : "$1 B",
-	"mwe-error_load_lib" : "Error: JavaScript $1 was not retrievable or does not define $2",
-	"mwe-apiproxy-setup" : "Setting up API proxy",
-	"mwe-load-drag-item" : "Loading dragged item",
-	"mwe-ok" : "OK",
-	"mwe-cancel" : "Cancel",
-	"mwe-enable-gadget" : "Enable multimedia beta ( mwEmbed ) for all pages",
-	"mwe-enable-gadget-done" : "multimedia beta gadget has been enabled",
-	"mwe-must-login-gadget" : "To enable gadget you must <a target=\"_new\" href=\"$1\">login</a>",
-	"mwe-test-plural" : "I ran {{PLURAL:$1|$1 test|$1 tests}}"
-} );
+} )( window.mediaWiki, window.jQuery );

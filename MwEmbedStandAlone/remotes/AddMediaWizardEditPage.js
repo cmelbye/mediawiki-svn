@@ -32,12 +32,12 @@ mw.ready( function() {
 	var didWikiEditorBind = false;
 
 	// Set-up the drag drop binding (will only work for html5 upload browsers)
-	// $j('textarea#wpTextbox1').dragFileUpload();
+	// $('textarea#wpTextbox1').dragFileUpload();
 
 	// set up the add-media-wizard binding:
 	if ( typeof $j.wikiEditor != 'undefined' ) {
 			// the below seems to be broken :(
-			$j( 'textarea#wpTextbox1' ).bind( 'wikiEditor-toolbar-buildSection-main',
+			$( 'textarea#wpTextbox1' ).bind( 'wikiEditor-toolbar-buildSection-main',
 			function( e, section ) {
 				didWikiEditorBind = true;
 				if ( typeof section.groups.insert.tools.file !== 'undefined' ) {
@@ -59,15 +59,15 @@ mw.ready( function() {
 	}
 	// Add to old toolbar if wikiEditor did not remove '#toolbar' from the page:
 	setTimeout( function() {
-		if ( $j( '#btn-add-media-wiz' ).length == 0 && $j( '#toolbar' ).length != 0 ) {
+		if ( $( '#btn-add-media-wiz' ).length == 0 && $( '#toolbar' ).length != 0 ) {
 			mw.log( 'Do old toolbar bind:' );
 			didWikiEditorBind = true;
-			$j( '#toolbar' ).append( '<img style="cursor:pointer" id="btn-add-media-wiz" src="' +
+			$( '#toolbar' ).append( '<img style="cursor:pointer" id="btn-add-media-wiz" src="' +
 				mw.getConfig( 'imagesPath' ) + 'Button_add_media.png">' );
 
-			$j( '#btn-add-media-wiz' ).attr( 'title', gM( 'mwe-loading-add-media-wiz' ) );
+			$( '#btn-add-media-wiz' ).attr( 'title', gM( 'mwe-loading-add-media-wiz' ) );
 			mw.load( 'AddMedia.addMediaWizard', function() {
-				$j( '#btn-add-media-wiz' ).addMediaWizard(
+				$( '#btn-add-media-wiz' ).addMediaWizard(
 					amwConf
 				);
 			});
@@ -75,7 +75,7 @@ mw.ready( function() {
 		} else {
 			// Make sure the wikieditor got binded:
 			if ( !didWikiEditorBind ) {
-				var $targetFileButton = $j( ".toolbar [rel='file']" );
+				var $targetFileButton = $( ".toolbar [rel='file']" );
 
 				$targetFileButton
 				.attr( 'title', gM( 'mwe-loading-add-media-wiz' ) )

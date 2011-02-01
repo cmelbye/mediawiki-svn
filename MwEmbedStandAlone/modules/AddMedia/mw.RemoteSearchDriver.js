@@ -6,7 +6,8 @@
  *
  * Is optionally extended by Sequence Remote Search Driver
  */
-
+( function( mw, $ ) {
+	
 mw.addMessages( {
 	"mwe-add_media_wizard" : "Add media wizard",
 	"mwe-media_search" : "Media search",
@@ -175,24 +176,22 @@ var default_remote_search_options = {
 /**
 * Set the jQuery bindings:
 */
-( function( $ ) {
 
-	$.fn.addMediaWizard = function( options, callback ) {
-		options['target_invoke_button'] = this.selector;
-		window['rsdMVRS'] = new mw.RemoteSearchDriver( options );
-		if( callback ) {
-			callback( window['rsdMVRS'] );
-		}
+$.fn.addMediaWizard = function( options, callback ) {
+	options['target_invoke_button'] = this.selector;
+	window['rsdMVRS'] = new mw.RemoteSearchDriver( options );
+	if( callback ) {
+		callback( window['rsdMVRS'] );
 	}
+};
 
-	$.addMediaWizard = function( options ) {
-		$.fn.addMediaWizard ( options, function( amwObj ) {
-			// Do the add-media-wizard display
-			amwObj.createUI();
-		} );
-	}
+$.addMediaWizard = function( options ) {
+	$.fn.addMediaWizard ( options, function( amwObj ) {
+		// Do the add-media-wizard display
+		amwObj.createUI();
+	} );
+};
 
-} )( jQuery );
 
 /**
 * Set the mediaWiki globals if unset
@@ -489,7 +488,7 @@ mw.RemoteSearchDriver.prototype = {
 		for ( var provider_id in this.content_providers ) {
 			var provider = this.content_providers[ provider_id ];
 			// Set the provider id
-			provider[ 'id' ] = provider_id
+			provider[ 'id' ] = provider_id;
 
 			if ( _this.enabled_providers == 'all' && !this.current_provider && provider.apiUrl ) {
 				this.current_provider = provider_id;
@@ -526,7 +525,7 @@ mw.RemoteSearchDriver.prototype = {
 		// Set up the local API upload URL
 		if ( _this.upload_api_target == 'local' ) {
 			if ( ! mw.getLocalApiUrl() ) {
-				$j( this.target_container ).html( gM( 'rsd_config_error', 'missing_local_apiUrl' ) );
+				$( this.target_container ).html( gM( 'rsd_config_error', 'missing_local_apiUrl' ) );
 				return false;
 			} else {
 				_this.upload_api_target = mw.getLocalApiUrl();
@@ -534,11 +533,11 @@ mw.RemoteSearchDriver.prototype = {
 		}
 
 		// Set up the "add media wizard" button, which invokes this object
-		if ( !this.target_invoke_button || $j( this.target_invoke_button ).length == 0 ) {
+		if ( !this.target_invoke_button || $( this.target_invoke_button ).length == 0 ) {
 			mw.log( "RemoteSearchDriver:: no target invocation provided " );
 		} else {
 			if ( this.target_invoke_button ) {
-				$j( this.target_invoke_button )
+				$( this.target_invoke_button )
 					.css( 'cursor', 'pointer' )
 					.attr( 'title', gM( 'mwe-add_media_wizard' ) )
 					.click( function() {
@@ -560,7 +559,7 @@ mw.RemoteSearchDriver.prototype = {
 	 */
 	getLicenseIconHtml: function( licenseObj ) {
 
-		var $licenseLink = $j( '<a />' )
+		var $licenseLink = $( '<a />' )
 			.attr( {
 				'target' : '_new',
 				'href' : licenseObj.lurl,
@@ -568,7 +567,7 @@ mw.RemoteSearchDriver.prototype = {
 			} )
 			.append( licenseObj.img_html );
 
-		$licenseBox = $j( '<div />' )
+		$licenseBox = $( '<div />' )
 			.addClass( 'rsd_license' )
 			.attr( {
 				title: licenseObj.title
@@ -684,7 +683,7 @@ mw.RemoteSearchDriver.prototype = {
 				type = 'svg';
 				break;
 			case 'image/jpeg':
-				type = 'jpg'
+				type = 'jpg';
 				break;
 			case 'image/png':
 				type = 'png';
@@ -702,7 +701,7 @@ mw.RemoteSearchDriver.prototype = {
 			return '';
 		}
 
-		return $j( '<div />' )
+		return $( '<div />' )
 			.addClass( 'rsd_file_type ui-corner-all ui-state-default ui-widget-content' )
 			.attr( 'title', gM( 'mwe-ftype-' + type ) )
 			.text( type );
@@ -719,11 +718,11 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Setup the parent container (if not already created)
 		mw.log(" looking for: " + _this.target_container);
-		if( !_this.target_container || $j( _this.target_container ).length == 0 ) {
+		if( !_this.target_container || $( _this.target_container ).length == 0 ) {
 			this.createDialogContainer();
 		}else{
 			// Empty out the target
-			$j( _this.target_container ).empty();
+			$( _this.target_container ).empty();
 		}
 
 		// Setup remote search dialog & bindings
@@ -731,7 +730,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Update the target binding to just un-hide the dialog:
 		if ( this.target_invoke_button ) {
-			$j( this.target_invoke_button )
+			$( this.target_invoke_button )
 				.unbind()
 				.click( function() {
 					mw.log( "createUI:target_invoke_button: click showDialog" );
@@ -757,20 +756,20 @@ mw.RemoteSearchDriver.prototype = {
 		var query = _this.getDefaultQuery();
 
 		// Refresh the container if "upload" or "changed query"
-		if ( query != $j( this.target_search_input ).val()
+		if ( query != $( this.target_search_input ).val()
 			||
 			this.current_provider == 'upload' )
 		{
-			$j( this.target_search_input ).val( query );
+			$( this.target_search_input ).val( query );
 			_this.updateResults();
 		}
-		// $j(_this.target_container).dialog("open");
-		$j( _this.target_container ).parents( '.ui-dialog' ).fadeIn( 'slow' );
+		// $(_this.target_container).dialog("open");
+		$( _this.target_container ).parents( '.ui-dialog' ).fadeIn( 'slow' );
 
 
 
 		// re-center the dialog:
-		$j( _this.target_container ).dialog( 'option', 'position', 'center' );
+		$( _this.target_container ).dialog( 'option', 'position', 'center' );
 	},
 
 	/**
@@ -787,7 +786,7 @@ mw.RemoteSearchDriver.prototype = {
 	getCaretPos: function() {
 		if ( this.caretPos == null ) {
 			if ( this.target_textbox ) {
-				this.caretPos = $j( this.target_textbox ).getCaretPosition();
+				this.caretPos = $( this.target_textbox ).getCaretPosition();
 			} else {
 				this.caretPos = false;
 			}
@@ -801,7 +800,7 @@ mw.RemoteSearchDriver.prototype = {
 	getTextboxValue: function() {
 		if ( this.textboxValue == null ) {
 			if ( this.target_textbox ) {
-				this.textboxValue = $j( this.target_textbox ).val();
+				this.textboxValue = $( this.target_textbox ).val();
 			} else {
 				this.textboxValue = '';
 			}
@@ -815,7 +814,7 @@ mw.RemoteSearchDriver.prototype = {
 	getDefaultQuery: function() {
 		if ( this.default_query == null ) {
 			if ( this.target_textbox ) {
-				var ts = $j( this.target_textbox ).textSelection();
+				var ts = $( this.target_textbox ).textSelection();
 				if ( ts != '' ) {
 					this.default_query = ts;
 				} else {
@@ -840,13 +839,13 @@ mw.RemoteSearchDriver.prototype = {
 		_this.target_container = '#rsd_modal_target';
 
 		// add the parent target_container if not provided or missing
-		if ( _this.target_container && $j( _this.target_container ).length != 0 ) {
+		if ( _this.target_container && $( _this.target_container ).length != 0 ) {
 			//remove old dialog
-			$j( _this.target_container ).remove();
+			$( _this.target_container ).remove();
 		}
 
-		$j( 'body' ).append(
-			$j('<div>')
+		$( 'body' ).append(
+			$('<div>')
 				.attr({
 					'id' : 'rsd_modal_target',
 					'title' : gM( 'mwe-add_media_wizard' )
@@ -854,20 +853,20 @@ mw.RemoteSearchDriver.prototype = {
 				.css("position", 'relative')
 		);
 		// Get layout
-		mw.log( 'width: ' + $j( window ).width() + ' height: ' + $j( window ).height() );
+		mw.log( 'width: ' + $( window ).width() + ' height: ' + $( window ).height() );
 
 		// Build cancel button
 		var cancelButton = {};
 		cancelButton[ gM( 'mwe-cancel' ) ] = function() {
 			_this.onCancelResourceEdit();
-		}
+		};
 
-		$j( _this.target_container ).dialog( {
+		$( _this.target_container ).dialog( {
 			bgiframe: true,
 			autoOpen: true,
 			//modal: true,
-			width: $j(window).width()-50,
-			height: $j(window).height()-50,
+			width: $(window).width()-50,
+			height: $(window).height()-50,
 			position : 'center',
 			draggable: false,
 			resizable: false,
@@ -876,14 +875,14 @@ mw.RemoteSearchDriver.prototype = {
 				// if we are 'editing' a item close that
 				// @@todo maybe prompt the user?
 				_this.onCancelResourceEdit();
-				$j( this ).parents( '.ui-dialog' ).fadeOut( 'slow' );
+				$( this ).parents( '.ui-dialog' ).fadeOut( 'slow' );
 			}
 		} )
-		//$j( _this.target_container ).dialogFitWindow();
+		//$( _this.target_container ).dialogFitWindow();
 
 		// Add the window resize hook to keep dialog layout
-		$j( window ).resize( function() {
-			$j( _this.target_container ).dialogFitWindow();
+		$( window ).resize( function() {
+			$( _this.target_container ).dialogFitWindow();
 		} );
 	},
 
@@ -894,7 +893,7 @@ mw.RemoteSearchDriver.prototype = {
 		mw.log( 'f::initDialog' );
 		var _this = this;
 
-		var $mainContainer = $j( this.target_container );
+		var $mainContainer = $( this.target_container );
 
 		// Add the provider seleciton
 		$mainContainer.append( this.createProviderSelection() );
@@ -904,7 +903,7 @@ mw.RemoteSearchDriver.prototype = {
 			$mainContainer.append( this.createSearchInput() );
 		};
 
-		this.$resultsContainer = $j('<div />').attr({
+		this.$resultsContainer = $('<div />').attr({
 			id : "rsd_results_container"
 		});
 
@@ -917,27 +916,27 @@ mw.RemoteSearchDriver.prototype = {
 		}
 
 		// Add bindings
-		$j( '#mso_selprovider,#mso_selprovider_close' )
+		$( '#mso_selprovider,#mso_selprovider_close' )
 			.unbind()
 			.click( function() {
-				if ( $j( '#rsd_options_bar:hidden' ).length != 0 ) {
-					$j( '#rsd_options_bar' ).animate( {
+				if ( $( '#rsd_options_bar:hidden' ).length != 0 ) {
+					$( '#rsd_options_bar' ).animate( {
 						'height': '110px',
 						'opacity': 1
 					}, "normal" );
 				} else {
-					$j( '#rsd_options_bar' ).animate( {
+					$( '#rsd_options_bar' ).animate( {
 						'height': '0px',
 						'opacity': 0
 					}, "normal", function() {
-						$j( this ).hide();
+						$( this ).hide();
 					} );
 				}
 				return false;
 			} );
 
 		// Set form bindings
-		$j( '#rsd_form' )
+		$( '#rsd_form' )
 			.unbind()
 			.submit( function() {
 				_this.updateResults();
@@ -965,11 +964,11 @@ mw.RemoteSearchDriver.prototype = {
 
 	createProviderSelection: function(){
 		var _this = this;
-		var $providerSelection = $j( '<ul />' )
+		var $providerSelection = $( '<ul />' )
 			.addClass( "ui-provider-selection" );
 		// Add enabled search providers.
 		$j.each( _this.getEnabledProviders(), function(providerName, provider){
-			var $anchor = $j( '<div />' )
+			var $anchor = $( '<div />' )
 				.text( gM( 'rsd-' + providerName + '-title' ) )
 				.attr({
 					name: providerName
@@ -979,16 +978,16 @@ mw.RemoteSearchDriver.prototype = {
 			}
 
 			$anchor.click( function() {
-				$j( this ).parent().parent().find( '.ui-selected' )
+				$( this ).parent().parent().find( '.ui-selected' )
 					.removeClass( 'ui-selected' );
-				$j( this ).addClass( 'ui-selected' );
-				_this.current_provider = $j( this ).attr( "name" );
+				$( this ).addClass( 'ui-selected' );
+				_this.current_provider = $( this ).attr( "name" );
 				// Update the search results on provider selection
 				_this.updateResults( _this.current_provider, true );
 				return false;
 			});
 
-			var $listItem = $j( '<li />' );
+			var $listItem = $( '<li />' );
 			$listItem.append( $anchor );
 			$providerSelection.append( $listItem );
 		});
@@ -1000,10 +999,10 @@ mw.RemoteSearchDriver.prototype = {
 	 */
 	createSearchInput: function() {
 		var _this = this;
-		var $controlContainer = $j( '<div />' )
+		var $controlContainer = $( '<div />' )
 			.addClass( "rsd_control_container" );
 
-		var $searchForm = $j( '<form />' ).attr({
+		var $searchForm = $( '<form />' ).attr({
 			id : "rsd_form",
 			action : "javascript:return false"
 		});
@@ -1022,7 +1021,7 @@ mw.RemoteSearchDriver.prototype = {
 				return false;
 			});
 
-		var $searchBox = $j( '<input />' )
+		var $searchBox = $( '<input />' )
 			.addClass( 'ui-corner-all' )
 			.attr({
 				'type' : "text",
@@ -1105,8 +1104,8 @@ mw.RemoteSearchDriver.prototype = {
 		var _this = this;
 
 		// Do basic layout form on left upload "bin" on right
-		$uploadTableRow = $j('<tr />').append(
-			$j('<td />').attr( {
+		$uploadTableRow = $('<tr />').append(
+			$('<td />').attr( {
 				'valign':'top'
 			} )
 			.css({
@@ -1114,24 +1113,24 @@ mw.RemoteSearchDriver.prototype = {
 				 'padding-right' : '12px'
 			})
 			.append(
-				$j('<h3 />')
+				$('<h3 />')
 				.addClass( 'upload-a-file-msg' )
 				.text( gM( 'mwe-upload-a-file' ) ),
 
-				$j('<div />').attr({
+				$('<div />').attr({
 					'id': 'rsd_upload_form'
 				})
 				.loadingSpinner()
 			),
 
-			$j('<td />').attr( {
+			$('<td />').attr( {
 				'valign' : 'top',
 				'id':'upload_bin'
 			} )
 			.loadingSpinner()
-		)
+		);
 		this.$resultsContainer.html(
-			$j('<table />').append(
+			$('<table />').append(
 				$uploadTableRow
 			)
 		);
@@ -1158,22 +1157,22 @@ mw.RemoteSearchDriver.prototype = {
 		var _this = this;
 		var uploadTargets = this.getUploadTargets();
 
-		$j( target ).empty();
+		$( target ).empty();
 
 		// Show recent uploads for each upload target
 		for( var uploadTargetId in uploadTargets ){
 			var uploadTarget = uploadTargets[ uploadTargetId ];
 
-			$j( target ).append(
-				$j( '<h3 />' )
+			$( target ).append(
+				$( '<h3 />' )
 				.append(
 					gM( 'mwe-your-recent-uploads', uploadTarget.title )
 				),
 
 				// Add the targetUpload container
-				$j('<div />')
+				$('<div />')
 				.attr( 'id', 'user-results-' + uploadTargetId )
-			)
+			);
 			// Issue the call to get the recent uploads:
 			_this.showUserRecentUploads( uploadTargetId );
 		}
@@ -1191,7 +1190,7 @@ mw.RemoteSearchDriver.prototype = {
 		var uploadApiUrl = uploadTargets[ uploadTargetId ].apiUrl ;
 
 		// Set the target to a loadingSpinner
-		$j('#user-results-' + uploadTargetId ).loadingSpinner();
+		$('#user-results-' + uploadTargetId ).loadingSpinner();
 
 		// If the target is not local or we don't have a userName
 		// ( try and grab the user name via api call (will be a proxy call if remote) )
@@ -1199,16 +1198,16 @@ mw.RemoteSearchDriver.prototype = {
 			if ( userName === false ) {
 				var logInLink = uploadApiUrl.replace( 'api.php', 'index.php' ) + '?title=Special:UserLogin';
 				// Timed out or proxy not setup ( for remotes )
-				$j( '#user-results-' + uploadTargetId ).html(
+				$( '#user-results-' + uploadTargetId ).html(
 					gM( "mwe-not-logged-in-uploads",
-						$j( '<a />' )
+						$( '<a />' )
 						.attr( {
 							'href': logInLink,
 							'target' : '_new'
 						})
 						.append( gM( 'mwe-loggin-link' ) ),
 
-						$j( '<a />' )
+						$( '<a />' )
 						.attr( {
 							'href': '#'
 						})
@@ -1220,14 +1219,14 @@ mw.RemoteSearchDriver.prototype = {
 				// If using Internet Exploer it could be IE privacy settings ( aka "evil eye" )
 				// http://stackoverflow.com/questions/389456/cookie-blocked-not-saved-in-iframe-in-internet-explorer
 				if( $j.browser.msie ){
-					$j( '#user-results-' + uploadTargetId ).append(
-						$j('<br />'),
-						$j('<br />'),
+					$( '#user-results-' + uploadTargetId ).append(
+						$('<br />'),
+						$('<br />'),
 
-						$j('<span />')
+						$('<span />')
 						.text( gM('mwe-ie-eye-permision' ) ),
 
-						$j('<div />' )
+						$('<div />' )
 						.attr( {
 							'alt' : gM('mwe-ie-eye-permision' )
 						})
@@ -1237,11 +1236,11 @@ mw.RemoteSearchDriver.prototype = {
 
 				// Note if we updated gM to return jQuery ojbects then we could
 				// bind above
-				$j( '#user-results-' + uploadTargetId )
+				$( '#user-results-' + uploadTargetId )
 				.find( '.try-again' )
 				.click(function(){
 					mw.log(" try again:: " + uploadTargetId);
-					$j( '#user-results-' + uploadTargetId ).empty().loadingSpinner();
+					$( '#user-results-' + uploadTargetId ).empty().loadingSpinner();
 					// Refresh the user uploads
 					_this.showUserRecentUploads( uploadTargetId );
 				})
@@ -1260,7 +1259,7 @@ mw.RemoteSearchDriver.prototype = {
 		function doProviderSearch(){
 			provider.sObj.getUserRecentUploads( userId, function( ) {
 				_this.showResults( {
-					'resultsContainer' : $j( '#user-results-' + uploadTargetId ),
+					'resultsContainer' : $( '#user-results-' + uploadTargetId ),
 					'provider' : provider,
 					'hideResultsHeader' : true
 				});
@@ -1300,7 +1299,7 @@ mw.RemoteSearchDriver.prototype = {
 			'apiUrl' : commonsProvider.apiUrl,
 			'title' : gM( 'rsd-wiki_commons-title'),
 			'uploadPage' : commonsProvider.apiUrl.replace( 'api.php', 'index.php' ) + '?title=' + commonsUploadPage
-		}
+		};
 
 		// If we are ~on commons~ no other links needed:
 		if( mw.parseUri( document.URL ).host == 'commons.wikimedia.org' ) {
@@ -1309,7 +1308,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Check if we have a link to commons for our t-upload toolbox link:
 		// ( ie the project does not support local uploads )
-		$uploadLink = $j( '#t-upload' ).find('a');
+		$uploadLink = $( '#t-upload' ).find('a');
 		if( $uploadLink.length
 			&& mw.parseUri( $uploadLink.attr('href') ).host == 'commons.wikimedia.org' )
 		{
@@ -1324,7 +1323,7 @@ mw.RemoteSearchDriver.prototype = {
 			 // Add a warning that the user should really target commons:
 			'providerDescription' : gM('mwe-warning-upload-to-commons',
 				mw.parseUri( thisWikiProvider.apiUrl ).host,
-				$j( '<a />' )
+				$( '<a />' )
 				.attr( {
 					'href' : $uploadLink.attr('href'),
 					'target' : '_new'
@@ -1335,7 +1334,7 @@ mw.RemoteSearchDriver.prototype = {
 			// Could get in an api request ( just use domain for now)
 			'title' : mw.parseUri( thisWikiProvider.apiUrl ).host,
 			'uploadPage' : $uploadLink.attr('href')
-		}
+		};
 		return uploadTargets;
 	},
 
@@ -1364,11 +1363,11 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Check if we need to update:
 		if ( typeof provider.sObj != 'undefined' ) {
-			if ( provider.sObj.last_query == $j( this.target_search_input ).val()
+			if ( provider.sObj.last_query == $( this.target_search_input ).val()
 				&& provider.sObj.last_offset == provider.offset ) {
 
 				mw.log( 'last query is: ' + provider.sObj.last_query +
-					' matches: ' + $j( this.target_search_input ).val() + ' no search needed');
+					' matches: ' + $( this.target_search_input ).val() + ' no search needed');
 
 				// Show search results directly
 				this.showResults( );
@@ -1423,11 +1422,11 @@ mw.RemoteSearchDriver.prototype = {
 			var request = {
 				'action': 'paraminfo',
 				'modules': 'upload'
-			}
+			};
 			mw.getJSON( _this.upload_api_target, request, function( data ) {
 					_this.checkCopyURLApiResult( data, callback )
 			} );
-		}
+		};
 	},
 
 	/**
@@ -1516,7 +1515,7 @@ mw.RemoteSearchDriver.prototype = {
 			} else {
 				this.$resultsContainer.html (
 					gM( 'mwe-no-import-by-url',
-						$j('<a />')
+						$('<a />')
 						.attr({
 							'href' : 'http:\/\/www.mediawiki.org\/wiki\/Manual:$wgAllowCopyUploads',
 							'title' : gM( 'mwe-no-import-by-url-linktext' )
@@ -1566,7 +1565,7 @@ mw.RemoteSearchDriver.prototype = {
 			var context = _this.storeContext( d.getTime() );
 			_this.currentRequest = context();
 			mw.log( "ProviderCallBack Generated " + context() )
-			provider.sObj.getSearchResults( $j( _this.target_search_input ).val() ,
+			provider.sObj.getSearchResults( $( _this.target_search_input ).val() ,
 				function( resultStatus ) {
 					mw.log( "ProviderCallBack Received " + context() );
 					if( _this.currentRequest != context() ) {
@@ -1599,7 +1598,7 @@ mw.RemoteSearchDriver.prototype = {
 		var context = contextObject;
 		return function() {
 			return context;
-		}
+		};
 	},
 
 	/**
@@ -1734,8 +1733,8 @@ mw.RemoteSearchDriver.prototype = {
 		//       results...
 		//   footer
 
-		var $resultsBody = $j( '<div />' ).addClass( 'rsd_results_body' );
-		var $resultsList = $j( '<div />' ).addClass( 'rsd_results_list' );
+		var $resultsBody = $( '<div />' ).addClass( 'rsd_results_body' );
+		var $resultsList = $( '<div />' ).addClass( 'rsd_results_list' );
 
 		// Add the results header:
 		$resultsContainer.empty();
@@ -1774,10 +1773,10 @@ mw.RemoteSearchDriver.prototype = {
 			$resultsContainer.append( _this.createResultsFooter() );
 		}
 
-		mw.log( 'did numResults :: ' + numResults + ' append: ' + $j( this.target_search_input ).val() );
+		mw.log( 'did numResults :: ' + numResults + ' append: ' + $( this.target_search_input ).val() );
 
 		// Add "no search results" text
-		$j( '#rsd_no_search_res' ).remove();
+		$( '#rsd_no_search_res' ).remove();
 		if ( numResults == 0 ) {
 			// NOTE: we should handle no-results with a callback not with condition check
 			if( _this.current_provider == 'upload' ) {
@@ -1786,7 +1785,7 @@ mw.RemoteSearchDriver.prototype = {
 			 	);
 			} else {
 				$resultsContainer.append(
-					gM( 'rsd_no_results', $j( this.target_search_input ).val() )
+					gM( 'rsd_no_results', $( this.target_search_input ).val() )
 				) ;
 			}
 		}
@@ -1803,9 +1802,9 @@ mw.RemoteSearchDriver.prototype = {
 	showFailure : function( resultStatus ) {
 		//only one type of resultStatus right now:
 		if( resultStatus == 'timeout' )
-			$j( '#tab-' + this.current_provider ).text(
+			$( '#tab-' + this.current_provider ).text(
 				gM('rsd-search-timeout')
-			)
+			);
 	},
 
 	/**
@@ -1832,7 +1831,7 @@ mw.RemoteSearchDriver.prototype = {
 	*/
 	getResultHtmlBox: function( provider, resIndex, resource ) {
 
-		var $resultBox = $j( '<div />' )
+		var $resultBox = $( '<div />' )
 			.addClass( 'mv_clip_box_result rsd_box_result' )
 			.attr( {
 				id: 'mv_result_' + resIndex
@@ -1849,7 +1848,7 @@ mw.RemoteSearchDriver.prototype = {
 			resource.poster = mw.getConfig( 'imagesPath' ) + 'sound_music_icon-80.png';
 		}
 
-		var $resultThumb = $j( '<img />' )
+		var $resultThumb = $( '<img />' )
 			.addClass( 'rsd_res_item' )
 			.attr( {
 				id: 'res_' + provider.id + '__' + resIndex,
@@ -1864,9 +1863,9 @@ mw.RemoteSearchDriver.prototype = {
 		$resultBox.append( $resultThumb );
 
 		if ( resource.link && this.displayResourceInfoIcons ) {
-			var $resultPageLink = $j( '<div />' )
+			var $resultPageLink = $( '<div />' )
 				.addClass( 'rsd_linkback ui-corner-all ui-state-default ui-widget-content' )
-				.append( $j( '<a />' )
+				.append( $( '<a />' )
 							.attr( {
 								'target' : '_new',
 								'title' : gM( 'mwe-resource_description_page' ),
@@ -1900,7 +1899,7 @@ mw.RemoteSearchDriver.prototype = {
 	*/
 	getResultHtmlList:function( provider, resIndex, resource ) {
 
-		var $resultBox = $j( '<div />' )
+		var $resultBox = $( '<div />' )
 			.addClass( 'mv_clip_list_result' )
 			.attr( {
 				id: 'mv_result_' + resIndex
@@ -1911,7 +1910,7 @@ mw.RemoteSearchDriver.prototype = {
 			$resultBox.text( resource.description );
 		}
 
-		var $resultThumb = $j( '<img />' )
+		var $resultThumb = $( '<img />' )
 			.addClass( 'rsd_res_item rsd_list_item' )
 			.attr( {
 				id: 'res_' + provider.id + '__' + resIndex,
@@ -1940,28 +1939,28 @@ mw.RemoteSearchDriver.prototype = {
 	*/
 	addResultBindings: function() {
 		var _this = this;
-		$j( '.mv_clip_' + _this.displayMode + '_result' ).hover(
+		$( '.mv_clip_' + _this.displayMode + '_result' ).hover(
 			function() {
-				$j( this ).addClass( 'mv_clip_' + _this.displayMode + '_result_over' );
+				$( this ).addClass( 'mv_clip_' + _this.displayMode + '_result_over' );
 				// Also set the animated image if available
-				var res_id = $j( this ).children( '.rsd_res_item' ).attr( 'id' );
+				var res_id = $( this ).children( '.rsd_res_item' ).attr( 'id' );
 				var resource = _this.getResourceFromId( res_id );
 				if ( resource.poster_ani )
-					$j( '#' + res_id ).attr( 'src', resource.poster_ani );
+					$( '#' + res_id ).attr( 'src', resource.poster_ani );
 			}, function() {
-				$j( this ).removeClass(
+				$( this ).removeClass(
 					'mv_clip_' + _this.displayMode + '_result_over' );
-				var res_id = $j( this ).children( '.rsd_res_item' ).attr( 'id' );
+				var res_id = $( this ).children( '.rsd_res_item' ).attr( 'id' );
 				var resource = _this.getResourceFromId( res_id );
 				// Restore the original (non animated)
 				if ( resource.poster_ani )
-					$j( '#' + res_id ).attr( 'src', resource.poster );
+					$( '#' + res_id ).attr( 'src', resource.poster );
 			}
 		);
 
 		// Resource click action: (bring up the resource editor)
-		$j( '.rsd_res_item' ).unbind().click( function() {
-			var resource = _this.getResourceFromId( $j( this ).attr( "id" ) );
+		$( '.rsd_res_item' ).unbind().click( function() {
+			var resource = _this.getResourceFromId( $( this ).attr( "id" ) );
 
 			// xxx These hooks should really be managed via bindings not options like this:
 			var showResourceEditor = true;
@@ -1981,17 +1980,16 @@ mw.RemoteSearchDriver.prototype = {
 	* Add Resource edit layout and display a loader.
 	*/
 	addResourceEditLoader: function( ) {
-		mw.log()
 		var _this = this;
 		editWidth = 400;
 		// Remove any old instance:
-		$j( _this.target_container ).find( '#rsd_resource_edit' ).remove();
+		$( _this.target_container ).find( '#rsd_resource_edit' ).remove();
 
 		// Hide the results container
 		this.$resultsContainer.hide();
 
 		// Set up the interface compoents:
-		var $clipEditControl =	$j('<div />')
+		var $clipEditControl =	$('<div />')
 			.attr( 'id', 'clip_edit_ctrl' )
 			.addClass('ui-widget ui-widget-content ui-corner-all')
 			.css( {
@@ -2007,7 +2005,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		mw.log(" clip edit control ");
 
-		var $clipEditDisplay = $j('<div />')
+		var $clipEditDisplay = $('<div />')
 			.attr( 'id', 'clip_edit_disp' )
 			.addClass( 'ui-widget ui-widget-content ui-corner-all' )
 			.css({
@@ -2022,8 +2020,8 @@ mw.RemoteSearchDriver.prototype = {
 			.loadingSpinner();
 
 		// Add the edit layout window with loading place holders
-		$j( _this.target_container ).append(
-			$j('<div />')
+		$( _this.target_container ).append(
+			$('<div />')
 			.attr( 'id', 'rsd_resource_edit' )
 			.css( {
 				'position' : 'absolute',
@@ -2066,8 +2064,9 @@ mw.RemoteSearchDriver.prototype = {
 				return types[i];
 			}
 		}
-		if( resource.mime == 'application/ogg' )
-			return 'video'
+		if( resource.mime == 'application/ogg' ){
+			return 'video';
+		}
 		// Media type not found:
 		return false;
 	},
@@ -2076,8 +2075,8 @@ mw.RemoteSearchDriver.prototype = {
 	* Removes the resource editor
 	*/
 	removeResourceEditor: function() {
-		$j( '#rsd_resource_edit' ).remove();
-		$j( '#rsd_edit_img' ).remove();
+		$( '#rsd_resource_edit' ).remove();
+		$( '#rsd_edit_img' ).remove();
 	},
 
 	/**
@@ -2101,8 +2100,8 @@ mw.RemoteSearchDriver.prototype = {
 
 		var targetHeight = parseInt( targetWidth * ( resource.height / resource.width ) );
 
-		if( targetHeight > $j('#clip_edit_disp').height() ){
-			targetHeight = $j('#clip_edit_disp').height();
+		if( targetHeight > $('#clip_edit_disp').height() ){
+			targetHeight = $('#clip_edit_disp').height();
 			targetWidth = targetHeight * ( resource.width / resource.height);
 		}
 
@@ -2112,7 +2111,7 @@ mw.RemoteSearchDriver.prototype = {
 		var dialogTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
 			gM( 'rsd_resource_edit', resource.title );
 
-		$j( _this.target_container ).dialog( 'option', 'title', dialogTitle );
+		$( _this.target_container ).dialog( 'option', 'title', dialogTitle );
 
 		mw.log( 'did append to: ' + _this.target_container );
 
@@ -2130,8 +2129,8 @@ mw.RemoteSearchDriver.prototype = {
 				'height' : targetHeight
 			},
 			function( img_src ) {
-				$j('#clip_edit_disp').empty().append(
-					$j( '<img />' )
+				$('#clip_edit_disp').empty().append(
+					$( '<img />' )
 					.attr( {
 						'id' : 'rsd_edit_img',
 						'src' : img_src,
@@ -2143,7 +2142,7 @@ mw.RemoteSearchDriver.prototype = {
 		);
 
 		// Also fade in the container:
-		$j( '#rsd_resource_edit' ).animate( {
+		$( '#rsd_resource_edit' ).animate( {
 			'opacity': 1,
 			'background-color': '#FFF',
 			'z-index': 99
@@ -2181,7 +2180,7 @@ mw.RemoteSearchDriver.prototype = {
 			// Don't swap it in until its loaded
 			var img = new Image();
 			// Load the image
-			$j( img ).load( function () {
+			$( img ).load( function () {
 				 // Update changes using the callback
 				 callback( resource.edit_url );
 			} ).error( function () {
@@ -2197,26 +2196,26 @@ mw.RemoteSearchDriver.prototype = {
 		var _this = this;
 		mw.log( 'onCancelResourceEdit' );
 		var b_target = _this.target_container + '~ .ui-dialog-buttonpane';
-		$j( '#rsd_resource_edit' ).remove();
+		$( '#rsd_resource_edit' ).remove();
 
 		// Remove preview if its 'on'
-		$j( '#rsd_preview_display' ).remove();
+		$( '#rsd_preview_display' ).remove();
 
 		// Remove resource import if present
-		$j( '#rsd_resource_import' ).remove();
+		$( '#rsd_resource_import' ).remove();
 		// Restore the resource container:
 		this.$resultsContainer.show();
 
 		// Restore the title:
-		$j( _this.target_container ).dialog( 'option', 'title', gM( 'mwe-add_media_wizard' ) );
+		$( _this.target_container ).dialog( 'option', 'title', gM( 'mwe-add_media_wizard' ) );
 		mw.log( "should update: " + b_target + ' with: cancel' );
 		// Restore the buttons:
-		$j( b_target )
+		$( b_target )
 			.html( $j.btnHtml( gM( 'mwe-cancel' ) , 'mv_cancel_rsd', 'close' ) )
 			.children( '.mv_cancel_rsd' )
 			.buttonHover()
 			.click( function() {
-				$j( _this.target_container ).dialog( 'close' );
+				$( _this.target_container ).dialog( 'close' );
 				return false;
 			} );
 	},
@@ -2239,8 +2238,8 @@ mw.RemoteSearchDriver.prototype = {
 			};
 		}
 		actions['cancel'] = function() {
-			_this.onCancelResourceEdit()
-		}
+			_this.onCancelResourceEdit();
+		};
 		return actions;
 	},
 
@@ -2301,7 +2300,7 @@ mw.RemoteSearchDriver.prototype = {
 				}
 			);
 			mw.log( 'append html: ' + embedHtml );
-			$j( '#clip_edit_disp' ).html( embedHtml );
+			$( '#clip_edit_disp' ).html( embedHtml );
 
 			// Make sure we have the 'EmbedPlayer' module:
 			mw.load( 'EmbedPlayer', function() {
@@ -2317,12 +2316,12 @@ mw.RemoteSearchDriver.prototype = {
 				mw.log( "about to call $j.embedPlayer::embed_vid" );
 
 				// Rewrite by id
-				$j( '#embed_vid' ).embedPlayer ( function() {
+				$( '#embed_vid' ).embedPlayer ( function() {
 					// Add extra space at the top if the embed player is less than 90px high
 					// bug 22189
-					if( $j('#embed_vid').get(0).getPlayerHeight() < 90 ) {
-						$j( '#clip_edit_disp' ).prepend(
-							$j( '<span />' )
+					if( $('#embed_vid').get(0).getPlayerHeight() < 90 ) {
+						$( '#clip_edit_disp' ).prepend(
+							$( '<span />' )
 							.css({
 								'height': '90px',
 								'display': 'block'
@@ -2341,7 +2340,7 @@ mw.RemoteSearchDriver.prototype = {
 					];
 					mw.load( librarySet, function() {
 						// Make sure the rsd_edit_img is removed:
-						$j( '#rsd_edit_img' ).remove();
+						$( '#rsd_edit_img' ).remove();
 						// Run the image clip tools
 						_this.clipEdit = new mw.ClipEdit( options );
 					} );
@@ -2499,15 +2498,15 @@ mw.RemoteSearchDriver.prototype = {
 
 
 		// Remove any old resource imports
-		$j( '#rsd_resource_import' ).remove();
+		$( '#rsd_resource_import' ).remove();
 
 		// Update the interface
-		$j( _this.target_container ).append(
+		$( _this.target_container ).append(
 			_this.getResourceImportInterface( resource , description )
 		);
 
 		var buttonPaneSelector = _this.target_container + '~ .ui-dialog-buttonpane';
-		$j( buttonPaneSelector ).html (
+		$( buttonPaneSelector ).html (
 			// Add the buttons to the bottom:
 			$j.btnHtml( gM( 'mwe-do_import_resource' ), 'rsd_import_doimport', 'check' ) +
 			' ' +
@@ -2516,44 +2515,44 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Update video tag (if a video)
 		if ( resource.mime.indexOf( 'video/' ) !== -1 ) {
-			var target_rewrite_id = $j( _this.target_container ).attr( 'id' ) + '_rsd_pv_vid';
-			$j('#' + target_rewrite_id ).embedPlayer();
+			var target_rewrite_id = $( _this.target_container ).attr( 'id' ) + '_rsd_pv_vid';
+			$('#' + target_rewrite_id ).embedPlayer();
 		}
 
 		// Load the preview text:
 		mw.parseWikiText(
 			description, _this.canonicalFileNS + ':' + resource.target_resource_title,
 			function( descHtml ) {
-				$j( '#rsd_import_desc' ).html( descHtml );
+				$( '#rsd_import_desc' ).html( descHtml );
 			}
 		);
 
 		// Add bindings:
-		$j( _this.target_container + ' .rsd_import_apreview' )
+		$( _this.target_container + ' .rsd_import_apreview' )
 			.buttonHover()
 			.click( function() {
 				mw.log( " Do preview asset update" );
-				$j( '#rsd_import_desc' ).loadingSpinner() ;
+				$( '#rsd_import_desc' ).loadingSpinner() ;
 				// load the preview text:
 				mw.parseWikiText(
-					$j( '#wpUploadDescription' ).val(),
+					$( '#wpUploadDescription' ).val(),
 					_this.canonicalFileNS + ':' + resource.target_resource_title,
 					function( parseHtml ) {
 						mw.log( 'got updated preview: ' );
-						$j( '#rsd_import_desc' ).html( parseHtml );
+						$( '#rsd_import_desc' ).html( parseHtml );
 					}
 				);
 				return false;
 			} );
 
-		$j( buttonPaneSelector + ' .rsd_import_doimport' )
+		$( buttonPaneSelector + ' .rsd_import_doimport' )
 			.buttonHover()
 			.click( function() {
 				mw.log( "do import asset:" + _this.import_url_mode );
 				// check import mode:
 				if ( _this.import_url_mode == 'api' ) {
 					_this.doApiImport( resource, function() {
-						$j( '#rsd_resource_import' ).remove();
+						$( '#rsd_resource_import' ).remove();
 						_this.clipEdit.updateInsertControlActions();
 						if( callback )
 							callback();
@@ -2563,14 +2562,14 @@ mw.RemoteSearchDriver.prototype = {
 				}
 				return false;
 			} );
-		$j( buttonPaneSelector + ' .rsd_import_acancel' )
+		$( buttonPaneSelector + ' .rsd_import_acancel' )
 			.buttonHover()
 			.click( function() {
-				$j( '#rsd_resource_import' ).fadeOut( "fast", function() {
-					$j( this ).remove();
+				$( '#rsd_resource_import' ).fadeOut( "fast", function() {
+					$( this ).remove();
 					// restore buttons (from the clipEdit object::)
 					_this.clipEdit.updateInsertControlActions();
-					$j( buttonPaneSelector ).removeClass( 'ui-state-error' );
+					$( buttonPaneSelector ).removeClass( 'ui-state-error' );
 				} );
 				return false;
 			} );
@@ -2581,7 +2580,7 @@ mw.RemoteSearchDriver.prototype = {
 	*/
 	getResourceImportInterface: function( resource, description ) {
 		var _this = this;
-		var $rsdResourceImport = $j('<div />')
+		var $rsdResourceImport = $('<div />')
 			.attr( 'id', 'rsd_resource_import' )
 			.addClass( 'ui-widget-content' )
 			.css( {
@@ -2593,7 +2592,7 @@ mw.RemoteSearchDriver.prototype = {
 				'z-index' : '5'
 			} );
 
-		var $rsdPreviewContainer = $j( '<div />')
+		var $rsdPreviewContainer = $( '<div />')
 			.attr( 'id', 'rsd_preview_import_container' )
 			.css( {
 				'position' : 'absolute',
@@ -2612,18 +2611,18 @@ mw.RemoteSearchDriver.prototype = {
 			} )
 		)
 		.append(
-			$j('<br />')
+			$('<br />')
 				.css( 'clear', 'both' ),
-			$j( '<span />' )
+			$( '<span />' )
 				.css( { 'font-weight' : 'bold' } )
 				.text( gM( 'mwe-resource_page_desc' ) ),
-			$j( '<div />' )
+			$( '<div />' )
 				.attr( 'id', 'rsd_import_desc' )
 				.css( 'display', 'inline' )
 				.loadingSpinner()
 		)
 
-		var $importResourceTitle = $j( '<h3 />' )
+		var $importResourceTitle = $( '<h3 />' )
 			.css( {
 				'color' : 'red',
 				'padding' : '5px'
@@ -2632,11 +2631,11 @@ mw.RemoteSearchDriver.prototype = {
 				gM( 'mwe-resource-needs-import', [resource.title, _this.upload_api_name] )
 			);
 
-		var $importTitle = $j( '<span />' )
+		var $importTitle = $( '<span />' )
 			.css( { 'font-weight' : 'bold' } )
 			.text( gM( 'mwe-local_resource_title' ) );
 
-		var $importDestFile = $j( '<input />' )
+		var $importDestFile = $( '<input />' )
 			.attr( {
 				'id' : 'wpDestFile',
 				'type' : 'text',
@@ -2644,12 +2643,12 @@ mw.RemoteSearchDriver.prototype = {
 			} )
 			.val ( resource.target_resource_title );
 
-		var $importUploadDescription = $j('<div />')
+		var $importUploadDescription = $('<div />')
 			.append(
-				$j( '<span />' )
+				$( '<span />' )
 					.css( { 'font-weight' : 'bold' } )
 					.text( gM( 'mwe-edit_resource_desc' ) ),
-				$j( '<textarea />' )
+				$( '<textarea />' )
 					.attr( {
 						'id' : 'wpUploadDescription',
 						'rows' : 8,
@@ -2659,7 +2658,7 @@ mw.RemoteSearchDriver.prototype = {
 						'width': '90%'
 					} )
 					.text( description ),
-				$j( '<input />' )
+				$( '<input />' )
 					.attr( {
 						'type' : 'checkbox',
 						'id' : 'wpWatchthis',
@@ -2668,7 +2667,7 @@ mw.RemoteSearchDriver.prototype = {
 					} )
 			);
 
-		var $editImportContainer = $j( '<div />' )
+		var $editImportContainer = $( '<div />' )
 			.css( {
 				'position' : 'absolute',
 				'left' : '50%',
@@ -2679,27 +2678,27 @@ mw.RemoteSearchDriver.prototype = {
 			})
 			.append(
 				$importTitle,
-				$j( '<br />' ),
+				$( '<br />' ),
 
 				$importDestFile,
-				$j( '<br />' ),
+				$( '<br />' ),
 
 				$importUploadDescription,
-				$j( '<br />' ),
+				$( '<br />' ),
 
 				// Add the watchlist button
-				$j( '<label />' )
+				$( '<label />' )
 					.attr( {
 						'for' : 'wpWatchthis'
 					} )
 					.text(
 						gM( 'mwe-watch_this_page' )
 					),
-				$j( '<br />' ),
+				$( '<br />' ),
 
 				// Add the update preview button:
-				$j( '<br />' ),
-				$j('<span />').append(
+				$( '<br />' ),
+				$('<span />').append(
 					$j.btnHtml( gM( 'mwe-update_preview' ), 'rsd_import_apreview', 'refresh' )
 				)
 			);
@@ -2821,7 +2820,7 @@ mw.RemoteSearchDriver.prototype = {
 						// We have finished the upload:
 
 						// Close up the rsd_resource_import
-						$j( '#rsd_resource_import' ).remove();
+						$( '#rsd_resource_import' ).remove();
 						// return the parent callback:
 						return callback();
 					}
@@ -2835,8 +2834,8 @@ mw.RemoteSearchDriver.prototype = {
 					mw.closeLoaderDialog();
 					uploader.doHttpUpload( {
 						'url' : resource.src,
-						'filename' : $j( '#wpDestFile' ).val(),
-						'comment' : $j( '#wpUploadDescription' ).val()
+						'filename' : $( '#wpDestFile' ).val(),
+						'comment' : $( '#wpUploadDescription' ).val()
 					} );
 				} );
 			}
@@ -2860,8 +2859,8 @@ mw.RemoteSearchDriver.prototype = {
 			}
 
 			// Put another window ontop:
-			$j( _this.target_container ).append(
-				$j('<div>').attr({
+			$( _this.target_container ).append(
+				$('<div>').attr({
 					'id': 'rsd_preview_display'
 				})
 				.css({
@@ -2879,11 +2878,11 @@ mw.RemoteSearchDriver.prototype = {
 
 			var buttonPaneSelector = _this.target_container + '~ .ui-dialog-buttonpane';
 			// Update title:
-			$j( _this.target_container ).dialog( 'option', 'title',
+			$( _this.target_container ).dialog( 'option', 'title',
 				gM( 'mwe-preview_insert_resource', resource.title ) );
 
 			// Update buttons
-			$j( buttonPaneSelector )
+			$( buttonPaneSelector )
 				.html(
 					$j.btnHtml( gM( 'rsd_do_insert' ), 'preview_do_insert', 'check' ) + ' ' )
 				.children( '.preview_do_insert' )
@@ -2893,17 +2892,17 @@ mw.RemoteSearchDriver.prototype = {
 				} );
 
 			// Update cancel button
-			$j( buttonPaneSelector ).append(
+			$( buttonPaneSelector ).append(
 				$j.btnHtml( gM('mwe-do-more-modification' ), 'preview_close', 'pencil' )				
 			);
-			$j( buttonPaneSelector ).find('.preview_close')
+			$( buttonPaneSelector ).find('.preview_close')
 			.click( function() {
-				$j( '#rsd_preview_display' ).remove();
+				$( '#rsd_preview_display' ).remove();
 				var restoreTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
 					gM( 'rsd_resource_edit', resource.title );
 
 				// Restore title:
-				$j( _this.target_container ).dialog( 'option', 'title', restoreTitle );
+				$( _this.target_container ).dialog( 'option', 'title', restoreTitle );
 
 				// Restore buttons (from the clipEdit object::)
 				_this.clipEdit.updateInsertControlActions();
@@ -2911,15 +2910,15 @@ mw.RemoteSearchDriver.prototype = {
 			})
 			// Get the preview wikitext
 			var embed_code = _this.getEmbedCode( resource );
-			var pos = $j( _this.target_textbox ).textSelection( 'getCaretPosition' );
-			var editWikiText = $j( _this.target_textbox ).val();
+			var pos = $( _this.target_textbox ).textSelection( 'getCaretPosition' );
+			var editWikiText = $( _this.target_textbox ).val();
 			var wikiText = editWikiText.substr(0, pos) + embed_code + editWikiText.substr( pos );
 
 			mw.parseWikiText(
 				wikiText,
 				_this.target_title,
 				function( previewHtml ) {
-					$j( '#rsd_preview_display' ).html( previewHtml );
+					$( '#rsd_preview_display' ).html( previewHtml );
 					if( mw.documentHasPlayerTags() ) {
 						mw.load( 'EmbedPlayer', function() {
 							// Update the display of video tag items (if any)
@@ -2992,7 +2991,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		// If outputing to a text box
 		if( _this.target_textbox ) {
-			$j( _this.target_textbox ).textSelection( 'encapsulateSelection', { 'post' : embed_code } );
+			$( _this.target_textbox ).textSelection( 'encapsulateSelection', { 'post' : embed_code } );
 		}
 
 		// Update the render area for HTML output of video tag with mwEmbed "player"
@@ -3000,7 +2999,7 @@ mw.RemoteSearchDriver.prototype = {
 		if ( _this.target_render_area && embedCode ) {
 
 			// Output with some padding:
-			$j( _this.target_render_area )
+			$( _this.target_render_area )
 				.append( embedCode + '<div style="clear:both;height:10px">' )
 
 			// Update the player if video or audio:
@@ -3025,15 +3024,15 @@ mw.RemoteSearchDriver.prototype = {
 		mw.log( "close all:: " + _this.target_container );
 		_this.onCancelResourceEdit();
 
-		$j( _this.target_container ).dialog( 'close' );
+		$( _this.target_container ).dialog( 'close' );
 		// Give a chance for the events to complete
 		// (somehow at least in firefox a rare condition occurs where
 		// the modal of the edit-box stick around even after the
 		// close request has been issued. )
 		setTimeout(
 			function() {
-				$j( _this.target_container ).dialog( 'close' );
-				$j( _this.target_container ).remove();
+				$( _this.target_container ).dialog( 'close' );
+				$( _this.target_container ).remove();
 			}, 25
 		);
 	},
@@ -3061,7 +3060,7 @@ mw.RemoteSearchDriver.prototype = {
 			defaultListUrl = darkListUrl;
 		}
 
-		$boxLayout = $j( '<img />' ).addClass( 'layout_selector' )
+		$boxLayout = $( '<img />' ).addClass( 'layout_selector' )
 			.attr({
 				id: 'msc_box_layout',
 				title: gM( 'rsd_box_layout' ),
@@ -3069,10 +3068,10 @@ mw.RemoteSearchDriver.prototype = {
 			})
 			.hover(
 				function() {
-					$j( this ).attr( "src", darkBoxUrl );
+					$( this ).attr( "src", darkBoxUrl );
 				},
 				function() {
-					$j( this ).attr( "src", defaultBoxUrl );
+					$( this ).attr( "src", defaultBoxUrl );
 				} )
 			.click( function() {
 				$boxLayout.attr( "src", darkBoxUrl );
@@ -3080,7 +3079,7 @@ mw.RemoteSearchDriver.prototype = {
 				_this.setDisplayMode( 'box' );
 				return false;
 			} );
-		$listLayout = $j( '<img />' ).addClass( 'layout_selector' )
+		$listLayout = $( '<img />' ).addClass( 'layout_selector' )
 			.attr({
 				id: 'msc_list_layout',
 				title: gM( 'rsd_list_layout' ),
@@ -3088,10 +3087,10 @@ mw.RemoteSearchDriver.prototype = {
 			})
 			.hover(
 				function() {
-					$j( this ).attr( "src", darkListUrl );
+					$( this ).attr( "src", darkListUrl );
 				},
 				function() {
-					$j( this ).attr( "src", defaultListUrl );
+					$( this ).attr( "src", defaultListUrl );
 				} )
 			.click( function() {
 				$listLayout.attr( "src", darkListUrl );
@@ -3100,7 +3099,7 @@ mw.RemoteSearchDriver.prototype = {
 				return false;
 			} );
 
-		$layoutSelector = $j( '<span />' )
+		$layoutSelector = $( '<span />' )
 							.append( $boxLayout )
 							.append( $listLayout );
 
@@ -3115,7 +3114,7 @@ mw.RemoteSearchDriver.prototype = {
 	 */
 	createSearchDescription: function( provider ) {
 		var resultsFromMsg = gM( 'mwe-results_from',
-			$j('<a />')
+			$('<a />')
 			.attr({
 				'href' : provider.homepage,
 				'target' : '_new'
@@ -3123,8 +3122,8 @@ mw.RemoteSearchDriver.prototype = {
 			.append( gM( 'rsd-' + provider.id + '-title' ) )
 		);
 
-		var $searchContent = $j( '<span />' ).html( resultsFromMsg );
-		var $searchDescription = $j( '<span />' ).addClass( 'rsd_search_description' )
+		var $searchContent = $( '<span />' ).html( resultsFromMsg );
+		var $searchDescription = $( '<span />' ).addClass( 'rsd_search_description' )
 			.attr({
 				id: 'rsd_search_description'
 			})
@@ -3147,7 +3146,7 @@ mw.RemoteSearchDriver.prototype = {
 		}
 		var provider = this.content_providers[ this.current_provider ];
 
-		var $header = $j( '<div />' )
+		var $header = $( '<div />' )
 			.attr({
 				id: 'rsd_results_header'
 			});
@@ -3169,7 +3168,7 @@ mw.RemoteSearchDriver.prototype = {
 	createResultsFooter: function() {
 		var _this = this;
 
-		var $footer = $j( '<div />' )
+		var $footer = $( '<div />' )
 		.attr({
 			id: 'rsd_results_footer'
 		})
@@ -3193,7 +3192,7 @@ mw.RemoteSearchDriver.prototype = {
 			( parseInt( provider.offset ) + parseInt( search.num_results ) ) :
 			( parseInt( provider.offset ) + parseInt( provider.limit ) );
 
-		var $pagingControl = $j( '<span />' ).attr({
+		var $pagingControl = $( '<span />' ).attr({
 			id: 'rsd_paging_control'
 		});
 
@@ -3209,14 +3208,14 @@ mw.RemoteSearchDriver.prototype = {
 			}
 		}
 
-		var $resultEnumeration = $j( '<span />' ).text( resultEnumeration )
+		var $resultEnumeration = $( '<span />' ).text( resultEnumeration )
 												 .addClass( 'rsd_result_enumeration' );
 		$pagingControl.append( $resultEnumeration );
 
 		// Place the previous results link
 		if ( provider.offset >= provider.limit ) {
 			var prevLinkText = gM( 'rsd_results_prev' ) + ' ' + provider.limit;
-			var $prevLink = $j( '<a />' )
+			var $prevLink = $( '<a />' )
 				.attr({
 					href: '#',
 					id: 'rsd_pprev'
@@ -3236,7 +3235,7 @@ mw.RemoteSearchDriver.prototype = {
 		// Place the next results link
 		if ( search.more_results ) {
 			var nextLinkText = gM( 'rsd_results_next' ) + ' ' + provider.limit;
-			var $nextLink = $j( '<a />' )
+			var $nextLink = $( '<a />' )
 				.attr({
 					href: '#',
 					id: 'rsd_pnext'
@@ -3279,3 +3278,5 @@ mw.RemoteSearchDriver.prototype = {
 		this.showResults( );
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

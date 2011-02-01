@@ -14,10 +14,11 @@
  * 		Array An Array of request params for multi-request 
  * 		Object Named request params
  */
+( function( mw, $ ) {
 	
 mw.KApi = function( partner_id ){
 	return this.init( partner_id );	
-}
+};
 
 mw.KApi.prototype = {
 	baseParam: {
@@ -137,7 +138,7 @@ mw.KApi.prototype = {
 		var ksParam = {
         	'action' : 'startwidgetsession',
         	'widgetId': '_' + this.partner_id // don't ask me, I did not design the API! 
-        }
+        };
 		// add in the base parameters:
 		var param = $j.extend( {}, this.baseParam, ksParam );
 		var requestURL = this.getApiUrl() + 'session&' + $j.param( param );
@@ -263,7 +264,7 @@ mw.kApiGetPartnerClient = function( partner_or_widget_id ){
 		mw.KApiPartnerCache[ partner_id ] = new mw.KApi( partner_id );
 	};
 	return mw.KApiPartnerCache[ partner_id ];
-}
+};
 mw.KApiPlayerLoader = function( kProperties, callback ){
 	if( !kProperties.widget_id ) {
 		mw.log( "Error:: mw.KApiPlayerLoader:: cant run player loader with widget_id " );
@@ -276,4 +277,6 @@ mw.KApiPlayerLoader = function( kProperties, callback ){
 	
 	// Return the kClient api object for future requests
 	return kClient;
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

@@ -195,7 +195,7 @@ var LINK_SWAP_STRING = 'ZreplaceZ';
 					// Check for special jQuery type swap and replace inner JQUERY_SWAP_STRING not value
 					if( matchParts.indexOf( JQUERY_SWAP_STRING ) !== -1 ) {
 						// parse the link as html
-						var $matchParts = $j('<span>' + matchParts + '</span>' );
+						var $matchParts = $('<span>' + matchParts + '</span>' );
 					
 						$jQuerySpan = $matchParts.find('#' +JQUERY_SWAP_STRING + i );
 					
@@ -203,7 +203,7 @@ var LINK_SWAP_STRING = 'ZreplaceZ';
 						//mw.log(" going to swap in linktext: " + linkText );
 						$jQuerySpan.text( linkText );
 					
-						text = text.replace( LINK_SWAP_STRING, $j('<span />' ).append( $jQuerySpan ).html() );
+						text = text.replace( LINK_SWAP_STRING, $('<span />' ).append( $jQuerySpan ).html() );
 					} else {
 					 	// do text string replace
 					 	matchParts = matchParts.split(/ /);

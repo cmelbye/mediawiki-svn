@@ -1,4 +1,3 @@
-	
 
 ( function( mw, $ ) {
 	
@@ -13,57 +12,32 @@
 		"data-mwprovider" : null
 	});
 	
+	// Add mediaWiki player support to target embedPlayer 
 	$( mw ).bind( 'EmbedPlayerNewPlayer', function( embedPlayer ){
-		mw.addMwPlayerHooks( embedPlayer );
+		mw.addMediaWikiPlayerSupport( embedPlayer );
 	});
 	
-	mw.addMwPlayerHooks = function( embedPlayer ){
-		// extend the embedPlayer with MediaWikiSupportPlayer
-		embedPlayer = $.extend( embedPlayer, MediaWikiSupportPlayer);
+	/**
+	 * Master function to add mediaWiki support to embedPlayer 
+	 */
+	mw.addMediaWikiPlayerSupport = function( embedPlayer ){
 		
-		// Add LoadSources binding:
-		$( embedPlayer ).bind('CheckPlayerSourcesEvent', function(event, callback){
-			embedPlayer.loadSources( embedPlayer, callback );
-		});
-		
-		
-		
-		
-		// NOTE: Should could be moved to mediaWiki Api support module
-		// only load from api if sources are empty:
-		if ( _this.apiTitleKey && this.mediaElement.sources.length == 0 ) {
-			// Load media from external data
-			mw.log( 'EmbedPlayer::checkPlayerSources: loading apiTitleKey:' + _this.apiTitleKey );
-			_this.loadSourceFromApi( function(){
-				finishCheckPlayerSources();
-			} );
-			return ;
-		}
-	};	
-	
-	// MediaWikiSupportPlayer methods:
-	// We don't directly extend the player because we use the bind trigger model, 
-	// so that multiple interfaces can extend the player where needed. 
-	MediaWikiSupportPlayer = {	
 		/**
-		 * @param {Object} embedPlayer the player load sources for
-		 * @param {function} the function called once sources are loaded 
+		 * Loads mediaWiki sources for a given embedPlayer
+		 * @param {function} callback Function called once player sources have been added 
 		 */
-		'loadSources' : function( embedPlayer, callback){
-			var _this = this;
-			
+		function loadPlayerSources( callback ){
 			if( ! $( embedPlayer).attr( 'data-mwtitle') ){
 				mw.log( 'Error MediaWikiSupportPlayer:: no mwtitle');
+				callback( false );
 				return false;
 			} else {
 				var apiTitleKey = $( embedPlayer).attr( 'data-mwtitle');
 			}
-
 			// Set local apiProvider via config if not defined
-			if( ! $( embedPlayer ).attr('data-mwprovider') ){
-				var apiProvider = mw.getConfig( 'EmbedPlayer.ApiProvider' );
-			} else {
-				var apiProvider = $( embedPlayer ).attr('data-mwprovider');
+			var apiProvider = $( embedPlayer ).attr('data-mwprovider');
+			if( !apiProvider ){
+				apiProvider = mw.getConfig( 'EmbedPlayer.ApiProvider' );
 			}
 
 			// Setup the request
@@ -72,7 +46,7 @@
 				// In case the user added File: or Image: to the apiKey:
 				'titles': 'File:' + unescape( apiTitleKey ).replace( /^(File:|Image:)/ , '' ),
 				'iiprop': 'url|size|dimensions|metadata',
-				'iiurlwidth': _this.width,
+				'iiurlwidth': embedPlayer.getWidth(),
 				'redirects' : true // automatically resolve redirects
 			};
 
@@ -86,7 +60,7 @@
 						}
 						var page = data.query.pages[i];
 					}
-				}	else {
+				} else {
 					callback( false );
 					return ;
 				}
@@ -96,34 +70,43 @@
 					return ;
 				}
 				var imageinfo = page.imageinfo[0];
-
-				// Set the poster
-				_this.poster = imageinfo.thumburl;
+				
+				// TODO these should call public methods rather than update internals: 
+				
+				// Update the poster
+				embedPlayer.poster = imageinfo.thumburl;
 
 				// Add the media src
-				_this.mediaElement.tryAddSource(
-					$j('<source />')
+				embedPlayer.mediaElement.tryAddSource(
+					$('<source />')
 					.attr( 'src', imageinfo.url )
 					.get( 0 )
 				);
 
 				// Set the duration
 				if( imageinfo.metadata[2]['name'] == 'length' ) {
-					_this.duration = imageinfo.metadata[2]['value'];
+					embedPlayer.duration = imageinfo.metadata[2]['value'];
 				}
 
 				// Set the width height
 				// Make sure we have an accurate aspect ratio
 				if( imageinfo.height != 0 && imageinfo.width != 0 ) {
-					_this.height = parseInt( _this.width * ( imageinfo.height / imageinfo.width ) );
+					embedPlayer.height = parseInt( embedPlayer.width * ( imageinfo.height / imageinfo.width ) );
 				}
 
 				// Update the css for the player interface
-				$j( _this ).css( 'height', _this.height);
+				$( embedPlayer ).css( 'height', _this.height);
 
 				callback();
 			});
 		}
+		
+		/**
+		 * Adds embedPlayer Bindings
+		 */
+		$( embedPlayer ).bind('CheckPlayerSourcesEvent', function(event, callback){
+			loadPlayerSources( callback );
+		});
 	};
-			
+		
 } )( window.mediaWiki, window.jQuery );

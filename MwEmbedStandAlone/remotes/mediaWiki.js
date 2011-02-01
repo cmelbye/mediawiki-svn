@@ -211,8 +211,8 @@ function doPageSpecificRewrite() {
 			} else {
 				mwLoadPlayer(function(){
 					// wait for wikieditor to do its thing
-					$j('#editform,.mw-newarticletext,#toolbar').hide();
-					$j('.sequenceLoader').hide();
+					$('#editform,.mw-newarticletext,#toolbar').hide();
+					$('.sequenceLoader').hide();
 
 					window.mwSequencerRemote = new mw.MediaWikiRemoteSequencer({
 						'action': wgAction,
@@ -401,7 +401,7 @@ function mwLoadPlayer( callback ){
 
 	loadMwEmbed( jsPlayerRequest, function() {
 		// hide the novideojs if present
-		$j( '.videonojs' ).hide();
+		$( '.videonojs' ).hide();
 		mw.ready( callback );
 	});
 }
@@ -421,7 +421,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 		tag_type = 'video';
 
 		// Check type:
-		var $pimg = $j( '#' + vidId + ' img:first' );
+		var $pimg = $( '#' + vidId + ' img:first' );
 		var pwidth = $pimg.width();
 		var imgSring = $pimg.attr('src').split('/').pop();
 		if( $pimg.attr('src') && imgSring == 'play.png' || imgSring == 'fileicon-ogg.png' ){
@@ -436,7 +436,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 		// Parsed values:
 		var src = '';
 		var duration_attr = '';
-		var rewriteHTML = $j( '#' + vidId ).html();
+		var rewriteHTML = $( '#' + vidId ).html();
 
 		if( rewriteHTML == ''){
 			mw.log( "Error: empty rewrite html" );
@@ -462,11 +462,11 @@ function rewrite_for_OggHandler( vidIdList ) {
 		var apiProviderAttr = ( src.indexOf( 'wikipedia\/commons' ) != -1 )?'apiProvider="commons" ': '';
 
 		// If in a gallery box or filehistory we will be displaying the video larger in a lightbox
-		if( $j( '#' + vidId ).parents( '.gallerybox,.filehistory' ).length ){
+		if( $( '#' + vidId ).parents( '.gallerybox,.filehistory' ).length ){
 			pwidth = 400;
 			// Update the width to 400 and keep scale
 			if( pheight != 0 ) {
-				pheight = pwidth * ( $j( '#' + vidId + ' img' ).height() / $j( '#' + vidId + ' img' ).width() );
+				pheight = pwidth * ( $( '#' + vidId + ' img' ).height() / $( '#' + vidId + ' img' ).width() );
 			}
 		}
 
@@ -495,16 +495,16 @@ function rewrite_for_OggHandler( vidIdList ) {
 			var checkForIframePlayerParam = function(){
 				// Add full window binding if embedplayer flag set: 
 				if( mwReqParam['embedplayer'] == 'yes' ){
-					$j('#loadingPlayer').remove();
-					$j('body').css('overflow', 'hidden');	
-					$j( '#mwe_' + vidId ).get(0).resizePlayer({
-						'width' : $j(window).width(),
-						'height' : $j(window).height()
+					$('#loadingPlayer').remove();
+					$('body').css('overflow', 'hidden');	
+					$( '#mwe_' + vidId ).get(0).resizePlayer({
+						'width' : $(window).width(),
+						'height' : $(window).height()
 					});
-					$j(window).unbind().resize(function(){
-						$j( '#mwe_' + vidId ).get(0).resizePlayer({
-							'width' : $j(window).width(),
-							'height' : $j(window).height()
+					$(window).unbind().resize(function(){
+						$( '#mwe_' + vidId ).get(0).resizePlayer({
+							'width' : $(window).width(),
+							'height' : $(window).height()
 						}); 
 					});
 				}
@@ -512,9 +512,9 @@ function rewrite_for_OggHandler( vidIdList ) {
 			
 			
 			// If the video is part of a "gallery box" use light-box linker instead
-			if( $j( '#' + vidId ).parents( '.gallerybox,.filehistory' ).length ){
-				$j( '#' + vidId ).after(
-					 $j( '<div />')
+			if( $( '#' + vidId ).parents( '.gallerybox,.filehistory' ).length ){
+				$( '#' + vidId ).after(
+					 $( '<div />')
 					.css({
 						'width' : $pimg.attr('width' ),
 						'height' :$pimg.attr( 'height' ),
@@ -524,7 +524,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 					.addClass( 'k-player' )
 					.append(
 						// The poster image
-						$j( '<img />' )
+						$( '<img />' )
 						.css( {
 							'width' : '100%',
 							'height' : '100%'
@@ -532,7 +532,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 						.attr( 'src', $pimg.attr('src') ),
 
 						// A play button:
-						$j( '<div />' )
+						$( '<div />' )
 						.css({
 							'position' : 'absolute',
 							'top' : ( parseInt( $pimg.attr( 'height' ) ) /2 ) -25,
@@ -548,7 +548,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 							var buttons = {};
 							buttons[ gM( 'mwe-ok' ) ] = function(){
 								// close the dialog
-								$j(this).dialog( 'close' ).remove();
+								$(this).dialog( 'close' ).remove();
 							};
 							var $dialog = mw.addDialog( {
 								'title' : decodeURIComponent( apiTitleKey.replace(/_/g, ' ') ),
@@ -557,7 +557,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 								'height' : dialogHeight,
 								'width' : 430,
 								'close': function(event, ui) {
-									var embedPlayer = $j( '#mwe_' + vidId ).get(0);
+									var embedPlayer = $( '#mwe_' + vidId ).get(0);
 									// stop the player before we close the dialog
 									if( embedPlayer ) {
 										embedPlayer.stop();
@@ -566,8 +566,8 @@ function rewrite_for_OggHandler( vidIdList ) {
 							});
 
 							// Update the embed code to use the mwEmbed player:							
-							$j( '#mwe_' + vidId ).embedPlayer( { 'autoplay' : true }, function(){
-								var embedPlayer = $j( '#mwe_' + vidId ).get(0);
+							$( '#mwe_' + vidId ).embedPlayer( { 'autoplay' : true }, function(){
+								var embedPlayer = $( '#mwe_' + vidId ).get(0);
 								// Show the control bar for two seconds (auto play is confusing without it )
 								embedPlayer.controlBuilder.showControlBar();
 								// hide the controls if they should they are overlayed on the video
@@ -584,8 +584,8 @@ function rewrite_for_OggHandler( vidIdList ) {
 
 			} else {
 				// Set the video tag inner html remove extra player
-				$j( '#' + vidId ).html( html_out );
-				$j( '#mwe_' + vidId ).embedPlayer( checkForIframePlayerParam );
+				$( '#' + vidId ).html( html_out );
+				$( '#mwe_' + vidId ).embedPlayer( checkForIframePlayerParam );
 			}							
 			
 			// Issue an async request to rewrite the next clip
@@ -717,7 +717,7 @@ function loadMwEmbed( classSet, callback ) {
  */
 function mwCheckForGadget(){
 	//mw.log('mwCheckForGadget');
-	if( $j('#mwe-gadget-button').length != 0){
+	if( $('#mwe-gadget-button').length != 0){
 		//Gadget button already in dom
 		return false;
 	}
@@ -751,7 +751,7 @@ function mwCheckForGadget(){
 		})
 		.click(function (){
 			if( !wgUserName ){
-				$j( this )
+				$( this )
 				.after( gM('mwe-must-login-gadget',
 					wgArticlePath.replace(
 						'$1', 'Special:UserLogin?returnto=' + wgPageName ) )
@@ -761,9 +761,9 @@ function mwCheckForGadget(){
 			}
 
 			// Else Add loader
-			$j( this )
+			$( this )
 			.after(
-				$j('<div />')
+				$('<div />')
 				.attr( 'id', 'gadget-form-loader' )
 				.loadingSpinner()
 			)
@@ -776,8 +776,8 @@ function mwCheckForGadget(){
 		} );
 
 	// Add the $gadgetBtn before the first heading:
-	$j('#firstHeading').before(
-		$j('<div />')
+	$('#firstHeading').before(
+		$('<div />')
 		.attr('id','mwe-gadget-button')
 		.css({
 			'margin': '10px'
@@ -812,7 +812,7 @@ function mwSubmitGadgetPref( gadget_id ){
 			}
 			if( mwCheckFormDatagadget(form.data, gadget_id ) ){
 				//update the loader
-				$j('#gadget-form-loader')
+				$('#gadget-form-loader')
 				.text( gM( 'mwe-enable-gadget-done' ) );
 			}
 		} );
@@ -820,10 +820,10 @@ function mwSubmitGadgetPref( gadget_id ){
 }
 function mwGetFormFromPage( pageHTML ){
 	var form = {};
-	$j( pageHTML ).find('form').each( function( ){
-		form.url = $j( this ).attr('action');
+	$( pageHTML ).find('form').each( function( ){
+		form.url = $( this ).attr('action');
 		if( form.url.indexOf( 'Special:Preferences') !== -1 ){
-			form.data = $j( this ).serializeArray();
+			form.data = $( this ).serializeArray();
 			// break out of loop
 			return false;
 		}

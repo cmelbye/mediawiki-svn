@@ -2,7 +2,7 @@
 * Loader for smilPlayer
 */
 // Wrap in mw to not pollute global namespace
-( function( mw ) {
+( function( mw, $ ) {
 
 	mw.setDefaultConfig( {
 		// The framerate for the smil player
@@ -29,7 +29,7 @@
 	} );
 
 	// Add the mw.SmilPlayer to the embedPlayer loader:
-	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, resourceRequest ) {
+	$( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, resourceRequest ) {
 		var smilPlayerLibrarySet = [
 			"mw.SmilHooks",
 			"mw.Smil",
@@ -53,14 +53,14 @@
 	* Check if a video tag element has a smil source
 	*/
 	mw.CheckElementForSMIL = function( element ){
-		if( $j( element ) .attr('type' ) == 'application/smil' ||
-			( $j( element ).attr('src' ) &&
-		 	$j( element ).attr('src' ).substr( -4) == 'smil' ) )
+		if( $( element ) .attr('type' ) == 'application/smil' ||
+			( $( element ).attr('src' ) &&
+		 	$( element ).attr('src' ).substr( -4) == 'smil' ) )
 		 {
 		 	return true;
 		 }
 		 var loadSmil = false;
-		 $j( element ).find( 'source' ).each( function( inx, sourceElement ){
+		 $( element ).find( 'source' ).each( function( inx, sourceElement ){
 			if( mw.CheckElementForSMIL( sourceElement ) ){
 				loadSmil = true;
 				return true;
@@ -69,4 +69,4 @@
 		return loadSmil;
 	};
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

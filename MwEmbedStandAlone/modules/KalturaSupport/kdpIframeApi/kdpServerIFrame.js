@@ -9,7 +9,7 @@
 jQuery(document).ready(function(){	
 	var timeoutCount = 0;
 	var waitForKalturaPlayer = function(){
-		if( !$j('#kaltura_player').length || !$j('#kaltura_player').get(0).addJsListener ){
+		if( !$('#kaltura_player').length || !$('#kaltura_player').get(0).addJsListener ){
 			timeoutCount++;
 			if( timeoutCount == 1000 ){ // 10 seconds timeout 
 				mw.log("Error kaltura player never ready");
@@ -31,7 +31,7 @@ kdpServerIframe = function(){
 		mw.log("kdpServerIframe:: Error missing EmbedPlayer.IframeParentUrl");
 		return ;
 	}
-	return this.init( $j('#kaltura_player').get(0) );
+	return this.init( $('#kaltura_player').get(0) );
 }
 
 kdpServerIframe.prototype = {	

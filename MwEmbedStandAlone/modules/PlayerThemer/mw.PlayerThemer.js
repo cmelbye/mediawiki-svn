@@ -30,7 +30,7 @@ mw.PlayerThemer.prototype = {
 			'doBind' : function( _this ){
 				_this.$getCompoent( 'centerPlayButton' ).click(function(){
 					// Fade away the button
-					$j(this).fadeOut( 'fast' );
+					$(this).fadeOut( 'fast' );
 					_this.getEmbedPlayer().play();
 				})				
 			},
@@ -68,10 +68,10 @@ mw.PlayerThemer.prototype = {
 			'hide' : ['playerNoFocus'],
 			'doBind' : function( _this ){
 				// Bind the progress bar time and buffer update
-				$j( _this.getEmbedPlayer() ).bind( 'updatePlayHeadPercent', function( event, perc ){
+				$( _this.getEmbedPlayer() ).bind( 'updatePlayHeadPercent', function( event, perc ){
 					_this.$getCompoent( 'playScrubber' ).slider( "option", "value", perc * 1000 );
 				})
-				$j( _this.getEmbedPlayer() ).bind('updateBufferPercent', function(event, perc ){
+				$( _this.getEmbedPlayer() ).bind('updateBufferPercent', function(event, perc ){
 					_this.$getCompoent( 'bufferProgress' ).css('width', ( perc * 100 ) + '%' );
 				});
 
@@ -227,10 +227,10 @@ mw.PlayerThemer.prototype = {
 
 	init: function( themeContainer, options){
 		var _this = this;
-		if( $j( themeContainer ).length == 0 ){
+		if( $( themeContainer ).length == 0 ){
 			mw.log("Error: PlayerThemer can't them empty target")
 		}
-		this.$target = $j( themeContainer );
+		this.$target = $( themeContainer );
 		// set the id:
 		if( !this.$target.attr('id') ){
 			this.$target.attr('id', 'playerThemer_' + Math.random() );
@@ -243,7 +243,7 @@ mw.PlayerThemer.prototype = {
 		mw.load('EmbedPlayer', function(){
 			_this.$target.find('video').embedPlayer(function(){
 				// Bind to the embedPlayer library:
-				_this.embedPlayer = $j('#' + playerId).get(0);
+				_this.embedPlayer = $('#' + playerId).get(0);
 				// Merge in the components
 				if(! options.components )
 					 options.components = {};
@@ -323,15 +323,15 @@ mw.PlayerThemer.prototype = {
 	bindPlayerDisplayState: function(){
 		var _this = this;
 
-		$j( this.embedPlayer ).bind('play', function(){
+		$( this.embedPlayer ).bind('play', function(){
 			_this.setDisplayState('playing')
 		});
 
-		$j( this.embedPlayer ).bind('paused', function(){
+		$( this.embedPlayer ).bind('paused', function(){
 			_this.setDisplayState('paused');
 		});
 
-		$j( this.embedPlayer ).bind('ended', function(){
+		$( this.embedPlayer ).bind('ended', function(){
 			// xxx should support 'ended' state
 			//_this.setDisplayState('ended');
 			_this.setDisplayState('stop');

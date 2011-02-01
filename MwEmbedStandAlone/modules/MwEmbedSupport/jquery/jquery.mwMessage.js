@@ -17,7 +17,7 @@
  *
  *   $( 'div#closeLabel' ).mwMessage( 'myMsg', 
  *				      function(){ $dialog.close() },
- *				      $j( '<a/>' ).attr( 'target', '_new' )
+ *				      $( '<a/>' ).attr( 'target', '_new' )
  *  				    );
  *
  * @param key {String} key for the message

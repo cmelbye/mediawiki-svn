@@ -17,7 +17,7 @@
  *
  */
 
-mw.includeAllModuleMessages();
+( function( mw, $ ) {
 
 /* Add the hooks needed for playback */
 mw.Smil = function(options) {
@@ -99,7 +99,7 @@ mw.Smil.prototype = {
 	},
 	// Set the $dom from xmlData
 	loadFromXMLData: function( xmlData ){
-		this.$dom = $j( xmlData );
+		this.$dom = $( xmlData );
 	},
 	/**
 	 * Set smil from xml string
@@ -109,7 +109,7 @@ mw.Smil.prototype = {
 	 */
 	loadFromString: function( smilXmlString ) {
 		// Load the parsed string into the local "dom"
-		this.$dom = $j( this.getXMLDomObject( smilXmlString ) );
+		this.$dom = $( this.getXMLDomObject( smilXmlString ) );
 		mw.log("Smil::loadFromString: loaded smil dom: " + this.$dom.children().length + "\n" + smilXmlString );
 	},
 	/**
@@ -120,7 +120,7 @@ mw.Smil.prototype = {
 		// jQuery strips some html native tags when parsing xml passed into jQuery
 		// since smil has html tags ( "body" "head" ) we need to first convert it to
 		// an xml object::
-		this.$dom = $j( this.getXMLDomObject( smilXmlString ) );
+		this.$dom = $( this.getXMLDomObject( smilXmlString ) );
 
 		// Remove any non-smil nodes that are in the page dom
 		this.getBody().syncPageDom();
@@ -300,7 +300,7 @@ mw.Smil.prototype = {
 			// Trigger the duration change event:
 			if( orgDuration != this.duration ){
 				mw.log("Smil::getDuration: forceRefresh:" + this.duration + ' != ' + ' old duraiton: ' + orgDuration );	
-				$j( this.getEmbedPlayer() ).trigger('durationchange');
+				$( this.getEmbedPlayer() ).trigger('durationchange');
 			}
 		}
 		return this.duration;
@@ -331,7 +331,7 @@ mw.Smil.prototype = {
 	 *            smilElement Element to get id for
 	 */
 	getSmilElementPlayerID : function( smilElement ) {
-		if (! $j( smilElement ).attr('id') ) {
+		if (! $( smilElement ).attr('id') ) {
 			mw.log("Error: getAssetId smilElement missing id ");
 			return false;
 		}
@@ -340,18 +340,18 @@ mw.Smil.prototype = {
 			mw.log("Error: getAssetId missing parent embedPlayer");
 			return false;
 		}
-		return embedPlayer.id + '_' + $j( smilElement ).attr('id');
+		return embedPlayer.id + '_' + $( smilElement ).attr('id');
 	},
 
 	/**
 	 * Get the smil id for an pageNode
 	 */
 	getSmilDomId: function ( pageNode ){
-		if( !$j( pageNode ).length ) {
+		if( !$( pageNode ).length ) {
 			mw.log("Error: getSmilDomId for pageNode that is not in dom");
 			return false;
 		}
-		return $j( pageNode ).attr('id').replace( '/' + this.getEmbedPlayer().id + '_/', '');
+		return $( pageNode ).attr('id').replace( '/' + this.getEmbedPlayer().id + '_/', '');
 	},
 
 	/**
@@ -394,37 +394,37 @@ mw.Smil.prototype = {
 		var _this = this;
 		// We pass the htmlData via jQuery fragment creation, this runs
 		// jquery.clean() and filters the result html of script tags and the like
-		var $html = $j( '<div />' ).append(
-			$j( htmlData )
+		var $html = $( '<div />' ).append(
+			$( htmlData )
 		);
 		// Links go to a new window and are disable when smaller than player size
 		$html.find('a').each( function(inx, link ){
 			// Escape link output as to not include scirpt execution
-			$j(link).attr('href',
-				mw.html.escape( $j(link).attr('href') )
+			$(link).attr('href',
+				mw.html.escape( $(link).attr('href') )
 			);
 		});
 
 		// Make every asset url absolute and restrict domain of assets
 		// ( if player is configured to restrict asset domains )
 		$html.find('img,video,audio,track,iframe,object,embed,form').each(function(inx, node){
-			if( $j(node).attr('src') ){
-				$j(node).attr('src',
-					_this.getAssetUrl( $j(node).attr('src') )
+			if( $(node).attr('src') ){
+				$(node).attr('src',
+					_this.getAssetUrl( $(node).attr('src') )
 				);
 			}
-			if( $j(node).attr('data') ){
-				$j(node).attr('data',
-					_this.getAssetUrl( $j(node).attr('src') )
+			if( $(node).attr('data') ){
+				$(node).attr('data',
+					_this.getAssetUrl( $(node).attr('src') )
 				);
 			}
 			// remove form action
-			if( $j(node).attr('action') ){
-				if( $j(node).attr('action').toLowerCase().indexOf('javascript') != -1 ){
-					 $j(node).attr('action', '');
+			if( $(node).attr('action') ){
+				if( $(node).attr('action').toLowerCase().indexOf('javascript') != -1 ){
+					 $(node).attr('action', '');
 				} else {
-					$j(node).attr('action',
-						_this.getAssetUrl( $j(node).attr('src') )
+					$(node).attr('action',
+						_this.getAssetUrl( $(node).attr('src') )
 					);
 				}
 			}
@@ -454,11 +454,11 @@ mw.Smil.prototype = {
 	},
 	getTitleKey: function( smilElement ){
 		// check directly for the attribute:
-		if( $j(smilElement).attr('apititlekey') ){
-			return $j(smilElement).attr('apititlekey') ;
+		if( $(smilElement).attr('apititlekey') ){
+			return $(smilElement).attr('apititlekey') ;
 		}
-		if( $j(smilElement).find("param[name='apiTitleKey']").length ) {
-			return $j(smilElement).find("param[name='apiTitleKey']").attr('value');
+		if( $(smilElement).find("param[name='apiTitleKey']").length ) {
+			return $(smilElement).find("param[name='apiTitleKey']").attr('value');
 		}
 		return false;
 	},
@@ -466,12 +466,12 @@ mw.Smil.prototype = {
 	 * Get the smil resource type based on nodeName and type attribute
 	 */
 	getRefType : function( smilElement ) {
-		if ($j(smilElement).length == 0) {
+		if ($(smilElement).length == 0) {
 			mw.log('Error: Smil::getRefType on empty smilElement');
 			return;
 		}
 		// Get the smil type
-		var smilType = $j(smilElement).get(0).nodeName.toLowerCase();
+		var smilType = $(smilElement).get(0).nodeName.toLowerCase();
 
 		if (this.getBody().smilBlockTypeMap[smilType] != 'ref') {
 			mw.log("Error: trying to get ref type of node that is not a ref"
@@ -481,7 +481,7 @@ mw.Smil.prototype = {
 
 		// If the smilType is ref, check for a content type
 		if (smilType == 'ref') {
-			switch ($j(smilElement).attr('type')) {
+			switch ($(smilElement).attr('type')) {
 			case 'application/x-wikitemplate':
 				smilType= 'mwtemplate';
 				break;
@@ -525,43 +525,45 @@ mw.Smil.prototype = {
 		if (!timeValue)
 			return 0;
 
-		// If timeValue is already a clean number of seconds, return seconds:
-	if (!isNaN(timeValue)) {
-		return parseFloat(timeValue);
-	}
-	// Trim whitespace if empty return zero
-	timeValue = $j.trim(timeValue);
-	if (timeValue == '') {
+			// If timeValue is already a clean number of seconds, return seconds:
+		if (!isNaN(timeValue)) {
+			return parseFloat(timeValue);
+		}
+		// Trim whitespace if empty return zero
+		timeValue = $j.trim(timeValue);
+		if (timeValue == '') {
+			return 0;
+		}
+	
+		// First check for hh:mm:ss time:
+		if (timeValue.split(':').length == 3 || timeValue.split(':').length == 2) {
+			return mw.npt2seconds(timeValue);
+		}
+	
+		var timeFactor = null
+		// Check for metric hours
+		if (timeValue.substr(-1) == 'h') {
+			timeFactor = 3600;
+		}
+		// Min metric
+		if (timeValue.substr(-3) == 'min') {
+			timeFactor = 60;
+		}
+		// Seconds
+		if (timeValue.substr(-1) == 's') {
+			timeFactor = 1;
+		}
+		// Millaseconds
+		if (timeValue.substr(-2) == 'ms') {
+			timeFactor = .001;
+		}
+	
+		if (timeFactor) {
+			return parseFloat(parseFloat(timeValue) * timeFactor);
+		}
+		mw.log("Error could not parse time: " + timeValue);
 		return 0;
 	}
+};
 
-	// First check for hh:mm:ss time:
-	if (timeValue.split(':').length == 3 || timeValue.split(':').length == 2) {
-		return mw.npt2seconds(timeValue);
-	}
-
-	var timeFactor = null
-	// Check for metric hours
-	if (timeValue.substr(-1) == 'h') {
-		timeFactor = 3600;
-	}
-	// Min metric
-	if (timeValue.substr(-3) == 'min') {
-		timeFactor = 60;
-	}
-	// Seconds
-	if (timeValue.substr(-1) == 's') {
-		timeFactor = 1;
-	}
-	// Millaseconds
-	if (timeValue.substr(-2) == 'ms') {
-		timeFactor = .001;
-	}
-
-	if (timeFactor) {
-		return parseFloat(parseFloat(timeValue) * timeFactor);
-	}
-	mw.log("Error could not parse time: " + timeValue);
-	return 0;
-}
-}
+} )( window.mediaWiki, window.jQuery );

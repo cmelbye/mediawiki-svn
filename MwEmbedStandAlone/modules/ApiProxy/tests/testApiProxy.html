@@ -12,20 +12,20 @@ var remote_script_path = '/w';
 var remote_apiUrl = remote_wiki_host + remote_script_path + '/api.php';
 
 mw.ready( function(){
-	$j('#hostName').text( remote_wiki_host );
+	$('#hostName').text( remote_wiki_host );
 	//callback function here:
-	$j('#setupDone').show('slow');
-	$j('#doHello').click( doHello );
-	$j('#doAppend').click( doAppend );
-	$j('#doFileBrowse').click( doFileUpload );
+	$('#setupDone').show('slow');
+	$('#doHello').click( doHello );
+	$('#doAppend').click( doAppend );
+	$('#doFileBrowse').click( doFileUpload );
 });
 
 function doHello(){
 	mw.log('to a hello user');
-	$j('#helloTarget').loadingSpinner();
+	$('#helloTarget').loadingSpinner();
 	//first get the user name:
 	getUserName( function( user_name ){
-		$j('#helloTarget').addClass('UserNameFound').hide().text( user_name ).fadeIn('slow');
+		$('#helloTarget').addClass('UserNameFound').hide().text( user_name ).fadeIn('slow');
 	} );
 	return false;
 }
@@ -48,7 +48,7 @@ function getUserName( callback ){
 
 // Simple "hello from api proxy" append on talk page
 function doAppend(){
-	$j('#appendTarget').loadingSpinner();
+	$('#appendTarget').loadingSpinner();
 	//get user name
 	getUserName( function( userName ){
 		var eTitle = 'User_talk:' + userName;
@@ -64,12 +64,12 @@ function doAppend(){
 			}
 			mw.getJSON( remote_apiUrl, request, function( result ){
 				if(result.edit && result.edit.newrevid){
-					$j('#appendTarget').html( "success: " + JSON.stringify ( result) );
+					$('#appendTarget').html( "success: " + JSON.stringify ( result) );
 					url = remote_wiki_host + remote_script_path + '/index.php/';
 					url+= result.edit.title.replace(' ', '_');
-					$j('#appendTarget').append( '<br><a target="_new" href="' + url + '">visit page</a>' );
+					$('#appendTarget').append( '<br><a target="_new" href="' + url + '">visit page</a>' );
 				}else{
-					$j('#appendTarget').html( "falied: " + JSON.stringify ( result) );
+					$('#appendTarget').html( "falied: " + JSON.stringify ( result) );
 				}
 			});
 
@@ -78,8 +78,8 @@ function doAppend(){
 }
 
 function doFileUpload(){
-	$j('#file-upload-container').fadeIn( 'slow' );
-	$j('#browseTarget').loadingSpinner();
+	$('#file-upload-container').fadeIn( 'slow' );
+	$('#browseTarget').loadingSpinner();
 	// Load firefogg lib
 	mw.load('AddMedia.firefogg', function( ) {
 		// Load proxy lib
@@ -88,8 +88,8 @@ function doFileUpload(){
 			mw.getToken( remote_apiUrl, 'File:MyRandomFileTokenCheck.jpg', function( eToken ) {
 				mw.log(" got token :: " + eToken);
 				// Add the token to the dom:
-				$j( '#file-name' ).append(
-					$j('<input />')
+				$( '#file-name' ).append(
+					$('<input />')
 					.attr({
 						'type': 'hidden',
 						 'id' : 'wpEditToken',
@@ -110,9 +110,9 @@ function doFileUpload(){
 					// File Destination Name change callback:
 					'selectFileCb' : function( fname ){
 						// Update our local target:
-						$j('#file-name').val( fname );
+						$('#file-name').val( fname );
 						// Run a destination file name check on the remote target
-						$j('#file-name').doDestCheck( {
+						$('#file-name').doDestCheck( {
 							'apiUrl' : remote_apiUrl,
 							'warn_target': '#file-warning'
 						} );
@@ -123,7 +123,7 @@ function doFileUpload(){
 				} );
 
 				//Setup submit binding:
-				$j('#uploadButton').click( function( ){
+				$('#uploadButton').click( function( ){
 					// Build the output and send upload request to fileProxy
 					mw.ApiProxy.sendServerMsg( {
 						'apiUrl' : remote_apiUrl,
@@ -131,8 +131,8 @@ function doFileUpload(){
 						'frameMsg' : {
 							'action' : 'fileSubmit',
 							'formData' : {
-								'filename' : $j('#file-name').val(),
-								'comment' : $j('#file-desc').val()
+								'filename' : $('#file-name').val(),
+								'comment' : $('#file-desc').val()
 							}
 						}
 					} );
@@ -141,8 +141,8 @@ function doFileUpload(){
 
 
 				// Setup doDestCheck on change
-				$j('#file-name').change(function(){
-					$j('#file-name').doDestCheck( {
+				$('#file-name').change(function(){
+					$('#file-name').doDestCheck( {
 						'apiUrl' : remote_apiUrl,
 						'warn_target': '#file-warning'
 					} );

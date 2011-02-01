@@ -42,10 +42,10 @@ mw.SequencerTools.prototype = {
 		'childParam': {
 			update: function( _this, smilElement, paramName, value){
 				// Check if the param already exists
-				$paramNode = $j( smilElement ).find( "[name='"+ paramName + "']" );
+				$paramNode = $( smilElement ).find( "[name='"+ paramName + "']" );
 				if( $paramNode.length == 0 ){
-					$j( smilElement ).append(
-						$j('<param />').attr({
+					$( smilElement ).append(
+						$('<param />').attr({
 							'name': paramName,
 							'value' : value
 						})
@@ -55,10 +55,10 @@ mw.SequencerTools.prototype = {
 					$paramNode.attr( 'value', value);
 				}
 				mw.log("editableTypes::Should have updated smilElement param: " + paramName
-						+ ' to : ' + $j( smilElement ).find( "[name='"+ paramName + '"]' ).attr( 'value') );
+						+ ' to : ' + $( smilElement ).find( "[name='"+ paramName + '"]' ).attr( 'value') );
 			},
 			getSmilVal: function( _this, smilElement, paramName ){
-				$paramNode = $j( smilElement ).find( "[name='"+ paramName + "']" );
+				$paramNode = $( smilElement ).find( "[name='"+ paramName + "']" );
 				if( $paramNode.length == 0){
 					return '';
 				}
@@ -67,12 +67,12 @@ mw.SequencerTools.prototype = {
 		},
 		'string': {
 			update: function( _this, smilElement, attributeName, value){
-				$j( smilElement ).attr( attributeName, value);
+				$( smilElement ).attr( attributeName, value);
 				// update the display
 			},
 			getSmilVal : function( _this, smilElement, attributeName ){
-				if( $j( smilElement ).attr( attributeName ) ){
-					return $j( smilElement ).attr( attributeName );
+				if( $( smilElement ).attr( attributeName ) ){
+					return $( smilElement ).attr( attributeName );
 				}
 				// Check for a default value
 				if( _this.editableAttributes[ attributeName ].defaultValue ){
@@ -85,20 +85,20 @@ mw.SequencerTools.prototype = {
 			update : function( _this, smilElement, attributeName, value){
 				// Validate time
 				var seconds = _this.sequencer.getSmil().parseTime( value );
-				$j( smilElement ).attr( attributeName, mw.seconds2npt( seconds ) );
+				$( smilElement ).attr( attributeName, mw.seconds2npt( seconds ) );
 				// Update the clip duration :
 				_this.sequencer.getEmbedPlayer().getDuration( true );
 
 				// Seek to "this clip"
 				_this.sequencer.getEmbedPlayer().setCurrentTime(
-					$j( smilElement ).data('startOffset')
+					$( smilElement ).data('startOffset')
 				);
 			},
 			getSmilVal : function( _this, smilElement, attributeName ){
 				var smil = _this.sequencer.getSmil();
 				return mw.seconds2npt(
 						smil.parseTime(
-							$j( smilElement ).attr( attributeName )
+							$( smilElement ).attr( attributeName )
 						)
 					);
 			}
@@ -119,7 +119,7 @@ mw.SequencerTools.prototype = {
 			'title': gM('mwe-sequencer-asset-source'),
 			'action' : function( clickButton, _this, smilElement ){
 				// Update the link
-				$j( clickButton )
+				$( clickButton )
 				.attr({
 					'href': _this.sequencer.getServer().getAssetViewUrl(
 							_this.sequencer.getSmil().getTitleKey( smilElement )
@@ -137,26 +137,26 @@ mw.SequencerTools.prototype = {
 			'action': function( clickButton, _this, smilElement ){
 				_this.sequencer.getPlayer().previewClip( smilElement, function(){
 					// preview done, restore original state:
-					$j(clickButton).replaceWith (
+					$(clickButton).replaceWith (
 						_this.getEditAction( smilElement, 'preview' )
 					);
 				});
 				// xxx todo update preview button to "pause" / "play"
 				var doPause = function(){
-					$j( clickButton ).find( '.ui-icon')
+					$( clickButton ).find( '.ui-icon')
 						.removeClass( 'ui-icon-pause' )
 						.addClass( 'ui-icon-play' );
-					$j( clickButton ).find('.btnText').text(
+					$( clickButton ).find('.btnText').text(
 						gM('mwe-sequencer-preview-continue')
 					);
 					_this.sequencer.getEmbedPlayer().pause();
 				};
 				var doPlay = function(){
 					// setup pause button:
-					$j( clickButton ).find( '.ui-icon')
+					$( clickButton ).find( '.ui-icon')
 						.removeClass( 'ui-icon-play' )
 						.addClass( 'ui-icon-pause' )
-					$j( clickButton ).find('.btnText').text(
+					$( clickButton ).find('.btnText').text(
 						gM('mwe-sequencer-preview-pause')
 					);
 					// keep the target preview end time:
@@ -165,7 +165,7 @@ mw.SequencerTools.prototype = {
 						_this.sequencer.getEmbedPlayer().playSegmentEndTime
 					);
 				};
-				$j( clickButton ).unbind().click(function(){
+				$( clickButton ).unbind().click(function(){
 					if( _this.sequencer.getEmbedPlayer().paused ){
 						doPlay();
 					} else {
@@ -187,7 +187,7 @@ mw.SequencerTools.prototype = {
 						var tool = _this.tools[toolId];
 						for( var i=0; i < tool.editableAttributes.length ; i++ ){
 							var attributeName = tool.editableAttributes[i];
-							var $editToolInput = $j('#' + _this.getEditToolInputId( toolId, attributeName ) );
+							var $editToolInput = $('#' + _this.getEditToolInputId( toolId, attributeName ) );
 							// Restore all original attribute values
 							smilElement.attr( attributeName, $editToolInput.data('initialValue') );
 						}
@@ -199,7 +199,7 @@ mw.SequencerTools.prototype = {
 
 				// Update the embed player
 				_this.sequencer.getEmbedPlayer().setCurrentTime(
-					$j( smilElement ).data('startOffset')
+					$( smilElement ).data('startOffset')
 				);
 
 				// Close / empty the toolWindow
@@ -252,7 +252,7 @@ mw.SequencerTools.prototype = {
 			this.setCurrentToolId( selectedToolId );
 		}
 
-		$toolsContainer = $j('<div />')
+		$toolsContainer = $('<div />')
 		.addClass( 'editToolsContainer' )
 		.css( {
 			'overflow': 'auto',
@@ -263,7 +263,7 @@ mw.SequencerTools.prototype = {
 			'bottom': '37px'
 		})
 		.append(
-			$j('<ul />')
+			$('<ul />')
 		);
 
 		this.sequencer.getEditToolTarget().empty().append(
@@ -288,8 +288,8 @@ mw.SequencerTools.prototype = {
 			}
 			// Append the title to the ul list
 			$toolsContainer.find( 'ul').append(
-				$j('<li />').append(
-					$j('<a />')
+				$('<li />').append(
+					$('<a />')
 					.attr('href', '#tooltab_' + toolId )
 					.text( gM('mwe-sequencer-tools-' + toolId) )
 				)
@@ -297,10 +297,10 @@ mw.SequencerTools.prototype = {
 
 			// Append the tooltab container
 			$toolsContainer.append(
-				$j('<div />')
+				$('<div />')
 				.attr('id', 'tooltab_' + toolId )
 				.append(
-					$j('<h3 />').text( gM('mwe-sequencer-tools-' + toolId + '-desc') )
+					$('<h3 />').text( gM('mwe-sequencer-tools-' + toolId + '-desc') )
 				)
 			);
 			var $toolContainer = $toolsContainer.find( '#tooltab_' + toolId );
@@ -316,7 +316,7 @@ mw.SequencerTools.prototype = {
 			}
 
 			// Output a float divider:
-			$toolContainer.append( $j('<div />').addClass('ui-helper-clearfix') );
+			$toolContainer.append( $('<div />').addClass('ui-helper-clearfix') );
 
 			// Build out tool widgets
 			if( tool.editWidgets ){
@@ -328,17 +328,17 @@ mw.SequencerTools.prototype = {
 					}
 					// Append a target for the edit widget:
 					$toolContainer.append(
-						$j('<div />')
+						$('<div />')
 						.attr('id', 'editWidgets_' + editWidgetId)
 					);
 					// Draw the binded widget:
 					_this.editWidgets[ editWidgetId ].draw(
 						_this,
-						$j( '#editWidgets_' + editWidgetId ),
+						$( '#editWidgets_' + editWidgetId ),
 						smilElement
 					);
 					// Output a float divider:
-					$toolContainer.append( $j('<div />').addClass( 'ui-helper-clearfix' ) );
+					$toolContainer.append( $('<div />').addClass( 'ui-helper-clearfix' ) );
 				}
 			}
 		});
@@ -346,7 +346,7 @@ mw.SequencerTools.prototype = {
 		// Add tab bindings
 		$toolsContainer.tabs({
 			select: function( event, ui ) {
-				_this.setCurrentToolId( $j( ui.tab ).attr('href').replace('#tooltab_', '') );
+				_this.setCurrentToolId( $( ui.tab ).attr('href').replace('#tooltab_', '') );
 			},
 			selected : toolTabIndex
 		});
@@ -354,7 +354,7 @@ mw.SequencerTools.prototype = {
 		// Update the selected tool
 		_this.setCurrentToolId(	toolSet[ toolTabIndex ] );
 		
-		var $editActions = $j('<div />')
+		var $editActions = $('<div />')
 		.css({
 			'position' : 'absolute',
 			'bottom' : '0px',
@@ -378,7 +378,7 @@ mw.SequencerTools.prototype = {
 				)
 			}
 		}
-		$j( this.sequencer.getEditToolTarget() ).append( $editActions )
+		$( this.sequencer.getEditToolTarget() ).append( $editActions )
 	},
 	getCurrentsmilElement: function(){
 		return this.currentsmilElement;
@@ -391,7 +391,7 @@ mw.SequencerTools.prototype = {
 	},
 	setCurrentToolId: function( toolId ){
 		this.currentToolId = toolId;
-		$j( this ).trigger( 'toolSelect' );
+		$( this ).trigger( 'toolSelect' );
 	},
 
 	getEditAction: function( smilElement, editActionId ){
@@ -456,14 +456,14 @@ mw.SequencerTools.prototype = {
 						_this,
 						smilElement,
 						updateKey,
-						$j( this ).val()
+						$( this ).val()
 				);
 			}
 		});
 	},
 	getInputBox: function( config ){
 		var _this = this;
-		return $j( '<div />' )
+		return $( '<div />' )
 		.css({
 			'float': 'left',
 			'font-size': '12px',
@@ -474,11 +474,11 @@ mw.SequencerTools.prototype = {
 		})
 		.addClass('ui-corner-all')
 		.append(
-			$j('<span />')
+			$('<span />')
 			.css('margin', '5px')
 			.text( config.title ),
 
-			$j('<input />')
+			$('<input />')
 			.attr( {
 				'id' : config.inputId ,
 				'size': config.inputSize

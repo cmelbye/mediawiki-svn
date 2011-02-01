@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 	"MediaWikiSupportPlayer" => array(
@@ -8,6 +8,6 @@ return array(
 		)
 	),
 	'mw.Api' => array(
-		'resources/mw.Api.js'
-	),	
+		'scripts' => 'resources/mw.Api.js'
+	),
 );

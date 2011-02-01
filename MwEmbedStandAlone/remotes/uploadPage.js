@@ -18,7 +18,7 @@ var mwUploadHelper = {
 		if ( wgEnableFirefogg ) {
 			mw.load( 'AddMedia.firefogg', function(){
 				// Set up the upload handler to Firefogg. Should work with the HTTP uploads too.
-				$j( '#wpUploadFile' ).firefogg( {
+				$( '#wpUploadFile' ).firefogg( {
 
 					// An API URL (default is getLocalApiUrl but set here for clarity )
 					'apiUrl': mw.getLocalApiUrl(),
@@ -38,7 +38,7 @@ var mwUploadHelper = {
 						if( mw.parseUri( document.URL ).queryKey['wpDestFile'] ){
 							return false;
 						}
-						$j( '#wpDestFile' ).val( fileName );
+						$( '#wpDestFile' ).val( fileName );
 					}
 				} );
 			} )
@@ -46,10 +46,10 @@ var mwUploadHelper = {
 			// Add basic upload profile support ( http status monitoring, progress box for
 			// browsers that support it, etc.)
 			mw.load( 'AddMedia.UploadHandler', function(){
-				$j( mwUploadFormSelector ).uploadHandler( {
+				$( mwUploadFormSelector ).uploadHandler( {
 					'selectFileCb': function( fileName ) {
-						$j( '#wpDestFile' ).val( fileName );
-						$j( '#wpDestFile' ).doDestCheck( {
+						$( '#wpDestFile' ).val( fileName );
+						$( '#wpDestFile' ).doDestCheck( {
 							'warn_target': '#wpDestFile-warning'
 						} );
 					}
@@ -59,24 +59,24 @@ var mwUploadHelper = {
 
 		if ( wgAjaxUploadDestCheck ) {
 			// Do destination check
-			$j( '#wpDestFile' ).change( function() {
-				$j( '#wpDestFile' ).doDestCheck( {
+			$( '#wpDestFile' ).change( function() {
+				$( '#wpDestFile' ).doDestCheck( {
 					'warn_target':'#wpDestFile-warning'
 				} );
 			} );
 		}
 
 		// Check if we have HTTP enabled & setup enable/disable toggle:
-		if ( $j( '#wpUploadFileURL' ).length != 0 ) {
+		if ( $( '#wpUploadFileURL' ).length != 0 ) {
 			// Set the initial toggleUpType
 			_this.toggleUpType( true );
 
-			$j( "input[name='wpSourceType']" ).click( function() {
+			$( "input[name='wpSourceType']" ).click( function() {
 				_this.toggleUpType( this.id == 'wpSourceTypeFile' );
 			} );
 		}
 
-		$j( '#wpUploadFile,#wpUploadFileURL' )
+		$( '#wpUploadFile,#wpUploadFileURL' )
 		.focus( function() {
 			_this.toggleUpType( this.id == 'wpUploadFile' );
 		} )
@@ -95,11 +95,11 @@ var mwUploadHelper = {
 	* @boolean set
 	*/
 	toggleUpType: function( set ) {
-		$j( '#wpSourceTypeFile' ).attr( 'checked', set );
-		$j( '#wpUploadFile' ).attr( 'disabled', !set );
+		$( '#wpSourceTypeFile' ).attr( 'checked', set );
+		$( '#wpUploadFile' ).attr( 'disabled', !set );
 
-		$j( '#wpSourceTypeURL' ).attr( 'checked', !set );
-		$j( '#wpUploadFileURL' ).attr( 'disabled', set );
+		$( '#wpSourceTypeURL' ).attr( 'checked', !set );
+		$( '#wpUploadFileURL' ).attr( 'disabled', set );
 
 	},
 
@@ -110,9 +110,9 @@ var mwUploadHelper = {
 	doDestinationFill: function( targetElm ) {
 		mw.log( "doDestinationFill" )
 		// Remove any previously flagged errors
-		$j( '#mw-upload-permitted,#mw-upload-prohibited' ).hide();
+		$( '#mw-upload-permitted,#mw-upload-prohibited' ).hide();
 
-		var path = $j( targetElm ).val();
+		var path = $( targetElm ).val();
 		// Find trailing part
 		var slash = path.lastIndexOf( '/' );
 		var backslash = path.lastIndexOf( '\\' );
@@ -126,7 +126,7 @@ var mwUploadHelper = {
 		}
 
 		// URLs are less likely to have a useful extension. Don't include them in the extension check.
-		if ( wgFileExtensions && $j( targetElm ).attr( 'id' ) != 'wpUploadFileURL' ) {
+		if ( wgFileExtensions && $( targetElm ).attr( 'id' ) != 'wpUploadFileURL' ) {
 			var found = false;
 			if ( fname.lastIndexOf( '.' ) != -1 ) {
 				var ext = fname.substr( fname.lastIndexOf( '.' ) + 1 );
@@ -137,19 +137,19 @@ var mwUploadHelper = {
 			}
 			if ( !found ) {
 				// Clear the upload. Set mw-upload-permitted to error.
-				$j( targetElm ).val( '' );
-				$j( '#mw-upload-permitted,#mw-upload-prohibited' ).show().addClass( 'error' );
-				$j( '#wpDestFile' ).val( '' );
+				$( targetElm ).val( '' );
+				$( '#mw-upload-permitted,#mw-upload-prohibited' ).show().addClass( 'error' );
+				$( '#wpDestFile' ).val( '' );
 				return false;
 			}
 		}
 		// Capitalise first letter and replace spaces by underscores
 		fname = fname.charAt( 0 ).toUpperCase().concat( fname.substring( 1, 10000 ) ).replace(/ /g, '_' );
 		// Output result
-		$j( '#wpDestFile' ).val( fname );
+		$( '#wpDestFile' ).val( fname );
 
 		// Do a destination check
-		$j( '#wpDestFile' ).doDestCheck( {
+		$( '#wpDestFile' ).doDestCheck( {
 			'warn_target': '#wpDestFile-warning'
 		} );
 	}

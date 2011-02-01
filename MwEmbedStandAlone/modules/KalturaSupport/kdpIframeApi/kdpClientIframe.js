@@ -1,4 +1,6 @@
 // Simple kdpClientIframe
+( function( mw, $ ) {
+	
 var kdpClientIframe = function( replaceTargetId, kEmbedSettings , options ){
 	// Create a Player Manager
 	return this.init(replaceTargetId, kEmbedSettings , options);
@@ -14,20 +16,20 @@ kdpClientIframe.prototype = {
 	'init': function( replaceTargetId, kEmbedSettings , options ){
 		var _this = this;
 		// Update options via target size if not set
-		this.width = (options.width) ? options.width : $j( '#' + replaceTargetId ).width();
-		this.height = (options.height) ? options.height : $j( '#' + replaceTargetId ).height();
+		this.width = (options.width) ? options.width : $( '#' + replaceTargetId ).width();
+		this.height = (options.height) ? options.height : $( '#' + replaceTargetId ).height();
 		this.kEmbedSettings = kEmbedSettings;	
 		this.targetId = replaceTargetId;
 
 				
 		// Replace the target with an iframe player:
-		$j( '#' + replaceTargetId ).replaceWith( this.getIframe() );
+		$( '#' + replaceTargetId ).replaceWith( this.getIframe() );
 		
 		// Now add the player proxy		
-		$j( this.getIframe() ).after( 
-			$j('<div />').attr( 'id', this.targetId )
+		$( this.getIframe() ).after( 
+			$('<div />').attr( 'id', this.targetId )
 		);
-		this.iFrameProxy = $j('#' + this.targetId).get(0);
+		this.iFrameProxy = $('#' + this.targetId).get(0);
 
 		// Set the iframe server
 		var srcParts = mw.parseUri( mw.absoluteUrl( this.getIframeSrc() ) );
@@ -38,7 +40,7 @@ kdpClientIframe.prototype = {
 		
 		// Add hanldeReciveMsg binding: 
 		$j.receiveMessage( function( event ){
-			_this.hanldeReciveMsg( event )
+			_this.hanldeReciveMsg( event );
 		}, this.iframeServer);
 				
 	},
@@ -46,7 +48,7 @@ kdpClientIframe.prototype = {
 	'addIframeKDPMethods': function(){
 		var _this = this;
 		// Setup local ref to iframe proxy: 
-		var proxy = this.iFrameProxy
+		var proxy = this.iFrameProxy;
 		$j.each( this.kdpExportedMethods, function( inx, method ){
 			proxy[method] = function(){
 				mw.log( "KdpClient proxy method : " + method);
@@ -63,22 +65,22 @@ kdpClientIframe.prototype = {
 						'method' : method,
 						'args' : args
 					} ), 
-					mw.absoluteUrl( $j( _this.iframe ).attr('src') ), 
+					mw.absoluteUrl( $( _this.iframe ).attr('src') ), 
 					_this.iframe.contentWindow
 				);
-			}
+			};
 		});
 		// Evaluate needs local copy of all attributes that could be requested
 		proxy.evaluate = function( objectString ){
 			return _this.evaluate( objectString );
-		}
+		};
 	},
 	'evaluate': function( objectString  ){		
 		objectString = objectString.replace( /\{|\}/g, '' );
 		var objectPath = objectString.split('.');
 		// kaltura properties have up 3 levels deep
 		if( this.evaluateData[ objectPath[0] ] && ! objectPath[1] ){
-			return this.evaluateData[ objectPath[0] ]
+			return this.evaluateData[ objectPath[0] ];
 		}
 		if( this.evaluateData[ objectPath[0] ][ objectPath[1] ] && !objectPath[2] ){
 			return this.evaluateData[ objectPath[0] ][ objectPath[1] ];
@@ -97,7 +99,7 @@ kdpClientIframe.prototype = {
 		// Confirm the event is coming for the target host:
 		if( event.origin != this.iframeServer){
 			mw.log("kdpClientIframe:: Skip msg from host does not match iFrame player: " + event.origin + 
-					' != iframe Server: ' + this.iframeServer )
+					' != iframe Server: ' + this.iframeServer );
 			return ;
 		};
 		// Decode the message 
@@ -133,15 +135,17 @@ kdpClientIframe.prototype = {
 	},
 	'getIframe': function(){
 		if(!this.iframe ){
-			this.iframe = $j('<iframe />').attr({
+			this.iframe = $('<iframe />').attr({
 				'src' : this.getIframeSrc(),
 				'id' :  this.targetId + '_iframe',
 				'width' : this.width,
 				'height' : 	this.height
 			})
 			.css('border', '0px')
-			.get(0)
+			.get(0);
 		}
 		return this.iframe;
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

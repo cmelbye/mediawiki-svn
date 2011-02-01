@@ -1,9 +1,9 @@
 // Wrap in mw
 // Check for new Embed Player events: 
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 
 	// Check for KalturaSupport uiConf
-	$j( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
+	$( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
 		
 		// Check if the kaltura ad plugin is enabled:
 		if( $uiConf.find('Plugin#vast').length ){

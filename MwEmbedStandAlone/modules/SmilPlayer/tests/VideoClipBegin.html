@@ -7,26 +7,26 @@
 	<script type="text/javascript">
 		mw.setConfig( 'EmbedPlayer.OverlayControls', false );
 		mw.ready(function(){
-			$j( "#seekInputTime" ).blur( function(){ 
-				var smilVid = $j('#videoClipBegin').get(0);
-				$j('#seekInProgress').show();
-				smilVid.setCurrentTime( parseFloat( $j(this).val() ), function() {
-					$j('#seekInProgress').hide();
+			$( "#seekInputTime" ).blur( function(){ 
+				var smilVid = $('#videoClipBegin').get(0);
+				$('#seekInProgress').show();
+				smilVid.setCurrentTime( parseFloat( $(this).val() ), function() {
+					$('#seekInProgress').hide();
 				});
 			});
-			$j('#startBuffer').click( function(){
-				$j('#videoClipBegin').get(0).load();
+			$('#startBuffer').click( function(){
+				$('#videoClipBegin').get(0).load();
 				return false;
 			});
-			$j('#renderToFile').click(function(){												
+			$('#renderToFile').click(function(){												
 				// xxx for local rendering 'AddMedia.firefogg' is overkill 
 				// but will have to clean up modularity later				
 				mw.load( ['AddMedia.firefogg','mw.FirefoggRender'],function(){
-					var foggRender = $j('#videoClipBegin').firefoggRender({
+					var foggRender = $('#videoClipBegin').firefoggRender({
 						'statusTarget': '#targetFoggStatus'
 					});
 					if( foggRender.doRender() ){
-						$j('#renderToFile').text('Stop Render').unbind().click(function(){
+						$('#renderToFile').text('Stop Render').unbind().click(function(){
 							foggRender.stopRender();						
 						}); 
 					}

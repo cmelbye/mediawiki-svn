@@ -1,4 +1,5 @@
-
+( function( mw, $ ) {
+	
 mw.AdLoader = {
 	/**
 	 * Get ad display configuration object from a url
@@ -67,4 +68,6 @@ mw.AdLoader = {
 		}	
 		return 'unknown';
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

@@ -1,6 +1,6 @@
 
-	$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
-		$j( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
+	$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+		$( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
 			
 			var disabled = [];
 			
@@ -50,7 +50,7 @@
 		});
 	});
 	var controlbarLayout = function( embedPlayer, disabled ){
-		$j( embedPlayer ).bind( 'updateFeatureSupportEvent', function( e, supports ){
+		$( embedPlayer ).bind( 'updateFeatureSupportEvent', function( e, supports ){
 			for( var i = 0; i < disabled.length ; i++ ){
 				var comm = disabled[i];
 				supports[comm] = false;

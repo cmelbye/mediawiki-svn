@@ -3,7 +3,7 @@
 */
 
 // Wrap in mw to not pollute global namespace
-( function( mw ) {
+( function( mw, $ ) {
 
 	// Loader configuration options ( all runtime options are stored in mw.SequencerConfig.js )
 	mw.setDefaultConfig({
@@ -126,7 +126,7 @@
 	});
 
 	// If doing player overlays include remote for player hooks
-	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
+	$( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
 		if( mw.getConfig( 'Sequencer.KalturaPlayerEditOverlay' )){
 			if( $j.inArray( 'mw.MediaWikiRemoteSequencer', classRequest ) == -1 ) {
 				classRequest.push('mw.MediaWikiRemoteSequencer');
@@ -136,4 +136,4 @@
 	});
 
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

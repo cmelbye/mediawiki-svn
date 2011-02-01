@@ -1079,7 +1079,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		var $dialog = mw.addDialog( {
 			'title' : dialogHtml,
 			'content' : dialogHtml + '<br>' +
-				$j('<div />')
+				$('<div />')
 				.loadingSpinner()
 				.html()
 		});
@@ -1097,7 +1097,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		// Close with timeout since jquery ui binds with timeout:
 		// ui dialog line 530
 		setTimeout( function(){
-			$j( '#mwTempLoaderDialog' )
+			$( '#mwTempLoaderDialog' )
 			.dialog( 'destroy' );
 		} , 10);
 	};
@@ -1113,7 +1113,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	 */
 	mw.addDialog = function ( options ) {
 		// Remove any other dialog
-		$j( '#mwTempLoaderDialog' ).remove();
+		$( '#mwTempLoaderDialog' ).remove();
 
 		if( !options){
 			options = {};
@@ -1134,8 +1134,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 
 		// Append the dialog div on top:
-		$j( 'body' ).append(
-			$j('<div />')
+		$( 'body' ).append(
+			$('<div />')
 			.attr( {
 				'id' : "mwTempLoaderDialog",
 				'title' : options.title
@@ -1159,7 +1159,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			var buttonMsg = options.buttons;
 			buttons = { };
 			options.buttons[ buttonMsg ] = function() {
-				$j( this ).dialog( 'close' );
+				$( this ).dialog( 'close' );
 			};
 		}
 
@@ -1173,9 +1173,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			],
 			uiRequest
 		], function() {
-			var $dialog = $j( '#mwTempLoaderDialog' ).show().dialog( options );
+			var $dialog = $( '#mwTempLoaderDialog' ).show().dialog( options );
 		} );
-		return $j( '#mwTempLoaderDialog' );
+		return $( '#mwTempLoaderDialog' );
 	};
 	
 	/**
@@ -1532,8 +1532,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 
 		// Check if style sheet is already included:
 		var foundSheet = false;
-		$j( 'link' ).each( function() {
-			var currentSheet = $j( this) .attr( 'href' );
+		$( 'link' ).each( function() {
+			var currentSheet = $( this) .attr( 'href' );
 			var sheetParts = currentSheet.split('?');
 			var urlParts = url.split('?');
 			// if the base url's match check the parameters:
@@ -1554,8 +1554,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		}
 
 		mw.log( ' add css: ' + url );
-		$j( 'head' ).append(
-			$j('<link />').attr( {
+		$( 'head' ).append(
+			$('<link />').attr( {
 				'rel' : 'stylesheet',
 				'type' : 'text/css',
 				'href' : url
@@ -2089,9 +2089,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		var hasUiCss = false;
 		var cssStyleSheetNames = ['jquery-ui-1.7.2.css', 'jquery-ui.css'];
 		// Load the jQuery ui skin if usability skin not set
-		$j( 'link' ).each( function( na, linkNode ){
+		$( 'link' ).each( function( na, linkNode ){
 			$j.each( cssStyleSheetNames, function(inx, sheetName ){
-				if( $j( linkNode ).attr( 'href' ).indexOf( sheetName ) != -1 ){
+				if( $( linkNode ).attr( 'href' ).indexOf( sheetName ) != -1 ){
 					hasUiCss = true;
 					return true;
 				}
@@ -2099,11 +2099,11 @@ if( typeof preMwEmbedConfig == 'undefined') {
 		} );
 		// Check all the "style" nodes for @import for sheet name
 		// xxx Note: we could do this a bit cleaner with regEx
-		$j( 'style' ).each( function( na, styleNode ){
+		$( 'style' ).each( function( na, styleNode ){
 			$j.each( cssStyleSheetNames, function(inx, sheetName ){
-				if( $j( styleNode ).text().indexOf( '@import' ) != -1
+				if( $( styleNode ).text().indexOf( '@import' ) != -1
 					&&
-					$j( styleNode ).text().indexOf( sheetName ) != -1 )
+					$( styleNode ).text().indexOf( sheetName ) != -1 )
 				{
 					hasUiCss=true;
 					return true;
@@ -2393,9 +2393,9 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				// Get the callback set
 				var callbackSet = [];
 				if( ! triggerNamespace ){
-					callbackSet = $j( targetObject ).data( 'events' )[ triggerBaseName ];
+					callbackSet = $( targetObject ).data( 'events' )[ triggerBaseName ];
 				} else{		
-					$j.each( $j( targetObject ).data( 'events' )[ triggerBaseName ], function( inx, bindObject ){
+					$j.each( $( targetObject ).data( 'events' )[ triggerBaseName ], function( inx, bindObject ){
 						if( bindObject.namespace ==  triggerNamespace ){
 							callbackSet.push( bindObject );
 						}
@@ -2447,16 +2447,16 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			 * element does not display child elements, ( images, video )
 			 */
 			$.fn.getAbsoluteOverlaySpinner = function(){
-				var pos = $j( this ).offset();
-				var posLeft = ( $j( this ).width() ) ?
-					parseInt( pos.left + ( .5 * $j( this ).width() ) -16 ) :
+				var pos = $( this ).offset();
+				var posLeft = ( $( this ).width() ) ?
+					parseInt( pos.left + ( .5 * $( this ).width() ) -16 ) :
 					pos.left + 30;
 
-				var posTop = ( $j( this ).height() ) ?
-					parseInt( pos.top + ( .5 * $j( this ).height() ) -16 ) :
+				var posTop = ( $( this ).height() ) ?
+					parseInt( pos.top + ( .5 * $( this ).height() ) -16 ) :
 					pos.top + 30;
 
-				var $spinner = $j('<div />')
+				var $spinner = $('<div />')
 					.loadingSpinner()
 					.css({
 						'width' : 32,
@@ -2465,7 +2465,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 						'top' : posTop + 'px',
 						'left' : posLeft + 'px'
 					});
-				$j('body').append( $spinner	);
+				$('body').append( $spinner	);
 				return $spinner;
 			};
 
@@ -2477,7 +2477,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 					var _this = this;
 					// load the dragger and "setup"
 					mw.load( ['$j.fn.dragDropFile'], function() {
-						$j( _this.selector ).dragDropFile();
+						$( _this.selector ).dragDropFile();
 					} );
 				}
 			};
@@ -2518,7 +2518,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				var options = $j.extend( {}, mw_default_button_options, options);
 
 				// Button:
-				var $button = $j('<a />')
+				var $button = $('<a />')
 					.attr('href', '#')
 					.addClass( 'ui-state-default ui-corner-all ui-icon_link' );
 				// Add css if set:
@@ -2532,8 +2532,8 @@ if( typeof preMwEmbedConfig == 'undefined') {
 			
 				// return the button:
 				$button.append(
-						$j('<span />').addClass( 'ui-icon ui-icon-' + options.icon ),
-						$j('<span />').addClass( 'btnText' )
+						$('<span />').addClass( 'ui-icon ui-icon-' + options.icon ),
+						$('<span />').addClass( 'btnText' )
 				)
 				.buttonHover(); // add buttonHover binding;
 	
@@ -2547,12 +2547,12 @@ if( typeof preMwEmbedConfig == 'undefined') {
 
 			// Shortcut to bind hover state
 			$.fn.buttonHover = function() {
-				$j( this ).hover(
+				$( this ).hover(
 					function() {
-						$j( this ).addClass( 'ui-state-hover' );
+						$( this ).addClass( 'ui-state-hover' );
 					},
 					function() {
-						$j( this ).removeClass( 'ui-state-hover' );
+						$( this ).removeClass( 'ui-state-hover' );
 					}
 				);
 				return this;
@@ -2569,12 +2569,12 @@ if( typeof preMwEmbedConfig == 'undefined') {
 				if ( !options )
 					var options = { };
 				options = $j.extend( opt_default, options );
-				$j( this.selector ).dialog( 'option', 'width', $j( window ).width() - options.hspace );
-				$j( this.selector ).dialog( 'option', 'height', $j( window ).height() - options.vspace );
-				$j( this.selector ).dialog( 'option', 'position', 'center' );
+				$( this.selector ).dialog( 'option', 'width', $( window ).width() - options.hspace );
+				$( this.selector ).dialog( 'option', 'height', $( window ).height() - options.vspace );
+				$( this.selector ).dialog( 'option', 'position', 'center' );
 					// update the child position: (some of this should be pushed
 					// up-stream via dialog config options
-				$j( this.selector + '~ .ui-dialog-buttonpane' ).css( {
+				$( this.selector + '~ .ui-dialog-buttonpane' ).css( {
 					'position':'absolute',
 					'left':'0px',
 					'right':'0px',

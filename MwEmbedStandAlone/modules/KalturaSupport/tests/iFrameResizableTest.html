@@ -40,10 +40,10 @@
 	mw.ready(function(){		
 		mw.load(  ['mw.EmbedPlayerNative' , '$j.postMessage' , 'mw.IFramePlayerApiClient', 'JSON' ] , function(){			
 			// Add resize binding:			
-			$j('#resizable').resizable();
+			$('#resizable').resizable();
 			
 			// Setup iframe rewrite for new source selection:  
-			$j('#displayIframe').click(function(){ 				
+			$('#displayIframe').click(function(){ 				
 				appendIframe();		
 			});
 			
@@ -51,7 +51,7 @@
 				//alert('append::' + mw.getConfig('EmbedPlayer.EnableIframeApi'));
 					
 				$('#iframeHolder').empty().append(
-					$j('<iframe />').attr({
+					$('<iframe />').attr({
 						"id" : "vid",
 						"src" : '../../../mwEmbedFrame.php/wid/' + $('#kwidgetid').val() 
 							+ '/entry_id/' + $('#kentryid').val() + '/?debug=true' +
@@ -66,7 +66,7 @@
 				// run append iframe directly
 				
 				// Setup the iFrame player for the given target:
-				$j( '#vid' ).iFramePlayer(function(){
+				$( '#vid' ).iFramePlayer(function(){
 					bindIframePlayer();
 				});
 			};
@@ -76,28 +76,28 @@
 		});
 		function bindIframePlayer(){
 			// Now we can use all the normal player calls bindings and attributes: 
-			$j( '#triggerPlay' ).click(function(){								
+			$( '#triggerPlay' ).click(function(){								
 				$('#vid').get(0).play();
 			});
 
-			$j( '#triggerPause' ).click(function(){
-				$j( '#vid' ).get(0).pause();
+			$( '#triggerPause' ).click(function(){
+				$( '#vid' ).get(0).pause();
 			});
 
-			$j('#alertTime').click(function(){
-				alert( $j( '#vid').get(0).currentTime );
+			$('#alertTime').click(function(){
+				alert( $( '#vid').get(0).currentTime );
 			});
 
-			$j('#seek10').click( function(){
-				$j( '#vid').get(0).currentTime = 10;
+			$('#seek10').click( function(){
+				$( '#vid').get(0).currentTime = 10;
 			});
 
-			$j('#vid').bind('play', function(){
-				$j('#playPauseLog').append( "Play Event\n" );
+			$('#vid').bind('play', function(){
+				$('#playPauseLog').append( "Play Event\n" );
 			});
 			
-			$j('#vid').bind('pause', function(){
-				$j('#playPauseLog').append( "Pause Event\n" );				
+			$('#vid').bind('pause', function(){
+				$('#playPauseLog').append( "Pause Event\n" );				
 			});			
 			
 		}	

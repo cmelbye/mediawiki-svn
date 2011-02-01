@@ -1,5 +1,5 @@
 // Wrap in mw closure to avoid global leakage
-( function( mw ) {
+( function( mw, $ ) {
 
 mw.SequencerMenu = function( sequencer ) {
 	return this.init( sequencer );
@@ -138,7 +138,7 @@ mw.SequencerMenu.prototype = {
 				// Add the menu target
 				$menuTarget
 				.append(
-					$j('<span />')
+					$('<span />')
 					.html( gM('mwe-sequencer-menu-' + menuKey ) )
 					.css({
 						'padding': '7px',
@@ -189,7 +189,7 @@ mw.SequencerMenu.prototype = {
 		// Check if we should include kaltura credits
 		if( mw.getConfig( 'Sequencer.KalturaAttribution' ) ){
 			$menuTarget.append(
-				$j('<span />')
+				$('<span />')
 				.css({
 					'float': 'right',
 					'font-size': '10.5px'
@@ -210,7 +210,7 @@ mw.SequencerMenu.prototype = {
 		var _this = this;
 		var menuConfig = this.menuConfig;
 		for( var menuItemKey in _this.menuConfig[ menuKey ] ){
-			var $menuItem = $j( '#' + _this.getMenuItemId( menuKey, menuItemKey ) );
+			var $menuItem = $( '#' + _this.getMenuItemId( menuKey, menuItemKey ) );
 			var isDisabled = _this.menuConfig[ menuKey ][ menuItemKey ].disabled;
 			mw.log('sync: ' + menuItemKey + ' in-dom:' + $menuItem.length + ' isd:' + isDisabled);
 			if( $menuItem.hasClass( 'disabled') ){
@@ -231,7 +231,7 @@ mw.SequencerMenu.prototype = {
 		var _this = this;
 		var menuConfig = this.menuConfig;
 		// Build out the ul for the given menu
-		var $menu = $j( '<ul />' )
+		var $menu = $( '<ul />' )
 			.attr({
 				'id' : _this.sequencer.id + '_' + menuKey + '_content',
 				'title' : gM('mwe-sequencer-menu-' + menuKey )
@@ -243,9 +243,9 @@ mw.SequencerMenu.prototype = {
 			// Check for special divider key
 			if( menuItem == 'divider'){
 				$menu.append(
-					$j('<li />')
+					$('<li />')
 					.addClass('divider')
-					.append( $j('<hr />').css('width', '80%') )
+					.append( $('<hr />').css('width', '80%') )
 				);
 				continue;
 			}
@@ -303,7 +303,7 @@ mw.SequencerMenu.prototype = {
 
 	disableMenuItem: function( menuKey, menuItemKey ){
 		this.menuConfig[ menuKey ][ menuItemKey ].disabled = true;
-		$menuItemTarget = $j('#' + this.getMenuItemId( menuKey, menuItemKey ) );
+		$menuItemTarget = $('#' + this.getMenuItemId( menuKey, menuItemKey ) );
 
 		mw.log("SequencerMenu::disable:" + ' ' + menuKey + ' ' + menuItemKey + ' in-dom:' + $menuItemTarget.length );
 		if( $menuItemTarget.length && ! $menuItemTarget.hasClass( 'disabled' ) ){
@@ -316,7 +316,7 @@ mw.SequencerMenu.prototype = {
 			mw.log("Error: SequencerMenu: " + menuKey + ' ' + menuItemKey + ' is not defined');
 		}
 		this.menuConfig[ menuKey ][ menuItemKey ].disabled = false;
-		$menuItemTarget = $j('#' + this.getMenuItemId( menuKey, menuItemKey ) );
+		$menuItemTarget = $('#' + this.getMenuItemId( menuKey, menuItemKey ) );
 
 		mw.log("SequencerMenu::enable:" + menuKey + ' ' + menuItemKey + ' in-dom:' + $menuItemTarget.length );
 		if( $menuItemTarget.length && $menuItemTarget.hasClass( 'disabled' ) ){
@@ -329,4 +329,4 @@ mw.SequencerMenu.prototype = {
 	}
 };
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

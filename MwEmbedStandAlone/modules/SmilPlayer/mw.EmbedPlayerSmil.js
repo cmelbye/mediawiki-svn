@@ -2,8 +2,7 @@
 * Extends EmbedPlayer to wrap smil playback in the html5 video tag abstraction.
 */
 
-//Get all our message text
-mw.includeAllModuleMessages();
+( function( mw, $ ) {
 
 // Setup the EmbedPlayerSmil object:
 mw.EmbedPlayerSmil = {
@@ -84,8 +83,8 @@ mw.EmbedPlayerSmil = {
 		//mw.log('EmbedPlayerSmil::setCurrentTime: ' + time );
 		// Set "loading" spinner here)
 		if( !hideLoader ){
-			if( $j('#loadingSpinner_' + this.id ).length == 0 ){
-				$j( this ).getAbsoluteOverlaySpinner()
+			if( $('#loadingSpinner_' + this.id ).length == 0 ){
+				$( this ).getAbsoluteOverlaySpinner()
 					.attr('id', 'loadingSpinner_' + this.id );
 			}
 		}
@@ -97,7 +96,7 @@ mw.EmbedPlayerSmil = {
 		this.getSmil( function( smil ){
 			smil.renderTime( time, function(){
 				//mw.log( "setCurrentTime:: renderTime callback" );
-				$j('#loadingSpinner_' + _this.id ).remove();
+				$('#loadingSpinner_' + _this.id ).remove();
 				_this.monitor();
 				if( callback ){
 					callback();
@@ -117,7 +116,7 @@ mw.EmbedPlayerSmil = {
 		var _this = this;
 		// Run the seeking hook
 
-		$j( this.embedPlayer ).trigger( 'seeking' );
+		$( this.embedPlayer ).trigger( 'seeking' );
 		this.setCurrentTime( percentage * this.getDuration(), function(){
 			mw.log("EmbedPlayerSmil:: seek done");
 			_this.seeking = false;
@@ -130,10 +129,10 @@ mw.EmbedPlayerSmil = {
 	*/
 	getRenderTarget: function(){
 		if( !this.$renderTarget ){
-			if( $j('#smilCanvas_' + this.id ).length === 0 ) {
+			if( $('#smilCanvas_' + this.id ).length === 0 ) {
 				// If no render target exist create one:
-				$j( this ).html(
-					$j( '<div />')
+				$( this ).html(
+					$( '<div />')
 					.attr( 'id', 'smilCanvas_' + this.id )
 					.css( {
 						'width' : '100%',
@@ -142,7 +141,7 @@ mw.EmbedPlayerSmil = {
 					})
 				);
 			}
-			this.$renderTarget = $j('#smilCanvas_' + this.id );
+			this.$renderTarget = $('#smilCanvas_' + this.id );
 		}
 		return this.$renderTarget;
 	},
@@ -246,7 +245,7 @@ mw.EmbedPlayerSmil = {
 		// Check if we reached playSegmentEndTime and pause playback
 		if( this.playSegmentEndTime && this.smilPlayTime >= this.playSegmentEndTime ) {
 			mw.log("monitor:: Reached playSegmentEndTime pause playback: " + this.playSegmentEndTime );
-			$j( this ).trigger( 'playSegmentEnd' );
+			$( this ).trigger( 'playSegmentEnd' );
 			this.playSegmentEndTime= null;
 			this.pause();
 			this.parent_monitor();
@@ -344,7 +343,7 @@ mw.EmbedPlayerSmil = {
 	*/
 	getPlayerElement: function(){
 		// return the virtual canvas
-		return $j( '#smilCanvas_' + this.id ).get(0);
+		return $( '#smilCanvas_' + this.id ).get(0);
 	},
 
 	/**
@@ -378,4 +377,6 @@ mw.EmbedPlayerSmil = {
 		return this.smil.getAudioTimeSet();
 	}
 
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

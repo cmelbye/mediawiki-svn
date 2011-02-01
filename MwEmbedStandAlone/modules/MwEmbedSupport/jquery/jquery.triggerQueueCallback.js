@@ -33,15 +33,15 @@
 		var triggerNamespace = triggerName.split(".")[1];
 		// Get the callback set
 		var callbackSet = [];
-		if( !$j( targetObject ).data( 'events' ) ){
+		if( !$( targetObject ).data( 'events' ) ){
 			// No events run the callback directly
 			callback();
 			return ;
 		}
 		if( ! triggerNamespace ){
-			callbackSet = $j( targetObject ).data( 'events' )[ triggerBaseName ];
+			callbackSet = $( targetObject ).data( 'events' )[ triggerBaseName ];
 		} else{		
-			$j.each( $j( targetObject ).data( 'events' )[ triggerBaseName ], function( inx, bindObject ){
+			$j.each( $( targetObject ).data( 'events' )[ triggerBaseName ], function( inx, bindObject ){
 				if( bindObject.namespace ==  triggerNamespace ){
 					callbackSet.push( bindObject );
 				}

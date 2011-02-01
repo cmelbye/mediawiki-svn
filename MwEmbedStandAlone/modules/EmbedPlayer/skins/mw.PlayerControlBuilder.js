@@ -2,7 +2,7 @@
 * Msg text is inherited from embedPlayer
 */
 
-( function( mw ) {
+( function( mw, $ ) {
 /**
 * mw.PlayerControlBuilder object
 *	@param the embedPlayer element we are targeting
@@ -106,9 +106,9 @@ mw.PlayerControlBuilder.prototype = {
 
 
 		// Setup the controlBar container ( starts hidden ) 
-		var $controlBar = $j('<div />')
+		var $controlBar = $('<div />')
 			.addClass( 'ui-state-default ui-widget-header ui-helper-clearfix control-bar' )
-			.css( 'height', this.height )
+			.css( 'height', this.height );
 
 		// Controls are hidden by default if overlaying controls: 
 		if( _this.checkOverlayControls() ){
@@ -125,7 +125,7 @@ mw.PlayerControlBuilder.prototype = {
 		// Check for overlay controls:
 		/*if( ! _this.checkOverlayControls() && ! embedPlayer.controls === false ) {
 			// Add some space to interface for the control bar ( if not overlaying controls )
-			$j( embedPlayer ).css( {
+			$( embedPlayer ).css( {
 				'height' : parseInt( embedPlayer.height ) - parseInt( this.height )
 			} );
 		}*/
@@ -164,7 +164,7 @@ mw.PlayerControlBuilder.prototype = {
 		// Build the supportedComponets list
 		this.supportedComponets = $j.extend( this.supportedComponets, embedPlayer.supports );
 		
-		$j(embedPlayer).trigger( 'addControlBarComponent', this);
+		$(embedPlayer).trigger( 'addControlBarComponent', this);
 			
 		// Check for Attribution button
 		if( mw.getConfig( 'EmbedPlayer.AttributionButton' ) && embedPlayer.attributionbutton ){
@@ -193,7 +193,7 @@ mw.PlayerControlBuilder.prototype = {
 					mw.log( 'Not enough space for control component:' + component_id );
 				}
 			}
-		}
+		};
 		
 		// Output components
 		for ( var component_id in this.components ) {
@@ -211,7 +211,7 @@ mw.PlayerControlBuilder.prototype = {
 			if( component_id == 'fullscreen' && this.embedPlayer.height == 0 ){
 				continue;
 			}
-			addComponent( component_id )
+			addComponent( component_id );
 		}
 		// Add special case remaining components: 
 		addComponent( 'timeDisplay' );
@@ -235,8 +235,8 @@ mw.PlayerControlBuilder.prototype = {
 		// Setup target height width based on max window size
 		if( !windowSize ){
 			var windowSize = {
-				'width' : $j( window ).width(),
-				'height' : $j( window ).height()
+				'width' : $( window ).width(),
+				'height' : $( window ).height()
 			};
 		}
 		// Set target width
@@ -293,10 +293,10 @@ mw.PlayerControlBuilder.prototype = {
 		// Check if iFrame mode ( fullscreen is handled by the iframe parent dom )
 		if(  mw.getConfig('EmbedPlayer.IsIframePlayer' ) ){
 			if( this.fullscreenMode ){
-				$j( _this.embedPlayer ).trigger( 'onCloseFullScreen' );
+				$( _this.embedPlayer ).trigger( 'onCloseFullScreen' );
 				this.fullscreenMode = false;
 			} else {
-				$j( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
+				$( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
 				this.fullscreenMode = true;
 			}
 			return ;
@@ -332,16 +332,16 @@ mw.PlayerControlBuilder.prototype = {
 		this.fullscreenMode = true;
 
 		//Remove any old mw-fullscreen-overlay
-		$j( '.mw-fullscreen-overlay' ).remove();
+		$( '.mw-fullscreen-overlay' ).remove();
 
 		// Special hack for mediawiki monobook skin search box
-		if( $j( '#p-search,#p-logo' ).length ) {
-			$j( '#p-search,#p-logo,#ca-nstab-project a' ).css('z-index', 1);
+		if( $( '#p-search,#p-logo' ).length ) {
+			$( '#p-search,#p-logo,#ca-nstab-project a' ).css('z-index', 1);
 		}
 
 		// Add the css fixed fullscreen black overlay as a sibling to the video element
 		$interface.after(
-			$j( '<div />' )
+			$( '<div />' )
 			.addClass( 'mw-fullscreen-overlay' )
 			// Set some arbitrary high z-index
 			.css('z-index', mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) )
@@ -356,8 +356,8 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Get the base offset:
 		this.windowOffset = $interface.offset();
-		this.windowOffset.top = this.windowOffset.top - $j(document).scrollTop();
-		this.windowOffset.left = this.windowOffset.left - $j(document).scrollLeft();
+		this.windowOffset.top = this.windowOffset.top - $(document).scrollTop();
+		this.windowOffset.left = this.windowOffset.left - $(document).scrollLeft();
 
 		// Change the z-index of the interface
 		$interface.css( {
@@ -369,7 +369,7 @@ mw.PlayerControlBuilder.prototype = {
 		
 		// If native persistent native player update z-index:
 		if( embedPlayer.isPersistentNativePlayer() ){
-			$j( embedPlayer.getPlayerElement() ).css( {
+			$( embedPlayer.getPlayerElement() ).css( {
 				'z-index': mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
 				'position': 'absolute'
 			});
@@ -379,7 +379,7 @@ mw.PlayerControlBuilder.prototype = {
 		_this.parentsAbsolute = [];
 
 		// Hide the body scroll bar
-		$j('body').css( 'overflow', 'hidden' );
+		$('body').css( 'overflow', 'hidden' );
 
 
 		var topOffset = '0px';
@@ -393,7 +393,7 @@ mw.PlayerControlBuilder.prototype = {
 
 
 		// Set the player height width:
-		$j( embedPlayer ).css( {
+		$( embedPlayer ).css( {
 			'position' : 'relative'
 		} );
 
@@ -404,20 +404,20 @@ mw.PlayerControlBuilder.prototype = {
 		embedPlayer.resizePlayer({
 			'top' : topOffset,
 			'left' : leftOffset,
-			'width' : $j( window ).width(),
-			'height' : $j( window ).height()
+			'width' : $( window ).width(),
+			'height' : $( window ).height()
 		}, true, function(){
 			// Trigger the enter fullscreen event 
-			$j( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
+			$( _this.embedPlayer ).trigger( 'onOpenFullScreen' );
 		});
 
 		// Remove absolute css of the interface parents
 		$interface.parents().each( function() {
-			//mw.log(' parent : ' + $j( this ).attr('id' ) + ' class: ' + $j( this ).attr('class') + ' pos: ' + $j( this ).css( 'position' ) );
-			if( $j( this ).css( 'position' ) == 'absolute' ) {
-				_this.parentsAbsolute.push( $j( this ) );
-				$j( this ).css( 'position', null );
-				mw.log(' should update position: ' + $j( this ).css( 'position' ) );
+			//mw.log(' parent : ' + $( this ).attr('id' ) + ' class: ' + $( this ).attr('class') + ' pos: ' + $( this ).css( 'position' ) );
+			if( $( this ).css( 'position' ) == 'absolute' ) {
+				_this.parentsAbsolute.push( $( this ) );
+				$( this ).css( 'position', null );
+				mw.log(' should update position: ' + $( this ).css( 'position' ) );
 			}
 		});
 
@@ -451,17 +451,17 @@ mw.PlayerControlBuilder.prototype = {
 		// Bind Scroll position update
 
 		// Bind resize resize window to resize window
-		$j( window ).resize( function() {
+		$( window ).resize( function() {
 			if( _this.fullscreenMode ){
 				embedPlayer.resizePlayer({
-					'width' : $j( window ).width(),
-					'height' : $j( window ).height()
-				})
+					'width' : $( window ).width(),
+					'height' : $( window ).height()
+				});
 			}
 		});
 
 		// Bind escape to restore in page clip
-		$j( window ).keyup( function(event) {
+		$( window ).keyup( function(event) {
 			// Escape check
 			if( event.keyCode == 27 ){
 				_this.restoreWindowPlayer();
@@ -487,22 +487,22 @@ mw.PlayerControlBuilder.prototype = {
 		if( animate ){
 			$interface.animate( interfaceCss );
 			// Update player size
-			$j( embedPlayer ).animate( _this.getAspectPlayerWindowCss( size ), callback );
+			$( embedPlayer ).animate( _this.getAspectPlayerWindowCss( size ), callback );
 			// Update play button pos
 			$interface.find('.play-btn-large').animate( _this.getFullscreenPlayButtonCss( size ) );
 			
 			if( embedPlayer.isPersistentNativePlayer() ){
-				$j( embedPlayer.getPlayerElement() ).animate( _this.getAspectPlayerWindowCss( size ) );
+				$( embedPlayer.getPlayerElement() ).animate( _this.getAspectPlayerWindowCss( size ) );
 			}
 		} else {
 			$interface.css( interfaceCss );
 			// Update player size
-			$j( embedPlayer ).css( _this.getAspectPlayerWindowCss( size ) );
+			$( embedPlayer ).css( _this.getAspectPlayerWindowCss( size ) );
 			// Update play button pos
 			$interface.find('.play-btn-large').css( _this.getFullscreenPlayButtonCss( size ) );
 			
 			if( embedPlayer.isPersistentNativePlayer() ){
-				$j( embedPlayer.getPlayerElement() ).css( _this.getAspectPlayerWindowCss( size ) );
+				$( embedPlayer.getPlayerElement() ).css( _this.getAspectPlayerWindowCss( size ) );
 			}
 			
 			if( callback ){
@@ -531,7 +531,7 @@ mw.PlayerControlBuilder.prototype = {
 			: embedPlayer.getHeight() + _this.getHeight();
 
 		mw.log( 'restoreWindowPlayer:: h:' + interfaceHeight + ' w:' + embedPlayer.getWidth());
-		$j('.mw-fullscreen-overlay').fadeOut( 'slow' );
+		$('.mw-fullscreen-overlay').fadeOut( 'slow' );
 
 		mw.log( 'restore embedPlayer:: ' + embedPlayer.getWidth() + ' h: ' + embedPlayer.getHeight());
 		// Restore the player:
@@ -552,29 +552,23 @@ mw.PlayerControlBuilder.prototype = {
 
 			// Restore absolute layout of parents:
 			$j.each( _this.parentsAbsolute, function( na, element ){
-				$j( element ).css( 'position', 'absolute' );
+				$( element ).css( 'position', 'absolute' );
 			} );
 			_this.parentsAbsolute = null;
 
 			// Restore the body scroll bar
-			$j('body').css( 'overflow', 'auto' );
+			$('body').css( 'overflow', 'auto' );
 			
 			// If native player restore z-index:
 			if( embedPlayer.isPersistentNativePlayer() ){
-				$j( embedPlayer.getPlayerElement() ).css( {
+				$( embedPlayer.getPlayerElement() ).css( {
 					'z-index': 'auto'
 				});
 			}
 		});
-
-		// Restore the play button
-		$interface.find('.play-btn-large').animate({
-			'left' 	: ( ( embedPlayer.getWidth() - this.getComponentWidth( 'playButtonLarge' ) ) / 2 ),
-			'top'	: ( ( embedPlayer.getHeight() -this.getComponentHeight( 'playButtonLarge' ) ) / 2 )
-		});
 		
 		// Trigger the onCloseFullscreen event: 
-		$j( this.embedPlayer ).trigger( 'onCloseFullScreen' );
+		$( this.embedPlayer ).trigger( 'onCloseFullScreen' );
 	},
 
 	/**
@@ -607,7 +601,7 @@ mw.PlayerControlBuilder.prototype = {
 		var bindFirstPlay = false;		
 		
 		// Bind into play.ctrl namespace ( so we can unbind without affecting other play bindings )
-		$j(embedPlayer).unbind('play.ctrl').bind('play.ctrl', function() { //Only bind once played
+		$(embedPlayer).unbind('play.ctrl').bind('play.ctrl', function() { //Only bind once played
 			if(bindFirstPlay) {
 				return ;
 			}
@@ -617,7 +611,7 @@ mw.PlayerControlBuilder.prototype = {
 			var lastClickTime = 0;
 			var didDblClick = false;
 			// Remove parent dbl click ( so we can handle play clicks )
-			$j( embedPlayer ).unbind("dblclick").click( function() {
+			$( embedPlayer ).unbind("dblclick").click( function() {
 				// Don't bind anything if native controls displayed:
 				if( embedPlayer.getPlayerElement().controls ) {
 					return ;
@@ -644,7 +638,7 @@ mw.PlayerControlBuilder.prototype = {
 		});
 		
 		var bindSpaceUp = function(){
-			$j(window).bind('keyup.mwPlayer', function(e) {
+			$(window).bind('keyup.mwPlayer', function(e) {
 				if(e.keyCode == 32) {
 					if(embedPlayer.paused) {
 						embedPlayer.play();
@@ -653,12 +647,12 @@ mw.PlayerControlBuilder.prototype = {
 					}
 					return false;
 				}
-			})
-		}
+			});
+		};
 		
 		var bindSpaceDown = function() {
-			$j(window).unbind('keyup.mwPlayer');
-		}
+			$(window).unbind('keyup.mwPlayer');
+		};
 		// Add hide show bindings for control overlay (if overlay is enabled )
 		if( ! _this.checkOverlayControls() ) {
 			$interface
@@ -668,7 +662,7 @@ mw.PlayerControlBuilder.prototype = {
 		} else { // hide show controls:
 			
 			// Show controls on click: 
-			$j(embedPlayer).unbind('click.showCtrlBar').bind('click.showCtrlBar', function(){
+			$(embedPlayer).unbind('click.showCtrlBar').bind('click.showCtrlBar', function(){
 				_this.showControlBar();
 			});
 			
@@ -699,15 +693,14 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Add recommend firefox if we have non-native playback:
 		if ( _this.checkNativeWarning( ) ) {
-			_this.doWarningBindinng(
-				'EmbedPlayer.ShowNativeWarning',
+			_this.doWarningBindinng( 'EmbedPlayer.ShowNativeWarning',
 				gM( 'mwe-embedplayer-for_best_experience' )
 			);
 		}
 
 		// Do png fix for ie6
 		if ( $j.browser.msie && $j.browser.version <= 6 ) {
-			$j( '#' + embedPlayer.id + ' .play-btn-large' ).pngFix();
+			$( '#' + embedPlayer.id + ' .play-btn-large' ).pngFix();
 		}
 
 		this.doVolumeBinding();
@@ -718,7 +711,7 @@ mw.PlayerControlBuilder.prototype = {
 		}
 
 		mw.log('trigger::addControlBindingsEvent');
-		$j( embedPlayer ).trigger( 'addControlBindingsEvent');
+		$( embedPlayer ).trigger( 'addControlBindingsEvent');
 	},
 
 	/**
@@ -730,7 +723,7 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Do not hide control bar if overlay menu item is being displayed:
 		if( _this.displayOptionsMenuFlag ||
-			$j( '#timedTextMenu_' + this.embedPlayer.id ).is( ':visible' ) ) {
+			$( '#timedTextMenu_' + this.embedPlayer.id ).is( ':visible' ) ) {
 			setTimeout( function(){
 				_this.hideControlBar();
 			}, 200 );
@@ -743,7 +736,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeOut( animateDuration );
 		//mw.log('about to trigger hide control bar')
 		// Allow interface items to update: 
-		$j( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 15} );
+		$( this.embedPlayer ).trigger('onHideControlBar', {'bottom' : 15} );
 
 	},
 
@@ -755,7 +748,7 @@ mw.PlayerControlBuilder.prototype = {
 		if(! this.embedPlayer )
 			return ;
 		if( this.embedPlayer.getPlayerElement && ! this.embedPlayer.isPersistentNativePlayer() ){
-			$j( this.embedPlayer.getPlayerElement() ).css( 'z-index', '1' );
+			$( this.embedPlayer.getPlayerElement() ).css( 'z-index', '1' );
 		}
 		mw.log( 'PlayerControlBuilder:: ShowControlBar' );
 		
@@ -764,7 +757,7 @@ mw.PlayerControlBuilder.prototype = {
 			.fadeIn( animateDuration );
 		
 		// Trigger the screen overlay with layout info: 
-		$j( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 15 } );		
+		$( this.embedPlayer ).trigger( 'onShowControlBar', {'bottom' : this.getHeight() + 15 } );		
 	},
 
 	/**
@@ -796,7 +789,7 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Don't hide controls when content "height" is 0px ( audio tags )
 		if( this.embedPlayer.getPlayerHeight() === 0 &&
-			$j(this.embedPlayer).css('height').indexOf('%') === -1 ){
+			$(this.embedPlayer).css('height').indexOf('%') === -1 ){
 			return false;
 		}
 		if( this.embedPlayer.controls === false ){
@@ -872,17 +865,17 @@ mw.PlayerControlBuilder.prototype = {
 
 		// make sure the
 
-		$j( embedPlayer ).hoverIntent({
+		$( embedPlayer ).hoverIntent({
 			'timeout': 2000,
 			'over': function() {
 				// don't do the overlay if already playing
 				if( embedPlayer.isPlaying() ){
 					return ;
 				}
-				if ( $j( '#warningOverlay_' + embedPlayer.id ).length == 0 ) {
+				if ( $( '#warningOverlay_' + embedPlayer.id ).length == 0 ) {
 
-					$j( this ).append(
-						$j('<div />')
+					$( this ).append(
+						$('<div />')
 						.attr( {
 							'id': "warningOverlay_" + embedPlayer.id
 						} )
@@ -900,14 +893,14 @@ mw.PlayerControlBuilder.prototype = {
 						.html( warningMsg )
 					);
 
-					$targetWarning = $j( '#warningOverlay_' + embedPlayer.id );
+					$targetWarning = $( '#warningOverlay_' + embedPlayer.id );
 
 					$targetWarning.append(
-						$j('<br />')
+						$('<br />')
 					);
 
 					$targetWarning.append(
-						$j( '<input />' )
+						$( '<input />' )
 						.attr({
 							'id' : 'ffwarn_' + embedPlayer.id,
 							'type' : "checkbox",
@@ -919,13 +912,13 @@ mw.PlayerControlBuilder.prototype = {
 							$j.cookie( preferenceId, 'hidewarning', { expires: 30 } );
 							// Set the current instance
 							mw.setConfig( preferenceId, false );
-							$j( '#warningOverlay_' + embedPlayer.id ).fadeOut( 'slow' );
+							$( '#warningOverlay_' + embedPlayer.id ).fadeOut( 'slow' );
 							// set the local prefrence to false
 							_this.addWarningFlag = false;
 						} )
 					);
 					$targetWarning.append(
-						$j('<label />')
+						$('<label />')
 						.text( gM( 'mwe-embedplayer-do_not_warn_again' ) )
 						.attr( 'for', 'ffwarn_' + embedPlayer.id )
 					);
@@ -933,11 +926,11 @@ mw.PlayerControlBuilder.prototype = {
 				// Check the global config before showing the warning
 				if ( mw.getConfig( preferenceId ) === true && $j.cookie( preferenceId ) != 'hidewarning' ){
 					mw.log("WarningBindinng:: show warning " + mw.getConfig( preferenceId ) + ' cookie: '+ $j.cookie( preferenceId ) + 'typeof:' + typeof $j.cookie( preferenceId ));
-					$j( '#warningOverlay_' + embedPlayer.id ).fadeIn( 'slow' );
+					$( '#warningOverlay_' + embedPlayer.id ).fadeIn( 'slow' );
 				};
 			},
 			'out': function() {
-				$j( '#warningOverlay_' + embedPlayer.id ).fadeOut( 'slow' );
+				$( '#warningOverlay_' + embedPlayer.id ).fadeOut( 'slow' );
 			}
 		});
 	},
@@ -1013,7 +1006,7 @@ mw.PlayerControlBuilder.prototype = {
 	* Get the options menu ul with li menu items
 	*/
 	getOptionsMenu: function( ) {
-		$optionsMenu = $j( '<ul />' );
+		$optionsMenu = $( '<ul />' );
 		for( var i in this.optionMenuItems ){
 
 			// Make sure its supported in the current controlBuilder config:
@@ -1084,7 +1077,7 @@ mw.PlayerControlBuilder.prototype = {
 					ctrlObj.showDownload(
 						ctrlObj.embedPlayer.$interface.find( '.overlay-content' )
 					);
-					$j( ctrlObj.embedPlayer ).trigger( 'showDownloadEvent' );
+					$( ctrlObj.embedPlayer ).trigger( 'showDownloadEvent' );
 				}
 			);
 		},
@@ -1098,7 +1091,7 @@ mw.PlayerControlBuilder.prototype = {
 					ctrlObj.displayMenuOverlay(
 						ctrlObj.getShare()
 					);
-					$j( ctrlObj.embedPlayer ).trigger( 'showShareEvent' );
+					$( ctrlObj.embedPlayer ).trigger( 'showShareEvent' );
 				}
 			);
 		},
@@ -1111,7 +1104,7 @@ mw.PlayerControlBuilder.prototype = {
 						ctrlObj.displayMenuOverlay(
 							ctrlObj.aboutPlayerLibrary()
 						);
-						$j( ctrlObj.embedPlayer ).trigger( 'aboutPlayerLibrary' );
+						$( ctrlObj.embedPlayer ).trigger( 'aboutPlayerLibrary' );
 					}
 				);
 		}
@@ -1135,7 +1128,7 @@ mw.PlayerControlBuilder.prototype = {
 		embedPlayer.$interface.find( '.play-btn-large' ).fadeIn( 'slow' );
 
 
-		$j(embedPlayer).trigger( 'closeMenuOverlay' );
+		$(embedPlayer).trigger( 'closeMenuOverlay' );
 
 		return false; // onclick action return false
 	},
@@ -1173,7 +1166,7 @@ mw.PlayerControlBuilder.prototype = {
 
 		// Add an overlay
 		embedPlayer.$interface.append(
-			$j('<div />')
+			$('<div />')
 			.addClass( 'ui-widget-overlay' )
 			.css( {
 				'height' : '100%',
@@ -1183,7 +1176,7 @@ mw.PlayerControlBuilder.prototype = {
 		);
 
 		// Setup the close button
-		$closeButton = $j('<span />')
+		$closeButton = $('<span />')
 		.addClass( 'ui-icon ui-icon-closethick' )
 		.css({
 			'position': 'absolute',
@@ -1205,12 +1198,12 @@ mw.PlayerControlBuilder.prototype = {
 			'padding' : '4px',
 			'z-index' : 3
 		};
-		$overlayMenu = $j('<div />')
+		$overlayMenu = $('<div />')
 			.addClass( 'overlay-win ui-state-default ui-widget-header ui-corner-all' )
 			.css( overlayMenuCss )
 			.append(
 				$closeButton,
-				$j('<div />')
+				$('<div />')
 					.addClass( 'overlay-content' )
 					.append( overlayContent )
 			);
@@ -1220,7 +1213,7 @@ mw.PlayerControlBuilder.prototype = {
 		shadowCss['height' ] = 210;
 		shadowCss['width' ] = 260;
 		shadowCss[ 'z-index' ] = 2;
-		$overlayShadow = $j( '<div />' )
+		$overlayShadow = $( '<div />' )
 			.addClass('ui-widget-shadow ui-corner-all')
 			.css( shadowCss );
 
@@ -1233,22 +1226,22 @@ mw.PlayerControlBuilder.prototype = {
 		.fadeIn( "slow" );
 
 		// trigger menu overlay display
-		$j(embedPlayer).trigger( 'displayMenuOverlay' );
+		$(embedPlayer).trigger( 'displayMenuOverlay' );
 
 		return false; // onclick action return false
 	},
 	aboutPlayerLibrary: function(){
-		return $j( '<div />' )
+		return $( '<div />' )
 			.append(
-				$j( '<h3 />' )
+				$( '<h3 />' )
 					.text(
 						gM('mwe-embedplayer-about-library')
 					)
 				,
-				$j( '<span />')
+				$( '<span />')
 					.append(
 						gM('mwe-embedplayer-about-library-desc',
-							$j('<a />').attr({
+							$('<a />').attr({
 								'href' : mw.getConfig( 'EmbedPlayer.LibraryPage' ),
 								'target' : '_new'
 							})
@@ -1269,15 +1262,15 @@ mw.PlayerControlBuilder.prototype = {
 		var	embed_code = embedPlayer.getEmbeddingHTML();
 		var _this = this;
 
-		var $shareInterface = $j('<div />');
+		var $shareInterface = $('<div />');
 
-		$shareList = $j( '<ul />' );
+		$shareList = $( '<ul />' );
 
 		$shareList
 		.append(
-			$j('<li />')
+			$('<li />')
 			.append(
-				$j('<a />')
+				$('<a />')
 				.attr('href', '#')
 				.addClass( 'active' )
 				.text(
@@ -1287,7 +1280,7 @@ mw.PlayerControlBuilder.prototype = {
 		);
 
 		$shareInterface.append(
-			$j( '<h2 />' )
+			$( '<h2 />' )
 			.text( gM( 'mwe-embedplayer-share_this_video' ) )
 			.append(
 				$shareList
@@ -1296,17 +1289,17 @@ mw.PlayerControlBuilder.prototype = {
 
 		$shareInterface.append(
 
-			$j( '<textarea />' )
+			$( '<textarea />' )
 			.attr( 'rows', 4 )
 			.html( embed_code )
 			.click( function() {
-				$j( this ).select();
+				$( this ).select();
 			}),
 
-			$j('<br />'),
-			$j('<br />'),
+			$('<br />'),
+			$('<br />'),
 
-			$j('<button />')
+			$('<button />')
 			.addClass( 'ui-state-default ui-corner-all copycode' )
 			.text( gM( 'mwe-embedplayer-copy-code' ) )
 			.click(function() {
@@ -1336,9 +1329,9 @@ mw.PlayerControlBuilder.prototype = {
 
 		var _this = this;
 
-		$playerSelect = $j('<div />')
+		$playerSelect = $('<div />')
 		.append(
-			$j( '<h2 />' )
+			$( '<h2 />' )
 			.text( gM( 'mwe-embedplayer-choose_player' ) )
 		);
 
@@ -1348,12 +1341,12 @@ mw.PlayerControlBuilder.prototype = {
 			var is_selected = ( source.getSrc() == embedPlayer.mediaElement.selectedSource.getSrc() );
 
 			$playerSelect.append(
-				$j( '<h3 />' )
+				$( '<h3 />' )
 				.text( source.getTitle() )
 			);
 
 			if ( isPlayable ) {
-				$playerList = $j('<ul />');
+				$playerList = $('<ul />');
 				// output the player select code:
 
 				var supportingPlayers = mw.EmbedTypes.getMediaPlayers().getMIMETypePlayers( source.getMIMEType() );
@@ -1363,9 +1356,9 @@ mw.PlayerControlBuilder.prototype = {
 					// Add link to select the player if not already selected )
 					if( embedPlayer.selectedPlayer.id == supportingPlayers[i].id && is_selected ) {
 						// Active player ( no link )
-						$playerLine = $j( '<span />' )
+						$playerLine = $( '<span />' )
 						.append(
-							$j('<a />')
+							$('<a />')
 							.attr({
 								'href' : '#'					
 							})
@@ -1377,7 +1370,7 @@ mw.PlayerControlBuilder.prototype = {
 						//.addClass( 'ui-state-highlight ui-corner-all' ); removed by ran
 					} else {
 						// Non active player add link to select:
-						$playerLine = $j( '<a />')
+						$playerLine = $( '<a />')
 							.attr({
 								'href' : '#',
 								'rel' : 'sel_source',
@@ -1386,7 +1379,7 @@ mw.PlayerControlBuilder.prototype = {
 							.addClass( 'ui-corner-all')
 							.text( supportingPlayers[i].getName() )
 							.click( function() {
-								var iparts = $j( this ).attr( 'id' ).replace(/sc_/ , '' ).split( '_' );
+								var iparts = $( this ).attr( 'id' ).replace(/sc_/ , '' ).split( '_' );
 								var sourceId = iparts[0];
 								var player_id = iparts[1];
 								mw.log( 'source id: ' + sourceId + ' player id: ' + player_id );
@@ -1414,17 +1407,17 @@ mw.PlayerControlBuilder.prototype = {
 							} )
 							.hover(
 								function(){
-									$j( this ).addClass('active');
+									$( this ).addClass('active');
 								},
 								function(){
-									$j( this ).removeClass('active');
+									$( this ).removeClass('active');
 								}
 							);
 					}
 
 					// Add the player line to the player list:
 					$playerList.append(
-						$j( '<li />' ).append(
+						$( '<li />' ).append(
 							$playerLine
 						)
 					);
@@ -1476,13 +1469,13 @@ mw.PlayerControlBuilder.prototype = {
 		// Empty the target:
 		$target.empty();
 
-		var $mediaList = $j( '<ul />' );
-		var $textList =  $j( '<ul />' );
+		var $mediaList = $( '<ul />' );
+		var $textList =  $( '<ul />' );
 		$j.each( embedPlayer.mediaElement.getSources(), function( index, source ) {
 			if( source.getSrc() ) {
 				mw.log("showDownloadWithSources:: Add src: " + source.getTitle() );
-				var $dl_line = $j( '<li />').append(
-					$j('<a />')
+				var $dl_line = $( '<li />').append(
+					$('<a />')
 					.attr( 'href', source.getSrc() )
 					.text( source.getTitle() )
 				);
@@ -1503,7 +1496,7 @@ mw.PlayerControlBuilder.prototype = {
 		} );
 		if( $mediaList.find('li').length != 0 ) {
 			$target.append(
-				$j('<h2 />')
+				$('<h2 />')
 				.text( gM( 'mwe-embedplayer-download_full' ) ),
 				$mediaList
 			);
@@ -1511,7 +1504,7 @@ mw.PlayerControlBuilder.prototype = {
 
 		if( $textList.find('li').length != 0 ) {
 			$target.append(
-				$j('<h2 />')
+				$('<h2 />')
 				.html( gM( 'mwe-embedplayer-download_text' ) ),
 				$textList
 			);
@@ -1580,7 +1573,7 @@ mw.PlayerControlBuilder.prototype = {
 			'w' : 70,
 			'h' : 53,
 			'o' : function( ctrlObj ) {
-				return $j( '<div/>' )
+				return $( '<div/>' )
 					.attr( {
 						'title'	: gM( 'mwe-embedplayer-play_clip' ),
 						'class'	: "play-btn-large"
@@ -1607,18 +1600,18 @@ mw.PlayerControlBuilder.prototype = {
 				var buttonConfig = mw.getConfig( 'EmbedPlayer.AttributionButton');
 				// Check for source ( by configuration convention this is a 16x16 image
 				if( buttonConfig.iconurl ){
-					var $icon =  $j('<img />')
+					var $icon =  $('<img />')
 						.css({'width': '16px', 'height': '16px', 'margin': '-8px 5px 0px 0px'})
 						.attr('src', buttonConfig.iconurl )
 				} else {
-					var $icon = $j('<span />')
+					var $icon = $('<span />')
 					.addClass( 'ui-icon' );
 					if( buttonConfig['class'] ){
 						$icon.addClass( buttonConfig['class'] );
 					}
 				}
 
-				return $j('<a />')
+				return $('<a />')
 					.attr({
 						'href': buttonConfig.href,
 						'title' : buttonConfig.title,
@@ -1626,7 +1619,7 @@ mw.PlayerControlBuilder.prototype = {
 					})
 					.addClass( 'attributionButton' )
 					.append(
-						$j( '<div />' )
+						$( '<div />' )
 						.addClass( 'rButton' )
 						.css({
 							'top' : '9px',
@@ -1645,11 +1638,11 @@ mw.PlayerControlBuilder.prototype = {
 		'options': {
 			'w': 28,
 			'o': function( ctrlObj ) {
-				return $j( '<div />' )
+				return $( '<div />' )
 						.attr( 'title', gM( 'mwe-embedplayer-player_options' ) )
 						.addClass( 'ui-state-default ui-corner-all ui-icon_link rButton options-btn' )
 						.append(
-							$j('<span />')
+							$('<span />')
 							.addClass( 'ui-icon ui-icon-wrench' )
 						)
 						.buttonHover()
@@ -1675,15 +1668,15 @@ mw.PlayerControlBuilder.prototype = {
 			'o': function( ctrlObj ) {
 
 				// Setup "dobuleclick" fullscreen binding to embedPlayer
-				$j( ctrlObj.embedPlayer ).unbind("dblclick").bind("dblclick", function(){
+				$( ctrlObj.embedPlayer ).unbind("dblclick").bind("dblclick", function(){
 					ctrlObj.embedPlayer.fullscreen();
 				});
 
-				return $j( '<div />' )
+				return $( '<div />' )
 						.attr( 'title', gM( 'mwe-embedplayer-player_fullscreen' ) )
 						.addClass( "ui-state-default ui-corner-all ui-icon_link rButton fullscreen-btn" )
 						.append(
-							$j( '<span />' )
+							$( '<span />' )
 							.addClass( "ui-icon ui-icon-arrow-4-diag" )
 						)
 						// Fullscreen binding:
@@ -1700,11 +1693,11 @@ mw.PlayerControlBuilder.prototype = {
 		'pause': {
 			'w': 28,
 			'o': function( ctrlObj ) {
-				return $j( '<div />' )
+				return $( '<div />' )
 						.attr( 'title', gM( 'mwe-embedplayer-play_clip' ) )
 						.addClass ( "ui-state-default ui-corner-all ui-icon_link lButton play-btn" )
 						.append(
-							$j( '<span />' )
+							$( '<span />' )
 							.addClass( "ui-icon ui-icon-play" )
 						)
 						// Play / pause binding
@@ -1723,27 +1716,27 @@ mw.PlayerControlBuilder.prototype = {
 			'w' : 28,
 			'o' : function( ctrlObj ) {
 				mw.log( 'PlayerControlBuilder::Set up volume control for: ' + ctrlObj.embedPlayer.id );
-				$volumeOut = $j( '<span />' );
+				$volumeOut = $( '<span />' );
 				if ( ctrlObj.volume_layout == 'horizontal' ) {
 					$volumeOut.append(
-						$j( '<div />' )
+						$( '<div />' )
 						.addClass( "ui-slider ui-slider-horizontal rButton volume-slider" )
 					);
 				}
 
 				// Add the volume control icon
 				$volumeOut.append(
-				 	$j('<div />')
+				 	$('<div />')
 				 	.attr( 'title', gM( 'mwe-embedplayer-volume_control' ) )
 				 	.addClass( "ui-state-default ui-corner-all ui-icon_link rButton volume_control" )
 				 	.append(
-				 		$j( '<span />' )
+				 		$( '<span />' )
 				 		.addClass( "ui-icon ui-icon-volume-on" )
 				 	)
 				 );
 				if ( ctrlObj.volume_layout == 'vertical' ) {
 					$volumeOut.find('.volume_control').append(
-						$j( '<div />' )
+						$( '<div />' )
 						.css( {
 							'position' : 'absolute',
 							'left' : '0px'
@@ -1751,7 +1744,7 @@ mw.PlayerControlBuilder.prototype = {
 						.hide()
 						.addClass( "vol_container ui-corner-all" )
 						.append(
-							$j( '<div />' )
+							$( '<div />' )
 							.addClass ( "volume-slider" )
 						)
 					);
@@ -1767,7 +1760,7 @@ mw.PlayerControlBuilder.prototype = {
 		'timeDisplay': {
 			'w' : 100,
 			'o' : function( ctrlObj ) {
-				return $j( '<div />' )
+				return $( '<div />' )
 				.addClass( "ui-widget time-disp" )
 				.append(
 					ctrlObj.embedPlayer.getTimeRange()
@@ -1790,7 +1783,7 @@ mw.PlayerControlBuilder.prototype = {
 						start: function( event, ui ) {
 							var id = ( embedPlayer.pc != null ) ? embedPlayer.pc.pp.id:embedPlayer.id;
 							embedPlayer.userSlide = true;
-							$j( id + ' .play-btn-large' ).fadeOut( 'fast' );
+							$( id + ' .play-btn-large' ).fadeOut( 'fast' );
 							// If playlist always start at 0
 							embedPlayer.start_time_sec = ( embedPlayer.instanceOf == 'mvPlayList' ) ? 0:
 											mw.npt2seconds( embedPlayer.getTimeRange().split( '/' )[0] );
@@ -1817,7 +1810,7 @@ mw.PlayerControlBuilder.prototype = {
 								embedPlayer.seeking = true;
 
 								var perc = ui.value / 1000;
-								// set seek time (in case we have to do a url seek)
+								// Set seek time (in case we have to do a url seek)
 								embedPlayer.seek_time_sec = mw.npt2seconds( embedPlayer.jump_time, true );
 								mw.log( 'do jump to: ' + embedPlayer.jump_time + ' perc:' + perc + ' sts:' + embedPlayer.seek_time_sec );
 								ctrlObj.setStatus( gM( 'mwe-embedplayer-seeking' ) );
@@ -1838,7 +1831,7 @@ mw.PlayerControlBuilder.prototype = {
 			
 				var embedPlayer = ctrlObj.embedPlayer;
 				var _this = this;
-				var $playHead = $j( '<div />' )
+				var $playHead = $( '<div />' )
 					.addClass ( "play_head" )
 					.css({
 						"position" : 'absolute',
@@ -1854,7 +1847,7 @@ mw.PlayerControlBuilder.prototype = {
 
 				// Add buffer html:
 				$playHead.append(
-					$j('<div />')
+					$('<div />')
 					.addClass( "ui-slider-range ui-slider-range-min ui-widget-header")
 					.addClass( "ui-state-highlight ui-corner-all mw_buffer")
 				);
@@ -1866,4 +1859,4 @@ mw.PlayerControlBuilder.prototype = {
 };
 
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

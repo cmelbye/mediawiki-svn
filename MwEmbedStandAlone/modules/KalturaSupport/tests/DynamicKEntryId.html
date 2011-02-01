@@ -11,25 +11,25 @@
 <script type="text/javascript">
 
 mw.ready( function(){
-	$j('#showVideo').attr('disabled', null);
+	$('#showVideo').attr('disabled', null);
 	mw.setConfig( 'EmbedPlayer.OverlayControls', false );	
 
 	mw.load(["MD5", 'mw.KApi'], function(){
 	});
 	
-	$j('#showVideo').click( function(){		
-		$j( '#videoContainer' ).loadingSpinner();				
+	$('#showVideo').click( function(){		
+		$( '#videoContainer' ).loadingSpinner();				
 		mw.load( 'EmbedPlayer', function(){
 			
-			$j( '#videoContainer' ).html(
-				$j('<video />')
+			$( '#videoContainer' ).html(
+				$('<video />')
 				.css({
 					'width' : 400,
 					'height' : 300
 				})
 				.attr({
-					'kentryid' : $j( '#kentryid' ).val(),
-					'kwidgetid' : $j( '#kwidgetid' ).val()
+					'kentryid' : $( '#kentryid' ).val(),
+					'kwidgetid' : $( '#kwidgetid' ).val()
 				})			
 			);			
 			

@@ -3,37 +3,37 @@
 	var PE = PixasticEditor;
 
 	function makeSlider(label, id, min, max, step, defaultVal, onChange) {
-		var $ctr = $j("<div></div>", PE.getDocument())
+		var $ctr = $("<div></div>", PE.getDocument())
 			.addClass("ui-slider-container");
 
-		var $label = $j("<label></label>", PE.getDocument())
+		var $label = $("<label></label>", PE.getDocument())
 			.addClass("ui-slider-label")
 			.attr("for", "input-slider-" + id)
 			.html(label + ":")
 			.appendTo($ctr);
 
-		var $value = $j("<div></div>", PE.getDocument())
+		var $value = $("<div></div>", PE.getDocument())
 			.addClass("ui-slider-value")
 			.html(defaultVal());
 
-		var $valueField = $j("<input type='hidden'>", PE.getDocument())
+		var $valueField = $("<input type='hidden'>", PE.getDocument())
 			.attr("id", "input-hidden-" + id)
 			.val(defaultVal())
 			.appendTo($ctr);
 
 		var performOnChange = true;
 
-		var $slider = $j("<div class='ui-slider'><div class='ui-slider-handle'></div><div class='ui-slider-range'></div></div>", PE.getDocument())
+		var $slider = $("<div class='ui-slider'><div class='ui-slider-handle'></div><div class='ui-slider-range'></div></div>", PE.getDocument())
 			.appendTo($ctr)
 			.attr("id", "input-slider-" + id)
 			.slider({
 				slide: function() {
-					$value.html($j(this).slider("value"));
-					$valueField.val($j(this).slider("value"));
+					$value.html($(this).slider("value"));
+					$valueField.val($(this).slider("value"));
 				},
 				change : function() {
-					$value.html($j(this).slider("value"));
-					$valueField.val($j(this).slider("value"));
+					$value.html($(this).slider("value"));
+					$valueField.val($(this).slider("value"));
 					if (onChange && performOnChange)
 						onChange();
 				},
@@ -62,23 +62,23 @@
 	}
 
 	function makeCheckbox(label, id, defaultVal, onChange) {
-		var $ctr = $j("<div></div>", PE.getDocument())
+		var $ctr = $("<div></div>", PE.getDocument())
 			.addClass("ui-checkbox-container");
 
-		var $label = $j("<label></label>", PE.getDocument())
+		var $label = $("<label></label>", PE.getDocument())
 			.addClass("ui-checkbox-label")
 			.attr("for", "input-checkbox-" + id)
 			.html(label + ":")
 			.appendTo($ctr);
 
-		var $valueField = $j("<input type='hidden'>", PE.getDocument())
+		var $valueField = $("<input type='hidden'>", PE.getDocument())
 			.attr("id", "input-hidden-" + id)
 			.val(defaultVal())
 			.appendTo($ctr);
 
 		var performOnChange = true;
 
-		var $checkbox = $j("<input type=\"checkbox\"></input>", PE.getDocument())
+		var $checkbox = $("<input type=\"checkbox\"></input>", PE.getDocument())
 			.addClass("ui-checkbox")
 			.attr("id", "input-checkbox-" + id)
 			.attr("checked", defaultVal())
@@ -104,16 +104,16 @@
 	}
 
 	function makeSelect(label, id, values, defaultVal, onChange) {
-		var $ctr = $j("<div></div>", PE.getDocument())
+		var $ctr = $("<div></div>", PE.getDocument())
 			.addClass("ui-select-container");
 
-		var $label = $j("<label></label>", PE.getDocument())
+		var $label = $("<label></label>", PE.getDocument())
 			.addClass("ui-checkbox-label")
 			.attr("for", "input-checkbox-" + id)
 			.html(label + ":")
 			.appendTo($ctr);
 
-		var $valueField = $j("<input type='hidden'>", PE.getDocument())
+		var $valueField = $("<input type='hidden'>", PE.getDocument())
 			.attr("id", "input-hidden-" + id)
 			.val(defaultVal())
 			.appendTo($ctr);
@@ -126,7 +126,7 @@
 		}
 		selectHtml += "</select>";
 
-		var $select = $j(selectHtml).appendTo($ctr);
+		var $select = $(selectHtml).appendTo($ctr);
 
 		var performOnChange = true;
 
@@ -154,16 +154,16 @@
 	}
 
 	function makeNumericInput(label, labelRight, id, min, max, step, defaultVal, onChange) {
-		var $ctr = $j("<div></div>", PE.getDocument())
+		var $ctr = $("<div></div>", PE.getDocument())
 			.addClass("ui-textinput-container");
 
-		var $label = $j("<label></label>", PE.getDocument())
+		var $label = $("<label></label>", PE.getDocument())
 			.addClass("ui-textinput-label")
 			.attr("for", "input-numeric-" + id)
 			.html(label + ":")
 			.appendTo($ctr);
 
-		var $valueField = $j("<input type='hidden'>", PE.getDocument())
+		var $valueField = $("<input type='hidden'>", PE.getDocument())
 			.attr("id", "input-hidden-" + id)
 			.val(defaultVal())
 			.appendTo($ctr);
@@ -177,7 +177,7 @@
 			$valueField.val(val);
 		}
 
-		var $textInput = $j("<input type=\"text\"></input>", PE.getDocument())
+		var $textInput = $("<input type=\"text\"></input>", PE.getDocument())
 			.addClass("ui-textinput")
 			.addClass("ui-numericinput")
 			.appendTo($ctr)
@@ -190,7 +190,7 @@
 					onChange();
 			})
 			.keydown(function(e) {
-				var val = parseFloat($j(this).val());
+				var val = parseFloat($(this).val());
 				if (e.keyCode == 38) { // up
 					setVal(val + step);
 				}
@@ -200,7 +200,7 @@
 			});
 
 		if (labelRight) {
-			var $labelRight = $j("<label></label>", PE.getDocument())
+			var $labelRight = $("<label></label>", PE.getDocument())
 				.addClass("ui-textinput-label-right")
 				.html(labelRight)
 				.appendTo($ctr);
@@ -220,7 +220,7 @@
 	}
 
 	function makeButton(text) {
-		var $button = $j("<button></button>", PE.getDocument()).html(text);
+		var $button = $("<button></button>", PE.getDocument()).html(text);
 		return $button;
 	}
 

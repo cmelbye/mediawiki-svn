@@ -2,6 +2,8 @@
  * The smil body also see:
  * http://www.w3.org/TR/2008/REC-SMIL3-20081201/smil-structure.html#edef-body
  */
+( function( mw, $ ) {
+	
 mw.SmilBody = function( smilObject ){
 	return this.init( smilObject );
 }
@@ -72,7 +74,7 @@ mw.SmilBody.prototype = {
 		// Recurse to all the nodes children
 		if( $node.children().length ) {
 			$node.children().each( function( inx, childNode ){
-				_this.assignIds( $j( childNode ) );
+				_this.assignIds( $( childNode ) );
 			});
 		}
 	},
@@ -95,34 +97,34 @@ mw.SmilBody.prototype = {
 		this.getElementsForTime( time ,
 			/* SMIL Element in Range */
 			function( smilElement) {
-				//mw.log("SmilBody::renderTime: Element in Range:" + $j( smilElement ).attr('id'));
+				//mw.log("SmilBody::renderTime: Element in Range:" + $( smilElement ).attr('id'));
 				// var relativeTime = time - smilElement.parentTimeOffset;
-				var relativeTime = time - $j( smilElement ).data ( 'startOffset' );
+				var relativeTime = time - $( smilElement ).data ( 'startOffset' );
 
 				// Render the active elements using the layout engine
 				_this.smil.getLayout().drawElement( smilElement );
 
 				// Transform the elements via animate engine
-				elementForTimeStack++
+				elementForTimeStack++;
 				_this.smil.getAnimate().animateTransform( smilElement, relativeTime, deltaTime, function(){					
 					elementForTimeStack--;
 					if( elementForTimeStack == 0 && callback){
 						mw.log('SmilBody::renderTime: all active elements animateTransform callback');
-						callback()
+						callback();
 					}
 				});
 			},
 			/* SMIL Element out of range */
 			function( smilElement ){
-				//mw.log("SmilBody::renderTime: Element out of Range:" + $j( smilElement ).attr('id'));
+				//mw.log("SmilBody::renderTime: Element out of Range:" + $( smilElement ).attr('id'));
 				// Stop the animation or playback
-				_this.smil.getAnimate().pauseAnimation( smilElement )
+				_this.smil.getAnimate().pauseAnimation( smilElement );
 
 				// Hide the element in the layout
 				_this.smil.getLayout().hideElement( smilElement );
 
 				// Update activePlayback flag
-				$j( smilElement ).data('activePlayback', false)
+				$( smilElement ).data('activePlayback', false);
 
 				// Expire transitions if needed
 				_this.smil.getTransitions().hideTransitionElements( smilElement, time );
@@ -136,8 +138,8 @@ mw.SmilBody.prototype = {
 	pause: function( currentTime ){
 		var _this = this;
 		this.getElementsForTime( currentTime , function( smilElement ){
-			mw.log("SmilBody::pause: Element in Range" + $j( smilElement ).attr('id'));
-			_this.smil.getAnimate().pauseAnimation( smilElement )
+			mw.log("SmilBody::pause: Element in Range" + $( smilElement ).attr('id'));
+			_this.smil.getAnimate().pauseAnimation( smilElement );
 		});
 	},
 
@@ -166,7 +168,7 @@ mw.SmilBody.prototype = {
 		// xxx could probably do this a bit cleaner
 		var getEarliest = function ( audioTimeline ){
 			var smallTime = null;
-			var smallIndex = null
+			var smallIndex = null;
 			for( var i =0; i < audioTimeline.length; i++ ){
 				if( smallTime === null ){
 					smallTime = audioTimeline[i]['startTime'];
@@ -303,7 +305,7 @@ mw.SmilBody.prototype = {
 			$node = this.getDom();
 		}
 		// Make sure $node is wrapped in jQuery object
-		$node = $j( $node );
+		$node = $( $node );
 
 		// Setup local pointers:
 		var nodeType = this.getNodeSmilType( $node );
@@ -314,7 +316,7 @@ mw.SmilBody.prototype = {
 				$node.children().each( function( inx, childNode ){
 					// mw.log(" recurse:: startOffset:" + nodeType + ' start offset:' + startOffset );
 					var childDur = _this.getRefElementsRecurse(
-						$j( childNode ),
+						$( childNode ),
 						startOffset,
 						callback
 					);
@@ -386,7 +388,7 @@ mw.SmilBody.prototype = {
 		if( $node.children().length ){
 			$node.children().each( function( inx, childNode ){
 				// If in a sequence add to duration
-				var childDuration = _this.getClipDuration( $j( childNode ), forceRefresh );
+				var childDuration = _this.getClipDuration( $( childNode ), forceRefresh );
 				if( blockType == 'seq' ){
 					$node.data( 'implictDuration', $node.data('implictDuration') + childDuration );
 				}
@@ -429,14 +431,14 @@ mw.SmilBody.prototype = {
 		this.smil.getBuffer().loadElement( $node );
 		// xxx check if the type is "video or audio" else nothing to return
 
-		var vid = $j( '#' + this.smil.getSmilElementPlayerID( $node ) ).find('audio,video').get(0);
+		var vid = $( '#' + this.smil.getSmilElementPlayerID( $node ) ).find('audio,video').get(0);
 		if( vid.duration ){
 			callback( vid.duration );
 		}
 		// Duration ready callback:
 		var durationReady = function(){
 			callback( vid.duration );
-		}
+		};
 		// else setup a load biding
 		vid.removeEventListener( "loadedmetadata", durationReady, true );
 		vid.addEventListener( "loadedmetadata", durationReady, true );
@@ -448,15 +450,15 @@ mw.SmilBody.prototype = {
 	syncPageDom: function(){
 		var _this = this;
 		//  Check that all top level layout items exist in the smil dom
-		$j.each( $j( this.smil.getEmbedPlayer() ).find('.smilRootLayout'), function(inx, pageNode){
+		$j.each( $( this.smil.getEmbedPlayer() ).find('.smilRootLayout'), function(inx, pageNode){
 			// Check if the node is in the smil dom
 			if( _this.smil.$dom.find( '#' + _this.smil.getSmilDomId( pageNode ) ).length == 0 ){
 				// check for parent layout helper:
-				if( $j( pageNode ).parent('.refTransformWrap').length ){
-					$j( pageNode ).parent('.refTransformWrap').remove();
+				if( $( pageNode ).parent('.refTransformWrap').length ){
+					$( pageNode ).parent('.refTransformWrap').remove();
 				} else {
 					// Remove the pageNode
-					$j( pageNode ).remove();
+					$( pageNode ).remove();
 				}
 			}
 		});
@@ -472,11 +474,13 @@ mw.SmilBody.prototype = {
 	 * animation, audio, img, text, textstream and video -> 'ref',
 	 */
 	getNodeSmilType: function( $node ){
-		var blockType = $j( $node ).get(0).nodeName;
+		var blockType = $( $node ).get(0).nodeName;
 		//mw.log( 'getNodeSmilType for: ' + blockType );
 		if( this.smilBlockTypeMap[ blockType ] ){
 			blockType = this.smilBlockTypeMap[ blockType ];
 		}
 		return blockType;
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

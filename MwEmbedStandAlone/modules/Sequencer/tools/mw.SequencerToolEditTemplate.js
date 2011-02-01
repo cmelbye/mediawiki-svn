@@ -20,10 +20,10 @@ $j.extend( true, mw.SequencerTools.prototype, {
 		'editTemplate':{
 			'onChange' : function( _this, smilElement ){
 				// Clear the smilElement template cache:
-				$j( smilElement ).data('templateHtmlCache', null);
+				$( smilElement ).data('templateHtmlCache', null);
 				// Re draw the smilElement in the player
 				var smil = _this.sequencer.getSmil();
-				$playerTarget = $j('#' + smil.getSmilElementPlayerID( smilElement ) );
+				$playerTarget = $('#' + smil.getSmilElementPlayerID( smilElement ) );
 				$playerTarget.loadingSpinner();
 				smil.getLayout().getSmilTemplateHtml( smilElement, $playerTarget, function(){
 					mw.log("SequencerTools::editWidgets: smil template updated");
@@ -31,23 +31,23 @@ $j.extend( true, mw.SequencerTools.prototype, {
 			},
 			'draw': function( _this, target, smilElement ){
 				// Parse the set of templates from the template text cache
-				$j( target ).loadingSpinner();
+				$( target ).loadingSpinner();
 	
-				if( ! $j( smilElement).attr('apititlekey') ){
+				if( ! $( smilElement).attr('apititlekey') ){
 					mw.log("Error: can't grab template without title key");
 					return ;
 				}
 				// Get the template wikitext
 				_this.sequencer
 				.getServer()
-				.getTemplateText( $j( smilElement).attr('apititlekey'), function( templateText ){
+				.getTemplateText( $( smilElement).attr('apititlekey'), function( templateText ){
 					//mw.log("GotTemplateText: " + templateText );
 					if( ! templateText || typeof templateText != 'string' ){
-						mw.log("Error: could not get wikitext form titlekey: " + $j( smilElement).attr('apititlekey'));
+						mw.log("Error: could not get wikitext form titlekey: " + $( smilElement).attr('apititlekey'));
 						return ;
 					}
-					$j( target ).empty().append(
-						$j('<h3 />').text( gM('mwe-sequencer-edittemplate-params') )
+					$( target ).empty().append(
+						$('<h3 />').text( gM('mwe-sequencer-edittemplate-params') )
 					);
 	
 					// This is not supposed to be perfect ..
@@ -68,7 +68,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 					}
 					// Output input boxes for each template var as a param
 					for( var paramName in cleanTemplateParams ){
-						$j( target ).append(
+						$( target ).append(
 							_this.getEditableAttribute(
 									smilElement,
 									'editTemplate',
@@ -85,7 +85,7 @@ $j.extend( true, mw.SequencerTools.prototype, {
 							})
 							.parent()
 							,
-							$j('<div />')
+							$('<div />')
 							.css('clear', 'both')
 						);
 					}

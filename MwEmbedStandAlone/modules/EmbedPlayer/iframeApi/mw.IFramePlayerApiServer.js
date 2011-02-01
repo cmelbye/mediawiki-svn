@@ -18,7 +18,7 @@
 	
 
 // Bind apiServer to EmbedPlayerNewPlayer:
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {	
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {	
 	// Check if the iFrame player api is enabled and we have a parent iframe url: 
 	if ( mw.getConfig('EmbedPlayer.EnableIframeApi') 
 			&& 
@@ -54,11 +54,11 @@ mw.IFramePlayerApiServer.prototype = {
 		}
 		
 		// Allow modules to extend the list of iframeExported bindings
-		$j( mw ).trigger( 'AddIframePlayerBindings', [ this.exportedBindings ]);
+		$( mw ).trigger( 'AddIframePlayerBindings', [ this.exportedBindings ]);
 		
 		this.addIframeListener();
 		this.addIframeSender();
-		$j( mw ).trigger( 'newIframePlayerServerSide', [embedPlayer]);
+		$( mw ).trigger( 'newIframePlayerServerSide', [embedPlayer]);
 	},
 	
 	/**
@@ -88,16 +88,16 @@ mw.IFramePlayerApiServer.prototype = {
 		// window.postMessage (this URL could be hard-coded).
 		
 		// Set the initial attributes once player is "ready"
-		$j( this.embedPlayer ).bind( 'playerReady', function(){
+		$( this.embedPlayer ).bind( 'playerReady', function(){
 			_this.sendPlayerAttributes();
 		});		
 		// On monitor event package the attributes for cross domain delivery:
-		$j( this.embedPlayer ).bind( 'monitorEvent', function(){			
+		$( this.embedPlayer ).bind( 'monitorEvent', function(){			
 			_this.sendPlayerAttributes();
 		})
 
 		$j.each( this.exportedBindings, function( inx, bindName ){
-			$j( _this.embedPlayer ).bind( bindName, function( event ){				
+			$( _this.embedPlayer ).bind( bindName, function( event ){				
 				var argSet = $j.makeArray( arguments );
 				// remove the event from the arg set
 				argSet.shift();
@@ -177,7 +177,7 @@ mw.IFramePlayerApiServer.prototype = {
 		// Update a attribute
 		if( typeof msgObject.attrName != 'undefined' && typeof msgObject.attrValue != 'undefined' ){
 			try{
-				$j( this.embedPlayer ).attr( msgObject.attrName, msgObject.attrValue)
+				$( this.embedPlayer ).attr( msgObject.attrName, msgObject.attrValue)
 			} catch(e){
 				// possible error cant set attribute msgObject.attrName
 			}

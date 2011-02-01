@@ -3,8 +3,8 @@
 * Read the fader plugin from the UIConf
 * <Plugin id="fader" width="0%" height="0%" includeInLayout="false" target="{controllersVbox}" hoverTarget="{PlayerHolder}" duration="0.5"/>
 */
-$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
-	$j( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
+$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
+	$( embedPlayer ).bind( 'KalturaSupport.checkUiConf', function( event, $uiConf, callback ){
 		var $fader = $uiConf.find("Plugin#fader");
 		faderPlugin(embedPlayer, $fader )
 		callback();		

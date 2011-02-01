@@ -137,9 +137,9 @@ mw.ApiProxy = { };
 				// check for basic status "ok"
 				if( iframeData['status'] == 'ok' ) {
 					// Hide the loading spinner
-					$j( options.target ).find('.loadingSpinner').fadeOut('fast');
+					$( options.target ).find('.loadingSpinner').fadeOut('fast');
 					mw.log("iframe ready callback");
-					$j( '#' + iFrameName ).fadeIn( 'fast' );
+					$( '#' + iFrameName ).fadeIn( 'fast' );
 					return ;
 				}
 				mw.log( '~browseFile Callback~ event type: ' + iframeData['event'] );
@@ -186,7 +186,7 @@ mw.ApiProxy = { };
 			options.height = 27;
 		}
 
-		var iFrameName = ( options.iframeName ) ? options.iframeName : 'fileBrowse_' + $j('iframe').length;
+		var iFrameName = ( options.iframeName ) ? options.iframeName : 'fileBrowse_' + $('iframe').length;
 		// Setup an object to be packaged into the frame
 		var iFrameRequest = {
 			'clientFrame' : getClientFrame( context ),
@@ -199,12 +199,12 @@ mw.ApiProxy = { };
 			+ 'height:' + parseInt( options.height ) +'px';
 
 		// Empty the target ( so that the iframe can be put there )
-		$j( options.target ).empty();
+		$( options.target ).empty();
 
 		mw.log( 'append spinner');
 		// Add a loading spinner to the target
-		$j( options.target ).append(
-			$j( '<div />' ).loadingSpinner()
+		$( options.target ).append(
+			$( '<div />' ).loadingSpinner()
 		);
 
 		// Append the browseFile iframe to the target:
@@ -473,7 +473,7 @@ mw.ApiProxy = { };
 
 		if ( !clientRequest || !clientRequest.clientFrame ) {
 			mw.log( "Error: no client domain provided " );
-			$j( 'body' ).append( "no client frame provided" );
+			$( 'body' ).append( "no client frame provided" );
 			return false;
 		}
 
@@ -592,13 +592,13 @@ mw.ApiProxy = { };
 		var login_url = pUri.protocol + '://' + pUri.host;
 		login_url += pUri.path.replace( 'MediaWiki:ApiProxy', 'Special:UserLogin' );
 
-		var $dialogMsg = $j('<p />');
+		var $dialogMsg = $('<p />');
 		$dialogMsg.append(
 			gM( 'mwe-please-login',
 				pUri.host,
 
 				// Add log-in link:
-				$j( '<a />')
+				$( '<a />')
 				.attr( {
 					'href' : login_url,
 					'target' : '_new'
@@ -608,7 +608,7 @@ mw.ApiProxy = { };
 		)
 		// Add the security note as well:
 		$dialogMsg.append(
-			$j('<br />'),
+			$('<br />'),
 			gM( 'mwe-remember-loging' )
 		)
 
@@ -717,7 +717,7 @@ mw.ApiProxy = { };
 		// NOTE: the binding function should be made identical.
 		if( wgEnableFirefogg ) {
 			mw.load( 'AddMedia.firefogg', function() {
-				$j( '#wpUploadFile' ).firefogg( getUploadFileConfig() );
+				$( '#wpUploadFile' ).firefogg( getUploadFileConfig() );
 
 				// Update status
 				sendClientMsg( {'status':'ok'} );
@@ -726,7 +726,7 @@ mw.ApiProxy = { };
 			mw.load( 'AddMedia.UploadHandler', function() {
 				var uploadConfig = getUploadFileConfig();
 
-				$j( '#mw-upload-form' ).uploadHandler( getUploadFileConfig() );
+				$( '#mw-upload-form' ).uploadHandler( getUploadFileConfig() );
 
 				// Update status
 				sendClientMsg( {'status':'ok'} );
@@ -753,8 +753,8 @@ mw.ApiProxy = { };
 		}
 
 		//Build a form with bindings similar to uploadPage.js ( but only the browse button )
-		$j('body').html(
-			$j('<form />')
+		$('body').html(
+			$('<form />')
 			.attr( {
 				'name' : "mw-upload-form",
 				'id' : "mw-upload-form",
@@ -765,7 +765,7 @@ mw.ApiProxy = { };
 			} )
 			.append(
 				//Add the "browse for file" button
-				$j('<input />')
+				$('<input />')
 				.attr({
 					'type' : "file",
 					'name' : "wpUploadFile",
@@ -776,7 +776,7 @@ mw.ApiProxy = { };
 				}),
 
 				// Append the token
-				$j('<input />')
+				$('<input />')
 				.attr({
 					'type' : 'hidden',
 					'id' : "wpEditToken",
@@ -847,7 +847,7 @@ mw.ApiProxy = { };
 		// Get a refrence to the uploadHandler:
 		// NOTE: both firefogg and upload form should save upload target in a similar way
 		var selector = ( wgEnableFirefogg ) ? '#wpUploadFile' : '#mw-upload-form';
-		var uploadHandler = $j( selector ).get(0).uploadHandler;
+		var uploadHandler = $( selector ).get(0).uploadHandler;
 		if( uploadHandler ){
 			uploadHandler.uploadHandlerAction( action );
 		} else {
@@ -862,7 +862,7 @@ mw.ApiProxy = { };
 	function serverSubmitFile( formData ){
 		mw.log("Submit form with fname:" + formData.filename + "\n :: " + formData.comment)
 		// Add the FileName and and the description to the form
-		var $form = $j('#mw-upload-form');
+		var $form = $('#mw-upload-form');
 		var formApiFields = [ 'filename', 'comment', 'watch', 'ignorewarnings', 'token' ];
 
 		for( var i=0; i < formApiFields.length ; i++ ){
@@ -871,7 +871,7 @@ mw.ApiProxy = { };
 				// Add the input field if not already there:
 				if( ! $form.find("[name='" + fieldName + "']" ).length ){
 					$form.append(
-						$j( '<input />' )
+						$( '<input />' )
 						.attr( {
 							'name' : fieldName,
 							'type' : 'hidden'
@@ -911,7 +911,7 @@ mw.ApiProxy = { };
 			return false;
 		}
 
-		var nestName = 'NestedFrame_' + $j( 'iframe' ).length;
+		var nestName = 'NestedFrame_' + $( 'iframe' ).length;
 
 		// Append the iframe to body
 		appendIframe( {
@@ -957,7 +957,7 @@ mw.ApiProxy = { };
 
 		// Check for frame name:
 		if( ! options[ 'name' ] ) {
-			options[ 'name' ] = 'mwApiProxyFrame_' + $j( 'iframe' ).length;
+			options[ 'name' ] = 'mwApiProxyFrame_' + $( 'iframe' ).length;
 		}
 
 		// Add the frame name / id:
@@ -993,21 +993,21 @@ mw.ApiProxy = { };
 		if( ! options[ 'target' ] ){
 			options[ 'target' ] = 'body';
 		}
-		var targetName = ( typeof options[ 'target' ] == 'string') ? options[ 'target' ] : $j( options[ 'target' ]).length ;
+		var targetName = ( typeof options[ 'target' ] == 'string') ? options[ 'target' ] : $( options[ 'target' ]).length ;
 
 		mw.log( "Append iframe:" + options[ 'src' ] + ' to: ' + targetName + " \n with data: " + JSON.stringify( options.request ) );
 
 		// Append to target
-		$j( options[ 'target' ] ).append( s );
+		$( options[ 'target' ] ).append( s );
 
 		// Setup the onload callback
-		$j( '#' + options[ 'name' ] ).get( 0 ).onload = function() {
+		$( '#' + options[ 'name' ] ).get( 0 ).onload = function() {
 			if( ! options.persist ){
 				// Schedule the removal of the iframe
 				// We don't call remove directly since some browsers seem to call "ready"
 				//  before blocking javascript code is done running
 				setTimeout( function() {
-					$j('#' + options[ 'name' ] ).remove();
+					$('#' + options[ 'name' ] ).remove();
 				}, 10 );
 			}
 		};

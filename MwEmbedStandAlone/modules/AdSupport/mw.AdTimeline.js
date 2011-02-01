@@ -73,6 +73,9 @@
  * 		]
  * }
  */
+
+( function( mw, $ ) {
+	
 mw.addAdToPlayerTimeline = function( embedPlayer, timeType, adConf ) {
 	mw.log("AdTimeline::Add " + timeType + ' dispCof:' + adConf );
 	
@@ -80,11 +83,11 @@ mw.addAdToPlayerTimeline = function( embedPlayer, timeType, adConf ) {
 		embedPlayer.adTimeline = new mw.AdTimeline(embedPlayer);
 	}
 	embedPlayer.adTimeline.addToTimeline( timeType, adConf );
-}
+};
 
 mw.AdTimeline = function(embedPlayer) {
 	return this.init(embedPlayer);
-}
+};
 
 mw.AdTimeline.prototype = {
 
@@ -123,7 +126,7 @@ mw.AdTimeline.prototype = {
 		// Flag to store if its the first time play is being called:
 		var firstPlay = true;
 		
-		$j(_this.embedPlayer).bind('play', function() {
+		$(_this.embedPlayer).bind('play', function() {
 			// Check if this is the "first play" request:
 			if (!firstPlay) {
 				return 
@@ -171,7 +174,7 @@ mw.AdTimeline.prototype = {
 			// Bind the player "ended" event to play the postroll if present
 			if( _this.timelineTargets['postroll'] ){
 				var displayedPostroll = false;
-				$j( _this.embedPlayer ).bind( 'ended', function(event, onDoneActionObject){				
+				$( _this.embedPlayer ).bind( 'ended', function(event, onDoneActionObject){				
 					if( displayedPostroll){
 						return ;
 					}					
@@ -213,7 +216,7 @@ mw.AdTimeline.prototype = {
 				// Note there may be a better measurement of timeout
 				var adDuration = overlayTiming.timeout;
 				// Monitor:
-				$j( _this.embedPlayer ).bind( 'monitorEvent', function() {		
+				$( _this.embedPlayer ).bind( 'monitorEvent', function() {		
 					var time = _this.embedPlayer.currentTime;
 					if( !lastPlayEndTime ){
 						lastPlayEndTime = time;
@@ -338,7 +341,7 @@ mw.AdTimeline.prototype = {
 			// Check for click binding 
 			if( adConf.clickThrough ){		
 				var clickedBumper = false;
-				$j( _this.embedPlayer ).bind( 'click.ad', function(){
+				$( _this.embedPlayer ).bind( 'click.ad', function(){
 					// try to do a popup:
 					if(!clickedBumper){
 						clickedBumper = true;
@@ -358,7 +361,7 @@ mw.AdTimeline.prototype = {
 				},
 				function(){
 					// unbind any click ad bindings:
-					$j( _this.embedPlayer ).unbind( 'click.ad' );					
+					$( _this.embedPlayer ).unbind( 'click.ad' );					
 					displayTarget.playbackDone();
 				}
 			);
@@ -376,21 +379,21 @@ mw.AdTimeline.prototype = {
 			
 			
 			if( companionTarget.elementid ){
-				var originalCompanionHtml = $j('#' + companionTarget.elementid ).html();
+				var originalCompanionHtml = $('#' + companionTarget.elementid ).html();
 
 				// Display the companion:
-				$j( '#' + companionTarget.elementid ).html( companionConf.html );
+				$( '#' + companionTarget.elementid ).html( companionConf.html );
 				
 				// Display the companion across the iframe client ( if setup );
 				var companionObject = {
 					'elementid' : companionTarget.elementid,
 					'html' : companionConf.html
 				};
-				$j( _this.embedPlayer ).trigger( 'updateCompanionTarget', [ companionObject ] );
+				$( _this.embedPlayer ).trigger( 'updateCompanionTarget', [ companionObject ] );
 				
 				// Once display is over restore the original companion html
 				displayTarget.doneFunctions.push(function(){
-					$j( '#' + companionTarget.elementid ).html( originalCompanionHtml );
+					$( '#' + companionTarget.elementid ).html( originalCompanionHtml );
 				});
 			} else {
 				mw.log( "AdTimeline: possible error no elementid in companionTarget");
@@ -403,9 +406,9 @@ mw.AdTimeline.prototype = {
 			var nonLinearConf = _this.selectFromArray( adConf.nonLinear ); 
 			
 			// Add the overlay if not already present: 
-			if( $j('#' +overlayId ).length == 0 ){
+			if( $('#' +overlayId ).length == 0 ){
 				_this.embedPlayer.$interface.append(
-					$j('<div />')
+					$('<div />')
 					.css('position', 'absolute')
 					.attr('id', overlayId )
 				)
@@ -425,25 +428,25 @@ mw.AdTimeline.prototype = {
 			}
 			
 			// Show the overlay update its position and content
-			$j('#' +overlayId )
+			$('#' +overlayId )
 			.css( layout )
 			.html( nonLinearConf.html )
 			.fadeIn('fast')
 			
 			
 			// Bind control bar display hide / show
-			$j( _this.embedPlayer ).bind( 'onShowControlBar', function(event,  layout ){
-				if( $j('#' +overlayId ).length )
-					$j('#' +overlayId ).animate( layout, 'fast');
+			$( _this.embedPlayer ).bind( 'onShowControlBar', function(event,  layout ){
+				if( $('#' +overlayId ).length )
+					$('#' +overlayId ).animate( layout, 'fast');
 			});
-			$j( _this.embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
-				if( $j('#' +overlayId ).length )
-					$j('#' +overlayId ).animate( layout, 'fast');
+			$( _this.embedPlayer ).bind( 'onHideControlBar', function(event, layout ){
+				if( $('#' +overlayId ).length )
+					$('#' +overlayId ).animate( layout, 'fast');
 			});
 			
 			// Only display the the overlay for allocated time:
 			displayTarget.doneFunctions.push(function(){
-				$j('#' +overlayId ).fadeOut('fast');
+				$('#' +overlayId ).fadeOut('fast');
 			});
 		}
 		
@@ -492,24 +495,24 @@ mw.AdTimeline.prototype = {
 		};
 				
 		// On end stop monitor / clear interval: 
-		$j( videoPlayer ).bind('ended', function(){			
+		$( videoPlayer ).bind('ended', function(){			
 			sendBeacon( 'complete' );
 			clearInterval( monitorInterval );
 		})
 		
 		// On pause / resume: 
-		$j( videoPlayer ).bind( 'pause', function(){
+		$( videoPlayer ).bind( 'pause', function(){
 			sendBeacon( 'pause' );
 		})
 		
 		// On resume: 
-		$j( videoPlayer ).bind( 'play', function(){
+		$( videoPlayer ).bind( 'play', function(){
 			sendBeacon( 'resume' );
 		})			
 		
 		var time = 0;
 		// On seek backwards 
-		$j( videoPlayer ).bind( 'seek', function(){
+		$( videoPlayer ).bind( 'seek', function(){
 			if( videoPlayer.currentTime < time ){
 				sendBeacon( 'rewind' );
 			}
@@ -564,4 +567,6 @@ mw.AdTimeline.prototype = {
 	getNativePlayerElement : function() {
 		return this.embedPlayer.getPlayerElement();
 	}
-}
+};
+
+} )( window.mediaWiki, window.jQuery );

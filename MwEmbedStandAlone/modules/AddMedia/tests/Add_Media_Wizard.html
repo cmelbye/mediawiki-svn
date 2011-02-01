@@ -17,8 +17,8 @@
  	<script type="text/javascript">
  	mw.ready( function(){
  		mw.load( 'AddMedia.addMediaWizard', function(){
- 			$j('#add_media_link').wrap( $j( '<a />').attr('href', '#') ).text( 'Add Media Wizard' );
- 			$j('#add_media_link').addMediaWizard( {
+ 			$('#add_media_link').wrap( $( '<a />').attr('href', '#') ).text( 'Add Media Wizard' );
+ 			$('#add_media_link').addMediaWizard( {
 				'profile' : 'html_edit',
 				'target_textbox' : '#wpTextbox1',
 				'target_render_area' : '#inline_append',

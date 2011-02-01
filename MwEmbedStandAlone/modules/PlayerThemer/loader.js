@@ -9,10 +9,10 @@
 	});
 
 	// Add the mw.PlayerThemer to the embedPlayer loader request if we have special playerThemer class
-	$j( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
-		if( $j( playerElement ).hasClass('PlayerThemer') ){
+	$( mw ).bind( 'EmbedPlayerUpdateDependencies', function( event, playerElement, classRequest ) {
+		if( $( playerElement ).hasClass('PlayerThemer') ){
 			// Set the player useNativeControls attribute
-			$j( playerElement ).attr('usenativecontrols', true);
+			$( playerElement ).attr('usenativecontrols', true);
 
 			// Add playerThemer to the request:
 			if( $j.inArray( 'mw.PlayerThemer', classRequest ) == -1 ){

@@ -1,5 +1,5 @@
 //Wrap in mw closure to avoid global leakage
-( function( mw ) {
+( function( mw, $ ) {
 
 mw.SequencerPlayer = function( sequencer ) {
 	return this.init( sequencer );
@@ -24,7 +24,7 @@ mw.SequencerPlayer.prototype = {
 		this.sequencer.getSmilSource( function( smilSource ){
 			mw.log("SequencePlayer::drawPlayer: Built player target url length:" + smilSource.length );
 			// Add the player
-			var $video = $j('<video />');
+			var $video = $('<video />');
 			// Set the title key if we have it if we have a title key
 			if( _this.sequencer.getServer().getTitleKey() ){
 				$video.attr('apiTitleKey', _this.sequencer.getServer().getTitleKey() );
@@ -37,7 +37,7 @@ mw.SequencerPlayer.prototype = {
 					'attributionbutton' : false,
 					'overlaycontrols' : false
 				}).append(
-					$j('<source />').attr({
+					$('<source />').attr({
 						'type' : 'application/smil',
 						'src' : smilSource
 					})
@@ -47,28 +47,28 @@ mw.SequencerPlayer.prototype = {
 			// Draw the player ( keep the playhead for now )
 			// xxx we will eventually replace the playhead with sequence
 			// based playhead interface for doing easy trims
-			$j( '#' + _this.getSmilPlayerId() ).embedPlayer({}, function(){
+			$( '#' + _this.getSmilPlayerId() ).embedPlayer({}, function(){
 				// Set the player interface to autoMargin ( need to fix css propagation in embed player)
-				$j( '#' + _this.getSmilPlayerId() ).parent('.interface_wrap').css('margin', 'auto');
+				$( '#' + _this.getSmilPlayerId() ).parent('.interface_wrap').css('margin', 'auto');
 				if( callback ){
 					callback();
 				}
-			})
+			});
 		});
 	},
 
 	previewClip: function( smilClip, donePreivewCallback ){
 		var _this = this;
 		// Seek and play start of smilClip
-		var startOffset = $j( smilClip ).data('startOffset');
+		var startOffset = $( smilClip ).data('startOffset');
 		var clipEndTime = startOffset +
 			this.sequencer.getSmil().getBody().getClipDuration( smilClip );
 		this.getEmbedPlayer().setCurrentTime( startOffset, function(){
 			mw.log("SequencerPlayer::Preview clip: " + startOffset + ' to ' + clipEndTime);
 			_this.getEmbedPlayer().play( clipEndTime );
 			// bind end of segment action
-			$j( _this.sequencer.getEmbedPlayer() ).bind( 'playSegmentEnd', donePreivewCallback);
-		})
+			$( _this.sequencer.getEmbedPlayer() ).bind( 'playSegmentEnd', donePreivewCallback);
+		});
 	},
 
 	closePreivew: function(){
@@ -79,7 +79,7 @@ mw.SequencerPlayer.prototype = {
 
 
 	resizePlayer: function(){
-		mw.log("SequencerPlayer:: resizePlayer: " + $j('#' + this.getSmilPlayerId() ).length );
+		mw.log("SequencerPlayer:: resizePlayer: " + $('#' + this.getSmilPlayerId() ).length );
 		this.getEmbedPlayer()
 			.resizePlayer(
 				this.getPlayerSize(),
@@ -96,7 +96,7 @@ mw.SequencerPlayer.prototype = {
 		size.height = parseInt( size.width * ( aspect[1] / aspect[0] ) );
 
 		if( size.height > $playerContainer.height() - 35 ){
-			size.height = $playerContainer.height()- 35
+			size.height = $playerContainer.height()- 35;
 			size.width = parseInt( size.height * ( aspect[0] / aspect[1] ) );
 		}
 		return size;
@@ -106,7 +106,7 @@ mw.SequencerPlayer.prototype = {
 	 * Get the embedplayer object instance
 	 */
 	getEmbedPlayer: function(){
-		return $j( '#' + this.getSmilPlayerId() ).get(0);
+		return $( '#' + this.getSmilPlayerId() ).get(0);
 	},
 
 	/**
@@ -118,7 +118,7 @@ mw.SequencerPlayer.prototype = {
 		}
 		return this.smilPlayerId;
 	}
-}
+};
 
 
-} )( window.mw );
+} )( window.mediaWiki, window.jQuery );

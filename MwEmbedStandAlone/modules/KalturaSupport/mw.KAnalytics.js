@@ -3,19 +3,21 @@
  */
 
 // Avoid undefined symbol for javascript response "Kaltura" from the api
+( function( mw, $ ) {
+	
 window['Kaltura'] = true;
 
 // KAnalytics Constructor
 mw.KAnalytics = function( embedPlayer, kalturaClient ){
 	this.init( 	embedPlayer, kalturaClient );
-}
+};
 
 // Add analytics to the embed player: 
 mw.addKAnalytics = function( embedPlayer, kalturaClient ) {
 	if( ! embedPlayer.kAnalytics ) {
 		embedPlayer.kAnalytics = new mw.KAnalytics( embedPlayer, kalturaClient );
 	}
-}
+};
 
 mw.KAnalytics.prototype = {
 
@@ -104,7 +106,7 @@ mw.KAnalytics.prototype = {
 		// make sure we have a KS
 		this.kClient.getKS( function( ks ){
 			_this.doSendAnalyticsEvent( ks, KalturaStatsEventKey );
-		})
+		});
 	},
 	doSendAnalyticsEvent: function( ks, KalturaStatsEventKey ){
 		var _this = this;				
@@ -143,7 +145,7 @@ mw.KAnalytics.prototype = {
 
 		// Trigger a special global event ( has to be on document since some analytic 
 		//events happen before the mw is ready
-		$j( document ).trigger( 'Kaltura.SendAnalyticEvent', [ KalturaStatsEventKey ] );
+		$( document ).trigger( 'Kaltura.SendAnalyticEvent', [ KalturaStatsEventKey ] );
 		
 		var eventRequest = {};
 		for( var i in eventSet){
@@ -169,8 +171,8 @@ mw.KAnalytics.prototype = {
 		
 		// Setup shortcut anonymous function for player bindings
 		var b = function( hookName, eventType ){
-			$j( _this.embedPlayer ).bind( hookName, function(){
-				_this.sendAnalyticsEvent( eventType )
+			$( _this.embedPlayer ).bind( hookName, function(){
+				_this.sendAnalyticsEvent( eventType );
 			});
 		};
 		
@@ -207,7 +209,7 @@ mw.KAnalytics.prototype = {
 		b( 'replayEvent', 'REPLAY' );	
 	
 		// Bind on the seek event
-		$j( embedPlayer ).bind( 'seeked', function( seekTarget ) {
+		$( embedPlayer ).bind( 'seeked', function( seekTarget ) {
 			// Don't send a bunch of seeks on scrub:
 			if( _this.lastSeekEventTime == 0 || 
 				_this.lastSeekEventTime + 2000	< new Date().getTime() )
@@ -225,7 +227,7 @@ mw.KAnalytics.prototype = {
 		
 		// Let updateTimeStats handle the currentTime monitor timing
 
-		$j( embedPlayer ).bind( 'monitorEvent', function(){
+		$( embedPlayer ).bind( 'monitorEvent', function(){
 			_this.updateTimeStats();			
 		}); 
 				
@@ -288,3 +290,4 @@ mw.KAnalytics.prototype = {
 	}
 };
 
+} )( window.mediaWiki, window.jQuery );

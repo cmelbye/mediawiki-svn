@@ -55,8 +55,8 @@ RemoteMwTimedText.prototype = {
 			var width = ( resource.width > 500 )? 500 : resource.width;
 			var height = width * ( resource.height / resource.width );
 			// Add the embed code: ( jquery wrapping of "video" fails )
-			$j( _this.target ).empty().append(
-				$j('<video />').attr({
+			$( _this.target ).empty().append(
+				$('<video />').attr({
 					'id': "timed-text-player-embed",
 					'poster': resource.poster,
 					'src':  resource.src,
@@ -69,7 +69,7 @@ RemoteMwTimedText.prototype = {
 				})
 				.addClass( 'kskin' )
 				 ,
-				 $j('<div />').css({
+				 $('<div />').css({
 					'position' : 'relative',
 					'left' : '510px',
 					'top' : -height + 'px'
@@ -87,8 +87,8 @@ RemoteMwTimedText.prototype = {
 	embedPlayerLang: function() {
 		var _this = this;
 		if( wgArticlePath ) {
-			var $fileLink = $j('<div>').append(
-				$j('<a>').attr({
+			var $fileLink = $('<div>').append(
+				$('<a>').attr({
 					'href' : wgArticlePath.replace( '$1', 'File:' + _this.fileTitleKey)
 				})
 				.text( _this.fileTitleKey.replace('_', ' ') )
@@ -96,13 +96,13 @@ RemoteMwTimedText.prototype = {
 		}
 
 		// Rewrite the player (any video tags on the page)
-		$j('#timed-text-player-embed').embedPlayer( function() {
+		$('#timed-text-player-embed').embedPlayer( function() {
 			//Select the timed text for the page:
 
 			//remove the loader
-			$j('.loadingSpinner').remove();
+			$('.loadingSpinner').remove();
 
-			var player = $j('#timed-text-player-embed').get(0);
+			var player = $('#timed-text-player-embed').get(0);
 
 
 			if( !player.timedText ) {
@@ -121,8 +121,8 @@ RemoteMwTimedText.prototype = {
 					pageMsgKey = "mwe-timedtext-language-no-subtitles-for-clip"
 				}
 				// Add the page msg to the top
-				$j( _this.target ).prepend(
-					$j('<h3>')
+				$( _this.target ).prepend(
+					$('<h3>')
 					.html(
 						gM( pageMsgKey, [ mw.Language.names[ _this.langKey ], $fileLink.html() ] )
 					)
@@ -155,7 +155,7 @@ RemoteMwTimedText.prototype = {
 			// Check for "page not found"
 			if( data.query.pages['-1'] ) {
 				//restore content:
-				$j(_this.target).html( _this.orgBody );
+				$(_this.target).html( _this.orgBody );
 				return ;
 			}
 			for ( var i in data.query.pages ) {

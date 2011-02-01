@@ -180,28 +180,28 @@ class EntriesList {
 		mw.setConfig( 'EmbedPlayer.EnableIpadHTMLControls', true);
 		mw.setConfig( 'EmbedPlayer.OverlayControls', true );		
 		
-		$j('.entry').click( function(){
-			$j(window).scrollTop(0);
+		$('.entry').click( function(){
+			$(window).scrollTop(0);
 			var entryId = this.hash.slice(1);
 			var url = '../../../mwEmbedFrame.php/entry_id/' + entryId + '/wid/_' + partnerId + '/autoplay/autoplay/' + mw.getKalturaIframeHash();
 
-			$j( '#videoContainer iframe' ).css('display', 'block');
-			$j( '#videoContainer iframe' ).attr('src', url);
+			$( '#videoContainer iframe' ).css('display', 'block');
+			$( '#videoContainer iframe' ).attr('src', url);
 
 		});
 
 		if( page <= 1) {
-			$j( '.navigation a[hash=#prev]' ).hide();
+			$( '.navigation a[hash=#prev]' ).hide();
 		} else {
-			$j( '.navigation a[hash=#prev]' ).click( function() {
+			$( '.navigation a[hash=#prev]' ).click( function() {
 				window.location.href=prevUrl;
 			} );
 		}
 
 		if( page >= maxPages) {
-			$j( '.navigation a[hash=#next]' ).hide();
+			$( '.navigation a[hash=#next]' ).hide();
 		} else {
-			$j( '.navigation a[hash=#next]' ).click( function() {
+			$( '.navigation a[hash=#next]' ).click( function() {
 				window.location.href=nextUrl;
 			} );
 		}

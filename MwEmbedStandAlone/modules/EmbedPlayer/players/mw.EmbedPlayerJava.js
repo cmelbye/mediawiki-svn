@@ -1,6 +1,8 @@
 /**
 * List of domains and hosted location of cortado. Lets clients avoid the security warning for cross domain cortado
 */
+( function( mw, $ ) {
+	
 window.cortadoDomainLocations = {
 		'upload.wikimedia.org' : 'http://upload.wikimedia.org/jars/cortado.jar'		
 };
@@ -59,7 +61,7 @@ mw.EmbedPlayerJava = {
 				'<param name="BufferLow" value="5">' +
 			'</applet>';
 
-		$j( this ).html( appletCode );
+		$( this ).html( appletCode );
 
 		// Wrap it in an iframe to avoid hanging the event thread in FF 2/3 and similar
 		// NOTE:  This breaks reference to the applet so disabled for now:
@@ -74,7 +76,7 @@ mw.EmbedPlayerJava = {
 			iframe.setAttribute( 'id', 'cframe_' + this.id )
 
 			// Append the iframe to the embed object:
-			$j( this ).html( iframe );
+			$( this ).html( iframe );
 
 			// Write out the iframe content:
 			var newDoc = iframe.contentDocument;
@@ -83,7 +85,7 @@ mw.EmbedPlayerJava = {
 			// spurious error in some versions of FF, no workaround known
 			newDoc.close();
 		} else {
-			$j( this ).html( appletCode );
+			$( this ).html( appletCode );
 		//}
 		*/
 
@@ -197,17 +199,17 @@ mw.EmbedPlayerJava = {
 	* Update the playerElement instance with a pointer to the embed object
 	*/
 	getPlayerElement: function() {
-		if( !$j( '#' + this.pid ).length ) {
+		if( !$( '#' + this.pid ).length ) {
 			return false;
 		}
 		//mw.log( 'getPlayerElement::' + this.pid );
-		this.playerElement = $j( '#' + this.pid ).get( 0 );
+		this.playerElement = $( '#' + this.pid ).get( 0 );
 		//this.playerElement = document.applets[ 0 ];
 		// NOTE we are currently not using the iframe embed method:
 		//if ( $j.browser.mozilla ) {
-		//	this.playerElement = $j('#cframe_' + this.id).contents().find( '#' + this.pid );
+		//	this.playerElement = $('#cframe_' + this.id).contents().find( '#' + this.pid );
 		//} else {
-		//	this.playerElement = $j( '#' + this.pid ).get( 0 );
+		//	this.playerElement = $( '#' + this.pid ).get( 0 );
 		//}
 		return this.playerElement;
 	},
@@ -242,3 +244,5 @@ mw.EmbedPlayerJava = {
 		}
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

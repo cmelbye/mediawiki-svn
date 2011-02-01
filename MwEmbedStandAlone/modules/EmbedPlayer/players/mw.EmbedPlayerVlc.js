@@ -3,6 +3,8 @@
 * javascript api: http://www.videolan.org/doc/play-howto/en/ch04.html
 *  assume version > 0.8.5.1
 */
+( function( mw, $ ) {
+	
 mw.EmbedPlayerVlc = {
 
 	//Instance Name:
@@ -35,7 +37,7 @@ mw.EmbedPlayerVlc = {
 	*/
 	doEmbedHTML: function() {
 		var _this = this;
-		$j( this ).html(
+		$( this ).html(
 			'<object classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" ' +
 				'codebase="http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab#Version=0,8,6,0" ' +
 				'id="' + this.pid + '" events="True" height="' + this.getPlayerHeight() + '" width="' + this.getPlayerWidth() + '"' +
@@ -55,7 +57,7 @@ mw.EmbedPlayerVlc = {
 			'</object>'
 		)
 		/*
-			$j( this ).html(
+			$( this ).html(
 			'<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2" '+
 				'width="' + this.width +'" ' +
 				'height="' + this.height + '" ' +
@@ -359,7 +361,9 @@ mw.EmbedPlayerVlc = {
 	* Get the embed vlc object
 	*/
 	getPlayerElement : function() {
-		this.playerElement = $j( '#' + this.pid ).get(0);
+		this.playerElement = $( '#' + this.pid ).get(0);
 		return this.playerElement;
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

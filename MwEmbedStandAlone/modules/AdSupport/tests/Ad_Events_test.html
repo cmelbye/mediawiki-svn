@@ -39,19 +39,19 @@
  		mw.setConfig( 'EmbedPlayer.OverlayControls', false);
  		
  		mw.ready(function(){
- 	 		var embedPlayer = $j('#vid1').get(0);
+ 	 		var embedPlayer = $('#vid1').get(0);
  	 		
- 	 		$j( embedPlayer ).bind( 'openFullScreen', function(){
+ 	 		$( embedPlayer ).bind( 'openFullScreen', function(){
  	 			embedPlayer.$interface.append( 
  	 	 			'<span class="fullscreenOverlay" style="position:absolute;top:10px;' + 
  	 	 				'left:10px;color:red">fullscreen overlay</span>'
  	 	 	 	);
  	 		});
- 	 		$j( embedPlayer ).bind( 'closeFullScreen', function(){
+ 	 		$( embedPlayer ).bind( 'closeFullScreen', function(){
  	 			embedPlayer.$interface.find('.fullscreenOverlay').fadeOut('fast');
  	 		});
  	 		
- 	 		$j( embedPlayer ).bind( 'monitorEvent', function(){
+ 	 		$( embedPlayer ).bind( 'monitorEvent', function(){
  	 	 		if( embedPlayer.$interface.find('.timeOverlay').length == 0 ){
  	 	 			embedPlayer.$interface.append(
  	 	 	 	 		'<span class="timeOverlay" style="position:absolute;top:200px;' + 
@@ -121,20 +121,20 @@
 				}
 	 			
 	 			// update the preroll / postroll
-	 			updateRoll( 'preroll', $j('#preroll').val() );
-	 			updateRoll( 'postroll', $j('#postroll').val() ); 
-	 			updateOverlayAd( $j('#overlay').val() );
+	 			updateRoll( 'preroll', $('#preroll').val() );
+	 			updateRoll( 'postroll', $('#postroll').val() ); 
+	 			updateOverlayAd( $('#overlay').val() );
 	 			
 				// let the user update the preroll:
-				$j('#addPreroll').click(function(){
-					updateRoll( 'preroll', $j('#preroll').val() );
+				$('#addPreroll').click(function(){
+					updateRoll( 'preroll', $('#preroll').val() );
 				});
 	 			// let the user update the preroll:
-				$j('#addPostroll').click(function(){
-					updateRoll(  'postroll', $j('#postroll').val() );
+				$('#addPostroll').click(function(){
+					updateRoll(  'postroll', $('#postroll').val() );
 				});
-				$j('#addOverlay').click(function(){
-					updateOverlayAd( $j('#overlay').val() );
+				$('#addOverlay').click(function(){
+					updateOverlayAd( $('#overlay').val() );
 				});
 	 			
 			});

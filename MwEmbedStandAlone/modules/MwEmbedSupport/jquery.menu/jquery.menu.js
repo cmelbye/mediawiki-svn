@@ -32,19 +32,19 @@ var allUIMenus = [];
 * @param {Function} callback Function called once the line item is selected
 */
 $.getLineItem = function( string, icon , callback) {		
-	var $li = $j( '<li>' ).append(		
-		$j('<a>')
+	var $li = $( '<li>' ).append(		
+		$('<a>')
 			.attr('href', '#')
 			.click( callback )
 	);
 	if( icon ) {
 		$li.find( 'a' ).append(	
-			$j('<span style="float:left;"></span>')
+			$('<span style="float:left;"></span>')
 				.addClass( 'ui-icon ui-icon-' + icon ) 
 		);
 	}		
-	$li.find( 'a' ).append( $j('<span>').text( string ) );
-	//mw.log(' li html: ' + $j('<div>').append( $li ).html() );
+	$li.find( 'a' ).append( $('<span>').text( string ) );
+	//mw.log(' li html: ' + $('<div>').append( $li ).html() );
 	return $li;
 };
 	

@@ -3,6 +3,8 @@
 *
 * Enables embedPlayer support for native html5 browser playback system
 */
+( function( mw, $ ) {
+	
 mw.EmbedPlayerNative = {
 
 	//Instance Name
@@ -95,18 +97,18 @@ mw.EmbedPlayerNative = {
 				||
 				this.isPersistentNativePlayer()
 			)
-			&& $j( '#' + this.pid ).length 
-			&& typeof $j( '#' + this.pid ).get(0).play != 'undefined' ) {
+			&& $( '#' + this.pid ).length 
+			&& typeof $( '#' + this.pid ).get(0).play != 'undefined' ) {
 			
 			// Update the player source: 
-			$j( '#' + this.pid ).attr( 'src', this.getSrc( this.currentTime ) );
-			$j( '#' + this.pid ).get(0).load();
+			$( '#' + this.pid ).attr( 'src', this.getSrc( this.currentTime ) );
+			$( '#' + this.pid ).get(0).load();
 			
 			_this.postEmbedJS();
 			return ;
 		}
 
-		$j( this ).html(
+		$( this ).html(
 			_this.getNativePlayerHtml()
 		);
 
@@ -147,7 +149,7 @@ mw.EmbedPlayerNative = {
 
 		var tagName = ( this.isAudio() ) ? 'audio' : 'video';
 
-		return	$j( '<' + tagName + ' />' )
+		return	$( '<' + tagName + ' />' )
 			// Add the special nativeEmbedPlayer to avoid any rewrites of of this video tag.
 			.addClass( 'nativeEmbedPlayerPid' )
 			.attr( playerAttribtues )
@@ -191,7 +193,7 @@ mw.EmbedPlayerNative = {
 			return ;
 		}
 		$j.each( _this.nativeEvents, function( inx, eventName ){
-			$j( vid ).bind( eventName , function(){
+			$( vid ).bind( eventName , function(){
 				if( _this._propagateEvents ){
 					var argArray = $j.makeArray( arguments );
 					// Check if there is local handler:
@@ -199,7 +201,7 @@ mw.EmbedPlayerNative = {
 						_this['on' + eventName ].apply( _this, argArray);
 					} else {
 						// No local handler directly propagate the event to the abstract object:
-						$j( _this ).trigger( eventName, argArray );
+						$( _this ).trigger( eventName, argArray );
 					}
 				}
 			})
@@ -393,7 +395,7 @@ mw.EmbedPlayerNative = {
 				vid.play();
 				setTimeout(function(){
 					// Remove all native player bindings
-					$j(vid).unbind();
+					$(vid).unbind();
 					vid.pause();
 					var orginalControlsState = vid.controls;
 					// Hide controls ( to not display native play button while switching sources ) 
@@ -423,7 +425,7 @@ mw.EmbedPlayerNative = {
 								// restore controls 
 								vid.controls = orginalControlsState;
 								// add the end binding: 
-								$j(vid).bind('ended', function( event ) {
+								$(vid).bind('ended', function( event ) {
 									if(typeof doneCallback == 'function' ){
 										doneCallback();
 									}
@@ -485,7 +487,7 @@ mw.EmbedPlayerNative = {
 	 */
 	stop:function(){
 		if( this.playerElement ){
-			$j( this.playerElement ).unbind();
+			$( this.playerElement ).unbind();
 		}
 		this.parent_stop();
 	},
@@ -570,7 +572,7 @@ mw.EmbedPlayerNative = {
 	* Get /update the playerElement value
 	*/
 	getPlayerElement: function () {
-		this.playerElement = $j( '#' + this.pid ).get( 0 );
+		this.playerElement = $( '#' + this.pid ).get( 0 );
 		return this.playerElement;
 	},
 
@@ -594,7 +596,7 @@ mw.EmbedPlayerNative = {
 
 			// Trigger the html5 "seeking" trigger
 			mw.log("native:seeking:trigger:: " + this.seeking);
-			$j( this ).trigger( 'seeking' );
+			$( this ).trigger( 'seeking' );
 		}
 	},
 
@@ -607,7 +609,7 @@ mw.EmbedPlayerNative = {
 		// Trigger the html5 action on the parent
 		if( this.seeking ){
 			this.seeking = false;
-			$j( this ).trigger( 'seeked' );
+			$( this ).trigger( 'seeked' );
 		}
 		this.seeking = false;
 	},
@@ -654,7 +656,7 @@ mw.EmbedPlayerNative = {
 
 		// Trigger "media loaded"
 		if( ! this.mediaLoadedFlag ){
-			$j( this ).trigger( 'mediaLoaded' );
+			$( this ).trigger( 'mediaLoaded' );
 			this.mediaLoadedFlag = true;
 		}
 	},
@@ -690,3 +692,5 @@ mw.EmbedPlayerNative = {
 		}
 	}
 };
+
+} )( window.mediaWiki, window.jQuery );

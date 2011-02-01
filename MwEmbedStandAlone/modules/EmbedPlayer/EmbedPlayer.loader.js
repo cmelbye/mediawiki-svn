@@ -49,17 +49,17 @@
 		
 		// Add PNG fix code needed:
 		if ( $.browser.msie && $.browser.version < 7 ) {
-			dependencySet.push( 'jquery.pngFix' );
+			$.merge( dependencySet, ['jquery.pngFix'] );
 		}
 		
 		// Guess at playback system for 90+% of users the browser indicates playback mode: 
 		// NOTE: this does not affect a given playback library being loaded on-demand later. 
-		if( ( $.browser.msie && $.browser.version < 9 ) || $.browser.safari ) {
-			dependencySet.push( 'mw.EmbedPlayerJava' );
+		if( ( $.browser.msie && $.browser.version < 9 ) || $.browser.safari ) {			
+			$.merge( dependencySet, ['mw.EmbedPlayerJava'] );
 		}
 		// If video tag is supported add native lib:
 		if( document.createElement('video').canPlayType && !$.browser.safari) {
-			dependencySet.push( 'mw.EmbedPlayerNative' )
+			$.merge( dependencySet, ['mw.EmbedPlayerNative'] )
 		}
 
 		
@@ -69,9 +69,7 @@
 				&& 
 			mw.getConfig( 'EmbedPlayer.IframeParentUrl' ) 
 		){
-			dependencySet.push('mw.EmbedPlayerNative');
-			dependencySet.push('jquery.postMessage');
-			dependencySet.push('mw.IFramePlayerApiServer');
+			$.merge( dependencySet, ['mw.EmbedPlayerNative', 'jquery.postMessage','mw.IFramePlayerApiServer'] );
 		}
 		
 		// Allow modules to update the set of dependencies: 
@@ -101,10 +99,9 @@
 			}
 			// Add the skin to the request
 			var skinCaseName = skinName.charAt(0).toUpperCase() + skinName.substr(1);
-			dependencySet.push( 'mw.PlayerSkin' + skinCaseName );
-	
+			$.merge( dependencySet, [ 'mw.PlayerSkin' + skinCaseName ] );
 			// Allow other modules update the dependencies
-			$j( mw ).trigger( 'EmbedPlayerUpdateDependencies',
+			$( mw ).trigger( 'EmbedPlayerUpdateDependencies',
 					[ playerElement, dependencySet ] );
 		});
 		// Do the request and process the playerElements with updated dependency set
