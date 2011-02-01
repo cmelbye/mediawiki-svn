@@ -61,7 +61,7 @@ foreach( $wgMwEmbedEnabledModules as $mwEmbedModuleName ){
 $wgResourceModules = array();
 
 /* Default skin can be any jquery based skin */
-$wgDefaultSkin = 'kaltura-dark';
+$wgDefaultSkin = 'redmond';
 
 // If the resource loader is in 'debug mode'
 $wgResourceLoaderDebug = false;

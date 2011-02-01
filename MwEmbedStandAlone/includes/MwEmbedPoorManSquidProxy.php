@@ -22,8 +22,7 @@ class MwEmbedPoorManSquidProxy {
 		if ( !$skin ) {
 			$skin = $wgDefaultSkin;
 		}		
-		$only = $request->getVal( 'only', 'scripts' );
-		die('wf' . $only  );
+		$only = $request->getVal( 'only' );
 		$version = $request->getVal( 'version' );
 		
 		// Set the version: 	

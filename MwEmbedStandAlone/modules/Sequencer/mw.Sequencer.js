@@ -209,7 +209,7 @@ mw.Sequencer.prototype = {
 		return '<?xml version="1.0" encoding="UTF-8"?>' +
 			"\n" + '<smil baseProfile="Language" version="3.0" xmlns="http://www.w3.org/ns/SMIL">' +
 			"\n\t" + '<head>' +
-			"\n\t\t" + '<meta name="title" content="' + mw.escapeQuotesHTML( title ) + '" />' +
+			"\n\t\t" + '<meta name="title" content="' + mw.html.escape( title ) + '" />' +
 			"\n\t" + '</head>' +
 			"\n\t" + '<body>' +
 			"\n\t\t" + '<par>' +

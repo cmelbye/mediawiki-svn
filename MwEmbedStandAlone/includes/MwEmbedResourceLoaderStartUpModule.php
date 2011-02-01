@@ -42,13 +42,12 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 		$out = parent::getScript( $context );
 		// Append mediaWiki.loader.go() for stand alone context:		
 		$out.=  Xml::encodeJsCall( 'document.write', array( Html::inlineScript( "mediaWiki.loader.go();" ) ) );
-		return $out;		
+		return $out;
 	}
 	
 	protected function getConfig( $context ) {
 		global $wgLoadScript; 
-		
-		
+				
 		$vars = array(
 			'wgLoadScript' => $wgLoadScript,
 			'debug' => $context->getDebug(),

@@ -401,7 +401,7 @@ mw.Smil.prototype = {
 		$html.find('a').each( function(inx, link ){
 			// Escape link output as to not include scirpt execution
 			$j(link).attr('href',
-				mw.escapeQuotesHTML( $j(link).attr('href') )
+				mw.html.escape( $j(link).attr('href') )
 			);
 		});
 

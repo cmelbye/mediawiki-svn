@@ -91,20 +91,22 @@
 			
 			// Add core "skin/interface" loader			
 			var skinString = $( playerElement ).attr( 'class' );
-			if( ! skinString || $.inArray( skinName.toLowerCase(), mw.validSkins ) == -1 ){
+			if( ! skinString 
+					||
+				$.inArray( skinString.toLowerCase(), mw.getConfig('EmbedPlayer.SkinList') ) == -1 
+			){
 				skinName = mw.getConfig( 'EmbedPlayer.DefaultSkin' );
+			} else {
+				skinName = skinString.toLowerCase();
 			}
-			skinName = skinName.toLowerCase();
-			
 			// Add the skin to the request
 			var skinCaseName = skinName.charAt(0).toUpperCase() + skinName.substr(1);
 			dependencySet.push( 'mw.PlayerSkin' + skinCaseName );
-			
+	
 			// Allow other modules update the dependencies
 			$j( mw ).trigger( 'EmbedPlayerUpdateDependencies',
 					[ playerElement, dependencySet ] );
 		});
-		
 		// Do the request and process the playerElements with updated dependency set
 		mediaWiki.loader.using( dependencySet, function(){
 			setTimeout( function(){

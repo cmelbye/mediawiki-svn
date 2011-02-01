@@ -66,7 +66,7 @@ mw.SequencerActionsSequence.prototype = {
 				$j(this).attr({
 					'href':
 						mw.getRemoteSequencerLink(
-							mw.escapeQuotesHTML(
+							mw.html.escape(
 								_this.sequencer.getServer().getSequenceEditUrl(
 										// ( Sequence: is automatically pre-appended with getSequencePageUrl
 										// ( don't use Sequence: in the title )
@@ -131,7 +131,7 @@ mw.SequencerActionsSequence.prototype = {
 				$j(this).attr({
 					'href':
 						mw.getRemoteSequencerLink(
-							mw.escapeQuotesHTML(
+							mw.html.escape(
 								_this.sequencer.getServer().getSequenceViewUrl(
 										// ( Sequence: is automatically pre-appended with getSequencePageUrl
 										// ( don't use Sequence: in the title )

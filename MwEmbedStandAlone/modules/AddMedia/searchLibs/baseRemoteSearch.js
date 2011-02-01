@@ -253,18 +253,18 @@ baseRemoteSearch.prototype = {
 		// Setup the attribute html
 		// NOTE: Can't use jQuery builder for video element, ( does not work consistently )
 		var attributes = ( options['id'] ) ? ' id = "' + options['id'] + '" ': '';
-		attributes+=	'src="' + mw.escapeQuotesHTML( resource.src ) + '" ' +
+		attributes+= 'src="' + mw.html.escape( resource.src ) + '" ' +
 				// Set kskin, NOTE: should be config option
 				'class="kskin" ' +
 				'style="' + options.style + '" ' +
-				'poster="' + mw.escapeQuotesHTML( resource.poster ) + '" '+
-				'type="' + mw.escapeQuotesHTML( resource.mime ) + '" ';
+				'poster="' + mw.html.escape( resource.poster ) + '" '+
+				'type="' + mw.html.escape( resource.mime ) + '" ';
 
 
 		// Add the api title key if available:
 		if( resource.titleKey ) {
 			attributes+= 'apiTitleKey="' +
-				mw.escapeQuotesHTML( resource.titleKey.replace('File:', '') ) + '" ';
+				mw.html.escape( resource.titleKey.replace('File:', '') ) + '" ';
 		}
 
 		// Add the commons apiProvider if the resource is from commons
@@ -286,7 +286,7 @@ baseRemoteSearch.prototype = {
 
 		// No output give error:
 		mw.log( "ERROR:: no embed code for mime type: " + resource.mime );
-		return 'Error missing embed code for: ' + mw.escapeQuotesHTML( resource.mime );
+		return 'Error missing embed code for: ' + mw.html.escape( resource.mime );
 	},
 
 	/*

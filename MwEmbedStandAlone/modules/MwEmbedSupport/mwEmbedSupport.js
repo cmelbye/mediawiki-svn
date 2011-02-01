@@ -175,7 +175,48 @@
 	
 		return uri;
 	};
-		
+	
+	/**
+	 * getAbsoluteUrl takes a src and returns the absolute location given the
+	 * document.URL or a contextUrl param
+	 * 
+	 * @param {String}
+	 *            src path or url
+	 * @param {String}
+	 *            contextUrl The domain / context for creating an absolute url
+	 *            from a relative path
+	 * @return {String} absolute url
+	 */
+	mw.absoluteUrl = function( src, contextUrl ) {
+	
+		var parsedSrc = mw.parseUri( src );
+	
+		// Source is already absolute return:
+		if( parsedSrc.protocol != '') {
+			return src;
+		}
+	
+		// Get parent Url location the context URL
+		if( !contextUrl ) {
+			contextUrl = document.URL;
+		}
+		var parsedUrl = mw.parseUri( contextUrl );
+	
+		// Check for IE local file that does not flip the slashes
+		if( parsedUrl.directory == '' && parsedUrl.protocol == 'file' ){
+			// pop off the file
+			var fileUrl = contextUrl.split( '\\');
+			fileUrl.pop();
+			return 	fileUrl.join('\\') + '\\' + src;
+		}
+	
+		// Check for leading slash:
+		if( src.indexOf( '/' ) === 0 ) {
+			return parsedUrl.protocol + '://' + parsedUrl.authority + src;
+		}else{
+			return parsedUrl.protocol + '://' + parsedUrl.authority + parsedUrl.directory + src;
+		}
+	};
 	/**
 	 * A version comparison utility function Handles version of types
 	 * {Major}.{MinorN}.{Patch}

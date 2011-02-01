@@ -56,7 +56,7 @@ class ResourceLoaderContext {
 		$this->skin      = $request->getVal( 'skin' );
 		$this->user      = $request->getVal( 'user' );
 		$this->debug     = $request->getFuzzyBool( 'debug', $wgResourceLoaderDebug );
-		$this->only      = $request->getVal( 'only', 'scripts' );
+		$this->only      = $request->getVal( 'only' );
 		$this->version   = $request->getVal( 'version' );
 
 		if ( !$this->skin ) {

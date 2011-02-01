@@ -1891,7 +1891,7 @@ if( typeof preMwEmbedConfig == 'undefined') {
 	 *            from a relative path
 	 * @return {String} absolute url
 	 */
-mw.absoluteUrl = function( src, contextUrl ) {
+	mw.absoluteUrl = function( src, contextUrl ) {
 
 		var parsedSrc = mw.parseUri( src );
 
@@ -1944,7 +1944,7 @@ mw.absoluteUrl = function( src, contextUrl ) {
 		text = text.replace(re,"\\'");
 		re = new RegExp("\\n","g");
 		text = text.replace(re,"\\n");
-		return mw.escapeQuotesHTML(text);
+		return mw.html.escape(text);
 	};
 
 	/**

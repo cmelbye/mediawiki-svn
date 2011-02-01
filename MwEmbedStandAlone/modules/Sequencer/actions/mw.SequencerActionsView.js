@@ -38,7 +38,7 @@ mw.SequencerActionsView.prototype = {
 					'display': 'none'
 				})
 				.html(
-					mw.escapeQuotesHTML( _this.formatXML( _this.sequencer.getSmil().getXMLString() ) )
+					mw.html.escape( _this.formatXML( _this.sequencer.getSmil().getXMLString() ) )
 				)
 			)
 		})

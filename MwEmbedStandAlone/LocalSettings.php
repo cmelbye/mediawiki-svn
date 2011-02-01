@@ -11,3 +11,4 @@
  *  $wgMwEmbedModuleConfig[ {ModuleName} ][ {configuration name} ] = value;
  */
 
+$wgResourceLoaderDebug = true;
