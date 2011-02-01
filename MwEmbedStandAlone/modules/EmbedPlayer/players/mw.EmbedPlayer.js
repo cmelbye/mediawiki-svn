@@ -133,7 +133,7 @@ mw.mergeConfig('EmbedPlayer.Attributes', {
 	"end" : null,
 
 	// A apiTitleKey for looking up subtitles, credits and related videos
-	"apiTitleKey" : null,
+	"data-mwtitle" : null,
 
 	// The apiProvider where to lookup the title key
 	"apiProvider" : null,
@@ -1303,11 +1303,7 @@ mw.EmbedPlayer.prototype = {
 			if( this[ attr ] == "false" ) this[attr] = false;
 			if( this[ attr ] == "true" ) this[attr] = true;
 		}
-		// TODO Move to mediaWiki support module
-		if( this.apiTitleKey ){
-			this.apiTitleKey = decodeURI( this.apiTitleKey );
-		}
-
+		
 		// Hide "controls" if using native player controls:
 		if( this.useNativePlayerControls() ){
 			_this.controls = false;
@@ -1542,26 +1538,10 @@ mw.EmbedPlayer.prototype = {
 		mw.log( 'EmbedPlayer::checkPlayerSources: ' + this.id );
 		var _this = this;
 
-		// Scope the end of check for player sources so it can be called in a
-		var finishCheckPlayerSources = function(){
-			// Run embedPlayer sources hook
-			$( _this ).triggerQueueCallback( 'checkPlayerSourcesEvent', function(){
-				_this.setupSourcePlayer();
-			});
-		};
-
-		// NOTE: Should could be moved to mediaWiki Api support module
-		// only load from api if sources are empty:
-		if ( _this.apiTitleKey && this.mediaElement.sources.length == 0) {
-			// Load media from external data
-			mw.log( 'EmbedPlayer::checkPlayerSources: loading apiTitleKey:' + _this.apiTitleKey );
-			_this.loadSourceFromApi( function(){
-				finishCheckPlayerSources();
-			} );
-			return ;
-		} else {
-			finishCheckPlayerSources();
-		}
+		// Allow plugins to block on sources lookup: 
+		$( _this ).triggerQueueCallback( 'LookupSources', function(){
+			_this.setupSourcePlayer();
+		});
 	},
 	/**
 	 * Empty the player sources

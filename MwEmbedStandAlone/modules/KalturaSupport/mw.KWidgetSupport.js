@@ -20,7 +20,7 @@ mw.KWidgetSupport.prototype = {
 		// Add the hooks to the player manager
 		$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 			// Add hook for check player sources to use local kEntry ID source check:
-			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
+			$j( embedPlayer ).bind( 'LookupSources', function( event, callback ) {
 				// Load all the player configuration from kaltura: 
 
 				_this.loadPlayerData( embedPlayer, function( playerData ){

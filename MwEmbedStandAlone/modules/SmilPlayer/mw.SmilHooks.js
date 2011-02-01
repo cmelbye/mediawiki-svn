@@ -35,7 +35,7 @@ $j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	mw.SmilHooks.addSmilPlayer();
 
 	// Setup the "embedCode" binding to swap in an updated url
-	$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
+	$j( embedPlayer ).bind( 'LookupSources', function( event, callback ) {
 		mw.log( "SmilHooks::checkPlayerSources" );
 		// Make sure there is a smil source:
 		if( embedPlayer.mediaElement.getSources( 'application/smil' ).length ){

@@ -15,7 +15,7 @@ mw.SwarmTransport = {
 		$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 
 			// Setup the "embedCode" binding to swap in an updated url
-			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {
+			$j( embedPlayer ).bind( 'LookupSources', function( event, callback ) {
 				// Confirm SwarmTransport add-on is available ( defines swarmTransport var )
 				if( _this.getPluginLibrary() ){
 					// Add the swarm source

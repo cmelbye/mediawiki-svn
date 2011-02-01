@@ -263,7 +263,7 @@ baseRemoteSearch.prototype = {
 
 		// Add the api title key if available:
 		if( resource.titleKey ) {
-			attributes+= 'apiTitleKey="' +
+			attributes+= 'data-mwtitle="' +
 				mw.html.escape( resource.titleKey.replace('File:', '') ) + '" ';
 		}
 

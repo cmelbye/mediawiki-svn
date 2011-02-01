@@ -73,7 +73,10 @@ class MwEmbedPoorManSquidProxy {
 		// no private cache in mwEmbed resource loader land ( both smaxage )
 		header( "Cache-Control: public, max-age=$smaxage, s-maxage=$smaxage" );
 		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $smaxage + time() ) );
-
+		
+		// Gzip if possible:
+		ob_gzhandler();
+		
 		echo mweGetFromFileCache( self::$hash  );
 		// exit ( don't continue resource loader handling ) 
 		exit(1);
@@ -88,7 +91,3 @@ class MwEmbedPoorManSquidProxy {
 		echo $output;
 	}
 }
-
-
-
-?>
