@@ -12,7 +12,7 @@ mw.SwarmTransport = {
 	addPlayerHooks: function(){
 		var _this = this;
 		// Bind some hooks to every player:
-		$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
+		$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 
 			// Setup the "embedCode" binding to swap in an updated url
 			$j( embedPlayer ).bind( 'checkPlayerSourcesEvent', function( event, callback ) {

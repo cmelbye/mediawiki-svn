@@ -17,8 +17,8 @@
 ( function( mw ) {
 	
 
-// Bind apiServer to newEmbedPlayers:
-$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {	
+// Bind apiServer to EmbedPlayerNewPlayer:
+$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {	
 	// Check if the iFrame player api is enabled and we have a parent iframe url: 
 	if ( mw.getConfig('EmbedPlayer.EnableIframeApi') 
 			&& 

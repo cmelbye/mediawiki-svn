@@ -245,9 +245,9 @@ mw.processEmbedPlayers = function( playerSelect, callback ) {
 			var playerInterface = new mw.EmbedPlayer( playerElement );
 			var swapPlayer = swapEmbedPlayerElement( playerElement, playerInterface );			
 
-			// Trigger the newEmbedPlayerEvent for embedPlayer interface
-			mw.log("EmbedPlayer::newEmbedPlayerEvent:trigger " + playerInterface.id );
-			$( mw ).trigger ( 'newEmbedPlayerEvent', $( '#' + playerInterface.id ).get(0) );
+			// Trigger the EmbedPlayerNewPlayer for embedPlayer interface
+			mw.log("EmbedPlayer::EmbedPlayerNewPlayer:trigger " + playerInterface.id );
+			$( mw ).trigger ( 'EmbedPlayerNewPlayer', $( '#' + playerInterface.id ).get(0) );
 
 			// Issue the checkPlayerSources call to the new player
 			// interface: make sure to use the element that is in the DOM:
@@ -1587,7 +1587,7 @@ mw.EmbedPlayer.prototype = {
 	/**
 	 * Load Source video info from mediaWiki Api title key ( this.apiTitleKey )
 	 *
-	 * @@todo move this to mediaWiki 'api' module
+	 * @@todo move this to mediaWiki player module
 	 * @param {Function}
 	 *      callback Function called once loading is complete
 	 */

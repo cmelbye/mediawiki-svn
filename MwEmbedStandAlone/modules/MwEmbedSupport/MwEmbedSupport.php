@@ -33,6 +33,3 @@ return array(
 	"jquery.triggerQueueCallback"	=> array( 'scripts'=> "jquery/jquery.triggerQueueCallback.js" ),
 	"jquery.mwEmbedUtil" => array( 'scripts' => "jquery/jquery.mwEmbedUtil.js" ),
 )
-
-?>
-

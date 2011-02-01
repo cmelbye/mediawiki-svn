@@ -30,7 +30,7 @@ $j( mw ).bind( 'checkPlayerWaitForMetaData', function( event, playerElement ) {
 });
 
 // Bind the smil check for sources
-$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
+$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	// Add the smil player ( in case we were dynamically loaded and EmbedPlayerManagerReady has already been called )
 	mw.SmilHooks.addSmilPlayer();
 

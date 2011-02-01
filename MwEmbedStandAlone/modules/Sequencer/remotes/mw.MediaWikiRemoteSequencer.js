@@ -49,7 +49,7 @@ mw.getRemoteSequencerLink = function( url ){
 };
 
 // Add player pause binding if config is set::
-$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ) {
+$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {
 	if( mw.getConfig( 'Sequencer.KalturaPlayerEditOverlay' )){
 
 		var embedPlayerId = $j( embedPlayer ).attr( 'id' );

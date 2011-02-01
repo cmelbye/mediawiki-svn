@@ -65,7 +65,7 @@
 	} );
 	
 	// On new embed player check if we need to add timedText
-	$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ){
+	$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 		if( mw.isTimedTextSupported( embedPlayer) ){
 			if( ! embedPlayer.timedText && mw.TimedText ) {
 				embedPlayer.timedText = new mw.TimedText( embedPlayer );

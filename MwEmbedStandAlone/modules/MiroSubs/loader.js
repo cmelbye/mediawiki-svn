@@ -28,7 +28,7 @@
 		return resourceList;
 	});
 
-	$j( mw ).bind( 'newEmbedPlayerEvent', function( event, embedPlayer ){
+	$j( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 		// Check if the Miro Editor is enabled and the player has an apiTitleKey
 		if( mw.getConfig( 'MiroSubs.EnableUniversalSubsEditor' )
 			&&
