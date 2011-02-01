@@ -132,12 +132,6 @@ mw.mergeConfig('EmbedPlayer.Attributes', {
 	// End time of the clip
 	"end" : null,
 
-	// A apiTitleKey for looking up subtitles, credits and related videos
-	"data-mwtitle" : null,
-
-	// The apiProvider where to lookup the title key
-	"apiProvider" : null,
-
 	// If the player controls should be overlaid
 	// ( Global default via config EmbedPlayer.OverlayControls in module
 	// loader.js)
@@ -209,7 +203,7 @@ mw.processEmbedPlayers = function( playerSelect, callback ) {
 	 */
 	var addPlayerElement = function( playerElement ) {
 		var _this = this;
-		mw.log('processEmbedPlayers: addElement:: ' + playerElement.id );
+		mw.log('EmbedPlayer:: addElement:: ' + playerElement.id );
 
 		var waitForMeta = true;
 
@@ -1539,10 +1533,11 @@ mw.EmbedPlayer.prototype = {
 		var _this = this;
 
 		// Allow plugins to block on sources lookup: 
-		$( _this ).triggerQueueCallback( 'LookupSources', function(){
+		$( _this ).triggerQueueCallback( 'CheckPlayerSourcesEvent', function(){
 			_this.setupSourcePlayer();
 		});
 	},
+	
 	/**
 	 * Empty the player sources
 	 */
@@ -1551,7 +1546,6 @@ mw.EmbedPlayer.prototype = {
 			this.mediaElement.sources = [];
 			this.mediaElement.selectedSource = null;
 		}
-
 	},
 
 	/**

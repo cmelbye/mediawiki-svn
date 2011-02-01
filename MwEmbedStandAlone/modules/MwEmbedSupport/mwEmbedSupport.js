@@ -139,6 +139,7 @@
 		} else {
 			paramaters = $.makeArray( arguments ).slice(1);
 		}
+		
 		// Check if we have to use the jquery method or can use the native get msg support
 		for(var i=0;i < paramaters.length; i++){
 			var param = paramaters[i];

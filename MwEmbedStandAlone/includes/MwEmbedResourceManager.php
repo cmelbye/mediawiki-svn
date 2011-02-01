@@ -32,9 +32,10 @@ class MwEmbedResourceManager {
 			throw new MWException(  __METHOD__ . " path has trailing slash: " . htmlspecialchars( $mwEmbedResourcePath) );
 		}
 		
-		// Add the messages to the extension messages set: 
-		$wgExtensionMessagesFiles[ 'MwEmbed.' . $moduleName ] = $fullResourcePath . '/' . $moduleName . '.i18n.php';				
-		
+		// Add module messages if present: 
+		if( is_file( $fullResourcePath . '/' . $moduleName . '.i18n.php' ) ){
+			$wgExtensionMessagesFiles[ 'MwEmbed.' . $moduleName ] = $fullResourcePath . '/' . $moduleName . '.i18n.php';				
+		}		
 		// Get the mwEmbed module config		
 		$resourceList = include( $fullResourcePath . '/' . $moduleName . '.php' );
 		

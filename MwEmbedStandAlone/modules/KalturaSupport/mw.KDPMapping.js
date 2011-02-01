@@ -295,7 +295,7 @@
 					embedPlayer.onDoneInterfaceFlag = false;
 					
 					// Load new sources per the entry id via the checkPlayerSourcesEvent hook:
-					$j( embedPlayer ).triggerQueueCallback( 'LookupSources', function(){
+					$j( embedPlayer ).triggerQueueCallback( 'CheckPlayerSourcesEvent', function(){
 						$j( '#' + embedPlayer.id + '_mappingSpinner' ).remove();
 
 						// Check if native player controls ( then switch directly ) type: 

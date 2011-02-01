@@ -368,4 +368,4 @@
 		return false;
 	};
 
-}) ( window.mw );
+}) ( window.mediaWiki );

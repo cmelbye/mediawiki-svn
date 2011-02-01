@@ -1,7 +1,8 @@
 /**
 * Skin js allows you to override contrlBuilder html/class output
 */
-
+( function( mw ) {
+	
 mw.PlayerSkinKskin = {
 
 	// The parent class for all kskin css:
@@ -364,13 +365,6 @@ mw.PlayerSkinKskin = {
 			);
 		}
 
-		if( !embedPlayer.apiTitleKey ){
-			$target.find('.credits_box').text(
-				'Error: no title key to grab credits with'
-			);
-			return ;
-		}
-
 		_this.getCredits();
 	},
 
@@ -459,3 +453,5 @@ mw.PlayerSkinKskin = {
 			);
 	}
 };
+
+}) ( window.mediaWiki );
