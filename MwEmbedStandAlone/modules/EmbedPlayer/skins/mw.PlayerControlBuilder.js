@@ -666,7 +666,7 @@ mw.PlayerControlBuilder.prototype = {
 				_this.showControlBar();
 			});
 			
-			//$interface.css({'background-color': 'red'});
+			// $interface.css({'background-color': 'red'});
 			// Bind a startTouch to show controls
 			$interface.bind( 'touchstart', function() {
 				_this.showControlBar();

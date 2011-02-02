@@ -1297,7 +1297,6 @@ mw.EmbedPlayer.prototype = {
 			if( this[ attr ] == "false" ) this[attr] = false;
 			if( this[ attr ] == "true" ) this[attr] = true;
 		}
-		
 		// Hide "controls" if using native player controls:
 		if( this.useNativePlayerControls() ){
 			_this.controls = false;
@@ -1369,11 +1368,18 @@ mw.EmbedPlayer.prototype = {
 		// Add the mediaElement object with the elements sources:
 		this.mediaElement = new mediaElement( element );
 	},
-
+	/**
+	 * Stop events from Propagation and blocks interface updates and trigger events.
+	 * @return
+	 */
 	stopEventPropagation: function(){
 		this.stopMonitor();
 		this._propagateEvents = false;
 	},
+	/**
+	 * Restores event propagation 
+	 * @return
+	 */
 	restoreEventPropagation: function(){
 		this._propagateEvents = true;
 		this.startMonitor();

@@ -28,9 +28,11 @@
 			callback = triggerParam;
 			triggerParam = null;
 		}
-		// Support namespaced event segmentation ( jQuery
+		
+		// Support namespaced event segmentation
 		var triggerBaseName = triggerName.split(".")[0]; 
 		var triggerNamespace = triggerName.split(".")[1];
+		
 		// Get the callback set
 		var callbackSet = [];
 		if( !$( targetObject ).data( 'events' ) ){
@@ -60,10 +62,20 @@
 		// mw.log("mwEmbed::jQuery.triggerQueueCallback: " + triggerName
 		// + ' number of queued functions:' + callbackCount );
 		var callInx = 0;
+		var callbackData = [];
 		var doCallbackCheck = function() {
+			var args = $.makeArray( arguments );
+			// If only one argument don't use an array: 
+			if( args.length == 1 ){
+				args = args[0];
+			}
+			// Add the callback data for the current trigger:
+			callbackData.push( args );
 			callInx++;
+			
+			// If done with loading run master callback with callbackData
 			if( callInx == callbackCount ){
-				callback();
+				callback( callbackData );
 			}
 		};
 		if( triggerParam ){

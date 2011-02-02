@@ -13,7 +13,7 @@
 	});
 	
 	// Add mediaWiki player support to target embedPlayer 
-	$( mw ).bind( 'EmbedPlayerNewPlayer', function( embedPlayer ){
+	$( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ){
 		mw.addMediaWikiPlayerSupport( embedPlayer );
 	});
 	
@@ -21,25 +21,24 @@
 	 * Master function to add mediaWiki support to embedPlayer 
 	 */
 	mw.addMediaWikiPlayerSupport = function( embedPlayer ){
+		// Set some local variables: 
+		if( ! $( embedPlayer).attr( 'data-mwtitle') ){			
+			mw.log( 'Error MediaWikiSupportPlayer:: no mwtitle!');
+			return false;
+		} else {
+			var apiTitleKey = $( embedPlayer).attr( 'data-mwtitle');
+		}
+		// Set local apiProvider via config if not defined
+		var apiProvider = $( embedPlayer ).attr('data-mwprovider');
+		if( !apiProvider ){
+			apiProvider = mw.getConfig( 'EmbedPlayer.ApiProvider' );
+		}
 		
 		/**
 		 * Loads mediaWiki sources for a given embedPlayer
 		 * @param {function} callback Function called once player sources have been added 
 		 */
 		function loadPlayerSources( callback ){
-			if( ! $( embedPlayer).attr( 'data-mwtitle') ){
-				mw.log( 'Error MediaWikiSupportPlayer:: no mwtitle');
-				callback( false );
-				return false;
-			} else {
-				var apiTitleKey = $( embedPlayer).attr( 'data-mwtitle');
-			}
-			// Set local apiProvider via config if not defined
-			var apiProvider = $( embedPlayer ).attr('data-mwprovider');
-			if( !apiProvider ){
-				apiProvider = mw.getConfig( 'EmbedPlayer.ApiProvider' );
-			}
-
 			// Setup the request
 			var request = {
 				'prop': 'imageinfo',
@@ -100,12 +99,103 @@
 				callback();
 			});
 		}
+	
+
+		/**
+		* Build a clip credit from the resource wikiText page
+		*
+		* TODO parse the resource page template
+		*
+		* @parm {String} wikiText Resource wiki text page contents
+		*/
+		function doCreditLine( articleUrl ){
+			// Get the title str			
+			var titleStr = apiTitleKey.replace(/_/g, ' ');
+
+			var imgWidth = ( embedPlayer.controlBuilder.getOverlayWidth() < 250 )? 45 : 90;
+
+			return $( '<div/>' ).addClass( 'creditline' )
+				.append(
+					$('<a/>').attr({
+						'href' : articleUrl,
+						'title' : titleStr
+					}).html(
+						$('<img/>').attr( {
+							'border': 0,
+							'src' : embedPlayer.poster
+						} ).css( {
+							'width' : imgWidth,
+							'height': parseInt( imgWidth * ( embedPlayer.height / embedPlayer.width ) )
+						} )
+					)
+				)
+				.append(
+					$('<span>').html(
+						gM( 'mwe-embedplayer-credit-title' ,
+							// We use a div container to easily get at the built out link
+							$('<div>').html(
+								$('<a/>').attr({
+									'href' : articleUrl,
+									'title' : titleStr
+								}).text( titleStr )
+							).html()
+						)
+					)
+				);
+		};
+		
+		/**
+		 * Issues a request to populate the credits box
+		 */
+		function getCredits( $target, callback ){
+			// Setup shortcuts:
+			var apiUrl = mw.getApiProviderURL( apiProvider );
+			var fileTitle = 'File:' + unescape( apiTitleKey).replace(/File:|Image:/, '');
+			
+			// Get the image info
+			var request = {
+				'prop' : 'imageinfo',
+				'titles' : fileTitle,
+				'iiprop' : 'url'
+			};
+			var articleUrl = '';
+			mw.getJSON( apiUrl, request, function( data ){
+				if ( data.query.pages ) {
+					for ( var i in data.query.pages ) {
+						var imageProps = data.query.pages[i];						
+						// Check properties for "missing"
+						if( imageProps.imageinfo && imageProps.imageinfo[0] && imageProps.imageinfo[0].descriptionurl ){
+							// Found page
+							$target.html(
+								doCreditLine( imageProps.imageinfo[0].descriptionurl )
+							);
+							callback( true );
+							return ;
+						}
+					}
+				}
+				// failed
+				callback( false );
+			} );
+		};
 		
 		/**
 		 * Adds embedPlayer Bindings
-		 */
+		 */				
+		// Show credits when requested
+		$( embedPlayer ).bind('ShowCredits', function( event, $target, callback){
+			// Only request the credits once: 
+			getCredits( $target, callback);			
+		});
+				
 		$( embedPlayer ).bind('CheckPlayerSourcesEvent', function(event, callback){
-			loadPlayerSources( callback );
+			// Only load source if none are available:
+			if( embedPlayer.mediaElement.sources.length == 0 ){
+				loadPlayerSources( callback );
+			} else {
+				// No source to load, issue callback directly
+				callback();
+			}
 		});
 	};
 		

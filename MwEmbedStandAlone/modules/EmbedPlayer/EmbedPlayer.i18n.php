@@ -43,6 +43,7 @@ $messages['en'] = array(
 	'mwe-embedplayer-no-player' => 'No player available for $1',
 	'mwe-embedplayer-share_this_video' => 'Share this video',
 	'mwe-embedplayer-video_credits' => 'Video credits',
+	'mwe-embedplayer-no-video_credits' => 'No credits available',
 	'mwe-embedplayer-kaltura-platform-title' => 'Kaltura open source video platform',
 	'mwe-embedplayer-menu_btn' => 'Menu',
 	'mwe-embedplayer-close_btn' => 'Close',

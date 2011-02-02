@@ -166,7 +166,7 @@
 				callback( data );
 			}
 		}
-		// Set the local timeout call based on defaultRequestTimeout
+		// Set the local timeout call based on AjaxRequestTimeout
 		setTimeout( function( ) {
 			if( ! ranCallback ) {
 				requestTimeOutFlag = true;
@@ -175,7 +175,7 @@
 					timeoutCallback();
 				}
 			}
-		}, mw.getConfig( 'defaultRequestTimeout' ) * 1000 );
+		}, mw.getConfig( 'AjaxRequestTimeout' ) * 1000 );
 
 		//mw.log("run getJSON: " + mw.replaceUrlParams( url, data ) );
 

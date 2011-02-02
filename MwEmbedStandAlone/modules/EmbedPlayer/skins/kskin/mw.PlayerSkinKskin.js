@@ -342,8 +342,9 @@ mw.PlayerSkinKskin = {
 		// Set up the shortcuts:
 		var embedPlayer = this.embedPlayer;
 		var _this = this;
-		var $target = embedPlayer.$interface.find( '.menu-credits' );
-
+				
+		var $target = embedPlayer.$interface.find( '.menu-credits' );		
+				
 		$target.empty().append(
 			$('<h2 />')
 			.text( gM( 'mwe-embedplayer-credits' ) ),
@@ -364,93 +365,17 @@ mw.PlayerSkinKskin = {
 				})
 			);
 		}
-
-		_this.getCredits();
-	},
-
-	/**
-	 * Issues a request to populate the credits box
-	 */
-	getCredits: function(){
-		// Setup shortcuts:
-		var embedPlayer = this.embedPlayer;
-		var _this = this;
-		var $target = embedPlayer.$interface.find( '.menu-credits' );
-
-		var apiUrl = mw.getApiProviderURL( embedPlayer.apiProvider );
-		var fileTitle = 'File:' + unescape( embedPlayer.apiTitleKey ).replace(/File:|Image:/, '');
-
-		// Get the image info
-		var request = {
-			'prop' : 'imageinfo',
-			'titles' : fileTitle,
-			'iiprop' : 'url'
-		};
-		var articleUrl = '';
-		mw.getJSON( apiUrl, request, function( data ){
-			if ( data.query.pages ) {
-				for ( var i in data.query.pages ) {
-					var imageProps = data.query.pages[i];
-					// Check properties for "missing"
-					if( imageProps.imageinfo && imageProps.imageinfo[0] && imageProps.imageinfo[0].descriptionurl ){
-						// Found page
-						$target.find( '.credits_box' ).html(
-							_this.doCreditLine( imageProps.imageinfo[0].descriptionurl )
-						);
-					}else{
-						// missing page descriptionurl
-						$target.find( '.credits_box' ).text(
-							'Error: title key: ' + embedPlayer.apiTitleKey + ' not found'
-						);
-					}
-				}
+		var $creditsTarget = embedPlayer.$interface.find( '.menu-credits .credits_box' );
+		
+		// Allow modules to load and add credits
+		$( embedPlayer ).triggerQueueCallback( 'ShowCredits', $creditsTarget, function( status ){
+			// Check if the first ShowCredits binding returned false:  
+			if( !status || status[0] == false ){
+				$creditsTarget.text(
+					gM('mwe-embedplayer-no-video_credits')
+				);
 			}
-		} );
-	},
-
-	/**
-	* Build a clip credit from the resource wikiText page
-	*
-	* NOTE: in the future this should parse the resource page template
-	*
-	* @parm {String} wikiText Resource wiki text page contents
-	*/
-	doCreditLine: function ( articleUrl ){
-		var embedPlayer = this.embedPlayer;
-
-		// Get the title str
-		var titleStr = embedPlayer.apiTitleKey.replace(/_/g, ' ');
-
-		var imgWidth = ( this.getOverlayWidth() < 250 )? 45 : 90;
-
-		return $( '<div/>' ).addClass( 'creditline' )
-			.append(
-				$('<a/>').attr({
-					'href' : articleUrl,
-					'title' : titleStr
-				}).html(
-					$('<img/>').attr( {
-						'border': 0,
-						'src' : embedPlayer.poster
-					} ).css( {
-						'width' : imgWidth,
-						'height': parseInt( imgWidth * ( embedPlayer.height / embedPlayer.width ) )
-					} )
-				)
-			)
-			.append(
-				$('<span>').html(
-					gM( 'mwe-embedplayer-credit-title' ,
-						// We use a div container to easily get at the built out link
-						$('<div>').html(
-							$('<a/>').attr({
-								'href' : articleUrl,
-								'title' : titleStr
-							}).text( titleStr )
-						).html()
-					)
-				)
-			);
+		});
 	}
 };
 

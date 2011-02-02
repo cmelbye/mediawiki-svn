@@ -890,7 +890,7 @@ mw.UploadHandler.prototype = {
 
 };
 
-// jQuery plugins
+	// jQuery plugins
 	/**
 	 * Check the upload destination filename for conflicts and show a conflict
 	 * error message if there is one

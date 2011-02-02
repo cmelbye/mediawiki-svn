@@ -1018,7 +1018,7 @@ mw.ApiProxy = { };
 				// We timed out no api proxy (should make sure the user is "logged in")
 				proxyNotReadyTimeout( context );
 			}
-		}, mw.getConfig( 'defaultRequestTimeout') * 1000 );
+		}, mw.getConfig( 'AjaxRequestTimeout') * 1000 );
 	}
 
 } )( window.mw.ApiProxy );
