@@ -44,7 +44,7 @@ if ( ! defined( 'SMW_VERSION' ) ) {
 if ( defined( 'Maps_VERSION' ) && defined( 'SMW_VERSION' ) ) {
 	define( 'SM_VERSION', '0.8 alpha' );
 
-	$smgScriptPath 	= $wgExtensionAssetsPath . '/SemanticMaps';	
+	$smgScriptPath 	= ( $wgExtensionAssetsPath === false ? '/extensions' : $wgExtensionAssetsPath ) . '/SemanticMaps';	
 	$smgDir 		= dirname( __FILE__ ) . '/';
 
 	$smgStyleVersion = $wgStyleVersion . '-' . SM_VERSION;
