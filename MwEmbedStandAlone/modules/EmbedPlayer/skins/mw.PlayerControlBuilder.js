@@ -344,7 +344,7 @@ mw.PlayerControlBuilder.prototype = {
 			$( '<div />' )
 			.addClass( 'mw-fullscreen-overlay' )
 			// Set some arbitrary high z-index
-			.css('z-index', mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) )
+			.css('z-index', mw.getConfig( 'EmbedPlayer.FullScreenZIndex' ) )
 			.hide()
 			.fadeIn("slow")
 		);
@@ -362,7 +362,7 @@ mw.PlayerControlBuilder.prototype = {
 		// Change the z-index of the interface
 		$interface.css( {
 			'position' : 'fixed',
-			'z-index' : mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
+			'z-index' : mw.getConfig( 'EmbedPlayer.FullScreenZIndex' ) + 1,
 			'top' : this.windowOffset.top,
 			'left' : this.windowOffset.left
 		} );
@@ -370,7 +370,7 @@ mw.PlayerControlBuilder.prototype = {
 		// If native persistent native player update z-index:
 		if( embedPlayer.isPersistentNativePlayer() ){
 			$( embedPlayer.getPlayerElement() ).css( {
-				'z-index': mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
+				'z-index': mw.getConfig( 'EmbedPlayer.FullScreenZIndex' ) + 1,
 				'position': 'absolute'
 			});
 		}
@@ -1649,7 +1649,7 @@ mw.PlayerControlBuilder.prototype = {
 						// Options binding:
 						.menu( {
 							'content' : ctrlObj.getOptionsMenu(),
-							'zindex' : mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
+							'zindex' : mw.getConfig( 'EmbedPlayer.FullScreenZIndex' ) + 1,
 							'positionOpts': {
 								'directionV' : 'up',
 								'offsetY' : 30,

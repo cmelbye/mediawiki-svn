@@ -59,5 +59,4 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 		return $vars;
 	}
 }
-
 ?>

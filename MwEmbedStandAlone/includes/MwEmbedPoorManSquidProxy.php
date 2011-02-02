@@ -75,9 +75,12 @@ class MwEmbedPoorManSquidProxy {
 		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $smaxage + time() ) );
 		
 		// Gzip if possible:
-		ob_gzhandler();
+		ob_start("ob_gzhandler");
 		
 		echo mweGetFromFileCache( self::$hash  );
+				
+		// Clear and send the buffer:
+		ob_end_flush();
 		// exit ( don't continue resource loader handling ) 
 		exit(1);
 	}

@@ -139,7 +139,9 @@ $messages['aln'] = array(
 	'mwe-embedplayer-missing-source' => 'Nuk ka video burim u gjet.',
 );
 
-/** Arabic (العربية) */
+/** Arabic (العربية)
+ * @author Meno25
+ */
 $messages['ar'] = array(
 	'mwe-embedplayer-loading_plugin' => 'تحميل ملحق...',
 	'mwe-embedplayer-add_to_end_of_sequence' => 'أضف إلى نهاية السلسلة',
@@ -159,9 +161,10 @@ $messages['ar'] = array(
 	'mwe-embedplayer-share_this_video' => 'شارك هذا الفيديو',
 	'mwe-embedplayer-menu_btn' => 'قائمة',
 	'mwe-embedplayer-close_btn' => 'إغلاق',
+	'mwe-embedplayer-ogg-player-cortado' => 'جافا كورتادو',
 );
 
-/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Wizardist
@@ -195,7 +198,7 @@ $messages['be-tarask'] = array(
 	'mwe-embedplayer-credits' => 'Стваральнікі',
 	'mwe-embedplayer-about-library' => 'Пра прайгравальнік Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'HTML5 мэдыя-бібліятэка Kaltura дазваляе Вам выкарыстоўваць перавагамі HTML5 <code><nowiki><video></nowiki></code> і <code><nowiki><audio></nowiki></code> тэгаў ужо зараз, з аднолькавым інтэрфэйсам прайграваньня ва ўсіх асноўных браўзэрах.
-
+	
 [$1 даведацца болей пра бібліятэку прайгравальніка Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Крынічная старонка часткі файла',
 	'mwe-embedplayer-choose_player' => 'Выберыце відэа-прайгравальнік',
@@ -266,7 +269,7 @@ $messages['br'] = array(
 	'mwe-embedplayer-credits' => 'Kredoù',
 	'mwe-embedplayer-about-library' => 'Diwar-benn al lenner Kaltura',
 	'mwe-embedplayer-about-library-desc' => "Talvezout a ra al levraoueg Kaltura deoc'h d'ober ho mad eus ar balizennoù HTML5 <code><nowiki><video></nowiki></code> ha <code><nowiki><klevet></nowiki></code> diouzhtu gant ul lenner hag un etrefas kenglotus gant ar merdeerioù pennañ.
-
+	
 [$1 Evit gouzout hiroc'h diwar-benn al levraoueg lenn Kaltura].",
 	'mwe-embedplayer-clip_linkback' => "Pajenn mammenn ar c'hlip",
 	'mwe-embedplayer-choose_player' => 'Dibab al lenner video',
@@ -315,6 +318,13 @@ $messages['bs'] = array(
 	'mwe-embedplayer-menu_btn' => 'Meni',
 	'mwe-embedplayer-close_btn' => 'Zatvori',
 	'mwe-embedplayer-related_videos' => 'Povezani snimci',
+);
+
+/** Chechen (Нохчийн)
+ * @author Sasan700
+ */
+$messages['ce'] = array(
+	'mwe-embedplayer-seeking' => 'лаха',
 );
 
 /** Czech (Česky)
@@ -518,6 +528,10 @@ $messages['dsb'] = array(
 	'mwe-embedplayer-download' => 'Ześěgnuś',
 	'mwe-embedplayer-share' => 'Źěliś',
 	'mwe-embedplayer-credits' => 'Źěkowanje',
+	'mwe-embedplayer-about-library' => 'Wó wótegrawaku Kaltura',
+	'mwe-embedplayer-about-library-desc' => 'Medijowa biblioteka HTML 5 wótgrawaka Kaltury zmóžnja lěpšyny HTML 5-elementowu code><nowiki><video></nowiki></code> a <code><nowiki><audio></nowiki></code> z jadnotnym powjerchom wótgrawaka pśi wjeducych wótglědowakach.
+
+[$1 Dalšne informacije wó bibliotece wótgrawaka Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Žrědłowy bok klipow',
 	'mwe-embedplayer-choose_player' => 'Wideowótegrawak wubraś',
 	'mwe-embedplayer-no-player' => 'Za $1 žeden wótgrawak k dispoziciji',
@@ -545,6 +559,7 @@ $messages['dsb'] = array(
 	'mwe-embedplayer-embed_site_or_blog' => 'Na boku zasajźiś',
 	'mwe-embedplayer-related_videos' => 'Pśiwuzne wideo',
 	'mwe-embedplayer-seeking' => 'pyta se',
+	'mwe-embedplayer-buffering' => 'pufrujo',
 	'mwe-embedplayer-copy-code' => 'Kod kopěrowaś',
 	'mwe-embedplayer-video-h264' => 'Wideo H.264',
 	'mwe-embedplayer-video-flv' => 'Wideo Flash',
@@ -617,7 +632,9 @@ $messages['el'] = array(
 	'mwe-embedplayer-video-audio' => 'Ogg audio',
 );
 
-/** Esperanto (Esperanto) */
+/** Esperanto (Esperanto)
+ * @author Yekrats
+ */
 $messages['eo'] = array(
 	'mwe-embedplayer-player_fullscreen' => 'Plenekrana',
 	'mwe-embedplayer-download_full' => 'Elŝuti kompletan filmetan dosieron:',
@@ -629,7 +646,18 @@ $messages['eo'] = array(
 	'mwe-embedplayer-close_btn' => 'Fermi',
 	'mwe-embedplayer-ogg-player-selected' => '(elektita)',
 	'mwe-embedplayer-generic_missing_plugin' => 'Via retumilo ne verŝajne subtenas la jenan aŭdvidean dosiertipon: <b>$1</b><br />Vizitu la paĝon pri <a href="http://commons.wikimedia.org/wiki/Commons:Media_help">Aŭdvideaj MetodojMethods</a> por elŝuti la taŭgan kromprogramon..<br />',
+	'mwe-embedplayer-playerSelect' => 'Ludantoj',
 	'mwe-embedplayer-read_before_embed' => 'Bonvolu legi la <a href="http://mediawiki.org/wiki/Security_Notes_on_Remote_Embedding" target="_new">sekurecajn notojn pri ekstera enkorpigado</a> antaŭ fakte enkorpigado!',
+	'mwe-embedplayer-embed_site_or_blog' => 'Enmeti en paĝo',
+	'mwe-embedplayer-related_videos' => 'Rilataj videoj',
+	'mwe-embedplayer-seeking' => 'serĉante',
+	'mwe-embedplayer-buffering' => 'bufrante',
+	'mwe-embedplayer-copy-code' => 'Kopii kodon',
+	'mwe-embedplayer-video-h264' => 'H.264 video',
+	'mwe-embedplayer-video-flv' => 'Flash video',
+	'mwe-embedplayer-video-ogg' => 'Ogg video',
+	'mwe-embedplayer-video-audio' => 'Ogg aŭdiaĵo',
+	'mwe-embedplayer-missing-source' => 'Neniu fonta video estis trovita',
 );
 
 /** Spanish (Español)
@@ -665,7 +693,7 @@ $messages['es'] = array(
 	'mwe-embedplayer-credits' => 'Créditos',
 	'mwe-embedplayer-about-library' => 'Acerca del reproductor Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'La biblioteca HTMl5 de Kaltura permite utilizar etiquetas de <code><nowiki><video></nowiki></code> y <code><nowiki><audio></nowiki></code> ahora con una interfaz de reproductor consistente en los navegadores más usados.
-
+	
 [$1 Más acerca de la biblioteca del reproductor Kalltura].',
 	'mwe-embedplayer-clip_linkback' => 'Página fuente de clip',
 	'mwe-embedplayer-choose_player' => 'Elegir reproductor de video',
@@ -714,8 +742,12 @@ $messages['eu'] = array(
 	'mwe-embedplayer-close_btn' => 'Itxi',
 );
 
-/** Finnish (Suomi) */
+/** Finnish (Suomi)
+ * @author Nike
+ * @author Tofu II
+ */
 $messages['fi'] = array(
+	'mwe-embedplayer-loading_plugin' => 'Ladataan liitännäistä...',
 	'mwe-embedplayer-player_options' => 'Soittimen asetukset',
 	'mwe-embedplayer-player_fullscreen' => 'Koko näyttö',
 	'mwe-embedplayer-download_full' => 'Lataa koko videotiedosto:',
@@ -764,7 +796,7 @@ $messages['fr'] = array(
 	'mwe-embedplayer-credits' => 'Crédits',
 	'mwe-embedplayer-about-library' => 'À propos du lecteur Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'La bibliothèque HTML5 de Kaltura vous permet de profiter des balises HTML5 <code><nowiki><video></nowiki></code> et <code><nowiki><audio></nowiki></code> dès à présent avec un lecteur et une interface compatibles avec tous les principaux navigateurs.
-
+	
 [$1 Pour en savoir plus sur la bibliothèque de lecture Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Page source du clip',
 	'mwe-embedplayer-choose_player' => 'Choisir le lecteur vidéo',
@@ -895,7 +927,7 @@ $messages['gl'] = array(
 	'mwe-embedplayer-credits' => 'Créditos',
 	'mwe-embedplayer-about-library' => 'Acerca do reprodutor Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'A biblioteca HTML5 do Kaltura permite sacar proveito das etiquetas <code><nowiki><video></nowiki></code> e <code><nowiki><audio></nowiki></code> do HTML5 cun reprodutor e unha interface compatibles cos principais navegadores.
-
+	
 [$1 Máis información sobre a biblioteca do reprodutor Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Páxina de orixe do vídeo',
 	'mwe-embedplayer-choose_player' => 'Escolla o reprodutor de vídeo',
@@ -1004,45 +1036,73 @@ $messages['gsw'] = array(
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
  * @author YaronSh
  */
 $messages['he'] = array(
 	'mwe-embedplayer-credit-title' => 'כותרת: $1',
+	'mwe-embedplayer-loading_plugin' => 'טעינת תוסף...',
+	'mwe-embedplayer-select_playback' => 'הגדרת העדפות נגינה',
 	'mwe-embedplayer-link_back' => 'קישור חזרה',
+	'mwe-embedplayer-error_swap_vid' => 'שגיאה: mwEmbed לא היה מסוגל להחליף את תג הווידאו של ממשק mwEmbed',
 	'mwe-embedplayer-add_to_end_of_sequence' => 'בסוף הרצף',
 	'mwe-embedplayer-missing_video_stream' => 'קובץ הווידאו עבור זרם זה חסר',
 	'mwe-embedplayer-play_clip' => 'נגינת הסרטון',
 	'mwe-embedplayer-pause_clip' => 'השהיית הסרטון',
 	'mwe-embedplayer-volume_control' => 'בקרת עוצמת השמע',
 	'mwe-embedplayer-player_options' => 'אפשרויות הנגן',
+	'mwe-embedplayer-timed_text' => 'טקסט מתוזמן',
 	'mwe-embedplayer-player_fullscreen' => 'מסך מלא',
 	'mwe-embedplayer-next_clip_msg' => 'נגינת הסרטון הבא',
 	'mwe-embedplayer-prev_clip_msg' => 'נגינת הסרטון הקודם',
 	'mwe-embedplayer-current_clip_msg' => 'המשך נגינת הסרטון',
-	'mwe-embedplayer-download_full' => 'הורדת קובץ הווידאו המלא:',
+	'mwe-embedplayer-seek_to' => 'חיפוש $1',
+	'mwe-embedplayer-paused' => 'מושהה',
+	'mwe-embedplayer-download_segment' => 'הורדת הבחירה:',
+	'mwe-embedplayer-download_full' => 'להוריד למחשב את קובץ הווידאו המלא:',
+	'mwe-embedplayer-download_right_click' => 'כדי להוריד, לחצו בכפתור ימני של העכבר ובחרו באפשרות "שמירה בשם..." (<i>Save Link As ...</i>)',
 	'mwe-embedplayer-download_clip' => 'הורדת הווידאו',
+	'mwe-embedplayer-download_text' => 'להוריד למחשב את הטקסט',
 	'mwe-embedplayer-download' => 'הורדה',
 	'mwe-embedplayer-share' => 'שיתוף',
 	'mwe-embedplayer-credits' => 'תודות',
-	'mwe-embedplayer-about-library' => 'על אודות הנגן Kaltura',
+	'mwe-embedplayer-about-library' => 'על אודות הנגן קלטורה',
+	'mwe-embedplayer-about-library-desc' => 'ספריית לנגינת מדיה בתקן HTML5 של קלטורה מאפשרת לכם להשתמש בפקודות <code><nowiki><video></nowiki></code> ו־<code><nowiki><audio></nowiki></code> של HTML5 היום עם ממשק קבוע בכל הדפדפנים הנפוצים.
+
+[$1 מידע נוסף על ספריית נגן המדיה של קלטורה]',
 	'mwe-embedplayer-clip_linkback' => 'דף המקור של הסרטון',
 	'mwe-embedplayer-choose_player' => 'בחירת נגן וידאו',
+	'mwe-embedplayer-no-player' => 'הנגן עבור $1 אינו זמין',
 	'mwe-embedplayer-share_this_video' => 'שיתוף וידאו זה',
+	'mwe-embedplayer-video_credits' => 'יוצרי הווידאו',
+	'mwe-embedplayer-kaltura-platform-title' => 'פלטפורמת וידאו בקוד פתוח של קלטורה',
 	'mwe-embedplayer-menu_btn' => 'תפריט',
-	'mwe-embedplayer-close_btn' => 'סגירה',
+	'mwe-embedplayer-close_btn' => 'לסגור',
 	'mwe-embedplayer-ogg-player-vlc-player' => 'VLC נגן',
+	'mwe-embedplayer-ogg-player-oggNative' => 'נגן HTML5 Ogg',
+	'mwe-embedplayer-ogg-player-h264Native' => 'נגן HTML5 H.264',
 	'mwe-embedplayer-ogg-player-oggPlugin' => 'תוסף Ogg גנרי',
 	'mwe-embedplayer-ogg-player-quicktime-mozilla' => 'תוסף QuickTime',
-	'mwe-embedplayer-ogg-player-kplayer' => 'נגן Kaltura',
+	'mwe-embedplayer-ogg-player-quicktime-activex' => 'QuickTime ActiveX',
+	'mwe-embedplayer-ogg-player-flowplayer' => 'Flowplayer',
+	'mwe-embedplayer-ogg-player-kplayer' => 'נגן קלטורה',
 	'mwe-embedplayer-ogg-player-selected' => '(נבחר)',
+	'mwe-embedplayer-ogg-player-omtkplayer' => 'OMTK Flash Vorbis',
+	'mwe-embedplayer-generic_missing_plugin' => 'נראה שהדפדפן שלכם אינו תומך בנגינת מדיה מהסוג <b>$1</b><br />בקרו בדף <a href="http://commons.wikimedia.org/wiki/Commons:Media_help">Playback methods</a> כדי להוריד נגן מתאים.<br />',
+	'mwe-embedplayer-for_best_experience' => 'להצגת וידאו משופרת אנחנו ממליצים <b><a href="http://www.mozilla.com/he/firefox/?from=getfirefox">להתקין את הגרסה החדשה ביותר של דפדפן פיירפוקס</a></b>.',
 	'mwe-embedplayer-do_not_warn_again' => 'התעלמות לעת עתה.',
 	'mwe-embedplayer-playerSelect' => 'נגנים',
+	'mwe-embedplayer-read_before_embed' => '<a href="http://mediawiki.org/wiki/Security_Notes_on_Remote_Embedding" target="_new">אנא קראו</a> לפני שיבוץ.',
 	'mwe-embedplayer-embed_site_or_blog' => 'הטמעה באתר או בבלוג שלכם',
 	'mwe-embedplayer-related_videos' => 'סרטונים קשורים',
+	'mwe-embedplayer-seeking' => 'חיפוש',
+	'mwe-embedplayer-buffering' => 'אגירה',
+	'mwe-embedplayer-copy-code' => 'קוד להעתקה',
 	'mwe-embedplayer-video-h264' => 'וידאו H.264',
 	'mwe-embedplayer-video-flv' => 'וידאו ב־Flash',
 	'mwe-embedplayer-video-ogg' => 'וידאו Ogg',
 	'mwe-embedplayer-video-audio' => 'שמע Ogg',
+	'mwe-embedplayer-missing-source' => 'הווידאו המקורי לא נמצא',
 );
 
 /** Upper Sorbian (Hornjoserbsce)
@@ -1075,6 +1135,10 @@ $messages['hsb'] = array(
 	'mwe-embedplayer-download' => 'Sćahnyć',
 	'mwe-embedplayer-share' => 'Dźělić',
 	'mwe-embedplayer-credits' => 'Dźakprajenje',
+	'mwe-embedplayer-about-library' => 'Wo wothrawaku Kaltura',
+	'mwe-embedplayer-about-library-desc' => 'Medijowa HTML5-biblioteka Kaltury zmóžnja lěpšiny tafličkow <code><nowiki><video></code> a <code><nowiki><audio></code> dźensa z jednotnym powjerchom wothrawaka ze wšěmi načolnymi wobhladowakami wužiwać.
+
+[$1 Wjace wo bibliotece wothrawaka Kaltura]',
 	'mwe-embedplayer-clip_linkback' => 'Žórłow strona klipa',
 	'mwe-embedplayer-choose_player' => 'Widejowy wothrawak wubrać',
 	'mwe-embedplayer-no-player' => 'Žadyn wothrawak za $1 k dispoziciji',
@@ -1102,6 +1166,7 @@ $messages['hsb'] = array(
 	'mwe-embedplayer-embed_site_or_blog' => 'Na stronje zasadźić',
 	'mwe-embedplayer-related_videos' => 'Přiwuzne wideja',
 	'mwe-embedplayer-seeking' => 'pyta so',
+	'mwe-embedplayer-buffering' => 'pufruje so',
 	'mwe-embedplayer-copy-code' => 'Kod kopěrować',
 	'mwe-embedplayer-video-h264' => 'Wideo H.264',
 	'mwe-embedplayer-video-flv' => 'Widejo Flash',
@@ -1110,7 +1175,9 @@ $messages['hsb'] = array(
 	'mwe-embedplayer-missing-source' => 'Žane widejo namakane.',
 );
 
-/** Hungarian (Magyar) */
+/** Hungarian (Magyar)
+ * @author Dani
+ */
 $messages['hu'] = array(
 	'mwe-embedplayer-credit-title' => 'Cím: $1',
 	'mwe-embedplayer-loading_plugin' => 'bővítmény betöltése…',
@@ -1123,6 +1190,7 @@ $messages['hu'] = array(
 	'mwe-embedplayer-pause_clip' => 'Klip pillanatállj',
 	'mwe-embedplayer-volume_control' => 'Hangerőszabályzó',
 	'mwe-embedplayer-player_options' => 'Lejátszó beállításai',
+	'mwe-embedplayer-timed_text' => 'Időzített szöveg',
 	'mwe-embedplayer-player_fullscreen' => 'Teljes képernyő',
 	'mwe-embedplayer-next_clip_msg' => 'Következő klip lejátszása',
 	'mwe-embedplayer-prev_clip_msg' => 'Előző klip lejátszása',
@@ -1137,13 +1205,20 @@ $messages['hu'] = array(
 	'mwe-embedplayer-download' => 'Letöltés',
 	'mwe-embedplayer-share' => 'Megosztás',
 	'mwe-embedplayer-credits' => 'Készítők',
+	'mwe-embedplayer-about-library' => 'A Kaltura lejátszó névjegye',
+	'mwe-embedplayer-about-library-desc' => 'A Kaltura HTML5-ös médialejátszó lehetővé teszi, hogy kihasználd a HTML5 <code><nowiki><video></nowiki></code> és <code><nowiki><audio></nowiki></code> elemeit azonos felületet biztonsítva az összes lényeges böngésző esetén.
+	
+[$1 További információ a Kaltura lejátszóról].',
 	'mwe-embedplayer-clip_linkback' => 'Klip forráslapja',
 	'mwe-embedplayer-choose_player' => 'Videolejátszó választása',
+	'mwe-embedplayer-no-player' => 'Nincs megfelelő lejátszó a következőhöz: $1',
 	'mwe-embedplayer-share_this_video' => 'Videó megosztása',
 	'mwe-embedplayer-video_credits' => 'A videó készítői',
 	'mwe-embedplayer-menu_btn' => 'Menü',
 	'mwe-embedplayer-close_btn' => 'Bezárás',
 	'mwe-embedplayer-ogg-player-vlc-player' => 'VLC player',
+	'mwe-embedplayer-ogg-player-oggNative' => 'HTML5 Ogg lejátszó',
+	'mwe-embedplayer-ogg-player-h264Native' => 'HTML5 H.264 lejátszó',
 	'mwe-embedplayer-ogg-player-oggPlugin' => 'Általános Ogg bővítmény',
 	'mwe-embedplayer-ogg-player-quicktime-mozilla' => 'QuickTime-bővítmény',
 	'mwe-embedplayer-ogg-player-quicktime-activex' => 'QuickTime ActiveX',
@@ -1155,11 +1230,18 @@ $messages['hu'] = array(
 	'mwe-embedplayer-generic_missing_plugin' => 'A böngésző nem támogatja a következő lejátszási típust: <b>$1</b><br />Látogasd meg a <a href="http://commons.wikimedia.org/wiki/Commons:Media_help">Lejátszási módszerek</a> lapot egy lejátszó letöltéséhez.<br />',
 	'mwe-embedplayer-for_best_experience' => 'Jobb videolejátszási élményhez ajánljuk:<br /><b><a href="http://www.mozilla.com/en-US/firefox/upgrade.html?from=mwEmbed">Firefox 3.5</a>.</b>',
 	'mwe-embedplayer-do_not_warn_again' => 'Eltüntetés egyelőre.',
+	'mwe-embedplayer-playerSelect' => 'Lejátszók',
 	'mwe-embedplayer-read_before_embed' => '<a href="http://mediawiki.org/wiki/Security_Notes_on_Remote_Embedding" target="_new">Olvasd el ezt</a>, mielőtt beillesztenéd.',
 	'mwe-embedplayer-embed_site_or_blog' => 'Beágyazás egy lapra',
 	'mwe-embedplayer-related_videos' => 'Kapcsolódó videók',
 	'mwe-embedplayer-seeking' => 'keresés',
+	'mwe-embedplayer-buffering' => 'pufferelés',
 	'mwe-embedplayer-copy-code' => 'Kód másolása',
+	'mwe-embedplayer-video-h264' => 'H.264 videó',
+	'mwe-embedplayer-video-flv' => 'Flash videó',
+	'mwe-embedplayer-video-ogg' => 'Ogg videó',
+	'mwe-embedplayer-video-audio' => 'Ogg hangfájl',
+	'mwe-embedplayer-missing-source' => 'Nem található forrásvideó',
 );
 
 /** Interlingua (Interlingua)
@@ -1194,7 +1276,7 @@ $messages['ia'] = array(
 	'mwe-embedplayer-credits' => 'Creditos',
 	'mwe-embedplayer-about-library' => 'A proposito del reproductor Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'Le bibliotheca multimedia HTML5 de Kaltura te permitte traher avantage del etiquettas HTML5 <code><nowiki><video></nowiki></code> e <code><nowiki><audio></nowiki></code> jam hodie con un interfacie de reproductor consistente trans tote le major navigatores.
-
+	
 [$1 Plus a proposito del bibliotheca reproductor Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Pagina de fonte del clip',
 	'mwe-embedplayer-choose_player' => 'Seliger reproductor de video',
@@ -1234,6 +1316,7 @@ $messages['ia'] = array(
 
 /** Indonesian (Bahasa Indonesia)
  * @author Farras
+ * @author IvanLanin
  */
 $messages['id'] = array(
 	'mwe-embedplayer-credit-title' => 'Judul: $1',
@@ -1262,6 +1345,10 @@ $messages['id'] = array(
 	'mwe-embedplayer-download' => 'Unduh',
 	'mwe-embedplayer-share' => 'Bagikan',
 	'mwe-embedplayer-credits' => 'Kredit',
+	'mwe-embedplayer-about-library' => 'About pemutar Kaltura',
+	'mwe-embedplayer-about-library-desc' => 'Pustaka media HTML5 Kaltura memungkinkan Anda untuk mengambil keuntungan dari tag HTML5 <nowiki><video></nowiki> dan <nowiki><audio></nowiki> dengan antarmuka pemutar yang konsisten di semua peramban utama. 
+
+ [$1 Selengkapnya tentang pustaka pemutar Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Halaman sumber klip',
 	'mwe-embedplayer-choose_player' => 'Pilih pemutar video',
 	'mwe-embedplayer-no-player' => 'Tidak ada pemutar yang tersedia untuk $1',
@@ -1289,6 +1376,7 @@ $messages['id'] = array(
 	'mwe-embedplayer-embed_site_or_blog' => 'Sertakan pada suatu halaman',
 	'mwe-embedplayer-related_videos' => 'Video yang berhubungan',
 	'mwe-embedplayer-seeking' => 'mencari',
+	'mwe-embedplayer-buffering' => 'menyinggahkan',
 	'mwe-embedplayer-copy-code' => 'Salin kode',
 	'mwe-embedplayer-video-h264' => 'Video H.264',
 	'mwe-embedplayer-video-flv' => 'Video flash',
@@ -1985,7 +2073,7 @@ $messages['pt'] = array(
 	'mwe-embedplayer-credits' => 'Créditos',
 	'mwe-embedplayer-about-library' => 'Sobre o leitor Kaltura',
 	'mwe-embedplayer-about-library-desc' => 'A biblioteca multimédia HTML5 do Kaltura permite-lhe utilizar já hoje os elementos <code><nowiki><video></nowiki></code> e <code><nowiki><audio></nowiki></code> do HTML5 com uma interface consistente do leitor em todos os browsers principais.
-
+	
 [$1 Mais sobre a biblioteca do leitor Kaltura].',
 	'mwe-embedplayer-clip_linkback' => 'Página fonte do clipe',
 	'mwe-embedplayer-choose_player' => 'Escolher leitor de vídeo',
@@ -2060,7 +2148,7 @@ $messages['pt-br'] = array(
 [$1 Mais sobre a biblioteca de reprodução Kaltura].
 
 enables you to take advantage of the HTML5 <code><nowiki><video></nowiki></code> and <code><nowiki><audio></nowiki></code> tags today with a consistent player interface across all major browsers.
-
+	
 [$1 More about the Kaltura player library].',
 	'mwe-embedplayer-clip_linkback' => 'Página fonte do clipe',
 	'mwe-embedplayer-choose_player' => 'Escolher leitor de vídeo',
@@ -2182,7 +2270,7 @@ $messages['sk'] = array(
 	'mwe-embedplayer-do_not_warn_again' => 'Nateraz nezobrazovať',
 );
 
-/** Serbian Cyrillic ekavian (Српски (ћирилица))
+/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
  * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
@@ -2208,7 +2296,7 @@ $messages['sr-ec'] = array(
 	'mwe-embedplayer-video-audio' => 'Ogg аудио',
 );
 
-/** Serbian Latin ekavian (Srpski (latinica)) */
+/** Serbian Latin ekavian (‪Srpski (latinica)‬) */
 $messages['sr-el'] = array(
 	'mwe-embedplayer-credit-title' => 'Naslov: $1',
 	'mwe-embedplayer-play_clip' => 'Pusti klip',
@@ -2260,11 +2348,17 @@ $messages['sv'] = array(
 	'mwe-embedplayer-seeking' => 'söker',
 );
 
-/** Telugu (తెలుగు) */
+/** Telugu (తెలుగు)
+ * @author Veeven
+ */
 $messages['te'] = array(
+	'mwe-embedplayer-credit-title' => 'శీర్షిక: $1',
 	'mwe-embedplayer-player_fullscreen' => 'నిండుతెర',
+	'mwe-embedplayer-download' => 'దింపుకోలు',
+	'mwe-embedplayer-share_this_video' => 'ఈ వీడియోని పంచుకోండి',
 	'mwe-embedplayer-menu_btn' => 'మెనూ',
 	'mwe-embedplayer-close_btn' => 'మూసివేయి',
+	'mwe-embedplayer-ogg-player-selected' => '(ఎంచుకున్నారు)',
 	'mwe-embedplayer-related_videos' => 'సంబంధిత దృశ్యకాలు',
 );
 
@@ -2389,6 +2483,30 @@ $messages['tr'] = array(
 	'mwe-embedplayer-copy-code' => 'Kodu kopyala',
 );
 
+/** Ukrainian (Українська)
+ * @author Тест
+ */
+$messages['uk'] = array(
+	'mwe-embedplayer-credit-title' => 'Назва: $1',
+	'mwe-embedplayer-loading_plugin' => 'Завантаження додатка ...',
+	'mwe-embedplayer-play_clip' => 'Відтворити кліп',
+	'mwe-embedplayer-timed_text' => 'Субтитри',
+	'mwe-embedplayer-choose_player' => 'Виберіть відео плеєр',
+	'mwe-embedplayer-menu_btn' => 'Меню',
+	'mwe-embedplayer-close_btn' => 'Закрити',
+	'mwe-embedplayer-ogg-player-vlc-player' => 'VLC програвач',
+	'mwe-embedplayer-ogg-player-oggNative' => 'HTML5 Ogg програвач',
+	'mwe-embedplayer-ogg-player-h264Native' => 'HTML5 H.264 програвач',
+	'mwe-embedplayer-ogg-player-quicktime-mozilla' => 'Додаток QuickTime',
+	'mwe-embedplayer-playerSelect' => 'Програвачі',
+	'mwe-embedplayer-seeking' => 'пошук',
+	'mwe-embedplayer-buffering' => 'буферизація',
+	'mwe-embedplayer-video-h264' => 'H.264 відео',
+	'mwe-embedplayer-video-flv' => 'Флеш відео',
+	'mwe-embedplayer-video-ogg' => 'Ogg відео',
+	'mwe-embedplayer-video-audio' => 'Ogg аудіо',
+);
+
 /** Vèneto (Vèneto) */
 $messages['vec'] = array(
 	'mwe-embedplayer-credit-title' => 'Titolo: $1',
@@ -2493,3 +2611,16 @@ $messages['zh-hans'] = array(
 	'mwe-embedplayer-ogg-player-selected' => '（已选取）',
 );
 
+/** Traditional Chinese (‪中文(繁體)‬)
+ * @author Mark85296341
+ */
+$messages['zh-hant'] = array(
+	'mwe-embedplayer-missing_video_stream' => '此串流的影片檔案已遺失',
+	'mwe-embedplayer-volume_control' => '音量控制',
+	'mwe-embedplayer-player_options' => '播放器選項',
+	'mwe-embedplayer-player_fullscreen' => '全螢幕',
+	'mwe-embedplayer-paused' => '暫停',
+	'mwe-embedplayer-download' => '下載',
+	'mwe-embedplayer-share' => '分享',
+	'mwe-embedplayer-close_btn' => '關閉',
+);

@@ -214,20 +214,17 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' )
 		);
 		if ( $context->getDebug() ) {
-			$files = array_merge( $files, $this->debugScripts );			
+			$files = array_merge( $files, $this->debugScripts );
 			if ( $this->debugRaw ) {
-				// temporary hack to load raw script files in right order
-				$script = 'var rawScriptSet = [';
-				$coma = '';
+				$script = '';
 				foreach ( $files as $file ) {
-					$path = $wgServer . $this->getRemotePath( $file );
-					$script .= $coma . array( $path ) ;
-					$coma=',';
+					$path = $wgServer . $this->getRemotePath( $file );					
+					$script .= "\n\tmediaWiki.loader.load('" .Xml::encodeJsVar( $path ) . "', 'text/javascript', function(){";
+					$script .= "\n\t\tmediaWiki.loader.state(";
+					$script .= "});";
 				}
-				$script .='];';
-				$script = 'rawScriptSet, function(na, path){ $.getScript} '
 				return $script;
-			}			
+			}
 		}
 		return $this->readScriptFiles( $files );
 	}

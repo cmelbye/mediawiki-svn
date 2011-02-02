@@ -51,7 +51,7 @@ mw.IFramePlayerApiClient.prototype = {
 	'addPlayerReciveApi': function(){
 		var _this = this;
 		$j.receiveMessage( function( event ){
-			_this.hanldeReciveMsg( event )
+			_this.hanldeReciveMsg( event );
 		}, this.iframeServer);
 	},
 	'addIframeFullscreenBinding': function(){
@@ -75,13 +75,13 @@ mw.IFramePlayerApiClient.prototype = {
 			 _this.inFullScreenMode = true;
 			// Make the iframe fullscreen
 			$( _this.iframe ).css({
-				'z-index': mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
+				'z-index': mw.getConfig( 'EmbedPlayer.FullScreenZIndex' ) + 1,
 				'position': 'absolute',
 				'top' : 0,
 				'left' : 0,
 				'width' : $(window).width(),
 				'height' : $(window).height()
-			})
+			});
 			
 			// Remove absolute css of the interface parents
 			$( _this.iframe ).parents().each( function() {
