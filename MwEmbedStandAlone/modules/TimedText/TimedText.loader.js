@@ -42,18 +42,19 @@
 		if( mw.getConfig( 'TimedText.ShowInterface' ) == 'always' ) {
 			return true;
 		}
-		// Check for timed text  sources or api
-		if ( 
-			(
-				$( embedPlayer ).attr('apititlekey')
-				||  
-				$( embedPlayer ).attr('apiTitleKey' )
-			)
-			|| 
-			( embedPlayer.mediaElement && embedPlayer.mediaElement.textSourceExists() )	
-			||
-			$( embedPlayer ).find( 'track' ).length != 0
-		) {
+		// Do a module check for timed Text support
+		var supportsTimedText = false;
+		$( embedPlayer ).trigger('SupportsTimedText', function( moduleSupportsTimedText) {
+			if( moduleSupportsTimedText ){
+				supportsTimedText = true;
+			}
+		});
+		
+		if( supportsTimedText ){
+			return true;
+		}
+		// Check for standard 'track' attribute: 
+		if ( $( embedPlayer ).find( 'track' ).length != 0 ) {
 			return true;
 		} else {
 			return false;

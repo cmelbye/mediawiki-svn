@@ -118,6 +118,21 @@ mw.VastAdParser = {
 			}
 		});
 		
+		// Check for attribute based static resource:
+		if( $( resourceNode ).attr('creativeType')  && $( resourceNode ).attr('resourceType') == 'static' ){
+			var link = _this.getURLFromNode ( $( resourceNode ).find('NonLinearClickThrough') );			
+			resourceObj.$html = $j('<a />')
+			.attr({
+				'href' : link
+			}).append(
+				$( '<img/>').attr({
+					'src': _this.getURLFromNode ( resourceNode ),
+					'width' : resourceObj['width'],
+					'height' : resourceObj['height']					
+				})
+			);
+		};			
+		
 		// Check for companion type: 
 		if( $( resourceNode ).find( 'StaticResource' ).length ) {
 			if( $( resourceNode ).find( 'StaticResource' ).attr('creativeType') ) {						

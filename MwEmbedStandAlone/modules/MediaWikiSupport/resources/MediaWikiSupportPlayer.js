@@ -147,7 +147,13 @@
 		/**
 		 * Issues a request to populate the credits box
 		 */
+		var $creditsCache = false;
 		function getCredits( $target, callback ){
+			if( ! $creditsCache ){
+				$target.html( $creditsCache );
+				callback( true );
+				return;
+			}
 			// Setup shortcuts:
 			var apiUrl = mw.getApiProviderURL( apiProvider );
 			var fileTitle = 'File:' + unescape( apiTitleKey).replace(/File:|Image:/, '');
@@ -165,10 +171,9 @@
 						var imageProps = data.query.pages[i];						
 						// Check properties for "missing"
 						if( imageProps.imageinfo && imageProps.imageinfo[0] && imageProps.imageinfo[0].descriptionurl ){
+							$creditsCache = doCreditLine( imageProps.imageinfo[0].descriptionurl );
 							// Found page
-							$target.html(
-								doCreditLine( imageProps.imageinfo[0].descriptionurl )
-							);
+							$target.html($creditsCache);
 							callback( true );
 							return ;
 						}

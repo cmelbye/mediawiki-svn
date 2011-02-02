@@ -432,6 +432,20 @@ mw.AdTimeline.prototype = {
 			.css( layout )
 			.html( nonLinearConf.html )
 			.fadeIn('fast')
+			.append(
+				// Add a absolute positioned close button: 
+				$('<span />')
+				.css({
+					'top' : 0,
+					'right' : 0,
+					'position': 'absolute',
+					'cursor' : 'pointer'
+				})
+				.addClass("ui-icon ui-icon-closethick")				
+				.click(function(){
+					$(this).parent().fadeOut('fast')
+				})
+			);
 			
 			
 			// Bind control bar display hide / show
