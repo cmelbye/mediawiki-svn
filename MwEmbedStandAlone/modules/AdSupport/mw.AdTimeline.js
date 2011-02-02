@@ -239,7 +239,7 @@ mw.AdTimeline.prototype = {
 						
 						// Display the overlay ad 
 						_this.display( 'overlay' , function(){
-							lastPlayEndTime = _this.embedPlayer.currentTime
+							lastPlayEndTime = _this.embedPlayer.currentTime;
 							_this.adOverlaysEnabled = true;
 						}, adDuration);
 					}
@@ -306,7 +306,7 @@ mw.AdTimeline.prototype = {
 			}
 			displayTarget.currentlyDisplayed = false;
 			displayTarget.doneCallback();
-		}
+		};
 		// Setup local pointer to displayDoneCallback
 		displayTarget.doneCallback = displayDoneCallback;
 
@@ -349,7 +349,7 @@ mw.AdTimeline.prototype = {
 						return false;
 					}
 					return true;							
-				})
+				});
 			}
 			
 			// Play the source then run the callback
@@ -433,7 +433,7 @@ mw.AdTimeline.prototype = {
 			.html( nonLinearConf.html )
 			.fadeIn('fast')
 			.append(
-				// Add a absolute positioned close button: 
+				// Add a absolute positioned close button:
 				$('<span />')
 				.css({
 					'top' : 0,

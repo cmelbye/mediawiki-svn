@@ -10,6 +10,9 @@ mw.IFramePlayerApiClient = function( iframe, playerProxy ){
 	return this.init( iframe , playerProxy );
 }
 mw.IFramePlayerApiClient.prototype = {
+	// flag to register if the iframe is in fullscreen mode
+	inFullScreenMode: null,
+	
 	'exportedMethods': [
 		'play',
 		'pause'
@@ -59,9 +62,17 @@ mw.IFramePlayerApiClient.prototype = {
 			'width' : $( _this.iframe ).width(),
 			'height' : $( _this.iframe ).height(),
 			'position' : null
-		}
-			
-		var doFullscreen = function(){	
+		};
+		
+		// Bind orientation change to resize player ( if fullscreen )
+		$j(window).bind( 'orientationchange', function(e){
+			if( _this.inFullScreenMode ){
+				doFullscreen();
+			}
+		});
+		
+		var doFullscreen = function(){
+			 _this.inFullScreenMode = true;
 			// Make the iframe fullscreen
 			$( _this.iframe ).css({
 				'z-index': mw.getConfig( 'EmbedPlayer.fullScreenZIndex' ) + 1,
@@ -82,6 +93,7 @@ mw.IFramePlayerApiClient.prototype = {
 			} );
 		}
 		var restoreWindowMode = function(){
+			 _this.inFullScreenMode = false;
 			$( _this.iframe ).css( orgSize );
 			// restore any parent absolute pos: 
 			$(parentsAbsoluteList).each( function() {	
