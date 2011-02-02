@@ -50,7 +50,7 @@
     	 		
 		fill="transition" 
 		dur="1000s"
-		durationHint="70"
+		data-durationhint="70"
 		type="video/ogg" 		
 	/>		
 	

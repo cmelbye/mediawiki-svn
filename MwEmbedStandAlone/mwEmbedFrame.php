@@ -43,7 +43,7 @@ class mwEmbedFrame {
 	var $playerAttributes = array(
 		'apiTitleKey',
 		'apiProvider',
-		'durationHint',
+		'data-durationhint',
 		'poster',
 		'kentryid',
 		'kwidgetid',

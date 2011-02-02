@@ -36,7 +36,7 @@
 		transOut="xFade" 	
 		type="video/ogg" 	
 		fill="transition"
-		durationHint="15"
+		data-durationhint="15"
 		dur="9s"
 		poster="http://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Okapia_johnstoni5.ogg/mid-Okapia_johnstoni5.ogg.jpg"
 		/>	
@@ -44,7 +44,7 @@
     <video src="http://upload.wikimedia.org/wikipedia/commons/0/0d/B-36_bomber.ogg" 		 			
 		fill="transition" 
 		dur="10s"
-		durationHint="70"
+		data-durationhint="70"
 		type="video/ogg" 
 		poster="http://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/B-36_bomber.ogg/mid-B-36_bomber.ogg.jpg"
 		/>

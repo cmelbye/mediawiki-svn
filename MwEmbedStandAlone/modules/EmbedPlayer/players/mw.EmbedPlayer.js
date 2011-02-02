@@ -31,7 +31,7 @@ mw.mergeConfig( 'EmbedPlayer.SourceAttributes', [
 
 	// A hint to the duration of the media file so that duration
 	// can be displayed in the player without loading the media file
-	'durationHint',
+	'data-durationhint',
 
 	// Media start time
 	'start',
@@ -112,7 +112,7 @@ mw.mergeConfig('EmbedPlayer.Attributes', {
 	"preMuteVolume" : 0.75,
 
 	// Media duration: Value is populated via
-	// custom durationHint attribute or via the media file once its played
+	// custom data-durationhint attribute or via the media file once its played
 	"duration" : null,
 
 	// Mute state
@@ -302,7 +302,7 @@ mw.processEmbedPlayers = function( playerSelect, callback ) {
 		} else {
 			// Check if we should wait for duration:
 			if( $( playerElement ).attr( 'duration') ||
-				$( playerElement ).attr('durationHint')
+				$( playerElement ).attr('data-durationhint')
 			){
 				// height, width and duration set; do not wait for meta data:
 				return false;
@@ -1339,15 +1339,15 @@ mw.EmbedPlayer.prototype = {
 		this.startOffset = parseFloat( this.startOffset );
 
 		// Set the source duration ( if provided in the element metaData or
-		// durationHint )
+		// data-durationhint )
 		if ( $( element ).attr( 'duration' ) ) {
 			_this.duration = $( element ).attr( 'duration' );
 		}
 
-		if ( !_this.duration && $( element ).attr( 'durationHint' ) ) {
-			_this.durationHint = $( element ).attr( 'durationHint' );
+		if ( !_this.duration && $( element ).attr( 'data-durationhint' ) ) {
+			_this.data-durationhint = $( element ).attr( 'data-durationhint' );
 			// Convert duration hint if needed:
-			_this.duration = mw.npt2seconds( _this.durationHint );
+			_this.duration = mw.npt2seconds( _this.data-durationhint );
 		}
 
 		// Make sure duration is a float:
@@ -2386,7 +2386,7 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		if( this.duration ) {
-			params.durationHint = parseFloat( this.duration );
+			params.data-durationhint = parseFloat( this.duration );
 		}
 		iframeUrl += $j.param( params );
 
@@ -2437,7 +2437,7 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		if( this.duration ) {
-			embedCode +='durationHint=&quot;' + parseFloat( this.duration ) + '&quot; ';
+			embedCode +='data-durationhint=&quot;' + parseFloat( this.duration ) + '&quot; ';
 		}
 
 		if( this.width || this.height ){

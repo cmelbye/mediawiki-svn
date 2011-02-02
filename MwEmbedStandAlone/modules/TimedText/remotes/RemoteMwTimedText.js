@@ -60,7 +60,7 @@ RemoteMwTimedText.prototype = {
 					'id': "timed-text-player-embed",
 					'poster': resource.poster,
 					'src':  resource.src,
-					'durationHint' : resource.duration,
+					'data-durationhint' : resource.duration,
 					'apiTitleKey' : resource.apiTitleKey
 				})
 				.css({

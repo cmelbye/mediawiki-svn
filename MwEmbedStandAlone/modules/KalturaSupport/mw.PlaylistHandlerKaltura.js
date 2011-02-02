@@ -144,9 +144,9 @@ mw.PlaylistHandlerKaltura.prototype = {
 	getClipSources: function( clipIndex, callback ){
 		var _this = this;
 		mw.getEntryIdSourcesFromApi( this.getKClient().getPartnerId(),  this.getClipList()[ clipIndex ].id, function( sources ){
-			// Add the durationHint to the sources: 
+			// Add the data-durationhint to the sources: 
 			for( var i in sources){
-				sources[i].durationHint = _this.getClipDuration( clipIndex );
+				sources[i].data-durationhint = _this.getClipDuration( clipIndex );
 			}
 			callback( sources );
 		});

@@ -452,7 +452,7 @@ function rewrite_for_OggHandler( vidIdList ) {
 
 		var re = new RegExp( /length(&quot;:?\s*)*([^,]*)/ );
 		var dv = parseFloat( re.exec( rewriteHTML )[2] );
-		duration_attr = ( dv )? 'durationHint="' + dv + '" ': '';
+		duration_attr = ( dv )? 'data-durationhint="' + dv + '" ': '';
 
 		var re = new RegExp( /offset(&quot;:?\s*)*([^,&]*)/ );
 		offset = re.exec( rewriteHTML );

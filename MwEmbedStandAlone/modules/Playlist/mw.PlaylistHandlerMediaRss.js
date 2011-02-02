@@ -63,7 +63,7 @@ mw.PlaylistHandlerMediaRss.prototype = {
 					clipSource.type = $( mediaContent ).attr('type' );
 				}
 				if( $( mediaContent ).attr( 'duration' ) ) {
-					clipSource.durationHint = $( mediaContent ).attr('duration' );
+					clipSource.data-durationhint = $( mediaContent ).attr('duration' );
 				}
 				clipSources.push( clipSource );
 			}

@@ -614,7 +614,7 @@ class kalturaIframe {
 			mw.setConfig( 'Kaltura.LoadScriptForVideoTags', false );	
 			
 			// Don't wait for player metada for size layout and duration ( won't be needed once
-			// we add durationHint and size attributes to the video tag
+			// we add data-durationhint and size attributes to the video tag
 			mw.setConfig( 'EmbedPlayer.WaitForMeta', false );
 
 			// Add Packaging Kaltura Player Data ( JSON Encoded )

@@ -43,7 +43,7 @@ mw.PlaylistHandlerKalturaRss.prototype = {
 					
 					mw.getEntryIdSourcesFromApi( kalturaEntryId , function( sources ){						
 						for( var i in sources ){
-							sources[i].durationHint = clipDuration;
+							sources[i].data-durationhint = clipDuration;
 						}
 						callback( sources );
 					});

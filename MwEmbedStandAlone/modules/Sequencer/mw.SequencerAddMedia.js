@@ -222,7 +222,7 @@ mw.SequencerAddMedia.prototype = {
 		// Set the default duration to the media duration:
 		if( resource.duration ){
 			// Set the media full duration
-			$smilRef.attr( 'durationHint', resource.duration );
+			$smilRef.attr( 'data-durationhint', resource.duration );
 			// By default the imported resource is its entire duration
 			$smilRef.attr( 'dur', resource.duration );
 		}

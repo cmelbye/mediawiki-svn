@@ -373,7 +373,7 @@ mw.MediaWikiRemoteSequencer.prototype = {
 								.attr({
 									'id' : 'embedSequencePlayer',
 									'poster' : imageinfo.thumburl,
-									'durationHint' : duration,
+									'data-durationhint' : duration,
 									'apiTitleKey' : page.title.replace('File:',''),
 								})
 								.addClass('kskin')

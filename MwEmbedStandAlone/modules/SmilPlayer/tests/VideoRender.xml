@@ -33,7 +33,7 @@
 		transIn="fromBlack"	
 		type="video/ogg" 	
 		fill="transition"
-		durationHint="15"
+		data-durationhint="15"
 		dur="9s"		
 	/>	
 	
@@ -43,7 +43,7 @@
     	 		
 		fill="transition" 
 		dur="10s"
-		durationHint="70"
+		data-durationhint="70"
 		type="video/ogg" 		
 	/>		
 		
