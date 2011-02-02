@@ -48,7 +48,7 @@ else {
 	define( 'Maps_COORDS_DM', 'dm' );
 	define( 'Maps_COORDS_DD', 'dd' );
 	
-	$egMapsScriptPath 	= $wgExtensionAssetsPath . '/Maps';
+	$egMapsScriptPath 	= ( $wgExtensionAssetsPath === false ? '/extensions' : $wgExtensionAssetsPath ) . '/Maps';
 	$egMapsDir 			= dirname( __FILE__ ) . '/';
 
 	$egMapsStyleVersion = $wgStyleVersion . '-' . Maps_VERSION;
