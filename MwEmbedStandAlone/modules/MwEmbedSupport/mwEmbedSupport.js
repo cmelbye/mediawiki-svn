@@ -282,7 +282,7 @@
 			return '0:00:00';
 		}
 		
-		var tm = mw.seconds2Measurements( sec )
+		var tm = mw.seconds2Measurements( sec );
 				
 		// Round the number of seconds to the required number of significant
 		// digits
@@ -295,7 +295,7 @@
 			tm.seconds = '0' +	tm.seconds;
 		}
 		if( tm.hours == 0 ){
-			hoursStr = ''
+			hoursStr = '';
 		} else {
 			if ( tm.minutes < 10 )
 				tm.minutes = '0' + tm.minutes;
@@ -303,7 +303,7 @@
 			hoursStr = tm.hours + ":"; 
 		}
 		return hoursStr + tm.minutes + ":" + tm.seconds;
-	}
+	};
 	
 	/**
 	 * Given seconds return array with 'days', 'hours', 'min', 'seconds'
@@ -313,12 +313,12 @@
 	 */
 	mw.seconds2Measurements = function ( sec ){
 		var tm = {};
-		tm.days = Math.floor( sec / ( 3600 * 24 ) )
+		tm.days = Math.floor( sec / ( 3600 * 24 ) );
 		tm.hours = Math.floor( sec / 3600 );
 		tm.minutes = Math.floor( ( sec / 60 ) % 60 );
 		tm.seconds = sec % 60;
 		return tm;
-	}
+	};
 	
 	/**
 	 * Take hh:mm:ss,ms or hh:mm:ss.ms input, return the number of seconds
@@ -354,7 +354,7 @@
 		sec = sec.replace( /,\s?/, '.' );
 		// Return seconds float
 		return parseInt( hour * 3600 ) + parseInt( min * 60 ) + parseFloat( sec );
-	}
+	};
 	
 	/**
 	 * addLoaderDialog small helper for displaying a loading dialog
@@ -371,7 +371,7 @@
 				.html() 
 		});
 		return $dialog;
-	}
+	};
 	
 	
 	
@@ -402,7 +402,7 @@
 		}, options );
 		
 		if( ! options.title || ! options.content ){
-			mw.log("Error: mwEmbed addDialog missing required options ( title, content ) ")
+			mw.log("Error: mwEmbed addDialog missing required options ( title, content ) ");
 			return ;
 		}
 		
@@ -422,7 +422,7 @@
 		// Build the uiRequest
 		var uiRequest = [ '$j.ui.dialog' ];
 		if( options.draggable ){
-			uiRequest.push( '$j.ui.draggable' )
+			uiRequest.push( '$j.ui.draggable' );
 		}
 		if( options.resizable ){
 			uiRequest.push( '$j.ui.resizable' );
@@ -434,7 +434,7 @@
 			buttons = { };
 			options.buttons[ buttonMsg ] = function() {
 				$j( this ).dialog( 'close' );
-			}
+			};
 		}				
 		
 		// Load the dialog resources
@@ -447,7 +447,7 @@
 			$j( '#mwTempLoaderDialog' ).dialog( options );
 		} );
 		return $j( '#mwTempLoaderDialog' );
-	}
+	};
 	
 	/**
 	 * Close the loader dialog created with addLoaderDialog
@@ -505,7 +505,7 @@
 		}
 		
 		return false;
-	}
+	};
 	
 	mw.isMobileHTML5 = function(){
 		// Check for a mobile html5 user agent:
@@ -528,7 +528,7 @@
 			return true;
 		}
 		return false;	
-	}
+	};
 	
 	mw.supportsFlash = function(){
 		// Check if the client does not have flash and has the video tag

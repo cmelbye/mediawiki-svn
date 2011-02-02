@@ -3,7 +3,7 @@
 */
 // Scope everything in "mw" ( keeps the global namespace clean )
 ( function( mw, $ ) {
-	debugger;
+	
 	// Merge in timed text related attributes:
 	mw.mergeConfig( 'EmbedPlayer.SourceAttributes', [
   	   'srclang',
