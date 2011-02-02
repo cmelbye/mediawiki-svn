@@ -11,10 +11,8 @@
  *
  */
 
-mw.includeAllModuleMessages();
-
 // Bind to mw ( for uncluttered global namespace )
-( function( $ ) {
+( function( mw, $ ) {
 
 	/**
 	 * Timed Text Object
@@ -23,6 +21,7 @@ mw.includeAllModuleMessages();
 	mw.TimedText = function( embedPlayer, options ) {
 		return this.init( embedPlayer, options);
 	};
+	
 	mw.TimedText.prototype = {
 
 		/**
@@ -162,7 +161,7 @@ mw.includeAllModuleMessages();
 				}) ).css({
 					// Get the text size scale then set it to control bar height + 10 px; 
 					'bottom': ( _this.embedPlayer.controlBuilder.getHeight() + textOffset ) + 'px'
-				})
+				});
 				
 			});
 			
@@ -225,7 +224,7 @@ mw.includeAllModuleMessages();
 					return $textButton;
 						
 				}
-			}
+			};
 		},
 		
 		bindTextButton: function($textButton){
@@ -644,7 +643,7 @@ mw.includeAllModuleMessages();
 			}
 
 			// Put in the "Make Transcript" link if config enabled and we have an api key
-			if( mw.getConfig( 'TimedText.showAddTextLink' ) && _this.embedPlayer.apiTitleKey ){
+			if( mw.getConfig( 'TimedText.ShowAddTextLink' ) && _this.embedPlayer.apiTitleKey ){
 				$menu.append(
 					_this.getLiAddText()
 				);
@@ -1625,13 +1624,6 @@ mw.includeAllModuleMessages();
 	 	}
 	 };
 
-
-} )( window.mw );
-
-/**
-* jQuery entry point for timedText interface:
-*/
-( function( $ ) {
 	/**
 	* jquery timedText binding.
 	* Calls mw.timedText on the given selector
@@ -1645,15 +1637,15 @@ mw.includeAllModuleMessages();
 		}
 		if( typeof options == 'undefined' )
 			options = {};
-
+	
 		$( this.selector ).each(function() {
 			var embedPlayer = $(this).get(0);
-
+	
 			// Setup timed text for the given player:
 			if( ! embedPlayer.timedText ) {
 				embedPlayer.timedText = new mw.TimedText( embedPlayer, options);
 			}
-
+	
 			// Show the timedText menu
 			if( action == 'showMenu' ) {
 				// Bind the menu to the target with autoShow = true
@@ -1661,5 +1653,6 @@ mw.includeAllModuleMessages();
 				embedPlayer.timedText.bindMenu( target, true );
 			}
 		} );
-	}
-} )( jQuery );
+	};
+	
+} )( window.mediaWiki, window.jQuery );

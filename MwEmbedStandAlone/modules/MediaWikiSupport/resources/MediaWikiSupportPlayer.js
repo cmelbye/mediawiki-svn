@@ -94,7 +94,7 @@
 				}
 
 				// Update the css for the player interface
-				$( embedPlayer ).css( 'height', _this.height);
+				$( embedPlayer ).css( 'height', embedPlayer.height);
 
 				callback();
 			});

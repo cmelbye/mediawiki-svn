@@ -108,7 +108,7 @@
 		mediaWiki.loader.using( dependencySet, function(){
 			setTimeout( function(){
 				mw.processEmbedPlayers( playerSelect, readyCallback );
-			}, 300);
+			}, 500);
 		});
 	};
 

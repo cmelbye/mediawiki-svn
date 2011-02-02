@@ -105,7 +105,7 @@ if( mwReqParam['embedplayer'] == 'yes' ){
 	// No subtitle editor ( cross domain issues ) 
 	mw.setConfig( 'MiroSubs.EnableUniversalSubsEditor', false );
 	// No subtile upload either ( for now ) 
-	mw.setConfig( 'TimedText.showAddTextLink', false );
+	mw.setConfig( 'TimedText.ShowAddTextLink', false );
 }
 
 

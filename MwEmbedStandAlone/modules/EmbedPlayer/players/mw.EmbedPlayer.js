@@ -147,10 +147,8 @@ mw.mergeConfig('EmbedPlayer.Attributes', {
 	// also see: http://wiki.xiph.org/ROE
 	"roe" : null,
 
-	// If serving an ogg_chop segment use this to offset the presentation
-	// time
-	// ( for some plugins that use ogg page time rather than presentation
-	// time )
+	// If serving an ogg_chop segment use this to offset the presentation time
+	// ( for some plugins that use ogg page time rather than presentation time )
 	"startOffset" : 0,
 
 	// Thumbnail (same as poster)
@@ -1345,9 +1343,9 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		if ( !_this.duration && $( element ).attr( 'data-durationhint' ) ) {
-			_this.data-durationhint = $( element ).attr( 'data-durationhint' );
+			_this['data-durationhint'] = $( element ).attr( 'data-durationhint' );
 			// Convert duration hint if needed:
-			_this.duration = mw.npt2seconds( _this.data-durationhint );
+			_this.duration = mw.npt2seconds( _this['data-durationhint'] );
 		}
 
 		// Make sure duration is a float:
@@ -2386,7 +2384,7 @@ mw.EmbedPlayer.prototype = {
 		}
 
 		if( this.duration ) {
-			params.data-durationhint = parseFloat( this.duration );
+			params['data-durationhint'] = parseFloat( this.duration );
 		}
 		iframeUrl += $j.param( params );
 

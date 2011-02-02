@@ -126,8 +126,7 @@
 			mw.setConfig( name, $.extend( mediaWiki.config.get( name ), value ) );
 		}		
 	};
-	
-	
+
 	/**
 	 * gM ( get Message ) in js2 conflated jQuery return type with string return type
 	 * Do a legacy check for input parameters and 'do the right thing' 
