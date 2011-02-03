@@ -5,7 +5,7 @@
  *
  *  You can turn off the redirect by setting the cookie "stopMobileRedirect=true"
  */
-if ( /(Android|iPhone|iPod|webOS|NetFront|Opera Mini|SEMC-Browser|PlayStation Portable|Nintendo Wii|BlackBerry)/
+if ( /(Mobile.*Safari|webOS|NetFront|Opera Mini|SEMC-Browser|PlayStation Portable|Nintendo Wii|BlackBerry)/
 	.test( navigator.userAgent ) )
 {
 	(function () {
@@ -19,7 +19,7 @@ if ( /(Android|iPhone|iPod|webOS|NetFront|Opera Mini|SEMC-Browser|PlayStation Po
 			if (wgPageName == mainPage) {
 				url += '::Home'; // Special case
 			} else {
-				url += encodeURIComponent(wgPageName).replace('%2F','/').replace('%3A',':');
+				url += encodeURI(wgPageName);
 			}
 			url += '?wasRedirected=true';
 			return url;
