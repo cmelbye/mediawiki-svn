@@ -783,7 +783,8 @@ class LanguageConverter {
 		$this->mTables = false;
 		if ( $fromcache ) {
 			wfProfileIn( __METHOD__ . '-cache' );
-			$this->mTables = $wgMemc->get( $this->mCacheKey );
+			//$this->mTables = $wgMemc->get( $this->mCacheKey );
+			$this->mTables = apc_fetch( $this->mCacheKey );
 			wfProfileOut( __METHOD__ . '-cache' );
 		}
 		if ( !$this->mTables

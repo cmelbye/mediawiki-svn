@@ -16,7 +16,10 @@ $wgProfiling = true;
  */
 function wfProfileIn( $functionname ) {
 	global $wgProfiler;
-	$wgProfiler->profileIn( $functionname );
+	# Live hack pending investigation why this code is even reached when $wgProfiler is not an object --catrope Nov 7 2010
+	if ( $wgProfiler ) {
+		$wgProfiler->profileIn( $functionname );
+	}
 }
 
 /**
@@ -25,7 +28,9 @@ function wfProfileIn( $functionname ) {
  */
 function wfProfileOut( $functionname = 'missing' ) {
 	global $wgProfiler;
-	$wgProfiler->profileOut( $functionname );
+	if ( $wgProfiler ) {
+		$wgProfiler->profileOut( $functionname );
+	}
 }
 
 /**
@@ -36,7 +41,9 @@ function wfProfileOut( $functionname = 'missing' ) {
  */
 function wfGetProfilingOutput( $start, $elapsed ) {
 	global $wgProfiler;
-	return $wgProfiler->getOutput( $start, $elapsed );
+	if ( $wgProfiler ) {
+		return $wgProfiler->getOutput( $start, $elapsed );
+	}
 }
 
 /**
@@ -44,7 +51,9 @@ function wfGetProfilingOutput( $start, $elapsed ) {
  */
 function wfProfileClose() {
 	global $wgProfiler;
-	$wgProfiler->close();
+	if ( $wgProfiler ) {
+		$wgProfiler->close();
+	}
 }
 
 if (!function_exists('memory_get_usage')) {
