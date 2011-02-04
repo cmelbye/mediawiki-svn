@@ -43,6 +43,10 @@ function doAllSchemaChanges() {
 			foreach ( $wikisBySection[$section] as $wiki ) {
 				$db->selectDB( $wiki );
 				upgradeWiki( $db );
+				while ( $db->getLag() > 10 ) {
+					echo "Waiting for $server to catch up to master.\n";
+					sleep( 60 );
+				}
 			}
 		}
 	}
@@ -65,23 +69,32 @@ function upgradeWiki( $db ) {
 
 	echo "$server $wiki 1.17wmf1-initial";
 
-	$db->sourceFile( dirname( __FILE__ ) .'/schema-changes-1.17wmf1-initial.sql' );
+	sourceUpgradeFile( $db, dirname( __FILE__ ) .'/schema-changes-1.17wmf1-initial.sql' );
 
 	if ( $wiki === 'commonswiki' ) {
 		echo " GlobalUsage";
-		$db->sourceFile( "$IP/extensions/GlobalUsage/patches/" .
+		sourceUpgradeFile( $db, dirname(__FILE__).'/../extensions/GlobalUsage/patches/' .
 			'patch-globalimagelinks_wiki_nsid_title.sql' );
 	}
 
 	if ( $wiki === 'mediawikiwiki' ) {
 		echo " CodeReview";
-		$db->sourceFile( "$IP/extensions/CodeReview/archives/code_signoffs.sql" );
+		sourceUpgradeFile( $db, dirname(_FILE__).'/../extensions/CodeReview/archives/' . 
+			'code_signoffs.sql' );
 	}
 
 	$db->insert( 'updatelog', 
 		array( 'ul_key' => '1.17wmf1-initial' ),
 		__FUNCTION__ );
 	echo " ok\n";
+}
+
+function sourceUpgradeFile( $db, $file ) {
+	if ( !file_exists( $file ) ) {
+		echo "File missing: $file\n";
+		exit( 1 );
+	}
+	$db->sourceFile( $file );
 }
 
 
