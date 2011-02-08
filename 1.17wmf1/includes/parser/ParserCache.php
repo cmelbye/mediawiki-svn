@@ -136,6 +136,11 @@ class ParserCache {
 
 		$value = $this->mMemc->get( $parserOutputKey );
 		if ( !$value ) {
+			wfDebug( "New format parser cache miss.\n" );
+			$parserOutputKey = $this->getParserOutputKey( $article, ParserOptions::legacyOptions() );
+			$value = $this->mMemc->get( $parserOutputKey );
+		}
+		if ( !$value ) {
 			wfDebug( "Parser cache miss.\n" );
 			wfIncrStats( "pcache_miss_absent" );
 			wfProfileOut( __METHOD__ );
