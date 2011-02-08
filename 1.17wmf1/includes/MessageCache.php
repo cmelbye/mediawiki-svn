@@ -314,7 +314,7 @@ class MessageCache {
 	 */
 	function loadFromDB( $code = false ) {
 		wfProfileIn( __METHOD__ );
-		global $wgMaxMsgCacheEntrySize, $wgContLanguageCode;
+		global $wgMaxMsgCacheEntrySize, $wgLanguageCode;
 		$dbr = wfGetDB( DB_SLAVE );
 		$cache = array();
 
