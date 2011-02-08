@@ -38,8 +38,6 @@ function efDonateSetup( &$parser ) {
   //load extension messages
   wfLoadExtensionMessages( 'DonateInterface' );
 
-  $parser->disableCache();
-
   $parser->setHook( 'donate', 'efDonateRender' );
      
 	 //process form
