@@ -72,11 +72,10 @@ class LinksUpdate {
 			# it truncated by DB, and then doesn't get
 			# matched when comparing existing vs current
 			# categories, causing bug 25254.
-			# Also. substr behaves weird when given "".
-			if ( $sortkey !== '' ) {
-				$sortkey = substr( $sortkey, 0, 255 );
-			}
+			$sortkey = substr( $sortkey, 0, 255 );
 		}
+		var_dump( $this->mCategories );
+		
 
 		$this->mRecursive = $recursive;
 
@@ -435,39 +434,20 @@ class LinksUpdate {
 	 * @private
 	 */
 	function getCategoryInsertions( $existing = array() ) {
-		global $wgContLang, $wgCategoryCollation;
+		global $wgContLang;
 		$diffs = array_diff_assoc( $this->mCategories, $existing );
 		$arr = array();
-		foreach ( $diffs as $name => $prefix ) {
+		foreach ( $diffs as $name => $sortkey ) {
 			$nt = Title::makeTitleSafe( NS_CATEGORY, $name );
 			$wgContLang->findVariantLink( $name, $nt, true );
-
-			if ( $this->mTitle->getNamespace() == NS_CATEGORY ) {
-				$type = 'subcat';
-			} elseif ( $this->mTitle->getNamespace() == NS_FILE ) {
-				$type = 'file';
-			} else {
-				$type = 'page';
-			}
-
-			# Treat custom sortkeys as a prefix, so that if multiple
-			# things are forced to sort as '*' or something, they'll
-			# sort properly in the category rather than in page_id
-			# order or such.
-			$sortkey = Collation::singleton()->getSortKey(
-				$this->mTitle->getCategorySortkey( $prefix ) );
-
 			$arr[] = array(
 				'cl_from'    => $this->mId,
 				'cl_to'      => $name,
 				'cl_sortkey' => $sortkey,
-				'cl_timestamp' => $this->mDb->timestamp(),
-				'cl_sortkey_prefix' => $prefix,
-				'cl_collation' => $wgCategoryCollation,
-				'cl_type' => $type,
+				'cl_timestamp' => $this->mDb->timestamp()
 			);
 		}
-		return $arr;
+		return $arr;		
 	}
 
 	/**
@@ -687,13 +667,14 @@ class LinksUpdate {
 	 * @private
 	 */
 	function getExistingCategories() {
-		$res = $this->mDb->select( 'categorylinks', array( 'cl_to', 'cl_sortkey_prefix' ),
+		$res = $this->mDb->select( 'categorylinks', array( 'cl_to', 'cl_sortkey' ),
 			array( 'cl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
-		foreach ( $res as $row ) {
-			$arr[$row->cl_to] = $row->cl_sortkey_prefix;
+		while ( $row = $this->mDb->fetchObject( $res ) ) {
+			$arr[$row->cl_to] = $row->cl_sortkey;
 		}
-		return $arr;
+		$this->mDb->freeResult( $res );
+		return $arr;		
 	}
 
 	/**
