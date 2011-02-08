@@ -674,33 +674,6 @@ function mwGetReqArgs() {
 	}
 	return rurl;
 }
-
-/**
- * Similar to php isset function checks if the variable exists. Does a safe
- * check of a descendant method or variable
- * 
- * @param {String}
- *            objectPath
- * @return {Boolean} true if objectPath exists false if objectPath is
- *         undefined
- */
-window.mwIsset = function( objectPath ) {
-	if ( !objectPath || typeof objectPath != 'string') {
-		return false;
-	}
-	var pathSet = objectPath.split( '.' );
-	var cur_path = '';
-
-	for ( var p = 0; p < pathSet.length; p++ ) {
-		cur_path = ( cur_path == '' ) ? cur_path + pathSet[p] : cur_path + '.' + pathSet[p];
-		eval( 'var ptest = typeof ( ' + cur_path + ' ); ' );
-		if ( ptest == 'undefined' ) {
-			return false;
-		}
-	}
-	return true;
-};
-
 /**
 * Load the mwEmbed library:
 *
@@ -728,6 +701,33 @@ function loadMwEmbed( classSet, callback ) {
 		});
 		return ;
 	}
+	
+	/**
+	 * Similar to php isset function checks if the variable exists. Does a safe
+	 * check of a descendant method or variable
+	 * 
+	 * @param {String}
+	 *            objectPath
+	 * @return {Boolean} true if objectPath exists false if objectPath is
+	 *         undefined
+	 */
+	var mwIsset = function( objectPath ) {
+		if ( !objectPath || typeof objectPath != 'string') {
+			return false;
+		}
+		var pathSet = objectPath.split( '.' );
+		var cur_path = '';
+
+		for ( var p = 0; p < pathSet.length; p++ ) {
+			cur_path = ( cur_path == '' ) ? cur_path + pathSet[p] : cur_path + '.' + pathSet[p];
+			eval( 'var ptest = typeof ( ' + cur_path + ' ); ' );
+			if ( ptest == 'undefined' ) {
+				return false;
+			}
+		}
+		return true;
+	};
+	
 	var doLoadMwEmbed = function(){
 		// Inject mwEmbed
 		var rurl = mwEmbedHostPath + '/ResourceLoader.php?class=';
@@ -748,8 +748,8 @@ function loadMwEmbed( classSet, callback ) {
 			classRequest += coma + 'mwEmbed,mw.style.mwCommon';
 			coma = ',';
 		}
-		// Force any ui components: 
-		if( !mwAlreadyRequestedUi){
+		// Force any ui components if jQuery ui version '1.7.1' ( mediaWiki 1.16 ) 
+		if( !mwAlreadyRequestedUi && jQuery.ui && jQuery.ui.version == '1.7.1' ){
 			classRequest += coma + mwForceUiComponents;
 			mwAlreadyRequestedUi = true;
 		}
@@ -757,8 +757,8 @@ function loadMwEmbed( classSet, callback ) {
 		// Add requested classSet to scriptLoader request
 		for( var i=0; i < classSet.length; i++ ){
 			var cName = classSet[i];
-			// don't load ui compoents force loaded above
-			if(! mwIsset( cName )  && cName.indexOf( '$j.ui') == -1 ){
+			// don't load ui components force loaded above
+			if(! mwIsset( cName ) ){
 				classRequest += ',' + cName;
 			}
 		}
