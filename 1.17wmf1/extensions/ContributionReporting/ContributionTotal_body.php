@@ -2,7 +2,7 @@
 
 class ContributionTotal extends SpecialPage {
 	function ContributionTotal() {
-		SpecialPage::SpecialPage( 'ContributionTotal' );
+		parent::__construct( 'ContributionTotal' );
 	}
 
 	function execute( $par ) {
