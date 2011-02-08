@@ -309,11 +309,12 @@ class TitleBlacklistEntry {
 	 * @return TRUE if the user can; otherwise FALSE
 	 */
 	public function matches( $title, $action ) {
+		global $wgUser;
 		wfSuppressWarnings();
 		$match = preg_match( "/^(?:{$this->mRegex})$/us" . ( isset( $this->mParams['casesensitive'] ) ? '' : 'i' ), $title->getFullText() );
 		wfRestoreWarnings();
 		if( $match ) {
-			if( isset( $this->mParams['autoconfirmed'] ) && $user->isAllowed( 'autoconfirmed' ) ) {
+			if( isset( $this->mParams['autoconfirmed'] ) && $wgUser->isAllowed( 'autoconfirmed' ) ) {
 				return true;
 			}
 			if( isset( $this->mParams['moveonly'] ) && $action != 'move' ) {
