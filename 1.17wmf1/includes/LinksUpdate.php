@@ -74,8 +74,6 @@ class LinksUpdate {
 			# categories, causing bug 25254.
 			$sortkey = substr( $sortkey, 0, 255 );
 		}
-		var_dump( $this->mCategories );
-		
 
 		$this->mRecursive = $recursive;
 
