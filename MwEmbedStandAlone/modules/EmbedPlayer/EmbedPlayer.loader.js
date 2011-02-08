@@ -2,14 +2,14 @@
 * EmbedPlayer loader
 */
 ( function( mw, $ ) {
+	
 	/**
 	* Add a DOM ready check for player tags
 	*
-	* We use SetupInterface so other functions that depend on the interface can 
-	* wait for the IntefacesReady event
+	* We use 'SetupInterface' binding so other code that depend on the video interface can 
+	* work after the 'IntefacesReady' event
 	*/
 	$( mw ).bind( 'SetupInterface', function( event, callback ){
-		
 		// Allow modules to extend EmbedPlayerRewritePlayerTags rewrites as well: 
 		var doModuleTagRewrites = function(){			
 			$( mw ).triggerQueueCallback( 'EmbedPlayerRewritePlayerTags', callback );
@@ -37,7 +37,7 @@
 		} else {
 			var playerSelect = this;
 		}
-		
+		mw.log( 'EmbedPlayer::rewrite: ' + playerSelect );
 		// Hide videonojs class
 		$( '.videonojs' ).hide();
 
@@ -106,9 +106,11 @@
 		});
 		// Do the request and process the playerElements with updated dependency set
 		mediaWiki.loader.using( dependencySet, function(){
-			setTimeout( function(){
-				mw.processEmbedPlayers( playerSelect, readyCallback );
-			}, 500);
+			//alert( mw.processEmbedPlayers );
+			mw.processEmbedPlayers( playerSelect, readyCallback );
+		//	},500);
+		}, function(){
+			throw new Error( 'Error loading EmbedPlayer dependency set' );
 		});
 	};
 

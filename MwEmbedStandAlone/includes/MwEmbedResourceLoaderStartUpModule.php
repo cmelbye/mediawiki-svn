@@ -38,7 +38,7 @@ class MwEmbedResourceLoaderStartUpModule extends ResourceLoaderStartUpModule {
 		return array( 'jquery', 'mediawiki', 'jquery.triggerQueueCallback', 'jquery.mwEmbedUtil', 'mwEmbedStartup' );
 	}
 	
-	public function getScript( ResourceLoaderContext $context ) {
+	public function getScript( ResourceLoaderContext $context ) {		
 		$out = parent::getScript( $context );
 		// Append mediaWiki.loader.go() for stand alone context:		
 		$out.=  Xml::encodeJsCall( 'document.write', array( Html::inlineScript( "mediaWiki.loader.go();" ) ) );

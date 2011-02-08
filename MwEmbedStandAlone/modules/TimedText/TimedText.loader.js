@@ -4,12 +4,6 @@
 // Scope everything in "mw" ( keeps the global namespace clean )
 ( function( mw, $ ) {
 	
-	// Merge in timed text related attributes:
-	mw.mergeConfig( 'EmbedPlayer.SourceAttributes', [
-  	   'srclang',
-	   'category'
-	]);
-	
 	/**
 	* Check if the video tags in the page support timed text
 	* this way we can add our timed text libraries to the player

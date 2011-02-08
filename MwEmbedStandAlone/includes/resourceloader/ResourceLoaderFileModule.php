@@ -206,8 +206,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @return String: JavaScript code for $context
 	 */
 	public function getScript( ResourceLoaderContext $context ) {
-		global $wgServer;
-		
+		global $wgServer; 
 		$files = array_merge(
 			$this->scripts,
 			self::tryForKey( $this->languageScripts, $context->getLanguage() ),
@@ -216,12 +215,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		if ( $context->getDebug() ) {
 			$files = array_merge( $files, $this->debugScripts );
 			if ( $this->debugRaw ) {
-				$script = '';
+				$script = '';				
 				foreach ( $files as $file ) {
-					$path = $wgServer . $this->getRemotePath( $file );					
-					$script .= "\n\tmediaWiki.loader.load('" .Xml::encodeJsVar( $path ) . "', 'text/javascript', function(){";
-					$script .= "\n\t\tmediaWiki.loader.state(";
-					$script .= "});";
+					$path = $this->getRemotePath( $file );
+					$script .= "\n\t" . Xml::encodeJsCall( 'mediaWiki.loader.load', array( $path ) );
 				}
 				return $script;
 			}
@@ -264,7 +261,17 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		}
 		// Collect referenced files
 		$this->localFileRefs = array_unique( $this->localFileRefs );
-		
+		// If the list has been modified since last time we cached it, update the cache
+		if ( $this->localFileRefs !== $this->getFileDependencies( $context->getSkin() ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->replace( 'module_deps',
+				array( array( 'md_module', 'md_skin' ) ), array(
+					'md_module' => $this->getName(),
+					'md_skin' => $context->getSkin(),
+					'md_deps' => FormatJson::encode( $this->localFileRefs ),
+				)
+			);
+		}
 		return $styles;
 	}
 
@@ -310,12 +317,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @see ResourceLoaderModule::getFileDependencies
 	 */
 	public function getModifiedTime( ResourceLoaderContext $context ) {
-		
 		if ( isset( $this->modifiedTime[$context->getHash()] ) ) {
 			return $this->modifiedTime[$context->getHash()];
 		}
 		wfProfileIn( __METHOD__ );
-
 		
 		$files = array();
 		
@@ -332,6 +337,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		foreach ( $skinFiles as $styleFiles ) {
 			$files = array_merge( $files, $styleFiles );
 		}
+		
 		// Final merge, this should result in a master list of dependent files
 		$files = array_merge(
 			$files,
@@ -341,10 +347,10 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			self::tryForKey( $this->skinScripts, $context->getSkin(), 'default' ),
 			$this->loaderScripts
 		);
-
 		$files = array_map( array( $this, 'getLocalPath' ), $files );
 		// File deps need to be treated separately because they're already prefixed
 		$files = array_merge( $files, $this->getFileDependencies( $context->getSkin() ) );
+		
 		// If a module is nothing but a list of dependencies, we need to avoid 
 		// giving max() an empty array
 		if ( count( $files ) === 0 ) {
@@ -478,9 +484,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @param $path String: File path of script file to read
 	 * @return String: CSS data in script file
 	 */
-	protected function readStyleFile( $path, $flip ) {
-		global $wgServer;	
-		$localPath = $this->getLocalPath( $path ); 
+	protected function readStyleFile( $path, $flip ) {	
+		$localPath = $this->getLocalPath( $path );
 		$style = file_get_contents( $localPath );
 		if ( $style === false ) {
 			throw new MWException( __METHOD__.": style file not found: \"$localPath\"" );
@@ -494,7 +499,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			$dirname = '';
 		}
 		$dir = $this->getLocalPath( $dirname );
-		$remoteDir = $wgServer . $this->getRemotePath( $dirname );
+		$remoteDir = $this->getRemotePath( $dirname );
 		// Get and register local file references
 		$this->localFileRefs = array_merge( 
 			$this->localFileRefs, 

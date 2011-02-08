@@ -102,7 +102,7 @@ class MwEmbedResourceManager {
 	// Add the mwEmbed module to the page: 
 	public static function addMwEmbedModule(  &$out, &$sk ){		
 		// Add the mwEmbed module to the output
-		$out->addModules( 'mwEmbed' );
+		$out->addModules( 'MwEmbedSupport' );
 		return true;	
 	}
 }

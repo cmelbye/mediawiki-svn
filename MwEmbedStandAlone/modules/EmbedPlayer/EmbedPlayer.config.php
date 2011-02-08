@@ -20,7 +20,7 @@
 			'EmbedPlayer.LibraryPage'=> 'http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library',
 
 	
-			// What tags will be re-written to video player by default
+			// jQuery selector of tags to be re-written by embedPlayer
 			// Set to empty string or null to avoid automatic video tag rewrites to embedPlayer
 			"EmbedPlayer.RewriteTags" => "video,audio,playlist",
 	

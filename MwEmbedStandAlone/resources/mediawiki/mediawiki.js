@@ -124,7 +124,7 @@ window.mediaWiki = new ( function( $ ) {
 	/* Constants */
 
 	// This will not change until we are 100% ready to turn off legacy globals
-	var LEGACY_GLOBALS = true;
+	var LEGACY_GLOBALS = false;
 
 	/* Private Members */
 
@@ -195,7 +195,7 @@ window.mediaWiki = new ( function( $ ) {
 	 * @return boolean Existence of key(s)
 	 */
 	Map.prototype.exists = function( selection ) {
-		if ( typeof keys === 'object' ) {
+		if ( typeof selection === 'object' ) {
 			for ( var s = 0; s < selection.length; s++ ) {
 				if ( !( selection[s] in this.values ) ) {
 					return false;
@@ -239,105 +239,17 @@ window.mediaWiki = new ( function( $ ) {
 			// Return <key> if key does not exist
 			return '<' + this.key + '>';
 		}
-		var text = this.map.get( this.key );	
-		
-		/**
-		 * @@FIXME we should not have the .toString function return non-strings ( jQuery object ) 
-		 *  maybe we have a jQuery.mw.msg  ( ie jQuery wrapper for message dom object creation ?  )
-		 * 
-		 * @@FIXME Subcomponent conditionals and features should not be managed or called from the core. 
-		 *   Instead the core should be extended by subcomponents
-		 *   
-		 * 
-		 * The basic principal of dynamic interface actions being separated from message content
-		 * is something we should preserve ie:
-		 * 
-		 * 'myMsg' : 'Thanks for the fish, [$1 close dialog]'
-		 * 
-		 *	$target.append( mw.Msg('MyMsg', function(){ $dialog.close() } ) );
-		 */
-		var useSwapIndex = false;
+		var text = this.map.get( this.key );
 		var parameters = this.parameters;
-		
-		/** 
-		 * If parsing is enabled pre-swap the links from [$1 link text] into format: <a id="mw_message_swap_index_{inx}>link text</a>
-		 * @@NOTE: This should be moved into the parser but doing that properly requires that 
-		 * the parser handles substitutions not the message.toString() function
-		 */
-
-		// Swap [$1 link text] replacements
-		// @@FIXME parsing links should be integrated with the parser
-		if ( this.format === 'parse' && 'language' in mediaWiki ) {
-			text = text.replace( /\[([^\s]+[\s]+[^\]]*)\]/g, function( string, match ) {
-		    	// Get the mediaWiki link parts: 
-		    	var mwLinkParts = match.split(/ /);			
-		    	// Get the link pars:
-		    	var link = mwLinkParts[0];			      
-		    	mwLinkParts.shift();
-		    	var linkText = mwLinkParts.join(' ');
-		    	
-		    	var indexIdAttribute = '';
-		    	// Check if the link is a swap index or just a string
-		    	if( link[0] == '$' ){
-		    		var index = parseInt( link.replace(/\$/,''), 10 ) -1;		    		
-			    	// If the parameter is a text string directly replace it 
-			    	if( typeof parameters[ index ] == 'string' ){
-			    		link =  parameters[ index ];
-			    	} else {
-			    		indexIdAttribute = ' id="mw_message_swap_index_' + index + '" ';
-			    		useSwapIndex = true;
-			    		link = '#';
-			    	}
-		    	}
-				return '<a href="' + link + '" ' + indexIdAttribute + '>' + linkText + '</a>';
-			});
-		}
-		
-		// Swap $1 replacements:
 		text = text.replace( /\$(\d+)/g, function( string, match ) {
 			var index = parseInt( match, 10 ) - 1;
-			// Check the parameters type
-			if( parameters[index] && ( typeof parameters[index] == 'function' || parameters[index] instanceof jQuery ) ){
-				useSwapIndex = true;
-				return '<span id="mw_message_swap_index_' + index +'"></span>';
-			} else {
-				// directly swap in the index or a missing index indicator ( $1{int}
-				return ( index in parameters ) ? parameters[index] : '$' + match;
-			}
+			return index in parameters ? parameters[index] : '$' + match;
 		} );
-		
-
-		if ( this.format === 'parse' && 'language' in mediaWiki ) {			
-			// Create a parser object with default set of options:
-			var parserObject = new mediaWiki.language.parser( text, {} );
-						
-			// Get the html representation of wikitext ( all that messages deal with right now ) 
-			text = parserObject.getHTML();			
-			
-		} else if ( this.format === 'plain' ){
-			// don't transform
-		} 
-
-		// If we use a dom swap id replace it here and return a binded jQuery object:
-		if( useSwapIndex ) {			
-			// Add bindings to swap index and return binded html jQuery objects
-			var $text =  $('<span />').html( text );
-			for( var index=0; index < parameters.length; index++ ) {
-				if( typeof parameters[index] == 'function' ){
-					$text.find( '#mw_message_swap_index_' + index ).click( parameters[index] );
-				}
-				if( parameters[index] instanceof jQuery ){			
-					// We get the text for the link from the message text, while 
-					// the interface actions of the link are handled by the jQuery object
-					var $swapIndex = $text.find( '#mw_message_swap_index_' + index );				
-					parameters[ index ].text( $swapIndex.text() );
-					$swapIndex.replaceWith( parameters[ index ] );
-				}
-			}
-			// return the binded element
-			return $text;
+		/* This should be fixed up when we have a parser
+		if ( this.format === 'parse' && 'language' in mediaWiki ) {
+			text = mediaWiki.language.parse( text );
 		}
-		
+		*/
 		return text;
 	};
 
@@ -395,7 +307,7 @@ window.mediaWiki = new ( function( $ ) {
 		 */
 		function generateId() {
 			var id = '';
-			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 			for ( var i = 0, r; i < 32; i++ ) {
 				r = Math.floor( Math.random() * seed.length );
 				id += seed.substring( r, r + 1 );
@@ -507,14 +419,14 @@ window.mediaWiki = new ( function( $ ) {
 	 *
 	 * @param key string Key of message to get
 	 * @param parameters mixed First argument in a list of variadic arguments, each a parameter for $
-	 * replacement. parameters can be an indexed array of replacements. 
+	 * replacement
 	 */
 	this.message = function( key, parameters ) {
 		// Support variadic arguments
-		if ( typeof parameters !== 'undefined' && ! $.isArray( parameters ) ) {
+		if ( typeof parameters !== 'undefined' ) {
 			parameters = $.makeArray( arguments );
 			parameters.shift();
-		} else if( ! $.isArray( parameters ) ){
+		} else {
 			parameters = [];
 		}
 		return new Message( mediaWiki.messages, key, parameters );
@@ -531,14 +443,6 @@ window.mediaWiki = new ( function( $ ) {
 		return mediaWiki.message.apply( mediaWiki.message, arguments ).toString();
 	};
 
-	/**
-	 * Gets a message without transforming it similar to wfMsgNoTrans
-	 */	
-	this.msgNoTrans = function( key ){
-		// @@FIXME I know we should use Message.plain() somehow but the above code is not clear at all. 
-		return mediaWiki.messages.get( key );			
-	};
-	
 	/**
 	 * Client-side module loader which integrates with the MediaWiki ResourceLoader
 	 */
@@ -578,19 +482,19 @@ window.mediaWiki = new ( function( $ ) {
 		var suspended = true;
 		// Flag inidicating that document is ready 
 		var documentReady = false;
-		
 		// Marker element for adding dynamic styles
 		var $marker = null ; // lazy init
 		var getMarker = function(){
 			if( $marker )
 				return $marker;
-			$marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' )
+			$marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' );
 			if( ! $marker.length ){
 				$marker = $( '<meta />').attr( 'name', 'ResourceLoaderDynamicStyles' )
 						  .appendTo( 'head' );
 			}
 			return $marker;
 		};
+
 		/* Private Methods */
 
 		function compare( a, b ) {
@@ -754,7 +658,7 @@ window.mediaWiki = new ( function( $ ) {
 			} else if ( typeof registry[module].style === 'object'
 				&& !( registry[module].style instanceof Array ) )
 			{
-				for ( var media in registry[module].style ) {					
+				for ( var media in registry[module].style ) {
 					getMarker().before( mediaWiki.html.element( 'style',
 						{ type: 'text/css', media: media },
 						new mediaWiki.html.Cdata( registry[module].style[media] )
@@ -867,23 +771,11 @@ window.mediaWiki = new ( function( $ ) {
 		/**
 		 * Appends a set of scripts to the dom
 		 * @param url {Mixed} Array or single url string
+		 * @param callback {function} function called once scripts are loaded
 		 */
-		function appendScripts( url, callback, error ){
+		function appendScript( url, callback ){
 			if( ! url )
 				return ;
-			if( $.isArray( url ) ){
-				var requestCount = 0;
-				$.each( url, function(inx, singleUrl ){
-					requestCount++;
-					appendScripts( singleUrl, function(){
-						requestCount--;
-						if( requestCount == 0 && typeof callback == 'function')
-							callback();
-					});
-				});
-				return ;
-			}
-			
 			// Load asynchronously after document ready
 			if ( documentReady ) {
 				// Load without jQuery to avoid $.globalEval issue				
@@ -967,17 +859,12 @@ window.mediaWiki = new ( function( $ ) {
 				// again, all before we've cleared it causing each request to
 				// include modules which are already loaded
 				batch = [];
-				// Asynchronously append a script tag to the end of the body
-				function getRequestUrs() {
-					var urls = [];
-					for ( var r = 0; r < requests.length; r++ ) {
-						requests[r] = sortQuery( requests[r] );
-						// Build out the HTML
-						urls.push( mediaWiki.config.get( 'wgLoadScript' ) + '?' + $.param( requests[r] ) );
-					}
-					return urls;
+				// Append a script tag to the end of the body
+				for ( var r = 0; r < requests.length; r++ ) {
+					requests[r] = sortQuery( requests[r] );
+					// Build out the HTML
+					appendScript( mediaWiki.config.get( 'wgLoadScript' ) + '?' + $.param( requests[r] ) );
 				}
-				appendScripts( getRequestUrs() );
 			}
 		};
 
@@ -1104,7 +991,7 @@ window.mediaWiki = new ( function( $ ) {
 			// If any dependencies have errors execute error immediately
 			else if ( filter( ['error'], dependencies ).length ) {
 				if ( typeof error === 'function' ) {
-					error();
+					error( "Error loading: " + filter( ['error'], dependencies ).join(',') );
 				}
 			}
 			// Since some dependencies are not yet ready, queue up a request
@@ -1141,7 +1028,7 @@ window.mediaWiki = new ( function( $ ) {
 							.attr( 'href', modules ) );
 						return true;
 					} else if ( type === 'text/javascript' || typeof type === 'undefined' ) {
-						appendScripts( modules );
+						appendScript( modules );
 						return true;
 					}
 					// Unknown type
@@ -1271,7 +1158,7 @@ window.mediaWiki = new ( function( $ ) {
 		 */
 		this.element = function( name, attrs, contents ) {
 			var s = '<' + name;
-			for ( attrName in attrs ) {
+			for ( var attrName in attrs ) {
 				s += ' ' + attrName + '="' + this.escape( attrs[attrName] ) + '"';
 			}
 			if ( typeof contents == 'undefined' || contents === null ) {
@@ -1281,7 +1168,7 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Regular open tag
 			s += '>';
-			if (typeof contents === 'string') {
+			if ( typeof contents === 'string') {
 				// Escaped
 				s += this.escape( contents );
 			} else if ( contents instanceof this.Raw ) {

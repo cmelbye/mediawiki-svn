@@ -20,20 +20,41 @@ class MwEmbedResourceLoaderFileModule extends ResourceLoaderFileModule {
 		$deps = mweGetFromFileCache( implode( 
 			array( 'module_deps', 'md_deps', 'md_module_' . $this->getName(), 'md_skin_' . $skin ) 
 		) );
-		/*
-		$dbr = wfGetDB( DB_SLAVE );
-		$deps = $dbr->selectField( 'module_deps', 'md_deps', array(
-				'md_module' => $this->getName(),
-				'md_skin' => $skin,
-			), __METHOD__
-		);
-		*/
 		if ( !is_null( $deps ) ) {
 			$this->fileDeps[$skin] = (array) FormatJson::decode( $deps, true );
 		} else {
 			$this->fileDeps[$skin] = array();
 		}
 		return $this->fileDeps[$skin];
+	}
+	public function getRemotePath($file){
+		global $wgServer;
+		$path = parent:: getRemotePath( $file );
+		return $wgServer . $path;
+	}
+	
+/**
+	 * Gets all styles for a given context concatenated together.
+	 * 
+	 * @param $context ResourceLoaderContext: Context in which to generate styles
+	 * @return String: CSS code for $context
+	 */
+	public function getStyles( ResourceLoaderContext $context ) {
+		// Merge general styles and skin specific styles, retaining media type collation
+		$styles = $this->readStyleFiles( $this->styles, $this->getFlip( $context ) );
+		$skinStyles = $this->readStyleFiles( 
+			self::tryForKey( $this->skinStyles, $context->getSkin(), 'default' ),
+			$this->getFlip( $context )
+		);
+		
+		foreach ( $skinStyles as $media => $style ) {
+			if ( isset( $styles[$media] ) ) {
+				$styles[$media] .= $style;
+			} else {
+				$styles[$media] = $style;
+			}
+		}		
+		return $styles;
 	}
 	
 	/**

@@ -14,6 +14,12 @@
 // Bind to mw ( for uncluttered global namespace )
 ( function( mw, $ ) {
 
+	// Merge in timed text related attributes:
+	mw.mergeConfig( 'EmbedPlayer.SourceAttributes', [
+  	   'srclang',
+	   'category'
+	]);
+	
 	/**
 	 * Timed Text Object
 	 * @param embedPlayer Host player for timedText interfaces

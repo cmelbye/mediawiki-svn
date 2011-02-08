@@ -64,6 +64,8 @@ $wgDefaultSkin = 'redmond';
 // If the resource loader is in 'debug mode'
 $wgResourceLoaderDebug = false;
 
+// If the resource loader should minify vertical space
+$wgResourceLoaderMinifyJSVerticalSpace = false;
 
 /**
  * Maximum time in seconds to cache resources served by the resource loader

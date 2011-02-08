@@ -179,8 +179,8 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			$out .= "if ( mwIsCompatible() ) {\n" . 
 				"\t" . Xml::encodeJsCall( 'document.write', array( $scriptTag ) ) . 
 				"}\n" . 
-				"delete mwIsCompatible;";
-		}	
+				"delete mwIsCompatible;";			
+		}
 		return $out;
 	}
 	public function getStartupModuleList(){

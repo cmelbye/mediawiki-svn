@@ -62,7 +62,7 @@ class ResourceLoader {
 		// Get file dependency information
 		$res = $dbr->select( 'module_deps', array( 'md_module', 'md_deps' ), array(
 				'md_module' => $modules,
-				'md_skin' => $skin,
+				'md_skin' => $skin
 			), __METHOD__
 		);
 
@@ -95,7 +95,8 @@ class ResourceLoader {
 				), __METHOD__
 			);
 			foreach ( $res as $row ) {
-				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, $row->mr_timestamp );
+				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, 
+					wfTimestamp( TS_UNIX, $row->mr_timestamp ) );
 				unset( $modulesWithoutMessages[$row->mr_resource] );
 			}
 		} 
@@ -108,7 +109,7 @@ class ResourceLoader {
 	 * Runs JavaScript or CSS data through a filter, caching the filtered result for future calls.
 	 * 
 	 * Available filters are:
-	 *  - minify-js \see JSMin::minify
+	 *  - minify-js \see JavaScriptDistiller::stripWhiteSpace
 	 *  - minify-css \see CSSMin::minify
 	 * 
 	 * If $data is empty, only contains whitespace or the filter was unknown, 
@@ -119,6 +120,8 @@ class ResourceLoader {
 	 * @return String: Filtered data, or a comment containing an error message
 	 */
 	protected function filter( $filter, $data ) {
+		global $wgResourceLoaderMinifyJSVerticalSpace;
+
 		wfProfileIn( __METHOD__ );
 
 		// For empty/whitespace-only data or for unknown filters, don't perform 
@@ -144,7 +147,9 @@ class ResourceLoader {
 		try {
 			switch ( $filter ) {
 				case 'minify-js':
-					$result = JSMin::minify( $data );
+					$result = JavaScriptDistiller::stripWhiteSpace(
+						$data, $wgResourceLoaderMinifyJSVerticalSpace
+					);
 					break;
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
@@ -191,12 +196,12 @@ class ResourceLoader {
 	 *   multiple-registration calling style.
 	 * @throws MWException: If a duplicate module registration is attempted
 	 * @throws MWException: If something other than a ResourceLoaderModule is being registered
-	 * @throws MWException: If an empty module name is being registered
 	 * @return Boolean: False if there were any errors, in which case one or more modules were not
 	 *     registered
 	 */
 	public function register( $name, $info = null ) {
 		wfProfileIn( __METHOD__ );
+
 		// Allow multiple modules to be registered in one call
 		if ( is_array( $name ) ) {
 			foreach ( $name as $key => $value ) {
@@ -211,14 +216,6 @@ class ResourceLoader {
 			throw new MWException(
 				'ResourceLoader duplicate registration error. ' . 
 				'Another module has already been registered as ' . $name
-			);
-		}
-		
-		// Check empty names register calls
-		if ( trim( $name ) == '' ) {
-			// Trying to register module with empty name
-			throw new MWException(
-				'ResourceLoader empty module name registration error'
 			);
 		}
 
@@ -257,7 +254,7 @@ class ResourceLoader {
 	 * @param $name String: Module name
 	 * @return Mixed: ResourceLoaderModule if module has been registered, null otherwise
 	 */
-	public function getModule( $name ) {		
+	public function getModule( $name ) {
 		if ( !isset( $this->modules[$name] ) ) {
 			if ( !isset( $this->moduleInfos[$name] ) ) {
 				// No such module
@@ -273,7 +270,7 @@ class ResourceLoader {
 					$class = 'ResourceLoaderFileModule';
 				} else {
 					$class = $info['class'];
-				}				
+				}
 				$object = new $class( $info );
 			}
 			$object->setName( $name );
@@ -290,7 +287,6 @@ class ResourceLoader {
 	 */
 	public function respond( ResourceLoaderContext $context ) {
 		global $wgResourceLoaderMaxage, $wgCacheEpoch;
-		
 		// Buffer output to catch warnings. Normally we'd use ob_clean() on the
 		// top-level output buffer to clear warnings, but that breaks when ob_gzhandler
 		// is used: ob_clean() will clear the GZIP header in that case and it won't come
@@ -334,16 +330,18 @@ class ResourceLoader {
 			// Add exception to the output as a comment
 			$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 		}
+
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
 
+		$private = false;
 		// To send Last-Modified and support If-Modified-Since, we need to detect 
 		// the last modified time
 		$mtime = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $modules as $module ) {
 			try {
-				// Bypass squid cache if the request includes any private modules
+				// Bypass Squid and other shared caches if the request includes any private modules
 				if ( $module->getGroup() === 'private' ) {
-					$smaxage = 0;
+					$private = true;
 				}
 				// Calculate maximum modified time
 				$mtime = max( $mtime, $module->getModifiedTime( $context ) );
@@ -352,6 +350,7 @@ class ResourceLoader {
 				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 			}
 		}
+
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
 
 		if ( $context->getOnly() === 'styles' ) {
@@ -361,10 +360,18 @@ class ResourceLoader {
 		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $mtime ) );
 		if ( $context->getDebug() ) {
-			header( 'Cache-Control: must-revalidate' );
+			// Do not cache debug responses
+			header( 'Cache-Control: private, no-cache, must-revalidate' );
+			header( 'Pragma: no-cache' );
 		} else {
-			header( "Cache-Control: public, max-age=$maxage, s-maxage=$smaxage" );
-			header( 'Expires: ' . wfTimestamp( TS_RFC2822, min( $maxage, $smaxage ) + time() ) );
+			if ( $private ) {
+				header( "Cache-Control: private, max-age=$maxage" );
+				$exp = $maxage;
+			} else {
+				header( "Cache-Control: public, max-age=$maxage, s-maxage=$smaxage" );
+				$exp = min( $maxage, $smaxage );
+			}
+			header( 'Expires: ' . wfTimestamp( TS_RFC2822, $exp + time() ) );
 		}
 
 		// If there's an If-Modified-Since header, respond with a 304 appropriately
@@ -397,9 +404,10 @@ class ResourceLoader {
 				return;
 			}
 		}
-
+		
 		// Generate a response
 		$response = $this->makeModuleResponse( $context, $modules, $missing );
+		
 		// Prepend comments indicating exceptions
 		$response = $exceptions . $response;
 
