@@ -16,7 +16,7 @@ mw.P2PNextTransport = {
 		
 		// Add the P2PNextTransport player to available player types:
 		$j( mw ).bind( 'EmbedPlayerManagerReady', function( event ) {	
-			$.each( _this.getTransportObjects(), function(na, transportObject ){
+			$j.each( _this.getTransportObjects(), function(na, transportObject ){
 				
 				// Add the transportObject playerType
 				mw.EmbedTypes.getMediaPlayers().defaultPlayers[ transportObject.mime ] = [ transportObject.playerLib ]; 

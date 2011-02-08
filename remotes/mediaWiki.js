@@ -4,7 +4,7 @@
  */
 var urlparts = getRemoteEmbedPath();
 var mwEmbedHostPath = urlparts[0];
-var mwRemoteVersion = 'r190';
+var mwRemoteVersion = 'r191';
 
 // Log the mwRemote version makes it easy to debug cache issues
 if( window.console ){
@@ -344,7 +344,7 @@ function mwSetPageToLoading(){
 	return oldBodyHTML;
 }
 function mwAddCommonStyleSheet(){
-	importStylesheetURI( mwEmbedHostPath + '/skins/common/mw.style.mwCommon.css?' + mwGetReqArgs() );
+	importStylesheetURI( mwEmbedHostPath + '/skins/common/mw.style.mwCommon.css?' + mwGetReqArgs() );	
 	// Set the style to defined ( so that when mw won't load the style sheet again)
 	if( !mw.style ){
 		mw.style = { 'mwCommon' : true };
@@ -360,6 +360,7 @@ function mwLoadPlayer( callback ){
 	// The jsPlayerRequest includes both javascript and style sheets for the embedPlayer
 	var jsPlayerRequest = [
 		'$j.ui',
+		'mw.style.ui_redmond', 
 		'$j.widget',
 		'$j.ui.mouse',
 
@@ -451,7 +452,12 @@ function rewrite_for_OggHandler( vidIdList ) {
 		}else{
 			//mw.log(" rewrite: " + rewriteHTML + "\n of type: " + typeof rewriteHTML);
 		}
+
 		var re = new RegExp( /videoUrl(&quot;:?\s*)*([^&]*)/ );
+		var srcParts =  re.exec( rewriteHTML );
+		if(!srcParts){
+			return ;
+		}
 		src = re.exec( rewriteHTML )[2];
 
 		var timeHash = '';
@@ -678,7 +684,7 @@ function mwGetReqArgs() {
  * @return {Boolean} true if objectPath exists false if objectPath is
  *         undefined
  */
-mwIsset = function( objectPath ) {
+window.mwIsset = function( objectPath ) {
 	if ( !objectPath || typeof objectPath != 'string') {
 		return false;
 	}

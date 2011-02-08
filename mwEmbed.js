@@ -2146,7 +2146,7 @@ mw.absoluteUrl = function( src, contextUrl ) {
 						// Special Hack for conditional jquery ui inclusion (
 						// once
 						// Usability extension
-						// registers the jquery.ui skin in mw.style
+						// registers the jquery.ui skin in mw.style						
 						if( mw.hasJQueryUiCss() ){
 							mw.style[ 'ui_' + mw.getConfig( 'jQueryUISkin' ) ] = true;
 						}
