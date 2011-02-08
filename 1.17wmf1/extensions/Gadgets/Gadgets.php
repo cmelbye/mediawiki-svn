@@ -17,10 +17,6 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
-if ( version_compare( $wgVersion, '1.17alpha', '<' ) ) {
-	die( "This version of Extension:Gadgets requires MediaWiki 1.17+\n" );
-}
-
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'Gadgets',
