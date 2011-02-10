@@ -43,20 +43,13 @@ while (false !== ($entry = $d->read())) {
 // For list of configuration variables see the .conf file in any given mwEmbed module
 $wgMwEmbedModuleConfig = array();
 
+// A special variable to note the stand alone resource loader mode: 
+$wgStandAloneResourceLoaderMode = true;
+
 /**
- * Client-side resource modules. Extensions should add their module definitions
- * here. The mwEmbed
- *
- * Example:
- *   $wgResourceModules['ext.myExtension'] = array(
- *      'scripts' => 'myExtension.js',
- *      'styles' => 'myExtension.css',
- *      'dependencies' => array( 'jquery.cookie', 'jquery.tabIndex' ),
- *      'localBasePath' => dirname( __FILE__ ),
- *      'remoteExtPath' => 'MyExtension',
- *   );
+ * Client-side resource modules. 
  */
-$wgResourceModules = array();
+$wgResourceModules = array();	
 
 /* Default skin can be any jquery based skin */
 $wgDefaultSkin = 'redmond';

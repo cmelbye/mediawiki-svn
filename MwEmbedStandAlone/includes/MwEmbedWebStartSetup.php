@@ -104,3 +104,9 @@ foreach( $wgMwEmbedEnabledModules as $moduleName ){
 $wgHooks['ResourceLoaderRegisterModules'][] = 'MwEmbedResourceManager::registerModules';
 $wgHooks['ResourceLoaderGetConfigVars'][] =  'MwEmbedResourceManager::registerConfigVars';
 
+// Add MwEmbedSupport to Startup:
+function MwUpdateStartupModules( &$modules ){	
+	array_push($modules, 'jquery.triggerQueueCallback', 'jquery.mwEmbedUtil', 'mwEmbedStartup' );		
+	return true;
+}
+$wgHooks['ResourceLoaderGetStartupModules'][] = 'MwUpdateStartupModules';

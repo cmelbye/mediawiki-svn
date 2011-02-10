@@ -150,7 +150,10 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		if ( $context->getOnly() === 'scripts' ) {
 			// Get the latest version
 			$version = 0;
-			$modules = $this->getStartupModuleList();			
+			
+			$modules = array( 'jquery', 'mediawiki' );
+			wfRunHooks( 'ResourceLoaderGetStartupModules', array( &$modules ) );
+								
 			foreach( $modules as $moduleName){
 				$version = max( $version, $context->getResourceLoader()->getModule( $moduleName )->getModifiedTime( $context ) );
 			}			
@@ -182,9 +185,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 				"delete mwIsCompatible;";			
 		}
 		return $out;
-	}
-	public function getStartupModuleList(){
-		return array( 'jquery', 'mediawiki' );
 	}
 	public function getModifiedTime( ResourceLoaderContext $context ) {
 		global $IP, $wgCacheEpoch;
