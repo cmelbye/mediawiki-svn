@@ -720,6 +720,7 @@ class Linker {
 				return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
 			}
 		} else {
+			wfProfileOut( __METHOD__ );
 			return "<!-- ERROR -->{$prefix}{$text}{$trail}";
 		}
 	}

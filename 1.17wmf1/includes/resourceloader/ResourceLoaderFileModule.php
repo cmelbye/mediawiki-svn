@@ -363,6 +363,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		$this->modifiedTime[$context->getHash()] = max( 
 			$filesMtime, 
 			$this->getMsgBlobMtime( $context->getLanguage() ) );
+
 		wfProfileOut( __METHOD__ );
 		return $this->modifiedTime[$context->getHash()];
 	}

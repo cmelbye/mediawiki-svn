@@ -1893,6 +1893,7 @@ class Article {
 			if ( !$rev ) {
 				wfDebug( "Article::replaceSection asked for bogus section (page: " .
 					$this->getId() . "; section: $section; edittime: $edittime)\n" );
+				wfProfileOut( __METHOD__ );
 				return null;
 			}
 
@@ -2074,12 +2075,12 @@ class Article {
 			$flags & EDIT_MINOR, null, null, &$flags, &$status ) ) )
 		{
 			wfDebug( __METHOD__ . ": ArticleSave hook aborted save!\n" );
-			wfProfileOut( __METHOD__ );
 
 			if ( $status->isOK() ) {
 				$status->fatal( 'edit-hook-aborted' );
 			}
 
+			wfProfileOut( __METHOD__ );
 			return $status;
 		}
 
