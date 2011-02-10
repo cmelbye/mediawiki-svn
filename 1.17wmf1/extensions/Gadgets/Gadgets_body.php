@@ -363,6 +363,7 @@ class Gadget {
 		$struct = self::loadStructuredList();
 		if ( !$struct ) {
 			$gadgets = $struct;
+			wfProfileOut( __METHOD__ );
 			return $gadgets;
 		}
 
