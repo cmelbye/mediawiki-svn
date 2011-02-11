@@ -2326,7 +2326,7 @@ HTML
 		}
 		
 		$wgOut->addScript( Html::inlineScript(
-			"if ( window.mediaWiki ) { $script }"
+			"if ( window.mediaWiki ) { jQuery(function(){{$script}}); }"
 		) );
 		
 		$toolbar .= "\n</div>";
