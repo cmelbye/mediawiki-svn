@@ -240,6 +240,9 @@ class MessageBlobStore {
 	}
 
 	public static function clear() {
+		// Causing deadlocks and probably performance issues on WMF, disabling for now and using a workaround in the scap script
+		return;
+
 		// TODO: Give this some more thought
 		// TODO: Is TRUNCATE better?
 		$dbw = wfGetDB( DB_MASTER );
