@@ -47,4 +47,10 @@ class ResourceLoaderUserModule extends ResourceLoaderWikiModule {
 	public function getGroup() {
 		return 'user';
 	}
+	
+	public function getFlip( $context ) {
+		global $wgContLang;
+
+		return $wgContLang->getDir() !== $context->getDirection();
+	}
 }
