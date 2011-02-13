@@ -418,6 +418,8 @@ return array(
 	'mediawiki.legacy.ajaxwatch' => array(
 		'scripts' => 'skins/common/ajaxwatch.js',
 		'dependencies' => 'mediawiki.legacy.wikibits',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'mediawiki.legacy.block' => array(
 		'scripts' => 'common/block.js',
