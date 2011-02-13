@@ -416,7 +416,7 @@ return array(
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.ajaxwatch' => array(
-		'scripts' => 'skins/common/ajaxwatch.js',
+		'scripts' => 'common/ajaxwatch.js',
 		'dependencies' => 'mediawiki.legacy.wikibits',
 		'remoteBasePath' => $GLOBALS['wgStylePath'],
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
@@ -453,8 +453,10 @@ return array(
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.enhancedchanges' => array(
-		'scripts' => 'skins/common/enhancedchanges.js',
+		'scripts' => 'common/enhancedchanges.js',
 		'dependencies' => 'mediawiki.legacy.wikibits',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'mediawiki.legacy.history' => array(
 		'scripts' => 'common/history.js',
