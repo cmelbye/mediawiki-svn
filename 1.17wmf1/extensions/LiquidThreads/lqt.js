@@ -172,7 +172,8 @@ var liquidThreads = {
 			$j(container).find('#wpDiff').hide();
 
 			if ( $j.fn.wikiEditor && $j.wikiEditor.isSupported( $j.wikiEditor.modules.toolbar ) ) {
-				if ( wgWikiEditorPreferences.toolbar.dialogs && $j.wikiEditor.isSupported( $j.wikiEditor.modules.dialogs ) ) {
+				// Dirty hack: use mw.user.options instead of wgWikiEditorPreferences until I think of something better --catrope
+				if ( mediaWiki.user.options.get( 'usebetatoolbar-cgd' ) && $j.wikiEditor.isSupported( $j.wikiEditor.modules.dialogs ) ) {
 					$j( '#wpTextbox1' ).addClass( 'toolbar-dialogs' );
 				}
 				// Add wikiEditor toolbar
