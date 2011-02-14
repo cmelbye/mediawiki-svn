@@ -192,7 +192,7 @@ $wgAutoloadClasses['ApiThreadAction'] = "$dir/api/ApiThreadAction.php";
 $wgAPIModules['threadaction'] = 'ApiThreadAction';
 
 // Path to the LQT directory
-$wgLiquidThreadsExtensionPath = "{$wgScriptPath}/extensions/LiquidThreads";
+$wgLiquidThreadsExtensionPath = "{$wgExtensionAssetsPath}/LiquidThreads";
 
 /** CONFIGURATION SECTION */
 
