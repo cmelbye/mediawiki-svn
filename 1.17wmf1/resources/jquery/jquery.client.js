@@ -6,7 +6,7 @@ $.client = new ( function() {
 
 	/* Private Members */
 
-	var profile;
+	var profile, that=this;
 
 	/* Public Functions */
 
@@ -167,7 +167,7 @@ $.client = new ( function() {
 	 * @return Boolean true if browser known or assumed to be supported, false if blacklisted
 	 */
 	this.test = function( map ) {
-		var profile = jQuery.client.profile();
+		var profile = that.profile();
 		var dir = jQuery( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr';
 		// Check over each browser condition to determine if we are running in a compatible client
 		if ( typeof map[dir] !== 'object' || typeof map[dir][profile.name] === 'undefined' ) {
