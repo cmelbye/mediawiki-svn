@@ -108,7 +108,7 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 
 		$titles = array();
 		foreach ( $this->getPages( $context ) as $page => $options ) {
-			$titles[$options['ns']][$page] = true;
+			$titles[$options['ns']][str_replace( ' ', '_', $page)] = true;
 		}
 
 		$modifiedTime = 1; // wfTimestamp() interprets 0 as "now"
