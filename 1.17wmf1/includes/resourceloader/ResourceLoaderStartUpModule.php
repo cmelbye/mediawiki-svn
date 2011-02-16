@@ -79,9 +79,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgDBname' => $wgDBname,
 			'wgExtensionAssetsPath' => $wgExtensionAssetsPath,
 		);
-		if ( $wgContLang->hasVariants() ) {
-			$vars['wgUserVariant'] = $wgContLang->getPreferredVariant();
-		}
 		if ( $wgUseAjax && $wgEnableMWSuggest ) {
 			$vars['wgMWSuggestTemplate'] = SearchEngine::getMWSuggestTemplate();
 		}
