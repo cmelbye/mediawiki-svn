@@ -3773,7 +3773,7 @@ function gM( key, args ) {
 /**
  * Mimics the no-conflict method used by the js2 stuff
  */
-$j = jQuery.noConflict();
+//$j = jQuery.noConflict(); // Breaks stuff --catrope
 /**
  * Provides js2 compatible onload hook
  * @param func Function to call when ready
