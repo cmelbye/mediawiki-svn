@@ -80,8 +80,8 @@ class JavaScriptDistiller {
 		$parser->add( '/\'([^\'\\\\]*(\\\\.[^\'\\\\]*)*)\'/', '$1' );
 		$parser->add( '/"([^"\\\\]*(\\\\.[^"\\\\]*)*)"/', '$1' );
 		// Protect regular expressions
-		$parser->add( '/[ \\t]+(\\/[^\\/\\r\\n\\*][^\\/\\r\\n]*\\/g?i?)/', '$2' );
-		$parser->add( '/[^\\w\\$\\/\'"*)\\?:]\\/[^\\/\\r\\n\\*][^\\/\\r\\n]*\\/g?i?/', '$1' );
+		$parser->add( '/[ \\t]+((\\/[^\\/\\\\]*(\\\\.[^\\/\\\\]*)*\\/(i|g)*))/', '$1' );
+		$parser->add( '/([^\\w\\$\\/\'"*)\\?:](\\/[^\\/\\\\]*(\\\\.[^\\/\\\\]*)*\\/(i|g)*))/', '$1' );
 		// Remove comments
 		$parser->add( '/\\/\\*(.|[\\r\\n])*?\\*\\//' );
 		// Preserve the newline after a C++-style comment -- bug 27046
@@ -162,7 +162,7 @@ class ParseMaster {
 		foreach ($this->_patterns as $reg) {
 			$regexp .= '(' . substr($reg[self::EXPRESSION], 1, -1) . ')|';
 		}
-		$regexp = substr($regexp, 0, -1) . '/';
+		$regexp = substr($regexp, 0, -1) . '/S';
 		$regexp .= ($this->ignoreCase) ? 'i' : '';
 		
 		$string = $this->_escape($string, $this->escapeChar);
