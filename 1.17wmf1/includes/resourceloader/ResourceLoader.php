@@ -151,9 +151,11 @@ class ResourceLoader {
 					$result = JavaScriptDistiller::stripWhiteSpace(
 						$data, $wgResourceLoaderMinifyJSVerticalSpace
 					);
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 			}
 
