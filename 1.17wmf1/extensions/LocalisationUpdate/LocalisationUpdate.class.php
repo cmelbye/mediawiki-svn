@@ -160,7 +160,7 @@ class LocalisationUpdate {
 		closedir( $dir );
 
 		// Find the changed English strings (as these messages won't be updated in ANY language).
-		$changedEnglishStrings = self::compareFiles( $localdir . '/MessagesEn.php', $svndir . '/MessagesEn.php', $verbose, true );
+		$changedEnglishStrings = self::compareFiles( $localdir . '/MessagesEn.php', $svndir . '/MessagesEn.php', $verbose );
 
 		// Count the changes.
 		$changedCount = 0;
@@ -558,6 +558,9 @@ class LocalisationUpdate {
 				continue;
 			}
 
+			if ( !isset( $compare_messages[$language] ) ) {
+				$compare_messages[$language] = array();
+			}
 			// Add the already known messages to the array so we will only find new changes.
 			$compare_messages[$language] = array_merge(
 				$compare_messages[$language],
