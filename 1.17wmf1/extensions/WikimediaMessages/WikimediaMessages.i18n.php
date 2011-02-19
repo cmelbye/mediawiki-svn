@@ -32,6 +32,12 @@ $messages['en'] = array(
 	# Per http://lists.wikimedia.org/pipermail/wikitech-l/2008-September/039454.html
 	'robots.txt'  => '# Lines here will be added to the global robots.txt', # do not translate or duplicate this message to other languages
 
+	# Wikimedia specific extra namespaces
+	'nstab-creator'     => 'Creator', # Wikimedia Commons
+	'nstab-institution' => 'Institution', # Wikimedia Commons
+	'nstab-sequence'    => 'Sequence', # Wikimedia Commons
+	'nstab-timedtext'   => 'TimedText', # Wikimedia Commons
+
 	# Wikimedia specific usergroups
 	'group-abusefilter'           => 'Abuse filter editors',
 	'group-accountcreator'        => 'Account creators',
@@ -97,7 +103,6 @@ $messages['en'] = array(
 	'grouppage-ipblock-exempt' => '{{ns:project}}:IP block exemption',
 	'grouppage-OTRS-member'    => '{{ns:project}}:OTRS members',
 	'grouppage-researcher'     => '{{ns:project}}:Researchers',
-	'grouppage-rollbacker'     => '{{ns:project}}:Rollbackers',
 	'grouppage-rollbacker'     => '{{ns:project}}:Rollbackers',
 	'grouppage-transwiki'      => '{{ns:project}}:Transwiki importers',
 	'grouppage-trusted'        => '{{ns:project}}:Trusted users',
@@ -179,6 +184,10 @@ $messages['qqq'] = array(
 
 {{Identical|Donate}}",
 	'tooltip-n-sitesupport' => 'The tooltip when hovering over the {{msg|sitesupport}} link in the sidebar.',
+	'nstab-creator' => 'Text on the tab of pages in the "Creator" namespace on Wikimedia Commons ([http://commons.wikimedia.org/wiki/Creator:Heinrich_Hoerle Example])',
+	'nstab-institution' => 'Text on the tab of pages in the "Institution" namespace on Wikimedia Commons ([http://commons.wikimedia.org/wiki/Institution:Wallraf-Richartz-Museum Example])',
+	'nstab-sequence' => 'Text on the tab of pages in the "Sequence" namespace on Wikimedia Commons ([http://commons.wikimedia.org/wiki/Sequence:Cats Example])',
+	'nstab-timedtext' => 'Text on the tab of pages in the "TimedText" namespace on Wikimedia Commons ([http://commons.wikimedia.org/wiki/TimedText:Edit_Button.ogv.en.srt Example])',
 	'group-accountcreator' => 'A specific group of the English Wikipedia; see [[wikipedia:Special:ListUsers/accountcreator]]. See also {{msg|group-accountcreator-member}}.',
 	'group-bigexport' => 'Big export user has a right to: {{int:right-override-export-depth}}',
 	'group-eliminator' => 'Usergroup introduced for ptwiki ([http://pt.wikipedia.org/wiki/Especial:Lista_de_privil%C3%A9gios_de_grupos Especial:Lista de privilégios de grupos], [https://bugzilla.wikimedia.org/show_bug.cgi?id=24623 Bug 24623])',
@@ -191,10 +200,14 @@ The 'researcher' group was created in April 2010 to allow individuals explicitly
 	'group-bigexport-member' => 'Big export user has a right to: {{int:Right-override-export-depth}}',
 	'group-founder-member' => 'A member in the group {{msg|group-founder}} (used exclusively for [[wikipedia:User:Jimbo Wales|Jimbo Wales]]).
 {{Identical|Founder}}',
+	'group-researcher-member' => "From [[wikipedia:Wikipedia:Researcher#Researcher]]
+The 'researcher' group was created in April 2010 to allow individuals explicitly approved by the Wikimedia Foundation to search deleted pages and view deleted history entries without their associated text.",
 	'group-rollbacker-member' => '{{Identical|Rollback}}',
 	'grouppage-bigexport' => 'To be used in wikitext inside double square brackets, that is, as a link to a descriptive page. Do not alter or translate "<code>{<nowiki />{ns:project}}:</code>".
 
 Big export user has a right to: {{int:right-override-export-depth}}',
+	'grouppage-researcher' => "From [[wikipedia:Wikipedia:Researcher#Researcher]]
+The 'researcher' group was created in April 2010 to allow individuals explicitly approved by the Wikimedia Foundation to search deleted pages and view deleted history entries without their associated text.",
 	'grouppage-rollbacker' => '{{Identical|Rollback}}',
 	'group-Global_rollback' => '{{Identical|Rollback}}',
 	'group-Global_rollback-member' => '{{Identical|Rollback}}',
@@ -778,14 +791,15 @@ $messages['arz'] = array(
 );
 
 /** Assamese (অসমীয়া)
+ * @author Chaipau
  * @author Psneog
  * @author Rajuonline
  */
 $messages['as'] = array(
 	'sitesupport' => 'দান-বৰঙনি',
 	'tooltip-n-sitesupport' => 'আমাক সহায় কৰক!',
-	'group-Staff' => 'কর্মীবৃন্দ',
-	'group-Staff-member' => 'কর্মচাৰী',
+	'group-Staff' => 'কৰ্মীবৃন্দ',
+	'group-Staff-member' => 'কৰ্মচাৰী',
 );
 
 /** Asturian (Asturianu)
@@ -849,12 +863,15 @@ $messages['ay'] = array(
 	'sitesupport' => 'Ramañanaka',
 );
 
-/** Azerbaijani (Azərbaycanca) */
+/** Azerbaijani (Azərbaycanca)
+ * @author PPerviz
+ */
 $messages['az'] = array(
 	'sitesupport' => 'Bağışlar',
+	'group-steward' => 'Stüardlar',
 );
 
-/** Bashkir (Башҡорт)
+/** Bashkir (Башҡортса)
  * @author Assele
  * @author Comp1089
  */
@@ -1040,7 +1057,7 @@ $messages['be'] = array(
 Калі вы самі не пісалі гэтага тэксту, ён мусіць быць даступным на ўмовах, якія сумяшчальныя з [http://wikimediafoundation.org/wiki/Terms_of_Use Умовамі карыстання], а вы мусіце даць згоду на ўсе наступныя змяненні ліцэнзійных патрабаванняў, якія маюць дачыненне да гэтага тэксту.',
 );
 
-/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author Cesco
  * @author EugeneZelenko
  * @author Jim-by
@@ -1054,6 +1071,10 @@ $messages['be-tarask'] = array(
 	'sitesupport' => 'Ахвяраваньні',
 	'tooltip-n-sitesupport' => 'Падтрымайце нас',
 	'specialpages-group-contribution' => 'Ахвяраваньні/Збор сродкаў',
+	'nstab-creator' => 'Аўтар',
+	'nstab-institution' => 'Установа',
+	'nstab-sequence' => 'Пасьлядоўнасьць',
+	'nstab-timedtext' => 'Сынхронны тэкст',
 	'group-abusefilter' => 'Рэдактары фільтру злоўжываньняў',
 	'group-accountcreator' => 'Стваральнікі рахункаў',
 	'group-arbcom' => 'Чальцы арбітражнага камітэту',
@@ -1074,6 +1095,7 @@ $messages['be-tarask'] = array(
 	'group-patroller' => 'Патруліруючыя',
 	'group-researcher' => 'Дасьледчыкі',
 	'group-rollbacker' => 'Адкатвальнікі',
+	'group-svnadmins' => 'Адміністратары SVN',
 	'group-transwiki' => 'Імпартэры зь іншых вікі',
 	'group-trusted' => 'Давераныя ўдзельнікі',
 	'group-abusefilter-member' => 'рэдактар фільтру злоўжываньняў',
@@ -1096,6 +1118,7 @@ $messages['be-tarask'] = array(
 	'group-patroller-member' => 'патруліруючы',
 	'group-researcher-member' => 'дасьледчык',
 	'group-rollbacker-member' => 'адкатвальнік',
+	'group-svnadmins-member' => 'Адміністратар SVN',
 	'group-transwiki-member' => 'імпартэр зь іншых вікі',
 	'group-trusted-member' => 'давераны ўдзельнік',
 	'grouppage-abusefilter' => '{{ns:project}}:Рэдактары фільтру злоўжываньняў',
@@ -1117,6 +1140,7 @@ $messages['be-tarask'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Удзельнікі OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Дасьледчык',
 	'grouppage-rollbacker' => '{{ns:project}}:Адкатвальнікі',
+	'grouppage-svnadmins' => '{{ns:project}}:Адміністратары SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Імпартэры зь іншых вікі',
 	'grouppage-trusted' => '{{ns:project}}:Давераныя ўдзельнікі',
 	'group-steward' => 'Сьцюарды',
@@ -1365,9 +1389,13 @@ $messages['bn'] = array(
 এই লেখা যদি আপনার রচিত না হয়, তা অবশ্যই এই [http://wikimediafoundation.org/wiki/Terms_of_Use ব্যবহারের শর্তাবলীর] সঙ্গে সঙ্গতিপূর্ণ কোনো শর্তাবলী অনুযায়ী ব্যবহারযোগ্য হতে হবে, এবং আপনি এতদ্বারা সম্পর্কিত যেকোন লাইসেন্সের শর্তাবলী পালনে সম্মতি জানাচ্ছেন।',
 );
 
-/** Tibetan (བོད་ཡིག) */
+/** Tibetan (བོད་ཡིག)
+ * @author Freeyak
+ */
 $messages['bo'] = array(
 	'sitesupport' => 'ཞལ་འདེབས།',
+	'tooltip-n-sitesupport' => 'ང་ཚོར་རོགས་སྐྱོར།',
+	'group-founder-member' => 'གསར་གཏོད་བྱེད་མཁན།',
 );
 
 /** Bishnupria Manipuri (ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী) */
@@ -1398,6 +1426,10 @@ $messages['br'] = array(
 	'sitesupport' => 'Roadoù',
 	'tooltip-n-sitesupport' => "Harpit ac'hanomp",
 	'specialpages-group-contribution' => 'Degasadenn/Dastum moneiz',
+	'nstab-creator' => 'Krouer',
+	'nstab-institution' => 'Ensavadur',
+	'nstab-sequence' => 'Heuliad',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Aozerioù siloù dinoazañ',
 	'group-accountcreator' => 'Krouerien kontoù',
 	'group-arbcom' => "Izili ar c'huzul tredeogiezh",
@@ -1418,6 +1450,7 @@ $messages['br'] = array(
 	'group-patroller' => 'Patrouilherien',
 	'group-researcher' => 'Klaskerien',
 	'group-rollbacker' => 'Assaverien',
+	'group-svnadmins' => 'Merourien SVN',
 	'group-transwiki' => 'Enporzhierien treuzwiki',
 	'group-trusted' => 'Implijerien a fiziañs',
 	'group-abusefilter-member' => 'aozer siloù a-enep ar gwallimplij',
@@ -1440,6 +1473,7 @@ $messages['br'] = array(
 	'group-patroller-member' => 'patrouilher',
 	'group-researcher-member' => 'klasker',
 	'group-rollbacker-member' => 'Assaver',
+	'group-svnadmins-member' => 'Merour SVN',
 	'group-transwiki-member' => 'Enporzhier treuzwiki',
 	'group-trusted-member' => 'implijer a fiziañs',
 	'grouppage-abusefilter' => '{{ns:project}}:Aozerien siloù a-enep ar gwallimplij',
@@ -1461,6 +1495,7 @@ $messages['br'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}: Izili OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Klaskerien',
 	'grouppage-rollbacker' => '{{ns:project}}:Assaverien',
+	'grouppage-svnadmins' => '{{ns:project}}:Merourien SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Enporzhierien treuzwiki',
 	'grouppage-trusted' => '{{ns:project}}:Implijerien a fiziañs',
 	'group-steward' => 'Stewarded',
@@ -1508,6 +1543,10 @@ $messages['bs'] = array(
 	'sitesupport' => 'Donacije',
 	'tooltip-n-sitesupport' => 'Podržite nas',
 	'specialpages-group-contribution' => 'Doprinosi/donacije',
+	'nstab-creator' => 'Izrađivač',
+	'nstab-institution' => 'Ustanova',
+	'nstab-sequence' => 'Niz',
+	'nstab-timedtext' => 'VremenskiTekst',
 	'group-abusefilter' => 'Uređivači filtera zloupotrebe',
 	'group-accountcreator' => 'Kreatori računa',
 	'group-arbcom' => 'Članovi komiteta za arbitriranje',
@@ -1528,6 +1567,7 @@ $messages['bs'] = array(
 	'group-patroller' => 'Patroleri',
 	'group-researcher' => 'Istraživači',
 	'group-rollbacker' => 'Povratioci',
+	'group-svnadmins' => 'SVN administratori',
 	'group-transwiki' => 'Transwiki uvoznici',
 	'group-trusted' => 'Korisnici od povjerenja',
 	'group-abusefilter-member' => 'uređivač filtera zloupotrebe',
@@ -1550,6 +1590,7 @@ $messages['bs'] = array(
 	'group-patroller-member' => 'patroler',
 	'group-researcher-member' => 'istraživač',
 	'group-rollbacker-member' => 'povratioc',
+	'group-svnadmins-member' => 'SVN administrator',
 	'group-transwiki-member' => 'transwiki uvoznik',
 	'group-trusted-member' => 'korisnik od povjerenja',
 	'grouppage-abusefilter' => '{{ns:project}}:Uređivači filtera zloupotrebe',
@@ -1571,6 +1612,7 @@ $messages['bs'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Članovi OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Istraživači',
 	'grouppage-rollbacker' => '{{ns:project}}:Povratioci',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratori',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki uvoznici',
 	'grouppage-trusted' => '{{ns:project}}:Korisnici od povjerenja',
 	'group-steward' => 'Stjuardi',
@@ -1621,6 +1663,9 @@ $messages['ca'] = array(
 	'sitesupport' => 'Donatius',
 	'tooltip-n-sitesupport' => 'Ajudau-nos',
 	'specialpages-group-contribution' => 'Contribució/Recaptació de fons',
+	'nstab-creator' => 'Creador',
+	'nstab-institution' => 'Institució',
+	'nstab-sequence' => 'Seqüència',
 	'group-abusefilter' => "Editors del filtre d'abús",
 	'group-accountcreator' => 'Creadors de comptes',
 	'group-arbcom' => "Membres del comitè d'arbitratge",
@@ -1725,8 +1770,22 @@ $messages['cdo'] = array(
  * @author Sasan700
  */
 $messages['ce'] = array(
-	'sitesupport' => 'Сайтан сагIа',
+	'sitesupport' => 'ГIо',
+	'tooltip-n-sitesupport' => 'ГIо дайша тхуна',
+	'group-accountcreator' => 'Дlавазвалар кхуллурш',
+	'group-confirmed' => 'Тlелаьцболу декъашхой',
+	'group-flood' => 'Декъашхой-шаболххой',
+	'group-ipblock-exempt' => 'IP-сацор юкъарадоккху',
+	'group-flood-member' => 'декъашхой-шаболххой',
+	'grouppage-accountcreator' => '{{ns:project}}:Дlавазвалар кхуллурш',
+	'grouppage-flood' => '{{ns:project}}:Декъашхой-шаболххой',
+	'group-Global_bot' => 'Масхьара шаболххой',
+	'group-Global_bot-member' => 'масхьара шаболххо',
 	'wikimedia-copyright' => 'Йоза тlекхочучехь ду оцу хьола бакъойаларца <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike</a>, цхьайолчу хенахь хила мега хьоле хьаьжжина локхаллий таронца. Мадарра хьажа. <a href="http://wikimediafoundation.org/wiki/Terms_of_Use/ce">Лелоран хьал</a>.',
+	'wikimedia-copyrightwarning' => 'Хийцамаш lалашбеш, хьан пурбанца уьш чутохар йуха боьхур боцуш оцу бакъонашца [http://creativecommons.org/licenses/by-sa/3.0/deed.ru Creative Commons Attribution/Share-Alike 3.0] а [http://www.gnu.org/copyleft/fdl.html GFDL]. Хьан пурбанца, ахьа бина хийцамаш тlаьхь болу агlо лелош, хьуна тlе хьажориг йирайу, оцу лаккхар хьажоригех йа URL, йогlучу агlон тlе.
+Мадарра хьажа. [http://wikimediafoundation.org/wiki/Terms_of_Use/ru Лелоран таронаш].',
+	'wikimedia-editpage-tos-summary' => 'Нагахьсан хьуна ца лаахь, кхечара хьай йозанаш маьрша хийцамаш беш лелада а даржош массанхьа, ма тохийша уьш кху чу.
+Нагахьсан хьо чутоьхначу йозан да вацахь, иза хила деза схьаэца йиш йолучу хьолехь, догlуш оцу [http://wikimediafoundation.org/wiki/Terms_of_Use/ru Лелоран таронашца] а, хьо реза волуш массо бакъойаларна дехаран ларца лела.',
 );
 
 /** Cebuano (Cebuano)
@@ -1779,14 +1838,14 @@ $messages['ckb'] = array(
 	'group-inactive' => 'بەکارهێنەرانی ناچالاک',
 	'group-inactive-member' => 'بەکارهێنەری ناچالاک',
 	'grouppage-inactive' => '{{ns:project}}: بەکارهێنەرانی ناچالاک',
-	'wikimedia-copyright' => 'دەقەکە لەژێر <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a> لە بەردەستدایە؛<br />
-لەوانەیە مەرجی تریشی پێ زیاد ببێ.<br />
+	'wikimedia-copyright' => 'دەق لەژێر <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a> لە بەردەستدایە؛
+لەوانەیە مەرجی تریشی پێ زیاد ببێ.
 سەیری <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">مەرجەکانی بەکارھێنان</a> بکە بۆ وردەکارییەکانی.',
-	'wikimedia-copyrightwarning' => 'بە پاشەکەوت کردن، بە بێگەڕانەوە قەبووڵ دەکەی کە بەشدارییەکەت لەژێر [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] و [http://www.gnu.org/copyleft/fdl.html GFDL] بڵاو ببێتەوە.
-قەبووڵ دەکەی، لانی کەم، بە URL یان ھایپەرلینکێک بەو پەڕە بەشداری تێدا دەکەن بەکارھێنەرانی تر ناوتان لێببەن.
-سەیری [http://wikimediafoundation.org/wiki/Terms_of_Use مەرجەکانی بەکارھێنان] بکەن بۆ وردەکارییەکان.',
-	'wikimedia-editpage-tos-summary' => 'ئەگەر ناتەوێ نووسراوەکەت بە ئارەزوو دەستکاری بکرێ و تێکبدرێت، لێرە پێشکەشی مەکە.
-ئەگەر خۆت ئەمەت نەنووسیوە، ئەشێ لە ژێر [http://wikimediafoundation.org/wiki/Terms_of_Use مەرجەکانی بەکارھێنان لە ویکیمیدیا] لە بەردەست دا بێت و قەبووڵ ئەکەیت کە لە ھەر پێداویستییەکی پەیوەندی‌‌داری لایسەنس پەیڕەوی بکەی.',
+	'wikimedia-copyrightwarning' => 'بە پاشەکەوت کردن، قەبووڵ دەکەی کە بەشدارییەکەت بە بێگەڕانەوە لەژێر [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] و [http://www.gnu.org/copyleft/fdl.html GFDL] بڵاو ببێتەوە.
+قەبووڵ دەکەی بەکارھێنەرانی تر ناوت لێببەن، لانی کەم، بە URL یان ھایپەرلینکێک بەو پەڕە بەشداری تێدا دەکەی.
+سەیری [http://wikimediafoundation.org/wiki/Terms_of_Use مەرجەکانی بەکارھێنان] بکە بۆ وردەکارییەکان.',
+	'wikimedia-editpage-tos-summary' => 'ئەگەر ناتەوێ نووسراوەکەت بە ئارەزوو دەستکاری بکرێت و تێکبدرێت، لێرە دایمەنێ.
+ئەگەر خۆت ئەمەت نەنووسیوە، دەبێ دڵنیا بیت کە لەژێر [http://wikimediafoundation.org/wiki/Terms_of_Use مەرجەکانی بەکارھێنان]دا لە بەردەستدایە و قەبووڵ دەکەیت کە پەیڕەوی بکەیت لە ھەموو ویستەمەنییە مۆڵەتنامەیییە پەیوەندی‌‌دارەکان.',
 );
 
 /** Corsican (Corsu) */
@@ -1831,6 +1890,8 @@ $messages['cs'] = array(
 	'sitesupport' => 'Podpořte nás',
 	'tooltip-n-sitesupport' => 'Podpořte nás',
 	'specialpages-group-contribution' => 'Příspěvky/financování',
+	'nstab-creator' => 'Autor',
+	'nstab-institution' => 'Instituce',
 	'group-abusefilter' => 'Správci filtrů zneužívání',
 	'group-accountcreator' => 'Zakladatelé účtů',
 	'group-arbcom' => 'Členové arbitrážního výboru',
@@ -1851,6 +1912,7 @@ $messages['cs'] = array(
 	'group-patroller' => 'Strážci',
 	'group-researcher' => 'Výzkumníci',
 	'group-rollbacker' => 'Revertovatelé',
+	'group-svnadmins' => 'Správci SVN',
 	'group-transwiki' => 'Transwiki importéři',
 	'group-trusted' => 'Důvěryhodní uživatelé',
 	'group-abusefilter-member' => 'správce filtrů zneužívání',
@@ -1873,6 +1935,7 @@ $messages['cs'] = array(
 	'group-patroller-member' => 'strážce',
 	'group-researcher-member' => 'výzkumník',
 	'group-rollbacker-member' => 'revertovatel',
+	'group-svnadmins-member' => 'správce SVN',
 	'group-transwiki-member' => 'transwiki importér',
 	'group-trusted-member' => 'důvěryhodný uživatel',
 	'grouppage-abusefilter' => '{{ns:project}}:Správci filtrů zneužívání',
@@ -1894,6 +1957,7 @@ $messages['cs'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Členové OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Výzkumníci',
 	'grouppage-rollbacker' => '{{ns:project}}:Revertovatelé',
+	'grouppage-svnadmins' => '{{ns:project}}:Správci SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki importéři',
 	'grouppage-trusted' => '{{ns:project}}:Důvěryhodní uživatelé',
 	'group-steward' => 'Stevardi',
@@ -1948,6 +2012,10 @@ $messages['cy'] = array(
 	'sitesupport' => 'Rhoi arian',
 	'tooltip-n-sitesupport' => "Ein cefnogi'n ariannol",
 	'specialpages-group-contribution' => 'Cyfrannu/Codi arian',
+	'nstab-creator' => 'Gwneuthurwr',
+	'nstab-institution' => 'Sefydliad',
+	'nstab-sequence' => 'Dilyniant',
+	'nstab-timedtext' => 'Is-deitlau',
 	'group-abusefilter' => 'Golygyddion hidlo camdriniaeth',
 	'group-accountcreator' => 'Gwneuthurwyr cyfrifon',
 	'group-arbcom' => "Aelodau'r pwyllgor cyflafareddu",
@@ -2032,6 +2100,7 @@ Os nad chi ysgrifennodd y cyfraniad hwn, rhaid iddo fod ar gael ar delerau sy'n 
  * @author Jon Harald Søby
  * @author Kaare
  * @author Masz
+ * @author Peter Alberti
  * @author Sarrus
  */
 $messages['da'] = array(
@@ -2050,6 +2119,7 @@ $messages['da'] = array(
 	'group-founder' => 'Grundlæggere',
 	'group-import' => 'Importører',
 	'group-ipblock-exempt' => 'IP-blokeringsundtagelser',
+	'group-OTRS-member' => 'OTRS-medlemmer',
 	'group-patroller' => 'Patruljanter',
 	'group-researcher' => 'Forskere',
 	'group-rollbacker' => 'Tilbagerullere',
@@ -2066,6 +2136,7 @@ $messages['da'] = array(
 	'group-founder-member' => 'Grundlægger',
 	'group-import-member' => 'Importør',
 	'group-ipblock-exempt-member' => 'IP-blokeringsundtagelse',
+	'group-OTRS-member-member' => 'OTRS-medlem',
 	'group-patroller-member' => 'patruljant',
 	'group-researcher-member' => 'forsker',
 	'group-rollbacker-member' => 'Tilbageruller',
@@ -2133,6 +2204,10 @@ $messages['de'] = array(
 	'sitesupport' => 'Spenden',
 	'tooltip-n-sitesupport' => 'Unterstütze uns',
 	'specialpages-group-contribution' => 'Spenden/Fundraiser',
+	'nstab-creator' => 'Urheber',
+	'nstab-institution' => 'Institution',
+	'nstab-sequence' => 'Sequenz',
+	'nstab-timedtext' => 'Timed Text',
 	'group-abusefilter' => 'Missbrauchsfilter-Bearbeiter',
 	'group-accountcreator' => 'Benutzerkonten-Ersteller',
 	'group-arbcom' => 'Mitglieder des Schiedsgerichts',
@@ -2153,6 +2228,7 @@ $messages['de'] = array(
 	'group-patroller' => 'Kontrolleure',
 	'group-researcher' => 'Rechercheur',
 	'group-rollbacker' => 'Zurücksetzer',
+	'group-svnadmins' => 'SVN-Administratoren',
 	'group-transwiki' => 'Transwiki-Importeure',
 	'group-trusted' => 'Vertrauenswürdige Benutzer',
 	'group-abusefilter-member' => 'Missbrauchsfilter-Bearbeiter',
@@ -2175,6 +2251,7 @@ $messages['de'] = array(
 	'group-patroller-member' => 'Kontrolleur',
 	'group-researcher-member' => 'Rechercheur',
 	'group-rollbacker-member' => 'Zurücksetzer',
+	'group-svnadmins-member' => 'SVN-Administrator',
 	'group-transwiki-member' => 'Transwiki-Importeur',
 	'group-trusted-member' => 'Vertrauenswürdiger Benutzer',
 	'grouppage-abusefilter' => '{{ns:project}}:Missbrauchsfilter-Bearbeiter',
@@ -2196,6 +2273,7 @@ $messages['de'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS-Mitglieder',
 	'grouppage-researcher' => '{{ns:project}}:Rechercheur',
 	'grouppage-rollbacker' => '{{ns:project}}:Zurücksetzer',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Administratoren',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-Importeure',
 	'grouppage-trusted' => '{{ns:project}}:Vertrauenswürdige Benutzer',
 	'group-steward' => 'Stewards',
@@ -2230,7 +2308,7 @@ Einzelheiten sind in den [http://wikimediafoundation.org/wiki/Nutzungsbedingunge
 Falls du den Text nicht selbst verfasst hast, muss er unter den [http://wikimediafoundation.org/wiki/Nutzungsbedingungen Nutzungsbedingungen] verfügbar sein und du stimmst zu, notwendigen Lizenzanforderungen zu folgen.',
 );
 
-/** German (formal address) (Deutsch (Sie-Form))
+/** German (formal address) (‪Deutsch (Sie-Form)‬)
  * @author Raimond Spekking
  * @author Umherirrender
  */
@@ -2348,6 +2426,10 @@ $messages['dsb'] = array(
 	'sitesupport' => 'Dary',
 	'tooltip-n-sitesupport' => 'Pódpěraj nas',
 	'specialpages-group-contribution' => 'Pśinoski/Pósćiwańska akcija',
+	'nstab-creator' => 'Stwóriśel',
+	'nstab-institution' => 'Institucija',
+	'nstab-sequence' => 'Sekwenca',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Wobźěłarje znjewužywańskego filtra',
 	'group-accountcreator' => 'Kontowe załožarje',
 	'group-arbcom' => 'Cłonki wujadnarskeje komisije',
@@ -2368,6 +2450,7 @@ $messages['dsb'] = array(
 	'group-patroller' => 'Doglědowarje',
 	'group-researcher' => 'Rešeršěrowarje',
 	'group-rollbacker' => 'Slědkstajarje',
+	'group-svnadmins' => 'SVN-administratory',
 	'group-transwiki' => 'Transwiki importery',
 	'group-trusted' => 'Dowěry gódne wužywarje',
 	'group-abusefilter-member' => 'Wobźěłaŕ znjewužywańskego filtra',
@@ -2390,6 +2473,7 @@ $messages['dsb'] = array(
 	'group-patroller-member' => 'doglědowaŕ',
 	'group-researcher-member' => 'rešěršowaŕ',
 	'group-rollbacker-member' => 'slědkstajaŕ',
+	'group-svnadmins-member' => 'SVN-administrator',
 	'group-transwiki-member' => 'transwiki importer',
 	'group-trusted-member' => 'dowěry gódny wužywaŕ',
 	'grouppage-abusefilter' => '{{ns:project}}:Wobźěłarje znjewužywańskego filtra',
@@ -2411,6 +2495,7 @@ $messages['dsb'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Cłonki OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Rešeršowarje',
 	'grouppage-rollbacker' => '{{ns:project}}:Slědkstajarje',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administratory',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki importery',
 	'grouppage-trusted' => '{{ns:project}}:Dowěry gódne wužywarje',
 	'group-steward' => 'Stewardy',
@@ -2478,6 +2563,7 @@ Ne menye wò ŋutɔ ye ŋlɔ nusiawo o la, ekema ele be mɔɖeɖewo si ku ɖe wo
  * @author Consta
  * @author Crazymadlover
  * @author Dead3y3
+ * @author Flyax
  * @author Geraki
  * @author Glavkos
  * @author Lou
@@ -2491,6 +2577,10 @@ $messages['el'] = array(
 	'sitesupport' => 'Δωρεές',
 	'tooltip-n-sitesupport' => 'Υποστηρίξτε μας',
 	'specialpages-group-contribution' => 'Συνεισφορές/Έρανος',
+	'nstab-creator' => 'Δημιουργός',
+	'nstab-institution' => 'Ίδρυμα',
+	'nstab-sequence' => 'Ακολουθία',
+	'nstab-timedtext' => 'ΧρονισμένοΚείμενο',
 	'group-abusefilter' => 'Τροποποιητές φίλτρων καταχρήσεων',
 	'group-accountcreator' => 'Δημιουργοί λογαριασμών',
 	'group-arbcom' => 'Μέλη της επιτροπής διαιτησίας',
@@ -2498,14 +2588,17 @@ $messages['el'] = array(
 	'group-autoreviewer' => 'Αυτοελεγκτές',
 	'group-bigexport' => 'Μεγάλοι εξαγωγείς',
 	'group-confirmed' => 'Eπιβεβαιωμένοι χρήστες',
+	'group-filemover' => 'Μετακινητές αρχείου',
 	'group-flood' => 'Χρήστες bot',
 	'group-founder' => 'Ιδρυτές',
 	'group-import' => 'Εισαγωγείς',
 	'group-interface_editors' => 'Επεξεργαστές της διεπαφής',
 	'group-ipblock-exempt' => 'Απαλλαγές από φραγή IP',
+	'group-OTRS-member' => 'μέλη OTRS',
 	'group-patroller' => 'Περιπολητές',
 	'group-researcher' => 'Ερευνητές',
 	'group-rollbacker' => 'Αναιρέτες',
+	'group-svnadmins' => 'διαχειριστές SVN',
 	'group-transwiki' => 'Εισαγωγείς Transwiki',
 	'group-trusted' => 'Έμπιστοι χρήστες',
 	'group-abusefilter-member' => 'τροποποιητής φίλτρων καταχρήσεων',
@@ -2561,9 +2654,9 @@ $messages['el'] = array(
 	'group-inactive' => 'Ανενεργοί χρήστες',
 	'group-inactive-member' => 'Ανενεργός χρήστης',
 	'grouppage-inactive' => '{{ns:project}}:Ανενεργοί χρήστες',
-	'wikimedia-copyright' => 'Όλα τα κείμενα είναι διαθέσιμα υπό την <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.el">Creative Commons Attribution/Share-Alike License</a>· μπορεί να ισχύουν και πρόσθετοι όροι. Δείτε τους <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Όρους Χρήσης</a> για λεπτομέρειες.',
-	'wikimedia-copyrightwarning' => "Αποθηκεύοντας, συμφωνείτε χωρίς δικαίωμα ανάκλησης την δημοσίευση του υλικού υπό τους όρους της [http://creativecommons.org/licenses/by-sa/3.0/deed.el Creative Commons Attribution/Share-Alike License 3.0] και της [http://www.gnu.org/copyleft/fdl.html GFDL]. Συμφωνείτε να σας αποδίδεται η πατρότητα από τρίτους χρήστες, κατ'ελάχιστο, μέσω ενός υπερσύνδεσμου ή URL προς την σελίδα στην οποία συνεισφέρετε. Δείτε τους [http://wikimediafoundation.org/wiki/Terms_of_Use Όρους Χρήσης] για λεπτομέρειες.",
-	'wikimedia-editpage-tos-summary' => 'Αν δεν θέλετε το κείμενό σας να υποστεί επεξεργασία και να αναδιανεμηθεί κατά βούληση, τότε μην το καταχωρείτε εδώ. Αν δεν το γράψατε ο ίδιος, τότε πρέπει να είναι διαθέσιμο υπό όρους σύμφωνους με τους [http://wikimediafoundation.org/wiki/Terms_of_Use Όρους Χρήσης], και συμφωνείτε να ακολουθήσετε οποιεσδήποτε απαιτήσεις αδειοδότησης.',
+	'wikimedia-copyright' => 'Όλα τα κείμενα είναι διαθέσιμα υπό την <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.el">Creative Commons Attribution/Share-Alike License</a>· μπορεί να ισχύουν και πρόσθετοι όροι. Δείτε τους <a href="http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82">Όρους Χρήσης</a> για λεπτομέρειες.',
+	'wikimedia-copyrightwarning' => "Αποθηκεύοντας, συμφωνείτε χωρίς δικαίωμα ανάκλησης την δημοσίευση του υλικού υπό τους όρους της [http://creativecommons.org/licenses/by-sa/3.0/deed.el Creative Commons Attribution/Share-Alike License 3.0] και της [http://www.gnu.org/copyleft/fdl.html GFDL]. Συμφωνείτε να σας αποδίδεται η πατρότητα από τρίτους χρήστες, κατ'ελάχιστο, μέσω ενός υπερσύνδεσμου ή URL προς την σελίδα στην οποία συνεισφέρετε. Δείτε τους [http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82 Όρους Χρήσης] για λεπτομέρειες.",
+	'wikimedia-editpage-tos-summary' => 'Αν δεν θέλετε το κείμενό σας να υποστεί επεξεργασία και να αναδιανεμηθεί κατά βούληση, τότε μην το καταχωρείτε εδώ. Αν δεν το γράψατε ο ίδιος, τότε πρέπει να είναι διαθέσιμο υπό όρους σύμφωνους με τους [http://wikimediafoundation.org/wiki/%CE%8C%CF%81%CE%BF%CE%B9_%CE%A7%CF%81%CE%AE%CF%83%CE%B7%CF%82 Όρους Χρήσης], και συμφωνείτε να ακολουθήσετε οποιεσδήποτε απαιτήσεις αδειοδότησης.',
 );
 
 /** Emiliano-Romagnolo (Emiliàn e rumagnòl) */
@@ -2576,6 +2669,7 @@ $messages['eml'] = array(
  * @author ArnoLagrange
  * @author Marcos
  * @author Michawiki
+ * @author Mihxil
  * @author Petrus Adamus
  * @author Tlustulimu
  * @author Yekrats
@@ -2587,6 +2681,10 @@ $messages['eo'] = array(
 	'sitesupport' => 'Donaci',
 	'tooltip-n-sitesupport' => 'Subteni nin per mono',
 	'specialpages-group-contribution' => 'Kontribuoj/Monkolekto',
+	'nstab-creator' => 'Kreinto',
+	'nstab-institution' => 'Institucio',
+	'nstab-sequence' => 'Sinsekvo',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Redaktantoj de misuzadaj filtriloj',
 	'group-accountcreator' => 'Kreintoj de kontoj',
 	'group-arbcom' => 'Komitatano de arbitracia komitato',
@@ -2607,6 +2705,7 @@ $messages['eo'] = array(
 	'group-patroller' => 'Patrolantoj',
 	'group-researcher' => 'Esplorantoj de forigitaĵoj',
 	'group-rollbacker' => 'Restarigantoj',
+	'group-svnadmins' => 'SVN-administrantoj',
 	'group-transwiki' => 'Importintoj de Transvikio',
 	'group-trusted' => 'Fidelaj uzantoj',
 	'group-abusefilter-member' => 'redaktanto de misuzadaj filtriloj',
@@ -2629,6 +2728,7 @@ $messages['eo'] = array(
 	'group-patroller-member' => 'Patrolanto',
 	'group-researcher-member' => 'esploranto de forigitaĵoj',
 	'group-rollbacker-member' => 'Restariganto',
+	'group-svnadmins-member' => 'SVN-administranto',
 	'group-transwiki-member' => 'Transvikia importanto',
 	'group-trusted-member' => 'fidela uzanto',
 	'grouppage-abusefilter' => '{{ns:project}}:Redaktantoj de misuzadaj filtriloj',
@@ -2650,6 +2750,7 @@ $messages['eo'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS-anoj',
 	'grouppage-researcher' => '{{ns:project}}:Esploranto de forigitaĵoj',
 	'grouppage-rollbacker' => '{{ns:project}}:Restarigantoj',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administrantoj',
 	'grouppage-transwiki' => '{{ns:project}}:Transvikiaj importantoj',
 	'grouppage-trusted' => '{{ns:project}}:Fidelaj uzantoj',
 	'group-steward' => 'Stevardoj',
@@ -2906,6 +3007,8 @@ $messages['eu'] = array(
 	'sitesupport' => 'Dohaintzak',
 	'tooltip-n-sitesupport' => 'Lagundu gaitzazu',
 	'specialpages-group-contribution' => 'Dohaintzaren egilea',
+	'nstab-creator' => 'Sortzailea',
+	'nstab-sequence' => 'Sekuentzia',
 	'group-abusefilter' => 'Abusu-iragazkien editoreak',
 	'group-accountcreator' => 'Kontu sortzailea',
 	'group-arbcom' => 'Tartekaritza-taldearen kideak',
@@ -3016,6 +3119,7 @@ $messages['ext'] = array(
  * @author Huji
  * @author Ladsgroup
  * @author Mardetanha
+ * @author Mjbmr
  * @author Sahim
  * @author Wayiran
  */
@@ -3089,7 +3193,7 @@ $messages['fa'] = array(
 	'grouppage-researcher' => '{{ns:project}}:پژوهشگرها',
 	'grouppage-rollbacker' => '{{ns:project}}:واگردانان',
 	'grouppage-transwiki' => '{{ns:project}}:واردکنندگان تراویکی',
-	'grouppage-trusted' => '{{ns:project}}:کاربرهای تایید شده',
+	'grouppage-trusted' => '{{ns:project}}:کاربرهای تأیید شده',
 	'group-steward' => 'ویکیبدان',
 	'group-sysadmin' => 'مدیران سامانه',
 	'group-editinterface' => 'ویرایش‌گران رابط',
@@ -3278,6 +3382,10 @@ $messages['fr'] = array(
 	'sitesupport' => 'Faire un don',
 	'tooltip-n-sitesupport' => 'Aidez-nous',
 	'specialpages-group-contribution' => 'Contributions / levée de fonds',
+	'nstab-creator' => 'Créateur',
+	'nstab-institution' => 'Institution',
+	'nstab-sequence' => 'Séquence',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Modificateurs de filtre antiabus',
 	'group-accountcreator' => 'Créateurs de comptes',
 	'group-arbcom' => 'Membres du comité d’arbitrage',
@@ -3298,6 +3406,7 @@ $messages['fr'] = array(
 	'group-patroller' => 'Patrouilleurs',
 	'group-researcher' => 'Chercheurs',
 	'group-rollbacker' => 'Révocateurs',
+	'group-svnadmins' => 'Administrateurs SVN',
 	'group-transwiki' => 'Importateurs transwiki',
 	'group-trusted' => 'Utilisateurs de confiance',
 	'group-abusefilter-member' => 'Modificateur de filtre antiabus',
@@ -3320,6 +3429,7 @@ $messages['fr'] = array(
 	'group-patroller-member' => 'patrouilleur',
 	'group-researcher-member' => 'chercheur',
 	'group-rollbacker-member' => 'révocateur',
+	'group-svnadmins-member' => 'administrateur SVN',
 	'group-transwiki-member' => 'importateur transwiki',
 	'group-trusted-member' => 'utilisateur de confiance',
 	'grouppage-abusefilter' => '{{ns:project}}:Modificateurs de filtre antiabus',
@@ -3341,6 +3451,7 @@ $messages['fr'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Membres OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Chercheurs',
 	'grouppage-rollbacker' => '{{ns:project}}:Révocateurs',
+	'grouppage-svnadmins' => '{{ns:project}}:Administrateurs SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importateurs transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Utilisateurs de confiance',
 	'group-steward' => 'Stewards',
@@ -3670,7 +3781,7 @@ $messages['gan'] = array(
 	'tooltip-n-sitesupport' => '資援偶嗰俚',
 );
 
-/** Simplified Gan script (赣语(简体))
+/** Simplified Gan script (‪赣语(简体)‬)
  * @author Liangent
  */
 $messages['gan-hans'] = array(
@@ -3728,7 +3839,7 @@ $messages['gan-hans'] = array(
 要系个不系倷自简写𠮶文字𠮶话，佢一定要同[http://wikimediafoundation.org/wiki/Terms_of_Use 使用条款]相合，跟得倷要同意任何相关𠮶发牌条件。',
 );
 
-/** Traditional Gan script (贛語(繁體))
+/** Traditional Gan script (‪贛語(繁體)‬)
  * @author Symane
  */
 $messages['gan-hant'] = array(
@@ -3803,6 +3914,10 @@ $messages['gl'] = array(
 	'sitesupport' => 'Doazóns',
 	'tooltip-n-sitesupport' => 'Apóienos',
 	'specialpages-group-contribution' => 'Contribucións/Recadación',
+	'nstab-creator' => 'Creador',
+	'nstab-institution' => 'Institución',
+	'nstab-sequence' => 'Secuencia',
+	'nstab-timedtext' => 'Subtítulos',
 	'group-abusefilter' => 'Editores do filtro de abusos',
 	'group-accountcreator' => 'Creadores de contas',
 	'group-arbcom' => 'Membros do comité de arbitraxe',
@@ -3823,6 +3938,7 @@ $messages['gl'] = array(
 	'group-patroller' => 'Patrulleiros',
 	'group-researcher' => 'Investigadores',
 	'group-rollbacker' => 'Revertedores',
+	'group-svnadmins' => 'Administradores do SVN',
 	'group-transwiki' => 'Importadores transwiki',
 	'group-trusted' => 'Usuarios de confianza',
 	'group-abusefilter-member' => 'editor do filtro de abusos',
@@ -3845,6 +3961,7 @@ $messages['gl'] = array(
 	'group-patroller-member' => 'patrulleiro',
 	'group-researcher-member' => 'investigador',
 	'group-rollbacker-member' => 'revertedor',
+	'group-svnadmins-member' => 'Administrador do SVN',
 	'group-transwiki-member' => 'importador transwiki',
 	'group-trusted-member' => 'usuario de confianza',
 	'grouppage-abusefilter' => '{{ns:project}}:Editores do filtro de abusos',
@@ -3866,6 +3983,7 @@ $messages['gl'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Membros do OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Investigadores',
 	'grouppage-rollbacker' => '{{ns:project}}:Revertedores',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradores do SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importadores transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Usuarios de confianza',
 	'group-steward' => 'Stewards',
@@ -3988,6 +4106,10 @@ $messages['gsw'] = array(
 	'sitesupport' => 'Finanzielli Hilf',
 	'tooltip-n-sitesupport' => 'Unterstitz is',
 	'specialpages-group-contribution' => 'Spände/Spändeufruef',
+	'nstab-creator' => 'Urheber',
+	'nstab-institution' => 'Institution',
+	'nstab-sequence' => 'Reihefolg',
+	'nstab-timedtext' => 'Untertitel',
 	'group-abusefilter' => 'Missbruuchsfilter-Bearbeiter',
 	'group-accountcreator' => 'Benutzerkonte-Aaleger',
 	'group-arbcom' => 'Schidsgrichtsmitglider',
@@ -4008,6 +4130,7 @@ $messages['gsw'] = array(
 	'group-patroller' => 'Fäldhieter',
 	'group-researcher' => 'Untersuecher',
 	'group-rollbacker' => 'Zrucksetzer',
+	'group-svnadmins' => 'SVN-Adminischtratore',
 	'group-transwiki' => 'Transwiki-Importeur',
 	'group-trusted' => 'Vertröuens-Benutzer',
 	'group-abusefilter-member' => 'Missbruuchsfilter-Bearbeiter',
@@ -4030,6 +4153,7 @@ $messages['gsw'] = array(
 	'group-patroller-member' => 'Fäldhieter',
 	'group-researcher-member' => 'Untersuecher',
 	'group-rollbacker-member' => 'Zrucksetzer',
+	'group-svnadmins-member' => 'SVN-Adminischtrator',
 	'group-transwiki-member' => 'Transwiki-Importeur',
 	'group-trusted-member' => 'Vertröuens-Benutzer',
 	'grouppage-abusefilter' => '{{ns:project}}:Missbruuchsfilter-Bearbeiter',
@@ -4051,6 +4175,7 @@ $messages['gsw'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS-Mitglider',
 	'grouppage-researcher' => '{{ns:project}}:Untersuecher',
 	'grouppage-rollbacker' => '{{ns:project}}:Zrucksetzer',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Adminischtratore',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-Importeur',
 	'grouppage-trusted' => '{{ns:project}}:Vertröuens-Benutzer',
 	'group-steward' => 'Steward',
@@ -4130,6 +4255,10 @@ $messages['he'] = array(
 	'sitesupport' => 'תרומות',
 	'tooltip-n-sitesupport' => 'תרומה',
 	'specialpages-group-contribution' => 'תרומות/התרמה',
+	'nstab-creator' => 'יוצר',
+	'nstab-institution' => 'מוסד',
+	'nstab-sequence' => 'רצף',
+	'nstab-timedtext' => 'טקסט מתוזמן',
 	'group-abusefilter' => 'עורכי מסנן ההשחתה',
 	'group-accountcreator' => 'יוצרי חשבונות',
 	'group-arbcom' => 'חברי ועדת הבוררות',
@@ -4150,6 +4279,7 @@ $messages['he'] = array(
 	'group-patroller' => 'בודקי עריכות',
 	'group-researcher' => 'עורכי מחקרים',
 	'group-rollbacker' => 'משחזרים',
+	'group-svnadmins' => 'מנהלי שרת SVN',
 	'group-transwiki' => 'מייבאים בין־אתריים',
 	'group-trusted' => 'משתמשים מהימנים',
 	'group-abusefilter-member' => 'עורך מסנן ההשחתה',
@@ -4172,6 +4302,7 @@ $messages['he'] = array(
 	'group-patroller-member' => 'בודק עריכות',
 	'group-researcher-member' => 'עורך מחקר',
 	'group-rollbacker-member' => 'משחזר',
+	'group-svnadmins-member' => 'מנהל שרת SVN',
 	'group-transwiki-member' => 'מייבא בין־אתרי',
 	'group-trusted-member' => 'משתמש מהימן',
 	'grouppage-abusefilter' => '{{ns:project}}:עורך מסנן ההשחתה',
@@ -4193,6 +4324,7 @@ $messages['he'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:חברי OTRS',
 	'grouppage-researcher' => '{{ns:project}}:עורך מחקר',
 	'grouppage-rollbacker' => '{{ns:project}}:משחזר',
+	'grouppage-svnadmins' => '{{ns:project}}:מנהלי שרת SVN',
 	'grouppage-transwiki' => '{{ns:project}}:מייבא בין-אתרי',
 	'grouppage-trusted' => '{{ns:project}}:משתמשים מהימנים',
 	'group-steward' => 'דיילים',
@@ -4480,6 +4612,10 @@ $messages['hsb'] = array(
 	'sitesupport' => 'Dary',
 	'tooltip-n-sitesupport' => 'Podpěrajće nas',
 	'specialpages-group-contribution' => 'Přinoški/Darjenska akcija',
+	'nstab-creator' => 'Tworićel',
+	'nstab-institution' => 'Institucija',
+	'nstab-sequence' => 'Sekwenca',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Wobdźěłarjo za znjewužiwanske filtry',
 	'group-accountcreator' => 'Kontowi załožerjo',
 	'group-arbcom' => 'Čłonojo změrcowskeje komisije',
@@ -4500,6 +4636,7 @@ $messages['hsb'] = array(
 	'group-patroller' => 'Dohladowarjo',
 	'group-researcher' => 'Slědźerjo',
 	'group-rollbacker' => 'Wróćostajerjo',
+	'group-svnadmins' => 'SVN-administratorojo',
 	'group-transwiki' => 'Transwiki importerojo',
 	'group-trusted' => 'Dowěryhódni wužiwarjo',
 	'group-abusefilter-member' => 'wobdźěłar za znjewužiwanski filter',
@@ -4522,6 +4659,7 @@ $messages['hsb'] = array(
 	'group-patroller-member' => 'Dohladowar',
 	'group-researcher-member' => 'slědźer',
 	'group-rollbacker-member' => 'wróćostajer',
+	'group-svnadmins-member' => 'SVN-administrator',
 	'group-transwiki-member' => 'transwiki importer',
 	'group-trusted-member' => 'dowěryhódny wužiwar',
 	'grouppage-abusefilter' => '{{ns:project}}:Wobdźěłarjo za njewužiwanske filtry',
@@ -4543,6 +4681,7 @@ $messages['hsb'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Čłonojo OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Slědźer',
 	'grouppage-rollbacker' => '{{ns:project}}:Wróćostajerjo',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administratorojo',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki importerojo',
 	'grouppage-trusted' => '{{ns:project}}:Dowěryhódni wužiwarjo',
 	'group-steward' => 'Stewardźa',
@@ -4709,6 +4848,10 @@ $messages['ia'] = array(
 	'sitesupport' => 'Donationes',
 	'tooltip-n-sitesupport' => 'Sustene nos',
 	'specialpages-group-contribution' => 'Contributiones/Collecta de fundos',
+	'nstab-creator' => 'Creator',
+	'nstab-institution' => 'Institution',
+	'nstab-sequence' => 'Sequentia',
+	'nstab-timedtext' => 'Texto chronometrate',
 	'group-abusefilter' => 'Redactores del filtro anti-abuso',
 	'group-accountcreator' => 'Creatores de contos',
 	'group-arbcom' => 'Membros del committee de arbitrage',
@@ -4729,6 +4872,7 @@ $messages['ia'] = array(
 	'group-patroller' => 'Patruliatores',
 	'group-researcher' => 'Recercatores',
 	'group-rollbacker' => 'Revertitores',
+	'group-svnadmins' => 'Administratores SVN',
 	'group-transwiki' => 'Importatores transwiki',
 	'group-trusted' => 'Usatores de confidentia',
 	'group-abusefilter-member' => 'redactor del filtro anti-abuso',
@@ -4751,6 +4895,7 @@ $messages['ia'] = array(
 	'group-patroller-member' => 'patruliator',
 	'group-researcher-member' => 'recercator',
 	'group-rollbacker-member' => 'revertitor',
+	'group-svnadmins-member' => 'Administrator SVN',
 	'group-transwiki-member' => 'importator transwiki',
 	'group-trusted-member' => 'usator de confidentia',
 	'grouppage-abusefilter' => '{{ns:project}}:Redactores del filtro anti-abuso',
@@ -4772,6 +4917,7 @@ $messages['ia'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Membros de OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Recercator',
 	'grouppage-rollbacker' => '{{ns:project}}:Revertitores',
+	'grouppage-svnadmins' => '{{ns:project}}:Administratores SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importatores transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Usatores de confidentia',
 	'group-steward' => 'Stewardes',
@@ -4815,6 +4961,10 @@ $messages['id'] = array(
 	'sitesupport' => 'Menyumbang',
 	'tooltip-n-sitesupport' => 'Dukung kami',
 	'specialpages-group-contribution' => 'Kontribusi/Penggalang dana',
+	'nstab-creator' => 'Pencipta',
+	'nstab-institution' => 'Lembaga',
+	'nstab-sequence' => 'Urutan',
+	'nstab-timedtext' => 'TeksBerwaktu',
 	'group-abusefilter' => 'Editor filter penyalahgunaan',
 	'group-accountcreator' => 'Pembuat akun',
 	'group-arbcom' => 'Anggota komite arbitrase',
@@ -4835,6 +4985,7 @@ $messages['id'] = array(
 	'group-patroller' => 'Pematroli',
 	'group-researcher' => 'Peneliti',
 	'group-rollbacker' => 'Pengembali revisi',
+	'group-svnadmins' => 'Pengurus SVN',
 	'group-transwiki' => 'Importir transwiki',
 	'group-trusted' => 'Pengguna tepercaya',
 	'group-abusefilter-member' => 'editor filter penyalahgunaan',
@@ -4857,6 +5008,7 @@ $messages['id'] = array(
 	'group-patroller-member' => 'Pematroli',
 	'group-researcher-member' => 'peneliti',
 	'group-rollbacker-member' => 'Pengembali revisi',
+	'group-svnadmins-member' => 'Pengurus SVN',
 	'group-transwiki-member' => 'Importir transwiki',
 	'group-trusted-member' => 'pengguna tepercaya',
 	'grouppage-abusefilter' => '{{ns:project}}:Editor filter penyalahgunaan',
@@ -4878,6 +5030,7 @@ $messages['id'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Anggota OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Peneliti',
 	'grouppage-rollbacker' => '{{ns:project}}:Pengembali revisi',
+	'grouppage-svnadmins' => '{{ns:project}}:Pengurus SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importir transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Pengguna tepercaya',
 	'group-steward' => 'Steward',
@@ -5115,7 +5268,9 @@ $messages['it'] = array(
  * @author Hosiryuhosi
  * @author JtFuruhata
  * @author Meno25
+ * @author Ohgi
  * @author Suisui
+ * @author W.CC
  * @author Whym
  * @author 青子守歌
  */
@@ -5125,12 +5280,16 @@ $messages['ja'] = array(
 	'sitesupport' => '寄付',
 	'tooltip-n-sitesupport' => 'ご支援ください',
 	'specialpages-group-contribution' => '寄付/資金調達',
+	'nstab-creator' => '作者',
+	'nstab-institution' => '施設',
+	'nstab-sequence' => 'シークエンス',
+	'nstab-timedtext' => '字幕',
 	'group-abusefilter' => '不正利用フィルター編集者',
 	'group-accountcreator' => 'アカウント作成者',
 	'group-arbcom' => '裁定委員会委員',
 	'group-autopatrolled' => '自動巡回者',
 	'group-autoreviewer' => '自動査読者',
-	'group-bigexport' => '大規模書き出し者',
+	'group-bigexport' => '大規模エクスポート担当者',
 	'group-confirmed' => '承認された利用者',
 	'group-editprotected' => '保護ページ編集者',
 	'group-eliminator' => '削除者',
@@ -5138,21 +5297,22 @@ $messages['ja'] = array(
 	'group-flood' => 'ボット扱い利用者',
 	'group-founder' => '創設者',
 	'group-Image-reviewer' => '画像査読者',
-	'group-import' => '取り込み者',
+	'group-import' => 'インポート担当者',
 	'group-interface_editors' => 'インターフェイス編集者',
 	'group-ipblock-exempt' => 'IPブロック適用除外者',
 	'group-OTRS-member' => 'OTRSメンバー',
 	'group-patroller' => '巡回者',
 	'group-researcher' => '調査者',
 	'group-rollbacker' => '巻き戻し者',
-	'group-transwiki' => 'ウィキ間移動の取り込み者',
+	'group-svnadmins' => 'SVN管理者',
+	'group-transwiki' => 'ウィキ間インポート担当者',
 	'group-trusted' => '信頼された利用者',
 	'group-abusefilter-member' => '不正利用フィルター編集者',
 	'group-accountcreator-member' => 'アカウント作成者',
 	'group-arbcom-member' => '裁定委員会委員',
 	'group-autopatrolled-member' => '自動巡回者',
 	'group-autoreviewer-member' => '自動査読者',
-	'group-bigexport-member' => '大規模書き出し者',
+	'group-bigexport-member' => '大規模エクスポート担当者',
 	'group-confirmed-member' => '承認された利用者',
 	'group-editprotected-member' => '保護されたページ編集者',
 	'group-eliminator-member' => '削除者',
@@ -5160,21 +5320,22 @@ $messages['ja'] = array(
 	'group-flood-member' => 'ボット扱い利用者',
 	'group-founder-member' => '創設者',
 	'group-Image-reviewer-member' => '画像査読者',
-	'group-import-member' => '取り込み者',
+	'group-import-member' => 'インポート担当者',
 	'group-interface_editors-member' => 'インターフェイス編集者',
 	'group-ipblock-exempt-member' => 'IPブロック適用除外者',
 	'group-OTRS-member-member' => 'OTRSメンバー',
 	'group-patroller-member' => '巡回者',
 	'group-researcher-member' => '調査者',
 	'group-rollbacker-member' => '巻き戻し者',
-	'group-transwiki-member' => 'ウィキ間移動の取り込み者',
+	'group-svnadmins-member' => 'SVN管理者',
+	'group-transwiki-member' => 'ウィキ間インポート担当者',
 	'group-trusted-member' => '信頼された利用者',
 	'grouppage-abusefilter' => '{{ns:project}}:不正利用フィルター編集者',
 	'grouppage-accountcreator' => '{{ns:project}}:アカウント作成者',
 	'grouppage-arbcom' => '{{ns:project}}:裁定委員会委員',
 	'grouppage-autopatrolled' => '{{ns:project}}:自動巡回者',
 	'grouppage-autoreviewer' => '{{ns:project}}:自動査読者',
-	'grouppage-bigexport' => '{{ns:project}}:大規模書き出し者',
+	'grouppage-bigexport' => '{{ns:project}}:大規模エクスポート担当者',
 	'grouppage-confirmed' => '{{ns:project}}:承認された利用者',
 	'grouppage-editprotected' => '{{ns:project}}:保護ページ編集者',
 	'grouppage-eliminator' => '{{ns:project}}:削除者',
@@ -5182,13 +5343,14 @@ $messages['ja'] = array(
 	'grouppage-flood' => '{{ns:project}}:ボット扱い利用者',
 	'grouppage-founder' => '{{ns:project}}:創設者',
 	'grouppage-Image-reviewer' => '{{ns:project}}:画像査読者',
-	'grouppage-import' => '{{ns:project}}:取り込み者',
+	'grouppage-import' => '{{ns:project}}:インポート担当者',
 	'grouppage-interface_editors' => '{{ns:project}}:インターフェイス編集者',
 	'grouppage-ipblock-exempt' => '{{ns:project}}:IPブロック適用除外',
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRSメンバー',
 	'grouppage-researcher' => '{{ns:project}}:調査者',
 	'grouppage-rollbacker' => '{{ns:project}}:巻き戻し者',
-	'grouppage-transwiki' => '{{ns:project}}:ウィキ間移動の取り込み者',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN管理者',
+	'grouppage-transwiki' => '{{ns:project}}:ウィキ間インポート担当者',
 	'grouppage-trusted' => '{{ns:project}}:信頼された利用者',
 	'group-steward' => 'スチュワード',
 	'group-sysadmin' => 'システム管理者',
@@ -5310,6 +5472,7 @@ Manawi punika sanès seratan panjenengan piyambak, seratan punika kedah kasediak
  * @author Alsandro
  * @author BRUTE
  * @author David1010
+ * @author Dawid Deutschland
  * @author Malafaya
  * @author Sopho
  * @author Temuri rajavi
@@ -5322,6 +5485,7 @@ $messages['ka'] = array(
 	'sitesupport' => 'შეწირულობები',
 	'tooltip-n-sitesupport' => 'მხარდაჭერა',
 	'specialpages-group-contribution' => 'წვლილი / ფონდრაიზერი',
+	'nstab-creator' => 'შემქმნელი',
 	'group-abusefilter' => 'ბოროტად გამოყენების ფილტრის მეპატრულე',
 	'group-accountcreator' => 'ანგარიში შემქმნელები',
 	'group-arbcom' => 'საარბიტრჟო კომიტეტის წევრები',
@@ -5406,9 +5570,7 @@ $messages['ka'] = array(
 	'group-inactive-member' => 'არააქტიური მომხმარებელი',
 	'grouppage-inactive' => '{{ns:project}}:არააქტიური მომხმარებლები',
 	'wikimedia-copyright' => 'მოცემული ტექსტი წარმოდგენილია <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike ლიცენზიით</a>; შესაძლოა დამატებითი პირობების არსებობა. დეტალებისთვის იხილეთ <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">გამოყენების წესები</a>.',
-	'wikimedia-copyrightwarning' => '<span style="font-size:115%;">→ ნუ გადმოწერთ ტექსტს აქ სხვა ვებსაიტიდან </span></b>: პატივი ეცით [[ვიკიპედია:საავტორო უფლებები|საავტორო უფლებებს]] ([[დახმარება:რეპუბლიკაცია|დახმარება]]);<br />
-<b><span style="font-size:115%;">→ მიუთითეთ თქვენს ინფორმაციას გადამოწმებადი წყაროები </span></b>: [[ვიკიპედია:გადამოწმებადობა|გადამოწმებადობა]] ([[დახმარება:წყაროს მითითება|დახმარება]]).
-<p style="font-size:90%" align="center">ღილაკზე « \'\'\'გვერდის შენახვა\'\'\' » დაწკაპუნებით, თქვენ თანახმა ხართ შეუქცევად განათავსოთ თქვენი წვლილი [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike (ვერსია 3.0)] და [http://www.gnu.org/copyleft/fdl.html GFDL] ლიცენზიებით. თქვენ ასევე თანახმა ხართ, რომ სხვა მომხმარებელთა მიერ თქვენს მიერ შეცვლილი გვერდის გამოყენებისას თქვენი წვლილი დამოწმდება მინიმუმ ჰიპერბმულის ან URL-ის მეშვეობით. იხილეთ ასევე [http://wikimediafoundation.org/wiki/Terms_of_Use გამოყენების პირობები] დამატებითი ინფორმაციისთვის.</p>',
+	'wikimedia-copyrightwarning' => "შესწორების შენახვით, თქვენ ეთანხმებით თქვენი ნაშრომის პუბლიკაციას [http://creativecommons.org/licenses/by-sa/3.0/deed.ru Creative Commons Attribution/Share-Alike 3.0] და [http://www.gnu.org/copyleft/fdl.html GFDL] ლიცენზიებით. თქვენ ასევე თანხმდებით მასზე, რომ იმ გვერდის გამოყენებისას, რომელშიც თქვენ შესწორება შეიტანეთ, თქვენ იქნებით ნახსენები როგორც მინიმუმ შესაბამისი ბმულით ან URL-ით შესაბამის გვერდზე. დამატებითი ინფორმაციის მისაღებად იხილეთ [http://wikimediafoundation.org/wiki/Terms_of_Use გამოყენების პირობები] ''(ინგლ.)''.",
 	'wikimedia-editpage-tos-summary' => '<div style="border: 1px solid #aaa;margin: 1em 0;padding: 0 0.4em 0 0.4em;">
 თუ არ გსურთ, რომ თქვენი ნაწერი თავისუფლად გავრცელდეს და ჩასწორდეს, აქ მას ნუ შემოიტანთ. თუ ეს ტექსტი თქვენი დაწერილი არ არის, იგი უნდა აკმაყოფილებდეს [http://wikimediafoundation.org/wiki/Terms_of_Use გამოყენების წესებს], ხოლო თქვენ თანახმა ხართ დაემორჩილოთ ნებისმიერ დაკავშირებულ სალიცენზიო მოთხოვნას.
 </div>',
@@ -5577,6 +5739,10 @@ $messages['ko'] = array(
 	'sitesupport' => '기부 안내',
 	'tooltip-n-sitesupport' => '지원을 기다립니다',
 	'specialpages-group-contribution' => '기부 및 모금',
+	'nstab-creator' => '작가',
+	'nstab-institution' => '기관',
+	'nstab-sequence' => '비디오 시퀀스',
+	'nstab-timedtext' => '자막',
 	'group-abusefilter' => '어뷰즈 필터 편집자',
 	'group-accountcreator' => '계정 생성자',
 	'group-arbcom' => '중재위원',
@@ -5597,6 +5763,7 @@ $messages['ko'] = array(
 	'group-patroller' => '검토자',
 	'group-researcher' => '연구원',
 	'group-rollbacker' => '롤배커',
+	'group-svnadmins' => 'SVN 관리자',
 	'group-transwiki' => '트랜스위키 임포터',
 	'group-trusted' => '신뢰할수 있는 사용자',
 	'group-abusefilter-member' => '어뷰즈 필터 편집자',
@@ -5619,6 +5786,7 @@ $messages['ko'] = array(
 	'group-patroller-member' => '검토자',
 	'group-researcher-member' => '연구원',
 	'group-rollbacker-member' => '롤배커',
+	'group-svnadmins-member' => 'SVN 관리자',
 	'group-transwiki-member' => '트랜스위키 임포터',
 	'group-trusted-member' => '신뢰할수 있는 사용자',
 	'grouppage-abusefilter' => '{{ns:project}}:권한 남용 감시 편집자',
@@ -5640,6 +5808,7 @@ $messages['ko'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS 사용자',
 	'grouppage-researcher' => '{{ns:project}}:연구원',
 	'grouppage-rollbacker' => '{{ns:project}}:롤배커',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN 관리자',
 	'grouppage-transwiki' => '{{ns:project}}:트랜스위키 임포터',
 	'grouppage-trusted' => '{{ns:project}}:신뢰할수 있는 사용자',
 	'group-steward' => '사무장',
@@ -5712,45 +5881,76 @@ $messages['ksh'] = array(
 	'sitesupport' => 'Spende',
 	'tooltip-n-sitesupport' => 'Donn uns Ungerstötze!',
 	'specialpages-group-contribution' => 'Spendebeidrääsch',
+	'nstab-creator' => 'Urhävver',
+	'nstab-institution' => 'Enreeschdung',
+	'nstab-sequence' => 'Belderfolje',
+	'nstab-timedtext' => 'Ongertitele met Zigge',
 	'group-abusefilter' => 'Meßbruchsfelter-Baaß',
 	'group-accountcreator' => 'Metmaacher-Maachere',
+	'group-arbcom' => 'Schiedslück',
 	'group-autopatrolled' => 'Automatesch Nohkiker',
 	'group-autoreviewer' => 'Automattesch Nohkiker',
 	'group-bigexport' => 'Jroß-Expotöre',
 	'group-confirmed' => 'Beshtäteschte Metmaacher',
+	'group-editprotected' => 'Schriever op jeschözde Sigge',
+	'group-eliminator' => 'Sigge-Fottschmießer',
+	'group-filemover' => 'Dateie-Ömdäufer',
 	'group-flood' => 'Metmaacher, di Bot wääde künne',
 	'group-founder' => 'Jröndere',
+	'group-Image-reviewer' => 'Belderprööfer',
 	'group-import' => 'Emportöre',
+	'group-interface_editors' => 'Engerfäjßbeärbeider',
 	'group-ipblock-exempt' => 'IP-Jruppe-Sperre-Ußnahme',
+	'group-OTRS-member' => 'Metmaacher beim ORTS',
 	'group-patroller' => 'Patrullje',
+	'group-researcher' => 'Ongersöhker',
 	'group-rollbacker' => 'Zeröcknemmere',
+	'group-svnadmins' => 'Verwallder vum SVN',
 	'group-transwiki' => 'Transwiki-Emportöre',
 	'group-trusted' => '{{int:Group-trusted-member}}',
 	'group-abusefilter-member' => 'Meßbruchsfelter-Baaß',
 	'group-accountcreator-member' => 'Metmaacher-Maacher',
+	'group-arbcom-member' => 'Schiedsmann udder -frau',
 	'group-autopatrolled-member' => 'Sellver-Nohloorer',
 	'group-autoreviewer-member' => 'Automattesch Nohkiker',
 	'group-bigexport-member' => 'Jroß-Expotör',
 	'group-confirmed-member' => 'beshtäteschte Metmaacher',
+	'group-editprotected-member' => 'Schriever op jeschözde Sigge',
+	'group-eliminator-member' => 'Sigge-Fottschmießer',
+	'group-filemover-member' => 'Dateie-Ömdäufer',
 	'group-flood-member' => 'Metmaacher, dä Bot wääde kann',
 	'group-founder-member' => 'Jrönder',
+	'group-Image-reviewer-member' => 'Belderprööfer',
 	'group-import-member' => 'Emportör',
+	'group-interface_editors-member' => 'Engerfäjßbeärbeider',
 	'group-ipblock-exempt-member' => 'IP-Jruppe-Sperre-Ußnahm',
+	'group-OTRS-member-member' => 'Metmaacher beim ORTS',
 	'group-patroller-member' => 'Patrullje',
+	'group-researcher-member' => 'Ongersöhker',
 	'group-rollbacker-member' => 'Zeröcknemmer',
+	'group-svnadmins-member' => 'Verwallder vum SVN',
 	'group-transwiki-member' => 'Transwiki-Emportör',
 	'group-trusted-member' => 'Metmaacher met Vertroue',
 	'grouppage-abusefilter' => '{{ns:project}}:Meßbruchsfelter-Baaß',
 	'grouppage-accountcreator' => '{{ns:project}}:Metmaacher-Maacher',
+	'grouppage-arbcom' => '{{ns:project}}:Schiedslück',
 	'grouppage-autopatrolled' => '{{ns:project}}:Sellver-Nohloorer',
 	'grouppage-autoreviewer' => '{{ns:project}}:{{MediaWiki:Group-autoreviewer}}',
 	'grouppage-bigexport' => '{{ns:project}}:Jroß-Expotöre',
 	'grouppage-confirmed' => '{{ns:project}}:{{int:group-confirmed}}',
+	'grouppage-editprotected' => '{{ns:project}}:Schriever op jeschözde Sigge',
+	'grouppage-eliminator' => '{{ns:project}}:Sigge-Fottschmießer',
+	'grouppage-filemover' => '{{ns:project}}:Dateie-Ömdäufer',
 	'grouppage-flood' => '{{ns:project}}:Metmaacher, di Bot wääde künne',
 	'grouppage-founder' => '{{ns:project}}:Jrönder',
+	'grouppage-Image-reviewer' => '{{ns:project}}:Belderprööfer',
 	'grouppage-import' => '{{ns:project}}:Emportör',
+	'grouppage-interface_editors' => '{{ns:project}}:Engerfäjßbeärbeider',
 	'grouppage-ipblock-exempt' => '{{ns:project}}:IP-Jruppe-Sperre-Ußnahm',
+	'grouppage-OTRS-member' => '{{ns:project}}:Metmaacher beim ORTS',
+	'grouppage-researcher' => '{{ns:project}}:Ongersöhker',
 	'grouppage-rollbacker' => '{{ns:project}}:Zeröcknemmer',
+	'grouppage-svnadmins' => '{{ns:project}}:Verwallder vum SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-Emportör',
 	'grouppage-trusted' => '{{ns:project}}:{{int:group-trusted}}',
 	'group-steward' => 'Stewards',
@@ -5758,6 +5958,7 @@ $messages['ksh'] = array(
 	'group-editinterface' => 'Engerfäjßbeärbeider',
 	'group-Global_bot' => 'Bots för all Wikis',
 	'group-Global_rollback' => 'Zeröcknämmere för all Wikis',
+	'group-Global_sysops' => 'Jlobale Wiki-Köbesse',
 	'group-Ombudsmen' => 'Vermeddeler',
 	'group-Staff' => 'Päsonaal',
 	'group-steward-member' => 'Steward',
@@ -5765,6 +5966,7 @@ $messages['ksh'] = array(
 	'group-editinterface-member' => 'Engerfäjßbeärbeider',
 	'group-Global_bot-member' => 'Bot för all Wikis',
 	'group-Global_rollback-member' => 'Zeröcknämmer för all Wikis',
+	'group-Global_sysops-member' => 'jlobale Wiki-Köbes',
 	'group-Ombudsmen-member' => 'Vermeddeler',
 	'group-Staff-member' => 'Päsonaal',
 	'grouppage-steward' => 'm:Stewards/ksh',
@@ -5783,12 +5985,16 @@ $messages['ksh'] = array(
 	'wikimedia-editpage-tos-summary' => 'Wann De nit han wells, dat Dinge Tex ömjemodelt weed, un söns wohin verdeilt, dun en hee nit speichere. Wann De dä nit sellver jeschreve häs, moß_e onger Bedengunge ze han sin, di zo de [http://wikimediafoundation.org/wiki/Nutzungsbedingungen Lizänz_Beshtemmunge] paß, un Do shtemms zoh, alle nüüdeje un rellevante Saache ze follje un ze donn för di Lizänz.',
 );
 
-/** Kurdish (Latin) (Kurdî (Latin)) */
+/** Kurdish (Latin) (Kurdî (Latin))
+ * @author George Animal
+ */
 $messages['ku-latn'] = array(
 	'sitesupport' => 'Ji bo Weqfa Wikimedia Beş',
+	'group-Global_bot' => "Bot'ên global",
+	'group-Global_bot-member' => "bot'ê global",
 );
 
-/** Cornish (Kernewek)
+/** Cornish (Kernowek)
  * @author Kw-Moon
  * @author Malafaya
  * @author Nicky.ker
@@ -5835,6 +6041,10 @@ $messages['lb'] = array(
 	'sitesupport' => 'Donatiounen',
 	'tooltip-n-sitesupport' => 'Ënnerstëtzt eis',
 	'specialpages-group-contribution' => 'Donen/Quêteur',
+	'nstab-creator' => 'Createur',
+	'nstab-institution' => 'Institutioun',
+	'nstab-sequence' => 'Sequenz',
+	'nstab-timedtext' => 'TimedText',
 	'group-abusefilter' => 'Editeure vu Mëssbrauchsfilteren',
 	'group-accountcreator' => 'Benotzer déi Benotzerkonten uleeën däerfen',
 	'group-arbcom' => "Membere vum Comité d'arbitrage",
@@ -5855,6 +6065,7 @@ $messages['lb'] = array(
 	'group-patroller' => 'Kontrolleren',
 	'group-researcher' => 'Nosicher',
 	'group-rollbacker' => 'Zrécksetzer',
+	'group-svnadmins' => 'SVN-Administrateuren',
 	'group-transwiki' => 'Transwiki-Importateuren',
 	'group-trusted' => 'Erfuere Benotzer',
 	'group-abusefilter-member' => 'Editeur vum Mëssbrauchsfilter',
@@ -5877,6 +6088,7 @@ $messages['lb'] = array(
 	'group-patroller-member' => 'Kontroller',
 	'group-researcher-member' => 'Nosicher',
 	'group-rollbacker-member' => 'Zrécksetzer',
+	'group-svnadmins-member' => 'SVN-Administrateur',
 	'group-transwiki-member' => 'Transwiki-Importateur',
 	'group-trusted-member' => 'erfuerene Benotzer',
 	'grouppage-abusefilter' => '{{ns:project}}:Editeure vu Mëssbrauchsfilteren',
@@ -5898,6 +6110,7 @@ $messages['lb'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS Memberen',
 	'grouppage-researcher' => '{{ns:project}}: Nosicher',
 	'grouppage-rollbacker' => '{{ns:project}}:Zrécksetzer',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Administrateuren',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-Importateuren',
 	'grouppage-trusted' => '{{ns:project}}:Erfuere Benotzer',
 	'group-steward' => 'Stewarden',
@@ -6386,6 +6599,10 @@ $messages['mk'] = array(
 	'sitesupport' => 'Донации',
 	'tooltip-n-sitesupport' => 'Поддржете нè',
 	'specialpages-group-contribution' => 'Придонеси/Обезб. средства',
+	'nstab-creator' => 'Создавач',
+	'nstab-institution' => 'Установа',
+	'nstab-sequence' => 'Низа',
+	'nstab-timedtext' => 'УсогласенТекст',
 	'group-abusefilter' => 'Уредници на филтерот на злоупотреба',
 	'group-accountcreator' => 'Создавачи на сметки',
 	'group-arbcom' => 'Членови на Арбитражната комисија',
@@ -6403,15 +6620,16 @@ $messages['mk'] = array(
 	'group-interface_editors' => 'Уредници на посредникот',
 	'group-ipblock-exempt' => 'Исклучоци од IP-блокирање',
 	'group-OTRS-member' => 'Членови на OTRS',
-	'group-patroller' => 'Патролирачи',
+	'group-patroller' => 'Патролери',
 	'group-researcher' => 'Истражувачи',
 	'group-rollbacker' => 'Враќачи',
+	'group-svnadmins' => 'Администратори на SVN',
 	'group-transwiki' => 'Меѓувики увoзници',
 	'group-trusted' => 'Докажани корисници',
 	'group-abusefilter-member' => 'уредник на филтерот за за злоупотреби',
 	'group-accountcreator-member' => 'создавач на сметка',
 	'group-arbcom-member' => 'член на арбитражната комисија',
-	'group-autopatrolled-member' => 'автоматски патролирач',
+	'group-autopatrolled-member' => 'автопатролер',
 	'group-autoreviewer-member' => 'автооценувач',
 	'group-bigexport-member' => 'голем извозник',
 	'group-confirmed-member' => 'потврден корисник',
@@ -6425,15 +6643,16 @@ $messages['mk'] = array(
 	'group-interface_editors-member' => 'уредник на посредникот',
 	'group-ipblock-exempt-member' => 'IP блок исклучок',
 	'group-OTRS-member-member' => 'член на OTRS',
-	'group-patroller-member' => 'патролирач',
+	'group-patroller-member' => 'патролер',
 	'group-researcher-member' => 'истражувач',
 	'group-rollbacker-member' => 'враќач',
+	'group-svnadmins-member' => 'Администратор на SVN',
 	'group-transwiki-member' => 'меѓувики увозник',
 	'group-trusted-member' => 'докажан корисник',
 	'grouppage-abusefilter' => '{{ns:project}}:Уредници на филтер на злоупотреби',
 	'grouppage-accountcreator' => '{{ns:project}}:Создавачи на сметки',
 	'grouppage-arbcom' => '{{ns:project}}:Членови на Арбитражната комисија',
-	'grouppage-autopatrolled' => '{{ns:project}}:Автоматски патролирачи',
+	'grouppage-autopatrolled' => '{{ns:project}}:Автопатролери',
 	'grouppage-autoreviewer' => '{{ns:project}}:Автооценувачи',
 	'grouppage-bigexport' => '{{ns:project}}:Големи извозници',
 	'grouppage-confirmed' => '{{ns:project}}:Потврдени корисници',
@@ -6449,6 +6668,7 @@ $messages['mk'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Членови на OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Истражувач',
 	'grouppage-rollbacker' => '{{ns:project}}:Враќачи',
+	'grouppage-svnadmins' => '{{ns:project}}:Администратори на SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Меѓувики увoзници',
 	'grouppage-trusted' => '{{ns:project}}:Докажани корисници',
 	'group-steward' => 'Стјуарди',
@@ -6478,14 +6698,14 @@ $messages['mk'] = array(
 	'group-inactive-member' => 'неактивен корисник',
 	'grouppage-inactive' => '{{ns:project}}:Нективни корисници',
 	'shared-repo-name-shared' => 'Заедничката Ризница',
-	'wikimedia-copyright' => 'Текстот е достапен под условите на лиценцата <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.mk">Creative Commons Наведи извор/Сподели под исти услови</a>;
+	'wikimedia-copyright' => 'Текстот е достапен под условите на лиценцата <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.mk">Криејтив комонс НаведиИзвор-СподелиПодИстиУслови</a>;
 може да важат и дополнителни услови.
-За повеќе информации, погледајте ги <a href="http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0">Условите на употреба</a>.',
-	'wikimedia-copyrightwarning' => 'Со зачувувањето на страницата Вие неотповикливо се согласувате дека ги објавувате Вашите придонеси под условите на лиценцата [http://creativecommons.org/licenses/by-sa/3.0/deed.mk Creative Commons Наведи извор/Сподели под исти услови 3.0] и на [http://www.gnu.org/copyleft/fdl.html GFDL].
-Вие се согласувате да добиете заслуга од наредните употребувачи на оваа содржина најмалку преку хиперврска или URL до страницата на која придонесувате. 
-Видете ги [http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0 условите на употреба] за детали.',
-	'wikimedia-editpage-tos-summary' => 'Доколку не сакате Вашиот текст да биде слободно уредуван и дистрибуиран, тогаш не поднесувајте го овде.
-Ако Вие не сте автор на текстов, тогаш тој мора да биде достапен под услови согласни на [http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0 условите на употреба] и се согласувате дека ќе ги исполните сите услови за лиценцирање.',
+Повеќе информации ќе најдете на страницата <a href="http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0">Услови на употреба</a>.',
+	'wikimedia-copyrightwarning' => 'Зачувувајќи ги Вашите измени, неотповикливо се согласувате дека ги објавувате Вашите придонеси под условите на лиценцата [http://creativecommons.org/licenses/by-sa/3.0/deed.mk Криејтив комонс НаведиИзвор-СподелиПодИстиУслови 3.0] и на [http://www.gnu.org/copyleft/fdl.html ГЛСД].
+Се согласувате да добиете заслуга при користењето на оваа сорджина со тоа што ќе Ве наведат барем со хиперврска или URL-адреса до страницата на која придонесувате. 
+Повеќе информации ќе добиете на страницата [http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0 Услови на употреба].',
+	'wikimedia-editpage-tos-summary' => 'Доколку не сакате Вашиот текст да биде слободно уредуван и распространуван, тогаш не поднесувајте го овде.
+Ако Вие не сте автор на текстов, тогаш тој мора да биде достапен под услови складни на [http://wikimediafoundation.org/wiki/%D0%A3%D1%81%D0%BB%D0%BE%D0%B2%D0%B8_%D0%BD%D0%B0_%D1%83%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B0 Условите на употреба], а Вие се согласувате дека ќе се придржувате до сите услови за лиценцирање.',
 );
 
 /** Malayalam (മലയാളം)
@@ -6505,6 +6725,10 @@ $messages['ml'] = array(
 	'sitesupport' => 'സംഭാവന',
 	'tooltip-n-sitesupport' => 'ഞങ്ങളെ പിന്തുണക്കുക',
 	'specialpages-group-contribution' => 'സംഭാവനകൾ/ഫണ്ട്‌‌റെയ്സർ',
+	'nstab-creator' => 'സ്രഷ്ടാവ്',
+	'nstab-institution' => 'സ്ഥാപനം',
+	'nstab-sequence' => 'ശ്രേണി',
+	'nstab-timedtext' => 'സമയരേഖ',
 	'group-abusefilter' => 'ദുരുപയോഗ അരിപ്പ തിരുത്തുന്നവർ',
 	'group-accountcreator' => 'അംഗത്വ സ്രഷ്ടാക്കൾ',
 	'group-arbcom' => 'മദ്ധ്യസ്ഥ സമിതി അംഗങ്ങൾ',
@@ -6525,6 +6749,7 @@ $messages['ml'] = array(
 	'group-patroller' => 'റോന്തു ചുറ്റുന്നവർ',
 	'group-researcher' => 'ഗവേഷകർ',
 	'group-rollbacker' => 'മുൻപ്രാപനം നടപ്പാക്കുന്നവർ',
+	'group-svnadmins' => 'എസ്.വി.എൻ. കാര്യനിർവ്വഹകർ',
 	'group-transwiki' => 'ട്രാൻസ്‌‌വിക്കി ഇറക്കുമതിക്കാർ',
 	'group-trusted' => 'വിശ്വാസ്യതയുള്ള ഉപയോക്താക്കൾ',
 	'group-abusefilter-member' => 'ദുരുപയോഗ അരിപ്പ തിരുത്തുന്നയാൾ',
@@ -6547,6 +6772,7 @@ $messages['ml'] = array(
 	'group-patroller-member' => 'റോന്തു ചുറ്റുന്നവർ',
 	'group-researcher-member' => 'ഗവേഷകർ',
 	'group-rollbacker-member' => 'മുൻപ്രാപനം ചെയ്യുന്നയാൾ',
+	'group-svnadmins-member' => 'എസ്.വി.എൻ. കാര്യനിർവ്വാഹക(ൻ)',
 	'group-transwiki-member' => 'ട്രാൻസ്‌‌വിക്കി ഇറക്കുമതിചെയ്യുന്നയാൾ',
 	'group-trusted-member' => 'വിശ്വാസ്യതയുള്ള ഉപയോക്താവ്',
 	'grouppage-abusefilter' => '{{ns:project}}: ദുരുപയോഗ അരിപ്പ തിരുത്തുന്നവർ',
@@ -6568,6 +6794,7 @@ $messages['ml'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:ഓ.റ്റി.ആർ.എസ്. അംഗങ്ങൾ',
 	'grouppage-researcher' => '{{ns:project}}:ഗവേഷകർ',
 	'grouppage-rollbacker' => '{{ns:project}}:മുൻപ്രാപനം ചെയ്യുന്നവർ',
+	'grouppage-svnadmins' => '{{ns:project}}:എസ്.വി.എൻ. കാര്യനിർവാഹകർ',
 	'grouppage-transwiki' => '{{ns:project}}:ട്രാൻസ്‌‌വിക്കി ഇറക്കുമതിക്കാർ',
 	'grouppage-trusted' => '{{ns:project}}:വിശ്വാസ്യതയുള്ള ഉപയോക്താക്കൾ',
 	'group-steward' => 'സ്റ്റ്യൂവാർഡുകൾ',
@@ -6595,8 +6822,8 @@ $messages['ml'] = array(
 	'wikimedia-copyright' => 'വിവരങ്ങൾ <a href="http://creativecommons.org/licenses/by-sa/3.0/">ക്രിയേറ്റീവ് കോമൺസ് ആട്രിബ്യൂഷൻ/ഷെയർ-എലൈക്ക് അനുമതിപത്ര (കടപ്പാട്, സമാനമായ അനുമതിപത്രം, എന്നിവ നൽകുക)</a> പ്രകാരം ലഭ്യമാണ്; മേൽ നിബന്ധനകൾ ഉണ്ടായേക്കാം. കൂടുതൽ വിവരങ്ങൾക്ക് <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">ഉപയോഗനിബന്ധനകൾ</a> കാണുക.',
 	'wikimedia-copyrightwarning' => 'താങ്കൾ എഴുതിച്ചേർത്തത് സേവ് ചെയ്യുമ്പോൾ, പ്രസ്തുത എഴുത്ത് [http://creativecommons.org/licenses/by-sa/3.0/ ക്രിയേറ്റീവ് കോമൺസ്/ഷെയർ എലൈക് 3.0], [http://www.gnu.org/copyleft/fdl.html ജി.എഫ്.ഡി.എൽ.] എന്നീ അനുമതിപത്രങ്ങൾ പ്രകാരം വിതരണം ചെയ്യുന്നതിനായി അംഗീകരിച്ചിരിക്കണം, ഈ അനുമതികൾ പിന്നീട് മാറ്റാൻ കഴിയുന്നതല്ല. താങ്കൾ മാറ്റങ്ങൾ വരുത്തിയ താളിനെ പുനരുപയോഗിക്കുന്നവർ, കുറഞ്ഞ പക്ഷം അതിലേക്ക് ഒരു ഹൈപ്പർലിങ്കോ യു.ആർ.എല്ലോ ഉപയോഗിച്ച് കടപ്പാട് നൽകുമെന്നും മനസ്സിലാക്കിയിരിക്കണം. 
 കൂടുതൽ വിവരങ്ങൾക്ക് [http://wikimediafoundation.org/wiki/Terms_of_Use ഉപയോഗനിബന്ധനകൾ] കാണുക.',
-	'wikimedia-editpage-tos-summary' => 'താങ്കളുടെ എഴുത്ത് തിരുത്തുകയും പുനർവിതരണം ചെയ്യുന്നതും അനുവദിക്കാനാകില്ലങ്കിൽ, അത് ഇവിടെ സമർപ്പിക്കാതിരിക്കുക.
-ഇത് താങ്കൾ തന്നെ എഴുതിയതല്ലങ്കിൽ, നിർബന്ധമായും [http://wikimediafoundation.org/wiki/Terms_of_Use നിബന്ധനാ പ്രമാണത്തിനു] വിധേയമായി ലഭ്യമായിരിക്കണം, ഒപ്പം ബന്ധപ്പെട്ട അനുമതികൾ താങ്കൾ അംഗീകരിക്കേണ്ടതുമാണ്.',
+	'wikimedia-editpage-tos-summary' => 'താങ്കളുടെ എഴുത്ത് തിരുത്തുന്നതും പുനർവിതരണം ചെയ്യുന്നതും അനുവദിക്കാനാകില്ലെങ്കിൽ, അത് ഇവിടെ സമർപ്പിക്കാതിരിക്കുക.
+ഇത് താങ്കൾ തന്നെ എഴുതിയതല്ലങ്കിൽ, നിർബന്ധമായും [http://wikimediafoundation.org/wiki/Terms_of_Use ഉപയോഗ നിബന്ധനകളുമായി] പൊരുത്തപ്പെടുന്ന വിധത്തിൽ ലഭ്യമായതായിരിക്കണം, ഒപ്പം ബന്ധപ്പെട്ട ഉപയോഗാനുമതികൾ താങ്കൾ അംഗീകരിക്കേണ്ടതുമാണ്.',
 );
 
 /** Mongolian (Монгол)
@@ -7047,6 +7274,10 @@ $messages['nl'] = array(
 	'sitesupport' => 'Donaties',
 	'tooltip-n-sitesupport' => 'Ondersteun ons financieel',
 	'specialpages-group-contribution' => 'Giften/Fondsenwervingsactie',
+	'nstab-creator' => 'Auteur',
+	'nstab-institution' => 'Instelling',
+	'nstab-sequence' => 'Volgorde',
+	'nstab-timedtext' => 'Ondertitel',
 	'group-abusefilter' => 'misbruikfilterredacteuren',
 	'group-accountcreator' => 'gebruikersaanmakers',
 	'group-arbcom' => 'arbitragecommissieleden',
@@ -7067,6 +7298,7 @@ $messages['nl'] = array(
 	'group-patroller' => 'Controleurs',
 	'group-researcher' => 'onderzoekers',
 	'group-rollbacker' => 'terugdraaiers',
+	'group-svnadmins' => 'SVN-beheerders',
 	'group-transwiki' => 'transwiki-importeurs',
 	'group-trusted' => 'vertrouwde gebruikers',
 	'group-abusefilter-member' => 'misbruikfilterredacteur',
@@ -7089,6 +7321,7 @@ $messages['nl'] = array(
 	'group-patroller-member' => 'Controleur',
 	'group-researcher-member' => 'onderzoeker',
 	'group-rollbacker-member' => 'terugdraaier',
+	'group-svnadmins-member' => 'SVN-beheerder',
 	'group-transwiki-member' => 'transwiki-importeur',
 	'group-trusted-member' => 'vertrouwde gebruiker',
 	'grouppage-abusefilter' => '{{ns:project}}:Misbruikfilterredacteuren',
@@ -7110,6 +7343,7 @@ $messages['nl'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS-leden',
 	'grouppage-researcher' => '{{ns:project}}:Onderzoekers',
 	'grouppage-rollbacker' => '{{ns:project}}:Terugdraaiers',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-beheerders',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-importeurs',
 	'grouppage-trusted' => '{{ns:project}}:Vertrouwde gebruikers',
 	'group-steward' => 'stewards',
@@ -7241,6 +7475,9 @@ $messages['no'] = array(
 	'sitesupport' => 'Donasjoner',
 	'tooltip-n-sitesupport' => 'Støtt oss',
 	'specialpages-group-contribution' => 'Bidrag/Innsamling',
+	'nstab-creator' => 'Opprettet av',
+	'nstab-institution' => 'Institusjon',
+	'nstab-sequence' => 'Rekkefølge',
 	'group-abusefilter' => 'Redaktører av misbruksfilteret',
 	'group-accountcreator' => 'Kontoopprettere',
 	'group-arbcom' => 'Meglingskomitémedlemmer',
@@ -7503,7 +7740,7 @@ $messages['pdt'] = array(
 	'tooltip-n-sitesupport' => 'Unjastett onns',
 );
 
-/** Pfälzisch (Pfälzisch)
+/** Pälzisch (Pälzisch)
  * @author SPS
  */
 $messages['pfl'] = array(
@@ -7533,6 +7770,10 @@ $messages['pl'] = array(
 	'sitesupport' => 'Darowizny',
 	'tooltip-n-sitesupport' => 'Pomóż nam',
 	'specialpages-group-contribution' => 'Darowizny/Zbieranie funduszy',
+	'nstab-creator' => 'Twórca',
+	'nstab-institution' => 'Instytucja',
+	'nstab-sequence' => 'Sekwencja',
+	'nstab-timedtext' => 'Lista dialogowa',
 	'group-abusefilter' => 'Operatorzy filtru nadużyć',
 	'group-accountcreator' => 'Tworzący konta',
 	'group-arbcom' => 'Członkowie Komitetu Arbitrażowego',
@@ -7553,6 +7794,7 @@ $messages['pl'] = array(
 	'group-patroller' => 'Patrolujący',
 	'group-researcher' => 'Inspektorzy',
 	'group-rollbacker' => 'Uprawnieni do wycofywania edycji',
+	'group-svnadmins' => 'Administratorzy SVN',
 	'group-transwiki' => 'Importerzy transwiki',
 	'group-trusted' => 'Zaufani użytkownicy',
 	'group-abusefilter-member' => 'operator filtru nadużyć',
@@ -7575,6 +7817,7 @@ $messages['pl'] = array(
 	'group-patroller-member' => 'Patrolujący',
 	'group-researcher-member' => 'inspektor',
 	'group-rollbacker-member' => 'uprawniony do wycofania edycji',
+	'group-svnadmins-member' => 'Administrator SVN',
 	'group-transwiki-member' => 'importer transwiki',
 	'group-trusted-member' => 'zaufany użytkownik',
 	'grouppage-abusefilter' => '{{ns:project}}:Operatorzy filtru nadużyć',
@@ -7596,6 +7839,7 @@ $messages['pl'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Operatorzy OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Inspektorzy',
 	'grouppage-rollbacker' => '{{ns:project}}:Uprawnieni do wycofywania edycji',
+	'grouppage-svnadmins' => '{{ns:project}}:Administratorzy SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importerzy transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Zaufani użytkownicy',
 	'group-steward' => 'Stewardzi',
@@ -7637,6 +7881,10 @@ $messages['pms'] = array(
 	'sitesupport' => 'Oferte',
 	'tooltip-n-sitesupport' => 'Giutene',
 	'specialpages-group-contribution' => 'Contribussion/Racòlta ëd fond',
+	'nstab-creator' => 'Creador',
+	'nstab-institution' => 'Istitussion',
+	'nstab-sequence' => 'Sequensa',
+	'nstab-timedtext' => 'TestSincronisà',
 	'group-abusefilter' => 'Modificator dij filtragi anti-abus',
 	'group-accountcreator' => 'Creator ëd cont',
 	'group-arbcom' => "Mèmber dël comità d'arbitragi",
@@ -7657,6 +7905,7 @@ $messages['pms'] = array(
 	'group-patroller' => 'Gent ëd patoja',
 	'group-researcher' => 'Arsercador',
 	'group-rollbacker' => 'Ripristinator',
+	'group-svnadmins' => 'Aministrator SVN',
 	'group-transwiki' => 'Amportator transwiki',
 	'group-trusted' => 'Utent sicur',
 	'group-abusefilter-member' => 'Modificator ëd filtragi anti-abus',
@@ -7679,6 +7928,7 @@ $messages['pms'] = array(
 	'group-patroller-member' => 'ëd patoja',
 	'group-researcher-member' => 'arsercador',
 	'group-rollbacker-member' => 'Ripristinator',
+	'group-svnadmins-member' => 'Aministrator SVN',
 	'group-transwiki-member' => 'Amportator transwiki',
 	'group-trusted-member' => 'utent sicur',
 	'grouppage-abusefilter' => '{{ns:project}}:Modificator dij filtragi anti-abus',
@@ -7700,6 +7950,7 @@ $messages['pms'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Mèmber OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Arsercador',
 	'grouppage-rollbacker' => '{{ns:project}}:Ripristinator',
+	'grouppage-svnadmins' => '{{ns:project}}:Aministrator SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Amportator transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Utent sicur',
 	'group-steward' => 'Vigilant',
@@ -7796,6 +8047,10 @@ $messages['pt'] = array(
 	'sitesupport' => 'Donativos',
 	'tooltip-n-sitesupport' => 'Ajude-nos',
 	'specialpages-group-contribution' => 'Contribuições/Angariação de fundos',
+	'nstab-creator' => 'Criador',
+	'nstab-institution' => 'Instituição',
+	'nstab-sequence' => 'Sequência',
+	'nstab-timedtext' => 'Legendagem',
 	'group-abusefilter' => 'Editores de filtros de abuso',
 	'group-accountcreator' => 'Criadores de contas',
 	'group-arbcom' => 'Membros da comissão de arbitragem',
@@ -7883,7 +8138,7 @@ $messages['pt'] = array(
 	'group-inactive' => 'Utilizadores inactivos',
 	'group-inactive-member' => 'utilizador inactivo',
 	'grouppage-inactive' => '{{ns:project}}:Utilizadores inactivos',
-	'wikimedia-copyright' => 'Este texto é disponibilizado nos termos da licença <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a>;
+	'wikimedia-copyright' => 'Este texto é disponibilizado nos termos da licença <a href="http://creativecommons.org/licenses/by-sa/3.0/deep.pt">Creative Commons - Atribuição - Partilha nos Mesmos Termos 3.0 Não Adaptada (CC BY-SA 3.0)</a>;
 pode estar sujeito a condições adicionais.
 Consulte as <a href="http://wikimediafoundation.org/wiki/Condições_de_Uso">Condições de Uso</a> para mais detalhes.',
 	'wikimedia-copyrightwarning' => 'Ao gravar a página, concorda em publicar irrevogavelmente as suas contribuições nos termos das licenças [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] e [http://www.gnu.org/copyleft/fdl.html GFDL].
@@ -7912,6 +8167,10 @@ $messages['pt-br'] = array(
 	'sitesupport' => 'Doações',
 	'tooltip-n-sitesupport' => 'Ajude-nos',
 	'specialpages-group-contribution' => 'Contribuições/Angariação de fundos',
+	'nstab-creator' => 'Criador',
+	'nstab-institution' => 'Instituição',
+	'nstab-sequence' => 'Sequência',
+	'nstab-timedtext' => 'Legendagem',
 	'group-abusefilter' => 'Editores de filtros de abuso',
 	'group-accountcreator' => 'Criadores de contas',
 	'group-arbcom' => 'Membros do comitê de arbitragrem',
@@ -7932,6 +8191,7 @@ $messages['pt-br'] = array(
 	'group-patroller' => 'Patrulhadores',
 	'group-researcher' => 'Pesquisadores',
 	'group-rollbacker' => 'Reversores',
+	'group-svnadmins' => 'Administradores do SVN',
 	'group-transwiki' => 'Importadores transwiki',
 	'group-trusted' => 'Usuários confiáveis',
 	'group-abusefilter-member' => 'editores de filtros de abuso',
@@ -7954,6 +8214,7 @@ $messages['pt-br'] = array(
 	'group-patroller-member' => 'Patrulhador',
 	'group-researcher-member' => 'pesquisador',
 	'group-rollbacker-member' => 'reversor',
+	'group-svnadmins-member' => 'Administrador do SVN',
 	'group-transwiki-member' => 'importador transwiki',
 	'group-trusted-member' => 'usuário confiável',
 	'grouppage-abusefilter' => '{{ns:project}}:Editores de filtros de abuso',
@@ -7975,6 +8236,7 @@ $messages['pt-br'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Membros do OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Pesquisador',
 	'grouppage-rollbacker' => '{{ns:project}}:Revertedores',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradores do SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Importadores transwiki',
 	'grouppage-trusted' => '{{ns:project}}:Usuários confiáveis',
 	'group-steward' => 'Stewards',
@@ -8116,8 +8378,12 @@ $messages['ro'] = array(
 	'wikimediamessages-desc' => 'Mesaje specifice Wikimedia',
 	'sitesupport-url' => 'http://wikimediafoundation.org/wiki/Donate/Now/ro?utm_source=donate&utm_medium=sidebar&utm_campaign=spontaneous_donation',
 	'sitesupport' => 'Donații',
-	'tooltip-n-sitesupport' => 'Sprijiniţi-ne',
+	'tooltip-n-sitesupport' => 'Sprijiniți-ne',
 	'specialpages-group-contribution' => 'Donație / Colectare de fonduri',
+	'nstab-creator' => 'Creator',
+	'nstab-institution' => 'Instituție',
+	'nstab-sequence' => 'Secvență',
+	'nstab-timedtext' => 'Text datat',
 	'group-abusefilter' => 'Editori filtru abuz',
 	'group-accountcreator' => 'Creatori de conturi',
 	'group-arbcom' => 'Membrii comitetului de arbitraj',
@@ -8347,6 +8613,10 @@ $messages['ru'] = array(
 	'sitesupport' => 'Пожертвования',
 	'tooltip-n-sitesupport' => 'Поддержите нас',
 	'specialpages-group-contribution' => 'Пожертвования/Сбор средств',
+	'nstab-creator' => 'Автор',
+	'nstab-institution' => 'Учреждение',
+	'nstab-sequence' => 'Последовательность',
+	'nstab-timedtext' => 'Синхротекст',
 	'group-abusefilter' => 'Редакторы фильтра злоупотреблений',
 	'group-accountcreator' => 'Создатели учётных записей',
 	'group-arbcom' => 'Члены арбитражного комитета',
@@ -8367,6 +8637,7 @@ $messages['ru'] = array(
 	'group-patroller' => 'Патрулирующие',
 	'group-researcher' => 'Исследователи',
 	'group-rollbacker' => 'Откатывающие',
+	'group-svnadmins' => 'Администраторы SVN',
 	'group-transwiki' => 'Межвики-импортирующие',
 	'group-trusted' => 'Доверенные участники',
 	'group-abusefilter-member' => 'редактор фильтра злоупотреблений',
@@ -8389,6 +8660,7 @@ $messages['ru'] = array(
 	'group-patroller-member' => 'патрулирующий',
 	'group-researcher-member' => 'исследователь',
 	'group-rollbacker-member' => 'откатывающий',
+	'group-svnadmins-member' => 'Администратор SVN',
 	'group-transwiki-member' => 'межвики-импортирующий',
 	'group-trusted-member' => 'доверенный участник',
 	'grouppage-abusefilter' => '{{ns:project}}:Редакторы фильтра злоупотреблений',
@@ -8410,6 +8682,7 @@ $messages['ru'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Члены OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Исследователь',
 	'grouppage-rollbacker' => '{{ns:project}}:Откатывающие',
+	'grouppage-svnadmins' => '{{ns:project}}:Администраторы SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Межвики-импортирующие',
 	'grouppage-trusted' => '{{ns:project}}:Доверенные участники',
 	'group-steward' => 'Стюарды',
@@ -8443,13 +8716,18 @@ $messages['ru'] = array(
 
 /** Rusyn (Русиньскый)
  * @author Gazeb
+ * @author Krinkle
  */
 $messages['rue'] = array(
 	'wikimediamessages-desc' => 'Повідомлїня, характерістічны про Вікімедію',
 	'sitesupport-url' => 'http://wikimediafoundation.org/wiki/Donate/rue',
-	'sitesupport' => 'Підпорте нас',
+	'sitesupport' => 'Підпорьте нас',
 	'tooltip-n-sitesupport' => 'Підпорьте нас',
 	'specialpages-group-contribution' => 'Приспевкы/фінанцованя',
+	'nstab-creator' => 'Автор',
+	'nstab-institution' => 'Інштітуція',
+	'nstab-sequence' => 'Послїдовность',
+	'nstab-timedtext' => 'Субтитри',
 	'group-abusefilter' => 'Адміністраторы філтра знеужываня',
 	'group-accountcreator' => 'Створювачі конт',
 	'group-arbcom' => 'Члены арбітражного комітету',
@@ -8470,6 +8748,7 @@ $messages['rue'] = array(
 	'group-patroller' => 'Патролы',
 	'group-researcher' => 'Бадателї',
 	'group-rollbacker' => 'Бадателї',
+	'group-svnadmins' => 'SVN адміністраторы',
 	'group-transwiki' => 'Transwiki-імпортеры',
 	'group-trusted' => 'Довірны хоснователї',
 	'group-abusefilter-member' => 'адміністратор філтра знеужываня',
@@ -8492,6 +8771,7 @@ $messages['rue'] = array(
 	'group-patroller-member' => 'патрола',
 	'group-researcher-member' => 'бадатель',
 	'group-rollbacker-member' => 'ревертователь',
+	'group-svnadmins-member' => 'SVN адміністратор',
 	'group-transwiki-member' => 'Transwiki-імпортер',
 	'group-trusted-member' => 'довірный хоснователь',
 	'grouppage-abusefilter' => '{{ns:project}}:Редакторы філтра знеужываня',
@@ -8513,6 +8793,7 @@ $messages['rue'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Члены OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Бадателї',
 	'grouppage-rollbacker' => '{{ns:project}}:Ревертователї',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN адміністраторы',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-імпортеры',
 	'grouppage-trusted' => '{{ns:project}}:Довірны хоснователї',
 	'group-steward' => 'Стеварды',
@@ -8536,7 +8817,7 @@ $messages['rue'] = array(
 	'group-inactive' => 'Неактівны хоснователї',
 	'group-inactive-member' => 'неактівный хоснователь',
 	'grouppage-inactive' => '{{ns:project}}:Неактівны хоснователї',
-	'wikimedia-copyright' => 'Текст є доступный під<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.rue">ліценціов Creative Commons Зазначте автора&nbsp;– Уховайте ліценцію</a>, припадно за далшых подмінок. Детайлы найдете на сторінцї <a href="http://wikimediafoundation.org/wiki/Подмінкы_схоснованя">Подмінкы схоснованя</a>.',
+	'wikimedia-copyright' => 'Текст є доступный під <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.rue">ліценціов Creative Commons Зазначте автора&nbsp;– Уховайте ліценцію</a>, припадно за далшых подмінок. Детайлы найдете на сторінцї <a href="http://wikimediafoundation.org/wiki/Подмінкы_схоснованя">Подмінкы схоснованя</a>.',
 	'wikimedia-copyrightwarning' => 'Уложінём ваш приспевок неодволательно увольнюєте під ліценціями [http://creativecommons.org/licenses/by-sa/3.0/deed.rue Creative Commons Зазначте автора&nbsp;– Заховайте ліценцію&nbsp;3.0] і&nbsp;[http://www.gnu.org/copyleft/fdl.html GFDL]. Согласите з&nbsp;тым, жебы далшы хоснователї ваше авторство увели холем формов гіпертекстового одказу або адресы на сторінку, до котрой приспівате. Детайлы найдете в&nbsp;[http://wikimediafoundation.org/wiki/Подмінкы_хоснованя подмінках хоснованя].',
 	'wikimedia-editpage-tos-summary' => 'Кідь собі не желате, жебы ваш приспевок быв немилосердно управляный і&nbsp;вольно шыреный, пак го ту не укладайте. Покы не сьте автором тексту, мусить быти доступный за подмінок злучітельных з&nbsp;нашыма [http://wikimediafoundation.org/wiki/Подмнікы_хоснованя подмінками хоснованя] і&nbsp;вы сугласите із вшыткыма прислушныма ліценчныма пожадавками.',
 );
@@ -8569,6 +8850,10 @@ $messages['sah'] = array(
 	'sitesupport' => 'Бу сири өйөө',
 	'tooltip-n-sitesupport' => 'Өйөбүл',
 	'specialpages-group-contribution' => 'Сиэртибэлээһин/Үп хомуйуу',
+	'nstab-creator' => 'Ааптар',
+	'nstab-institution' => 'Тэрилтэ',
+	'nstab-sequence' => 'Утум',
+	'nstab-timedtext' => 'Синхротиэкис',
 	'group-abusefilter' => 'Омсо сиидэтин эрэдээктэрдэрэ',
 	'group-accountcreator' => 'Кыттааччылар ааттарын айааччылар/бигэргэтээччилэр',
 	'group-arbcom' => 'Арбитраж кэмитиэтин чилиэннэрэ',
@@ -8589,6 +8874,7 @@ $messages['sah'] = array(
 	'group-patroller' => 'Ботурууллар',
 	'group-researcher' => 'Чинчийээччилэр',
 	'group-rollbacker' => 'Төннөрөөччүлэр',
+	'group-svnadmins' => 'SVN дьаһабыллара',
 	'group-transwiki' => 'Transwiki`ттан импортааччылар',
 	'group-trusted' => 'Итэҕэллээх кыттааччылар',
 	'group-abusefilter-member' => 'омсо сиидэтин эрэдээктэрэ',
@@ -8611,6 +8897,7 @@ $messages['sah'] = array(
 	'group-patroller-member' => 'ботуруул',
 	'group-researcher-member' => 'чинчийээччи',
 	'group-rollbacker-member' => 'Төннөрөөччү',
+	'group-svnadmins-member' => 'SVN дьаһабыла',
 	'group-transwiki-member' => 'transwiki`ттан импортааччы',
 	'group-trusted-member' => 'итэҕэтиилээх кыттааччы',
 	'grouppage-abusefilter' => '{{ns:project}}:Омсо сиидэтин эрэдээктэрдэрэ',
@@ -8632,6 +8919,7 @@ $messages['sah'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS чилиэннэрэ',
 	'grouppage-researcher' => '{{ns:project}}:Чинчийэччилэр',
 	'grouppage-rollbacker' => '{{ns:project}}:Төннөрөөччүлэр',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN дьаһабыллара',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki`ттан көһөрөөччүлэр',
 	'grouppage-trusted' => '{{ns:project}}:Итэҕэллээх кыттааччылар',
 	'group-steward' => 'Үстүйээрдэр',
@@ -8799,6 +9087,7 @@ $messages['shi'] = array(
 );
 
 /** Sinhala (සිංහල)
+ * @author Budhajeewa
  * @author Calcey
  * @author Pasanbhathiya2
  * @author චතුනි අලහප්පෙරුම
@@ -8811,6 +9100,10 @@ $messages['si'] = array(
 	'sitesupport' => 'පරිත්‍යාග',
 	'tooltip-n-sitesupport' => 'අප හට අනුග්‍රහ සපයන්න',
 	'specialpages-group-contribution' => 'දායකත්වය/සංචිතය',
+	'nstab-creator' => 'සෑදූ අය',
+	'nstab-institution' => 'ආයතනය',
+	'nstab-sequence' => 'අනුක්‍රමය',
+	'nstab-timedtext' => 'කාලිතපෙළ',
 	'group-abusefilter' => 'පෙරහන් සැකසුම් අනිසි භාවිතය',
 	'group-accountcreator' => 'ගිණුම් තනන්නන්',
 	'group-arbcom' => 'සමථ කමිටු සාමාජීකයන්',
@@ -8819,6 +9112,7 @@ $messages['si'] = array(
 	'group-bigexport' => 'විශාල නිර්යාතකරුවන්',
 	'group-confirmed' => 'තහවුරු කරනු ලැබූ පරිශීලකයන්',
 	'group-editprotected' => 'සුරැකි පිටු සංස්කාරකවරුන්',
+	'group-eliminator' => 'ඉවත්කුරු',
 	'group-filemover' => 'ගොනු චාලකයින්',
 	'group-flood' => 'Bot පරිශීලකයන්',
 	'group-founder' => 'ප්‍රාරම්භකයන්',
@@ -8840,6 +9134,7 @@ $messages['si'] = array(
 	'group-bigexport-member' => 'විශාල නිර්යාතකරු',
 	'group-confirmed-member' => 'තහවුරු කරනු ලැබූ පරිශීලක',
 	'group-editprotected-member' => 'සුරැකි පිටු සංස්කාරක',
+	'group-eliminator-member' => 'ඉවත්කුරුව',
 	'group-filemover-member' => 'ගොනු චාලක',
 	'group-flood-member' => ' bot පරිශීලක',
 	'group-founder-member' => 'ප්‍රාරම්භක',
@@ -8861,6 +9156,7 @@ $messages['si'] = array(
 	'grouppage-bigexport' => '{{ns:project}}:විශාල නිර්යාතකරුවන්',
 	'grouppage-confirmed' => '{{ns:project}}:තහවුරු කරන ලද පරිශීලකයන්',
 	'grouppage-editprotected' => '{{ns:project}}:සුරැකි පිටු සංස්කාරක',
+	'grouppage-eliminator' => '{{ns:project}}:ඉවත්කුරුව',
 	'grouppage-filemover' => '{{ns:project}}:ගොනු චාලක',
 	'grouppage-flood' => '{{ns:project}}:Bot පරිශීලකයන්',
 	'grouppage-founder' => '{{ns:project}}:ප්‍රාරම්භකයන්',
@@ -8918,6 +9214,10 @@ $messages['sk'] = array(
 	'sitesupport' => 'Podpora',
 	'tooltip-n-sitesupport' => 'Podporte nás',
 	'specialpages-group-contribution' => 'Prispievateľov/fundraising',
+	'nstab-creator' => 'Tvorca',
+	'nstab-institution' => 'Inštitúcia',
+	'nstab-sequence' => 'Poradie',
+	'nstab-timedtext' => 'ČasovanýText',
 	'group-abusefilter' => 'Redaktori filtrov zneužití',
 	'group-accountcreator' => 'Tvorcovia účtov',
 	'group-arbcom' => 'Členovia arbitrážnej komisie',
@@ -8938,6 +9238,7 @@ $messages['sk'] = array(
 	'group-patroller' => 'Strážcovia',
 	'group-researcher' => 'Výskumníci',
 	'group-rollbacker' => 'S právom rollback',
+	'group-svnadmins' => 'správcovia SVN',
 	'group-transwiki' => 'Transwiki importéri',
 	'group-trusted' => 'Dôveryhodní používatelia',
 	'group-abusefilter-member' => 'redaktor filtrov zneužití',
@@ -8960,6 +9261,7 @@ $messages['sk'] = array(
 	'group-patroller-member' => 'Strážca',
 	'group-researcher-member' => 'výskumník',
 	'group-rollbacker-member' => 'S právom rollback',
+	'group-svnadmins-member' => 'správca SVN',
 	'group-transwiki-member' => 'Transwiki importér',
 	'group-trusted-member' => 'dôveryhodný používateľ',
 	'grouppage-abusefilter' => '{{ns:project}}:Redaktori filtrov zneužití',
@@ -8981,6 +9283,7 @@ $messages['sk'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Členovia OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Výskumníci',
 	'grouppage-rollbacker' => '{{ns:project}}:S právom rollback',
+	'grouppage-svnadmins' => '{{ns:project}}:Správcovia SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki importéri',
 	'grouppage-trusted' => '{{ns:project}}:Dôveryhodní používatelia',
 	'group-steward' => 'Stewardi',
@@ -9020,6 +9323,10 @@ $messages['sl'] = array(
 	'sitesupport' => 'Denarni prispevki',
 	'tooltip-n-sitesupport' => 'Podprite nas',
 	'specialpages-group-contribution' => 'Prispevek/Zbiralec sredstev',
+	'nstab-creator' => 'Ustvarjalec',
+	'nstab-institution' => 'Ustanova',
+	'nstab-sequence' => 'Zaporedje',
+	'nstab-timedtext' => 'ČasovnoBesedilo',
 	'group-abusefilter' => 'Uredniki filtrov zlorabe',
 	'group-accountcreator' => 'Ustvarjalci računov',
 	'group-arbcom' => 'Člani arbitražnega odbora',
@@ -9040,6 +9347,7 @@ $messages['sl'] = array(
 	'group-patroller' => 'Nadzorniki',
 	'group-researcher' => 'Raziskovalci',
 	'group-rollbacker' => 'Vračalci urejanj',
+	'group-svnadmins' => 'Skrbniki SVN',
 	'group-transwiki' => 'Transwiki uvozniki',
 	'group-trusted' => 'Zaupani uporabniki',
 	'group-abusefilter-member' => 'urednik filtrov zlorabe',
@@ -9062,6 +9370,7 @@ $messages['sl'] = array(
 	'group-patroller-member' => 'nadzornik',
 	'group-researcher-member' => 'raziskovalec',
 	'group-rollbacker-member' => 'vračalec urejanj',
+	'group-svnadmins-member' => 'Skrbnik SVN',
 	'group-transwiki-member' => 'transwiki uvoznik',
 	'group-trusted-member' => 'zaupan uporabnik',
 	'grouppage-abusefilter' => '{{ns:project}}:Uredniki filtrov zlorabe',
@@ -9083,6 +9392,7 @@ $messages['sl'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Člani OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Raziskovalci',
 	'grouppage-rollbacker' => '{{ns:project}}:Vračalci urejanj',
+	'grouppage-svnadmins' => '{{ns:project}}:Skrbniki SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki uvozniki',
 	'grouppage-trusted' => '{{ns:project}}:Zaupani uporabniki',
 	'group-steward' => 'Upravniki',
@@ -9154,26 +9464,118 @@ $messages['so'] = array(
 
 /** Albanian (Shqip)
  * @author Dori
+ * @author Mikullovci11
+ * @author Olsi
  * @author Puntori
  */
 $messages['sq'] = array(
+	'wikimediamessages-desc' => 'Mesazhet specifike të Wikimedia-s',
+	'sitesupport-url' => 'http://wikimediafoundation.org/wiki/Donate/Now/en?utm_source=donate&utm_medium=sidebar&utm_campaign=spontaneous_donation',
 	'sitesupport' => 'Dhurime',
 	'tooltip-n-sitesupport' => 'Na përmbajë',
+	'specialpages-group-contribution' => 'Kontibut/Fundraiser',
+	'nstab-creator' => 'Krijues',
+	'nstab-institution' => 'Institucion',
+	'nstab-sequence' => 'Sekuencë',
+	'nstab-timedtext' => 'TimedText',
+	'group-abusefilter' => 'Abuzoni redaktorët filtër',
 	'group-accountcreator' => 'Krijuesit e kontove',
+	'group-arbcom' => 'Anëtarët e komisionit të arbitrazhit',
+	'group-autopatrolled' => 'Patrolluesit automatik',
+	'group-autoreviewer' => 'Rishikuesit automatik',
+	'group-bigexport' => 'Eksportuesit e mëdhenj',
+	'group-confirmed' => 'Përdoruesit e konfirmuar',
+	'group-editprotected' => 'Redaktorët që mbrojnë faqet',
+	'group-eliminator' => 'Eleminiesit',
+	'group-filemover' => 'Lëvizësit e skedve',
+	'group-flood' => 'Përdoruesit robotë',
 	'group-founder' => 'Themeluesit',
+	'group-Image-reviewer' => 'Rishikues figurash',
 	'group-import' => 'Importuesit',
+	'group-interface_editors' => 'Redaktues ndërfaqesh',
+	'group-ipblock-exempt' => 'Përjashtimet për bllokimin e IP-ve',
+	'group-OTRS-member' => 'Anëtarët OTRS',
+	'group-patroller' => 'Patrolluesit',
+	'group-researcher' => 'Hulumtuesit',
+	'group-rollbacker' => 'Rikthyesit',
+	'group-svnadmins' => 'Administruesit SVN',
+	'group-transwiki' => 'Importuesit ndër-wiki',
+	'group-trusted' => 'Përdoruesit e besuar',
+	'group-abusefilter-member' => 'abuzoni redaktorët filtër',
+	'group-accountcreator-member' => 'krijues llogarish',
+	'group-arbcom-member' => 'anëtar i komisionit të arbitrazhit',
+	'group-autopatrolled-member' => 'patrolluesit automatik',
+	'group-autoreviewer-member' => 'rishikuesit automatik',
+	'group-bigexport-member' => 'eksportues i madhë',
+	'group-confirmed-member' => 'përdorues e konfirmuar',
+	'group-editprotected-member' => 'Redaktor për faqeve të mbrojtura',
+	'group-eliminator-member' => 'eliminues',
+	'group-filemover-member' => 'levizues e skedave',
+	'group-flood-member' => 'përdorues robotike',
 	'group-founder-member' => 'themelues',
+	'group-Image-reviewer-member' => 'kontrollues e skedave',
 	'group-import-member' => 'importues',
+	'group-interface_editors-member' => 'redaktues ndërfaqesh',
+	'group-ipblock-exempt-member' => 'bllokimit-IP e përjashtimuar',
+	'group-OTRS-member-member' => 'anëtarë OTRS',
+	'group-patroller-member' => 'inspektorues',
+	'group-researcher-member' => 'kërkues',
+	'group-rollbacker-member' => 'rikthejuës',
+	'group-svnadmins-member' => 'administrues SVN',
+	'group-transwiki-member' => 'importues transwiki',
+	'group-trusted-member' => 'përdoruesi e besueshme',
+	'grouppage-abusefilter' => '{{ns:project}}:Abuzoni redaktorët filtër',
+	'grouppage-accountcreator' => '{{ns:project}}:Krijuesit për llogarit të reja',
+	'grouppage-arbcom' => '{{ns:project}}:Anëtarët e komisionit të arbitrazhit',
+	'grouppage-autopatrolled' => '{{ns:project}}:Inspektoruesit automatik',
+	'grouppage-autoreviewer' => '{{ns:project}}:Kontrolluesit automatik',
+	'grouppage-bigexport' => '{{ns:project}}:Eksportuesit të mëdha',
+	'grouppage-confirmed' => '{{ns:project}}:Përdoruesit e konfirmuar',
+	'grouppage-editprotected' => '{{ns:project}}:Redaktoruesit për faqeve të mbrojtura',
+	'grouppage-eliminator' => '{{ns:project}}:Eliminues',
+	'grouppage-filemover' => '{{ns:project}}:Levizuesit e skedave',
+	'grouppage-flood' => '{{ns:project}}:Përdoruesi robotë',
+	'grouppage-founder' => '{{ns:project}}:Themelues',
+	'grouppage-Image-reviewer' => '{{ns:project}}:Kontrolluesit e skedave',
+	'grouppage-import' => '{{ns:project}}:Importues',
+	'grouppage-interface_editors' => '{{ns:project}}:Redaktuesit e ndërfaqeve',
+	'grouppage-ipblock-exempt' => '{{ns:project}}:Përjashtim-E bllokimit-IP',
+	'grouppage-OTRS-member' => '{{ns:project}}:Anëtarët OTRS',
+	'grouppage-researcher' => '{{ns:project}}:Kërkuesit',
+	'grouppage-rollbacker' => '{{ns:project}}:Rikthejuësit',
+	'grouppage-svnadmins' => '{{ns:project}}:Administruesit SVN',
+	'grouppage-transwiki' => '{{ns:project}}:Importuesit e transwiki-t',
+	'grouppage-trusted' => '{{ns:project}}:Përdoruesit të besueshme',
 	'group-steward' => 'Përgjegjës',
+	'group-sysadmin' => 'Sistemi administrativ',
+	'group-editinterface' => 'Redaktues ndërfaqesh',
+	'group-Global_bot' => 'Robotet global',
+	'group-Global_rollback' => 'Rikthejuës globale',
+	'group-Global_sysops' => 'Administratori global',
+	'group-Ombudsmen' => 'Ombudsperson',
 	'group-Staff' => 'Stafi',
 	'group-steward-member' => 'Përgjegjës',
+	'group-sysadmin-member' => 'administratori i sistemit',
+	'group-editinterface-member' => 'redaktor interface',
+	'group-Global_bot-member' => 'roboti globale',
+	'group-Global_rollback-member' => 'Rikthejuës globale',
+	'group-Global_sysops-member' => 'Administrator globale',
+	'group-Ombudsmen-member' => 'Ombudsperson',
 	'group-Staff-member' => 'anëtar i stafit',
 	'group-coder' => 'Koduesit',
 	'group-coder-member' => 'kodues',
+	'group-inactive' => 'Përdorueset joaktiv',
+	'group-inactive-member' => 'Përdoruesi joaktiv',
+	'grouppage-inactive' => '{{ns:project}}:Përdoruesit joaktiv',
+	'wikimedia-copyright' => 'Të gjitha materialet që gjenden në këtë faqë janë të mbrojtura nga <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a>.
+Shikoni <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Kushtet e Përdorimit</a> për më shumë informacione.',
+	'wikimedia-copyrightwarning' => 'Duke shpëtuar/ruajtur, ju pajtoheni në mënyrë të parevokueshme të lëshoni kontributin tuaj nën liçensën [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] dhe [http://www.gnu.org/copyleft/fdl.html Licenca për Dokumentim të Lirë (GFDL)]. Ju pajtoheni të jeni i kredituar nga ripërdoruesit, si minimum, nga një hyper-lidhje ose URL te faqja ku ju po kontribuoni. Shikoni [http://wikimediafoundation.org/wiki/Terms_of_Use Kushtet e përdorimit] për detaje.',
+	'wikimedia-editpage-tos-summary' => 'Nëse ju nuk dëshironi që shkrimet tuaja të redaktohen dhe rishpërndahen, atëherë mos i jepni këtu. Nëse ju nuk e keni shkruar këtë vetë, ajo duhet të jetë në dispozicion sipas kushteve në përputhje me [http://wikimediafoundation.org/wiki/Terms_of_Use Kushtet e Përdorimit], dhe ju pranoni të ndiqni çdo kërkesë të licensimit përkatës.',
 );
 
-/** Serbian Cyrillic ekavian (Српски (ћирилица))
+/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
  * @author Millosh
+ * @author Rancher
  * @author Red Baron
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -9241,12 +9643,15 @@ $messages['sr-ec'] = array(
 	'group-Global_bot' => 'Глобални ботови',
 	'group-Global_rollback' => 'Глобални враћачи',
 	'group-Global_sysops' => 'Глобални администратори',
+	'group-Staff' => 'Уредништво',
 	'group-steward-member' => 'Стјуард',
 	'group-sysadmin-member' => 'системски администратор',
 	'group-editinterface-member' => 'уредник интерфејса',
 	'group-Global_bot-member' => 'глобални бот',
 	'group-Global_rollback-member' => 'глобални враћач',
 	'group-Global_sysops-member' => 'глобални администратор',
+	'group-Staff-member' => 'уредништво',
+	'grouppage-Staff' => 'Задужбина:Уредништво',
 	'group-coder' => 'Кодери',
 	'group-coder-member' => 'кодер',
 	'group-inactive' => 'Неактивни корисници',
@@ -9254,7 +9659,7 @@ $messages['sr-ec'] = array(
 	'grouppage-inactive' => '{{ns:project}}:Неактивни корисници',
 );
 
-/** Serbian Latin ekavian (Srpski (latinica))
+/** Serbian Latin ekavian (‪Srpski (latinica)‬)
  * @author Michaello
  * @author Жељко Тодоровић
  */
@@ -9484,6 +9889,7 @@ $messages['su'] = array(
  * @author Rotsee
  * @author Sannab
  * @author Sertion
+ * @author Tobulos1
  */
 $messages['sv'] = array(
 	'wikimediamessages-desc' => 'Wikimedia-specifika meddelanden',
@@ -9491,6 +9897,10 @@ $messages['sv'] = array(
 	'sitesupport' => 'Donera',
 	'tooltip-n-sitesupport' => 'Stöd oss',
 	'specialpages-group-contribution' => 'Bidrag/Insamling',
+	'nstab-creator' => 'Skapare',
+	'nstab-institution' => 'Institution',
+	'nstab-sequence' => 'Ordningsföljd',
+	'nstab-timedtext' => 'Undertext',
 	'group-abusefilter' => 'Redigerare av missbruksfilter',
 	'group-accountcreator' => 'Kontoskapare',
 	'group-arbcom' => 'Medlemmar av förlikningskommitte',
@@ -9511,6 +9921,7 @@ $messages['sv'] = array(
 	'group-patroller' => 'Patrullerare',
 	'group-researcher' => 'Forskare',
 	'group-rollbacker' => 'Tillbakarullare',
+	'group-svnadmins' => 'SVN administratörer',
 	'group-transwiki' => 'Transwiki-importörer',
 	'group-trusted' => 'Betrodda användare',
 	'group-abusefilter-member' => 'redigerare av missbruksfilter',
@@ -9533,6 +9944,7 @@ $messages['sv'] = array(
 	'group-patroller-member' => 'patrullerare',
 	'group-researcher-member' => 'forskare',
 	'group-rollbacker-member' => 'tillbakarullare',
+	'group-svnadmins-member' => 'SVN administratör',
 	'group-transwiki-member' => 'transwiki-importör',
 	'group-trusted-member' => 'betrodd användare',
 	'grouppage-abusefilter' => '{{ns:project}}:Redigerare av missbruksfilter',
@@ -9554,6 +9966,7 @@ $messages['sv'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}: OTRS-medlemmar',
 	'grouppage-researcher' => '{{ns:project}}:Forskare',
 	'grouppage-rollbacker' => '{{ns:project}}:Tillbakarullare',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratörer',
 	'grouppage-transwiki' => '{{ns:project}}:Transwiki-importörer',
 	'grouppage-trusted' => '{{ns:project}}:Betrodda användare',
 	'group-steward' => 'Stewarder',
@@ -9673,6 +10086,7 @@ Uobejzdrzij blank dokłodne informacyje uo <a href="http://wikimediafoundation.o
 
 /** Tamil (தமிழ்)
  * @author Mayooranathan
+ * @author Sodabottle
  * @author TRYPPN
  * @author Trengarasu
  */
@@ -9694,6 +10108,12 @@ $messages['ta'] = array(
 	'group-Staff-member' => 'பணியாளர்',
 	'group-inactive' => 'பங்களிக்காத பயனர்கள்',
 	'group-inactive-member' => 'பங்களிக்காத பயனர்',
+	'wikimedia-copyrightwarning' => 'இந்த ஆக்கத்தை சேமிப்பதன் மூலம் நீங்கள் [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons Attribution/Share-Alike License 3.0] மற்றும் [http://www.gnu.org/copyleft/fdl.html GFDL] பதிப்புரிமை விதிகளுக்கு உட்பட்டு உங்கள் பங்களிப்புகளை பிறருடன் பகிர்ந்து கொள்ள ஒப்புதல் அளிக்கிறீர்கள்.
+
+இந்த ஆக்கத்தினை மறுபயன்பாடு செய்பவர்கள், குறைந்த பட்சம் இந்த பக்கத்துக்கு ஒரு மீத்தொடுப்பு தருவதன் மூலம் பங்களிப்பு உங்களுடையது என்று அறிவித்துவிட்டு, இதனை பயன்படுத்தவும் ஒப்புதல் அளிக்கிறீர்கள். 
+
+விவரங்களுக்கு, [http://wikimediafoundation.org/wiki/Terms_of_Use பயன்பாட்டு விதிமுறைகளைப்] பார்க்கவும்.',
+	'wikimedia-editpage-tos-summary' => 'உங்கள் படைப்புகளை பிறர் மாற்றம் செய்வதிலும் மறுபயன்பாடு செய்வதிலும் உங்களுக்கு விருப்பம் இல்லையெனில் இங்கு அவற்றை சேமிக்க வேண்டாம். இது நீங்கள் எழுதியதில்லையெனில், இது விக்கிமீடியா அறக்கட்டளையின் [http://wikimediafoundation.org/wiki/Terms_of_Use பயன்பாட்டு விதிமுறைகளுக்கு] உட்பட்டதாக இருக்க வேண்டும். மேலும் இங்கு இதனை சேமிக்கும் பொழுது இதற்கு ஏற்ற பதிப்புரிமை விதிமுறைகளைப் பின்பற்ற ஒப்புக் கொள்கிறீர்கள் என்பதை நினைவில் கொள்ளுங்கள்.',
 );
 
 /** Telugu (తెలుగు)
@@ -10223,6 +10643,10 @@ $messages['tr'] = array(
 	'sitesupport' => 'Bağışlar',
 	'tooltip-n-sitesupport' => 'Bizi destekleyin',
 	'specialpages-group-contribution' => 'Katkı/Fonsağlayıcı',
+	'nstab-creator' => 'Oluşturan',
+	'nstab-institution' => 'Kurum',
+	'nstab-sequence' => 'Sıra',
+	'nstab-timedtext' => 'ZamanlıMetin',
 	'group-abusefilter' => 'Suistimal filtresi editörleri',
 	'group-accountcreator' => 'Hesap oluşturucular',
 	'group-arbcom' => 'Tahkim heyeti üyeleri',
@@ -10563,6 +10987,7 @@ $messages['ug-latn'] = array(
  * @author NickK
  * @author Prima klasy4na
  * @author Riwnodennyk
+ * @author Тест
  */
 $messages['uk'] = array(
 	'wikimediamessages-desc' => 'Повідомлення, характерні для Вікімедіа',
@@ -10570,6 +10995,10 @@ $messages['uk'] = array(
 	'sitesupport' => 'Пожертвування',
 	'tooltip-n-sitesupport' => 'Підтримайте проект',
 	'specialpages-group-contribution' => 'Пожертвування/Збір коштів',
+	'nstab-creator' => 'Автор',
+	'nstab-institution' => 'Установа',
+	'nstab-sequence' => 'Послідовність',
+	'nstab-timedtext' => 'Субтитри',
 	'group-abusefilter' => 'Редактори фільтра зловживань',
 	'group-accountcreator' => 'Створювачі облікових записів',
 	'group-arbcom' => 'Члени арбітражного комітету',
@@ -10867,6 +11296,10 @@ $messages['vi'] = array(
 	'sitesupport' => 'Quyên góp',
 	'tooltip-n-sitesupport' => 'Hãy hỗ trợ chúng tôi',
 	'specialpages-group-contribution' => 'Quyên góp/Vận động gây quỹ',
+	'nstab-creator' => 'Tác giả',
+	'nstab-institution' => 'Tổ chức',
+	'nstab-sequence' => 'Trình chiếu',
+	'nstab-timedtext' => 'Văn bản đồng bộ',
 	'group-abusefilter' => 'Người sửa bộ lọc lạm dụng',
 	'group-accountcreator' => 'Người mở tài khoản',
 	'group-arbcom' => 'Ủy viên Ủy ban Trọng tài',
@@ -10887,10 +11320,11 @@ $messages['vi'] = array(
 	'group-patroller' => 'Tuần tra viên',
 	'group-researcher' => 'Nhà nghiên cứu',
 	'group-rollbacker' => 'Người lùi sửa',
+	'group-svnadmins' => 'Người quản lý SVN',
 	'group-transwiki' => 'Người nhập trang giữa wiki',
 	'group-trusted' => 'Thành viên tin cậy',
-	'group-abusefilter-member' => 'người sửa bộ lọc lạm dụng',
-	'group-accountcreator-member' => 'Người mở tài khoản',
+	'group-abusefilter-member' => 'thành viên sửa bộ lọc lạm dụng',
+	'group-accountcreator-member' => 'người mở tài khoản',
 	'group-arbcom-member' => 'ủy viên Ủy ban Trọng tài',
 	'group-autopatrolled-member' => 'tuần tra viên tự động',
 	'group-autoreviewer-member' => 'người tự duyệt',
@@ -10900,16 +11334,17 @@ $messages['vi'] = array(
 	'group-eliminator-member' => 'người xóa trang',
 	'group-filemover-member' => 'người đổi tên tập tin',
 	'group-flood-member' => 'người dùng bot',
-	'group-founder-member' => 'Nhà sáng lập',
+	'group-founder-member' => 'sáng lập viên',
 	'group-Image-reviewer-member' => 'người duyệt hình',
-	'group-import-member' => 'Người nhập trang',
+	'group-import-member' => 'người nhập trang',
 	'group-interface_editors-member' => 'người sửa giao diện',
-	'group-ipblock-exempt-member' => 'Người được miễn cấm IP',
+	'group-ipblock-exempt-member' => 'người được miễn cấm IP',
 	'group-OTRS-member-member' => 'thành viên OTRS',
-	'group-patroller-member' => 'Tuần tra viên',
+	'group-patroller-member' => 'tuần tra viên',
 	'group-researcher-member' => 'nhà nghiên cứu',
-	'group-rollbacker-member' => 'Người lùi sửa',
-	'group-transwiki-member' => 'Người nhập trang giữa wiki',
+	'group-rollbacker-member' => 'người lùi sửa',
+	'group-svnadmins-member' => 'người quản lý SVN',
+	'group-transwiki-member' => 'người nhập trang giữa wiki',
 	'group-trusted-member' => 'thành viên tin cậy',
 	'grouppage-abusefilter' => '{{ns:project}}:Người sửa bộ lọc lạm dụng',
 	'grouppage-accountcreator' => '{{ns:project}}:Người mở tài khoản',
@@ -10930,32 +11365,35 @@ $messages['vi'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:Thành viên OTRS',
 	'grouppage-researcher' => '{{ns:project}}:Nhà nghiên cứu',
 	'grouppage-rollbacker' => '{{ns:project}}:Người lùi sửa',
+	'grouppage-svnadmins' => '{{ns:project}}:Người quản lý SVN',
 	'grouppage-transwiki' => '{{ns:project}}:Người nhập trang giữa wiki',
 	'grouppage-trusted' => '{{ns:project}}:Thành viên tin cậy',
 	'group-steward' => 'Tiếp viên',
-	'group-sysadmin' => 'Người quản lý hệ thống',
-	'group-editinterface' => 'Sửa giao diện',
-	'group-Global_bot' => 'Robot toàn cầu',
-	'group-Global_rollback' => 'Thành viên lùi sửa toàn cầu',
+	'group-sysadmin' => 'Người quản trị hệ thống',
+	'group-editinterface' => 'Người sửa giao diện',
+	'group-Global_bot' => 'Robot toàn hệ thống',
+	'group-Global_rollback' => 'Người lùi sửa toàn cầu',
 	'group-Global_sysops' => 'Bảo quản viên toàn hệ thống',
 	'group-Ombudsmen' => 'Thanh tra viên',
 	'group-Staff' => 'Nhân viên',
-	'group-steward-member' => 'Tiếp viên',
-	'group-sysadmin-member' => 'người quản lý hệ thống',
-	'group-editinterface-member' => 'sửa giao diện',
-	'group-Global_bot-member' => 'robot toàn cầu',
-	'group-Global_rollback-member' => 'người lùi sửa toàn cầu',
+	'group-steward-member' => 'tiếp viên',
+	'group-sysadmin-member' => 'thành viên quản trị hệ thống',
+	'group-editinterface-member' => 'thành viên sửa giao diện',
+	'group-Global_bot-member' => 'robot toàn hệ thống',
+	'group-Global_rollback-member' => 'thành viên lùi sửa toàn hệ thống',
 	'group-Global_sysops-member' => 'bảo quản viên toàn hệ thống',
 	'group-Ombudsmen-member' => 'thanh tra viên',
 	'group-Staff-member' => 'Nhân viên',
 	'grouppage-Global_bot' => 'm:Bot policy/vi#Bot toàn cầu',
+	'grouppage-Global_sysops' => 'm:Global sysops/vi',
+	'grouppage-Ombudsmen' => 'm:Ombudsman commission/vi',
 	'group-coder' => 'Lập trình viên',
 	'group-coder-member' => 'lập trình viên',
 	'group-inactive' => 'Thành viên không tích cực',
 	'group-inactive-member' => 'thành viên không tích cực',
 	'grouppage-inactive' => '{{ns:project}}:Thành viên không tích cực',
-	'wikimedia-copyright' => 'Văn bản được phát hành theo <a href="http://creativecommons.org/licenses/by-sa/3.0/">Giấy phép Creative Commons Ghi công/Chia sẻ tương tự</a>; có thể áp dụng điều khoản bổ sung. Xem <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">Điều khoản Sử dụng</a> để biết thêm chi tiết.',
-	'wikimedia-copyrightwarning' => 'Với việc lưu trang, bạn đồng ý phát hành, không thể hủy bỏ, đóng góp của mình theo [http://creativecommons.org/licenses/by-sa/3.0/ Giấy phép Creative Commons Ghi công/Chia sẻ tương tự 3.0] và [http://www.gnu.org/copyleft/fdl.html GFDL]. Bạn đồng ý được ghi công bởi những người tái sử dụng, ở mức tối thiểu là thông qua một siêu liên kết hoặc URL đến trang bạn đang đóng góp vào. Xem [http://wikimediafoundation.org/wiki/Terms_of_Use Điều khoản Sử dụng] để biết thêm chi tiết.',
+	'wikimedia-copyright' => 'Văn bản được phát hành theo <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.vi">Giấy phép Creative Commons Ghi công–Chia sẻ tương tự</a>; có thể áp dụng điều khoản bổ sung. Xem <a href="http://wikimediafoundation.org/wiki/Điều_khoản_Sử_dụng?uselang=vi">Điều khoản Sử dụng</a> để biết thêm chi tiết.',
+	'wikimedia-copyrightwarning' => 'Với việc lưu trang, bạn đồng ý phát hành, không thể hủy bỏ, đóng góp của mình theo [http://creativecommons.org/licenses/by-sa/3.0/deed.vi Giấy phép Creative Commons Ghi công–Chia sẻ tương tự 3.0] và [http://www.gnu.org/copyleft/fdl.html GFDL]. Bạn đồng ý được ghi công bởi những người tái sử dụng, ở mức tối thiểu là thông qua một siêu liên kết hoặc URL đến trang bạn đang đóng góp vào. Xem [http://wikimediafoundation.org/wiki/Điều_khoản_Sử_dụng?uselang=vi Điều khoản Sử dụng] để biết thêm chi tiết.',
 	'wikimedia-editpage-tos-summary' => 'Nếu không muốn những gì bạn viết bị tùy ý chỉnh sửa và tái phân phối, xin đừng đăng nó ở đây. Nếu nội dung đưa vào không phải do chính bạn viết ra, nội dung đó phải được phát hành theo những điều khoản nhất quán với [http://wikimediafoundation.org/wiki/Terms_of_Use Điều khoản Sử dụng], và bạn đồng ý tuân theo các yêu cầu cấp phép bản quyền thích hợp.',
 );
 
@@ -11102,6 +11540,7 @@ $messages['xh'] = array(
 /** Mingrelian (მარგალური)
  * @author Alsandro
  * @author Dato deutschland
+ * @author Dawid Deutschland
  * @author Lika2672
  */
 $messages['xmf'] = array(
@@ -11183,6 +11622,7 @@ $messages['yo'] = array(
 
 /** Cantonese (粵語)
  * @author Horacewai2
+ * @author Waihorace
  */
 $messages['yue'] = array(
 	'wikimediamessages-desc' => 'Wikimedia特定訊息',
@@ -11274,6 +11714,7 @@ $messages['zea'] = array(
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Bencmq
  * @author Gaoxuewei
+ * @author Hydra
  * @author Jimmy xu wrk
  * @author KaiesTse
  * @author PhiLiP
@@ -11288,6 +11729,10 @@ $messages['zh-hans'] = array(
 	'sitesupport' => '资助',
 	'tooltip-n-sitesupport' => '资助我们',
 	'specialpages-group-contribution' => '贡献/募捐者',
+	'nstab-creator' => '创建者',
+	'nstab-institution' => '机构',
+	'nstab-sequence' => '序列',
+	'nstab-timedtext' => '时间文字',
 	'group-abusefilter' => '防滥用过滤器编辑者',
 	'group-accountcreator' => '账户创建员',
 	'group-arbcom' => '仲裁委员会成员',
@@ -11296,6 +11741,7 @@ $messages['zh-hans'] = array(
 	'group-bigexport' => '大量导出者',
 	'group-confirmed' => '已确认用户',
 	'group-editprotected' => '受保护页面编辑者',
+	'group-eliminator' => '液滴',
 	'group-filemover' => '文件移动员',
 	'group-flood' => '机器人用户',
 	'group-founder' => '创办人',
@@ -11307,6 +11753,7 @@ $messages['zh-hans'] = array(
 	'group-patroller' => '巡逻员',
 	'group-researcher' => '研究人员',
 	'group-rollbacker' => '回退员',
+	'group-svnadmins' => 'SVN 管理员',
 	'group-transwiki' => '跨维基导入者',
 	'group-trusted' => '受信任用户',
 	'group-abusefilter-member' => '防滥用过滤器编辑者',
@@ -11317,6 +11764,7 @@ $messages['zh-hans'] = array(
 	'group-bigexport-member' => '大量导出者',
 	'group-confirmed-member' => '已确认用户',
 	'group-editprotected-member' => '受保护页面编辑者',
+	'group-eliminator-member' => '液滴人',
 	'group-filemover-member' => '文件移动员',
 	'group-flood-member' => '机器人用户',
 	'group-founder-member' => '创办人',
@@ -11328,6 +11776,7 @@ $messages['zh-hans'] = array(
 	'group-patroller-member' => '巡逻员',
 	'group-researcher-member' => '研究人员',
 	'group-rollbacker-member' => '回退员',
+	'group-svnadmins-member' => 'SVN 管理员',
 	'group-transwiki-member' => '跨维基导入者',
 	'group-trusted-member' => '受信任用户',
 	'grouppage-abusefilter' => '{{ns:project}}:防滥用过滤器编辑者',
@@ -11338,6 +11787,7 @@ $messages['zh-hans'] = array(
 	'grouppage-bigexport' => '{{ns:project}}:大量导出者',
 	'grouppage-confirmed' => '{{ns:project}}:已确认用户',
 	'grouppage-editprotected' => '{{ns:project}}:受保护页面编辑者',
+	'grouppage-eliminator' => '{{ns:project}}:液滴人',
 	'grouppage-filemover' => '{{ns:project}}:文件移动员',
 	'grouppage-flood' => '{{ns:project}}:机器人用户',
 	'grouppage-founder' => '{{ns:project}}:创办人',
@@ -11348,6 +11798,7 @@ $messages['zh-hans'] = array(
 	'grouppage-OTRS-member' => '{{ns:project}}:OTRS成员',
 	'grouppage-researcher' => '{{ns:project}}:研究人员',
 	'grouppage-rollbacker' => '{{ns:project}}:回退员',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN 管理员',
 	'grouppage-transwiki' => '{{ns:project}}:跨维基导入者',
 	'grouppage-trusted' => '{{ns:project}}:受信任用戶',
 	'group-steward' => '监管员',
@@ -11387,6 +11838,7 @@ $messages['zh-hans'] = array(
  * @author Horacewai2
  * @author KaiesTse
  * @author Mark85296341
+ * @author Waihorace
  * @author William915
  * @author Wong128hk
  * @author Wrightbus
@@ -11397,65 +11849,78 @@ $messages['zh-hant'] = array(
 	'sitesupport' => '贊助',
 	'tooltip-n-sitesupport' => '資助我們',
 	'specialpages-group-contribution' => '貢獻/募捐者',
+	'nstab-creator' => '建立者',
+	'nstab-institution' => '機構',
+	'nstab-sequence' => '序列',
+	'nstab-timedtext' => '時間文字',
 	'group-abusefilter' => '濫用過瀘器編輯者',
-	'group-accountcreator' => '賬戶創建員',
+	'group-accountcreator' => '帳號建立者',
 	'group-arbcom' => '仲裁委員會成員',
 	'group-autopatrolled' => '自動巡查員',
 	'group-autoreviewer' => '巡查豁免者',
 	'group-bigexport' => '大量匯出者',
 	'group-confirmed' => '確認用戶',
 	'group-editprotected' => '已保護的頁面編者',
+	'group-eliminator' => '液滴',
 	'group-filemover' => '檔案移動員',
-	'group-flood' => '機器人用户',
+	'group-flood' => '機器人用戶',
 	'group-founder' => '創辦人',
+	'group-Image-reviewer' => '圖像審查者',
 	'group-import' => '匯入者',
 	'group-interface_editors' => '界面編輯者',
-	'group-ipblock-exempt' => 'IP查封例外者',
-	'group-patroller' => '巡邏員',
+	'group-ipblock-exempt' => 'IP 查封例外者',
+	'group-OTRS-member' => 'OTRS 成員',
+	'group-patroller' => '巡查員',
 	'group-researcher' => '研究人員',
 	'group-rollbacker' => '回退員',
 	'group-transwiki' => '跨維基匯入者',
 	'group-trusted' => '受信任的用戶',
 	'group-abusefilter-member' => '濫用過濾器編輯者',
-	'group-accountcreator-member' => '賬戶創建員',
+	'group-accountcreator-member' => '帳號建立者',
 	'group-arbcom-member' => '仲裁委員會委員',
 	'group-autopatrolled-member' => '巡查豁免者',
 	'group-autoreviewer-member' => '巡查豁免者',
 	'group-bigexport-member' => '大量匯出者',
 	'group-confirmed-member' => '確認用戶',
 	'group-editprotected-member' => '受保護的頁面編輯者',
-	'group-filemover-member' => '文件移動員',
-	'group-flood-member' => '機器人用户',
+	'group-eliminator-member' => '液滴者',
+	'group-filemover-member' => '檔案移動員',
+	'group-flood-member' => '機器用戶',
 	'group-founder-member' => '創辦人',
+	'group-Image-reviewer-member' => '圖像審查者',
 	'group-import-member' => '匯入者',
-	'group-interface_editors-member' => '界面編輯者',
-	'group-ipblock-exempt-member' => 'IP查封例外',
-	'group-patroller-member' => '巡邏員',
+	'group-interface_editors-member' => '介面編輯者',
+	'group-ipblock-exempt-member' => 'IP 查封例外者',
+	'group-OTRS-member-member' => 'OTRS 成員',
+	'group-patroller-member' => '巡查員',
 	'group-researcher-member' => '研究員',
 	'group-rollbacker-member' => '回退員',
 	'group-transwiki-member' => '跨維基匯入者',
 	'group-trusted-member' => '受信任的用戶',
 	'grouppage-abusefilter' => '{{ns:project}}:濫用過濾器編輯者',
-	'grouppage-accountcreator' => '{{ns:project}}:賬戶創建員',
+	'grouppage-accountcreator' => '{{ns:project}}:帳戶建立員',
 	'grouppage-arbcom' => '{{ns:project}}:仲裁委員會成員',
 	'grouppage-autopatrolled' => '{{ns:project}}:巡查豁免權',
 	'grouppage-autoreviewer' => '{{ns:project}}:巡查豁免權',
 	'grouppage-bigexport' => '{{ns:project}}:大量匯出者',
 	'grouppage-confirmed' => '{{ns:project}}:已確認用戶',
 	'grouppage-editprotected' => '{{ns:project}}:被保護頁面編者',
+	'grouppage-eliminator' => '{{ns:project}}:液滴人',
 	'grouppage-filemover' => '{{ns:project}}:檔案移動員',
 	'grouppage-flood' => '{{ns:project}}:機器人',
 	'grouppage-founder' => '{{ns:project}}:創辦人',
+	'grouppage-Image-reviewer' => '{{ns:project}}:圖像審查者',
 	'grouppage-import' => '{{ns:project}}:匯入者',
 	'grouppage-interface_editors' => '{{ns:project}}:介面編輯者',
-	'grouppage-ipblock-exempt' => '{{ns:project}}:IP查封例外',
+	'grouppage-ipblock-exempt' => '{{ns:project}}:IP 查封例外者',
+	'grouppage-OTRS-member' => '{{ns:project}}:OTRS 成員',
 	'grouppage-researcher' => '{{ns:project}}:研究人員',
 	'grouppage-rollbacker' => '{{ns:project}}:反轉者',
 	'grouppage-transwiki' => '{{ns:project}}:跨維基匯入者',
 	'grouppage-trusted' => '{{ns:project}}:受信任的用戶',
 	'group-steward' => '監管員',
 	'group-sysadmin' => '系統管理員',
-	'group-editinterface' => '界面編輯者',
+	'group-editinterface' => '介面編輯者',
 	'group-Global_bot' => '全域機器人',
 	'group-Global_rollback' => '全域反轉者',
 	'group-Global_sysops' => '全域管理員',
@@ -11463,7 +11928,7 @@ $messages['zh-hant'] = array(
 	'group-Staff' => '內部成員',
 	'group-steward-member' => '監管員',
 	'group-sysadmin-member' => '系統管理員',
-	'group-editinterface-member' => '界面編輯者',
+	'group-editinterface-member' => '介面編輯者',
 	'group-Global_bot-member' => '全域機器人',
 	'group-Global_rollback-member' => '全域反轉者',
 	'group-Global_sysops-member' => '全域管理員',
@@ -11476,8 +11941,8 @@ $messages['zh-hant'] = array(
 	'grouppage-inactive' => '{{ns:project}}:不活躍的用戶',
 	'shared-repo-name-shared' => '維基共享資源',
 	'wikimedia-copyright' => '本站的全部文字在<a "href="{{localurle:Wikipedia:CC-by-sa-3.0協議文本}}"title="Wikipedia:CC-by-sa-3.0協議文本">知識共享署名 - 相同方式共享3.0協議</a>之條款下提供，附加條款亦可能應用。（請參閱 <a href="http://wikimediafoundation.org/wiki/Terms_of_Use">使用條款</a>）',
-	'wikimedia-copyrightwarning' => "點擊'''{{int:savearticle}}'''按鈕，即表示您同意依據[http://creativecommons.org/licenses/by-sa/3.0/ CC-by-sa-3.0]和[http://www.gnu.org/copyleft/fdl.html GFDL]協議不可逆轉地釋出貢獻。
-你同意其他人在引用您的貢獻內容時，只須通過超連結或其它形式進行署名。如不欲其它用戶編輯或轉載您的文章，請勿提交。
+	'wikimedia-copyrightwarning' => "點擊'''{{int:savearticle}}'''按鈕，即表示您同意依據 [http://creativecommons.org/licenses/by-sa/3.0/ CC-by-sa-3.0] 和 [http://www.gnu.org/copyleft/fdl.html GFDL] 協議不可逆轉地釋出貢獻。
+你同意其他人在引用您的貢獻內容時，只須透過超連結或其他形式進行署名。如不欲其他用戶編輯或轉載您的文章，請勿提交。
 請參閱我們的[http://wikimediafoundation.org/wiki/Terms_of_Use 使用條款]。",
 	'wikimedia-editpage-tos-summary' => '請勿提交任何閣下不欲予人編輯或重新發布的內容。當提交非由閣下編寫的內容時，請確保這些內容的版權狀態合乎[http://wikimediafoundation.org/wiki/Terms_of_Use 使用條款]，閣下同意遵行一切相關的版權條款。',
 );
