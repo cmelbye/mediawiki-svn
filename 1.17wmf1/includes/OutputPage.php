@@ -2386,6 +2386,7 @@ class OutputPage {
 			if ( ( $group === 'user' || $group === 'private' ) && $wgUser->isLoggedIn() ) {
 				$query['user'] = $wgUser->getName();
 			}
+			$query['modules'] = implode( '|', array_keys( $modules ) );
 			// Support inlining of private modules if configured as such
 			if ( $group === 'private' && $wgResourceLoaderInlinePrivateModules ) {
 				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
