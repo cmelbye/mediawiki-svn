@@ -172,17 +172,25 @@ var liquidThreads = {
 			$j(container).find('#wpDiff').hide();
 
 			if ( $j.fn.wikiEditor && $j.wikiEditor.isSupported( $j.wikiEditor.modules.toolbar ) ) {
-				// Dirty hack: use mw.user.options instead of wgWikiEditorPreferences until I think of something better --catrope
-				if ( mediaWiki.user.options.get( 'usebetatoolbar-cgd' ) && $j.wikiEditor.isSupported( $j.wikiEditor.modules.dialogs ) ) {
+				var useDialogs;
+				
+				if ( typeof wgWikiEditorPreferences != 'undefined' ) {
+					useDialogs = wgWikiEditorPreferences.toolbar.dialogs;
+				} else {
+					useDialogs = mediaWiki.user.options.get( 'usebetatoolbar-cgd' );
+				}
+				
+				if ( useDialogs && $j.wikiEditor.isSupported( $j.wikiEditor.modules.dialogs ) ) {
 					$j( '#wpTextbox1' ).addClass( 'toolbar-dialogs' );
 				}
 				// Add wikiEditor toolbar
 				$j( '#wpTextbox1' ).wikiEditor( 'addModule', { 'toolbar': liquidThreads.toolbar.config, 'dialogs': liquidThreads.toolbar.dialogs } );
 				// cleanup unnecessary things from the old toolbar
 				$j( '#editpage-specialchars' ).remove();
+				$j( '#wpTextbox1' ).focus();
 			} else {
 				// Add old toolbar
-				mwSetupToolbar()
+				mwSetupToolbar();
 			}
 			currentFocused = $j(container).find('#wpTextbox1');
 			$j(container).find('#wpTextbox1,#wpSummary').focus(
