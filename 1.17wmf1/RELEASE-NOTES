@@ -619,6 +619,8 @@ changes to languages because of Bugzilla reports.
 * Minangkabau (min) (new)
 * Dutch (informal) (nl-informal) (new)
 * Rusyn (rue) (new)
+* Link trail added for sl and sh
+* (bug 27633) Add characters to linkTrail for Potuguese (pt and pt-br)
 
 * (bug 23156) Commafy and search normalization updated for Belarusian
   (Taraškievica).

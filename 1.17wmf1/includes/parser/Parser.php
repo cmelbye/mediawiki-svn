@@ -320,8 +320,8 @@ class Parser {
 
 		/**
 		 * A converted title will be provided in the output object if title and
-		 * content conversion are enabled, the article text does not contain 
-		 * a conversion-suppressing double-underscore tag, and no 
+		 * content conversion are enabled, the article text does not contain
+		 * a conversion-suppressing double-underscore tag, and no
 		 * {{DISPLAYTITLE:...}} is present. DISPLAYTITLE takes precedence over
 		 * automatic link conversion.
 		 */
@@ -478,7 +478,9 @@ class Parser {
 
 		$flags = PPFrame::NO_ARGS | PPFrame::NO_TEMPLATES;
 		$dom = $this->preprocessToDom( $text, self::PTD_FOR_INCLUSION );
-		return $this->getPreprocessor()->newFrame()->expand( $dom, $flags );
+		$text = $this->getPreprocessor()->newFrame()->expand( $dom, $flags );
+		$text = $this->mStripState->unstripBoth( $text );
+		return $text;
 	}
 
 	/**
