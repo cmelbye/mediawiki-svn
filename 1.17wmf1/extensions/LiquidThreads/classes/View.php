@@ -1195,12 +1195,11 @@ class LqtView {
 
 		if ( method_exists( $wgOut, 'includeJQuery' ) ) {
 			$wgOut->includeJQuery();
-			$wgOut->addScriptFile( "$wgLiquidThreadsExtensionPath/jquery/plugins.js" );
 		} else {
 			$wgOut->addScriptFile( "$wgLiquidThreadsExtensionPath/jquery/js2.combined.js" );
 		}
 
-		$wgOut->addExtensionStyle( "$wgLiquidThreadsExtensionPath/jquery/jquery-ui-1.7.2.css" );
+		$wgOut->addExtensionStyle( "$wgLiquidThreadsExtensionPath/lqt.dialogs.css" );
 
 		$wgOut->addScriptFile( "$wgLiquidThreadsExtensionPath/jquery/jquery.autogrow.js" );
 
