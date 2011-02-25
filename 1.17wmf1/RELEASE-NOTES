@@ -502,6 +502,7 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 27201) Special:WhatLinksHere output no longer contains duplicate IDs
 * (bug 27479) API error when using both prop=pageprops and
   prop=info&inprop=displaytitle
+* (bug 27715) imageinfo didn't respect revdelete
 
 * (bug 22738) Allow filtering by action type on query=logevent.
 * (bug 22764) uselang parameter for action=parse.
