@@ -113,6 +113,8 @@ class SVGReader {
 			}
 		}
 
+		$this->reader->close();
+
 		return true;
 	}
 
