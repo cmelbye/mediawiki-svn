@@ -35,6 +35,7 @@ require_once( 'backup.inc' );
 class TextPassDumper extends BackupDumper {
 	var $prefetch = null;
 	var $input = "php://stdin";
+	var $history = WikiExporter::FULL;
 	var $fetchCount = 0;
 	var $prefetchCount = 0;
 
@@ -60,11 +61,18 @@ class TextPassDumper extends BackupDumper {
 		if ( ini_get( 'display_errors' ) )
 			ini_set( 'display_errors', 'stderr' );
 
-		$this->initProgress( $history );
+		$this->initProgress( $this->history );
 
 		$this->db = $this->backupDb();
 
-		$this->readDump();
+		$this->egress = new ExportProgressFilter( $this->sink, $this );
+
+		$input = fopen( $this->input, "rt" );
+		$result = $this->readDump( $input );
+
+		if ( WikiError::isError( $result ) ) {
+			wfDie( $result->getMessage() );
+		}
 
 		if ( $this->spawnProc ) {
 			$this->closeSpawn();
@@ -84,6 +92,12 @@ class TextPassDumper extends BackupDumper {
 			break;
 		case 'stub':
 			$this->input = $url;
+			break;
+		case 'current':
+			$this->history = WikiExporter::CURRENT;
+			break;
+		case 'full':
+			$this->history = WikiExporter::FULL;
 			break;
 		case 'spawn':
 			$this->spawn = true;
@@ -148,76 +162,34 @@ class TextPassDumper extends BackupDumper {
 		}
 	}
 
-	function readDump() {
-		$state = '';
-		$lastName = '';
+	function readDump( $input ) {
+		$this->buffer = "";
+		$this->openElement = false;
+		$this->atStart = true;
+		$this->state = "";
+		$this->lastName = "";
 		$this->thisPage = 0;
 		$this->thisRev = 0;
 
-		$reader = new XMLReader();
-		$reader->open( $this->input );
-		$writer = new XMLWriter();
-		$writer->openMemory();
+		$parser = xml_parser_create( "UTF-8" );
+		xml_parser_set_option( $parser, XML_OPTION_CASE_FOLDING, false );
 
+		xml_set_element_handler( $parser, array( &$this, 'startElement' ), array( &$this, 'endElement' ) );
+		xml_set_character_data_handler( $parser, array( &$this, 'characterData' ) );
 
-		while ( $reader->read() ) {
-			$tag = $reader->name;
-			$type = $reader->nodeType;
-
-			if ( $type == XmlReader::END_ELEMENT ) {
-				$writer->endElement();
-
-				if ( $tag == 'revision' ) {
-					$this->revCount();
-					$this->thisRev = '';
-				} elseif ( $tag == 'page' ) {
-					$this->reportPage();
-					$this->thisPage = '';
-				}
-			} elseif ( $type == XmlReader::ELEMENT ) {
-				$attribs = array();
-				if ( $reader->hasAttributes ) {
-					for ( $i = 0; $reader->moveToAttributeNo( $i ); $i++ ) {
-						$attribs[$reader->name] = $reader->value;
-					}
-				}
-
-				if ( $reader->isEmptyElement && $tag == 'text' && isset( $attribs['id'] ) ) {
-					$writer->startElement( 'text' );
-					$writer->writeAttribute( 'xml:space', 'preserve' );
-					$text = $this->getText( $attribs['id'] );
-					if ( strlen( $text ) ) {
-						$writer->text( $text );
-					}
-					$writer->endElement();
-				} else {
-					$writer->startElement( $tag );
-					foreach( $attribs as $name => $val ) {
-						$writer->writeAttribute( $name, $val );
-					}
-					if ( $reader->isEmptyElement ) {
-						$writer->endElement();
-					}
-				}
-
-				$lastName = $tag;
-				if ( $tag == 'revision' ) {
-					$state = 'revision';
-				} elseif ( $tag == 'page' ) {
-					$state = 'page';
-				}
-			} elseif ( $type == XMLReader::SIGNIFICANT_WHITESPACE || $type = XMLReader::TEXT ) {
-				if ( $lastName == 'id' ) {
-					if ( $state == 'revision' ) {
-						$this->thisRev .= $reader->value;
-					} elseif ( $state == 'page' ) {
-						$this->thisPage .= $reader->value;
-					}
-				}
-				$writer->text( $reader->value );
+		$offset = 0; // for context extraction on error reporting
+		$bufferSize = 512 * 1024;
+		do {
+			$chunk = fread( $input, $bufferSize );
+			if ( !xml_parse( $parser, $chunk, feof( $input ) ) ) {
+				wfDebug( "TextDumpPass::readDump encountered XML parsing error\n" );
+				return new WikiXmlError( $parser, 'XML import parse failure', $chunk, $offset );
 			}
-			$this->sink->write( $writer->outputMemory() );
-		}
+			$offset += strlen( $chunk );
+		} while ( $chunk !== false && !feof( $input ) );
+		xml_parser_free( $parser );
+
+		return true;
 	}
 
 	function getText( $id ) {
@@ -240,6 +212,7 @@ class TextPassDumper extends BackupDumper {
 	}
 
 	private function doGetText( $id ) {
+
 		$id = intval( $id );
 		$this->failures = 0;
 		$ex = new MWException( "Graceful storage failure" );
@@ -427,13 +400,81 @@ class TextPassDumper extends BackupDumper {
 		$normalized = $wgContLang->normalize( $stripped );
 		return $normalized;
 	}
+
+	function startElement( $parser, $name, $attribs ) {
+		$this->clearOpenElement( null );
+		$this->lastName = $name;
+
+		if ( $name == 'revision' ) {
+			$this->state = $name;
+			$this->egress->writeOpenPage( null, $this->buffer );
+			$this->buffer = "";
+		} elseif ( $name == 'page' ) {
+			$this->state = $name;
+			if ( $this->atStart ) {
+				$this->egress->writeOpenStream( $this->buffer );
+				$this->buffer = "";
+				$this->atStart = false;
+			}
+		}
+
+		if ( $name == "text" && isset( $attribs['id'] ) ) {
+			$text = $this->getText( $attribs['id'] );
+			$this->openElement = array( $name, array( 'xml:space' => 'preserve' ) );
+			if ( strlen( $text ) > 0 ) {
+				$this->characterData( $parser, $text );
+			}
+		} else {
+			$this->openElement = array( $name, $attribs );
+		}
+	}
+
+	function endElement( $parser, $name ) {
+		if ( $this->openElement ) {
+			$this->clearOpenElement( "" );
+		} else {
+			$this->buffer .= "</$name>";
+		}
+
+		if ( $name == 'revision' ) {
+			$this->egress->writeRevision( null, $this->buffer );
+			$this->buffer = "";
+			$this->thisRev = "";
+		} elseif ( $name == 'page' ) {
+			$this->egress->writeClosePage( $this->buffer );
+			$this->buffer = "";
+			$this->thisPage = "";
+		} elseif ( $name == 'mediawiki' ) {
+			$this->egress->writeCloseStream( $this->buffer );
+			$this->buffer = "";
+		}
+	}
+
+	function characterData( $parser, $data ) {
+		$this->clearOpenElement( null );
+		if ( $this->lastName == "id" ) {
+			if ( $this->state == "revision" ) {
+				$this->thisRev .= $data;
+			} elseif ( $this->state == "page" ) {
+				$this->thisPage .= $data;
+			}
+		}
+		$this->buffer .= htmlspecialchars( $data );
+	}
+
+	function clearOpenElement( $style ) {
+		if ( $this->openElement ) {
+			$this->buffer .= Xml::element( $this->openElement[0], $this->openElement[1], $style );
+			$this->openElement = false;
+		}
+	}
 }
 
 
 $dumper = new TextPassDumper( $argv );
 
 if ( !isset( $options['help'] ) ) {
-	$dumper->dump( WikiExporter::FULL );
+	$dumper->dump( true );
 } else {
 	$dumper->progress( <<<ENDS
 This script postprocesses XML dumps from dumpBackup.php to add
@@ -447,6 +488,7 @@ Options:
   --stub=<type>:<file> To load a compressed stub dump instead of stdin
   --prefetch=<type>:<file> Use a prior dump file as a text source, to save
 			  pressure on the database.
+			  (Requires the XMLReader extension)
   --quiet	  Don't dump status reports to stderr.
   --report=n  Report position and speed after every n pages processed.
 			  (Default: 100)
@@ -459,5 +501,3 @@ Options:
 ENDS
 );
 }
-
-
