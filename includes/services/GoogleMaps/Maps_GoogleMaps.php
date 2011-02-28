@@ -35,6 +35,26 @@ class MapsGoogleMaps extends MapsMappingService {
 			$serviceName,
 			array( 'googlemaps', 'google', 'googlemap', 'gmap', 'gmaps' )
 		);
+		
+		global $wgResourceModules, $egMapsScriptPath;
+		
+		$wgResourceModules['ext.maps.googlemaps2'] = array(
+			'localBasePath' => dirname( __FILE__ ),
+			'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps',	
+			'group' => 'ext.maps',
+			'scripts' =>   array(
+				'ext.maps.googlemaps2.js',
+				'ext.maps.googlemaps2.css',
+			),
+			'messages' => array(
+				'maps-markers',
+				'maps_overlays',
+				'maps_photos',
+				'maps_videos',
+				'maps_wikipedia',
+				'maps_webcams'
+			)
+		);
 	}
 	
 	/**
@@ -341,45 +361,5 @@ class MapsGoogleMaps extends MapsMappingService {
 			array( 'ext.maps.googlemaps2' )
 		);
 	}
-	
-	/**
-	 * Register the resource modules for the resource loader.
-	 * 
-	 * @since 0.8
-	 * 
-	 * @param ResourceLoader $resourceLoader
-	 * 
-	 * @return true
-	 */
-	public static function registerResourceLoaderModules( ResourceLoader &$resourceLoader ) {
-		global $egMapsScriptPath, $egMapsOLLayerModules;
-		
-		$modules = array(
-			'ext.maps.googlemaps2' => array(
-				'scripts' =>   array(
-					'ext.maps.googlemaps2.js',
-					'ext.maps.googlemaps2.css',
-				),
-				'messages' => array(
-					'maps-markers',
-					'maps_overlays',
-					'maps_photos',
-					'maps_videos',
-					'maps_wikipedia',
-					'maps_webcams'
-				)
-			),
-		);
-
-		foreach ( $modules as $name => $resources ) { 
-			$resourceLoader->register( $name, new ResourceLoaderFileModule(
-				array_merge_recursive( $resources, array( 'group' => 'ext.maps' ) ),
-				dirname( __FILE__ ),
-				$egMapsScriptPath . '/includes/services/GoogleMaps'
-			) ); 
-		}
-		
-		return true;		
-	}		
 	
 }								
