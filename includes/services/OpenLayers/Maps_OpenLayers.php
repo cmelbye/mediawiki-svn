@@ -23,24 +23,6 @@ class MapsOpenLayers extends MapsMappingService {
 			$serviceName,
 			array( 'layers', 'openlayer' )
 		);
-		
-		global $wgResourceModules, $egMapsScriptPath;
-		
-		$wgResourceModules['ext.maps.openlayers'] = array(
-			'localBasePath' => dirname( __FILE__ ),
-			'remoteBasePath' => $egMapsScriptPath .  '/includes/services/OpenLayers',	
-			'group' => 'ext.maps',
-			'scripts' =>   array(
-				'OpenLayers/OpenLayers.js',
-				'ext.maps.openlayers.js'
-			),
-			'styles' => array(
-				'OpenLayers/theme/default/style.css'
-			),				
-			'messages' => array(
-				'maps-markers'
-			)
-		);		
 	}	
 	
 	/**

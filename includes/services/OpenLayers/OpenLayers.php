@@ -19,7 +19,23 @@
 if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
-	
+
+$wgResourceModules['ext.maps.openlayers'] = array(
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/OpenLayers',	
+	'group' => 'ext.maps',
+	'scripts' =>   array(
+		'OpenLayers/OpenLayers.js',
+		'ext.maps.openlayers.js'
+	),
+	'styles' => array(
+		'OpenLayers/theme/default/style.css'
+	),				
+	'messages' => array(
+		'maps-markers'
+	)
+);
+
 $wgAutoloadClasses['CriterionOLLayer']	 			= dirname( __FILE__ ) . '/CriterionOLLayer.php';
 $wgAutoloadClasses['MapsOpenLayers'] 				= dirname( __FILE__ ) . '/Maps_OpenLayers.php';
 $wgAutoloadClasses['MapsOpenLayersDispMap'] 		= dirname( __FILE__ ) . '/Maps_OpenLayersDispMap.php';

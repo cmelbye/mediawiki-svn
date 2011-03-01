@@ -74,7 +74,7 @@ abstract class MapsBasePointMap {
 		$output = $this->getMapHTML( $params, $parser ) . $this->getJSON( $params, $parser );
 		
 		global $wgTitle;
-		if ( $wgTitle->getNamespace() == NS_SPECIAL ) {
+		if ( $wgTitle->isSpecialPage() ) {
 			global $wgOut;
 			$this->service->addDependencies( $wgOut );
 		}

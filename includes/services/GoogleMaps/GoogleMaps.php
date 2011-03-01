@@ -20,6 +20,26 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+$wgResourceModules['ext.maps.googlemaps2'] = array(
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps',	
+	'group' => 'ext.maps',
+	'scripts' => array(
+		'ext.maps.googlemaps2.js',
+	),
+	'styles' => array(
+		'ext.maps.googlemaps2.css',
+	),
+	'messages' => array(
+		'maps-markers',
+		'maps_overlays',
+		'maps_photos',
+		'maps_videos',
+		'maps_wikipedia',
+		'maps_webcams'
+	)
+);
+
 $wgHooks['MappingServiceLoad'][] = 'efMapsInitGoogleMaps';
 
 /**
