@@ -236,7 +236,7 @@ window.mediaWiki = new ( function( $ ) {
 
 		/* Public Methods */
 
-		/*
+		/**
 		 * Generates a random user session ID (32 alpha-numeric characters).
 		 * 
 		 * This information would potentially be stored in a cookie to identify a user during a
@@ -254,7 +254,7 @@ window.mediaWiki = new ( function( $ ) {
 			return id;
 		}
 
-		/*
+		/**
 		 * Gets the current user's name.
 		 * 
 		 * @return mixed user name string or null if users is anonymous
@@ -263,7 +263,16 @@ window.mediaWiki = new ( function( $ ) {
 			return mediaWiki.config.get( 'wgUserName' );
 		};
 
-		/*
+		/**
+		 * Checks if the current user is anonymous.
+		 * 
+		 * @return boolean
+		 */
+		this.anonymous = function() {
+			return that.name() ? false : true;
+		};
+
+		/**
 		 * Gets a random session ID automatically generated and kept in a cookie.
 		 * 
 		 * This ID is ephemeral for everyone, staying in their browser only until they close
@@ -284,7 +293,7 @@ window.mediaWiki = new ( function( $ ) {
 			return sessionId;
 		};
 
-		/*
+		/**
 		 * Gets the current user's name or a random ID automatically generated and kept in a cookie.
 		 * 
 		 * This ID is persistent for anonymous users, staying in their browser up to 1 year. The
