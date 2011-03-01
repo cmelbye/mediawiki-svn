@@ -20,6 +20,7 @@ $messages['en'] = array(
 Available mapping services: $1",
 	'maps_map' => 'Map',
 	'maps-loading-map' => 'Loading map...',
+	'maps-load-failed' => 'Could not load the map!',
 	'maps-markers' => 'Markers',
 	'maps-others' => 'others',
 	'maps-ns-layer' => 'Layer',
@@ -150,7 +151,8 @@ $1',
 	'maps_click_to_activate' => 'Click to activate map',
 	'maps_centred_on' => 'Map centered on $1, $2.',
 
-	// Google Maps v2 overlays
+	// Google Maps v2
+	'maps-googlemaps2-incompatbrowser' => 'Your browser is not compatible with Google Maps v2.',
 	'maps_overlays' => 'Overlays',
 	'maps_photos' => 'Photos',
 	'maps_videos' => 'Videos',

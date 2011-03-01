@@ -51,10 +51,7 @@ class MapsGoogleMaps extends MapsMappingService {
 		$params['controls'] = new ListParameter( 'controls' );
 		$params['controls']->setDefault( $egMapsGMapControls );
 		$params['controls']->addCriteria( new CriterionInArray( self::getControlNames() ) );
-		$params['controls']->addManipulations(
-			new ParamManipulationFunctions( 'strtolower' ),
-			new ParamManipulationImplode( ',', "'" )
-		);		
+		$params['controls']->addManipulations( new ParamManipulationFunctions( 'strtolower' ) );		
 
 		$params['type'] = new Parameter(
 			'type',
@@ -78,14 +75,13 @@ class MapsGoogleMaps extends MapsMappingService {
 				new CriterionInArray( array_keys( self::$mapTypes ) ),
 			)
 		);
-		$params['types']->addManipulations( new MapsParamGMapType(), new ParamManipulationImplode( ',' ) );		
+		$params['types']->addManipulations( new MapsParamGMapType() );		
 		
 		$params['autozoom'] = new Parameter(
 			'autozoom',
 			Parameter::TYPE_BOOLEAN,
 			$egMapsGoogleAutozoom
 		);
-		$params['autozoom']->addManipulations( new ParamManipulationBoolstr() );
 		
 		$params['kml'] = new ListParameter( 'kml' );
 		$params['kml']->setDefault( array() );

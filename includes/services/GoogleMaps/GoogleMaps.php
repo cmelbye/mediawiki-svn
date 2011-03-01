@@ -21,6 +21,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 $wgResourceModules['ext.maps.googlemaps2'] = array(
+	'dependencies' => array( 'ext.maps.common' ),
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps',	
 	'group' => 'ext.maps',
@@ -36,7 +37,8 @@ $wgResourceModules['ext.maps.googlemaps2'] = array(
 		'maps_photos',
 		'maps_videos',
 		'maps_wikipedia',
-		'maps_webcams'
+		'maps_webcams',
+		'maps-googlemaps2-incompatbrowser'
 	)
 );
 

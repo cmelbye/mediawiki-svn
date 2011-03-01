@@ -15,18 +15,28 @@ function loadGoogleMaps() {
 		setTimeout( function() { loadGoogleMaps(); }, 100 );
 	}
 	else {
-		window.unload = GUnload;
-		
-		window.GOverlays = [
-	      	new GLayer("com.panoramio.all"),
-	      	new GLayer("com.youtube.all"),
-	      	new GLayer("org.wikipedia.en"),
-	      	new GLayer("com.google.webcams")
-	    ];		
-		
-		for ( i in window.maps.googlemaps2 ) {
-			var map = new GoogleMap( jQuery, window.maps.googlemaps2[i] );
-			map.initiate( i );
+		if ( GBrowserIsCompatible() ) {
+			window.unload = GUnload;
+			
+			window.GOverlays = [
+		      	new GLayer("com.panoramio.all"),
+		      	new GLayer("com.youtube.all"),
+		      	new GLayer("org.wikipedia.en"),
+		      	new GLayer("com.google.webcams")
+		    ];		
+			
+			for ( i in window.maps.googlemaps2 ) {
+				var map = new GoogleMap( jQuery, window.maps.googlemaps2[i] );
+				map.initiate( i );
+			}			
+		}
+		else {
+			alert( mediaWiki.msg( 'maps-googlemaps2-incompatbrowser' ) );
+			
+			for ( i in window.maps.googlemaps2 ) {
+				// FIXME: common module with message not getting loaded for some reason
+				jQuery( '#' + i ).text( mediaWiki.msg( 'maps-load-failed' ) );
+			}
 		}
 	}
 }
@@ -38,13 +48,149 @@ jQuery.getScript(
 );
 
 var GoogleMap = function( $, args ) {
-	
-	var args = args;
+	var args = cleanParameters( args );
 	
 	this.initiate = function( mapName ) {
-		//alert( mapName );
+		createGoogleMap( mapName, args );
 	}
 	
+	function cleanParameters( args ) {
+		
+    	args.type = eval( args.type );
+    	var ts=[];
+    	var t;
+    	while ( t = args.types.shift() ) {
+    		ts.unshift( eval( t ) );
+    	}
+    	args.types = ts;
+    	
+    	args.types = ensureTypeIsSelectable( args.type, args.types );
+    	
+    	return args;
+	}
+
+    /**
+     * Returns GMap2 object with the provided properties.
+     */
+    function createGoogleMap( mapName, args ) {
+    	var mapElement = document.getElementById( mapName );
+    	var map = new GMap2( mapElement, { mapTypes: args.types } );
+    	map.name = mapName;
+    	map.setMapType( args.type );	
+
+    	var hasSearchBar = false;
+    	
+    	for ( i = args.controls.length - 1; i >= 0; i-- ) {
+    		if ( args.controls[i] == 'searchbar' ) {
+    			hasSearchBar = true;
+    			break;
+    		}
+    	}
+    	
+    	// List of GControls: http://code.google.com/apis/maps/documentation/reference.html#GControl
+    	for ( var i = 0, n = args.controls.length; i < n; i++ ) {
+    		if ( args.controls[i] == 'auto' ) {
+    			if ( mapElement.offsetHeight > 75 ) args.controls[i] = mapElement.offsetHeight > 320 ? 'large' : 'small';
+    		}			
+
+    		switch ( args.controls[i] ) {
+    			case 'large' : 
+    				map.addControl( new GLargeMapControl3D() );
+    				break;
+    			case 'small' : 
+    				map.addControl( new GSmallZoomControl3D() );
+    				break;
+    			case 'large-original' : 
+    				map.addControl( new GLargeMapControl() );
+    				break;
+    			case 'small-original' : 
+    				map.addControl( new GSmallMapControl() );
+    				break;
+    			case 'zoom' : 
+    				map.addControl( new GSmallZoomControl() );
+    				break;
+    			case 'type' : 
+    				map.addControl( new GMapTypeControl() );
+    				break;				
+    			case 'type-menu' : 
+    				map.addControl( new GMenuMapTypeControl() );
+    				break;
+    			case 'overlays' : 
+    				map.addControl( new MoreControl() );
+    				break;		
+    			case 'overview' : case 'overview-map' : 
+    				map.addControl( new GOverviewMapControl() );
+    				break;
+    			case 'scale' : 
+    				if ( hasSearchBar ) {
+    					map.addControl( new GScaleControl(), new GControlPosition( G_ANCHOR_BOTTOM_LEFT, new GSize( 5,37 ) ) );
+    				}
+    				else {
+    					map.addControl( new GScaleControl() );
+    				}
+    				break;
+    			case 'nav-label' : case 'nav' : 
+    				map.addControl( new GNavLabelControl() );
+    				break;
+    			case 'searchbar' :
+    				map.enableGoogleBar();
+    				break;
+    		}
+    	}	
+    	
+/*
+    	var bounds = ((mapOptions.zoom == null || mapOptions.centre == null) && markers.length > 1) ? new GLatLngBounds() : null;
+
+    	for ( i = markers.length - 1; i >= 0; i-- ) {
+    		var marker = markers[i];
+    		marker.point = new GLatLng( marker.lat, marker.lon );
+    		map.addOverlay( createGMarker( marker ) );
+    		if ( bounds != null ) bounds.extend( marker.point );
+    	}
+
+    	if (bounds != null) {
+    		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+    	}
+
+    	if (mapOptions.centre != null) map.setCenter(mapOptions.centre);
+    	if (mapOptions.zoom != null) map.setZoom(mapOptions.zoom);
+    	
+    	if (mapOptions.scrollWheelZoom) map.enableScrollWheelZoom();
+
+    	map.enableContinuousZoom();
+    	
+    	// Code to add KML files.
+    	var kmlOverlays = [];
+    	for ( i = mapOptions.kml.length - 1; i >= 0; i-- ) {
+    		kmlOverlays[i] = new GGeoXml( mapOptions.kml[i] );
+    		map.addOverlay( kmlOverlays[i] );
+    	}
+    	
+    	// Make the map variable available for other functions.
+    	if (!window.GMaps) window.GMaps = new Object;
+    	eval("window.GMaps." + mapName + " = map;"); 	
+    	
+    	return map;
+    	*/
+    }
+    
+    function ensureTypeIsSelectable( type, types ) {
+    	var typesContainType = false;
+
+    	for ( var i = 0, n = types.length; i < n; i++ ) {
+    		if ( types[i] == type ) {
+    			typesContainType = true;
+    			break;
+    		}
+    	}
+
+    	if ( !typesContainType ) {
+    		types.push( type );
+    	}
+    	
+    	return types;
+    }
+
     /**
      * Returns GMarker object on the provided location. It will show a popup baloon
      * with title and label when clicked, if either of these is set.
@@ -92,135 +238,8 @@ var GoogleMap = function( $, args ) {
     	}
 
     	return marker;
-    }
-
-    /**
-     * Returns GMap2 object with the provided properties and markers.
-     * This is done by setting the map centre and size, and passing the arguments to function createGoogleMap.
-     */
-	this.initializeGoogleMap = function(mapName, mapOptions, markers) {
-    	if (GBrowserIsCompatible()) {
-    		mapOptions.centre = (mapOptions.lat != null && mapOptions.lon != null) ? new GLatLng(mapOptions.lat, mapOptions.lon) : null;
-    		//mapOptions.size = new GSize(mapOptions.width, mapOptions.height);	
-    		return createGoogleMap(mapName, mapOptions, markers);	
-    	}
-    	else {
-    		return false;
-    	}
-    }
-
-    /**
-     * Returns GMap2 object with the provided properties.
-     */
-    function createGoogleMap(mapName, mapOptions, markers) {
-    	var mapElement = document.getElementById(mapName);
-    	var typesContainType = false;
-
-    	for (var i = 0; i < mapOptions.types.length; i++) {
-    		if (mapOptions.types[i] == mapOptions.type) typesContainType = true;
-    	}
-
-    	if (! typesContainType) mapOptions.types.push(mapOptions.type);
-
-    	var map = new GMap2(mapElement, {mapTypes: mapOptions.types});
-    	map.name = mapName;
-
-    	map.setMapType(mapOptions.type);	
-
-    	var hasSearchBar = false;
-    	
-    	for ( i = mapOptions.controls.length - 1; i >= 0; i-- ) {
-    		if ( mapOptions.controls[i] == 'searchbar' ) {
-    			hasSearchBar = true;
-    			break;
-    		}
-    	}
-    	
-    	// List of GControls: http://code.google.com/apis/maps/documentation/reference.html#GControl
-    	for ( i = 0; i < mapOptions.controls.length; i++ ) {
-    		if ( mapOptions.controls[i].toLowerCase() == 'auto' ) {
-    			if ( mapElement.offsetHeight > 75 ) mapOptions.controls[i] = mapElement.offsetHeight > 320 ? 'large' : 'small';
-    		}			
-    		
-    		switch ( mapOptions.controls[i] ) {
-    			case 'large' : 
-    				map.addControl( new GLargeMapControl3D() );
-    				break;
-    			case 'small' : 
-    				map.addControl( new GSmallZoomControl3D() );
-    				break;
-    			case 'large-original' : 
-    				map.addControl( new GLargeMapControl() );
-    				break;
-    			case 'small-original' : 
-    				map.addControl( new GSmallMapControl() );
-    				break;
-    			case 'zoom' : 
-    				map.addControl( new GSmallZoomControl() );
-    				break;
-    			case 'type' : 
-    				map.addControl( new GMapTypeControl() );
-    				break;				
-    			case 'type-menu' : 
-    				map.addControl( new GMenuMapTypeControl() );
-    				break;
-    			case 'overlays' : 
-    				map.addControl( new MoreControl() );
-    				break;		
-    			case 'overview' : case 'overview-map' : 
-    				map.addControl( new GOverviewMapControl() );
-    				break;
-    			case 'scale' : 
-    				if ( hasSearchBar ) {
-    					map.addControl( new GScaleControl(), new GControlPosition( G_ANCHOR_BOTTOM_LEFT, new GSize( 5,37 ) ) );
-    				}
-    				else {
-    					map.addControl( new GScaleControl() );
-    				}
-    				break;
-    			case 'nav-label' : case 'nav' : 
-    				map.addControl( new GNavLabelControl() );
-    				break;
-    			case 'searchbar' :
-    				map.enableGoogleBar();
-    				break;
-    		}
-    	}	
-
-    	var bounds = ((mapOptions.zoom == null || mapOptions.centre == null) && markers.length > 1) ? new GLatLngBounds() : null;
-
-    	for ( i = markers.length - 1; i >= 0; i-- ) {
-    		var marker = markers[i];
-    		marker.point = new GLatLng( marker.lat, marker.lon );
-    		map.addOverlay( createGMarker( marker ) );
-    		if ( bounds != null ) bounds.extend( marker.point );
-    	}
-
-    	if (bounds != null) {
-    		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
-    	}
-
-    	if (mapOptions.centre != null) map.setCenter(mapOptions.centre);
-    	if (mapOptions.zoom != null) map.setZoom(mapOptions.zoom);
-    	
-    	if (mapOptions.scrollWheelZoom) map.enableScrollWheelZoom();
-
-    	map.enableContinuousZoom();
-    	
-    	// Code to add KML files.
-    	var kmlOverlays = [];
-    	for ( i = mapOptions.kml.length - 1; i >= 0; i-- ) {
-    		kmlOverlays[i] = new GGeoXml( mapOptions.kml[i] );
-    		map.addOverlay( kmlOverlays[i] );
-    	}
-    	
-    	// Make the map variable available for other functions.
-    	if (!window.GMaps) window.GMaps = new Object;
-    	eval("window.GMaps." + mapName + " = map;"); 	
-    	
-    	return map;
-    }
-
+    }    
+    
     function setupCheckboxShiftClick() { return true; }
 
     function MoreControl() {};
@@ -240,7 +259,7 @@ var GoogleMap = function( $, args ) {
     	var textDiv = document.createElement("div");
     	textDiv.id = map.name + "-inner-more";
     	textDiv.setAttribute('class', 'inner-more');
-    	textDiv.appendChild(document.createTextNode( msgOverlays ));
+    	textDiv.appendChild(document.createTextNode( mediaWiki.msg( 'maps_overlays' ) ));
 
     	buttonDiv.appendChild(textDiv);
 
