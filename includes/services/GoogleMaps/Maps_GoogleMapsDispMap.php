@@ -13,9 +13,7 @@ final class MapsGoogleMapsDispMap extends MapsBaseMap {
 	/**
 	 * @see MapsBaseMap::getMapHTML()
 	 */
-	public function getMapHTML( array $params, Parser $parser ) {
-		$mapName = $this->service->getMapId();
-		
+	public function getMapHTML( array $params, Parser $parser, $mapName ) {
 		$output = $this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] );
 		
 		return $output . Html::element(

@@ -29,14 +29,15 @@ abstract class MapsBaseMap {
 	/**
 	 * Returns the HTML to display the map.
 	 * 
-	 * @since 0.7.3
+	 * @since 0.8
 	 * 
 	 * @param array $params
-	 * @param $parser
+	 * @param Parser $parser
+	 * @param string $mapName
 	 * 
 	 * @return string
 	 */
-	protected abstract function getMapHTML( array $params, Parser $parser );
+	protected abstract function getMapHTML( array $params, Parser $parser, $mapName );
 	
 	/**
 	 * Constructor.
@@ -73,7 +74,9 @@ abstract class MapsBaseMap {
 			$params['zoom'] = $this->service->getDefaultZoom();
 		}
 		
-		$output = $this->getMapHTML( $params, $parser ) . $this->getJSON( $params, $parser );
+		$mapName = $this->service->getMapId();
+		
+		$output = $this->getMapHTML( $params, $parser, $mapName ) . $this->getJSON( $params, $parser, $mapName );
 		
 		global $wgTitle;
 		if ( $wgTitle->isSpecialPage() ) {
@@ -94,10 +97,11 @@ abstract class MapsBaseMap {
 	 *
 	 * @param array $params
 	 * @param Parser $parser
+	 * @param string $mapName
 	 * 
 	 * @return string
 	 */	
-	protected function getJSON( array $params, Parser $parser ) {
+	protected function getJSON( array $params, Parser $parser, $mapName ) {
 		$object = $this->getJSONObject( $params, $parser );
 		
 		if ( $object === false ) {
@@ -105,7 +109,7 @@ abstract class MapsBaseMap {
 		}
 		
 		// TODO
-		return Html::inlineScript( "maps=[]; maps['{$this->service->getName()}']=[]; maps['{$this->service->getName()}'].push(" . json_encode( $object ) . ')' );
+		return Html::inlineScript( "maps=[]; maps['{$this->service->getName()}']=[]; maps['{$this->service->getName()}']['{$mapName}']=" . json_encode( $object ) . ';' );
 	}
 	
 	/**

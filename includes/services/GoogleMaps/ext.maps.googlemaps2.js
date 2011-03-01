@@ -25,8 +25,8 @@ function loadGoogleMaps() {
 	    ];		
 		
 		for ( i in window.maps.googlemaps2 ) {
-			var map = new googleMap( jQuery );
-			map.initializeGoogleMap( 'foo',{},[] );
+			var map = new GoogleMap( jQuery, window.maps.googlemaps2[i] );
+			map.initiate( i );
 		}
 	}
 }
@@ -37,7 +37,13 @@ jQuery.getScript(
 	function () { loadGoogleMaps(); }
 );
 
-var googleMap = function($) {
+var GoogleMap = function( $, args ) {
+	
+	var args = args;
+	
+	this.initiate = function( mapName ) {
+		//alert( mapName );
+	}
 	
     /**
      * Returns GMarker object on the provided location. It will show a popup baloon
@@ -92,7 +98,7 @@ var googleMap = function($) {
      * Returns GMap2 object with the provided properties and markers.
      * This is done by setting the map centre and size, and passing the arguments to function createGoogleMap.
      */
-	var initializeGoogleMap = function(mapName, mapOptions, markers) {
+	this.initializeGoogleMap = function(mapName, mapOptions, markers) {
     	if (GBrowserIsCompatible()) {
     		mapOptions.centre = (mapOptions.lat != null && mapOptions.lon != null) ? new GLatLng(mapOptions.lat, mapOptions.lon) : null;
     		//mapOptions.size = new GSize(mapOptions.width, mapOptions.height);	
