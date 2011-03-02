@@ -10,42 +10,48 @@
  * This means that when the API is loaded, not all modules will have yet, so we need to
  * wait untill they are available before setting up the maps. Try every 100ms.
  */
-function loadGoogleMaps() {
-	if ( typeof GLayer == 'undefined' ) {
-		setTimeout( function() { loadGoogleMaps(); }, 100 );
-	}
-	else {
-		if ( GBrowserIsCompatible() ) {
-			window.unload = GUnload;
-			
-			window.GOverlays = [
-		      	new GLayer("com.panoramio.all"),
-		      	new GLayer("com.youtube.all"),
-		      	new GLayer("org.wikipedia.en"),
-		      	new GLayer("com.google.webcams")
-		    ];		
-			
-			for ( i in window.maps.googlemaps2 ) {
-				var map = new GoogleMap( jQuery, window.maps.googlemaps2[i] );
-				map.initiate( i );
-			}			
-		}
-		else {
-			alert( mediaWiki.msg( 'maps-googlemaps2-incompatbrowser' ) );
-			
-			for ( i in window.maps.googlemaps2 ) {
-				// FIXME: common module with message not getting loaded for some reason
-				jQuery( '#' + i ).text( mediaWiki.msg( 'maps-load-failed' ) );
-			}
-		}
-	}
+function loadGoogleMaps( i ) {
+	//if ( typeof GLayer == 'undefined' && i < 30 ) {
+	//	setTimeout( function() { loadGoogleMaps( i + 1 ); }, 100 );
+	//}
+	//else {
+
+	//}
 }
 
 // Load the Google Maps v2 API.
+/*
 jQuery.getScript(
 	'http://maps.google.com/maps?file=api&v=2&key=' + window.googleMapsKey + '&hl=' + window.googleLangCode,
-	function () { loadGoogleMaps(); }
+	function () { loadGoogleMaps( 0 ); }
 );
+*/
+
+jQuery(document).ready(function() {
+	if ( GBrowserIsCompatible() ) {
+		window.unload = GUnload;
+		
+		window.GOverlays = [
+	      	new GLayer("com.panoramio.all"),
+	      	new GLayer("com.youtube.all"),
+	      	new GLayer("org.wikipedia.en"),
+	      	new GLayer("com.google.webcams")
+	    ];		
+		
+		for ( i in window.maps.googlemaps2 ) {
+			var map = new GoogleMap( jQuery, window.maps.googlemaps2[i] );
+			map.initiate( i );
+		}			
+	}
+	else {
+		alert( mediaWiki.msg( 'maps-googlemaps2-incompatbrowser' ) );
+		
+		for ( i in window.maps.googlemaps2 ) {
+			// FIXME: common module with message not getting loaded for some reason
+			jQuery( '#' + i ).text( mediaWiki.msg( 'maps-load-failed' ) );
+		}
+	}
+});
 
 var GoogleMap = function( $, args ) {
 	var args = cleanParameters( args );
@@ -55,7 +61,7 @@ var GoogleMap = function( $, args ) {
 	}
 	
 	function cleanParameters( args ) {
-		
+		/*
     	args.type = eval( args.type );
     	var ts=[];
     	var t;
@@ -65,7 +71,7 @@ var GoogleMap = function( $, args ) {
     	args.types = ts;
     	
     	args.types = ensureTypeIsSelectable( args.type, args.types );
-    	
+    	*/
     	return args;
 	}
 
@@ -74,9 +80,10 @@ var GoogleMap = function( $, args ) {
      */
     function createGoogleMap( mapName, args ) {
     	var mapElement = document.getElementById( mapName );
-    	var map = new GMap2( mapElement, { mapTypes: args.types } );
+    	var map = new GMap2( mapElement/*, { mapTypes: args.types }*/ );
+    	
     	map.name = mapName;
-    	map.setMapType( args.type );	
+    	//map.setMapType( args.type );	
 
     	var hasSearchBar = false;
     	
@@ -138,11 +145,10 @@ var GoogleMap = function( $, args ) {
     		}
     	}	
     	
-/*
-    	var bounds = ((mapOptions.zoom == null || mapOptions.centre == null) && markers.length > 1) ? new GLatLngBounds() : null;
+    	var bounds = ((args.zoom == null || args.centre == null) && args.locations.length > 1) ? new GLatLngBounds() : null;
 
-    	for ( i = markers.length - 1; i >= 0; i-- ) {
-    		var marker = markers[i];
+    	for ( i = args.locations.length - 1; i >= 0; i-- ) {
+    		var marker = args.locations[i];
     		marker.point = new GLatLng( marker.lat, marker.lon );
     		map.addOverlay( createGMarker( marker ) );
     		if ( bounds != null ) bounds.extend( marker.point );
@@ -152,17 +158,24 @@ var GoogleMap = function( $, args ) {
     		map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
     	}
 
-    	if (mapOptions.centre != null) map.setCenter(mapOptions.centre);
-    	if (mapOptions.zoom != null) map.setZoom(mapOptions.zoom);
+    	if ( args.centre !== false ) {
+    		map.setCenter( args.centre );
+    	}
     	
-    	if (mapOptions.scrollWheelZoom) map.enableScrollWheelZoom();
+    	if ( args.zoom !== false ) {
+    		map.setZoom( args.zoom );
+    	}
+    	
+    	if ( args.autozoom ) {
+    		map.enableScrollWheelZoom();
+    	}
 
     	map.enableContinuousZoom();
     	
     	// Code to add KML files.
     	var kmlOverlays = [];
-    	for ( i = mapOptions.kml.length - 1; i >= 0; i-- ) {
-    		kmlOverlays[i] = new GGeoXml( mapOptions.kml[i] );
+    	for ( i = args.kml.length - 1; i >= 0; i-- ) {
+    		kmlOverlays[i] = new GGeoXml( args.kml[i] );
     		map.addOverlay( kmlOverlays[i] );
     	}
     	
@@ -171,7 +184,6 @@ var GoogleMap = function( $, args ) {
     	eval("window.GMaps." + mapName + " = map;"); 	
     	
     	return map;
-    	*/
     }
     
     function ensureTypeIsSelectable( type, types ) {
@@ -225,9 +237,9 @@ var GoogleMap = function( $, args ) {
     		marker = new GMarker( markerData.point );
     	}
     	
-    	if ( ( markerData.title + markerData.label ).length != '' ) {
-    		var bothTxtAreSet = markerData.title.length != '' && markerData.label.length != '';
-    		var popupText = bothTxtAreSet ? '<b>' + markerData.title + '</b><hr />' + markerData.label : markerData.title + markerData.label;	
+    	if ( markerData.title + markerData.text != '' ) {
+    		var bothTxtAreSet = markerData.title != '' && markerData.text != '';
+    		var popupText = bothTxtAreSet ? '<b>' + markerData.title + '</b><hr />' + markerData.label : markerData.title + markerData.text;	
     		popupText = '<div style="overflow:auto;max-height:130px;">' + popupText + '</div>';
 
     		GEvent.addListener(marker, 'click',
