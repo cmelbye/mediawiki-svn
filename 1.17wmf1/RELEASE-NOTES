@@ -492,6 +492,8 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   adding overflow:hidden to h1,h2,h3,h4,h5,h6 (also fixes editsection bunching).
 * (bug 26708) Remove background-color:white from tables in Monobook and Vector.
 * (bug 27560) Search queries no longer fail in walloon language
+* (bug 27700) The upload protection can now also be set for files that do not
+  exist.
 
 === API changes in 1.17 ===
 * BREAKING CHANGE: action=patrol now requires POST
