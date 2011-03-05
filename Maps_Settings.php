@@ -21,8 +21,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 
 
-$egMapsUseRL = false; //method_exists( 'OutputPage', 'addModules' );
-
 # Features configuration
 # Commenting out the inclusion of any feature will make Maps completely ignore it, and so improve performance.
 
@@ -112,7 +110,7 @@ $egMapsUseRL = false; //method_exists( 'OutputPage', 'addModules' );
 	# service is present in the $egMapsDefaultServices array for a certain feature.
 	# A service that supports all features is recommended. This service needs to be
 	# enabled, if not, the first one from the available services will be taken.
-	$egMapsDefaultService = 'googlemaps2';
+	$egMapsDefaultService = 'googlemaps3';
 	
 	# Array of String. The default mapping service for each feature, which will be
 	# used when no valid service is provided by the user. Each service needs to be

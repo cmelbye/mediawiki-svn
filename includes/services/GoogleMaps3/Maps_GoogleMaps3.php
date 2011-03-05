@@ -21,7 +21,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	function __construct( $serviceName ) {
 		parent::__construct(
 			$serviceName,
-			array( 'google3', 'googlemap3', 'gmap3', 'gmaps3' )
+			array( 'googlemaps', 'google' )
 		);
 	}
 	
@@ -129,8 +129,8 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$languageCode = self::getMappedLanguageCode( $wgLang->getCode() );
 		
 		return array(
-			Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" ),
-			Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps3/GoogleMap3Functions.js?$egMapsStyleVersion" ),
+			//Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" ),
+			//Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps3/GoogleMap3Functions.js?$egMapsStyleVersion" ),
 		);			
 	}
 	

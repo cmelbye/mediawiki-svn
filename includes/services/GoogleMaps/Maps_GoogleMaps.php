@@ -33,7 +33,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	function __construct( $serviceName ) {
 		parent::__construct(
 			$serviceName,
-			array( 'googlemaps', 'google', 'googlemap', 'gmap', 'gmaps' )
+			array( 'googlemaps2', 'google2', 'gmap', 'gmaps' )
 		);
 	}
 	

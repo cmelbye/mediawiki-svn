@@ -47,7 +47,6 @@ jQuery(document).ready(function() {
 		alert( mediaWiki.msg( 'maps-googlemaps2-incompatbrowser' ) );
 		
 		for ( i in window.maps.googlemaps2 ) {
-			// FIXME: common module with message not getting loaded for some reason
 			jQuery( '#' + i ).text( mediaWiki.msg( 'maps-load-failed' ) );
 		}
 	}

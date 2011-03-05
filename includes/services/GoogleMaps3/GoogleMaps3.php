@@ -20,6 +20,23 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+$wgResourceModules['ext.maps.googlemaps3'] = array(
+	'dependencies' => array( 'ext.maps.common' ),
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps3',	
+	'group' => 'ext.maps',
+	'scripts' => array(
+		'jquery.googlemaps.js',
+		'ext.maps.googlemaps3.js',
+	),/*
+	'styles' => array(
+		'ext.maps.googlemaps2.css',
+	),*/
+	'messages' => array(
+		'maps-googlemaps3-incompatbrowser'
+	)
+);
+
 $wgHooks['MappingServiceLoad'][] = 'efMapsInitGoogleMaps3';
 
 /**
