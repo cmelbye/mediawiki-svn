@@ -108,8 +108,10 @@ abstract class MapsBaseMap {
 			return '';
 		}
 		
-		// TODO
-		return Html::inlineScript( "maps=[]; maps['{$this->service->getName()}']=[]; maps['{$this->service->getName()}']['{$mapName}']=" . json_encode( $object ) . ';' );
+		return Html::inlineScript(
+			MapsMapper::getBaseMapJSON( $this->service->getName() )
+			. "maps.{$this->service->getName()}.{$mapName}=" . json_encode( $object ) . ';'
+		);
 	}
 	
 	/**

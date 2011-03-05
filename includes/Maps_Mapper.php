@@ -157,4 +157,30 @@ final class MapsMapper {
 		return $image;
 	}
 	
+	/**
+	 * Returns JS to init the vars to hold the map data when they are not there already.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $serviceName
+	 */
+	public static function getBaseMapJSON( $serviceName ) {
+		static $baseInit = false;
+		static $serviceInit = array();
+		
+		$json = '';
+		
+		if ( !$baseInit ) {
+			$baseInit = true;
+			$json .= 'var maps={};';
+		}
+		
+		if ( !in_array( $serviceName, $serviceInit ) ) {
+			$serviceInit[] = $serviceName;
+			$json .= "maps.$serviceName={};";
+		}
+		
+		return $json;
+	}
+	
 }
