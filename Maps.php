@@ -136,9 +136,6 @@ $wgHooks['AdminLinks'][] = 'MapsHooks::addToAdminLinks';
 // Since 0.6.5
 $wgHooks['UnitTestsList'][] = 'MapsHooks::registerUnitTests';
 	
-// Since 0.7
-$wgHooks['SkinAfterBottomScripts'][] = 'MapsHooks::addOnloadFunction';
-
 // Since 0.7.1
 $wgHooks['ArticleFromTitle'][] = 'MapsHooks::onArticleFromTitle';	
 
