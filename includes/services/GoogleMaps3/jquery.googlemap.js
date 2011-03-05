@@ -33,11 +33,30 @@
 	// Add the markers.
 	for ( var i = options.locations.length - 1; i >= 0; i-- ) {
 		var location = options.locations[i];
-		markers.push( new google.maps.Marker( {
+		
+		var marker = new google.maps.Marker( {
 			map: map,
 			position: new google.maps.LatLng( location.lat , location.lon ),
 			title: location.title
-		} ) );
+		} );
+		
+		this.openWindow = false;
+		
+		if ( location.text != '' ) {
+			marker.text = location.text;
+			google.maps.event.addListener( marker, 'click', function() {
+				if ( this.openWindow !== false ) {
+					this.openWindow.close();
+				}
+				this.openWindow = new google.maps.InfoWindow( { content: this.text } );
+				this.openWindow.closeclick = function() {
+					marker.openWindow = false;
+				};
+				this.openWindow.open( map, this );					
+			} );			
+		}
+		
+		markers.push( marker );
 	}
 	
 	var bounds;
@@ -56,6 +75,16 @@
 		options.centre === false ?
 			bounds.getCenter() : new google.maps.LatLng( options.centre.lat , options.centre.lon )
 	);
+	
+	if ( options.autoinfowindows ) {
+		for ( var i = markers.length - 1; i >= 0; i-- ) {
+			markers[i].openWindow = new google.maps.InfoWindow( { content: markers[i].text } );
+			markers[i].openWindow.closeclick = function() {
+				markers[i].openWindow = false;
+			};			
+			markers[i].openWindow.open( map, markers[i] );	
+		}		
+	}
 	
 	return this;
 	

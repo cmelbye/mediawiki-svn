@@ -271,6 +271,10 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		
 		$egMapsGMaps3DefZoomStyle = 'default';
 		
+		$egMapsGMaps3AutoInfoWindows = false;
+		
+		
+		
 		
 	# Google Maps
 	

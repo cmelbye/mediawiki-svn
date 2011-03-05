@@ -68,7 +68,8 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls, $egMapsGMaps3DefTypeStyle, $egMapsGMaps3DefZoomStyle;
+		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls;
+		global $egMapsGMaps3DefTypeStyle, $egMapsGMaps3DefZoomStyle, $egMapsGMaps3AutoInfoWindows;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -96,7 +97,10 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$params['typestyle'] = new Parameter( 'typestyle' );
 		$params['typestyle']->setDefault( $egMapsGMaps3DefTypeStyle );
 		$params['typestyle']->addCriteria( new CriterionInArray( array_keys( self::$tyepControlStyles ) ) );
-		$params['typestyle']->addManipulations( new MapsParamGMap3Typestyle() );		
+		$params['typestyle']->addManipulations( new MapsParamGMap3Typestyle() );
+
+		$params['autoinfowindows'] = new Parameter( 'autoinfowindows', Parameter::TYPE_BOOLEAN );
+		$params['autoinfowindows']->setDefault( $egMapsGMaps3AutoInfoWindows );
 	}
 	
 	/**
