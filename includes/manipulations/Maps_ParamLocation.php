@@ -22,7 +22,14 @@ class MapsParamLocation extends ItemParameterManipulation {
 	 * 
 	 * @var string
 	 */
-	protected $metaDataSeparator;	
+	protected $metaDataSeparator;
+	
+	/**
+	 * Should the location be turned into a JSON object.
+	 * 
+	 * @var boolean
+	 */
+	public $toJSONObj = false;
 	
 	/**
 	 * Constructor.
@@ -56,6 +63,10 @@ class MapsParamLocation extends ItemParameterManipulation {
 
 		if ( $icon = array_shift( $parts ) ) {
 			$value->setIcon( $icon );
+		}
+		
+		if ( $this->toJSONObj ) {
+			$value = $value->getJSONObject();
 		}
 	}
 	
