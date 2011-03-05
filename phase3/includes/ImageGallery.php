@@ -156,11 +156,11 @@ class ImageGallery
 	}
 
 	/**
- 	* Add an image at the beginning of the gallery.
- 	*
- 	* @param $title Title object of the image that is added to the gallery
- 	* @param $html  String:  Additional HTML text to be shown. The name and size of the image are always shown.
- 	*/
+	* Add an image at the beginning of the gallery.
+	*
+	* @param $title Title object of the image that is added to the gallery
+	* @param $html  String:  Additional HTML text to be shown. The name and size of the image are always shown.
+	*/
 	function insert( $title, $html='' ) {
 		if ( $title instanceof File ) {
 			// Old calling convention
@@ -227,7 +227,8 @@ class ImageGallery
 
 		if ( $this->mPerRow > 0 ) {
 			$maxwidth = $this->mPerRow * ( $this->mWidths + 50 );
-			$this->mAttribs['style'] = "max-width: {$maxwidth}px;_width: {$maxwidth}px;";
+			$oldStyle = isset( $this->mAttribs['style'] ) ? $this->mAttribs['style'] : ""; 
+			$this->mAttribs['style'] = "max-width: {$maxwidth}px;_width: {$maxwidth}px;" . $oldStyle;
 		}
 
 		$attribs = Sanitizer::mergeAttributes(
@@ -275,7 +276,11 @@ class ImageGallery
 				$thumbhtml = "\n\t\t\t".'<div style="height: '.(30 + $this->mHeights).'px;">'
 					. htmlspecialchars( $img->getLastError() ) . '</div>';
 			} else {
-				$vpad = floor(( 30 + $this->mHeights - $thumb->height ) /2);
+				//We get layout problems with the margin, if the image is smaller 
+				//than the line-height, so we less margin in these cases.
+				$minThumbHeight =  $thumb->height > 17 ? $thumb->height : 17;
+				$vpad = floor(( 30 + $this->mHeights - $minThumbHeight ) /2);
+				
 
 				$imageParameters = array(
 					'desc-link' => true,
@@ -286,10 +291,9 @@ class ImageGallery
 					$imageParameters['alt'] = $nt->getText();
 				}
 
-				# Set both fixed width and height. Otherwise we might have problems
-				# with the vertical centering of images where height<line-size
+				# Set both fixed width and min-height.
 				$thumbhtml = "\n\t\t\t".
-					'<div class="thumb" style="width: ' .($this->mWidths+30).'px; height: ' .($this->mHeights+30).'px;">'
+					'<div class="thumb" style="width: ' .($this->mWidths+30).'px;">'
 					# Auto-margin centering for block-level elements. Needed now that we have video
 					# handlers since they may emit block-level elements as opposed to simple <img> tags.
 					# ref http://css-discuss.incutio.com/?page=CenteringBlockElement

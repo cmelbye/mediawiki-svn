@@ -1,8 +1,8 @@
 <?php
 
-abstract class ApiTestSetup extends PHPUnit_Framework_TestCase {
-	protected static $user;
-	protected static $sysopUser;
+abstract class ApiTestSetup extends MediaWikiTestCase {
+	protected $user;
+	protected $sysopUser;
 	protected static $apiUrl;
 
 	function setUp() {
@@ -10,14 +10,14 @@ abstract class ApiTestSetup extends PHPUnit_Framework_TestCase {
 
 		self::$apiUrl = $wgServer . wfScript( 'api' );
 
-		$wgMemc = new FakeMemCachedClient;
+		$wgMemc = new EmptyBagOStuff;
 		$wgContLang = Language::factory( 'en' );
 		$wgAuth = new StubObject( 'wgAuth', 'AuthPlugin' );
 		$wgRequest = new FauxRequest( array() );
-		self::setupUser();
+		$this->setupUser();
 	}
 
-	protected function doApiRequest( $params, $data = null ) {
+	protected function doApiRequest( $params, $data = null, $appendModule = false ) {
 		$_SESSION = isset( $data[2] ) ? $data[2] : array();
 
 		$req = new FauxRequest( $params, true, $_SESSION );
@@ -27,18 +27,48 @@ abstract class ApiTestSetup extends PHPUnit_Framework_TestCase {
 		$data[0] = $module->getResultData();
 		$data[1] = $req;
 		$data[2] = $_SESSION;
+		
+		if( $appendModule ) $data[3] = $module;
 
 		return $data;
 	}
 
-	static function setupUser() {
-		if ( self::$user == null || self::$sysopUser == null ) {
-			self::$user = new UserWrapper( 'User for MediaWiki automated tests', User::randomPassword() );
-			self::$sysopUser = new UserWrapper( 'Sysop for MediaWiki automated tests', User::randomPassword(), 'sysop' );
+	function setupUser() {
+		if ( $this->user == null || $this->sysopUser == null ) {
+			$this->user = new UserWrapper( 'User for MediaWiki automated tests', User::randomPassword() );
+			$this->sysopUser = new UserWrapper( 'Sysop for MediaWiki automated tests', User::randomPassword(), 'sysop' );
 		}
 
-		$GLOBALS['wgUser'] = self::$sysopUser->user;
+		$GLOBALS['wgUser'] = $this->sysopUser->user;
 	}
+	
+	function doLogin() {
+		$data = $this->doApiRequest( array(
+			'action' => 'login',
+			'lgname' => $this->sysopUser->userName,
+			'lgpassword' => $this->sysopUser->password ) );
+
+		$token = $data[0]['login']['token'];
+
+		$data = $this->doApiRequest( array(
+			'action' => 'login',
+			"lgtoken" => $token,
+			"lgname" => $this->sysopUser->userName,
+			"lgpassword" => $this->sysopUser->password ), $data );
+		
+		return $data;
+	}
+	
+	function getTokenList( $user ) {
+		$GLOBALS['wgUser'] = $user->user;
+		$data = $this->doApiRequest( array(
+			'action' => 'query',
+			'titles' => 'Main Page',
+			'intoken' => 'edit|delete|protect|move|block|unblock',
+			'prop' => 'info' ) );
+		return $data;
+	}
+	
 }
 
 class UserWrapper {

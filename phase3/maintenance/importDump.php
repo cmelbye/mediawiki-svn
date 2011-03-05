@@ -22,12 +22,13 @@
  * @ingroup Maintenance
  */
 
-$optionsWithArgs = array( 'report' );
+$optionsWithArgs = array( 'report', 'namespaces' );
 
 require_once( dirname( __FILE__ ) . '/commandLine.inc' );
 
 /**
  * @ingroup Maintenance
+ * @todo port to Maintenance class
  */
 class BackupReader {
 	var $reportingInterval = 100;
@@ -37,9 +38,44 @@ class BackupReader {
 	var $dryRun    = false;
 	var $debug     = false;
 	var $uploads   = false;
+	var $nsFilter  = false;
 
 	function __construct() {
 		$this->stderr = fopen( "php://stderr", "wt" );
+	}
+
+	function setNsfilter( array $namespaces ) {
+		if ( count( $namespaces ) == 0 ) {
+			$this->nsFilter = false;
+			return;
+		}
+		$this->nsFilter = array_unique( array_map( array( $this, 'getNsIndex' ), $namespaces ) );
+	}
+
+	private function getNsIndex( $namespace ) {
+		global $wgContLang;
+		if ( ( $result = $wgContLang->getNsIndex( $namespace ) ) !== false ) {
+			return $result;
+		}
+		$ns = intval( $namespace );
+		if ( strval( $ns ) === $namespace && $wgContLang->getNsText( $ns ) !== false ) {
+			return $ns;
+		}
+		wfDie( "Unknown namespace text / index specified: $namespace\n" );
+	}
+
+	private function skippedNamespace( $obj ) {
+		if ( $obj instanceof Title ) {
+			$ns = $obj->getNamespace();
+		} elseif ( $obj instanceof Revision ) {
+			$ns = $obj->getTitle()->getNamespace();
+		} elseif ( $obj instanceof WikiRevision ) {
+			$ns = $obj->title->getNamespace();
+		} else {
+			echo wfBacktrace();
+			wfDie( "Cannot get namespace of object in " . __METHOD__ . "\n" );
+		}
+		return is_array( $this->nsFilter ) && !in_array( $ns, $this->nsFilter );
 	}
 
 	function reportPage( $page ) {
@@ -53,6 +89,10 @@ class BackupReader {
 			return;
 		}
 
+		if ( $this->skippedNamespace( $title ) ) {
+			return;
+		}
+
 		$this->revCount++;
 		$this->report();
 
@@ -63,6 +103,9 @@ class BackupReader {
 
 	function handleUpload( $revision ) {
 		if ( $this->uploads ) {
+			if ( $this->skippedNamespace( $revision ) ) {
+				return;
+			}
 			$this->uploadCount++;
 			// $this->report();
 			$this->progress( "upload: " . $revision->getFilename() );
@@ -77,6 +120,9 @@ class BackupReader {
 	}
 
 	function handleLogItem( $rev ) {
+		if ( $this->skippedNamespace( $rev ) ) {
+			return;
+		}
 		$this->revCount++;
 		$this->report();
 
@@ -131,6 +177,10 @@ class BackupReader {
 
 	function importFromStdin() {
 		$file = fopen( 'php://stdin', 'rt' );
+		if( posix_isatty( $file ) ) {
+			$this->showHelp();
+			exit();
+		}
 		return $this->importFromHandle( $file );
 	}
 
@@ -155,6 +205,35 @@ class BackupReader {
 
 		return $importer->doImport();
 	}
+
+	function showHelp() {
+		$gz = in_array('compress.zlib', stream_get_wrappers()) ? 'ok' : '(disabled; requires PHP zlib module)';
+		$bz2 = in_array('compress.bzip2', stream_get_wrappers()) ? 'ok' : '(disabled; requires PHP bzip2 module)';
+		echo "This script reads pages from an XML file as produced from Special:Export\n";
+		echo "or dumpBackup.php, and saves them into the current wiki.\n";
+		echo "\n";
+		echo "Note that for very large data sets, importDump.php may be slow; there are\n";
+		echo "alternate methods which can be much faster for full site restoration:\n";
+		echo "http://www.mediawiki.org/wiki/Manual:Importing_XML_dumps\n";
+		echo "\n";
+		echo "Usage: php importDump.php [<options>] [<file>]\n";
+		echo "If no file is listed, input may be piped from stdin.\n";
+		echo "\n";
+		echo "Options:\n";
+		echo "  --quiet    Don't dump status reports to stderr.\n";
+		echo "  --report=n Report position and speed after every n pages processed.\n";
+		echo "  --namespaces=a|b|..|z Import only the pages from namespaces belonging to\n";
+		echo "    the list of pipe-separated namespace names or namespace indexes\n";
+		echo "  --dry-run  Parse dump without actually importing pages.\n";
+		echo "  --debug    Output extra verbose debug information\n";
+		echo "  --uploads  Process file upload data if included (experimental)\n";
+		echo "\n";
+		echo "Compressed XML files may be read directly:\n";
+		echo "  .gz $gz\n";
+		echo "  .bz2 $bz2\n";
+		echo "  .7z (if 7za executable is in PATH)\n";
+		echo "\n";
+	}
 }
 
 if ( wfReadOnly() ) {
@@ -177,8 +256,14 @@ if ( isset( $options['debug'] ) ) {
 if ( isset( $options['uploads'] ) ) {
 	$reader->uploads = true; // experimental!
 }
+if ( isset( $options['namespaces'] ) ) {
+	$reader->setNsfilter( explode( '|', $options['namespaces'] ) );
+}
 
-if ( isset( $args[0] ) ) {
+if ( isset( $options['help'] ) ) {
+	$reader->showHelp();
+	exit();
+} elseif ( isset( $args[0] ) ) {
 	$result = $reader->importFromFile( $args[0] );
 } else {
 	$result = $reader->importFromStdin();

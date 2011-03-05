@@ -1350,7 +1350,7 @@ Bied jo triem ûnder in oare namme oan.
 As jo de triem dochs noch oanbiede wolle, gean dan werom en kies in oare namme.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Dizze triem is idintyk oan {{PLURAL:$1|de folgjende triem|de folgjende triemmen}}:',
-'file-deleted-duplicate'      => "In bestân idintyk oan dit bestân ([[$1]]) is foarhinne fuorthelle.
+'file-deleted-duplicate'      => "In bestân idintyk oan dit bestân ([[:$1]]) is foarhinne fuorthelle.
 Rieplachtsje it fuorthel-logboek foar't jo fierder geane.",
 'uploadwarning'               => 'Oanbied-warskôging',
 'savefile'                    => 'Lis triem fêst',
@@ -2222,10 +2222,10 @@ Gean nei oft latex, dvips, en gs goed ynstallearre binne en set om',
 # Media information
 'imagemaxsize'         => 'Behein ôfmjittings fan ôfbyld op beskriuwingsside ta:',
 'thumbsize'            => 'Mjitte fan miniatueren:',
-'file-info'            => '(triemgrutte: $1, MIME-type: $2)',
-'file-info-size'       => '($1 × $2 pixel, triemgrutte: $3, MIME type: $4)',
+'file-info'            => 'triemgrutte: $1, MIME-type: $2',
+'file-info-size'       => '$1 × $2 pixel, triemgrutte: $3, MIME type: $4',
 'file-nohires'         => '<small>Gjin hegere resolúsje beskikber.</small>',
-'svg-long-desc'        => '(SVG-triem, nominaal $1 × $2 pixels, triemgrutte: $3)',
+'svg-long-desc'        => 'SVG-triem, nominaal $1 × $2 pixels, triemgrutte: $3',
 'show-big-image'       => 'Hegere resolúsje',
 'show-big-image-thumb' => '<small>Grutte fan dizze ôfbylding: $1 × $2 pixels</small>',
 

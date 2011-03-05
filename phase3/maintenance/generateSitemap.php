@@ -271,7 +271,7 @@ class GenerateSitemap extends Maintenance {
 			$i = $smcount = 0;
 
 			$fns = $wgContLang->getFormattedNsText( $namespace );
-			$this->output( "$namespace ($fns)" );
+			$this->output( "$namespace ($fns)\n" );
 			foreach ( $res as $row ) {
 				if ( $i++ === 0 || $i === $this->url_limit + 1 || $length + $this->limit[1] + $this->limit[2] > $this->size_limit ) {
 					if ( $this->file !== false ) {
@@ -441,6 +441,7 @@ class GenerateSitemap extends Maintenance {
 	 * Populate $this->limit
 	 */
 	function generateLimit( $namespace ) {
+		// bug 17961: make a title with the longest possible URL in this namespace
 		$title = Title::makeTitle( $namespace, str_repeat( "\xf0\xa8\xae\x81", 63 ) . "\xe5\x96\x83" );
 
 		$this->limit = array(
@@ -452,4 +453,4 @@ class GenerateSitemap extends Maintenance {
 }
 
 $maintClass = "GenerateSitemap";
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

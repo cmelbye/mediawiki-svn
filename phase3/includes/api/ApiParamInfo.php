@@ -84,10 +84,15 @@ class ApiParamInfo extends ApiBase {
 		$result->addValue( null, $this->getModuleName(), $r );
 	}
 
+	/**
+	 * @param  $obj ApiBase
+	 * @return ApiResult
+	 */
 	function getClassInfo( $obj ) {
 		$result = $this->getResult();
 		$retval['classname'] = get_class( $obj );
 		$retval['description'] = implode( "\n", (array)$obj->getDescription() );
+		$retval['examples'] = implode( "\n", (array)$obj->getExamples() );
 		$retval['version'] = implode( "\n", (array)$obj->getVersion() );
 		$retval['prefix'] = $obj->getModulePrefix();
 

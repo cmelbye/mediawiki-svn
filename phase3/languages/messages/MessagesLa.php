@@ -517,7 +517,7 @@ Nomen usoris alium selige.',
 'nocookieslogin'             => "{{SITENAME}} ''Cookies'' utitur in usorum conventa aperiendo. Cookies tua debiles sunt. Eis potestatem fac, tum conare denuo.",
 'noname'                     => 'Nominem usoris ratum non designavisti.',
 'loginsuccesstitle'          => 'Conventum prospere apertum est',
-'loginsuccess'               => "'''Apud {{grammar:accusative|{{SITENAME}}}} agnosceris ut \"\$1\".'''",
+'loginsuccess'               => "'''Apud {{grammar:accusative|{{SITENAME}}}} agnosceris nomine \"\$1\".'''",
 'nosuchuser'                 => 'Usor "$1" non est.
 Confirma orthographiam (cave litteras maiusculas minusculasque), aut [[Special:UserLogin/signup|novam rationem crea]].',
 'nosuchusershort'            => 'Usor "<nowiki>$1</nowiki>" non est.
@@ -946,8 +946,8 @@ Conare praefixare tua inquisitionem cum ''all:'' ut quaeras contenta omnia (pagi
 'email'                     => 'Litterae electronicae',
 'prefs-help-realname'       => 'Nomen verum non necesse est.
 Si vis id dare, opera tua tibi ascribentur.',
-'prefs-help-email'          => 'Inscriptio electronica non necesse est, sed sinit tesseram novam tibi mitti si eae oblitus es.
-Si vis, sinit etiam aliis tecum loqui per tuam paginam usoris vel disputationis, nisi te reveles.',
+'prefs-help-email'          => 'Inscriptio electronica non necesse est, sed sinit tesseram novam tibi mitti si eae oblitus es.',
+'prefs-help-email-others'   => 'Si vis, sinit etiam aliis tecum loqui per tuam paginam usoris vel disputationis, nisi te reveles.',
 'prefs-help-email-required' => 'Inscriptio electronica necesse est.',
 'prefs-info'                => 'Informatio basica',
 'prefs-i18n'                => 'Internationalizatio',
@@ -2032,10 +2032,10 @@ Paginae nomen petitum "[[:$1]]" iam existit. Vin tu eam delere ut pagina illic m
 ''(in pagina descriptionis fasciculi)''",
 'thumbsize'            => 'Magnitudo pollicisunguis:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pagina|paginae}}',
-'file-info'            => '(magnitudo fasciculi: $1, typus MIME: $2)',
-'file-info-size'       => '($1 × $2 elementa imaginalia, magnitudo fasciculi: $3, typus MIME: $4)',
+'file-info'            => 'magnitudo fasciculi: $1, typus MIME: $2',
+'file-info-size'       => '$1 × $2 elementa imaginalia, magnitudo fasciculi: $3, typus MIME: $4',
 'file-nohires'         => '<small>Nulla maior resolutio exstat.</small>',
-'svg-long-desc'        => '(fasciculus SVG, nominale $1 × $2 elementa imaginalia, magnitudo fasciculi: $3)',
+'svg-long-desc'        => 'fasciculus SVG, nominale $1 × $2 elementa imaginalia, magnitudo fasciculi: $3',
 'show-big-image'       => 'Resolutio completa',
 'show-big-image-thumb' => '<small>Mensura huius praevisi: pixellae $1 × $2</small>',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|replum|repla}}',

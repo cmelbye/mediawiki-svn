@@ -60,6 +60,10 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 		$this->run( $resultPageSet );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	public function run( $resultPageSet = null ) {
 		global $wgUser;
 		$params = $this->extractRequestParams();
@@ -168,7 +172,7 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 
 	protected function getExamples() {
 		return array(
-			'api.php?action=query&list=querypages&qppage=Ancientpages'
+			'api.php?action=query&list=querypage&qppage=Ancientpages'
 		);
 	}
 

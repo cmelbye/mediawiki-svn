@@ -27,6 +27,10 @@
  * @ingroup SpecialPage
  */
 class MovePageForm extends UnlistedSpecialPage {
+
+	/**
+	 * @var Title
+	 */
 	var $oldTitle, $newTitle; # Objects
 	var $reason; # Text input
 	var $moveTalk, $deleteAndMove, $moveSubpages, $fixRedirects, $leaveRedirect, $moveOverShared; # Checks
@@ -108,7 +112,7 @@ class MovePageForm extends UnlistedSpecialPage {
 		$oldTitleLink = $skin->link( $this->oldTitle );
 
 		$wgOut->setPagetitle( wfMsg( 'move-page', $this->oldTitle->getPrefixedText() ) );
-		$wgOut->setSubtitle( wfMsg( 'move-page-backlink', $oldTitleLink ) );
+		$skin->setRelevantTitle( $this->oldTitle );
 
 		$newTitle = $this->newTitle;
 

@@ -11,9 +11,9 @@
  * @author Crazymadlover
  * @author Daemorris
  * @author Giro720
+ * @author GoEThe
  * @author Hamilton Abreu
  * @author Helder.wiki
- * @author Heldergeovane
  * @author Indech
  * @author Jens Liebenau
  * @author Jorge Morais
@@ -72,6 +72,11 @@ $namespaceAliases = array(
 	'Arquivo_Discussão' => NS_FILE_TALK,
 );
 
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Utilizador', 'female' => 'Utilizadora' ),
+	NS_USER_TALK => array( 'male' => 'Utilizador_Discussão', 'female' => 'Utilizadora_Discussão' ),
+);
+
 $defaultDateFormat = 'dmy';
 
 $dateFormats = array(
@@ -81,7 +86,7 @@ $dateFormats = array(
 );
 
 $separatorTransformTable = array( ',' => ' ', '.' => ',' );
-$linkTrail = '/^([áâãàéêçíóôõúüa-z]+)(.*)$/sDu'; # Bug 21168
+$linkTrail = '/^([áâãàéêẽçíòóôõq̃úüűũa-z]+)(.*)$/sDu'; # Bug 21168, 27633
 
 $specialPageAliases = array(
 	'DoubleRedirects'           => array( 'Redireccionamentos_duplos', 'Redirecionamentos_duplos' ),
@@ -321,8 +326,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Mostrar o número de utilizadores a vigiar',
 'tog-oldsig'                  => 'Antevisão da assinatura:',
 'tog-fancysig'                => 'Tratar assinatura como texto wiki (sem link automático)',
-'tog-externaleditor'          => 'Por omissão, utilizar um editor externo (só para utilizadores avançados, exige configurações adicionais no seu computador)',
-'tog-externaldiff'            => 'Por omissão, utilizar diferenças externas (só para utilizadores avançados, exige configurações adicionais no seu computador)',
+'tog-externaleditor'          => 'Por omissão, utilizar um editor externo (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
+'tog-externaldiff'            => 'Por omissão, utilizar diferenças externas (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
 'tog-showjumplinks'           => 'Possibilitar links de acessibilidade "{{int:jumpto}}"',
 'tog-uselivepreview'          => 'Usar a antevisão em tempo real (requer JavaScript; é experimental)',
 'tog-forceeditsummary'        => 'Avisar-me ao introduzir um resumo vazio',
@@ -483,6 +488,7 @@ $messages = array(
 'printableversion'  => 'Versão para impressão',
 'permalink'         => 'Link permanente',
 'print'             => 'Imprimir',
+'view'              => 'Ver',
 'edit'              => 'Editar',
 'create'            => 'Criar',
 'editthispage'      => 'Editar esta página',
@@ -490,6 +496,7 @@ $messages = array(
 'delete'            => 'Eliminar',
 'deletethispage'    => 'Eliminar esta página',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|uma edição|$1 edições}}',
+'viewdeleted_short' => 'Ver {{PLURAL:$1|uma edição eliminada|$1 edições eliminadas}}',
 'protect'           => 'Proteger',
 'protect_change'    => 'alterar',
 'protectthispage'   => 'Proteger esta página',
@@ -574,6 +581,8 @@ Consulte a página da [[Special:Version|versão do sistema]].',
 'toc'                     => 'Índice',
 'showtoc'                 => 'mostrar',
 'hidetoc'                 => 'esconder',
+'collapsible-collapse'    => 'Ocultar',
+'collapsible-expand'      => 'Expandir',
 'thisisdeleted'           => 'Ver ou restaurar $1?',
 'viewdeleted'             => 'Ver $1?',
 'restorelink'             => '{{PLURAL:$1|uma edição eliminada|$1 edições eliminadas}}',
@@ -741,7 +750,7 @@ Verifique a ortografia, ou [[Special:UserLogin/signup|crie uma nova conta]].',
 'wrongpasswordempty'         => 'A palavra-chave não foi introduzida. Introduza-a, por favor.',
 'passwordtooshort'           => 'A palavra-chave deve ter no mínimo $1 {{PLURAL:$1|carácter|caracteres}}.',
 'password-name-match'        => 'A sua palavra-chave tem de ser diferente do seu nome de utilizador.',
-'password-too-weak'          => 'A palavra-chave fornecida não é suficientemente segura e não pode ser usada.',
+'password-login-forbidden'   => 'Foi proibido o uso deste nome de utilizador e palavra-chave.',
 'mailmypassword'             => 'Enviar uma palavra-chave nova por correio electrónico',
 'passwordremindertitle'      => 'Nova palavra-chave temporária na {{SITENAME}}',
 'passwordremindertext'       => 'Alguém (provavelmente você, a partir do endereço IP $1) solicitou uma palavra-chave nova para a sua conta na {{SITENAME}} ($4).
@@ -955,6 +964,7 @@ Caso continue a não funcionar, tente [[Special:UserLogout|sair]] e voltar a ent
 'token_suffix_mismatch'            => "'''A edição foi rejeitada porque o seu browser alterou os sinais de pontuação no editor.'''
 A edição foi rejeitada para evitar perdas no texto da página.
 Isso acontece ocasionalmente quando se usa um serviço de proxy anonimizador mal configurado.'''",
+'edit_form_incomplete'             => "'''Algumas partes do formulário de edição não chegaram ao servidor; verifique que a sua edição continua intacta e tente novamente, por favor.'''",
 'editing'                          => 'A editar $1',
 'editingsection'                   => 'A editar $1 (secção)',
 'editingcomment'                   => 'A editar $1 (nova secção)',
@@ -1086,7 +1096,7 @@ Pode ter sido eliminada da wiki ou o nome sido alterado.
 Tente [[Special:Search|pesquisar na wiki]] novas páginas relevantes.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentário removido)',
+'rev-deleted-comment'         => '(resumo da edição suprimido)',
 'rev-deleted-user'            => '(nome de utilizador removido)',
 'rev-deleted-event'           => '(entrada removida)',
 'rev-deleted-user-contribs'   => '[nome de utilizador ou IP removido - edição ocultada das contribuições]',
@@ -1277,6 +1287,7 @@ Note que, se usar os links de navegação, os botões de opção voltarão aos v
 'searchmenu-legend'                => 'Opções de pesquisa',
 'searchmenu-exists'                => "'''Há uma página com o nome \"[[:\$1]]\" nesta wiki'''",
 'searchmenu-new'                   => "'''Crie a página \"[[:\$1]]\" nesta wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" é um nome de página inválido ou que não pode ser criado por si.',
 'searchhelp-url'                   => 'Help:Conteúdos',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Navegar as páginas com este prefixo]]',
 'searchprofile-articles'           => 'Páginas de conteúdo',
@@ -1367,7 +1378,7 @@ Note, no entanto, que a indexação da {{SITENAME}} neste motor de busca pode es
 'resultsperpage'                => 'Resultados por página:',
 'contextlines'                  => 'Linhas por resultado:',
 'contextchars'                  => 'Contexto por linha:',
-'stub-threshold'                => 'Links para páginas provisórias \'\'(stubs)\'\' terão <a href="#" class="stub">este formato</a> se elas ocuparem menos de (bytes):',
+'stub-threshold'                => 'Links para páginas curtas terão <a href="#" class="stub">este formato</a> se elas ocuparem menos de (bytes):',
 'stub-threshold-disabled'       => 'Desactivado',
 'recentchangesdays'             => 'Dias a apresentar nas mudanças recentes:',
 'recentchangesdays-max'         => '(máximo: $1 {{PLURAL:$1|dia|dias}})',
@@ -1429,8 +1440,8 @@ Não deverá conter mais de $1 {{PLURAL:$1|carácter|caracteres}}.',
 Esta informação será pública.',
 'email'                         => 'Correio electrónico',
 'prefs-help-realname'           => 'Opcional: se optar por revelar o seu nome verdadeiro, este será utilizado para atribuir-lhe crédito pelo seu trabalho.',
-'prefs-help-email'              => 'Opcional: o endereço de correio electrónico é opcional, mas permite-nos enviar-lhe uma nova palavra-chave caso esqueça a antiga.
-Também permite que outros entrem em contacto consigo através da sua página de utilizador ou de discussão sem lhes revelar a sua identidade.',
+'prefs-help-email'              => 'Opcional: o endereço de correio electrónico é opcional, mas será necessário para reiniciar a palavra-chave caso esqueça a antiga.',
+'prefs-help-email-others'       => 'Também pode optar por permitir que outros entrem em contacto consigo por correio electrónico, através de um link nas suas páginas de utilizador ou de discussão, sem revelar o seu endereço de correio electrónico.',
 'prefs-help-email-required'     => 'O endereço de correio electrónico é requerido.',
 'prefs-info'                    => 'Informações básicas',
 'prefs-i18n'                    => 'Internacionalização',
@@ -1446,6 +1457,10 @@ Também permite que outros entrem em contacto consigo através da sua página de
 'prefs-displaysearchoptions'    => 'Opções de apresentação',
 'prefs-displaywatchlist'        => 'Opções de apresentação',
 'prefs-diffs'                   => 'Diferenças',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Parece válido',
+'email-address-validity-invalid' => 'Endereço válido necessário!',
 
 # User rights
 'userrights'                   => 'Privilégios dos utilizadores',
@@ -1686,13 +1701,13 @@ Consulte a [[Special:NewFiles|galeria de novos ficheiros]] para visioná-los.',
 'illegalfilename'             => 'O nome do ficheiro "$1" contém caracteres que não são permitidos no título das páginas.
 Altere o nome do ficheiro e tente enviá-lo novamente, por favor.',
 'badfilename'                 => 'O nome do ficheiro foi alterado para "$1".',
-'filetype-mime-mismatch'      => 'A extensão do ficheiro não corresponde ao tipo MIME.',
+'filetype-mime-mismatch'      => 'A extensão ".$1" não corresponde ao tipo MIME do ficheiro ($2).',
 'filetype-badmime'            => 'Não é permitido carregar ficheiros do tipo MIME "$1".',
 'filetype-bad-ie-mime'        => 'Não é possível carregar este ficheiro porque o Internet Explorer o detectaria como "$1", que é um tipo de ficheiro não permitido e potencialmente perigoso.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' não é um tipo de ficheiro desejado.
 {{PLURAL:\$3|O tipo preferido é|Os tipos preferidos são}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' não é um tipo de ficheiro permitido.
-{{PLURAL:\$3|O tipo permitido é|Os tipos permitidos são}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|não é um tipo de ficheiro permitido|não são tipos de ficheiro permitidos}}.
+{{PLURAL:$3|O tipo de ficheiro permitido é|Os tipos de ficheiro permitidos são}} $2.',
 'filetype-missing'            => 'O ficheiro não possui uma extensão (como, por exemplo, ".jpg").',
 'empty-file'                  => 'O ficheiro que enviou estava vazio.',
 'file-too-large'              => 'O ficheiro que enviou era demasiado grande.',
@@ -1733,7 +1748,7 @@ Se ainda pretende carregar o seu ficheiro volte atrás e use outro nome, por fav
 'fileexists-shared-forbidden' => 'Já existe um ficheiro com este nome no repositório de ficheiros partilhados.
 Caso deseje, mesmo assim, carregar o seu ficheiro, volte atrás e envie-o com um novo nome. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Este ficheiro é um duplicado {{PLURAL:$1|do seguinte|dos seguintes}}:',
-'file-deleted-duplicate'      => 'Um ficheiro idêntico a este ([[$1]]) foi eliminado anteriormente.
+'file-deleted-duplicate'      => 'Um ficheiro idêntico a este ([[:$1]]) foi eliminado anteriormente.
 Verifique o motivo da eliminação do ficheiro antes de prosseguir com o re-envio.',
 'uploadwarning'               => 'Aviso de envio',
 'uploadwarning-text'          => 'Modifique a descrição do ficheiro abaixo e tente novamente, por favor.',
@@ -1748,6 +1763,8 @@ Verifique o motivo da eliminação do ficheiro antes de prosseguir com o re-envi
 Verifique a configuração file_uploads, por favor.',
 'uploadscripted'              => 'Este ficheiro contém HTML ou código que pode ser erradamente interpretado por um browser.',
 'uploadvirus'                 => 'O ficheiro contém um vírus! Detalhes: $1',
+'uploadjava'                  => 'Este é um ficheiro ZIP que contém um ficheiro .class de Java.
+Não é permitido o upload de ficheiros Java, porque estes podem contornar as restrições de segurança.',
 'upload-source'               => 'Ficheiro de origem',
 'sourcefilename'              => 'Nome do ficheiro de origem:',
 'sourceurl'                   => 'URL fonte:',
@@ -1798,6 +1815,23 @@ Caso o problema persista, contacte um [[Special:ListUsers/sysop|administrador]].
 'upload-too-many-redirects' => 'A URL continha demasiados redireccionamentos',
 'upload-unknown-size'       => 'Tamanho desconhecido',
 'upload-http-error'         => 'Ocorreu um erro HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Foi encontrado um erro ao abrir o ficheiro ZIP para verificação.',
+'zip-wrong-format'    => 'O ficheiro especificado não é um ficheiro ZIP.',
+'zip-bad'             => 'O ficheiro ZIP encontra-se corrompido ou não é legível.
+A sua segurança não pode ser devidamente verificada.',
+'zip-unsupported'     => 'Este ficheiro ZIP usa funcionalidades ZIP não suportadas pelo MediaWiki.
+A sua segurança não pode ser devidamente verificada.',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheiros escondidos',
+'uploadstash-summary'  => 'Esta página dá acesso aos ficheiros enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes ficheiros não são visíveis para ninguém, excepto para o utilizador que os enviou.',
+'uploadstash-clear'    => 'Apagar os ficheiros escondidos',
+'uploadstash-nofiles'  => 'Não tem ficheiros escondidos.',
+'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
+'uploadstash-errclear' => 'Não foi possível apagar os ficheiros.',
+'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Acesso negado',
@@ -1974,13 +2008,14 @@ A descrição na [$2 página de descrição] é mostrada abaixo.',
 Estes links deviam ser desambiguados, apontando-os para a página apropriada.<br />
 Considera-se que uma página é de desambiguação se nela for utilizada uma predefinição que esteja definida em [[MediaWiki:Disambiguationspage]].',
 
-'doubleredirects'            => 'Redireccionamentos duplos',
-'doubleredirectstext'        => 'Esta página lista todas as páginas que redireccionam para outras páginas de redireccionamento.
+'doubleredirects'                   => 'Redireccionamentos duplos',
+'doubleredirectstext'               => 'Esta página lista todas as páginas que redireccionam para outras páginas de redireccionamento.
 Cada linha contém links para o primeiro e segundo redireccionamentos, bem como o destino do segundo redireccionamento, geralmente contendo a verdadeira página de destino, que devia ser o destino do primeiro redireccionamento.
 <del>Entradas cortadas</del> já foram solucionadas.',
-'double-redirect-fixed-move' => '[[$1]] foi movido.
+'double-redirect-fixed-move'        => '[[$1]] foi movido.
 Agora redirecciona para [[$2]].',
-'double-redirect-fixer'      => 'Corrector de redireccionamentos',
+'double-redirect-fixed-maintenance' => 'A corrigir redireccionamento duplo de [[$1]] para [[$2]].',
+'double-redirect-fixer'             => 'Corrector de redireccionamentos',
 
 'brokenredirects'        => 'Redireccionamentos quebrados',
 'brokenredirectstext'    => 'Os seguintes redireccionamentos ligam para páginas inexistentes:',
@@ -2435,9 +2470,10 @@ $1',
 'undelete-show-file-submit'    => 'Sim',
 
 # Namespace form on various pages
-'namespace'      => 'Espaço nominal:',
-'invert'         => 'Inverter selecção',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Espaço nominal:',
+'invert'                => 'Inverter selecção',
+'namespace_association' => 'Domínio associado',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contribuições do utilizador',
@@ -2545,7 +2581,7 @@ Consulte a [[Special:IPBlockList|lista de IPs bloqueados]] para rever os bloquei
 'infiniteblock'                   => 'infinito',
 'expiringblock'                   => 'expira em $1 às $2',
 'anononlyblock'                   => 'apenas anón.',
-'noautoblockblock'                => 'bloqueio automático impossibilitado',
+'noautoblockblock'                => 'bloqueio automático desactivado',
 'createaccountblock'              => 'criação de conta bloqueada',
 'emailblock'                      => 'correio electrónico bloqueado',
 'blocklist-nousertalk'            => 'impedido de editar a própria página de discussão',
@@ -2569,7 +2605,7 @@ Consulte a [[Special:IPBlockList|lista de IPs bloqueados]] para obter a lista de
 'unblocklogentry'                 => 'desbloqueou $1',
 'block-log-flags-anononly'        => 'apenas utilizadores anónimos',
 'block-log-flags-nocreate'        => 'criação de contas impossibilitada',
-'block-log-flags-noautoblock'     => 'bloqueio automático impossibilitado',
+'block-log-flags-noautoblock'     => 'bloqueio automático desactivado',
 'block-log-flags-noemail'         => 'correio electrónico bloqueado',
 'block-log-flags-nousertalk'      => 'impossibilitado de editar a própria página de discussão',
 'block-log-flags-angry-autoblock' => 'autobloqueio melhorado activado',
@@ -2679,7 +2715,7 @@ Faça a fusão manual das páginas de discussão, por favor.'''",
 'movepage-page-unmoved'        => 'Não foi possível mover a página $1 para $2.',
 'movepage-max-pages'           => 'O limite de $1 {{PLURAL:$1|página movida|páginas movidas}} foi atingido; não será possível mover mais páginas de forma automática.',
 '1movedto2'                    => 'moveu [[$1]] para [[$2]]',
-'1movedto2_redir'              => 'moveu [[$1]] para [[$2]] com redireccionamento',
+'1movedto2_redir'              => 'moveu [[$1]] para [[$2]] com redirecionamento',
 'move-redirect-suppressed'     => 'redireccionamento suprimido',
 'movelogpage'                  => 'Registo de movimento',
 'movelogpagetext'              => 'Abaixo encontra-se uma lista de páginas movidas.',
@@ -2967,7 +3003,8 @@ Este bloqueio foi provavelmente causado por um link para um site externo que con
 'math_unknown_function' => 'Função desconhecida',
 'math_lexing_error'     => 'Erro léxico',
 'math_syntax_error'     => 'Erro de sintaxe',
-'math_image_error'      => 'Falha na conversão para PNG. Verifique a instalação do latex, dvips, gs e convert',
+'math_image_error'      => 'Falha na conversão para PNG;
+verifique que o latex, dvips, gs e convert foram correctamente instalados',
 'math_bad_tmpdir'       => "Não foi possível criar o directório temporário ''math'' ou, se já existe, escrever nele",
 'math_bad_output'       => "Não foi possível criar o directório de resultados ''math'' ou, se já existe, escrever nele",
 'math_notexvc'          => 'O executável texvc não foi encontrado. Consulte math/README para instruções da configuração.',
@@ -3012,10 +3049,10 @@ Executá-lo poderá comprometer a segurança do seu sistema.",
 'imagemaxsize'         => "Limite de tamanho de imagens:<br />''(para páginas de descrição)''",
 'thumbsize'            => 'Tamanho de miniaturas:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|página|páginas}}',
-'file-info'            => '(tamanho: $1, tipo MIME: $2)',
-'file-info-size'       => '($1 × $2 pixels, tamanho: $3, tipo MIME: $4)',
+'file-info'            => 'tamanho: $1, tipo MIME: $2',
+'file-info-size'       => '$1 × $2 pixels, tamanho: $3, tipo MIME: $4',
 'file-nohires'         => '<small>Sem resolução maior disponível.</small>',
-'svg-long-desc'        => '(ficheiro SVG, de $1 × $2 pixels, tamanho: $3)',
+'svg-long-desc'        => 'ficheiro SVG, de $1 × $2 pixels, tamanho: $3',
 'show-big-image'       => 'Resolução completa',
 'show-big-image-thumb' => '<small>Dimensões desta antevisão: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'cíclico',
@@ -3177,6 +3214,7 @@ Caso o ficheiro tenha sido modificado a partir do seu estado original, alguns de
 'exif-gpsareainformation'          => 'Nome da área do GPS',
 'exif-gpsdatestamp'                => 'Data do GPS',
 'exif-gpsdifferential'             => 'Correcção do diferencial do GPS',
+'exif-objectname'                  => 'Título curto',
 
 # EXIF attributes
 'exif-compression-1' => 'Descomprimido',
@@ -3371,7 +3409,7 @@ para cancelar a confirmação do endereço de correio electrónico:
 
 $5
 
-Este código de confirmação irá expirar a $4.',
+Este código de confirmação irá expirar às $4.',
 'confirmemail_body_changed' => 'Alguém, provavelmente você com o endereço IP $1,
 alterou o endereço de correio electrónico da conta "$2" para este na {{SITENAME}}.
 
@@ -3386,7 +3424,22 @@ para cancelar a confirmação do endereço de correio electrónico:
 
 $5
 
-Este código de confirmação irá expirar a $4.',
+Este código de confirmação irá expirar às $4.',
+'confirmemail_body_set'     => 'Alguém, provavelmente você com o endereço IP $1,
+definiu o endereço de correio electrónico da conta "$2" para este na {{SITENAME}}.
+
+Para confirmar que esta conta é realmente sua e reactivar
+as funcionalidades de correio electrónico na {{SITENAME}},
+abra o seguinte link no seu browser:
+
+$3
+
+Caso a conta *não* lhe pertença, siga o seguinte link
+para cancelar a confirmação do endereço de correio electrónico:
+
+$5
+
+Este código de confirmação irá expirar às $4.',
 'confirmemail_invalidated'  => 'Confirmação de endereço de correio electrónico cancelada',
 'invalidateemail'           => 'Cancelar confirmação de correio electrónico',
 
@@ -3522,16 +3575,15 @@ Ficheiros de outro tipo serão abertos pelo browser directamente no programa que
 Introduza o nome do ficheiro sem o prefixo "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Ficheiros duplicados',
-'fileduplicatesearch-summary'  => "Procure ficheiros duplicados tendo por base o seu resumo criptográfico ''(hash value)''.
-
-Introduza o nome do ficheiro sem o prefixo \"{{ns:file}}:\".",
-'fileduplicatesearch-legend'   => 'Procurar duplicados',
-'fileduplicatesearch-filename' => 'Ficheiro:',
-'fileduplicatesearch-submit'   => 'Procurar',
-'fileduplicatesearch-info'     => '$1 × $2 pixels<br />Tamanho: $3<br />tipo MIME: $4',
-'fileduplicatesearch-result-1' => 'O ficheiro "$1" não possui cópias idênticas.',
-'fileduplicatesearch-result-n' => 'O ficheiro "$1" possui {{PLURAL:$2|uma cópia idêntica|$2 cópias idênticas}}.',
+'fileduplicatesearch'           => 'Ficheiros duplicados',
+'fileduplicatesearch-summary'   => "Procure ficheiros duplicados tendo por base o seu resumo criptográfico ''(hash value)''.",
+'fileduplicatesearch-legend'    => 'Procurar duplicados',
+'fileduplicatesearch-filename'  => 'Ficheiro:',
+'fileduplicatesearch-submit'    => 'Procurar',
+'fileduplicatesearch-info'      => '$1 × $2 pixels<br />Tamanho: $3<br />tipo MIME: $4',
+'fileduplicatesearch-result-1'  => 'O ficheiro "$1" não possui cópias idênticas.',
+'fileduplicatesearch-result-n'  => 'O ficheiro "$1" possui {{PLURAL:$2|uma cópia idêntica|$2 cópias idênticas}}.',
+'fileduplicatesearch-noresults' => 'Não foi encontrado nenhum ficheiro com o nome "$1".',
 
 # Special:SpecialPages
 'specialpages'                   => 'Páginas especiais',
@@ -3619,19 +3671,10 @@ Introduza o nome do ficheiro sem o prefixo \"{{ns:file}}:\".",
 'disableaccount-confirm'     => "Desactivar esta conta.
 O utilizador ficará impossibilitado de se autenticar, de reiniciar a palavra-chave e de receber notificações por correio electrónico.
 Se neste momento o utilizador estiver autenticado algures, sairá de imediato.
-''Note que a desactivação de uma conta não pode ser revertida sem intervenção de um administrador.''",
+''Note que a desactivação de uma conta não pode ser revertida sem intervenção de um administrador de sistema.''",
 'disableaccount-mustconfirm' => 'Tem de confirmar que pretende desactivar esta conta.',
 'disableaccount-nosuchuser'  => 'A conta de utilizador "$1" não existe.',
 'disableaccount-success'     => 'A conta de utilizador "$1" foi desactivada permanentemente.',
 'disableaccount-logentry'    => 'desactivou permanentemente a conta [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Ficheiros escondidos',
-'uploadstash-summary'  => 'Esta página dá acesso aos ficheiros enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes ficheiros não são visíveis para ninguém, excepto para o utilizador que os enviou.',
-'uploadstash-clear'    => 'Apagar os ficheiros escondidos',
-'uploadstash-nofiles'  => 'Não tem ficheiros escondidos.',
-'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
-'uploadstash-errclear' => 'Não foi possível apagar os ficheiros.',
-'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 );

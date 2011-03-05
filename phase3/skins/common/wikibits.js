@@ -136,42 +136,6 @@ if ( 'wgBreakFrames' in window && window.wgBreakFrames ) {
 	}
 }
 
-window.showTocToggle = function() {
-	if ( document.createTextNode ) {
-		// Uses DOM calls to avoid document.write + XHTML issues
-
-		var linkHolder = document.getElementById( 'toctitle' );
-		var existingLink = document.getElementById( 'togglelink' );
-		if ( !linkHolder || existingLink ) {
-			// Don't add the toggle link twice
-			return;
-		}
-
-		var outerSpan = document.createElement( 'span' );
-		outerSpan.className = 'toctoggle';
-
-		var toggleLink = document.createElement( 'a' );
-		toggleLink.id = 'togglelink';
-		toggleLink.className = 'internal';
-		toggleLink.href = '#';
-		addClickHandler( toggleLink, function( evt ) { toggleToc(); return killEvt( evt ); } );
-		
-		toggleLink.appendChild( document.createTextNode( mediaWiki.msg( 'hidetoc' ) ) );
-
-		outerSpan.appendChild( document.createTextNode( '[' ) );
-		outerSpan.appendChild( toggleLink );
-		outerSpan.appendChild( document.createTextNode( ']' ) );
-
-		linkHolder.appendChild( document.createTextNode( ' ' ) );
-		linkHolder.appendChild( outerSpan );
-
-		var cookiePos = document.cookie.indexOf( "hidetoc=" );
-		if ( cookiePos > -1 && document.cookie.charAt( cookiePos + 8 ) == 1 ) {
-			toggleToc();
-		}
-	}
-};
-
 window.changeText = function( el, newText ) {
 	// Safari work around
 	if ( el.innerText ) {
@@ -190,25 +154,6 @@ window.killEvt = function( evt ) {
 		evt.cancelBubble = true; // IE
 	}
 	return false; // Don't follow the link (IE)
-};
-
-window.toggleToc = function() {
-	var tocmain = document.getElementById( 'toc' );
-	var toc = document.getElementById('toc').getElementsByTagName('ul')[0];
-	var toggleLink = document.getElementById( 'togglelink' );
-
-	if ( toc && toggleLink && toc.style.display == 'none' ) {
-		changeText( toggleLink, mediaWiki.msg( 'hidetoc' ) );
-		toc.style.display = 'block';
-		document.cookie = "hidetoc=0";
-		tocmain.className = 'toc';
-	} else {
-		changeText( toggleLink, mediaWiki.msg( 'showtoc' ) );
-		toc.style.display = 'none';
-		document.cookie = "hidetoc=1";
-		tocmain.className = 'toc tochidden';
-	}
-	return false;
 };
 
 window.mwEditButtons = [];
@@ -387,15 +332,17 @@ window.addPortletLink = function( portlet, href, text, id, tooltip, accesskey, n
 };
 
 window.getInnerText = function( el ) {
-	if ( el.getAttribute( 'data-sort-value' ) !== null ) {
-		return el.getAttribute( 'data-sort-value' );
-	}
-	
 	if ( typeof el == 'string' ) {
 		return el;
 	}
 	if ( typeof el == 'undefined' ) {
 		return el;
+	}
+	// Custom sort value through 'data-sort-value' attribute
+	// (no need to prepend hidden text to change sort value)
+	if ( el.nodeType && el.getAttribute( 'data-sort-value' ) !== null ) {
+		// Make sure it's a valid DOM element (.nodeType) and that the attribute is set (!null)
+		return el.getAttribute( 'data-sort-value' );
 	}
 	if ( el.textContent ) {
 		return el.textContent; // not needed but it is faster
@@ -620,13 +567,13 @@ window.ts_makeSortable = function( table ) {
 	for ( var i = 0; i < firstRow.cells.length; i++ ) {
 		var cell = firstRow.cells[i];
 		if ( (' ' + cell.className + ' ').indexOf(' unsortable ') == -1 ) {
-			cell.innerHTML += '<a href="#" class="sortheader" '
+			$(cell).append ( '<a href="#" class="sortheader" '
 				+ 'onclick="ts_resortTable(this);return false;">'
 				+ '<span class="sortarrow">'
 				+ '<img src="'
 				+ ts_image_path
 				+ ts_image_none
-				+ '" alt="&darr;"/></span></a>';
+				+ '" alt="&darr;"/></span></a>');
 		}
 	}
 	if ( ts_alternate_row_colors ) {
@@ -1041,7 +988,8 @@ window.runOnloadHook = function() {
 
 	updateTooltipAccessKeys( null );
 	setupCheckboxShiftClick();
-	sortables_init();
+
+	jQuery( document ).ready( sortables_init );
 
 	// Run any added-on functions
 	for ( var i = 0; i < onloadFuncts.length; i++ ) {
@@ -1099,5 +1047,3 @@ hookEvent( 'load', runOnloadHook );
 if ( ie6_bugs ) {
 	importScriptURI( stylepath + '/common/IEFixes.js' );
 }
-
-showTocToggle();

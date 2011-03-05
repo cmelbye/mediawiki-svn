@@ -29,6 +29,8 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 
 	protected $modifiedTime = array();
 
+	protected $origin = self::ORIGIN_CORE_INDIVIDUAL;
+
 	/* Methods */
 
 	public function getModifiedTime( ResourceLoaderContext $context ) {
@@ -40,7 +42,7 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 		global $wgUser;
 
 		if ( $context->getUser() === $wgUser->getName() ) {
-			return $this->modifiedTime[$hash] = $wgUser->getTouched();
+			return $this->modifiedTime[$hash] = wfTimestamp( TS_UNIX, $wgUser->getTouched() );
 		} else {
 			return 1;
 		}
@@ -65,7 +67,7 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 	}
 
 	public function getScript( ResourceLoaderContext $context ) {
-		return Xml::encodeJsCall( 'mediaWiki.user.options.set', 
+		return Xml::encodeJsCall( 'mw.user.options.set', 
 			array( $this->contextUserOptions( $context ) ) );
 	}
 
@@ -109,6 +111,10 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 		return array();
 	}
 
+	/**
+	 * @param  $context ResourceLoaderContext
+	 * @return bool
+	 */
 	public function getFlip( $context ) {
 		global $wgContLang;
 

@@ -17,7 +17,9 @@ class Status {
 	var $value;
 
 	/** Counters for batch operations */
-	var $successCount = 0, $failCount = 0;
+	public $successCount = 0, $failCount = 0;
+	/** Array to indicate which items of the batch operations failed */
+	public $success = array();
 
 	/*semi-private*/ var $errors = array();
 	/*semi-private*/ var $cleanCallback = false;
@@ -235,7 +237,7 @@ class Status {
 	/**
 	 * Merge another status object into this one
 	 *
-	 * @param $other Other Status object
+	 * @param $other Status Other Status object
 	 * @param $overwriteValue Boolean: whether to override the "value" member
 	 */
 	function merge( $other, $overwriteValue = false ) {
@@ -279,7 +281,7 @@ class Status {
 				if( $error['params'] ) {
 					$result[] = array_merge( array( $error['message'] ), $error['params'] );
 				} else {
-					$result[] = $error['message'];
+					$result[] = array( $error['message'] );
 				}
 			}
 		}

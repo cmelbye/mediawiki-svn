@@ -446,14 +446,14 @@ class Xml {
 	 * Build a drop-down box from a textual list.
 	 *
 	 * @param $name Mixed: Name and id for the drop-down
-	 * @param $class Mixed: CSS classes for the drop-down
+	 * @param $list Mixed: Correctly formatted text (newline delimited) to be used to generate the options
 	 * @param $other Mixed: Text for the "Other reasons" option
-	 * @param $list Mixed: Correctly formatted text to be used to generate the options
 	 * @param $selected Mixed: Option which should be pre-selected
+	 * @param $class Mixed: CSS classes for the drop-down
 	 * @param $tabindex Mixed: Value of the tabindex attribute
 	 * @return string
 	 */
-	public static function listDropDown( $name= '', $list = '', $other = '', $selected = '', $class = '', $tabindex = Null ) {
+	public static function listDropDown( $name= '', $list = '', $other = '', $selected = '', $class = '', $tabindex = null ) {
 		$optgroup = false;
 
 		$options = self::option( $other, 'other', $selected === 'other' );
@@ -583,8 +583,8 @@ class Xml {
 			$s = $value ? 'true' : 'false';
 		} elseif ( is_null( $value ) ) {
 			$s = 'null';
-		} elseif ( is_int( $value ) ) {
-			$s = $value;
+		} elseif ( is_int( $value ) || is_float( $value ) ) {
+			$s = strval($value);
 		} elseif ( is_array( $value ) && // Make sure it's not associative.
 					array_keys($value) === range( 0, count($value) - 1 ) ||
 					count($value) == 0
@@ -620,7 +620,7 @@ class Xml {
 	 * Create a call to a JavaScript function. The supplied arguments will be 
 	 * encoded using Xml::encodeJsVar(). 
 	 *
-	 * @param $name The name of the function to call, or a JavaScript expression
+	 * @param $name String The name of the function to call, or a JavaScript expression
 	 *    which evaluates to a function object which is called.
 	 * @param $args Array of arguments to pass to the function.
 	 * @since 1.17

@@ -43,8 +43,9 @@ class LinkSearchPage extends QueryPage {
 	}
 	
 	function execute( $par ) {
-		global $wgOut, $wgRequest, $wgUrlProtocols, $wgMiserMode, $wgLang, $wgScript;
+		global $wgOut, $wgRequest, $wgUrlProtocols, $wgMiserMode, $wgLang;
 		$this->setHeaders();
+		$wgOut->allowClickjacking();
 		
 		$target = $wgRequest->getVal( 'target', $par );
 		$namespace = $wgRequest->getIntorNull( 'namespace', null );
@@ -100,7 +101,7 @@ class LinkSearchPage extends QueryPage {
 				'protocol' => $protocol ) );
 			parent::execute( $par );
 			if( $this->mMungedQuery === false )
-				$wgOut->addWikiText( wfMsg( 'linksearch-error' ) );
+				$wgOut->addWikiMsg( 'linksearch-error' );
 		}
 	}
 
@@ -114,13 +115,14 @@ class LinkSearchPage extends QueryPage {
 	/**
 	 * Return an appropriately formatted LIKE query and the clause
 	 */
-	static function mungeQuery( $query , $prot ) {
+	static function mungeQuery( $query, $prot ) {
 		$field = 'el_index';
-		$rv = LinkFilter::makeLike( $query , $prot );
+		$rv = LinkFilter::makeLikeArray( $query , $prot );
 		if ( $rv === false ) {
 			// LinkFilter doesn't handle wildcard in IP, so we'll have to munge here.
 			if (preg_match('/^(:?[0-9]{1,3}\.)+\*\s*$|^(:?[0-9]{1,3}\.){3}[0-9]{1,3}:[0-9]*\*\s*$/', $query)) {
-				$rv = $prot . rtrim($query, " \t*") . '%';
+				$dbr = wfGetDB( DB_SLAVE );
+				$rv = array( $prot . rtrim( $query, " \t*" ), $dbr->anyString() );
 				$field = 'el_to';
 			}
 		}
@@ -148,15 +150,15 @@ class LinkSearchPage extends QueryPage {
 			// Invalid query; return no results
 			return array( 'tables' => 'page', 'fields' => 'page_id', 'conds' => '0=1' );
 		
-		$stripped = substr( $this->mMungedQuery, 0, strpos( $this->mMungedQuery, '%' ) + 1 );
-		$encSearch = $dbr->addQuotes( $stripped );
+		$stripped = LinkFilter::keepOneWildcard( $this->mMungedQuery );
+		$like = $dbr->buildLike( $stripped );
 		$retval = array (
 			'tables' => array ( 'page', 'externallinks' ),
 			'fields' => array ( 'page_namespace AS namespace',
 					'page_title AS title',
 					'el_index AS value', 'el_to AS url' ),
 			'conds' => array ( 'page_id = el_from',
-					"$clause LIKE $encSearch" ),
+					"$clause $like" ),
 			'options' => array( 'USE INDEX' => $clause )
 		);
 		if ( isset( $this->mNs ) && !$wgMiserMode ) {
@@ -177,7 +179,7 @@ class LinkSearchPage extends QueryPage {
 	/**
 	 * Override to check query validity.
 	 */
-	function doQuery( $offset, $limit = false ) {
+	function doQuery( $offset = false, $limit = false ) {
 		global $wgOut;
 		list( $this->mMungedQuery,  ) = LinkSearchPage::mungeQuery( $this->mQuery, $this->mProt );
 		if( $this->mMungedQuery === false ) {

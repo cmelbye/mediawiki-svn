@@ -29,6 +29,8 @@
 
 class SpecialContributions extends SpecialPage {
 
+	protected $opts;
+
 	public function __construct() {
 		parent::__construct( 'Contributions' );
 	}
@@ -56,7 +58,7 @@ class SpecialContributions extends SpecialPage {
 			$this->opts['contribs'] = 'newbie';
 		}
 
-		$this->opts['deletedOnly'] = $wgRequest->getCheck( 'deletedOnly' );
+		$this->opts['deletedOnly'] = $wgRequest->getBool( 'deletedOnly' );
 
 		if( !strlen( $target ) ) {
 			$wgOut->addHTML( $this->getForm() );
@@ -65,7 +67,7 @@ class SpecialContributions extends SpecialPage {
 
 		$this->opts['limit'] = $wgRequest->getInt( 'limit', $wgUser->getOption('rclimit') );
 		$this->opts['target'] = $target;
-		$this->opts['topOnly'] = $wgRequest->getCheck( 'topOnly' );
+		$this->opts['topOnly'] = $wgRequest->getBool( 'topOnly' );
 
 		$nt = Title::makeTitleSafe( NS_USER, $target );
 		if( !$nt ) {
@@ -78,6 +80,10 @@ class SpecialContributions extends SpecialPage {
 			$target = $nt->getText();
 			$wgOut->setSubtitle( $this->contributionsSub( $nt, $id ) );
 			$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsgExt( 'contributions-title', array( 'parsemag' ),$target ) ) );
+			$user = User::newFromName( $target, false );
+			if ( is_object($user) ) {
+				$wgUser->getSkin()->setRelevantUser( $user );
+			}
 		} else {
 			$wgOut->setSubtitle( wfMsgHtml( 'sp-contributions-newbies-sub') );
 			$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsg( 'sp-contributions-newbies-title' ) ) );
@@ -139,6 +145,7 @@ class SpecialContributions extends SpecialPage {
 					'<p>' . $pager->getNavigationBar() . '</p>'
 				);
 			}
+			$wgOut->preventClickjacking( $pager->getPreventClickjacking() );
 
 
 			# Show the appropriate "footer" message - WHOIS tools, etc.
@@ -154,8 +161,7 @@ class SpecialContributions extends SpecialPage {
 					}
 				}
 
-				$text = wfMsgNoTrans( $message, $target );
-				if( !wfEmptyMsg( $message, $text ) && $text != '-' ) {
+				if( !wfMessage( $message, $target )->isDisabled() ) {
 					$wgOut->wrapWikiMsg(
 						"<div class='mw-contributions-footer'>\n$1\n</div>",
 						array( $message, $target ) );
@@ -178,7 +184,7 @@ class SpecialContributions extends SpecialPage {
 	 * @todo Fixme: almost the same as getSubTitle in SpecialDeletedContributions.php. Could be combined.
 	 */
 	protected function contributionsSub( $nt, $id ) {
-		global $wgSysopUserBans, $wgLang, $wgUser, $wgOut;
+		global $wgLang, $wgUser, $wgOut;
 
 		$sk = $wgUser->getSkin();
 
@@ -190,78 +196,7 @@ class SpecialContributions extends SpecialPage {
 		$userObj = User::newFromName( $nt->getText(), /* check for username validity not needed */ false );
 		$talk = $nt->getTalkPage();
 		if( $talk ) {
-			# Talk page link
-			$tools[] = $sk->link( $talk, wfMsgHtml( 'sp-contributions-talk' ) );
-			if( ( $id !== null && $wgSysopUserBans ) || ( $id === null && IP::isIPAddress( $nt->getText() ) ) ) {
-				if( $wgUser->isAllowed( 'block' ) ) { # Block / Change block / Unblock links
-					if ( $userObj->isBlocked() ) {
-						$tools[] = $sk->linkKnown( # Change block link
-							SpecialPage::getTitleFor( 'Blockip', $nt->getDBkey() ),
-							wfMsgHtml( 'change-blocklink' )
-						);
-						$tools[] = $sk->linkKnown( # Unblock link
-							SpecialPage::getTitleFor( 'Ipblocklist' ),
-							wfMsgHtml( 'unblocklink' ),
-							array(),
-							array(
-								'action' => 'unblock',
-								'ip' => $nt->getDBkey()
-							)
-						);
-					}
-					else { # User is not blocked
-						$tools[] = $sk->linkKnown( # Block link
-							SpecialPage::getTitleFor( 'Blockip', $nt->getDBkey() ),
-							wfMsgHtml( 'blocklink' )
-						);
-					}
-				}
-				# Block log link
-				$tools[] = $sk->linkKnown(
-					SpecialPage::getTitleFor( 'Log' ),
-					wfMsgHtml( 'sp-contributions-blocklog' ),
-					array(),
-					array(
-						'type' => 'block',
-						'page' => $nt->getPrefixedText()
-					)
-				);
-			}
-			# Uploads
-			$tools[] = $sk->linkKnown(
-				SpecialPage::getTitleFor( 'Listfiles' ),
-				wfMsgHtml( 'sp-contributions-uploads' ),
-				array(),
-				array( 'user' => $nt->getText() )
-			);
-			
-			# Other logs link
-			$tools[] = $sk->linkKnown(
-				SpecialPage::getTitleFor( 'Log' ),
-				wfMsgHtml( 'sp-contributions-logs' ),
-				array(),
-				array( 'user' => $nt->getText() )
-			);
-
-			# Add link to deleted user contributions for priviledged users
-			if( $wgUser->isAllowed( 'deletedhistory' ) ) {
-				$tools[] = $sk->linkKnown(
-					SpecialPage::getTitleFor( 'DeletedContributions', $nt->getDBkey() ),
-					wfMsgHtml( 'sp-contributions-deleted' )
-				);
-			}
-
-			# Add a link to change user rights for privileged users
-			$userrightsPage = new UserrightsPage();
-			if( $id !== null && $userrightsPage->userCanChangeRights( User::newFromId( $id ) ) ) {
-				$tools[] = $sk->linkKnown(
-					SpecialPage::getTitleFor( 'Userrights', $nt->getDBkey() ),
-					wfMsgHtml( 'sp-contributions-userrights' )
-				);
-			}
-
-			wfRunHooks( 'ContributionsToolLinks', array( $id, $nt, &$tools ) );
-
+			$tools = self::getUserLinks( $nt, $talk, $userObj, $wgUser );
 			$links = $wgLang->pipeList( $tools );
 
 			// Show a note if the user is blocked and display the last block log entry.
@@ -295,6 +230,93 @@ class SpecialContributions extends SpecialPage {
 		} else {
 			return wfMsgHtml( 'contribsub', "$user ($links)" );
 		}
+	}
+
+	/**
+	 * Links to different places.
+	 * @param $userpage Title: Target user page
+	 * @param $talkpage Title: Talk page
+	 * @param $target User: Target user object
+	 * @param $subject User: The viewing user ($wgUser is still checked in some cases, like userrights page!!)
+	 */
+	public static function getUserLinks( Title $userpage, Title $talkpage, User $target, User $subject ) {
+		global $wgSysopUserBans;
+
+		$sk = $subject->getSkin();
+		$id = $target->getId();
+		$username = $target->getName();
+
+		$tools[] = $sk->link( $talkpage, wfMsgHtml( 'sp-contributions-talk' ) );
+
+		if( ( $id !== null && $wgSysopUserBans ) || ( $id === null && IP::isIPAddress( $username ) ) ) {
+			if( $subject->isAllowed( 'block' ) ) { # Block / Change block / Unblock links
+				if ( $target->isBlocked() ) {
+					$tools[] = $sk->linkKnown( # Change block link
+						SpecialPage::getTitleFor( 'Blockip', $username ),
+						wfMsgHtml( 'change-blocklink' )
+					);
+					$tools[] = $sk->linkKnown( # Unblock link
+						SpecialPage::getTitleFor( 'Ipblocklist' ),
+						wfMsgHtml( 'unblocklink' ),
+						array(),
+						array(
+							'action' => 'unblock',
+							'ip' => $username
+						)
+					);
+				} else { # User is not blocked
+					$tools[] = $sk->linkKnown( # Block link
+						SpecialPage::getTitleFor( 'Blockip', $username ),
+						wfMsgHtml( 'blocklink' )
+					);
+				}
+			}
+			# Block log link
+			$tools[] = $sk->linkKnown(
+				SpecialPage::getTitleFor( 'Log' ),
+				wfMsgHtml( 'sp-contributions-blocklog' ),
+				array(),
+				array(
+					'type' => 'block',
+					'page' => $userpage->getPrefixedText()
+				)
+			);
+		}
+		# Uploads
+		$tools[] = $sk->linkKnown(
+			SpecialPage::getTitleFor( 'Listfiles' ),
+			wfMsgHtml( 'sp-contributions-uploads' ),
+			array(),
+			array( 'user' => $username )
+		);
+		
+		# Other logs link
+		$tools[] = $sk->linkKnown(
+			SpecialPage::getTitleFor( 'Log' ),
+			wfMsgHtml( 'sp-contributions-logs' ),
+			array(),
+			array( 'user' => $username )
+		);
+
+		# Add link to deleted user contributions for priviledged users
+		if( $subject->isAllowed( 'deletedhistory' ) ) {
+			$tools[] = $sk->linkKnown(
+				SpecialPage::getTitleFor( 'DeletedContributions', $username ),
+				wfMsgHtml( 'sp-contributions-deleted' )
+			);
+		}
+
+		# Add a link to change user rights for privileged users
+		$userrightsPage = new UserrightsPage();
+		if( $id !== null && $userrightsPage->userCanChangeRights( $target ) ) {
+			$tools[] = $sk->linkKnown(
+				SpecialPage::getTitleFor( 'Userrights', $username ),
+				wfMsgHtml( 'sp-contributions-userrights' )
+			);
+		}
+
+		wfRunHooks( 'ContributionsToolLinks', array( $id, $userpage, &$tools ) );
+		return $tools;
 	}
 
 	/**
@@ -458,10 +480,18 @@ class SpecialContributions extends SpecialPage {
 		}
 	}
 
+	/**
+	 * @param $revision Revision
+	 * @return string
+	 */
 	protected function feedItemAuthor( $revision ) {
 		return $revision->getUserText();
 	}
 
+	/**
+	 * @param $revision Revision
+	 * @return string
+	 */
 	protected function feedItemDesc( $revision ) {
 		if( $revision ) {
 			return '<p>' . htmlspecialchars( $revision->getUserText() ) . wfMsgForContent( 'colon-separator' ) .
@@ -481,6 +511,7 @@ class ContribsPager extends ReverseChronologicalPager {
 	public $mDefaultDirection = true;
 	var $messages, $target;
 	var $namespace = '', $mDb;
+	var $preventClickjacking = false;
 
 	function __construct( $options ) {
 		parent::__construct();
@@ -614,7 +645,6 @@ class ContribsPager extends ReverseChronologicalPager {
 		$classes = array();
 
 		$page = Title::newFromRow( $row );
-		$page->resetArticleId( $row->rev_page ); // use process cache
 		$link = $sk->link(
 			$page,
 			htmlspecialchars( $page->getPrefixedText() ),
@@ -629,6 +659,7 @@ class ContribsPager extends ReverseChronologicalPager {
 			if( !$row->page_is_new && $page->quickUserCan( 'rollback' )
 				&& $page->quickUserCan( 'edit' ) )
 			{
+				$this->preventClickjacking();
 				$topmarktext .= ' '.$sk->generateRollback( $rev );
 			}
 		}
@@ -663,7 +694,7 @@ class ContribsPager extends ReverseChronologicalPager {
 				array( 'oldid' => intval( $row->rev_id ) )
 			);
 		} else {
-			$d = $date;
+			$d = htmlspecialchars( $date );
 		}
 		if( $rev->isDeleted( Revision::DELETED_TEXT ) ) {
 			$d = '<span class="history-deleted">' . $d . '</span>';
@@ -749,4 +780,11 @@ class ContribsPager extends ReverseChronologicalPager {
 		}
 	}
 
+	protected function preventClickjacking() {
+		$this->preventClickjacking = true;
+	}
+
+	public function getPreventClickjacking() {
+		return $this->preventClickjacking;
+	}
 }

@@ -53,7 +53,7 @@ $specialPageAliases = array(
 	'Allpages'                  => array( 'ܟܠ_ܦܐܬܬ̈ܐ' ),
 	'Specialpages'              => array( 'ܦܐܬܬ̈ܐ_ܕ̈ܝܠܢܝܬܐ' ),
 	'Contributions'             => array( 'ܫܘܬܦܘܝܬ̈ܐ' ),
-	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܗܪܟܐ', 'ܡܐ_ܐܣܪ_ܠܟܐ' ),
+	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܗܪܟܐ' ),
 	'Movepage'                  => array( 'ܫܢܝ_ܦܐܬܐ' ),
 	'Categories'                => array( 'ܣܕܪ̈ܐ' ),
 	'Allmessages'               => array( 'ܟܠ_ܐܓܪ̈ܬܐ' ),
@@ -71,6 +71,8 @@ $magicWords = array(
 	'numberofarticles'      => array( '1', 'ܡܢܝܢܐ_ܕܡܠܘܐ̈ܐ', 'NUMBEROFARTICLES' ),
 	'numberoffiles'         => array( '1', 'ܡܢܝܢܐ_ܕܠܦܦ̈ܐ', 'NUMBEROFFILES' ),
 	'pagename'              => array( '1', 'ܫܡܐ_ܕܦܐܬܐ', 'PAGENAME' ),
+	'pagenamee'             => array( '1', 'ܟܘܢܝܐ_ܕܦܐܬܐ', 'PAGENAMEE' ),
+	'namespace'             => array( '1', 'ܚܩܠܐ', 'NAMESPACE' ),
 	'msg'                   => array( '0', 'ܐܓܪܬܐ:', 'MSG:' ),
 	'img_thumbnail'         => array( '1', 'ܙܥܘܪܬܐ', 'thumbnail', 'thumb' ),
 	'img_manualthumb'       => array( '1', 'ܙܥܘܪܬܐ=$1', 'thumbnail=$1', 'thumb=$1' ),
@@ -78,9 +80,16 @@ $magicWords = array(
 	'img_left'              => array( '1', 'ܣܡܠܐ', 'left' ),
 	'img_none'              => array( '1', 'ܠܐ_ܡܕܡ', 'none' ),
 	'img_center'            => array( '1', 'ܡܨܥܐ', 'center', 'centre' ),
-	'grammar'               => array( '0', 'ܬܘܪܨ_ܡܡܠܠܐ', 'GRAMMAR:' ),
+	'img_page'              => array( '1', 'ܦܐܬܐ=$1', 'ܦܐܬܐ $1', 'page=$1', 'page $1' ),
+	'img_border'            => array( '1', 'ܬܚܘܡܐ', 'border' ),
+	'img_baseline'          => array( '1', 'ܣܪܛܐ_ܫܪܫܝܐ', 'baseline' ),
+	'img_sub'               => array( '1', 'ܦܪܥܝܐ', 'sub' ),
+	'grammar'               => array( '0', 'ܬܘܪܨ_ܡܡܠܠܐ:', 'GRAMMAR:' ),
+	'gender'                => array( '0', 'ܓܢܣܐ:', 'GENDER:' ),
 	'language'              => array( '0', '#ܠܫܢܐ:', '#LANGUAGE:' ),
 	'special'               => array( '0', 'ܕܝܠܢܝܐ', 'special' ),
+	'url_path'              => array( '0', 'ܫܒܝܠܐ', 'PATH' ),
+	'url_wiki'              => array( '0', 'ܘܝܩܝ', 'WIKI' ),
 );
 
 $rtl = true;
@@ -325,6 +334,7 @@ $messages = array(
 
 # General errors
 'error'               => 'ܦܘܕܐ',
+'databaseerror'       => 'ܦܘܕܐ ܒܐܣ ܝܕ̈ܥܬܐ',
 'missingarticle-rev'  => '(ܬܢܝܬܐ#: $1)',
 'missingarticle-diff' => '(ܦܪܝܫܘܬܐ: $1, $2)',
 'internalerror'       => 'ܦܘܕܐ ܓܘܝܐ',
@@ -349,6 +359,7 @@ $messages = array(
 'remembermypassword'      => 'ܕܟܘܪ ܥܠܠܬܝ ܥܠ ܡܦܐܬܢܐ ܗܢܐ (ܠܡܬܚܐ ܥܠܝܐ ܕ $1 {{PLURAL:$1|ܝܘܡܐ|ܝܘܡܬ̈ܐ}})',
 'login'                   => 'ܥܘܠ',
 'nav-login-createaccount' => 'ܥܘܠ / ܒܪܝ ܚܘܫܒܢܐ',
+'loginprompt'             => 'ܐܠܨܐ ܠܡܦܐܬܢܐ ܕܝܠܟ ܕܣܡܟ ܠܩܘܩܝܙ (cookies) ܠܥܠܠܬܐ ܠ {{SITENAME}}.',
 'userlogin'               => 'ܥܘܠ / ܒܪܝ ܚܘܫܒܢܐ',
 'userloginnocreate'       => 'ܥܘܠ',
 'logout'                  => 'ܦܠܘܛ',
@@ -437,6 +448,8 @@ $messages = array(
 'editingsection'                   => 'ܫܚܠܦܬܐ ܕ $1 (ܡܢܬܐ)',
 'editingcomment'                   => 'ܫܚܠܦܬܐ ܕ $1 (ܡܢܬܐ ܚܕܬܐ)',
 'yourtext'                         => 'ܟܬܒܬܐ ܕܝܠܟ',
+'editingold'                       => "'''ܙܘܗܪܐ: ܫܚܠܦ ܐܢܬ ܬܢܝܬܐ ܥܬܝܩܬܐ ܕܦܐܬܐ ܗܕܐ.'''
+ܐܢ ܠܒܟ ܐܢܬ ܦܐܬܐ ܗܕܐ, ܟܠ ܫܘܚܠܦܐ ܕܥܒܕ ܒܬܪ ܟܢ ܐܬܛܠܩܬ.",
 'yourdiff'                         => 'ܦܪ̈ܝܫܘܝܬܐ',
 'templatesused'                    => '{{PLURAL:$1|ܩܠܒܐ|ܩܠܒ̈ܐ}} ܒܦܐܬܐ ܗܕܐ:',
 'template-protected'               => '(ܢܛܝܪܐ)',
@@ -881,7 +894,7 @@ $1',
 'unusedtemplateswlh' => 'ܐܣܘܪ̈ܐ ܐܚܪ̈ܢܐ',
 
 # Random page
-'randompage'         => 'ܡܓܠ̈ܐ ܚܘܝܚ̈ܐ',
+'randompage'         => 'ܡܓܠܬܐ ܚܘܝܚܬܐ',
 'randompage-nopages' => 'ܠܝܬ ܦܐܬܬ̈ܐ ܒ{{PLURAL:$2|ܚܩܠܐ ܕ|ܚܩܠܬ̈ܐ ܕ}}: $1.',
 
 # Random redirect
@@ -1348,7 +1361,7 @@ $1',
 
 # Media information
 'thumbsize'      => 'ܥܓܪܐ ܕܨܘܪܬܐ ܙܥܘܪܬܐ:',
-'file-info'      => '(ܥܓܪܐ ܕܠܦܦܐ: $1, MIME ܐܕܫܐ: $2)',
+'file-info'      => 'ܥܓܪܐ ܕܠܦܦܐ: $1, MIME ܐܕܫܐ: $2',
 'file-nohires'   => '<small>ܠܝܬ ܢܩܕܘܬܐ ܝܬܝܪ ܡܢ ܗܢܐ.</small>',
 'show-big-image' => 'ܢܩܕܘܬܐ ܓܡܝܪܬܐ',
 

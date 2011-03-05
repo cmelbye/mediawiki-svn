@@ -36,12 +36,17 @@ class ParserOptions {
 	var $mTimestamp;                 # Timestamp used for {{CURRENTDAY}} etc.
 	var $mExternalLinkTarget;        # Target attribute for external links
 	var $mCleanSignatures;           #
+	var $mPreSaveTransform = true;   # Transform wiki markup when saving the page.
 
 	var $mNumberHeadings;            # Automatically number headings
 	var $mMath;                      # User math preference (as integer)
 	var $mThumbSize;                 # Thumb size preferred by the user.
+	private $mStubThreshold;         # Maximum article size of an article to be marked as "stub"
 	var $mUserLang;                  # Language code of the User language.
 
+	/**
+	 * @var User
+	 */
 	var $mUser;                      # Stored user object
 	var $mIsPreview = false;         # Parsing the page for a "preview" operation
 	var $mIsSectionPreview = false;  # Parsing the page for a "preview" operation on a single section
@@ -49,16 +54,15 @@ class ParserOptions {
 
 	var $mExtraKey = '';             # Extra key that should be present in the caching key.
 
-	protected $accessedOptions;
+	protected $onAccessCallback = null;
 
 	function getUseDynamicDates()               { return $this->mUseDynamicDates; }
 	function getInterwikiMagic()                { return $this->mInterwikiMagic; }
 	function getAllowExternalImages()           { return $this->mAllowExternalImages; }
 	function getAllowExternalImagesFrom()       { return $this->mAllowExternalImagesFrom; }
 	function getEnableImageWhitelist()          { return $this->mEnableImageWhitelist; }
-	function getEditSection()                   { $this->accessedOptions['editsection'] = true;
-												  return $this->mEditSection; }
-	function getNumberHeadings()                { $this->accessedOptions['numberheadings'] = true;
+	function getEditSection()                   { return $this->mEditSection; }
+	function getNumberHeadings()                { $this->optionUsed('numberheadings');
 												  return $this->mNumberHeadings; }
 	function getAllowSpecialInclusion()         { return $this->mAllowSpecialInclusion; }
 	function getTidy()                          { return $this->mTidy; }
@@ -73,17 +77,24 @@ class ParserOptions {
 	function getEnableLimitReport()             { return $this->mEnableLimitReport; }
 	function getCleanSignatures()               { return $this->mCleanSignatures; }
 	function getExternalLinkTarget()            { return $this->mExternalLinkTarget; }
-	function getMath()                          { $this->accessedOptions['math'] = true;
+	function getMath()                          { $this->optionUsed('math');
 												  return $this->mMath; }
-	function getThumbSize()                     { $this->accessedOptions['thumbsize'] = true;
+	function getThumbSize()                     { $this->optionUsed('thumbsize');
 												  return $this->mThumbSize; }
+	function getStubThreshold()                 { $this->optionUsed('stubthreshold');
+												  return $this->mStubThreshold; }
 
 	function getIsPreview()                     { return $this->mIsPreview; }
 	function getIsSectionPreview()              { return $this->mIsSectionPreview; }
-	function getIsPrintable()                   { $this->accessedOptions['printable'] = true;
+	function getIsPrintable()                   { $this->optionUsed('printable');
 												  return $this->mIsPrintable; }
 	function getUser()                          { return $this->mUser; }
+	function getPreSaveTransform()              { return $this->mPreSaveTransform; }
 
+	/**
+	 * @param $title Title
+	 * @return Skin
+	 */
 	function getSkin( $title = null ) {
 		if ( !isset( $this->mSkin ) ) {
 			$this->mSkin = $this->mUser->getSkin( $title );
@@ -92,7 +103,7 @@ class ParserOptions {
 	}
 
 	function getDateFormat() {
-		$this->accessedOptions['dateformat'] = true;
+		$this->optionUsed('dateformat');
 		if ( !isset( $this->mDateFormat ) ) {
 			$this->mDateFormat = $this->mUser->getDatePreference();
 		}
@@ -112,7 +123,7 @@ class ParserOptions {
 	 * producing inconsistent tables (Bug 14404).
 	 */
 	function getUserLang() {
-		$this->accessedOptions['userlang'] = true;
+		$this->optionUsed('userlang');
 		return $this->mUserLang;
 	}
 
@@ -141,6 +152,8 @@ class ParserOptions {
 	function setMath( $x )                      { return wfSetVar( $this->mMath, $x ); }
 	function setUserLang( $x )                  { return wfSetVar( $this->mUserLang, $x ); }
 	function setThumbSize( $x )                 { return wfSetVar( $this->mThumbSize, $x ); }
+	function setStubThreshold( $x )             { return wfSetVar( $this->mStubThreshold, $x ); }
+	function setPreSaveTransform( $x )          { return wfSetVar( $this->mPreSaveTransform, $x ); }
 
 	function setIsPreview( $x )                 { return wfSetVar( $this->mIsPreview, $x ); }
 	function setIsSectionPreview( $x )          { return wfSetVar( $this->mIsSectionPreview, $x ); }
@@ -205,23 +218,27 @@ class ParserOptions {
 		$this->mNumberHeadings = $user->getOption( 'numberheadings' );
 		$this->mMath = $user->getOption( 'math' );
 		$this->mThumbSize = $user->getOption( 'thumbsize' );
+		$this->mStubThreshold = $user->getStubThreshold();
 		$this->mUserLang = $wgLang->getCode();
 
 		wfProfileOut( __METHOD__ );
 	}
 
 	/**
-	 * Returns the options from this ParserOptions which have been used.
+	 * Registers a callback for tracking which ParserOptions which are used.
+	 * This is a private API with the parser.
 	 */
-	public function usedOptions() {
-		return array_keys( $this->accessedOptions );
+	function registerWatcher( $callback ) {
+		$this->onAccessCallback = $callback;
 	}
 
 	/**
-	 * Resets the memory of options usage.
+	 * Called when an option is accessed.
 	 */
-	public function resetUsage() {
-		$this->accessedOptions = array();
+	protected function optionUsed( $optionName ) {
+		if ( $this->onAccessCallback ) {
+			call_user_func( $this->onAccessCallback, $optionName );
+		}
 	}
 
 	/**
@@ -268,9 +285,8 @@ class ParserOptions {
 		// Space assigned for the stubthreshold but unused
 		// since it disables the parser cache, its value will always
 		// be 0 when this function is called by parsercache.
-		// The conditional is here to avoid a confusing 0
 		if ( in_array( 'stubthreshold', $forOptions ) )
-			$confstr .= '!0' ;
+			$confstr .= '!' . $this->mStubThreshold;
 		else
 			$confstr .= '!*' ;
 
@@ -302,8 +318,12 @@ class ParserOptions {
 
 		$confstr .= $wgRenderHashAppend;
 
-		if ( !$this->mEditSection && in_array( 'editsection', $forOptions ) )
+		if ( !in_array( 'editsection', $forOptions ) ) {
+			$confstr .= '!*';
+		} elseif ( !$this->mEditSection ) {
 			$confstr .= '!edit=0';
+		}
+		
 		if (  $this->mIsPrintable && in_array( 'printable', $forOptions ) )
 			$confstr .= '!printable=1';
 

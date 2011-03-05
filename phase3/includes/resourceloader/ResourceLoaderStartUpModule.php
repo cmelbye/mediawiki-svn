@@ -27,13 +27,17 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 	protected $modifiedTime = array();
 
 	/* Protected Methods */
-	
+
+	/**
+	 * @param $context ResourceLoaderContext
+	 * @return array
+	 */
 	protected function getConfig( $context ) {
 		global $wgLoadScript, $wgScript, $wgStylePath, $wgScriptExtension, 
-			$wgArticlePath, $wgScriptPath, $wgServer, $wgContLang, $wgBreakFrames, 
+			$wgArticlePath, $wgScriptPath, $wgServer, $wgContLang, 
 			$wgVariantArticlePath, $wgActionPaths, $wgUseAjax, $wgVersion, 
 			$wgEnableAPI, $wgEnableWriteAPI, $wgDBname, $wgEnableMWSuggest, 
-			$wgSitename, $wgFileExtensions;
+			$wgSitename, $wgFileExtensions, $wgExtensionAssetsPath, $wgProto;
 
 		// Pre-process information
 		$separatorTransTable = $wgContLang->separatorTransformTable();
@@ -66,7 +70,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgServer' => $wgServer,
 			'wgUserLanguage' => $context->getLanguage(),
 			'wgContentLanguage' => $wgContLang->getCode(),
-			'wgBreakFrames' => $wgBreakFrames,
 			'wgVersion' => $wgVersion,
 			'wgEnableAPI' => $wgEnableAPI,
 			'wgEnableWriteAPI' => $wgEnableWriteAPI,
@@ -76,15 +79,20 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgFormattedNamespaces' => $wgContLang->getFormattedNamespaces(),
 			'wgNamespaceIds' => $wgContLang->getNamespaceIds(),
 			'wgSiteName' => $wgSitename,
-			'wgFileExtensions' => $wgFileExtensions,
+			'wgFileExtensions' => array_values( $wgFileExtensions ),
 			'wgDBname' => $wgDBname,
+			// This sucks, it is only needed on Special:Upload, but I could 
+			// not find a way to add vars only for a certain module
+			'wgFileCanRotate' => BitmapHandler::canRotate(),
+			'wgAvailableSkins' => Skin::getSkinNames(),
+			'wgExtensionAssetsPath' => $wgExtensionAssetsPath,
+			'wgProto' => $wgProto,
 		);
-		if ( $wgContLang->hasVariants() ) {
-			$vars['wgUserVariant'] = $wgContLang->getPreferredVariant();
-		}
 		if ( $wgUseAjax && $wgEnableMWSuggest ) {
 			$vars['wgMWSuggestTemplate'] = SearchEngine::getMWSuggestTemplate();
 		}
+		
+		wfRunHooks( 'ResourceLoaderGetConfigVars', array( &$vars ) );
 		
 		return $vars;
 	}
@@ -115,20 +123,23 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			}
 			// Automatically register module
 			else {
-				$mtime = max( $module->getModifiedTime( $context ), wfTimestamp( TS_UNIX, $wgCacheEpoch ) );
+				// getModifiedTime() is supposed to return a UNIX timestamp, but it doesn't always
+				// seem to do that, and custom implementations might forget. Coerce it to TS_UNIX
+				$moduleMtime = wfTimestamp( TS_UNIX, $module->getModifiedTime( $context ) );
+				$mtime = max( $moduleMtime, wfTimestamp( TS_UNIX, $wgCacheEpoch ) );
 				// Modules without dependencies or a group pass two arguments (name, timestamp) to 
-				// mediaWiki.loader.register()
+				// mw.loader.register()
 				if ( !count( $module->getDependencies() && $module->getGroup() === null ) ) {
 					$registrations[] = array( $name, $mtime );
 				}
 				// Modules with dependencies but no group pass three arguments 
-				// (name, timestamp, dependencies) to mediaWiki.loader.register()
+				// (name, timestamp, dependencies) to mw.loader.register()
 				else if ( $module->getGroup() === null ) {
 					$registrations[] = array(
 						$name, $mtime,  $module->getDependencies() );
 				}
 				// Modules with dependencies pass four arguments (name, timestamp, dependencies, group) 
-				// to mediaWiki.loader.register()
+				// to mw.loader.register()
 				else {
 					$registrations[] = array(
 						$name, $mtime,  $module->getDependencies(), $module->getGroup() );
@@ -189,13 +200,17 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		if ( isset( $this->modifiedTime[$hash] ) ) {
 			return $this->modifiedTime[$hash];
 		}
-		$this->modifiedTime[$hash] = filemtime( "$IP/resources/startup.js" );
 
-		// ATTENTION!: Because of the line above, this is not going to cause 
+		// Call preloadModuleInfo() on ALL modules as we're about
+		// to call getModifiedTime() on all of them
+		$loader = $context->getResourceLoader();
+		$loader->preloadModuleInfo( $loader->getModuleNames(), $context );
+
+		$this->modifiedTime[$hash] = filemtime( "$IP/resources/startup.js" );
+		// ATTENTION!: Because of the line above, this is not going to cause
 		// infinite recursion - think carefully before making changes to this 
 		// code!
 		$time = wfTimestamp( TS_UNIX, $wgCacheEpoch );
-		$loader = $context->getResourceLoader();
 		foreach ( $loader->getModuleNames() as $name ) {
 			$module = $loader->getModule( $name );
 			$time = max( $time, $module->getModifiedTime( $context ) );
@@ -203,6 +218,10 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		return $this->modifiedTime[$hash] = $time;
 	}
 
+	/**
+	 * @param $context ResourceLoaderContext
+	 * @return bool
+	 */
 	public function getFlip( $context ) {
 		global $wgContLang;
 

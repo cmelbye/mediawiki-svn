@@ -53,7 +53,7 @@ $dateFormats = array(
 	'ymd both' => 'H:i, Y M j',
 );
 
-$linkTrail = "/^([a-z]+)(.*)\$/sD";
+$linkTrail = "/^([a-z]+)(.*)$/sD";
 
 $messages = array(
 # User preference toggles
@@ -1306,7 +1306,6 @@ Per cortesia, conferma che questo è effettivamente quanto tu intendi ora effett
 
 # Move page
 'move-page'               => 'Movimentu de $1',
-'move-page-backlink'      => '← $1',
 'move-page-legend'        => 'Movimentu pàgina',
 'movepagetext'            => "Cun custu mòdellu podes renumenare una pàgina, movende totu sa stòria sua a sa pàgina noa.
 Su tìtulu bèciu at a diventare una pàgina de reindiritzamentu a su tìtulu nou.
@@ -1449,9 +1448,9 @@ Podes agiùnger unu motivu in s\'ogetu de s\'acontzu.',
 'nextdiff'     => 'Acontzu in fatu →',
 
 # Media information
-'file-info-size'       => '($1 × $2 pixels, mannesa de su file: $3, tipu de MIME: $4)',
+'file-info-size'       => '$1 × $2 pixels, mannesa de su file: $3, tipu de MIME: $4',
 'file-nohires'         => '<small>Non si tenent risolutziones prus artas.</small>',
-'svg-long-desc'        => '(file in formadu SVG, mannesa nominale $1 × $2 pixel, mannesa de su file: $3)',
+'svg-long-desc'        => 'file in formadu SVG, mannesa nominale $1 × $2 pixel, mannesa de su file: $3',
 'show-big-image'       => 'Versione a risolutzione arta',
 'show-big-image-thumb' => '<small>Mannesa de custa antiprima: $1 × $2 pixels</small>',
 

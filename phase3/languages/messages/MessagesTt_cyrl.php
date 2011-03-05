@@ -12,6 +12,7 @@
  * @author Himiq Dzyu
  * @author KhayR
  * @author Marat Vildanov
+ * @author Reedy
  * @author Rinatus
  * @author Timming
  * @author Yildiz
@@ -392,6 +393,7 @@ $messages = array(
 'printableversion'  => 'Бастыру версиясе',
 'permalink'         => 'Даими сылтама',
 'print'             => 'Бастыру',
+'view'              => 'Карау',
 'edit'              => 'Үзгәртү',
 'create'            => 'Төзү',
 'editthispage'      => 'Бу битне үзгәртү',
@@ -485,6 +487,8 @@ $1',
 'toc'                     => 'Эчтәлек',
 'showtoc'                 => 'күрсәтү',
 'hidetoc'                 => 'яшерү',
+'collapsible-collapse'    => 'Төрү',
+'collapsible-expand'      => 'Ачу',
 'thisisdeleted'           => '$1 карарга яки торгызырга телисезме?',
 'viewdeleted'             => '$1 карарга телисезме?',
 'restorelink'             => '{{PLURAL:$1|1 бетерелгән үзгәртүне|$1 бетерелгән үзгәртүне}}',
@@ -644,7 +648,7 @@ $2',
 'wrongpasswordempty'         => 'Серсүз юлы буш булырга тиеш түгел.',
 'passwordtooshort'           => 'Сезсүз $1 {{PLURAL:$1|символдан}} торырга тиеш.',
 'password-name-match'        => 'Кертелгән серсүз кулланучы исеменнән аерылырга тиеш.',
-'password-too-weak'          => 'Күрсәтелгән серсүз бик җиңел һәм куллануга ярамый.',
+'password-login-forbidden'   => 'Бу кулланучы исемен һәм серсүзне куллану тыелган',
 'mailmypassword'             => 'Электрон почтага яңа серсүз җибәрү',
 'passwordremindertitle'      => '{{SITENAME}} кулланучысына вакытлы серсүз тапшыру',
 'passwordremindertext'       => 'Кемдер (бәлки, сездер, IP адресы: $1) {{SITENAME}} ($4) өчен яңа серсүз соратты. $2 өчен яңа серсүз: $3. Әгәр бу сез булсагыз, системага керегез һәм серсүзне алмаштырыгыз. Яңа серсүз $5 {{PLURAL:$5|көн}} гамәлдә булачак.
@@ -676,6 +680,9 @@ $2',
 Яңадан кабатлаганчы бераз көтүегез сорала.',
 'loginlanguagelabel'         => 'Тел: $1',
 'suspicious-userlogout'      => 'Сезнең эшчәнлекне бетерү соравыгыз кире кагылды, чөнки ул ялгыш браузер яисә кэшлаучы прокси аша җибәрелергэ мөмкин.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'PHP mail() функциясендә билгесез хата',
 
 # JavaScript password checks
 'password-strength'            => 'Серсүзнең сыйфатын тикшерү: $1',
@@ -797,7 +804,7 @@ $2',
 'noarticletext'                    => "Хәзерге вакытта бу биттә текст юк.
 Сез [[Special:Search/{{PAGENAME}}|бу исем кергән башка мәкаләләрне]],
 <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} көндәлекләрдәге язмаларны] таба
-яки '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} шушындый исемле яңа бит төзи]''' аласыз.",
+яки '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} шушындый исемле яңа бит төзи]'''</span> аласыз.",
 'noarticletext-nopermission'       => 'Хәзерге вакытта бу биттә текст юк.
 Сез [[Special:Search/{{PAGENAME}}|бу исем кергән башка мәкаләләрне]],
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} көндәлекләрдәге язмаларны] таба аласыз.</span>',
@@ -987,6 +994,7 @@ $3 күрсәткән сәбәп: ''$2''",
 'revdelete-nologtype-title'   => 'Көндәлек тибы билгеләнмәгән',
 'revdelete-nologtype-text'    => 'Гамәл башкарылырга тиешле көндәлек төрен билгеләргә оныттыгыз.',
 'revdelete-nologid-title'     => 'Көндәлектәге язма хаталы',
+'revdelete-no-file'           => 'Бу файл бар түгел',
 'revdelete-show-file-submit'  => 'Әйе',
 'revdelete-legend'            => 'Чикләүләр урнаштыр:',
 'revdelete-hide-text'         => 'Битнең бу юрамасы текстын яшер',
@@ -1193,10 +1201,11 @@ $3 күрсәткән сәбәп: ''$2''",
 'gender-unknown'                => 'билгесез',
 'gender-male'                   => 'Ир',
 'gender-female'                 => 'Хатын',
-'prefs-help-gender'             => 'Катгый түгел: Ул бары тик кайбер хатларда гына күренәчәк һәм бу мәгълүмат барлык кулланучыларга да билгеле булачак.',
+'prefs-help-gender'             => 'Мәҗбүри түгел: Ул бары тик кайбер хатларда гына күренәчәк һәм бу мәгълүмат барлык кулланучыларга да билгеле булачак.',
 'email'                         => 'Электрон почта',
 'prefs-help-realname'           => 'Чын исемегез (кирәкми): аны күрсәтсәгез, ул битне үзгәртүче күрсәтү өчен файдалаячак.',
-'prefs-help-email'              => 'Электрон почта адресын күрсәтү катгый түгел, ләкин әгәрдә сез үзегезнең серсүзне онытсагыз бу сезгә аны яңадан кайтарырга ярдәм итәчәк.',
+'prefs-help-email'              => 'Электрон почта адресын күрсәтү мәҗбүри түгел, ләкин әгәрдә сез үзегезнең серсүзне онытсагыз бу сезгә аны яңадан кайтарырга ярдәм итәчәк.',
+'prefs-help-email-others'       => 'Ул шулай ук сезгә башка кулланучылар белән аралашырга ярдәм итчәк, шул ук вакытта сезнең почтагызның юлламасы күрсәтелмәячәк.',
 'prefs-help-email-required'     => 'Электрон почта адресы кирәк.',
 'prefs-info'                    => 'Гомуми мәгълүмат',
 'prefs-i18n'                    => 'Интернационализация',
@@ -1336,7 +1345,7 @@ $3 күрсәткән сәбәп: ''$2''",
 'upload_directory_read_only' => 'Моңа Сезнең хокукларыгыз юк һәм веб-сервер $1 папкасыны йөкли алмый.',
 'uploaderror'                => 'Файлны йөкләүдә хата',
 'upload-recreate-warning'    => "'''Игътибар: Мондый исемле файл бетерелгән яки исеме алмаштырылган '''",
-'uploadtext'                 => "Бу форманы кулланып серверга файллар йөкли аласыз. Элегрәк йөкләнелгән файлларны карау өчен [[Special:FileList|Йөкләнелгән файллар исемлегенә]] мәрәҗәгать итегез. Шулай ук ул [[Special:Log/upload|йөкләнмәләр исемлегенә]] һәм [[Special:Log/delete|бетерелгән файллар]] исемлегенә дә языла.
+'uploadtext'                 => "Бу форманы кулланып серверга файллар йөкли аласыз. Элегрәк йөкләнелгән файлларны карау өчен [[Special:FileList|йөкләнелгән файллар исемлегенә]] мәрәҗәгать итегез. Шулай ук ул [[Special:Log/upload|йөкләнмәләр исемлегенә]] һәм [[Special:Log/delete|бетерелгән файллар]] исемлегенә дә языла.
 
 Файлны мәкаләгә йөкләү өчен Сез менә бу үрнәкләрне куллана аласыз:
 * '''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:Рәсем.jpg]]</nowiki></tt>''' файлның тулы юрамасын кую өчен;
@@ -1374,6 +1383,7 @@ $3 күрсәткән сәбәп: ''$2''",
 'filename-tooshort'          => 'Файлның исеме артык кыска.',
 'filetype-banned'            => 'Бу файл төре тыелган.',
 'verification-error'         => 'Бу файл әлегә тикшерү узмаган.',
+'illegal-filename'           => 'Мондый файл исеменә рөхсәт юк',
 'savefile'                   => 'Файлны саклау',
 'uploadedimage'              => '«[[$1]]» йөкләнгән',
 'overwroteimage'             => '«[[$1]]» файлының яңа юрамасы йөкләнелде',
@@ -1420,6 +1430,7 @@ PICT # төрле
 # Special:ListFiles
 'imgfile'               => 'файл',
 'listfiles'             => 'Сүрәтләр исемлеге',
+'listfiles_thumb'       => 'Миниатюра',
 'listfiles_date'        => 'Вакыт',
 'listfiles_name'        => 'Ат',
 'listfiles_user'        => 'Кулланучы',
@@ -1436,7 +1447,7 @@ PICT # төрле
 'filehist-revert'           => 'кайтару',
 'filehist-current'          => 'хәзерге',
 'filehist-datetime'         => 'Дата/вакыт',
-'filehist-thumb'            => 'Эскиз',
+'filehist-thumb'            => 'Миниатюра',
 'filehist-thumbtext'        => '$1 көнне булган версиянең эскизы',
 'filehist-nothumb'          => 'Миниатюрасы юк',
 'filehist-user'             => 'Кулланучы',
@@ -1662,6 +1673,7 @@ PICT # төрле
 'watch'             => 'Күзәтү',
 'watchthispage'     => 'Бу битне күзәтү',
 'unwatch'           => 'Күзәтмәү',
+'unwatchthispage'   => 'Күзәтүне туктат',
 'notanarticle'      => 'Мәкалә түгел',
 'watchlist-details' => 'Күзәтү исемлегегездә, бәхәс битләрен санамыйча, {{PLURAL:$1|$1 бит|$1 бит}} бар.',
 'wlshowlast'        => 'Баягы $1 сәгать $2 көн эчендә яки $3ны күрсәт',
@@ -2115,10 +2127,10 @@ $1',
 'thumbsize'            => 'Рәсемнең кечерәйтелгән юрамасы өчен:',
 'widthheight'          => '$1 × $2',
 'widthheightpage'      => '$1 × $2, $3{{PLURAL:$1|бит|битләр}}',
-'file-info'            => '(файл зурлыгы: $1, MIME-тип: $2)',
-'file-info-size'       => '($1 × $2 нокта, файлның зурлыгы: $3, MIME тибы: $4)',
+'file-info'            => 'файл зурлыгы: $1, MIME-тип: $2',
+'file-info-size'       => '$1 × $2 нокта, файлның зурлыгы: $3, MIME тибы: $4',
 'file-nohires'         => '<small>Югары ачыклык белән юрама юк.</small>',
-'svg-long-desc'        => '(SVG файлы, шартлы $1 × $2 нокта, файлның зурлыгы: $3)',
+'svg-long-desc'        => 'SVG файлы, шартлы $1 × $2 нокта, файлның зурлыгы: $3',
 'show-big-image'       => 'Тулы ачыклык',
 'show-big-image-thumb' => '<small>Алдан карау зурлыгы: $1 × $2 нокта</small>',
 
@@ -2278,6 +2290,8 @@ $1',
 
 # action=purge
 'confirm_purge_button' => 'OK',
+'confirm-purge-top'    => 'Бу битнең кэшын чистартыргамы?',
+'confirm-purge-bottom' => 'Кэшны чистартудан соң аның соңгы юрамасы күрсәтеләчәк.',
 
 # Multipage image navigation
 'imgmultipageprev' => '← алдагы бит',
@@ -2316,13 +2330,14 @@ $1',
 'hijri-calendar-m9' => 'Рамазан',
 
 # Special:Version
-'version'                  => 'Юрама',
-'version-specialpages'     => 'Махсус битләр',
-'version-other'            => 'Башка',
-'version-license'          => 'Лицензия',
-'version-software'         => 'Урнаштырылган программа белән тәэмин ителешне',
-'version-software-product' => 'Продукт',
-'version-software-version' => 'Версия',
+'version'                   => 'Юрама',
+'version-specialpages'      => 'Махсус битләр',
+'version-other'             => 'Башка',
+'version-hook-subscribedby' => 'Түбәндәгеләргә язылган:',
+'version-license'           => 'Лицензия',
+'version-software'          => 'Урнаштырылган программа белән тәэмин ителешне',
+'version-software-product'  => 'Продукт',
+'version-software-version'  => 'Версия',
 
 # Special:FilePath
 'filepath'        => 'Файлга юл',

@@ -221,6 +221,7 @@ $wgMessageStructure = array(
 		'printableversion',
 		'permalink',
 		'print',
+		'view',
 		'edit',
 		'create',
 		'editthispage',
@@ -228,6 +229,7 @@ $wgMessageStructure = array(
 		'delete',
 		'deletethispage',
 		'undelete_short',
+		'viewdeleted_short',
 		'protect',
 		'protect_change',
 		'protectthispage',
@@ -317,6 +319,8 @@ $wgMessageStructure = array(
 		'toc',
 		'showtoc',
 		'hidetoc',
+		'collapsible-collapse',
+		'collapsible-expand',
 		'thisisdeleted',
 		'viewdeleted',
 		'restorelink',
@@ -345,6 +349,7 @@ $wgMessageStructure = array(
 		'nstab-template',
 		'nstab-help',
 		'nstab-category',
+		'mainpage-nstab',
 	),
 	'main' => array(
 		'nosuchaction',
@@ -449,7 +454,7 @@ $wgMessageStructure = array(
 		'wrongpasswordempty',
 		'passwordtooshort',
 		'password-name-match',
-		'password-too-weak',
+		'password-login-forbidden',
 		'mailmypassword',
 		'passwordremindertitle',
 		'passwordremindertext',
@@ -592,6 +597,7 @@ $wgMessageStructure = array(
 		'session_fail_preview',
 		'session_fail_preview_html',
 		'token_suffix_mismatch',
+		'edit_form_incomplete',
 		'editing',
 		'editingsection',
 		'editingcomment',
@@ -619,6 +625,7 @@ $wgMessageStructure = array(
 		'template-semiprotected',
 		'hiddencategories',
 		'edittools',
+		'edittools-upload',
 		'nocreatetitle',
 		'nocreatetext',
 		'nocreate-loggedin',
@@ -1010,8 +1017,12 @@ $wgMessageStructure = array(
 		'prefs-help-gender',
 		'email',
 		'prefs-help-realname',
+
+		# 3 messages depending upon wgEmailConfirmToEdit and $wgEnableUserEmail
 		'prefs-help-email',
+		'prefs-help-email-others',
 		'prefs-help-email-required',
+	
 		'prefs-info',
 		'prefs-i18n',
 		'prefs-signature',
@@ -1026,6 +1037,10 @@ $wgMessageStructure = array(
 		'prefs-displaysearchoptions',
 		'prefs-displaywatchlist',
 		'prefs-diffs',
+	),
+	'preferences-email' => array(
+		'email-address-validity-valid',
+		'email-address-validity-invalid',
 	),
 	'userrights' => array(
 		'userrights',
@@ -1304,6 +1319,7 @@ $wgMessageStructure = array(
 		'php-uploaddisabledtext',
 		'uploadscripted',
 		'uploadvirus',
+		'uploadjava',
 		'upload-source',
 		'sourcefilename',
 		'sourceurl',
@@ -1333,6 +1349,23 @@ $wgMessageStructure = array(
 		'upload-too-many-redirects',
 		'upload-unknown-size',
 		'upload-http-error',
+	),
+
+	'zip' => array(
+		'zip-file-open-error',
+		'zip-wrong-format',
+		'zip-bad',
+		'zip-unsupported'
+	),
+
+	'uploadstash' => array(
+		'uploadstash',
+		'uploadstash-summary',
+		'uploadstash-clear',
+		'uploadstash-nofiles',
+		'uploadstash-badtoken',
+		'uploadstash-errclear',
+		'uploadstash-refresh',
 	),
 
 	'img-auth' => array(
@@ -1516,6 +1549,7 @@ $wgMessageStructure = array(
 		'doubleredirects-summary',
 		'doubleredirectstext',
 		'double-redirect-fixed-move',
+		'double-redirect-fixed-maintenance',
 		'double-redirect-fixer',
 	),
 	'brokenredirects' => array(
@@ -1955,6 +1989,7 @@ $wgMessageStructure = array(
 	'nsform' => array(
 		'namespace',
 		'invert',
+		'namespace_association',
 		'blanknamespace',
 	),
 	'contributions' => array(
@@ -2127,7 +2162,6 @@ $wgMessageStructure = array(
 	),
 	'movepage' => array(
 		'move-page',
-		'move-page-backlink',
 		'move-page-legend',
 		'movepagetext',
 		'movepagetext-noredirectfixer',
@@ -2426,6 +2460,10 @@ $wgMessageStructure = array(
 		'vector.css',
 		'print.css',
 		'handheld.css',
+		'autoconfirmed.css',
+		'bot.css',
+		'sysop.css',
+		'bureaucrat.css',
 	),
 	'scripts' => array(
 		'common.js',
@@ -2438,6 +2476,10 @@ $wgMessageStructure = array(
 		'simple.js',
 		'modern.js',
 		'vector.js',
+		'autoconfirmed.js',
+		'bot.js',
+		'sysop.js',
+		'bureaucrat.js',
 	),
 	'metadata_cc' => array(
 		'nodublincore',
@@ -3105,6 +3147,7 @@ $wgMessageStructure = array(
 		'confirmemail_subject',
 		'confirmemail_body',
 		'confirmemail_body_changed',
+		'confirmemail_body_set',
 		'confirmemail_invalidated',
 		'invalidateemail',
 	),
@@ -3320,6 +3363,7 @@ $wgMessageStructure = array(
 		'fileduplicatesearch-info',
 		'fileduplicatesearch-result-1',
 		'fileduplicatesearch-result-n',
+		'fileduplicatesearch-noresults',
 	),
 	'special-specialpages' => array(
 		'specialpages',
@@ -3403,15 +3447,6 @@ $wgMessageStructure = array(
 		'disableaccount-success',
 		'disableaccount-logentry',
 	),
-	'uploadstash' => array(
-		'uploadstash',
-		'uploadstash-summary',
-		'uploadstash-clear',
-		'uploadstash-nofiles',
-		'uploadstash-badtoken',
-		'uploadstash-errclear',
-		'uploadstash-refresh',
-	),
 );
 
 /** Comments for each block */
@@ -3461,6 +3496,7 @@ XHTML id names.",
 	'opensearch'          => 'OpenSearch description',
 	'quickbar'            => 'Quickbar',
 	'preferences'         => 'Preferences page',
+	'preferences-email'   => 'User preference: e-mail validation using jQuery',
 	'userrights'          => 'User rights',
 	'group'               => 'Groups',
 	'group-member'        => '',
@@ -3471,6 +3507,7 @@ XHTML id names.",
 	'recentchanges'       => 'Recent changes',
 	'recentchangeslinked' => 'Recent changes linked',
 	'upload'              => 'Upload',
+	'zip'                 => 'ZipDirectoryReader',
 	'upload-errors'       => '',
 	'uploadstash'         => 'Special:UploadStash',
 	'img-auth'            => 'img_auth script messages',

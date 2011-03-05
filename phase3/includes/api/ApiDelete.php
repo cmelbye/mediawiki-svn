@@ -161,7 +161,7 @@ class ApiDelete extends ApiBase {
 	/**
 	 * @static
 	 * @param $token
-	 * @param $title
+	 * @param $title Title
 	 * @param $oldimage
 	 * @param $reason
 	 * @param $suppress bool
@@ -255,12 +255,15 @@ class ApiDelete extends ApiBase {
 	}
 
 	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(), array(
-			array( 'invalidtitle', 'title' ),
-			array( 'nosuchpageid', 'pageid' ),
-			array( 'notanarticle' ),
-			array( 'hookaborted', 'error' ),
-		) );
+		return array_merge( parent::getPossibleErrors(),
+			$this->getRequireOnlyOneParameterErrorMessages( array( 'title', 'pageid' ) ),
+			array(
+				array( 'invalidtitle', 'title' ),
+				array( 'nosuchpageid', 'pageid' ),
+				array( 'notanarticle' ),
+				array( 'hookaborted', 'error' ),
+			)
+		);
 	}
 
 	public function needsToken() {

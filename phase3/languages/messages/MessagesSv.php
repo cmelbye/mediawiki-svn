@@ -37,8 +37,10 @@
  * @author StefanB
  * @author Steinninn
  * @author Str4nd
+ * @author Tobulos1
  * @author Where next Columbus
  * @author Where next Columbus?
+ * @author WikiPhoenix
  * @author לערי ריינהארט
  */
 
@@ -86,7 +88,7 @@ $specialPageAliases = array(
 	'Listgrouprights'           => array( 'Grupprättighetslista' ),
 	'Statistics'                => array( 'Statistik' ),
 	'Randompage'                => array( 'Slumpsida' ),
-	'Lonelypages'               => array( 'Övergivna_sidor', 'Sidor_utan_länkar_till' ),
+	'Lonelypages'               => array( 'Föräldralösa_sidor', 'Övergivna_sidor', 'Sidor_utan_länkar_till' ),
 	'Uncategorizedpages'        => array( 'Okategoriserade_sidor' ),
 	'Uncategorizedcategories'   => array( 'Okategoriserade_kategorier' ),
 	'Uncategorizedimages'       => array( 'Okategoriserade_filer', 'Okategoriserade_bilder' ),
@@ -306,7 +308,7 @@ $messages = array(
 'tog-underline'               => 'Stryk under länkar',
 'tog-highlightbroken'         => 'Formatera trasiga länkar <a href="" class="new">så här</a> (alternativt: <a href="" class="internal">?</a>).',
 'tog-justify'                 => 'Marginaljustera stycken',
-'tog-hideminor'               => 'Visa inte mindre redigeringar i Senaste ändringar',
+'tog-hideminor'               => 'Visa inte mindre redigeringar i senaste ändringar',
 'tog-hidepatrolled'           => 'Dölj patrullerade redigeringar i senaste ändringar',
 'tog-newpageshidepatrolled'   => 'Göm patrullerade sidor från listan över nya sidor',
 'tog-extendwatchlist'         => 'Utöka bevakningslistan till att visa alla ändringar, inte bara den senaste',
@@ -333,8 +335,9 @@ $messages = array(
 'tog-shownumberswatching'     => 'Visa antalet användare som bevakar',
 'tog-oldsig'                  => 'Förhandsvisning av nuvarande signatur:',
 'tog-fancysig'                => 'Rå signatur som wikitext (utan en automatisk länk)',
-'tog-externaleditor'          => 'Använd extern texteditor som standard (avancerat, kräver speciella inställningar i din dator)',
-'tog-externaldiff'            => 'Använd externt diff-verktyg (avancerat, kräver speciella inställningar i din dator)',
+'tog-externaleditor'          => 'Använd extern editor som standard (endast för experter, speciella inställningar på din dator krävs. [Http://www.mediawiki.org/wiki/Manual:External_editors Mer information.])',
+'tog-externaldiff'            => 'Använd externt diff-verktyg som förval(avancerat, kräver speciella inställningar i din dator.
+[http://www.mediawiki.org/wiki/Manual:External_editors Mer information.])',
 'tog-showjumplinks'           => 'Aktivera "hoppa till"-tillgänglighetslänkar',
 'tog-uselivepreview'          => 'Använd direktuppdaterad förhandsgranskning (Javascript, på försöksstadiet)',
 'tog-forceeditsummary'        => 'Påminn mig om jag inte fyller i en redigeringskommentar',
@@ -495,13 +498,15 @@ $messages = array(
 'printableversion'  => 'Utskriftsvänlig version',
 'permalink'         => 'Permanent länk',
 'print'             => 'Skriv ut',
+'view'              => 'Visa',
 'edit'              => 'Redigera',
 'create'            => 'Skapa',
 'editthispage'      => 'Redigera denna sida',
 'create-this-page'  => 'Skapa denna sida',
-'delete'            => 'radera',
+'delete'            => 'Radera',
 'deletethispage'    => 'Radera denna sida',
 'undelete_short'    => 'Återställ {{PLURAL:$1|en version|$1 versioner}}',
+'viewdeleted_short' => 'Visa {{PLURAL:$1|en raderad redigering|$1 raderade redigeringar}}',
 'protect'           => 'Skrivskydda',
 'protect_change'    => 'ändra',
 'protectthispage'   => 'Skrivskydda denna sida',
@@ -585,6 +590,8 @@ $1',
 'toc'                     => 'Innehåll',
 'showtoc'                 => 'visa',
 'hidetoc'                 => 'göm',
+'collapsible-collapse'    => 'Göm',
+'collapsible-expand'      => 'Expandera',
 'thisisdeleted'           => 'Visa eller återställ $1?',
 'viewdeleted'             => 'Visa $1?',
 'restorelink'             => '{{PLURAL:$1|en raderad version|$1 raderade versioner}}',
@@ -733,6 +740,8 @@ Välj ett annat namn.',
 Du har cookies avaktiverade.
 Aktivera dem, och logga sen in med ditt nya användarnamn och lösenord.',
 'nocookieslogin'             => '{{SITENAME}} använder cookies för att logga in användare. Du har stängt av cookies i din webbläsare. Försök igen med stöd för cookies aktiverat.',
+'nocookiesfornew'            => 'Användarkontot skapades inte, eftersom vi inte kunde bekräfta dess källa.
+Se till att du har aktiverat cookies, ladda om denna sida och försök igen.',
 'noname'                     => 'Du har angett ett ogiltigt användarnamn.',
 'loginsuccesstitle'          => 'Inloggningen lyckades',
 'loginsuccess'               => "'''Du är nu inloggad på {{SITENAME}} som \"\$1\".'''",
@@ -746,7 +755,7 @@ Kontrollera din stavning, eller [[Special:UserLogin/signup|skapa ett nytt konto]
 'wrongpasswordempty'         => 'Lösenordet som angavs var blankt. Var god försök igen.',
 'passwordtooshort'           => 'Lösenord måste innehålla minst {{PLURAL:$1|$1 tecken}}.',
 'password-name-match'        => 'Ditt lösenord måste vara olikt ditt användarnamn.',
-'password-too-weak'          => 'Det angivna lösenordet är för svagt och får inte användas.',
+'password-login-forbidden'   => 'Användningen av dessa användarnamn och lösenord har förbjudits.',
 'mailmypassword'             => 'Skicka nytt lösenord',
 'passwordremindertitle'      => 'Nytt temporärt lösenord från {{SITENAME}}',
 'passwordremindertext'       => 'Någon (förmodligen du, från IP-adressen $1) har begärt ett nytt lösenord till {{SITENAME}} ($4). Ett tillfälligt lösenordet för användaren "$2" har skapats och det blev "$3". Om detta var vad du önskade, så behöver du nu logga in och välja ett nytt lösenord. Ditt tillfälliga lösenord går ut om {{PLURAL:$5|en dag|$5 dagar}}.
@@ -782,6 +791,9 @@ Du kan ignorera detta meddelande om kontot skapats av misstag.',
 Vänta innan du försöker igen.',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din begäran om att logga ut nekades eftersom det ser ut som det skickades av en trasig webbläsare eller cachande proxy.',
+
+# E-mail sending
+'php-mail-error-unknown' => "Okänt fel i PHP's mail()-funktion",
 
 # JavaScript password checks
 'password-strength'            => 'Beräknad styrka på lösenord: $1',
@@ -918,6 +930,10 @@ Orsaken till senaste blockeringen kan ses nedan:',
 'usercsspreview'                   => "'''Kom ihåg att du bara förhandsgranskar din användar-CSS.
 Den har inte sparats än!'''",
 'userjspreview'                    => "'''Kom ihåg att du bara testar/förhandsgranskar ditt JavaScript, det har inte sparats än!'''",
+'sitecsspreview'                   => "'''Kom ihåg att du bara förhandsgranskar detta CSS.''' 
+'''Det har ännu inte sparats!'''",
+'sitejspreview'                    => "'''Kom ihåg att du bara förhandsgranskar denna JavaScript-kod.'''
+'''Det har ännu inte sparats!'''",
 'userinvalidcssjstitle'            => "'''Varning:''' Skalet \"\$1\" finns inte. Kom ihåg att .css- och .js-sidor för enskilda användare börjar på liten bokstav. Exempel: {{ns:user}}:Foo/vector.css i stället för {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Uppdaterad)',
 'note'                             => "'''Obs!'''",
@@ -1252,6 +1268,7 @@ Se till att sidhistorikens kontinuitet behålls när du sammanfogar historik.',
 'searchmenu-legend'                => 'Sökalternativ',
 'searchmenu-exists'                => "'''Det finns en sida med namnet \"[[:\$1]]\" på denna wiki'''",
 'searchmenu-new'                   => "'''Skapa sidan \"[[:\$1]]\" på denna wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" är ett ogiltigt namn eller kan inte skapas av dig.',
 'searchhelp-url'                   => 'Help:Innehåll',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Bläddra igenom sidor med detta prefix]]',
 'searchprofile-articles'           => 'Innehållssidor',
@@ -1401,8 +1418,8 @@ Den får inte vara längre än $1 {{PLURAL:$1|tecken|tecken}}.',
 'email'                         => 'E-post',
 'prefs-help-realname'           => 'Riktigt namn behöver inte anges.
 Om du väljer att ange ditt riktiga namn, kommer det att användas för att tillskriva dig ditt arbete.',
-'prefs-help-email'              => 'Att ange e-postadress är valfritt, men gör det möjligt att få ditt lösenord mejlat till dig om du glömmer det.
-Du kan också välja att låta andra användare kontakta dig genom din användar- eller användardiskussionssida utan att du behöver avslöja din identitet.',
+'prefs-help-email'              => 'Att ange e-postadress är valfritt, men gör det möjligt att få ditt lösenord mejlat till dig om du glömmer det.',
+'prefs-help-email-others'       => 'Du kan också välja att låta andra användare kontakta dig genom din användar-eller diskussionssida utan att avslöja din identitet.',
 'prefs-help-email-required'     => 'E-postadress måste anges.',
 'prefs-info'                    => 'Grundläggande information',
 'prefs-i18n'                    => 'Internationalisering',
@@ -1418,6 +1435,10 @@ Du kan också välja att låta andra användare kontakta dig genom din användar
 'prefs-displaysearchoptions'    => 'Visningalternativ',
 'prefs-displaywatchlist'        => 'Visningalternativ',
 'prefs-diffs'                   => 'Skillnader',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Ser giltig ut',
+'email-address-validity-invalid' => 'Giltig adress krävs!',
 
 # User rights
 'userrights'                   => 'Hantering av användarrättigheter',
@@ -1656,13 +1677,13 @@ Se [[Special:NewFiles|galleriet över nya filer]] för en mer visuell översikt.
 'minlength1'                  => 'Filens namn måste innehålla minst ett tecken.',
 'illegalfilename'             => 'Filnamnet "$1" innehåller tecken som inte är tillåtna i sidtitlar. Byt namn på filen och försök ladda upp igen.',
 'badfilename'                 => 'Filens namn har blivit ändrat till "$1".',
-'filetype-mime-mismatch'      => 'Filnamnsändelse matchar inte MIME-typ.',
+'filetype-mime-mismatch'      => 'Filtillägget ".$1" matchar inte med den identifierade MIME-typen för filen ($2).',
 'filetype-badmime'            => 'Uppladdning av filer med MIME-typen "$1" är inte tillåten.',
 'filetype-bad-ie-mime'        => 'Kan inte ladda upp denna fil på grund av att Internet Explorer skulle upptäcka att den är "$1", vilket är en otillåten och möjligtvis farlig filtyp.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' är en oönskad filtyp.
 {{PLURAL:\$3|Föredragen filtyp|Föredragna filtyper}} är \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' är inte en tillåten filtyp.
-{{PLURAL:\$3|Tillåtna filtyper|Tillåten filtyp}} är \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' är inte {{PLURAL:$4|en tillåten filtyp|tillåtna filtyper}}.
+{{PLURAL:$3|Tillåtna filtyper|Tillåten filtyp}} är $2.',
 'filetype-missing'            => 'Filnamnet saknar ändelse (t ex ".jpg").',
 'empty-file'                  => 'Filen du skickade var tom.',
 'file-too-large'              => 'Filen du skickade var för stor.',
@@ -1701,7 +1722,7 @@ Om du fortfarande vill ladda upp din fil, var god gå tillbaka och välj ett nyt
 'fileexists-shared-forbidden' => 'En fil med detta namn finns redan bland de delade filerna.
 Om du ändå vill ladda upp din fil, gå då tillbaka och använd ett annat namn. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Den här filen är en dubblett till följande {{PLURAL:$1|fil|filer}}:',
-'file-deleted-duplicate'      => 'En identisk fil till den här filen ([[$1]]) har tidigare raderats. Du bör kontrollera den filens raderingshistorik innan du fortsätter att återuppladda den.',
+'file-deleted-duplicate'      => 'En identisk fil till den här filen ([[:$1]]) har tidigare raderats. Du bör kontrollera den filens raderingshistorik innan du fortsätter att återuppladda den.',
 'uploadwarning'               => 'Uppladdningsvarning',
 'uploadwarning-text'          => 'Var god och ändra filbeskrivningen nedanför och försök igen.',
 'savefile'                    => 'Spara fil',
@@ -1763,6 +1784,15 @@ Om problemet kvarstår, kontakta en [[Special:ListUsers/sysop|administratör]].'
 'upload-too-many-redirects' => 'URL-en innehöll för många omdirigeringar',
 'upload-unknown-size'       => 'Okänd storlek',
 'upload-http-error'         => 'Ett HTTP-fel uppstod: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Ladda upp stash',
+'uploadstash-summary'  => 'Denna sida ger tillgång till filer som är uppladdade (eller håller på att laddas upp) men som ännu inte är publicerade till wikin. Dessa filer är inte synliga för någon annan än den användare som laddade upp dem.',
+'uploadstash-clear'    => 'Rensa stashade filer',
+'uploadstash-nofiles'  => 'Du har inga stashade filer.',
+'uploadstash-badtoken' => 'Utförandet av den åtgärden misslyckades, kanske för att din redigeringsrättigheter löpt ut. Försök igen.',
+'uploadstash-errclear' => 'Rensning av filerna misslyckades.',
+'uploadstash-refresh'  => 'Uppdatera listan över filer',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Åtkomst nekad',
@@ -1939,11 +1969,12 @@ Innan mallarna raderas, kontrollera att det inte finns andra länkar till dem.',
 Länkarna bör troligtvis ändras så att de länkar till en artikel istället.<br />
 En sida anses vara en förgreningssida om den inkluderar en mall som länkas till från [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Dubbla omdirigeringar',
-'doubleredirectstext'        => 'Det här är en lista över sidor som dirigerar om till andra omdirigeringssidor. Varje rad innehåller länkar till den första och andra omdirigeringsidan, samt till målet för den andra omdirigeringen. Målet för den andra omdirigeringen är ofta den "riktiga" sidan, som den första omdirigeringen egentligen ska leda till.
+'doubleredirects'                   => 'Dubbla omdirigeringar',
+'doubleredirectstext'               => 'Det här är en lista över sidor som dirigerar om till andra omdirigeringssidor. Varje rad innehåller länkar till den första och andra omdirigeringsidan, samt till målet för den andra omdirigeringen. Målet för den andra omdirigeringen är ofta den "riktiga" sidan, som den första omdirigeringen egentligen ska leda till.
 <del>Stryk över</del> poster som har åtgärdats.',
-'double-redirect-fixed-move' => '[[$1]] har flyttats, och är nu en omdirigering till [[$2]]',
-'double-redirect-fixer'      => 'Omdirigeringsrättaren',
+'double-redirect-fixed-move'        => '[[$1]] har flyttats, och är nu en omdirigering till [[$2]]',
+'double-redirect-fixed-maintenance' => 'Fixar dubbel omdirigering från [[$1]] till [[$2]].',
+'double-redirect-fixer'             => 'Omdirigeringsrättaren',
 
 'brokenredirects'        => 'Trasiga omdirigeringar',
 'brokenredirectstext'    => 'Följande omdirigerar länkar till ej existerande sidor:',
@@ -2020,6 +2051,7 @@ Lägg märke till att andra webbplatser kan länka till en fil med en direkt URL
 'pager-newer-n'           => '{{PLURAL:$1|1 nyare|$1 nyare}}',
 'pager-older-n'           => '{{PLURAL:$1|1 äldre|$1 äldre}}',
 'suppress'                => 'Censur',
+'querypage-disabled'      => 'Den här specialsidan är inaktiverad av prestandaskäl.',
 
 # Book sources
 'booksources'               => 'Bokkällor',
@@ -2320,7 +2352,7 @@ Du kan ändra skyddet av den här sidan, men det påverkar inte det kaskaderande
 ** Redigeringskrig
 ** Sida med många besökare',
 'protect-edit-reasonlist'     => 'Redigera skyddsanledningar',
-'protect-expiry-options'      => '1 timme:1 hour,1 dag:1 day,1 vecka:1 week,2 veckor:2 weeks,1 månad:1 month,3 månader:3 months,6 månader:6 months,1 år:1 year,oändlig:infinite',
+'protect-expiry-options'      => '1 timme:1 hour,1 dygn:1 day,1 vecka:1 week,2 veckor:2 weeks,1 månad:1 month,3 månader:3 months,6 månader:6 months,1 år:1 year,oändlig:infinite',
 'restriction-type'            => 'Typ av skydd:',
 'restriction-level'           => 'Skyddsnivå:',
 'minimum-size'                => 'Minsta storlek',
@@ -2408,6 +2440,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Bidrag från nya konton',
 'sp-contributions-blocklog'            => 'Blockeringslogg',
 'sp-contributions-deleted'             => 'raderade användarbidrag',
+'sp-contributions-uploads'             => 'uppladdningar',
 'sp-contributions-logs'                => 'Loggar',
 'sp-contributions-talk'                => 'diskussion',
 'sp-contributions-userrights'          => 'hantering av användarrättigheter',
@@ -2917,7 +2950,7 @@ Detta orsakades troligen av en länk till en svartlistad webbplats.',
 'math_unknown_function' => 'okänd funktion',
 'math_lexing_error'     => 'regelfel',
 'math_syntax_error'     => 'syntaxfel',
-'math_image_error'      => 'Konvertering till PNG-format misslyckades; kontrollera om latex, dvips, gs och convert är korrekt installerade',
+'math_image_error'      => 'Konvertering till PNG-format misslyckades; kontrollera om latex och dvipng (eller dvips + gs + convert) är korrekt installerade',
 'math_bad_tmpdir'       => 'Kan inte skriva till eller skapa temporär mapp för matematikresultat',
 'math_bad_output'       => 'Kan inte skriva till eller skapa mapp för matematikresultat',
 'math_notexvc'          => 'Applicationen texvc saknas; läs math/README för konfigureringsanvisningar.',
@@ -2962,10 +2995,10 @@ Om du kör den kan din dator skadas.",
 'imagemaxsize'         => "Begränsa bilders storlek:<br />''(för filbeskrivningssidor)''",
 'thumbsize'            => 'Storlek på minibild:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sida|sidor}}',
-'file-info'            => '(filstorlek: $1, MIME-typ: $2)',
-'file-info-size'       => '($1 × $2 pixel, filstorlek: $3, MIME-typ: $4)',
+'file-info'            => 'filstorlek: $1, MIME-typ: $2',
+'file-info-size'       => '$1 × $2 pixel, filstorlek: $3, MIME-typ: $4',
 'file-nohires'         => '<small>Det finns ingen version med högre upplösning.</small>',
-'svg-long-desc'        => '(SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3)',
+'svg-long-desc'        => 'SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3',
 'show-big-image'       => 'Högupplöst version',
 'show-big-image-thumb' => '<small>Storlek på förhandsvisningen: $1 × $2 pixel</small>',
 'file-info-gif-looped' => 'upprepad',
@@ -3130,6 +3163,7 @@ Den första länken på en rad måste vara en länk till en otillåten fil.
 'exif-gpsareainformation'          => 'GPS-områdets namn',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Differentiell GPS-korrektion',
+'exif-objectname'                  => 'Kort titel',
 
 # EXIF attributes
 'exif-compression-1' => 'Inte komprimerad',
@@ -3330,6 +3364,20 @@ för att avbryta bekräftelsen av e-postadressen:
 $5
 
 Denna bekräftelsekod kommer inte att fungera efter $4.',
+'confirmemail_body_set'     => 'Någon, förmodligen du, från IP-adressen $1,
+har satt e-postadressen till kontot "$2" till den här adressen {{SITENAME}}.
+
+För att bekräfta att kontot verkligen tillhör dig, bör du återaktivera
+e-post funktionerna på {{SITENAME}}, öppna denna länk i din webbläsare:
+
+$3
+
+Om kontot *inte* tillhör dig, följ den här länken
+för att avbryta bekräftelsen av e-postadressen:
+
+$5
+
+Denna bekräftelsekod kommer att sluta fungera efter $4.',
 'confirmemail_invalidated'  => 'Bekräftelsen av e-postadressen har ogiltigförklarats',
 'invalidateemail'           => 'Avbryt bekräftelse av e-postadress',
 
@@ -3436,6 +3484,8 @@ Du kan också [[Special:Watchlist/edit|använda standardeditorn]].',
 'version-specialpages'             => 'Specialsidor',
 'version-parserhooks'              => 'Parsertillägg',
 'version-variables'                => 'Variabler',
+'version-antispam'                 => 'Förhindring av skräppost',
+'version-skins'                    => 'Utseenden',
 'version-other'                    => 'Annat',
 'version-mediahandlers'            => 'Mediahanterare',
 'version-hooks'                    => 'Hakar',
@@ -3467,16 +3517,15 @@ Du bör ha fått [{{SERVER}}{{SCRIPTPATH}}/COPYING en kopia av GNU General Publi
 Ange filens namn utan prefixet "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Sök efter dubblettfiler',
-'fileduplicatesearch-summary'  => 'Sök efter dubblettfiler baserat på filernas hash-värden.
-
-Skriv filnamnet utan prefixet "{{ns:file}}:" .',
-'fileduplicatesearch-legend'   => 'Sök efter en dubblettfil',
-'fileduplicatesearch-filename' => 'Filnamn:',
-'fileduplicatesearch-submit'   => 'Sök',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />Filstorlek: $3<br />MIME-typ: $4',
-'fileduplicatesearch-result-1' => 'Filen "$1" har inga identiska dubbletter.',
-'fileduplicatesearch-result-n' => 'Filen "$1" har {{PLURAL:$2|1 identisk dubblett|$2 identiska dubbletter}}.',
+'fileduplicatesearch'           => 'Sök efter dubblettfiler',
+'fileduplicatesearch-summary'   => 'Sök efter dubblettfiler baserat på filernas hash-värden.',
+'fileduplicatesearch-legend'    => 'Sök efter en dubblettfil',
+'fileduplicatesearch-filename'  => 'Filnamn:',
+'fileduplicatesearch-submit'    => 'Sök',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />Filstorlek: $3<br />MIME-typ: $4',
+'fileduplicatesearch-result-1'  => 'Filen "$1" har inga identiska dubbletter.',
+'fileduplicatesearch-result-n'  => 'Filen "$1" har {{PLURAL:$2|1 identisk dubblett|$2 identiska dubbletter}}.',
+'fileduplicatesearch-noresults' => 'Ingen fil med namnet "$1" hittades.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Specialsidor',

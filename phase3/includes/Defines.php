@@ -19,6 +19,7 @@ define( 'DBO_TRX', 8 );
 define( 'DBO_DEFAULT', 16 );
 define( 'DBO_PERSISTENT', 32 );
 define( 'DBO_SYSDBA', 64 ); //for oracle maintenance
+define( 'DBO_DDLMODE', 128 ); // when using schema files: mostly for Oracle
 /**@}*/
 
 /**@{
@@ -125,6 +126,7 @@ define( 'MEDIATYPE_OFFICE',     'OFFICE' );      // Office Documents, Spreadshee
 define( 'MEDIATYPE_TEXT',       'TEXT' );        // Plain text (possibly containing program code or scripts)
 define( 'MEDIATYPE_EXECUTABLE', 'EXECUTABLE' );  // binary executable
 define( 'MEDIATYPE_ARCHIVE',    'ARCHIVE' );     // archive file (zip, tar, etc)
+define( 'MEDIATYPE_DATA',       'DATA' );        // A generic data file (like kml and kmz)
 /**@}*/
 
 /**@{

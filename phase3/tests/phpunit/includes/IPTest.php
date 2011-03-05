@@ -3,8 +3,10 @@
  * Tests for IP validity functions. Ported from /t/inc/IP.t by avar.
  */
 
-class IPTest extends PHPUnit_Framework_TestCase {
-	// not sure it should be tested with boolean false. hashar 20100924
+class IPTest extends MediaWikiTestCase {
+	/**
+	 *  not sure it should be tested with boolean false. hashar 20100924
+	 */
 	public function testisIPAddress() {
 		$this->assertFalse( IP::isIPAddress( false ), 'Boolean false is not an IP' );
 		$this->assertFalse( IP::isIPAddress( true  ), 'Boolean true is not an IP' );
@@ -37,17 +39,20 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( IP::isIPv6( 'fc:100:::' ), 'IPv6 ending with a ":::"' );
 		$this->assertFalse( IP::isIPv6( 'fc:300' ), 'IPv6 with only 2 words' );
 		$this->assertFalse( IP::isIPv6( 'fc:100:300' ), 'IPv6 with only 3 words' );
+		
 		$this->assertTrue( IP::isIPv6( 'fc:100::' ) );
 		$this->assertTrue( IP::isIPv6( 'fc:100:a::' ) );
 		$this->assertTrue( IP::isIPv6( 'fc:100:a:d::' ) );
 		$this->assertTrue( IP::isIPv6( 'fc:100:a:d:1::' ) );
 		$this->assertTrue( IP::isIPv6( 'fc:100:a:d:1:e::' ) );
 		$this->assertTrue( IP::isIPv6( 'fc:100:a:d:1:e:ac::' ) );
+		
 		$this->assertFalse( IP::isIPv6( 'fc:100:a:d:1:e:ac:0::' ), 'IPv6 with 8 words ending with "::"' );
 		$this->assertFalse( IP::isIPv6( 'fc:100:a:d:1:e:ac:0:1::' ), 'IPv6 with 9 words ending with "::"' );
 
 		$this->assertFalse( IP::isIPv6( ':::' ) );
 		$this->assertFalse( IP::isIPv6( '::0:' ), 'IPv6 ending in a lone ":"' );
+		
 		$this->assertTrue( IP::isIPv6( '::' ), 'IPv6 zero address' );
 		$this->assertTrue( IP::isIPv6( '::0' ) );
 		$this->assertTrue( IP::isIPv6( '::fc' ) );
@@ -57,18 +62,24 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue( IP::isIPv6( '::fc:100:a:d:1' ) );
 		$this->assertTrue( IP::isIPv6( '::fc:100:a:d:1:e' ) );
 		$this->assertTrue( IP::isIPv6( '::fc:100:a:d:1:e:ac' ) );
+		
 		$this->assertFalse( IP::isIPv6( '::fc:100:a:d:1:e:ac:0' ), 'IPv6 with "::" and 8 words' );
 		$this->assertFalse( IP::isIPv6( '::fc:100:a:d:1:e:ac:0:1' ), 'IPv6 with 9 words' );
 
 		$this->assertFalse( IP::isIPv6( ':fc::100' ), 'IPv6 starting with lone ":"' );
 		$this->assertFalse( IP::isIPv6( 'fc::100:' ), 'IPv6 ending with lone ":"' );
 		$this->assertFalse( IP::isIPv6( 'fc:::100' ), 'IPv6 with ":::" in the middle' );
+		
 		$this->assertTrue( IP::isIPv6( 'fc::100' ), 'IPv6 with "::" and 2 words' );
 		$this->assertTrue( IP::isIPv6( 'fc::100:a' ), 'IPv6 with "::" and 3 words' );
 		$this->assertTrue( IP::isIPv6( 'fc::100:a:d', 'IPv6 with "::" and 4 words' ) );
 		$this->assertTrue( IP::isIPv6( 'fc::100:a:d:1' ), 'IPv6 with "::" and 5 words' );
 		$this->assertTrue( IP::isIPv6( 'fc::100:a:d:1:e' ), 'IPv6 with "::" and 6 words' );
 		$this->assertTrue( IP::isIPv6( 'fc::100:a:d:1:e:ac' ), 'IPv6 with "::" and 7 words' );
+		$this->assertTrue( IP::isIPv6( '2001::df'), 'IPv6 with "::" and 2 words' );
+		$this->assertTrue( IP::isIPv6( '2001:5c0:1400:a::df'), 'IPv6 with "::" and 5 words' );
+		$this->assertTrue( IP::isIPv6( '2001:5c0:1400:a::df:2'), 'IPv6 with "::" and 6 words' );
+		
 		$this->assertFalse( IP::isIPv6( 'fc::100:a:d:1:e:ac:0' ), 'IPv6 with "::" and 8 words' );
 		$this->assertFalse( IP::isIPv6( 'fc::100:a:d:1:e:ac:0:1' ), 'IPv6 with 9 words' );
 
@@ -90,7 +101,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue( IP::isIPv4( '74.24.52.13/20', 'IPv4 range' ) );
 	}
 
-	// tests isValid()
 	public function testValidIPs() {
 		foreach ( range( 0, 255 ) as $i ) {
 			$a = sprintf( "%03d", $i );
@@ -101,7 +111,7 @@ class IPTest extends PHPUnit_Framework_TestCase {
 				$this->assertTrue( IP::isValid( $ip ) , "$ip is a valid IPv4 address" );
 			}
 		}
-		foreach ( range( 0x0, 0xFFFF ) as $i ) {
+		foreach ( range( 0x0, 0xFFFF, 0xF ) as $i ) {
 			$a = sprintf( "%04x", $i );
 			$b = sprintf( "%03x", $i );
 			$c = sprintf( "%02x", $i );
@@ -110,9 +120,28 @@ class IPTest extends PHPUnit_Framework_TestCase {
 				$this->assertTrue( IP::isValid( $ip ) , "$ip is a valid IPv6 address" );
 			}
 		}
+		// test with some abbreviations
+		$this->assertFalse( IP::isValid( ':fc:100::' ), 'IPv6 starting with lone ":"' );
+		$this->assertFalse( IP::isValid( 'fc:100:::' ), 'IPv6 ending with a ":::"' );
+		$this->assertFalse( IP::isValid( 'fc:300' ), 'IPv6 with only 2 words' );
+		$this->assertFalse( IP::isValid( 'fc:100:300' ), 'IPv6 with only 3 words' );
+		
+		$this->assertTrue( IP::isValid( 'fc:100::' ) );
+		$this->assertTrue( IP::isValid( 'fc:100:a:d:1:e::' ) );
+		$this->assertTrue( IP::isValid( 'fc:100:a:d:1:e:ac::' ) );
+		
+		$this->assertTrue( IP::isValid( 'fc::100' ), 'IPv6 with "::" and 2 words' );
+		$this->assertTrue( IP::isValid( 'fc::100:a' ), 'IPv6 with "::" and 3 words' );
+		$this->assertTrue( IP::isValid( '2001::df'), 'IPv6 with "::" and 2 words' );
+		$this->assertTrue( IP::isValid( '2001:5c0:1400:a::df'), 'IPv6 with "::" and 5 words' );
+		$this->assertTrue( IP::isValid( '2001:5c0:1400:a::df:2'), 'IPv6 with "::" and 6 words' );
+		$this->assertTrue( IP::isValid( 'fc::100:a:d:1' ), 'IPv6 with "::" and 5 words' );
+		$this->assertTrue( IP::isValid( 'fc::100:a:d:1:e:ac' ), 'IPv6 with "::" and 7 words' );
+		
+		$this->assertFalse( IP::isValid( 'fc:100:a:d:1:e:ac:0::' ), 'IPv6 with 8 words ending with "::"' );
+		$this->assertFalse( IP::isValid( 'fc:100:a:d:1:e:ac:0:1::' ), 'IPv6 with 9 words ending with "::"' );
 	}
 
-	// tests isValid()
 	public function testInvalidIPs() {
 		// Out of range...
 		foreach ( range( 256, 999 ) as $i ) {
@@ -160,7 +189,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// tests isValidBlock()
 	public function testValidBlocks() {
 		$valid = array(
 			'116.17.184.5/32',
@@ -181,7 +209,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// tests isValidBlock()
 	public function testInvalidBlocks() {
 		$invalid = array(
 			'116.17.184.5/33',
@@ -202,7 +229,9 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// test wrapper around ip2long which might return -1 or false depending on PHP version
+	/**
+	 * test wrapper around ip2long which might return -1 or false depending on PHP version
+	 */
 	public function testip2longWrapper() {
 		// fixme : add more tests ?
 		$this->assertEquals( pow(2,32) - 1, IP::toUnsigned( '255.255.255.255' ));
@@ -210,7 +239,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( IP::toUnSigned( $i ) );
 	}
 
-	// tests isPublic()
 	public function testPrivateIPs() {
 		$private = array( 'fc::3', 'fc::ff', '::1', '10.0.0.1', '172.16.0.1', '192.168.0.1' );
 		foreach ( $private as $p ) {

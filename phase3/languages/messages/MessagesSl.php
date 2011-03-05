@@ -152,6 +152,8 @@ $magicWords = array(
 	'url_query'             => array( '0', 'POIZVEDBA', 'QUERY' ),
 );
 
+$linkTrail = '/^([a-zčćđžš]+)(.*)$/sDu';
+
 $datePreferences = array(
 	'default',
 	'dmy short',
@@ -212,8 +214,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Prikaži število uporabnikov, ki spremljajo temo',
 'tog-oldsig'                  => 'Predogled obstoječega podpisa:',
 'tog-fancysig'                => 'Obravnavaj podpis kot wikibesedilo (brez samodejne povezave)',
-'tog-externaleditor'          => 'Po privzetem uporabljaj zunanji urejevalnik',
-'tog-externaldiff'            => 'Po privzetem uporabljaj zunanje primerjanje',
+'tog-externaleditor'          => 'Po privzetem uporabljaj zunanji urejevalnik (samo za strokovnjake; potrebuje posebne nastavitve na vašem računalniku; [http://www.mediawiki.org/wiki/Manual:External_editors več informacij])',
+'tog-externaldiff'            => 'Po privzetem uporabljaj zunanje primerjanje (samo za strokovnjake; potrebuje posebne nastavitve na vašem računalniku; [http://www.mediawiki.org/wiki/Manual:External_editors več informacij])',
 'tog-showjumplinks'           => 'Prikaži pomožni povezavi »Skoči na«',
 'tog-uselivepreview'          => 'Uporabi hitri predogled (zahteva JavaScript) (preizkusno)',
 'tog-forceeditsummary'        => 'Ob vpisu praznega povzetka urejanja me opozori',
@@ -367,6 +369,7 @@ in [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Uporabniški priroč
 'printableversion'  => 'Različica za tisk',
 'permalink'         => 'Trajna povezava',
 'print'             => 'Tisk',
+'view'              => 'Ogled',
 'edit'              => 'Uredi stran',
 'create'            => 'Ustvari',
 'editthispage'      => 'Uredi stran',
@@ -374,6 +377,7 @@ in [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Uporabniški priroč
 'delete'            => 'Briši',
 'deletethispage'    => 'Briši stran',
 'undelete_short'    => 'Vrni $1 {{PLURAL:$1|izbrisano urejanje|izbrisani urejanji|izbrisana urejanja|izbrisanih urejanj|izbrisanih urejanj}}',
+'viewdeleted_short' => 'Ogled {{PLURAL:$1|enega izbrisanega urejanja|$1 izbrisanih urejanj}}',
 'protect'           => 'Zaščiti',
 'protect_change'    => 'spremeni zaščito',
 'protectthispage'   => 'Zaščiti stran',
@@ -458,6 +462,8 @@ $1',
 'toc'                     => 'Vsebina',
 'showtoc'                 => 'prikaži',
 'hidetoc'                 => 'skrij',
+'collapsible-collapse'    => 'Skrči',
+'collapsible-expand'      => 'Razširi',
 'thisisdeleted'           => 'Prikažem ali vrnem $1?',
 'viewdeleted'             => 'Prikažem $1?',
 'restorelink'             => '$1 {{PLURAL:$1|izbrisano redakcijo|izbrisani redakciji|izbrisane redakcije|izbrisanih redakcij}}',
@@ -626,7 +632,7 @@ Preverite črkovanje.',
 'wrongpasswordempty'         => 'Vpisali ste prazno geslo. Prosimo, poskusite znova.',
 'passwordtooshort'           => 'Geslo mora imeti najmanj $1 {{PLURAL:$1|znak|znaka|znake|znakov|znakov}}.',
 'password-name-match'        => 'Vaše geslo se mora razlikovati od vašega uporabniškega imena.',
-'password-too-weak'          => 'Navedeno geslo je prešibko in ga ni mogoče uporabiti.',
+'password-login-forbidden'   => 'Uporaba tega uporabniškega imena in gesla je prepovedana.',
 'mailmypassword'             => 'Pošlji mi novo geslo',
 'passwordremindertitle'      => 'Novo začasno geslo za {{GRAMMAR:tožilnik|{{SITENAME}}}}',
 'passwordremindertext'       => 'Nekdo (verjetno vi, z IP-naslova $1) je zahteval novo
@@ -831,6 +837,7 @@ Prosimo, poskusite znova.
 'token_suffix_mismatch'            => "'''Vaše urejanje je bilo zavrnjeno, ker je vaš odjemalec pokvaril ločila v urejevalnem zahtevku.'''
 Urejanje je bilo zavrnjeno z namenom preprečitve okvare v besedilu strani.
 Največkrat je razlog uporaba hroščato spletno anonimizacijsko storitev.",
+'edit_form_incomplete'             => "'''Nekateri deli urejevalnega obrazca niso dosegli strežnika; prepričajte se, da so vaša urejanja neokrnjena in poskusite znova.'''",
 'editing'                          => 'Urejanje $1',
 'editingsection'                   => 'Urejanje $1 (razdelek)',
 'editingcomment'                   => 'Urejanje $1 (nov razdelek)',
@@ -955,7 +962,7 @@ Morda je bila izbrisana iz wikija ali pa jo je kdo preimenoval.
 Prosimo, poskusite [[Special:Search|poiskati v wikiju]] ustrezajoče nove strani.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(pripomba je bila odstranjena)',
+'rev-deleted-comment'         => '(povzetek urejanja je odstranjen)',
 'rev-deleted-user'            => '(uporabniško ime je bilo odstranjeno)',
 'rev-deleted-event'           => '(dnevniški vnos je odstranjen)',
 'rev-deleted-user-contribs'   => '[uporabniško ime ali IP naslov odstranjeni - urajenje skrito v prispevkih]',
@@ -1145,6 +1152,7 @@ Upoštevajte, da bo uporaba navigacijskih gumbov ponastavila ta stolpec.',
 'searchmenu-legend'                => 'Možnosti za iskanje',
 'searchmenu-exists'                => "'''Na tem wikiju obstaja stran »[[:$1]]«'''",
 'searchmenu-new'                   => "'''Ustvari stran »[[:$1]]« na tem wikiju!'''",
+'searchmenu-new-nocreate'          => '»$1« ni veljavno ime strani ali pa je ne morete ustvariti.',
 'searchhelp-url'                   => 'Help:Vsebina',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Iskanje strani s to predpono]]',
 'searchprofile-articles'           => 'Članki',
@@ -1297,8 +1305,8 @@ Podatek bo javno prikazan.',
 'email'                         => 'E-pošta',
 'prefs-help-realname'           => 'Pravo ime je neobvezno.
 Če se ga odločite navesti, bo uporabljeno za priznavanje vašega dela.',
-'prefs-help-email'              => 'E-poštni naslov ni obvezen, vendar vam omogoča, da vam v primeru pozabljenega gesla pošljemo novo.
-Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elektronsko pošto brez razkritja vaše istovetnosti.',
+'prefs-help-email'              => 'E-poštni naslov ni obvezen, vendar vam omogoča, da vam v primeru pozabljenega gesla pošljemo novo.',
+'prefs-help-email-others'       => 'Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elektronsko pošto brez razkritja vaše istovetnosti.',
 'prefs-help-email-required'     => 'E-poštni naslov je obvezen.',
 'prefs-info'                    => 'Osnovni podatki',
 'prefs-i18n'                    => 'Internacionalizacija',
@@ -1314,6 +1322,10 @@ Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elek
 'prefs-displaysearchoptions'    => 'Možnosti prikaza',
 'prefs-displaywatchlist'        => 'Možnosti prikaza',
 'prefs-diffs'                   => 'Primerjave',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Izgleda veljaven',
+'email-address-validity-invalid' => 'Obvezen je veljaven naslov!',
 
 # User rights
 'userrights'                   => 'Upravljanje s pravicami uporabnikov',
@@ -1552,12 +1564,12 @@ Za grafični pogled obiščite [[Special:NewFiles|galerijo novih datotek]].',
 'minlength1'                  => 'Imena datotek morajo biti dolga vsaj eno črko.',
 'illegalfilename'             => 'Ime datoteke »$1« vsebuje v naslovih strani prepovedane znake. Prosimo, poskusite datoteko naložiti pod drugim imenom.',
 'badfilename'                 => 'Ime datoteke se je samodejno popravilo v »$1«.',
-'filetype-mime-mismatch'      => 'Končnica datoteke ne ustreza vrsti MIME.',
+'filetype-mime-mismatch'      => 'Datotečna končnica ».$1« se ne ujema z zaznano MIME-vrsto datoteke ($2).',
 'filetype-badmime'            => 'Datoteke MIME-vrste »$1« ni dovoljeno nalagati.',
 'filetype-bad-ie-mime'        => 'Ne morem naložiti datoteke, ker bi jo Internet Explorer zaznal kot »$1« in jo zavrnil kot potencialno nevarno vrsto datoteke.',
 'filetype-unwanted-type'      => "'''».$1«''' je nezaželena datotečna vrsta.
 {{PLURAL:$3|Dovoljena datotečna vrsta je|Dovoljena datotečni vrsti sta|Dovoljene datotečne vrste so|Dovoljene datotečne vrste so}} $2.",
-'filetype-banned-type'        => "'''».$1«''' ni dovoljena datotečna vrsta.
+'filetype-banned-type'        => "'''».$1«''' {{PLURAL:$4|ni dovoljena datotečna vrsta|nista dovoljeni datotečni vrsti|niso dovoljene datotečne vrste}}.
 {{PLURAL:$3|Dovoljena datotečna vrsta je|Dovoljeni datotečni vrsti sta|Dovoljene datotečne vrste so|Dovoljene datotečne vrste so}} $2.",
 'filetype-missing'            => 'Datoteka nima končnice (kot ».jpg«).',
 'empty-file'                  => 'Datoteka, ki ste jo poslali, je prazna',
@@ -1565,7 +1577,7 @@ Za grafični pogled obiščite [[Special:NewFiles|galerijo novih datotek]].',
 'filename-tooshort'           => 'Ime datoteke je prekratko',
 'filetype-banned'             => 'Ta vrsta datoteke je prepovedana',
 'verification-error'          => 'Ta datoteka ni opravila preverjanja datoteke',
-'hookaborted'                 => 'Spremembo, ki ste jo poskušali narediti, je prekinila razširitev',
+'hookaborted'                 => 'Spremembo, ki ste jo poskušali narediti, je prekinila razširitev.',
 'illegal-filename'            => 'Ime datoteke ni dovoljeno',
 'overwrite'                   => 'Prepisovanje obstoječe datoteke ni dovoljeno',
 'unknown-error'               => 'Prišlo je do neznane napake',
@@ -1599,7 +1611,7 @@ Izgleda, da je to pomanjšana slika ''(thumbnail)''.
 Prosimo, vrnite se in naložite svojo datoteko pod drugim imenom.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ta datoteka je dvojnik {{PLURAL:$1|naslednje datoteke|naslednjih datotek}}:',
-'file-deleted-duplicate'      => 'Datoteka je identična tej ([[$1]]), ki je bila predhodno izbrisana.
+'file-deleted-duplicate'      => 'Datoteka je identična tej ([[:$1]]), ki je bila predhodno izbrisana.
 Preverite zgodovino brisanja datoteke, preden jo ponovno naložite.',
 'uploadwarning'               => 'Opozorilo!',
 'uploadwarning-text'          => 'Prosimo, spremenite opis datoteke spodaj in poskusite ponovno.',
@@ -1615,6 +1627,8 @@ Prosimo preverite file_uploads nastavitev.',
 'uploadscripted'              => 'Datoteka vsebuje HTML- ali skriptno kodo, ki bi jo lahko brskalnik razlagal napačno.',
 'uploadvirus'                 => 'Datoteka vsebuje virus!
 Podrobnosti: $1',
+'uploadjava'                  => 'Datoteka je datoteka ZIP, ki vsebuje javansko datoteko .class.
+Nalaganje javanskih datotek ni dovoljeno, ker je z njimi mogoče obiti varnostne omejitve.',
 'upload-source'               => 'Izvorna datoteka',
 'sourcefilename'              => 'Ime izvorne datoteke:',
 'sourceurl'                   => 'Izvorni URL:',
@@ -1665,6 +1679,23 @@ Prosimo, preverite veljavnost in dostopnost naslova URL ter poskusite ponovno.
 'upload-too-many-redirects' => 'URL vsebuje preveč preusmeritev',
 'upload-unknown-size'       => 'Neznana velikost',
 'upload-http-error'         => 'Prišlo je do napake HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Med odpiranjem datoteke za preverjanja ZIP je prišlo do napake.',
+'zip-wrong-format'    => 'Navedena datoteka ni bila datoteka ZIP.',
+'zip-bad'             => 'Datoteka je pokvarjena ali kako drugače neberljiva datoteka ZIP.
+Ni mogoče ustrezno preveriti njene varnosti.',
+'zip-unsupported'     => 'Datoteka je datoteka ZIP, ki uporablja funkcije ZIP, katere MediaWiki ne podpira.
+Ni mogoče ustrezno preveriti njene varnosti.',
+
+# Special:UploadStash
+'uploadstash'          => 'Skrite naložene datoteke',
+'uploadstash-summary'  => 'Ta stran omogoča dostop do datotek, ki so naložene (oziroma v postopku nalaganja), vendar še niso objavljene na wikiju. Te datoteke so vidne samo uporabniku, ki jih je naložil, in nikomur drugemu.',
+'uploadstash-clear'    => 'Počisti skrite datoteke',
+'uploadstash-nofiles'  => 'Nimate skritih datotek.',
+'uploadstash-badtoken' => 'Izvedba dejanja ni bila uspešna, morda zaradi izteklih poverilnic za urejanje. Poskusite znova.',
+'uploadstash-errclear' => 'Čiščenje datotek ni bilo uspešno.',
+'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Dostop zavrnjen',
@@ -1846,13 +1877,14 @@ Preden jih izbrišete, preverite še druge povezave nanje.',
 Namesto tega bi se naj povezovale na primerno temo.<br />
 Stran se obravnava kot razločitvena, če uporablja predloge povezane iz [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Dvojne preusmeritve',
-'doubleredirectstext'        => 'Ta stran navaja strani, ki se preusmerjajo na druge preusmeritvene strani.
+'doubleredirects'                   => 'Dvojne preusmeritve',
+'doubleredirectstext'               => 'Ta stran navaja strani, ki se preusmerjajo na druge preusmeritvene strani.
 Vsaka vrstica vsebuje povezavo do prve in druge preusmeritve, kakor tudi do cilja druge preusmeritve, ki je po navadi »prava« ciljna stran, na katero naj bi kazala prva preusmeritev.
 <del>Prečrtani</del> vnosi so bili razrešeni.',
-'double-redirect-fixed-move' => 'Stran [[$1]] je bil premaknjen.
+'double-redirect-fixed-move'        => 'Stran [[$1]] je bil premaknjen.
 Sedaj je preusmeritev na [[$2]].',
-'double-redirect-fixer'      => 'Popravljalec preusmeritev',
+'double-redirect-fixed-maintenance' => 'Popravljanje dvojne preusmeritve z [[$1]] na [[$2]].',
+'double-redirect-fixer'             => 'Popravljalec preusmeritev',
 
 'brokenredirects'        => 'Pretrgane preusmeritve',
 'brokenredirectstext'    => 'Naslednje preusmeritve kažejo na neobstoječe strani:',
@@ -2310,9 +2342,10 @@ $1',
 'undelete-show-file-submit'    => 'Da',
 
 # Namespace form on various pages
-'namespace'      => 'Imenski prostor:',
-'invert'         => 'Obrni izbor',
-'blanknamespace' => '(Osnovno)',
+'namespace'             => 'Imenski prostor:',
+'invert'                => 'Obrni izbor',
+'namespace_association' => 'Povezan imenski prostor',
+'blanknamespace'        => '(Osnovno)',
 
 # Contributions
 'contributions'       => 'Uporabnikovi prispevki',
@@ -2811,8 +2844,7 @@ Omogoča vnos pojasnila v povzetku urejanja.',
 'math_unknown_function' => 'neznana funkcija',
 'math_lexing_error'     => 'slovarska napaka',
 'math_syntax_error'     => 'skladenjska napaka',
-'math_image_error'      => 'Pretvarjanje v PNG ni uspelo;
-preverite, ali so latex, dvips, gs, in convert pravilno nameščeni.',
+'math_image_error'      => 'Pretvarjanje v PNG ni uspelo; preverite, ali sta latex in dvips (ali dvips + gs + convert) pravilno nameščena.',
 'math_bad_tmpdir'       => 'Začasne mape za math ne morem ustvariti ali pisati vanjo.',
 'math_bad_output'       => 'Izhodne mape za math ne morem ustvariti ali pisati vanjo.',
 'math_notexvc'          => 'Manjka izvedbena datoteka texvc;
@@ -2860,9 +2892,9 @@ Z njenim zagonom lahko ogrozite vaš sistem.",
 'widthheight'          => '$1&nbsp;×&nbsp;$2',
 'widthheightpage'      => '$1 × $2, $3 {{PLURAL:$3|stran|strani}}',
 'file-info'            => 'Velikost datoteke: $1, MIME-vrsta: <code>$2</code>',
-'file-info-size'       => '($1 × $2 točk, velikost datoteke: $3, MIME-vrsta: $4)',
+'file-info-size'       => '$1 × $2 točk, velikost datoteke: $3, MIME-vrsta: $4',
 'file-nohires'         => '<small>Slika višje ločljivosti ni na voljo.</small>',
-'svg-long-desc'        => '(datoteka SVG, v izvirniku $1 × $2 slikovnih točk, velikost datoteke: $3)',
+'svg-long-desc'        => 'datoteka SVG, v izvirniku $1 × $2 slikovnih točk, velikost datoteke: $3',
 'show-big-image'       => 'Slika v višji ločljivosti',
 'show-big-image-thumb' => '<small>Velikost predogleda: $1 × $2 točk</small>',
 'file-info-gif-looped' => 'ponavljajoče',
@@ -3027,6 +3059,7 @@ Druga bodo po privzetem skrita.
 'exif-gpsareainformation'          => 'Ime GPS-območja',
 'exif-gpsdatestamp'                => 'GPS-datum',
 'exif-gpsdifferential'             => 'Diferencialni popravek GPS',
+'exif-objectname'                  => 'Kratek naslov',
 
 # EXIF attributes
 'exif-compression-1' => 'Nestisnjeno',
@@ -3221,20 +3254,34 @@ in tako prekličite potrditev elektronskega naslova:
 $5
 
 Potrditvena koda bo potekla $4.',
-'confirmemail_body_changed' => 'Nekdo, najverjetneje vi, je iz IP-naslova $1
-na strani {{SITENAME}} spremenil e-poštni naslov računa »$2« v ta naslov.
+'confirmemail_body_changed' => 'Nekdo, najverjetneje vi, je z IP-naslova $1
+na strani {{SITENAME}} spremenil e-poštni naslov računa »$2« na ta naslov.
 
 Da potrdite lastništvo tega računa in ponovno aktivirate
 e-poštne funkcije na {{GRAMMAR:dajalnik|{{SITENAME}}}}, odprite to povezavo v vašem brskalniku:
 
 $3
 
-Če ta račun *ni* vaš, sledite spodnji povezavi za preklic
+Če omenjeni račun *ni* vaš, sledite spodnji povezavi za preklic
 potrditve e-poštnega naslova:
 
 $5
 
-Ta potrditvena koda poteče $4.',
+Potrditvena koda poteče $4.',
+'confirmemail_body_set'     => 'Nekdo, najverjetneje vi, je z IP-naslova $1
+na strani {{SITENAME}} nastavil e-poštni naslov računa »$2« na ta naslov.
+
+Da potrdite lastništvo tega računa in ponovno aktivirate
+e-poštne funkcije na {{GRAMMAR:dajalnik|{{SITENAME}}}}, odprite to povezavo v vašem brskalniku:
+
+$3
+
+Če omenjeni račun *ni* vaš, sledite spodnji povezavi za preklic
+potrditve e-poštnega naslova:
+
+$5
+
+Potrditvena koda poteče $4.',
 'confirmemail_invalidated'  => 'Potrditev e-poštnega naslova preklicana',
 'invalidateemail'           => 'Prekliči potrditev e-poštnega naslova',
 
@@ -3370,16 +3417,15 @@ Slike so prikazane v polni ločljivosti, druge vrste datotek pa se zaženejo v z
 Vnesite ime datoteke brez predpone »{{ns:image}}:«.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Iskanje podvojenih datotek',
-'fileduplicatesearch-summary'  => 'Iskanje podvojenih datotek temelji na podlagi njenih hashvrednosti.
-
-Vnesite ime datoteke brez predpone »{{ns:image}}:«.',
-'fileduplicatesearch-legend'   => 'Poišči dvojnik',
-'fileduplicatesearch-filename' => 'Ime datoteke:',
-'fileduplicatesearch-submit'   => 'Iskanje',
-'fileduplicatesearch-info'     => '$1 × $2 pik<br />Velikost datoteke: $3<br />Vrsta MIME: $4',
-'fileduplicatesearch-result-1' => 'Datoteka »$1« nima identičnih dvojnikov.',
-'fileduplicatesearch-result-n' => 'Datoteka »$1« ima $2 {{PLURAL:$2|identični dvojnik|identična dvojnika|identične dvojnike|identičnih dvojnikov}}.',
+'fileduplicatesearch'           => 'Iskanje podvojenih datotek',
+'fileduplicatesearch-summary'   => 'Iskanje podvojenih datotek, ki temelji na podlagi njenih hashvrednosti.',
+'fileduplicatesearch-legend'    => 'Poišči dvojnik',
+'fileduplicatesearch-filename'  => 'Ime datoteke:',
+'fileduplicatesearch-submit'    => 'Iskanje',
+'fileduplicatesearch-info'      => '$1 × $2 pik<br />Velikost datoteke: $3<br />Vrsta MIME: $4',
+'fileduplicatesearch-result-1'  => 'Datoteka »$1« nima identičnih dvojnikov.',
+'fileduplicatesearch-result-n'  => 'Datoteka »$1« ima $2 {{PLURAL:$2|identični dvojnik|identična dvojnika|identične dvojnike|identičnih dvojnikov}}.',
+'fileduplicatesearch-noresults' => 'Datoteke imenovane »$1« ni mogoče najti.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Posebne strani',
@@ -3473,14 +3519,5 @@ Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-po
 'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
 'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
 'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Skrite naložene datoteke',
-'uploadstash-summary'  => 'Ta stran omogoča dostop do datotek, ki so naložene (oziroma v postopku nalaganja), vendar še niso objavljene na wikiju. Te datoteke so vidne samo uporabniku, ki jih je naložil, in nikomur drugemu.',
-'uploadstash-clear'    => 'Počisti skrite datoteke',
-'uploadstash-nofiles'  => 'Nimate skritih datotek.',
-'uploadstash-badtoken' => 'Izvedba dejanja ni bila uspešna, morda zaradi izteklih poverilnic za urejanje. Poskusite znova.',
-'uploadstash-errclear' => 'Čiščenje datotek ni bilo uspešno.',
-'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 );

@@ -1,5 +1,5 @@
 <?php
-/** Bashkir (Башҡорт)
+/** Bashkir (Башҡортса)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -10,6 +10,7 @@
  * @author Assele
  * @author Comp1089
  * @author Haqmar
+ * @author Reedy
  * @author Timming
  * @author Рустам Нурыев
  */
@@ -482,7 +483,6 @@ $2',
 'wrongpasswordempty'         => 'Зинһар, буш булмаған пароль керетегеҙ.',
 'passwordtooshort'           => 'Пароль кәмендә $1 {{PLURAL:$1|символдан}} торорға тейеш.',
 'password-name-match'        => 'Керетелгән пароль ҡулланыусы исеменән айырылырға тейеш.',
-'password-too-weak'          => 'Керетелгән пароль бигерәк көсһөҙ һәм ҡулланыла алмай.',
 'mailmypassword'             => 'Яңы пароль ебәрергә',
 'passwordremindertitle'      => '{{SITENAME}} өсөн яңы ваҡытлыса пароль',
 'passwordremindertext'       => 'Кемдер (бәлки, һеҙ, IP-адресы: $1) {{SITENAME}} ($4) өсөн яңы пароль һоратты. $2 ҡатнашыусыһы өсөн ваҡытлыса яңы пароль яһалды: $3. Әгәр был һеҙ булһағыҙ, системага керегеҙ һәм паролде алмаштырығыҙ. Яңы пароль $5 {{PLURAL:$5|көн}} ғәмәлдә буласаҡ.
@@ -640,7 +640,7 @@ $2',
 'noarticletext'                    => "Хәҙерге ваҡытта был биттә текст юҡ.
 Һеҙ [[Special:Search/{{PAGENAME}}|был исемде башҡа биттәрҙә эҙләй]],
 <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} тап килгән журнал яҙмаларын таба]
-йәки '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} бындай исемле яңы бит яһай]''' алаһығыҙ.",
+йәки '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} бындай исемле яңы бит яһай]'''</span> алаһығыҙ.",
 'noarticletext-nopermission'       => 'Хәҙерге ваҡытта был биттә текст юҡ.
 Һеҙ башҡа мәҡәләләрҙә [[Special:Search/{{PAGENAME}}|был исемде]] йәки
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} журналдағы яҙмаларҙы] эҙләй алаһығыҙ.</span>',
@@ -1443,7 +1443,7 @@ $1",
 Әгәр һеҙ шулай ҙа был файлды тейәргә теләһәгеҙ, зинһар, кире ҡайтығыҙ һәм яңы исем һайлағыҙ.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Был файл түбәндәге {{PLURAL:$1|файл|файлдар}} менән тап килә:',
-'file-deleted-duplicate'      => 'Оҡшаш файл ([[$1]]) юйылғайны инде. Уны ҡайтанан тейәр алдынан, зинһар, файлды юйыу тарихын ҡарағыҙ.',
+'file-deleted-duplicate'      => 'Оҡшаш файл ([[:$1]]) юйылғайны инде. Уны ҡайтанан тейәр алдынан, зинһар, файлды юйыу тарихын ҡарағыҙ.',
 'uploadwarning'               => 'Киҫәтеү',
 'uploadwarning-text'          => 'Зинһар, түбәндәге файл тасуирламаһын үҙгәртегеҙ һәм яңынан ҡабатлап ҡарағыҙ.',
 'savefile'                    => 'Һөҙгөстө яҙҙырып ҡуйырға',
@@ -1492,6 +1492,15 @@ $1',
 'upload-too-many-redirects' => 'URL бигерәк күп йүнәлтмәләр яһай.',
 'upload-unknown-size'       => 'Билдәһеҙ дәүмәл',
 'upload-http-error'         => 'HTTP хата килеп сыҡты: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Йәшерен тейәү',
+'uploadstash-summary'  => 'Был бит тейәлгән (йәки тейәү барышында булған), әммә викила әлегә баҫтырып сығарылмаған файлдарҙы ҡарау мөмкинлеген бирә. Был файлдар уны тейәгән ҡатнашыусынан башҡа бер кемгә лә күренмәй.',
+'uploadstash-clear'    => 'Йәшерен файлдарҙы таҙартырға',
+'uploadstash-nofiles'  => 'Һеҙҙең йәшерен файлдарығыҙ юҡ.',
+'uploadstash-badtoken' => 'Был ғәмәлде башҡарып булманы, һеҙҙең төҙәтеү яҙмағыҙ ғәмәлдән сыҡҡан булыуы ихтимал. Яңынан ҡабатлап ҡарағыҙ.',
+'uploadstash-errclear' => 'Файлдарҙы таҙартып булманы.',
+'uploadstash-refresh'  => 'Файлдар исемлеген яңыртырға',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Керергә рөхсәт ителмәй',
@@ -2689,10 +2698,10 @@ $1',
 'imagemaxsize'         => "Рәсем дәүмәле өсөн сик: <br />''(файл тасуирламаһы биттәре өсөн)''",
 'thumbsize'            => 'Шартлы рәсем дәүмәле:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|бит}}',
-'file-info'            => '(файлдың дәүмәле: $1, MIME төрө: $2)',
-'file-info-size'       => '($1 × $2 нөктә, файлдың дәүмәле: $3, MIME төрө: $4)',
+'file-info'            => 'файлдың дәүмәле: $1, MIME төрө: $2',
+'file-info-size'       => '$1 × $2 нөктә, файлдың дәүмәле: $3, MIME төрө: $4',
 'file-nohires'         => '<small>Юғары асыҡлыҡтағы өлгө юҡ.</small>',
-'svg-long-desc'        => '(SVG файлы, номиналь $1 × $2 нөктә, файлдың дәүмәле: $3)',
+'svg-long-desc'        => 'SVG файлы, номиналь $1 × $2 нөктә, файлдың дәүмәле: $3',
 'show-big-image'       => 'Тулы асыҡлыҡ',
 'show-big-image-thumb' => '<small>Алдан байҡау дәүмәле: $1 × $2 нөктә</small>',
 'file-info-gif-looped' => 'әйләнешле',
@@ -3193,9 +3202,7 @@ MediaWiki файҙалы булыр, тигән өмөттә, ләкин БЕР 
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Бер иш файлдарҙы эҙләү',
-'fileduplicatesearch-summary'  => 'Бер иш файлдарҙы хэш-кодтары буйынса эҙләү.
-
-Файлдың исемен "{{ns:file}}:" ҡушылмаһын өҫтәмәйенсә керетегеҙ.',
+'fileduplicatesearch-summary'  => 'Бер иш файлдарҙы хэш-кодтары буйынса эҙләү.',
 'fileduplicatesearch-legend'   => 'Бер иш файлдарҙы эҙләү',
 'fileduplicatesearch-filename' => 'Файл исеме:',
 'fileduplicatesearch-submit'   => 'Эҙләү',
@@ -3295,14 +3302,5 @@ MediaWiki файҙалы булыр, тигән өмөттә, ләкин БЕР 
 'disableaccount-nosuchuser'  => '"$1" иҫәп яҙмаһы юҡ.',
 'disableaccount-success'     => '"$1" иҫәп яҙмаһы һүндерелгән.',
 'disableaccount-logentry'    => '[[$1]] иҫәп яҙмаһын һүндергән',
-
-# Special:UploadStash
-'uploadstash'          => 'Йәшерен тейәү',
-'uploadstash-summary'  => 'Был бит тейәлгән (йәки тейәү барышында булған), әммә викила әлегә баҫтырып сығарылмаған файлдарҙы ҡарау мөмкинлеген бирә. Был файлдар уны тейәгән ҡатнашыусынан башҡа бер кемгә лә күренмәй.',
-'uploadstash-clear'    => 'Йәшерен файлдарҙы таҙартырға',
-'uploadstash-nofiles'  => 'Һеҙҙең йәшерен файлдарығыҙ юҡ.',
-'uploadstash-badtoken' => 'Был ғәмәлде башҡарып булманы, һеҙҙең төҙәтеү яҙмағыҙ ғәмәлдән сыҡҡан булыуы ихтимал. Яңынан ҡабатлап ҡарағыҙ.',
-'uploadstash-errclear' => 'Файлдарҙы таҙартып булманы.',
-'uploadstash-refresh'  => 'Файлдар исемлеген яңыртырға',
 
 );

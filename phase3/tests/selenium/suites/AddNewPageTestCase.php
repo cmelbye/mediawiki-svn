@@ -5,8 +5,8 @@
  *
  * @file
  * @ingroup Testing
- * Copyright (C) 2010 Dan Nessett <dnessett@yahoo.com>
- * http://citizendium.org/
+ * Copyright (C) 2010 Nadeesha Weerasinghe <nadeesha@calcey.com>
+ * http://www.calcey.com/ 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class AddNewPageTestCase extends SeleniumTestCase {
                 '/index.php?title=Main_Page&action=edit' );
         $this->type( "searchInput", $newPage );
         $this->click( "searchGoButton" );
-        $this->waitForPageToLoad( "600000" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify 'Search results' text available
         $source = $this->gettext( "firstHeading" );
@@ -50,12 +50,12 @@ class AddNewPageTestCase extends SeleniumTestCase {
         $correct = strstr ( $source, "Create the page \"New\" on this wiki!" );
         $this->assertEquals( $correct, true );
 
-        $this->click( "link=".$displayName );
-        $this->waitForPageToLoad( "600000" );
+        $this->click( SeleniumTestConstants::LINK_START.$displayName );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
-        $this->assertTrue($this->isElementPresent( "link=Create" ));
+        $this->assertTrue($this->isElementPresent( SeleniumTestConstants::LINK_START."Create" ));
         $this->type( "wpTextbox1", "add new test page" );
-        $this->click( "wpSave" );
+        $this->click( SeleniumTestConstants::BUTTON_SAVE );
 
         // Verify new page added
         $source = $this->gettext( "firstHeading" );

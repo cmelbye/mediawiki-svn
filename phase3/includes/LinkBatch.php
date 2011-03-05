@@ -32,6 +32,10 @@ class LinkBatch {
 		$this->caller = $caller;
 	}
 
+	/**
+	 * @param  $title Title
+	 * @return void
+	 */
 	public function addObj( $title ) {
 		if ( is_object( $title ) ) {
 			$this->add( $title->getNamespace(), $title->getDBkey() );
@@ -90,6 +94,7 @@ class LinkBatch {
 		wfProfileIn( __METHOD__ );
 		$res = $this->doQuery();
 		$ids = $this->addResultToCache( $cache, $res );
+		$this->doGenderQuery();
 		wfProfileOut( __METHOD__ );
 		return $ids;
 	}
@@ -151,6 +156,20 @@ class LinkBatch {
 		$res = $dbr->select( $table, $fields, $conds, $caller );
 		wfProfileOut( __METHOD__ );
 		return $res;
+	}
+
+	public function doGenderQuery() {
+		if ( $this->isEmpty() ) {
+			return false;
+		}
+
+		global $wgContLang;
+		if ( !$wgContLang->needsGenderDistinction() ) {
+			return false;
+		}
+
+		$genderCache = GenderCache::singleton();
+		$genderCache->dolinkBatch( $this->data, $this->caller );
 	}
 
 	/**

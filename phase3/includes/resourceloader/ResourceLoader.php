@@ -29,6 +29,7 @@
 class ResourceLoader {
 
 	/* Protected Static Members */
+	protected static $filterCacheVersion = 1;
 
 	/** Array: List of module name/ResourceLoaderModule object pairs */
 	protected $modules = array();
@@ -51,7 +52,7 @@ class ResourceLoader {
 	 * @param $modules Array: List of module names to preload information for
 	 * @param $context ResourceLoaderContext: Context to load the information within
 	 */
-	protected function preloadModuleInfo( array $modules, ResourceLoaderContext $context ) {
+	public function preloadModuleInfo( array $modules, ResourceLoaderContext $context ) {
 		if ( !count( $modules ) ) {
 			return; // or else Database*::select() will explode, plus it's cheaper!
 		}
@@ -66,7 +67,7 @@ class ResourceLoader {
 			), __METHOD__
 		);
 
-		// Set modules' dependecies		
+		// Set modules' dependencies
 		$modulesWithDeps = array();
 		foreach ( $res as $row ) {
 			$this->getModule( $row->md_module )->setFileDependencies( $skin,
@@ -82,14 +83,12 @@ class ResourceLoader {
 		
 		// Get message blob mtimes. Only do this for modules with messages
 		$modulesWithMessages = array();
-		$modulesWithoutMessages = array();
 		foreach ( $modules as $name ) {
 			if ( count( $this->getModule( $name )->getMessages() ) ) {
 				$modulesWithMessages[] = $name;
-			} else {
-				$modulesWithoutMessages[] = $name;
 			}
 		}
+		$modulesWithoutMessages = array_flip( $modules ); // Will be trimmed down by the loop below
 		if ( count( $modulesWithMessages ) ) {
 			$res = $dbr->select( 'msg_resource', array( 'mr_resource', 'mr_timestamp' ), array(
 					'mr_resource' => $modulesWithMessages,
@@ -97,10 +96,12 @@ class ResourceLoader {
 				), __METHOD__
 			);
 			foreach ( $res as $row ) {
-				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, $row->mr_timestamp );
+				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, 
+					wfTimestamp( TS_UNIX, $row->mr_timestamp ) );
+				unset( $modulesWithoutMessages[$row->mr_resource] );
 			}
-		}
-		foreach ( $modulesWithoutMessages as $name ) {
+		} 
+		foreach ( array_keys( $modulesWithoutMessages ) as $name ) {
 			$this->getModule( $name )->setMsgBlobMtime( $lang, 0 );
 		}
 	}
@@ -109,7 +110,7 @@ class ResourceLoader {
 	 * Runs JavaScript or CSS data through a filter, caching the filtered result for future calls.
 	 * 
 	 * Available filters are:
-	 *  - minify-js \see JSMin::minify
+	 *  - minify-js \see JavaScriptDistiller::stripWhiteSpace
 	 *  - minify-css \see CSSMin::minify
 	 * 
 	 * If $data is empty, only contains whitespace or the filter was unknown, 
@@ -117,9 +118,11 @@ class ResourceLoader {
 	 * 
 	 * @param $filter String: Name of filter to run
 	 * @param $data String: Text to filter, such as JavaScript or CSS text
-	 * @return String: Filtered data
+	 * @return String: Filtered data, or a comment containing an error message
 	 */
 	protected function filter( $filter, $data ) {
+		global $wgResourceLoaderMinifyJSVerticalSpace;
+
 		wfProfileIn( __METHOD__ );
 
 		// For empty/whitespace-only data or for unknown filters, don't perform 
@@ -133,7 +136,7 @@ class ResourceLoader {
 
 		// Try for cache hit
 		// Use CACHE_ANYTHING since filtering is very slow compared to DB queries
-		$key = wfMemcKey( 'resourceloader', 'filter', $filter, md5( $data ) );
+		$key = wfMemcKey( 'resourceloader', 'filter', $filter, self::$filterCacheVersion, md5( $data ) );
 		$cache = wfGetCache( CACHE_ANYTHING );
 		$cacheEntry = $cache->get( $key );
 		if ( is_string( $cacheEntry ) ) {
@@ -141,23 +144,28 @@ class ResourceLoader {
 			return $cacheEntry;
 		}
 
+		$result = '';
 		// Run the filter - we've already verified one of these will work
 		try {
 			switch ( $filter ) {
 				case 'minify-js':
-					$result = JSMin::minify( $data );
+					$result = JavaScriptDistiller::stripWhiteSpace(
+						$data, $wgResourceLoaderMinifyJSVerticalSpace
+					);
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 			}
-		} catch ( Exception $exception ) {
-			throw new MWException( 'ResourceLoader filter error. ' . 
-				'Exception was thrown: ' . $exception->getMessage() );
-		}
 
-		// Save filtered text to Memcached
-		$cache->set( $key, $result );
+			// Save filtered text to Memcached
+			$cache->set( $key, $result );
+		} catch ( Exception $exception ) {
+			// Return exception as a comment
+			$result = "/*\n{$exception->__toString()}\n*/\n";
+		}
 
 		wfProfileOut( __METHOD__ );
 		
@@ -203,6 +211,7 @@ class ResourceLoader {
 			foreach ( $name as $key => $value ) {
 				$this->register( $key, $value );
 			}
+			wfProfileOut( __METHOD__ );
 			return;
 		}
 
@@ -248,7 +257,7 @@ class ResourceLoader {
 	 * Get the ResourceLoaderModule object for a given module name.
 	 *
 	 * @param $name String: Module name
-	 * @return Mixed: ResourceLoaderModule if module has been registered, null otherwise
+	 * @return ResourceLoaderModule if module has been registered, null otherwise
 	 */
 	public function getModule( $name ) {
 		if ( !isset( $this->modules[$name] ) ) {
@@ -294,6 +303,7 @@ class ResourceLoader {
 		ob_start();
 
 		wfProfileIn( __METHOD__ );
+		$exceptions = '';
 
 		// Split requested modules into two groups, modules and missing
 		$modules = array();
@@ -320,20 +330,31 @@ class ResourceLoader {
 		}
 
 		// Preload information needed to the mtime calculation below
-		$this->preloadModuleInfo( array_keys( $modules ), $context );
+		try {
+			$this->preloadModuleInfo( array_keys( $modules ), $context );
+		} catch( Exception $e ) {
+			// Add exception to the output as a comment
+			$exceptions .= "/*\n{$e->__toString()}\n*/\n";
+		}
 
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
 
+		$private = false;
 		// To send Last-Modified and support If-Modified-Since, we need to detect 
 		// the last modified time
 		$mtime = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $modules as $module ) {
-			// Bypass squid cache if the request includes any private modules
-			if ( $module->getGroup() === 'private' ) {
-				$smaxage = 0;
+			try {
+				// Bypass Squid and other shared caches if the request includes any private modules
+				if ( $module->getGroup() === 'private' ) {
+					$private = true;
+				}
+				// Calculate maximum modified time
+				$mtime = max( $mtime, $module->getModifiedTime( $context ) );
+			} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 			}
-			// Calculate maximum modified time
-			$mtime = max( $mtime, $module->getModifiedTime( $context ) );
 		}
 
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
@@ -345,17 +366,26 @@ class ResourceLoader {
 		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $mtime ) );
 		if ( $context->getDebug() ) {
-			header( 'Cache-Control: must-revalidate' );
+			// Do not cache debug responses
+			header( 'Cache-Control: private, no-cache, must-revalidate' );
+			header( 'Pragma: no-cache' );
 		} else {
-			header( "Cache-Control: public, max-age=$maxage, s-maxage=$smaxage" );
-			header( 'Expires: ' . wfTimestamp( TS_RFC2822, min( $maxage, $smaxage ) + time() ) );
+			if ( $private ) {
+				header( "Cache-Control: private, max-age=$maxage" );
+				$exp = $maxage;
+			} else {
+				header( "Cache-Control: public, max-age=$maxage, s-maxage=$smaxage" );
+				$exp = min( $maxage, $smaxage );
+			}
+			header( 'Expires: ' . wfTimestamp( TS_RFC2822, $exp + time() ) );
 		}
 
 		// If there's an If-Modified-Since header, respond with a 304 appropriately
 		// Some clients send "timestamp;length=123". Strip the part after the first ';'
 		// so we get a valid timestamp.
 		$ims = $context->getRequest()->getHeader( 'If-Modified-Since' );
-		if ( $ims !== false ) {
+		// Never send 304s in debug mode
+		if ( $ims !== false && !$context->getDebug() ) {
 			$imsTS = strtok( $ims, ';' );
 			if ( $mtime <= wfTimestamp( TS_UNIX, $imsTS ) ) {
 				// There's another bug in ob_gzhandler (see also the comment at
@@ -367,7 +397,11 @@ class ResourceLoader {
 				// See also http://bugs.php.net/bug.php?id=51579
 				// To work around this, we tear down all output buffering before
 				// sending the 304.
-				while ( ob_get_level() > 0 ) {
+				// On some setups, ob_get_level() doesn't seem to go down to zero
+				// no matter how often we call ob_get_clean(), so instead of doing
+				// the more intuitive while ( ob_get_level() > 0 ) ob_get_clean();
+				// we have to be safe here and avoid an infinite loop.
+				for ( $i = 0; $i < ob_get_level(); $i++ ) {
 					ob_end_clean();
 				}
 				
@@ -380,11 +414,14 @@ class ResourceLoader {
 		
 		// Generate a response
 		$response = $this->makeModuleResponse( $context, $modules, $missing );
+		
+		// Prepend comments indicating exceptions
+		$response = $exceptions . $response;
 
 		// Capture any PHP warnings from the output buffer and append them to the
 		// response in a comment if we're in debug mode.
 		if ( $context->getDebug() && strlen( $warnings = ob_get_contents() ) ) {
-			$response .= "/*\n$warnings\n*/";
+			$response = "/*\n$warnings\n*/\n" . $response;
 		}
 
 		// Remove the output buffer and output the response
@@ -405,62 +442,75 @@ class ResourceLoader {
 	public function makeModuleResponse( ResourceLoaderContext $context, 
 		array $modules, $missing = array() ) 
 	{
+		$out = '';
+		$exceptions = '';
 		if ( $modules === array() && $missing === array() ) {
 			return '/* No modules requested. Max made me put this here */';
 		}
 		
+		wfProfileIn( __METHOD__ );
 		// Pre-fetch blobs
 		if ( $context->shouldIncludeMessages() ) {
-			$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
+			try {
+				$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
+			} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
+			}
 		} else {
 			$blobs = array();
 		}
 
 		// Generate output
-		$out = '';
 		foreach ( $modules as $name => $module ) {
-
 			wfProfileIn( __METHOD__ . '-' . $name );
+			try {
+				// Scripts
+				$scripts = '';
+				if ( $context->shouldIncludeScripts() ) {
+					$scripts .= $module->getScript( $context ) . "\n";
+				}
 
-			// Scripts
-			$scripts = '';
-			if ( $context->shouldIncludeScripts() ) {
-				$scripts .= $module->getScript( $context ) . "\n";
-			}
+				// Styles
+				$styles = array();
+				if ( $context->shouldIncludeStyles() ) {
+					$styles = $module->getStyles( $context );
+				}
 
-			// Styles
-			$styles = array();
-			if ( $context->shouldIncludeStyles() ) {
-				$styles = $module->getStyles( $context );
-			}
+				// Messages
+				$messagesBlob = isset( $blobs[$name] ) ? $blobs[$name] : '{}';
 
-			// Messages
-			$messagesBlob = isset( $blobs[$name] ) ? $blobs[$name] : '{}';
-
-			// Append output
-			switch ( $context->getOnly() ) {
-				case 'scripts':
-					$out .= $scripts;
-					break;
-				case 'styles':
-					$out .= self::makeCombinedStyles( $styles );
-					break;
-				case 'messages':
-					$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
-					break;
-				default:
-					// Minify CSS before embedding in mediaWiki.loader.implement call 
-					// (unless in debug mode)
-					if ( !$context->getDebug() ) {
-						foreach ( $styles as $media => $style ) {
-							$styles[$media] = $this->filter( 'minify-css', $style );
+				// Append output
+				switch ( $context->getOnly() ) {
+					case 'scripts':
+						$out .= $scripts;
+						break;
+					case 'styles':
+						$out .= self::makeCombinedStyles( $styles );
+						break;
+					case 'messages':
+						$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
+						break;
+					default:
+						// Minify CSS before embedding in mw.loader.implement call
+						// (unless in debug mode)
+						if ( !$context->getDebug() ) {
+							foreach ( $styles as $media => $style ) {
+								$styles[$media] = $this->filter( 'minify-css', $style );
+							}
 						}
-					}
-					$out .= self::makeLoaderImplementScript( $name, $scripts, $styles, 
-						new XmlJsCode( $messagesBlob ) );
-					break;
-			}
+						$out .= self::makeLoaderImplementScript( $name, $scripts, $styles,
+							new XmlJsCode( $messagesBlob ) );
+						break;
+				}
+			} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 
+				// Register module as missing
+				$missing[] = $name;
+				unset( $modules[$name] );
+			}
 			wfProfileOut( __METHOD__ . '-' . $name );
 		}
 
@@ -479,21 +529,22 @@ class ResourceLoader {
 			}
 		}
 
-		if ( $context->getDebug() ) {
-			return $out;
-		} else {
+		if ( !$context->getDebug() ) {
 			if ( $context->getOnly() === 'styles' ) {
-				return $this->filter( 'minify-css', $out );
+				$out = $this->filter( 'minify-css', $out );
 			} else {
-				return $this->filter( 'minify-js', $out );
+				$out = $this->filter( 'minify-js', $out );
 			}
 		}
+		
+		wfProfileOut( __METHOD__ );
+		return $exceptions . $out;
 	}
 
 	/* Static Methods */
 
 	/**
-	 * Returns JS code to call to mediaWiki.loader.implement for a module with 
+	 * Returns JS code to call to mw.loader.implement for a module with 
 	 * given properties.
 	 *
 	 * @param $name Module name
@@ -509,10 +560,10 @@ class ResourceLoader {
 			$scripts = implode( $scripts, "\n" );
 		}
 		return Xml::encodeJsCall( 
-			'mediaWiki.loader.implement', 
+			'mw.loader.implement', 
 			array(
 				$name,
-				new XmlJsCode( "function() {{$scripts}}" ),
+				new XmlJsCode( "function( $ ) {{$scripts}}" ),
 				(object)$styles,
 				(object)$messages
 			) );
@@ -525,7 +576,7 @@ class ResourceLoader {
 	 *     JSON-encoded message blob containing the same data, wrapped in an XmlJsCode object.
 	 */
 	public static function makeMessageSetScript( $messages ) {
-		return Xml::encodeJsCall( 'mediaWiki.messages.set', array( (object)$messages ) );
+		return Xml::encodeJsCall( 'mw.messages.set', array( (object)$messages ) );
 	}
 
 	/**
@@ -537,13 +588,24 @@ class ResourceLoader {
 	public static function makeCombinedStyles( array $styles ) {
 		$out = '';
 		foreach ( $styles as $media => $style ) {
-			$out .= "@media $media {\n" . str_replace( "\n", "\n\t", "\t" . $style ) . "\n}\n";
+			// Transform the media type based on request params and config
+			// The way that this relies on $wgRequest to propagate request params is slightly evil
+			$media = OutputPage::transformCssMedia( $media );
+			
+			if ( $media === null ) {
+				// Skip
+			} else if ( $media === '' || $media == 'all' ) {
+				// Don't output invalid or frivolous @media statements
+				$out .= "$style\n";
+			} else {
+				$out .= "@media $media {\n" . str_replace( "\n", "\n\t", "\t" . $style ) . "\n}\n";
+			}
 		}
 		return $out;
 	}
 
 	/**
-	 * Returns a JS call to mediaWiki.loader.state, which sets the state of a 
+	 * Returns a JS call to mw.loader.state, which sets the state of a 
 	 * module or modules to a given value. Has two calling conventions:
 	 *
 	 *    - ResourceLoader::makeLoaderStateScript( $name, $state ):
@@ -554,9 +616,9 @@ class ResourceLoader {
 	 */
 	public static function makeLoaderStateScript( $name, $state = null ) {
 		if ( is_array( $name ) ) {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name ) );
 		} else {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name, $state ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name, $state ) );
 		}
 	}
 
@@ -580,7 +642,7 @@ class ResourceLoader {
 	}
 
 	/**
-	 * Returns JS code which calls mediaWiki.loader.register with the given 
+	 * Returns JS code which calls mw.loader.register with the given 
 	 * parameters. Has three calling conventions:
 	 *
 	 *   - ResourceLoader::makeLoaderRegisterScript( $name, $version, $dependencies, $group ):

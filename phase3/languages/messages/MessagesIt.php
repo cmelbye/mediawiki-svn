@@ -275,8 +275,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Mostra il numero di utenti che hanno la pagina in osservazione',
 'tog-oldsig'                  => 'Anteprima della firma attuale:',
 'tog-fancysig'                => 'Interpreta i comandi wiki nella firma (senza collegamento automatico)',
-'tog-externaleditor'          => "Usa per default un editor di testi esterno (solo per utenti esperti, richiede l'uso di impostazioni particolari sul proprio computer)",
-'tog-externaldiff'            => "Usa per default un programma di diff esterno (solo per utenti esperti, richiede l'uso di impostazioni particolari sul proprio computer)",
+'tog-externaleditor'          => "Usa per default un editor di testi esterno (solo per utenti esperti, richiede l'uso di impostazioni particolari sul proprio computer. [http://www.mediawiki.org/wiki/Manual:External_editors Ulteriori informazioni.])",
+'tog-externaldiff'            => "Usa per default un programma di diff esterno (solo per utenti esperti, richiede l'uso di impostazioni particolari sul proprio computer. [http://www.mediawiki.org/wiki/Manual:External_editors Ulteriori informazioni.])",
 'tog-showjumplinks'           => 'Attiva i collegamenti accessibili "vai a"',
 'tog-uselivepreview'          => "Attiva la funzione ''Live preview'' (richiede JavaScript; sperimentale)",
 'tog-forceeditsummary'        => "Chiedi conferma se l'oggetto della modifica è vuoto",
@@ -445,6 +445,7 @@ I seguenti collegamenti sono in lingua inglese:
 'delete'            => 'Cancella',
 'deletethispage'    => 'Cancella questa pagina',
 'undelete_short'    => 'Recupera {{PLURAL:$1|una revisione|$1 revisioni}}',
+'viewdeleted_short' => 'Vedi {{PLURAL:$1|una modifica cancellata|$1 modifiche cancellate}}',
 'protect'           => 'Proteggi',
 'protect_change'    => 'cambia',
 'protectthispage'   => 'Proteggi questa pagina',
@@ -528,6 +529,8 @@ $1',
 'toc'                     => 'Indice',
 'showtoc'                 => 'mostra',
 'hidetoc'                 => 'nascondi',
+'collapsible-collapse'    => 'Comprimi',
+'collapsible-expand'      => 'Espandi',
 'thisisdeleted'           => 'Vedi o ripristina $1?',
 'viewdeleted'             => 'Vedi $1?',
 'restorelink'             => '{{PLURAL:$1|una modifica cancellata|$1 modifiche cancellate}}',
@@ -685,7 +688,7 @@ Scegliere un nome utente diverso.',
 'wrongpasswordempty'         => 'Non è stata inserita alcuna password. Riprovare.',
 'passwordtooshort'           => 'Le password devono contenere almeno {{PLURAL:$1|1 carattere|$1 caratteri}}.',
 'password-name-match'        => 'La password deve essere diversa dal nome utente.',
-'password-too-weak'          => 'La password fornita è troppo semplice e non può essere utilizzata.',
+'password-login-forbidden'   => "L'uso di questo nome utente e password è stato proibito.",
 'mailmypassword'             => 'Invia una nuova password al mio indirizzo e-mail',
 'passwordremindertitle'      => 'Servizio Password Reminder di {{SITENAME}}',
 'passwordremindertext'       => 'Qualcuno (probabilmente tu, con indirizzo IP $1) ha richiesto l\'invio di una nuova password di accesso a {{SITENAME}} ($4).
@@ -1173,6 +1176,7 @@ $1",
 'searchmenu-legend'                => 'Opzioni di ricerca',
 'searchmenu-exists'                => "'''Sul sito esiste una pagina il cui nome è \"[[:\$1]]\"'''",
 'searchmenu-new'                   => 'Crea la pagina "[[:$1]]" su questo sito',
+'searchmenu-new-nocreate'          => '"$1" è un nome di pagina non valido o che non può essere creato da te.',
 'searchhelp-url'                   => 'Help:Indice',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Visualizza le pagine con questo prefisso]]',
 'searchprofile-articles'           => 'Pagine di contenuti',
@@ -1317,7 +1321,7 @@ L'operazione non può essere annullata.",
 'prefs-help-gender'             => "Opzionale: consente di adattare i messaggi del software in funzione del genere dell'utente. Questa informazione sarà pubblica.",
 'email'                         => 'Indirizzo e-mail',
 'prefs-help-realname'           => "L'indicazione del proprio nome vero è opzionale; se si sceglie di inserirlo, verrà utilizzato per attribuire la paternità dei contenuti inviati.",
-'prefs-help-email'              => "L'inserimento del proprio indirizzo e-mail è opzionale ma permette di ricevere la propria password via e-mail qualora venisse dimenticata. È inoltre possibile permettere di essere contattati dagli altri utenti attraverso un link nella propria pagina utente o nella relativa pagina di discussione, senza dover rivelare la propria identità.",
+'prefs-help-email'              => "L'inserimento del proprio indirizzo e-mail è facoltativo, ma permette di ricevere la propria password qualora venisse dimenticata.",
 'prefs-help-email-required'     => 'Indirizzo e-mail necessario.',
 'prefs-info'                    => 'Informazioni di base',
 'prefs-i18n'                    => 'Internazionalizzazione',
@@ -1333,6 +1337,10 @@ L'operazione non può essere annullata.",
 'prefs-displaysearchoptions'    => 'Opzioni di visualizzazione',
 'prefs-displaywatchlist'        => 'Opzioni di visualizzazione',
 'prefs-diffs'                   => 'Differenze',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => "L'indirizzo e-mail sembra valido",
+'email-address-validity-invalid' => 'Inserisci un indirizzo e-mail valido',
 
 # User rights
 'userrights'                   => 'Gestione dei permessi relativi agli utenti',
@@ -1569,11 +1577,11 @@ Consultare la [[Special:NewFiles|galleria dei nuovi file]] per una visione d'ins
 'minlength1'                  => "Il nome del file dev'essere composto da almeno un carattere.",
 'illegalfilename'             => 'Il nome "$1" contiene dei caratteri non ammessi nei titoli delle pagine. Dare al file un nome diverso e provare a caricarlo di nuovo.',
 'badfilename'                 => 'Il nome del file è stato convertito in "$1".',
-'filetype-mime-mismatch'      => "L'estensione del file non corrisponde con il tipo MIME.",
+'filetype-mime-mismatch'      => 'L\'estensione del file ".$1" non corrisponde al tipo MIME rilevato dal file ($2).',
 'filetype-badmime'            => 'Non è consentito caricare file di tipo MIME "$1".',
 'filetype-bad-ie-mime'        => 'Impossibile caricare il file perché Internet Explorer lo rileverebbe come "$1", che è un tipo di file non consentito e potenzialmente pericoloso.',
 'filetype-unwanted-type'      => "Caricare file di tipo '''\".\$1\"''' è sconsigliato. {{PLURAL:\$3|Il tipo di file consigliato è|I tipi di file consigliati sono}} \$2.",
-'filetype-banned-type'        => "Caricare file di tipo '''\".\$1\"''' non è consentito. {{PLURAL:\$3|Il tipo di file consentito è|I tipi di file consentiti sono}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|non è un tipo di file consentito|non sono tipi di file consentiti}}. {{PLURAL:$3|Il tipo di file consentito è|I tipi di file consentiti sono}} $2.',
 'filetype-missing'            => 'Il file è privo di estensione (ad es. ".jpg").',
 'empty-file'                  => 'Il file che hai inviato è vuoto.',
 'file-too-large'              => 'Il file che hai inviato è troppo grande.',
@@ -1606,7 +1614,7 @@ Se si dispone dell'immagine nella risoluzione originale, si prega di caricarla. 
 'fileexists-forbidden'        => 'Un file con questo nome esiste già e non può essere sovrascritto. Tornare indietro e modificare il nome con il quale caricare il file. [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => "Un file con questo nome esiste già nell'archivio di risorse multimediali condivise. Se si desidera ancora caricare il file, tornare indietro e modificare il nome con il quale caricare il file. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => 'Questo file è un duplicato {{PLURAL:$1|del seguente|dei seguenti}} file:',
-'file-deleted-duplicate'      => 'Un file identico a questo ([[$1]]) è stato cancellato in passato. Verificare la cronologia delle cancellazioni prima di caricarlo di nuovo.',
+'file-deleted-duplicate'      => 'Un file identico a questo ([[:$1]]) è stato cancellato in passato. Verificare la cronologia delle cancellazioni prima di caricarlo di nuovo.',
 'uploadwarning'               => 'Avviso di caricamento',
 'uploadwarning-text'          => 'Per favore modifica qui sotto la descrizione del file e prova di nuovo.',
 'savefile'                    => 'Salva file',
@@ -1665,6 +1673,10 @@ $1',
 'upload-too-many-redirects' => "L'URL conteneva troppi redirect",
 'upload-unknown-size'       => 'Dimensione sconosciuta',
 'upload-http-error'         => 'Si è verificato un errore HTTP: $1',
+
+# Special:UploadStash
+'uploadstash-summary' => "Questa pagina consente l'accesso ai file che sono stati caricati (o sono in fase di caricamento) ma che non sono stati ancora pubblicati sul wiki. Questi file sono visibili solo all'utente che li ha caricati.",
+'uploadstash-refresh' => "Aggiorna l'elenco dei file",
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Accesso negato',
@@ -1839,12 +1851,13 @@ Di seguito viene mostrata la descrizione presente nella [$2 pagina di descrizion
 'disambiguationspage'  => 'Template:Disambigua',
 'disambiguations-text' => "Le pagine nella lista che segue contengono dei collegamenti a '''pagine di disambiguazione''' e non all'argomento cui dovrebbero fare riferimento.<br />Vengono considerate pagine di disambiguazione tutte quelle che contengono i template elencati in [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Redirect doppi',
-'doubleredirectstext'        => 'In questa pagina sono elencate pagine che reindirizzano ad altre pagine di redirect.
+'doubleredirects'                   => 'Redirect doppi',
+'doubleredirectstext'               => 'In questa pagina sono elencate pagine che reindirizzano ad altre pagine di redirect.
 Ciascuna riga contiene i collegamenti al primo ed al secondo redirect, oltre alla prima riga di testo del secondo redirect che di solito contiene la pagina di destinazione "corretta" alla quale dovrebbe puntare anche il primo redirect.
 I redirect <del>cancellati</del> sono stati corretti.',
-'double-redirect-fixed-move' => '[[$1]] è stata spostata automaticamente, ora è un redirect a [[$2]]',
-'double-redirect-fixer'      => 'Correttore di redirect',
+'double-redirect-fixed-move'        => '[[$1]] è stata spostata automaticamente, ora è un redirect a [[$2]]',
+'double-redirect-fixed-maintenance' => 'Corretto doppio redirect da [[$1]] a [[$2]].',
+'double-redirect-fixer'             => 'Correttore di redirect',
 
 'brokenredirects'        => 'Redirect errati',
 'brokenredirectstext'    => 'I seguenti redirect puntano a pagine inesistenti:',
@@ -1921,6 +1934,7 @@ Potrebbero essere presenti immagini che sono usate da altri siti con un collegam
 'pager-newer-n'           => '{{PLURAL:$1|1 più recente|$1 più recenti}}',
 'pager-older-n'           => '{{PLURAL:$1|1 meno recente|$1 meno recenti}}',
 'suppress'                => 'Oversight',
+'querypage-disabled'      => 'Questa pagina speciale è disattivata per motivi di prestazioni.',
 
 # Book sources
 'booksources'               => 'Fonti librarie',
@@ -2304,6 +2318,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contributi dei nuovi utenti',
 'sp-contributions-blocklog'            => 'blocchi',
 'sp-contributions-deleted'             => 'contributi utente cancellati',
+'sp-contributions-uploads'             => 'caricamenti',
 'sp-contributions-logs'                => 'registri',
 'sp-contributions-talk'                => 'discussione',
 'sp-contributions-userrights'          => 'gestione dei permessi',
@@ -2780,7 +2795,7 @@ Tutte le operazioni di importazione trans-wiki sono registrate nel [[Special:Log
 'math_unknown_function' => 'funzione sconosciuta',
 'math_lexing_error'     => 'errore lessicale',
 'math_syntax_error'     => 'errore di sintassi',
-'math_image_error'      => 'Conversione in PNG non riuscita; verificare che siano correttamente installati i seguenti programmi: latex, dvips, gs e convert.',
+'math_image_error'      => 'Conversione in PNG non riuscita; verificare che siano correttamente installati i seguenti programmi: latex e dvipng (o dvips, gs e convert).',
 'math_bad_tmpdir'       => 'Impossibile scrivere o creare la directory temporanea per math',
 'math_bad_output'       => 'Impossibile scrivere o creare la directory di output per math',
 'math_notexvc'          => 'Eseguibile texvc mancante; per favore consultare math/README per la configurazione.',
@@ -2824,10 +2839,10 @@ $1',
 'imagemaxsize'         => "Dimensione massima delle immagini:<br />''(per le pagine di descrizione del file)''",
 'thumbsize'            => 'Grandezza delle miniature:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pagina|pagine}}',
-'file-info'            => '(dimensione del file: $1, tipo MIME: $2)',
-'file-info-size'       => '($1 × $2 pixel, dimensione del file: $3, tipo MIME: $4)',
+'file-info'            => 'dimensione del file: $1, tipo MIME: $2',
+'file-info-size'       => '$1 × $2 pixel, dimensione del file: $3, tipo MIME: $4',
 'file-nohires'         => '<small>Non sono disponibili versioni a risoluzione più elevata.</small>',
-'svg-long-desc'        => '(file in formato SVG, dimensioni nominali $1 × $2 pixel, dimensione del file: $3)',
+'svg-long-desc'        => 'file in formato SVG, dimensioni nominali $1 × $2 pixel, dimensione del file: $3',
 'show-big-image'       => 'Versione ad alta risoluzione',
 'show-big-image-thumb' => '<small>Dimensioni di questa anteprima: $1 × $2 pixel</small>',
 'file-info-gif-looped' => 'ciclico',
@@ -2987,6 +3002,7 @@ I collegamenti successivi, sulla stessa riga, sono considerati come eccezioni (o
 'exif-gpsareainformation'          => 'Nome della zona GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Correzione differenziale GPS',
+'exif-objectname'                  => 'Titolo breve',
 
 # EXIF attributes
 'exif-compression-1' => 'Nessuno',
@@ -3199,6 +3215,20 @@ per annullare la conferma dell\'indirizzo e-mail:
 $5
 
 Questo codice di conferma scadrà automaticamente alle $4.',
+'confirmemail_body_set'     => 'Qualcuno, probabilmente tu stesso dall\'indirizzo IP $1,
+ha impostato l\'indirizzo e-mail dell\'account "$2" su {{SITENAME}} indicando questo indirizzo e-mail.
+
+Per confermare che l\'account ti appartiene veramente e riattivare le funzioni relative all\'invio
+di e-mail su {{SITENAME}}, apri il collegamento seguente con il tuo browser:
+
+$3
+
+Se l\'account *non* ti appartiene, segui questo collegamento
+per annullare la conferma dell\'indirizzo e-mail:
+
+$5
+
+Questo codice di conferma scadrà automaticamente alle $4.',
 'confirmemail_invalidated'  => 'Richiesta di conferma indirizzo e-mail annullata',
 'invalidateemail'           => 'Annulla richiesta di conferma e-mail',
 
@@ -3304,6 +3334,7 @@ Si noti che è anche possibile [[Special:Watchlist/edit|modificare la lista con 
 'version-specialpages'             => 'Pagine speciali',
 'version-parserhooks'              => 'Hook del parser',
 'version-variables'                => 'Variabili',
+'version-antispam'                 => 'Prevenzione dello spam',
 'version-skins'                    => 'Skin',
 'version-other'                    => 'Altro',
 'version-mediahandlers'            => 'Gestori di contenuti multimediali',
@@ -3336,16 +3367,15 @@ Questo programma deve essere distribuito assieme ad [{{SERVER}}{{SCRIPTPATH}}/CO
 Inserire il nome del file senza il prefisso "{{ns:file}}:"',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Ricerca dei file duplicati',
-'fileduplicatesearch-summary'  => "Ricerca di eventuali duplicati del file in base al valore di ''hash''.
-
-Inserire il nome del file senza il prefisso \"{{ns:file}}:\"",
-'fileduplicatesearch-legend'   => 'Ricerca di un duplicato',
-'fileduplicatesearch-filename' => 'Nome del file:',
-'fileduplicatesearch-submit'   => 'Ricerca',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />Dimensione del file: $3<br />Tipo MIME: $4',
-'fileduplicatesearch-result-1' => 'Non esistono duplicati identici al file "$1".',
-'fileduplicatesearch-result-n' => '{{PLURAL:$2|Esiste un duplicato identico|Esistono $2 duplicati identici}} al file "$1".',
+'fileduplicatesearch'           => 'Ricerca dei file duplicati',
+'fileduplicatesearch-summary'   => "Ricerca di eventuali duplicati del file in base al valore di ''hash''.",
+'fileduplicatesearch-legend'    => 'Ricerca di un duplicato',
+'fileduplicatesearch-filename'  => 'Nome del file:',
+'fileduplicatesearch-submit'    => 'Ricerca',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />Dimensione del file: $3<br />Tipo MIME: $4',
+'fileduplicatesearch-result-1'  => 'Non esistono duplicati identici al file "$1".',
+'fileduplicatesearch-result-n'  => '{{PLURAL:$2|Esiste un duplicato identico|Esistono $2 duplicati identici}} al file "$1".',
+'fileduplicatesearch-noresults' => 'Nessun file di nome "$1" trovato.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Pagine speciali',
@@ -3438,8 +3468,5 @@ Tutte le attuali connessioni dell'utente, saranno immediatamente terminate.
 'disableaccount-nosuchuser'  => 'L\'account utente "$1" non esiste.',
 'disableaccount-success'     => 'L\'account utente "$1" è stato disabilitato definitivamente.',
 'disableaccount-logentry'    => "ha disabilitato permanentemente l'account utente [[$1]]",
-
-# Special:UploadStash
-'uploadstash-refresh' => "Aggiorna l'elenco dei file",
 
 );

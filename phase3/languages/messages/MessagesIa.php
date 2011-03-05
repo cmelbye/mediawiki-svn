@@ -10,6 +10,7 @@
  * @author Julian Mendez
  * @author Malafaya
  * @author McDutchie
+ * @author Reedy
  * @author לערי ריינהארט
  */
 
@@ -164,8 +165,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Monstrar le numero de usatores que observa le pagina',
 'tog-oldsig'                  => 'Previsualisation del signatura existente:',
 'tog-fancysig'                => 'Tractar signatura como wikitexto (sin ligamine automatic)',
-'tog-externaleditor'          => 'Usar editor externe qua standard (pro expertos solmente, necessita configuration special in tu computator)',
-'tog-externaldiff'            => "Usar un programma ''diff'' externe qua standard (pro expertos solmente, necessita configuration special in tu computator)",
+'tog-externaleditor'          => 'Usar un editor externe qua standard (pro expertos solmente, necessita configuration special in tu computator. [http://www.mediawiki.org/wiki/Manual:External_editors Plus informationes.])',
+'tog-externaldiff'            => "Usar un programma ''diff'' externe qua standard (pro expertos solmente, necessita configuration special in tu computator. [http://www.mediawiki.org/wiki/Manual:External_editors Plus informationes.])",
 'tog-showjumplinks'           => 'Activar ligamines de accessibilitate "saltar a"',
 'tog-uselivepreview'          => 'Usar previsualisation in directo (require JavaScript) (experimental)',
 'tog-forceeditsummary'        => 'Avisar me si io non entra un summario de modification',
@@ -325,6 +326,7 @@ $messages = array(
 'printableversion'  => 'Version imprimibile',
 'permalink'         => 'Ligamine permanente',
 'print'             => 'Imprimer',
+'view'              => 'Leger',
 'edit'              => 'Modificar',
 'create'            => 'Crear',
 'editthispage'      => 'Modificar iste pagina',
@@ -332,6 +334,7 @@ $messages = array(
 'delete'            => 'Deler',
 'deletethispage'    => 'Deler iste pagina',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|un modification|$1 modificationes}}',
+'viewdeleted_short' => 'Vider {{PLURAL:$1|un modification|$1 modificationes}} delite',
 'protect'           => 'Proteger',
 'protect_change'    => 'cambiar',
 'protectthispage'   => 'Proteger iste pagina',
@@ -415,6 +418,8 @@ $1',
 'toc'                     => 'Contento',
 'showtoc'                 => 'revelar',
 'hidetoc'                 => 'celar',
+'collapsible-collapse'    => 'Plicar',
+'collapsible-expand'      => 'Displicar',
 'thisisdeleted'           => 'Vider o restaurar $1?',
 'viewdeleted'             => 'Vider $1?',
 'restorelink'             => '{{PLURAL:$1|un modification|$1 modificationes}} delite',
@@ -570,6 +575,8 @@ Per favor activa lo, postea aperi un session con tu nove nomine de usator e cont
 'nocookieslogin'             => "{{SITENAME}} usa ''cookies'' pro mantener le sessiones del usatores.
 Tu ha disactivate le functionalitate del ''cookies''.
 Per favor activa lo e reprova.",
+'nocookiesfornew'            => 'Le conto de usator non esseva create, proque nos non poteva confirmar su origine.
+Verifica que tu ha activate le "cookies", recarga iste pagina e reproba.',
 'noname'                     => 'Tu non specificava un nomine de usator valide.',
 'loginsuccesstitle'          => 'Session aperite con successo',
 'loginsuccess'               => "'''Tu es ora authenticate in {{SITENAME}} como \"\$1\".'''",
@@ -584,7 +591,7 @@ Verifica le orthographia.',
 'wrongpasswordempty'         => 'Tu non entrava un contrasigno. Per favor reprova.',
 'passwordtooshort'           => 'Le contrasignos debe continer al minus {{PLURAL:$1|1 character|$1 characteres}}.',
 'password-name-match'        => 'Tu contrasigno debe esser differente de tu nomine de usator.',
-'password-too-weak'          => 'Le contrasigno fornite es troppo debile e non pote esser usate.',
+'password-login-forbidden'   => 'Le uso de iste nomine de usator e contrasigno ha essite prohibite.',
 'mailmypassword'             => 'Inviar un nove contrasigno in e-mail',
 'passwordremindertitle'      => 'Nove contrasigno temporari pro {{SITENAME}}',
 'passwordremindertext'       => 'Alcuno (probabilemente tu, ab le adresse IP $1) requestava un nove
@@ -759,7 +766,7 @@ Si tu es un usator anonyme e pensa que commentos irrelevante ha essite dirigite 
 'noarticletext'                    => 'Al momento il non ha texto in iste pagina.
 Tu pote [[Special:Search/{{PAGENAME}}|cercar le titulo de iste pagina]] in altere paginas,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercar in le registros pertinente],
-o [{{fullurl:{{FULLPAGENAME}}|action=edit}} modificar iste pagina].',
+o [{{fullurl:{{FULLPAGENAME}}|action=edit}} modificar iste pagina]</span>.',
 'noarticletext-nopermission'       => 'Al momento il non ha texto in iste pagina.
 Tu pote [[Special:Search/{{PAGENAME}}|cercar le titulo de iste pagina]] in altere paginas,
 o <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercar in le registros pertinente].</span>',
@@ -798,6 +805,7 @@ Si illo ancora non va, prova [[Special:UserLogout|clauder tu session]] e aperir 
 'token_suffix_mismatch'            => "'''Tu modification ha essite refusate proque tu cliente corrumpeva le characteres de punctuation in le indicio de modification.
 Iste refusa es pro evitar le corruption del texto del pagina.
 Isto pote occurrer quando tu usa un servicio problematic de ''proxy'' anonyme a base de web.'''",
+'edit_form_incomplete'             => "'''Certe partes del formulario de modification non attingeva le servitor; re-verifica que tu modificationes es intacte e reproba.'''",
 'editing'                          => 'Modification de $1',
 'editingsection'                   => 'Modification de $1 (section)',
 'editingcomment'                   => 'Modification de $1 (nove section)',
@@ -927,7 +935,7 @@ Es possibile que illo esseva delite del wiki, o renominate.
 Prova [[Special:Search|cercar nove paginas relevante]] in le wiki.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(commento removite)',
+'rev-deleted-comment'         => '(summario del modification removite)',
 'rev-deleted-user'            => '(nomine de usator eliminate)',
 'rev-deleted-event'           => '(entrata eliminate)',
 'rev-deleted-user-contribs'   => '[nomine de usator o adresse IP removite - modification celate ab contributiones]',
@@ -1119,6 +1127,7 @@ Nota que le uso del ligamines de navigation causara le perdita de tote cambios i
 'searchmenu-legend'                => 'Optiones de recerca',
 'searchmenu-exists'                => "'''Existe un pagina nominate \"[[\$1]]\" in iste wiki'''",
 'searchmenu-new'                   => "'''Crea le pagina \"[[:\$1]]\" in iste wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" es un nomine de pagina invalide o non pote esser create per te.',
 'searchhelp-url'                   => 'Help:Contento',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Navigar per le paginas con iste prefixo]]',
 'searchprofile-articles'           => 'Paginas de contento',
@@ -1179,7 +1188,7 @@ Nota que lor indices del contento de {{SITENAME}} pote esser obsolete.',
 'mypreferences'                 => 'Mi preferentias',
 'prefs-edits'                   => 'Numero de modificationes:',
 'prefsnologin'                  => 'Tu non ha aperite un session',
-'prefsnologintext'              => 'Tu debe <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aperir un session] pro poter configurar tu preferentias.',
+'prefsnologintext'              => 'Tu debe <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aperir un session]</span> pro poter configurar tu preferentias.',
 'changepassword'                => 'Cambiar contrasigno',
 'prefs-skin'                    => 'Apparentia',
 'skin-preview'                  => 'Previsualisation',
@@ -1270,7 +1279,8 @@ Illo debe haber minus de $1 {{PLURAL:$1|character|characteres}}.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'Le nomine real es optional.
 Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contributiones.',
-'prefs-help-email'              => 'Le adresse de e-mail es optional, ma es necessari pro le reinitialisation de tu contrasigno, in caso que tu lo oblida. Tu pote etiam optar pro permitter que altere personas te contacta via tu pagina de usator o de discussion, sin necessitate de revelar tu identitate.',
+'prefs-help-email'              => 'Le adresse de e-mail es optional, ma es necessari pro le reinitialisation de tu contrasigno, in caso que tu lo oblida.',
+'prefs-help-email-others'       => 'Tu pote etiam optar pro permitter que altere personas te contacta via tu pagina de usator o de discussion, sin necessitate de revelar tu identitate.',
 'prefs-help-email-required'     => 'Le adresse de e-mail es requirite.',
 'prefs-info'                    => 'Informationes de base',
 'prefs-i18n'                    => 'Internationalisation',
@@ -1286,6 +1296,10 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'prefs-displaysearchoptions'    => 'Optiones de presentation',
 'prefs-displaywatchlist'        => 'Optiones de presentation',
 'prefs-diffs'                   => 'Differentias',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Sembla valide',
+'email-address-validity-invalid' => 'Un adresse valide es obligatori!',
 
 # User rights
 'userrights'                   => 'Gestion de derectos de usator',
@@ -1447,7 +1461,7 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'recentchangestext'                 => 'Seque le plus recente modificationes a {{SITENAME}} in iste pagina.',
 'recentchanges-feed-description'    => 'Seque le modificationes le plus recente al wiki in iste syndication.',
 'recentchanges-label-newpage'       => 'Iste modification creava un nove pagina',
-'recentchanges-label-minor'         => 'Iste es un modification minor',
+'recentchanges-label-minor'         => 'Isto es un modification minor',
 'recentchanges-label-bot'           => 'Iste modification ha essite effectuate per un robot',
 'recentchanges-label-unpatrolled'   => 'Iste modification non ha ancora essite patruliate',
 'rcnote'                            => "Infra es {{PLURAL:$1|'''1''' modification|le ultime '''$1''' modificationes}} in le ultime {{PLURAL:$2|die|'''$2''' dies}}, actualisate le $4 a $5.",
@@ -1525,13 +1539,13 @@ Vide le [[Special:NewFiles|galeria de nove files]] pro un presentation plus visu
 'illegalfilename'             => 'Le nomine de file "$1" contine characteres que non es permittite in le titulos de paginas.
 Per favor renomina le file e tenta re-incargar lo.',
 'badfilename'                 => 'Le nomine del imagine esseva cambiate a "$1".',
-'filetype-mime-mismatch'      => 'Le extension del nomine del file non corresponde al typo MIME.',
+'filetype-mime-mismatch'      => 'Le extension del nomine del file ".$1" non corresponde a su typo MIME detegite ($2).',
 'filetype-badmime'            => 'Non es permittite incargar files del typo MIME "$1".',
 'filetype-bad-ie-mime'        => 'Non pote incargar iste file proque Internet Explorer lo detegerea como "$1", le qual es un typo de file prohibite e potentialmente periculose.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' es un typo de file non desirate.
 Le {{PLURAL:\$3|typo|typos}} de file preferite es \$2.",
-'filetype-banned-type'        => "Le typo de file '''\".\$1\"''' non es permittite.
-Le {{PLURAL:\$3|typo|typos}} de file permittite es \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' non es {{PLURAL:$4|un typo|typos}} de file permittite.
+Le {{PLURAL:$3|typo|typos}} de file permittite es $2.',
 'filetype-missing'            => 'Le nomine del file non ha un extension (como ".jpg").',
 'empty-file'                  => 'Le file submittite es vacue',
 'file-too-large'              => 'Le file submittite es troppo grande',
@@ -1572,7 +1586,7 @@ Si tu vole ancora incargar iste file, per favor retorna e usa un nove nomine. [[
 'fileexists-shared-forbidden' => 'Un file con iste nomine existe ja in le deposito de files commun.
 Si tu vole totevia incargar iste file, per favor retorna e usa un nove nomine. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Iste file es un duplicato del sequente {{PLURAL:$1|file|files}}:',
-'file-deleted-duplicate'      => 'Un file identic a iste file ([[$1]]) esseva ja delite anteriormente. Tu deberea verificar le registro de deletiones concernente iste file ante de re-incargar lo.',
+'file-deleted-duplicate'      => 'Un file identic a iste file ([[:$1]]) esseva ja delite anteriormente. Tu deberea verificar le registro de deletiones concernente iste file ante de re-incargar lo.',
 'uploadwarning'               => 'Advertimento de incargamento',
 'uploadwarning-text'          => 'Per favor modifica le description del file ci infra e reproba.',
 'savefile'                    => 'Salveguardar file',
@@ -1585,6 +1599,8 @@ Si tu vole totevia incargar iste file, per favor retorna e usa un nove nomine. [
 'php-uploaddisabledtext'      => 'Le incargamento de files PHP es disactivate. Per favor verifica le configuration file_uploads.',
 'uploadscripted'              => 'Iste file contine codice de HTML o de script que pote esser interpretate erroneemente per un navigator del web.',
 'uploadvirus'                 => 'Le file contine un virus! Detalios: $1',
+'uploadjava'                  => 'Iste file es un archivo ZIP que contine un file .class de Java.
+Non es permittite incargar files Java, proque istes pote contornar le restrictiones de securitate.',
 'upload-source'               => 'File de origine',
 'sourcefilename'              => 'Nomine del file de origine:',
 'sourceurl'                   => 'URL de origine:',
@@ -1636,6 +1652,23 @@ Si le problema persiste, contacta un [[Special:ListUsers/sysop|administrator]].'
 'upload-too-many-redirects' => 'Le URL contineva troppo de redirectiones',
 'upload-unknown-size'       => 'Dimension incognite',
 'upload-http-error'         => 'Un error HTTP occurreva: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Un error esseva incontrate durante le apertura del file pro verification de ZIP.',
+'zip-wrong-format'    => 'Le file specificate non es un file ZIP.',
+'zip-bad'             => 'Iste file es un archivo ZIP defectuose o alteremente illegibile.
+Un verification correcte de su securitate es impossibile.',
+'zip-unsupported'     => 'Iste file es un archivo ZIP que usa functionalitate de ZIP non supportate per MediaWiki.
+Un verification correcte de su securitate es impossibile.',
+
+# Special:UploadStash
+'uploadstash'          => 'Pila de files incargate',
+'uploadstash-summary'  => 'Iste pagina forni accesso al files que ha essite incargate (o que es in le processo de incargamento) ma non es ancora publicate in le wiki. Iste files es solmente visibile pro le usator qui los incargava.',
+'uploadstash-clear'    => 'Rader le pila de files incargate',
+'uploadstash-nofiles'  => 'Il non ha files in le pila.',
+'uploadstash-badtoken' => 'Le execution de iste action non succedeva, forsan proque le datos del session expirava. Tenta lo de novo.',
+'uploadstash-errclear' => 'Le radimento del files non succedeva.',
+'uploadstash-refresh'  => 'Refrescar le lista de files',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Accesso refusate',
@@ -1816,12 +1849,13 @@ Memora verificar que non existe altere ligamines al patronos ante que tu los del
 Istes deberea esser reimplaciate con ligamines al topicos appropriate.<br />
 Un pagina se tracta como pagina de disambiguation si illo usa un patrono al qual [[MediaWiki:Disambiguationspage]] ha un ligamine.",
 
-'doubleredirects'            => 'Redirectiones duple',
-'doubleredirectstext'        => 'Iste pagina lista paginas de redirection verso altere paginas de redirection.
+'doubleredirects'                   => 'Redirectiones duple',
+'doubleredirectstext'               => 'Iste pagina lista paginas de redirection verso altere paginas de redirection.
 Cata linea contine ligamines al prime e al secunde redirection, con le destination del secunde redirection. Iste es normalmente le "ver" pagina de destination, al qual le prime redirection tamben deberea punctar.
 Le entratas <del>cancellate</del> ha essite resolvite.',
-'double-redirect-fixed-move' => '[[$1]] ha essite renominate, illo es ora un redirection verso [[$2]]',
-'double-redirect-fixer'      => 'Corrector de redirectiones',
+'double-redirect-fixed-move'        => '[[$1]] ha essite renominate, illo es ora un redirection verso [[$2]]',
+'double-redirect-fixed-maintenance' => 'Corrige redirection duple de [[$1]] a [[$2]].',
+'double-redirect-fixer'             => 'Corrector de redirectiones',
 
 'brokenredirects'        => 'Redirectiones rupte',
 'brokenredirectstext'    => 'Le sequente redirectiones mena a paginas non existente:',
@@ -1899,6 +1933,7 @@ executar iste function.',
 'pager-newer-n'           => '{{PLURAL:$1|1 plus recente|$1 plus recente}}',
 'pager-older-n'           => '{{PLURAL:$1|1 minus recente|$1 minus recente}}',
 'suppress'                => 'Supervisor',
+'querypage-disabled'      => 'Iste pagina special es disactivate pro evitar de supercargar le systema.',
 
 # Book sources
 'booksources'               => 'Fontes de libros',
@@ -1957,7 +1992,7 @@ Vide etiam le [[Special:WantedCategories|categorias desirate]].',
 'linksearch-text'  => 'Es possibile usar metacharacteres como in "*.wikipedia.org".<br />
 Protocollos supportate: <tt>$1</tt>',
 'linksearch-line'  => '$1 ligate ab $2',
-'linksearch-error' => 'Le metacharacteres pote apparer solmente al initio del nomine del hospite.',
+'linksearch-error' => 'Le metacharacteres pote apparer solmente al initio del nomine de host.',
 
 # Special:ListUsers
 'listusersfrom'      => 'Monstrar usatores a partir de:',
@@ -2290,9 +2325,10 @@ $1',
 'undelete-show-file-submit'    => 'Si',
 
 # Namespace form on various pages
-'namespace'      => 'Spatio de nomine:',
-'invert'         => 'Inverter selection',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Spatio de nomine:',
+'invert'                => 'Inverter selection',
+'namespace_association' => 'Spatio de nomines associate',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contributiones del usator',
@@ -2829,8 +2865,8 @@ Le causa es probabilemente un ligamine verso un sito externe que es presente in 
 'math_unknown_function' => 'function incognite',
 'math_lexing_error'     => 'error lexic',
 'math_syntax_error'     => 'error de syntaxe',
-'math_image_error'      => "Le conversion in PNG ha fallite;
-verifica que le installation sia correcte del programmas ''latex, dvips, gs,'' e ''convert''.",
+'math_image_error'      => 'Le conversion in PNG ha fallite;
+verifica le installation del programmas \'\'latex" e "dvipng" (o "dvips" + "gs" + \'\'convert\'\').',
 'math_bad_tmpdir'       => 'Non pote scriber in o crear le directorio temporari "math".',
 'math_bad_output'       => 'Non pote scriber in o crear le directorio de output "math".',
 'math_notexvc'          => "Le executabile ''texvc'' manca;
@@ -2876,10 +2912,10 @@ Le execution de illo pote compromitter le securitate de tu systema.",
 'imagemaxsize'         => "Dimension maxime de imagines:<br />''(pro paginas de description de files)''",
 'thumbsize'            => 'Grandor del miniaturas:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pagina|paginas}}',
-'file-info'            => '(grandor del file: $1, typo MIME: $2)',
-'file-info-size'       => '($1 × $2 pixel, grandor del file: $3, typo MIME: $4)',
+'file-info'            => 'grandor del file: $1, typo MIME: $2',
+'file-info-size'       => '$1 × $2 pixel, grandor del file: $3, typo MIME: $4',
 'file-nohires'         => '<small>Non disponibile in resolution plus alte.</small>',
-'svg-long-desc'        => '(File SVG, dimensiones nominal: $1 × $2 pixels, grandor del file: $3)',
+'svg-long-desc'        => 'File SVG, dimensiones nominal: $1 × $2 pixels, grandor del file: $3',
 'show-big-image'       => 'Plen resolution',
 'show-big-image-thumb' => '<small>Dimensiones de iste previsualisation: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'repetente',
@@ -3042,6 +3078,7 @@ Le alteres essera initialmente celate.
 'exif-gpsareainformation'          => 'Nomine de area GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Correction differential GPS',
+'exif-objectname'                  => 'Titulo curte',
 
 # EXIF attributes
 'exif-compression-1' => 'Non comprimite',
@@ -3251,6 +3288,20 @@ pro cancellar le confirmation del adresse de e-mail:
 $5
 
 Iste codice de confirmation expirara a $4.',
+'confirmemail_body_set'     => 'Un persona, probabilemente tu, usante le adresse IP $1,
+ha specificate que iste adresse de e-mail pertine al conto "$2" in {{SITENAME}}.
+
+Pro confirmar que iste conto es de facto tue, e pro reactivar le functiones
+de e-mail in {{SITENAME}}, visita iste ligamine in tu navigator:
+
+$3
+
+Si le conto *non* pertine a te, seque iste ligamine
+pro cancellar le confirmation del adresse de e-mail:
+
+$5
+
+Iste codice de confirmation expirara a $4.',
 'confirmemail_invalidated'  => 'Confirmation del adresse de e-mail cancellate',
 'invalidateemail'           => 'Cancellar confirmation del adresse de e-mail',
 
@@ -3349,6 +3400,7 @@ Tu pote etiam [[Special:Watchlist/edit|usar le editor standard]].',
 'version-specialpages'             => 'Paginas special',
 'version-parserhooks'              => 'Uncinos del analysator syntactic',
 'version-variables'                => 'Variabiles',
+'version-antispam'                 => 'Prevention de spam',
 'version-skins'                    => 'Apparentias',
 'version-other'                    => 'Altere',
 'version-mediahandlers'            => 'Executores de media',
@@ -3382,16 +3434,15 @@ Le imagines se monstra in plen resolution, le altere typos de file se executa di
 Entra le nomine del file sin le prefixo "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Cercar files duplicate',
-'fileduplicatesearch-summary'  => "Cercar files duplicate a base de lor summas de verification ''(hash).''
-
-Entra le nomine del file sin le prefixo \"{{ns:file}}:\".",
-'fileduplicatesearch-legend'   => 'Cercar un duplicato',
-'fileduplicatesearch-filename' => 'Nomine del file:',
-'fileduplicatesearch-submit'   => 'Cercar',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />Grandor del file: $3<br />Typo MIME: $4',
-'fileduplicatesearch-result-1' => 'Le file "$1" ha nulle duplicato identic.',
-'fileduplicatesearch-result-n' => 'Le file "$1" ha {{PLURAL:$2|1 duplicato|$2 duplicatos}} identic.',
+'fileduplicatesearch'           => 'Cercar files duplicate',
+'fileduplicatesearch-summary'   => "Cercar files duplicate a base de lor summas de verification ''(hash).''",
+'fileduplicatesearch-legend'    => 'Cercar un duplicato',
+'fileduplicatesearch-filename'  => 'Nomine del file:',
+'fileduplicatesearch-submit'    => 'Cercar',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />Grandor del file: $3<br />Typo MIME: $4',
+'fileduplicatesearch-result-1'  => 'Le file "$1" ha nulle duplicato identic.',
+'fileduplicatesearch-result-n'  => 'Le file "$1" ha {{PLURAL:$2|1 duplicato|$2 duplicatos}} identic.',
+'fileduplicatesearch-noresults' => 'Nulle file con nomine "$1" trovate.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Paginas special',
@@ -3484,14 +3535,5 @@ Si le usator es actualmente authenticate alicubi, su session essera immediatemen
 'disableaccount-nosuchuser'  => 'Le conto de usator "$1" non existe.',
 'disableaccount-success'     => 'Le conto de usator "$1" ha essite disactivate permanentemente.',
 'disableaccount-logentry'    => 'disactivava permanentemente le conto de usator [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Pila de files incargate',
-'uploadstash-summary'  => 'Iste pagina forni accesso al files que ha essite incargate (o que es in le processo de incargamento) ma non es ancora publicate in le wiki. Iste files es solmente visibile pro le usator qui los incargava.',
-'uploadstash-clear'    => 'Rader le pila de files incargate',
-'uploadstash-nofiles'  => 'Il non ha files in le pila.',
-'uploadstash-badtoken' => 'Le execution de iste action non succedeva, forsan proque le datos del session expirava. Tenta lo de novo.',
-'uploadstash-errclear' => 'Le radimento del files non succedeva.',
-'uploadstash-refresh'  => 'Refrescar le lista de files',
 
 );

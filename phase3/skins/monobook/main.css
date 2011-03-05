@@ -63,13 +63,6 @@ div#globalWrapper {
 table {
 	font-size: 100%;
 	color: black;
-	/* we don't want the bottom borders of <h2>s to be visible through
-	   floated tables */
-	background-color: white;
-}
-fieldset table {
-	/* but keep table layouts in forms clean... */
-	background: none;
 }
 a {
 	text-decoration: none;
@@ -120,6 +113,7 @@ h1, h2, h3, h4, h5, h6 {
 	background: none;
 	font-weight: normal;
 	margin: 0;
+	overflow: hidden;
 	padding-top: .5em;
 	padding-bottom: .17em;
 	border-bottom: 1px solid #aaa;
@@ -410,8 +404,6 @@ div.floatleft p { font-style: italic; }
 /* thumbnails */
 div.thumb {
 	margin-bottom: .5em;
-	border-style: solid;
-	border-color: white;
 	width: auto;
 }
 div.thumbinner {
@@ -446,14 +438,13 @@ div.magnify a, div.magnify img {
 div.tright {
 	clear: right;
 	float: right;
-	border-width: .5em 0 .8em 1.4em;
+	margin: .5em 0 1.3em 1.4em;
 }
 /* @noflip */
 div.tleft {
 	float: left;
 	clear: left;
-	margin-right: .5em;
-	border-width: .5em 1.4em .8em 0;
+	margin: .5em 1.4em 1.3em 0;
 }
 img.thumbborder {
 	border: 1px solid #dddddd;
@@ -561,15 +552,33 @@ table.rimage {
 	background: url("document.png") center right no-repeat;
 	padding-right: 12px;
 }
-
-/* disable interwiki styling */
+ 
+/* Interwiki Styling */
 #bodyContent a.extiw,
 #bodyContent a.extiw:active {
 	color: #36b;
+	/* Don't show icons for interwiki links */
+	background: none;
+	padding: 0;
 }
+#bodyContent a.extiw:visited {
+	color: #636;
+}
+#bodyContent a.extiw:active {
+	color: #b63;
+}
+
+/* External links */
 #bodyContent a.external {
 	color: #36b;
 }
+#bodyContent a.external:visited {
+	color: #636; /* bug 3112 */
+}
+#bodyContent a.external:active {
+	color: #b63;
+}
+
 /*
 ** Structural Elements
 */

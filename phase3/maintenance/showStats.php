@@ -32,6 +32,7 @@ require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class ShowStats extends Maintenance {
 	public function __construct() {
+		parent::__construct();
 		$this->mDescription = "Show the cached statistics";
 	}
 	public function execute() {
@@ -64,5 +65,5 @@ class ShowStats extends Maintenance {
 }
 
 $maintClass = "ShowStats";
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );
 

@@ -93,7 +93,7 @@ $messages = array(
 'monday'        => 'понедѣл҄ьникъ',
 'tuesday'       => 'въторьникъ',
 'wednesday'     => 'срѣда',
-'thursday'      => 'четврьтъкъ',
+'thursday'      => 'чєтврьтъкъ',
 'friday'        => 'пѧтъкъ',
 'saturday'      => 'сѫбота',
 'sun'           => 'н҃д',
@@ -651,8 +651,8 @@ $messages = array(
 'tooltip-watch'                  => 'си страни́цѧ блюдє́ниѥ',
 
 # Media information
-'file-info-size' => '($1 × $2 п҃ѯ · дѣ́ла мѣ́ра : $3 · MIME тѵ́пъ : $4)',
-'svg-long-desc'  => '(дѣ́ло SVG · обꙑ́чьнъ о́браꙁъ : $1 × $2 п҃ѯ · дѣ́ла мѣ́ра : $3)',
+'file-info-size' => '$1 × $2 п҃ѯ · дѣ́ла мѣ́ра : $3 · MIME тѵ́пъ : $4',
+'svg-long-desc'  => 'дѣ́ло SVG · обꙑ́чьнъ о́браꙁъ : $1 × $2 п҃ѯ · дѣ́ла мѣ́ра : $3',
 'show-big-image' => 'пль́нъ ви́да о́браꙁъ',
 
 # Special:NewFiles

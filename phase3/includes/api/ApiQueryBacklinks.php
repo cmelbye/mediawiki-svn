@@ -39,9 +39,24 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 
-	private $params, $rootTitle, $contID, $redirID, $redirect;
+	/**
+	 * @var Title
+	 */
+	private $rootTitle;
+
+	private $params, $contID, $redirID, $redirect;
 	private $bl_ns, $bl_from, $bl_table, $bl_code, $bl_title, $bl_sort, $bl_fields, $hasNS;
-	private $pageMap, $resultArr;
+
+	/**
+	 * Maps ns and title to pageid
+	 *
+	 * @var array
+	 */
+	private $pageMap = array();
+	private $resultArr;
+
+	private $redirTitles = array();
+	private $continueStr = null;
 
 	// output element name, database column field prefix, database table
 	private $backlinksSettings = array(
@@ -103,6 +118,10 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$this->run( $resultPageSet );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function prepareFirstQuery( $resultPageSet = null ) {
 		/* SELECT page_id, page_title, page_namespace, page_is_redirect
 		 * FROM pagelinks, page WHERE pl_from=page_id
@@ -141,6 +160,10 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$this->addOption( 'STRAIGHT_JOIN' );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function prepareSecondQuery( $resultPageSet = null ) {
 		/* SELECT page_id, page_title, page_namespace, page_is_redirect, pl_title, pl_namespace
 		   FROM pagelinks, page WHERE pl_from=page_id
@@ -199,6 +222,10 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$this->addOption( 'USE INDEX', array( 'page' => 'PRIMARY' ) );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function run( $resultPageSet = null ) {
 		$this->params = $this->extractRequestParams( false );
 		$this->redirect = isset( $this->params['redirect'] ) && $this->params['redirect'];
@@ -215,9 +242,7 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 		$res = $this->select( __METHOD__ . '::firstQuery' );
 
 		$count = 0;
-		$this->pageMap = array(); // Maps ns and title to pageid
-		$this->continueStr = null;
-		$this->redirTitles = array();
+
 		foreach ( $res as $row ) {
 			if ( ++ $count > $this->params['limit'] ) {
 				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
@@ -248,9 +273,9 @@ class ApiQueryBacklinks extends ApiQueryGeneratorBase {
 					// We've reached the one extra which shows that there are additional pages to be had. Stop here...
 					// We need to keep the parent page of this redir in
 					if ( $this->hasNS ) {
-						$parentID = $this->pageMap[$row->{$this->bl_ns}][$row->{$this->bl_title}];
+						$parentID = $this->pageMap[$row-> { $this->bl_ns } ][$row-> { $this->bl_title } ];
 					} else {
-						$parentID = $this->pageMap[NS_IMAGE][$row->{$this->bl_title}];
+						$parentID = $this->pageMap[NS_IMAGE][$row-> { $this->bl_title } ];
 					}
 					$this->continueStr = $this->getContinueRedirStr( $parentID, $row->page_id );
 					break;

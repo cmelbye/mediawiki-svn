@@ -27,6 +27,10 @@
  * @ingroup SpecialPage
  */
 class PageArchive {
+
+	/**
+	 * @var Title
+	 */
 	protected $title;
 	var $fileStatus;
 
@@ -336,6 +340,9 @@ class PageArchive {
 		if( $restoreFiles && $this->title->getNamespace() == NS_FILE ) {
 			$img = wfLocalFile( $this->title );
 			$this->fileStatus = $img->restore( $fileVersions, $unsuppress );
+			if ( !$this->fileStatus->isOk() ) {
+				return false;
+			}
 			$filesRestored = $this->fileStatus->successCount;
 		} else {
 			$filesRestored = 0;
@@ -552,6 +559,9 @@ class PageArchive {
 		return $restored;
 	}
 
+	/**
+	 * @return Status
+	 */
 	function getFileStatus() { return $this->fileStatus; }
 }
 
@@ -561,7 +571,7 @@ class PageArchive {
  *
  * @ingroup SpecialPage
  */
-class UndeleteForm extends SpecialPage {
+class SpecialUndelete extends SpecialPage {
 	var $mAction, $mTarget, $mTimestamp, $mRestore, $mInvert, $mTargetObj;
 	var $mTargetTimestamp, $mAllowed, $mCanView, $mComment, $mToken, $mRequest;
 
@@ -649,6 +659,7 @@ class UndeleteForm extends SpecialPage {
 		}
 		if ( $this->mTarget !== '' ) {
 			$this->mTargetObj = Title::newFromURL( $this->mTarget );
+			$wgUser->getSkin()->setRelevantTitle( $this->mTargetObj );
 		} else {
 			$this->mTargetObj = null;
 		}
@@ -817,28 +828,26 @@ class UndeleteForm extends SpecialPage {
 		} else {
 			$openDiv = '<div id="mw-undelete-revision">';
 		}
+		$wgOut->addHTML( $openDiv );
 
 		// Revision delete links
 		$canHide = $wgUser->isAllowed( 'deleterevision' );
-		if( $this->mDiff ) {
-			$revdlink = ''; // diffs already have revision delete links
-		} else if( $canHide || ($rev->getVisibility() && $wgUser->isAllowed('deletedhistory')) ) {
+		if ( !$this->mDiff && ( $canHide || ( $rev->getVisibility() && $wgUser->isAllowed( 'deletedhistory' ) ) ) ) {
 			if( !$rev->userCan(Revision::DELETED_RESTRICTED ) ) {
-				$revdlink = $skin->revDeleteLinkDisabled( $canHide ); // revision was hidden from sysops
+				$wgOut->addHTML( $skin->revDeleteLinkDisabled( $canHide ) ); // revision was hidden from sysops
 			} else {
 				$query = array(
 					'type'   => 'archive',
 					'target' => $this->mTargetObj->getPrefixedDBkey(),
 					'ids'    => $rev->getTimestamp()
 				);
-				$revdlink = $skin->revDeleteLink( $query,
-					$rev->isDeleted( File::DELETED_RESTRICTED ), $canHide );
+				$wgOut->addHTML( $skin->revDeleteLink( $query,
+					$rev->isDeleted( File::DELETED_RESTRICTED ), $canHide ) );
 			}
-		} else {
-			$revdlink = '';
 		}
 
-		$wgOut->addHTML( $openDiv . $revdlink . wfMsgWikiHtml( 'undelete-revision', $link, $time, $user, $d, $t ) . '</div>' );
+		$wgOut->addWikiMsgArray( 'undelete-revision', array( $link, $time, $user, $d, $t ), array( 'replaceafter' ) );
+		$wgOut->addHTML( '</div>' );
 		wfRunHooks( 'UndeleteShowRevision', array( $this->mTargetObj, $rev ) );
 
 		if( $this->mPreview ) {
@@ -918,6 +927,11 @@ class UndeleteForm extends SpecialPage {
 		);
 	}
 
+	/**
+	 * @param $rev Revision
+	 * @param  $prefix
+	 * @return string
+	 */
 	private function diffHeader( $rev, $prefix ) {
 		global $wgUser, $wgLang;
 		$sk = $wgUser->getSkin();
@@ -1112,7 +1126,7 @@ class UndeleteForm extends SpecialPage {
 				Xml::openElement( 'table', array( 'id' => 'mw-undelete-table' ) ) .
 					"<tr>
 						<td colspan='2' class='mw-undelete-extrahelp'>" .
-							wfMsgWikiHtml( 'undeleteextrahelp' ) .
+							wfMsgExt( 'undeleteextrahelp', 'parse' ) .
 						"</td>
 					</tr>
 					<tr>
@@ -1299,6 +1313,9 @@ class UndeleteForm extends SpecialPage {
 
 	/**
 	 * Fetch revision text link if it's available to all users
+	 *
+	 * @param $rev Revision
+	 * @param $sk Skin
 	 * @return string
 	 */
 	function getPageLink( $rev, $titleObj, $ts, $sk ) {
@@ -1327,6 +1344,8 @@ class UndeleteForm extends SpecialPage {
 	/**
 	 * Fetch image view link if it's available to all users
 	 *
+	 * @param $file File
+	 * @param $sk Skin
 	 * @return String: HTML fragment
 	 */
 	function getFileLink( $file, $titleObj, $ts, $key, $sk ) {
@@ -1354,6 +1373,8 @@ class UndeleteForm extends SpecialPage {
 	/**
 	 * Fetch file's user id if it's available to this user
 	 *
+	 * @param $file File
+	 * @param $sk Skin
 	 * @return String: HTML fragment
 	 */
 	function getFileUser( $file, $sk ) {
@@ -1371,6 +1392,8 @@ class UndeleteForm extends SpecialPage {
 	/**
 	 * Fetch file upload comment if it's available to this user
 	 *
+	 * @param $file File
+	 * @param $sk Skin
 	 * @return String: HTML fragment
 	 */
 	function getFileComment( $file, $sk ) {
@@ -1406,10 +1429,10 @@ class UndeleteForm extends SpecialPage {
 
 				$skin = $wgUser->getSkin();
 				$link = $skin->linkKnown( $this->mTargetObj );
-				$wgOut->addHTML( wfMsgWikiHtml( 'undeletedpage', $link ) );
+				$wgOut->addWikiMsgArray( 'undeletedpage', array( $link ), array( 'replaceafter' ) );
 			} else {
 				$wgOut->showFatalError( wfMsg( "cannotundelete" ) );
-				$wgOut->addHTML( '<p>' . wfMsgHtml( "undeleterevdel" ) . '</p>' );
+				$wgOut->addWikiMsg( 'undeleterevdel' );
 			}
 
 			// Show file deletion warnings and errors

@@ -43,51 +43,59 @@ class ApiQueryPageProps extends ApiQueryBase {
 	}
 
 	public function execute() {
-		$this->params = $this->extractRequestParams();
-		
 		# Only operate on existing pages
 		$pages = $this->getPageSet()->getGoodTitles();
-		
+		if ( !count( $pages ) ) {
+			# Nothing to do
+			return;
+		}
+
+		$this->params = $this->extractRequestParams();
+
 		$this->addTables( 'page_props' );
 		$this->addFields( array( 'pp_page', 'pp_propname', 'pp_value' ) );
 		$this->addWhereFld( 'pp_page',  array_keys( $pages ) );
-		
+
 		if ( $this->params['continue'] ) {
 			$this->addWhere( 'pp_page >=' . intval( $this->params['continue'] ) );
 		}
-		
+
+		if ( $this->params['prop'] ) {
+			$this->addWhereFld( 'pp_propname', $this->params['prop'] );
+		}
+
 		# Force a sort order to ensure that properties are grouped by page
 		$this->addOption( 'ORDER BY', 'pp_page' );
-		
+
 		$res = $this->select( __METHOD__ );
 		$currentPage = 0; # Id of the page currently processed
 		$props = array();
 		$result = $this->getResult();
-		
+
 		foreach ( $res as $row ) {
 			if ( $currentPage != $row->pp_page ) {
-				# Different page than previous row, so add the properties to 
+				# Different page than previous row, so add the properties to
 				# the result and save the new page id
-				
+
 				if ( $currentPage ) {
 					if ( !$this->addPageProps( $result, $currentPage, $props ) ) {
 						# addPageProps() indicated that the result did not fit
 						# so stop adding data. Reset props so that it doesn't
 						# get added again after loop exit
-						
+
 						$props = array();
 						break;
 					}
-					
+
 					$props = array();
 				}
-				
+
 				$currentPage = $row->pp_page;
 			}
-			
+
 			$props[$row->pp_propname] = $row->pp_value;
 		}
-		
+
 		if ( count( $props ) ) {
 			# Add any remaining properties to the results
 			$this->addPageProps( $result, $currentPage, $props );
@@ -95,7 +103,7 @@ class ApiQueryPageProps extends ApiQueryBase {
 	}
 
 	/**
-	 * Add page properties to an ApiResult, adding a continue 
+	 * Add page properties to an ApiResult, adding a continue
 	 * parameter if it doesn't fit.
 	 *
 	 * @param $result ApiResult
@@ -104,8 +112,8 @@ class ApiQueryPageProps extends ApiQueryBase {
 	 * @return bool True if it fits in the result
 	 */
 	private function addPageProps( $result, $page, $props ) {
-		$fit = $result->addValue( array( 'query', 'pages' ), $page, $props );
-		
+		$fit = $result->addValue( array( 'query', 'pages', $page ), 'pageprops', $props );
+
 		if ( !$fit ) {
 			$this->setContinueEnumParameter( 'continue', $page );
 		}
@@ -116,22 +124,22 @@ class ApiQueryPageProps extends ApiQueryBase {
 		return 'public';
 	}
 
-	public function getAllowedParams() {		
-		return array( 'continue' => null );
+	public function getAllowedParams() {
+		return array(
+			'continue' => null,
+			'prop' => null,
+		);
 	}
 
 	public function getParamDescription() {
-		return  array( 'continue' => 'When more results are available, use this to continue' );
+		return array(
+			'continue' => 'When more results are available, use this to continue',
+			'prop' => 'Page prop to look on the page for. Useful for checking whether a certain page uses a certain page prop.'
+		);
 	}
 
 	public function getDescription() {
 		return 'Get various properties defined in the page content';
-	}
-
-	public function getPossibleErrors() {
-		return array_merge( parent::getPossibleErrors(), array(
-			array( 'code' => '_badcontinue', 'info' => 'Invalid continue param. You should pass the original value returned by the previous query' ),
-		) );
 	}
 
 	protected function getExamples() {

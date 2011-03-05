@@ -517,5 +517,4 @@ $.fn.suggestions = function() {
 	} );
 	return returnValue !== null ? returnValue : $(this);
 };
-
 } )( jQuery );

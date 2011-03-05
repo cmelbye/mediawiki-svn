@@ -1,11 +1,11 @@
 <?php
 require_once dirname(dirname(__FILE__)). '/bootstrap.php';
 
-class LanguageBeTaraskTest extends MediaWikiTestSetup {
+class LanguageBeTaraskTest extends MediaWikiTestCase {
 	private $lang;
 
 	function setUp() {
-		$this->lang = Language::factory( 'Be_tarask' );
+		$this->lang = Language::factory( 'Be-tarask' );
 	}
 	function tearDown() {
 		unset( $this->lang );

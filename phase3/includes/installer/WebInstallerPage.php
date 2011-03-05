@@ -218,7 +218,6 @@ class WebInstaller_ExistingWiki extends WebInstallerPage {
 				$this->endForm( 'continue' );
 				return 'output';
 			}
-			//return $this->handleExistingUpgrade( $vars );
 		}
 
 		// If there is no $wgUpgradeKey, tell the user to add one to LocalSettings.php
@@ -301,7 +300,7 @@ class WebInstaller_ExistingWiki extends WebInstallerPage {
 		}
 
 		// Set the relevant variables from LocalSettings.php
-		$requiredVars = array( 'wgDBtype', 'wgDBuser', 'wgDBpassword' );
+		$requiredVars = array( 'wgDBtype' );
 		$status = $this->importVariables( $requiredVars , $vars );
 		$installer = $this->parent->getDBInstaller();
 		$status->merge( $this->importVariables( $installer->getGlobalNames(), $vars ) );
@@ -345,11 +344,15 @@ class WebInstaller_Welcome extends WebInstallerPage {
 		}
 		$this->parent->output->addWikiText( wfMsgNoTrans( 'config-welcome' ) );
 		$status = $this->parent->doEnvironmentChecks();
-		if ( $status ) {
+		if ( $status->isGood() ) {
+			$this->parent->output->addHTML( '<span class="success-message">' .
+				wfMsgHtml( 'config-env-good' ) . '</span>' );
 			$this->parent->output->addWikiText( wfMsgNoTrans( 'config-copyright',
 				SpecialVersion::getCopyrightAndAuthorList() ) );
 			$this->startForm();
 			$this->endForm();
+		} else {
+			$this->parent->showStatusMessage( $status );
 		}
 	}
 
@@ -365,6 +368,7 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 		$r = $this->parent->request;
 		if ( $r->wasPosted() ) {
 			$status = $this->submit();
+
 			if ( $status->isGood() ) {
 				$this->setVar( '_UpgradeDone', false );
 				return 'continue';
@@ -381,9 +385,8 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 
 		$dbSupport = '';
 		foreach( $this->parent->getDBTypes() as $type ) {
-			$db = 'Database' . ucfirst( $type );
-			$dbSupport .= wfMsgNoTrans( "config-support-$type",
-				call_user_func( array( $db, 'getSoftwareLink' ) ) ) . "\n";
+			$link = DatabaseBase::newFromType( $type )->getSoftwareLink();
+			$dbSupport .= wfMsgNoTrans( "config-support-$type", $link ) . "\n";
 		}
 		$this->addHTML( $this->parent->getInfoBox(
 			wfMsg( 'config-support-info', $dbSupport ) ) );
@@ -622,7 +625,7 @@ class WebInstaller_Name extends WebInstallerPage {
 		$retVal = true;
 		$this->parent->setVarsFromRequest( array( 'wgSitename', '_NamespaceType',
 			'_AdminName', '_AdminPassword', '_AdminPassword2', '_AdminEmail',
-			'_Subscribe', '_SkipOptional' ) );
+			'_Subscribe', '_SkipOptional', 'wgMetaNamespace' ) );
 
 		// Validate site name
 		if ( strval( $this->getVar( 'wgSitename' ) ) === '' ) {
@@ -663,6 +666,15 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->parent->showError( 'config-ns-invalid', $name );
 			$retVal = false;
 		}
+
+		// Make sure it won't conflict with any existing namespaces
+		global $wgContLang;
+		$nsIndex = $wgContLang->getNsIndex( $name );
+		if( $nsIndex !== false && $nsIndex !== NS_PROJECT ) {
+			$this->parent->showError( 'config-ns-conflict', $name );
+			$retVal = false;
+		}
+
 		$this->setVar( 'wgMetaNamespace', $name );
 
 		// Validate username for creation
@@ -699,11 +711,19 @@ class WebInstaller_Name extends WebInstallerPage {
 			$msg = $valid;
 		}
 		if ( $msg !== false ) {
-			$this->parent->showError( $msg );
+			call_user_func_array( array( $this->parent, 'showError' ), (array)$msg );
 			$this->setVar( '_AdminPassword', '' );
 			$this->setVar( '_AdminPassword2', '' );
 			$retVal = false;
 		}
+
+		// Validate e-mail if provided
+		$email = $this->getVar( '_AdminEmail' );
+		if( $email && !User::isValidEmailAddr( $email ) ) {
+			$this->parent->showError( 'config-admin-error-bademail' );
+			$retVal = false;
+		}
+
 		return $retVal;
 	}
 
@@ -730,7 +750,7 @@ class WebInstaller_Options extends WebInstallerPage {
 				'itemLabelPrefix' => 'config-profile-',
 				'values' => array_keys( $this->parent->rightsProfiles ),
 			) ) .
-			$this->parent->getHelpBox( 'config-profile-help' ) .
+			$this->parent->getInfoBox( wfMsgNoTrans( 'config-profile-help' ) ) .
 
 			# Licensing
 			$this->parent->getRadioSet( array(
@@ -798,6 +818,14 @@ class WebInstaller_Options extends WebInstallerPage {
 			$this->addHTML( $extHtml );
 		}
 
+		// Having / in paths in Windows looks funny :)
+		$this->setVar( 'wgDeletedDirectory',
+			str_replace(
+				'/', DIRECTORY_SEPARATOR,
+				$this->getVar( 'wgDeletedDirectory' )
+			)
+		);
+
 		$this->addHTML(
 			# Uploading
 			$this->getFieldSetStart( 'config-upload-settings' ) .
@@ -848,7 +876,7 @@ class WebInstaller_Options extends WebInstallerPage {
 			) ) .
 			$this->parent->getHelpBox( 'config-cache-help' ) .
 			'<div id="config-memcachewrapper">' .
-			$this->parent->getTextBox( array(
+			$this->parent->getTextArea( array(
 				'var' => '_MemCachedServers',
 				'label' => 'config-memcached-servers',
 				'help' => $this->parent->getHelpBox( 'config-memcached-help' )
@@ -983,6 +1011,28 @@ class WebInstaller_Options extends WebInstallerPage {
 			}
 		}
 		$this->parent->setVar( '_Extensions', $extsToInstall );
+
+		if( $this->getVar( 'wgMainCacheType' ) == 'memcached' ) {
+			$memcServers = explode( "\n", $this->getVar( '_MemCachedServers' ) );
+			if( !$memcServers ) {
+				$this->parent->showError( 'config-memcache-needservers' );
+				return false;
+			}
+
+			foreach( $memcServers as $server ) {
+				$memcParts = explode( ":", $server );
+				if( !IP::isValid( $memcParts[0] ) ) {
+					$this->parent->showError( 'config-memcache-badip', $memcParts[0] );
+					return false;
+				} elseif( !isset( $memcParts[1] )  ) {
+					$this->parent->showError( 'config-memcache-noport', $memcParts[0] );
+					return false;
+				} elseif( $memcParts[1] < 1 || $memcParts[1] > 65535 ) {
+					$this->parent->showError( 'config-memcache-badport', 1, 65535 );
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -991,25 +1041,29 @@ class WebInstaller_Options extends WebInstallerPage {
 class WebInstaller_Install extends WebInstallerPage {
 
 	public function execute() {
-		if( $this->parent->request->wasPosted() ) {
-			return 'continue';
-		} elseif( $this->getVar( '_InstallDone' ) ) {
-			$this->startForm();
-			$status = new Status();
-			$status->warning( 'config-install-alreadydone' );
-			$this->parent->showStatusBox( $status );
-		} elseif( $this->getVar( '_UpgradeDone' ) ) {
+		if( $this->getVar( '_UpgradeDone' ) ) {
 			return 'skip';
-		} else {
+		} elseif( $this->getVar( '_InstallDone' ) ) {
+			return 'continue';
+		} elseif( $this->parent->request->wasPosted() ) {
 			$this->startForm();
 			$this->addHTML("<ul>");
-			$this->parent->performInstallation(
+			$results = $this->parent->performInstallation(
 				array( $this, 'startStage'),
 				array( $this, 'endStage' )
 			);
 			$this->addHTML("</ul>");
+			// PerformInstallation bails on a fatal, so make sure the last item
+			// completed before giving 'next.' Likewise, only provide back on failure
+			$lastStep = end( $results );
+			$continue = $lastStep->isOK() ? 'continue' : false;
+			$back = $lastStep->isOK() ? false : 'back';
+			$this->endForm( $continue, $back );
+		} else {
+			$this->startForm();
+			$this->addHTML( $this->parent->getInfoBox( wfMsgNoTrans( 'config-install-begin' ) ) );
+			$this->endForm();
 		}
-		$this->endForm();
 		return true;
 	}
 
@@ -1037,7 +1091,13 @@ class WebInstaller_Complete extends WebInstallerPage {
 		// Pop up a dialog box, to make it difficult for the user to forget
 		// to download the file
 		$lsUrl = $GLOBALS['wgServer'] . $this->parent->getURL( array( 'localsettings' => 1 ) );
-		$this->parent->request->response()->header( "Refresh: 0;$lsUrl" );
+		if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) !== false ) {
+			// JS appears the only method that works consistently with IE7+
+			$this->addHtml( "\n<script type=\"" . $GLOBALS['wgJsMimeType'] . '">jQuery( document ).ready( function() { document.location='
+				. Xml::encodeJsVar( $lsUrl) . "; } );</script>\n" );
+		} else {
+			$this->parent->request->response()->header( "Refresh: 0;url=$lsUrl" );
+		}
 
 		$this->startForm();
 		$this->parent->disableLinkPopups();
@@ -1064,9 +1124,7 @@ class WebInstaller_Restart extends WebInstallerPage {
 		if ( $r->wasPosted() ) {
 			$really = $r->getVal( 'submit-restart' );
 			if ( $really ) {
-				$this->parent->session = array();
-				$this->parent->happyPages = array();
-				$this->parent->settings = array();
+				$this->parent->reset();
 			}
 			return 'continue';
 		}

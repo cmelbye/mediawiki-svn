@@ -2,7 +2,7 @@
 /**
  * @group Upload
  */
-class UploadTest extends PHPUnit_Framework_TestCase {
+class UploadTest extends MediaWikiTestCase {
 	protected $upload;
 
 
@@ -75,6 +75,41 @@ class UploadTest extends PHPUnit_Framework_TestCase {
 			'upload empty file' );
 	}
 
+	// Helper used to create an empty file of size $size.
+	private function createFileOfSize( $size ) {
+		$filename = tempnam( wfTempDir(), "mwuploadtest" );
+
+		$fh = fopen( $filename, 'w' );
+		ftruncate( $fh, $size );
+		fclose( $fh );
+
+		return $filename;
+	}
+
+	/**
+	 * test uploading a 100 bytes file with wgMaxUploadSize = 100
+	 *
+	 * This method should be abstracted so we can test different settings.
+	 */
+
+	public function testMaxUploadSize() {
+		global $wgMaxUploadSize;
+		$savedGlobal = $wgMaxUploadSize; // save global
+		global $wgFileExtensions;
+		$wgFileExtensions[] = 'txt';
+
+		$wgMaxUploadSize = 100;
+
+		$filename = $this->createFileOfSize( $wgMaxUploadSize );
+		$this->upload->initializePathInfo( basename($filename) . '.txt', $filename, 100 );
+		$result = $this->upload->verifyUpload();
+		unlink( $filename );
+
+		$this->assertEquals(
+			array( 'status' => UploadBase::OK ), $result );
+
+		$wgMaxUploadSize = $savedGlobal;  // restore global
+	}
 }
 
 class UploadTestHandler extends UploadBase {

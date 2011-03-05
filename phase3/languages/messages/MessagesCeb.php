@@ -10,6 +10,7 @@
  * @author Abastillas
  * @author Jordz
  * @author Palang hernan
+ * @author Reedy
  * @author לערי ריינהארט
  */
 
@@ -536,7 +537,7 @@ Aron mahimo ang maong panid, pagtayp sa kahon sa ubos (tan-awa ang [[{{MediaWiki
 Kon miabot ka dinhi pinaagi sa usa ka sayop, palihog tuploka ang back nga tuplokanan sa imong brawser.',
 'noarticletext'                    => 'Sa kasamtangan walay sulod nga teksto ang kining panid.
 Puyde nimong  [[Special:Search/{{PAGENAME}}|pangitaon kining titulo sa panid]] sa ubang mga panid, <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} pangitaa ang related nga mga log],
-o [{{fullurl:{{FULLPAGENAME}}|action=edit}} usba kining panid].',
+o [{{fullurl:{{FULLPAGENAME}}|action=edit}} usba kining panid]</span>.',
 'userpage-userdoesnotexist'        => 'Ang akawnt sa tiggamit nga "$1" wala marehistro. Palihug tan-awa kon buot nimong himoon/usbon ang kining panid.',
 'previewnote'                      => "'''Hinumdomi nga kini usa lang ka paunang tan-aw; wala pa matipigi ang imong giusab!'''",
 'editing'                          => 'Nagausab sa $1',
@@ -1226,9 +1227,9 @@ Puyde dugangan og rason sa mubong sugid.',
 'nextdiff'     => 'Mas bag-ong pag-usab →',
 
 # Media information
-'file-info-size'       => '($1 × $2 pixels, size sa payl: $3, MIME type: $4)',
+'file-info-size'       => '$1 × $2 pixels, size sa payl: $3, MIME type: $4',
 'file-nohires'         => '<small>Walay mas taas nga resolusyon.</small>',
-'svg-long-desc'        => '(SVG nga payl, nominally $1 × $2 pixels, size sa payl: $3)',
+'svg-long-desc'        => 'SVG nga payl, nominally $1 × $2 pixels, size sa payl: $3',
 'show-big-image'       => 'Tibuok resolusyon',
 'show-big-image-thumb' => '<small>Size niining preview: $1 × $2 pixels</small>',
 

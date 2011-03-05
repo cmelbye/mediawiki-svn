@@ -74,13 +74,16 @@ class UsersPager extends AlphabeticPager {
 		$dbr = wfGetDB( DB_SLAVE );
 		$conds = array();
 		// Don't show hidden names
-		if( !$wgUser->isAllowed('hideuser') )
+		if( !$wgUser->isAllowed('hideuser') ) {
 			$conds[] = 'ipb_deleted IS NULL';
+		}
+
+		$options = array();
+
 		if( $this->requestedGroup != '' ) {
 			$conds['ug_group'] = $this->requestedGroup;
-			$useIndex = '';
 		} else {
-			$useIndex = $dbr->useIndexClause( $this->creationSort ? 'PRIMARY' : 'user_name');
+			//$options['USE INDEX'] = $this->creationSort ? 'PRIMARY' : 'user_name';
 		}
 		if( $this->requestedUser != '' ) {
 			# Sorted either by account creation or name
@@ -94,11 +97,10 @@ class UsersPager extends AlphabeticPager {
 			$conds[] = 'user_editcount > 0';
 		}
 
-		list ($user,$user_groups,$ipblocks) = $dbr->tableNamesN('user','user_groups','ipblocks');
+		$options['GROUP BY'] = $this->creationSort ? 'user_id' : 'user_name';
 
 		$query = array(
-			'tables' => " $user $useIndex LEFT JOIN $user_groups ON user_id=ug_user
-				LEFT JOIN $ipblocks ON user_id=ipb_user AND ipb_deleted=1 AND ipb_auto=0 ",
+			'tables' => array( 'user', 'user_groups', 'ipblocks'),
 			'fields' => array(
 				$this->creationSort ? 'MAX(user_name) AS user_name' : 'user_name',
 				$this->creationSort ? 'user_id' : 'MAX(user_id) AS user_id',
@@ -108,7 +110,11 @@ class UsersPager extends AlphabeticPager {
 				'MIN(user_registration) AS creation',
 				'MAX(ipb_deleted) AS ipb_deleted' // block/hide status
 			),
-			'options' => array('GROUP BY' => $this->creationSort ? 'user_id' : 'user_name'),
+			'options' => $options,
+			'join_conds' => array(
+				'user_groups' => array( 'LEFT JOIN', 'user_id=ug_user' ),
+				'ipblocks' => array( 'LEFT JOIN', 'user_id=ipb_user AND ipb_deleted=1 AND ipb_auto=0' ),
+			),
 			'conds' => $conds
 		);
 

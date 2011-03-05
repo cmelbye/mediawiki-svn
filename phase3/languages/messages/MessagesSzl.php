@@ -1127,7 +1127,7 @@ Jak chceš wćepać ta, bydźeš muśou zmjyńić mjano wćepywanygo terozki pli
 'fileexists-shared-forbidden' => 'Plik uo takym mjańe juž je wćepany na wspůlne repozytorjům plikůw.
 Idź nazod i wćepej tyn plik pod inkšym mjanym. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tyn plik je kopjům {{PLURAL:$1|plika|nastypujůncych plikůw:}}',
-'file-deleted-duplicate'      => 'Identyczny plik jak tyn plik ([[$1]]) zostoł wyćepany. Sprowdź historyja wyćepań tamtygo plika ńim wćepńesz go nazod.',
+'file-deleted-duplicate'      => 'Identyczny plik jak tyn plik ([[:$1]]) zostoł wyćepany. Sprowdź historyja wyćepań tamtygo plika ńim wćepńesz go nazod.',
 'uploadwarning'               => 'Uostřežyńe uo wćepywańu',
 'savefile'                    => 'Naškryflej plik',
 'uploadedimage'               => 'wćepano "[[$1]]"',
@@ -2166,10 +2166,10 @@ $1',
 'imagemaxsize'         => 'Na zajtach uopisu plikůw uůgrańič rozmjar uobrazkůw do:',
 'thumbsize'            => 'Rozmjar mińjatůrki',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|zajta|zajty|zajtůw}}',
-'file-info'            => '(rozmjor plika: $1, typ MIME: $2)',
-'file-info-size'       => '($1 × $2 pikseli, rozmior plika: $3, typ MIME: $4)',
+'file-info'            => 'rozmjor plika: $1, typ MIME: $2',
+'file-info-size'       => '$1 × $2 pikseli, rozmior plika: $3, typ MIME: $4',
 'file-nohires'         => '<small>Uobrozek we wjynkšej rozdźelčośći ńy je dostympny.</small>',
-'svg-long-desc'        => '(Plik SVG, nůminalńe $1 × $2 pixelůw, rozmior plika: $3)',
+'svg-long-desc'        => 'Plik SVG, nůminalńe $1 × $2 pixelůw, rozmior plika: $3',
 'show-big-image'       => 'Oryginalno rozdźelčość',
 'show-big-image-thumb' => '<small>Rozmiar podglůndu: $1 × $2 pikseli</small>',
 
@@ -2639,9 +2639,7 @@ Naškryflej sam mjano plika bez prefiksu „{{ns:file}}:”.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Šnupej za duplikatym plika',
-'fileduplicatesearch-summary'  => 'Šnupej za duplikatůma plika na podstawje wartośći fůnkcyji skrůtu.
-
-Wklepej mjano plika s půmińjyńćym prefiksu „{{ns:file}}:”.',
+'fileduplicatesearch-summary'  => 'Šnupej za duplikatůma plika na podstawje wartośći fůnkcyji skrůtu.',
 'fileduplicatesearch-legend'   => 'Šnupej za duplikatůma plika',
 'fileduplicatesearch-filename' => 'Mjano pliku:',
 'fileduplicatesearch-submit'   => 'Šnupej',

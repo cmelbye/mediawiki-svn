@@ -147,8 +147,9 @@ class MysqlUpdater extends DatabaseUpdater {
 			// 1.16
 			array( 'addTable', 'user_properties',                   'patch-user_properties.sql' ),
 			array( 'addTable', 'log_search',                        'patch-log_search.sql' ),
-			array( 'doLogSearchPopulation' ),
 			array( 'addField', 'logging',       'log_user_text',    'patch-log_user_text.sql' ),
+			array( 'doLogUsertextPopulation' ), # listed separately from the previous update because 1.16 was released without this update
+			array( 'doLogSearchPopulation' ),
 			array( 'addTable', 'l10n_cache',                        'patch-l10n_cache.sql' ),
 			array( 'addTable', 'external_user',                     'patch-external_user.sql' ),
 			array( 'addIndex', 'log_search',    'ls_field_val',     'patch-log_search-rename-index.sql' ),
@@ -171,6 +172,9 @@ class MysqlUpdater extends DatabaseUpdater {
 			array( 'doCollationUpdate' ),
 			array( 'addTable', 'msg_resource',                      'patch-msg_resource.sql' ),
 			array( 'addTable', 'module_deps',                       'patch-module_deps.sql' ),
+			array( 'dropIndex', 'archive', 'ar_page_revid',         'patch-archive_kill_ar_page_revid.sql' ),
+			array( 'addIndex', 'archive', 'ar_revid',               'patch-archive_ar_revid.sql' ),
+			array( 'doLangLinksLengthUpdate' ),
 		);
 	}
 
@@ -191,7 +195,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			$this->output( "...$table table has correct $field encoding.\n" );
 		} else {
 			$this->output( "Fixing $field encoding on $table table... " );
-			$this->db->applyPatch( $patchFile );
+			$this->applyPatch( $patchFile );
 			$this->output( "ok\n" );
 		}
 	}
@@ -311,6 +315,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			$this->output( wfTimestamp( TS_DB ) );
 			$this->output( "......<b>Found duplicate entries</b>\n" );
 			$this->output( sprintf( "<b>      %-60s %3s %5s</b>\n", 'Title', 'NS', 'Count' ) );
+			$duplicate = array();
 			foreach ( $rows as $row ) {
 				if ( ! isset( $duplicate[$row->cur_namespace] ) ) {
 					$duplicate[$row->cur_namespace] = array();
@@ -359,7 +364,6 @@ class MysqlUpdater extends DatabaseUpdater {
 			$this->output( wfTimestamp( TS_DB ) );
 			$this->output( "......<b>Deleted</b> " . $this->db->affectedRows() . " records.\n" );
 		}
-
 
 		$this->output( wfTimestamp( TS_DB ) );
 		$this->output( "......Creating tables.\n" );
@@ -622,7 +626,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		$rows = $this->db->affectedRows();
 
 		if( $rows ) {
-			$this->output( "Set page_random to a random value on $row rows where it was set to 0\n" );
+			$this->output( "Set page_random to a random value on $rows rows where it was set to 0\n" );
 		} else {
 			$this->output( "...no page_random rows needed to be set\n" );
 		}
@@ -809,5 +813,19 @@ class MysqlUpdater extends DatabaseUpdater {
 		$this->output( 'Updating categorylinks (again)...' );
 		$this->applyPatch( 'patch-categorylinks-better-collation2.sql' );
 		$this->output( "done.\n" );
+	}
+
+	protected function doLangLinksLengthUpdate() {
+		$langlinks = $this->db->tableName( 'langlinks' );
+		$res = $this->db->query( "SHOW COLUMNS FROM $langlinks LIKE 'll_lang'" );
+		$row = $this->db->fetchObject( $res );
+
+		if ( $row && $row->Type == "varbinary(10)" ) {
+			$this->output( 'Updating length of ll_lang in langlinks...' );
+			$this->applyPatch( 'patch-langlinks-ll_lang-20.sql' );
+			$this->output( "done.\n" );
+		} else {
+			$this->output( "...ll_lang is up-to-date.\n" );
+		}
 	}
 }

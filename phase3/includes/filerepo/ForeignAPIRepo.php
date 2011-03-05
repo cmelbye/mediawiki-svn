@@ -25,13 +25,13 @@ class ForeignAPIRepo extends FileRepo {
 	/* This version string is used in the user agent for requests and will help
 	 * server maintainers in identify ForeignAPI usage.
 	 * Update the version every time you make breaking or significant changes. */
-	const VERSION = "2.0";
+	const VERSION = "2.1";
 
 	var $fileFactory = array( 'ForeignAPIFile', 'newFromTitle' );
 	/* Check back with Commons after a day */
-	var $apiThumbCacheExpiry = 86400;
+	var $apiThumbCacheExpiry = 86400; /* 24*60*60 */
 	/* Redownload thumbnail files after a month */
-	var $fileCacheExpiry = 2629743;
+	var $fileCacheExpiry = 2592000; /* 86400*30 */
 	/* Local image directory */
 	var $directory;
 	var $thumbDir;
@@ -102,7 +102,6 @@ class ForeignAPIRepo extends FileRepo {
 		return false;
 	}
 
-
 	function fileExistsBatch( $files, $flags = 0 ) {
 		$results = array();
 		foreach ( $files as $k => $f ) {
@@ -118,7 +117,7 @@ class ForeignAPIRepo extends FileRepo {
 			}
 		}
 
-		$results = $this->fetchImageQuery( array( 'titles' => implode( $files, '|' ),
+		$data = $this->fetchImageQuery( array( 'titles' => implode( $files, '|' ),
 											'prop' => 'imageinfo' ) );
 		if( isset( $data['query']['pages'] ) ) {
 			$i = 0;
@@ -127,7 +126,9 @@ class ForeignAPIRepo extends FileRepo {
 				$i++;
 			}
 		}
+		return $results;
 	}
+
 	function getFileProps( $virtualUrl ) {
 		return false;
 	}
@@ -196,12 +197,13 @@ class ForeignAPIRepo extends FileRepo {
 		return $ret;
 	}
 
-	function getThumbUrl( $name, $width=-1, $height=-1, &$result=NULL ) {
+	function getThumbUrl( $name, $width = -1, $height = -1, &$result = null, $otherParams = '' ) {
 		$data = $this->fetchImageQuery( array(
 			'titles' => 'File:' . $name,
 			'iiprop' => 'url|timestamp',
 			'iiurlwidth' => $width,
 			'iiurlheight' => $height,
+			'iiurlparam'  => $otherParams,
 			'prop' => 'imageinfo' ) );
 		$info = $this->getImageInfo( $data );
 
@@ -223,15 +225,16 @@ class ForeignAPIRepo extends FileRepo {
 	 * @param $name String is a dbkey form of a title
 	 * @param $width
 	 * @param $height
+	 * @param String $param Other rendering parameters (page number, etc) from handler's makeParamString.
 	 */
-	function getThumbUrlFromCache( $name, $width, $height ) {
+	function getThumbUrlFromCache( $name, $width, $height, $params="" ) {
 		global $wgMemc;
 
 		if ( !$this->canCacheThumbs() ) {
-			return $this->getThumbUrl( $name, $width, $height );
+			return $this->getThumbUrl( $name, $width, $height, null, $params );
 		}
 		$key = $this->getLocalCacheKey( 'ForeignAPIRepo', 'ThumbUrl', $name );
-		$sizekey = "$width:$height";
+		$sizekey = "$width:$height:$params";
 
 		/* Get the array of urls that we already know */
 		$knownThumbUrls = $wgMemc->get($key);
@@ -240,14 +243,15 @@ class ForeignAPIRepo extends FileRepo {
 			$knownThumbUrls = array();
 		} else {
 			if( isset( $knownThumbUrls[$sizekey] ) ) {
-				wfDebug("Got thumburl from local cache. {$knownThumbUrls[$sizekey]} \n");
+				wfDebug( __METHOD__ . ': Got thumburl from local cache: ' .
+					"{$knownThumbUrls[$sizekey]} \n");
 				return $knownThumbUrls[$sizekey];
 			}
 			/* This size is not yet known */
 		}
 
 		$metadata = null;
-		$foreignUrl = $this->getThumbUrl( $name, $width, $height, $metadata );
+		$foreignUrl = $this->getThumbUrl( $name, $width, $height, $metadata, $params );
 
 		if( !$foreignUrl ) {
 			wfDebug( __METHOD__ . " Could not find thumburl\n" );
@@ -272,7 +276,7 @@ class ForeignAPIRepo extends FileRepo {
 			$diff = abs( $modified - $current );
 			if( $remoteModified < $modified && $diff < $this->fileCacheExpiry ) {
 				/* Use our current and already downloaded thumbnail */
-				$knownThumbUrls["$width:$height"] = $localUrl;
+				$knownThumbUrls[$sizekey] = $localUrl;
 				$wgMemc->set( $key, $knownThumbUrls, $this->apiThumbCacheExpiry );
 				return $localUrl;
 			}

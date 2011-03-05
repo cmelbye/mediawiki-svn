@@ -33,8 +33,8 @@ class UpdateSpecialPages extends Maintenance {
 	}
 
 	public function execute() {
-		global $IP, $wgOut, $wgSpecialPageCacheUpdates, $wgQueryPages, $wgQueryCacheLimit, $wgDisableQueryPageUpdate;
-		$wgOut->disable();
+		global $IP, $wgSpecialPageCacheUpdates, $wgQueryPages, $wgQueryCacheLimit, $wgDisableQueryPageUpdate;
+
 		$dbw = wfGetDB( DB_MASTER );
 
 		foreach ( $wgSpecialPageCacheUpdates as $special => $call ) {
@@ -140,4 +140,4 @@ class UpdateSpecialPages extends Maintenance {
 }
 
 $maintClass = "UpdateSpecialPages";
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

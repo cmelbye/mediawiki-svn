@@ -56,7 +56,7 @@ class SearchMySQL extends SearchEngine {
 			  $filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach( $m as $bits ) {
 				@list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
-				
+
 				if( $nonQuoted != '' ) {
 					$term = $nonQuoted;
 					$quote = '';
@@ -64,13 +64,13 @@ class SearchMySQL extends SearchEngine {
 					$term = str_replace( '"', '', $term );
 					$quote = '"';
 				}
-			
+
 				if( $searchon !== '' ) $searchon .= ' ';
 				if( $this->strictMatching && ($modifier == '') ) {
 					// If we leave this out, boolean op defaults to OR which is rarely helpful.
 					$modifier = '+';
 				}
-				
+
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
 				$convertedVariants = $wgContLang->autoConvertToAllVariants( $term );
@@ -79,7 +79,7 @@ class SearchMySQL extends SearchEngine {
 				} else {
 					$variants = array( $term );
 				}
-				
+
 				// The low-level search index does some processing on input to work
 				// around problems with minimum lengths and encoding in MySQL's
 				// fulltext engine.
@@ -87,12 +87,12 @@ class SearchMySQL extends SearchEngine {
 				$strippedVariants = array_map(
 					array( $wgContLang, 'normalizeForSearch' ),
 					$variants );
-				
+
 				// Some languages such as Chinese force all variants to a canonical
 				// form when stripping to the low-level search index, so to be sure
 				// let's check our variants list for unique items after stripping.
 				$strippedVariants = array_unique( $strippedVariants );
-				
+
 				$searchon .= $modifier;
 				if( count( $strippedVariants) > 1 )
 					$searchon .= '(';
@@ -108,7 +108,7 @@ class SearchMySQL extends SearchEngine {
 				}
 				if( count( $strippedVariants) > 1 )
 					$searchon .= ')';
-				
+
 				// Match individual terms or quoted phrase in result highlighting...
 				// Note that variants will be introduced in a later stage for highlighting!
 				$regexp = $this->regexTerm( $term, $wildcard );
@@ -124,10 +124,10 @@ class SearchMySQL extends SearchEngine {
 		$field = $this->getIndexField( $fulltext );
 		return " MATCH($field) AGAINST('$searchon' IN BOOLEAN MODE) ";
 	}
-	
+
 	function regexTerm( $string, $wildcard ) {
 		global $wgContLang;
-		
+
 		$regex = preg_quote( $string, '/' );
 		if( $wgContLang->hasWordBreaks() ) {
 			if( $wildcard ) {
@@ -167,13 +167,13 @@ class SearchMySQL extends SearchEngine {
 	function searchTitle( $term ) {
 		return $this->searchInternal( $term, false );
 	}
-	
+
 	protected function searchInternal( $term, $fulltext ) {
 		global $wgCountTotalSearchHits;
-		
+
 		$filteredTerm = $this->filter( $term );
 		$resultSet = $this->db->query( $this->getQuery( $filteredTerm, $fulltext ) );
-		
+
 		$total = null;
 		if( $wgCountTotalSearchHits ) {
 			$totalResult = $this->db->query( $this->getCountQuery( $filteredTerm, $fulltext ) );
@@ -183,7 +183,7 @@ class SearchMySQL extends SearchEngine {
 			}
 			$totalResult->free();
 		}
-		
+
 		return new MySQLSearchResultSet( $resultSet, $this->searchTerms, $total );
 	}
 
@@ -196,7 +196,7 @@ class SearchMySQL extends SearchEngine {
 		if( $this->showRedirects ) {
 			return '';
 		} else {
-			return 'AND page_is_redirect=0';
+			return 'page_is_redirect=0';
 		}
 	}
 
@@ -212,7 +212,7 @@ class SearchMySQL extends SearchEngine {
 		} else {
 			$namespaces = $this->db->makeList( $this->namespaces );
 		}
-		return 'AND page_namespace IN (' . $namespaces . ')';
+		return 'page_namespace IN (' . $namespaces . ')';
 	}
 
 	/**
@@ -239,13 +239,26 @@ class SearchMySQL extends SearchEngine {
 	 * @param $fulltext Boolean
 	 */
 	function getQuery( $filteredTerm, $fulltext ) {
-		return $this->queryMain( $filteredTerm, $fulltext ) . ' ' .
-			$this->queryRedirect() . ' ' .
-			$this->queryNamespaces() . ' ' .
-			$this->queryRanking( $filteredTerm, $fulltext ) . ' ' .
+		$query = $this->queryMain( $filteredTerm, $fulltext ) . ' ';
+
+		$redir = $this->queryRedirect();
+
+		if ( $redir ) {
+			$query .= 'AND ' . $redir . ' ';
+		}
+
+		$namespace = $this->queryNamespaces();
+
+		if ( $namespace ) {
+			$query .= 'AND ' . $namespace . ' ';
+		}
+
+		$query .= $this->queryRanking( $filteredTerm, $fulltext ) . ' ' .
 			$this->queryLimit();
+
+		return $query;
 	}
-	
+
 	/**
 	 * Picks which field to index on, depending on what type of query.
 	 * @param $fulltext Boolean
@@ -276,13 +289,17 @@ class SearchMySQL extends SearchEngine {
 
 	function getCountQuery( $filteredTerm, $fulltext ) {
 		$match = $this->parseQuery( $filteredTerm, $fulltext );
-		$page        = $this->db->tableName( 'page' );
-		$searchindex = $this->db->tableName( 'searchindex' );
-		return "SELECT COUNT(*) AS c " .
-			"FROM $page,$searchindex " .
-			'WHERE page_id=si_page AND ' . $match .
-			$this->queryRedirect() . ' ' .
-			$this->queryNamespaces();
+
+		return $this->db->selectSQLText( array( 'page', 'searchindex' ),
+			'COUNT(*) AS c',
+			array(
+				'page_id=si_page',
+				$match,
+				$this->queryRedirect(),
+				$this->queryNamespaces()
+			),
+			__METHOD__
+		);
 	}
 
 	/**
@@ -311,7 +328,7 @@ class SearchMySQL extends SearchEngine {
 	 * @param $id Integer
 	 * @param $title String
 	 */
-    function updateTitle( $id, $title ) {
+	function updateTitle( $id, $title ) {
 		$dbw = wfGetDB( DB_MASTER );
 
 		$dbw->update( 'searchindex',
@@ -329,7 +346,7 @@ class SearchMySQL extends SearchEngine {
 		global $wgContLang;
 
 		wfProfileIn( __METHOD__ );
-		
+
 		$out = parent::normalizeText( $string );
 
 		// MySQL fulltext index doesn't grok utf-8, so we
@@ -363,7 +380,7 @@ class SearchMySQL extends SearchEngine {
 			$out );
 
 		wfProfileOut( __METHOD__ );
-		
+
 		return $out;
 	}
 

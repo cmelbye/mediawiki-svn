@@ -13,6 +13,9 @@
  * @ingroup Parser
  */
 class Preprocessor_Hash implements Preprocessor {
+	/**
+	 * @var Parser
+	 */
 	var $parser;
 
 	const CACHE_VERSION = 1;
@@ -81,11 +84,10 @@ class Preprocessor_Hash implements Preprocessor {
 	function preprocessToObj( $text, $flags = 0 ) {
 		wfProfileIn( __METHOD__ );
 
-
 		// Check cache.
 		global $wgMemc, $wgPreprocessorCacheThreshold;
 
-		$cacheable = strlen( $text ) > $wgPreprocessorCacheThreshold;
+		$cacheable = $wgPreprocessorCacheThreshold !== false && strlen( $text ) > $wgPreprocessorCacheThreshold;
 		if ( $cacheable ) {
 			wfProfileIn( __METHOD__.'-cacheable' );
 
@@ -272,7 +274,7 @@ class Preprocessor_Hash implements Preprocessor {
 						// Search backwards for leading whitespace
 						$wsStart = $i ? ( $i - strspn( $revText, ' ', strlen( $text ) - $i ) ) : 0;
 						// Search forwards for trailing whitespace
-						// $wsEnd will be the position of the last space
+						// $wsEnd will be the position of the last space (or the '>' if there's none)
 						$wsEnd = $endPos + 2 + strspn( $text, ' ', $endPos + 3 );
 						// Eat the line if possible
 						// TODO: This could theoretically be done if $wsStart == 0, i.e. for comments at
@@ -818,7 +820,21 @@ class PPDAccum_Hash {
  * @ingroup Parser
  */
 class PPFrame_Hash implements PPFrame {
-	var $preprocessor, $parser, $title;
+
+	/**
+	 * @var Parser
+	 */
+	var $parser;
+
+	/**
+	 * @var Preprocessor
+	 */
+	var $preprocessor;
+
+	/**
+	 * @var Title
+	 */
+	var $title;
 	var $titleCache;
 
 	/**
@@ -886,8 +902,7 @@ class PPFrame_Hash implements PPFrame {
 			return $root;
 		}
 
-		if ( ++$this->parser->mPPNodeCount > $this->parser->mOptions->getMaxPPNodeCount() )
-		{
+		if ( ++$this->parser->mPPNodeCount > $this->parser->mOptions->getMaxPPNodeCount() ) {
 			return '<span class="error">Node-count limit exceeded</span>';
 		}
 		if ( $expansionDepth > $this->parser->mOptions->getMaxPPExpandDepth() ) {
@@ -1016,7 +1031,7 @@ class PPFrame_Hash implements PPFrame {
 						$serial = count( $this->parser->mHeadings ) - 1;
 						$marker = "{$this->parser->mUniqPrefix}-h-$serial-" . Parser::MARKER_SUFFIX;
 						$s = substr( $s, 0, $bits['level'] ) . $marker . substr( $s, $bits['level'] );
-						$this->parser->mStripState->general->setPair( $marker, '' );
+						$this->parser->mStripState->addGeneral( $marker, '' );
 						$out .= $s;
 					} else {
 						# Expand in virtual stack
@@ -1195,6 +1210,8 @@ class PPFrame_Hash implements PPFrame {
 
 	/**
 	 * Returns true if the infinite loop check is OK, false if a loop is detected
+	 *
+	 * @param $title Title
 	 */
 	function loopCheck( $title ) {
 		return !isset( $this->loopCheckHash[$title->getPrefixedDBkey()] );

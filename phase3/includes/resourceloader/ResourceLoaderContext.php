@@ -91,7 +91,8 @@ class ResourceLoaderContext {
 		if ( $this->direction === null ) {
 			$this->direction = $this->request->getVal( 'dir' );
 			if ( !$this->direction ) {
-				$this->direction = Language::factory( $this->language )->getDir();
+				global $wgContLang;
+				$this->direction = $wgContLang->getDir();
 			}
 		}
 		return $this->direction;
@@ -130,7 +131,7 @@ class ResourceLoaderContext {
 	}
 
 	public function getHash() {
-		if ( isset( $this->hash ) ) {
+		if ( !isset( $this->hash ) ) {
 			$this->hash = implode( '|', array(
 				$this->getLanguage(), $this->getDirection(), $this->skin, $this->user, 
 				$this->debug, $this->only, $this->version

@@ -37,9 +37,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiBlock extends ApiBase {
 
-	/**
-	 * Std ctor.
-	 */
 	public function __construct( $main, $action ) {
 		parent::__construct( $main, $action );
 	}
@@ -55,7 +52,7 @@ class ApiBlock extends ApiBase {
 		$params = $this->extractRequestParams();
 
 		if ( $params['gettoken'] ) {
-			$res['blocktoken'] = $wgUser->editToken();
+			$res['blocktoken'] = $wgUser->editToken( '', $this->getMain()->getRequest() );
 			$this->getResult()->addValue( null, $this->getModuleName(), $res );
 			return;
 		}
@@ -90,6 +87,7 @@ class ApiBlock extends ApiBase {
 		$form->BlockHideName = $params['hidename'];
 		$form->BlockAllowUsertalk = $params['allowusertalk'] && $wgBlockAllowsUTEdit;
 		$form->BlockReblock = $params['reblock'];
+		$form->BlockWatchUser = $params['watchuser'];
 
 		$userID = $expiry = null;
 		$retval = $form->doBlock( $userID, $expiry );
@@ -120,6 +118,9 @@ class ApiBlock extends ApiBase {
 		if ( $params['allowusertalk'] ) {
 			$res['allowusertalk'] = '';
 		}
+		if ( $params['watchuser'] ) {
+			$res['watchuser'] = '';
+		}
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $res );
 	}
@@ -149,6 +150,7 @@ class ApiBlock extends ApiBase {
 			'hidename' => false,
 			'allowusertalk' => false,
 			'reblock' => false,
+			'watchuser' => false,
 		);
 	}
 
@@ -166,6 +168,7 @@ class ApiBlock extends ApiBase {
 			'hidename' => 'Hide the username from the block log. (Requires the "hideuser" right.)',
 			'allowusertalk' => 'Allow the user to edit their own talk page (depends on $wgBlockAllowsUTEdit)',
 			'reblock' => 'If the user is already blocked, overwrite the existing block',
+			'watchuser' => 'Watch the user/IP\'s user and talk pages',
 		);
 	}
 

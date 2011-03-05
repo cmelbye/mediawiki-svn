@@ -17,6 +17,7 @@ abstract class FileRepo {
 	const DELETE_SOURCE = 1;
 	const OVERWRITE = 2;
 	const OVERWRITE_SAME = 4;
+	const SKIP_VALIDATION = 8;
 
 	var $thumbScriptUrl, $transformVia404;
 	var $descBaseUrl, $scriptDirUrl, $scriptExtension, $articleUrl;
@@ -65,6 +66,8 @@ abstract class FileRepo {
 	 *              instance of the repository's old file class instead of a
 	 *              current file. Repositories not supporting version control
 	 *              should return false if this parameter is set.
+	 *
+	 * @return File
 	 */
 	function newFile( $title, $time = false ) {
 		if ( !($title instanceof Title) ) {
@@ -139,7 +142,7 @@ abstract class FileRepo {
 			return false;
 		}
 		$redir = $this->checkRedirect( $title );
-		if( $redir && $redir->getNamespace() == NS_FILE) {
+		if( $redir && $title->getNamespace() == NS_FILE) {
 			$img = $this->newFile( $redir );
 			if( !$img ) {
 				return false;
@@ -188,6 +191,8 @@ abstract class FileRepo {
 	 *              of the repository's old file class instead of a current
 	 *              file. Repositories not supporting version control should
 	 *              return false if this parameter is set.
+	 *
+	 * @return File
 	 */
 	function newFileFromKey( $sha1, $time = false ) {
 		if ( $time ) {
@@ -264,6 +269,7 @@ abstract class FileRepo {
 
 	/**
 	 * Get the name of an image from its title object
+	 * @param $title Title
 	 */
 	function getNameFromTitle( $title ) {
 		if ( $this->initialCapital != MWNamespace::isCapitalized( NS_FILE ) ) {
@@ -623,6 +629,7 @@ abstract class FileRepo {
 	 * STUB
 	 *
 	 * @param $title Title of image
+	 * @return Bool
 	 */
 	function checkRedirect( $title ) {
 		return false;
@@ -657,11 +664,7 @@ abstract class FileRepo {
 			return null;
 		}
 		// 'shared-repo-name-wikimediacommons' is used when $wgUseInstantCommons = true
-		$repoName = wfMsg( 'shared-repo-name-' . $this->name );
-		if ( !wfEmptyMsg( 'shared-repo-name-' . $this->name, $repoName ) ) {
-			return $repoName;
-		}
-		return wfMsg( 'shared-repo' );
+		return wfMessageFallback( 'shared-repo-name-' . $this->name, 'shared-repo' )->text();
 	}
 
 	/**
@@ -694,5 +697,14 @@ abstract class FileRepo {
 		$args = func_get_args();
 		array_unshift( $args, 'filerepo', $this->getName() );
 		return call_user_func_array( 'wfMemcKey', $args );
+	}
+	
+	/**
+	 * Get an UploadStash associated with this repo.
+	 *
+	 * @return UploadStash
+	 */
+	function getUploadStash() {
+		return new UploadStash( $this );
 	}
 }

@@ -1399,7 +1399,7 @@ $1",
 'fileexists-shared-forbidden' => 'یک فایلی گون ای نام الان ته منبع مشترک فایل هستن.
 لطفا برگردیت و ای فایل گون نوکین نامی آپلود کنیت.[[File:$1|انگشتی|مرکز|$1]]',
 'file-exists-duplicate'       => 'ای فایل کپیء چه جهلیگین  {{PLURAL:$1|فایل|فایلان}}:',
-'file-deleted-duplicate'      => 'یک فایلی په داب ای فایل ([[$1]]) پیسرتر حذف بوتگت. شما بایدن تاریح حذف آ فایلء دگه بچاریت',
+'file-deleted-duplicate'      => 'یک فایلی په داب ای فایل ([[:$1]]) پیسرتر حذف بوتگت. شما بایدن تاریح حذف آ فایلء دگه بچاریت',
 'uploadwarning'               => 'هوژاری آپلود',
 'savefile'                    => 'ذخیره فایل',
 'uploadedimage'               => 'اپلود بوت "[[$1]]"',
@@ -2557,10 +2557,10 @@ $1',
 'imagemaxsize'         => "محدودیت تصاویر: <br />''(په صفحات توضیح فایل)''",
 'thumbsize'            => 'اندازه پیج انگشتی',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|صفحه|صفحات}}',
-'file-info'            => '(اندازه فایل: $1, مایم نوع: $2)',
-'file-info-size'       => '($1 × $2 پیکسل, اندازه فایل: $3, مایم نوع: $4)',
+'file-info'            => 'اندازه فایل: $1, مایم نوع: $2',
+'file-info-size'       => '$1 × $2 پیکسل, اندازه فایل: $3, مایم نوع: $4',
 'file-nohires'         => '<small>مزنترین رزلوشن نیست.</small>',
-'svg-long-desc'        => '(اس وی جی  فایل, معمولا $1 × $2 پیکسل, فایل اندازه: $3)',
+'svg-long-desc'        => 'اس وی جی  فایل, معمولا $1 × $2 پیکسل, فایل اندازه: $3',
 'show-big-image'       => 'کل صفحه',
 'show-big-image-thumb' => '<small>اندازه ای بازبین:$1× $2 pixels</small>',
 
@@ -3158,9 +3158,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'گردگ په کپی  فایلان',
-'fileduplicatesearch-summary'  => 'گردگ په کپی فایلان په اساس درهمین ارزش.
-
-نا فایل بی پیش وند "{{ns:file}}:" وارد کنیت',
+'fileduplicatesearch-summary'  => 'گردگ په کپی فایلان په اساس درهمین ارزش.',
 'fileduplicatesearch-legend'   => 'گردگ په  کپی',
 'fileduplicatesearch-filename' => ':نام فایل',
 'fileduplicatesearch-submit'   => 'گردگ',

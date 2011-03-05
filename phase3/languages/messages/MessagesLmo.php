@@ -15,6 +15,7 @@
  * @author Insübrich
  * @author Kemmótar
  * @author Malafaya
+ * @author Reedy
  * @author Remulazz
  * @author SabineCretella
  * @author Snowdog
@@ -538,7 +539,7 @@ Se te seet chì per erur, schiscia "indree" in sül tò browser.',
 'anontalkpagetext'                 => "''Questa chí a l'é la pagina da ciciarada d'un druvadur che l'ha nonanmò registraa un cünt, o che 'l le dröva mia.
 Per 'sta reson chí, el pò vess identificaa dumà cunt el sò indirizz nümereg de IP.
 'Stu indirizz IP el pö vess druvaa da püssee d'un druvadur. Se te seet un druvadur anònim e ve someja che un quaj messagg ch'al ga par ch'al gh'a nagòt à vidé con lu, ch'al prœuva a [[Special:UserLogin|creà el sò cunt]].''",
-'noarticletext'                    => "Per 'l mument quela pagina chì l'è vöja. Te pòdet [[Special:Search/{{PAGENAME}}|cercà quel articul chì]] int i alter paginn, <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercà int i register imparentaa], o sedenò [{{fullurl:{{FULLPAGENAME}}|action=edit}} mudifichè 'sta pagina chì adess-adess].",
+'noarticletext'                    => "Per 'l mument quela pagina chì l'è vöja. Te pòdet [[Special:Search/{{PAGENAME}}|cercà quel articul chì]] int i alter paginn, <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercà int i register imparentaa], o sedenò [{{fullurl:{{FULLPAGENAME}}|action=edit}} mudifichè 'sta pagina chì adess-adess]</span>.",
 'clearyourcache'                   => "'''Nòta:''' dòpu che avii salvaa, pudaría véss neçessari de scancelá la memòria \"cache\" dal vòst prugráma də navigazziún in reet par vidé i mudifich faa. '''Mozilla / Firefox / Safari:''' tegní schiscjaa al butún ''Shift'' intaant che sə clica ''Reload'', upüür schiscjá ''Ctrl-Shift-R'' (''Cmd-Shift-R'' sül Apple Mac); '''IE:''' schiscjá ''Ctrl'' intaant che sə clica ''Refresh'', upüür schiscjá ''Ctrl-F5''; '''Konqueror:''': semplicemeent clicá al butún ''Reload'', upüür schiscjá ''F5''; '''Opera''' i üteent pudarían vech büsögn da scancelá cumpletameent la memòria \"cache\" in ''Tools&rarr;Preferences''.",
 'previewnote'                      => "''''''Atenziun'''! Questa pagina la serviss dumà de vardà. I cambiament hinn minga staa salvaa.'''",
 'editing'                          => 'Mudifega de $1',
@@ -1327,9 +1328,9 @@ Che 'l scerna, per piasè, un nom diferent per quel articul chì.",
 # Media information
 'imagemaxsize'         => 'Limitá i imagin süi pagin da descrizziún dii imagin a:',
 'thumbsize'            => 'Dimensiún diapusitiif:',
-'file-info-size'       => '($1 × $2 pixel, dimensión : $3, sort MIME: $4)',
+'file-info-size'       => '$1 × $2 pixel, dimensión : $3, sort MIME: $4',
 'file-nohires'         => '<small>Nissüna resulüzión püssee granda dispunibila.</small>',
-'svg-long-desc'        => "(archivi in furmaa SVG, dimensión nominaj  $1 × $2 pixel, dimensión de l'archivi: $3)",
+'svg-long-desc'        => "archivi in furmaa SVG, dimensión nominaj  $1 × $2 pixel, dimensión de l'archivi: $3",
 'show-big-image'       => 'Versión a resolüzión volta',
 'show-big-image-thumb' => '<small>Dimensión de quela anteprima chì: $1 × $2 pixel</small>',
 

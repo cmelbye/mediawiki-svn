@@ -1,7 +1,8 @@
-/*
+/**
  * User-agent detection
  */
-jQuery.client = new ( function() {
+( function( $ ) {
+$.client = new ( function() {
 
 	/* Private Members */
 
@@ -13,15 +14,15 @@ jQuery.client = new ( function() {
 	 * Returns an object containing information about the browser
 	 *
 	 * The resulting client object will be in the following format:
-	 * 	{
-	 * 		'name': 'firefox',
-	 * 		'layout': 'gecko',
-	 * 		'layoutVersion': '20101026',
-	 * 		'platform': 'linux'
-	 * 		'version': '3.5.1',
-	 * 		'versionBase': '3',
-	 * 		'versionNumber': 3.5,
-	 * 	}
+	 *  {
+	 *   'name': 'firefox',
+	 *   'layout': 'gecko',
+	 *   'layoutVersion': '20101026',
+	 *   'platform': 'linux'
+	 *   'version': '3.5.1',
+	 *   'versionBase': '3',
+	 *   'versionNumber': 3.5,
+	 *  }
 	 */
 	this.profile = function() {
 		// Use the cached version if possible
@@ -48,7 +49,7 @@ jQuery.client = new ( function() {
 				// This helps keep differnt versions consistent
 				['Navigator', 'Netscape'],
 				// This prevents version extraction issues, otherwise translation would happen later
-				['PLAYSTATION 3', 'PS3'],
+				['PLAYSTATION 3', 'PS3']
 			];
 			// Strings which precede a version number in a user agent string - combined and used as match 1 in
 			// version detectection
@@ -60,8 +61,8 @@ jQuery.client = new ( function() {
 			var versionSuffix = '(\\/|\\;?\\s|)([a-z0-9\\.\\+]*?)(\\;|dev|rel|\\)|\\s|$)';
 			// Names of known browsers
 			var names = [
-			 	'camino', 'chrome', 'firefox', 'netscape', 'konqueror', 'lynx', 'msie', 'opera', 'safari', 'ipod',
-			 	'iphone', 'blackberry', 'ps3'
+				'camino', 'chrome', 'firefox', 'netscape', 'konqueror', 'lynx', 'msie', 'opera', 'safari', 'ipod',
+				'iphone', 'blackberry', 'ps3'
 			];
 			// Tanslations for conforming browser names
 			var nameTranslations = [];
@@ -79,7 +80,7 @@ jQuery.client = new ( function() {
 			/* Methods */
 
 			// Performs multiple replacements on a string
-			function translate( source, translations ) {
+			var translate = function( source, translations ) {
 				for ( var i = 0; i < translations.length; i++ ) {
 					source = source.replace( translations[i][0], translations[i][1] );
 				}
@@ -105,7 +106,7 @@ jQuery.client = new ( function() {
 				layout = translate( match[1], layoutTranslations );
 			}
 			if ( match = new RegExp( '(' + layoutVersions.join( '|' ) + ')\\\/(\\d+)').exec( navigator.userAgent.toLowerCase() ) ) {
-				layoutversion = parseInt(match[2]);
+				layoutversion = parseInt( match[2], 10 );
 			}
 			if ( match = new RegExp( '(' + platforms.join( '|' ) + ')' ).exec( navigator.platform.toLowerCase() ) ) {
 				platform = translate( match[1], platformTranslations );
@@ -146,30 +147,30 @@ jQuery.client = new ( function() {
 	 * element is classified as either "ltr" or "rtl". If neither is set, "ltr" is assumed.
 	 *
 	 * A browser map is in the following format:
-	 *	{
-	 * 		'ltr': {
-	 * 			// Multiple rules with configurable operators
-	 * 			'msie': [['>=', 7], ['!=', 9]],
-	 *			// Blocked entirely
-	 * 			'iphone': false
-	 * 		},
-	 * 		'rtl': {
-	 * 			// Test against a string
-	 * 			'msie': [['!==', '8.1.2.3']],
-	 * 			// RTL rules do not fall through to LTR rules, you must explicity set each of them
-	 * 			'iphone': false
-	 * 		}
-	 *	}
+	 * {
+	 *   'ltr': {
+	 *     // Multiple rules with configurable operators
+	 *     'msie': [['>=', 7], ['!=', 9]],
+	 *      // Blocked entirely
+	 *     'iphone': false
+	 *   },
+	 *   'rtl': {
+	 *     // Test against a string
+	 *     'msie': [['!==', '8.1.2.3']],
+	 *     // RTL rules do not fall through to LTR rules, you must explicity set each of them
+	 *     'iphone': false
+	 *   }
+	 * }
 	 *
 	 * @param map Object of browser support map
 	 *
 	 * @return Boolean true if browser known or assumed to be supported, false if blacklisted
 	 */
 	this.test = function( map ) {
-		var profile = jQuery.client.profile();
-		var dir = jQuery( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr';
+		var profile = $.client.profile();
+		var dir = $( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr';
 		// Check over each browser condition to determine if we are running in a compatible client
-		if ( typeof map[dir] !== 'object' || map[dir][profile.name] !== 'object' ) {
+		if ( typeof map[dir] !== 'object' || typeof map[dir][profile.name] === 'undefined' ) {
 			// Unknown, so we assume it's working
 			return true;
 		}
@@ -192,3 +193,14 @@ jQuery.client = new ( function() {
 		return true;
 	}
 } )();
+
+$( document ).ready( function() {
+	var profile = $.client.profile();
+	$( 'html' )
+		.addClass( 'client-' + profile.name )
+		.addClass( 'client-' + profile.name + '-' + profile.versionBase )
+		.addClass( 'client-' + profile.layout )
+		.addClass( 'client-' + profile.platform );
+} );
+
+} )( jQuery );

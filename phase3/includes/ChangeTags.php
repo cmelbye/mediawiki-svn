@@ -28,11 +28,8 @@ class ChangeTags {
 	}
 
 	static function tagDescription( $tag ) {
-		$msg = wfMsgExt( "tag-$tag", 'parseinline' );
-		if ( wfEmptyMsg( "tag-$tag", $msg ) ) {
-			return htmlspecialchars( $tag );
-		}
-		return $msg;
+		$msg = wfMessage( "tag-$tag" );
+		return $msg->exists() ? $msg->parse() : htmlspecialchars( $tag ); 
 	}
 
 	## Basic utility method to add tags to a particular change, given its rc_id, rev_id and/or log_id.
@@ -150,16 +147,23 @@ class ChangeTags {
 	}
 
 	/**
-	 * If $fullForm is set to false, then it returns an array of (label, form).
-	 * If $fullForm is true, it returns an entire form.
+	 * Build a text box to select a change tag
+	 *
+	 * @param $selected String: tag to select by default
+	 * @param $fullForm Boolean:
+	 *        - if false, then it returns an array of (label, form).
+	 *        - if true, it returns an entire form around the selector.
+	 * @param $title Title object to send the form to.
+	 *        Used when, and only when $fullForm is true.
+	 * @return String or array:
+	 *        - if $fullForm is false: Array with
+	 *        - if $fullForm is true: String, html fragment
 	 */
-	static function buildTagFilterSelector( $selected='', $fullForm = false /* used to put a full form around the selector */ ) {
+	public static function buildTagFilterSelector( $selected='', $fullForm = false, Title $title = null ) {
 		global $wgUseTagFilter;
 
 		if ( !$wgUseTagFilter || !count( self::listDefinedTags() ) )
 			return $fullForm ? '' : array();
-
-		global $wgTitle;
 
 		$data = array( wfMsgExt( 'tag-filter', 'parseinline' ), Xml::input( 'tagfilter', 20, $selected ) );
 
@@ -169,8 +173,8 @@ class ChangeTags {
 
 		$html = implode( '&#160;', $data );
 		$html .= "\n" . Xml::element( 'input', array( 'type' => 'submit', 'value' => wfMsg( 'tag-filter-submit' ) ) );
-		$html .= "\n" . Html::hidden( 'title', $wgTitle-> getPrefixedText() );
-		$html = Xml::tags( 'form', array( 'action' => $wgTitle->getLocalURL(), 'method' => 'get' ), $html );
+		$html .= "\n" . Html::hidden( 'title', $title-> getPrefixedText() );
+		$html = Xml::tags( 'form', array( 'action' => $title->getLocalURL(), 'method' => 'get' ), $html );
 
 		return $html;
 	}

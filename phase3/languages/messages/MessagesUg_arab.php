@@ -8,6 +8,7 @@
  * @file
  *
  * @author Alfredie
+ * @author Reedy
  * @author Sahran
  */
 
@@ -669,7 +670,7 @@ $2',
 ئەگەر سىز ئاتسىز ئىشلەتكۈچى بولسىڭىز ھەمدە بۇ بەتتىكى مۇنازىرە سىز بىلەن مۇناسىۋەتلىك بولسا،  [[Special:UserLogin/signup|ھېسابات قۇر]] ياكى [[Special:UserLogin|تىزىمغا كىر]]  ئارقىلىق كەلگۈسىدىكى باشقا ئاتسىز ئىشلەتكۈچى بىلەن ئارىلىشىپ كېتىشنىڭ ئالدىنى ئېلىڭ.''",
 'noarticletext'                    => 'بۇ بەتتە ھازىرچە مەزمۇن يوق.
  سىز باشقا بەتتە [[Special:Search/{{PAGENAME}}|بۇ بەتنىڭ ماۋزۇسىنى ئىزدىيەلەيسىز]] ياكى
-<span class=\\"plainlinks\\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} مۇناسىۋەتلىك خاتىرىسىنى ئىزدىيەلەيسىز،],
+<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} مۇناسىۋەتلىك خاتىرىسىنى ئىزدىيەلەيسىز،],
 [{{fullurl:{{FULLPAGENAME}}|action=edit}} بۇ بەتنى تەھرىرلىيەلەيسىز]</span>',
 'noarticletext-nopermission'       => 'بۇ بەتتە ھازىرچە مەزمۇن يوق.
  سىز باشقا بەتتە [[Special:Search/{{PAGENAME}}|بۇ بەتنىڭ ماۋزۇسىنى ئىزدىيەلەيسىز]] ياكى <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}}] مۇناسىۋەتلىك خاتىرىسىنى ئىزدىيەلەيسىز،</span>',
@@ -1113,7 +1114,7 @@ $1",
 'resultsperpage'                => 'ھەر بەتتىكى ئۇلانما سانى:',
 'contextlines'                  => 'ھەر ئۇلانمىدىكى قۇر سانى:',
 'contextchars'                  => 'ھەر قۇردىكى ھەرپ سانى:',
-'stub-threshold'                => '<a href=\\"#\\" class=\\"stub\\">قىسقا بەت ئۇلانمىسى</a> فورمات چەك قىممىتى (بايت) :',
+'stub-threshold'                => '<a href="#" class="stub">قىسقا بەت ئۇلانمىسى</a> فورمات چەك قىممىتى (بايت) :',
 'stub-threshold-disabled'       => 'چەكلەنگەن',
 'recentchangesdays'             => 'يېقىنقى ئۆزگەرتىشنىڭ كۆرۈنىدىغان كۈن سانى:',
 'recentchangesdays-max'         => 'ئەڭ چوڭ $1 {{PLURAL:$1|كۈن|كۈن}}',
@@ -1481,7 +1482,7 @@ HTML بەلگىسىنى تەكشۈرۈڭ.',
 'fileexists-shared-forbidden' => 'ھەمبەھىر ھۆججەت ئامبىرىدا مۇشۇ ئاتتىكى ھۆججەت مەۋجۇد.
 ئەگەر يەنىلا بۇ ھۆججەتنى يۈكلىمەكچى بولسىڭىز، كەينىگە قايتىپ، يېڭى ھۆججەت ئاتىدا يوللاڭ.[[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'بۇ ھۆججەت تۆۋەندىكى{{PLURAL:$1|بىر|بىر قانچە}} ھۆججەت بىلەن تەكرار:',
-'file-deleted-duplicate'      => 'ئوخشاش ئاتتىكى بىر ھۆججەت ([[$1]]) بايىلا ئۆچۈرۈلگەن.
+'file-deleted-duplicate'      => 'ئوخشاش ئاتتىكى بىر ھۆججەت ([[:$1]]) بايىلا ئۆچۈرۈلگەن.
 سىز قايتا يۈكلەشتىن ئىلگىرى شۇ ھۆججەتنىڭ ئۆچۈرۈش خاتىرىسىنى تەكشۈرۈپ بېقىڭ.',
 'uploadwarning'               => 'يۈكلەش ئاگاھلاندۇرۇشى',
 'uploadwarning-text'          => 'تۆۋەندىكى ھۆججەت چۈشەندۈرۈشىنى ئۆزگەرتىپ ئاندىن قايتا سىناڭ.',
@@ -2714,10 +2715,10 @@ $1',
 'imagemaxsize'         => "سۈرەت چوڭلۇق چەكلىمىسى: <br />''(ھۆججەت چۈشەندۈرۈش بېتى ئۈچۈن)''",
 'thumbsize'            => 'كىچىك سۈرەت چوڭلۇقى:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|بەت|بەت}}',
-'file-info'            => '(ھۆججەت چوڭلۇقى: $1, MIME تىپى: $2)',
-'file-info-size'       => '($1×$2 پىكسېل، ھۆججەت چوڭلۇقى: $3، MIME تىپى: $4)',
+'file-info'            => 'ھۆججەت چوڭلۇقى: $1, MIME تىپى: $2',
+'file-info-size'       => '$1×$2 پىكسېل، ھۆججەت چوڭلۇقى: $3، MIME تىپى: $4',
 'file-nohires'         => '<small>يۇقىرىراق پەرق ئېتىش نىسبىتى يوق.</small>',
-'svg-long-desc'        => '(SVG ھۆججىتى، ئاتاقتىكى چوڭلۇقى $1×$2 نۇقتا، ھۆججەت چوڭلۇقى: $3)',
+'svg-long-desc'        => 'SVG ھۆججىتى، ئاتاقتىكى چوڭلۇقى $1×$2 نۇقتا، ھۆججەت چوڭلۇقى: $3',
 'show-big-image'       => 'تولۇق ئېنىقلىق دەرىجىسى',
 'show-big-image-thumb' => '<small>بۇ ئالدىن كۆزىتىشنىڭ چوڭلۇقى: $1 × $2 نۇقتا</small>',
 'file-info-gif-looped' => 'دەۋرىيلەنگەن',
@@ -3213,9 +3214,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'تەكرار ھۆججەت ئىزدە',
-'fileduplicatesearch-summary'  => 'چاچما (hash) قىممىتىگە ئاساسەن تەكرار ھۆججەت ئىزدە.
-
-ھۆججەت ئاتى كىرگۈزگەندە ئالدى قوشۇلغۇچى "{{ns:file}}:" كىرگۈزمىسىڭىزمۇ بولىدۇ.',
+'fileduplicatesearch-summary'  => 'چاچما (hash) قىممىتىگە ئاساسەن تەكرار ھۆججەت ئىزدە.',
 'fileduplicatesearch-legend'   => 'تەكرار ھۆججەت ئىزدە',
 'fileduplicatesearch-filename' => ':ھۆججەت ئاتى',
 'fileduplicatesearch-submit'   => 'ئىزدە',
@@ -3227,7 +3226,7 @@ $1',
 'specialpages'                   => 'ئالاھىدە بەتلەر',
 'specialpages-note'              => '----
 * نورمال ئالاھىدە بەت.
-* <strong class=\\"mw-specialpagerestricted\\">چەكلىمىلىك ئالاھىدە بەتلەر.</strong>',
+* <strong class="mw-specialpagerestricted">چەكلىمىلىك ئالاھىدە بەتلەر.</strong>',
 'specialpages-group-maintenance' => 'ئاسراش دوكلاتى',
 'specialpages-group-other'       => 'باشقا ئالاھىدە بەتلەر',
 'specialpages-group-login'       => 'تىزىمغا كىر / قۇر',

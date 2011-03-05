@@ -1,8 +1,5 @@
 <?php
 
-if ( !defined( 'MEDIAWIKI' ) )
-	die( 1 );
-
 /**
  * Special handling for image description pages
  *
@@ -120,9 +117,9 @@ class ImagePage extends Article {
 
 		# Show shared description, if needed
 		if ( $this->mExtraDescription ) {
-			$fol = wfMsgNoTrans( 'shareddescriptionfollows' );
-			if ( $fol != '-' && !wfEmptyMsg( 'shareddescriptionfollows', $fol ) ) {
-				$wgOut->addWikiText( $fol );
+			$fol = wfMessage( 'shareddescriptionfollows' );
+			if ( !$fol->isDisabled() ) {
+				$wgOut->addWikiText( $fol->plain() );
 			}
 			$wgOut->addHTML( '<div id="shared-image-desc">' . $this->mExtraDescription . "</div>\n" );
 		}
@@ -330,7 +327,7 @@ class ImagePage extends Article {
 			$height_orig = $this->displayImg->getHeight( $page );
 			$height = $height_orig;
 
-			$longDesc = $this->displayImg->getLongDesc();
+			$longDesc = wfMsg( 'parentheses', $this->displayImg->getLongDesc() );
 
 			wfRunHooks( 'ImageOpenShowImageInlineBefore', array( &$this, &$wgOut ) );
 
@@ -368,10 +365,7 @@ class ImagePage extends Article {
 				$thumbnail = $this->displayImg->transform( $params );
 
 				$showLink = true;
-				$anchorclose = '';
-				if ( !$this->displayImg->mustRender() ) {
-					$anchorclose = "<br />" . $msgsmall;
-				}
+				$anchorclose = "<br />" . $msgsmall;
 
 				$isMulti = $this->displayImg->isMultipage() && $this->displayImg->pageCount() > 1;
 				if ( $isMulti ) {
@@ -501,8 +495,16 @@ EOT
 			{
 				$nofile = 'filepage-nofile';
 			}
+			// Note, if there is an image description page, but
+			// no image, then this setRobotPolicy is overriden
+			// by Article::View().
 			$wgOut->setRobotPolicy( 'noindex,nofollow' );
 			$wgOut->wrapWikiMsg( "<div id='mw-imagepage-nofile' class='plainlinks'>\n$1\n</div>", $nofile );
+			if ( !$this->getID() ) {
+				// If there is no image, no shared image, and no description page,
+				// output a 404, to be consistent with articles.
+				$wgRequest->response()->header( "HTTP/1.x 404 Not Found" );
+			}
 		}
 	}
 
@@ -601,6 +603,7 @@ EOT
 		$this->loadFile();
 		$pager = new ImageHistoryPseudoPager( $this );
 		$wgOut->addHTML( $pager->getBody() );
+		$wgOut->preventClickjacking( $pager->getPreventClickjacking() );
 
 		$this->img->resetHistory(); // free db resources
 
@@ -828,6 +831,7 @@ EOT
 class ImageHistoryList {
 
 	protected $imagePage, $img, $skin, $title, $repo, $showThumb;
+	protected $preventClickjacking = false;
 
 	public function __construct( $imagePage ) {
 		global $wgUser, $wgShowArchiveThumbnails;
@@ -954,6 +958,7 @@ class ImageHistoryList {
 			# Don't link to unviewable files
 			$row .= '<span class="history-deleted">' . $wgLang->timeAndDate( $timestamp, true ) . '</span>';
 		} elseif ( $file->isDeleted( File::DELETED_FILE ) ) {
+			$this->preventClickjacking();
 			$revdel = SpecialPage::getTitleFor( 'Revisiondelete' );
 			# Make a link to review the image
 			$url = $this->skin->link(
@@ -1041,9 +1046,19 @@ class ImageHistoryList {
 			return wfMsgHtml( 'filehist-nothumb' );
 		}
 	}
+
+	protected function preventClickjacking( $enable = true ) {
+		$this->preventClickjacking = $enable;
+	}
+
+	public function getPreventClickjacking() {
+		return $this->preventClickjacking;
+	}
 }
 
 class ImageHistoryPseudoPager extends ReverseChronologicalPager {
+	protected $preventClickjacking = false;
+
 	function __construct( $imagePage ) {
 		parent::__construct();
 		$this->mImagePage = $imagePage;
@@ -1084,6 +1099,10 @@ class ImageHistoryPseudoPager extends ReverseChronologicalPager {
 				$s .= $list->imageHistoryLine( !$file->isOld(), $file );
 			}
 			$s .= $list->endImageHistoryList( $navLink );
+
+			if ( $list->getPreventClickjacking() ) {
+				$this->preventClickjacking();
+			}
 		}
 		return $s;
 	}
@@ -1166,4 +1185,13 @@ class ImageHistoryPseudoPager extends ReverseChronologicalPager {
 		}
 		$this->mQueryDone = true;
 	}
+	
+	protected function preventClickjacking( $enable = true ) {
+		$this->preventClickjacking = $enable;
+	}
+
+	public function getPreventClickjacking() {
+		return $this->preventClickjacking;
+	}
+
 }

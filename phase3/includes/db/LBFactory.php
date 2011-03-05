@@ -23,14 +23,6 @@ abstract class LBFactory {
 	}
 
 	/**
-	 * Resets the singleton for use if it's been disabled. Does nothing otherwise
-	 */
-	public static function enableBackend() {
-		if( self::$instance instanceof LBFactory_Fake )
-			self::$instance = null;
-	}
-
-	/**
 	 * Get an LBFactory instance
 	 */
 	static function &singleton() {
@@ -52,6 +44,14 @@ abstract class LBFactory {
 			self::$instance->forEachLBCallMethod( 'closeAll' );
 			self::$instance = null;
 		}
+	}
+
+	/**
+	 * Set the instance to be the given object
+	 */
+	static function setInstance( $instance ) {
+		self::destroyInstance();
+		self::$instance = $instance;
 	}
 
 	/**

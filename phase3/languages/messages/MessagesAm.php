@@ -10,6 +10,7 @@
  * @author Codex Sinaiticus
  * @author Elfalem
  * @author Hinstein
+ * @author Reedy
  * @author Romaine
  * @author Solomon
  * @author Teferra
@@ -476,6 +477,7 @@ $2",
 'resetpass_forbidden'       => 'በ{{SITENAME}} የመግቢያ ቃል መቀየር አይቻልም።',
 'resetpass-no-info'         => 'ይህንን ገጽ በቀጥታ ለማግኘት አስቀድሞ መግባት ያስፈልጋል።',
 'resetpass-submit-loggedin' => 'ቃልዎ ይቀየር',
+'resetpass-submit-cancel'   => 'ይቅር',
 'resetpass-wrong-oldpass'   => 'ጊዜያዊው ወይም ያሁኑኑ መግቢያ ቃል አይስማማም።
 ምናልባት መግቢያ ቃልዎን መቀይሩ ተከናወነ፣ ወይም አዲስ ጊዜያዊ መግቢያ ቃልን ጠየቁ።',
 'resetpass-temp-password'   => 'ኅላፊ (ጊዜያዊ) መግቢያ ቃል፦',
@@ -557,7 +559,7 @@ $1ን ወይም ማንም ሌላ [[{{MediaWiki:Grouppage-sysop}}|መጋቢ]] ስ
 
 ወደዚህ በስሕተት ከሆነ የመጡት፣ የቃኝውን «Back» ቁልፍ ይጫኑ።',
 'anontalkpagetext'                 => "----''ይኸው ገጽ ገና ያልገባ ወይም ብዕር ስም የሌለው ተጠቃሚ ውይይት ገጽ ነው። መታወቂያው በ[[ቁጥር አድራሻ]] እንዲሆን ያስፈልጋል። አንዳንዴ ግን አንድ የቁጥር አድራሻ በሁለት ወይም በብዙ ተጠቃሚዎች የጋራ ሊሆን ይችላል። ስለዚህ ለርስዎ የማይገባ ውይይት እንዳይደርስልዎ፣ [[Special:UserLogin|«መግቢያ»]] በመጫን የብዕር ስም ለማውጣት ይችላሉ።''",
-'noarticletext'                    => 'በአሁኑ ወቅት በዚህ ገጽ ላይ ጽሑፍ የለም፤ ነገር ግን በሌሎች ገጾች ላይ [[Special:Search/{{PAGENAME}}|ይህን አርዕስት መፈለግ]]፣ <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ከርዕሱ ጋር የተዛመዱ መዝገቦችን መፈልግ]፣ ወይም [{{fullurl:{{FULLPAGENAME}}|action=edit}} አዲስ ገፅ ሊያዘጋጁ] ይችላሉ።',
+'noarticletext'                    => 'በአሁኑ ወቅት በዚህ ገጽ ላይ ጽሑፍ የለም፤ ነገር ግን በሌሎች ገጾች ላይ [[Special:Search/{{PAGENAME}}|ይህን አርዕስት መፈለግ]]፣ <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ከርዕሱ ጋር የተዛመዱ መዝገቦችን መፈልግ]፣ ወይም [{{fullurl:{{FULLPAGENAME}}|action=edit}} አዲስ ገፅ ሊያዘጋጁ] ይችላሉ</span>።',
 'userpage-userdoesnotexist'        => 'የብዕር ስም «$1» አልተመዘገበም። እባክዎ ይህን ገጽ ለመፍጠር/ ለማስተካከል የፈለጉ እንደ ሆነ ያረጋግጡ።',
 'usercssyoucanpreview'             => "'''ምክር፦''' ሳይቆጠብ አዲስ CSSዎን ለመሞከር 'ቅድመ እይታ' የሚለውን ይጫኑ።",
 'userjsyoucanpreview'              => "'''ምክር፦''' ሳይቆጠብ አዲስ JSዎን ለመሞከር 'ቅድመ እይታ' የሚለውን ይጫኑ።",
@@ -1058,7 +1060,7 @@ $1ን ወይም ማንም ሌላ [[{{MediaWiki:Grouppage-sysop}}|መጋቢ]] ስ
 'fileexists-forbidden'        => 'በዚህ ስም የሚኖር ፋይል ገና አለ፤ እባክዎ ተመልሰው ይህን ፋይል በአዲስ ስም ስር ይልኩት። [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'ይህ ስም ያለበት ፋይል አሁን በጋራ ፋይል ምንጭ ይኖራል፤ እባክዎ ተመልሰው ፋይሉን በሌላ ስም ስር ይላኩት። [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'ይህ ፋይል {{PLURAL:$1|የሚከተለው ፋኡል|የሚከተሉት ፋይሎች}} ቅጂ ነው፦',
-'file-deleted-duplicate'      => 'ለዚህ ፋይል አንድ ቅጂ የሆነ ፋይል ([[$1]]) ቀድሞ ጠፍቷል። እንደገና ሳይልኩት እባክዎ የዚያውን ፋይል መጥፋት ታሪክ ይመለከቱ።',
+'file-deleted-duplicate'      => 'ለዚህ ፋይል አንድ ቅጂ የሆነ ፋይል ([[:$1]]) ቀድሞ ጠፍቷል። እንደገና ሳይልኩት እባክዎ የዚያውን ፋይል መጥፋት ታሪክ ይመለከቱ።',
 'uploadwarning'               => 'የመላክ ማስጠንቀቂያ',
 'savefile'                    => 'ፋይሉ ለመቆጠብ',
 'uploadedimage'               => '«[[$1]]» ላከ',
@@ -1599,7 +1601,7 @@ $1',
 'whatlinkshere-next'       => '{{PLURAL:$1|ቀጥል|ቀጥል $1}}',
 'whatlinkshere-links'      => '← ወዲህም የሚያያዝ',
 'whatlinkshere-hideredirs' => 'መምሪያ መንገዶች $1',
-'whatlinkshere-hidetrans'  => '$1 ሰነዱን(ዶክመንት) ከሌላ ሰነድ ጋር ባማጣቀስ አያይዝ',
+'whatlinkshere-hidetrans'  => 'የተሰካ መለጠፊያ $1',
 'whatlinkshere-hidelinks'  => 'መያያዣዎች $1',
 'whatlinkshere-filters'    => 'መለያዎች',
 
@@ -1945,10 +1947,10 @@ $1',
 'imagemaxsize'         => 'በፋይል መግለጫ ገጽ ላይ የስዕል መጠን ወሰን ቢበዛ፦',
 'thumbsize'            => 'የናሙና መጠን፦',
 'widthheightpage'      => '$1 በ$2፣ $3 ገጾች',
-'file-info'            => '(የፋይል መጠን፦ $1፣ የMIME አይነት፦ $2)',
-'file-info-size'       => '($1 × $2 ፒክስል፤ መጠን፦ $3፤ የMIME ዓይነት፦ $4)',
+'file-info'            => 'የፋይል መጠን፦ $1፣ የMIME አይነት፦ $2',
+'file-info-size'       => '$1 × $2 ፒክስል፤ መጠን፦ $3፤ የMIME ዓይነት፦ $4',
 'file-nohires'         => '<small>ከዚህ በላይ ማጉላት አይቻልም።</small>',
-'svg-long-desc'        => '(የSVG ፋይል፡ በተግባር $1 × $2 ፒክስል፤ መጠን፦ $3)',
+'svg-long-desc'        => 'የSVG ፋይል፡ በተግባር $1 × $2 ፒክስል፤ መጠን፦ $3',
 'show-big-image'       => 'በሙሉ ጒልህነት ለመመልከት',
 'show-big-image-thumb' => '<small>የዚህ ናሙና ቅጂ ክልል፦ $1 × $2 ፒክሰል</small>',
 

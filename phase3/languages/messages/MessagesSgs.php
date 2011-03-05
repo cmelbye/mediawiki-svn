@@ -8,6 +8,7 @@
  * @file
  *
  * @author Hugo.arg
+ * @author Reedy
  * @author Urhixidur
  * @author Zordsdavini
  * @author לערי ריינהארט
@@ -536,7 +537,7 @@ Jēgo Tamsta esat anonimėnis nauduotuos ėr veizėt, kū kuomentarā nier skėr
 'noarticletext'                    => 'Tuo čiesu tamė poslapī nier juokė teksta.
 Tamsta galėt [[Special:Search/{{PAGENAME}}|ėiškuotė šėta poslapė pavadėnėma]] kėtūs poslapiūs,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ėiškuotė sosėjosiu regėstru],
-aba [{{fullurl:{{FULLPAGENAME}}|action=edit}} keistė ta poslapi].',
+aba [{{fullurl:{{FULLPAGENAME}}|action=edit}} keistė ta poslapi]</span>.',
 'userpage-userdoesnotexist'        => 'Nauduotuojė paskīra „$1“ nier ožregėstrouta. Prašuom patikrėntė, a Tamsta nuorėt kortė/keistė ta poslapi.',
 'clearyourcache'                   => "'''Diemesė:''' ėšsauguojus Tamstā gal prireiktė ėšvalītė Tamstas naršīklės rėnktovė, kū paveizėtomėt pakeitėmus. '''Mozilla / Safari / Konqueror:''' laikīdami ''Shift'' pasėrinkėt ''Atsiōstė ėš nauja'', a paspauskėt ''Ctrl-Shift-R'' (sėstemuo Apple Mac ''Cmd-Shift-R''); '''IE:''' laikīdamė ''Ctrl'' paspauskėt ''Atnaujėntė'', o paspauskėt ''Ctrl-F5''; '''Konqueror:''' paprastiausē paspauskėt ''Perkrautė'' mīgtoka, o paspauskėt ''F5''; '''Opera''' nauduotuojam gal prireiktė pėlnā ėšvalītė anū rėnktovė ''Rakondā→Nustatīmā''.",
 'usercssyoucanpreview'             => "'''Patarėms:''' Nauduokit „Ruodītė parvaiza“ mīgtoka, kū ėšmiegintomiet sava naujaji CSS priš ėšsaugont.",
@@ -1720,10 +1721,10 @@ Paskėrties straipsnis „[[:$1]]“ jau īr. A nuorėt ana ėštrintė, kū gal
 'imagemaxsize'         => 'Rėbuotė abruozdieliu dėdoma anū aprašīma poslapī lėgė:',
 'thumbsize'            => 'Somažėntu pavēkslieliu didums:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|poslapis|poslapē|poslapiu}}',
-'file-info'            => '(faila dėdoms: $1, MIME tips: $2)',
-'file-info-size'       => '($1 × $2 taškū, faila dėdoms: $3, MIME tips: $4)',
+'file-info'            => 'faila dėdoms: $1, MIME tips: $2',
+'file-info-size'       => '$1 × $2 taškū, faila dėdoms: $3, MIME tips: $4',
 'file-nohires'         => '<small>Geresnis ėšraiškėms negalėms.</small>',
-'svg-long-desc'        => '(SVG fails, fuormalē $1 × $2 puškiu, faila dėdoms: $3)',
+'svg-long-desc'        => 'SVG fails, fuormalē $1 × $2 puškiu, faila dėdoms: $3',
 'show-big-image'       => 'Pėlns ėšraiškėms',
 'show-big-image-thumb' => '<small>Šėtuos parvaizos dėdums: $1 × $2 puškiu</small>',
 

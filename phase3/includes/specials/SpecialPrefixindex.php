@@ -54,12 +54,17 @@ class SpecialPrefixindex extends SpecialAllpages {
 			: wfMsg( 'prefixindex' )
 		);
 
+		$showme = '';
 		if( isset( $par ) ){
-			$this->showPrefixChunk( $namespace, $par, $from );
+			$showme = $par;
 		} elseif( $prefix != '' ){
-			$this->showPrefixChunk( $namespace, $prefix, $from );
+			$showme = $prefix;
 		} elseif( $from != '' ){
-			$this->showPrefixChunk( $namespace, $from, $from );
+			// For back-compat with Special:Allpages
+			$showme = $from;
+		}
+		if ($showme != '' || $namespace) {
+			$this->showPrefixChunk( $namespace, $showme, $from );
 		} else {
 			$wgOut->addHTML( $this->namespacePrefixForm( $namespace, null ) );
 		}
@@ -121,7 +126,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 		$namespaces = $wgContLang->getNamespaces();
 
 		if ( !$prefixList || !$fromList ) {
-			$out = wfMsgWikiHtml( 'allpagesbadtitle' );
+			$out = wfMsgExt( 'allpagesbadtitle', 'parse' );
 		} elseif ( !in_array( $namespace, array_keys( $namespaces ) ) ) {
 			// Show errormessage and reset to NS_MAIN
 			$out = wfMsgExt( 'allpages-bad-ns', array( 'parseinline' ), $namespace );

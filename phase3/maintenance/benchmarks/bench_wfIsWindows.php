@@ -26,7 +26,8 @@ require_once( dirname( __FILE__ ) . '/Benchmarker.php' );
 class bench_wfIsWindows extends Benchmarker {
 
 	public function __construct() {
-		parent::__construct();	
+		parent::__construct();
+		$this->mDescription = "Benchmark for wfIsWindows.";
 	}
 
 	public function execute() {
@@ -57,4 +58,4 @@ class bench_wfIsWindows extends Benchmarker {
 }
 
 $maintClass = 'bench_wfIsWindows';
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

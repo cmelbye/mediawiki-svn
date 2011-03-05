@@ -12,6 +12,7 @@
  * @author Priyankoo
  * @author Psneog
  * @author Rajuonline
+ * @author Reedy
  * @author Urhixidur
  */
 
@@ -20,52 +21,62 @@ $fallback = 'bn';
 $namespaceNames = array(
 	NS_MEDIA            => 'মাধ্যম',
 	NS_SPECIAL          => 'বিশেষ',
-	NS_TALK             => 'বার্তা',
+	NS_TALK             => 'বাৰ্তা',
 	NS_USER             => 'সদস্য',
-	NS_USER_TALK        => 'সদস্য বার্তা',
-	NS_PROJECT_TALK     => '$1 বার্তা',
-	NS_FILE             => 'চিত্র',
-	NS_FILE_TALK        => 'চিত্র বার্তা',
-	NS_MEDIAWIKI        => 'MediaWiki',
-	NS_MEDIAWIKI_TALK   => 'MediaWiki বার্তা',
+	NS_USER_TALK        => 'সদস্য_বাৰ্তা',
+	NS_PROJECT_TALK     => '$1_বাৰ্তা',
+	NS_FILE             => 'চিত্ৰ',
+	NS_FILE_TALK        => 'চিত্ৰ_বাৰ্তা',
+	NS_MEDIAWIKI        => 'মেডিয়াৱিকি',
+	NS_MEDIAWIKI_TALK   => 'মেডিয়াৱিকি_বাৰ্তা',
 	NS_TEMPLATE         => 'সাঁচ',
-	NS_TEMPLATE_TALK    => 'সাঁচ বার্তা',
+	NS_TEMPLATE_TALK    => 'সাঁচ_বাৰ্তা',
 	NS_HELP             => 'সহায়',
-	NS_HELP_TALK        => 'সহায় বার্তা',
-	NS_CATEGORY         => 'শ্রেণী',
-	NS_CATEGORY_TALK    => 'শ্রেণী বার্তা',
+	NS_HELP_TALK        => 'সহায়_বাৰ্তা',
+	NS_CATEGORY         => 'শ্ৰেণী',
+	NS_CATEGORY_TALK    => 'শ্ৰেণী_বাৰ্তা',
 );
 
 $namespaceAliases = array(
 	'विशेष' => NS_SPECIAL,
 	'वार्ता' => NS_TALK,
+	'বার্তা' => NS_TALK,
 	'सदस्य' => NS_USER,
 	'सदस्य_वार्ता' => NS_USER_TALK,
+	'সদস্য বার্তা' => NS_USER_TALK,
 	'$1_वार्ता' => NS_PROJECT_TALK,
+	'$1 বার্তা' => NS_PROJECT_TALK,
 	'चित्र' => NS_FILE,
 	'चित्र_वार्ता' => NS_FILE_TALK,
+	'চিত্র' => NS_FILE,
+	'চিত্র বার্তা' => NS_FILE_TALK,
+	'MediaWiki বার্তা' => NS_MEDIAWIKI_TALK,
 	'साँचा' => NS_TEMPLATE,
 	'साँचा_वार्ता' => NS_TEMPLATE_TALK,
+	'সাঁচ বার্তা' => NS_TEMPLATE_TALK,
+	'সহায় বার্তা' => NS_HELP_TALK,
 	'श्रेणी' => NS_CATEGORY,
 	'श्रेणी_वार्ता' => NS_CATEGORY_TALK,
+	'শ্রেণী' => NS_CATEGORY,
+	'শ্রেণী বার্তা' => NS_CATEGORY_TALK,
 );
 
 $specialPageAliases = array(
-	'Userlogin'                 => array( 'সদস্যৰ_প্রবেশ' ),
-	'Userlogout'                => array( 'সদস্যৰ_প্রস্থান' ),
+	'Userlogin'                 => array( 'সদস্যৰ_প্ৰবেশ' ),
+	'Userlogout'                => array( 'সদস্যৰ_প্ৰস্থান' ),
 	'CreateAccount'             => array( 'সদস্যভুক্তি' ),
 	'Preferences'               => array( 'পচন্দ' ),
 	'Watchlist'                 => array( 'লক্ষ্যতালিকা' ),
 	'Recentchanges'             => array( 'শেহতীয়া_কাম' ),
 	'Upload'                    => array( 'বোজাই' ),
-	'Listfiles'                 => array( 'চিত্র-তালিকা' ),
-	'Newimages'                 => array( 'নতুন_চিত্র' ),
+	'Listfiles'                 => array( 'চিত্ৰ-তালিকা' ),
+	'Newimages'                 => array( 'নতুন_চিত্ৰ' ),
 	'Listusers'                 => array( 'সদস্য-তালিকা' ),
-	'Listgrouprights'           => array( 'গোটৰ_অধিকাৰসমুহ' ),
+	'Listgrouprights'           => array( 'গোটৰ_অধিকাৰসমূহ' ),
 	'Statistics'                => array( 'পৰিসংখ্যা' ),
 	'Randompage'                => array( 'আকস্মিক' ),
 	'Lonelypages'               => array( 'অকলশৰীয়া_পৃষ্ঠা' ),
-	'Uncategorizedpages'        => array( 'অবিন্যস্ত_পৃষ্ঠাসমুহ' ),
+	'Uncategorizedpages'        => array( 'অবিন্যস্ত_পৃষ্ঠাসমূহ' ),
 	'Uncategorizedcategories'   => array( 'অবিন্যস্ত_শ্ৰেণীসমূহ' ),
 	'Uncategorizedimages'       => array( 'অবিন্যস্ত_চিত্ৰবোৰ' ),
 	'Uncategorizedtemplates'    => array( 'অবিন্যস্ত_সাঁচবোৰ' ),
@@ -502,7 +513,6 @@ $messages = array(
 'wrongpasswordempty'         => 'দিয়া গুপ্তশব্দতো খালী; অনুগ্ৰহ কৰি আকৌ এবাৰ চেষ্টা কৰক। ।',
 'passwordtooshort'           => "গুপ্তশব্দ কমেও {{PLURAL:$1|১ তা|$1 তা}} আখৰ হ'ব লাগিব ।",
 'password-name-match'        => "আপুনাৰ গুপ্তশব্দ আৰু আপুনাৰ সদস্যনাম বেলেগ হ'ব লাগিব",
-'password-too-weak'          => 'আপুনি দাখিল কৰা গুপ্তশব্দ অতি দুৰ্বল আৰু সেয়ে ব্যবহাৰ উপযোগী নহয়',
 'mailmypassword'             => 'ই-মেইলত গুপ্তশব্দ পঠাওক',
 'passwordremindertitle'      => '{{SITENAME}} ৰ কাৰণে নতুন অস্থায়ী গুপ্তশব্দ',
 'passwordremindertext'       => 'কোনোবাই (হয়তো আপুনি, $1 আই-পি ঠিকনাৰ পৰা)
@@ -654,7 +664,7 @@ $1ৰ দ্বাৰ এই অবৰোধ কৰা হৈছে ।
 'noarticletext'                    => 'এই পৃষ্ঠাত বৰ্তমান কোনো পাঠ্য নাই ।
 আপুনি আন পৃষ্ঠাত [[Special:Search/{{PAGENAME}}| এই শিৰোণামা অনুসন্ধান কৰিব পাৰে]],
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} সম্পৰ্কিয় অভিলেখ অনুসন্ধান কৰিব পাৰে],
-বা [{{fullurl:{{FULLPAGENAME}}|action=edit}} এই পৃষ্ঠা সম্পাদনা কৰিব পাৰে] ।',
+বা [{{fullurl:{{FULLPAGENAME}}|action=edit}} এই পৃষ্ঠা সম্পাদনা কৰিব পাৰে]</span>',
 'userpage-userdoesnotexist-view'   => "সনস্য একাউন্ট ''$1'' পঞ্জীভূত নহয়",
 'note'                             => "'''টোকা:'''",
 'previewnote'                      => "'''মনত ৰাখিব যে এয়া কেৱল খচৰা হে, সাল-সলনিবোৰ এতিয়াও সংৰক্ষিত কৰা হোৱা নাই!'''",
@@ -1404,9 +1414,9 @@ $1ৰ দ্বাৰ এই অবৰোধ কৰা হৈছে ।
 'nextdiff'     => 'নতুনতৰ সম্পাদনা →',
 
 # Media information
-'file-info-size'       => '($1 × $2 পিক্সেল, ফাইলৰ মাত্ৰা: $3, MIME প্ৰকাৰ: $4)',
+'file-info-size'       => '$1 × $2 পিক্সেল, ফাইলৰ মাত্ৰা: $3, MIME প্ৰকাৰ: $4',
 'file-nohires'         => '<small>ইয়াতকৈ ডাঙৰকৈ দেখুৱাব নোৱাৰি ।</small>',
-'svg-long-desc'        => '(SVG ফাইল, সাধাৰণতঃ $1 × $2 পিক্সেল, ফাইল মাত্ৰা: $3)',
+'svg-long-desc'        => 'SVG ফাইল, সাধাৰণতঃ $1 × $2 পিক্সেল, ফাইল মাত্ৰা: $3',
 'show-big-image'       => 'সম্পূৰ্ণ দৃশ্য',
 'show-big-image-thumb' => '<small>এই খচৰাৰ আকাৰ: $1 × $2 পিক্সেল </small>',
 

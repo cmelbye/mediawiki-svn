@@ -29,7 +29,7 @@
  */
 class IPBlockForm extends SpecialPage {
 	var $BlockAddress, $BlockExpiry, $BlockReason, $BlockReasonList, $BlockOther, $BlockAnonOnly, $BlockCreateAccount,
-		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock;
+		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock, $BlockWatchUser;
 	// The maximum number of edits a user can have and still be hidden
 	const HIDEUSER_CONTRIBLIMIT = 1000;
 
@@ -123,12 +123,15 @@ class IPBlockForm extends SpecialPage {
 
 		$titleObj = SpecialPage::getTitleFor( 'Blockip' );
 		$user = User::newFromName( $this->BlockAddress );
+		if ( is_object( $user ) || User::isIP( $this->BlockAddress ) ) {
+			$wgUser->getSkin()->setRelevantUser( is_object($user) ? $user : User::newFromName( $this->BlockAddress, false ) );
+		}
 
 		$alreadyBlocked = false;
 		$otherBlockedMsgs = array();
 		if( $err && $err[0] != 'ipb_already_blocked' ) {
 			$key = array_shift( $err );
-			$msg = wfMsgReal( $key, $err );
+			$msg = wfMsgExt( $key, 'parsemag', $err );
 			$wgOut->setSubtitle( wfMsgHtml( 'formerror' ) );
 			$wgOut->addHTML( Xml::tags( 'p', array( 'class' => 'error' ), $msg ) );
 		} elseif( $this->BlockAddress !== null ) {
@@ -196,7 +199,7 @@ class IPBlockForm extends SpecialPage {
 			wfMsgForContent( 'ipbreason-dropdown' ),
 			wfMsgForContent( 'ipbreasonotherlist' ), $this->BlockReasonList, 'wpBlockDropDown', 4 );
 
-		$wgOut->addModules( 'mediawiki.legacy.block' );
+		$wgOut->addModules( 'mediawiki.special.block' );
 		$wgOut->addHTML(
 			Xml::openElement( 'form', array( 'method' => 'post', 'action' => $titleObj->getLocalURL( 'action=submit' ), 'id' => 'blockip' ) ) .
 			Xml::openElement( 'fieldset' ) .
@@ -210,7 +213,6 @@ class IPBlockForm extends SpecialPage {
 					Html::input( 'wpBlockAddress', $this->BlockAddress, 'text', array(
 						'tabindex' => '1',
 						'id' => 'mw-bi-target',
-						'onchange' => 'updateBlockOptions()',
 						'size' => '45',
 						'required' => ''
 					) + ( $this->BlockAddress ? array() : array( 'autofocus' ) ) ). "
@@ -228,7 +230,6 @@ class IPBlockForm extends SpecialPage {
 						array(
 							'id' => 'wpBlockExpiry',
 							'name' => 'wpBlockExpiry',
-							'onchange' => 'considerChangingExpiryFocus()',
 							'tabindex' => '2' ),
 						$blockExpiryFormOptions ) .
 				"</td>"
@@ -266,28 +267,12 @@ class IPBlockForm extends SpecialPage {
 				) + ( $this->BlockAddress ? array( 'autofocus' ) : array() ) ) . "
 				</td>
 			</tr>
-			<tr id='wpAnonOnlyRow'>
-				<td>&#160;</td>
-				<td class='mw-input'>" .
-				Xml::checkLabel( wfMsg( 'ipbanononly' ),
-						'wpAnonOnly', 'wpAnonOnly', $this->BlockAnonOnly,
-						array( 'tabindex' => '6' ) ) . "
-				</td>
-			</tr>
 			<tr id='wpCreateAccountRow'>
 				<td>&#160;</td>
 				<td class='mw-input'>" .
 					Xml::checkLabel( wfMsg( 'ipbcreateaccount' ),
 						'wpCreateAccount', 'wpCreateAccount', $this->BlockCreateAccount,
 						array( 'tabindex' => '7' ) ) . "
-				</td>
-			</tr>
-			<tr id='wpEnableAutoblockRow'>
-				<td>&#160;</td>
-				<td class='mw-input'>" .
-					Xml::checkLabel( wfMsg( 'ipbenableautoblock' ),
-						'wpEnableAutoblock', 'wpEnableAutoblock', $this->BlockEnableAutoblock,
-						array( 'tabindex' => '8' ) ) . "
 				</td>
 			</tr>"
 		);
@@ -304,6 +289,32 @@ class IPBlockForm extends SpecialPage {
 				</tr>"
 			);
 		}
+
+		# Can we explicitly disallow the use of user_talk?
+		global $wgBlockAllowsUTEdit;
+		if( $wgBlockAllowsUTEdit ){
+			$wgOut->addHTML("
+				<tr id='wpAllowUsertalkRow'>
+					<td>&#160;</td>
+					<td class='mw-input'>" .
+						Xml::checkLabel( wfMsg( 'ipballowusertalk' ),
+							'wpAllowUsertalk', 'wpAllowUsertalk', $this->BlockAllowUsertalk,
+							array( 'tabindex' => '12' ) ) . "
+					</td>
+				</tr>"
+			);
+		}
+
+		$wgOut->addHTML( "
+			<tr id='wpEnableAutoblockRow'>
+				<td>&#160;</td>
+				<td class='mw-input'>" .
+					Xml::checkLabel( wfMsg( 'ipbenableautoblock' ),
+						'wpEnableAutoblock', 'wpEnableAutoblock', $this->BlockEnableAutoblock,
+						array( 'tabindex' => '8' ) ) . "
+				</td>
+			</tr>"
+		);
 
 		// Allow some users to hide name from block log, blocklist and listusers
 		if( $wgUser->isAllowed( 'hideuser' ) ) {
@@ -334,22 +345,15 @@ class IPBlockForm extends SpecialPage {
 			);
 		}
 
-		# Can we explicitly disallow the use of user_talk?
-		global $wgBlockAllowsUTEdit;
-		if( $wgBlockAllowsUTEdit ){
-			$wgOut->addHTML("
-				<tr id='wpAllowUsertalkRow'>
-					<td>&#160;</td>
-					<td class='mw-input'>" .
-						Xml::checkLabel( wfMsg( 'ipballowusertalk' ),
-							'wpAllowUsertalk', 'wpAllowUsertalk', $this->BlockAllowUsertalk,
-							array( 'tabindex' => '12' ) ) . "
-					</td>
-				</tr>"
-			);
-		}
-
 		$wgOut->addHTML("
+			<tr id='wpAnonOnlyRow'>
+				<td>&#160;</td>
+				<td class='mw-input'>" .
+					Xml::checkLabel( wfMsg( 'ipbanononly' ),
+							'wpAnonOnly', 'wpAnonOnly', $this->BlockAnonOnly,
+							array( 'tabindex' => '6' ) ) . "
+				</td>
+			</tr>
 			<tr>
 				<td style='padding-top: 1em'>&#160;</td>
 				<td  class='mw-submit' style='padding-top: 1em'>" .

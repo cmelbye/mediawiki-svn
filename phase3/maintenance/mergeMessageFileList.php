@@ -31,6 +31,7 @@ $mmfl = false;
 class MergeMessageFileList extends Maintenance {
 
 	function __construct() {
+		parent::__construct();
 		$this->addOption( 'list-file', 'A file containing a list of extension setup files, one per line.', false, true );
 		$this->addOption( 'output', 'Send output to this file (omit for stdout)', false, true );
 		$this->mDescription = 'Merge $wgExtensionMessagesFiles from various extensions to produce a ' .
@@ -55,7 +56,7 @@ class MergeMessageFileList extends Maintenance {
 	}
 }
 
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );
 
 foreach ( $mmfl['setupFiles'] as $fileName ) {
 	if ( strval( $fileName ) === '' ) {

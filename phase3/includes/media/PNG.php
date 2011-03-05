@@ -43,7 +43,11 @@ class PNGHandler extends BitmapHandler {
 		}
 		return $this->formatMetadataHelper( $meta['metadata'] );
 	}
-	
+
+	/**
+	 * @param $image File
+	 * @return bool
+	 */
 	function isAnimatedImage( $image ) {
 		$ser = $image->getMetadata();
 		if ($ser) {
@@ -80,6 +84,11 @@ class PNGHandler extends BitmapHandler {
 		}
 		return self::METADATA_GOOD;
 	}
+
+	/**
+	 * @param $image File
+	 * @return string
+	 */
 	function getLongDesc( $image ) {
 		global $wgLang;
 		$original = parent::getLongDesc( $image );
@@ -92,7 +101,7 @@ class PNGHandler extends BitmapHandler {
 			return $original;
 
 		$info = array();
-		$info[] = substr( $original, 1, strlen( $original )-2 );
+		$info[] = $original;
 		
 		if ($metadata['loopCount'] == 0)
 			$info[] = wfMsgExt( 'file-info-png-looped', 'parseinline' );
@@ -105,9 +114,7 @@ class PNGHandler extends BitmapHandler {
 		if ($metadata['duration'])
 			$info[] = $wgLang->formatTimePeriod( $metadata['duration'] );
 		
-		$infoString = $wgLang->commaList( $info );
-		
-		return "($infoString)";
+		return $wgLang->commaList( $info );
 	}
 
 }

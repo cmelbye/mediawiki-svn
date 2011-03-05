@@ -8,28 +8,52 @@ return array(
 	'startup' => array( 'class' => 'ResourceLoaderStartUpModule' ),
 	'user' => array( 'class' => 'ResourceLoaderUserModule' ),
 	'user.options' => array( 'class' => 'ResourceLoaderUserOptionsModule' ),
+	'user.groups' => array( 'class' => 'ResourceLoaderUserGroupsModule' ),
 
 	/* Skins */
-	
-	'skins.common' => array(
-		'scripts' => 'resources/skins.common/skins.common.js',
-		'styles' => array( 
-			'resources/skins.common/skins.common.css',
-			'resources/skins.common/skins.common.print.css' => array( 'media' => 'print' )
-		),
-		'messages' => array( 'hide', 'show' ),
-		'dependencies' => array( 'jquery.effects.fade' ),
-	),
 
 	'skins.vector' => array(
-		'styles' => array( 'skins/vector/screen.css' => array( 'media' => 'screen' ) )
+		'styles' => array( 'vector/screen.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'skins.monobook' => array(
 		'styles' => array(
-			'skins/monobook/main.css' => array( 'media' => 'screen' ),
-			// Honor $wgHandheldStyle. This is kind of evil
-			//$GLOBALS['wgHandheldStyle'] => array( 'media' => 'handheld' )
-		)
+			'monobook/main.css' => array( 'media' => 'screen' ),
+		),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.simple' => array(
+		'styles' => array( 'simple/main.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.chick' => array(
+		'styles' => array( 'chick/main.css' => array( 'media' => 'screen,handheld' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.modern' => array(
+		'styles' => array( 'modern/main.css' => array( 'media' => 'screen' ),
+				   'modern/print.css' => array( 'media' => 'print' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.cologneblue' => array(
+		'styles' => array( 'common/cologneblue.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.nostalgia' => array(
+		'styles' => array( 'common/nostalgia.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+	),
+	'skins.standard' => array(
+		'styles' => array( 'common/wikistandard.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 
 	/* jQuery */
@@ -42,50 +66,70 @@ return array(
 	/* jQuery Plugins */
 
 	'jquery.async' => array(
-		'scripts' => 'resources/jquery/jquery.async.js'
+		'scripts' => 'resources/jquery/jquery.async.js',
 	),
 	'jquery.autoEllipsis' => array(
-		'scripts' => 'resources/jquery/jquery.autoEllipsis.js'
+		'scripts' => 'resources/jquery/jquery.autoEllipsis.js',
+		'dependencies' => 'jquery.highlightText',
 	),
 	'jquery.checkboxShiftClick' => array(
-		'scripts' => 'resources/jquery/jquery.checkboxShiftClick.js'
+		'scripts' => 'resources/jquery/jquery.checkboxShiftClick.js',
 	),
 	'jquery.client' => array(
 		'scripts' => 'resources/jquery/jquery.client.js',
 	),
 	'jquery.collapsibleTabs' => array(
-		'scripts' => 'resources/jquery/jquery.collapsibleTabs.js'
+		'scripts' => 'resources/jquery/jquery.collapsibleTabs.js',
+	),
+	'jquery.colorUtil' => array(
+		'scripts' => 'resources/jquery/jquery.colorUtil.js',
 	),
 	'jquery.color' => array(
-		'scripts' => 'resources/jquery/jquery.color.js'
+		'scripts' => 'resources/jquery/jquery.color.js',
+		'dependencies' => 'jquery.colorUtil',
 	),
 	'jquery.cookie' => array(
-		'scripts' => 'resources/jquery/jquery.cookie.js'
+		'scripts' => 'resources/jquery/jquery.cookie.js',
 	),
 	'jquery.delayedBind' => array(
-		'scripts' => 'resources/jquery/jquery.delayedBind.js'
+		'scripts' => 'resources/jquery/jquery.delayedBind.js',
 	),
 	'jquery.expandableField' => array(
-		'scripts' => 'resources/jquery/jquery.expandableField.js'
+		'scripts' => 'resources/jquery/jquery.expandableField.js',
+	),
+	'jquery.form' => array(
+		'scripts' => 'resources/jquery/jquery.form.js',
 	),
 	'jquery.highlightText' => array(
-		'scripts' => 'resources/jquery/jquery.highlightText.js'
+		'scripts' => 'resources/jquery/jquery.highlightText.js',
+	),
+	'jquery.hoverIntent' => array(
+		'scripts' => 'resources/jquery/jquery.hoverIntent.js',
+	),
+	'jquery.messageBox' => array(
+		'scripts' => 'resources/jquery/jquery.messageBox.js',
+		'styles' => 'resources/jquery/jquery.messageBox.css',
 	),
 	'jquery.placeholder' => array(
-		'scripts' => 'resources/jquery/jquery.placeholder.js'
+		'scripts' => 'resources/jquery/jquery.placeholder.js',
 	),
 	'jquery.localize' => array(
-		'scripts' => 'resources/jquery/jquery.localize.js'
+		'scripts' => 'resources/jquery/jquery.localize.js',
+	),
+	'jquery.makeCollapsible' => array(
+		'scripts' => 'resources/jquery/jquery.makeCollapsible.js',
+		'styles' => 'resources/jquery/jquery.makeCollapsible.css',
+		'messages' => array( 'collapsible-expand', 'collapsible-collapse' ),
 	),
 	'jquery.suggestions' => array(
 		'scripts' => 'resources/jquery/jquery.suggestions.js',
 		'styles' => 'resources/jquery/jquery.suggestions.css',
 	),
 	'jquery.tabIndex' => array(
-		'scripts' => 'resources/jquery/jquery.tabIndex.js'
+		'scripts' => 'resources/jquery/jquery.tabIndex.js',
 	),
 	'jquery.textSelection' => array(
-		'scripts' => 'resources/jquery/jquery.textSelection.js'
+		'scripts' => 'resources/jquery/jquery.textSelection.js',
 	),
 	'jquery.tipsy' => array(
 		'scripts' => 'resources/jquery.tipsy/jquery.tipsy.js',
@@ -127,7 +171,7 @@ return array(
 	'jquery.ui.droppable' => array(
 		'scripts' => 'resources/jquery.ui/jquery.ui.droppable.js',
 		'dependencies' => array(
-			'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable'
+			'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable',
 		),
 	),
 	'jquery.ui.resizable' => array(
@@ -234,7 +278,7 @@ return array(
 			'vi' => 'resources/jquery.ui/i18n/jquery.ui.datepicker-vi.js',
 			'zh-cn' => 'resources/jquery.ui/i18n/jquery.ui.datepicker-zh-CN.js',
 			'zh-hk' => 'resources/jquery.ui/i18n/jquery.ui.datepicker-zh-HK.js',
-			'zh-tw' => 'resources/jquery.ui/i18n/jquery.ui.datepicker-zh-TW.js'
+			'zh-tw' => 'resources/jquery.ui/i18n/jquery.ui.datepicker-zh-TW.js',
 		),
 	),
 	'jquery.ui.dialog' => array(
@@ -302,10 +346,6 @@ return array(
 		'scripts' => 'resources/jquery.effects/jquery.effects.explode.js',
 		'dependencies' => 'jquery.effects.core',
 	),
-	'jquery.effects.fade' => array(
-		'scripts' => 'resources/jquery.effects/jquery.effects.fade.js',
-		'dependencies' => 'jquery.effects.core',
-	),
 	'jquery.effects.fold' => array(
 		'scripts' => 'resources/jquery.effects/jquery.effects.fold.js',
 		'dependencies' => 'jquery.effects.core',
@@ -340,16 +380,30 @@ return array(
 	'mediawiki' => array(
 		'scripts' => 'resources/mediawiki/mediawiki.js',
 		'debugScripts' => 'resources/mediawiki/mediawiki.log.js',
-		'debugRaw' => false
+		'debugRaw' => false,
 	),
 	'mediawiki.util' => array(
 		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
-		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client', 'jquery.placeholder' ),
+		'dependencies' => array(
+			'jquery.checkboxShiftClick',
+			'jquery.client',
+			'jquery.cookie',
+			'jquery.messageBox',
+			'jquery.makeCollapsible',
+			'jquery.placeholder',
+		),
 		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
+	),
+	'mediawiki.util.jpegmeta' => array(
+		'scripts' => 'resources/mediawiki.util/mediawiki.util.jpegmeta.js',
 	),
 	'mediawiki.action.history' => array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.history.js',
 		'dependencies' => 'mediawiki.legacy.history',
+		'group' => 'mediawiki.action.history',
+	),
+	'mediawiki.action.edit' => array(
+		'scripts' => 'resources/mediawiki.action/mediawiki.action.edit.js',
 	),
 	'mediawiki.action.view.rightClickEdit' => array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.view.rightClickEdit.js',
@@ -361,12 +415,30 @@ return array(
 	'mediawiki.special.preferences' => array(
 		'scripts' => 'resources/mediawiki.special/mediawiki.special.preferences.js',
 		'styles' => 'resources/mediawiki.special/mediawiki.special.preferences.css',
+		'messages' => array( 'email-address-validity-valid', 'email-address-validity-invalid' ),
 	),
 	'mediawiki.special.changeslist' => array(
 		'styles' => 'resources/mediawiki.special/mediawiki.special.changeslist.css',
+		'dependencies' => array( 'jquery.makeCollapsible' ),
 	),
 	'mediawiki.special.search' => array(
 		'scripts' => 'resources/mediawiki.special/mediawiki.special.search.js',
+	),
+	'mediawiki.special.block' => array(
+		'scripts' => 'resources/mediawiki.special/mediawiki.special.block.js',
+	),
+	'mediawiki.special.upload' => array(
+		// @TODO: merge in remainder of mediawiki.legacy.upload
+		'scripts' => 'resources/mediawiki.special/mediawiki.special.upload.js',
+		'messages' => array(
+			'widthheight',
+			'size-bytes',
+			'size-kilobytes',
+			'size-megabytes',
+			'size-gigabytes',
+			'largefileserver',
+		),
+		'dependencies' => array( 'mediawiki.util.jpegmeta' ),
 	),
 	'mediawiki.language' => array(
 		'scripts' => 'resources/mediawiki.language/mediawiki.language.js',
@@ -422,94 +494,136 @@ return array(
 	/* mediawiki Legacy */
 
 	'mediawiki.legacy.ajax' => array(
-		'scripts' => 'skins/common/ajax.js',
+		'scripts' => 'common/ajax.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'messages' => array(
-			'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch',
-			'tooltip-ca-unwatch'
+			'watch',
+			'unwatch',
+			'watching',
+			'unwatching',
+			'tooltip-ca-watch',
+			'tooltip-ca-unwatch',
 		),
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
-	'mediawiki.legacy.block' => array(
-		'scripts' => 'skins/common/block.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
 	'mediawiki.legacy.commonPrint' => array(
-		'styles' => array( 'skins/common/commonPrint.css' => array( 'media' => 'print' ) ),
+		'styles' => array( 'common/commonPrint.css' => array( 'media' => 'print' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'mediawiki.legacy.config' => array(
-		'scripts' => 'skins/common/config.js',
-		'styles' => array( 'skins/common/config.css', 'skins/common/config-cc.css' ),
+		'scripts' => 'common/config.js',
+		'styles' => array( 'common/config.css', 'common/config-cc.css' ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.diff' => array(
-		'scripts' => 'skins/common/diff.js',
-		'styles' => 'skins/common/diff.css',
+		'scripts' => 'common/diff.js',
+		'styles' => 'common/diff.css',
+		'group' => 'mediawiki.action.history',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.edit' => array(
-		'scripts' => 'skins/common/edit.js',
+		'scripts' => 'common/edit.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.history' => array(
-		'scripts' => 'skins/common/history.js',
+		'scripts' => 'common/history.js',
+		'group' => 'mediawiki.action.history',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.htmlform' => array(
-		'scripts' => 'skins/common/htmlform.js',
+		'scripts' => 'common/htmlform.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.IEFixes' => array(
-		'scripts' => 'skins/common/IEFixes.js',
+		'scripts' => 'common/IEFixes.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.metadata' => array(
-		'scripts' => 'skins/common/metadata.js',
+		'scripts' => 'common/metadata.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 		'messages' => array( 'metadata-expand', 'metadata-collapse' ),
 	),
 	'mediawiki.legacy.mwsuggest' => array(
-		'scripts' => 'skins/common/mwsuggest.js',
-		'dependencies' => 'mediawiki.legacy.wikibits',
+		'scripts' => 'common/mwsuggest.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+		'dependencies' => array( 'mediawiki.legacy.wikibits', 'jquery.client' ),
 		'messages' => array( 'search-mwsuggest-enabled', 'search-mwsuggest-disabled' ),
 	),
 	'mediawiki.legacy.password' => array(
-		'scripts' => 'skins/common/password.js',
-		'styles' => 'skins/common/password.css',
+		'scripts' => 'common/password.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+		'styles' => 'common/password.css',
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.prefs' => array(
-		'scripts' => 'skins/common/prefs.js',
+		'scripts' => 'common/prefs.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => array( 'mediawiki.legacy.wikibits', 'mediawiki.legacy.htmlform' ),
 	),
 	'mediawiki.legacy.preview' => array(
-		'scripts' => 'skins/common/preview.js',
+		'scripts' => 'common/preview.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.protect' => array(
-		'scripts' => 'skins/common/protect.js',
+		'scripts' => 'common/protect.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.search' => array(
-		'scripts' => 'skins/common/search.js',
-		'styles' => 'skins/common/search.css',
+		'scripts' => 'common/search.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
+		'styles' => 'common/search.css',
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.shared' => array(
-		'styles' => array( 'skins/common/shared.css' => array( 'media' => 'screen' ) ),
+		'styles' => array( 'common/shared.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'mediawiki.legacy.oldshared' => array(
-		'styles' => array( 'skins/common/oldshared.css' => array( 'media' => 'screen' ) ),
+		'styles' => array( 'common/oldshared.css' => array( 'media' => 'screen' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 	'mediawiki.legacy.upload' => array(
-		'scripts' => 'skins/common/upload.js',
+		'scripts' => 'common/upload.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
 	'mediawiki.legacy.wikibits' => array(
-		'scripts' => 'skins/common/wikibits.js',
+		'scripts' => 'common/wikibits.js',
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.language',
 		'messages' => array( 'showtoc', 'hidetoc' ),
 	),
 	'mediawiki.legacy.wikiprintable' => array(
-		'styles' => array( 'skins/common/wikiprintable.css' => array( 'media' => 'print' ) ),
+		'styles' => array( 'common/wikiprintable.css' => array( 'media' => 'print' ) ),
+		'remoteBasePath' => $GLOBALS['wgStylePath'],
+		'localBasePath' => "{$GLOBALS['IP']}/skins",
 	),
 );

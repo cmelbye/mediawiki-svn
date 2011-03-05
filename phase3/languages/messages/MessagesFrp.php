@@ -8,6 +8,7 @@
  * @file
  *
  * @author ChrisPtDe
+ * @author Reedy
  * @author לערי ריינהארט
  */
 
@@ -331,8 +332,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Fâre vêre lo nombro d’utilisators que siuvont les pâges',
 'tog-oldsig'                  => 'Prèvisualisacion de la signatura ègzistenta :',
 'tog-fancysig'                => 'Trètar la signatura coment de vouiquitèxto (sen lim ôtomatico)',
-'tog-externaleditor'          => 'Utilisar per dèfôt un èditor de tèxto de defôr (solament por los utilisators avanciês, at fôta d’una configuracion spèciâla sur voutron ordenator)',
-'tog-externaldiff'            => 'Utilisar per dèfôt un comparator de defôr (solament por los utilisators avanciês, at fôta d’una configuracion spèciâla sur voutron ordenator)',
+'tog-externaleditor'          => 'Utilisar per dèfôt un èditor de tèxto de defôr (solament por los utilisators avanciês, at fôta d’una configuracion spèciâla sur voutron ordenator. [http://www.mediawiki.org/wiki/Manual:External_editors Més d’enformacions.])',
+'tog-externaldiff'            => 'Utilisar per dèfôt un comparator de defôr (solament por los utilisators avanciês, at fôta d’una configuracion spèciâla sur voutron ordenator. [http://www.mediawiki.org/wiki/Manual:External_editors Més d’enformacions.])',
 'tog-showjumplinks'           => 'Activar los lims « navigacion » et « rechèrche » d’amont la pâge',
 'tog-uselivepreview'          => 'Utilisar l’apèrçu vito fêt (at fôta de JavaScript) (èxpèrimentâl)',
 'tog-forceeditsummary'        => 'M’avèrtir quand j’é pas spècefiâ de rèsumâ de changement',
@@ -492,6 +493,7 @@ $messages = array(
 'printableversion'  => 'Vèrsion emprimâbla',
 'permalink'         => 'Lim historico',
 'print'             => 'Emprimar',
+'view'              => 'Liére',
 'edit'              => 'Changiér',
 'create'            => 'Fâre',
 'editthispage'      => 'Changiér ceta pâge',
@@ -499,6 +501,7 @@ $messages = array(
 'delete'            => 'Suprimar',
 'deletethispage'    => 'Suprimar ceta pâge',
 'undelete_short'    => 'Refâre {{PLURAL:$1|yon changement|$1 changements}}',
+'viewdeleted_short' => 'Vêre {{PLURAL:$1|yon changement suprimâ|$1 changements suprimâs}}',
 'protect'           => 'Protègiér',
 'protect_change'    => 'changiér',
 'protectthispage'   => 'Protègiér ceta pâge',
@@ -583,6 +586,8 @@ Vêde la [[Special:Version|pâge de les vèrsions]].',
 'toc'                     => 'Somèro',
 'showtoc'                 => 'fâre vêre',
 'hidetoc'                 => 'cachiér',
+'collapsible-collapse'    => 'Recllôre',
+'collapsible-expand'      => 'Dèvelopar',
 'thisisdeleted'           => 'Voléd-vos fâre vêre ou ben refâre $1 ?',
 'viewdeleted'             => 'Fâre vêre $1 ?',
 'restorelink'             => '{{PLURAL:$1|yon changement suprimâ|$1 changements suprimâs}}',
@@ -736,6 +741,8 @@ Nen volyéd chouèsir un ôtro.',
 Los volyéd activar et pués vos tornar branchiér avouéc lo mémo nom et lo mémo mot de pâssa.",
 'nocookieslogin'             => "{{SITENAME}} utilise des tèmouens (''cookies'') por lo branchement mas vos los éd dèsactivâs.
 Los volyéd activar et pués vos tornar branchiér.",
+'nocookiesfornew'            => "Lo compto utilisator at pas étâ fêt, perce que nos ens pas possu confirmar sa sôrsa.
+Controlâd que vos éd activâ los tèmouens (''cookies''), rechargiéd la pâge et pués tornâd èprovar.",
 'noname'                     => 'Vos éd pas buchiê un nom d’utilisator valido.',
 'loginsuccesstitle'          => 'Branchement reussi.',
 'loginsuccess'               => "'''Ora, vos éte branchiê a {{SITENAME}} coment « $1 ».'''",
@@ -752,7 +759,7 @@ Volyéd tornar èprovar.',
 Volyéd tornar èprovar.',
 'passwordtooshort'           => 'Voutron mot de pâssa dêt contegnir u muens $1 caractèro{{PLURAL:$1||s}}.',
 'password-name-match'        => 'Voutron mot de pâssa dêt étre difèrent de voutron nom d’utilisator.',
-'password-too-weak'          => 'Lo mot de pâssa balyê est trop fêblo et pués pôt pas étre utilisâ.',
+'password-login-forbidden'   => 'L’usâjo de cél nom d’utilisator et de cél mot de pâssa at étâ dèfendu.',
 'mailmypassword'             => 'Recêvre un mot de pâssa novél per mèssageria èlèctronica',
 'passwordremindertitle'      => 'Mot de pâssa temporèro novél por {{SITENAME}}',
 'passwordremindertext'       => 'Quârqu’un (probâblament vos, avouéc l’adrèce IP $1) at demandâ un mot de pâssa
@@ -1443,8 +1450,7 @@ Dêt pas dèpassar $1 caractèro{{PLURAL:$1||s}}.',
 Ceta enformacion serat publica.',
 'email'                         => 'Mèssageria èlèctronica',
 'prefs-help-realname'           => 'U chouèx : se vos lo spècefiâd, serat utilisâ por vos atribuar voutres contribucions.',
-'prefs-help-email'              => 'U chouèx : endicar voutra adrèce èlèctronica pèrmèt de vos mandar un mot de pâssa novél se vos oubliâd lo voutro.
-Vos pouede asse-ben dècidar de lèssiér los ôtros sè veriér vers vos avouéc voutra pâge de discussion, sen avêr fôta de dèvouèlar voutra identitât.',
+'prefs-help-email'              => 'L’adrèce èlèctronica est u chouèx, mas el est nècèssèra por tornar inicialisar voutron mot de pâssa, se vos vegnéd a l’oubliar.',
 'prefs-help-email-required'     => 'Una adrèce èlèctronica est nècèssèra.',
 'prefs-info'                    => 'Enformacion de bâsa',
 'prefs-i18n'                    => 'Entèrnacionalisacion',
@@ -1633,7 +1639,7 @@ Vos pouede asse-ben dècidar de lèssiér los ôtros sè veriér vers vos avoué
 'rcshowhideanons'                   => '$1 los utilisators pas encartâs',
 'rcshowhidepatr'                    => '$1 los changements survelyês',
 'rcshowhidemine'                    => '$1 mos changements',
-'rclinks'                           => 'Fâre vêre los $1 dèrriérs changements fêts pendent los $2 jorns passâs ;<br/ >$3.',
+'rclinks'                           => 'Fâre vêre los $1 dèrriérs changements fêts pendent los $2 jorns passâs ;<br />$3.',
 'diff'                              => 'dif',
 'hist'                              => 'hist',
 'hide'                              => 'cachiér',
@@ -1700,12 +1706,12 @@ Vêde la [[Special:NewFiles|galerie des novéls fichiérs]] por una presentacion
 'illegalfilename'             => 'Lo nom de fichiér « $1 » contint des caractèros dèfendus dens los titros de pâges.
 Lo volyéd renomar et pués lo tornar tèlèchargiér.',
 'badfilename'                 => 'Lo fichiér at étâ renomâ en « $1 ».',
-'filetype-mime-mismatch'      => 'L’èxtension du fichiér corrèspond pas u tipo MIME.',
+'filetype-mime-mismatch'      => 'L’èxtension du fichiér « .$1 » corrèspond pas u tipo MIME dècelâ du fichiér ($2).',
 'filetype-badmime'            => 'Los fichiérs du tipo MIME « $1 » pôvont pas étre tèlèchargiês.',
 'filetype-bad-ie-mime'        => 'Lo fichiér pôt pas étre tèlèchargiê perce que serêt dècelâ coment « $1 » per Internet Explorer, cen que corrèspond a un tipo de fichiér dèfendu perce que pôt-étre dangerox.',
 'filetype-unwanted-type'      => "'''« .$1 »''' est un format de fichiér pas dèsirâ.
 {{PLURAL:$3|Lo tipo de fichiérs recomandâ est|Los tipos de fichiérs recomandâs sont}} $2.",
-'filetype-banned-type'        => "'''« .$1 »''' est un format de fichiér pas ôtorisâ.
+'filetype-banned-type'        => "'''« .$1 »''' {{PLURAL:$4|est pas un tipo de fichiérs ôtorisâ|sont pas des tipos de fichiérs ôtorisâs}}.
 {{PLURAL:$3|Lo tipo de fichiérs accèptâ est|Los tipos de fichiérs accèptâs sont}} $2.",
 'filetype-missing'            => 'Lo fichiér at gins d’èxtension (coment « .jpg » per ègzemplo).',
 'empty-file'                  => 'Lo fichiér que vos éd somês ére vouedo.',
@@ -1750,7 +1756,7 @@ Se vos voléd adés tèlèchargiér voutron fichiér, volyéd tornar arriér et 
 Se vos voléd adés tèlèchargiér voutron fichiér, volyéd tornar arriér et pués utilisar un novél nom.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Cél fichiér est un doblo {{PLURAL:$1|de ceti fichiér|de cetos fichiérs}} :',
-'file-deleted-duplicate'      => 'Un fichiér pariér a ceti ([[$1]]) at ja étâ suprimâ.
+'file-deleted-duplicate'      => 'Un fichiér pariér a ceti ([[:$1]]) at ja étâ suprimâ.
 Vos devriâd controlar lo jornal de les suprèssions de cél fichiér devant que lo tornar tèlèchargiér.',
 'uploadwarning'               => 'Atencion !',
 'uploadwarning-text'          => 'Changiéd la dèscripcion du fichiér et pués tornâd èprovar.',
@@ -1816,6 +1822,15 @@ Se lo problèmo continue, veriéd-vos vers un [[Special:ListUsers/sysop|administ
 'upload-too-many-redirects' => 'L’URL contint trop de redirèccions',
 'upload-unknown-size'       => 'Talye encognua',
 'upload-http-error'         => 'Una èrror HTTP est arrevâ : $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Cache d’importacion',
+'uploadstash-summary'  => 'Ceta pâge balye accès ux fichiérs que sont importâs (ou ben en cors d’importacion), mas sont p’oncor publeyês dens lo vouiqui. Celos fichiérs sont p’oncor visiblos, solament por l’utilisator que los at importâs.',
+'uploadstash-clear'    => 'Èfaciér los fichiérs en cache d’importacion',
+'uploadstash-nofiles'  => 'Vos avéd gins de fichiér en cache d’importacion.',
+'uploadstash-badtoken' => 'L’ègzécucion de cela accion at pas reussia, pôt-étre perce que voutres enformacions de branchement ont èxpirâs. Tornâd èprovar.',
+'uploadstash-errclear' => 'L’èfacement des fichiérs at pas reussi.',
+'uploadstash-refresh'  => 'Rafrèchir la lista des fichiérs',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Accès refusâ',
@@ -2079,6 +2094,7 @@ Volyéd notar que d’ôtros setos pôvont avêr un lim drêt de vers un fichié
 'pager-newer-n'           => '{{PLURAL:$1|ples novèla|$1 ples novèles}}',
 'pager-older-n'           => '{{PLURAL:$1|ples vielye|$1 ples vielyes}}',
 'suppress'                => 'Supèrvisar',
+'querypage-disabled'      => 'Ceta pâge spèciâla est dèsactivâ por des rêsons de capacitât.',
 
 # Book sources
 'booksources'               => 'Ôvres de refèrence',
@@ -3008,8 +3024,7 @@ O est probâblament diu a un lim de vers un seto de defôr qu’aparêt sur la l
 'math_unknown_function' => 'fonccion encognua',
 'math_lexing_error'     => 'èrror lèxicâla',
 'math_syntax_error'     => 'èrror de sintaxa',
-'math_image_error'      => 'La convèrsion en PNG at pas reussia ;
-controlâd l’enstalacion de LaTeX, dvips, gs et convert',
+'math_image_error'      => 'La convèrsion en PNG at pas reussia ; controlâd l’enstalacion de LaTeX et dvipng (ou ben dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math temporèro',
 'math_bad_output'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math de sortia',
 'math_notexvc'          => 'L’ègzécutâblo « texvc » est entrovâblo.
@@ -3055,10 +3070,10 @@ Se vos l’ègzécutâd, voutron sistèmo pôt étre compromês.",
 'imagemaxsize'         => "Format lo ples grant de les émâges :<br />''(por les pâges de dèscripcion d’émâges)''",
 'thumbsize'            => 'Talye de la figura :',
 'widthheightpage'      => '$1 × $2, $3 pâge{{PLURAL:$3||s}}',
-'file-info'            => '(Talye du fichiér : $1, tipo MIME : $2)',
-'file-info-size'       => '($1 × $2 pixèls, talye du fichiér : $3, tipo MIME : $4)',
+'file-info'            => 'Talye du fichiér : $1, tipo MIME : $2',
+'file-info-size'       => '$1 × $2 pixèls, talye du fichiér : $3, tipo MIME : $4',
 'file-nohires'         => '<small>Gins de rèsolucion ples hôta disponibla.</small>',
-'svg-long-desc'        => '(Fichiér SVG, rèsolucion de $1 × $2 pixèls, talye : $3)',
+'svg-long-desc'        => 'Fichiér SVG, rèsolucion de $1 × $2 pixèls, talye : $3',
 'show-big-image'       => 'Émâge en rèsolucion ples hôta',
 'show-big-image-thumb' => '<small>Talye de ceti apèrçu : $1 × $2 pixèls</small>',
 'file-info-gif-looped' => 'en boclla',
@@ -3647,9 +3662,7 @@ Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Rechèrche des fichiérs en doblo',
-'fileduplicatesearch-summary'  => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.
-
-Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
+'fileduplicatesearch-summary'  => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.',
 'fileduplicatesearch-legend'   => 'Rechèrche d’un doblo',
 'fileduplicatesearch-filename' => 'Nom du fichiér :',
 'fileduplicatesearch-submit'   => 'Rechèrchiér',

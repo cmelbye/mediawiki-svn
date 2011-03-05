@@ -15,6 +15,7 @@
  * @author Neoneurone
  * @author Nguyễn Thanh Quang
  * @author Thaisk
+ * @author Thanhtai2009
  * @author Tmct
  * @author Trần Nguyễn Minh Huy
  * @author Trần Thế Trung
@@ -311,8 +312,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Hiển thị số người đang xem',
 'tog-oldsig'                  => 'Chữ ký hiện tại:',
 'tog-fancysig'                => 'Xem chữ ký là mã wiki (không có liên kết tự động)',
-'tog-externaleditor'          => 'Mặc định dùng trình soạn thảo bên ngoài (chỉ dành cho người thành thạo, cần thiết lập đặc biệt trên máy tính của bạn)',
-'tog-externaldiff'            => 'Mặc định dùng trình so sánh bên ngoài (chỉ dành cho người thành thạo, cần thiết lập đặc biệt trên máy tính của bạn)',
+'tog-externaleditor'          => 'Mặc định dùng trình soạn thảo bên ngoài (chỉ dành cho người thành thạo, cần thiết lập đặc biệt trên máy tính của bạn; [http://www.mediawiki.org/wiki/Manual:External_editors?uselang=vi chi tiết])',
+'tog-externaldiff'            => 'Mặc định dùng trình so sánh bên ngoài (chỉ dành cho người thành thạo, cần thiết lập đặc biệt trên máy tính của bạn; [http://www.mediawiki.org/wiki/Manual:External_editors?uselang=vi chi tiết])',
 'tog-showjumplinks'           => 'Bật liên kết “bước tới” trên đầu trang cho bộ trình duyệt thuần văn bản hay âm thanh',
 'tog-uselivepreview'          => 'Xem thử trực tiếp (JavaScript; chưa ổn định)',
 'tog-forceeditsummary'        => 'Nhắc tôi khi tôi quên tóm lược sửa đổi',
@@ -473,6 +474,7 @@ $messages = array(
 'printableversion'  => 'Bản để in',
 'permalink'         => 'Liên kết thường trực',
 'print'             => 'In',
+'view'              => 'Xem',
 'edit'              => 'Sửa đổi',
 'create'            => 'Tạo',
 'editthispage'      => 'Sửa trang này',
@@ -480,6 +482,7 @@ $messages = array(
 'delete'            => 'Xóa',
 'deletethispage'    => 'Xóa trang này',
 'undelete_short'    => 'Phục hồi {{PLURAL:$1|một sửa đổi|$1 sửa đổi}}',
+'viewdeleted_short' => 'Xem {{PLURAL:$1|sửa đổi|$1 sửa đổi}} đã xóa',
 'protect'           => 'Khóa',
 'protect_change'    => 'thay đổi',
 'protectthispage'   => 'Khóa trang này',
@@ -564,6 +567,8 @@ $1',
 'toc'                     => 'Mục lục',
 'showtoc'                 => 'hiện',
 'hidetoc'                 => 'ẩn',
+'collapsible-collapse'    => 'Thu gọn',
+'collapsible-expand'      => 'Mở rộng',
 'thisisdeleted'           => 'Xem hay phục hồi $1 ?',
 'viewdeleted'             => 'Xem $1?',
 'restorelink'             => '{{PLURAL:$1|một|$1}} sửa đổi đã xóa',
@@ -722,7 +727,7 @@ Hãy kiểm tra lại chính tả, hoặc [[Special:UserLogin/signup|mở tài k
 'wrongpasswordempty'         => 'Bạn chưa gõ vào mật khẩu. Xin thử lần nữa.',
 'passwordtooshort'           => 'Mật khẩu phải có ít nhất {{PLURAL:$1|1 ký tự|$1 ký tự}}.',
 'password-name-match'        => 'Mật khẩu của bạn phải khác với tên người dùng của bạn.',
-'password-too-weak'          => 'Không thể sử dụng mật khẩu được cung cấp vì nó quá yếu.',
+'password-login-forbidden'   => 'Tên đăng nhập và mật khẩu này đã bị cấm không được sử dụng.',
 'mailmypassword'             => 'Gửi mật khẩu mới qua thư điện tử',
 'passwordremindertitle'      => 'Mật khẩu tạm thời cho {{SITENAME}}',
 'passwordremindertext'       => 'Người nào đó (có thể là bạn, có địa chỉ IP $1) đã yêu cầu chúng tôi gửi cho bạn mật khẩu mới của {{SITENAME}} ($4). Mật khẩu tạm cho thành viên “$2” đã được khởi tạo là “$3”. Nếu bạn chính là người đã yêu cầu mật khẩu, bạn sẽ cần phải đăng nhập và thay đổi mật khẩu ngay bây giờ. Mật khẩu tạm sẽ hết hạn trong vòng {{PLURAL:$5|một ngày|$5 ngày}}.
@@ -735,8 +740,7 @@ Nếu bạn không phải là người yêu cầu gửi mật khẩu, hoặc n�
 'eauthentsent'               => 'Thư xác nhận đã được gửi. Trước khi dùng chức năng nhận thư, bạn cần thực hiện hướng dẫn trong thư xác nhận, để đảm bảo tài khoản thuộc về bạn.',
 'throttled-mailpassword'     => 'Mật khẩu đã được gửi đến cho bạn trong vòng {{PLURAL:$1|$1 giờ|$1 giờ}} đồng hồ trở lại. Để tránh lạm dụng, chỉ có thể gửi mật khẩu $1 giờ đồng hồ một lần.',
 'mailerror'                  => 'Lỗi gửi thư : $1',
-'acct_creation_throttle_hit' => 'Những người sử dụng địa chỉ IP này đã mở {{PLURAL:$1|1 tài khoản|$1 tài khoản}} trong vòng một ngày, và đó là số lượng tài khoản tối đa có thể mở trong ngày.
-Vì vậy, người khác sử dụng địa chỉ IP này hiện không thể mở thêm tài khoản được nữa.',
+'acct_creation_throttle_hit' => 'Ai đó cùng [[địa chỉ IP]] với bạn đã mở {{PLURAL:$1|một tài khoản|$1 tài khoản}} ở đây trong vòng 24 giờ. Vì quy định hạn chế số tài khoản mở trên một địa chỉ IP nên bạn hiện không thể mở thêm được nữa dùng địa chỉ IP này.',
 'emailauthenticated'         => 'Địa chỉ thư điện tử của bạn được xác nhận vào lúc $3 $2.',
 'emailnotauthenticated'      => 'Địa chỉ thư điện tử của bạn chưa được xác nhận. Chức năng thư điện tử chưa bật.',
 'noemailprefs'               => 'Hãy ghi một địa chỉ thư điện tử trong tùy chọn cá nhân để có thể sử dụng tính năng này.',
@@ -818,7 +822,7 @@ Có thể bạn đã thay đổi thành công mật khẩu của mình hoặc đ
 'showlivepreview'                  => 'Xem thử nhanh',
 'showdiff'                         => 'Xem thay đổi',
 'anoneditwarning'                  => "'''Cảnh báo:''' Bạn chưa đăng nhập. Địa chỉ IP của bạn sẽ được ghi lại trong lịch sử sửa đổi của trang.",
-'anonpreviewwarning'               => "''Bạn chưa đăng nhập. Lúc khi lưu trang này, địa chỉ IP của bạn sẽ được ghi vào lịch sử trang.''",
+'anonpreviewwarning'               => "''Bạn chưa đăng nhập. Khi lưu trang này, địa chỉ IP của bạn sẽ được ghi vào lịch sử trang.''",
 'missingsummary'                   => "'''Nhắc nhở:''' Bạn đã không ghi lại tóm lược sửa đổi. Nếu bạn nhấn Lưu trang một lần nữa, sửa đổi của bạn sẽ được lưu mà không có tóm lược.",
 'missingcommenttext'               => 'Xin hãy gõ vào lời bàn luận ở dưới.',
 'missingcommentheader'             => "'''Nhắc nhở:''' Bạn chưa ghi chủ đề/tiêu đề cho bàn luận này.
@@ -913,6 +917,7 @@ Nếu vẫn không thành công, bạn hãy thử [[Special:UserLogout|đăng xu
 'token_suffix_mismatch'            => "'''Sửa đổi của bạn bị hủy bỏ vì trình duyệt của bạn lẫn lộn các ký tự dấu trong số hiệu
 sửa đổi. Việc hủy bỏ này nhằm tránh nội dung trang bị hỏng.
 Điều này thường xảy ra khi bạn sử dụng một dịch vụ proxy vô danh trên web có vấn đề.'''",
+'edit_form_incomplete'             => "'''Một số phần của biểu mẫu sửa đổi không tới được máy chủ. Hãy kiểm tra rằng các sửa đổi của bạn còn nguyên và thử lại.'''",
 'editing'                          => 'Sửa đổi $1',
 'editingsection'                   => 'Sửa đổi $1 (đề mục)',
 'editingcomment'                   => 'Sửa đổi $1 (đề mục mới)',
@@ -1035,7 +1040,7 @@ Chú giải: (hiện) = khác với phiên bản hiện hành,
 'history-feed-empty'          => 'Trang bạn yêu cầu không tồn tại. Có thể là nó đã bị xóa khỏi wiki hay được đổi tên. Hãy [[Special:Search|tìm kiếm trong wiki]] về các trang mới có liên quan.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(bàn luận đã bị xóa)',
+'rev-deleted-comment'         => '(tóm lược sửa đổi đã bị xóa)',
 'rev-deleted-user'            => '(tên người dùng đã bị xóa)',
 'rev-deleted-event'           => '(tác vụ nhật trình đã bị xóa)',
 'rev-deleted-user-contribs'   => '[tên người dùng hay địa chỉ IP bị ẩn – sửa đổi được ẩn khỏi danh sách đóng góp]',
@@ -1224,6 +1229,7 @@ Xin hãy bảo đảm giữ vững tính liên tục của lịch sử trang.',
 'searchmenu-legend'                => 'Tùy chọn tìm kiếm',
 'searchmenu-exists'                => "* Trang '''[[$1]]'''",
 'searchmenu-new'                   => "'''Tạo trang “[[:$1]]” trên wiki này!'''",
+'searchmenu-new-nocreate'          => 'Bạn không có thể tạo ra trang với tên “$1”, có thể vì tên này không hợp lệ.',
 'searchhelp-url'                   => 'Help:Nội dung',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Duyệt các trang với tiền tố này]]',
 'searchprofile-articles'           => 'Trang nội dung',
@@ -1373,8 +1379,8 @@ Thông tin này là công khai.',
 'email'                         => 'Thư điện tử',
 'prefs-help-realname'           => 'Tên thật là không bắt buộc.
 Nếu bạn đồng ý cung cấp, nó sẽ dùng để ghi nhận công lao của bạn.',
-'prefs-help-email'              => 'Địa chỉ thư điện tử là tùy chọn, nhưng nó giúp chúng tôi gửi cho bạn mật khẩu mới qua thư điện tử nếu bạn quên mật khẩu của mình.
-Bạn cũng có thể lựa chọn cho phép người khác liên lạc với bạn thông qua trang thành_viên hoặc thảo_luận_thành_viên mà không cần để lộ danh tính.',
+'prefs-help-email'              => 'Địa chỉ thư điện tử là tùy chọn, nhưng nó giúp chúng tôi gửi cho bạn mật khẩu mới qua thư điện tử nếu bạn quên mật khẩu của mình.',
+'prefs-help-email-others'       => 'Bạn cũng có thể lựa chọn cho phép người khác liên lạc với bạn thông qua trang cá nhân hoặc trang thảo luận cá nhân mà không cần để lộ danh tính.',
 'prefs-help-email-required'     => 'Bắt buộc phải có địa chỉ e-mail.',
 'prefs-info'                    => 'Thông tin cơ bản',
 'prefs-i18n'                    => 'Quốc tế hóa',
@@ -1390,6 +1396,10 @@ Bạn cũng có thể lựa chọn cho phép người khác liên lạc với b�
 'prefs-displaysearchoptions'    => 'Tùy chọn hiển thị',
 'prefs-displaywatchlist'        => 'Tùy chọn hiển thị',
 'prefs-diffs'                   => 'Khác biệt',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Có vẻ hợp lệ',
+'email-address-validity-invalid' => 'Yêu cầu địa chỉ hợp lệ!',
 
 # User rights
 'userrights'                   => 'Quản lý quyền thành viên',
@@ -1423,12 +1433,12 @@ Bạn cũng có thể lựa chọn cho phép người khác liên lạc với b�
 'group-suppress'      => 'Giám sát viên',
 'group-all'           => '(tất cả)',
 
-'group-user-member'          => 'Thành viên',
-'group-autoconfirmed-member' => 'Thành viên tự động xác nhận',
-'group-bot-member'           => 'Robot',
+'group-user-member'          => 'thành viên',
+'group-autoconfirmed-member' => 'thành viên tự động xác nhận',
+'group-bot-member'           => 'robot',
 'group-sysop-member'         => 'bảo quản viên',
 'group-bureaucrat-member'    => 'Hành chính viên',
-'group-suppress-member'      => 'Giám sát viên',
+'group-suppress-member'      => 'giám sát viên',
 
 'grouppage-user'          => '{{ns:project}}:Thành viên',
 'grouppage-autoconfirmed' => '{{ns:project}}:Thành viên tự xác nhận',
@@ -1629,13 +1639,13 @@ Xem [[Special:NewFiles|trang trưng bày các tập tin mới]] để xem trực
 'minlength1'                  => 'Tên tập tin phải có ít nhất một ký tự.',
 'illegalfilename'             => 'Tên tập tin “$1” có chứa ký tự không được phép dùng cho tựa trang. Xin hãy đổi tên và tải lên lại.',
 'badfilename'                 => 'Tên tập tin đã được đổi thành “$1”.',
-'filetype-mime-mismatch'      => 'Phần mở rộng của tập tin không phù hợp kiểu MIME.',
+'filetype-mime-mismatch'      => 'Phần mở rộng của tập tin (“.$1”) không phù hợp kiểu MIME được nhận ra ($2).',
 'filetype-badmime'            => 'Không thể tải lên các tập tin có định dạng MIME “$1”.',
 'filetype-bad-ie-mime'        => 'Không thể tải tập tin này lên vì Internet Explorer sẽ nhận diện tập tin này là “$1”, một định dạng tập tin tiềm ẩn nguy hiểm và không được cho phép.',
 'filetype-unwanted-type'      => "'''“.$1”''' là định dạng tập tin không được trông đợi.
 {{PLURAL:$3|Loại|Những loại}} tập tin thích hợp hơn là $2.",
-'filetype-banned-type'        => "'''“.$1”''' là định dạng tập tin không được chấp nhận.
-{{PLURAL:$3|Loại tập tin|Những loại tập tin}} được chấp nhận là $2.",
+'filetype-banned-type'        => "{{PLURAL:$4|Định dạng|Các định dạng}} '''“.$1”''' không được chấp nhận.
+Chỉ chấp nhận {{PLURAL:$3|loại tập tin|các loại tập tin}} sau: $2.",
 'filetype-missing'            => 'Tập tin không có phần mở rộng (ví dụ “.jpg”).',
 'empty-file'                  => 'Bạn đã gửi tập tin rỗng.',
 'file-too-large'              => 'Bạn đã gửi tập tin lớn quá hạn.',
@@ -1672,7 +1682,7 @@ Nếu bạn vẫn muốn tải tập tin của bạn lên, xin hãy quay lại v
 'fileexists-shared-forbidden' => 'Một tập tin với tên này đã tồn tại ở kho tập tin dùng chung.
 Nếu bạn vẫn muốn tải tập tin của bạn lên, xin hãy quay lại và dùng một tên khác. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tập tin này có vẻ là bản sao của {{PLURAL:$1|tập tin|các  tập tin}} sau:',
-'file-deleted-duplicate'      => 'Một tập tin giống hệt như tập tin này ([[$1]]) đã từng bị xóa trước đây. Bạn nên xem lại lịch sử xóa tập tin trước khi tiếp tục tải nó lên lại.',
+'file-deleted-duplicate'      => 'Một tập tin giống hệt như tập tin này ([[:$1]]) đã từng bị xóa trước đây. Bạn nên xem lại lịch sử xóa tập tin trước khi tiếp tục tải nó lên lại.',
 'uploadwarning'               => 'Cảnh báo!',
 'uploadwarning-text'          => 'Xin hãy chỉnh sửa miêu tả tập tin ở dưới và thử lại.',
 'savefile'                    => 'Lưu tập tin',
@@ -1685,6 +1695,8 @@ Nếu bạn vẫn muốn tải tập tin của bạn lên, xin hãy quay lại v
 'php-uploaddisabledtext'      => 'Việc tải tập tin trong PHP đã bị tắt. Xin hãy kiểm tra lại thiết lập file_uploads.',
 'uploadscripted'              => 'Tập tin này có chứa mã HTML hoặc script có thể khiến trình duyệt web thông dịch sai.',
 'uploadvirus'                 => 'Tập tin có virút! Chi tiết: $1',
+'uploadjava'                  => 'Tập tin ZIP này chứa một tập tin Java .class.
+Không được phép tải lên các tập tin Java, bởi vì chúng có thể vượt qua các hạn chế bảo mật.',
 'upload-source'               => 'Tập tin gốc',
 'sourcefilename'              => 'Tên tập tin nguồn:',
 'sourceurl'                   => 'URL gốc:',
@@ -1733,6 +1745,23 @@ Nếu vẫn còn bị lỗi, xin hãy liên hệ với một [[Special:ListUsers
 'upload-too-many-redirects' => 'URL có quá nhiều chuyển hướng',
 'upload-unknown-size'       => 'Không rõ kích thước',
 'upload-http-error'         => 'Xảy ra lỗi HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Lỗi khi mở tập tin để kiểm tra tập tin ZIP.',
+'zip-wrong-format'    => 'Tập tin này không phải là tập tin ZIP.',
+'zip-bad'             => 'Tập tin ZIP này bị hỏng hoặc không mở được vì lý do khác.
+Không thể kiểm tra nó về bảo mật.',
+'zip-unsupported'     => 'Tập tin ZIP này sử dụng các tính năng ZIP không được hỗ trợ bởi MediaWiki.
+Không thể kiểm tra nó về bảo mật.',
+
+# Special:UploadStash
+'uploadstash'          => 'Hàng đợi tải lên',
+'uploadstash-summary'  => 'Đây là các tập tin mà bạn đã hoặc đang tải lên nhưng chưa xuất bản tại wiki. Chỉ bạn có thể xem các tập tin này.',
+'uploadstash-clear'    => 'Xóa các tập tin đợi tải lên',
+'uploadstash-nofiles'  => 'Bạn không có tập tin trong hàng đợi tải lên.',
+'uploadstash-badtoken' => 'Tác vụ bị thất bại, có lẽ vì thông tin đăng nhập của bạn đã hết hạn. Hãy thử lại.',
+'uploadstash-errclear' => 'Việc dọn sạch các tập tin bị thất bại.',
+'uploadstash-refresh'  => 'Làm mới danh sách tập tin',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Không cho phép truy cập',
@@ -1826,6 +1855,7 @@ Lời miêu tả tại [$2 trang mô tả tập tin] tại đấy được hiể
 'uploadnewversion-linktext' => 'Tải lên phiên bản mới',
 'shared-repo-from'          => 'tại $1',
 'shared-repo'               => 'kho lưu trữ dùng chung',
+'filepage.css'              => '/* Mã CSS tại đây sẽ ảnh hướng đến trang miêu tả tập tin, cũng như các wiki khách bên ngoài dựa trên wiki này */',
 
 # File reversion
 'filerevert'                => 'Lùi lại phiên bản của $1',
@@ -1908,12 +1938,13 @@ Hãy nhớ kiểm tra các liên kết khác đến bản mẫu trước khi xó
 'disambiguationspage'  => 'Template:disambig',
 'disambiguations-text' => "Các trang này có liên kết đến một '''trang định hướng'''. Nên sửa các liên kết này để chỉ đến một trang đúng nghĩa hơn.<br />Các trang định hướng là trang sử dụng những bản mẫu được liệt kê ở [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Đổi hướng kép',
-'doubleredirectstext'        => 'Trang này liệt kê các trang đổi hướng đến một trang đổi hướng khác.
+'doubleredirects'                   => 'Đổi hướng kép',
+'doubleredirectstext'               => 'Trang này liệt kê các trang đổi hướng đến một trang đổi hướng khác.
 Mỗi hàng có chứa các liên kết đến trang đổi hướng thứ nhất và thứ hai, cũng như mục tiêu của trang đổi hướng thứ hai, thường là trang đích “thực sự”, là nơi mà trang đổi hướng đầu tiên nên trỏ đến.
 Các mục <del>bị gạch bỏ</del> là các trang đã được sửa.',
-'double-redirect-fixed-move' => '[[$1]] đã được đổi tên, giờ nó là trang đổi hướng đến [[$2]]',
-'double-redirect-fixer'      => 'Người sửa trang đổi hướng',
+'double-redirect-fixed-move'        => '[[$1]] đã được đổi tên, giờ nó là trang đổi hướng đến [[$2]]',
+'double-redirect-fixed-maintenance' => 'Giải quyết đổi hướng kép từ [[$1]] đến [[$2]].',
+'double-redirect-fixer'             => 'Người sửa trang đổi hướng',
 
 'brokenredirects'        => 'Đổi hướng sai',
 'brokenredirectstext'    => 'Các trang đổi hướng sau đây liên kết đến trang không tồn tại:',
@@ -1990,6 +2021,7 @@ Xin lưu ý là các trang Web bên ngoài có thể liên kết đến một t�
 'pager-newer-n'           => '{{PLURAL:$1|1|$1}} mới hơn',
 'pager-older-n'           => '{{PLURAL:$1|1|$1}} cũ hơn',
 'suppress'                => 'Giám sát viên',
+'querypage-disabled'      => 'Trang đặc biệt này bị tắt vì lý do hiệu suất.',
 
 # Book sources
 'booksources'               => 'Nguồn sách',
@@ -2888,7 +2920,7 @@ Lưu nó vào máy tính của bạn rồi tải nó lên đây.',
 'math_unknown_function' => 'hàm lạ',
 'math_lexing_error'     => 'lỗi chính tả',
 'math_syntax_error'     => 'lỗi cú pháp',
-'math_image_error'      => 'Không chuyển sang định dạng PNG được; xin kiểm tra lại cài đặt latex, dvips, gs và convert',
+'math_image_error'      => 'Không chuyển sang định dạng PNG được; xin kiểm tra lại cài đặt latex, dvips, gs, và convert (hoặc dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Không tạo mới hay viết vào thư mục toán tạm thời được',
 'math_bad_output'       => 'Không tạo mới hay viết vào thư mục kết quả được',
 'math_notexvc'          => 'Không thấy hàm thực thi texvc; xin xem math/README để biết cách cấu hình.',
@@ -2933,10 +2965,10 @@ Nếu thực thi nó máy tính của bạn có thể bị tiếm quyền.",
 'imagemaxsize'         => "Giới hạn cỡ hình:<br />''(trên trang miêu tả tập tin)''",
 'thumbsize'            => 'Cỡ hình thu nhỏ:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|trang|trang}}',
-'file-info'            => '(kích thước tập tin: $1, định dạng MIME: $2)',
-'file-info-size'       => '($1×$2 điểm ảnh, kích thước: $3, định dạng MIME: $4)',
+'file-info'            => 'kích thước tập tin: $1, định dạng MIME: $2',
+'file-info-size'       => '$1×$2 điểm ảnh, kích thước: $3, định dạng MIME: $4',
 'file-nohires'         => '<small>Không có độ phân giải cao hơn.</small>',
-'svg-long-desc'        => '(tập tin SVG, $1 × $2 điểm ảnh trên danh nghĩa, kích thước: $3)',
+'svg-long-desc'        => 'tập tin SVG, $1 × $2 điểm ảnh trên danh nghĩa, kích thước: $3',
 'show-big-image'       => 'Độ phân giải tối đa',
 'show-big-image-thumb' => '<small>Kích thước xem thử: $1 × $2 điểm ảnh</small>',
 'file-info-gif-looped' => 'có lặp',
@@ -2967,6 +2999,40 @@ Nếu thực thi nó máy tính của bạn có thể bị tiếm quyền.",
 
 Chỉ có những mục được liệt kê (những dòng bắt đầu bằng *) mới được tính tới. Liên kết đầu tiên tại một dòng phải là liên kết đến tập tin phản cảm.
 Các liên kết sau đó trên cùng một dòng được xem là các ngoại lệ, có nghĩa là các trang mà tại đó có thể dùng được tập tin.',
+
+/*
+Short names for language variants used for language conversion links.
+To disable showing a particular link, set it to 'disable', e.g.
+'variantname-zh-sg' => 'disable',
+Variants for Chinese language
+*/
+'variantname-zh-hans' => 'Giản thể',
+'variantname-zh-hant' => 'Phồn thể',
+'variantname-zh-cn'   => 'Giản thể Hoa Lục',
+'variantname-zh-tw'   => 'Phồn thể Đài Loan',
+'variantname-zh-hk'   => 'Phồn thể Hồng Kông',
+'variantname-zh-mo'   => 'Phồn thể Ma Cao',
+'variantname-zh-sg'   => 'Giản thể Singapore',
+'variantname-zh-my'   => 'Giản thể Mã Lai',
+'variantname-zh'      => 'Không chuyển tự',
+
+# Variants for Gan language
+'variantname-gan-hans' => 'Giản thể',
+'variantname-gan-hant' => 'Phồn thể',
+'variantname-gan'      => 'Cám nguyên văn',
+
+# Variants for Kazakh language
+'variantname-kk-cyrl' => 'Kirin',
+'variantname-kk-latn' => 'Latinh',
+'variantname-kk-arab' => 'Ả Rập',
+
+# Variants for Kurdish language
+'variantname-ku-arab' => 'Ả Rập',
+'variantname-ku-latn' => 'Latinh',
+
+# Variants for Tajiki language
+'variantname-tg-cyrl' => 'Kirin',
+'variantname-tg-latn' => 'Latinh',
 
 # Metadata
 'metadata'          => 'Đặc tính hình',
@@ -3104,6 +3170,7 @@ Những thông tin khác mặc định sẽ được ẩn đi.
 'exif-gpsareainformation'          => 'Tên khu vực theo GPS',
 'exif-gpsdatestamp'                => 'Ngày theo GPS',
 'exif-gpsdifferential'             => 'Sửa vi sai GPS',
+'exif-objectname'                  => 'Tên ngắn',
 
 # EXIF attributes
 'exif-compression-1' => 'Không nén',
@@ -3314,6 +3381,20 @@ tục xác nhận địa chỉ thư điện tử:
 $5
 
 Mã xác nhận này sẽ hết hạn vào $4.',
+'confirmemail_body_set'     => 'Ai đó, có thể là bạn, từ địa chỉ IP $1, đã đặt địa chỉ này là địa
+chỉ thư điện tử của tài khoản "$2" tại {{SITENAME}}.
+
+Để xác nhận rằng tài khoản này thực sự là của bạn và để tái kích hoạt tính năng
+thư điện tử tại {{SITENAME}}, xin mở liên kết này trong trình duyệt:
+
+$3
+
+Nếu tài khoản *không* phải là của bạn, hãy nhấn vào liên kết này để hủy thủ
+tục xác nhận địa chỉ thư điện tử:
+
+$5
+
+Mã xác nhận này sẽ hết hạn vào $4.',
 'confirmemail_invalidated'  => 'Đã hủy xác nhận địa chỉ thư điện tử',
 'invalidateemail'           => 'Hủy xác nhận thư điện tử',
 
@@ -3497,16 +3578,15 @@ hoặc [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html đọc nó trực 
 Hãy ghi vào tên tập tin, không bao gồm tiền tố “{{ns:file}}:”.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Tìm kiếm các tập tin trùng lắp',
-'fileduplicatesearch-summary'  => 'Tìm kiếm các bản sao y hệt với tập tin khác, theo giá trị băm của nó.
-
-Hãy cho vào tên của tập tin, trừ tiền tố “{{ns:file}}:”.',
-'fileduplicatesearch-legend'   => 'Tìm kiếm tập tin trùng lắp',
-'fileduplicatesearch-filename' => 'Tên tập tin:',
-'fileduplicatesearch-submit'   => 'Tìm kiếm',
-'fileduplicatesearch-info'     => '$1×$2 điểm ảnh<br />Kích thước tập tin: $3<br />Định dạng MIME: $4',
-'fileduplicatesearch-result-1' => 'Không có bản sao y hệt với tập tin “$1”.',
-'fileduplicatesearch-result-n' => 'Có {{PLURAL:$2|1 bản sao|$2 bản sao}} y hệt với tập tin “$1”.',
+'fileduplicatesearch'           => 'Tìm kiếm các tập tin trùng lắp',
+'fileduplicatesearch-summary'   => 'Tìm kiếm các bản sao y hệt với tập tin khác, theo giá trị băm của nó.',
+'fileduplicatesearch-legend'    => 'Tìm kiếm tập tin trùng lắp',
+'fileduplicatesearch-filename'  => 'Tên tập tin:',
+'fileduplicatesearch-submit'    => 'Tìm kiếm',
+'fileduplicatesearch-info'      => '$1×$2 điểm ảnh<br />Kích thước tập tin: $3<br />Định dạng MIME: $4',
+'fileduplicatesearch-result-1'  => 'Không có bản sao y hệt với tập tin “$1”.',
+'fileduplicatesearch-result-n'  => 'Có {{PLURAL:$2|1 bản sao|$2 bản sao}} y hệt với tập tin “$1”.',
+'fileduplicatesearch-noresults' => 'Không tìm thấy tập tin nào tên “$1”.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Các trang đặc biệt',
@@ -3599,14 +3679,5 @@ Nếu người dùng đã dăng nhập vào bất cứ wiki nào trong hệ th�
 'disableaccount-nosuchuser'  => 'Tài khoản người dùng “$1” không tồn tại.',
 'disableaccount-success'     => 'Tài khoản người dùng “$1” đã bị vô hiệu hóa vĩnh viễn.',
 'disableaccount-logentry'    => 'đã vô hiệu hóa vĩnh viễn tài khoản của người dùng [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Hàng đợi tải lên',
-'uploadstash-summary'  => 'Đây là các tập tin mà bạn đã hoặc đang tải lên nhưng chưa xuất bản tại wiki. Chỉ bạn có thể xem các tập tin này.',
-'uploadstash-clear'    => 'Xóa các tập tin đợi tải lên',
-'uploadstash-nofiles'  => 'Bạn không có tập tin trong hàng đợi tải lên.',
-'uploadstash-badtoken' => 'Tác vụ bị thất bại, có lẽ vì thông tin đăng nhập của bạn đã hết hạn. Hãy thử lại.',
-'uploadstash-errclear' => 'Việc dọn sạch các tập tin bị thất bại.',
-'uploadstash-refresh'  => 'Làm mới danh sách tập tin',
 
 );

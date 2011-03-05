@@ -1,8 +1,16 @@
 /*
- * Any rules which should not be flipped automatically in right-to-left situations should be prepended with @noflip in
- * a comment block. Images that should be embedded as base64 data-URLs should be prepended with @embed in a comment
- * block.
+ * Any rules which should not be flipped automatically in right-to-left situations should be
+ * prepended with @noflip in a comment block. Images that should be embedded as base64 data-URLs
+ * should be prepended with @embed in a comment block.
+ * 
+ * This style-sheet employs a few CSS trick to accomplish compatibility with a wide range of web
+ * browsers. The most common trick is to use some styles in IE6 only. This is accomplished by using
+ * a rule that makes things work in IE6, and then following it with a rule that begins with
+ * "html > body" or use a child selector ">", which is ignored by IE6 because it does not support
+ * the child selector. You can spot this by looking for the "OVERRIDDEN BY COMPLIANT BROWSERS" and
+ * "IGNORED BY IE6" comments.
  */
+
 /* Framework */
 html,
 body {
@@ -162,12 +170,8 @@ div#mw-head h5 {
 		background-image: url(images/tab-break.png);
 		background-position: bottom right;
 		background-repeat: no-repeat;
-	}
-	div.vectorTabs li a{
 		color: #0645ad;
 		cursor: pointer;
-	}
-	div.vectorTabs li a  {
 		font-size: 0.8em;
 	}
 	/* IGNORED BY IE6 */
@@ -217,13 +221,14 @@ div#mw-head h5 {
 		background-image: url(images/tab-break.png);
 		background-repeat: no-repeat;
 	}
-	/* IGNORED BY IE6 */
-	div#mw-head div.vectorMenu > h5 {
-		background-image: none;
-	}
+	/* This will be flipped - unlike the one above it */
 	div#mw-head div.vectorMenu h5 {
 		background-position: bottom left;
 		margin-left: -1px;
+	}
+	/* IGNORED BY IE6 */
+	div#mw-head div.vectorMenu > h5 {
+		background-image: none;
 	}
 	div#mw-head div.vectorMenu h4 {
 		display: inline-block;
@@ -245,7 +250,8 @@ div#mw-head h5 {
 		background-image: url(images/tab-break.png);
 		background-repeat: no-repeat;
 	}
-	div.vectorMenu h5 a{
+	/* This will be flipped - unlike the one above it */
+	div.vectorMenu h5 a {
 		background-position: bottom right;
 	}
 	/* IGNORED BY IE6 */
@@ -268,7 +274,8 @@ div#mw-head h5 {
 	body.rtl div.vectorMenu > div.menu {
 		margin-left: auto;
 	}
-	/* Fixes old versions of FireFox */
+	/* IGNORED BY IE6 */
+	/* Also fixes old versions of FireFox */
 	/* @noflip */
 	body.rtl div.vectorMenu > div.menu,
 	x:-moz-any-link {
@@ -312,15 +319,13 @@ div#mw-head h5 {
 		display: inline-block;
 		padding: 0.5em;
 		white-space: nowrap;
+		color: #0645ad;
+		cursor: pointer;
+		font-size: 0.8em;
 	}
 	/* IGNORED BY IE6 */
 	div.vectorMenu li > a {
 		display: block;
-	}
-	div.vectorMenu li a {
-		color: #0645ad;
-		cursor: pointer;
-		font-size: 0.8em;
 	}
 	div.vectorMenu li.selected a,
 	div.vectorMenu li.selected a:visited {
@@ -345,6 +350,9 @@ div#mw-head h5 {
 		margin-top: 0.4em;
 	}
 	div#simpleSearch {
+		display: block;
+		width: 14em;
+		height: 1.4em;
 		margin-top: 0.65em;
 		position: relative;
 		min-height: 1px; /* Gotta trigger hasLayout for IE7 */
@@ -363,9 +371,11 @@ div#mw-head h5 {
 		*/
 		font-size: 13px;
 		top: 0.25em;
+		direction: ltr;
 	}
 	div#simpleSearch input {
 		color: black;
+		direction: ltr;
 	}
 	div#simpleSearch input:focus {
 		outline: none;
@@ -377,33 +387,49 @@ div#mw-head h5 {
 		color: #999999;
 	}
 	div#simpleSearch input#searchInput {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 90%;
 		margin: 0;
-		border-width: 0;
-		padding: 3px;
-		vertical-align: top;
+		padding: 0;
+		padding-left: 0.2em;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
+		outline: none;
+		border: none;
 		/*
 		 * DON'T PANIC! Browsers that won't scale this properly are the same browsers that have JS issues that prevent
 		 * this from ever being shown anyways.
 		*/
 		font-size: 13px;
-		width: 14em;
 		background-color: transparent;
 		direction: ltr;
 	}
-	/* OVERRIDDEN BY COMPLIANT BROWSERS */
 	div#simpleSearch button#searchButton {
+		position: absolute;
+		width: 10%;
+		right: 0;
+		top: 0;
 		padding: 0;
-		margin: 0 5px;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
+		padding-right: 0.4em;
+		margin: 0;
 		border: none;
 		cursor: pointer;
 		background-color: transparent;
-		font-size: x-small;
 	}
+	/* OVERRIDDEN BY COMPLIANT BROWSERS */
 	div#simpleSearch button#searchButton img {
 		border: none;
 		margin: 0;
+		margin-top: -3px;
 		padding: 0;
-		vertical-align: middle;
+	}
+	/* IGNORED BY IE6 */
+	div#simpleSearch button#searchButton > img {
+		margin: 0;
 	}
 /* Panel */
 div#mw-panel {
@@ -555,7 +581,7 @@ div#footer #footer-places li {
 		background-position: bottom right;
 		background-repeat: no-repeat;
 	}
-	/* IGNORED BY IE6 */
+	/* Sadly, IE6 won't understand this */
 	#preftoc li:first-child {
 		margin-left: 1px;
 	}
@@ -699,6 +725,7 @@ h6 {
 	background: none;
 	font-weight: normal;
 	margin: 0;
+	overflow: hidden;
 	padding-top: .5em;
 	padding-bottom: .17em;
 	border-bottom: 1px solid #aaa;
@@ -799,13 +826,6 @@ dd {
 table {
 	font-size: 100%;
 	color: black;
-	/* we don't want the bottom borders of <h2>s to be visible through
-	 * floated tables */
-	background-color: white;
-}
-fieldset table {
-	/* but keep table layouts in forms clean... */
-	background: none;
 }
 /* Forms */
 fieldset {
@@ -892,8 +912,6 @@ div.floatleft p { font-style: italic; }
 /* Thumbnails */
 div.thumb {
 	margin-bottom: .5em;
-	border-style: solid;
-	border-color: white;
 	width: auto;
 	background-color: transparent;
 }
@@ -929,14 +947,13 @@ div.magnify a, div.magnify img {
 div.tright {
 	clear: right;
 	float: right;
-	border-width: .5em 0 .8em 1.4em;
+	margin: .5em 0 1.3em 1.4em;
 }
 /* @noflip */
 div.tleft {
 	float: left;
 	clear: left;
-	margin-right: .5em;
-	border-width: .5em 1.4em .8em 0;
+	margin: .5em 1.4em 1.3em 0;
 }
 img.thumbborder {
 	border: 1px solid #dddddd;
@@ -952,8 +969,8 @@ img.thumbborder {
 }
 /* User Message */
 .usermessage {
-	background-color: #e0e8ff;
-	border: 1px solid #99b3ff;
+	background-color: #ffce7b;
+	border: 1px solid #ffa500;
 	color: black;
 	font-weight: bold;
 	margin: 2em 0 1em;
@@ -1091,16 +1108,34 @@ div#content a.external[href *=".pdf?"], div#content a.external[href *=".PDF?"],
 	background: url("images/document-icon.png?2") center right no-repeat;
 	padding-right: 13px;
 }
-/* Interwiki Styling  (Disabled) */
+
+/* Interwiki Styling */
 div#content a.extiw,
 div#content a.extiw:active {
 	color: #36b;
+	/* Don't show icons for interwiki links */
 	background: none;
 	padding: 0;
 }
+div#content a.extiw:visited {
+	color: #636;
+}
+div#content a.extiw:active {
+	color: #b63;
+}
+
+/* External links */
 div#content a.external {
 	color: #36b;
 }
+div#content a.external:visited {
+	color: #636; /* bug 3112 */
+}
+div#content a.external:active {
+	color: #b63;
+}
+
+
 div#content .printfooter {
 	display: none;
 }
@@ -1145,6 +1180,9 @@ div#bodyContent {
 	width: 26px;
 	/* This hides the text but shows the background image */
 	padding-top: 3.1em;
+	margin-top: 0;
+	/* Only applied in IE6 */
+	margin-top: -0.8em !ie;
 	height: 0;
 	overflow: hidden;
 	/* @embed */
@@ -1168,7 +1206,7 @@ div#bodyContent {
 #ca-watch.icon a.loading {
 	/* @embed */
 	background-image: url(images/watch-icon-loading.gif);
-	background-position: center 60%;
+	background-position: 5px 60%;
 }
 #ca-unwatch.icon a span,
 #ca-watch.icon a span {

@@ -48,6 +48,10 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 		return 'public';
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	public function executeGenerator( $resultPageSet ) {
 		if ( $resultPageSet->isResolvingRedirects() ) {
 			$this->dieUsage( 'Use "gapfilterredir=nonredirects" option instead of "redirects" when using allpages as a generator', 'params' );
@@ -56,6 +60,10 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 		$this->run( $resultPageSet );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function run( $resultPageSet = null ) {
 		$db = $this->getDB();
 
@@ -75,7 +83,7 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 		$from = ( is_null( $params['from'] ) ? null : $this->titlePartToKey( $params['from'] ) );
 		$to = ( is_null( $params['to'] ) ? null : $this->titlePartToKey( $params['to'] ) );
 		$this->addWhereRange( 'page_title', $dir, $from, $to );
-		
+
 		if ( isset( $params['prefix'] ) ) {
 			$this->addWhere( 'page_title' . $db->buildLike( $this->titlePartToKey( $params['prefix'] ), $db->anyString() ) );
 		}
@@ -187,7 +195,7 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 	}
 
 	public function getAllowedParams() {
-		global $wgRestrictionTypes, $wgRestrictionLevels;
+		global $wgRestrictionLevels;
 
 		return array(
 			'from' => null,
@@ -212,7 +220,7 @@ class ApiQueryAllpages extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_TYPE => 'integer',
 			),
 			'prtype' => array(
-				ApiBase::PARAM_TYPE => $wgRestrictionTypes,
+				ApiBase::PARAM_TYPE => Title::getFilteredRestrictionTypes( true ),
 				ApiBase::PARAM_ISMULTI => true
 			),
 			'prlevel' => array(

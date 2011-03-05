@@ -50,8 +50,15 @@ class ParserTest {
 
 	/**
 	 * Our connection to the database
+	 * @var DatabaseBase
 	 */
 	private $db;
+
+	/**
+	 * Database clone helper
+	 * @var CloneDatabase
+	 */
+	private $dbClone;
 
 	/**
 	 * string $oldTablePrefix Original table prefix
@@ -127,9 +134,8 @@ class ParserTest {
 	static function setUp() {
 		global $wgParser, $wgParserConf, $IP, $messageMemc, $wgMemc, $wgDeferredUpdateList,
 			$wgUser, $wgLang, $wgOut, $wgRequest, $wgStyleDirectory, $wgEnableParserCache,
-			$wgMessageCache, $wgUseDatabaseMessages, $wgMsgCacheExpiry, $parserMemc,
 			$wgNamespaceAliases, $wgNamespaceProtection, $wgLocalFileRepo,
-			$wgThumbnailScriptPath, $wgScriptPath,
+			$parserMemc, $wgThumbnailScriptPath, $wgScriptPath,
 			$wgArticlePath, $wgStyleSheetPath, $wgScript, $wgStylePath;
 
 		$wgScript = '/index.php';
@@ -165,9 +171,6 @@ class ParserTest {
 		$wgParser = new StubObject( 'wgParser', $wgParserConf['class'], array( $wgParserConf ) );
 		$wgRequest = new WebRequest;
 
-		$wgMessageCache = new StubObject( 'wgMessageCache', 'MessageCache',
-										  array( $messageMemc, $wgUseDatabaseMessages,
-												 $wgMsgCacheExpiry ) );
 		if ( $wgStyleDirectory === false ) {
 			$wgStyleDirectory   = "$IP/skins";
 		}
@@ -246,8 +249,7 @@ class ParserTest {
 			if ( $fail ) {
 				echo "Test failed with seed {$this->fuzzSeed}\n";
 				echo "Input:\n";
-				var_dump( $input );
-				echo "\n\n";
+				printf( "string(%d) \"%s\"\n\n", strlen( $input ), $input );
 				echo "$exception\n";
 			} else {
 				$numSuccess++;
@@ -653,6 +655,9 @@ class ParserTest {
 			'wgHtml5' => true,
 			'wgWellFormedXml' => true,
 			'wgAllowMicrodataAttributes' => true,
+			'wgAdaptiveMessageCache' => true,
+			'wgDisableLangConversion' => false,
+			'wgDisableTitleConversion' => false,
 		);
 
 		if ( $config ) {
@@ -678,7 +683,7 @@ class ParserTest {
 		$langObj = Language::factory( $lang );
 		$GLOBALS['wgLang'] = $langObj;
 		$GLOBALS['wgContLang'] = $langObj;
-		$GLOBALS['wgMemc'] = new FakeMemCachedClient;
+		$GLOBALS['wgMemc'] = new EmptyBagOStuff;
 		$GLOBALS['wgOut'] = new OutputPage;
 
 		global $wgHooks;
@@ -751,35 +756,14 @@ class ParserTest {
 
 		$temporary = $this->useTemporaryTables || $dbType == 'postgres';
 		$tables = $this->listTables();
+		$prefix = $dbType != 'oracle' ? 'parsertest_' : 'pt_';
 
-		foreach ( $tables as $tbl ) {
-			# Clean up from previous aborted run.  So that table escaping
-			# works correctly across DB engines, we need to change the pre-
-			# fix back and forth so tableName() works right.
-			$this->changePrefix( $this->oldTablePrefix );
-			$oldTableName = $this->db->tableName( $tbl );
-			$this->changePrefix( $dbType != 'oracle' ? 'parsertest_' : 'pt_' );
-			$newTableName = $this->db->tableName( $tbl );
-
-			if ( $dbType == 'mysql' ) {
-				$this->db->query( "DROP TABLE IF EXISTS $newTableName" );
-			} elseif ( in_array( $dbType, array( 'postgres', 'oracle' ) ) ) {
-				/* DROPs wouldn't work due to Foreign Key Constraints (bug 14990, r58669)
-				 * Use "DROP TABLE IF EXISTS $newTableName CASCADE" for postgres? That
-				 * syntax would also work for mysql.
-				 */
-			} elseif ( $this->db->tableExists( $tbl ) ) {
-				$this->db->query( "DROP TABLE $newTableName" );
-			}
-
-			# Create new table
-			$this->db->duplicateTableStructure( $oldTableName, $newTableName, $temporary );
-		}
+		$this->dbClone = new CloneDatabase( $this->db, $this->listTables(), $prefix );
+		$this->dbClone->useTemporaryTables( $temporary );
+		$this->dbClone->cloneTableStructure();
 
 		if ( $dbType == 'oracle' )
 			$this->db->query( 'BEGIN FILL_WIKI_INFO; END;' );
-
-		$this->changePrefix( $dbType != 'oracle' ? 'parsertest_' : 'pt_' );
 
 		if ( $dbType == 'oracle' ) {
 			# Insert 0 user to prevent FK violations
@@ -832,9 +816,8 @@ class ParserTest {
 		# Reinitialise the LocalisationCache to match the database state
 		Language::getLocalisationCache()->unloadAll();
 
-		# Make a new message cache
-		global $wgMessageCache, $wgMemc;
-		$wgMessageCache = new MessageCache( $wgMemc, true, 3600 );
+		# Clear the message cache
+		MessageCache::singleton()->clear();
 
 		$this->uploadDir = $this->setupUploadDir();
 		$user = User::createNew( 'WikiSysop' );
@@ -866,23 +849,6 @@ class ParserTest {
 			), $this->db->timestamp( '20010115123500' ), $user );
 	}
 
-	/**
-	 * Change the table prefix on all open DB connections/
-	 */
-	protected function changePrefix( $prefix ) {
-		global $wgDBprefix;
-		wfGetLBFactory()->forEachLB( array( $this, 'changeLBPrefix' ), array( $prefix ) );
-		$wgDBprefix = $prefix;
-	}
-
-	public function changeLBPrefix( $lb, $prefix ) {
-		$lb->forEachOpenConnection( array( $this, 'changeDBPrefix' ), array( $prefix ) );
-	}
-
-	public function changeDBPrefix( $db, $prefix ) {
-		$db->tablePrefix( $prefix );
-	}
-
 	public function teardownDatabase() {
 		if ( !$this->databaseSetupDone ) {
 			$this->teardownGlobals();
@@ -890,7 +856,7 @@ class ParserTest {
 		}
 		$this->teardownUploadDir( $this->uploadDir );
 
-		$this->changePrefix( $this->oldTablePrefix );
+		$this->dbClone->destroy();
 		$this->databaseSetupDone = false;
 
 		if ( $this->useTemporaryTables ) {
@@ -1093,7 +1059,9 @@ class ParserTest {
 	 * @return String
 	 */
 	protected function quickDiff( $input, $output, $inFileTail = 'expected', $outFileTail = 'actual' ) {
-		$prefix = wfTempDir() . "/mwParser-" . mt_rand();
+		# Windows, or at least the fc utility, is retarded
+		$slash = wfIsWindows() ? '\\' : '/';
+		$prefix = wfTempDir() . "{$slash}mwParser-" . mt_rand();
 
 		$infile = "$prefix-$inFileTail";
 		$this->dumpToFile( $input, $infile );
@@ -1101,7 +1069,12 @@ class ParserTest {
 		$outfile = "$prefix-$outFileTail";
 		$this->dumpToFile( $output, $outfile );
 
-		$diff = `diff -au $infile $outfile`;
+		$shellInfile = wfEscapeShellArg($infile);
+		$shellOutfile = wfEscapeShellArg($outfile);
+
+		$diff = wfIsWindows()
+			? `fc $shellInfile $shellOutfile`
+			: `diff -au $shellInfile $shellOutfile`;
 		unlink( $infile );
 		unlink( $outfile );
 

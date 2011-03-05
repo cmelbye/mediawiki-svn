@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- colors don't work on Windows! -->
 <phpunit bootstrap="./bootstrap.php"
          colors="false"
          backupGlobals="false"
@@ -7,7 +8,8 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="false"
-         strict="true">
+         strict="true"
+		 verbose="true">
 	<testsuites>
 		<testsuite name="includes">
 			<directory>./includes</directory>

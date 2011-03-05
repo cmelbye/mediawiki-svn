@@ -1,5 +1,5 @@
 <?php
-/** Traditional Gan script (贛語(繁體))
+/** Traditional Gan script (‪贛語(繁體)‬)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -7,6 +7,8 @@
  * @ingroup Language
  * @file
  *
+ * @author Mark85296341
+ * @author Reedy
  * @author Symane
  * @author Urhixidur
  * @author Vipuser
@@ -305,8 +307,8 @@ $1',
 'policy-url'           => 'Project:政策',
 'portal'               => '社區',
 'portal-url'           => 'Project:社區',
-'privacy'              => '隱私政策',
-'privacypage'          => 'Project:隱私政策',
+'privacy'              => '隱私權政策',
+'privacypage'          => 'Project:隱私權政策',
 
 'badaccess'        => '許可權錯誤',
 'badaccess-group0' => '倷嗰要求冇拕批准。',
@@ -584,7 +586,7 @@ $2',
 要係倷伓係特試來到箇首，捺吖瀏覽器嗰「返回」鍵即可去還。',
 'anontalkpagetext'                 => "---- ''箇係匿名用戶嗰討論頁，話伓定佢哈冇開隻帳戶。別人單用得正IP地址同佢聯繫。箇隻IP地址可能有好幾隻用戶共用。如果倷係匿名用戶，覺得箇頁嗰內容同倷冇關，歡迎去[[Special:UserLogin|開隻新帳戶或登入]]，省得同別嗰匿名用戶扤混來。''",
 'noarticletext'                    => '眼下箇頁哈冇內容，倷可以到別嗰頁面[[Special:Search/{{PAGENAME}}|尋吖箇頁嗰標題]]，
-<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} 尋吖有關日誌]或[{{fullurl:{{FULLPAGENAME}}|action=edit}} 編寫箇頁]。',
+<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} 尋吖有關日誌]或[{{fullurl:{{FULLPAGENAME}}|action=edit}} 編寫箇頁]</span>。',
 'clearyourcache'                   => "'''注意:''' 保存之後, 倷要清吥瀏覽器嗰緩存才眵得正改嗰內容。 '''Mozilla / Firefox / Safari:''' 按到 ''Shift'' 接到按''刷新''（或按吖''Ctrl-Shift-R''，到蘋果Mac上按''Cmd-Shift-R''）；'''IE:''' 按到 ''Ctrl''接到按''刷新''，或按吖''Ctrl-F5''；'''Konqueror:''' 單只要按 ''刷新''；'''Opera:''' 用戶要到 ''工具-設置'' 完全嗰清除緩存。",
 'usercssyoucanpreview'             => "'''提示:''' 存到前請用'望吖起'來測吖倷嗰新CSS 。",
 'userjsyoucanpreview'              => "'''提示:''' 存到前請用'望吖起'來測吖倷嗰新JS 。",
@@ -675,8 +677,8 @@ $2',
 'last'                   => '之前',
 'page_first'             => '最早',
 'page_last'              => '最晏',
-'histlegend'             => '差異選擇: 標到伓同版本嗰單選鍵，接到按吖督上嗰鍵比較下。<br />
-說明: （眼下） 指同目前版本嗰比較，（之前） 指同之前修改版本嗰比較，細 = 細修改。',
+'histlegend'             => '差異選擇：標到伓同版本嗰單選鍵，接到按吖督上嗰鍵比較下。<br />
+說明：（眼下） 指同目前版本嗰比較，（之前） 指同之前修改版本嗰比較，細 = 細修改。',
 'history-fieldset-title' => '瀏覽歷史',
 'histfirst'              => '最早版本',
 'histlast'               => '最晏版本',
@@ -833,7 +835,7 @@ $2',
 'guesstimezone'             => '到瀏覽器上填',
 'allowemail'                => '接受別嗰用戶嗰郵件',
 'defaultns'                 => '默認搜索嗰名字空間:',
-'default'                   => '默認',
+'default'                   => '預設',
 'prefs-files'               => '檔案',
 'youremail'                 => '電子郵件：',
 'username'                  => '用戶名：',
@@ -1056,7 +1058,7 @@ $2',
 'filerevert'                => '恢復$1',
 'filerevert-legend'         => '恢復檔案',
 'filerevert-intro'          => "眼下倷恢復嘚'''[[Media:$1|$1]]'''到[$4 於$2 $3嗰版本]。",
-'filerevert-comment'        => '說明:',
+'filerevert-comment'        => '理由：',
 'filerevert-defaultcomment' => '恢復到嘞$1, $2嗰版本',
 'filerevert-submit'         => '恢復',
 'filerevert-success'        => "'''[[Media:$1|$1]]'''恢復到嘞[$4 於$2 $3嗰版本]。",
@@ -1080,7 +1082,7 @@ $2',
 ** 檔案重複',
 
 # MIME search
-'mimesearch'         => 'MIME 搜索',
+'mimesearch'         => 'MIME 搜尋',
 'mimesearch-summary' => '箇隻頁面啟用檔案MIME類型篩檢程式。輸入：內容類型/子類型，像 <tt>image/jpeg</tt>。',
 'mimetype'           => 'MIME 類型:',
 'download'           => '下載',
@@ -1275,7 +1277,7 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'watchnologin'         => '冇登入',
 'watchnologintext'     => '倷要[[Special:UserLogin|登入]]起才改得正倷嗰監視列表。',
 'addedwatch'           => '加到嘞監視列表',
-'addedwatchtext'       => "頁面\"[[:\$1]]\" 加到嘞倷嗰[[Special:Watchlist|監視列表]]。箇頁同佢嗰討論頁嗰全部改動以後都會列到許首，佢會用'''粗體''' 列到[[Special:RecentChanges|最近更改]]讓倷更加容易識別。 倷以後要係拿佢到監視列表刪卟佢嗰話，就到導航條點吖「莫眏到」。",
+'addedwatchtext'       => "頁面「[[:$1]]」加到嘞倷嗰[[Special:Watchlist|監視列表]]。箇頁同佢嗰討論頁嗰全部改動以後都會列到許首，佢會用'''粗體''' 列到[[Special:RecentChanges|最近更改]]讓倷更加容易識別。 倷以後要係拿佢到監視列表刪卟佢嗰話，就到導航條點吖「莫眏到」。",
 'removedwatch'         => '莫眏到',
 'removedwatchtext'     => '頁面[[:$1]]到[[Special:Watchlist|倷嗰監視列表]]刪卟哩。',
 'watch'                => '眏到',
@@ -1642,7 +1644,7 @@ $1',
 'exportcuronly'     => '獨今吖嗰改動，伓係全部嗰歷史。',
 'exportnohistory'   => "----
 '''注意:''' 由於性能嗰原因，箇隻表格導出嗰頁面嗰全部歷史都拕禁用。",
-'export-submit'     => '導出',
+'export-submit'     => '匯出',
 'export-addcattext' => '從分類裡頭加進頁面:',
 'export-addcat'     => '加入',
 'export-download'   => '提供一隻檔案去另存',
@@ -1864,10 +1866,10 @@ $1',
 'imagemaxsize'         => '檔案解釋頁嗰圖像大細限制到:',
 'thumbsize'            => '縮略圖大細:',
 'widthheightpage'      => '$1×$2,$3頁',
-'file-info'            => '（檔案大細: $1, MIME 類型: $2）',
-'file-info-size'       => '（$1 × $2 像素，檔案大細：$3 ，MIME類型：$4）',
+'file-info'            => '檔案大細: $1, MIME 類型: $2',
+'file-info-size'       => '$1 × $2 像素，檔案大細：$3 ，MIME類型：$4',
 'file-nohires'         => '<small>冇更高解像度嗰圖像。</small>',
-'svg-long-desc'        => '（SVG檔案，表面大細： $1 × $2 像素，檔案大細：$3）',
+'svg-long-desc'        => 'SVG檔案，表面大細： $1 × $2 像素，檔案大細：$3',
 'show-big-image'       => '完整解析度',
 'show-big-image-thumb' => '<small>箇幅縮略圖嗰解析度: $1 × $2 像素</small>',
 

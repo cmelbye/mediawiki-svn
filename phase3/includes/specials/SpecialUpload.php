@@ -46,6 +46,10 @@ class SpecialUpload extends SpecialPage {
 	public $mRequest;			// The WebRequest or FauxRequest this form is supposed to handle
 	public $mSourceType;
 	public $mUpload;
+
+	/**
+	 * @var LocalFile
+	 */
 	public $mLocalFile;
 	public $mUploadClicked;
 
@@ -285,10 +289,10 @@ class SpecialUpload extends SpecialPage {
 		$form->addPreText( $message );
 
 		# Add footer to form
-		$uploadFooter = wfMsgNoTrans( 'uploadfooter' );
-		if ( $uploadFooter != '-' && !wfEmptyMsg( 'uploadfooter', $uploadFooter ) ) {
+		$uploadFooter = wfMessage( 'uploadfooter' );
+		if ( !$uploadFooter->isDisabled() ) {
 			$form->addPostText( '<div id="mw-upload-footer-message">'
-				. $wgOut->parse( $uploadFooter ) . "</div>\n" );
+				. $wgOut->parse( $uploadFooter->plain() ) . "</div>\n" );
 		}
 
 		return $form;
@@ -436,7 +440,6 @@ class SpecialUpload extends SpecialPage {
 			return;
 		}
 
-
 		// Upload verification
 		$details = $this->mUpload->verifyUpload();
 		if ( $details['status'] != UploadBase::OK ) {
@@ -558,7 +561,7 @@ class SpecialUpload extends SpecialPage {
 	 * @param $details Array: result of UploadBase::verifyUpload
 	 */
 	protected function processVerificationError( $details ) {
-		global $wgFileExtensions, $wgLang;
+		global $wgFileExtensions;
 
 		switch( $details['status'] ) {
 
@@ -583,18 +586,26 @@ class SpecialUpload extends SpecialPage {
 				$this->showUploadError( wfMsgHtml( 'largefileserver' ) );
 				break;
 			case UploadBase::FILETYPE_BADTYPE:
-				$finalExt = $details['finalExt'];
-				$this->showUploadError(
-					wfMsgExt( 'filetype-banned-type',
-						array( 'parseinline' ),
-						htmlspecialchars( $finalExt ),
-						implode(
-							wfMsgExt( 'comma-separator', array( 'escapenoentities' ) ),
-							$wgFileExtensions
-						),
-						$wgLang->formatNum( count( $wgFileExtensions ) )
-					)
-				);
+				$msg = wfMessage( 'filetype-banned-type' );
+				$sep = wfMsg( 'comma-separator' );
+				if ( isset( $details['blacklistedExt'] ) ) {
+					$msg->params( implode( $sep, $details['blacklistedExt'] ) );
+				} else {
+					$msg->params( $details['finalExt'] );
+				}
+				$msg->params( implode( $sep, $wgFileExtensions ),
+					count( $wgFileExtensions ) );
+				
+				// Add PLURAL support for the first parameter. This results 
+				// in a bit unlogical parameter sequence, but does not break 
+				// old translations 
+				if ( isset( $details['blacklistedExt'] ) ) {
+					$msg->numParams( count( $details['blacklistedExt'] ) );
+				} else {
+					$msg->numParams( 1 );
+				}
+				
+				$this->showUploadError( $msg->parse() );
 				break;
 			case UploadBase::VERIFICATION_ERROR:
 				unset( $details['status'] );
@@ -690,7 +701,7 @@ class SpecialUpload extends SpecialPage {
 					'page' => $filename
 				)
 			);
-			$warning = wfMsgWikiHtml( 'filewasdeleted', $llink );
+			$warning = wfMsgExt( 'filewasdeleted', array( 'parse', 'replaceafter' ), $llink );
 		}
 
 		return $warning;
@@ -760,6 +771,8 @@ class UploadForm extends HTMLForm {
 	protected $mTextAfterSummary;
 
 	protected $mSourceIds;
+	
+	protected $mMaxFileSize = array();
 
 	public function __construct( $options = array() ) {
 		$this->mWatch = !empty( $options['watch'] );
@@ -812,15 +825,14 @@ class UploadForm extends HTMLForm {
 	 */
 	protected function getSourceSection() {
 		global $wgLang, $wgUser, $wgRequest;
-		global $wgMaxUploadSize;
 
 		if ( $this->mSessionKey ) {
 			return array(
-				'wpSessionKey' => array(
+				'SessionKey' => array(
 					'type' => 'hidden',
 					'default' => $this->mSessionKey,
 				),
-				'wpSourceType' => array(
+				'SourceType' => array(
 					'type' => 'hidden',
 					'default' => 'Stash',
 				),
@@ -841,6 +853,10 @@ class UploadForm extends HTMLForm {
 			);
 		}
 
+		$this->mMaxUploadSize['file'] = min( 
+			wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ), 
+			UploadBase::getMaxUploadSize( 'file' ) );
+			
 		$descriptor['UploadFile'] = array(
 			'class' => 'UploadSourceField',
 			'section' => 'source',
@@ -851,17 +867,12 @@ class UploadForm extends HTMLForm {
 			'radio' => &$radio,
 			'help' => wfMsgExt( 'upload-maxfilesize',
 					array( 'parseinline', 'escapenoentities' ),
-					$wgLang->formatSize(
-						wfShorthandToInteger( min( 
-							wfShorthandToInteger(
-								ini_get( 'upload_max_filesize' )
-							), $wgMaxUploadSize
-						) )
-					)
+					$wgLang->formatSize( $this->mMaxUploadSize['file'] )
 				) . ' ' . wfMsgHtml( 'upload_source_file' ),
 			'checked' => $selectedSourceType == 'file',
 		);
 		if ( $canUploadByUrl ) {
+			$this->mMaxUploadSize['url'] = UploadBase::getMaxUploadSize( 'url' );
 			$descriptor['UploadFileURL'] = array(
 				'class' => 'UploadSourceField',
 				'section' => 'source',
@@ -871,7 +882,7 @@ class UploadForm extends HTMLForm {
 				'radio' => &$radio,
 				'help' => wfMsgExt( 'upload-maxfilesize',
 						array( 'parseinline', 'escapenoentities' ),
-						$wgLang->formatSize( $wgMaxUploadSize )
+						$wgLang->formatSize( $this->mMaxUploadSize['url'] )
 					) . ' ' . wfMsgHtml( 'upload_source_url' ),
 				'checked' => $selectedSourceType == 'url',
 			);
@@ -899,23 +910,20 @@ class UploadForm extends HTMLForm {
 		$wgFileExtensions, $wgFileBlacklist;
 
 		if( $wgCheckFileExtensions ) {
-			//don't show blacklisted types as permitted
-			$wgFileExtensions = array_diff ( $wgFileExtensions, $wgFileBlacklist );
-			
 			if( $wgStrictFileExtensions ) {
 				# Everything not permitted is banned
 				$extensionsList =
 					'<div id="mw-upload-permitted">' .
-					wfMsgWikiHtml( 'upload-permitted', $wgLang->commaList( $wgFileExtensions ) ) .
+					wfMsgExt( 'upload-permitted', 'parse', $wgLang->commaList( $wgFileExtensions ) ) .
 					"</div>\n";
 			} else {
 				# We have to list both preferred and prohibited
 				$extensionsList =
 					'<div id="mw-upload-preferred">' .
-					wfMsgWikiHtml( 'upload-preferred', $wgLang->commaList( $wgFileExtensions ) ) .
+					wfMsgExt( 'upload-preferred', 'parse', $wgLang->commaList( $wgFileExtensions ) ) .
 					"</div>\n" .
 					'<div id="mw-upload-prohibited">' .
-					wfMsgWikiHtml( 'upload-prohibited', $wgLang->commaList( $wgFileBlacklist ) ) .
+					wfMsgExt( 'upload-prohibited', 'parse', $wgLang->commaList( $wgFileBlacklist ) ) .
 					"</div>\n";
 			}
 		} else {
@@ -934,6 +942,26 @@ class UploadForm extends HTMLForm {
 	protected function getDescriptionSection() {
 		global $wgUser;
 
+		if ( $this->mSessionKey ) {
+			$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
+			try {
+				$file = $stash->getFile( $this->mSessionKey );
+			} catch ( MWException $e ) {
+				$file = null;	
+			}
+			if ( $file ) {
+				global $wgContLang;
+				
+				$mto = $file->transform( array( 'width' => 120 ) );
+				$this->addHeaderText( 
+					'<div class="thumb t' . $wgContLang->alignEnd() . '">' .
+					Html::element( 'img', array( 
+						'src' => $mto->getUrl(),
+						'class' => 'thumbimage',
+					) ) . '</div>', 'description' );
+			}
+		}
+		
 		$descriptor = array(
 			'DestFile' => array(
 				'type' => 'text',
@@ -970,6 +998,7 @@ class UploadForm extends HTMLForm {
 			'EditTools' => array(
 				'type' => 'edittools',
 				'section' => 'description',
+				'message' => 'edittools-upload',
 			)
 		);
 
@@ -1067,6 +1096,7 @@ class UploadForm extends HTMLForm {
 
 		$useAjaxDestCheck = $wgUseAjax && $wgAjaxUploadDestCheck;
 		$useAjaxLicensePreview = $wgUseAjax && $wgAjaxLicensePreview && $wgEnableAPI;
+		$this->mMaxUploadSize['*'] = UploadBase::getMaxUploadSize();
 
 		$scriptVars = array(
 			'wgAjaxUploadDestCheck' => $useAjaxDestCheck,
@@ -1078,12 +1108,17 @@ class UploadForm extends HTMLForm {
 			'wgUploadSourceIds' => $this->mSourceIds,
 			'wgStrictFileExtensions' => $wgStrictFileExtensions,
 			'wgCapitalizeUploads' => MWNamespace::isCapitalized( NS_FILE ),
+			'wgMaxUploadSize' => $this->mMaxUploadSize,
 		);
 
 		$wgOut->addScript( Skin::makeVariablesScript( $scriptVars ) );
 
-		// For <charinsert> support
-		$wgOut->addModules( array( 'mediawiki.legacy.edit', 'mediawiki.legacy.upload' ) );
+		
+		$wgOut->addModules( array(
+			'mediawiki.legacy.edit', // For <charinsert> support
+			'mediawiki.legacy.upload', // Old form stuff...
+			'mediawiki.special.upload', // Newer extras for thumbnail preview.
+		) );
 	}
 
 	/**

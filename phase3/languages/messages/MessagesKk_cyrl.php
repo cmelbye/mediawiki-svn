@@ -2450,9 +2450,9 @@ $1',
 'widthheight'          => '$1 × $2',
 'widthheightpage'      => '$1 × $2, $3 бет',
 'file-info'            => 'Файл мөлшері: $1, MIME түрі: $2',
-'file-info-size'       => '($1 × $2 нүкте, файл мөлшері: $3, MIME түрі: $4)',
+'file-info-size'       => '$1 × $2 нүкте, файл мөлшері: $3, MIME түрі: $4',
 'file-nohires'         => '<small>Жоғары ажыратылымдығы жетімсіз.</small>',
-'svg-long-desc'        => '(SVG файлы, кесімді $1 × $2 нүкте, файл мөлшері: $3)',
+'svg-long-desc'        => 'SVG файлы, кесімді $1 × $2 нүкте, файл мөлшері: $3',
 'show-big-image'       => 'Жоғары ажыратылымды',
 'show-big-image-thumb' => '<small>Қарап шығу мөлшері: $1 × $2 нүкте</small>',
 
@@ -2971,9 +2971,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Файл телнұсқаларын іздеу',
-'fileduplicatesearch-summary'  => 'Файл хеші мағынасы негізінде телнұсқаларын іздеу.
-
-Файл атауын «{{ns:file}}:» деген бастауышсыз енгізіңіз.',
+'fileduplicatesearch-summary'  => 'Файл хеші мағынасы негізінде телнұсқаларын іздеу.',
 'fileduplicatesearch-legend'   => 'Телнұсқаны іздеу',
 'fileduplicatesearch-filename' => 'Файл атауы:',
 'fileduplicatesearch-submit'   => 'Ізде',

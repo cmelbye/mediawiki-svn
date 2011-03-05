@@ -55,6 +55,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 
 		$opts->add( 'namespace', '', FormOptions::INTNULL );
 		$opts->add( 'invert', false );
+		$opts->add( 'associated', false );
 
 		$opts->add( 'categories', '' );
 		$opts->add( 'categories_any', false );
@@ -169,7 +170,8 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		$changesFeed = new ChangesFeed( $feedFormat, 'rcfeed' );
 		$formatter = $changesFeed->getFeedObject(
 			wfMsgForContent( 'recentchanges' ),
-			wfMsgForContent( 'recentchanges-feed-description' )
+			wfMsgForContent( 'recentchanges-feed-description' ),
+			$this->getTitle()->getFullUrl()
 		);
 		return array( $changesFeed, $formatter );
 	}
@@ -210,10 +212,10 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 	 * @return String or false
 	 */
 	public function checkLastModified( $feedFormat ) {
-		global $wgUseRCPatrol, $wgOut;
+		global $wgOut, $wgUser;
 		$dbr = wfGetDB( DB_SLAVE );
 		$lastmod = $dbr->selectField( 'recentchanges', 'MAX(rc_timestamp)', false, __METHOD__ );
-		if( $feedFormat || !$wgUseRCPatrol ) {
+		if( $feedFormat || !$wgUser->useRCPatrol() ) {
 			if( $lastmod && $wgOut->checkLastModified( $lastmod ) ) {
 				# Client cache fresh and headers sent, nothing more to do.
 				return false;
@@ -283,13 +285,25 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 
 		# Namespace filtering
 		if( $opts['namespace'] !== '' ) {
-			if( !$opts['invert'] ) {
-				$conds[] = 'rc_namespace = ' . $dbr->addQuotes( $opts['namespace'] );
-			} else {
-				$conds[] = 'rc_namespace != ' . $dbr->addQuotes( $opts['namespace'] );
-			}
-		}
+			$selectedNS = $dbr->addQuotes( $opts['namespace'] );
+			$operator = $opts['invert'] ? '!='  : '=';
+			$boolean  = $opts['invert'] ? 'AND' : 'OR';
 
+			# namespace association (bug 2429)
+			if( !$opts['associated'] ) {
+				$condition = "rc_namespace $operator $selectedNS";
+			} else {
+				# Also add the associated namespace
+				$associatedNS =  $dbr->addQuotes(
+					MWNamespace::getAssociated( $opts['namespace'] )
+				);
+				$condition = "(rc_namespace $operator $selectedNS "
+				           . $boolean
+				           . " rc_namespace $operator $associatedNS)";
+			}
+
+			$conds[] = $condition;
+		}
 		return $conds;
 	}
 
@@ -462,7 +476,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 
 		$defaults = $opts->getAllValues();
 		$nondefaults = $opts->getChangedValues();
-		$opts->consumeValues( array( 'namespace', 'invert', 'tagfilter',
+		$opts->consumeValues( array( 'namespace', 'invert', 'associated', 'tagfilter',
 			'categories', 'categories_any' ) );
 
 		$panel = array();
@@ -554,6 +568,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 	/**
 	 * Creates the choose namespace selection
 	 *
+	 * @todo Uses radio buttons (HASHAR)
 	 * @param $opts FormOptions
 	 * @return String
 	 */
@@ -561,7 +576,8 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		$nsSelect = Xml::namespaceSelector( $opts['namespace'], '' );
 		$nsLabel = Xml::label( wfMsg('namespace'), 'namespace' );
 		$invert = Xml::checkLabel( wfMsg('invert'), 'invert', 'nsinvert', $opts['invert'] );
-		return array( $nsLabel, "$nsSelect $invert" );
+		$associated = Xml::checkLabel( wfMsg('namespace_association'), 'associated', 'nsassociated', $opts['associated'] );
+		return array( $nsLabel, "$nsSelect $invert $associated" );
 	}
 
 	/**
@@ -671,7 +687,7 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 		$options = $nondefaults + $defaults;
 
 		$note = '';
-		if( !wfEmptyMsg( 'rclegend', wfMsg('rclegend') ) ) {
+		if( !wfEmptyMsg( 'rclegend' ) ) {
 			$note .= '<div class="mw-rclegend">' . wfMsgExt( 'rclegend', array('parseinline') ) . "</div>\n";
 		}
 		if( $options['from'] ) {

@@ -16,7 +16,13 @@
  * @ingroup FileRepo
  */
 class RepoGroup {
-	var $localRepo, $foreignRepos, $reposInitialised = false;
+
+	/**
+	 * @var LocalRepo
+	 */
+	var $localRepo;
+
+	var $foreignRepos, $reposInitialised = false;
 	var $localInfo, $foreignInfo;
 	var $cache;
 
@@ -26,6 +32,7 @@ class RepoGroup {
 	/**
 	 * Get a RepoGroup instance. At present only one instance of RepoGroup is
 	 * needed in a MediaWiki invocation, this may change in the future.
+	 * @return RepoGroup
 	 */
 	static function singleton() {
 		if ( self::$instance ) {

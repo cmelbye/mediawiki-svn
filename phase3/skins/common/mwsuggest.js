@@ -7,6 +7,12 @@
  * by Robert Stojnic (April 2008)
  */
 
+// Make sure wgMWSuggestTemplate is defined
+if ( !mw.config.exists( 'wgMWSuggestTemplate' ) ) {
+	mw.config.set( 'wgMWSuggestTemplate', mw.config.get( 'wgServer' ) + mw.config.get( 'wgScriptPath' )
+		 + "/api.php?action=opensearch\x26search={searchTerms}\x26namespace={namespaces}\x26suggest" );
+}
+
 // search_box_id -> Results object
 window.os_map = {};
 // cached data, url -> json_text
@@ -40,17 +46,22 @@ window.os_animation_delay = 30;
 window.os_container_max_width = 2;
 // currently active animation timer
 window.os_animation_timer = null;
+// whether MWSuggest is enabled. Set to false when os_MWSuggestDisable() is called
+window.os_enabled = true;
+
 /**
  * <datalist> is a new HTML5 element that allows you to manually supply
  * suggestion lists and have them rendered according to the right platform
- * conventions.  However, the only shipping browser as of early 2010 is Opera,
- * and that has a fatal problem: the suggestion lags behind what the user types
- * by one keypress.  (Reported as DSK-276870 to Opera's secret bug tracker.)
- * The code here otherwise seems to work, though, so this can be flipped on
- * (maybe with a UA check) when some browser has a better implementation.
+ * conventions.  Opera as of version 11 has a fatal problem: the suggestion
+ * lags behind what the user types by one keypress.  (Reported as DSK-276870 to
+ * Opera's secret bug tracker.)  However, Firefox 4 supports it without
+ * problems, so Opera is just blacklisted here.  Ideally we wouldn't blacklist
+ * future versions, in case they fix it, but the fallback isn't bad at all and
+ * the failure if they don't fix it is very annoying, so in this case we'll
+ * blacklist future versions too.
  */
-// var os_use_datalist = 'list' in document.createElement( 'input' );
-window.os_use_datalist = false;
+window.os_use_datalist = 'list' in document.createElement( 'input' )
+	&& $.client.profile().name != 'opera';
 
 /** Timeout timer class that will fetch the results */
 window.os_Timer = function( id, r, query ) {
@@ -99,7 +110,11 @@ window.os_AnimationTimer = function( r, target ) {
 
 /** Initialization, call upon page onload */
 window.os_MWSuggestInit = function() {
-	for( i = 0; i < os_autoload_inputs.length; i++ ) {
+	if ( !window.os_enabled ) {
+		return;
+	}
+	
+	for( var i = 0; i < os_autoload_inputs.length; i++ ) {
 		var id = os_autoload_inputs[i];
 		var form = os_autoload_forms[i];
 		element = document.getElementById( id );
@@ -108,6 +123,25 @@ window.os_MWSuggestInit = function() {
 		}
 	}
 };
+
+/* Teardown, called when things like SimpleSearch need to disable MWSuggest */
+window.os_MWSuggestTeardown = function() {
+	for( var i = 0; i < os_autoload_inputs.length; i++ ) {
+		var id = os_autoload_inputs[i];
+		var form = os_autoload_forms[i];
+		element = document.getElementById( id );
+		if( element != null ) {
+			os_teardownHandlers( id, form, element );
+		}
+	}
+};
+
+/* Call this to disable MWSuggest. Works regardless of whether MWSuggest has been initialized already. */
+window.os_MWSuggestDisable = function() {
+	window.os_MWSuggestTeardown();
+	window.os_enabled = false;
+}
+	
 
 /** Init Result objects and event handlers */
 window.os_initHandlers = function( name, formname, element ) {
@@ -118,20 +152,20 @@ window.os_initHandlers = function( name, formname, element ) {
 		return;
 	}
 	// event handler
-	os_hookEvent( element, 'keyup', function( event ) { os_eventKeyup( event ); } );
-	os_hookEvent( element, 'keydown', function( event ) { os_eventKeydown( event ); } );
-	os_hookEvent( element, 'keypress', function( event ) { os_eventKeypress( event ); } );
+	os_hookEvent( element, 'keyup', os_eventKeyup );
+	os_hookEvent( element, 'keydown', os_eventKeydown );
+	os_hookEvent( element, 'keypress', os_eventKeypress );
 	if ( !os_use_datalist ) {
 		// These are needed for the div hack to hide it if the user blurs.
-		os_hookEvent( element, 'blur', function( event ) { os_eventBlur( event ); } );
-		os_hookEvent( element, 'focus', function( event ) { os_eventFocus( event ); } );
+		os_hookEvent( element, 'blur', os_eventBlur );
+		os_hookEvent( element, 'focus', os_eventFocus );
 		// We don't want browser auto-suggestions interfering with our div, but
 		// autocomplete must be on for datalist to work (at least in Opera
 		// 10.10).
 		element.setAttribute( 'autocomplete', 'off' );
 	}
 	// stopping handler
-	os_hookEvent( formElement, 'submit', function( event ) { return os_eventOnsubmit( event ); } );
+	os_hookEvent( formElement, 'submit', os_eventOnsubmit );
 	os_map[name] = r;
 	// toggle link
 	if( document.getElementById( r.toggle ) == null ) {
@@ -159,6 +193,30 @@ window.os_initHandlers = function( name, formname, element ) {
 
 };
 
+window.os_teardownHandlers = function( name, formname, element ) {
+	var formElement = document.getElementById( formname );
+	if( !formElement ) {
+		// Older browsers (Opera 8) cannot get form elements
+		return;
+	}
+
+	os_unhookEvent( element, 'keyup', os_eventKeyup );
+	os_unhookEvent( element, 'keydown', os_eventKeydown );
+	os_unhookEvent( element, 'keypress', os_eventKeypress );
+	if ( !os_use_datalist ) {
+		// These are needed for the div hack to hide it if the user blurs.
+		os_unhookEvent( element, 'blur', os_eventBlur );
+		os_unhookEvent( element, 'focus', os_eventFocus );
+		// We don't want browser auto-suggestions interfering with our div, but
+		// autocomplete must be on for datalist to work (at least in Opera
+		// 10.10).
+		element.removeAttribute( 'autocomplete' );
+	}
+	// stopping handler
+	os_unhookEvent( formElement, 'submit', os_eventOnsubmit );
+};
+
+
 window.os_hookEvent = function( element, hookName, hookFunct ) {
 	if ( element.addEventListener ) {
 		element.addEventListener( hookName, hookFunct, false );
@@ -166,6 +224,14 @@ window.os_hookEvent = function( element, hookName, hookFunct ) {
 		element.attachEvent( 'on' + hookName, hookFunct );
 	}
 };
+
+window.os_unhookEvent = function( element, hookName, hookFunct ) {
+	if ( element.removeEventListener ) {
+		element.removeEventListener( hookName, hookFunct, false );
+	} else if ( element.detachEvent ) {
+		element.detachEvent( 'on' + hookName, hookFunct );
+	}
+}
 
 /********************
  *  Keyboard events
@@ -414,7 +480,7 @@ window.os_delayedFetch = function() {
 	var r = os_timer.r;
 	var query = os_timer.query;
 	os_timer = null;
-	var path = wgMWSuggestTemplate.replace( "{namespaces}", os_getNamespaces( r ) )
+	var path = mw.config.get( 'wgMWSuggestTemplate' ).replace( "{namespaces}", os_getNamespaces( r ) )
 									.replace( "{dbname}", wgDBname )
 									.replace( "{searchTerms}", os_encodeQuery( query ) );
 

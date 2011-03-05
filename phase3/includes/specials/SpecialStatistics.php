@@ -30,7 +30,7 @@
 class SpecialStatistics extends SpecialPage {
 	
 	private $views, $edits, $good, $images, $total, $users,
-			$activeUsers, $admins = 0;
+			$activeUsers = 0;
 	
 	public function __construct() {
 		parent::__construct( 'Statistics' );
@@ -49,7 +49,6 @@ class SpecialStatistics extends SpecialPage {
 		$this->total = SiteStats::pages();
 		$this->users = SiteStats::users();
 		$this->activeUsers = SiteStats::activeUsers();
-		$this->admins = SiteStats::numberingroup('sysop');
 		$this->hook = '';
 	
 		# Staticic - views
@@ -98,9 +97,9 @@ class SpecialStatistics extends SpecialPage {
 		$text .= Xml::closeElement( 'table' );
 
 		# Customizable footer
-		$footer = wfMsgExt( 'statistics-footer', array('parseinline') );
-		if( !wfEmptyMsg( 'statistics-footer', $footer ) && $footer != '' ) {
-			$text .= "\n" . $footer;
+		$footer = wfMessage( 'statistics-footer' );
+		if ( !$footer->isBlank() ) {
+			$text .= "\n" . $footer->parse();
 		}
 
 		$wgOut->addHTML( $text );
@@ -117,11 +116,11 @@ class SpecialStatistics extends SpecialPage {
 	 */
 	private function formatRow( $text, $number, $trExtraParams = array(), $descMsg = '', $descMsgParam = '' ) {
 		if( $descMsg ) {
-			$descriptionText = wfMsgExt( $descMsg, array( 'parseinline' ), $descMsgParam );
-			if ( !wfEmptyMsg( $descMsg, $descriptionText ) ) {
-				$descriptionText = " ($descriptionText)";
+			$msg = wfMessage( $descMsg, $descMsgParam );
+			if ( $msg->exists() ) {
+				$descriptionText = $msg->parse();
 				$text .= "<br />" . Xml::element( 'small', array( 'class' => 'mw-statistic-desc'), 
-					$descriptionText );
+					" ($descriptionText)" );
 			}
 		}
 		return

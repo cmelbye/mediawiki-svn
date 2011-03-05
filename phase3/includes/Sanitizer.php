@@ -31,8 +31,7 @@
 define( 'MW_CHAR_REFS_REGEX',
 	'/&([A-Za-z0-9\x80-\xff]+);
 	 |&\#([0-9]+);
-	 |&\#x([0-9A-Za-z]+);
-	 |&\#X([0-9A-Za-z]+);
+	 |&\#[xX]([0-9A-Fa-f]+);
 	 |(&)/x' );
 
 /**
@@ -40,7 +39,7 @@ define( 'MW_CHAR_REFS_REGEX',
  * Allows some... latitude.
  * Used in Sanitizer::fixTagAttributes and Sanitizer::decodeTagAttributes
  */
-$attribFirst = '[:A-Z_a-z]';
+$attribFirst = '[:A-Z_a-z0-9]';
 $attrib = '[:A-Z_a-z-.0-9]';
 $space = '[\x09\x0a\x0d\x20]';
 define( 'MW_ATTRIBS_REGEX',
@@ -748,6 +747,13 @@ class Sanitizer {
 		// Remove any comments; IE gets token splitting wrong
 		$value = StringUtils::delimiterReplace( '/*', '*/', ' ', $value );
 
+		// Remove anything after a comment-start token, to guard against
+		// incorrect client implementations.
+		$commentPos = strpos( $value, '/*' );
+		if ( $commentPos !== false ) {
+			$value = substr( $value, 0, $commentPos );
+		}
+
 		// Decode escape sequences and line continuation
 		// See the grammar in the CSS 2 spec, appendix D.
 		static $decodeRegex;
@@ -1127,8 +1133,6 @@ class Sanitizer {
 			$ret = Sanitizer::decCharReference( $matches[2] );
 		} elseif( $matches[3] != ''  ) {
 			$ret = Sanitizer::hexCharReference( $matches[3] );
-		} elseif( $matches[4] != '' ) {
-			$ret = Sanitizer::hexCharReference( $matches[4] );
 		}
 		if( is_null( $ret ) ) {
 			return htmlspecialchars( $matches[0] );
@@ -1238,8 +1242,6 @@ class Sanitizer {
 			return  Sanitizer::decodeChar( intval( $matches[2] ) );
 		} elseif( $matches[3] != ''  ) {
 			return  Sanitizer::decodeChar( hexdec( $matches[3] ) );
-		} elseif( $matches[4] != '' ) {
-			return  Sanitizer::decodeChar( hexdec( $matches[4] ) );
 		}
 		# Last case should be an ampersand by itself
 		return $matches[0];

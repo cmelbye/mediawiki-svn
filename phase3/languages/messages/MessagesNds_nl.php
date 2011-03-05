@@ -1679,7 +1679,7 @@ Voeg 't bestaand toe onder een aandere naam.
 A-j 't bestaand asnog toevoegen willen, gao dan weerumme en kies een aandere naam.
 [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => "Dit bestaand is liekeleens as {{PLURAL:$1|'t volgende bestaand|de volgende bestanen}}:",
-'file-deleted-duplicate'      => "Een bestaand dat liekeleens is an dit bestaand ([[$1]]) is eerder al vort-edaon.
+'file-deleted-duplicate'      => "Een bestaand dat liekeleens is an dit bestaand ([[:$1]]) is eerder al vort-edaon.
 Bekiek 't vortdologboek veurda-j veurdan gaon.",
 'uploadwarning'               => 'Waorschuwing',
 'uploadwarning-text'          => "Pas de bestaansbeschrieving hieronder an en prebeer 't opniej",
@@ -2883,9 +2883,9 @@ $1",
 'thumbsize'            => "Grootte van 't ofbeeldingsoverzichte (thumbnail):",
 'widthheightpage'      => "$1×$2, $3 {{PLURAL:$3|pagina|pagina's}}",
 'file-info'            => 'Bestaansgrootte: $1, MIME-type: $2',
-'file-info-size'       => '($1 × $2 beeldpunten, bestaansgrootte: $3, MIME-type: $4)',
+'file-info-size'       => '$1 × $2 beeldpunten, bestaansgrootte: $3, MIME-type: $4',
 'file-nohires'         => '<small>Gien hogere resolusie beschikbaor.</small>',
-'svg-long-desc'        => '(SVG-bestaand, uutgangsgrootte $1 × $2 beeldpunten, bestaansgrootte: $3)',
+'svg-long-desc'        => 'SVG-bestaand, uutgangsgrootte $1 × $2 beeldpunten, bestaansgrootte: $3',
 'show-big-image'       => 'Ofbeelding wat groter',
 'show-big-image-thumb' => '<small>Grootte van disse weergave: $1 × $2 beeldpunten</small>',
 'file-info-gif-looped' => 'herhaolend',
@@ -3368,9 +3368,7 @@ Voer de bestaansnaam in zonder 't veurvoegsel \"{{ns:file}}:\".",
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Dubbele bestanen zeuken',
-'fileduplicatesearch-summary'  => 'Dubbele bestanen zeuken op baosis van de hashweerde.
-
-Voer de bestaansnaam in zonder \'t veurvoegsel "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Dubbele bestanen zeuken op baosis van de hashweerde.',
 'fileduplicatesearch-legend'   => 'Dubbele bestanen zeuken',
 'fileduplicatesearch-filename' => 'Bestaansnaam:',
 'fileduplicatesearch-submit'   => 'Zeuken',

@@ -2,7 +2,7 @@ define mw_prefix='{$wgDBprefix}';
 
 ALTER TABLE &mw_prefix.archive MODIFY ar_user DEFAULT 0 NOT NULL;
 ALTER TABLE &mw_prefix.archive MODIFY ar_deleted CHAR(1);
-CREATE INDEX &mw_prefix.archive_i03 ON &mw_prefix.archive (ar_namespace, ar_title, ar_rev_id);
+CREATE INDEX &mw_prefix.archive_i03 ON &mw_prefix.archive (ar_rev_id);
 
 ALTER TABLE &mw_prefix.page MODIFY page_is_redirect default '0';
 ALTER TABLE &mw_prefix.page MODIFY page_is_new default '0';
@@ -31,7 +31,8 @@ ALTER TABLE &mw_prefix.image MODIFY img_height DEFAULT 0;
 ALTER TABLE &mw_prefix.image MODIFY img_bits DEFAULT 0 NOT NULL;
 ALTER TABLE &mw_prefix.image MODIFY img_user DEFAULT 0 NOT NULL;
 
-ALTER TABLE &mw_prefix.interwiki ADD iw_api BLOB NOT NULL;
+ALTER TABLE &mw_prefix.interwiki ADD iw_api BLOB DEFAULT EMPTY_BLOB();
+ALTER TABLE &mw_prefix.interwiki MODIFY iw_api DEFAULT NULL NOT NULL;
 ALTER TABLE &mw_prefix.interwiki ADD iw_wikiid VARCHAR2(64);
 
 ALTER TABLE &mw_prefix.ipblocks MODIFY ipb_user DEFAULT 0 NOT NULL;

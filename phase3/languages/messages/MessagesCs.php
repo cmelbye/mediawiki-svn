@@ -8,6 +8,7 @@
  * @file
  *
  * @author Danny B.
+ * @author Dontlietome7
  * @author Helix84
  * @author Kuvaly
  * @author Li-sung
@@ -267,7 +268,7 @@ $specialPageAliases = array(
 	'Newimages'                 => array( 'Nové_obrázky', 'Galerie_nových_obrázků', 'Nove_obrazky' ),
 	'Listusers'                 => array( 'Uživatelé', 'Uzivatele', 'Seznam_uživatelů', 'Seznam_uzivatelu' ),
 	'Listgrouprights'           => array( 'Seznam_uživatelských_práv', 'Seznam_uzivatelskych_prav' ),
-	'Statistics'                => array( 'Statistiky' ),
+	'Statistics'                => array( 'Statistika', 'Statistiky' ),
 	'Randompage'                => array( 'Náhodná_stránka', 'Nahodna_stranka' ),
 	'Lonelypages'               => array( 'Sirotčí_stránky', 'Sirotci_stranky' ),
 	'Uncategorizedpages'        => array( 'Nekategorizované_stránky', 'Nekategorizovane_stranky' ),
@@ -290,7 +291,7 @@ $specialPageAliases = array(
 	'Shortpages'                => array( 'Nejkratší_stránky', 'Nejkratsi_stranky' ),
 	'Longpages'                 => array( 'Nejdelší_stránky', 'Nejdelsi_stranky' ),
 	'Newpages'                  => array( 'Nové_stránky', 'Nove_stranky', 'Nejnovější_stránky', 'Nejnovejsi_stranky' ),
-	'Ancientpages'              => array( 'Staré_stránky', 'Stare_stranky', 'Nejstarší_stránky' ),
+	'Ancientpages'              => array( 'Nejstarší_stránky', 'Staré_stránky', 'Stare_stranky' ),
 	'Deadendpages'              => array( 'Slepé_stránky', 'Slepe_stranky' ),
 	'Protectedpages'            => array( 'Zamčené_stránky', 'Zamcene_stranky' ),
 	'Protectedtitles'           => array( 'Zamčené_názvy', 'Zamcene_nazvy', 'Stránky_které_nelze_vytvořit' ),
@@ -374,8 +375,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Zobrazovat počet sledujících uživatelů',
 'tog-oldsig'                  => 'Náhled stávajícího podpisu:',
 'tog-fancysig'                => 'Používat v podpisu wikitext (bez automatického odkazu)',
-'tog-externaleditor'          => 'Implicitně používat externí editor',
-'tog-externaldiff'            => 'Implicitně používat externí porovnávací program',
+'tog-externaleditor'          => 'Implicitně používat externí editor (pouze pro pokročilé, vyžaduje speciální nastavení počítače; [http://www.mediawiki.org/wiki/Manual:External_editors další informace])',
+'tog-externaldiff'            => 'Implicitně používat externí porovnávací program (pouze pro pokročilé, vyžaduje speciální nastavení počítače; [http://www.mediawiki.org/wiki/Manual:External_editors další informace])',
 'tog-showjumplinks'           => 'Používat odkazy „skočit na“ pro vyšší přístupnost',
 'tog-uselivepreview'          => 'Používat rychlý náhled (JavaScript) (Experimentální)',
 'tog-forceeditsummary'        => 'Upozornit, když nevyplním shrnutí editace',
@@ -536,6 +537,7 @@ $messages = array(
 'printableversion'  => 'Verze k tisku',
 'permalink'         => 'Trvalý odkaz',
 'print'             => 'Vytisknout',
+'view'              => 'Zobrazit',
 'edit'              => 'Editovat',
 'create'            => 'Vytvořit',
 'editthispage'      => 'Editovat stránku',
@@ -543,6 +545,7 @@ $messages = array(
 'delete'            => 'Smazat',
 'deletethispage'    => 'Smazat stránku',
 'undelete_short'    => 'Obnovit $1 {{PLURAL:$1|verzi|verze|verzí}}',
+'viewdeleted_short' => 'Zobrazit {{PLURAL:$1|smazanou editaci|$1 smazané editace|$1 smazaných editací}}',
 'protect'           => 'Zamknout',
 'protect_change'    => 'změnit',
 'protectthispage'   => 'Zamknout stránku',
@@ -627,6 +630,8 @@ $1',
 'toc'                     => 'Obsah',
 'showtoc'                 => 'zobrazit',
 'hidetoc'                 => 'skrýt',
+'collapsible-collapse'    => 'Sbalit',
+'collapsible-expand'      => 'Rozbalit',
 'thisisdeleted'           => 'Prohlédnout nebo obnovit $1?',
 'viewdeleted'             => 'Zobrazit $1?',
 'restorelink'             => '{{PLURAL:$1|smazanou editaci|$1 smazané editace|$1 smazaných editací}}',
@@ -782,7 +787,7 @@ Ujistěte se, že máte povoleny cookies, obnovte tuto stránku a zkuste to znov
 'wrongpasswordempty'         => 'Bylo zadáno prázdné heslo. Zkuste to znovu.',
 'passwordtooshort'           => 'Heslo musí být dlouhé nejméně $1 {{PLURAL:$1|znak|znaky|znaků}}.',
 'password-name-match'        => 'Vaše heslo nesmí být stejné jako uživatelské jméno.',
-'password-too-weak'          => 'Zadané heslo je příliš slabé a nelze ho použít.',
+'password-login-forbidden'   => 'Použití tohoto uživatelského jména a hesla byla zakázáno.',
 'mailmypassword'             => 'Poslat e-mailem nové heslo',
 'passwordremindertitle'      => 'Nové dočasné heslo na {{grammar:4sg|{{SITENAME}}}}',
 'passwordremindertext'       => 'Někdo (patrně Vy, z IP adresy $1) požádal, abychom Vám poslali nové heslo
@@ -977,6 +982,7 @@ Pokud se tento problém bude opakovat, zkuste se [[Special:UserLogout|odhlásit]
 'token_suffix_mismatch'            => "'''Vaše editace byla odmítnuta, protože Váš prohlížeč komolí některé znaky v editovaném textu.
 Editace byla odmítnuta, aby se zabránilo poškození textu stránky.
 Toto se může někdy stát pokud používáte chybující webový anonymizér.'''",
+'edit_form_incomplete'             => "'''Část editačního formuláře nedorazila na server; překontrolujte úplnost změn a zkuste to znovu.'''",
 'editing'                          => 'Editace stránky $1',
 'editingsection'                   => 'Editace stránky $1 (část)',
 'editingcomment'                   => 'Editace stránky $1 (nová sekce)',
@@ -1286,6 +1292,7 @@ Ujistěte se, že tato změna udrží souvislost a posloupnost verzí v historii
 'searchmenu-legend'                => 'Možnosti hledání',
 'searchmenu-exists'                => "*Stránka '''[[$1]]'''",
 'searchmenu-new'                   => "'''Vytvořte na této wiki stránku „[[:$1]]“!'''",
+'searchmenu-new-nocreate'          => '„$1“ je neplatný název stránky nebo takovou stránku nemůžete založit.',
 'searchhelp-url'                   => 'Help:Obsah',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Zobrazit stránky, jejichž název začíná „$1“]]',
 'searchprofile-articles'           => 'Články',
@@ -1433,8 +1440,8 @@ Tuto operaci nelze vrátit zpět.',
 'prefs-help-gender'             => 'Volitelné: používáno softwarem pro správné oslovování v závislosti na pohlaví. Tato informace je veřejná.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'Skutečné jméno (volitelné): pokud ho zadáte, bude použito pro označení autorství vaší práce.',
-'prefs-help-email'              => 'Uvedení e-mailu není povinné, ale umožní zaslání nového hesla v případě, že své heslo zapomenete.
-Také můžete dovolit ostatním uživatelům vás prostřednictvím uživatelské stránky kontaktovat, aniž by byla vaše adresa prozrazena.',
+'prefs-help-email'              => 'Uvedení e-mailu není povinné, ale umožní zaslání nového hesla v případě, že své heslo zapomenete.',
+'prefs-help-email-others'       => 'Také můžete dovolit ostatním uživatelům vás prostřednictvím uživatelské stránky kontaktovat, aniž by byla vaše adresa prozrazena.',
 'prefs-help-email-required'     => 'Je vyžadována e-mailová adresa.',
 'prefs-info'                    => 'Základní údaje',
 'prefs-i18n'                    => 'Lokalizace',
@@ -1450,6 +1457,10 @@ Také můžete dovolit ostatním uživatelům vás prostřednictvím uživatelsk
 'prefs-displaysearchoptions'    => 'Možnosti zobrazení',
 'prefs-displaywatchlist'        => 'Možnosti zobrazení',
 'prefs-diffs'                   => 'Porovnání verzí',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-mailová adresa vypadá platně',
+'email-address-validity-invalid' => 'Zadejte platnou e-mailovou adresu',
 
 # User rights
 'userrights'                   => 'Správa uživatelských skupin',
@@ -1686,11 +1697,12 @@ Pro vložení obrázku do stránky použijte jeden z následujících způsobů 
 'minlength1'                  => 'Jméno souboru musí mít alespoň jeden znak.',
 'illegalfilename'             => 'Název souboru "$1" obsahuje znaky, které nejsou povoleny v názvech stránek. Prosím přejmenujte soubor a zkuste jej nahrát znovu.',
 'badfilename'                 => 'Jméno souboru bylo změněno na „$1“.',
-'filetype-mime-mismatch'      => 'Přípona souboru neodpovídá jeho MIME typu.',
+'filetype-mime-mismatch'      => 'Přípona souboru „.$1“ neodpovídá rozpoznanému MIME typu souboru ($2).',
 'filetype-badmime'            => 'Není povoleno načítat soubory MIME typu „$1“.',
 'filetype-bad-ie-mime'        => 'Nelze načíst tento soubor, neboť Internet Explorer by ho považoval za „$1“, což je nedovolený a potenciálně nebezpečný typ souboru.',
 'filetype-unwanted-type'      => "„.$1“''' je nežádoucí formát souborů. {{plural:$3|Upřednostňovaný formát souborů je|Upřednostňované formáty souborů jsou}} $2.",
-'filetype-banned-type'        => "'''„.$1“''' je nedovolený formát souborů. {{plural:$3|Povolený formát souborů je|Povolené formáty souborů jsou}} $2.",
+'filetype-banned-type'        => "'''„.$1“''' {{PLURAL:$4|je nedovolený formát souborů|jsou nedovolené formáty souborů}}.
+{{PLURAL:$3|Povolený formát souborů je|Povolené formáty souborů jsou}} $2.",
 'filetype-missing'            => 'Soubor nemá příponu (např. ".jpg").',
 'empty-file'                  => 'Načtený soubor je prázdný.',
 'file-too-large'              => 'Načtený soubor je příliš velký.',
@@ -1726,7 +1738,7 @@ Pokud chcete přesto soubor načíst, vraťte se a zvolte jiný název.
 [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'Soubor s tímto názvem již existuje ve sdíleném úložišti. Pokud přesto chcete váš soubor načíst, vraťte se a zvolte jiný název. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tento soubor je duplikát {{PLURAL:$1|následujícího souboru|následujících souborů}}:',
-'file-deleted-duplicate'      => 'Identický soubor k tomuto ([[$1]]) byl již dříve smazán. Před tím, než soubor znovu nahrajete, byste měli zkontrolovat záznamy o předchozím smazání.',
+'file-deleted-duplicate'      => 'Identický soubor k tomuto ([[:$1]]) byl již dříve smazán. Před tím, než soubor znovu nahrajete, byste měli zkontrolovat záznamy o předchozím smazání.',
 'uploadwarning'               => 'Upozornění k načítání',
 'uploadwarning-text'          => 'Prosíme, upravte popis souboru níže a zkuste to znovu.',
 'savefile'                    => 'Uložit soubor',
@@ -1739,6 +1751,8 @@ Pokud chcete přesto soubor načíst, vraťte se a zvolte jiný název.
 'php-uploaddisabledtext'      => 'V PHP je vypnuto načítání souborů. Prosím, zkontrolujte nastavení file_uploads.',
 'uploadscripted'              => 'Tento soubor obsahuje HTML nebo kód skriptu, který by mohl být prohlížečem chybně interpretován.',
 'uploadvirus'                 => 'Tento soubor obsahuje virus! Podrobnosti: $1',
+'uploadjava'                  => 'Tento soubor je ZIP, který obsahuje javový soubor .class.
+Načítání javových souborů není dovoleno, neboť by mohly umožnit obcházení bezpečnostních omezení.',
 'upload-source'               => 'Zdrojový soubor',
 'sourcefilename'              => 'Jméno zdrojového souboru:',
 'sourceurl'                   => 'Zdrojové URL:',
@@ -1786,6 +1800,23 @@ Kontaktuje prosím [[Special:ListUsers/sysop|správce]].',
 'upload-too-many-redirects' => 'URL obsahovalo příliš mnoho přesměrování',
 'upload-unknown-size'       => 'Neznámá velikost',
 'upload-http-error'         => 'Došlo k chybě HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Při otevírání souboru ke kontrole ZIP došlo k chybě.',
+'zip-wrong-format'    => 'Dodaný soubor není ve formátu ZIP.',
+'zip-bad'             => 'Soubor je poškozený nebo jinak nečitelný ZIP.
+Nelze náležitě zkontrolovat jeho bezpečnost.',
+'zip-unsupported'     => 'Soubor je ZIP, ale používá funkce, které MediaWiki nepodporuje.
+Nelze náležitě zkontrolovat jeho bezpečnost.',
+
+# Special:UploadStash
+'uploadstash'          => 'Skrýš načtených souborů',
+'uploadstash-summary'  => 'Tato stránka nabízí přístup k nahraným (nebo právě nahrávaným) souborům, ale dosud nejsou zveřejněné na wiki. Tyto soubory se nezobrazí nikomu kromě uživatele, který je nahrál.',
+'uploadstash-clear'    => 'Vymazat soubory ve skrýši',
+'uploadstash-nofiles'  => 'Ve skrýši nemáte žádné soubory.',
+'uploadstash-badtoken' => 'Operace se nezdařila, možná vypršela platnost vašeho oprávnění k editaci. Zkuste to znovu.',
+'uploadstash-errclear' => 'Soubory se nepodařilo vymazat.',
+'uploadstash-refresh'  => 'Aktualizovat seznam souborů',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Přístup odepřen',
@@ -1960,12 +1991,13 @@ Vstup: <code>typ obsahu/podtyp</code>, např. <code>image/jpeg</code>.',
 'disambiguationspage'  => 'Template:Rozcestník',
 'disambiguations-text' => 'Odkazy na následujících stránkách vedou na rozcestníky (stránky obsahující některou ze šablon uvedených na [[MediaWiki:Disambiguationspage|seznamu rozcestníkových šablon]]) místo na příslušný článek.',
 
-'doubleredirects'            => 'Dvojitá přesměrování',
-'doubleredirectstext'        => 'Na této stránce je seznam přesměrování vedoucích na další přesměrování.
+'doubleredirects'                   => 'Dvojitá přesměrování',
+'doubleredirectstext'               => 'Na této stránce je seznam přesměrování vedoucích na další přesměrování.
 Každý řádek obsahuje odkaz na první a druhé přesměrování a k tomu cíl druhého přesměrování, který obvykle ukazuje jméno „skutečné“ cílové stránky, na kterou by mělo první přesměrování odkazovat.
 <del>Přeškrtnuté</del> položky již byly vyřešeny.',
-'double-redirect-fixed-move' => 'Stránka [[$1]] byla přesunuta, nyní přesměrovává na [[$2]]',
-'double-redirect-fixer'      => 'Opravář přesměrování',
+'double-redirect-fixed-move'        => 'Stránka [[$1]] byla přesunuta, nyní přesměrovává na [[$2]]',
+'double-redirect-fixed-maintenance' => 'Oprava dvojitého přesměrování z [[$1]] na [[$2]].',
+'double-redirect-fixer'             => 'Opravář přesměrování',
 
 'brokenredirects'        => 'Přerušená přesměrování',
 'brokenredirectstext'    => 'Tato přesměrování vedou na neexistující stránky:',
@@ -2042,6 +2074,7 @@ Uvědomte si, že jiné webové stránky mohou na soubor odkazovat pomocí pří
 'pager-newer-n'           => '{{PLURAL:$1|1 novější|$1 novější|$1 novějších}}',
 'pager-older-n'           => '{{PLURAL:$1|1 starší|$1 starší|$1 starších}}',
 'suppress'                => 'Dozor',
+'querypage-disabled'      => 'Tato speciální stránka je z výkonnostních důvodů vypnuta.',
 
 # Book sources
 'booksources'               => 'Zdroje knih',
@@ -2915,7 +2948,7 @@ Pokud si přejete přispívat k lokalizaci softwaru MediaWiki, navštivte [http:
 'math_unknown_function' => 'neznámá funkce',
 'math_lexing_error'     => 'chyba při lexingu',
 'math_syntax_error'     => 'syntaktická chyba',
-'math_image_error'      => 'Selhala konverze do PNG; zkontrolujte správnou instalaci latexu, dvips, gs a convertu',
+'math_image_error'      => 'Selhala konverze do PNG; zkontrolujte správnou instalaci latexu a dvipng (nebo dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Nelze zapsat nebo vytvořit dočasný adresář pro matematiku',
 'math_bad_output'       => 'Nelze zapsat nebo vytvořit adresář pro výstup matematiky',
 'math_notexvc'          => 'Chybí spustitelný texvc; podívejte se prosím do math/README na konfiguraci.',
@@ -2961,10 +2994,10 @@ Otevřením souboru můžete ohrozit svůj počítač.",
 ''(na stránce s popisem souboru)''",
 'thumbsize'            => 'Velikost náhledu:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|stránka|stránky|stránek}}',
-'file-info'            => '(velikost souboru: $1, MIME typ: $2)',
-'file-info-size'       => '(rozměr: $1 × $2 pixelů, velikost souboru: $3, MIME typ: $4)',
+'file-info'            => 'velikost souboru: $1, MIME typ: $2',
+'file-info-size'       => '$1 × $2 pixelů, velikost souboru: $3, MIME typ: $4',
 'file-nohires'         => '<small>Větší rozlišení není k dispozici.</small>',
-'svg-long-desc'        => '(soubor SVG, nominální rozměr: $1 × $2 pixelů, velikost souboru: $3)',
+'svg-long-desc'        => 'soubor SVG, nominální rozměr: $1 × $2 pixelů, velikost souboru: $3',
 'show-big-image'       => 'Obrázek ve vyšším rozlišení',
 'show-big-image-thumb' => '<small>Velikost tohoto náhledu je: $1 × $2 pixelů</small>',
 'file-info-gif-looped' => 've smyčce',
@@ -3123,6 +3156,7 @@ Obsahuje pouze seznam s odrážkami (řádka začíná s *). První odkaz na ř�
 'exif-gpsareainformation'          => 'Označení GPS oblasti',
 'exif-gpsdatestamp'                => 'Datum podle GPS',
 'exif-gpsdifferential'             => 'Diferenciální korekce GPS',
+'exif-objectname'                  => 'Krátký název',
 
 # EXIF attributes
 'exif-compression-1' => 'Nekomprimovaný',
@@ -3326,6 +3360,21 @@ Pokud jste o toto potvrzení *nežádali*, klikněte na následující odkaz,
 $5
 
 Platnost tohoto potvrzovacího kódu vyprší $4.',
+'confirmemail_body_set'     => 'Někdo (patrně vy, z IP adresy $1) nastavil e-mailovou adresu
+účtu „$2“ na {{grammar:6sg|{{SITENAME}}}} na tuto adresu.
+
+Pokud si přejete znovu aktivovat e-mailové funkce na
+{{grammar:6sg|{{SITENAME}}}}, tak pro potvrzení, že tato adresa opravdu
+patří vám, přejděte svým internetovým prohlížečem na následující adresu:
+
+$3
+
+Pokud vám tento účet *nepatří*, klikněte na následující
+odkaz, čímž potvrzení zrušíte:
+
+$5
+
+Platnost tohoto potvrzovacího kódu vyprší $4.',
 'confirmemail_invalidated'  => 'Potvrzení e-mailové adresy bylo zrušeno',
 'invalidateemail'           => 'Zrušit potvrzení e-mailové adresy',
 
@@ -3517,16 +3566,15 @@ MediaWiki je distribuována v naději, že bude užitečná, avšak BEZ JAKÉKOL
 Jméno souboru vkládejte bez označení "{{ns:file}}:" .',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Hledání duplicitních souborů',
-'fileduplicatesearch-summary'  => 'Hledání duplicitních souborů vychází z hodnoty hashovací funkce.
-
-Zadejte jméno souboru bez označení "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Hledání duplikátů',
-'fileduplicatesearch-filename' => 'Jméno souboru:',
-'fileduplicatesearch-submit'   => 'Hledat',
-'fileduplicatesearch-info'     => '(rozměr: $1 × $2 pixelů, velikost souboru: $3, MIME typ: $4)',
-'fileduplicatesearch-result-1' => 'Soubor „$1“ nemá žádný identický duplikát.',
-'fileduplicatesearch-result-n' => 'Soubor „$1“ má {{PLURAL:$2|jeden identický duplikát|$2 identické duplikáty|$2 identických duplikátů}}.',
+'fileduplicatesearch'           => 'Hledání duplicitních souborů',
+'fileduplicatesearch-summary'   => 'Hledání duplicitních souborů vychází z hodnoty hashovací funkce.',
+'fileduplicatesearch-legend'    => 'Hledání duplikátů',
+'fileduplicatesearch-filename'  => 'Jméno souboru:',
+'fileduplicatesearch-submit'    => 'Hledat',
+'fileduplicatesearch-info'      => '(rozměr: $1 × $2 pixelů, velikost souboru: $3, MIME typ: $4)',
+'fileduplicatesearch-result-1'  => 'Soubor „$1“ nemá žádný identický duplikát.',
+'fileduplicatesearch-result-n'  => 'Soubor „$1“ má {{PLURAL:$2|jeden identický duplikát|$2 identické duplikáty|$2 identických duplikátů}}.',
+'fileduplicatesearch-noresults' => 'Žádný soubor s názvem „$1“ nebyl nalezen.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Speciální stránky',

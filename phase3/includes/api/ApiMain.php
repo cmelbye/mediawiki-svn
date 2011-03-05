@@ -123,7 +123,12 @@ class ApiMain extends ApiBase {
 		)
 	);
 
-	private $mPrinter, $mModules, $mModuleNames, $mFormats, $mFormatNames;
+	/**
+	 * @var ApiFormatBase
+	 */
+	private $mPrinter;
+
+	private $mModules, $mModuleNames, $mFormats, $mFormatNames;
 	private $mResult, $mAction, $mShowVersions, $mEnableWrite, $mRequest;
 	private $mInternalMode, $mSquidMaxage, $mModule;
 
@@ -175,6 +180,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Return true if the API was started by other PHP code using FauxRequest
+	 * @return bool
 	 */
 	public function isInternalMode() {
 		return $this->mInternalMode;
@@ -199,6 +205,8 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Get the API module object. Only works after executeAction()
+	 *
+	 * @return ApiBase
 	 */
 	public function getModule() {
 		return $this->mModule;
@@ -304,6 +312,8 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Create an instance of an output formatter by its name
+	 *
+	 * @return ApiFormatBase
 	 */
 	public function createPrinterByName( $format ) {
 		if ( !isset( $this->mFormats[$format] ) ) {
@@ -450,6 +460,7 @@ class ApiMain extends ApiBase {
 	 * Replace the result data with the information about an exception.
 	 * Returns the error code
 	 * @param $e Exception
+	 * @return string
 	 */
 	protected function substituteResultWithError( $e ) {
 		// Printer may not be initialized if the extractRequestParams() fails for the main module
@@ -467,9 +478,7 @@ class ApiMain extends ApiBase {
 		}
 
 		if ( $e instanceof UsageException ) {
-			//
 			// User entered incorrect parameters - print usage screen
-			//
 			$errMessage = $e->getMessageArray();
 
 			// Only print the help message when this is for the developer, not runtime
@@ -479,9 +488,7 @@ class ApiMain extends ApiBase {
 
 		} else {
 			global $wgShowSQLErrors, $wgShowExceptionDetails;
-			//
 			// Something is seriously wrong
-			//
 			if ( ( $e instanceof DBQueryError ) && !$wgShowSQLErrors ) {
 				$info = 'Database query error';
 			} else {
@@ -511,6 +518,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Set up for the execution.
+	 * @return array
 	 */
 	protected function setupExecuteAction() {
 		// First add the id to the top element
@@ -553,7 +561,7 @@ class ApiMain extends ApiBase {
 				$this->dieUsageMsg( array( 'missingparam', 'token' ) );
 			} else {
 				global $wgUser;
-				if ( !$wgUser->matchEditToken( $moduleParams['token'], $salt ) ) {
+				if ( !$wgUser->matchEditToken( $moduleParams['token'], $salt, $this->getMain()->getRequest() ) ) {
 					$this->dieUsageMsg( array( 'sessionfailure' ) );
 				}
 			}
@@ -687,6 +695,9 @@ class ApiMain extends ApiBase {
 		$printer->profileOut();
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function isReadMode() {
 		return false;
 	}
@@ -744,14 +755,14 @@ class ApiMain extends ApiBase {
 		return array(
 			'',
 			'',
-			'******************************************************************************************',
-			'**                                                                                      **',
-			'**              This is an auto-generated MediaWiki API documentation page              **',
-			'**                                                                                      **',
-			'**                            Documentation and Examples:                               **',
-			'**                         http://www.mediawiki.org/wiki/API                            **',
-			'**                                                                                      **',
-			'******************************************************************************************',
+			'**********************************************************************************************************',
+			'**                                                                                                      **',
+			'**                      This is an auto-generated MediaWiki API documentation page                      **',
+			'**                                                                                                      **',
+			'**                                    Documentation and Examples:                                       **',
+			'**                                 http://www.mediawiki.org/wiki/API                                    **',
+			'**                                                                                                      **',
+			'**********************************************************************************************************',
 			'',
 			'Status:                All features shown on this page should be working, but the API',
 			'                       is still in active development, and  may change at any time.',
@@ -806,20 +817,20 @@ class ApiMain extends ApiBase {
 	 * Override the parent to generate help messages for all available modules.
 	 */
 	public function makeHelpMsg() {
-		global $wgMemc, $wgAPICacheHelp, $wgAPICacheHelpTimeout;
+		global $wgMemc, $wgAPICacheHelpTimeout;
 		$this->setHelp();
 		// Get help text from cache if present
 		$key = wfMemcKey( 'apihelp', $this->getModuleName(),
 			SpecialVersion::getVersion( 'nodb' ) .
 			$this->getMain()->getShowVersions() );
-		if ( $wgAPICacheHelp ) {
+		if ( $wgAPICacheHelpTimeout > 0 ) {
 			$cached = $wgMemc->get( $key );
 			if ( $cached ) {
 				return $cached;
 			}
 		}
 		$retval = $this->reallyMakeHelpMsg();
-		if ( $wgAPICacheHelp ) {
+		if ( $wgAPICacheHelpTimeout > 0 ) {
 			$wgMemc->set( $key, $retval, $wgAPICacheHelpTimeout );
 		}
 		return $retval;
@@ -831,7 +842,7 @@ class ApiMain extends ApiBase {
 		// Use parent to make default message for the main module
 		$msg = parent::makeHelpMsg();
 
-		$astriks = str_repeat( '*** ', 10 );
+		$astriks = str_repeat( '*** ', 14 );
 		$msg .= "\n\n$astriks Modules  $astriks\n\n";
 		foreach ( array_keys( $this->mModules ) as $moduleName ) {
 			$module = new $this->mModules[$moduleName] ( $this, $moduleName );
@@ -867,6 +878,12 @@ class ApiMain extends ApiBase {
 		return $msg;
 	}
 
+	/**
+	 * @static
+	 * @param  $module ApiBase
+	 * @param  $paramName String What type of request is this? e.g. action, query, list, prop, meta, format
+	 * @return string
+	 */
 	public static function makeHelpMsgHeader( $module, $paramName ) {
 		$modulePrefix = $module->getModulePrefix();
 		if ( strval( $modulePrefix ) !== '' ) {
@@ -966,6 +983,7 @@ class ApiMain extends ApiBase {
 
 	/**
 	 * Get the array mapping module names to class names
+	 * @return array
 	 */
 	function getModules() {
 		return $this->mModules;

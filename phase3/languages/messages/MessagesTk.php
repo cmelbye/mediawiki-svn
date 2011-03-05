@@ -1448,7 +1448,7 @@ Faýlyňyzy şonda-da ýüklemek isleýän bolsaňyz, onda yza gaýdyp täze bir
 'fileexists-shared-forbidden' => 'Şu atly bir faýl umumy faýl ammarynda eýýäm bar.
 Faýlyňyzy şonda-da ýüklemek isleýän bolsaňyz, onda yza gaýdyp täze bir at ulanmagyňyzy haýyş edýäris. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Bu faýl aşakdaky {{PLURAL:$1|faýlyň|faýllaryň}} dublikatydyr:',
-'file-deleted-duplicate'      => 'Şu faýl bilen birmeňzeş bir faýl ([[$1]]) ozal öçürilipdir. Bu faýly gaýtadan ýüklemänkäňiz şol faýlyň öçürme geçmişini barlaň.',
+'file-deleted-duplicate'      => 'Şu faýl bilen birmeňzeş bir faýl ([[:$1]]) ozal öçürilipdir. Bu faýly gaýtadan ýüklemänkäňiz şol faýlyň öçürme geçmişini barlaň.',
 'uploadwarning'               => 'Ýükleme duýduryşy',
 'uploadwarning-text'          => 'Aşakdaky faýl düşündirişini üýtgediň we gaýtadan synanyşyň.',
 'savefile'                    => 'Faýly ýazdyr',
@@ -2667,10 +2667,10 @@ Ony işletseňiz iş ulgamyňyza howp astyna salmagyňyz mümkin.",
 'imagemaxsize'         => "Surat ölçeginiň çägi:<br />''(faýl düşündiriş sahypalary üçin)''",
 'thumbsize'            => 'Miniatýura ölçegi:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sahypa|sahypa}}',
-'file-info'            => '(faýl ölçegi: $1, MIME tipi: $2)',
-'file-info-size'       => '($1 × $2 piksel, faýlyň ölçegi: $3, MIME tipli: $4)',
+'file-info'            => 'faýl ölçegi: $1, MIME tipi: $2',
+'file-info-size'       => '$1 × $2 piksel, faýlyň ölçegi: $3, MIME tipli: $4',
 'file-nohires'         => '<small>Wersiýanyň mundan uly ölçegi ýok.</small>',
-'svg-long-desc'        => '(SVG faýly, nominal $1 × $2 piksel, faýl ölçegi: $3)',
+'svg-long-desc'        => 'SVG faýly, nominal $1 × $2 piksel, faýl ölçegi: $3',
 'show-big-image'       => 'Suratyň doly ölçegi',
 'show-big-image-thumb' => '<small>Deslapky synyň ölçegi: $1 × $2 piksel</small>',
 'file-info-gif-looped' => 'halkaly',
@@ -3167,9 +3167,7 @@ Faýlyň adyny "{{ns:file}}:" pristawkasyz giriziň.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Dublikat faýllaryň gözlegi',
-'fileduplicatesearch-summary'  => 'Heş kodlary boýunça meňzeş faýllary gözle.
-
-Faýlyň adyny "{{ns:file}}:" pristawkasyz giriziň.',
+'fileduplicatesearch-summary'  => 'Heş kodlary boýunça meňzeş faýllary gözle.',
 'fileduplicatesearch-legend'   => 'Dublikatyny gözle',
 'fileduplicatesearch-filename' => 'Faýlyň ady:',
 'fileduplicatesearch-submit'   => 'Gözle',

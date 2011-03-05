@@ -112,6 +112,16 @@ $namespaceNames = array(
 $namespaceAliases = array();
 
 /**
+ * Array of gender specific. namespace aliases.
+ * Mapping NS_xxx to array of GENDERKEY to alias.
+ * Example:
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Male_user', 'female' => 'Female_user' ),
+);
+ */
+$namespaceGenderAliases = array();
+
+/**
  * Deprecated, use the message array
  */
 $mathNames = array(
@@ -415,7 +425,7 @@ $specialPageAliases = array(
 	'Ipblocklist'               => array( 'BlockList', 'ListBlocks', 'IPBlockList' ),
 	'Unblock'                   => array( 'Unblock' ),
 	'Specialpages'              => array( 'SpecialPages' ),
-	'Contributions'             => array( 'Contributions' ),
+	'Contributions'             => array( 'Contributions', 'Contribs' ),
 	'Emailuser'                 => array( 'EmailUser' ),
 	'Confirmemail'              => array( 'ConfirmEmail' ),
 	'Whatlinkshere'             => array( 'WhatLinksHere' ),
@@ -445,6 +455,7 @@ $specialPageAliases = array(
 	'Mytalk'                    => array( 'MyTalk' ),
 	'Mycontributions'           => array( 'MyContributions' ),
 	'Myuploads'                 => array( 'MyUploads' ),
+	'PermanentLink'             => array( 'PermanentLink', 'PermaLink' ),
 	'Listadmins'                => array( 'ListAdmins' ),
 	'Listbots'                  => array( 'ListBots' ),
 	'Popularpages'              => array( 'PopularPages' ),
@@ -651,8 +662,8 @@ XHTML id names.
 'tog-shownumberswatching'     => 'Show the number of watching users',
 'tog-oldsig'                  => 'Preview of existing signature:',
 'tog-fancysig'                => 'Treat signature as wikitext (without an automatic link)',
-'tog-externaleditor'          => 'Use external editor by default (for experts only, needs special settings on your computer)',
-'tog-externaldiff'            => 'Use external diff by default (for experts only, needs special settings on your computer)',
+'tog-externaleditor'          => 'Use external editor by default (for experts only, needs special settings on your computer. [http://www.mediawiki.org/wiki/Manual:External_editors More information.])',
+'tog-externaldiff'            => 'Use external diff by default (for experts only, needs special settings on your computer. [http://www.mediawiki.org/wiki/Manual:External_editors More information.])',
 'tog-showjumplinks'           => 'Enable "jump to" accessibility links',
 'tog-uselivepreview'          => 'Use live preview (requires JavaScript) (experimental)',
 'tog-forceeditsummary'        => 'Prompt me when entering a blank edit summary',
@@ -816,6 +827,7 @@ XHTML id names.
 'printableversion'  => 'Printable version',
 'permalink'         => 'Permanent link',
 'print'             => 'Print',
+'view'              => 'View',
 'edit'              => 'Edit',
 'create'            => 'Create',
 'editthispage'      => 'Edit this page',
@@ -823,6 +835,7 @@ XHTML id names.
 'delete'            => 'Delete',
 'deletethispage'    => 'Delete this page',
 'undelete_short'    => 'Undelete {{PLURAL:$1|one edit|$1 edits}}',
+'viewdeleted_short' => 'View {{PLURAL:$1|one deleted edit|$1 deleted edits}}',
 'protect'           => 'Protect',
 'protect_change'    => 'change',
 'protectthispage'   => 'Protect this page',
@@ -913,6 +926,8 @@ See [[Special:Version|version page]].',
 'toc'                          => 'Contents',
 'showtoc'                      => 'show',
 'hidetoc'                      => 'hide',
+'collapsible-collapse'         => 'Collapse',
+'collapsible-expand'           => 'Expand',
 'thisisdeleted'                => 'View or restore $1?',
 'viewdeleted'                  => 'View $1?',
 'restorelink'                  => '{{PLURAL:$1|one deleted edit|$1 deleted edits}}',
@@ -941,6 +956,7 @@ See [[Special:Version|version page]].',
 'nstab-template'  => 'Template',
 'nstab-help'      => 'Help page',
 'nstab-category'  => 'Category',
+'mainpage-nstab'  => '', # do not translate or duplicate this message to other languages
 
 # Main script and global functions
 'nosuchaction'      => 'No such action',
@@ -1073,8 +1089,8 @@ Please enable them, then log in with your new username and password.',
 'nocookieslogin'             => '{{SITENAME}} uses cookies to log in users.
 You have cookies disabled.
 Please enable them and try again.',
-'nocookiesfornew'            => "The user account was not created, as we could not confirm its source.
-Ensure you have cookies enabled, reload this page and try again.",
+'nocookiesfornew'            => 'The user account was not created, as we could not confirm its source.
+Ensure you have cookies enabled, reload this page and try again.',
 'nocookiesforlogin'          => '{{int:nocookieslogin}}', # only translate this message to other languages if you have to change it
 'noname'                     => 'You have not specified a valid username.',
 'loginsuccesstitle'          => 'Login successful',
@@ -1092,7 +1108,7 @@ Please try again.',
 Please try again.',
 'passwordtooshort'           => 'Passwords must be at least {{PLURAL:$1|1 character|$1 characters}}.',
 'password-name-match'        => 'Your password must be different from your username.',
-'password-too-weak'          => 'The provided password is too weak and cannot be used.',
+'password-login-forbidden'   => 'The use of this username and password has been forbidden.',
 'mailmypassword'             => 'E-mail new password',
 'passwordremindertitle'      => 'New temporary password for {{SITENAME}}',
 'passwordremindertext'       => 'Someone (probably you, from IP address $1) requested a new
@@ -1326,6 +1342,7 @@ If it still does not work, try [[Special:UserLogout|logging out]] and logging ba
 'token_suffix_mismatch'            => "'''Your edit has been rejected because your client mangled the punctuation characters in the edit token.'''
 The edit has been rejected to prevent corruption of the page text.
 This sometimes happens when you are using a buggy web-based anonymous proxy service.",
+'edit_form_incomplete'             => "'''Some parts of the edit form did not reach the server; double-check that your edits are intact and try again.'''",
 'editing'                          => 'Editing $1',
 'editingsection'                   => 'Editing $1 (section)',
 'editingcomment'                   => 'Editing $1 (new section)',
@@ -1372,6 +1389,7 @@ The latest log entry is provided below for reference:",
 'template-semiprotected'           => '(semi-protected)',
 'hiddencategories'                 => 'This page is a member of {{PLURAL:$1|1 hidden category|$1 hidden categories}}:',
 'edittools'                        => '<!-- Text here will be shown below edit and upload forms. -->', # only translate this message to other languages if you have to change it
+'edittools-upload'                 => '-', # only translate this message to other languages if you have to change it
 'nocreatetitle'                    => 'Page creation limited',
 'nocreatetext'                     => '{{SITENAME}} has restricted the ability to create new pages.
 You can go back and edit an existing page, or [[Special:UserLogin|log in or create an account]].',
@@ -1463,7 +1481,7 @@ It may have been deleted from the wiki, or renamed.
 Try [[Special:Search|searching on the wiki]] for relevant new pages.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comment removed)',
+'rev-deleted-comment'         => '(edit summary removed)',
 'rev-deleted-user'            => '(username removed)',
 'rev-deleted-event'           => '(log action removed)',
 'rev-deleted-user-contribs'   => '[username or IP address removed - edit hidden from contributions]',
@@ -1659,7 +1677,7 @@ Note that using the navigation links will reset this column.',
 'searchmenu-legend'                => 'Search options',
 'searchmenu-exists'                => "'''There is a page named \"[[:\$1]]\" on this wiki.'''",
 'searchmenu-new'                   => "'''Create the page \"[[:\$1]]\" on this wiki!'''",
-'searchmenu-new-nocreate'          => '', # do not translate or duplicate this message to other languages
+'searchmenu-new-nocreate'          => '"$1" is an invalid page name or cannot be created by you.',
 'searchhelp-url'                   => 'Help:Contents',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Browse pages with this prefix]]',
 'searchmenu-help'                  => '[[{{MediaWiki:Searchhelp-url}}|{{int:help}}]]?', # do not translate or duplicate this message to other languages
@@ -1834,8 +1852,8 @@ This information will be public.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'Real name is optional.
 If you choose to provide it, this will be used for giving you attribution for your work.',
-'prefs-help-email'              => 'E-mail address is optional, but is needed for password resets, should you forget your password.
-You can also choose to let others contact you through your user or talk page without needing to reveal your identity.',
+'prefs-help-email'              => 'E-mail address is optional, but is needed for password resets, should you forget your password.',
+'prefs-help-email-others'       => 'You can also choose to let others contact you through your user or talk page without needing to reveal your identity.',
 'prefs-help-email-required'     => 'E-mail address is required.',
 'prefs-info'                    => 'Basic information',
 'prefs-i18n'                    => 'Internationalisation',
@@ -1851,6 +1869,10 @@ You can also choose to let others contact you through your user or talk page wit
 'prefs-displaysearchoptions'    => 'Display options',
 'prefs-displaywatchlist'        => 'Display options',
 'prefs-diffs'                   => 'Diffs',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-mail address appears valid',
+'email-address-validity-invalid' => 'Enter a valid e-mail address',
 
 # User rights
 'userrights'                     => 'User rights management',
@@ -2100,13 +2122,13 @@ See the [[Special:NewFiles|gallery of new files]] for a more visual overview.',
 'illegalfilename'             => 'The filename "$1" contains characters that are not allowed in page titles.
 Please rename the file and try uploading it again.',
 'badfilename'                 => 'File name has been changed to "$1".',
-'filetype-mime-mismatch'      => 'File extension does not match MIME type.',
+'filetype-mime-mismatch'      => 'File extension ".$1" does not match the detected MIME type of the file ($2).',
 'filetype-badmime'            => 'Files of the MIME type "$1" are not allowed to be uploaded.',
 'filetype-bad-ie-mime'        => 'Cannot upload this file because Internet Explorer would detect it as "$1", which is a disallowed and potentially dangerous file type.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' is an unwanted file type.
 Preferred {{PLURAL:\$3|file type is|file types are}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' is not a permitted file type.
-Permitted {{PLURAL:\$3|file type is|file types are}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|is not a permitted file type|are not permitted file types}}.
+Permitted {{PLURAL:$3|file type is|file types are}} $2.',
 'filetype-missing'            => 'The file has no extension (like ".jpg").',
 'empty-file'                  => 'The file you submitted was empty.',
 'file-too-large'              => 'The file you submitted was too large.',
@@ -2149,7 +2171,7 @@ If you still want to upload your file, please go back and use a new name.
 If you still want to upload your file, please go back and use a new name.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'This file is a duplicate of the following {{PLURAL:$1|file|files}}:',
-'file-deleted-duplicate'      => "A file identical to this file ([[$1]]) has previously been deleted.
+'file-deleted-duplicate'      => "A file identical to this file ([[:$1]]) has previously been deleted.
 You should check that file's deletion history before proceeding to re-upload it.",
 'uploadwarning'               => 'Upload warning',
 'uploadwarning-text'          => 'Please modify the file description below and try again.',
@@ -2165,6 +2187,8 @@ Please check the file_uploads setting.',
 'uploadscripted'              => 'This file contains HTML or script code that may be erroneously interpreted by a web browser.',
 'uploadvirus'                 => 'The file contains a virus!
 Details: $1',
+'uploadjava'                  => 'The file is a ZIP file which contains a Java .class file.
+Uploading Java files is not allowed, because they can cause security restrictions to be bypassed.',
 'upload-source'               => 'Source file',
 'sourcefilename'              => 'Source filename:',
 'sourceurl'                   => 'Source URL:',
@@ -2216,6 +2240,23 @@ If the problem persists, contact an [[Special:ListUsers/sysop|administrator]].',
 'upload-too-many-redirects' => 'The URL contained too many redirects',
 'upload-unknown-size'       => 'Unknown size',
 'upload-http-error'         => 'An HTTP error occured: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'An error was encountered when opening the file for ZIP checks.',
+'zip-wrong-format'    => 'The specified file was not a ZIP file.',
+'zip-bad'             => 'The file is a corrupt or otherwise unreadable ZIP file.
+It cannot be properly checked for security.',
+'zip-unsupported'     => 'The file is a ZIP file which uses ZIP features not supported by MediaWiki.
+It cannot be properly checked for security.',
+
+# Special:UploadStash
+'uploadstash'          => 'Upload stash',
+'uploadstash-summary'  => 'This page provides access to files which are uploaded (or in the process of uploading) but are not yet published to the wiki. These files are not visible to anyone but the user who uploaded them.',
+'uploadstash-clear'    => 'Clear stashed files',
+'uploadstash-nofiles'  => 'You have no stashed files.',
+'uploadstash-badtoken' => 'Performing of that action was unsuccessful, perhaps because your editing credentials expired. Try again.',
+'uploadstash-errclear' => 'Clearing the files was unsuccessful.',
+'uploadstash-refresh'  => 'Refresh the list of files',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Access denied',
@@ -2409,14 +2450,15 @@ Remember to check for other links to the templates before deleting them.',
 They should link to the appropriate topic instead.<br />
 A page is treated as disambiguation page if it uses a template which is linked from [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Double redirects',
-'doubleredirects-summary'    => '', # do not translate or duplicate this message to other languages
-'doubleredirectstext'        => 'This page lists pages which redirect to other redirect pages.
+'doubleredirects'                   => 'Double redirects',
+'doubleredirects-summary'           => '', # do not translate or duplicate this message to other languages
+'doubleredirectstext'               => 'This page lists pages which redirect to other redirect pages.
 Each row contains links to the first and second redirect, as well as the target of the second redirect, which is usually the "real" target page, which the first redirect should point to.
 <del>Crossed out</del> entries have been solved.',
-'double-redirect-fixed-move' => '[[$1]] has been moved.
+'double-redirect-fixed-move'        => '[[$1]] has been moved.
 It now redirects to [[$2]].',
-'double-redirect-fixer'      => 'Redirect fixer',
+'double-redirect-fixed-maintenance' => 'Fixing double redirect from [[$1]] to [[$2]].',
+'double-redirect-fixer'             => 'Redirect fixer',
 
 'brokenredirects'         => 'Broken redirects',
 'brokenredirects-summary' => '', # do not translate or duplicate this message to other languages
@@ -2920,9 +2962,10 @@ $1',
 'undelete-show-file-submit'    => 'Yes',
 
 # Namespace form on various pages
-'namespace'      => 'Namespace:',
-'invert'         => 'Invert selection',
-'blanknamespace' => '(Main)',
+'namespace'             => 'Namespace:',
+'invert'                => 'Invert selection',
+'namespace_association' => 'Associated namespace',
+'blanknamespace'        => '(Main)',
 
 # Contributions
 'contributions'       => 'User contributions',
@@ -3121,7 +3164,6 @@ To lock or unlock the database, this needs to be writable by the web server.',
 
 # Move page
 'move-page'                    => 'Move $1',
-'move-page-backlink'           => '← $1', # only translate this message to other languages if you have to change it
 'move-page-legend'             => 'Move page',
 'movepagetext'                 => "Using the form below will rename a page, moving all of its history to the new name.
 The old title will become a redirect page to the new title.
@@ -3454,30 +3496,38 @@ You can view its source',
 'tooltip-summary'                 => 'Enter a short summary',
 
 # Stylesheets
-'common.css'      => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
-'standard.css'    => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.css'   => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.css' => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.css'    => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
-'myskin.css'      => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.css'       => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.css'      => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.css'      => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.css'      => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
-'print.css'       => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
-'handheld.css'    => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
+'common.css'        => '/* CSS placed here will be applied to all skins */', # only translate this message to other languages if you have to change it
+'standard.css'      => '/* CSS placed here will affect users of the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.css'     => '/* CSS placed here will affect users of the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.css'   => '/* CSS placed here will affect users of the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.css'      => '/* CSS placed here will affect users of the Monobook skin */', # only translate this message to other languages if you have to change it
+'myskin.css'        => '/* CSS placed here will affect users of the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.css'         => '/* CSS placed here will affect users of the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.css'        => '/* CSS placed here will affect users of the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.css'        => '/* CSS placed here will affect users of the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.css'        => '/* CSS placed here will affect users of the Vector skin */', # only translate this message to other languages if you have to change it
+'print.css'         => '/* CSS placed here will affect the print output */', # only translate this message to other languages if you have to change it
+'handheld.css'      => '/* CSS placed here will affect handheld devices based on the skin configured in $wgHandheldStyle */', # only translate this message to other languages if you have to change it
+'autoconfirmed.css' => '/* CSS placed here will affect autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'bot.css'           => '/* CSS placed here will affect bots only */', # only translate this message to other languages if you have to change it
+'sysop.css'         => '/* CSS placed here will affect sysops only */', # only translate this message to other languages if you have to change it
+'bureaucrat.css'    => '/* CSS placed here will affect bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Scripts
-'common.js'      => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
-'standard.js'    => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
-'nostalgia.js'   => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
-'cologneblue.js' => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
-'monobook.js'    => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
-'myskin.js'      => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
-'chick.js'       => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
-'simple.js'      => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
-'modern.js'      => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
-'vector.js'      => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
+'common.js'        => '/* Any JavaScript here will be loaded for all users on every page load. */', # only translate this message to other languages if you have to change it
+'standard.js'      => '/* Any JavaScript here will be loaded for users using the Standard skin */', # only translate this message to other languages if you have to change it
+'nostalgia.js'     => '/* Any JavaScript here will be loaded for users using the Nostalgia skin */', # only translate this message to other languages if you have to change it
+'cologneblue.js'   => '/* Any JavaScript here will be loaded for users using the Cologne Blue skin */', # only translate this message to other languages if you have to change it
+'monobook.js'      => '/* Any JavaScript here will be loaded for users using the MonoBook skin */', # only translate this message to other languages if you have to change it
+'myskin.js'        => '/* Any JavaScript here will be loaded for users using the MySkin skin */', # only translate this message to other languages if you have to change it
+'chick.js'         => '/* Any JavaScript here will be loaded for users using the Chick skin */', # only translate this message to other languages if you have to change it
+'simple.js'        => '/* Any JavaScript here will be loaded for users using the Simple skin */', # only translate this message to other languages if you have to change it
+'modern.js'        => '/* Any JavaScript here will be loaded for users using the Modern skin */', # only translate this message to other languages if you have to change it
+'vector.js'        => '/* Any JavaScript here will be loaded for users using the Vector skin */', # only translate this message to other languages if you have to change it
+'autoconfirmed.js' => '/* Any JavaScript here will be loaded for autoconfirmed users only */', # only translate this message to other languages if you have to change it
+'bot.js'           => '/* Any JavaScript here will be loaded for bots only */', # only translate this message to other languages if you have to change it
+'sysop.js'         => '/* Any JavaScript here will be loaded for sysops only */', # only translate this message to other languages if you have to change it
+'bureaucrat.js'    => '/* Any JavaScript here will be loaded for bureaucrats only */', # only translate this message to other languages if you have to change it
 
 # Metadata
 'nodublincore'      => 'Dublin Core RDF metadata disabled for this server.',
@@ -3538,8 +3588,7 @@ This is probably caused by a link to a blacklisted external site.',
 'math_unknown_function' => 'unknown function',
 'math_lexing_error'     => 'lexing error',
 'math_syntax_error'     => 'syntax error',
-'math_image_error'      => 'PNG conversion failed;
-check for correct installation of latex, dvips, gs, and convert',
+'math_image_error'      => 'PNG conversion failed; check for correct installation of latex and dvipng (or dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Cannot write to or create math temp directory',
 'math_bad_output'       => 'Cannot write to or create math output directory',
 'math_notexvc'          => 'Missing texvc executable; please see math/README to configure.',
@@ -3586,10 +3635,10 @@ By executing it, your system may be compromised.",
 'thumbsize'            => 'Thumbnail size:',
 'widthheight'          => '$1×$2', # only translate this message to other languages if you have to change it
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|page|pages}}',
-'file-info'            => '(file size: $1, MIME type: $2)',
-'file-info-size'       => '($1 × $2 pixels, file size: $3, MIME type: $4)',
+'file-info'            => 'file size: $1, MIME type: $2',
+'file-info-size'       => '$1 × $2 pixels, file size: $3, MIME type: $4',
 'file-nohires'         => '<small>No higher resolution available.</small>',
-'svg-long-desc'        => '(SVG file, nominally $1 × $2 pixels, file size: $3)',
+'svg-long-desc'        => 'SVG file, nominally $1 × $2 pixels, file size: $3',
 'show-big-image'       => 'Full resolution',
 'show-big-image-thumb' => '<small>Size of this preview: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'looped',
@@ -3822,7 +3871,7 @@ Others will be hidden by default.
 'exif-provinceorstatedest'         => 'Province or state shown',
 'exif-citydest'                    => 'City shown',
 'exif-sublocationdest'             => 'Sublocation of city shown',
-'exif-objectname'                  => 'Object name',
+'exif-objectname'                  => 'Short title',
 'exif-specialinstructions'         => 'Special instructions',
 'exif-headline'                    => 'Headline',
 'exif-credit'                      => 'Credit/Provider',
@@ -4188,6 +4237,20 @@ to cancel the e-mail address confirmation:
 $5
 
 This confirmation code will expire at $4.',
+'confirmemail_body_set'     => 'Someone, probably you, from IP address $1,
+has set the e-mail address of the account "$2" to this address on {{SITENAME}}.
+
+To confirm that this account really does belong to you and reactivate
+e-mail features on {{SITENAME}}, open this link in your browser:
+
+$3
+
+If the account does *not* belong to you, follow this link
+to cancel the e-mail address confirmation:
+
+$5
+
+This confirmation code will expire at $4.',
 'confirmemail_invalidated'  => 'E-mail address confirmation canceled',
 'invalidateemail'           => 'Cancel e-mail confirmation',
 
@@ -4432,16 +4495,15 @@ Images are shown in full resolution, other file types are started with their ass
 Enter the file name without the "{{ns:file}}:" prefix.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Search for duplicate files',
-'fileduplicatesearch-summary'  => 'Search for duplicate files based on hash values.
-
-Enter the filename without the "{{ns:file}}:" prefix.',
-'fileduplicatesearch-legend'   => 'Search for a duplicate',
-'fileduplicatesearch-filename' => 'Filename:',
-'fileduplicatesearch-submit'   => 'Search',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />File size: $3<br />MIME type: $4',
-'fileduplicatesearch-result-1' => 'The file "$1" has no identical duplication.',
-'fileduplicatesearch-result-n' => 'The file "$1" has {{PLURAL:$2|1 identical duplication|$2 identical duplications}}.',
+'fileduplicatesearch'           => 'Search for duplicate files',
+'fileduplicatesearch-summary'   => 'Search for duplicate files based on hash values.',
+'fileduplicatesearch-legend'    => 'Search for a duplicate',
+'fileduplicatesearch-filename'  => 'Filename:',
+'fileduplicatesearch-submit'    => 'Search',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />File size: $3<br />MIME type: $4',
+'fileduplicatesearch-result-1'  => 'The file "$1" has no identical duplication.',
+'fileduplicatesearch-result-n'  => 'The file "$1" has {{PLURAL:$2|1 identical duplication|$2 identical duplications}}.',
+'fileduplicatesearch-noresults' => 'No file named "$1" found.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Special pages',
@@ -4536,14 +4598,5 @@ If the user is currently logged in anywhere, they will be immediately logged out
 'disableaccount-nosuchuser'  => 'The user account "$1" does not exist.',
 'disableaccount-success'     => 'The user account "$1" has been permanently disabled.',
 'disableaccount-logentry'    => 'permanently disabled the user account [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Upload stash',
-'uploadstash-summary'  => 'This page provides access to files which are uploaded (or in the process of uploading) but are not yet published to the wiki. These files are not visible to anyone but the user who uploaded them.',
-'uploadstash-clear'    => 'Clear stashed files',
-'uploadstash-nofiles'  => 'You have no stashed files.',
-'uploadstash-badtoken' => 'Performing of that action was unsuccessful, perhaps because your editing credentials expired. Try again.',
-'uploadstash-errclear' => 'Clearing the files was unsuccessful.',
-'uploadstash-refresh'  => 'Refresh the list of files',
 
 );

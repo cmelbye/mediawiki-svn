@@ -52,7 +52,12 @@ class SkinMonoBook extends SkinTemplate {
  * @ingroup Skins
  */
 class MonoBookTemplate extends BaseTemplate {
+
+	/**
+	 * @var Skin
+	 */
 	var $skin;
+
 	/**
 	 * Template filter callback for MonoBook skin.
 	 * Takes an associative array of data set from a SkinTemplate-based
@@ -62,10 +67,7 @@ class MonoBookTemplate extends BaseTemplate {
 	 * @access private
 	 */
 	function execute() {
-		global $wgRequest;
-
 		$this->skin = $skin = $this->data['skin'];
-		$action = $wgRequest->getText( 'action' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
@@ -96,54 +98,26 @@ class MonoBookTemplate extends BaseTemplate {
 	</div>
 </div></div>
 <div id="column-one"<?php $this->html('userlangattributes')  ?>>
-	<div id="p-cactions" class="portlet">
-		<h5><?php $this->msg('views') ?></h5>
-		<div class="pBody">
-			<ul><?php
-				foreach($this->data['content_actions'] as $key => $tab) {
-					echo '
-				 <li id="' . Sanitizer::escapeId( "ca-$key" ) . '"';
-					if( $tab['class'] ) {
-						echo ' class="'.htmlspecialchars($tab['class']).'"';
-					}
-					echo '><a href="'.htmlspecialchars($tab['href']).'"';
-					# We don't want to give the watch tab an accesskey if the
-					# page is being edited, because that conflicts with the
-					# accesskey on the watch checkbox.  We also don't want to
-					# give the edit tab an accesskey, because that's fairly su-
-					# perfluous and conflicts with an accesskey (Ctrl-E) often
-					# used for editing in Safari.
-				 	if( in_array( $action, array( 'edit', 'submit' ) )
-				 	&& in_array( $key, array( 'edit', 'watch', 'unwatch' ))) {
-				 		echo $skin->tooltip( "ca-$key" );
-				 	} else {
-				 		echo $skin->tooltipAndAccesskey( "ca-$key" );
-				 	}
-				 	echo '>'.htmlspecialchars($tab['text']).'</a></li>';
-				} ?>
-
-			</ul>
-		</div>
-	</div>
+<?php $this->cactions( $skin ); ?>
 	<div class="portlet" id="p-personal">
 		<h5><?php $this->msg('personaltools') ?></h5>
 		<div class="pBody">
 			<ul<?php $this->html('userlangattributes') ?>>
-<?php 			foreach($this->data['personal_urls'] as $key => $item) { ?>
-				<li id="<?php echo Sanitizer::escapeId( "pt-$key" ) ?>"<?php
-					if ($item['active']) { ?> class="active"<?php } ?>><a href="<?php
-				echo htmlspecialchars($item['href']) ?>"<?php echo $skin->tooltipAndAccesskey('pt-'.$key) ?><?php
-				if(!empty($item['class'])) { ?> class="<?php
-				echo htmlspecialchars($item['class']) ?>"<?php } ?>><?php
-				echo htmlspecialchars($item['text']) ?></a></li>
-<?php			} ?>
+<?php		foreach($this->getPersonalTools() as $key => $item) { ?>
+				<?php echo $this->makeListItem($key, $item); ?>
+
+<?php		} ?>
 			</ul>
 		</div>
 	</div>
 	<div class="portlet" id="p-logo">
-		<a style="background-image: url(<?php $this->text('logopath') ?>);" <?php
-			?>href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>"<?php
-			echo $skin->tooltipAndAccesskey('p-logo') ?>></a>
+		<?php
+			$logoAttribs = array() + $skin->tooltipAndAccesskeyAttribs('p-logo');
+			$logoAttribs['style'] = "background-image: url({$this->data['logopath']});";
+			$logoAttribs['href'] = $this->data['nav_urls']['mainpage']['href'];
+			echo Html::element( 'a', $logoAttribs );
+		?>
+
 	</div>
 	<script type="<?php $this->text('jsmimetype') ?>"> if (window.isMSIE55) fixalpha(); </script>
 <?php
@@ -192,15 +166,8 @@ class MonoBookTemplate extends BaseTemplate {
 ?>
 </div>
 </div>
-<?php $this->html('bottomscripts'); /* JS call to runBodyOnloadHook */ ?>
-<?php $this->html('reporttime') ?>
-<?php if ( $this->data['debug'] ): ?>
-<!-- Debug output:
-<?php $this->text( 'debug' ); ?>
-
--->
-<?php endif;
-
+<?php
+		$this->printTrail();
 		echo Html::closeElement( 'body' );
 		echo Html::closeElement( 'html' );
 		wfRestoreWarnings();
@@ -231,6 +198,43 @@ class MonoBookTemplate extends BaseTemplate {
 <?php
 	}
 
+	/**
+	 * Prints the cactions bar.
+	 * Shared between MonoBook and Modern
+	 */
+	function cactions( Skin $skin ) {
+?>
+	<div id="p-cactions" class="portlet">
+		<h5><?php $this->msg('views') ?></h5>
+		<div class="pBody">
+			<ul><?php
+				foreach($this->data['content_actions'] as $key => $tab) {
+					$linkAttribs = array( 'href' => $tab['href'] );
+					
+				 	if( isset( $tab["tooltiponly"] ) && $tab["tooltiponly"] ) {
+						$title = $skin->titleAttrib( "ca-$key" );
+						if ( $title !== false ) {
+							$linkAttribs['title'] = $title;
+						}
+				 	} else {
+						$linkAttribs += $skin->tooltipAndAccesskeyAttribs( "ca-$key" );
+				 	}
+				 	$linkHtml = Html::element( 'a', $linkAttribs, $tab['text'] );
+				 	
+				 	/* Surround with a <li> */
+				 	$liAttribs = array( 'id' => Sanitizer::escapeId( "ca-$key" ) );
+					if( $tab['class'] ) {
+						$liAttribs['class'] = $tab['class'];
+					}
+				 	echo '
+				' . Html::rawElement( 'li', $liAttribs, $linkHtml );
+				} ?>
+
+			</ul>
+		</div>
+	</div>
+<?php
+	}
 	/*************************************************************************************************/
 	function toolbox() {
 ?>
@@ -274,8 +278,14 @@ class MonoBookTemplate extends BaseTemplate {
 
 	/*************************************************************************************************/
 	function customBox( $bar, $cont ) {
+		$portletAttribs = array( 'class' => 'generated-sidebar portlet', 'id' => Sanitizer::escapeId( "p-$bar" ) );
+		$tooltip = $this->skin->titleAttrib( "p-$bar" );
+		if ( $tooltip !== false ) {
+			$portletAttribs['title'] = $tooltip;
+		}
+		echo '	' . Html::openElement( 'div', $portletAttribs );
 ?>
-	<div class='generated-sidebar portlet' id='<?php echo Sanitizer::escapeId( "p-$bar" ) ?>'<?php echo $this->skin->tooltip('p-'.$bar) ?>>
+
 		<h5><?php $out = wfMsg( $bar ); if (wfEmptyMsg($bar, $out)) echo htmlspecialchars($bar); else echo htmlspecialchars($out); ?></h5>
 		<div class='pBody'>
 <?php   if ( is_array( $cont ) ) { ?>

@@ -34,6 +34,7 @@ $messages = array(
 'tog-watchdefault'            => 'zid sfahi li adltha f qaaimat lmoraqaba',
 'tog-watchmoves'              => 'zid sfahi li bdlt blasstha f qaaimat lmoraqaba',
 'tog-watchdeletion'           => 'zid sfahi li mshtha f qaaimat lmoraqaba',
+'tog-minordefault'            => 'alm jmia tadilat tafifa iftiradiyan',
 'tog-previewontop'            => 'biyn laard lmosbaq qbl sndoq thrir',
 'tog-previewonfirst'          => 'Ůbiyn moaayana maa awal tadil',
 'tog-nocache'                 => 'attl takhzin lmotassafih lsfha',
@@ -1524,7 +1525,6 @@ Imken lek ṫbeddel l-mosṫawa de l-ḫimaya dyal had ṣ-ṣefḫa bla ma i\'e
 
 # Move page
 'move-page'                => 'Neqqel $1',
-'move-page-backlink'       => '← $1',
 'move-page-legend'         => 'Neqqel ṣ-ṣefḫa',
 'movepagetext'             => "Ila sṫeĝmelṫi l-formulér li l-ṫeḫṫ, ċi ṣefḫa ġadi ṫĝawed ṫṫsemma o ġadi ṫneqqel ṫ-ṫariĥ kollo le s-smiya j-jdida.
 L-Ĝonwan l-qdim ġadi iwelli ṣefḫa jdida li ġadi ṫḫowwlek le l-ĝonwan j-jdid.
@@ -1714,9 +1714,9 @@ Imken lek ṫċof l-ĝin dyalha.',
 
 # Media information
 'widthheight'          => '$1×$2',
-'file-info-size'       => '($1 × $2 piksel, ṫqel l-fiċyé: $3, ċkel MIME : $4)',
+'file-info-size'       => '$1 × $2 piksel, ṫqel l-fiċyé: $3, ċkel MIME : $4',
 'file-nohires'         => '<small>Ma kayenċ ċi rézolusyon kber men hadi.</small>',
-'svg-long-desc'        => '(Fiċyé SVG, rézolusyon $1 × $2 pikselaṫ, ḫajm : $3)',
+'svg-long-desc'        => 'Fiċyé SVG, rézolusyon $1 × $2 pikselaṫ, ḫajm : $3',
 'show-big-image'       => 'Rézolusyon kamla',
 'show-big-image-thumb' => '<small>L-Ḫajm dyal had l-prévizualizasyon : $1 × $2 pikselaṫ</small>',
 'file-info-gif-looped' => 'mlfoof',

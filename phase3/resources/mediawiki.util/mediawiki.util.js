@@ -1,24 +1,29 @@
-/*
+/**
  * Utilities
  */
-
-(function ($, mw) {
+( function( $, mw ) {
 
 	mw.util = {
 
 		/* Initialisation */
 		'initialised' : false,
-		'init' : function () {
+		'init' : function() {
 			if ( this.initialised === false ) {
 				this.initialised = true;
 
 				// Any initialisation after the DOM is ready
-				$(function () {
+				$( function() {
 
-					// Shortcut
+					/* Set up $.messageBox */
+					$.messageBoxNew( {
+						'id': 'mw-js-message',
+						'parent': '#content'
+					} );
+
+					// Shortcut to client profile return
 					var profile = $.client.profile();
 
-					// Set tooltipAccessKeyPrefix
+					/* Set tooltipAccessKeyPrefix */
 
 					// Opera on any platform
 					if ( profile.name == 'opera' ) {
@@ -40,8 +45,8 @@
 					// (but not Safari on Windows)
 					} else if ( !( profile.platform == 'win' && profile.name == 'safari' )
 									&& ( profile.name == 'safari'
-									  || profile.platform == 'mac'
-									  || profile.name == 'konqueror' ) ) {
+									|| profile.platform == 'mac'
+									|| profile.name == 'konqueror' ) ) {
 						mw.util.tooltipAccessKeyPrefix = 'ctrl-';
 
 					// Firefox 2.x
@@ -49,21 +54,55 @@
 						mw.util.tooltipAccessKeyPrefix = 'alt-shift-';
 					}
 
-					// Enable CheckboxShiftClick
+					/* Enable CheckboxShiftClick */
 					$( 'input[type=checkbox]:not(.noshiftselect)' ).checkboxShiftClick();
 
-					// Emulate placeholder if not supported by browser
+					/* Emulate placeholder if not supported by browser */
 					if ( !( 'placeholder' in document.createElement( 'input' ) ) ) {
 						$( 'input[placeholder]' ).placeholder();
 					}
 
-					// Fill $content var
+					/* Fill $content var */
 					if ( $( '#bodyContent' ).length ) {
+						// Vector, Monobook, Chick etc.
 						mw.util.$content = $( '#bodyContent' );
+
+					} else if ( $( '#mw_contentholder' ).length ) {
+						// Modern
+						mw.util.$content = $( '#mw_contentholder' );
+
 					} else if ( $( '#article' ).length ) {
+						// Standard, CologneBlue
 						mw.util.$content = $( '#article' );
+
 					} else {
+						// #content is present on almost all if not all skins. Most skins (the above cases)
+						// have #content too, but as an outer wrapper instead of the article text container.
+						// The skins that don't have an outer wrapper do have #content for everything
+						// so it's a good fallback
 						mw.util.$content = $( '#content' );
+					}
+
+					/* Enable makeCollapse */
+					$( '.mw-collapsible' ).makeCollapsible();
+
+					/* Table of Contents toggle */
+					var	$tocContainer = $( '#toc' ),
+						$tocTitle = $( '#toctitle' ),
+						$tocToggleLink = $( '#togglelink' );
+					// Only add it if there is a TOC and there is no toggle added already
+					if ( $tocContainer.size() && $tocTitle.size() && !$tocToggleLink.size() ) {
+						var	hideTocCookie = $.cookie( 'mw_hidetoc' );
+							$tocToggleLink = $( '<a href="#" class="internal" id="togglelink">' ).text( mw.msg( 'hidetoc' ) ).click( function(e){
+								e.preventDefault();
+								mw.util.toggleToc( $(this) );
+							} );
+						$tocTitle.append( $tocToggleLink.wrap( '<span class="toctoggle">' ).parent().prepend( '&nbsp;[' ).append( ']&nbsp;' ) );
+
+						if ( hideTocCookie == '1' ) {
+							// Cookie says user want toc hidden
+							$tocToggleLink.click();
+						}
 					}
 				} );
 
@@ -102,7 +141,7 @@
 		 * Append a new style block to the head
 		 *
 		 * @param text String CSS to be appended
-		 * @return the CSS stylesheet
+		 * @return CSSStyleSheet object
 		 */
 		'addCSS' : function( text ) {
 			var s = document.createElement( 'style' );
@@ -118,12 +157,53 @@
 		},
 
 		/**
+		 * Hide/show the table of contents element
+		 *
+		 * @param $toggleLink jQuery object of the toggle link
+		 * @return String boolean visibility of the toc (true means it's visible)
+		 */
+		'toggleToc' : function( $toggleLink ) {
+			var $tocList = $( '#toc ul:first' );
+
+			// This function shouldn't be called if there's no TOC,
+			// but just in case...
+			if ( $tocList.size() ) {
+				if ( $tocList.is( ':hidden' ) ) {
+					$tocList.slideDown( 'fast' );
+					$toggleLink.text( mw.msg( 'hidetoc' ) );
+					$.cookie( 'mw_hidetoc', null, {
+						expires: 30,
+						path: '/'
+					} );
+					return true;
+				} else {
+					$tocList.slideUp( 'fast' );
+					$toggleLink.text( mw.msg( 'showtoc' ) );
+					$.cookie( 'mw_hidetoc', '1', {
+						expires: 30,
+						path: '/'
+					} );
+					return false;
+				}
+			} else {
+				return false;
+			}
+		},
+
+		/**
 		 * Get the full URL to a page name
 		 *
 		 * @param str Page name to link to
+		 * @return Full URL for page with name of 'str' or false on error
 		 */
 		'wikiGetlink' : function( str ) {
-			return wgServer + wgArticlePath.replace( '$1', this.wikiUrlencode( str ) );
+
+			// Exist check is needed since replace() can only be called on a string
+			if ( mw.config.exists( ['wgServer', 'wgArticlePath'] ) ) {
+				return mw.config.get( 'wgServer' ) + mw.config.get( 'wgArticlePath' ).replace( '$1', this.wikiUrlencode( str ) );
+			} else {
+				return false;
+			}
 		},
 
 		/**
@@ -193,6 +273,36 @@
 		'$content' : null,
 
 		/**
+		 * Checks wether the current page is the wiki's main page.
+		 *
+		 * @param alsoRelated Boolean value, if true this function also returns true if the current page is
+		 * in a different namespace page of the main page rather than the main page itself (eg. talk page)
+		 * @return Boolean
+		 */
+		'isMainPage' : function( alsoRelated ) {
+			var isRelatedToMainpage = false;
+
+			// Don't insert colon between namespace and title if the namespace is empty (eg. main namespace)
+			var namespace = mw.config.get( 'wgFormattedNamespaces' )[mw.config.get( 'wgNamespaceNumber' )];
+			namespace = namespace ? namespace + ':' : '';
+
+			// We can't use (wgMainPageTitle == wgPageName) since the latter is escaped (underscores) and has other
+			// slight variations that make comparison harder.
+			var isTheMainPage = mw.config.get( 'wgMainPageTitle' ) === ( namespace + mw.config.get( 'wgTitle' ) );
+
+			// Also check for the title in related namespaces ?
+			if ( typeof alsoRelated !== 'undefined' && alsoRelated === true ) {
+				var tabLink = mw.config.get( 'wgServer' ) + $( '#ca-talk' ).prev().find( 'a:first' ).attr( 'href' );
+				isRelatedToMainpage = tabLink === mw.util.wikiGetlink( mw.config.get( 'wgMainPageTitle' ) );
+
+				return isRelatedToMainpage || isTheMainPage;
+			}
+
+			return isTheMainPage;
+		},
+
+
+		/**
 		 * Add a link to a portlet menu on the page, such as:
 		 *
 		 * p-cactions (Content actions), p-personal (Personal tools),
@@ -207,26 +317,25 @@
 		 * ( '#foobar' ) of that item.
 		 *
 		 * @example mw.util.addPortletLink(
-		 *     'p-tb', 'http://mediawiki.org/',
-		 *     'MediaWiki.org', 't-mworg', 'Go to MediaWiki.org ', 'm', '#t-print'
-		 *   )
+		 *	 'p-tb', 'http://mediawiki.org/',
+		 *	 'MediaWiki.org', 't-mworg', 'Go to MediaWiki.org ', 'm', '#t-print'
+		 * )
 		 *
 		 * @param portlet ID of the target portlet ( 'p-cactions' or 'p-personal' etc.)
 		 * @param href Link URL
-		 * @param text Link text (will be automatically converted to lower
-		 *     case by CSS for p-cactions in Monobook)
+		 * @param text Link text
 		 * @param id ID of the new item, should be unique and preferably have
-		 *     the appropriate prefix ( 'ca-', 'pt-', 'n-' or 't-' )
+		 *	 the appropriate prefix ( 'ca-', 'pt-', 'n-' or 't-' )
 		 * @param tooltip Text to show when hovering over the link, without accesskey suffix
 		 * @param accesskey Access key to activate this link (one character, try
-		 *     to avoid conflicts. Use $( '[accesskey=x' ).get() in the console to
-		 *     see if 'x' is already used.
-		 * @param nextnode DOM node or jQuery-selector of the item that the new
-		 *     item should be added before, should be another item in the same
-		 *     list will be ignored if not the so
+		 *	 to avoid conflicts. Use $( '[accesskey=x]' ).get() in the console to
+		 *	 see if 'x' is already used.
+		 * @param nextnode DOM node or jQuery-selector string of the item that the new
+		 *	 item should be added before, should be another item in the same
+		 *	 list, it will be ignored otherwise
 		 *
 		 * @return The DOM node of the new item (a LI element, or A element for
-		 *     older skins) or null.
+		 *	 older skins) or null.
 		 */
 		'addPortletLink' : function( portlet, href, text, id, tooltip, accesskey, nextnode ) {
 
@@ -236,31 +345,34 @@
 			}
 			// Setup the anchor tag
 			var $link = $( '<a />' ).attr( 'href', href ).text( text );
+			if ( tooltip ) {
+				$link.attr( 'title', tooltip );
+			}
 
 			// Some skins don't have any portlets
 			// just add it to the bottom of their 'sidebar' element as a fallback
-			switch ( skin ) {
+			switch ( mw.config.get( 'skin' ) ) {
 			case 'standard' :
 			case 'cologneblue' :
-				$("#quickbar").append($link.after( '<br />' ));
-				return $link.get(0);
+				$( '#quickbar' ).append( $link.after( '<br />' ) );
+				return $link[0];
 			case 'nostalgia' :
-				$("#searchform").before($link).before( ' &#124; ' );
-				return $link.get(0);
+				$( '#searchform' ).before( $link).before( ' &#124; ' );
+				return $link[0];
 			default : // Skins like chick, modern, monobook, myskin, simple, vector...
 
 				// Select the specified portlet
-				var $portlet = $( '#' + portlet);
+				var $portlet = $( '#' + portlet );
 				if ( $portlet.length === 0 ) {
 					return null;
 				}
 				// Select the first (most likely only) unordered list inside the portlet
-				var $ul = $portlet.find( 'ul' ).eq( 0 );
+				var $ul = $portlet.find( 'ul' );
 
 				// If it didn't have an unordered list yet, create it
-				if ($ul.length === 0) {
+				if ( $ul.length === 0 ) {
 					// If there's no <div> inside, append it to the portlet directly
-					if ($portlet.find( 'div' ).length === 0) {
+					if ( $portlet.find( 'div:first' ).length === 0 ) {
 						$portlet.append( '<ul/>' );
 					} else {
 						// otherwise if there's a div (such as div.body or div.pBody)
@@ -289,8 +401,6 @@
 				if ( accesskey ) {
 					$link.attr( 'accesskey', accesskey );
 					tooltip += ' [' + accesskey + ']';
-				}
-				if ( tooltip ) {
 					$link.attr( 'title', tooltip );
 				}
 				if ( accesskey && tooltip ) {
@@ -298,7 +408,7 @@
 				}
 
 				// Append using DOM-element passing
-				if ( nextnode && nextnode.parentNode == $ul.get( 0 ) ) {
+				if ( nextnode && nextnode.parentNode == $ul[0] ) {
 					$(nextnode).before( $item );
 				} else {
 					// If the jQuery selector isn't found within the <ul>, just
@@ -311,45 +421,45 @@
 					}
 				}
 
-				return $item.get( 0 );
+				return $item[0];
 			}
 		},
 
 		/**
 		 * Add a little box at the top of the screen to inform the user of
 		 * something, replacing any previous message.
+		 * Calling with no arguments, with an empty string or null will hide the message
 		 *
-		 * @param message	mixed	The DOM-element or HTML-string to be put inside the message box]
-		 *							Calling with no arguments, with an empty string or null will hide the message 
-		 * @param className	string	Used in adding a class; should be different for each
-		 *   call to allow CSS/JS to hide different boxes.  null = no class used.
-		 * @return Boolean       True on success, false on failure
+		 * @param message mixed The DOM-element or HTML-string to be put inside the message box.
+		 * @param className	string Used in adding a class; should be different for each call
+		 *                         to allow CSS/JS to hide different boxes. null = no class used.
+		 * @return boolean True on success, false on failure
 		 */
 		'jsMessage' : function( message, className ) {
-		
+
 			if ( !arguments.length || message === '' || message === null ) {
-			
+
 				$( '#mw-js-message' ).empty().hide();
-				return true; // Emptying and hiding message is intended behaviour, return true	
-			
+				return true; // Emptying and hiding message is intended behaviour, return true
+
 			} else {
-				// We special-case skin structures provided by the software.  Skins that
+				// We special-case skin structures provided by the software. Skins that
 				// choose to abandon or significantly modify our formatting can just define
 				// an mw-js-message div to start with.
 				var $messageDiv = $( '#mw-js-message' );
 				if ( !$messageDiv.length ) {
 					$messageDiv = $( '<div id="mw-js-message">' );
-					if ( mw.util.$content.parent().length ) { 
+					if ( mw.util.$content.parent().length ) {
 						mw.util.$content.parent().prepend( $messageDiv );
 					} else {
 						return false;
 					}
 				}
-				
+
 				if ( className ) {
 					$messageDiv.attr( 'class', 'mw-js-message-' + className );
 				}
-				
+
 				if ( typeof message === 'object' ) {
 					$messageDiv.empty();
 					$messageDiv.append( message ); // Append new content
@@ -360,10 +470,110 @@
 				$messageDiv.slideDown();
 				return true;
 			}
+		},
+
+		/**
+		 * Validate a string as representing a valid e-mail address
+		 * according to HTML5 specification. Please note the specification
+		 * does not validate a domain with one character.
+		 *
+		 * FIXME: should be moved to or replaced by a JavaScript validation module.
+		 */
+		'validateEmail' : function( mailtxt ) {
+			if( mailtxt === '' ) {
+				return null;
+			}
+
+			/**
+			 * HTML5 defines a string as valid e-mail address if it matches
+			 * the ABNF:
+			 *	1 * ( atext / "." ) "@" ldh-str 1*( "." ldh-str )
+			 * With:
+			 * - atext	: defined in RFC 5322 section 3.2.3
+			 * - ldh-str : defined in RFC 1034 section 3.5
+			 *
+			 * (see STD 68 / RFC 5234 http://tools.ietf.org/html/std68):
+			 */
+
+			/**
+			 * First, define the RFC 5322 'atext' which is pretty easy :
+			 * atext = ALPHA / DIGIT / ; Printable US-ASCII
+						 "!" / "#" /	 ; characters not including
+						 "$" / "%" /	 ; specials. Used for atoms.
+						 "&" / "'" /
+						 "*" / "+" /
+						 "-" / "/" /
+						 "=" / "?" /
+						 "^" / "_" /
+						 "`" / "{" /
+						 "|" / "}" /
+						 "~"
+			*/
+			var	rfc5322_atext = "a-z0-9!#$%&'*+\\-/=?^_`{|}~",
+
+			/**
+			 * Next define the RFC 1034 'ldh-str'
+			 *	<domain> ::= <subdomain> | " "
+			 *	<subdomain> ::= <label> | <subdomain> "." <label>
+			 *	<label> ::= <letter> [ [ <ldh-str> ] <let-dig> ]
+			 *	<ldh-str> ::= <let-dig-hyp> | <let-dig-hyp> <ldh-str>
+			 *	<let-dig-hyp> ::= <let-dig> | "-"
+			 *	<let-dig> ::= <letter> | <digit>
+			 */
+				rfc1034_ldh_str = "a-z0-9\\-",
+
+				HTML5_email_regexp = new RegExp(
+					// start of string
+					'^'
+					+
+					// User part which is liberal :p
+					'[' + rfc5322_atext + '\\.]+'
+					+
+					// 'at'
+					'@'
+					+
+					// Domain first part
+					'[' + rfc1034_ldh_str + ']+'
+					+
+					// Optional second part and following are separated by a dot
+					'(?:\\.[' + rfc1034_ldh_str + ']+)*'
+					+
+					// End of string
+					'$',
+					// RegExp is case insensitive
+					'i'
+				);
+			return (null !== mailtxt.match( HTML5_email_regexp ) );
+		},
+		// Note: borrows from IP::isIPv4
+		'isIPv4Address' : function( address, allowBlock ) {
+			var block = allowBlock ? '(?:\\/(?:3[0-2]|[12]?\\d))?' : '';
+			var RE_IP_BYTE = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|0?[0-9]?[0-9])';
+			var RE_IP_ADD = '(?:' + RE_IP_BYTE + '\\.){3}' + RE_IP_BYTE;
+			return address.search( new RegExp( '^' + RE_IP_ADD + block + '$' ) ) != -1;
+		},
+		// Note: borrows from IP::isIPv6
+		'isIPv6Address' : function( address, allowBlock ) {
+			var block = allowBlock ? '(?:\\/(?:12[0-8]|1[01][0-9]|[1-9]?\\d))?' : '';
+			var RE_IPV6_ADD =
+			'(?:' + // starts with "::" (including "::")
+			':(?::|(?::' + '[0-9A-Fa-f]{1,4}' + '){1,7})' +
+			'|' + // ends with "::" (except "::")
+			'[0-9A-Fa-f]{1,4}' + '(?::' + '[0-9A-Fa-f]{1,4}' + '){0,6}::' +
+			'|' + // contains no "::"
+			'[0-9A-Fa-f]{1,4}' + '(?::' + '[0-9A-Fa-f]{1,4}' + '){7}' +
+			')';
+			if ( address.search( new RegExp( '^' + RE_IPV6_ADD + block + '$' ) ) != -1 ) {
+				return true;
+			}
+			RE_IPV6_ADD = // contains one "::" in the middle (single '::' check below)
+				'[0-9A-Fa-f]{1,4}' + '(?:::?' + '[0-9A-Fa-f]{1,4}' + '){1,6}';
+			return address.search( new RegExp( '^' + RE_IPV6_ADD + block + '$' ) ) != -1
+				&& address.search( /::/ ) != -1 && address.search( /::.*::/ ) == -1;
 		}
 
 	};
 
 	mw.util.init();
 
-})(jQuery, mediaWiki);
+} )( jQuery, mediaWiki );

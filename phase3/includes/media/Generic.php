@@ -23,6 +23,8 @@ abstract class MediaHandler {
 
 	/**
 	 * Get a MediaHandler for a given MIME type from the instance cache
+	 *
+	 * @return MediaHandler
 	 */
 	static function getHandler( $type ) {
 		global $wgMediaHandlers;
@@ -190,6 +192,18 @@ abstract class MediaHandler {
 	 * @return array thumbnail extension and MIME type
 	 */
 	function getThumbType( $ext, $mime, $params = null ) {
+		$magic = MimeMagic::singleton();
+		if ( !$ext || $magic->isMatchingExtension( $ext, $mime ) === false ) {
+			// The extension is not valid for this mime type and we do 
+			// recognize the mime type
+			$extensions = $magic->getExtensionsForType( $mime );
+			if ( $extensions ) {
+				return array( strtok( $extensions, ' ' ), $mime );
+			}
+		}
+		
+		// The extension is correct (true) or the mime type is unknown to
+		// MediaWiki (null)
 		return array( $ext, $mime );
 	}
 
@@ -224,6 +238,8 @@ abstract class MediaHandler {
 	 * Currently "width" and "height" are understood, but this might be
 	 * expanded in the future.
 	 * Returns false if unknown or if the document is not multi-page.
+	 *
+	 * @param $image File
 	 */
 	function getPageDimensions( $image, $page ) {
 		$gis = $this->getImageSize( $image, $image->getPath() );
@@ -367,13 +383,21 @@ abstract class MediaHandler {
 		);
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	function getShortDesc( $file ) {
 		global $wgLang;
-		$nbytes = '(' . wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
-			$wgLang->formatNum( $file->getSize() ) ) . ')';
+		$nbytes = wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
+			$wgLang->formatNum( $file->getSize() ) );
 		return "$nbytes";
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	function getLongDesc( $file ) {
 		global $wgUser;
 		$sk = $wgUser->getSkin();
@@ -381,14 +405,22 @@ abstract class MediaHandler {
 			$sk->formatSize( $file->getSize() ),
 			$file->getMimeType() );
 	}
-	
+
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	static function getGeneralShortDesc( $file ) {
 		global $wgLang;
-		$nbytes = '(' . wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
-			$wgLang->formatNum( $file->getSize() ) ) . ')';
+		$nbytes = wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
+			$wgLang->formatNum( $file->getSize() ) );
 		return "$nbytes";
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	static function getGeneralLongDesc( $file ) {
 		global $wgUser;
 		$sk = $wgUser->getSkin();
@@ -449,12 +481,13 @@ abstract class MediaHandler {
  * @ingroup Media
  */
 abstract class ImageHandler extends MediaHandler {
+
+	/**
+	 * @param $file File
+	 * @return bool
+	 */
 	function canRender( $file ) {
-		if ( $file->getWidth() && $file->getHeight() ) {
-			return true;
-		} else {
-			return false;
-		}
+		return ( $file->getWidth() && $file->getHeight() );
 	}
 
 	function getParamMap() {
@@ -499,6 +532,11 @@ abstract class ImageHandler extends MediaHandler {
 		return array( 'width' => $params['width'] );
 	}
 
+	/**
+	 * @param $image File
+	 * @param  $params
+	 * @return bool
+	 */
 	function normaliseParams( $image, &$params ) {
 		$mimeType = $image->getMimeType();
 
@@ -566,6 +604,12 @@ abstract class ImageHandler extends MediaHandler {
 		return true;
 	}
 
+	/**
+	 * @param $image File
+	 * @param  $script
+	 * @param  $params
+	 * @return bool|ThumbnailImage
+	 */
 	function getScriptedTransform( $image, $script, $params ) {
 		if ( !$this->normaliseParams( $image, $params ) ) {
 			return false;
@@ -589,6 +633,10 @@ abstract class ImageHandler extends MediaHandler {
 		return false;
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	function getShortDesc( $file ) {
 		global $wgLang;
 		$nbytes = wfMsgExt( 'nbytes', array( 'parsemag', 'escape' ),
@@ -598,6 +646,10 @@ abstract class ImageHandler extends MediaHandler {
 		return "$widthheight ($nbytes)";
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	function getLongDesc( $file ) {
 		global $wgLang;
 		return wfMsgExt('file-info-size', 'parseinline',
@@ -607,6 +659,10 @@ abstract class ImageHandler extends MediaHandler {
 			$file->getMimeType() );
 	}
 
+	/**
+	 * @param $file File
+	 * @return string
+	 */
 	function getDimensionsString( $file ) {
 		global $wgLang;
 		$pages = $file->pageCount();

@@ -12,6 +12,7 @@ class LinkHolderArray {
 	var $internals = array(), $interwikis = array();
 	var $size = 0;
 	var $parent;
+	protected $tempIdOffset;
 
 	function __construct( $parent ) {
 		$this->parent = $parent;
@@ -26,8 +27,51 @@ class LinkHolderArray {
 		}
 	}
 
+ 	/**
+	 * Don't serialize the parent object, it is big, and not needed when it is
+	 * a parameter to mergeForeign(), which is the only application of 
+	 * serializing at present.
+	 *
+	 * Compact the titles, only serialize the text form.
+	 */
+	function __sleep() {
+		foreach ( $this->internals as $ns => &$nsLinks ) {
+			foreach ( $nsLinks as $key => &$entry ) {
+				unset( $entry['title'] );
+			}
+		}
+		unset( $nsLinks );
+		unset( $entry );
+
+		foreach ( $this->interwikis as $key => &$entry ) {
+			unset( $entry['title'] );
+		}
+		unset( $entry );
+
+		return array( 'internals', 'interwikis', 'size' );
+	}
+
+	/**
+	 * Recreate the Title objects
+	 */
+	function __wakeup() {
+		foreach ( $this->internals as $ns => &$nsLinks ) {
+			foreach ( $nsLinks as $key => &$entry ) {
+				$entry['title'] = Title::newFromText( $entry['pdbk'] );
+			}
+		}
+		unset( $nsLinks );
+		unset( $entry );
+
+		foreach ( $this->interwikis as $key => &$entry ) {
+			$entry['title'] = Title::newFromText( $entry['pdbk'] );
+		}
+		unset( $entry );
+	}
+
 	/**
 	 * Merge another LinkHolderArray into this one
+	 * @param $other LinkHolderArray
 	 */
 	function merge( $other ) {
 		foreach ( $other->internals as $ns => $entries ) {
@@ -39,6 +83,86 @@ class LinkHolderArray {
 			}
 		}
 		$this->interwikis += $other->interwikis;
+	}
+
+	/**
+	 * Merge a LinkHolderArray from another parser instance into this one. The 
+	 * keys will not be preserved. Any text which went with the old 
+	 * LinkHolderArray and needs to work with the new one should be passed in 
+	 * the $texts array. The strings in this array will have their link holders
+	 * converted for use in the destination link holder. The resulting array of
+	 * strings will be returned.
+	 *
+	 * @param $other LinkHolderArray
+	 * @param $text Array of strings
+	 * @return Array
+	 */
+	function mergeForeign( $other, $texts ) {
+		$this->tempIdOffset = $idOffset = $this->parent->nextLinkID();
+		$maxId = 0;
+
+		# Renumber internal links
+		foreach ( $other->internals as $ns => $nsLinks ) {
+			foreach ( $nsLinks as $key => $entry ) {
+				$newKey = $idOffset + $key;
+				$this->internals[$ns][$newKey] = $entry;
+				$maxId = $newKey > $maxId ? $newKey : $maxId;
+			}
+		}
+		$texts = preg_replace_callback( '/(<!--LINK \d+:)(\d+)(-->)/', 
+			array( $this, 'mergeForeignCallback' ), $texts );
+
+		# Renumber interwiki links
+		foreach ( $other->interwikis as $key => $entry ) {
+			$newKey = $idOffset + $key;
+			$this->interwikis[$newKey] = $entry;
+			$maxId = $newKey > $maxId ? $newKey : $maxId;
+		}
+		$texts = preg_replace_callback( '/(<!--IWLINK )(\d+)(-->)/', 
+			array( $this, 'mergeForeignCallback' ), $texts );
+
+		# Set the parent link ID to be beyond the highest used ID
+		$this->parent->setLinkID( $maxId + 1 );
+		$this->tempIdOffset = null;
+		return $texts;
+	}
+
+	protected function mergeForeignCallback( $m ) {
+		return $m[1] . ( $m[2] + $this->tempIdOffset ) . $m[3];
+	}
+
+	/**
+	 * Get a subset of the current LinkHolderArray which is sufficient to
+	 * interpret the given text.
+	 */
+	function getSubArray( $text ) {
+		$sub = new LinkHolderArray( $this->parent );
+
+		# Internal links
+		$pos = 0;
+		while ( $pos < strlen( $text ) ) {
+			if ( !preg_match( '/<!--LINK (\d+):(\d+)-->/', 
+				$text, $m, PREG_OFFSET_CAPTURE, $pos ) ) 
+			{
+				break;
+			}
+			$ns = $m[1][0];
+			$key = $m[2][0];
+			$sub->internals[$ns][$key] = $this->internals[$ns][$key];
+			$pos = $m[0][1] + strlen( $m[0][0] );
+		}
+
+		# Interwiki links
+		$pos = 0;
+		while ( $pos < strlen( $text ) ) {
+			if ( !preg_match( '/<!--IWLINK (\d+)-->/', $text, $m, PREG_OFFSET_CAPTURE, $pos ) ) {
+				break;
+			}
+			$key = $m[1][0];
+			$sub->interwikis[$key] = $this->interwikis[$key];
+			$pos = $m[0][1] + strlen( $m[0][0] );
+		}
+		return $sub;
 	}
 
 	/**
@@ -65,6 +189,7 @@ class LinkHolderArray {
 	 * parsing of interwiki links, and secondly to allow all existence checks and
 	 * article length checks (for stub links) to be bundled into a single query.
 	 *
+	 * @param $nt Title
 	 */
 	function makeHolder( $nt, $text = '', $query = '', $trail = '', $prefix = ''  ) {
 		wfProfileIn( __METHOD__ );
@@ -102,16 +227,6 @@ class LinkHolderArray {
 	}
 
 	/**
-	 * Get the stub threshold
-	 */
-	function getStubThreshold() {
-		if ( !isset( $this->stubThreshold ) ) {
-			$this->stubThreshold = $this->parent->getUser()->getStubThreshold();
-		}
-		return $this->stubThreshold;
-	}
-
-	/**
 	 * FIXME: update documentation. makeLinkObj() is deprecated.
 	 * Replace <!--LINK--> link placeholders with actual links, in the buffer
 	 * Placeholders created in Skin::makeLinkObj()
@@ -146,7 +261,7 @@ class LinkHolderArray {
 		wfProfileIn( __METHOD__.'-check' );
 		$dbr = wfGetDB( DB_SLAVE );
 		$page = $dbr->tableName( 'page' );
-		$threshold = $this->getStubThreshold();
+		$threshold = $this->parent->getOptions()->getStubThreshold();
 
 		# Sort by namespace
 		ksort( $this->internals );
@@ -303,10 +418,10 @@ class LinkHolderArray {
 		$output = $this->parent->getOutput();
 		$linkCache = LinkCache::singleton();
 		$sk = $this->parent->getOptions()->getSkin( $this->parent->mTitle );
-		$threshold = $this->getStubThreshold();
+		$threshold = $this->parent->getOptions()->getStubThreshold();
 		$titlesToBeConverted = '';
 		$titlesAttrs = array();
-		
+
 		// Concatenate titles to a single string, thus we only need auto convert the
 		// single string to all variants. This would improve parser's performance
 		// significantly.
@@ -321,14 +436,14 @@ class LinkHolderArray {
 						'ns' => $ns,
 						'key' => "$ns:$index",
 						'titleText' => $titleText,
-					);					
+					);
 					// separate titles with \0 because it would never appears
 					// in a valid title
 					$titlesToBeConverted .= $titleText . "\0";
 				}
 			}
 		}
-		
+
 		// Now do the conversion and explode string to text of titles
 		$titlesAllVariants = $wgContLang->autoConvertToAllVariants( $titlesToBeConverted );
 		$allVariantsName = array_keys( $titlesAllVariants );
@@ -371,11 +486,12 @@ class LinkHolderArray {
 		if(!$linkBatch->isEmpty()){
 			// construct query
 			$dbr = wfGetDB( DB_SLAVE );
-			$page = $dbr->tableName( 'page' );
-			$titleClause = $linkBatch->constructSet('page', $dbr);
-			$variantQuery =  "SELECT page_id, page_namespace, page_title, page_is_redirect, page_len";
-			$variantQuery .= " FROM $page WHERE $titleClause";
-			$varRes = $dbr->query( $variantQuery, __METHOD__ );
+			$varRes = $dbr->select( 'page',
+				array( 'page_id', 'page_namespace', 'page_title', 'page_is_redirect', 'page_len' ),
+				$linkBatch->constructSet( 'page', $dbr ),
+				__METHOD__
+			);
+
 			$linkcolour_ids = array();
 
 			// for each found variants, figure out link holders and replace
@@ -386,14 +502,14 @@ class LinkHolderArray {
 				$vardbk = $variantTitle->getDBkey();
 
 				$holderKeys = array();
-				if(isset($variantMap[$varPdbk])){
+				if( isset( $variantMap[$varPdbk] ) ) {
 					$holderKeys = $variantMap[$varPdbk];
 					$linkCache->addGoodLinkObj( $s->page_id, $variantTitle, $s->page_len, $s->page_is_redirect );
 					$output->addLink( $variantTitle, $s->page_id );
 				}
 
 				// loop over link holders
-				foreach($holderKeys as $key){
+				foreach( $holderKeys as $key ) {
 					list( $ns, $index ) = explode( ':', $key, 2 );
 					$entry =& $this->internals[$ns][$index];
 					$pdbk = $entry['pdbk'];

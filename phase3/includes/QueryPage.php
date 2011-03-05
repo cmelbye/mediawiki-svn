@@ -130,14 +130,14 @@ abstract class QueryPage extends SpecialPage {
 	function getQueryInfo() {
 		return null;
 	}
-	
+
 	/**
 	 * For back-compat, subclasses may return a raw SQL query here, as a string.
 	 * This is stronly deprecated; getQueryInfo() should be overridden instead.
 	 * @return string
-	 * @deprecated since 1.18
 	 */
 	function getSQL() {
+		/* Implement getQueryInfo() instead */
 		throw new MWException( "Bug in a QueryPage: doesn't implement getQueryInfo() nor getQuery() properly" );
 	}
 
@@ -274,7 +274,7 @@ abstract class QueryPage extends SpecialPage {
 		if ( !$this->isCacheable() ) {
 			return 0;
 		}
-		
+
 		$fname = get_class( $this ) . '::recache';
 		$dbw = wfGetDB( DB_MASTER );
 		$dbr = wfGetDB( DB_SLAVE, array( $this->getName(), __METHOD__, 'vslow' ) );
@@ -375,15 +375,15 @@ abstract class QueryPage extends SpecialPage {
 			$sql = $this->getSQL();
 			$sql .= ' ORDER BY ' . implode( ', ', $order );
 			$sql = $dbr->limitResult( $sql, $limit, $offset );
-			$res = $dbr->query( $sql );
+			$res = $dbr->query( $sql, $fname );
 		}
 		return $dbr->resultObject( $res );
 	}
 
 	/**
-	 * Parameters and order changed in 1.18
+	 * Somewhat deprecated, you probably want to be using execute()
 	 */
-	function doQuery( $limit, $offset = false ) {
+	function doQuery( $offset = false, $limit = false ) {
 		if ( $this->isCached() && $this->isCacheable() ) {
 			return $this->fetchFromCache( $limit, $offset );
 		} else {
@@ -407,6 +407,11 @@ abstract class QueryPage extends SpecialPage {
 		if ( $offset !== false ) {
 			$options['OFFSET'] = intval( $offset );
 		}
+		if ( $this->sortDescending() ) {
+			$options['ORDER BY'] = 'qc_value DESC';
+		} else {
+			$options['ORDER BY'] = 'qc_value ASC';
+		}
 		$res = $dbr->select( 'querycache', array( 'qc_type',
 				'qc_namespace AS namespace',
 				'qc_title AS title',
@@ -416,7 +421,7 @@ abstract class QueryPage extends SpecialPage {
 		);
 		return $dbr->resultObject( $res );
 	}
-	
+
 	public function getCachedTimestamp() {
 		if ( !is_null( $this->cachedTimestamp ) ) {
 			$dbr = wfGetDB( DB_SLAVE );
@@ -547,8 +552,9 @@ abstract class QueryPage extends SpecialPage {
 
 		if ( $num > 0 ) {
 			$html = array();
-			if ( !$this->listoutput )
+			if ( !$this->listoutput ) {
 				$html[] = $this->openList( $offset );
+			}
 
 			# $res might contain the whole 1,000 rows, so we read up to
 			# $num [should update this to use a Pager]
@@ -578,8 +584,9 @@ abstract class QueryPage extends SpecialPage {
 				}
 			}
 
-			if ( !$this->listoutput )
+			if ( !$this->listoutput ) {
 				$html[] = $this->closeList();
+			}
 
 			$html = $this->listoutput
 				? $wgContLang->listToText( $html )
@@ -626,7 +633,6 @@ abstract class QueryPage extends SpecialPage {
 				$this->feedUrl() );
 			$feed->outHeader();
 
-			$dbr = wfGetDB( DB_SLAVE );
 			$res = $this->reallyDoQuery( $limit, 0 );
 			foreach ( $res as $obj ) {
 				$item = $this->feedResult( $obj );

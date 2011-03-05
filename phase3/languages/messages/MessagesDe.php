@@ -20,7 +20,9 @@
  * @author Jimmy Collins <jimmy.collins@web.de>
  * @author Kghbln
  * @author Khaledelmansoury
+ * @author Krinkle
  * @author Kwin
+ * @author LWChris
  * @author Li-sung
  * @author Lyzzy
  * @author MF-Warburg
@@ -50,6 +52,7 @@
  * @author Wikifan
  * @author Ziko
  * @author לערי ריינהארט
+ * @author ✓
  */
 
 $capitalizeAllNouns = true;
@@ -77,7 +80,10 @@ $namespaceAliases = array(
 	'Bild' => NS_FILE,
 	'Bild_Diskussion' => NS_FILE_TALK,
 );
-
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Benutzer', 'female' => 'Benutzerin' ),
+	NS_USER_TALK => array( 'male' => 'Benutzer_Diskussion', 'female' => 'Benutzerin_Diskussion' ),
+);
 
 $bookstoreList = array(
 	'abebooks.de' => 'http://www.abebooks.de/servlet/BookSearchPL?ph=2&isbn=$1',
@@ -165,6 +171,8 @@ $specialPageAliases = array(
 	'Mypage'                    => array( 'Meine_Benutzerseite' ),
 	'Mytalk'                    => array( 'Meine_Diskussionsseite' ),
 	'Mycontributions'           => array( 'Meine_Beiträge' ),
+	'Myuploads'                 => array( 'Meine_hochgeladenen_Dateien' ),
+	'PermanentLink'             => array( 'Permanenter_Link' ),
 	'Listadmins'                => array( 'Administratoren' ),
 	'Listbots'                  => array( 'Bots' ),
 	'Popularpages'              => array( 'Beliebteste_Seiten' ),
@@ -182,6 +190,7 @@ $specialPageAliases = array(
 	'RevisionMove'              => array( 'Version_verschieben' ),
 	'ComparePages'              => array( 'Seiten_vergleichen' ),
 	'Badtitle'                  => array( 'Ungültiger_Titel' ),
+	'DisableAccount'            => array( 'Benutzerkonto_deaktivieren' ),
 );
 
 $datePreferences = array(
@@ -381,8 +390,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Anzahl der beobachtenden Benutzer anzeigen',
 'tog-oldsig'                  => 'Vorschau der aktuellen Signatur:',
 'tog-fancysig'                => 'Signatur als Wikitext behandeln (ohne automatische Verlinkung)',
-'tog-externaleditor'          => 'Externen Editor als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer)',
-'tog-externaldiff'            => 'Externes Programm für Versionsunterschiede als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer)',
+'tog-externaleditor'          => 'Externen Editor als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Weitere Informationen hierzu.])',
+'tog-externaldiff'            => 'Externes Programm für Versionsunterschiede als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Weitere Informationen hierzu.])',
 'tog-showjumplinks'           => '„Wechseln zu“-Links aktivieren',
 'tog-uselivepreview'          => 'Live-Vorschau nutzen (benötigt JavaScript) (experimentell)',
 'tog-forceeditsummary'        => 'Warnen, wenn beim Speichern die Zusammenfassung fehlt',
@@ -543,6 +552,7 @@ $messages = array(
 'printableversion'  => 'Druckversion',
 'permalink'         => 'Permanenter Link',
 'print'             => 'Drucken',
+'view'              => 'Lesen',
 'edit'              => 'Bearbeiten',
 'create'            => 'Erstellen',
 'editthispage'      => 'Seite bearbeiten',
@@ -550,6 +560,7 @@ $messages = array(
 'delete'            => 'Löschen',
 'deletethispage'    => 'Diese Seite löschen',
 'undelete_short'    => '{{PLURAL:$1|1 Version|$1 Versionen}} wiederherstellen',
+'viewdeleted_short' => '{{PLURAL:$1|Eine gelöschte Version|$1 gelöschte Versionen}} ansehen',
 'protect'           => 'Schützen',
 'protect_change'    => 'ändern',
 'protectthispage'   => 'Seite schützen',
@@ -635,6 +646,8 @@ Siehe die [[Special:Version|Versionsseite]]',
 'toc'                     => 'Inhaltsverzeichnis',
 'showtoc'                 => 'Anzeigen',
 'hidetoc'                 => 'Verbergen',
+'collapsible-collapse'    => 'Einklappen',
+'collapsible-expand'      => 'Ausklappen',
 'thisisdeleted'           => '$1 ansehen oder wiederherstellen?',
 'viewdeleted'             => '$1 anzeigen?',
 'restorelink'             => '$1 {{PLURAL:$1|gelöschte Version|gelöschte Versionen}}',
@@ -794,7 +807,7 @@ Es muss sichergestellt sein, dass Cookies aktiviert sind. Danach diese Seite ern
 'wrongpasswordempty'         => 'Es wurde kein Passwort eingegeben. Bitte versuche es erneut.',
 'passwordtooshort'           => 'Passwörter müssen mindestens {{PLURAL:$1|1 Zeichen|$1 Zeichen}} lang sein.',
 'password-name-match'        => 'Dein Passwort muss sich von deinem Benutzernamen unterscheiden.',
-'password-too-weak'          => 'Das Passwort ist zu schwach und kann nicht verwendet werden.',
+'password-login-forbidden'   => 'Die Verwendung dieses Benutzernamens und Passwortes ist nicht erlaubt.',
 'mailmypassword'             => 'Neues Passwort zusenden',
 'passwordremindertitle'      => 'Neues Passwort für ein {{SITENAME}}-Benutzerkonto',
 'passwordremindertext'       => 'Jemand mit der IP-Adresse $1, wahrscheinlich du selbst, hat ein neues Passwort für die Anmeldung bei {{SITENAME}} ($4) angefordert.
@@ -961,7 +974,7 @@ Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|such
 Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]]
 oder in den zugehörigen <span class="plainlinks">[{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbüchern suchen].</span>',
 'userpage-userdoesnotexist'        => 'Das Benutzerkonto „$1“ ist nicht vorhanden. Bitte prüfe, ob du diese Seite wirklich erstellen/bearbeiten willst.',
-'userpage-userdoesnotexist-view'   => 'Benutzerkonto „$1“ existiert nicht.',
+'userpage-userdoesnotexist-view'   => 'Das Benutzerkonto „$1“ existiert nicht.',
 'blocked-notice-logextract'        => '{{GENDER:$1|Dieser Benutzer|Diese Benutzerin|Dieser Benutzer}} ist zurzeit gesperrt.
 Zur Information folgt ein aktueller Auszug aus dem Benutzersperr-Logbuch:',
 'clearyourcache'                   => "'''Hinweis - Leere nach dem Speichern den Browser-Cache, um die Änderungen sehen zu können:''' '''Mozilla/Firefox/Safari:''' ''Shift'' gedrückt halten und auf ''Aktualisieren'' klicken oder alternativ entweder ''Strg-F5'' oder ''Strg-R'' (''Befehlstaste-R'' auf dem Macintosh) drücken; '''Konqueror: '''Auf ''Aktualisieren'' klicken oder ''F5'' drücken; '''Opera:''' Cache unter ''Extras → Einstellungen'' leeren; '''Internet Explorer:''' ''Strg-F5'' drücken oder ''Strg'' gedrückt halten und dabei ''Aktualisieren'' anklicken.",
@@ -991,6 +1004,7 @@ Sollte das Problem bestehen bleiben, [[Special:UserLogout|melde dich ab]] und da
 Sollte das Problem bestehen bleiben, [[Special:UserLogout|melde dich ab]] und danach wieder an.'''",
 'token_suffix_mismatch'            => "'''Deine Bearbeitung wurde zurückgewiesen, da dein Browser Zeichen im Bearbeiten-Token verstümmelt hat.
 Eine Speicherung kann den Seiteninhalt zerstören. Dies geschieht bisweilen durch die Benutzung eines anonymen Proxy-Dienstes, der fehlerhaft arbeitet.'''",
+'edit_form_incomplete'             => "'''Der Inhalt des Bearbeitungsformulars hat den Server nicht vollständig erreicht. Bitte prüfe deine Bearbeitungen auf Vollständigkeit und versuche es erneut.'''",
 'editing'                          => 'Bearbeiten von „$1“',
 'editingsection'                   => 'Bearbeiten von „$1“ (Abschnitt)',
 'editingcomment'                   => 'Bearbeiten von „$1“ (Neuer Abschnitt)',
@@ -1082,7 +1096,7 @@ Bitte prüfe den Vergleich unten um sicherzustellen, dass du dies tun möchtest,
 Grund der Sperre: ''$2''",
 
 # History pages
-'viewpagelogs'           => 'Logbücher für diese Seite anzeigen',
+'viewpagelogs'           => 'Logbücher dieser Seite anzeigen',
 'nohistory'              => 'Es gibt keine Versionsgeschichte für diese Seite.',
 'currentrev'             => 'Aktuelle Version',
 'currentrev-asof'        => 'Aktuelle Version vom $2, $3 Uhr',
@@ -1113,7 +1127,7 @@ Grund der Sperre: ''$2''",
 'history-feed-empty'          => 'Die angeforderte Seite existiert nicht. Vielleicht wurde sie gelöscht oder verschoben. [[Special:Search|Durchsuche]] {{SITENAME}} nach passenden neuen Seiten.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(Bearbeitungskommentar entfernt)',
+'rev-deleted-comment'         => '(Zusammenfassung entfernt)',
 'rev-deleted-user'            => '(Benutzername entfernt)',
 'rev-deleted-event'           => '(Logbuchaktion entfernt)',
 'rev-deleted-user-contribs'   => '[Benutzername oder IP-Adresse entfernt – Bearbeitung aus Beiträgen versteckt]',
@@ -1301,6 +1315,7 @@ Stelle sicher, dass die Versionsgeschichte einer Seite historisch korrekt ist.',
 'searchmenu-legend'                => 'Suchoptionen',
 'searchmenu-exists'                => "'''Es gibt eine Seite, die den Namen „[[:$1]]“ hat.'''",
 'searchmenu-new'                   => "'''Erstelle die Seite „[[:$1|$1]]“ in diesem Wiki.'''",
+'searchmenu-new-nocreate'          => '„$1“ ist ein ungültiger Seitenname oder kann von dir nicht erstellt werden.',
 'searchhelp-url'                   => 'Help:Hilfe',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Zeige alle Seiten, die mit dem Suchbegriff anfangen]]',
 'searchprofile-articles'           => 'Inhaltsseiten',
@@ -1449,8 +1464,8 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'prefs-help-gender'             => 'Optional: Wird von der Software für die geschlechtsspezifische Anrede genutzt. Diese Information ist öffentlich.',
 'email'                         => 'E-Mail',
 'prefs-help-realname'           => 'Optional. Damit kann dein bürgerlicher Name deinen Beiträgen zugeordnet werden.',
-'prefs-help-email'              => 'Die Angabe einer E-Mail ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, wenn du dein Passwort vergessen hast.
-Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt aufnehmen, ohne dass du deine Identität offenlegen musst.',
+'prefs-help-email'              => 'Die Angabe einer E-Mail ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, wenn du dein Passwort vergessen hast.',
+'prefs-help-email-others'       => 'Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt aufnehmen, ohne dass du deine Identität offenlegen musst.',
 'prefs-help-email-required'     => 'Es wird eine gültige E-Mail-Adresse benötigt.',
 'prefs-info'                    => 'Basisinformationen',
 'prefs-i18n'                    => 'Internationalisierung',
@@ -1466,6 +1481,10 @@ Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt
 'prefs-displaysearchoptions'    => 'Anzeigeoptionen',
 'prefs-displaywatchlist'        => 'Anzeigeoptionen',
 'prefs-diffs'                   => 'Versionsvergleich',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Gültige E-Mail-Adresse',
+'email-address-validity-invalid' => 'Eine gültige E-Mail-Adresse ist erforderlich.',
 
 # User rights
 'userrights'                   => 'Benutzerrechteverwaltung',
@@ -1704,11 +1723,12 @@ Um ein '''Bild''' in einer Seite zu verwenden, nutze einen Link in der folgenden
 'minlength1'                  => 'Dateinamen müssen mindestens einen Buchstaben lang sein.',
 'illegalfilename'             => 'Der Dateiname „$1“ enthält mindestens ein nicht erlaubtes Zeichen. Bitte benenne die Datei um und versuche sie erneut hochzuladen.',
 'badfilename'                 => 'Der Dateiname wurde in „$1“ geändert.',
-'filetype-mime-mismatch'      => 'Dateierweiterung stimmt nicht mit dem MIME-Typ überein.',
+'filetype-mime-mismatch'      => 'Dateierweiterung „.$1“ stimmt nicht mit dem MIME-Typ ($2) überein.',
 'filetype-badmime'            => 'Dateien mit dem MIME-Typ „$1“ dürfen nicht hochgeladen werden.',
 'filetype-bad-ie-mime'        => 'Diese Datei kann nicht hochgeladen werden, da der Internet Explorer sie als „$1“ erkennt, welcher ein nicht erlaubter potentiell gefährlicher Dateityp ist.',
 'filetype-unwanted-type'      => "'''„.$1“''' ist ein unerwünschtes Dateiformat. Erlaubt {{PLURAL:$3|ist das Dateiformat|sind die Dateiformate}}: $2.",
-'filetype-banned-type'        => "'''„.$1“''' ist ein nicht erlaubtes Dateiformat. Erlaubt {{PLURAL:$3|ist das Dateiformat|sind die Dateiformate}}: $2.",
+'filetype-banned-type'        => "'''„.$1“''' {{PLURAL:$4|ist ein nicht erlaubter Dateityp|sind nicht erlaubte Dateitypen}}.
+{{PLURAL:$3|Erlaubter Dateityp ist|Erlaubte Dateitypen sind}} $2.",
 'filetype-missing'            => 'Die hochzuladende Datei hat keine Erweiterung (z. B. „.jpg“).',
 'empty-file'                  => 'Die übertragene Datei ist leer',
 'file-too-large'              => 'Die übertragene Datei ist zu groß',
@@ -1745,7 +1765,7 @@ Bitte prüfe, ob du das Bild in voller Auflösung vorliegen hast und lade dieses
 Wenn du diese Datei trotzdem hochladen möchtest, gehe bitte zurück und ändere den Namen.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Diese Datei ist ein Duplikat der folgenden {{PLURAL:$1|Datei|$1 Dateien}}:',
-'file-deleted-duplicate'      => 'Eine identische Datei dieser Datei ([[$1]]) wurde früher gelöscht. Überprüfe das Lösch-Logbuch, bevor du sie hochlädst.',
+'file-deleted-duplicate'      => 'Eine mit dieser identische Datei ([[:$1]]) wurde früher gelöscht. Sieh das Lösch-Logbuch ein, bevor du sie hochlädst.',
 'uploadwarning'               => 'Warnung',
 'uploadwarning-text'          => 'Bitte ändere unten die Dateibeschreibung und versuche es erneut.',
 'savefile'                    => 'Datei speichern',
@@ -1759,6 +1779,8 @@ Wenn du diese Datei trotzdem hochladen möchtest, gehe bitte zurück und ändere
 Bitte überprüfe die <code>file_uploads</code>-Einstellung.',
 'uploadscripted'              => 'Diese Datei enthält HTML- oder Scriptcode, der irrtümlich von einem Webbrowser ausgeführt werden könnte.',
 'uploadvirus'                 => 'Diese Datei enthält einen Virus! Details: $1',
+'uploadjava'                  => 'Dies ist eine ZIP-Datei, die ein CLASS-Datei von Java enthält.
+Das Hochladen von Java-Dateien ist nicht gestattet, da sie die Umgehung von Sicherheitseinschränkungen ermöglichen könnten.',
 'upload-source'               => 'Quelldatei',
 'sourcefilename'              => 'Quelldatei:',
 'sourceurl'                   => 'Quell-URL:',
@@ -1809,6 +1831,23 @@ Wenn das Problem weiter besteht, informiere einen [[Special:ListUsers/sysop|Syst
 'upload-too-many-redirects' => 'Die URL beinhaltete zu viele Weiterleitungen',
 'upload-unknown-size'       => 'Unbekannte Größe',
 'upload-http-error'         => 'Ein HTTP-Fehler ist aufgetreten: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Es ist ein Fehler beim Öffnen der Datei zur ZIP-Überprüfung aufgetreten.',
+'zip-wrong-format'    => 'Die angegebene Datei ist keine ZIP-Datei.',
+'zip-bad'             => 'Die Datei ist beschädigt oder eine aus anderweitigen Gründen nicht lesbare ZIP-Datei.
+Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werden.',
+'zip-unsupported'     => 'Diese ZIP-Datei verfügt über Komprimierungseigenschaften, die nicht von MediaWiki unterstützt werden.
+Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werden.',
+
+# Special:UploadStash
+'uploadstash'          => 'Vorabspeicherung beim Hochladen',
+'uploadstash-summary'  => 'Diese Seite ermöglicht den Zugriff auf Dateien, die hochgeladen wurden, bzw. gerade hochgeladen werden, aber noch nicht auf dem Wiki publiziert wurden. Diese Dateien sind, der hochladende Benutzer ausgenommen, noch nicht öffentlich einsehbar.',
+'uploadstash-clear'    => 'Die vorab gespeicherten Dateien entfernen',
+'uploadstash-nofiles'  => 'Es sind keine vorab gespeicherten Dateien vorhanden.',
+'uploadstash-badtoken' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos, vielleicht weil die Sitzungsdaten abgelaufen sind. Bitte erneut versuchen.',
+'uploadstash-errclear' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos.',
+'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Zugriff verweigert',
@@ -1970,7 +2009,7 @@ Eine [[Special:WhatLinksHere/$2|vollständige Liste]] ist verfügbar.',
 'statistics-edits'             => 'Seitenbearbeitungen',
 'statistics-edits-average'     => 'Bearbeitungen pro Seite im Durchschnitt',
 'statistics-views-total'       => 'Seitenaufrufe gesamt',
-'statistics-views-total-desc'  => 'Aufrufe von nich existierenden Seiten und Spezialseiten werden nicht berücksichtigt',
+'statistics-views-total-desc'  => 'Aufrufe nicht vorhandener Seiten und von Spezialseiten werden nicht berücksichtigt',
 'statistics-views-peredit'     => 'Seitenaufrufe pro Bearbeitung',
 'statistics-users'             => 'Registrierte [[Special:ListUsers|Benutzer]]',
 'statistics-users-active'      => 'Aktive Benutzer',
@@ -1984,12 +2023,13 @@ Eine [[Special:WhatLinksHere/$2|vollständige Liste]] ist verfügbar.',
 Eine Seite gilt als Begriffsklärungsseite, wenn sie eine der in [[MediaWiki:Disambiguationspage]] aufgeführte(n) Vorlage(n) einbindet.<br />
 Links aus Namensräumen werden hier nicht aufgelistet.',
 
-'doubleredirects'            => 'Doppelte Weiterleitungen',
-'doubleredirectstext'        => 'Diese Liste enthält Weiterleitungen, die auf weitere Weiterleitungen verlinken.
+'doubleredirects'                   => 'Doppelte Weiterleitungen',
+'doubleredirectstext'               => 'Diese Liste enthält Weiterleitungen, die auf weitere Weiterleitungen verlinken.
 Jede Zeile enthält Links zu der ersten und zweiten Weiterleitung sowie das Ziel der zweiten Weiterleitung, welches für gewöhnlich die gewünschte Zielseite ist, auf die bereits die erste Weiterleitung zeigen sollte.
 <del>Durchgestrichene</del> Einträge wurden bereits erledigt.',
-'double-redirect-fixed-move' => 'doppelte Weiterleitung aufgelöst: [[$1]] → [[$2]]',
-'double-redirect-fixer'      => 'RedirectBot',
+'double-redirect-fixed-move'        => '[[$1]] wurde verschoben und leitet nun nach [[$2]] weiter.',
+'double-redirect-fixed-maintenance' => 'Bereinigung der doppelten Weiterleitung von [[$1]] nach [[$2]].',
+'double-redirect-fixer'             => 'RedirectBot',
 
 'brokenredirects'        => 'Kaputte Weiterleitungen',
 'brokenredirectstext'    => 'Diese Spezialseite listet Weiterleitungen auf nicht existierende Seiten auf.',
@@ -2196,7 +2236,7 @@ Als Absender wird die E-Mail-Adresse aus deinen [[Special:Preferences|Einstellun
 
 # User Messenger
 'usermessage-summary'  => 'Systemnachricht gespeichert.',
-'usermessage-editor'   => 'Systemnachrichtenbearbeiter',
+'usermessage-editor'   => 'System-Messenger',
 'usermessage-template' => 'MediaWiki:Benutzernachricht',
 
 # Watchlist
@@ -2260,7 +2300,7 @@ Kontakt zum Bearbeiter:
 E-Mail: $PAGEEDITOR_EMAIL
 Wiki: $PAGEEDITOR_WIKI
 
-Es werden solange keine weiteren Benachrichtigungs-E-Mails gesendet, bis du die Seite wieder besucht hast. Auf deiner Beobachtungsliste kannst du alle Benachrichtigungsmarker zusammen zurücksetzen.
+Es werden dir solange keine weiteren Benachrichtigungs-E-Mails gesendet, bis du die Seite wieder besucht hast. Auf deiner Beobachtungsliste kannst du alle Benachrichtigungsmarkierungen zusammen zurücksetzen.
 
              Dein freundliches {{SITENAME}}-Benachrichtigungssystem
 
@@ -2433,9 +2473,10 @@ $1',
 'undelete-show-file-submit'    => 'Ja',
 
 # Namespace form on various pages
-'namespace'      => 'Namensraum:',
-'invert'         => 'Auswahl umkehren',
-'blanknamespace' => '(Seiten)',
+'namespace'             => 'Namensraum:',
+'invert'                => 'Auswahl umkehren',
+'namespace_association' => 'Zugeordneter Namensraum',
+'blanknamespace'        => '(Seiten)',
 
 # Contributions
 'contributions'       => 'Benutzerbeiträge',
@@ -2697,7 +2738,7 @@ Die Seite „[[:$1]]“ existiert bereits. Möchtest du diese löschen, um die S
 'nonfile-cannot-move-to-file'  => 'Nichtdateien können nicht in den {{ns:file}}-Namensraum hinein verschoben werden',
 'imagetypemismatch'            => 'Die neue Dateierweiterung ist nicht mit der alten identisch',
 'imageinvalidfilename'         => 'Der Ziel-Dateiname ist ungültig',
-'fix-double-redirects'         => 'Nach dem Verschieben doppelte Weiterleitungen auflösen',
+'fix-double-redirects'         => 'Nach dem Verschieben alle Weiterleitungen auf die Ursprungsseite bereinigen',
 'move-leave-redirect'          => 'Weiterleitung erstellen',
 'protectedpagemovewarning'     => "'''Warnung:''' Diese Seite wurde so geschützt, dass sie nur von Benutzern mit Administratorenrechten verschoben werden kann.
 Zur Information folgt der aktuelle Logbucheintrag:",
@@ -2952,11 +2993,11 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 
 # Math options
 'mw_math_png'    => 'Immer als PNG darstellen',
-'mw_math_simple' => 'Einfaches TeX als HTML darstellen, sonst PNG',
-'mw_math_html'   => 'Wenn möglich als HTML darstellen, sonst PNG',
+'mw_math_simple' => 'Einfaches TeX als HTML darstellen, ansonsten als PNG',
+'mw_math_html'   => 'Sofern möglich als HTML darstellen, ansonsten als PNG',
 'mw_math_source' => 'Als TeX belassen (für Textbrowser)',
-'mw_math_modern' => 'Empfehlenswert für moderne Browser',
-'mw_math_mathml' => 'MathML (experimentell)',
+'mw_math_modern' => 'Für moderne Browser empfohlene Darstellungsmethode',
+'mw_math_mathml' => 'Sofern möglich als MathML darstellen (experimentell)',
 
 # Math errors
 'math_failure'          => 'Parser-Fehler',
@@ -2964,7 +3005,7 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 'math_unknown_function' => 'Unbekannte Funktion ',
 'math_lexing_error'     => '„Lexing“-Fehler',
 'math_syntax_error'     => 'Syntaxfehler',
-'math_image_error'      => 'die PNG-Konvertierung schlug fehl',
+'math_image_error'      => 'PNG-Konvertierung fehlgeschlagen; korrekte Installation von LaTeX und dvipng überprüfen (oder dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Das temporäre Verzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
 'math_bad_output'       => 'Das Zielverzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
 'math_notexvc'          => 'Das texvc-Programm wurde nicht gefunden. Bitte math/README beachten.',
@@ -3009,10 +3050,10 @@ Durch das Herunterladen und Öffnen der Datei kann dein Computer beschädigt wer
 'imagemaxsize'         => "Maximale Bildgröße:<br />''(für Dateibeschreibungsseiten)''",
 'thumbsize'            => 'Standardgröße der Vorschaubilder (Thumbnails):',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|1 Seite|$3 Seiten}}',
-'file-info'            => '(Dateigröße: $1, MIME-Typ: $2)',
-'file-info-size'       => '($1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4)',
+'file-info'            => 'Dateigröße: $1, MIME-Typ: $2',
+'file-info-size'       => '$1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4',
 'file-nohires'         => '<small>Keine höhere Auflösung vorhanden.</small>',
-'svg-long-desc'        => '(SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3)',
+'svg-long-desc'        => 'SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3',
 'show-big-image'       => 'Version in höherer Auflösung',
 'show-big-image-thumb' => '<small>Größe der Voransicht: $1 × $2 Pixel</small>',
 'file-info-gif-looped' => 'Endlosschleife',
@@ -3172,6 +3213,7 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 'exif-gpsareainformation'          => 'Name des GPS-Gebietes',
 'exif-gpsdatestamp'                => 'GPS-Datum',
 'exif-gpsdifferential'             => 'GPS-Differentialkorrektur',
+'exif-objectname'                  => 'Kurztitel',
 
 # EXIF attributes
 'exif-compression-1' => 'Unkomprimiert',
@@ -3377,6 +3419,20 @@ um die E-Mail-Adress-Bestätigung abzubrechen:
 $5
 
 Dieser Bestätigungscode ist gültig bis $4.',
+'confirmemail_body_set'     => 'Jemand mit der IP-Adresse $1, wahrscheinlich du selbst,
+hat die E-Mail-Adresse des Benutzerkontos „$2“ auf {{SITENAME}} zu dieser E-Mail-Adresse abgeändert.
+
+Um zu bestätigen, dass dieses Benutzerkonto wirklich zu dir gehört
+und um die E-Mail-Funktionen auf {{SITENAME}} wieder zu aktivieren, öffne bitte den folgenden Link in deinem Browser:
+
+$3
+
+Falls das Konto *nicht* zu dir gehört, bitte den nachfolgenden Link öffnen,
+um die Bestätigung der E-Mail-Adresse abzubrechen:
+
+$5
+
+Dieser Bestätigungscode ist gültig bis $4.',
 'confirmemail_invalidated'  => 'E-Mail-Adressbestätigung abbrechen',
 'invalidateemail'           => 'E-Mail-Adressbestätigung abbrechen',
 
@@ -3430,7 +3486,7 @@ Bitte bestätige, dass du diese Seite wirklich neu erstellen möchten.",
 # Auto-summaries
 'autosumm-blank'   => 'Die Seite wurde geleert.',
 'autosumm-replace' => 'Der Seiteninhalt wurde durch einen anderen Text ersetzt: „$1“',
-'autoredircomment' => 'Weiterleitung nach [[$1]] erstellt',
+'autoredircomment' => 'Weiterleitung auf [[$1]] erstellt',
 'autosumm-new'     => 'Die Seite wurde neu angelegt: „$1“',
 
 # Size units
@@ -3498,11 +3554,11 @@ Du kannst auch die [[Special:Watchlist/edit|Standard-Bearbeitungsseite]] benutze
 'version-license'                  => 'Lizenz',
 'version-poweredby-credits'        => "Diese Website nutzt '''[http://www.mediawiki.org/wiki/MediaWiki/de MediaWiki]''', Copyright © 2001–$1 $2.",
 'version-poweredby-others'         => 'andere',
-'version-license-info'             => 'MediaWiki ist freie Software, d. h. sie kann, gemäß den Bedingungen der von der Free Software Foundation veröffentlichten GNU General Public License, weiterverteilt und/oder modifiziert werden. Dabei kann die Version 2, oder nach eigenem Ermessen, jede neuere Version der Lizenz verwendet werden.
+'version-license-info'             => "MediaWiki ist freie Software, d. h. sie kann, gemäß den Bedingungen der von der Free Software Foundation veröffentlichten ''GNU General Public License'', weiterverteilt und/ oder modifiziert werden. Dabei kann die Version 2, oder nach eigenem Ermessen, jede neuere Version der Lizenz verwendet werden.
 
-MediaWiki wird in der Hoffnung verteilt, dass es nützlich sein wird, allerdings OHNE JEGLICHE GARANTIE und sogar ohne die implizierte Garantie einer MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Hierzu sind weitere Hinweise in der GNU General Public License enthalten.
+MediaWiki wird in der Hoffnung verteilt, dass es nützlich sein wird, allerdings OHNE JEGLICHE GARANTIE und sogar ohne die implizierte Garantie einer MARKTGÄNGIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK. Hierzu sind weitere Hinweise in der ''GNU General Public License'' enthalten.
 
-Eine [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopie der GNU General Public License] sollte zusammen mit diesem Programm verteilt worden sein. Sofern dies nicht der Fall war, kann eine Kopie bei der Free Software Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA, schriftlich angefordert oder auf deren Website [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html online gelesen] werden.',
+Eine [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopie der ''GNU General Public License''] sollte zusammen mit diesem Programm verteilt worden sein. Sofern dies nicht der Fall war, kann eine Kopie bei der Free Software Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA, schriftlich angefordert oder auf deren Website [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html online gelesen] werden.",
 'version-software'                 => 'Installierte Software',
 'version-software-product'         => 'Produkt',
 'version-software-version'         => 'Version',
@@ -3516,16 +3572,15 @@ Eine [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopie der GNU General Public License] sol
 Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Datei-Duplikat-Suche',
-'fileduplicatesearch-summary'  => 'Suche nach Datei-Duplikaten auf Basis ihres Hash-Wertes.
-
-Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
-'fileduplicatesearch-legend'   => 'Suche nach Duplikaten',
-'fileduplicatesearch-filename' => 'Dateiname:',
-'fileduplicatesearch-submit'   => 'Suchen',
-'fileduplicatesearch-info'     => '$1 × $2 Pixel<br />Dateigröße: $3<br />MIME-Typ: $4',
-'fileduplicatesearch-result-1' => 'Die Datei „$1“ hat keine identischen Duplikate.',
-'fileduplicatesearch-result-n' => 'Die Datei „$1“ hat {{PLURAL:$2|1 identisches Duplikat|$2 identische Duplikate}}.',
+'fileduplicatesearch'           => 'Datei-Duplikat-Suche',
+'fileduplicatesearch-summary'   => 'Suche nach Dateiduplikaten auf Basis ihres Hashwertes.',
+'fileduplicatesearch-legend'    => 'Suche nach Duplikaten',
+'fileduplicatesearch-filename'  => 'Dateiname:',
+'fileduplicatesearch-submit'    => 'Suchen',
+'fileduplicatesearch-info'      => '$1 × $2 Pixel<br />Dateigröße: $3<br />MIME-Typ: $4',
+'fileduplicatesearch-result-1'  => 'Die Datei „$1“ hat keine identischen Duplikate.',
+'fileduplicatesearch-result-n'  => 'Die Datei „$1“ hat {{PLURAL:$2|1 identisches Duplikat|$2 identische Duplikate}}.',
+'fileduplicatesearch-noresults' => 'Es wurde keine Datei namens „$1“ gefunden.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Spezialseiten',
@@ -3618,14 +3673,5 @@ Sofern der Benutzer momentan angemeldet ist, wird er umgehend abgemeldet.
 'disableaccount-nosuchuser'  => 'Das Benutzerkonto „$1“ ist nicht vorhanden.',
 'disableaccount-success'     => 'Das Benutzerkonto „$1“ wurde dauerhaft deaktiviert.',
 'disableaccount-logentry'    => 'deaktivierte das Benutzerkonto [[$1]] dauerhaft',
-
-# Special:UploadStash
-'uploadstash'          => 'Vorabspeicherung beim Hochladen',
-'uploadstash-summary'  => 'Diese Seite ermöglicht den Zugriff auf Dateien, die hochgeladen wurden, bzw. gerade hochgeladen werden, aber noch nicht auf dem Wiki publiziert wurden. Diese Dateien sind, der hochladende Benutzer ausgenommen, noch nicht öffentlich einsehbar.',
-'uploadstash-clear'    => 'Die vorab gespeicherten Dateien entfernen',
-'uploadstash-nofiles'  => 'Es sind keine vorab gespeicherten Dateien vorhanden.',
-'uploadstash-badtoken' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos, vielleicht weil die Sitzungsdaten abgelaufen sind. Bitte erneut versuchen.',
-'uploadstash-errclear' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos.',
-'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 );

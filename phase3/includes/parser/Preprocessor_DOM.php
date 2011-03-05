@@ -5,7 +5,7 @@
  * @file
  * @ingroup Parser
  */
- 
+
 /**
  * @ingroup Parser
  */
@@ -37,11 +37,10 @@ class Preprocessor_DOM implements Preprocessor {
 
 	function newPartNodeArray( $values ) {
 		//NOTE: DOM manipulation is slower than building & parsing XML! (or so Tim sais)
-		$xml = "";
-		$xml .= "<list>";
+		$xml = "<list>";
 
 		foreach ( $values as $k => $val ) {
-			 
+
 			if ( is_int( $k ) ) {
 				$xml .= "<part><name index=\"$k\"/><value>" . htmlspecialchars( $val ) ."</value></part>";
 			} else {
@@ -96,9 +95,9 @@ class Preprocessor_DOM implements Preprocessor {
 	function preprocessToObj( $text, $flags = 0 ) {
 		wfProfileIn( __METHOD__ );
 		global $wgMemc, $wgPreprocessorCacheThreshold;
-		
+
 		$xml = false;
-		$cacheable = strlen( $text ) > $wgPreprocessorCacheThreshold;
+		$cacheable = $wgPreprocessorCacheThreshold !== false && strlen( $text ) > $wgPreprocessorCacheThreshold;
 		if ( $cacheable ) {
 			wfProfileIn( __METHOD__.'-cacheable' );
 
@@ -147,7 +146,7 @@ class Preprocessor_DOM implements Preprocessor {
 		wfProfileOut( __METHOD__ );
 		return $obj;
 	}
-	
+
 	function preprocessToXml( $text, $flags = 0 ) {
 		wfProfileIn( __METHOD__ );
 		$rules = array(
@@ -317,7 +316,7 @@ class Preprocessor_DOM implements Preprocessor {
 						// Search backwards for leading whitespace
 						$wsStart = $i ? ( $i - strspn( $revText, ' ', strlen( $text ) - $i ) ) : 0;
 						// Search forwards for trailing whitespace
-						// $wsEnd will be the position of the last space
+						// $wsEnd will be the position of the last space (or the '>' if there's none)
 						$wsEnd = $endPos + 2 + strspn( $text, ' ', $endPos + 3 );
 						// Eat the line if possible
 						// TODO: This could theoretically be done if $wsStart == 0, i.e. for comments at
@@ -389,8 +388,8 @@ class Preprocessor_DOM implements Preprocessor {
 				} else {
 					$attrEnd = $tagEndPos;
 					// Find closing tag
-					if ( preg_match( "/<\/" . preg_quote( $name, '/' ) . "\s*>/i", 
-							$text, $matches, PREG_OFFSET_CAPTURE, $tagEndPos + 1 ) ) 
+					if ( preg_match( "/<\/" . preg_quote( $name, '/' ) . "\s*>/i",
+							$text, $matches, PREG_OFFSET_CAPTURE, $tagEndPos + 1 ) )
 					{
 						$inner = substr( $text, $tagEndPos + 1, $matches[0][1] - $tagEndPos - 1 );
 						$i = $matches[0][1] + strlen( $matches[0][0] );
@@ -655,7 +654,7 @@ class Preprocessor_DOM implements Preprocessor {
 		$xml = $stack->rootAccum;
 
 		wfProfileOut( __METHOD__ );
-		
+
 		return $xml;
 	}
 }
@@ -1058,11 +1057,11 @@ class PPFrame_DOM implements PPFrame {
 					# Heading
 					$s = $this->expand( $contextNode->childNodes, $flags );
 
-                    # Insert a heading marker only for <h> children of <root>
-                    # This is to stop extractSections from going over multiple tree levels
-                    if ( $contextNode->parentNode->nodeName == 'root'
-                      && $this->parser->ot['html'] )
-                    {
+					# Insert a heading marker only for <h> children of <root>
+					# This is to stop extractSections from going over multiple tree levels
+					if ( $contextNode->parentNode->nodeName == 'root'
+					  && $this->parser->ot['html'] )
+					{
 						# Insert heading index marker
 						$headingIndex = $contextNode->getAttribute( 'i' );
 						$titleText = $this->title->getPrefixedDBkey();
@@ -1071,7 +1070,7 @@ class PPFrame_DOM implements PPFrame {
 						$marker = "{$this->parser->mUniqPrefix}-h-$serial-" . Parser::MARKER_SUFFIX;
 						$count = $contextNode->getAttribute( 'level' );
 						$s = substr( $s, 0, $count ) . $marker . substr( $s, $count );
-						$this->parser->mStripState->general->setPair( $marker, '' );
+						$this->parser->mStripState->addGeneral( $marker, '' );
 					}
 					$out .= $s;
 				} else {
@@ -1321,7 +1320,7 @@ class PPTemplateFrame_DOM extends PPFrame_DOM {
 		}
 		return $arguments;
 	}
-	
+
 	function getNumberedArguments() {
 		$arguments = array();
 		foreach ( array_keys($this->numberedArgs) as $key ) {
@@ -1329,7 +1328,7 @@ class PPTemplateFrame_DOM extends PPFrame_DOM {
 		}
 		return $arguments;
 	}
-	
+
 	function getNamedArguments() {
 		$arguments = array();
 		foreach ( array_keys($this->namedArgs) as $key ) {

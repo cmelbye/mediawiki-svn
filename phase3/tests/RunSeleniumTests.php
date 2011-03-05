@@ -24,13 +24,25 @@
  * http://www.gnu.org/copyleft/gpl.html
  */
 
+$IP = dirname( dirname( __FILE__ ) );
+
 define( 'SELENIUMTEST', true );
 
 //require_once( dirname( __FILE__ ) . '/../maintenance/commandLine.inc' );
 require( dirname( __FILE__ ) . '/../maintenance/Maintenance.php' );
-require_once( 'PHPUnit/Framework.php' );
+
+require_once( 'PHPUnit/Runner/Version.php' );
+if( version_compare( PHPUnit_Runner_Version::id(), '3.5.0', '>=' ) ) {
+	# PHPUnit 3.5.0 introduced a nice autoloader based on class name
+	require_once( 'PHPUnit/Autoload.php' );
+} else {
+	# Keep the old pre PHPUnit 3.5.0 behaviour for compatibility
+	require_once( 'PHPUnit/TextUI/Command.php' );
+}
+
 require_once( 'PHPUnit/Extensions/SeleniumTestCase.php' );
 include_once( 'PHPUnit/Util/Log/JUnit.php' );
+
 require_once( dirname( __FILE__ ) . "/selenium/SeleniumServerManager.php" );
 
 class SeleniumTester extends Maintenance {
@@ -141,9 +153,9 @@ class SeleniumTester extends Maintenance {
 	public function execute() {
 		global $wgServer, $wgScriptPath, $wgHooks;
 
-		$seleniumSettings;
-		$seleniumBrowsers;
-		$seleniumTestSuites;
+		$seleniumSettings = array();
+		$seleniumBrowsers = array();
+		$seleniumTestSuites = array();
 
 		$configFile = $this->getOption( 'seleniumConfig', '' );
 		if ( strlen( $configFile ) > 0 ) {
@@ -153,7 +165,7 @@ class SeleniumTester extends Maintenance {
 				$seleniumTestSuites,
 				$configFile );
 		} else if ( !isset( $wgHooks['SeleniumSettings'] ) ) {
-			$this->output("No command line configuration file or configuration hook found.\n");
+			$this->output("No command line, configuration file or configuration hook found.\n");
 			SeleniumConfig::getSeleniumSettings( $seleniumSettings,
 				$seleniumBrowsers,
 				$seleniumTestSuites
@@ -218,4 +230,4 @@ class SeleniumTester extends Maintenance {
 
 $maintClass = "SeleniumTester";
 
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

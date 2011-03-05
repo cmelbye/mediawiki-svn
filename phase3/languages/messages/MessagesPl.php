@@ -10,6 +10,7 @@
  * @author Beau
  * @author Derbeth
  * @author Equadus
+ * @author Fizykaa
  * @author Herr Kriss
  * @author Holek
  * @author Jwitos
@@ -58,6 +59,10 @@ $namespaceAliases = array(
 	'Dyskusja_grafiki' => NS_FILE_TALK,
 );
 
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Użytkownik', 'female' => 'Użytkowniczka' ),
+	NS_USER_TALK => array( 'male' => 'Dyskusja_użytkownika', 'female' => 'Dyskusja_użytkowniczki' ), 
+);
 
 $dateFormats = array(
 	'mdy time' => 'H:i',
@@ -201,6 +206,7 @@ $magicWords = array(
 	'namespace'             => array( '1', 'NAZWAPRZESTRZENI', 'NAMESPACE' ),
 	'talkspace'             => array( '1', 'DYSKUSJA', 'TALKSPACE' ),
 	'fullpagename'          => array( '1', 'PELNANAZWASTRONY', 'FULLPAGENAME' ),
+	'subst'                 => array( '0', 'podst:', 'SUBST:' ),
 	'img_thumbnail'         => array( '1', 'mały', 'thumbnail', 'thumb' ),
 	'img_manualthumb'       => array( '1', 'mały=$1', 'thumbnail=$1', 'thumb=$1' ),
 	'img_right'             => array( '1', 'prawo', 'right' ),
@@ -265,8 +271,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Pokaż liczbę użytkowników obserwujących stronę',
 'tog-oldsig'                  => 'Obecny wygląd Twojego podpisu',
 'tog-fancysig'                => 'Traktuj podpis jako wikikod (nie linkuj automatycznie całości)',
-'tog-externaleditor'          => 'Domyślnie używaj zewnętrznego edytora (dla użytkowników zaawansowanych; wymaga specjalnych ustawień dla komputera)',
-'tog-externaldiff'            => 'Domyślnie używaj zewnętrznego programu pokazującego zmiany (dla użytkowników zaawansowanych; wymaga specjalnych ustawień dla komputera)',
+'tog-externaleditor'          => 'Domyślnie używaj zewnętrznego edytora (tylko dla zaawansowanych użytkowników; wymaga odpowiedniego skonfigurowania komputera)',
+'tog-externaldiff'            => 'Domyślnie używaj zewnętrznego programu pokazującego zmiany (tylko dla zaawansowanych użytkowników; wymaga odpowiedniego skonfigurowania komputera)',
 'tog-showjumplinks'           => 'Włącz odnośniki „skocz do”',
 'tog-uselivepreview'          => 'Używaj dynamicznego podglądu (JavaScript; eksperymentalny)',
 'tog-forceeditsummary'        => 'Informuj o niewypełnieniu opisu zmian',
@@ -426,6 +432,7 @@ $messages = array(
 'printableversion'  => 'Wersja do druku',
 'permalink'         => 'Link do tej wersji',
 'print'             => 'Drukuj',
+'view'              => 'Podgląd',
 'edit'              => 'Edytuj',
 'create'            => 'Utwórz',
 'editthispage'      => 'Edytuj tę stronę',
@@ -433,6 +440,7 @@ $messages = array(
 'delete'            => 'Usuń',
 'deletethispage'    => 'Usuń tę stronę',
 'undelete_short'    => 'odtwórz {{PLURAL:$1|1 wersję|$1 wersje|$1 wersji}}',
+'viewdeleted_short' => 'Podgląd {{PLURAL:$1|usuniętej|$1 usuniętych}} wersji',
 'protect'           => 'Zabezpiecz',
 'protect_change'    => 'zmień',
 'protectthispage'   => 'Zabezpiecz tę stronę',
@@ -517,6 +525,8 @@ $1',
 'toc'                     => 'Spis treści',
 'showtoc'                 => 'pokaż',
 'hidetoc'                 => 'ukryj',
+'collapsible-collapse'    => 'Zwiń',
+'collapsible-expand'      => 'Rozwiń',
 'thisisdeleted'           => 'Pokazać lub odtworzyć $1?',
 'viewdeleted'             => 'Zobacz $1',
 'restorelink'             => '{{PLURAL:$1|jedną usuniętą wersję|$1 usunięte wersje|$1 usuniętych wersji}}',
@@ -684,7 +694,7 @@ Sprawdź poprawność pisowni.',
 'wrongpasswordempty'         => 'Wprowadzone hasło jest puste. Spróbuj ponownie.',
 'passwordtooshort'           => 'Hasło musi mieć co najmniej $1 {{PLURAL:$1|znak|znaki|znaków}}.',
 'password-name-match'        => 'Hasło musi być inne niż nazwa użytkownika.',
-'password-too-weak'          => 'Wprowadzone hasło nie może zostać użyte ponieważ jest zbyt proste.',
+'password-login-forbidden'   => 'Wykorzystanie tej nazwy użytkownika lub hasła zostało zabronione.',
 'mailmypassword'             => 'Wyślij mi nowe hasło poprzez e‐mail',
 'passwordremindertitle'      => 'Nowe tymczasowe hasło do {{GRAMMAR:D.lp|{{SITENAME}}}}',
 'passwordremindertext'       => 'Ktoś (prawdopodobnie Ty, spod adresu IP $1)
@@ -895,6 +905,7 @@ Jeśli to nie pomoże – [[Special:UserLogout|wyloguj się]] i zaloguj ponownie
 'token_suffix_mismatch'            => "'''Twoja edycja została odrzucona, ponieważ twój klient pomieszał znaki interpunkcyjne w żetonie edycyjnym.
 Twoja edycja została odrzucona by zapobiec zniszczeniu tekstu strony.
 Takie problemy zdarzają się w wypadku korzystania z wadliwych anonimowych sieciowych usług proxy.'''",
+'edit_form_incomplete'             => "'''Niektóre informacje wprowadzone do formularza nie dotarły do serwera. Upewnij się, że wprowadzone dane nie uległy uszkodzeniu i spróbuj ponownie.'''",
 'editing'                          => 'Edytujesz „$1”',
 'editingsection'                   => 'Edytujesz „$1” (fragment)',
 'editingcomment'                   => 'Edytujesz „$1” (nowa sekcja)',
@@ -1022,7 +1033,7 @@ Mogła zostać usunięta lub jej nazwa została zmieniona.
 Spróbuj [[Special:Search|poszukać]] tej strony.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(komentarz usunięty)',
+'rev-deleted-comment'         => '(usunięto opis zmian)',
 'rev-deleted-user'            => '(nazwa użytkownika usunięta)',
 'rev-deleted-event'           => '(wpis usunięty)',
 'rev-deleted-user-contribs'   => '[nazwa użytkownika lub adres IP usunięte – edycja ukryta we wkładzie]',
@@ -1031,7 +1042,7 @@ Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/del
 'rev-deleted-text-unhide'     => "Ta wersja strony została '''usunięta'''.
 Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} rejestrze usunięć].
 Jako administrator możesz [$1 obejrzeć tę wersję].",
-'rev-suppressed-text-unhide'  => "Ta wersja strony została '''utajniona'''.
+'rev-suppressed-text-unhide'  => "Ta wersja strony została '''ukryta'''.
 Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rejestrze utajniania].
 Jako administrator możesz [$1 obejrzeć tę wersję].",
 'rev-deleted-text-view'       => "Ta wersja strony została '''usunięta'''.
@@ -1041,19 +1052,19 @@ Jako administrator możesz ją obejrzeć. Szczegółowe informacje mogą znajdow
 'rev-deleted-no-diff'         => "Nie możesz zobaczyć porównania wersji, ponieważ jedna z nich została '''usunięta'''.
 Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} rejestrze usunięć].",
 'rev-suppressed-no-diff'      => "Nie można wyświetlić różnic, ponieważ jedna z wersji została '''usunięta'''.",
-'rev-deleted-unhide-diff'     => "Jedna z wersji tej strony została '''usunięta'''.
+'rev-deleted-unhide-diff'     => "Jedna z porównywanych wersji została '''usunięta'''.
 Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} rejestrze usunięć].
 Jako administrator możesz [$1 obejrzeć porównanie wersji].",
 'rev-suppressed-unhide-diff'  => "Jedna z porównywanych wersji została '''ukryta'''.
 Szczegółowe informacje mogą znajdować się w [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} rejestrze ukrywania].
-Ponieważ jesteś administratorem możesz [$1 obejrzeć to porównanie wersji].",
+Jako administrator możesz [$1 obejrzeć to porównanie wersji].",
 'rev-deleted-diff-view'       => "Jedna z wersji użytych w porównaniu została '''usunięta'''.
 Jako administrator możesz zobaczyć porównanie. Szczegóły mogą znajdować się w [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} rejestrze usunięć].",
 'rev-suppressed-diff-view'    => "Jedna z wersji użytych w porównaniu została '''ukryta'''.
 Jako administrator możesz zobaczyć porównanie. Szczegóły mogą znajdować się w [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} rejestrze ukrywania].",
 'rev-delundel'                => 'pokaż/ukryj',
 'rev-showdeleted'             => 'pokaż',
-'revisiondelete'              => 'Usuń/przywróć wersje',
+'revisiondelete'              => 'Usuń/odtwórz wersje',
 'revdelete-nooldid-title'     => 'Nieprawidłowa wersja do przeprowadzenia operacji',
 'revdelete-nooldid-text'      => 'Nie wybrano wersji, na których ma zostać wykonana ta operacja,
 wybrana wersja nie istnieje lub próbowano ukryć wersję bieżącą.',
@@ -1068,7 +1079,7 @@ wybrana wersja nie istnieje lub próbowano ukryć wersję bieżącą.',
 'logdelete-selected'          => "'''Zaznaczone {{PLURAL:$1|zdarzenie|zdarzenia}} z rejestru:'''",
 'revdelete-text'              => "'''Usunięte wersje i czynności będą nadal widoczne w historii strony i rejestrach, ale ich treść nie będzie publicznie dostępna.'''
 Inni administratorzy {{GRAMMAR:D.lp|{{SITENAME}}}} nadal będą mieć dostęp do ukrytych treści oraz będą mogli je odtworzyć używając standardowych mechanizmów, chyba że nałożono dodatkowe ograniczenia.",
-'revdelete-confirm'           => 'Potwierdzić, że chcesz to zrobić, rozumiesz konsekwencje oraz że robisz to zgodnie z [[{{MediaWiki:Policy-url}}|zasadami]].',
+'revdelete-confirm'           => 'Potwierdź, że chcesz to zrobić, rozumiesz konsekwencje oraz że robisz to zgodnie z [[{{MediaWiki:Policy-url}}|zasadami]].',
 'revdelete-suppress-text'     => "Ukrywanie powinno być używane '''wyłącznie''' w sytuacji:
 * Ujawnienie danych osobowych
 *: ''adres domowy, numer telefonu, numer PESEL itp''",
@@ -1104,7 +1115,7 @@ $1",
 'revdelete-uname'             => 'nazwę użytkownika',
 'revdelete-restricted'        => 'ustaw ograniczenia dla administratorów',
 'revdelete-unrestricted'      => 'usuń ograniczenia dla administratorów',
-'revdelete-hid'               => 'ukryj $1',
+'revdelete-hid'               => 'ukryto $1',
 'revdelete-unhid'             => 'nie ukrywaj $1',
 'revdelete-log-message'       => '$1 – $2 {{PLURAL:$2|wersja|wersje|wersji}}',
 'logdelete-log-message'       => '$1 – $2 {{PLURAL:$2|zdarzenie|zdarzenia|zdarzeń}}',
@@ -1209,6 +1220,7 @@ Użycie linków nawigacyjnych kasuje wybór w kolumnie.',
 'searchmenu-legend'                => 'Opcje wyszukiwania',
 'searchmenu-exists'                => "* Strona '''[[$1]]'''",
 'searchmenu-new'                   => "'''Utwórz stronę „[[:$1|$1]]” na tej wiki.'''",
+'searchmenu-new-nocreate'          => '„$1” nie jest prawidłową nazwą strony lub nie może zostać utworzona przez Ciebie.',
 'searchhelp-url'                   => 'Help:Spis treści',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Przeglądaj strony zaczynające się od tego przedrostka]]',
 'searchprofile-articles'           => 'Strony',
@@ -1359,8 +1371,8 @@ Dopuszczalna długość to $1 {{PLURAL:$1|znak|znaki|znaków}}.',
 'email'                         => 'E‐mail',
 'prefs-help-realname'           => 'Wpisanie imienia i nazwiska nie jest obowiązkowe.
 Jeśli zdecydujesz się je podać, zostaną użyte, by udokumentować Twoje autorstwo.',
-'prefs-help-email'              => 'Podanie adresu e‐mail nie jest obowiązkowe, lecz jest konieczne do zresetowania hasła, jeśli je zapomnisz.
-Umożliwi również innym użytkownikom skontaktowanie się z Tobą poprzez odpowiedni formularz (bez ujawniania Twojego adresu).',
+'prefs-help-email'              => 'Podanie adresu e‐mail nie jest obowiązkowe, lecz jest konieczne do zresetowania zapomnianego hasła.',
+'prefs-help-email-others'       => 'Możesz również umożliwić innym użytkownikom wysłanie do Ciebie e‐maila poprzez Twoją stronę użytkownika lub stronę dyskusji (bez ujawniania Twojego adresu).',
 'prefs-help-email-required'     => 'Wymagany jest adres e‐mail.',
 'prefs-info'                    => 'Podstawowe informacje',
 'prefs-i18n'                    => 'Międzynarodowość',
@@ -1376,6 +1388,10 @@ Umożliwi również innym użytkownikom skontaktowanie się z Tobą poprzez odpo
 'prefs-displaysearchoptions'    => 'Opcje wyświetlania',
 'prefs-displaywatchlist'        => 'Opcje wyświetlania',
 'prefs-diffs'                   => 'Zmiany',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Wygląda na prawidłowy',
+'email-address-validity-invalid' => 'Wymagany jest prawidłowy adres!',
 
 # User rights
 'userrights'                   => 'Zarządzaj uprawnieniami użytkowników',
@@ -1615,11 +1631,12 @@ Przejdź na stronę [[Special:NewFiles|galerii nowych plików]], by zobaczyć pl
 'illegalfilename'             => 'Nazwa pliku „$1” zawiera znaki niedozwolone w tytułach stron.
 Zmień nazwę pliku i prześlij go ponownie.',
 'badfilename'                 => 'Nazwa pliku została zmieniona na „$1”.',
-'filetype-mime-mismatch'      => 'Rozszerzenie pliku nie pasuje do typu MIME.',
+'filetype-mime-mismatch'      => 'Rozszerzenie pliku jest inne niż typ MIME.',
 'filetype-badmime'            => 'Przesyłanie plików z typem MIME „$1” jest niedozwolone.',
 'filetype-bad-ie-mime'        => 'Nie można załadować tego pliku, ponieważ Internet Explorer wykryje go jako „$1”, a taki typ pliku jest zabronioniony jako potencjalnie niebezpieczny.',
 'filetype-unwanted-type'      => "'''„.$1”''' nie jest zalecanym typem pliku. Pożądane są pliki w {{PLURAL:$3|formacie|formatach}} $2.",
-'filetype-banned-type'        => "'''„.$1”''' jest niedozwolonym typem pliku. Dopuszczalne są pliki w {{PLURAL:$3|formacie|formatach}} $2.",
+'filetype-banned-type'        => "'''„.$1”''' nie jest dozwolonym typem pliku.
+Dopuszczalne są pliki w {{PLURAL:$3|formacie|formatach}} $2.",
 'filetype-missing'            => 'Plik nie ma rozszerzenia (np. „.jpg”).',
 'empty-file'                  => 'Przesłany przez Ciebie plik jest pusty.',
 'file-too-large'              => 'Przesłany przez Ciebie plik jest zbyt duży.',
@@ -1659,7 +1676,8 @@ Jeśli chcesz przesłać plik cofnij się i prześlij go pod inną nazwą. [[Fil
 'fileexists-shared-forbidden' => 'Plik o tej nazwie już istnieje we współdzielonym repozytorium plików.
 Cofnij się i załaduj plik pod inną nazwą. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ten plik jest kopią {{PLURAL:$1|pliku|następujących plików:}}',
-'file-deleted-duplicate'      => 'Identyczny do tego plik ([[$1]]) został wcześniej usunięty. Sprawdź historię usunięć tamtego pliku zanim prześlesz go ponownie.',
+'file-deleted-duplicate'      => 'Identyczny do tego plik ([[:$1]]) został wcześniej usunięty.
+Sprawdź historię usunięć tamtego pliku zanim prześlesz go ponownie.',
 'uploadwarning'               => 'Ostrzeżenie o przesyłaniu',
 'uploadwarning-text'          => 'Zmień poniższy opis pliku i spróbuj ponownie.',
 'savefile'                    => 'Zapisz plik',
@@ -1672,6 +1690,8 @@ Cofnij się i załaduj plik pod inną nazwą. [[File:$1|thumb|center|$1]]',
 'php-uploaddisabledtext'      => 'Przesyłanie plików PHP zostało zablokowane. Sprawdź ustawienie „file_uploads”.',
 'uploadscripted'              => 'Plik zawiera kod HTML lub skrypt, który może zostać błędnie zinterpretowany przez przeglądarkę internetową.',
 'uploadvirus'                 => 'W pliku jest wirus! Szczegóły: $1',
+'uploadjava'                  => 'Ten plik zawiera deklarację klasy Java skompresowaną ZIP.
+Przesyłanie plików Java nie jest dozwolone, ponieważ mogłoby zostać użyte do obchodzenia zabezpieczeń.',
 'upload-source'               => 'Plik źródłowy',
 'sourcefilename'              => 'Nazwa pierwotna',
 'sourceurl'                   => 'Źródłowy adres URL',
@@ -1723,6 +1743,23 @@ Jeśli problem będzie się powtarzał, skontaktuj się z [[Special:ListUsers/sy
 'upload-too-many-redirects' => 'URL zawiera zbyt wiele przekierowań',
 'upload-unknown-size'       => 'Nieznany rozmiar',
 'upload-http-error'         => 'Wystąpił błąd protokołu HTTP – $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Wystąpił błąd podczas otwierania pliku ZIP, aby go sprawdzić.',
+'zip-wrong-format'    => 'Wybrany plik nie jest w formacie ZIP.',
+'zip-bad'             => 'Plik ZIP jest uszkodzony lub w inny sposób niemożliwy do odczytania. 
+Nie może zostać odpowiednio sprawdzony pod kątem bezpieczeństwa.',
+'zip-unsupported'     => 'Plik jest w formacie ZIP ale wykorzystuje funkcje, które nie są obsługiwane przez MediaWiki.
+Plik nie może zostać odpowiednio sprawdzony pod kątem bezpieczeństwa.',
+
+# Special:UploadStash
+'uploadstash'          => 'Ukryte przesyłanie',
+'uploadstash-summary'  => 'Ta strona umożliwia dostęp do przesłanych lub właśnie przesyłanych plików, ale jeszcze nie opublikowanych na wiki. Pliki widzi wyłącznie użytkownik, które je przesłał.',
+'uploadstash-clear'    => 'Wyczyść ukryte pliki',
+'uploadstash-nofiles'  => 'Nie masz żadnych ukrytych plików.',
+'uploadstash-badtoken' => 'Operacja nie powiodła się. Możliwą przyczyną jest, że Twoje upoważnienie do edytowania wygasło. Spróbuj ponownie.',
+'uploadstash-errclear' => 'Czyszczenie plików nie powiodło się.',
+'uploadstash-refresh'  => 'Odśwież listę plików',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Odmowa dostępu',
@@ -1901,12 +1938,13 @@ Sprawdź inne linki do szablonów, zanim usuniesz tę stronę.',
 a powinny odwoływać się bezpośrednio do stron treści.<br />
 Strona uznawana jest za ujednoznaczniającą, jeśli zawiera szablon linkowany przez stronę [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Podwójne przekierowania',
-'doubleredirectstext'        => 'Lista zawiera strony z przekierowaniami do stron, które przekierowują do innej strony.
+'doubleredirects'                   => 'Podwójne przekierowania',
+'doubleredirectstext'               => 'Lista zawiera strony z przekierowaniami do stron, które przekierowują do innej strony.
 Każdy wiersz zawiera linki do pierwszego i drugiego przekierowania oraz link, do którego prowadzi drugie przekierowanie. Ostatni link prowadzi zazwyczaj do strony, do której powinna w rzeczywistości przekierowywać pierwsza strona.
 <del>Skreślenie</del> oznacza naprawienie przekierowania.',
-'double-redirect-fixed-move' => 'Naprawa podwójnego przekierowania [[$1]] → [[$2]]',
-'double-redirect-fixer'      => 'Naprawiacz przekierowań',
+'double-redirect-fixed-move'        => 'Naprawa podwójnego przekierowania [[$1]] → [[$2]]',
+'double-redirect-fixed-maintenance' => 'Naprawiono podwójne przekierowanie z [[$1]] do [[$2]].',
+'double-redirect-fixer'             => 'Naprawiacz przekierowań',
 
 'brokenredirects'        => 'Zerwane przekierowania',
 'brokenredirectstext'    => 'Poniższe przekierowania wskazują na nieistniejące strony.',
@@ -1983,6 +2021,7 @@ Inne witryny mogą odwoływać się do tych plików, używając bezpośrednich a
 'pager-newer-n'           => '{{PLURAL:$1|1 nowszy|$1 nowsze|$1 nowszych}}',
 'pager-older-n'           => '{{PLURAL:$1|1 starszy|$1 starsze|$1 starszych}}',
 'suppress'                => 'Rewizor',
+'querypage-disabled'      => 'Ta strona specjalna została wyłączona ze względu na ograniczenia wydajności.',
 
 # Book sources
 'booksources'               => 'Książki',
@@ -2842,7 +2881,7 @@ Pozwala na wpisanie powodu w opisie zmian.',
 
 # Attribution
 'anonymous'        => '{{PLURAL:$1|Anonimowy użytkownik|Anonimowi użytkownicy}} {{GRAMMAR:D.lp|{{SITENAME}}}}',
-'siteuser'         => 'użytkownik {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
+'siteuser'         => '{{GENDER:$2|użytkownik|użytkowniczka}} {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
 'anonuser'         => 'niezalogowany użytkownik {{GRAMMAR:D.lp|{{SITENAME}}}} – $1',
 'lastmodifiedatby' => 'Ostatnia edycja tej strony: $2, $1 (autor zmian: $3)',
 'othercontribs'    => 'Inni autorzy: $1.',
@@ -2894,8 +2933,7 @@ Najprawdopodobniej zostało to spowodowane przez link do zewnętrznej strony int
 'math_unknown_function' => 'nieznana funkcja',
 'math_lexing_error'     => 'błędna nazwa',
 'math_syntax_error'     => 'błąd składni',
-'math_image_error'      => 'Konwersja do formatu PNG nie powiodła się.
-Sprawdź, czy poprawnie zainstalowane są latex, dvips, gs i convert.',
+'math_image_error'      => 'Konwersja z lub do formatu PNG nie powiodła się. Sprawdź, czy poprawnie zainstalowane są latex i dvipng (lub dvips, gs i convert)',
 'math_bad_tmpdir'       => 'Nie można utworzyć lub zapisywać w tymczasowym katalogu dla wzorów matematycznych',
 'math_bad_output'       => 'Nie można utworzyć lub zapisywać w wyjściowym katalogu dla wzorów matematycznych',
 'math_notexvc'          => 'Brak programu texvc.
@@ -2941,10 +2979,10 @@ Jeśli go otworzysz, możesz zarazić swój system.",
 'imagemaxsize'         => "Ograniczenie wielkości obrazków<br />''(na stronach opisu plików)''",
 'thumbsize'            => 'Rozmiar miniaturki',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|strona|strony|stron}}',
-'file-info'            => '(rozmiar pliku: $1, typ MIME: $2)',
-'file-info-size'       => '($1 × $2 pikseli, rozmiar pliku: $3, typ MIME: $4)',
+'file-info'            => 'rozmiar pliku: $1, typ MIME: $2',
+'file-info-size'       => '$1 × $2 pikseli, rozmiar pliku: $3, typ MIME: $4',
 'file-nohires'         => '<small>Grafika w wyższej rozdzielczości jest niedostępna.</small>',
-'svg-long-desc'        => '(Plik SVG, nominalnie $1 × $2 pikseli, rozmiar pliku: $3)',
+'svg-long-desc'        => 'Plik SVG, nominalnie $1 × $2 pikseli, rozmiar pliku: $3',
 'show-big-image'       => 'Pełna rozdzielczość',
 'show-big-image-thumb' => '<small>Rozmiar podglądu: $1 × $2 pikseli</small>',
 'file-info-gif-looped' => 'zapętlony',
@@ -3114,6 +3152,7 @@ Pozostałe pola zostaną domyślnie ukryte.
 'exif-gpsareainformation'          => 'Nazwa przestrzeni GPS',
 'exif-gpsdatestamp'                => 'Data GPS',
 'exif-gpsdifferential'             => 'Korekcja różnicy GPS',
+'exif-objectname'                  => 'Krótki tytuł',
 
 # EXIF attributes
 'exif-compression-1' => 'nieskompresowany',
@@ -3326,6 +3365,20 @@ poniższy link, aby anulować potwierdzenie adresu e‐mail:
 $5
 
 Kod zawarty w linku straci ważność $4.',
+'confirmemail_body_set'     => 'Ktoś łącząc się z komputera o adresie IP $1
+ustawił w {{GRAMMAR:MS.lp|{{SITENAME}}}} dla konta „$2” adres e‐mail na ten właśnie.
+
+Aby potwierdzić, że to Ty {{GENDER:|ustawiłeś|ustawiłaś}} adres otwórz w swojej
+przeglądarce ten link:
+
+$3
+
+Jeśli *nie* jest to Twoje konto, otwórz w swojej przeglądarce
+poniższy link, aby anulować potwierdzenie adresu e‐mail:
+
+$5
+
+Kod zawarty w linku straci ważność $4.',
 'confirmemail_invalidated'  => 'Potwierdzenie adresu e‐mail zostało anulowane',
 'invalidateemail'           => 'Anulowanie potwierdzenia adresu e‐mail',
 
@@ -3506,16 +3559,15 @@ Grafiki są pokazywane w pełnej rozdzielczości, inne typy plików są otwieran
 Wpisz nazwę pliku bez prefiksu „{{ns:file}}:”.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Szukaj duplikatów pliku',
-'fileduplicatesearch-summary'  => 'Szukaj duplikatów pliku na podstawie wartości funkcji skrótu.
-
-Wpisz nazwę pliku z pominięciem prefiksu „{{ns:file}}:”.',
-'fileduplicatesearch-legend'   => 'Szukaj duplikatów pliku',
-'fileduplicatesearch-filename' => 'Nazwa pliku',
-'fileduplicatesearch-submit'   => 'Szukaj',
-'fileduplicatesearch-info'     => '$1 × $2 pikseli<br />Wielkość pliku: $3<br />Typ MIME: $4',
-'fileduplicatesearch-result-1' => 'Brak duplikatu pliku „$1”.',
-'fileduplicatesearch-result-n' => 'W {{GRAMMAR:MS.lp|{{SITENAME}}}} {{PLURAL:$2|jest dodatkowa kopia|są $2 dodatkowe kopie|jest $2 dodatkowych kopii}} pliku „$1”.',
+'fileduplicatesearch'           => 'Szukaj duplikatów pliku',
+'fileduplicatesearch-summary'   => 'Szukaj duplikatów pliku na podstawie wartości funkcji skrótu.',
+'fileduplicatesearch-legend'    => 'Szukaj duplikatów pliku',
+'fileduplicatesearch-filename'  => 'Nazwa pliku',
+'fileduplicatesearch-submit'    => 'Szukaj',
+'fileduplicatesearch-info'      => '$1 × $2 pikseli<br />Wielkość pliku: $3<br />Typ MIME: $4',
+'fileduplicatesearch-result-1'  => 'Brak duplikatu pliku „$1”.',
+'fileduplicatesearch-result-n'  => 'W {{GRAMMAR:MS.lp|{{SITENAME}}}} {{PLURAL:$2|jest dodatkowa kopia|są $2 dodatkowe kopie|jest $2 dodatkowych kopii}} pliku „$1”.',
+'fileduplicatesearch-noresults' => 'Brak pliku o nazwie „$1”.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Strony specjalne',
@@ -3608,14 +3660,5 @@ Jeśli użytkownik jest obecnie gdziekolwiek zalogowany, zostanie natychmiast wy
 'disableaccount-nosuchuser'  => 'Brak konta użytkownika „$1”.',
 'disableaccount-success'     => 'Konto użytkownika „$1” zostało trwale wyłączone.',
 'disableaccount-logentry'    => 'trwale wyłączył konto użytkownika [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Ukryte przesyłanie',
-'uploadstash-summary'  => 'Ta strona umożliwia dostęp do przesłanych lub właśnie przesyłanych plików, ale jeszcze nie opublikowanych na wiki. Pliki widzi wyłącznie użytkownik, które je przesłał.',
-'uploadstash-clear'    => 'Wyczyść ukryte pliki',
-'uploadstash-nofiles'  => 'Nie masz żadnych ukrytych plików.',
-'uploadstash-badtoken' => 'Operacja nie powiodła się. Możliwą przyczyną jest, że Twoje upoważnienie do edytowania wygasło. Spróbuj ponownie.',
-'uploadstash-errclear' => 'Czyszczenie plików nie powiodło się.',
-'uploadstash-refresh'  => 'Odśwież listę plików',
 
 );

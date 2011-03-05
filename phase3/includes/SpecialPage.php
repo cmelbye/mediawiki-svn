@@ -74,6 +74,22 @@ class SpecialPage {
 	 */
 	var $mAddedRedirectParams = array();
 	/**
+	 * Current request
+	 * @var WebRequest 
+	 */
+	protected $mRequest;
+	/**
+	 * Current output page
+	 * @var OutputPage
+	 */
+	protected $mOutput;
+	/**
+	 * Full title including $par
+	 * @var Title
+	 */
+	protected $mFullTitle;
+		
+	/**
 	 * List of special pages, followed by parameters.
 	 * If the only parameter is a string, that is the page name.
 	 * Otherwise, it is an array. The format is one of:
@@ -176,7 +192,7 @@ class SpecialPage {
 		'ComparePages'              => 'SpecialComparePages',
 		'Export'                    => 'SpecialExport',
 		'Import'                    => 'SpecialImport',
-		'Undelete'                  => 'UndeleteForm',
+		'Undelete'                  => 'SpecialUndelete',
 		'Whatlinkshere'             => 'SpecialWhatlinkshere',
 		'MergeHistory'              => 'SpecialMergeHistory',
 
@@ -192,6 +208,7 @@ class SpecialPage {
 		'Mypage'                    => 'SpecialMypage',
 		'Mytalk'                    => 'SpecialMytalk',
 		'Myuploads'                 => 'SpecialMyuploads',
+		'PermanentLink'             => 'SpecialPermanentLink',
 		'Revisiondelete'            => 'SpecialRevisionDelete',
 		'RevisionMove'              => 'SpecialRevisionMove',
 		'Specialpages'              => 'SpecialSpecialpages',
@@ -340,9 +357,10 @@ class SpecialPage {
 		if( isset($specialPageGroupsCache[$page->mName]) ) {
 			return $specialPageGroupsCache[$page->mName];
 		}
-		$group = wfMsg('specialpages-specialpagegroup-'.strtolower($page->mName));
-		if( $group == ''
-		 || wfEmptyMsg('specialpages-specialpagegroup-'.strtolower($page->mName), $group ) ) {
+		$msg = wfMessage('specialpages-specialpagegroup-'.strtolower($page->mName));
+		if ( !$msg->isBlank() ) {
+			$group = $msg->text();
+		} else {
 			$group = isset($wgSpecialPageGroups[$page->mName])
 				? $wgSpecialPageGroups[$page->mName]
 				: '-';
@@ -406,7 +424,7 @@ class SpecialPage {
 				self::$mList[$name] = new $className;
 			} elseif ( is_array( $rec ) ) {
 				$className = array_shift( $rec );
-				self::$mList[$name] = wfCreateObject( $className, $rec );
+				self::$mList[$name] = MWFunction::newObj( $className, $rec );
 			}
 			return self::$mList[$name];
 		} else {
@@ -504,7 +522,7 @@ class SpecialPage {
 
 	/**
 	 * Execute a special page path.
-	 * The path	may contain parameters, e.g. Special:Name/Params
+	 * The path may contain parameters, e.g. Special:Name/Params
 	 * Extracts the special page name and call the execute method, passing the parameters
 	 *
 	 * Returns a title object if the page is redirected, false if there was no such special
@@ -537,13 +555,22 @@ class SpecialPage {
 			wfProfileOut( __METHOD__ );
 			return false;
 		}
+		
+		# Page exists, set the context
+		$page->setContext( $wgRequest, $wgOut );
 
 		# Check for redirect
 		if ( !$including ) {
 			$redirect = $page->getRedirect( $par );
-			if ( $redirect ) {
-				$query = $page->getRedirectQuery();
+			$query = $page->getRedirectQuery();
+			if ( $redirect instanceof Title ) {
 				$url = $redirect->getFullUrl( $query );
+				$wgOut->redirect( $url );
+				wfProfileOut( __METHOD__ );
+				return $redirect;
+			} elseif( $redirect === true ) {
+				global $wgScript;
+				$url = $wgScript . '?' . wfArrayToCGI( $query );
 				$wgOut->redirect( $url );
 				wfProfileOut( __METHOD__ );
 				return $redirect;
@@ -625,7 +652,7 @@ class SpecialPage {
 			$found = false;
 			foreach ( $aliases as $n => $values ) {
 				if ( strcasecmp( $name, $n ) === 0 ) {
-					wfWarn( "Found alias defined for $n when searching for" .
+					wfWarn( "Found alias defined for $n when searching for " .
 						"special page aliases for $name. Case mismatch?" );
 					$name = $values[0];
 					$found = true;
@@ -633,7 +660,7 @@ class SpecialPage {
 				}
 			}
 			if ( !$found ) {
-				wfWarn( "Did not find alias for special page '$name'. " . 
+				wfWarn( "Did not find alias for special page '$name'. " .
 					"Perhaps no aliases are defined for it?" );
 			}
 		}
@@ -875,8 +902,7 @@ class SpecialPage {
 		} else {
 			$msg = $summaryMessageKey;
 		}
-		$out = wfMsgNoTrans( $msg );
-		if ( ! wfEmptyMsg( $msg, $out ) and  $out !== '' and ! $this->including() ) {
+		if ( !wfMessage( $msg )->isBlank() and ! $this->including() ) {
 			$wgOut->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1\n</div>", $msg );
 		}
 
@@ -929,16 +955,41 @@ class SpecialPage {
 	function getRedirectQuery() {
 		global $wgRequest;
 		$params = array();
+
 		foreach( $this->mAllowedRedirectParams as $arg ) {
-			if( ( $val = $wgRequest->getVal( $arg, null ) ) !== null )
-				$params[] = $arg . '=' . $val;
+			if( $wgRequest->getVal( $arg, null ) !== null ){
+				$params[$arg] = $wgRequest->getVal( $arg );
+			}
 		}
-		
+
 		foreach( $this->mAddedRedirectParams as $arg => $val ) {
-			$params[] = $arg . '=' . $val;
+			$params[$arg] = $val;
 		}
-		
-		return count( $params ) ? implode( '&', $params ) : false;
+
+		return count( $params )
+			? $params
+			: false;
+	}
+	
+	/**
+	 * Sets the context this SpecialPage is executed in
+	 * 
+	 * @param $request WebRequest
+	 * @param $output OutputPage
+	 */
+	protected function setContext( $request, $output ) {
+		$this->mRequest = $request;
+		$this->mOutput = $output;
+		$this->mFullTitle = $output->getTitle();
+	}
+	/**
+	 * Wrapper around wfMessage that sets the current context. Currently this
+	 * is only the title.
+	 * 
+	 * @see wfMessage
+	 */
+	public function msg( /* $args */ ) {
+		return call_user_func_array( 'wfMessage', func_get_args() )->title( $this->mFullTitle );
 	}
 }
 
@@ -988,7 +1039,8 @@ class SpecialRedirectToSpecial extends UnlistedSpecialPage {
 	}
 }
 
-/** SpecialMypage, SpecialMytalk and SpecialMycontributions special pages
+/**
+ * SpecialMypage, SpecialMytalk and SpecialMycontributions special pages
  * are used to get user independant links pointing to the user page, talk
  * page and list of contributions.
  * This can let us cache a single copy of any generated content for all
@@ -1062,9 +1114,25 @@ class SpecialMyuploads extends UnlistedSpecialPage {
 		parent::__construct( 'Myuploads' );
 		$this->mAllowedRedirectParams = array( 'limit' );
 	}
-	
+
 	function getRedirect( $subpage ) {
 		global $wgUser;
 		return SpecialPage::getTitleFor( 'Listfiles', $wgUser->getName() );
+	}
+}
+
+/**
+ * Redirect from Special:PermanentLink/### to index.php?oldid=###
+ */
+class SpecialPermanentLink extends UnlistedSpecialPage {
+	function __construct() {
+		parent::__construct( 'PermanentLink' );
+		$this->mAllowedRedirectParams = array();
+	}
+
+	function getRedirect( $subpage ) {
+		$subpage = intval( $subpage );
+		$this->mAddedRedirectParams['oldid'] = $subpage;
+		return true;
 	}
 }

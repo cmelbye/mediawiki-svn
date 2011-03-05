@@ -24,8 +24,23 @@ abstract class DatabaseUpdater {
 	 */
 	protected $updates = array();
 
+	/**
+	 * List of extension-provided database updates
+	 * @var array
+	 */
 	protected $extensionUpdates = array();
 
+	/**
+	 * Used to hold schema files during installation process
+	 * @var array
+	 */
+	protected $newExtensions = array();
+
+	/**
+	 * Handle to the database subclass
+	 *
+	 * @var DatabaseBase
+	 */
 	protected $db;
 
 	protected $shared = false;
@@ -43,6 +58,7 @@ abstract class DatabaseUpdater {
 	 */
 	protected function __construct( DatabaseBase &$db, $shared, Maintenance $maintenance = null ) {
 		$this->db = $db;
+		$this->db->setFlag( DBO_DDLMODE ); // For Oracle's handling of schema files
 		$this->shared = $shared;
 		if ( $maintenance ) {
 			$this->maintenance = $maintenance;
@@ -71,6 +87,14 @@ abstract class DatabaseUpdater {
 		$wgExtModifiedFields = array(); // table, index, dir
 	}
 
+	/**
+	 * @static
+	 * @throws MWException
+	 * @param DatabaseBase $db
+	 * @param bool $shared
+	 * @param null $maintenance
+	 * @return DatabaseUpdater
+	 */
 	public static function newForDB( &$db, $shared = false, $maintenance = null ) {
 		$type = $db->getType();
 		if( in_array( $type, Installer::getDBTypes() ) ) {
@@ -84,7 +108,7 @@ abstract class DatabaseUpdater {
 	/**
 	 * Get a database connection to run updates
 	 *
-	 * @return DatabasBase object
+	 * @return DatabaseBase
 	 */
 	public function getDB() {
 		return $this->db;
@@ -115,11 +139,38 @@ abstract class DatabaseUpdater {
 	 *                first item is the callback function, it also can be a
 	 *                simple string with the name of a function in this class,
 	 *                following elements are parameters to the function.
-	 *                Note that callback functions will recieve this object as
+	 *                Note that callback functions will receive this object as
 	 *                first parameter.
 	 */
 	public function addExtensionUpdate( Array $update ) {
 		$this->extensionUpdates[] = $update;
+	}
+
+	/**
+	 * Convenience wrapper for addExtensionUpdate() when adding a new table (which
+	 * is the most common usage of updaters in an extension)
+	 * @param $tableName String Name of table to create
+	 * @param $sqlPath String Full path to the schema file
+	 */
+	public function addExtensionTable( $tableName, $sqlPath ) {
+		$this->extensionUpdates[] = array( 'addTable', $tableName, $sqlPath, true );
+	}
+
+	/**
+	 * Add a brand new extension to MediaWiki. Used during the initial install
+	 * @param $ext String Name of extension
+	 * @param $sqlPath String Full path to the schema file
+	 */
+	public function addNewExtension( $ext, $sqlPath ) {
+		$this->newExtensions[ strtolower( $ext ) ] = $sqlPath;
+	}
+
+	/**
+	 * Get the list of extensions that registered a schema with our DB type
+	 * @return array
+	 */
+	public function getNewExtensions() {
+		return $this->newExtensions;
 	}
 
 	/**
@@ -142,10 +193,6 @@ abstract class DatabaseUpdater {
 	 */
 	public function doUpdates( $purge = true ) {
 		global $wgVersion;
-
-		if ( !defined( 'MW_NO_SETUP' ) ) {
-			define( 'MW_NO_SETUP', true );
-		}
 
 		$this->runUpdates( $this->getCoreUpdateList(), false );
 		$this->runUpdates( $this->getOldGlobalUpdates(), false );
@@ -440,6 +487,21 @@ abstract class DatabaseUpdater {
 			);
 		}
 		$this->output( "...ss_active_users user count set...\n" );
+	}
+
+	protected function doLogUsertextPopulation() {
+		if ( $this->updateRowExists( 'populate log_usertext' ) ) {
+			$this->output( "...log_user_text field already populated.\n" );
+			return;
+		}
+
+		$this->output(
+			"Populating log_user_text field, printing progress markers. For large\n" .
+			"databases, you may want to hit Ctrl-C and do this manually with\n" .
+			"maintenance/populateLogUsertext.php.\n" );
+		$task = new PopulateLogUsertext();
+		$task->execute();
+		$this->output( "Done populating log_user_text field.\n" );
 	}
 
 	protected function doLogSearchPopulation() {

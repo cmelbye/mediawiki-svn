@@ -1,6 +1,6 @@
 <?php
 
-class XmlTest extends PHPUnit_Framework_TestCase {
+class XmlTest extends MediaWikiTestCase {
 
 	public function testExpandAttributes() {
 		$this->assertNull( Xml::expandAttributes(null),
@@ -71,6 +71,82 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 
 	function testCloseElement() {
 		$this->assertEquals( '</element>', Xml::closeElement( 'element' ), 'closeElement() shortcut' );
+	}
+
+	public function testDateMenu( ) {
+		$curYear   = intval(gmdate('Y'));
+		$prevYear  = $curYear - 1;
+
+		$curMonth  = intval(gmdate('n'));
+		$prevMonth = $curMonth - 1;
+		if( $prevMonth == 0 ) { $prevMonth = 12; }
+		$nextMonth = $curMonth + 1;
+		if( $nextMonth == 13 ) { $nextMonth = 1; }
+
+
+		$this->assertEquals(
+			'<label for="year">From year (and earlier):</label> <input name="year" size="4" value="2011" id="year" maxlength="4" /> <label for="month">From month (and earlier):</label> <select id="month" name="month" class="mw-month-selector"><option value="-1">all</option>
+<option value="1">January</option>
+<option value="2" selected="selected">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option></select>',
+			Xml::dateMenu( 2011, 02 ),
+			"Date menu for february 2011"
+		);
+		$this->assertEquals(
+			'<label for="year">From year (and earlier):</label> <input name="year" size="4" value="2011" id="year" maxlength="4" /> <label for="month">From month (and earlier):</label> <select id="month" name="month" class="mw-month-selector"><option value="-1">all</option>
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option></select>',
+			Xml::dateMenu( 2011, -1),
+			"Date menu with negative month for 'All'"
+		);
+		$this->assertEquals(
+			Xml::dateMenu( $curYear, $curMonth ),
+			Xml::dateMenu( ''      , $curMonth ),
+			"Date menu year is the current one when not specified"
+		);
+		$this->assertEquals(
+			Xml::dateMenu( $prevYear, $nextMonth ),
+			Xml::dateMenu( '', $nextMonth ),
+			"Date menu next month is 11 months ago"
+		);
+
+		# FIXME: please note there is no year there!
+		$this->assertEquals(
+			'<label for="year">From year (and earlier):</label> <input name="year" size="4" value="" id="year" maxlength="4" /> <label for="month">From month (and earlier):</label> <select id="month" name="month" class="mw-month-selector"><option value="-1">all</option>
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option></select>',
+			Xml::dateMenu( '', ''),
+			"Date menu with neither year or month"
+		);
 	}
 
 	#
@@ -172,8 +248,36 @@ class XmlTest extends PHPUnit_Framework_TestCase {
 			'encodeJsVar() with object'
 		);
 	}
-}
 
-// TODO
-class XmlSelectTest extends PHPUnit_Framework_TestCase {
+	function testEncodeJsVarInt() {
+		$this->assertEquals(
+			'123456',
+			Xml::encodeJsVar( 123456 ),
+			'encodeJsVar() with int'
+		);
+	}
+
+	function testEncodeJsVarFloat() {
+		$this->assertEquals(
+			'1.23456',
+			Xml::encodeJsVar( 1.23456 ),
+			'encodeJsVar() with float'
+		);
+	}
+
+	function testEncodeJsVarIntString() {
+		$this->assertEquals(
+			'"123456"',
+			Xml::encodeJsVar( '123456' ),
+			'encodeJsVar() with int-like string'
+		);
+	}
+
+	function testEncodeJsVarFloatString() {
+		$this->assertEquals(
+			'"1.23456"',
+			Xml::encodeJsVar( '1.23456' ),
+			'encodeJsVar() with float-like string'
+		);
+	}
 }

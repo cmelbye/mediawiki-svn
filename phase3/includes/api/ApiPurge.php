@@ -49,6 +49,9 @@ class ApiPurge extends ApiBase {
 				!$this->getMain()->getRequest()->wasPosted() ) {
 			$this->dieUsageMsg( array( 'mustbeposted', $this->getModuleName() ) );
 		}
+
+		$forceLinkUpdate = $params['forcelinkupdate'];
+
 		$result = array();
 		foreach ( $params['titles'] as $t ) {
 			$r = array();
@@ -68,6 +71,29 @@ class ApiPurge extends ApiBase {
 			$article = MediaWiki::articleFromTitle( $title );
 			$article->doPurge(); // Directly purge and skip the UI part of purge().
 			$r['purged'] = '';
+			
+			if( $forceLinkUpdate ) {
+				if ( !$wgUser->pingLimiter() ) {
+					global $wgParser, $wgEnableParserCache;
+					$popts = new ParserOptions();
+					$p_result = $wgParser->parse( $article->getContent(), $title, $popts );
+
+					# Update the links tables
+					$u = new LinksUpdate( $title, $p_result );
+					$u->doUpdate();
+
+					$r['linkupdate'] = '';
+
+					if ( $wgEnableParserCache ) {
+						$pcache = ParserCache::singleton();
+						$pcache->save( $p_result, $article, $popts );
+					}
+				} else {
+					$this->setWarning( $this->parseMsg( array( 'actionthrottledtext' ) ) );
+					$forceLinkUpdate = false;
+				}
+			}
+			
 			$result[] = $r;
 		}
 		$this->getResult()->setIndexedTagName( $result, 'page' );
@@ -83,13 +109,15 @@ class ApiPurge extends ApiBase {
 			'titles' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_REQUIRED => true
-			)
+			),
+			'forcelinkupdate' => false,
 		);
 	}
 
 	public function getParamDescription() {
 		return array(
 			'titles' => 'A list of titles',
+			'forcelinkupdate' => 'Update the links tables',
 		);
 	}
 

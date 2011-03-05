@@ -145,6 +145,8 @@ interface DatabaseType {
 	 *
 	 * @param $table string: table name
 	 * @param $field string: field name
+	 *
+	 * @return Field
 	 */
 	function fieldInfo( $table, $field );
 
@@ -225,6 +227,7 @@ abstract class DatabaseBase implements DatabaseType {
 	protected $mLBInfo = array();
 	protected $mFakeSlaveLag = null, $mFakeMaster = false;
 	protected $mDefaultBigSelects = null;
+	protected $mSchemaVars = false;
 
 # ------------------------------------------------------------------------------
 # Accessors
@@ -288,7 +291,7 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	function tablePrefix( $prefix = null ) {
-		return wfSetVar( $this->mTablePrefix, $prefix );
+		return wfSetVar( $this->mTablePrefix, $prefix, true );
 	}
 
 	/**
@@ -508,13 +511,6 @@ abstract class DatabaseBase implements DatabaseType {
 			}
 		}
 
-		/*
-		// Faster read-only access
-		if ( wfReadOnly() ) {
-			$this->mFlags |= DBO_PERSISTENT;
-			$this->mFlags &= ~DBO_TRX;
-		}*/
-
 		/** Get the default table prefix*/
 		if ( $tablePrefix == 'get from global' ) {
 			$this->mTablePrefix = $wgDBprefix;
@@ -529,15 +525,52 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Same as new DatabaseMysql( ... ), kept for backward compatibility
-	 * @param $server String: database server host
-	 * @param $user String: database user name
-	 * @param $password String: database user password
-	 * @param $dbName String: database name
-	 * @param $flags
+	 * @deprecated
 	 */
 	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
 		wfDeprecated( __METHOD__ );
 		return new DatabaseMysql( $server, $user, $password, $dbName, $flags );
+	}
+
+	/**
+	 * Given a DB type, construct the name of the appropriate child class of
+	 * DatabaseBase. This is designed to replace all of the manual stuff like:
+	 *	$class = 'Database' . ucfirst( strtolower( $type ) );
+	 * as well as validate against the canonical list of DB types we have
+	 *
+	 * This factory function is mostly useful for when you need to connect to a
+	 * database other than the MediaWiki default (such as for external auth,
+	 * an extension, et cetera). Do not use this to connect to the MediaWiki
+	 * database. Example uses in core:
+	 * @see LoadBalancer::reallyOpenConnection()
+	 * @see ExternalUser_MediaWiki::initFromCond()
+	 * @see ForeignDBRepo::getMasterDB()
+	 * @see WebInstaller_DBConnect::execute()
+	 *
+	 * @param $dbType String A possible DB type
+	 * @param $p Array An array of options to pass to the constructor.
+	 *    Valid options are: host, user, password, dbname, flags, tableprefix
+	 * @return DatabaseBase subclass or null
+	 */
+	public final static function newFromType( $dbType, $p = array() ) {
+		$canonicalDBTypes = array(
+			'mysql', 'postgres', 'sqlite', 'oracle', 'mssql', 'ibm_db2'
+		);
+		$dbType = strtolower( $dbType );
+
+		if( in_array( $dbType, $canonicalDBTypes ) ) {
+			$class = 'Database' . ucfirst( $dbType );
+			return new $class(
+				isset( $p['host'] ) ? $p['host'] : false,
+				isset( $p['user'] ) ? $p['user'] : false,
+				isset( $p['password'] ) ? $p['password'] : false,
+				isset( $p['dbname'] ) ? $p['dbname'] : false,
+				isset( $p['flags'] ) ? $p['flags'] : 0,
+				isset( $p['tableprefix'] ) ? $p['tableprefix'] : 'get from global'
+			);
+		} else {
+			return null;
+		}
 	}
 
 	protected function installErrorHandler() {
@@ -699,7 +732,10 @@ abstract class DatabaseBase implements DatabaseType {
 				$sqlx = strtr( $sqlx, "\t\n", '  ' );
 				global $wgRequestTime;
 				$elapsed = round( microtime( true ) - $wgRequestTime, 3 );
-				wfLogDBError( "Connection lost and reconnected after {$elapsed}s, query: $sqlx\n" );
+				if ( $elapsed < 300 ) {
+					# Not a database error to lose a transaction after a minute or two
+					wfLogDBError( "Connection lost and reconnected after {$elapsed}s, query: $sqlx\n" );
+				}
 				$ret = $this->doQuery( $commentedSql );
 			} else {
 				wfDebug( "Failed\n" );
@@ -919,7 +955,10 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 
 		if ( isset( $options['GROUP BY'] ) ) {
-			$preLimitTail .= " GROUP BY {$options['GROUP BY']}";
+			$gb = is_array( $options['GROUP BY'] )
+				? implode( ',', $options['GROUP BY'] )
+				: $options['GROUP BY'];
+			$preLimitTail .= " GROUP BY {$gb}";
 		}
 
 		if ( isset( $options['HAVING'] ) ) {
@@ -927,7 +966,10 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 
 		if ( isset( $options['ORDER BY'] ) ) {
-			$preLimitTail .= " ORDER BY {$options['ORDER BY']}";
+			$ob = is_array( $options['ORDER BY'] )
+				? implode( ',', $options['ORDER BY'] )
+				: $options['ORDER BY'];
+			$preLimitTail .= " ORDER BY {$ob}";
 		}
 
 		// if (isset($options['LIMIT'])) {
@@ -1327,12 +1369,15 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Makes an encoded list of strings from an array
-	 * $mode:
+	 * @param $a Array
+	 * @param $mode
 	 *        LIST_COMMA         - comma separated, no field names
 	 *        LIST_AND           - ANDed WHERE clause (without the WHERE)
 	 *        LIST_OR            - ORed WHERE clause (without the WHERE)
 	 *        LIST_SET           - comma separated with field names, like a SET clause
 	 *        LIST_NAMES         - comma separated field names
+	 *
+	 * @return string
 	 */
 	function makeList( $a, $mode = LIST_COMMA ) {
 		if ( !is_array( $a ) ) {
@@ -1443,6 +1488,7 @@ abstract class DatabaseBase implements DatabaseType {
 		# Stub.  Shouldn't cause serious problems if it's not overridden, but
 		# if your database engine supports a concept similar to MySQL's
 		# databases you may as well.
+		$this->mDBname = $db;
 		return true;
 	}
 
@@ -1587,7 +1633,7 @@ abstract class DatabaseBase implements DatabaseType {
 		if ( !$alias || $alias == $name ) {
 			return $this->tableName( $name );
 		} else {
-			return $this->tableName( $name ) . ' `' . $alias . '`';
+			return $this->tableName( $name ) . ' ' . $this->addIdentifierQuotes( $alias );
 		}
 	}
 
@@ -1699,7 +1745,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 * MySQL uses `backticks` while basically everything else uses double quotes.
 	 * Since MySQL is the odd one out here the double quotes are our generic
 	 * and we implement backticks in DatabaseMysql.
-	 */ 	 
+	 */
 	public function addIdentifierQuotes( $s ) {
 		return '"' . str_replace( '"', '""', $s ) . '"';
 	}
@@ -2045,16 +2091,6 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
-	 * Convert a field to an unix timestamp
-	 *
-	 * @param $field String: field name
-	 * @return String: SQL statement
-	 */
-	public function unixTimestamp( $field ) {
-		return "EXTRACT(epoch FROM $field)";
-	}
-
-	/**
 	 * Determines if the last failure was due to a deadlock
 	 * STUB
 	 */
@@ -2290,6 +2326,16 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * List all tables on the database
+	 *
+	 * @param $prefix Only show tables with this prefix, e.g. mw_
+	 * @param $fname String: calling function name
+	 */
+	function listTables( $prefix = null, $fname = 'DatabaseBase::listTables' ) {
+		throw new MWException( 'DatabaseBase::listTables is not implemented in descendant class' );
+	}
+
+	/**
 	 * Return MW-style timestamp used for MySQL schema
 	 */
 	function timestamp( $ts = 0 ) {
@@ -2443,9 +2489,20 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Set variables to be used in sourceFile/sourceStream, in preference to the
+	 * ones in $GLOBALS. If an array is set here, $GLOBALS will not be used at
+	 * all. If it's set to false, $GLOBALS will be used.
+	 *
+	 * @param $vars False, or array mapping variable name to value.
+	 */
+	function setSchemaVars( $vars ) {
+		$this->mSchemaVars = $vars;
+	}
+
+	/**
 	 * Read and execute commands from an open file handle
 	 * Returns true on success, error string or exception on failure (depending on object's error ignore settings)
-	 * @param $fp String: File handle
+	 * @param $fp Resource: File handle
 	 * @param $lineCallback Callback: Optional function called before reading each line
 	 * @param $resultCallback Callback: Optional function called for each MySQL result
 	 * @param $fname String: Calling function name
@@ -2517,27 +2574,28 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
-	 * Database independent variable replacement, replaces a set of named variables
-	 * in a sql statement with the contents of their global variables.
+	 * Database independent variable replacement, replaces a set of variables
+	 * in a sql statement with their contents as given by $this->getSchemaVars().
 	 * Supports '{$var}' `{$var}` and / *$var* / (without the spaces) style variables
-	 * 
+	 *
 	 * '{$var}' should be used for text and is passed through the database's addQuotes method
 	 * `{$var}` should be used for identifiers (eg: table and database names), it is passed through
 	 *          the database's addIdentifierQuotes method which can be overridden if the database
 	 *          uses something other than backticks.
 	 * / *$var* / is just encoded, besides traditional dbprefix and tableoptions it's use should be avoided
-	 * 
+	 *
 	 * @param $ins String: SQL statement to replace variables in
-	 * @param $varnames Array: Array of global variable names to replace
 	 * @return String The new SQL statement with variables replaced
 	 */
-	protected function replaceGlobalVars( $ins, $varnames ) {
-		foreach ( $varnames as $var ) {
-			if ( isset( $GLOBALS[$var] ) ) {
-				$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $GLOBALS[$var] ), $ins ); // replace '{$var}'
-				$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $GLOBALS[$var] ), $ins ); // replace `{$var}`
-				$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $GLOBALS[$var] ) , $ins ); // replace /*$var*/
-			}
+	protected function replaceSchemaVars( $ins ) {
+		$vars = $this->getSchemaVars();
+		foreach ( $vars as $var => $value ) {
+			// replace '{$var}'
+			$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $value ), $ins );
+			// replace `{$var}`
+			$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $value ), $ins );
+			// replace /*$var*/
+			$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $value ) , $ins );
 		}
 		return $ins;
 	}
@@ -2546,13 +2604,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 * Replace variables in sourced SQL
 	 */
 	protected function replaceVars( $ins ) {
-		$varnames = array(
-			'wgDBserver', 'wgDBname', 'wgDBintlname', 'wgDBuser',
-			'wgDBpassword', 'wgDBsqluser', 'wgDBsqlpassword',
-			'wgDBadminuser', 'wgDBadminpassword', 'wgDBTableOptions',
-		);
-
-		$ins = $this->replaceGlobalVars( $ins, $varnames );
+		$ins = $this->replaceSchemaVars( $ins );
 
 		// Table prefixes
 		$ins = preg_replace_callback( '!/\*(?:\$wgDBprefix|_)\*/([a-zA-Z_0-9]*)!',
@@ -2563,6 +2615,27 @@ abstract class DatabaseBase implements DatabaseType {
 			array( $this, 'indexNameCallback' ), $ins );
 
 		return $ins;
+	}
+
+	/**
+	 * Get schema variables. If none have been set via setSchemaVars(), then
+	 * use some defaults from the current object.
+	 */
+	protected function getSchemaVars() {
+		if ( $this->mSchemaVars ) {
+			return $this->mSchemaVars;
+		} else {
+			return $this->getDefaultSchemaVars();
+		}
+	}
+
+	/**
+	 * Get schema variables to use if none have been set via setSchemaVars().
+	 * Override this in derived classes to provide variables for tables.sql
+	 * and SQL patch files.
+	 */
+	protected function getDefaultSchemaVars() {
+		return array();
 	}
 
 	/**
@@ -2640,6 +2713,20 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Delete a table
+	 */
+	public function dropTable( $tableName, $fName = 'DatabaseBase::dropTable' ) {
+		if( !$this->tableExists( $tableName ) ) {
+			return false;
+		}
+		$sql = "DROP TABLE " . $this->tableName( $tableName );
+		if( $this->cascadingDeletes() ) {
+			$sql .= " CASCADE";
+		}
+		return $this->query( $sql, $fName );
+	}
+
+	/**
 	 * Get search engine class. All subclasses of this need to implement this
 	 * if they wish to use searching.
 	 *
@@ -2647,6 +2734,17 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	public function getSearchEngine() {
 		return 'SearchEngineDummy';
+	}
+
+	/**
+	 * Find out when 'infinity' is. Most DBMSes support this. This is a special
+	 * keyword for timestamps in PostgreSQL, and works with CHAR(14) as well
+	 * because "i" sorts after all numbers.
+	 *
+	 * @return String
+	 */
+	public function getInfinity() {
+		return 'infinity';
 	}
 
 	/**
@@ -2748,7 +2846,7 @@ class DBError extends MWException {
 	/**
 	 * Construct a database error
 	 * @param $db Database object which threw the error
-	 * @param $error A simple error message to be used for debugging
+	 * @param $error String A simple error message to be used for debugging
 	 */
 	function __construct( DatabaseBase &$db, $error ) {
 		$this->db =& $db;
@@ -2814,7 +2912,7 @@ class DBConnectionError extends DBError {
 	}
 
 	function getHTML() {
-		global $wgLang, $wgMessageCache, $wgUseFileCache, $wgShowDBErrorBacktrace;
+		global $wgLang, $wgUseFileCache, $wgShowDBErrorBacktrace;
 
 		$sorry = 'Sorry! This site is experiencing technical difficulties.';
 		$again = 'Try waiting a few minutes and reloading.';
@@ -2827,13 +2925,13 @@ class DBConnectionError extends DBError {
 		}
 
 		# No database access
-		if ( is_object( $wgMessageCache ) ) {
-			$wgMessageCache->disable();
-		}
+		MessageCache::singleton()->disable();
 
 		if ( trim( $this->error ) == '' ) {
 			$this->error = $this->db->getProperty( 'mServer' );
 		}
+
+		$this->error = Html::element( 'span', array( 'dir' => 'ltr' ), $this->error );
 
 		$noconnect = "<p><strong>$sorry</strong><br />$again</p><p><small>$info</small></p>";
 		$text = str_replace( '$1', $this->error, $noconnect );
@@ -2913,8 +3011,8 @@ EOT;
 		return $trygoogle;
 	}
 
-	function fileCachedPage() {
-		global $wgTitle, $title, $wgLang, $wgOut;
+	private function fileCachedPage() {
+		global $wgTitle, $wgLang, $wgOut;
 
 		if ( $wgOut->isDisabled() ) {
 			return; // Done already?
@@ -2923,13 +3021,11 @@ EOT;
 		$mainpage = 'Main Page';
 
 		if ( $wgLang instanceof Language ) {
-			$mainpage    = htmlspecialchars( $wgLang->getMessage( 'mainpage' ) );
+			$mainpage = htmlspecialchars( $wgLang->getMessage( 'mainpage' ) );
 		}
 
 		if ( $wgTitle ) {
 			$t =& $wgTitle;
-		} elseif ( $title ) {
-			$t = Title::newFromURL( $title );
 		} else {
 			$t = Title::newFromText( $mainpage );
 		}
@@ -3036,6 +3132,9 @@ class ResultWrapper implements Iterator {
 
 	/**
 	 * Create a new result object from a result resource and a Database object
+	 *
+	 * @param DatabaseBase $database
+	 * @param resource $result
 	 */
 	function __construct( $database, $result ) {
 		$this->db = $database;
@@ -3049,6 +3148,8 @@ class ResultWrapper implements Iterator {
 
 	/**
 	 * Get the number of rows in a result object
+	 *
+	 * @return integer
 	 */
 	function numRows() {
 		return $this->db->numRows( $this );
@@ -3087,8 +3188,10 @@ class ResultWrapper implements Iterator {
 	}
 
 	/**
-	 * Change the position of the cursor in a result object
+	 * Change the position of the cursor in a result object.
 	 * See mysql_data_seek()
+	 *
+	 * @param $row integer
 	 */
 	function seek( $row ) {
 		$this->db->dataSeek( $this, $row );
@@ -3178,10 +3281,20 @@ class FakeResultWrapper extends ResultWrapper {
 class LikeMatch {
 	private $str;
 
+	/**
+	 * Store a string into a LikeMatch marker object.
+	 *
+	 * @param String $s
+	 */
 	public function __construct( $s ) {
 		$this->str = $s;
 	}
 
+	/**
+	 * Return the original stored string.
+	 *
+	 * @return String
+	 */
 	public function toString() {
 		return $this->str;
 	}

@@ -5,8 +5,8 @@
  *
  * @file
  * @ingroup Testing
- * Copyright (C) 2010 Dan Nessett <dnessett@yahoo.com>
- * http://citizendium.org/
+ * Copyright (C) 2010 Nadeesha Weerasinghe <nadeesha@calcey.com>
+ * http://www.calcey.com/ 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,47 +27,31 @@
  *
  */
 
+require_once dirname( dirname( __FILE__ ) ) . '/SeleniumTestConstants.php';
 
 class MyWatchListTestCase extends SeleniumTestCase {
 
     // Verify user watchlist
     public function testMyWatchlist() {
 
-        $newPage = "mypage";
-        $displayName = "Mypage";
-        $wikiText = "watch page";
-
-        $this->open( $this->getUrl().'/index.php?title=Main_Page' );
-
-        $this->type( "searchInput", $newPage );
-        $this->click( "searchGoButton" );
-        $this->waitForPageToLoad( "30000" );
-        $this->click( "link=".$displayName );
-        $this->waitForPageToLoad( "600000" );
-
-        $this->click( "wpWatchthis" );
-        $this->type( "wpTextbox1",$wikiText );
-        $this->click( "wpSave" );
-        $this->waitForPageToLoad( "30000" );
-
+        $pageName = $this->createNewTestPage( "MyWatchListTest", true );
         // Verify link 'My Watchlist' available
-        $this->assertTrue( $this->isElementPresent( "link=My watchlist" ) );
+        $this->assertTrue( $this->isElementPresent( SeleniumTestConstants::LINK_START."Watchlist" ) );
 
-        $this->click( "link=My watchlist" );
-        $this->waitForPageToLoad( "30000" );
+        $this->click( SeleniumTestConstants::LINK_START."Watchlist" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify newly added page to the watchlist is available
-        $watchList = $this->getText( "//*[@id='bodyContent']" );
-        $this->assertContains( $displayName, $watchList );
+        $this->assertEquals( $pageName, $this->getText( SeleniumTestConstants::LINK_START.$pageName ));
 
-        $this->type( "searchInput", $newPage );
-        $this->click( "searchGoButton" );
-        $this->waitForPageToLoad( "30000" );
-        $this->click("link=Edit");
-        $this->waitForPageToLoad( "30000" );
+        $this->click( SeleniumTestConstants::LINK_START.$pageName );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_EDIT );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
         $this->click( "wpWatchthis" );
-        $this->click( "wpSave" );
-        $this->deletePage( $newPage );
+        $this->click( SeleniumTestConstants::BUTTON_SAVE );
+        $this->assertFalse( $this->isElementPresent( SeleniumTestConstants::LINK_START.$pageName ) );
+        //todo watch using the dropdown menu
     }
 }
 

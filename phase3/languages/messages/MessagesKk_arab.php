@@ -2467,9 +2467,9 @@ $1',
 'widthheight'          => '$1 × $2',
 'widthheightpage'      => '$1 × $2, $3 بەت',
 'file-info'            => 'فايل مولشەرى: $1, MIME ٴتۇرى: $2',
-'file-info-size'       => '($1 × $2 نۇكتە, فايل مولشەرى: $3, MIME ٴتۇرى: $4)',
+'file-info-size'       => '$1 × $2 نۇكتە, فايل مولشەرى: $3, MIME ٴتۇرى: $4',
 'file-nohires'         => '<small>جوعارى اجىراتىلىمدىعى جەتىمسىز.</small>',
-'svg-long-desc'        => '(SVG فايلى, كەسىمدى $1 × $2 نۇكتە, فايل مولشەرى: $3)',
+'svg-long-desc'        => 'SVG فايلى, كەسىمدى $1 × $2 نۇكتە, فايل مولشەرى: $3',
 'show-big-image'       => 'جوعارى اجىراتىلىمدى',
 'show-big-image-thumb' => '<small>قاراپ شىعۋ مولشەرى: $1 × $2 نۇكتە</small>',
 
@@ -2987,9 +2987,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'فايل تەلنۇسقالارىن ىزدەۋ',
-'fileduplicatesearch-summary'  => 'فايل حەشى ماعىناسى نەگىزىندە تەلنۇسقالارىن ىزدەۋ.
-
-فايل اتاۋىن «{{ns:file}}:» دەگەن باستاۋىشسىز ەنگىزىڭىز.',
+'fileduplicatesearch-summary'  => 'فايل حەشى ماعىناسى نەگىزىندە تەلنۇسقالارىن ىزدەۋ.',
 'fileduplicatesearch-legend'   => 'تەلنۇسقانى ىزدەۋ',
 'fileduplicatesearch-filename' => 'فايل اتاۋى:',
 'fileduplicatesearch-submit'   => 'ىزدە',

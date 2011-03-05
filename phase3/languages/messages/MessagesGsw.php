@@ -147,8 +147,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Aazahl Benutzer aazeige, wo ne Syten am Aaluege sy (i den Artikelsyte, i de «letschten Änderigen» und i der Beobachtigslischte)',
 'tog-oldsig'                  => 'Vorschau vu dr aktuälle Unterschrift:',
 'tog-fancysig'                => 'Signatur as Wikitext behandle (ohni automatischi Vergleichig)',
-'tog-externaleditor'          => 'Externe Editor als Standard bruche (nume fir Experte, doderzue brucht s speziälli Yystellige uf em Computer)',
-'tog-externaldiff'            => 'Externi diff als default',
+'tog-externaleditor'          => 'Externe Editor als Standard bruche (nume fir Experte, doderzue brucht s speziälli Yystellige uf em Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Wyteri Informatione doderzue.])',
+'tog-externaldiff'            => 'Extern Programm fir Versionsunterschid als Standard bruche (nume fir Experte, doderzue brucht s speziälli Yystellige uf em Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Wyteri Informatione doderzue.])',
 'tog-showjumplinks'           => '«Wächsle-zu»-Links ermügleche',
 'tog-uselivepreview'          => 'Live-Vorschau bruche (JavaScript) (experimentell)',
 'tog-forceeditsummary'        => 'Sag mer s, wänn i s Zämmefassigsfeld läär loss',
@@ -303,6 +303,7 @@ $messages = array(
 'printableversion'  => 'Druck-Aasicht',
 'permalink'         => 'Bschtändigi URL',
 'print'             => 'Drucke',
+'view'              => 'Aaluege',
 'edit'              => 'Ändere',
 'create'            => 'Erstelle',
 'editthispage'      => 'Syte bearbeite',
@@ -310,6 +311,7 @@ $messages = array(
 'delete'            => 'Lösche',
 'deletethispage'    => 'Syte lösche',
 'undelete_short'    => '{{PLURAL:$1|1 Version|$1 Versione}} widerherstelle',
+'viewdeleted_short' => '{{PLURAL:$1|ei gleschti Änderig|$1 gleschti Ändrige}} aaluege',
 'protect'           => 'Schütze',
 'protect_change'    => 'ändere',
 'protectthispage'   => 'Artikel schütze',
@@ -394,9 +396,11 @@ Di maximal Wartezyt fir e Lock isch umme',
 'toc'                     => 'Inhaltsverzeichnis',
 'showtoc'                 => 'ufklappe',
 'hidetoc'                 => 'zueklappe',
+'collapsible-collapse'    => 'zueklappe',
+'collapsible-expand'      => 'ufklappe',
 'thisisdeleted'           => 'Aaluege oder widerherstelle vu $1?',
 'viewdeleted'             => '$1 aaluege?',
-'restorelink'             => '{{PLURAL:$1|glöschti Änderig|$1 glöschti Ändrige}}',
+'restorelink'             => '{{PLURAL:$1|gleschti Änderig|$1 gleschti Ändrige}}',
 'feedlinks'               => 'Feed:',
 'feed-invalid'            => 'Nit giltige Abonnement-Typ.',
 'feed-unavailable'        => 'S stehn keini Feeds z Verfiegig.',
@@ -554,7 +558,7 @@ Iberprief d Schrybwys, oder mäld Di as [[Special:UserLogin/signup|neje Benutzer
 'wrongpasswordempty'         => 'Du hesch vergässe dyy Passwort yyzgee. Bitte versuech s nomol.',
 'passwordtooshort'           => 'Passwerter mien zmindescht {{PLURAL:$1|1 Zeiche|$1 Zeiche}} haa.',
 'password-name-match'        => 'Dyy Passwort muess sich vu Dyynem Benutzername unterscheide.',
-'password-too-weak'          => 'D Passwort isch z schwach un cha nit brucht wäre.',
+'password-login-forbidden'   => 'D Verwändig vu däm Benutzernamen un Passwort isch verbotte.',
 'mailmypassword'             => 'Es nöis Passwort schicke',
 'passwordremindertitle'      => 'Nei Passwort fir {{SITENAME}}',
 'passwordremindertext'       => 'Ebber mit dr IP-Adress $1 het e nej Passwort fir d Aamäldig bi {{SITENAME}} ($4) aagfordert, wahrschyyns Du sälber.
@@ -762,6 +766,7 @@ Bitte versuech s nomol. Derzue drucksch unter däre Täxtvorschau nomol uf „Sy
 Wänn s Problem blybt, [[Special:UserLogout|mäld Di ab]] un derno wider aa.'''",
 'token_suffix_mismatch'            => "'''Dyyni Bearbeitig isch zruckgwise wore, wel Dyy Browser Zeiche im Bearbeite-Token verstimmlet het.
 S Spichere cha dr Inhalt vu dr Syte hii mache. Des git s e mänkmol, wänn eber e anonyme Proxy-Dienscht brucht, wu Fähler macht.'''",
+'edit_form_incomplete'             => "'''Dr Inhalt vum Bearbeitigsformular isch nit vollständig zum Server chuu. Bitte prief Dyy Bearbeitigen uf Vollständigkeit un versuech s nomol.'''",
 'editing'                          => 'Bearbeite vo «$1»',
 'editingsection'                   => 'Bearbeite vo «$1» (Absatz)',
 'editingcomment'                   => 'Bearbeite vu $1 (Neje Abschnitt)',
@@ -1068,6 +1073,7 @@ Stell sicher, ass d Versionsgschicht vun eme Artikel historisch korrekt isch.',
 'searchmenu-legend'                => 'Suechoptione',
 'searchmenu-exists'                => "* Syte '''[[$1]]'''",
 'searchmenu-new'                   => "'''[[:$1|Leg d Syte ''$1'' in dem Wiki aa!]]'''",
+'searchmenu-new-nocreate'          => '„$1“ isch e uugiltige Sytename oder cha vu dir nit aagleit wäre.',
 'searchhelp-url'                   => 'Help:Hilf',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Zeige alli Syte, wu mit dem Suechbegriff aafange]]',
 'searchprofile-articles'           => 'Inhaltssyte',
@@ -1214,8 +1220,8 @@ Des cha nimmi ruckgängig gmacht wäre.',
 'prefs-help-gender'             => 'Optional: bruucht fir gschlächtsspezifischi Adrässierig dur d Software. Die Information isch effentlig.',
 'email'                         => 'E-Mail',
 'prefs-help-realname'           => '* <strong>Dyy ächte Name</strong> (optional): Wänn du wetsch, ass Dyyni Änderige uf Dii chenne zruckgfierd wäre.',
-'prefs-help-email'              => '* <strong>E-Mail-Adrässe</strong> (optional): We du en E-Mail-Adrässen aagisch, überchömen anderi Benutzer d Müglechkeit, di über dyni Benutzer- oder Benutzer_Diskussionsyte z kontaktiere. Im Fall das du mal ds Passwort sötsch vergässe ha, cha dir es nöis Zuefalls-Passwort gmailet wärde.<br />
-** <strong>Signatur</strong> (optional): D Signatur wird ygsetzt, we du e Diskussionsbytrag mit «<nowiki>~~~~</nowiki>» unterschrybsch; we du ke spezielli Signatur aagisch, de wird eifach di Benutzername mit emne Link uf dyni Benutzersyten ygfüegt.',
+'prefs-help-email'              => 'D Aagab vun ere E-Mail isch optional, macht aber s Zueschicke vun eme Ersatzpasswort meglig, wänn Du dyy Passwort vergässe hesch.',
+'prefs-help-email-others'       => 'Mit andere Benutzer chasch au iber d Benutzerdiskussionssyte Kontakt ufneh, ohne dass Du dyy Identitet muesch uffelege.',
 'prefs-help-email-required'     => 'S brucht e giltigi E-Mail-Adräss.',
 'prefs-info'                    => 'Basisinformatione',
 'prefs-i18n'                    => 'Internationalisierig',
@@ -1231,6 +1237,10 @@ Des cha nimmi ruckgängig gmacht wäre.',
 'prefs-displaysearchoptions'    => 'Aazeigoptione',
 'prefs-displaywatchlist'        => 'Aazeigoptione',
 'prefs-diffs'                   => 'Versionsverglych',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Siht giltig uus',
+'email-address-validity-invalid' => 'S brucht e giltigi Adräss!',
 
 # User rights
 'userrights'                   => 'Benutzerrächtsverwaltig',
@@ -1469,11 +1479,12 @@ Lueg au d [[Special:NewFiles|Galerii vu neije Dateie]] fir e visuälle Iberblick
 'minlength1'                  => 'Dateinäme mien zmindescht e Buechstab lang syy.',
 'illegalfilename'             => 'Im Dateiname „$1“ het s zmindescht ei Zeiche, wu nit erlaubt isch. Bitte gib dr Datei e andere Name un versuech nomol si uffezlade.',
 'badfilename'                 => 'Dr Dateiname isch in „$1“ gänderet wore.',
-'filetype-mime-mismatch'      => 'Dateierwyterig passt nit zum MIME-Typ.',
+'filetype-mime-mismatch'      => 'D Dateierwyterig „.$1“ passt nit zum MIME-Typ ($2).',
 'filetype-badmime'            => 'Dateie mit em MIME-Typ „$1“ derfe nit uffeglade wäre.',
 'filetype-bad-ie-mime'        => 'Die Datei cha nit uffeglade wäre, wel dr Internet Explorer si as „$1“ kennt, wu e nit erlaubte, villicht gferlige Dateityp isch.',
 'filetype-unwanted-type'      => "'''„.$1“''' isch e Dateiformat, wu nit gwinscht isch. Erlaubt {{PLURAL:$3|isch s Dateiformat|sin d Dateiformat}}: $2.",
-'filetype-banned-type'        => "'''„.$1“''' isch e Dateiformat, wu nit erlaubt isch. Erlaubt {{PLURAL:$3|isch s Dateiformat|sin d Dateiformat}}: $2.",
+'filetype-banned-type'        => "'''„.$1“''' {{PLURAL:$4|isch e Dateiformat, wu nit erlaubt isch|sin Dateitype, wu nit erlaubt sin}}.
+ Erlaubt {{PLURAL:$3|isch s Dateiformat|sin d Dateiformat}} $2.",
 'filetype-missing'            => 'D Datei, wu soll uffeglade wäre, het kei Erwyterig (z. B. „.jpg“).',
 'empty-file'                  => 'D Datei, wu Du ibertrait hesch, isch läär.',
 'file-too-large'              => 'D Datei, wu Du ibertrait hesch, isch z groß.',
@@ -1511,7 +1522,7 @@ Bitte prief, eb D s Bild in voller Uflesig vorlige hesch un lad derno des unter 
 Wänn Du die Datei einewäg wit uffelade, gang bitte zruck un ändere dr Name.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Die Datei isch e Duplikat vu {{PLURAL:$1|däre Datei|däne $1 Dateie}}:',
-'file-deleted-duplicate'      => 'E identischi Version vu däre Datei ([[$1]]) isch friejer scho mol glescht wore. Iberprief s Leschlogbuech, voreb Du si uffeladesch.',
+'file-deleted-duplicate'      => 'E identischi Version vu däre Datei ([[:$1]]) isch friejer scho mol glescht wore. Iberprief s Leschlogbuech, voreb Du si uffeladesch.',
 'uploadwarning'               => 'Warnig',
 'uploadwarning-text'          => 'Bitte tue unte d Dateibsschryybig ändere un versuech s nomol.',
 'savefile'                    => 'Datei spychere',
@@ -1524,6 +1535,8 @@ Wänn Du die Datei einewäg wit uffelade, gang bitte zruck un ändere dr Name.
 'php-uploaddisabledtext'      => 'S Uffelade vu PHP-Dateie isch deaktiviert wore. Bitte iberprief d file_uploads-Yystellig.',
 'uploadscripted'              => 'In däre Datei git s HTML- oder Scriptcode, wu fälschligerwyys vun eme Webbrowser usgfiert chennt were.',
 'uploadvirus'                 => 'In däre Datei het s e Virus! Detail: $1',
+'uploadjava'                  => 'Des isch e ZIP-Datei, wu s e CLASS-Datei vu Java din het.
+S Uffelade vu Java-Dateien isch nit gstattet, wel si s Umgoh vu Sicherheitsyyschränkige chennte megli mache.',
 'upload-source'               => 'Quälldatei',
 'sourcefilename'              => 'Quälldatei:',
 'sourceurl'                   => 'Quäll-URL:',
@@ -1560,6 +1573,23 @@ Wänn s Problem alno uftritt, informier e [[Special:ListUsers/sysop|Ammann]].',
 'upload-too-many-redirects' => 'In dr URL het s zvyl Wyterleitige',
 'upload-unknown-size'       => 'Nit bekannti Greßi',
 'upload-http-error'         => 'E HTTP-Fähler isch ufträtte: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'S het e Fähler gee bim Ufmache vu dr Datei fir d ZIP-Iberpriefig.',
+'zip-wrong-format'    => 'D Datei, wu Du aagee hesch, isch kei ZIP-Datei.',
+'zip-bad'             => 'D Datei isch kaputt oder e ZIP-Datei, wu us andere Grind nit cha gläse wäre.
+Si cha wäge däm nit richtig iberprieft wäre.',
+'zip-unsupported'     => 'Die ZIP-Datei het Komprimierigseigeschafte, wu nit vu MediaWiki unterstitzt wäre.
+Si cha wäge däm nit richtig iberprieft wäre.',
+
+# Special:UploadStash
+'uploadstash'          => 'Vorabspycherig binm Uffelade',
+'uploadstash-summary'  => 'Die Syte macht dr Zuegriff uf Dateie megli, wu uffeglade wore sin (oder grad uffeglade wäre), wu aber nonig uf em Wiki publiziert wore sin. Die Dateie cha no niemer aaluege, ußer däjenig, wu si uffelade duet.',
+'uploadstash-clear'    => 'Di vorab gspycherete Dateie uuseneh',
+'uploadstash-nofiles'  => 'S git keini vorab gspycherete Dateie.',
+'uploadstash-badtoken' => 'S Uuseneh vu dr vorab gspycherete Dateien isch fählgschlaa, villicht wel d Sitzigsdaten abglofe sin. Bitte versuech s nomol.',
+'uploadstash-errclear' => 'S Uuseneh vu dr vorab gspycherete Dateie isch fählgschlaa.',
+'uploadstash-refresh'  => 'Lischt vu dr Dateie aktualisiere',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Zuegriff verweigeret',
@@ -1730,12 +1760,13 @@ Iberprief anderi Gleicher zue dr Vorlage, voreb Du die leschesch.',
 'disambiguationspage'  => 'Template:Begriffsklärig',
 'disambiguations-text' => 'Die Syte vergleiche uf e Begriffsklärigs-Syte. Sie sotte aber besser uf d Syte vergleiche, wu eigetli gmeint sin.<br />E Syte wird as Begriffsklärigs-Syte behandlet, wänn [[MediaWiki:Disambiguationspage]] uf si vergleicht.<br />Gleicher us Namensryym wäre do nit ufglischtet.',
 
-'doubleredirects'            => 'Doppleti Wyterleitige (Redirects)',
-'doubleredirectstext'        => 'Die Lischt zeigt Wyterleitige, wu uf anderi Wyterleitige vergleiche.
+'doubleredirects'                   => 'Doppleti Wyterleitige (Redirects)',
+'doubleredirectstext'               => 'Die Lischt zeigt Wyterleitige, wu uf anderi Wyterleitige vergleiche.
 In jedere Zyylete het s Gleicher zue dr erschte un dr zwote Wyterleitig un s Ziil vu dr zwote Wyterleitig, wu normalerwys di gwinscht Ziilsyten isch. Do sott eigetli scho di erscht Wyterleitig druf zeige.
 <del>Durgstricheni</del> Yytreg sin scho erledigt wore.',
-'double-redirect-fixed-move' => 'doppleti Wyterleitig ufglest: [[$1]] → [[$2]]',
-'double-redirect-fixer'      => 'DoubleRedirectBot',
+'double-redirect-fixed-move'        => 'doppleti Wyterleitig ufglest: [[$1]] → [[$2]]',
+'double-redirect-fixed-maintenance' => 'Di dopplet Wyterleitig vu [[$1]] no [[$2]] isch ufglest wore.',
+'double-redirect-fixer'             => 'DoubleRedirectBot',
 
 'brokenredirects'        => 'Kaputti Wyterleitige',
 'brokenredirectstext'    => 'Die Spezialsyte lischtet Wyterleitige uf, wu zue Artikel fiere, wu s gar nid git:',
@@ -2646,8 +2677,7 @@ Alli Transwiki-Import-Aktione werde im [[Special:Log/import|Import-Logbuech]] pr
 'math_unknown_function' => 'Nit bekannti Funktion',
 'math_lexing_error'     => "'Lexing'-Fähler",
 'math_syntax_error'     => 'Syntaxfähler',
-'math_image_error'      => 'd PNG-Konvertierig het nit funktioniert;
-prief di korrekt Installation vu latex, dvips, gs un convert',
+'math_image_error'      => 'D PNG-Konvertierig het nit funktioniert; prief di korrekt Installation vu LaTeX un dvipng (oder dvips + gs + convert)',
 'math_bad_tmpdir'       => 'S temporär Verzeichnis fir mathematischi Formle cha nit aagleit oder bschribe wäre.',
 'math_bad_output'       => 'S Ziilverzeichnis fir mathematischi Formle cha nit aagleit oder bschribe wäre.',
 'math_notexvc'          => 'S texvc-Programm isch nit gfunde wore. Bitte acht gee uf math/README.',
@@ -2691,10 +2721,10 @@ $1',
 'imagemaxsize'         => "Maximali Gressi vu Bilder :<br />'' (uf Bildbschrybigs-Syte)''",
 'thumbsize'            => 'Bildvorschou-Gröössi:',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|1 Syte|$3 Syte}}',
-'file-info'            => '(Dateigressi: $1, MIME-Typ: $2)',
-'file-info-size'       => '($1 × $2 Pixel, Dateigrößi: $3, MIME-Typ: $4)',
+'file-info'            => 'Dateigressi: $1, MIME-Typ: $2',
+'file-info-size'       => '$1 × $2 Pixel, Dateigrößi: $3, MIME-Typ: $4',
 'file-nohires'         => '<small>Kei höcheri Uflösig verfüegbar.</small>',
-'svg-long-desc'        => '(SVG-Datei, Basisgrößi: $1 × $2 Pixel, Dateigrößi: $3)',
+'svg-long-desc'        => 'SVG-Datei, Basisgrößi: $1 × $2 Pixel, Dateigrößi: $3',
 'show-big-image'       => 'Originalgrößi',
 'show-big-image-thumb' => '<small>Größi vo dere Vorschou: $1 × $2 Pixel</small>',
 'file-info-gif-looped' => 'Ändlosschlupf',
@@ -2857,6 +2887,7 @@ Anderi Metadate sy standardmäßig versteckt.
 'exif-gpsareainformation'          => 'Name vum GPS-Biet',
 'exif-gpsdatestamp'                => 'GPS-Datum',
 'exif-gpsdifferential'             => 'GPS-Differentialkorrektur',
+'exif-objectname'                  => 'Churztitel',
 
 # EXIF attributes
 'exif-compression-1' => 'Uukomprimiert',
@@ -3060,6 +3091,20 @@ go d E-Mail-Adräss-Bstetigung abbräche:
 $5
 
 Dää Bstetigungscode isch giltig bis am $4.',
+'confirmemail_body_set'     => 'Eber mit dr IP-Adräss $1, wahrschyns Du sälber,
+het d E-Mail-Adräss vum Benutzerkonto „$2“ uf die Adräss gänderet uf {{SITENAME}}.
+
+Go bstetige, ass des Benutzerkonto wirkli Dir ghert
+un go d E-Mail-Feature uf {{SITENAME}} reaktiviere, mach des Gleich in Dyym Browser uf:
+
+$3
+
+Wänn des Konto imfall *nit* Dir ghert, gang däm Gleich noo
+go d E-Mail-Adräss-Bstetigung abbräche:
+
+$5
+
+Dää Bstetigungscode isch giltig bis am $4.',
 'confirmemail_invalidated'  => 'D E-Mail-Adressbestätig isch abbroche worde',
 'invalidateemail'           => 'S Bestätige vo dr E-Mail-Adress abbreche',
 
@@ -3189,16 +3234,15 @@ E [{{SERVER}}{{SCRIPTPATH}}/COPYING Kopi vu dr GNU General Public-Lizänz] sott 
 D Yygab muess ohni dr Zuesatz „{{ns:file}}:“ erfolge.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Datei-Duplikat sueche',
-'fileduplicatesearch-summary'  => 'Suech no Datei-Duplikat uf dr Grundlag vu ihrem Hash-Wärt.
-
-D Yygab muess ohni dr Zuesatz „{{ns:file}}:“ erfolge.',
-'fileduplicatesearch-legend'   => 'No Duplikat sueche',
-'fileduplicatesearch-filename' => 'Dateiname:',
-'fileduplicatesearch-submit'   => 'Sueche',
-'fileduplicatesearch-info'     => '$1 × $2 Pixel<br />Dateigressi: $3<br />MIME-Typ: $4',
-'fileduplicatesearch-result-1' => 'D Datei „$1“ het kei identischi Duplikat.',
-'fileduplicatesearch-result-n' => 'D Datei „$1“ het {{PLURAL:$2|1 identisch Duplikat|$2 identischi Duplikat}}.',
+'fileduplicatesearch'           => 'Datei-Duplikat sueche',
+'fileduplicatesearch-summary'   => 'Suech no Datei-Duplikat uf dr Grundlag vu ihrem Hash-Wärt.',
+'fileduplicatesearch-legend'    => 'No Duplikat sueche',
+'fileduplicatesearch-filename'  => 'Dateiname:',
+'fileduplicatesearch-submit'    => 'Sueche',
+'fileduplicatesearch-info'      => '$1 × $2 Pixel<br />Dateigressi: $3<br />MIME-Typ: $4',
+'fileduplicatesearch-result-1'  => 'D Datei „$1“ het kei identischi Duplikat.',
+'fileduplicatesearch-result-n'  => 'D Datei „$1“ het {{PLURAL:$2|1 identisch Duplikat|$2 identischi Duplikat}}.',
+'fileduplicatesearch-noresults' => 'S isch kei Datei mit em Name „$1“ gfunde wore.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Spezialsytene',
@@ -3291,14 +3335,5 @@ Wänn dr Benutzer grad aagmäldet isch, wird er sofort abgmäldet.
 'disableaccount-nosuchuser'  => 'Dr Benutzer „$1“ git s nit.',
 'disableaccount-success'     => 'S Benutzerkonto „$1“ isch fir immer deaktiviert wore.',
 'disableaccount-logentry'    => 'het s Benutzerkonto [[$1]] fir immer deaktiviert',
-
-# Special:UploadStash
-'uploadstash'          => 'Vorabspycherig binm Uffelade',
-'uploadstash-summary'  => 'Die Syte macht dr Zuegriff uf Dateie megli, wu uffeglade wore sin (oder grad uffeglade wäre), wu aber nonig uf em Wiki publiziert wore sin. Die Dateie cha no niemer aaluege, ußer däjenig, wu si uffelade duet.',
-'uploadstash-clear'    => 'Di vorab gspycherete Dateie uuseneh',
-'uploadstash-nofiles'  => 'S git keini vorab gspycherete Dateie.',
-'uploadstash-badtoken' => 'S Uuseneh vu dr vorab gspycherete Dateien isch fählgschlaa, villicht wel d Sitzigsdaten abglofe sin. Bitte versuech s nomol.',
-'uploadstash-errclear' => 'S Uuseneh vu dr vorab gspycherete Dateie isch fählgschlaa.',
-'uploadstash-refresh'  => 'Lischt vu dr Dateie aktualisiere',
 
 );

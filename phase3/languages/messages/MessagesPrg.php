@@ -1232,7 +1232,7 @@ Ik tū kwaitēi enkraūtun zūrbrukin, ettreppais be enkraūneis tennan etkūmps
 Ik tū ainatīngi kwaitēi enkraūtun šin zūrbrukin, ettreppais be tērpaus nāunan emnin.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Šis zūrbrukis ast kōpija {{PLURAL:$1|šisse zūrbrukin|šēisan zūrbrukin}}:',
-'file-deleted-duplicate'      => 'Zūrbrukis idēntiskas sen šin zūrbrukin ([[$1]]) pastāi ankstāis āupausintan.
+'file-deleted-duplicate'      => 'Zūrbrukis idēntiskas sen šin zūrbrukin ([[:$1]]) pastāi ankstāis āupausintan.
 Pirzdau tālis ēisnan, tebbei prawerru izbandātun šisse zūrbrukes āupausinsenin istōrijan.',
 'uploadwarning'               => 'Ēmpirssergīsenis ezze enkraūsnan',
 'uploadwarning-text'          => 'Madli kitawīdinais zūrbukes ebpeisāsenis be bandais etkūmps',
@@ -2311,10 +2311,10 @@ Enskattintei din,  tū mazzi ārditun twajjan sistēman.",
 'imagemaxsize'         => "Arāikinais bildin debban:<br />''(per zūrbrukes ebpeisāsenes pāusans)''",
 'thumbsize'            => 'Miniatūris debban:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pāusan|pāusai}}',
-'file-info'            => '(zūrbrukes debban: $1, MIME tīps: $2)',
-'file-info-size'       => '($1 × $2 pikselai, zūrbrukes debban: $3, MIME tīps: $4)',
+'file-info'            => 'zūrbrukes debban: $1, MIME tīps: $2',
+'file-info-size'       => '$1 × $2 pikselai, zūrbrukes debban: $3, MIME tīps: $4',
 'file-nohires'         => '<small>Mūisesa rezōluciōni ni ast preiēiminan.</small>',
-'svg-long-desc'        => '(SVG zūrbrukis, nōminalai $1 × $2 pikselai, debban: $3)',
+'svg-long-desc'        => 'SVG zūrbrukis, nōminalai $1 × $2 pikselai, debban: $3',
 'show-big-image'       => 'Pilnā rezōluciōni',
 'show-big-image-thumb' => '<small>Pirmādiras debban: $1 × $2 pikselai</small>',
 'file-info-gif-looped' => 'kalpenintan',
@@ -2749,9 +2749,7 @@ Enpeisāis zūrbrukes pabilīsnan šlāit "{{ns:file}}:" prefiksan.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Laukīs dwigubbintans zūrbrukins',
-'fileduplicatesearch-summary'  => 'Laukīs dwigubbintans zūrbrukins pa tenēisan kōntrōlingin summin.
-
-Enpeisāis zūrbrukes pabilīsnan šlāit "{{ns:file}}:" prefiksan.',
+'fileduplicatesearch-summary'  => 'Laukīs dwigubbintans zūrbrukins pa tenēisan kōntrōlingin summin.',
 'fileduplicatesearch-legend'   => 'Laukīs dwigubbintans zūrbrukins',
 'fileduplicatesearch-filename' => 'Zūrbrukes pabilīsna:',
 'fileduplicatesearch-submit'   => 'Laukīs',

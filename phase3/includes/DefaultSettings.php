@@ -373,8 +373,12 @@ $wgImgAuthPublicTest = true;
  *   - apibase              Use for the foreign API's URL
  *   - apiThumbCacheExpiry  How long to locally cache thumbs for
  *
- * The default is to initialise these arrays from the MW<1.11 backwards compatible settings:
- * $wgUploadPath, $wgThumbnailScriptPath, $wgSharedUploadDirectory, etc.
+ * If you leave $wgLocalFileRepo set to false, Setup will fill in appropriate values.
+ * Otherwise, set $wgLocalFileRepo to a repository structure as described above.
+ * If you set $wgUseInstantCommons to true, it will add an entry for Commons.
+ * If you set $wgForeignFileRepos to an array of repostory structures, those will
+ * be searched after the local file repo.
+ * Otherwise, you will only have access to local media files.
  */
 $wgLocalFileRepo = false;
 
@@ -441,12 +445,24 @@ $wgCacheSharedUploads = true;
 $wgAllowCopyUploads = false;
 /**
  * Allow asynchronous copy uploads.
- * This feature is experimental.
+ * This feature is experimental is broken as of r81612.
  */
 $wgAllowAsyncCopyUploads = false;
 
 /**
- * Max size for uploads, in bytes. Applies to all uploads.
+ * Max size for uploads, in bytes. If not set to an array, applies to all
+ * uploads. If set to an array, per upload type maximums can be set, using the
+ * file and url keys. If the * key is set this value will be used as maximum
+ * for non-specified types.
+ *
+ * For example:
+ * 	$wgMaxUploadSize = array(
+ * 		'*' => 250 * 1024,
+ * 		'url' => 500 * 1024,
+ * 	);
+ * Sets the maximum for all uploads to 250 kB except for upload-by-url, which
+ * will have a maximum of 500 kB.
+ *
  */
 $wgMaxUploadSize = 1024*1024*100; # 100MB
 
@@ -543,13 +559,14 @@ $wgMimeTypeBlacklist = array(
 	'text/scriptlet', 'application/x-msdownload',
 	# Windows metafile, client-side vulnerability on some systems
 	'application/x-msmetafile',
-	# A ZIP file may be a valid Java archive containing an applet which exploits the
-	# same-origin policy to steal cookies
-	'application/zip',
-	# MS Office OpenXML and other Open Package Conventions files are zip files
-	# and thus blacklisted just as other zip files
-	'application/x-opc+zip',
 );
+
+/**
+ * Allow Java archive uploads.
+ * This is not recommended for public wikis since a maliciously-constructed 
+ * applet running on the same domain as the wiki can steal the user's cookies. 
+ */
+$wgAllowJavaUploads = false;
 
 /**
  * This is a flag to determine whether or not to check file extensions on upload.
@@ -865,6 +882,9 @@ $wgXMLMimeTypes = array(
 		'http://www.lysator.liu.se/~alla/dia/:diagram' 	=> 'application/x-dia-diagram',
 		'http://www.w3.org/1999/xhtml:html'				=> 'text/html', // application/xhtml+xml?
 		'html'                              			=> 'text/html', // application/xhtml+xml?
+		'http://www.opengis.net/kml/2.1:kml'			=> 'application/vnd.google-earth.kml+xml',
+		'http://www.opengis.net/kml/2.2:kml'			=> 'application/vnd.google-earth.kml+xml',
+		'kml'											=> 'application/vnd.google-earth.kml+xml',
 );
 
 /**
@@ -1034,6 +1054,11 @@ $wgPasswordReminderResendTime = 24;
 $wgNewPasswordExpiry  = 3600 * 24 * 7;
 
 /**
+ * The time, in seconds, when an email confirmation email expires
+ */
+$wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
+
+/**
  * SMTP Mode
  * For using a direct (authenticated) SMTP server connection.
  * Default to false or fill an array :
@@ -1175,8 +1200,6 @@ $wgSQLMode = '';
 
 /** Mediawiki schema */
 $wgDBmwschema       = 'mediawiki';
-/** Tsearch2 schema */
-$wgDBts2schema      = 'public';
 
 /** To override default SQLite data directory ($docroot/../data) */
 $wgSQLiteDataDir    = '';
@@ -1465,6 +1488,8 @@ $wgCacheDirectory = false;
  *   - CACHE_DBA:        Use PHP's DBA extension to store in a DBM-style
  *                       database. This is slow, and is not recommended for
  *                       anything other than debugging.
+ *   - (other):          A string may be used which identifies a cache 
+ *                       configuration in $wgObjectCaches.
  *
  * @see $wgMessageCacheType, $wgParserCacheType
  */
@@ -1485,6 +1510,36 @@ $wgMessageCacheType = CACHE_ANYTHING;
  * For available types see $wgMainCacheType.
  */
 $wgParserCacheType = CACHE_ANYTHING;
+
+/**
+ * Advanced object cache configuration.
+ *
+ * Use this to define the class names and constructor parameters which are used 
+ * for the various cache types. Custom cache types may be defined here and 
+ * referenced from $wgMainCacheType, $wgMessageCacheType or $wgParserCacheType.
+ *
+ * The format is an associative array where the key is a cache identifier, and 
+ * the value is an associative array of parameters. The "class" parameter is the
+ * class name which will be used. Alternatively, a "factory" parameter may be 
+ * given, giving a callable function which will generate a suitable cache object.
+ *
+ * The other parameters are dependent on the class used.
+ */
+$wgObjectCaches = array(
+	CACHE_NONE => array( 'class' => 'EmptyBagOStuff' ),
+	CACHE_DB => array( 'class' => 'SqlBagOStuff', 'table' => 'objectcache' ),
+	CACHE_DBA => array( 'class' => 'DBABagOStuff' ),
+
+	CACHE_ANYTHING => array( 'factory' => 'ObjectCache::newAnything' ),
+	CACHE_ACCEL => array( 'factory' => 'ObjectCache::newAccelerator' ),
+	CACHE_MEMCACHED => array( 'factory' => 'ObjectCache::newMemcached' ),
+
+	'eaccelerator' => array( 'class' => 'eAccelBagOStuff' ),
+	'apc' => array( 'class' => 'APCBagOStuff' ),
+	'xcache' => array( 'class' => 'XCacheBagOStuff' ),
+	'wincache' => array( 'class' => 'WinCacheBagOStuff' ),
+	'memcached-php' => array( 'class' => 'MemcachedPhpBagOStuff' ),
+);
 
 /**
  * The expiry time for the parser cache, in seconds. The default is 86.4k
@@ -1594,7 +1649,7 @@ $wgCacheEpoch = '20030516000000';
  * to ensure that client-side caches do not keep obsolete copies of global
  * styles.
  */
-$wgStyleVersion = '301';
+$wgStyleVersion = '303';
 
 /**
  * This will cache static pages for non-logged-in users to reduce
@@ -1678,9 +1733,9 @@ $wgClockSkewFudge = 5;
  * to setting $wgCacheEpoch to the modification time of LocalSettings.php, as
  * was previously done in the default LocalSettings.php file.
  *
- * On high-traffic wikis, this should be set to false, to avoid the need to 
+ * On high-traffic wikis, this should be set to false, to avoid the need to
  * check the file modification time, and to avoid the performance impact of
- * unnecessary cache invalidations. 
+ * unnecessary cache invalidations.
  */
 $wgInvalidateCacheOnLocalSettingsChange = true;
 
@@ -2268,10 +2323,31 @@ $wgUseSiteCss = true;
 $wgEnableTooltipsAndAccesskeys = true;
 
 /**
- * Break out of framesets. This can be used to prevent external sites from
- * framing your site with ads.
+ * Break out of framesets. This can be used to prevent clickjacking attacks,
+ * or to prevent external sites from framing your site with ads.
  */
 $wgBreakFrames = false;
+
+/**
+ * The X-Frame-Options header to send on pages sensitive to clickjacking
+ * attacks, such as edit pages. This prevents those pages from being displayed
+ * in a frame or iframe. The options are:
+ *
+ *   - 'DENY': Do not allow framing. This is recommended for most wikis.
+ *
+ *   - 'SAMEORIGIN': Allow framing by pages on the same domain. This can be used
+ *         to allow framing within a trusted domain. This is insecure if there
+ *         is a page on the same domain which allows framing of arbitrary URLs.
+ *
+ *   - false: Allow all framing. This opens up the wiki to XSS attacks and thus
+ *         full compromise of local user accounts. Private wikis behind a
+ *         corporate firewall are especially vulnerable. This is not
+ *         recommended.
+ *
+ * For extra safety, set $wgBreakFrames = true, to prevent framing on all pages,
+ * not just edit pages.
+ */
+$wgEditPageFrameOptions = 'DENY';
 
 /**
  * Disable output compression (enabled by default if zlib is available)
@@ -2283,26 +2359,28 @@ $wgDisableOutputCompression = false;
  * not, use only HTML 4-compatible IDs.  This option is for testing -- when the
  * functionality is ready, it will be on by default with no option.
  *
- * Currently this appears to work fine in Chrome 4 and 5, Firefox 3.5 and 3.6, IE6
- * and 8, and Opera 10.50, but it fails in Opera 10.10: Unicode IDs don't seem
- * to work as anchors.  So not quite ready for general use yet.
+ * Currently this appears to work fine in all browsers, but it's disabled by
+ * default because it normalizes id's a bit too aggressively, breaking preexisting
+ * content (particularly Cite).  See bug 27733, bug 27694, bug 27474.
  */
-$wgExperimentalHtmlIds = true;
+$wgExperimentalHtmlIds = false;
 
 /**
  * Abstract list of footer icons for skins in place of old copyrightico and poweredbyico code
  * You can add new icons to the built in copyright or poweredby, or you can create
  * a new block. Though note that you may need to add some custom css to get good styling
  * of new blocks in monobook. vector and modern should work without any special css.
- * 
+ *
  * $wgFooterIcons itself is a key/value array.
- * The key is the name of a block that the icons will be wrapped in. The final id varies 
- * by skin; Monobook and Vector will turn poweredby into f-poweredbyico while Modern 
- * turns it into mw_poweredby.  The value is a key/value array of icons. The key may or 
- * may not be used by the skin but it can be used to find the icon and unset it or 
- * change the icon if needed. This is useful for disabling icons that are set by extensions.
- * The value should be either a string or an array. If it is a string it will be output 
- * directly, however some skins may choose to ignore it. An array is the preferred format 
+ * The key is the name of a block that the icons will be wrapped in. The final id varies
+ * by skin; Monobook and Vector will turn poweredby into f-poweredbyico while Modern
+ * turns it into mw_poweredby.
+ * The value is either key/value array of icons or a string.
+ * In the key/value array the key may or may not be used by the skin but it can
+ * be used to find the icon and unset it or change the icon if needed.
+ * This is useful for disabling icons that are set by extensions.
+ * The value should be either a string or an array. If it is a string it will be output
+ * directly as html, however some skins may choose to ignore it. An array is the preferred format
  * for the icon, the following keys are used:
  *   src: An absolute url to the image to use for the icon, this is recommended
  *        but not required, however some skins will ignore icons without an image
@@ -2326,6 +2404,13 @@ $wgFooterIcons = array(
 		)
 	),
 );
+
+/**
+ * Login / create account link behavior when it's possible for anonymous users to create an account
+ * true = use a combined login / create account link
+ * false = split login and create account into two separate links
+ */
+$wgUseCombinedLoginLink = true;
 
 /**
  * Search form behavior for Vector skin only
@@ -2414,6 +2499,18 @@ $wgResourceLoaderDebug = false;
  * web server (e..g a Squid or Varnish server) configured to process the ESI.
  */
 $wgResourceLoaderUseESI = false;
+
+/**
+ * Enable removal of some of the vertical whitespace (like \r and \n) from
+ * JavaScript code when minifying.
+ */
+$wgResourceLoaderMinifyJSVerticalSpace = false;
+
+/**
+ * Whether to include the mediawiki.legacy JS library (old wikibits.js), and its
+ * dependencies
+ */
+$wgIncludeLegacyJavaScript = true;
 
 /** @} */ # End of resource loader settings }
 
@@ -2883,12 +2980,6 @@ $wgMinimalPasswordLength = 1;
 $wgLivePasswordStrengthChecks = false;
 
 /**
- * List of weak passwords which shouldn't be allowed.
- * The items should be in lowercase. The check is case insensitive.
- */
-$wgWeakPasswords = array( 'password', 'passpass', 'passpass1' );
-
-/**
  * Maximum number of Unicode characters in signature
  */
 $wgMaxSigChars		= 255;
@@ -3080,11 +3171,6 @@ $wgAllowPrefChange = array();
  * @since 1.17
  */
 $wgSecureLogin        = false;
-/**
- * Default for 'use secure login' checkbox
- * @since 1.17
- */
-$wgSecureLoginStickHTTPS = false;
 
 /** @} */ # end user accounts }
 
@@ -3329,8 +3415,10 @@ $wgGroupsRemoveFromSelf = array();
  * Set of available actions that can be restricted via action=protect
  * You probably shouldn't change this.
  * Translated through restriction-* messages.
+ * Title::getRestrictionTypes() will remove restrictions that are not
+ * applicable to a specific title (create and upload)
  */
-$wgRestrictionTypes = array( 'edit', 'move' );
+$wgRestrictionTypes = array( 'create', 'edit', 'move', 'upload' );
 
 /**
  * Rights which can be required for each protection level (via action=protect)
@@ -3617,7 +3705,7 @@ $wgProxyKey = false;
 $wgCookieExpiration = 30*86400;
 
 /**
- * Set to set an explicit domain on the login cookies eg, "justthis.domain. org"
+ * Set to set an explicit domain on the login cookies eg, "justthis.domain.org"
  * or ".any.subdomain.net"
  */
 $wgCookieDomain = '';
@@ -4139,12 +4227,12 @@ $wgReadOnly             = null;
 $wgReadOnlyFile         = false;
 
 /**
- * When you run the web-based upgrade utility, it will tell you what to set 
+ * When you run the web-based upgrade utility, it will tell you what to set
  * this to in order to authorize the upgrade process. It will subsequently be
  * used as a password, to authorize further upgrades.
  *
- * For security, do not set this to a guessable string. Use the value supplied 
- * by the install/upgrade process. To cause the upgrader to generate a new key, 
+ * For security, do not set this to a guessable string. Use the value supplied
+ * by the install/upgrade process. To cause the upgrader to generate a new key,
  * delete the old key from LocalSettings.php.
  */
 $wgUpgradeKey = false;
@@ -4317,7 +4405,10 @@ $wgRightsIcon = null;
  */
 $wgLicenseTerms = false;
 
-/** Set this to some HTML to override the rights icon with an arbitrary logo */
+/**
+ * Set this to some HTML to override the rights icon with an arbitrary logo
+ * @deprecated Use $wgFooterIcons['copyright']['copyright']
+ */
 $wgCopyrightIcon = null;
 
 /** Set this to true if you want detailed copyright information forms on Upload. */
@@ -4460,7 +4551,10 @@ $wgParserOutputHooks = array();
 
 /**
  * List of valid skin names.
- * The key should be the name in all lower case, the value should be a display name.
+ * The key should be the name in all lower case, the value should be a properly
+ * cased name for the skin. This value will be prefixed with "Skin" to create the
+ * class name of the skin to load, and if the skin's class cannot be found through
+ * the autoloader it will be used to load a .php file by that name in the skins directory.
  * The default skins will be added later, by Skin::getSkinNames(). Use
  * Skin::getSkinNames() as an accessor if you wish to have access to the full list.
  */
@@ -4584,13 +4678,24 @@ $wgCategoryMagicGallery = true;
 $wgCategoryPagingLimit = 200;
 
 /**
- * A version indicator for collations that will be stored in cl_collation for
- * all new rows.  Used when the collation algorithm changes: a script checks
- * for all rows where cl_collation != $wgCategoryCollation and regenerates
- * cl_sortkey based on the page name and cl_sortkey_prefix.
+ * Specify how category names should be sorted, when listed on a category page.
+ * A sorting scheme is also known as a collation.
  *
- * Currently only supports 'uppercase', which just uppercases the string.  This
- * is a dummy collation, to be replaced later by real ones.
+ * Available values are:
+ *
+ *   - uppercase: Converts the category name to upper case, and sorts by that.
+ *
+ *   - uca-default: Provides access to the Unicode Collation Algorithm with
+ *     the default element table. This is a compromise collation which sorts
+ *     all languages in a mediocre way. However, it is better than "uppercase".
+ *
+ * To use the uca-default collation, you must have PHP's intl extension
+ * installed. See http://php.net/manual/en/intl.setup.php . The details of the
+ * resulting collation will depend on the version of ICU installed on the
+ * server.
+ *
+ * After you change this, you must run maintenance/updateCollation.php to fix
+ * the sort keys in the database.
  */
 $wgCategoryCollation = 'uppercase';
 
@@ -5010,14 +5115,7 @@ $wgAPIMaxUncachedDiffs = 1;
 $wgAPIRequestLog = false;
 
 /**
- * Cache the API help text for up to an hour. Disable this during API
- * debugging and development
- */
-$wgAPICacheHelp = true;
-
-/**
- * Set the timeout for the API help text cache. Ignored if $wgAPICacheHelp
- * is false.
+ * Set the timeout for the API help text cache. If set to 0, caching disabled
  */
 $wgAPICacheHelpTimeout = 60*60;
 
@@ -5035,7 +5133,6 @@ $wgAjaxExportList = array( 'wfAjaxGetFileUrl' );
 /**
  * Enable watching/unwatching pages using AJAX.
  * Requires $wgUseAjax to be true too.
- * Causes wfAjaxWatch to be added to $wgAjaxExportList
  */
 $wgAjaxWatch = true;
 
@@ -5244,6 +5341,8 @@ $wgUploadMaintenance = false;
 $wgEnableSelenium = false;
 $wgSeleniumTestConfigs = array();
 $wgSeleniumConfigFile = null;
+$wgDBtestuser = ''; //db user that has permission to create and drop the test databases only
+$wgDBtestpassword = '';
 
 /**
  * For really cool vim folding this needs to be at the end:

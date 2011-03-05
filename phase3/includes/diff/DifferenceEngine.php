@@ -25,8 +25,16 @@ class DifferenceEngine {
 	var $mOldid, $mNewid, $mTitle;
 	var $mOldtitle, $mNewtitle, $mPagetitle;
 	var $mOldtext, $mNewtext;
+
+	/**
+	 * @var Title
+	 */
 	var $mOldPage, $mNewPage;
 	var $mRcidMarkPatrolled;
+
+	/**
+	 * @var Revision
+	 */
 	var $mOldRev, $mNewRev;
 	var $mRevisionsLoaded = false; // Have the revisions been loaded
 	var $mTextLoaded = 0; // How many text blobs have been loaded, 0, 1 or 2?
@@ -115,6 +123,8 @@ class DifferenceEngine {
 		global $wgUser, $wgOut, $wgUseExternalEditor, $wgUseRCPatrol;
 		wfProfileIn( __METHOD__ );
 
+		# Allow frames except in certain special cases
+		$wgOut->allowClickjacking();
 
 		# If external diffs are enabled both globally and for the user,
 		# we'll use the application/x-external-editor interface to call
@@ -148,6 +158,8 @@ class DifferenceEngine {
 			URL=$url2
 CONTROL;
 			echo( $control );
+
+			wfProfileOut( __METHOD__ );
 			return;
 		}
 
@@ -177,8 +189,6 @@ CONTROL;
 			return;
 		}
 
-		$wgOut->suppressQuickbar();
-
 		$oldTitle = $this->mOldPage->getPrefixedText();
 		$newTitle = $this->mNewPage->getPrefixedText();
 		if ( $oldTitle == $newTitle ) {
@@ -202,10 +212,14 @@ CONTROL;
 		}
 
 		$sk = $wgUser->getSkin();
+		if ( method_exists( $sk, 'suppressQuickbar' ) ) {
+			$sk->suppressQuickbar();
+		}
 
 		// Check if page is editable
 		$editable = $this->mNewRev->getTitle()->userCan( 'edit' );
 		if ( $editable && $this->mNewRev->isCurrent() && $wgUser->isAllowed( 'rollback' ) ) {
+			$wgOut->preventClickjacking();
 			$rollback = '&#160;&#160;&#160;' . $sk->generateRollback( $this->mNewRev );
 		} else {
 			$rollback = '';
@@ -243,6 +257,7 @@ CONTROL;
 			}
 			// Build the link
 			if ( $rcid ) {
+				$wgOut->preventClickjacking();
 				$token = $wgUser->editToken( $rcid );
 				$patrol = ' <span class="patrollink">[' . $sk->link(
 					$this->mTitle,
@@ -366,7 +381,7 @@ CONTROL;
 			if ( !$allowed ) {
 				$msg = $suppressed ? 'rev-suppressed-no-diff' : 'rev-deleted-no-diff';
 				# Give explanation for why revision is not visible
-				$wgOut->wrapWikiMsg( "<div class='mw-warning plainlinks'>\n$1\n</div>\n",
+				$wgOut->wrapWikiMsg( "<div id='mw-$msg' class='mw-warning plainlinks'>\n$1\n</div>\n",
 					array( $msg ) );
 			} else {
 				# Give explanation and add a link to view the diff...
@@ -376,7 +391,7 @@ CONTROL;
 					'unhide' => 1
 				) );
 				$msg = $suppressed ? 'rev-suppressed-unhide-diff' : 'rev-deleted-unhide-diff';
-				$wgOut->wrapWikiMsg( "<div class='mw-warning plainlinks'>\n$1\n</div>\n", array( $msg, $link ) );
+				$wgOut->wrapWikiMsg( "<div id='mw-$msg' class='mw-warning plainlinks'>\n$1\n</div>\n", array( $msg, $link ) );
 			}
 		# Otherwise, output a regular diff...
 		} else {
@@ -384,7 +399,7 @@ CONTROL;
 			$notice = '';
 			if ( $deleted ) {
 				$msg = $suppressed ? 'rev-suppressed-diff-view' : 'rev-deleted-diff-view';
-				$notice = "<div class='mw-warning plainlinks'>\n" . wfMsgExt( $msg, 'parseinline' ) . "</div>\n";
+				$notice = "<div id='mw-$msg' class='mw-warning plainlinks'>\n" . wfMsgExt( $msg, 'parseinline' ) . "</div>\n";
 			}
 			$this->showDiff( $oldHeader, $newHeader, $notice );
 			if ( !$diffOnly ) {
@@ -394,6 +409,10 @@ CONTROL;
 		wfProfileOut( __METHOD__ );
 	}
 
+	/**
+	 * @param $rev Revision
+	 * @return String
+	 */
 	protected function revisionDeleteLink( $rev ) {
 		global $wgUser;
 		$link = '';
@@ -438,7 +457,7 @@ CONTROL;
 
 			$this->loadNewText();
 			$wgOut->setRevisionId( $this->mNewRev->getId() );
-	
+
 			if ( $this->mTitle->isCssJsSubpage() || $this->mTitle->isCssOrJsPage() ) {
 				// Stolen from Article::view --AG 2007-10-11
 				// Give hooks a chance to customise the output
@@ -458,7 +477,7 @@ CONTROL;
 					$wgOut->addParserOutput( $pOutput );
 				} else {
 					$article->doViewParse();
-				} 
+				}
 			} else {
 				$wgOut->addWikiTextTidy( $this->mNewtext );
 			}
@@ -471,6 +490,7 @@ CONTROL;
 		if ( $this->mRcidMarkPatrolled && $this->mTitle->quickUserCan( 'patrol' ) ) {
 			$sk = $wgUser->getSkin();
 			$token = $wgUser->editToken( $this->mRcidMarkPatrolled );
+			$wgOut->preventClickjacking();
 			$wgOut->addHTML(
 				"<div class='patrollink'>[" . $sk->link(
 					$this->mTitle,
@@ -576,7 +596,8 @@ CONTROL;
 	 */
 	function showDiffStyle() {
 		global $wgOut;
-		$wgOut->addModules( 'mediawiki.legacy.diff' );
+		$wgOut->addModuleStyles( 'mediawiki.legacy.diff' );
+		$wgOut->addModuleScripts( 'mediawiki.legacy.diff' );
 	}
 
 	/**
@@ -608,16 +629,20 @@ CONTROL;
 		$this->mCacheHit = true;
 		// Check if the diff should be hidden from this user
 		if ( !$this->loadRevisionData() ) {
+			wfProfileOut( __METHOD__ );
 			return false;
 		} elseif ( $this->mOldRev && !$this->mOldRev->userCan( Revision::DELETED_TEXT ) ) {
+			wfProfileOut( __METHOD__ );
 			return false;
 		} elseif ( $this->mNewRev && !$this->mNewRev->userCan( Revision::DELETED_TEXT ) ) {
+			wfProfileOut( __METHOD__ );
 			return false;
 		}
 		// Short-circuit
 		if ( $this->mOldRev && $this->mNewRev
 			&& $this->mOldRev->getID() == $this->mNewRev->getID() )
 		{
+			wfProfileOut( __METHOD__ );
 			return '';
 		}
 		// Cacheable?
@@ -745,6 +770,7 @@ CONTROL;
 			wfProfileOut( __METHOD__ . "-shellexec" );
 			unlink( $tempName1 );
 			unlink( $tempName2 );
+			wfProfileOut( __METHOD__ );
 			return $difftext;
 		}
 
@@ -753,8 +779,9 @@ CONTROL;
 		$nta = explode( "\n", $wgContLang->segmentForDiff( $ntext ) );
 		$diffs = new Diff( $ota, $nta );
 		$formatter = new TableDiffFormatter();
-		return $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
-		$this->debug();
+		$difftext = $wgContLang->unsegmentForDiff( $formatter->format( $diffs ) ) .
+		wfProfileOut( __METHOD__ );
+		return $difftext;
 	}
 
 	/**

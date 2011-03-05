@@ -1,73 +1,35 @@
 <?php
 
 require_once( dirname( __FILE__ ) . '/ParserHelpers.php' );
+require_once( dirname( __FILE__ ) . '/NewParserTest.php' );
 require_once( dirname(dirname(dirname( __FILE__ ))) . '/bootstrap.php' );
 
-class MediaWikiParserTest extends MediaWikiTestSetup {
-	public $count;		// Number of tests in the suite.
-	public $backend;	// ParserTestSuiteBackend instance
-	public $articles = array();	// Array of test articles defined by the tests
-
-	public function __construct() {
-		$suite = new PHPUnit_Framework_TestSuite('Parser Tests');
-		parent::__construct($suite);
-		$this->backend = new ParserTestSuiteBackend;
-		$this->setName( 'Parser tests' );
-	}
+/**
+ * The UnitTest must be either a class that inherits from PHPUnit_Framework_TestCase 
+ * or a class that provides a public static suite() method which returns 
+ * an PHPUnit_Framework_Test object
+ * 
+ * @group Parser
+ * @group Database
+ */
+class MediaWikiParserTest {
 
 	public static function suite() {
-		global $IP;
+		global $IP, $wgParserTestFiles;
 
-		$tester = new self;
+		$suite = new PHPUnit_Framework_TestSuite;
 
-		$iter = new TestFileIterator( "$IP/tests/parser/parserTests.txt", $tester );
-		$tester->count = 0;
+		foreach ( $wgParserTestFiles as $filename ) {
+			$testsName = basename( $filename, '.txt' );
+			$className = /*ucfirst( basename( dirname( $filename ) ) ) .*/ ucfirst( basename( $filename, '.txt' ) );
+			
+			eval( "/** @group Database\n@group Parser\n*/ class $className extends NewParserTest { protected \$file = \"" . addslashes( $filename ) . "\"; } " );
 
-		foreach ( $iter as $test ) {
-			$tester->suite->addTest( new ParserUnitTest( $tester, $test ), array( 'Parser', 'Destructive', 'Database', 'Broken' ) );
-			$tester->count++;
+			$parserTester = new $className( $testsName );
+			$suite->addTestSuite( new ReflectionClass ( $parserTester ) );
 		}
+		
 
-		return $tester->suite;
-	}
-
-	public function count() {
-		return $this->count;
-	}
-
-	public function toString() {
-		return "MediaWiki Parser Tests";
-	}
-
-	public function getBackend() {
-		return $this->backend;
-	}
-
-	public function getIterator() {
-		return $this->iterator;
-	}
-
-	public function publishTestArticles() {
-		if ( empty( $this->articles ) ) {
-			return;
-		}
-
-		foreach ( $this->articles as $name => $text ) {
-			$title = Title::newFromText( $name );
-
-			if ( $title->getArticleID( Title::GAID_FOR_UPDATE ) == 0 ) {
-				ParserTest::addArticle( $name, $text );
-			}
-		}
-		$this->articles = array();
-	}
-
-	public function addArticle( $name, $text, $line ) {
-		$this->articles[$name] = $text;
-	}
-
-	public function showRunFile( $path ) {
-		/* Nothing shown when run from phpunit */
+		return $suite;
 	}
 }
-

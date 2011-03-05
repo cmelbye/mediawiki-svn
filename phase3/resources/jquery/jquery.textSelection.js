@@ -34,6 +34,8 @@ getSelection: function() {
  *
  * Inserts text at the begining and end of a text selection, optionally
  * inserting text at the caret when selection is empty.
+ *
+ * @fixme document the options parameters
  */
 encapsulateSelection: function( options ) {
 	return this.each( function() {
@@ -92,7 +94,7 @@ encapsulateSelection: function( options ) {
 			// IE
 			$(this).focus();
 			if ( context ) {
-				context.fn.restoreStuffForIE();
+				context.fn.restoreCursorAndScrollTop();
 			}
 			var selText = $(this).textSelection( 'getSelection' );
 			var scrollTop = this.scrollTop;
@@ -134,6 +136,8 @@ encapsulateSelection: function( options ) {
  *
  * Get the position (in resolution of bytes not nessecarily characters)
  * in a textarea
+ *
+ * @fixme document the options parameters
  */
  getCaretPosition: function( options ) {
 	function getCaret( e ) {
@@ -217,6 +221,9 @@ encapsulateSelection: function( options ) {
 	}
 	return getCaret( this.get( 0 ) );
 },
+/**
+ * @fixme document the options parameters
+ */
 setSelection: function( options ) {
 	return this.each( function() {
 		if ( $(this).is( ':hidden' ) ) {
@@ -258,10 +265,12 @@ setSelection: function( options ) {
  * position with setSelection()
  * @param options boolean Whether to force a scroll even if the caret position
  *  is already visible. Defaults to false
+ *
+ * @fixme document the options parameters (function body suggests options.force is a boolean, not options itself)
  */
 scrollToCaretPosition: function( options ) {
 	function getLineLength( e ) {
-		return Math.floor( e.scrollWidth / ( $.os.name == 'linux' ? 7 : 8 ) );
+		return Math.floor( e.scrollWidth / ( $.client.profile().platform == 'linux' ? 7 : 8 ) );
 	}
 	function getCaretScrollPosition( e ) {
 		// FIXME: This functions sucks and is off by a few lines most
@@ -304,7 +313,7 @@ scrollToCaretPosition: function( options ) {
 			charInLine = caret - lastSpaceInLine;
 			row++;
 		}
-		return ( $.os.name == 'mac' ? 13 : ( $.os.name == 'linux' ? 15 : 16 ) ) * row;
+		return ( $.client.profile().platform == 'mac' ? 13 : ( $.client.profile().platform == 'linux' ? 15 : 16 ) ) * row;
 	}
 	return this.each(function() {
 		if ( $(this).is( ':hidden' ) ) {
@@ -386,7 +395,7 @@ scrollToCaretPosition: function( options ) {
 			break;
 	}
 	var context = $(this).data( 'wikiEditor-context' );
-	var hasIframe = context !== undefined && context.$iframe !== undefined;
+	var hasIframe = typeof context !== 'undefined' && context && typeof context.$iframe !== 'undefined';
 	
 	// IE selection restore voodoo
 	var needSave = false;
@@ -400,5 +409,4 @@ scrollToCaretPosition: function( options ) {
 	}
 	return retval;
 };
-
 } )( jQuery );

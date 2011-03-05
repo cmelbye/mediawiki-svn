@@ -20,12 +20,6 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 	// UploadStash
 	private $stash;
 
-	// is the edit request authorized? boolean
-	private $isEditAuthorized;
-
-	// did the user request us to clear the stash? boolean
-	private $requestedClear;
-
 	// Since we are directly writing the file to STDOUT, 
 	// we should not be reading in really big files and serving them out.
 	//
@@ -36,17 +30,13 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 	// uploading.
 	const MAX_SERVE_BYTES = 262144; // 256K
 
-	public function __construct( $request = null ) {
-		global $wgRequest;
-
+	public function __construct() {
 		parent::__construct( 'UploadStash', 'upload' );
 		try {
-			$this->stash = new UploadStash( );
+			$this->stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
 		} catch ( UploadStashNotAvailableException $e ) {
 			return null;
 		}
-
-		$this->loadRequest( is_null( $request ) ? $wgRequest : $request );
 	}
 
 	/**
@@ -84,11 +74,11 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 		$wgOut->disable();
 
 		try {
-			if ( preg_match( '/^(\d+)px-(.*)$/', $key, $matches ) ) {
-				list( /* full match */, $width, $key ) = $matches;
-				return $this->outputThumbFromStash( $key, $width );
+			$params = $this->parseKey( $key );
+			if ( $params['type'] === 'thumb' ) {
+				return $this->outputThumbFromStash( $params['file'], $params['params'] );
 			} else {
-				return $this->outputFileFromStash( $key );
+				return $this->outputLocalFile( $params['file'] );
 			}
 		} catch( UploadStashFileNotFoundException $e ) {
 			$code = 404; 
@@ -110,16 +100,40 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 		wfHttpError( $code, OutputPage::getStatusMessage( $code ), $message );
 		return false;
 	}
-		
+	
 	/**
-	 * Get a file from stash and stream it out. Rely on parent to catch exceptions and transform them into HTTP
-	 * @param String: $key - key of this file in the stash, which probably looks like a filename with extension.
-	 * @return boolean
+	 * Parse the key passed to the SpecialPage. Returns an array containing 
+	 * the associated file object, the type ('file' or 'thumb') and if 
+	 * application the transform parameters
+	 * 
+	 * @param string $key
+	 * @return array
 	 */
-	private function outputFileFromStash( $key ) {
-		$file = $this->stash->getFile( $key );
-		return $this->outputLocalFile( $file );
+	private function parseKey( $key ) {
+		$type = strtok( $key, '/' );
+
+		if ( $type !== 'file' && $type !== 'thumb' ) {
+			throw new UploadStashBadPathException( "Unknown type '$type'" );
+		}
+		$fileName = strtok( '/' );
+		$thumbPart = strtok( '/' );
+		$file = $this->stash->getFile( $fileName );
+		if ( $type === 'thumb' ) {
+			$srcNamePos = strrpos( $thumbPart, $fileName );
+			if ( $srcNamePos === false || $srcNamePos < 1 ) {
+				throw new UploadStashBadPathException( 'Unrecognized thumb name' );
+			} 
+			$paramString = substr( $thumbPart, 0, $srcNamePos - 1 );
+		
+			$handler = $file->getHandler();
+			$params = $handler->parseParamString( $paramString );				
+			return array( 'file' => $file, 'type' => $type, 'params' => $params ); 
+		}
+		
+		return array( 'file' => $file, 'type' => $type );
 	}
+		
+
 
 
 	/**
@@ -128,25 +142,20 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 	 * @param int $width: width of desired thumbnail
 	 * @return boolean success 
  	 */
-	private function outputThumbFromStash( $key, $width ) {
+	private function outputThumbFromStash( $file, $params ) {
 		
 		// this global, if it exists, points to a "scaler", as you might find in the Wikimedia Foundation cluster. See outputRemoteScaledThumb()
 		// this is part of our horrible NFS-based system, we create a file on a mount point here, but fetch the scaled file from somewhere else that
 		// happens to share it over NFS
 		global $wgUploadStashScalerBaseUrl;
 
-		// let exceptions propagate to caller.
-		$file = $this->stash->getFile( $key );
-
-		// OK, we're here and no exception was thrown,
-		// so the original file must exist.
-
-		// let's get ready to transform the original -- these are standard
-		$params = array( 'width' => $width );	
 		$flags = 0;
+		if ( $wgUploadStashScalerBaseUrl ) {
+			$this->outputRemoteScaledThumb( $file, $params, $flags );
+		} else {
+			$this->outputLocallyScaledThumb( $file, $params, $flags );
+		}
 
-		return $wgUploadStashScalerBaseUrl ? $this->outputRemoteScaledThumb( $file, $params, $flags )
-						   : $this->outputLocallyScaledThumb( $file, $params, $flags );
 
 	}
 
@@ -206,8 +215,12 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 		// do not use trailing slash
 		global $wgUploadStashScalerBaseUrl;
 
-		$scalerThumbName = $file->getParamThumbName( $file->name, $params );
-		$scalerThumbUrl = $wgUploadStashScalerBaseUrl . '/' . $file->getRel() . '/' . $scalerThumbName;
+		// We need to use generateThumbName() instead of thumbName(), because 
+		// the suffix needs to match the file name for the remote thumbnailer 
+		// to work
+		$scalerThumbName = $file->generateThumbName( $file->getName(), $params );
+		$scalerThumbUrl = $wgUploadStashScalerBaseUrl . '/' . $file->getUrlRel() . 
+			'/' . rawurlencode( $scalerThumbName );
 		
 		// make a curl call to the scaler to create a thumbnail
 		$httpOptions = array( 
@@ -217,7 +230,7 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 		$req = MWHttpRequest::factory( $scalerThumbUrl, $httpOptions );
 		$status = $req->execute();
 		if ( ! $status->isOK() ) {
-			$errors = $status->getErrorsArray();	
+			$errors = $status->getWikiTextArray( $status->getErrorsArray() );
 			throw new MWException( "Fetching thumbnail failed: " . join( ", ", $errors ) );
 		}
 		$contentType = $req->getResponseHeader( "content-type" );
@@ -274,23 +287,6 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 		header( "Content-Length: $size", true ); 
 	}
 
-
-	/**
-	 * Initialize authorization & actions to take, from the request
-	 * @param $request: WebRequest
-	 */
-	private function loadRequest( $request ) {
-                global $wgUser;
-		if ( $request->wasPosted() ) {
-
-			$token = $request->getVal( 'wpEditToken' );
-			$this->isEditAuthorized = $wgUser->matchEditToken( $token );
-
-			$this->requestedClear = $request->getBool( 'clear' );
-
-		}
-	}
-
 	/**
 	 * Static callback for the HTMLForm in showUploads, to process 
 	 * Note the stash has to be recreated since this is being called in a static context.
@@ -299,10 +295,9 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 	 * @return Status
 	 */ 
 	public static function tryClearStashedUploads( $formData ) {
-		wfDebug( __METHOD__ . " form data : " . print_r( $formData, 1 ) );
-		if ( isset( $formData['clear'] ) and $formData['clear'] ) {
-			$stash = new UploadStash();
-			wfDebug( "stash has: " . print_r( $stash->listFiles(), 1 ) );
+		if ( isset( $formData['Clear'] ) ) {
+			$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
+			wfDebug( "stash has: " . print_r( $stash->listFiles(), true ) );
 			if ( ! $stash->clear() ) {
 				return Status::newFatal( 'uploadstash-errclear' );
 			}
@@ -336,28 +331,31 @@ class SpecialUploadStash extends UnlistedSpecialPage {
 				'name' => 'clear',
 			) 
 		), 'clearStashedUploads' );
-		$form->setSubmitCallback( array( __CLASS__, 'tryClearStashedUploads' ) ); 
+		$form->setSubmitCallback( array( __CLASS__ , 'tryClearStashedUploads' ) ); 
 		$form->setTitle( $this->getTitle() );
-		$form->addHiddenField( 'clear', true, array( 'type' => 'boolean' ) );
 		$form->setSubmitText( wfMsg( 'uploadstash-clear' ) );
 
-                $form->prepareForm();                                                
-                $formResult = $form->tryAuthorizedSubmit();
+		$form->prepareForm();                                                
+		$formResult = $form->tryAuthorizedSubmit();
                                                                     
 
 		// show the files + form, if there are any, or just say there are none
-		$refreshHtml = Html::element( 'a', array( 'href' => $this->getTitle()->getLocalURL() ), wfMsg( 'uploadstash-refresh' ) );
+		$refreshHtml = Html::element( 'a', 
+			array( 'href' => $this->getTitle()->getLocalURL() ), 
+			wfMsg( 'uploadstash-refresh' ) );
 		$files = $this->stash->listFiles();
 		if ( count( $files ) ) {
 			sort( $files );
 			$fileListItemsHtml = '';
 			foreach ( $files as $file ) {
+				// TODO: Use Linker::link or even construct the list in plain wikitext
 				$fileListItemsHtml .= Html::rawElement( 'li', array(),
-					Html::element( 'a', array( 'href' => $this->getTitle( $file )->getLocalURL() ), $file )
+					Html::element( 'a', array( 'href' => 
+						$this->getTitle( "file/$file" )->getLocalURL() ), $file )
 				);
 			}
 			$wgOut->addHtml( Html::rawElement( 'ul', array(), $fileListItemsHtml ) );
-                	$form->displayForm( $formResult );
+			$form->displayForm( $formResult );
 			$wgOut->addHtml( Html::rawElement( 'p', array(), $refreshHtml ) );
 		} else {
 			$wgOut->addHtml( Html::rawElement( 'p', array(), 

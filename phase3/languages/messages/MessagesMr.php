@@ -2381,10 +2381,10 @@ $1',
 'imagemaxsize'         => 'संचिका वर्णन पानांवरील चित्रांना मर्यादा घाला:',
 'thumbsize'            => 'इवलासा आकार:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|पान|पाने}}',
-'file-info'            => '(संचिकेचा आकार:$1,विविधामाप(माईम)प्रकार: $2)',
-'file-info-size'       => '($1 × $2 pixel, संचिकेचा आकार: $3, MIME प्रकार: $4)',
+'file-info'            => 'संचिकेचा आकार:$1,विविधामापमाईमप्रकार: $2',
+'file-info-size'       => '$1 × $2 pixel, संचिकेचा आकार: $3, MIME प्रकार: $4',
 'file-nohires'         => '<small>यापेक्षा जास्त मोठे चित्र उपलब्ध नाही.</small>',
-'svg-long-desc'        => '(SVG संचिका, साधारणपणे $1 × $2 pixels, संचिकेचा आकार: $3)',
+'svg-long-desc'        => 'SVG संचिका, साधारणपणे $1 × $2 pixels, संचिकेचा आकार: $3',
 'show-big-image'       => 'संपूर्ण रिजोल्यूशन',
 'show-big-image-thumb' => '<small>या झलकेचा आकार: $1 × $2 pixels</small>',
 
@@ -2827,9 +2827,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'जुळ्या संचिका शोधा',
-'fileduplicatesearch-summary'  => 'हॅश किंमतीप्रमाणे जुळ्या संचिका शोधा.
-
-"{{ns:file}}:" न लिहिता फक्त संचिकेचे नाव लिहा.',
+'fileduplicatesearch-summary'  => 'हॅश किंमतीप्रमाणे जुळ्या संचिका शोधा.',
 'fileduplicatesearch-legend'   => 'जुळी संचिका शोधा',
 'fileduplicatesearch-filename' => 'संचिकानाव:',
 'fileduplicatesearch-submit'   => 'शोधा',

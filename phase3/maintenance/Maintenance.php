@@ -21,7 +21,9 @@
  */
 
 // Define this so scripts can easily find doMaintenance.php
-define( 'DO_MAINTENANCE', dirname( __FILE__ ) . '/doMaintenance.php' );
+define( 'RUN_MAINTENANCE_IF_MAIN', dirname( __FILE__ ) . '/doMaintenance.php' );
+define( 'DO_MAINTENANCE', RUN_MAINTENANCE_IF_MAIN ); // original name, harmless
+
 $maintClass = false;
 
 // Make sure we're on PHP5 or better
@@ -94,6 +96,11 @@ abstract class Maintenance {
 	// a default with setBatchSize()
 	protected $mBatchSize = null;
 
+	// Generic options added by addDefaultParams()
+	private $mGenericParameters = array();
+	// Generic options which might or not be supported by the script
+	private $mDependantParameters = array();
+
 	/**
 	 * List of all the core maintenance scripts. This is added
 	 * to scripts added by extensions in $wgMaintenanceScripts
@@ -114,6 +121,23 @@ abstract class Maintenance {
 
 		$this->addDefaultParams();
 		register_shutdown_function( array( $this, 'outputChanneled' ), false );
+	}
+
+	/**
+	 * Should we execute the maintenance script, or just allow it to be included
+	 * as a standalone class? It checks that the call stack only includes this
+	 * function and a require (meaning was called from the file scope)
+	 *
+	 * @return Boolean
+	 */
+	public static function shouldExecute() {
+		$bt = debug_backtrace();
+		if( count( $bt ) !== 2 ) {
+			return false;
+		}
+		return ( $bt[1]['function'] == 'require_once' || $bt[1]['function'] == 'require' ) &&
+			$bt[0]['class'] == 'Maintenance' &&
+			$bt[0]['function'] == 'shouldExecute';
 	}
 
 	/**
@@ -360,6 +384,9 @@ abstract class Maintenance {
 	 * Add the default parameters to the scripts
 	 */
 	protected function addDefaultParams() {
+
+		# Generic (non script dependant) options:
+
 		$this->addOption( 'help', 'Display this help message' );
 		$this->addOption( 'quiet', 'Whether to supress non-error output' );
 		$this->addOption( 'conf', 'Location of LocalSettings.php, if not default', false, true );
@@ -369,6 +396,12 @@ abstract class Maintenance {
 		$this->addOption( 'server', "The protocol and server name to use in URLs, e.g. " .
 				"http://en.wikipedia.org. This is sometimes necessary because " .
 				"server name detection may fail in command line scripts.", false, true );
+
+		# Save generic options to display them separately in help
+		$this->mGenericParameters = $this->mParams ;
+
+		# Script dependant options:
+
 		// If we support a DB, show the options
 		if ( $this->getDbType() > 0 ) {
 			$this->addOption( 'dbuser', 'The DB user to use for this script', false, true );
@@ -379,6 +412,9 @@ abstract class Maintenance {
 			$this->addOption( 'batch-size', 'Run this many operations ' .
 				'per batch, default: ' . $this->mBatchSize, false, true );
 		}
+		# Save additional script dependant options to display
+		# them separately in help
+		$this->mDependantParameters = array_diff_key( $this->mParams, $this->mGenericParameters );
 	}
 
 	/**
@@ -389,10 +425,6 @@ abstract class Maintenance {
 	 * @return Maintenance child
 	 */
 	public function runChild( $maintClass, $classFile = null ) {
-		// If we haven't already specified, kill setup procedures
-		// for child scripts, we've already got a sane environment
-		self::disableSetup();
-
 		// Make sure the class is loaded first
 		if ( !class_exists( $maintClass ) ) {
 			if ( $classFile ) {
@@ -406,15 +438,6 @@ abstract class Maintenance {
 		$child = new $maintClass();
 		$child->loadParamsAndArgs( $this->mSelf, $this->mOptions, $this->mArgs );
 		return $child;
-	}
-
-	/**
-	 * Disable Setup.php mostly
-	 */
-	protected static function disableSetup() {
-		if ( !defined( 'MW_NO_SETUP' ) ) {
-			define( 'MW_NO_SETUP', true );
-		}
 	}
 
 	/**
@@ -687,22 +710,66 @@ abstract class Maintenance {
 		}
 		$this->output( "$output\n\n" );
 
-		// Parameters description
-		foreach ( $this->mParams as $par => $info ) {
+		# TODO abstract some repetitive code below
+
+		// Generic parameters
+		$this->output( "Generic maintenance parameters:\n" );
+		foreach ( $this->mGenericParameters as $par => $info ) {
 			$this->output(
 				wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
 						"\n$tab$tab" ) . "\n"
 			);
 		}
+		$this->output( "\n" );
 
-		// Arguments description
-		foreach ( $this->mArgList as $info ) {
-			$openChar = $info['require'] ? '<' : '[';
-			$closeChar = $info['require'] ? '>' : ']';
-			$this->output(
-				wordwrap( "$tab$openChar" . $info['name'] . "$closeChar: " .
-					$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
-			);
+		$scriptDependantParams = $this->mDependantParameters;
+		if( count($scriptDependantParams) > 0 ) {
+			$this->output( "Script dependant parameters:\n" );
+			// Parameters description
+			foreach ( $scriptDependantParams as $par => $info ) {
+				$this->output(
+					wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
+							"\n$tab$tab" ) . "\n"
+				);
+			}
+			$this->output( "\n" );
+		}
+
+
+		// Script specific parameters not defined on construction by
+		// Maintenance::addDefaultParams()
+		$scriptSpecificParams = array_diff_key(
+			# all script parameters:
+			$this->mParams,
+			# remove the Maintenance default parameters:
+			$this->mGenericParameters,
+			$this->mDependantParameters
+		);
+		if( count($scriptSpecificParams) > 0 ) {
+			$this->output( "Script specific parameters:\n" );
+			// Parameters description
+			foreach ( $scriptSpecificParams as $par => $info ) {
+				$this->output(
+					wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
+							"\n$tab$tab" ) . "\n"
+				);
+			}
+			$this->output( "\n" );
+		}
+
+		// Print arguments
+		if( count( $this->mArgList ) > 0 ) {
+			$this->output( "Arguments:\n" );
+			// Arguments description
+			foreach ( $this->mArgList as $info ) {
+				$openChar = $info['require'] ? '<' : '[';
+				$closeChar = $info['require'] ? '>' : ']';
+				$this->output(
+					wordwrap( "$tab$openChar" . $info['name'] . "$closeChar: " .
+						$info['desc'], $descWidth, "\n$tab$tab" ) . "\n"
+				);
+			}
+			$this->output( "\n" );
 		}
 
 		die( 1 );
@@ -943,7 +1010,6 @@ abstract class Maintenance {
 	 */
 	protected static function getCoreScripts() {
 		if ( !self::$mCoreScripts ) {
-			self::disableSetup();
 			$paths = array(
 				dirname( __FILE__ ),
 				dirname( __FILE__ ) . '/gearman',

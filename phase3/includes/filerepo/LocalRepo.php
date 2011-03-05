@@ -85,7 +85,7 @@ class LocalRepo extends FSRepo {
 		global $wgMemc;
 
 		if( is_string( $title ) ) {
-			$title = Title::newFromTitle( $title );
+			$title = Title::newFromText( $title );
 		}
 		if( $title instanceof Title && $title->getNamespace() == NS_MEDIA ) {
 			$title = Title::makeTitle( NS_FILE, $title->getText() );
@@ -133,6 +133,7 @@ class LocalRepo extends FSRepo {
 	/**
 	 * Function link Title::getArticleID().
 	 * We can't say Title object, what database it should use, so we duplicate that function here.
+	 * @param $title Title
 	 */
 	protected function getArticleID( $title ) {
 		if( !$title instanceof Title ) {

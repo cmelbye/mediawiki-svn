@@ -9,6 +9,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
+require_once dirname( __FILE__ ) . '/Services_JSON.php';
+
 class FormatJson {
 	
 	/**
@@ -16,6 +18,11 @@ class FormatJson {
 	 * 
 	 * @param $value Mixed: the value being encoded. Can be any type except a resource.
 	 * @param $isHtml Boolean
+	 *
+	 * @fixme "$isHtml" parameter's purpose is not documented. It appears to
+	 *        map to a parameter labeled "pretty-print output with indents and
+	 *        newlines" in Services_JSON::encode(), which has no string relation
+	 *        to HTML output.
 	 * 
 	 * @return string
 	 */
@@ -44,11 +51,11 @@ class FormatJson {
 	 */
 	public static function decode( $value, $assoc = false ) {
 		if ( !function_exists( 'json_decode' ) ) {
-			$json = new Services_JSON();
+			if( $assoc )
+				$json = new Services_JSON( SERVICES_JSON_LOOSE_TYPE );
+			else
+				$json = new Services_JSON();
 			$jsonDec = $json->decode( $value );
-			if( $assoc ) {
-				$jsonDec = wfObjectToArray( $jsonDec );
-			}
 			return $jsonDec;
 		} else {
 			return json_decode( $value, $assoc );

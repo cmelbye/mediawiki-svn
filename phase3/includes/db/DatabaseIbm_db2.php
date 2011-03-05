@@ -114,7 +114,7 @@ class DatabaseIbm_db2 extends DatabaseBase {
 	protected $mPHPError = false;
 
 	protected $mServer, $mUser, $mPassword, $mConn = null, $mDBname;
-	protected $mOut, $mOpened = false;
+	protected $mOpened = false;
 
 	protected $mTablePrefix;
 	protected $mFlags;
@@ -259,19 +259,12 @@ class DatabaseIbm_db2 extends DatabaseBase {
 	 * @param $flags Integer: database behaviour flags (optional, unused)
 	 * @param $schema String
 	 */
-	public function DatabaseIbm_db2( $server = false, $user = false,
+	public function __construct( $server = false, $user = false,
 							$password = false,
 							$dbName = false, $flags = 0,
 							$schema = self::USE_GLOBAL )
 	{
-
-		global $wgOut, $wgDBmwschema;
-		# Can't get a reference if it hasn't been set yet
-		if ( !isset( $wgOut ) ) {
-			$wgOut = null;
-		}
-		$this->mOut =& $wgOut;
-		$this->mFlags = DBO_TRX | $flags;
+		global $wgDBmwschema;
 
 		if ( $schema == self::USE_GLOBAL ) {
 			$this->mSchema = $wgDBmwschema;
@@ -287,7 +280,7 @@ class DatabaseIbm_db2 extends DatabaseBase {
 		$this->setDB2Option( 'rowcount', 'DB2_ROWCOUNT_PREFETCH_ON',
 			self::STMT_OPTION );
 
-		$this->open( $server, $user, $password, $dbName );
+		parent::__construct( $server, $user, $password, $dbName, DBO_TRX | $flags );
 	}
 
 	/**
@@ -351,6 +344,7 @@ ERROR;
 		}
 
 		if ( strlen( $user ) < 1 ) {
+			wfProfileOut( __METHOD__ );
 			return null;
 		}
 
@@ -378,6 +372,8 @@ ERROR;
 				"Server: $server, Database: $dbName, User: $user, Password: "
 				. substr( $password, 0, 3 ) . "...\n" );
 			$this->installPrint( $this->lastError() . "\n" );
+
+			wfProfileOut( __METHOD__ );
 			return null;
 		}
 
@@ -426,23 +422,6 @@ ERROR;
 		} else {
 			return true;
 		}
-	}
-
-	/**
-	 * Returns a fresh instance of this class
-	 *
-	 * @param $server String: hostname of database server
-	 * @param $user String: username
-	 * @param $password String
-	 * @param $dbName String: database name on the server
-	 * @param $flags Integer: database behaviour flags (optional, unused)
-	 * @return DatabaseIbm_db2 object
-	 */
-	static function newFromParams( $server, $user, $password, $dbName,
-		$flags = 0 )
-	{
-		return new DatabaseIbm_db2( $server, $user, $password, $dbName,
-			$flags );
 	}
 
 	/**

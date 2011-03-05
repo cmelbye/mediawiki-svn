@@ -35,7 +35,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  *
  * @ingroup API
  */
-class ApiQueryRecentChanges extends ApiQueryBase {
+class ApiQueryRecentChanges extends ApiQueryGeneratorBase {
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'rc' );
@@ -43,7 +43,8 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 
 	private $fld_comment = false, $fld_parsedcomment = false, $fld_user = false, $fld_userid = false,
 			$fld_flags = false, $fld_timestamp = false, $fld_title = false, $fld_ids = false,
-			$fld_sizes = false, $fld_redirect = false, $fld_patrolled = false, $fld_loginfo = false, $fld_tags = false;
+			$fld_sizes = false, $fld_redirect = false, $fld_patrolled = false, $fld_loginfo = false,
+			$fld_tags = false, $token = array();
 
 	private $tokenFunctions;
 
@@ -71,6 +72,13 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		return $this->tokenFunctions;
 	}
 
+	/**
+	 * @static
+	 * @param  $pageid
+	 * @param  $title
+	 * @param $rc RecentChange
+	 * @return bool|String
+	 */
 	public static function getPatrolToken( $pageid, $title, $rc ) {
 		global $wgUser;
 		if ( !$wgUser->useRCPatrol() && ( !$wgUser->useNPPatrol() ||
@@ -84,7 +92,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		if ( is_null( $cachedPatrolToken ) ) {
 			$cachedPatrolToken = $wgUser->editToken( 'patrol' );
 		}
-		
+
 		return $cachedPatrolToken;
 	}
 
@@ -108,10 +116,20 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		$this->fld_tags = isset( $prop['tags'] );
 	}
 
+	public function execute() {
+		$this->run();
+	}
+
+	public function executeGenerator( $resultPageSet ) {
+		$this->run( $resultPageSet );
+	}
+
 	/**
 	 * Generates and outputs the result of this query based upon the provided parameters.
+	 *
+	 * @param $resultPageSet ApiPageSet
 	 */
-	public function execute() {
+	public function run( $resultPageSet = null ) {
 		global $wgUser;
 		/* Get the parameters of the request. */
 		$params = $this->extractRequestParams();
@@ -252,6 +270,8 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 		/* Perform the actual query. */
 		$res = $this->select( __METHOD__ );
 
+		$titles = array();
+
 		/* Iterate through the rows, adding data extracted from them to our query result. */
 		foreach ( $res as $row ) {
 			if ( ++ $count > $params['limit'] ) {
@@ -260,22 +280,30 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 				break;
 			}
 
-			/* Extract the data from a single row. */
-			$vals = $this->extractRowInfo( $row );
+			if ( is_null( $resultPageSet ) ) {
+				/* Extract the data from a single row. */
+				$vals = $this->extractRowInfo( $row );
 
-			/* Add that row's data to our final output. */
-			if ( !$vals ) {
-				continue;
-			}
-			$fit = $this->getResult()->addValue( array( 'query', $this->getModuleName() ), null, $vals );
-			if ( !$fit ) {
-				$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->rc_timestamp ) );
-				break;
+				/* Add that row's data to our final output. */
+				if ( !$vals ) {
+					continue;
+				}
+				$fit = $this->getResult()->addValue( array( 'query', $this->getModuleName() ), null, $vals );
+				if ( !$fit ) {
+					$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->rc_timestamp ) );
+					break;
+				}
+			} else {
+				$titles[] = Title::makeTitle( $row->rc_namespace, $row->rc_title );
 			}
 		}
 
-		/* Format the result */
-		$this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'rc' );
+		if ( is_null( $resultPageSet ) ) {
+			/* Format the result */
+			$this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'rc' );
+		} else {
+			$resultPageSet->populateFromTitles( $titles );
+		}
 	}
 
 	/**
@@ -288,8 +316,7 @@ class ApiQueryRecentChanges extends ApiQueryBase {
 	public function extractRowInfo( $row ) {
 		/* If page was moved somewhere, get the title of the move target. */
 		$movedToTitle = false;
-		if ( isset( $row->rc_moved_to_title ) && $row->rc_moved_to_title !== '' )
-		{
+		if ( isset( $row->rc_moved_to_title ) && $row->rc_moved_to_title !== '' ) {
 			$movedToTitle = Title::makeTitle( $row->rc_moved_to_ns, $row->rc_moved_to_title );
 		}
 

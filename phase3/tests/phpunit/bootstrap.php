@@ -28,38 +28,5 @@ dependencies.
 EOF;
 }
 
-global $wgLocalisationCacheConf, $wgMainCacheType, $wgMessageCacheType, $wgParserCacheType;
-global $wgMessageCache, $messageMemc, $wgUseDatabaseMessages, $wgMsgCacheExpiry;
-$wgLocalisationCacheConf['storeClass'] =  'LCStore_Null';
-$wgMainCacheType = CACHE_NONE;
-$wgMessageCacheType = CACHE_NONE;
-$wgParserCacheType = CACHE_NONE;
-$wgUseDatabaseMessages = false; # Set for future resets
-
-# The message cache was already created in Setup.php
-$wgMessageCache = new StubObject( 'wgMessageCache', 'MessageCache',
-	array( $messageMemc, $wgUseDatabaseMessages, $wgMsgCacheExpiry ) );
-
-/* Classes */
-
-abstract class MediaWikiTestSetup extends PHPUnit_Framework_TestCase {
-	protected $suite;
-	public $regex = '';
-	public $runDisabled = false;
-
-	function __construct( PHPUnit_Framework_TestSuite $suite = null ) {
-		if ( null !== $suite ) {
-			$this->suite = $suite;
-		}
-	}
-
-	function __call( $func, $args ) {
-		if ( method_exists( $this->suite, $func ) ) {
-			return call_user_func_array( array( $this->suite, $func ), $args);
-		} else {
-			throw new MWException( "Called non-existant $func method on "
-				. get_class( $this ) );
-		}
-	}
-}
-
+/** @todo Check if this is really needed */
+MessageCache::destroyInstance();

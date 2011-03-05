@@ -82,6 +82,9 @@ class Revision {
 		if ( isset( $row->ar_text ) && !$row->ar_text_id ) {
 			// Pre-1.5 ar_text row
 			$attribs['text'] = self::getRevisionText( $row, 'ar_' );
+			if ( $attribs['text'] === false ) {
+				throw new MWException( 'Unable to load text from archive row (possibly bug 22624)' );
+			}
 		}
 		return new self( $attribs );
 	}
@@ -149,7 +152,7 @@ class Revision {
 	 * WARNING: Timestamps may in some circumstances not be unique,
 	 * so this isn't the best key to use.
 	 *
-	 * @param $db Database
+	 * @param $db DatabaseBase
 	 * @param $title Title
 	 * @param $timestamp String
 	 * @return Revision or null

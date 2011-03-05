@@ -57,32 +57,31 @@ class ApiEditPage extends ApiBase {
 		if ( !$titleObj || $titleObj->isExternal() ) {
 			$this->dieUsageMsg( array( 'invalidtitle', $params['title'] ) );
 		}
-		
-		if( $params['redirect'] ) {
-			if( $titleObj->isRedirect() ) {
+
+		if ( $params['redirect'] ) {
+			if ( $titleObj->isRedirect() ) {
 				$oldTitle = $titleObj;
-				
+
 				$titles = Title::newFromRedirectArray( Revision::newFromTitle( $oldTitle )->getText( Revision::FOR_THIS_USER ) );
-				//array_shift( $titles );
-				
+				// array_shift( $titles );
+
 				$this->getResult()->addValue( null, 'foo', $titles );
-				
-				
+
 				$redirValues = array();
 				foreach ( $titles as $id => $newTitle ) {
-					
-					if( !isset( $titles[ $id - 1 ] ) ) {
+
+					if ( !isset( $titles[ $id - 1 ] ) ) {
 						$titles[ $id - 1 ] = $oldTitle;
 					}
-					
+
 					$redirValues[] = array(
 						'from' => $titles[ $id - 1 ]->getPrefixedText(),
 						'to' => $newTitle->getPrefixedText()
 					);
-					
+
 					$titleObj = $newTitle;
 				}
-		
+
 				$this->getResult()->setIndexedTagName( $redirValues, 'r' );
 				$this->getResult()->addValue( null, 'redirects', $redirValues );
 
@@ -181,6 +180,8 @@ class ApiEditPage extends ApiBase {
 		}
 
 		$ep = new EditPage( $articleObj );
+		$ep->setContextTitle( $titleObj );
+
 		// EditPage wants to parse its stuff from a WebRequest
 		// That interface kind of sucks, but it's workable
 		$reqArr = array(

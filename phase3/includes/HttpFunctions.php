@@ -89,6 +89,7 @@ class Http {
 			// Check if this domain or any superdomain is listed in $wgConf as a local virtual host
 			$domainParts = array_reverse( $domainParts );
 
+			$domain = '';
 			for ( $i = 0; $i < count( $domainParts ); $i++ ) {
 				$domainPart = $domainParts[$i];
 				if ( $i == 0 ) {
@@ -138,6 +139,8 @@ class Http {
  * php's HTTP extension.
  */
 class MWHttpRequest {
+	const SUPPORTS_FILE_POSTS = false;
+	
 	protected $content;
 	protected $timeout = 'default';
 	protected $headersOnly = null;
@@ -155,6 +158,9 @@ class MWHttpRequest {
 	protected $maxRedirects = 5;
 	protected $followRedirects = false;
 
+	/**
+	 * @var  CookieJar
+	 */
 	protected $cookieJar;
 
 	protected $headerList = array();
@@ -187,7 +193,7 @@ class MWHttpRequest {
 		}
 
 		$members = array( "postData", "proxy", "noProxy", "sslVerifyHost", "caInfo",
-				  "method", "followRedirects", "maxRedirects", "sslVerifyCert" );
+				  "method", "followRedirects", "maxRedirects", "sslVerifyCert", "callback" );
 
 		foreach ( $members as $o ) {
 			if ( isset( $options[$o] ) ) {
@@ -198,6 +204,8 @@ class MWHttpRequest {
 
 	/**
 	 * Generate a new request object
+        * @param $url String: url to use
+	 * @param $options Array: (optional) extra params to pass (see Http::request())
 	 * @see MWHttpRequest::__construct
 	 */
 	public static function factory( $url, $options = null ) {
@@ -339,10 +347,6 @@ class MWHttpRequest {
 
 		if ( strtoupper( $this->method ) == "HEAD" ) {
 			$this->headersOnly = true;
-		}
-
-		if ( is_array( $this->postData ) ) {
-			$this->postData = wfArrayToCGI( $this->postData );
 		}
 
 		if ( is_object( $wgTitle ) && !isset( $this->reqHeaders['Referer'] ) ) {
@@ -798,6 +802,8 @@ class CookieJar {
  * MWHttpRequest implemented using internal curl compiled into PHP
  */
 class CurlHttpRequest extends MWHttpRequest {
+	const SUPPORTS_FILE_POSTS = true;
+	
 	static $curlMessageMap = array(
 		6 => 'http-host-unreachable',
 		28 => 'http-timed-out'
@@ -867,12 +873,14 @@ class CurlHttpRequest extends MWHttpRequest {
 		}
 
 		if ( $this->followRedirects && $this->canFollowRedirects() ) {
-			if ( ! @curl_setopt( $curlHandle, CURLOPT_FOLLOWLOCATION, true ) ) {
+			wfSuppressWarnings();
+			if ( ! curl_setopt( $curlHandle, CURLOPT_FOLLOWLOCATION, true ) ) {
 				wfDebug( __METHOD__ . ": Couldn't set CURLOPT_FOLLOWLOCATION. " .
 					"Probably safe_mode or open_basedir is set.\n" );
 				// Continue the processing. If it were in curl_setopt_array,
 				// processing would have halted on its entry
 			}
+			wfRestoreWarnings();
 		}
 
 		if ( false === curl_exec( $curlHandle ) ) {
@@ -920,6 +928,10 @@ class PhpHttpRequest extends MWHttpRequest {
 	public function execute() {
 		parent::execute();
 
+		if ( is_array( $this->postData ) ) {
+			$this->postData = wfArrayToCGI( $this->postData );
+		}		
+		
 		// At least on Centos 4.8 with PHP 5.1.6, using max_redirects to follow redirects
 		// causes a segfault
 		$manuallyRedirect = version_compare( phpversion(), '5.1.7', '<' );
@@ -974,6 +986,8 @@ class PhpHttpRequest extends MWHttpRequest {
 		$this->headerList = array();
 		$reqCount = 0;
 		$url = $this->url;
+
+		$result = array();
 
 		do {
 			$reqCount++;

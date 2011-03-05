@@ -43,7 +43,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class ApiQuery extends ApiBase {
 
 	private $mPropModuleNames, $mListModuleNames, $mMetaModuleNames;
+
+	/**
+	 * @var ApiPageSet
+	 */
 	private $mPageSet;
+
 	private $params, $redirects, $convertTitles;
 
 	private $mQueryPropModules = array(
@@ -185,15 +190,15 @@ class ApiQuery extends ApiBase {
 	 * @return mixed string or null
 	 */
 	function getModuleType( $moduleName ) {
-		if ( array_key_exists ( $moduleName, $this->mQueryPropModules ) ) {
+		if ( isset( $this->mQueryPropModules[$moduleName] ) ) {
 			return 'prop';
 		}
 
-		if ( array_key_exists ( $moduleName, $this->mQueryListModules ) ) {
+		if ( isset( $this->mQueryListModules[$moduleName] ) ) {
 			return 'list';
 		}
 
-		if ( array_key_exists ( $moduleName, $this->mQueryMetaModules ) ) {
+		if ( isset( $this->mQueryMetaModules[$moduleName] ) ) {
 			return 'meta';
 		}
 
@@ -425,7 +430,7 @@ class ApiQuery extends ApiBase {
 			ApiQueryBase::addTitleInfo( $vals, $title );
 			$vals['special'] = '';
 			if ( $title->getNamespace() == NS_SPECIAL &&
-					!SpecialPage::exists( $title->getText() ) ) {
+					!SpecialPage::exists( $title->getDbKey() ) ) {
 				$vals['missing'] = '';
 			} elseif ( $title->getNamespace() == NS_MEDIA &&
 					!wfFindFile( $title ) ) {
@@ -466,7 +471,7 @@ class ApiQuery extends ApiBase {
 	private function doExport( $pageSet, $result )	{
 		$exportTitles = array();
 		$titles = $pageSet->getGoodTitles();
-		if( count( $titles ) ) {
+		if ( count( $titles ) ) {
 			foreach ( $titles as $title ) {
 				if ( $title->userCanRead() ) {
 					$exportTitles[] = $title;
@@ -594,8 +599,8 @@ class ApiQuery extends ApiBase {
 		$this->mPageSet = null;
 		$this->mAllowedGenerators = array(); // Will be repopulated
 
-		$querySeparator = str_repeat( '--- ', 8 );
-		$moduleSeparator = str_repeat( '*** ', 10 );
+		$querySeparator = str_repeat( '--- ', 12 );
+		$moduleSeparator = str_repeat( '*** ', 14 );
 		$msg .= "\n$querySeparator Query: Prop  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryPropModules, 'prop' );
 		$msg .= "\n$querySeparator Query: List  $querySeparator\n\n";
@@ -622,7 +627,7 @@ class ApiQuery extends ApiBase {
 		$moduleDescriptions = array();
 
 		foreach ( $moduleList as $moduleName => $moduleClass ) {
-			$module = new $moduleClass ( $this, $moduleName, null );
+			$module = new $moduleClass( $this, $moduleName, null );
 
 			$msg = ApiMain::makeHelpMsgHeader( $module, $paramName );
 			$msg2 = $module->makeHelpMsg();

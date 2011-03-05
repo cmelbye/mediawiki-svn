@@ -12,7 +12,7 @@
  * @ingroup Deployment
  * @since 1.17
  */
-class CliInstaller extends CoreInstaller {
+class CliInstaller extends Installer {
 
 	private $optionMap = array(
 		'dbtype' => 'wgDBtype',
@@ -29,7 +29,6 @@ class CliInstaller extends CoreInstaller {
 		'dbuser' => 'wgDBuser',
 		'dbpass' => 'wgDBpassword',
 		'dbschema' => 'wgDBmwschema',
-		'dbts2schema' => 'wgDBts2schema',
 		'dbpath' => 'wgSQLiteDataDir',
 		'scriptpath' => 'wgScriptPath',
 		'upgrade' => 'cliUpgrade', /* As long as it isn't $confItems

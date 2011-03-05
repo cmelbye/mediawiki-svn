@@ -8,8 +8,15 @@
  */
 
 class UploadFromFile extends UploadBase {
+
+	/**
+	 * @var WebRequestUpload
+	 */
 	protected $mUpload = null;
 
+	/**
+	 * @param $request WebRequest
+	 */
 	function initializeFromRequest( &$request ) {
 		$upload = $request->getUpload( 'wpUploadFile' );		
 		$desiredDestName = $request->getText( 'wpDestFile' );
@@ -33,16 +40,17 @@ class UploadFromFile extends UploadBase {
 		return true;
 	}
 	
+	public function getSourceType() { return 'file'; }
+	
 	public function verifyUpload() {
 		# Check for a post_max_size or upload_max_size overflow, so that a 
 		# proper error can be shown to the user
 		if ( is_null( $this->mTempPath ) || $this->isEmptyFile() ) {
 			if ( $this->mUpload->isIniSizeOverflow() ) {
-				global $wgMaxUploadSize;
 				return array( 
 					'status' => UploadBase::FILE_TOO_LARGE,
 					'max' => min( 
-						$wgMaxUploadSize, 
+						self::getMaxUploadSize( $this->getSourceType() ), 
 						wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ), 
 						wfShorthandToInteger( ini_get( 'post_max_size' ) )
 					),
@@ -60,6 +68,4 @@ class UploadFromFile extends UploadBase {
 	public function getFileTempname() {
 		return $this->mUpload->getTempname();
 	}
-
-	
 }

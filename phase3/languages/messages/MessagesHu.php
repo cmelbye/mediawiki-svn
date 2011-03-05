@@ -328,8 +328,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Az oldalt figyelő szerkesztők számának mutatása',
 'tog-oldsig'                  => 'A jelenlegi aláírás előnézete:',
 'tog-fancysig'                => 'Az aláírás wikiszöveg (nem lesz automatikusan hivatkozásba rakva)',
-'tog-externaleditor'          => 'Külső szerkesztőprogram használata (csak haladók számára, speciális beállításokra van szükség a számítógépen)',
-'tog-externaldiff'            => 'Külső diff program használata (csak haladók számára, speciális beállításokra van szükség a számítógépen)',
+'tog-externaleditor'          => 'Külső szerkesztőprogram használata (Csak haladók számára, speciális beállításokra van szükség a számítógépen. [http://www.mediawiki.org/wiki/Manual:External_editors További információ angolul.])',
+'tog-externaldiff'            => 'Külső diff program használata (Csak haladók számára, speciális beállításokra van szükség a számítógépen. [http://www.mediawiki.org/wiki/Manual:External_editors További információ angolul.])',
 'tog-showjumplinks'           => 'Helyezzen el hivatkozást („Ugrás”) a beépített eszköztárra',
 'tog-uselivepreview'          => 'Élő előnézet használata (JavaScript-alapú, kísérleti)',
 'tog-forceeditsummary'        => 'Figyelmeztessen, ha nem adok meg szerkesztési összefoglalót',
@@ -488,6 +488,7 @@ $messages = array(
 'printableversion'  => 'Nyomtatható változat',
 'permalink'         => 'Link erre a változatra',
 'print'             => 'Nyomtatás',
+'view'              => 'Olvasás',
 'edit'              => 'Szerkesztés',
 'create'            => 'Létrehozás',
 'editthispage'      => 'Lap szerkesztése',
@@ -495,6 +496,7 @@ $messages = array(
 'delete'            => 'Törlés',
 'deletethispage'    => 'Lap törlése',
 'undelete_short'    => '{{PLURAL:$1|Egy|$1}} szerkesztés helyreállítása',
+'viewdeleted_short' => '{{PLURAL:$1|Egy|$1}} törölt szerkesztés megtekintése',
 'protect'           => 'Lapvédelem',
 'protect_change'    => 'módosítás',
 'protectthispage'   => 'Lapvédelem',
@@ -578,6 +580,8 @@ $1',
 'toc'                     => 'Tartalomjegyzék',
 'showtoc'                 => 'megjelenítés',
 'hidetoc'                 => 'elrejtés',
+'collapsible-collapse'    => 'kinyit',
+'collapsible-expand'      => 'becsuk',
 'thisisdeleted'           => '$1 megtekintése vagy helyreállítása?',
 'viewdeleted'             => '$1 megtekintése',
 'restorelink'             => '{{PLURAL:$1|Egy|$1}} törölt szerkesztés',
@@ -737,7 +741,6 @@ Ellenőrizd, hogy helyesen írtad-e be.',
 'wrongpasswordempty'         => 'Nem adtál meg jelszót. Próbáld meg újra.',
 'passwordtooshort'           => 'A jelszónak legalább {{PLURAL:$1|egy|$1}} karakterből kell állnia.',
 'password-name-match'        => 'A jelszavadnak különböznie kell a szerkesztőnevedtől.',
-'password-too-weak'          => 'A megadott jelszó túl gyenge, ezért nem használható.',
 'mailmypassword'             => 'Új jelszó küldése e-mailben',
 'passwordremindertitle'      => 'Ideiglenes jelszó a(z) {{SITENAME}} wikire',
 'passwordremindertext'       => 'Valaki (vélhetően te, a(z) $1 IP-címről) új jelszót kért a(z)
@@ -991,10 +994,9 @@ Visszamehetsz és szerkeszthetsz egy létező lapot, valamint [[Special:UserLogi
 'permissionserrors'                => 'Engedélyezési hiba',
 'permissionserrorstext'            => 'A művelet elvégzése nem engedélyezett a számodra, a következő {{PLURAL:$1|ok|okok}} miatt:',
 'permissionserrorstext-withaction' => 'Nincs jogosultságod a következő művelet elvégzéséhez: $2, a következő {{PLURAL:$1|ok|okok}} miatt:',
-'recreate-moveddeleted-warn'       => "'''Vigyázat: egy olyan lapot akarsz létrehozni, amit korábban már töröltek.'''
+'recreate-moveddeleted-warn'       => "'''Figyelem! Olyan lapot készülsz létrehozni, amit már legalább egyszer töröltek.'''
 
-Mielőtt létrehoznád, nézd meg, miért került törölték és ellenőrizd,
-hogy a törlés indoka nem érvényes-e még. A törlési és átnevezési naplókban a lapról az alábbi bejegyzések szerepelnek:",
+Mielőtt létrehoznád, nézd meg, miért törölték a lap korábbi tartalmát, és győződj meg róla, hogy a törlés indoka érvényes-e még. A törlési és átnevezési naplókban az érintett lapról az alábbi bejegyzések szerepelnek:",
 'moveddeleted-notice'              => 'Az oldal korábban törölve lett.
 A lap törlési és átnevezési naplója alább olvasható.',
 'log-fulllog'                      => 'Teljes napló megtekintése',
@@ -1417,6 +1419,10 @@ Ezen kívül más szerkesztők is kapcsolatba lépjenek veled a szerkesztői vag
 'prefs-displaywatchlist'        => 'Megjelenítési beállítások',
 'prefs-diffs'                   => 'Eltérések (diffek)',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Az e-mail cím érvényesnek tűnik',
+'email-address-validity-invalid' => 'Írj be egy érvényes e-mail címet',
+
 # User rights
 'userrights'                   => 'Szerkesztői jogok beállítása',
 'userrights-lookup-user'       => 'Szerkesztőcsoportok beállítása',
@@ -1697,7 +1703,7 @@ Ha rendelkezel a teljesméretű képpel, akkor töltsd fel azt, egyébként kér
 Ha még mindig fel szeretnéd tölteni a fájlt, menj vissza, és adj meg egy új nevet. [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'Egy ugyanilyen nevű fájl már létezik a közös fájlmegosztóban; kérlek menj vissza és válassz egy másik nevet a fájlnak, ha még mindig fel akarod tölteni! [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ez a következő {{PLURAL:$1|fájl|fájlok}} duplikátuma:',
-'file-deleted-duplicate'      => 'Egy ehhez hasonló fájlt ([[$1]]) korábban már töröltek. Ellenőrizd a fájl törlési naplóját, mielőtt újra feltöltenéd.',
+'file-deleted-duplicate'      => 'Egy ehhez hasonló fájlt ([[:$1]]) korábban már töröltek. Ellenőrizd a fájl törlési naplóját, mielőtt újra feltöltenéd.',
 'uploadwarning'               => 'Feltöltési figyelmeztetés',
 'uploadwarning-text'          => 'Kérlek módosítsd a fájl leírását alább, majd próbáld újra.',
 'savefile'                    => 'Fájl mentése',
@@ -1756,6 +1762,11 @@ Kérjük, hogy lépj kapcsolatba egy  [[Special:ListUsers/sysop|adminisztrátorr
 'upload-too-many-redirects' => 'Az URL túl sokszor volt átirányítva',
 'upload-unknown-size'       => 'Ismeretlen méretű',
 'upload-http-error'         => 'HTTP-hiba történt: $1',
+
+# Special:UploadStash
+'uploadstash-summary'  => 'Ezen a lapon lehet hozzáférni azokhoz a fájlokhoz, melyek fel lettek töltve (vagy épp feltöltés alatt vannak), de még nem lettek közzétéve a wikin. Az ilyen fájlok csak a feltöltőik számára láthatóak.',
+'uploadstash-errclear' => 'A fájlok törlése nem sikerült.',
+'uploadstash-refresh'  => 'Fájlok listájának frissítése',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Hozzáférés megtagadva',
@@ -1930,12 +1941,13 @@ Ellenőrizd a meglévő hivatkozásokat, mielőtt törölnéd őket.',
 A megfelelő szócikkre kellene mutatniuk inkább.<br />
 Egy oldal egyértelműsítő lapnak számít, ha tartalmazza a [[MediaWiki:Disambiguationspage]] oldalról belinkelt sablonok valamelyikét.",
 
-'doubleredirects'            => 'Dupla átirányítások',
-'doubleredirectstext'        => 'Ez a lap azokat a lapokat listázza, melyek átirányító lapokra irányítanak át.
+'doubleredirects'                   => 'Dupla átirányítások',
+'doubleredirectstext'               => 'Ez a lap azokat a lapokat listázza, melyek átirányító lapokra irányítanak át.
 Minden sor tartalmaz egy hivatkozást az első, valamint a második átirányításra, valamint a második átirányítás céljára, ami általában a valódi céllap, erre kellene az első átirányításnak mutatnia.
 Az <del>áthúzott</del> sorok a lista elkészülése óta javítva lettek.',
-'double-redirect-fixed-move' => '[[$1]] átnevezve, a továbbiakban átirányításként működik a(z) [[$2]] lapra',
-'double-redirect-fixer'      => 'Átirányításjavító',
+'double-redirect-fixed-move'        => '[[$1]] átnevezve, a továbbiakban átirányításként működik a(z) [[$2]] lapra',
+'double-redirect-fixed-maintenance' => '[[$1]] dupla átirányítás javítása a következőre: [[$2]]',
+'double-redirect-fixer'             => 'Átirányításjavító',
 
 'brokenredirects'        => 'Nem létező lapra mutató átirányítások',
 'brokenredirectstext'    => 'A következő átirányítások nem létező lapokra hivatkoznak:',
@@ -2502,7 +2514,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'noautoblockblock'                => 'az automatikus blokkolás letiltott',
 'createaccountblock'              => 'új felhasználó létrehozása blokkolva',
 'emailblock'                      => 'e-mail cím blokkolva',
-'blocklist-nousertalk'            => 'nem szerkeszthetik a vitalapjukat',
+'blocklist-nousertalk'            => 'nem szerkesztheti a vitalapját',
 'ipblocklist-empty'               => 'A blokkoltak listája üres.',
 'ipblocklist-no-results'          => 'A kért IP-cím vagy felhasználónév nem blokkolt.',
 'blocklink'                       => 'blokkolás',
@@ -2897,7 +2909,7 @@ Ez valószínűleg egy olyan link miatt van, ami egy feketelistán lévő oldalr
 'math_unknown_function' => 'ismeretlen függvény',
 'math_lexing_error'     => 'lexikai hiba',
 'math_syntax_error'     => 'formai hiba',
-'math_image_error'      => 'Sikertelen PNG-vé alakítás; ellenőrizd a latex, dvips, gs telepítését',
+'math_image_error'      => 'PNG-vé alakítás sikertelen; ellenőrizd, hogy a latex és dvipng (vagy dvips + gs + convert) helyesen van-e telepítve',
 'math_bad_tmpdir'       => 'Nem írható vagy nem hozható létre a matematikai ideiglenes könyvtár',
 'math_bad_output'       => 'Nem lehet létrehozni vagy írni a matematikai függvények kimeneti könyvtárába',
 'math_notexvc'          => 'HIányzó texvc végrehajtható fájl; a beállítást lásd a math/README fájlban.',
@@ -2942,10 +2954,10 @@ A futtatása során kárt tehet a számítógépedben.",
 'imagemaxsize'         => "A képek mérete, legfeljebb:<br />''(a leírólapokon)''",
 'thumbsize'            => 'Bélyegkép mérete:',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|egy|$3}} oldal',
-'file-info'            => '(fájlméret: $1, MIME-típus: $2)',
-'file-info-size'       => '($1 × $2 képpont, fájlméret: $3, MIME-típus: $4)',
+'file-info'            => 'fájlméret: $1, MIME-típus: $2',
+'file-info-size'       => '$1 × $2 képpont, fájlméret: $3, MIME-típus: $4',
 'file-nohires'         => '<small>Nem érhető el nagyobb felbontású változat.</small>',
-'svg-long-desc'        => '(SVG fájl, névlegesen $1 × $2 képpont, fájlméret: $3)',
+'svg-long-desc'        => 'SVG fájl, névlegesen $1 × $2 képpont, fájlméret: $3',
 'show-big-image'       => 'A kép nagyfelbontású változata',
 'show-big-image-thumb' => '<small>Az előnézet mérete: $1 × $2 képpont</small>',
 'file-info-gif-looped' => 'ismétlődik',
@@ -3107,6 +3119,7 @@ tartalmazni fogja. A többi alapértelmezésként rejtett marad.
 'exif-gpsareainformation'          => 'GPS terület neve',
 'exif-gpsdatestamp'                => 'GPS dátum',
 'exif-gpsdifferential'             => 'GPS különbözeti korrekció',
+'exif-objectname'                  => 'Rövid cím',
 
 # EXIF attributes
 'exif-compression-1' => 'Nem tömörített',
@@ -3410,6 +3423,7 @@ minden egyes sor egy figyelt lap címe. Ha kész vagy, kattints a lista alatt ta
 'version-specialpages'             => 'Speciális lapok',
 'version-parserhooks'              => 'Értelmező hookok',
 'version-variables'                => 'Változók',
+'version-antispam'                 => 'Spammegelőzés',
 'version-skins'                    => 'Felületek',
 'version-other'                    => 'Egyéb',
 'version-mediahandlers'            => 'Médiafájl-kezelők',
@@ -3442,16 +3456,15 @@ A MediaWikit abban a reményben terjesztjük, hogy hasznos lesz, de GARANCIA NÉ
 Add meg a fájlnevet a „{{ns:file}}:” prefixum nélkül.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Duplikátumok keresése',
-'fileduplicatesearch-summary'  => 'Fájlok duplikátumainak keresése hash értékük alapján.
-
-Add meg a fájl nevét „{{ns:file}}:” előtag nélkül.',
-'fileduplicatesearch-legend'   => 'Duplikátum keresése',
-'fileduplicatesearch-filename' => 'Fájlnév:',
-'fileduplicatesearch-submit'   => 'Keresés',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />Fájlméret: $3<br />MIME-típus: $4',
-'fileduplicatesearch-result-1' => 'A(z) „$1“ nevű fájlnak nincs duplikátuma.',
-'fileduplicatesearch-result-n' => 'A(z) „$1” nevű fájlnak {{PLURAL:$2|egy|$2}} duplikátuma van.',
+'fileduplicatesearch'           => 'Duplikátumok keresése',
+'fileduplicatesearch-summary'   => 'Fájlok duplikátumainak keresése hash értékük alapján.',
+'fileduplicatesearch-legend'    => 'Duplikátum keresése',
+'fileduplicatesearch-filename'  => 'Fájlnév:',
+'fileduplicatesearch-submit'    => 'Keresés',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />Fájlméret: $3<br />MIME-típus: $4',
+'fileduplicatesearch-result-1'  => 'A(z) „$1“ nevű fájlnak nincs duplikátuma.',
+'fileduplicatesearch-result-n'  => 'A(z) „$1” nevű fájlnak {{PLURAL:$2|egy|$2}} duplikátuma van.',
+'fileduplicatesearch-noresults' => 'Nincs „$1” nevű fájl.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Speciális lapok',
@@ -3536,14 +3549,13 @@ Add meg a fájl nevét „{{ns:file}}:” előtag nélkül.',
 'disableaccount'             => 'Felhasználói fiók letiltása',
 'disableaccount-user'        => 'Felhasználónév:',
 'disableaccount-reason'      => 'Ok:',
+'disableaccount-confirm'     => "Felhasználói fiók letiltása.
+A felhasználó nem jelentkezhet be, nem kérhet új jelszót és nem kap e-mailes értesítéseket.
+Ha a felhasználó bárhol be van jelentkezve, ki lesz jelentkeztetve.
+''Fontos, hogy felhasználói fiók letiltása nem állítható vissza rendszeradminisztrátor közreműködése nélkül.''",
 'disableaccount-mustconfirm' => 'Meg kell erősítened, hogy biztosan le szeretnéd tiltani ezt a fiókot.',
 'disableaccount-nosuchuser'  => 'Nem létezik „$1” nevű felhasználói fiók.',
 'disableaccount-success'     => '„$1” felhasználói fiókja véglegesen le lett tiltva.',
 'disableaccount-logentry'    => 'véglegesen letiltotta [[$1]] felhasználói fiókját',
-
-# Special:UploadStash
-'uploadstash-summary'  => 'Ezen a lapon lehet hozzáférni azokhoz a fájlokhoz, melyek fel lettek töltve (vagy épp feltöltés alatt vannak), de még nem lettek közzétéve a wikin. Az ilyen fájlok csak a feltöltőik számára láthatóak.',
-'uploadstash-errclear' => 'A fájlok törlése nem sikerült.',
-'uploadstash-refresh'  => 'Fájlok listájának frissítése',
 
 );

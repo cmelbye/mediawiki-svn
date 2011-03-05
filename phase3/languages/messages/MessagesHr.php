@@ -425,7 +425,7 @@ $messages = array(
 'hidden-category-category'       => 'Skrivene kategorije',
 'category-subcat-count'          => '{{PLURAL:$2|Ova kategorija ima samo sljedeću podkategoriju.|Ova kategorija ima {{PLURAL:$1|podkategoriju|$1 podkategorije|$1 podkategorija}}, od njih $2 ukupno.}}',
 'category-subcat-count-limited'  => 'Ova kategorija ima {{PLURAL:$1|podkategoriju|$1 podkategorije|$1 podkategorija}}.',
-'category-article-count'         => '{{PLURAL:$2|Ova kategorija sadrži samo sljedeću stranicu.|{{PLURAL:$1|stranica je|$1 stranice su|$1 stranica je}} u ovoj kategoriji, od njih $2 ukupno.}}',
+'category-article-count'         => '{{PLURAL:$2|Ova kategorija sadrži $2 članak.|{{PLURAL:$1|Prikazano je $1 članak|Prikazana su $1 članka|Prikazano je $1 članaka}} od njih $2 ukupno.}}',
 'category-article-count-limited' => '{{PLURAL:$1|stranica je|$1 stranice su|$1 stranica je}} u ovoj kategoriji.',
 'category-file-count'            => '{{PLURAL:$2|Ova kategorija sadrži samo sljedeću datoteku.|{{PLURAL:$1|datoteka je|$1 datoteke su|$1 datoteka je}} u ovoj kategoriji, od njih $2 ukupno.}}',
 'category-file-count-limited'    => '{{PLURAL:$1|datoteka je|$1 datoteke su|$1 datoteka su}} u ovoj kategoriji.',
@@ -491,6 +491,7 @@ i [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Vodič za suradnike] 
 'printableversion'  => 'Verzija za ispis',
 'permalink'         => 'Trajna poveznica',
 'print'             => 'Ispiši',
+'view'              => 'Vidi',
 'edit'              => 'Uredi',
 'create'            => 'Započni',
 'editthispage'      => 'Uredi ovu stranicu',
@@ -498,6 +499,7 @@ i [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Vodič za suradnike] 
 'delete'            => 'Izbriši',
 'deletethispage'    => 'Izbriši ovu stranicu',
 'undelete_short'    => 'Vrati {{PLURAL:$1|$1 uređivanje|$1 uređivanja}}',
+'viewdeleted_short' => 'Prikaži $1 {{plural: $1|izbrisano uređivanje|izbrisana uređivanja|izbrisanih uređivanja}}',
 'protect'           => 'Zaštiti',
 'protect_change'    => 'promijeni',
 'protectthispage'   => 'Zaštiti ovu stranicu',
@@ -581,6 +583,8 @@ $1',
 'toc'                     => 'Sadržaj',
 'showtoc'                 => 'prikaži',
 'hidetoc'                 => 'sakrij',
+'collapsible-collapse'    => 'sklopi stablo',
+'collapsible-expand'      => 'raširi stablo',
 'thisisdeleted'           => 'Vidi ili vrati $1?',
 'viewdeleted'             => 'Vidi $1?',
 'restorelink'             => '{{PLURAL:$1|$1 pobrisanu izmjenu|$1 pobrisane izmjene|$1 pobrisanih izmjena}}',
@@ -725,6 +729,8 @@ Unesite neko drugo ime.',
 'createaccounterror'         => 'Ne može se stvoriti račun: $1',
 'nocookiesnew'               => "Suradnički račun je otvoren, ali niste uspješno prijavljeni. Naime, {{SITENAME}} koristi kolačiće (''cookies'') u procesu prijave. Isključili ste kolačiće. Molim uključite ih i pokušajte ponovo s Vašim novim imenom i lozinkom.",
 'nocookieslogin'             => "{{SITENAME}} koristi kolačiće (''cookies'') u procesu prijave. Isključili ste kolačiće. Molim uključite ih i pokušajte ponovo.",
+'nocookiesfornew'            => "Suradnički račun nije napravljen, jer nismo mogli potvrditi njegov izvor.
+Provjerite jesu li kolačići (''cookies'') omogućeni, ponovo učitajte ovu stranicu i pokušajte opet.",
 'noname'                     => 'Niste unijeli valjano suradničko ime.',
 'loginsuccesstitle'          => 'Prijava uspješna',
 'loginsuccess'               => 'Prijavili ste se na wiki kao "$1".',
@@ -738,7 +744,7 @@ Provjerite jeste li točno upisali, ili [[Special:UserLogin/signup|otvorite novi
 'wrongpasswordempty'         => 'Niste unijeli lozinku. Pokušajte ponovno.',
 'passwordtooshort'           => 'Lozinka mora sadržavati najmanje {{PLURAL:$1|1 znak|$1 znaka|$1 znakova}}.',
 'password-name-match'        => 'Vaša lozinka mora biti različita od Vašeg suradničkog imena.',
-'password-too-weak'          => 'Lozinka koju ste dali je preslaba i ne može se koristiti.',
+'password-login-forbidden'   => 'Uporaba ovog suradničkog imena i lozinke nije dozvoljena.',
 'mailmypassword'             => 'Pošalji mi novu lozinku',
 'passwordremindertitle'      => '{{SITENAME}}: nova lozinka.',
 'passwordremindertext'       => 'Netko je (vjerojatno Vi, s IP adrese $1) zatražio novu lozinku za projekt {{SITENAME}} ($4).
@@ -1676,7 +1682,7 @@ Ako i dalje želite postaviti svoju datoteku, molimo vratite se i odaberite novo
 'fileexists-shared-forbidden' => 'Datoteka s ovim imenom već postoji u središnjem poslužitelju datoteka.
 Ako još uvijek želite postaviti svoju datoteku, idite nazad i postavite ju pod drugim imenom. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ova datoteka je duplikat {{PLURAL:$1|sljedeće datoteke|sljedećih datoteka}}:',
-'file-deleted-duplicate'      => 'Datoteka istovjetna ovoj datoteci ([[$1]]) prethodno je obrisana. Provjerite evidenciju brisanja za tu datoteke datoteku prije nego što nastavite s ponovnim postavljanjem.',
+'file-deleted-duplicate'      => 'Datoteka istovjetna ovoj datoteci ([[:$1]]) prethodno je obrisana. Provjerite evidenciju brisanja za tu datoteke datoteku prije nego što nastavite s ponovnim postavljanjem.',
 'uploadwarning'               => 'Upozorenje kod postavljanja',
 'uploadwarning-text'          => 'Molimo izmijenite opis datoteke ispod i pokušajte kasnije.',
 'savefile'                    => 'Sačuvaj datoteku',
@@ -1723,6 +1729,15 @@ Ukoliko se problem ponovi, javite to [[Special:ListUsers/sysop|administratoru]].
 'upload-too-many-redirects' => 'URL je sadržavao previše preusmjeravanja',
 'upload-unknown-size'       => 'Nepoznata veličina',
 'upload-http-error'         => 'HTTP pogreška: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Snimi niz datoteka',
+'uploadstash-summary'  => 'Ova stranica pruža pristup datotekama koje su snimljene na wiki (ili u procesu snimanja), ali još nisu objavljeni na wiki. Ove datoteke nisu vidljive nikome, osim suradniku koji ih je snimio.',
+'uploadstash-clear'    => 'Očisti niz datoteka',
+'uploadstash-nofiles'  => 'Nemate neobjavljenih datoteka',
+'uploadstash-badtoken' => 'Obavljanje akcije je bilo neuspješano, možda jer je vaša prijava istekla. Pokušajte ponovno.',
+'uploadstash-errclear' => 'Brisanje neobjavljenih datoteka nije uspjelo.',
+'uploadstash-refresh'  => 'Osvježi popis datoteka',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Pristup onemogućen',
@@ -1980,6 +1995,7 @@ Molimo obratite pozornost da druge web stranice mogu povezivati sliku izravnim U
 'pager-newer-n'           => '{{PLURAL:$1|novija $1|novije $1|novijih $1}}',
 'pager-older-n'           => '{{PLURAL:$1|starija $1|starije $1|starijih $1}}',
 'suppress'                => 'Nadzor',
+'querypage-disabled'      => 'Ova posebna stranica onemogućena je jer bi usporila funkcioniranje projekta.',
 
 # Book sources
 'booksources'               => 'Pretraživanje po ISBN-u',
@@ -2899,10 +2915,10 @@ Njegovim izvršavanjem mogli biste oštetiti svoj sustav.",
 'imagemaxsize'         => "Ograniči veličinu slike:<br />''(za stranicu s opisom datoteke)''",
 'thumbsize'            => 'Veličina sličice (umanjene inačice slike):',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|stranica|stranice}}',
-'file-info'            => '(veličina datoteke: $1, MIME tip: $2)',
-'file-info-size'       => '($1 × $2 piksela, veličina datoteke: $3, MIME tip: $4)',
+'file-info'            => 'veličina datoteke: $1, MIME tip: $2',
+'file-info-size'       => '$1 × $2 piksela, veličina datoteke: $3, MIME tip: $4',
 'file-nohires'         => '<small>Viša rezolucija nije dostupna.</small>',
-'svg-long-desc'        => '(SVG datoteka, nominalno $1 × $2 piksela, veličina datoteke: $3)',
+'svg-long-desc'        => 'SVG datoteka, nominalno $1 × $2 piksela, veličina datoteke: $3',
 'show-big-image'       => 'Vidi sliku u punoj veličini (rezoluciji)',
 'show-big-image-thumb' => '<small>Veličina pretpregleda: $1 × $2 piksela</small>',
 'file-info-gif-looped' => 'animacija se ponavlja',
@@ -3369,6 +3385,7 @@ Također možete koristiti [[Special:Watchlist/edit|standardni editor]].',
 'version-specialpages'             => 'Posebne stranice',
 'version-parserhooks'              => 'Kuke parsera',
 'version-variables'                => 'Varijable',
+'version-antispam'                 => 'Sprječavanje spama',
 'version-skins'                    => 'Izgledi',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Rukovatelji medijima',
@@ -3402,9 +3419,7 @@ Unesite ime datoteke bez predmetka (''prefiksa'') imenskog prostora \"{{ns:file}
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Traži kopije datoteka',
-'fileduplicatesearch-summary'  => 'Traži kopije datoteka na temelju njihove hash vrijednosti.
-
-Unesite ime datoteke bez prefiksa "{{ns:file}}:"',
+'fileduplicatesearch-summary'  => 'Traži kopije datoteka na temelju njihove hash vrijednosti.',
 'fileduplicatesearch-legend'   => 'Traži kopije datoteka',
 'fileduplicatesearch-filename' => 'Ime datoteke:',
 'fileduplicatesearch-submit'   => 'Traži',
@@ -3503,14 +3518,5 @@ Ako je suradnik trenutno prijavljen negdje, odmah će biti odjavljen.
 'disableaccount-nosuchuser'  => 'Suradnik "$1" ne postoji.',
 'disableaccount-success'     => 'Suradnički račun "$1" je trajno onemogućen.',
 'disableaccount-logentry'    => 'trajno onesposobljen suradnički račun [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Snimi niz datoteka',
-'uploadstash-summary'  => 'Ova stranica pruža pristup datotekama koje su snimljene na wiki (ili u procesu snimanja), ali još nisu objavljeni na wiki. Ove datoteke nisu vidljive nikome, osim suradniku koji ih je snimio.',
-'uploadstash-clear'    => 'Očisti niz datoteka',
-'uploadstash-nofiles'  => 'Nemate neobjavljenih datoteka',
-'uploadstash-badtoken' => 'Obavljanje akcije je bilo neuspješano, možda jer je vaša prijava istekla. Pokušajte ponovno.',
-'uploadstash-errclear' => 'Brisanje neobjavljenih datoteka nije uspjelo.',
-'uploadstash-refresh'  => 'Osvježi popis datoteka',
 
 );

@@ -324,6 +324,7 @@ $messages = array(
 'printableversion'  => 'Bersyong maililimbag',
 'permalink'         => 'Palagiang kawing',
 'print'             => 'Ilimbag',
+'view'              => 'Tingnan',
 'edit'              => 'Baguhin',
 'create'            => 'Likhain',
 'editthispage'      => 'Baguhin ang pahinang ito',
@@ -331,6 +332,7 @@ $messages = array(
 'delete'            => 'Burahin',
 'deletethispage'    => 'Burahin itong pahina',
 'undelete_short'    => 'Baligtarin ang pagbura ng {{PLURAL:$1|isang pagbabago|$1 pagbabago}}',
+'viewdeleted_short' => 'Tingnan ang {{PLURAL:$1|isang binurang pagbabagp|$1 binurang pagbabago}}',
 'protect'           => 'Ipagsanggalang',
 'protect_change'    => 'baguhin',
 'protectthispage'   => 'Ipagsanggalang itong pahina',
@@ -775,6 +777,10 @@ Ang pinakahuling entrada sa talaan  ng pagharang ay ibinigay sa baba para sa iny
 '''Hindi pa ito nasasagip!'''",
 'userjspreview'                    => "'''Tandaang pagsubok/paunang tingin mo pa lang ito ng iyong JavaScript.'''
 '''Hindi pa ito nasasagip!'''",
+'sitecsspreview'                   => "'''Tandaan mong paunang tingin pa lamang ito ng nasabing CSS.'''
+'''Hindi pa ito nasasagip!'''",
+'sitejspreview'                    => "'''Tandaan mong paunang tingin pa lamang ito ng nasabing kodigong JavaScript.'''
+'''Hindi pa ito nasasagip!'''",
 'userinvalidcssjstitle'            => "'''Babala:''' Walang pabalat na \"\$1\".
 Tandaang gumagamit ang pinasadyang mga pahinang .css at .js ng mga pamagat na may maliliit na mga titik, halimbawa na ang {{ns:user}}:Foo/vector.css na taliwas sa {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Naisapanahon na)',
@@ -1110,6 +1116,7 @@ Tiyakin na ang pagbabago ay makapagpapanatili ng pagkakatuluy-tuloy ng pahinang 
 'searchmenu-legend'                => 'Mga pagpipilian para sa paghahanap',
 'searchmenu-exists'                => "'''Mayroong pahinang may pangalang \"[[:\$1]]\" dito sa wiking ito'''",
 'searchmenu-new'                   => "'''Likhain ang pahinang \"[[:\$1]]\" sa wiking ito!'''",
+'searchmenu-new-nocreate'          => 'Ang "$1" ay isang \'di-wastong pangalan ng pahina o hindi mo maaaring likhain ito.',
 'searchhelp-url'                   => 'Help:Nilalaman',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Tingnan-tingnan ang mga pahinang may ganitong unahan/unlapi]]',
 'searchprofile-articles'           => 'Mga pahina ng nilalaman',
@@ -1556,7 +1563,7 @@ Kung nais mo pa ring ikarga pataas ang iyong talaksan, paki bumalik lamang at gu
 'fileexists-shared-forbidden' => 'Mayroon nang ganitong talaksan sa binabahaging repositoryo;
 bumalik at ikarga ang talaksan na ito sa bagong pangalan. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ang talaksang ito ay isang kakambal ng sumusunod na {{PLURAL:$1|talaksan|mga talaksan}}:',
-'file-deleted-duplicate'      => 'Dating nabura ang isang talaksang katulad ng talaksang ito ([[$1]]).  Dapat mong suriin ang kasaysayan ng pagbubura ng talaksang iyon bago magpatuloy sa muling pagkarga nito.',
+'file-deleted-duplicate'      => 'Dating nabura ang isang talaksang katulad ng talaksang ito ([[:$1]]).  Dapat mong suriin ang kasaysayan ng pagbubura ng talaksang iyon bago magpatuloy sa muling pagkarga nito.',
 'uploadwarning'               => 'Babala sa pagkakarga',
 'uploadwarning-text'          => 'Pakibago ang nasa ibabang paglalarawan ng talaksan at subukan muli.',
 'savefile'                    => 'Sagipin ang talaksan',
@@ -2421,7 +2428,6 @@ Para ikandado o tanggalin ang kandado ng kalipunan ng dato, kailangan nitong mag
 
 # Move page
 'move-page'                    => 'Ilipat ang $1',
-'move-page-backlink'           => '← $1',
 'move-page-legend'             => 'Ilipat ang pahina',
 'movepagetext'                 => "Mapapalitan ang pangalan ng isang pahina kapag ginamit mo ang pormularyong nasa ibaba, malilipat ang lahat ng kasaysayan nito patungo sa bagong pangalan.
 Magiging isang pahina ng panuto/panturo patungo sa bagong pamagat ang dati/lumang pangalan.
@@ -2795,10 +2801,10 @@ Maaaring manganib ang iyong sistema kapag ipinagana mo ito.",
 'imagemaxsize'         => "Takdang hangganan sa laki ng larawan: <br />''(para sa mga pahina ng paglalarawan ng talaksan)''",
 'thumbsize'            => 'Maliit na sukat (parang "kuko sa hinlalaki" lamang):',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pahina|mga pahina}}',
-'file-info'            => '(sukat ng talaksan: $1, tipo ng MIME: $2)',
-'file-info-size'       => '($1 × $2 piksel, sukat ng talaksan: $3, tipo ng MIME: $4)',
+'file-info'            => 'sukat ng talaksan: $1, tipo ng MIME: $2',
+'file-info-size'       => '$1 × $2 piksel, sukat ng talaksan: $3, tipo ng MIME: $4',
 'file-nohires'         => '<small>Walang makuhang mas mataas na resolusyon (kalinawan).</small>',
-'svg-long-desc'        => '(Talaksang SVG, nasa mga bilang na $1 × $2 mga piksel, sukat ng talaksan: $3)',
+'svg-long-desc'        => 'Talaksang SVG, nasa mga bilang na $1 × $2 mga piksel, sukat ng talaksan: $3',
 'show-big-image'       => 'Buong resolusyon (kalinawan)',
 'show-big-image-thumb' => '<small>Laki ng paunang tinging ganito: $1 × $2 mga piksel</small>',
 'file-info-gif-looped' => 'nasilo na',
@@ -3345,9 +3351,7 @@ Ipasok ang pangalan ng talaksan na hindi kasama ang unlaping "{{ns:image}}:".',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Maghanap ng kaparehong mga talaksan',
-'fileduplicatesearch-summary'  => "Maghanap ng mga kaparehong mga talaksan sa baba ng kanyang halaga ng ''hash''.
-
-Ipasok ang pangalan ng talaksan na wala ang unlaping \"{{ns:image}}:\".",
+'fileduplicatesearch-summary'  => "Maghanap ng mga kaparehong mga talaksan sa baba ng kanyang halaga ng ''hash''.",
 'fileduplicatesearch-legend'   => 'Maghanap ng mga kapareho',
 'fileduplicatesearch-filename' => 'Pangalan ng talaksan:',
 'fileduplicatesearch-submit'   => 'Hanapin',

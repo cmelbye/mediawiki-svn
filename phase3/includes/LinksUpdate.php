@@ -67,6 +67,17 @@ class LinksUpdate {
 			$this->mInterlangs[$key] = $title;
 		}
 
+		foreach ( $this->mCategories as &$sortkey ) {
+			# If the sortkey is longer then 255 bytes,
+			# it truncated by DB, and then doesn't get
+			# matched when comparing existing vs current
+			# categories, causing bug 25254.
+			# Also. substr behaves weird when given "".
+			if ( $sortkey !== '' ) {
+				$sortkey = substr( $sortkey, 0, 255 );
+			}
+		}
+
 		$this->mRecursive = $recursive;
 
 		wfRunHooks( 'LinksUpdateConstructed', array( &$this ) );
@@ -427,7 +438,7 @@ class LinksUpdate {
 		global $wgContLang, $wgCategoryCollation;
 		$diffs = array_diff_assoc( $this->mCategories, $existing );
 		$arr = array();
-		foreach ( $diffs as $name => $sortkey ) {
+		foreach ( $diffs as $name => $prefix ) {
 			$nt = Title::makeTitleSafe( NS_CATEGORY, $name );
 			$wgContLang->findVariantLink( $name, $nt, true );
 
@@ -439,23 +450,12 @@ class LinksUpdate {
 				$type = 'page';
 			}
 
-			# TODO: This is kind of wrong, because someone might set a sort
-			# key prefix that's the same as the default sortkey for the
-			# title.  This should be fixed by refactoring code to replace
-			# $sortkey in this array by a prefix, but it's basically harmless
-			# (Title::moveTo() has had the same issue for a long time).
-			if ( $this->mTitle->getCategorySortkey() == $sortkey ) {
-				$prefix = '';
-				$sortkey = $wgContLang->convertToSortkey( $sortkey );
-			} else {
-				# Treat custom sortkeys as a prefix, so that if multiple
-				# things are forced to sort as '*' or something, they'll
-				# sort properly in the category rather than in page_id
-				# order or such.
-				$prefix = $sortkey;
-				$sortkey = $wgContLang->convertToSortkey(
-					$this->mTitle->getCategorySortkey( $prefix ) );
-			}
+			# Treat custom sortkeys as a prefix, so that if multiple
+			# things are forced to sort as '*' or something, they'll
+			# sort properly in the category rather than in page_id
+			# order or such.
+			$sortkey = Collation::singleton()->getSortKey(
+				$this->mTitle->getCategorySortkey( $prefix ) );
 
 			$arr[] = array(
 				'cl_from'    => $this->mId,
@@ -687,11 +687,11 @@ class LinksUpdate {
 	 * @private
 	 */
 	function getExistingCategories() {
-		$res = $this->mDb->select( 'categorylinks', array( 'cl_to', 'cl_sortkey' ),
+		$res = $this->mDb->select( 'categorylinks', array( 'cl_to', 'cl_sortkey_prefix' ),
 			array( 'cl_from' => $this->mId ), __METHOD__, $this->mOptions );
 		$arr = array();
 		foreach ( $res as $row ) {
-			$arr[$row->cl_to] = $row->cl_sortkey;
+			$arr[$row->cl_to] = $row->cl_sortkey_prefix;
 		}
 		return $arr;
 	}

@@ -62,6 +62,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 
 		$this->setHeaders();
 		$this->outputHeader();
+		$wgOut->allowClickjacking();
 
 		# GET values
 		$from = $wgRequest->getVal( 'from', null );
@@ -300,7 +301,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 		$n = 0;
 
 		if ( !$fromList || !$toList ) {
-			$out = wfMsgWikiHtml( 'allpagesbadtitle' );
+			$out = wfMsgExt( 'allpagesbadtitle', 'parse' );
 		} elseif ( !in_array( $namespace, array_keys( $namespaces ) ) ) {
 			// Show errormessage and reset to NS_MAIN
 			$out = wfMsgExt( 'allpages-bad-ns', array( 'parseinline' ), $namespace );
@@ -319,7 +320,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 			}
 
 			$res = $dbr->select( 'page',
-				array( 'page_namespace', 'page_title', 'page_is_redirect' ),
+				array( 'page_namespace', 'page_title', 'page_is_redirect', 'page_id' ),
 				$conds,
 				__METHOD__,
 				array(
@@ -332,10 +333,10 @@ class SpecialAllpages extends IncludableSpecialPage {
 			if( $res->numRows() > 0 ) {
 				$out = Xml::openElement( 'table', array( 'class' => 'mw-allpages-table-chunk' ) );
 				while( ( $n < $this->maxPerPage ) && ( $s = $res->fetchObject() ) ) {
-					$t = Title::makeTitle( $s->page_namespace, $s->page_title );
+					$t = Title::newFromRow( $s );
 					if( $t ) {
 						$link = ( $s->page_is_redirect ? '<div class="allpagesredirect">' : '' ) .
-							$sk->linkKnown( $t, htmlspecialchars( $t->getText() ) ) .
+							$sk->link( $t ) .
 							($s->page_is_redirect ? '</div>' : '' );
 					} else {
 						$link = '[[' . htmlspecialchars( $s->page_title ) . ']]';
@@ -408,7 +409,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 								$nsForm .
 							'</td>
 							<td class="mw-allpages-nav">' .
-								$sk->link( $self, wfMsgHtml ( 'allpages' ), array(), array(), 'known' );
+								$sk->link( $self, wfMsgHtml ( 'allpages' ) );
 
 			# Do we put a previous link ?
 			if( isset( $prevTitle ) &&  $pt = $prevTitle->getText() ) {
@@ -419,7 +420,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 
 				$prevLink = $sk->linkKnown(
 					$self,
-					htmlspecialchars( wfMsg( 'prevpage', $pt ) ),
+					wfMessage( 'prevpage', $pt )->escaped(),
 					array(),
 					$query
 				);
@@ -436,7 +437,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 
 				$nextLink = $sk->linkKnown(
 					$self,
-					htmlspecialchars( wfMsg( 'nextpage', $t->getText() ) ),
+					wfMessage( 'nextpage', $t->getText() )->escaped(),
 					array(),
 					$query
 				);
@@ -446,19 +447,17 @@ class SpecialAllpages extends IncludableSpecialPage {
 		}
 
 		$wgOut->addHTML( $out2 . $out );
-		if( isset($prevLink) or isset($nextLink) ) {
-			$wgOut->addHTML( '<hr /><p class="mw-allpages-nav">' );
-			if( isset( $prevLink ) ) {
-				$wgOut->addHTML( $prevLink );
-			}
-			if( isset( $prevLink ) && isset( $nextLink ) ) {
-				$wgOut->addHTML( wfMsgExt( 'pipe-separator' , 'escapenoentities' ) );
-			}
-			if( isset( $nextLink ) ) {
-				$wgOut->addHTML( $nextLink );
-			}
-			$wgOut->addHTML( '</p>' );
 
+		$links = array();
+		if ( isset( $prevLink ) ) $links[] = $prevLink;
+		if ( isset( $nextLink ) ) $links[] = $nextLink;
+
+		if ( count( $links ) ) {
+			$wgOut->addHTML(
+				Html::element( 'hr' ) .
+				Html::rawElement( 'div', array( 'class' => 'mw-allpages-nav' ),
+					$wgLang->pipeList( $links )
+				) );
 		}
 
 	}

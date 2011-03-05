@@ -61,6 +61,8 @@
  * @author Toniher
  * @author Translationista
  * @author Urhixidur
+ * @author VegaDark
+ * @author Wilfredor
  * @author XalD
  * @author לערי ריינהארט
  */
@@ -348,8 +350,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Mostrar el número de usuarios que la vigilan',
 'tog-oldsig'                  => 'Vista previa de firma existente:',
 'tog-fancysig'                => 'Tratar firma como wikitexto (sin un enlace automático)',
-'tog-externaleditor'          => 'Utilizar editor externo por defecto',
-'tog-externaldiff'            => "Utilizar ''diff'' externo por defecto",
+'tog-externaleditor'          => 'Utilizar editor externo por defecto (sólo para expertos pues necesitas ajustes especiales en tu ordenador. [http://www.mediawiki.org/wiki/Manual:External_editors Más información.])',
+'tog-externaldiff'            => 'Utilizar diff externo por defecto (sólo para expertos pues necesitas ajustes especiales en tu ordenador. [http://www.mediawiki.org/wiki/Manual:External_editors Más información.])',
 'tog-showjumplinks'           => 'Habilitar enlaces de accesibilidad «saltar a»',
 'tog-uselivepreview'          => 'Usar live preview (JavaScript) (Experimental)',
 'tog-forceeditsummary'        => 'Alertar al grabar sin resumen de edición.',
@@ -509,6 +511,7 @@ $messages = array(
 'printableversion'  => 'Versión para imprimir',
 'permalink'         => 'Enlace permanente',
 'print'             => 'Imprimir',
+'view'              => 'Ver',
 'edit'              => 'Editar',
 'create'            => 'Crear',
 'editthispage'      => 'Editar esta página',
@@ -516,6 +519,7 @@ $messages = array(
 'delete'            => 'Borrar',
 'deletethispage'    => 'Borrar esta página',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|una edición|$1 ediciones}}',
+'viewdeleted_short' => 'Ver {{PLURAL:$1|una edición borrada|$1 ediciones borradas}}',
 'protect'           => 'Proteger',
 'protect_change'    => 'cambiar',
 'protectthispage'   => 'Proteger esta página',
@@ -599,6 +603,8 @@ $1',
 'toc'                     => 'Contenido',
 'showtoc'                 => 'mostrar',
 'hidetoc'                 => 'ocultar',
+'collapsible-collapse'    => 'Ocultar',
+'collapsible-expand'      => 'Mostrar',
 'thisisdeleted'           => '¿Ver o restaurar $1?',
 'viewdeleted'             => '¿Desea ver $1?',
 'restorelink'             => '{{PLURAL:$1|una edición borrada|$1 ediciones borradas}}',
@@ -745,6 +751,8 @@ Por favor, indica un nombre diferente.',
 'createaccounterror'         => 'No se pudo crear cuenta: $1',
 'nocookiesnew'               => 'La cuenta de usuario ha sido creada, pero en este momento no has iniciado la sesión. {{SITENAME}} usa <em>cookies</em> para identificar a los usuarios registrados, pero parecen deshabilitadas. Por favor, habilítalas e identifícate con nombre de usuario y contraseña.',
 'nocookieslogin'             => '{{SITENAME}} utiliza <em>cookies</em> para la autenticación de usuarios. Las <em>cookies</em> están deshabilitadas en tu navegador. Por favor, actívalas e inténtalo de nuevo.',
+'nocookiesfornew'            => 'No se pudo crear la cuenta de usuario, porque no pudimos confirmar su origen.
+Asegurarse de que tiene las cookies habilitadas, luego recargue esta página e inténtelo otra vez.',
 'noname'                     => 'No se ha especificado un nombre de usuario válido.',
 'loginsuccesstitle'          => 'Inicio de sesión exitoso',
 'loginsuccess'               => 'Has iniciado sesión en {{SITENAME}} como "$1".',
@@ -759,7 +767,7 @@ Revisa la ortografía, o [[Special:UserLogin/signup|crea una nueva cuenta]].',
 Por favor, inténtalo de nuevo.',
 'passwordtooshort'           => 'Las contraseñas deben tener al menos {{PLURAL:$1|1 caracter|$1 caracteres}}.',
 'password-name-match'        => 'Tu contraseña debe ser diferente de tu nombre de usuario.',
-'password-too-weak'          => 'La contraseña proporcionada es demasiado débil y no puede ser usada.',
+'password-login-forbidden'   => 'El uso de este nombre de usuario y contraseña han sido prohibidos.',
 'mailmypassword'             => 'Enviar una nueva contraseña por correo electrónico',
 'passwordremindertitle'      => 'Recordatorio de contraseña de {{SITENAME}}',
 'passwordremindertext'       => 'Alguien (probablemente tú, desde la dirección IP $1) solicitó que te enviáramos una nueva contraseña para tu cuenta en {{SITENAME}} ($4).
@@ -1088,7 +1096,7 @@ Prueba a [[Special:Search|buscar en el wiki]] nuevas páginas relevantes.',
 'rev-deleted-comment'         => '(comentario eliminado)',
 'rev-deleted-user'            => '(nombre de usuario eliminado)',
 'rev-deleted-event'           => '(entrada borrada)',
-'rev-deleted-user-contribs'   => '[nombre de usuario o dirección IP eliminada - edición ocultada de las contribuciones]',
+'rev-deleted-user-contribs'   => '[nombre de usuario o dirección IP eliminada - edición ocultada de la lista de contribuciones]',
 'rev-deleted-text-permission' => "Esta revisión de la página ha sido '''borrada'''.
 Puede haber detalles en el [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} registro de borrados].",
 'rev-deleted-text-unhide'     => "Esta revisión de página ha sido '''borrada'''.
@@ -1275,6 +1283,7 @@ Nota que usar los enlaces de navegación borrará las selecciones de esta column
 'searchmenu-legend'                => 'Opciones de búsqueda',
 'searchmenu-exists'                => "'''Hay una página llamada «[[$1]]» en esta wiki'''",
 'searchmenu-new'                   => "'''¡Crear la página «[[:$1]]» en esta wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" es un nombre de página inválido o no la puedes crear.',
 'searchhelp-url'                   => 'Help:Ayuda',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Otras páginas con este prefijo]]',
 'searchprofile-articles'           => 'páginas de contenido',
@@ -1423,8 +1432,9 @@ Esto no puede ser deshecho.',
 'prefs-help-gender'             => 'Opcional: empleado para que sea usado correctamente el género por parte del software. Esta información será pública.',
 'email'                         => 'Correo electrónico',
 'prefs-help-realname'           => 'El nombre real es opcional. Si decides proporcionarlo, se usará para dar atribución a tu trabajo.',
-'prefs-help-email'              => 'La dirección de correo es opcional, pero permite enviar una nueva contraseña en caso de olvidarla.
-También puede permitir a otros usuarios que te contacten a través de tu página de usuario o de tu página de discusión sin necesidad de revelar su identidad.',
+'prefs-help-email'              => 'La dirección de correo es opcional, sin embargo, permite enviar una nueva contraseña en caso de olvidarla.
+También permite que otros usuarios te contacten a través de tu página de usuario o de tu página de discusión sin necesidad de revelar tu identidad.',
+'prefs-help-email-others'       => 'También puede elegir para que los demás le contacten a través de su usuario o página de discusión sin necesidad de revelar su identidad.',
 'prefs-help-email-required'     => 'Es necesario proporcionar una dirección de correo electrónico.',
 'prefs-info'                    => 'Información básica',
 'prefs-i18n'                    => 'Internacionalización',
@@ -1440,6 +1450,10 @@ También puede permitir a otros usuarios que te contacten a través de tu págin
 'prefs-displaysearchoptions'    => 'Opciones de visualización',
 'prefs-displaywatchlist'        => 'Opciones de visualización',
 'prefs-diffs'                   => 'Diferencias',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'La dirección de correo electrónico parece ser válida',
+'email-address-validity-invalid' => 'Introduce una dirección de correo válida',
 
 # User rights
 'userrights'                   => 'Configuración de permisos de usuarios',
@@ -1473,8 +1487,8 @@ También puede permitir a otros usuarios que te contacten a través de tu págin
 'group-suppress'      => 'Supresores',
 'group-all'           => '(todos)',
 
-'group-user-member'          => 'Usuario',
-'group-autoconfirmed-member' => 'Usuario autoconfirmado',
+'group-user-member'          => 'usuario',
+'group-autoconfirmed-member' => 'usuario autoconfirmado',
 'group-bot-member'           => 'bot',
 'group-sysop-member'         => 'administrador',
 'group-bureaucrat-member'    => 'burócrata',
@@ -1720,7 +1734,7 @@ Si tiene esta imagen a toda resolución súbala, si no, por favor cambie el nomb
 'fileexists-shared-forbidden' => 'Ya existe un archivo con este nombre en el repositorio compartido.
 Si todavía quiere subir su archivo, por favor, regrese a la página anterior y use otro nombre. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Este archivo es un duplicado {{PLURAL:$1|del siguiente|de los siguientes}}:',
-'file-deleted-duplicate'      => 'Un archivo idéntico a este ([[$1]]) ha sido borrado con anterioridad. Debes comprobar el historial de borrado del archivo ante de volver a subirlo.',
+'file-deleted-duplicate'      => 'Un archivo idéntico a este ([[:$1]]) ha sido borrado con anterioridad. Debes comprobar el historial de borrado del archivo ante de volver a subirlo.',
 'uploadwarning'               => 'Advertencia de subida de archivo',
 'uploadwarning-text'          => 'Por favor, modifique la descripción del archivo abajo indicada e inténtelo de nuevo.',
 'savefile'                    => 'Guardar archivo',
@@ -1767,6 +1781,15 @@ $1',
 'upload-too-many-redirects' => 'La URL contenía demasiadas redirecciones',
 'upload-unknown-size'       => 'Tamaño desconocido',
 'upload-http-error'         => 'Ha ocurrido un error HTTP: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheros escondidos',
+'uploadstash-summary'  => 'Esta página da acceso a los ficheros enviados (o que están en el proceso de envío) pero que aún no han sido publicados en la wiki. Estos ficheros no son visibles para nadie, excepto para el usuario que los envió.',
+'uploadstash-clear'    => 'Borrar los ficheros escondidos',
+'uploadstash-nofiles'  => 'No tienes archivos escondidos.',
+'uploadstash-badtoken' => 'No fue posible ejecutar esa operación, tal vez porque sus credenciales de edición expiraron. Reinténtelo.',
+'uploadstash-errclear' => 'El borrado de los archivos no tuvo éxito.',
+'uploadstash-refresh'  => 'Actualizar la lista de archivos',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Acceso denegado',
@@ -1945,12 +1968,13 @@ Entrada: contenttype/subtype, p. ej. <tt>image/jpeg</tt>.',
 En lugar de ello deberían enlazar con  el tema apropiado.<br />
 Una página es considerada página de desambiguación si utiliza la plantilla que está enlazada desde [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Redirecciones dobles',
-'doubleredirectstext'        => 'Esta página contiene una lista de páginas que redirigen a otras páginas de redirección.
+'doubleredirects'                   => 'Redirecciones dobles',
+'doubleredirectstext'               => 'Esta página contiene una lista de páginas que redirigen a otras páginas de redirección.
 Cada fila contiene enlaces a la segunda y tercera redirección, así como la primera línea de la segunda redirección, en la que usualmente se encontrará el artículo "real" al que la primera redirección debería apuntar.
 Las entradas <del>tachadas</del> han sido resueltas.',
-'double-redirect-fixed-move' => '[[$1]] ha sido trasladado, ahora es una redirección a [[$2]]',
-'double-redirect-fixer'      => 'Corrector de redirecciones',
+'double-redirect-fixed-move'        => '[[$1]] ha sido trasladado, ahora es una redirección a [[$2]]',
+'double-redirect-fixed-maintenance' => 'Corrigiendo la doble redirección desde [[$1]] a [[$2]].',
+'double-redirect-fixer'             => 'Corrector de redirecciones',
 
 'brokenredirects'        => 'Redirecciones incorrectas',
 'brokenredirectstext'    => 'Las siguientes redirecciones enlazan a páginas que no existen:',
@@ -2027,6 +2051,7 @@ Por favor note que otros sitios web pueden vincular a un archivo con un URL dire
 'pager-newer-n'           => '{{PLURAL:$1|1 siguiente|$1 siguientes}}',
 'pager-older-n'           => '{{PLURAL:$1|1 anterior|$1 anteriores}}',
 'suppress'                => 'Supervisor',
+'querypage-disabled'      => 'Esta página especial está deshabilitada por motivos de rendimiento.',
 
 # Book sources
 'booksources'               => 'Fuentes de libros',
@@ -2739,7 +2764,7 @@ Todas las importaciones transwiki se registran en el [[Special:Log/import|regist
 'import-interwiki-namespace' => 'Espacio de nombres de destino:',
 'import-upload-filename'     => 'Nombre de archivo:',
 'import-comment'             => 'Comentario:',
-'importtext'                 => 'Por favor, exporta el archivo desde el wiki de origen usando la [[Special:Export|herramienta de exportación]], grábelo en tu disco y súbelo aquí.',
+'importtext'                 => 'Por favor, exporta el archivo desde el wiki de origen usando la [[Special:Export|herramienta de exportación]], grábalo en tu disco y súbelo aquí.',
 'importstart'                => 'Importando páginas...',
 'import-revision-count'      => '$1 {{PLURAL:$1|revisión|revisiones}}',
 'importnopages'              => 'No hay páginas que importar.',
@@ -2964,10 +2989,10 @@ Ejecutarlo podría comprometer la seguridad de su equipo.",
 'imagemaxsize'         => "Límite de tamaño de imagen:<br />''(para páginas de descripción de archivo)''",
 'thumbsize'            => 'Tamaño de las vistas en miniatura:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:|página|páginas}}',
-'file-info'            => '(tamaño de archivo: $1; tipo MIME: $2)',
-'file-info-size'       => '($1 × $2 píxeles; tamaño de archivo: $3; tipo MIME: $4)',
+'file-info'            => 'tamaño de archivo: $1; tipo MIME: $2',
+'file-info-size'       => '$1 × $2 píxeles; tamaño de archivo: $3; tipo MIME: $4',
 'file-nohires'         => '<small>No disponible a mayor resolución.</small>',
-'svg-long-desc'        => '(archivo SVG, nominalmente $1 × $2 píxeles, tamaño de archivo: $3)',
+'svg-long-desc'        => 'archivo SVG, nominalmente $1 × $2 píxeles, tamaño de archivo: $3',
 'show-big-image'       => 'Resolución original',
 'show-big-image-thumb' => '<small>Tamaño de esta vista previa: $1 × $2 píxeles</small>',
 'file-info-gif-looped' => 'bucleado',
@@ -3328,6 +3353,18 @@ Si la cuenta *no* te pertenece, sigue el siguiente enlace para cancelar la confi
 $5
 
 Este código de confirmación expirará el $4.',
+'confirmemail_body_set'     => 'Alguien, probablemente tu desde la dirección IP $1,
+ha cambiado la dirección de correo electrónico de la cuenta $2 a esta dirección en {{SITENAME}}.
+
+Para confirmar que esta cuenta realmente te pertenece y reactivar las capacidades del correo electrónico en {{SITENAME}}, abre este enlace en tu navegador:
+
+$3
+
+Si la cuenta *no* te pertenece sigue entonces este otro enlace para cancelar la confirmación del correo electrónico:
+
+$5
+
+Este código de confirmación caducará el $4.',
 'confirmemail_invalidated'  => 'La confirmación de la dirección de correo electrónico ha sido cancelada',
 'invalidateemail'           => 'Cancelar confirmación de correo electrónico',
 
@@ -3463,16 +3500,15 @@ Las imágenes se muestran en resolución máxima, otros tipos de archivo se inic
 Ingrese el nombre del archivo sin su prefijo "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Búsqueda de archivos duplicados',
-'fileduplicatesearch-summary'  => 'Búsqueda de archivos duplicados en base a su valor hash.
-
-Ingrese el nombre del archivo sin el prefijo "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Busca duplicados',
-'fileduplicatesearch-filename' => 'Nombre del fichero:',
-'fileduplicatesearch-submit'   => 'Buscar',
-'fileduplicatesearch-info'     => '$1 × $2 píxeles<br />Tamaño: $3<br />Tipo MIME: $4',
-'fileduplicatesearch-result-1' => 'El archivo "$1" no tiene duplicados idénticos.',
-'fileduplicatesearch-result-n' => 'El archivo "$1" tiene {{PLURAL:$2|1 duplicado idéntico|$2 duplicados idénticos}}.',
+'fileduplicatesearch'           => 'Búsqueda de archivos duplicados',
+'fileduplicatesearch-summary'   => 'Búsqueda de archivos duplicados en base a su valor hash.',
+'fileduplicatesearch-legend'    => 'Busca duplicados',
+'fileduplicatesearch-filename'  => 'Nombre del fichero:',
+'fileduplicatesearch-submit'    => 'Buscar',
+'fileduplicatesearch-info'      => '$1 × $2 píxeles<br />Tamaño: $3<br />Tipo MIME: $4',
+'fileduplicatesearch-result-1'  => 'El archivo "$1" no tiene duplicados idénticos.',
+'fileduplicatesearch-result-n'  => 'El archivo "$1" tiene {{PLURAL:$2|1 duplicado idéntico|$2 duplicados idénticos}}.',
+'fileduplicatesearch-noresults' => 'Ningún archivo con el nombre "$1" encontrado.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Páginas especiales',
@@ -3564,15 +3600,6 @@ Si el usuario está conectado, será desconectado de inmediato.
 'disableaccount-mustconfirm' => 'Tienes que confirmar que quieres desactivar esta cuenta.',
 'disableaccount-nosuchuser'  => 'La cuenta de usuario «$1» no existe.',
 'disableaccount-success'     => 'La cuenta de usuario «$1» ha sido deshabilitada definitivamente.',
-'disableaccount-logentry'    => 'desactivada permanentemente la cuenta «[[$1]]»',
-
-# Special:UploadStash
-'uploadstash'          => 'Ficheros escondidos',
-'uploadstash-summary'  => 'Esta página da acceso a los ficheros enviados (o que están en el proceso de envío) pero que aún no han sido publicados en la wiki. Estos ficheros no son visibles para nadie, excepto para el usuario que los envió.',
-'uploadstash-clear'    => 'Borrar los ficheros escondidos',
-'uploadstash-nofiles'  => 'No tienes archivos escondidos.',
-'uploadstash-badtoken' => 'No fue posible ejecutar esa operación, tal vez porque sus credenciales de edición expiraron. Reinténtelo.',
-'uploadstash-errclear' => 'El borrado de los archivos no tuvo éxito.',
-'uploadstash-refresh'  => 'Actualizar la lista de archivos',
+'disableaccount-logentry'    => 'desactivó permanentemente la cuenta «[[$1]]»',
 
 );

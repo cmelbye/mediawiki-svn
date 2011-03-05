@@ -15,13 +15,25 @@
 class ForeignAPIFile extends File {
 	
 	private $mExists;
-	
+
+	/**
+	 * @param  $title
+	 * @param  $repo ForeignApiRepo
+	 * @param  $info
+	 * @param bool $exists
+	 */
 	function __construct( $title, $repo, $info, $exists = false ) {
 		parent::__construct( $title, $repo );
 		$this->mInfo = $info;
 		$this->mExists = $exists;
 	}
-	
+
+	/**
+	 * @static
+	 * @param  $title Title
+	 * @param  $repo ForeignApiRepo
+	 * @return ForeignAPIFile|null
+	 */
 	static function newFromTitle( $title, $repo ) {
 		$data = $repo->fetchImageQuery( array(
                         'titles' => 'File:' . $title->getDBKey(),
@@ -32,11 +44,16 @@ class ForeignAPIFile extends File {
 
 		$info = $repo->getImageInfo( $data );
 
-		if( $data && $info) {
-			if( isset( $data['query']['redirects'][0] ) ) {
-				$newtitle = Title::newFromText( $data['query']['redirects'][0]['to']);
+		if( $info ) {
+			$lastRedirect = isset( $data['query']['redirects'] )
+				? count( $data['query']['redirects'] ) - 1
+				: -1;
+			if( $lastRedirect >= 0 ) {
+				$newtitle = Title::newFromText( $data['query']['redirects'][$lastRedirect]['to']);
 				$img = new ForeignAPIFile( $newtitle, $repo, $info, true );
-				if( $img ) $img->redirectedFrom( $title->getDBkey() );
+				if( $img ) {
+					$img->redirectedFrom( $title->getDBkey() );
+				}
 			} else {
 				$img = new ForeignAPIFile( $title, $repo, $info, true );
 			}
@@ -67,10 +84,16 @@ class ForeignAPIFile extends File {
 			// show icon
 			return parent::transform( $params, $flags );
 		}
+
+		// Note, the this->canRender() check above implies
+		// that we have a handler, and it can do makeParamString.
+		$otherParams = $this->handler->makeParamString( $params );
+
 		$thumbUrl = $this->repo->getThumbUrlFromCache(
 			$this->getName(),
 			isset( $params['width'] ) ? $params['width'] : -1,
-			isset( $params['height'] ) ? $params['height'] : -1 );
+			isset( $params['height'] ) ? $params['height'] : -1,
+			$otherParams );
 		return $this->handler->getTransform( $this, 'bogus', $thumbUrl, $params );
 	}
 

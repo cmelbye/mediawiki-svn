@@ -78,12 +78,6 @@ class LocalisationCache {
 	var $recachedLangs = array();
 
 	/**
-	 * Data added by extensions using the deprecated $wgMessageCache->addMessages() 
-	 * interface.
-	 */
-	var $legacyData = array();
-
-	/**
 	 * All item keys
 	 */
 	static public $allKeys = array(
@@ -93,7 +87,7 @@ class LocalisationCache {
 		'defaultUserOptionOverrides', 'linkTrail', 'namespaceAliases',
 		'dateFormats', 'datePreferences', 'datePreferenceMigrationMap',
 		'defaultDateFormat', 'extraUserToggles', 'specialPageAliases',
-		'imageFiles', 'preloadedMessages',
+		'imageFiles', 'preloadedMessages', 'namespaceGenderAliases',
 	);
 
 	/**
@@ -101,7 +95,7 @@ class LocalisationCache {
 	 * by a fallback sequence.
 	 */
 	static public $mergeableMapKeys = array( 'messages', 'namespaceNames', 'mathNames',
-		'dateFormats', 'defaultUserOptionOverrides', 'magicWords', 'imageFiles',
+		'dateFormats', 'defaultUserOptionOverrides', 'imageFiles',
 		'preloadedMessages',
 	);
 
@@ -122,6 +116,11 @@ class LocalisationCache {
 	 * key is removed after the first merge.
 	 */
 	static public $optionalMergeKeys = array( 'bookstoreList' );
+
+	/**
+	 * Keys for items that are formatted like $magicWords
+	 */
+	static public $magicWordKeys = array( 'magicWords' );
 
 	/**
 	 * Keys for items where the subitems are stored in the backend separately.
@@ -187,7 +186,8 @@ class LocalisationCache {
 				self::$mergeableMapKeys,
 				self::$mergeableListKeys,
 				self::$mergeableAliasListKeys,
-				self::$optionalMergeKeys
+				self::$optionalMergeKeys,
+				self::$magicWordKeys
 			) );
 		}
 		return isset( $this->mergeableKeys[$key] );
@@ -215,9 +215,6 @@ class LocalisationCache {
 	 * Get a subitem, for instance a single message for a given language.
 	 */
 	public function getSubitem( $code, $key, $subkey ) {
-		if ( isset( $this->legacyData[$code][$key][$subkey] ) ) {
-			return $this->legacyData[$code][$key][$subkey];
-		}
 		if ( !isset( $this->loadedSubitems[$code][$key][$subkey] ) 
 			&& !isset( $this->loadedItems[$code][$key] ) ) 
 		{
@@ -346,6 +343,12 @@ class LocalisationCache {
 		}
 		$this->initialisedLangs[$code] = true;
 
+		# If the code is of the wrong form for a Messages*.php file, do a shallow fallback
+		if ( !Language::isValidBuiltInCode( $code ) ) {
+			$this->initShallowFallback( $code, 'en' );
+			return;
+		}
+
 		# Recache the data if necessary
 		if ( !$this->manualRecache && $this->isExpired( $code ) ) {
 			if ( file_exists( Language::getMessagesFileName( $code ) ) ) {
@@ -435,10 +438,26 @@ class LocalisationCache {
 					if ( isset( $value['inherit'] ) ) {
 						unset( $value['inherit'] );
 					}
+				} elseif ( in_array( $key, self::$magicWordKeys ) ) {
+					$this->mergeMagicWords( $value, $fallbackValue );
 				}
 			}
 		} else {
 			$value = $fallbackValue;
+		}
+	}
+
+	protected function mergeMagicWords( &$value, $fallbackValue ) {
+		foreach ( $fallbackValue as $magicName => $fallbackInfo ) {
+			if ( !isset( $value[$magicName] ) ) {
+				$value[$magicName] = $fallbackInfo;
+			} else {
+				$oldSynonyms = array_slice( $fallbackInfo, 1 );
+				$newSynonyms = array_slice( $value[$magicName], 1 );
+				$synonyms = array_values( array_unique( array_merge( 
+					$newSynonyms, $oldSynonyms ) ) );
+				$value[$magicName] = array_merge( array( $fallbackInfo[0] ), $synonyms );
+			}
 		}
 	}
 
@@ -663,8 +682,6 @@ class LocalisationCache {
 		unset( $this->loadedItems[$code] );
 		unset( $this->loadedSubitems[$code] );
 		unset( $this->initialisedLangs[$code] );
-		// We don't unload legacyData because there's no way to get it back 
-		// again, it's not really a cache
 		foreach ( $this->shallowFallbacks as $shallowCode => $fbCode ) {
 			if ( $fbCode === $code ) {
 				$this->unload( $shallowCode );
@@ -678,22 +695,6 @@ class LocalisationCache {
 	public function unloadAll() {
 		foreach ( $this->initialisedLangs as $lang => $unused ) {
 			$this->unload( $lang );
-		}
-	}
-
-	/**
-	 * Add messages to the cache, from an extension that has not yet been 
-	 * migrated to $wgExtensionMessages or the LocalisationCacheRecache hook. 
-	 * Called by deprecated function $wgMessageCache->addMessages(). 
-	 */
-	public function addLegacyMessages( $messages ) {
-		foreach ( $messages as $lang => $langMessages ) {
-			if ( isset( $this->legacyData[$lang]['messages'] ) ) {
-				$this->legacyData[$lang]['messages'] = 
-					$langMessages + $this->legacyData[$lang]['messages'];
-			} else {
-				$this->legacyData[$lang]['messages'] = $langMessages;
-			}
 		}
 	}
 

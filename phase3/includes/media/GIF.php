@@ -44,6 +44,12 @@ class GIFHandler extends BitmapHandler {
 		return $this->formatMetadataHelper( $meta['metadata'] );
 	}
 
+	/**
+	 * @param $image File
+	 * @param  $width
+	 * @param  $height
+	 * @return
+	 */
 	function getImageArea( $image, $width, $height ) {
 		$ser = $image->getMetadata();
 		if ($ser) {
@@ -54,6 +60,10 @@ class GIFHandler extends BitmapHandler {
 		}
 	}
 
+	/**
+	 * @param $image File
+	 * @return bool
+	 */
 	function isAnimatedImage( $image ) {
 		$ser = $image->getMetadata();
 		if ($ser) {
@@ -90,7 +100,10 @@ class GIFHandler extends BitmapHandler {
 		return self::METADATA_GOOD;
 	}
 
-
+	/**
+	 * @param $image File
+	 * @return string
+	 */
 	function getLongDesc( $image ) {
 		global $wgLang;
 
@@ -102,9 +115,10 @@ class GIFHandler extends BitmapHandler {
 		
 		if (!$metadata || $metadata['frameCount'] <=  1)
 			return $original;
-		
+
+		/* Preserve original image info string, but strip the last char ')' so we can add even more */
 		$info = array();
-		$info[] = substr( $original, 1, strlen( $original )-2 );
+		$info[] = $original;
 		
 		if ($metadata['looped'])
 			$info[] = wfMsgExt( 'file-info-gif-looped', 'parseinline' );
@@ -115,8 +129,6 @@ class GIFHandler extends BitmapHandler {
 		if ($metadata['duration'])
 			$info[] = $wgLang->formatTimePeriod( $metadata['duration'] );
 		
-		$infoString = $wgLang->commaList( $info );
-		
-		return "($infoString)";
+		return $wgLang->commaList( $info );
 	}
 }

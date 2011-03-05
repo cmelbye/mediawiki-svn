@@ -35,7 +35,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup API
  */
 class ApiQueryAllUsers extends ApiQueryBase {
-
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'au' );
 	}
@@ -50,24 +49,40 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			$fld_blockinfo = isset( $prop['blockinfo'] );
 			$fld_editcount = isset( $prop['editcount'] );
 			$fld_groups = isset( $prop['groups'] );
+			$fld_rights = isset( $prop['rights'] );
 			$fld_registration = isset( $prop['registration'] );
 		} else {
-			$fld_blockinfo = $fld_editcount = $fld_groups = $fld_registration = false;
+			$fld_blockinfo = $fld_editcount = $fld_groups = $fld_registration = $fld_rights = false;
 		}
 
 		$limit = $params['limit'];
-		$this->addTables( 'user', 'u1' );
+		$this->addTables( 'user' );
 		$useIndex = true;
 
 		if ( !is_null( $params['from'] ) ) {
-			$this->addWhere( 'u1.user_name >= ' . $db->addQuotes( $this->keyToTitle( $params['from'] ) ) );
+			$this->addWhere( 'user_name >= ' . $db->addQuotes( $this->keyToTitle( $params['from'] ) ) );
 		}
 		if ( !is_null( $params['to'] ) ) {
-			$this->addWhere( 'u1.user_name <= ' . $db->addQuotes( $this->keyToTitle( $params['to'] ) ) );
+			$this->addWhere( 'user_name <= ' . $db->addQuotes( $this->keyToTitle( $params['to'] ) ) );
 		}
 
 		if ( !is_null( $params['prefix'] ) ) {
-			$this->addWhere( 'u1.user_name' . $db->buildLike( $this->keyToTitle( $params['prefix'] ), $db->anyString() ) );
+			$this->addWhere( 'user_name' . $db->buildLike( $this->keyToTitle( $params['prefix'] ), $db->anyString() ) );
+		}
+
+		if ( !is_null( $params['rights'] ) ) {
+			$groups = array();
+			foreach( $params['rights'] as $r ) {
+				$groups = array_merge( $groups, User::getGroupsWithPermission( $r ) );
+			}
+
+			$groups = array_diff( array_unique( $groups ), User::getImplicitGroups() );
+
+			if ( is_null( $params['group'] ) ) {
+				$params['group'] = $groups;
+			} else {
+				$params['group'] = array_unique( array_merge( $params['group'], $groups ) );
+			}
 		}
 
 		if ( !is_null( $params['group'] ) ) {
@@ -75,15 +90,15 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			// Filter only users that belong to a given group
 			$this->addTables( 'user_groups', 'ug1' );
 			$ug1 = $this->getAliasedName( 'user_groups', 'ug1' );
-			$this->addJoinConds( array( $ug1 => array( 'INNER JOIN', array( 'ug1.ug_user=u1.user_id',
+			$this->addJoinConds( array( $ug1 => array( 'INNER JOIN', array( 'ug1.ug_user=user_id',
 					'ug1.ug_group' => $params['group'] ) ) ) );
 		}
 
 		if ( $params['witheditsonly'] ) {
-			$this->addWhere( 'u1.user_editcount > 0' );
+			$this->addWhere( 'user_editcount > 0' );
 		}
 
-		if ( $fld_groups ) {
+		if ( $fld_groups || $fld_rights ) {
 			// Show the groups the given users belong to
 			// request more than needed to avoid not getting all rows that belong to one user
 			$groupCount = count( User::getAllGroups() );
@@ -91,34 +106,32 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 			$this->addTables( 'user_groups', 'ug2' );
 			$tname = $this->getAliasedName( 'user_groups', 'ug2' );
-			$this->addJoinConds( array( $tname => array( 'LEFT JOIN', 'ug2.ug_user=u1.user_id' ) ) );
+			$this->addJoinConds( array( $tname => array( 'LEFT JOIN', 'ug2.ug_user=user_id' ) ) );
 			$this->addFields( 'ug2.ug_group ug_group2' );
 		} else {
 			$sqlLimit = $limit + 1;
 		}
+
 		if ( $fld_blockinfo ) {
 			$this->addTables( 'ipblocks' );
-			$this->addTables( 'user', 'u2' );
-			$u2 = $this->getAliasedName( 'user', 'u2' );
 			$this->addJoinConds( array(
-				'ipblocks' => array( 'LEFT JOIN', 'ipb_user=u1.user_id' ),
-				$u2 => array( 'LEFT JOIN', 'ipb_by=u2.user_id' ) ) );
-			$this->addFields( array( 'ipb_reason', 'u2.user_name AS blocker_name' ) );
+				'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
+			) );
+			$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
 		}
 
 		$this->addOption( 'LIMIT', $sqlLimit );
 
 		$this->addFields( array(
-			'u1.user_name',
-			'u1.user_id'
+			'user_name',
+			'user_id'
 		) );
-		$this->addFieldsIf( 'u1.user_editcount', $fld_editcount );
-		$this->addFieldsIf( 'u1.user_registration', $fld_registration );
+		$this->addFieldsIf( 'user_editcount', $fld_editcount );
+		$this->addFieldsIf( 'user_registration', $fld_registration );
 
-		$this->addOption( 'ORDER BY', 'u1.user_name' );
+		$this->addOption( 'ORDER BY', 'user_name' );
 		if ( $useIndex ) {
-			$u1 = $this->getAliasedName( 'user', 'u1' );
-			$this->addOption( 'USE INDEX', array( $u1 => 'user_name' ) );
+			$this->addOption( 'USE INDEX', array( 'user' => 'user_name' ) );
 		}
 
 		$res = $this->select( __METHOD__ );
@@ -143,6 +156,9 @@ class ApiQueryAllUsers extends ApiQueryBase {
 				if ( is_array( $lastUserData ) ) {
 					$fit = $result->addValue( array( 'query', $this->getModuleName() ),
 							null, $lastUserData );
+
+					$lastUserData = null;
+
 					if ( !$fit ) {
 						$this->setContinueEnumParameter( 'from',
 								$this->keyToTitle( $lastUserData['name'] ) );
@@ -159,12 +175,13 @@ class ApiQueryAllUsers extends ApiQueryBase {
 				// Record new user's data
 				$lastUser = $row->user_name;
 				$lastUserData = array(
-					'name' => $lastUser,
 					'userid' => $row->user_id,
+					'name' => $lastUser,
 				);
-				if ( $fld_blockinfo && !is_null( $row->blocker_name ) ) {
-					$lastUserData['blockedby'] = $row->blocker_name;
+				if ( $fld_blockinfo && !is_null( $row->ipb_by_text ) ) {
+					$lastUserData['blockedby'] = $row->ipb_by_text;
 					$lastUserData['blockreason'] = $row->ipb_reason;
+					$lastUserData['blockexpiry'] = $row->ipb_expiry;
 				}
 				if ( $fld_editcount ) {
 					$lastUserData['editcount'] = intval( $row->user_editcount );
@@ -185,8 +202,22 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 			// Add user's group info
 			if ( $fld_groups && !is_null( $row->ug_group2 ) ) {
+				if ( !isset( $lastUserData['groups'] ) ) {
+					$lastUserData['groups'] = ApiQueryUsers::getAutoGroups( User::newFromName( $lastUser ) );
+				}
+
 				$lastUserData['groups'][] = $row->ug_group2;
 				$result->setIndexedTagName( $lastUserData['groups'], 'g' );
+			}
+
+			if ( $fld_rights && !is_null( $row->ug_group2 ) ) {
+				if ( !isset( $lastUserData['rights'] ) ) {
+					$lastUserData['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
+				}
+
+				$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
+					User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				$result->setIndexedTagName( $lastUserData['rights'], 'r' );
 			}
 		}
 
@@ -212,13 +243,19 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			'to' => null,
 			'prefix' => null,
 			'group' => array(
-				ApiBase::PARAM_TYPE => User::getAllGroups()
+				ApiBase::PARAM_TYPE => User::getAllGroups(),
+				ApiBase::PARAM_ISMULTI => true,
+			),
+			'rights' => array(
+				ApiBase::PARAM_TYPE => User::getAllRights(),
+				ApiBase::PARAM_ISMULTI => true,
 			),
 			'prop' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_TYPE => array(
 					'blockinfo',
 					'groups',
+					'rights',
 					'editcount',
 					'registration'
 				)
@@ -239,14 +276,16 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			'from' => 'The user name to start enumerating from',
 			'to' => 'The user name to stop enumerating at',
 			'prefix' => 'Search for all users that begin with this value',
-			'group' => 'Limit users to a given group name',
+			'group' => 'Limit users to given group name(s)',
+			'rights' => 'Limit users to given right(s)',
 			'prop' => array(
 				'What pieces of information to include.',
 				' blockinfo     - Adds the information about a current block on the user',
-				' groups        - Lists groups that the user is in',
+				' groups        - Lists groups that the user is in. This uses more server resources and may return fewer results than the limit',
+				' rights        - Lists rights that the user has',
 				' editcount     - Adds the edit count of the user',
 				' registration  - Adds the timestamp of when the user registered',
-				'`groups` property uses more server resources and may return fewer results than the limit' ),
+				),
 			'limit' => 'How many total user names to return',
 			'witheditsonly' => 'Only list users who have made edits',
 		);

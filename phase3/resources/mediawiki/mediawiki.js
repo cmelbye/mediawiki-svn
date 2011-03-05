@@ -16,6 +16,15 @@ jQuery.extend({
 	escapeRE : function( str ) {
 		return str.replace ( /([\\{}()|.?*+^$\[\]])/g, "\\$1" );
 	},
+	// $.isDomElement( document.getElementById('content') ) === true
+	// $.isDomElement( document.getElementsByClassName('portal') ) === false (array)
+	// $.isDomElement( document.getElementsByClassName('portal')[0] ) === true
+	// $.isDomElement( $('#content') ) === false (jQuery object)
+	// $.isDomElement( $('#content').get(0) ) === true
+	// $.isDomElement( 'hello world' ) === false
+	isDomElement : function( el ) {
+		return !!el.nodeType;
+	},
 	isEmpty : function( v ) {
 		var key;
 		if ( v === "" || v === 0 || v === "0" || v === null
@@ -195,7 +204,7 @@ window.mediaWiki = new ( function( $ ) {
 	 * @return boolean Existence of key(s)
 	 */
 	Map.prototype.exists = function( selection ) {
-		if ( typeof keys === 'object' ) {
+		if ( typeof selection === 'object' ) {
 			for ( var s = 0; s < selection.length; s++ ) {
 				if ( !( selection[s] in this.values ) ) {
 					return false;
@@ -307,7 +316,7 @@ window.mediaWiki = new ( function( $ ) {
 		 */
 		function generateId() {
 			var id = '';
-			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 			for ( var i = 0, r; i < 32; i++ ) {
 				r = Math.floor( Math.random() * seed.length );
 				id += seed.substring( r, r + 1 );
@@ -339,7 +348,7 @@ window.mediaWiki = new ( function( $ ) {
 		 * This ID is ephemeral for everyone, staying in their browser only until they close
 		 * their browser.
 		 * 
-		 * Do not use this method before the first call to mediaWiki.loader.go(), it depends on
+		 * Do not use this method before the first call to mw.loader.go(), it depends on
 		 * jquery.cookie, which is added to the first pay-load just after mediaWiki is defined, but
 		 * won't be loaded until the first call to go().
 		 * 
@@ -349,9 +358,8 @@ window.mediaWiki = new ( function( $ ) {
 			var sessionId = $.cookie( 'mediaWiki.user.sessionId' );
 			if ( typeof sessionId == 'undefined' || sessionId == null ) {
 				sessionId = generateId();
+				$.cookie( 'mediaWiki.user.sessionId', sessionId, { 'expires': null, 'path': '/' } );
 			}
-			// Set cookie if not set, or renew it if already set
-			$.cookie( 'mediaWiki.user.sessionId', sessionId, { 'expires': null, 'path': '/' } );
 			return sessionId;
 		};
 
@@ -362,7 +370,7 @@ window.mediaWiki = new ( function( $ ) {
 		 * expiration time is reset each time the ID is queried, so in most cases this ID will
 		 * persist until the browser's cookies are cleared or the user doesn't visit for 1 year.
 		 * 
-		 * Do not use this method before the first call to mediaWiki.loader.go(), it depends on
+		 * Do not use this method before the first call to mw.loader.go(), it depends on
 		 * jquery.cookie, which is added to the first pay-load just after mediaWiki is defined, but
 		 * won't be loaded until the first call to go().
 		 * 
@@ -483,6 +491,8 @@ window.mediaWiki = new ( function( $ ) {
 		var suspended = true;
 		// Flag inidicating that document ready has occured
 		var ready = false;
+		// Marker element for adding dynamic styles
+		var $marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' );
 
 		/* Private Methods */
 
@@ -640,16 +650,15 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Add style sheet to document
 			if ( typeof registry[module].style === 'string' && registry[module].style.length ) {
-				$( 'head' )
-					.append( mediaWiki.html.element( 'style',
-						{ type: "text/css" },
+				$marker.before( mediaWiki.html.element( 'style',
+						{ type: 'text/css' },
 						new mediaWiki.html.Cdata( registry[module].style )
 					) );
 			} else if ( typeof registry[module].style === 'object'
 				&& !( registry[module].style instanceof Array ) )
 			{
 				for ( var media in registry[module].style ) {
-					$( 'head' ).append( mediaWiki.html.element( 'style',
+					$marker.before( mediaWiki.html.element( 'style',
 						{ type: 'text/css', media: media },
 						new mediaWiki.html.Cdata( registry[module].style[media] )
 					) );
@@ -661,7 +670,7 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Execute script
 			try {
-				registry[module].script();
+				registry[module].script( jQuery );
 				registry[module].state = 'ready';
 				// Run jobs who's dependencies have just been met
 				for ( var j = 0; j < jobs.length; j++ ) {
@@ -832,7 +841,7 @@ window.mediaWiki = new ( function( $ ) {
 					}
 					return html;
 				}
-				// Load asynchronously after doumument ready
+				// Load asynchronously after documument ready
 				if ( ready ) {
 					setTimeout( function() { $( 'body' ).append( request() ); }, 0 )
 				} else {
@@ -1103,14 +1112,14 @@ window.mediaWiki = new ( function( $ ) {
 		};
 
 		/**
-		 * Wrapper object for raw HTML passed to mediaWiki.html.element().
+		 * Wrapper object for raw HTML passed to mw.html.element().
 		 */
 		this.Raw = function( value ) {
 			this.value = value;
 		};
 
 		/**
-		 * Wrapper object for CDATA element contents passed to mediaWiki.html.element()
+		 * Wrapper object for CDATA element contents passed to mw.html.element()
 		 */
 		this.Cdata = function( value ) {
 			this.value = value;
@@ -1130,14 +1139,14 @@ window.mediaWiki = new ( function( $ ) {
 		 *      See http://www.w3.org/TR/1999/REC-html401-19991224/appendix/notes.html#h-B.3.2
 		 *
 		 * Example:
-		 *    var h = mediaWiki.html;
+		 *    var h = mw.html;
 		 *    return h.element( 'div', {},
 		 *        new h.Raw( h.element( 'img', {src: '<'} ) ) );
 		 * Returns <div><img src="&lt;"/></div>
 		 */
 		this.element = function( name, attrs, contents ) {
 			var s = '<' + name;
-			for ( attrName in attrs ) {
+			for ( var attrName in attrs ) {
 				s += ' ' + attrName + '="' + this.escape( attrs[attrName] ) + '"';
 			}
 			if ( typeof contents == 'undefined' || contents === null ) {
@@ -1147,7 +1156,7 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Regular open tag
 			s += '>';
-			if (typeof contents === 'string') {
+			if ( typeof contents === 'string') {
 				// Escaped
 				s += this.escape( contents );
 			} else if ( contents instanceof this.Raw ) {

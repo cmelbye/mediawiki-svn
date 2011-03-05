@@ -9,8 +9,15 @@
 class PostgresField implements Field {
 	private $name, $tablename, $type, $nullable, $max_length, $deferred, $deferrable, $conname;
 
-	static function fromText($db, $table, $field) {
-	global $wgDBmwschema;
+	/**
+	 * @static
+	 * @param $db DatabaseBase
+	 * @param  $table
+	 * @param  $field
+	 * @return null|PostgresField
+	 */
+	static function fromText( $db, $table, $field ) {
+		global $wgDBmwschema;
 
 		$q = <<<SQL
 SELECT
@@ -100,13 +107,6 @@ class DatabasePostgres extends DatabaseBase {
 	var $numeric_version = null;
 	var $mAffectedRows = null;
 
-	function __construct( $server = false, $user = false, $password = false, $dbName = false,
-		$flags = 0 )
-	{
-		$this->mFlags = $flags;
-		$this->open( $server, $user, $password, $dbName );
-	}
-
 	function getType() {
 		return 'postgres';
 	}
@@ -144,10 +144,6 @@ class DatabasePostgres extends DatabaseBase {
 		return $this->numRows( $res );
 	}
 
-	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
-		return new DatabasePostgres( $server, $user, $password, $dbName, $flags );
-	}
-
 	/**
 	 * Usually aborts on failure
 	 */
@@ -162,9 +158,10 @@ class DatabasePostgres extends DatabaseBase {
 		if ( !strlen( $user ) ) { # e.g. the class is being loaded
 			return;
 		}
+
 		$this->close();
 		$this->mServer = $server;
-		$this->mPort = $port = $wgDBport;
+		$port = $wgDBport;
 		$this->mUser = $user;
 		$this->mPassword = $password;
 		$this->mDBname = $dbName;
@@ -201,19 +198,28 @@ class DatabasePostgres extends DatabaseBase {
 			$this->doQuery( "SET client_min_messages = 'ERROR'" );
 		}
 
-		$this->doQuery( "SET client_encoding='UTF8'" );
+		$this->query( "SET client_encoding='UTF8'", __METHOD__ );
+		$this->query( "SET datestyle = 'ISO, YMD'", __METHOD__ );
+		$this->query( "SET timezone = 'GMT'", __METHOD__ );
 
-		global $wgDBmwschema, $wgDBts2schema;
-		if ( isset( $wgDBmwschema ) && isset( $wgDBts2schema )
-			&& $wgDBmwschema !== 'mediawiki'
-			&& preg_match( '/^\w+$/', $wgDBmwschema )
-			&& preg_match( '/^\w+$/', $wgDBts2schema )
-		) {
+		global $wgDBmwschema;
+		if ( $this->schemaExists( $wgDBmwschema ) ) {
 			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
-			$this->doQuery( "SET search_path = $safeschema, $wgDBts2schema, public" );
+			$this->doQuery( "SET search_path = $safeschema" );
+		} else {
+			$this->doQuery( "SET search_path = public" );
 		}
 
 		return $this->mConn;
+	}
+
+	/**
+	 * Postgres doesn't support selectDB in the same way MySQL does. So if the
+	 * DB name doesn't match the open connection, open a new one
+	 * @return
+	 */
+	function selectDB( $db ) {
+		return (bool)$this->open( $this->mServer, $this->mUser, $this->mPassword, $db );
 	}
 
 	function makeConnectionString( $vars ) {
@@ -222,358 +228,6 @@ class DatabasePostgres extends DatabaseBase {
 			$s .= "$name='" . str_replace( "'", "\\'", $value ) . "' ";
 		}
 		return $s;
-	}
-
-
-	function initial_setup( $superuser, $password, $dbName ) {
-		// If this is the initial connection, setup the schema stuff and possibly create the user
-		global $wgDBname, $wgDBuser, $wgDBpassword, $wgDBmwschema, $wgDBts2schema;
-
-		print '<li>Checking the version of Postgres...';
-		$version = $this->getServerVersion();
-		$PGMINVER = '8.1';
-		if ( $version < $PGMINVER ) {
-			print "<b>FAILED</b>. Required version is $PGMINVER. You have " . htmlspecialchars( $version ) . "</li>\n";
-			dieout( );
-		}
-		print 'version ' . htmlspecialchars( $this->numeric_version ) . " is OK.</li>\n";
-
-		$safeuser = $this->addIdentifierQuotes( $wgDBuser );
-		// Are we connecting as a superuser for the first time?
-		if ( $superuser ) {
-			// Are we really a superuser? Check out our rights
-			$SQL = "SELECT
-                      CASE WHEN usesuper IS TRUE THEN
-                      CASE WHEN usecreatedb IS TRUE THEN 3 ELSE 1 END
-                      ELSE CASE WHEN usecreatedb IS TRUE THEN 2 ELSE 0 END
-                    END AS rights
-                    FROM pg_catalog.pg_user WHERE usename = " . $this->addQuotes( $superuser );
-			$rows = $this->numRows( $res = $this->doQuery( $SQL ) );
-			if ( !$rows ) {
-				print '<li>ERROR: Could not read permissions for user "' . htmlspecialchars( $superuser ) . "\"</li>\n";
-				dieout( );
-			}
-			$perms = pg_fetch_result( $res, 0, 0 );
-
-			$SQL = "SELECT 1 FROM pg_catalog.pg_user WHERE usename = " . $this->addQuotes( $wgDBuser );
-			$rows = $this->numRows( $this->doQuery( $SQL ) );
-			if ( $rows ) {
-				print '<li>User "' . htmlspecialchars( $wgDBuser ) . '" already exists, skipping account creation.</li>';
-			} else {
-				if ( $perms != 1 && $perms != 3 ) {
-					print '<li>ERROR: the user "' . htmlspecialchars( $superuser ) . '" cannot create other users. ';
-					print 'Please use a different Postgres user.</li>';
-					dieout( );
-				}
-				print '<li>Creating user <b>' . htmlspecialchars( $wgDBuser ) . '</b>...';
-				$safepass = $this->addQuotes( $wgDBpassword );
-				$SQL = "CREATE USER $safeuser NOCREATEDB PASSWORD $safepass";
-				$this->doQuery( $SQL );
-				print "OK</li>\n";
-			}
-			// User now exists, check out the database
-			if ( $dbName != $wgDBname ) {
-				$SQL = "SELECT 1 FROM pg_catalog.pg_database WHERE datname = " . $this->addQuotes( $wgDBname );
-				$rows = $this->numRows( $this->doQuery( $SQL ) );
-				if ( $rows ) {
-					print '<li>Database "' . htmlspecialchars( $wgDBname ) . '" already exists, skipping database creation.</li>';
-				} else {
-					if ( $perms < 1 ) {
-						print '<li>ERROR: the user "' . htmlspecialchars( $superuser ) . '" cannot create databases. ';
-						print 'Please use a different Postgres user.</li>';
-						dieout( );
-					}
-					print '<li>Creating database <b>' . htmlspecialchars( $wgDBname ) . '</b>...';
-					$safename = $this->addIdentifierQuotes( $wgDBname );
-					$SQL = "CREATE DATABASE $safename OWNER $safeuser ";
-					$this->doQuery( $SQL );
-					print "OK</li>\n";
-					// Hopefully tsearch2 and plpgsql are in template1...
-				}
-
-				// Reconnect to check out tsearch2 rights for this user
-				print '<li>Connecting to "' . htmlspecialchars( $wgDBname ) . '" as superuser "' .
-					htmlspecialchars( $superuser ) . '" to check rights...';
-
-				$connectVars = array();
-				if ( $this->mServer != false && $this->mServer != '' ) {
-					$connectVars['host'] = $this->mServer;
-				}
-				if ( $this->mPort != false && $this->mPort != '' ) {
-					$connectVars['port'] = $this->mPort;
-				}
-				$connectVars['dbname'] = $wgDBname;
-				$connectVars['user'] = $superuser;
-				$connectVars['password'] = $password;
-
-				@$this->mConn = pg_connect( $this->makeConnectionString( $connectVars ) );
-				if ( !$this->mConn ) {
-					print "<b>FAILED TO CONNECT!</b></li>";
-					dieout( );
-				}
-				print "OK</li>\n";
-			}
-
-			if ( $this->numeric_version < 8.3 ) {
-				// Tsearch2 checks
-				print '<li>Checking that tsearch2 is installed in the database "' .
-					htmlspecialchars( $wgDBname ) . '"...';
-				if ( !$this->tableExists( 'pg_ts_cfg', $wgDBts2schema ) ) {
-					print '<b>FAILED</b>. tsearch2 must be installed in the database "' .
-						htmlspecialchars( $wgDBname ) . '".';
-					print 'Please see <a href="http://www.devx.com/opensource/Article/21674/0/page/2">this article</a>';
-					print " for instructions or ask on #postgresql on irc.freenode.net</li>\n";
-					dieout( );
-				}
-				print "OK</li>\n";
-				print '<li>Ensuring that user "' . htmlspecialchars( $wgDBuser ) .
-					'" has select rights on the tsearch2 tables...';
-				foreach ( array( 'cfg', 'cfgmap', 'dict', 'parser' ) as $table ) {
-					$SQL = "GRANT SELECT ON pg_ts_$table TO $safeuser";
-					$this->doQuery( $SQL );
-				}
-				print "OK</li>\n";
-			}
-
-			// Setup the schema for this user if needed
-			$result = $this->schemaExists( $wgDBmwschema );
-			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
-			if ( !$result ) {
-				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
-				$result = $this->doQuery( "CREATE SCHEMA $safeschema AUTHORIZATION $safeuser" );
-				if ( !$result ) {
-					print "<b>FAILED</b>.</li>\n";
-					dieout( );
-				}
-				print "OK</li>\n";
-			} else {
-				print "<li>Schema already exists, explicitly granting rights...\n";
-				$safeschema2 = $this->addQuotes( $wgDBmwschema );
-				$SQL = "SELECT 'GRANT ALL ON '||pg_catalog.quote_ident(relname)||' TO $safeuser;'\n".
-					"FROM pg_catalog.pg_class p, pg_catalog.pg_namespace n\n".
-					"WHERE relnamespace = n.oid AND n.nspname = $safeschema2\n".
-					"AND p.relkind IN ('r','S','v')\n";
-				$SQL .= "UNION\n";
-				$SQL .= "SELECT 'GRANT ALL ON FUNCTION '||pg_catalog.quote_ident(proname)||'('||\n".
-					"pg_catalog.oidvectortypes(p.proargtypes)||') TO $safeuser;'\n".
-					"FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n\n".
-					"WHERE p.pronamespace = n.oid AND n.nspname = $safeschema2";
-				$res = $this->doQuery( $SQL );
-				if ( !$res ) {
-					print "<b>FAILED</b>. Could not set rights for the user.</li>\n";
-					dieout( );
-				}
-				$this->doQuery( "SET search_path = $safeschema" );
-				$rows = $this->numRows( $res );
-				while ( $rows ) {
-					$rows--;
-					$this->doQuery( pg_fetch_result( $res, $rows, 0 ) );
-				}
-				print "OK</li>";
-			}
-
-			// Install plpgsql if needed
-			$this->setup_plpgsql();
-
-			return true; // Reconnect as regular user
-
-		} // end superuser
-
-		if ( !defined( 'POSTGRES_SEARCHPATH' ) ) {
-
-			if ( $this->numeric_version < 8.3 ) {
-				// Do we have the basic tsearch2 table?
-				print '<li>Checking for tsearch2 in the schema "' . htmlspecialchars( $wgDBts2schema ) . '"...';
-				if ( !$this->tableExists( 'pg_ts_dict', $wgDBts2schema ) ) {
-					print '<b>FAILED</b>. Make sure tsearch2 is installed. See <a href="';
-					print 'http://www.devx.com/opensource/Article/21674/0/page/2">this article</a>';
-					print " for instructions.</li>\n";
-					dieout( );
-				}
-				print "OK</li>\n";
-
-				// Does this user have the rights to the tsearch2 tables?
-				$ctype = pg_fetch_result( $this->doQuery( 'SHOW lc_ctype' ), 0, 0 );
-				print '<li>Checking tsearch2 permissions...';
-				// Let's check all four, just to be safe
-				error_reporting( 0 );
-				$ts2tables = array( 'cfg', 'cfgmap', 'dict', 'parser' );
-				$safetsschema = $this->addIdentifierQuotes( $wgDBts2schema );
-				foreach ( $ts2tables as $tname ) {
-					$SQL = "SELECT count(*) FROM $safetsschema.pg_ts_$tname";
-					$res = $this->doQuery( $SQL );
-					if ( !$res ) {
-						print "<b>FAILED</b> to access " . htmlspecialchars( "pg_ts_$tname" ) .
-							". Make sure that the user \"". htmlspecialchars( $wgDBuser ) .
-							"\" has SELECT access to all four tsearch2 tables</li>\n";
-						dieout( );
-					}
-				}
-				$SQL = "SELECT ts_name FROM $safetsschema.pg_ts_cfg WHERE locale = " . $this->addQuotes( $ctype ) ;
-				$SQL .= " ORDER BY CASE WHEN ts_name <> 'default' THEN 1 ELSE 0 END";
-				$res = $this->doQuery( $SQL );
-				error_reporting( E_ALL );
-				if ( !$res ) {
-					print "<b>FAILED</b>. Could not determine the tsearch2 locale information</li>\n";
-					dieout("</ul>");
-				}
-				print 'OK</li>';
-
-				// Will the current locale work? Can we force it to?
-				print '<li>Verifying tsearch2 locale with ' . htmlspecialchars( $ctype ) . '...';
-				$rows = $this->numRows( $res );
-				$resetlocale = 0;
-				if ( !$rows ) {
-					print "<b>not found</b></li>\n";
-					print '<li>Attempting to set default tsearch2 locale to "' . htmlspecialchars( $ctype ) . '"...';
-					$resetlocale = 1;
-				} else {
-					$tsname = pg_fetch_result( $res, 0, 0 );
-					if ( $tsname != 'default' ) {
-						print "<b>not set to default (" . htmlspecialchars( $tsname ) . ")</b>";
-						print "<li>Attempting to change tsearch2 default locale to \"" .
-							htmlspecialchars( $ctype ) . "\"...";
-						$resetlocale = 1;
-					}
-				}
-				if ( $resetlocale ) {
-					$SQL = "UPDATE $safetsschema.pg_ts_cfg SET locale = " . $this->addQuotes( $ctype ) . " WHERE ts_name = 'default'";
-					$res = $this->doQuery( $SQL );
-					if ( !$res ) {
-						print '<b>FAILED</b>. ';
-						print 'Please make sure that the locale in pg_ts_cfg for "default" is set to "' .
-							htmlspecialchars( $ctype ) . "\"</li>\n";
-						dieout( );
-					}
-					print 'OK</li>';
-				}
-
-				// Final test: try out a simple tsearch2 query
-				$SQL = "SELECT $safetsschema.to_tsvector('default','MediaWiki tsearch2 testing')";
-				$res = $this->doQuery( $SQL );
-				if ( !$res ) {
-					print '<b>FAILED</b>. Specifically, "' . htmlspecialchars( $SQL ) . '" did not work.</li>';
-					dieout( );
-				}
-				print 'OK</li>';
-			}
-
-			// Install plpgsql if needed
-			$this->setup_plpgsql();
-
-			// Does the schema already exist? Who owns it?
-			$result = $this->schemaExists( $wgDBmwschema );
-			if ( !$result ) {
-				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
-				error_reporting( 0 );
-				$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
-				$result = $this->doQuery( "CREATE SCHEMA $safeschema" );
-				error_reporting( E_ALL );
-				if ( !$result ) {
-					print '<b>FAILED</b>. The user "' . htmlspecialchars( $wgDBuser ) .
-						'" must be able to access the schema. '.
-						'You can try making them the owner of the database, or try creating the schema with a '.
-						'different user, and then grant access to the "' .
-						htmlspecialchars( $wgDBuser ) . "\" user.</li>\n";
-					dieout( );
-				}
-				print "OK</li>\n";
-			} elseif ( $result != $wgDBuser ) {
-				print '<li>Schema "' . htmlspecialchars( $wgDBmwschema ) . '" exists but is not owned by "' .
-					htmlspecialchars( $wgDBuser ) . "\". Not ideal.</li>\n";
-			} else {
-				print '<li>Schema "' . htmlspecialchars( $wgDBmwschema ) . '" exists and is owned by "' .
-					htmlspecialchars( $wgDBuser ) . "\". Excellent.</li>\n";
-			}
-
-			// Always return GMT time to accomodate the existing integer-based timestamp assumption
-			print "<li>Setting the timezone to GMT for user \"" . htmlspecialchars( $wgDBuser ) . '" ...';
-			$SQL = "ALTER USER $safeuser SET timezone = 'GMT'";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<b>FAILED</b>.</li>\n";
-				dieout( );
-			}
-			print "OK</li>\n";
-			// Set for the rest of this session
-			$SQL = "SET timezone = 'GMT'";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<li>Failed to set timezone</li>\n";
-				dieout( );
-			}
-
-			print '<li>Setting the datestyle to ISO, YMD for user "' . htmlspecialchars( $wgDBuser ) . '" ...';
-			$SQL = "ALTER USER $safeuser SET datestyle = 'ISO, YMD'";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<b>FAILED</b>.</li>\n";
-				dieout( );
-			}
-			print "OK</li>\n";
-			// Set for the rest of this session
-			$SQL = "SET datestyle = 'ISO, YMD'";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<li>Failed to set datestyle</li>\n";
-				dieout( );
-			}
-
-			// Fix up the search paths if needed
-			print '<li>Setting the search path for user "' . htmlspecialchars( $wgDBuser ) . '" ...';
-			$path = $this->addIdentifierQuotes( $wgDBmwschema );
-			if ( $wgDBts2schema !== $wgDBmwschema ) {
-				$path .= ', '. $this->addIdentifierQuotes( $wgDBts2schema );
-			}
-			if ( $wgDBmwschema !== 'public' && $wgDBts2schema !== 'public' ) {
-				$path .= ', public';
-			}
-			$SQL = "ALTER USER $safeuser SET search_path = $path";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<b>FAILED</b>.</li>\n";
-				dieout( );
-			}
-			print "OK</li>\n";
-			// Set for the rest of this session
-			$SQL = "SET search_path = $path";
-			$result = pg_query( $this->mConn, $SQL );
-			if ( !$result ) {
-				print "<li>Failed to set search_path</li>\n";
-				dieout( );
-			}
-			define( 'POSTGRES_SEARCHPATH', $path );
-		}
-	}
-
-	function setup_plpgsql() {
-		print '<li>Checking for PL/pgSQL ...';
-		$SQL = "SELECT 1 FROM pg_catalog.pg_language WHERE lanname = 'plpgsql'";
-		$rows = $this->numRows( $this->doQuery( $SQL ) );
-		if ( $rows < 1 ) {
-			// plpgsql is not installed, but if we have a pg_pltemplate table, we should be able to create it
-			print 'not installed. Attempting to install PL/pgSQL ...';
-			$SQL = "SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace) ".
-				"WHERE relname = 'pg_pltemplate' AND nspname='pg_catalog'";
-			$rows = $this->numRows( $this->doQuery( $SQL ) );
-			global $wgDBname;
-			if ( $rows >= 1 ) {
-				$olde = error_reporting( 0 );
-				error_reporting( $olde - E_WARNING );
-				$result = $this->doQuery( 'CREATE LANGUAGE plpgsql' );
-				error_reporting( $olde );
-				if ( !$result ) {
-					print '<b>FAILED</b>. You need to install the language PL/pgSQL in the database <tt>' .
-						htmlspecialchars( $wgDBname ) . '</tt></li>';
-					dieout( );
-				}
-			} else {
-				print '<b>FAILED</b>. You need to install the language PL/pgSQL in the database <tt>' .
-					htmlspecialchars( $wgDBname ) . '</tt></li>';
-				dieout( );
-			}
-		}
-		print "OK</li>\n";
 	}
 
 	/**
@@ -1164,6 +818,7 @@ class DatabasePostgres extends DatabaseBase {
 		if ( !$schema ) {
 			$schema = $wgDBmwschema;
 		}
+		$table = $this->tableName( $table );
 		$etable = $this->addQuotes( $table );
 		$eschema = $this->addQuotes( $schema );
 		$SQL = "SELECT 1 FROM pg_catalog.pg_class c, pg_catalog.pg_namespace n "

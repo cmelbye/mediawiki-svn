@@ -53,8 +53,10 @@ $messages = array(
 'tog-shownumberswatching'     => "Fa vedè 'u numere de le utinde ca uardene",
 'tog-oldsig'                  => "Andeprime d'a firme esistende:",
 'tog-fancysig'                => "Firma grezze cumme a 'nu teste de Uicchi (senza collegamende automatiche)",
-'tog-externaleditor'          => "Ause n'editore esterne pe default (sulamende pe l'esperte, abbesogne de 'na configurazione speciele sus a 'u combiuter tue)",
-'tog-externaldiff'            => "Ause na differenze esterne pe default (sulamende pe l'esperte, abbesogne de 'na configuraziona speciele sus a 'u computer tue)",
+'tog-externaleditor'          => "Ause n'editore esterne pe default (sulamende pe l'esperte, abbesogne de 'na configurazione speciele sus a 'u combiuter tune. <br />
+[http://www.mediawiki.org/wiki/Manual:External_editors Pe cchiù 'mbormaziune.])",
+'tog-externaldiff'            => "Ause 'na differenze esterne pe default (sulamende pe l'esperte, abbesogne de 'na configuraziona speciele sus a 'u computer tune. <br />
+[http://www.mediawiki.org/wiki/Manual:External_editors More information.])",
 'tog-showjumplinks'           => 'Abbilite "zumbe a" pe accedere a le collegaminde',
 'tog-uselivepreview'          => "Ause l'andeprime da 'u vive (JavaScript) (Sperimendele)",
 'tog-forceeditsummary'        => "Ciercheme conferme quanne stoche a 'nzerische 'nu riepighe vianghe",
@@ -212,6 +214,7 @@ $messages = array(
 'printableversion'  => 'Versione ca se stambe',
 'permalink'         => 'Collegamende ca remane pe sembre',
 'print'             => 'Stambe',
+'view'              => 'Vide',
 'edit'              => 'Cange',
 'create'            => 'Ccreje',
 'editthispage'      => 'Cange sta pàgene',
@@ -304,6 +307,8 @@ Vide [[Special:Version|Versione d'a pàgene]].",
 'toc'                     => 'Condenute',
 'showtoc'                 => 'fà vedè',
 'hidetoc'                 => 'scunne',
+'collapsible-collapse'    => 'Scunne',
+'collapsible-expand'      => 'Spanne',
 'thisisdeleted'           => 'Vide o ripristine $1?',
 'viewdeleted'             => 'Vue ccu vide $1?',
 'restorelink'             => "{{PLURAL:$1|'nu cangiamende scangellete|$1 cangiaminde scangellete}}",
@@ -479,7 +484,7 @@ Prueve n'otra vote.",
 Mitta n'otra vota.",
 'passwordtooshort'           => 'Le password onne a essere almene {{PLURAL:$1|1 carattere|$1 carattere}}.',
 'password-name-match'        => "'A password toje adda essere diverse da 'u nome utende tue.",
-'password-too-weak'          => "'A passuord mise jè troppe scarse e non ge pò essere ausate.",
+'password-login-forbidden'   => "L'ause de stu nome utende e passuord onne state vietate.",
 'mailmypassword'             => 'Passuord nova pe e-mail',
 'passwordremindertitle'      => 'Passuord temboranea nova pe {{SITENAME}}',
 'passwordremindertext'       => "Quacchedune (pò essere tu, da quiste indirizze IP \$1) ha cerchete 'na nova password pe {{SITENAME}} (\$4).
@@ -1160,8 +1165,7 @@ Addà essere assaje assaje sotte a $1 {{PLURAL:$1|carattere|carattere}}.",
 'email'                         => 'Poste',
 'prefs-help-realname'           => "'U nome vere (quidde d'u munne reale) jè facoltative.
 Ce tu 'u mitte, a fatje ca è fatte t'avène ricanusciute.",
-'prefs-help-email'              => "L'indirizze e-mail jè facoltative ma te dè 'a possibbilità de mannarte 'na password nova nove ce tu te scuèrde quedde ca tenive.
-Tu puè pure scacchià de lassà otre condatte ausanne l'utende tue o le pàggene de le 'ngazzaminde senza ca abbesogne de fa canoscere l'idendità toje.",
+'prefs-help-email'              => "L'indirizze e-mail jè facoltative ma te dè 'a possibbilità de mannarte 'na password nova nove ce tu te scuèrde quedde ca tenive.",
 'prefs-help-email-required'     => "L'indirizze e-mail jè obbligatorie.",
 'prefs-info'                    => "'Mbormaziune nderra-nderre",
 'prefs-i18n'                    => 'Indernazzionalizzazzione',
@@ -1177,6 +1181,10 @@ Tu puè pure scacchià de lassà otre condatte ausanne l'utende tue o le pàggen
 'prefs-displaysearchoptions'    => "Fà vedè l'opzione",
 'prefs-displaywatchlist'        => "Fà vedè l'opzione",
 'prefs-diffs'                   => 'Diff',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => "L'indirizze e-mail pare valide",
+'email-address-validity-invalid' => "Mitte 'n'indirizze e-mail valide",
 
 # User rights
 'userrights'                     => 'Gestione de le deritte utende',
@@ -1419,12 +1427,12 @@ Vide 'a [[Special:NewFiles|gallerie de le file nuève]] pe vedè l'otre andeprim
 'illegalfilename'             => "'U nome d'u file \"\$1\" tène carattere ca non ge sonde conzendite jndr'à le titele de le pàggene.
 Pe piacere vide ce renomene 'u file e pruève a carecarle 'n'otra vote.",
 'badfilename'                 => '\'U nome d\'u file ha state cangete jndr\'à "$1".',
-'filetype-mime-mismatch'      => "L'estenzione d'u file non ge se iacchie cu 'u tipe MIME.",
+'filetype-mime-mismatch'      => 'L\'estenzione d\'u file ".$1" non ge se iacchie cu \'u tipe MIME idendificate d\'u file ($2).',
 'filetype-badmime'            => 'Le file d\'u tipe MIME "$1" non ge se ponne carecà.',
 'filetype-bad-ie-mime'        => 'Non ge pozze carecò stu file purcè Internet Explorer \'u vole cumme "$1", e allore jidde se penze ca jè \'nu tipe de file potenzialmende pericolose.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' ète 'nu tipe de file ca non ge vulime.
 {{PLURAL:\$3|'U tipe de file preferite ète|Le tipe de file preferite sonde}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' ète 'nu tipe de file ca non g'è permesse.
+'filetype-banned-type'        => "'''\".\$1\"''' {{PLURAL:\$4|ète 'nu tipe de file ca non g'è permesse|sonde tipe de file ca no sonde permesse}}.
 {{PLURAL:\$3|'U tipe de file permesse ète|Le tipe de file permesse sonde}} \$2.",
 'filetype-missing'            => '\'U file non ge tène l\'estenzione (cumme a ".jpg").',
 'empty-file'                  => "'U file ca tu è mannate ere vacande.",
@@ -1465,7 +1473,7 @@ Ce tu vuè angore carecà 'u file tue, pe piacere tuèrne rrete e ause 'nu nome 
 'fileexists-shared-forbidden' => "'Nu file cu stu nome già esiste jndr'à 'u repository condivise de le file.<br />
 ce tu vuè angore carecà stu file, pe piacere tuèrne rrete e ause 'nu nome nuève. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => "Stu file jè 'na copie {{PLURAL:$1|d'u seguende file|de le seguende file}}:",
-'file-deleted-duplicate'      => "'Nu file uguale a stu file ([[$1]]) ha state scangellate precedendemende.<br />
+'file-deleted-duplicate'      => "'Nu file uguale a stu file ([[:$1]]) ha state scangellate precedendemende.<br />
 Avissa verificà 'a storie d'a scangellazzione d'u file apprime de condinuà a carecarle.",
 'uploadwarning'               => 'Avvise de carecamende',
 'uploadwarning-text'          => "Pe piacere cange 'a descrizione d'u file sotte e pruève 'notra vote.",
@@ -2363,7 +2371,6 @@ Pe bloccà o sbloccà 'u database quiste abbesogne de essere scritte da 'nu web 
 
 # Move page
 'move-page'                    => 'Spuèste $1',
-'move-page-backlink'           => '← $1',
 'move-page-legend'             => "Spuèste 'a pàgene",
 'movepagetext'                 => "Ausanne 'u form aqquà sotte ste cange 'u nome d'a pàgene, spustanne tutte a storia soje sus a 'u nome néve.
 U' vecchie titele devènde 'nu ridirezionamende sus 'a pàgena nove.
@@ -2678,7 +2685,7 @@ Stu fatte ha state causate da 'nu collegamende a 'nu site esterne ca appartene a
 'math_lexing_error'     => 'errore de lessiche',
 'math_syntax_error'     => 'errore de sintassi',
 'math_image_error'      => "'A conversione d'u PNG ha fallite;
-condrolle ce l'installazione de latex, dvips, gs e convertitore jè corrette",
+condrolle ce l'installazione de latex e dvips (o dvipg + gs + convertitore) jè corrette",
 'math_bad_tmpdir'       => "Non ge puè scrivere o ccrejà 'na cartelle temboranea de math",
 'math_bad_output'       => "Non ge puè scrivere o ccrejà 'na cartelle de destinazzione de math",
 'math_notexvc'          => 'texvc eseguibbele perdute;
@@ -2724,10 +2731,10 @@ Ce l'esegue sus a 'u sisteme tue pò essere ca se combromette.",
 'imagemaxsize'         => "Limite d'a dimenzione e l'immaggine:<br />''(pe le pàggene de descrizione d'u file)''",
 'thumbsize'            => "Dimenziona d'a miniature:",
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pàgene|pàggene}}',
-'file-info'            => "(dimenzione d'u fail: $1, tipe de MIME: $2)",
-'file-info-size'       => "($1 × $2 pixel, dimenzione d'u fail: $3, tipe de MIME: $4)",
+'file-info'            => "dimenzione d'u fail: $1, tipe de MIME: $2",
+'file-info-size'       => "$1 × $2 pixel, dimenzione d'u fail: $3, tipe de MIME: $4",
 'file-nohires'         => "<small>Manghe 'a risoluzione ierta.</small>",
-'svg-long-desc'        => "(Fail SVG, nominalmende sonde $1 × $2 pixel, dimenzione d'u fail: $3)",
+'svg-long-desc'        => "Fail SVG, nominalmende sonde $1 × $2 pixel, dimenzione d'u fail: $3",
 'show-big-image'       => 'Risoluzione chiena chiena',
 'show-big-image-thumb' => '<small>Dimenziune de sta andeprime: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'infinite',
@@ -3194,6 +3201,7 @@ Tu puè pure [[Special:Watchlist/edit|ausà 'u cangiatore standàrd]].",
 'version-specialpages'             => 'Pàggene speciele',
 'version-parserhooks'              => 'Hook analizzature',
 'version-variables'                => 'Variabbele',
+'version-antispam'                 => "Previzione d'u spam",
 'version-skins'                    => 'Skin',
 'version-other'                    => 'Otre',
 'version-mediahandlers'            => 'Gestore de le Media',
@@ -3228,9 +3236,7 @@ Mitte 'u nome d'u file senza 'u prefisse \"{{ns:file}}\".",
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Cirche pe le file duplichete',
-'fileduplicatesearch-summary'  => "Cirche pe file duplichete sus a base d'u valore hash.
-
-Mitte 'u nome d'u file senze 'u \"{{ns:file}}:\" prefisse.",
+'fileduplicatesearch-summary'  => "Cirche pe file duplichete sus a base d'u valore hash.",
 'fileduplicatesearch-legend'   => "Cirche pe 'nu duplichete",
 'fileduplicatesearch-filename' => "Nome d'u faile:",
 'fileduplicatesearch-submit'   => 'Cirche',

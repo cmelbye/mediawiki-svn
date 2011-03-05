@@ -138,7 +138,7 @@ $specialPageAliases = array(
 	'LinkSearch'                => array( '외부링크찾기', '외부링크검색' ),
 	'DeletedContributions'      => array( '삭제된기여' ),
 	'Tags'                      => array( '태그' ),
-	'Activeusers'               => array( '활동적인사용자', '활동중인사용자' ),
+	'Activeusers'               => array( '활동적인사용자' ),
 );
 
 $magicWords = array(
@@ -322,8 +322,8 @@ $messages = array(
 'tog-shownumberswatching'     => '주시 사용자 수 보기',
 'tog-oldsig'                  => '지금 서명 미리보기:',
 'tog-fancysig'                => '서명을 위키텍스트로 취급 (자동으로 링크를 걸지 않음)',
-'tog-externaleditor'          => '외부 편집기를 기본 편집기로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요)',
-'tog-externaldiff'            => '외부 비교 도구를 기본 도구로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요)',
+'tog-externaleditor'          => '외부 편집기를 기본 편집기로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요, [http://www.mediawiki.org/wiki/Manual:External_editors 자세한 정보 보기])',
+'tog-externaldiff'            => '외부 비교 도구를 기본 도구로 사용 (숙련자용. 컴퓨터에 특별한 설정이 필요, [http://www.mediawiki.org/wiki/Manual:External_editors 자세한 설명 보기])',
 'tog-showjumplinks'           => '접근성을 위한 "이동" 링크 쓰기 (일부 스킨에서만 작동)',
 'tog-uselivepreview'          => '실시간 미리 보기 사용하기 (자바스크립트 사용, 시험 중)',
 'tog-forceeditsummary'        => '편집 요약을 쓰지 않았을 때 알려주기',
@@ -482,6 +482,7 @@ $messages = array(
 'printableversion'  => '인쇄용 문서',
 'permalink'         => '고유링크',
 'print'             => '인쇄',
+'view'              => '보기',
 'edit'              => '편집',
 'create'            => '생성',
 'editthispage'      => '이 문서 편집하기',
@@ -489,6 +490,7 @@ $messages = array(
 'delete'            => '삭제',
 'deletethispage'    => '이 문서 삭제하기',
 'undelete_short'    => '편집 $1개 되살리기',
+'viewdeleted_short' => '삭제된 편집 $1개 보기',
 'protect'           => '보호',
 'protect_change'    => '보호 수준 변경',
 'protectthispage'   => '이 문서 보호하기',
@@ -572,6 +574,8 @@ $1',
 'toc'                     => '목차',
 'showtoc'                 => '보이기',
 'hidetoc'                 => '숨기기',
+'collapsible-collapse'    => '접기',
+'collapsible-expand'      => '펼치기',
 'thisisdeleted'           => '$1을 보거나 되살리겠습니까?',
 'viewdeleted'             => '$1을 보겠습니까?',
 'restorelink'             => '삭제된 편집 $1 개',
@@ -714,6 +718,8 @@ $2',
 'createaccounterror'         => '계정을 생성하지 못했습니다: $1',
 'nocookiesnew'               => '사용자 계정을 만들었지만, 아직 로그인하지 않았습니다. {{SITENAME}}에서는 로그인 정보를 저장하기 위해 쿠키를 사용합니다. 지금 사용하는 웹 브라우저는 쿠키를 사용하지 않도록 설정되어 있습니다. 로그인하기 전에 웹 브라우저에서 쿠키를 사용하도록 설정해주세요.',
 'nocookieslogin'             => '{{SITENAME}}에서는 로그인을 위해 쿠키를 사용합니다. 당신의 웹 브라우저에서 쿠키가 비활성되어 있습니다. 쿠키 사용을 활성화한 다음 로그인해 주세요.',
+'nocookiesfornew'            => '요청의 출처를 확인할 수 없기 때문에 사용자 계정이 생성되지 않았습니다.
+쿠키를 허용한 것을 확인한 후에 다시 시도해 보십시오.',
 'noname'                     => '사용자 이름이 올바르지 않습니다.',
 'loginsuccesstitle'          => '로그인 성공',
 'loginsuccess'               => "'''{{SITENAME}}에 ‘$1’ 계정으로 로그인했습니다.'''",
@@ -728,7 +734,7 @@ $2',
 다시 시도해 주세요.',
 'passwordtooshort'           => '암호는 적어도 $1자보다 길어야 합니다.',
 'password-name-match'        => '암호는 반드시 사용자 이름과 달라야 합니다.',
-'password-too-weak'          => '암호가 너무 약합니다. 다른 암호를 입력해주세요.',
+'password-login-forbidden'   => '이 계정명과 비밀번호의 사용이 금지되어 있습니다.',
 'mailmypassword'             => '새 암호를 이메일로 보내기',
 'passwordremindertitle'      => '{{SITENAME}}에서 보내는 새 임시 암호',
 'passwordremindertext'       => 'IP 주소 $1에서 당신에게 {{SITENAME}} ($4)의 새 암호를 보내달라고 요청했습니다.
@@ -762,6 +768,9 @@ $2',
 잠시 후에 다시 시도해주세요.',
 'loginlanguagelabel'         => '언어: $1',
 'suspicious-userlogout'      => '브라우저의 이상이 있거나 캐싱 프록시에서 로그아웃을 요청했기 때문에 로그아웃이 거부되었습니다.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'PHP의 mail() 함수에서 알 수 없는 오류가 발생했습니다.',
 
 # JavaScript password checks
 'password-strength'            => '예상 비밀 번호 강도: $1',
@@ -889,9 +898,9 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 'userjsyoucanpreview'              => "'''안내''': JS 문서를 저장하기 전에 ‘{{int:showpreview}}’ 기능을 통해 작동을 확인해주세요.",
 'usercsspreview'                   => "'''이것은 사용자 CSS의 미리 보기이며, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userjspreview'                    => "'''이것은 자바스크립트 미리 보기로, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
-'sitecsspreview'                   => "'''이것은 모두에게 적용되는 CSS의 미리 보기입니다.'''
+'sitecsspreview'                   => "'''이것은 이 CSS의 미리 보기일 뿐입니다.'''
 '''아직 저장하지 않았다는 것을 주의해 주세요!'''",
-'sitejspreview'                    => "'''이것은 모두에게 적용되는 자바스크립트의 미리 보기입니다.'''
+'sitejspreview'                    => "'''이것은 이 자바스크립트 코드의 미리 보기일 뿐입니다.'''
 '''아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userinvalidcssjstitle'            => "'''경고''': ‘$1’ 스킨은 없습니다.
 .css와 .js 문서의 제목은 {{ns:user}}:Foo/vector.css 처럼 소문자로 써야 합니다. {{ns:user}}:Foo/Vector.css 와 같이 대문자로 쓸 경우 작동하지 않습니다.",
@@ -907,6 +916,7 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 
 '''다시 시도해도 되지 않으면 [[Special:UserLogout|로그아웃]]한 다음 다시 로그인을 해 보십시오.'''",
 'token_suffix_mismatch'            => "'''저장하려는 내용의 문장 부호가 망가져 있습니다. 문서 보호를 위해 해당 내용을 저장하지 않습니다. 버그가 있는 익명 프록시 서비스 등을 사용할 때 이런 문제가 발생할 수 있습니다.'''",
+'edit_form_incomplete'             => "'''편집의 일부 내용이 서버에 전달되지 않았습니다. 당신의 편집이 손상되지 않았는지 확인하고 다시 시도해 주십시오.'''",
 'editing'                          => '$1 편집하기',
 'editingsection'                   => '$1 편집하기 (부분)',
 'editingcomment'                   => '$1 편집하기 (덧붙이기)',
@@ -1222,6 +1232,7 @@ $1",
 'searchmenu-legend'                => '검색 설정',
 'searchmenu-exists'                => "'''이 위키에 \"[[:\$1]]\"의 이름을 가진 문서가 있습니다.'''",
 'searchmenu-new'                   => "'''이 위키에 \"[[:\$1]]\" 문서를 만드십시오!'''",
+'searchmenu-new-nocreate'          => '"$1"은 잘못된 문서 제목이거나 당신이 생성할 수 없는 문서입니다.',
 'searchhelp-url'                   => 'Help:목차',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|이 접두어로 시작하는 문서 찾기]]',
 'searchprofile-articles'           => '일반 문서',
@@ -1368,7 +1379,8 @@ $1",
 'prefs-help-gender'             => '선택 사항: 소프트웨어에서 성별에 따른 언어 문제를 해결하기 위해 사용됩니다. 이 정보는 공개됩니다.',
 'email'                         => '이메일',
 'prefs-help-realname'           => '실명 기입은 자유입니다. 실명을 입력할 경우 문서 기여에 자신의 이름이 들어가게 됩니다.',
-'prefs-help-email'              => '이메일 주소 입력은 선택 사항입니다. 이메일을 등록해 두면 비밀번호를 잊었을 때 다른 비밀번호를 받을 수 있으며, 이메일을 공개하지 않고도 다른 사용자에게 메일을 받을 수 있습니다.',
+'prefs-help-email'              => '이메일 주소 입력은 선택 사항입니다. 다만 비밀번호를 잊었을 때 비밀번호 변경을 위해 필요합니다.',
+'prefs-help-email-others'       => '당신의 신분을 밝힐 필요 없이 다른 사람들이 사용자 문서나 토론 문서에서 이메일 보내기 기능으로 당신과 연락할 수 있도록 선택할 수 있습니다.',
 'prefs-help-email-required'     => '이메일 주소가 필요합니다.',
 'prefs-info'                    => '기본 정보',
 'prefs-i18n'                    => '언어 설정',
@@ -1384,6 +1396,10 @@ $1",
 'prefs-displaysearchoptions'    => '표시 설정',
 'prefs-displaywatchlist'        => '표시 설정',
 'prefs-diffs'                   => '차이',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => '이메일 주소가 유효한 것으로 보입니다.',
+'email-address-validity-invalid' => '유효한 이메일 주소를 입력해주십시오.',
 
 # User rights
 'userrights'                   => '사용자 권한 관리',
@@ -1493,6 +1509,7 @@ $1",
 'right-override-export-depth' => '5단계로 링크된 문서를 포함하여 문서를 내보내기',
 'right-sendemail'             => '다른 사용자에게 이메일 보내기',
 'right-revisionmove'          => '특정 판 옮기기',
+'right-disableaccount'        => '계정을 비활성화하기',
 
 # User rights log
 'rightslog'      => '사용자 권한 기록',
@@ -1621,11 +1638,11 @@ $1",
 'minlength1'                  => '파일 이름은 적어도 1글자 이상이어야 합니다.',
 'illegalfilename'             => '파일 이름 "$1"에는 문서 제목으로 허용되지 않는 글자가 포함되어 있습니다. 이름을 바꾸어 다시 시도해 주세요.',
 'badfilename'                 => '파일 이름이 ‘$1’(으)로 바뀌었습니다.',
-'filetype-mime-mismatch'      => '파일 확장자와 MIME가 일치하지 않습니다.',
+'filetype-mime-mismatch'      => '파일 확장자 ".$1"와 이 파일의 MIME($2)가 일치하지 않습니다.',
 'filetype-badmime'            => '‘$1’ MIME을 가진 파일은 올릴 수 없습니다.',
 'filetype-bad-ie-mime'        => '인터넷 익스플로러가 잠재적으로 위험한 파일 형식으로 판단되어 사용이 금지된 "$1"로 인식할 수 있기 때문에 이 파일을 올릴 수 없습니다.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' 확장자는 추천하지 않습니다. 추천하는 {{PLURAL:\$3|파일 확장자}}는 \$2입니다.",
-'filetype-banned-type'        => "{{plural:$3}}‘'''.$1'''’ 형식의 파일은 올릴 수 없습니다. $2 형식만 사용할 수 있습니다.",
+'filetype-banned-type'        => '{{PLURAL:$3$4}}\'\'\'".$1"\'\'\' 형식의 파일은 올릴 수 없습니다. $2 형식만 사용할 수 있습니다.',
 'filetype-missing'            => '파일에 확장자(‘.jpg’ 등)가 없습니다.',
 'empty-file'                  => '당신이 올린 파일이 비어 있습니다.',
 'file-too-large'              => '올리려는 파일이 너무 큽니다.',
@@ -1665,7 +1682,7 @@ $1",
 'fileexists-shared-forbidden' => '같은 이름의 파일이 이미 위키미디어 공용에 있습니다.
 파일을 업로드하길 원하신다면 뒤로 돌아가서 다른 이름으로 시도해 주시기 바랍니다. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => '{{PLURAL:$1}}현재 올리고 있는 파일이 아래 파일과 중복됩니다:',
-'file-deleted-duplicate'      => '이 파일과 같은 파일 ([[$1]])이 이전에 삭제된 적이 있습니다. 파일을 다시 올리기 전에 문서의 삭제 기록을 확인해 주시기 바랍니다.',
+'file-deleted-duplicate'      => '이 파일과 같은 파일 ([[:$1]])이 이전에 삭제된 적이 있습니다. 파일을 다시 올리기 전에 문서의 삭제 기록을 확인해 주시기 바랍니다.',
 'uploadwarning'               => '올리기 경고',
 'uploadwarning-text'          => '아래의 파일 설명을 수정하고 다시 시도해 주세요.',
 'savefile'                    => '파일 저장',
@@ -1726,6 +1743,15 @@ $1',
 'upload-too-many-redirects' => 'URL이 너무 많은 넘겨주기에 연결되어 있습니다.',
 'upload-unknown-size'       => '크기를 알 수 없음',
 'upload-http-error'         => 'HTTP 오류 발생: $1',
+
+# Special:UploadStash
+'uploadstash'          => '파일 올리기 임시 저장',
+'uploadstash-summary'  => '이 페이지는 위키에 등록되지는 않았지만 올리는 과정 중에 있는 파일을 열람할 수 있습니다. 이 파일들은 올린이 외에는 볼 수 없습니다.',
+'uploadstash-clear'    => '임시 저장한 파일 제거하기',
+'uploadstash-nofiles'  => '임시 저장한 파일이 없습니다.',
+'uploadstash-badtoken' => '이 동작을 수행하는 데 실패했습니다. 편집 토큰이 만료되었을 가능성이 있습니다. 다시 시도해 보십시오.',
+'uploadstash-errclear' => '파일을 제거하는 데 실패했습니다.',
+'uploadstash-refresh'  => '파일 목록을 새로고침',
 
 # img_auth script messages
 'img-auth-accessdenied' => '접근 거부됨',
@@ -1903,12 +1929,13 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 그 링크를 다른 적절한 문서로 연결해 주어야 합니다.<br />
 [[MediaWiki:Disambiguationspage]]에서 링크된 틀을 사용하는 문서를 동음이의 문서로 간주합니다.",
 
-'doubleredirects'            => '이중 넘겨주기 목록',
-'doubleredirectstext'        => '이 문서는 다른 넘겨주기 문서로 넘겨주고 있는 문서의 목록입니다.
+'doubleredirects'                   => '이중 넘겨주기 목록',
+'doubleredirectstext'               => '이 문서는 다른 넘겨주기 문서로 넘겨주고 있는 문서의 목록입니다.
 매 줄에는 첫 번째 문서와 두 번째 문서의 링크가 있습니다. 그리고 보통 첫 번째 문서가 넘겨주어야 할 "실제" 문서인 두 번째 넘겨주기의 대상이 있습니다.
 <del>취소선이 그인</del> 부분은 이미 해결되었습니다.',
-'double-redirect-fixed-move' => '[[$1]] 문서를 옮겼습니다. 이 문서는 이제 [[$2]] 문서로 넘겨줍니다.',
-'double-redirect-fixer'      => '넘겨주기 수리꾼',
+'double-redirect-fixed-move'        => '[[$1]] 문서를 옮겼습니다. 이 문서는 이제 [[$2]] 문서로 넘겨줍니다.',
+'double-redirect-fixed-maintenance' => '[[$1]]에서 [[$2]]로 이중 넘겨주기를 고치는 중',
+'double-redirect-fixer'             => '넘겨주기 수리꾼',
 
 'brokenredirects'        => '끊긴 넘겨주기 목록',
 'brokenredirectstext'    => '존재하지 않는 문서로 넘겨주기가 되어 있는 문서의 목록입니다:',
@@ -1985,6 +2012,7 @@ URL이 맞고 해당 웹사이트가 작동하는지 확인해주세요.',
 'pager-newer-n'           => '이전 $1개',
 'pager-older-n'           => '다음 $1개',
 'suppress'                => '오버사이트',
+'querypage-disabled'      => '이 특수 문서는 성능상의 이유로 비활성화되었습니다.',
 
 # Book sources
 'booksources'               => '책 찾기',
@@ -2374,6 +2402,7 @@ $1',
 'sp-contributions-newbies-title'       => '새 사용자의 기여',
 'sp-contributions-blocklog'            => '차단 기록',
 'sp-contributions-deleted'             => '삭제된 기여 목록',
+'sp-contributions-uploads'             => '파일 올리기',
 'sp-contributions-logs'                => '기록',
 'sp-contributions-talk'                => '토론',
 'sp-contributions-userrights'          => '사용자 권한 관리',
@@ -2550,6 +2579,20 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 '''주의!'''
 자주 사용하는 문서를 이동하면 위험한 결과를 가져올 수 있습니다.
 이동하기 전에, 이 문서를 이동해도 문제가 없다는 것을 확인해주세요.",
+'movepagetext-noredirectfixer' => "이 양식을 이용해 문서의 이름을 바꾸고 문서의 모든 역사를 옮길 것입니다.
+이전의 제목은 새 제목으로 넘겨줄 것입니다.
+[[Special:DoubleRedirects|이중 넘겨주기]]나 [[Special:BrokenRedirects|끊긴 넘겨주기]]가 잇는지 확인해주십시오.
+당신은 넘겨주기 링크가 제대로 향하고 있는지 확인하여야 합니다.
+
+참고로 새 제목을 가진 문서가 이미 있다면 다음 경우에 해당하지 않으면 이 문서는 옮겨지지 '''않을''' 것입니다.
+* 비어 있거나,
+* 넘겨주기 문서이며,
+* 과거에 편집 내력이 없는 경우
+이는 당신이 실수로 문서를 옮겼을 때 되돌릴 수 있으며 이미 있는 문서를 덮어쓸 수 없음을 의미합니다.
+
+'''경고!'''
+방문 수나 이 문서를 향하는 링크가 많은 문서일 경우 심각한 문제를 초래할 수 잇습니다.
+문서를 이동하기 전에 이러한 행동이 초래할 수 있는 결과에 대해 숙지하시기 바랍니다.",
 'movepagetalktext'             => "딸린 토론 문서도 자동으로 이동합니다. 하지만 다음의 경우는 '''이동하지 않습니다''':
 * 이동할 이름으로 된 문서가 이미 있는 경우
 * 아래의 선택을 해제하는 경우
@@ -2853,7 +2896,7 @@ $1 사용자는 이미 차단되었습니다. 차단 설정을 바꾸시겠습�
 'math_unknown_function' => '알 수 없는 함수',
 'math_lexing_error'     => '어휘 오류',
 'math_syntax_error'     => '구문 오류',
-'math_image_error'      => 'PNG 변환 실패 - latex, dvips, gs, convert가 올바르게 설치되어 있는지 확인해 주세요.',
+'math_image_error'      => 'PNG 변환 실패 - latex, dvipng(혹은 dvips, gs, convert)가 올바르게 설치되어 있는지 확인해 주세요.',
 'math_bad_tmpdir'       => '수식을 임시 폴더에 저장하거나 폴더를 만들 수 없습니다.',
 'math_bad_output'       => '수식을 출력 폴더에 저장하거나 폴더를 만들 수 없습니다.',
 'math_notexvc'          => '실행할 수 있는 texvc이 없습니다. 설정을 위해 math/README를 읽어 주세요.',
@@ -2897,10 +2940,10 @@ $1',
 'imagemaxsize'         => "그림 최대 크기:<br />''(파일 문서에 적용되는 기능)''",
 'thumbsize'            => '섬네일 크기:',
 'widthheightpage'      => '$1×$2, $3페이지',
-'file-info'            => '(파일 크기: $1, MIME 종류: $2)',
-'file-info-size'       => '($1 × $2 픽셀, 파일 크기: $3, MIME 종류: $4)',
+'file-info'            => '파일 크기: $1, MIME 종류: $2',
+'file-info-size'       => '$1 × $2 픽셀, 파일 크기: $3, MIME 종류: $4',
 'file-nohires'         => '<small>최대 해상도입니다.</small>',
-'svg-long-desc'        => '(SVG 파일, 실제 크기 $1 × $2 픽셀, 파일 크기 $3)',
+'svg-long-desc'        => 'SVG 파일, 실제 크기 $1 × $2 픽셀, 파일 크기 $3',
 'show-big-image'       => '최대 해상도',
 'show-big-image-thumb' => '<small>미리보기 크기: $1 × $2 픽셀</small>',
 'file-info-gif-looped' => '반복됨',
@@ -3070,6 +3113,7 @@ Variants for Chinese language
 'exif-gpsareainformation'          => 'GPS 구역 이름',
 'exif-gpsdatestamp'                => 'GPS 날짜',
 'exif-gpsdifferential'             => 'GPS 차이 보정',
+'exif-objectname'                  => '짧은 제목',
 
 # EXIF attributes
 'exif-compression-1' => '압축되지 않음',
@@ -3269,6 +3313,17 @@ $3
 $5
 
 인증 코드는 $4에 만료됩니다.',
+'confirmemail_body_set'     => 'IP 주소 $1을 사용하는 누군가가 {{SITENAME}}의 "$2" 계정의 이메일 주소를 지정하였습니다.
+
+이 계정이 당신의 것이며 {{SITENAME}}에서 이메일 기능을 다시 활성화하려면 이 링크를 열어 주십시오:
+
+$3
+
+만약 이 계정이 당신의 것이 아니라면 다음 링크를 클릭해 이메일 주소 인증을 취소하십시오:
+
+$5
+
+이 인증 코드는 $4에 만료됩니다.',
 'confirmemail_invalidated'  => '이메일 확인이 취소됨',
 'invalidateemail'           => '이메일 확인 취소',
 
@@ -3367,6 +3422,8 @@ $1',
 'version-specialpages'             => '특수 문서',
 'version-parserhooks'              => '파서 훅',
 'version-variables'                => '변수',
+'version-antispam'                 => '스팸 방지',
+'version-skins'                    => '스킨',
 'version-other'                    => '기타',
 'version-mediahandlers'            => '미디어 핸들러',
 'version-hooks'                    => '훅',
@@ -3399,16 +3456,15 @@ $1',
 "{{ns:file}}:" 접두어를 뺀 파일 이름을 입력해주세요.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => '중복된 파일 찾기',
-'fileduplicatesearch-summary'  => '파일 해시값을 이용해 중복 파일을 찾습니다.
-
-"{{ns:file}}:" 접두어를 뺀 파일 이름을 넣어주세요.',
-'fileduplicatesearch-legend'   => '중복 찾기',
-'fileduplicatesearch-filename' => '파일 이름:',
-'fileduplicatesearch-submit'   => '찾기',
-'fileduplicatesearch-info'     => '$1 × $2 픽셀<br />파일 크기: $3<br />MIME 유형: $4',
-'fileduplicatesearch-result-1' => '‘$1’ 파일과 중복된 파일이 없습니다.',
-'fileduplicatesearch-result-n' => '"$1"파일은 중복 파일이 $2개 있습니다.',
+'fileduplicatesearch'           => '중복된 파일 찾기',
+'fileduplicatesearch-summary'   => '파일 해시값을 이용해 중복 파일을 찾습니다.',
+'fileduplicatesearch-legend'    => '중복 찾기',
+'fileduplicatesearch-filename'  => '파일 이름:',
+'fileduplicatesearch-submit'    => '찾기',
+'fileduplicatesearch-info'      => '$1 × $2 픽셀<br />파일 크기: $3<br />MIME 유형: $4',
+'fileduplicatesearch-result-1'  => '‘$1’ 파일과 중복된 파일이 없습니다.',
+'fileduplicatesearch-result-n'  => '"$1"파일은 중복 파일이 $2개 있습니다.',
+'fileduplicatesearch-noresults' => '"$1"이라는 이름을 가진 파일이 없습니다.',
 
 # Special:SpecialPages
 'specialpages'                   => '특수 문서 목록',
@@ -3488,5 +3544,18 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 (본문 전체 검색)',
 'sqlite-no-fts'  => '$1 (본문은 검색에서 제외)',
+
+# Special:DisableAccount
+'disableaccount'             => '계정을 비활성화하기',
+'disableaccount-user'        => '계정 이름:',
+'disableaccount-reason'      => '이유:',
+'disableaccount-confirm'     => "사용자 계정을 비활성화합니다.
+이 사용자는 로그인하거나 비밀번호를 바꿀 수 없고 이메일 알림을 받을 수 없습니다.
+만약 이 사용자가 로그인되어 있다면, 즉시 로그아웃될 것이니다.
+'''계정을 비활성화하는 것은 시스템 관리자의 도움 없이는 되돌릴 수 없습니다.'''",
+'disableaccount-mustconfirm' => '이 계정을 비활성화할 것인지 반드시 확인하여야 합니다.',
+'disableaccount-nosuchuser'  => '계정 "$1"이 존재하지 않습니다.',
+'disableaccount-success'     => '계정 "$1"이 영구히 비활성화되었습니다.',
+'disableaccount-logentry'    => '사용자 계정 [[$1]]을 영구히 비활성화함',
 
 );

@@ -106,21 +106,33 @@ class ChangesList {
 	 * @param $key String: 'newpage', 'unpatrolled', 'minor', or 'bot'
 	 * @return String: Raw HTML
 	 */
-	public static function flag( $key ) {
+	public static function flag( $flag ) {
 		static $messages = null;
 		if ( is_null( $messages ) ) {
 			$messages = array( 
-				'newpage' => array( 'newpageletter', 'recentchanges-label-newpage' ), 
-				'minor' => array( 'minoreditletter', 'recentchanges-label-minor' ), 
-				'bot' => array( 'boteditletter', 'recentchanges-label-bot' ), 
+				'newpage' => array( 'newpageletter', 'recentchanges-label-newpage' ),
+				'minoredit' => array( 'minoreditletter', 'recentchanges-label-minor' ),
+				'botedit' => array( 'boteditletter', 'recentchanges-label-bot' ),
 				'unpatrolled' => array( 'unpatrolledletter', 'recentchanges-label-unpatrolled' ), 
 			);
-			foreach( $messages as $key => &$value ) {
+			foreach( $messages as &$value ) {
 				$value[0] = wfMsgExt( $value[0], 'escapenoentities' );
 				$value[1] = wfMsgExt( $value[1], 'escapenoentities' );
 			}
 		}
-		return "<abbr class='$key' title='" . $messages[$key][1] . "'>" . $messages[$key][0] . '</abbr>';
+
+		# Inconsistent naming, bleh
+		$map = array(
+			'newpage' => 'newpage',
+			'minor' => 'minoredit',
+			'bot' => 'botedit',
+			'unpatrolled' => 'unpatrolled',
+			'minoredit' => 'minoredit',
+			'botedit' => 'botedit',
+		);
+		$flag = $map[$flag];
+
+		return "<abbr class='$flag' title='" . $messages[$flag][1] . "'>" . $messages[$flag][0] . '</abbr>';
 	}
 
 	/**
@@ -503,10 +515,10 @@ class OldChangesList extends ChangesList {
 			# M, N, b and ! (minor, new, bot and unpatrolled)
 			$s .= $this->recentChangesFlags( 
 				array(
-					'new' => $rc->mAttribs['rc_new'], 
+					'newpage' => $rc->mAttribs['rc_new'],
 					'minor' => $rc->mAttribs['rc_minor'],
 					'unpatrolled' => $unpatrolled, 
-					'bot' => $rc->mAttribs['rc_bot'] 
+					'bot' => $rc->mAttribs['rc_bot']
 				),
 				''
 			);
@@ -581,14 +593,10 @@ class EnhancedChangesList extends ChangesList {
 		# Create a specialised object
 		$rc = RCCacheEntry::newFromParent( $baseRC );
 
-		# Extract fields from DB into the function scope (rc_xxxx variables)
-		// FIXME: Would be good to replace this extract() call with something
-		// that explicitly initializes variables.
-		extract( $rc->mAttribs );
-		$curIdEq = array( 'curid' => $rc_cur_id );
+		$curIdEq = array( 'curid' => $rc->mAttribs['rc_cur_id'] );
 
 		# If it's a new day, add the headline and flush the cache
-		$date = $wgLang->date( $rc_timestamp, true );
+		$date = $wgLang->date( $rc->mAttribs['rc_timestamp'], true );
 		$ret = '';
 		if( $date != $this->lastdate ) {
 			# Process current cache
@@ -600,36 +608,38 @@ class EnhancedChangesList extends ChangesList {
 
 		# Should patrol-related stuff be shown?
 		if( $wgUser->useRCPatrol() ) {
-		  	$rc->unpatrolled = !$rc_patrolled;
+		  	$rc->unpatrolled = !$rc->mAttribs['rc_patrolled'];
 		} else {
 			$rc->unpatrolled = false;
 		}
 
 		$showdifflinks = true;
 		# Make article link
+		$type = $rc->mAttribs['rc_type'];
+		$logType = $rc->mAttribs['rc_log_type'];
 		// Page moves
-		if( $rc_type == RC_MOVE || $rc_type == RC_MOVE_OVER_REDIRECT ) {
-			$msg = ( $rc_type == RC_MOVE ) ? "1movedto2" : "1movedto2_redir";
+		if( $type == RC_MOVE || $type == RC_MOVE_OVER_REDIRECT ) {
+			$msg = ( $type == RC_MOVE ) ? "1movedto2" : "1movedto2_redir";
 			$clink = wfMsg( $msg, $this->skin->linkKnown( $rc->getTitle(), null,
 				array(), array( 'redirect' => 'no' ) ),
 				$this->skin->linkKnown( $rc->getMovedToTitle() ) );
 		// New unpatrolled pages
-		} else if( $rc->unpatrolled && $rc_type == RC_NEW ) {
+		} else if( $rc->unpatrolled && $type == RC_NEW ) {
 			$clink = $this->skin->linkKnown( $rc->getTitle(), null, array(),
-				array( 'rcid' => $rc_id ) );
+				array( 'rcid' => $rc->mAttribs['rc_id'] ) );
 		// Log entries
-		} else if( $rc_type == RC_LOG ) {
-			if( $rc_log_type ) {
-				$logtitle = SpecialPage::getTitleFor( 'Log', $rc_log_type );
+		} else if( $type == RC_LOG ) {
+			if( $logType ) {
+				$logtitle = SpecialPage::getTitleFor( 'Log', $logType );
 				$clink = '(' . $this->skin->linkKnown( $logtitle, 
-					LogPage::logName($rc_log_type) ) . ')';
+					LogPage::logName( $logType ) ) . ')';
 			} else {
 				$clink = $this->skin->link( $rc->getTitle() );
 			}
 			$watched = false;
 		// Log entries (old format) and special pages
-		} elseif( $rc_namespace == NS_SPECIAL ) {
-			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $rc_title );
+		} elseif( $rc->mAttribs['rc_namespace'] == NS_SPECIAL ) {
+			list( $specialName, $logtype ) = SpecialPage::resolveAliasWithSubpage( $rc->mAttribs['rc_title'] );
 			if ( $specialName == 'Log' ) {
 				# Log updates, etc
 				$logname = LogPage::logName( $logtype );
@@ -648,7 +658,7 @@ class EnhancedChangesList extends ChangesList {
 			$showdifflinks = false;
 		}
 
-		$time = $wgLang->time( $rc_timestamp, true, true );
+		$time = $wgLang->time( $rc->mAttribs['rc_timestamp'], true, true );
 		$rc->watched = $watched;
 		$rc->link = $clink;
 		$rc->timestamp = $time;
@@ -656,20 +666,22 @@ class EnhancedChangesList extends ChangesList {
 
 		# Make "cur" and "diff" links.  Do not use link(), it is too slow if
 		# called too many times (50% of CPU time on RecentChanges!).
+		$thisOldid = $rc->mAttribs['rc_this_oldid'];
+		$lastOldid = $rc->mAttribs['rc_last_oldid'];
 		if( $rc->unpatrolled ) {
-			$rcIdQuery = array( 'rcid' => $rc_id );
+			$rcIdQuery = array( 'rcid' => $rc->mAttribs['rc_id'] );
 		} else {
 			$rcIdQuery = array();
 		}
-		$querycur = $curIdEq + array( 'diff' => '0', 'oldid' => $rc_this_oldid );
-		$querydiff = $curIdEq + array( 'diff' => $rc_this_oldid, 'oldid' =>
-			$rc_last_oldid ) + $rcIdQuery;
+		$querycur = $curIdEq + array( 'diff' => '0', 'oldid' => $thisOldid );
+		$querydiff = $curIdEq + array( 'diff' => $thisOldid, 'oldid' =>
+			$lastOldid ) + $rcIdQuery;
 
 		if( !$showdifflinks ) {
 			$curLink = $this->message['cur'];
 			$diffLink = $this->message['diff'];
-		} else if( in_array( $rc_type, array(RC_NEW,RC_LOG,RC_MOVE,RC_MOVE_OVER_REDIRECT) ) ) {
-			if ( $rc_type != RC_NEW ) {
+		} else if( in_array( $type, array( RC_NEW, RC_LOG, RC_MOVE, RC_MOVE_OVER_REDIRECT ) ) ) {
+			if ( $type != RC_NEW ) {
 				$curLink = $this->message['cur'];
 			} else {
 				$curUrl = htmlspecialchars( $rc->getTitle()->getLinkUrl( $querycur ) );
@@ -684,21 +696,21 @@ class EnhancedChangesList extends ChangesList {
 		}
 
 		# Make "last" link
-		if( !$showdifflinks || !$rc_last_oldid ) {
+		if( !$showdifflinks || !$lastOldid ) {
 			$lastLink = $this->message['last'];
-		} else if( $rc_type == RC_LOG || $rc_type == RC_MOVE || $rc_type == RC_MOVE_OVER_REDIRECT ) {
+		} else if( in_array( $type, array( RC_LOG, RC_MOVE, RC_MOVE_OVER_REDIRECT ) ) ) {
 			$lastLink = $this->message['last'];
 		} else {
 			$lastLink = $this->skin->linkKnown( $rc->getTitle(), $this->message['last'],
-				array(), $curIdEq + array('diff' => $rc_this_oldid, 'oldid' => $rc_last_oldid) + $rcIdQuery );
+				array(), $curIdEq + array('diff' => $thisOldid, 'oldid' => $lastOldid) + $rcIdQuery );
 		}
 
 		# Make user links
-		if( $this->isDeleted($rc,Revision::DELETED_USER) ) {
-		   	$rc->userlink = ' <span class="history-deleted">' . wfMsgHtml( 'rev-deleted-user' ) . '</span>';
+		if( $this->isDeleted( $rc, Revision::DELETED_USER ) ) {
+			$rc->userlink = ' <span class="history-deleted">' . wfMsgHtml( 'rev-deleted-user' ) . '</span>';
 		} else {
-			$rc->userlink = $this->skin->userLink( $rc_user, $rc_user_text );
-			$rc->usertalklink = $this->skin->userToolLinks( $rc_user, $rc_user_text );
+			$rc->userlink = $this->skin->userLink( $rc->mAttribs['rc_user'], $rc->mAttribs['rc_user_text'] );
+			$rc->usertalklink = $this->skin->userToolLinks( $rc->mAttribs['rc_user'], $rc->mAttribs['rc_user_text'] );
 		}
 
 		$rc->lastlink = $lastLink;
@@ -709,13 +721,13 @@ class EnhancedChangesList extends ChangesList {
 		# Page moves go on their own line
 		$title = $rc->getTitle();
 		$secureName = $title->getPrefixedDBkey();
-		if( $rc_type == RC_MOVE || $rc_type == RC_MOVE_OVER_REDIRECT ) {
+		if( $type == RC_MOVE || $type == RC_MOVE_OVER_REDIRECT ) {
 			# Use an @ character to prevent collision with page names
 			$this->rc_cache['@@' . ($this->rcMoveIndex++)] = array($rc);
 		} else {
 			# Logs are grouped by type
-			if( $rc_type == RC_LOG ){
-				$secureName = SpecialPage::getTitleFor( 'Log', $rc_log_type )->getPrefixedDBkey();
+			if( $type == RC_LOG ){
+				$secureName = SpecialPage::getTitleFor( 'Log', $logType )->getPrefixedDBkey();
 			}
 			if( !isset( $this->rc_cache[$secureName] ) ) {
 				$this->rc_cache[$secureName] = array();
@@ -740,9 +752,9 @@ class EnhancedChangesList extends ChangesList {
 		# Add the namespace and title of the block as part of the class
 		if ( $block[0]->mAttribs['rc_log_type'] ) {
 			# Log entry
-			$classes = 'collapsible collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $block[0]->mAttribs['rc_log_type'] . '-' . $block[0]->mAttribs['rc_title'] );
+			$classes = 'mw-collapsible mw-collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $block[0]->mAttribs['rc_log_type'] . '-' . $block[0]->mAttribs['rc_title'] );
 		} else {
-			$classes = 'collapsible collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-ns' . $block[0]->mAttribs['rc_namespace'] . '-' . $block[0]->mAttribs['rc_title'] );
+			$classes = 'mw-collapsible mw-collapsed mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-ns' . $block[0]->mAttribs['rc_namespace'] . '-' . $block[0]->mAttribs['rc_title'] );
 		}
 		$r = Html::openElement( 'table', array( 'class' => $classes ) ) .
 			Html::openElement( 'tr' );
@@ -809,18 +821,18 @@ class EnhancedChangesList extends ChangesList {
 		$expandTitle = htmlspecialchars( wfMsg( 'rc-enhanced-expand' ) );
 		$closeTitle = htmlspecialchars( wfMsg( 'rc-enhanced-hide' ) );
 
-		$tl = "<span class='collapsible-expander'>"
+		$tl = "<span class='mw-collapsible-toggle'>"
 			. "<span class='mw-rc-openarrow'>"
-			. "<a href='#' title='$expandTitle'>{$this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) )}</a>"
+			. "<a href='#' title='$expandTitle'>{$this->sideArrow()}</a>"
 			. "</span><span class='mw-rc-closearrow'>"
-			. "<a href='#' title='$closeTitle'>{$this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) )}</a>"
+			. "<a href='#' title='$closeTitle'>{$this->downArrow()}</a>"
 			. "</span></span>";
 		$r .= "<td>$tl</td>";
 
 		# Main line
 		$r .= '<td class="mw-enhanced-rc">' . $this->recentChangesFlags( array(
-			'new' => $isnew, 
-			'minor' => false, 
+			'newpage' => $isnew,
+			'minor' => false,
 			'unpatrolled' => $unpatrolled, 
 			'bot' => $bot ,
 		) );
@@ -916,37 +928,34 @@ class EnhancedChangesList extends ChangesList {
 
 		# Sub-entries
 		foreach( $block as $rcObj ) {
-			# Extract fields from DB into the function scope (rc_xxxx variables)
-			// FIXME: Would be good to replace this extract() call with something
-			// that explicitly initializes variables.
 			# Classes to apply -- TODO implement
 			$classes = array();
-			extract( $rcObj->mAttribs );
+			$type = $rcObj->mAttribs['rc_type'];
 
 			#$r .= '<tr><td valign="top">'.$this->spacerArrow();
 			$r .= '<tr><td></td><td class="mw-enhanced-rc">';
 			$r .= $this->recentChangesFlags( array(
-				'new' => $rc_new, 
-				'minor' => $rc_minor, 
+				'newpage' => $rcObj->mAttribs['rc_new'],
+				'minor' => $rcObj->mAttribs['rc_minor'],
 				'unpatrolled' => $rcObj->unpatrolled, 
-				'bot' => $rc_bot, 
+				'bot' => $rcObj->mAttribs['rc_bot'],
 			) );
 			$r .= '&#160;</td><td class="mw-enhanced-rc-nested"><span class="mw-enhanced-rc-time">';
 
 			$params = $queryParams;
 
-			if( $rc_this_oldid != 0 ) {
-				$params['oldid'] = $rc_this_oldid;
+			if( $rcObj->mAttribs['rc_this_oldid'] != 0 ) {
+				$params['oldid'] = $rcObj->mAttribs['rc_this_oldid'];
 			}
 
 			# Log timestamp
-			if( $rc_type == RC_LOG ) {
+			if( $type == RC_LOG ) {
 				$link = $rcObj->timestamp;
 			# Revision link
 			} else if( !ChangesList::userCan($rcObj,Revision::DELETED_TEXT) ) {
 				$link = '<span class="history-deleted">'.$rcObj->timestamp.'</span> ';
 			} else {
-				if ( $rcObj->unpatrolled && $rc_type == RC_NEW) {
+				if ( $rcObj->unpatrolled && $type == RC_NEW) {
 					$params['rcid'] = $rcObj->mAttribs['rc_id'];
 				}
 
@@ -962,7 +971,7 @@ class EnhancedChangesList extends ChangesList {
 			}
 			$r .= $link . '</span>';
 
-			if ( !$rc_type == RC_LOG || $rc_type == RC_NEW ) {
+			if ( !$type == RC_LOG || $type == RC_NEW ) {
 				$r .= ' (';
 				$r .= $rcObj->curlink;
 				$r .= $this->message['pipe-separator'];
@@ -972,9 +981,10 @@ class EnhancedChangesList extends ChangesList {
 			$r .= ' . . ';
 
 			# Character diff
-			if( $wgRCShowChangedSize ) {
-				$r .= ( $rcObj->getCharacterDifference() == '' ? '' : $rcObj->getCharacterDifference() . ' . . ' ) ;
+			if( $wgRCShowChangedSize && $rcObj->getCharacterDifference() ) {
+				$r .= $rcObj->getCharacterDifference() . ' . . ' ;
 			}
+
 			# User links
 			$r .= $rcObj->userlink;
 			$r .= $rcObj->usertalklink;
@@ -1014,6 +1024,34 @@ class EnhancedChangesList extends ChangesList {
 	}
 
 	/**
+	 * Generate HTML for a right- or left-facing arrow,
+	 * depending on language direction.
+	 * @return String: HTML <img> tag
+	 */
+	protected function sideArrow() {
+		global $wgContLang;
+		$dir = $wgContLang->isRTL() ? 'l' : 'r';
+		return $this->arrow( $dir, '+', wfMsg( 'rc-enhanced-expand' ) );
+	}
+
+	/**
+	 * Generate HTML for a down-facing arrow
+	 * depending on language direction.
+	 * @return String: HTML <img> tag
+	 */
+	protected function downArrow() {
+		return $this->arrow( 'd', '-', wfMsg( 'rc-enhanced-hide' ) );
+	}
+
+	/**
+	 * Generate HTML for a spacer image
+	 * @return String: HTML <img> tag
+	 */
+	protected function spacerArrow() {
+		return $this->arrow( '', codepointToUtf8( 0xa0 ) ); // non-breaking space
+	}
+
+	/**
 	 * Enhanced RC ungrouped line.
 	 * @return String: a HTML formated line (generated using $r)
 	 */
@@ -1021,40 +1059,36 @@ class EnhancedChangesList extends ChangesList {
 		global $wgRCShowChangedSize;
 
 		wfProfileIn( __METHOD__ );
+		$query['curid'] = $rcObj->mAttribs['rc_cur_id'];
 
-		# Extract fields from DB into the function scope (rc_xxxx variables)
-		// FIXME: Would be good to replace this extract() call with something
-		// that explicitly initializes variables.
-		// TODO implement
-		extract( $rcObj->mAttribs );
-		$query['curid'] = $rc_cur_id;
-
-		if( $rc_log_type ) {
+		$type = $rcObj->mAttribs['rc_type'];
+		$logType = $rcObj->mAttribs['rc_log_type'];
+		if( $logType ) {
 			# Log entry
-			$classes = 'mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $rc_log_type . '-' . $rcObj->mAttribs['rc_title'] );
+			$classes = 'mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-log-' . $logType . '-' . $rcObj->mAttribs['rc_title'] );
 		} else {
 			$classes = 'mw-enhanced-rc ' . Sanitizer::escapeClass( 'mw-changeslist-ns' . $rcObj->mAttribs['rc_namespace'] . '-' . $rcObj->mAttribs['rc_title'] );
 		}
 		$r = Html::openElement( 'table', array( 'class' => $classes ) ) .
 			Html::openElement( 'tr' );
 
-		$r .= '<td class="mw-enhanced-rc">' . $this->arrow( '', codepointToUtf8( 0xa0 ) );
+		$r .= '<td class="mw-enhanced-rc">' . $this->spacerArrow();
 		# Flag and Timestamp
-		if( $rc_type == RC_MOVE || $rc_type == RC_MOVE_OVER_REDIRECT ) {
+		if( $type == RC_MOVE || $type == RC_MOVE_OVER_REDIRECT ) {
 			$r .= '&#160;&#160;&#160;&#160;'; // 4 flags -> 4 spaces
 		} else {
 			$r .= $this->recentChangesFlags( array(
-				'new' => $rc_type == RC_NEW, 
-				'minor' => $rc_minor, 
+				'newpage' => $type == RC_NEW,
+				'mino' => $rcObj->mAttribs['rc_minor'],
 				'unpatrolled' => $rcObj->unpatrolled, 
-				'bot' => $rc_bot 
+				'bot' => $rcObj->mAttribs['rc_bot'],
 			) );
 		}
 		$r .= '&#160;'.$rcObj->timestamp.'&#160;</td><td>';
 		# Article or log link
-		if( $rc_log_type ) {
-			$logtitle = Title::newFromText( "Log/$rc_log_type", NS_SPECIAL );
-			$logname = LogPage::logName( $rc_log_type );
+		if( $logType ) {
+			$logtitle = Title::newFromText( "Log/$logType", NS_SPECIAL );
+			$logname = LogPage::logName( $logType );
 			$r .= '(' . $this->skin->link(
 				$logtitle,
 				$logname,
@@ -1066,7 +1100,7 @@ class EnhancedChangesList extends ChangesList {
 			$this->insertArticleLink( $r, $rcObj, $rcObj->unpatrolled, $rcObj->watched );
 		}
 		# Diff and hist links
-		if ( $rc_type != RC_LOG ) {
+		if ( $type != RC_LOG ) {
 			$r .= ' ('. $rcObj->difflink . $this->message['pipe-separator'];
 			$query['action'] = 'history';
 			$r .= $this->skin->link(
@@ -1085,12 +1119,12 @@ class EnhancedChangesList extends ChangesList {
 		# User/talk
 		$r .= ' '.$rcObj->userlink . $rcObj->usertalklink;
 		# Log action (if any)
-		if( $rc_log_type ) {
+		if( $logType ) {
 			if( $this->isDeleted($rcObj,LogPage::DELETED_ACTION) ) {
 				$r .= ' <span class="history-deleted">' . wfMsgHtml('rev-deleted-event') . '</span>';
 			} else {
-				$r .= ' ' . LogPage::actionText( $rc_log_type, $rc_log_action, $rcObj->getTitle(), 
-					$this->skin, LogPage::extractParams($rc_params), true, true );
+				$r .= ' ' . LogPage::actionText( $logType, $rcObj->mAttribs['rc_log_action'], $rcObj->getTitle(),
+					$this->skin, LogPage::extractParams( $rcObj->mAttribs['rc_params'] ), true, true );
 			}
 		}
 		$this->insertComment( $r, $rcObj );

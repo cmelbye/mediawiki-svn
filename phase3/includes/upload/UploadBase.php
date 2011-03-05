@@ -18,7 +18,9 @@ abstract class UploadBase {
 	protected $mDesiredDestName, $mDestName, $mRemoveTempFile, $mSourceType;
 	protected $mTitle = false, $mTitleError = 0;
 	protected $mFilteredName, $mFinalExtension;
-	protected $mLocalFile;
+	protected $mLocalFile, $mFileSize, $mFileProps;
+	protected $mBlackListedExtensions;
+	protected $mJavaDetected;
 
 	const SUCCESS = 0;
 	const OK = 0;
@@ -78,20 +80,14 @@ abstract class UploadBase {
 	}
 
 	/**
-	 * Returns an array of permissions that is required to upload a file
-	 * 
-	 * @return array
-	 */
-	public static function getRequiredPermissions() {
-		return array( 'upload', 'edit' );
-	}
-	/**
 	 * Returns true if the user can use this upload module or else a string
 	 * identifying the missing permission.
 	 * Can be overriden by subclasses.
+	 *
+	 * @param $user User
 	 */
 	public static function isAllowed( $user ) {
-		foreach ( self::getRequiredPermissions() as $permission ) {
+		foreach ( array( 'upload', 'edit' ) as $permission ) {
 			if ( !$user->isAllowed( $permission ) ) {
 				return $permission;
 			}
@@ -104,6 +100,8 @@ abstract class UploadBase {
 
 	/**
 	 * Create a form of UploadBase depending on wpSourceType and initializes it
+	 *
+	 * @param $request WebRequest
 	 */
 	public static function createFromRequest( &$request, $type = null ) {
 		$type = $type ? $type : $request->getVal( 'wpSourceType', 'File' );
@@ -150,6 +148,14 @@ abstract class UploadBase {
 	}
 
 	public function __construct() {}
+	
+	/**
+	 * Returns the upload type. Should be overridden by child classes
+	 * 
+	 * @since 1.18
+	 * @return string 
+	 */
+	public function getSourceType() { return null; }
 
 	/**
 	 * Initialize the path information
@@ -234,11 +240,11 @@ abstract class UploadBase {
 		/**
 		 * Honor $wgMaxUploadSize
 		 */
-		global $wgMaxUploadSize;
-		if( $this->mFileSize > $wgMaxUploadSize ) {
+		$maxSize = self::getMaxUploadSize( $this->getSourceType() );
+		if( $this->mFileSize > $maxSize ) {
 			return array( 
 				'status' => self::FILE_TOO_LARGE,
-				'max' => $wgMaxUploadSize,
+				'max' => $maxSize,
 			);
 		}
 
@@ -287,6 +293,9 @@ abstract class UploadBase {
 			}
 			if ( $this->mTitleError == self::FILETYPE_BADTYPE ) {
 				$result['finalExt'] = $this->mFinalExtension;
+				if ( count( $this->mBlackListedExtensions ) ) {
+					$result['blacklistedExt'] = $this->mBlackListedExtensions;
+				}
 			}
 			return $result;
 		}
@@ -305,13 +314,14 @@ abstract class UploadBase {
 		global $wgVerifyMimeType;
 		if ( $wgVerifyMimeType ) {
 			wfDebug ( "\n\nmime: <$mime> extension: <{$this->mFinalExtension}>\n\n");
-			if ( !$this->verifyExtension( $mime, $this->mFinalExtension ) ) {
-				return array( 'filetype-mime-mismatch' );
-			}
-
 			global $wgMimeTypeBlacklist;
 			if ( $this->checkFileExtension( $mime, $wgMimeTypeBlacklist ) ) {
 				return array( 'filetype-badmime', $mime );
+			}
+
+			# XXX: Missing extension will be caught by validateName() via getTitle()
+			if ( $this->mFinalExtension != '' && !$this->verifyExtension( $mime, $this->mFinalExtension ) ) {
+				return array( 'filetype-mime-mismatch', $this->mFinalExtension, $mime );
 			}
 
 			# Check IE type
@@ -338,6 +348,7 @@ abstract class UploadBase {
 	 * @return mixed true of the file is verified, array otherwise.
 	 */
 	protected function verifyFile() {
+		global $wgAllowJavaUploads;
 		# get the title, even though we are doing nothing with it, because
 		# we need to populate mFinalExtension 
 		$this->getTitle();
@@ -362,9 +373,25 @@ abstract class UploadBase {
 			}
 		}
 
-		/**
-		* Scan the uploaded file for viruses
-		*/
+		# Check for Java applets, which if uploaded can bypass cross-site 
+		# restrictions.
+		if ( !$wgAllowJavaUploads ) {
+			$this->mJavaDetected = false;
+			$zipStatus = ZipDirectoryReader::read( $this->mTempPath, 
+				array( $this, 'zipEntryCallback' ) );
+			if ( !$zipStatus->isOK() ) {
+				$errors = $zipStatus->getErrorsArray();
+				$error = reset( $errors );
+				if ( $error[0] !== 'zip-wrong-format' ) {
+					return $error;
+				}
+			}
+			if ( $this->mJavaDetected ) {
+				return array( 'uploadjava' );
+			}
+		}
+
+		# Scan the uploaded file for viruses
 		$virus = $this->detectVirus( $this->mTempPath );
 		if ( $virus ) {
 			return array( 'uploadvirus', $virus );
@@ -389,13 +416,36 @@ abstract class UploadBase {
 	}
 
 	/**
+	 * Callback for ZipDirectoryReader to detect Java class files.
+	 */
+	function zipEntryCallback( $entry ) {
+		$names = array( $entry['name'] );
+
+		// If there is a null character, cut off the name at it, because JDK's
+		// ZIP_GetEntry() uses strcmp() if the name hashes match. If a file name 
+		// were constructed which had ".class\0" followed by a string chosen to 
+		// make the hash collide with the truncated name, that file could be 
+		// returned in response to a request for the .class file.
+		$nullPos = strpos( $entry['name'], "\000" );
+		if ( $nullPos !== false ) {
+			$names[] = substr( $entry['name'], 0, $nullPos );
+		}
+
+		// If there is a trailing slash in the file name, we have to strip it, 
+		// because that's what ZIP_GetEntry() does.
+		if ( preg_grep( '!\.class/?$!', $names ) ) {
+			$this->mJavaDetected = true;
+		}
+	}
+
+	/**
 	 * Check whether the user can edit, upload and create the image. This
 	 * checks only against the current title; if it returns errors, it may
 	 * very well be that another title will not give errors. Therefore
 	 * isAllowed() should be called as well for generic is-user-blocked or
 	 * can-user-upload checking.
 	 *
-	 * @param $user the User object to verify the permissions against
+	 * @param $user User object to verify the permissions against
 	 * @return mixed An array as returned by getUserPermissionsErrors or true
 	 *               in case the user has proper permissions.
 	 */
@@ -439,7 +489,6 @@ abstract class UploadBase {
 
 		$localFile = $this->getLocalFile();
 		$filename = $localFile->getName();
-		$n = strrpos( $filename, '.' );
 
 		/**
 		 * Check whether the resulting filename is different from the desired one,
@@ -501,7 +550,9 @@ abstract class UploadBase {
 	 * Really perform the upload. Stores the file in the local repo, watches
 	 * if necessary and runs the UploadComplete hook.
 	 *
-	 * @return mixed Status indicating the whether the upload succeeded.
+	 * @param $user User
+	 *
+	 * @return Status indicating the whether the upload succeeded.
 	 */
 	public function performUpload( $comment, $pageText, $watch, $user ) {
 		$status = $this->getLocalFile()->upload( 
@@ -560,17 +611,39 @@ abstract class UploadBase {
 			$this->mFinalExtension = trim( $ext[count( $ext ) - 1] );
 		} else {
 			$this->mFinalExtension = '';
+			
+			# No extension, try guessing one
+			$magic = MimeMagic::singleton();
+			$mime = $magic->guessMimeType( $this->mTempPath );
+			if ( $mime !== 'unknown/unknown' ) {
+				# Get a space separated list of extensions
+				$extList = $magic->getExtensionsForType( $mime );
+				if ( $extList ) {
+					# Set the extension to the canonical extension
+					$this->mFinalExtension = strtok( $extList, ' ' );
+					
+					# Fix up the other variables
+					$this->mFilteredName .= ".{$this->mFinalExtension}";
+					$nt = Title::makeTitleSafe( NS_FILE, $this->mFilteredName );
+					$ext = array( $this->mFinalExtension );
+				}
+			}
+			
 		}
 
 		/* Don't allow users to override the blacklist (check file extension) */
 		global $wgCheckFileExtensions, $wgStrictFileExtensions;
 		global $wgFileExtensions, $wgFileBlacklist;
+		
+		$blackListedExtensions = $this->checkFileExtensionList( $ext, $wgFileBlacklist );
+		
 		if ( $this->mFinalExtension == '' ) {
 			$this->mTitleError = self::FILETYPE_MISSING;
 			return $this->mTitle = null;
-		} elseif ( $this->checkFileExtensionList( $ext, $wgFileBlacklist ) ||
+		} elseif ( $blackListedExtensions ||
 				( $wgCheckFileExtensions && $wgStrictFileExtensions &&
 					!$this->checkFileExtension( $this->mFinalExtension, $wgFileExtensions ) ) ) {
+			$this->mBlackListedExtensions = $blackListedExtensions;
 			$this->mTitleError = self::FILETYPE_BADTYPE;
 			return $this->mTitle = null;
 		}
@@ -593,6 +666,8 @@ abstract class UploadBase {
 
 	/**
 	 * Return the local file and initializes if necessary.
+	 *
+	 * @return LocalFile
 	 */
 	public function getLocalFile() {
 		if( is_null( $this->mLocalFile ) ) {
@@ -632,12 +707,13 @@ abstract class UploadBase {
 	 * API request to find this stashed file again.
 	 *
 	 * @param $key String: (optional) the session key used to find the file info again. If not supplied, a key will be autogenerated.
-	 * @return File: stashed file
+	 * @return UploadStashFile stashed file
 	 */
 	public function stashSessionFile( $key = null ) { 
-		$stash = new UploadStash();
+		$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
 		$data = array( 
-			'mFileProps' => $this->mFileProps
+			'mFileProps' => $this->mFileProps,
+			'mSourceType' => $this->getSourceType(),
 		);
 		$file = $stash->stashFile( $this->mTempPath, $data, $key );
 		$this->mLocalFile = $file;
@@ -697,19 +773,14 @@ abstract class UploadBase {
 
 	/**
 	 * Perform case-insensitive match against a list of file extensions.
-	 * Returns true if any of the extensions are in the list.
+	 * Returns an array of matching extensions.
 	 *
 	 * @param $ext Array
 	 * @param $list Array
 	 * @return Boolean
 	 */
 	public static function checkFileExtensionList( $ext, $list ) {
-		foreach( $ext as $e ) {
-			if( in_array( strtolower( $e ), $list ) ) {
-				return true;
-			}
-		}
-		return false;
+		return array_intersect( array_map( 'strtolower', $ext ), $list );
 	}
 
 	/**
@@ -836,6 +907,7 @@ abstract class UploadBase {
 
 		foreach( $tags as $tag ) {
 			if( false !== strpos( $chunk, $tag ) ) {
+				wfDebug( __METHOD__ . ": found something that may make it be mistaken for html: $tag\n" );
 				return true;
 			}
 		}
@@ -849,16 +921,19 @@ abstract class UploadBase {
 
 		# look for script-types
 		if( preg_match( '!type\s*=\s*[\'"]?\s*(?:\w*/)?(?:ecma|java)!sim', $chunk ) ) {
+			wfDebug( __METHOD__ . ": found script types\n" );
 			return true;
 		}
 
 		# look for html-style script-urls
 		if( preg_match( '!(?:href|src|data)\s*=\s*[\'"]?\s*(?:ecma|java)script:!sim', $chunk ) ) {
+			wfDebug( __METHOD__ . ": found html-style script urls\n" );
 			return true;
 		}
 
 		# look for css-style script-urls
 		if( preg_match( '!url\s*\(\s*[\'"]?\s*(?:ecma|java)script:!sim', $chunk ) ) {
+			wfDebug( __METHOD__ . ": found css-style script urls\n" );
 			return true;
 		}
 
@@ -1024,6 +1099,8 @@ abstract class UploadBase {
 	 * Check if there's an overwrite conflict and, if so, if restrictions
 	 * forbid this user from performing the upload.
 	 *
+	 * @param $user User
+	 *
 	 * @return mixed true on success, error string on failure
 	 */
 	private function checkOverwrite( $user ) {
@@ -1080,7 +1157,7 @@ abstract class UploadBase {
 	 * - File exists with normalized extension
 	 * - The file looks like a thumbnail and the original exists
 	 *
-	 * @param $file The File object to check
+	 * @param $file File The File object to check
 	 * @return mixed False if the file does not exists, else an array
 	 */
 	public static function getExistsWarning( $file ) {
@@ -1178,9 +1255,9 @@ abstract class UploadBase {
 	 */
 	public static function getFilenamePrefixBlacklist() {
 		$blacklist = array();
-		$message = wfMsgForContent( 'filename-prefix-blacklist' );
-		if( $message && !( wfEmptyMsg( 'filename-prefix-blacklist', $message ) || $message == '-' ) ) {
-			$lines = explode( "\n", $message );
+		$message = wfMessage( 'filename-prefix-blacklist' )->inContentLanguage();
+		if( !$message->isDisabled() ) {
+			$lines = explode( "\n", $message->plain() );
 			foreach( $lines as $line ) {
 				// Remove comment lines
 				$comment = substr( trim( $line ), 0, 1 );
@@ -1227,5 +1304,20 @@ abstract class UploadBase {
 		$code = $error['status'];
 		unset( $code['status'] );
 		return Status::newFatal( $this->getVerificationErrorCode( $code ), $error );
+	}
+	
+	public static function getMaxUploadSize( $forType = null ) {
+		global $wgMaxUploadSize;
+		
+		if ( is_array( $wgMaxUploadSize ) ) {
+			if ( !is_null( $forType ) && isset( $wgMaxUploadSize[$forType] ) ) {
+				return $wgMaxUploadSize[$forType];
+			} else {
+				return $wgMaxUploadSize['*'];
+			}
+		} else {
+			return intval( $wgMaxUploadSize );
+		}
+		
 	}
 }

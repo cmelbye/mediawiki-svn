@@ -23,8 +23,10 @@ class Linker {
 	 *
 	 * @param $class String: the contents of the class attribute; if an empty
 	 *   string is passed, which is the default value, defaults to 'external'.
+	 * @deprecated Just pass the external class directly to something using Html::expandAttributes
 	 */
 	function getExternalLinkAttributes( $class = 'external' ) {
+		wfDeprecated( __METHOD__ );
 		return $this->getLinkAttributesInternal( '', $class );
 	}
 
@@ -69,7 +71,7 @@ class Linker {
 	 * Get the appropriate HTML attributes to add to the "a" element of an in-
 	 * ternal link, given the Title object for the page we want to link to.
 	 *
-	 * @param $nt The Title object
+	 * @param $nt Title
 	 * @param $unused String: unused
 	 * @param $class String: the contents of the class attribute, default none
 	 * @param $title Mixed: optional (unescaped) string to use in the title
@@ -159,6 +161,7 @@ class Linker {
 	public function link( $target, $text = null, $customAttribs = array(), $query = array(), $options = array() ) {
 		wfProfileIn( __METHOD__ );
 		if ( !$target instanceof Title ) {
+			wfProfileOut( __METHOD__ );
 			return "<!-- ERROR -->$text";
 		}
 		$options = (array)$options;
@@ -222,12 +225,14 @@ class Linker {
 
 	/**
 	 * Returns the Url used to link to a Title
+	 *
+	 * @param $target Title
 	 */
 	private function linkUrl( $target, $query, $options ) {
 		wfProfileIn( __METHOD__ );
 		# We don't want to include fragments for broken links, because they
 		# generally make no sense.
-		if ( in_array( 'broken', $options ) and $target->mFragment !== '' ) {
+		if ( in_array( 'broken', $options ) && $target->mFragment !== '' ) {
 			$target = clone $target;
 			$target->mFragment = '';
 		}
@@ -235,8 +240,8 @@ class Linker {
 		# If it's a broken link, add the appropriate query pieces, unless
 		# there's already an action specified, or unless 'edit' makes no sense
 		# (i.e., for a nonexistent special page).
-		if ( in_array( 'broken', $options ) and empty( $query['action'] )
-		and $target->getNamespace() != NS_SPECIAL ) {
+		if ( in_array( 'broken', $options ) && empty( $query['action'] )
+			&& $target->getNamespace() != NS_SPECIAL ) {
 			$query['action'] = 'edit';
 			$query['redlink'] = '1';
 		}
@@ -247,6 +252,8 @@ class Linker {
 
 	/**
 	 * Returns the array of attributes used when linking to the Title $target
+	 *
+	 * @param $target Title
 	 */
 	private function linkAttribs( $target, $attribs, $options, $linkText ) {
 		wfProfileIn( __METHOD__ );
@@ -306,6 +313,8 @@ class Linker {
 
 	/**
 	 * Default text of the links to the Title $target
+	 *
+	 * @param $target Title
 	 */
 	private function linkText( $target ) {
 		# We might be passed a non-Title by make*LinkObj().  Fail gracefully.
@@ -315,7 +324,7 @@ class Linker {
 
 		# If the target is just a fragment, with no title, we return the frag-
 		# ment text.  Otherwise, we return the title text itself.
-		if ( $target->getPrefixedText() === '' and $target->getFragment() !== '' ) {
+		if ( $target->getPrefixedText() === '' && $target->getFragment() !== '' ) {
 			return htmlspecialchars( $target->getFragment() );
 		}
 		return htmlspecialchars( $target->getPrefixedText() );
@@ -332,7 +341,7 @@ class Linker {
 	 * @param $trail String
 	 * @param $prefix String
 	 * @return string HTML of link
-	 * @deprecated
+	 * @deprecated @since 1.17
 	 */
 	function makeSizeLinkObj( $size, $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		global $wgUser;
@@ -348,6 +357,8 @@ class Linker {
 	 * Make appropriate markup for a link to the current article. This is currently rendered
 	 * as the bold link text. The calling sequence is the same as the other make*LinkObj functions,
 	 * despite $query not being used.
+	 *
+	 * @param $nt Title
 	 */
 	function makeSelfLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		if ( $text == '' ) {
@@ -441,7 +452,7 @@ class Linker {
 	function makeImageLink2( Title $title, $file, $frameParams = array(), $handlerParams = array(), $time = false, $query = "", $widthOption = null ) {
 		$res = null;
 		if ( !wfRunHooks( 'ImageBeforeProduceHTML', array( &$this, &$title,
-		&$file, &$frameParams, &$handlerParams, &$time, &$res ) ) ) {
+			&$file, &$frameParams, &$handlerParams, &$time, &$res ) ) ) {
 			return $res;
 		}
 
@@ -456,9 +467,15 @@ class Linker {
 
 		// Clean up parameters
 		$page = isset( $hp['page'] ) ? $hp['page'] : false;
-		if ( !isset( $fp['align'] ) ) $fp['align'] = '';
-		if ( !isset( $fp['alt'] ) ) $fp['alt'] = '';
-		if ( !isset( $fp['title'] ) ) $fp['title'] = '';
+		if ( !isset( $fp['align'] ) ) {
+			$fp['align'] = '';
+		}
+		if ( !isset( $fp['alt'] ) ) {
+			$fp['alt'] = '';
+		}
+		if ( !isset( $fp['title'] ) ) {
+			$fp['title'] = '';
+		}
 
 		$prefix = $postfix = '';
 
@@ -584,11 +601,24 @@ class Linker {
 			'caption' => $label,
 			'align' => $align
 		);
-		if ( $framed ) $frameParams['framed'] = true;
-		if ( $manualthumb ) $frameParams['manualthumb'] = $manualthumb;
+		if ( $framed ) {
+			$frameParams['framed'] = true;
+		}
+		if ( $manualthumb ) {
+			$frameParams['manualthumb'] = $manualthumb;
+		}
 		return $this->makeThumbLink2( $title, $file, $frameParams, $params );
 	}
 
+	/**
+	 * @param $title Title
+	 * @param  $file File
+	 * @param array $frameParams
+	 * @param array $handlerParams
+	 * @param bool $time
+	 * @param string $query
+	 * @return mixed
+	 */
 	function makeThumbLink2( Title $title, $file, $frameParams = array(), $handlerParams = array(), $time = false, $query = "" ) {
 		global $wgStylePath;
 		$exists = $file && $file->exists();
@@ -683,10 +713,10 @@ class Linker {
 	 * Make a "broken" link to an image
 	 *
 	 * @param $title Title object
-	 * @param $text String: link label
+	 * @param $text String: link label in unescaped text form
 	 * @param $query String: query string
-	 * @param $trail String: link trail
-	 * @param $prefix String: link prefix
+	 * @param $trail String: link trail (HTML fragment)
+	 * @param $prefix String: link prefix (HTML fragment)
 	 * @param $time Boolean: a file of a certain timestamp was requested
 	 * @return String
 	 */
@@ -713,12 +743,13 @@ class Linker {
 				wfProfileOut( __METHOD__ );
 				return '<a href="' . htmlspecialchars( $href ) . '" class="new" title="' .
 					htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
-					htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
+					"$prefix$text$inside</a>$trail";
 			} else {
 				wfProfileOut( __METHOD__ );
 				return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
 			}
 		} else {
+			wfProfileOut( __METHOD__ );
 			return "<!-- ERROR -->{$prefix}{$text}{$trail}";
 		}
 	}
@@ -794,25 +825,17 @@ class Linker {
 	 * @param $escape Boolean: do we escape the link text?
 	 * @param $linktype String: type of external link. Gets added to the classes
 	 * @param $attribs Array of extra attributes to <a>
-	 *
-	 * @todo FIXME: This is a really crappy implementation. $linktype and
-	 * 'external' are mashed into the class attrib for the link (which is made
-	 * into a string). Then, if we've got additional params in $attribs, we
-	 * add to it. People using this might want to change the classes (or other
-	 * default link attributes), but passing $attribsText is just messy. Would
-	 * make a lot more sense to make put the classes into $attribs, let the
-	 * hook play with them, *then* expand it all at once.
 	 */
 	function makeExternalLink( $url, $text, $escape = true, $linktype = '', $attribs = array() ) {
-		if ( isset( $attribs['class'] ) ) {
-			# yet another hack :(
-			$class = $attribs['class'];
-		} else {
-			$class =  "external $linktype";
+		$class = "external";
+		if ( isset($linktype) && $linktype ) {
+			$class .= " $linktype";
 		}
-
-		$attribsText = $this->getExternalLinkAttributes( $class );
-		$url = htmlspecialchars( $url );
+		if ( isset($attribs['class']) && $attribs['class'] ) {
+			$class .= " {$attribs['class']}";
+		}
+		$attribs['class'] = $class;
+		
 		if ( $escape ) {
 			$text = htmlspecialchars( $text );
 		}
@@ -822,10 +845,8 @@ class Linker {
 			wfDebug( "Hook LinkerMakeExternalLink changed the output of link with url {$url} and text {$text} to {$link}\n", true );
 			return $link;
 		}
-		if ( $attribs ) {
-			$attribsText .= Html::expandAttributes( $attribs );
-		}
-		return '<a href="' . $url . '"' . $attribsText . '>' . $text . '</a>';
+		$attribs['href'] = $url;
+		return Html::rawElement( 'a', $attribs, $text );
 	}
 
 	/**
@@ -1102,7 +1123,7 @@ class Linker {
 
 		# fix up urlencoded title texts (copied from Parser::replaceInternalLinks)
 		if ( strpos( $match[1], '%' ) !== false ) {
-			$match[1] = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), urldecode( $match[1] ) );
+			$match[1] = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), rawurldecode( $match[1] ) );
 		}
 
 		# Handle link renaming [[foo|text]] will show link as "text"
@@ -1157,6 +1178,13 @@ class Linker {
 		return $comment;
 	}
 
+	/**
+	 * @static
+	 * @param $contextTitle Title
+	 * @param  $target
+	 * @param  $text
+	 * @return string
+	 */
 	static function normalizeSubpageLink( $contextTitle, $target, &$text ) {
 		# Valid link forms:
 		# Foobar -- normal
@@ -1261,7 +1289,9 @@ class Linker {
 	 * @return String: HTML fragment
 	 */
 	function revComment( Revision $rev, $local = false, $isPublic = false ) {
-		if ( $rev->getRawComment() == "" ) return "";
+		if ( $rev->getRawComment() == "" ) {
+			return "";
+		}
 		if ( $rev->isDeleted( Revision::DELETED_COMMENT ) && $isPublic ) {
 			$block = " <span class=\"comment\">" . wfMsgHtml( 'rev-deleted-comment' ) . "</span>";
 		} else if ( $rev->userCan( Revision::DELETED_COMMENT ) ) {
@@ -1328,10 +1358,11 @@ class Linker {
 	 * Wraps the TOC in a table and provides the hide/collapse javascript.
 	 *
 	 * @param $toc String: html of the Table Of Contents
+	 * @param $lang mixed: Language code for the toc title
 	 * @return String: full html of the TOC
 	 */
-	function tocList( $toc ) {
-		$title = wfMsgHtml( 'toc' ) ;
+	function tocList( $toc, $lang = false ) {
+		$title = wfMsgExt( 'toc', array( 'language' => $lang, 'escape' ) );
 		return
 		   '<table id="toc" class="toc"><tr><td>'
 		 . '<div id="toctitle"><h2>' . $title . "</h2></div>\n"
@@ -1634,10 +1665,12 @@ class Linker {
 	public function titleAttrib( $name, $options = null ) {
 		wfProfileIn( __METHOD__ );
 
-		if ( wfEmptyMsg( "tooltip-$name" ) ) {
+		$message = wfMessage( "tooltip-$name" );
+
+		if ( !$message->exists() ) {
 			$tooltip = false;
 		} else {
-			$tooltip = wfMsg( "tooltip-$name" );
+			$tooltip = $message->text();
 			# Compatibility: formerly some tooltips had [alt-.] hardcoded
 			$tooltip = preg_replace( "/ ?\[alt-.\]$/", '', $tooltip );
 			# Message equal to '-' means suppress it.
@@ -1672,12 +1705,17 @@ class Linker {
 	 *   escape), or false for no accesskey attribute
 	 */
 	public function accesskey( $name ) {
+		if ( isset( $this->accesskeycache[$name] ) ) {
+			return $this->accesskeycache[$name];
+		}
 		wfProfileIn( __METHOD__ );
 
-		if ( wfEmptyMsg( "accesskey-$name" ) ) {
+		$message = wfMessage( "accesskey-$name" );
+
+		if ( !$message->exists() ) {
 			$accesskey = false;
 		} else {
-			$accesskey = wfMsg( "accesskey-$name" );
+			$accesskey = $message->plain();
 			if ( $accesskey === '' || $accesskey === '-' ) {
 				# FIXME: Per standard MW behavior, a value of '-' means to suppress the
 				# attribute, but this is broken for accesskey: that might be a useful
@@ -1687,7 +1725,7 @@ class Linker {
 		}
 
 		wfProfileOut( __METHOD__ );
-		return $accesskey;
+		return $this->accesskeycache[$name] = $accesskey;
 	}
 
 	/**
@@ -1724,16 +1762,7 @@ class Linker {
 	/* Deprecated methods */
 
 	/**
-	 * @deprecated
-	 */
-	function postParseLinkColour( $s = null ) {
-		wfDeprecated( __METHOD__ );
-		return null;
-	}
-
-
-	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * This function is a shortcut to makeLinkObj(Title::newFromText($title),...). Do not call
 	 * it if you already have a title object handy. See makeLinkObj for further documentation.
@@ -1760,7 +1789,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * This function is a shortcut to makeKnownLinkObj(Title::newFromText($title),...). Do not call
 	 * it if you already have a title object handy. See makeKnownLinkObj for further documentation.
@@ -1785,7 +1814,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * This function is a shortcut to makeBrokenLinkObj(Title::newFromText($title),...). Do not call
 	 * it if you already have a title object handy. See makeBrokenLinkObj for further documentation.
@@ -1808,7 +1837,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * This function is a shortcut to makeStubLinkObj(Title::newFromText($title),...). Do not call
 	 * it if you already have a title object handy. See makeStubLinkObj for further documentation.
@@ -1832,7 +1861,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * Make a link for a title which may or may not be in the database. If you need to
 	 * call this lots of times, pre-fill the link cache with a LinkBatch, otherwise each
@@ -1849,7 +1878,6 @@ class Linker {
 	 */
 	function makeLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		wfProfileIn( __METHOD__ );
-
 		$query = wfCgiToArray( $query );
 		list( $inside, $trail ) = Linker::splitTrail( $trail );
 		if ( $text === '' ) {
@@ -1863,7 +1891,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * Make a link for a title which definitely exists. This is faster than makeLinkObj because
 	 * it doesn't have to do a database query. It's also valid for interwiki titles and special
@@ -1899,7 +1927,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * Make a red link to the edit page of a given title.
 	 *
@@ -1927,7 +1955,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * Make a brown link to a short article.
 	 *
@@ -1944,7 +1972,7 @@ class Linker {
 	}
 
 	/**
-	 * @deprecated Use link()
+	 * @deprecated @since 1.16 Use link()
 	 *
 	 * Make a coloured link.
 	 *
@@ -1960,7 +1988,9 @@ class Linker {
 	function makeColouredLinkObj( $nt, $colour, $text = '', $query = '', $trail = '', $prefix = '' ) {
 		if ( $colour != '' ) {
 			$style = $this->getInternalLinkAttributesObj( $nt, $text, $colour );
-		} else $style = '';
+		} else {
+			$style = '';
+		}
 		return $this->makeKnownLinkObj( $nt, $text, $query, $trail, $prefix, '', $style );
 	}
 
@@ -1972,7 +2002,7 @@ class Linker {
 
 	/**
 	 * Creates the HTML source for images
-	 * @deprecated use makeImageLink2
+	 * @deprecated @since 1.16 use makeImageLink2
 	 *
 	 * @param $title Title object
 	 * @param $label String: label text
@@ -1987,8 +2017,7 @@ class Linker {
 	 * @return String
 	 */
 	function makeImageLinkObj( $title, $label, $alt, $align = '', $handlerParams = array(), $framed = false,
-	  $thumb = false, $manualthumb = '', $valign = '', $time = false )
-	{
+	  $thumb = false, $manualthumb = '', $valign = '', $time = false ) {
 		$frameParams = array( 'alt' => $alt, 'caption' => $label );
 		if ( $align ) {
 			$frameParams['align'] = $align;
@@ -2016,36 +2045,6 @@ class Linker {
 	}
 
 	/**
-	 * Used to generate section edit links that point to "other" pages
-	 * (sections that are really part of included pages).
-	 *
-	 * @deprecated use Linker::doEditSectionLink()
-	 * @param $title Title string.
-	 * @param $section Integer: section number.
-	 */
-	public function editSectionLinkForOther( $title, $section ) {
-		wfDeprecated( __METHOD__ );
-		$title = Title::newFromText( $title );
-		return $this->doEditSectionLink( $title, $section );
-	}
-
-	/**
-	 * @deprecated use Linker::doEditSectionLink()
-	 * @param $nt Title object.
-	 * @param $section Integer: section number.
-	 * @param $hint Link String: title, or default if omitted or empty
-	 */
-	public function editSectionLink( Title $nt, $section, $hint = '' ) {
-		wfDeprecated( __METHOD__ );
-		if ( $hint === '' ) {
-			# No way to pass an actual empty $hint here!  The new interface al-
-			# lows this, so we have to do this for compatibility.
-			$hint = null;
-		}
-		return $this->doEditSectionLink( $nt, $section, $hint );
-	}
-
-	/**
 	 * Returns the attributes for the tooltip and access key.
 	 */
 	public function tooltipAndAccesskeyAttribs( $name ) {
@@ -2067,14 +2066,19 @@ class Linker {
 		}
 		return $attribs;
 	}
+
 	/**
-	 * @deprecated Returns raw bits of HTML, use titleAttrib() and accesskey()
+	 * @deprecated @since 1.14
+	 * Returns raw bits of HTML, use titleAttrib() and accesskey()
 	 */
 	public function tooltipAndAccesskey( $name ) {
 		return Xml::expandAttributes( $this->tooltipAndAccesskeyAttribs( $name ) );
 	}
 
-	/** @deprecated Returns raw bits of HTML, use titleAttrib() */
+	/**
+	 * @deprecated @since 1.14
+	 * Returns raw bits of HTML, use titleAttrib()
+	 */
 	public function tooltip( $name, $options = null ) {
 		global $wgEnableTooltipsAndAccesskeys;
 		if ( !$wgEnableTooltipsAndAccesskeys )

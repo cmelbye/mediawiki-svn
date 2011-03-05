@@ -39,7 +39,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class ApiQueryRevisions extends ApiQueryBase {
 
 	private $diffto, $difftotext, $expandTemplates, $generateXML, $section,
-		$token;
+		$token, $parseContent;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'rv' );
@@ -73,6 +73,13 @@ class ApiQueryRevisions extends ApiQueryBase {
 		return $this->tokenFunctions;
 	}
 
+	/**
+	 * @static
+	 * @param $pageid
+	 * @param $title Title
+	 * @param $rev Revision
+	 * @return bool|String
+	 */
 	public static function getRollbackToken( $pageid, $title, $rev ) {
 		global $wgUser;
 		if ( !$wgUser->isAllowed( 'rollback' ) ) {
@@ -119,8 +126,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$params['diffto'] = 0;
 			}
 			if ( ( !ctype_digit( $params['diffto'] ) || $params['diffto'] < 0 )
-					&& $params['diffto'] != 'prev' && $params['diffto'] != 'next' )
-			{
+					&& $params['diffto'] != 'prev' && $params['diffto'] != 'next' ) {
 				$this->dieUsage( 'rvdiffto must be set to a non-negative number, "prev", "next" or "cur"', 'diffto' );
 			}
 			// Check whether the revision exists and is readable,
@@ -169,7 +175,6 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
 		}
 
-		
 		if ( !is_null( $this->token ) || $pageCount > 0 ) {
 			$this->addFields( Revision::selectPageFields() );
 		}
@@ -224,9 +229,8 @@ class ApiQueryRevisions extends ApiQueryBase {
 			}
 		}
 
-		//Bug 24166 - API error when using rvprop=tags
+		// Bug 24166 - API error when using rvprop=tags
 		$this->addTables( 'revision' );
-
 
 		if ( $enumRevMode ) {
 			// This is mostly to prevent parameter errors (and optimize SQL?)
@@ -479,26 +483,9 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$text = $wgParser->preprocess( $text, $title, new ParserOptions() );
 			}
 			if ( $this->parseContent ) {
-				global $wgEnableParserCache;
-			
-				$popts = new ParserOptions();
-				$popts->setTidy( true );
-				
 				$articleObj = new Article( $title );
 
-				$p_result = false;
-				$pcache = ParserCache::singleton();
-				if ( $wgEnableParserCache ) {
-					$p_result = $pcache->get( $articleObj, $popts );
-				}
-				if ( !$p_result ) {
-					$p_result = $wgParser->parse( $text, $title, $popts );
-
-					if ( $wgEnableParserCache ) {
-						$pcache->save( $p_result, $articleObj, $popts );
-					}
-				}
-				
+				$p_result = $articleObj->getParserOutput();
 				$text = $p_result->getText();
 			}
 			ApiResult::setContent( $vals, $text );

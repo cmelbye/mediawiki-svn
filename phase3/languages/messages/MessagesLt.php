@@ -614,7 +614,6 @@ Patikrinkite rašybą, arba [[Special:UserLogin/signup|sukurkite naują paskyrą
 'wrongpasswordempty'         => 'Įvestas slaptažodis yra tuščias. Pamėginkite vėl.',
 'passwordtooshort'           => 'Slaptažodžiai turi būti bent $1 {{PLURAL:$1|simbolio|simbolių|simbolių}} ilgio.',
 'password-name-match'        => 'Jūsų slaptažodis turi skirtis nuo jūsų naudotojo vardo.',
-'password-too-weak'          => 'Pateiktas slaptažodis yra per silpnas ir negali būti naudojamas.',
 'mailmypassword'             => 'Atsiųsti naują slaptažodį el. paštu',
 'passwordremindertitle'      => 'Laikinasis {{SITENAME}} slaptažodis',
 'passwordremindertext'       => 'Kažkas (tikriausiai jūs, IP adresu $1)
@@ -720,7 +719,7 @@ Jūs galbūt jau sėkmingai pakeitėte savo slaptažodį ar gavote naują laikin
 'showdiff'                         => 'Rodyti skirtumus',
 'anoneditwarning'                  => "'''Dėmesio:''' Jūs nesate prisijungęs. Jūsų IP adresas bus įrašytas į šio puslapio istoriją.",
 'anonpreviewwarning'               => "''Jūs nesate prisijungęs. Išsaugojant jūsų IP adresas bus rodomas šio puslapio redagavimo istorijoje.''",
-'missingsummary'                   => "'''Priminimas:''' Jūs nenurodėte keitimo komentaro. Jei vėl paspausite Įšsaugoti, jūsų keitimas bus išsaugotas be jo.",
+'missingsummary'                   => "'''Priminimas:''' Jūs nenurodėte keitimo komentaro. Jei vėl paspausite „{{int:savearticle}}“, jūsų keitimas bus išsaugotas be jo.",
 'missingcommenttext'               => 'Prašome įvesti komentarą.',
 'missingcommentheader'             => "'''Priminimas:''' Jūs nenurodėte šio komentaro pavadinimo/antraštės.
 Jei vėl paspausite „{{int:savearticle}}“, jūsų keitimas bus įrašytas be jo.",
@@ -1571,7 +1570,7 @@ prašome eiti atgal ir įkelti šį failą kitu vardu. [[File:$1|thumb|center|$1
 'fileexists-shared-forbidden' => 'Failas tokiu vardu jau egzistuoja bendrojoje failų saugykloje;
 Jei visvien norite įkelti savo failą, prašome eiti atgal ir įkelti šį failą kitu vardu. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Šis failas yra {{PLURAL:$1|šio failo|šių failų}} dublikatas:',
-'file-deleted-duplicate'      => 'Failas, identiškas šiam failui ([[$1]]), seniau buvo ištrintas. Prieš įkeldami jį vėl patikrinkite šio failo ištrynimo istoriją.',
+'file-deleted-duplicate'      => 'Failas, identiškas šiam failui ([[:$1]]), seniau buvo ištrintas. Prieš įkeldami jį vėl patikrinkite šio failo ištrynimo istoriją.',
 'uploadwarning'               => 'Dėmesio',
 'uploadwarning-text'          => 'Prašome pakeisti failo aprašymą ir bandykite dar kartą.',
 'savefile'                    => 'Išsaugoti failą',
@@ -2817,10 +2816,10 @@ Jį paleidus jūsų sistema gali būti pažeista.",
 'imagemaxsize'         => "Riboti paveikslėlių dydį:<br />''(failų aprašymo puslapiuose)''",
 'thumbsize'            => 'Sumažintų paveikslėlių dydis:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|puslapis|puslapiai|puslapių}}',
-'file-info'            => '(failo dydis: $1, MIME tipas: $2)',
-'file-info-size'       => '($1 × $2 taškų, failo dydis: $3, MIME tipas: $4)',
+'file-info'            => 'failo dydis: $1, MIME tipas: $2',
+'file-info-size'       => '$1 × $2 taškų, failo dydis: $3, MIME tipas: $4',
 'file-nohires'         => '<small>Geresnė raiška negalima.</small>',
-'svg-long-desc'        => '(SVG failas, formaliai $1 × $2 taškų, failo dydis: $3)',
+'svg-long-desc'        => 'SVG failas, formaliai $1 × $2 taškų, failo dydis: $3',
 'show-big-image'       => 'Pilna raiška',
 'show-big-image-thumb' => '<small>Šios peržiūros dydis: $1 × $2 taškų</small>',
 'file-info-gif-looped' => 'ciklinis',
@@ -3323,9 +3322,7 @@ Jūs turėjote gauti [{{SERVER}}{{SCRIPTPATH}}/COPYING GNU General Public Licens
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Ieškoti dublikuotų failų',
-'fileduplicatesearch-summary'  => 'Pasikartojančių failų paieška pagal jų kontrolinę sumą.
-
-Įveskite failo pavadinimą be „{{ns:file}}:“ priešdėlio.',
+'fileduplicatesearch-summary'  => 'Pasikartojančių failų paieška pagal jų kontrolinę sumą.',
 'fileduplicatesearch-legend'   => 'Ieškoti dublikatų',
 'fileduplicatesearch-filename' => 'Failo vardas:',
 'fileduplicatesearch-submit'   => 'Ieškoti',

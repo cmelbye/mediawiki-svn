@@ -132,6 +132,8 @@ class Language {
 
 	/**
 	 * Get a cached language object for a given language code
+	 * @param $code String
+	 * @return Language
 	 */
 	static function factory( $code ) {
 		if ( !isset( self::$mLangObjCache[$code] ) ) {
@@ -146,10 +148,28 @@ class Language {
 
 	/**
 	 * Create a language object for a given language code
+	 * @param $code String
+	 * @return Language
 	 */
 	protected static function newFromCode( $code ) {
 		global $IP;
 		static $recursionLevel = 0;
+
+		// Protect against path traversal below
+		if ( !Language::isValidCode( $code ) 
+			|| strcspn( $code, ":/\\\000" ) !== strlen( $code ) ) 
+		{
+			throw new MWException( "Invalid language code \"$code\"" );
+		}
+
+		if ( !Language::isValidBuiltInCode( $code ) ) {
+			// It's not possible to customise this code with class files, so 
+			// just return a Language object. This is to support uselang= hacks.
+			$lang = new Language;
+			$lang->setCode( $code );
+			return $lang;
+		}
+
 		if ( $code == 'en' ) {
 			$class = 'Language';
 		} else {
@@ -180,7 +200,28 @@ class Language {
 	}
 
 	/**
+	 * Returns true if a language code string is of a valid form, whether or 
+	 * not it exists. This includes codes which are used solely for 
+	 * customisation via the MediaWiki namespace.
+	 */
+	public static function isValidCode( $code ) {
+		return 
+			strcspn( $code, ":/\\\000" ) === strlen( $code )
+			&& !preg_match( Title::getTitleInvalidRegex(), $code );
+	}
+
+	/**
+	 * Returns true if a language code is of a valid form for the purposes of 
+	 * internal customisation of MediaWiki, via Messages*.php.
+	 */
+	public static function isValidBuiltInCode( $code ) {
+		return preg_match( '/^[a-z0-9-]*$/i', $code );
+	}
+
+	/**
 	 * Get the LocalisationCache instance
+	 *
+	 * @return LocalisationCache
 	 */
 	public static function getLocalisationCache() {
 		if ( is_null( self::$dataCache ) ) {
@@ -321,6 +362,29 @@ class Language {
 	}
 
 	/**
+	 * Returns gender-dependent namespace alias if available.
+	 * @param $index Int: namespace index
+	 * @param $gender String: gender key (male, female... )
+	 * @return String
+	 * @since 1.18
+	 */
+	function getGenderNsText( $index, $gender ) {
+		$ns = self::$dataCache->getItem( $this->mCode, 'namespaceGenderAliases' );
+		return isset( $ns[$index][$gender] ) ? $ns[$index][$gender] : $this->getNsText( $index );
+	}
+
+	/**
+	 * Whether this language makes distinguishes genders for example in
+	 * namespaces.
+	 * @return bool
+	 * @since 1.18
+	 */
+	function needsGenderDistinction() {
+		$aliases = self::$dataCache->getItem( $this->mCode, 'namespaceGenderAliases' );
+		return count( $aliases ) > 0;
+	}
+
+	/**
 	 * Get a namespace key by value, case insensitive.
 	 * Only matches namespace names for the current language, not the
 	 * canonical ones defined in Namespace.php.
@@ -348,6 +412,14 @@ class Language {
 					}
 				}
 			}
+
+			$genders = self::$dataCache->getItem( $this->mCode, 'namespaceGenderAliases' );
+			foreach ( $genders as $index => $forms ) {
+				foreach ( $forms as $alias ) {
+					$aliases[$alias] = $index;
+				}
+			}
+
 			$this->namespaceAliases = $aliases;
 		}
 		return $this->namespaceAliases;
@@ -484,6 +556,25 @@ class Language {
 			}
 		}
 		closedir( $dir );
+		return $names;
+	}
+
+	/**
+	 * Get translated language names. This is done on best effort and
+	 * by default this is exactly the same as Language::getLanguageNames.
+	 * The CLDR extension provides translated names.
+	 * @param $code String Language code.
+	 * @return Array language code => language name
+	 * @since 1.18.0
+	 */
+	public static function getTranslatedLanguageNames( $code ) {
+		$names = array();
+		wfRunHooks( 'LanguageGetTranslatedLanguageNames', array( &$names, $code ) );
+
+		foreach ( self::getLanguageNames() as $code => $name ) {
+			if ( !isset( $names[$code] ) ) $names[$code] = $name;
+		}
+
 		return $names;
 	}
 
@@ -1545,11 +1636,11 @@ class Language {
 	}
 
 	function getMessage( $key ) {
-		return self::$dataCache->getSubitem( $this->getCodeForMessage(), 'messages', $key );
+		return self::$dataCache->getSubitem( $this->mCode, 'messages', $key );
 	}
 
 	function getAllMessages() {
-		return self::$dataCache->getItem( $this->getCodeForMessage(), 'messages' );
+		return self::$dataCache->getItem( $this->mCode, 'messages' );
 	}
 
 	function iconv( $in, $out, $string ) {
@@ -2048,14 +2139,20 @@ class Language {
 		return self::$dataCache->getItem( $this->mCode, 'magicWords' );
 	}
 
+	protected function doMagicHook() {
+		if ( $this->mMagicHookDone ) {
+			return;
+		}
+		$this->mMagicHookDone = true;
+		wfProfileIn( 'LanguageGetMagic' );
+		wfRunHooks( 'LanguageGetMagic', array( &$this->mMagicExtensions, $this->getCode() ) );
+		wfProfileOut( 'LanguageGetMagic' );
+	}
+
 	# Fill a MagicWord object with data from here
 	function getMagic( $mw ) {
-		if ( !$this->mMagicHookDone ) {
-			$this->mMagicHookDone = true;
-			wfProfileIn( 'LanguageGetMagic' );
-			wfRunHooks( 'LanguageGetMagic', array( &$this->mMagicExtensions, $this->getCode() ) );
-			wfProfileOut( 'LanguageGetMagic' );
-		}
+		$this->doMagicHook();
+
 		if ( isset( $this->mMagicExtensions[$mw->mId] ) ) {
 			$rawEntry = $this->mMagicExtensions[$mw->mId];
 		} else {
@@ -2677,11 +2774,11 @@ class Language {
 	function getPreferredVariant() {
 		return $this->mConverter->getPreferredVariant();
 	}
-	
+
 	function getDefaultVariant() {
 		return $this->mConverter->getDefaultVariant();
 	}
-	
+
 	function getURLVariant() {
 		return $this->mConverter->getURLVariant();
 	}
@@ -2766,18 +2863,6 @@ class Language {
 	function getCode() {
 		return $this->mCode;
 	}
-	
-	/**
-	 * Get langcode for message
-	 * Some language, like Chinese (zh, without any suffix), has multiple
-	 * interface languages, we could choose a better one for user.
-	 * Inherit class can override this function if necessary.
-	 *
-	 * @return string
-	 */
-	function getCodeForMessage() {
-		return $this->getPreferredVariant();
-	}
 
 	function setCode( $code ) {
 		$this->mCode = $code;
@@ -2791,6 +2876,13 @@ class Language {
 	 * @return string $prefix . $mangledCode . $suffix
 	 */
 	static function getFileName( $prefix = 'Language', $code, $suffix = '.php' ) {
+		// Protect against path traversal
+		if ( !Language::isValidCode( $code ) 
+			|| strcspn( $code, ":/\\\000" ) !== strlen( $code ) ) 
+		{
+			throw new MWException( "Invalid language code \"$code\"" );
+		}
+		
 		return $prefix . str_replace( '-', '_', ucfirst( $code ) ) . $suffix;
 	}
 
@@ -2881,7 +2973,8 @@ class Language {
 			throw new MWException(
 				"Utf8Case.ser is missing, please run \"make\" in the serialized directory\n" );
 		}
-		extract( $arr );
+		$wikiUpperChars = $arr['wikiUpperChars'];
+		$wikiLowerChars = $arr['wikiLowerChars'];
 		wfProfileOut( __METHOD__ );
 		return array( $wikiUpperChars, $wikiLowerChars );
 	}
@@ -2971,51 +3064,5 @@ class Language {
 	 */
 	function getConvRuleTitle() {
 		return $this->mConverter->getConvRuleTitle();
-	}
-
-	/**
-	 * Given a string, convert it to a (hopefully short) key that can be used
-	 * for efficient sorting.  A binary sort according to the sortkeys
-	 * corresponds to a logical sort of the corresponding strings.  Current
-	 * code expects that a null character should sort before all others, but
-	 * has no other particular expectations (and that one can be changed if
-	 * necessary).
-	 *
-	 * @param string $string UTF-8 string
-	 * @return string Binary sortkey
-	 */
-	public function convertToSortkey( $string ) {
-		# Fake function for now
-		return strtoupper( $string );
-	}
-
-	/**
-	 * Given a string, return the logical "first letter" to be used for
-	 * grouping on category pages and so on.  This has to be coordinated
-	 * carefully with convertToSortkey(), or else the sorted list might jump
-	 * back and forth between the same "initial letters" or other pathological
-	 * behavior.  For instance, if you just return the first character, but "a"
-	 * sorts the same as "A" based on convertToSortkey(), then you might get a
-	 * list like
-	 *
-	 * == A ==
-	 * * [[Aardvark]]
-	 *
-	 * == a ==
-	 * * [[antelope]]
-	 *
-	 * == A ==
-	 * * [[Ape]]
-	 *
-	 * etc., assuming for the sake of argument that $wgCapitalLinks is false.
-	 *
-	 * @param string $string UTF-8 string
-	 * @return string UTF-8 string corresponding to the first letter of input
-	 */
-	public function firstLetterForLists( $string ) {
-		if ( $string[0] == "\0" ) {
-			$string = substr( $string, 1 );
-		}
-		return strtoupper( $this->firstChar( $string ) );
 	}
 }

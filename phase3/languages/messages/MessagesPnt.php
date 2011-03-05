@@ -10,6 +10,7 @@
  * @author Consta
  * @author Crazymadlover
  * @author Omnipaedista
+ * @author Reedy
  * @author Sinopeus
  * @author Urhixidur
  * @author ZaDiak
@@ -363,10 +364,19 @@ $messages = array(
 'gotaccount'                 => "Λογαρίαν έχετε; '''$1'''.",
 'gotaccountlink'             => 'Εμπάτε',
 'createaccountmail'          => 'με ελεκτρονικόν μένεμαν',
+'createaccountreason'        => 'Λόγον:',
 'badretype'                  => "Τα σημάδε ντ' εγράψετεν 'κ ταιριάζνε.",
 'userexists'                 => "Τ' όνεμαν έχ' ατό άλλος χρήστες.
 Βαλέστε άλλον όνεμαν.",
 'loginerror'                 => 'Σφάλμα εγγραφής',
+'createaccounterror'         => "Αούτο η λογαρίαν 'κ εέντον: $1",
+'nocookiesnew'               => "Η λογαρίαν εέντον, αλλά 'κ είσαι απές.
+{{SITENAME}} χρειάσκεται cookies για να ίνετε το εσέβεμαν.
+Τ'εσά τα cookies 'κ δουλεύνε.
+Ποίσον ατα να δουλεύνε κι έμπα με τ'όνομας και το σημάδις.",
+'nocookieslogin'             => "Το {{SITENAME}} θελ cookies για να ίνεται το εσέβεμαν.
+Τ'εσά τα cookies 'κ δουλεύνε.
+Ποίσον ατα να δουλεύνε κι έμπα.",
 'noname'                     => "'Κ έβαλατε καλόν όνεμαν χρήστε.",
 'loginsuccesstitle'          => "Έντον τ' εσέβεμαν",
 'loginsuccess'               => "'''Εσήβετεν σο {{SITENAME}} με τ'όνεμαν \"\$1\".'''",
@@ -498,7 +508,7 @@ $messages = array(
 'noarticletext'                    => "Αβούτεν η σελίδαν 'κ εχ' κείμενον απές ακόμαν.
 [[Special:Search/{{PAGENAME}}|Εύρον αβούτον τον τίτλον]] σ' αλλέα τοι σελίδας,
 <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} εύρον την σελίδαν σα σχετικά αρχεία],
-ή [{{fullurl:{{FULLPAGENAME}}|action=edit}} άλλαξον αβούτεν την σελίδαν].",
+ή [{{fullurl:{{FULLPAGENAME}}|action=edit}} άλλαξον αβούτεν την σελίδαν]</span>.",
 'updated'                          => '(Ενήμερον)',
 'note'                             => "'''Σημείωμαν:'''",
 'previewnote'                      => "'''Ατό πα πρώτον τέρεμαν εν και μόνον.
@@ -1292,9 +1302,9 @@ $messages = array(
 
 # Media information
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|σελίδα|σελίδας}}',
-'file-info-size'       => '($1 × $2 εικονοστοιχεία, μέγεθος αρχείου: $3, MIME τύπον: $4)',
+'file-info-size'       => '$1 × $2 εικονοστοιχεία, μέγεθος αρχείου: $3, MIME τύπον: $4',
 'file-nohires'         => "<small>'Κ εχ κι άλλο ψηλόν ανάλυσην.</small>",
-'svg-long-desc'        => "(Αρχείον SVG, κατ' όνομα $1 × $2 εικονοστοιχεία, μέγεθος αρχεί: $3)",
+'svg-long-desc'        => "Αρχείον SVG, κατ' όνομα $1 × $2 εικονοστοιχεία, μέγεθος αρχεί: $3",
 'show-big-image'       => 'Τζιπ τρανόν ανάλυση',
 'show-big-image-thumb' => "<small>Μέγεθος τη πρώτ' τερεματί: $1 × $2 εικονοστοιχεία</small>",
 

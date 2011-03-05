@@ -284,7 +284,7 @@ $messages = array(
 'tog-editsection'             => 'L-immodifikar tas-sezzjonijiet permezz tal-ħolqa [editja]',
 'tog-editsectiononrightclick' => "L-immodifikar ta' sezzjonijiet bi klikk lemini fuq it-titli tas-sezzjonijiet (bżonn tal-JavaScript)",
 'tog-showtoc'                 => "Uri l-werrej (għal paġni b'iktar minn 3 sezzjonijiet)",
-'tog-rememberpassword'        => "Ftakar il-login tiegħi fuq dan il-kompjuter (għal massimu ta' {{PLURAL:$1|ġurnata|$1 ġurnata}})",
+'tog-rememberpassword'        => "Ftakar il-login tiegħi fuq dan il-browżer (għal massimu ta' {{PLURAL:$1|ġurnata|$1 ġurnata}})",
 'tog-watchcreations'          => "Żid il-paġni li noħloq fil-lista ta' osservazzjoni tiegħi",
 'tog-watchdefault'            => "Żid il-paġni li nimmodifika fil-lista ta' osservazzjoni personali",
 'tog-watchmoves'              => "Żid il-paġni li mmexxi fil-lista ta' osservazzjoni tiegħi",
@@ -1530,7 +1530,7 @@ Jekk għandek din l-istampa ta' riżoluzzjoni sħiħa, jekk jogħġbok, tella' d
 Jekk jogħġbok mur lura u tella' dan il-fajl b'isem ġdid. [[File:$1|thumb|center|$1]]",
 'fileexists-shared-forbidden' => "Fajl b'dan l-isem diġà jeżisti fl-arkivju tar-riżorsi multimedjali maqsuma. Jekk tixtieq xorta waħda li ttella' l-fajl, mur lura u tella' fajl b'isem ġdid. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => "Dan il-fajl huwa duplikat ta' {{PLURAL:$1|dan il-fajl|dawn il-fajls}} segwenti:",
-'file-deleted-duplicate'      => "Fajl identiku għal dan ([[$1]]) ġie mħassar fil-passat. Iċċekja qabel xejn il-kronoloġija tat-tħassir qabel ma tkompli ttella' l-fajl.",
+'file-deleted-duplicate'      => "Fajl identiku għal dan ([[:$1]]) ġie mħassar fil-passat. Iċċekja qabel xejn il-kronoloġija tat-tħassir qabel ma tkompli ttella' l-fajl.",
 'uploadwarning'               => 'Twissija dwar it-tlugħ tal-fajls',
 'savefile'                    => 'Salva l-fajl',
 'uploadedimage'               => 'tella\' "[[$1]]"',
@@ -2633,10 +2633,10 @@ $1',
 'imagemaxsize'         => "Daqs massimu tal-istampa:<br />''(għall-paġni ta' deskrizzjoni tal-fajl)''",
 'thumbsize'            => 'Daqs tal-minjatura:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|paġna|paġni}}',
-'file-info'            => "(Dimensjoni: $1, tip ta' MIME: $2)",
-'file-info-size'       => "($1 × $2 pixel, dimensjoni: $3, tip ta' MIME: $4)",
+'file-info'            => "Dimensjoni: $1, tip ta' MIME: $2",
+'file-info-size'       => "$1 × $2 pixel, dimensjoni: $3, tip ta' MIME: $4",
 'file-nohires'         => "<small>Mhux disponibli verżjonijiet b'risoluzzjoni akbar.</small>",
-'svg-long-desc'        => '(Fajl fil-format SVG, dimensjoni nominali $1 × $2 pixel, dimensjoni tal-fajl: $3)',
+'svg-long-desc'        => 'Fajl fil-format SVG, dimensjoni nominali $1 × $2 pixel, dimensjoni tal-fajl: $3',
 'show-big-image'       => "Verżjoni b'risoluzzjoni sħiħa",
 'show-big-image-thumb' => '<small>Dimensjoni tal-previżjoni: $1 × $2 pixel</small>',
 
@@ -3003,7 +3003,7 @@ Jekk jogħġbok konferma jekk vera trid terġa' toħloq din il-paġna.",
 # action=purge
 'confirm_purge_button' => 'OK',
 'confirm-purge-top'    => "Ħassar il-''cache'' ta' din il-paġna?",
-'confirm-purge-bottom' => 'L-iżvojtar tal-cache iwassal għall-viżwalizzazzjoni tal-verżjoni l-aktar aġġornata tal-paġna.',
+'confirm-purge-bottom' => 'L-iżvojtar tal-cache twasslek biex tara l-iktar verżjoni aġġornata tal-paġna.',
 
 # Separators for various lists, etc.
 'semicolon-separator' => ';',
@@ -3123,9 +3123,7 @@ Daħħal l-isem tal-fajl bla l-prefiss "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Fittex fajls duplikati',
-'fileduplicatesearch-summary'  => "Fittex fajls duplikati fil-bażi għal valur ''hash''.
-
-Daħħal l-isem tal-fajl mingħajr il-prefiss \"{{ns:file}}:\".",
+'fileduplicatesearch-summary'  => "Fittex fajls duplikati fil-bażi għal valur ''hash''.",
 'fileduplicatesearch-legend'   => 'Fittex għal duplikat',
 'fileduplicatesearch-filename' => 'Isem il-fajl:',
 'fileduplicatesearch-submit'   => 'Fittex',

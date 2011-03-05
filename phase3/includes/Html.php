@@ -200,7 +200,8 @@ class Html {
 	/**
 	 * Returns "</$element>", except if $wgWellFormedXml is off, in which case
 	 * it returns the empty string when that's guaranteed to be safe.
-	 *
+	 * 
+	 * @since 1.17
 	 * @param $element string Name of the element, e.g., 'a'
 	 * @return string A closing tag, if required
 	 */
@@ -351,7 +352,7 @@ class Html {
 		$ret = '';
 		$attribs = (array)$attribs;
 		foreach ( $attribs as $key => $value ) {
-			if ( $value === false ) {
+			if ( $value === false || is_null( $value ) ) {
 				continue;
 			}
 

@@ -9,6 +9,7 @@
  *
  * @author Cgboeree
  * @author Malafaya
+ * @author Reedy
  * @author Urhixidur
  */
 
@@ -389,7 +390,7 @@ Si tu es asi par era, clica a la boton '''retro''' de tu surfador.",
 'noarticletext'              => 'Es aora no testo a esta paje.
 Tu pote [[Special:Search/{{PAGENAME}}|xerca per la titulo de esta paje]] en otra pajes,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} xerca la arcivos relatada],
-o [{{fullurl:{{FULLPAGENAME}}|action=edit}} edita esta paje].',
+o [{{fullurl:{{FULLPAGENAME}}|action=edit}} edita esta paje]</span>.',
 'previewnote'                => "'''Esta sola un previde; cambias no es fisada ja'''",
 'editing'                    => 'En la prosede de edita $1',
 'editingsection'             => 'Edita $1 (sesion)',
@@ -916,9 +917,9 @@ En esta casos, tu va nesesa move o fusa la paje per mano, si desirada.",
 
 # Media information
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|paje|pajes}}',
-'file-info-size'       => '($1 × $2 pixel, grandia de fix: $3, MIME tipo: $4)',
+'file-info-size'       => '$1 × $2 pixel, grandia de fix: $3, MIME tipo: $4',
 'file-nohires'         => '<small>No plu densia posable.</small>',
-'svg-long-desc'        => '(SVG fix, per nom $1 × $2 pixeles, grandia de fix: $3)',
+'svg-long-desc'        => 'SVG fix, per nom $1 × $2 pixeles, grandia de fix: $3',
 'show-big-image'       => 'Densia masima',
 'show-big-image-thumb' => '<small>Grandia de eesta previde: $1 × $2 pixeles</small>',
 

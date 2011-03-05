@@ -1011,7 +1011,7 @@ Bitte priefe '''<tt>[[:$1]]</tt>''', wenn du dir ne secher biest, ob du se ände
 'file-thumbnail-no'          => "Dar Dateinoame beginnt miet '''<tt>$1</tt>'''. Dies deutet uff a Bild verringerter Griße ''(thumbnail)'' hin.
 Bitte priefe, ob du doas Bild ei voller Ufflesung vorliegen host und loade dieses under damm Originalnoama huch.",
 'file-exists-duplicate'      => 'Diese Datei ies a Duplikat dar fulgenda {{PLURAL:$1|Datei|$1 Dateien}}:',
-'file-deleted-duplicate'     => 'Anne identische Datei dieser Datei ([[$1]]) wurde frieher geläscht. Ieberpriefe doas Läsch-Logbuch, bevor du se huchlädst.',
+'file-deleted-duplicate'     => 'Anne identische Datei dieser Datei ([[:$1]]) wurde frieher geläscht. Ieberpriefe doas Läsch-Logbuch, bevor du se huchlädst.',
 'uploadedimage'              => 'hoot „[[$1]]“ huchgeloada',
 'overwroteimage'             => 'hoot anne neue Version vu „[[$1]]“ huchgeloada',
 'uploaddisabled'             => 'Huchlada deaktiviert',
@@ -1964,10 +1964,10 @@ Durch doas Herunderloada und Effna dar Datei koan dei Computer beschädigt waan.
 'imagemaxsize'         => "Maximale Bildgrieße:<br />''(fier Dateibeschreibungsseyta)''",
 'thumbsize'            => 'Standardgriße dar Vurschaubilder (Thumbnails):',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|1 Seyte|$3 Seyta}}',
-'file-info'            => '(Dateigreeße: $1, MIME-Typ: $2)',
-'file-info-size'       => '($1 × $2 Pixel, Dateigreeße: $3, MIME-Typ: $4)',
+'file-info'            => 'Dateigreeße: $1, MIME-Typ: $2',
+'file-info-size'       => '$1 × $2 Pixel, Dateigreeße: $3, MIME-Typ: $4',
 'file-nohires'         => '<small>Kenne hiehere Uffleesung vurhanda.</small>',
-'svg-long-desc'        => '(SVG-Datei, Basisgreeße: $1 × $2 Pixel, Dateigreeße: $3)',
+'svg-long-desc'        => 'SVG-Datei, Basisgreeße: $1 × $2 Pixel, Dateigreeße: $3',
 'show-big-image'       => 'Version ei hieherer Uffleesung',
 'show-big-image-thumb' => 'small>Greeße dar Vuroasicht: $1 × $2 Pixel</small>',
 
@@ -2271,9 +2271,7 @@ Du koast au de [[Special:Watchlist/edit|Standard-Beoarbeetungsseyte]] benutza.',
 De Eengabe muuß ohne dann Zusatz „{{ns:file}}:“ erfolga.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch-summary'  => 'Siche noach Datei-Duplikaten uff Basis ihres Hash-Wertes.
-
-De Eengabe muuß ohne dann Zusatz „{{ns:file}}:“ erfolga.',
+'fileduplicatesearch-summary'  => 'Siche noach Datei-Duplikaten uff Basis ihres Hash-Wertes.',
 'fileduplicatesearch-legend'   => 'Suche noach Duplikata',
 'fileduplicatesearch-filename' => 'Dateinoame:',
 'fileduplicatesearch-submit'   => 'Sucha',

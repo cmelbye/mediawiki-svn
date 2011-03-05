@@ -237,7 +237,7 @@ $messages = array(
 'viewhelppage'      => 'Справка страницине пăх',
 'categorypage'      => 'Категори страницине пăх',
 'viewtalkpage'      => 'Сӳтсе явнине тишкер',
-'otherlanguages'    => 'Урăх чěлхесем',
+'otherlanguages'    => 'Урăх чĕлхесем',
 'redirectedfrom'    => '($1 çинчен куçарнă)',
 'redirectpagesub'   => 'Куçаракан страница',
 'lastmodifiedat'    => 'Ку страницăна юлашки улăштарнă вăхăт: $2, $1.',
@@ -1143,8 +1143,8 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'nextdiff' => 'Малаллахи тӳрлетӳ →',
 
 # Media information
-'file-info'      => '(файл пысăкăшĕ: $1, MIME-тĕсĕ: $2)',
-'file-info-size' => '($1 × $2 пиксел, файл пысăкăше: $3, MIME-тĕсĕ: $4)',
+'file-info'      => 'файл пысăкăшĕ: $1, MIME-тĕсĕ: $2',
+'file-info-size' => '$1 × $2 пиксел, файл пысăкăше: $3, MIME-тĕсĕ: $4',
 'file-nohires'   => '<small>Пысăкрах калăпăшли çук.</small>',
 
 # Special:NewFiles

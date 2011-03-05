@@ -38,6 +38,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryAllimages extends ApiQueryGeneratorBase {
 
+	private $mRepo;
+
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ai' );
 		$this->mRepo = RepoGroup::singleton()->getLocalRepo();
@@ -48,6 +50,7 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 	 * which may not necesarilly be the same as the local DB.
 	 *
 	 * TODO: allow querying non-local repos.
+	 * @return DatabaseBase
 	 */
 	protected function getDB() {
 		return $this->mRepo->getSlaveDB();
@@ -61,6 +64,10 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 		return 'public';
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	public function executeGenerator( $resultPageSet ) {
 		if ( $resultPageSet->isResolvingRedirects() ) {
 			$this->dieUsage( 'Use "gaifilterredir=nonredirects" option instead of "redirects" when using allimages as a generator', 'params' );
@@ -69,6 +76,10 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 		$this->run( $resultPageSet );
 	}
 
+	/**
+	 * @param $resultPageSet ApiPageSet
+	 * @return void
+	 */
 	private function run( $resultPageSet = null ) {
 		$repo = $this->mRepo;
 		if ( !$repo instanceof LocalRepo ) {
@@ -133,6 +144,8 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 				$file = $repo->newFileFromRow( $row );
 				$info = array_merge( array( 'name' => $row->img_name ),
 					ApiQueryImageInfo::getInfo( $file, $prop, $result ) );
+				self::addTitleInfo( $info, $file->getTitle() ); 
+					
 				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $info );
 				if ( !$fit ) {
 					$this->setContinueEnumParameter( 'from', $this->keyToTitle( $row->img_name ) );
@@ -196,21 +209,7 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 			'limit' => 'How many images in total to return',
 			'sha1' => "SHA1 hash of image. Overrides {$this->getModulePrefix()}sha1base36",
 			'sha1base36' => 'SHA1 hash of image in base 36 (used in MediaWiki)',
-			'prop' => array(
-				'Which properties to get',
-				' timestamp    - Adds the timestamp when the image was upload',
-				' user         - Adds the username of the last uploader',
-				' userid       - Adds the user ID of the last uploader',
-				' comment      - Adds the comment of the last upload',
-				' url          - Adds the URL of the image and its description page',
-				' size         - Adds the size of the image in bytes and its height and width',
-				' dimensions   - Alias of size',
-				' sha1         - Adds the SHA-1 hash of the image',
-				' mime         - Adds the MIME of the image',
-				' thumbmime    - Adds the MIME of the tumbnail for the image',
-				' archivename  - Adds the file name of the archive version for non-latest versions',
-				' bitdepth     - Adds the bit depth of the version',
-			),
+			'prop' => ApiQueryImageInfo::getPropertyDescriptions(),
 		);
 	}
 

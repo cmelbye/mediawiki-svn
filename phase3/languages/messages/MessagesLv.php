@@ -14,6 +14,7 @@
  * @author Knakts
  * @author Marozols
  * @author Papuass
+ * @author Reedy
  * @author Xil
  * @author Yyy
  * @author לערי ריינהארט
@@ -622,7 +623,7 @@ Ja tu šeit nonāci kļūdas pēc, vienkārši uzspied '''back''' pogu pārlūkp
 'anontalkpagetext'                 => "----''Šī ir diskusiju lapa anonīmam lietotājam, kurš vēl nav kļuvis par reģistrētu lietotāju vai arī neizmanto savu lietotājvārdu. Tādēļ mums ir jāizmanto skaitliskā IP adrese, lai viņu identificētu.
 Šāda IP adrese var būt vairākiem lietotājiem.
 Ja tu esi anonīms lietotājs un uzskati, ka tev ir adresēti neatbilstoši komentāri, lūdzu, [[Special:UserLogin/signup|kļūsti par lietotāju]] vai arī [[Special:UserLogin|izmanto jau izveidotu lietotājvārdu]], lai izvairītos no turpmākām neskaidrībām un tu netiktu sajaukts ar citiem anonīmiem lietotājiem.''",
-'noarticletext'                    => 'Šajā lapā šobrīd nav nekāda teksta, tu vari [[Special:Search/{{PAGENAME}}|meklēt citās lapās pēc šīs lapas nosaukuma]], <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} meklēt saistītos reģistru ierakstos] vai arī [{{fullurl:{{FULLPAGENAME}}|action=edit}} sākt rediģēt šo lapu].',
+'noarticletext'                    => 'Šajā lapā šobrīd nav nekāda teksta, tu vari [[Special:Search/{{PAGENAME}}|meklēt citās lapās pēc šīs lapas nosaukuma]], <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} meklēt saistītos reģistru ierakstos] vai arī [{{fullurl:{{FULLPAGENAME}}|action=edit}} sākt rediģēt šo lapu]</span>.',
 'noarticletext-nopermission'       => 'Šajā lapā pašlaik nav nekāda teksta.
 Tu vari [[Special:Search/{{PAGENAME}}|meklēt šīs lapas nosaukumu]] citās lapās,
 vai <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} meklēt saistītus reģistru ierakstus]</span>.',
@@ -954,7 +955,7 @@ Pagaidām vari meklēt, izmantojot Google vai Yahoo.
 'mypreferences'                 => 'Mani uzstādījumi',
 'prefs-edits'                   => 'Izmaiņu skaits:',
 'prefsnologin'                  => 'Neesi iegājis',
-'prefsnologintext'              => 'Tev jābūt <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} iegājušam], lai mainītu lietotāja izvēles.',
+'prefsnologintext'              => 'Tev jābūt <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} iegājušam]</span>, lai mainītu lietotāja izvēles.',
 'changepassword'                => 'Mainīt paroli',
 'prefs-skin'                    => 'Apdare',
 'skin-preview'                  => 'Priekšskats',
@@ -2399,10 +2400,10 @@ $1',
 'imagemaxsize'         => 'Attēlu apraksta lapās parādāmo attēlu maksimālais izmērs:',
 'thumbsize'            => 'Sīkbildes izmērs:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|lapa|lapas}}',
-'file-info'            => '(faila izmērs: $1, MIME tips: $2)',
-'file-info-size'       => '($1 × $2 pikseļi, faila izmērs: $3, MIME tips: $4)',
+'file-info'            => 'faila izmērs: $1, MIME tips: $2',
+'file-info-size'       => '$1 × $2 pikseļi, faila izmērs: $3, MIME tips: $4',
 'file-nohires'         => '<small>Augstāka izšķirtspēja nav pieejama.</small>',
-'svg-long-desc'        => '(SVG fails, definētais izmērs $1 × $2 pikseļi, faila izmērs: $3)',
+'svg-long-desc'        => 'SVG fails, definētais izmērs $1 × $2 pikseļi, faila izmērs: $3',
 'show-big-image'       => 'Pilnā izmērā',
 'show-big-image-thumb' => '<small>Šī priekšskata izmērs: $1 × $2 pikseļi</small>',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|kadrs|kadri}}',
@@ -2795,9 +2796,7 @@ Var arī lietot [[Special:Watchlist/edit|standarta izmainīšanas lapu]].',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Meklēt failu kopijas',
-'fileduplicatesearch-summary'  => 'Meklē dublējošos failus, izmantojot uz jaucējfunkcijas vērtības.
-
-Ievadi faila nosaukumu bez "{{ns:file}}:" prefiksa.',
+'fileduplicatesearch-summary'  => 'Meklē dublējošos failus, izmantojot uz jaucējfunkcijas vērtības.',
 'fileduplicatesearch-legend'   => 'Meklēt kopiju',
 'fileduplicatesearch-filename' => 'Faila vārds:',
 'fileduplicatesearch-submit'   => 'Meklēt',

@@ -20,176 +20,58 @@ require_once dirname( __FILE__ ) . '/normal/UtfNormalUtil.php';
  * Re-implementations of newer functions or functions in non-standard
  * PHP extensions may be included here.
  */
+
 if( !function_exists( 'iconv' ) ) {
-	# iconv support is not in the default configuration and so may not be present.
-	# Assume will only ever use utf-8 and iso-8859-1.
-	# This will *not* work in all circumstances.
+	/** @codeCoverageIgnore */
 	function iconv( $from, $to, $string ) {
-		if ( substr( $to, -8 ) == '//IGNORE' ) {
-			$to = substr( $to, 0, strlen( $to ) - 8 );
-		}
-		if( strcasecmp( $from, $to ) == 0 ) {
-			return $string;
-		}
-		if( strcasecmp( $from, 'utf-8' ) == 0 ) {
-			return utf8_decode( $string );
-		}
-		if( strcasecmp( $to, 'utf-8' ) == 0 ) {
-			return utf8_encode( $string );
-		}
-		return $string;
+		return Fallback::iconv( $from, $to, $string );
 	}
 }
 
 if ( !function_exists( 'mb_substr' ) ) {
-	/**
-	 * Fallback implementation for mb_substr, hardcoded to UTF-8.
-	 * Attempts to be at least _moderately_ efficient; best optimized
-	 * for relatively small offset and count values -- about 5x slower
-	 * than native mb_string in my testing.
-	 *
-	 * Larger offsets are still fairly efficient for Latin text, but
-	 * can be up to 100x slower than native if the text is heavily
-	 * multibyte and we have to slog through a few hundred kb.
-	 */
+	/** @codeCoverageIgnore */
 	function mb_substr( $str, $start, $count='end' ) {
-		if( $start != 0 ) {
-			$split = mb_substr_split_unicode( $str, intval( $start ) );
-			$str = substr( $str, $split );
-		}
-
-		if( $count !== 'end' ) {
-			$split = mb_substr_split_unicode( $str, intval( $count ) );
-			$str = substr( $str, 0, $split );
-		}
-
-		return $str;
+		return Fallback::mb_substr( $str, $start, $count );
 	}
 
+	/** @codeCoverageIgnore */
 	function mb_substr_split_unicode( $str, $splitPos ) {
-		if( $splitPos == 0 ) {
-			return 0;
-		}
-
-		$byteLen = strlen( $str );
-
-		if( $splitPos > 0 ) {
-			if( $splitPos > 256 ) {
-				// Optimize large string offsets by skipping ahead N bytes.
-				// This will cut out most of our slow time on Latin-based text,
-				// and 1/2 to 1/3 on East European and Asian scripts.
-				$bytePos = $splitPos;
-				while ( $bytePos < $byteLen && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					++$bytePos;
-				}
-				$charPos = mb_strlen( substr( $str, 0, $bytePos ) );
-			} else {
-				$charPos = 0;
-				$bytePos = 0;
-			}
-
-			while( $charPos++ < $splitPos ) {
-				++$bytePos;
-				// Move past any tail bytes
-				while ( $bytePos < $byteLen && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					++$bytePos;
-				}
-			}
-		} else {
-			$splitPosX = $splitPos + 1;
-			$charPos = 0; // relative to end of string; we don't care about the actual char position here
-			$bytePos = $byteLen;
-			while( $bytePos > 0 && $charPos-- >= $splitPosX ) {
-				--$bytePos;
-				// Move past any tail bytes
-				while ( $bytePos > 0 && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					--$bytePos;
-				}
-			}
-		}
-
-		return $bytePos;
+		return Fallback::mb_substr_split_unicode( $str, $splitPos );
 	}
 }
 
 if ( !function_exists( 'mb_strlen' ) ) {
-	/**
-	 * Fallback implementation of mb_strlen, hardcoded to UTF-8.
-	 * @param string $str
-	 * @param string $enc optional encoding; ignored
-	 * @return int
-	 */
+	/** @codeCoverageIgnore */
 	function mb_strlen( $str, $enc = '' ) {
-		$counts = count_chars( $str );
-		$total = 0;
-
-		// Count ASCII bytes
-		for( $i = 0; $i < 0x80; $i++ ) {
-			$total += $counts[$i];
-		}
-
-		// Count multibyte sequence heads
-		for( $i = 0xc0; $i < 0xff; $i++ ) {
-			$total += $counts[$i];
-		}
-		return $total;
+		return Fallback::mb_strlen( $str, $enc );
 	}
 }
 
-
 if( !function_exists( 'mb_strpos' ) ) {
-	/**
-	 * Fallback implementation of mb_strpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
-	 * @return int
-	 */
+	/** @codeCoverageIgnore */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
-		$needle = preg_quote( $needle, '/' );
-
-		$ar = array();
-		preg_match( '/' . $needle . '/u', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
-
-		if( isset( $ar[0][1] ) ) {
-			return $ar[0][1];
-		} else {
-			return false;
-		}
+		return Fallback::mb_strpos( $haystack, $needle, $offset, $encoding );
 	}
+	
 }
 
 if( !function_exists( 'mb_strrpos' ) ) {
-	/**
-	 * Fallback implementation of mb_strrpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
-	 * @return int
-	 */
+	/** @codeCoverageIgnore */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
-		$needle = preg_quote( $needle, '/' );
-
-		$ar = array();
-		preg_match_all( '/' . $needle . '/u', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
-
-		if( isset( $ar[0] ) && count( $ar[0] ) > 0 &&
-			isset( $ar[0][count( $ar[0] ) - 1][1] ) ) {
-			return $ar[0][count( $ar[0] ) - 1][1];
-		} else {
-			return false;
-		}
+		return Fallback::mb_strrpos( $haystack, $needle, $offset, $encoding );
 	}
 }
 
+
 // Support for Wietse Venema's taint feature
 if ( !function_exists( 'istainted' ) ) {
+	/** @codeCoverageIgnore */
 	function istainted( $var ) {
 		return 0;
 	}
+	/** @codeCoverageIgnore */
 	function taint( $var, $level = 0 ) {}
+	/** @codeCoverageIgnore */
 	function untaint( $var, $level = 0 ) {}
 	define( 'TC_HTML', 1 );
 	define( 'TC_SHELL', 1 );
@@ -198,7 +80,6 @@ if ( !function_exists( 'istainted' ) ) {
 	define( 'TC_SELF', 1 );
 }
 /// @endcond
-
 
 /**
  * Like array_diff( $a, $b ) except that it works with two-dimensional arrays.
@@ -420,12 +301,21 @@ function wfErrorLog( $text, $file ) {
 		} else {
 			throw new MWException( __METHOD__ . ': Invalid UDP specification' );
 		}
+
 		// Clean it up for the multiplexer
 		if ( strval( $prefix ) !== '' ) {
 			$text = preg_replace( '/^/m', $prefix . ' ', $text );
+
+			// Limit to 64KB
+			if ( strlen( $text ) > 65534 ) {
+				$text = substr( $text, 0, 65534 );
+			}
+
 			if ( substr( $text, -1 ) != "\n" ) {
 				$text .= "\n";
 			}
+		} elseif ( strlen( $text ) > 65535 ) {
+			$text = substr( $text, 0, 65535 );
 		}
 
 		$sock = socket_create( $domain, SOCK_DGRAM, SOL_UDP );
@@ -583,7 +473,7 @@ function wfUILang() {
  * The intention is that this function replaces all old wfMsg* functions.
  * @param $key \string Message key.
  * Varargs: normal message parameters.
- * @return \type{Message}
+ * @return Message
  * @since 1.17
  */
 function wfMessage( $key /*...*/) {
@@ -593,6 +483,19 @@ function wfMessage( $key /*...*/) {
 		$params = $params[0];
 	}
 	return new Message( $key, $params );
+}
+
+/**
+ * This function accepts multiple message keys and returns a message instance
+ * for the first message which is non-empty. If all messages are empty then an
+ * instance of the first message key is returned.
+ * Varargs: message keys
+ * @return \type{Message}
+ * @since 1.18
+ */
+function wfMessageFallback( /*...*/ ) {
+	$args = func_get_args();
+	return call_user_func_array( array( 'Message', 'newFallbackSequence' ), $args );
 }
 
 /**
@@ -719,7 +622,9 @@ function wfMsgReal( $key, $args, $useDB = true, $forContent = false, $transform 
 
 /**
  * This function provides the message source for messages to be edited which are *not* stored in the database.
- * @param $key String:
+ *
+ * @deprecated in 1.18; use wfMessage()
+ * @param $key String
  */
 function wfMsgWeirdKey( $key ) {
 	$source = wfMsgGetKey( $key, false, true, false );
@@ -740,19 +645,14 @@ function wfMsgWeirdKey( $key ) {
  * @return string
  */
 function wfMsgGetKey( $key, $useDB, $langCode = false, $transform = true ) {
-	global $wgMessageCache;
-
 	wfRunHooks( 'NormalizeMessageKey', array( &$key, &$useDB, &$langCode, &$transform ) );
 
-	if ( !is_object( $wgMessageCache ) ) {
-		throw new MWException( 'Trying to get message before message cache is initialised' );
-	}
-
-	$message = $wgMessageCache->get( $key, $useDB, $langCode );
+	$cache = MessageCache::singleton();
+	$message = $cache->get( $key, $useDB, $langCode );
 	if( $message === false ) {
 		$message = '&lt;' . htmlspecialchars( $key ) . '&gt;';
 	} elseif ( $transform ) {
-		$message = $wgMessageCache->transform( $message );
+		$message = $cache->transform( $message );
 	}
 	return $message;
 }
@@ -861,12 +761,15 @@ function wfMsgExt( $key, $options ) {
 	if( in_array( 'content', $options, true ) ) {
 		$forContent = true;
 		$langCode = true;
+		$langCodeObj = null;
 	} elseif( array_key_exists( 'language', $options ) ) {
 		$forContent = false;
 		$langCode = wfGetLangObj( $options['language'] );
+		$langCodeObj = $langCode;
 	} else {
 		$forContent = false;
 		$langCode = false;
+		$langCodeObj = null;
 	}
 
 	$string = wfMsgGetKey( $key, /*DB*/true, $langCode, /*Transform*/false );
@@ -876,20 +779,16 @@ function wfMsgExt( $key, $options ) {
 	}
 
 	if( in_array( 'parse', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent );
+		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
 	} elseif ( in_array( 'parseinline', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent );
+		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
 		$m = array();
 		if( preg_match( '/^<p>(.*)\n?<\/p>\n?$/sU', $string, $m ) ) {
 			$string = $m[1];
 		}
 	} elseif ( in_array( 'parsemag', $options, true ) ) {
-		global $wgMessageCache;
-		if ( isset( $wgMessageCache ) ) {
-			$string = $wgMessageCache->transform( $string,
-				!$forContent,
-				is_object( $langCode ) ? $langCode : null );
-		}
+		$string = MessageCache::singleton()->transform( $string,
+				!$forContent, $langCodeObj );
 	}
 
 	if ( in_array( 'escape', $options, true ) ) {
@@ -1216,9 +1115,9 @@ function wfNumLink( $offset, $limit, $title, $query = '' ) {
  *
  * @return bool Whereas client accept gzip compression
  */
-function wfClientAcceptsGzip() {
+function wfClientAcceptsGzip( $force = false ) {
 	static $result = null;
-	if ( $result === null ) {
+	if ( $result === null || $force ) {
 		$result = false;
 		if( isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) ) {
 			# FIXME: we may want to blacklist some broken browsers
@@ -1259,21 +1158,20 @@ function wfCheckLimits( $deflimit = 50, $optionname = 'rclimit' ) {
  * Escapes the given text so that it may be output using addWikiText()
  * without any linking, formatting, etc. making its way through. This
  * is achieved by substituting certain characters with HTML entities.
- * As required by the callers, <nowiki> is not used. It currently does
- * not filter out characters which have special meaning only at the
- * start of a line, such as "*".
+ * As required by the callers, <nowiki> is not used.
  *
  * @param $text String: text to be escaped
  */
 function wfEscapeWikiText( $text ) {
-	$text = str_replace(
-		array( '[',     '|',      ']',     '\'',    'ISBN ',
-			'RFC ',     '://',     "\n=",     '{{',           '}}' ),
-		array( '&#91;', '&#124;', '&#93;', '&#39;', 'ISBN&#32;',
-			'RFC&#32;', '&#58;//', "\n&#61;", '&#123;&#123;', '&#125;&#125;' ),
-		htmlspecialchars( $text )
-	);
-	return $text;
+	$text = strtr( "\n$text", array(
+		'"' => '&#34;', '&' => '&#38;', "'" => '&#39;', '<' => '&#60;',
+		'=' => '&#61;', '>' => '&#62;', '[' => '&#91;', ']' => '&#93;',
+		'{' => '&#123;', '|' => '&#124;', '}' => '&#125;',
+		"\n#" => "\n&#35;", "\n*" => "\n&#42;",
+		"\n:" => "\n&#58;", "\n;" => "\n&#59;",
+		'://' => '&#58;//', 'ISBN ' => 'ISBN&#32;', 'RFC ' => 'RFC&#32;',
+	) );
+	return substr( $text, 1 );
 }
 
 /**
@@ -1287,10 +1185,11 @@ function wfTime() {
 /**
  * Sets dest to source and returns the original value of dest
  * If source is NULL, it just returns the value, it doesn't set the variable
+ * If force is true, it will set the value even if source is NULL
  */
-function wfSetVar( &$dest, $source ) {
+function wfSetVar( &$dest, $source, $force = false ) {
 	$temp = $dest;
-	if ( !is_null( $source ) ) {
+	if ( !is_null( $source ) || $force ) {
 		$dest = $source;
 	}
 	return $temp;
@@ -1948,7 +1847,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 	$da = array();
 	$strtime = '';
 
-	if ( $ts === 0 ) {
+	if ( !$ts ) { // We want to catch 0, '', null... but not date strings starting with a letter.
 		$uts = time();
 		$strtime = "@$uts";
 	} elseif ( preg_match( '/^(\d{4})\-(\d\d)\-(\d\d) (\d\d):(\d\d):(\d\d)$/D', $ts, $da ) ) {
@@ -1988,7 +1887,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		# asctime
 		$strtime = $ts;
 	} else {
-		# Bogus value; fall back to the epoch...
+		# Bogus value...
 		wfDebug("wfTimestamp() fed bogus time value: TYPE=$outputtype; VALUE=$ts\n");
 
 		return false;
@@ -2095,107 +1994,6 @@ function swap( &$x, &$y ) {
 	$z = $x;
 	$x = $y;
 	$y = $z;
-}
-
-function wfGetCachedNotice( $name ) {
-	global $wgOut, $wgRenderHashAppend, $parserMemc;
-	$fname = 'wfGetCachedNotice';
-	wfProfileIn( $fname );
-
-	$needParse = false;
-
-	if( $name === 'default' ) {
-		// special case
-		global $wgSiteNotice;
-		$notice = $wgSiteNotice;
-		if( empty( $notice ) ) {
-			wfProfileOut( $fname );
-			return false;
-		}
-	} else {
-		$notice = wfMsgForContentNoTrans( $name );
-		if( wfEmptyMsg( $name, $notice ) || $notice == '-' ) {
-			wfProfileOut( $fname );
-			return( false );
-		}
-	}
-
-	// Use the extra hash appender to let eg SSL variants separately cache.
-	$key = wfMemcKey( $name . $wgRenderHashAppend );
-	$cachedNotice = $parserMemc->get( $key );
-	if( is_array( $cachedNotice ) ) {
-		if( md5( $notice ) == $cachedNotice['hash'] ) {
-			$notice = $cachedNotice['html'];
-		} else {
-			$needParse = true;
-		}
-	} else {
-		$needParse = true;
-	}
-
-	if( $needParse ) {
-		if( is_object( $wgOut ) ) {
-			$parsed = $wgOut->parse( $notice );
-			$parserMemc->set( $key, array( 'html' => $parsed, 'hash' => md5( $notice ) ), 600 );
-			$notice = $parsed;
-		} else {
-			wfDebug( 'wfGetCachedNotice called for ' . $name . ' with no $wgOut available' . "\n" );
-			$notice = '';
-		}
-	}
-	$notice = '<div id="localNotice">' .$notice . '</div>';
-	wfProfileOut( $fname );
-	return $notice;
-}
-
-function wfGetNamespaceNotice() {
-	global $wgTitle;
-
-	# Paranoia
-	if ( !isset( $wgTitle ) || !is_object( $wgTitle ) ) {
-		return '';
-	}
-
-	$fname = 'wfGetNamespaceNotice';
-	wfProfileIn( $fname );
-
-	$key = 'namespacenotice-' . $wgTitle->getNsText();
-	$namespaceNotice = wfGetCachedNotice( $key );
-	if ( $namespaceNotice && substr( $namespaceNotice, 0, 7 ) != '<p>&lt;' ) {
-		$namespaceNotice = '<div id="namespacebanner">' . $namespaceNotice . '</div>';
-	} else {
-		$namespaceNotice = '';
-	}
-
-	wfProfileOut( $fname );
-	return $namespaceNotice;
-}
-
-function wfGetSiteNotice() {
-	global $wgUser;
-	$fname = 'wfGetSiteNotice';
-	wfProfileIn( $fname );
-	$siteNotice = '';
-
-	if( wfRunHooks( 'SiteNoticeBefore', array( &$siteNotice ) ) ) {
-		if( is_object( $wgUser ) && $wgUser->isLoggedIn() ) {
-			$siteNotice = wfGetCachedNotice( 'sitenotice' );
-		} else {
-			$anonNotice = wfGetCachedNotice( 'anonnotice' );
-			if( !$anonNotice ) {
-				$siteNotice = wfGetCachedNotice( 'sitenotice' );
-			} else {
-				$siteNotice = $anonNotice;
-			}
-		}
-		if( !$siteNotice ) {
-			$siteNotice = wfGetCachedNotice( 'default' );
-		}
-	}
-
-	wfRunHooks( 'SiteNoticeAfter', array( &$siteNotice ) );
-	wfProfileOut( $fname );
-	return $siteNotice;
 }
 
 /**
@@ -2359,8 +2157,7 @@ function wfAppendToArrayIfNotDefault( $key, $value, $default, &$changed ) {
  * @return Boolean True if the message *doesn't* exist.
  */
 function wfEmptyMsg( $key ) {
-	global $wgMessageCache;
-	return $wgMessageCache->get( $key, /*useDB*/true, /*content*/false ) === false;
+	return MessageCache::singleton()->get( $key, /*useDB*/true, /*content*/false ) === false;
 }
 
 /**
@@ -2368,10 +2165,14 @@ function wfEmptyMsg( $key ) {
  *
  * @param $needle String
  * @param $str String
+ * @param $insensitive Boolean
  * @return Boolean
  */
-function in_string( $needle, $str ) {
-	return strpos( $str, $needle ) !== false;
+function in_string( $needle, $str, $insensitive = false ) {
+	$func = 'strpos';
+	if( $insensitive ) $func = 'stripos';
+	
+	return $func( $str, $needle ) !== false;
 }
 
 function wfSpecialList( $page, $details ) {
@@ -2942,27 +2743,10 @@ function wfBaseConvert( $input, $sourceBase, $destBase, $pad = 1, $lowercase = t
  * Create an object with a given name and an array of construct parameters
  * @param $name String
  * @param $p Array: parameters
+ * @deprecated
  */
 function wfCreateObject( $name, $p ) {
-	$p = array_values( $p );
-	switch ( count( $p ) ) {
-		case 0:
-			return new $name;
-		case 1:
-			return new $name( $p[0] );
-		case 2:
-			return new $name( $p[0], $p[1] );
-		case 3:
-			return new $name( $p[0], $p[1], $p[2] );
-		case 4:
-			return new $name( $p[0], $p[1], $p[2], $p[3] );
-		case 5:
-			return new $name( $p[0], $p[1], $p[2], $p[3], $p[4] );
-		case 6:
-			return new $name( $p[0], $p[1], $p[2], $p[3], $p[4], $p[5] );
-		default:
-			throw new MWException( 'Too many arguments to construtor in wfCreateObject' );
-	}
+	return MWFunction::newObj( $name, $p );
 }
 
 function wfHttpOnlySafe() {
@@ -3153,6 +2937,7 @@ function wfGetLB( $wiki = false ) {
 
 /**
  * Get the load balancer factory object
+ * @return LBFactory
  */
 function &wfGetLBFactory() {
 	return LBFactory::singleton();
@@ -3195,6 +2980,7 @@ function wfLocalFile( $title ) {
  * Should low-performance queries be disabled?
  *
  * @return Boolean
+ * @codeCoverageIgnore
  */
 function wfQueriesMustScale() {
 	global $wgMiserMode;
@@ -3253,6 +3039,7 @@ function wfBoolToStr( $value ) {
 /**
  * Load an extension messages file
  * @deprecated in 1.16, warnings in 1.18, remove in 1.20
+ * @codeCoverageIgnore
  */
 function wfLoadExtensionMessages( $extensionName, $langcode = false ) {
 	wfDeprecated( __FUNCTION__ );
@@ -3390,6 +3177,7 @@ function wfOut( $s ) {
 /**
  * Count down from $n to zero on the terminal, with a one-second pause
  * between showing each number. For use in command-line scripts.
+ * @codeCoverageIgnore
  */
 function wfCountDown( $n ) {
 	for ( $i = $n; $i >= 0; $i-- ) {
@@ -3409,6 +3197,7 @@ function wfCountDown( $n ) {
  * Generate a random 32-character hexadecimal token.
  * @param $salt Mixed: some sort of salt, if necessary, to add to random
  *              characters before hashing.
+ * @codeCoverageIgnore
  */
 function wfGenerateToken( $salt = '' ) {
 	$salt = serialize( $salt );
@@ -3455,10 +3244,13 @@ function wfArrayInsertAfter( $array, $insert, $after ) {
 }
 
 /* Recursively converts the parameter (an object) to an array with the same data */
-function wfObjectToArray( $object, $recursive = true ) {
+function wfObjectToArray( $objOrArray, $recursive = true ) {
 	$array = array();
-	foreach ( get_object_vars( $object ) as $key => $value ) {
-		if ( is_object( $value ) && $recursive ) {
+	if( is_object( $objOrArray ) ) {
+		$objOrArray = get_object_vars( $objOrArray );
+	}
+	foreach ( $objOrArray as $key => $value ) {
+		if ( $recursive && ( is_object( $value ) || is_array( $value ) ) ) {
 			$value = wfObjectToArray( $value );
 		}
 
@@ -3525,6 +3317,7 @@ function wfShorthandToInteger( $string = '' ) {
 
 /**
  * Get the normalised IETF language tag
+ * See unit test for examples.
  * @param $code String: The language code.
  * @return $langCode String: The language code which complying with BCP 47 standards.
  */
@@ -3532,12 +3325,15 @@ function wfBCP47( $code ) {
 	$codeSegment = explode( '-', $code );
 	foreach ( $codeSegment as $segNo => $seg ) {
 		if ( count( $codeSegment ) > 0 ) {
+			// when previous segment is x, it is a private segment and should be lc 
+			if( $segNo > 0 && strtolower( $codeSegment[($segNo - 1)] ) == 'x') {
+				$codeBCP[$segNo] = strtolower( $seg );
 			// ISO 3166 country code
-			if ( ( strlen( $seg ) == 2 ) && ( $segNo > 0 ) ) {
+			} elseif ( ( strlen( $seg ) == 2 ) && ( $segNo > 0 ) ) {
 				$codeBCP[$segNo] = strtoupper( $seg );
 			// ISO 15924 script code
 			} elseif ( ( strlen( $seg ) == 4 ) && ( $segNo > 0 ) ) {
-				$codeBCP[$segNo] = ucfirst( $seg );
+				$codeBCP[$segNo] = ucfirst( strtolower( $seg ) );
 			// Use lowercase for other cases
 			} else {
 				$codeBCP[$segNo] = strtolower( $seg );
@@ -3561,3 +3357,33 @@ function wfArrayMap( $function, $input ) {
 	}
 	return $ret;
 }
+
+
+/**
+ * Get a cache object.
+ * @param $inputType Cache type, one the the CACHE_* constants.
+ *
+ * @return BagOStuff
+ */
+function wfGetCache( $inputType ) {
+	return ObjectCache::getInstance( $inputType );
+}
+
+/** Get the main cache object */
+function wfGetMainCache() {
+	global $wgMainCacheType;
+	return ObjectCache::getInstance( $wgMainCacheType );
+}
+
+/** Get the cache object used by the message cache */
+function wfGetMessageCacheStorage() {
+	global $wgMessageCacheType;
+	return ObjectCache::getInstance( $wgMessageCacheType );
+}
+
+/** Get the cache object used by the parser cache */
+function wfGetParserCacheStorage() {
+	global $wgParserCacheType;
+	return ObjectCache::getInstance( $wgParserCacheType );
+}
+

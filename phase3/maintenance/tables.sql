@@ -76,7 +76,10 @@ CREATE TABLE /*_*/user (
   user_newpassword tinyblob NOT NULL,
 
   -- Timestamp of the last time when a new password was
-  -- sent, for throttling purposes
+  -- sent, for throttling and expiring purposes
+  -- Emailed passwords will expire $wgNewPasswordExpiry
+  -- (a week) after being set. If user_newpass_time is NULL
+  -- (eg. created by mail) it doesn't expire.
   user_newpass_time binary(14),
 
   -- Note: email should be restricted, not public info.
@@ -173,7 +176,7 @@ CREATE TABLE /*_*/user_newtalk (
   user_ip varbinary(40) NOT NULL default '',
   -- The highest timestamp of revisions of the talk page viewed
   -- by this user
-  user_last_timestamp binary(14) NOT NULL default ''
+  user_last_timestamp varbinary(14) NULL default NULL
 ) /*$wgDBTableOptions*/;
 
 -- Indexes renamed for SQLite in 1.14
@@ -416,7 +419,7 @@ CREATE TABLE /*_*/archive (
 
 CREATE INDEX /*i*/name_title_timestamp ON /*_*/archive (ar_namespace,ar_title,ar_timestamp);
 CREATE INDEX /*i*/ar_usertext_timestamp ON /*_*/archive (ar_user_text,ar_timestamp);
-CREATE INDEX /*i*/ar_page_revid ON /*_*/archive (ar_namespace, ar_title, ar_rev_id);
+CREATE INDEX /*i*/ar_revid ON /*_*/archive (ar_rev_id);
 
 
 --
@@ -490,15 +493,17 @@ CREATE TABLE /*_*/categorylinks (
   cl_to varchar(255) binary NOT NULL default '',
 
   -- A binary string obtained by applying a sortkey generation algorithm
-  -- (Language::convertToSortkey()) to page_title, or cl_sortkey_prefix . "\0"
+  -- (Collation::getSortKey()) to page_title, or cl_sortkey_prefix . "\n"
   -- . page_title if cl_sortkey_prefix is nonempty.
   cl_sortkey varbinary(230) NOT NULL default '',
 
   -- A prefix for the raw sortkey manually specified by the user, either via
   -- [[Category:Foo|prefix]] or {{defaultsort:prefix}}.  If nonempty, it's
-  -- concatenated with a null followed by the page title before the sortkey
+  -- concatenated with a line break followed by the page title before the sortkey
   -- conversion algorithm is run.  We store this so that we can update
   -- collations without reparsing all pages.
+  -- Note: If you change the length of this field, you also need to change
+  -- code in LinksUpdate.php. See bug 25254.
   cl_sortkey_prefix varchar(255) binary NOT NULL default '',
 
   -- This isn't really used at present. Provided for an optional

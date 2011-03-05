@@ -26,18 +26,21 @@
  * @ingroup Maintenance
  */
 
-if ( !defined( 'DO_MAINTENANCE' ) ) {
+if ( !defined( 'RUN_MAINTENANCE_IF_MAIN' ) ) {
 	echo "This file must be included after Maintenance.php\n";
 	exit( 1 );
+}
+
+// Wasn't included from the file scope, halt execution (probably wanted the class)
+// If a class is using commandLine.inc (old school maintenance), they definitely
+// cannot be included and will proceed with execution
+if( !Maintenance::shouldExecute() && $maintClass != 'CommandLineInc' ) {
+	return;
 }
 
 if ( !$maintClass || !class_exists( $maintClass ) ) {
 	echo "\$maintClass is not set or is set to a non-existent class.\n";
 	exit( 1 );
-}
-
-if ( defined( 'MW_NO_SETUP' ) ) {
-	return;
 }
 
 // Get an object to start us off
@@ -65,12 +68,7 @@ require_once( "$IP/includes/DefaultSettings.php" );
 
 if ( defined( 'MW_CONFIG_CALLBACK' ) ) {
 	# Use a callback function to configure MediaWiki
-	$callback = MW_CONFIG_CALLBACK;
-	# PHP 5.1 doesn't support "class::method" for call_user_func, so split it
-	if ( strpos( $callback, '::' ) !== false ) {
-		$callback = explode( '::', $callback, 2 );
-	}
-	call_user_func( $callback );
+	MWFunction::call( MW_CONFIG_CALLBACK );
 } elseif ( file_exists( "$IP/wmf-config/wikimedia-mode" ) ) {
 	// Load settings, using wikimedia-mode if needed
 	// Fixme: replace this hack with general farm-friendly code

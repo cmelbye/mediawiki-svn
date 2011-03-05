@@ -428,6 +428,7 @@ class LoadBalancer {
 			if ( $i === false ) {
 				$this->mLastError = 'No working slave server: ' . $this->mLastError;
 				$this->reportConnectionError( $this->mErrorConnection );
+				wfProfileOut( __METHOD__ );
 				return false;
 			}
 		}
@@ -616,20 +617,20 @@ class LoadBalancer {
 	 */
 	function reallyOpenConnection( $server, $dbNameOverride = false ) {
 		if( !is_array( $server ) ) {
-			throw new MWException( 'You must update your load-balancing configuration. See DefaultSettings.php entry for $wgDBservers.' );
+			throw new MWException( 'You must update your load-balancing configuration. ' .
+			                       'See DefaultSettings.php entry for $wgDBservers.' );
 		}
 
-		extract( $server );
+		$host = $server['host'];
+		$dbname = $server['dbname'];
+
 		if ( $dbNameOverride !== false ) {
-			$dbname = $dbNameOverride;
+			$server['dbname'] = $dbname = $dbNameOverride;
 		}
-
-		# Get class for this database type
-		$class = 'Database' . ucfirst( $type );
 
 		# Create object
 		wfDebug( "Connecting to $host $dbname...\n" );
-		$db = new $class( $host, $user, $password, $dbname, $flags );
+		$db = DatabaseBase::newFromType( $server['type'], $server );
 		if ( $db->isOpen() ) {
 			wfDebug( "Connected to $host $dbname.\n" );
 		} else {
@@ -754,11 +755,20 @@ class LoadBalancer {
 	}
 
 	/**
+	 * Deprecated function, typo in function name
+	 */
+	function closeConnecton( $conn ) {
+		$this->closeConnection( $conn );
+	}
+
+	/**
 	 * Close a connection
 	 * Using this function makes sure the LoadBalancer knows the connection is closed.
 	 * If you use $conn->close() directly, the load balancer won't update its state.
+	 * @param  $conn
+	 * @return void
 	 */
-	function closeConnecton( $conn ) {
+	function closeConnection( $conn ) {
 		$done = false;
 		foreach ( $this->mConns as $i1 => $conns2 ) {
 			foreach ( $conns2 as $i2 => $conns3 ) {

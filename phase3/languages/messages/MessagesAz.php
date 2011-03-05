@@ -10,6 +10,7 @@
  * @author Don Alessandro
  * @author Emperyan
  * @author Gulmammad
+ * @author PPerviz
  * @author PrinceValiant
  * @author Sortilegus
  * @author Sysops of az.wikipedia.org (imported 2008-08-31)
@@ -58,6 +59,12 @@ $specialPageAliases = array(
 	'Mycontributions'           => array( 'MənimFəaliyyətlərim' ),
 	'Search'                    => array( 'Axtar' ),
 	'Activeusers'               => array( 'Aktivİstifadəçilər' ),
+);
+
+$magicWords = array(
+	'redirect'              => array( '0', '#İSTİQAMƏTLƏNDİRMƏ', '#İSTİQAMƏTLƏNDİR', '#REDIRECT' ),
+	'notoc'                 => array( '0', '__MÜNDƏRİCATYOX__', '__NOTOC__' ),
+	'nogallery'             => array( '0', '__QALEREYAYOX__', '__NOGALLERY__' ),
 );
 
 $separatorTransformTable = array( ',' => '.', '.' => ',' );
@@ -243,8 +250,8 @@ $messages = array(
 'help'              => 'Kömək',
 'search'            => 'Axtar',
 'searchbutton'      => 'Axtar',
-'go'                => 'Gətir',
-'searcharticle'     => 'Gətir',
+'go'                => 'Keç',
+'searcharticle'     => 'Keç',
 'history'           => 'Səhifənin tarixçəsi',
 'history_short'     => 'Tarixçə',
 'updatedmarker'     => 'son dəfə mən nəzərdən keçirəndən sonra yenilənib',
@@ -377,11 +384,16 @@ Mövcud xüsusi səhifələrin siyahısı: [[Special:SpecialPages|Xüsusi səhif
 # General errors
 'error'                => 'Xəta',
 'databaseerror'        => 'Verilənlər bazası xətası',
-'dberrortextcl'        => 'Verilənlər bazası sorğu söz səhvi yarandı.
+'dberrortext'          => 'Məlumat bazası sorğu söz xətası yarandı.
+Bu yazılımdaki bir xətadan qaynaqlana bilər.
+"<tt>$2</tt>" funksiyasından sınanan sonuncu istintaq:
+<blockquote><tt>$1</tt></blockquote>.
+Məlumat bazasının hesabat etdiyi xəta "<tt>$3: $4</tt>".',
+'dberrortextcl'        => 'Məlumat bazası sorğu söz xətası yarandı.
 Son edilən verilənlər bazası sorğusu:
 "$1"
 İstifadə edilən funksiya "$2".
-Verilənlər bazasının verdiyi səhv mesajı "$3: $4"',
+Məlumat bazasının verdiyi xəta mesajı "$3: $4"',
 'laggedslavemode'      => "'''Xəbərdarlıq:''' Səhifə son əlavələri əks etdirməyə bilər.",
 'readonly'             => 'Verilənlər bazası kilidli',
 'enterlockreason'      => 'Bloklamanın səbəbini və nəzərdə tutulan müddətini qeyd edin',
@@ -670,6 +682,8 @@ Mümkündür ki, bununla bağlı təfərrüatlar [{{fullurl:{{#Special:Log}}/del
 'revdelete-hide-comment'      => 'Dəyişikliklərin şərhini gizlə',
 'revdelete-hide-user'         => 'Redaktə müəllifinin istifadəçi adını/IP ünvanını gizlə',
 'revdelete-hide-restricted'   => 'Məlumatları idarəçilərdən də gizlə',
+'revdelete-radio-set'         => 'Hə',
+'revdelete-radio-unset'       => 'Yox',
 'revdelete-suppress'          => 'Məlumatları idarəçilərdən də gizlə',
 'revdelete-unsuppress'        => 'Bərpa olunan versiyalar üzərindən məhdudiyyətləri qaldır',
 'revdelete-log'               => 'Səbəb:',
@@ -950,6 +964,7 @@ Həmçinin kimliyinizi gostərmədən belə, başqalarının sizinlə istifadə�
 'reuploaddesc'        => 'Return to the upload form.',
 'uploadnologintext'   => 'Fayl yükləmək üçün [[Special:UserLogin|daxil olmalısınız]].',
 'uploaderror'         => 'Yükləmə xətası',
+'upload-permitted'    => 'İcazə verilən fayl tipləri: $1.',
 'uploadlog'           => 'yükləmə qeydi',
 'uploadlogpage'       => 'Yükləmə qeydi',
 'uploadlogpagetext'   => 'Aşağıda ən yeni yükləmə jurnal qeydləri verilmişdir.',
@@ -968,8 +983,10 @@ Lütfən '''<tt>[[:$1]]</tt>''' keçidini yoxlayın və bu faylı yükləmək is
 'uploadwarning'       => 'Yükləyiş xəbərdarlıqı',
 'savefile'            => 'Faylı qeyd et',
 'uploadedimage'       => 'yükləndi "[[$1]]"',
+'upload-source'       => 'Mənbə faylı',
 'sourcefilename'      => 'Fayl adı mənbələri',
 'destfilename'        => 'Fayl adı',
+'upload-description'  => 'Faylın izahı',
 'watchthisupload'     => 'Bu faylı izlə',
 'upload-wasdeleted'   => "'''Diqqət:Siz əvvəl bu ad altında mövcud olmuş və silinmiş faylı yenidən yükləməkdəsiniz'''
 
@@ -1610,9 +1627,9 @@ $1',
 # Media information
 'imagemaxsize'         => "Şəkilin maksimal tutumu:<br />''(faylın təsviri səhifələri üçün)''",
 'thumbsize'            => 'Kiçik ölçü:',
-'file-info-size'       => '($1 × $2 piksel, fayl həcmi: $3, MIME növü: $4)',
+'file-info-size'       => '$1 × $2 piksel, fayl həcmi: $3, MIME növü: $4',
 'file-nohires'         => '<small>Daha dəqiq versiyası yoxdur.</small>',
-'svg-long-desc'        => '(SVG fayl, nominal olaraq $1 × $2 piksel, faylın ölçüsü: $3)',
+'svg-long-desc'        => 'SVG fayl, nominal olaraq $1 × $2 piksel, faylın ölçüsü: $3',
 'show-big-image'       => 'Daha yüksək keyfiyyətli şəkil',
 'show-big-image-thumb' => '<small>Sınaq göstərişi ölçüsü: $1 × $2 piksel</small>',
 
@@ -1712,7 +1729,8 @@ Həmin sətirdəki sonrakı keçidlər istisnalar kimi qəbul edilir, yəni şə
 'filepath' => 'Fayl yolu',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch' => 'Dublikat fayl axtarışı',
+'fileduplicatesearch'        => 'Dublikat fayl axtarışı',
+'fileduplicatesearch-submit' => 'Axtar',
 
 # Special:SpecialPages
 'specialpages'                   => 'Xüsusi səhifələr',

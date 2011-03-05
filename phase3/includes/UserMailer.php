@@ -114,6 +114,7 @@ class UserMailer {
 		global $wgEnotifMaxRecips, $wgAdditionalMailParams;
 
 		if ( is_array( $to ) ) {
+			$emails = '';
 			// This wouldn't be necessary if implode() worked on arrays of
 			// objects using __toString(). http://bugs.php.net/bug.php?id=36612
 			foreach ( $to as $t ) {
@@ -127,12 +128,10 @@ class UserMailer {
 
 		if ( is_array( $wgSMTP ) ) {
 			$found = false;
-			$pathArray = explode( PATH_SEPARATOR, get_include_path() );
-			foreach ( $pathArray as $path ) {
-				if ( file_exists( $path . DIRECTORY_SEPARATOR . 'Mail.php' ) ) {
-					$found = true;
-					break;
-				}
+			if ( function_exists( 'stream_resolve_include_path' ) ) {
+				$found = stream_resolve_include_path( 'Mail.php' );
+			} else {
+				$found = Fallback::stream_resolve_include_path( 'Mail.php' );
 			}
 			if ( !$found ) {
 				throw new MWException( 'PEAR mail package is not installed' );

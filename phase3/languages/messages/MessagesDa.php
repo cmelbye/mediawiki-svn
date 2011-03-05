@@ -29,6 +29,7 @@
  * @author Morten LJ
  * @author Najami
  * @author Nghtwlkr
+ * @author Peter Alberti
  * @author Peter Andersen
  * @author Purodha
  * @author Qaqqalik
@@ -372,6 +373,7 @@ $messages = array(
 'delete'            => 'Slet',
 'deletethispage'    => 'Slet side',
 'undelete_short'    => 'Fortryd sletning af {{PLURAL:$1|$1 version|$1 versioner}}',
+'viewdeleted_short' => 'Vis {{PLURAL:$1|en slettet redigering|$1 slettede redigeringer}}',
 'protect'           => 'Beskyt',
 'protect_change'    => 'ændr',
 'protectthispage'   => 'Beskyt side',
@@ -611,7 +613,6 @@ Kontrollér stavemåden, eller [[Special:UserLogin/signup|opret en ny konto]].',
 'wrongpasswordempty'         => 'Du glemte at indtaste password. Prøv igen.',
 'passwordtooshort'           => 'Adgangskoden skal mindst være på $1 {{PLURAL:$1|tegn|tegn}}.',
 'password-name-match'        => 'Kodeordet må ikke være det samme som brugernavnet.',
-'password-too-weak'          => 'Det angivne password er for svagt og kan ikke bruges.',
 'mailmypassword'             => 'Send nyt password',
 'passwordremindertitle'      => 'Nyt password til {{SITENAME}}',
 'passwordremindertext'       => 'Nogen (sandsynligvis dig, fra IP-adressen $1)
@@ -1274,8 +1275,7 @@ Det kan ikke gøres om.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'Angivelse af rigtigt navn er valgfrit.
 Hvis du vælger at oplyse dit navn, vil det blive brugt til at tilskrive dig dit arbejde.',
-'prefs-help-email'              => 'Angivelse af e-mail-adresse er valgfrit. Det gør det muligt at sende dig en ny adgangskode hvis du glemmer den.
-Du kan også vælge at lade andre brugere kontakte dig gennem din bruger- eller diskussionsside uden at du behøver at afsløre din identitet.',
+'prefs-help-email'              => 'Angivelse af e-mail-adresse er valgfrit. Det gør det muligt at sende dig en ny adgangskode hvis du glemmer den.',
 'prefs-help-email-required'     => 'E-mail-adresse er krævet.',
 'prefs-info'                    => 'Grundlæggende information',
 'prefs-i18n'                    => 'Internationalisering:',
@@ -1291,6 +1291,10 @@ Du kan også vælge at lade andre brugere kontakte dig gennem din bruger- eller 
 'prefs-displaysearchoptions'    => 'Visningsmuligheder',
 'prefs-displaywatchlist'        => 'Visningsmuligheder',
 'prefs-diffs'                   => 'Forskelle',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-mailadressen ser ud til at være gyldig',
+'email-address-validity-invalid' => 'Indtast en gyldig e-mail adresse',
 
 # User rights
 'userrights'                   => 'Håndtering af brugerrettigheder',
@@ -1528,11 +1532,11 @@ Brug en henvisning af en de følgende typer for at bruge en fil på en side:
 'minlength1'                  => 'Navnet på filen skal være på mindst et bogstav.',
 'illegalfilename'             => 'Filnavnet "$1" indeholder tegn, der ikke er tilladte i sidetitler. Omdøb filen og prøv at lægge den op igen.',
 'badfilename'                 => 'Navnet på filen er blevet ændret til "$1".',
-'filetype-mime-mismatch'      => 'Filendelsen svarer ikke til MIME-typen.',
+'filetype-mime-mismatch'      => 'Filendelsen ".$1" svarer ikke til filens MIME-type ($2).',
 'filetype-badmime'            => 'Filer med MIME-typen „$1“ må ikke uploades.',
 'filetype-bad-ie-mime'        => 'Kan ikke lægge denne fil op fordi Internet Explorer ville betragte den som værende af typen "$1", som er en ikke-tilladt og en potentiel farlig filtype.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' er ikke en foretrukken filtype. {{PLURAL:\$3|Den foretrukne filtype|De foretrukne filtyper}} er \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' er en uønsket filtype. {{PLURAL:\$3|Den tilladte filtype|De tillatdte filtyper}} er \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' er {{PLURAL:$4|en uønsket filtype|uønskede filtyper}}. {{PLURAL:$3|Den tilladte filtype|De tilladte filtyper}} er $2.',
 'filetype-missing'            => 'Filen der skal uploades har ingen endelse (f.eks. „.jpg“).',
 'empty-file'                  => 'Den fil du indsendte var tom.',
 'file-too-large'              => 'Den fil du indsendte var for stor.',
@@ -1571,7 +1575,7 @@ Hvis du fortsat vil lægge filen op, bedes du gå tilbage og bruge et nyt navn.
 Hvis du fortsat vil lægge filen op, bedes du gå tilbage og bruge et nyt navn.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Denne fil er en bublet af {{PLURAL:$1|den nedenstående fil|de nedenstående $1 filer}}:',
-'file-deleted-duplicate'      => 'En fil identisk med denne fil ([[$1]]) er tidligere blevet slettet. Du bør tjekke den fils sletningshistorik før du prøver at genoplægge den.',
+'file-deleted-duplicate'      => 'En fil identisk med denne fil ([[:$1]]) er tidligere blevet slettet. Du bør tjekke den fils sletningshistorik før du prøver at genoplægge den.',
 'uploadwarning'               => 'Advarsel',
 'uploadwarning-text'          => 'Vær venlig at ændre filbeskrivelsen nedenfor og prøv igen.',
 'savefile'                    => 'Gem fil',
@@ -1617,6 +1621,9 @@ Informer venligst en [[Special:ListUsers/sysop|systemadministrator]].',
 'upload-too-many-redirects' => "URL'en indeholdt for mange omdirigeringer",
 'upload-unknown-size'       => 'Ukendt størrelse',
 'upload-http-error'         => 'Der opstod en HTTP-fejl: $1',
+
+# Special:UploadStash
+'uploadstash-summary' => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Adgang nægtet',
@@ -2732,7 +2739,7 @@ Dette skyldes sandsynligvis en henvisning til et sortlistet eksternt websted.',
 'math_unknown_function' => 'ukendt funktion',
 'math_lexing_error'     => 'lexerfejl',
 'math_syntax_error'     => 'syntaksfejl',
-'math_image_error'      => 'PNG-konvertering mislykkedes; undersøg om latex, dvips, gs og convert er installeret korrekt',
+'math_image_error'      => 'PNG-konvertering mislykkedes; undersøg om latex og dvipng (eller dvips + gs + convert) er installeret korrekt',
 'math_bad_tmpdir'       => 'Kan ikke skrive til eller oprette temp-mappe til math',
 'math_bad_output'       => 'Kan ikke skrive til eller oprette uddata-mappe til math',
 'math_notexvc'          => 'Manglende eksekvérbar texvc; se math/README for opsætningsoplysninger.',
@@ -2777,10 +2784,10 @@ Du kan beskadige dit system hvis du udfører den.",
 'imagemaxsize'         => "Maksimal billedstørrelse<br />''(på filbeskrivelsessider)''",
 'thumbsize'            => 'Thumbnailstørrelse :',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|side|sider}}',
-'file-info'            => '(Filstørrelse: $1, MIME-Type: $2)',
-'file-info-size'       => '($1 × $2 punkter, filstørrelse: $3, MIME-Type: $4)',
+'file-info'            => 'Filstørrelse: $1, MIME-Type: $2',
+'file-info-size'       => '$1 × $2 punkter, filstørrelse: $3, MIME-Type: $4',
 'file-nohires'         => '<small>Ingen højere opløsning fundet.</small>',
-'svg-long-desc'        => '(SVG fil, basisstørrelse $1 × $2 punkters, størrelse: $3)',
+'svg-long-desc'        => 'SVG fil, basisstørrelse $1 × $2 punkters, størrelse: $3',
 'show-big-image'       => 'Version i større opløsning',
 'show-big-image-thumb' => '<small>Størrelse af forhåndsvisning: $1 × $2 pixel</small>',
 'file-info-gif-looped' => 'gentaget',
@@ -3272,9 +3279,7 @@ Angiv filnavnet uden "{{ns:file}}:"-præfiks.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Find dubletfiler',
-'fileduplicatesearch-summary'  => 'Find dublerede filer baseret på deres hash-værdi.
-
-Angiv filnavnet uden "{{ns:file}}:"-præfikset.',
+'fileduplicatesearch-summary'  => 'Find dublerede filer baseret på deres hash-værdi.',
 'fileduplicatesearch-legend'   => 'Find dubletfiler.',
 'fileduplicatesearch-filename' => 'Filnavn:',
 'fileduplicatesearch-submit'   => 'Find',
@@ -3374,8 +3379,5 @@ Hvis brugeren er logget ind et sted, vil vedkommende blive logget ud øjeblikkel
 'disableaccount-nosuchuser'  => 'Brugerkontoen "$1" findes ikke.',
 'disableaccount-success'     => 'Brugerkontoen "$1" er blevet permanent deaktiveret.',
 'disableaccount-logentry'    => 'deaktiverede brugerkontoen [[$1]] permanent',
-
-# Special:UploadStash
-'uploadstash-summary' => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
 
 );

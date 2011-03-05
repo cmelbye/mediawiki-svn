@@ -1,14 +1,12 @@
 <?php
 /**
- * Script to easily generate the mediawiki documentation using doxygen.
+ * Generate class and file reference documentation for MediaWiki using doxygen.
  *
- * By default it will generate the whole documentation but you will be able to
- * generate just some parts.
+ * If the dot DOT language processor is available, attempt call graph
+ * generation.
  *
  * Usage:
  *   php mwdocgen.php
- *
- * Then make a selection from the menu
  *
  * KNOWN BUGS:
  *
@@ -46,7 +44,7 @@
 #
 
 if ( php_sapi_name() != 'cli' ) {
-	echo 'Run me from the command line.';
+	echo 'Run "' . __FILE__ . '" from the command line.';
 	die( -1 );
 }
 
@@ -63,7 +61,6 @@ $doxygenTemplate = $mwPath . 'maintenance/Doxyfile';
 $svnstat = $mwPath . 'bin/svnstat';
 
 /** where Phpdoc should output documentation */
-# $doxyOutput = '/var/www/mwdoc/';
 $doxyOutput = $mwPath . 'docs' . DIRECTORY_SEPARATOR ;
 
 /** MediaWiki subpaths */
@@ -72,9 +69,15 @@ $mwPathL = $mwPath . 'languages/';
 $mwPathM = $mwPath . 'maintenance/';
 $mwPathS = $mwPath . 'skins/';
 
+/** Ignored paths relative to $mwPath */
+$mwExcludePaths = array(
+	'images',
+	'static',
+);
+
 /** Variable to get user input */
 $input = '';
-$exclude = '';
+$exclude_patterns = '';
 
 #
 # Functions
@@ -145,10 +148,11 @@ function getSvnRevision( $dir ) {
  * @param $currentVersion String: Version number of the software
  * @param $svnstat String: path to the svnstat file
  * @param $input String: Path to analyze.
- * @param $exclude String: Additionals path regex to exlcude
+ * @param $exclude String: Additionals path regex to exclude
+ * @param $exclude_patterns String: Additionals path regex to exclude
  *                 (LocalSettings.php, AdminSettings.php, .svn and .git directories are always excluded)
  */
-function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath, $currentVersion, $svnstat, $input, $exclude ) {
+function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath, $currentVersion, $svnstat, $input, $exclude_patterns ) {
 
 	$template = file_get_contents( $doxygenTemplate );
 
@@ -160,6 +164,8 @@ function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath,
 		'{{SVNSTAT}}'          => $svnstat,
 		'{{INPUT}}'            => $input,
 		'{{EXCLUDE}}'          => $exclude,
+		'{{EXCLUDE_PATTERNS}}' => $exclude_patterns,
+		'{{HAVE_DOT}}'         => `which dot` ? 'YES' : 'NO',
 	);
 	$tmpCfg = str_replace( array_keys( $replacements ), array_values( $replacements ), $template );
 	$tmpFileName = tempnam( wfTempDir(), 'mwdocgen-' );
@@ -226,7 +232,7 @@ case 5:
 	$input = $mwPath . $file;
 case 6:
 	$input = $mwPath;
-	$exclude = 'extensions';
+	$exclude_patterns = 'extensions';
 }
 
 $versionNumber = getSvnRevision( $input );
@@ -237,7 +243,11 @@ if ( $versionNumber === false ) { # Not using subversion ?
 	$version = "trunk (r$versionNumber)";
 }
 
-$generatedConf = generateConfigFile( $doxygenTemplate, $doxyOutput, $mwPath, $version, $svnstat, $input, $exclude );
+// Generate path exclusions
+$excludedPaths = $mwPath . join( " $mwPath", $mwExcludePaths );
+print "EXCLUDE: $excludedPaths\n\n";
+
+$generatedConf = generateConfigFile( $doxygenTemplate, $doxyOutput, $mwPath, $version, $svnstat, $input, $excludedPaths, $exclude_patterns );
 $command = $doxygenBin . ' ' . $generatedConf;
 
 echo <<<TEXT

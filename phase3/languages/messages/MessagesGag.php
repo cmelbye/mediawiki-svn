@@ -10,6 +10,7 @@
  * @author Andrijko Z.
  * @author Cuman
  * @author Emperyan
+ * @author Reedy
  */
 
 $fallback = 'tr';
@@ -21,14 +22,14 @@ $messages = array(
 'tog-justify'                 => 'Paragrafları düz',
 'tog-hideminor'               => 'Küçük diişmäkleri "Bitki diişmäkler" sayfasında sakla',
 'tog-extendwatchlist'         => 'İlerlemiş bakmaa listası',
-'tog-usenewrc'                => 'İlerlemiş bitki diişmäkler listası (her brauzerä uymêêr)',
+'tog-usenewrc'                => 'İlerlemiş bitki diişmäkler listası (JavaScript uymêêr)',
 'tog-numberheadings'          => 'Başlıklara avtomatik nomer yaz',
 'tog-showtoolbar'             => 'Diişmäk yapar känä yardımcı tuşları göster. (JavaScript)',
 'tog-editondblclick'          => 'Sayfayı çift tuşlayarak diiştirmää başla (JavaScript)',
 'tog-editsection'             => 'Bölümleri [diiştir] baalantılarılan diiştirmää hakkı ver',
 'tog-editsectiononrightclick' => 'Bölüm başlıına saa tuşla basarak bölümü düzmää izin ver.(JavaScript)',
 'tog-showtoc'                 => 'İçindäkiler tablițasını düz<br />(3-tän çok başlıı olan sayfalar için)',
-'tog-rememberpassword'        => 'Parolu hatırla (for a maximum of $1 {{PLURAL:$1|day|days}})',
+'tog-rememberpassword'        => 'Parolu hatırla (en fazla $1 {{PLURAL:$1|gün|gün}})',
 'tog-watchcreations'          => 'Yarattıım sayfaları bakmaa listama ekle',
 'tog-watchdefault'            => 'Diişmäk yapılan sayfayı bakmaa listasına ekle',
 'tog-watchmoves'              => 'Bakmaa listama ekle o sayfaları angılarını taşıdım',
@@ -200,7 +201,7 @@ $messages = array(
 'redirectedfrom'    => '($1 sayfasınnan yönnendirildi)',
 'redirectpagesub'   => 'Yönnendirme sayfası',
 'lastmodifiedat'    => 'Bu sayfa bitki kerä $2, $1 datasında enilendi.',
-'viewcount'         => 'Bu sayfaya $1 kerä girildi.',
+'viewcount'         => 'Bu sayfaya {{PLURAL:$1|bir|$1 }} kerä girildi.',
 'protectedpage'     => 'Korunmaklı sayfa',
 'jumpto'            => 'Git hem:',
 'jumptonavigation'  => 'kullan',
@@ -228,7 +229,7 @@ $messages = array(
 
 'badaccess'        => 'İzin kusurluu',
 'badaccess-group0' => 'Bu işlemi yapmaa kuvediniz yok.',
-'badaccess-groups' => 'O işlem ani yapmaa neetlendiniz var nicä yapılsın sadä $1 gruppalarınnan birinin kullanıcıları tarafınnan.',
+'badaccess-groups' => 'O işlem ani yapmaa neetlendiniz var nicä yapılsın sadä {{PLURAL:$2|gruppa|gruppalarınnan}} birinin kullanıcıları tarafınnan: $1.',
 
 'versionrequired'     => 'MediaWiki-nin $1 versiyası läazım',
 'versionrequiredtext' => 'MediaWiki-nin $1 versiyası läazım bu sayfayı kullanmaa deyni. Bak [[Special:Version|versiya sayfası]].',
@@ -302,10 +303,10 @@ Yalvarêrız benneyiniz URL - i hem raport ediniz bunu bir [[Special:ListUsers/s
 
 # Login and logout pages
 'logouttext'                 => 'Sessiyayı kapattınız.
-Şindi var nicä devam etmää kullanmaa {{SITENAME}} saytını kimlik göstermedän yaki enidän sessiya açmaa (ister hep o kullanıcı adıylan, ister başka bir kullanıcı adıylan). O zamana kadar ani web brauzerinizin keşi temizlenecek bir takım sayfalar var nicä görünsün sansın sessiya hep açık.',
+Şindi var nicä devam etmää kullanmaa {{SITENAME}} saytını kimlik göstermedän yaki [[Special:UserLogin|enidän sessiya açmaa]] (ister hep o kullanıcı adıylan, ister başka bir kullanıcı adıylan). O zamana kadar ani web brauzerinizin keşi temizlenecek bir takım sayfalar var nicä görünsün sansın sessiya hep açık.',
 'welcomecreation'            => '== Hoş geldiniz $1! ==
 
-Esapınız açıldı. Unutmayın {{SITENAME}} seçimnerin diiştirmää.',
+Esapınız açıldı. Unutmayın [[Special:Preferences|{{SITENAME}} preferences]] seçimnerin diiştirmää.',
 'yourname'                   => 'Kullanıcı adınız',
 'yourpassword'               => 'Parol',
 'yourpasswordagain'          => 'Parolu enidän yaz',
@@ -351,7 +352,7 @@ Herliim istemeersiniz parolu diiştirmää, yaki vaz geçtiniz neçin ki parolu 
 O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk ki o adres sizin, başka e-mail gönderilmeycek.',
 'mailerror'                  => 'E-mail göndermäk yannışı: $1',
 'acct_creation_throttle_hit' => '$1 kullanıcı esap açtınız. Taa çok yok nicä açasınız.',
-'emailauthenticated'         => 'E-mail adresiniz $1 datasında doorulandı.',
+'emailauthenticated'         => 'E-mail adresiniz $2 $3 datasında doorulandı.',
 'emailconfirmlink'           => 'E-mail adresinizi doorulayın',
 'accountcreated'             => 'Esap açıldı',
 'accountcreatedtext'         => '$1 için bir kullanıcı esapı açıldı.',
@@ -360,7 +361,7 @@ O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk 
 
 # Password reset dialog
 'retypenew'           => 'Eni parolu tekrar girin',
-'resetpass_forbidden' => '{{SITENAME}} saytında parol yok nicä diiştirilsin',
+'resetpass_forbidden' => 'Saytında parol yok nicä diiştirilsin',
 
 # Edit page toolbar
 'bold_sample'     => 'Kalın tekst',
@@ -414,11 +415,11 @@ Herliim girmediniz [[Special:Preferences|seçimner]] bölümünde geçerli bir e
 'loginreqlink'                     => 'sessiya aç',
 'loginreqpagetext'                 => 'Lääzım $1 görmää übür sayfaları.',
 'accmailtitle'                     => 'Parol gönderildi.',
-'accmailtext'                      => "'$1' kullanıcısın parolu $2 adresine gönderildi.",
+'accmailtext'                      => '[[User talk:$1|$1]] kullanıcısın parolu $2 adresine gönderildi.',
 'newarticle'                       => '(Eni)',
 'newarticletext'                   => "Henez var olmayan bir sayfaya konulmuş baalantıya tuşladınız. Bu sayfayı yaratmaa deyni aşaadaki tekst kutusunu kullanınız. Bilgi için [[{{MediaWiki:Helppage}}|yardım sayfasına]] bakınız. Herliim buraya yannış geldiniz, läazım tuşlamaa programınızın '''Geeri''' tuşuna.",
 'noarticletext'                    => 'Bu sayfa boş.
-Bu başlıı [[Special:Search/{{PAGENAME}}|var nicä aramaa]] übür sayfalarda yaki bu sayfayı siz <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ilgili günlükleri arayabilir], ya [{{fullurl:{{FULLPAGENAME}}|action=edit}} var nicä yazmaa].',
+Bu başlıı [[Special:Search/{{PAGENAME}}|var nicä aramaa]] übür sayfalarda yaki bu sayfayı siz <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} ilgili günlükleri arayabilir], ya [{{fullurl:{{FULLPAGENAME}}|action=edit}} var nicä yazmaa]</span>.',
 'updated'                          => '(Enilendi)',
 'previewnote'                      => "'''Bu saadä bir ön siir, hem diişmäkler henez korunmadı!'''",
 'editing'                          => '"$1" sayfasın diiştirersiniz',
@@ -435,7 +436,7 @@ Hem siz garantiyada bulunêrsiniz ani eklemäklerin avtorusunuz, yaki onnarı ko
 '''<center>AVTORLUK KORUNMAK HAKKILAN KORUNMAYAN MATERİALLAR EKLEMEYNİZ!</center>'''",
 'templatesused'                    => 'Bu sayfada kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
 'templatesusedpreview'             => '{{PLURAL:$1|Şablon|Şablonnar}} ani bu ön siirdä kullanıldı:',
-'templatesusedsection'             => 'Bu bölümde kullanılan şablonlar:',
+'templatesusedsection'             => 'Bu bölümde kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
 'template-protected'               => '(korumaa)',
 'template-semiprotected'           => '(yarı-korunmaa)',
 'hiddencategories'                 => 'Bu sayfa {{PLURAL:$1|1 saklı kategoriyaya|$1 saklı kategoriyaya}} baalı:',
@@ -546,7 +547,7 @@ Aaramaanızın önünä ''all:'' prefiksini koyun da deneyin hepsi içlii aarama
 'prefs-help-email-required' => 'E-mail adres istenildi.',
 
 # User rights
-'editinguser' => '"$1" sayfasını diiştirersiniz ([[User talk:$1|{{int:talkpagelinktext}}]] | [[Special:Contributions/$1|{{int:contribslink}}]])',
+'editinguser' => "'''[[User:$1|$1]]''' sayfasını diiştirersiniz ([[User talk:$1|{{int:talkpagelinktext}}]] | [[Special:Contributions/$1|{{int:contribslink}}]])",
 
 # Groups
 'group-sysop' => 'Administratorlar',
@@ -670,7 +671,7 @@ Sizin bakmaa [[Special:Watchlist|listasındaki]] sayfalar verildi '''kalın''' b
 
 # Miscellaneous special pages
 'nbytes'                  => '$1 {{PLURAL:$1|bayt|baytı}}',
-'nlinks'                  => '$1 baalantı',
+'nlinks'                  => '$1 {{PLURAL:$1|baalantı|baalantı}}',
 'nmembers'                => '$1 {{PLURAL:$1|aza|azaler}}',
 'lonelypages'             => 'Sayfalar ani yok kendisinä hiç baalantı',
 'uncategorizedpages'      => 'Kategorizațiya olunmamıș sayfalar',
@@ -801,7 +802,7 @@ Burada bitki seçimner '''$1''' yazı diiştirmää deyni:",
 'protect-expiring'            => 'bitmää datası $1 (UTC)',
 'protect-cascade'             => 'Bu sayfaya girän sayfaları koru (kaskad korunmaa)',
 'protect-cantedit'            => 'Siz bu yazının korunmak düzeyin bilmärsiniz diiştirmää, neçin ki sizin onu düzmää izniniz yok.',
-'protect-expiry-options'      => '1 saat:1 hour,1 day:1 day,1 afta:1 week,1 ay:1 month,3 months:3 months,6 months,6 months,zamansız:infinite',
+'protect-expiry-options'      => '1 saat:1 hour,1 gün:1 day,1 afta:1 week,2 afta:2 weeks,1 ay:1 month,3 ay:3 months,6 ay:6 months,1 yıl:1 year,zamansız:infinite',
 'restriction-type'            => 'İzin:',
 'restriction-level'           => 'Yasaklama düzeyi:',
 
@@ -837,7 +838,7 @@ Burada bitki seçimner '''$1''' yazı diiştirmää deyni:",
 'whatlinkshere-title'      => '$1 baalantısı olan sayfalar',
 'whatlinkshere-page'       => 'Yaprak:',
 'linkshere'                => "Buraya baalantısı var olan sayfalar '''[[:$1]]''':",
-'nolinkshere'              => 'Yok buraya baalanan sayfa.',
+'nolinkshere'              => "Yok buraya baalanan sayfa '''[[:$1]]'''.",
 'isredirect'               => 'yönnendirmäk sayfası',
 'istemplate'               => 'eklemää',
 'isimage'                  => 'fayl baalantısı',
@@ -973,9 +974,9 @@ Yalvarêrêz başka bir ad seçmää.',
 'nextdiff'     => 'Geerki versiyalan aradaki fark →',
 
 # Media information
-'file-info-size'       => '($1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4)',
+'file-info-size'       => '$1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4',
 'file-nohires'         => '<small>Taa üüksek aydınnıklı versiya bulunmêêr.</small>',
-'svg-long-desc'        => '(SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3)',
+'svg-long-desc'        => 'SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3',
 'show-big-image'       => 'Taman aydınnık',
 'show-big-image-thumb' => '<small>Ön siir ölçüsü: $1 × $2 piksel</small>',
 

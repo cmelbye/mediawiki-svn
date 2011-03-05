@@ -422,6 +422,7 @@ $messages = array(
 'printableversion'  => 'Utskriftsvennlig versjon',
 'permalink'         => 'Permanent lenke',
 'print'             => 'Skriv ut',
+'view'              => 'Vis',
 'edit'              => 'Rediger',
 'create'            => 'Opprett',
 'editthispage'      => 'Rediger siden',
@@ -429,6 +430,7 @@ $messages = array(
 'delete'            => 'Slett',
 'deletethispage'    => 'Slett denne siden',
 'undelete_short'    => 'Gjenopprett {{PLURAL:$1|én revisjon|$1 revisjoner}}',
+'viewdeleted_short' => 'Vis {{PLURAL:$1|en slettet redigering|$1 slettede redigeringer}}',
 'protect'           => 'Beskytt',
 'protect_change'    => 'endre',
 'protectthispage'   => 'Lås siden',
@@ -512,6 +514,8 @@ $1',
 'toc'                     => 'Innhold',
 'showtoc'                 => 'vis',
 'hidetoc'                 => 'skjul',
+'collapsible-collapse'    => 'Legg sammen',
+'collapsible-expand'      => 'Utvid',
 'thisisdeleted'           => 'Se eller gjenopprett $1?',
 'viewdeleted'             => 'Vis $1?',
 'restorelink'             => '{{PLURAL:$1|én slettet revisjon|$1 slettede revisjoner}}',
@@ -643,7 +647,7 @@ Ikke glem å endre [[Special:Preferences|innstillingene]] dine.',
 'notloggedin'                => 'Ikke logget inn',
 'nologin'                    => "Er du ikke registrert? '''$1'''.",
 'nologinlink'                => 'Opprett en konto',
-'createaccount'              => 'Opprett ny konto',
+'createaccount'              => 'Opprett konto',
 'gotaccount'                 => "Har du allerede et brukernavn? '''$1'''.",
 'gotaccountlink'             => 'Logg inn',
 'createaccountmail'          => 'per e-post',
@@ -669,7 +673,7 @@ Sjekk stavemåten eller [[Special:UserLogin/signup|opprett en ny konto]].',
 'wrongpasswordempty'         => 'Du oppga ikke noe passord. Prøv igjen.',
 'passwordtooshort'           => 'Passord må ha minst {{PLURAL:$1|ett tegn|$1 tegn}}.',
 'password-name-match'        => 'Passordet ditt må være anderledes enn brukernavnet.',
-'password-too-weak'          => 'Det angitte passordet er for svakt og kan ikke brukes.',
+'password-login-forbidden'   => 'Bruken av disse brukernavn og passord har blitt forbudt.',
 'mailmypassword'             => 'Send nytt passord',
 'passwordremindertitle'      => 'Nytt midlertidig passord fra {{SITENAME}}',
 'passwordremindertext'       => 'Noen (antagelig deg, fra IP-adressen $1) ba oss sende deg et nytt
@@ -1338,6 +1342,10 @@ Du kan også la velge å la andre brukere kontakte deg via brukersiden din uten 
 'prefs-displaywatchlist'        => 'Visningsalternativer',
 'prefs-diffs'                   => 'Forskjeller',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-postadressen ser gyldig ut',
+'email-address-validity-invalid' => 'Skriv inn en gyldig e-postadresse',
+
 # User rights
 'userrights'                     => 'Brukerrettighetskontroll',
 'userrights-lookup-user'         => 'Ordne brukergrupper',
@@ -1618,7 +1626,7 @@ Om du fortsatt ønsker å laste opp fila, gå tilbake og last den opp under et n
 'fileexists-shared-forbidden' => 'Ei fil med dette navnet finnes fra før i det delte fillageret.
 Om du fortsatt ønsker å laste opp fila, gå tilbake og last den opp under et nytt navn. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Denne filen er en dublett av følgende {{PLURAL:$1|fil|filer}}:',
-'file-deleted-duplicate'      => 'En fil identisk med denne filen ([[$1]]) har tidligere blitt slettet. Du bør sjekke denne filens slettehistorikk før du prøver å laste den opp på nytt.',
+'file-deleted-duplicate'      => 'En fil identisk med denne filen ([[:$1]]) har tidligere blitt slettet. Du bør sjekke denne filens slettehistorikk før du prøver å laste den opp på nytt.',
 'uploadwarning'               => 'Opplastingsadvarsel',
 'uploadwarning-text'          => 'Vennligst endre filbeskrivelsen nedenfor og prøv igjen.',
 'savefile'                    => 'Lagre fil',
@@ -1678,6 +1686,15 @@ Om problemet fortsetter, kontakt en [[Special:ListUsers/sysop|administrator]].',
 'upload-too-many-redirects' => 'URLen inneholdt for mange omdirigeringer',
 'upload-unknown-size'       => 'Ukjent størrelse',
 'upload-http-error'         => 'En HTTP-feil oppstod: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Last opp stash',
+'uploadstash-summary'  => 'Denne siden gir tilgang til filer som har blitt lastet opp (eller er i ferd med å bli lastet opp) men som ennå ikke er publisert til wikien. Disse filene er ikke synlige for andre enn brukeren som lastet dem opp.',
+'uploadstash-clear'    => 'Fjern stashede filer',
+'uploadstash-nofiles'  => 'Du har ingen stashede filer.',
+'uploadstash-badtoken' => 'Utføringen av den handlingen var mislykket, kanskje fordi dine redigeringsrettigheter har utløpt. Prøv igjen.',
+'uploadstash-errclear' => 'Fjerning av filene var mislykket.',
+'uploadstash-refresh'  => 'Oppdater listen over filer',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Ingen tilgang',
@@ -1933,6 +1950,7 @@ Merk at andre sider kanskje lenker til en fil med en direkte lenke, så filen li
 'pager-newer-n'           => '{{PLURAL:$1|1 nyere|$1 nyere}}',
 'pager-older-n'           => '{{PLURAL:$1|1 eldre|$1 eldre}}',
 'suppress'                => 'Sidefjerning',
+'querypage-disabled'      => 'Denne spesialsiden er deaktivert av ytelsesårsaker.',
 
 # Book sources
 'booksources'               => 'Bokkilder',
@@ -2816,7 +2834,7 @@ Dette er sannsynligvis forårsaket av en lenke til et svartelistet eksternt nett
 'math_unknown_function' => 'ukjent funksjon',
 'math_lexing_error'     => 'lexerfeil',
 'math_syntax_error'     => 'syntaksfeil',
-'math_image_error'      => 'PNG-konversjon mislyktes',
+'math_image_error'      => 'PNG-konversjon mislyktes; sjekk at latex og dvipng (eller dvips + gs + convert) er korrekt installert',
 'math_bad_tmpdir'       => 'Kan ikke skrive til eller opprette midlertidig mappe',
 'math_bad_output'       => 'Kan ikke skrive til eller opprette resultatmappe',
 'math_notexvc'          => 'Mangler kjørbar texvc;
@@ -2862,10 +2880,10 @@ Ved å åpne den kan systemet ditt kompromitteres.",
 'imagemaxsize'         => "Bildestørrelsesgrense:<br />''(for filbeskrivelsessider)''",
 'thumbsize'            => 'Miniatyrbildestørrelse:',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|én side|$3 sider}}',
-'file-info'            => '(filstørrelse: $1, MIME-type: $2)',
-'file-info-size'       => '($1 × $2 piksler, filstørrelse: $3, MIME-type: $4)',
+'file-info'            => 'filstørrelse: $1, MIME-type: $2',
+'file-info-size'       => '$1 × $2 piksler, filstørrelse: $3, MIME-type: $4',
 'file-nohires'         => '<small>Ingen høyere oppløsning tilgjengelig.</small>',
-'svg-long-desc'        => '(SVG-fil, standardoppløsning $1 × $2 piksler, filstørrelse: $3)',
+'svg-long-desc'        => 'SVG-fil, standardoppløsning $1 × $2 piksler, filstørrelse: $3',
 'show-big-image'       => 'Full oppløsning',
 'show-big-image-thumb' => '<small>Størrelse på denne forhåndsvisningen: $1 × $2 piksler</small>',
 'file-info-gif-looped' => 'gjentas',
@@ -3392,9 +3410,7 @@ Du skal ha mottatt [{{SERVER}}{{SCRIPTPATH}}/COPYING en kopi av GNU General Publ
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Søk etter duplikatfiler',
-'fileduplicatesearch-summary'  => 'Søk etter duplikatfiler basert på dets hash-verdi.
-
-Skriv inn filnavn uten «{{ns:file}}:»-prefikset.',
+'fileduplicatesearch-summary'  => 'Søk etter duplikatfiler basert på dets hash-verdi.',
 'fileduplicatesearch-legend'   => 'Søk etter en duplikatfil',
 'fileduplicatesearch-filename' => 'Filnavn:',
 'fileduplicatesearch-submit'   => 'Søk',
@@ -3492,14 +3508,5 @@ Om denne brukeren er pålogget et sted vil den umiddelbart bli logget ut.
 'disableaccount-nosuchuser'  => 'Brukerkontoen «$1» finnes ikke.',
 'disableaccount-success'     => 'Brukerkontoen «$1» har blitt permanent deaktivert.',
 'disableaccount-logentry'    => 'deaktiverte brukerkontoen [[$1]] permanent',
-
-# Special:UploadStash
-'uploadstash'          => 'Last opp stash',
-'uploadstash-summary'  => 'Denne siden gir tilgang til filer som har blitt lastet opp (eller er i ferd med å bli lastet opp) men som ennå ikke er publisert til wikien. Disse filene er ikke synlige for andre enn brukeren som lastet dem opp.',
-'uploadstash-clear'    => 'Fjern stashede filer',
-'uploadstash-nofiles'  => 'Du har ingen stashede filer.',
-'uploadstash-badtoken' => 'Utføringen av den handlingen var mislykket, kanskje fordi dine redigeringsrettigheter har utløpt. Prøv igjen.',
-'uploadstash-errclear' => 'Fjerning av filene var mislykket.',
-'uploadstash-refresh'  => 'Oppdater listen over filer',
 
 );

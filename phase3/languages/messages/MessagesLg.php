@@ -42,8 +42,8 @@ $messages = array(
 'tog-shownumberswatching'     => "Ndaganga obungi bw'abagoberera olupapula",
 'tog-oldsig'                  => 'Omukono gwo kakano:',
 'tog-fancysig'                => 'Omukono gubemu obubonero bwa ki-wiki (naye nga tegufuuka nyunzi)',
-'tog-externaleditor'          => 'Wandikisanga puloguramu eri ku kompyuta yo (kyetaagisa bumanyirivu bungi, wetaaga ntegeka ezitali za bulijjo ku kompyuta yo)',
-'tog-externaldiff'            => "Kozesanga puloguramu ey'oku kompyuta yo okukebera njawulo wakati w'ebiwandike (kyetaagisa bumanyirivu bungi, wetaaga ntegeka ezitali za bulijjo ku kompyuta yo)",
+'tog-externaleditor'          => 'Wandikisanga puloguramu eri ku kompyuta yo (kyetaagisa bumanyirivu bungi, kubanga wetaaga okutegeka kompyuta yo mu ngeri ezitali za bulijjo. [http://www.mediawiki.org/wiki/Manual:External_editors Okutangaaza okusingawo.])',
+'tog-externaldiff'            => "Kozesanga puloguramu ey'oku kompyuta yo okukebera njawulo wakati w'ebiwandike (kyetaagisa bumanyirivu bungi, wetaaga ntegeka ezitali za bulijjo ku kompyuta yo. [http://www.mediawiki.org/wiki/Manual:External_editors Okutangaaza okusingawo.])",
 'tog-showjumplinks'           => 'Wabeerewo enyunzi eza "Genda ku"',
 'tog-uselivepreview'          => 'Enkyukakyuka ze nkoze zirabikirewo nga tekyetaagisiza kumala kunyiga ppeesa (kyetaagisa JavaScript)(Kikyagezesebwa)',
 'tog-forceeditsummary'        => 'Ŋambaako bwe mba ŋenda okuleka nga sinnyonyodde bye nkyusizza',
@@ -198,6 +198,7 @@ $messages = array(
 'printableversion'  => 'Entereeza eyanguya okukubisa',
 'permalink'         => 'Kolawo enyunzi egguka ku lupapula luno nga bwe lufaanana ku ssaawa eno',
 'print'             => 'Kubisa',
+'view'              => 'Lukebere',
 'edit'              => 'Kyusa',
 'create'            => 'Kolawo',
 'editthispage'      => 'Olupapula luno lukyusemu',
@@ -205,6 +206,7 @@ $messages = array(
 'delete'            => 'Gyawo olupapula luno',
 'deletethispage'    => 'Olupapula luno lugyewo',
 'undelete_short'    => 'Julula {{PLURAL:$1|enkyukakyuka emu|enkyukakyuka $1}}',
+'viewdeleted_short' => 'Kebera {{PLURAL:$1|oluwandika olwagyibwawo olumu|empandika ezagyibwawo $1}}',
 'protect'           => 'Ssiba',
 'protect_change'    => 'lusibe/lusumulule',
 'protectthispage'   => 'Siba olupapula luno',
@@ -289,6 +291,8 @@ Kebera ku [[Special:Version|lukalala lw'empandika za MediaWiki]].",
 'toc'                     => 'Ebirimu',
 'showtoc'                 => 'ndaga endagiriro',
 'hidetoc'                 => 'kisa endagiriro',
+'collapsible-collapse'    => 'Funza',
+'collapsible-expand'      => 'Birage mu bujjuvu',
 'thisisdeleted'           => 'Oyagala okulaba oba okuzzawo $1?',
 'viewdeleted'             => 'Oyagala okulaba $1?',
 'restorelink'             => '{{PLURAL:$1|oluwandika olwagyibwawo olumu|empandika ezagyibwawo $1}}',
@@ -390,6 +394,7 @@ Lindako eddakiika entonotono oly'oke oddemu okugezako ekikolwa.",
 Luliko ebikugizo ebirugaana okwonooebwa.",
 'editinginterface'     => "'''Kulabula:''' Okyusa olupapula sofutiweya kw'egya ebigambo byayo.
 Enkyukakyuka z'okola wano zigyakubaako kye zikola ku ngeri abantu gye bakozesaamu enfo eno.",
+'sqlhidden'            => '(Waliwo wo ebya SQL ebibikkidwa)',
 'cascadeprotected'     => 'Olupapula luno lulandideko ekikugizo ekirugaana okukyusibwako ekisibuka ku {{PLURAL:$1|lunnaalwo luno olulukozesa|zinnalwo zino ezirukozesa}}:<br />
 $2',
 'namespaceprotected'   => "Tolina buyinza bwa kukyusa ku mpapula ez'omu kkuŋaanizo erya '''$1'''.",
@@ -442,23 +447,100 @@ Londa eddala.",
 Okuyingira {{SITENAME}} nga memba kyesigamizidwa ku bujjukiza.<br />
 Kalambulanetti yo kakano etegekedwa butakkiriza obujjukiza obwo.<br />
 Okusobola okuyingira, kyusa entegeka ya yo ebukkirize eryoke okozese ery'obwa memba n'ekigambo ekikuumi byo.",
+'nocookieslogin'             => 'Okuyingira {{SITENAME}} nga memba kyesigamizidwa ku bujjukiza.<br />
+Kalambulanetti yo kakano etegekedwa butakkiriza obujjukiza obwo.<br />
+Okusobola okuyingira, kyusa entegeka ya yo ebukkirize eryoke oddemu okugeza okuyingira.',
+'nocookiesfornew'            => "Akawunti ey'obwa memba tekoledwawo, kubanga tetusobodde okutegeera w'oyimye okugikola.<br />
+Kalambulanetti yo gitegeke ekkirize obujjukiza, ddamu owange olupapula luno oryoke oddemu okugeza okukolawo akawunti.",
+'noname'                     => "Towandise linnya ly'obwa memba eriyinz'okukkirizibwa.",
 'loginsuccesstitle'          => 'Oyingidde',
 'loginsuccess'               => "'''Kati oyingidde mu {{SITENAME}} nga okozesa erinnya \"\$1\".'''",
+'nosuchuser'                 => "Tewali memba akozesa lya \"\$1\".<br />
+Ery'obwa memba bw'okyusa obunene bw'ennukuta z'oliwandisa obeera owandise eddala.<br />
+Kebera bw'oliwandise, oba [[Special:UserLogin/signup|kolawo akawunti empya]].",
+'nosuchusershort'            => 'Tewali memba akozesa lya "<nowiki>$1</nowiki>".<br />
+Kebera bw\'oliwandise.',
+'nouserspecified'            => "Kyetaagisa owandikewo erinnya ly'obwa memba.",
+'login-userblocked'          => 'Memba ono agaanidwa. Takkirizibwa kuyingira.',
+'wrongpassword'              => "Ekigambo ekikuumi ky'oyingizza ssi kituufu.<br />
+Ddamu ogezeeko.",
+'wrongpasswordempty'         => 'Tewawandise kigambo kikuumi.<br />
+Ddamu ogezeeko.',
+'passwordtooshort'           => 'Ekigambo ekikuumi kiteekwa okubaamu {{PLURAL:$1|akabonero wakiri kamu|obubonero obutakka wansi wa $1}}.',
+'password-name-match'        => "Tokkirizibwa kukozesa linnya lyo ery'obwa memba ng'ekigambo ekikuumi.",
+'password-login-forbidden'   => "Ebigambo bino tebikkirizibwa kukozesebwa ng'amannya g'obwa memba oba bigambo bikuumi.",
 'mailmypassword'             => 'Nsindikira ekigambo ekikuumi ekipya',
+'passwordremindertitle'      => "Ekigambo ekikuumi eky'oku {{SITENAME}} ekipya. Kya kiseerabuseera.",
+'passwordremindertext'       => 'Waliwo eyayimidde ku ndagiriro eya IP $1 (tusuubiri nti ye ggwe) n\'asaba ekigambo ekikuumi eky\'oku {{SITENAME}} ($4) ekipya.<br />
+Memba "$2" tumukoleddewo ekigambo ekikuumi eky\'ekiseerabuseera, "$3". Kino bwe kiba nga kye kyewagenderedde,<br />
+wetaaga kugenda kati oyingire akawunti yo okyuse ekigambo ekikuumi okolewo ekya ddala.<br />
+Ekigambo eky\'ekiseerabuseera kijjakuleker\'awo okukola mu {{PLURAL:$5|lunaku lumu|nnaku $5}}.',
+'noemail'                    => 'Tetulina ndagiriro eya E-mail eya memba "$1".',
+'noemailcreate'              => 'Wetaaga kuwayo ndagiriro eya E-mail ekola',
+'passwordsent'               => 'Ekigambo ekikuumi ekipya tukisindise ku E-mail eyatuwebwa nga eya "$1".<br />
+Bw\'omala okukifuna nga oryoka oddamu okuyingira.',
+'blocked-mailpassword'       => "Okulwanyisa nkozesa mbi, tetukkiriza okukyusa eby'oku {{SITENAME}} okuva ku ndagiriro eya IP kw'oyimye.<br />
+Kino kitwaliramu n'obutakkiriza okufuna ebigambo bikuumi ebipya.",
+'eauthentsent'               => "Tukusindikidde E-mail ku ndagiriro gy'ova kutuwa, osobole okugitukakasiza.<br />
+Soma E-mail eyo ogoberore ebiragiro ebigirimu otukakasize nti endagiriro empya ddala yiyo,<br />
+tulyoke tusobole okwongera okugikuwererezangako obubaka.",
+'throttled-mailpassword'     => "Nyini akawunti eno twakamusindikira okujjukiza ekyama kye {{PLURAL:$1|, n'essaawa tennayita|mu ssaawa $1 ezaakayita}}.<br />
+Olw'okulwanyisa enkozesa mbi, essaawa {{PLURAL:$1|emu e|$1 zi}}mala okuyitawo tulyoke tukkirize okukiddamu n'ate.",
+'mailerror'                  => 'Okusindika E-mail kuzzemu kiremya: $1',
 'acct_creation_throttle_hit' => "Ku lunaku olumu luno, abajja ku wiki eno nga basinzidde ku ndagiriro eya IP gy'oliko baakakolawo {{PLURAL:$1|akawunti 1|akawunti $1}}. Tekikkirizibwa kukolawo zisingawo obungi mu budde obwo.<br />
 Olw'ensonga eno, ku ssaawa eno, abasinzira ku ndagiriro gy'oliko tebasobola kukolawo akawunti.",
+'emailauthenticated'         => 'Endagiriro yo eya E-mail twagikakasa ku ssaawa $3, nga $2.',
+'emailnotauthenticated'      => "Endagiriro yo eya E-mail tennakakasibwa.<br />
+Bw'en'emala okukakasibwa nga by'olonze ku bya E-mail wano bitandika okukola.",
+'noemailprefs'               => "By'olondako wano byetaaga owandikewo endagiriro yo eya E-mail biryoke bikole.",
+'emailconfirmlink'           => 'Tukakasize endagiriro yo eya E-mail',
+'invalidemailaddress'        => "Empandika ey'endagiriro eya E-mail gy'otaddewo yandibaamu ensobi.<br />
+Gigolole oba lekawo nga w'ereere.",
 'accountcreated'             => 'Akawunti ekoleddwa',
 'accountcreatedtext'         => "Akawunti ey'obwa memba eya $1 ekoleddwa.",
+'createaccount-title'        => "Okukolawo akawunti ey'oku {{SITENAME}}",
+'createaccount-text'         => 'Waliwo eyakozewo akawunti ey\'oku {{SITENAME}} ($4) nga akozesa endagiriro eyiyo eya E-mail.<br />
+Erina erinnya ly\'obwa memba "$2", ate ekyama kiri "$3".<br />
+Wandigenze kakati n\'oyingira akawunti eyo okyuse ekyama.<br />
+<br />
+Akawunti eno bw\'obanga togyetaaga, gireke tunaagigyawo.',
+'usernamehasherror'          => "Ery'obwa memba terikkirizibwa kubaamu akabonero ak'obusazesaze (#)",
+'login-throttled'            => "Ogezeza okuyingira mu sisitemu emilundi egiyitiridde obungi kaseera kano.<br />
+Sooka olindeko akaseera okuddamu n'ate.",
 'loginlanguagelabel'         => 'Lulimi: $1',
+'suspicious-userlogout'      => "Sisitemu ezize ekiragiro kyo eky'okugivaamu kubanga kirabise nga ekivudde mu kalambulanetti enfu<br />
+oba mu puloguramu etereka n'eddamu okuyisa ebiragiro ebivudde awalala.",
+
+# E-mail sending
+'php-mail-error-unknown' => "Wazzewo kiremya atategeerese mu mukolo mail() ogw'omu PHP",
+
+# JavaScript password checks
+'password-strength'            => "Obugumu bw'ekyama kyo: $1",
+'password-strength-bad'        => 'KINAFU DDALA',
+'password-strength-mediocre'   => 'kisaamusaamu',
+'password-strength-acceptable' => 'bumalabumazi',
+'password-strength-good'       => 'kigumu',
+'password-retype'              => 'Ddamu wano okuwandika ekyama kyo',
+'password-retype-mismatch'     => "Ebyama by'owandise tebifaanagana",
 
 # Password reset dialog
 'resetpass'                 => 'Kyusa ekigambo ekikuumi',
+'resetpass_announce'        => "Weyambisa ekyama eky'ekiseerabuseera okuyingira.<br />
+Okuyingirira ddala, wetaaga okuwandika wano ekinaaba ekyama kyo ekya ddala:",
 'resetpass_header'          => "Kyusa ekigambo ekikuumi eky'oku akawunti eno",
 'oldpassword'               => 'Ekigambo ekikuumi ekikadde:',
 'newpassword'               => 'Ekigambo ekikuumi ekipya:',
 'retypenew'                 => 'Ddamu ekikagambo ekikuumi ekipya ekyo:',
+'resetpass_submit'          => 'Kaza ekyama oyingire',
+'resetpass_success'         => 'Ekigambo kyo ekikuumi kikyusidwa!<br />
+Kati oyingira...',
+'resetpass_forbidden'       => 'Tekikkirizibwa okukyusa ebigambo ebikuumi',
+'resetpass-no-info'         => 'Okukola ku lupapula luno obutereevu, wetaaga okuba nga oyingidde sisitemu.',
 'resetpass-submit-loggedin' => 'Kyusa ekigambo ekikuumi',
 'resetpass-submit-cancel'   => 'Bisazemu',
+'resetpass-wrong-oldpass'   => "Okozesezza ekyama eky'ekiseerabuseera oba ekyaddala ekitakola.<br />
+Oyinz'okuba nga wamaze okutegeka ekya ddala ekipya oba nga wakasabayo eky'ekiseerabuseera.",
+'resetpass-temp-password'   => "Ekyama kyo eky'ekiseerabuseera:",
 
 # Edit page toolbar
 'bold_sample'     => "Ennukuta z'owandika wano zonna ziba nziggumivu",
@@ -488,10 +570,19 @@ Olw'ensonga eno, ku ssaawa eno, abasinzira ku ndagiriro gy'oliko tebasobola kuko
 'savearticle'                      => 'Kaza olupapula',
 'preview'                          => 'Kulagako',
 'showpreview'                      => 'Sooka ondageko',
+'showlivepreview'                  => "Labirawo enfaanana ya by'okusiza",
 'showdiff'                         => 'Ndaga bwe bikyuse',
 'anoneditwarning'                  => "'''Kulabula:''' Owandika toyingidde mu sisitemu. Tujjakuwandika endagiriro eya kompyuta kwosinzidde
 mu lukalala lw'enkuykakyuka ez'omu lupapula luno.",
+'anonpreviewwarning'               => "''Okola toyingidde sisitemu. Bw'on'okaza by'okola nga sisitemu ewandika n'endagiriro yo eya IP mu lukalala lw'enkyukakyuka lw'olupapula luno.''",
+'missingsummary'                   => "'''Okujjukiza:''' Towandise ebinnyonyola enkyukakyuka z'okoze.<br />
+Bw'oddamu okunyiga \"{{int:savearticle}}\", by'okoze tebijjakubaako okunnyonyola.",
+'missingcommenttext'               => 'Wandika ebigambo byo wano awaddako.',
+'missingcommentheader'             => "'''Okujjukiza:''' Ebigambo byo tobiwadde omutwe.<br />
+Bw'oddamu okunyiga \"{{int:savearticle}}\", by'okoze tebijjakubaako omutwe ogubyanjula.",
 'summary-preview'                  => 'Kuno kwe kunnyonyola kwo:',
+'subject-preview'                  => 'Omutwe bwe gunaafaanana:',
+'blockedtitle'                     => 'Ono agaanidwa',
 'blockedtext'                      => "'''Ebikolebwa mu linnya lyo ery'obwa memba, oba okuva ku ndagiriro yo eya 'IP', bisibidwa.'''
 
 $1 y'ataddewo natti eyo.<br />
@@ -505,7 +596,32 @@ Osobola okubyogerako ne $1 oba [[{{MediaWiki:Grouppage-sysop}}|omutesitesi]] omu
 Ekya 'Memba ono musindikire e-mail' toosobole okukikozesa okugyako nga mu [[Special:Preferences|nteekateeka]] ey'akawunti yo mulimu e-mail ennamu era nga yo teriko natti.<br />
 Kakano endagiriro eya 'IP' gy'oliko eri $3, yo ennamba eya natti gyebakusibye eri #$5.<br />
 Gw'ogenda okwogera naye ku natti mutegeeze ennamba oba endagiriro eyo, oba byombi.",
+'autoblockedtext'                  => "'''Ebikolebwa okuva ku ndagiriro yo eya 'IP' sisitemu ebisibye kubanga yakozesebwako omuntu eyagaanibwa $1 okukola ku wiki eno.'''
+
+Ensonga eyawebwa y'eno:<br />
+:''$2''
+* Natti eyo yateeredwako ku: $8 <br />
+* Ekoma ku: $6 <br />
+* Natti eteredwawo ekole ku: $7
+<br />
+Osobola okubyogerako ne $1 oba [[{{MediaWiki:Grouppage-sysop}}|omutesitesi]] omulala.<br />
+Ekya 'Memba ono musindikire e-mail' toosobole okukikozesa okugyako nga mu [[Special:Preferences|nteekateeka]] ey'akawunti yo mulimu e-mail ennamu era nga yo teriko natti.<br />
+<br />
+Kakano endagiriro eya 'IP' gy'oliko eri $3, yo ennamba eya natti gyebakusibye eri #$5.<br />
+Gw'ogenda okwogera naye ku natti mutegeeze ensonga zonna ezinnyonyodwa wano.",
+'blockednoreason'                  => 'tebawadde ensonga',
+'blockedoriginalsource'            => "Ensibuko ya '''$1''' eragidwa wano awaddako:",
+'blockededitsource'                => "Ebigambo ebya '''by'okyusizza''' ku '''$1''' biragidwa wano awaddako:",
+'whitelistedittitle'               => 'Okukyusa ku bino, wetaaga okuba nga oyingidde',
+'whitelistedittext'                => '$1 olyoke osobole okukyusa ku mpapula.',
+'confirmedittext'                  => "Kyetaagisa osooke okutukakasiza E-mail yo olyoke okkirizibwe okukyusa mu mpapula.<br />
+Endagiriro yo eya E-mail osobola okugitutegeeza n'okugitukakasiza ku lupapula lwo olwa '[[Special:Preferences|Enteekateeka yange]]'.",
+'nosuchsectiontitle'               => 'Omuko gumbuze',
+'nosuchsectiontext'                => "Ogezeza okukyusa omuko ogutaliwo.<br />
+Guyinz'okuba nga guggidwawo oba gujjuludwa ng'okyagukolako.",
+'loginreqtitle'                    => 'Sooka oyingire',
 'loginreqlink'                     => 'Yingira',
+'loginreqpagetext'                 => '$1 olyoke osobole okulaba empapula ndala.',
 'accmailtitle'                     => 'Ekigambo ekikuumi kisindikiddwa',
 'accmailtext'                      => "Ekigambo ekikuumi ekya akawunti empya [[User talk:$1|$1]] kisindikiddwa ku $2.
 
@@ -516,13 +632,86 @@ Oba gwe oyagala okulukolawo, wandika mu kabokisi akaddako wano.
 (okuyiga ebisingawo, genda ku [[{{MediaWiki:Helppage}}|lupapula olw'obuyambi]]).<br />
 Bw'obanga tewagenderedde kutuuka wano, nyigabunyizi eppeesa ery'omu kalambula-neti yo
 erya '''ddayo'''.",
+'anontalkpagetext'                 => "----''Olupapula olw'emboozi luno lukoledwawo at'eyanjula atakolera mu akawunti ya ku wiki eno.<br />
+Kino kitwetaagisizza okumwawulira ku ndagiriro ya IP kwe yayimidde.<br />
+Abantu bangi basobola okukozesa endagiriro eya IP y'emu.<br />
+Bw'obanga naawe okola ng'at'eyanjudde nga owulira nti ebimu ku birowozo ebikwolekezedwa wano<br />
+tebiggirawo oba tebikwatagana naawe, [[Special:UserLogin/signup|funa akawunti]] oba [[Special:UserLogin|yingira]] baleme okukutabula n'abalala abakola ng'abat'eyanjudde.",
 'noarticletext'                    => "Wano tewali kyawandikidwawo.<br />
 Ky'obadde onoonya osobola [[Special:Search/{{PAGENAME}}| okukinoonyeza]] ku mpapula ndala oba oyinza [{{fullurl:{{FULLPAGENAME}}|action=edit}} gwe okukiwandikako] wano.",
+'noarticletext-nopermission'       => 'Wano tewali kyawandikidwawo.<br />
+Ky\'obadde onoonya osobola [[Special:Search/{{PAGENAME}}| okukinoonyeza]] ku mpapula ndala oba
+oyinza <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} okukinoonyeza mu nkalala z\'ebifuddeyo ebyekuusana nakyo]</span>.',
+'userpage-userdoesnotexist'        => 'Akawunti y\'obwamemba "$1" teri mu nkalala za wiki eno.<br />
+Sooka okakase oba ddala oyagala okukolawo olupapula olupya luno.',
+'userpage-userdoesnotexist-view'   => 'Tewali akawunti ey\'obwamemba "$1".',
+'blocked-notice-logextract'        => "Memba ono mu kaakano agaanidwa.<br />
+Bino ebiddako bye ebikwata ku nsonga eyo mu lukalala lw'ebifuddeyo mu by'okugaana:",
+'clearyourcache'                   => "'''Genderera:''' Bw'omala okubaako by'okaza, kiyinza okukwetaagisa okumala<br />
+okukunkumula eggwanika ezzibizi erya kalambulanetti yo olyoke osobole okulaba enkyukakyuka z'okoze.<br />
+<br />
+'''Okukola kino mu ez'ekika kya Mozilla, Firefox ne Safari:''' Nyweza eppeesa erya ''Shift'' onyige ne ku kabonero<br />
+aka ''Reload'', oba nyigira okumu amapeesa aga ''Ctrl'' ne ''F5'' oba aga ''Ctrl'' ne ''R'' (''Command'' ne ''R'' ku kompyuta eya Macintosh/Apple);<br />
+<br />
+'''Okukikolera mu ey'ekika kya Konqueror:''' Nyiga ku kabonero aka ''Reload'' oba nyiga eppeesa erya ''F5'';<br />
+<br />
+'''Mu ey'ekika kya Opera:''' Genda mu ''Tools → Preferences'' gy'onosangira ebikola omulimu ogwo;<br />
+<br />
+'''Ate mu Internet Explorer:''' Nyewza erya ''Ctrl'' nga bw'onyiga akabonero aka ''Refresh'', oba nyigira okumu aga ''Ctrl'' ne ''F5''.",
+'usercssyoucanpreview'             => "'''Amagezi:''' Bw'onyiga akabonero aka \"{{int:showpreview}}\" osobola okulozako enfaanana ya CSS gw'otegese nga tosoose okugikaza.",
+'userjsyoucanpreview'              => "'''Amagezi:''' Nyiga ku kabonero aka \"{{int:showpreview}}\" osobole okulozako enkola ya JavaScript gw'otegese nga tosoose okumukaza.",
+'usercsspreview'                   => "'''Jukira nti CSS gw'otegese omulozakobulozi.'''<br />
+'''Tannakazibwa.'''",
+'userjspreview'                    => "'''Jukira nti JavaScript gw'otegese omugezesamubugezesa oba omulozakobulozi.'''<br />
+'''Tannakazibwa.'''",
+'sitecsspreview'                   => "'''Jukira nti CSS ono omulozakobulozi.'''<br />
+'''Tannakazibwa.'''",
+'sitejspreview'                    => "'''Jukira nti JavaScript ono omulozakobulozi.'''<br />
+'''Tannakazibwa.'''",
+'userinvalidcssjstitle'            => "'''Kulabula:''' Tewali endabika eyitibwa \"\$1\".<br />
+Empapula eza .css ne .js bamemba ze b'ekoledde, amannya ga zo ennukuta za mu<br />
+zonna ziteekwa okuba ntono, okugeza ''{{ns:user}}:Foo/vector.css'' so ssi ''{{ns:user}}:Foo/Vector.css''.",
+'updated'                          => '(Ebituukanisidwa)',
+'note'                             => "'''Okunnyonyola:'''",
 'previewnote'                      => "'''Kuno kugezaamubugeza; by'okoze tebinnakazibwa!'''",
+'previewconflict'                  => "Okulagako kuno y'engeri ebiri w'owandikira gye binaafaananamu singa oba obikazizza.",
+'session_fail_preview'             => "'''Tetusobodde okukola ku by'okyusizza olw'okubanga olutuula'''<br />
+'''lwa wiki luno luzzemu okugootaana olwa data okubula.'''<br /> 
+Kikwetaagisa okuddamu by'okoze. <br />
+Ekyo bwe kitagonjoola ebizibu sooka [[Special:UserLogout|oveemu]] mu wiki oddemu ate okugiyingira.",
+'session_fail_preview_html'        => "'''Tukwetondera! Tekisobose okukola ku nkyukakyuka z'okozewo kubanga data ekwata ku lutuula lwo evuddewo.'''<br />
+<br />
+''{{SITENAME}} esobozesa abantu okukola ku buwandike bwa yo obw'ennono obwa HTML.''<br />
+''Olw'ensonga eyo tukisizza okulagako kw'ebigikyusidwako nga tugeza okwetaasa''<br />
+''abakola enkyukakyuka ez'ekiyaaye nga bayitira mu JavaScript.''<br />
+<br />
+'''Bw'oba nga ddala ogenderera okukola enkyukakyuka wano mu bwesimbu, ddamu ogezeko.'''<br />
+Ekyo bwe kitakola, sooka [[Special:UserLogout|oveemu]] mu wiki oryoke oddemu<br />
+okugiyingira ogezeeko n'ate okukola enkyukakyuka zo.",
+'token_suffix_mismatch'            => "'''Enkyukakyuka zo zigaanidwa olw'okuba nti puloguramu gy'okozesa etabuddetabudde'''<br />
+'''obubonero obumenya mu bubaka obukakasa obugenderevu bw'omulimu ogwo.'''<br />
+Okukyusakyusa kugaanidwa ebigambo ebiri ku lupapula lw'obadde okyusamu bireme nabyo okujjamu entabukatabuka.<br />
+Kino kijjawo oluusi bw'obanga okozesa sisitemu ekusobozesa okulambula yintaneti ebikufaako ne bitayolesebwa<br /> abalala abagiriko, sisitemu eyo nga erimu ebitaatereera.",
+'edit_form_incomplete'             => "'''Ebitundu ebimu ku by'okoze tebituuse ku kiwereza kyaffe; sooka okebere okukakase'''<br />
+'''nti by'owandise biri nga bw'ogenderedde oryoke oddeemu okugeza okubisindika.'''",
 'editing'                          => 'Kati okyusa $1',
 'editingsection'                   => 'Okyusa $1 (kitundu)',
 'editingcomment'                   => 'Okyusa $1 (kitundu kipya)',
+'editconflict'                     => 'Ebikyusidwamu bireesewo okusobagana: $1',
+'explainconflict'                  => "Waliwo omulala akyusizza mu lupapula luno nga okyalukolako.<br />
+Ekitundu eky'ebiwandike ekisooka wano kikulaga ebigambo ebiruliko kakano.<br />
+By'owandise byo biri mu kitundu eky'ebiwandike ekiddako.<br />
+Ebigambo ebibyo on'obigatta mu ebyo ebiriwo ku lupapula kakano.<br />
+Ebinaaba birabika mu kitundu eky'ebiwandike ekisooka w'on'onyigira ku<br />
+\"{{int:savearticle}}\" '''bye byokka''' ebij'okukazibwa.",
 'yourtext'                         => 'Ebigambo ebibyo',
+'storedversion'                    => 'Ebiriwo kakano',
+'nonunicodebrowser'                => "'''Kulabula: Kalambulaneti yo tekwatagana bulungi n'enkola ya unicode.'''<br />
+Okuvvuunuka obuzibu buno osobole okukyusa mu mpapula, buli lw'on'owandikawo<br />
+akabonero akatali ka ASCII kajjanga okuteekebwawo mu mpandika eya nengakkuminabbiri.",
+'editingold'                       => "'''Kulabula: Olupapula lw'okyusamu luliko oluwandika lwa lwo olusinga luno obugya.'''<br />
+By'okoze wano bw'on'obikaza enkyukakyuka endala zonna ezaakakolebwa abalala zijjakusaanawo.",
+'yourdiff'                         => 'Ebikyuse',
 'copyrightwarning'                 => "Genderera nti buli kyowandika muno mu {{SITENAME}} kibalibwa ng'ekifugibwa $2 (okuyiga ebisingawo, laba $1).
 Obanga tewetegese okulaba by'owandise nga babikyusakyusa n'okubisaasaanya nga bwe balaba, tobiwandika muno.<br />
 Tukwesiga nti by'owandika muno bibyo oba wabigya mu kya bonna oba awalala gye batalina bikugizo eby'obwa nannyini.
@@ -530,18 +719,57 @@ Tukwesiga nti by'owandika muno bibyo oba wabigya mu kya bonna oba awalala gye ba
 'copyrightwarning2'                => "Genderera nti buli kyowandika muno mu {{SITENAME}} abalala bayinza okubikyusa oba n'okubigiramu ddala. Obanga tewetegese okulaba by'owandise nga babikyusakyusa n'okubisaasaanya nga bwe balaba, tobiwandika muno.<br />
 Tukwesiga nti by'owandika muno bibyo oba wabigya mu kya bonna oba awalala gye batalina bikugizo eby'obwa nannyini. (okuyiga ebisingawo, laba $1).
 '''TOTEEKAMU EBIRIKO EBIKUGIZO EBY'OBWA NANNYINI NGA BA NYINI BYO TEBAKUWADDE LUKUSA!'''",
+'longpageerror'                    => "'''Kulabula: By'owandise birimu kilobayiti $1.'''<br />
+'''Ebisukka mu kilobayiti $2 tebikkirizibwa.'''<br />
+Tekisobose kukaza by'owandise.",
+'readonlywarning'                  => "'''Kulabula: Eggwanika lya data ku ssaawa eno terikkirizamu ebipya, kubanga balilongoosa.'''<br />
+'''Tojjakusobola okukaza by'okola.'''<br />
+Oyinza okukoppa by'owandise n'obitereka mu fayiro ku kompyuta yo osobole okubiteeka wano edda.<br />
+<br />
+Omuteesiteesi eyalisibye annyonyodde bwatyi: $1",
+'protectedpagewarning'             => "'''Kulabula: Olupapula luno luliko ekikugizo ekikkiriza abalina endukusa z'obuteesiteesi bokka okulukyusamu.'''<br />
+Ekyasemba okuyingizibwa mu lukalala olw'ebifuddeyo lwa lwo bibino okwongera okukutangaaza ku nsonga eno:",
+'semiprotectedpagewarning'         => "'''Genderera: Olupapula luno luliko ekikugizo ekikkirizako ab'ewandisa ku wiki eno bokka okulukyusamu.'''<br />
+Ekyasemba okuyingizibwa mu lukalala olw'ebifuddeyo lwa lwo bibino okwongera okukutangaaza ku nsonga eno:",
+'cascadeprotectedwarning'          => "'''Kulabula:''' Olupapula luno luliko ekikugizo ekikkiriza abalina olukusa lw'obuteesiteesi bokka okulukyusamu.<br />
+Kino kikoledwa olw'okuba nti lukozesebwa {{PLURAL:$1|olupapula oluliko ekikugizo ekiranda luna|empapula eziriko ebikugizo ebiranda zino}}:",
+'titleprotectedwarning'            => "'''Kulabula: Olupapula luno luliko ekikugizo ekikwetaagisa [[Special:ListGroupRights|obuyinza obw'enjawulo]] okulukyusamu.'''<br />
+Ekyasemba okuyingizibwa mu lukalala olw'ebifuddeyo lwa lwo bibino okwongera okukutangaaza ku nsonga eno:",
 'templatesused'                    => 'Olupapula luno lukozesa {{PLURAL:$1|olutiba luno|ntiba zino}} :',
 'templatesusedpreview'             => 'Okulagako kuno kweyambisa {{PLURAL:$1|olutiba luno|ntiba zino}}:',
 'templatesusedsection'             => 'Ekitundu kino kyeyambisa {{PLURAL:$1|olutiba luno|ntiba zino}}:',
 'template-protected'               => '(luno lusibidwa)',
 'template-semiprotected'           => '(ebimu ku lupapula luno bisibidwa)',
 'hiddencategories'                 => 'Olupapula luno lusangibwa mu {{PLURAL:$1|ttuluba erikise limu|matuluba amakise $1}}:',
+'nocreatetitle'                    => 'Okukolawo empapula kuliko obukwakkulizo',
 'nocreatetext'                     => "Ku {{SITENAME}} tosobola okukolawo empapula mpya nga tokozesa buyinza obw'obwamemba. Kati oyinza kugenda n'okyusamu olupapula olulala olwakolebwa dda, oba oyinza [[Special:UserLogin|okufuna obuyinza obw'obwamemba]].",
+'nocreate-loggedin'                => 'Tolina buyinza bwa kukolawo empapula mpya.',
+'sectioneditnotsupported-title'    => 'Okukyusa mu bitundu tekukkirizibwa',
+'sectioneditnotsupported-text'     => 'Olupapula luno terukkiriza okukyusa mu bitundu.',
+'permissionserrors'                => 'Wazzewo kiremya mu ndukusa zo',
+'permissionserrorstext'            => "Kyoyagala okukola tekikukkirizibwa, olw'ensonga {{PLURAL:$1|eno|zino}}:",
 'permissionserrorstext-withaction' => "Tokkirizibwa $2, olw'ensonga {{PLURAL:eno|zino|$1}}:",
 'recreate-moveddeleted-warn'       => "'''Kulabula: Ogenda okuzzaawo olupapuka olwagyibwawo.'''
 
 Okakasa nti kisaanira okuluzzaawo?
 Ebifa ku kugyibwawo kw'olupapula luno bye bino:",
+'moveddeleted-notice'              => "Olupapula luno lwagyibwawo.<br />
+Ebiri mu lukalala olw'ebifa ku kulugyawo n'okulujjulula bibino okukutangaaza ku nsonga eno:",
+'log-fulllog'                      => "Ndaga olukalala olw'ebifuddeyo mu bujjuvu",
+'edit-hook-aborted'                => "Omulimu gwo gutegude emmanduso n'egukomya.<br />
+Tewali kunnyonyola okusingawo.",
+'edit-gone-missing'                => 'Olupapula tekisobose okulutuukanisa.<br />
+Kirabika lwagyibwawo.',
+'edit-conflict'                    => 'Ebikyusidwamu bireesewo okusobagana.',
+'edit-no-change'                   => "Sisitemu ekubaze nga atalina ky'agikozeko, olw'okubanga ebiri ku lupapula obirese nga bwe wabisanze.",
+'edit-already-exists'              => "Olupapula lw'ogeza okukolawo weruli, lwakolebwawo dda.<br />
+Tekisobose kuddamu n'ate oulukolawo.",
+
+# Parser/template warnings
+'expensive-parserfunction-warning'  => "'''Kulabula:''' Olupapula luno luliko ebiragiro eby'ekikebera engoberera y'amateeka g'empandika ebizito ebiyitiridde obungi.<br />
+<br />
+Terukkirizibwa kubaako {{PLURAL:$2|kiragiro ky'ekibekebera ngoberera y'amateeka g'empandika ekisukka|biragiro by'ekikebera mpandika y'amateeka g'empandika ebisukka}} mu $2. Kakano ebiragiro ebyo luliko {{PLURAL:$1|kimu|$1}}.",
+'expensive-parserfunction-category' => "Empapula eziriko ebiragiro eby'ekikebera engoberera y'amateeka g'empandika ebizito ebiyitiridde obungi",
 
 # History pages
 'viewpagelogs'           => "Kebera likooda ez'olupapula luno",
@@ -618,9 +846,7 @@ W'owandikira by'onoonya bw'osoosawo akagambo ''all:'', okunoonya kubuna Wikipedi
 'username'          => "Ery'obwa memba:",
 'yourlanguage'      => 'Lulimi lwo:',
 'yournick'          => 'Empaako yo (ssi ya tteeka):',
-'prefs-help-email'  => "Okuwayo E-mail yo ssi kya tteeka, naye yetaagisibwa bw'obanga werabide ekigambo kyo ekikuumi - basobole okukusindikira ekipya.
-
-Osobola okusalawo okuba nga ab'etaaga okukutuukirira bayitira ku nfo yo ey'obwa memba oba olupapula lwo olwa 'yogera nange' nga ggwe tewetaaze kulaga bikufaako.",
+'prefs-help-email'  => "Okuwayo E-mail yo ssi kya tteeka, naye yetaagisibwa bw'obanga werabide ekigambo kyo ekikuumi - basobole okukusindikira ekipya.",
 
 # User rights
 'editinguser'       => "Okyusa ndukusa za memba '''[[User:$1|$1]]''' ([[User talk:$1|{{int:talkpagelinktext}}]] {{int:pipe-separator}} [[Special:Contributions/$1|{{int:contribslink}}]])",
@@ -696,6 +922,9 @@ Osobola okusalawo okuba nga ab'etaaga okukutuukirira bayitira ku nfo yo ey'obwa 
 'nolinkstoimage'            => 'Tewali mpapula ziriko nyunzi ezigguka ku fayiro eno.',
 'sharedupload'              => "Fayiro eno, ey'omu $1, y'emu esobola okuba nga empapula ez'omu pulojekiti endala zigikozesa",
 'uploadnewversion-linktext' => 'Teekayo oluwandika lwa fayiro eno olupya',
+
+# File deletion
+'filedelete-comment' => 'Ekigyisizzawo fayiro:',
 
 # Random page
 'randompage' => 'Nondera olupapula muwawa',
@@ -1022,9 +1251,9 @@ Ob'oyagala okuyamba ku kuvvuunula eby'omu MediaWiki yonna, kebera ku [http://www
 'nextdiff'     => 'Enkyukakyuka ezaddako okukolebwa→',
 
 # Media information
-'file-info-size'       => '(pikseli $1 ku $2 , bunene bwa fayiro: $3, kika kya MIME: $4)',
+'file-info-size'       => 'pikseli $1 ku $2 , bunene bwa fayiro: $3, kika kya MIME: $4',
 'file-nohires'         => '<small>Tewali kisingako wano.</small>',
-'svg-long-desc'        => '(Fayiro ya kika  kya SVG, ya pikselo $1 ku $2 awamu, ya obunene bwa: $3)',
+'svg-long-desc'        => 'Fayiro ya kika  kya SVG, ya pikselo $1 ku $2 awamu, ya obunene bwa: $3',
 'show-big-image'       => 'Laga ekifaananyi ekijjuvu',
 'show-big-image-thumb' => '<small>Okulagako kuno kwa pikiseli: $1 ku $2</small>',
 

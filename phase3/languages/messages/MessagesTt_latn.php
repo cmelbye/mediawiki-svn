@@ -10,6 +10,7 @@
  * @author Albert Fazlî
  * @author Don Alessandro
  * @author KhayR
+ * @author Reedy
  * @author Urhixidur
  * @author לערי ריינהארט
  */
@@ -165,7 +166,7 @@ $messages = array(
 'thu'           => 'Pän',
 'fri'           => 'Com',
 'sat'           => 'Şim',
-'january'       => 'ğıynvar',
+'january'       => 'ğinvar',
 'february'      => 'fevral',
 'march'         => 'mart',
 'april'         => 'aprel',
@@ -173,11 +174,11 @@ $messages = array(
 'june'          => 'iün',
 'july'          => 'iül',
 'august'        => 'avgust',
-'september'     => 'sentyabr',
-'october'       => 'oktyabr',
-'november'      => 'noyabr',
-'december'      => 'dekabr',
-'january-gen'   => 'ğıynvar',
+'september'     => 'sentäber',
+'october'       => 'oktäber',
+'november'      => 'noyäber',
+'december'      => 'dekaber',
+'january-gen'   => 'ğinvar',
 'february-gen'  => 'fevral',
 'march-gen'     => 'mart',
 'april-gen'     => 'aprel',
@@ -185,11 +186,11 @@ $messages = array(
 'june-gen'      => 'iün',
 'july-gen'      => 'iül',
 'august-gen'    => 'avgust',
-'september-gen' => 'sentyabr',
-'october-gen'   => 'oktyabr',
-'november-gen'  => 'noyabr',
-'december-gen'  => 'dekabr',
-'jan'           => 'ğıy',
+'september-gen' => 'sentäber',
+'october-gen'   => 'oktäber',
+'november-gen'  => 'noyäber',
+'december-gen'  => 'dekaber',
+'jan'           => 'ğin',
 'feb'           => 'fev',
 'mar'           => 'mar',
 'apr'           => 'apr',
@@ -535,7 +536,6 @@ Yazılışığıznı tikşeregez yäki [[Special:UserLogin/signup|yaña xisap ya
 'wrongpasswordempty'         => 'Sersüz yulı buş bulırğa tieş tügel.',
 'passwordtooshort'           => 'Sezsüz $1 {{PLURAL:$1|simvoldan}} torırğa tieş.',
 'password-name-match'        => 'Kertelgän sersüz qullanuçı isemennän ayırılırğa tieş.',
-'password-too-weak'          => 'Kürsätelgän sersüz bik ciñel häm qullanuğa yaramıy.',
 'mailmypassword'             => 'Elektron poçtağa yaña sersüz cibärü',
 'passwordremindertitle'      => '{{SITENAME}} qullanuçısına waqıtlı sersüz tapşıru',
 'passwordremindertext'       => 'Kemder (bälki, sezder, IP adresı: $1) {{SITENAME}} ($4) öçen yaña sersüz sorattı. $2 öçen yaña sersüz: $3. Ägär bu sez bulsağız, sistemağa keregez häm sersüzne almaştırığız. Yaña sersüz $5 {{PLURAL:$5|kön}} ğämäldä bulaçaq.
@@ -689,7 +689,7 @@ Anı tanu öçen IP adresı faydalanıla.
 'noarticletext'                    => "Xäzerge waqıtta bu bittä tekst yuq.
 Sez [[Special:Search/{{PAGENAME}}|bu isem kergän başqa mäqälälärne]],
 <span class=\"plainlinks\">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} köndäleklärdäge yazmalarnı] taba
-yäki '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} şuşındıy isemle yaña bit tözi]''' alasız.",
+yäki '''[{{fullurl:{{FULLPAGENAME}}|action=edit}} şuşındıy isemle yaña bit tözi]'''</span> alasız.",
 'noarticletext-nopermission'       => 'Xäzerge waqıtta bu bittä tekst yuq.
 Sez [[Special:Search/{{PAGENAME}}|bu isem kergän başqa mäqälälärne]],
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} köndäleklärdäge yazmalarnı] taba alasız.</span>',
@@ -2021,10 +2021,10 @@ $1',
 'thumbsize'            => 'Räsemneñ keçeräytelgän yuraması öçen:',
 'widthheight'          => '$1 × $2',
 'widthheightpage'      => '$1 × $2, $3{{PLURAL:$1|bit|bitlär}}',
-'file-info'            => '(fayl zurlığı: $1, MIME-tip: $2)',
-'file-info-size'       => '($1 × $2 noqta, faylnıñ zurlığı: $3, MIME tibı: $4)',
+'file-info'            => 'fayl zurlığı: $1, MIME-tip: $2',
+'file-info-size'       => '$1 × $2 noqta, faylnıñ zurlığı: $3, MIME tibı: $4',
 'file-nohires'         => '<small>Yuğarı açıqlıq belän yurama yuq.</small>',
-'svg-long-desc'        => '(SVG faylı, şartlı $1 × $2 noqta, faylnıñ zurlığı: $3)',
+'svg-long-desc'        => 'SVG faylı, şartlı $1 × $2 noqta, faylnıñ zurlığı: $3',
 'show-big-image'       => 'Tulı açıqlıq',
 'show-big-image-thumb' => '<small>Aldan qaraw zurlığı: $1 × $2 noqta</small>',
 

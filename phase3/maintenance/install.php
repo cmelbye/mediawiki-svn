@@ -20,7 +20,7 @@
  * @see wfWaitForSlaves()
  */
 
-define( 'MW_CONFIG_CALLBACK', 'CoreInstaller::overrideConfig' );
+define( 'MW_CONFIG_CALLBACK', 'Installer::overrideConfig' );
 
 require_once( dirname( dirname( __FILE__ ) )."/maintenance/Maintenance.php" );
 
@@ -68,7 +68,13 @@ class CommandLineInstaller extends Maintenance {
 			new CliInstaller( $siteName, $adminName, $this->mOptions );
 
 		if ( $this->hasOption( 'env-checks' ) ) {
-			$installer->doEnvironmentChecks();
+			$status = $installer->doEnvironmentChecks();
+			if( $status->isGood() ) {
+				$installer->showMessage( 'config-env-good' );
+			} else {
+				$installer->showStatusMessage( $status );
+				return;
+			}
 		} else {
 			$installer->execute();
 			$installer->writeConfigurationFile( $this->getOption( 'confpath', $IP ) );
@@ -84,4 +90,4 @@ class CommandLineInstaller extends Maintenance {
 
 $maintClass = "CommandLineInstaller";
 
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

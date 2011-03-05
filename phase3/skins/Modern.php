@@ -22,11 +22,8 @@ class SkinModern extends SkinTemplate {
 		$template = 'ModernTemplate', $useHeadElement = true;
 
 	function setupSkinUserCss( OutputPage $out ){
-		// Do not call parent::setupSkinUserCss(), we have our own print style
-		$out->addStyle( 'common/shared.css', 'screen' );
-		$out->addStyle( 'modern/main.css', 'screen' );
-		$out->addStyle( 'modern/print.css', 'print' );
-		$out->addStyle( 'modern/rtl.css', 'screen', '', 'rtl' );
+		parent::setupSkinUserCss( $out );
+		$out->addModuleStyles ('skins.modern');
 	}
 }
 
@@ -35,6 +32,10 @@ class SkinModern extends SkinTemplate {
  * @ingroup Skins
  */
 class ModernTemplate extends MonoBookTemplate {
+
+	/**
+	 * @var Skin
+	 */
 	var $skin;
 	/**
 	 * Template filter callback for Modern skin.
@@ -47,7 +48,6 @@ class ModernTemplate extends MonoBookTemplate {
 	function execute() {
 		global $wgRequest;
 		$this->skin = $skin = $this->data['skin'];
-		$action = $wgRequest->getText( 'action' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
@@ -61,34 +61,7 @@ class ModernTemplate extends MonoBookTemplate {
 	<div id="mw_main">
 	<div id="mw_contentwrapper">
 	<!-- navigation portlet -->
-	<div id="p-cactions" class="portlet">
-		<h5><?php $this->msg('views') ?></h5>
-		<div class="pBody">
-			<ul>
-	<?php		foreach($this->data['content_actions'] as $key => $tab) {
-					echo '
-				 <li id="' . Sanitizer::escapeId( "ca-$key" ) . '"';
-					if( $tab['class'] ) {
-						echo ' class="'.htmlspecialchars($tab['class']).'"';
-					}
-					echo'><a href="'.htmlspecialchars($tab['href']).'"';
-					# We don't want to give the watch tab an accesskey if the
-					# page is being edited, because that conflicts with the
-					# accesskey on the watch checkbox.  We also don't want to
-					# give the edit tab an accesskey, because that's fairly su-
-					# perfluous and conflicts with an accesskey (Ctrl-E) often
-					# used for editing in Safari.
-				 	if( in_array( $action, array( 'edit', 'submit' ) )
-				 	&& in_array( $key, array( 'edit', 'watch', 'unwatch' ))) {
-				 		echo $skin->tooltip( "ca-$key" );
-				 	} else {
-				 		echo $skin->tooltipAndAccesskey( "ca-$key" );
-				 	}
-				 	echo '>'.htmlspecialchars($tab['text']).'</a></li>';
-				} ?>
-			</ul>
-		</div>
-	</div>
+<?php $this->cactions( $skin ); ?>
 
 	<!-- content -->
 	<div id="mw_content">
@@ -154,14 +127,10 @@ class ModernTemplate extends MonoBookTemplate {
 		<h5><?php $this->msg('personaltools') ?></h5>
 		<div class="pBody">
 			<ul>
-<?php 			foreach($this->data['personal_urls'] as $key => $item) { ?>
-				<li id="<?php echo Sanitizer::escapeId( "pt-$key" ) ?>"<?php
-					if ($item['active']) { ?> class="active"<?php } ?>><a href="<?php
-				echo htmlspecialchars($item['href']) ?>"<?php echo $skin->tooltipAndAccesskey('pt-'.$key) ?><?php
-				if(!empty($item['class'])) { ?> class="<?php
-				echo htmlspecialchars($item['class']) ?>"<?php } ?>><?php
-				echo htmlspecialchars($item['text']) ?></a></li>
-<?php			} ?>
+<?php		foreach($this->getPersonalTools() as $key => $item) { ?>
+				<?php echo $this->makeListItem($key, $item); ?>
+
+<?php		} ?>
 			</ul>
 		</div>
 	</div>
@@ -193,13 +162,7 @@ class ModernTemplate extends MonoBookTemplate {
 ?>
 	</div>
 
-	<?php $this->html('bottomscripts'); /* JS call to runBodyOnloadHook */ ?>
-<?php $this->html('reporttime') ?>
-<?php if ( $this->data['debug'] ): ?>
-<!-- Debug output:
-<?php $this->text( 'debug' ); ?>
--->
-<?php endif; ?>
+	<?php $this->printTrail(); ?>
 </body></html>
 <?php
 	wfRestoreWarnings();

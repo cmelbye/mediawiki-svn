@@ -107,6 +107,9 @@ class ApiQueryImageInfo extends ApiQueryBase {
 					}
 					break;
 				}
+				
+				// Check if we can make the requested thumbnail, and get transform parameters.
+				$finalThumbParams = $this->mergeThumbParams( $img, $scale, $params['urlparam'] );
 
 				// Get information about the current version first
 				// Check that the current version is within the start-end boundaries
@@ -114,11 +117,12 @@ class ApiQueryImageInfo extends ApiQueryBase {
 				if (
 					( is_null( $start ) || $img->getTimestamp() <= $start ) &&
 					( is_null( $params['end'] ) || $img->getTimestamp() >= $params['end'] )
-				)
-				{
+				) {
 					$gotOne = true;
+					
 					$fit = $this->addPageSubItem( $pageId,
-						self::getInfo( $img, $prop, $result, $scale, $params['metadataversion'] ) );
+						self::getInfo( $img, $prop, $result,
+							$finalThumbParams, $params['metadataversion'] ) );
 					if ( !$fit ) {
 						if ( count( $pageIds[NS_IMAGE] ) == 1 ) {
 							// See the 'the user is screwed' comment above
@@ -147,7 +151,8 @@ class ApiQueryImageInfo extends ApiQueryBase {
 						break;
 					}
 					$fit = $this->addPageSubItem( $pageId,
-						self::getInfo( $oldie, $prop, $result, null, $params['metadataversion'] ) );
+						self::getInfo( $oldie, $prop, $result,
+							$finalThumbParams, $params['metadataversion'] ) );
 					if ( !$fit ) {
 						if ( count( $pageIds[NS_IMAGE] ) == 1 ) {
 							$this->setContinueEnumParameter( 'start',
@@ -179,14 +184,16 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	}
 
 	/**
-	 * From parameters, construct a 'scale' array 
-	 * @param $params Array: 
+	 * From parameters, construct a 'scale' array
+	 * @param $params Array: Parameters passed to api.
 	 * @return Array or Null: key-val array of 'width' and 'height', or null
-	 */	
+	 */
 	public function getScale( $params ) {
 		$p = $this->getModulePrefix();
+
+		// Height and width.
 		if ( $params['urlheight'] != -1 && $params['urlwidth'] == -1 ) {
-			$this->dieUsage( "${p}urlheight cannot be used without {$p}urlwidth", "{$p}urlwidth" );
+			$this->dieUsage( "{$p}urlheight cannot be used without {$p}urlwidth", "{$p}urlwidth" );
 		}
 
 		if ( $params['urlwidth'] != -1 ) {
@@ -195,10 +202,63 @@ class ApiQueryImageInfo extends ApiQueryBase {
 			$scale['height'] = $params['urlheight'];
 		} else {
 			$scale = null;
+			if ( $params['urlparam'] ) {
+				$this->dieUsage( "{$p}urlparam requires {$p}urlwidth", "urlparam_no_width" );
+			}
+			return $scale;
 		}
+
 		return $scale;
 	}
 
+	/** Validate and merge scale parameters with handler thumb parameters, give error if invalid.
+	 *
+	 * We do this later than getScale, since we need the image
+	 * to know which handler, since handlers can make their own parameters.
+	 * @param File $image Image that params are for.
+	 * @param Array $thumbParams thumbnail parameters from getScale
+	 * @param String String of otherParams (iiurlparam).
+	 * @return Array of parameters for transform.
+	 */
+	protected function mergeThumbParams ( $image, $thumbParams, $otherParams ) {
+		if ( !$otherParams ) {
+			return $thumbParams;
+		}
+		$p = $this->getModulePrefix();
+
+		$h = $image->getHandler();
+		if ( !$h ) {
+			$this->setWarning( 'Could not create thumbnail because ' . 
+				$image->getName() . ' does not have an associated image handler' );
+			return $thumbParams;
+		}
+
+		$paramList = $h->parseParamString( $otherParams );
+		if ( !$paramList ) {
+			// Just set a warning (instead of dieUsage), as in many cases
+			// we could still render the image using width and height parameters,
+			// and this type of thing could happen between different versions of
+			// handlers.
+			$this->setWarning( "Could not parse {$p}urlparam for " . $image->getName()
+				. '. Using only width and height' );
+			return $thumbParams;
+		}
+
+		if ( isset( $paramList['width'] ) ) {
+			if ( intval( $paramList['width'] ) != intval( $thumbParams['width'] ) ) {
+				$this->dieUsage( "{$p}urlparam had width of {$paramList['width']} but "
+					. "{$p}urlwidth was {$thumbParams['width']}", "urlparam_urlwidth_mismatch" );
+			}
+		}
+
+		foreach ( $paramList as $name => $value ) {
+			if ( !$h->validateParam( $name, $value ) ) {
+				$this->dieUsage( "Invalid value for {$p}urlparam ($name=$value)", "urlparam" );
+			}
+		}
+
+		return $thumbParams + $paramList;
+	}
 
 	/**
 	 * Get result information for an image revision
@@ -206,39 +266,85 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	 * @param $file File object
 	 * @param $prop Array of properties to get (in the keys)
 	 * @param $result ApiResult object
-	 * @param $scale Array containing 'width' and 'height' items, or null
+	 * @param $thumbParams Array containing 'width' and 'height' items, or null
 	 * @return Array: result array
 	 */
-	static function getInfo( $file, $prop, $result, $scale = null, $version = 'latest' ) {
+	static function getInfo( $file, $prop, $result, $thumbParams = null, $version = 'latest' ) {
 		$vals = array();
+		// Timestamp is shown even if the file is revdelete'd in interface
+		// so do same here.
 		if ( isset( $prop['timestamp'] ) ) {
 			$vals['timestamp'] = wfTimestamp( TS_ISO_8601, $file->getTimestamp() );
 		}
-		if ( isset( $prop['user'] ) || isset( $prop['userid'] ) ) {
 
-			if ( isset( $prop['user'] ) ) {
-				$vals['user'] = $file->getUser();
-			}
-			if ( isset( $prop['userid'] ) ) {
-				$vals['userid'] = $file->getUser( 'id' );
-			}
-			if ( !$file->getUser( 'id' ) ) {
-				$vals['anon'] = '';
+		$user = isset( $prop['user'] );
+		$userid = isset( $prop['userid'] );
+
+		if ( $user || $userid ) {
+			if ( $file->isDeleted( File::DELETED_USER ) ) {
+				$vals['userhidden'] = '';
+			} else {
+				if ( $user ) {
+					$vals['user'] = $file->getUser();
+				}
+				if ( $userid ) {
+					$vals['userid'] = $file->getUser( 'id' );
+				}
+				if ( !$file->getUser( 'id' ) ) {
+					$vals['anon'] = '';
+				}
 			}
 		}
+
+		// This is shown even if the file is revdelete'd in interface
+		// so do same here.
 		if ( isset( $prop['size'] ) || isset( $prop['dimensions'] ) ) {
 			$vals['size'] = intval( $file->getSize() );
 			$vals['width'] = intval( $file->getWidth() );
 			$vals['height'] = intval( $file->getHeight() );
-			
+
 			$pageCount = $file->pageCount();
 			if ( $pageCount !== false ) {
 				$vals['pagecount'] = $pageCount;
 			}
 		}
-		if ( isset( $prop['url'] ) ) {
-			if ( !is_null( $scale ) && !$file->isOld() ) {
-				$mto = $file->transform( array( 'width' => $scale['width'], 'height' => $scale['height'] ) );
+
+		$pcomment = isset( $prop['parsedcomment'] );
+		$comment = isset( $prop['comment'] );
+
+		if ( $pcomment || $comment ) {
+			if ( $file->isDeleted( File::DELETED_COMMENT ) ) {
+				$vals['commenthidden'] = '';
+			} else {
+				if ( $pcomment ) {
+					global $wgUser;
+					$vals['parsedcomment'] = $wgUser->getSkin()->formatComment(
+						$file->getDescription(), $file->getTitle() );
+				}
+				if ( $comment ) {
+					$vals['comment'] = $file->getDescription();
+				}
+			}
+		}
+
+		$url = isset( $prop['url'] );
+		$sha1 = isset( $prop['sha1'] );
+		$meta = isset( $prop['metadata'] );
+		$mime = isset( $prop['mime'] );
+		$archive = isset( $prop['archivename'] );
+		$bitdepth = isset( $prop['bitdepth'] );
+
+		if ( ( $url || $sha1 || $meta || $mime || $archive || $bitdepth )
+				&& $file->isDeleted( File::DELETED_FILE ) ) {
+			$vals['filehidden'] = '';
+
+			//Early return, tidier than indenting all following things one level
+			return $vals;
+		}
+
+		if ( $url ) {
+			if ( !is_null( $thumbParams ) ) {
+				$mto = $file->transform( $thumbParams );
 				if ( $mto && !$mto->isError() ) {
 					$vals['thumburl'] = wfExpandUrl( $mto->getUrl() );
 
@@ -256,46 +362,42 @@ class ApiQueryImageInfo extends ApiQueryBase {
 						$thumbFile = UnregisteredLocalFile::newFromPath( $mto->getPath(), false );
 						$vals['thumbmime'] = $thumbFile->getMimeType();
 					}
+				} else if ( $mto && $mto->isError() ) {
+					$vals['thumberror'] = $mto->toText();
 				}
 			}
 			$vals['url'] = $file->getFullURL();
 			$vals['descriptionurl'] = wfExpandUrl( $file->getDescriptionUrl() );
 		}
-		if ( isset( $prop['comment'] ) ) {
-			$vals['comment'] = $file->getDescription();
-		}
-		if ( isset( $prop['parsedcomment'] ) ) {
-			global $wgUser;
-			$vals['parsedcomment'] = $wgUser->getSkin()->formatComment( 
-					$file->getDescription(), $file->getTitle() );
-		}
-		
-		if ( isset( $prop['sha1'] ) ) {
+
+		if ( $sha1 ) {
 			$vals['sha1'] = wfBaseConvert( $file->getSha1(), 36, 16, 40 );
 		}
-		if ( isset( $prop['metadata'] ) ) {
+
+		if ( $meta ) {
 			$metadata = unserialize( $file->getMetadata() );
 			if ( $version !== 'latest' ) {
 				$metadata = $file->convertMetadataVersion( $metadata, $version );
 			}
 			$vals['metadata'] = $metadata ? self::processMetaData( $metadata, $result ) : null;
 		}
-		if ( isset( $prop['mime'] ) ) {
+
+		if ( $mime ) {
 			$vals['mime'] = $file->getMimeType();
 		}
 
-		if ( isset( $prop['archivename'] ) && $file->isOld() ) {
+		if ( $archive && $file->isOld() ) {
 			$vals['archivename'] = $file->getArchiveName();
 		}
 
-		if ( isset( $prop['bitdepth'] ) ) {
+		if ( $bitdepth ) {
 			$vals['bitdepth'] = $file->getBitDepth();
 		}
 
 		return $vals;
 	}
 
-	/*
+	/**
 	 *
 	 * @param $metadata Array
 	 * @param $result ApiResult
@@ -322,6 +424,10 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		return 'public';
 	}
 
+	/**
+	 * @param $img File
+	 * @return string
+	 */
 	private function getContinueStr( $img ) {
 		return $img->getOriginalTitle()->getText() .
 			'|' .  $img->getTimestamp();
@@ -359,12 +465,18 @@ class ApiQueryImageInfo extends ApiQueryBase {
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_DFLT => '1',
 			),
+			'urlparam' => array(
+				ApiBase::PARAM_DFLT => '',
+				ApiBase::PARAM_TYPE => 'string',
+			),
 			'continue' => null,
 		);
 	}
 
 	/**
 	 * Returns all possible parameters to iiprop
+	 * @static
+	 * @return Array
 	 */
 	public static function getPropertyNames() {
 		return array(
@@ -385,15 +497,14 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		);
 	}
 
-
 	/**
-	 * Return the API documentation for the parameters. 
-	 * @return {Array} parameter documentation.
+	 * Returns the descriptions for the properties provided by getPropertyNames()
+	 *
+	 * @static
+	 * @return array
 	 */
-	public function getParamDescription() {
-		$p = $this->getModulePrefix();
+	public static function getPropertyDescriptions() {
 		return array(
-			'prop' => array(
 				'What image information to get:',
 				' timestamp     - Adds timestamp for the uploaded version',
 				' user          - Adds the user who uploaded the image version',
@@ -401,18 +512,30 @@ class ApiQueryImageInfo extends ApiQueryBase {
 				' comment       - Comment on the version',
 				' parsedcomment - Parse the comment on the version',
 				' url           - Gives URL to the image and the description page',
-				' size          - Adds the size of the image in bytes and the height and width',
+				' size          - Adds the size of the image in bytes and the height, width and page count (if applicable)',
 				' dimensions    - Alias for size',
 				' sha1          - Adds SHA-1 hash for the image',
 				' mime          - Adds MIME type of the image',
-				' thumbmime     - Adss MIME type of the image thumbnail (requires url)',
+				' thumbmime     - Adds MIME type of the image thumbnail (requires url)',
 				' metadata      - Lists EXIF metadata for the version of the image',
 				' archivename   - Adds the file name of the archive version for non-latest versions',
 				' bitdepth      - Adds the bit depth of the version',
-			),
+			);
+	}
+
+	/**
+	 * Return the API documentation for the parameters.
+	 * @return {Array} parameter documentation.
+	 */
+	public function getParamDescription() {
+		$p = $this->getModulePrefix();
+		return array(
+			'prop' => self::getPropertyDescriptions(),
 			'urlwidth' => array( "If {$p}prop=url is set, a URL to an image scaled to this width will be returned.",
 					    'Only the current version of the image can be scaled' ),
 			'urlheight' => "Similar to {$p}urlwidth. Cannot be used without {$p}urlwidth",
+			'urlparam' => array( "A handler specific parameter string. For example, pdf's ",
+				"might use 'page15-100px'. {$p}urlwidth must be used and be consistent with {$p}urlparam" ),
 			'limit' => 'How many image revisions to return',
 			'start' => 'Timestamp to start listing from',
 			'end' => 'Timestamp to stop listing at',
@@ -427,8 +550,13 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	}
 
 	public function getPossibleErrors() {
+		$p = $this->getModulePrefix();
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'code' => 'iiurlwidth', 'info' => 'iiurlheight cannot be used without iiurlwidth' ),
+			array( 'code' => "{$p}urlwidth", 'info' => "{$p}urlheight cannot be used without {$p}urlwidth" ),
+			array( 'code' => 'urlparam', 'info' => "Invalid value for {$p}urlparam" ),
+			array( 'code' => 'urlparam_no_width', 'info' => "{$p}urlparam requires {$p}urlwidth" ),
+			array( 'code' => 'urlparam_urlwidth_mismatch', 'info' => "The width set in {$p}urlparm doesnt't " .
+				"match the one in {$p}urlwidth" ), 
 		) );
 	}
 

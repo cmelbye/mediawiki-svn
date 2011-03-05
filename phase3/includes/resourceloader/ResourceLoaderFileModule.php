@@ -102,8 +102,9 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 *     to $IP
 	 * @param $remoteBasePath String: Base path to prepend to all remote paths in $options. Defaults
 	 *     to $wgScriptPath
-	 * 
-	 * @example $options
+	 *
+	 * Below is a description for the $options array: 
+	 * @code
 	 * 	array(
 	 * 		// Base path to prepend to all local paths in $options. Defaults to $IP
 	 * 		'localBasePath' => [base path],
@@ -138,6 +139,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * 		// Group which this module should be loaded together with
 	 * 		'group' => [group name string],
 	 * 	)
+	 * @endcode
 	 */
 	public function __construct( $options = array(), $localBasePath = null, 
 		$remoteBasePath = null ) 
@@ -197,6 +199,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 					break;
 			}
 		}
+		// Make sure the remote base path is a complete valid url
+		$this->remoteBasePath = wfExpandUrl( $this->remoteBasePath );
 	}
 
 	/**
@@ -206,8 +210,6 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @return String: JavaScript code for $context
 	 */
 	public function getScript( ResourceLoaderContext $context ) {
-		global $wgServer;
-		
 		$files = array_merge(
 			$this->scripts,
 			self::tryForKey( $this->languageScripts, $context->getLanguage() ),
@@ -218,8 +220,8 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 			if ( $this->debugRaw ) {
 				$script = '';
 				foreach ( $files as $file ) {
-					$path = $wgServer . $this->getRemotePath( $file );
-					$script .= "\n\t" . Xml::encodeJsCall( 'mediaWiki.loader.load', array( $path ) );
+					$path = $this->getRemotePath( $file );
+					$script .= "\n\t" . Xml::encodeJsCall( 'mw.loader.load', array( $path ) );
 				}
 				return $script;
 			}
@@ -355,6 +357,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		// If a module is nothing but a list of dependencies, we need to avoid 
 		// giving max() an empty array
 		if ( count( $files ) === 0 ) {
+			wfProfileOut( __METHOD__ );
 			return $this->modifiedTime[$context->getHash()] = 1;
 		}
 		
@@ -364,6 +367,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		$this->modifiedTime[$context->getHash()] = max( 
 			$filesMtime, 
 			$this->getMsgBlobMtime( $context->getLanguage() ) );
+
 		wfProfileOut( __METHOD__ );
 		return $this->modifiedTime[$context->getHash()];
 	}
@@ -464,12 +468,13 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		}
 		$styles = self::collateFilePathListByOption( $styles, 'media', 'all' );
 		foreach ( $styles as $media => $files ) {
+			$uniqueFiles = array_unique( $files );
 			$styles[$media] = implode(
 				"\n",
 				array_map(
 					array( $this, 'readStyleFile' ),
-					array_unique( $files ),
-					array( $flip )
+					$uniqueFiles,
+					array_fill( 0, count( $uniqueFiles ), $flip )
 				)
 			);
 		}
@@ -493,8 +498,13 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		if ( $flip ) {
 			$style = CSSJanus::transform( $style, true, false );
 		}
-		$dir = $this->getLocalPath( dirname( $path ) );
-		$remoteDir = $this->getRemotePath( dirname( $path ) );
+		$dirname = dirname( $path );
+		if ( $dirname == '.' ) {
+			// If $path doesn't have a directory component, don't prepend a dot
+			$dirname = '';
+		}
+		$dir = $this->getLocalPath( $dirname );
+		$remoteDir = $this->getRemotePath( $dirname );
 		// Get and register local file references
 		$this->localFileRefs = array_merge( 
 			$this->localFileRefs, 

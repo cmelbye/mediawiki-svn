@@ -171,6 +171,7 @@ class HistoryPage {
 			$pager->getBody() .
 			$pager->getNavigationBar()
 		);
+		$wgOut->preventClickjacking( $pager->getPreventClickjacking() );
 
 		wfProfileOut( __METHOD__ );
 	}
@@ -309,6 +310,7 @@ class HistoryPage {
 class HistoryPager extends ReverseChronologicalPager {
 	public $lastRow = false, $counter, $historyPage, $title, $buttons, $conds;
 	protected $oldIdChecked;
+	protected $preventClickjacking = false;
 
 	function __construct( $historyPage, $year = '', $month = '', $tagFilter = '', $conds = array() ) {
 		parent::__construct();
@@ -378,7 +380,7 @@ class HistoryPager extends ReverseChronologicalPager {
 	 * @return string HTML output
 	 */
 	function getStartBody() {
-		global $wgScript, $wgUser, $wgOut, $wgContLang;
+		global $wgScript, $wgUser, $wgOut;
 		$this->lastRow = false;
 		$this->counter = 1;
 		$this->oldIdChecked = 0;
@@ -399,40 +401,33 @@ class HistoryPager extends ReverseChronologicalPager {
 		) . "\n";
 
 		if ( $wgUser->isAllowed( 'deleterevision' ) ) {
-			$float = $wgContLang->alignEnd();
-			# Note bug #20966, <button> is non-standard in IE<8
-			$element = Html::element( 'button',
-				array(
-					'type' => 'submit',
-					'name' => 'revisiondelete',
-					'value' => '1',
-					'style' => "float: $float;",
-					'class' => 'mw-history-revisiondelete-button',
-				),
-				wfMsg( 'showhideselectedversions' )
-			) . "\n";
-			$s .= $element;
-			$this->buttons .= $element;
+			$s .= $this->getRevisionButton( 'revisiondelete', 'showhideselectedversions' );
 		}
 		if ( $wgUser->isAllowed( 'revisionmove' ) ) {
-			$float = $wgContLang->alignEnd();
-			# Note bug #20966, <button> is non-standard in IE<8
-			$element = Html::element( 'button',
-				array(
-					'type' => 'submit',
-					'name' => 'revisionmove',
-					'value' => '1',
-					'style' => "float: $float;",
-					'class' => 'mw-history-revisionmove-button',
-				),
-				wfMsg( 'revisionmoveselectedversions' )
-			) . "\n";
-			$s .= $element;
-			$this->buttons .= $element;
+			$s .= $this->getRevisionButton( 'revisionmove', 'revisionmoveselectedversions' );
 		}
 		$this->buttons .= '</div>';
 		$s .= '</div><ul id="pagehistory">' . "\n";
 		return $s;
+	}
+
+	private function getRevisionButton( $name, $msg ) {
+		global $wgContLang;
+		$this->preventClickjacking();
+		$float = $wgContLang->alignEnd();
+		# Note bug #20966, <button> is non-standard in IE<8
+		$element = Html::element( 'button',
+			array(
+				'type' => 'submit',
+				'name' => $name,
+				'value' => '1',
+				'style' => "float: $float;",
+				'class' => "mw-history-$name-button",
+			),
+			wfMsg( $msg )
+		) . "\n";
+		$this->buttons .= $element;
+		return $element;
 	}
 
 	function getEndBody() {
@@ -516,6 +511,7 @@ class HistoryPager extends ReverseChronologicalPager {
 		$del = '';
 		// Show checkboxes for each revision
 		if ( $wgUser->isAllowed( 'deleterevision' ) || $wgUser->isAllowed( 'revisionmove' ) ) {
+			$this->preventClickjacking();
 			// If revision was hidden from sysops, disable the checkbox
 			// However, if the user has revisionmove rights, we cannot disable the checkbox
 			if ( !$rev->userCan( Revision::DELETED_RESTRICTED ) && !$wgUser->isAllowed( 'revisionmove' ) ) {
@@ -565,6 +561,7 @@ class HistoryPager extends ReverseChronologicalPager {
 		# Rollback and undo links
 		if ( !is_null( $next ) && is_object( $next ) ) {
 			if ( $latest && $this->title->userCan( 'rollback' ) && $this->title->userCan( 'edit' ) ) {
+				$this->preventClickjacking();
 				$tools[] = '<span class="mw-rollback-link">' .
 					$this->getSkin()->buildRollbackLink( $rev ) . '</span>';
 			}
@@ -753,6 +750,20 @@ class HistoryPager extends ReverseChronologicalPager {
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * This is called if a write operation is possible from the generated HTML
+	 */
+	function preventClickjacking( $enable = true ) {
+		$this->preventClickjacking = $enable;
+	}
+
+	/**
+	 * Get the "prevent clickjacking" flag
+	 */
+	function getPreventClickjacking() {
+		return $this->preventClickjacking;
 	}
 }
 

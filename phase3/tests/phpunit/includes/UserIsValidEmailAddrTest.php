@@ -1,8 +1,9 @@
 <?php
 
-class UserIsValidEmailAddrTest extends PHPUnit_Framework_TestCase {
+class UserIsValidEmailAddrTest extends MediaWikiTestCase {
 
 	private function checkEmail( $addr, $expected = true, $msg = '') {
+		if( $msg == '' ) { $msg = "Testing $addr"; }
 		$this->assertEquals(
 			$expected,
 			User::isValidEmailAddr( $addr ),
@@ -30,23 +31,37 @@ class UserIsValidEmailAddrTest extends PHPUnit_Framework_TestCase {
 		$this->valid( 'user+sub@example.com' );
 		$this->valid( 'user+@example.com' );
 	}
+	function testEmailDoesNotNeedATopLevelDomain() {
+		$this->valid( "user@localhost" );
+		$this->valid( "FooBar@localdomain" );
+		$this->valid( "nobody@mycompany" );
+	}
 	function testEmailWithWhiteSpacesBeforeOrAfterAreInvalids() {
-		$this->invalid( " user@host" );
-		$this->invalid( "user@host " );
-		$this->invalid( "\tuser@host" );
-		$this->invalid( "user@host\t" );
+		$this->invalid( " user@host.com" );
+		$this->invalid( "user@host.com " );
+		$this->invalid( "\tuser@host.com" );
+		$this->invalid( "user@host.com\t" );
 	}
 	function testEmailWithWhiteSpacesAreInvalids() {
 		$this->invalid( "User user@host" );
 		$this->invalid( "first last@mycompany" );
 		$this->invalid( "firstlast@my company" );
 	}
+	// bug 26948 : comma were matched by an incorrect regexp range
+	function testEmailWithCommasAreInvalids() {
+		$this->invalid( "user,foo@example.org" );
+		$this->invalid( "userfoo@ex,ample.org" );
+	}
+	function testEmailWithHyphens() {
+		$this->valid( "user-foo@example.org" );
+		$this->valid( "userfoo@ex-ample.org" );
+	}
 	function testEmailDomainCanNotBeginWithDot() {
 		$this->invalid( "user@." );
 		$this->invalid( "user@.localdomain" );
 		$this->invalid( "user@localdomain." );
-		$this->invalid( "user.@localdomain" );
-		$this->invalid( ".@localdomain" );
+		$this->valid( "user.@localdomain" );
+		$this->valid( ".@localdomain" );
 		$this->invalid( ".@a............" );
 	}
 	function testEmailWithFunnyCharacters() {
@@ -58,7 +73,7 @@ class UserIsValidEmailAddrTest extends PHPUnit_Framework_TestCase {
 	function testEmailWithoutAtSignIsInvalid() {
 		$this->invalid( 'useràexample.com' );
 	}
-	function testEmailWithOneCharacterDomainIsInvalid() {
-		$this->invalid( 'user@a' );
+	function testEmailWithOneCharacterDomainIsValid() {
+		$this->valid( 'user@a' );
 	}
 }

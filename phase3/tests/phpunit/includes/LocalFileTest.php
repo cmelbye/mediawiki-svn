@@ -2,9 +2,10 @@
 
 /**
  * These tests should work regardless of $wgCapitalLinks
+ * @group Database
  */
 
-class LocalFileTest extends PHPUnit_Framework_TestCase {
+class LocalFileTest extends MediaWikiTestCase {
 	function setUp() {
 		global $wgContLang, $wgCapitalLinks;
 

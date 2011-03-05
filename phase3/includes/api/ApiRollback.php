@@ -38,7 +38,15 @@ class ApiRollback extends ApiBase {
 		parent::__construct( $main, $action );
 	}
 
-	private $mTitleObj = null, $mUser = null;
+	/**
+	 * @var Title
+	 */
+	private $mTitleObj = null;
+
+	/**
+	 * @var User
+	 */
+	private $mUser = null;
 
 	public function execute() {
 		$params = $this->extractRequestParams();
@@ -47,7 +55,7 @@ class ApiRollback extends ApiBase {
 		$titleObj = $this->getTitle();
 		$articleObj = new Article( $titleObj );
 		$summary = ( isset( $params['summary'] ) ? $params['summary'] : '' );
-		$details = null;
+		$details = array();
 		$retval = $articleObj->doRollback( $this->getUser(), $summary, $params['token'], $params['markbot'], $details );
 
 		if ( $retval ) {
