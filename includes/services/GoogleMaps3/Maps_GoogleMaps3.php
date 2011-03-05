@@ -132,7 +132,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$languageCode = self::getMappedLanguageCode( $wgLang->getCode() );
 		
 		return array(
-			//Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" ),
+			Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" ),
 			//Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps3/GoogleMap3Functions.js?$egMapsStyleVersion" ),
 		);			
 	}
@@ -158,4 +158,18 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		return $code;
 	}
 	
-}								
+	/**
+	 * @see MapsMappingService::getResourceModules
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return array of string
+	 */
+	protected function getResourceModules() {
+		return array_merge(
+			parent::getResourceModules(),
+			array( 'ext.maps.googlemaps3' )
+		);
+	}	
+	
+}

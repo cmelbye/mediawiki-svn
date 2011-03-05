@@ -26,7 +26,7 @@ $wgResourceModules['ext.maps.googlemaps3'] = array(
 	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps3',	
 	'group' => 'ext.maps',
 	'scripts' => array(
-		'jquery.googlemaps.js',
+		'jquery.googlemap.js',
 		'ext.maps.googlemaps3.js',
 	),/*
 	'styles' => array(
@@ -52,11 +52,13 @@ function efMapsInitGoogleMaps3() {
 	
 	$wgAutoloadClasses['MapsGoogleMaps3'] 			= dirname( __FILE__ ) . '/Maps_GoogleMaps3.php';
 	$wgAutoloadClasses['MapsGoogleMaps3DispMap'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispMap.php';
-	$wgAutoloadClasses['MapsParamGMap3Type']		 = dirname( __FILE__ ) . '/Maps_ParamGMap3Type.php';
+	$wgAutoloadClasses['MapsGoogleMaps3DispPoint'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispPoint.php';
+	$wgAutoloadClasses['MapsParamGMap3Type']		= dirname( __FILE__ ) . '/Maps_ParamGMap3Type.php';
 
 	MapsMappingServices::registerService( 'googlemaps3', 'MapsGoogleMaps3' );
 	$googleMaps = MapsMappingServices::getServiceInstance( 'googlemaps3' );	
 	$googleMaps->addFeature( 'display_map', 'MapsGoogleMaps3DispMap' );
+	$googleMaps->addFeature( 'display_point', 'MapsGoogleMaps3DispPoint' );
 	
 	return true;
 }
