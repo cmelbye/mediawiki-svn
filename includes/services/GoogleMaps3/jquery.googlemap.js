@@ -13,15 +13,12 @@
 	mapOptions.mapTypeControl = $.inArray( 'type', options.controls ) != -1;
 	mapOptions.scaleControl = $.inArray( 'scale', options.controls ) != -1;
 	mapOptions.streetViewControl = $.inArray( 'streetview', options.controls ) != -1;
-	/*
-	mapOptions.zoomControlOptions = {
-		style: google.maps.ZoomControlStyle.SMALL
-	}
 	
-	mapOptions.mapTypeControlOptions = {
-		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-	}	
-*/
+	mapOptions.zoomControlOptions = { style: eval( options.zoomstyle ) }
+	mapOptions.mapTypeControlOptions = { style: eval( options.typestyle ) }	
+	
+	
+
 	var map = new google.maps.Map( this.get( 0 ), mapOptions );
 
 	return this;

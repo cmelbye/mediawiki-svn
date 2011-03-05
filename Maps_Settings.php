@@ -267,7 +267,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			'streetview'			
 		);
 		
+		$egMapsGMaps3DefTypeStyle = 'default';
 		
+		$egMapsGMaps3DefZoomStyle = 'default';
 		
 		
 	# Google Maps

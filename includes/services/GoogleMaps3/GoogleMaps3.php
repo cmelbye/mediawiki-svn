@@ -54,6 +54,8 @@ function efMapsInitGoogleMaps3() {
 	$wgAutoloadClasses['MapsGoogleMaps3DispMap'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispMap.php';
 	$wgAutoloadClasses['MapsGoogleMaps3DispPoint'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispPoint.php';
 	$wgAutoloadClasses['MapsParamGMap3Type']		= dirname( __FILE__ ) . '/Maps_ParamGMap3Type.php';
+	$wgAutoloadClasses['MapsParamGMap3Typestyle']	= dirname( __FILE__ ) . '/Maps_ParamGMap3Typestyle.php';
+	$wgAutoloadClasses['MapsParamGMap3Zoomstyle']	= dirname( __FILE__ ) . '/Maps_ParamGMap3Zoomstyle.php';
 
 	MapsMappingServices::registerService( 'googlemaps3', 'MapsGoogleMaps3' );
 	$googleMaps = MapsMappingServices::getServiceInstance( 'googlemaps3' );	

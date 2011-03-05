@@ -29,6 +29,12 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		'physical' => 'TERRAIN'
 	);
 	
+	public static $tyepControlStyles = array(
+		'default' => 'DEFAULT',
+		'horizontal' => 'HORIZONTAL_BAR',
+		'dropdown' => 'DROPDOWN_MENU'
+	);
+	
 	/**
 	 * List of supported control names.
 	 * 
@@ -62,7 +68,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls;
+		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls, $egMapsGMaps3DefTypeStyle, $egMapsGMaps3DefZoomStyle;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -81,6 +87,16 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$params['controls']->setDefault( $egMapsGMaps3Controls );
 		$params['controls']->addCriteria( new CriterionInArray( self::$controlNames ) );
 		$params['controls']->addManipulations( new ParamManipulationFunctions( 'strtolower' ) );
+		
+		$params['zoomstyle'] = new Parameter( 'zoomstyle' );
+		$params['zoomstyle']->setDefault( $egMapsGMaps3DefZoomStyle );
+		$params['zoomstyle']->addCriteria( new CriterionInArray( 'default', 'small', 'large' ) );
+		$params['zoomstyle']->addManipulations( new MapsParamGMap3Zoomstyle() );
+		
+		$params['typestyle'] = new Parameter( 'typestyle' );
+		$params['typestyle']->setDefault( $egMapsGMaps3DefTypeStyle );
+		$params['typestyle']->addCriteria( new CriterionInArray( array_keys( self::$tyepControlStyles ) ) );
+		$params['typestyle']->addManipulations( new MapsParamGMap3Typestyle() );		
 	}
 	
 	/**
