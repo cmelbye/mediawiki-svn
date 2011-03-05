@@ -768,4 +768,12 @@ class LqtHooks {
 		
 		$array[$title][] = $entry;
 	}
+	
+	public static function setupCanonicalNamespaces( &$namespaces ) {
+		$namespaces[NS_LQT_THREAD] = 'Thread';
+		$namespaces[NS_LQT_THREAD_TALK] = 'Thread_talk';
+		$namespaces[NS_LQT_SUMMARY] = 'Summary';
+		$namespaces[NS_LQT_SUMMARY_TALK] = 'Summary_talk';
+		return true;
+	}
 }

@@ -22,6 +22,7 @@ define( 'LQT_NEWEST_THREADS', 'nt' );
 define( 'LQT_OLDEST_THREADS', 'ot' );
 
 $wgExtensionFunctions[] = 'wgLqtSetupCanonicalNamespces';
+$wgHooks['CanonicalNamespaces'][] = 'LqtHooks::setupCanonicalNamespaces';
 
 function wgLqtSetupCanonicalNamespces() {
 	global $wgCanonicalNamespaceNames;
