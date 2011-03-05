@@ -4,7 +4,7 @@
  * Class holding information and functionallity specific to Google Maps v3.
  * This infomation and features can be used by any mapping feature. 
  * 
- * @since 0.1
+ * @since 0.7
  * 
  * @file Maps_GoogleMaps3.php
  * @ingroup MapsGoogleMaps3
@@ -12,6 +12,37 @@
  * @author Jeroen De Dauw
  */
 class MapsGoogleMaps3 extends MapsMappingService {
+	
+	/**
+	 * List of map types (keys) and their internal values (values). 
+	 * 
+	 * @since 0.7
+	 * 
+	 * @var array
+	 */
+	public static $mapTypes = array(
+		'normal' => 'ROADMAP',
+		'roadmap' => 'ROADMAP',
+		'satellite' => 'SATELLITE',
+		'hybrid' => 'HYBRID',
+		'terrain' => 'TERRAIN',
+		'physical' => 'TERRAIN'
+	);
+	
+	/**
+	 * List of supported control names.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var array
+	 */
+	protected static $controlNames = array(
+		'pan',
+		'zoom',
+		'type',
+		'scale',
+		'streetview'
+	);		
 	
 	/**
 	 * Constructor.
@@ -31,21 +62,25 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsGMaps3Type;
+		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
 		
-		$params['type'] = new Parameter(
-			'type',
-			Parameter::TYPE_STRING,
-			$egMapsGMaps3Type,
-			array(),
-			array(
-				new CriterionInArray( self::getTypeNames() ),
-			)
-		);
-		$params['type']->addManipulations( new MapsParamGMap3Type() );		
+		$params['type'] = new Parameter( 'type' );
+		$params['type']->setDefault( $egMapsGMaps3Type );
+		$params['type']->addCriteria( new CriterionInArray( self::getTypeNames() ) );
+		$params['type']->addManipulations( new MapsParamGMap3Type() );
+		
+		$params['types'] = new ListParameter( 'types' );
+		$params['types']->setDefault( $egMapsGMaps3Types );
+		$params['types']->addCriteria( new CriterionInArray( self::getTypeNames() ) );		
+		$params['types']->addManipulations( new MapsParamGMap3Type() );
+		
+		$params['controls'] = new ListParameter( 'controls' );
+		$params['controls']->setDefault( $egMapsGMaps3Controls );
+		$params['controls']->addCriteria( new CriterionInArray( self::$controlNames ) );
+		$params['controls']->addManipulations( new ParamManipulationFunctions( 'strtolower' ) );
 	}
 	
 	/**
@@ -94,22 +129,6 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		// Create a string containing the marker JS.
 		return '[' . implode( ',', $markerItems ) . ']';
 	}	
-	
-	/**
-	 * List of map types (keys) and their internal values (values). 
-	 * 
-	 * @since 0.7
-	 * 
-	 * @var array
-	 */
-	public static $mapTypes = array(
-		'normal' => 'ROADMAP',
-		'roadmap' => 'ROADMAP',
-		'satellite' => 'SATELLITE',
-		'hybrid' => 'HYBRID',
-		'terrain' => 'TERRAIN',
-		'physical' => 'TERRAIN'
-	);
 	
 	/**
 	 * Returns the names of all supported map types.

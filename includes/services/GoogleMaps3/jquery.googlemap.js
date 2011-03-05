@@ -1,12 +1,28 @@
 (function( $ ){ $.fn.googlemaps = function( options ) {
 
-	var centre = new google.maps.LatLng(-34.397, 150.644);
-	
-	var map = new google.maps.Map( this.get( 0 ), {
+	var mapOptions = {
+		//disableDefaultUI: true,
 		zoom: options.zoom,
 		mapTypeId: eval( options.type ),
-		center: centre
-	} );
+	};
+	
+	mapOptions.center = new google.maps.LatLng(-34.397, 150.644);
+	
+	mapOptions.panControl = $.inArray( 'pan', options.controls ) != -1;
+	mapOptions.zoomControl = $.inArray( 'zoom', options.controls ) != -1;
+	mapOptions.mapTypeControl = $.inArray( 'type', options.controls ) != -1;
+	mapOptions.scaleControl = $.inArray( 'scale', options.controls ) != -1;
+	mapOptions.streetViewControl = $.inArray( 'streetview', options.controls ) != -1;
+	/*
+	mapOptions.zoomControlOptions = {
+		style: google.maps.ZoomControlStyle.SMALL
+	}
+	
+	mapOptions.mapTypeControlOptions = {
+		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+	}	
+*/
+	var map = new google.maps.Map( this.get( 0 ), mapOptions );
 
 	return this;
 	

@@ -240,6 +240,36 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	
 # Specific mapping service configuration
 
+	# Google Maps v3
+	
+		# Integer. The default zoom of a map. This value will only be used when the
+		# user does not provide one.
+		$egMapsGMaps3Zoom = 14;
+		
+		# Array of String. The Google Maps v3 default map types. This value will only
+		# be used when the user does not provide one.
+		$egMapsGMaps3Types = array(
+			'roadmap',
+			'satellite',
+			'hybrid',
+			'terrain'
+		);
+		
+		# String. The default map type. This value will only be used when the user
+		# does not provide one.
+		$egMapsGMaps3Type = 'roadmap';
+		
+		$egMapsGMaps3Controls = array(
+			'pan',
+			'zoom',
+			'type',
+			'scale',
+			'streetview'			
+		);
+		
+		
+		
+		
 	# Google Maps
 	
 		# Your Google Maps API key. Required for displaying Google Maps, and using the
@@ -292,27 +322,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			'wikipedia',
 			'webcams'
 		);
-	
-	
-	
-	# Google Maps v3
-	
-		# Integer. The default zoom of a map. This value will only be used when the
-		# user does not provide one.
-		$egMapsGMaps3Zoom = 14;
-		
-		# Array of String. The Google Maps v3 default map types. This value will only
-		# be used when the user does not provide one.
-		$egMapsGMaps3Types = array(
-			'roadmap',
-			'satellite',
-			'hybrid',
-			'terrain'
-		);
-		
-		# String. The default map type. This value will only be used when the user
-		# does not provide one.
-		$egMapsGMaps3Type = 'roadmap';
 	
 	
 	
