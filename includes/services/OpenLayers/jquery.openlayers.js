@@ -43,16 +43,28 @@
 	}
 
 	addMarkers( map, options );
+	var centre = false;
 	
-	if ( options.centre !== false ) { // When the center is provided, set it.
-		var centre = new OpenLayers.LonLat( options.centre.lon, options.centre.lat );
-		
+	if ( options.centre === false ) {
+		if ( options.locations.length == 1 ) {
+			centre = new OpenLayers.LonLat( options.locations[0].lon, options.locations[0].lat );
+		}
+		else if ( options.locations.length == 0 ) {
+			centre = new OpenLayers.LonLat( 0, 0 );
+		}
+	}
+	else { // When the center is provided, set it.
+		centre = new OpenLayers.LonLat( options.centre.lon, options.centre.lat );
+	}
+	
+	if ( centre !== false ) {
 		if ( !hasImageLayer ) {
 			centre.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 		}		
 		
-		map.setCenter( centre );
+		map.setCenter( centre );		
 	}
+	
 
 	if ( options.zoom !== false ) {
 		map.zoomTo( options.zoom );
@@ -132,11 +144,9 @@
 			if ( bounds != null ) bounds.extend( options.locations[i].lonlat ); // Extend the bounds when no center is set.
 			markerLayer.addMarker( getOLMarker( markerLayer, options.locations[i] ) ); // Create and add the marker.
 		}
-			
-		if ( bounds != null ) map.zoomToExtent( bounds ); // If a bounds object has been created, use it to set the zoom and center.		
+		
+		if ( bounds != null ) map.zoomToExtent( bounds ); // If a bounds object has been created, use it to set the zoom and center.
 	}
-	
-
 	
 	function getOLMarker( markerLayer, markerData ) {
 		var marker;
@@ -147,8 +157,7 @@
 			marker = new OpenLayers.Marker(markerData.lonlat);
 		}
 
-		if ( markerData.text != '' ) {
-			
+		if ( markerData.text != '' || markerData.title != '' ) {
 			// This is the handler for the mousedown event on the marker, and displays the popup.
 			marker.events.register('mousedown', marker,
 				function(evt) { 
