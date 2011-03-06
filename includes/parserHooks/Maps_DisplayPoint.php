@@ -72,15 +72,10 @@ class MapsDisplayPoint extends ParserHook {
 		$params['coordinates']->addDependencies( 'mappingservice', 'geoservice' );
 		$params['coordinates']->setDescription( wfMsg( 'maps-displaypoints-par-coordinates' ) );
 		
-		$params['centre'] = new Parameter(
-			'centre',
-			Parameter::TYPE_STRING,
-			false,
-			array( 'center' ),
-			array(
-				new CriterionIsLocation(),
-			)			
-		);
+		$params['centre'] = new Parameter( 'centre' );
+		$params['centre']->setDefault( false );
+		$params['centre']->addAliases( 'center' );
+		$params['centre']->addCriteria( new CriterionIsLocation() );
 		$params['centre']->setDescription( wfMsg( 'maps-displaypoints-par-centre' ) );
 		$params['centre']->setDoManipulationOfDefault( false );
 		$manipulation = new MapsParamLocation();

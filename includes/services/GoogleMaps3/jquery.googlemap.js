@@ -43,7 +43,7 @@
 			title: location.title
 		} );
 		
-		this.openWindow = false;
+		marker.openWindow = false;
 		
 		if ( location.text != '' ) {
 			marker.text = location.text;
@@ -64,9 +64,9 @@
 	
 	var bounds;
 	
-	if ( ( options.centre === false || options.zoom === false ) && options.locations.lentgh > 1 ) {
+	if ( ( options.centre === false || options.zoom === false ) && options.locations.length > 1 ) {
 		bounds = new google.maps.LatLngBounds();
-		
+
 		for ( var i = markers.length - 1; i >= 0; i-- ) {
 			bounds.extend( markers[i].getPosition() );
 		}

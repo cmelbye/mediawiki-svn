@@ -10,6 +10,7 @@
  * @file Maps.php
  * @ingroup Maps
  *
+ * @licence GNU GPL v3
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 
