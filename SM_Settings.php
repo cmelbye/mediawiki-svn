@@ -41,7 +41,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# OpenLayers API
 	include_once $smgDir . 'includes/services/OpenLayers/SM_OpenLayers.php';
 	# Yahoo! Maps API
-	include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';
+	//include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';
 
 	# Array of String. The default mapping service for each feature, which will be used when no valid service is provided by the user.
 	# Each service needs to be enabled, if not, the first one from the available services will be taken.
@@ -90,3 +90,4 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# These values only be used when the user does not provide them.
 	$smgFIWidth = 665;
 	$smgFIHeight = $egMapsMapHeight;
+	
