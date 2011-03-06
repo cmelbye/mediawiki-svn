@@ -14,16 +14,9 @@ final class MapsGoogleMapsDispPoint extends MapsBasePointMap {
 	 * @see MapsBasePointMap::getMapHTML
 	 */
 	public function getMapHTML( array $params, Parser $parser, $mapName ) {
-		$output = $this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] );
-
-		return $output . Html::element(
-			'div',
-			array(
-				'id' => $mapName,
-				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
-			),
-			wfMsg( 'maps-loading-map' )
-		);
+		return 
+			$this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] )
+			. parent::getMapHTML( $params, $parser, $mapName );
 	}
 	
 }
