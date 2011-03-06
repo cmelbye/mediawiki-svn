@@ -26,14 +26,13 @@ $wgResourceModules['ext.maps.openlayers'] = array(
 	'group' => 'ext.maps',
 	'scripts' =>   array(
 		'OpenLayers/OpenLayers.js',
+		'OSM/OpenStreetMap.js',
+		'jquery.openlayers.js',
 		'ext.maps.openlayers.js'
 	),
 	'styles' => array(
 		'OpenLayers/theme/default/style.css'
 	),				
-	'messages' => array(
-		'maps-markers'
-	)
 );
 
 $wgAutoloadClasses['CriterionOLLayer']	 			= dirname( __FILE__ ) . '/CriterionOLLayer.php';
