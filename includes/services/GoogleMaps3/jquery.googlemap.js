@@ -28,7 +28,10 @@
 
 	var map = new google.maps.Map( this.get( 0 ), mapOptions );
 
-	var markers = []; 
+	var markers = [];
+	if ( !options.locations ) {
+		options.locations = [];
+	}
 	
 	// Add the markers.
 	for ( var i = options.locations.length - 1; i >= 0; i-- ) {
@@ -61,7 +64,7 @@
 	
 	var bounds;
 	
-	if ( options.centre === false || options.zoom === false ) {
+	if ( ( options.centre === false || options.zoom === false ) && options.locations.lentgh > 1 ) {
 		bounds = new google.maps.LatLngBounds();
 		
 		for ( var i = markers.length - 1; i >= 0; i-- ) {
@@ -71,10 +74,28 @@
 		map.fitBounds( bounds );
 	}
 	
-	map.setCenter(
-		options.centre === false ?
-			bounds.getCenter() : new google.maps.LatLng( options.centre.lat , options.centre.lon )
-	);
+	if ( options.zoom !== false ) {
+		map.setZoom( options.zoom );
+	}
+	
+	var centre;
+	
+	if ( options.centre === false ) {
+		if ( options.locations.length > 1 ) {
+			centre = bounds.getCenter();
+		}
+		else if ( options.locations.length == 1 ) {
+			centre = new google.maps.LatLng( options.locations[0].lat, options.locations[0].lon );
+		}
+		else {
+			centre = new google.maps.LatLng( 0, 0 );
+		}
+	}
+	else {
+		centre = options.centre;
+	}
+	
+	map.setCenter( centre );
 	
 	if ( options.autoinfowindows ) {
 		for ( var i = markers.length - 1; i >= 0; i-- ) {

@@ -13,7 +13,7 @@ class MapsOpenLayersDispPoint extends MapsBasePointMap {
 	/**
 	 * @see MapsBasePointMap::getMapHTML()
 	 */
-	public function addSpecificMapHTML( array $params, Parser $parser, $mapName ) {
+	public function getMapHTML( array $params, Parser $parser, $mapName ) {
 		return Html::element(
 			'div',
 			array(

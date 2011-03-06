@@ -83,7 +83,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# Commenting or removing a mapping service will make Maps completely ignore it, and so improve performance.
 	
 	# Google Maps API v2
-	include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
+	// include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
 	
 	# Google Maps API v3
 	include_once $egMapsDir . 'includes/services/GoogleMaps3/GoogleMaps3.php';
@@ -92,16 +92,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	include_once $egMapsDir . 'includes/services/OpenLayers/OpenLayers.php';
 	
 	# Yahoo! Maps API
-	include_once $egMapsDir . 'includes/services/YahooMaps/YahooMaps.php';
+	// include_once $egMapsDir . 'includes/services/YahooMaps/YahooMaps.php';
 	
-	# Yahoo! Maps API
+	# WMF OSM
 	include_once $egMapsDir . 'includes/services/OSM/OSM.php';	
 
 	# Array of String. Array containing all the mapping services that will be made available to the user.
 	$egMapsAvailableServices = array(
-		'googlemaps2',
+		//'googlemaps2',
 		'googlemaps3',
-		'yahoomaps',
+		//'yahoomaps',
 		'openlayers',
 		'osm'
 	);

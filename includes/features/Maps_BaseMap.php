@@ -70,7 +70,7 @@ abstract class MapsBaseMap {
 	public final function renderMap( array $params, Parser $parser ) {
 		$this->setCentre( $params );
 		
-		if ( $params['zoom'] == 'null' ) {
+		if ( $params['zoom'] === false ) {
 			$params['zoom'] = $this->service->getDefaultZoom();
 		}
 		
@@ -150,7 +150,7 @@ abstract class MapsBaseMap {
 			}
 		}
 		else {
-			$params['centre'] = MapsCoordinateParser::parseCoordinates( $params['coordinates'] );
+			$params['centre'] = $params['coordinates'];
 		}
 		
 		unset( $params['coordinates'] );

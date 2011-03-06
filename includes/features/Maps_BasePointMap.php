@@ -145,7 +145,7 @@ abstract class MapsBasePointMap {
 			if ( $location->isValid() ) {
 				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
 				
-				$jsonObj['title'] = $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText();
+				$jsonObj['title'] = strip_tags( $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText() );
 				$jsonObj['text'] = $parser->parse( $jsonObj['text'], $wgTitle, new ParserOptions() )->getText();
 				
 				$params['locations'][] = $jsonObj;				

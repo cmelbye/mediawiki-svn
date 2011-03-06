@@ -10,6 +10,8 @@ http://mapping.referata.com/wiki/Maps/Version_history#Maps_change_log
 === Maps 0.8 ===
 (2011-0x-xx)
 
+This version branched from Maps 0.7.x at version 0.7.3.
+
 * Removed compatibility with pre MediaWiki 1.17, in order to make full use of the new features. 
 
 * Added support for the auto-documentation features for parser hooks introduced in Validator 0.4.3.
