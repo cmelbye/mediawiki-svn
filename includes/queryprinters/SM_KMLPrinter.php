@@ -57,6 +57,9 @@ class SMKMLPrinter extends SMWResultPrinter {
 	protected function getParameterInfo() {
 		$params = array();
 		
+		$params[] = new Parameter( 'text' );
+		$params[] = new Parameter( 'title' );
+		
 		$params[] = new Parameter( 'linkabsolute', Parameter::TYPE_BOOLEAN, true );
 		
 		$params['pagelinktext'] = new Parameter( 'pagelinktext', Parameter::TYPE_STRING, wfMsg( 'semanticmaps-default-kml-pagelink' ) );
@@ -77,10 +80,11 @@ class SMKMLPrinter extends SMWResultPrinter {
 	 */
 	protected function getKML( SMWQueryResult $res, $outputmode, array $params ) {
 		$queryHandler = new SMQueryHandler( $res, $outputmode, $params['linkabsolute'], $params['pagelinktext'], false );
-		$locations = $queryHandler->getLocations();
+		$queryHandler->setText( $params['text'] );
+		$queryHandler->setTitle( $params['title'] );
 		
 		$formatter = new MapsKMLFormatter( $params );
-		$formatter->addPlacemarks( $locations );
+		$formatter->addPlacemarks( $queryHandler->getLocations() );
 		
 		return $formatter->getKML();
 	}

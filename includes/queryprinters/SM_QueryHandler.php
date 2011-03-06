@@ -19,7 +19,33 @@ class SMQueryHandler {
 	
 	// TODO: add system to properly handle query parameters
 	public $template = false;
+	
+	/**
+	 * The global icon.
+	 * 
+	 * @since 0.7.3
+	 * 
+	 * @var string
+	 */	
 	public $icon = '';
+	
+	/**
+	 * The global text.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var string
+	 */	
+	public $text = '';
+	
+	/**
+	 * The global title.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var string
+	 */	
+	public $title = '';		
 	
 	/**
 	 * Make a separate link to the title or not?
@@ -64,6 +90,39 @@ class SMQueryHandler {
 		$this->pageLinkText = $pageLinkText;
 		$this->titleLinkSeperate = $titleLinkSeperate;
 	}
+	
+	/**
+	 * Sets the global icon.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $icon
+	 */
+	public function setIcon( $icon ) {
+		$this->icon = $icon;
+	}
+	
+	/**
+	 * Sets the global title.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $title
+	 */
+	public function setTitle( $title ) {
+		$this->title = $title;
+	}
+	
+	/**
+	 * Sets the global text.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $text
+	 */
+	public function setText( $text ) {
+		$this->text = $text;
+	}		
 	
 	/**
 	 * Gets the query result as a list of locations.

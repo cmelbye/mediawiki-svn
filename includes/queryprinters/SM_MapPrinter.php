@@ -61,7 +61,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 		$fatalError  = $validator->hasFatalError();
 		
 		if ( $fatalError === false ) {
-			$this->parameters = $validator->getParameters( false );
+			$this->parameters = $validator->getParameterValues();
 		}
 		else {
 			$this->fatalErrorMsg =
@@ -86,6 +86,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			$params = $this->parameters;
 			
 			$queryHandler = new SMQueryHandler( $res, $outputmode, $params );
+			//$queryHandler->setText(  );
 			
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
 			
@@ -178,7 +179,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 		$iconUrl = MapsMapper::getImageUrl( $params['icon'] );
 		$params['locations'] = array();
 
-		foreach ( array_merge( $params['coordinates'], $queryLocations ) as $location ) {
+		foreach ( array_merge( $params['staticlocations'], $queryLocations ) as $location ) {
 			if ( $location->isValid() ) {
 				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
 				
@@ -189,7 +190,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			}
 		}
 		
-		unset( $params['coordinates'] );
+		unset( $params['staticlocations'] );
 	}	
 	
 	/**
