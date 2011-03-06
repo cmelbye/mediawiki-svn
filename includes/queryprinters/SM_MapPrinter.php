@@ -68,7 +68,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 		$this->service->addParameterInfo( $parameterInfo );
 		
 		$validator = new Validator( $this->getName(), false );
-		$validator->setParameters( $mapProperties, $parameterInfo );
+		$validator->setParameters( $params, $parameterInfo );
 		$validator->validateParameters();
 		
 		$fatalError  = $validator->hasFatalError();
@@ -95,12 +95,16 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	public final function getResultText( /* SMWQueryResult */ $res, $outputmode ) {
 		if ( $this->fatalErrorMsg !== false ) {
 			global $wgParser;
+			
+			$params = $this->parameters;
+			
+			$queryHandler = new SMQueryHandler( $res, $outputmode, $params );
+			
+			$this->handleMarkerData( $params, $queryHandler->getLocations() );
+			
 			$mapName = $this->service->getMapId();
 			
-			$queryHandler = SMQueryHandler( $res, $outputmode, $this->parameters );
-			$locations = $queryHandler->getLocations();
-			
-			return $this->getMapHTML( $this->parameters, $wgParser, $mapName ) . $this->getJSON( $this->parameters, $wgParser, $mapName );
+			return $this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName );
 		}
 		else {
 			return $this->fatalErrorMsg;
@@ -146,65 +150,33 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	}	
 	
 	/**
-	 * Adds the static locations (specified via the staticlocations parameter) to the map.
+	 * Converts the data in the coordinates parameter to JSON-ready objects.
+	 * These get stored in the locations parameter, and the coordinates on gets deleted.
 	 * 
-	 * TODO
+	 * @since 0.8
 	 * 
-	 * @since 0.7
+	 * @param array &$params
+	 * @param array $queryLocations
 	 */
-	protected function addStaticLocations() {
+	protected function handleMarkerData( array &$params, array $queryLocations ) {
 		global $wgTitle;
-		
-		// New parser object to render popup contents with.
+
 		$parser = new Parser();			
-		
-		$this->title = $parser->parse( $this->title, $wgTitle, new ParserOptions() )->getText();
-		$this->label = $parser->parse( $this->label, $wgTitle, new ParserOptions() )->getText();
-		
-		// Each $location is an array containg the coordinate set as first element, possibly followed by meta data. 
-		foreach ( $this->staticlocations as $location ) {
-			$markerData = MapsCoordinateParser::parseCoordinates( array_shift( $location ) );
-			
-			if ( !$markerData ) continue;
-			
-			$markerData = array( $markerData['lat'], $markerData['lon'] );
-			
-			if ( count( $location ) > 0 ) {
-				// Parse and add the point specific title if it's present.
-				$markerData['title'] = $parser->parse( $location[0], $wgTitle, new ParserOptions() )->getText();
+		$iconUrl = MapsMapper::getImageUrl( $params['icon'] );
+		$params['locations'] = array();
+
+		foreach ( array_merge( $params['coordinates'], $queryLocations ) as $location ) {
+			if ( $location->isValid() ) {
+				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
 				
-				if ( count( $location ) > 1 ) {
-					// Parse and add the point specific label if it's present.
-					$markerData['label'] = $parser->parse( $location[1], $wgTitle, new ParserOptions() )->getText();
-					
-					if ( count( $location ) > 2 ) {
-						// Add the point specific icon if it's present.
-						$markerData['icon'] = $location[2];
-					}
-				}
+				$jsonObj['title'] = strip_tags( $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText() );
+				$jsonObj['text'] = $parser->parse( $jsonObj['text'], $wgTitle, new ParserOptions() )->getText();
+				
+				$params['locations'][] = $jsonObj;				
 			}
-			
-			// If there is no point specific icon, use the general icon parameter when available.
-			if ( !array_key_exists( 'icon', $markerData ) ) {
-				$markerData['icon'] = $this->icon;
-			}
-			
-			if ( $markerData['icon'] != '' ) {
-				$markerData['icon'] = MapsMapper::getImageUrl( $markerData['icon'] );
-			}
-			
-			// Temporary fix, will refactor away later
-			// TODO
-			$markerData = array_values( $markerData );
-			if ( count( $markerData ) < 5 ) {
-				if ( count( $markerData ) < 4 ) {
-					$markerData[] = '';
-				}				
-				$markerData[] = '';
-			} 
-			
-			$this->locations[] = $markerData;
-		}		
+		}
+		
+		unset( $params['coordinates'] );
 	}	
 	
 	/**

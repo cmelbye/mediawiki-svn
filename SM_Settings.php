@@ -38,6 +38,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# Commenting or removing a mapping service will cause Semantic Maps to completely ignore it, and so improve performance.
 	# Google Maps API v2
 	include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
+	# Google Maps API v3
+	include_once $smgDir . 'includes/services/GoogleMaps3/SM_GoogleMaps3.php';	
 	# OpenLayers API
 	include_once $smgDir . 'includes/services/OpenLayers/SM_OpenLayers.php';
 	# Yahoo! Maps API
