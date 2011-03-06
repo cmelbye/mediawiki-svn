@@ -11,7 +11,8 @@
  * @file SM_Settings.php
  * @ingroup SemanticMaps
  *
- * @author Jeroen De Dauw
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,7 +38,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# Include the mapping services that should be loaded into Semantic Maps. 
 	# Commenting or removing a mapping service will cause Semantic Maps to completely ignore it, and so improve performance.
 	# Google Maps API v2
-	include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
+	//include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
 	# Google Maps API v3
 	include_once $smgDir . 'includes/services/GoogleMaps3/SM_GoogleMaps3.php';	
 	# OpenLayers API

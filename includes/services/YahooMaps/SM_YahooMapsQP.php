@@ -16,20 +16,6 @@ class SMYahooMapsQP extends SMMapPrinter {
 	protected function getServiceName() {
 		return 'yahoomaps';
 	}	
-	
-	/**
-	 * @see SMMapPrinter::addSpecificMapHTML
-	 */
-	public function addSpecificMapHTML() {
-		return Html::element(
-			'div',
-			array(
-				'id' => $this->service->getMapId(),
-				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
-			),
-			wfMsg( 'maps-loading-map' )
-		);
-	}
 
 	/**
 	 * Returns type info, descriptions and allowed values for this QP's parameters after adding the

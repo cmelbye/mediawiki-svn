@@ -11,19 +11,6 @@
 abstract class SMMapPrinter extends SMWResultPrinter {
 	
 	/**
-	 * Returns the HTML to display the map.
-	 * 
-	 * @since 0.8
-	 * 
-	 * @param array $params
-	 * @param Parser $parser
-	 * @param string $mapName
-	 * 
-	 * @return string
-	 */
-	protected abstract function getMapHTML( array $params, Parser $parser, $mapName );	
-	
-	/**
 	 * Returns the name of the service to get the correct mapping service object.
 	 * 
 	 * @since 0.6.3
@@ -93,7 +80,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	 * @return array
 	 */
 	public final function getResultText( /* SMWQueryResult */ $res, $outputmode ) {
-		if ( $this->fatalErrorMsg !== false ) {
+		if ( $this->fatalErrorMsg === false ) {
 			global $wgParser;
 			
 			$params = $this->parameters;
@@ -104,12 +91,38 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			
 			$mapName = $this->service->getMapId();
 			
-			return $this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName );
+			return array(
+				$this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName ),
+				'noparse' => true, 
+				'isHTML' => true
+			);
 		}
 		else {
 			return $this->fatalErrorMsg;
 		}
 	}
+	
+	/**
+	 * Returns the HTML to display the map.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array $params
+	 * @param Parser $parser
+	 * @param string $mapName
+	 * 
+	 * @return string
+	 */
+	protected function getMapHTML( array $params, Parser $parser, $mapName ) {
+		return Html::element(
+			'div',
+			array(
+				'id' => $mapName,
+				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
+			),
+			wfMsg( 'maps-loading-map' )
+		);
+	}	
 	
 	/**
 	 * Returns the JSON with the maps data.

@@ -74,7 +74,7 @@ final class SMQueryPrinters {
 		$params['staticlocations'] = new ListParameter( 'staticlocations', ';' );
 		$params['staticlocations']->addAliases( 'locations' );
 		$params['staticlocations']->addCriteria( new CriterionIsLocation( '~' ) );
-		$params['staticlocations']->addManipulations( new MapsParamCoordSet( '~' ) );		
+		$params['staticlocations']->addManipulations( new MapsParamLocation( '~' ) );		
 		$params['staticlocations']->setDefault( array() );
 		
 		$params['centre'] = new Parameter(

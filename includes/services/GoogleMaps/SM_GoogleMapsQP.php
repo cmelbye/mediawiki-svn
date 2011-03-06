@@ -19,26 +19,12 @@ class SMGoogleMapsQP extends SMMapPrinter {
 	}
 	
 	/**
-	 * @see SMMapPrinter::initSpecificParamInfo
-	 */
-	protected function initSpecificParamInfo( array &$parameters ) {
-	}
-	
-	/**
 	 * @see SMMapPrinter::getMapHTML
 	 */
-	public function getMapHTML() {
-		$mapName = $this->service->getMapId();	
-		$output = $this->service->getOverlayOutput( $mapName, $this->overlays, $this->controls );
-		
-		return $output . Html::element(
-			'div',
-			array(
-				'id' => $mapName,
-				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
-			),
-			wfMsg( 'maps-loading-map' )
-		);
+	protected function getMapHTML( array $params, Parser $parser, $mapName ) {
+		return 
+			$this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] )
+			. parent::getMapHTML( $params, $parser, $mapName );
 	}
 	
 	/**
