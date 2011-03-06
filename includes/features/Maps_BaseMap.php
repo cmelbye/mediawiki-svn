@@ -10,7 +10,7 @@
  *
  * @author Jeroen De Dauw
  */
-abstract class MapsBaseMap {
+class MapsBaseMap {
 	
 	/**
 	 * @since 0.6.x
@@ -25,19 +25,6 @@ abstract class MapsBaseMap {
 	 * @var array
 	 */
 	protected $properties = array();
-	
-	/**
-	 * Returns the HTML to display the map.
-	 * 
-	 * @since 0.8
-	 * 
-	 * @param array $params
-	 * @param Parser $parser
-	 * @param string $mapName
-	 * 
-	 * @return string
-	 */
-	protected abstract function getMapHTML( array $params, Parser $parser, $mapName );
 	
 	/**
 	 * Constructor.
@@ -89,6 +76,28 @@ abstract class MapsBaseMap {
 		
 		return $output;
 	}
+	
+	/**
+	 * Returns the HTML to display the map.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array $params
+	 * @param Parser $parser
+	 * @param string $mapName
+	 * 
+	 * @return string
+	 */
+	protected function getMapHTML( array $params, Parser $parser, $mapName ) {
+		return Html::element(
+			'div',
+			array(
+				'id' => $mapName,
+				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
+			),
+			wfMsg( 'maps-loading-map' )
+		);
+	}		
 	
 	/**
 	 * Returns the JSON with the maps data.

@@ -10,7 +10,7 @@
  *
  * @author Jeroen De Dauw
  */
-abstract class MapsBasePointMap {
+class MapsBasePointMap {
 	
 	/**
 	 * @var iMappingService
@@ -18,19 +18,6 @@ abstract class MapsBasePointMap {
 	protected $service;
 	
 	protected $markerData = array();
-	
-	/**
-	 * Returns the HTML to display the map.
-	 * 
-	 * @since 0.8
-	 * 
-	 * @param array $params
-	 * @param Parser $parser
-	 * @param string $mapName
-	 * 
-	 * @return string
-	 */
-	protected abstract function getMapHTML( array $params, Parser $parser, $mapName );	
 	
 	public function __construct( iMappingService $service ) {
 		$this->service = $service;
@@ -87,6 +74,28 @@ abstract class MapsBasePointMap {
 		
 		return $output;
 	}
+	
+	/**
+	 * Returns the HTML to display the map.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array $params
+	 * @param Parser $parser
+	 * @param string $mapName
+	 * 
+	 * @return string
+	 */
+	protected function getMapHTML( array $params, Parser $parser, $mapName ) {
+		return Html::element(
+			'div',
+			array(
+				'id' => $mapName,
+				'style' => "width: {$params['width']}; height: {$params['height']}; background-color: #cccccc; overflow: hidden;",
+			),
+			wfMsg( 'maps-loading-map' )
+		);
+	}		
 	
 	/**
 	 * Returns the JSON with the maps data.

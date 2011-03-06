@@ -51,16 +51,14 @@ function efMapsInitGoogleMaps3() {
 	global $wgAutoloadClasses;
 	
 	$wgAutoloadClasses['MapsGoogleMaps3'] 			= dirname( __FILE__ ) . '/Maps_GoogleMaps3.php';
-	$wgAutoloadClasses['MapsGoogleMaps3DispMap'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispMap.php';
-	$wgAutoloadClasses['MapsGoogleMaps3DispPoint'] 	= dirname( __FILE__ ) . '/Maps_GoogleMaps3DispPoint.php';
 	$wgAutoloadClasses['MapsParamGMap3Type']		= dirname( __FILE__ ) . '/Maps_ParamGMap3Type.php';
 	$wgAutoloadClasses['MapsParamGMap3Typestyle']	= dirname( __FILE__ ) . '/Maps_ParamGMap3Typestyle.php';
 	$wgAutoloadClasses['MapsParamGMap3Zoomstyle']	= dirname( __FILE__ ) . '/Maps_ParamGMap3Zoomstyle.php';
 
 	MapsMappingServices::registerService( 'googlemaps3', 'MapsGoogleMaps3' );
 	$googleMaps = MapsMappingServices::getServiceInstance( 'googlemaps3' );	
-	$googleMaps->addFeature( 'display_map', 'MapsGoogleMaps3DispMap' );
-	$googleMaps->addFeature( 'display_point', 'MapsGoogleMaps3DispPoint' );
+	$googleMaps->addFeature( 'display_map', 'MapsBaseMap' );
+	$googleMaps->addFeature( 'display_point', 'MapsBasePointMap' );
 	
 	return true;
 }

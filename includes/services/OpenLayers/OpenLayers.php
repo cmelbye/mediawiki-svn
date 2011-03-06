@@ -40,15 +40,13 @@ $wgResourceModules['ext.maps.openlayers'] = array(
 
 $wgAutoloadClasses['CriterionOLLayer']	 			= dirname( __FILE__ ) . '/CriterionOLLayer.php';
 $wgAutoloadClasses['MapsOpenLayers'] 				= dirname( __FILE__ ) . '/Maps_OpenLayers.php';
-$wgAutoloadClasses['MapsOpenLayersDispMap'] 		= dirname( __FILE__ ) . '/Maps_OpenLayersDispMap.php';
-$wgAutoloadClasses['MapsOpenLayersDispPoint'] 		= dirname( __FILE__ ) . '/Maps_OpenLayersDispPoint.php';
 $wgAutoloadClasses['MapsParamOLLayers'] 			= dirname( __FILE__ ) . '/Maps_ParamOLLayers.php';	
 
 MapsMappingServices::registerService( 
 	'openlayers',
 	'MapsOpenLayers',
 	array(
-		'display_point' => 'MapsOpenLayersDispPoint',
-		'display_map' => 'MapsOpenLayersDispMap'
+		'display_point' => 'MapsBasePointMap',
+		'display_map' => 'MapsBaseMap'
 	)
 );

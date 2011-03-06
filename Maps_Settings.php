@@ -83,7 +83,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# Commenting or removing a mapping service will make Maps completely ignore it, and so improve performance.
 	
 	# Google Maps API v2
-	// include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
+	include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
 	
 	# Google Maps API v3
 	include_once $egMapsDir . 'includes/services/GoogleMaps3/GoogleMaps3.php';
@@ -99,7 +99,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 	# Array of String. Array containing all the mapping services that will be made available to the user.
 	$egMapsAvailableServices = array(
-		//'googlemaps2',
+		'googlemaps2',
 		'googlemaps3',
 		//'yahoomaps',
 		'openlayers',

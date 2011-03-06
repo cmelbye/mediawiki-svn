@@ -27,15 +27,13 @@ function efMapsInitYahooMaps() {
 	
 	$wgAutoloadClasses['MapsParamYMapType'] 		= dirname( __FILE__ ) . '/Maps_ParamYMapType.php';
 	$wgAutoloadClasses['MapsYahooMaps'] 			= dirname( __FILE__ ) . '/Maps_YahooMaps.php';
-	$wgAutoloadClasses['MapsYahooMapsDispMap'] 		= dirname( __FILE__ ) . '/Maps_YahooMapsDispMap.php';
-	$wgAutoloadClasses['MapsYahooMapsDispPoint'] 	= dirname( __FILE__ ) . '/Maps_YahooMapsDispPoint.php';	
 	
 	MapsMappingServices::registerService( 
 		'yahoomaps',
 		'MapsYahooMaps',
 		array(
-			'display_point' => 'MapsYahooMapsDispPoint',
-			'display_map' => 'MapsYahooMapsDispMap'
+			'display_point' => 'MapsBasePointMap',
+			'display_map' => 'MapsBaseMap'
 		)
 	);	
 	
