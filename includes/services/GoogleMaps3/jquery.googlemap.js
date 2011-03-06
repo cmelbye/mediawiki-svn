@@ -92,7 +92,7 @@
 		}
 	}
 	else {
-		centre = options.centre;
+		centre = new google.maps.LatLng( options.centre.lat, options.centre.lon );
 	}
 	
 	map.setCenter( centre );
