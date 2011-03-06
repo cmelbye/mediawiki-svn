@@ -191,15 +191,17 @@ class SMQueryHandler {
 			// Loop throught all the parts of the field value.
 			while ( ( /* SMWDataValue */ $object = $resultArray->getNextObject() ) !== false ) {		
 				if ( $object->getTypeID() == '_wpg' && $i == 0 ) {
+					$title = $object->getLongText( $this->outputmode, null );
+					
 					if ( !$this->titleLinkSeperate && $this->linkAbsolute ) {
-						$title = Html::element(
+						$text = Html::element(
 							'a',
 							array( 'href' => $object->getTitle()->getFullUrl() ),
 							$object->getTitle()->getText()
-						);
+						) . '<br />';
 					}
 					else {
-						$title = $object->getLongText( $this->outputmode, $skin );
+						$text = $object->getLongText( $this->outputmode, $skin )  . '<br />';
 					}
 					
 					if ( $this->titleLinkSeperate ) {

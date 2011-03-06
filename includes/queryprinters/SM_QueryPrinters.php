@@ -77,15 +77,14 @@ final class SMQueryPrinters {
 		$params['staticlocations']->addManipulations( new MapsParamLocation( '~' ) );		
 		$params['staticlocations']->setDefault( array() );
 		
-		$params['centre'] = new Parameter(
-			'centre',
-			Parameter::TYPE_STRING,
-			'', // TODO
-			array( 'center' ),
-			array(
-				new CriterionIsLocation(),
-			)			
-		);
+		$params['centre'] = new Parameter( 'centre' );
+		$params['centre']->setDefault( false );
+		$params['centre']->addAliases( 'center' );
+		$params['centre']->addCriteria( new CriterionIsLocation() );
+		$params['centre']->setDoManipulationOfDefault( false );
+		$manipulation = new MapsParamLocation();
+		$manipulation->toJSONObj = true;
+		$params['centre']->addManipulations( $manipulation );	
 		
 		$params['icon'] = new Parameter(
 			'icon',
