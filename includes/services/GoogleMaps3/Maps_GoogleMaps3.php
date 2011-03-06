@@ -129,28 +129,6 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	}	
 	
 	/**
-	 * @see MapsMappingService::createMarkersJs
-	 * 
-	 * @since 0.6.5
-	 */
-	public function createMarkersJs( array $markers ) {
-		$markerItems = array();
-		
-		foreach ( $markers as $marker ) {
-			$markerItems[] = Xml::encodeJsVar( (object)array(
-				'lat' => $marker[0],
-				'lon' => $marker[1],
-				'title' => $marker[2],
-				'label' =>$marker[3],
-				'icon' => $marker[4]
-			) );
-		}
-		
-		// Create a string containing the marker JS.
-		return '[' . implode( ',', $markerItems ) . ']';
-	}	
-	
-	/**
 	 * Returns the names of all supported map types.
 	 * 
 	 * @return array
@@ -171,8 +149,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$languageCode = self::getMappedLanguageCode( $wgLang->getCode() );
 		
 		return array(
-			Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" ),
-			//Html::linkedScript( "$egMapsScriptPath/includes/services/GoogleMaps3/GoogleMap3Functions.js?$egMapsStyleVersion" ),
+			Html::linkedScript( "http://maps.google.com/maps/api/js?sensor=false&language=$languageCode" )
 		);			
 	}
 	

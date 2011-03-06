@@ -5,25 +5,6 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
-/*
-jQuery.getScript(
-	'http://maps.google.com/maps/api/js?sensor=false',
-	function () { 
-		if ( true ) {
-			for ( i in window.maps.googlemaps3 ) {
-				jQuery( '#' + i ).googlemaps( window.maps.googlemaps3[i] );
-			}
-		}
-		else {
-			alert( mediaWiki.msg( 'maps-googlemaps3-incompatbrowser' ) );
-			
-			for ( i in window.maps.googlemaps3 ) {
-				jQuery( '#' + i ).text( mediaWiki.msg( 'maps-load-failed' ) );
-			}
-		}
-	}
-);*/
-
 jQuery(document).ready(function() {
 	if ( true ) {
 		for ( i in window.maps.googlemaps3 ) {
