@@ -32,7 +32,10 @@ $wgResourceModules['ext.maps.openlayers'] = array(
 	),
 	'styles' => array(
 		'OpenLayers/theme/default/style.css'
-	),				
+	),
+	'messages' => array(
+		'maps-markers'
+	)			
 );
 
 $wgAutoloadClasses['CriterionOLLayer']	 			= dirname( __FILE__ ) . '/CriterionOLLayer.php';
