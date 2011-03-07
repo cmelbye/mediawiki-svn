@@ -139,28 +139,6 @@ class MapsGoogleMaps extends MapsMappingService {
 	}
 	
 	/**
-	 * @see MapsMappingService::createMarkersJs
-	 * 
-	 * @since 0.6.5
-	 */
-	public function createMarkersJs( array $markers ) {
-		$markerItems = array();
-
-		foreach ( $markers as $marker ) {
-			$markerItems[] = array(
-				'lat' => $marker[0],
-				'lon' => $marker[1],
-				'title' => $marker[2],
-				'label' =>$marker[3],
-				'icon' => $marker[4]
-			);
-		}
-		
-		// Return a string containing the marker JS.
-		return json_encode( $markerItems );
-	}
-	
-	/**
 	 * A list of mappings between supported map type values and their corresponding JS variable.
 	 * 
 	 * http://code.google.com/apis/maps/documentation/reference.html#GMapType.G_NORMAL_MAP
@@ -333,7 +311,7 @@ class MapsGoogleMaps extends MapsMappingService {
 	 * 
 	 * @return array of string
 	 */
-	protected function getResourceModules() {
+	public function getResourceModules() {
 		return array_merge(
 			parent::getResourceModules(),
 			array( 'ext.maps.googlemaps2' )

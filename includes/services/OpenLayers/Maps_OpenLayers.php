@@ -48,8 +48,6 @@ class MapsOpenLayers extends MapsMappingService {
 		$params['layers']->setDoManipulationOfDefault( true );
 		$params['layers']->addCriteria( new CriterionOLLayer() );
 		$params['layers']->setDefault( $egMapsOLLayers );
-		
-		//$params['imagelayers'] = new ListParameter();
 	}
 	
 	/**
@@ -76,29 +74,6 @@ class MapsOpenLayers extends MapsMappingService {
 		
 		return 'open_layer_' . $mapsOnThisPage;
 	}		
-	
-	/**
-	 * @see MapsMappingService::createMarkersJs
-	 * 
-	 * @since 0.6.5
-	 */
-	public function createMarkersJs( array $markers ) {
-		$markerItems = array();
-		$defaultGroup = wfMsg( 'maps-markers' );
-
-		foreach ( $markers as $marker ) {
-			$markerItems[] = MapsMapper::encodeJsVar( (object)array(
-				'lat' => $marker[0],
-				'lon' => $marker[1],
-				'title' => $marker[2],
-				'label' =>$marker[3],
-				'icon' => $marker[4]
-			) );
-		}
-		
-		// Create a string containing the marker JS.
-		return '[' . implode( ',', $markerItems ) . ']';
-	}	
 	
 	/**
 	 * Returns the names of all supported controls. 
@@ -157,7 +132,7 @@ class MapsOpenLayers extends MapsMappingService {
 	 * 
 	 * @return array of string
 	 */
-	protected function getResourceModules() {
+	public function getResourceModules() {
 		return array_merge(
 			parent::getResourceModules(),
 			array( 'ext.maps.openlayers' )

@@ -67,7 +67,6 @@ abstract class MapsMappingService implements iMappingService {
 	 */
 	private $dependencies = array();
 	
-	
 	/**
 	 * Constructor. Creates a new instance of MapsMappingService.
 	 * 
@@ -76,7 +75,7 @@ abstract class MapsMappingService implements iMappingService {
 	 * @param string $serviceName
 	 * @param array $aliases
 	 */
-	function __construct( $serviceName, array $aliases = array() ) {
+	public function __construct( $serviceName, array $aliases = array() ) {
 		$this->serviceName = $serviceName;
 		$this->aliases = $aliases;
 	}
@@ -215,7 +214,7 @@ abstract class MapsMappingService implements iMappingService {
 	 * 
 	 * @return array of string
 	 */
-	protected function getResourceModules() {
+	public function getResourceModules() {
 		return $this->resourceModules;
 	}
 	
@@ -229,5 +228,14 @@ abstract class MapsMappingService implements iMappingService {
 	public function addResourceModules( $modules ) {
 		$this->resourceModules = array_merge( $this->resourceModules, (array)$modules );
 	}
+	
+	/**
+	 * @see iMappingService::addDependency
+	 * 
+	 * @since 0.6.3
+	 */
+	public final function addDependency( $dependencyHtml ) {
+		$this->dependencies[] = $dependencyHtml;
+	}	
 	
 }

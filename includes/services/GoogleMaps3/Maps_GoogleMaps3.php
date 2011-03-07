@@ -181,7 +181,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * 
 	 * @return array of string
 	 */
-	protected function getResourceModules() {
+	public function getResourceModules() {
 		return array_merge(
 			parent::getResourceModules(),
 			array( 'ext.maps.googlemaps3' )
