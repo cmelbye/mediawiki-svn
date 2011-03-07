@@ -77,6 +77,11 @@ function upgradeWiki( $db ) {
 			'patch-fi_img_timestamp-without-update.sql' );
 	}
 
+	if ( !$db->fieldExists( 'user', 'user_last_timestamp' ) ) {
+		echo " user_last_timestamp";
+		sourceUpgradeFile( $db, dirname( __FILE__ ) . '/archives/patch-user_last_timestamp.sql' );
+	}
+
 	$db->insert( 'updatelog', 
 		array( 'ul_key' => '1.17wmf1-final' ),
 		__FUNCTION__ );

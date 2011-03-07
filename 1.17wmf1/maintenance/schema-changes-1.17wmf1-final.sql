@@ -14,7 +14,3 @@ ALTER TABLE /*$wgDBprefix*/categorylinks
 	ADD INDEX cl_sortkey (cl_to, cl_type, cl_sortkey, cl_from);
 INSERT IGNORE INTO /*$wgDBprefix*/updatelog (ul_key) VALUES ('cl_fields_update');
 
--- patch-user_last_timestamp.sql
-ALTER TABLE /*$wgDBprefix*/user_newtalk
-  ADD user_last_timestamp varbinary(14) NULL default NULL;
-
