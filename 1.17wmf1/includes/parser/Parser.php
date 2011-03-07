@@ -3936,7 +3936,7 @@ class Parser {
 			if ( $prevtoclevel > 0 && $prevtoclevel < $wgMaxTocLevel ) {
 				$toc .= $sk->tocUnindent( $prevtoclevel - 1 );
 			}
-			$toc = $sk->tocList( $toc );
+			$toc = $sk->tocList( $toc, $this->mOptions->getUserLang() );
 			$this->mOutput->setTOCHTML( $toc );
 		}
 

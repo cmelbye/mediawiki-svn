@@ -101,6 +101,8 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   which should be resolved by the 1.18 release
 * $wgCopyrightIcon is deprecated and $wgFooterIcons['copyright']['copyright'] should
   be used instead.
+* (bug 27508) Add $wgSVGMetadataCutoff to limit the maximum amount of an svg we
+  look at when finding metadata to prevent excessive resource usage.
 
 === New features in 1.17 ===
 * (bug 10183) Users can now add personal styles and scripts to all skins via
@@ -505,7 +507,11 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 27479) API error when using both prop=pageprops and
   prop=info&inprop=displaytitle
 * (bug 27715) imageinfo didn't respect revdelete
-
+* (bug 27862) Useremail module didn't properly return success on success.
+* (bug 27590) prop=imageinfo now allows querying the media type
+* (bug 27587) list=filearchive now outputs full title info
+* (bug 27018) Added action=filerevert to revert files to an old version
+* (bug 27897) list=allusers and list=users list hidden users
 * (bug 22738) Allow filtering by action type on query=logevent.
 * (bug 22764) uselang parameter for action=parse.
 * (bug 22944) API: watchlist options are inconsistent.
