@@ -17,18 +17,4 @@ class SMGoogleMaps3QP extends SMMapPrinter {
 		return 'googlemaps3';
 	}
 	
-	/**
-	 * Returns type info, descriptions and allowed values for this QP's parameters after adding the
-	 * specific ones to the list.
-	 * 
-	 * @return array
-	 */
-    public function getParameters() {
-        $params = parent::getParameters();
-        
-		// TODO
-        
-        return $params;
-    }
-	
 }
