@@ -36,8 +36,6 @@ class MapsBaseMap {
 	}
 	
 	/**
-	 * @see 
-	 * 
 	 * @since 0.7.3
 	 */	
 	public function addParameterInfo( array &$params ) {

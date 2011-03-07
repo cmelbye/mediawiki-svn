@@ -13,11 +13,11 @@
 class MapsBasePointMap {
 	
 	/**
+	 * @since 0.6.x
+	 * 
 	 * @var iMappingService
 	 */
 	protected $service;
-	
-	protected $markerData = array();
 	
 	public function __construct( iMappingService $service ) {
 		$this->service = $service;
