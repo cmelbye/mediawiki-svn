@@ -152,29 +152,21 @@
 		var marker;
 		
 		if ( markerData.icon != "" ) {
-			marker = new OpenLayers.Marker(markerData.lonlat, new OpenLayers.Icon(markerData.icon));
+			marker = new OpenLayers.Marker( markerData.lonlat, new OpenLayers.Icon( markerData.icon ) );
 		} else {
-			marker = new OpenLayers.Marker(markerData.lonlat);
+			marker = new OpenLayers.Marker( markerData.lonlat );
 		}
 
-		if ( markerData.text != '' || markerData.title != '' ) {
+		if ( markerData.text != '' ) {
 			// This is the handler for the mousedown event on the marker, and displays the popup.
 			marker.events.register('mousedown', marker,
-				function(evt) { 
-					var popup = new OpenLayers.Feature(markerLayer, markerData.lonlat).createPopup(true);
-					
-					if ( markerData.title != '' && markerData.text != '' ) { // Add the title and text to the popup text.
-						popup.setContentHTML('<b>' + markerData.title + '</b><hr />' + markerData.text);
-					}
-					else {
-						popup.setContentHTML(markerData.title + markerData.text);
-					}
-					
-					markerLayer.map.addPopup(popup);
-					OpenLayers.Event.stop(evt); // Stop the event.
+				function( evt ) { 
+					var popup = new OpenLayers.Feature( markerLayer, markerData.lonlat ).createPopup( true ); 
+					popup.setContentHTML( markerData.text );
+					markerLayer.map.addPopup( popup );
+					OpenLayers.Event.stop( evt ); // Stop the event.
 				}
 			);
-			
 		}	
 
 		return marker;

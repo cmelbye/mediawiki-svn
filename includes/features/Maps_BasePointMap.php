@@ -154,8 +154,12 @@ class MapsBasePointMap {
 			if ( $location->isValid() ) {
 				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
 				
-				$jsonObj['title'] = strip_tags( $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText() );
+				$jsonObj['title'] = $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText();
 				$jsonObj['text'] = $parser->parse( $jsonObj['text'], $wgTitle, new ParserOptions() )->getText();
+				
+				$hasTitleAndtext = $jsonObj['title'] != '' && $jsonObj['text'] != '';
+				$jsonObj['text'] = ( $hasTitleAndtext ? '<b>' . $jsonObj['title'] . '</b><hr />' : $jsonObj['title'] ) . $jsonObj['text'];
+				$jsonObj['title'] = strip_tags( $jsonObj['title'] );
 				
 				$params['locations'][] = $jsonObj;				
 			}
