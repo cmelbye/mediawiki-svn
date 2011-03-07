@@ -189,7 +189,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			
 			$mapName = $this->service->getMapId();
 			
-			SMWOutputs::requireHeadItem( $this->service->getDependencyHtml(), $mapName );
+			SMWOutputs::requireHeadItem( $mapName, $this->service->getDependencyHtml() );
 			foreach ( $this->service->getResourceModules() as $resourceModule ) {
 				SMWOutputs::requireResource( $resourceModule );
 			}
