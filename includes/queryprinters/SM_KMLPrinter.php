@@ -82,6 +82,7 @@ class SMKMLPrinter extends SMWResultPrinter {
 		$queryHandler = new SMQueryHandler( $res, $outputmode, $params['linkabsolute'], $params['pagelinktext'], false );
 		$queryHandler->setText( $params['text'] );
 		$queryHandler->setTitle( $params['title'] );
+		$queryHandler->setSubjectSeparator( '' );
 		
 		$formatter = new MapsKMLFormatter( $params );
 		$formatter->addPlacemarks( $queryHandler->getLocations() );

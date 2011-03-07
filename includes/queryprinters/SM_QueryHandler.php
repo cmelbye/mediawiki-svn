@@ -75,6 +75,24 @@ class SMQueryHandler {
 	protected $pageLinkText;	
 	
 	/**
+	 * A separator to use beteen the subject and properties in the text field. 
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var string
+	 */
+	protected $subjectSeparator = '<hr />';
+	
+	/**
+	 * Make the subject in the text bold or not?
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var boolean
+	 */
+	protected $boldSubject = true;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @since 0.7.3
@@ -122,7 +140,29 @@ class SMQueryHandler {
 	 */
 	public function setText( $text ) {
 		$this->text = $text;
+	}
+
+	/**
+	 * Sets the subject separator.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $subjectSeparator
+	 */
+	public function setSubjectSeparator( $subjectSeparator ) {
+		$this->subjectSeparator = $subjectSeparator;
 	}		
+	
+	/**
+	 * Sets if the subject should be made bold in the text.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $boldSubject
+	 */
+	public function setBoldSubject( $boldSubject ) {
+		$this->boldSubject = $boldSubject;
+	}	
 	
 	/**
 	 * Gets the query result as a list of locations.
@@ -159,9 +199,7 @@ class SMQueryHandler {
 	/**
 	 * Returns the locations found in the provided result row.
 	 * 
-	 * TODO: split up this method if possible (!)
 	 * TODO: fix template handling
-	 * TODO: clean up link type handling
 	 * 
 	 * @since 0.7.3
 	 * 
@@ -170,19 +208,11 @@ class SMQueryHandler {
 	 * @return array of MapsLocation
 	 */
 	protected function handleResultRow( array /* of SMWResultArray */ $row ) {
-		global $wgUser, $smgUseSpatialExtensions, $wgTitle;
-		
-		$locations = array();
-		
-		$skin = $wgUser->getSkin();
+		$coords = array();
+		$properties = array();
 		
 		$title = '';
 		$text = '';
-		$lat = '';
-		$lon = '';
-		
-		$coords = array();
-		$label = array();		
 		
 		// Loop throught all fields of the record.
 		foreach ( $row as $i => $resultArray ) {
@@ -191,108 +221,155 @@ class SMQueryHandler {
 			// Loop throught all the parts of the field value.
 			while ( ( /* SMWDataValue */ $object = $resultArray->getNextObject() ) !== false ) {		
 				if ( $object->getTypeID() == '_wpg' && $i == 0 ) {
-					$title = $object->getLongText( $this->outputmode, null );
-					
-					if ( !$this->titleLinkSeperate && $this->linkAbsolute ) {
-						$text = Html::element(
-							'a',
-							array( 'href' => $object->getTitle()->getFullUrl() ),
-							$object->getTitle()->getText()
-						) . '<br />';
-					}
-					else {
-						$text = $object->getLongText( $this->outputmode, $skin )  . '<br />';
-					}
-					
-					if ( $this->titleLinkSeperate ) {
-						$text .= Html::element(
-							'a',
-							array( 'href' => $object->getTitle()->getFullUrl() ),
-							str_replace( '$1', $object->getTitle()->getText(), $this->params['pagelinktext'] ) 
-						) . '<br />';
-					}					
+					list( $title, $text ) = $this->handleResultSubject( $object );
 				}
-				
-				if ( $object->getTypeID() != '_geo' && $i != 0 ) {
-					if ( $this->linkAbsolute ) {
-						$t = Title::newFromText( $printRequest->getHTMLText( NULL ), SMW_NS_PROPERTY );
-						
-						if ( $t->exists() ) {
-							
-							$propertyName = $propertyName = Html::element(
-								'a',
-								array( 'href' => $t->getFullUrl() ),
-								$printRequest->getHTMLText( NULL )
-							);
-						}
-						else {
-							$propertyName = $printRequest->getHTMLText( NULL );
-						}						
-					}
-					else {
-						$propertyName = $printRequest->getHTMLText( $skin );
-					}
-					
-					if ( $propertyName != '' ) $propertyName .= ': ';
-					
-					if ( $this->linkAbsolute ) {
-						$hasPage = $object->getTypeID() == '_wpg';
-						
-						if ( $hasPage ) {
-							$t = Title::newFromText( $object->getLongText( $this->outputmode, NULL ), NS_MAIN );
-							$hasPage = $t->exists();
-						}
-						
-						if ( $hasPage ) {
-							$propertyValue = Html::element(
-								'a',
-								array( 'href' => $t->getFullUrl() ),
-								$object->getLongText( $this->outputmode, NULL )
-							);
-						}
-						else {
-							$propertyValue = $object->getLongText( $this->outputmode, NULL );
-						}						
-					}
-					else {
-						$propertyValue = $object->getLongText( $this->outputmode, $skin );
-					}
-								
-					$text .= $propertyName . $propertyValue . '<br />';
+				else if ( $object->getTypeID() != '_geo' && $i != 0 ) {
+					$properties[] = $this->handleResultProperty( $object, $printRequest );
 				}
-		
-				if ( $printRequest->getMode() == SMWPrintRequest::PRINT_PROP && $printRequest->getTypeID() == '_geo' ) {
+				else if ( $printRequest->getMode() == SMWPrintRequest::PRINT_PROP && $printRequest->getTypeID() == '_geo' ) {
 					$coords[] = $object->getDBkeys();
 				}
 			}
 		}
 		
+		if ( count( $properties ) > 0 && $text != '' ) {
+			$text .= $this->subjectSeparator;
+		}
+		
+		$text .= implode( '<br />', $properties );
+		$icon = $this->getLocationIcon( $row );
+		
+		return $this->buildLocationsList( $coords, $title, $text, $icon );
+	}
+	
+	/**
+	 * Handles a SMWDataValue subject value.
+	 * Gets the plain text title and creates the HTML text with headers and the like.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param SMWDataValue $object
+	 * 
+	 * @return array with title and text
+	 */
+	protected function handleResultSubject( SMWDataValue $object ) {
+		global $wgUser;
+		
+		$title = $object->getLongText( $this->outputmode, null );
+		$text = '';
+		
+		if ( !$this->titleLinkSeperate && $this->linkAbsolute ) {
+			$text = Html::element(
+				'a',
+				array( 'href' => $object->getTitle()->getFullUrl() ),
+				$object->getTitle()->getText()
+			);
+		}
+		else {
+			$text = $object->getLongText( $this->outputmode, $wgUser->getSkin() );
+		}
+		
+		if ( $this->boldSubject ) {
+			$text = '<b>' . $text . '</b>';
+		}
+		
+		if ( $this->titleLinkSeperate ) {
+			$text .= Html::element(
+				'a',
+				array( 'href' => $object->getTitle()->getFullUrl() ),
+				str_replace( '$1', $object->getTitle()->getText(), $this->params['pagelinktext'] ) 
+			);
+		}
+
+		return array( $title, $text );
+	}
+	
+	/**
+	 * Handles a single property (SMWPrintRequest) to be displayed for a record (SMWDataValue).
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param SMWDataValue $object
+	 * @param SMWPrintRequest $printRequest
+	 * 
+	 * @return string
+	 */
+	protected function handleResultProperty( SMWDataValue $object, SMWPrintRequest $printRequest ) {
+		global $wgUser;
+		
+		if ( $this->linkAbsolute ) {
+			$t = Title::newFromText( $printRequest->getHTMLText( NULL ), SMW_NS_PROPERTY );
+			
+			if ( $t->exists() ) {
+				$propertyName = $propertyName = Html::element(
+					'a',
+					array( 'href' => $t->getFullUrl() ),
+					$printRequest->getHTMLText( NULL )
+				);
+			}
+			else {
+				$propertyName = $printRequest->getHTMLText( NULL );
+			}						
+		}
+		else {
+			$propertyName = $printRequest->getHTMLText( $wgUser->getSkin() );
+		}
+		
+		if ( $this->linkAbsolute ) {
+			$hasPage = $object->getTypeID() == '_wpg';
+			
+			if ( $hasPage ) {
+				$t = Title::newFromText( $object->getLongText( $this->outputmode, NULL ), NS_MAIN );
+				$hasPage = $t->exists();
+			}
+			
+			if ( $hasPage ) {
+				$propertyValue = Html::element(
+					'a',
+					array( 'href' => $t->getFullUrl() ),
+					$object->getLongText( $this->outputmode, NULL )
+				);
+			}
+			else {
+				$propertyValue = $object->getLongText( $this->outputmode, NULL );
+			}						
+		}
+		else {
+			$propertyValue = $object->getLongText( $this->outputmode, $wgUser->getSkin() );
+		}
+					
+		return $propertyName . ( $propertyName == '' ? '' : ': ' ) . $propertyValue;	
+	}
+	
+	/**
+	 * Builds a set of locations with the provided title, text and icon.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param array $coords
+	 * @param string $title
+	 * @param string $text
+	 * @param string $icon
+	 * 
+	 * @return array of MapsLocation
+	 */
+	protected function buildLocationsList( array $coords, $title, $text, $icon ) {
+		$locations = array();
+		
 		foreach ( $coords as $coord ) {
 			if ( count( $coord ) >= 2 ) {
-				if ( $smgUseSpatialExtensions ) {
-					// TODO
-				}
-				else {
-					list( $lat, $lon ) = $coord; 
-				}
+				$location = new MapsLocation();
+				$location->setCoordinates( $coord );
 				
-				if ( $lat != '' && $lon != '' ) {
-					$icon = $this->getLocationIcon( $row );
+				if ( $location->isValid() ) {
+					$location->setTitle( $title );
+					$location->setText( $text );
+					$location->setIcon( $icon );
 
-					$location = new MapsLocation();
-					
-					$location->setCoordinates( array( $lat, $lon ) );
-					
-					if ( $location->isValid() ) {
-						$location->setTitle( $title );
-						$location->setText( $text );
-						$location->setIcon( $icon );
-	
-						$locations[] = $location;						
-					}
+					$locations[] = $location;						
 				}
 			}	
-		}	
+		}
 		
 		return $locations;
 	}

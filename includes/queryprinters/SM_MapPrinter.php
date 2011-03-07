@@ -20,12 +20,24 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	protected abstract function getServiceName();
 	
 	/**
+	 * @since 0.6
+	 * 
 	 * @var iMappingService
 	 */
 	protected $service;	
 	
+	/**
+	 * @since 0.8
+	 * 
+	 * @var false or string
+	 */
 	protected $fatalErrorMsg = false;
 	
+	/**
+	 * @since 0.8
+	 * 
+	 * @var array
+	 */
 	protected $parameters;
 	
 	/**
@@ -86,7 +98,6 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			$params = $this->parameters;
 			
 			$queryHandler = new SMQueryHandler( $res, $outputmode, $params );
-			//$queryHandler->setText(  );
 			
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
 			
@@ -227,9 +238,11 @@ abstract class SMMapPrinter extends SMWResultPrinter {
     	
         $params = parent::getParameters();
         
+        // Obtain the parameter descriptions list.
 		$paramDescs = SMQueryPrinters::getParameterInfo();
 		$this->service->addParameterInfo( $paramDescs ); 
 
+		// Now go through the descriptions, and convert them from Validator- to SMW-style.
 		foreach ( $paramDescs as $paramDesc ) {
 			$param = array(
 				'name' => $paramDesc->getName(),
