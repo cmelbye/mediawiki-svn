@@ -20,6 +20,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+$wgResourceModules['ext.maps.yahoomaps'] = array(
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/YahooMaps',	
+	'group' => 'ext.maps',
+	'scripts' =>   array(
+		'jquery.yahoomaps.js',
+		'ext.maps.yahoomaps.js'
+	),
+);
+
 $wgHooks['MappingServiceLoad'][] = 'efMapsInitYahooMaps';
 
 function efMapsInitYahooMaps() {

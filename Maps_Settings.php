@@ -92,7 +92,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	include_once $egMapsDir . 'includes/services/OpenLayers/OpenLayers.php';
 	
 	# Yahoo! Maps API
-	// include_once $egMapsDir . 'includes/services/YahooMaps/YahooMaps.php';
+	include_once $egMapsDir . 'includes/services/YahooMaps/YahooMaps.php';
 	
 	# WMF OSM
 	include_once $egMapsDir . 'includes/services/OSM/OSM.php';	
@@ -101,7 +101,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	$egMapsAvailableServices = array(
 		//'googlemaps2',
 		'googlemaps3',
-		//'yahoomaps',
+		'yahoomaps',
 		'openlayers',
 		'osm'
 	);
