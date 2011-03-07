@@ -63,11 +63,8 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	protected function readParameters( /* array */ $params, $outputmode ) {
 		parent::readParameters( $params, $outputmode );
 
-		$parameterInfo = SMQueryPrinters::getParameterInfo();
-		$this->service->addParameterInfo( $parameterInfo );
-		
 		$validator = new Validator( $this->getName(), false );
-		$validator->setParameters( $params, $parameterInfo );
+		$validator->setParameters( $params, $this->getParameterInfo() );
 		$validator->validateParameters();
 		
 		$fatalError  = $validator->hasFatalError();
@@ -81,6 +78,90 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 				htmlspecialchars( wfMsgExt( 'validator-fatal-error', 'parsemag', $fatalError->getMessage() ) ) . 
 				'</span>';			
 		}	
+	}
+	
+	/**
+	 * Returns an array containing the parameter info.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return array
+	 */
+	protected function getParameterInfo() {
+		global $egMapsDefaultLabel, $egMapsDefaultTitle;
+		global $smgQPForceShow, $smgQPShowTitle, $smgQPTemplate;
+		
+		$params = MapsMapper::getCommonParameters();
+		$this->service->addParameterInfo( $params );		
+		
+		$params['zoom']->setDefault( false );		
+		$params['zoom']->setDoManipulationOfDefault( false );		
+		
+		$params['staticlocations'] = new ListParameter( 'staticlocations', ';' );
+		$params['staticlocations']->addAliases( 'locations' );
+		$params['staticlocations']->addCriteria( new CriterionIsLocation( '~' ) );
+		$params['staticlocations']->addManipulations( new MapsParamLocation( '~' ) );		
+		$params['staticlocations']->setDefault( array() );
+		
+		$params['centre'] = new Parameter( 'centre' );
+		$params['centre']->setDefault( false );
+		$params['centre']->addAliases( 'center' );
+		$params['centre']->addCriteria( new CriterionIsLocation() );
+		$params['centre']->setDoManipulationOfDefault( false );
+		$manipulation = new MapsParamLocation();
+		$manipulation->toJSONObj = true;
+		$params['centre']->addManipulations( $manipulation );	
+		
+		$params['icon'] = new Parameter(
+			'icon',
+			Parameter::TYPE_STRING,
+			'', // TODO
+			array(),
+			array(
+				New CriterionNotEmpty()
+			)
+		);
+		
+		$params['forceshow'] = new Parameter(
+			'forceshow',
+			Parameter::TYPE_BOOLEAN,
+			$smgQPForceShow,
+			array( 'force show' )
+		);
+		$params['forceshow']->addManipulations( new ParamManipulationBoolean() );		
+
+		$params['showtitle'] = new Parameter(
+			'showtitle',
+			Parameter::TYPE_BOOLEAN,
+			$smgQPShowTitle,
+			array( 'show title' )
+		);
+		$params['showtitle']->addManipulations( new ParamManipulationBoolean() );		
+		
+		$params['template'] = new Parameter(
+			'template',
+			Parameter::TYPE_STRING,
+			$smgQPTemplate,
+			array(),
+			array(
+				New CriterionNotEmpty()
+			)
+		);
+		
+		$params['title'] = new Parameter(
+			'title',
+			Parameter::TYPE_STRING,
+			$egMapsDefaultTitle
+		);
+		
+		$params['label'] = new Parameter(
+			'label',
+			Parameter::TYPE_STRING,
+			$egMapsDefaultLabel,
+			array( 'text' )
+		);
+		
+		return $params;
 	}	
 	
 	/**
@@ -97,11 +178,21 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 			
 			$params = $this->parameters;
 			
-			$queryHandler = new SMQueryHandler( $res, $outputmode, $params );
-			
+			$queryHandler = new SMQueryHandler( $res, $outputmode );
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
 			
+			// We can only take care of the zoom defaulting here, 
+			// as not all locations are available in whats passed to Validator.
+			if ( $params['zoom'] === false && count( $params['locations'] ) <= 1 ) {
+				$params['zoom'] = $this->service->getDefaultZoom();
+			}
+			
 			$mapName = $this->service->getMapId();
+			
+			SMWOutputs::requireHeadItem( $this->service->getDependencyHtml(), $mapName );
+			foreach ( $this->service->getResourceModules() as $resourceModule ) {
+				SMWOutputs::requireResource( $resourceModule );
+			}
 			
 			return array(
 				$this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName ),
