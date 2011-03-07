@@ -1,12 +1,12 @@
 <?php
 
-class PayflowProGateway_Form_TwoStepTwoColumnLetter3 extends PayflowProGateway_Form_TwoStepTwoColumn {
+class PayflowProGateway_Form_TwoStepTwoColumnPremiumUS extends PayflowProGateway_Form_TwoStepTwoColumn {
 	public function __construct( &$form_data, &$form_errors ) {
 		global $wgScriptPath;
 
 		// set the path to css, before the parent constructor is called, checking to make sure some child class hasn't already set this
 		if ( !strlen( $this->getStylePath() ) ) {
-			$this->setStylePath( $wgScriptPath . '/extensions/DonationInterface/payflowpro_gateway/forms/css/TwoStepTwoColumnLetter3.css' );
+			$this->setStylePath( $wgScriptPath . '/extensions/DonationInterface/payflowpro_gateway/forms/css/TwoStepTwoColumnPremiumUS.css' );
 		}
 
 		parent::__construct( $form_data, $form_errors );
@@ -113,7 +113,7 @@ EOT;
 	}
 
 	public function generateFormStart() {
-		global $wgOut, $wgRequest;
+		global $wgOut, $wgRequest, $wgScriptPath;
 
 		$form = parent::generateBannerHeader();
 
@@ -121,14 +121,10 @@ EOT;
 		$form .= Xml::openElement( 'tr' );
 		$form .= Xml::openElement( 'td', array( 'id' => 'appeal', 'valign' => 'top' ) );
 
-		$text_template = $wgRequest->getText( 'text_template', '2010/JimmyAppealLong' );
-		// if the user has uselang set, honor that, otherwise default to the language set for the form defined by 'language' in the query string
-		if ( $wgRequest->getText( 'language' ) ) $text_template .= '/' . $this->form_data[ 'language' ];
-
-		$template = ( strlen( $text_template ) ) ? $wgOut->parse( '{{' . $text_template . '}}' ) : '';
-		// if the template doesn't exist, prevent the display of the red link
-		if ( preg_match( '/redlink\=1/', $template ) ) $template = NULL;
-		$form .= $template;
+		$form .= Xml::openElement( 'div', array( 'id' => 'premium-confirmation' ) );
+		$form .= Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/Wikipedia-ten-tshirt-back.jpg", 'width' => '300', 'height' => '300' ) );
+		$form .= wfMsg( 'payflowpro_gateway-shirt-size-2', $wgRequest->getText( 'size' ) );
+		$form .= Xml::closeElement( 'div' );  // close div#premium-confirmation
 
 		$form .= Xml::closeElement( 'td' );
 
@@ -156,39 +152,24 @@ EOT;
 		$form .= "<p class='creditcard-error-msg'>" . $this->form_errors['retryMsg'] . "</p>";
 		$form .= Xml::openElement( 'form', array( 'name' => 'payment', 'method' => 'post', 'action' => $this->getNoCacheAction(), 'onsubmit' => 'return formCheck(this)', 'autocomplete' => 'off' ) );
 
-		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-personal-info' ) );
-		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-donor' ) );
-		$form .= $this->generateBillingFields();
-		
-		return $form;
-	}
-	
-	public function generateFormSubmit() {
-		global $wgScriptPath;
-		
-		$form = '<tr>';
-		$form .= '<td class="label"> </td>';
-		$form .= '<td>';
-		
-		// submit button
-		$form .= Xml::openElement( 'div', array( 'id' => 'mw-donate-submit-button' ) );
-		// $form .= Xml::submitButton( wfMsg( 'payflowpro_gateway-submit-button' ));
-		$form .= '&#160;<br/>' . Xml::element( 'input', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/submit-donation-button.png", 'alt' => 'Submit donation', 'type' => 'image' ) );
-		$form .= Xml::closeElement( 'div' ); // close div#mw-donate-submit-button
-		$form .= Xml::openElement( 'div', array( 'class' => 'mw-donate-submessage', 'id' => 'payflowpro_gateway-donate-submessage' ) ) .
-			Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/padlock.gif", 'style' => 'vertical-align:baseline;margin-right:4px;' ) ) . 'Your credit / debit card will be securely processed.';
-		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-donate-submessage
-		
-		$form .= '</td>';
-		$form .= '</tr>';
+		$form .= $this->generateBillingContainer();
 		return $form;
 	}
 
 	public function generateFormEnd() {
 		$form = '';
+		$form .= $this->generateFormClose();
+		return $form;
+	}
+
+	protected function generateBillingContainer() {
+		$form = '';
+		$form .= Xml::openElement( 'div', array( 'id' => 'payflowpro_gateway-personal-info' ) );
+		$form .= Xml::openElement( 'table', array( 'id' => 'payflow-table-donor' ) );
+		$form .= $this->generateBillingFields();
 		$form .= Xml::closeElement( 'table' ); // close table#payflow-table-donor
 		$form .= Xml::closeElement( 'div' ); // close div#payflowpro_gateway-personal-info
-		$form .= $this->generateFormClose();
+
 		return $form;
 	}
 
@@ -198,9 +179,6 @@ EOT;
 		$form = '';
 		
 		// amount
-		$form .= '<tr>';
-		$form .= '<td colspan="2"><span class="creditcard-error-msg">' . $this->form_errors['invalidamount'] . '</span></td>';
-		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td colspan="2">';
 		$form .= '<table cellspacing="0" cellpadding="4" border="1" id="donation_amount">';
@@ -302,15 +280,13 @@ EOT;
 		$form .= '</tr>';
 
 		// country
-		/*
 		$form .= '<tr>';
 		$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['country'] . '</span></td>';
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="label"> </td>';
-		$form .= '<td>' . $this->generateCountryDropdown() . '</td>';
+		$form .= '<td>' . $this->generateCountryDropdown( $this->form_data['country2'] ) . '</td>';
 	    $form .= '</tr>';
-	    */
 		
 		// email
 		$form .= '<tr>';

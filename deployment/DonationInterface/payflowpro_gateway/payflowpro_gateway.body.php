@@ -111,33 +111,45 @@ EOT;
 
 		// make a log entry if the user has submitted the cc form
 		if ( $wgRequest->wasPosted() && $wgRequest->getText( 'process', 0 )) {
-			self::log( $payflow_data[ 'order_id' ] . " Transaction initiated." );
+			self::log( $payflow_data[ 'order_id' ] . " Transaction initiated." );			
+		} else {
+			self::log( $payflow_data[ 'order_id' ] . " " . $payflow_data[ 'i_order_id' ] . " Initial credit card form request.", 'payflowpro_gateway', LOG_DEBUG );
 		}
 
 		// if _cache_ is requested by the user, do not set a session/token; dynamic data will be loaded via ajax
 		if ( $wgRequest->getText( '_cache_', false ) ) {
+			self::log( $payflow_data[ 'order_id' ] . " " . $payflow_data[ 'i_order_id' ] . " Cache requested", 'payflowpro_gateway', LOG_DEBUG );
 			$cache = true;
 			$token = '';
 			$token_match = false;
 
 			// if we have squid caching enabled, set the maxage
 			global $wgUseSquid, $wgPayflowSMaxAge;
-			if ( $wgUseSquid ) $wgOut->setSquidMaxage( $wgPayflowSMaxAge );
+			if ( $wgUseSquid ) {
+				self::log( $payflow_data[ 'order_id' ] .  " " . $payflow_data[ 'i_order_id' ] . " Setting s-max-age: " . $wgPayflowSMaxAge, 'payflowpro_gateway', LOG_DEBUG );
+				$wgOut->setSquidMaxage( $wgPayflowSMaxAge );	
+			}
 		} else {
 			$cache = false;
 
 			// establish the edit token to prevent csrf
 			$token = self::fnPayflowEditToken( $wgPayflowGatewaySalt );
-
+			
+			self::log( $payflow_data[ 'order_id' ] .  " " . $payflow_data[ 'i_order_id' ] . " fnPayflowEditToken: " . $token, 'payflowpro_gateway', LOG_DEBUG );
+			
 			// match token
 			$token_check = ( $wgRequest->getText( 'token' ) ) ? $wgRequest->getText( 'token' ) : $token;
 			$token_match = $this->fnPayflowMatchEditToken( $token_check, $wgPayflowGatewaySalt );
+			if ( $wgRequest->wasPosted() ) {
+				self::log( $payflow_data[ 'order_id' ] .  " " . $payflow_data[ 'i_order_id' ] . " Submitted edit token: " . $wgRequest->getText( 'token', 'None' ), 'payflowpro_gateway', LOG_DEBUG);
+				self::log( $payflow_data[ 'order_id' ] . " " . $payflow_data[ 'i_order_id' ] . " Token match: " . ($token_match ? 'true' : 'false' ), 'payflowpro_gateway', LOG_DEBUG );
+			}
 		}
 
 		$this->setHeaders();
 
 		// Populate form data
-		$data = $this->fnGetFormData( $amount, $numAttempt, $token, $payflow_data['order_id'] );
+		$data = $this->fnGetFormData( $amount, $numAttempt, $token, $payflow_data['order_id'], $payflow_data['i_order_id'] );
 
 		/**
 		 *  handle PayPal redirection
@@ -152,8 +164,8 @@ EOT;
 
 		// dispatch forms/handling
 		if ( $token_match ) {
-
 			if ( $data['payment_method'] == 'processed' ) {
+				
 				// increase the count of attempts
 				++$data['numAttempt'];
 
@@ -171,7 +183,7 @@ EOT;
 					// if the transaction was flagged for review
 					if ( $this->action == 'review' ) {
 						// expose a hook for external handling of trxns flagged for review
-						wfRunHooks( 'PayflowGatewayReview', array( &$this, &$data ) );
+						wfRunHooks( 'PayflowGatewayReview', array( &$this, &$data ));
 					}
 
 					// if the transaction was flagged to be 'challenged'
@@ -493,19 +505,24 @@ EOT;
 		
 		// if approved, display results and send transaction to the queue
 		if ( $errorCode == '1' ) {
+			self::log( $data[ 'order_id' ] . " " . $data[ 'i_order_id' ] . " Transaction approved.", 'payflowpro_gateway', LOG_DEBUG );
 			$this->fnPayflowDisplayApprovedResults( $data, $responseArray, $responseMsg );
 			// give user a second chance to enter incorrect data
 		} elseif ( ( $errorCode == '3' ) && ( $data['numAttempt'] < '5' ) ) {
+			self::log( $data[ 'order_id' ] . " " . $data[ 'i_order_id' ] . " Transaction unsuccessful (invalid info).", 'payflowpro_gateway', LOG_DEBUG );
 			// pass responseMsg as an array key as required by displayForm
-				$this->errors['retryMsg'] = $responseMsg;
-				$this->fnPayflowDisplayForm( $data, $this->errors );
+			$this->errors['retryMsg'] = $responseMsg;
+			$this->fnPayflowDisplayForm( $data, $this->errors );
 			// if declined or if user has already made two attempts, decline
 		} elseif ( ( $errorCode == '2' ) || ( $data['numAttempt'] >= '3' ) ) {
-				$this->fnPayflowDisplayDeclinedResults( $responseMsg );
+			self::log( $data[ 'order_id' ] . " " . $data[ 'i_order_id' ] . " Transaction declined.", 'payflowpro_gateway', LOG_DEBUG );
+			$this->fnPayflowDisplayDeclinedResults( $responseMsg );
 		} elseif ( ( $errorCode == '4' ) ) {
-				$this->fnPayflowDisplayOtherResults( $responseMsg );
+			self::log( $data[ 'order_id' ] . " " . $data[ 'i_order_id' ] . " Transaction unsuccessful.", 'payflowpro_gateway', LOG_DEBUG );
+			$this->fnPayflowDisplayOtherResults( $responseMsg );
 		} elseif ( ( $errorCode == '5' ) ) {
-				$this->fnPayflowDisplayPending( $data, $responseArray, $responseMsg );
+			self::log( $data[ 'order_id' ] . " " . $data[ 'i_order_id' ] . " Transaction pending.", 'payflowpro_gateway', LOG_DEBUG );
+			$this->fnPayflowDisplayPending( $data, $responseArray, $responseMsg );
 		}
 
 	}// end display results
@@ -941,7 +958,7 @@ EOT;
 	 * Provides a way to prepopulate the form with test data using $wgPayflowGatewayTest
 	 * @return array
 	 */
-	public function fnGetFormData( $amount, $numAttempt, $token, $order_id ) {
+	public function fnGetFormData( $amount, $numAttempt, $token, $order_id, $i_order_id=0 ) {
 		global $wgPayflowGatewayTest, $wgRequest;
 
 		// fetch ID for the url reference for OWA tracking
@@ -994,6 +1011,7 @@ EOT;
 				'currency' => 'USD',
 				'payment_method' => $wgRequest->getText( 'payment_method' ),
 				'order_id' => $order_id,
+				'i_order_id' => $i_order_id,
 				'numAttempt' => $numAttempt,
 				'referrer' => 'http://www.baz.test.com/index.php?action=foo&action=bar',
 				'utm_source' => self::getUtmSource(),
@@ -1031,7 +1049,7 @@ EOT;
 				'city2' => $wgRequest->getText( 'city' ),
 				'state2' => $wgRequest->getText( 'state' ),
 				'zip2' => $wgRequest->getText( 'zip' ),
-				'country2' => $wgRequest->getText( 'country' ),
+				'country2' => $wgRequest->getText( 'country2', $wgRequest->getText( 'country' ) ),
 				'size' => $wgRequest->getText( 'size' ),
 				'premium_language' => $wgRequest->getText( 'premium_language', "en" ),
 				'card_num' => str_replace( ' ', '', $wgRequest->getText( 'card_num' ) ),
@@ -1041,6 +1059,7 @@ EOT;
 				'currency' => $wgRequest->getText( 'currency_code' ),
 				'payment_method' => $wgRequest->getText( 'payment_method' ),
 				'order_id' => $order_id,
+				'i_order_id' => $i_order_id,
 				'numAttempt' => $numAttempt,
 				'referrer' => ( $wgRequest->getVal( 'referrer' ) ) ? $wgRequest->getVal( 'referrer' ) : $wgRequest->getHeader( 'referer' ),
 				'utm_source' => self::getUtmSource(),

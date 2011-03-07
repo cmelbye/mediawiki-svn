@@ -22,8 +22,8 @@ class PayflowProGateway_Form_OneStepTwoColumn extends PayflowProGateway_Form {
 	public function loadPlaceholders() {
 		global $wgOut;
 		// form placeholder values
-		$first = wfMsg( 'payflowpro_gateway-first' );
-		$last = wfMsg( 'payflowpro_gateway-last' );
+		$first = wfMsg( 'payflowpro_gateway-donor-fname' );
+		$last = wfMsg( 'payflowpro_gateway-donor-lname' );
 		$other = wfMsg( 'payflowpro_gateway-other' );
 		$js = <<<EOT
 <script type="text/javascript">
@@ -280,7 +280,7 @@ EOT;
 		// card logos
 		$form .= '<tr>';
 		$form .= '<td />';
-		$form .= '<td>&nbsp;<br/>' . Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/credit_card_logos.gif" ) ) . '</td>';
+		$form .= '<td>&#160;<br/>' . Xml::element( 'img', array( 'src' => $wgScriptPath . "/extensions/DonationInterface/payflowpro_gateway/includes/credit_card_logos.gif" ) ) . '</td>';
 		$form .= '</tr>';
 
 		// card number

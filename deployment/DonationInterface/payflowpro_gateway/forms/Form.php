@@ -358,7 +358,8 @@ abstract class PayflowProGateway_Form {
 				'process' => 'CreditCard',
 				'payment_method' => 'processed',
 				'token' => $this->form_data[ 'token' ],
-				'orderid' => $this->form_data[ 'order_id' ],
+				'order_id' => $this->form_data[ 'order_id' ],
+				'i_order_id' => $this->form_data[ 'i_order_id' ],
 				'numAttempt' => $this->form_data[ 'numAttempt' ],
 				'contribution_tracking_id' => $this->form_data[ 'contribution_tracking_id' ],
 				'data_hash' => $this->form_data[ 'data_hash' ],
@@ -549,8 +550,8 @@ abstract class PayflowProGateway_Form {
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="label">' . Xml::label( wfMsg( 'payflowpro_gateway-donor-name' ), 'fname' ) . '</td>';
-		$form .= '<td>' . Xml::input( 'fname', '30', $this->form_data['fname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-first' ).'\' )', 'maxlength' => '25', 'class' => 'required', 'id' => 'fname' ) ) .
-			Xml::input( 'lname', '30', $this->form_data['lname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-last' ).'\' )', 'maxlength' => '25', 'id' => 'lname' ) ) . '</td>';
+		$form .= '<td>' . Xml::input( 'fname', '30', $this->form_data['fname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-donor-fname' ).'\' )', 'maxlength' => '25', 'class' => 'required', 'id' => 'fname' ) ) .
+			Xml::input( 'lname', '30', $this->form_data['lname'], array( 'type' => 'text', 'onfocus' => 'clearField( this, \''.wfMsg( 'payflowpro_gateway-donor-lname' ).'\' )', 'maxlength' => '25', 'id' => 'lname' ) ) . '</td>';
 		$form .= "</tr>";
 		return $form;
 	}
@@ -624,13 +625,13 @@ abstract class PayflowProGateway_Form {
 		return $form;
 	}
 
-	protected function getCountryField() {
+	protected function getCountryField( $defaultCountry = null ) {
 		$form = '<tr>';
 		$form .= '<td colspan=2><span class="creditcard-error-msg">' . $this->form_errors['country'] . '</span></td>';
 		$form .= '</tr>';
 		$form .= '<tr>';
 		$form .= '<td class="label">' . Xml::label( wfMsg( 'payflowpro_gateway-donor-country' ), 'country' ) . '</td>';
-		$form .= '<td>' . $this->generateCountryDropdown() . '</td>';
+		$form .= '<td>' . $this->generateCountryDropdown( $defaultCountry ) . '</td>';
 	    $form .= '</tr>';
 	    return $form;
 	}

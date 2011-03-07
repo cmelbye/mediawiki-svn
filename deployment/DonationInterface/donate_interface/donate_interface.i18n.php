@@ -207,7 +207,7 @@ $messages['az'] = array(
 	'donate_interface-ILS' => 'ILS: İsrail şekeli',
 );
 
-/** Bashkir (Башҡорт)
+/** Bashkir (Башҡортса)
  * @author Assele
  * @author Haqmar
  */
@@ -247,7 +247,7 @@ $messages['ba'] = array(
 	'donate_interface-ILS' => 'ILS: Израиль шекеле',
 );
 
-/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
  * @author Jim-by
  */
@@ -726,7 +726,7 @@ $messages['eo'] = array(
 	'donate_interface-comment-message' => 'Ĉu vi volas skribi viajn pensojn doni al la mondo?  Enigu ĝis 200 signoj ĉi tien:',
 	'donate_interface-comment-label' => 'Komenti:',
 	'donate_interface-anon-message' => 'Bonvolu listigi mian nomon apud mia komento en la publika listo de donacantoj.',
-	'donate_interface-email-agreement' => 'Mi konsentas ricevi retpoŝtojn kaj novaĵleterojn de la Fondaĵo Wikimedia.',
+	'donate_interface-email-agreement' => 'Mi konsentas ricevi maloftajn ĝisdatigojn de la Fondaĵo Wikimedia.',
 	'donate_interface-comment-title' => 'Publika komento',
 	'donate_interface-amount-error' => '**Bonvolu enigi validan iomon**',
 	'donate_interface-processing-error' => 'Eraro okazis traktante vian peton.
@@ -1421,10 +1421,12 @@ $messages['ja'] = array(
 );
 
 /** Georgian (ქართული)
+ * @author Dawid Deutschland
  * @author Temuri rajavi
  */
 $messages['ka'] = array(
 	'donate_interface' => 'მხარი დაუჭირე ვიკიმედიას',
+	'donate_interface-amount' => 'შემოწირულობის თანხა:',
 	'donate_interface-currency' => 'ვალუტა:',
 	'donate_interface-gateway' => 'გადახდის მეთოდი:',
 	'donate_interface-submit-button' => 'შემოწე',
@@ -1453,12 +1455,36 @@ $messages['ka'] = array(
  * @author គីមស៊្រុន
  */
 $messages['km'] = array(
+	'donate_interface' => 'គាំទ្រវិគីមេឌា',
+	'donate_interface-intro' => 'សូមជ្រើសរើសរបៀបបង់ប្រាក់ ចំនួនទឹកប្រាក់ និង ឯកតា។',
+	'donate_interface-amount' => 'ចំនួនទឹកប្រាក់បរិច្ចាគ៖',
+	'donate_interface-other-amount' => 'ចំនួនទឹកប្រាក់ផ្សេងទៀត',
+	'donate_interface-currency' => 'ឯកតា៖',
+	'donate_interface-gateway' => 'របៀបបង់ប្រាក់៖',
+	'donate_interface-submit-button' => 'បរិច្ចាគ',
+	'donate_interface-comment-message' => 'តើអ្នកមានគំនិតសំរាប់ចែកចាយអោយពិភពលោកដឹងលឺទេ? សូមសរសេរនៅទៅនេះ (មិនលើសពី២០០អក្សរ)៖',
+	'donate_interface-comment-label' => 'យោបល់៖',
+	'donate_interface-anon-message' => 'សូមដាក់ឈ្មោះខ្ញុំ (នៅក្បែរយោបល់ខ្ញុះ) នៅលើបញ្ជីអ្នកបរិច្ចាគសាធារណៈ។',
+	'donate_interface-email-agreement' => 'ខ្ញុំយល់ស្របក្នុងការទទួលយកការបន្ទាន់សម័យណាមួយពីមូលនិធិវិគីមេឌា។',
+	'donate_interface-comment-title' => 'យោបល់សាធារណៈ',
+	'donate_interface-amount-error' => '**សូមបំពេញចំនួនទឹកប្រាក់អោយបានត្រឹមត្រូវ**',
 	'donate_interface-GBP' => 'GBP៖ ផោនអង់គ្លេស',
 	'donate_interface-EUR' => 'EUR៖ យូរ៉ូ',
 	'donate_interface-USD' => 'USD៖ ដុល្លារអាមេរិក',
 	'donate_interface-AUD' => 'AUD៖ ដុល្លារអូស្ត្រាលី',
 	'donate_interface-CAD' => 'CAD៖ ដុល្លារកាណាដា',
+	'donate_interface-CHF' => 'CHF: ហ្រង់ស្វីស',
+	'donate_interface-CZK' => 'CZK: កូរុណាឆែក',
+	'donate_interface-DKK' => 'DKK: ក្រូណេដាណឺម៉ាក',
+	'donate_interface-HKD' => 'HKD: ដុល្លារហុងកុង',
+	'donate_interface-HUF' => 'HUF: ហ្វរីនហុងគ្រី',
 	'donate_interface-JPY' => 'JPY៖ យ៉េនជប៉ុន',
+	'donate_interface-NZD' => 'NZD: ដុល្លារញូហ្សៀលែន',
+	'donate_interface-NOK' => 'NOK: ក្រូណេណរវេយ',
+	'donate_interface-PLN' => 'PLN: ស្លូទីប៉ូឡូញ',
+	'donate_interface-SGD' => 'SGD: ដុល្លាសិង្ហបុរី',
+	'donate_interface-SEK' => 'SEK: ក្រូណាស៊ុយអែដ',
+	'donate_interface-ILS' => 'ILS: ស្សិកែលអ៊ីស្រាអែល',
 );
 
 /** Korean (한국어)
@@ -1502,6 +1528,17 @@ $messages['ko'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
+	'donate_interface' => 'Ongershtöz Wikimedia!',
+	'donate_interface-desc' => 'En Einschtiesh_Sigg för et Shpände, di de ongerscheidlijje Zohsaz_Projramme för et Bezahle ömfaß.',
+	'donate_interface-intro' => 'Söhg en Aat för_t Bezahle, ene Bedraach un en Jeld_Zood uß.',
+	'donate_interface-amount' => 'Bedraach:',
+	'donate_interface-other-amount' => 'Ene andere Bedraach',
+	'donate_interface-currency' => 'De Zoot Jeld:',
+	'donate_interface-gateway' => 'De Aat ze lazze',
+	'donate_interface-submit-button' => 'Schpände!',
+	'donate_interface-amount-error' => '**Jiv ene jöltijje Bedraach en**',
+	'donate_interface-processing-error' => 'Ene Fähler es beim Beärbeide vun Dinge Enjaab opjetrodde.
+Et sinn_er kein Prozäßoore mieh frei.',
 	'donate_interface-GBP' => 'GBP: Änglesche Pongk',
 	'donate_interface-EUR' => 'EUR: Euros',
 	'donate_interface-USD' => 'USD:  Dollars uß de USA',
@@ -2038,6 +2075,7 @@ Nòstra politica de respièch de la vida privada dels donators se tròba <a titl
  * @author Xqt
  */
 $messages['pdc'] = array(
+	'donate_interface-comment-label' => 'Aamaerricking:',
 	'donate_interface-GBP' => 'GBP: Britisch Pfund',
 	'donate_interface-EUR' => 'EUR: Eiro',
 	'donate_interface-USD' => 'USD: U.S. Dollar',
@@ -2534,7 +2572,7 @@ Na voljo ni nobenega obdelovalca.',
 	'donate_interface-ILS' => 'ILS: izraelski šekel',
 );
 
-/** Serbian Cyrillic ekavian (Српски (ћирилица))
+/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
  * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
@@ -2545,7 +2583,7 @@ $messages['sr-ec'] = array(
 	'donate_interface-JPY' => 'JPY: Јапански јен',
 );
 
-/** Serbian Latin ekavian (Srpski (latinica)) */
+/** Serbian Latin ekavian (‪Srpski (latinica)‬) */
 $messages['sr-el'] = array(
 	'donate_interface-EUR' => 'EUR: Evro',
 	'donate_interface-USD' => 'USD: Američki dolar',
@@ -2982,6 +3020,7 @@ $messages['yi'] = array(
 	'donate_interface-CHF' => 'CHF: שווייצער פֿראַנק',
 	'donate_interface-CZK' => 'CZK: טשעכישע קאָרונע',
 	'donate_interface-DKK' => 'DKK: דענישע קראנע',
+	'donate_interface-SEK' => 'SEK: שוועדישע קראנע',
 	'donate_interface-ILS' => 'ILS: ישראלדיקער שקל',
 );
 
