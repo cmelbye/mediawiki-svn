@@ -85,8 +85,8 @@ class MapsGoogleMaps extends MapsMappingService {
 		
 		$params['kml'] = new ListParameter( 'kml' );
 		$params['kml']->setDefault( array() );
-		$params['kml']->addManipulations( new ParamManipulationImplode( ',', "'" ) );
-
+		$params['kml']->addManipulations( new MapsParamFile() );
+		
 		$params['overlays'] = new ListParameter( 'overlays' );
 		$params['overlays']->setDefault( $egMapsGMapOverlays );
 		$params['overlays']->addCriteria( new CriterionGoogleOverlay( self::$overlayData ) );

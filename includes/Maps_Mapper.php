@@ -140,21 +140,21 @@ final class MapsMapper {
 	/**
 	 * Resolves the url of images provided as wiki page; leaves others alone.
 	 * 
-	 * @since 0.7.1
+	 * @since 0.8
 	 * 
-	 * @param string $image
+	 * @param string $file
 	 * 
 	 * @return string
 	 */
-	public static function getImageUrl( $image ) {
-		$title = Title::newFromText( $image, NS_FILE );
+	public static function getFileUrl( $file ) {
+		$title = Title::newFromText( $file, NS_FILE );
 
 		if ( !is_null( $title ) && $title->getNamespace() == NS_FILE && $title->exists() ) {
 			$imagePage = new ImagePage( $title );
-			$image = $imagePage->getDisplayedFile()->getURL();
+			$file = $imagePage->getDisplayedFile()->getURL();
 		}		
 		
-		return $image;
+		return $file;
 	}
 	
 	/**

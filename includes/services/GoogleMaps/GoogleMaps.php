@@ -62,8 +62,8 @@ function efMapsInitGoogleMaps() {
 	
 	MapsMappingServices::registerService( 'googlemaps2', 'MapsGoogleMaps' );
 	$googleMaps = MapsMappingServices::getServiceInstance( 'googlemaps2' );
-	$googleMaps->addFeature( 'display_point', 'MapsBasePointMaps' );
-	$googleMaps->addFeature( 'display_map', 'MapsBaseMaps' );
+	$googleMaps->addFeature( 'display_point', 'MapsBasePointMap' );
+	$googleMaps->addFeature( 'display_map', 'MapsBaseMap' );
 	
 	return true;
 }

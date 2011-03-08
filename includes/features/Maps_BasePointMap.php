@@ -147,7 +147,7 @@ class MapsBasePointMap {
 		global $wgTitle;
 
 		$parser = new Parser();			
-		$iconUrl = MapsMapper::getImageUrl( $params['icon'] );
+		$iconUrl = MapsMapper::getFileUrl( $params['icon'] );
 		$params['locations'] = array();
 
 		foreach ( $params['coordinates'] as $location ) {

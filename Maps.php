@@ -106,7 +106,7 @@ unset( $lyrDir );
 // Autoload the "includes/manipulations/" classes.
 $manDir = $incDir . 'manipulations/';
 $wgAutoloadClasses['MapsParamDimension'] 		= $manDir . 'Maps_ParamDimension.php';
-$wgAutoloadClasses['MapsParamImage'] 			= $manDir . 'Maps_ParamImage.php';
+$wgAutoloadClasses['MapsParamFile'] 			= $manDir . 'Maps_ParamFile.php';
 $wgAutoloadClasses['MapsParamLocation'] 		= $manDir . 'Maps_ParamLocation.php';
 $wgAutoloadClasses['MapsParamService'] 			= $manDir . 'Maps_ParamService.php';
 $wgAutoloadClasses['MapsParamZoom'] 			= $manDir . 'Maps_ParamZoom.php';
@@ -194,7 +194,7 @@ $egMapsFeatures['pf'][]	= 'MapsDisplayPoint::initialize';
 # Mapping services
 	
 	# Google Maps API v2
-	// include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
+	include_once $egMapsDir . 'includes/services/GoogleMaps/GoogleMaps.php';
 	
 	# Google Maps API v3
 	include_once $egMapsDir . 'includes/services/GoogleMaps3/GoogleMaps3.php';
@@ -264,8 +264,7 @@ function efMapsSetup() {
 		'name' => wfMsg( 'maps_name' ),
 		'version' => Maps_VERSION,
 		'author' => array(
-			'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]',
-			'[http://www.mediawiki.org/wiki/Extension:Maps/Credits ' . wfMsg( 'maps-others' ) . ']'
+			'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]'
 		),
 		'url' => 'http://www.mediawiki.org/wiki/Extension:Maps',
 		'description' => wfMsgExt( 'maps_desc', 'parsemag', $servicesList ),

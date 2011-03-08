@@ -373,7 +373,7 @@ class MapsLocation {
 			'text' => $this->hasText() ? $this->getText() : $defText,
 			'title' => $this->hasTitle() ? $this->getTitle() : $defTitle,
 			'address' => $this->getAddress( false ),
-			'icon' => $this->hasIcon() ? MapsMapper::getImageUrl( $this->getIcon() ) : $defIconUrl
+			'icon' => $this->hasIcon() ? MapsMapper::getFileUrl( $this->getIcon() ) : $defIconUrl
 		);
 	}
 	

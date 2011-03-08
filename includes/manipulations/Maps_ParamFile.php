@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Parameter manipulation ensuring the value is an image url.
+ * Parameter manipulation ensuring the value is an file url.
  * 
- * @since 0.7.1
+ * @since 0.8
  * 
- * @file Maps_ParamImage.php
+ * @file Maps_ParamFile.php
  * @ingroup Maps
  * @ingroup ParameterManipulations
  * 
  * @author Jeroen De Dauw
  */
-class MapsParamImage extends ItemParameterManipulation {
+class MapsParamFile extends ItemParameterManipulation {
 
 	/**
 	 * Constructor.
@@ -28,7 +28,7 @@ class MapsParamImage extends ItemParameterManipulation {
 	 * @since 0.7
 	 */	
 	public function doManipulation( &$value, Parameter $parameter, array &$parameters ) {
-		$value = MapsMapper::getImageUrl( $value );
+		$value = MapsMapper::getFileUrl( $value );
 	}
 	
 }

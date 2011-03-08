@@ -101,7 +101,7 @@
 	}
 
 	if ( options.centre !== false ) {
-		map.setCenter( options.centre );
+		map.setCenter( new GLatLng( options.centre.lat, options.centre.lon ) );
 	}
 	
 	if ( options.zoom !== false ) {
