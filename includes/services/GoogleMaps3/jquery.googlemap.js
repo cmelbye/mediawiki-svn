@@ -67,6 +67,10 @@
 		var kmlLayer = new google.maps.KmlLayer( options.kml[i], { map: map } );
 	}
 	
+	for ( i = options.fusiontables.length - 1; i >= 0; i-- ) {
+		var ftLayer = new google.maps.FusionTablesLayer( options.fusiontables[i], { map: map } );
+	}	
+	
 	var layerMapping = {
 		'traffic': 'new google.maps.TrafficLayer()',
 		'bicycling': 'new google.maps.BicyclingLayer()'
@@ -74,6 +78,7 @@
 	
 	for ( i = options.layers.length - 1; i >= 0; i-- ) {
 		var layer = eval( layerMapping[options.layers[i]] );
+		layer.setMap( map );
 	}	
 	
 	var bounds;

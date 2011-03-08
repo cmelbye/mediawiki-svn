@@ -38,7 +38,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 */
 	protected static $mapLayers = array(
 		'traffic',
-		'bicyling'
+		'bicycling'
 	);	
 	
 	public static $tyepControlStyles = array(
@@ -120,7 +120,10 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		
 		$params['kml'] = new ListParameter( 'kml' );
 		$params['kml']->setDefault( array() );
-		//$params['kml']->addManipulations( new MapsParamFile() );		
+		//$params['kml']->addManipulations( new MapsParamFile() );	
+
+		$params['fusiontables'] = new ListParameter( 'fusiontables' );
+		$params['fusiontables']->setDefault( array() );		
 	}
 	
 	/**
@@ -165,7 +168,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * @return array
 	 */
 	public static function getLayerNames() {
-		return array_keys( self::$mapLayers );
+		return self::$mapLayers;
 	}	
 	
 	/**
