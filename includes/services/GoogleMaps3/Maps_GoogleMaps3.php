@@ -29,6 +29,18 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		'physical' => 'TERRAIN'
 	);
 	
+	/**
+	 * List of supported map layers. 
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var array
+	 */
+	protected static $mapLayers = array(
+		'traffic',
+		'bicyling'
+	);	
+	
 	public static $tyepControlStyles = array(
 		'default' => 'DEFAULT',
 		'horizontal' => 'HORIZONTAL_BAR',
@@ -68,7 +80,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls;
+		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls, $egMapsGMaps3Layers;
 		global $egMapsGMaps3DefTypeStyle, $egMapsGMaps3DefZoomStyle, $egMapsGMaps3AutoInfoWindows;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
@@ -83,6 +95,10 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		$params['types']->setDefault( $egMapsGMaps3Types );
 		$params['types']->addCriteria( new CriterionInArray( self::getTypeNames() ) );		
 		$params['types']->addManipulations( new MapsParamGMap3Type() );
+		
+		$params['layers'] = new ListParameter( 'layers' );
+		$params['layers']->setDefault( $egMapsGMaps3Layers );
+		$params['layers']->addCriteria( new CriterionInArray( self::getLayerNames() ) );		
 		
 		$params['controls'] = new ListParameter( 'controls' );
 		$params['controls']->setDefault( $egMapsGMaps3Controls );
@@ -101,6 +117,10 @@ class MapsGoogleMaps3 extends MapsMappingService {
 
 		$params['autoinfowindows'] = new Parameter( 'autoinfowindows', Parameter::TYPE_BOOLEAN );
 		$params['autoinfowindows']->setDefault( $egMapsGMaps3AutoInfoWindows );
+		
+		$params['kml'] = new ListParameter( 'kml' );
+		$params['kml']->setDefault( array() );
+		//$params['kml']->addManipulations( new MapsParamFile() );		
 	}
 	
 	/**
@@ -136,6 +156,17 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	public static function getTypeNames() {
 		return array_keys( self::$mapTypes );
 	}
+	
+	/**
+	 * Returns the names of all supported map layers.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return array
+	 */
+	public static function getLayerNames() {
+		return array_keys( self::$mapLayers );
+	}	
 	
 	/**
 	 * @see MapsMappingService::getDependencies

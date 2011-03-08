@@ -199,6 +199,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		
 		$egMapsGMaps3AutoInfoWindows = false;
 		
+		$egMapsGMaps3Layers = array();
 		
 		
 		
@@ -254,7 +255,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			'wikipedia',
 			'webcams'
 		);
-	
+		
 	
 	
 	# Yahoo! Maps

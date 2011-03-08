@@ -86,7 +86,7 @@
 	if ( !options.locations ) {
 		options.locations = [];
 	}
-
+	
 	var bounds = ( ( options.zoom === false || options.centre === false ) && options.locations.length > 1 ) ? new GLatLngBounds() : null;
 
 	for ( i = options.locations.length - 1; i >= 0; i-- ) {
@@ -115,13 +115,9 @@
 	map.enableContinuousZoom();
 	
 	// Code to add KML files.
-	/*
-	var kmlOverlays = [];
-	for ( i = args.kml.length - 1; i >= 0; i-- ) {
-		kmlOverlays[i] = new GGeoXml( args.kml[i] );
-		map.addOverlay( kmlOverlays[i] );
+	for ( i = options.kml.length - 1; i >= 0; i-- ) {
+		map.addOverlay( new GGeoXml( options.kml[i] ) );
 	}
-	*/
 	
     function ensureTypeIsSelectable( type, types ) {
     	var typesContainType = false;

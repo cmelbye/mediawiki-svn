@@ -85,7 +85,7 @@ class MapsGoogleMaps extends MapsMappingService {
 		
 		$params['kml'] = new ListParameter( 'kml' );
 		$params['kml']->setDefault( array() );
-		$params['kml']->addManipulations( new MapsParamFile() );
+		//$params['kml']->addManipulations( new MapsParamFile() );
 		
 		$params['overlays'] = new ListParameter( 'overlays' );
 		$params['overlays']->setDefault( $egMapsGMapOverlays );

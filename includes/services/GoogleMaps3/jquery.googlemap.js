@@ -62,6 +62,20 @@
 		markers.push( marker );
 	}
 	
+	// Code to add KML files.
+	for ( i = options.kml.length - 1; i >= 0; i-- ) {
+		var kmlLayer = new google.maps.KmlLayer( options.kml[i], { map: map } );
+	}
+	
+	var layerMapping = {
+		'traffic': 'new google.maps.TrafficLayer()',
+		'bicycling': 'new google.maps.BicyclingLayer()'
+	};
+	
+	for ( i = options.layers.length - 1; i >= 0; i-- ) {
+		var layer = eval( layerMapping[options.layers[i]] );
+	}	
+	
 	var bounds;
 	
 	if ( ( options.centre === false || options.zoom === false ) && options.locations.length > 1 ) {
