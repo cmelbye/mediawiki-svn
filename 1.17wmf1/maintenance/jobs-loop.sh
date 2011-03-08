@@ -18,7 +18,8 @@ while [ 1 ];do
 			db=`php -n nextJobDB.php --type="$type"`
 			if [ -n "$db" ]; then
 				echo "$db $type"
-				nice -n 20 php runJobs.php --wiki="$db" --procs=4 --type="$type"
+				nice -n 20 php runJobs.php --wiki="$db" --procs=4 --type="$type" &
+				wait
 				moreprio=y
 			fi
 		done
@@ -33,7 +34,8 @@ while [ 1 ];do
 		sleep 5
 	else
 		echo "$db"
-		nice -n 20 php runJobs.php --wiki="$db" --procs=4
+		nice -n 20 php runJobs.php --wiki="$db" --procs=4 &
+		wait
 	fi
 done
 
