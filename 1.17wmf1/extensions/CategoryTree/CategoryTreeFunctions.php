@@ -427,7 +427,7 @@ class CategoryTree {
 			'cl_from' );
 		$where = array();
 		$joins = array();
-		$options = array( 'ORDER BY' => 'cl_sortkey', 'LIMIT' => $wgCategoryTreeMaxChildren );
+		$options = array( 'ORDER BY' => 'cl_type, cl_sortkey', 'LIMIT' => $wgCategoryTreeMaxChildren );
 
 		if ( $inverse ) {
 			$joins['categorylinks'] = array( 'RIGHT JOIN', 'cl_to = page_title AND page_namespace = ' . NS_CATEGORY );
@@ -443,9 +443,9 @@ class CategoryTree {
 				$where['page_namespace'] = $namespaces;
 			} elseif ( $mode != CT_MODE_ALL ) {
 				if ( $mode == CT_MODE_PAGES ) {
-					$where = array_merge( $where, array( 'page_namespace != ' . NS_IMAGE ) );
+					$where['cl_type'] = array( 'page', 'subcat' );
 				} else {
-					$where['page_namespace'] = NS_CATEGORY;
+					$where['cl_type'] = 'subcat';
 				}
 			}
 		}
