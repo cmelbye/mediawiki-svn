@@ -70,6 +70,11 @@ function upgradeWiki( $db ) {
 	echo "$server $wiki 1.17wmf1-final";
 
 	sourceUpgradeFile( $db, dirname( __FILE__ ) .'/schema-changes-1.17wmf1-final.sql' );
+	
+	if ( !$db->fieldExists( 'redirect', 'rd_interwiki' ) ) {
+		echo " rd_interwiki";
+		sourceUpgradeFile( $db, dirname(__FILE__).'/archives/patch-rd_interwiki.sql' );
+	}
 
 	if ( isFlaggedRevsWiki( $wiki ) ) {
 		echo " FlaggedRevs";
@@ -77,7 +82,7 @@ function upgradeWiki( $db ) {
 			'patch-fi_img_timestamp-without-update.sql' );
 	}
 
-	if ( !$db->fieldExists( 'user', 'user_last_timestamp' ) ) {
+	if ( !$db->fieldExists( 'user_newtalk', 'user_last_timestamp' ) ) {
 		echo " user_last_timestamp";
 		sourceUpgradeFile( $db, dirname( __FILE__ ) . '/archives/patch-user_last_timestamp.sql' );
 	}

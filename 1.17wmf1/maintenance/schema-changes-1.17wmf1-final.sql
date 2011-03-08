@@ -1,8 +1,3 @@
--- patch-rd_interwiki.sql
-ALTER TABLE /*$wgDBprefix*/redirect
-	ADD rd_interwiki varchar(32) default NULL,
-	ADD rd_fragment varchar(255) binary default NULL;
-
 -- patch-categorylinks-better-collation.sql
 ALTER TABLE /*$wgDBprefix*/categorylinks
 	CHANGE COLUMN cl_sortkey cl_sortkey varbinary(230) NOT NULL default '',
