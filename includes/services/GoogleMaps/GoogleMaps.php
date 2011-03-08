@@ -26,10 +26,11 @@ $wgResourceModules['ext.maps.googlemaps2'] = array(
 	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/GoogleMaps',	
 	'group' => 'ext.maps',
 	'scripts' => array(
+		'jquery.googlemap2.js',
 		'ext.maps.googlemaps2.js',
 	),
 	'styles' => array(
-		'ext.maps.googlemaps2.css',
+		//'ext.maps.googlemaps2.css',
 	),
 	'messages' => array(
 		'maps-markers',
@@ -57,14 +58,12 @@ function efMapsInitGoogleMaps() {
 	
 	$wgAutoloadClasses['MapsGoogleMaps'] 			= dirname( __FILE__ ) . '/Maps_GoogleMaps.php';
 	$wgAutoloadClasses['CriterionGoogleOverlay'] 	= dirname( __FILE__ ) . '/CriterionGoogleOverlay.php';
-	$wgAutoloadClasses['MapsGoogleMapsDispMap'] 	= dirname( __FILE__ ) . '/Maps_GoogleMapsDispMap.php';
-	$wgAutoloadClasses['MapsGoogleMapsDispPoint'] 	= dirname( __FILE__ ) . '/Maps_GoogleMapsDispPoint.php';
 	$wgAutoloadClasses['MapsParamGMapType']		 	= dirname( __FILE__ ) . '/Maps_ParamGMapType.php';
 	
 	MapsMappingServices::registerService( 'googlemaps2', 'MapsGoogleMaps' );
 	$googleMaps = MapsMappingServices::getServiceInstance( 'googlemaps2' );
-	$googleMaps->addFeature( 'display_point', 'MapsGoogleMapsDispPoint' );
-	$googleMaps->addFeature( 'display_map', 'MapsGoogleMapsDispMap' );
+	$googleMaps->addFeature( 'display_point', 'MapsBasePointMaps' );
+	$googleMaps->addFeature( 'display_map', 'MapsBaseMaps' );
 	
 	return true;
 }
