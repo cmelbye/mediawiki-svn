@@ -21,30 +21,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 
 
-# Features configuration
-
-	# (named) Array of String. This array contains the available features for Maps.
-	# Commenting out the inclusion of any feature will make Maps completely ignore it, and so improve performance.
-	
-		# Query printers
-		include_once $smgDir . 'includes/queryprinters/SM_QueryPrinters.php';
-		# Form imputs
-		include_once $smgDir . 'includes/forminputs/SM_FormInputs.php'; 
-
-
-
 # Mapping services configuration
-
-	# Include the mapping services that should be loaded into Semantic Maps. 
-	# Commenting or removing a mapping service will cause Semantic Maps to completely ignore it, and so improve performance.
-	# Google Maps API v2
-	//include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
-	# Google Maps API v3
-	include_once $smgDir . 'includes/services/GoogleMaps3/SM_GoogleMaps3.php';	
-	# OpenLayers API
-	include_once $smgDir . 'includes/services/OpenLayers/SM_OpenLayers.php';
-	# Yahoo! Maps API
-	//include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';
 
 	# Array of String. The default mapping service for each feature, which will be used when no valid service is provided by the user.
 	# Each service needs to be enabled, if not, the first one from the available services will be taken.

@@ -278,7 +278,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 		global $wgTitle;
 
 		$parser = new Parser();			
-		$iconUrl = MapsMapper::getImageUrl( $params['icon'] );
+		$iconUrl = MapsMapper::getFileUrl( $params['icon'] );
 		$params['locations'] = array();
 
 		foreach ( array_merge( $params['staticlocations'], $queryLocations ) as $location ) {

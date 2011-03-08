@@ -20,9 +20,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
-$wgHooks['MappingServiceLoad'][] = 'smfInitGoogleMaps';
+$wgHooks['MappingServiceLoad'][] = 'smfInitGoogleMaps3';
 
-function smfInitGoogleMaps() {
+function smfInitGoogleMaps3() {
 	global $wgAutoloadClasses;
 	
 	$wgAutoloadClasses['SMGoogleMaps3QP'] = dirname( __FILE__ ) . '/SM_GoogleMaps3QP.php';
