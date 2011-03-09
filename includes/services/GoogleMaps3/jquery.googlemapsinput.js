@@ -9,9 +9,19 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
-(function( $ ){ $.fn.googlemapsinput = function( options ) {
+(function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
+	this.text( '' );
 	
+	this.html(
+		$( '<div />' )
+			.attr( {
+				'id': mapDivId,
+				'width': options.width,
+				'height': options.height
+			} )
+	);
 	
+	//$('#' + mapDivId).googlemaps( options )
 	
 	return this;
 	

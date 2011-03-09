@@ -9,6 +9,8 @@
  *
  * @licence GNU GPL v3
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * 
+ * TODO: implement forceshow and showtitle
  */
 class SMMapPrinter extends SMWResultPrinter {
 	

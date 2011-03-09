@@ -100,5 +100,5 @@ function smfSelectFormInputHTML( $coordinates, $input_name, $is_mandatory, $is_d
 	$formInput = $service->getFeatureInstance( 'fi' );    
     
     // Get and return the form input HTML from the hook corresponding with the provided service.
-    return $formInput->formInputHTML( $coordinates, $input_name, $is_mandatory, $is_disabled, $field_args );
+    return $formInput->getInputOutput( $coordinates, $input_name, $is_mandatory, $is_disabled, $field_args );
 }
