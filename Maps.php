@@ -69,7 +69,6 @@ $wgAutoloadClasses['MapsLayer'] 				= $incDir . 'Maps_Layer.php';
 $wgAutoloadClasses['MapsLayerPage'] 			= $incDir . 'Maps_LayerPage.php';
 $wgAutoloadClasses['MapsLayers'] 				= $incDir . 'Maps_Layers.php';
 $wgAutoloadClasses['MapsLocation'] 				= $incDir . 'Maps_Location.php';
-$wgAutoloadClasses['iMappingFeature'] 			= $incDir . 'iMappingFeature.php';
 $wgAutoloadClasses['iMappingService'] 			= $incDir . 'iMappingService.php';
 $wgAutoloadClasses['MapsMappingServices'] 		= $incDir . 'Maps_MappingServices.php';
 $wgAutoloadClasses['MapsMappingService'] 		= $incDir . 'Maps_MappingService.php';

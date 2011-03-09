@@ -67,7 +67,7 @@ interface iMappingService {
 	 * 
 	 * @param string $featureName.
 	 * 
-	 * @return iMappingFeature or false
+	 * @return object or false
 	 */	
 	function getFeatureInstance( $featureName );	
 	
