@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/Maintenance.php' );
 
 class UpdateCollation extends Maintenance {
-	const BATCH_SIZE = 1000;
+	const BATCH_SIZE = 50;
 
 	public function __construct() {
 		parent::__construct();
