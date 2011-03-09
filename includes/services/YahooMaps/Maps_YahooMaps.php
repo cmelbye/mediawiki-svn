@@ -93,6 +93,15 @@ class MapsYahooMaps extends MapsMappingService {
 		global $egMapsYahooMapsZoom;
 		return $egMapsYahooMapsZoom;
 	}
+	
+	/**
+	 * @see iMappingService::getEarthZoom
+	 * 
+	 * @since 0.8
+	 */
+	public function getEarthZoom() {
+		return 17;
+	}	
 
 	/**
 	 * @see MapsMappingService::getMapId

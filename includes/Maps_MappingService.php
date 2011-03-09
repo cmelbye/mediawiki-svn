@@ -236,6 +236,15 @@ abstract class MapsMappingService implements iMappingService {
 	 */
 	public final function addDependency( $dependencyHtml ) {
 		$this->dependencies[] = $dependencyHtml;
-	}	
+	}
+	
+	/**
+	 * @see iMappingService::getEarthZoom
+	 * 
+	 * @since 0.8
+	 */
+	public function getEarthZoom() {
+		return 1;
+	}		
 	
 }

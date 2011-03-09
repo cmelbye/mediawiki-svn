@@ -101,6 +101,15 @@ interface iMappingService {
 	function getDefaultZoom();
 	
 	/**
+	 * Returns the zoomlevel that shows the whole earth for the mapping service.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return integer
+	 */
+	public function getEarthZoom();
+	
+	/**
 	 * Returns a string that can be used as an unique ID for the map html element.
 	 * Increments the number by default, providing false for $increment will get
 	 * you the same ID as on the last request.

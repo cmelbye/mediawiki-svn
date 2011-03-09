@@ -24,30 +24,6 @@ class MapsBasePointMap {
 	}
 	
 	/**
-	 * Returns the specific parameters by first checking if they have been initialized yet,
-	 * doing to work if this is not the case, and then returning them.
-	 * 
-	 * @return array
-	 */
-	public final function getSpecificParameterInfo() {
-		if ( $this->specificParameters === false ) {
-			$this->specificParameters = array();
-			$this->initSpecificParamInfo( $this->specificParameters );
-		}
-		
-		return $this->specificParameters;
-	}
-	
-	/**
-	 * Initializes the specific parameters.
-	 * 
-	 * Override this method to set parameters specific to a feature service comibination in
-	 * the inheriting class.
-	 */
-	protected function initSpecificParamInfo( array &$parameters ) {
-	}	
-	
-	/**
 	 * Handles the request from the parser hook by doing the work that's common for all
 	 * mapping services, calling the specific methods and finally returning the resulting output.
 	 *

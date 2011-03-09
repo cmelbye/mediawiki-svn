@@ -14,23 +14,5 @@
  */
 interface iMappingFeature {
 	
-	/**
-	 * Adds the HTML specific to the mapping service to the output.
-	 * 
-	 * @since 0.6.5
-	 * 
-	 * @return string
-	 */
-	function addSpecificMapHTML();
-	
-	/**
-	 * Returns the specific parameters by first checking if they have been initialized yet,
-	 * doing to work if this is not the case, and then returning them.
-	 * 
-	 * @since 0.6.5
-	 * 
-	 * @return array
-	 */
-	function getSpecificParameterInfo();
 	
 }
