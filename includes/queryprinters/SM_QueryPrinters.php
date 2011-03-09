@@ -92,7 +92,7 @@ final class SMQueryPrinters {
 		if ( isset( $smwgResultFormats ) ) {
 			$smwgResultFormats[$format] = $class;
 		}
-		else {
+		else { // BC with some old SMW version
 			SMWQueryProcessor::$formats[$format] = $class;
 		}
 	}

@@ -1,12 +1,16 @@
 <?php
 
 /**
- * General map query printer class.
+ * Default class to assign as handler for map result formats.
+ * The reason SMMapPrinter is not used for this directly is that
+ * this would not allow having a deriving class of SMMapPrinter 
+ * for a particular mapping service.
  *
  * @file SM_Mapper.php
  * @ingroup SemanticMaps
  *
- * @author Jeroen De Dauw
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 final class SMMapper {
 	

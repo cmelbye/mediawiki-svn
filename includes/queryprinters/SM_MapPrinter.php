@@ -1,12 +1,14 @@
 <?php
 
 /**
- * Abstract class that provides the common functionality for all map query printers.
+ * Query printer for maps. Is invoked via SMMapper.
+ * Can be overriden per service to have custom output.
  *
  * @file SM_MapPrinter.php
  * @ingroup SemanticMaps
  *
- * @author Jeroen De Dauw
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 class SMMapPrinter extends SMWResultPrinter {
 	
