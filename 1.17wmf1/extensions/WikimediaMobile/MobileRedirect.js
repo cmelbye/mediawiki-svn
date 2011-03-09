@@ -14,7 +14,7 @@ if ( /(Android|iPhone|iPod|webOS|NetFront|Opera Mini|SEMC-Browser|PlayStation Po
        && (wgAction == "view"))                    // Don't redirect URLs that aren't simple page views 
        */
 	&& (!document.getElementsByClassName || document.getElementsByClassName( 'ns--1' ).length == 0)
-	&& (document.location.href.indexOf( 'action=' ) == -1 || document.location.href.indexOf( 'action=view' ) != -1 )
+	&& (document.location.href.indexOf( 'action=' ) == -1 || document.location.href.indexOf( 'action=view' ) != -1  ))
   {
   
     // If we've made it here, then we are going ahead with the redirect
