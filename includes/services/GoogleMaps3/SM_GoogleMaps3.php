@@ -27,7 +27,7 @@ function smfInitGoogleMaps3() {
 	
 	$wgAutoloadClasses['SMGoogleMaps3QP'] = dirname( __FILE__ ) . '/SM_GoogleMaps3QP.php';
 	
-	MapsMappingServices::registerServiceFeature( 'googlemaps3', 'qp', 'SMGoogleMaps3QP' );
+	MapsMappingServices::registerServiceFeature( 'googlemaps3', 'qp', 'SMMapPrinter' );
 	
 	return true;
 }

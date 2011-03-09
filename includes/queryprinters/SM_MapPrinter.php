@@ -8,16 +8,7 @@
  *
  * @author Jeroen De Dauw
  */
-abstract class SMMapPrinter extends SMWResultPrinter {
-	
-	/**
-	 * Returns the name of the service to get the correct mapping service object.
-	 * 
-	 * @since 0.6.3
-	 * 
-	 * @return string
-	 */
-	protected abstract function getServiceName();
+class SMMapPrinter extends SMWResultPrinter {
 	
 	/**
 	 * @since 0.6
@@ -47,12 +38,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 	 * @param $inline
 	 * @param $service iMappingService
 	 */
-	public function __construct( $format, $inline, /* iMappingService */ $service = null ) {
-		// TODO: this is a hack since I can't find a way to pass along the service object here when the QP is created in SMW.
-		if ( $service == null ) {
-			$service = MapsMappingServices::getServiceInstance( $this->getServiceName() );
-		}
-		
+	public function __construct( $format, $inline, iMappingService $service ) {
 		$this->service = $service;
 	}
 

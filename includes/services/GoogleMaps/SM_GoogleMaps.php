@@ -30,7 +30,7 @@ function smfInitGoogleMaps() {
 	// TODO: the if should not be needed, but when omitted, a fatal error occurs cause the class that's extended by this one is not found.
 	if ( defined( 'SF_VERSION' ) ) $wgAutoloadClasses['SMGoogleMapsFormInput'] = dirname( __FILE__ ) . '/SM_GoogleMapsFormInput.php';	
 	
-	MapsMappingServices::registerServiceFeature( 'googlemaps2', 'qp', 'SMGoogleMapsQP' );
+	MapsMappingServices::registerServiceFeature( 'googlemaps2', 'qp', 'SMMapPrinter' );
 	MapsMappingServices::registerServiceFeature( 'googlemaps2', 'fi', 'SMGoogleMapsFormInput' );
 	
 	return true;
