@@ -9,10 +9,6 @@
  * @author Jeroen De Dauw
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	die( 'Not an entry point.' );
-}
-
 /**
  * Class for Yahoo Maps! form inputs.
  * 
@@ -21,15 +17,6 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @author Jeroen De Dauw
  */
 class SMYahooMapsFormInput extends SMFormInput {
-	
-	/**
-	 * @see SMFormInput::getEarthZoom
-	 * 
-	 * @since 0.6.5
-	 */
-	protected function getEarthZoom() {
-		return 17;
-	}	
 	
 	/**
 	 * @see SMFormInput::getShowAddressFunction

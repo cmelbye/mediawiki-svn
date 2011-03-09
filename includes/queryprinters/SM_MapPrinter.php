@@ -115,7 +115,7 @@ abstract class SMMapPrinter extends SMWResultPrinter {
 		$params['icon'] = new Parameter(
 			'icon',
 			Parameter::TYPE_STRING,
-			'', // TODO
+			'',
 			array(),
 			array(
 				New CriterionNotEmpty()
@@ -329,12 +329,8 @@ abstract class SMMapPrinter extends SMWResultPrinter {
     	
         $params = parent::getParameters();
         
-        // Obtain the parameter descriptions list.
-		$paramDescs = SMQueryPrinters::getParameterInfo();
-		$this->service->addParameterInfo( $paramDescs ); 
-
 		// Now go through the descriptions, and convert them from Validator- to SMW-style.
-		foreach ( $paramDescs as $paramDesc ) {
+		foreach ( $this->getParameterInfo() as $paramDesc ) {
 			$param = array(
 				'name' => $paramDesc->getName(),
 				'type' => $this->getMappedParamType( $paramDesc->getType() ),

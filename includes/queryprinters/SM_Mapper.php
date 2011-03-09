@@ -16,6 +16,13 @@ final class SMMapper {
 	protected $queryPrinter;
 	
 	/**
+	 * @since 0.8
+	 * 
+	 * @var boolean
+	 */
+	protected $isMapFormat;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param $format String
@@ -24,9 +31,11 @@ final class SMMapper {
 	public function __construct( $format, $inline ) {
 		global $egMapsDefaultServices;
 
+		$this->isMapFormat = $format == 'map';
+		
 		// TODO: allow service parameter to override the default
 		// Note: if this is allowed, then the getParameters should only return the base parameters.
-		if ( $format == 'map' ) $format = $egMapsDefaultServices['qp'];
+		if ( $this->isMapFormat ) $format = $egMapsDefaultServices['qp'];
 		
 		// Get the instance of the service class.
 		$service = MapsMappingServices::getValidServiceInstance( $format, 'qp' );
@@ -45,7 +54,7 @@ final class SMMapper {
 	}
 	
 	public function getName() {
-		return wfMsg( 'maps_map' );
+		return $this->isMapFormat ? wfMsg( 'maps_map' ) : $this->queryPrinter->getName();
 	}
 	
 	public function getQueryMode( $context ) {

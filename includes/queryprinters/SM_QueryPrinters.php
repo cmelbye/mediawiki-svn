@@ -46,7 +46,7 @@ final class SMQueryPrinters {
 			
 			// Initiate the format.
 			$aliases = $service->getAliases();
-			self::initFormat( $service->getName(), $QPClass, $aliases );
+			self::initFormat( $service->getName(), 'SMMapper' /* $QPClass */, $aliases );
 		}
 
 		// Add the 'map' result format if there are mapping services that have QP's loaded.

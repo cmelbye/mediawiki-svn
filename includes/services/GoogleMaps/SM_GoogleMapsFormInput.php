@@ -13,15 +13,6 @@
 class SMGoogleMapsFormInput extends SMFormInput {
 
 	/**
-	 * @see SMFormInput::getEarthZoom
-	 * 
-	 * @since 0.6.5
-	 */
-	protected function getEarthZoom() {
-		return 1;
-	}	
-	
-	/**
 	 * @see SMFormInput::getShowAddressFunction
 	 * 
 	 * @since 0.6.5

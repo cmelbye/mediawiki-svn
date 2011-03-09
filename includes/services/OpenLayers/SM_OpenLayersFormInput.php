@@ -11,15 +11,6 @@
 class SMOpenLayersFormInput extends SMFormInput {
 	
 	/**
-	 * @see SMFormInput::getEarthZoom
-	 * 
-	 * @since 0.6.5
-	 */
-	protected function getEarthZoom() {
-		return 1;
-	}	
-	
-	/**
 	 * @see MapsMapFeature::addFormDependencies()
 	 */
 	protected function addFormDependencies() {

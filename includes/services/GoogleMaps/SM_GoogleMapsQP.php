@@ -18,13 +18,4 @@ class SMGoogleMapsQP extends SMMapPrinter {
 		return 'googlemaps2';
 	}
 	
-	/**
-	 * @see SMMapPrinter::getMapHTML
-	 */
-	protected function getMapHTML( array $params, Parser $parser, $mapName ) {
-		return 
-			$this->service->getOverlayOutput( $mapName, $params['overlays'], $params['controls'] )
-			. parent::getMapHTML( $params, $parser, $mapName );
-	}
-	
 }

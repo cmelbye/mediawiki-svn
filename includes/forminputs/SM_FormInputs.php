@@ -55,8 +55,6 @@ final class SMFormInputs {
 		return true;
 	}
 	
-
-	
 	/**
 	 * Adds a mapping service's form hook.
 	 *
@@ -72,6 +70,8 @@ final class SMFormInputs {
 		if ( $mainName != '' ) {
 			$field_args['service_name'] = $mainName;
 		}
+		
+		//$sfgFormPrinter->registerInputType( 'SMMapInput' );
 		
 		$sfgFormPrinter->setInputTypeHook( $inputName, 'smfSelectFormInputHTML', $field_args );
 	}
@@ -91,12 +91,7 @@ final class SMFormInputs {
  */
 function smfSelectFormInputHTML( $coordinates, $input_name, $is_mandatory, $is_disabled, array $field_args ) {
 	// Get the service name from the field_args, and set it to null if it doesn't exist.
-    if ( array_key_exists( 'service_name', $field_args ) ) {
-        $serviceName = $field_args['service_name'];
-    }
-    else {
-        $serviceName = null;
-    }
+	$serviceName = array_key_exists( 'service_name', $field_args ) ? $field_args['service_name'] : null;
     
 	// Get the instance of the service class.
 	$service = MapsMappingServices::getValidServiceInstance( $serviceName, 'fi' );
