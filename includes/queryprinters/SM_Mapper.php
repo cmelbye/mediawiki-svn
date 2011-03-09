@@ -44,37 +44,29 @@ final class SMMapper {
 		$QPClass = $service->getFeature( 'qp' );	
 		$this->queryPrinter = new $QPClass( $format, $inline, $service );
 	}
-
-	public static function getAliases() {
-		return $this->queryPrinter->getAliases();
-	}
 	
-	public static function setAliases() {
-		return $this->queryPrinter->setAliases();
-	}
-	
+	/**
+	 * Intercept calls to getName, so special behaviour for the map format can be implemented.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return string
+	 */
 	public function getName() {
 		return $this->isMapFormat ? wfMsg( 'maps_map' ) : $this->queryPrinter->getName();
 	}
 	
-	public function getQueryMode( $context ) {
-		return $this->queryPrinter->getQueryMode( $context );
-	}
-	
-	public function getResult( $results, $params, $outputmode ) {
-		return  $this->queryPrinter->getResult( $results, $params, $outputmode );
-	}
-	
-	protected function getResultText( $res, $outputmode ) {
-		return $this->queryPrinter->getResultText( $res, $outputmode );
-	}
-	
-	public function getParameters() {
-		return $this->queryPrinter->getParameters();
-	}
-	
-	public function getMimeType( $res ) {
-		return $this->queryPrinter->getMimeType( $res );
+	/**
+	 * SMW thinks this class is a SMWResultPrinter, and calls methods that should
+	 * be forewarded to $this->queryPrinter on it.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $name
+	 * @param array $arguments
+	 */
+	public function __call( $name, array $arguments ) {
+		return call_user_func_array( array( $this->queryPrinter, $name ), $arguments );
 	}
 	
 }

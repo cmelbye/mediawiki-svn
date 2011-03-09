@@ -311,8 +311,6 @@ class SMMapPrinter extends SMWResultPrinter {
 	 * @return array
 	 */
     public function getParameters() {
-    	global $egMapsMapWidth, $egMapsMapHeight;
-    	
         $params = parent::getParameters();
         
 		// Now go through the descriptions, and convert them from Validator- to SMW-style.
