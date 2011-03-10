@@ -10,6 +10,8 @@
  */
 
 (function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
+	this.attr( { 'class': "ui-widget" } ).css( { 'width': 'auto' } );
+	
 	this.html(
 		$( '<div />' ).css( {
 			'display': 'none'
@@ -18,48 +20,88 @@
 	
 	updateInputValue( buildInputValue( options.locations ) );
 	
-	var table = $( '<table />' ).attr( { 'class' : 'mapinput' } );
-	
-	for ( i in options.locations ) {
-		table.append( 
-			'<tr><td>' +
-				locationToDMS( options.locations[i].lat, options.locations[i].lon ) +
-			'</td><td>' + 
-				'<button>' + mediaWiki.msg( 'semanticmaps-forminput-remove' ) + '</button>' + 
-			'</td></tr>'
-		);
-	}
+	var table = $( '<table />' ).attr( { 'class' : 'mapinput ui-widget ui-widget-content' } );
 	
 	table.append(
-		'<tr><td width="300px">' +
-			'<input type="text" class="text ui-widget-content ui-corner-all" />' +
+		'<thread><tr class="ui-widget-header "><th colspan="2">' + mediaWiki.msg( 'semanticmaps-forminput-locations' ) + '</th></tr></thead><tbody>'
+	);
+	
+	this.append( table );
+	
+	for ( i in options.locations ) {
+		appendTableRow( i, options.locations[i].lat, options.locations[i].lon );
+	}
+	
+	var rowNr = options.locations.length;
+	
+	table.append(
+		'<tr id="' + mapDivId + '_addrow"><td width="300px">' +
+			'<input type="text" class="text ui-widget-content ui-corner-all" width="95%" />' +
 		'</td><td>' + 
-			'<button>' + mediaWiki.msg( 'semanticmaps-forminput-add' ) + '</button>' +
-		'</td></tr>'
-			
+			'<button id="' + mapDivId + '_addbutton">' + mediaWiki.msg( 'semanticmaps-forminput-add' ) + '</button>' +
+		'</td></tr></tbody>'
 	);
 	
-	this.append(
-		table
-	);
-	
-	/*
 	this.append(
 		$( '<div />' )
 			.attr( {
 				'id': mapDivId,
+				'class': 'ui-widget ui-widget-content'
+			} )
+			.css( {
 				'width': options.width,
 				'height': options.height
-			} )		
+			} )
+			.googlemaps( options )
 	);
-	*/	
 	
-	$( "button", ".mapinput" ).button();
+	$( "#" + mapDivId + '_addbutton' ).button().click( onAddButtonClick );
 	
-	//$('#' + mapDivId).googlemaps( options ).resizable();
+	function onAddButtonClick() {
+		var addRow = $( '#' + mapDivId + '_addrow' );
+		
+		addRow.remove();
+		appendTableRow( rowNr, 0, 0 ); // TODO
+		table.append( addRow );
+		$( "#" + mapDivId + '_addbutton' ).button().click( onAddButtonClick );
+		rowNr++;
+		
+		updateInput();
+		return false;		
+	}
+	
+	function onRemoveButtonClick() {
+		$( '#' + mapDivId + '_row_' + $( this ).attr( 'rowid' ) ).remove();
+		updateInput();
+		return false;		
+	}
+	
+	//$('#' + mapDivId);
+	
+	function appendTableRow( i, lat, lon ) {
+		table.append(
+			'<tr id="' + mapDivId + '_row_' + i + '"><td>' +
+				locationToDMS( lat, lon ) +
+			'</td><td>' + 
+				'<button class="forminput-remove" rowid="' + i + '" id="' + mapDivId + '_addbutton_' + i + '">' +
+					mediaWiki.msg( 'semanticmaps-forminput-remove' ) +
+				'</button>' + 
+			'</td></tr>'
+		);
+		
+		$( "#" + mapDivId + '_addbutton_' + i ).button().click( onRemoveButtonClick );
+	}
 	
 	function locationToDMS ( lat, lon ) { // TODO: i18n
 		return Math.abs( lat ) + '° ' + ( lat < 0 ? 'S' : 'N' ) + ', ' + Math.abs( lon ) + '° ' + ( lon < 0 ? 'W' : 'E' );
+	}
+	
+	function updateInput() {
+		var locations = [];
+		
+		//$( '' ).each();
+		
+		updateInputValue( buildInputValue( locations ) );
 	}
 	
 	function updateInputValue( value ) {
