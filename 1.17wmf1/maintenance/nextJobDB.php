@@ -112,6 +112,12 @@ class nextJobDB extends Maintenance {
 		# Cross-reference DBs by master DB server
 		$dbsByMaster = array();
 		foreach ( $wgLocalDatabases as $db ) {
+			// WMF patch to fix job runners with NFS not mounted -- TS
+			if ( $db === 'testwiki' ) {
+				continue;
+			}
+			// end patch
+			
 			$lb = wfGetLB( $db );
 			$dbsByMaster[$lb->getServerName( 0 )][] = $db;
 		}
