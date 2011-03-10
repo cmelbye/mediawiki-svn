@@ -58,7 +58,11 @@
 	function onAddButtonClick() {
 		var location = $( '#' + $( this ).attr( 'mapid' ) + '_addfield' ).text();
 		
-		
+		var marker = new google.maps.Marker( {
+			map: this.mapDiv.map,
+			position: new google.maps.LatLng( location.lat , location.lon ),
+			title: locationToDMS(  )
+		} );		
 		
 		addLocationRow();
 		return false;		
