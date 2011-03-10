@@ -19,6 +19,15 @@ class SMFormInput {
 	protected $service;		
 	
 	/**
+	 * A character to separate multiple locations with.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var char
+	 */
+	const SEPARATOR = ';';
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @since 0.8
@@ -37,11 +46,17 @@ class SMFormInput {
 	 * @return array
 	 */
 	protected function getParameterInfo() {
+		global $smgFIMulti;
+		
 		$params = MapsMapper::getCommonParameters();
 		$this->service->addParameterInfo( $params );		
 		
 		$params['zoom']->setDefault( false );		
 		$params['zoom']->setDoManipulationOfDefault( false );			
+		
+		$params['multi'] = new Parameter( 'multi', Parameter::TYPE_BOOLEAN );
+		$params['multi']->setDefault( $smgFIMulti );
+		$params['multi']->setDoManipulationOfDefault( false );
 		
 		$params['centre'] = new Parameter( 'centre' );
 		$params['centre']->setDefault( false );
@@ -55,6 +70,12 @@ class SMFormInput {
 		$params['icon'] = new Parameter( 'icon' );
 		$params['icon']->setDefault( '' );
 		$params['icon']->addCriteria( New CriterionNotEmpty() );
+		
+		$params['locations'] = new ListParameter( 'locations', self::SEPARATOR );
+		$params['locations']->addCriteria( new CriterionIsLocation() );
+		$manipulation = new MapsParamLocation();
+		$manipulation->toJSONObj = true;
+		$params['locations']->addManipulations( $manipulation );		
 		
 		return $params;
 	}
@@ -78,7 +99,9 @@ class SMFormInput {
 			if ( !is_array( $value ) && !is_object( $value ) ) {
 				$parameters[$key] = $value;
 			}
-		}			
+		}
+
+		$parameters['locations'] = '1,1;42,42';//$coordinates;
 		
 		$validator = new Validator( wfMsg( 'maps_' . $this->service->getName() ), false );
 		$validator->setParameters( $parameters, $this->getParameterInfo() );
@@ -91,6 +114,8 @@ class SMFormInput {
 			
 			$params = $validator->getParameterValues();
 			$mapName = $this->service->getMapId();
+			
+			$params['inputname'] = $input_name;
 			
 			$output = $this->getInputHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName );
 			

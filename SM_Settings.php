@@ -66,6 +66,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 # Forms
 
+	$smgFIMulti = true;
+	
 	# Integer or string. The default width and height of maps in forms created by using Semantic Forms.
 	# These values only be used when the user does not provide them.
 	$smgFIWidth = 665;

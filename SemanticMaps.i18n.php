@@ -28,7 +28,10 @@ Available mapping services: $1",
 	// Forms
 	'semanticmaps_lookupcoordinates' 	=> 'Look up coordinates',
 	'semanticmaps_enteraddresshere' 	=> 'Enter address here',
+	'semanticmaps-loading-forminput'	=> 'Loading map form input...',
 	'semanticmaps_notfound' 			=> 'not found',
+	'semanticmaps-forminput-remove'		=> 'Remove',
+	'semanticmaps-forminput-add'		=> 'Add',
 	
 	// Parameter descriptions
 	'semanticmaps_paramdesc_format' 	=> 'The mapping service used to generate the map',

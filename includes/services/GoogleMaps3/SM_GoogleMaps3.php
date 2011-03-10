@@ -24,7 +24,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 $wgResourceModules['ext.sm.fi.googlemaps3'] = array(
-	'dependencies' => array( 'ext.maps.googlemaps3' ),
+	'dependencies' => array( 'ext.maps.googlemaps3', 'jquery.ui.resizable', 'jquery.ui.button', 'jquery.ui.dialog' ),
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteBasePath' => $smgScriptPath .  '/includes/services/GoogleMaps3',	
 	'group' => 'ext.semanticmaps',
@@ -32,6 +32,10 @@ $wgResourceModules['ext.sm.fi.googlemaps3'] = array(
 		'jquery.googlemapsinput.js',
 		'ext.sm.googlemapsinput.js'
 	),
+	'messages' => array(
+		'semanticmaps-forminput-remove',
+		'semanticmaps-forminput-add',
+	)
 );
 
 $wgHooks['MappingServiceLoad'][] = 'smfInitGoogleMaps3';
