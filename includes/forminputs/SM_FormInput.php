@@ -51,18 +51,15 @@ class SMFormInput {
 		$params = MapsMapper::getCommonParameters();
 		$this->service->addParameterInfo( $params );		
 		
-		$params['zoom']->setDefault( false );		
-		$params['zoom']->setDoManipulationOfDefault( false );			
+		$params['zoom']->setDefault( false, false );		
 		
 		$params['multi'] = new Parameter( 'multi', Parameter::TYPE_BOOLEAN );
-		$params['multi']->setDefault( $smgFIMulti );
-		$params['multi']->setDoManipulationOfDefault( false );
+		$params['multi']->setDefault( $smgFIMulti, false );
 		
 		$params['centre'] = new Parameter( 'centre' );
-		$params['centre']->setDefault( false );
+		$params['centre']->setDefault( false, false );
 		$params['centre']->addAliases( 'center' );
 		$params['centre']->addCriteria( new CriterionIsLocation() );
-		$params['centre']->setDoManipulationOfDefault( false );
 		$manipulation = new MapsParamLocation();
 		$manipulation->toJSONObj = true;
 		$params['centre']->addManipulations( $manipulation );	
