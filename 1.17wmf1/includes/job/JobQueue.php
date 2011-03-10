@@ -77,7 +77,12 @@ abstract class Job {
 			$row->job_id );
 
 		$dbw->delete( 'job', $job->insertFields(), __METHOD__ );
+		$affected = $dbw->affectedRows();
 		$dbw->commit();
+
+		if ( $affected ) {
+			wfIncrStats( 'job-dup-delete', $affected );
+		}
 
 		wfProfileOut( __METHOD__ );
 		return $job;
@@ -169,7 +174,12 @@ abstract class Job {
 		// Deadlock prone section
 		$dbw->begin();
 		$dbw->delete( 'job', $job->insertFields(), __METHOD__ );
+		$affected = $dbw->affectedRows();
 		$dbw->commit();
+
+		if ( $affected ) {
+			wfIncrStats( 'job-dup-delete', $affected );
+		}
 
 		wfProfileOut( __METHOD__ );
 		return $job;
