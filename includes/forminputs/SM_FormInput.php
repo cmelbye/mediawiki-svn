@@ -49,7 +49,7 @@ class SMFormInput {
 		global $smgFIMulti;
 		
 		$params = MapsMapper::getCommonParameters();
-		$this->service->addParameterInfo( $params );		
+		$this->service->addParameterInfo( $params );
 		
 		$params['zoom']->setDefault( false, false );		
 		
@@ -62,7 +62,7 @@ class SMFormInput {
 		$params['centre']->addCriteria( new CriterionIsLocation() );
 		$manipulation = new MapsParamLocation();
 		$manipulation->toJSONObj = true;
-		$params['centre']->addManipulations( $manipulation );	
+		$params['centre']->addManipulations( $manipulation );
 
 		$params['icon'] = new Parameter( 'icon' );
 		$params['icon']->setDefault( '' );

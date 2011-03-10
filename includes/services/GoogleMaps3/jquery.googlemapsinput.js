@@ -9,6 +9,7 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
+
 (function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
 	this.attr( { 'class': "ui-widget" } ).css( { 'width': 'auto' } );
 	
@@ -21,43 +22,49 @@
 	updateInputValue( buildInputValue( options.locations ) );
 	
 	var table = $( '<table />' ).attr( { 'class' : 'mapinput ui-widget ui-widget-content' } );
+	this.append( table );
+	
+	var mapDiv = $( '<div />' )
+		.attr( {
+			'id': mapDivId,
+			'class': 'ui-widget ui-widget-content'
+		} )
+		.css( {
+			'width': options.width,
+			'height': options.height
+		} )
+		.googlemaps( options );
 	
 	table.append(
-		'<thread><tr class="ui-widget-header "><th colspan="2">' + mediaWiki.msg( 'semanticmaps-forminput-locations' ) + '</th></tr></thead><tbody>'
+		'<thead><tr class="ui-widget-header "><th colspan="2">' + mediaWiki.msg( 'semanticmaps-forminput-locations' ) + '</th></tr></thead><tbody>'
 	);
 	
-	this.append( table );
+	var rowNr = options.locations.length;
 	
 	for ( i in options.locations ) {
 		appendTableRow( i, options.locations[i].lat, options.locations[i].lon );
 	}
 	
-	var rowNr = options.locations.length;
-	
 	table.append(
 		'<tr id="' + mapDivId + '_addrow"><td width="300px">' +
-			'<input type="text" class="text ui-widget-content ui-corner-all" width="95%" />' +
+			'<input type="text" class="text ui-widget-content ui-corner-all" width="95%" id="' + mapDivId + '_addfield" />' +
 		'</td><td>' + 
-			'<button id="' + mapDivId + '_addbutton">' + mediaWiki.msg( 'semanticmaps-forminput-add' ) + '</button>' +
+			'<button id="' + mapDivId + '_addbutton" mapid="' + mapDivId + '">' + mediaWiki.msg( 'semanticmaps-forminput-add' ) + '</button>' +
 		'</td></tr></tbody>'
-	);
-	
-	this.append(
-		$( '<div />' )
-			.attr( {
-				'id': mapDivId,
-				'class': 'ui-widget ui-widget-content'
-			} )
-			.css( {
-				'width': options.width,
-				'height': options.height
-			} )
-			.googlemaps( options )
 	);
 	
 	$( "#" + mapDivId + '_addbutton' ).button().click( onAddButtonClick );
 	
 	function onAddButtonClick() {
+		var location = $( '#' + $( this ).attr( 'mapid' ) + '_addfield' ).text();
+		
+		
+		
+		addLocationRow();
+		return false;		
+	}
+	
+	function addLocationRow() {
 		var addRow = $( '#' + mapDivId + '_addrow' );
 		
 		addRow.remove();
@@ -66,8 +73,7 @@
 		$( "#" + mapDivId + '_addbutton' ).button().click( onAddButtonClick );
 		rowNr++;
 		
-		updateInput();
-		return false;		
+		updateInput();		
 	}
 	
 	function onRemoveButtonClick() {
@@ -75,8 +81,6 @@
 		updateInput();
 		return false;		
 	}
-	
-	//$('#' + mapDivId);
 	
 	function appendTableRow( i, lat, lon ) {
 		table.append(
