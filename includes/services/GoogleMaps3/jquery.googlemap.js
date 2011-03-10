@@ -11,6 +11,7 @@
 		disableDefaultUI: true,
 		mapTypeId: eval( options.type ),
 	};
+	this.options = options;
 	
 	// Map controls
 	mapOptions.panControl = $.inArray( 'pan', options.controls ) != -1;
@@ -27,7 +28,8 @@
 	var locations = options.locations;
 
 	var map = new google.maps.Map( this.get( 0 ), mapOptions );
-
+	this.map = map;
+	
 	var markers = [];
 	if ( !options.locations ) {
 		options.locations = [];
