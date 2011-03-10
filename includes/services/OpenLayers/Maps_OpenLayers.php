@@ -31,7 +31,7 @@ class MapsOpenLayers extends MapsMappingService {
 	 * @since 0.7
 	 */	
 	public function addParameterInfo( array &$params ) {
-		global $egMapsOLLayers, $egMapsOLControls;
+		global $egMapsOLLayers, $egMapsOLControls, $egMapsResizableByDefault;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 19 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -48,6 +48,9 @@ class MapsOpenLayers extends MapsMappingService {
 		$params['layers']->setDoManipulationOfDefault( true );
 		$params['layers']->addCriteria( new CriterionOLLayer() );
 		$params['layers']->setDefault( $egMapsOLLayers );
+		
+		$params['resizable'] = new Parameter( 'resizable', Parameter::TYPE_BOOLEAN );
+		$params['resizable']->setDefault( $egMapsResizableByDefault, false );		
 	}
 	
 	/**

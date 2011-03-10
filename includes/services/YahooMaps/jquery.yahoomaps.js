@@ -76,6 +76,10 @@
 	
 	if ( options.centre !== false ) map.drawZoomAndCenter( new YGeoPoint( options.centre.lat, options.centre.lon ) );
 	
+	if ( options.resizable ) {
+		this.resizable()
+	}	
+	
 	/**
 	 * Returns YMarker object on the provided location.
 	 * It will show a popup baloon with title and label when clicked, if either of these is set.

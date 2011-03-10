@@ -21,6 +21,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 $wgResourceModules['ext.maps.openlayers'] = array(
+	'dependencies' => array( 'ext.maps.common', 'jquery.ui.resizable' ),
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteBasePath' => $egMapsScriptPath .  '/includes/services/OpenLayers',	
 	'group' => 'ext.maps',

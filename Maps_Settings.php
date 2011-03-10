@@ -151,6 +151,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	# when the user does not provide one.
 	$egMapsDefaultTitle = '';
 	$egMapsDefaultLabel = '';
+	
+	$egMapsResizableByDefault = false;
 
 
 	

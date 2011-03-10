@@ -65,10 +65,13 @@
 		map.setCenter( centre );		
 	}
 	
-
 	if ( options.zoom !== false ) {
 		map.zoomTo( options.zoom );
-	}		
+	}
+	
+	if ( options.resizable ) {
+		this.resizable()
+	}	
 	
 	function addControls( map, controls, mapElement ) {
 		// Add the controls.

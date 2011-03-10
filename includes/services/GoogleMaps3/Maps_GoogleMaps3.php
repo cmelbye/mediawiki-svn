@@ -82,6 +82,7 @@ class MapsGoogleMaps3 extends MapsMappingService {
 	public function addParameterInfo( array &$params ) {
 		global $egMapsGMaps3Type, $egMapsGMaps3Types, $egMapsGMaps3Controls, $egMapsGMaps3Layers;
 		global $egMapsGMaps3DefTypeStyle, $egMapsGMaps3DefZoomStyle, $egMapsGMaps3AutoInfoWindows;
+		global $egMapsResizableByDefault;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -123,7 +124,10 @@ class MapsGoogleMaps3 extends MapsMappingService {
 		//$params['kml']->addManipulations( new MapsParamFile() );	
 
 		$params['fusiontables'] = new ListParameter( 'fusiontables' );
-		$params['fusiontables']->setDefault( array() );		
+		$params['fusiontables']->setDefault( array() );
+
+		$params['resizable'] = new Parameter( 'resizable', Parameter::TYPE_BOOLEAN );
+		$params['resizable']->setDefault( $egMapsResizableByDefault, false );		
 	}
 	
 	/**

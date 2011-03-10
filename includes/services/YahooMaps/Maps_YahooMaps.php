@@ -43,7 +43,8 @@ class MapsYahooMaps extends MapsMappingService {
 	 * @since 0.7
 	 */		
 	public function addParameterInfo( array &$params ) {
-		global $egMapsYahooAutozoom, $egMapsYahooMapsType, $egMapsYahooMapsTypes, $egMapsYahooMapsZoom, $egMapsYMapControls;
+		global $egMapsYahooAutozoom, $egMapsYahooMapsType, $egMapsYahooMapsTypes;
+		global $egMapsYahooMapsZoom, $egMapsYMapControls, $egMapsResizableByDefault;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 1, 13 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );		
@@ -82,6 +83,9 @@ class MapsYahooMaps extends MapsMappingService {
 			Parameter::TYPE_BOOLEAN,
 			$egMapsYahooAutozoom
 		);
+		
+		$params['resizable'] = new Parameter( 'resizable', Parameter::TYPE_BOOLEAN );
+		$params['resizable']->setDefault( $egMapsResizableByDefault, false );		
 	}
 	
 	/**

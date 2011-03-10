@@ -43,7 +43,8 @@ class MapsGoogleMaps extends MapsMappingService {
 	 * @since 0.7
 	 */
 	public function addParameterInfo( array &$params ) {
-		global $egMapsGoogleMapsType, $egMapsGoogleMapsTypes, $egMapsGoogleAutozoom, $egMapsGMapControls, $egMapsGMapOverlays;
+		global $egMapsGoogleMapsType, $egMapsGoogleMapsTypes, $egMapsGoogleAutozoom;
+		global $egMapsGMapControls, $egMapsGMapOverlays, $egMapsResizableByDefault;
 		
 		$params['zoom']->addCriteria( new CriterionInRange( 0, 20 ) );
 		$params['zoom']->setDefault( self::getDefaultZoom() );
@@ -91,6 +92,9 @@ class MapsGoogleMaps extends MapsMappingService {
 		$params['overlays']->setDefault( $egMapsGMapOverlays );
 		$params['overlays']->addCriteria( new CriterionGoogleOverlay( self::$overlayData ) );
 		$params['overlays']->addManipulations( new ParamManipulationFunctions( 'strtolower' ) ); // TODO
+		
+		$params['resizable'] = new Parameter( 'resizable', Parameter::TYPE_BOOLEAN );
+		$params['resizable']->setDefault( $egMapsResizableByDefault, false );
 	}
 	
 	/**

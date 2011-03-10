@@ -119,6 +119,10 @@
 		map.addOverlay( new GGeoXml( options.kml[i] ) );
 	}
 	
+	if ( options.resizable ) {
+		this.resizable()
+	}
+	
     function ensureTypeIsSelectable( type, types ) {
     	var typesContainType = false;
 
@@ -182,7 +186,7 @@
     	}
 
     	return marker;
-    }    
+    }
 	
 	return this;
 	

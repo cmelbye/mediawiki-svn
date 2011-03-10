@@ -126,6 +126,10 @@
 		}		
 	}
 	
+	if ( options.resizable ) {
+		this.resizable()
+	}	
+
 	return this;
 	
 }; })( jQuery );
