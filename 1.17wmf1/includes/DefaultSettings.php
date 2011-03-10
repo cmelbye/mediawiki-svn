@@ -3871,6 +3871,14 @@ $wgDebugFunctionEntry = 0;
  */
 $wgStatsMethod = 'cache';
 
+/**
+ * When $wgStatsMethod is 'udp', setting this to a string allows statistics to 
+ * be aggregated over more than one wiki. The string will be used in place of
+ * the DB name in outgoing UDP packets. If this is set to false, the DB name
+ * will be used.
+ */
+$wgAggregateStatsID = false;
+
 /** Whereas to count the number of time an article is viewed.
  * Does not work if pages are cached (for example with squid).
  */
