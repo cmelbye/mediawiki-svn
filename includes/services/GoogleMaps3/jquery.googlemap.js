@@ -9,7 +9,7 @@
 
 	var mapOptions = {
 		disableDefaultUI: true,
-		mapTypeId: eval( options.type ),
+		mapTypeId: eval( 'google.maps.MapTypeId.' + options.type ),
 	};
 	this.options = options;
 	
@@ -21,8 +21,8 @@
 	mapOptions.streetViewControl = $.inArray( 'streetview', options.controls ) != -1;
 
 	// Map control styles
-	mapOptions.zoomControlOptions = { style: eval( options.zoomstyle ) }
-	mapOptions.mapTypeControlOptions = { style: eval( options.typestyle ) }	
+	mapOptions.zoomControlOptions = { style: eval( 'google.maps.ZoomControlStyle.' + options.zoomstyle ) }
+	mapOptions.mapTypeControlOptions = { style: eval( 'google.maps.MapTypeControlStyle.' + options.typestyle ) }	
 
 	// Create the map.
 	var locations = options.locations;
