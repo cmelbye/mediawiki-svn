@@ -328,7 +328,7 @@ class ProblemChangesPager extends AlphabeticPager {
 			}
 			array_unshift( $tables, 'flaggedpages' ); // order matters
 			$this->mIndexField = 'fp_pending_since';
-			$groupBy = 'fp_pending_since,fp_page_id';
+			$groupBy = 'fp_pending_since';
 		# Show outdated pages for a specific review level
 		} else {
 			$fields[] = 'fpp_rev_id AS stable';
@@ -354,7 +354,7 @@ class ProblemChangesPager extends AlphabeticPager {
 			}
 			array_unshift( $tables, 'flaggedpage_pending' ); // order matters
 			$this->mIndexField = 'fpp_pending_since';
-			$groupBy = 'fpp_pending_since,fpp_page_id';
+			$groupBy = 'fpp_pending_since';
 		}
 		$fields[] = $this->mIndexField; // Pager needs this
 		$conds['page_namespace'] = $this->namespace; // sanity check NS
