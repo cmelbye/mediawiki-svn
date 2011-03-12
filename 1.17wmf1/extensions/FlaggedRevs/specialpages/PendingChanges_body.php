@@ -411,7 +411,7 @@ class PendingChangesPager extends AlphabeticPager {
 			'tables'  => $tables,
 			'fields'  => $fields,
 			'conds'   => $conds,
-			'options' => array( 'USE INDEX' => $useIndex )
+			// 'options' => array( 'USE INDEX' => $useIndex )
 		);
 	}
 
