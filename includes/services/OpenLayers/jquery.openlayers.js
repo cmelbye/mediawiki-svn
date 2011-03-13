@@ -7,73 +7,61 @@
 
 (function( $ ){ $.fn.openlayers = function( mapElementId, options ) {
 	
-	// Remove the loading map message.
-	this.text( '' );
-	
-	var hasImageLayer = false;
-	for ( i = 0, n = options.layers.length; i < n; i++ ) {
-		// Idieally this would check if the objecct is of type OpenLayers.layer.image
-		if ( options.layers[i].options && options.layers[i].options.isImage === true ) {
-			hasImageLayer = true;
-			break;
-		}
-	}	
-	
-	// Create a new OpenLayers map with without any controls on it.
-	var mapOptions = {
-		controls: []
-	};
-	
-	if ( !hasImageLayer ) {
-		mapOptions.projection = new OpenLayers.Projection("EPSG:900913");
-		mapOptions.displayProjection = new OpenLayers.Projection("EPSG:4326");
-		mapOptions.units = "m";
-		mapOptions.numZoomLevels = 18;
-		mapOptions.maxResolution = 156543.0339;
-		mapOptions.maxExtent = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);
-	}
-	
-	var map = new OpenLayers.Map( mapElementId, mapOptions );
-	
-	addControls( map, options.controls, this.get( 0 ) );
-	
-	// Add the base layers.
-	for ( i = 0, n = options.layers.length; i < n; i++ ) {
-		map.addLayer( eval( options.layers[i] ) );
-	}
-
-	addMarkers( map, options );
-	var centre = false;
-	
-	if ( options.centre === false ) {
-		if ( options.locations.length == 1 ) {
-			centre = new OpenLayers.LonLat( options.locations[0].lon, options.locations[0].lat );
-		}
-		else if ( options.locations.length == 0 ) {
-			centre = new OpenLayers.LonLat( 0, 0 );
-		}
-	}
-	else { // When the center is provided, set it.
-		centre = new OpenLayers.LonLat( options.centre.lon, options.centre.lat );
-	}
-	
-	if ( centre !== false ) {
-		if ( !hasImageLayer ) {
-			centre.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-		}		
+	this.getOLMarker = function( markerLayer, markerData ) {
+		var marker;
 		
-		map.setCenter( centre );		
+		if ( markerData.icon != "" ) {
+			marker = new OpenLayers.Marker( markerData.lonlat, new OpenLayers.Icon( markerData.icon ) );
+		} else {
+			marker = new OpenLayers.Marker( markerData.lonlat );
+		}
+
+		if ( markerData.text != '' ) {
+			// This is the handler for the mousedown event on the marker, and displays the popup.
+			marker.events.register('mousedown', marker,
+				function( evt ) { 
+					var popup = new OpenLayers.Feature( markerLayer, markerData.lonlat ).createPopup( true ); 
+					popup.setContentHTML( markerData.text );
+					markerLayer.map.addPopup( popup );
+					OpenLayers.Event.stop( evt ); // Stop the event.
+				}
+			);
+		}	
+
+		return marker;
 	}
 	
-	if ( options.zoom !== false ) {
-		map.zoomTo( options.zoom );
+	this.addMarkers = function( map, options ) {
+		if ( !options.locations ) {
+			options.locations = [];
+		}
+		
+		var bounds = null;
+		
+		// Layer to hold the markers.
+		var markerLayer = new OpenLayers.Layer.Markers( mediaWiki.msg( 'maps-markers' ) );
+		markerLayer.id= 'markerLayer';
+		map.addLayer( markerLayer );
+		
+		if ( options.locations.length > 1 && ( options.centre === false || options.zoom === false ) ) {
+			bounds = new OpenLayers.Bounds();
+		}
+		
+		for ( i = options.locations.length - 1; i >= 0; i-- ) {
+			options.locations[i].lonlat = new OpenLayers.LonLat( options.locations[i].lon, options.locations[i].lat );
+			
+			if ( !hasImageLayer ) {
+				options.locations[i].lonlat.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
+			}
+			
+			if ( bounds != null ) bounds.extend( options.locations[i].lonlat ); // Extend the bounds when no center is set.
+			markerLayer.addMarker( this.getOLMarker( markerLayer, options.locations[i] ) ); // Create and add the marker.
+		}
+		
+		if ( bounds != null ) map.zoomToExtent( bounds ); // If a bounds object has been created, use it to set the zoom and center.
 	}
 	
-	if ( options.resizable ) {
-		this.resizable()
-	}	
-	
-	function addControls( map, controls, mapElement ) {
+	this.addControls = function( map, controls, mapElement ) {
 		// Add the controls.
 		for ( var i = controls.length - 1; i >= 0; i-- ) {
 			// If a string is provided, find the correct name for the control, and use eval to create the object itself.
@@ -119,61 +107,74 @@
 		}
 		
 		return false;
+	}	
+	
+	// Remove the loading map message.
+	this.text( '' );
+	
+	var hasImageLayer = false;
+	for ( i = 0, n = options.layers.length; i < n; i++ ) {
+		// Idieally this would check if the objecct is of type OpenLayers.layer.image
+		if ( options.layers[i].options && options.layers[i].options.isImage === true ) {
+			hasImageLayer = true;
+			break;
+		}
+	}	
+	
+	// Create a new OpenLayers map with without any controls on it.
+	var mapOptions = {
+		controls: []
+	};
+	
+	if ( !hasImageLayer ) {
+		mapOptions.projection = new OpenLayers.Projection("EPSG:900913");
+		mapOptions.displayProjection = new OpenLayers.Projection("EPSG:4326");
+		mapOptions.units = "m";
+		mapOptions.numZoomLevels = 18;
+		mapOptions.maxResolution = 156543.0339;
+		mapOptions.maxExtent = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);
 	}
 	
-	function addMarkers( map, options ) {
-		if ( !options.locations ) {
-			options.locations = [];
+	this.map = new OpenLayers.Map( mapElementId, mapOptions );
+	var map = this.map;
+	
+	this.addControls( map, options.controls, this.get( 0 ) );
+	
+	// Add the base layers.
+	for ( i = 0, n = options.layers.length; i < n; i++ ) {
+		map.addLayer( eval( options.layers[i] ) );
+	}
+
+	this.addMarkers( map, options );
+	var centre = false;
+	
+	if ( options.centre === false ) {
+		if ( options.locations.length == 1 ) {
+			centre = new OpenLayers.LonLat( options.locations[0].lon, options.locations[0].lat );
 		}
-		
-		var bounds = null;
-		
-		// Layer to hold the markers.
-		var markerLayer = new OpenLayers.Layer.Markers( mediaWiki.msg( 'maps-markers' ) );
-		markerLayer.id= 'markerLayer';
-		map.addLayer( markerLayer );
-		
-		if ( options.locations.length > 1 && ( options.centre === false || options.zoom === false ) ) {
-			bounds = new OpenLayers.Bounds();
+		else if ( options.locations.length == 0 ) {
+			centre = new OpenLayers.LonLat( 0, 0 );
 		}
-		
-		for ( i = options.locations.length - 1; i >= 0; i-- ) {
-			options.locations[i].lonlat = new OpenLayers.LonLat( options.locations[i].lon, options.locations[i].lat );
-			
-			if ( !hasImageLayer ) {
-				options.locations[i].lonlat.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
-			}
-			
-			if ( bounds != null ) bounds.extend( options.locations[i].lonlat ); // Extend the bounds when no center is set.
-			markerLayer.addMarker( getOLMarker( markerLayer, options.locations[i] ) ); // Create and add the marker.
-		}
-		
-		if ( bounds != null ) map.zoomToExtent( bounds ); // If a bounds object has been created, use it to set the zoom and center.
+	}
+	else { // When the center is provided, set it.
+		centre = new OpenLayers.LonLat( options.centre.lon, options.centre.lat );
 	}
 	
-	function getOLMarker( markerLayer, markerData ) {
-		var marker;
+	if ( centre !== false ) {
+		if ( !hasImageLayer ) {
+			centre.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+		}		
 		
-		if ( markerData.icon != "" ) {
-			marker = new OpenLayers.Marker( markerData.lonlat, new OpenLayers.Icon( markerData.icon ) );
-		} else {
-			marker = new OpenLayers.Marker( markerData.lonlat );
-		}
-
-		if ( markerData.text != '' ) {
-			// This is the handler for the mousedown event on the marker, and displays the popup.
-			marker.events.register('mousedown', marker,
-				function( evt ) { 
-					var popup = new OpenLayers.Feature( markerLayer, markerData.lonlat ).createPopup( true ); 
-					popup.setContentHTML( markerData.text );
-					markerLayer.map.addPopup( popup );
-					OpenLayers.Event.stop( evt ); // Stop the event.
-				}
-			);
-		}	
-
-		return marker;
-	}		
+		map.setCenter( centre );		
+	}
+	
+	if ( options.zoom !== false ) {
+		map.zoomTo( options.zoom );
+	}
+	
+	if ( options.resizable ) {
+		this.resizable()
+	}	
 	
 	return this;
 	

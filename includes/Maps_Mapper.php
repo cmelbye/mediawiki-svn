@@ -172,6 +172,8 @@ final class MapsMapper {
 		
 		if ( !$baseInit ) {
 			$baseInit = true;
+			global $egMapsScriptPath;
+			$json .= 'var egMapsScriptPath =' . json_encode( $egMapsScriptPath ) . ';';
 			$json .= 'var maps={};';
 		}
 		
