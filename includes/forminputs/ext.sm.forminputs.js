@@ -15,7 +15,7 @@ window.semanticMaps = new ( function( $ ) {
 		var dms = [];
 		
 		for ( i in locations ) {
-			dms.push( this.locationToDMS( locations[i].lat, locations[i].lon ) );
+			dms.push( this.dms( locations[i].lat, locations[i].lon ) );
 		}
 		
 		return dms.join( '; ' );

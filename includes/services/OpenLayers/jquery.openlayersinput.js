@@ -156,12 +156,15 @@
 			markerLayer.removeMarker( markerCollection[i] );
 		}
 		
+		var normalProjectionLocation = new OpenLayers.LonLat( location.lon, location.lat );
+		normalProjectionLocation.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );		
+		
 		markerLayer.addMarker(
 			mapDiv.getOLMarker(
 				markerLayer,
 				{
 					lonlat: location,
-					text: '<b>' + address + '</b><hr />' + semanticMaps.dms( location.lat, location.lon ),
+					text: '<b>' + address + '</b><hr />' + semanticMaps.dms( normalProjectionLocation.lat, normalProjectionLocation.lon ),
 					title: address,
 					icon: options.icon
 				}
@@ -169,9 +172,7 @@
 		);
 		
 		mapDiv.map.panTo( location );
-		
-		var normalProjectionLocation = new OpenLayers.LonLat( location.lon, location.lat );
-		normalProjectionLocation.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );
+
 		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
 	}
 	
