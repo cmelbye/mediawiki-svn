@@ -26,9 +26,10 @@ Available mapping services: $1",
 	'semanticmaps-default-kml-pagelink' => 'View page $1',
 
 	// Forms
+	'semanticmaps-loading-forminput'	=> 'Loading map form input...',
 	'semanticmaps_lookupcoordinates' 	=> 'Look up coordinates',
 	'semanticmaps_enteraddresshere' 	=> 'Enter address here',
-	'semanticmaps-loading-forminput'	=> 'Loading map form input...',
+	'semanticmaps-updatemap' 			=> 'Update map',
 	'semanticmaps_notfound' 			=> 'not found',
 	'semanticmaps-forminput-remove'		=> 'Remove',
 	'semanticmaps-forminput-add'		=> 'Add',

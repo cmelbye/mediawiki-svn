@@ -19,6 +19,19 @@
 		'size': options.fieldsize
 	} );
 	
+	var updateButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps-updatemap' ) );
+	
+	updateButton.click( function() {
+		// TODO
+		return false;
+	} );
+	
+	input.keypress( function( event ) {
+		if ( event.which == '13' ) {
+			updateButton.click();
+		}
+	} );
+	
 	var geofield = $( '<input />' ).attr( {
 		'type': 'text',
 		'id': mapDivId + '_geofield',
@@ -41,11 +54,17 @@
 		}
 	} );
 	
-	var button = $( '<input />' ).attr( { 'type': 'submit', 'value': mediaWiki.msg( 'semanticmaps_lookupcoordinates' ) } );
+	var geoButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps_lookupcoordinates' ) );
 	
-	button.click( function() {
+	geoButton.click( function() {
 		geocodeAddress( $( '#' + mapDivId + '_geofield' ).attr( 'value' ) );
 		return false;
+	} );
+	
+	geofield.keypress( function( event ) {
+		if ( event.which == '13' ) {
+			geoButton.click();
+		}
 	} );
 	
 	var mapDiv = $( '<div />' )
@@ -58,10 +77,10 @@
 			'height': options.height
 		} );
 	
-	this.html( $( '<p />' ).append( input ) );
+	this.html( $( '<p />' ).append( input ).append( updateButton ) );
 	
 	if ( options.geonamesusername != '' ) {
-		this.append( $( '<p />' ).append( geofield ).append( button ) );			
+		this.append( $( '<p />' ).append( geofield ).append( geoButton ) );			
 	}
 
 	this.append( mapDiv );
@@ -151,8 +170,9 @@
 		
 		mapDiv.map.panTo( location );
 		
-		location.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );
-		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ location ] ) ); 
+		var normalProjectionLocation = new OpenLayers.LonLat( location.lon, location.lat );
+		normalProjectionLocation.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );
+		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
 	}
 	
 	return this;
