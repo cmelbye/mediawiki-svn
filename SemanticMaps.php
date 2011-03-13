@@ -41,68 +41,65 @@ if ( ! defined( 'SMW_VERSION' ) ) {
 	die( '<b>Error:</b> You need to have <a href="http://semantic-mediawiki.org/wiki/Semantic_MediaWiki">Semantic MediaWiki</a> installed in order to use <a href="http://www.mediawiki.org/wiki/Extension:Semantic Maps">Semantic Maps</a>.<br />' );
 }
 
-// Only initialize the extension when all dependencies are present.
-if ( defined( 'Maps_VERSION' ) && defined( 'SMW_VERSION' ) ) {
-	define( 'SM_VERSION', '0.8 alpha' );
+define( 'SM_VERSION', '0.8 alpha' );
 
-	$smgScriptPath 	= ( $wgExtensionAssetsPath === false ? '/extensions' : $wgExtensionAssetsPath ) . '/SemanticMaps';	
-	$smgDir 		= dirname( __FILE__ ) . '/';
+$smgScriptPath 	= ( $wgExtensionAssetsPath === false ? '/extensions' : $wgExtensionAssetsPath ) . '/SemanticMaps';	
+$smgDir 		= dirname( __FILE__ ) . '/';
 
-	$smgStyleVersion = $wgStyleVersion . '-' . SM_VERSION;
+$smgStyleVersion = $wgStyleVersion . '-' . SM_VERSION;
 
-	// Include the settings file.
-	require_once 'SM_Settings.php';
+// Include the settings file.
+require_once 'SM_Settings.php';
 
-	# (named) Array of String. This array contains the available features for Maps.
-	# Commenting out the inclusion of any feature will make Maps completely ignore it, and so improve performance.
-	
-		# Query printers
-		include_once $smgDir . 'includes/queryprinters/SM_QueryPrinters.php';
-		# Form imputs
-		include_once $smgDir . 'includes/forminputs/SM_FormInputs.php'; 
+# (named) Array of String. This array contains the available features for Maps.
+# Commenting out the inclusion of any feature will make Maps completely ignore it, and so improve performance.
 
-	# Include the mapping services that should be loaded into Semantic Maps. 
-	# Commenting or removing a mapping service will cause Semantic Maps to completely ignore it, and so improve performance.
-		
-		# Google Maps API v2
-		include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
-		# Google Maps API v3
-		include_once $smgDir . 'includes/services/GoogleMaps3/SM_GoogleMaps3.php';	
-		# OpenLayers API
-		include_once $smgDir . 'includes/services/OpenLayers/SM_OpenLayers.php';
-		# Yahoo! Maps API
-		include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';	
-	
-	$wgExtensionFunctions[] = 'smfSetup';
+	# Query printers
+	include_once $smgDir . 'includes/queryprinters/SM_QueryPrinters.php';
+	# Form imputs
+	include_once $smgDir . 'includes/forminputs/SM_FormInputs.php'; 
 
-	$wgExtensionMessagesFiles['SemanticMaps'] = $smgDir . 'SemanticMaps.i18n.php';
+# Include the mapping services that should be loaded into Semantic Maps. 
+# Commenting or removing a mapping service will cause Semantic Maps to completely ignore it, and so improve performance.
 	
-	$incDir = dirname( __FILE__ ) . '/includes/';
-	
-	// Data values
-	$wgAutoloadClasses['SMGeoCoordsValue'] 				= $incDir . 'SM_GeoCoordsValue.php';
-	
-	// Value descriptions
-	$wgAutoloadClasses['SMGeoCoordsValueDescription'] 	= $incDir . 'SM_GeoCoordsValueDescription.php';
-	$wgAutoloadClasses['SMAreaValueDescription'] 		= $incDir . 'SM_AreaValueDescription.php';
-	
-	$wgAutoloadClasses['SemanticMapsHooks'] 			= dirname( __FILE__ ) . '/SemanticMaps.hooks.php';
-	
-	// Hook for initializing the Geographical Coordinate type.
-	$wgHooks['smwInitDatatypes'][] = 'SMGeoCoordsValue::initGeoCoordsType';
-	
-	// Hook for initializing the field types needed by Geographical Coordinates.
-	$wgHooks['SMWCustomSQLStoreFieldType'][] = 'SMGeoCoordsValue::initGeoCoordsFieldTypes';
-	
-	// Hook for defining a table to store geographical coordinates in.
-	$wgHooks['SMWPropertyTables'][] = 'SMGeoCoordsValue::initGeoCoordsTable';
-	
-	// Hook for defining the default query printer for queries that ask for geographical coordinates.
-	$wgHooks['SMWResultFormat'][] = 'SMGeoCoordsValue::addGeoCoordsDefaultFormat';	
-	
-	// Hook for adding a Semantic Maps links to the Admin Links extension.
-	$wgHooks['AdminLinks'][] = 'SemanticMapsHooks::addToAdminLinks';	
-}
+	# Google Maps API v2
+	include_once $smgDir . 'includes/services/GoogleMaps/SM_GoogleMaps.php';
+	# Google Maps API v3
+	include_once $smgDir . 'includes/services/GoogleMaps3/SM_GoogleMaps3.php';	
+	# OpenLayers API
+	include_once $smgDir . 'includes/services/OpenLayers/SM_OpenLayers.php';
+	# Yahoo! Maps API
+	include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';	
+
+$wgExtensionFunctions[] = 'smfSetup';
+
+$wgExtensionMessagesFiles['SemanticMaps'] = $smgDir . 'SemanticMaps.i18n.php';
+
+$incDir = dirname( __FILE__ ) . '/includes/';
+
+// Data values
+$wgAutoloadClasses['SMGeoCoordsValue'] 				= $incDir . 'SM_GeoCoordsValue.php';
+
+// Value descriptions
+$wgAutoloadClasses['SMGeoCoordsValueDescription'] 	= $incDir . 'SM_GeoCoordsValueDescription.php';
+$wgAutoloadClasses['SMAreaValueDescription'] 		= $incDir . 'SM_AreaValueDescription.php';
+
+$wgAutoloadClasses['SemanticMapsHooks'] 			= dirname( __FILE__ ) . '/SemanticMaps.hooks.php';
+
+// Hook for initializing the Geographical Coordinate type.
+$wgHooks['smwInitDatatypes'][] = 'SMGeoCoordsValue::initGeoCoordsType';
+
+// Hook for initializing the field types needed by Geographical Coordinates.
+$wgHooks['SMWCustomSQLStoreFieldType'][] = 'SMGeoCoordsValue::initGeoCoordsFieldTypes';
+
+// Hook for defining a table to store geographical coordinates in.
+$wgHooks['SMWPropertyTables'][] = 'SMGeoCoordsValue::initGeoCoordsTable';
+
+// Hook for defining the default query printer for queries that ask for geographical coordinates.
+$wgHooks['SMWResultFormat'][] = 'SMGeoCoordsValue::addGeoCoordsDefaultFormat';	
+
+// Hook for adding a Semantic Maps links to the Admin Links extension.
+$wgHooks['AdminLinks'][] = 'SemanticMapsHooks::addToAdminLinks';	
 
 /**
  * 'Initialization' function for the Semantic Maps extension. 

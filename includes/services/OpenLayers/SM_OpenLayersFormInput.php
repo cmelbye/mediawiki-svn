@@ -11,28 +11,14 @@
 class SMOpenLayersFormInput extends SMFormInput {
 	
 	/**
-	 * @see MapsMapFeature::addFormDependencies()
+	 * @see SMFormInput::getResourceModules
+	 * 
+	 * @since 0.8
+	 * 
+	 * @return array of string
 	 */
-	protected function addFormDependencies() {
-		global $wgOut;
-		global $smgScriptPath, $smgStyleVersion;
-		
-		$this->service->addDependency( Html::linkedScript( "$smgScriptPath/includes/services/OpenLayers/SM_OpenLayersForms.js?$smgStyleVersion" ) );
-		$this->service->addDependencies( $wgOut );
-	}
-	
-	/**
-	 * @see MapsMapFeature::addSpecificMapHTML
-	 */
-	public function addSpecificMapHTML() {
-		return Html::element(
-			'div',
-			array(
-				'id' => $this->service->getMapId( false ),
-				'style' => "width: $this->width; height: $this->height; background-color: #cccccc; overflow: hidden;",
-			),
-			wfMsg( 'maps-loading-map' )
-		);
-	}
+	protected function getResourceModules() {
+		return array_merge( parent::getResourceModules(), array( 'ext.sm.fi.openlayers' ) );
+	}	
 	
 }

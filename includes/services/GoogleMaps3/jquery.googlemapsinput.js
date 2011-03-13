@@ -9,7 +9,6 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
-
 (function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
 	var MAPFILES_URL = "http://maps.gstatic.com/intl/en_us/mapfiles/";
 	
@@ -29,7 +28,7 @@
 	this.html(
 		$( '<div />' ).css( {
 			'display': 'none'
-		} ).append( $( '<input />' ).attr( { 'type': 'text', 'name': options.inputname, 'id': mapDivId + '_values' } ) )
+		} ).append( append( $( '<input />' ).attr( { 'type': 'text', 'name': options.inputname, 'id': mapDivId + '_values' } ) )
 	);
 	
 	updateInputValue( buildInputValue( options.locations ) );
@@ -298,9 +297,7 @@
 		$( "#" + mapDivId + '_addbutton_' + i ).button().click( onRemoveButtonClick );
 	}
 	
-	function locationToDMS ( lat, lon ) { // TODO: i18n
-		return Math.abs( lat ) + '° ' + ( lat < 0 ? 'S' : 'N' ) + ', ' + Math.abs( lon ) + '° ' + ( lon < 0 ? 'W' : 'E' );
-	}
+
 	
 	function updateInput() {
 		var locations = [];
@@ -312,16 +309,6 @@
 	
 	function updateInputValue( value ) {
 		$( '#' + mapDivId + '_values' ).text( value );
-	}
-	
-	function buildInputValue( locations ) {
-		var dms = [];
-		
-		for ( i in locations ) {
-			dms.push( locationToDMS( locations[i].lat, locations[i].lon ) );
-		}
-		
-		return dms.join( '; ' );
 	}
 	
 	return this;

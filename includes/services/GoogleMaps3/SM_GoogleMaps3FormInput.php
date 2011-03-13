@@ -12,25 +12,6 @@
 class SMGoogleMaps3FormInput extends SMFormInput {
 	
 	/**
-	 * @see SMFormInput::getInputHTML
-	 * 
-	 * @since 0.8
-	 * 
-	 * @param array $params
-	 * @param Parser $parser
-	 * @param string $mapName
-	 * 
-	 * @return string
-	 */	
-	protected function getInputHTML( array $params, Parser $parser, $mapName ) {
-		$html = '';
-		
-		$html .= parent::getInputHTML( $params, $parser, $mapName );
-		
-		return $html;
-	}
-	
-	/**
 	 * @see SMFormInput::getResourceModules
 	 * 
 	 * @since 0.8

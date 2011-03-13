@@ -20,6 +20,22 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+$wgResourceModules['ext.sm.fi.openlayers'] = array(
+	'dependencies' => array( 'ext.maps.openlayers', 'jquery.ui.button', 'jquery.ui.dialog' ),
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $smgScriptPath .  '/includes/services/OpenLayers',	
+	'group' => 'ext.semanticmaps',
+	'scripts' => array(
+		'jquery.openlayersinput.js',
+		'ext.sm.openlayersinput.js'
+	),
+	'messages' => array(
+		'semanticmaps-forminput-remove',
+		'semanticmaps-forminput-add',
+		'semanticmaps-forminput-locations'
+	)
+);
+
 $wgHooks['MappingServiceLoad'][] = 'smfInitOpenLayers';
 
 function smfInitOpenLayers() {

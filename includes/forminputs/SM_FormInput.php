@@ -152,6 +152,7 @@ class SMFormInput {
 			'div',
 			array(
 				'id' => $mapName . '_forminput',
+				'style' => 'display: inline'
 			),
 			wfMsg( 'semanticmaps-loading-forminput' )
 		);
