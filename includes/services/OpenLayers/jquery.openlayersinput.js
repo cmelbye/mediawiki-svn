@@ -68,6 +68,37 @@
 	
 	mapDiv.openlayers( mapDivId, options );	
 	
+	var clickControl = new (OpenLayers.Class(OpenLayers.Control, {				
+		defaultHandlerOptions: {
+			'single': true,
+			'double': false,
+			'pixelTolerance': 0,
+			'stopSingle': false,
+			'stopDouble': false
+		},
+
+		initialize: function(options) {
+			this.handlerOptions = OpenLayers.Util.extend(
+				{}, this.defaultHandlerOptions
+			);
+			OpenLayers.Control.prototype.initialize.apply(
+				this, arguments
+			); 
+			this.handler = new OpenLayers.Handler.Click(
+				this, {
+					'click': this.trigger
+				}, this.handlerOptions
+			);
+		}, 
+
+		trigger: function(e) {
+			showLocation( mapDiv.map.getLonLatFromViewPortPx(e.xy), 'Click' ); // TODO
+		}
+
+	}))();
+	mapDiv.map.addControl( clickControl );
+	clickControl.activate();
+	
 	function geocodeAddress( address ) {
 		$.getJSON(
 			'http://api.geonames.org/searchJSON?callback=?',
@@ -80,7 +111,9 @@
 			function( data ) {
 				if ( data.totalResultsCount ) {
 					if ( data.totalResultsCount > 0 ) {
-						showLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
+						var location = new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat );
+						location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
+						showLocation( location, address );
 					}
 					else {
 						// TODO: notify no result
@@ -104,8 +137,6 @@
 			markerLayer.removeMarker( markerCollection[i] );
 		}
 		
-		location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
-		
 		markerLayer.addMarker(
 			mapDiv.getOLMarker(
 				markerLayer,
@@ -120,6 +151,7 @@
 		
 		mapDiv.map.panTo( location );
 		
+		location.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );
 		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ location ] ) ); 
 	}
 	
