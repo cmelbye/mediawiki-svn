@@ -28,10 +28,10 @@
 	this.html(
 		$( '<div />' ).css( {
 			'display': 'none'
-		} ).append( append( $( '<input />' ).attr( { 'type': 'text', 'name': options.inputname, 'id': mapDivId + '_values' } ) )
+		} ).append( $( '<input />' ).attr( { 'type': 'text', 'name': options.inputname, 'id': mapDivId + '_values' } ) )
 	);
 	
-	updateInputValue( buildInputValue( options.locations ) );
+	updateInputValue( semanticMaps.buildInputValue( options.locations ) );
 	
 	var table = $( '<table />' ).attr( { 'class' : 'mapinput ui-widget ui-widget-content' } );
 	this.append( table );
@@ -286,7 +286,7 @@
 	function appendTableRow( i, lat, lon ) {
 		table.append(
 			'<tr id="' + mapDivId + '_row_' + i + '"><td>' +
-				locationToDMS( lat, lon ) +
+				semanticMaps.locationToDMS( lat, lon ) +
 			'</td><td>' + 
 				'<button class="forminput-remove" rowid="' + i + '" id="' + mapDivId + '_addbutton_' + i + '">' +
 					mediaWiki.msg( 'semanticmaps-forminput-remove' ) +
@@ -304,7 +304,7 @@
 		
 		//$( '' ).each();
 		
-		updateInputValue( buildInputValue( locations ) );
+		updateInputValue( semanticMaps.buildInputValue( locations ) );
 	}
 	
 	function updateInputValue( value ) {

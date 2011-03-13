@@ -19,6 +19,24 @@ class SMOpenLayersFormInput extends SMFormInput {
 	 */
 	protected function getResourceModules() {
 		return array_merge( parent::getResourceModules(), array( 'ext.sm.fi.openlayers' ) );
-	}	
+	}
+	
+	/**
+	 * Returns a PHP object to encode to JSON with the map data.
+	 *
+	 * @since 0.8
+	 *
+	 * @param array $params
+	 * @param Parser $parser
+	 * 
+	 * @return mixed
+	 */	
+	protected function getJSONObject( array $params, Parser $parser ) {
+		global $smgFiGeoNamesUser;
+		
+		$params['geonamesusername'] = $smgFiGeoNamesUser;
+		
+		return $params;
+	}
 	
 }

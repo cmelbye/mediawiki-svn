@@ -30,6 +30,8 @@ $wgResourceModules['ext.sm.fi.openlayers'] = array(
 		'ext.sm.openlayersinput.js'
 	),
 	'messages' => array(
+		'semanticmaps_enteraddresshere',
+		'semanticmaps_lookupcoordinates',
 		'semanticmaps-forminput-remove',
 		'semanticmaps-forminput-add',
 		'semanticmaps-forminput-locations'

@@ -13,6 +13,18 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'Not an entry point.' );
 }
 
+$wgResourceModules['ext.sm.forminputs'] = array(
+	'dependencies' => array(),
+	'localBasePath' => dirname( __FILE__ ),
+	'remoteBasePath' => $smgScriptPath .  '/includes/forminputs',	
+	'group' => 'ext.semanticmaps',
+	'scripts' => array(
+		'ext.sm.forminputs.js',
+	),
+	'messages' => array(
+	)
+);
+
 $wgHooks['MappingFeatureLoad'][] = 'SMFormInputs::initialize';
 
 final class SMFormInputs {

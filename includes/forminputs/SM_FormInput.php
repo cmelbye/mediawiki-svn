@@ -46,7 +46,7 @@ class SMFormInput {
 	 * @return array
 	 */
 	protected function getParameterInfo() {
-		global $smgFIMulti;
+		global $smgFIMulti, $smgFIFieldSize;
 		
 		$params = MapsMapper::getCommonParameters();
 		$this->service->addParameterInfo( $params );
@@ -55,6 +55,10 @@ class SMFormInput {
 		
 		$params['multi'] = new Parameter( 'multi', Parameter::TYPE_BOOLEAN );
 		$params['multi']->setDefault( $smgFIMulti, false );
+		
+		$params['fieldsize'] = new Parameter( 'fieldsize', Parameter::TYPE_INTEGER );
+		$params['fieldsize']->setDefault( $smgFIFieldSize, false );
+		$params['fieldsize']->addCriteria( new CriterionInRange( 5, 100 ) );
 		
 		$params['centre'] = new Parameter( 'centre' );
 		$params['centre']->setDefault( false, false );
@@ -202,7 +206,7 @@ class SMFormInput {
 	 * @return array of string
 	 */
 	protected function getResourceModules() {
-		return array();
+		return array( 'ext.sm.forminputs' );
 	}
 	
 }

@@ -9,20 +9,6 @@
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
 
-function buildInputValue( locations ) {
-	var dms = [];
-	
-	for ( i in locations ) {
-		dms.push( locationToDMS( locations[i].lat, locations[i].lon ) );
-	}
-	
-	return dms.join( '; ' );
-}
-
-function locationToDMS ( lat, lon ) { // TODO: i18n
-	return Math.abs( lat ) + '° ' + ( lat < 0 ? 'S' : 'N' ) + ', ' + Math.abs( lon ) + '° ' + ( lon < 0 ? 'W' : 'E' );
-}
-
 jQuery(document).ready(function() {
 	if ( false ) {
 		for ( i in window.maps.googlemaps3_forminputs ) {
@@ -35,7 +21,7 @@ jQuery(document).ready(function() {
 		for ( i in window.maps.googlemaps3_forminputs ) {
 			jQuery( '#' + i + '_forminput' )
 				.html( $( '<input />' )
-					.attr( { 'name': i, 'value': buildInputValue( window.maps.googlemaps3_forminputs[i].locations ) } )
+					.attr( { 'name': i, 'value': semanticMaps.buildInputValue( window.maps.googlemaps3_forminputs[i].locations ) } )
 				);
 		}
 	}	
