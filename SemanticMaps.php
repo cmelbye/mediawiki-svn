@@ -43,6 +43,17 @@ if ( ! defined( 'SMW_VERSION' ) ) {
 
 define( 'SM_VERSION', '0.8 alpha' );
 
+$wgExtensionCredits[defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'other'][] = array(
+	'path' => __FILE__,
+	'name' => 'Semantic Maps',
+	'version' => SM_VERSION,
+	'author' => array(
+		'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]'
+	),
+	'url' => 'http://www.mediawiki.org/wiki/Extension:Semantic_Maps',
+	'descriptionmsg' => 'semanticmaps-desc'
+);
+
 $smgScriptPath 	= ( $wgExtensionAssetsPath === false ? '/extensions' : $wgExtensionAssetsPath ) . '/SemanticMaps';	
 $smgDir 		= dirname( __FILE__ ) . '/';
 
@@ -71,8 +82,6 @@ require_once 'SM_Settings.php';
 	# Yahoo! Maps API
 	include_once $smgDir . 'includes/services/YahooMaps/SM_YahooMaps.php';	
 
-$wgExtensionFunctions[] = 'smfSetup';
-
 $wgExtensionMessagesFiles['SemanticMaps'] = $smgDir . 'SemanticMaps.i18n.php';
 
 $incDir = dirname( __FILE__ ) . '/includes/';
@@ -100,34 +109,3 @@ $wgHooks['SMWResultFormat'][] = 'SMGeoCoordsValue::addGeoCoordsDefaultFormat';
 
 // Hook for adding a Semantic Maps links to the Admin Links extension.
 $wgHooks['AdminLinks'][] = 'SemanticMapsHooks::addToAdminLinks';	
-
-/**
- * 'Initialization' function for the Semantic Maps extension. 
- * The only work done here is creating the extension credits for
- * Semantic Maps. The actuall work in done via the Maps hooks.
- * 
- * @since 0.1
- * 
- * @return true
- */
-function smfSetup() {
-	global $wgExtensionCredits, $wgLang;
-
-	// Creation of a list of internationalized service names.
-	$services = array();
-	foreach ( MapsMappingServices::getServiceIdentifiers() as $identifier ) $services[] = wfMsg( 'maps_' . $identifier );
-	$servicesList = $wgLang->listToText( $services );
-
-	$wgExtensionCredits[defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'other'][] = array(
-		'path' => __FILE__,
-		'name' => wfMsg( 'semanticmaps_name' ),
-		'version' => SM_VERSION,
-		'author' => array(
-			'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]'
-		),
-		'url' => 'http://www.mediawiki.org/wiki/Extension:Semantic_Maps',
-		'description' => wfMsgExt( 'semanticmaps_desc', 'parsemag', $servicesList ),
-	);
-
-	return true;
-}
