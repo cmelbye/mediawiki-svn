@@ -103,6 +103,7 @@ unset( $ftDir );
 // Autoload the "includes/geocoders/" classes.
 $geoDir = $incDir . 'geocoders/';
 $wgAutoloadClasses['MapsGeonamesGeocoder'] 		= $geoDir . 'Maps_GeonamesGeocoder.php';
+$wgAutoloadClasses['MapsGeonamesOldGeocoder'] 	= $geoDir . 'Maps_GeonamesOldGeocoder.php';
 $wgAutoloadClasses['MapsGoogleGeocoder'] 		= $geoDir . 'Maps_GoogleGeocoder.php';
 $wgAutoloadClasses['MapsYahooGeocoder'] 		= $geoDir . 'Maps_YahooGeocoder.php';
 unset( $geoDir );
