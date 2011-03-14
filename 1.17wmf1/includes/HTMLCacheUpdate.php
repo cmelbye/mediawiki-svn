@@ -184,6 +184,10 @@ class HTMLCacheUpdate
 				array( 'page_id IN (' . $dbw->makeList( $batch ) . ')' ),
 				__METHOD__
 			);
+			# WM patch: throttle to avoid apache CPU exhaustion -- TS
+			if ( php_sapi_name() == 'cli' ) {
+				sleep( 1 );
+			}
 		}
 
 		# Update squid
