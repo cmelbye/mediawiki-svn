@@ -65,7 +65,7 @@ window.coord = new ( function( $ ) {
 	 */
 	this.float = function( lat, lon ) {
 		return lat.toString() + this.SEPARATOR + ' ' + lon.toString();
-	}
+	};
 	
 	this.parse = function( coord ) {
 		coord = coord.split( this.SEPARATOR );
@@ -82,24 +82,34 @@ window.coord = new ( function( $ ) {
 		if ( parsed !== false ) return parsed;		
 		
 		return false;
-	}
+	};
 	
 	this.parseDMS = function( lat, lon ) {
-		if ( true ) {
+		if ( this.isDMS( lat, lon ) ) {
 			// TODO
 		}
 		else {
 			return false;
 		}
-	}
+	};
 	
 	this.parseFloat = function( lat, lon ) {
-		if ( true ) {
-			// TODO
+		if ( this.isFloat( lat, lon ) ) {
+			return { lat: parseFloat( lat ), lon: parseFloat( lon ) };
 		}
 		else {
 			return false;
 		}		
-	}	
+	};
+	
+	this.isFloat = function( lat, lon ) {
+		var regex = /(-)?\d{1,3}(\.\d{1,20})?$/;
+		return regex.test( lat ) && regex.test( lon );
+	};
+	
+	this.isDMS = function( lat, lon ) {
+		var regex = ''; // TODO
+		return regex.test( lat ) && regex.test( lon );
+	};
 	
 } )( jQuery );
