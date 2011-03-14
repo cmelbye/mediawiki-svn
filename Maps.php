@@ -236,6 +236,21 @@ $wgResourceModules['ext.maps.common'] = array(
 	)
 );
 
+$wgResourceModules['ext.maps.coord'] = array(
+	'localBasePath' => dirname( __FILE__ ) . '/includes',
+	'remoteBasePath' => $egMapsScriptPath . '/includes',	
+	'group' => 'ext.maps',
+	'messages' => array(
+		'maps-abb-north',
+		'maps-abb-east',
+		'maps-abb-south',
+		'maps-abb-west',
+	),
+	'scripts' => array(
+		'ext.maps.coord.js'
+	)
+);
+
 
 /**
  * Initialization function for the Maps extension.
