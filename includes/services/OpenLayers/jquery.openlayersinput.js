@@ -22,7 +22,13 @@
 	var updateButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps-updatemap' ) );
 	
 	updateButton.click( function() {
-		// TODO
+		var locations = coord.split( $( '#' + mapDivId + '_values' ).attr( 'value' ) );
+		var location = coord.parse( locations[0] );
+		
+		if ( location !== false ) {
+			projectAndShowLocation( new OpenLayers.LonLat( location.lon, location.lat ), '' );
+		}
+		
 		return false;
 	} );
 	
@@ -130,9 +136,7 @@
 			function( data ) {
 				if ( data.totalResultsCount ) {
 					if ( data.totalResultsCount > 0 ) {
-						var location = new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat );
-						location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
-						showLocation( location, address );
+						showLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
 					}
 					else {
 						// TODO: notify no result
@@ -145,10 +149,15 @@
 		);		
 	}
 	
+	function projectAndShowLocation( location, title ) {
+		location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
+		showLocation( location, title );
+	}
+	
 	/**
-	 * @param location: OpenLayers.LonLat object
+	 * @param {OpenLayers.LonLat} location
 	 */
-	function showLocation( location, address ) {
+	function showLocation( location, title ) {
 		var markerLayer = mapDiv.map.getLayer('markerLayer');
 		var markerCollection = markerLayer.markers;
 
@@ -159,13 +168,19 @@
 		var normalProjectionLocation = new OpenLayers.LonLat( location.lon, location.lat );
 		normalProjectionLocation.transform( new OpenLayers.Projection( "EPSG:900913" ), new OpenLayers.Projection( "EPSG:4326" ) );		
 		
+		var text = coord.dms( normalProjectionLocation.lat, normalProjectionLocation.lon );
+		
+		if ( title != '' ) {
+			text = '<b>' + title + '</b><hr />' + text;
+		}
+		
 		markerLayer.addMarker(
 			mapDiv.getOLMarker(
 				markerLayer,
 				{
 					lonlat: location,
-					text: '<b>' + address + '</b><hr />' + coord.dms( normalProjectionLocation.lat, normalProjectionLocation.lon ),
-					title: address,
+					text: text,
+					title: title,
 					icon: options.icon
 				}
 			)
