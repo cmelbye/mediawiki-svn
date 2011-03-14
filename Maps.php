@@ -43,6 +43,17 @@ if ( ! defined( 'Validator_VERSION' ) ) {
 
 define( 'Maps_VERSION', '0.8 alpha' );
 
+$wgExtensionCredits['parserhook'][] = array(
+	'path' => __FILE__,
+	'name' => 'Maps',
+	'version' => Maps_VERSION,
+	'author' => array(
+		'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]'
+	),
+	'url' => 'http://www.mediawiki.org/wiki/Extension:Maps',
+	'descriptionmsg' => 'maps-desc'
+);
+
 // The different coordinate notations.
 define( 'Maps_COORDS_FLOAT', 'float' );
 define( 'Maps_COORDS_DMS', 'dms' );
@@ -234,7 +245,7 @@ $wgResourceModules['ext.maps.common'] = array(
  * @return true
  */
 function efMapsSetup() {
-	global $wgExtensionCredits, $wgLang, $wgExtraNamespaces, $wgNamespaceAliases;
+	global $wgExtraNamespaces, $wgNamespaceAliases;
 
 	if ( is_null( $wgExtraNamespaces ) ) {
 		$wgExtraNamespaces = array();
@@ -252,22 +263,6 @@ function efMapsSetup() {
 	
 	wfRunHooks( 'MappingServiceLoad' );
 	wfRunHooks( 'MappingFeatureLoad' );
-
-	// Creation of a list of internationalized service names.
-	$services = array();
-	foreach ( MapsMappingServices::getServiceIdentifiers() as $identifier ) $services[] = wfMsg( 'maps_' . $identifier );
-	$servicesList = $wgLang->listToText( $services );
-
-	$wgExtensionCredits['parserhook'][] = array(
-		'path' => __FILE__,
-		'name' => wfMsg( 'maps_name' ),
-		'version' => Maps_VERSION,
-		'author' => array(
-			'[http://www.mediawiki.org/wiki/User:Jeroen_De_Dauw Jeroen De Dauw]'
-		),
-		'url' => 'http://www.mediawiki.org/wiki/Extension:Maps',
-		'description' => wfMsgExt( 'maps_desc', 'parsemag', $servicesList ),
-	);
 
 	return true;
 }
