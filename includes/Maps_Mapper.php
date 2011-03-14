@@ -96,16 +96,11 @@ final class MapsMapper {
 		$params['mappingservice']->setDefault( $egMapsDefaultService );
 		$params['mappingservice']->addCriteria( new CriterionInArray( MapsMappingServices::getAllServiceValues() ) );
 		
-		$params['geoservice'] = new Parameter(
-			'geoservice', 
-			Parameter::TYPE_STRING,
-			$egMapsDefaultGeoService,
-			array(),
-			array(
-				new CriterionInArray( $egMapsAvailableGeoServices ),
-			),
-			array( 'mappingservice' )
-		);
+		$params['geoservice'] = new Parameter( 'geoservice' );
+		$params['geoservice']->setDefault( $egMapsDefaultGeoService );
+		$params['geoservice']->addCriteria( new CriterionInArray( $egMapsAvailableGeoServices ) );
+		$params['geoservice']->addDependencies( 'mappingservice' );
+		$params['geoservice']->addManipulations( new MapsParamGeoService( 'mappingservice' ) );
 		
 		$params['zoom'] = new Parameter(
 			'zoom', 

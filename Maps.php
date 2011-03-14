@@ -118,6 +118,7 @@ unset( $lyrDir );
 $manDir = $incDir . 'manipulations/';
 $wgAutoloadClasses['MapsParamDimension'] 		= $manDir . 'Maps_ParamDimension.php';
 $wgAutoloadClasses['MapsParamFile'] 			= $manDir . 'Maps_ParamFile.php';
+$wgAutoloadClasses['MapsParamGeoService'] 		= $manDir . 'Maps_ParamGeoService.php';
 $wgAutoloadClasses['MapsParamLocation'] 		= $manDir . 'Maps_ParamLocation.php';
 $wgAutoloadClasses['MapsParamService'] 			= $manDir . 'Maps_ParamService.php';
 $wgAutoloadClasses['MapsParamZoom'] 			= $manDir . 'Maps_ParamZoom.php';
