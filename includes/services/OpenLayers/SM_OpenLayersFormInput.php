@@ -32,9 +32,9 @@ class SMOpenLayersFormInput extends SMFormInput {
 	 * @return mixed
 	 */	
 	protected function getJSONObject( array $params, Parser $parser ) {
-		global $smgFiGeoNamesUser;
+		global $egMapsGeoNamesUser;
 		
-		$params['geonamesusername'] = $smgFiGeoNamesUser;
+		$params['geonamesusername'] = $egMapsGeoNamesUser;
 		
 		return $params;
 	}

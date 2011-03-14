@@ -130,7 +130,7 @@
 			{
 				'q': address,
 				'username': options.geonamesusername,
-				'formatted': 'true',
+				//'formatted': 'true',
 				'maxRows': 1
 			},
 			function( data ) {
