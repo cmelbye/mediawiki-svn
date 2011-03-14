@@ -14,7 +14,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 $wgResourceModules['ext.sm.forminputs'] = array(
-	'dependencies' => array(),
+	'dependencies' => array( 'ext.maps.coord' ),
 	'localBasePath' => dirname( __FILE__ ),
 	'remoteBasePath' => $smgScriptPath .  '/includes/forminputs',	
 	'group' => 'ext.semanticmaps',
