@@ -164,7 +164,7 @@
 				markerLayer,
 				{
 					lonlat: location,
-					text: '<b>' + address + '</b><hr />' + semanticMaps.dms( normalProjectionLocation.lat, normalProjectionLocation.lon ),
+					text: '<b>' + address + '</b><hr />' + coord.dms( normalProjectionLocation.lat, normalProjectionLocation.lon ),
 					title: address,
 					icon: options.icon
 				}
