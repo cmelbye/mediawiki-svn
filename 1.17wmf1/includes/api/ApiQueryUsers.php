@@ -1,10 +1,10 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on July 30, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  *
  * @ingroup API
  */
- class ApiQueryUsers extends ApiQueryBase {
+class ApiQueryUsers extends ApiQueryBase {
 
 	private $tokenFunctions, $prop;
 
@@ -66,6 +66,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		return $this->tokenFunctions;
 	}
 
+	 /**
+	  * @static
+	  * @param $user User
+	  * @return String
+	  */
 	public static function getUserrightsToken( $user ) {
 		global $wgUser;
 		// Since the permissions check for userrights is non-trivial,
@@ -104,14 +109,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			}
 		}
 
-		if ( count( $goodNames ) ) {
-			$this->addTables( 'user', 'u1' );
-			$this->addFields( 'u1.*' );
-			$this->addWhereFld( 'u1.user_name', $goodNames );
+		$result = $this->getResult();
 
-			if ( isset( $this->prop['groups'] ) ) {
+		if ( count( $goodNames ) ) {
+			$this->addTables( 'user' );
+			$this->addFields( '*' );
+			$this->addWhereFld( 'user_name', $goodNames );
+
+			if ( isset( $this->prop['groups'] ) || isset( $this->prop['rights'] ) ) {
 				$this->addTables( 'user_groups' );
-				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=u1.user_id' ) ) );
+				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=user_id' ) ) );
 				$this->addFields( 'ug_group' );
 			}
 
@@ -119,9 +126,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 			$data = array();
 			$res = $this->select( __METHOD__ );
+
 			foreach ( $res as $row ) {
 				$user = User::newFromRow( $row );
 				$name = $user->getName();
+
+				$data[$name]['userid'] = $user->getId();
 				$data[$name]['name'] = $name;
 
 				if ( isset( $this->prop['editcount'] ) ) {
@@ -132,19 +142,26 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 					$data[$name]['registration'] = wfTimestampOrNull( TS_ISO_8601, $user->getRegistration() );
 				}
 
-				if ( isset( $this->prop['groups'] ) && !is_null( $row->ug_group ) ) {
-					// This row contains only one group, others will be added from other rows
-					$data[$name]['groups'][] = $row->ug_group;
+				if ( isset( $this->prop['groups'] ) ) {
+					if ( !isset( $data[$name]['groups'] ) ) {
+						$data[$name]['groups'] = self::getAutoGroups( $user );
+					}
+
+					if ( !is_null( $row->ug_group ) ) {
+						// This row contains only one group, others will be added from other rows
+						$data[$name]['groups'][] = $row->ug_group;
+					}
 				}
 
-				if ( isset( $this->prop['rights'] ) && !is_null( $row->ug_group ) ) {
+				if ( isset( $this->prop['rights'] ) ) {
 					if ( !isset( $data[$name]['rights'] ) ) {
 						$data[$name]['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
 					}
 
-					$data[$name]['rights'] = array_unique( array_merge( $data[$name]['rights'],
-						User::getGroupPermissions( array( $row->ug_group ) ) ) );
-					$result->setIndexedTagName( $data[$name]['rights'], 'r' );
+					if ( !is_null( $row->ug_group ) ) {
+						$data[$name]['rights'] = array_unique( array_merge( $data[$name]['rights'],
+							User::getGroupPermissions( array( $row->ug_group ) ) ) );
+					}
 				}
 				if ( $row->ipb_deleted ) {
 					$data[$name]['hidden'] = '';
@@ -180,6 +197,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				}
 			}
 		}
+
 		// Second pass: add result data to $retval
 		foreach ( $goodNames as $u ) {
 			if ( !isset( $data[$u] ) ) {
@@ -207,13 +225,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				}
 			} else {
 				if ( isset( $this->prop['groups'] ) && isset( $data[$u]['groups'] ) ) {
-					$autolist = ApiQueryUsers::getAutoGroups( User::newFromName( $u ) );
-
-					$data[$u]['groups'] = array_merge( $autolist, $data[$u]['groups'] );
-
-					$this->getResult()->setIndexedTagName( $data[$u]['groups'], 'g' );
+					$result->setIndexedTagName( $data[$u]['groups'], 'g' );	
+				}
+				if ( isset( $this->prop['rights'] ) && isset( $data[$u]['rights'] ) ) {
+					$result->setIndexedTagName( $data[$u]['rights'], 'r' );
 				}
 			}
+
 			$fit = $result->addValue( array( 'query', $this->getModuleName() ),
 					null, $data[$u] );
 			if ( !$fit ) {
@@ -223,11 +241,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			}
 			$done[] = $u;
 		}
-		return $this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
+		return $result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
 	}
 
 	/**
 	* Gets all the groups that a user is automatically a member of
+	* @param $user User
 	* @return array
 	*/
 	public static function getAutoGroups( $user ) {
@@ -256,6 +275,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				ApiBase::PARAM_TYPE => array(
 					'blockinfo',
 					'groups',
+					'rights',
 					'editcount',
 					'registration',
 					'emailable',

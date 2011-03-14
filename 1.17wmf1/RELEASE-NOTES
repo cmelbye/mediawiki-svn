@@ -608,6 +608,9 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   file is a multi-page file
 * (bug 10268) Added linktodiffs parameter on action=feedwatchlist
 * (bug 26219) Show API limits for multi values in description
+* (bug 28010) Passing a non existant user to list=users gives internal error
+* (bug 27549) action=query&list=users&usprop=groups doesn't show implicit
+  groups if a user doesn't have explicit groups
 
 === Languages updated in 1.17 ===
 

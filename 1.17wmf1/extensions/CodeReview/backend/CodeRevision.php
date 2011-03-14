@@ -422,13 +422,13 @@ class CodeRevision {
 	}
 
 	public function previewComment( $text, $review, $parent = null ) {
-		$data = $this->commentData( $text, $review, $parent );
+		$data = $this->commentData( rtrim( $text ), $review, $parent );
 		$data['cc_id'] = null;
 		return CodeComment::newFromData( $this, $data );
 	}
 
 	public function saveComment( $text, $review, $parent = null ) {
-		$text = trim( $text );
+		$text = rtrim( $text );
 		if ( !strlen( $text ) ) {
 			return 0;
 		}
@@ -870,7 +870,9 @@ class CodeRevision {
 	protected function tagData( $tags ) {
 		$data = array();
 		foreach ( $tags as $tag ) {
-			if ( $tag == '' ) continue;
+			if ( $tag == '' ) {
+				continue;
+			}
 			$data[] = array(
 				'ct_repo_id' => $this->mRepoId,
 				'ct_rev_id'  => $this->mId,
@@ -880,15 +882,13 @@ class CodeRevision {
 	}
 
 	public function normalizeTag( $tag ) {
-		global $wgContLang;
-		$lower = $wgContLang->lc( $tag );
-
 		$title = Title::newFromText( $tag );
-		if ( $title && $lower === $wgContLang->lc( $title->getPrefixedText() ) ) {
-			return $lower;
-		} else {
-			return false;
+		if ( $title ) {
+			global $wgContLang;
+			return $wgContLang->lc( $title->getDbKey() );
 		}
+
+		return false;
 	}
 
 	public function isValidTag( $tag ) {
