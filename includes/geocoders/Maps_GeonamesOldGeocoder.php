@@ -10,7 +10,9 @@
  * @ingroup Maps
  * @ingroup Geocoders
  *
- * @author Jeroen De Dauw
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
+ * 
  * Thanks go to Joel Natividad for pointing me to the GeoNames services.
  */
 final class MapsGeonamesOldGeocoder extends MapsGeocoder {

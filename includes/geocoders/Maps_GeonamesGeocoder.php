@@ -3,14 +3,13 @@
 /**
  * Class for geocoding requests with the GeoNames webservice.
  * 
- * GeoNames Web Services Documentation: http://www.geonames.org/export/geonames-search.html
- *
+ * @since 0.8
  * @file Maps_GeonamesGeocoder.php
  * @ingroup Maps
  * @ingroup Geocoders
  *
- * @author Jeroen De Dauw
- * Thanks go to Joel Natividad for pointing me to the GeoNames services.
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
 final class MapsGeonamesGeocoder extends MapsGeocoder {
 	
@@ -35,7 +34,7 @@ final class MapsGeonamesGeocoder extends MapsGeocoder {
 	/**
 	 * @see MapsGeocoder::getRequestUrl
 	 * 
-	 * @since 0.7
+	 * @since 0.8
 	 * 
 	 * @param string $address
 	 * 
@@ -49,7 +48,7 @@ final class MapsGeonamesGeocoder extends MapsGeocoder {
 	/**
 	 * @see MapsGeocoder::parseResponse
 	 * 
-	 * @since 0.7
+	 * @since 0.8
 	 * 
 	 * @param string $address
 	 * 

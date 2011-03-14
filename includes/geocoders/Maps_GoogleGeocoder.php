@@ -9,7 +9,8 @@
  * @ingroup Maps
  * @ingroup Geocoders
  *
- * @author Jeroen De Dauw
+ * @licence GNU GPL v3
+ * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  * @author Sergey Chernyshev
  */
 final class MapsGoogleGeocoder extends MapsGeocoder {
@@ -74,7 +75,7 @@ final class MapsGoogleGeocoder extends MapsGeocoder {
 	 * 
 	 * @return array
 	 */
-	public function getOverrides() {
+	public static function getOverrides() {
 		return array( 'googlemaps2', 'googlemaps3' );
 	}
 	
