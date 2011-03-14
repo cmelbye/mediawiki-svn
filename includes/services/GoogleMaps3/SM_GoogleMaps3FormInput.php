@@ -3,6 +3,7 @@
 /**
  * Google Maps v3 form input class.
  *
+ * @since 0.8
  * @file SM_GoogleMaps3FormInput.php
  * @ingroup SemanticMaps
  *
@@ -19,7 +20,7 @@ class SMGoogleMaps3FormInput extends SMFormInput {
 	 * @return array of string
 	 */
 	protected function getResourceModules() {
-		return array_merge( parent::getResourceModules(), array( 'ext.sm.fi.googlemaps3' ) );
+		return array_merge( parent::getResourceModules(), array( 'ext.sm.fi.googlemaps3.single' ) );
 	}	
 	
 }

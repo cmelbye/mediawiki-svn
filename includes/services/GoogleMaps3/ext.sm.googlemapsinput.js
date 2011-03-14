@@ -10,9 +10,14 @@
  */
 
 jQuery(document).ready(function() {
-	if ( false ) {
+	if ( true ) { // TODO
 		for ( i in window.maps.googlemaps3_forminputs ) {
-			jQuery( '#' + i + '_forminput' ).googlemapsinput( i, window.maps.googlemaps3_forminputs[i] );
+			if ( window.maps.googlemaps3_forminputs[i].ismulti ) {
+				jQuery( '#' + i + '_forminput' ).gmapsmultiinput( i, window.maps.googlemaps3_forminputs[i] );
+			}
+			else {
+				jQuery( '#' + i + '_forminput' ).googlemapsinput( i, window.maps.googlemaps3_forminputs[i] );
+			}
 		}
 	}
 	else {
