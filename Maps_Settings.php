@@ -74,7 +74,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	$egMapsAllowCoordsGeocoding = true;
 	
 	# Boolean. Sets if geocoded addresses should be stored in a cache.
-	$egMapsEnableGeoCache = true;	
+	$egMapsEnableGeoCache = true;
+	
+	# String. GeoNames API user/application name.
+	# Obtain an account here: http://www.geonames.org/login
+	# Do not forget to activate your account for API usage!
+	$egMapsGeoNamesUser = '';
 
 
 

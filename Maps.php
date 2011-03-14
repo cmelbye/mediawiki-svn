@@ -182,7 +182,10 @@ $egMapsFeatures['pf'][]	= 'MapsDisplayPoint::initialize';
 # Geocoders
 	
 	# Registration of the GeoNames service geocoder.
-	$wgHooks['GeocoderFirstCallInit'][] = 'MapsGeonamesGeocoder::register';
+	$wgHooks['GeocoderFirstCallInit'][] = 'MapsGeonamesGeocoder::register';	
+	
+	# Registration of the legacy GeoNames service geocoder.
+	$wgHooks['GeocoderFirstCallInit'][] = 'MapsGeonamesOldGeocoder::register';
 	
 	# Registration of the Google Geocoding (v2) service geocoder.
 	$wgHooks['GeocoderFirstCallInit'][] = 'MapsGoogleGeocoder::register';

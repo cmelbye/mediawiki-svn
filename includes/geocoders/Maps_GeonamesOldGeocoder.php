@@ -2,6 +2,7 @@
 
 /**
  * Class for geocoding requests with the GeoNames webservice.
+ * @deprecated
  * 
  * GeoNames Web Services Documentation: http://www.geonames.org/export/geonames-search.html
  *
@@ -12,18 +13,21 @@
  * @author Jeroen De Dauw
  * Thanks go to Joel Natividad for pointing me to the GeoNames services.
  */
-final class MapsGeonamesGeocoder extends MapsGeocoder {
+final class MapsGeonamesOldGeocoder extends MapsGeocoder {
 	
 	/**
 	 * Registeres the geocoder.
 	 * 
-	 * No LST in pre-5.3 PHP *sigh*.
+	 * No LSB in pre-5.3 PHP *sigh*.
 	 * This is to be refactored as soon as php >=5.3 becomes acceptable.
 	 * 
 	 * @since 0.7
 	 */
 	public static function register() {
-		MapsGeocoders::registerGeocoder( 'geonames', __CLASS__ );
+		global $egMapsGeoNamesUser;
+		
+		MapsGeocoders::registerGeocoder( $egMapsGeoNamesUser == '' ? 'geonames' : 'geonamesold', __CLASS__ );
+		
 		return true;
 	}	
 	
