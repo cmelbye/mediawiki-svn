@@ -9,8 +9,6 @@
  *
  * @licence GNU GPL v3
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
- * 
- * TODO: implement forceshow and showtitle
  */
 class SMMapPrinter extends SMWResultPrinter {
 	
@@ -118,7 +116,6 @@ class SMMapPrinter extends SMWResultPrinter {
 			$smgQPForceShow,
 			array( 'force show' )
 		);
-		$params['forceshow']->addManipulations( new ParamManipulationBoolean() );		
 
 		$params['showtitle'] = new Parameter(
 			'showtitle',
@@ -126,7 +123,6 @@ class SMMapPrinter extends SMWResultPrinter {
 			$smgQPShowTitle,
 			array( 'show title' )
 		);
-		$params['showtitle']->addManipulations( new ParamManipulationBoolean() );		
 		
 		$params['template'] = new Parameter(
 			'template',
@@ -170,25 +166,31 @@ class SMMapPrinter extends SMWResultPrinter {
 			
 			$queryHandler = new SMQueryHandler( $res, $outputmode );
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
+			$locationAmount = count( $params['locations'] );
 			
-			// We can only take care of the zoom defaulting here, 
-			// as not all locations are available in whats passed to Validator.
-			if ( $params['zoom'] === false && count( $params['locations'] ) <= 1 ) {
-				$params['zoom'] = $this->service->getDefaultZoom();
+			if ( $params['forceshow'] || $locationAmount > 0 ) {
+				// We can only take care of the zoom defaulting here, 
+				// as not all locations are available in whats passed to Validator.
+				if ( $params['zoom'] === false && $locationAmount <= 1 ) {
+					$params['zoom'] = $this->service->getDefaultZoom();
+				}
+				
+				$mapName = $this->service->getMapId();
+				
+				SMWOutputs::requireHeadItem( $mapName, $this->service->getDependencyHtml() );
+				foreach ( $this->service->getResourceModules() as $resourceModule ) {
+					SMWOutputs::requireResource( $resourceModule );
+				}
+				
+				return array(
+					$this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName ),
+					'noparse' => true, 
+					'isHTML' => true
+				);				
 			}
-			
-			$mapName = $this->service->getMapId();
-			
-			SMWOutputs::requireHeadItem( $mapName, $this->service->getDependencyHtml() );
-			foreach ( $this->service->getResourceModules() as $resourceModule ) {
-				SMWOutputs::requireResource( $resourceModule );
+			else {
+				return '';
 			}
-			
-			return array(
-				$this->getMapHTML( $params, $wgParser, $mapName ) . $this->getJSON( $params, $wgParser, $mapName ),
-				'noparse' => true, 
-				'isHTML' => true
-			);
 		}
 		else {
 			return $this->fatalErrorMsg;
