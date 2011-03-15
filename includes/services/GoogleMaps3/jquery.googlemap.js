@@ -24,9 +24,6 @@
 	mapOptions.zoomControlOptions = { style: eval( 'google.maps.ZoomControlStyle.' + options.zoomstyle ) }
 	mapOptions.mapTypeControlOptions = { style: eval( 'google.maps.MapTypeControlStyle.' + options.typestyle ) }	
 
-	// Create the map.
-	var locations = options.locations;
-
 	var map = new google.maps.Map( this.get( 0 ), mapOptions );
 	this.map = map;
 	
