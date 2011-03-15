@@ -15,7 +15,8 @@
 	 */
 	mw.seconds2npt = function( sec, show_ms ) {
 		if ( isNaN( sec ) ) {
-			sec = 0;
+			mw.log("mw.seconds2npt> Warning: trying to get npt time on NaN:" + sec);			
+			return '0:00:00';
 		}
 		
 		var tm = mw.seconds2Measurements( sec );
@@ -65,7 +66,8 @@
 	 */
 	mw.npt2seconds = function ( npt_str ) {
 		if ( !npt_str ) {
-			return undefined;
+			// mw.log('npt2seconds:not valid ntp:'+ntp);
+			return false;
 		}
 		// Strip {npt:}01:02:20 or 32{s} from time if present
 		npt_str = npt_str.replace( /npt:|s/g, '' );

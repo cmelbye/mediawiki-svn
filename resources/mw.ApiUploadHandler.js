@@ -10,9 +10,9 @@
  * Represents an object which configures a form to upload its files via an iframe talking to the MediaWiki API.
  * @param an UploadInterface object, which contains a .form property which points to a real HTML form in the DOM
  */
-mw.ApiUploadHandler = function( upload, api ) {
+mw.ApiUploadHandler = function( upload ) {
 	this.upload = upload;
-	this.api = api;
+	this.api = upload.api;
 	this.$form = $j( this.upload.ui.form );
 	this.configureForm();
 
@@ -39,6 +39,7 @@ mw.ApiUploadHandler.prototype = {
 	 */
 	configureForm: function() {
 		var _this = this;
+		mw.log( "configuring form for Upload API" );
 
 		_this.addFormInputIfMissing( 'action', 'upload' );
 
@@ -50,8 +51,14 @@ mw.ApiUploadHandler.prototype = {
 		
 		// we use JSON in HTML because according to mdale, some browsers cannot handle just JSON
 		_this.addFormInputIfMissing( 'format', 'jsonfm' );
-	},
-
+		
+		// XXX only for testing, so it stops complaining about dupes
+		/*
+		if ( mw.UploadWizard.DEBUG ) {
+			_this.addFormInputIfMissing( 'ignorewarnings', '1' );
+		}
+		*/
+	},	
 	/** 
 	 * Modify our form to have a fresh edit token.
 	 * If successful, return true to a callback.
@@ -85,6 +92,7 @@ mw.ApiUploadHandler.prototype = {
 	start: function() {
 		var _this = this;
 		var ok = function() {
+			mw.log( "api: upload start!" );
 			_this.beginTime = ( new Date() ).getTime();
 			_this.upload.ui.setStatus( 'mwe-upwiz-transport-started' );
 			_this.upload.ui.showTransportProgress();

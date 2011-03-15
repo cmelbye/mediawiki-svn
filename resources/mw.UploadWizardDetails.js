@@ -463,6 +463,7 @@ mw.UploadWizardDetails.prototype = {
 	 */
 	populate: function() {
 		var _this = this;
+		mw.log( "mw.UploadWizardUpload::populate> populating details from upload" );
 		_this.upload.setThumbnail( _this.thumbnailDiv, mw.UploadWizard.config['thumbnailWidth'], mw.UploadWizard.config['thumbnailMaxHeight'] );
 		_this.prefillDate();
 		_this.prefillSource();
@@ -712,6 +713,7 @@ mw.UploadWizardDetails.prototype = {
 
 		// XXX check state of details for okayness ( license selected, at least one desc, sane filename )
 		var wikiText = _this.getWikiText();
+		mw.log( "mw.UploadWizardUpload::submit> submiting wikiText:\n" + wikiText );
 
 		var params = {
 			action: 'upload',
@@ -726,13 +728,51 @@ mw.UploadWizardDetails.prototype = {
 			_this.completeDetailsSubmission(); 
 		};	
 
+		mw.log( "mw.UploadWizardUpload::submit> uploading: \n" + params );
 		var callback = function( result ) {
+			mw.log( "mw.UploadWizardUpload::submit> result:\n" + result );
+			mw.log( "mw.UploadWizardUpload::submit> successful upload" );
 			finalCallback( result );
 		};
 
 		_this.upload.state = 'submitting-details';
 		// XXX this can still fail with bad filename, or other 'warnings' -- capture these
 		_this.upload.api.postWithEditToken( params, callback );
+	},
+
+
+	/** 
+	 * Get new image info, for instance, after we renamed... or? published? an image
+	 * XXX deprecated?
+	 * XXX move to mw.API
+	 *
+	 * @param upload an UploadWizardUpload object
+	 * @param title  title to look up remotely
+	 * @param endCallback  execute upon completion
+	 */
+	getImageInfo: function( upload, callback ) {
+		var params = {
+                        'titles': upload.title.toString(),
+                        'prop':  'imageinfo',
+                        'iiprop': 'timestamp|url|user|size|sha1|mime|metadata'
+                };
+		// XXX timeout callback?
+		this.api.get( params, function( data ) {
+			if ( data && data.query && data.query.pages ) {
+				if ( ! data.query.pages[-1] ) {
+					for ( var page_id in data.query.pages ) {
+						var page = data.query.pages[ page_id ];
+						if ( ! page.imageinfo ) {
+							alert("unimplemented error check, missing imageinfo");
+							// XXX not found? error
+						} else {
+							upload.extractImageInfo( page.imageinfo[0] );
+						}
+					}
+				}	
+			}
+			callback();
+		} );
 	},
 
 	completeDetailsSubmission: function() {
