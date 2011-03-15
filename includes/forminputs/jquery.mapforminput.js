@@ -11,6 +11,8 @@
 
 (function( $ ){ $.fn.mapforminput = function( mapDivId, options ) {
 	
+	var self = this;
+	
 	var input = $( '<input />' ).attr( {
 		'type': 'text',
 		'name': options.inputname,
@@ -26,7 +28,7 @@
 		var location = coord.parse( locations[0] );
 		
 		if ( location !== false ) {
-			projectAndShowLocation( new OpenLayers.LonLat( location.lon, location.lat ), '' );
+			self.showCoordinate( location );
 		}
 		
 		return false;
@@ -63,7 +65,7 @@
 	var geoButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps_lookupcoordinates' ) );
 	
 	geoButton.click( function() {
-		geocodeAddress( $( '#' + mapDivId + '_geofield' ).attr( 'value' ) );
+		self.geocodeAddress( $( '#' + mapDivId + '_geofield' ).attr( 'value' ) );
 		return false;
 	} );
 	

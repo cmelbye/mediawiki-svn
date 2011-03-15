@@ -11,10 +11,11 @@
 
 (function( $ ){ $.fn.openlayersinput = function( mapDivId, options ) {
 	
-	this.mapforminput( mapDivId, options );
-	var mapDiv = this.mapDiv;
+	var self = this;
 	
-	mapDiv.openlayers( mapDivId, options );	
+	this.mapforminput( mapDivId, options );
+	
+	this.mapDiv.openlayers( mapDivId, options );	
 	
 	var clickControl = new (OpenLayers.Class(OpenLayers.Control, {				
 		defaultHandlerOptions: {
@@ -40,48 +41,18 @@
 		}, 
 
 		trigger: function(e) {
-			showLocation( mapDiv.map.getLonLatFromViewPortPx(e.xy), 'Click' ); // TODO
+			self.showLocation( self.mapDiv.map.getLonLatFromViewPortPx(e.xy), 'Click' ); // TODO
 		}
 
 	}))();
-	mapDiv.map.addControl( clickControl );
+	this.mapDiv.map.addControl( clickControl );
 	clickControl.activate();
-	
-	function geocodeAddress( address ) {
-		$.getJSON(
-			'http://api.geonames.org/searchJSON?callback=?',
-			{
-				'q': address,
-				'username': options.geonamesusername,
-				//'formatted': 'true',
-				'maxRows': 1
-			},
-			function( data ) {
-				if ( data.totalResultsCount ) {
-					if ( data.totalResultsCount > 0 ) {
-						projectAndShowLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
-					}
-					else {
-						// TODO: notify no result
-					}
-				}
-				else {
-					// TODO: error
-				}
-			}
-		);		
-	}
-	
-	function projectAndShowLocation( location, title ) {
-		location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
-		showLocation( location, title );
-	}
 	
 	/**
 	 * @param {OpenLayers.LonLat} location
 	 */
-	function showLocation( location, title ) {
-		var markerLayer = mapDiv.map.getLayer('markerLayer');
+	this.showLocation = function( location, title ) {
+		var markerLayer = self.mapDiv.map.getLayer('markerLayer');
 		var markerCollection = markerLayer.markers;
 
 		for ( var i = markerCollection.length - 1; i >= 0; i-- ) {
@@ -98,7 +69,7 @@
 		}
 		
 		markerLayer.addMarker(
-			mapDiv.getOLMarker(
+			this.mapDiv.getOLMarker(
 				markerLayer,
 				{
 					lonlat: location,
@@ -109,9 +80,43 @@
 			)
 		);
 		
-		mapDiv.map.panTo( location );
+		self.mapDiv.map.panTo( location );
 
 		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
+	}
+	
+	this.projectAndShowLocation = function( location, title ) {
+		location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
+		this.showLocation( location, title );
+	}	
+	
+	this.showCoordinate = function( coordinate ) {
+		this.projectAndShowLocation( new OpenLayers.LonLat( coordinate.lon, coordinate.lat ), '' );
+	}	
+	
+	this.geocodeAddress = function( address ) {
+		$.getJSON(
+			'http://api.geonames.org/searchJSON?callback=?',
+			{
+				'q': address,
+				'username': options.geonamesusername,
+				//'formatted': 'true',
+				'maxRows': 1
+			},
+			function( data ) {
+				if ( data.totalResultsCount ) {
+					if ( data.totalResultsCount > 0 ) {
+						self.projectAndShowLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
+					}
+					else {
+						// TODO: notify no result
+					}
+				}
+				else {
+					// TODO: error
+				}
+			}
+		);		
 	}
 	
 	return this;
