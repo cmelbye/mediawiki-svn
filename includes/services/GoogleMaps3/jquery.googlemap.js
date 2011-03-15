@@ -7,6 +7,38 @@
 
 (function( $ ){ $.fn.googlemaps = function( options ) {
 
+	/**
+	 * Creates a new marker with the provided data,
+	 * adds it to the map, and returns it.
+	 * @param {Object} markerData Contains the fields lat, lon, title, text and icon
+	 * @return {google.maps.Marker}
+	 */
+	this.addMarker = function( markerData ) {
+		var marker = new google.maps.Marker( {
+			map: this.map,
+			position: new google.maps.LatLng( markerData.lat , markerData.lon ),
+			title: markerData.title
+		} );
+		
+		marker.openWindow = false;
+		
+		if ( markerData.text != '' ) {
+			marker.text = markerData.text;
+			google.maps.event.addListener( marker, 'click', function() {
+				if ( this.openWindow !== false ) {
+					this.openWindow.close();
+				}
+				this.openWindow = new google.maps.InfoWindow( { content: this.text } );
+				this.openWindow.closeclick = function() {
+					marker.openWindow = false;
+				};
+				this.openWindow.open( map, this );					
+			} );			
+		}
+		
+		return marker;
+	}	
+	
 	var mapOptions = {
 		disableDefaultUI: true,
 		mapTypeId: eval( 'google.maps.MapTypeId.' + options.type ),
@@ -34,31 +66,7 @@
 	
 	// Add the markers.
 	for ( var i = options.locations.length - 1; i >= 0; i-- ) {
-		var location = options.locations[i];
-		
-		var marker = new google.maps.Marker( {
-			map: map,
-			position: new google.maps.LatLng( location.lat , location.lon ),
-			title: location.title
-		} );
-		
-		marker.openWindow = false;
-		
-		if ( location.text != '' ) {
-			marker.text = location.text;
-			google.maps.event.addListener( marker, 'click', function() {
-				if ( this.openWindow !== false ) {
-					this.openWindow.close();
-				}
-				this.openWindow = new google.maps.InfoWindow( { content: this.text } );
-				this.openWindow.closeclick = function() {
-					marker.openWindow = false;
-				};
-				this.openWindow.open( map, this );					
-			} );			
-		}
-		
-		markers.push( marker );
+		markers.push( this.addMarker( options.locations[i] ) );
 	}
 	
 	// Code to add KML files.
@@ -68,7 +76,7 @@
 	
 	for ( i = options.fusiontables.length - 1; i >= 0; i-- ) {
 		var ftLayer = new google.maps.FusionTablesLayer( options.fusiontables[i], { map: map } );
-	}	
+	}
 	
 	var layerMapping = {
 		'traffic': 'new google.maps.TrafficLayer()',
@@ -124,7 +132,7 @@
 	if ( options.resizable ) {
 		this.resizable()
 	}	
-
+	
 	return this;
 	
 }; })( jQuery );
