@@ -594,13 +594,9 @@ mw.UploadWizard.prototype = {
 		$j( upload.ui.div ).bind( 'filenameAccepted', function(e) { _this.updateFileCounts();  e.stopPropagation(); } );
 		$j( upload.ui.div ).bind( 'removeUploadEvent', function(e) { _this.removeUpload( upload ); e.stopPropagation(); } );
 		$j( upload.ui.div ).bind( 'filled', function(e) { 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! received!" );
 			_this.newUpload(); 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! new upload!" );
 			_this.setUploadFilled(upload);
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! set upload filled!" );
 			e.stopPropagation(); 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! stop propagation!" ); 
 		} );
 		// XXX bind to some error state
 
