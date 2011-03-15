@@ -2,13 +2,23 @@
  * JavasSript for the form inputs of the Semantic Maps extension.
  * @see http://www.mediawiki.org/wiki/Extension:Semantic_Maps
  * 
+ * This jQuery plugin creates a simple interface consisting out of
+ * a field with coordinates, a field for geocoding addresses and
+ * a map that displays these locations.
+ * 
+ * jQuery plugins using this one can implement the following methods:
+ * - showCoordinate( location { lat, lon } )
+ * - geocodeAddress( string address )
+ * 
+ * @param {string} mapDivId
+ * @param {Object} options
+ * 
  * @since 0.8
  * @ingroup SemanticMaps
  * 
  * @licence GNU GPL v3
  * @author Jeroen De Dauw <jeroendedauw at gmail dot com>
  */
-
 (function( $ ){ $.fn.mapforminput = function( mapDivId, options ) {
 	
 	var self = this;
@@ -86,9 +96,11 @@
 		} );
 	this.mapDiv = mapDiv;
 	
-	this.html( $( '<p />' ).append( input ).append( updateButton ) );
+	if ( this.showCoordinate ) {
+		this.html( $( '<p />' ).append( input ).append( updateButton ) );
+	}
 	
-	if ( options.geonamesusername != '' ) {
+	if ( this.geocodeAddress ) {
 		this.append( $( '<p />' ).append( geofield ).append( geoButton ) );			
 	}
 

@@ -11,7 +11,19 @@
 
 (function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
 
+	var self = this;
 	
+	this.showCoordinate = function( coordinate ) {
+		
+	};
+	
+	this.geocodeAddress = function( address ) {
+		
+	};
+	
+	this.mapforminput( mapDivId, options, { canGeocode: true } );
+	
+	this.mapDiv.googlemaps( options );	
 	
 	return this;
 	

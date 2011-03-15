@@ -13,41 +13,6 @@
 	
 	var self = this;
 	
-	this.mapforminput( mapDivId, options );
-	
-	this.mapDiv.openlayers( mapDivId, options );	
-	
-	var clickControl = new (OpenLayers.Class(OpenLayers.Control, {				
-		defaultHandlerOptions: {
-			'single': true,
-			'double': false,
-			'pixelTolerance': 0,
-			'stopSingle': false,
-			'stopDouble': false
-		},
-
-		initialize: function(options) {
-			this.handlerOptions = OpenLayers.Util.extend(
-				{}, this.defaultHandlerOptions
-			);
-			OpenLayers.Control.prototype.initialize.apply(
-				this, arguments
-			); 
-			this.handler = new OpenLayers.Handler.Click(
-				this, {
-					'click': this.trigger
-				}, this.handlerOptions
-			);
-		}, 
-
-		trigger: function(e) {
-			self.showLocation( self.mapDiv.map.getLonLatFromViewPortPx(e.xy), 'Click' ); // TODO
-		}
-
-	}))();
-	this.mapDiv.map.addControl( clickControl );
-	clickControl.activate();
-	
 	/**
 	 * @param {OpenLayers.LonLat} location
 	 */
@@ -83,16 +48,16 @@
 		self.mapDiv.map.panTo( location );
 
 		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
-	}
+	};
 	
 	this.projectAndShowLocation = function( location, title ) {
 		location.transform( new OpenLayers.Projection( "EPSG:4326" ), new OpenLayers.Projection( "EPSG:900913" ) );
 		this.showLocation( location, title );
-	}	
+	};	
 	
 	this.showCoordinate = function( coordinate ) {
 		this.projectAndShowLocation( new OpenLayers.LonLat( coordinate.lon, coordinate.lat ), '' );
-	}	
+	};
 	
 	this.geocodeAddress = function( address ) {
 		$.getJSON(
@@ -117,7 +82,42 @@
 				}
 			}
 		);		
-	}
+	};	
+	
+	this.mapforminput( mapDivId, options );
+	
+	this.mapDiv.openlayers( mapDivId, options );		
+	
+	var clickControl = new (OpenLayers.Class(OpenLayers.Control, {				
+		defaultHandlerOptions: {
+			'single': true,
+			'double': false,
+			'pixelTolerance': 0,
+			'stopSingle': false,
+			'stopDouble': false
+		},
+
+		initialize: function(options) {
+			this.handlerOptions = OpenLayers.Util.extend(
+				{}, this.defaultHandlerOptions
+			);
+			OpenLayers.Control.prototype.initialize.apply(
+				this, arguments
+			); 
+			this.handler = new OpenLayers.Handler.Click(
+				this, {
+					'click': this.trigger
+				}, this.handlerOptions
+			);
+		}, 
+
+		trigger: function(e) {
+			self.showLocation( self.mapDiv.map.getLonLatFromViewPortPx(e.xy), 'Click' ); // TODO
+		}
+
+	}))();
+	this.mapDiv.map.addControl( clickControl );
+	clickControl.activate();
 	
 	return this;
 	
