@@ -6,7 +6,8 @@ trap 'kill %-; exit' SIGTERM
     type=$1
 }
 
-types="htmlCacheUpdate sendMail enotifNotify uploadFromUrl fixDoubleRedirect"
+#types="htmlCacheUpdate sendMail enotifNotify uploadFromUrl fixDoubleRedirect renameUser"
+types="sendMail enotifNotify uploadFromUrl fixDoubleRedirect"
 
 cd `readlink -f /usr/local/apache/common/php/maintenance`
 while [ 1 ];do
@@ -18,7 +19,7 @@ while [ 1 ];do
 			db=`php -n nextJobDB.php --type="$type"`
 			if [ -n "$db" ]; then
 				echo "$db $type"
-				nice -n 20 php runJobs.php --wiki="$db" --procs=4 --type="$type" --maxtime=300 &
+				nice -n 20 php runJobs.php --wiki="$db" --procs=5 --type="$type" --maxtime=300 &
 				wait
 				moreprio=y
 			fi
@@ -34,7 +35,7 @@ while [ 1 ];do
 		sleep 5
 	else
 		echo "$db"
-		nice -n 20 php runJobs.php --wiki="$db" --procs=4 --maxtime=300 &
+		nice -n 20 php runJobs.php --wiki="$db" --procs=5 --maxtime=300 &
 		wait
 	fi
 done
