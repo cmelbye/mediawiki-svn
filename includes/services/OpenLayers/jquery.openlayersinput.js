@@ -15,6 +15,7 @@
 	
 	/**
 	 * @param {OpenLayers.LonLat} location
+	 * @param {string} title
 	 */
 	this.showLocation = function( location, title ) {
 		var markerLayer = self.mapDiv.map.getLayer('markerLayer');

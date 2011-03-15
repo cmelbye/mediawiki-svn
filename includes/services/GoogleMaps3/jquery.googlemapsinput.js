@@ -14,7 +14,11 @@
 	var self = this;
 	
 	this.showCoordinate = function( coordinate ) {
-		
+		this.mapDiv.removeMarkers();
+		coordinate.icon = '';
+		coordinate.title = '';
+		coordinate.text = coord.dms( coordinate.lat, coordinate.lon );
+		this.mapDiv.addMarker( coordinate );
 	};
 	
 	this.geocodeAddress = function( address ) {
