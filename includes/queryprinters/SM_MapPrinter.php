@@ -133,6 +133,7 @@ class SMMapPrinter extends SMWResultPrinter {
 				New CriterionNotEmpty()
 			)
 		);
+		$params['template']->setDoManipulationOfDefault( false );
 		
 		$params['title'] = new Parameter(
 			'title',
@@ -166,6 +167,7 @@ class SMMapPrinter extends SMWResultPrinter {
 			
 			$queryHandler = new SMQueryHandler( $res, $outputmode );
 			$queryHandler->setShowSubject( $params['showtitle'] );
+			$queryHandler->setTemplate( $params['template'] );
 			
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
 			$locationAmount = count( $params['locations'] );

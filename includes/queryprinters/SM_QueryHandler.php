@@ -17,7 +17,14 @@ class SMQueryHandler {
 	
 	protected $locations = false;
 	
-	public $template = false;
+	/**
+	 * The template to use for the text, or false if there is none.
+	 * 
+	 * @since 0.7.3
+	 * 
+	 * @var false or string
+	 */
+	protected $template = false;
 	
 	/**
 	 * The global icon.
@@ -115,6 +122,17 @@ class SMQueryHandler {
 		$this->linkAbsolute = $linkAbsolute;
 		$this->pageLinkText = $pageLinkText;
 		$this->titleLinkSeperate = $titleLinkSeperate;
+	}
+	
+	/**
+	 * Sets the template.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $template
+	 */
+	public function setTemplate( $template ) {
+		$this->template = $template == '' ? false : $template;
 	}
 	
 	/**
@@ -253,10 +271,9 @@ class SMQueryHandler {
 			$text .= $this->subjectSeparator;
 		}
 		
-		$text .= implode( '<br />', $properties );
 		$icon = $this->getLocationIcon( $row );
 		
-		return $this->buildLocationsList( $coords, $title, $text, $icon );
+		return $this->buildLocationsList( $coords, $title, $text, $icon, $properties );
 	}
 	
 	/**
@@ -316,6 +333,14 @@ class SMQueryHandler {
 	protected function handleResultProperty( SMWDataValue $object, SMWPrintRequest $printRequest ) {
 		global $wgUser;
 		
+		if ( $this->template ) {
+			if ( $object instanceof SMWWikiPageValue ) {
+				return $object->getTitle()->getPrefixedText();
+			} else {
+				return $object->getLongText( SMW_OUTPUT_WIKI, NULL );
+			}
+		}		
+		
 		if ( $this->linkAbsolute ) {
 			$t = Title::newFromText( $printRequest->getHTMLText( NULL ), SMW_NS_PROPERTY );
 			
@@ -369,11 +394,20 @@ class SMQueryHandler {
 	 * @param string $title
 	 * @param string $text
 	 * @param string $icon
+	 * @param array $properties
 	 * 
 	 * @return array of MapsLocation
 	 */
-	protected function buildLocationsList( array $coords, $title, $text, $icon ) {
+	protected function buildLocationsList( array $coords, $title, $text, $icon, array $properties ) {
 		$locations = array();
+		
+		if ( $this->template ) {
+			$parser = new Parser();
+			global $wgTitle;
+		}
+		else {
+			$text .= implode( '<br />', $properties );
+		}
 		
 		foreach ( $coords as $coord ) {
 			if ( count( $coord ) >= 2 ) {
@@ -381,6 +415,15 @@ class SMQueryHandler {
 				$location->setCoordinates( $coord );
 				
 				if ( $location->isValid() ) {
+					if ( $this->template ) {
+						$segments = array_merge(
+							array( $this->template, 'title=' . $title, 'latitude=' . $location->getLatitude(), 'longitude=' . $location->getLongitude() ),
+							$properties
+						);
+						
+						$text .= $parser->parse( '{{' . implode( '|', $segments ) . '}}', $wgTitle, new ParserOptions() )->getText();
+					}				
+					
 					$location->setTitle( $title );
 					$location->setText( $text );
 					$location->setIcon( $icon );
