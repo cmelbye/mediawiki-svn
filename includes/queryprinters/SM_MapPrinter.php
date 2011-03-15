@@ -165,6 +165,8 @@ class SMMapPrinter extends SMWResultPrinter {
 			$params = $this->parameters;
 			
 			$queryHandler = new SMQueryHandler( $res, $outputmode );
+			$queryHandler->setShowSubject( $params['showtitle'] );
+			
 			$this->handleMarkerData( $params, $queryHandler->getLocations() );
 			$locationAmount = count( $params['locations'] );
 			

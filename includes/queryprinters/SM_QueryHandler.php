@@ -93,6 +93,15 @@ class SMQueryHandler {
 	protected $boldSubject = true;
 	
 	/**
+	 * Show the subject in the text or not?
+	 * 
+	 * @since 0.8
+	 * 
+	 * @var boolean
+	 */	
+	protected $showSubject = true;
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @since 0.7.3
@@ -162,7 +171,18 @@ class SMQueryHandler {
 	 */
 	public function setBoldSubject( $boldSubject ) {
 		$this->boldSubject = $boldSubject;
-	}	
+	}
+	
+	/**
+	 * Sets if the subject should shown in the text.
+	 * 
+	 * @since 0.8
+	 * 
+	 * @param string $showSubject
+	 */
+	public function setShowSubject( $showSubject ) {
+		$this->showSubject = $showSubject;
+	}		
 	
 	/**
 	 * Gets the query result as a list of locations.
@@ -258,27 +278,29 @@ class SMQueryHandler {
 		$title = $object->getLongText( $this->outputmode, null );
 		$text = '';
 		
-		if ( !$this->titleLinkSeperate && $this->linkAbsolute ) {
-			$text = Html::element(
-				'a',
-				array( 'href' => $object->getTitle()->getFullUrl() ),
-				$object->getTitle()->getText()
-			);
-		}
-		else {
-			$text = $object->getLongText( $this->outputmode, $wgUser->getSkin() );
-		}
-		
-		if ( $this->boldSubject ) {
-			$text = '<b>' . $text . '</b>';
-		}
-		
-		if ( $this->titleLinkSeperate ) {
-			$text .= Html::element(
-				'a',
-				array( 'href' => $object->getTitle()->getFullUrl() ),
-				str_replace( '$1', $object->getTitle()->getText(), $this->params['pagelinktext'] ) 
-			);
+		if ( $this->showSubject ) {
+			if ( !$this->titleLinkSeperate && $this->linkAbsolute ) {
+				$text = Html::element(
+					'a',
+					array( 'href' => $object->getTitle()->getFullUrl() ),
+					$object->getTitle()->getText()
+				);
+			}
+			else {
+				$text = $object->getLongText( $this->outputmode, $wgUser->getSkin() );
+			}
+			
+			if ( $this->boldSubject ) {
+				$text = '<b>' . $text . '</b>';
+			}
+			
+			if ( $this->titleLinkSeperate ) {
+				$text .= Html::element(
+					'a',
+					array( 'href' => $object->getTitle()->getFullUrl() ),
+					str_replace( '$1', $object->getTitle()->getText(), $this->params['pagelinktext'] ) 
+				);
+			}			
 		}
 
 		return array( $title, $text );
