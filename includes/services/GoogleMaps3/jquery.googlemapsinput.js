@@ -29,6 +29,13 @@
 	
 	this.mapDiv.googlemaps( options );	
 	
+	google.maps.event.addListener( this.mapDiv.map, 'click', function( event ) {
+		var location = { lat: event.latLng.lat(), lon: event.latLng.lng() };
+		self.mapDiv.map.panTo( event.latLng );
+		self.showCoordinate( location );
+		self.input.attr( 'value', semanticMaps.buildInputValue( [ location ] ) );
+	} );	
+	
 	return this;
 	
 }; })( jQuery );

@@ -23,7 +23,7 @@
 	
 	var self = this;
 	
-	var input = $( '<input />' ).attr( {
+	this.input = $( '<input />' ).attr( {
 		'type': 'text',
 		'name': options.inputname,
 		'id': mapDivId + '_values',
@@ -34,7 +34,7 @@
 	var updateButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps-updatemap' ) );
 	
 	updateButton.click( function() {
-		var locations = coord.split( $( '#' + mapDivId + '_values' ).attr( 'value' ) );
+		var locations = coord.split( this.input.attr( 'value' ) );
 		var location = coord.parse( locations[0] );
 		
 		if ( location !== false ) {
@@ -44,13 +44,13 @@
 		return false;
 	} );
 	
-	input.keypress( function( event ) {
+	this.input.keypress( function( event ) {
 		if ( event.which == '13' ) {
 			updateButton.click();
 		}
 	} );
 	
-	var geofield = $( '<input />' ).attr( {
+	this.geofield = $( '<input />' ).attr( {
 		'type': 'text',
 		'id': mapDivId + '_geofield',
 		'value': mediaWiki.msg( 'semanticmaps_enteraddresshere' ),
@@ -58,14 +58,14 @@
 		'size': options.fieldsize
 	} );
 	
-	geofield.focus( function() {
+	this.geofield.focus( function() {
 		if ( this.value == mediaWiki.msg( 'semanticmaps_enteraddresshere' ) ) {
 			this.value = '';
 			$( this ).css( 'color', '' );
 		}
 	} );
 	
-	geofield.blur( function() {
+	this.geofield.blur( function() {
 		if ( this.value == '' ) {
 			this.value = mediaWiki.msg( 'semanticmaps_enteraddresshere' );
 			$( this ).css( 'color', 'darkgray' );
@@ -75,11 +75,11 @@
 	var geoButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps_lookupcoordinates' ) );
 	
 	geoButton.click( function() {
-		self.geocodeAddress( $( '#' + mapDivId + '_geofield' ).attr( 'value' ) );
+		self.geocodeAddress( this.geofield.attr( 'value' ) );
 		return false;
 	} );
 	
-	geofield.keypress( function( event ) {
+	this.geofield.keypress( function( event ) {
 		if ( event.which == '13' ) {
 			geoButton.click();
 		}
@@ -97,11 +97,11 @@
 	this.mapDiv = mapDiv;
 	
 	if ( this.showCoordinate ) {
-		this.html( $( '<p />' ).append( input ).append( updateButton ) );
+		this.html( $( '<p />' ).append( this.input ).append( updateButton ) );
 	}
 	
 	if ( this.geocodeAddress ) {
-		this.append( $( '<p />' ).append( geofield ).append( geoButton ) );			
+		this.append( $( '<p />' ).append( this.geofield ).append( geoButton ) );			
 	}
 
 	this.append( mapDiv );

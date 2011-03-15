@@ -48,7 +48,7 @@
 		
 		self.mapDiv.map.panTo( location );
 
-		$( '#' + mapDivId + '_values' ).attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
+		self.input.attr( 'value', semanticMaps.buildInputValue( [ normalProjectionLocation ] ) ); 
 	};
 	
 	this.projectAndShowLocation = function( location, title ) {
