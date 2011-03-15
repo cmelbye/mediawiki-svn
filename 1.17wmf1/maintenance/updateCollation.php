@@ -29,6 +29,7 @@ TEXT;
 	
 	public function syncDBs() {
 		$lb = wfGetLB();
+		$lb->waitTimeout(100000);
 		$dbw = $lb->getConnection( DB_MASTER );
 		$pos = $dbw->getMasterPos();
 		$lb->waitForAll( $pos );
@@ -40,13 +41,15 @@ TEXT;
 		$dbw = wfGetDB( DB_MASTER );
 		$force = $this->getOption( 'force' );
 
-		$options = array( 'LIMIT' => self::BATCH_SIZE );
+		$options = array( 'LIMIT' => self::BATCH_SIZE, 'STRAIGHT_JOIN' );
 
 		if ( $force ) {
 			$options['ORDER BY'] = 'cl_from, cl_to';
 		} else {
-			$collationConds = array( 0 => 
-				'cl_collation != ' . $dbw->addQuotes( $wgCategoryCollation ) );
+			#$collationConds = array( 0 => 
+			#	'cl_collation != ' . $dbw->addQuotes( $wgCategoryCollation ) );
+			#Live hack for faster queries --catrope
+			$collationConds['cl_collation'] = '';
 
 			if ( !$wgMiserMode ) {
 				$count = $dbw->selectField(
@@ -68,7 +71,7 @@ TEXT;
 		$row = false;
 		$batchConds = array();
 		do {
-			$this->output( 'Processing next ' . self::BATCH_SIZE . ' rows... ');
+			$this->output( "Selecting next " . self::BATCH_SIZE . " rows..." );
 			$res = $dbw->select(
 				array( 'categorylinks', 'page' ),
 				array( 'cl_from', 'cl_to', 'cl_sortkey_prefix', 'cl_collation',
@@ -78,6 +81,7 @@ TEXT;
 				__METHOD__,
 				$options
 			);
+			$this->output( " processing..." );
 
 			$dbw->begin();
 			foreach ( $res as $row ) {
@@ -131,7 +135,11 @@ TEXT;
 			$count += $res->numRows();
 			$this->output( "$count done.\n" );
 			
-			$this->syncDBs();
+			if ( $count % 1000 == 0 ) { #hack --catrope
+				$this->output( "Waiting for slaves ... " );
+				$this->syncDBs();
+				$this->output( "done\n" );
+			}
 		} while ( $res->numRows() == self::BATCH_SIZE );
 	}
 }
