@@ -17,7 +17,6 @@ class SMQueryHandler {
 	
 	protected $locations = false;
 	
-	// TODO: add system to properly handle query parameters
 	public $template = false;
 	
 	/**
@@ -218,8 +217,6 @@ class SMQueryHandler {
 	
 	/**
 	 * Returns the locations found in the provided result row.
-	 * 
-	 * TODO: fix template handling
 	 * 
 	 * @since 0.7.3
 	 * 
