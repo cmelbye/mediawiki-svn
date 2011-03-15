@@ -136,7 +136,7 @@
 			function( data ) {
 				if ( data.totalResultsCount ) {
 					if ( data.totalResultsCount > 0 ) {
-						showLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
+						projectAndShowLocation( new OpenLayers.LonLat( data.geonames[0].lng, data.geonames[0].lat ), address );
 					}
 					else {
 						// TODO: notify no result

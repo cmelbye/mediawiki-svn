@@ -44,8 +44,9 @@
 		.css( {
 			'width': options.width,
 			'height': options.height
-		} )
-		.googlemaps( options );
+		} );
+	this.append( mapDiv );
+	mapDiv.googlemaps( options );
 	
 	google.maps.event.addListener( mapDiv.map, 'click', onClickCallback );
 	

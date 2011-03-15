@@ -50,7 +50,7 @@ $wgResourceModules['ext.sm.fi.googlemaps3.single'] = $moduleTemplate + array(
 		'semanticmaps-forminput-locations'
 	)
 );
-
+/*
 $wgResourceModules['ext.sm.fi.googlemaps3.multi'] = $moduleTemplate + array(
 	'dependencies' => array( 'ext.sm.fi.googlemaps3', 'jquery.ui.button', 'jquery.ui.dialog' ),
 	'localBasePath' => dirname( __FILE__ ),
@@ -63,7 +63,7 @@ $wgResourceModules['ext.sm.fi.googlemaps3.multi'] = $moduleTemplate + array(
 		'semanticmaps-forminput-locations'
 	)
 );
-
+*/
 unset( $moduleTemplate );
 
 $wgHooks['MappingServiceLoad'][] = 'smfInitGoogleMaps3';
@@ -72,12 +72,12 @@ function smfInitGoogleMaps3() {
 	global $wgAutoloadClasses, $sfgFormPrinter;
 	
 	$wgAutoloadClasses['SMGoogleMaps3FormInput'] = dirname( __FILE__ ) . '/SM_GoogleMaps3FormInput.php';
-	$wgAutoloadClasses['SMGoogleMaps3MultiInput'] = dirname( __FILE__ ) . '/SM_GoogleMaps3MultiInput.php';
+	//$wgAutoloadClasses['SMGoogleMaps3MultiInput'] = dirname( __FILE__ ) . '/SM_GoogleMaps3MultiInput.php';
 	
 	MapsMappingServices::registerServiceFeature( 'googlemaps3', 'qp', 'SMMapPrinter' );
 	MapsMappingServices::registerServiceFeature( 'googlemaps3', 'fi', 'SMGoogleMaps3FormInput' );
 	
-	$sfgFormPrinter->setInputTypeHook( 'googlemapsmulti', array( 'SMGoogleMaps3MultiInput', 'onInputRequest' ), array() );
+	//$sfgFormPrinter->setInputTypeHook( 'googlemapsmulti', array( 'SMGoogleMaps3MultiInput', 'onInputRequest' ), array() );
 	
 	return true;
 }

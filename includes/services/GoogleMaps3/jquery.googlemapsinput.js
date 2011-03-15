@@ -11,7 +11,7 @@
 
 (function( $ ){ $.fn.googlemapsinput = function( mapDivId, options ) {
 
-	// TODO
+	
 	
 	return this;
 	
