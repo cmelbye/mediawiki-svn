@@ -117,11 +117,7 @@
 	
 	if ( options.autoinfowindows ) {
 		for ( var i = markers.length - 1; i >= 0; i-- ) {
-			markers[i].openWindow = new google.maps.InfoWindow( { content: markers[i].text } );
-			markers[i].openWindow.closeclick = function() {
-				markers[i].openWindow = false;
-			};			
-			markers[i].openWindow.open( map, markers[i] );	
+			google.maps.event.trigger( markers[i], 'click' );
 		}		
 	}
 	
