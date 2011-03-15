@@ -8,6 +8,13 @@
 (function( $ ){ $.fn.googlemaps = function( options ) {
 
 	/**
+	 * All markers that are currently on the map.
+	 * @type {Array}
+	 * @private
+	 */
+	this.markers = [];
+	
+	/**
 	 * Creates a new marker with the provided data,
 	 * adds it to the map, and returns it.
 	 * @param {Object} markerData Contains the fields lat, lon, title, text and icon
@@ -33,11 +40,40 @@
 					marker.openWindow = false;
 				};
 				this.openWindow.open( map, this );					
-			} );			
+			} );		
 		}
 		
+		this.markers.push( marker );
+		
 		return marker;
-	}	
+	};
+	
+	/**
+	 * Removes a single marker from the map.
+	 * @param {google.maps.Marker} marker The marker to remove.
+	 */
+	this.removeMarker = function( marker ) {
+		marker.setMap( null );
+		
+		for ( var i = this.markers.length - 1; i >= 0; i-- ) {
+			if ( this.markers[i] === marker ) {
+				delete this.markers[i];
+				break;
+			}
+		}
+		
+		delete marker;
+	};
+	
+	/**
+	 * Removes all markers from the map.
+	 */		
+	this.removeMarkers = function() {
+		for ( var i = this.markers.length - 1; i >= 0; i-- ) {
+			this.markers[i].setMap( null );
+		}
+		this.markers = [];
+	};
 	
 	var mapOptions = {
 		disableDefaultUI: true,
