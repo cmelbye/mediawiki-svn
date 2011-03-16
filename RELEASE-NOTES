@@ -44,7 +44,7 @@ This version branched from Maps 0.7.x at version 0.7.3.
 
 * Fixed fatal error occuring when running maintenance/refreshLinks.php.
 
-==== Other teaks ====
+==== Other tweaks ====
 
 * Improved default width of maps (merged in from Maps 0.7.5).
 

@@ -169,7 +169,8 @@ $messages['qqq'] = array(
 	'maps_name' => '{{Optional}}',
 	'maps_desc' => '{{desc}}
 
-* $1: a list of available map services',
+* $1: a list of available mapping services
+* $2: number of items in list $1',
 	'maps_map' => '{{Identical|Map}}',
 	'maps-others' => '{{Identical|Other}}',
 	'maps-layer-property' => '{{Identical|Property}}',
@@ -210,7 +211,7 @@ $1.',
  * @author Mdupont
  */
 $messages['aln'] = array(
-	'maps_desc' => 'Ofron mundësinë për të shfaqur koordinimin e të dhënave në harta, dhe adresat geocode ([http://mapping.referata.com/wiki/Maps_examples demo]). Hartës shërbimet në dispozicion: $1',
+	'maps-desc' => 'Ofron mundësinë për të shfaqur koordinimin e të dhënave në harta, dhe adresat geocode ([http://mapping.referata.com/wiki/Maps_examples demo]). Hartës shërbimet në dispozicion: $1',
 	'maps_map' => 'Hartë',
 	'maps-loading-map' => 'Loading Harta ...',
 	'maps-abb-north' => 'N',
@@ -228,8 +229,7 @@ $messages['aln'] = array(
  * @author Meno25
  */
 $messages['ar'] = array(
-	'maps_name' => 'خرائط',
-	'maps_desc' => 'يعطي إمكانية عرض معلومات التنسيق في الخرائط وعناوين الترميز الجغرافي ([http://mapping.referata.com/wiki/Maps_examples تجربة]).
+	'maps-desc' => 'يعطي إمكانية عرض معلومات التنسيق في الخرائط وعناوين الترميز الجغرافي ([http://mapping.referata.com/wiki/Maps_examples تجربة]).
 خدمات الخرائط المتوفرة: $1',
 	'maps_map' => 'خريطة',
 	'maps-abb-north' => 'شم',
@@ -247,6 +247,7 @@ $1',
 $1',
 	'maps_map_cannot_be_displayed' => 'الخريطة لا يمكن عرضها.',
 	'maps_googlemaps2' => 'خرائط جوجل',
+	'maps_googlemaps3' => 'خرائط جوجل v3',
 	'maps_yahoomaps' => 'خرائط ياهو!',
 	'maps_openlayers' => 'أوبن لايرز',
 	'maps_osm' => 'أوبن ستريت ماب',
@@ -296,7 +297,7 @@ $messages['arz'] = array(
  * @author Wizardist
  */
 $messages['be-tarask'] = array(
-	'maps_desc' => 'Забясьпечвае магчымасьць адлюстраваньня каардынатных зьвестак на мапах і геаграфічнага кадаваньня адрасоў ([http://mapping.referata.com/wiki/Maps_examples дэманстрацыя]). Даступныя геаграфічныя сэрвісы: $1',
+	'maps-desc' => 'Забясьпечвае магчымасьць паказу каардынатных зьвестак на мапах і геаграфічнага кадаваньня адрасоў ([http://mapping.referata.com/wiki/Maps_examples дэманстрацыя])',
 	'maps_map' => 'Мапа',
 	'maps-loading-map' => 'Загрузка мапы…',
 	'maps-markers' => 'Пазнакі',
@@ -432,7 +433,7 @@ $messages['bjn'] = array(
  * @author Y-M D
  */
 $messages['br'] = array(
-	'maps_desc' => "Talvezout a ra da embann daveennoù ha chomlec'hioù geokod war kartennoù ([http://mapping.referata.com/wiki/Maps_examples demo]). Servijoù kartennaouiñ hegerz : $1",
+	'maps-desc' => "Talvezout a ra da embann daveennoù ha chomlec'hioù geokod war kartennoù ([http://mapping.referata.com/wiki/Maps_examples demo]). Servijoù kartennaouiñ hegerz : $1",
 	'maps_map' => 'Kartenn',
 	'maps-loading-map' => 'O kargañ ar gartenn...',
 	'maps-markers' => 'Merkerioù',
@@ -489,8 +490,7 @@ $1",
  * @author CERminator
  */
 $messages['bs'] = array(
-	'maps_desc' => 'Daje mogućnost prikazivanja podataka koordinata na mapama i geocode adresa ([http://mapping.referata.com/wiki/Maps_examples demo]).
-Dostupne usluge mapa: $1',
+	'maps-desc' => 'Daje mogućnost prikazivanja podataka koordinata na mapama i geocode adresa ([http://mapping.referata.com/wiki/Maps_examples demo])',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Učitavam kartu...',
 	'maps-markers' => 'Markeri',
@@ -592,11 +592,11 @@ $messages['cs'] = array(
  * @author DaSch
  * @author Imre
  * @author Kghbln
+ * @author Purodha
  * @author The Evil IP address
  */
 $messages['de'] = array(
-	'maps_desc' => 'Ermöglicht es, Koordinaten auf Karten anzuzeigen und Adressen zu geokodieren ([http://mapping.referata.com/wiki/Maps_examples Demonstrationsseite]).
-Verfügbare Kartografiedienste: $1',
+	'maps-desc' => 'Ermöglicht es, Koordinaten auf Karten anzuzeigen und Adressen zu georeferenzieren ([http://mapping.referata.com/wiki/Maps_examples Demonstrationsseite])',
 	'maps_map' => 'Karte',
 	'maps-loading-map' => 'Karte wird geladen …',
 	'maps-markers' => 'Markierungen',
@@ -618,7 +618,7 @@ Verfügbare Kartografiedienste: $1',
 	'maps-displaypoint-description' => 'Anzeige geographischer Karten zusammen mit einer oder mehrerer im Wiki definierter Markierungen.',
 	'maps-distance-description' => 'Konvertiere die Entfernung unter Verwendung einer der unterstützten Einheiten in ihr Äquivalent einer anderen unterstützen Einheit.',
 	'maps-finddestination-description' => 'Ein Ziel unter Angabe des Ausgangspunkts (kann in jedwedem unterstützten Format angegeben sein), der Peilung sowie der Entfernung ermitteln.',
-	'maps-geocode-description' => 'Aktiviert das Geokodieren von Adressen, also deren Umwandlung in Koordinaten. Mehrere Geokodierdienste werden unterstützt, was allerdings nicht mit den Kartografiediensten zu verwechseln ist.',
+	'maps-geocode-description' => 'Aktiviert das Georeferenzieren von Adressen, also deren Umwandlung in Koordinaten. Mehrere Georeferenzierungsdienste werden unterstützt, was allerdings nicht mit den Kartografiediensten zu verwechseln ist.',
 	'maps-geodistance-description' => 'Berechne die Entfernung zwischen zwei Punkten von einer der unterstützten Einheiten in ihr Äquivalent einer anderen unterstützten Einheit.',
 	'maps-coordinates-par-location' => 'Die zu formatierenden Koordinaten.',
 	'maps-coordinates-par-format' => 'Das Zielformat der Koordinaten.',
@@ -632,15 +632,16 @@ Verfügbare Kartografiedienste: $1',
 	'maps-finddestination-par-format' => 'Das Ausgabeformat für das Ziel.',
 	'maps-finddestination-par-directional' => 'Gibt an, ob das Ausgabeformat des Ziels eine Richtungsangabe haben soll oder nicht.',
 	'maps-finddestination-par-allowcoordinates' => 'Gibt an, ob die Angabe von Koordinaten zulässig ist. Sofern deaktiviert, ist lediglich die Angabe von Adressen möglich.',
-	'maps-finddestination-par-geoservice' => 'Der Kartografiedienst der, für den Fall dass es sich um eine Adresse handelt, zum Geokodieren des Werts verwendet werden soll.',
+	'maps-finddestination-par-geoservice' => 'Der Kartografiedienst der, für den Fall dass es sich um eine Adresse handelt, zum Georeferenzieren des Werts verwendet werden soll.',
 	'maps-finddestination-par-mappingservice' => 'Parameter mit denen der Kartografiedienst angegeben werden kann, der zusammen mit dieser Funktion genutzt wird.
 Dadurch können die Standardwerte der Funktion durch die für den Kartografiedienst optimalen überschrieben werden.
 (Beispiel: Im Fall von Google Maps wird dann der Google Geocoder genutzt.)',
 	'maps-geocode-par-location' => 'Die Adresse, die geokodiert werden soll.',
 	'maps-geocode-par-mappingservice' => 'Der Kartografiedienst der genutzt werden soll.',
-	'maps-geocode-par-geoservice' => 'Dieser Parameter ermöglicht es, einen bestimmten Kartografiedienst für Geokodiernungsanfragen anzugeben.
-Jeder Kartografiedienst kann über eigenständige Standardwerte für die Geokodierung verfügen.
-Diese Einstellung hat rechtliche Gründe, da man bspw. den Google Geokodierungsdienst nur zusammen mit Google Maps nutzen kann. Diesen Parameter anstatt dem zum Geokodierungsdienst einzustellen, verhindert eine unzulässige Kombination bei der Nutzung der Dienste.',
+	'maps-geocode-par-geoservice' => 'Dieser Parameter ermöglicht es, einen bestimmten Kartografiedienst für Georeferenzierungsanfragen anzugeben.
+Jeder Kartografiedienst kann über eigenständige Standardwerte für die Georeferenzierung verfügen.
+Diese Einstellung hat rechtliche Gründe, da man bspw. den Google Georeferenzierungsdienst nur zusammen mit Google Maps nutzen kann.
+Diesen Parameter anstatt dem zum Georeferenzierungsdienst einzustellen, verhindert eine unzulässige Kombination bei der Nutzung der Dienste.',
 	'maps-geocode-par-allowcoordinates' => 'Ermöglicht die Deaktivierung der Unterstützung von Koordinaten. Entweder Ja oder Nein angeben.
 Sofern Nein angegeben wurde, werden alle Werte geokodiert, sogar gültige Koordinaten.',
 	'maps-geocode-par-format' => 'Das Ausgabeformat für die Koordinaten.',
@@ -651,7 +652,7 @@ Sofern Nein angegeben wurde, werden alle Werte geokodiert, sogar gültige Koordi
 	'maps-geodistance-par-decimals' => 'Die bei der Ergebnisausgabe zu verwendende Höchstzahl an Nachkommastellen.',
 	'maps-geodistance-par-mappingservice' => 'Der Kartografiedienst der für alle Adressen genutzt werden soll.',
 	'maps-geodistance-par-geoservice' => 'Der Kartografiedienst mit dem dies genutzt wird.
-Dies kann Auswirkungen auf die Standardwerte des Geokodierdiensts haben.',
+Dies kann Auswirkungen auf die Standardwerte des Georeferenzierungsdiensts haben.',
 	'maps-displaymap-par-mappingservice' => 'Ermöglicht die Festlegung des Kartografiediensts, der zur Generierung der Karte genutzt werden soll.',
 	'maps-displaymap-par-coordinates' => 'Die Postion auf welche die Karte zunächst zentriert werden soll.',
 	'maps-displaypoints-par-zoom' => 'Ermöglicht die Angabe des Detaillierungsgrades (Zoom) der Karte.
@@ -667,7 +668,7 @@ Sofern nichts angegeben wurde, wird sich die Karte um die darzustellende Markier
 	'validation-error-invalid-location' => 'Parameter $1 muss einem gültigen Standort entsprechen.',
 	'validation-error-invalid-locations' => 'Parameter $1 muss einem oder mehreren gültigen Standorten entsprechen.',
 	'validation-error-invalid-width' => 'Parameter $1 muss einer gültigen Breite entsprechen.',
-	'validation-error-invalid-height' => 'Parameter $1 muss einer gültigen Länge entsprechen.',
+	'validation-error-invalid-height' => 'Parameter $1 muss einer gültigen Höhe entsprechen.',
 	'validation-error-invalid-distance' => 'Parameter $1 muss einer gültigen Entfernung entsprechen.',
 	'validation-error-invalid-distances' => 'Parameter $1 muss einer oder mehreren gültigen Entfernungen entsprechen.',
 	'validation-error-invalid-image' => 'Parameter $1 muss einem gültigen Bild entsprechen.',
@@ -683,13 +684,13 @@ Sofern nichts angegeben wurde, wird sich die Karte um die darzustellende Markier
 	'maps-invalid-coordinates' => 'Der Wert $1 bezeichnet kein gültiges Koordinatenpaar.',
 	'maps_coordinates_missing' => 'Es wurden keine Koordinaten für die Karte angegeben.',
 	'maps_geocoding_failed' => 'Die {{PLURAL:$2|folgende Adresse|folgenden Adressen}} konnten nicht geokodiert werden: $1.',
-	'maps_geocoding_failed_for' => 'Die {{PLURAL:$2|folgende Adresse konnte|folgenden Adressen konnten}} nicht geokodiert werden und {{PLURAL:$2|wurde|wurden}} auf der Karte nicht berücksichtigt:
+	'maps_geocoding_failed_for' => 'Die {{PLURAL:$2|folgende Adresse konnte|folgenden Adressen konnten}} nicht georeferenziert werden und {{PLURAL:$2|wurde|wurden}} auf der Karte nicht berücksichtigt:
 $1',
 	'maps_unrecognized_coords' => 'Folgende {{PLURAL:$2|Koordinate wurde|Koordinaten wurden}} nicht erkannt: $1.',
 	'maps_unrecognized_coords_for' => 'Die {{PLURAL:$2|folgende Koordinate wurde|folgenden Koordinaten wurden}} nicht erkannt und {{PLURAL:$2|wurde|wurden}} auf der Karte nicht berücksichtigt:
 $1',
 	'maps_map_cannot_be_displayed' => 'Diese Karte kann nicht angezeigt werden.',
-	'maps-geocoder-not-available' => 'Die Funktion zum Geokodieren von Karten ist nicht verfügbar. Der Standort kann nicht geokodiert werden.',
+	'maps-geocoder-not-available' => 'Die Funktion zum Georeferenzierung von Karten ist nicht verfügbar. Der Standort kann nicht georeferenziert werden.',
 	'maps_click_to_activate' => 'Klicken, um die Karte zu aktivieren.',
 	'maps_centred_on' => 'Karte ist auf $1, $2 zentriert.',
 	'maps_overlays' => 'Einblendungen',
@@ -699,17 +700,11 @@ $1',
 	'maps_webcams' => 'Webcams',
 );
 
-/** German (formal address) (Deutsch (Sie-Form)) */
-$messages['de-formal'] = array(
-	'maps-geocoder-not-available' => 'Die Funktion Geokodierung von Karten ist nicht verfügbar. Ihr Standort kann nicht geokodiert werden.',
-);
-
 /** Lower Sorbian (Dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
-	'maps_desc' => 'Bitujo móžnosć koordinatowe daty w geografiskich kórtach a geokodowe adrese zwobrazniś. ([http://mapping.referata.com/wiki/Maps_examples demo]).
-K dispoziciji stojece kórtowe słužby: $1',
+	'maps-desc' => 'Bitujo móžnosć koordinatowe daty w geografiskich kórtach zwobrazniś a adrese geokoděrowaś. ([http://mapping.referata.com/wiki/Maps_examples demo])',
 	'maps_map' => 'Karta',
 	'maps-loading-map' => 'Kórta se zacytujo...',
 	'maps-markers' => 'Marki',
@@ -726,6 +721,13 @@ K dispoziciji stojece kórtowe słužby: $1',
 	'validation-error-invalid-layers' => 'Parameter $1 musy jadna płaśiwa rownina abo někotare płaśiwe rowniny byś.',
 	'maps-layer-of-type' => 'Rownina typa $1',
 	'maps-layer-type-supported-by' => 'Toś ten typ rowniny  dajo se jano {{PLURAL:$2|z kartografiskeju słužbu $1 wužywaś|z toś tymi kartografiskimi słužbami wužywaś: $1}}.',
+	'maps-coordinates-par-location' => 'Koordinaty, kótarež coš formatěrowaś.',
+	'maps-coordinates-par-format' => 'Celowy format za koordinaty.',
+	'maps-finddestination-par-location' => 'Wuchadnišćo.',
+	'maps-finddestination-par-format' => 'Wudawański format za cel.',
+	'maps-geocode-par-location' => 'Adresa, kótaruž coš geokoděrowaś.',
+	'maps-geocode-par-format' => 'Wudawański format za koordinaty.',
+	'maps-geodistance-par-mappingservice' => 'Geokoděrowańska słužba, kótaraž ma se za geokoděrowanje adresow wužywaś.',
 	'validation-error-invalid-location' => 'Parameter $1 musy płaśiwe městno byś.',
 	'validation-error-invalid-locations' => 'Parameter $1 musy jadne płaśiwe městno abo někotare płaśiwe městna byś.',
 	'validation-error-invalid-width' => 'Parameter $1 musy płaśiwa šyrokosć byś.',
@@ -781,7 +783,7 @@ $messages['el'] = array(
  * @author Reedy
  */
 $messages['en-gb'] = array(
-	'maps_desc' => 'Provides the ability to display coordinate data in maps, and geocode addresses ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Provides the ability to display coordinate data in maps, and geocode addresses ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Available mapping services: $1',
 	'maps-invalid-coordinates' => 'The value $1 was not recognised as a valid set of coordinates.',
 	'maps_unrecognized_coords' => 'The following {{PLURAL:$2|coordinate was|coordinates were}} not recognised: $1.',
@@ -818,7 +820,7 @@ $messages['eo'] = array(
  * @author Translationista
  */
 $messages['es'] = array(
-	'maps_desc' => 'Proporciona la capacidad de mostrar los datos de coordenadas en los mapas y geocodifica direcciones ([http://mapping.referata.com/wiki/Maps_examples demo]). Servicios de mapeo disponibles: $1',
+	'maps-desc' => 'Proporciona la capacidad de mostrar los datos de coordenadas en los mapas y geocodifica direcciones ([http://mapping.referata.com/wiki/Maps_examples demo]). Servicios de mapeo disponibles: $1',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Cargando mapa...',
 	'maps-markers' => 'Marcadores',
@@ -907,7 +909,7 @@ $messages['fa'] = array(
  * @author ZeiP
  */
 $messages['fi'] = array(
-	'maps_desc' => 'Mahdollistaa koordinaattitiedon esittämisen karttoina ja osoitteiden geokoodauksen ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Mahdollistaa koordinaattitiedon esittämisen karttoina ja osoitteiden geokoodauksen ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Käytettävissä olevat karttapalvelut: $1',
 	'maps_map' => 'Kartta',
 	'maps-loading-map' => 'Ladataan karttaa...',
@@ -946,8 +948,7 @@ $1',
  * @author Verdy p
  */
 $messages['fr'] = array(
-	'maps_name' => 'Cartes',
-	'maps_desc' => 'Permet d’afficher des coordonnées dans des cartes, ainsi que des adresses géocodées ([http://mapping.referata.com/wiki/Maps_examples démonstration]).
+	'maps-desc' => 'Permet d’afficher des coordonnées dans des cartes, ainsi que des adresses géocodées ([http://mapping.referata.com/wiki/Maps_examples démonstration]).
 Services de cartographie disponibles : $1',
 	'maps_map' => 'Carte',
 	'maps-loading-map' => 'Chargement de la carte...',
@@ -965,6 +966,39 @@ Services de cartographie disponibles : $1',
 	'validation-error-invalid-layers' => 'Le paramètre $1 doit être une ou plusieurs couche(s) valide(s).',
 	'maps-layer-of-type' => 'Couche de type $1',
 	'maps-layer-type-supported-by' => 'Ce type de couche peut {{PLURAL:$2|être utilisé uniquement avec le service de cartographie $1|être utilisé avec ces services de cartographie : $1}}.',
+	'maps-coordinates-description' => "Crochet de l'analyseur pour formater les coordonnées, depuis et vers n'importe quel format supporté.",
+	'maps-displaymap-description' => 'Affiche les cartes géographiques sans aucun marqueur wiki sur eux.',
+	'maps-displaypoint-description' => 'Affiche les cartes géographiques avec un ou plusieurs marqueurs wiki sur eux.',
+	'maps-distance-description' => "Convertit une distance d'une certaine unité prise en charge à son équivalent en utilisant une autre unité.",
+	'maps-geodistance-description' => "Calculer la distance géographique entre deux points, depuis et vers n'importe quel format pris en charge.",
+	'maps-coordinates-par-location' => 'Les coordonnées que vous souhaitez formater.',
+	'maps-coordinates-par-format' => 'Le format cible pour les coordonnées.',
+	'maps-coordinates-par-directional' => 'Indique si les coordonnées doivent être imprimées directionnellement ou non.',
+	'maps-distance-par-distance' => 'La distance à convertir dans son équivalent avec une unité spécifiée.',
+	'maps-distance-par-decimals' => 'Le nombre maximal de chiffres après la virgule à utiliser dans le résultat.',
+	'maps-distance-par-unit' => "L'unité à utiliser pour afficher la distance.",
+	'maps-finddestination-par-location' => "L'emplacement initial.",
+	'maps-finddestination-par-bearing' => 'La direction initiale.',
+	'maps-finddestination-par-distance' => 'La distance à parcourir.',
+	'maps-finddestination-par-format' => 'Le format dans lequel afficher la destination.',
+	'maps-finddestination-par-directional' => 'Indique si le format de destination doit être directionnel ou non.',
+	'maps-finddestination-par-allowcoordinates' => 'Indique si les coordonnées doivent être autorisés. Si non, seul les adresses seront acceptées.',
+	'maps-finddestination-par-geoservice' => "Le service de géocodage à utiliser pour géocoder la valeur au cas où il s'agirait d'une adresse.",
+	'maps-geocode-par-location' => "L'adresse que vous souhaitez géocoder.",
+	'maps-geocode-par-mappingservice' => 'Le service de géocodage que vous souhaitez utiliser. Consultez les services de géocodage disponibles.',
+	'maps-geocode-par-format' => 'Le format des coordonnées qui en résultent.',
+	'maps-geocode-par-directional' => 'Indique si les coordonnées doivent être imprimées directionnellement ou non.',
+	'maps-geodistance-par-location1' => 'Le premier point dans le jeu pour à utiliser pour calculer la distance.',
+	'maps-geodistance-par-location2' => 'Le deuxième point dans le jeu pour à utiliser pour calculer la distance.',
+	'maps-geodistance-par-unit' => "L'unité à utiliser pour afficher la distance.",
+	'maps-geodistance-par-decimals' => 'Le nombre maximal de chiffres après la virgule à utiliser dans le résultat.',
+	'maps-geodistance-par-mappingservice' => "Le service de géocodage à utiliser pour géocoder n'importe quelle adresse.",
+	'maps-displaymap-par-mappingservice' => 'Permet de définir le service de cartographie qui sera utilisé pour générer la carte.',
+	'maps-displaymap-par-coordinates' => "L'emplacement sur lequel la carte sera initialement centrée.",
+	'maps-displaypoints-par-mappingservice' => 'Permet de définir le service de cartographie qui sera utilisé pour générer la carte.',
+	'maps-displaypoints-par-coordinates' => 'Un ou plusieurs emplacements à afficher sur la carte. Ils seront indiqués avec un marqueur.',
+	'maps-displaypoints-par-label' => "Permet de définir le texte qui sera affiché dans les fenêtres surgissantes de tous les marqueurs qui n'ont pas une étiquette spécifique.",
+	'maps-displaypoints-par-icon' => "Permet de définir l'icône utilisée pour tous les marqueurs.",
 	'validation-error-invalid-location' => 'Le paramètre $1 doit être un emplacement valide.',
 	'validation-error-invalid-locations' => 'Le paramètre $1 doit être un ou plusieurs emplacement(s) valide(s).',
 	'validation-error-invalid-width' => 'Le paramètre $1 doit être une largeur valide.',
@@ -1014,7 +1048,7 @@ $messages['frp'] = array(
  * @author Klenje
  */
 $messages['fur'] = array(
-	'maps_desc' => 'Al furnìs la possibilitât di mostrâ i dâts de coordinadis e lis direzions geocodificadis intune mape ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Al furnìs la possibilitât di mostrâ i dâts de coordinadis e lis direzions geocodificadis intune mape ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Servizis di mapis disponibii: $1',
 	'maps_map' => 'Mape',
 	'maps_coordinates_missing' => 'Nissune coordenade furnide pe mape.',
@@ -1029,8 +1063,7 @@ $1',
  * @author Toliño
  */
 $messages['gl'] = array(
-	'maps_desc' => 'Proporciona a capacidade de mostrar datos de coordenadas en mapas, e enderezos xeocodificados ([http://mapping.referata.com/wiki/Maps_examples demostración]).
-Servizos de cartografía dispoñibles: $1',
+	'maps-desc' => 'Proporciona a capacidade de mostrar datos de coordenadas en mapas, e enderezos xeocodificados ([http://mapping.referata.com/wiki/Maps_examples demostración])',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Cargando o mapa...',
 	'maps-markers' => 'Marcadores',
@@ -1096,7 +1129,7 @@ $messages['grc'] = array(
  * @author Als-Holder
  */
 $messages['gsw'] = array(
-	'maps_desc' => 'Ergänzt d Megligkeit Koordinatedate in Charte un Geocodeadrässe aazzeige. Verfiegbari Chartedienscht: $1. [http://www.mediawiki.org/wiki/Extension:Maps Dokumäntation]. [http://mapping.referata.com/wiki/Maps_examples Demo]',
+	'maps-desc' => 'Ergänzt d Megligkeit Koordinatedate in Charte un Geocodeadrässe aazzeige. Verfiegbari Chartedienscht: $1. [http://www.mediawiki.org/wiki/Extension:Maps Dokumäntation]. [http://mapping.referata.com/wiki/Maps_examples Demo]',
 	'maps_map' => 'Charte',
 	'maps-loading-map' => 'Am Lade vu dr Charte ...',
 	'maps-markers' => 'Markierige',
@@ -1148,26 +1181,56 @@ $1',
 );
 
 /** Hebrew (עברית)
+ * @author Amire80
+ * @author Ex-Diktator
  * @author Rotemliss
  * @author YaronSh
  * @author Yonidebest
  */
 $messages['he'] = array(
-	'maps_desc' => 'הוספת האפשרות להצגת נתוני קואורדינטות במפות וכתובות geocode ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'הוספת האפשרות להצגת נתוני קואורדינטות במפות וכתובות geocode ([http://mapping.referata.com/wiki/Maps_examples demo]).
 שירותי המיפוי הזמינים: $1',
 	'maps_map' => 'מפה',
 	'maps-loading-map' => 'המפה נטענת...',
 	'maps-markers' => 'סמנים',
+	'maps-others' => 'אחרים',
 	'maps-ns-layer' => 'שכבה',
-	'maps-ns-layer-talk' => 'דיון השכבה',
+	'maps-ns-layer-talk' => 'שיחת שכבה',
 	'maps-layer-property' => 'מאפיין',
 	'maps-layer-value' => 'ערך',
 	'maps-layer-errors' => 'שגיאות',
-	'validation-error-invalid-distance' => 'הערך $1 אינו מרחק תקין.',
-	'maps-abb-north' => "צפ'",
-	'maps-abb-east' => "מז'",
-	'maps-abb-south' => "דר'",
-	'maps-abb-west' => "מע'",
+	'maps-error-invalid-layerdef' => 'הגדרת השכבה הזאת אינה תקינה.',
+	'maps-error-invalid-layertype' => 'אין שכבות מסוג "$1". רק {{PLURAL:$3|הסוג הזה נתמך|הסוגים האלה נתמכים}}: $2.',
+	'maps-error-no-layertype' => 'יש להקליד את סוג השכבה. {{PLURAL:$2|רק הסוג הזה נתמך|הסוגים הנתמכים}}: $1',
+	'validation-error-invalid-layer' => 'הפרמטר $1 צריך להיות שכבה תקינה.',
+	'validation-error-invalid-layers' => 'הפרמטר $1 צריך להיות שכבה תקינה אחת או יותר.',
+	'maps-layer-of-type' => 'שכבה מסוג $1',
+	'maps-layer-type-supported-by' => 'השכבה הזאת יכולה לעבוד רק עם {{PLURAL:$2|שירות המפות הבא|שירותי המפות הבאים}}: $1.',
+	'maps-finddestination-par-location' => 'המיקום ההתחלתי.',
+	'maps-finddestination-par-bearing' => 'הכיוון הראשוני.',
+	'maps-finddestination-par-distance' => 'מרחק הנסיעה.',
+	'maps-finddestination-par-format' => 'באיזו תבנית לפלוט את היעד.',
+	'maps-finddestination-par-directional' => 'האם תבנית היעד צריכה להיות כיוונית או לא.',
+	'maps-finddestination-par-allowcoordinates' => 'האם לאפשר שימוש בקואורדינטות. אם לא, תתקבלנה רק כתובות.',
+	'maps-geocode-par-directional' => 'האם לפלוט את הקואורדינטות באופן כיווני או לא.',
+	'maps-geodistance-par-location1' => 'הנקודה הראשונה בקבוצה לחישוב מרחק.',
+	'maps-geodistance-par-location2' => 'הנקודה השנייה בקבוצה לחישוב מרחק.',
+	'maps-geodistance-par-unit' => 'באילו יחידות לפלוט את המרחק.',
+	'maps-geodistance-par-decimals' => 'המספר המירבי של ספרות בשבר בתוצאה.',
+	'validation-error-invalid-location' => 'הערך $1 צריך להיות מיקום תקין.',
+	'validation-error-invalid-locations' => 'הערך $1 צריך להיות מיקום תקין אחד או יותר.',
+	'validation-error-invalid-width' => 'הערך $1 צריך להיות רוחב תקין.',
+	'validation-error-invalid-height' => 'הערך $1 צריך להיות גובה תקין.',
+	'validation-error-invalid-distance' => 'הערך $1 צריך להיות מרחק תקין.',
+	'validation-error-invalid-distances' => 'הערך $1 צריך להיות מרחק תקין אחד או יותר.',
+	'validation-error-invalid-image' => 'הערך $1 צריך להיות קובץ תמונה תקין.',
+	'validation-error-invalid-images' => 'הערך $1 צריך להיות קובץ תמונה תקין אחד או יותר.',
+	'validation-error-invalid-goverlay' => 'הערך $1 צריך להיות שכבה תקינה.',
+	'validation-error-invalid-goverlays' => 'הערך $1 צריך להיות שכבה תקינה אחת או יותר.',
+	'maps-abb-north' => 'צפ׳',
+	'maps-abb-east' => 'מז׳',
+	'maps-abb-south' => 'דר׳',
+	'maps-abb-west' => 'מע׳',
 	'maps-latitude' => 'קו רוחב:',
 	'maps-longitude' => 'קו אורך:',
 	'maps-invalid-coordinates' => 'הערך $1 לא זוהה כסדרת קואורדינטות תקינה.',
@@ -1176,9 +1239,10 @@ $messages['he'] = array(
 לא ניתן להציג את המפה.',
 	'maps_geocoding_failed_for' => 'לא ניתן לייצר geocode עבור {{PLURAL:$2|הכתובת הבאה|הכתובות הבאות}}, ולכן {{PLURAL:$2|היא הושמטה|הן הושמטו}} מהמפה:
 $1',
-	'maps_unrecognized_coords' => '{{PLURAL:$2|הקואורדינטה הבאה אינה מזוהה|הקואורדינטות הבאות אינן מזוהות}}: $1.',
+	'maps_unrecognized_coords' => '{{PLURAL:$2|הקואורדינטה הבאה לא זוהתה|הקואורדינטות הבאות לא זוהו}}: $1.',
+	'maps_unrecognized_coords_for' => '{{PLURAL:$2|הקואורדינטה הבאה לא זוהתה|הקואורדינטות הבאות לא זוהו}} ו{{PLURAL:$2|הושמטה|הושמטו}} מהמפה: $1.',
 	'maps_map_cannot_be_displayed' => 'לא ניתן להציג את המפה.',
-	'maps-geocoder-not-available' => 'הקידוד הגיאוקרטוגרפי של מפות אינו זמין. לא ניתן לקודד את המיקום שנבחר.',
+	'maps-geocoder-not-available' => 'הקידוד הגאוקרטוגרפי של מפות אינו זמין. לא ניתן לקודד את המיקום שנבחר.',
 	'maps_click_to_activate' => 'יש ללחוץ כדי להפעיל את המפה',
 	'maps_centred_on' => 'המפה ממורכזת סביב $1,$2',
 	'maps_overlays' => 'שכבות',
@@ -1202,7 +1266,7 @@ $messages['hi'] = array(
  * @author Ex13
  */
 $messages['hr'] = array(
-	'maps_desc' => 'Pruža mogućnost prikaza podataka o koordinatama na kartama, te geokodiranih adresa ([http://mapping.referata.com/wiki/Maps_examples demo]). Dostupne usluge kartiranja: $1',
+	'maps-desc' => 'Pruža mogućnost prikaza podataka o koordinatama na kartama, te geokodiranih adresa ([http://mapping.referata.com/wiki/Maps_examples demo]). Dostupne usluge kartiranja: $1',
 	'maps_coordinates_missing' => 'Za kartu nisu dostupne koordinate.',
 	'maps_geocoding_failed' => '{{PLURAL:$2|Sljedeća adresa ne može biti geokodirana|Sljedeće adrese ne mogu biti geokodirane}}: $1.
 Karta ne može biti prikazana.',
@@ -1214,8 +1278,7 @@ $1',
  * @author Michawiki
  */
 $messages['hsb'] = array(
-	'maps_desc' => 'Skići móžnosć koordinatowe daty w geografiskich kartach a geokodne adresy zwobraznić ([http://mapping.referata.com/wiki/Maps_examples demo]). 
-K dispoziciji stejace kartowe słužby: $1',
+	'maps-desc' => 'Skići móžnosć koordinaty w geografiskich kartach zwobraznić a adresy geokodować ([http://mapping.referata.com/wiki/Maps_examples demo])',
 	'maps_map' => 'Karta',
 	'maps-loading-map' => 'Karta so začituje...',
 	'maps-markers' => 'Marki',
@@ -1232,12 +1295,28 @@ K dispoziciji stejace kartowe słužby: $1',
 	'validation-error-invalid-layers' => 'Parameter $1 dyrbi jedna runina abo wjacore runiny być.',
 	'maps-layer-of-type' => 'Runina typa $1',
 	'maps-layer-type-supported-by' => 'Tutón typ runiny móže so {{PLURAL:$2|jenož z kartografiskej słužbu $1|z tutej kartografiskimaj słužbomaj: $1|z tutymi kartografiskimi słužbami: $1|z tutymi kartografiskimi słužbami: $1}}.wužiwać.',
+	'maps-displaymap-description' => 'Geografiske karty bjez we wikiju definowanych markow na nich zwobraznić.',
+	'maps-displaypoint-description' => 'Geografiske karty z jednym we wikiju definowanej marku abo wjace markow na nich zwobraznić.',
 	'maps-coordinates-par-location' => 'Koordinaty, kotrež chceš formatować.',
 	'maps-coordinates-par-format' => 'Cilowy format za koordinaty.',
+	'maps-distance-par-distance' => 'Zdalenosć, kotraž ma so do jeje ekwiwalenta z podatej jednotku konwertować.',
+	'maps-distance-par-unit' => 'Jednotka za wudawanje zdalenosće.',
 	'maps-finddestination-par-location' => 'Wuchadźišćo.',
+	'maps-finddestination-par-bearing' => 'Wuchadne nasměrjenje.',
+	'maps-finddestination-par-distance' => 'Pućowanska zdalenosć.',
 	'maps-finddestination-par-format' => 'Wudawanski format za cil.',
+	'maps-finddestination-par-allowcoordinates' => 'Podawa, hač koordinaty su dowolene. Jeli nic, budu so jenož adresy akceptować.',
+	'maps-finddestination-par-geoservice' => 'Geokodowanska słužba, kotraž ma so za geokodowanje hódnoty wužiwać, jeli hódnota je adresa.',
 	'maps-geocode-par-location' => 'Adresa, kotruž chceš geokodować.',
+	'maps-geocode-par-mappingservice' => 'Geokodowanska słužba, kotruž chceš wužiwać. Hlej k dispoziciji stejace geokodowanske słužby.',
 	'maps-geocode-par-format' => 'Format za wudate koordinaty.',
+	'maps-geodistance-par-location1' => 'Prěni dypk z dweju dypkow, mjez kotrymajž ma so zdalenosć wuličić.',
+	'maps-geodistance-par-location2' => 'Druhi dypk z dweju dypkow, mjez kotrymajž ma so zdalenosć wuličić.',
+	'maps-geodistance-par-mappingservice' => 'Geokodowanska słužba, kotraž ma so za geokodowanje wšěch adresow wužiwać.',
+	'maps-displaymap-par-coordinates' => 'Městno, na kotrež mapa ma so spočatnje centrować.',
+	'maps-displaypoints-par-mappingservice' => 'Zmóžnja nastajenje kartografiskeje słužby, kotraž ma so za generowanje karty wužiwać,',
+	'maps-displaypoints-par-coordinates' => 'Jedne městno abo wjace městnow, kotrež maja so na karće zwobraznić. Woznamjenjeja so z marku.',
+	'maps-displaypoints-par-icon' => 'Zmóžnja postajenje symbola, kotryž ma so za wšě marki wužiwać.',
 	'validation-error-invalid-location' => 'Parameter $1 dyrbi płaćiwe městno być.',
 	'validation-error-invalid-locations' => 'Parameter $1 dyrbi jedne městno abo wjacore městna być.',
 	'validation-error-invalid-width' => 'Parameter $1 dyrbi płaćiwa šěrokosć być.',
@@ -1285,7 +1364,7 @@ $messages['ht'] = array(
  * @author Misibacsi
  */
 $messages['hu'] = array(
-	'maps_desc' => 'Lehetővé teszi koordinátaadatok és geokódolt címek megjelenítését térképeken ([http://mapping.referata.com/wiki/Maps_examples demó]). Elérhető térképszolgáltatások: $1',
+	'maps-desc' => 'Lehetővé teszi koordinátaadatok és geokódolt címek megjelenítését térképeken ([http://mapping.referata.com/wiki/Maps_examples demó]). Elérhető térképszolgáltatások: $1',
 	'maps_map' => 'Térkép',
 	'maps-loading-map' => 'Térkép betöltése…',
 	'maps-markers' => 'Markerek',
@@ -1332,8 +1411,7 @@ $1',
  * @author McDutchie
  */
 $messages['ia'] = array(
-	'maps_desc' => 'Permitte monstrar datos de coordinatas in mappas, e adresses geocodice ([http://mapping.referata.com/wiki/Maps_examples demo]).
-Servicios cartographic disponibile: $1',
+	'maps-desc' => 'Permitte monstrar datos de coordinatas in mappas, e adresses geocodice ([http://mapping.referata.com/wiki/Maps_examples demonstrationes])',
 	'maps_map' => 'Carta',
 	'maps-loading-map' => 'Cargamento del carta…',
 	'maps-markers' => 'Marcatores',
@@ -1446,7 +1524,7 @@ $1',
  * @author IvanLanin
  */
 $messages['id'] = array(
-	'maps_desc' => "Memampukan tampilan data koordinat pada peta, dan alamat ''geocode'' ([http://mapping.referata.com/wiki/Maps_examples demo]). 
+	'maps-desc' => "Memampukan tampilan data koordinat pada peta, dan alamat ''geocode'' ([http://mapping.referata.com/wiki/Maps_examples demo]). 
 Layanan pemetaan yang tersedia: $1",
 	'maps_map' => 'Peta',
 	'maps-loading-map' => 'Memuat peta...',
@@ -1567,7 +1645,7 @@ $messages['ig'] = array(
  * @author HalphaZ
  */
 $messages['it'] = array(
-	'maps_desc' => "Fornisce la possibilità di visualizzare i dati di coordinate su mappe e la geocodifica di indirizzi ([http://wiki.bn2vs.com/wiki/Demo dell'estensione Maps]).
+	'maps-desc' => "Fornisce la possibilità di visualizzare i dati di coordinate su mappe e la geocodifica di indirizzi ([http://wiki.bn2vs.com/wiki/Demo dell'estensione Maps]).
 Servizi di cartografia disponibili: $1",
 	'maps_map' => 'Mappa',
 	'maps-loading-map' => 'Caricamento mappa ...',
@@ -1603,7 +1681,7 @@ Servizi di cartografia disponibili: $1",
  * @author 青子守歌
  */
 $messages['ja'] = array(
-	'maps_desc' => '地図上に座標データを表示し、住所を座標データに変換する機能を提供する ([http://mapping.referata.com/wiki/Maps_examples 実演])。次の地図サービスに対応します: $1',
+	'maps-desc' => '地図上に座標データを表示し、住所を座標データに変換する機能を提供する ([http://mapping.referata.com/wiki/Maps_examples 実演])。次の地図サービスに対応します: $1',
 	'maps_map' => '地図',
 	'maps-loading-map' => '地図を読み込み中…',
 	'maps-markers' => 'マーカー',
@@ -1672,14 +1750,16 @@ $messages['ka'] = array(
 	'maps_videos' => 'ვიდეოები',
 );
 
-/** Khmer (ភាសាខ្មែរ) */
+/** Khmer (ភាសាខ្មែរ)
+ * @author គីមស៊្រុន
+ */
 $messages['km'] = array(
 	'maps-abb-north' => 'ជ',
 	'maps-abb-east' => 'ក',
 	'maps-abb-south' => 'ត្ប',
 	'maps-abb-west' => 'ល',
-	'maps-latitude' => 'រយះទទឹង៖',
-	'maps-longitude' => 'រយះបណ្តោយ៖',
+	'maps-latitude' => 'រយៈទទឹង៖',
+	'maps-longitude' => 'រយៈបណ្តោយ៖',
 );
 
 /** Kannada (ಕನ್ನಡ)
@@ -1693,14 +1773,31 @@ $messages['kn'] = array(
  * @author Purodha
  */
 $messages['ksh'] = array(
-	'maps_desc' => 'Määt et müjjelesch, Koodinaate en Landkaate aanzezeije, un Addräße en Koodinaate op de Ääd ömzerääschne. (E [http://mapping.referata.com/wiki/Maps_examples Beispöll]). He di Deenste för Landkaat(e) ham_mer ze beede: $1',
+	'maps-desc' => 'Määt et müjjelesch, Koodinaate en Landkaate aanzezeije, un Addräße en Koodinaate op de Ääd ömzerääschne. (E [http://mapping.referata.com/wiki/Maps_examples paa Beispöll]). {{PLURAL:$2:|Unsere Deens fö de Kaate es $1|He di Deenste för Landkaate ham_mer ze beede: $1|Mer han ävver kein Deenste för Kaate em Momang.}}',
 	'maps_map' => 'Kaat',
+	'maps-loading-map' => 'Mer sen en Kaat aam laade&nbsp;…',
+	'maps-markers' => 'Makeeronge',
+	'maps-others' => 'sönß wää',
+	'maps-layer-property' => 'Eijeschaff',
+	'maps-layer-value' => 'Wäät',
+	'maps-layer-errors' => 'Fähler',
+	'maps-displaymap-par-coordinates' => 'Dä Plaz, dä aanfänglesch en de Medde vun dä Kaat lijje sull.',
+	'maps-displaypoints-par-icon' => 'Määd et müjjelesch, e Minni_Belldsche faßzelääje, waoh met all de Makeerunge jezeish wääde.',
+	'validation-error-invalid-location' => 'Dä Parameeter $1 mos ene jölteje Plaz sin.',
+	'validation-error-invalid-locations' => 'Dä Parameeter $1 moß eine jölteje Plaz udder an Aanzahl jöltijje Pläz sin.',
+	'validation-error-invalid-width' => 'Dä Parameeter $1 mos en jölteje Breedt sin.',
+	'validation-error-invalid-height' => 'Dä Parameeter $1 mos en jölteje Hühde sin.',
+	'validation-error-invalid-distance' => 'Dä Parameeter $1 mos ene jölteje Affshtand sin.',
+	'validation-error-invalid-distances' => 'Dä Parameeter $1 moß eine jölteje Affshtand udder an Aanzahl jöltijje Affshtänd sin.',
+	'validation-error-invalid-image' => 'Dä Parameeter $1 mos e jöltesch Beld sin.',
+	'validation-error-invalid-images' => 'Dä Parameeter $1 moß ei jöltesch Beld udder an Aanzahl jöltijje Belder sin.',
 	'maps-abb-north' => 'N',
 	'maps-abb-east' => 'O',
 	'maps-abb-south' => 'S',
 	'maps-abb-west' => 'W',
 	'maps-latitude' => 'Breedt om Jlobus:',
 	'maps-longitude' => 'Längde om Jlobus:',
+	'maps-invalid-coordinates' => 'Dä Wäät $1 künne mer nit als ene Saz vun Koodinahte vershtonn.',
 	'maps_coordinates_missing' => 'Mer han kein Koodinaate för di Kaat.',
 	'maps_geocoding_failed' => '{{PLURAL:$2|Di Koodinaat|De Koodinaate|Kein Koodinaat}} om Jlobus för di {{PLURAL:$2|aanjejovve Adräß wohr|aanjejovve Adräße wohre|kein aanjejovve Adräß wohr}} Kappes: $1. Di Kaat künne mer su nit aanzeije.',
 	'maps_geocoding_failed_for' => 'De Koodinaate om Jlobus för {{PLURAL:$2|ein|paa|kein}} vun dä aanjejovve Adräße {{PLURAL:$2|es|wohre|Fähler!}} Kappes. Di {{PLURAL:$2|es|sin|Fähler!}} dröm nit op dä Kaat. De fottjelohße {{PLURAL:$2|es|sin|Fähler!}}: $1',
@@ -1709,6 +1806,7 @@ $messages['ksh'] = array(
 $1',
 	'maps_map_cannot_be_displayed' => 'Di Kaat künne mer nit aanzeije.',
 	'maps_click_to_activate' => 'Donn klecke, öm op di Kaat ze jonn',
+	'maps_centred_on' => 'De Kaat met $1, $2 en de Medde.',
 	'maps_overlays' => 'Enbländunge',
 	'maps_photos' => 'Fottos',
 	'maps_videos' => 'Viddejos',
@@ -1734,7 +1832,7 @@ $messages['lad'] = array(
  * @author Robby
  */
 $messages['lb'] = array(
-	'maps_desc' => "Gëtt d'Méiglechkeet fir d'Date vun de Koordinaten op Kaarten a Geocode Adressen ze weisen. Disponibel mapping Servicer: $1 [http://www.mediawiki.org/wiki/Extension:Maps Dokumentatioun]. [http://mapping.referata.com/wiki/Maps_examples Démo]",
+	'maps-desc' => "Gëtt d'Méiglechkeet fir d'Date vun de Koordinaten op Kaarten a Geocode Adressen [http://mapping.referata.com/wiki/Maps_examples Démo] ze weisen",
 	'maps_map' => 'Kaart',
 	'maps-loading-map' => "D'Kaart gëtt gelueden…",
 	'maps-markers' => 'Markéierungen',
@@ -1742,8 +1840,14 @@ $messages['lb'] = array(
 	'maps-layer-property' => 'Eegeschaft',
 	'maps-layer-value' => 'Wäert',
 	'maps-layer-errors' => 'Feeler',
+	'maps-coordinates-par-location' => "D'Koordinaten déi Dir formatéiere wëllt.",
+	'maps-coordinates-par-format' => "D'Zilformat vun de Koordinaten.",
 	'maps-finddestination-par-location' => 'Déi initial Plaz.',
 	'maps-finddestination-par-distance' => "D'Distanz vun der Rees.",
+	'maps-geocode-par-location' => "D'Adress déi Dir geocodéiere wëllt.",
+	'maps-geocode-par-format' => "De Format fir d'Koordinaten.",
+	'maps-geodistance-par-unit' => "D'Eenheet fir d'Distanz.",
+	'maps-geodistance-par-decimals' => 'Déi maximal Zuel vu Kommastellen déi am Resultat benotzt gi soll.',
 	'maps-displaymap-par-coordinates' => "Déi Plaz op déi d'Kaart am Ufank zentréiert gëtt.",
 	'validation-error-invalid-location' => 'Parameter $1 muss eng valabel Plaz sinn.',
 	'validation-error-invalid-locations' => 'Parameter $1 muss eng oder méi valabel Plaze sinn.',
@@ -1782,7 +1886,7 @@ $1',
  * @author Hugo.arg
  */
 $messages['lt'] = array(
-	'maps_desc' => 'Suteikia galimybę atvaizduoti koordinačių duomenis žemėlapiuose ir geografinio kodavimo adresus ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Suteikia galimybę atvaizduoti koordinačių duomenis žemėlapiuose ir geografinio kodavimo adresus ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Katrografavimo paslaugos pasiekiamos: $1',
 	'maps_map' => 'Žemėlapis',
 	'maps-loading-map' => 'Kraunamas žemėlapis ...',
@@ -1810,9 +1914,7 @@ Katrografavimo paslaugos pasiekiamos: $1',
  * @author McDutchie
  */
 $messages['mk'] = array(
-	'maps_name' => 'Карти',
-	'maps_desc' => 'Дава можност за приказ на координатни податоци во картите, и геокодирање на адреси ([http://mapping.referata.com/wiki/Maps_examples демо]).
-Картографски служби на располагање: $1',
+	'maps-desc' => 'Дава можност за приказ на координатни податоци на карти и геокодирање на адреси ([http://mapping.referata.com/wiki/Maps_examples мостри])',
 	'maps_map' => 'Карта',
 	'maps-loading-map' => 'Ја вчитувам картата...',
 	'maps-markers' => 'Обележувачи',
@@ -1962,8 +2064,7 @@ $messages['nah'] = array(
  * @author Siebrand
  */
 $messages['nl'] = array(
-	'maps_desc' => 'Biedt de mogelijkheid om locatiegegevens weer te geven op kaarten en adressen om te zetten naar coordinaten ([http://wiki.bn2vs.com/wiki/Semantic_Maps demo]).
-Beschikbare kaartdiensten: $1',
+	'maps-desc' => 'Biedt de mogelijkheid om locatiegegevens weer te geven op kaarten en adressen om te zetten naar coordinaten ([http://wiki.bn2vs.com/wiki/Semantic_Maps demo]).',
 	'maps_map' => 'Kaart',
 	'maps-loading-map' => 'Bezig met het laden van de kaart...',
 	'maps-markers' => 'Markeringen',
@@ -2016,6 +2117,22 @@ Als deze "nee" is, wordt iedere waarde gegeocodeerd, ook als deze geldige coörd
 	'maps-geodistance-par-location1' => 'Het eerste punt in de verzameling om de afstand tussen te berekenen.',
 	'maps-geodistance-par-location2' => 'Het tweede punt in de verzameling om de afstand tussen te berekenen.',
 	'maps-geodistance-par-unit' => 'De eenheid om de afstand in weer te geven.',
+	'maps-geodistance-par-decimals' => 'Het maximale aantal te gebruiken decimalen in de resulterende waarde.',
+	'maps-geodistance-par-mappingservice' => 'De te gebruiken geocoderingsdienst voor adressen.',
+	'maps-geodistance-par-geoservice' => 'De kaartdienst die hierbij wordt gebruikt.
+Dit kan invloed hebben op de standaardwaarde voor de geocoderingsdienst.',
+	'maps-displaymap-par-mappingservice' => 'Maakt het mogelijk om de kaartdienst in te stellen die wordt gebruikt om de kaart te maken.',
+	'maps-displaymap-par-coordinates' => 'De locatie die zich bij de eerste keer laden in het centrum van de kaart bevindt.',
+	'maps-displaypoints-par-zoom' => 'Maakt het mogelijk het schaalniveau van de kaart in te stellen.
+Als deze waarde niet wordt ingesteld en er staan meerdere markers op de kaart, dan wordt het best passende schaalniveau gekozen, niet het instelbare standaardniveau.',
+	'maps-displaypoints-par-mappingservice' => 'Maakt het mogelijk de kaartdienst in te stellen die de kaart levert.',
+	'maps-displaypoints-par-coordinates' => 'Een of meer weer te geven locaties op de kaart. Deze worden met een marker aangegeven.',
+	'maps-displaypoints-par-centre' => 'Maakt het mogelijk de coördinaten voor het midden van de kaart in te stellen voor display_point(s).
+Kan ingesteld worden met adressen en coördinaten.
+Als deze waarde niet wordt ingesteld, wordt de kaart gecentreerd op of tussen de opgegeven marker(s).',
+	'maps-displaypoints-par-title' => 'Maakt het mogelijk om tekst in te stellen die wordt weergegeven in de pop-ups van alle markeringen zonder gespecificeerd label.
+Als dit samen met een label wordt gebruikt, wordt de titel vetgedrukt en onderstreept weergegeven.',
+	'maps-displaypoints-par-label' => 'Maakt het mogelijk om tekst in te stellen die wordt weergegeven in de pop-ups van alle markeringen zonder gespecificeerd label.',
 	'maps-displaypoints-par-icon' => 'Maakt het mogelijk het icoon voor alle markers in te stellen.',
 	'validation-error-invalid-location' => 'Parameter $1 moet een geldige locatie zijn.',
 	'validation-error-invalid-locations' => 'Parameter $1 moet een of meer geldige locaties zijn.',
@@ -2083,7 +2200,7 @@ $messages['nn'] = array(
  * @author Nghtwlkr
  */
 $messages['no'] = array(
-	'maps_desc' => 'Gir mulighet for å vise koordinatdata i kart og geokodeadresser ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Gir mulighet for å vise koordinatdata i kart og geokodeadresser ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Tilgjengelige karttjenester: $1',
 	'maps_map' => 'Kart',
 	'maps-loading-map' => 'Laster kart...',
@@ -2140,7 +2257,7 @@ $1',
  * @author Cedric31
  */
 $messages['oc'] = array(
-	'maps_desc' => "Permet d'afichar de coordenadas dins de mapas, e mai d'adreça geocodadas
+	'maps-desc' => "Permet d'afichar de coordenadas dins de mapas, e mai d'adreça geocodadas
 ([http://www.mediawiki.org/wiki/Extension:Maps documentacion], [http://mapping.referata.com/wiki/Maps_examples demonstracion]). 
 Servicis de cartografia disponibles : $1",
 	'maps_map' => 'Mapa',
@@ -2179,8 +2296,7 @@ $messages['pdc'] = array(
  * @author Yarl
  */
 $messages['pl'] = array(
-	'maps_desc' => 'Umożliwia wyświetlanie na mapach współrzędnych oraz adresów geograficznych ([http://mapping.referata.com/wiki/Maps_examples demo]).
-Dostępne serwisy mapowe: $1',
+	'maps-desc' => 'Umożliwia wyświetlanie na stronach wiki dynamicznych map, geograficznie kodowanych adresów i innych danych geograficznych. ([http://mapping.referata.com/wiki/Examples demo])',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Wczytywanie mapy…',
 	'maps-markers' => 'Zaznaczenia',
@@ -2238,7 +2354,7 @@ $1',
  * @author McDutchie
  */
 $messages['pms'] = array(
-	'maps_desc' => "A dà la possibilità ëd visualisé le coordinà ant le mape, e j'adrësse geocode ([http://mapping.referata.com/wiki/Maps_examples demo]). Sërvissi ëd mapatura disponìbil: $1",
+	'maps-desc' => "A dà la possibilità ëd visualisé le coordinà ant le mape, e j'adrësse geocode ([http://mapping.referata.com/wiki/Maps_examples demo]). Sërvissi ëd mapatura disponìbil: $1",
 	'maps_map' => 'Pian',
 	'maps-loading-map' => 'Cariament ëd la carta...',
 	'maps-markers' => 'Marcador',
@@ -2249,12 +2365,12 @@ $messages['pms'] = array(
 	'maps-layer-value' => 'Valor',
 	'maps-layer-errors' => 'Eror',
 	'maps-error-invalid-layerdef' => "Sta definission ëd livel a l'é pa bon-a",
-	'maps-error-invalid-layertype' => 'A-i é pa gnun livej ëd sòrt "$1". A {{PLURAL:$3|l\'é|sn}} mach apogià sta sòrt: $2',
-	'maps-error-no-layertype' => "It deuve specifiché la sòrt ëd livel. Mach {{PLURAL:$2|sta sòrt a l'é|ste sòrt a son}} apogià: $1",
+	'maps-error-invalid-layertype' => 'A-i é pa gnun livej ëd sòrt "$1". A {{PLURAL:$3|l\'é mach mantùa costa|a son mach mantnùe coste}} sòrt: $2',
+	'maps-error-no-layertype' => "A dev specifiché la sòrt ëd livel. Mach {{PLURAL:$2|sta sòrt a l'é mantnùa|ste sòrt a son mantnùe}}: $1",
 	'validation-error-invalid-layer' => 'Ël paràmetr $1 a dev esse un livel bon.',
 	'validation-error-invalid-layers' => 'Ël paràmetr $1 a dev esse un o pi livej bon.',
 	'maps-layer-of-type' => 'Livel ëd sòrt $1',
-	'maps-layer-type-supported-by' => 'Sta sòrt ëd livel a peul {{PLURAL:$2|mach esse dovrà con ël servissi ëd mapping $1|esse dovrà con sti servissi ëd mapping: $1}}.',
+	'maps-layer-type-supported-by' => 'Costa sòrt ëd livel a peul {{PLURAL:$2|mach esse dovrà con ël servissi ëd cartografìa $1|esse dovrà con sti servissi ëd cartografìa: $1}}.',
 	'validation-error-invalid-location' => 'Ël paràmetr $1 a dev esse na locassion bon-a.',
 	'validation-error-invalid-locations' => 'Ël paràmetr $1 a dev esse un-a o pi locassion bon-e.',
 	'validation-error-invalid-width' => 'Ël paràmetr $1 a dev esse na larghëssa bon-a.',
@@ -2306,13 +2422,15 @@ $messages['ps'] = array(
 );
 
 /** Portuguese (Português)
+ * @author Alchimista
  * @author Giro720
+ * @author GoEThe
  * @author Hamilton Abreu
+ * @author Lijealso
  * @author Waldir
  */
 $messages['pt'] = array(
-	'maps_desc' => 'Permite apresentar dados de coordenadas em mapas e endereços por geocódigo ([http://mapping.referata.com/wiki/Maps_examples demonstração]).
-Serviços de cartografia disponíveis: $1',
+	'maps-desc' => 'Permite apresentar dados de coordenadas em mapas e converter endereços em geocódigo ([http://mapping.referata.com/wiki/Maps_examples demonstração])',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'A carregar o mapa...',
 	'maps-markers' => 'Marcadores',
@@ -2329,6 +2447,59 @@ Serviços de cartografia disponíveis: $1',
 	'validation-error-invalid-layers' => 'O parâmetro $1 tem de ser uma ou mais camadas válidas.',
 	'maps-layer-of-type' => 'Camada de tipo $1',
 	'maps-layer-type-supported-by' => 'Este tipo de camada só pode ser usado com {{PLURAL:$2|o serviço de cartografia $1|os serviços de cartografia: $1}}.',
+	'maps-coordinates-description' => 'Hook do analisador sintáctico para formatar coordenadas, a partir de qualquer um dos formatos suportados para qualquer outro formato suportado.',
+	'maps-displaymap-description' => 'Apresentar os mapas sem qualquer marcador definido na wiki.',
+	'maps-displaypoint-description' => 'Apresentar os mapas com um ou mais marcadores definidos na wiki.',
+	'maps-distance-description' => 'Converter uma distância numa unidade suportada para a distância equivalente noutra unidade.',
+	'maps-finddestination-description' => 'Encontrar um destino a partir de um ponto de partida (expresso em qualquer um dos formatos suportados), uma orientação inicial e uma distância.',
+	'maps-geocode-description' => 'Permite a geocodificação de moradas; por outras palavras, transforma locais legíveis por seres humanos em conjuntos de coordenadas. Há apoio para vários serviços de geocodificação, que não devem ser confundidos com serviços de cartografia.',
+	'maps-geodistance-description' => 'Calcula a distância geográfica entre dois pontos, a partir e para qualquer um dos formatos suportados.',
+	'maps-coordinates-par-location' => 'As coordenadas que quer formatar.',
+	'maps-coordinates-par-format' => 'O formato em que quer as coordenadas.',
+	'maps-coordinates-par-directional' => 'Indica se as coordenadas devem ser produzidas com formato direccional ou não.',
+	'maps-distance-par-distance' => 'A distância para converter para a equivalente numa unidade especificada.',
+	'maps-distance-par-decimals' => 'O número máximo de casas decimais a usar no valor resultante.',
+	'maps-distance-par-unit' => 'As unidades em que a distância será produzida.',
+	'maps-finddestination-par-location' => 'A localização inicial.',
+	'maps-finddestination-par-bearing' => 'A direcção inicial.',
+	'maps-finddestination-par-distance' => 'A distância a percorrer.',
+	'maps-finddestination-par-format' => 'O formato em que sairá o destino.',
+	'maps-finddestination-par-directional' => 'Indica se o formato do destino deve ser direccional ou não.',
+	'maps-finddestination-par-allowcoordinates' => 'Indica se devem ser permitidas coordenadas. Se marcado como não, apenas serão aceites moradas.',
+	'maps-finddestination-par-geoservice' => 'O serviço de geocodificação a usar para geocodificar o valor em caso de ser uma morada.',
+	'maps-finddestination-par-mappingservice' => 'Parâmetro para indicar o serviço de cartografia a usar com esta função.
+Isto permite que os mapas substituam o valor padrão do parâmetro do serviço pelo valor óptimo para o serviço de cartografia.
+(Exemplo: No caso do Google Maps, será usado o geocodificador do Google.)',
+	'maps-geocode-par-location' => 'A morada que quer geocodificar.',
+	'maps-geocode-par-mappingservice' => 'O serviço de geocodificação que deseja usar. Consulte os serviços de geocodificação disponíveis.',
+	'maps-geocode-par-geoservice' => 'Este parâmetro permite-lhe indicar se está a usar este pedido de geocodificação em combinação com um serviço de cartografia específico.
+Para cada serviço de cartografia é possível substituir o valor padrão do serviço de geocodificação.
+Isto tem uma justificação legal, posto que o serviço de Geocodificação do Google só pode ser usado em conjunto com o Google Maps.
+Definir este parâmetro e não o parâmetro para o serviço, garante que não se está a usar uma combinação inválida.',
+	'maps-geocode-par-allowcoordinates' => 'Permite desactivar o suporte de coordenadas desta função. Tem de ser sim ou não.
+Quando for não, todos os valores serão geocodificados, mesmo coordenadas válidas.',
+	'maps-geocode-par-format' => 'O formato das coordenadas resultantes.',
+	'maps-geocode-par-directional' => 'Indica se as coordenadas devem ser produzidas com formato direccional ou não.',
+	'maps-geodistance-par-location1' => 'O primeiro ponto do conjunto para calcular a distância entre dois pontos.',
+	'maps-geodistance-par-location2' => 'O segundo ponto do conjunto para calcular a distância entre dois pontos.',
+	'maps-geodistance-par-unit' => 'As unidades em que a distância será produzida.',
+	'maps-geodistance-par-decimals' => 'O número máximo de casas decimais a usar no valor resultante.',
+	'maps-geodistance-par-mappingservice' => 'O serviço de geocodificação que será usado para geocodificar qualquer endereço.',
+	'maps-geodistance-par-geoservice' => 'O serviço de cartografia a utilizar em conjunto.
+Isto pode afectar o valor padrão do serviço de geocodificação.',
+	'maps-displaymap-par-mappingservice' => 'Permite definir o serviço de cartografia que será usado para gerar o mapa.',
+	'maps-displaymap-par-coordinates' => 'A localização na qual o mapa será inicialmente centrado.',
+	'maps-displaypoints-par-zoom' => 'Permite definir o nível de ampliação do mapa.
+Quando este não for fornecido e existirem vários marcadores no mapa, será usado o nível de ampliação que resulte no melhor dimensionamento, não o valor padrão configurado.',
+	'maps-displaypoints-par-mappingservice' => 'Permite definir o serviço de cartografia que será usado para gerar o mapa.',
+	'maps-displaypoints-par-coordinates' => 'Uma ou mais localizações a mostrar no mapa. Estas serão indicadas com um marcador.',
+	'maps-displaypoints-par-centre' => 'Permite definir as coordenadas do centro do mapa para display_point(s).
+Aceita tanto endereços como coordenadas.
+Quando esta propriedade não for fornecida, o mapa será centrado no marcador fornecido, ou entre os marcadores fornecidos.',
+	'maps-displaypoints-par-title' => 'Permite a configuração do texto que será apresentado nos pop-ups de todos os marcadores que não têm um título específico.
+Quando usado em conjunto com um rótulo, o título aparecerá a negrito e sublinhado.',
+	'maps-displaypoints-par-label' => 'Permite a configuração do texto que será apresentado nos pop-ups de todos os marcadores que não têm um rótulo específico.',
+	'maps-displaypoints-par-icon' => 'Permite configurar o ícone usado para todos os marcadores.',
 	'validation-error-invalid-location' => 'O parâmetro $1 tem de ser uma localização válida.',
 	'validation-error-invalid-locations' => 'O parâmetro $1 tem de ser uma ou mais localizações válidas.',
 	'validation-error-invalid-width' => 'O parâmetro $1 tem de ser uma largura válida.',
@@ -2371,7 +2542,7 @@ $1',
  * @author Luckas Blade
  */
 $messages['pt-br'] = array(
-	'maps_desc' => 'Provê a possibilidade de exibir dados de coordenadas em mapas e endereços em geocódigo. ([http://mapping.referata.com/wiki/Maps_examples demonstração]).
+	'maps-desc' => 'Provê a possibilidade de exibir dados de coordenadas em mapas e endereços em geocódigo. ([http://mapping.referata.com/wiki/Maps_examples demonstração]).
 Serviços de mapeamento disponíveis: $1',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Carregando mapa...',
@@ -2432,16 +2603,23 @@ $1',
  * @author Stelistcristi
  */
 $messages['ro'] = array(
-	'maps_desc' => 'Asigură capacitatea de a afișa coordonate pe hărți și adrese geocode ([http://mapping.referata.com/wiki/Maps_examples demonstrație]).
-Servici de cartografiere disponibile: $1',
+	'maps-desc' => 'Permite încorporarea hărților dinamice în paginile wiki, precum și geocodificarea adreselor ori efectuarea altor operațiuni de ordin geografic ([http://mapping.referata.com/wiki/Examples demonstrație]).',
 	'maps_map' => 'Hartă',
 	'maps-loading-map' => 'Se încarcă harta...',
 	'maps-markers' => 'Marcatori',
+	'maps-others' => 'altele',
+	'maps-ns-layer' => 'Strat',
+	'maps-layer-value' => 'Valoare',
+	'maps-layer-errors' => 'Erori',
+	'maps-error-invalid-layerdef' => 'Definiția acestui strat este incorectă.',
+	'maps-error-invalid-layertype' => 'Nu există straturi de tip „$1”. Se acceptă doar {{PLURAL:$3|acest tip|aceste tipuri}}: $2',
+	'maps-error-no-layertype' => 'Trebuie să specificați tipul stratului. Se acceptă doar {{PLURAL:$2|acest tip|aceste tipuri}}: $1',
 	'validation-error-invalid-layer' => 'Parametrul $1 trebuie să fie un strat valabil.',
 	'validation-error-invalid-layers' => 'Parametrul $1 trebuie să fie una sau mai multe straturi valide.',
+	'maps-layer-of-type' => 'Strat de tip $1',
 	'validation-error-invalid-location' => 'Parametrul $1 trebuie să fie o locaţie validă.',
 	'validation-error-invalid-locations' => 'Parametrul $1 trebuie să fie una sau mai multe locaţii valide.',
-	'validation-error-invalid-distance' => 'Valoarea $1 nu reprezintă o distanță validă.',
+	'validation-error-invalid-distance' => 'Parametrul $1 trebuie să reprezinte o distanță validă.',
 	'maps-abb-north' => 'N',
 	'maps-abb-east' => 'E',
 	'maps-abb-south' => 'S',
@@ -2471,18 +2649,18 @@ $1',
  * @author Joetaras
  */
 $messages['roa-tara'] = array(
-	'maps_desc' => "Dè l'abbilità a fà vedè le coordinate jndr'à le mappe e le indirizze geocodificate ([http://mapping.referata.com/wiki/Maps_examples demo]). Disponibbile le servizie de mappe: $1",
+	'maps-desc' => "Dè l'abbilità a fà vedè le coordinate jndr'à le mappe e le indirizze geocodificate ([http://mapping.referata.com/wiki/Maps_examples demo]). Disponibbile le servizie de mappe: $1",
 );
 
 /** Russian (Русский)
  * @author Lockal
  * @author MaxSem
  * @author McDutchie
+ * @author Yuriy Apostol
  * @author Александр Сигачёв
  */
 $messages['ru'] = array(
-	'maps_desc' => 'Обеспечивает возможность отображения координатных данных на картах и геокодирование адресов ([http://mapping.referata.com/wiki/Maps_examples демонстрация]).
-Доступные картографические службы: $1',
+	'maps-desc' => 'Предоставляет возможность отображения координатных данных на картах и геокодирование адресов ([http://mapping.referata.com/wiki/Maps_examples демонстрация])',
 	'maps_map' => 'Карта',
 	'maps-loading-map' => 'Идёт загрузка карты…',
 	'maps-markers' => 'Отметки',
@@ -2499,7 +2677,44 @@ $messages['ru'] = array(
 	'validation-error-invalid-layers' => 'Параметр $1 должен содержать один или несколько корректных слоёв.',
 	'maps-layer-of-type' => 'Слой типа $1',
 	'maps-layer-type-supported-by' => 'Этот тип слоя может быть использован {{PLURAL:$2|только с картографической службой $1|только со следующими картографическими службами}}: $1',
+	'maps-coordinates-description' => 'Перехватчик синтаксического анализатора для форматирования координат из любого и в любой поддерживаемый формат.',
+	'maps-displaymap-description' => 'Отображение географических карт без каких-либо вики-маркеров на них.',
+	'maps-displaypoint-description' => 'Отображение географических карт с одним или несколькими вики-маркерами на них.',
+	'maps-distance-description' => 'Преобразование расстояния, выраженного в определенных поддерживаемых единицах, в его эквивалент в других единицах.',
+	'maps-finddestination-description' => 'Найти место назначения от заданной начальной точки (может быть в любом формате из поддерживаемых), начальное направление и расстояние.',
+	'maps-geocode-description' => 'Включает геокодирование адресов. Иными словами, преобразует понятные человеку названия мест в наборы координат. Поддерживается несколько сервисов геокодирования, которые не следует путать с картографическими сервисами.',
+	'maps-geodistance-description' => 'Рассчитать географическое расстояние между двумя точками, из любого и в любой поддерживаемый формат.',
+	'maps-coordinates-par-location' => 'Координаты, которые требуется отформатировать.',
+	'maps-coordinates-par-format' => 'Целевой формат координат.',
+	'maps-coordinates-par-directional' => 'Указывает, должны ли координаты выводиться непосредственно или нет.',
+	'maps-distance-par-distance' => 'Расстояние для преобразования в эквивалентное в указанных единицах.',
+	'maps-distance-par-decimals' => 'Максимальное количество цифр дробной части в результирующем значении.',
+	'maps-distance-par-unit' => 'Единицы, в которых будет отображено расстояние.',
 	'maps-finddestination-par-location' => 'Исходное положение.',
+	'maps-finddestination-par-bearing' => 'Начальное направление.',
+	'maps-finddestination-par-distance' => 'Протяжённость путешествия.',
+	'maps-finddestination-par-format' => 'Формат, в котором отображается пункт назначения.',
+	'maps-finddestination-par-directional' => 'Указывает, должен ли формат назначения быть направленным или нет.',
+	'maps-finddestination-par-allowcoordinates' => 'Указывает, разрешены ли координаты. Если установлено значение «нет», будут приниматься только адреса.',
+	'maps-finddestination-par-geoservice' => 'Сервис геокодирования для географического преобразования значения в случае, если оно является адресом.',
+	'maps-finddestination-par-mappingservice' => 'Параметр для указания картографической службы для использования с этой функцией. 
+Позволяет карте переопределить значение служебного параметра по умолчанию службы на оптимальное для картографической службы.
+(Например, для карт Google, использовать геокодирование Google.)',
+	'maps-geocode-par-location' => 'Адрес, который вы желаете геокодировать.',
+	'maps-geocode-par-mappingservice' => 'Служба геокодирования, которую вы хотите использовать. См. список доступных служб геокодирования.',
+	'maps-geocode-par-geoservice' => 'Этот параметр позволяет указать, что вы используете этот запрос геокодирования в сочетании с конкретной картографической службой. 
+Каждая картографическая служба может иметь переопределение службы геокодирования по умолчанию.
+Это делается из юридических соображений, так как вы можете использовать службу геокодирования Google только вместе с картами Google.
+Установка этого параметра, а не параметра для службы, будет гарантировать, что вы не используете недопустимое сочетание.',
+	'maps-geocode-par-allowcoordinates' => 'Позволяет отключить поддержку координат в этой функции. Должно быть указано «да» или «нет».
+Если «нет», то каждое значение будет геокодировано, даже правильные координаты.',
+	'maps-geocode-par-format' => 'Формат получаемых координат.',
+	'maps-geocode-par-directional' => 'Указывает, должны ли координаты выводиться непосредственно или нет.',
+	'maps-geodistance-par-location1' => 'Первая точка в наборе для расчёта расстояния.',
+	'maps-geodistance-par-location2' => 'Вторая точка в наборе для расчёта расстояния.',
+	'maps-geodistance-par-unit' => 'Единица измерения расстояния.',
+	'maps-geodistance-par-decimals' => 'Наибольшее количество цифр в дробной части результата.',
+	'maps-geodistance-par-mappingservice' => 'Служба геокодирования, используемая для кодирования любого адреса.',
 	'validation-error-invalid-location' => 'Параметр $1 должен быть корректным местоположением.',
 	'validation-error-invalid-locations' => 'Параметр $1 должен содержать одно или несколько корректных местоположений.',
 	'validation-error-invalid-width' => 'Параметр $1 должен быть корректной шириной.',
@@ -2563,7 +2778,7 @@ $messages['si'] = array(
  * @author Helix84
  */
 $messages['sk'] = array(
-	'maps_desc' => 'Poskytuje možnosť zobrazovať údaje súradníc na mapách a tvoriť geografické adresy lokalít ([http://wiki.bn2vs.com/wiki/Semantic_Maps demo]).
+	'maps-desc' => 'Poskytuje možnosť zobrazovať údaje súradníc na mapách a tvoriť geografické adresy lokalít ([http://wiki.bn2vs.com/wiki/Semantic_Maps demo]).
 Dostupné mapovacie služby: $1',
 	'maps_map' => 'Mapa',
 	'maps-abb-north' => 'S',
@@ -2577,7 +2792,7 @@ Dostupné mapovacie služby: $1',
 	'maps_geocoding_failed_for' => 'Nebolo možné určiť súradnice {{PLURAL:$2|nasledovnej adresy|nasledovných adries}} a {{PLURAL:$2|bola vynechaná|boli vynechané}} z mapy: $1.',
 );
 
-/** Serbian Cyrillic ekavian (Српски (ћирилица))
+/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
  * @author Михајло Анђелковић
  */
 $messages['sr-ec'] = array(
@@ -2594,7 +2809,7 @@ $messages['sr-ec'] = array(
 	'maps_webcams' => 'Веб-камере',
 );
 
-/** Serbian Latin ekavian (Srpski (latinica)) */
+/** Serbian Latin ekavian (‪Srpski (latinica)‬) */
 $messages['sr-el'] = array(
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Učitavanje mape...',
@@ -2617,7 +2832,7 @@ $messages['sr-el'] = array(
  * @author Per
  */
 $messages['sv'] = array(
-	'maps_desc' => 'Ger möjlighet till att visa koordinater på kartor och geokodade adresser ([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'Ger möjlighet till att visa koordinater på kartor och geokodade adresser ([http://mapping.referata.com/wiki/Maps_examples demo]).
 Tillgängliga karttjänster: $1',
 	'maps_map' => 'Karta',
 	'maps-loading-map' => 'Laddar karta ...',
@@ -2675,7 +2890,7 @@ $messages['te'] = array(
  * @author Woraponboonkerd
  */
 $messages['th'] = array(
-	'maps_desc' => 'ให้ความสามารถในการแสดงพิกัดในแผนที่ และที่อยู่ที่เป็นรหัสทางภูมิศาสตร์([http://mapping.referata.com/wiki/Maps_examples demo]).
+	'maps-desc' => 'ให้ความสามารถในการแสดงพิกัดในแผนที่ และที่อยู่ที่เป็นรหัสทางภูมิศาสตร์([http://mapping.referata.com/wiki/Maps_examples demo]).
 <br />บริการแผนที่ที่มีอยู่: $1',
 	'maps_coordinates_missing' => 'ไม่ได้กำหนดพิกัดของแผนที่มาให้',
 );
@@ -2684,8 +2899,7 @@ $messages['th'] = array(
  * @author AnakngAraw
  */
 $messages['tl'] = array(
-	'maps_desc' => 'Nagbibigay ng kakayahang ipakita ang dato ng tugmaang-pampook sa loob ng mga mapa, at mga adres ([http://mapping.referata.com/wiki/Maps_examples pagpapakita]).
-Makukuhang mga paglilingkod na pangpagmamapa: $1',
+	'maps-desc' => 'Nagbibigay ng kakayahang ipakita ang dato ng tugmaang-pampook sa loob ng mga mapa, at mga triahan ([http://mapping.referata.com/wiki/Maps_examples mga pagpapatunghay])',
 	'maps_map' => 'Mapa',
 	'maps-loading-map' => 'Ikinakarga ang mapa...',
 	'maps-markers' => 'Mga palatandaan',
@@ -2764,7 +2978,7 @@ $messages['tt-cyrl'] = array(
  * @author Тест
  */
 $messages['uk'] = array(
-	'maps_desc' => 'Надає можливість відображення координат даних в картах, і геокодування адрес ([http://mapping.referata.com/wiki/Maps_examples]). 
+	'maps-desc' => 'Надає можливість відображення координат даних в картах, і геокодування адрес ([http://mapping.referata.com/wiki/Maps_examples]). 
 Доступні картографічні служби: $1',
 	'maps_map' => 'Мапа',
 	'maps-loading-map' => 'Завантаження мапи...',
@@ -2814,8 +3028,7 @@ $messages['vep'] = array(
  * @author Vinhtantran
  */
 $messages['vi'] = array(
-	'maps_name' => 'Bản đồ',
-	'maps_desc' => 'Cung cấp khả năng hiển thị dữ liệu tọa độ trên bản đồ và địa chỉ mã địa lý ([http://mapping.referata.com/wiki/Maps_examples thử xem]).
+	'maps-desc' => 'Cung cấp khả năng hiển thị dữ liệu tọa độ trên bản đồ và địa chỉ mã địa lý ([http://mapping.referata.com/wiki/Maps_examples thử xem]).
 Các dịch vụ bản đồ có sẵn: $1',
 	'maps_map' => 'Bản đồ',
 	'maps-loading-map' => 'Đang tải bản đồ…',
@@ -2886,10 +3099,14 @@ $messages['zh-cn'] = array(
 	'maps-longitude' => '经度：',
 );
 
-/** Simplified Chinese (‪中文(简体)‬) */
+/** Simplified Chinese (‪中文(简体)‬)
+ * @author Hydra
+ */
 $messages['zh-hans'] = array(
+	'maps_name' => '地图',
 	'maps_map' => '地图',
 	'maps-loading-map' => '载入中...',
+	'maps-others' => '其他',
 	'maps-abb-north' => '北',
 	'maps-abb-east' => '东',
 	'maps-abb-south' => '南',
@@ -2902,6 +3119,7 @@ $messages['zh-hans'] = array(
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author Horacewai2
  * @author Mark85296341
+ * @author Waihorace
  */
 $messages['zh-hant'] = array(
 	'maps_map' => '地圖',
