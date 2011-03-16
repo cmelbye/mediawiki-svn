@@ -102,7 +102,7 @@ class SMFormInput {
 			}
 		}
 
-		$parameters['locations'] = '1,1;42,42';//$coordinates;
+		$parameters['locations'] = $coordinates;
 		
 		$validator = new Validator( wfMsg( 'maps_' . $this->service->getName() ), false );
 		$validator->setParameters( $parameters, $this->getParameterInfo() );
@@ -122,7 +122,7 @@ class SMFormInput {
 			
 			$this->service->addResourceModules( $this->getResourceModules() );
 			
-			if ( $wgTitle->isSpecialPage() ) {
+			if ( true /* !is_null( $wgTitle ) && $wgTitle->isSpecialPage() */ ) { // TODO
 				global $wgOut;
 				$this->service->addDependencies( $wgOut );
 			}
