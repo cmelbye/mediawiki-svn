@@ -96,10 +96,9 @@ mw.UploadWizardUpload.prototype = {
 		var _this = this;
 		if ( _this.state == 'aborted' ) {
 			return ;
-		}
-
+		}		
 		if ( result.upload && result.upload.imageinfo ) {
-			mw.log( 'UploadWizard::setTransported> process api imageinfo' );
+			mw.log( 'UploadWizard::setTransported> process api imageinfo' );			
 			// success
 			_this.state = 'transported';
 			_this.transportProgress = 1;
@@ -108,7 +107,7 @@ mw.UploadWizardUpload.prototype = {
 			
 			// use blocking preload for thumbnail, no loading spinner.
 			_this.getThumbnail(
-				function( image ) {
+				function( image ) {					
 					_this.ui.setPreview( image );	
 					_this.deedPreview.setup();
 					_this.details.populate();
@@ -248,15 +247,16 @@ mw.UploadWizardUpload.prototype = {
 			this.api.get( params, function( data ) {
 				if ( !data || !data.query || !data.query.stashimageinfo ) {
 					mw.log("mw.UploadWizardUpload::getThumbnail> No data? ");
-					// XXX do something about the thumbnail spinner, maybe call the callback with a broken image.
+					// XXX do something about the thumbnail spinner, maybe call the callback with a broken image.					
 					return;
 				}
 				var thumbnails = data.query.stashimageinfo;
-				for ( var i = 0; i < thumbnails.length; i++ ) {
+				for ( var i = 0; i < thumbnails.length; i++ ) {					
 					var thumb = thumbnails[i];
 					if ( ! ( thumb.thumburl && thumb.thumbwidth && thumb.thumbheight ) ) {
 						mw.log( "mw.UploadWizardUpload::getThumbnail> thumbnail missing information" );
 						// XXX error
+						return ;
 					}
 					var image = document.createElement( 'img' );
 					$j( image ).load( function() {

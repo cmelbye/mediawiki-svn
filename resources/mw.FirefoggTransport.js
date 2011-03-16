@@ -33,6 +33,7 @@ mw.FirefoggTransport.prototype = {
 		}
 	},
 	isChunkUpload: function(){
+		// for now just test post
 		return false;
 		return ( mw.UploadWizard.config[ 'enableFirefoggChunkUpload' ] );
 	},			
@@ -41,9 +42,9 @@ mw.FirefoggTransport.prototype = {
 	 */
 	isPassThrough: function(){
 		// Check if the server supports raw webm uploads: 
-		var wembExt = ( $j.inArray( mw.UploadWizard.config[ 'fileExtensions'], 'webm') !== -1 )
+		var wembExt = ( $j.inArray( 'webm', mw.UploadWizard.config[ 'fileExtensions'] ) !== -1 )
 		// Determine passthrough mode
-		if ( this.isOggFormat() || ( wembExt && isWebMFormat() ) ) {
+		if ( this.isOggFormat() || ( wembExt && this.isWebMFormat() ) ) {
 			// Already Ogg, no need to encode
 			return true;
 		} else if ( this.isSourceAudio() || this.isSourceVideo() ) {
@@ -107,20 +108,23 @@ mw.FirefoggTransport.prototype = {
 	getEncodeExt: function(){
 		if( this.getEncodeSettings()['videoCodec'] 
 		            && 
-		            this.getEncodeSettings()['videoCodec'] == 'vp8' )
-		{ 
+		    this.getEncodeSettings()['videoCodec'] == 'vp8' )
+		{
 			return 'webm';
 		} else { 
 			return 'ogv';
 		}
 	},
+	
 	/**
 	 * Get the encode settings from configuration and the current selected video type 
 	 */
 	getEncodeSettings: function(){
-		var encodeSettings = $j.extend( {}, mw.UploadWizard.config[ 'firefoggEncodeSettings'] , {
-			'passthrough' : this.isPassThrough()
-		});
+		if( this.isPassThrough() ){
+			return { 'passthrough' : true } ;
+		}
+		// Get the default encode settings: 
+		var encodeSettings = mw.UploadWizard.config[ 'firefoggEncodeSettings'];
 		// Update the format: 
 		this.fogg.setFormat( ( this.getEncodeExt == 'webm' )? 'webm' : 'ogg' );
 		
@@ -132,18 +136,12 @@ mw.FirefoggTransport.prototype = {
 	 * Encode then upload
 	 */
 	doEncodeThenUpload: function(){
-		// If doing passthrough jump direct to upload: 
-		if( this.isPassThrough() ){
-			this.doFoggPost();
-			return ;
-		}		
 		this.fogg.encode( JSON.stringify( this.getEncodeSettings() ) );
-		
 		this.monitorProgress();
 	},
 	
 	/**
-	 * do fogg post 
+	 * Do fogg post 
 	 */
 	doFoggPost: function(){
 		var _this = this;		
@@ -159,6 +157,7 @@ mw.FirefoggTransport.prototype = {
 			_this.monitorProgress();
 		} );
 	},
+	
 	/**
 	 * Encode and upload in chunks
 	 */
@@ -173,6 +172,7 @@ mw.FirefoggTransport.prototype = {
 		});
 		_this.monitorProgress();
 	},
+	
 	/**
 	 * Get the upload url
 	 */ 
@@ -228,7 +228,7 @@ mw.FirefoggTransport.prototype = {
 		}
 		// return the api result: 
 		if( state == 'done' || state == 'upload done' ){
-			this.transportedCb( this.getResponseText() );
+			this.transportedCb( JSON.parse( this.getResponseText() ) );
 		}
 		
 	},
