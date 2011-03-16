@@ -33,14 +33,14 @@ class MapsBasePointMap {
 	 * @return html
 	 */
 	public final function renderMap( array $params, Parser $parser ) {
-		$this->handleMarkerData( $params );
+		$this->handleMarkerData( $params, $parser );
 		
 		$mapName = $this->service->getMapId();
 		
 		$output = $this->getMapHTML( $params, $parser, $mapName ) . $this->getJSON( $params, $parser, $mapName );
 		
 		global $wgTitle;
-		if ( $wgTitle->isSpecialPage() ) {
+		if ( !is_null( $wgTitle ) && $wgTitle->isSpecialPage() ) {
 			global $wgOut;
 			$this->service->addDependencies( $wgOut );
 		}
@@ -118,11 +118,10 @@ class MapsBasePointMap {
 	 * @since 0.8
 	 * 
 	 * @param array &$params
+	 * @param Parser $parser
 	 */
-	protected function handleMarkerData( array &$params ) {
-		global $wgTitle;
-
-		$parser = new Parser();			
+	protected function handleMarkerData( array &$params, Parser $parser ) {
+		$parserClone = clone $parser;
 		$iconUrl = MapsMapper::getFileUrl( $params['icon'] );
 		$params['locations'] = array();
 
@@ -130,8 +129,8 @@ class MapsBasePointMap {
 			if ( $location->isValid() ) {
 				$jsonObj = $location->getJSONObject( $params['title'], $params['label'], $iconUrl );
 				
-				$jsonObj['title'] = $parser->parse( $jsonObj['title'], $wgTitle, new ParserOptions() )->getText();
-				$jsonObj['text'] = $parser->parse( $jsonObj['text'], $wgTitle, new ParserOptions() )->getText();
+				$jsonObj['title'] = $parserClone->parse( $jsonObj['title'], $parserClone->getTitle(), new ParserOptions() )->getText();
+				$jsonObj['text'] = $parserClone->parse( $jsonObj['text'], $parserClone->getTitle(), new ParserOptions() )->getText();
 				
 				$hasTitleAndtext = $jsonObj['title'] != '' && $jsonObj['text'] != '';
 				$jsonObj['text'] = ( $hasTitleAndtext ? '<b>' . $jsonObj['title'] . '</b><hr />' : $jsonObj['title'] ) . $jsonObj['text'];

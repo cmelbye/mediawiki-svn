@@ -64,7 +64,7 @@ class MapsBaseMap {
 		$output = $this->getMapHTML( $params, $parser, $mapName ) . $this->getJSON( $params, $parser, $mapName );
 		
 		global $wgTitle;
-		if ( $wgTitle->isSpecialPage() ) {
+		if ( !is_null( $wgTitle ) && $wgTitle->isSpecialPage() ) {
 			global $wgOut;
 			$this->service->addDependencies( $wgOut );
 		}
