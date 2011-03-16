@@ -10,7 +10,14 @@ http://www.mediawiki.org/wiki/Extension:Semantic_Maps/Version_history#Semantic_M
 === Semantic Maps 0.8 ===
 (2011-0x-xx)
 
-* 
+This version branched from Semantic Maps 0.7.x at version 0.7.3.
+See the maps release notes for all changes not specific to Semantic Maps.
+
+* Improved map query parameter support in the Special:Ask GUI
+
+* Fixed fatal error occuring when running maintenance/refreshLinks.php.
+
+* Rewrote the map printers to use the SMQueryHandler class.
 
 === Semantic Maps 0.7.3 ===
 (2010-11-30)
