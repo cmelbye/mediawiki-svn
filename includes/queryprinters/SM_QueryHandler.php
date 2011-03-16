@@ -402,8 +402,8 @@ class SMQueryHandler {
 		$locations = array();
 		
 		if ( $this->template ) {
-			$parser = new Parser();
-			global $wgTitle;
+			global $wgParser;
+			$parser = clone $wgParser;
 		}
 		else {
 			$text .= implode( '<br />', $properties );
@@ -421,7 +421,7 @@ class SMQueryHandler {
 							$properties
 						);
 						
-						$text .= $parser->parse( '{{' . implode( '|', $segments ) . '}}', $wgTitle, new ParserOptions() )->getText();
+						$text .= $parser->parse( '{{' . implode( '|', $segments ) . '}}', $parser->getTitle(), new ParserOptions() )->getText();
 					}				
 					
 					$location->setTitle( $title );
