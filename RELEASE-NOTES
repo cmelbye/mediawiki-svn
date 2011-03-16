@@ -17,7 +17,13 @@ See the maps release notes for all changes not specific to Semantic Maps.
 
 * Fixed fatal error occuring when running maintenance/refreshLinks.php.
 
+* Rewrote all the form inputs to jQuery plugins.
+
 * Rewrote the map printers to use the SMQueryHandler class.
+
+* Added geocoding capability to the OpenLayers form input when having a GeoNames API account.
+
+* Added 'update map' button to all form inputs.
 
 === Semantic Maps 0.7.3 ===
 (2010-11-30)

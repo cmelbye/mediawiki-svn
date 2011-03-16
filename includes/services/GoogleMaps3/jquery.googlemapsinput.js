@@ -41,7 +41,7 @@
 	this.setupGeocoder = function() {
 		if ( geocoder === false ) {
 			geocoder = new google.maps.Geocoder();
-		}		
+		}
 	}	
 	
 	this.geocodeAddress = function( address ) {
