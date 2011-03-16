@@ -57,7 +57,7 @@
 	var updateButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps-updatemap' ) );
 	
 	updateButton.click( function() {
-		var locations = coord.split( this.input.attr( 'value' ) );
+		var locations = coord.split( self.input.attr( 'value' ) );
 		var location = coord.parse( locations[0] );
 		
 		if ( location !== false ) {
@@ -98,7 +98,7 @@
 	var geoButton = $( '<button />' ).text( mediaWiki.msg( 'semanticmaps_lookupcoordinates' ) );
 	
 	geoButton.click( function() {
-		self.geocodeAddress( this.geofield.attr( 'value' ) );
+		self.geocodeAddress( self.geofield.attr( 'value' ) );
 		return false;
 	} );
 	
