@@ -20,6 +20,8 @@ This version branched from Maps 0.7.x at version 0.7.3.
 
 * Added support for the auto-documentation features for parser hooks introduced in Validator 0.4.3.
 
+* Added resizable parameter to all mapping services except OSM.
+
 ==== Removed features ====
 
 * Removed compatibility with pre MediaWiki 1.17.
@@ -39,6 +41,12 @@ This version branched from Maps 0.7.x at version 0.7.3.
 ==== Bug fixes ====
 
 * Fixed geocoding service overriding based on mapping service (merged in from Maps 0.7.5).
+
+* Fixed fatal error occuring when running maintenance/refreshLinks.php.
+
+==== Other teaks ====
+
+* Improved default width of maps (merged in from Maps 0.7.5).
 
 === Maps 0.7.3 ===
 (2010-11-30)
