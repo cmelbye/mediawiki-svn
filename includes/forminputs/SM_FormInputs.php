@@ -19,8 +19,7 @@ $wgResourceModules['ext.sm.forminputs'] = array(
 	'remoteBasePath' => $smgScriptPath .  '/includes/forminputs',	
 	'group' => 'ext.semanticmaps',
 	'scripts' => array(
-		'jquery.mapforminput.js',
-		'ext.sm.forminputs.js',
+		'jquery.mapforminput.js'
 	),
 	'messages' => array(
 	)

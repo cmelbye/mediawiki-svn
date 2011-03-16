@@ -23,11 +23,34 @@
 	
 	var self = this;
 	
+	/**
+	 * Creates a string with the provided coordinates to populate the main input field with.
+	 * @param {Array} locations
+	 * @return {string}
+	 */
+	this.buildInputValue = function( locations ) {
+		var floats = [];
+		
+		for ( i in locations ) {
+			floats.push( coord.float( locations[i].lat, locations[i].lon ) );
+		}
+		
+		return floats.join( '; ' );
+	};	
+	
+	/**
+	 * Populate the main input field with the provided coordinates.
+	 * @param {Array} locations
+	 */	
+	this.updateInput = function( locations ) {
+		this.input.attr( 'value', this.buildInputValue( locations ) );
+	}	
+	
 	this.input = $( '<input />' ).attr( {
 		'type': 'text',
 		'name': options.inputname,
 		'id': mapDivId + '_values',
-		'value': semanticMaps.buildInputValue( options.locations ),
+		'value': this.buildInputValue( options.locations ),
 		'size': options.fieldsize
 	} );
 	
