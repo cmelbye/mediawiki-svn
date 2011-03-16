@@ -133,7 +133,11 @@ mw.UploadWizardUploadInterface.prototype = {
 	 */
 	setPreview: function( image ) {
 		// encoding for url here?
-		$j( this.div ).find( '.mwe-upwiz-file-preview' ).css( 'background-image', 'url(' + image.src + ')' );
+		$j( this.div ).find( '.mwe-upwiz-file-preview' ).append(
+				$j('<img />')
+				.css({'width':'100%', 'height': '100%'})
+				.attr('src', image.src )
+		)
 	},
 
 	/**
