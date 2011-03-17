@@ -8,7 +8,7 @@
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'WikimediaMobile',
-	'author' => 'Tim Starling',
+	'author' => array( 'Tim Starling', 'Brion Vibber', 'Hampton Catlin' ),
 	'url' => 'http://www.mediawiki.org/wiki/Extension:WikimediaMobile',
 	'descriptionmsg' => 'wikimediamobile-desc',
 );
@@ -33,9 +33,7 @@ $wgHooks['MakeGlobalVariablesScript'][] = 'wfWikimediaMobileVars';
 function wfWikimediaMobileAddJs( &$outputPage, &$skin ) {
 	global $wgOut, $wgExtensionAssetsPath, $wgWikimediaMobileVersion;
 
-	# Live hack to put mobile redirect script in <head> --catrope Mar 5, 2011
 	$wgOut->addHeadItem( 'mobileredirect', Html::linkedScript(
-	#$wgOut->addScript( Html::linkedScript( 
 		"$wgExtensionAssetsPath/WikimediaMobile/MobileRedirect.js?$wgWikimediaMobileVersion"
 	) );
 	return true;
@@ -46,4 +44,3 @@ function wfWikimediaMobileVars( &$vars ) {
 	$vars['wgWikimediaMobileUrl'] = $wgWikimediaMobileUrl;
 	return true;
 }
-
