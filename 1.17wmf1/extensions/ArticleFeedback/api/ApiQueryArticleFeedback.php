@@ -103,11 +103,12 @@ class ApiQueryArticleFeedback extends ApiQueryBase {
 			$ratings[$pageId]['ratings'][] = $thisRow;
 		}
 
-		//Only can actually be "stale" if the user has rated the article before
+		// Ratings can only be expired if the user has rated before
+		$ratings[$params['pageid']]['status'] = 'current';
 		if ( $params['userrating'] && $userRatedArticle ) {
 			$dbr = wfGetDb( DB_SLAVE );
 
-			global $wgArticleFeedbackStaleCount;
+			global $wgArticleFeedbackRatingLifetime;
 
 			$res = $dbr->select(
 				'revision',
@@ -120,12 +121,12 @@ class ApiQueryArticleFeedback extends ApiQueryBase {
 				array ( 'LIMIT', $wgArticleFeedbackStaleCount + 1 )
 			);
 
-			if ( $res && $dbr->numRows( $res ) > $wgArticleFeedbackStaleCount ) {
-				//it's stale!
-				$ratings[$params['pageid']]['stale'] = '';
+			if ( $res && $dbr->numRows( $res ) > $wgArticleFeedbackRatingLifetime ) {
+				// Expired status
+				$ratings[$params['pageid']]['status'] = 'expired';
 			}
 		}
-
+		
 		foreach ( $ratings as $rat ) {
 			$result->setIndexedTagName( $rat['ratings'], 'r' );
 			$result->addValue( array( 'query', $this->getModuleName() ), null, $rat );
