@@ -183,16 +183,19 @@ function createGoogleMap(mapName, mapOptions, markers) {
 		myZoom = mapOptions.zoom;
 	}
 
+	for (var i = markers.length - 1; i >= 0; i--) {
+		var marker = markers[i];
+		marker.point = new GLatLng(marker.lat, marker.lon);
+		map.addOverlay(createGMarker(marker));
+	}
+	
 	// possibly, create bounds from markers
 	if ((mapOptions.zoom == null || mapOptions.centre == null)
 			&& markers.length >= 1) {
 		var bounds = new GLatLngBounds();
 
-		for (i = markers.length - 1; i >= 0; i--) {
-			var marker = markers[i];
-			marker.point = new GLatLng(marker.lat, marker.lon);
-			map.addOverlay(createGMarker(marker));
-			bounds.extend(marker.point);
+		for (var i = markers.length - 1; i >= 0; i--) {
+			bounds.extend(markers[i].point);
 		}
 		if (myCenter == null) {
 			myCenter = bounds.getCenter();

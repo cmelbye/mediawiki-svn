@@ -12,6 +12,8 @@ http://mapping.referata.com/wiki/Maps/Version_history#Maps_change_log
 
 * Fixed fatal error occuring when running maintenance/refreshLinks.php
 
+* Fixed not showing up of marker for Google Maps v2 when there is only one location.
+
 === Maps 0.7.5 ===
 (2011-02-16)
 
