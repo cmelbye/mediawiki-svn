@@ -26,11 +26,16 @@ $wgAutoloadClasses['MapsOpenLayersDispMap'] 		= dirname( __FILE__ ) . '/Maps_Ope
 $wgAutoloadClasses['MapsOpenLayersDispPoint'] 		= dirname( __FILE__ ) . '/Maps_OpenLayersDispPoint.php';
 $wgAutoloadClasses['MapsParamOLLayers'] 			= dirname( __FILE__ ) . '/Maps_ParamOLLayers.php';	
 
-MapsMappingServices::registerService( 
-	'openlayers',
-	'MapsOpenLayers',
-	array(
-		'display_point' => 'MapsOpenLayersDispPoint',
-		'display_map' => 'MapsOpenLayersDispMap'
-	)
-);
+$wgHooks['MappingServiceLoad'][] = 'efMapsInitOpenLayers';
+function efMapsInitOpenLayers() {
+	MapsMappingServices::registerService( 
+		'openlayers',
+		'MapsOpenLayers',
+		array(
+			'display_point' => 'MapsOpenLayersDispPoint',
+			'display_map' => 'MapsOpenLayersDispMap'
+		)
+	);
+	
+	return true;
+}
