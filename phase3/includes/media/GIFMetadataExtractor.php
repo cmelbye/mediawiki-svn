@@ -130,8 +130,15 @@ class GIFMetadataExtractor {
 						wfRestoreWarnings();
 					}
 
-					$comment[] = $data;
-
+					$commentCount = count( $comment );
+					if ( $commentCount === 0
+						|| $comment[$commentCount-1] !== $data )
+					{
+						// Some applications repeat the same comment on each
+						// frame of an animated GIF image, so if this comment
+						// is identical to the last, only extract once.
+						$comment[] = $data;
+					}
 				} elseif ($extension_code == 0xFF) {
 					// Application extension (Netscape info about the animated gif)
 					// or XMP (or theoretically any other type of extension block)
