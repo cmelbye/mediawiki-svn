@@ -60,6 +60,7 @@ $wgExtensionMessagesFiles['WikiEditor'] = dirname( __FILE__ ) . '/WikiEditor.i18
 $wgHooks['EditPage::showEditForm:initial'][] = 'WikiEditorHooks::editPageShowEditFormInitial';
 $wgHooks['GetPreferences'][] = 'WikiEditorHooks::getPreferences';
 $wgHooks['MakeGlobalVariablesScript'][] = 'WikiEditorHooks::makeGlobalVariablesScript';
+$wgHooks['MakeGlobalVariablesScript'][] = 'WikiEditorHooks::makeGlobalVariablesScript';
 
 $wikiEditorTpl = array(
 	'localBasePath' => dirname( __FILE__ ) . '/modules',

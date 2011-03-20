@@ -493,7 +493,9 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * (bug 27560) Search queries no longer fail in walloon language
 * (bug 27700) The upload protection can now also be set for files that do not
   exist.
-
+* (bug 28034) uploading file to local wiki when file exists on shared repository
+  (commons) gives spurious info in the warning message
+  
 === API changes in 1.17 ===
 * BREAKING CHANGE: action=patrol now requires POST
 * BREAKING CHANGE: patrol token is no longer the same as edit token
