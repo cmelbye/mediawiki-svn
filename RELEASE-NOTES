@@ -8,11 +8,13 @@ http://mapping.referata.com/wiki/Maps/Version_history#Maps_change_log
 
 
 === Maps 0.7.6 ===
-(2011-0x-xx)
+(2011-03-21)
 
 * Fixed fatal error occuring when running maintenance/refreshLinks.php
 
 * Fixed not showing up of marker for Google Maps v2 when there is only one location.
+
+* Fixed issue with the OpenLayers initialization code causing problems when doing a wiki upgrade via the web installer. 
 
 === Maps 0.7.5 ===
 (2011-02-16)
