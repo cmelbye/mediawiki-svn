@@ -36,7 +36,7 @@ if ( ! defined( 'SMW_VERSION' ) ) {
 	die( '<b>Error:</b> You need to have <a href="http://semantic-mediawiki.org/wiki/Semantic_MediaWiki">Semantic MediaWiki</a> installed in order to use <a href="http://www.mediawiki.org/wiki/Extension:Semantic Maps">Semantic Maps</a>.<br />' );
 }
 
-define( 'SM_VERSION', '0.7.6 alpha' );
+define( 'SM_VERSION', '0.7.6' );
 
 $wgExtensionCredits[defined( 'SEMANTIC_EXTENSION_TYPE' ) ? 'semantic' : 'other'][] = array(
 	'path' => __FILE__,
