@@ -946,7 +946,7 @@ class SpecialPage {
 	/**
 	 * Get a local URL suitable for <form action="">
 	 *
-	 * @return Title local URL
+	 * @return String this title local URL
 	 */
 	function getFormAction( $subpage = false ) {
 		return self::getTitleFor( $this->mName, $subpage )->getLocalURL();
