@@ -131,18 +131,17 @@ class SpecialMergeHistory extends SpecialPage {
 	}
 
 	function showMergeForm() {
-		global $wgOut, $wgScript;
+		global $wgOut ;
 
 		$wgOut->addWikiMsg( 'mergehistory-header' );
 
 		$wgOut->addHTML(
 			Xml::openElement( 'form', array(
 				'method' => 'get',
-				'action' => $wgScript ) ) .
+				'action' => $this->getFormAction() ) ) .
 			'<fieldset>' .
 			Xml::element( 'legend', array(),
 				wfMsg( 'mergehistory-box' ) ) .
-			Html::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
 			Html::hidden( 'submitted', '1' ) .
 			Html::hidden( 'mergepoint', $this->mTimestamp ) .
 			Xml::openElement( 'table' ) .

@@ -83,14 +83,11 @@ class SpecialAllmessages extends SpecialPage {
 	}
 
 	function buildForm() {
-		global $wgScript;
-
 		$languages = Language::getLanguageNames( false );
 		ksort( $languages );
 
-		$out  = Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'id' => 'mw-allmessages-form' ) ) .
+		$out  = Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction(), 'id' => 'mw-allmessages-form' ) ) .
 			Xml::fieldset( wfMsg( 'allmessages-filter-legend' ) ) .
-			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
 			Xml::openElement( 'table', array( 'class' => 'mw-allmessages-table' ) ) . "\n" .
 			'<tr>
 				<td class="mw-label">' .

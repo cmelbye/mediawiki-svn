@@ -159,12 +159,9 @@ class SpecialProtectedpages extends SpecialPage {
 	 * @return String: input form
 	 */
 	protected function showOptions( $namespace, $type='edit', $level, $sizetype, $size, $indefOnly, $cascadeOnly ) {
-		global $wgScript;
-		$title = SpecialPage::getTitleFor( 'Protectedpages' );
-		return Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) ) .
+		return Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction() ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', array(), wfMsg( 'protectedpages' ) ) .
-			Html::hidden( 'title', $title->getPrefixedDBkey() ) . "\n" .
 			$this->getNamespaceMenu( $namespace ) . "&#160;\n" .
 			$this->getTypeMenu( $type ) . "&#160;\n" .
 			$this->getLevelMenu( $level ) . "&#160;\n" .

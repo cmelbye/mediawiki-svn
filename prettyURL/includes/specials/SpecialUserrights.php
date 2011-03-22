@@ -372,10 +372,14 @@ class UserrightsPage extends SpecialPage {
 	 * Output a form to allow searching for a user
 	 */
 	function switchForm() {
-		global $wgOut, $wgScript;
+		global $wgOut;
 		$wgOut->addHTML(
-			Html::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'name' => 'uluser', 'id' => 'mw-userrights-form1' ) ) .
-			Html::hidden( 'title',  $this->getTitle()->getPrefixedText() ) .
+			Html::openElement( 'form', array(
+				'action' => $this->getFormAction(),
+				'id' => 'mw-userrights-form1',
+				'method' => 'get',
+				'name' => 'uluser',
+				) ) .
 			Xml::fieldset( wfMsg( 'userrights-lookup-user' ) ) .
 			Xml::inputLabel( wfMsg( 'userrights-user-editname' ), 'user', 'username', 30, str_replace( '_', ' ', $this->mTarget ) ) . ' ' .
 			Xml::submitButton( wfMsg( 'editusergroup' ) ) .
@@ -438,7 +442,12 @@ class UserrightsPage extends SpecialPage {
 			$grouplist .= '<p>' . $autogrouplistintro  . ' ' . $wgLang->listToText( $autolist ) . "</p>\n";
 		}
 		$wgOut->addHTML(
-			Xml::openElement( 'form', array( 'method' => 'post', 'action' => $this->getTitle()->getLocalURL(), 'name' => 'editGroup', 'id' => 'mw-userrights-form2' ) ) .
+			Xml::openElement( 'form', array(
+				'action' => $this->getFormAction(),
+				'id' => 'mw-userrights-form2',
+				'method' => 'post',
+				'name' => 'editGroup',
+			) ) .
 			Html::hidden( 'user', $this->mTarget ) .
 			Html::hidden( 'wpEditToken', $wgUser->editToken( $this->mTarget ) ) .
 			Xml::openElement( 'fieldset' ) .

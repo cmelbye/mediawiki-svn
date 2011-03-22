@@ -114,11 +114,8 @@ class SpecialBookSources extends SpecialPage {
 	 * @return string
 	 */
 	private function makeForm() {
-		global $wgScript;
-		$title = self::getTitleFor( 'Booksources' );
 		$form  = '<fieldset><legend>' . wfMsgHtml( 'booksources-search-legend' ) . '</legend>';
-		$form .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
-		$form .= Html::hidden( 'title', $title->getPrefixedText() );
+		$form .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction() ) );
 		$form .= '<p>' . Xml::inputLabel( wfMsg( 'booksources-isbn' ), 'isbn', 'isbn', 20, $this->isbn );
 		$form .= '&#160;' . Xml::submitButton( wfMsg( 'booksources-go' ) ) . '</p>';
 		$form .= Xml::closeElement( 'form' );

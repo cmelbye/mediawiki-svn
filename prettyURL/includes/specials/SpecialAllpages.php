@@ -95,12 +95,9 @@ class SpecialAllpages extends IncludableSpecialPage {
 	 * @param $to String: dbKey we are ending listing at.
 	 */
 	function namespaceForm( $namespace = NS_MAIN, $from = '', $to = '' ) {
-		global $wgScript;
-		$t = $this->getTitle();
 
 		$out  = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
-		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
-		$out .= Html::hidden( 'title', $t->getPrefixedText() );
+		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction() ) );
 		$out .= Xml::openElement( 'fieldset' );
 		$out .= Xml::element( 'legend', null, wfMsg( 'allpages' ) );
 		$out .= Xml::openElement( 'table', array( 'id' => 'nsselect', 'class' => 'allpages' ) );

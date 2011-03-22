@@ -42,6 +42,7 @@ class LinkSearchPage extends QueryPage {
 		return false;
 	}
 
+	/** @todo rewrite this function to make it cleaner! Please? :( */
 	function execute( $par ) {
 		global $wgOut, $wgRequest, $wgUrlProtocols, $wgMiserMode, $wgLang;
 		$this->setHeaders();
@@ -80,8 +81,7 @@ class LinkSearchPage extends QueryPage {
 		$self = $this->getTitle();
 
 		$wgOut->addWikiMsg( 'linksearch-text', '<nowiki>' . $wgLang->commaList( $wgUrlProtocols ) . '</nowiki>' );
-		$s = Xml::openElement( 'form', array( 'id' => 'mw-linksearch-form', 'method' => 'get', 'action' => $GLOBALS['wgScript'] ) ) .
-			Html::hidden( 'title', $self->getPrefixedDbKey() ) .
+		$s = Xml::openElement( 'form', array( 'id' => 'mw-linksearch-form', 'method' => 'get', 'action' => $this->getFormAction() ) ) .
 			'<fieldset>' .
 			Xml::element( 'legend', array(), wfMsg( 'linksearch' ) ) .
 			Xml::inputLabel( wfMsg( 'linksearch-pat' ), 'target', 'target', 50, $target ) . ' ';

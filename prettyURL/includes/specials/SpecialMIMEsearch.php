@@ -65,9 +65,8 @@ class MIMEsearchPage extends QueryPage {
 		$this->setHeaders();
 		$this->outputHeader();
 		$wgOut->addHTML(
-			Xml::openElement( 'form', array( 'id' => 'specialmimesearch', 'method' => 'get', 'action' => SpecialPage::getTitleFor( 'MIMEsearch' )->getLocalUrl() ) ) .
+			Xml::openElement( 'form', array( 'id' => 'specialmimesearch', 'method' => 'get', 'action' => $this->getFormAction() ) ) .
 			Xml::openElement( 'fieldset' ) .
-			Html::hidden( 'title', SpecialPage::getTitleFor( 'MIMEsearch' )->getPrefixedText() ) .
 			Xml::element( 'legend', null, wfMsg( 'mimesearch' ) ) .
 			Xml::inputLabel( wfMsg( 'mimetype' ), 'mime', 'mime', 20, $mime ) . ' ' .
 			Xml::submitButton( wfMsg( 'ilsubmit' ) ) .
