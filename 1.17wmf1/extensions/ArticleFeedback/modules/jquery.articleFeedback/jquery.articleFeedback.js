@@ -33,9 +33,11 @@ $.articleFeedback = {
 		<button class="articleFeedback-submit articleFeedback-visibleWith-form" type="submit" disabled><html:msg key="form-panel-submit" /></button>\
 		<div class="articleFeedback-success articleFeedback-visibleWith-form"><span><html:msg key="form-panel-success" /></span></div>\
 		<div style="clear:both;"></div>\
-		<div class="articleFeedback-expiry articleFeedback-visibleWith-form">\
-			<div class="articleFeedback-expiry-title"><html:msg key="form-panel-expiry-title" /></div>\
-			<div class="articleFeedback-expiry-message"><html:msg key="form-panel-expiry-message" /></div>\
+		<div class="articleFeedback-notices articleFeedback-visibleWith-form">\
+			<div class="articleFeedback-expiry">\
+				<div class="articleFeedback-expiry-title"><html:msg key="form-panel-expiry-title" /></div>\
+				<div class="articleFeedback-expiry-message"><html:msg key="form-panel-expiry-message" /></div>\
+			</div>\
 		</div>\
 	</div>\
 	<div class="articleFeedback-error"><div class="articleFeedback-error-message"><html:msg key="error" /></div></div>\
@@ -142,8 +144,14 @@ $.articleFeedback = {
 				} ),
 				'success': function( data ) {
 					var context = this;
-					$.articleFeedback.fn.load.call( context );
-					context.$ui.find( '.articleFeedback-lock' ).hide();
+					if ( 'error' in data ) {
+						mw.log( 'Form submission error' );
+						mw.log( data.error );
+						context.$ui.find( '.articleFeedback-error' ).show();
+					} else {
+						$.articleFeedback.fn.load.call( context );
+						context.$ui.find( '.articleFeedback-lock' ).hide();
+					}
 				},
 				'error': function() {
 					var context = this;
@@ -596,7 +604,7 @@ $.fn.articleFeedback = function() {
 		var context = $(this).data( 'articleFeedback-context' );
 		if ( !context ) {
 			// Create context
-			context = { '$ui': $(this), 'options': { 'ratings': {}, 'pitches': {}, 'bucket': 0 } };
+			context = { '$ui': $(this), 'options': { 'ratings': {}, 'pitches': {}, 'bucket': 1 } };
 			// Allow customization through an options argument
 			if ( typeof args[0] === 'object' ) {
 				context = $.extend( true, context, { 'options': args[0] } );
