@@ -82,10 +82,10 @@ class GeeQuBox {
 	private function _gqbAddScripts() {
 		global $wgExtensionAssetsPath;
 
-		$eDir = $wgExtensionAssetsPath . '/' . basename(dirname(__FILE__));
+		$eDir = $wgExtensionAssetsPath . '/' . basename(dirname(__FILE__)) . '/';
 		self::$_page->includeJQuery();
 		self::$_page->addScript( '<script type="text/javascript" src="' 
-			. $eDir . '/js/jquery.lightbox-0.5.min.js"></script>' . PHP_EOL );
+			. $eDir . 'js/jquery.lightbox-0.5.min.js"></script>' . PHP_EOL );
 		self::$_page->addExtensionStyle( $eDir . '/css/jquery.lightbox-0.5.css', 'screen' );
 		self::$_page->addInlineScript('$j(document).ready(function(){
 			$j("div.gallerybox").each(function(el){
@@ -121,7 +121,6 @@ class GeeQuBox {
 	 * approach but there doesn't seem to be an alternative approach.)
 	 */
 	private function _gqbReplaceHref() {
-		// determine path info
 		global $wgArticlePath;
 		$articlePath = substr( $wgArticlePath, 0, strpos( $wgArticlePath, '$1' ) );
 		$pattern = '~href="'.$articlePath.'([^"]+)"\s*class="image"~';	
