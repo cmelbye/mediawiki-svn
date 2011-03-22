@@ -944,6 +944,15 @@ class SpecialPage {
 	}
 
 	/**
+	 * Get a local URL suitable for <form action="">
+	 *
+	 * @return Title local URL
+	 */
+	function getFormAction( $subpage = false ) {
+		return self::getTitleFor( $this->mName, $subpage )->getLocalURL();
+	}
+
+	/**
 	 * Set whether this page is listed in Special:Specialpages, at run-time
 	 */
 	function setListed( $listed ) {
