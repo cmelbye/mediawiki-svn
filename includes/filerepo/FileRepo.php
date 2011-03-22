@@ -692,9 +692,10 @@ abstract class FileRepo {
 	/**
 	 * Get an UploadStash associated with this repo.
 	 *
+	 * @param $user User
 	 * @return UploadStash
 	 */
-	function getUploadStash() {
-		return new UploadStash( $this );
+	function getUploadStash( $user ) {
+		return new UploadStash( $user, $this );
 	}
 }

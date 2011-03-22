@@ -869,6 +869,69 @@ CREATE INDEX /*i*/oi_name_timestamp ON /*_*/oldimage (oi_name,oi_timestamp);
 CREATE INDEX /*i*/oi_name_archive_name ON /*_*/oldimage (oi_name,oi_archive_name(14));
 CREATE INDEX /*i*/oi_sha1 ON /*_*/oldimage (oi_sha1);
 
+--
+-- Images and other files in the UploadStash.
+--
+CREATE TABLE /*_*/stashedimage (
+
+  -- Temporary path under which this is stored. Unlike regular images, this path is arbitrary and is 
+  -- supposed to be unguessable from other filename characteristics. Doubles as primary key.
+  si_key varchar(255) binary NOT NULL PRIMARY KEY,
+
+  -- Filename.
+  -- This is also the title of the associated description page,
+  -- which will be in namespace 6 (NS_FILE).
+  si_name varchar(255) binary NOT NULL default '',
+
+  -- Source type -- what sort of upload was this from, 'file', 'url', etc.
+  si_sourcetype varchar(255) binary NOT NULL default '',
+
+  -- Expected file size in bytes.
+  si_size int unsigned NOT NULL default 0,
+
+  -- Current image size in bytes.
+  si_cursize int unsigned NOT NULL default 0,
+
+  -- For images, size in pixels.
+  si_width int NOT NULL default 0,
+  si_height int NOT NULL default 0,
+
+  -- Extracted EXIF metadata stored as a serialized PHP array.
+  si_metadata mediumblob NOT NULL,
+
+  -- For images, bits per pixel if known.
+  si_bits int NOT NULL default 0,
+
+  -- Media type as defined by the MEDIATYPE_xxx constants
+  si_media_type ENUM("UNKNOWN", "BITMAP", "DRAWING", "AUDIO", "VIDEO", "MULTIMEDIA", "OFFICE", "TEXT", "EXECUTABLE", "ARCHIVE") default NULL,
+
+  -- major part of a MIME media type as defined by IANA
+  -- see http://www.iana.org/assignments/media-types/
+  si_major_mime ENUM("unknown", "application", "audio", "image", "text", "video", "message", "model", "multipart") NOT NULL default "unknown",
+
+  -- minor part of a MIME media type as defined by IANA
+  -- the minor parts are not required to adher to any standard
+  -- but should be consistent throughout the database
+  -- see http://www.iana.org/assignments/media-types/
+  si_minor_mime varbinary(100) NOT NULL default "unknown",
+
+  -- Description field as entered by the uploader.
+  -- This is displayed in image upload history and logs.
+  si_description tinyblob NOT NULL,
+
+  -- user_id and user_name of uploader.
+  si_user int unsigned NOT NULL default 0,
+  si_user_text varchar(255) binary NOT NULL,
+
+  -- Time of the upload.
+  si_timestamp varbinary(14) NOT NULL default '',
+
+  -- SHA-1 content hash in base-36
+  si_sha1 varbinary(32) NOT NULL default ''
+
+) /*$wgDBTableOptions*/;
+
+
 
 --
 -- Record of deleted file data

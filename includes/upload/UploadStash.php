@@ -20,39 +20,56 @@ class UploadStash {
 	// public because we sometimes need to get a LocalFile within the same repo.
 	public $repo;
 
+	// the user who has uploaded or otherwise owns all these files
+	public $user;
+
 	// array of initialized objects obtained from session (lazily initialized upon getFile())
 	private $files = array();
 
 	// TODO: Once UploadBase starts using this, switch to use these constants rather than UploadBase::SESSION*
 	// const SESSION_VERSION = 2;
 	// const SESSION_KEYNAME = 'wsUploadData';
+	public $dbfields = array( 
+		'si_key',
+		'si_user',
+		'si_name',
+		'si_sourcetype',
+		'si_size',
+		'si_cursize',
+		'si_width',
+		'si_height',
+		'si_metadata',
+		'si_bits',
+		'si_media_type',
+		'si_major_mime',
+		'si_minor_mime',
+		'si_description',
+		'si_timestamp',
+		'si_sha1'
+	);
+
 
 	/**
 	 * Represents the session which contains temporarily stored files.
 	 * Designed to be compatible with the session stashing code in UploadBase (should replace it eventually)
+	 * @param $user User
+	 * @param $repo FileRepo
 	 */
-	public function __construct( $repo ) {
+	public function __construct( $user, $repo ) {
+
+		// the user for whom the files belong to.
+		$this->user = $user;
 
 		// this might change based on wiki's configuration.
 		$this->repo = $repo;
-
-		if ( ! isset( $_SESSION ) ) {
-			throw new UploadStashNotAvailableException( 'no session variable' );
-		}
-
-		if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME] ) ) {
-			$_SESSION[UploadBase::SESSION_KEYNAME] = array();
-		}
-
 	}
 
 	/**
 	 * Get a file and its metadata from the stash.
-	 * May throw exception if session data cannot be parsed due to schema change, or key not found.
+	 * May throw exception if key not found.
 	 *
 	 * @param $key Integer: key
 	 * @throws UploadStashFileNotFoundException
-	 * @throws UploadStashBadVersionException
 	 * @return UploadStashFile
 	 */
 	public function getFile( $key ) {
@@ -61,37 +78,37 @@ class UploadStash {
 		}
 
 		if ( !isset( $this->files[$key] ) ) {
-			if ( !isset( $_SESSION[UploadBase::SESSION_KEYNAME][$key] ) ) {
+			$dbr = wfGetDB( DB_SLAVE );
+			$conditions = array( 
+				'si_key' => $key,
+				'si_user' => $this->user->mId
+			);
+			$data = $dbr->selectRow( 'stashedimage', UploadStash::$fields, $conditions, __METHOD__ );
+				
+			if ( !$data ) {
 				throw new UploadStashFileNotFoundException( "key '$key' not found in stash" );
 			}
 
-			$data = $_SESSION[UploadBase::SESSION_KEYNAME][$key];
-			// guards against PHP class changing while session data doesn't
-			if ($data['version'] !== UploadBase::SESSION_VERSION ) {
-				throw new UploadStashBadVersionException( $data['version'] . " does not match current version " . UploadBase::SESSION_VERSION );
-			}
-
 			// separate the stashData into the path, and then the rest of the data
-			$path = $data['mTempPath'];
-			unset( $data['mTempPath'] );
+			// XXX how to represent data props?? unserialize( $data->props );
+			$path = $data->path;
 
 			$file = new UploadStashFile( $this, $this->repo, $path, $key, $data );
 			if ( $file->getSize() === 0 ) {
 				throw new UploadStashZeroLengthFileException( "File is zero length" );
 			}
+
 			$this->files[$key] = $file;
 
 		}
 		return $this->files[$key];
 	}
 
-	/**
-	 * Stash a file in a temp directory and record that we did this in the session, along with other metadata.
-	 * We store data in a flat key-val namespace because that's how UploadBase did it. This also means we have to
-	 * ensure that the key-val pairs in $data do not overwrite other required fields.
+  	/**
+ 	 * Stash a file in a temp directory and record that we did this in the database, along with other metadata.
 	 *
 	 * @param $path String: path to file you want stashed
-	 * @param $data Array: optional, other data you want associated with the file. Do not use 'mTempPath', 'mFileProps', 'mFileSize', or 'version' as keys here
+ 	 * @param $data Array: optional, other data you want associated with the file. Do not use 'path', 'props', 'size'
 	 * @param $key String: optional, unique key for this file in this session. Used for directory hashing when storing, otherwise not important
 	 * @throws UploadStashBadPathException
 	 * @throws UploadStashFileException
@@ -145,22 +162,26 @@ class UploadStash {
 		}
 		$stashPath = $status->value;
 
-		// required info we always store. Must trump any other application info in $data
-		// 'mTempPath', 'mFileSize', and 'mFileProps' are arbitrary names
-		// chosen for compatibility with UploadBase's way of doing this.
+		// required info we always store. 
 		$requiredData = array(
-			'mTempPath' => $stashPath,
-			'mFileSize' => $fileProps['size'],
-			'mFileProps' =>	$fileProps,
-			'version' => UploadBase::SESSION_VERSION
+			'si_key' => $key,
+			'si_user' => $this->user->mId,
+			'si_timestamp' => $dbw->timestamp( time() ),
+			'si_sha1' => $fileProps['sha1'],
+			'si_path' => $stashPath,
+			'si_size' => $fileProps['size'],
+			'si_props' => serialize( $fileProps )
 		);
 
 		// now, merge required info and extra data into the session. (The extra data changes from application to application.
 		// UploadWizard wants different things than say FirefoggChunkedUpload.)
+		$merged_data = array_merge( $data, $requiredData );
 		wfDebug( __METHOD__ . " storing under $key\n" );
-		$_SESSION[UploadBase::SESSION_KEYNAME][$key] = array_merge( $data, $requiredData );
 
-		return $this->getFile( $key );
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->replace( 'stashedimage', array( 'si_key' ), $merged_datam __METHOD__ );
+
+		return $this->getFile( $user, $key );
 	}
 
 	/**
