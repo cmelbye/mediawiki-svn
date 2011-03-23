@@ -2386,10 +2386,25 @@ class OutputPage {
 			if ( ( $group === 'user' || $group === 'private' ) && $wgUser->isLoggedIn() ) {
 				$query['user'] = $wgUser->getName();
 			}
+			
+			// Create a fake request based on the one we are about to make so modules return
+			// correct timestamp and emptiness data
+			$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
+			// Drop modules that know they're empty
+			foreach ( $modules as $key => $module ) {
+				if ( $module->isKnownEmpty( $context ) ) {
+					unset( $modules[$key] );
+				}
+			}
+			// If there are no modules left, skip this group
+			if ( $modules === array() ) {
+				continue;
+			}
+			
 			$query['modules'] = implode( '|', array_keys( $modules ) );
+			
 			// Support inlining of private modules if configured as such
 			if ( $group === 'private' && $wgResourceLoaderInlinePrivateModules ) {
-				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
 				if ( $only == 'styles' ) {
 					$links .= Html::inlineStyle(
 						$resourceLoader->makeModuleResponse( $context, $modules )
@@ -2403,13 +2418,12 @@ class OutputPage {
 				}
 				continue;
 			}
-			// Special handling for user and site groups; because users might change their stuff
-			// on-wiki like site or user pages, or user preferences; we need to find the highest
+			// Special handling for the user group; because users might change their stuff
+			// on-wiki like user pages, or user preferences; we need to find the highest
 			// timestamp of these user-changable modules so we can ensure cache misses on change
-			if ( $group === 'user' || $group === 'site' ) {
-				// Create a fake request based on the one we are about to make so modules return
-				// correct times
-				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
+			// This should NOT be done for the site group (bug 27564) because anons get that too
+			// and we shouldn't be putting timestamps in Squid-cached HTML
+			if ( $group === 'user' ) {
 				// Get the maximum timestamp
 				$timestamp = 1;
 				foreach ( $modules as $module ) {
