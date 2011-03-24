@@ -98,6 +98,7 @@ $wgExtensionMessagesFiles['Narayam'] = dirname( __FILE__ ) . '/Narayam.i18n.php'
 $wgHooks['BeforePageDisplay'][] = 'NarayamHooks::addModules';
 $wgHooks['ResourceLoaderGetConfigVars'][] = 'NarayamHooks::addConfig';
 $wgHooks['MakeGlobalVariablesScript'][] = 'NarayamHooks::addVariables';
+$wgHooks['GetPreferences'][] = 'NarayamHooks::addPreference';
 
 // Autoloader
 $wgAutoloadClasses['NarayamHooks'] = dirname( __FILE__ ) . '/Narayam.hooks.php';
@@ -155,14 +156,14 @@ $wgResourceModules['ext.narayam.rules.kn-inscript'] = $narayamTpl + array(
 	'messages' => array( 'narayam-kn-inscript' ),
 	'dependencies' => 'ext.narayam.core',
 );
-$wgResourceModules['ext.narayam.rules.ml-inscript'] = $narayamTpl + array(
-	'scripts' => 'ext.narayam.rules.ml-inscript.js',
-	'messages' => array( 'narayam-ml-inscript' ),
-	'dependencies' => 'ext.narayam.core',
-);
 $wgResourceModules['ext.narayam.rules.ml'] = $narayamTpl + array(
 	'scripts' => 'ext.narayam.rules.ml.js',
 	'messages' => array( 'narayam-ml' ),
+	'dependencies' => 'ext.narayam.core',
+);
+$wgResourceModules['ext.narayam.rules.ml-inscript'] = $narayamTpl + array(
+	'scripts' => 'ext.narayam.rules.ml-inscript.js',
+	'messages' => array( 'narayam-ml-inscript' ),
 	'dependencies' => 'ext.narayam.core',
 );
 $wgResourceModules['ext.narayam.rules.or'] = $narayamTpl + array(
