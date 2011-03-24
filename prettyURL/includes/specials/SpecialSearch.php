@@ -218,7 +218,7 @@ class SpecialSearch extends SpecialPage {
 				array(
 					'id' => ( $this->searchAdvanced ? 'powersearch' : 'search' ),
 					'method' => 'get',
-					'action' => $this->getFormAction(),
+					'action' => $wgScript
 				)
 			)
 		);
@@ -836,6 +836,7 @@ class SpecialSearch extends SpecialPage {
 			$namespaceTables .
 			Xml::element( 'div', array( 'class' => 'divider' ), '', false ) .
 			$redirects .
+			Html::hidden( 'title', SpecialPage::getTitleFor( 'Search' )->getPrefixedText() ) .
 			Html::hidden( 'advanced', $this->searchAdvanced ) .
 			Html::hidden( 'fulltext', 'Advanced search' ) .
 			Xml::closeElement( 'fieldset' );
@@ -959,6 +960,8 @@ class SpecialSearch extends SpecialPage {
 	}
 
 	protected function shortDialog( $term ) {
+		$searchTitle = SpecialPage::getTitleFor( 'Search' );
+		$out = Html::hidden( 'title', $searchTitle->getPrefixedText() ) . "\n";
 		// Keep redirect setting
 		$out .= Html::hidden( "redirs", (int)$this->searchRedirects ) . "\n";
 		// Term box

@@ -41,7 +41,7 @@ class WithoutInterwikiPage extends PageQueryPage {
 	}
 
 	function getPageHeader() {
-		global $wgMiserMode;
+		global $wgScript, $wgMiserMode;
 
 		# Do not show useless input form if wiki is running in misermode
 		if( $wgMiserMode ) {
@@ -49,10 +49,12 @@ class WithoutInterwikiPage extends PageQueryPage {
 		}
 
 		$prefix = $this->prefix;
+		$t = SpecialPage::getTitleFor( $this->getName() );
 
-		return 	Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction() ) ) .
+		return 	Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', null, wfMsg( 'withoutinterwiki-legend' ) ) .
+			Html::hidden( 'title', $t->getPrefixedText() ) .
 			Xml::inputLabel( wfMsg( 'allpagesprefix' ), 'prefix', 'wiprefix', 20, $prefix ) . ' ' .
 			Xml::submitButton( wfMsg( 'withoutinterwiki-submit' ) ) .
 			Xml::closeElement( 'fieldset' ) .

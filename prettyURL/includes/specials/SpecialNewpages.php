@@ -203,7 +203,7 @@ class SpecialNewpages extends IncludableSpecialPage {
 	}
 
 	protected function form() {
-		global $wgOut, $wgEnableNewpagesUserFilter;
+		global $wgOut, $wgEnableNewpagesUserFilter, $wgScript;
 
 		// Consume values
 		$this->opts->consumeValue( 'offset' ); // don't carry offset, DWIW
@@ -227,7 +227,8 @@ class SpecialNewpages extends IncludableSpecialPage {
 			list( $tagFilterLabel, $tagFilterSelector ) = $tagFilter;
 		}
 
-		$form = Xml::openElement( 'form', array( 'action' => $this->getFormAction() ) ) .
+		$form = Xml::openElement( 'form', array( 'action' => $wgScript ) ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedDBkey() ) .
 			Xml::fieldset( wfMsg( 'newpages' ) ) .
 			Xml::openElement( 'table', array( 'id' => 'mw-newpages-table' ) ) .
 			'<tr>

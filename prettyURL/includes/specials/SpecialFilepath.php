@@ -71,12 +71,13 @@ class SpecialFilepath extends SpecialPage {
 	}
 
 	function showForm( $title ) {
-		global $wgOut;
+		global $wgOut, $wgScript;
 
 		$wgOut->addHTML(
-			Html::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction(), 'id' => 'specialfilepath' ) ) .
+			Html::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript, 'id' => 'specialfilepath' ) ) .
 			Html::openElement( 'fieldset' ) .
 			Html::element( 'legend', null, wfMsg( 'filepath' ) ) .
+			Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
 			Xml::inputLabel( wfMsg( 'filepath-page' ), 'file', 'file', 25, is_object( $title ) ? $title->getText() : '' ) . ' ' .
 			Xml::submitButton( wfMsg( 'filepath-submit' ) ) . "\n" .
 			Html::closeElement( 'fieldset' ) .

@@ -112,10 +112,14 @@ class SpecialProtectedtitles extends SpecialPage {
 	 * @private
 	 */
 	function showOptions( $namespace, $type='edit', $level ) {
-		# FIXME use Xml: or Html: methods to build the form
-		return "<form action=\"". $this->getFormAction()."\" method=\"get\">\n" .
+		global $wgScript;
+		$action = htmlspecialchars( $wgScript );
+		$title = SpecialPage::getTitleFor( 'Protectedtitles' );
+		$special = htmlspecialchars( $title->getPrefixedDBkey() );
+		return "<form action=\"$action\" method=\"get\">\n" .
 			'<fieldset>' .
 			Xml::element( 'legend', array(), wfMsg( 'protectedtitles' ) ) .
+			Html::hidden( 'title', $special ) . "&#160;\n" .
 			$this->getNamespaceMenu( $namespace ) . "&#160;\n" .
 			$this->getLevelMenu( $level ) . "&#160;\n" .
 			"&#160;" . Xml::submitButton( wfMsg( 'allpagessubmit' ) ) . "\n" .

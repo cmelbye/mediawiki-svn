@@ -77,9 +77,12 @@ class SpecialPrefixindex extends SpecialAllpages {
 	* @param $from String: dbKey we are starting listing at.
 	*/
 	function namespacePrefixForm( $namespace = NS_MAIN, $from = '' ) {
+		global $wgScript;
+		$t = $this->getTitle();
 
 		$out  = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
-		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $this->getFormAction() ) );
+		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
+		$out .= Html::hidden( 'title', $t->getPrefixedText() );
 		$out .= Xml::openElement( 'fieldset' );
 		$out .= Xml::element( 'legend', null, wfMsg( 'allpages' ) );
 		$out .= Xml::openElement( 'table', array( 'id' => 'nsselect', 'class' => 'allpages' ) );

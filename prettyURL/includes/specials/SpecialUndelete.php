@@ -718,15 +718,16 @@ class SpecialUndelete extends SpecialPage {
 	}
 
 	function showSearchForm() {
-		global $wgOut;
+		global $wgOut, $wgScript;
 		$wgOut->addWikiMsg( 'undelete-header' );
 
 		$wgOut->addHTML(
 			Xml::openElement( 'form', array(
 				'method' => 'get',
-				'action' => $this->getFormAction(),
-				) ) .
+				'action' => $wgScript ) ) .
 			Xml::fieldset( wfMsg( 'undelete-search-box' ) ) .
+			Html::hidden( 'title',
+				$this->getTitle()->getPrefixedDbKey() ) .
 			Xml::inputLabel( wfMsg( 'undelete-search-prefix' ),
 				'prefix', 'prefix', 20,
 				$this->mSearchPrefix ) . ' ' .

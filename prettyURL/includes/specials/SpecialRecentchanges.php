@@ -510,7 +510,9 @@ class SpecialRecentChanges extends IncludableSpecialPage {
 			$out .= Html::hidden( $key, $value );
 		}
 
-		$form = Xml::tags( 'form', array( 'action' => $this->getFormAction() ), $out );
+		$t = $this->getTitle();
+		$out .= Html::hidden( 'title', $t->getPrefixedText() );
+		$form = Xml::tags( 'form', array( 'action' => $wgScript ), $out );
 		$panel[] = $form;
 		$panelString = implode( "\n", $panel );
 

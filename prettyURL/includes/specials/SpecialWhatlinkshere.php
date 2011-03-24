@@ -380,9 +380,10 @@ class SpecialWhatLinksHere extends SpecialPage {
 		$namespace = $this->opts->consumeValue( 'namespace' );
 
 		# Build up the form
-		$f = Xml::openElement( 'form', array( 'action' => $this->getFormAction() ) );
+		$f = Xml::openElement( 'form', array( 'action' => $wgScript ) );
 
 		# Values that should not be forgotten
+		$f .= Html::hidden( 'title', $this->getTitle()->getPrefixedText() );
 		foreach ( $this->opts->getUnconsumedValues() as $name => $value ) {
 			$f .= Html::hidden( $name, $value );
 		}
