@@ -189,7 +189,6 @@ require_once( "$IP/includes/GlobalFunctions.php" );
 require_once( "$IP/includes/Hooks.php" );
 require_once( "$IP/includes/Namespace.php" );
 require_once( "$IP/includes/ProxyTools.php" );
-require_once( "$IP/includes/ObjectCache.php" );
 require_once( "$IP/includes/ImageFunctions.php" );
 wfProfileOut( $fname.'-includes' );
 wfProfileIn( $fname.'-misc1' );
@@ -299,9 +298,9 @@ $wgFileExtensions = array_diff ( $wgFileExtensions, $wgFileBlacklist );
 wfProfileOut( $fname.'-misc1' );
 wfProfileIn( $fname.'-memcached' );
 
-$wgMemc =& wfGetMainCache();
-$messageMemc =& wfGetMessageCacheStorage();
-$parserMemc =& wfGetParserCacheStorage();
+$wgMemc = wfGetMainCache();
+$messageMemc = wfGetMessageCacheStorage();
+$parserMemc = wfGetParserCacheStorage();
 
 wfDebug( 'CACHES: ' . get_class( $wgMemc ) . '[main] ' .
 	get_class( $messageMemc ) . '[message] ' .
