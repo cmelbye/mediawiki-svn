@@ -865,7 +865,17 @@ class MWMemcached {
 	function _load_items( $sock, &$ret ) {
 		while ( 1 ) {
 			$decl = fgets( $sock );
-			if ( $decl == "END\r\n" ) {
+			if ( $decl === false ) {
+				// PATCH: log timeout errors -- TS
+				$info = stream_get_meta_data( $sock );
+				if ( $info['timed_out'] ) {
+					wfDebugLog( 'memcached', "timeout\n" );
+				} else {
+					wfDebugLog( 'memcached', "read error\n" );
+				}
+				$this->_close_sock( $sock );
+				return false;
+			} elseif ( $decl == "END\r\n" ) {
 				return true;
 			} elseif ( preg_match( '/^VALUE (\S+) (\d+) (\d+)\r\n$/', $decl, $match ) ) {
 				list( $rkey, $flags, $len ) = array( $match[1], $match[2], $match[3] );
