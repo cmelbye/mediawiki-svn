@@ -24,7 +24,6 @@ class EhcacheBagOStuff extends BagOStuff {
 		$this->timeout = isset( $params['timeout'] ) ? $params['timeout'] : 1;
 		$this->curlOptions = array(
 			CURLOPT_CONNECTTIMEOUT_MS => intval( $this->connectTimeout * 1000 ),
-			CURLOPT_TIMEOUT_MS => intval( $this->timeout * 1000 ),
 			CURLOPT_RETURNTRANSFER => 1,
 			CURLOPT_CUSTOMREQUEST => 'GET',
 			CURLOPT_POST => 0,
