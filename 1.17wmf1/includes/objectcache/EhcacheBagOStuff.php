@@ -23,7 +23,6 @@ class EhcacheBagOStuff extends BagOStuff {
 			? $params['connectTimeout'] : 1;
 		$this->timeout = isset( $params['timeout'] ) ? $params['timeout'] : 1;
 		$this->curlOptions = array(
-			CURLOPT_CONNECTTIMEOUT_MS => intval( $this->connectTimeout * 1000 ),
 			CURLOPT_RETURNTRANSFER => 1,
 			CURLOPT_CUSTOMREQUEST => 'GET',
 			CURLOPT_POST => 0,
@@ -32,8 +31,10 @@ class EhcacheBagOStuff extends BagOStuff {
 		);
 		if ( defined( 'CURLOPT_TIMEOUT_MS' ) ) {
 			$this->curlOptions[CURLOPT_TIMEOUT_MS] = intval( $this->timeout * 1000 );
+			$this->curlOptions[CURLOPT_CONNECTTIMEOUT_MS] = intval( $this->connectTimeout * 1000 );
 		} else {
 			$this->curlOptions[CURLOPT_TIMEOUT] = ceil( $this->timeout );
+			$this->curlOptions[CURLOPT_CONNECTTIMEOUT] = ceil( $this->connectTimeout );
 		}
 	}
 
