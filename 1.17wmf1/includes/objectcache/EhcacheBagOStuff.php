@@ -11,9 +11,6 @@ class EhcacheBagOStuff extends BagOStuff {
 	var $curls = array();
 
 	function __construct( $params ) {
-		if ( !defined( 'CURLOPT_TIMEOUT_MS' ) ) {
-			throw new MWException( __CLASS__.' requires curl version 7.16.2 or later.' );
-		}
 		if ( !extension_loaded( 'zlib' ) ) {
 			throw new MWException( __CLASS__.' requires the zlib extension' );
 		}
@@ -34,6 +31,11 @@ class EhcacheBagOStuff extends BagOStuff {
 			CURLOPT_POSTFIELDS => '',
 			CURLOPT_HTTPHEADER => array(),
 		);
+		if ( defined( 'CURLOPT_TIMEOUT_MS' ) ) {
+			$this->curlOptions[CURLOPT_TIMEOUT_MS] = intval( $this->timeout * 1000 );
+		} else {
+			$this->curlOptions[CURLOPT_TIMEOUT] = ceil( $this->timeout );
+		}
 	}
 
 	public function get( $key ) {
