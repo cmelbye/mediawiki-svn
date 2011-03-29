@@ -23,6 +23,11 @@ class GIFMetadataExtractor {
 
 	const VERSION = 1;
 
+	// Each sub-block is less than or equal to 255 bytes.
+	// Most of the time its 255 bytes, except for in XMP
+	// blocks, where it's usually between 32-127 bytes each.
+	const MAX_SUBBLOCKS = 262144; // 5mb divided by 20.
+
 	static function getMetadata( $filename ) {
 		self::$gif_frame_sep = pack( "C", ord("," ) );
 		self::$gif_extension_sep = pack( "C", ord("!" ) );
@@ -108,13 +113,9 @@ class GIFMetadataExtractor {
 					// Comment block(s).
 					$data = '';
 
-					$subLength = fread( $fh, 1 );
-					if ( $subLength === "\0" ) {
+					$data = self::readBlock( $fh );
+					if ( $data === "" ) {
 						throw new Exception( 'Read error, zero-length comment block' );
-					} 
-					while( $subLength !== "\0" ) {
-						$data .= fread( $fh, ord( $subLength ) );
-						$subLength = fread( $fh, 1 );
 					}
 
 					// The standard says this should be ASCII, however its unclear if
@@ -178,13 +179,7 @@ class GIFMetadataExtractor {
 						// application name for XMP data.
 						// see pg 18 of XMP spec part 3.
 
-						$xmp = '';
-						$subLength = fread( $fh, 1 );
-						while( $subLength !== "\0" ) {
-							$xmp .= $subLength;
-							$xmp .= fread( $fh, ord( $subLength ) );
-							$subLength = fread( $fh, 1 );
-						}
+						$xmp = self::readBlock( $fh, true );
 
 						if ( substr( $xmp, -257, 3 ) !== "\x01\xFF\xFE"
 							|| substr( $xmp, -4 ) !== "\x03\x02\x01\x00" )
@@ -253,6 +248,42 @@ class GIFMetadataExtractor {
 				return;
 			fread( $fh, $block_len );
 		}
+	}
+
+	/**
+	 * Read a block. In the GIF format, a block is made up of
+	 * several sub-blocks. Each sub block starts with one byte
+	 * saying how long the sub-block is, followed by the sub-block.
+	 * The entire block is terminated by a sub-block of length
+	 * 0.
+	 * @param $fh FileHandle
+	 * @param $includeLengths Boolean Include the length bytes of the
+	 *  sub-blocks in the returned value. Normally this is false,
+	 *  except XMP is weird and does a hack where you need to keep
+	 *  these length bytes.
+	 * @return The data.
+	 */
+	static function readBlock( $fh, $includeLengths = false ) {
+		$data = '';
+		$subLength = fread( $fh, 1 );
+		$blocks = 0;
+
+		while( $subLength !== "\0" ) {
+			$blocks++;
+			if ( $blocks > self::MAX_SUBBLOCKS ) {
+				throw new Exception( "MAX_SUBBLOCKS exceeded (over $blocks sub-blocks)" );
+			}
+			if ( feof( $fh ) ) {
+				throw new Exception( "Read error: Unexpected EOF." );
+			}
+			if ( $includeLengths ) {
+				$data .= $subLength;
+			}
+
+			$data .= fread( $fh, ord( $subLength ) );
+			$subLength = fread( $fh, 1 );
+		}
+		return $data;
 	}
 
 }

@@ -20,6 +20,7 @@ class PNGMetadataExtractor {
 	static $text_chunks;
 
 	const VERSION = 1;
+	const MAX_CHUNK_SIZE = 3145728; // 3 megabytes
 
 	static function getMetadata( $filename ) {
 		self::$png_sig = pack( "C8", 137, 80, 78, 71, 13, 10, 26, 10 );
@@ -92,7 +93,7 @@ class PNGMetadataExtractor {
 			}
 
 			if ( $chunk_type == "acTL" ) {
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
@@ -101,7 +102,7 @@ class PNGMetadataExtractor {
 				$frameCount = $actl['frames'];
 				$loopCount = $actl['plays'];
 			} elseif ( $chunk_type == "fcTL" ) {
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
@@ -116,7 +117,7 @@ class PNGMetadataExtractor {
 				}
 			} elseif ( $chunk_type == "iTXt" ) {
 				// Extracts iTXt chunks, uncompressing if necessary.
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				$items = array();
 				if ( preg_match(
 					'/^([^\x00]{1,79})\x00(\x00|\x01)\x00([^\x00]*)(.)[^\x00]*\x00(.*)$/Ds',
@@ -172,7 +173,7 @@ class PNGMetadataExtractor {
 				}
 
 			} elseif ( $chunk_type == 'tEXt' ) {
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				$keyword = '';
 				$content = '';
 
@@ -202,7 +203,7 @@ class PNGMetadataExtractor {
 
 			} elseif ( $chunk_type == 'zTXt' ) {
 				if ( function_exists( 'gzuncompress' ) ) {
-					$buf = fread( $fh, $chunk_size );
+					$buf = self::read( $fh, $chunk_size );
 					$keyword = '';
 					$postKeyword = '';
 
@@ -258,7 +259,7 @@ class PNGMetadataExtractor {
 				if ( $chunk_size !== 7 ) {
 					throw new Exception( __METHOD__ . ": tIME wrong size" );
 				}
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
@@ -281,7 +282,7 @@ class PNGMetadataExtractor {
 					throw new Exception( __METHOD__ . ": pHYs wrong size" );
 				}
 
-				$buf = fread( $fh, $chunk_size );
+				$buf = self::read( $fh, $chunk_size );
 				if ( !$buf ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
@@ -344,5 +345,20 @@ class PNGMetadataExtractor {
 			'text' => $text,
 		);
 
+	}
+	/**
+	 * Read a chunk, checking to make sure its not too big.
+	 *
+	 * @param $fh resource The file handle
+	 * @param $size Integer size in bytes.
+	 * @throws Exception if too big.
+	 * @return String The chunk.
+	 */
+	static private function read( $fh, $size ) {
+		if ( $size > self::MAX_CHUNK_SIZE ) {
+			throw new Exception( __METHOD__ . ': Chunk size of ' . $size .
+				' too big. Max size is: ' . self::MAX_CHUNK_SIZE );
+		}
+		return fread( $fh, $size );
 	}
 }
