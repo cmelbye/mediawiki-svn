@@ -222,6 +222,17 @@ class XMPValidate {
 			 * many parts are optional, some aren't. For example if you specify
 			 * minute, you must specify hour, day, month, and year but not second or TZ.
 			 */
+
+			/*
+			 * First of all, if year = 0000, Something is wrongish,
+			 * so don't extract. This seems to happen when
+			 * some programs convert between metadata formats.
+			 */
+			if ( $res[1] === '0000' ) {
+				wfDebugLog( 'XMP', __METHOD__ . " Invalid date (year 0): $val" );
+				$val = null;
+				return;
+			}
 			//if month, etc unspecified, full out as 01.
 			$res[2] = isset( $res[2] ) ? $res[2] : '01'; //month
 			$res[3] = isset( $res[3] ) ? $res[3] : '01'; //day
