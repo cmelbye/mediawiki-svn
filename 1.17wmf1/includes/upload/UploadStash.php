@@ -30,13 +30,11 @@ class UploadStash {
 	/**
 	 * Represents the session which contains temporarily stored files.
 	 * Designed to be compatible with the session stashing code in UploadBase (should replace it eventually)
-	 *
-	 * @param $repo FileRepo: optional -- repo in which to store files. Will choose LocalRepo if not supplied.
 	 */
-	public function __construct( $repo ) { 
+	public function __construct() { 
 
 		// this might change based on wiki's configuration.
-		$this->repo = $repo;
+		$this->repo = RepoGroup::singleton()->getLocalRepo();
 
 		if ( ! isset( $_SESSION ) ) {
 			throw new UploadStashNotAvailableException( 'no session variable' );
@@ -47,6 +45,7 @@ class UploadStash {
 		}
 		
 	}
+
 
 	/**
 	 * Get a file and its metadata from the stash.
@@ -78,7 +77,7 @@ class UploadStash {
 			unset( $data['mTempPath'] );
 
 			$file = new UploadStashFile( $this, $this->repo, $path, $key, $data );
-			if ( $file->getSize === 0 ) {
+			if ( $file->getSize() === 0 ) {
 				throw new UploadStashZeroLengthFileException( "File is zero length" );
 			}
 			$this->files[$key] = $file;
@@ -165,6 +164,36 @@ class UploadStash {
 		
 		return $this->getFile( $key );
 	}
+
+	/**
+	 * Remove all files from the stash.
+	 * Does not clean up files in the repo, just the record of them.
+	 * @return boolean: success
+	 */
+	public function clear() {
+		$_SESSION[UploadBase::SESSION_KEYNAME] = array();
+		return true;
+	}
+
+
+	/**
+	 * Remove a particular file from the stash.
+	 * Does not clean up file in the repo, just the record of it.
+	 * @return boolean: success
+	 */
+	public function removeFile( $key ) {
+		unset ( $_SESSION[UploadBase::SESSION_KEYNAME][$key] );
+		return true;
+	}
+
+
+	/**
+	 * List all files in the stash.
+	 */
+	public function listFiles() {
+		return array_keys( $_SESSION[UploadBase::SESSION_KEYNAME] );
+	}
+	
 
 	/**
 	 * Find or guess extension -- ensuring that our extension matches our mime type.
