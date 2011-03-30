@@ -267,6 +267,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 	 * @param $prop Array of properties to get (in the keys)
 	 * @param $result ApiResult object
 	 * @param $thumbParams Array containing 'width' and 'height' items, or null
+	 * @param $version Version of image metadata (for things like jpeg which have different versions).
 	 * @return Array: result array
 	 */
 	static function getInfo( $file, $prop, $result, $thumbParams = null, $version = 'latest' ) {
@@ -540,7 +541,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 			'start' => 'Timestamp to start listing from',
 			'end' => 'Timestamp to stop listing at',
 			'metadataversion' => array( "Version of metadata to use. if 'latest' is specified, use latest version.", 
-						"Defaults to '1' for bacwards compatability" ),
+						"Defaults to '1' for backwards compatibility" ),
 			'continue' => 'If the query response includes a continue value, use it here to get another page of results'
 		);
 	}
