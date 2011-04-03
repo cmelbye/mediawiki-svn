@@ -780,8 +780,9 @@ class LanguageConverter {
 	 * @return bool	true if $text appears to be written in $variant, false if not
 	 *
 	 * @author Nikola Smolenski <smolensk@eunet.yu>
+	 * @since 1.17
 	 */
-	function guessVariant($text, $variant) {
+	public function guessVariant($text, $variant) {
 		return false;
 	}
 
