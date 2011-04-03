@@ -263,7 +263,7 @@ class VectorTemplate extends BaseTemplate {
 					break;
 				case 'LANGUAGES':
 					if ( $this->data['language_urls'] ) {
-						$this->renderPortal("lang", $this->data['language_urls'], "otherlanguages");
+						$this->renderPortal("lang", $this->data['language_urls'], "otherlanguages", "SkinTemplateLanguageBoxEnd");
 					}
 					break;
 				default:
