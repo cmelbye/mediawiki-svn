@@ -148,6 +148,26 @@ class SrConverter extends LanguageConverter {
 
 		return $ret;
 	}
+
+	/**
+	 * Guess if a text is written in Cyrillic or Latin.
+	 *
+	 * @author Nikola Smolenski <smolensk@eunet.rs>
+	 */
+	function guessVariant( $text, $variant ) {
+		$numCyrillic = preg_match_all("/(ш|ђ|ч|ћ|ж|Ш|Ђ|Ч|Ћ|Ж)/", $text, $dummy);
+		$numLatin = preg_match_all("/(š|đ|č|ć|ž|Š|Đ|Č|Ć|Ž)/", $text, $dummy);
+
+		if( $variant == 'sr-ec' ) {
+			return $numCyrillic > $numLatin;
+		} else if( $variant == 'sr-el' ) {
+			return $numLatin > $numCyrillic;
+		} else {
+			return false;
+		}
+
+	}
+
 }
 
 /**
@@ -202,4 +222,5 @@ class LanguageSr extends LanguageSr_ec {
 			}
 		}
 	}
+
 }
