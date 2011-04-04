@@ -1577,6 +1577,8 @@ abstract class BaseTemplate extends QuickTemplate {
 	 * (however the link will still support a tooltip and accesskey from it)
 	 * If you need an id or class on a single link you should include a "links"
 	 * array with just one link item inside of it.
+	 * You can also include "before" and/or "after" keys for HTML
+	 * that will come before or after the link.
 	 */
 	function makeListItem( $key, $item, $options = array() ) {
 		if ( isset( $item['links'] ) ) {
@@ -1599,6 +1601,9 @@ abstract class BaseTemplate extends QuickTemplate {
 			}
 			$html = $this->makeLink( $key, $link );
 		}
+
+		if( isset( $item['before'] ) ) $html = $item['before'] . $html;
+		if( isset( $item['after'] ) ) $html .= $item['after'];
 
 		$attrs = array();
 		foreach ( array( 'id', 'class' ) as $attr ) {

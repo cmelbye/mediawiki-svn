@@ -268,10 +268,7 @@ class MonoBookTemplate extends BaseTemplate {
 <?php		foreach($this->data['language_urls'] as $key => $langlink) { ?>
 				<?php echo $this->makeListItem($key, $langlink); ?>
 
-<?php
-		}
-		wfRunHooks( 'SkinTemplateLanguageBoxEnd', array( &$this ) );
-?>
+<?php		} ?>
 			</ul>
 		</div>
 	</div>
