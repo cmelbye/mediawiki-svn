@@ -153,7 +153,7 @@ class SrConverter extends LanguageConverter {
 	 * Guess if a text is written in Cyrillic or Latin.
 	 *
 	 * @author Nikola Smolenski <smolensk@eunet.rs>
-	 * @since 1.17
+	 * @since 1.18
 	 */
 	public function guessVariant( $text, $variant ) {
 		$numCyrillic = preg_match_all("/[шђчћжШЂЧЋЖ]/u", $text, $dummy);

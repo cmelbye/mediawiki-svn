@@ -779,8 +779,8 @@ class LanguageConverter {
 	 * @param string	$variant language code of the variant to be checked for
 	 * @return bool	true if $text appears to be written in $variant, false if not
 	 *
-	 * @author Nikola Smolenski <smolensk@eunet.yu>
-	 * @since 1.17
+	 * @author Nikola Smolenski <smolensk@eunet.rs>
+	 * @since 1.18
 	 */
 	public function guessVariant($text, $variant) {
 		return false;
