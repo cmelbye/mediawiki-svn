@@ -69,7 +69,6 @@ mw.UploadWizardUploadInterface = function( upload, filesDiv ) {
 				.append( _this.$fileInputCtrl ) 
 			)
 			.append( _this.filenameCtrl )
-			.append( _this.thumbnailParam )
 			.get( 0 );
 
 
@@ -132,32 +131,28 @@ mw.UploadWizardUploadInterface.prototype = {
 	 * @param HTMLImageElement 
 	 */
 	setPreview: function( image ) {
-		// encoding for url here?
-		$j( this.div ).find( '.mwe-upwiz-file-preview' ).append(
-				$j('<img />')
-				.css({'width':'100%', 'height': '100%'})
-				.attr('src', image.src )
-		)
+		var $preview = $j( this.div ).find( '.mwe-upwiz-file-preview' );
+		if ( image === null ) {
+			$preview.addClass( 'mwe-upwiz-file-preview-broken' );
+		} else {
+			// encoding for url here?
+			$preview.css( 'background-image', 'url(' + image.src + ')' );
+		}
 	},
 
 	/**
 	 * Set the status line for this upload with an internationalized message string.
 	 * @param String msgKey: key for the message
 	 * @param Array args: array of values, in case any need to be fed to the image.
+	 * @param Boolean error: if true, show an error
 	 */
 	setStatus: function( msgKey, args ) {
 		if ( !mw.isDefined( args ) ) {
 			args = [];
 		}
-		this.setStatusStr( gM( msgKey, args ) );
-	},
-
-	/**
-	 * Set the status line for this upload 
-	 * @param String str: the string to use
-	 */
-	setStatusStr: function( str ) {	
-		$j( this.div ).find( '.mwe-upwiz-file-status' ).html( str ).show();
+		// get the status line for our upload
+		var $s = $j( this.div ).find( '.mwe-upwiz-file-status' );
+		$s.msg( msgKey, args ).show();
 	},
 
 	/**
@@ -197,11 +192,14 @@ mw.UploadWizardUploadInterface.prototype = {
 		// is this an error that we expect to have a message for?
 		var msgKey = 'mwe-upwiz-api-error-unknown-code';
 		var args = [ code ];
+
+		if ( code === 'http' && info.textStatus === 'timeout' ) {
+			code = 'timeout';
+		}
+
 		if ( $j.inArray( code, mw.Api.errors ) !== -1 ) {
 			msgKey = 'mwe-upwiz-api-error-' + code;
-			// args may change base on particular error messages. 
-			// for instance, we are throwing away the extra info right now. Might be nice to surface that in a debug mode
-			args = [];
+			args = $j.makeArray( info );
 		}
 		this.setStatus( msgKey, args );
 	},
@@ -214,11 +212,31 @@ mw.UploadWizardUploadInterface.prototype = {
 		var _this = this;
 		_this.clearErrors();
 		_this.upload.extractLocalFileInfo( _this.$fileInputCtrl.val() );
-		if ( _this.isGoodExtension( _this.upload.title.getExtension() ) ) {
+		var extension = _this.upload.title.getExtension();
+		var hasExtension = ! mw.isEmpty( extension );
+		var isGoodExtension = false;
+		if ( hasExtension ) {
+			isGoodExtension = $j.inArray( extension.toLowerCase(), mw.UploadWizard.config[ 'fileExtensions' ] ) !== -1;
+		}
+		if ( hasExtension && isGoodExtension ) {
 			_this.updateFilename();
 		} else {       
-			//_this.error( 'bad-filename-extension', ext );
-			alert("bad extension");
+			var errorMessage = hasExtension ? 'mwe-upwiz-upload-error-bad-filename-extension' : 'mwe-upwiz-upload-error-bad-filename-no-extension';
+			$( '<div>' )
+				.append( 
+					$j( '<p>' ).msg( errorMessage, extension ),
+					$j( '<p>' ).msg( 'mwe-upwiz-allowed-filename-extensions' ),
+					$j( '<blockquote>' ).append( $j( '<tt>' ).append(  
+						mw.UploadWizard.config[ 'fileExtensions' ].join( " " )
+					) )
+				)
+				.dialog({
+					width: 500,
+					zIndex: 200000,
+					autoOpen: true,
+					title: gM( 'mwe-upwiz-help-popup' ) + ': ' + gM( 'mwe-upwiz-help-allowed-filename-extensions' ),
+					modal: true
+				});
 		}
 		this.clearStatus();
 	},
@@ -273,7 +291,22 @@ mw.UploadWizardUploadInterface.prototype = {
 		// visible filename
 		$j( _this.form ).find( '.mwe-upwiz-visible-file-filename-text' ).html( path );
 
-		_this.upload.title = new mw.Title( mw.UploadWizardUtil.getBasename( path ), 'file' );
+		var filename = mw.UploadWizardUtil.getBasename( path );
+		try {
+			_this.upload.title = new mw.Title( filename, 'file' );
+		} catch ( e ) {
+			$( '<div>' )
+				.msg( 'mwe-upwiz-unparseable-filename', filename )
+				.dialog({
+					width: 500,
+					zIndex: 200000,
+					autoOpen: true,
+					modal: true
+				});
+			_this.$fileInputCtrl.val();
+			return;
+		}
+
 		$j( _this.filenameCtrl ).val( _this.upload.title.getMain() );
 
 		if ( ! _this.isFilled ) {
@@ -335,19 +368,6 @@ mw.UploadWizardUploadInterface.prototype = {
 		// apply a error style to entire did
 		$j( _this.div ).addClass( 'mwe-upwiz-upload-error' );
 		$j( _this.errorDiv ).show();
-	},
-
-	/**
-	 * This is used when checking for "bad" extensions in a filename. 
-	 * @param ext
-	 * @return boolean if extension was acceptable
-	 */
-	isGoodExtension: function( ext ) {
-		// ugly but we don't have a base "uploadHandler" class
-		if( this.upload.getUploadHandler().isGoodExtension ){
-			return this.upload.getUploadHandler().isGoodExtension( ext );
-		}
-		return $j.inArray( ext.toLowerCase(), mw.UploadWizard.config[ 'fileExtensions' ] ) !== -1;
 	}
 
 };	

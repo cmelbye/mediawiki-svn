@@ -104,10 +104,11 @@ mw.DestinationChecker.prototype = {
 	 */
 	checkUnique: function() {
 		var _this = this;
-
 		var found = false;
-		// XXX if input is empty don't bother? but preprocess gives us File:.png...
 		var title = _this.getTitle();
+
+		// if input is empty don't bother.
+		if ( title == '' ) return;
 		
 		if ( _this.cachedResult[name] !== undefined ) {
 			_this.processResult( _this.cachedResult[name] );
@@ -126,8 +127,8 @@ mw.DestinationChecker.prototype = {
 			'iiurlwidth': 150
 		};
 
-		// Do the destination check  
-		_this.api.get( params, function( data ) {			
+
+		var ok = function( data ) {			
 			// Remove spinner
 			_this.spinner( false );
 	
@@ -138,7 +139,7 @@ mw.DestinationChecker.prototype = {
 			
 			if ( !data || !data.query || !data.query.pages ) {
 				// Ignore a null result
-				mw.log("mw.DestinationChecker::checkUnique> No data in checkUnique result");
+				mw.log("mw.DestinationChecker::checkUnique> No data in checkUnique result", 'debug');
 				return;
 			}
 
@@ -146,7 +147,6 @@ mw.DestinationChecker.prototype = {
 
 			if ( data.query.pages[-1] ) {
 				// No conflict found; this file name is unique
-				mw.log("mw.DestinationChecker::checkUnique> No pages in checkUnique result");
 				result = { isUnique: true };
 
 			} else {
@@ -157,8 +157,6 @@ mw.DestinationChecker.prototype = {
 					}
 
 					// Conflict found, this filename is NOT unique
-					mw.log( "mw.DestinationChecker::checkUnique> conflict! " );
-
 					var ntitle;
 					if ( data.query.normalized ) {
 						ntitle = data.query.normalized[0].to;
@@ -184,7 +182,16 @@ mw.DestinationChecker.prototype = {
 				_this.processResult( result );
 			}
 
-		} );
+		};
+
+		var err = function( code, result ) { 
+			_this.spinner( false );
+			mw.log("mw.DestinationChecker::checkUnique> error in checkUnique result: " + code, 'debug');
+			return;
+		};
+	
+		// Do the destination check  
+		_this.api.get( params, { ok: ok, err: err } );
 	}
 
 };

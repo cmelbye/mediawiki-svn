@@ -22,7 +22,7 @@ mw.UploadWizardUpload = function( api, filesDiv ) {
 	this.transportWeight = 1;  // default
 	this.detailsWeight = 1; // default
 
-	// details
+	// details 		
 	this.ui = new mw.UploadWizardUploadInterface( this, filesDiv );
 
 	// handler -- usually ApiUploadHandler
@@ -62,14 +62,13 @@ mw.UploadWizardUpload.prototype = {
 		// we signal to the wizard to update itself, which has to delete the final vestige of 
 		// this upload (the ui.div). We have to do this silly dance because we 
 		// trigger through the div. Triggering through objects doesn't always work.
-		// TODO fix -- this now works in jquery 1.4.2
+		// TODO v.1.1 fix, don't need to use the div any more -- this now works in jquery 1.4.2
 		$j( this.ui.div ).trigger( 'removeUploadEvent' );
 	},
 
 
 	/**
 	 * Wear our current progress, for observing processes to see
-	 * XXX this is kind of a misnomer; this event is not firing except for the very first time.
  	 * @param fraction
 	 */
 	setTransportProgress: function ( fraction ) {
@@ -77,6 +76,16 @@ mw.UploadWizardUpload.prototype = {
 		_this.state = 'transporting';
 		_this.transportProgress = fraction;
 		$j( _this.ui.div ).trigger( 'transportProgressEvent' );
+	},
+
+	/**
+	 * Queue some warnings for possible later consumption
+	 */
+	addWarning: function( code, info ) {
+		if ( !mw.isDefined( this.warnings ) ) {
+			this.warnings = [];
+		}
+		this.warnings.push( [ code, info ] );
 	},
 
 	/**
@@ -95,60 +104,143 @@ mw.UploadWizardUpload.prototype = {
 	setTransported: function( result ) {
 		var _this = this;
 		if ( _this.state == 'aborted' ) {
-			return ;
-		}		
-		if ( result.upload && result.upload.imageinfo ) {
-			mw.log( 'UploadWizard::setTransported> process api imageinfo' );			
-			// success
-			_this.state = 'transported';
-			_this.transportProgress = 1;
-			_this.ui.setStatus( 'mwe-upwiz-getting-metadata' );
-			_this.extractUploadInfo( result );
-			
-			// use blocking preload for thumbnail, no loading spinner.
-			_this.getThumbnail(
-				function( image ) {					
-					_this.ui.setPreview( image );	
-					_this.deedPreview.setup();
-					_this.details.populate();
-					_this.state = 'stashed';
-					_this.ui.showStashed();
-				},
-				mw.UploadWizard.config[ 'iconThumbnailWidth'  ], 
-				mw.UploadWizard.config[ 'iconThumbnailMaxHeight' ] 
-			);
-		
-		} else if ( result.upload && result.upload.sessionkey ) {
-			// there was a warning - type error which prevented it from adding the result to the db 
-			if ( result.upload.warnings.duplicate ) {
-				var duplicates = result.upload.warnings.duplicate;
-				_this.details.errorDuplicate( result.upload.sessionkey, duplicates );
-			}
+			return;
+		}
 
-			// and other errors that result in a stash
+		// default error state
+		var code = 'unknown';
+		var info = 'unknown';
+
+		if ( result.upload && result.upload.warnings ) {
+			if ( result.upload.warnings.exists ) {
+				// the filename we uploaded is in use already. Not a problem since we stashed it under a temporary name anyway
+				// potentially we could indicate to the upload that it should set the Title field to error state now, but we'll let them deal with that later.
+				// however, we don't get imageinfo, so let's try to get it and pretend that we did
+				var existsFileName = result.upload.warnings.exists;
+				try {
+					code = 'exists';
+					info = _this.filenameToUrl( existsFileName ).toString();
+				} catch ( e ) {
+					code = 'unknown';
+					info = 'Warned about existing filename, but filename is unparseable: "' + existsFileName + "'"; 
+				}
+				_this.addWarning( code, info );
+				_this.extractUploadInfo( result.upload );
+				var success = function( imageinfo ) { 
+					if ( imageinfo === null ) {
+						_this.setError( 'noimageinfo' );
+					} else {
+						result.upload.stashimageinfo = imageinfo;
+						_this.setSuccess( result );
+					}
+				};
+				_this.getStashImageInfo( success, [ 'timestamp', 'url', 'size', 'dimensions', 'sha1', 'mime', 'metadata', 'bitdepth' ] );
+			} else if ( result.upload.warnings.duplicate ) {
+				if ( typeof result.upload.warnings.duplicate == 'object' ) { 
+					var duplicates = result.upload.warnings.duplicate;
+					var $ul = $j( '<ul></ul>' );
+					$j.each( duplicates, function( i, filename ) { 
+						var $a = $j( '<a/>' ).append( filename );
+						var href;
+						try {
+							href = _this.filenameToUrl( filename );
+							$a.attr( { 'href': href, 'target': '_blank' } );
+						} catch ( e ) {
+							$a.click( function() { alert('could not parse filename=' + filename ); } );
+							$a.attr( 'href', '#' );
+						}
+						$ul.append( $j( '<li></li>' ).append( $a ) );
+					} );
+					var dialogFn = function() {
+						$j( '<div></div>' )
+							.html( $ul )
+							.dialog( {
+								width: 500,
+								zIndex: 200000,
+								autoOpen: true,
+								title: gM( 'mwe-upwiz-api-error-duplicate-popup-title', duplicates.length ),
+								modal: true
+							} );
+					};
+					code = 'duplicate';
+					info = [ duplicates.length, dialogFn ];
+				}
+				_this.setError( code, info );	
+			}
+		} else if ( result.upload && result.upload.result === 'Success' ) {
+			if ( result.upload.imageinfo ) {
+				_this.setSuccess( result );
+			} else { 
+				_this.setError( 'noimageinfo' );
+			}
 		} else {
-			// XXX handle errors better -- get code and pass to showError
-			var code = 'unknown'; 
-			var info = 'unknown';
 			if ( result.error ) {
-				code = result.error.code;
-				info = result.error.info;
-			} 
+				if ( result.error.code ) {
+					code = result.error.code;
+				}
+				if ( result.error.info ) {
+					info = result.error.info;
+				}
+			}
 			_this.setError( code, info );
 		}
-	
+
+
 	},
 
 
 	/**
+	 * Called from any upload success condition
+	 * @param {Mixed} result -- result of AJAX call
+	 */
+	setSuccess: function( result ) {
+		var _this = this; // was a triumph
+		_this.state = 'transported';
+		_this.transportProgress = 1;
+		
+		// I'm making a note here
+		_this.ui.setStatus( 'mwe-upwiz-getting-metadata' );
+		if ( result.upload ) {
+			_this.extractUploadInfo( result.upload );
+			// create the small thumbnail used on the 'upload' step
+			_this.getThumbnail( 
+				function( image ) {
+					// n.b. if server returns a URL, which is a 404, we do NOT get broken image
+					_this.ui.setPreview( image ); // make the thumbnail the preview image
+				},
+				mw.UploadWizard.config[ 'iconThumbnailWidth' ], 
+				mw.UploadWizard.config[ 'iconThumbnailMaxHeight' ] 
+			);
+			// create the large thumbnail that the other thumbnails link to
+			_this.getThumbnail( 
+				function( image ) {},
+				mw.UploadWizard.config[ 'largeThumbnailWidth' ], 
+				mw.UploadWizard.config[ 'largeThumbnailMaxHeight' ] 
+			);
+			_this.deedPreview.setup();
+			_this.details.populate();
+			_this.state = 'stashed';
+			_this.ui.showStashed();
+		} else {
+			_this.setError( 'noimageinfo' );
+		}
+		
+	},
+		
+	/**
 	 * Called when the file is entered into the file input
 	 * Get as much data as possible -- maybe exif, even thumbnail maybe
 	 */
-	extractLocalFileInfo: function( localFilename ) {
+	extractLocalFileInfo: function( filename ) {
 		if ( false ) {  // FileAPI, one day
 			this.transportWeight = getFileSize();
 		}
-		this.title = new mw.Title( mw.UploadWizardUtil.getBasename( localFilename ), 'file' );
+		// XXX sanitize filename
+		try { 
+			this.title = new mw.Title( mw.UploadWizardUtil.getBasename( filename ).replace( /:/g, '_' ), 'file' );
+		} catch ( e ) {
+			this.setError( 'mwe-upwiz-unparseable-filename', filename );
+		}
 	},
 
 	/** 
@@ -156,9 +248,17 @@ mw.UploadWizardUpload.prototype = {
 	 *
 	 * @param result The JSON object from a successful API upload result.
 	 */
-	extractUploadInfo: function( result ) {
-		this.sessionKey = result.upload.sessionkey;
-		this.extractImageInfo( result.upload.imageinfo );
+	extractUploadInfo: function( resultUpload ) {
+		if ( resultUpload.sessionkey ) {
+			this.sessionKey = resultUpload.sessionkey;
+		} 
+		if ( resultUpload.imageinfo ) {
+			this.extractImageInfo( resultUpload.imageinfo );
+		} else if ( resultUpload.stashimageinfo ) {
+			this.extractImageInfo( resultUpload.stashimageinfo );
+		}
+
+
 	},
 
 	/**
@@ -184,9 +284,10 @@ mw.UploadWizardUpload.prototype = {
 			}
 		}
 	
-		// TODO this needs to be rethought.	
-		// we should already have an extension, but if we don't...  ??
 		if ( _this.title.getExtension() === null ) {
+			1;
+			// TODO v1.1 what if we don't have an extension? Should be impossible as it is currently impossible to upload without extension, but you
+			// never know... theoretically there is no restriction on extensions if we are uploading to the stash, but the check is performed anyway.
 			/* 
 			var extension = mw.UploadWizardUtil.getExtension( _this.imageinfo.url );
 			if ( !extension ) {
@@ -199,6 +300,57 @@ mw.UploadWizardUpload.prototype = {
 			*/
 		}
 	},
+
+	/**
+	 * Get information about stashed images
+	 * See API documentation for prop=stashimageinfo for what 'props' can contain
+	 * @param {Function} callback -- called with null if failure, with imageinfo data structure if success
+	 * @param {Array} properties to extract
+	 * @param {Number} optional, width of thumbnail. Will force 'url' to be added to props
+	 * @param {Number} optional, height of thumbnail. Will force 'url' to be added to props
+	 */
+	getStashImageInfo: function( callback, props, width, height ) {
+		var _this = this;
+
+		if (!mw.isDefined( props ) ) {
+			props = [];
+		} 
+
+		var params = {
+			'prop':	'stashimageinfo',
+			'siisessionkey': _this.sessionKey,
+			'siiprop': props.join( '|' )
+		};
+
+		if ( mw.isDefined( width ) || mw.isDefined( height ) ) {
+			if ( ! $j.inArray( 'url', props ) ) {
+				props.push( 'url' );
+			}
+			if ( mw.isDefined( width ) ) {
+				params['siiurlwidth'] = width; 
+			}
+			if ( mw.isDefined( height ) ) {
+				params['siiurlheight'] = height;
+			}
+		}
+
+		var ok = function( data ) {
+			if ( !data || !data.query || !data.query.stashimageinfo ) {
+				mw.log("mw.UploadWizardUpload::getStashImageInfo> No data? ");
+				callback( null );
+				return;
+			}
+			callback( data.query.stashimageinfo );
+		};
+		
+		var err = function( code, result ) {
+			mw.log( 'mw.UploadWizardUpload::getStashImageInfo> error: ' + code, 'debug' );
+			callback( null );
+		};
+
+		this.api.get( params, { ok: ok, err: err } );
+	},
+	
 	/**
 	 * Set the upload handler per browser capabilities 
 	 */
@@ -218,12 +370,12 @@ mw.UploadWizardUpload.prototype = {
 		}		
 		return this.uploadHandler;
 	},
-	
+		
 	/**
 	 * Fetch a thumbnail for a stashed upload of the desired width. 
 	 * It is assumed you don't call this until it's been transported.
  	 *
-	 * @param callback - callback to execute once thumbnail has been obtained -- must accept Image object
+	 * @param callback - callback to execute once thumbnail has been obtained -- must accept Image object for success, null for error
 	 * @param width - desired width of thumbnail (height will scale to match)
 	 * @param height - (optional) maximum height of thumbnail
 	 */
@@ -236,38 +388,29 @@ mw.UploadWizardUpload.prototype = {
 		if ( mw.isDefined( _this.thumbnails[key] ) ) {
 			callback( _this.thumbnails[key] );
 		} else {
-			var params = {
-				'prop':	'stashimageinfo',
-				'siisessionkey': _this.sessionKey,
-				'siiurlwidth': width, 
-				'siiurlheight': height,
-				'siiprop': 'url'
-			};
-
-			this.api.get( params, function( data ) {
-				if ( !data || !data.query || !data.query.stashimageinfo ) {
-					mw.log("mw.UploadWizardUpload::getThumbnail> No data? ");
-					// XXX do something about the thumbnail spinner, maybe call the callback with a broken image.					
-					return;
-				}
-				var thumbnails = data.query.stashimageinfo;
-				for ( var i = 0; i < thumbnails.length; i++ ) {					
-					var thumb = thumbnails[i];
-					if ( ! ( thumb.thumburl && thumb.thumbwidth && thumb.thumbheight ) ) {
-						mw.log( "mw.UploadWizardUpload::getThumbnail> thumbnail missing information" );
-						// XXX error
-						return ;
+			var apiCallback = function( thumbnails ) { 	
+				if ( thumbnails === null ) {
+					callback( null );
+				} else {
+					for ( var i = 0; i < thumbnails.length; i++ ) {
+						var thumb = thumbnails[i];
+						if ( thumb.thumberror || ( ! ( thumb.thumburl && thumb.thumbwidth && thumb.thumbheight ) ) ) {
+							mw.log( "mw.UploadWizardUpload::getThumbnail> thumbnail error or missing information" );
+							callback( null );
+							return;
+						}
+						var image = document.createElement( 'img' );
+						$j( image ).load( function() {
+							callback( image );
+						} );
+						image.width = thumb.thumbwidth;
+						image.height = thumb.thumbheight;
+						image.src = thumb.thumburl;
+						_this.thumbnails[key] = image;
 					}
-					var image = document.createElement( 'img' );
-					$j( image ).load( function() {
-						callback( image );
-					} );
-					image.width = thumb.thumbwidth;
-					image.height = thumb.thumbheight;
-					image.src = thumb.thumburl;
-					_this.thumbnails[key] = image;
 				}
-			} );
+			};
+			_this.getStashImageInfo( apiCallback, [ 'url' ], width, height );
 		}
 	},
 
@@ -279,32 +422,58 @@ mw.UploadWizardUpload.prototype = {
 	 * @param height (optional) 
 	 */
 	setThumbnail: function( selector, width, height ) {
-		
 		var _this = this;
 		if ( typeof width === 'undefined' || width === null || width <= 0 )  {	
-			width = mw.UploadWizard.config[ 'thumbnailWidth' ];
+			width = mw.UploadWizard.config[  'thumbnailWidth'  ];
 		}
 		width = parseInt( width, 10 );
 		height = null;
 		if ( !mw.isEmpty( height ) ) {
 			height = parseInt( height, 10 );
 		}
-			
+
+		var href = '#';		
+		$j.each( [ 'descriptionurl', 'url' ], function( i, propName ) {
+			var prop = _this.imageinfo[ propName ];
+			if ( prop ) {
+				href = prop;
+				return false;
+			}
+		} );
+ 
 		var callback = function( image ) {
-			$j( selector ).html(
-				$j( '<a/>' )
-					.attr( { 'href': _this.imageinfo.url,
-						 'target' : '_new' } )
-					.append(
-						$j( '<img/>' )
-							.attr( { 'width':  image.width, 
-							         'height': image.height,
-								 'src':    image.src } ) 
-					)
-			);
+			if ( image === null ) {
+				$j( selector ).addClass( 'mwe-upwiz-file-preview-broken' );
+				_this.ui.setStatus( 'mwe-upwiz-thumbnail-failed' );
+			} else {
+				$j( selector ).html(
+					$j( '<a/>' )
+						.attr( { 'href': href,
+							 'target' : '_new' } )
+						.append(
+							$j( '<img/>' )
+								.attr( { 'width':  image.width, 
+									 'height': image.height,
+									 'src':    image.src } ) 
+						)
+				);
+			}
 		};
 		
 		_this.getThumbnail( callback, width, height );
+	},
+	
+	/**
+	 * Given a filename like "Foo.jpg", get the URL to that filename, assuming the browser is on the same wiki.
+	 * Candidate for a utility function...
+	 * @param {String} filename
+	 */
+	filenameToUrl: function( filename ) {
+		var fileUrl = new mw.Uri( document.URL );
+		fileUrl.path = wgScript;
+		var fileTitle = new mw.Title( filename, 'file' );
+		fileUrl.query = { title: fileTitle, action: 'view' }; 
+		return fileUrl;
 	}
 	
 };
@@ -344,7 +513,7 @@ mw.UploadWizard.prototype = {
 	 * Depending on whether we split uploading / detailing, it may actually always be as simple as loading a URL
 	 */
 	reset: function() {
-		window.location.reload();
+		window.location = wgArticlePath.replace( '$1', 'Special:UploadWizard?skiptutorial=true' );
 	},
 
 	
@@ -352,9 +521,22 @@ mw.UploadWizard.prototype = {
 	 * create the basic interface to make an upload in this div
 	 * @param div	The div in the DOM to put all of this into.
 	 */
-	createInterface: function( selector ) {
+createInterface: function( selector ) {
 		var _this = this;
+	
+		// remove first spinner	
+		$j( '#mwe-first-spinner' ).remove();
 
+		// feedback request
+		if ( UploadWizardConfig['feedbackPage'] != '' ) {
+			$j( '#contentSub' ).html('<i>Please <a id="mwe-upwiz-feedback" href="#">let us know</a> what you think of Upload Wizard!</i>');
+			$j( '#mwe-upwiz-feedback') 
+				.click( function() {
+					_this.launchFeedback();
+					return false;
+				} );
+		}
+		
 		// construct the arrow steps from the UL in the HTML
 		$j( '#mwe-upwiz-steps' )
 			.addClass( 'ui-helper-clearfix ui-state-default ui-widget ui-helper-reset ui-helper-clearfix' )
@@ -390,8 +572,14 @@ mw.UploadWizard.prototype = {
 			.click( function() {
 				// check if there is an upload at all (should never happen)
 				if ( _this.uploads.length === 0 ) {
-					// XXX use standard error message
-					alert( gM( 'mwe-upwiz-file-need-file' ) );
+					$j( '<div></div>' )
+						.html( gM( 'mwe-upwiz-file-need-file' ) )
+						.dialog({
+							width: 500,
+							zIndex: 200000,
+							autoOpen: true,
+							modal: true
+						});
 					return;
 				}
 
@@ -413,7 +601,7 @@ mw.UploadWizard.prototype = {
 
 		$j( '#mwe-upwiz-stepdiv-deeds .mwe-upwiz-button-next')
 			.click( function() {
-				$('.mwe-upwiz-hint').each( function(i) { $(this).tipsy('hide') } ); // close tipsy help balloons
+				$j( '.mwe-upwiz-hint' ).each( function(i) { $j( this ).tipsy( 'hide' ); } ); // close tipsy help balloons
 				// validate has the side effect of notifying the user of problems, or removing existing notifications.
 				// if returns false, you can assume there are notifications in the interface.
 				if ( _this.deedChooser.valid() ) {
@@ -446,7 +634,7 @@ mw.UploadWizard.prototype = {
 
 		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-button-next' )
 			.click( function() {
-				$('.mwe-upwiz-hint').each( function(i) { $(this).tipsy('hide') } ); // close tipsy help balloons
+				$j( '.mwe-upwiz-hint' ).each( function(i) { $j( this ).tipsy( 'hide' ); } ); // close tipsy help balloons
 				if ( _this.detailsValid() ) { 
 					_this.detailsSubmit( function() { 
 						_this.prefillThanksPage();
@@ -460,7 +648,7 @@ mw.UploadWizard.prototype = {
 		// WIZARD 
 		
 		// check to see if the the skip tutorial cookie is set
-		if ( document.cookie.indexOf('skiptutorial=1') != -1 ) {
+		if ( document.cookie.indexOf('skiptutorial=1') != -1 || UploadWizardConfig['skipTutorial'] ) {
 			// "select" the second step - highlight, make it visible, hide all others
 			_this.moveToStep( 'file' );
 		} else {
@@ -469,6 +657,7 @@ mw.UploadWizard.prototype = {
 		}
 	
 	},
+
 
 
 	// do some last minute prep before advancing to the DEEDS page
@@ -496,14 +685,14 @@ mw.UploadWizard.prototype = {
 			deeds,
 			_this.uploads.length );
 	
-		$j( '<div>' )
+		$j( '<div></div>' )
 			.insertBefore( _this.deedChooser.$selector.find( '.mwe-upwiz-deed-ownwork' ) )
-			.html( gM( 'mwe-upwiz-deeds-macro-prompt', _this.uploads.length ) );
+			.msg( 'mwe-upwiz-deeds-macro-prompt', _this.uploads.length );
 
 		if ( _this.uploads.length > 1 ) {
-			$j( '<div style="margin-top: 1em">' )
+			$j( '<div style="margin-top: 1em"></div>' )
 				.insertBefore( _this.deedChooser.$selector.find( '.mwe-upwiz-deed-custom' ) )
-				.html( gM( 'mwe-upwiz-deeds-custom-prompt' ) );
+				.msg( 'mwe-upwiz-deeds-custom-prompt' );
 		}
 		
 		_this.moveToStep( 'deeds' ); 
@@ -582,13 +771,9 @@ mw.UploadWizard.prototype = {
 		$j( upload.ui.div ).bind( 'filenameAccepted', function(e) { _this.updateFileCounts();  e.stopPropagation(); } );
 		$j( upload.ui.div ).bind( 'removeUploadEvent', function(e) { _this.removeUpload( upload ); e.stopPropagation(); } );
 		$j( upload.ui.div ).bind( 'filled', function(e) { 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! received!" );
 			_this.newUpload(); 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! new upload!" );
 			_this.setUploadFilled(upload);
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! set upload filled!" );
 			e.stopPropagation(); 
-			mw.log( "mw.UploadWizardUpload::newUpload> filled! stop propagation!" ); 
 		} );
 		// XXX bind to some error state
 
@@ -615,9 +800,7 @@ mw.UploadWizard.prototype = {
 		
 		upload.deedPreview = new mw.UploadWizardDeedPreview( upload );	
 
-		// XXX do we really need to do this now? some things will even change after step 2.
-		// legacy.
-		// set up details
+		// TODO v1.1 consider if we really have to set up details now
 		upload.details = new mw.UploadWizardDetails( upload, $j( '#mwe-upwiz-macro-files' ) );
 	},
 
@@ -854,7 +1037,7 @@ mw.UploadWizard.prototype = {
 			$j( '#mwe-upwiz-upload-ctrl-container' ).show();
 
 			// changes the "click here to add files" to "add another file"
-			$j( '#mwe-upwiz-add-file span' ).html( gM( 'mwe-upwiz-add-file-n' ) );
+			$j( '#mwe-upwiz-add-file span' ).msg( 'mwe-upwiz-add-file-n' );
 			$j( '#mwe-upwiz-add-file-container' ).removeClass('mwe-upwiz-add-files-0');
 			$j( '#mwe-upwiz-add-file-container' ).addClass('mwe-upwiz-add-files-n');
 
@@ -881,7 +1064,7 @@ mw.UploadWizard.prototype = {
 			$j( '#mwe-upwiz-stepdiv-file .mwe-upwiz-buttons' ).hide();
 
 			// change "add another file" into "click here to add a file"
-			$j( '#mwe-upwiz-add-file' ).html( gM( 'mwe-upwiz-add-file-0' ) );
+			$j( '#mwe-upwiz-add-file span' ).msg( 'mwe-upwiz-add-file-0' );
 			$j( '#mwe-upwiz-add-file-container' ).addClass('mwe-upwiz-add-files-0');
 			$j( '#mwe-upwiz-add-file-container' ).removeClass('mwe-upwiz-add-files-n');
 		}
@@ -921,8 +1104,6 @@ mw.UploadWizard.prototype = {
 		var _this = this;
 		// some details blocks cannot be submitted (for instance, identical file hash)
 		_this.removeBlockedDetails();
-
-		// XXX validate all 
 
 		// remove ability to edit details
 		$j.each( _this.uploads, function( i, upload ) {
@@ -969,23 +1150,27 @@ mw.UploadWizard.prototype = {
 		var _this = this;
 		
 		$j( '#mwe-upwiz-thanks' )
-			.append( $j( '<h3 style="text-align: center;">' ).append( gM( 'mwe-upwiz-thanks-intro' ) ),
+			.append( $j( '<h3 style="text-align: center;"></h3>' ).msg( 'mwe-upwiz-thanks-intro' ),
 				 $j( '<p style="margin-bottom: 2em; text-align: center;">' )
-					.append( gM( 'mwe-upwiz-thanks-explain', _this.uploads.length ) ) );
+					.msg( 'mwe-upwiz-thanks-explain', _this.uploads.length ) );
 		
 		$j.each( _this.uploads, function(i, upload) {
-			var thanksDiv = $j( '<div class="mwe-upwiz-thanks ui-helper-clearfix" />' );
-			_this.thanksDiv = thanksDiv;
+			var id = 'thanksDiv' + i;
+			var $thanksDiv = $j( '<div></div>' ).attr( 'id', id ).addClass( "mwe-upwiz-thanks ui-helper-clearfix" );
+			_this.thanksDiv = $thanksDiv;
 			
-			var thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail mwe-upwiz-thumbnail-side" id="thanks-thumbnail"></div>' );
-			upload.setThumbnail( thumbnailDiv );
+			var $thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail mwe-upwiz-thumbnail-side"></div>' );
+			$thanksDiv.append( $thumbnailDiv );
+			upload.setThumbnail( $thumbnailDiv );
+			//upload.setThumbnail( '#' + id + ' .mwe-upwiz-thumbnail' );
 
-			thanksDiv.append( thumbnailDiv );
+			// Switch the thumbnail link so that it points to the image description page
+			$thumbnailDiv.find( 'a' ).attr( 'href', upload.imageinfo.descriptionurl );
 
 			var thumbTitle = String(upload.title);
 			var thumbWikiText = "[[" + thumbTitle.replace('_', ' ') + "|thumb|" + gM( 'mwe-upwiz-thanks-caption' ) + "]]";
 
-			thanksDiv.append(
+			$thanksDiv.append(
 				$j( '<div class="mwe-upwiz-data"></div>' )
 					.append( 
 						$j('<p/>').append( 
@@ -1009,11 +1194,85 @@ mw.UploadWizard.prototype = {
 					)
 			);
 
-			$j( '#mwe-upwiz-thanks' ).append( thanksDiv );
-			// Switch the thumbnail link so that it points to the image description page
-			$j( '#thanks-thumbnail a' ).attr( 'href', upload.imageinfo.descriptionurl );
+			$j( '#mwe-upwiz-thanks' ).append( $thanksDiv );
 		} ); 
 	},
+	
+	/**
+	 * Build interface for collecting user feedback on Upload Wizard
+	 */
+	launchFeedback: function() {
+		_this = this;
+		
+		var displayError = function( message ) {
+			$j( '#mwe-upwiz-feedback-form div' ).hide(); // remove everything else from the dialog box
+			$j( '#mwe-upwiz-feedback-form' ).append ( $j( '<div style="color:#990000;margin-top:0.4em;"></div>' ).msg( message ) );
+		}
+		
+		// Set up buttons for dialog box. We have to do it the hard way since the json keys are localized
+		var cancelButton = gM( 'mwe-upwiz-feedback-cancel' );
+		var submitButton = gM( 'mwe-upwiz-feedback-submit' );
+		var buttonSettings = {};
+		buttonSettings[cancelButton] = function() { $j( this ).dialog( 'close' ); };
+		buttonSettings[submitButton] = function() { 
+			$feedbackForm.dialog({buttons:{}});
+			$j( '#mwe-upwiz-feedback-form div' ).hide(); // remove everything else from the dialog box
+			$j( '#mwe-upwiz-feedback-form' ).append ( $j( '<div style="text-align:center;margin:3em 0;"></div>' ).append( gM( 'mwe-upwiz-feedback-adding' ), $j( '<br/>' ), $j( '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' ) ) );
+			var subject = $j( '#mwe-upwiz-feedback-subject' ).val();
+			var message = $j( '#mwe-upwiz-feedback-message' ).val();
+			if ( message.indexOf( '~~~' ) == -1 ) {
+				message = message+' ~~~~';
+			}
+			var useTokenToPostFeedback = function( token ) {
+				$j.ajax({
+					url: wgScriptPath + '/api.php',
+					data: $.param({
+						action: 'edit',
+						title: mw.UploadWizard.config['feedbackPage'],
+						section: 'new',
+						summary: subject,
+						text: message,
+						format: 'json',
+						token: token
+					}),
+					dataType: 'json',
+					type: 'POST',
+					success: function( data ) {
+						if ( typeof data.edit != 'undefined' ) {
+							if ( data.edit.result == 'Success' ) {
+								$feedbackForm.dialog( 'close' ); // edit complete, close dialog box
+							} else {
+								displayError( 'mwe-upwiz-feedback-error1' ); // unknown API result
+							}
+						} else {
+							displayError( 'mwe-upwiz-feedback-error2' ); // edit failed
+						}
+					},
+					error: function( xhr ) {
+						displayError( 'mwe-upwiz-feedback-error3' ); // ajax request failed
+					}
+				}); // close Ajax request
+			}; // close useTokenToPost function
+			_this.api.getEditToken( useTokenToPostFeedback );
+		}; // close submit button function
+		
+		// Construct the feedback form
+		var feedbackLink = '<a href="'+wgArticlePath.replace( '$1', mw.UploadWizard.config['feedbackPage'].replace( /\s/g, '_' ) )+'" target="_blank">'+mw.UploadWizard.config['feedbackPage']+'</a>';
+		$feedbackForm = $j( '<div id="mwe-upwiz-feedback-form" style="position:relative;"></div>' )
+			.append( $j( '<div style="margin-top:0.4em;"></div>' ).append( $j( '<small></small>' ).msg( 'mwe-upwiz-feedback-note', feedbackLink ) ) )
+			.append( $j( '<div style="margin-top:1em;"></div>' ).append( gM( 'mwe-upwiz-feedback-subject' ), $j( '<br/>' ), $j( '<input type="text" id="mwe-upwiz-feedback-subject" name="subject" maxlength="60" style="width:99%;"/>' ) ) )
+          	.append( $j( '<div style="margin-top:0.4em;"></div>' ).append( gM( 'mwe-upwiz-feedback-message' ), $j( '<br/>' ), $j( '<textarea name="message" id="mwe-upwiz-feedback-message" style="width:99%;" rows="4" cols="60"></textarea>' ) ) )
+			.dialog({
+				width: 500,
+				autoOpen: false,
+				title: gM( 'mwe-upwiz-feedback-title' ),
+				modal: true,
+				buttons: buttonSettings
+			}); // close dialog, end $feedbackForm definition
+			
+		$feedbackForm.dialog( 'open' );
+		
+	}, // close launchFeedback function
 	
 	/**
 	 * Set a cookie which lets the user skip the tutorial step in the future
@@ -1038,6 +1297,7 @@ mw.UploadWizard.prototype = {
 	stop: function() {
 
 	}
+
 };
 
 
@@ -1118,13 +1378,30 @@ mw.UploadWizardDeedPreview.prototype = {
 	};
 	
 	/**
-	 * Adds a tipsy pop-up help button to the field.
-	 * @param name   The short name of the field, for example, 'title'. This should correspond with a
-	 *               message key of the form 'mwe-upwiz-tooltip-<name>'.
+	 * Adds a tipsy pop-up help button to the field. Can be called in two ways -- with simple string id, which identifies
+	 * the string as 'mwe-upwiz-tooltip-' plus that id, and creates the hint with a similar id
+	 * or with function and id -- function will be called to generate the hint every time
+	 * TODO v1.1 split into two plugins?
+	 * @param key {string}  -- will base the tooltip on a message found with this key
+	 * @param fn {function} optional -- call this function every time tip is created to generate message. If present HTML element gets an id of the exact key specified
 	 */
-	$j.fn.addHint = function( name ) {
-		return this.append( $j( '<span class="mwe-upwiz-hint" id="mwe-upwiz-'+name+'-hint" onclick=\"$(this).tipsy(\'toggle\');return false;\">' )
-			.attr( 'title', gM( 'mwe-upwiz-tooltip-'+name ) ).tipsy( {html: true, opacity: 0.9, gravity: 'sw', trigger: 'manual'} ) );
+	$j.fn.addHint = function( key, fn ) {
+		var attrs, contentSource, html = false;
+		if ( typeof fn === 'function' ) {
+			attrs = { id: key };
+			contentSource = fn;
+			html = true;
+		} else {	
+			attrs = { 'title': gM( 'mwe-upwiz-tooltip-' + key ) };
+			contentSource = 'title';
+		} 
+		return this.append( 
+			$j( '<span/>' )
+				.addClass( 'mwe-upwiz-hint' )
+				.attr( attrs )
+				.click( function() { $j( this ).tipsy( 'toggle' ); return false; } )
+				.tipsy( { title: contentSource, html: html, opacity: 1.0, gravity: 'sw', trigger: 'manual'} ) 
+		);
 	};
 
 	/**
@@ -1183,7 +1460,7 @@ mw.UploadWizardDeedPreview.prototype = {
 					$j( el ).find( "select" ).addClass( "masked-hidden" );
 				}
 
-				var mask = $j( '<div class="mwe-upwiz-mask"/>' )
+				var mask = $j( '<div class="mwe-upwiz-mask"></div>' )
 						.css( {
 							'backgroundColor' : 'white',
 							'width'	   : el.offsetWidth + 'px',
@@ -1191,7 +1468,7 @@ mw.UploadWizardDeedPreview.prototype = {
 							'z-index'  : 90
 						} );
 						
-				var status = $j( '<div class="mwe-upwiz-status"/>' )
+				var status = $j( '<div class="mwe-upwiz-status"></div>' )
 						.css( {
 							'width'	   : el.offsetWidth + 'px',
 							'height'   : el.offsetHeight + 'px',

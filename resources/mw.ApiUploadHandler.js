@@ -51,14 +51,7 @@ mw.ApiUploadHandler.prototype = {
 		
 		// we use JSON in HTML because according to mdale, some browsers cannot handle just JSON
 		_this.addFormInputIfMissing( 'format', 'jsonfm' );
-		
-		// XXX only for testing, so it stops complaining about dupes
-		/*
-		if ( mw.UploadWizard.DEBUG ) {
-			_this.addFormInputIfMissing( 'ignorewarnings', '1' );
-		}
-		*/
-	},	
+	},
 	/** 
 	 * Modify our form to have a fresh edit token.
 	 * If successful, return true to a callback.

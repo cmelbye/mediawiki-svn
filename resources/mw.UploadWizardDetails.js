@@ -45,7 +45,7 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 	//    http://commons.wikimedia.org/wiki/MediaWiki:Filename-prefix-blacklist
 	//    XXX make sure they can't use ctrl characters or returns or any other bad stuff.
 	_this.titleId = "title" + _this.upload.index;
-	_this.titleInput = $j( '<textarea type="text" id="' + _this.titleId + '" name="' + _this.titleId + '" rows="1" class="mwe-title mwe-long-textarea"></textarea>' )
+	_this.titleInput = $j( '<input type="text" id="' + _this.titleId + '" name="' + _this.titleId + '" class="mwe-title"/>' )
 		.keyup( function() { 
 			_this.upload.title.setNameText( _this.titleInput.value );
 			// TODO update a display of filename 
@@ -54,22 +54,49 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 			api: _this.upload.api,
 			spinner: function(bool) { _this.toggleDestinationBusy(bool); },
 			preprocess: function( name ) { 
-				// turn the contents of the input into a MediaWiki title ("File:foo_bar.jpg") to look up
-				return _this.upload.title.setNameText( name ).toString();
+				if ( name != '' ) {
+					// turn the contents of the input into a MediaWiki title ("File:foo_bar.jpg") to look up
+					return _this.upload.title.setNameText( name ).toString();
+				} else {
+					return name;
+				}
 			}, 
 			processResult: function( result ) { _this.processDestinationCheck( result ); } 
 		} );
 
-	_this.titleErrorDiv = $j('<div class="mwe-upwiz-details-input-error"><label class="mwe-error" for="' + _this.titleId + '" generated="true"/></div>');
+	_this.titleErrorDiv = $j('<div class="mwe-upwiz-details-input-error"><label class="mwe-validator-error" for="' + _this.titleId + '" generated="true"/></div>');
+
+	var titleHintId = 'mwe-upwiz-title-hint-' + _this.upload.index;
+	var $titleDialog = $('<div>')
+		.html( gM( 'mwe-upwiz-dialog-title' ) )
+		.dialog({
+			width: 500,
+			zIndex: 200000,
+			autoOpen: false,
+			title: gM( 'mwe-upwiz-help-popup' ) + ': ' + gM( 'mwe-upwiz-help-popup-title' ),
+			modal: true
+		})
+		.bind( "dialogclose", function( event, ui ) { 
+			$j( '#' + titleHintId ).tipsy( "hide" );
+		});
+
+	// tipsy hides tips by removing them from the DOM. This causes all bindings to be lost.
+	// so we send a function to recreate everything, every time!
+	// (is it really necessary for tipsy to remove elements?)
+	var titleHinter = function() { 
+		return $j( '<span>' ).msg( 'mwe-upwiz-tooltip-title', function() { 
+			$titleDialog.dialog( 'open' ); 
+			// TODO scroll to the dialog, or otherwise ensure it's in the middle of the page no matter what
+		} );
+	};
 
 	var titleContainerDiv = $j('<div class="mwe-upwiz-details-fieldname-input ui-helper-clearfix"></div>')
 		.append(
 			_this.titleErrorDiv, 
 			$j( '<div class="mwe-upwiz-details-fieldname"></div>' )
+				.msg( 'mwe-upwiz-title' )
 				.requiredFieldLabel()
-				.append( gM( 'mwe-upwiz-title' ) )
-				.addHint( 'title' ),
-				 
+				.addHint( titleHintId, titleHinter ), 
 			$j( '<div class="mwe-upwiz-details-input"></div>' ).append( _this.titleInput ) 
 		); 
 
@@ -86,7 +113,13 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 				+ '<div class="mwe-upwiz-details-fieldname"></div>' 
 				+ '<div class="mwe-upwiz-details-input"></div>'
 				+ '</div>' );
-	$categoriesDiv.find( '.mwe-upwiz-details-fieldname' ).append( gM( 'mwe-upwiz-categories' ) ).addHint( 'categories' );
+	var commonsCategoriesLink = $j( '<a>' ).attr( { 'target': '_blank', 'href': 'http://commons.wikimedia.org/wiki/Commons:Categories' } );
+	var categoriesHint = $j( '<span>' ).msg( 'mwe-upwiz-tooltip-categories', commonsCategoriesLink );
+	var categoriesHinter = function() { return categoriesHint; };
+	$categoriesDiv
+		.find( '.mwe-upwiz-details-fieldname' )
+		.append( gM( 'mwe-upwiz-categories' ) )
+		.addHint( 'mwe-upwiz-categories-hint', categoriesHinter );
 	var categoriesId = 'categories' + _this.upload.index;
 	$categoriesDiv.find( '.mwe-upwiz-details-input' )
 		.append( $j( '<input/>' ).attr( { id: categoriesId,
@@ -132,19 +165,7 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 		otherInformationDiv
 	);
 	
-	$titleDialog = $('<div>')
-		.html( gM( 'mwe-upwiz-dialog-title' ) )
-		.dialog({
-			width: 500,
-			zIndex: 200000,
-			autoOpen: false,
-			title: 'Help: Title',
-			modal: true
-		})
-		.bind( "dialogclose", function(event, ui) { 
-			$("#mwe-upwiz-title-hint").tipsy("hide");
-		});
-	
+		
 	/* Build the form for the file upload */
 	_this.$form = $j( '<form></form>' );
 	_this.$form.append( 
@@ -204,6 +225,15 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 	_this.addDescription( true, mw.config.get( 'wgUserLanguage' ) );
 	$j( containerDiv ).append( _this.div );
 
+	// make the title field required
+	_this.$form.find( '.mwe-title' )
+		.rules( "add", {
+			required: true,
+			messages: { 
+				required: gM( 'mwe-upwiz-error-blank' )
+			}
+		} );
+	
 	// make this a category picker
 	var hiddenCats = [];
 	if ( mw.isDefined( mw.UploadWizard.config.autoCategory ) ) {
@@ -224,34 +254,31 @@ mw.UploadWizardDetails.prototype = {
 	 * check entire form for validity
 	 */ 
 	// return boolean if we are ready to go.
-        // side effect: add error text to the page for fields in an incorrect state.
+	// side effect: add error text to the page for fields in an incorrect state.
 	// we must call EVERY valid() function due to side effects; do not short-circuit.
-        valid: function() {
+	valid: function() {
 		var _this = this;
-                // at least one description -- never mind, we are disallowing removal of first description
-                // all the descriptions -- check min & max length
+		// at least one description -- never mind, we are disallowing removal of first description
+		// all the descriptions -- check min & max length
+		// categories are assumed valid
+		// pop open the 'more-options' if the date is bad
+		// location?
 
-                // the title
+		// make sure title is valid
 		var titleInputValid = $j( _this.titleInput ).data( 'valid' );
 		if ( typeof titleInputValid == 'undefined' ) {
 			alert( "please wait, still checking the title for uniqueness..." );
 			return false;
 		}
-	
+
+		// make sure licenses are valid (needed for multi-file deed selection)
+		var deedValid = _this.upload.deedChooser.valid();
+		
 		// all other fields validated with validator js	
 		var formValid = _this.$form.valid();
-		return titleInputValid && formValid;
 
-		// categories are assumed valid
-	
-                // the license, if any
-
-                // pop open the 'more-options' if the date is bad
-                // the date
-
-		// location?
-        },
-
+		return titleInputValid && deedValid && formValid;
+	},
 
 
 	/**
@@ -291,7 +318,6 @@ mw.UploadWizardDetails.prototype = {
 	 */
 	processDestinationCheck: function( result ) {
 		var _this = this;
-
 		if ( result.isUnique ) {
 			$j( _this.titleInput ).data( 'valid', true );
 			_this.$form.find( 'label[for=' + _this.titleId + ']' ).hide().empty();
@@ -302,7 +328,14 @@ mw.UploadWizardDetails.prototype = {
 		$j( _this.titleInput ).data( 'valid', false );
 
 		// result is NOT unique
-		var title = new mw.Title( result.title ).setNamespace( 'file' ).getNameText();
+		var title;
+		try { 
+			title = new mw.Title( result.title ).setNamespace( 'file' ).getNameText();
+		} catch ( e ) {
+			// unparseable result from unique test? 
+			title = '[unparseable name]';
+		}
+			
 		/* var img = result.img;
 		var href = result.href; */
 	
@@ -463,7 +496,6 @@ mw.UploadWizardDetails.prototype = {
 	 */
 	populate: function() {
 		var _this = this;
-		mw.log( "mw.UploadWizardUpload::populate> populating details from upload" );
 		_this.upload.setThumbnail( _this.thumbnailDiv, mw.UploadWizard.config['thumbnailWidth'], mw.UploadWizard.config['thumbnailMaxHeight'] );
 		_this.prefillDate();
 		_this.prefillSource();
@@ -487,11 +519,12 @@ mw.UploadWizardDetails.prototype = {
 		var _this = this;
 		var yyyyMmDdRegex = /^(\d\d\d\d)[:\/-](\d\d)[:\/-](\d\d)\D.*/;
 		var dateObj;
-		var metadata = _this.upload.imageinfo.metadata;
-		$j.each([metadata.datetimeoriginal, metadata.datetimedigitized, metadata.datetime, metadata['date']], 
-			function( i, imageinfoDate ) {
-				if ( ! mw.isEmpty( imageinfoDate ) ) {
-					var matches = $j.trim( imageinfoDate ).match( yyyyMmDdRegex );   
+		if ( _this.upload.imageinfo.metadata ) {
+			var metadata = _this.upload.imageinfo.metadata;
+			$j.each( [ 'datetimeoriginal', 'datetimedigitized', 'datetime', 'date' ], function( i, propName ) {
+				var dateInfo = metadata[propName];
+				if ( ! mw.isEmpty( dateInfo ) ) {
+					var matches = $j.trim( dateInfo ).match( yyyyMmDdRegex );   
 					if ( ! mw.isEmpty( matches ) ) {
 						dateObj = new Date( parseInt( matches[1], 10 ), 
 								    parseInt( matches[2], 10 ) - 1, 
@@ -499,13 +532,13 @@ mw.UploadWizardDetails.prototype = {
 						return false; // break from $j.each
 					}
 				}
-			}
-		);
+			} );
+		}
 
 		// if we don't have EXIF or other metadata, let's use "now"
 		// XXX if we have FileAPI, it might be clever to look at file attrs, saved 
 		// in the upload object for use here later, perhaps
-		if (typeof dateObj === 'undefined') {
+		if ( !mw.isDefined( dateObj ) ) {
 			dateObj = new Date();
 		}
 		dateStr = dateObj.getUTCFullYear() + '-' + pad( dateObj.getUTCMonth() ) + '-' + pad( dateObj.getUTCDate() );
@@ -551,13 +584,7 @@ mw.UploadWizardDetails.prototype = {
 	 *	"122/1"             -- 122 m  (altitude)
 	 */
 	prefillLocation: function() {
-		var _this = this;
-		var metadata = _this.upload.imageinfo.metadata;
-		if (metadata === undefined) {
-			return;
-		}
-		
-
+		/* unimplemented -- awaiting bawolff's GSoC 2010 project to be committedd... */ return;
 	},
 
 	/**
@@ -594,7 +621,7 @@ mw.UploadWizardDetails.prototype = {
 	 */
 	prefillAuthor: function() {
 		var _this = this;
-		if (_this.upload.imageinfo.metadata.author !== undefined) {
+		if ( _this.upload.imageinfo.metadata && _this.upload.imageinfo.metadata.author ) {
 			$j( _this.authorInput ).val( _this.upload.imageinfo.metadata.author );
 		}
 	
@@ -606,20 +633,22 @@ mw.UploadWizardDetails.prototype = {
 	 */
 	prefillLicense: function() {
 		var _this = this;
-		var copyright = _this.upload.imageinfo.metadata.copyright;
-		if (copyright !== undefined) {
-			if (copyright.match(/\bcc-by-sa\b/i)) {
-				alert("unimplemented cc-by-sa in prefillLicense"); 
-				// XXX set license to be that CC-BY-SA
-			} else if (copyright.match(/\bcc-by\b/i)) {
-				alert("unimplemented cc-by in prefillLicense"); 
-				// XXX set license to be that
-			} else if (copyright.match(/\bcc-zero\b/i)) {
-				alert("unimplemented cc-zero in prefillLicense"); 
-				// XXX set license to be that
-				// XXX any other licenses we could guess from copyright statement
-			} else {
-				$j( _this.licenseInput ).val( copyright );
+		if ( _this.upload.imageinfo.metadata ) {
+			var copyright = _this.upload.imageinfo.metadata.copyright;
+			if (copyright !== undefined) {
+				if (copyright.match(/\bcc-by-sa\b/i)) {
+					alert("unimplemented cc-by-sa in prefillLicense"); 
+					// XXX set license to be that CC-BY-SA
+				} else if (copyright.match(/\bcc-by\b/i)) {
+					alert("unimplemented cc-by in prefillLicense"); 
+					// XXX set license to be that
+				} else if (copyright.match(/\bcc-zero\b/i)) {
+					alert("unimplemented cc-zero in prefillLicense"); 
+					// XXX set license to be that
+					// XXX any other licenses we could guess from copyright statement
+				} else {
+					$j( _this.licenseInput ).val( copyright );
+				}
 			}
 		}
 		// if we still haven't set a copyright use the user's preferences?
@@ -628,7 +657,6 @@ mw.UploadWizardDetails.prototype = {
 	
 	/**
 	 * Convert entire details for this file into wikiText, which will then be posted to the file 
-	 * XXX there is a WikiText sanitizer in use on UploadForm -- use that here, or port it 
 	 * @return wikitext representing all details
 	 */
 	getWikiText: function() {
@@ -699,6 +727,10 @@ mw.UploadWizardDetails.prototype = {
 		// group categories together, maybe?
 		wikiText += deed.getLicenseWikiText() + _this.div.find( '.categoryInput' ).get(0).getWikiText() + "\n\n";
 		
+		// sanitize wikitext if TextCleaner is defined (MediaWiki:TextCleaner.js)
+		if ( typeof TextCleaner != 'undefined' && typeof TextCleaner.sanitizeWikiText == 'function' ) {
+			wikiText = TextCleaner.sanitizeWikiText( wikiText, true );
+		}
 
 		return wikiText;	
 	},
@@ -713,7 +745,6 @@ mw.UploadWizardDetails.prototype = {
 
 		// XXX check state of details for okayness ( license selected, at least one desc, sane filename )
 		var wikiText = _this.getWikiText();
-		mw.log( "mw.UploadWizardUpload::submit> submiting wikiText:\n" + wikiText );
 
 		var params = {
 			action: 'upload',
@@ -728,51 +759,13 @@ mw.UploadWizardDetails.prototype = {
 			_this.completeDetailsSubmission(); 
 		};	
 
-		mw.log( "mw.UploadWizardUpload::submit> uploading: \n" + params );
 		var callback = function( result ) {
-			mw.log( "mw.UploadWizardUpload::submit> result:\n" + result );
-			mw.log( "mw.UploadWizardUpload::submit> successful upload" );
 			finalCallback( result );
 		};
 
 		_this.upload.state = 'submitting-details';
 		// XXX this can still fail with bad filename, or other 'warnings' -- capture these
 		_this.upload.api.postWithEditToken( params, callback );
-	},
-
-
-	/** 
-	 * Get new image info, for instance, after we renamed... or? published? an image
-	 * XXX deprecated?
-	 * XXX move to mw.API
-	 *
-	 * @param upload an UploadWizardUpload object
-	 * @param title  title to look up remotely
-	 * @param endCallback  execute upon completion
-	 */
-	getImageInfo: function( upload, callback ) {
-		var params = {
-                        'titles': upload.title.toString(),
-                        'prop':  'imageinfo',
-                        'iiprop': 'timestamp|url|user|size|sha1|mime|metadata'
-                };
-		// XXX timeout callback?
-		this.api.get( params, function( data ) {
-			if ( data && data.query && data.query.pages ) {
-				if ( ! data.query.pages[-1] ) {
-					for ( var page_id in data.query.pages ) {
-						var page = data.query.pages[ page_id ];
-						if ( ! page.imageinfo ) {
-							alert("unimplemented error check, missing imageinfo");
-							// XXX not found? error
-						} else {
-							upload.extractImageInfo( page.imageinfo[0] );
-						}
-					}
-				}	
-			}
-			callback();
-		} );
 	},
 
 	completeDetailsSubmission: function() {

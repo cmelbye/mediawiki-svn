@@ -35,6 +35,7 @@
 
 		_this.wrap('<div class="cat-widget"></div>');
 		$container = _this.parent(); // set to the cat-widget class we just wrapped
+		$container.prepend('<ul class="cat-list pkg"></ul>');
 		$container.append( $j( '<button type="button" name="catbutton">'+settings.buttontext+'</button>' )
 			.button()
 			.click( function(e) {
@@ -44,8 +45,6 @@
 				return false;
 			})
 		);
-
-		$container.prepend('<ul class="cat-list pkg"></ul>');
 
 		//XXX ensure this isn't blocking other stuff needed.
 		_this.parents('form').submit( function() {
@@ -80,6 +79,8 @@
 	}
 
 	function _insertCat( cat, isHidden ) {
+		// strip out bad characters
+		cat = cat.replace( /[\x00-\x1f\x3c\x3e\x5b\x5d\x7b\x7c\x7d\x7f]+/g, '' );
 		if ( mw.isEmpty( cat ) || _containsCat( cat ) ) { 
 			return; 
 		}
@@ -120,13 +121,15 @@
 
 	function _fetchSuggestions( query ) {
 		var _this = this;
+		// ignore bad characters, they will be stripped out
+		var catName = $j( this ).val().replace( /[\x00-\x1f\x3c\x3e\x5b\x5d\x7b\x7c\x7d\x7f]+/g, '' );
 		var request = $j.ajax( {
 			url: wgScriptPath + '/api.php',
 			data: {
 				'action': 'query',
 				'list': 'allpages',
 				'apnamespace': wgNamespaceIds['category'],
-				'apprefix': $j( this ).val(),
+				'apprefix': catName,
 				'format': 'json'
 			},
 			dataType: 'json',

@@ -29,13 +29,7 @@ mw.UploadWizardDeed.prototype = {
 	 * @return wikitext of all applicable license templates.
 	 */
 	getLicenseWikiText: function() {
-		var _this = this;
-		var wikiText = ''; 
-		$j.each ( _this.licenseInput.getTemplates(), function( i, template ) {
-			wikiText += "{{" + template + "}}\n";
-		} );
-	
-		return wikiText;
+		return this.licenseInput.getWikiText();
 	}
 
 };
@@ -62,8 +56,10 @@ mw.UploadWizardDeedOwnWork = function( uploadCount ) {
 		.addClass( 'mwe-upwiz-sign' );
 
 	var licenseInputDiv = $j( '<div class="mwe-upwiz-deed-license"></div>' );
-	_this.licenseInput = new mw.UploadWizardLicenseInput( licenseInputDiv );
-	_this.licenseInput.setDefaultValues();
+	_this.licenseInput = new mw.UploadWizardLicenseInput( licenseInputDiv, 
+							      undefined, 
+							      mw.UploadWizard.config.licensesOwnWork,
+							      _this.uploadCount );
 
 	return $j.extend( _this, { 
 
@@ -92,56 +88,41 @@ mw.UploadWizardDeedOwnWork = function( uploadCount ) {
 		},
 
 
-		getLicenseWikiText: function() {
-			var wikiText = '{{self';
-			$j.each( _this.licenseInput.getTemplates(), function( i, template ) {
-				wikiText += '|' + template;
-			} );
-			wikiText += '}}';
-			return wikiText;
-		},
-
 		setFormFields: function( $selector ) {
 			_this.$selector = $selector;
 
-			_this.$form = $j( '<form/>' );
+			_this.$form = $j( '<form />' );
 
+			var $authorInput2 = $j( '<input />' ).attr( { name: "author2", type: "text" } ).addClass( 'mwe-upwiz-sign' );
 			var $standardDiv = $j( '<div />' ).append(
-				$j( '<label for="author2" generated="true" class="mwe-validator-error" style="display:block;"/>' ),
-				$j( '<p>' )
-					.html( gM( 'mwe-upwiz-source-ownwork-assert',
-						   uploadCount,
-						   '<span class="mwe-standard-author-input"></span>' )
-					),
-				$j( '<p class="mwe-small-print" />' ).append( gM( 'mwe-upwiz-source-ownwork-assert-note' ) )
+				$j( '<label for="author2" generated="true" class="mwe-validator-error" style="display:block;" />' ),
+				$j( '<p></p>' ).msg( 'mwe-upwiz-source-ownwork-assert',
+						 uploadCount,
+						 $authorInput2 ),
+				$j( '<p class="mwe-small-print"></p>' ).msg( 'mwe-upwiz-source-ownwork-assert-note' ) 
 			); 
-			$standardDiv.find( '.mwe-standard-author-input' ).append( $j( '<input name="author2" type="text" class="mwe-upwiz-sign" />' ) );
 			
-			var $customDiv = $j('<div/>').append( 
-				$j( '<label for="author" generated="true" class="mwe-validator-error" style="display:block;"/>' ),
-				$j( '<p>' )
-					.html( gM( 'mwe-upwiz-source-ownwork-assert-custom', 
-						uploadCount,
-						'<span class="mwe-custom-author-input"></span>' ) ),
+			var $customDiv = $j('<div />').append( 
+				$j( '<label for="author" generated="true" class="mwe-validator-error" style="display:block;" />' ),
+				$j( '<p></p>' ).msg( 'mwe-upwiz-source-ownwork-assert-custom', 
+						 uploadCount,
+						 _this.authorInput ),
 				licenseInputDiv
 			);
-			// have to add the author input this way -- gM() will flatten it to a string and we'll lose it as a dom object
-			$customDiv.find( '.mwe-custom-author-input' ).append( _this.authorInput );
 
-
-			var $crossfader = $j( '<div>' ).append( $standardDiv, $customDiv );
-			var $toggler = $j( '<p class="mwe-more-options" style="text-align: right" />' )
+			var $crossfader = $j( '<div />' ).append( $standardDiv, $customDiv );
+			var $toggler = $j( '<p class="mwe-more-options" style="text-align: right"></p>' )
 				.append( $j( '<a />' )
-					.append( gM( 'mwe-upwiz-license-show-all' ) )
+					.msg( 'mwe-upwiz-license-show-all' ) 
 					.click( function() {
 						_this.formValidator.resetForm();
 						if ( $crossfader.data( 'crossfadeDisplay' ) === $customDiv ) {
 							_this.licenseInput.setDefaultValues();
 							$crossfader.morphCrossfade( $standardDiv );
-							$j( this ).html( gM( 'mwe-upwiz-license-show-all' ) );
+							$j( this ).msg( 'mwe-upwiz-license-show-all' );
 						} else {
 							$crossfader.morphCrossfade( $customDiv );
-							$j( this ).html( gM( 'mwe-upwiz-license-show-recommended' ) );
+							$j( this ).msg( 'mwe-upwiz-license-show-recommended' );
 						}
 					} ) );
 
@@ -172,7 +153,9 @@ mw.UploadWizardDeedOwnWork = function( uploadCount ) {
 			
 			// done after added to the DOM, so there are true heights
 			$crossfader.morphCrossfader();
-
+			
+			// choose default licenses
+			_this.licenseInput.setDefaultValues();
 
 			// and finally, make it validatable
 			_this.formValidator = _this.$form.validate( {
@@ -224,7 +207,10 @@ mw.UploadWizardDeedThirdParty = function( uploadCount ) {
 				.growTextArea()
 				.attr( 'title', gM( 'mwe-upwiz-tooltip-author' ) );
 	licenseInputDiv = $j( '<div class="mwe-upwiz-deed-license"></div>' );
-	_this.licenseInput = new mw.UploadWizardLicenseInput( licenseInputDiv );
+	_this.licenseInput = new mw.UploadWizardLicenseInput( licenseInputDiv, 
+							      undefined, 
+							      mw.UploadWizard.config.licensesThirdParty,
+							      _this.uploadCount );
 
 
 	return $j.extend( _this, mw.UploadWizardDeed.prototype, {
@@ -232,26 +218,26 @@ mw.UploadWizardDeedThirdParty = function( uploadCount ) {
 
 		setFormFields: function( $selector ) {
 			var _this = this;
-			_this.$form = $j( '<form/>' );
+			_this.$form = $j( '<form />' );
 
-			var $formFields = $j( '<div class="mwe-upwiz-deed-form-internal"/>' );
+			var $formFields = $j( '<div class="mwe-upwiz-deed-form-internal" />' );
 
-			if ( uploadCount > 1 ) { 
-				$formFields.append( $j( '<div />' ).append( gM( 'mwe-upwiz-source-thirdparty-custom-multiple-intro' ) ) );
+			if ( _this.uploadCount > 1 ) { 
+				$formFields.append( $j( '<div />' ).msg( 'mwe-upwiz-source-thirdparty-custom-multiple-intro' ) );
 			}
 
 			$formFields.append (
 				$j( '<div class="mwe-upwiz-source-thirdparty-custom-multiple-intro" />' ),
-				$j( '<label for="source" generated="true" class="mwe-validator-error" style="display:block;"/>' ),
+				$j( '<label for="source" generated="true" class="mwe-validator-error" style="display:block;" />' ),
 				$j( '<div class="mwe-upwiz-thirdparty-fields" />' )
-					.append( $j( '<label for="source"/>' ).text( gM( 'mwe-upwiz-source' ) ).addHint( 'source' ), 
+					.append( $j( '<label for="source" />' ).text( gM( 'mwe-upwiz-source' ) ).addHint( 'source' ), 
 						 _this.sourceInput ),
-				$j( '<label for="author" generated="true" class="mwe-validator-error" style="display:block;"/>' ),
+				$j( '<label for="author" generated="true" class="mwe-validator-error" style="display:block;" />' ),
 				$j( '<div class="mwe-upwiz-thirdparty-fields" />' )
-					.append( $j( '<label for="author"/>' ).text( gM( 'mwe-upwiz-author' ) ).addHint( 'author' ),
+					.append( $j( '<label for="author" />' ).text( gM( 'mwe-upwiz-author' ) ).addHint( 'author' ),
 						 _this.authorInput ),
 				$j( '<div class="mwe-upwiz-thirdparty-license" />' )
-					.append( gM( 'mwe-upwiz-source-thirdparty-license', uploadCount ) ),
+					.msg( 'mwe-upwiz-source-thirdparty-cases', _this.uploadCount ),
 				licenseInputDiv
 			);
 
@@ -325,16 +311,16 @@ mw.UploadWizardDeedChooser = function( selector, deeds, uploadCount ) {
 		var id = _this.name + '-' + deed.name;
 		var $deedInterface = $j( 
 			'<div class="mwe-upwiz-deed mwe-upwiz-deed-' + deed.name + '">'
-		       +   '<div class="mwe-upwiz-deed-option-title">'
-		       +     '<span class="mwe-upwiz-deed-header">'
-		       +        '<input id="' + id +'" name="' + _this.name + '" type="radio" value="' + deed.name + ' /">'
-		       +	'<label for="' + id + '" class="mwe-upwiz-deed-name">'
-		       +          gM( 'mwe-upwiz-source-' + deed.name, _this.uploadCount )
-		       +        '</label>'
-		       +     '</span>'
-		       +   '</div>'
-		       +   '<div class="mwe-upwiz-deed-form">'
-		       + '</div>'
+		   +  '<div class="mwe-upwiz-deed-option-title">'
+		   +    '<span class="mwe-upwiz-deed-header">'
+		   +      '<input id="' + id +'" name="' + _this.name + '" type="radio" value="' + deed.name + ' /">'
+		   +      '<label for="' + id + '" class="mwe-upwiz-deed-name">'
+		   +        gM( 'mwe-upwiz-source-' + deed.name, _this.uploadCount )
+		   +      '</label>'
+		   +    '</span>'
+		   +  '</div>'
+		   +  '<div class="mwe-upwiz-deed-form"></div>'
+		   +'</div>'
 		);
 
 		var $deedSelector = _this.$selector.append( $deedInterface );

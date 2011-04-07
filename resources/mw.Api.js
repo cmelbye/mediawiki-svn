@@ -47,8 +47,7 @@
 
 				// caller can supply handlers for http transport error or api errors
 				err: function( code, result ) {
-					var errorMsg = "mw.Api error: " + code;
-					mw.log( _method + errorMsg );
+					mw.log( "mw.Api error: " + code, 'debug' );
 				},
 
 				timeout: 30000, /* 30 seconds */
@@ -129,6 +128,7 @@
 				ajaxOptions.err( 'http', { xhr: xhr, textStatus: textStatus, exception: exception } );
 			};
 
+			
 			/* success just means 200 OK; also check for output and API errors */
 			ajaxOptions.success = function( result ) {
 				if ( mw.isEmpty( result ) ) {
@@ -153,6 +153,20 @@
 	 * available.
 	 */
 	mw.Api.errors = [
+		/* occurs when POST aborted - jQuery 1.4 can't distinguish abort or lost connection from 200 OK + empty result */
+		'ok-but-empty',
+
+		// timeout
+		'timeout',
+
+		/* really a warning, but we treat it like an error */
+		'duplicate',
+
+		/* upload succeeded, but no image info. 
+		   this is probably impossible, but might as well check for it */
+		'noimageinfo',
+
+		/* remote errors, defined in API */
 		'uploaddisabled',
 		'nomodule',
 		'mustbeposted',

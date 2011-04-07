@@ -1,4 +1,7 @@
-
+/* for feedback request message */
+#contentSub {
+	margin-left: 0;
+}
 
 form.mwe-upwiz-form {
 	display: inline;
@@ -170,6 +173,12 @@ form.mwe-upwiz-form {
 	background: url('images/32px-Blank-document.svg.png') no-repeat center top;
 }
 
+.mwe-upwiz-file-preview-broken {
+	height: 40px !important;
+	width: 40px !important;
+	background: url('images/32px-Blank-document-broken.svg.png') no-repeat center top !important;
+}
+
 .mwe-upwiz-add-files-n {
 	float: left;
 }
@@ -275,8 +284,32 @@ a[disabled=true]:hover {
 	background: url('images/24px-spinner-0645ad.gif') no-repeat center center;
 }
 
+.mwe-upwiz-file.hover .mwe-upwiz-status-progress {
+	background: url('images/24px-spinner-0645ad-e0f0ff.gif') no-repeat center center;
+}
+
 .mwe-upwiz-status-stashed, .mwe-upwiz-status-uploaded {
 	background: url('images/32px-Dialog-apply-009900.svg.png') no-repeat center center;
+}
+
+
+.mwe-upwiz-license-icon {
+	height: 18px;
+	margin-left: 6px;
+	padding: 9px;
+	width: 18px;
+}
+
+.mwe-upwiz-cc-zero-icon {
+	background: url('images/18px-Cc-zero.svg.png') no-repeat center center;
+}
+
+.mwe-upwiz-cc-sa-icon {
+	background: url('images/18px-Share_Alike.svg.png') no-repeat center center;
+}
+
+.mwe-upwiz-cc-by-icon {
+	background: url('images/18px-Cc-by_new_white.svg.png') no-repeat center center;
 }
 
 .mwe-upwiz-status-error {
@@ -466,14 +499,16 @@ a[disabled=true]:hover {
 
 .mwe-grow-textarea, .mwe-long-textarea {
 	overflow: hidden;
-	font-family: sans-serif; /* XXX is this right? */
+	font-family: sans-serif;
 	font-size: small;
 }
 
-fieldset .mwe-long-textarea {
-	width: 17em;
-}
 
+.mwe-title {
+	font-family: sans-serif;
+	font-size: small;
+	width: 100%;
+}
 
 .mwe-upwiz-details-fieldname-input {
 	margin-bottom: 1em; 
@@ -489,7 +524,6 @@ fieldset .mwe-long-textarea {
 } 
 
 fieldset.mwe-fieldset {
-	width: 450px;
 	border: 1px solid #cccccc;
 	padding-left: 12px;
 	padding-right: 12px;
@@ -628,6 +662,11 @@ input[type='text'].mwe-validator-error, textarea.mwe-validator-error {
     background: url('images/question-hover.png') no-repeat;
 }
 
+/* Hack for Explorer 6 and 7 - line up buttons with other content */
+.mwe-upwiz-buttons .ui-button, .cat-widget .ui-button {
+	*vertical-align: middle;
+}
+
 #upload-wizard .ui-corner-tl { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; }
 #upload-wizard .ui-corner-tr { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; }
 #upload-wizard .ui-corner-bl { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; }
@@ -637,3 +676,19 @@ input[type='text'].mwe-validator-error, textarea.mwe-validator-error {
 #upload-wizard .ui-corner-right {  -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; }
 #upload-wizard .ui-corner-left { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; }
 #upload-wizard .ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+
+.mwe-upwiz-deed-license-group {
+	margin-top: 1em;
+	margin-bottom: 1.5em;
+}
+
+.mwe-upwiz-deed-license-group-head {
+	font-weight: bold;
+	margin-bottom: 0em;
+}
+
+.mwe-upwiz-deed-license-group-subhead {
+	color: #797979;
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
