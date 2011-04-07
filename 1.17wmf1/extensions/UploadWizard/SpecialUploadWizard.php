@@ -37,8 +37,8 @@ class SpecialUploadWizard extends SpecialPage {
 	 * @param $subPage, e.g. the "foo" in Special:UploadWizard/foo.
 	 */
 	public function execute( $subPage ) {
-		global $wgLang, $wgUser, $wgOut, $wgExtensionAssetsPath,
-		       $wgUploadWizardDisableResourceLoader;
+		global $wgRequest, $wgLang, $wgUser, $wgOut, $wgExtensionAssetsPath,
+		       $wgUploadWizardDisableResourceLoader, $wgUploadWizardConfig;
 
 		// side effects: if we can't upload, will print error page to wgOut
 		// and return false
@@ -48,6 +48,11 @@ class SpecialUploadWizard extends SpecialPage {
 
 		$this->setHeaders();
 		$this->outputHeader();
+		
+		// if query string includes 'skiptutorial=true' set config variable to true
+		if ( $wgRequest->getText( 'skiptutorial' ) ) {
+			$wgUploadWizardConfig['skipTutorial'] = true;
+		}
 
 		// fallback for non-JS
 		$wgOut->addHTML( '<noscript>' );
@@ -174,10 +179,12 @@ class SpecialUploadWizard extends SpecialPage {
 	 * @return {String} html
 	 */
 	function getWizardHtml() {
+		global $wgUploadWizardConfig, $wgExtensionAssetsPath;
+		
 		$tutorialHtml = '';		
 		// only load the tutorial HTML if we aren't skipping the first step
 		// TODO should use user preference not a cookie ( so the user does not have to skip it for every browser )
-		if ( !isset( $_COOKIE['skiptutorial'] ) ) {
+		if ( !isset( $_COOKIE['skiptutorial'] ) && !$wgUploadWizardConfig['skipTutorial'] ) {
 			$tutorialHtml = UploadWizardTutorial::getHtml();
 		}
 		// TODO move this into UploadWizard.js or some other javascript resource so the upload wizard
@@ -185,6 +192,20 @@ class SpecialUploadWizard extends SpecialPage {
 		return
 		  '<div id="upload-wizard" class="upload-section">'
 
+			// if loading takes > 2 seconds display spinner. Note we are evading Resource Loader here, and linking directly. Because we want an image to appear if RL's package is late.
+			// using some &nbsp;'s which is a bit of superstition, to make sure jQuery will hide this (it seems that it doesn't sometimes, when it has no content)
+			// the min-width & max-width is copied from the #uploadWizard properties, so in nice browsers the spinner is right where the button will go.
+		.	'<div id="mwe-first-spinner" style="visibility:hidden; min-width:750px; max-width:900px; height:200px; line-height:200px; text-align:center;">&nbsp;</div>'
+		.	'<script language="JavaScript">'
+		.		'window.setTimeout( function() {'
+		.			'var s = document.getElementById( "mwe-first-spinner" );'
+		.			'if (s) {'
+		.				's.innerHTML = "&nbsp;<img src=\\"' . $wgExtensionAssetsPath . '/UploadWizard/resources/images/24px-spinner-0645ad.gif\\" width=\\"24\\" height=\\"24\\" />&nbsp;";'
+		.				's.style.visibility = "visible";'
+		.			'}'
+		.		'}, 2000)'
+		.	'</script>'
+		
 		    // the arrow steps - hide until styled
 		.   '<ul id="mwe-upwiz-steps" style="display:none;">'
 		.     '<li id="mwe-upwiz-step-tutorial"><div>' . wfMsg( 'mwe-upwiz-step-tutorial' ) . '</div></li>'
@@ -210,7 +231,7 @@ class SpecialUploadWizard extends SpecialPage {
 
 		.     '<div class="mwe-upwiz-stepdiv ui-helper-clearfix" id="mwe-upwiz-stepdiv-file" style="display:none;">'
 		.       '<div id="mwe-upwiz-files">'
-		.	  '<div id="mwe-upwiz-filelist" class="ui-corner-all"></div>'
+		.         '<div id="mwe-upwiz-filelist" class="ui-corner-all"></div>'
 		.         '<div id="mwe-upwiz-upload-ctrls" class="mwe-upwiz-file ui-helper-clearfix">'
 		.            '<div id="mwe-upwiz-add-file-container" class="mwe-upwiz-add-files-0">'
 		.              '<button id="mwe-upwiz-add-file">' . wfMsg( "mwe-upwiz-add-file-0" ) . '</button>'
