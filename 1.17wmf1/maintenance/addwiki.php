@@ -81,11 +81,11 @@ class AddWiki extends Maintenance {
 		$dbw->sourceFile( "$IP/extensions/Oversight/hidden.sql" );
 		$dbw->sourceFile( "$IP/extensions/GlobalBlocking/localdb_patches/setup-global_block_whitelist.sql" );
 		$dbw->sourceFile( "$IP/extensions/AbuseFilter/abusefilter.tables.sql" );
-		$dbw->sourceFile( "$IP/extensions/PrefStats/PrefStats.sql" );
+		$dbw->sourceFile( "$IP/extensions/PrefStats/patches/PrefStats.sql" );
 		$dbw->sourceFile( "$IP/extensions/ProofreadPage/ProofreadPage.sql" );
-		$dbw->sourceFile( "$IP/extensions/ClickTracking/ClickTrackingEvents.sql" );
-		$dbw->sourceFile( "$IP/extensions/ClickTracking/ClickTracking.sql" );
-		$dbw->sourceFile( "$IP/extensions/UserDailyContribs/UserDailyContribs.sql" );
+		$dbw->sourceFile( "$IP/extensions/ClickTracking/patches/ClickTrackingEvents.sql" );
+		$dbw->sourceFile( "$IP/extensions/ClickTracking/patches/ClickTracking.sql" );
+		$dbw->sourceFile( "$IP/extensions/UserDailyContribs/patches/UserDailyContribs.sql" );
 
 		$dbw->query( "INSERT INTO site_stats(ss_row_id) VALUES (1)" );
 
