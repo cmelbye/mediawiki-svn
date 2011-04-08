@@ -27,13 +27,17 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 	protected $modifiedTime = array();
 
 	/* Protected Methods */
-	
+
+	/**
+	 * @param $context ResourceLoaderContext
+	 * @return array
+	 */
 	protected function getConfig( $context ) {
 		global $wgLoadScript, $wgScript, $wgStylePath, $wgScriptExtension, 
 			$wgArticlePath, $wgScriptPath, $wgServer, $wgContLang, 
 			$wgVariantArticlePath, $wgActionPaths, $wgUseAjax, $wgVersion, 
 			$wgEnableAPI, $wgEnableWriteAPI, $wgDBname, $wgEnableMWSuggest, 
-			$wgSitename, $wgFileExtensions;
+			$wgSitename, $wgFileExtensions, $wgExtensionAssetsPath, $wgProto;
 
 		// Pre-process information
 		$separatorTransTable = $wgContLang->separatorTransformTable();
@@ -75,12 +79,15 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgFormattedNamespaces' => $wgContLang->getFormattedNamespaces(),
 			'wgNamespaceIds' => $wgContLang->getNamespaceIds(),
 			'wgSiteName' => $wgSitename,
-			'wgFileExtensions' => $wgFileExtensions,
+			'wgFileExtensions' => array_values( $wgFileExtensions ),
 			'wgDBname' => $wgDBname,
+			// This sucks, it is only needed on Special:Upload, but I could 
+			// not find a way to add vars only for a certain module
+			'wgFileCanRotate' => BitmapHandler::canRotate(),
+			'wgAvailableSkins' => Skin::getSkinNames(),
+			'wgExtensionAssetsPath' => $wgExtensionAssetsPath,
+			'wgProto' => $wgProto,
 		);
-		if ( $wgContLang->hasVariants() ) {
-			$vars['wgUserVariant'] = $wgContLang->getPreferredVariant();
-		}
 		if ( $wgUseAjax && $wgEnableMWSuggest ) {
 			$vars['wgMWSuggestTemplate'] = SearchEngine::getMWSuggestTemplate();
 		}
@@ -111,25 +118,28 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 				$deps = $module->getDependencies();
 				$group = $module->getGroup();
 				$version = wfTimestamp( TS_ISO_8601_BASIC, 
-					round( $module->getModifiedTime( $context ), -2 ) );
+					$module->getModifiedTime( $context ) );
 				$out .= ResourceLoader::makeCustomLoaderScript( $name, $version, $deps, $group, $loader );
 			}
 			// Automatically register module
 			else {
-				$mtime = max( $module->getModifiedTime( $context ), wfTimestamp( TS_UNIX, $wgCacheEpoch ) );
+				// getModifiedTime() is supposed to return a UNIX timestamp, but it doesn't always
+				// seem to do that, and custom implementations might forget. Coerce it to TS_UNIX
+				$moduleMtime = wfTimestamp( TS_UNIX, $module->getModifiedTime( $context ) );
+				$mtime = max( $moduleMtime, wfTimestamp( TS_UNIX, $wgCacheEpoch ) );
 				// Modules without dependencies or a group pass two arguments (name, timestamp) to 
-				// mediaWiki.loader.register()
+				// mw.loader.register()
 				if ( !count( $module->getDependencies() && $module->getGroup() === null ) ) {
 					$registrations[] = array( $name, $mtime );
 				}
 				// Modules with dependencies but no group pass three arguments 
-				// (name, timestamp, dependencies) to mediaWiki.loader.register()
+				// (name, timestamp, dependencies) to mw.loader.register()
 				else if ( $module->getGroup() === null ) {
 					$registrations[] = array(
 						$name, $mtime,  $module->getDependencies() );
 				}
 				// Modules with dependencies pass four arguments (name, timestamp, dependencies, group) 
-				// to mediaWiki.loader.register()
+				// to mw.loader.register()
 				else {
 					$registrations[] = array(
 						$name, $mtime,  $module->getDependencies(), $module->getGroup() );
@@ -146,17 +156,21 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 
 	public function getScript( ResourceLoaderContext $context ) {
 		global $IP, $wgLoadScript;
+
 		$out = file_get_contents( "$IP/resources/startup.js" );
 		if ( $context->getOnly() === 'scripts' ) {
-			// Get the latest version
-			$version = 0;
-			
+
+			// The core modules:
 			$modules = array( 'jquery', 'mediawiki' );
 			wfRunHooks( 'ResourceLoaderGetStartupModules', array( &$modules ) );
-								
-			foreach( $modules as $moduleName){
-				$version = max( $version, $context->getResourceLoader()->getModule( $moduleName )->getModifiedTime( $context ) );
-			}			
+			
+			// Get the latest version
+			$version = 0;					
+			foreach ( $modules as $moduleName ) {
+				$version = max( $version,
+					$context->getResourceLoader()->getModule( $moduleName )->getModifiedTime( $context )
+				);
+			}
 			// Build load query for StartupModules 
 			$query = array(
 				'modules' => implode( '|',  $modules ),
@@ -164,7 +178,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 				'lang' => $context->getLanguage(),
 				'skin' => $context->getSkin(),
 				'debug' => $context->getDebug() ? 'true' : 'false',
-				'version' => wfTimestamp( TS_ISO_8601_BASIC, round( $version, -2 ) )
+				'version' => wfTimestamp( TS_ISO_8601_BASIC, $version )
 			);
 			// Ensure uniform query order
 			ksort( $query );
@@ -172,20 +186,22 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			// Startup function
 			$configuration = $this->getConfig( $context );
 			$registrations = self::getModuleRegistrations( $context );
-			$out .= "var mwStartUp = function() {\n" . 				
-				"\t" . Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) ) .
+			$out .= "var startUp = function() {\n" . 
 				"\t$registrations\n" . 
+				"\t" . Xml::encodeJsCall( 'mediaWiki.config.set', array( $configuration ) ) . 
 				"};\n";
 			
 			// Conditional script injection
 			$scriptTag = Html::linkedScript( $wgLoadScript . '?' . wfArrayToCGI( $query ) );
-			$out .= "if ( mwIsCompatible() ) {\n" . 
+			$out .= "if ( isCompatible() ) {\n" . 
 				"\t" . Xml::encodeJsCall( 'document.write', array( $scriptTag ) ) . 
 				"}\n" . 
-				"delete mwIsCompatible;";			
+				"delete isCompatible;";
 		}
+
 		return $out;
 	}
+
 	public function getModifiedTime( ResourceLoaderContext $context ) {
 		global $IP, $wgCacheEpoch;
 
@@ -209,12 +225,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			$time = max( $time, $module->getModifiedTime( $context ) );
 		}
 		return $this->modifiedTime[$hash] = $time;
-	}
-
-	public function getFlip( $context ) {
-		global $wgContLang;
-
-		return $wgContLang->getDir() !== $context->getDirection();
 	}
 	
 	/* Methods */

@@ -29,6 +29,7 @@
 class ResourceLoader {
 
 	/* Protected Static Members */
+	protected static $filterCacheVersion = 4;
 
 	/** Array: List of module name/ResourceLoaderModule object pairs */
 	protected $modules = array();
@@ -62,7 +63,7 @@ class ResourceLoader {
 		// Get file dependency information
 		$res = $dbr->select( 'module_deps', array( 'md_module', 'md_deps' ), array(
 				'md_module' => $modules,
-				'md_skin' => $skin
+				'md_skin' => $context->getSkin()
 			), __METHOD__
 		);
 
@@ -109,7 +110,7 @@ class ResourceLoader {
 	 * Runs JavaScript or CSS data through a filter, caching the filtered result for future calls.
 	 * 
 	 * Available filters are:
-	 *  - minify-js \see JavaScriptDistiller::stripWhiteSpace
+	 *  - minify-js \see JavaScriptMinifier::minify
 	 *  - minify-css \see CSSMin::minify
 	 * 
 	 * If $data is empty, only contains whitespace or the filter was unknown, 
@@ -120,8 +121,7 @@ class ResourceLoader {
 	 * @return String: Filtered data, or a comment containing an error message
 	 */
 	protected function filter( $filter, $data ) {
-		global $wgResourceLoaderMinifyJSVerticalSpace;
-
+		global $wgResourceLoaderMinifierStatementsOnOwnLine, $wgResourceLoaderMinifierMaxLineLength;
 		wfProfileIn( __METHOD__ );
 
 		// For empty/whitespace-only data or for unknown filters, don't perform 
@@ -135,7 +135,7 @@ class ResourceLoader {
 
 		// Try for cache hit
 		// Use CACHE_ANYTHING since filtering is very slow compared to DB queries
-		$key = wfMemcKey( 'resourceloader', 'filter', $filter, md5( $data ) );
+		$key = wfMemcKey( 'resourceloader', 'filter', $filter, self::$filterCacheVersion, md5( $data ) );
 		$cache = wfGetCache( CACHE_ANYTHING );
 		$cacheEntry = $cache->get( $key );
 		if ( is_string( $cacheEntry ) ) {
@@ -143,16 +143,20 @@ class ResourceLoader {
 			return $cacheEntry;
 		}
 
+		$result = '';
 		// Run the filter - we've already verified one of these will work
 		try {
 			switch ( $filter ) {
 				case 'minify-js':
-					$result = JavaScriptDistiller::stripWhiteSpace(
-						$data, $wgResourceLoaderMinifyJSVerticalSpace
+					$result = JavaScriptMinifier::minify( $data,
+						$wgResourceLoaderMinifierStatementsOnOwnLine,
+						$wgResourceLoaderMinifierMaxLineLength
 					);
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
+					$result .= "\n\n/* cache key: $key */\n";
 					break;
 			}
 
@@ -207,6 +211,7 @@ class ResourceLoader {
 			foreach ( $name as $key => $value ) {
 				$this->register( $key, $value );
 			}
+			wfProfileOut( __METHOD__ );
 			return;
 		}
 
@@ -252,7 +257,7 @@ class ResourceLoader {
 	 * Get the ResourceLoaderModule object for a given module name.
 	 *
 	 * @param $name String: Module name
-	 * @return Mixed: ResourceLoaderModule if module has been registered, null otherwise
+	 * @return ResourceLoaderModule if module has been registered, null otherwise
 	 */
 	public function getModule( $name ) {
 		if ( !isset( $this->modules[$name] ) ) {
@@ -287,6 +292,7 @@ class ResourceLoader {
 	 */
 	public function respond( ResourceLoaderContext $context ) {
 		global $wgResourceLoaderMaxage, $wgCacheEpoch;
+		
 		// Buffer output to catch warnings. Normally we'd use ob_clean() on the
 		// top-level output buffer to clear warnings, but that breaks when ob_gzhandler
 		// is used: ob_clean() will clear the GZIP header in that case and it won't come
@@ -354,9 +360,9 @@ class ResourceLoader {
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
 
 		if ( $context->getOnly() === 'styles' ) {
-			header( 'Content-Type: text/css' );
+			header( 'Content-Type: text/css; charset=utf-8' );
 		} else {
-			header( 'Content-Type: text/javascript' );
+			header( 'Content-Type: text/javascript; charset=utf-8' );
 		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $mtime ) );
 		if ( $context->getDebug() ) {
@@ -378,7 +384,8 @@ class ResourceLoader {
 		// Some clients send "timestamp;length=123". Strip the part after the first ';'
 		// so we get a valid timestamp.
 		$ims = $context->getRequest()->getHeader( 'If-Modified-Since' );
-		if ( $ims !== false ) {
+		// Never send 304s in debug mode
+		if ( $ims !== false && !$context->getDebug() ) {
 			$imsTS = strtok( $ims, ';' );
 			if ( $mtime <= wfTimestamp( TS_UNIX, $imsTS ) ) {
 				// There's another bug in ob_gzhandler (see also the comment at
@@ -419,7 +426,7 @@ class ResourceLoader {
 
 		// Remove the output buffer and output the response
 		ob_end_clean();
-		return $response;
+		echo $response;
 
 		wfProfileOut( __METHOD__ );
 	}
@@ -441,6 +448,7 @@ class ResourceLoader {
 			return '/* No modules requested. Max made me put this here */';
 		}
 		
+		wfProfileIn( __METHOD__ );
 		// Pre-fetch blobs
 		if ( $context->shouldIncludeMessages() ) {
 			try {
@@ -460,7 +468,9 @@ class ResourceLoader {
 				// Scripts
 				$scripts = '';
 				if ( $context->shouldIncludeScripts() ) {
-					$scripts .= $module->getScript( $context ) . "\n";
+					// bug 27054: Append semicolon to prevent weird bugs
+					// caused by files not terminating their statements right
+					$scripts .= $module->getScript( $context ) . ";\n";
 				}
 
 				// Styles
@@ -484,7 +494,7 @@ class ResourceLoader {
 						$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
 						break;
 					default:
-						// Minify CSS before embedding in mediaWiki.loader.implement call
+						// Minify CSS before embedding in mw.loader.implement call
 						// (unless in debug mode)
 						if ( !$context->getDebug() ) {
 							foreach ( $styles as $media => $style ) {
@@ -521,21 +531,22 @@ class ResourceLoader {
 			}
 		}
 
-		if ( $context->getDebug() ) {
-			return $exceptions . $out;
-		} else {
+		if ( !$context->getDebug() ) {
 			if ( $context->getOnly() === 'styles' ) {
-				return $exceptions . $this->filter( 'minify-css', $out );
+				$out = $this->filter( 'minify-css', $out );
 			} else {
-				return $exceptions . $this->filter( 'minify-js', $out );
+				$out = $this->filter( 'minify-js', $out );
 			}
 		}
+		
+		wfProfileOut( __METHOD__ );
+		return $exceptions . $out;
 	}
 
 	/* Static Methods */
 
 	/**
-	 * Returns JS code to call to mediaWiki.loader.implement for a module with 
+	 * Returns JS code to call to mw.loader.implement for a module with 
 	 * given properties.
 	 *
 	 * @param $name Module name
@@ -551,10 +562,10 @@ class ResourceLoader {
 			$scripts = implode( $scripts, "\n" );
 		}
 		return Xml::encodeJsCall( 
-			'mediaWiki.loader.implement', 
+			'mw.loader.implement', 
 			array(
 				$name,
-				new XmlJsCode( "function( $, mw ) {{$scripts}}" ),
+				new XmlJsCode( "function( $ ) {{$scripts}}" ),
 				(object)$styles,
 				(object)$messages
 			) );
@@ -567,7 +578,7 @@ class ResourceLoader {
 	 *     JSON-encoded message blob containing the same data, wrapped in an XmlJsCode object.
 	 */
 	public static function makeMessageSetScript( $messages ) {
-		return Xml::encodeJsCall( 'mediaWiki.messages.set', array( (object)$messages ) );
+		return Xml::encodeJsCall( 'mw.messages.set', array( (object)$messages ) );
 	}
 
 	/**
@@ -596,7 +607,7 @@ class ResourceLoader {
 	}
 
 	/**
-	 * Returns a JS call to mediaWiki.loader.state, which sets the state of a 
+	 * Returns a JS call to mw.loader.state, which sets the state of a 
 	 * module or modules to a given value. Has two calling conventions:
 	 *
 	 *    - ResourceLoader::makeLoaderStateScript( $name, $state ):
@@ -607,9 +618,9 @@ class ResourceLoader {
 	 */
 	public static function makeLoaderStateScript( $name, $state = null ) {
 		if ( is_array( $name ) ) {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name ) );
 		} else {
-			return Xml::encodeJsCall( 'mediaWiki.loader.state', array( $name, $state ) );
+			return Xml::encodeJsCall( 'mw.loader.state', array( $name, $state ) );
 		}
 	}
 
@@ -633,7 +644,7 @@ class ResourceLoader {
 	}
 
 	/**
-	 * Returns JS code which calls mediaWiki.loader.register with the given 
+	 * Returns JS code which calls mw.loader.register with the given 
 	 * parameters. Has three calling conventions:
 	 *
 	 *   - ResourceLoader::makeLoaderRegisterScript( $name, $version, $dependencies, $group ):
