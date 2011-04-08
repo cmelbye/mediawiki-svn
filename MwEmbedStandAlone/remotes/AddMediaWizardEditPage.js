@@ -21,7 +21,7 @@ var defaultAddMediaConfig = {
 		'uploadEngine' : 'uploadWizard',
 
 		// Here we can setup the content provider overrides
-		'enabled_providers': ['wiki_commons'],
+		'enabled_providers': ['commons'],
 		// The local wiki API URL:
 		'local_wiki_apiUrl': wgServer + wgScriptPath + '/api.php'
 };

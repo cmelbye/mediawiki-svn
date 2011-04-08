@@ -386,13 +386,13 @@ return array(
 		),
 	),
 
-	'mediawiki.language.parser' => new MwEmbedResourceLoaderFileModule( array(
+	/*'mediawiki.language.parser' => new MwEmbedResourceLoaderFileModule( array(
 		'scripts' => 'resources/mediawiki.language/mediawiki.language.parser.js',
 		'dependencies' => array( 'mediawiki.language', 'mediawiki.util' ),
 		'debugScripts' => 'resources/mediawiki.language/mediawiki.language.parserTest.js',
 		// @@FIXME note the messages are only needed for debugScirpts 
 		// It appears that debugScripts can only be direct resource paths not 'modules'		
 		'messages' => array( 'undelete_short', 'category-subcat-count' )
-	) ),
+	)),*/
 	
 );

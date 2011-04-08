@@ -95,7 +95,7 @@ mw.setConfig( 'ApiProxy.DomainWhiteList',
 if( typeof mwAddMediaConfig == 'undefined'){
    mwAddMediaConfig = {};
 }
-mwAddMediaConfig['enabled_providers'] = [ 'wiki_commons', 'upload' ];
+mwAddMediaConfig['enabled_providers'] = [ 'commons', 'upload' ];
 
 
 // Special embedplayer handler ( iframe )

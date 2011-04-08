@@ -9,12 +9,11 @@
 // The default cache directory
 $wgScriptCacheDirectory = realpath( dirname( __FILE__ ) ) . '/cache';
 
-
 /**
  * Guess at URL to resource loader load.php 
  */
-$protocol = ( isset( $_SERVER['HTTPS'] ) )? 'https' : 'http'; 
-$wgServer = $protocol . '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
+$wgProto = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
+$wgServer = $wgProto . '://' . $_SERVER['SERVER_NAME'] .  dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
 
 // By default set $wgScriptPath to empty
 $wgScriptPath = '';
@@ -103,5 +102,3 @@ if( is_file( $wgLocalSettingsFile ) ){
 	require_once( $wgLocalSettingsFile );
 }
 
-
-?>

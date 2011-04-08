@@ -1,5 +1,9 @@
 <?php 
-// quick MwEmbedPoorManSquidProxy implementation
+// Quick MwEmbedPoorManSquidProxy implementation
+
+// This does basic file based cache and response reverse proxy for resource loader.
+// This is needed in cases where you don't have the resource loader behind a reverse proxy.
+
 class MwEmbedPoorManSquidProxy {
 	public static $hash = null;
 	public static $debug = null;
@@ -39,12 +43,12 @@ class MwEmbedPoorManSquidProxy {
 		 */	
 			
 		// Check if we have a cached file: 
-		if( !is_file( mwGetFilePathFromKey( self::$hash  ) ) ){
+		if( ! is_file( mweGetFilePathFromKey( self::$hash  ) ) ){
 			return ;
 		}
 		
 		// Check file modified time: 
-		$fileTime =	wfTimestamp( TS_UNIX, filemtime( mwGetFilePathFromKey( self::$hash  ) ) );
+		$fileTime =	wfTimestamp( TS_UNIX, filemtime( mweGetFilePathFromKey( self::$hash  ) ) );
 		if( wfTimestamp( TS_UNIX, time() ) - $fileTime > $smaxage){
 			// Run the normal resource loader
 			return ;
@@ -70,17 +74,18 @@ class MwEmbedPoorManSquidProxy {
 			header( 'Content-Type: text/javascript' );
 		}
 		header( 'Last-Modified: ' . wfTimestamp( TS_RFC2822, $fileTime ) );
+		
 		// no private cache in mwEmbed resource loader land ( both smaxage )
 		header( "Cache-Control: public, max-age=$smaxage, s-maxage=$smaxage" );
 		header( 'Expires: ' . wfTimestamp( TS_RFC2822, $smaxage + time() ) );
 		
 		// Gzip if possible:
-		ob_start("ob_gzhandler");
+		//ob_start("ob_gzhandler");
 		
 		echo mweGetFromFileCache( self::$hash  );
 				
 		// Clear and send the buffer:
-		ob_end_flush();
+		//ob_end_flush();
 		// exit ( don't continue resource loader handling ) 
 		exit(1);
 	}

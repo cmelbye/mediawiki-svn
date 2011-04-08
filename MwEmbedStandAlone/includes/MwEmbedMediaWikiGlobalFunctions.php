@@ -263,7 +263,7 @@ class mwEmbedSimpleFileCache{
  */
 function mweGetFromFileCache( $key ){
 	global $IP;
-	$filePath = mwGetFilePathFromKey( $key );
+	$filePath = mweGetFilePathFromKey( $key );
 	$rawResult = @file_get_contents( $filePath );
 	if( $rawResult === false ){
 		return null;
@@ -277,7 +277,7 @@ function mweGetFromFileCache( $key ){
  */
 function mweSaveFileToCache ( $key, $data){
 	global $IP;
-	$filePath = mwGetFilePathFromKey( $key );
+	$filePath = mweGetFilePathFromKey( $key );
 	$path = dirname( $filePath );
 	if( !is_dir($path ) ){
 		$ok = mkdir( $path, 0777, true ); // PHP5 <3	
@@ -287,11 +287,34 @@ function mweSaveFileToCache ( $key, $data){
 	}
 	return @file_put_contents( $filePath, serialize( $data ) );
 }
-function mwGetFilePathFromKey( $key ){
+function mweGetFilePathFromKey( $key ){
 	global $IP;
 	$hash = md5( $key );
 	// Pretty darn unlikely cache missmatch:
 	return "$IP/cache/". substr( $hash, 0, 1) . '/' . substr( $hash, 1, 1) .
 			 '/' . substr( $key, 0, 48 );
+}
+
+
+/**
+ * Expand a potentially local URL to a fully-qualified URL.  Assumes $wgServer
+ * and $wgProto are correct.
+ *
+ * @todo this won't work with current-path-relative URLs
+ * like "subdir/foo.html", etc.
+ *
+ * @param $url String: either fully-qualified or a local path + query
+ * @return string Fully-qualified URL
+ */
+function wfExpandUrl( $url ) {
+	if( substr( $url, 0, 2 ) == '//' ) {
+		global $wgProto;
+		return $wgProto . ':' . $url;
+	} elseif( substr( $url, 0, 1 ) == '/' ) {
+		global $wgServer;
+		return $wgServer . $url;
+	} else {
+		return $url;
+	}
 }
 ?>
