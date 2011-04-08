@@ -269,7 +269,7 @@ baseRemoteSearch.prototype = {
 
 		// Add the commons apiProvider if the resource is from commons
 		// ( so that subtitles can be displayed / edited )
-		if( resource.pSobj.provider.id == 'wiki_commons'
+		if( resource.pSobj.provider.id == 'commons'
 			|| resource.commonsShareRepoFlag
 		){
 			attributes+= 'apiProvider="commons" ';
@@ -325,7 +325,7 @@ baseRemoteSearch.prototype = {
 		})
 		.text( stripedTitle )
 
-		var providerTitle = gM('rsd-' + this.provider.id + '-title');
+		var providerTitle = gM('mwe-am-' + this.provider.id + '-title');
 
 		$providerLink = $( '<a />')
 		.attr({
@@ -443,7 +443,7 @@ baseRemoteSearch.prototype = {
 	* @param {Object} resource Resource to get description of
 	*/
 	getImportResourceDescWiki:function( resource ) {
-		return gM( 'mwe-imported_from', [resource.title, this.provider.homepage, gM('rsd-' + this.provider.id + '-title'), resource.link] );
+		return gM( 'mwe-imported_from', [resource.title, this.provider.homepage, gM('mwe-am-' + this.provider.id + '-title'), resource.link] );
 	},
 
 	/**

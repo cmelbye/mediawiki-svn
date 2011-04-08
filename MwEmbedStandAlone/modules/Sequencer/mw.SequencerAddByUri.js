@@ -45,7 +45,7 @@ mw.SequencerAddByUri.prototype = {
 			// make sure we have commons or local_wiki as a resource source:
 			var provider = remoteSearchDriver.content_providers[ 'this_wiki' ];
 			if( ! provider ){
-				 provider = remoteSearchDriver.content_providers[ 'wiki_commons' ];
+				 provider = remoteSearchDriver.content_providers[ 'commons' ];
 			}
 			// Try to import from the given provider:
 			if( provider ){

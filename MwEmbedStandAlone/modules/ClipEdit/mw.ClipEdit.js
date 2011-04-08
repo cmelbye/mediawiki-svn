@@ -825,7 +825,7 @@ mw.ClipEdit.prototype = {
 						$('<img />')
 						.attr({
 							'src' : _this.resource.edit_url,
-							'id' : 'rsd_edit_img'
+							'id' : 'mwe-am-edit_img'
 						})
 					);
 				} );

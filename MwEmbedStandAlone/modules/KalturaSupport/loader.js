@@ -179,7 +179,9 @@
 						// check if we can get the playlist id from a url in the embed code 
 						// ( some version of kaltura embed code work this way)
 						if( flashvars['playlistAPI.kpl0Url'] ){
-							videoEmbedAttributes['kplaylistid'] = mw.parseUri( flashvars['playlistAPI.kpl0Url'] ).queryKey['playlist_id'];
+							try{
+								videoEmbedAttributes['kplaylistid'] = new mw.Uri( flashvars['playlistAPI.kpl0Url'] ).query['playlist_id'];
+							} catch(e){}
 							if( ! videoEmbedAttributes['kplaylistid'] ){
 								videoEmbedAttributes['kplaylistid'] = flashvars['playlistAPI.kpl0Url'];
 							}
@@ -313,9 +315,6 @@
 		mw.log( '$j.kalturaIframePlayer::' );
 		var playerTarget = this;
 		
-		// Establish the "server" domain via mwEmbed path: 
-		var mwPathUri = mw.parseUri( mw.getMwEmbedPath() );
-		
 		// Local function to handle iframe rewrites: 
 		var doRewriteIframe = function(){
 			
@@ -336,7 +335,7 @@
 				argSeperator ='&';
 			}
 			
-			iframeRequest+= mw.getKalturaIframeHash();
+			iframeRequest+= mw.getIframeHash();
 			
 			var $iframe = $('<iframe />')
 			.attr({
@@ -398,7 +397,7 @@
 	/**
 	 * Utility loader function to grab kaltura iframe hash url
 	 */
-	mw.getKalturaIframeHash = function(){
+	mw.getIframeHash = function(){
 		// Append the configuration and request domain to the iframe hash: 
 		var iframeMwConfig =  mw.getNonDefaultConfigObject();
 		// No need to pass the IframeRewrite option to the iframe:

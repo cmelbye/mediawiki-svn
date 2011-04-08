@@ -16,7 +16,6 @@
 
 ( function( mw ) {
 	
-
 // Bind apiServer to EmbedPlayerNewPlayer:
 $( mw ).bind( 'EmbedPlayerNewPlayer', function( event, embedPlayer ) {	
 	// Check if the iFrame player api is enabled and we have a parent iframe url: 
@@ -67,7 +66,7 @@ mw.IFramePlayerApiServer.prototype = {
 	'addIframeListener': function(){
 		var _this = this;		
 		mw.log('IFramePlayerApiServer::_addIframeListener');
-		$j.receiveMessage( function( event ) {			
+		$.receiveMessage( function( event ) {			
 			_this.hanldeMsg( event );
 		}, this.getParentUrl() );	
 	},
@@ -96,9 +95,9 @@ mw.IFramePlayerApiServer.prototype = {
 			_this.sendPlayerAttributes();
 		})
 
-		$j.each( this.exportedBindings, function( inx, bindName ){
+		$.each( this.exportedBindings, function( inx, bindName ){
 			$( _this.embedPlayer ).bind( bindName, function( event ){				
-				var argSet = $j.makeArray( arguments );
+				var argSet = $.makeArray( arguments );
 				// remove the event from the arg set
 				argSet.shift();
 				// protect against a jQuery event getting past as an arguments:
@@ -143,7 +142,7 @@ mw.IFramePlayerApiServer.prototype = {
 			return ;
 		}	
 		// By default postMessage sends the message to the parent frame:		
-		$j.postMessage( 
+		$.postMessage( 
 			messageString,
 			this.getParentUrl(),
 			window.parent
@@ -172,7 +171,7 @@ mw.IFramePlayerApiServer.prototype = {
 
 		// Call a method:
 		if( msgObject.method && this.embedPlayer[ msgObject.method ] ){
-			this.embedPlayer[ msgObject.method ].apply( this.embedPlayer, $j.makeArray( msgObject.args ) );			
+			this.embedPlayer[ msgObject.method ].apply( this.embedPlayer, $.makeArray( msgObject.args ) );			
 		}
 		// Update a attribute
 		if( typeof msgObject.attrName != 'undefined' && typeof msgObject.attrValue != 'undefined' ){
@@ -202,7 +201,7 @@ mw.IFramePlayerApiServer.prototype = {
 			}
 			// @@FIXME we should also check protocol to avoid
 			// http vs https
-			var originDomain = mw.parseUri( origin ).host;
+			var originDomain = new mw.Uri( origin ).host;
 			
 			// Check the domains: 
 			for ( var i =0; i < domainWhiteList.length; i++ ) {

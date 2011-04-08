@@ -7,8 +7,11 @@
  * Normal jQuery tirgger calls will run the callback directly
  * multiple times for every binded function.
  * 
- * With triggerQueueCallback() callback is not called until all the
- * binded events have been run.
+ * With triggerQueueCallback() master callback is not called until all the
+ * binded events have run their local callbacks.
+ * 
+ * This is useful in cases where you have multiple modules that need to do asynchronous loads
+ * before issuing the a callback. 
  * 
  * @param {string}
  *            triggerName Name of trigger to be run
@@ -32,7 +35,6 @@
 		// Support namespaced event segmentation
 		var triggerBaseName = triggerName.split(".")[0]; 
 		var triggerNamespace = triggerName.split(".")[1];
-		
 		// Get the callback set
 		var callbackSet = [];
 		if( !$( targetObject ).data( 'events' ) ){
@@ -40,6 +42,7 @@
 			callback();
 			return ;
 		}
+		
 		if( ! triggerNamespace ){
 			callbackSet = $( targetObject ).data( 'events' )[ triggerBaseName ];
 		} else{		
@@ -51,7 +54,7 @@
 		}
 
 		if( !callbackSet || callbackSet.length === 0 ){
-			mw.log( '"mwEmbed::jQuery.triggerQueueCallback: No events run the callback directly: ' + triggerName );
+			//mw.log( '"mwEmbed::jQuery.triggerQueueCallback: No events run the callback directly: ' + triggerName );
 			// No events run the callback directly
 			callback();
 			return ;

@@ -1,6 +1,7 @@
 /**
 * EmbedPlayer loader
 */
+
 ( function( mw, $ ) {
 	
 	/**
@@ -14,6 +15,7 @@
 		var doModuleTagRewrites = function(){			
 			$( mw ).triggerQueueCallback( 'EmbedPlayerRewritePlayerTags', callback );
 		};
+		
 		// Check if we have tags to rewrite: 
 		if( $( mw.getConfig( 'EmbedPlayer.RewriteTags' )  ).length ) {
 			var rewriteElementCount = 0;
@@ -37,11 +39,10 @@
 		} else {
 			var playerSelect = this;
 		}
-		mw.log( 'EmbedPlayer::rewrite: ' + playerSelect );
+		mw.log( 'jQuery.fn.embedPlayer :: ' + playerSelect );
 		// Hide videonojs class
 		$( '.videonojs' ).hide();
 
-		
 		// Set up the embed video player class request: (include the skin js as well)
 		var dependencySet = [
 			'mw.EmbedPlayer'
@@ -65,16 +66,16 @@
 		
 		// Check if the iFrame player api is enabled and we have a parent iframe url: 
 		// TODO we might want to move the iframe api to a separate module
-		if ( mw.getConfig('EmbedPlayer.EnableIframeApi') 
+		if ( mw.getConfig( 'EmbedPlayer.EnableIframeApi' ) 
 				&& 
 			mw.getConfig( 'EmbedPlayer.IframeParentUrl' ) 
 		){
 			$.merge( dependencySet, ['mw.EmbedPlayerNative', 'jquery.postMessage','mw.IFramePlayerApiServer'] );
 		}
 		
-		// Allow modules to update the set of dependencies: 
 		var rewriteElementCount = 0;
 		$( playerSelect).each( function(inx, playerElement){
+			var skinName ='';
 
 			// Assign an the element an ID ( if its missing one )
 			if ( $( playerElement ).attr( "id" ) == '' ) {
@@ -100,16 +101,17 @@
 			// Add the skin to the request
 			var skinCaseName = skinName.charAt(0).toUpperCase() + skinName.substr(1);
 			$.merge( dependencySet, [ 'mw.PlayerSkin' + skinCaseName ] );
+			
 			// Allow other modules update the dependencies
 			$( mw ).trigger( 'EmbedPlayerUpdateDependencies',
 					[ playerElement, dependencySet ] );
 		});
+		// Remove any duplicates in the dependencySet:
+		dependencySet = $.unique( dependencySet );
 		// Do the request and process the playerElements with updated dependency set
 		mediaWiki.loader.using( dependencySet, function(){
-			//alert( mw.processEmbedPlayers );
 			mw.processEmbedPlayers( playerSelect, readyCallback );
-		//	},500);
-		}, function(){
+		}, function( e ){
 			throw new Error( 'Error loading EmbedPlayer dependency set' );
 		});
 	};

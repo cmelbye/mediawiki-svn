@@ -4,7 +4,6 @@
 .k-player {
 	color: #FFF;
 	background-color: #000;
-	margin-top:5px;
 }
 .k-player .ui-widget-content {
 	color: #999;
@@ -85,8 +84,7 @@
 }
 
 .k-player .play_head {
-	background: url("images/ksprite.png") repeat-x scroll 0 -350px
-		transparent;
+	background: url("images/ksprite.png") repeat-x scroll 0 -350px transparent;
 	display: inline;
 	float: left;
 	margin-left: 10px;
@@ -97,8 +95,7 @@
 }
 
 .k-player .play_head .ui-slider-handle {
-	background: url("images/ksprite.png") no-repeat scroll -67px -341px
-		transparent;
+	background: url("images/ksprite.png") no-repeat scroll -67px -341px transparent;
 	border: 1px solid #888888;
 	display: block;
 	height: 8px;
@@ -119,9 +116,24 @@
 	font: 11px arial, sans-serif;
 	line-height: 20px;
 	overflow: hidden;
-	width: 39px;
+	width: 48px;
 	float: right;
+	text-align: center;
 }
+
+.k-player .source-switch{
+	border: medium none;
+	display: inline;
+	color: #555555;
+	font: 11px arial, sans-serif;
+	line-height: 20px;
+	overflow: hidden;
+	width: 70px;
+	cursor: pointer;
+	float: right;
+	text-align: center;
+}
+
 
 .k-player .lButton {
 	cursor: pointer;
@@ -142,7 +154,7 @@
 	list-style: none outside none;
 	margin-top: 2px;
 	padding: 0px 0;
-	width: 23px;
+	width: 22px;
 	height: 16px;
 	position: relative;
 	background: none repeat scroll 0 0 transparent;
@@ -297,7 +309,6 @@
 }
 
 .k-menu-screens li {
-	height: 14px;
 	margin-bottom: 6px;
 }
 

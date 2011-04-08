@@ -72,8 +72,8 @@ mw.addMessages( {
 	"mwe-ftype-ogg" : "Ogg video file",
 	"mwe-ftype-unk" : "Unknown file format",
 
-	"rsd-wiki_commons-title": "Wikimedia Commons",
-	"rsd-wiki_commons": "Wikimedia Commons, an archive of freely-licensed educational media content (images, sound and video clips)",
+	"rsd-commons-title": "Wikimedia Commons",
+	"rsd-commons": "Wikimedia Commons, an archive of freely-licensed educational media content (images, sound and video clips)",
 
 	"rsd-kaltura-title" : "Kaltura search ( all sources )",
 	"rsd-kaltura" : "Kaltura aggregated search for free-licensed media across multiple search providers",
@@ -306,7 +306,7 @@ mw.RemoteSearchDriver.prototype = {
 		/**
 		* Wikipedia Commons search provider configuration
 		*/
-		'wiki_commons': {
+		'commons': {
 			'enabled': 1,
 			'homepage': 'http://commons.wikimedia.org/wiki/Main_Page',
 			'apiUrl': 'http://commons.wikimedia.org/w/api.php',
@@ -525,7 +525,7 @@ mw.RemoteSearchDriver.prototype = {
 		// Set up the local API upload URL
 		if ( _this.upload_api_target == 'local' ) {
 			if ( ! mw.getLocalApiUrl() ) {
-				$( this.target_container ).html( gM( 'rsd_config_error', 'missing_local_apiUrl' ) );
+				$( this.target_container ).html( gM( 'mwe-am-config_error', 'missing_local_apiUrl' ) );
 				return false;
 			} else {
 				_this.upload_api_target = mw.getLocalApiUrl();
@@ -568,7 +568,7 @@ mw.RemoteSearchDriver.prototype = {
 			.append( licenseObj.img_html );
 
 		$licenseBox = $( '<div />' )
-			.addClass( 'rsd_license' )
+			.addClass( 'mwe-am-license' )
 			.attr( {
 				title: licenseObj.title
 			} )
@@ -702,7 +702,7 @@ mw.RemoteSearchDriver.prototype = {
 		}
 
 		return $( '<div />' )
-			.addClass( 'rsd_file_type ui-corner-all ui-state-default ui-widget-content' )
+			.addClass( 'mwe-am-file_type ui-corner-all ui-state-default ui-widget-content' )
 			.attr( 'title', gM( 'mwe-ftype-' + type ) )
 			.text( type );
 	},
@@ -847,7 +847,7 @@ mw.RemoteSearchDriver.prototype = {
 		$( 'body' ).append(
 			$('<div>')
 				.attr({
-					'id' : 'rsd_modal_target',
+					'id' : 'mwe-am-modal_target',
 					'title' : gM( 'mwe-add_media_wizard' )
 				})
 				.css("position", 'relative')
@@ -969,7 +969,7 @@ mw.RemoteSearchDriver.prototype = {
 		// Add enabled search providers.
 		$j.each( _this.getEnabledProviders(), function(providerName, provider){
 			var $anchor = $( '<div />' )
-				.text( gM( 'rsd-' + providerName + '-title' ) )
+				.text( gM( 'mwe-am-' + providerName + '-title' ) )
 				.attr({
 					name: providerName
 				});
@@ -1012,7 +1012,7 @@ mw.RemoteSearchDriver.prototype = {
 				icon: 'search',
 				text: gM( 'mwe-media_search' )
 			})
-			.addClass( 'rsd_search_button' )
+			.addClass( 'mwe-am-search_button' )
 			.click(function () {
 				if( _this.current_provider == 'upload' ){
 					_this.current_provider = _this.previus_provider;
@@ -1118,7 +1118,7 @@ mw.RemoteSearchDriver.prototype = {
 				.text( gM( 'mwe-upload-a-file' ) ),
 
 				$('<div />').attr({
-					'id': 'rsd_upload_form'
+					'id': 'mwe-am-upload_form'
 				})
 				.loadingSpinner()
 			),
@@ -1230,7 +1230,7 @@ mw.RemoteSearchDriver.prototype = {
 						.attr( {
 							'alt' : gM('mwe-ie-eye-permision' )
 						})
-						.addClass( 'rsd_cookies_blocked_MSIE' )
+						.addClass( 'mwe-am-cookies_blocked_MSIE' )
 					);
 				}
 
@@ -1286,7 +1286,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Always include commons upload target:
 		// Setup commons upload target
-		var commonsProvider = this.content_providers[ 'wiki_commons' ];
+		var commonsProvider = this.content_providers[ 'commons' ];
 		// Check for commons upload page
 		var commonsUploadPage = 'Commons:Upload';
 
@@ -1295,9 +1295,9 @@ mw.RemoteSearchDriver.prototype = {
 			commonsUploadPage += '/' + wgUserLanguage;
 		}
 
-		uploadTargets[ 'wiki_commons' ] = {
+		uploadTargets[ 'commons' ] = {
 			'apiUrl' : commonsProvider.apiUrl,
-			'title' : gM( 'rsd-wiki_commons-title'),
+			'title' : gM( 'mwe-am-commons-title'),
 			'uploadPage' : commonsProvider.apiUrl.replace( 'api.php', 'index.php' ) + '?title=' + commonsUploadPage
 		};
 
@@ -1733,8 +1733,8 @@ mw.RemoteSearchDriver.prototype = {
 		//       results...
 		//   footer
 
-		var $resultsBody = $( '<div />' ).addClass( 'rsd_results_body' );
-		var $resultsList = $( '<div />' ).addClass( 'rsd_results_list' );
+		var $resultsBody = $( '<div />' ).addClass( 'mwe-am-results_body' );
+		var $resultsList = $( '<div />' ).addClass( 'mwe-am-results_list' );
 
 		// Add the results header:
 		$resultsContainer.empty();
@@ -1748,7 +1748,7 @@ mw.RemoteSearchDriver.prototype = {
 			provider.sObj.filters.filterChangeCallBack =
 				this.curry( this.getProviderCallback(), provider, $resultsList );
 			$resultsBody.append( provider.sObj.filters.getHTML().attr ({
-				id: 'rsd_filters_container'
+				id: 'mwe-am-filters_container'
 			}));
 		}
 
@@ -1785,7 +1785,7 @@ mw.RemoteSearchDriver.prototype = {
 			 	);
 			} else {
 				$resultsContainer.append(
-					gM( 'rsd_no_results', $( this.target_search_input ).val() )
+					gM( 'mwe-am-no_results', $( this.target_search_input ).val() )
 				) ;
 			}
 		}
@@ -1803,7 +1803,7 @@ mw.RemoteSearchDriver.prototype = {
 		//only one type of resultStatus right now:
 		if( resultStatus == 'timeout' )
 			$( '#tab-' + this.current_provider ).text(
-				gM('rsd-search-timeout')
+				gM('mwe-am-search-timeout')
 			);
 	},
 
@@ -1849,7 +1849,7 @@ mw.RemoteSearchDriver.prototype = {
 		}
 
 		var $resultThumb = $( '<img />' )
-			.addClass( 'rsd_res_item' )
+			.addClass( 'mwe-am-res_item' )
 			.attr( {
 				id: 'res_' + provider.id + '__' + resIndex,
 				title: resource.title,
@@ -1864,7 +1864,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		if ( resource.link && this.displayResourceInfoIcons ) {
 			var $resultPageLink = $( '<div />' )
-				.addClass( 'rsd_linkback ui-corner-all ui-state-default ui-widget-content' )
+				.addClass( 'mwe-am-linkback ui-corner-all ui-state-default ui-widget-content' )
 				.append( $( '<a />' )
 							.attr( {
 								'target' : '_new',
@@ -1911,7 +1911,7 @@ mw.RemoteSearchDriver.prototype = {
 		}
 
 		var $resultThumb = $( '<img />' )
-			.addClass( 'rsd_res_item rsd_list_item' )
+			.addClass( 'mwe-am-res_item rsd_list_item' )
 			.attr( {
 				id: 'res_' + provider.id + '__' + resIndex,
 				title: resource.title,
@@ -1973,7 +1973,7 @@ mw.RemoteSearchDriver.prototype = {
 			return false;
 		} )
 		// Add a "bind" class
-		.addClass( 'rsd_res_item_bind' ) ;
+		.addClass( 'mwe-am-res_item_bind' ) ;
 	},
 
 	/**
@@ -2022,7 +2022,7 @@ mw.RemoteSearchDriver.prototype = {
 		// Add the edit layout window with loading place holders
 		$( _this.target_container ).append(
 			$('<div />')
-			.attr( 'id', 'rsd_resource_edit' )
+			.attr( 'id', 'mwe-am-resource_edit' )
 			.css( {
 				'position' : 'absolute',
 				'top' : '0px',
@@ -2109,7 +2109,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Update add media wizard title:
 		var dialogTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
-			gM( 'rsd_resource_edit', resource.title );
+			gM( 'mwe-am-resource_edit', resource.title );
 
 		$( _this.target_container ).dialog( 'option', 'title', dialogTitle );
 
@@ -2132,7 +2132,7 @@ mw.RemoteSearchDriver.prototype = {
 				$('#clip_edit_disp').empty().append(
 					$( '<img />' )
 					.attr( {
-						'id' : 'rsd_edit_img',
+						'id' : 'mwe-am-edit_img',
 						'src' : img_src,
 						'width': targetWidth,
 						'height' : targetHeight
@@ -2249,7 +2249,7 @@ mw.RemoteSearchDriver.prototype = {
 	getClipEditOptions: function( resource ) {
 		return {
 			'resource' : resource,
-			'parent_container': 'rsd_modal_target',
+			'parent_container': 'mwe-am-modal_target',
 			'target_clip_display': 'clip_edit_disp',
 			'target_control_display': 'clip_edit_ctrl',
 			'media_type': this.getMediaType( resource ),
@@ -2508,9 +2508,9 @@ mw.RemoteSearchDriver.prototype = {
 		var buttonPaneSelector = _this.target_container + '~ .ui-dialog-buttonpane';
 		$( buttonPaneSelector ).html (
 			// Add the buttons to the bottom:
-			$j.btnHtml( gM( 'mwe-do_import_resource' ), 'rsd_import_doimport', 'check' ) +
+			$j.btnHtml( gM( 'mwe-do_import_resource' ), 'mwe-am-import_doimport', 'check' ) +
 			' ' +
-			$j.btnHtml( gM( 'mwe-return-search-results' ), 'rsd_import_acancel', 'close' ) + ' '
+			$j.btnHtml( gM( 'mwe-return-search-results' ), 'mwe-am-import_acancel', 'close' ) + ' '
 		);
 
 		// Update video tag (if a video)
@@ -2581,7 +2581,7 @@ mw.RemoteSearchDriver.prototype = {
 	getResourceImportInterface: function( resource, description ) {
 		var _this = this;
 		var $rsdResourceImport = $('<div />')
-			.attr( 'id', 'rsd_resource_import' )
+			.attr( 'id', 'mwe-am-resource_import' )
 			.addClass( 'ui-widget-content' )
 			.css( {
 				'position' : 'absolute',
@@ -2593,7 +2593,7 @@ mw.RemoteSearchDriver.prototype = {
 			} );
 
 		var $rsdPreviewContainer = $( '<div />')
-			.attr( 'id', 'rsd_preview_import_container' )
+			.attr( 'id', 'mwe-am-preview_import_container' )
 			.css( {
 				'position' : 'absolute',
 				'width' : '49%',
@@ -2617,7 +2617,7 @@ mw.RemoteSearchDriver.prototype = {
 				.css( { 'font-weight' : 'bold' } )
 				.text( gM( 'mwe-resource_page_desc' ) ),
 			$( '<div />' )
-				.attr( 'id', 'rsd_import_desc' )
+				.attr( 'id', 'mwe-am-import_desc' )
 				.css( 'display', 'inline' )
 				.loadingSpinner()
 		)
@@ -2699,7 +2699,7 @@ mw.RemoteSearchDriver.prototype = {
 				// Add the update preview button:
 				$( '<br />' ),
 				$('<span />').append(
-					$j.btnHtml( gM( 'mwe-update_preview' ), 'rsd_import_apreview', 'refresh' )
+					$j.btnHtml( gM( 'mwe-update_preview' ), 'mwe-am-import_apreview', 'refresh' )
 				)
 			);
 
@@ -2861,7 +2861,7 @@ mw.RemoteSearchDriver.prototype = {
 			// Put another window ontop:
 			$( _this.target_container ).append(
 				$('<div>').attr({
-					'id': 'rsd_preview_display'
+					'id': 'mwe-am-preview_display'
 				})
 				.css({
 					'position' : 'absolute',
@@ -2884,7 +2884,7 @@ mw.RemoteSearchDriver.prototype = {
 			// Update buttons
 			$( buttonPaneSelector )
 				.html(
-					$j.btnHtml( gM( 'rsd_do_insert' ), 'preview_do_insert', 'check' ) + ' ' )
+					$j.btnHtml( gM( 'mwe-am-do_insert' ), 'preview_do_insert', 'check' ) + ' ' )
 				.children( '.preview_do_insert' )
 				.click( function() {
 					_this.insertResource( resource );
@@ -2899,7 +2899,7 @@ mw.RemoteSearchDriver.prototype = {
 			.click( function() {
 				$( '#rsd_preview_display' ).remove();
 				var restoreTitle = gM( 'mwe-add_media_wizard' ) + ': ' +
-					gM( 'rsd_resource_edit', resource.title );
+					gM( 'mwe-am-resource_edit', resource.title );
 
 				// Restore title:
 				$( _this.target_container ).dialog( 'option', 'title', restoreTitle );
@@ -3063,7 +3063,7 @@ mw.RemoteSearchDriver.prototype = {
 		$boxLayout = $( '<img />' ).addClass( 'layout_selector' )
 			.attr({
 				id: 'msc_box_layout',
-				title: gM( 'rsd_box_layout' ),
+				title: gM( 'mwe-am-box_layout' ),
 				src: defaultBoxUrl
 			})
 			.hover(
@@ -3082,7 +3082,7 @@ mw.RemoteSearchDriver.prototype = {
 		$listLayout = $( '<img />' ).addClass( 'layout_selector' )
 			.attr({
 				id: 'msc_list_layout',
-				title: gM( 'rsd_list_layout' ),
+				title: gM( 'mwe-am-list_layout' ),
 				src: defaultListUrl
 			})
 			.hover(
@@ -3119,13 +3119,13 @@ mw.RemoteSearchDriver.prototype = {
 				'href' : provider.homepage,
 				'target' : '_new'
 			} )
-			.append( gM( 'rsd-' + provider.id + '-title' ) )
+			.append( gM( 'mwe-am-' + provider.id + '-title' ) )
 		);
 
 		var $searchContent = $( '<span />' ).html( resultsFromMsg );
-		var $searchDescription = $( '<span />' ).addClass( 'rsd_search_description' )
+		var $searchDescription = $( '<span />' ).addClass( 'mwe-am-search_description' )
 			.attr({
-				id: 'rsd_search_description'
+				id: 'mwe-am-search_description'
 			})
 			.append( $searchContent );
 
@@ -3148,7 +3148,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		var $header = $( '<div />' )
 			.attr({
-				id: 'rsd_results_header'
+				id: 'mwe-am-results_header'
 			});
 
 		if( this.displayResultFormatButton ){
@@ -3170,7 +3170,7 @@ mw.RemoteSearchDriver.prototype = {
 
 		var $footer = $( '<div />' )
 		.attr({
-			id: 'rsd_results_footer'
+			id: 'mwe-am-results_footer'
 		})
 		.append( this.createPagingControl() );
 
@@ -3193,7 +3193,7 @@ mw.RemoteSearchDriver.prototype = {
 			( parseInt( provider.offset ) + parseInt( provider.limit ) );
 
 		var $pagingControl = $( '<span />' ).attr({
-			id: 'rsd_paging_control'
+			id: 'mwe-am-paging_control'
 		});
 
 		// This puts enumeration text e.g. Results 1 to 30.
@@ -3201,24 +3201,24 @@ mw.RemoteSearchDriver.prototype = {
 		// @@todo we should instead support the wiki number format template system instead of inline calls
 		if ( search.num_results != 0 ) {
 			if ( search.num_results > provider.limit ) {
-				resultEnumeration = gM( 'rsd_results_desc_total', [( provider.offset + 1 ), to_num,
+				resultEnumeration = gM( 'mwe-am-results_desc_total', [( provider.offset + 1 ), to_num,
 					mw.Language.formatNumber( search.num_results )] );
 			} else {
-				resultEnumeration = gM( 'rsd_results_desc', [( provider.offset + 1 ), to_num] );
+				resultEnumeration = gM( 'mwe-am-results_desc', [( provider.offset + 1 ), to_num] );
 			}
 		}
 
 		var $resultEnumeration = $( '<span />' ).text( resultEnumeration )
-												 .addClass( 'rsd_result_enumeration' );
+												 .addClass( 'mwe-am-result_enumeration' );
 		$pagingControl.append( $resultEnumeration );
 
 		// Place the previous results link
 		if ( provider.offset >= provider.limit ) {
-			var prevLinkText = gM( 'rsd_results_prev' ) + ' ' + provider.limit;
+			var prevLinkText = gM( 'mwe-am-results_prev' ) + ' ' + provider.limit;
 			var $prevLink = $( '<a />' )
 				.attr({
 					href: '#',
-					id: 'rsd_pprev'
+					id: 'mwe-am-pprev'
 				} )
 				.text( prevLinkText )
 				.click( function() {
@@ -3234,11 +3234,11 @@ mw.RemoteSearchDriver.prototype = {
 
 		// Place the next results link
 		if ( search.more_results ) {
-			var nextLinkText = gM( 'rsd_results_next' ) + ' ' + provider.limit;
+			var nextLinkText = gM( 'mwe-am-results_next' ) + ' ' + provider.limit;
 			var $nextLink = $( '<a />' )
 				.attr({
 					href: '#',
-					id: 'rsd_pnext'
+					id: 'mwe-am-pnext'
 				} )
 				.text( nextLinkText )
 				.click( function() {

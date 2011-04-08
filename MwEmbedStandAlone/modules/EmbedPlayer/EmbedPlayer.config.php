@@ -18,7 +18,6 @@
 			'EmbedPlayer.EnableIpadHTMLControls'=> false, 
 			
 			'EmbedPlayer.LibraryPage'=> 'http://www.kaltura.org/project/HTML5_Video_Media_JavaScript_Library',
-
 	
 			// jQuery selector of tags to be re-written by embedPlayer
 			// Set to empty string or null to avoid automatic video tag rewrites to embedPlayer
@@ -46,9 +45,20 @@
 			
 			// Set the browser player warning flag displays warning for non optimal playback
 			"EmbedPlayer.ShowNativeWarning" => true,
+			
+			// If a fullscreen tip to press f11 should be displayed when entering fullscreen 
+			"EmbedPlayer.FullscreenTip" => true,
+			
+			// if the browser should display a warning for direct file links:
+			"EmbedPlayer.DirectFileLinkWarning" => false,
+			
+			"EmbedPlayer.FirefoxLink" => 'http://www.mozilla.com/en-US/firefox/upgrade.html?from=mwEmbed',
 	
 			// If fullscreen is global enabled.
 			"EmbedPlayer.EnableFullscreen" => true,
+			
+			// If the options control bar menu item should be enabled: 
+			'EmbedPlayer.EnableOptionsMenu' => true,
 	
 			// If mwEmbed should use the Native player controls
 			// this will prevent video tag rewriting and skinning

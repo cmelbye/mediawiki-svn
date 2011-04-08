@@ -177,7 +177,7 @@ metavidSearch.prototype = {
 
 		// update the interface:
 		mw.log( 'update title to: ' + resource['title'] );
-		$( '#rsd_resource_title' ).html( gM( 'rsd_resource_edit', resource['title'] ) );
+		$( '#rsd_resource_title' ).html( gM( 'mwe-am-resource_edit', resource['title'] ) );
 
 		// if the video is "roe" based select the ogg stream
 		if ( resource.roe_url && resource.pSobj.provider.stream_import_key ) {

@@ -34,17 +34,17 @@ kalturaFilters.prototype = {
 		resetFilters: function() {
 			this.filterList = {};
 			this.buildFilter('media',
-					gM( 'rsd-media-filter-title' ), {
-				movie: gM ( 'rsd-media-filter-videos' ),
-				image: gM ( 'rsd-media-filter-images' )
+					gM( 'mwe-am-media-filter-title' ), {
+				movie: gM ( 'mwe-am-media-filter-videos' ),
+				image: gM ( 'mwe-am-media-filter-images' )
 			});
 
 			this.buildFilter('providers',
-					gM( 'rsd-provider-filter-title' ), {
-				wiki_commons: gM( 'rsd-wiki_commons-title'),
-				archive_org: gM( 'rsd-archive_org-title' ),
-				metavid: gM( 'rsd-metavid-title' ),
-				flickr: gM( 'rsd-flickr-title' )
+					gM( 'mwe-am-provider-filter-title' ), {
+				commons: gM( 'mwe-am-commons-title'),
+				archive_org: gM( 'mwe-am-archive_org-title' ),
+				metavid: gM( 'mwe-am-metavid-title' ),
+				flickr: gM( 'mwe-am-flickr-title' )
 			});
 
 		},
@@ -102,14 +102,14 @@ kalturaFilters.prototype = {
 
 			for (filter in this.filterList) {
 				$filtersContainer.append(
-					this.getFilterBox( 'rsd_' + filter + '_filter',
+					this.getFilterBox( 'mwe-am-' + filter + '_filter',
 						this.filterList[ filter ].title,
 						this.filterList[ filter ].options ));
 			}
 
-			$selectAll = $( '<div />' ).text('Select All').addClass('rsd_clickable')
+			$selectAll = $( '<div />' ).text('Select All').addClass('mwe-am-clickable')
 				.attr( {
-					id: 'rsd_select_all'
+					id: 'mwe-am-select_all'
 				} )
 				.click( function() {
 					$('input[type=checkbox]', $filtersContainer).attr('checked',true);

@@ -56,6 +56,7 @@ mw.EmbedPlayerNative = {
 	// Native player supported feature set
 	supports: {
 		'playHead' : true,
+		'sourceSwitch': true,
 		'pause' : true,
 		'fullscreen' : true,
 		'timeDisplay' : true,
@@ -192,10 +193,10 @@ mw.EmbedPlayerNative = {
 			mw.log( " Error: applyMediaElementBindings without player elemnet");
 			return ;
 		}
-		$j.each( _this.nativeEvents, function( inx, eventName ){
+		$.each( _this.nativeEvents, function( inx, eventName ){
 			$( vid ).bind( eventName , function(){
 				if( _this._propagateEvents ){
-					var argArray = $j.makeArray( arguments );
+					var argArray = $.makeArray( arguments );
 					// Check if there is local handler:
 					if( _this['on' + eventName ] ){
 						_this['on' + eventName ].apply( _this, argArray);
@@ -317,7 +318,9 @@ mw.EmbedPlayerNative = {
 		this.getPlayerElement();
 		if( _this.playerElement.readyState >= 1 ){
 			if( _this.playerElement.currentTime == time ){
-				callback();
+				if( callback ){
+					callback();
+				}
 				return;
 			}
 			var once = function( event ) {
@@ -388,7 +391,9 @@ mw.EmbedPlayerNative = {
 		this.duration = 0;
 		this.currentTime = 0;
 		this.previousTime = 0;
-		var vid = this.getPlayerElement();		
+		var vid = this.getPlayerElement();
+		
+		// iOS and Chrome have broken source switch system work around their bugs here: 
 		if ( vid ) {
 			try {
 				// issue a play request on the source
@@ -404,18 +409,10 @@ mw.EmbedPlayerNative = {
 					// Local scope update source and play function to work around google chrome bug
 					var updateSrcAndPlay = function() {
 						var vid = _this.getPlayerElement();
-						if (!vid){
-							mw.log( 'Error: switchPlaySrc no vid');
-							return ;
-						}
 						vid.src = src;
 						// Give iOS 50ms to figure out the src got updated ( iPad OS 4.0 )
 						setTimeout(function() {
 							var vid = _this.getPlayerElement();
-							if (!vid){
-								mw.log( 'Error: switchPlaySrc no vid');
-								return ;
-							}	
 							vid.load();
 							vid.play();
 							// Wait another 100ms then bind the end event and any custom events
@@ -429,7 +426,6 @@ mw.EmbedPlayerNative = {
 									if(typeof doneCallback == 'function' ){
 										doneCallback();
 									}
-									return false;
 								});
 								if (typeof switchCallback == 'function') {
 									switchCallback(vid);

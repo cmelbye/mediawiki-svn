@@ -514,7 +514,7 @@ mw.MediaWikiRemoteSequencer.prototype = {
 			},
 			// Set the add media wizard to only include commons:
 			addMedia : {
-				'enabled_providers':[ 'wiki_commons' ],
+				'enabled_providers':[ 'commons' ],
 				'default_query' : _this.getTitle()
 			},
 			// Function called on sequence exit

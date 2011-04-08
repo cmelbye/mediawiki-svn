@@ -3,7 +3,24 @@
  */ 
 
 ( function( $ ) {
-		
+
+	/**
+	 * Extend Unique to work with strings and number values
+	 * http://paulirish.com/2010/duck-punching-with-jquery/ 
+	 */
+	var _oldUnique = $.unique;	 
+    $.unique = function(arr){
+        // Do the default behavior only if we got an array of elements
+        if (!!arr[0].nodeType){
+            return _oldUnique.apply(this,arguments);
+        } else {
+            // reduce the array to contain no dupes via grep/inArray
+            return $.grep(arr,function(v,k){
+                return $.inArray(v,arr) === k;
+            });
+        }
+    };
+
 	/**
 	 * Set a given selector html to the loading spinner:
 	 */
