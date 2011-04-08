@@ -3,6 +3,6 @@
  * Legacy entry point to resource loader 
  */
 // Set the request variables: 
-$_REQUEST['modules'] = 'startup';
-$_REQUEST['only'] = 'scripts';
+$_GET['modules'] = 'startup';
+$_GET['only'] = 'scripts';
 include_once( 'load.php' );
