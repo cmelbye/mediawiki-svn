@@ -31,7 +31,7 @@ $wgExtensionCredits['specialpage'][] = array(
 	'path' => __FILE__,
 	'name' => 'CodeReview',
 	'url' => 'http://www.mediawiki.org/wiki/Extension:CodeReview',
-	'author' => array( 'Brion Vibber', 'Aaron Schulz', 'Alexandre Emsenhuber', 'Chad Horohoe' ),
+	'author' => array( 'Brion Vibber', 'Aaron Schulz', 'Alexandre Emsenhuber', 'Chad Horohoe', 'Sam Reed', 'Roan Kattouw' ),
 	'descriptionmsg' => 'codereview-desc',
 );
 
@@ -70,10 +70,12 @@ $wgAutoloadClasses['CodeAuthorListView'] = $dir . 'ui/CodeAuthorListView.php';
 $wgAutoloadClasses['CodeStatusListView'] = $dir . 'ui/CodeStatusListView.php';
 $wgAutoloadClasses['CodeTagListView'] = $dir . 'ui/CodeTagListView.php';
 $wgAutoloadClasses['CodeCommentsListView'] = $dir . 'ui/CodeCommentsListView.php';
+$wgAutoloadClasses['CodeCommentsAuthorListView'] = $dir . 'ui/CodeCommentsAuthorListView.php';
 $wgAutoloadClasses['CodeReleaseNotes'] = $dir . 'ui/CodeReleaseNotes.php';
 $wgAutoloadClasses['CodeStatusChangeListView'] = $dir . 'ui/CodeStatusChangeListView.php';
+$wgAutoloadClasses['CodeStatusChangeAuthorListView'] = $dir . 'ui/CodeStatusChangeAuthorListView.php';
 $wgAutoloadClasses['SpecialCode'] = $dir . 'ui/SpecialCode.php';
-$wgAutoloadClasses['CodeView'] = $dir . 'ui/SpecialCode.php';
+$wgAutoloadClasses['CodeView'] = $dir . 'ui/CodeView.php';
 $wgAutoloadClasses['SpecialRepoAdmin'] = $dir . 'ui/SpecialRepoAdmin.php';
 $wgAutoloadClasses['WordCloud'] = $dir . 'ui/WordCloud.php';
 
@@ -100,6 +102,7 @@ $wgAvailableRights[] = 'codereview-set-status';
 $wgAvailableRights[] = 'codereview-signoff';
 $wgAvailableRights[] = 'codereview-associate';
 $wgAvailableRights[] = 'codereview-link-user';
+$wgAvailableRights[] = 'codereview-review-own';
 
 $wgGroupPermissions['*']['codereview-use'] = true;
 
@@ -111,7 +114,10 @@ $wgGroupPermissions['user']['codereview-link-user'] = true;
 $wgGroupPermissions['user']['codereview-signoff'] = true;
 $wgGroupPermissions['user']['codereview-associate'] = true;
 
-$wgGroupPermissions['steward']['repoadmin'] = true; // temp
+$wgGroupPermissions['svnadmins']['repoadmin'] = true;
+
+// Constants returned from CodeRepository::getDiff() when no diff can be calculated.
+
 
 // If you can't directly access the remote SVN repo, you can set this
 // to an offsite proxy running this fun little proxy tool:
@@ -128,8 +134,27 @@ $wgSubversionOptions = "--non-interactive --trust-server-cert";
 // What is the default SVN import chunk size?
 $wgCodeReviewImportBatchSize = 400;
 
-// Bump the version number every time you change a CodeReview .css/.js file
-$wgCodeReviewStyleVersion = 7;
+$commonModuleInfo = array(
+	'localBasePath' => dirname( __FILE__ ) . '/modules',
+	'remoteExtPath' => 'CodeReview/modules',
+);
+
+// Styles and any code common to all Special:Code subviews:
+$wgResourceModules['ext.codereview'] = array(
+	'styles' => 'ext.codereview.css',
+	'scripts' => 'ext.codereview.js',
+) + $commonModuleInfo;
+
+// On-demand diff loader for CodeRevisionView:
+$wgResourceModules['ext.codereview.loaddiff'] = array(
+	'scripts' => 'ext.codereview.loaddiff.js'
+) + $commonModuleInfo;
+
+// Revision tooltips CodeRevisionView:
+$wgResourceModules['ext.codereview.tooltips'] = array(
+	'scripts' => 'ext.codereview.tooltips.js',
+	'dependencies' => 'jquery.tipsy'
+) + $commonModuleInfo;
 
 // If you are running a closed svn, fill the following two lines with the username and password
 // of a user allowed to access it. Otherwise, leave it false.
@@ -154,10 +179,12 @@ $wgCodeReviewImgRegex = '/\.(png|jpg|jpeg|gif)$/i';
 $wgCodeReviewMaxDiffSize = 500000;
 
 /**
- * Limit of the revisions accessible to the search by path.
- * Set to 0 to disable the limit.
+ * The maximum number of paths that we will perform a diff on.
+ * If a revision contains more changed paths than this, we will skip getting the 
+ * diff altogether.
+ * May be set to 0 to indicate no limit.
  */
-$wgCodeReviewPathSearchHorizon = 20000;
+$wgCodeReviewMaxDiffPaths = 20;
 
 /**
  * Key is repository name. Value is an array of regexes
@@ -184,10 +211,15 @@ $wgCodeReviewRepoStatsCacheTime = 6 * 60 * 60; // 6 Hours
 # Schema changes
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'efCodeReviewSchemaUpdates';
 
+/**
+ * @param  $updater DatabaseUpdater
+ * @return bool
+ */
 function efCodeReviewSchemaUpdates( $updater ) {
 	$base = dirname( __FILE__ );
 	switch ( $updater->getDB()->getType() ) {
 	case 'mysql':
+		$updater->addNewExtension( 'CodeReview', "$base/codereview.sql" );
 		$updater->addExtensionUpdate( array( 'addTable', 'code_rev',
 			"$base/codereview.sql", true ) ); // Initial install tables
 		$updater->addExtensionUpdate( array( 'addField', 'code_rev', 'cr_diff',
@@ -208,8 +240,25 @@ function efCodeReviewSchemaUpdates( $updater ) {
 			"$base/archives/code_signoffs_userid.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addField', 'code_signoffs', 'cs_timestamp_struck',
 			"$base/archives/code_signoffs_timestamp_struck.sql", true ) );
+
+		$updater->addExtensionUpdate( array( 'addIndex', 'code_comment', 'cc_author',
+			"$base/archives/code_comment_author-index.sql", true ) );
+
+		$updater->addExtensionUpdate( array( 'addIndex', 'code_prop_changes', 'cpc_author',
+			"$base/archives/code_prop_changes_author-index.sql", true ) );
+
+		if ( !$updater->updateRowExists( 'make cp_action char' ) ) {
+			$updater->addExtensionUpdate( array( 'modifyField', 'code_paths', 'cp_action',
+				"$base/archives/codereview-cp_action_char.sql", true ) );
+		}
+
+		if ( !$updater->updateRowExists( 'make cpc_attrib varchar' ) ) {
+			$updater->addExtensionUpdate( array( 'modifyField', 'code_prop_changes', 'cpc_attrib',
+				"$base/archives/codereview-cpc_attrib_varchar.sql", true ) );
+		}
 		break;
 	case 'sqlite':
+		$updater->addNewExtension( 'CodeReview', "$base/codereview.sql" );
 		$updater->addExtensionUpdate( array( 'addTable', 'code_rev', "$base/codereview.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addTable', 'code_signoffs', "$base/archives/code_signoffs.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addField', 'code_signoffs', 'cs_user',

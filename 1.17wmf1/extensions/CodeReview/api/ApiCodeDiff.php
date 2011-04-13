@@ -40,9 +40,9 @@ class ApiCodeDiff extends ApiBase {
 
 		$diff = $repo->getDiff( $params['rev'] );
 
-		if ( strval( $diff ) === '' ) {
+		if ( !is_string( $diff ) ) {
 			// FIXME: Are we sure we don't want to throw an error here?
-			$html = 'Failed to load diff.';
+			$html = 'Failed to load diff. Error message: ' . CodeRepository::getDiffErrorMessage( $diff );
 		} elseif ( strlen( $diff ) > $wgCodeReviewMaxDiffSize ) {
 			$html = 'Diff too large.';
 		} else {
@@ -88,8 +88,6 @@ class ApiCodeDiff extends ApiBase {
 			array( 'code' => 'permissiondenied', 'info' => 'You don\'t have permission to view code diffs' ),
 			array( 'code' => 'invalidrepo', 'info' => "Invalid repo ``repo''" ),
 			array( 'code' => 'nosuchrev', 'info' => 'There is no revision with ID \'rev\'' ),
-			array( 'missingparam', 'repo' ),
-			array( 'missingparam', 'rev' ),
 		) );
 	}
 

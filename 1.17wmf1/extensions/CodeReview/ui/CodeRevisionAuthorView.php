@@ -1,8 +1,8 @@
 <?php
 
 class CodeRevisionAuthorView extends CodeRevisionListView {
-	function __construct( $repoName, $author ) {
-		parent::__construct( $repoName );
+	function __construct( $repo, $author ) {
+		parent::__construct( $repo );
 		$this->mAuthor = $author;
 		$this->mUser = $this->mRepo->authorWikiUser( $author );
 		$this->mAppliedFilter = wfMsg( 'code-revfilter-cr_author', $author );
@@ -13,8 +13,9 @@ class CodeRevisionAuthorView extends CodeRevisionListView {
 	}
 
 	function linkStatus() {
-		if ( !$this->mUser )
+		if ( !$this->mUser ) {
 			return wfMsg( 'code-author-orphan' );
+		}
 
 		return wfMsgHtml( 'code-author-haslink',
 			$this->skin->userLink( $this->mUser->getId(), $this->mUser->getName() ) .
@@ -43,10 +44,6 @@ class CodeRevisionAuthorView extends CodeRevisionListView {
 		$wgOut->addHTML( $this->formatMetaData( $fields ) . $linkInfo );
 
 		parent::execute();
-	}
-
-	function getSpecializedWhereClause() {
-		return array( 'cr_author' => $this->mAuthor );
 	}
 }
 

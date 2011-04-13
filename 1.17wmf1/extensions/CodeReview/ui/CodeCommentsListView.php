@@ -4,18 +4,22 @@
 class CodeCommentsListView extends CodeView {
 	public $mRepo;
 
-	function __construct( $repoName ) {
-		parent::__construct();
-		$this->mRepo = CodeRepository::newFromName( $repoName );
+	function __construct( $repo ) {
+		parent::__construct( $repo );
+
+		global $wgRequest;
+		$this->mAuthor = $wgRequest->getText( 'author' );
 	}
 
 	function execute() {
 		global $wgOut;
 		$pager = $this->getPager();
+		$limitForm = $pager->getLimitForm();
 		$wgOut->addHTML(
 			$pager->getNavigationBar() .
-			$pager->getLimitForm() .
+			$limitForm .
 			$pager->getBody() .
+			$limitForm .
 			$pager->getNavigationBar()
 		);
 	}
@@ -41,7 +45,7 @@ class CodeCommentsTablePager extends SvnTablePager {
 	}
 
 	function getQueryInfo() {
-		return array(
+		$query = array(
 			'tables' => array( 'code_comment', 'code_rev' ),
 			'fields' => array_keys( $this->getFieldNames() ),
 			'conds' => array( 'cc_repo_id' => $this->mRepo->getId() ),
@@ -49,6 +53,12 @@ class CodeCommentsTablePager extends SvnTablePager {
 				'code_rev' => array( 'LEFT JOIN', 'cc_repo_id = cr_repo_id AND cc_rev_id = cr_id' )
 			)
 		);
+
+		if( $this->mView->mAuthor ) {
+			$query['conds']['cc_user_text'] = $this->mView->mAuthor;
+		}
+
+	    return $query;
 	}
 
 	function getFieldNames() {
@@ -79,8 +89,7 @@ class CodeCommentsTablePager extends SvnTablePager {
 		case 'cr_message':
 			return $this->mView->messageFragment( $value );
 		case 'cc_text':
-			# Truncate this, blah blah...
-			return htmlspecialchars( $wgLang->truncate( $value, 300 ) );
+			return $this->mView->messageFragment( $value );
 		case 'cc_timestamp':
 			global $wgLang;
 			return $wgLang->timeanddate( $value, true );

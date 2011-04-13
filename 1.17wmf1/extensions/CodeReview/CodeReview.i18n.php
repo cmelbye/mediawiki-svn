@@ -23,11 +23,15 @@ $messages['en'] = array(
 	'code-prop-changes' => 'Status & tagging log',
 	'codereview-desc' => '[[Special:Code|Code review tool]] with [[Special:RepoAdmin|Subversion support]]',
 	'code-no-repo' => 'No repository configured!',
+	'code-create-repo' => 'Go to [[Special:RepoAdmin|RepoAdmin]] to create a Repository',
+	'code-need-repoadmin-rights' => 'repoadmin rights are needed to be able to create a Repository',
+	'code-need-group-with-rights' => 'No group with repoadmin rights exist. Please add one to be able to add a new Repository',
 	'code-repo-not-found' => "Repository '''$1''' does not exist!",
 	'code-load-diff' => 'Loading diff…',
 	'code-notes' => 'recent comments',
 	'code-statuschanges' => 'status changes',
 	'code-mycommits' => 'my commits',
+	'code-mycomments' => 'my comments',
 	'code-authors' => 'authors',
 	'code-status' => 'states',
 	'code-tags' => 'tags',
@@ -132,7 +136,6 @@ $messages['en'] = array(
 	'code-release-legend'   => 'Generate release notes',
 	'code-release-startrev' => 'Start rev:',
 	'code-release-endrev'   => 'Last rev:',
-	'code-release-badrange' => 'Range is too large!',
 
 	'codereview-subtitle' => 'For $1',
 
@@ -142,6 +145,9 @@ $messages['en'] = array(
 	'codereview-email-body' => 'User "$1" posted a comment on $3.
 
 Full URL: $2
+Commit summary:
+
+$5
 
 Comment:
 
@@ -151,9 +157,11 @@ $4',
 	'codereview-email-body2' => 'User "$1" made follow-up changes to $2.
 
 Full URL for followed up revision: $5
+Commit summary:
+
+$6
 
 Full URL: $3
-
 Commit summary:
 
 $4',
@@ -164,7 +172,10 @@ $4',
 Old Status: $3
 New Status: $4
 
-Full URL: $5',
+Full URL: $5
+Commit summary:
+
+$6',
 
 	'codereview-email-subj4' => '[$1 $2]: New comment added, and revision status changed',
 	'codereview-email-body4' => 'User "$1" changed the status of $2.
@@ -175,11 +186,14 @@ New Status: $4
 User "$1" also posted a comment on $2.
 
 Full URL: $5
+Commit summary:
+
+$7
 
 Comment:
 
 $6',
-	
+
 	'code-stats' => 'statistics',
 	'code-stats-header' => 'Statistics for repository $1',
 	'code-stats-main' => 'As of $1, the repository has $2 {{PLURAL:$2|revision|revisions}} by [[Special:Code/$3/author|$4 {{PLURAL:$4|author|authors}}]].',
@@ -208,12 +222,18 @@ $6',
 	'right-codereview-signoff' => 'Sign off on revisions',
 	'right-codereview-link-user' => 'Link authors to wiki users',
 	'right-codereview-associate' => 'Manage revision associations',
+	'right-codereview-review-own' => 'Mark your own revisions as OK',
 
 	'specialpages-group-developer' => 'Developer tools',
+
+	'group-svnadmins' => 'SVN admins',
+	'group-svnadmins-member' => 'SVN admin',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN admins',
 );
 
 /** Message documentation (Message documentation)
  * @author Aotake
+ * @author Beta16
  * @author Dalibor Bosits
  * @author EugeneZelenko
  * @author Fryed-peach
@@ -227,12 +247,14 @@ $6',
  * @author Raymond
  * @author Siebrand
  * @author Sp5uhe
+ * @author Umherirrender
  * @author Verdy p
  */
 $messages['qqq'] = array(
 	'code-comments' => '{{Identical|Comments}}',
 	'code-change-added' => '{{Identical|Added}}',
 	'codereview-desc' => '{{desc}}',
+	'code-need-group-with-rights' => 'Do not translate the word <code>repoadmin</code>.',
 	'code-repo-not-found' => "Message displayed when the requested repository does not exist in the wiki's repo definitions.  $1 is the name that was requested, and will be fully escaped before output.",
 	'code-tags' => '{{Identical|Tag}}',
 	'code-field-id' => '{{Identical|Revision}}',
@@ -240,7 +262,7 @@ $messages['qqq'] = array(
 	'code-field-message' => 'This is probably a noun instead of verb, a column header.',
 	'code-field-status' => '{{Identical|Status}}',
 	'code-field-timestamp' => '{{Identical|Date}}',
-	'code-field-comments' => '{{Identical|Notes}}',
+	'code-field-comments' => '{{Identical|Comments}}',
 	'code-field-path' => '{{Identical|Path}}',
 	'code-field-select' => '{{Identical|Select}}',
 	'code-reference-remove' => 'Caption of the button used to remove the selected (with checkboxes) revisions from the follow-up list.',
@@ -265,7 +287,7 @@ See also: {{msg-mw|Code-references}}',
 	'code-signoff-submit' => 'Submit button text.
 
 A "sign-off" is a concept in code review that means that the person doing the sign-off has approved the involved code changes.',
-	'code-signoff-strike' => 'Submit button that, when clicked, will cause the selected sign-offs to be struck. Struck sign-offs are visible but displayed <s>with a line through them</s>.',
+	'code-signoff-strike' => 'Submit button that, when clicked, will cause the selected sign-offs to be struck. Struck sign-offs are visible but displayed <del>with a line through them</del>.',
 	'code-signoff-signoff' => 'Label text which is followed by a checkbox for each sign-off state and a submit button.',
 	'code-signoff-flag-inspected' => 'Type of sign-off indicating the code has been looked at.',
 	'code-signoff-flag-tested' => 'Type of sign-off indicating the code has been tested.',
@@ -290,17 +312,28 @@ $1 = Repository name',
 	'codereview-email-subj2' => 'Subject of an e-mail sent to a user whose revision has been followed upon.
 * <code>$1</code> – Repository name
 * <code>$2</code> – Number of the original revision (which has been followed upon)',
-	'codereview-email-body2' => 'Subject of an e-mail sent to a user whose revision has been followed upon.
+	'codereview-email-body2' => 'Body of an e-mail sent to a user whose revision has been followed upon.
 * <code>$1</code> – User who created the follow-up revision
 * <code>$2</code> – Number of the revision that has been followed upon.
 * <code>$3</code> – URL to the new revision.
 * <code>$4</code> – Commit message of the new revision.
-* <code>$5</code> – URL to followed revision.',
+* <code>$5</code> – URL to followed revision.
+* <code>$6</code> – Commit message of the followed revision.',
 	'codereview-email-subj3' => '* <code>$1</code> – Repository name
 * <code>$2</code> – Number of the revision',
-	'codereview-email-body3' => '* <code>$1</code> – Number of the revision where a regression has been introduced
-* <code>$2</code> – URL to the revision
-* <code>$3</code> – Commit message for the revision',
+	'codereview-email-body3' => '* $1 is a user name
+* $2 is a revision number
+* $3 is the old status
+* $4 is the new status
+* $5 is the full URL to code review
+* $6 is the commit summary for the change',
+	'codereview-email-body4' => '* $1 is a user name
+* $2 is a revision number
+* $3 is the old status
+* $4 is the new status
+* $5 is the full URL to code review
+* $6 is the commit summary for the change
+* $7 is the comment for the change',
 	'code-stats' => '{{Identical|Statistics}}',
 	'code-stats-main' => 'Parameters:
 * $1 - time and date when statistics was cached
@@ -319,7 +352,8 @@ $1 = Repository name',
 	'right-codereview-post-comment' => '{{doc-right}}',
 	'right-codereview-set-status' => '{{doc-right}}',
 	'right-codereview-signoff' => 'A "sign-off" is a concept in code review that means that the person doing the sign-off has approved the involved code changes.',
-	'right-codereview-link-user' => '{{Doc-right}}',
+	'right-codereview-link-user' => '{{doc-right}}',
+	'right-codereview-associate' => '{{doc-right|codereview-associate}}',
 );
 
 /** Afrikaans (Afrikaans)
@@ -382,7 +416,6 @@ $messages['af'] = array(
 	'code-status-reverted' => 'teruggerol',
 	'code-status-resolved' => 'opgelos',
 	'code-status-ok' => 'ok',
-	'code-status-verified' => 'geverifieer',
 	'code-status-old' => 'oud',
 	'code-signoff-field-user' => 'Gebruiker',
 	'code-signoff-field-date' => 'Datum',
@@ -390,7 +423,6 @@ $messages['af'] = array(
 	'code-revfilter-cr_status' => 'Status = $1',
 	'code-revfilter-cr_author' => 'Outeur = $1',
 	'codereview-batch-submit' => 'Dien in',
-	'code-release-badrange' => 'Die reeks is te groot.',
 	'codereview-subtitle' => 'Vir $1',
 	'codereview-reply-link' => 'antwoord',
 	'code-stats' => 'statistieke',
@@ -430,7 +462,6 @@ $messages['aln'] = array(
 	'code-release-legend' => 'Shënime Generate lirimin',
 	'code-release-startrev' => 'rev Fillimi:',
 	'code-release-endrev' => 'rev fundit:',
-	'code-release-badrange' => 'Varg është tepër i madh!',
 	'codereview-subtitle' => 'Për $1',
 	'codereview-reply-link' => 'përgjigje',
 	'codereview-email-subj' => '[$1 $2]: koment i ri shtuar',
@@ -618,7 +649,6 @@ $messages['ar'] = array(
 	'code-release-legend' => 'توليد ملاحظات الإصدار',
 	'code-release-startrev' => 'مراجعة البداية:',
 	'code-release-endrev' => 'آخر مراجعة:',
-	'code-release-badrange' => 'النطاق كبير للغاية!',
 	'codereview-subtitle' => 'ل$1',
 	'codereview-reply-link' => 'رد',
 	'codereview-email-subj' => '[$1 $2]: تعليق جديد تمت إضافته',
@@ -807,29 +837,71 @@ $4',
 	'specialpages-group-developer' => 'أدوات المطورين',
 );
 
-/** Bashkir (Башҡорт)
+/** Bashkir (Башҡортса)
  * @author Assele
  * @author Haqmar
  */
 $messages['ba'] = array(
-	'code' => 'Кодты рецензиялау',
-	'code-rev-title' => '$1 -Кодты рецензиялау',
-	'code-comments' => 'Комментарийҙар',
-	'code-references' => 'Артабанғы ревизиялар',
+	'code' => 'Кодты тикшереү',
+	'code-rev-title' => '$1 -Кодты тикшереү',
+	'code-comments' => 'Аңлатмалар',
+	'code-references' => 'Артабанғы өлгөләр',
+	'code-change-status' => "$1 '''торошон''' үҙгәрткән",
+	'code-change-tags' => "$1 '''билдәһен''' үҙгәрткән",
+	'code-change-removed' => 'юйылған:',
+	'code-change-added' => 'өҫтәлгән:',
+	'code-old-status' => 'Иҫке торошо',
+	'code-new-status' => 'Яңы торошо',
+	'code-prop-changes' => 'Тороштар һәм билдәләр яҙмалары журналы',
+	'codereview-desc' => '[[Special:RepoAdmin|Subversion ҡулланыусы]] [[Special:Code|Кодты тикшереү ҡоралы]]',
+	'code-no-repo' => 'Көйләнгән һаҡлағыс юҡ!',
+	'code-create-repo' => 'Һаҡлағыс булдырыу өсөн, [[Special:RepoAdmin|RepoAdmin]]-ға керегеҙ',
+	'code-need-repoadmin-rights' => 'Һаҡлағыс булдырыу өсөн repoadmin хоҡуҡтары кәрәк',
+	'code-need-group-with-rights' => 'Repoadmin хоҡуҡтары булған төркөм юҡ. Зинһар, яңы һаҡлағыс булдырыу өсөн, шундай төркөм булдырығыҙ',
+	'code-repo-not-found' => "'''$1''' һаҡлағысы юҡ!",
+	'code-load-diff' => 'Сағыштырыуҙы сығарыу...',
+	'code-notes' => 'һуңғы аңлатмалар',
+	'code-statuschanges' => 'торошто үҙгәртеүҙәр',
+	'code-mycommits' => 'минең тапшырыуҙарым (commit)',
+	'code-mycomments' => 'минең аңлатмаларым',
+	'code-authors' => 'авторҙар',
+	'code-status' => 'тороштар',
+	'code-tags' => 'билдәләр',
+	'code-tags-no-tags' => 'Был һаҡлағыста билдәләр юҡ.',
+	'code-authors-text' => 'Түбәндә — исемдәре буйынса тәртипкә килтерелгән һаҡлағыс авторҙарының исемлеге. Урындағы вики иҫәп яҙмалары йәйә эсендә күрһәтелгән. Был мәғлүмәт кэшланған булыуы мөмкин.',
+	'code-author-haslink' => 'Был автор $1 ҡатнашыусыһына бәйләнгән',
+	'code-author-orphan' => 'Был автор бер вики иҫәп яҙмаһына ла бәйләмәгән',
+	'code-author-dolink' => 'Был авторҙы вики ҡатнашыусыһына бәйләргә:',
+	'code-author-alterlink' => 'Был авторға бәйләнгән  вики ҡатнашыусыһын үҙгәртергә:',
+	'code-author-orunlink' => 'йәки был вики ҡатнашыусыға бәйҙе кире алырға:',
+	'code-author-name' => 'Ҡатнашыусы исемен керетерегеҙ:',
+	'code-author-success' => '$1 авторы $2 вики ҡатнашыусыһына уңышлы бәйләнде',
+	'code-author-link' => 'бәйләргәме?',
+	'code-author-unlink' => 'бәйҙе кире алырғамы?',
+	'code-author-unlinksuccess' => '$1 авторының бәйе кире алынды',
+	'code-author-badtoken' => 'Ғәмәлде башҡарыу ваҡытында сессия хатаһы.',
+	'code-author-total' => 'Авторҙарҙың дөйөм һаны: $1',
+	'code-author-lastcommit' => 'Һуңғы тапшырыу (commit) көнө',
+	'code-browsing-path' => "'''$1''' эсендә өлгөләрҙе ҡарау",
+	'code-field-id' => 'Өлгө',
 	'code-field-author' => 'Автор',
-	'code-field-user' => 'Комментатор',
-	'code-field-message' => 'Үҙгәртеүҙәр',
-	'code-field-status' => 'Статус',
+	'code-field-user' => 'Иҫкәрмә яһаусы',
+	'code-field-message' => 'Тапшырыу (commit) тасуирламаһы',
+	'code-field-status' => 'Торошо',
+	'code-field-status-description' => 'Тороштоң тасуирламаһы',
 	'code-field-timestamp' => 'Көнө',
-	'code-field-comments' => 'Комментарийҙар',
+	'code-field-comments' => 'Иҫкәрмәләр',
 	'code-field-path' => 'Юл',
-	'code-field-text' => 'Комментарий',
+	'code-field-text' => 'Иҫкәрмә',
 	'code-field-select' => 'Һайларға',
+	'code-reference-remove' => 'Һайланған бәйләнештәрҙе юйырға',
+	'code-reference-associate' => 'Киләһе өлгөнө бәйләргә:',
+	'code-reference-associate-submit' => 'Бәйләргә',
 	'code-rev-author' => 'Автор:',
 	'code-rev-date' => 'Көнө:',
 	'code-rev-message' => 'Иҫкәрмә:',
 	'code-rev-repo' => 'Һаҡлағыс:',
-	'code-rev-rev' => 'Ревизия:',
+	'code-rev-rev' => 'Өлгө:',
 	'code-rev-rev-viewvc' => 'ViewVC аша',
 	'code-rev-paths' => 'Үҙгәртелгән юлдар:',
 	'code-rev-modified-a' => 'өҫтәлгән',
@@ -837,44 +909,146 @@ $messages['ba'] = array(
 	'code-rev-modified-d' => 'юйылған',
 	'code-rev-modified-m' => 'үҙгәртелгән',
 	'code-rev-imagediff' => 'Рәсемдәге үҙгәрештәр',
-	'code-rev-status' => 'Статус:',
-	'code-rev-status-set' => 'Статусты үҙгәртергә',
+	'code-rev-status' => 'Торошо:',
+	'code-rev-status-set' => 'Торошто үҙгәртергә',
 	'code-rev-tags' => 'Билдәләр:',
 	'code-rev-tag-add' => 'Билдәләр өҫтәргә:',
 	'code-rev-tag-remove' => 'Билдәләрҙе алырға:',
-	'code-rev-comment-by' => '$1 исемле ҡулланыусынан комментарий',
+	'code-rev-comment-by' => '$1 исемле ҡулланыусынан аңлатма',
 	'code-rev-comment-preview' => 'Алдан байҡау',
 	'code-rev-inline-preview' => 'Алдан байҡау:',
 	'code-rev-diff' => 'Айыр.',
 	'code-rev-diff-link' => 'айыр.',
-	'code-rev-diff-too-large' => 'Өлгөләр араһындағы айырмалар күрһәтеп булмаҫлыҡ ҡәҙәр ҙур.',
+	'code-rev-diff-too-large' => 'Өлгөләр араһындағы айырмалар күрһәтеп булмаҫлыҡ ҙур.',
+	'code-rev-purge-link' => 'таҙартырға',
+	'code-rev-total' => 'Һөҙөмтәләрҙең дөйөм һаны: $1',
+	'code-rev-not-found' => "'''$1''' өлгөһө юҡ!",
+	'code-status-new' => 'яңы',
+	'code-status-desc-new' => 'Өлгө ғәмәлде көтә (ғәҙәттәге торош).',
+	'code-status-fixme' => 'төҙәтергә кәрәк',
+	'code-status-desc-fixme' => 'Тикшереүсе был өлгөлә хата барлығын йәки боҙолоуын билдәләгән. Уны төҙәтергә кәрәк.',
+	'code-status-improveme' => 'яҡшыртырға',
+	'code-status-desc-improveme' => 'Тикшереүсе был өлгөнөң эшләнеп еткерелмәгәнлеген билдәләгән. Уны төҙәтергә кәрәк.',
+	'code-status-reverted' => 'кире алынған',
+	'code-status-desc-reverted' => 'Өлгө һуңғыраҡ өлгөлә кире алынған',
+	'code-status-resolved' => 'төҙәтелгән',
+	'code-status-desc-resolved' => 'Өлгөлә хата булған, һәм ул хата һуңғыраҡ өлгөлә төҙәтелгән.',
+	'code-status-ok' => 'тамам',
+	'code-status-desc-ok' => 'Өлгө тулыһынса тикшерелгән һәм тикшереүсе уның бар яҡтан да яҡшы булыуын раҫлай.',
+	'code-status-deferred' => 'кисектерелгән',
+	'code-status-desc-deferred' => 'Өлгө тикшереүҙе талап итмәй.',
+	'code-status-old' => 'иҫке',
+	'code-status-desc-old' => 'Иҫке өлгө, хаталар менән булыуы ихтимал, уларҙы тикшереү өсөн көс сарыф итеп тоторға кәрәкмәй.',
+	'code-signoffs' => 'Раҫлауҙар',
+	'code-signoff-legend' => 'Раҫлау өҫтәү',
+	'code-signoff-submit' => 'Раҫларға',
+	'code-signoff-strike' => 'Һайланған раҫлауҙарҙы һыҙып ташларға',
+	'code-signoff-signoff' => 'Был өлгөнө түбәндәге рәүештә раҫларға:',
+	'code-signoff-flag-inspected' => 'Тикшерелгән',
+	'code-signoff-flag-tested' => 'Һыналған',
+	'code-signoff-field-user' => 'Ҡатнашыусы',
+	'code-signoff-field-flag' => 'Тамға',
+	'code-signoff-field-date' => 'Көнө',
+	'code-signoff-struckdate' => '$1 ($2 һыҙып ташлаған)',
+	'code-pathsearch-legend' => 'Был һаҡлағыста адрестары буйынса өлгөләрҙе эҙләү',
 	'code-pathsearch-path' => 'Юл:',
 	'code-pathsearch-filter' => 'Ҡулланылған фильтр:',
-	'code-revfilter-cr_status' => 'Статус = $1',
+	'code-revfilter-cr_status' => 'Торош = $1',
 	'code-revfilter-cr_author' => 'Автор = $1',
 	'code-revfilter-clear' => 'Фильтрҙы таҙаларға',
 	'code-rev-submit' => 'Үҙгәрештәрҙе һаҡларға',
-	'code-rev-submit-next' => 'Һаҡларға һәм киләһе сиселмәгәнгә',
-	'code-batch-status' => 'Статусты үҙгәртергә:',
+	'code-rev-submit-next' => 'Һаҡларға һәм киләһе төҙәтелмәгәнде асырға',
+	'code-batch-status' => 'Торошто үҙгәртергә:',
 	'code-batch-tags' => 'Билдәләрҙе үҙгәртергә:',
-	'codereview-batch-title' => 'Һайланған бар ревизияларҙы үҙгәртергә',
+	'codereview-batch-title' => 'Һайланған бар өлгөләрҙе үҙгәртергә',
 	'codereview-batch-submit' => 'Ебәрергә',
-	'code-releasenotes' => 'сығарылыш иҫкәрмәләре',
-	'code-release-legend' => 'Сығарылыш иҫкәрмәләрен яһарға',
-	'code-release-startrev' => 'Башланғыс ревизия:',
-	'code-release-endrev' => 'Һуңғы ревизия:',
-	'code-release-badrange' => 'Арауыҡ бик ҙур!',
+	'code-releasenotes' => 'сығарылыш аңлатмалары',
+	'code-release-legend' => 'Сығарылыш аңлатмаларын булдырырға',
+	'code-release-startrev' => 'Башланғыс өлгө:',
+	'code-release-endrev' => 'Һуңғы өлгө:',
 	'codereview-subtitle' => '«$1» өсөн',
 	'codereview-reply-link' => 'яуапларға',
-	'codereview-email-subj' => '[$1 $2]: Яңы комментарий өҫтәлде',
-	'codereview-email-body' => '"$1" ҡулланыусыһы $3 өсөн комментарий өҫтәне.
+	'codereview-email-subj' => '[$1 $2]: Яңы аңлатма өҫтәлде',
+	'codereview-email-body' => '"$1" ҡулланыусыһы $3 өсөн аңлатма өҫтәне.
 
 Тулы URL: $2
+Ҡыҫҡаса тасуирлама: 
 
-Комментарий:
+$5
+
+Аңлатма:
 
 $4',
 	'codereview-email-subj2' => '[$1] [r$2]: Артабанғы үҙгәрештәр',
+	'codereview-email-body2' => '"$1" ҡатнашыусыһы $2 өлгөһөнә артабанғы үҙгәрештәр кереткән.
+
+Алдағы өлгөнөң тулы URL адресы: $5
+Ҡыҫҡаса тасуирлама: 
+
+$6
+
+Тулы URL адрес: $3
+
+Тапшырыу тасуирламаһы:
+
+$4',
+	'codereview-email-subj3' => '[$1 $2]: Өлгөнөң торошо үҙгәргән',
+	'codereview-email-body3' => '"$1" ҡатнашыусыһы $2 өлгөһөнөң торошон үҙгәрткән.
+
+Иҫке торошо: $3
+Яңы торошо: $4
+
+Тулы URL адрес: $5
+Тапшырыу тасуирламаһы:
+
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Яңы аңлатма өҫтәлгән һәм өлгөнөң торошо үҙгәргән',
+	'codereview-email-body4' => '"$1" ҡатнашыусыһы $2 өлгөһөнөң торошон үҙгәркән.
+
+Иҫке торошо: $3
+Яңы торошо: $4
+
+"$1" ҡатнашыусыһы шулай уҡ $2 өсөн аңлатма өҫтәгән.
+
+Тулы URL: $5
+Тапшырыу тасуирламаһы:
+
+$7
+
+
+Аңлатма:
+
+$6',
+	'code-stats' => 'статистика',
+	'code-stats-header' => '$1 һаҡлағысы өсөн статистика',
+	'code-stats-main' => '$1 һаҡлағыста [[Special:Code/$3/author|$4 {{PLURAL:$4|автор}}]] тарафынан тапшырылған $2 {{PLURAL:$2|өлгө}} бар.',
+	'code-stats-status-breakdown' => 'Һәр торошҡа өлгөләр',
+	'code-stats-fixme-breakdown' => '"Үҙгәртергә кәрәк" торошло өлгөләрҙе авторҙарға бүлеү',
+	'code-stats-count' => 'Өлгөләр һаны',
+	'repoadmin' => 'Һаҡлағыс менән идара итеү',
+	'repoadmin-new-legend' => 'Яңы һаҡлағыс булдырырға',
+	'repoadmin-new-label' => 'Һаҡлағыстың исеме:',
+	'repoadmin-new-button' => 'Яһарға',
+	'repoadmin-edit-legend' => '"$1" һаҡлағысын үҙгәртеү',
+	'repoadmin-edit-path' => 'Һаҡлағыс юлы:',
+	'repoadmin-edit-bug' => 'Bugzilla юлы:',
+	'repoadmin-edit-view' => 'ViewVC юлы:',
+	'repoadmin-edit-button' => 'Тамам',
+	'repoadmin-edit-sucess' => '"[[Special:Code/$1|$1]]" һаҡлағысы уңышлы үҙгәртелде.',
+	'repoadmin-nav' => 'һаҡлағыс менән идара итеү',
+	'right-repoadmin' => 'Кодтар һаҡлағыстары менән идара итеү',
+	'right-codereview-use' => 'Special:Code ҡулланыу',
+	'right-codereview-add-tag' => 'Өлгөләргә билдәләр өҫтәү',
+	'right-codereview-remove-tag' => 'Өлгөләрҙән билдәләрҙе юйыу',
+	'right-codereview-post-comment' => 'Өлгөләргә аңлатмалар өҫтәү',
+	'right-codereview-set-status' => 'Өлгөләрҙең торошон үҙгәртеү',
+	'right-codereview-signoff' => 'Өлгөләрҙе раҫлау',
+	'right-codereview-link-user' => 'Авторҙарҙы вики ҡатнашыусыларға бәйләү',
+	'right-codereview-associate' => 'Өлгөләрҙе бәйләү менән идара итеү',
+	'specialpages-group-developer' => 'Программист ҡоралдары',
+	'group-svnadmins' => 'SVN идарасылары',
+	'group-svnadmins-member' => 'SVN идарасыһы',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN идарасылары',
 );
 
 /** Southern Balochi (بلوچی مکرانی)
@@ -932,7 +1106,7 @@ $messages['be'] = array(
 	'code-stats' => 'статыстыка',
 );
 
-/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author EugeneZelenko
  * @author Jim-by
  * @author Red Winged Duck
@@ -952,11 +1126,15 @@ $messages['be-tarask'] = array(
 	'code-prop-changes' => 'Журнал зьменаў статусаў і тэгаў',
 	'codereview-desc' => '[[Special:Code|Інструмэнт рэцэнзаваньня коду]] з [[Special:RepoAdmin|падтрымкай Subversion]]',
 	'code-no-repo' => 'Адсутнічае сканфігураванае сховішча!',
+	'code-create-repo' => 'Перайсьці ў [[Special:RepoAdmin|RepoAdmin]] для стварэньня рэпазыторыя.',
+	'code-need-repoadmin-rights' => 'для стварэньня рэпазыторыя патрэбныя правы repoadmin',
+	'code-need-group-with-rights' => 'Ніводнай групе не нададзеныя правы repoadmin. Калі ласка, надайце правы для стварэньня рэпазыторыя.',
 	'code-repo-not-found' => "Сховішча '''$1''' не існуе!",
 	'code-load-diff' => 'Загрузка розьніцы…',
 	'code-notes' => 'апошнія камэнтары',
 	'code-statuschanges' => 'зьмены статусу',
 	'code-mycommits' => 'мае зьмены коду',
+	'code-mycomments' => 'мае камэнтары',
 	'code-authors' => 'аўтары',
 	'code-status' => 'станы',
 	'code-tags' => 'тэгі',
@@ -1057,13 +1235,15 @@ $messages['be-tarask'] = array(
 	'code-release-legend' => 'Стварыць заўвагі да выпуску',
 	'code-release-startrev' => 'Пачатковая вэрсія:',
 	'code-release-endrev' => 'Апошняя вэрсія:',
-	'code-release-badrange' => 'Занадта вялікі дыяпазон!',
 	'codereview-subtitle' => 'Для $1',
 	'codereview-reply-link' => 'адказаць',
 	'codereview-email-subj' => '[$1 $2]: Дададзены новы камэнтар',
 	'codereview-email-body' => 'Удзельнік «$1» дадаў камэнтар для $3.
 
-Поўны URL: $2
+Поўны URL-адрас: $2
+Кароткае апісаньне зьменаў:
+
+$5
 
 Камэнтар:
 
@@ -1072,6 +1252,9 @@ $4',
 	'codereview-email-body2' => 'Карыстальнік «$1» зрабіў наступныя зьмены ў $2.
 
 Поўны URL-адрас папярэдняй вэрсіі: $5
+Кароткае апісаньне зьменаў:
+
+$6
 
 Поўны URL-адрас: $3
 
@@ -1081,8 +1264,13 @@ $4',
 	'codereview-email-subj3' => '[$1 $2]: Статус вэрсіі зьменены',
 	'codereview-email-body3' => 'Карыстальнік «$1» зьмяніў статус $2.
 
-Старая вэрсія: $3
-Новая вэрсія: $4',
+Стары статус: $3
+Новы статус: $4
+
+URL-адрас: $5
+Кароткае апісаньне зьменаў:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Дададзены новы камэнтар, статус вэрсіі зьменены',
 	'codereview-email-body4' => 'Удзельнік «$1» зьмяніў статус $2.
 
@@ -1092,6 +1280,9 @@ $4',
 Удзельнік «$1» таксама пакінуў камэнтар у $2.
 
 Поўны URL-адрас: $5
+Кароткае апісаньне зьменаў:
+
+$7
 
 Камэнтар:
 
@@ -1121,7 +1312,12 @@ $6',
 	'right-codereview-set-status' => 'Зьмяніць статус вэрсіяў',
 	'right-codereview-signoff' => 'Зацьвердзіць вэрсіі',
 	'right-codereview-link-user' => 'Даданьне да аўтараў спасылак на рахункі ўдзельнікаў вікі',
+	'right-codereview-associate' => 'кіраваньне сувязямі вэрсіяў',
+	'right-codereview-review-own' => 'пазначэньне ўласных вэрсіяў як слушных',
 	'specialpages-group-developer' => 'Інструмэнты распрацоўшчыка',
+	'group-svnadmins' => 'Адміністратары SVN',
+	'group-svnadmins-member' => 'Адміністратар SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Адміністратары SVN',
 );
 
 /** Bulgarian (Български)
@@ -1164,7 +1360,7 @@ $messages['bg'] = array(
 	'code-field-user' => 'Коментатор',
 	'code-field-status' => 'Статут',
 	'code-field-timestamp' => 'Дата',
-	'code-field-comments' => 'Бележки',
+	'code-field-comments' => 'Коментари',
 	'code-field-path' => 'Път',
 	'code-field-text' => 'Бележка',
 	'code-field-select' => 'Избиране',
@@ -1195,6 +1391,7 @@ $messages['bg'] = array(
 	'code-status-reverted' => 'върнато',
 	'code-status-resolved' => 'разрешено',
 	'code-status-deferred' => 'отложено',
+	'code-signoff-field-date' => 'Дата',
 	'code-pathsearch-legend' => 'Търсене на версии в това хранилище по път',
 	'code-pathsearch-path' => 'Път:',
 	'code-revfilter-cr_status' => 'Статут = $1',
@@ -1206,7 +1403,6 @@ $messages['bg'] = array(
 	'codereview-batch-submit' => 'Изпращане',
 	'code-release-startrev' => 'Първа редакция:',
 	'code-release-endrev' => 'Последна редакция:',
-	'code-release-badrange' => 'Обхватът е твърде голям!',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'отговаряне',
 	'codereview-email-subj' => '[$1 $2]: Беше добавен нов коментар',
@@ -1218,6 +1414,7 @@ $messages['bg'] = array(
 
 $4',
 	'code-stats' => 'статистика',
+	'code-stats-header' => 'Статистики за хранилище $1',
 	'code-stats-count' => 'Брой версии',
 	'repoadmin' => 'Администриране на хранилището',
 	'repoadmin-new-legend' => 'Създаване на ново хранилище',
@@ -1293,11 +1490,15 @@ $messages['br'] = array(
 	'code-prop-changes' => 'Marilh ar statudoù hag ar balizenniñ',
 	'codereview-desc' => '[[Special:Code|Ostilh adwelet ar c\'hodoù]] gant ar [[Special:RepoAdmin|skor "Subversion"]]',
 	'code-no-repo' => "N'eus ket a dastumlec'h kefluniet !",
+	'code-create-repo' => "Mont da [[Special:RepoAdmin|RepoAdmin]] evit krouiñ ur c'havlec'h",
+	'code-need-repoadmin-rights' => "Ezhomm zo eus aotre repoadmin evit gallout krouiñ ur c'havlec'h",
+	'code-need-group-with-rights' => "N'eus strollad ebet gant repoadmin. Ouzhpennit unan evit gallout krouiñ ur c'havlec'h nevez",
 	'code-repo-not-found' => "N'eus ket eus an dastumlec'h '''$1''' !",
 	'code-load-diff' => "O kargañ an diforc'hioù...",
 	'code-notes' => 'Evezhiadennoù diwezhañ',
 	'code-statuschanges' => 'kemmoù statud',
 	'code-mycommits' => 'va embannoù',
+	'code-mycomments' => 'ma evezhiadennoù',
 	'code-authors' => 'aozerien',
 	'code-status' => 'statudoù',
 	'code-tags' => 'balizennoù',
@@ -1398,13 +1599,15 @@ $messages['br'] = array(
 	'code-release-legend' => 'Genel an notennoù embann',
 	'code-release-startrev' => 'Adweladenn penn-kentañ :',
 	'code-release-endrev' => 'Aweladenn ziwezhañ :',
-	'code-release-badrange' => 'Re vras eo al levezon !',
 	'codereview-subtitle' => 'Evit $1',
 	'codereview-reply-link' => 'respont',
 	'codereview-email-subj' => '[$1 $2] : evezhiadenn nevez bet ouzhpennet',
 	'codereview-email-body' => 'Lakaet en deus an implijer "$1" un evezhiadenn war $3.
 
 URL klok : $2
+Diverrañ ar c\'hemm :
+
+$5
 
 Evezhiadenn :
 
@@ -1413,9 +1616,11 @@ $4',
 	'codereview-email-body2' => 'Degaset ez eus bet kemmoù liammet ouzh $2 gant an implijer "$1".
 
 URL klok da heuliañ an adweladenn : $5
+Diverran eus ar c\'hemmoù :
+
+$6
 
 URL klok : $3
-
 Diverrañ eus ar c\'hemmoù :
 
 $4',
@@ -1423,7 +1628,12 @@ $4',
 	'codereview-email-body3' => 'Kemmet eo bet statud $2 gant an implijer "$1".
 
 Statud kozh : $3
-Stad nevez : $4',
+Stadud nevez : $4
+
+URL klok : $5
+Diverrañ eus ar c\'hemmoù :
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Evezhiadenn nevez ouzhpennet, ha cheñchet statud ar sutmm',
 	'codereview-email-body4' => 'Kemmet eo bet statud $2 gant an implijer "$1".
 
@@ -1433,6 +1643,9 @@ Statud nevez : $4
 Postet ez eus bet un evezhiadenn war $2 gant an implijer "$1" ivez.
 
 URL klok : $5
+Diverrañ eus ar c\'hemmoù : 
+
+$7
 
 Evezhiadenn :
 
@@ -1462,7 +1675,12 @@ $6',
 	'right-codereview-set-status' => 'Kemmañ statud an adweladennoù',
 	'right-codereview-signoff' => 'Aprouiñ adweladennoù',
 	'right-codereview-link-user' => "Liammañ an oberourien d'an implijerien wiki",
+	'right-codereview-associate' => "Ouzhpennañ/lemel ar c'henstroll adwelet",
+	'right-codereview-review-own' => "Merkañ ar gwiriadennoù graet ganeoc'h evel Mat",
 	'specialpages-group-developer' => 'Ostilhoù diorren',
+	'group-svnadmins' => 'Merourien SVN',
+	'group-svnadmins-member' => 'Merour SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Merourien SVN',
 );
 
 /** Bosnian (Bosanski)
@@ -1483,11 +1701,15 @@ $messages['bs'] = array(
 	'code-prop-changes' => 'Zapis stanja i oznaka',
 	'codereview-desc' => '[[Special:Code|Alat za provjeru koda]] sa [[Special:RepoAdmin|podrškom za subverzije]]',
 	'code-no-repo' => 'Nijedan repozitorijum nije konfigurisan!',
+	'code-create-repo' => 'Idite na [[Special:RepoAdmin|RepoAdmin]] za pravljenje Repozitorija',
+	'code-need-repoadmin-rights' => 'prava repoadmina su neophodna da biste mogli praviti Repozitorij',
+	'code-need-group-with-rights' => 'Ne postoji grupa sa pravima repoadmin. Molimo dodajte jednu da biste mogli dodavati novi Repozitorij',
 	'code-repo-not-found' => "Repozitorij '''$1''' ne postoji!",
 	'code-load-diff' => 'Punim diff...',
 	'code-notes' => 'nedavni komentari',
 	'code-statuschanges' => 'izmjene stanja',
 	'code-mycommits' => 'moje publikacije',
+	'code-mycomments' => 'moji komentari',
 	'code-authors' => 'autori',
 	'code-status' => 'statusi',
 	'code-tags' => 'oznake',
@@ -1588,13 +1810,15 @@ $messages['bs'] = array(
 	'code-release-legend' => 'Generisanje bilješki izdanja',
 	'code-release-startrev' => 'Početna rev:',
 	'code-release-endrev' => 'Zadnja rev:',
-	'code-release-badrange' => 'Raspon je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovor',
 	'codereview-email-subj' => '[$1 $2]: Dodan novi komentar',
 	'codereview-email-body' => 'Korisnik "$1" je napravio komentar na $3.
 
 Puni URL: $2
+Poslani sažetak:
+
+$5
 
 Komentar:
 
@@ -1603,9 +1827,11 @@ $4',
 	'codereview-email-body2' => 'Korisnik "$1" je izvršio povezane izmjene na $2.
 
 Puni URL za povezane revizije: $5
+Napravljeni sažetak:
+
+$6
 
 Puni URL: $3
-
 Napravljeni sažetak:
 
 $4',
@@ -1613,7 +1839,12 @@ $4',
 	'codereview-email-body3' => 'Korisnik "$1" je promijenio stanje od $2.
 
 Staro stanje: $3
-Novo stanje: $4',
+Novo stanje: $4
+
+Puni URL: $5
+Napravljeni sažetak:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Dodan novi komentar i promijenjeno stanje revizije',
 	'codereview-email-body4' => 'Korisnik "$1"  je promijenio stanje od $2.
 
@@ -1623,6 +1854,9 @@ Novo stanje: $4
 Korisnik "$1" je postavio i komentar na $2.
 
 Puni URL: $5
+Napravljeni sažetak:
+
+$7
 
 Komentar:
 
@@ -1652,26 +1886,44 @@ $6',
 	'right-codereview-set-status' => 'Promjena stanja revizija',
 	'right-codereview-signoff' => 'Završi izmjene revizija',
 	'right-codereview-link-user' => 'Poveži autore sa wiki korisnicima',
+	'right-codereview-associate' => 'Upravljanje pridruženim revizijama',
+	'right-codereview-review-own' => 'Označite vaše vlastite revizije kao OK',
 	'specialpages-group-developer' => 'Razvojni alati',
+	'group-svnadmins' => 'SVN administratori',
+	'group-svnadmins-member' => 'SVN administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratori',
 );
 
 /** Catalan (Català)
+ * @author Aleator
+ * @author El libre
  * @author Loupeter
  * @author Paucabot
+ * @author SMP
  * @author Solde
  */
 $messages['ca'] = array(
+	'code' => 'Revisió del Codi',
+	'code-rev-title' => '$1 - Revisió del Codi',
 	'code-comments' => 'Comentaris',
+	'code-references' => 'Seguiment de les revisions',
+	'code-change-status' => "canvia l''''estat''' de $1",
+	'code-change-tags' => "canviades les '''etiquetes''' per $1",
 	'code-change-removed' => 'Eliminat:',
 	'code-change-added' => 'afegit:',
 	'code-old-status' => 'Estat antic',
 	'code-new-status' => 'Estat nou',
+	'code-prop-changes' => "Estat i registre d'etiquetatge",
+	'code-no-repo' => "No s'ha configurat cap repositori.",
+	'code-repo-not-found' => "El repositori '''$1''' no existeix!",
 	'code-load-diff' => 'Carregant dif...',
 	'code-notes' => 'comentaris recents',
 	'code-statuschanges' => "Canvis d'estat",
+	'code-mycommits' => 'les meves publicacions',
 	'code-authors' => 'autors',
 	'code-status' => 'Estats',
 	'code-tags' => 'Etiquetes',
+	'code-tags-no-tags' => 'No existeixen etiquetes en aquest repositori.',
 	'code-author-haslink' => "Aquest autor està vinculat a l'usuari wiki $1",
 	'code-author-orphan' => "Aquest autor no té enllaç a un compte d'usuari wiki",
 	'code-author-dolink' => 'Vincula aquest autor a un usuari wiki:',
@@ -1682,19 +1934,29 @@ $messages['ca'] = array(
 	'code-author-link' => 'vincula?',
 	'code-author-unlink' => "Elimina l'enllaç?",
 	'code-author-unlinksuccess' => "L'autor $1 ha estat desvinculat",
+	'code-author-badtoken' => "Error de sessió en intentar realitzar l'acció.",
+	'code-author-total' => "Nombre total d'autors/es: $1",
+	'code-author-lastcommit' => "Data de l'última acció",
+	'code-browsing-path' => "Navegant per les revisions a '''$1'''",
 	'code-field-id' => 'Revisió',
 	'code-field-author' => 'Autor',
 	'code-field-user' => 'Comentarista',
+	'code-field-message' => "Sumari d'accions",
 	'code-field-status' => 'Estat',
+	'code-field-status-description' => "Descripció de l'estat",
 	'code-field-timestamp' => 'Data',
-	'code-field-comments' => 'Notes',
+	'code-field-comments' => 'Comentaris',
 	'code-field-path' => 'Ruta',
 	'code-field-text' => 'Nota',
 	'code-field-select' => 'Seleccionau',
+	'code-reference-remove' => 'Suprimeix les associacions seleccionades',
+	'code-reference-associate-submit' => 'Associa',
 	'code-rev-author' => 'Autor:',
 	'code-rev-date' => 'Data:',
 	'code-rev-message' => 'Comentari:',
+	'code-rev-repo' => 'Repositori:',
 	'code-rev-rev' => 'Revisió:',
+	'code-rev-rev-viewvc' => 'a ViewVC',
 	'code-rev-paths' => 'Rutes modificades:',
 	'code-rev-modified-a' => 'afegit',
 	'code-rev-modified-r' => 'Reemplaçat',
@@ -1708,8 +1970,13 @@ $messages['ca'] = array(
 	'code-rev-tag-remove' => 'Elimina etiquetes:',
 	'code-rev-comment-by' => 'Comentari de $1',
 	'code-rev-comment-preview' => 'Previsualitza',
+	'code-rev-inline-preview' => 'Vista prèvia:',
 	'code-rev-diff' => 'dif',
 	'code-rev-diff-link' => 'dif',
+	'code-rev-diff-too-large' => 'La diferència és massa gran per ser mostrada.',
+	'code-rev-purge-link' => 'Purga',
+	'code-rev-total' => 'Nombre total de resultats: $1',
+	'code-rev-not-found' => "La revisió '''$1''' no existeix!",
 	'code-status-new' => 'nou',
 	'code-status-fixme' => "arregla'm",
 	'code-status-reverted' => 'Revertit',
@@ -1717,27 +1984,78 @@ $messages['ca'] = array(
 	'code-status-ok' => 'ok',
 	'code-status-deferred' => 'diferits',
 	'code-status-old' => 'edat',
+	'code-signoffs' => 'Aprovacions',
+	'code-signoff-legend' => 'Afegeix aprovació',
+	'code-signoff-submit' => 'Aprova',
+	'code-signoff-strike' => 'Tatxa les aprovacions seleccionades',
+	'code-signoff-signoff' => 'Aprova aquesta revisió com:',
+	'code-signoff-flag-inspected' => 'Inspeccionat',
+	'code-signoff-flag-tested' => 'Provat',
+	'code-signoff-field-user' => 'Usuari/a',
+	'code-signoff-field-flag' => 'Marca',
+	'code-signoff-field-date' => 'Data',
+	'code-signoff-struckdate' => '$1 (ha tatxat $2)',
+	'code-pathsearch-legend' => 'Cerca revisions en aquest repositori per ruta',
 	'code-pathsearch-path' => 'Ruta:',
+	'code-pathsearch-filter' => 'Filtre aplicat:',
+	'code-revfilter-cr_status' => 'Estat = $1',
+	'code-revfilter-cr_author' => 'Autor/a = $1',
+	'code-revfilter-clear' => 'Neteja filtre',
 	'code-rev-submit' => 'Desar canvis',
+	'code-rev-submit-next' => 'Guarda i vés al següent sense resoldre',
+	'code-batch-status' => "Canvia l'estat:",
+	'code-batch-tags' => 'Canvia etiquetes:',
+	'codereview-batch-title' => 'Canvia totes les revisions seleccionades',
 	'codereview-batch-submit' => 'Envia',
 	'code-releasenotes' => 'notes de la versió',
+	'code-release-legend' => 'Genera notes de llançament',
+	'code-release-startrev' => 'Inici rev:',
+	'code-release-endrev' => 'Darrera rev:',
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'Contesta',
 	'codereview-email-subj' => '[$1 $2]: Nou comentari afegit',
-	'codereview-email-body' => 'L\'usuari "$1" ha fet un comentari a $3
+	'codereview-email-body' => 'L\'usuari "$1" ha fet un comentari a $3.
 
 URL complet: $2
+Resum:
+
+$5
 
 Comentari:
 
 $4',
+	'codereview-email-subj2' => '[$1 $2]: Seguiment dels canvis',
+	'code-stats' => 'estadístiques',
+	'code-stats-header' => 'Estadístiques del repositori $1',
+	'code-stats-status-breakdown' => 'Nombre de revisions per estat',
+	'code-stats-count' => 'Nombre de revisions',
+	'repoadmin' => 'Administració del Repositori',
+	'repoadmin-new-legend' => 'Crea nou repositori',
 	'repoadmin-new-button' => 'Crear',
+	'repoadmin-edit-legend' => 'Modificació del repositori "$1"',
+	'repoadmin-edit-path' => 'Ruta del repositori:',
 	'repoadmin-edit-bug' => 'Ruta de Bugzilla:',
+	'repoadmin-edit-view' => 'Ruta de ViewVC:',
 	'repoadmin-edit-button' => 'OK',
-	'right-codereview-use' => 'Ús de Special:Code',
-	'right-codereview-remove-tag' => 'Elimina etiquetes de les revisions',
-	'right-codereview-post-comment' => 'Afegeix comentaris a les revisions',
+	'repoadmin-nav' => 'administració del repositori',
+	'right-repoadmin' => 'Gestionar els repositoris de codi',
+	'right-codereview-use' => 'Usar la pàgina Special:Code',
+	'right-codereview-add-tag' => 'Afegir noves etiquetes a les revisions',
+	'right-codereview-remove-tag' => 'Eliminar etiquetes de les revisions',
+	'right-codereview-post-comment' => 'Afegir comentaris a les revisions',
+	'right-codereview-set-status' => "Canviar l'estat de les revisions",
+	'right-codereview-signoff' => 'Aprova revisions',
 	'specialpages-group-developer' => 'Eines de desenvolupador',
+	'group-svnadmins' => 'administradors SVN',
+	'group-svnadmins-member' => 'administrador SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradors SVN',
+);
+
+/** Chechen (Нохчийн)
+ * @author Sasan700
+ */
+$messages['ce'] = array(
+	'codereview-reply-link' => 'жоп ло',
 );
 
 /** Sorani (کوردی) */
@@ -1764,11 +2082,15 @@ $messages['cs'] = array(
 	'code-prop-changes' => 'Záznam změn stavu a značek',
 	'codereview-desc' => '[[Special:Code|Nástroj pro kontrolu kódu]] s [[Special:RepoAdmin|podporou Subversion]]',
 	'code-no-repo' => 'Nebylo nastaveno žádné úložiště!',
+	'code-create-repo' => 'Pro založení úložiště jděte do [[Special:Repoadmin|správce úložišť]]',
+	'code-need-repoadmin-rights' => 'Pro založení úložiště je potřeba právo repoadmin',
+	'code-need-group-with-rights' => 'Neexistuje žádná skupina s oprávněním repoadmin. Abyste mohli založit úložiště, musíte nějakou přidat.',
 	'code-repo-not-found' => "Úložiště '''$1''' neexistuje!",
 	'code-load-diff' => 'Nahrávám diff…',
 	'code-notes' => 'nedávné poznámky',
 	'code-statuschanges' => 'změny stavu',
 	'code-mycommits' => 'moje commity',
+	'code-mycomments' => 'moje komentáře',
 	'code-authors' => 'autoři',
 	'code-status' => 'stavy',
 	'code-tags' => 'značky',
@@ -1845,6 +2167,8 @@ $messages['cs'] = array(
 	'code-signoffs' => 'Schválení',
 	'code-signoff-legend' => 'Přidat schválení',
 	'code-signoff-submit' => 'Schválit',
+	'code-signoff-strike' => 'Škrtnout vybraná schválení',
+	'code-signoff-signoff' => 'Schválit tuto revizi jako:',
 	'code-signoff-flag-inspected' => 'Zkontrolováno',
 	'code-signoff-flag-tested' => 'Otestováno',
 	'code-signoff-field-user' => 'Uživatel',
@@ -1867,13 +2191,15 @@ $messages['cs'] = array(
 	'code-release-legend' => 'Vytvořit poznámky k vydání',
 	'code-release-startrev' => 'Počáteční revize:',
 	'code-release-endrev' => 'Poslední revize:',
-	'code-release-badrange' => 'Rozsah je příliš velký!',
 	'codereview-subtitle' => 'Pro $1',
 	'codereview-reply-link' => 'odpovědět',
 	'codereview-email-subj' => '[$1 $2]: Přidán nový komentář',
 	'codereview-email-body' => 'Uživatel „$1“ přidal komentář k $3.
 
 Plné URL: $2
+Komentář ke změně:
+
+$5
 
 Komentář:
 
@@ -1882,6 +2208,9 @@ $4',
 	'codereview-email-body2' => 'Uživatel „$1“ svou změnou reagoval na $2.
 
 Úplné URL původní revize: $5
+Komentář ke změně:
+
+$6
 
 Úplné URL: $3
 
@@ -1892,7 +2221,12 @@ $4',
 	'codereview-email-body3' => 'Uživatel „$1“ změnil stav $2.
 
 Předchozí stav: $3
-Nový stav: $4',
+Nový stav: $4
+
+Plné URL: $5
+Komentář ke změně:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Přidán nový komentář a změnil se stav revize',
 	'codereview-email-body4' => 'Uživatel „$1“ změnil stav $2.
 
@@ -1902,6 +2236,9 @@ Nový stav: $4
 Uživatel „$1“ také přidal k $2 komentář.
 
 Plné URL: $5
+Komentář ke změně:
+
+$7
 
 Komentář:
 
@@ -1931,7 +2268,12 @@ $6',
 	'right-codereview-set-status' => 'Přepínání stavu revizí',
 	'right-codereview-signoff' => 'Schvalování revizí',
 	'right-codereview-link-user' => 'Správa vazeb autorů s wikiuživateli',
+	'right-codereview-associate' => 'Správa vztahů mezi revizemi',
+	'right-codereview-review-own' => 'Označování vlastních revizí jako OK',
 	'specialpages-group-developer' => 'Vývojářské nástroje',
+	'group-svnadmins' => 'Správci SVN',
+	'group-svnadmins-member' => 'správce SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Správci SVN',
 );
 
 /** Danish (Dansk)
@@ -1998,7 +2340,6 @@ $messages['da'] = array(
 	'code-status-reverted' => 'tilbagestillet',
 	'code-status-resolved' => 'løst',
 	'code-status-ok' => 'o.k.',
-	'code-status-verified' => 'verificeret',
 	'code-status-deferred' => 'udsat',
 	'code-pathsearch-legend' => 'Søg versioner i dette arkiv efter sti',
 	'code-pathsearch-path' => 'Sti:',
@@ -2049,11 +2390,15 @@ $messages['de'] = array(
 	'code-prop-changes' => 'Status- und Tagging-Logbuch',
 	'codereview-desc' => 'Stellt ein [[Special:Code|Codeprüfungssystem]] mit [[Special:RepoAdmin|„Subversion“-Unterstützung]] zur Verfügung',
 	'code-no-repo' => 'Es ist kein Repositorium konfiguriert!',
+	'code-create-repo' => 'Geh zur Spezialseite [[Special:RepoAdmin|RepoAdmin]] um ein Repositorium zu erstellen',
+	'code-need-repoadmin-rights' => 'Die Berechtigung repoadmin ist erforderlich, um ein Repositorium erstellen zu können',
+	'code-need-group-with-rights' => 'Es ist keine Benutzergruppe vorhanden, der die Berechtigung repoadmin zugeordnet ist. Bitte eine hinzufügen, um ein neues Repositorium erstellen zu können.',
 	'code-repo-not-found' => "Repository '''$1''' existiert nicht!",
 	'code-load-diff' => 'Lade Diff …',
 	'code-notes' => 'Kommentare',
 	'code-statuschanges' => 'Statusänderungen',
 	'code-mycommits' => 'Eigene Commits',
+	'code-mycomments' => 'meine Kommentare',
 	'code-authors' => 'Autoren',
 	'code-status' => 'Status',
 	'code-tags' => 'Tags',
@@ -2112,33 +2457,33 @@ $messages['de'] = array(
 	'code-rev-diff-too-large' => 'Der Diff ist zu groß.',
 	'code-rev-purge-link' => 'Cache löschen',
 	'code-rev-total' => 'Anzahl der Ergebnisse: $1',
-	'code-rev-not-found' => "Version '''$1''' existiert nicht!",
+	'code-rev-not-found' => "Revision '''$1''' ist nicht vorhanden!",
 	'code-status-new' => 'neu',
-	'code-status-desc-new' => 'Version erwartet eine Aktion (Standardstatus).',
+	'code-status-desc-new' => 'Revision erwartet eine Aktion (Standardstatus).',
 	'code-status-fixme' => 'FIXME',
-	'code-status-desc-fixme' => 'Ein Begutachter markierte diese Version als kaputt oder Verursacher eines Bugs. Sie sollte korrigiert werden.',
+	'code-status-desc-fixme' => 'Ein Gutachter markierte diese Revision als fehlerhaft oder Verursacher eines Softwarefehlers. Sie sollte korrigiert werden.',
 	'code-status-reverted' => 'rückgängig gemacht',
-	'code-status-desc-reverted' => 'Version wurde durch eine spätere Version rückgängig gemacht.',
+	'code-status-desc-reverted' => 'Revision wurde durch eine spätere Revision rückgängig gemacht.',
 	'code-status-resolved' => 'erledigt',
-	'code-status-desc-resolved' => 'Version hatte ein Problem, das in einer späteren Version korrigiert wurde.',
+	'code-status-desc-resolved' => 'Mit dieser Revision gab es ein Problem, das mit einer späteren Revision berichtigt wurde.',
 	'code-status-ok' => 'OK',
-	'code-status-desc-ok' => 'Version wurde vollständig begutachtet und der Begutachter ist sich sicher, dass sie in jeder Hinsicht in Ordnung ist.',
+	'code-status-desc-ok' => 'Die Revision wurde vollständig begutachtet und der Gutachter ist sich sicher, dass sie in jeder Hinsicht einwandfrei ist.',
 	'code-status-deferred' => 'zurückgestellt',
-	'code-status-desc-deferred' => 'Die Version erfordert keine Begutachtung.',
+	'code-status-desc-deferred' => 'Die Revision erfordert keine Begutachtung.',
 	'code-status-old' => 'alt',
-	'code-status-desc-old' => 'Alte Version mit potenziellen Bugs, die es aber nicht wert sind, begutachtet zu werden.',
+	'code-status-desc-old' => 'Alte Revision mit potentiellen Softwarefehlern, die es aber nicht wert sind, begutachtet zu werden.',
 	'code-signoffs' => 'Freigaben',
 	'code-signoff-legend' => 'Freigabe hinzufügen',
 	'code-signoff-submit' => 'Freigeben',
 	'code-signoff-strike' => 'Ausgewählte Freigaben streichen',
-	'code-signoff-signoff' => 'Diese Version freigeben:',
+	'code-signoff-signoff' => 'Diese Revision freigeben als:',
 	'code-signoff-flag-inspected' => 'Geprüft',
 	'code-signoff-flag-tested' => 'Getestet',
 	'code-signoff-field-user' => 'Benutzer',
 	'code-signoff-field-flag' => 'Kennzeichen',
 	'code-signoff-field-date' => 'Datum',
 	'code-signoff-struckdate' => '$1 (gestrichen $2)',
-	'code-pathsearch-legend' => 'Suche in diesem Repositorium nach Versionen, per Pfad',
+	'code-pathsearch-legend' => 'Suche in diesem Repositorium per Pfad nach Revisionen',
 	'code-pathsearch-path' => 'Pfad:',
 	'code-pathsearch-filter' => 'Angewendeter Filter:',
 	'code-revfilter-cr_status' => 'Status = $1',
@@ -2149,38 +2494,48 @@ $messages['de'] = array(
 	'code-batch-status' => 'Änderungsstatus:',
 	'code-batch-tags' => 'Tags ändern:',
 	'codereview-batch-title' => 'Alle ausgewählten Revisionen ändern',
-	'codereview-batch-submit' => 'Übertragen',
-	'code-releasenotes' => 'Protokoll der Änderungen',
-	'code-release-legend' => 'Protokoll der Änderungen erzeugen',
+	'codereview-batch-submit' => 'Speichern',
+	'code-releasenotes' => 'Versionsinformationen',
+	'code-release-legend' => 'Versionsinformationen generieren',
 	'code-release-startrev' => 'Startrevision:',
 	'code-release-endrev' => 'Letzte Revision:',
-	'code-release-badrange' => 'Der Bereich ist zu groß!',
 	'codereview-subtitle' => 'Für $1',
 	'codereview-reply-link' => 'antworten',
-	'codereview-email-subj' => '[$1 $2]: Neuer Kommentar hinzugefügt',
+	'codereview-email-subj' => '[$1 $2]: Neuen Kommentar hinzugefügt',
 	'codereview-email-body' => 'Benutzer „$1“ hat Revision $3 kommentiert:
 
 Vollständige URL: $2
+Zusammenfassung:
+
+$5
 
 Kommentar:
 
 $4',
-	'codereview-email-subj2' => '[$1 $2]: Darauffolgende Änderungen',
-	'codereview-email-body2' => 'Benutzer „$1“ machte darauffolgende Änderungen zu $2.
+	'codereview-email-subj2' => '[$1 $2]: Nachbearbeitung',
+	'codereview-email-body2' => 'Benutzer „$1“ machte eine Nachbearbeitung zu $2.
 
-Volle URL der darauffolgenden Version: $5
+Vollständige URL der nachbearbeiteten Revision: $5
+Zusammenfassung:
 
-Volle URL: $3
+$6
 
-Übertragungszusammenfassung:
+Vollständige URL: $3
+
+Zusammenfassung:
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]: Änderungsstatus wurde geändert',
+	'codereview-email-subj3' => '[$1 $2]: Revisionsstatus geändert',
 	'codereview-email-body3' => 'Benutzer „$1“ änderte den Status von $2.
 
 Alter Status: $3
-Neuer Status: $4',
-	'codereview-email-subj4' => '[$1 $2]: Neuen Kommentar hinzugefügt und den Änderungsstatus geändert',
+Neuer Status: $4
+
+Vollständige URL: $5
+Zusammenfassung:
+
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Neuen Kommentar hinzugefügt und Revisionsstatus geändert',
 	'codereview-email-body4' => 'Benutzer „$1“ änderte den Status von $2.
 
 Alter Status: $3
@@ -2189,6 +2544,9 @@ Neuer Status: $4
 Benutzer „$1“ fügte zudem einen Kommentar zu $2 hinzu.
 
 Vollständige URL: $5
+Zusammenfassung:
+
+$7
 
 Kommentar:
 
@@ -2210,15 +2568,20 @@ $6',
 	'repoadmin-edit-button' => 'OK',
 	'repoadmin-edit-sucess' => 'Das Repositorium „[[Special:Code/$1|$1]]“ wurde erfolgreich geändert.',
 	'repoadmin-nav' => 'Repositoriumsadministration',
-	'right-repoadmin' => 'Code-Repositorien verwalten',
-	'right-codereview-use' => 'Special:Code benutzen',
+	'right-repoadmin' => 'Coderepositorien verwalten',
+	'right-codereview-use' => 'Special:Code nutzen',
 	'right-codereview-add-tag' => 'Neue Tags zu Revisionen hinzufügen',
 	'right-codereview-remove-tag' => 'Tags von Revisionen entfernen',
 	'right-codereview-post-comment' => 'Eigene Kommentare zu Revisionen einstellen',
 	'right-codereview-set-status' => 'Revisionsstatus ändern',
 	'right-codereview-signoff' => 'Änderungen freigeben',
 	'right-codereview-link-user' => 'Autoren auf Wiki-Benutzer verlinken',
+	'right-codereview-associate' => 'Revisionsverknüpfung hinzufügen/ entfernen',
+	'right-codereview-review-own' => 'Eigene Revisionen als OK markieren',
 	'specialpages-group-developer' => 'Entwicklerwerkzeuge',
+	'group-svnadmins' => 'SVN-Administratoren',
+	'group-svnadmins-member' => 'SVN-Administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Administratoren',
 );
 
 /** Zazaki (Zazaki)
@@ -2317,7 +2680,6 @@ $messages['diq'] = array(
 	'code-release-legend' => 'Notanê releaseyî viraze',
 	'code-release-startrev' => 'Revizyonê verînî:',
 	'code-release-endrev' => 'Revizyonê penî:',
-	'code-release-badrange' => 'Menzil zaf derg o!',
 	'codereview-subtitle' => 'Qe $1',
 	'codereview-reply-link' => 'cewab bide',
 	'codereview-email-subj' => '[$1 $2]: Xulasayê newî de biyo',
@@ -2466,7 +2828,6 @@ $messages['dsb'] = array(
 	'code-release-legend' => 'Pśipomnjeśa wó wersiji napóraś',
 	'code-release-startrev' => 'Prědna wersija:',
 	'code-release-endrev' => 'Slědna wersija:',
-	'code-release-badrange' => 'Wobłuk jo pśewjeliki!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'wótegroniś',
 	'codereview-email-subj' => '[$1 $2]: Nowy komentar pśidany',
@@ -2491,7 +2852,9 @@ $4',
 	'codereview-email-body3' => 'Wužywaŕ "$1" jo změnił status wersije  $2.
 
 Stary status: $3
-Nowy status: $4',
+Nowy status: $4
+
+Dopołny URL: $5',
 	'codereview-email-subj4' => '[$1 $2]: Nowy komentar pśidany a status wersije změnjony',
 	'code-stats' => 'statistiki',
 	'code-stats-header' => 'Repozitoriumowa statistika za $1',
@@ -2517,6 +2880,9 @@ Nowy status: $4',
 	'right-codereview-set-status' => 'Status rewizijow změniś',
 	'right-codereview-link-user' => 'Awtorow z wikijowymi wužywarjami zwězaś',
 	'specialpages-group-developer' => 'Rědy wuwiwarjow',
+	'group-svnadmins' => 'SVN-administratory',
+	'group-svnadmins-member' => 'SVN-administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administratory',
 );
 
 /** Ewe (Eʋegbe)
@@ -2532,15 +2898,18 @@ $messages['ee'] = array(
 /** Greek (Ελληνικά)
  * @author Crazymadlover
  * @author Dead3y3
+ * @author Evropi
+ * @author Glavkos
  * @author Omnipaedista
  * @author ZaDiak
+ * @author Απεργός
  */
 $messages['el'] = array(
 	'code' => 'Επιθεώρηση του κώδικα',
 	'code-rev-title' => '$1 - Επιθεώρηση του Κώδικα',
 	'code-comments' => 'Σχόλια',
 	'code-references' => 'Παρακολούθηση επεξεργασιών',
-	'code-change-status' => "έγινε αλλαγή της '''κατάστασης''' της $1",
+	'code-change-status' => "έγινε αλλαγή της '''κατάστασης''' του $1",
 	'code-change-tags' => "έγινε αλλαγή των '''ετικετών''' για την $1",
 	'code-change-removed' => 'αφαιρέθηκε:',
 	'code-change-added' => 'προστέθηκε:',
@@ -2549,14 +2918,18 @@ $messages['el'] = array(
 	'code-prop-changes' => 'Αρχείο καταγραφής κατάστασης και προσθήκης ετικετών',
 	'codereview-desc' => '[[Special:Code|Εργαλείο ανασκόπησης κώδικα]] με [[Special:RepoAdmin|υποστήριξη Subversion]]',
 	'code-no-repo' => 'Κανένα αποθηκευτήριο δεν έχει διαμορφωθεί!',
+	'code-need-repoadmin-rights' => 'Δικαιώματα διαχείρισης αποθηκευτηρίου απαιτούνται για τη δημιουργία αποθηκευτηρίου.',
+	'code-repo-not-found' => "Repository  '''\$ 1'' ' δεν υπάρχει!",
 	'code-load-diff' => 'Φόρτωση διαφ...',
 	'code-notes' => 'πρόσφατα σχόλια',
 	'code-statuschanges' => 'αλλαγές κατάστασης',
-	'code-mycommits' => 'οι δεσμεύσεις μου',
+	'code-mycommits' => 'οι καταχωρήσεις μου',
+	'code-mycomments' => 'Τα σχόλια μου',
 	'code-authors' => 'συγγραφείς',
 	'code-status' => 'καταστάσεις',
 	'code-tags' => 'ετικέτες',
-	'code-authors-text' => 'Παρακάτω είναι ένας κατάλογος των συγγραφέων αποθηκευτηρίου κατά σειρά προσφάτων προσθηκών. Οι τοπικοί λογαριασμοί βίκι εμφανίζονται σε παρενθέσεις.',
+	'code-tags-no-tags' => 'Δεν υπάρχουν ετικέτες  σε αυτό το αποθετήριο.',
+	'code-authors-text' => 'Παρακάτω είναι μια λίστα από συντάκτες του αποθηκευτηρίου κατά σειρά του ονόματος που χρησιμοποιεί ο καθένας για καταχωρήσεις. Οι τοπικοί λογαριασμοί στο wiki εμφανίζονται μέσα σε παρενθέσεις. Ενδέχεται τα δεδομένα να έχουν ληφθεί από προσωρινή μνήμη (και να μην είναι ενημερωμένα).',
 	'code-author-haslink' => 'Αυτός ο συγγραφέας είναι συνδεδεμένος με τον χρήστη wiki $1',
 	'code-author-orphan' => 'Αυτός ο συγγραφέας δεν έχει σύνδεσμο με ένα λογαριασμό wiki',
 	'code-author-dolink' => 'Σύνδεση αυτού του χρήστη με έναν χρήστη wiki:',
@@ -2567,13 +2940,16 @@ $messages['el'] = array(
 	'code-author-link' => 'σύνδεση;',
 	'code-author-unlink' => 'αποσύνδεση;',
 	'code-author-unlinksuccess' => 'Ο συγγραφέας $1 έχει αποδιασυνδεθεί',
+	'code-author-total' => 'Συνολικός αριθμός συγγραφέων: $1',
+	'code-author-lastcommit' => 'Τελευταία ημερομηνία μιας καταχώρησης:',
 	'code-field-id' => 'Αναθεώρηση',
 	'code-field-author' => 'Συγγραφέας',
 	'code-field-user' => 'Σχολιαστής',
 	'code-field-message' => 'Περίληψη προσθηκών',
 	'code-field-status' => 'Κατάσταση',
+	'code-field-status-description' => 'Περιγραφή κατάστασης',
 	'code-field-timestamp' => 'Ημερομηνία',
-	'code-field-comments' => 'Σημειώσεις',
+	'code-field-comments' => 'Σχόλια',
 	'code-field-path' => 'Διαδρομή',
 	'code-field-text' => 'Σημείωμα',
 	'code-field-select' => 'Επιλογή',
@@ -2595,20 +2971,40 @@ $messages['el'] = array(
 	'code-rev-tag-add' => 'Προσθήκη ετικετών:',
 	'code-rev-tag-remove' => 'Αφαίρεση ετικετών:',
 	'code-rev-comment-by' => 'Σχόλιο από τον $1',
-	'code-rev-comment-preview' => 'Προεπισκόπιση',
+	'code-rev-comment-preview' => 'Προεπισκόπηση',
 	'code-rev-inline-preview' => 'Προεπισκόπηση:',
 	'code-rev-diff' => 'Διαφορά',
 	'code-rev-diff-link' => 'διαφορά',
+	'code-rev-diff-too-large' => 'Η διαφορά είναι πολύ μεγάλη για να εμφανιστεί.',
 	'code-rev-purge-link' => 'εκκαθάριση',
+	'code-rev-total' => 'Συνολικός αριθμός αποτελεσμάτων: $1',
+	'code-rev-not-found' => "Η αναθεώρηση '''$1''' δεν υπάρχει!",
 	'code-status-new' => 'νέο',
 	'code-status-fixme' => 'επιδιόρθωση',
+	'code-status-desc-fixme' => 'Ένας επιθεωρητής σημείωσε αυτή την αλλαγή διότι δημιουργεί σφάλμα ή δεν λειτουργεί.  Θα έπρεπε να διορθωθεί.',
+	'code-status-improveme' => 'βελτίωση',
+	'code-status-desc-improveme' => 'Ένας επιθεωρητής σημείωσε αυτή την αλλαγή για βελτίωση διότι έχει κάποια μικρά προβλήματα. Θα έπρεπε να διορθωθεί.',
 	'code-status-reverted' => 'αναστράφηκε',
+	'code-status-desc-reverted' => 'Η αλλαγή αναιρέθηκε από μεταγενέστερη αναθεώρηση.',
 	'code-status-resolved' => 'επιλύθηκε',
+	'code-status-desc-resolved' => 'Η αλλαγή είχε πρόβλημα που λύθηκε από μεταγενέστερη αναθεώρηση.',
 	'code-status-ok' => 'εντάξει',
+	'code-status-desc-ok' => 'Η αλλαγή υπέστη αναθεώρηση και ο επιθεωρητής είναι σίγουρος ότι η αλλαγή είναι μια χαρά από όλες τις όψεις.',
 	'code-status-deferred' => 'αναβλήθηκε',
+	'code-status-desc-deferred' => 'Η αλλαγή δεν χρειάζεται επιθεώρηση.',
 	'code-status-old' => 'παλαιά',
+	'code-status-desc-old' => 'Παλιά αναθεώρηση με ενδεχόμενα σφάλματα τα οποία δεν αξίζουν τον κόπο της επιθεώρησης.',
+	'code-signoffs' => 'Εγκρίσεις',
+	'code-signoff-legend' => 'Προσθήκη έγκρισης',
+	'code-signoff-submit' => 'Έγκριση',
+	'code-signoff-strike' => 'Διακριτή διαγραφή επιλεγμένων εγκρίσεων',
+	'code-signoff-signoff' => 'Έγκριση αυτής της αναθεώρησης ως:',
+	'code-signoff-flag-inspected' => 'Εξετάστηκε',
+	'code-signoff-field-user' => 'Χρήστης',
+	'code-signoff-field-date' => 'Ημερομηνία',
 	'code-pathsearch-legend' => 'Αναζήτηση αναθεωρήσεων σε αυτό το αποθηκευτήριο κατά διαδρομή',
 	'code-pathsearch-path' => 'Διαδρομή:',
+	'code-pathsearch-filter' => 'Εφαρμόστηκε το φίλτρο:',
 	'code-revfilter-cr_status' => 'Κατάσταση = $1',
 	'code-revfilter-cr_author' => 'Συγγραφέας = $1',
 	'code-rev-submit' => 'Αποθήκευση αλλαγών',
@@ -2621,52 +3017,85 @@ $messages['el'] = array(
 	'code-release-legend' => 'Παραγωγή σημειώσεων έκδοσης',
 	'code-release-startrev' => 'Εναρκτήρια αναθ:',
 	'code-release-endrev' => 'Τελευταία αναθ:',
-	'code-release-badrange' => 'Το βεληνεκές είναι πολύ μεγάλο!',
 	'codereview-subtitle' => 'Για το $1',
 	'codereview-reply-link' => 'απάντηση',
 	'codereview-email-subj' => '[$1 $2]: Προστέθηκε νέο σχόλιο',
-	'codereview-email-body' => 'Ο χρήστης "$1" απέστειλε κάποιο σχόλιο στο $3.
+	'codereview-email-body' => 'Ο χρήστης "$1" απέστειλε σχόλιο για το $3.
 
-Πλήρης URL: $2
+Πλήρες URL: $2
+Σύνοψη της καταχώρησης:
+
+$5
 
 Σχόλιο:
 
 $4',
-	'codereview-email-subj2' => '[$1 $2]: Παρακολούθηση αλλαγών',
-	'codereview-email-body2' => 'Ο Χρήστης "$1" πραγματοποίησε αλλαγές παρακολούθησης στο $2.
+	'codereview-email-subj2' => '[$1 $2]: Περαιτέρω αλλαγές',
+	'codereview-email-body2' => 'Ο χρήστης "$1" πραγματοποίησε περαιτέρω αλλαγές στο $2.
+
+Πλήρες URL για τη προγενέστερη αλλαγή: $5
+Σύνοψη της καταχώρησης:
+
+$6
 
 Πλήρες URL: $3
-
-Υποβολή περίληψης:
+Σύνοψη της καταχώρησης: 
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]: Η αυτόματη δοκιμή εντόπισε παλινδρόμηση',
-	'codereview-email-body3' => 'Η αυτόματη δοκιμή αποκάλυψε μια οπισθοδρόμηση εξαιτίας των αλλαγών στο $1.
+	'codereview-email-subj3' => '[$1 $2]: Η κατάσταση της αλλαγής άλλαξε',
+	'codereview-email-body3' => 'Ο/η χρήστης "$1" άλλαξε τη κατάσταση του $2.
 
-Πλήρες URL: $2
+Παλιά κατάσταση: $3
+Νέα κατάσταση: $4
 
-Υποβολή σύνοψης:
+Πλήρες URL: $5
+Σύνοψη της καταχώρησης:
 
-$3',
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Προστέθηκε καινούριο σχόλιο  κι άλλαξε επίσης η κατάσταση της αλλαγής',
+	'codereview-email-body4' => 'Ο χρήστης "$1" άλλαξε την κατάσταση του $2.
+
+Παλιά κατάσταση: $3
+Νέα κατάσταση: $4
+
+Ο χρήστης "$1" επίσης απέστειλε σχόλιο για το $2.
+
+Πλήρες URL: $5
+Σύνοψη της καταχώρησης: 
+
+$7
+
+Σχόλιο:
+
+$6',
 	'code-stats' => 'στατιστικές',
+	'code-stats-header' => 'Στατιστικά για το αποθηκευτήριο $1',
+	'code-stats-main' => 'Από τις $1, το αποθηκευτήριο περιέχει $2 {{PLURAL:$2|αναθεώρηση|αναθεωρήσεις}} από [[Special:Code/$3/author|$4 {{PLURAL:$4|συγγραφέα|συγγραφείς}}]].',
+	'code-stats-status-breakdown' => 'Αριθμός αναθεωρήσεων ανά κατάσταση',
+	'code-stats-count' => 'Αριθμός αναθεωρήσεων',
 	'repoadmin' => 'Διαχείριση του αποθηκευτηρίου',
 	'repoadmin-new-legend' => 'Δημιουργία νέου αποθηκευτηρίου',
 	'repoadmin-new-label' => 'Όνομα αποθηκευτηρίου:',
 	'repoadmin-new-button' => 'Δημιουργία',
 	'repoadmin-edit-legend' => 'Μετατροπή του αποθηκευτηρίου "$1"',
-	'repoadmin-edit-path' => 'Διαδρομη αποθηκευτηρίου:',
+	'repoadmin-edit-path' => 'Διαδρομή αποθηκευτηρίου:',
 	'repoadmin-edit-bug' => 'Διαδρομή Bugzilla:',
 	'repoadmin-edit-view' => 'Διαδρομή ViewVC:',
 	'repoadmin-edit-button' => 'Εντάξει',
 	'repoadmin-edit-sucess' => 'Το αποθηκευτήριο "[[Special:Code/$1|$1]]" τροποποιήθηκε επιτυχώς.',
+	'repoadmin-nav' => 'Διαχείριση του αποθηκευτηρίου',
 	'right-repoadmin' => 'Διαχείριση αποθηκευτηρίων κώδικα',
 	'right-codereview-use' => 'Χρήση του Special:Code',
 	'right-codereview-add-tag' => 'Προσθήκη νέων ετικετών σε αναθεωρήσεις',
 	'right-codereview-remove-tag' => 'Αφαίρεση ετικετών από αναθεωρήσεις',
 	'right-codereview-post-comment' => 'Προσθήκη σχολίων σε αναθεωρήσεις',
 	'right-codereview-set-status' => 'Αλλαγή κατάστασης αναθεωρήσεων',
+	'right-codereview-signoff' => 'Έγκριση αναθεωρήσεων',
 	'right-codereview-link-user' => 'Σύνδεση συγγραφέων με χρήστες wiki',
 	'specialpages-group-developer' => 'Εργαλεία προγραμματιστών',
+	'group-svnadmins' => 'διαχειριστές SVN',
+	'group-svnadmins-member' => 'Διαχειριστής SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Διαχειριστές SVN',
 );
 
 /** Esperanto (Esperanto)
@@ -2692,6 +3121,7 @@ $messages['eo'] = array(
 	'code-notes' => 'lastaj komentoj',
 	'code-statuschanges' => 'statusaj ŝanĝoj',
 	'code-mycommits' => 'miaj publikigitaĵoj',
+	'code-mycomments' => 'miaj komentoj',
 	'code-authors' => 'aŭtoroj',
 	'code-status' => 'statoj',
 	'code-tags' => 'etikedoj',
@@ -2761,6 +3191,7 @@ $messages['eo'] = array(
 	'code-status-old' => 'malnova',
 	'code-status-desc-old' => 'Malnova revizio kun eblaj cimoj kiuj ne sufiĉe gravas kontroli ilin.',
 	'code-signoff-field-user' => 'Uzanto',
+	'code-signoff-field-date' => 'Dato',
 	'code-pathsearch-legend' => 'Serĉi versiojn en ĉi tiu kodujo laŭ vojo',
 	'code-pathsearch-path' => 'Vojo:',
 	'code-pathsearch-filter' => 'Filtrilo uzata:',
@@ -2777,7 +3208,6 @@ $messages['eo'] = array(
 	'code-release-legend' => 'Generi eldonajn notojn',
 	'code-release-startrev' => 'Komenca revizio:',
 	'code-release-endrev' => 'Lasta revizio:',
-	'code-release-badrange' => 'Intervalo estas tro granda!',
 	'codereview-subtitle' => 'Por $1',
 	'codereview-reply-link' => 'respondo',
 	'codereview-email-subj' => '[$1 $2]: Nova komento estis aldonita',
@@ -2799,13 +3229,24 @@ Resumo de ŝanĝoj:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Revizio-statuso ŝanĝis',
-	'codereview-email-body3' => 'Aŭtomata testado malkaŝis regresion pro la ŝanĝoj en $1.
+	'codereview-email-body3' => 'Uzanto $1 ŝanĝis la statuson de $2.
 
-Plena URL: $2
+Malnova statuso: $3
+Nova statuso: $4
 
-Ŝanĝa resumo:
+Plena URL-o: $5',
+	'codereview-email-body4' => 'Uzanto "$1" ŝanĝis la statuson de $2.
 
-$3',
+Malnova statuso: $3
+Nova statuso: $4
+
+La uzanto "$1" ankaŭ skribis komenton en $2.
+
+Plena URL-o: $5
+
+Komento:
+
+$6',
 	'code-stats' => 'statistiko',
 	'code-stats-header' => 'Statistiko por deponejo $1',
 	'code-stats-main' => 'Ekde $1, la deponejo havas $2 {{PLURAL:$2|revizion|reviziojn}} de [[Special:Code/$3/author|$4 {{PLURAL:$4|aŭtoro|aŭtoroj}}]].',
@@ -2831,6 +3272,9 @@ $3',
 	'right-codereview-set-status' => 'Ŝanĝi statuson de versioj',
 	'right-codereview-link-user' => 'Ligi aŭtorojn al viki-uzantoj',
 	'specialpages-group-developer' => 'Disvolvistaj iloj',
+	'group-svnadmins' => 'SVN-administrantoj',
+	'group-svnadmins-member' => 'SVN-administranto',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administrantoj',
 );
 
 /** Spanish (Español)
@@ -2866,9 +3310,11 @@ $messages['es'] = array(
 	'code-notes' => 'comentarios recientes',
 	'code-statuschanges' => 'cambios de status',
 	'code-mycommits' => 'mis publicaciones',
+	'code-mycomments' => 'mis comentarios',
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
+	'code-tags-no-tags' => 'No hay etiquetas en este repositorio.',
 	'code-authors-text' => 'A continuación verás un listado de los autores de repositorios en orden de nombre de tarea. Las cuentas de wiki locales se muestran entre paréntesis. La información puede ser cacheada.',
 	'code-author-haslink' => 'Este autor está enlazado con el usuario $1',
 	'code-author-orphan' => 'Este autor no está enlazado con ningún usuario de la wiki',
@@ -2889,11 +3335,15 @@ $messages['es'] = array(
 	'code-field-user' => 'Comentarista',
 	'code-field-message' => 'Comentario',
 	'code-field-status' => 'Estatus',
+	'code-field-status-description' => 'Descripción del estado',
 	'code-field-timestamp' => 'Fecha',
-	'code-field-comments' => 'Apuntes',
+	'code-field-comments' => 'Comentarios',
 	'code-field-path' => 'Ruta',
 	'code-field-text' => 'Nota',
 	'code-field-select' => 'Seleccionar',
+	'code-reference-remove' => 'Quitar las asociaciones seleccionadas',
+	'code-reference-associate' => 'Asociar la revisión de seguimiento:',
+	'code-reference-associate-submit' => 'Asociar',
 	'code-rev-author' => 'Autor:',
 	'code-rev-date' => 'Fecha:',
 	'code-rev-message' => 'Comentario:',
@@ -2955,7 +3405,6 @@ $messages['es'] = array(
 	'code-release-legend' => 'Generar notas de entrega',
 	'code-release-startrev' => 'Primera rev:',
 	'code-release-endrev' => 'Última rev:',
-	'code-release-badrange' => 'Rango es demasiado largo!',
 	'codereview-subtitle' => 'Para $1',
 	'codereview-reply-link' => 'responder',
 	'codereview-email-subj' => '[$1 $2]: Añadido nuevo comentario',
@@ -3115,7 +3564,6 @@ $messages['et'] = array(
 	'code-release-legend' => 'Redaktsioonimärkmete loomine',
 	'code-release-startrev' => 'Esimene redaktsioon:',
 	'code-release-endrev' => 'Viimane redaktsioon:',
-	'code-release-badrange' => 'Vahemik on liiga suur!',
 	'codereview-subtitle' => 'Hoidla $1 jaoks',
 	'codereview-reply-link' => 'vasta',
 	'codereview-email-subj' => '[$1 $2]: Lisatud uus kommentaar',
@@ -3190,7 +3638,7 @@ $messages['eu'] = array(
 	'code-field-message' => 'Laburpena egin',
 	'code-field-status' => 'Egoera',
 	'code-field-timestamp' => 'Data',
-	'code-field-comments' => 'Oharrak',
+	'code-field-comments' => 'Iruzkinak',
 	'code-field-path' => 'Bidea',
 	'code-field-text' => 'Oharra',
 	'code-field-select' => 'Aukeratu',
@@ -3275,7 +3723,7 @@ $messages['fa'] = array(
 	'code-comments' => 'توضیحات',
 	'code-references' => 'رسیدگی به پیگیری',
 	'code-change-status' => "'''وضعیت''' $1 را تغییر داد",
-	'code-change-tags' => 'برچسب های $1 را تغییر داد',
+	'code-change-tags' => "'''برچسب''' را برای $1 تغییر داد",
 	'code-change-removed' => 'حذف:',
 	'code-change-added' => 'اضافه:',
 	'code-old-status' => 'وضعیت قدیمی',
@@ -3349,7 +3797,7 @@ $messages['fa'] = array(
 	'code-status-fixme' => 'درستم کن',
 	'code-status-reverted' => 'واگردانی شده',
 	'code-status-resolved' => 'حل شده',
-	'code-status-ok' => 'مورد تایید',
+	'code-status-ok' => 'مورد تأیید',
 	'code-status-deferred' => 'معوق',
 	'code-status-old' => 'قدیمی',
 	'code-signoff-flag-tested' => 'آزمایش شد',
@@ -3373,13 +3821,15 @@ $messages['fa'] = array(
 	'code-release-legend' => 'ایجاد نکات انتشار',
 	'code-release-startrev' => 'شروع بازبینی:',
 	'code-release-endrev' => 'آخرین بازبینی:',
-	'code-release-badrange' => 'محدوده خیلی بزرگ است!',
 	'codereview-subtitle' => 'برای $1',
 	'codereview-reply-link' => 'پاسخ',
 	'codereview-email-subj' => '[$1 $2]: نظر جدید اضافه شد',
 	'codereview-email-body' => 'کاربر «$1» یک نظر برای $3 ارسال کرد.
 
 نشانی کامل: $2
+خلاصهٔ ارتکاب‌شدن‌ها:
+
+$5
 
 نظر:
 
@@ -3389,15 +3839,26 @@ $4',
 
 نشانی کامل برای این نسخه‌ها: $5
 
+خلاصهٔ ارتکاب‌شدن‌ها:
+
+$6
+
+
 نشانی کامل: $3
 
 خلاصهٔ ارتکاب‌شدن‌ها:
 
 $4',
-	'codereview-email-body3' => 'کاربر "$1" تغییر وضعیت داد از $2.
+	'codereview-email-body3' => 'کاربر "$1" وضعیت $2 را تغییر داد.
 
 وضعیت قدیمی: $3
-وضعیت جدید: $4',
+وضعیت جدید: $4
+
+نشانی کامل: $5
+
+خلاصهٔ ارتکاب‌شدن‌ها:
+
+$6',
 	'codereview-email-body4' => 'کاربر "$1" تغییر وضعیت داد از $2.
 
 وضعیت قدیمی: $3
@@ -3406,6 +3867,9 @@ $4',
 کاربر "$1" همچنین یک نظر فرستاد در $2.
 
 نشانی کامل: $5
+خلاصهٔ ارتکاب‌شدن‌ها:
+
+$7
 
 نظر:
 
@@ -3424,7 +3888,7 @@ $6',
 	'repoadmin-edit-path' => 'مسیر مخزن:',
 	'repoadmin-edit-bug' => 'مسیر باگزیلا:',
 	'repoadmin-edit-view' => 'مسیر ViewVC:',
-	'repoadmin-edit-button' => 'مورد تایید',
+	'repoadmin-edit-button' => 'مورد تأیید',
 	'repoadmin-edit-sucess' => 'مخزن «[[Special:Code/$1|$1]]» با موفقیت تغییر داده شد.',
 	'repoadmin-nav' => 'مدیریت مخزن',
 	'right-repoadmin' => 'مدیریت مخازن کد',
@@ -3489,7 +3953,7 @@ $messages['fi'] = array(
 	'code-field-message' => 'Yhteenveto',
 	'code-field-status' => 'Tila',
 	'code-field-timestamp' => 'Päiväys',
-	'code-field-comments' => 'Huomiot',
+	'code-field-comments' => 'Kommentit',
 	'code-field-path' => 'Polku',
 	'code-field-text' => 'Huomio',
 	'code-field-select' => 'Valitse',
@@ -3533,6 +3997,7 @@ $messages['fi'] = array(
 	'code-status-desc-deferred' => 'Versio ei edellytä tarkistusta.',
 	'code-status-old' => 'vanha',
 	'code-status-desc-old' => 'Vanhat versiot, joissa todennäköisesti on ohjelmavirheitä, eivät ole tarkistamisen arvoisia.',
+	'code-signoff-field-user' => 'Käyttäjä',
 	'code-pathsearch-legend' => 'Etsi tämän varaston versioita polun perusteella',
 	'code-pathsearch-path' => 'Polku',
 	'code-pathsearch-filter' => 'Käytetty suodatin:',
@@ -3549,7 +4014,6 @@ $messages['fi'] = array(
 	'code-release-legend' => 'Luo julkaisuhuomautukset',
 	'code-release-startrev' => 'Ensimmäinen versio',
 	'code-release-endrev' => 'Viimeinen versio',
-	'code-release-badrange' => 'Alue on liian suuri!',
 	'codereview-subtitle' => 'Varastolle $1',
 	'codereview-reply-link' => 'vastaa',
 	'codereview-email-subj' => '[$1 $2]: Uusi kommentti lisätty',
@@ -3571,13 +4035,10 @@ Yhteenveto muokkaukselle:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Automaattinen testaus havaitsi regression',
-	'codereview-email-body3' => 'Automaattinen testaus havaitsi regression version $1 muutoksen takia.
+	'codereview-email-body3' => 'Käyttäjä $1 muutti kohteen $2 tilaa.
 
-Täydellinen osoite: $2
-
-Lähdekoodiversion kommentti:
-
-$3',
+Vanha tila: $3
+Uusi tila: $4',
 	'code-stats' => 'tilastot',
 	'code-stats-header' => 'Versionhallinnan $1 tilastot',
 	'code-stats-main' => '$1 versionhallinnassa oli {{PLURAL:$2|yksi muokkaus|$2 muokkausta}} [[Special:Code/$3/author|$4 {{PLURAL:$4|käyttäjältä|eri käyttäjältä}}]].',
@@ -3615,6 +4076,7 @@ $3',
  * @author Jean-Frédéric
  * @author Peter17
  * @author PieRRoMaN
+ * @author Sherbrooke
  * @author Verdy p
  * @author Zetud
  */
@@ -3632,11 +4094,15 @@ $messages['fr'] = array(
 	'code-prop-changes' => 'Journal des états et du balisage',
 	'codereview-desc' => '[[Special:Code|Outils de révision du code]] avec le [[Special:RepoAdmin|support de Subversion]]',
 	'code-no-repo' => 'Pas de dépôt configuré !',
+	'code-create-repo' => 'Allez à [[Special:RepoAdmin|support de Subversion]] pour créer un dépôt',
+	'code-need-repoadmin-rights' => "Des privilèges de niveau ''repoadmin'' sont requis pour créer un dépôt",
+	'code-need-group-with-rights' => "Aucun groupe de niveau ''repoadmin'' n'existe. Veuillez en ajouter un pour être en mesure de créer un nouveau dépôt.",
 	'code-repo-not-found' => "Le dépôt '''$1''' n'existe pas !",
 	'code-load-diff' => 'Chargement du diff en cours...',
 	'code-notes' => 'commentaires récents',
 	'code-statuschanges' => 'modifications de statut',
 	'code-mycommits' => 'mes publications',
+	'code-mycomments' => 'mes commentaires',
 	'code-authors' => 'auteurs',
 	'code-status' => 'états',
 	'code-tags' => 'balises',
@@ -3737,13 +4203,16 @@ $messages['fr'] = array(
 	'code-release-legend' => 'Générer les notes de publication',
 	'code-release-startrev' => 'Révision de début :',
 	'code-release-endrev' => 'Révision de fin :',
-	'code-release-badrange' => 'La portée est trop grande !',
 	'codereview-subtitle' => 'Pour $1',
 	'codereview-reply-link' => 'répondre',
 	'codereview-email-subj' => '[$1 $2] : nouveau commentaire ajouté',
 	'codereview-email-body' => 'L’utilisateur « $1 » a posté un commentaire sur $3.
 
 Lien hypertexte complet : $2
+
+Résumé de la modification :
+
+$5
 
 Commentaire :
 
@@ -3752,17 +4221,24 @@ $4',
 	'codereview-email-body2' => 'L’utilisateur « $1 » a fait des modifications sur $2.
 
 URL complète de la révision suivie : $5
+Résumé de la modification :
+
+$6
 
 URL complète : $3
-
-Résumé des modifications :
+Résumé de la modification :
 
 $4',
 	'codereview-email-subj3' => '[$1 $2] : l’état de la version a changé',
 	'codereview-email-body3' => 'L’utilisateur « $1 » a modifié l’état de $2. 
 
 Ancien état : $3
-Nouvel état : $4',
+Nouvel état : $4
+
+URL complète : $5
+Résumé de la modification :
+
+$6',
 	'codereview-email-subj4' => '[$1 $2] : nouveau commentaire ajouté et état de la version changé',
 	'codereview-email-body4' => 'L’utilisateur « $1 » a modifié l’état de $2.
 
@@ -3772,6 +4248,9 @@ Nouvel état : $4
 L’utilisateur « $1 » a également posté un commentaire sur $2.
 
 Adresse URL complète : $5
+Résumé de la modification :
+
+$7
 
 Commentaire :
 
@@ -3801,7 +4280,12 @@ $6',
 	'right-codereview-set-status' => 'Changer l’état des révisions',
 	'right-codereview-signoff' => 'Approuver des révisions',
 	'right-codereview-link-user' => 'Lier les auteurs aux utilisateurs wiki',
+	'right-codereview-associate' => 'Gérer les associations de révisions',
+	'right-codereview-review-own' => 'Marquer ses propres révisions comme OK',
 	'specialpages-group-developer' => 'Outils du développeur',
+	'group-svnadmins' => 'Administrateurs SVN',
+	'group-svnadmins-member' => 'administrateur SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administrateurs SVN',
 );
 
 /** Franco-Provençal (Arpetan)
@@ -3850,7 +4334,7 @@ $messages['frp'] = array(
 	'code-field-message' => 'Rèsumâ de publecacion',
 	'code-field-status' => 'Ètat',
 	'code-field-timestamp' => 'Dâta',
-	'code-field-comments' => 'Notes',
+	'code-field-comments' => 'Comentèros',
 	'code-field-path' => 'Chemin',
 	'code-field-text' => 'Nota',
 	'code-field-select' => 'Chouèsir',
@@ -3903,32 +4387,41 @@ $messages['frp'] = array(
 	'code-release-legend' => 'Fâre les notes de publecacion',
 	'code-release-startrev' => 'Rèvision de comencement :',
 	'code-release-endrev' => 'Rèvision de fin :',
-	'code-release-badrange' => 'La portâ est trop granta !',
 	'codereview-subtitle' => 'Por $1',
 	'codereview-reply-link' => 'rèpondre',
 	'codereview-email-subj' => '[$1 $2] : novél comentèro apondu',
 	'codereview-email-body' => 'L’utilisator « $1 » at postâ un comentèro dessus $3.
 
-Lim hipèrtèxto complèt : $2
+URL complèta : $2
+Rèsumâ de changement :
+
+$5
 
 Comentèro :
 
 $4',
 	'codereview-email-subj2' => '[$1 $2] : survelyence du changement',
-	'codereview-email-body2' => 'L’utilisator « $1 » at fêt des changements sur $2.
+	'codereview-email-body2' => 'L’utilisator « $1 » at fêt des changements de ples sur $2.
 
 URL complèta de la vèrsion siuvua : $5
+Rèsumâ de changement :
+
+$6
 
 URL complèta : $3
-
-Rèsumâ des changements :
+Rèsumâ de changement :
 
 $4',
 	'codereview-email-subj3' => '[$1 $2] : l’ètat de la vèrsion at changiê',
 	'codereview-email-body3' => 'L’utilisator « $1 » at changiê l’ètat de $2.
 
 Viely ètat : $3
-Novél ètat : $4',
+Novél ètat : $4
+
+URL complèta : $5
+Rèsumâ de changement :
+
+$6',
 	'code-stats' => 'statistiques',
 	'code-stats-header' => 'Statistiques por lo dèpôt $1',
 	'code-stats-main' => 'A la dâta du $1, lo dèpôt at $2 {{PLURAL:$2|rèvision fêta|rèvisions fêtes}} per [[Special:Code/$3/author|$4 ôtor{{PLURAL:$4||s}}]].',
@@ -3997,11 +4490,15 @@ $messages['gl'] = array(
 	'code-prop-changes' => 'Estado e rexistro de etiquetas',
 	'codereview-desc' => '[[Special:Code|Ferramenta de revisión do código]] con [[Special:RepoAdmin|apoio da subversión]]',
 	'code-no-repo' => 'Non hai ningún repositorio configurado!',
+	'code-create-repo' => 'Vaia ao [[Special:RepoAdmin|apoio da subversión]] para crear un repositorio',
+	'code-need-repoadmin-rights' => 'Cómpre ter dereitos do tipo "repoadmin" para poder crear un repositorio',
+	'code-need-group-with-rights' => 'Non existe ningún grupo con dereitos do tipo "repoadmin". Engada algún para poder crear un novo repositorio',
 	'code-repo-not-found' => "O repositorio \"'''\$1'''\" non existe!",
 	'code-load-diff' => 'Cargando as diferenzas…',
 	'code-notes' => 'comentarios recentes',
 	'code-statuschanges' => 'cambios de estado',
 	'code-mycommits' => 'as miñas publicacións',
+	'code-mycomments' => 'os meus comentarios',
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
@@ -4065,6 +4562,8 @@ $messages['gl'] = array(
 	'code-status-desc-new' => 'Esta revisión está á espera dunha acción (estado por defecto).',
 	'code-status-fixme' => 'arránxeme',
 	'code-status-desc-fixme' => 'Un revisor marcou esta revisión como que introduce un erro ou que é errónea. Cómpre corrección.',
+	'code-status-improveme' => 'mellóreme',
+	'code-status-desc-improveme' => 'Un revisor marcou esta revisión como que ten algún pequeno problema. Cómpre corrección.',
 	'code-status-reverted' => 'revertido',
 	'code-status-desc-reverted' => 'A revisión desbotouna outra revisión posterior.',
 	'code-status-resolved' => 'resolto',
@@ -4102,13 +4601,15 @@ $messages['gl'] = array(
 	'code-release-legend' => 'Xerar as notas de lanzamento',
 	'code-release-startrev' => 'Primeira revisión:',
 	'code-release-endrev' => 'Última revisión:',
-	'code-release-badrange' => 'O rango é longo de máis!',
 	'codereview-subtitle' => 'De $1',
 	'codereview-reply-link' => 'responder',
 	'codereview-email-subj' => '[$1 $2]: engadido un novo comentario',
 	'codereview-email-body' => 'O usuario "$1" deixou un comentario na versión $3.
 
 Enderezo URL: $2
+Resumo da edición:
+
+$5
 
 Comentario:
 
@@ -4117,6 +4618,9 @@ $4',
 	'codereview-email-body2' => 'O usuario "$1" fixo un seguimento dos cambios feitos na versión $2.
 
 URL da versión seguida: $5
+Resumo da edición:
+
+$6
 
 Enderezo URL: $3
 
@@ -4127,7 +4631,12 @@ $4',
 	'codereview-email-body3' => 'O usuario "$1" cambiou o estado de $2.
 
 Estado vello: $3
-Estado novo: $4',
+Estado novo: $4
+
+URL completo: $5
+Resumo da edición:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: engadido un novo comentario e cambiado o estado da revisión',
 	'codereview-email-body4' => 'O usuario "$1" cambiou o estado de $2.
 
@@ -4137,6 +4646,9 @@ Estado novo: $4
 O usuario "$1" tamén deixou un comentario en $2.
 
 Enderezo URL: $5
+Resumo da edición:
+
+$7
 
 Comentario:
 
@@ -4166,7 +4678,11 @@ $6',
 	'right-codereview-set-status' => 'Cambiar o estado das revisións',
 	'right-codereview-signoff' => 'Aprobar revisións',
 	'right-codereview-link-user' => 'Ligar autores a usuarios do wiki',
+	'right-codereview-associate' => 'Xestionar as asociacións de revisións',
 	'specialpages-group-developer' => 'Ferramentas dos desenvolvedores',
+	'group-svnadmins' => 'Administradores do SVN',
+	'group-svnadmins-member' => 'Administrador do SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradores do SVN',
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ)
@@ -4288,11 +4804,15 @@ $messages['gsw'] = array(
 	'code-prop-changes' => 'Status- un Tagging-Logbuech',
 	'codereview-desc' => '[[Special:Code|Codepriefigs-Wärchzyyg]] mit [[Special:RepoAdmin|Subversion-Unterstitzig]]',
 	'code-no-repo' => 'Kei Depot konfiguriert.',
+	'code-create-repo' => 'Gang uf d Spezialsyte [[Special:RepoAdmin|RepoAdmin]] go ne Repositorium aalege',
+	'code-need-repoadmin-rights' => 'Du bruchsch d Berächtigung repoadmin go ne Repositorium aalege',
+	'code-need-group-with-rights' => 'S git kei Benutzergruppe mit dr Berächtigung repoadmin. Bitte eini zuefiege go ne nej Repositorium aalege',
 	'code-repo-not-found' => "Depot '''$1''' git s nit!",
 	'code-load-diff' => 'Diff am Lade…',
 	'code-notes' => 'Priefnotize',
 	'code-statuschanges' => 'Statusänderige',
 	'code-mycommits' => 'myy Commits',
+	'code-mycomments' => 'myy Kommentar',
 	'code-authors' => 'Autore',
 	'code-status' => 'Status',
 	'code-tags' => 'Tag',
@@ -4319,10 +4839,13 @@ $messages['gsw'] = array(
 	'code-field-status' => 'Status',
 	'code-field-status-description' => 'Status-Bschryybig',
 	'code-field-timestamp' => 'Datum',
-	'code-field-comments' => 'Notize',
+	'code-field-comments' => 'Kommentar',
 	'code-field-path' => 'Pfad',
 	'code-field-text' => 'Notiz',
 	'code-field-select' => 'Uswehle',
+	'code-reference-remove' => 'Uusgwehlti Verchnipfige uuseneh',
+	'code-reference-associate' => 'Mit dr Folgerevision verchnipfe:',
+	'code-reference-associate-submit' => 'Verchnipfe',
 	'code-rev-author' => 'Autor:',
 	'code-rev-date' => 'Datum:',
 	'code-rev-message' => 'Kommentar:',
@@ -4390,7 +4913,6 @@ $messages['gsw'] = array(
 	'code-release-legend' => 'Frejgabvermerk generiere',
 	'code-release-startrev' => 'Priefig aafange:',
 	'code-release-endrev' => 'Letschti Priefig:',
-	'code-release-badrange' => 'Dr Beryych isch z groß!',
 	'codereview-subtitle' => 'Fir $1',
 	'codereview-reply-link' => 'Antwort gee',
 	'codereview-email-subj' => '[$1 $2]: Neije Kommentar zuegfiegt',
@@ -4415,7 +4937,9 @@ $4',
 	'codereview-email-body3' => 'Benutzer „$1“ het dr Status vu $2 gänderet.
 
 Alte Status: $3
-Neje Status: $4',
+Neje Status: $4
+
+Vollständigi URL: $5',
 	'codereview-email-subj4' => '[$1 $2]: Neje Kommentar zuegfiegt un dr Versionsstatus gänderet',
 	'codereview-email-body4' => 'Benutzer „$1“ het dr Status vu $2 gänderet.
 
@@ -4454,7 +4978,11 @@ $6',
 	'right-codereview-set-status' => 'Revisionsstatus ändere',
 	'right-codereview-signoff' => 'Änderige frejgee',
 	'right-codereview-link-user' => 'Autore uf Wiki-Benutzer vergleiche',
+	'right-codereview-associate' => 'Verchnipfig zuefiege/uuseneh',
 	'specialpages-group-developer' => 'Entwicklerwärchzyyg',
+	'group-svnadmins' => 'SVN-Adminischtratore',
+	'group-svnadmins-member' => 'SVN-Adminischtrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Adminischtratore',
 );
 
 /** Hausa (هَوُسَ) */
@@ -4477,28 +5005,32 @@ $messages['hak'] = array(
  */
 $messages['he'] = array(
 	'code' => 'בדיקת הקוד',
-	'code-rev-title' => 'גרסה $1 - בדיקת הקוד',
+	'code-rev-title' => 'גרסה $1 – בדיקת הקוד',
 	'code-comments' => 'הערות',
 	'code-references' => 'גרסאות המשך',
 	'code-change-status' => "שינה את ה'''מצב''' של גרסה $1",
-	'code-change-tags' => "שינה את ה'''תגיות''' של גרסה $1",
+	'code-change-tags' => "שינה את ה'''תגים''' של גרסה $1",
 	'code-change-removed' => 'הוסרו:',
 	'code-change-added' => 'נוספו:',
 	'code-old-status' => 'המצב הישן',
 	'code-new-status' => 'המצב החדש',
-	'code-prop-changes' => 'יומן מצב ותגיות',
+	'code-prop-changes' => 'יומן מצב ותיוג',
 	'codereview-desc' => '[[Special:Code|כלי בדיקת קוד]] עם [[Special:RepoAdmin|תמיכה ב־Subversion]]',
 	'code-no-repo' => 'לא הוגדר מאגר!',
+	'code-create-repo' => 'לכו לדף [[Special:RepoAdmin|RepoAdmin]] ליצירת מאגר',
+	'code-need-repoadmin-rights' => 'נחוצה הרשאת "מנהל מאגר" כדי ליצור מאגר',
+	'code-need-group-with-rights' => 'אין שום קבוצה עם הרשאת מנהל מאגר. נא ליצור קבוצה כזו כדי להוסיף מאגר חדש.',
 	'code-repo-not-found' => "המאגר '''$1''' לא קיים!",
 	'code-load-diff' => 'ההבדל בין הגרסאות בטעינה…',
 	'code-notes' => 'הערות אחרונות',
 	'code-statuschanges' => 'שינויי מצב',
 	'code-mycommits' => 'המסירות שלי',
+	'code-mycomments' => 'ההערות שלי',
 	'code-authors' => 'כותבים',
 	'code-status' => 'מצבים',
-	'code-tags' => 'תגיות',
+	'code-tags' => 'תגים',
 	'code-tags-no-tags' => 'לא קיימים תגים במאגר זה.',
-	'code-authors-text' => 'להלן רשימת הכותבים במאגר לפי סדר שמות המסירות. חשבונות באתר הוויקי המקומי מופיעים בסוגריים. יתכן שהמידע שמור במטמון.',
+	'code-authors-text' => 'להלן רשימת הכותבים במאגר לפי סדר שמות המסירות. חשבונות באתר הוויקי המקומי מופיעים בסוגריים. המידע יכול להיות מוטמן.',
 	'code-author-haslink' => 'כותב זה מקושר למשתמש הוויקי $1',
 	'code-author-orphan' => 'כותב זה אינו מקושר למשתמש בוויקי',
 	'code-author-dolink' => 'קישור כותב זה למשתמש ויקי:',
@@ -4541,9 +5073,9 @@ $messages['he'] = array(
 	'code-rev-imagediff' => 'שינויים בתמונות',
 	'code-rev-status' => 'מצב:',
 	'code-rev-status-set' => 'שינוי מצב',
-	'code-rev-tags' => 'תגיות:',
-	'code-rev-tag-add' => 'הוספת תגיות:',
-	'code-rev-tag-remove' => 'הסרת תגיות:',
+	'code-rev-tags' => 'תגים:',
+	'code-rev-tag-add' => 'הוספת תגים:',
+	'code-rev-tag-remove' => 'הסרת תגים:',
 	'code-rev-comment-by' => 'הערה של $1',
 	'code-rev-comment-preview' => 'תצוגה מקדימה',
 	'code-rev-inline-preview' => 'תצוגה מקדימה:',
@@ -4557,6 +5089,8 @@ $messages['he'] = array(
 	'code-status-desc-new' => 'הגרסה ממתינה לפעולה (מצב בררת המחדל).',
 	'code-status-fixme' => 'לתיקון',
 	'code-status-desc-fixme' => 'סוקר סימן שגרסה זו גורמת לתקלה או שאינה תקינה. יש לתקן זאת.',
+	'code-status-improveme' => 'שפר־אותי',
+	'code-status-desc-improveme' => 'סוקר סימן את הגרסה הזאת כגרסה בעלת בעיות קטנות מסוימות. רצוי לתקן אותן.',
 	'code-status-reverted' => 'בוטל',
 	'code-status-desc-reverted' => 'הגרסה נדחקה הצידה על ידי גרסה עדכנית יותר.',
 	'code-status-resolved' => 'תוקן',
@@ -4587,20 +5121,22 @@ $messages['he'] = array(
 	'code-rev-submit' => 'שמירת השינויים',
 	'code-rev-submit-next' => 'שמירה ומעבר לבא שלא תוקן',
 	'code-batch-status' => 'שינוי מצב:',
-	'code-batch-tags' => 'שניוי תגיות:',
+	'code-batch-tags' => 'שינוי תגים:',
 	'codereview-batch-title' => 'שינוי כל הגרסאות שנבחרו',
 	'codereview-batch-submit' => 'שליחה',
 	'code-releasenotes' => 'הערות שחרור',
 	'code-release-legend' => 'יצירת הערות שחרור',
 	'code-release-startrev' => 'גרסת התחלה:',
 	'code-release-endrev' => 'גרסה אחרונה:',
-	'code-release-badrange' => 'הטווח גדול מדי!',
 	'codereview-subtitle' => 'עבור $1',
 	'codereview-reply-link' => 'תגובה',
 	'codereview-email-subj' => '[$1] [גרסה $2]: נוספה הערה חדשה',
-	'codereview-email-body' => 'המשתמש "$1" פרסם הערה אודות $3.
+	'codereview-email-body' => 'המשתמש "$1" פרסם הערה ב־{{GRAMMAR:תחילית|$3}}.
 
 הכתובת המלאה: $2
+תקציר השמירה:
+
+$5
 
 ההערה:
 
@@ -4609,26 +5145,36 @@ $4',
 	'codereview-email-body2' => 'המשתמש "$1" הוסיף גרסאות המשך לגרסה $2.
 
 הכתובת המלאה לגרסת ההמשך: $5.
+תקציר השמירה:
+
+$6
 
 הכתובת המלאה: $3
-
-תקציר השינוי:
+תקציר השמירה:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: מצב הגרסה השתנה',
 	'codereview-email-body3' => 'המשתמש "$1" שינה את המצב של $2.
 
 מצב קודם: $3
-מצב חדש: $4',
+מצב חדש: $4
+
+כתובת מלאה: $5
+תקציר שמירה:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: נוספה הערה חדשה ומצב הגרסה השתנה',
 	'codereview-email-body4' => 'המשתמש "$1" החליף את המצב של $2.
 
 המצב הישן: $3
 המצב החדש: $4
 
-המשתמש "$1" הגיב גם כן על $2.
+המשתמש "$1" גם הגיב על $2.
 
 הכתובת המלאה: $5
+תקציר השמירה:
+
+$7
 
 הערה:
 
@@ -4652,13 +5198,17 @@ $6',
 	'repoadmin-nav' => 'ניהול מאגרים',
 	'right-repoadmin' => 'ניהול מאגרי קוד',
 	'right-codereview-use' => 'שימוש בדף המיוחד Code',
-	'right-codereview-add-tag' => 'הוספת תגיות חדשות לגרסאות',
-	'right-codereview-remove-tag' => 'הסרת תגיות מגרסאות',
+	'right-codereview-add-tag' => 'הוספת תגים חדשים לגרסאות',
+	'right-codereview-remove-tag' => 'הסרת תגים מגרסאות',
 	'right-codereview-post-comment' => 'הוסף הערות לגרסאות',
 	'right-codereview-set-status' => 'שינוי מצב הגרסאות',
 	'right-codereview-signoff' => 'חתימה על גרסאות',
 	'right-codereview-link-user' => 'קישור הכותבים למשתמשי ויקי',
+	'right-codereview-associate' => 'ניהול שיוכי גרסה',
 	'specialpages-group-developer' => 'כלי פיתוח',
+	'group-svnadmins' => 'מנהלי שרת SVN',
+	'group-svnadmins-member' => 'מנהל שרת SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:מנהלי שרת SVN',
 );
 
 /** Fiji Hindi (Latin) (Fiji Hindi (Latin))
@@ -4674,6 +5224,8 @@ $messages['hif-latn'] = array(
  * @author CERminator
  * @author Dalibor Bosits
  * @author Ex13
+ * @author Herr Mlinka
+ * @author Roberta F.
  * @author SpeedyGonsales
  */
 $messages['hr'] = array(
@@ -4690,14 +5242,19 @@ $messages['hr'] = array(
 	'code-prop-changes' => 'Evidencija statusa i označavanja',
 	'codereview-desc' => '[[Special:Code|Alat za pregled koda]] s podrškom za [[Special:RepoAdmin|Subversion]]',
 	'code-no-repo' => 'Nema konfiguracije repozitorija!',
+	'code-create-repo' => 'Idi na [[Special:RepoAdmin|RepoAdmin]] kako bi kreirao repozitorij',
+	'code-need-repoadmin-rights' => 'repoadmin prava su potrebna kako bi mogli kreirati repozitorij',
+	'code-need-group-with-rights' => 'Niti jedna skupina s repoadmin pravima ne postoji. Molimo vas, dodajte barem jednu takvu skupinu kako biste mogli dodati novi repozitorij',
 	'code-repo-not-found' => "Repozitorij '''$1''' ne postoji!",
 	'code-load-diff' => 'Učitavam razliku...',
 	'code-notes' => 'nedavni komentari',
 	'code-statuschanges' => 'izmjene stanja',
 	'code-mycommits' => 'moje publikacije',
+	'code-mycomments' => 'moji komentari',
 	'code-authors' => 'autori',
 	'code-status' => 'statusi',
 	'code-tags' => 'oznake',
+	'code-tags-no-tags' => 'Ne postoje oznake u ovom repozitoriju.',
 	'code-authors-text' => 'Ispod je popis autora repozitorija poredanih po imenima. Lokalni wiki računi prikazani su u zagradama. Podaci mogu biti iz spremnika, te time neosvježeni.',
 	'code-author-haslink' => 'Ovaj autor je povezan s wiki suradnikom $1',
 	'code-author-orphan' => 'Ovaj autor nema poveznicu s wiki računom',
@@ -4718,11 +5275,15 @@ $messages['hr'] = array(
 	'code-field-user' => 'Komentator',
 	'code-field-message' => 'Sažetak predaje',
 	'code-field-status' => 'Stanje',
+	'code-field-status-description' => 'Opis stanja/statusa',
 	'code-field-timestamp' => 'Datum',
 	'code-field-comments' => 'Bilješke',
 	'code-field-path' => 'Putanja',
 	'code-field-text' => 'Bilješka',
 	'code-field-select' => 'Odaberi',
+	'code-reference-remove' => 'Ukloni odabrana povezivanja',
+	'code-reference-associate' => 'Povezane praćene revizije:',
+	'code-reference-associate-submit' => 'Poveži',
 	'code-rev-author' => 'Autor:',
 	'code-rev-date' => 'Datum:',
 	'code-rev-message' => 'Komentar:',
@@ -4750,14 +5311,30 @@ $messages['hr'] = array(
 	'code-rev-total' => 'Ukupan broj rezultata: $1',
 	'code-rev-not-found' => "Revizija '''$1''' ne postoji!",
 	'code-status-new' => 'novo',
+	'code-status-desc-new' => 'Revizija očekuje akciju (osnovno stanje).',
 	'code-status-fixme' => 'fixme',
+	'code-status-desc-fixme' => 'Provjerivač je označio ovu reviziju kao uzrok greške ili je neispravna. To valja ispraviti.',
 	'code-status-reverted' => 'uklonjen',
+	'code-status-desc-reverted' => 'Revizija je odbačena od neke kasnije revizije.',
 	'code-status-resolved' => 'riješeno',
+	'code-status-desc-resolved' => 'Revizija je imala problem koji je riješen kasnijom revizijom.',
 	'code-status-ok' => 'ok',
+	'code-status-desc-ok' => 'Revizija je potpuno pregledana, provjerivač je siguran da je po njegovom mišljenju sve u redu.',
 	'code-status-deferred' => 'odgođeno',
+	'code-status-desc-deferred' => 'Revizija ne zahtijeva pregled.',
 	'code-status-old' => 'staro',
+	'code-status-desc-old' => 'Stara revizija s mogućim greškama koje nisu vrijedne truda za njihovu provjeru.',
+	'code-signoffs' => 'Završetci',
+	'code-signoff-legend' => 'Dodaj završetak',
+	'code-signoff-submit' => 'Odjavi se',
+	'code-signoff-strike' => 'Precrtaj odabrana odobrenja',
+	'code-signoff-signoff' => 'Odobri ovu reviziju kao:',
+	'code-signoff-flag-inspected' => 'Ispitano',
+	'code-signoff-flag-tested' => 'Testirano',
 	'code-signoff-field-user' => 'Suradnik',
+	'code-signoff-field-flag' => 'Zastavica',
 	'code-signoff-field-date' => 'Datum',
+	'code-signoff-struckdate' => '$1 (poništeno $2)',
 	'code-pathsearch-legend' => 'Traži izmjene u ovom repozitoriju preko putanje',
 	'code-pathsearch-path' => 'Putanja:',
 	'code-pathsearch-filter' => 'Primijenjen filtar:',
@@ -4774,7 +5351,6 @@ $messages['hr'] = array(
 	'code-release-legend' => 'Kreiraj bilješke uz izdanje',
 	'code-release-startrev' => 'Početna revizija:',
 	'code-release-endrev' => 'Posljednja revizija:',
-	'code-release-badrange' => 'Raspon je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovori',
 	'codereview-email-subj' => '[$1 $2]: Dodan novi komentar',
@@ -4795,6 +5371,29 @@ Puni URL: $3
 Napravljeni sažetak:
 
 $4',
+	'codereview-email-subj3' => '[$1 $2]: Promjena stanja revizije',
+	'codereview-email-body3' => 'Suradnik "$1" promijenio je status $2.
+
+Stari status: $3
+Novi status: $4
+
+Potpuni URL: $5
+Commit summary:
+
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Dodan je novi komentar i promijenjeno je stanje revizije',
+	'codereview-email-body4' => 'Suradnik "$1"  je promijenio stanje $2.
+
+Staro stanje: $3
+Novo stanje: $4
+
+Suradnik "$1" je postavio i komentar na $2.
+
+Puni URL: $5
+
+Komentar:
+
+$6',
 	'code-stats' => 'statistike',
 	'code-stats-header' => 'Statistike za repozitorij $1',
 	'code-stats-main' => 'Sa stanjem od $1, repozitorij je imao $2 {{PLURAL:$2|reviziju|revizije|revizija}} od strane [[Special:Code/$3/author|$4 {{PLURAL:$4|autora|autora|autora}}]].',
@@ -4818,8 +5417,12 @@ $4',
 	'right-codereview-remove-tag' => 'Uklanjanje oznake za revizije',
 	'right-codereview-post-comment' => 'Dodavanje komentara na reviziju',
 	'right-codereview-set-status' => 'Promijeni status revizije',
+	'right-codereview-signoff' => 'Završi izmjene revizija',
 	'right-codereview-link-user' => 'Povezivanje autora s wiki suradnikom',
 	'specialpages-group-developer' => 'Alati za razvijatelje',
+	'group-svnadmins' => 'SVN administratori',
+	'group-svnadmins-member' => 'SVN administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratori',
 );
 
 /** Upper Sorbian (Hornjoserbsce)
@@ -4839,11 +5442,15 @@ $messages['hsb'] = array(
 	'code-prop-changes' => 'Protokol wo statusu & tafličkach',
 	'codereview-desc' => '[[Special:Code|Nastroj za kodowu kontrolu]] z [[Special:RepoAdmin|podpěru za Subversion]]',
 	'code-no-repo' => 'Žadyn repozitorij konfigurowany',
+	'code-create-repo' => 'Dźi k specialnej stronje [[Special:RepoAdmin|RepoAdmin]], zo by repozitorij załožił',
+	'code-need-repoadmin-rights' => 'Prawa repoadmin su trěbne, zo by móhł repozitorij załožić',
+	'code-need-group-with-rights' => 'Njeje žana skupina z prawami repoadmin. Prošu přidaj jednu, zo by móhł nowy repozitorij załožić',
 	'code-repo-not-found' => "Repozitorij '''$1''' njeeksistuje!",
 	'code-load-diff' => 'Rozdźěl so začituje...',
 	'code-notes' => 'aktualne komentary',
 	'code-statuschanges' => 'změny statusa',
 	'code-mycommits' => 'moje přepodaća',
+	'code-mycomments' => 'moje komentary',
 	'code-authors' => 'awtorojo',
 	'code-status' => 'statusy',
 	'code-tags' => 'taflički',
@@ -4907,6 +5514,8 @@ $messages['hsb'] = array(
 	'code-status-desc-new' => 'Wersija akciju wočakuje (standardny status)',
 	'code-status-fixme' => 'porjedźić',
 	'code-status-desc-fixme' => 'Posudźowar markěrowaše wersiju jako poškodźeny abo jako zawinowar programoweho zmylka. Wona měła so porjedźić.',
+	'code-status-improveme' => 'IMPROVEME',
+	'code-status-desc-improveme' => 'Posudźowar je tutu wersiju jako polěpšenja potrěbnu markěrował. Měła so korigować.',
 	'code-status-reverted' => 'anulowany',
 	'code-status-desc-reverted' => 'Wersija bu přez pozdźišu wersiju cofnjena.',
 	'code-status-resolved' => 'sčinjeny',
@@ -4944,13 +5553,15 @@ $messages['hsb'] = array(
 	'code-release-legend' => 'Přispomnjenki wo wersiji wutworić',
 	'code-release-startrev' => 'Prěnja wersija',
 	'code-release-endrev' => 'Poslednja wersija:',
-	'code-release-badrange' => 'Wobłuk přewulki!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'wotmołwić',
 	'codereview-email-subj' => '[$1 $2]: Nowy komentar přidaty',
 	'codereview-email-body' => 'Wužiwar "$1" je komentar wo $3 pósłał.
 
 Dospołny URL: $2
+Zjeće:
+
+$5
 
 Komentar:
 
@@ -4959,10 +5570,12 @@ $4',
 	'codereview-email-body2' => 'Wužiwar "$1" je naslědne změny k $2 činił.
 
 Dospołny URL za naslědnu wersiju: $5
+Zjeće:
+
+$6
 
 Dospołny URL: $3
-
-Zjeće přenjesenja:
+Zjeće:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Wersijowy status je so změnił',
@@ -4970,7 +5583,12 @@ $4',
 
 
 Stary status: $3
-Nowy status: $4',
+Nowy status: $4
+
+Dospołny URL: $5
+Zjeće:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Nowy komentar přidaty, a status wersije je so změnił',
 	'codereview-email-body4' => 'Wužiwar "$1" je status za $2 změnił.
 
@@ -4980,6 +5598,10 @@ Nowy status: $4
 Wužiwar "$1" je tež dnja $2 komentar pósłał.
 
 Dospołny URL: $5
+
+Zjeće:
+
+$7
 
 Komentar:
 
@@ -5009,7 +5631,18 @@ $6',
 	'right-codereview-set-status' => 'Status rewizijow změnić',
 	'right-codereview-signoff' => 'Wersije dopušćić',
 	'right-codereview-link-user' => 'Awtorow z wikijowymi wužiwarjemi zwjazać',
+	'right-codereview-associate' => '´Wersijowy zwisk přidać/wotstronić',
 	'specialpages-group-developer' => 'Nastroje wuwiwarjow',
+	'group-svnadmins' => 'SVN-administratorojo',
+	'group-svnadmins-member' => 'SVN-administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-administratorojo',
+);
+
+/** Haitian (Kreyòl ayisyen)
+ * @author Boukman
+ */
+$messages['ht'] = array(
+	'code-status-desc-reverted' => 'Revizyon sa te defè pa yon lòt revizyon ki te fèt pi ta',
 );
 
 /** Hungarian (Magyar)
@@ -5095,6 +5728,7 @@ $messages['hu'] = array(
 	'code-status-desc-new' => 'A változat felülvizsgálatra vár (alapértelmezett állapot).',
 	'code-status-fixme' => 'javítandó',
 	'code-status-desc-fixme' => 'Az ellenőrzést végző személy szerint a változatban új hiba van, vagy nem működik. Javításra szorul.',
+	'code-status-improveme' => 'fejlesztendő',
 	'code-status-reverted' => 'visszaállítva',
 	'code-status-desc-reverted' => 'A változatot eldobták egy későbbi változatban.',
 	'code-status-resolved' => 'javítva',
@@ -5105,6 +5739,13 @@ $messages['hu'] = array(
 	'code-status-desc-deferred' => 'A változatot nem kell ellenőrizni.',
 	'code-status-old' => 'régi',
 	'code-status-desc-old' => 'Olyan régi változat, ami tartalmazhat hibákat, de nem éri meg a fáradozást az ellenőrzésük.',
+	'code-signoffs' => 'Aláírások',
+	'code-signoff-legend' => 'Aláírás hozzáadása',
+	'code-signoff-flag-inspected' => 'megvizsgálva',
+	'code-signoff-flag-tested' => 'tesztelve',
+	'code-signoff-field-user' => 'Felhasználó',
+	'code-signoff-field-flag' => 'Címke',
+	'code-signoff-field-date' => 'Dátum',
 	'code-pathsearch-legend' => 'Változatok keresése elérési út alapján',
 	'code-pathsearch-path' => 'Elérési út:',
 	'code-pathsearch-filter' => 'Szűrő alkalmazva:',
@@ -5121,7 +5762,6 @@ $messages['hu'] = array(
 	'code-release-legend' => 'Kiadási megjegyzések generálása',
 	'code-release-startrev' => 'Első változat:',
 	'code-release-endrev' => 'Utolsó változat:',
-	'code-release-badrange' => 'A tartomány túl nagy!',
 	'codereview-subtitle' => '$1 részére',
 	'codereview-reply-link' => 'válasz',
 	'codereview-email-subj' => '[$1 $2]: Új hozzászólás',
@@ -5175,6 +5815,9 @@ $3',
 	'right-codereview-set-status' => 'változat állapotának megváltoztatása',
 	'right-codereview-link-user' => 'szerzők összekapcsolása a wiki szerkesztőivel',
 	'specialpages-group-developer' => 'Fejlesztői eszközök',
+	'group-svnadmins' => 'SVN-adminisztrátorok',
+	'group-svnadmins-member' => 'SVN-adminisztrátor',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-adminisztrátorok',
 );
 
 /** Interlingua (Interlingua)
@@ -5194,11 +5837,15 @@ $messages['ia'] = array(
 	'code-prop-changes' => 'Registro de stato e de etiquettage',
 	'codereview-desc' => '[[Special:Code|Instrumento pro revider le codice]] con [[Special:RepoAdmin|supporto de Subversion]]',
 	'code-no-repo' => 'Nulle deposito configurate!',
+	'code-create-repo' => 'Visita [[Special:RepoAdmin|RepoAdmin]] pro crear un deposito',
+	'code-need-repoadmin-rights' => 'Le derecto "repoadmin" es necessari pro poter crear un deposito',
+	'code-need-group-with-rights' => 'Nulle gruppo con derecto "repoadmin" existe. Per favor crea un tal pro poter adder un nove deposito.',
 	'code-repo-not-found' => "Le deposito '''$1''' non existe!",
 	'code-load-diff' => 'Carga diff…',
 	'code-notes' => 'commentos recente',
 	'code-statuschanges' => 'cambios de stato',
 	'code-mycommits' => 'mi publicationes',
+	'code-mycomments' => 'mi commentos',
 	'code-authors' => 'autores',
 	'code-status' => 'statos',
 	'code-tags' => 'etiquettas',
@@ -5299,13 +5946,15 @@ $messages['ia'] = array(
 	'code-release-legend' => 'Generar notas del version',
 	'code-release-startrev' => 'Version initial:',
 	'code-release-endrev' => 'Version final:',
-	'code-release-badrange' => 'Intervallo troppo grande!',
 	'codereview-subtitle' => 'Pro $1',
 	'codereview-reply-link' => 'responder',
 	'codereview-email-subj' => '[$1] [v$2]: Nove commento addite',
-	'codereview-email-body' => 'Le usator "$1" publicava un commento in v$3.
+	'codereview-email-body' => 'Le usator "$1" publicava un commento super $3.
 
 Adresse URL complete: $2
+Summario del commit:
+
+$5
 
 Commento:
 
@@ -5314,9 +5963,11 @@ $4',
 	'codereview-email-body2' => 'Le usator "$1" faceva cambios subsequente a $2.
 
 URL complete del version subsequente: $5
+Summario del commit:
+
+$6
 
 URL complete: $3
-
 Summario del commit:
 
 $4',
@@ -5324,7 +5975,12 @@ $4',
 	'codereview-email-body3' => 'Le usator "$1" cambiava le stato de $2.
 
 Previe stato: $3
-Nove stato: $4',
+Nove stato: $4
+
+URL complete: $5
+Summario del commit:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Nove commento addite, e stato del version cambiate',
 	'codereview-email-body4' => 'Le usator "$1" cambiava le stato de $2.
 
@@ -5334,6 +5990,9 @@ Nove stato: $4
 Le usator "$1" dava etiam un commento sur $2.
 
 URL complete: $5
+Summario del commit:
+
+$7
 
 Commento:
 
@@ -5363,7 +6022,12 @@ $6',
 	'right-codereview-set-status' => 'Cambiar le stato de versiones',
 	'right-codereview-signoff' => 'Approbar versiones',
 	'right-codereview-link-user' => 'Ligar autores a usatores del wiki',
+	'right-codereview-associate' => 'Gerer associationes de versiones',
+	'right-codereview-review-own' => 'Marcar tu proprie revisiones como OK',
 	'specialpages-group-developer' => 'Instrumentos pro disveloppatores',
+	'group-svnadmins' => 'Administratores SVN',
+	'group-svnadmins-member' => 'Administrator SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administratores SVN',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -5387,11 +6051,15 @@ $messages['id'] = array(
 	'code-prop-changes' => 'Log Status & penandaan',
 	'codereview-desc' => '[[Special:Code|Alat peninjau kode]] dengan [[Special:RepoAdmin|dukungan Subversion]]',
 	'code-no-repo' => 'Tidak ada konfiguras tempat penyimpanan!',
+	'code-create-repo' => 'Gunakan [[Special:RepoAdmin|RepoAdmin]] untuk membuat suatu Repositori',
+	'code-need-repoadmin-rights' => 'Hak repoadmin diperlukan untuk dapat membuat suatu Repositori',
+	'code-need-group-with-rights' => 'Tidak ada kelompok yang memiliki hak akses repoadmin. Harap tambahkan untuk dapat membuat Repositori baru',
 	'code-repo-not-found' => "Gudang data '''$1''' tidak ada!",
 	'code-load-diff' => 'Memuat perbedaan...',
 	'code-notes' => 'komentar terbaru',
 	'code-statuschanges' => 'perubahan status',
 	'code-mycommits' => 'komitmen saya',
+	'code-mycomments' => 'komentar saya',
 	'code-authors' => 'penulis',
 	'code-status' => 'keadaan',
 	'code-tags' => 'Penanda',
@@ -5492,7 +6160,6 @@ $messages['id'] = array(
 	'code-release-legend' => 'Buat catatan rilis',
 	'code-release-startrev' => 'Memulai rev:',
 	'code-release-endrev' => 'Akhir rev:',
-	'code-release-badrange' => 'Interval terlalu besar!',
 	'codereview-subtitle' => 'Untuk $1',
 	'codereview-reply-link' => 'balas',
 	'codereview-email-subj' => '[$1 $2]: Komenter baru ditambahkan',
@@ -5514,10 +6181,15 @@ Ringkasan:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Status revisi berubah',
-	'codereview-email-body3' => 'Pengguna "$1" mengganti status $2.
+	'codereview-email-body3' => 'Pengguna "$1" mengubah status $2.
 
 Status lama: $3
-Status baru: $4',
+Status baru: $4
+
+URL lengkap: $5
+Ringkasan:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Komentar baru ditambahkan dan revisi status berubah',
 	'codereview-email-body4' => 'Pengguna "$1" mengganti status $2.
 
@@ -5556,7 +6228,11 @@ $6',
 	'right-codereview-set-status' => 'Ubah status revisi',
 	'right-codereview-signoff' => 'Persetujuan revisi',
 	'right-codereview-link-user' => 'Pranala penulis ke wiki pengguna',
+	'right-codereview-associate' => 'Mengelola keterkaitan revisi',
 	'specialpages-group-developer' => 'Alat Pengembang',
+	'group-svnadmins' => 'Pengurus SVN',
+	'group-svnadmins-member' => 'Pengurus SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Pengurus SVN',
 );
 
 /** Igbo (Igbo)
@@ -5660,7 +6336,7 @@ $messages['it'] = array(
 	'code-field-message' => 'Oggetto del commento',
 	'code-field-status' => 'Stato',
 	'code-field-timestamp' => 'Data',
-	'code-field-comments' => 'Note',
+	'code-field-comments' => 'Commenti',
 	'code-field-path' => 'Percorso',
 	'code-field-text' => 'Nota',
 	'code-field-select' => 'Seleziona',
@@ -5720,7 +6396,6 @@ $messages['it'] = array(
 	'code-release-legend' => 'Genera note di versione',
 	'code-release-startrev' => 'Revisione iniziale:',
 	'code-release-endrev' => 'Revisione finale:',
-	'code-release-badrange' => "L'intervallo è troppo ampio!",
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'rispondi',
 	'codereview-email-subj' => '[$1 $2]: Aggiunto un commento',
@@ -5765,6 +6440,7 @@ $4',
  * @author Iwai.masaharu
  * @author Kanon und wikipedia
  * @author Naohiro19
+ * @author Ohgi
  * @author Whym
  * @author 青子守歌
  */
@@ -5782,11 +6458,15 @@ $messages['ja'] = array(
 	'code-prop-changes' => '状態とタグ付けのログ',
 	'codereview-desc' => '[[Special:RepoAdmin|Subversion サポート]]付きの[[Special:Code|コードレビュー・ツール]]',
 	'code-no-repo' => '設定されたリポジトリはありません！',
+	'code-create-repo' => '[[Special:RepoAdmin|リポジトリ管理]]でリポジトリを作成',
+	'code-need-repoadmin-rights' => 'リポジトリを作成するには、リポジトリ管理権限が必要です',
+	'code-need-group-with-rights' => 'リポジトリ管理権限をもつ利用者グループがありません。新しいリポジトリを作成できるよう、リポジトリ管理権限をもつ利用者グループを作成してください。',
 	'code-repo-not-found' => "'''$1'''は存在しないレポジトリーです!",
 	'code-load-diff' => '差分を読み込み中…',
 	'code-notes' => '最近のコメント',
 	'code-statuschanges' => '状態の変更',
 	'code-mycommits' => '自分のコミット',
+	'code-mycomments' => '自分のコメント',
 	'code-authors' => '著者',
 	'code-status' => '状態',
 	'code-tags' => 'タグ',
@@ -5850,6 +6530,7 @@ $messages['ja'] = array(
 	'code-status-desc-new' => 'リビジョンは操作を保留中です（既定の状態）。',
 	'code-status-fixme' => '要修正',
 	'code-status-desc-fixme' => 'レビュアーは、この版にはバグがある、あるいは壊れていると印付けました。修正する必要があります。',
+	'code-status-desc-improveme' => 'この版に、査読者が細かい問題があるという印をつけました。修正する必要があります。',
 	'code-status-reverted' => '差し戻し済み',
 	'code-status-desc-reverted' => 'リビジョンは、以降の版で廃棄されました。',
 	'code-status-resolved' => '解決済',
@@ -5887,41 +6568,53 @@ $messages['ja'] = array(
 	'code-release-legend' => 'リリースノートの生成',
 	'code-release-startrev' => '開始リビジョン:',
 	'code-release-endrev' => '最終リビジョン:',
-	'code-release-badrange' => '範囲が広すぎます！',
 	'codereview-subtitle' => '$1',
 	'codereview-reply-link' => '返信',
 	'codereview-email-subj' => '[$1 $2]: 新規コメント追加',
 	'codereview-email-body' => '利用者「$1」が $3 にコメントをつけました。
 
-完全なURL: $2
+URL: $2
+要約:
+
+$5
 
 コメント:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: 追補の変更',
-	'codereview-email-body2' => '利用者$1が$2に追補の変更を加えました。
+	'codereview-email-body2' => '利用者「$1」が$2に追補の変更を加えました。
 
-追補版の全URL：$5
+追補版のURL：$5
+要約:
 
-全URL：$3
+$6
 
-コミットの要約：
+URL：$3
+要約：
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: リビジョンの状態が変更されました',
-	'codereview-email-body3' => 'ユーザー$1が、$2の状態を変更しました。
+	'codereview-email-body3' => '利用者「$1」が、$2の状態を変更しました。
 
-もとの状態：$3
-新しい状態：$4',
+もとの状態: $3
+新しい状態: $4
+
+URL: $5
+要約:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: 新しいコメントが追加され、リビジョンの状態が変更されました',
-	'codereview-email-body4' => 'ユーザー「$1」が、$2の状況を変更しました。
+	'codereview-email-body4' => '利用者「$1」が、$2の状態を変更しました。
 
 もとの状態：$3
 新しい状態：$4
 
-また、ユーザー「$1」はコメントを$2に残しました。
+利用者「$1」は$2にコメントも投稿しました。
 
-全URL：$5
+URL：$5
+要約:
+
+$7
 
 コメント：
 
@@ -5942,7 +6635,7 @@ $6',
 	'repoadmin-edit-view' => 'ViewVC パス:',
 	'repoadmin-edit-button' => 'OK',
 	'repoadmin-edit-sucess' => 'リポジトリ "[[Special:Code/$1|$1]]" の変更に成功しました。',
-	'repoadmin-nav' => 'レポジトリー管理',
+	'repoadmin-nav' => 'リポジトリ管理',
 	'right-repoadmin' => 'コードリポジトリを管理する',
 	'right-codereview-use' => 'Special:Code の使用',
 	'right-codereview-add-tag' => 'リビジョンに新しいタグを追加する',
@@ -5951,7 +6644,11 @@ $6',
 	'right-codereview-set-status' => 'リビジョンの状態を変更する',
 	'right-codereview-signoff' => 'リビジョンでサインオフ',
 	'right-codereview-link-user' => '著者とウィキ利用者を対応付ける',
+	'right-codereview-associate' => '版のつながりを管理する',
 	'specialpages-group-developer' => '開発者用ツール',
+	'group-svnadmins' => 'SVN管理者',
+	'group-svnadmins-member' => 'SVN管理者',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN管理者',
 );
 
 /** Javanese (Basa Jawa)
@@ -6051,11 +6748,14 @@ $4',
 
 /** Georgian (ქართული)
  * @author BRUTE
+ * @author Dawid Deutschland
+ * @author ITshnik
  * @author Malafaya
  * @author გიორგიმელა
  */
 $messages['ka'] = array(
 	'code' => 'კოდის შემოწმება',
+	'code-rev-title' => '$1 – კოდის შემოწმება',
 	'code-comments' => 'კომენტარები:',
 	'code-change-removed' => 'წაშლილია:',
 	'code-change-added' => 'დაემატა:',
@@ -6064,16 +6764,23 @@ $messages['ka'] = array(
 	'code-load-diff' => 'იტვირთება განსხ…',
 	'code-notes' => 'ბოლო კომენტარები',
 	'code-statuschanges' => 'სტატუსის შეცვლა',
+	'code-mycomments' => 'ჩემი კომენტარები',
 	'code-authors' => 'ავტორები',
 	'code-tags' => 'აღნიშვნები',
 	'code-author-orphan' => 'ამ ავტორს არ აქვს ვიკი-ანგარიშის ბმული',
 	'code-author-name' => 'მომხმარებლის სახელის შეტანა:',
 	'code-author-link' => 'კავშირის დამყარება?',
 	'code-author-unlink' => 'კავშირის მოხსნა?',
+	'code-author-total' => 'ავტორთა საერთო რაოდენობა: $1',
 	'code-field-id' => 'ვერსია',
 	'code-field-author' => 'ავტორი',
+	'code-field-user' => 'კომენტატორი',
+	'code-field-message' => 'კომენტარი',
 	'code-field-status' => 'სტატუსი',
+	'code-field-status-description' => 'სტატუსის აღწერა',
 	'code-field-timestamp' => 'თარიღი',
+	'code-field-comments' => 'კომენტარები',
+	'code-field-path' => 'გზა',
 	'code-field-text' => 'შენიშვნა',
 	'code-field-select' => 'არჩევა',
 	'code-rev-author' => 'ავტორი:',
@@ -6098,13 +6805,19 @@ $messages['ka'] = array(
 	'code-rev-diff-too-large' => 'ცვლილება ვერსიებს შორის ზედმეტად დიდია საჩვენებლად',
 	'code-rev-purge-link' => 'ქეშის გაწმენდა',
 	'code-rev-total' => 'რეზულტატების რაოდენობა:$1',
+	'code-rev-not-found' => "ვერსია '''$1''' არ არსებობს!",
 	'code-status-new' => 'ახალი',
 	'code-status-fixme' => 'შემოწმება',
 	'code-status-reverted' => 'გაუქმებულია',
 	'code-status-resolved' => 'მოგვარებულია',
+	'code-status-desc-resolved' => 'ვერსიას ჰქონდა პრობლემა, რომელიც შემდგომ ვერსიაში გამოსწორდა.',
 	'code-status-ok' => 'ok',
-	'code-status-verified' => 'შემოწმებულია',
 	'code-status-deferred' => 'გადატანილია',
+	'code-status-old' => 'ძველი',
+	'code-signoff-flag-tested' => 'დაცდილი',
+	'code-signoff-field-user' => 'მომხმარებელი',
+	'code-signoff-field-flag' => 'დროშა',
+	'code-signoff-field-date' => 'თარიღი',
 	'code-pathsearch-legend' => 'კონკრეტული რედაქციების ძიება ამ საცავში მისამართის მიხედვით',
 	'code-pathsearch-path' => 'გზა:',
 	'code-pathsearch-filter' => 'გამოყენებული ფილტრები:',
@@ -6121,9 +6834,9 @@ $messages['ka'] = array(
 	'code-release-legend' => 'გამოცემაზე ინფორმაციის შექმნა',
 	'code-release-startrev' => 'საწყისი რევიზია:',
 	'code-release-endrev' => 'ბოლო რევიზია:',
-	'code-release-badrange' => 'ზედმეტად დიდი დიაპაზონი!',
 	'codereview-subtitle' => '$1-სთვის',
 	'codereview-reply-link' => 'პასუხი',
+	'codereview-email-subj' => '[$1 $2]: დაემატა ახალი კომენტარი',
 	'codereview-email-body' => 'მომხმარებელმა "$1" დადო კომენტარი $3-ზე.
 
 ბმული: $2
@@ -6131,13 +6844,12 @@ $messages['ka'] = array(
 კომენტარი:
 
 $4',
-	'codereview-email-body3' => 'ავტომატურმა შემოწმებამ აღმოაჩინა რეგრესია $1 ცვლილებასთან.
+	'codereview-email-body3' => 'მომხმარებელმა „$1“ შეცვალა $2-ის სტატუსი.
 
-სრული URL: $2
+ძველი სტატუსი: $3
 
-ცვლილებების აღწერა:
-
-$3',
+ახალი სტატუსი: $4',
+	'code-stats' => 'სტატისტიკა',
 	'repoadmin-new-button' => 'შექმნა',
 	'repoadmin-edit-button' => 'კარგი',
 	'repoadmin-edit-sucess' => 'საცავი «[[Special:Code/$1|$1]]» წარმატებით შეიცვალა',
@@ -6149,11 +6861,14 @@ $3',
 	'right-codereview-set-status' => 'რედაქციის სტატუსის ცვლილება',
 	'right-codereview-link-user' => 'ვიკიპროექტელებისა და რედაქციების კავშირი',
 	'specialpages-group-developer' => 'შემქმნელის ხელსაწყოები',
+	'group-svnadmins' => 'SVN ადმინისტრატორები',
+	'group-svnadmins-member' => 'SVN ადმინისტრატორი',
 );
 
 /** Khmer (ភាសាខ្មែរ)
  * @author Lovekhmer
  * @author Thearith
+ * @author គីមស៊្រុន
  * @author វ័ណថារិទ្ធ
  */
 $messages['km'] = array(
@@ -6162,22 +6877,28 @@ $messages['km'] = array(
 	'code-change-added' => 'បន្ថែម​៖',
 	'code-old-status' => 'ស្ថានភាពចាស់',
 	'code-new-status' => 'ស្ថានភាពថ្មី',
+	'code-notes' => 'យោបល់ថ្មីៗ',
 	'code-statuschanges' => 'បំលាស់ប្ដូរ​ស្ថានភាព',
+	'code-mycomments' => 'យោបល់របស់ខ្ញុំ',
 	'code-authors' => 'អ្នកនិពន្ធ',
+	'code-status' => 'ស្ថានភាព',
 	'code-tags' => 'ប្លាក',
 	'code-author-haslink' => '​អ្នកនិពន្ធ​នេះត្រូវ​បាន​តភ្ជាប់​ទៅ​នឹង​អ្នក​ប្រើប្រាស់​​វិគី​​ ​$1',
 	'code-author-orphan' => '​អ្នកនិពន្ធ​នេះមិន​មាន​តំណភ្ជាប់​ជាមួយ​គណនី​វិគី​ទេ​',
 	'code-author-dolink' => 'តភ្ជាប់​អ្នកនិពន្ធ​នេះ​ទៅនឹង​អ្នក​ប្រើប្រាស់​វិគី​៖',
-	'code-author-name' => 'បញ្ចូលឈ្មោះអ្នកប្រើប្រាស់៖',
+	'code-author-name' => 'បញ្ចូលអត្តនាម៖',
 	'code-author-link' => 'តំណភ្ជាប់?',
 	'code-author-unlink' => 'មិន​ដាក់​តំណភ្ជាប់​?',
+	'code-author-total' => 'ចំនួនអ្នកនិពន្ធសរុប៖ $1',
 	'code-field-id' => 'ពិនិត្យឡើងវិញ',
 	'code-field-author' => 'អ្នកនិពន្ធ',
+	'code-field-user' => 'អ្នកផ្ដល់យោបល់',
 	'code-field-status' => 'ស្ថានភាព',
 	'code-field-timestamp' => 'កាលបរិច្ឆេទ',
-	'code-field-comments' => 'កំណត់សម្គាល់​ផ្សេងៗ',
+	'code-field-comments' => 'យោបល់',
 	'code-field-path' => 'ផ្លូវ',
 	'code-field-text' => 'កំណត់សម្គាល់',
+	'code-field-select' => 'ជ្រើសយក',
 	'code-rev-author' => 'អ្នកនិពន្ធ៖',
 	'code-rev-date' => 'កាលបរិច្ឆេទ៖',
 	'code-rev-message' => 'យោបល់៖',
@@ -6187,18 +6908,20 @@ $messages['km'] = array(
 	'code-rev-modified-r' => 'បាន​ជំនួស',
 	'code-rev-modified-d' => 'បានលុប',
 	'code-rev-modified-m' => 'បានកែសម្រួល',
+	'code-rev-imagediff' => 'បំលាស់ប្ដូររូបភាព',
 	'code-rev-status' => 'ស្ថានភាព​៖',
 	'code-rev-status-set' => 'ផ្លាស់ប្ដូរ​ស្ថានភាព',
 	'code-rev-tags' => 'ប្លាក៖',
 	'code-rev-tag-add' => 'បន្ថែមប្លាក៖',
 	'code-rev-tag-remove' => 'ដកស្លាក​ចេញ៖',
+	'code-rev-comment-by' => 'យោបល់របស់ $1',
 	'code-rev-comment-preview' => 'មើលជាមុន',
+	'code-rev-inline-preview' => 'ការមើលជាមុន៖',
 	'code-rev-diff' => 'ភាពខុសគ្នា',
 	'code-rev-diff-link' => 'ភាពខុសគ្នា',
 	'code-status-new' => 'ថ្មី',
 	'code-status-resolved' => 'ត្រូវ​បាន​ដោះស្រាយ​រួច​',
 	'code-status-ok' => 'យល់ព្រម',
-	'code-status-verified' => 'ត្រូវ​បាន​បញ្ជាក់​ត្រឹម​ត្រូវ​',
 	'code-pathsearch-path' => 'ផ្លូវ៖',
 	'code-rev-submit' => 'រក្សាទុក​បំលាស់ប្ដូរ',
 	'code-batch-status' => 'ផ្លាស់ប្ដូរ​ស្ថានភាព​៖',
@@ -6206,6 +6929,7 @@ $messages['km'] = array(
 	'codereview-batch-submit' => 'ដាក់ស្នើ',
 	'code-releasenotes' => 'កំណត់​ចំណាំ​​ការ​ចេញ​ផ្សាយ​',
 	'codereview-reply-link' => 'ឆ្លើយតប',
+	'code-stats' => 'ស្ថិតិ',
 	'repoadmin' => 'ការគ្រប់គ្រង​ឃ្លាំង',
 	'repoadmin-new-legend' => 'បង្កើត​ឃ្លាំង​ថ្មី',
 	'repoadmin-new-label' => 'ឈ្មោះ​ឃ្លាំង​៖',
@@ -6339,7 +7063,6 @@ $messages['ko'] = array(
 	'code-release-legend' => '배포 노트 만들기',
 	'code-release-startrev' => '시작 버전:',
 	'code-release-endrev' => '마지막 버전:',
-	'code-release-badrange' => '범위가 너무 넓습니다!',
 	'codereview-subtitle' => '$1',
 	'codereview-reply-link' => '답변',
 	'codereview-email-subj' => '[$1] [$2판]: 새 의견이 추가되었습니다.',
@@ -6380,6 +7103,7 @@ $3',
 	'repoadmin-edit-view' => 'ViewVC 경로:',
 	'repoadmin-edit-button' => '확인',
 	'repoadmin-edit-sucess' => '저장소 "[[Special:Code/$1|$1]]"이 성공적으로 변경되었습니다.',
+	'repoadmin-nav' => '저장소 관리',
 	'right-repoadmin' => '코드 저장소 관리',
 	'right-codereview-use' => 'Special:Code 사용',
 	'right-codereview-add-tag' => '특정 버전에 새로운 태그를 달기',
@@ -6388,6 +7112,9 @@ $3',
 	'right-codereview-set-status' => '판의 상태를 변경',
 	'right-codereview-link-user' => '만든이를 위키 사용자로 링크',
 	'specialpages-group-developer' => '개발자 도구',
+	'group-svnadmins' => 'SVN 관리자',
+	'group-svnadmins-member' => 'SVN 관리자',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN 관리자',
 );
 
 /** Colognian (Ripoarisch)
@@ -6407,14 +7134,20 @@ $messages['ksh'] = array(
 	'code-prop-changes' => 'Logboch för Shtattus un Makeerunge',
 	'codereview-desc' => 'Werkzüch för [[Special:Code|Projramm-Änderunge ze verwallde]] met [[Special:RepoAdmin|Ongershtözung för <i lang="en">Subversion</i>]]',
 	'code-no-repo' => 'Et es kei Repositorijum enjeshtallt.',
+	'code-create-repo' => 'Jangk op di Sigg <i lang="en">[[Special:RepoAdmin|RepoAdmin]]</i>, öm e neu Repositorijum aanzelääje.',
+	'code-need-repoadmin-rights' => 'Do mööts dat Rääsch <code lang="en">repoadmin</code> han, öm e Repositorijum neu aanlääje ze künne.',
+	'code-need-group-with-rights' => 'Et jitt kein Jropp met däm Rääsch <code lang="en">repoadmin</code>.
+Donn ein aanlääje, domet et müjjelesch wääde kann, heh e neu Repositorijum aanzelääje.',
 	'code-repo-not-found' => "E Repositorijum '''$1''' jidd_et heh nit!",
 	'code-load-diff' => 'Ben de Ungerscheide aam Lade&nbsp;…',
 	'code-notes' => 'De neuste Bemerkunge',
 	'code-statuschanges' => 'Änderunge aam Stattus',
 	'code-mycommits' => 'ming Beidrääsch',
+	'code-mycomments' => 'ming Aanmärkunge',
 	'code-authors' => 'de Schriiver',
 	'code-status' => 'Shtattuße',
 	'code-tags' => 'Makeerunge',
+	'code-tags-no-tags' => 'Mer han kein Makeerunge en dämm Repositorijum.',
 	'code-authors-text' => 'Hee kütt en Leß met dä Schriever aan dämm Repositorijum, zotteet noh dänne iehre Name doh. De Name als Metmaacher hee em Wiki sen en Klammere met dobei, woh et se jitt. Di Leß künnt uss_em Zwescheshpeicher kumme un nit janz om neuste Shtand sin.',
 	'code-author-haslink' => 'Dä Schriiver es em Wiki mem Metmaacher $1 verlengk',
 	'code-author-orphan' => 'Dä Schriiver es nit met enem Metmaacher em Wiki verlengk',
@@ -6435,18 +7168,22 @@ $messages['ksh'] = array(
 	'code-field-user' => 'Kommentaa-Schriever',
 	'code-field-message' => 'Koot zosamme jefaß',
 	'code-field-status' => 'Shtattus',
+	'code-field-status-description' => 'Dä Status beschrevve',
 	'code-field-timestamp' => 'Zick un Dattum',
-	'code-field-comments' => 'Bemerkunge',
+	'code-field-comments' => 'Aanmärkunge',
 	'code-field-path' => 'Pad',
 	'code-field-text' => 'Notiz',
 	'code-field-select' => 'Ußsöke',
+	'code-reference-remove' => 'Ußjewählte Zosammehäng oplühse',
+	'code-reference-associate' => 'Opfoljer-Version faßlääje:',
+	'code-reference-associate-submit' => 'Donn se zesamme!',
 	'code-rev-author' => 'Schriiver / Projrammierer:',
 	'code-rev-date' => 'Dattum:',
 	'code-rev-message' => 'Kommentaa:',
 	'code-rev-repo' => 'Repositorijum:',
 	'code-rev-rev' => 'Version:',
 	'code-rev-rev-viewvc' => 'op <i lang="en">ViewVC</i>',
-	'code-rev-paths' => 'Pahde met Veränderunge:',
+	'code-rev-paths' => 'Jeändert woodte:',
 	'code-rev-modified-a' => 'dobeij jedonn',
 	'code-rev-modified-r' => 'ußjetuusch',
 	'code-rev-modified-d' => 'fottjeschmeße',
@@ -6480,54 +7217,89 @@ $messages['ksh'] = array(
 	'code-status-desc-deferred' => 'Di Version bruch jez kein Prööfung.',
 	'code-status-old' => 'ahl',
 	'code-status-desc-old' => 'En älder Version met udder ohne Fähler, woh ävver et Prööfe der Möh nit wäät es.',
+	'code-signoffs' => 'Jodjeheiße',
+	'code-signoff-legend' => 'Jodheiße',
+	'code-signoff-submit' => 'Jodheiße!',
+	'code-signoff-strike' => 'De ußjewählte Jodheißunge ophävve',
+	'code-signoff-signoff' => 'Di Versione jodheiße als:',
+	'code-signoff-flag-inspected' => 'Enspezeert',
+	'code-signoff-flag-tested' => 'Ußprobeet',
+	'code-signoff-field-user' => 'Metmaacher',
+	'code-signoff-field-flag' => 'Wie?',
+	'code-signoff-field-date' => 'Dattum',
+	'code-signoff-struckdate' => '$1 (fottjeschmeße: $2)',
 	'code-pathsearch-legend' => 'Söhk en däm Repositorijum noh Versione, övver dänne iere Pahdt',
 	'code-pathsearch-path' => 'Pahdt:',
-	'code-pathsearch-filter' => 'Ußjesöhk noh:',
+	'code-pathsearch-filter' => 'Ußjesöhk noh:&nbsp;',
 	'code-revfilter-cr_status' => 'Stattus = $1',
 	'code-revfilter-cr_author' => 'Schriever = $1',
-	'code-revfilter-clear' => 'Donn de Ußwahl fottschmieße',
+	'code-revfilter-clear' => 'Donn nix mieh udder keine mieh ußwähle!',
 	'code-rev-submit' => 'Änderunge faßhallde',
 	'code-rev-submit-next' => 'Don dat faßhallde, un jangk nohm nächste unjelöste Kumflick',
 	'code-batch-status' => 'Shtattus ändere:',
 	'code-batch-tags' => 'Makeerunge ändere:',
 	'codereview-batch-title' => 'All de ußjesoohte Versione ändere',
-	'codereview-batch-submit' => 'Loß Jonn!',
-	'code-releasenotes' => 'Henwiiß för de Ußjaav',
-	'code-release-legend' => 'Henwiiß för_t Ußjävve zosammeshtälle',
+	'codereview-batch-submit' => 'Lohß Jonn!',
+	'code-releasenotes' => 'Aanmerkunge för Versione',
+	'code-release-legend' => 'Aanmerkunge för Versione zosammeshtälle',
 	'code-release-startrev' => 'Aanfangsversion:',
 	'code-release-endrev' => 'Läz Version:',
-	'code-release-badrange' => 'Dä Berett es zoh jruhß!',
 	'codereview-subtitle' => 'För $1',
 	'codereview-reply-link' => 'antwoote',
-	'codereview-email-subj' => '[$1 $2]: Neue Kommentaa dobei jedonn',
-	'codereview-email-body' => 'Dä Metmaacher „$1“ hät ene Kommentaa för de $3 loßjeloose.
+	'codereview-email-subj' => '[$1 $2]: Neu Aanmerkung dobei jedonn',
+	'codereview-email-body' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät en Aanmerkung enjedraare för $3
 
 De janze URL es: $2
 
-Dä Kommentaa es:
+En et Logbooch hät {{GENDER:$1|hä|et|dä Metmaacher|sei|et}} jeschrevve:
+
+$5
+
+De Aanmerkung es:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: De Änderunge donoh',
-	'codereview-email-body2' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät aan de Version $2 noch noch jet jedonn.
+	'codereview-email-body2' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät aan dä Version $2 jet jedonn.
 
-Dä kumplätte URL vun dä Oppaß-Version:
+Dä kumplätte URL vun dä Version:
 $5
+De Aanmerkung em Logbooch dohzo:
+
+$6
 
 Dä kumplätte URL vun dä neue Fassung:
 $3
-
-{{GENDER:$1|Däm singe|Däm sing|Däm Metmaacher sing|Dä ier|Em sing}} Aanmerkung för en et Logbooch dozo:
+Dä Endrach em Logbooch dohzo:
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]: En automattesche Prööfung hät ene Fähler (widder)jefonge.',
-	'codereview-email-body3' => 'Et automattesche Prööfe hät ene Fähler opjedeck,
-dä met dä Version $1 (widder) opjetrodde es.
+	'codereview-email-subj3' => '[$1 $2]: Dä Stattus von dä Version woodt jeändert',
+	'codereview-email-body3' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät von de Version $2 der Stattus verändert.
 
-Der kumplätte URL es: $2
+Dä wohr: $3
+un es jäz: $4
 
-Beim Afshpeishere wood aanjejovve:
+Dä kumplätte URL es: $5
+De Aanmerkung em Logbooch dozo:
 
-$3',
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Neu Aanmerkung dobei jedonn, un der Stattus verändert',
+	'codereview-email-body4' => '{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät von de Version $2 der Stattus verändert.
+
+Dä wohr: $3
+un es jäz: $4
+
+{{GENDER:$1|Dä|Et|Dä Metmaacher|De|Dat}} "$1" hät och en Aanmerkung dobei jedonn.
+
+Dä kumplätte URL:
+$5
+
+De Aanmerkung em Logbooch:
+
+$7
+
+De Aanerkung vör di Version:
+
+$6',
 	'code-stats' => 'Statistike',
 	'code-stats-header' => 'Statistike vum Repositorijum „$1“',
 	'code-stats-main' => 'Bes aam $6 öm $5 Uhr {{PLURAL:$4|hät [[Special:Code/$3/author|eine Schriever]]|han [[Special:Code/$3/author|$4 Schriever]]}} {{PLURAL:$2|ein Änderung|$2 Änderunge}} em Repositorijum jemaat.',
@@ -6542,7 +7314,7 @@ $3',
 	'repoadmin-edit-path' => 'Däm Repositorijum singe Pahdt:',
 	'repoadmin-edit-bug' => '<i lang="en">Bugzilla</i> Pahdt:',
 	'repoadmin-edit-view' => '<i lang="en">ViewVC</i> Pahdt:',
-	'repoadmin-edit-button' => 'Loß Jonn!',
+	'repoadmin-edit-button' => 'Lohß Jonn!',
 	'repoadmin-edit-sucess' => 'Dat Repositorijum „[[Special:Code/$1|$1]]“ woht verändert.',
 	'repoadmin-nav' => 'Repositorijums-Verwalldung',
 	'right-repoadmin' => 'Repositorije verwallde',
@@ -6551,8 +7323,27 @@ $3',
 	'right-codereview-remove-tag' => 'Makeerunge vun Projramm-Versione fott nämme',
 	'right-codereview-post-comment' => 'Eije Kommentaare för Projramm-Versione veröffentlesche',
 	'right-codereview-set-status' => 'Dä Stattus vun ene Version ändere',
+	'right-codereview-signoff' => 'Änderonge jodheiße',
 	'right-codereview-link-user' => 'Schriiver op Metmaacher em Wiki verlinke',
+	'right-codereview-associate' => 'Verbendunge zwesche Projrammversione verwallde',
+	'right-codereview-review-own' => 'Donn Ding eije Änderong als en Oodenong aansin.',
 	'specialpages-group-developer' => 'Werkzüch fö Entwecklere',
+	'group-svnadmins' => 'Verwallder vum SVN',
+	'group-svnadmins-member' => 'Verwallder vum SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Verwallder vum SVN',
+);
+
+/** Kurdish (Latin) (Kurdî (Latin))
+ * @author George Animal
+ */
+$messages['ku-latn'] = array(
+	'code-status-new' => 'nû',
+	'code-status-ok' => 'temam',
+	'code-status-old' => 'kevn',
+	'code-signoff-field-user' => 'Bikarhêner',
+	'codereview-subtitle' => 'Ji bo $1',
+	'code-stats' => 'statîstîkan',
+	'repoadmin-edit-button' => 'Temam',
 );
 
 /** Luxembourgish (Lëtzebuergesch)
@@ -6576,6 +7367,7 @@ $messages['lb'] = array(
 	'code-notes' => 'rezent Bemierkungen',
 	'code-statuschanges' => 'Ännerunge vum Status',
 	'code-mycommits' => 'meng Publikatiounen',
+	'code-mycomments' => 'meng Bemierkungen',
 	'code-authors' => 'Auteuren',
 	'code-status' => 'Statussen',
 	'code-tags' => 'Tagen',
@@ -6593,6 +7385,7 @@ $messages['lb'] = array(
 	'code-author-badtoken' => 'Sessiouns-Feeler beim Versuch vun der Aktioun',
 	'code-author-total' => 'Total vun der Zuel vun Auteuren: $1',
 	'code-author-lastcommit' => 'Leschten Datum vum Iwwerdroen',
+	'code-browsing-path' => "Versiounen op '''$1''' duerchbliederen",
 	'code-field-id' => 'Revisioun',
 	'code-field-author' => 'Auteur',
 	'code-field-user' => 'Commentateur',
@@ -6604,6 +7397,7 @@ $messages['lb'] = array(
 	'code-field-path' => 'Pad',
 	'code-field-text' => 'Notiz',
 	'code-field-select' => 'Auswielen',
+	'code-reference-remove' => 'Déi erausgesichte Verbindunge läschen',
 	'code-reference-associate-submit' => 'Associéieren',
 	'code-rev-author' => 'Auteur:',
 	'code-rev-date' => 'Datum:',
@@ -6642,6 +7436,8 @@ $messages['lb'] = array(
 	'code-status-old' => 'al',
 	'code-status-desc-old' => 'Al Versioun mat méigleche Feeler (Bugs), déi et awer net derwäert si fir nogekuckt ze ginn.',
 	'code-signoffs' => 'Zoustëmmungen',
+	'code-signoff-legend' => 'Fräiginn derbäisetzen',
+	'code-signoff-submit' => 'Fräiginn',
 	'code-signoff-flag-inspected' => 'Inspizéiert',
 	'code-signoff-flag-tested' => 'Getest',
 	'code-signoff-field-user' => 'Benotzer',
@@ -6662,13 +7458,15 @@ $messages['lb'] = array(
 	'code-release-legend' => 'Versiounsnotizen uleeën',
 	'code-release-startrev' => 'Ufanksversioun:',
 	'code-release-endrev' => 'Lescht Versioun:',
-	'code-release-badrange' => 'De Beräich ass ze grouss!',
 	'codereview-subtitle' => 'Fir $1',
 	'codereview-reply-link' => 'äntwerten',
 	'codereview-email-subj' => '[$1 $2]: Nei Bemierkung derbäigesat',
 	'codereview-email-body' => 'De Benotzer "$1" huet eng Bemierkung op $3 hannerlooss.
 
 Ganz URL: $2
+Resumé vun der Ännerung:
+
+$5
 
 Bemierkung:
 
@@ -6677,19 +7475,27 @@ $4',
 	'codereview-email-body2' => 'De Benotzer "$1" huet Ännerungen zu der Versioun $2 gemaach.
 
 Komplett URL vun der Ännerung: $5
+Resumé vun der Ännerung:
+
+$6
 
 Komplett URL: $3
 
-Resumé vun der Ännerung:
+Resumé vun der neier Versioun:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Statut vun der Versioun huet geännert',
 	'codereview-email-body3' => 'De Benotzer „$1“ huet de Statut vu(n) $2 geännert.
 
 Ale Statut: $3
-Neie Statut: $4',
+Neie Statut: $4
+
+Komplett URL: $5
+Resumé vun der Ännerung:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Nei  Bemierkung derbäigesat, an de Statut vun der Versioun geännert',
-	'codereview-email-body4' => 'De Benotzer "$1" huet de Statut vun $2 gännert.
+	'codereview-email-body4' => 'De Benotzer "$1" huet de Statut vun $2 geännert.
 
 Ale Statut: $3
 Neie Statut: $4
@@ -6697,6 +7503,9 @@ Neie Statut: $4
 De Benotzer "$1" huet och eng Bemierkung iwwer $2 derbäigesat.
 
 Komplett URL: $5
+Resumé vun der Ännerung:
+
+$7
 
 Bemierkung:
 
@@ -6718,6 +7527,9 @@ $6',
 	'right-codereview-signoff' => 'Ännerunge fräiginn',
 	'right-codereview-link-user' => 'Auteure mat Wiki-Benotzer verbannen (verlinken)',
 	'specialpages-group-developer' => 'Handwierksgeschir fir Entwéckler (Programméierer)',
+	'group-svnadmins' => 'SVN-Administrateuren',
+	'group-svnadmins-member' => 'SVN-Administrateur',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Administrateuren',
 );
 
 /** Lingua Franca Nova (Lingua Franca Nova)
@@ -6840,7 +7652,6 @@ $messages['li'] = array(
 	'code-release-legend' => 'Maak vriegegaeve ópmèrkinger',
 	'code-release-startrev' => 'Begintóch:',
 	'code-release-endrev' => 'Ènjtóch:',
-	'code-release-badrange' => 'De reeks is te groet.',
 	'codereview-subtitle' => 'Veur $1',
 	'codereview-reply-link' => 'antjwäörje',
 	'codereview-email-subj' => '[$1 $2]: Nuuj ópmèrking toegevoeg',
@@ -6892,6 +7703,13 @@ $4',
 $messages['lt'] = array(
 	'repoadmin-new-button' => 'Sukurti',
 	'repoadmin-edit-button' => 'Gerai',
+);
+
+/** Latgalian (Latgaļu)
+ * @author Dark Eagle
+ */
+$messages['ltg'] = array(
+	'code-signoff-field-user' => 'Lītuotuojs',
 );
 
 /** Latvian (Latviešu)
@@ -6952,11 +7770,15 @@ $messages['mk'] = array(
 	'code-prop-changes' => 'Дневник на статуси и ознаки',
 	'codereview-desc' => '[[Special:Code|Алатка за проверка на кодот]] со [[Special:RepoAdmin|поддршка за Subversion]]',
 	'code-no-repo' => 'Нема наместено складиште!',
+	'code-create-repo' => 'Одете на [[Special:RepoAdmin|RepoAdmin]] за да создадете Складиште',
+	'code-need-repoadmin-rights' => 'за да создадете Складиште ви требаат администраторски права',
+	'code-need-group-with-rights' => 'Не постои група со администраторски рпава. Направете таква група за да можете да додадете ново Складиште.',
 	'code-repo-not-found' => "Складиштето '''$1''' не постои!",
 	'code-load-diff' => 'Вчитувам разлики...',
 	'code-notes' => 'скорешни коментари',
 	'code-statuschanges' => 'измени на статусот',
 	'code-mycommits' => 'мои поднесувања',
+	'code-mycomments' => 'мои коментари',
 	'code-authors' => 'автори',
 	'code-status' => 'состојби',
 	'code-tags' => 'ознаки',
@@ -7058,13 +7880,15 @@ $messages['mk'] = array(
 	'code-release-legend' => 'Создај белешки за изданието',
 	'code-release-startrev' => 'Почетна ревиз:',
 	'code-release-endrev' => 'Последна ревиз:',
-	'code-release-badrange' => 'Опсегот е преголем',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'одговори',
 	'codereview-email-subj' => '[$1 $2]: Додаден е нов коментар',
 	'codereview-email-body' => 'Корисникот „$1“ објави коментар за $3.
 
 Полна URL-адреса: $2
+Опис на измените
+
+$5
 
 Коментар:
 
@@ -7073,17 +7897,23 @@ $4',
 	'codereview-email-body2' => 'Корисникот „$1“ направи подоцнежни промени на $2.
 
 Полна URL-адреса за подоцнежната ревизија: $5
+Опис на измените:
+
+$6
 
 Полна URL-адреса: $3
 
-Опис на измените:
-
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Статусот на ревизијата се промени',
-	'codereview-email-body3' => 'Корисникот „$1“ го смени статусот на $2.
+	'codereview-email-body3' => 'Корисникот „$1“ го измени статусот на $2.
 
 Стар статус: $3
-Нов статус: $4',
+Нов статус: $4
+
+Полна URL-адреса: $5
+Опис на измените:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Додаден нов коментар и изменет е статусот на ревизијата',
 	'codereview-email-body4' => 'Корисникот „$1“ го смени статусот на $2.
 
@@ -7093,6 +7923,9 @@ $4',
 Корисникот „$1“ исто така објави коментар на $2.
 
 Полна URL-адреса: $5
+Опис на измените:
+
+$7
 
 Коментар:
 
@@ -7122,7 +7955,12 @@ $6',
 	'right-codereview-set-status' => 'Менување статус на ревизии',
 	'right-codereview-signoff' => 'Заверка на ревизии',
 	'right-codereview-link-user' => 'Сврзување на автори со корисници',
+	'right-codereview-associate' => 'Додај/отстрани придружување на ревизии',
+	'right-codereview-review-own' => 'Означете ги своите ревизии како „ОК“',
 	'specialpages-group-developer' => 'Развојни алатки',
+	'group-svnadmins' => 'Администратори на SVN',
+	'group-svnadmins-member' => 'Администратор на SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Администратори на SVN',
 );
 
 /** Malayalam (മലയാളം)
@@ -7142,11 +7980,15 @@ $messages['ml'] = array(
 	'code-prop-changes' => 'സ്ഥിതിയുടേയും റ്റാഗിങ്ങിന്റേയും രേഖ',
 	'codereview-desc' => '[[Special:RepoAdmin|സബ്‌‌വേർഷൻ പിന്തുണയോടു]] കൂടിയ [[Special:Code|കോഡ് സംശോധന ഉപകരണം]]',
 	'code-no-repo' => 'റെപ്പോസിറ്ററികളൊന്നും ക്രമീകരിച്ചിട്ടില്ല!',
+	'code-create-repo' => 'റെപ്പോസിറ്ററി നിർമ്മിക്കാൻ [[Special:RepoAdmin|റെപ്പോകാര്യനിർവ്വാഹക]] താളിൽ ചെല്ലുക',
+	'code-need-repoadmin-rights' => 'റെപ്പോസിറ്ററി നിർമ്മിക്കാൻ റെപ്പോകാര്യനിർവ്വാഹക ശേഷികൾ ആവശ്യമാണ്',
+	'code-need-group-with-rights' => 'റെപ്പോകാര്യനിർവ്വാഹക ശേഷിയുള്ള ഒരു സംഘവും നിലവിലില്ല. പുതിയ റെപ്പോസിറ്ററി നിർമ്മിക്കാൻ കഴിവുള്ള ഒരു സംഘത്തെ സൃഷ്ടിക്കുക',
 	'code-repo-not-found' => "'''$1''' എന്ന റെപ്പോസിറ്ററി നിലവിലില്ല!",
 	'code-load-diff' => 'വ്യത്യാസം ശേഖരിക്കുന്നു...',
 	'code-notes' => 'സമീപകാല അഭിപ്രായങ്ങൾ',
 	'code-statuschanges' => 'സ്ഥിതിയിലെ മാറ്റങ്ങൾ',
 	'code-mycommits' => 'ഞാൻ ചുമതലപ്പെടുത്തിയവ',
+	'code-mycomments' => 'എന്റെ കുറിപ്പുകൾ',
 	'code-authors' => 'രചയിതാക്കൾ',
 	'code-status' => 'അവസ്ഥകൾ',
 	'code-tags' => 'റ്റാഗുകൾ',
@@ -7210,6 +8052,8 @@ $messages['ml'] = array(
 	'code-status-desc-new' => 'നാൾപ്പതിപ്പിന് ഒരു പ്രവൃത്തി അവശേഷിക്കുന്നു (സ്വതേയുള്ള സ്ഥിതി).',
 	'code-status-fixme' => 'ഈ പ്രശ്നം പരിഹരിക്കുക',
 	'code-status-desc-fixme' => 'ഈ നാൾപ്പതിപ്പ് ബഗ് ആണെന്നോ തകർന്നതാണെന്നോ ഒരു സംശോധകൻ അടയാളപ്പെടുത്തിയിരിക്കുന്നു. ഇത് ശരിയാക്കേണ്ടതാണ്.',
+	'code-status-improveme' => 'ഇതുമെച്ചപ്പെടുത്തുക',
+	'code-status-desc-improveme' => 'ഈ നാൾപ്പതിപ്പിൽ ചില നിസ്സാരപ്രശ്നങ്ങൾ ഉള്ളതായി ഒരു സംശോധകൻ അടയാളപ്പെടുത്തിയിരിക്കുന്നു. ഇത് ശരിയാക്കേണ്ടതാണ്.',
 	'code-status-reverted' => 'മുൻപ്രാപനം ചെയ്തിരിക്കുന്നു',
 	'code-status-desc-reverted' => 'പിന്നീട് വന്ന നാൾപ്പതിപ്പിനാൽ ഈ നാൾപ്പതിപ്പ് മാറ്റപ്പെട്ടിരിക്കുന്നു.',
 	'code-status-resolved' => 'പരിഹരിച്ചിരിക്കുന്നു',
@@ -7247,34 +8091,43 @@ $messages['ml'] = array(
 	'code-release-legend' => 'പുറത്തിറക്കൽ കുറിപ്പുകൾ സൃഷ്ടിക്കുക',
 	'code-release-startrev' => 'ആദ്യ നാൾപ്പതിപ്പ്:',
 	'code-release-endrev' => 'അവസാന നാൾപ്പതിപ്പ്:',
-	'code-release-badrange' => 'വളരെ വലിയ പരിധി!',
 	'codereview-subtitle' => 'റെപ്പോസിറ്ററി $1',
 	'codereview-reply-link' => 'മറുപടി',
 	'codereview-email-subj' => '[$1 $2]: പുതിയ അഭിപ്രായം ചേർത്തിരിക്കുന്നു',
-	'codereview-email-body' => '$3-യിൽ "$1" ഒരു അഭിപ്രായം ചേർത്തിരിക്കുന്നു.
+	'codereview-email-body' => '$3 താളിൽ "$1" എന്ന ഉപയോക്താവ് ഒരു അഭിപ്രായം ചേർത്തിരിക്കുന്നു.
 
 പൂർണ്ണ യൂ.ആർ.എൽ.: $2
+ഉൾപ്പെടുത്തലിന്റെ സംഗ്രഹം:
+
+$5
 
 അഭിപ്രായം:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: പിന്തുടർച്ചാ മാറ്റങ്ങൾ',
-	'codereview-email-body2' => 'ഉപയോക്താവ് "$1" $2 എന്നതിനു പിന്തുടർച്ചാ മാറ്റങ്ങൾ നടത്തിയിരിക്കുന്നു.
+	'codereview-email-body2' => '"$1" എന്ന ഉപയോക്താവ് $2 എന്നതിനു പിന്തുടർച്ചാ മാറ്റങ്ങൾ നടത്തിയിരിക്കുന്നു.
 
-പിന്തുടർച്ചാ നാൾപ്പതിപ്പിന്റെ പൂർണ്ണ യൂ.ആർ.എൽ.: $5
+പിന്തുടർച്ചാനാൾപ്പതിപ്പിന്റെ പൂർണ്ണ യൂ.ആർ.എൽ.: $5
+ഉൾപ്പെടുത്തലിന്റെ സംഗ്രഹം:
+
+$6
 
 പൂർണ്ണ യു.ആർ.എൽ.: $3
-
-ചുരുക്കം അംഗീകരിക്കുക:
+ഉൾപ്പെടുത്തലിന്റെ സംഗ്രഹം:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: നാൾപ്പതിപ്പിന്റെ സ്ഥിതി മാറ്റിയിരിക്കുന്നു',
-	'codereview-email-body3' => '$2 എന്നതിന്റെ സ്ഥിതി ഉപയോക്താവ് "$1" മാറ്റിയിരിക്കുന്നു.
+	'codereview-email-body3' => '$2 എന്നതിന്റെ സ്ഥിതി "$1" എന്ന ഉപയോക്താവ് മാറ്റിയിരിക്കുന്നു.
 
 പഴയ സ്ഥിതി: $3
-പുതിയ സ്ഥിതി: $4',
+പുതിയ സ്ഥിതി: $4
+
+പൂർണ്ണ യു.ആർ.എൽ.: $5
+ഉൾപ്പെടുത്തലിന്റെ സംഗ്രഹം:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: പുതിയ കുറിപ്പ് ചേർത്തിരിക്കുന്നു, നാൾപ്പതിപ്പിന്റെ സ്ഥിതി മാറ്റിയിരിക്കുന്നു',
-	'codereview-email-body4' => '$2 എന്നതിന്റെ സ്ഥിതി ഉപയോക്താവ് "$1" മാറ്റിയിരിക്കുന്നു.
+	'codereview-email-body4' => '$2 എന്നതിന്റെ സ്ഥിതി "$1" എന്ന ഉപയോക്താവ് മാറ്റിയിരിക്കുന്നു.
 
 പഴയ സ്ഥിതി: $3
 പുതിയ സ്ഥിതി: $4
@@ -7282,6 +8135,9 @@ $4',
 $2 എന്നതിന് ഉപയോക്താവ് "$1" ഒരു കുറിപ്പും ഇട്ടിട്ടുണ്ട്.
 
 പൂർണ്ണ യൂ.ആർ.എൽ.: $5
+ഉൾപ്പെടുത്തലിന്റെ സംഗ്രഹം:
+
+$7
 
 അഭിപ്രായം: 
 
@@ -7311,7 +8167,11 @@ $6',
 	'right-codereview-set-status' => 'നാൾപ്പതിപ്പുകളുടെ സ്ഥിതിയിൽ മാറ്റം വരുത്തുക',
 	'right-codereview-signoff' => 'നാൾപ്പതിപ്പുകൾ അവസാനിപ്പിച്ചിറങ്ങുക',
 	'right-codereview-link-user' => 'രചയിതാക്കളെ വിക്കി ഉപയോക്താക്കളുമായി കണ്ണി ചേർക്കുക',
+	'right-codereview-associate' => 'നാൾപ്പതിപ്പ് ബന്ധങ്ങളുടെ കൈകാര്യം',
 	'specialpages-group-developer' => 'വികസന ഉപകരണങ്ങൾ',
+	'group-svnadmins' => 'എസ്.വി.എൻ. കാര്യനിർവ്വഹകർ',
+	'group-svnadmins-member' => 'എസ്.വി.എൻ. കാര്യനിർവ്വാഹക(ൻ)',
+	'grouppage-svnadmins' => '{{ns:project}}:എസ്.വി.എൻ. കാര്യനിർവാഹകർ',
 );
 
 /** Mongolian (Монгол)
@@ -7327,6 +8187,7 @@ $messages['mn'] = array(
 );
 
 /** Malay (Bahasa Melayu)
+ * @author Anakmalaysia
  * @author Aviator
  * @author Izzudin
  */
@@ -7401,7 +8262,7 @@ $messages['ms'] = array(
 	'code-batch-status' => 'Tukar status:',
 	'code-batch-tags' => 'Tukar label:',
 	'codereview-batch-title' => 'Tukar semua semakan yang dipilih',
-	'codereview-batch-submit' => 'Serah',
+	'codereview-batch-submit' => 'Serahkan',
 	'code-releasenotes' => 'catatan lepasan',
 	'code-release-legend' => 'Jana catatan lepasan',
 	'code-release-startrev' => 'Semakan pertama:',
@@ -7464,9 +8325,11 @@ $messages['myv'] = array(
 
 /** Nahuatl (Nāhuatl)
  * @author Fluence
+ * @author Teòtlalili
  */
 $messages['nah'] = array(
-	'code-author-link' => '¿tiquitzonhuiliztīz?',
+	'code-author-link' => '¿motzòwìs?',
+	'code-author-unlink' => '¿motzòwilkỏtònas?',
 	'code-status-ok' => 'quēmah',
 );
 
@@ -7601,7 +8464,24 @@ $messages['nds-nl'] = array(
 	'code-rev-rev-viewvc' => 'in ViewVC',
 );
 
+/** Nepali (नेपाली)
+ * @author Bhawani Gautam Rhk
+ */
+$messages['ne'] = array(
+	'code-authors' => 'लेखकहरु',
+	'code-author-link' => 'लिङ्क गर्ने?',
+	'code-author-unlink' => 'लिङ्क तोड़ने',
+	'code-field-status' => 'स्थिति',
+	'code-field-path' => 'पथ',
+	'code-field-text' => 'सूचना',
+	'code-field-select' => 'चुन्ने',
+	'code-status-new' => 'नयाँ',
+	'code-status-ok' => 'हुन्छ',
+	'code-signoff-field-user' => 'प्रयोगकर्ता',
+);
+
 /** Dutch (Nederlands)
+ * @author Mihxil
  * @author SPQRobin
  * @author Siebrand
  */
@@ -7619,11 +8499,15 @@ $messages['nl'] = array(
 	'code-prop-changes' => 'Logboek status en labels',
 	'codereview-desc' => '[[Special:Code|Hulpprogramma voor codecontrole]] met [[Special:RepoAdmin|ondersteuning voor Subversion]]',
 	'code-no-repo' => 'Er is geen repository ingesteld!',
+	'code-create-repo' => 'Ga naar [[Special:RepoAdmin|RepoAdmin]] om een repository aan te maken.',
+	'code-need-repoadmin-rights' => 'U hebt het recht "repoadmin" nodig om een repository aan te kunnen maken.',
+	'code-need-group-with-rights' => 'Er bestaat geen groep met het recht "repoadmin". Voeg er een toe om een nieuwe repository aan te kunnen maken.',
 	'code-repo-not-found' => "De repository '''$1''' bestaat niet!",
 	'code-load-diff' => 'Bezig met het laden van de veranderingen…',
 	'code-notes' => 'recente opmerkingen',
 	'code-statuschanges' => 'statuswijzigingen',
 	'code-mycommits' => 'mijn commits',
+	'code-mycomments' => 'mijn opmerkingen',
 	'code-authors' => 'auteurs',
 	'code-status' => 'statussen',
 	'code-tags' => 'labels',
@@ -7672,7 +8556,7 @@ De gegevens kunnen uit een cache komen.',
 	'code-rev-modified-m' => 'gewijzigd',
 	'code-rev-imagediff' => 'Wijzigingen in afbeelding',
 	'code-rev-status' => 'Status:',
-	'code-rev-status-set' => 'Wijzigingsstatus',
+	'code-rev-status-set' => 'Status wijzigen',
 	'code-rev-tags' => 'Labels:',
 	'code-rev-tag-add' => 'Labels toevoegen:',
 	'code-rev-tag-remove' => 'Labels verwijderen:',
@@ -7707,7 +8591,7 @@ De gegevens kunnen uit een cache komen.',
 	'code-signoff-flag-inspected' => 'Onderzocht',
 	'code-signoff-flag-tested' => 'Getest',
 	'code-signoff-field-user' => 'Gebruiker',
-	'code-signoff-field-flag' => 'Vlag',
+	'code-signoff-field-flag' => 'Markering',
 	'code-signoff-field-date' => 'Datum',
 	'code-signoff-struckdate' => '$1 (heeft $2 doorgehaald)',
 	'code-pathsearch-legend' => 'Op pad versies in deze repository zoeken',
@@ -7726,13 +8610,15 @@ De gegevens kunnen uit een cache komen.',
 	'code-release-legend' => 'Release notes aanmaken',
 	'code-release-startrev' => 'Beginversie:',
 	'code-release-endrev' => 'Eindversie:',
-	'code-release-badrange' => 'De reeks is te groot.',
 	'codereview-subtitle' => 'Voor $1',
 	'codereview-reply-link' => 'antwoorden',
 	'codereview-email-subj' => '[$1 $2]: Nieuwe opmerking toegevoegd',
 	'codereview-email-body' => 'Gebruiker "$1" heeft een opmerking toegevoegd aan $3:
 
 Volledige URL: $2
+Commitsamenvatting:
+
+$5
 
 Opmerking:
 
@@ -7741,17 +8627,25 @@ $4',
 	'codereview-email-body2' => 'Gebruiker "$1" heeft wijzigingen met correcties voor $2 gemaakt.
 
 Volledige URL naar de gecorrigeerde versie: $5
+Commitsamenvatting:
+
+$6
 
 Volledige URL: $3
 
-Toelichting bij commit:
+Commitsamenvatting:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Versiestatus gewijzigd',
 	'codereview-email-body3' => 'Gebruiker "$1" heeft de status van versie $2 gewijzigd.
 
 Oude status: $3
-Nieuwe status: $4',
+Nieuwe status: $4
+
+Volledige URL: $5
+Commitsamenvatting:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Nieuwe opmerking toegevoegd en versiestatus gewijzigd',
 	'codereview-email-body4' => 'Gebruiker "$1" heeft de status van $2 gewijzigd.
 
@@ -7761,6 +8655,9 @@ Nieuwe status: $4
 Gebruiker "$1" heeft ook een opmerking toegevoegd aan $2.
 
 Volledige URL: $5
+Commitsamenvatting:
+
+$7
 
 Opmerking:
 
@@ -7790,7 +8687,12 @@ $6',
 	'right-codereview-set-status' => 'Versiestatus wijzigen',
 	'right-codereview-signoff' => 'Versies goedkeuren',
 	'right-codereview-link-user' => 'Auteurs aan wikigebruikers koppelen',
+	'right-codereview-associate' => 'Koppeling toevoegen/verwijderen',
+	'right-codereview-review-own' => 'Eigen revisies als OK markeren',
 	'specialpages-group-developer' => 'Hulpmiddelen voor ontwikkelaars',
+	'group-svnadmins' => 'SVN-beheerders',
+	'group-svnadmins-member' => 'SVN-beheerder',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-beheerders',
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
@@ -7945,6 +8847,7 @@ $messages['no'] = array(
 	'code-notes' => 'Siste kommentarer',
 	'code-statuschanges' => 'statusendringer',
 	'code-mycommits' => 'mine innsendinger',
+	'code-mycomments' => 'mine kommentarer',
 	'code-authors' => 'forfattere',
 	'code-status' => 'tilstander',
 	'code-tags' => 'tagger',
@@ -7971,7 +8874,7 @@ $messages['no'] = array(
 	'code-field-status' => 'Status',
 	'code-field-status-description' => 'Statusbeskrivelse',
 	'code-field-timestamp' => 'Dato',
-	'code-field-comments' => 'Notater',
+	'code-field-comments' => 'Kommentarer',
 	'code-field-path' => 'Sti',
 	'code-field-text' => 'Notat',
 	'code-field-select' => 'Velg',
@@ -8018,11 +8921,14 @@ $messages['no'] = array(
 	'code-signoffs' => 'Underskrifter',
 	'code-signoff-legend' => 'Legg til underskrift',
 	'code-signoff-submit' => 'Skriv under',
+	'code-signoff-strike' => 'Stryk valgte signeringer',
+	'code-signoff-signoff' => 'Signer på denne revisjonen som:',
 	'code-signoff-flag-inspected' => 'Inspisert',
 	'code-signoff-flag-tested' => 'Testet',
 	'code-signoff-field-user' => 'Bruker',
 	'code-signoff-field-flag' => 'Flagg',
 	'code-signoff-field-date' => 'Dato',
+	'code-signoff-struckdate' => '$1 (strøket $2)',
 	'code-pathsearch-legend' => 'Søk revisjoner i denne repo etter sti',
 	'code-pathsearch-path' => 'Sti:',
 	'code-pathsearch-filter' => 'Benyttet filter:',
@@ -8039,7 +8945,6 @@ $messages['no'] = array(
 	'code-release-legend' => 'Lag versjonsnotater',
 	'code-release-startrev' => 'Start revisjon:',
 	'code-release-endrev' => 'Siste revisjon:',
-	'code-release-badrange' => 'Intervallet er for stort!',
 	'codereview-subtitle' => 'For $1',
 	'codereview-reply-link' => 'svar',
 	'codereview-email-subj' => '[$1 $2]: Ny kommentar lagt inn',
@@ -8104,6 +9009,9 @@ $6',
 	'right-codereview-signoff' => 'Skriv under på revisjoner',
 	'right-codereview-link-user' => 'Lenke forfattere til wikibrukere',
 	'specialpages-group-developer' => 'Utviklerverktøy',
+	'group-svnadmins' => 'SVN administratorer',
+	'group-svnadmins-member' => 'SVN administrator',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratorer',
 );
 
 /** Occitan (Occitan)
@@ -8194,7 +9102,6 @@ $messages['oc'] = array(
 	'code-release-legend' => 'Generir las nòtas de version',
 	'code-release-startrev' => 'Revision de començament :',
 	'code-release-endrev' => 'Revision de fin :',
-	'code-release-badrange' => 'La portada es tròp granda !',
 	'codereview-subtitle' => 'Per $1',
 	'codereview-reply-link' => 'respondre',
 	'codereview-email-subj' => '[$1 $2] : Comentari novèl apondut',
@@ -8262,21 +9169,34 @@ $messages['pdc'] = array(
 	'code-references' => 'Neegschte Versione',
 	'code-change-removed' => 'gelöscht:',
 	'code-change-added' => 'dezu geduh:',
+	'code-authors' => 'Schreiwer',
 	'code-field-author' => 'Schreiwer',
+	'code-field-comments' => 'Aamaerickinge',
 	'code-rev-author' => 'Schreiwer',
 	'code-rev-message' => 'Aamaericking:',
+	'code-rev-modified-a' => 'dezu geduh',
 	'code-rev-modified-d' => 'gelöscht',
 	'code-rev-modified-m' => 'gennert',
+	'code-rev-comment-by' => 'Aamaericking vun $1',
 	'code-rev-comment-preview' => 'Aagucke',
 	'code-rev-inline-preview' => 'Aagucke:',
 	'code-status-new' => 'nei',
 	'code-status-ok' => 'OK',
+	'code-status-old' => 'ald',
+	'code-signoff-field-user' => 'Yuuser',
+	'code-revfilter-cr_author' => 'Schreiwer = $1',
 	'codereview-subtitle' => 'Fer $1',
 	'repoadmin-new-button' => 'Schtaerte',
+	'repoadmin-edit-path' => 'Paad zum Repository:',
+	'repoadmin-edit-bug' => 'Paad zu Bugzilla:',
+	'repoadmin-edit-view' => 'Paad zu ViewVC:',
 	'repoadmin-edit-button' => 'OK',
+	'group-svnadmins' => 'SVN-Verwalter',
+	'group-svnadmins-member' => 'SVN-Verwalter',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN-Verwalter',
 );
 
-/** Pfälzisch (Pfälzisch)
+/** Pälzisch (Pälzisch)
  * @author Xqt
  */
 $messages['pfl'] = array(
@@ -8287,6 +9207,7 @@ $messages['pfl'] = array(
  * @author Derbeth
  * @author Equadus
  * @author Leinad
+ * @author Marcin Łukasz Kiejzik
  * @author Sp5uhe
  */
 $messages['pl'] = array(
@@ -8303,11 +9224,15 @@ $messages['pl'] = array(
 	'code-prop-changes' => 'Rejestr zmian statusu i znaczników',
 	'codereview-desc' => '[[Special:Code|Narzędzie do przeglądania]] oraz [[Special:RepoAdmin|zarządzania wersjami]] kodu źródłowego',
 	'code-no-repo' => 'Brak skonfigurowanego repozytorium!',
+	'code-create-repo' => 'Idź do [[Special:RepoAdmin|RepoAdmin]], aby utworzyć repozytorium',
+	'code-need-repoadmin-rights' => 'do utworzenia repozytorium konieczne są uprawnienia repoadmin',
+	'code-need-group-with-rights' => 'Brak grupy z uprawnieniami repoadmin. Dodaj jakąś, aby mieć możliwość utworzenia repozytorium.',
 	'code-repo-not-found' => "Repozytorium '''$1''' nie istnieje!",
 	'code-load-diff' => 'Ładowanie różnic…',
 	'code-notes' => 'ostatnie komentarze',
 	'code-statuschanges' => 'zmiany statusu',
 	'code-mycommits' => 'moje aktualizacje',
+	'code-mycomments' => 'moje komentarze',
 	'code-authors' => 'autorzy',
 	'code-status' => 'statusy',
 	'code-tags' => 'znaczniki',
@@ -8408,13 +9333,16 @@ $messages['pl'] = array(
 	'code-release-legend' => 'Wygeneruj opis wersji',
 	'code-release-startrev' => 'Wersja początkowa',
 	'code-release-endrev' => 'Ostatnia wersja',
-	'code-release-badrange' => 'Zakres jest zbyt szeroki!',
 	'codereview-subtitle' => 'Dla $1',
 	'codereview-reply-link' => 'odpowiedz',
 	'codereview-email-subj' => '[$1 $2] - dodano nowy komentarz',
 	'codereview-email-body' => 'Użytkownik „$1” dodał komentarz w $3.
 
-Pełny URL – $2
+Pełny adres URL – $2
+
+Opis dokonanej zmiany:
+
+$5
 
 Komentarz:
 
@@ -8423,17 +9351,24 @@ $4',
 	'codereview-email-body2' => 'Użytkownik „$1” wykonał kolejne zmiany w $2.
 
 Pełny adres URL do poprzedniej wersji – $5
+Opis dokonanej zmiany:
+
+$6
 
 Pełny adres URL do tej wersji – $3
-
-Skrócony opis:
+Opis dokonanej zmiany:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2] - zmiana statusu wersji',
 	'codereview-email-body3' => 'Użytkownik „$1” zmienił status $2.
 
-Stary status – $3
-Nowy status – $4',
+Poprzedni status – $3
+Nowy status – $4
+
+Pełny adres URL – $5
+Opis dokonanej zmiany:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2] - dodano nowy komentarz i zmieniono status wersji',
 	'codereview-email-body4' => 'Użytkownik „$1” zmienił status $2.
 
@@ -8442,7 +9377,10 @@ Nowy status – $4
 
 Użytkownik „$1” dodał również komentarz w $2.
 
-Pełny URL – $5
+Pełny adres URL – $5
+Opis dokonanej zmiany:
+
+$7
 
 Komentarz:
 
@@ -8472,7 +9410,12 @@ $6',
 	'right-codereview-set-status' => 'Zmiana statusu wersji',
 	'right-codereview-signoff' => 'Autorytarnie zaakceptuj wersje',
 	'right-codereview-link-user' => 'Linkowanie autorów do ich kont na wiki',
+	'right-codereview-associate' => 'Zarządzanie powiązaniem wersji',
+	'right-codereview-review-own' => 'Oznaczaj moje własne zmiany jako „OK”',
 	'specialpages-group-developer' => 'Narzędzia dewelopera',
+	'group-svnadmins' => 'Administratorzy SVN',
+	'group-svnadmins-member' => 'Administrator SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administratorzy SVN',
 );
 
 /** Piedmontese (Piemontèis)
@@ -8493,15 +9436,19 @@ $messages['pms'] = array(
 	'code-prop-changes' => 'Registr djë stat e dle tichëtte',
 	'codereview-desc' => '[[Special:Code|Utiss ëd revision dël còdes]] con [[Special:RepoAdmin|manten ëd sot-version]]',
 	'code-no-repo' => 'Gnun depòsit configurà!',
+	'code-create-repo' => 'Va a [[Special:RepoAdmin|RepoAdmin]] për creé un Depòsit',
+	'code-need-repoadmin-rights' => 'a-i é dabzògn dij drit ëd repoadmin për podèj creé un Depòsit',
+	'code-need-group-with-rights' => 'A esisto pa gnun-e partìe con ij drit ëd repoadmin. Për piasì giont-ne un për podèj gionté un Depòsit neuv',
 	'code-repo-not-found' => "L'archivi '''$1''' a esist pa!",
 	'code-load-diff' => 'Cariament dif...',
 	'code-notes' => 'coment recent',
 	'code-statuschanges' => 'cangiament dë statù',
 	'code-mycommits' => 'mie publicassion',
+	'code-mycomments' => 'ij mè coment',
 	'code-authors' => 'autor',
 	'code-status' => 'stat',
 	'code-tags' => 'tichëtte',
-	'code-tags-no-tags' => 'Pa gnun-e tichëtte a esisto an sto depòsit.',
+	'code-tags-no-tags' => 'A esist gnun-a tichëtta ant ës depòsit.',
 	'code-authors-text' => "Sota a-i é na lista dj'autor dël depòsit ant l'órdin dël nòm ëd salvatagi. Ij cont dla wiki local a son mostrà antra parèntes. Ij dat a podrìo ven-e da na memòria local.",
 	'code-author-haslink' => "St'autor-sì a l'é colegà a l'utent wiki $1",
 	'code-author-orphan' => "St'autor-sì a l'ha pa gnun colegament con un cont wiki",
@@ -8528,8 +9475,8 @@ $messages['pms'] = array(
 	'code-field-path' => 'Përcors',
 	'code-field-text' => 'Nòta',
 	'code-field-select' => 'Selession-a',
-	'code-reference-remove' => 'Gava associassion selessionà',
-	'code-reference-associate' => 'Assòcia revision tacà:',
+	'code-reference-remove' => "Gavé j'associassion selessionà",
+	'code-reference-associate' => 'Assossié la revision tacà:',
 	'code-reference-associate-submit' => 'Assòcia',
 	'code-rev-author' => 'Autor:',
 	'code-rev-date' => 'Data:',
@@ -8572,9 +9519,9 @@ $messages['pms'] = array(
 	'code-status-old' => 'vej',
 	'code-status-desc-old' => "Na veja revision con d'eror potensiaj ma che a val pa lë sfòrs ëd revisionela.",
 	'code-signoffs' => 'Conclud',
-	'code-signoff-legend' => 'Gionta conclusion',
+	'code-signoff-legend' => "Gionté n'aprovassion",
 	'code-signoff-submit' => 'Conclud',
-	'code-signoff-strike' => 'Treuva firme selessionà',
+	'code-signoff-strike' => "Sganfé j'aprovassion selessionà",
 	'code-signoff-signoff' => 'Firma sta revision com:',
 	'code-signoff-flag-inspected' => 'Ispessionà',
 	'code-signoff-flag-tested' => 'Provà',
@@ -8598,7 +9545,6 @@ $messages['pms'] = array(
 	'code-release-legend' => 'Generé le nòte ëd publicassion',
 	'code-release-startrev' => 'Revision inissial:',
 	'code-release-endrev' => 'Ùltima revision',
-	'code-release-badrange' => "L'antërval a l'é tròp gròss!",
 	'codereview-subtitle' => 'Për $1',
 	'codereview-reply-link' => 'arspond',
 	'codereview-email-subj' => '[$1 $2]: Pa gnun coment giontà',
@@ -8619,11 +9565,13 @@ Adrëssa dl\'aragnà completa: $3
 Resumé dël coment:
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]: Cangià stat ëd revision',
+	'codereview-email-subj3' => "[$1 $2]: Lë stat ëd revision a l'é cangià",
 	'codereview-email-body3' => 'L\'utent "$1" a l\'ha cangià lë stat ëd $2.
 
 Stat Vej: $3
-Stat Neuv: $4',
+Stat Neuv: $4
+
+Anliura completa: $5',
 	'codereview-email-subj4' => '[$1 $2]: Giontà coment neuv, e cangià stat ëd la revision',
 	'codereview-email-body4' => 'L\'utent "$1" a l\'ha cangià lë stat ëd $2.
 
@@ -8662,7 +9610,11 @@ $6',
 	'right-codereview-set-status' => 'Cangia stat ëd revision',
 	'right-codereview-signoff' => 'Conclud le revision',
 	'right-codereview-link-user' => 'Colega autor a utent wiki',
+	'right-codereview-associate' => 'Gestiss assossiassion ëd revision',
 	'specialpages-group-developer' => 'Utiss dël dësvlupador',
+	'group-svnadmins' => 'Aministrator SVN',
+	'group-svnadmins-member' => 'Aministrator SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Aministrator SVN',
 );
 
 /** Pontic (Ποντιακά)
@@ -8734,11 +9686,15 @@ $messages['pt'] = array(
 	'code-prop-changes' => 'Registo de estado e etiquetagem',
 	'codereview-desc' => '[[Special:Code|Ferramenta de revisão de código]] com [[Special:RepoAdmin|suporte Subversion]]',
 	'code-no-repo' => 'Não há nenhum repositório configurado!',
+	'code-create-repo' => 'Visite o [[Special:RepoAdmin|suporte Subversion]] para criar um Repositório',
+	'code-need-repoadmin-rights' => 'o privilégio repoadmin é necessário para ser capaz de criar um Repositório',
+	'code-need-group-with-rights' => 'Não existe nenhum grupo com o privilégio repoadmin. Crie um para poder adicionar um novo Armazém, por favor.',
 	'code-repo-not-found' => "O repositório '''$1''' não existe!",
 	'code-load-diff' => 'A carregar diferenças…',
 	'code-notes' => 'comentários recentes',
 	'code-statuschanges' => 'alterações de estado',
 	'code-mycommits' => 'as minhas efectivações',
+	'code-mycomments' => 'os meus comentarios',
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
@@ -8839,24 +9795,28 @@ $messages['pt'] = array(
 	'code-release-legend' => 'Gerar notas de lançamento',
 	'code-release-startrev' => 'Primeira rev:',
 	'code-release-endrev' => 'Última rev:',
-	'code-release-badrange' => 'Intervalo é demasiado elevado!',
 	'codereview-subtitle' => 'Para $1',
 	'codereview-reply-link' => 'responder',
 	'codereview-email-subj' => '[$1 $2]: Comentário adicionado',
 	'codereview-email-body' => 'O utilizador "$1" colocou um comentário em $3.
 
 URL completa: $2
+Resumo da efectivação:
+
+$5
 
 Comentário:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: Mudanças de seguimento',
-	'codereview-email-body2' => 'O utilizador "$1" fez alterações de seguimento à $2.
+	'codereview-email-body2' => 'O utilizador "$1" fez alterações de seguimento à revisão $2.
 
 URL completa para a revisão de seguimento: $5
+Resumo da efectivação:
+
+$6
 
 URL completa: $3
-
 Resumo da efectivação:
 
 $4',
@@ -8864,7 +9824,12 @@ $4',
 	'codereview-email-body3' => 'O utilizador "$1" alterou o estado da revisão $2.
 
 Estado Antigo: $3
-Estado Novo: $4',
+Estado Novo: $4
+
+URL Completa: $5
+Resumo da efectivação:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Comentário adicionado e estado da revisão alterado',
 	'codereview-email-body4' => 'O utilizador "$1" alterou o estado da revisão $2.
 
@@ -8874,6 +9839,9 @@ Estado Novo: $4
 O utilizador "$1" também colocou um comentário em $2.
 
 URL completa: $5
+Resumo da efectivação:
+
+$7
 
 Comentário:
 
@@ -8903,7 +9871,12 @@ $6',
 	'right-codereview-set-status' => 'Alterar estado de revisões',
 	'right-codereview-signoff' => 'Aprovação de revisões',
 	'right-codereview-link-user' => 'Associar autores a utilizadores wiki',
+	'right-codereview-associate' => 'Administrar a associação de revisões',
+	'right-codereview-review-own' => 'Marcar as suas próprias revisões como OK',
 	'specialpages-group-developer' => 'Ferramentas de desenvolvimento',
+	'group-svnadmins' => 'Administradores do SVN',
+	'group-svnadmins-member' => 'Administrador do SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradores do SVN',
 );
 
 /** Brazilian Portuguese (Português do Brasil)
@@ -8931,6 +9904,7 @@ $messages['pt-br'] = array(
 	'code-notes' => 'comentários recentes',
 	'code-statuschanges' => 'mudanças de estado',
 	'code-mycommits' => 'minhas efetivações',
+	'code-mycomments' => 'meus comentários',
 	'code-authors' => 'autores',
 	'code-status' => 'estados',
 	'code-tags' => 'etiquetas',
@@ -9031,7 +10005,6 @@ $messages['pt-br'] = array(
 	'code-release-legend' => 'Gerar notas de lançamento',
 	'code-release-startrev' => 'Primeira rev:',
 	'code-release-endrev' => 'Última rev:',
-	'code-release-badrange' => 'Intervalo demasiado grande!',
 	'codereview-subtitle' => 'Para $1',
 	'codereview-reply-link' => 'responder',
 	'codereview-email-subj' => '[$1 $2]: Novo comentário adicionado',
@@ -9053,10 +10026,12 @@ Resumo da efetivação:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Alterado o estada da revisão',
-	'codereview-email-body3' => 'O usuário "$1" alterou o estado de $2
+	'codereview-email-body3' => 'O usuário "$1" alterou o estado da revisão $2.
 
-Estado anterior: $3
-Estado atual: $4',
+Estado Antigo: $3
+Estado Novo: $4
+
+URL Completa: $5',
 	'codereview-email-subj4' => '[$1 $2]: Adicionado novo comentário e alterado o estado da revisão',
 	'codereview-email-body4' => 'O usuário "$1" alterou o estado de $2.
 
@@ -9095,7 +10070,11 @@ $6',
 	'right-codereview-set-status' => 'Alterar estado de revisões',
 	'right-codereview-signoff' => 'Aprovação de revisões',
 	'right-codereview-link-user' => 'Associar autores a utilizadores de wiki',
+	'right-codereview-associate' => 'Administrar a associação de revisões',
 	'specialpages-group-developer' => 'Ferramentas de desenvolvimento',
+	'group-svnadmins' => 'Administradores do SVN',
+	'group-svnadmins-member' => 'Administrador do SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administradores do SVN',
 );
 
 /** Romanian (Română)
@@ -9191,25 +10170,31 @@ $messages['ro'] = array(
 	'code-release-legend' => 'Generați note de lansare',
 	'code-release-startrev' => 'Revizuirea de început:',
 	'code-release-endrev' => 'Ultima rev:',
-	'code-release-badrange' => 'Întinderea este prea mare!',
 	'codereview-subtitle' => 'De la $1',
 	'codereview-reply-link' => 'răspunde',
 	'codereview-email-subj' => '[$1 $2]: Comentariu nou adăugat',
-	'codereview-email-body' => 'Utilizatorul "$1" a adăugat un comentariu la $3.
+	'codereview-email-body' => 'Utilizatorul „$1” a adăugat un comentariu la $3.
 
 URL complet: $2
+
+Rezumatul modificării:
+
+$5
 
 Comentariu:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: Urmărirea modificărilor',
-	'codereview-email-body2' => 'Utilizatorul "$1" a urmărit modificările la $2.
+	'codereview-email-body2' => 'Utilizatorul „$1” a urmărit modificările la $2.
 
 URL complet pentru reviziile urmărite: $5
+Rezumatul modificării:
+
+$6
 
 URL complet: $3
 
-Rezumatul publicării:
+Rezumatul modificării:
 
 $4',
 	'code-stats' => 'statistici',
@@ -9341,19 +10326,56 @@ $messages['roa-tara'] = array(
 	'code-release-legend' => 'Crijà note de relasse',
 	'code-release-startrev' => 'Prime rev:',
 	'code-release-endrev' => 'Urteme rev:',
-	'code-release-badrange' => 'Indervalle troppe larie!',
 	'codereview-subtitle' => 'Pe $1',
 	'codereview-reply-link' => 'respunne',
 	'codereview-email-subj' => '[$1 $2]: Nuève commende aggiunde',
-	'codereview-email-body' => 'Utende "$1" ha postete \'nu commende sus a $3.
+	'codereview-email-body' => 'L\'utende "$1" ha postate \'nu commende sus a $3.
 
-\'A URL comblete je: $2
+\'A URL comblete jè: $2
+Riepileghe d\'u sarvamende:
+
+$5
 
 Commende:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: Revisiune supplemendare',
+	'codereview-email-body2' => 'L\'utende "$1" ha fatte le seguende cangiaminde a $2.
+
+\'A URL comblete pe seguì \'a revisione jè: $5
+Riepileghe d\'u sarvamende:
+
+$6
+
+\'A URL comblete jè: $3
+Riepileghe d\'u sarvamende:
+
+$4',
 	'codereview-email-subj3' => "[$1 $2]: State d'a revisione cangiate",
+	'codereview-email-body3' => 'L\'utende "$1" hacangiate \'u state de $2.
+
+State vecchie: $3
+State nuève: $4
+
+\'A URL comblete jè: $5
+Riepileghe d\'u sarvamende:
+
+$6',
+	'codereview-email-body4' => 'L\'utende "$1" hacangiate \'u state de $2.
+
+State vecchie: $3
+State nuève: $4
+
+L\'utende "$1" ave pure postate \'nu commende sus a $2.
+
+\'A URL comblete jè: $5
+Riepileghe d\'u sarvamende:
+
+$7
+
+Commende:
+
+$6',
 	'code-stats' => 'statisteche',
 	'code-stats-status-breakdown' => 'Numere de revisione pè state',
 	'code-stats-count' => 'Numere de le revisiune',
@@ -9375,6 +10397,7 @@ $4',
  * @author Ferrer
  * @author JenVan
  * @author Kaganer
+ * @author Lockal
  * @author MaxSem
  * @author Putnik
  * @author Александр Сигачёв
@@ -9393,11 +10416,15 @@ $messages['ru'] = array(
 	'code-prop-changes' => 'Журнал статусов и меток',
 	'codereview-desc' => '[[Special:Code|Инструмент рецензирования кода]] с [[Special:RepoAdmin|поддержкой Subversion]]',
 	'code-no-repo' => 'Отсутствует настроенное хранилище!',
+	'code-create-repo' => 'Перейдите в [[Special:RepoAdmin|RepoAdmin]] для создания хранилища',
+	'code-need-repoadmin-rights' => 'для создание хранилища необходимы права repoadmin',
+	'code-need-group-with-rights' => 'Не существует группы с правами repoadmin. Пожалуйста, создайте такую для добавления нового хранилища',
 	'code-repo-not-found' => "Хранилища '''$1''' не существует!",
 	'code-load-diff' => 'Загрузка сравнения…',
 	'code-notes' => 'последние замечания',
 	'code-statuschanges' => 'изменения статуса',
 	'code-mycommits' => 'мои коммиты',
+	'code-mycomments' => 'мои комментарии',
 	'code-authors' => 'авторы',
 	'code-status' => 'состояния',
 	'code-tags' => 'метки',
@@ -9457,7 +10484,7 @@ $messages['ru'] = array(
 	'code-rev-purge-link' => 'очистить кеш',
 	'code-rev-total' => 'Общее количество результатов: $1',
 	'code-rev-not-found' => "Ревизии '''$1''' не существует!",
-	'code-status-new' => 'новое',
+	'code-status-new' => 'новая',
 	'code-status-desc-new' => 'Ревизия ожидает действия (статус по умолчанию).',
 	'code-status-fixme' => 'исправить',
 	'code-status-desc-fixme' => 'Рецензент отметил в этой ревизии ошибку или неисправность. Она должна быть исправлена.',
@@ -9498,13 +10525,15 @@ $messages['ru'] = array(
 	'code-release-legend' => 'Создание примечания к выпуску',
 	'code-release-startrev' => 'Начальная ревизия:',
 	'code-release-endrev' => 'Последняя ревизия:',
-	'code-release-badrange' => 'Слишком большой диапазон!',
 	'codereview-subtitle' => 'для $1',
 	'codereview-reply-link' => 'ответить',
 	'codereview-email-subj' => '[$1] [r$2]: Добавлен новый комментарий',
-	'codereview-email-body' => 'Участник «$1» разместил комментарий к ревизии r$3.
+	'codereview-email-body' => 'Участник «$1» разместил комментарий к $3.
 
 Полный URL: $2
+Краткое описание:
+
+$5
 
 Комментарий:
 
@@ -9513,6 +10542,9 @@ $4',
 	'codereview-email-body2' => 'Пользователь «$1» внёс изменения, относящиеся к $2.
 
 Полный URL для предыдущей версии: $5
+Описание изменений:
+
+$6
 
 Полный URL: $3
 
@@ -9520,10 +10552,15 @@ $4',
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Изменение состояния ревизии',
-	'codereview-email-body3' => 'Пользователь «$1» изменил состояние $1.
+	'codereview-email-body3' => 'Пользователь «$1» изменил состояние $2.
 
 Старое состояние: $3
-Новое состояние: $3',
+Новое состояние: $4
+
+Полный URL-адрес: $5
+Описание изменений:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Добавлен новый комментарий, изменилось состояние ревизии',
 	'codereview-email-body4' => 'Пользователь «$1» изменил состояние $2.
 
@@ -9532,7 +10569,10 @@ $4',
 
 Пользователь «$1» также оставил комментарий для $2.
 
-полный URL: $5
+Полный URL: $5
+Описание изменений:
+
+$7
 
 Комментарий:
 
@@ -9562,7 +10602,12 @@ $6',
 	'right-codereview-set-status' => 'Изменение статуса ревизий',
 	'right-codereview-signoff' => 'подтверждение ревизий',
 	'right-codereview-link-user' => 'Связь авторов с учётными записями вики-проекта',
+	'right-codereview-associate' => 'управление ассоциациями ревизий',
+	'right-codereview-review-own' => 'Отметить собственные ревизии как «ОК»',
 	'specialpages-group-developer' => 'Инструменты разработчика',
+	'group-svnadmins' => 'Администраторы SVN',
+	'group-svnadmins-member' => 'Администратор SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Администраторы SVN',
 );
 
 /** Rusyn (Русиньскый)
@@ -9612,9 +10657,9 @@ $messages['rue'] = array(
 	'code-field-message' => 'Опис змін',
 	'code-field-status' => 'Став',
 	'code-field-timestamp' => 'Датум',
-	'code-field-comments' => 'Познамкы',
+	'code-field-comments' => 'Коментарї',
 	'code-field-path' => 'Стежка',
-	'code-field-text' => 'Познамка',
+	'code-field-text' => 'Позначка',
 	'code-field-select' => 'Выбрати',
 	'code-rev-author' => 'Автор:',
 	'code-rev-date' => 'Датум:',
@@ -9672,11 +10717,10 @@ $messages['rue'] = array(
 	'code-batch-tags' => 'Змінити значкы:',
 	'codereview-batch-title' => 'Зміна вшыткых выбраных верзій',
 	'codereview-batch-submit' => 'Одослати',
-	'code-releasenotes' => 'познамкы про выданя',
-	'code-release-legend' => 'Створити познамку про выданя',
+	'code-releasenotes' => 'позначкы ку выданю',
+	'code-release-legend' => 'Створити позначку ку выданю',
 	'code-release-startrev' => 'Початочна ревізія:',
 	'code-release-endrev' => 'Послїня ревізія:',
-	'code-release-badrange' => 'Россяг є дуже великый!',
 	'codereview-subtitle' => 'Про $1',
 	'codereview-reply-link' => 'одповісти',
 	'codereview-email-subj' => '[$1 $2]: Приданый новый коментарь',
@@ -9722,6 +10766,9 @@ $4',
 	'right-codereview-set-status' => 'Зміна статусу ревізій',
 	'right-codereview-link-user' => 'Звязок авторів з вікі-хоснователями',
 	'specialpages-group-developer' => 'Інштрументы вывоя',
+	'group-svnadmins' => 'SVN адміністраторы',
+	'group-svnadmins-member' => 'SVN адміністратор',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN адміністраторы',
 );
 
 /** Yakut (Саха тыла)
@@ -9746,9 +10793,11 @@ $messages['sah'] = array(
 	'code-notes' => 'соторутааҥҥы бэлиэтээһиннэр',
 	'code-statuschanges' => 'турук уларыйыылара',
 	'code-mycommits' => 'мин коммиттарым',
+	'code-mycomments' => 'мин быһаарыыларым',
 	'code-authors' => 'ааптардар',
 	'code-status' => 'туруктара (статустара)',
 	'code-tags' => 'бэлиэлэр',
+	'code-tags-no-tags' => 'Манна бэлиэтээһиннэр суохтар.',
 	'code-authors-text' => 'Ааптардар тиһиктэрэ ааттарынан наарданан бэриллэр. Олохтоох биикигэ бэлиэтэммит ааттара ускуобкаҕа бэриллэр. Бу дааннайдар кээштан ылыллыбыт буолуохтарын сөп.',
 	'code-author-haslink' => 'Бу ааптар $1 кыттааччыга сигэнэр',
 	'code-author-orphan' => 'Бу ааптар биики-бырайыак ханнык да кыттааччытыгар сигэммэт',
@@ -9769,11 +10818,15 @@ $messages['sah'] = array(
 	'code-field-user' => 'Ырытааччы',
 	'code-field-message' => 'Уларытыылар туһунан',
 	'code-field-status' => 'Турук',
+	'code-field-status-description' => 'Туругун туһунан',
 	'code-field-timestamp' => 'Күнэ-дьыла',
-	'code-field-comments' => 'Быһаарыылара',
+	'code-field-comments' => 'Быһаарыылар',
 	'code-field-path' => 'Суола',
 	'code-field-text' => 'Быһаарыы',
 	'code-field-select' => 'Талыы',
+	'code-reference-remove' => 'Талыллыбыт баайыылары соторго',
+	'code-reference-associate' => 'Мантан ынтах кэлэр барылы баайарга:',
+	'code-reference-associate-submit' => 'Баайарга (ситимнииргэ)',
 	'code-rev-author' => 'Ааптар:',
 	'code-rev-date' => 'Күнэ-дьыла:',
 	'code-rev-message' => 'Быһаарыы:',
@@ -9814,9 +10867,17 @@ $messages['sah'] = array(
 	'code-status-desc-deferred' => 'Ревизия көрүллэр наадата суох.',
 	'code-status-old' => 'урукку',
 	'code-status-desc-old' => 'Урукку ревизия, сыыһалардаах буолуон сөп эрээри, көннөрө сатаан таах кыаххын бараама.',
+	'code-signoffs' => 'Бигэргэтиилэр',
+	'code-signoff-legend' => 'Бигэргэтиини эбии',
+	'code-signoff-submit' => 'Бигэргэтэргэ',
+	'code-signoff-strike' => 'Талыллыбыт бигэргэтиилэри соторго',
+	'code-signoff-signoff' => 'Бу барылы маннык бигэргэтэргэ:',
+	'code-signoff-flag-inspected' => 'Көрүлүннэ',
+	'code-signoff-flag-tested' => 'Тургутулунна',
 	'code-signoff-field-user' => 'Кыттааччы',
 	'code-signoff-field-flag' => 'Бэлиэ',
 	'code-signoff-field-date' => 'Күнэ-дьыла',
+	'code-signoff-struckdate' => '$1 ($2 сотто)',
 	'code-pathsearch-legend' => 'Биирдиилээн барыллары чопчу аадырыһынан көрдөөһүн',
 	'code-pathsearch-path' => 'Суола:',
 	'code-pathsearch-filter' => 'Туттуллубут сиидэлэр:',
@@ -9833,7 +10894,6 @@ $messages['sah'] = array(
 	'code-release-legend' => 'Таһаарыы быһаарыытын суруйуу',
 	'code-release-startrev' => 'Бастакы барыл:',
 	'code-release-endrev' => 'Бүтэһик барыл:',
-	'code-release-badrange' => 'Наһаа киэҥ диапазон!',
 	'codereview-subtitle' => 'Манна $1',
 	'codereview-reply-link' => 'хоруй',
 	'codereview-email-subj' => '[$1 $2]: Саҥа ырытыы киирбит',
@@ -9858,7 +10918,9 @@ $4',
 	'codereview-email-body3' => '«$1» кыттааччы $2 туругун уларыппыт.
 
 Урукку туруга: $3
-Билиҥҥи туруга: $4',
+Билиҥҥи туруга: $4
+
+Толору URL: $5',
 	'codereview-email-subj4' => '[$1 $2]: Ырытыыга саҥа этии эбиллибит, барыл туруга уларыйбыт',
 	'codereview-email-body4' => '«$1» кыттааччы $2 туругун уларыппыт.
 
@@ -9895,8 +10957,13 @@ $6',
 	'right-codereview-remove-tag' => 'Бэлиэлэри торумнартан сотуу',
 	'right-codereview-post-comment' => 'Барылларга ырытыы суруйуу',
 	'right-codereview-set-status' => 'Барыллар стаатустарын уларытыы',
+	'right-codereview-signoff' => 'Барыллары бигэргэтии',
 	'right-codereview-link-user' => 'Ааптардары биикигэ бэлиэтэммит ааттары кытта сигээһин',
+	'right-codereview-associate' => 'Барыллары бөлөҕүнэн салайыы',
 	'specialpages-group-developer' => 'Оҥорооччу тэриллэрэ (үнүстүрүмүөннэрэ)',
+	'group-svnadmins' => 'SVN дьаһабыллара',
+	'group-svnadmins-member' => 'SVN дьаһабыла',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN дьаһабыллара',
 );
 
 /** Sicilian (Sicilianu)
@@ -10011,6 +11078,7 @@ $messages['si'] = array(
 	'code-field-timestamp' => 'දිනය',
 	'code-rev-message' => 'පරිකථනය:',
 	'code-rev-comment-preview' => 'පෙර දසුන',
+	'code-stats' => 'සංඛ්‍යාන දත්ත',
 );
 
 /** Slovak (Slovenčina)
@@ -10121,7 +11189,6 @@ $messages['sk'] = array(
 	'code-release-legend' => 'Vytvoriť poznámky k vydaniu',
 	'code-release-startrev' => 'Počiatočná rev.:',
 	'code-release-endrev' => 'Posledná rev.:',
-	'code-release-badrange' => 'Rozsah je príliš veľký!',
 	'codereview-subtitle' => 'Pre $1',
 	'codereview-reply-link' => 'odpovedať',
 	'codereview-email-subj' => '[$1 $2]: Pridaný nový komentár',
@@ -10146,7 +11213,12 @@ $4',
 	'codereview-email-body3' => 'Používateľ „$1“ zmenil stav $2.
 
 Starý stav: $2
-Nový stav:  $3',
+Nový stav:  $3
+
+Plný URL: $5
+Zhrnutie úprav:
+
+$6',
 	'code-stats' => 'štatistika',
 	'code-stats-header' => 'Štatistika úložiska $1',
 	'code-stats-main' => '$1, úložisko má $2 {{PLURAL:$2|revíziu|revízie|revízií}} od [[Special:Code/$3/author|$4 {{PLURAL:$4|autora|autorov}}]].',
@@ -10172,6 +11244,9 @@ Nový stav:  $3',
 	'right-codereview-set-status' => 'Zmeniť stav revízií',
 	'right-codereview-link-user' => 'Zviazať autorov s používateľmi wiki',
 	'specialpages-group-developer' => 'Nástroje vývojárov',
+	'group-svnadmins' => 'správcovia SVN',
+	'group-svnadmins-member' => 'správca SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Správcovia SVN',
 );
 
 /** Slovenian (Slovenščina)
@@ -10191,11 +11266,15 @@ $messages['sl'] = array(
 	'code-prop-changes' => 'Dnevnik stanj in označevanj',
 	'codereview-desc' => '[[Special:Code|Orodje za pregledovanje kode]] s [[Special:RepoAdmin|podporo Subversion]]',
 	'code-no-repo' => 'Nastavljena ni nobena shramba!',
+	'code-create-repo' => 'Pojdite na [[Special:RepoAdmin|RepoAdmin]] za ustvarjanje varne hrambe',
+	'code-need-repoadmin-rights' => 'za ustvarjanje varne hrambe so potrebne pravice repoadmin',
+	'code-need-group-with-rights' => 'Nobena skupina s pravicami repoadmin ne obstaja. Prosimo, dodajte eno, da boste lahko dodali novo varno hrambo.',
 	'code-repo-not-found' => "Shramba '''$1''' ne obstaja!",
 	'code-load-diff' => 'Nalaganje primerjave ...',
 	'code-notes' => 'nedavne pripombe',
 	'code-statuschanges' => 'spremembe stanj',
 	'code-mycommits' => 'moji prispevki',
+	'code-mycomments' => 'moje pripombe',
 	'code-authors' => 'avtorji',
 	'code-status' => 'stanja',
 	'code-tags' => 'oznake',
@@ -10296,13 +11375,15 @@ $messages['sl'] = array(
 	'code-release-legend' => 'Ustvari opombe ob izidu',
 	'code-release-startrev' => 'Začetna redakcija:',
 	'code-release-endrev' => 'Končna redakcija:',
-	'code-release-badrange' => 'Razpon je preširok!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovori',
 	'codereview-email-subj' => '[$1 $2]: Dodana nova pripomba',
 	'codereview-email-body' => 'Uporabnik »$1« je objavil pripombo na $3.
 
 Polni URL: $2
+Prispevani povzetek:
+
+$5
 
 Pripomba:
 
@@ -10311,9 +11392,11 @@ $4',
 	'codereview-email-body2' => 'Uporabnik »$1« je naredil nadaljnje spremembe $2.
 
 Polni URL nadaljnjih redakcij: $5
+Prispevani povzetek:
+
+$6
 
 Polni URL: $3
-
 Prispevani povzetek:
 
 $4',
@@ -10321,7 +11404,12 @@ $4',
 	'codereview-email-body3' => 'Uporabnik »$1« je spremenil stanje $2.
 
 Staro stanje: $3
-Novo stanje: $4',
+Novo stanje: $4
+
+Polni URL: $5
+Prispevani povzetek:
+
+$6',
 	'codereview-email-subj4' => '[$1 $2]: Dodana je bil nova pripomba in spremenjeno je bilo stanje redakcije',
 	'codereview-email-body4' => 'Uporabnik »$1« je spremenil stanje $2.
 
@@ -10331,6 +11419,9 @@ Novo stanje: $4
 Uporabnik »$1« je tudi objavil pripombo na $2.
 
 Polni URL: $5
+Prispevani povzetek:
+
+$7
 
 Pripomba:
 
@@ -10360,10 +11451,26 @@ $6',
 	'right-codereview-set-status' => 'Spreminjanje stanj redakcij',
 	'right-codereview-signoff' => 'Odobritev redakcij',
 	'right-codereview-link-user' => 'Povezovanje avtorjev z wikiuporabniki',
+	'right-codereview-associate' => 'Upravljanje združitev redakcij',
+	'right-codereview-review-own' => 'Označite svoje redakcije kot v redu',
 	'specialpages-group-developer' => 'Razvijalska orodja',
+	'group-svnadmins' => 'Skrbniki SVN',
+	'group-svnadmins-member' => 'Skrbnik SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Skrbniki SVN',
 );
 
-/** Serbian Cyrillic ekavian (Српски (ћирилица))
+/** Albanian (Shqip)
+ * @author Mikullovci11
+ * @author Olsi
+ */
+$messages['sq'] = array(
+	'group-svnadmins' => 'Administruesit SVN',
+	'group-svnadmins-member' => 'administrues SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Administruesit SVN',
+);
+
+/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
+ * @author Rancher
  * @author Јованвб
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -10389,7 +11496,7 @@ $messages['sr-ec'] = array(
 	'code-author-alterlink' => 'Промените Вики корисника повезаног са овим аутором:',
 	'code-author-name' => 'Унесите корисничко име:',
 	'code-author-success' => 'Аутор $1 је био повезан са Вики-корисником $2',
-	'code-author-link' => 'линковати?',
+	'code-author-link' => 'повезати?',
 	'code-author-unlink' => 'делинковати?',
 	'code-author-unlinksuccess' => 'Аутор $1 је био делинкован',
 	'code-field-id' => 'Ревизија',
@@ -10398,9 +11505,9 @@ $messages['sr-ec'] = array(
 	'code-field-message' => 'Пошаљи опис',
 	'code-field-status' => 'Статус',
 	'code-field-timestamp' => 'Датум',
-	'code-field-comments' => 'Напомене',
+	'code-field-comments' => 'Коментари',
 	'code-field-path' => 'Путања',
-	'code-field-text' => 'Напомена',
+	'code-field-text' => 'Белешка',
 	'code-field-select' => 'Изабери',
 	'code-rev-author' => 'Аутор:',
 	'code-rev-date' => 'Датум:',
@@ -10414,10 +11521,10 @@ $messages['sr-ec'] = array(
 	'code-rev-imagediff' => 'Измене слика',
 	'code-rev-status' => 'Статус:',
 	'code-rev-status-set' => 'Измени статус',
-	'code-rev-tags' => 'Тагови:',
+	'code-rev-tags' => 'Ознаке:',
 	'code-rev-tag-add' => 'Додај тагове:',
 	'code-rev-tag-remove' => 'Избриши тагове:',
-	'code-rev-comment-by' => 'Комантарисао $1',
+	'code-rev-comment-by' => 'Прокоментарисао/-ла $1',
 	'code-rev-comment-preview' => 'Прикажи',
 	'code-rev-inline-preview' => 'Преглед:',
 	'code-rev-diff' => 'Разл',
@@ -10431,20 +11538,19 @@ $messages['sr-ec'] = array(
 	'code-status-old' => 'старо',
 	'code-pathsearch-path' => 'Путања:',
 	'code-revfilter-cr_status' => 'Статус = $1',
-	'code-rev-submit' => 'Запамти измене',
+	'code-rev-submit' => 'Сачувај измене',
 	'code-batch-status' => 'Измени статус:',
 	'code-batch-tags' => 'Измени тагове:',
 	'codereview-batch-title' => 'Измени све изабране ревизије',
 	'codereview-batch-submit' => 'Пошаљи',
 	'code-release-startrev' => 'Почетна ревизија:',
 	'code-release-endrev' => 'Последња ревизија:',
-	'code-release-badrange' => 'Опсег је превелик!',
 	'codereview-subtitle' => 'За $1',
 	'codereview-reply-link' => 'одговори',
 	'codereview-email-subj' => '[$1 $2]: Нови коментар додат',
 	'repoadmin-new-button' => 'Направи',
 	'repoadmin-edit-bug' => 'Путања до Багзиле:',
-	'repoadmin-edit-button' => 'ОК',
+	'repoadmin-edit-button' => 'У реду',
 	'right-codereview-use' => 'Коришћење Special:Code',
 	'right-codereview-add-tag' => 'Додајте тагове ревизијама',
 	'right-codereview-remove-tag' => 'Бришите тагове са ревизија',
@@ -10453,7 +11559,7 @@ $messages['sr-ec'] = array(
 	'specialpages-group-developer' => 'Програмерски алати',
 );
 
-/** Serbian Latin ekavian (Srpski (latinica))
+/** Serbian Latin ekavian (‪Srpski (latinica)‬)
  * @author Michaello
  * @author Жељко Тодоровић
  */
@@ -10527,7 +11633,6 @@ $messages['sr-el'] = array(
 	'codereview-batch-submit' => 'Pošalji',
 	'code-release-startrev' => 'Početna revizija:',
 	'code-release-endrev' => 'Poslednja revizija:',
-	'code-release-badrange' => 'Opseg je prevelik!',
 	'codereview-subtitle' => 'Za $1',
 	'codereview-reply-link' => 'odgovori',
 	'codereview-email-subj' => '[$1 $2]: Novi komentar dodat',
@@ -10577,7 +11682,7 @@ $messages['stq'] = array(
 	'code-field-message' => 'Kommentoar seende',
 	'code-field-status' => 'Stoatus',
 	'code-field-timestamp' => 'Doatum',
-	'code-field-comments' => 'Notize',
+	'code-field-comments' => 'Kommentoare',
 	'code-field-path' => 'Paad',
 	'code-field-text' => 'Notiz',
 	'code-rev-author' => 'Autor:',
@@ -10645,6 +11750,7 @@ $4',
  * @author Najami
  * @author Per
  * @author Rotsee
+ * @author Tobulos1
  */
 $messages['sv'] = array(
 	'code' => 'Kodgranskning',
@@ -10665,6 +11771,7 @@ $messages['sv'] = array(
 	'code-notes' => 'senaste kommentarer',
 	'code-statuschanges' => 'Statusändringar',
 	'code-mycommits' => 'mina insändningar',
+	'code-mycomments' => 'mina kommentarer',
 	'code-authors' => 'författare',
 	'code-status' => 'tillstånd',
 	'code-tags' => 'taggar',
@@ -10691,10 +11798,11 @@ $messages['sv'] = array(
 	'code-field-status' => 'Status',
 	'code-field-status-description' => 'Statusbeskrivning',
 	'code-field-timestamp' => 'Datum',
-	'code-field-comments' => 'Noter',
+	'code-field-comments' => 'Kommentarer',
 	'code-field-path' => 'Sökväg',
 	'code-field-text' => 'Not',
 	'code-field-select' => 'Välj',
+	'code-reference-remove' => 'Ta bort markerade associationer',
 	'code-rev-author' => 'Författare:',
 	'code-rev-date' => 'Datum:',
 	'code-rev-message' => 'Kommentar:',
@@ -10759,7 +11867,6 @@ $messages['sv'] = array(
 	'code-release-legend' => 'Generera versionsnoter',
 	'code-release-startrev' => 'Första revision:',
 	'code-release-endrev' => 'Senaste revision:',
-	'code-release-badrange' => 'Intervallet är för stort!',
 	'codereview-subtitle' => 'För $1',
 	'codereview-reply-link' => 'svara',
 	'codereview-email-subj' => '[$1 $2]: Ny kommentar tillagd',
@@ -10824,6 +11931,9 @@ $6',
 	'right-codereview-signoff' => 'Signera versioner',
 	'right-codereview-link-user' => 'Länka författare med wikianvändare',
 	'specialpages-group-developer' => 'Utvecklarverktyg',
+	'group-svnadmins' => 'SVN administratörer',
+	'group-svnadmins-member' => 'SVN administratör',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN administratörer',
 );
 
 /** Swahili (Kiswahili)
@@ -10883,7 +11993,6 @@ $messages['ta'] = array(
 	'code-status-reverted' => 'முன்நிலையாக்கப்பட்டது',
 	'code-status-resolved' => 'தீர்வு காணப்பட்டது',
 	'code-status-ok' => 'ஆம்',
-	'code-status-verified' => 'சரிபார்க்கப்பட்டது',
 	'code-status-old' => 'பழைய',
 	'code-pathsearch-path' => 'வழி:',
 	'codereview-batch-submit' => 'சமர்ப்பி',
@@ -10916,8 +12025,9 @@ $messages['te'] = array(
 	'code-field-user' => 'వ్యాఖ్యాత',
 	'code-field-message' => 'కమిట్ వ్యాఖ్య',
 	'code-field-status' => 'స్థితి',
+	'code-field-status-description' => 'స్థితి వివరణ',
 	'code-field-timestamp' => 'తేదీ',
-	'code-field-comments' => 'గమనికలు',
+	'code-field-comments' => 'వ్యాఖ్యలు',
 	'code-field-text' => 'గమనిక',
 	'code-rev-author' => 'రచయిత:',
 	'code-rev-date' => 'తేది:',
@@ -10946,13 +12056,15 @@ $messages['te'] = array(
 	'code-batch-status' => 'మార్పు స్థితి:',
 	'codereview-batch-submit' => 'దాఖలుచెయ్యి',
 	'code-releasenotes' => 'విడుదల విశేషాలు',
-	'code-release-badrange' => 'అవధి మరీ పెద్దగా ఉంది!',
 	'codereview-subtitle' => '$1 కొరకు',
 	'codereview-reply-link' => 'స్పందించు',
 	'codereview-email-subj' => '[$1 $2]: కొత్త వ్యాఖ్యని చేర్చారు',
 	'codereview-email-body' => 'వాడుకరి "$1" $3పై ఒక వ్యాఖ్య రాసారు.
 
 పూర్తి చిరునామా: $2
+కమిట్ సారాశం:
+
+$5
 
 వ్యాఖ్య:
 
@@ -11290,7 +12402,6 @@ $messages['tk'] = array(
 	'code-release-legend' => 'Goýberiliş belliklerini döret',
 	'code-release-startrev' => 'Başlangyç wersiýa:',
 	'code-release-endrev' => 'Soňky wersiýa:',
-	'code-release-badrange' => 'Diapazon örän uly!',
 	'codereview-subtitle' => '$1 üçin',
 	'codereview-reply-link' => 'jogap ber',
 	'codereview-email-subj' => '[$1 $2]: Täze teswir goşuldy',
@@ -11362,14 +12473,19 @@ $messages['tl'] = array(
 	'code-prop-changes' => 'Talaan ng kalagayan at pagtatatak',
 	'codereview-desc' => '[[Special:Code|Kasangkapang na pang muling pagsusuri ng kodigo]] na may [[Special:RepoAdmin|Suportang pamuksa]]',
 	'code-no-repo' => 'Walang naisaayos na repositoryo!',
+	'code-create-repo' => 'Pumunta sa [[Special:RepoAdmin|Tagapangasiwa ng Taguan]] upang lumikha ng isang Taguan',
+	'code-need-repoadmin-rights' => 'kailangan ang mga karapatang pang-tagapangasiwa ng taguan upang makalikha ng isang Taguan',
+	'code-need-group-with-rights' => 'Walang umiiral na pangkat na may mga karapatang pang-tagapangasiwa ng taguan. Paki magdagdag ng isa upang makapagdagdag ng isang bagong Taguan.',
 	'code-repo-not-found' => "Hindi umiiral ang repositoryong '''$1'''!",
 	'code-load-diff' => 'Ikinakarga ang pagkakaiba…',
 	'code-notes' => 'kamakailang mga puna/kumento',
 	'code-statuschanges' => 'katayuan ng mga pagbabago',
 	'code-mycommits' => 'mga nagawa ko',
+	'code-mycomments' => 'mga puna ko',
 	'code-authors' => 'mga may-akda',
 	'code-status' => 'mga kalagayan',
 	'code-tags' => 'mga tatak',
+	'code-tags-no-tags' => 'Walang umiiral na mga tatak sa loob ng taguang ito.',
 	'code-authors-text' => 'Nasa ibaba ang isang talaan ng mga may-akda ng repositoryo ayon sa pagkakasunud-sunod ng pangalan ng paglalagak.  Ipinapakita sa loob ng mga saklong ang mga akawnt ng panglokal na wiki.  Dapat na nakatago ang dato.',
 	'code-author-haslink' => 'Nakakawing ang may-akdang ito sa tagagamit ng wiking si $1',
 	'code-author-orphan' => 'Ang may-akdang ito ay walang kawing sa isang kuwenta/akawnt ng wiki',
@@ -11390,11 +12506,15 @@ $messages['tl'] = array(
 	'code-field-user' => 'Tagapagpuna/Nagbigay ng kumento',
 	'code-field-message' => 'Isagawa ang buod',
 	'code-field-status' => 'Kalagayan',
+	'code-field-status-description' => 'Paglalarawan ng kalagayan',
 	'code-field-timestamp' => 'Petsa',
-	'code-field-comments' => 'Mga tala',
+	'code-field-comments' => 'Mga puna',
 	'code-field-path' => 'Daanan',
 	'code-field-text' => 'Tala',
 	'code-field-select' => 'Piliin',
+	'code-reference-remove' => 'Tanggalin ang napiling mga kaugnayan',
+	'code-reference-associate' => 'Iugnay ang rebisyong pangtugaygay:',
+	'code-reference-associate-submit' => 'Kaugnay',
 	'code-rev-author' => 'May-akda:',
 	'code-rev-date' => 'Petsa:',
 	'code-rev-message' => 'Kumento:',
@@ -11435,13 +12555,24 @@ $messages['tl'] = array(
 	'code-status-desc-deferred' => 'Hindi nangangailangan ng muling pagsusuri ang rebisyon.',
 	'code-status-old' => 'luma',
 	'code-status-desc-old' => 'Ang lumang rebisyon ay may maaaring maging mga depekto subalit hindi naaangkupan ng pagsisikap para suriin sila.',
+	'code-signoffs' => 'Mga paglalagda ng pagtatapos',
+	'code-signoff-legend' => 'Idagdag ang paglagda ng pagtatapos',
+	'code-signoff-submit' => 'Lumagdang patapos',
+	'code-signoff-strike' => 'Pangibabawan ng guhit ang napiling paglalagdang patapos',
+	'code-signoff-signoff' => 'Lumagda sa rebisyong ito bilang:',
+	'code-signoff-flag-inspected' => 'Nasiyasat',
+	'code-signoff-flag-tested' => 'Nasubok na',
+	'code-signoff-field-user' => 'Tagagamit',
+	'code-signoff-field-flag' => 'Watawat',
+	'code-signoff-field-date' => 'Petsa',
+	'code-signoff-struckdate' => '$1 (pinatamaan ang $2)',
 	'code-pathsearch-legend' => 'Maghanap ng mga pagbabago sa repositoryong ito sa pamamagitan ng daanan',
 	'code-pathsearch-path' => 'Daanan:',
 	'code-pathsearch-filter' => 'Ginamit na pansala:',
 	'code-revfilter-cr_status' => 'Katayuan = $1',
 	'code-revfilter-cr_author' => 'May-akda = $1',
 	'code-revfilter-clear' => 'Dalisayin ang pansala',
-	'code-rev-submit' => 'Sagipin an mga pagbabago',
+	'code-rev-submit' => 'Sagipin ang mga pagbabago',
 	'code-rev-submit-next' => 'Sagipin at susunod na hindi pa nalulutas',
 	'code-batch-status' => 'Baguhin ang kalagayan:',
 	'code-batch-tags' => 'Baguhin ang mga tatak:',
@@ -11451,35 +12582,57 @@ $messages['tl'] = array(
 	'code-release-legend' => 'Gawin ang pagpapalabas ng mga tala',
 	'code-release-startrev' => 'Simula ng pagbabago:',
 	'code-release-endrev' => 'Huling pagbabago:',
-	'code-release-badrange' => 'Napakalaki ng saklaw!',
 	'codereview-subtitle' => 'Para kay $1',
 	'codereview-reply-link' => 'tugon',
 	'codereview-email-subj' => '[$1 $2]: Nagdagdag ng bagong puna/kumento',
-	'codereview-email-body' => 'Nagtala si tagagamit "$1" ng bagong kumento/puna sa $3.
+	'codereview-email-body' => 'Nagpaskil ang tagagamit na si "$1" ng isang puna sa $3.
 
 Buong URL: $2
+Buod ng pagsasagawa:
 
-Kumento:
+$5
+
+Puna:
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]: Pangtugaygay na mga pagbabago',
-	'codereview-email-body2' => 'Gumawa ng patugaygay na mga pagbabago si "$1" sa $2.
+	'codereview-email-body2' => 'Ang tagagamit na si "$1" ay gumawa ng karagdagang mga pagbabago sa $2.
 
-Buong URL para sa tinugaygayang rebisyon: $5
+Buong URL para sa karagdagang rebisyon: $5
+Buod ng pagsasagawa:
+
+$6
 
 Buong URL: $3
-
 Buod ng pagsasagawa:
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]: Pagpapabalik na napansin ng kusang pagsubok',
-	'codereview-email-body3' => 'Nagbunyag ang kusang pagsusulit ng isang pagpapabalik dahil sa mga pagbabago sa loob ng $1.
+	'codereview-email-subj3' => '[$1 $2]: Nabago ang kalagayan ng rebisyon',
+	'codereview-email-body3' => 'Binago ng tagagamit na si "$1" ang katayuan ng $2.
 
-Buongl URL: $2
+Lumang kalagayan: $3
+Bagong kalagayan: $4
 
+Buong URL: $5
 Buod ng pagsasagawa:
 
-$3',
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Nadagdag ang bagong puna, at nabago ang kalagayan ng rebisyon',
+	'codereview-email-body4' => 'Binago ng tagagamit na si "$1" ang katayuan ng $2.
+
+Lumang kalagayan: $3
+Bagong kalagayan: $4
+
+Nagpaskil din ang tagagamit na si "$1" ng isang puna sa $2.
+
+Buong URL: $5
+Buod ng pagsasagawa: 
+
+$7
+
+Puna:
+
+$6',
 	'code-stats' => 'estadistika',
 	'code-stats-header' => 'Estadistika para sa repositoryong $1',
 	'code-stats-main' => 'Magmula noong $1, ang repositoryo ay may $2 {{PLURAL:$2|rebisyon|mga rebisyon}} ng [[Special:Code/$3/author|$4 {{PLURAL:$4|may-akda|mga may-akda}}]].',
@@ -11503,8 +12656,14 @@ $3',
 	'right-codereview-remove-tag' => 'Tanggalin an mga tatak mula sa mga pagbabago',
 	'right-codereview-post-comment' => 'Magdagdag ng mga kumento sa mga pagbabago',
 	'right-codereview-set-status' => 'Baguhin ang kalagayan ng mga pagbabago',
+	'right-codereview-signoff' => 'Lumagdang patapos sa mga rebisyon',
 	'right-codereview-link-user' => 'Ikawing ang mga may-akda sa mga tagagamit ng wiki',
+	'right-codereview-associate' => 'Pangasiwaan ang mga ugnayan ng rebisyon',
+	'right-codereview-review-own' => 'Markahan ang sarili mong mga rebisyon bilang OK',
 	'specialpages-group-developer' => 'Mga kasangkapan ng tagapagpaunlad',
+	'group-svnadmins' => 'Mga tagapangasiwa ng SVN',
+	'group-svnadmins-member' => 'Tagapangasiwa ng SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Mga tagapangasiwa ng SVN',
 );
 
 /** Turkish (Türkçe)
@@ -11554,7 +12713,7 @@ $messages['tr'] = array(
 	'code-field-message' => 'Teslim özeti',
 	'code-field-status' => 'Durum',
 	'code-field-timestamp' => 'Tarih',
-	'code-field-comments' => 'Notlar',
+	'code-field-comments' => 'Yorumlar',
 	'code-field-path' => 'Yol',
 	'code-field-text' => 'Not',
 	'code-field-select' => 'Seç',
@@ -11606,7 +12765,6 @@ $messages['tr'] = array(
 	'code-release-legend' => 'Sürüm notları oluştur',
 	'code-release-startrev' => 'Başlangıç rev:',
 	'code-release-endrev' => 'Son rev:',
-	'code-release-badrange' => 'Aralık çok büyük!',
 	'codereview-subtitle' => '$1 için',
 	'codereview-reply-link' => 'yanıtla',
 	'codereview-email-subj' => '[$1 $2]: Yeni yorum eklendi',
@@ -11698,6 +12856,7 @@ $messages['uk'] = array(
 	'code-notes' => 'останні коментарі',
 	'code-statuschanges' => 'зміни статусу',
 	'code-mycommits' => 'мої дії',
+	'code-mycomments' => 'мої коментарі',
 	'code-authors' => 'автори',
 	'code-status' => 'статуси',
 	'code-tags' => 'мітки',
@@ -11784,7 +12943,6 @@ $messages['uk'] = array(
 	'code-release-legend' => 'Створити примітки до випуску',
 	'code-release-startrev' => 'Початкова версія:',
 	'code-release-endrev' => 'Остання версія:',
-	'code-release-badrange' => 'Діапазон надто великий!',
 	'codereview-subtitle' => 'Для $1',
 	'codereview-reply-link' => 'відповісти',
 	'codereview-email-subj' => '[$1 $2]: Доданий новий коментар',
@@ -11807,7 +12965,9 @@ $4',
 	'codereview-email-body3' => 'Користувач "$1" змінив статус $2.
 
 Старий статус: $3
-Новий статус: $4',
+Новий статус: $4
+
+URL: $5',
 	'codereview-email-subj4' => '[$1 $2]: Додано новий коментар, статус редакції змінено',
 	'codereview-email-body4' => 'Користувач "$1" змінив статус $2.
 
@@ -11957,7 +13117,6 @@ $messages['vec'] = array(
 	'code-release-legend' => 'Gènera le note de rilascio',
 	'code-release-startrev' => 'Revision de partensa:',
 	'code-release-endrev' => 'Ultima revision:',
-	'code-release-badrange' => 'Intervalo massa grando!',
 	'codereview-subtitle' => 'Par $1',
 	'codereview-reply-link' => 'rispondi',
 	'codereview-email-subj' => '[$1 $2]: Zontà un comento nóvo',
@@ -12040,6 +13199,13 @@ $messages['vep'] = array(
 	'code-rev-modified-d' => 'heittud',
 	'code-rev-status' => 'Status:',
 	'code-rev-tags' => 'Virgad:',
+	'code-rev-tag-add' => 'Ližata virgad:',
+	'code-rev-tag-remove' => 'Čuta virgad poiš:',
+	'code-rev-comment-by' => '$1-kävutajan kommentarii',
+	'code-rev-comment-preview' => 'Ezikacund',
+	'code-rev-inline-preview' => 'Ezikacund:',
+	'code-rev-diff' => 'Erinendad',
+	'code-rev-diff-link' => 'erinend',
 	'code-status-ok' => 'ok',
 	'code-pathsearch-path' => 'Te:',
 	'code-batch-status' => 'Vajehtada status:',
@@ -12055,7 +13221,7 @@ $messages['vep'] = array(
  */
 $messages['vi'] = array(
 	'code' => 'Duyệt mã',
-	'code-rev-title' => 'r$1 - Duyệt Mã',
+	'code-rev-title' => '$1 – Duyệt mã',
 	'code-comments' => 'Ghi chú',
 	'code-references' => 'Các phiên bản ngay sau',
 	'code-change-status' => "đã đổi '''trạng thái''' của phiên bản r$1",
@@ -12067,11 +13233,15 @@ $messages['vi'] = array(
 	'code-prop-changes' => 'Nhật trình trạng thái và thẻ',
 	'codereview-desc' => '[[Special:Code|Công cụ duyệt mã]] [[Special:RepoAdmin|hỗ trợ Subversion]]',
 	'code-no-repo' => 'Chưa thiết lập kho dữ liệu!',
+	'code-create-repo' => 'Sử dụng [[Special:RepoAdmin|RepoAdmin]] để tạo kho dữ liệu',
+	'code-need-repoadmin-rights' => 'Cần quyền repoadmin để tạo kho dữ liệu',
+	'code-need-group-with-rights' => 'Không có nhóm nào có quyền repoadmin. Xin cấp quyền đó cho một nhóm để tạo kho dữ liệu mới.',
 	'code-repo-not-found' => "Kho '''$1''' không tồn tại!",
-	'code-load-diff' => 'Đang tải khác biệt...',
+	'code-load-diff' => 'Đang tải khác biệt…',
 	'code-notes' => 'ghi chú gần đây',
 	'code-statuschanges' => 'thay đổi trạng thái',
 	'code-mycommits' => 'thay đổi của tôi',
+	'code-mycomments' => 'ghi chú của tôi',
 	'code-authors' => 'tác giả',
 	'code-status' => 'tình trạng',
 	'code-tags' => 'thẻ',
@@ -12172,41 +13342,53 @@ $messages['vi'] = array(
 	'code-release-legend' => 'Tạo thông báo phát hành',
 	'code-release-startrev' => 'Phiên bản khởi đầu:',
 	'code-release-endrev' => 'Phiên bản kết thúc:',
-	'code-release-badrange' => 'Dãy lớn quá!',
 	'codereview-subtitle' => 'Dành cho $1',
 	'codereview-reply-link' => 'trả lời',
 	'codereview-email-subj' => '[$1] [r$2]: Tin nhắn mới',
-	'codereview-email-body' => 'Người dùng “$1” đã bình luận về r$3.
+	'codereview-email-body' => 'Người dùng "$1" đã bình luận về $3.
 
 URL đầy đủ: $2
+Tóm lược thay đổi:
+
+$5
 
 Tin nhắn:
 
 $4',
 	'codereview-email-subj2' => '[$1] [r$2]: Các thay đổi tiếp theo',
-	'codereview-email-body2' => 'Thành viên "$1" đã thực hiện các thay đổi tiếp theo r$2.
+	'codereview-email-body2' => 'Người dùng "$1" đã thực hiện các thay đổi tiếp theo $2.
 
 URL đầy đủ đến phiên bản được tiếp theo: $5
+Tóm lược thay đổi:
+
+$6
 
 URL đầy đủ: $3
-
 Tóm lược thay đổi:
 
 $4',
 	'codereview-email-subj3' => '[$1 $2]: Trạng thái thay đổi đã thay đổi',
-	'codereview-email-body3' => 'Người dùng “$1” đã thay đổi trạng thái của $2.
-
-Trạng thái cũ: $3
-Trạng thái mới: $4',
-	'codereview-email-subj4' => '[$1 $2]: Đã thêm bình luận mới và thay đổi trạng thái thay đổi',
-	'codereview-email-body4' => 'Người dùng “$1” đã thay đổi trạng thái $2.
+	'codereview-email-body3' => 'Người dùng "$1" đã thay đổi trạng thái của $2.
 
 Trạng thái cũ: $3
 Trạng thái mới: $4
 
-Người dùng “$1” cũng thêm bình luận vào $2.
+URL đầy đủ: $5
+Tóm lược thay đổi:
+
+$6',
+	'codereview-email-subj4' => '[$1 $2]: Đã thêm bình luận mới và thay đổi trạng thái thay đổi',
+	'codereview-email-body4' => 'Người dùng "$1" đã thay đổi trạng thái $2.
+
+Trạng thái cũ: $3
+Trạng thái mới: $4
+
+Người dùng "$1" cũng thêm bình luận vào $2.
 
 URL đầy đủ: $5
+Tóm lược thay đổi:
+
+$7
 
 Bình luận:
 
@@ -12229,14 +13411,19 @@ $6',
 	'repoadmin-edit-sucess' => 'Kho dữ liệu “[[Special:Code/$1|$1]]” đã được sửa đổi thành công.',
 	'repoadmin-nav' => 'quản lý kho',
 	'right-repoadmin' => 'Quản lý các kho mã',
-	'right-codereview-use' => 'Sử dụng Special:Code',
+	'right-codereview-use' => 'Sử dụng Đặc biệt:Mã nguồn',
 	'right-codereview-add-tag' => 'Thêm thẻ mới vào phiên bản',
 	'right-codereview-remove-tag' => 'Dời thẻ khỏi phiên bản',
 	'right-codereview-post-comment' => 'Ghi chú về phiên bản',
 	'right-codereview-set-status' => 'Thay đổi trạng thái phiên bản',
 	'right-codereview-signoff' => 'Tán thành các thay đổi',
 	'right-codereview-link-user' => 'Liên kết tác giả mã nguồn đến thành viên wiki',
+	'right-codereview-associate' => 'Quản lý các liên kết giữa phiên bản',
+	'right-codereview-review-own' => 'Đánh dấu các sửa đổi của riêng bạn là được',
 	'specialpages-group-developer' => 'Công cụ dành cho lập trình viên',
+	'group-svnadmins' => 'Người quản lý SVN',
+	'group-svnadmins-member' => 'người quản lý SVN',
+	'grouppage-svnadmins' => '{{ns:project}}:Người quản lý SVN',
 );
 
 /** Volapük (Volapük)
@@ -12316,14 +13503,26 @@ $messages['yi'] = array(
 	'code-change-added' => 'צוגעלייגט:',
 	'code-authors' => 'שרייבערס',
 	'code-field-author' => 'שרייבער',
+	'code-rev-date' => 'דאַטע:',
 	'code-rev-modified-a' => 'צוגעלייגט',
 	'code-rev-modified-d' => 'אויסגעמעקט',
+	'code-rev-status' => 'סטאַטוס:',
+	'code-rev-status-set' => 'ענדערן סטאַטוס',
+	'code-rev-tags' => 'טאַגן',
 	'code-rev-comment-preview' => 'פֿאראויסשטעלונג',
 	'code-rev-inline-preview' => 'פֿאראויסשטעלונג:',
 	'code-status-new' => 'נײַ',
 	'code-status-reverted' => 'צוריקגעשטעלט',
 	'code-status-ok' => 'אויספֿירן',
+	'code-status-old' => 'אַלט',
+	'code-signoff-field-user' => 'באַניצער',
+	'code-signoff-field-flag' => 'פֿענדל',
+	'code-signoff-field-date' => 'דאַטע',
+	'code-revfilter-cr_status' => 'סטאַטוס = $1',
+	'code-revfilter-cr_author' => 'מחבר = $1',
 	'codereview-subtitle' => 'פֿאַר $1',
+	'code-stats' => 'סטאַטיסטיק',
+	'repoadmin-new-button' => 'שאַפֿן',
 );
 
 /** Cantonese (粵語) */
@@ -12457,10 +13656,12 @@ $3',
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Chenzw
  * @author Gaoxuewei
+ * @author Hydra
  * @author Liangent
  * @author PhiLiP
  * @author Wmr89502270
  * @author Xiaomingyan
+ * @author 阿pp
  */
 $messages['zh-hans'] = array(
 	'code' => '查看代码',
@@ -12476,14 +13677,20 @@ $messages['zh-hans'] = array(
 	'code-prop-changes' => '状态与标签记录',
 	'codereview-desc' => '使用[[Special:RepoAdmin|Subversion支持]]的[[Special:Code|代码检查工具]]',
 	'code-no-repo' => '储存库未被设置！',
+	'code-create-repo' => '转到[[Special:RepoAdmin|RepoAdmin]]创建Repository',
+	'code-need-repoadmin-rights' => '需要repoadmin权限来建立Repository',
+	'code-need-group-with-rights' => '不存在具有repoadmin权限的组，请添加新组以建立Repository',
+	'code-repo-not-found' => "存储库'''$1'''不存在！",
 	'code-load-diff' => '加载差异中...',
 	'code-notes' => '新近发言',
 	'code-statuschanges' => '更改状态',
 	'code-mycommits' => '我的提交',
+	'code-mycomments' => '我的评论',
 	'code-authors' => '作者',
 	'code-status' => '状态',
 	'code-tags' => '标签',
-	'code-authors-text' => '以下是回购作者的最近承诺。',
+	'code-tags-no-tags' => '此存储库中不存在的任何标记。',
+	'code-authors-text' => '下面是提交名称的顺序进行回购协议作者的列表。本地维基帐户显示在括号中。可能缓存的数据。',
 	'code-author-haslink' => '作者与维基用户 $1 相关联',
 	'code-author-orphan' => '作者没有与维基帐户相关联',
 	'code-author-dolink' => '将作者与维基用户相关联：',
@@ -12494,17 +13701,24 @@ $messages['zh-hans'] = array(
 	'code-author-link' => '相关联？',
 	'code-author-unlink' => '取消关联？',
 	'code-author-unlinksuccess' => '作者 $1 已经取消关联',
+	'code-author-badtoken' => '会话错误尝试执行的操作。',
+	'code-author-total' => '作者总数：$1',
+	'code-author-lastcommit' => '最后提交日期',
 	'code-browsing-path' => "正在浏览在'''$1'''的修改",
 	'code-field-id' => '修订',
 	'code-field-author' => '作者',
 	'code-field-user' => '评论员',
 	'code-field-message' => '评论汇总',
 	'code-field-status' => '状态',
+	'code-field-status-description' => '状态说明',
 	'code-field-timestamp' => '日期',
 	'code-field-comments' => '注释',
 	'code-field-path' => '路径',
 	'code-field-text' => '注释',
 	'code-field-select' => '选定',
+	'code-reference-remove' => '移除选定的关联',
+	'code-reference-associate' => '副学士的后续修订：',
+	'code-reference-associate-submit' => '将相关联',
 	'code-rev-author' => '作者：',
 	'code-rev-date' => '日期：',
 	'code-rev-message' => '评论：',
@@ -12530,12 +13744,35 @@ $messages['zh-hans'] = array(
 	'code-rev-diff-too-large' => '该差异太大，无法显示。',
 	'code-rev-purge-link' => '清除',
 	'code-rev-total' => '总共有$1个结果',
+	'code-rev-not-found' => "修订'''$1'''不存在！",
 	'code-status-new' => '新',
+	'code-status-desc-new' => '修订是挂起的操作 （默认状态）。',
 	'code-status-fixme' => '修正',
+	'code-status-desc-fixme' => '审阅者标记此版本引入一个错误或已损坏。它应该得到纠正。',
+	'code-status-improveme' => '改造我',
+	'code-status-desc-improveme' => '审阅者标记此版本，有一些小问题。它应改正。',
 	'code-status-reverted' => '回复',
+	'code-status-desc-reverted' => '修订被撤消的更高版本的修订。',
 	'code-status-resolved' => '解决',
+	'code-status-desc-resolved' => '修订了一个问题是处理的更高版本的修订。',
 	'code-status-ok' => '确定',
+	'code-status-desc-ok' => '修订全面审查，确保它是好在每个方法中审阅者。',
 	'code-status-deferred' => '推迟',
+	'code-status-desc-deferred' => '修订并不要求审查。',
+	'code-status-old' => '旧',
+	'code-status-desc-old' => '与潜在的错误，但这不值得检讨他们的努力的旧版本。',
+	'code-signoffs' => '签收',
+	'code-signoff-legend' => '添加签收',
+	'code-signoff-submit' => '批准',
+	'code-signoff-strike' => '剔除所选的签帐',
+	'code-signoff-signoff' => '此版本为注销：',
+	'code-signoff-flag-inspected' => '检查过',
+	'code-signoff-flag-tested' => '测试过了',
+	'code-signoff-field-user' => '用户',
+	'code-signoff-field-flag' => '标志',
+	'code-signoff-field-date' => '日期',
+	'code-signoff-struckdate' => '$1（打$2）',
+	'code-pathsearch-legend' => '在此进行回购协议的路径中搜索修订',
 	'code-pathsearch-path' => '路径：',
 	'code-pathsearch-filter' => '过滤器适用于：',
 	'code-revfilter-cr_status' => '状态 = $1',
@@ -12551,7 +13788,6 @@ $messages['zh-hans'] = array(
 	'code-release-legend' => '产发发布说明',
 	'code-release-startrev' => '开始修订：',
 	'code-release-endrev' => '结束修订：',
-	'code-release-badrange' => '范围过大！',
 	'codereview-subtitle' => '对$1',
 	'codereview-reply-link' => '回复',
 	'codereview-email-subj' => '[$1 $2]: 新的评论已添加',
@@ -12572,15 +13808,32 @@ URL链接：$3
 提交摘要：
 
 $4',
-	'codereview-email-subj3' => '[$1 $2]：自动测试发现已知错误',
-	'codereview-email-body3' => '自动测试发现$1导致了已知的错误。
+	'codereview-email-subj3' => '[$1 $2]： 修订状态改变',
+	'codereview-email-body3' => '用户"$1"更改"$2"的状态。
 
-URL链接：$2
+之前：$3
+目前：$4
 
-提交摘要：
+完整URL：$5',
+	'codereview-email-subj4' => '[$1 $2]： 添加，新的注释和修订状态改变',
+	'codereview-email-body4' => '$2的状态更改用户"$1"。
 
-$3',
+旧状态： $3
+新局面： $4
+
+用户"$1"还张贴评论 $2。
+
+的完整 URL： $5
+
+评论：
+
+$6',
 	'code-stats' => '统计',
+	'code-stats-header' => '$1 存储库的统计信息',
+	'code-stats-main' => '$1的存储库已$2{{PLURAL:$2|修改|修改}}的[[Special:Code/$3/author|$4{{PLURAL:$4|作者|作者}}]]。',
+	'code-stats-status-breakdown' => '每情况修订的数目',
+	'code-stats-fixme-breakdown' => '每个作者 fixmes 的分项数字',
+	'code-stats-count' => '修订的数目',
 	'repoadmin' => '储存库管理',
 	'repoadmin-new-legend' => '建立新的储存库',
 	'repoadmin-new-label' => '储存库名称：',
@@ -12591,21 +13844,29 @@ $3',
 	'repoadmin-edit-view' => 'ViewVC路径：',
 	'repoadmin-edit-button' => '确定',
 	'repoadmin-edit-sucess' => '储存库"[[Special:Code/$1|$1]]"已被成功修改。',
+	'repoadmin-nav' => '存储库管理',
 	'right-repoadmin' => '管理代码储存库',
 	'right-codereview-use' => '使用Special:Code',
 	'right-codereview-add-tag' => '添加新标签到修订',
 	'right-codereview-remove-tag' => '自修订移除标签',
 	'right-codereview-post-comment' => '添加评论到修订',
 	'right-codereview-set-status' => '修改修订状态',
+	'right-codereview-signoff' => '登录修订',
 	'right-codereview-link-user' => '将作者链接到维基用户',
+	'right-codereview-associate' => '管理版本关联',
 	'specialpages-group-developer' => '开发者工具',
+	'group-svnadmins' => 'SVN 管理员',
+	'group-svnadmins-member' => 'SVN 管理员',
+	'grouppage-svnadmins' => '{{ns:project}}:SVN 管理员',
 );
 
 /** Traditional Chinese (‪中文(繁體)‬)
  * @author FireJackey
  * @author Horacewai2
  * @author Liangent
+ * @author Mark85296341
  * @author Skjackey tse
+ * @author Waihorace
  */
 $messages['zh-hant'] = array(
 	'code' => '預覽程式碼',
@@ -12621,12 +13882,16 @@ $messages['zh-hant'] = array(
 	'code-prop-changes' => '狀態或標籤日誌',
 	'codereview-desc' => '[[Special:Code|程式碼預覽工具]] with [[Special:RepoAdmin|子版本支援]]',
 	'code-no-repo' => '沒有存放配置！',
-	'code-load-diff' => '加載差異中...',
+	'code-repo-not-found' => "儲存庫'''$1'''不存在！",
+	'code-load-diff' => '載入差異 ...',
 	'code-notes' => '新近發言',
 	'code-statuschanges' => '更改狀態',
+	'code-mycommits' => '我的提交',
+	'code-mycomments' => '我的評論',
 	'code-authors' => '作者',
 	'code-status' => '狀態',
 	'code-tags' => '標籤',
+	'code-tags-no-tags' => '此儲存庫中不存在的任何標記。',
 	'code-authors-text' => '以下是回購作者的最近承諾。',
 	'code-author-haslink' => '此作者與維基用戶$1連結',
 	'code-author-orphan' => '此作者沒有與任何維基用戶連結',
@@ -12638,17 +13903,23 @@ $messages['zh-hant'] = array(
 	'code-author-link' => '相關聯？',
 	'code-author-unlink' => '取消關聯？',
 	'code-author-unlinksuccess' => '作者 $1 已經取消關聯',
+	'code-author-badtoken' => '會話錯誤嘗試執行的操作。',
+	'code-author-total' => '作者總數：$1',
+	'code-author-lastcommit' => '最後提交日期',
 	'code-browsing-path' => "正在瀏覽在'''$1'''的修改",
 	'code-field-id' => '修訂',
 	'code-field-author' => '作者',
 	'code-field-user' => '評論員',
 	'code-field-message' => '評論匯總',
 	'code-field-status' => '狀態',
+	'code-field-status-description' => '狀態說明',
 	'code-field-timestamp' => '日期',
 	'code-field-comments' => '註釋',
 	'code-field-path' => '路徑',
 	'code-field-text' => '註釋',
 	'code-field-select' => '選定',
+	'code-reference-remove' => '移除選定的關聯',
+	'code-reference-associate-submit' => '將相關聯',
 	'code-rev-author' => '作者：',
 	'code-rev-date' => '日期：',
 	'code-rev-message' => '評論：',
@@ -12664,7 +13935,7 @@ $messages['zh-hant'] = array(
 	'code-rev-status' => '狀態：',
 	'code-rev-status-set' => '更改狀態',
 	'code-rev-tags' => '標籤：',
-	'code-rev-tag-add' => '添加標籤：',
+	'code-rev-tag-add' => '新增標籤：',
 	'code-rev-tag-remove' => '移除標籤：',
 	'code-rev-comment-by' => '$1 的評論',
 	'code-rev-comment-preview' => '預覽',
@@ -12674,18 +13945,35 @@ $messages['zh-hant'] = array(
 	'code-rev-diff-too-large' => '該差異太大，無法顯示。',
 	'code-rev-purge-link' => '清除',
 	'code-rev-total' => '總共有$1個結果',
+	'code-rev-not-found' => "修訂'''$1'''不存在！",
 	'code-status-new' => '新',
+	'code-status-desc-new' => '修訂是掛起的操作 （預設狀態）。',
 	'code-status-fixme' => '修正',
+	'code-status-desc-fixme' => '審閱者標記此版本引入一個錯誤或已損壞。它應該得到糾正。',
 	'code-status-reverted' => '回復',
 	'code-status-resolved' => '解決',
 	'code-status-ok' => '確定',
+	'code-status-desc-ok' => '修訂全面審查，確保它是好在每個方法中審閱者。',
 	'code-status-deferred' => '推遲',
+	'code-status-desc-deferred' => '修訂並不要求審查。',
+	'code-status-old' => '舊',
+	'code-status-desc-old' => '與潛在的錯誤，但這不值得檢討他們的努力的舊版本。',
+	'code-signoffs' => '簽收',
+	'code-signoff-legend' => '新增簽收',
+	'code-signoff-submit' => '批准',
+	'code-signoff-flag-inspected' => '檢查過',
+	'code-signoff-flag-tested' => '測試過了',
+	'code-signoff-field-user' => '用戶',
+	'code-signoff-field-flag' => '標記',
+	'code-signoff-field-date' => '日期',
+	'code-signoff-struckdate' => '$1（打$2）',
+	'code-pathsearch-legend' => '在此進行回購協議的路徑中搜尋修訂',
 	'code-pathsearch-path' => '路徑：',
 	'code-pathsearch-filter' => '過濾器適用於：',
 	'code-revfilter-cr_status' => '狀態 = $1',
 	'code-revfilter-cr_author' => '作者= $1',
 	'code-revfilter-clear' => '清除過濾器',
-	'code-rev-submit' => '保存修改',
+	'code-rev-submit' => '儲存修改',
 	'code-rev-submit-next' => '保存，並處理下一條',
 	'code-batch-status' => '更改狀態：',
 	'code-batch-tags' => '更改標籤：',
@@ -12695,9 +13983,8 @@ $messages['zh-hant'] = array(
 	'code-release-legend' => '產發發佈說明',
 	'code-release-startrev' => '開始修訂：',
 	'code-release-endrev' => '結束修訂：',
-	'code-release-badrange' => '範圍過大！',
 	'codereview-subtitle' => '對$1',
-	'codereview-reply-link' => '回復',
+	'codereview-reply-link' => '回覆',
 	'codereview-email-subj' => '[$1 $2]: 新的評論已添加',
 	'codereview-email-body' => '用戶 "$1" 在 $3 上添加了一條評論。
 
@@ -12707,9 +13994,11 @@ $messages['zh-hant'] = array(
 
 $4',
 	'codereview-email-subj2' => '[$1 $2]：後續更改',
-	'codereview-email-body2' => '用戶“$1”對$2作出了後續更改。
+	'codereview-email-body2' => '用戶「$1」對$2作出了後續更改。
 
-URL鏈接：$3
+後續修訂的URL連結：$5
+
+URL連結：$3
 
 提交摘要：
 
@@ -12717,28 +14006,37 @@ $4',
 	'codereview-email-subj3' => '[$1 $2]：自動測試發現已知錯誤',
 	'codereview-email-body3' => '自動測試發現$1導致了已知的錯誤。
 
-URL鏈接：$2
+URL連結：$2
 
 提交摘要：
 
 $3',
+	'codereview-email-subj4' => '[$1 $2]： 新增，新的註釋和修訂狀態改變',
+	'code-stats' => '統計',
+	'code-stats-header' => '$1 儲存庫的統計資訊',
+	'code-stats-main' => '$1的儲存庫已$2{{PLURAL:$2|修改|修改}}的[[Special:Code/$3/author|$4{{PLURAL:$4|作者|作者}}]]。',
+	'code-stats-status-breakdown' => '每情況修訂的數目',
+	'code-stats-fixme-breakdown' => '每個作者 fixmes 的分項數字',
+	'code-stats-count' => '修訂的數目',
 	'repoadmin' => '儲存庫管理',
 	'repoadmin-new-legend' => '建立新的儲存庫',
 	'repoadmin-new-label' => '儲存庫名稱：',
-	'repoadmin-new-button' => '創建',
+	'repoadmin-new-button' => '建立',
 	'repoadmin-edit-legend' => '修改儲存庫"$1"',
 	'repoadmin-edit-path' => '儲存庫路徑：',
 	'repoadmin-edit-bug' => 'Bugzilla路徑：',
 	'repoadmin-edit-view' => 'ViewVC路徑：',
 	'repoadmin-edit-button' => '確定',
 	'repoadmin-edit-sucess' => '儲存庫"[[Special:Code/$1|$1]]"已被成功修改。',
+	'repoadmin-nav' => '儲存庫管理',
 	'right-repoadmin' => '管理代碼儲存庫',
 	'right-codereview-use' => '使用Special:Code',
 	'right-codereview-add-tag' => '添加新標籤到修訂',
 	'right-codereview-remove-tag' => '自修訂移除標籤',
 	'right-codereview-post-comment' => '添加評論到修訂',
 	'right-codereview-set-status' => '修改修訂狀態',
-	'right-codereview-link-user' => '將作者鏈接到維基用戶',
+	'right-codereview-signoff' => '登入修訂',
+	'right-codereview-link-user' => '將作者連結到維基用戶',
 	'specialpages-group-developer' => '開發者工具',
 );
 

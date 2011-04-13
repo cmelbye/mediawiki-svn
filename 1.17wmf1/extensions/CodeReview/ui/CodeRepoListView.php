@@ -8,7 +8,18 @@ class CodeRepoListView {
 		global $wgOut;
 		$repos = CodeRepository::getRepoList();
 		if ( !count( $repos ) ) {
+			global $wgUser;
 			$wgOut->addWikiMsg( 'code-no-repo' );
+
+			if ( $wgUser->isAllowed( 'repoadmin' ) ) {
+				$wgOut->addWikiMsg( 'code-create-repo' );
+			} else {
+				$wgOut->addWikiMsg( 'code-need-repoadmin-rights' );
+
+				if ( !count( User::getGroupsWithPermission( 'repoadmin' ) ) ) {
+					$wgOut->addWikiMsg( 'code-need-group-with-rights' );
+				}
+			}
 			return;
 		}
 		$text = '';
@@ -18,6 +29,11 @@ class CodeRepoListView {
 		$wgOut->addWikiText( $text );
 	}
 
+	/**
+	 * @static
+	 * @param  $repo CodeRepository
+	 * @return string
+	 */
 	public static function getNavItem( $repo ) {
 		global $wgLang, $wgUser;
 		$name = $repo->getName();
@@ -29,6 +45,12 @@ class CodeRepoListView {
 				$links[] = "[[Special:Code/$name/author/$author|" . wfMsgHtml( 'code-mycommits' ) . "]]";
 			}
 		}
+
+		if ( $wgUser->isAllowed( 'codereview-post-comment' ) ) {
+			$userName = $wgUser->getName();
+			$links[] = "[[Special:Code/$name/comments/author/$userName|" . wfMsgHtml( 'code-mycomments' ) . "]]";
+		}
+
 		$links[] = "[[Special:Code/$name/tag|" . wfMsgHtml( 'code-tags' ) . "]]";
 		$links[] = "[[Special:Code/$name/author|" . wfMsgHtml( 'code-authors' ) . "]]";
 		$links[] = "[[Special:Code/$name/status|" . wfMsgHtml( 'code-status' ) . "]]";

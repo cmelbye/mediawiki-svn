@@ -67,7 +67,7 @@ class ApiQueryCodeRevisions extends ApiQueryBase {
 
 		} else {
 			if ( !is_null( $params['start'] ) ) {
-				$pager->setOffset( $this->getDB()->timestamp( $params['start'] ) );
+				$pager->setOffset( $params['start'] );
 			}
 			$limit = $params['limit'];
 			$pager->setLimit( $limit );
@@ -78,16 +78,16 @@ class ApiQueryCodeRevisions extends ApiQueryBase {
 		}
 
 		$count = 0;
-		$lastTimestamp = 0;
+		$start = 0;
+		$defaultSort = $pager->getDefaultSort();
 		foreach ( $revisions as $row ) {
 			if ( !$revsSet && $count == $limit ) {
-				$this->setContinueEnumParameter( 'start',
-					wfTimestamp( TS_ISO_8601, $lastTimestamp ) );
+				$this->setContinueEnumParameter( 'start', $start );
 				break;
 			}
 
 			$data[] = $this->formatRow( $row );
-			$lastTimestamp = $row->cr_timestamp;
+			$start = $row->$defaultSort;
 			$count++;
 		}
 
@@ -136,7 +136,7 @@ class ApiQueryCodeRevisions extends ApiQueryBase {
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
 			),
 			'start' => array(
-				ApiBase::PARAM_TYPE => 'timestamp'
+				ApiBase::PARAM_TYPE => 'integer'
 			),
 			'revs' => array(
 				ApiBase::PARAM_ISMULTI => true,
@@ -176,7 +176,6 @@ class ApiQueryCodeRevisions extends ApiQueryBase {
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'missingparam', 'repo' ),
 			array( 'code' => 'permissiondenied', 'info' => 'You don\'t have permission to view code revisions' ),
 			array( 'code' => 'invalidrepo', 'info' => "Invalid repo ``repo''" ),
 		) );

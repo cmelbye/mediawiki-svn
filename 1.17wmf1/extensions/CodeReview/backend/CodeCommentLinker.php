@@ -2,6 +2,16 @@
 
 abstract class CodeCommentLinker {
 
+	/**
+	 * @var Skin
+	 */
+	protected $skin;
+
+	/**
+	 * @var CodeRepository
+	 */
+	protected $mRepo;
+
 	function __construct( $repo ) {
 		global $wgUser;
 		$this->skin = $wgUser->getSkin();
@@ -15,7 +25,7 @@ abstract class CodeCommentLinker {
 			array( $this, 'generalLink' ), $text );
 		$text = preg_replace_callback( '/\br(\d+)\b/',
 			array( $this, 'messageRevLink' ), $text );
-		$text = preg_replace_callback( '/\bbug #?(\d+)\b/i',
+		$text = preg_replace_callback( CodeRevision::BugReference,
 			array( $this, 'messageBugLink' ), $text );
 		return $text;
 	}
@@ -67,6 +77,11 @@ class CodeCommentLinkerWiki extends CodeCommentLinker {
 		return "[$url $text]";
 	}
 
+	/**
+	 * @param Title $title
+	 * @param  $text
+	 * @return string
+	 */
 	function makeInternalLink( $title, $text ) {
 		return "[[" . $title->getPrefixedText() . "|$text]]";
 	}

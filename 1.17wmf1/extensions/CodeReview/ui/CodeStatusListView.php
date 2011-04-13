@@ -2,16 +2,15 @@
 
 // Special:Code/MediaWiki/status
 class CodeStatusListView extends CodeView {
-	function __construct( $repoName ) {
-		parent::__construct();
-		$this->mRepo = CodeRepository::newFromName( $repoName );
+	function __construct( $repo ) {
+		parent::__construct( $repo );
 	}
 
 	function execute() {
 		global $wgOut;
 		$name = $this->mRepo->getName();
 		$states = CodeRevision::getPossibleStates();
-		$wgOut->addWikiText( "== " . wfMsg ( "code-field-status" ) . " ==\n" );
+		$wgOut->wrapWikiMsg( "== $1 ==", 'code-field-status' );
 
 		$table_rows = '';
 		foreach ( $states as $state ) {

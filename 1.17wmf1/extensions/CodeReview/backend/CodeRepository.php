@@ -5,6 +5,12 @@
  */
 class CodeRepository {
 
+	const DIFFRESULT_BadRevision = 0;
+	const DIFFRESULT_NothingToCompare = 1;
+	const DIFFRESULT_TooManyPaths = 2;
+	const DIFFRESULT_NoDataReturned = 3;
+	const DIFFRESULT_NotInCache = 4;
+
 	/**
 	 * Local cache of Wiki user -> SVN user mappings
 	 * @var Array
@@ -90,7 +96,8 @@ class CodeRepository {
 
 	static function getRepoList() {
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'code_repo', '*', array(), __METHOD__ );
+		$options = array( 'ORDER BY' => 'repo_name' );
+		$res = $dbr->select( 'code_repo', '*', array(), __METHOD__, $options );
 		$repos = array();
 		foreach ( $res as $row ) {
 			$repos[] = self::newFromRow( $row );
@@ -140,15 +147,6 @@ class CodeRepository {
 		return intval( $row );
 	}
 
-	public function getPathSearchHorizon() {
-		global $wgCodeReviewPathSearchHorizon;
-		
-		if( $wgCodeReviewPathSearchHorizon )
-			return $this->getLastStoredRev() - $wgCodeReviewPathSearchHorizon;
-		else
-			return 0;
-	}
-
 	public function getAuthorList() {
 		global $wgMemc;
 		$key = wfMemcKey( 'codereview', 'authors', $this->getId() );
@@ -179,11 +177,16 @@ class CodeRepository {
 		return count( $this->getAuthorList() );
 	}
 
-	public function getTagList() {
+	/**
+	 * Get a list of all tags in use in the repository
+	 * @param $recache Bool whether to get clean data
+	 * @return array
+	 */
+	public function getTagList( $recache = false ) {
 		global $wgMemc;
 		$key = wfMemcKey( 'codereview', 'tags', $this->getId() );
 		$tags = $wgMemc->get( $key );
-		if ( is_array( $tags ) ) {
+		if ( is_array( $tags ) && !$recache ) {
 			return $tags;
 		}
 		$dbr = wfGetDB( DB_SLAVE );
@@ -258,29 +261,53 @@ class CodeRepository {
 	 * @param int $rev Revision ID
 	 * @param $useCache 'skipcache' to avoid caching
 	 *                   'cached' to *only* fetch if cached
+	 * @return string|int The diff text on success, a DIFFRESULT_* constant on failure.
 	 */
 	public function getDiff( $rev, $useCache = '' ) {
-		global $wgMemc;
+		global $wgMemc, $wgCodeReviewMaxDiffPaths;
 		wfProfileIn( __METHOD__ );
+
+		$data = null;
 
 		$rev1 = $rev - 1;
 		$rev2 = $rev;
 
+		// Check that a valid revision was specified.
 		$revision = $this->getRevision( $rev );
-		if ( $revision == null || !$revision->isDiffable() ) {
+		if ( $revision == null ) {
+			$data = self::DIFFRESULT_BadRevision;
+		} else {
+			// Check that there is at least one, and at most $wgCodeReviewMaxDiffPaths
+			// paths changed in this revision.
+
+			$paths = $revision->getModifiedPaths();
+			if ( !$paths->numRows() ) {
+				$data = self::DIFFRESULT_NothingToCompare;
+			} elseif ( $wgCodeReviewMaxDiffPaths > 0 && $paths->numRows() > $wgCodeReviewMaxDiffPaths ) {
+				$data = self::DIFFRESULT_TooManyPaths;
+			}
+		}
+	
+		// If an error has occurred, return it.
+		if ( $data !== null ) {
 			wfProfileOut( __METHOD__ );
-			return false;
+			return $data;
 		}
 
-		# Try memcached...
+		// Set up the cache key, which will be used both to check if already in the
+		// cache, and to write the final result to the cache.
 		$key = wfMemcKey( 'svn', md5( $this->path ), 'diff', $rev1, $rev2 );
+
+		// If not set to explicitly skip the cache, get the current diff from memcached
+		// directly.
 		if ( $useCache === 'skipcache' ) {
 			$data = null;
 		} else {
 			$data = $wgMemc->get( $key );
 		}
 
-		# Try the database...
+		// If the diff hasn't already been retrieved from the cache, see if we can get
+		// it from the DB.
 		if ( !$data && $useCache != 'skipcache' ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			$row = $dbr->selectRow( 'code_rev',
@@ -301,22 +328,43 @@ class CodeRepository {
 			}
 		}
 
-		# Generate the diff as needed...
-		if ( !$data && $useCache !== 'cached' ) {
-			$svn = SubversionAdaptor::newFromRepo( $this->path );
-			$data = $svn->getDiff( '', $rev1, $rev2 );
-			// Store to cache
-			$wgMemc->set( $key, $data, 3600 * 24 * 3 );
-			// Permanent DB storage
-			$storedData = $data;
-			$flags = Revision::compressRevisionText( $storedData );
-			$dbw = wfGetDB( DB_MASTER );
-			$dbw->update( 'code_rev',
-				array( 'cr_diff' => $storedData, 'cr_flags' => $flags ),
-				array( 'cr_repo_id' => $this->id, 'cr_id' => $rev ),
-				__METHOD__
-			);
+		// If the data was not already in the cache or in the DB, we need to retrieve
+		// it from SVN.
+		if ( !$data ) {
+			// If the calling code is forcing a cache check, report that it wasn't
+			// in the cache.
+			if ( $useCache === 'cached' ) {
+				$data = self::DIFFRESULT_NotInCache;
+
+			// Otherwise, retrieve the diff using SubversionAdaptor.
+			} else {
+				$svn = SubversionAdaptor::newFromRepo( $this->path );
+				$data = $svn->getDiff( '', $rev1, $rev2 );
+
+				// If $data is blank, report the error that no data was returned.
+				// TODO: Currently we can't tell the difference between an SVN/connection
+				//		 failure and an empty diff.  See if we can remedy this!
+				if ($data == "") {
+					$data = self::DIFFRESULT_NoDataReturned;
+				} else {
+					// Otherwise, store the resulting diff to both the temporary cache and
+					// permanent DB storage.
+					// Store to cache
+					$wgMemc->set( $key, $data, 3600 * 24 * 3 );
+
+					// Permanent DB storage
+					$storedData = $data;
+					$flags = Revision::compressRevisionText( $storedData );
+					$dbw = wfGetDB( DB_MASTER );
+					$dbw->update( 'code_rev',
+						array( 'cr_diff' => $storedData, 'cr_flags' => $flags ),
+						array( 'cr_repo_id' => $this->id, 'cr_id' => $rev ),
+						__METHOD__
+					);
+				}
+			}
 		}
+
 		wfProfileOut( __METHOD__ );
 		return $data;
 	}
@@ -362,7 +410,7 @@ class CodeRepository {
 		return false;
 	}
 
-	/*
+	/**
 	 * Link the $author to the wikiuser $user
 	 * @param $author String
 	 * @param $user User
@@ -401,7 +449,7 @@ class CodeRepository {
 		return ( $dbw->affectedRows() > 0 );
 	}
 
-	/*
+	/**
 	 * Remove local user links for $author
 	 * @param string $author
 	 * @return bool success
@@ -420,13 +468,15 @@ class CodeRepository {
 		return ( $dbw->affectedRows() > 0 );
 	}
 
-	/*
+	/**
 	 * returns a User object if $author has a wikiuser associated,
 	 * or false
+	 * @return User|bool
 	 */
 	public function authorWikiUser( $author ) {
-		if ( isset( self::$userLinks[$author] ) )
+		if ( isset( self::$userLinks[$author] ) ) {
 			return self::$userLinks[$author];
+		}
 
 		$dbr = wfGetDB( DB_SLAVE );
 		$wikiUser = $dbr->selectField(
@@ -450,7 +500,7 @@ class CodeRepository {
 		return self::$userLinks[$author] = $res;
 	}
 
-	/*
+	/**
 	 * returns an author name if $name wikiuser has an author associated,
 	 * or false
 	 */
@@ -469,5 +519,25 @@ class CodeRepository {
 			__METHOD__
 		);
 		return self::$authorLinks[$name] = $res;
+	}
+
+	/**
+	 * @static
+	 * @param int $error
+	 * @return string
+	 */
+	public static function getDiffErrorMessage( $error ) {
+		switch( $error ) {
+			case self::DIFFRESULT_BadRevision:
+				return 'Bad revision specified.';
+			case self::DIFFRESULT_TooManyPaths:
+				return 'Too many paths returned to diff';
+			case self::DIFFRESULT_NoDataReturned:
+				return 'No data returned for diff';
+			case self::DIFFRESULT_NotInCache:
+				return 'Not in cache';
+			default:
+				return 'Unknown';
+		}
 	}
 }

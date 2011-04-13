@@ -1,18 +1,14 @@
 <?php
 
 class CodeRevisionStatusView extends CodeRevisionListView {
-	function __construct( $repoName, $status ) {
-		parent::__construct( $repoName );
+	function __construct( $repo, $status ) {
+		parent::__construct( $repo );
 		$this->mStatus = $status;
 		$this->mAppliedFilter = wfMsg( 'code-revfilter-cr_status', $status );
 	}
 
 	function getPager() {
 		return new SvnRevStatusTablePager( $this, $this->mStatus );
-	}
-
-	function getSpecializedWhereClause() {
-		return array( 'cr_status' => $this->mStatus );
 	}
 }
 

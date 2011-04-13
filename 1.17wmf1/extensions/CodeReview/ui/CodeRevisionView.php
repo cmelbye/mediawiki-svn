@@ -3,6 +3,8 @@
 // Special:Code/MediaWiki/40696
 class CodeRevisionView extends CodeView {
 
+	protected $showButtonsFormatReference = false, $showButtonsFormatSignoffs = false;
+
 	/**
 	 * @param string|CodeRepository $repo
 	 * @param string|CodeRevision $rev
@@ -10,11 +12,8 @@ class CodeRevisionView extends CodeView {
 	 *
 	 */
 	function __construct( $repo, $rev, $replyTarget = null ) {
+		parent::__construct( $repo );
 		global $wgRequest;
-		parent::__construct();
-		$this->mRepo = ( $repo instanceof CodeRepository )
-			? $repo
-			: CodeRepository::newFromName( $repo );
 
 		if ( $rev instanceof CodeRevision ) {
 			$this->mRevId = $rev->getId();
@@ -49,10 +48,18 @@ class CodeRevisionView extends CodeView {
 		$this->mSelectedSignoffs = $wgRequest->getArray( 'wpSignoffs' );
 		$this->mStrikeSignoffs = $wgRequest->getCheck( 'wpStrikeSignoffs' ) ?
 			$this->mSelectedSignoffs : array();
-		$this->mAddReference = $wgRequest->getCheck( 'wpAddReferenceSubmit' ) ?
-			$wgRequest->getIntArray( 'wpAddReference', array() ) : array();
+
+		$this->mAddReference = $wgRequest->getCheck( 'wpAddReferenceSubmit' )
+				? array_map( array( $this, 'ltrimIntval' ), $wgRequest->getArray( 'wpAddReference', array() ) )
+				: array();
+
 		$this->mRemoveReferences = $wgRequest->getCheck( 'wpRemoveReferences' ) ?
 			$wgRequest->getIntArray( 'wpReferences', array() ) : array();
+	}
+
+	private function ltrimIntval( $item ) {
+		$item = ltrim( $item, 'r' );
+		return intval( $item );
 	}
 
 	function execute() {
@@ -92,6 +99,10 @@ class CodeRevisionView extends CodeView {
 		$paths = '';
 		$modifiedPaths = $this->mRev->getModifiedPaths();
 		foreach ( $modifiedPaths as $row ) {
+			// Don't output NOOP paths
+			if ( strtolower( $row->cp_action ) == 'n' ){
+				continue;
+			}
 			$paths .= $this->formatPathLine( $row->cp_path, $row->cp_action );
 		}
 		if ( $paths ) {
@@ -116,7 +127,16 @@ class CodeRevisionView extends CodeView {
 
 		$html = '';
 		if ( $this->mPath != '' ) {
-			$html .= wfMsgExt( 'code-browsing-path', 'parse', $this->mPath );
+			$links = array();
+			foreach( explode( '|', $this->mPath ) as $path ) {
+				$links[] = $this->skin->link(
+					SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() ),
+					$path,
+					array(),
+					array( 'path' => $path )
+				);
+			}
+			$html .= wfMsgExt( 'code-browsing-path', array( 'parse', 'replaceafter' ), $wgLang->commaList( $links ) );
 		}
 		# Output form
 		$html .= Xml::openElement( 'form', array( 'action' => $special->getLocalUrl(), 'method' => 'post' ) );
@@ -157,13 +177,6 @@ class CodeRevisionView extends CodeView {
 		if ( $comments ) {
 			$html .= "<h2 id='code-comments'>" . wfMsgHtml( 'code-comments' ) .
 				"</h2>\n" . $comments;
-		}
-
-		if ( $this->mReplyTarget ) {
-			$id = intval( $this->mReplyTarget );
-			$html .= Html::inlineScript(
-				"addOnloadHook(function(){document.getElementById('wpReplyTo$id').focus();});"
-			) . "\n";
 		}
 
 		if ( $this->canPostComments() ) {
@@ -239,7 +252,7 @@ class CodeRevisionView extends CodeView {
 		global $wgUser;
 		return $wgUser->isAllowed( 'codereview-signoff' ) && !$wgUser->isBlocked();
 	}
-	
+
 	/**
 	 * @return bool Whether the current user can add and remove associations between revisions
 	 */
@@ -249,9 +262,16 @@ class CodeRevisionView extends CodeView {
 	}
 
 	protected function formatPathLine( $path, $action ) {
+		$action = strtolower( $action );
+
+		// If NOOP passed, return ''
+		if ( $action == 'n' ) {
+			return '';
+		}
 		// Uses messages 'code-rev-modified-a', 'code-rev-modified-r', 'code-rev-modified-d', 'code-rev-modified-m'
-		$desc = wfMsgHtml( 'code-rev-modified-' . strtolower( $action ) );
+		$desc = wfMsgHtml( 'code-rev-modified-' . $action );
 		// Find any ' (from x)' from rename comment in the path.
+		$matches = array();
 		preg_match( '/ \([^\)]+\)$/', $path, $matches );
 		$from = isset( $matches[0] ) ? $matches[0] : '';
 		// Remove ' (from x)' from rename comment in the path.
@@ -330,6 +350,12 @@ class CodeRevisionView extends CodeView {
 		}
 	}
 
+	/**
+	 * @static
+	 * @param string $status
+	 * @param CodeView $view
+	 * @return string
+	 */
 	static function buildStatusList( $status, $view ) {
 		$states = CodeRevision::getPossibleStates();
 		$out = '';
@@ -376,7 +402,7 @@ class CodeRevisionView extends CodeView {
 			$cache = '';
 		}
 		$diff = $this->mRepo->getDiff( $this->mRev->getId(), $cache );
-		if ( !$diff && $deferDiffs ) {
+		if ( is_integer($diff) && $deferDiffs ) {
 			// We'll try loading it by AJAX...
 			return $this->stubDiffLoader();
 		} elseif ( strlen( $diff ) > $wgCodeReviewMaxDiffSize ) {
@@ -439,10 +465,10 @@ class CodeRevisionView extends CodeView {
 	}
 
 	protected function stubDiffLoader() {
-		global $wgOut, $wgExtensionAssetsPath, $wgCodeReviewStyleVersion;
+		global $wgOut;
 		$encRepo = Xml::encodeJsVar( $this->mRepo->getName() );
 		$encRev = Xml::encodeJsVar( $this->mRev->getId() );
-		$wgOut->addScriptFile( "$wgExtensionAssetsPath/CodeReview/codereview.js?$wgCodeReviewStyleVersion" );
+		$wgOut->addModules( 'ext.codereview.loaddiff' );
 		$wgOut->addInlineScript(
 			"addOnloadHook(
 				function() {
@@ -458,14 +484,19 @@ class CodeRevisionView extends CodeView {
 	 * @return string HTML
 	 */
 	protected function formatSignoffs( $signOffs, $showButtons ) {
+		$this->showButtonsFormatSignoffs = $showButtons;
 		$signoffs = implode( "\n",
 			array_map( array( $this, 'formatSignoffInline' ), $signOffs )
 		);
-		$header = '<th></th>';
+
+		$header = '';
+		if ( $showButtons ) {
+			$header = '<th></th>';
+		}
 		$header .= '<th>' . wfMsgHtml( 'code-signoff-field-user' ) . '</th>';
 		$header .= '<th>' . wfMsgHtml( 'code-signoff-field-flag' ). '</th>';
 		$header .= '<th>' . wfMsgHtml( 'code-signoff-field-date' ). '</th>';
-		$buttonrow = $showButtons ? $this->signoffButtons() : '';
+		$buttonrow = $showButtons ? $this->signoffButtons( $signOffs ) : '';
 		return "<table border='1' class='TablePager'><tr>$header</tr>$signoffs$buttonrow</table>";
 	}
 
@@ -493,10 +524,15 @@ class CodeRevisionView extends CodeView {
 	}
 
 	protected function formatReferences( $references, $showButtons ) {
+		$this->showButtonsFormatReference = $showButtons;
 		$refs = implode( "\n",
 			array_map( array( $this, 'formatReferenceInline' ), $references )
 		);
-		$header = '<th></th>';
+
+		$header = '';
+		if ( $showButtons ) {
+			$header = '<th></th>';
+		}
 		$header .= '<th>' . wfMsgHtml( 'code-field-id' ) . '</th>';
 		$header .= '<th>' . wfMsgHtml( 'code-field-message' ) . '</th>';
 		$header .= '<th>' . wfMsgHtml( 'code-field-author' ) . '</th>';
@@ -512,7 +548,6 @@ class CodeRevisionView extends CodeView {
 	 */
 	protected function formatSignoffInline( $signoff ) {
 		global $wgLang;
-		$checkbox = Html::input( 'wpSignoffs[]', $signoff->getID(), 'checkbox' );
 		$user = $this->skin->userLink( $signoff->user, $signoff->userText );
 		$flag = htmlspecialchars( $signoff->flag );
 		$signoffDate = $wgLang->timeanddate( $signoff->timestamp, true );
@@ -524,9 +559,20 @@ class CodeRevisionView extends CodeView {
 		} else {
 			$date = htmlspecialchars( $signoffDate );
 		}
-		return "<tr class='$class'><td>$checkbox</td><td>$user</td><td>$flag</td><td>$date</td></tr>";
+
+		$ret = "<tr class='$class'>";
+		if ( $this->showButtonsFormatSignoffs ) {
+			$checkbox = Html::input( 'wpSignoffs[]', $signoff->getID(), 'checkbox' );
+			$ret .= "<td>$checkbox</td>";
+		}
+		$ret .= "<td>$user</td><td>$flag</td><td>$date</td></tr>";
+		return $ret;
 	}
 
+	/**
+	 * @param  $comment CodeComment
+	 * @return string
+	 */
 	protected function formatCommentInline( $comment ) {
 		if ( $comment->id === $this->mReplyTarget ) {
 			return $this->formatComment( $comment,
@@ -536,6 +582,10 @@ class CodeRevisionView extends CodeView {
 		}
 	}
 
+	/**
+	 * @param  $change CodePropChange
+	 * @return string
+	 */
 	protected function formatChangeInline( $change ) {
 		global $wgLang;
 		$revId = $change->rev->getIdString();
@@ -584,8 +634,14 @@ class CodeRevisionView extends CodeView {
 		$revLink = $this->skin->link( $title, $this->mRev->getIdString( $rev ) );
 		$summary = $this->messageFragment( $row->cr_message );
 		$author = $this->authorLink( $row->cr_author );
-		$checkbox = Html::input( 'wpReferences[]', $rev, 'checkbox' );
-		return "<tr class='$css'><td>$checkbox</td><td>$revLink</td><td>$summary</td><td>$author</td><td>$date</td></tr>";
+
+		$ret = "<tr class='$css'>";
+		if ( $this->showButtonsFormatReference ) {
+			$checkbox = Html::input( 'wpReferences[]', $rev, 'checkbox' );
+			$ret .= "<td>$checkbox</td>";
+		}
+		$ret .= "<td>$revLink</td><td>$summary</td><td>$author</td><td>$date</td></tr>";
+		return $ret;
 	}
 
 	protected function commentLink( $commentId ) {
@@ -608,9 +664,13 @@ class CodeRevisionView extends CodeView {
 		return $this->formatComment( $comment );
 	}
 
+	/**
+	 * @param  $comment CodeComment
+	 * @param string $replyForm
+	 * @return string
+	 */
 	protected function formatComment( $comment, $replyForm = '' ) {
 		global $wgOut, $wgLang;
-		$linker = new CodeCommentLinkerWiki( $this->mRepo );
 
 		if ( $comment->id === 0 ) {
 			$linkId = 'cpreview';
@@ -636,12 +696,16 @@ class CodeRevisionView extends CodeView {
 			$this->commentReplyLink( $comment->id ) .
 			'</div>' .
 			'<div class="mw-codereview-comment-text">' .
-			$wgOut->parse( $linker->link( $comment->text ) ) .
+			$wgOut->parse( $this->codeCommentLinkerWiki->link( $comment->text ) ) .
 			'</div>' .
 			$replyForm .
 			'</div>';
 	}
 
+	/**
+	 * @param CodeComment $comment
+	 * @return string
+	 */
 	protected function commentStyle( $comment ) {
 		$depth = $comment->threadDepth();
 		$margin = ( $depth - 1 ) * 48;
@@ -687,25 +751,47 @@ class CodeRevisionView extends CodeView {
 			'</div>';
 	}
 
-	// TODO : checkboxes should be disabled if user already has set the flag
 	/**
 	 * Render the bottom row of the sign-offs table containing the buttons to
 	 * strike and submit sign-offs
 	 * @return string HTML
 	 */
-	protected function signoffButtons() {
+	protected function signoffButtons( $signOffs ) {
+		$userSignOffs = $this->getUserSignoffs( $signOffs );
 		$strikeButton = Xml::submitButton( wfMsg( 'code-signoff-strike' ), array( 'name' => 'wpStrikeSignoffs' ) );
 		$signoffText = wfMsgHtml( 'code-signoff-signoff' );
 		$signoffButton = Xml::submitButton( wfMsg( 'code-signoff-submit' ), array( 'name' => 'wpSignoff' ) );
 		$checks = '';
+
 		foreach ( CodeRevision::getPossibleFlags() as $flag ) {
-			$checks .= Html::input( 'wpSignoffFlags[]', $flag, 'checkbox', array( 'id' => "wpSignoffFlags-$flag" ) ) .
+			$checks .= Html::input( 'wpSignoffFlags[]', $flag, 'checkbox',
+				array(
+					'id' => "wpSignoffFlags-$flag",
+					isset( $userSignOffs[$flag] ) ? 'disabled' : '' => '',
+				) ) .
 				' ' . Xml::label( wfMsg( "code-signoff-flag-$flag" ), "wpSignoffFlags-$flag" ) . ' ';
 		}
 		return "<tr class='mw-codereview-signoffbuttons'><td colspan='4'>$strikeButton " . 
 			"<div class='mw-codereview-signoffchecks'>$signoffText $checks $signoffButton</div></td></tr>";
 	}
-	
+
+	/**
+	 * Gets all the current signoffs the user has against this revision
+	 *
+	 * @param Array $signOffs
+	 * @return Array
+	 */
+	protected function getUserSignoffs( $signOffs ) {
+		$ret = array();
+		global $wgUser;
+		foreach( $signOffs as $s ) {
+			if ( $s->userText == $wgUser->getName() && !$s->isStruck() ) {
+				$ret[$s->flag] = true;
+			}
+		}
+		return $ret;
+	}
+
 	/**
 	 * Render the bottom row of the follow-up revisions table containing the buttons and
 	 * textbox to add and remove follow-up associations

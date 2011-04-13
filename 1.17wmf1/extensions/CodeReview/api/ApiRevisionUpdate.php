@@ -128,6 +128,8 @@ class ApiRevisionUpdate extends ApiBase {
 			'removetags' => 'Tags to be removed from the revision',
 			'addflags' => 'Code Signoff flags to assign to the revision by the current user',
 			'removeflags' => 'Code Signoff flags to strike from the revision by the current user',
+			'addreferences' => 'Add references to this revision',
+			'removereferences' => 'Remove references from this revision',
 		);
 	}
 
@@ -142,8 +144,6 @@ class ApiRevisionUpdate extends ApiBase {
 			array( 'code' => 'permissiondenied', 'info' => 'You don\'t have permission to update code' ),
 			array( 'code' => 'invalidrepo', 'info' => "Invalid repo ``repo''" ),
 			array( 'code' => 'nosuchrev', 'info' => 'There is no revision with ID \'rev\'' ),
-			array( 'missingparam', 'repo' ),
-			array( 'missingparam', 'rev' ),
 		) );
 	}
 

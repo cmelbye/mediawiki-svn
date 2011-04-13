@@ -2,14 +2,13 @@
 
 // Special:Code/MediaWiki/tag
 class CodeTagListView extends CodeView {
-	function __construct( $repoName ) {
-		parent::__construct();
-		$this->mRepo = CodeRepository::newFromName( $repoName );
+	function __construct( $repo ) {
+		parent::__construct( $repo );
 	}
 
 	function execute() {
 		global $wgOut;
-		$list = $this->mRepo->getTagList();
+		$list = $this->mRepo->getTagList( true );
 
 		if( count( $list ) === 0 ) {
 			$wgOut->addWikiMsg( 'code-tags-no-tags' );

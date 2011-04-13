@@ -1,8 +1,8 @@
 <?php
 
 class CodeRevisionTagView extends CodeRevisionListView {
-	function __construct( $repoName, $tag ) {
-		parent::__construct( $repoName );
+	function __construct( $repo, $tag ) {
+		parent::__construct( $repo );
 		$this->mTag = $tag;
 	}
 
@@ -15,6 +15,10 @@ class SvnRevTagTablePager extends SvnRevTablePager {
 	function __construct( $view, $tag ) {
 		parent::__construct( $view );
 		$this->mTag = $tag;
+	}
+
+	function getDefaultSort() {
+		return 'ct_rev_id';
 	}
 
 	function getQueryInfo() {

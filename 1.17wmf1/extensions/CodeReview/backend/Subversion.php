@@ -2,7 +2,10 @@
 
 
 abstract class SubversionAdaptor {
-	protected $mRepo;
+	/**
+	 * @var string
+	 */
+	protected $mRepoPath;
 
 	public static function newFromRepo( $repo ) {
 		global $wgSubversionProxy, $wgSubversionProxyTimeout;
@@ -15,8 +18,11 @@ abstract class SubversionAdaptor {
 		}
 	}
 
-	function __construct( $repo ) {
-		$this->mRepo = $repo;
+	/**
+	 * @param  $repo String Path to SVN Repo
+	 */
+	function __construct( $repoPath ) {
+		$this->mRepoPath = $repoPath;
 	}
 
 	abstract function canConnect();
@@ -57,19 +63,30 @@ abstract class SubversionAdaptor {
  */
 class SubversionPecl extends SubversionAdaptor {
 
+	/**
+	 * Just return true for now. svn_info() is too slow to be useful...
+	 *
+	 * Using undocumented svn_info function. Looking at the source, this has
+	 * existed since version 0.3 of the Pecl extension (per release notes).
+	 * Nobody ever bothered filling in the documentation on php.net though.
+	 * The function returns a big array of a bunch of info about the repository
+	 * It throws a warning if the repository does not exist.
+	 */
 	function canConnect() {
-		// TODO!
+		//wfSuppressWarnings();
+		//$result = svn_info( $this->mRepoPath );
+		//wfRestoreWarnings();
 		return true;
 	}
 
 	function getFile( $path, $rev = null ) {
-		return svn_cat( $this->mRepo . $path, $rev );
+		return svn_cat( $this->mRepoPath . $path, $rev );
 	}
 
 	function getDiff( $path, $rev1, $rev2 ) {
 		list( $fout, $ferr ) = svn_diff(
-			$this->mRepo . $path, $rev1,
-			$this->mRepo . $path, $rev2 );
+			$this->mRepoPath . $path, $rev1,
+			$this->mRepoPath . $path, $rev2 );
 
 		if ( $fout ) {
 			// We have to read out the file descriptors. :P
@@ -87,13 +104,13 @@ class SubversionPecl extends SubversionAdaptor {
 	}
 
 	function getDirList( $path, $rev = null ) {
-		return svn_ls( $this->mRepo . $path,
+		return svn_ls( $this->mRepoPath . $path,
 			$this->_rev( $rev, SVN_REVISION_HEAD ) );
 	}
 
 	function getLog( $path, $startRev = null, $endRev = null ) {
 		wfSuppressWarnings();
-		$log = svn_log( $this->mRepo . $path,
+		$log = svn_log( $this->mRepoPath . $path,
 			$this->_rev( $startRev, SVN_REVISION_INITIAL ),
 			$this->_rev( $endRev, SVN_REVISION_HEAD ) );
 		wfRestoreWarnings();
@@ -105,12 +122,22 @@ class SubversionPecl extends SubversionAdaptor {
  * Using the thingy-bobber
  */
 class SubversionShell extends SubversionAdaptor {
+	const MIN_MEMORY = 204800;
+
+	function __construct( $repo ) {
+		parent::__construct( $repo );
+		global $wgMaxShellMemory;
+		if( $wgMaxShellMemory < self::MIN_MEMORY ) {
+			$wgMaxShellMemory = self::MIN_MEMORY;
+			wfDebug( __METHOD__ . " raised wgMaxShellMemory to $wgMaxShellMemory\n" );
+		}
+	}
 
 	function canConnect() {
 		$command = sprintf(
 			"svn info %s %s",
 			$this->getExtraArgs(),
-			wfEscapeShellArg( $this->mRepo ) );
+			wfEscapeShellArg( $this->mRepoPath ) );
 
 		$result = wfShellExec( $command );
 		if ( $result == "" ) {
@@ -129,7 +156,7 @@ class SubversionShell extends SubversionAdaptor {
 		$command = sprintf(
 			"svn cat %s %s",
 			$this->getExtraArgs(),
-			wfEscapeShellArg( $this->mRepo . $path ) );
+			wfEscapeShellArg( $this->mRepoPath . $path ) );
 
 		return wfShellExec( $command );
 	}
@@ -140,7 +167,7 @@ class SubversionShell extends SubversionAdaptor {
 			intval( $rev1 ),
 			intval( $rev2 ),
 			$this->getExtraArgs(),
-			wfEscapeShellArg( $this->mRepo . $path ) );
+			wfEscapeShellArg( $this->mRepoPath . $path ) );
 
 		return wfShellExec( $command );
 	}
@@ -152,7 +179,7 @@ class SubversionShell extends SubversionAdaptor {
 			wfEscapeShellArg( $this->_rev( $startRev, 'BASE' ) ),
 			wfEscapeShellArg( $this->_rev( $endRev, 'HEAD' ) ),
 			$this->getExtraArgs(),
-			wfEscapeShellArg( $this->mRepo . $path ) );
+			wfEscapeShellArg( $this->mRepoPath . $path ) );
 
 		$lines = explode( "\n", wfShellExec( $command ) );
 		$out = array();
@@ -187,6 +214,7 @@ class SubversionShell extends SubversionAdaptor {
 				$i = 0;
 				foreach ( $formats as $key => $regex ) {
 					$text = $bits[$i++];
+					$matches = array();
 					if ( preg_match( $regex, $text, $matches ) ) {
 						$data[$key] = $matches[1];
 					} else {
@@ -214,6 +242,7 @@ class SubversionShell extends SubversionAdaptor {
 					// Out of paths. Move on to the message...
 					$state = 'msg';
 				} else {
+					$matches = array();
 					if ( preg_match( '/^   (.) (.*)$/', $line, $matches ) ) {
 						$data['paths'][] = array(
 							'action' => $matches[1],
@@ -246,7 +275,7 @@ class SubversionShell extends SubversionAdaptor {
 			"svn list --xml -r%s %s %s",
 			wfEscapeShellArg( $this->_rev( $rev, 'HEAD' ) ),
 			$this->getExtraArgs(),
-			wfEscapeShellArg( $this->mRepo . $path ) );
+			wfEscapeShellArg( $this->mRepoPath . $path ) );
 		$document = new DOMDocument();
 
 		if ( !@$document->loadXML( wfShellExec( $command ) ) )
@@ -323,7 +352,7 @@ class SubversionProxy extends SubversionAdaptor {
 	function getDiff( $path, $rev1, $rev2 ) {
 		return $this->_proxy( array(
 			'action' => 'diff',
-			'base' => $this->mRepo,
+			'base' => $this->mRepoPath,
 			'path' => $path,
 			'rev1' => $rev1,
 			'rev2' => $rev2 ) );
@@ -332,7 +361,7 @@ class SubversionProxy extends SubversionAdaptor {
 	function getLog( $path, $startRev = null, $endRev = null ) {
 		return $this->_proxy( array(
 			'action' => 'log',
-			'base' => $this->mRepo,
+			'base' => $this->mRepoPath,
 			'path' => $path,
 			'start' => $startRev,
 			'end' => $endRev ) );
@@ -341,7 +370,7 @@ class SubversionProxy extends SubversionAdaptor {
 	function getDirList( $path, $rev = null ) {
 		return $this->_proxy( array(
 			'action' => 'list',
-			'base' => $this->mRepo,
+			'base' => $this->mRepoPath,
 			'path' => $path,
 			'rev' => $rev ) );
 	}

@@ -2,23 +2,50 @@
 
 // Special:Code/MediaWiki
 class CodeRevisionListView extends CodeView {
-	public $mRepo, $mPath, $batchForm;
+	/**
+	 * @var CodeRepository
+	 */
+	public $mRepo;
+	public $mPath, $batchForm;
 
 	/**
-	 * @param $repo CodeRepository or String
+	 * @param $repo CodeRepository|String
 	 */
 	function __construct( $repo ) {
+		parent::__construct( $repo );
 		global $wgRequest;
-		parent::__construct();
-		$this->mRepo = ( $repo instanceof CodeRepository )
-				? $repo
-				: CodeRepository::newFromName( $repo );
-		$this->mPath = htmlspecialchars( trim( $wgRequest->getVal( 'path' ) ) );
-		if ( strlen( $this->mPath ) && $this->mPath[0] !== '/' ) {
-			$this->mPath = "/{$this->mPath}"; // make sure this is a valid path
+
+		$path = $wgRequest->getVal( 'path' );
+
+		if ( $path != '' ) {
+			$this->mPath = array_map( array( $this, 'preparePaths' ), explode( '|', $path ) );
+		} else {
+			$this->mPath = array();
 		}
+
 		$this->mAuthor = $wgRequest->getText( 'author' );
 		$this->mAppliedFilter = null;
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	function preparePaths( $path ) {
+		$path = trim( $path );
+		$path = rtrim( $path, '/' );
+		$path = htmlspecialchars( $path );
+		if ( strlen( $path ) && $path[0] !== '/' ) {
+			$path = "/{$path}"; // make sure this is a valid path
+		}
+		return $path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPathsAsString() {
+		return implode( '|', $this->mPath );
 	}
 
 	function execute() {
@@ -118,6 +145,10 @@ class CodeRevisionListView extends CodeView {
 		$wgOut->redirect( $this->getPager()->getTitle()->getFullURL( $fields ) );
 	}
 
+	/**
+	 * @param SvnRevTablePager $pager
+	 * @return string
+	 */
 	protected function buildBatchInterface( $pager ) {
 		global $wgUser;
 
@@ -164,7 +195,7 @@ class CodeRevisionListView extends CodeView {
 		$ret = Xml::openElement( 'form', array( 'action' => $wgScript, 'method' => 'get' ) ) .
 			"<fieldset><legend>" . wfMsgHtml( 'code-pathsearch-legend' ) . "</legend>" .
 				'<table width="100%"><tr><td>' .
-				Xml::inputlabel( wfMsg( "code-pathsearch-path" ), 'path', 'path', 55, $this->mPath ) .
+				Xml::inputlabel( wfMsg( "code-pathsearch-path" ), 'path', 'path', 55, $this->getPathsAsString() ) .
 				'&#160;' . Xml::submitButton( wfMsg( 'allpagessubmit' ) ) .
 				'</td>';
 
@@ -183,6 +214,9 @@ class CodeRevisionListView extends CodeView {
 		return $ret;
 	}
 
+	/**
+	 * @return SvnRevTablePager
+	 */
 	function getPager() {
 		return new SvnRevTablePager( $this );
 	}
@@ -190,39 +224,24 @@ class CodeRevisionListView extends CodeView {
 	/**
 	 * Get total number of revisions for this revision view
 	 *
+	 * @var $dbr DatabaseBase
 	 * @return int Number of revisions
 	 */
 	function getRevCount( $dbr ) {
-		$tables = array( 'code_rev' );
-		$selectFields = array( 'COUNT( DISTINCT cr_id ) AS rev_count' );
-		// Count if code_rev where path matches
-		if ( strlen( $this->mPath ) ) {
-			$tables[] = 'code_paths';
-			$whereCond = array(
-							'cr_repo_id' => $this->mRepo->getId(),
-							'cr_id = cp_rev_id',
-							' cp_path' . $dbr->buildLike( $this->mPath, $dbr->anyString() ),
-							// Performance
-							' cp_rev_id > ' . $this->mRepo->getPathSearchHorizon()
-						);
-		// No path; count of code_rev
-		} else {
-			$whereCond = array( 'cr_repo_id' => $this->mRepo->getId() );
-		}
-		$whereCond = array_merge( $whereCond, $this->getSpecializedWhereClause( $dbr ) );
-		$result = $dbr->selectRow( $tables, $selectFields, $whereCond );
+		$query = $this->getPager()->getCountQuery();
+
+		$result = $dbr->selectRow( $query['tables'],
+			$query['fields'],
+			$query['conds'],
+			__METHOD__,
+			$query['options'],
+			$query['join_conds']
+		);
 		if ( $result ) {
 			return intval( $result->rev_count );
 		} else {
 			return 0;
 		}
-	}
-
-	/**
-	 * @todo Document
-	 */
-	function getSpecializedWhereClause() {
-		return array();
 	}
 
 	function getRepo() {
@@ -238,22 +257,21 @@ class SvnRevTablePager extends SvnTablePager {
 	}
 
 	function getDefaultSort() {
-		return strlen( $this->mView->mPath ) ? 'cp_rev_id' : 'cr_id';
+		return count( $this->mView->mPath ) ? 'cp_rev_id' : 'cr_id';
 	}
 
 	function getQueryInfo() {
+		$defaultSort = $this->getDefaultSort();
 		// Path-based query...
-		if ( $this->getDefaultSort() === 'cp_rev_id' ) {
+		if ( $defaultSort === 'cp_rev_id' ) {
 			$query = array(
 				'tables' => array( 'code_paths', 'code_rev', 'code_comment' ),
 				'fields' => $this->getSelectFields(),
 				'conds' => array(
 					'cp_repo_id' => $this->mRepo->getId(),
-					'cp_path ' . $this->mDb->buildLike( $this->getSVNPath(), $this->mDb->anyString() ),
-					// performance
-					'cp_rev_id > ' . $this->mRepo->getPathSearchHorizon()
+					'cp_path' => $this->getSVNPath(),
 				),
-				'options' => array( 'GROUP BY' => 'cp_rev_id', 'USE INDEX' => array( 'code_path' => 'cp_repo_id' ) ),
+				'options' => array( 'GROUP BY' => $defaultSort, 'USE INDEX' => array( 'code_path' => 'cp_repo_id' ) ),
 				'join_conds' => array(
 					'code_rev' => array( 'INNER JOIN', 'cr_repo_id = cp_repo_id AND cr_id = cp_rev_id' ),
 					'code_comment' => array( 'LEFT JOIN', 'cc_repo_id = cp_repo_id AND cc_rev_id = cp_rev_id' ),
@@ -265,7 +283,7 @@ class SvnRevTablePager extends SvnTablePager {
 				'tables' => array( 'code_rev', 'code_comment' ),
 				'fields' => $this->getSelectFields(),
 				'conds' => array( 'cr_repo_id' => $this->mRepo->getId() ),
-				'options' => array( 'GROUP BY' => 'cr_id' ),
+				'options' => array( 'GROUP BY' => $defaultSort ),
 				'join_conds' => array(
 					'code_comment' => array( 'LEFT JOIN', 'cc_repo_id = cr_repo_id AND cc_rev_id = cr_id' ),
 				)
@@ -274,6 +292,14 @@ class SvnRevTablePager extends SvnTablePager {
 		if( $this->mView->mAuthor ) {
 			$query['conds']['cr_author'] = $this->mView->mAuthor;
 		}
+		return $query;
+	}
+
+	function getCountQuery() {
+		$query = $this->getQueryInfo();
+
+		$query['fields'] = array( 'COUNT( DISTINCT cr_id ) AS rev_count' );
+		unset( $query['options']['GROUP BY'] );
 		return $query;
 	}
 
@@ -293,7 +319,7 @@ class SvnRevTablePager extends SvnTablePager {
 
 	function getFieldNames() {
 		$fields = array(
-			$this->getDefaultSort() => wfMsg( 'code-field-id' ),
+			'cr_id' => wfMsg( 'code-field-id' ),
 			'cr_status' => wfMsg( 'code-field-status' ),
 			'comments' => wfMsg( 'code-field-comments' ),
 			'cr_path' => wfMsg( 'code-field-path' ),
@@ -312,13 +338,12 @@ class SvnRevTablePager extends SvnTablePager {
 
 	function formatRevValue( $name, $value, $row ) {
 		global $wgLang;
-		$pathQuery = ( strlen( $this->mView->mPath ) ) ? array( 'path' => $this->mView->mPath ) : array();
+		$pathQuery = count( $this->mView->mPath ) ? array( 'path' => $this->mView->getPathsAsString() ) : array();
 
 		switch( $name ) {
 		case 'selectforchange':
 			$sort = $this->getDefaultSort();
 			return Xml::check( "wpRevisionSelected[]", false, array( 'value' => $row->$sort ) );
-		case 'cp_rev_id':
 		case 'cr_id':
 			return $this->mView->skin->link(
 				SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() . '/' . $value ),
@@ -348,12 +373,18 @@ class SvnRevTablePager extends SvnTablePager {
 				return '-';
 			}
 		case 'cr_path':
+			$title = $this->mRepo->getName();
+			if( $this->mView->mAuthor ) {
+				$title .= '/author/' . $this->mView->mAuthor;
+			}
+
 			return Xml::openElement( 'div', array( 'title' => (string)$value ) ) .
 					$this->mView->skin->link(
-					SpecialPage::getTitleFor( 'Code', $this->mRepo->getName() . '/path' ),
-					$wgLang->truncate( (string)$value, 50 ),
-					array( 'title' => (string)$value ),
-					array( 'path' => (string)$value ) ) . "</div>";
+						SpecialPage::getTitleFor( 'Code', $title ),
+						$wgLang->truncate( (string)$value, 50 ),
+						array( 'title' => (string)$value ),
+						array( 'path' => (string)$value )
+					) . "</div>";
 		}
 	}
 

@@ -1,10 +1,9 @@
 <?php
 
 class CodeReleaseNotes extends CodeView {
-	function __construct( $repoName ) {
+	function __construct( $repo ) {
 		global $wgRequest, $IP;
-		parent::__construct( $repoName );
-		$this->mRepo = CodeRepository::newFromName( $repoName );
+		parent::__construct( $repo );
 		$this->mPath = htmlspecialchars( trim( $wgRequest->getVal( 'path' ) ) );
 		if ( strlen( $this->mPath ) && $this->mPath[0] !== '/' ) {
 			$this->mPath = "/{$this->mPath}"; // make sure this is a valid path
@@ -21,13 +20,7 @@ class CodeReleaseNotes extends CodeView {
 			return;
 		}
 		$this->showForm();
-		# Sanity/performance check...
-		$lastRev = $this->mRepo->getLastStoredRev();
-		if ( $this->mStartRev < ( $lastRev - 10000 ) ) {
-			global $wgOut;
-			$wgOut->addHtml( wfMsgHtml( 'code-release-badrange' ) );
-			return;
-		}
+
 		# Show notes if we have at least a starting revision
 		if ( $this->mStartRev ) {
 			$this->showReleaseNotes();
@@ -54,26 +47,24 @@ class CodeReleaseNotes extends CodeView {
 
 	protected function showReleaseNotes() {
 		global $wgOut;
-		$linker = new CodeCommentLinkerHtml( $this->mRepo );
 		$dbr = wfGetDB( DB_SLAVE );
+		$where = array();
 		if ( $this->mEndRev ) {
-			$where = 'cr_id BETWEEN ' . intval( $this->mStartRev ) . ' AND ' . intval( $this->mEndRev );
+			$where[] = 'cr_id BETWEEN ' . intval( $this->mStartRev ) . ' AND ' . intval( $this->mEndRev );
 		} else {
-			$where = 'cr_id >= ' . intval( $this->mStartRev );
+			$where[] = 'cr_id >= ' . intval( $this->mStartRev );
 		}
 		if ( $this->mPath ) {
-			$where .= ' AND (cr_path ' . $dbr->buildLike( "{$this->mPath}/", $dbr->anyString() );
-			$where .= ' OR cr_path = ' . $dbr->addQuotes( $this->mPath ) . ')';
+			$where['cr_path'] = $this->mPath;
 		}
 		# Select commits within this range...
 		$res = $dbr->select( array( 'code_rev', 'code_tags' ),
 			array( 'cr_message', 'cr_author', 'cr_id', 'ct_tag AS rnotes' ),
-			array(
+			array_merge( array(
 				'cr_repo_id' => $this->mRepo->getId(), // this repo
 				"cr_status NOT IN('reverted','deferred','fixme')", // not reverted/deferred/fixme
 				"cr_message != ''",
-				$where // in range
-			),
+			), $where ),
 			__METHOD__,
 			array( 'ORDER BY' => 'cr_id DESC' ),
 			array( 'code_tags' => array( 'LEFT JOIN', # Tagged for release notes?
@@ -93,8 +84,8 @@ class CodeReleaseNotes extends CodeView {
 					$summary = str_replace( "\n", "<br />", $summary ); // Newlines -> <br />
 					$wgOut->addHTML( "<li>" );
 					$wgOut->addHTML(
-						$linker->link( $summary ) . " <i>(" . htmlspecialchars( $row->cr_author ) .
-						', ' . $linker->link( "r{$row->cr_id}" ) . ")</i>"
+						$this->codeCommentLinkerHtml->link( $summary ) . " <i>(" . htmlspecialchars( $row->cr_author ) .
+						', ' . $this->codeCommentLinkerHtml->link( "r{$row->cr_id}" ) . ")</i>"
 					);
 					$wgOut->addHTML( "</li>\n" );
 				}
@@ -142,10 +133,20 @@ class CodeReleaseNotes extends CodeView {
 		return $summary;
 	}
 
-	// Quick relevance tests (these *should* be over-inclusive a little if anything)
+	/**
+	 * Quick relevance tests (these *should* be over-inclusive a little if anything)
+	 *
+	 * @param  $summary
+	 * @param bool $whole
+	 * @return bool|int
+	 */
 	private function isRelevant( $summary, $whole = true ) {
-		# Fixed a bug? Mentioned a config var?
-		if ( preg_match( '/\b(bug #?(\d+)|\$[we]g[0-9a-z]{3,50})\b/i', $summary ) ) {
+		# Mentioned a bug?
+		if ( preg_match( CodeRevision::BugReference, $summary) ) {
+			return true;
+		}
+		#Mentioned a config var?
+		if ( preg_match( '/\b\$[we]g[0-9a-z]{3,50}\b/i', $summary ) ) {
 			return true;
 		}
 		# Sanity check: summary cannot be *too* short to be useful
