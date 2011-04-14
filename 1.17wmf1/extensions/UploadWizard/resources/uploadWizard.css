@@ -1,6 +1,7 @@
 /* for feedback request message */
 #contentSub {
 	margin-left: 0;
+	color: #666666;
 }
 
 form.mwe-upwiz-form {
@@ -92,6 +93,10 @@ form.mwe-upwiz-form {
 	cursor: pointer;
 }
 
+#mwe-upwiz-stepdiv-file .mwe-upwiz-visible-file {
+	cursor: auto !important;
+}
+
 /* file inputs are freakishly large to overflow the containing div -- we get a div 
    that can act as a more styleable single-click file input */
 .mwe-upwiz-file-input, .disabler {
@@ -161,8 +166,12 @@ form.mwe-upwiz-form {
 	color: #797979;
 }
 
-.mwe-upwiz-progress-bar-etr-container {
-	/* needed ? */
+.mwe-upwiz-progress-bar {
+	border: 1px solid #aed0ea;
+}
+
+.mwe-upwiz-progress-bar .ui-progressbar-value {
+	background: #dfeffa; /* matches the highlighted arrow */
 }
 	
 .mwe-upwiz-file-preview {
@@ -274,7 +283,7 @@ a[disabled=true]:hover {
 	width: 40px;
 }
 
-.mwe-upwiz-mask, .mwe-upwiz-status {
+.mwe-upwiz-mask {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -288,6 +297,9 @@ a[disabled=true]:hover {
 	background: url('images/24px-spinner-0645ad-e0f0ff.gif') no-repeat center center;
 }
 
+.mwe-upwiz-file.odd .mwe-upwiz-status-progress {
+	background: url('images/24px-spinner-0645ad-f5f5f5.gif') no-repeat center center;
+}
 .mwe-upwiz-status-stashed, .mwe-upwiz-status-uploaded {
 	background: url('images/32px-Dialog-apply-009900.svg.png') no-repeat center center;
 }
@@ -348,7 +360,7 @@ a[disabled=true]:hover {
 
 .mwe-upwiz-thumbnail {
 	padding: 0.5em;
-	width: 120px;
+	width: auto; 
 }
 
 .mwe-upwiz-thumbnail-side {
@@ -621,6 +633,10 @@ input[type='text'].mwe-validator-error, textarea.mwe-validator-error {
 	background: url('images/toggle-open.png') no-repeat left center;
 }
 
+.mwe-upwiz-toggler-content {
+	padding-left: 18px;
+}
+
 .mwe-upwiz-toggled {
 	margin-top: 1em;
 }
@@ -640,6 +656,7 @@ input[type='text'].mwe-validator-error, textarea.mwe-validator-error {
 
 .mwe-readonly {
 	background-color: #ffffff;
+	padding: 0.25em;
 }
 
 .mwe-date-display {
@@ -677,18 +694,12 @@ input[type='text'].mwe-validator-error, textarea.mwe-validator-error {
 #upload-wizard .ui-corner-left { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; }
 #upload-wizard .ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; }
 
-.mwe-upwiz-deed-license-group {
-	margin-top: 1em;
-	margin-bottom: 1.5em;
-}
-
-.mwe-upwiz-deed-license-group-head {
-	font-weight: bold;
-	margin-bottom: 0em;
-}
-
 .mwe-upwiz-deed-license-group-subhead {
 	color: #797979;
 	margin-top: 0em;
 	margin-bottom: 0em;
+}
+
+.ui-dialog .mwe-upwiz-lightbox {
+	padding: 0;
 }

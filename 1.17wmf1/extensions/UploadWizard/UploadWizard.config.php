@@ -31,12 +31,12 @@ return array(
 		),
 		'cc-by-sa-3.0-gfdl' => array(
 			'msg' => 'mwe-upwiz-license-cc-by-sa-3.0-gfdl',
-			'templates' => array( 'gfdl', 'cc-by-sa-3.0' ),
+			'templates' => array( 'GFDL', 'cc-by-sa-3.0' ),
 			'icons' => array( 'cc-by', 'cc-sa' )
 		),
 		'cc-by-3.0-gfdl' => array(
 			'msg' => 'mwe-upwiz-license-cc-by-3.0-gfdl',
-			'templates' => array( 'gfdl', 'cc-by-3.0' ),
+			'templates' => array( 'GFDL', 'cc-by-3.0' ),
 			'icons' => array( 'cc-by' )
 		),
 		'cc-by-3.0' => array( 
@@ -69,44 +69,46 @@ return array(
 			'icons' => array( 'cc-by' )
 		),
 		'fal' => array(
-			'msg' => 'mwe-upwiz-license-fal'
+			'msg' => 'mwe-upwiz-license-fal',
+			'templates' => array( 'FAL' )
 		),
 		'pd-old-100' => array(
-			'msg' => 'mwe-upwiz-license-pd-old-100'
+			'msg' => 'mwe-upwiz-license-pd-old-100',
+			'templates' => array( 'PD-old-100' )
 		),
 		'pd-old' => array( 
-			'msg' => 'mwe-upwiz-license-pd-old'
+			'msg' => 'mwe-upwiz-license-pd-old',
+			'templates' => array( 'PD-old' )
 		),
-        	'pd-art' => array( 
-        		'msg' => 'mwe-upwiz-license-pd-art'
+		'pd-art' => array( 
+			'msg' => 'mwe-upwiz-license-pd-art',
+			'templates' => array( 'PD-Art' )
 		),
-        	'pd-us' => array( 
-			'msg' => 'mwe-upwiz-license-pd-us'
+		'pd-us' => array( 
+			'msg' => 'mwe-upwiz-license-pd-us',
+			'templates' => array( 'PD-US' )
 		),
 		'pd-usgov' => array(
-			'msg' => 'mwe-upwiz-license-pd-usgov'
+			'msg' => 'mwe-upwiz-license-pd-usgov',
+			'templates' => array( 'PD-USGov' )
 		),
 		'pd-usgov-nasa' => array(
-			'msg' => 'mwe-upwiz-license-pd-usgov-nasa'
-		),
-		'pd-usgov-military-navy' => array( 
-			'msg' => 'mwe-upwiz-license-pd-usgov-military-navy'
+			'msg' => 'mwe-upwiz-license-pd-usgov-nasa',
+			'templates' => array( 'PD-USGov-NASA' )
 		),
 		'pd-ineligible' => array(
 			'msg' => 'mwe-upwiz-license-pd-ineligible'
 		),
 		'pd-textlogo' => array( 
 			'msg' => 'mwe-upwiz-license-pd-textlogo',
-			'templates' => array( 'trademarked', 'pd-textlogo' )
-		),
-		'copyrighted-free-use' => array( 
-			'msg' => 'mwe-upwiz-license-copyrighted-free-use'
+			'templates' => array( 'trademarked', 'PD-textlogo' )
 		),
 		'attribution' => array(
 			'msg' => 'mwe-upwiz-license-attribution'
 		),
 		'gfdl' => array( 
-			'msg' => 'mwe-upwiz-license-gfdl'
+			'msg' => 'mwe-upwiz-license-gfdl',
+			'templates' => array( 'GFDL' )
 		)
 	),
 
@@ -189,6 +191,12 @@ return array(
 
 	// Small thumbnail max height
 	'smallThumbnailMaxHeight' => 100,
+	
+	// Large thumbnail width
+	'largeThumbnailWidth' => 500,
+
+	// Large thumbnail max height
+	'largeThumbnailMaxHeight' => 500,
 
 	// Icon thumbnail width: 
 	'iconThumbnailWidth' =>  32,

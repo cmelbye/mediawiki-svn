@@ -45,7 +45,7 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 	//    http://commons.wikimedia.org/wiki/MediaWiki:Filename-prefix-blacklist
 	//    XXX make sure they can't use ctrl characters or returns or any other bad stuff.
 	_this.titleId = "title" + _this.upload.index;
-	_this.titleInput = $j( '<input type="text" id="' + _this.titleId + '" name="' + _this.titleId + '" class="mwe-title"/>' )
+	_this.titleInput = $j( '<input type="text" id="' + _this.titleId + '" name="' + _this.titleId + '" class="mwe-title" maxlength="250"/>' )
 		.keyup( function() { 
 			_this.upload.title.setNameText( _this.titleInput.value );
 			// TODO update a display of filename 
@@ -54,7 +54,7 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 			api: _this.upload.api,
 			spinner: function(bool) { _this.toggleDestinationBusy(bool); },
 			preprocess: function( name ) { 
-				if ( name != '' ) {
+				if ( name !== '' ) {
 					// turn the contents of the input into a MediaWiki title ("File:foo_bar.jpg") to look up
 					return _this.upload.title.setNameText( name ).toString();
 				} else {
@@ -328,99 +328,24 @@ mw.UploadWizardDetails.prototype = {
 		$j( _this.titleInput ).data( 'valid', false );
 
 		// result is NOT unique
-		var title;
+		var titleString;
 		try { 
-			title = new mw.Title( result.title ).setNamespace( 'file' ).getNameText();
+			titleString = new mw.Title( result.title ).setNamespace( 'file' ).toString();
 		} catch ( e ) {
 			// unparseable result from unique test? 
-			title = '[unparseable name]';
+			titleString = '[unparseable name]';
 		}
-			
-		/* var img = result.img;
-		var href = result.href; */
-	
+
+		var errHtml;
+		if ( result.href ) {
+			errHtml = gM( 'mwe-upwiz-fileexists-replace-on-page', titleString, $j( '<a />' ).attr( { href: result.href, target: '_blank' } ) );
+		} else {
+			errHtml = gM( 'mwe-upwiz-fileexists-replace-no-link', titleString );
+		}
+				
 		_this.$form.find( 'label[for=' + _this.titleId + ']' )
-			.html( gM( 'mwe-upwiz-fileexists-replace', title ) )
+			.html( errHtml )
 			.show();
-
-		/* temporarily commenting out the full thumbnail etc. thing. For now, we just want the user to change
-                   to a different name 	
-		_this.ignoreWarningsInput = $j("<input />").attr( { type: 'checkbox', name: 'ignorewarnings' } ); 
-		var $fileAlreadyExists = $j('<div />')
-			.append(				
-				gM( 'mwe-upwiz-fileexists', 
-					$j('<a />')
-					.attr( { target: '_new', href: href } )
-					.text( title )
-				),
-				$j('<br />'),
-				_this.ignoreWarningsInput,
-				gM('mwe-upwiz-overwrite')
-			);
-		
-		var $imageLink = $j('<a />')
-			.addClass( 'image' )
-			.attr( { target: '_new', href: href } )
-			.append( 
-				$j( '<img />')
-				.addClass( 'thumbimage' )
-				.attr( {
-					'width' : img.thumbwidth,
-					'height' : img.thumbheight,
-					'border' : 0,
-					'src' : img.thumburl,
-					'alt' : title
-				} )
-			);
-			
-		var $imageCaption = $j( '<div />' )
-			.addClass( 'thumbcaption' )
-			.append( 
-				$j('<div />')
-				.addClass( "magnify" )
-				.append(
-					$j('<a />' )
-					.addClass( 'internal' )
-					.attr( {
-						'title' : gM('mwe-upwiz-thumbnail-more'),
-						'href' : href
-					} ),
-					
-					$j( '<img />' )
-					.attr( {
-						'border' : 0,
-						'width' : 15,
-						'height' : 11,
-						'src' : mw.UploadWizard.config[  'images_path'  ] + 'magnify-clip.png'
-					} ), 
-					
-					$j('<span />')
-					.html( gM( 'mwe-fileexists-thumb' ) )
-				)													
-			);
-
-		$j( _this.titleErrorDiv ).html(
-			$j('<span />')  // dummy argument since .html() only takes one arg
-				.append(
-					$fileAlreadyExists,
-					$j( '<div />' )
-						.addClass( 'thumb tright' )
-						.append(
-							$j( '<div />' )
-							.addClass( 'thumbinner' )
-							.css({
-								'width' : ( parseInt( img.thumbwidth ) + 2 ) + 'px;'
-							})
-							.append( 
-								$imageLink, 
-								$imageCaption
-							)					
-						)
-				)
-		).show();
-		*/
-
-
 	}, 
 
 	/**
@@ -721,11 +646,12 @@ mw.UploadWizardDetails.prototype = {
 			wikiText += otherInfoWikiText + "\n\n";
 		}
 		
+		// add licensing information
 		wikiText += "=={{int:license-header}}==\n";
+		wikiText += deed.getLicenseWikiText() + "\n\n";
 		
-		// in the other implementations, category text follows immediately after license text. This helps 
-		// group categories together, maybe?
-		wikiText += deed.getLicenseWikiText() + _this.div.find( '.categoryInput' ).get(0).getWikiText() + "\n\n";
+		// add categories
+		wikiText += _this.div.find( '.categoryInput' ).get(0).getWikiText() + "\n\n";
 		
 		// sanitize wikitext if TextCleaner is defined (MediaWiki:TextCleaner.js)
 		if ( typeof TextCleaner != 'undefined' && typeof TextCleaner.sanitizeWikiText == 'function' ) {
@@ -740,10 +666,14 @@ mw.UploadWizardDetails.prototype = {
 	 * XXX This should be split up -- one part should get wikitext from the interface here, and the ajax call
 	 * should be be part of upload
 	 */
-	submit: function( endCallback ) {
+	submit: function() {
 		var _this = this;
 
+		_this.upload.state = 'submitting-details';
+		_this.showIndicator( 'progress' );
+
 		// XXX check state of details for okayness ( license selected, at least one desc, sane filename )
+		// validation does MOST of this already
 		var wikiText = _this.getWikiText();
 
 		var params = {
@@ -754,25 +684,44 @@ mw.UploadWizardDetails.prototype = {
 			summary: "User created page with " + mw.UploadWizard.userAgent
 		};
 
-		var finalCallback = function( result ) { 
-			endCallback( result );
-			_this.completeDetailsSubmission(); 
-		};	
-
-		var callback = function( result ) {
-			finalCallback( result );
+		var err = function( code, info ) {
+			_this.showError( code, info );	
 		};
 
-		_this.upload.state = 'submitting-details';
-		// XXX this can still fail with bad filename, or other 'warnings' -- capture these
-		_this.upload.api.postWithEditToken( params, callback );
+		var ok = function( result ) {
+			if ( result && result.upload && result.upload.imageinfo ) {
+				_this.upload.extractImageInfo( result.upload.imageinfo );
+				_this.upload.detailsProgress = 1.0;
+				_this.upload.state = 'complete';
+				_this.showIndicator( 'uploaded' );
+			} else {
+				_this.showError( 'details-info-missing', result );
+			}
+		};
+
+		_this.upload.api.postWithEditToken( params, ok, err );
 	},
 
-	completeDetailsSubmission: function() {
-		var _this = this;
-		_this.upload.state = 'complete';
-		// de-spinnerize
-		_this.upload.detailsProgress = 1.0;
+	showError: function( code, result ) {
+		this.showIndicator( 'error' );
+		// types of errors we know about...
+		// recoverable by fixing title
+		// TODO unmask and fix the error on the title
+
+		// recoverable by trying again, or removing
+		// TODO removal / retry interface
+		this.setStatus( result.error.info );
+	},
+
+	setStatus: function( s ) { 
+		this.div.data( 'statusLine' ).html( s ).show();
+	},
+
+	showIndicator: function( statusStr ) { 
+		this.div.data( 'indicator' )
+			.show()
+			.removeClass( 'mwe-upwiz-status-progress mwe-upwiz-status-error mwe-upwiz-status-uploaded' )
+			.addClass( 'mwe-upwiz-status-' + statusStr );
 	},
 
 	dateInputCount: 0

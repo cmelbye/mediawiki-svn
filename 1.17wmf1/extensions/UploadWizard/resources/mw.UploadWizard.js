@@ -53,6 +53,9 @@ mw.UploadWizardUpload.prototype = {
 	 */
 	remove: function() {
 		this.state = 'aborted';
+		if ( this.deedThumbnailDiv ) {
+			this.deedThumbnailDiv.remove();
+		}
 		if ( this.details && this.details.div ) {
 			this.details.div.remove(); 
 		}
@@ -202,13 +205,20 @@ mw.UploadWizardUpload.prototype = {
 		_this.ui.setStatus( 'mwe-upwiz-getting-metadata' );
 		if ( result.upload ) {
 			_this.extractUploadInfo( result.upload );
+			// create the small thumbnail used on the 'upload' step
 			_this.getThumbnail( 
 				function( image ) {
 					// n.b. if server returns a URL, which is a 404, we do NOT get broken image
-					_this.ui.setPreview( image );
+					_this.ui.setPreview( image ); // make the thumbnail the preview image
 				},
-				mw.UploadWizard.config[ 'iconThumbnailWidth'  ], 
+				mw.UploadWizard.config[ 'iconThumbnailWidth' ], 
 				mw.UploadWizard.config[ 'iconThumbnailMaxHeight' ] 
+			);
+			// create the large thumbnail that the other thumbnails link to
+			_this.getThumbnail( 
+				function( image ) {},
+				mw.UploadWizard.config[ 'largeThumbnailWidth' ], 
+				mw.UploadWizard.config[ 'largeThumbnailMaxHeight' ] 
 			);
 			_this.deedPreview.setup();
 			_this.details.populate();
@@ -405,32 +415,54 @@ mw.UploadWizardUpload.prototype = {
 			height = parseInt( height, 10 );
 		}
 
-		var href = '#';		
-		$j.each( [ 'descriptionurl', 'url' ], function( i, propName ) {
-			var prop = _this.imageinfo[ propName ];
-			if ( prop ) {
-				href = prop;
-				return false;
-			}
-		} );
- 
 		var callback = function( image ) {
 			if ( image === null ) {
 				$j( selector ).addClass( 'mwe-upwiz-file-preview-broken' );
 				_this.ui.setStatus( 'mwe-upwiz-thumbnail-failed' );
 			} else {
+				var $thumbnailLink = $j( '<a class="mwe-upwiz-thumbnail-link"></a>' );
+				if ( _this.state != 'complete' ) { // don't use lightbox for thank you page thumbnail
+					$thumbnailLink
+						.attr( {
+							'href': '#',
+							'target' : '_new'
+						} )
+						// set up lightbox behavior for thumbnail
+						.click( function() {
+							// get large preview image
+							_this.getThumbnail( 
+								// open large preview in modal dialog box
+								function( image ) {
+									var dialogWidth = ( image.width > 200 ) ? image.width : 200;
+									$( '<div class="mwe-upwiz-lightbox"></div>' )
+										.append( image )
+										.dialog( {
+											'width': dialogWidth,
+											'autoOpen': true,
+											'title': gM( 'mwe-upwiz-image-preview' ),
+											'modal': true,
+											'resizable': false
+										} );
+								},
+								mw.UploadWizard.config[ 'largeThumbnailWidth' ], 
+								mw.UploadWizard.config[ 'largeThumbnailMaxHeight' ] 
+							);
+							return false;
+						} ); // close thumbnail click function
+				} // close if
+				
 				$j( selector ).html(
-					$j( '<a/>' )
-						.attr( { 'href': href,
-							 'target' : '_new' } )
-						.append(
-							$j( '<img/>' )
-								.attr( { 'width':  image.width, 
-									 'height': image.height,
-									 'src':    image.src } ) 
-						)
-				);
-			}
+					// insert the thumbnail into the anchor
+					$thumbnailLink.append(
+						$j( '<img/>' )
+							.attr( {
+								'width':  image.width, 
+								'height': image.height,
+								'src':    image.src
+							} ) 
+					) // close append
+				); // close html
+			} // close image !== null else condition
 		};
 		
 		_this.getThumbnail( callback, width, height );
@@ -518,7 +550,14 @@ mw.UploadWizard.prototype = {
 	 * Depending on whether we split uploading / detailing, it may actually always be as simple as loading a URL
 	 */
 	reset: function() {
-		window.location = wgArticlePath.replace( '$1', 'Special:UploadWizard?skiptutorial=true' );
+		// window.location = wgArticlePath.replace( '$1', 'Special:UploadWizard?skiptutorial=true' );
+		var _this = this;
+		// deeds page
+		_this.deedChooser.remove();
+		_this.removeMatchingUploads( function() { return true; } );
+		// this could be slicker... need to reset the headline AND get rid of individual divs
+		$( '#mwe-upwiz-thanks' ).html( '' );
+		_this.moveToStep( 'file' );
 	},
 
 	
@@ -528,12 +567,17 @@ mw.UploadWizard.prototype = {
 	 */
 	createInterface: function( selector ) {
 		var _this = this;
+		
+		// load list of languages so we'll have it ready when description interfaces are created
+		// XXX replace this code once any of the following bugs are fixed: 25845, 27535, 27561
+		var languageHandlerUrl = wgServer + wgScript + '?' + $.param( { 'title': 'MediaWiki:LanguageHandler.js', 'action': 'raw', 'ctype': 'text/javascript' } );
+		mw.loader.load( languageHandlerUrl );
 	
 		// remove first spinner	
 		$j( '#mwe-first-spinner' ).remove();
 
 		// feedback request
-		if ( UploadWizardConfig['feedbackPage'] != '' ) {
+		if ( UploadWizardConfig['feedbackPage'] !== '' ) {
 			$j( '#contentSub' ).html('<i>Please <a id="mwe-upwiz-feedback" href="#">let us know</a> what you think of Upload Wizard!</i>');
 			$j( '#mwe-upwiz-feedback') 
 				.click( function() {
@@ -688,6 +732,7 @@ mw.UploadWizard.prototype = {
 			'#mwe-upwiz-deeds', 
 			deeds,
 			_this.uploads.length );
+
 	
 		$j( '<div></div>' )
 			.insertBefore( _this.deedChooser.$selector.find( '.mwe-upwiz-deed-ownwork' ) )
@@ -972,7 +1017,7 @@ mw.UploadWizard.prototype = {
 			function( upload ) {
 				upload.start();
 			},
-	        function() {
+			function() {
 				allowCloseWindow();
 				$j().notify( gM( 'mwe-upwiz-files-complete' ) );
 				_this.showFileNext();
@@ -1059,6 +1104,7 @@ mw.UploadWizard.prototype = {
 			// $j( '#mwe-upwiz-upload-ctrl' ).attr( 'disabled', 'disabled' ); 
 			$j( '#mwe-upwiz-upload-ctrl-container' ).hide();
 
+
 			// remove the border from the filelist. We can't hide it or make it invisible since it contains the displaced
 			// file input element that becomes the "click here to add"
 			$j( '#mwe-upwiz-filelist' ).removeClass( 'mwe-upwiz-filled-filelist' );
@@ -1070,6 +1116,11 @@ mw.UploadWizard.prototype = {
 			$j( '#mwe-upwiz-add-file span' ).msg( 'mwe-upwiz-add-file-0' );
 			$j( '#mwe-upwiz-add-file-container' ).addClass('mwe-upwiz-add-files-0');
 			$j( '#mwe-upwiz-add-file-container' ).removeClass('mwe-upwiz-add-files-n');
+
+			// recovering from an earlier attempt to upload
+			$j( '#mwe-upwiz-upload-ctrls' ).show();
+			$j( '#mwe-upwiz-progress' ).hide();
+			$j( '#mwe-upwiz-add-file' ).show();
 		}
 
 		// allow an "add another upload" button only if we aren't at max
@@ -1102,6 +1153,7 @@ mw.UploadWizard.prototype = {
 	/**
 	 * Submit all edited details and other metadata
 	 * Works just like startUploads -- parallel simultaneous submits with progress bar.
+	 * @param {Function} endCallback - called when all uploads complete. In our case is probably a move to the next step
 	 */
 	detailsSubmit: function( endCallback ) {
 		var _this = this;
@@ -1120,24 +1172,9 @@ mw.UploadWizard.prototype = {
 			[ 'submitting-details' ],  
 			[ 'complete' ], 
 			function( upload ) {
-				// activate spinner
-				upload.details.div.data( 'status' ).addClass( 'mwe-upwiz-status-progress' );
-				upload.details.submit( function( result ) { 
-					if ( result && result.upload && result.upload.imageinfo ) {
-						upload.extractImageInfo( result.upload.imageinfo );
-						// change spinner to checkmark
-						upload.details.div.data( 'status' ).removeClass( 'mwe-upwiz-status-progress' );
-						upload.details.div.data( 'status' ).addClass( 'mwe-upwiz-status-uploaded' );
-					} else {
-						// XXX alert the user, maybe don't proceed to step 4.
-						mw.log( "error -- final API call did not return image info" );
-						// change spinner to error icon
-						upload.details.div.data( 'status' ).removeClass( 'mwe-upwiz-status-progress' );
-						upload.details.div.data( 'status' ).addClass( 'mwe-upwiz-status-error' );
-					}
-				} );
+				upload.details.submit();
 			},
-			endCallback
+			endCallback /* called when all uploads are "complete" */
 		);
 	},
 
@@ -1162,37 +1199,37 @@ mw.UploadWizard.prototype = {
 			var $thanksDiv = $j( '<div></div>' ).attr( 'id', id ).addClass( "mwe-upwiz-thanks ui-helper-clearfix" );
 			_this.thanksDiv = $thanksDiv;
 			
-			var $thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail mwe-upwiz-thumbnail-side"></div>' );
-			$thanksDiv.append( $thumbnailDiv );
-			upload.setThumbnail( $thumbnailDiv );
-			//upload.setThumbnail( '#' + id + ' .mwe-upwiz-thumbnail' );
 
-			// Switch the thumbnail link so that it points to the image description page
-			$thumbnailDiv.find( 'a' ).attr( 'href', upload.imageinfo.descriptionurl );
+			var $thumbnailDiv = $j( '<div></div>' ).addClass( 'mwe-upwiz-thumbnail' );
+			var $thumbnailCaption = $j( '<div></div>' )
+				.css( { 'text-align': 'center', 'font-size': 'small' } )
+				.html( $j( '<a/>' ).html( upload.title.getMainText() ) );
+			var $thumbnailWrapDiv = $j( '<div></div>' ).addClass( 'mwe-upwiz-thumbnail-side' );
+			$thumbnailWrapDiv.append( $thumbnailDiv, $thumbnailCaption );
+			upload.setThumbnail( $thumbnailDiv );
+
+			// Set the thumbnail links so that they point to the image description page
+			$thumbnailWrapDiv.find( 'a' ).attr( {
+				'href': upload.imageinfo.descriptionurl,
+				'target' : '_new'
+			} );
+			$thanksDiv.append( $thumbnailWrapDiv );
 
 			var thumbTitle = String(upload.title);
 			var thumbWikiText = "[[" + thumbTitle.replace('_', ' ') + "|thumb|" + gM( 'mwe-upwiz-thanks-caption' ) + "]]";
-
+			
 			$thanksDiv.append(
 				$j( '<div class="mwe-upwiz-data"></div>' )
 					.append( 
 						$j('<p/>').append( 
 							gM( 'mwe-upwiz-thanks-wikitext' ),
 							$j( '<br />' ),
-						 	$j( '<textarea class="mwe-long-textarea" rows="2"/>' )
-								.growTextArea()
-								.readonly()
-								.append( thumbWikiText ) 
-								.trigger('resizeEvent')
+							_this.makeReadOnlyInput( thumbWikiText )
 						),
 						$j('<p/>').append( 
 							gM( 'mwe-upwiz-thanks-url' ),
 							$j( '<br />' ),
-						 	$j( '<textarea class="mwe-long-textarea" rows="2"/>' )
-								.growTextArea()
-								.readonly()
-								.append( upload.imageinfo.descriptionurl ) 
-								.trigger('resizeEvent')
+							_this.makeReadOnlyInput( upload.imageinfo.descriptionurl )
 						)
 					)
 			);
@@ -1202,6 +1239,17 @@ mw.UploadWizard.prototype = {
 	},
 	
 	/**
+	 * make a read only text input, which self-selects on gaining focus
+	 * @param {String} text it will contain
+	 */
+	makeReadOnlyInput: function ( s ) {
+		return $j( '<input/>' ).addClass( 'mwe-title ui-corner-all' )
+			.readonly()
+			.val( s )
+			.focus( function() { this.select(); } );
+	},
+
+	/**
 	 * Build interface for collecting user feedback on Upload Wizard
 	 */
 	launchFeedback: function() {
@@ -1210,7 +1258,7 @@ mw.UploadWizard.prototype = {
 		var displayError = function( message ) {
 			$j( '#mwe-upwiz-feedback-form div' ).hide(); // remove everything else from the dialog box
 			$j( '#mwe-upwiz-feedback-form' ).append ( $j( '<div style="color:#990000;margin-top:0.4em;"></div>' ).msg( message ) );
-		}
+		};
 		
 		// Set up buttons for dialog box. We have to do it the hard way since the json keys are localized
 		var cancelButton = gM( 'mwe-upwiz-feedback-cancel' );
@@ -1315,6 +1363,7 @@ mw.UploadWizardDeedPreview.prototype = {
 		var thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail-small"></div>' );
 		$j( '#mwe-upwiz-deeds-thumbnails' ).append( thumbnailDiv );
 		_this.upload.setThumbnail( thumbnailDiv, mw.UploadWizard.config[  'smallThumbnailWidth'  ], mw.UploadWizard.config[ 'smallThumbnailMaxHeight' ] );
+		_this.upload.deedThumbnailDiv = thumbnailDiv;
 	}
 };
 
@@ -1448,6 +1497,7 @@ mw.UploadWizardDeedPreview.prototype = {
 		return this;
 	};
 
+	// XXX this is highly specific to the "details" page now, not really jQuery function
 	jQuery.fn.mask = function( options ) {
 
 		// intercept clicks... 
@@ -1470,23 +1520,40 @@ mw.UploadWizardDeedPreview.prototype = {
 							'height'   : el.offsetHeight + 'px',
 							'z-index'  : 90
 						} );
-						
-				var status = $j( '<div class="mwe-upwiz-status"></div>' )
-						.css( {
-							'width'	   : el.offsetWidth + 'px',
-							'height'   : el.offsetHeight + 'px',
-							'z-index'  : 91
-						} )
-						.click( function( e ) { e.stopPropagation(); } );
+			
+				var $statusDiv = $j( '<div></div>' ).css( {
+					'width'	   : el.offsetWidth + 'px',
+					'height'   : el.offsetHeight + 'px',
+					'z-index'  : 91,
+					'text-align' : 'center',
+					'position' : 'absolute',
+					'top' : '0px',
+					'left' : '0px'
+				} );
+
+				var $indicatorDiv = $j( '<div class="mwe-upwiz-status"></div>' )
+					.css( { 
+						'width'	   : 32,
+						'height'   : 32, 
+						'z-index'  : 91,
+						'margin'   : '0 auto 0 auto'
+					} );
+				var $statusLineDiv = $j( '<div></div>' )
+					.css( { 
+						'z-index'  : 91
+					} );
+				var $statusIndicatorLineDiv = $j( '<div></div>' )
+					.css( { 'margin-top': '6em' } )
+					.append( $indicatorDiv, $statusLineDiv );
+			        $statusDiv.append( $statusIndicatorLineDiv );
 
 				$j( el ).css( { 'position' : 'relative' } )	
 					.append( mask.fadeTo( 'fast', 0.6 ) )
-					.append( status )
-					.data( 'status', status );
-
+					.append( $statusDiv )
+					.data( 'indicator', $indicatorDiv )
+					.data( 'statusLine', $statusLineDiv );
 				
 			} 
-			// XXX bind to a custom event in case the div size changes 
 		} );
 
 		return this;
@@ -1509,6 +1576,31 @@ mw.UploadWizardDeedPreview.prototype = {
 		return this;
 	};
 
+	/**
+	 * jQuery plugin - collapse toggle
+	 * Given an element, makes contained elements of class mw-collapsible-toggle clickable to show/reveal
+	 * contained element(s) of class mw-collapsible-content.
+	 * 
+	 * Somewhat recapitulates mw.UploadWizardUtil.makeToggler,
+	 * toggle() in vector.collapsibleNav.js, not to mention jquery.collapsible
+	 * but none of those do what we want, or are inaccessible to us
+	 */
+	jQuery.fn.collapseToggle = function() {
+		var $el = this;
+		var $contents = $el.find( '.mwe-upwiz-toggler-content' ).hide();
+		var $toggle = $el.find( '.mwe-upwiz-toggler' ).addClass( 'mwe-upwiz-more-options' );
+		$toggle.click( function( e ) {
+			e.stopPropagation();
+			if ( $toggle.hasClass( 'mwe-upwiz-toggler-open' ) ) {
+				$contents.slideUp( 250 );
+				$toggle.removeClass( 'mwe-upwiz-toggler-open' );	
+			} else {
+				$contents.slideDown( 250 );
+				$toggle.addClass( 'mwe-upwiz-toggler-open' );
+			}
+		} );
+		return this;
+	};
 
 	$j.validator.setDefaults( {
 		debug: true,

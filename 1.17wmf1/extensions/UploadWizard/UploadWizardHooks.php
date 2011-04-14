@@ -128,6 +128,9 @@ class UploadWizardHooks {
 				'mwe-upwiz-api-error-duplicate-popup-title',
 				'mwe-upwiz-api-error-timeout',
 				'mwe-upwiz-api-error-noimageinfo',
+
+				'mwe-upwiz-api-error-fileexists-shared-forbidden',
+
 				'mwe-upwiz-api-warning-exists',
 				'mwe-upwiz-tutorial-error-localized-file-missing',
 				'mwe-upwiz-tutorial-error-file-missing',
@@ -217,6 +220,8 @@ class UploadWizardHooks {
 				'mwe-upwiz-change',
 				'mwe-upwiz-fileexists-replace',
 				'mwe-upwiz-fileexists',
+				'mwe-upwiz-fileexists-replace-on-page',
+				'mwe-upwiz-fileexists-replace-no-link',
 				'mwe-upwiz-thumbnail-more',
 				'mwe-upwiz-overwrite',
 				'mwe-copyright-macro',
@@ -297,6 +302,7 @@ class UploadWizardHooks {
 				'mwe-upwiz-help-popup-title',
 				'mwe-upwiz-thumbnail-failed',
 				'mwe-upwiz-unparseable-filename',
+				'mwe-upwiz-image-preview',
 				'mwe-upwiz-feedback-note',
 				'mwe-upwiz-feedback-subject',
 				'mwe-upwiz-feedback-message',
