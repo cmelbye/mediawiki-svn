@@ -26,7 +26,7 @@ $specialPageAliases = array(
 	'Ancientpages'              => array( '最舊頁面' ),
 	'Unblock'                   => array( '解除封鎖' ),
 	'Blockme'                   => array( '封禁我' ),
-	'Blockip'                   => array( '查封用戶' ),
+	'Block'                     => array( '查封用戶' ),
 	'Lockdb'                    => array( '鎖定數據庫' ),
 	'Unlockdb'                  => array( '解除數據庫鎖定' ),
 	'Userrights'                => array( '用戶權限' ),
@@ -725,7 +725,6 @@ $NEWPAGE
 ** 無禮的行為、攻擊／騷擾別人
 ** 濫用多個帳號
 ** 不能接受的使用者名',
-'ipbanononly'                 => '僅阻止匿名使用者',
 'ipbcreateaccount'            => '阻止建立新帳號',
 'ipbemailban'                 => '阻止使用者傳送E-mail',
 'ipbenableautoblock'          => '自動封鎖此使用者最後所用的IP位址，以及後來試圖編輯所用的所有位址',
@@ -744,7 +743,6 @@ $NEWPAGE
 'unblocked'                   => '[[User:$1|$1]] 的封鎖已經解除。',
 'unblocked-id'                => '封鎖 $1 已經被移除',
 'ipblocklist-legend'          => '搜尋一位已經被封鎖的使用者',
-'ipblocklist-username'        => '使用者名稱或IP地址:',
 'anononlyblock'               => '僅限匿名使用者',
 'noautoblockblock'            => '禁用自動封鎖',
 'createaccountblock'          => '禁止建立帳號',
@@ -856,11 +854,6 @@ $NEWPAGE
 'spamprotectiontext' => '垃圾過濾器禁止保存您剛才提交的頁面，這可能是由於您所加入的外部網站連結所產生的問題。',
 'spam_reverting'     => '復原到不包含連結至$1的最近版本',
 
-# Math options
-'mw_math_png'    => '永遠使用PNG圖片',
-'mw_math_simple' => '如果是簡單的公式使用HTML，否則使用PNG圖片',
-'mw_math_html'   => '如果可以用HTML，否則用PNG圖片',
-
 # Patrolling
 'markedaspatrolledtext' => '選定的版本已被標記為已檢查.',
 
@@ -873,10 +866,9 @@ $NEWPAGE
 'nextdiff'     => '下一個→',
 
 # Media information
-'imagemaxsize'         => '在圖片描述頁對圖片大小限制為:',
-'file-nohires'         => '<small>無更高解析度可提供。</small>',
-'show-big-image'       => '完整解析度',
-'show-big-image-thumb' => '<small>這幅縮圖的解析度: $1 × $2 像素</small>',
+'imagemaxsize'   => '在圖片描述頁對圖片大小限制為:',
+'file-nohires'   => '<small>無更高解析度可提供。</small>',
+'show-big-image' => '完整解析度',
 
 # Special:NewFiles
 'newimages'     => '新建圖片畫廊',

@@ -26,7 +26,7 @@ class GIFHandler extends BitmapHandler {
 
 		return serialize($parsedGIFMetadata);
 	}
-	
+
 	function formatMetadata( $image ) {
 		$meta = $image->getMetadata();
 
@@ -52,8 +52,8 @@ class GIFHandler extends BitmapHandler {
 	 */
 	function getImageArea( $image, $width, $height ) {
 		$ser = $image->getMetadata();
-		if ($ser) {
-			$metadata = unserialize($ser);
+		if ( $ser ) {
+			$metadata = unserialize( $ser );
 			return $width * $height * $metadata['frameCount'];
 		} else {
 			return $width * $height;
@@ -66,17 +66,19 @@ class GIFHandler extends BitmapHandler {
 	 */
 	function isAnimatedImage( $image ) {
 		$ser = $image->getMetadata();
-		if ($ser) {
+		if ( $ser ) {
 			$metadata = unserialize($ser);
-			if( $metadata['frameCount'] > 1 ) return true;
+			if( $metadata['frameCount'] > 1 ) {
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	function getMetadataType( $image ) {
 		return 'parsed-gif';
 	}
-	
+
 	function isMetadataValid( $image, $metadata ) {
 		if ( $metadata === self::BROKEN_FILE ) {
 			// Do not repetitivly regenerate metadata on broken file.
@@ -113,21 +115,25 @@ class GIFHandler extends BitmapHandler {
 		$metadata = unserialize($image->getMetadata());
 		wfRestoreWarnings();
 		
-		if (!$metadata || $metadata['frameCount'] <=  1)
+		if (!$metadata || $metadata['frameCount'] <=  1) {
 			return $original;
+		}
 
 		/* Preserve original image info string, but strip the last char ')' so we can add even more */
 		$info = array();
 		$info[] = $original;
 		
-		if ($metadata['looped'])
+		if ( $metadata['looped'] ) {
 			$info[] = wfMsgExt( 'file-info-gif-looped', 'parseinline' );
+		}
 		
-		if ($metadata['frameCount'] > 1)
+		if ( $metadata['frameCount'] > 1 ) {
 			$info[] = wfMsgExt( 'file-info-gif-frames', 'parseinline', $metadata['frameCount'] );
+		}
 		
-		if ($metadata['duration'])
+		if ( $metadata['duration'] ) {
 			$info[] = $wgLang->formatTimePeriod( $metadata['duration'] );
+		}
 		
 		return $wgLang->commaList( $info );
 	}

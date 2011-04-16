@@ -146,9 +146,11 @@ class VectorTemplate extends BaseTemplate {
 			<!-- /firstHeading -->
 			<!-- bodyContent -->
 			<div id="bodyContent">
+				<?php if ( $this->data['isarticle'] ): ?>
 				<!-- tagline -->
 				<div id="siteSub"><?php $this->msg( 'tagline' ) ?></div>
 				<!-- /tagline -->
+				<?php endif; ?>
 				<!-- subtitle -->
 				<div id="contentSub"<?php $this->html('userlangattributes') ?>><?php $this->html( 'subtitle' ) ?></div>
 				<!-- /subtitle -->
@@ -278,7 +280,7 @@ class VectorTemplate extends BaseTemplate {
 		}
 		?>
 <div class="portal" id='<?php echo Sanitizer::escapeId( "p-$name" ) ?>'<?php echo $this->skin->tooltip( 'p-' . $name ) ?>>
-	<h5<?php $this->html('userlangattributes') ?>><?php $out = wfMsg( $msg ); if ( wfEmptyMsg( $msg, $out ) ) echo htmlspecialchars( $msg ); else echo htmlspecialchars( $out ); ?></h5>
+	<h5<?php $this->html('userlangattributes') ?>><?php $out = wfMsg( $msg ); if ( wfEmptyMsg( $msg ) ) echo htmlspecialchars( $msg ); else echo htmlspecialchars( $out ); ?></h5>
 	<div class="body">
 <?php
 		if ( is_array( $content ) ): ?>
@@ -360,11 +362,16 @@ class VectorTemplate extends BaseTemplate {
 				break;
 				case 'VIEWS':
 ?>
-<div id="p-views" class="vectorTabs<?php if ( count( $this->data['view_urls'] ) == 0 ) echo ' emptyPortlet'; ?>">
+<div id="p-views" class="vectorTabs<?php if ( count( $this->data['view_urls'] ) == 0 ) { echo ' emptyPortlet'; } ?>">
 	<h5><?php $this->msg('views') ?></h5>
 	<ul<?php $this->html('userlangattributes') ?>>
 		<?php foreach ( $this->data['view_urls'] as $link ): ?>
-			<li<?php echo $link['attributes'] ?>><span><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?>><?php echo (array_key_exists('img',$link) ?  '<img src="'.$link['img'].'" alt="'.$link['text'].'" />' : htmlspecialchars( $link['text'] ) ) ?></a></span></li>
+			<li<?php echo $link['attributes'] ?>><span><a href="<?php echo htmlspecialchars( $link['href'] ) ?>" <?php echo $link['key'] ?>><?php
+				// $link['text'] can be undefined - bug 27764
+				if ( array_key_exists( 'text', $link ) ) {
+					echo array_key_exists( 'img', $link ) ?  '<img src="' . $link['img'] . '" alt="' . $link['text'] . '" />' : htmlspecialchars( $link['text'] );
+				}
+				?></a></span></li>
 		<?php endforeach; ?>
 	</ul>
 </div>

@@ -173,9 +173,19 @@ class User {
 	/**
 	 * Lazy-initialized variables, invalidated with clearInstanceCache
 	 */
-	var $mNewtalk, $mDatePreference, $mBlockedby, $mHash, $mSkin, $mRights,
-		$mBlockreason, $mBlock, $mEffectiveGroups, $mBlockedGlobally,
+	var $mNewtalk, $mDatePreference, $mBlockedby, $mHash, $mRights,
+		$mBlockreason, $mEffectiveGroups, $mBlockedGlobally,
 		$mLocked, $mHideName, $mOptions;
+
+	/**
+	 * @var Skin
+	 */
+	var $mSkin;
+
+	/**
+	 * @var Block
+	 */
+	var $mBlock;
 
 	static $idCacheByName = array();
 
@@ -191,6 +201,10 @@ class User {
 	 */
 	function __construct() {
 		$this->clearInstanceCache( 'defaults' );
+	}
+
+	function __toString(){
+		return $this->getName();
 	}
 
 	/**
@@ -1115,42 +1129,26 @@ class User {
 		$this->mHideName = 0;
 		$this->mAllowUsertalk = 0;
 
-		# Check if we are looking at an IP or a logged-in user
-		if ( $this->isAllowed( 'ipblock-exempt' ) ) {
-			# Exempt from all types of IP-block
-			$ip = '';
-		} elseif ( $this->isIP( $this->getName() ) ) {
-			$ip = $this->getName();
+		# We only need to worry about passing the IP address to the Block generator if the
+		# user is not immune to autoblocks/hardblocks, and they are the current user so we
+		# know which IP address they're actually coming from
+		if ( !$this->isAllowed( 'ipblock-exempt' ) && $this->getID() == $wgUser->getID() ) {
+			$ip = wfGetIP();
 		} else {
-			# Check if we are looking at the current user
-			# If we don't, and the user is logged in, we don't know about
-			# his IP / autoblock status, so ignore autoblock of current user's IP
-			if ( $this->getID() != $wgUser->getID() ) {
-				$ip = '';
-			} else {
-				# Get IP of current user
-				$ip = wfGetIP();
-			}
+			$ip = null;
 		}
 
 		# User/IP blocking
-		$this->mBlock = new Block();
-		$this->mBlock->fromMaster( !$bFromSlave );
-		if ( $this->mBlock->load( $ip , $this->mId ) ) {
+		$this->mBlock = Block::newFromTarget( $this->getName(), $ip, !$bFromSlave );
+		if ( $this->mBlock instanceof Block ) {
 			wfDebug( __METHOD__ . ": Found block.\n" );
-			$this->mBlockedby = $this->mBlock->mBy;
-			if( $this->mBlockedby == 0 )
-				$this->mBlockedby = $this->mBlock->mByName;
+			$this->mBlockedby = $this->mBlock->getBlocker()->getName();
 			$this->mBlockreason = $this->mBlock->mReason;
 			$this->mHideName = $this->mBlock->mHideName;
-			$this->mAllowUsertalk = $this->mBlock->mAllowUsertalk;
+			$this->mAllowUsertalk = !$this->mBlock->prevents( 'editownusertalk' );
 			if ( $this->isLoggedIn() && $wgUser->getID() == $this->getID() ) {
 				$this->spreadBlock();
 			}
-		} else {
-			// Bug 13611: don't remove mBlock here, to allow account creation blocks to
-			// apply to users. Note that the existence of $this->mBlock is not used to
-			// check for edit blocks, $this->mBlockedby is instead.
 		}
 
 		# Proxy blocking
@@ -1335,7 +1333,7 @@ class User {
 				if( $count > $max ) {
 					wfDebug( __METHOD__ . ": tripped! $key at $count $summary\n" );
 					if( $wgRateLimitLog ) {
-						@error_log( wfTimestamp( TS_MW ) . ' ' . wfWikiID() . ': ' . $this->getName() . " tripped $key at $count $summary\n", 3, $wgRateLimitLog );
+						@file_put_contents( $wgRateLimitLog, wfTimestamp( TS_MW ) . ' ' . wfWikiID() . ': ' . $this->getName() . " tripped $key at $count $summary\n", FILE_APPEND );
 					}
 					$triggered = true;
 				} else {
@@ -1360,7 +1358,7 @@ class User {
 	 */
 	function isBlocked( $bFromSlave = true ) { // hacked from false due to horrible probs on site
 		$this->getBlockedStatus( $bFromSlave );
-		return $this->mBlockedby !== 0;
+		return $this->mBlock instanceof Block && $this->mBlock->prevents( 'edit' );
 	}
 
 	/**
@@ -1413,7 +1411,7 @@ class User {
 	 */
 	function getBlockId() {
 		$this->getBlockedStatus();
-		return ( $this->mBlock ? $this->mBlock->mId : false );
+		return ( $this->mBlock ? $this->mBlock->getId() : false );
 	}
 
 	/**
@@ -1478,8 +1476,8 @@ class User {
 	 * @return Int The user's ID; 0 if the user is anonymous or nonexistent
 	 */
 	function getId() {
-		if( $this->mId === null and $this->mName !== null
-		and User::isIP( $this->mName ) ) {
+		if( $this->mId === null && $this->mName !== null
+		&& User::isIP( $this->mName ) ) {
 			// Special case, we know the user is anonymous
 			return 0;
 		} elseif( $this->mId === null ) {
@@ -1949,11 +1947,13 @@ class User {
 	 *
 	 * @param $oname String The option to check
 	 * @param $defaultOverride String A default value returned if the option does not exist
+	 * @param $ignoreHidden Bool = whether to ignore the effects of $wgHiddenPrefs
 	 * @return String User's current value for the option
 	 * @see getBoolOption()
 	 * @see getIntOption()
 	 */
-	function getOption( $oname, $defaultOverride = null ) {
+	function getOption( $oname, $defaultOverride = null, $ignoreHidden = false ) {
+		global $wgHiddenPrefs;
 		$this->loadOptions();
 
 		if ( is_null( $this->mOptions ) ) {
@@ -1961,6 +1961,15 @@ class User {
 				return $defaultOverride;
 			}
 			$this->mOptions = User::getDefaultOptions();
+		}
+
+		# We want 'disabled' preferences to always behave as the default value for
+		# users, even if they have set the option explicitly in their settings (ie they
+		# set it, and then it was disabled removing their ability to change it).  But
+		# we don't want to erase the preferences in the database in case the preference
+		# is re-enabled again.  So don't touch $mOptions, just override the returned value
+		if( in_array( $oname, $wgHiddenPrefs ) && !$ignoreHidden ){
+			return self::getDefaultOption( $oname );
 		}
 
 		if ( array_key_exists( $oname, $this->mOptions ) ) {
@@ -1976,8 +1985,23 @@ class User {
 	 * @return array
 	 */
 	public function getOptions() {
+		global $wgHiddenPrefs;
 		$this->loadOptions();
-		return $this->mOptions;
+		$options = $this->mOptions;
+
+		# We want 'disabled' preferences to always behave as the default value for
+		# users, even if they have set the option explicitly in their settings (ie they
+		# set it, and then it was disabled removing their ability to change it).  But
+		# we don't want to erase the preferences in the database in case the preference
+		# is re-enabled again.  So don't touch $mOptions, just override the returned value
+		foreach( $wgHiddenPrefs as $pref ){
+			$default = self::getDefaultOption( $pref );
+			if( $default !== null ){
+				$options[$pref] = $default;
+			}
+		}
+
+		return $options;
 	}
 
 	/**
@@ -2146,17 +2170,18 @@ class User {
 	 * @param $group String Name of the group to add
 	 */
 	function addGroup( $group ) {
-		$dbw = wfGetDB( DB_MASTER );
-		if( $this->getId() ) {
-			$dbw->insert( 'user_groups',
-				array(
-					'ug_user'  => $this->getID(),
-					'ug_group' => $group,
-				),
-				__METHOD__,
-				array( 'IGNORE' ) );
+		if( wfRunHooks( 'UserAddGroup', array( &$this, &$group ) ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			if( $this->getId() ) {
+				$dbw->insert( 'user_groups',
+					array(
+						'ug_user'  => $this->getID(),
+						'ug_group' => $group,
+					),
+					__METHOD__,
+					array( 'IGNORE' ) );
+			}
 		}
-
 		$this->loadGroups();
 		$this->mGroups[] = $group;
 		$this->mRights = User::getGroupPermissions( $this->getEffectiveGroups( true ) );
@@ -2171,13 +2196,14 @@ class User {
 	 */
 	function removeGroup( $group ) {
 		$this->load();
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->delete( 'user_groups',
-			array(
-				'ug_user'  => $this->getID(),
-				'ug_group' => $group,
-			), __METHOD__ );
-
+		if( wfRunHooks( 'UserRemoveGroup', array( &$this, &$group ) ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->delete( 'user_groups',
+				array(
+					'ug_user'  => $this->getID(),
+					'ug_group' => $group,
+				), __METHOD__ );
+		}
 		$this->loadGroups();
 		$this->mGroups = array_diff( $this->mGroups, array( $group ) );
 		$this->mRights = User::getGroupPermissions( $this->getEffectiveGroups( true ) );
@@ -2203,10 +2229,39 @@ class User {
 
 	/**
 	 * Check if user is allowed to access a feature / make an action
-	 * @param $action String action to be checked
-	 * @return Boolean: True if action is allowed, else false
+	 * @param varargs String permissions to test
+	 * @return Boolean: True if user is allowed to perform *any* of the given actions
 	 */
-	function isAllowed( $action = '' ) {
+	public function isAllowedAny( /*...*/ ){
+		$permissions = func_get_args();
+		foreach( $permissions as $permission ){
+			if( $this->isAllowed( $permission ) ){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param varargs String
+	 * @return bool True if the user is allowed to perform *all* of the given actions
+	 */
+	public function isAllowedAll( /*...*/ ){
+		$permissions = func_get_args();
+		foreach( $permissions as $permission ){
+			if( !$this->isAllowed( $permission ) ){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Internal mechanics of testing a permission
+	 * @param $action String
+	 * @return bool
+	 */
+	public function isAllowed( $action = '' ) {
 		if ( $action === '' ) {
 			return true; // In the spirit of DWIM
 		}
@@ -2227,7 +2282,7 @@ class User {
 	 */
 	public function useRCPatrol() {
 		global $wgUseRCPatrol;
-		return( $wgUseRCPatrol && ( $this->isAllowed( 'patrol' ) || $this->isAllowed( 'patrolmarks' ) ) );
+		return $wgUseRCPatrol && $this->isAllowedAny( 'patrol', 'patrolmarks' );
 	}
 
 	/**
@@ -2236,50 +2291,17 @@ class User {
 	 */
 	public function useNPPatrol() {
 		global $wgUseRCPatrol, $wgUseNPPatrol;
-		return( ( $wgUseRCPatrol || $wgUseNPPatrol ) && ( $this->isAllowed( 'patrol' ) || $this->isAllowed( 'patrolmarks' ) ) );
+		return( ( $wgUseRCPatrol || $wgUseNPPatrol ) && ( $this->isAllowedAny( 'patrol', 'patrolmarks' ) ) );
 	}
 
 	/**
-	 * Get the current skin, loading it if required, and setting a title
-	 * @param $t Title: the title to use in the skin
+	 * Get the current skin, loading it if required
 	 * @return Skin The current skin
 	 * @todo: FIXME : need to check the old failback system [AV]
+	 * @deprecated Use ->getSkin() in the most relevant outputting context you have
 	 */
-	function getSkin( $t = null ) {
-		if( !$this->mSkin ) {
-			global $wgOut;
-			$this->mSkin = $this->createSkinObject();
-			$this->mSkin->setTitle( $wgOut->getTitle() );
-		}
-		if ( $t && ( !$this->mSkin->getTitle() || !$t->equals( $this->mSkin->getTitle() ) ) ) {
-			$skin = $this->createSkinObject();
-			$skin->setTitle( $t );
-			return $skin;
-		} else {
-			return $this->mSkin;
-		}
-	}
-
-	// Creates a Skin object, for getSkin()
-	private function createSkinObject() {
-		wfProfileIn( __METHOD__ );
-
-		global $wgHiddenPrefs;
-		if( !in_array( 'skin', $wgHiddenPrefs ) ) {
-			global $wgRequest;
-			# get the user skin
-			$userSkin = $this->getOption( 'skin' );
-			$userSkin = $wgRequest->getVal( 'useskin', $userSkin );
-		} else {
-			# if we're not allowing users to override, then use the default
-			global $wgDefaultSkin;
-			$userSkin = $wgDefaultSkin;
-		}
-
-		$skin = Skin::newFromKey( $userSkin );
-		wfProfileOut( __METHOD__ );
-
-		return $skin;
+	function getSkin() {
+		return RequestContext::getMain()->getSkin();
 	}
 
 	/**
@@ -2447,9 +2469,15 @@ class User {
 
 	/**
 	 * Set the default cookies for this session on the user's client.
+	 *
+	 * @param $request WebRequest object to use; $wgRequest will be used if null
+	 *        is passed.
 	 */
-	function setCookies() {
-		global $wgRequest;
+	function setCookies( $request = null ) {
+		if ( $request === null ) {
+			global $wgRequest;
+			$request = $wgRequest;
+		}
 
 		$this->load();
 		if ( 0 == $this->mId ) return;
@@ -2471,7 +2499,7 @@ class User {
 		wfRunHooks( 'UserSetCookies', array( $this, &$session, &$cookies ) );
 
 		foreach ( $session as $name => $value ) {
-			$wgRequest->setSessionData( $name, $value );
+			$request->setSessionData( $name, $value );
 		}
 		foreach ( $cookies as $name => $value ) {
 			if ( $value === false ) {
@@ -2568,9 +2596,9 @@ class User {
 	 * Add a user to the database, return the user object
 	 *
 	 * @param $name String Username to add
-	 * @param $params Array of Strings Non-default parameters to save to the database:
-	 *   - password             The user's password. Password logins will be disabled if this is omitted.
-	 *   - newpassword          A temporary password mailed to the user
+	 * @param $params Array of Strings Non-default parameters to save to the database as user_* fields:
+	 *   - password             The user's password hash. Password logins will be disabled if this is omitted.
+	 *   - newpassword          Hash for a temporary password that has been mailed to the user
 	 *   - email                The user's email address
 	 *   - email_authenticated  The email authentication timestamp
 	 *   - real_name            The user's real name
@@ -2658,7 +2686,7 @@ class User {
 			return;
 		}
 
-		$userblock = Block::newFromDB( '', $this->mId );
+		$userblock = Block::newFromTarget( $this->getName() );
 		if ( !$userblock ) {
 			return;
 		}
@@ -2677,7 +2705,7 @@ class User {
 	 * which will give them a chance to modify this key based on their own
 	 * settings.
 	 *
-	 * @deprecated @since 1.17 use the ParserOptions object to get the relevant options
+	 * @deprecated since 1.17 use the ParserOptions object to get the relevant options
 	 * @return String Page rendering hash
 	 */
 	function getPageRenderingHash() {
@@ -2720,11 +2748,24 @@ class User {
 
 	/**
 	 * Get whether the user is explicitly blocked from account creation.
-	 * @return Bool
+	 * @return Bool|Block
 	 */
 	function isBlockedFromCreateAccount() {
 		$this->getBlockedStatus();
-		return $this->mBlock && $this->mBlock->mCreateAccount;
+		if( $this->mBlock && $this->mBlock->prevents( 'createaccount' ) ){
+			return $this->mBlock;
+		}
+
+		# bug 13611: if the IP address the user is trying to create an account from is
+		# blocked with createaccount disabled, prevent new account creation there even
+		# when the user is logged in
+		static $accBlock = false;
+		if( $accBlock === false ){
+			$accBlock = Block::newFromTarget( null, wfGetIP() );
+		}
+		return $accBlock instanceof Block && $accBlock->prevents( 'createaccount' )
+			? $accBlock
+			: false;
 	}
 
 	/**
@@ -2733,7 +2774,7 @@ class User {
 	 */
 	function isBlockedFromEmailuser() {
 		$this->getBlockedStatus();
-		return $this->mBlock && $this->mBlock->mBlockEmail;
+		return $this->mBlock && $this->mBlock->prevents( 'sendemail' );
 	}
 
 	/**
@@ -2821,7 +2862,7 @@ class User {
 			# Some wikis were converted from ISO 8859-1 to UTF-8, the passwords can't be converted
 			# Check for this with iconv
 			$cp1252Password = iconv( 'UTF-8', 'WINDOWS-1252//TRANSLIT', $password );
-			if ( $cp1252Password != $password && 
+			if ( $cp1252Password != $password &&
 				self::comparePasswords( $this->mPassword, $cp1252Password, $this->mId ) )
 			{
 				return true;
@@ -3508,7 +3549,7 @@ class User {
 	static function getRightDescription( $right ) {
 		$key = "right-$right";
 		$name = wfMsg( $key );
-		return $name == '' || wfEmptyMsg( $key, $name )
+		return $name == '' || wfEmptyMsg( $key )
 			? $right
 			: $name;
 	}
@@ -3625,8 +3666,8 @@ class User {
 	 * Used by things like CentralAuth and perhaps other authplugins.
 	 */
 	public function addNewUserLogEntryAutoCreate() {
-		global $wgNewUserLog, $wgLogAutocreatedAccounts;
-		if( !$wgNewUserLog || !$wgLogAutocreatedAccounts ) {
+		global $wgNewUserLog;
+		if( !$wgNewUserLog ) {
 			return true; // disabled
 		}
 		$log = new LogPage( 'newusers', false );
@@ -3774,8 +3815,4 @@ class User {
 
 		return $ret;
 	}
-
-
-
-
 }

@@ -19,7 +19,7 @@
 $.fn.makeCollapsible = function() {
 
 	return this.each(function() {
-		mw.config.set( 'mw.log.prefix', 'jquery.makeCollapsible' );
+		var _fn = 'jquery.makeCollapsible> ';
 
 		// Define reused variables and functions
 		var	$that = $(this).addClass( 'mw-collapsible' ), // case: $( '#myAJAXelement' ).makeCollapsible()
@@ -35,8 +35,8 @@ $.fn.makeCollapsible = function() {
 					// action must be string with 'expand' or 'collapse'
 					return;
 				}
-				if ( $defaultToggle && !$defaultToggle.jquery ) {
-					// is optional, but if passed must be an instance of jQuery
+				if ( typeof $defaultToggle !== 'undefined' && !($defaultToggle instanceof jQuery) ) {
+					// is optional (may be undefined), but if passed it must be an instance of jQuery and nothing else
 					return;
 				}
 				var $containers = null;
@@ -49,9 +49,9 @@ $.fn.makeCollapsible = function() {
 						// Slide doens't work with tables, but fade does as of jQuery 1.1.3
 						// http://stackoverflow.com/questions/467336#920480
 						$containers = $collapsible.find( '>tbody>tr' );
-						if ( $defaultToggle && $defaultToggle.jquery ) { 
+						if ( typeof $defaultToggle !== 'undefined' && ($defaultToggle instanceof jQuery) ) { 
 							// Exclude tablerow containing togglelink
-							$containers.not( $defaultToggle.parent().parent() ).stop(true, true).fadeOut();
+							$containers.not( $defaultToggle.closest( 'tr' ) ).stop(true, true).fadeOut();
 						} else {
 							if ( instantHide ) {	
 								$containers.hide();
@@ -203,10 +203,10 @@ $.fn.makeCollapsible = function() {
 
 		// Use custom text or default ?
 		if( !collapsetext || collapsetext === '' ){
-			collapsetext = mw.msg( 'collapsible-collapse', 'Collapse' );
+			collapsetext = mw.msg( 'collapsible-collapse' );
 		}
 		if ( !expandtext || expandtext === '' ){
-			expandtext = mw.msg( 'collapsible-expand', 'Expand' );
+			expandtext = mw.msg( 'collapsible-expand' );
 		}
 
 		// Create toggle link with a space around the brackets (&nbsp;[text]&nbsp;)
@@ -228,7 +228,7 @@ $.fn.makeCollapsible = function() {
 
 			var thatId = $that.attr( 'id' ),
 				$customTogglers = $( '.' + thatId.replace( 'mw-customcollapsible', 'mw-customtoggle' ) );
-			mw.log( 'Found custom collapsible: #' + thatId );
+			mw.log( _fn + 'Found custom collapsible: #' + thatId );
 						
 			// Double check that there is actually a customtoggle link
 			if ( $customTogglers.size() ) {
@@ -236,7 +236,7 @@ $.fn.makeCollapsible = function() {
 					toggleLinkCustom( $(this), e, $that );
 				} );
 			} else {
-				mw.log( '#' + thatId + ': Missing toggler!' );
+				mw.log( _fn + '#' + thatId + ': Missing toggler!' );
 			}
 			
 			// Initial state
@@ -309,7 +309,7 @@ $.fn.makeCollapsible = function() {
 			// The collapsible element could have multiple togglers
 			// To toggle the initial state only click one of them (ie. the first one, eq(0) )
 			// Else it would go like: hide,show,hide,show for each toggle link.
-			toggleElement( $that, 'collapse', null, /* instantHide = */ true );
+			toggleElement( $that, 'collapse', $toggleLink.eq(0), /* instantHide = */ true );
 			$toggleLink.eq(0).click();
 		}
 	} );

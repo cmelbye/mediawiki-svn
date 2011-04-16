@@ -109,6 +109,7 @@ class ParserOutput extends CacheTime {
 		$mTemplates = array(),        # 2-D map of NS/DBK to ID for the template references. ID=zero for broken.
 		$mTemplateIds = array(),      # 2-D map of NS/DBK to rev ID for the template references. ID=zero for broken.
 		$mImages = array(),           # DB keys of the images used, in the array key only
+		$mImageTimeKeys = array(),	  # DB keys of the images used mapped to sha1 and MW timestamp
 		$mExternalLinks = array(),    # External link URLs, in the key only
 		$mInterwikiLinks = array(),   # 2-D map of prefix/DBK (in keys only) for the inline interwiki links in the document.
 		$mNewSection = false,         # Show a new section link?
@@ -123,7 +124,7 @@ class ParserOutput extends CacheTime {
 		$mProperties = array(),       # Name/value pairs to be cached in the DB
 		$mTOCHTML = '';	              # HTML of the TOC
 	private $mIndexPolicy = '';	      # 'index' or 'noindex'?  Any other value will result in no change.
-	private $mAccessedOptions = null; # List of ParserOptions (stored in the keys)
+	private $mAccessedOptions = array(); # List of ParserOptions (stored in the keys)
 
 	const EDITSECTION_REGEX = '#<(?:mw:)?editsection page="(.*?)" section="(.*?)"(?:/>|>(.*?)(</(?:mw:)?editsection>))#';
 
@@ -150,7 +151,7 @@ class ParserOutput extends CacheTime {
 	 * @private
 	 */
 	function replaceEditSectionLinksCallback( $m ) {
-		global $wgUser, $wgLang;
+		global $wgOut, $wgLang;
 		$args = array(
 			htmlspecialchars_decode($m[1]),
 			htmlspecialchars_decode($m[2]),
@@ -161,7 +162,7 @@ class ParserOutput extends CacheTime {
 			throw new MWException("Bad parser output text.");
 		}
 		$args[] = $wgLang->getCode();
-		$skin = $wgUser->getSkin();
+		$skin = $wgOut->getSkin();
 		return call_user_func_array( array( $skin, 'doEditSectionLink' ), $args );
 	}
 
@@ -174,7 +175,9 @@ class ParserOutput extends CacheTime {
 	function getEditSectionTokens()      { return $this->mEditSectionTokens; }
 	function &getLinks()                 { return $this->mLinks; }
 	function &getTemplates()             { return $this->mTemplates; }
+	function &getTemplateIds()           { return $this->mTemplateIds; }
 	function &getImages()                { return $this->mImages; }
+	function &getImageTimeKeys()         { return $this->mImageTimeKeys; }
 	function &getExternalLinks()         { return $this->mExternalLinks; }
 	function getNoGallery()              { return $this->mNoGallery; }
 	function getHeadItems()              { return $this->mHeadItems; }
@@ -256,14 +259,25 @@ class ParserOutput extends CacheTime {
 		$this->mLinks[$ns][$dbk] = $id;
 	}
 
-	function addImage( $name ) {
+	/**
+	 * Register a file dependency for this output
+	 * @param $name string Title dbKey
+	 * @param $timestamp string MW timestamp of file creation (or false if non-existing)
+	 * @param $sha string base 36 SHA-1 of file (or false if non-existing)
+	 * @return void
+	 */
+	function addImage( $name, $timestamp = null, $sha1 = null ) {
 		$this->mImages[$name] = 1;
+		if ( $timestamp !== null && $sha1 !== null ) {
+			$this->mImageTimeKeys[$name] = array( 'time' => $timestamp, 'sha1' => $sha1 );
+		}
 	}
 
 	/**
+	 * Register a template dependency for this output
 	 * @param $title Title
-	 * @param  $page_id
-	 * @param  $rev_id
+	 * @param $page_id
+	 * @param $rev_id
 	 * @return void
 	 */
 	function addTemplate( $title, $page_id, $rev_id ) {

@@ -55,7 +55,7 @@ class ApiQueryUserInfo extends ApiQueryBase {
 	}
 
 	protected function getCurrentUserInfo() {
-		global $wgUser, $wgRequest;
+		global $wgUser, $wgRequest, $wgHiddenPrefs;
 		$result = $this->getResult();
 		$vals = array();
 		$vals['id'] = intval( $wgUser->getId() );
@@ -115,7 +115,7 @@ class ApiQueryUserInfo extends ApiQueryBase {
 			$vals['ratelimits'] = $this->getRateLimits();
 		}
 
-		if ( isset( $this->prop['realname'] ) ) {
+		if ( isset( $this->prop['realname'] ) && !in_array( 'realname', $wgHiddenPrefs ) ) {
 			$vals['realname'] = $wgUser->getRealName();
 		}
 
@@ -124,6 +124,13 @@ class ApiQueryUserInfo extends ApiQueryBase {
 			$auth = $wgUser->getEmailAuthenticationTimestamp();
 			if ( !is_null( $auth ) ) {
 				$vals['emailauthenticated'] = wfTimestamp( TS_ISO_8601, $auth );
+			}
+		}
+
+		if ( isset( $this->prop['registrationdate'] ) ) {
+			$regDate = $wgUser->getRegistration();
+			if ( $regDate !== false ) {
+				$vals['registrationdate'] = wfTimestamp( TS_ISO_8601, $regDate );
 			}
 		}
 
@@ -193,6 +200,7 @@ class ApiQueryUserInfo extends ApiQueryBase {
 					'email',
 					'realname',
 					'acceptlang',
+					'registrationdate'
 				)
 			)
 		);
@@ -208,11 +216,13 @@ class ApiQueryUserInfo extends ApiQueryBase {
 				'  rights           - Lists all the rights the current user has',
 				'  changeablegroups - Lists the groups the current user can add to and remove from',
 				'  options          - Lists all preferences the current user has set',
+				'  preferencestoken - Get a token to change current user\'s preferences',
 				'  editcount        - Adds the current user\'s edit count',
 				'  ratelimits       - Lists all rate limits applying to the current user',
 				'  realname         - Adds the user\'s real name',
 				'  email            - Adds the user\'s email address and email authentication date',
 				'  acceptlang       - Echoes the Accept-Language header sent by the client in a structured format',
+				'  registrationdate - Adds the user\'s registration date',
 			)
 		);
 	}

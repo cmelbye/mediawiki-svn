@@ -5,7 +5,7 @@
   *
   * @ingroup Language
   */
-/* private */ $wgLanguageNames = array(
+/* private */ $coreLanguageNames = array(
 	'aa' => 'Qafár af',	# Afar
 	'ab' => 'Аҧсуа',	# Abkhaz, should possibly add ' бысжѡа'
 	'ace' => 'Acèh',	# Aceh
@@ -150,7 +150,7 @@
 	'ka' => 'ქართული',	# Georgian
 	'kaa' => 'Qaraqalpaqsha',	# Karakalpak
 	'kab' => 'Taqbaylit',	# Kabyle
-	'kbd' => 'къэбэрдеибзэ/qabardjajəbza',	# Kabardian (multiple scripts - defaults to Cyrillic)
+	'kbd' => 'Къэбэрдеибзэ / Qabardjajəbza',	# Kabardian (multiple scripts - defaults to Cyrillic)
 	'kbd-cyrl' => 'къэбэрдеибзэ',	# Kabardian (Cyrillic)
 	'kg' => 'Kongo',	# Kongo, (FIXME!) should probaly be KiKongo or KiKoongo
 	'ki' => 'Gĩkũyũ',	# Gikuyu
@@ -190,7 +190,7 @@
 	'lg' => 'Luganda',		# Ganda
 	'li' => 'Limburgs',	# Limburgian
 	'lij' => 'Líguru',	# Ligurian
-	'liv' => 'Līvõ kēļ',	# Liv
+	'liv' => 'Līvõ kēļ',	# Livonian
 	'lmo' => 'Lumbaart',	# Lombard
 	'ln' => 'Lingála',		# Lingala
 	'lo' => 'ລາວ',# Laotian
@@ -327,7 +327,6 @@
 	'tn' => 'Setswana',		# Setswana
 	'to' => 'lea faka-Tonga',		# Tonga (Tonga Islands)
 	'tokipona' => 'Toki Pona',      # Toki Pona
-	'tp' => 'Toki Pona (deprecated:tokipona)',	# Toki Pona - non-standard language code
 	'tpi' => 'Tok Pisin',	# Tok Pisin
 	'tr' => 'Türkçe',	# Turkish
 	'ts' => 'Xitsonga',		# Tsonga

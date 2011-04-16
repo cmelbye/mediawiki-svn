@@ -472,8 +472,6 @@ Bang mayari ing kekang pamag-login, kailangan mung mangibiling bayung password k
 'extlink_tip'     => 'Suglung a palwal (tandanan me ing http:// prefix)',
 'headline_sample' => 'Letra ning pamagat (headline text)',
 'headline_tip'    => 'Pamagat a level 2',
-'math_sample'     => 'Isingit me ing formula keni',
-'math_tip'        => 'Formulang pang-matematika (LaTeX)',
 'nowiki_sample'   => 'Keti mu isingit ing sulat a e makaayus (non-formatted text)',
 'nowiki_tip'      => 'E papansinan ing pamanayus a pang-wiki (wiki formatting)',
 'image_tip'       => 'Simpan a makalangkap (Embedded file)',
@@ -1655,7 +1653,6 @@ mu nung sanu retang bulung a sinira da).',
 ** Mamatakut o maniaul
 ** Mamabusu kareng dakal a account
 ** E katanggap-tanggap a lagyungtalagamit (username)',
-'ipbanononly'                 => 'Den mung talagamit a pepakilala ing sabatan',
 'ipbcreateaccount'            => 'Sabatan ing pamaglalang account',
 'ipbemailban'                 => 'Sabatan ing pamagparla nang e-mail ning talagamit',
 'ipbenableautoblock'          => 'Tambing yang sabatan ing tauling IP address a ginamit ning talagamit a ini, at deng IP nung nu na pa subukang mag-edit',
@@ -1680,9 +1677,7 @@ mu nung sanu retang bulung a sinira da).',
 'unblocked-id'                => 'Milako ing Sabat (Block) $1',
 'ipblocklist'                 => "Deng IP address ampong lagiungtalagamit (''username'') a makasabat",
 'ipblocklist-legend'          => 'Maintun talagamit a makasabat',
-'ipblocklist-username'        => 'Lagyungtalagamit (username) o IP address:',
 'ipblocklist-submit'          => 'Manintun',
-'blocklistline'               => '$1, $2 mesabat $3 ($4)',
 'infiniteblock'               => 'alang kapupusan',
 'expiringblock'               => 'mayari ya keng $1 $2',
 'anononlyblock'               => 'anon. bukud tangi',
@@ -1973,27 +1968,6 @@ Mapaliaring ing sangkan metung yang suglung king karinan king kilual (link to an
 'numauthors'     => 'Taganang bilang da reng talasulat (bulung): $1',
 'numtalkauthors' => 'Taganang bilang da reng talasulat (bulung pamisabi-sabi): $1',
 
-# Math options
-'mw_math_png'    => 'Pane yang pakit king ayus/format a PNG',
-'mw_math_simple' => 'HTML nung simpli yang tagana, at nung ali, PNG',
-'mw_math_html'   => 'HTML nung maliari, at nung ali, PNG',
-'mw_math_source' => 'Paburen yang TeX (para kareng text browser)',
-'mw_math_modern' => 'Rerekomenda de kareng makabayung browser',
-'mw_math_mathml' => 'MathML nung maliari (susubukan da pamu [experimental])',
-
-# Math errors
-'math_failure'          => 'E melaus ing pamag-parse',
-'math_unknown_error'    => 'e makikilalang pamagkamali',
-'math_unknown_function' => 'e makikilalang gamit (unknown function)',
-'math_lexing_error'     => 'pamagkamali king lexing',
-'math_syntax_error'     => 'pamagkamali king pamituki-tuki (syntax error)',
-'math_image_error'      => 'E melaus ing pamanalis king PNG;
-siguraduan mu ing ustung pamag-install king latex, dvips, gs, at kaibat iyalis (i-convert) me',
-'math_bad_tmpdir'       => 'E makasulat king o makapaglalang piyakitan (directory) a math temp',
-'math_bad_output'       => 'E makasulat king o makapaglalang piyakitan (directory) a math output',
-'math_notexvc'          => 'Mawawala ya ing texvc executable;
-pakilawe me ing math/README ba meng i-configure.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Tatakan yang babanten (patrolled)',
 'markaspatrolledtext'                 => 'Tatakan yang babanten da (patrolled) ing bulung a ini',
@@ -2025,16 +1999,15 @@ $1',
 'nextdiff'     => 'Mas bayung edit/pamanalili →',
 
 # Media information
-'mediawarning'         => "'''Kapiadian''': Mapaliaring atin yang code a makarok (malicious) ing simpan (file) a ini, at nung paganan me, maliari yang masira ing kekang system.",
-'imagemaxsize'         => 'E la dapat migit king bilang a iti deng larawan kareng bulung pamilarawan simpan (file description pages):',
-'thumbsize'            => 'Kasindagul kuku (thumbnail size):',
-'widthheightpage'      => '$1×$2, $3 bulung',
-'file-info'            => 'dagul ning simpan [file]: $1, MIME type: $2',
-'file-info-size'       => '$1 × $2 pixel, sukad ning simpan: $3, MIME type: $4',
-'file-nohires'         => '<small>Ala nang mas malino pa.</small>',
-'svg-long-desc'        => 'SVG file, masasabing $1 × $2 pixels, dagul ning simpan: $3',
-'show-big-image'       => 'Pekamalino',
-'show-big-image-thumb' => '<small>Dagul na niting preview: $1 × $2 pixels</small>',
+'mediawarning'    => "'''Kapiadian''': Mapaliaring atin yang code a makarok (malicious) ing simpan (file) a ini, at nung paganan me, maliari yang masira ing kekang system.",
+'imagemaxsize'    => 'E la dapat migit king bilang a iti deng larawan kareng bulung pamilarawan simpan (file description pages):',
+'thumbsize'       => 'Kasindagul kuku (thumbnail size):',
+'widthheightpage' => '$1×$2, $3 bulung',
+'file-info'       => 'dagul ning simpan [file]: $1, MIME type: $2',
+'file-info-size'  => '$1 × $2 pixel, sukad ning simpan: $3, MIME type: $4',
+'file-nohires'    => '<small>Ala nang mas malino pa.</small>',
+'svg-long-desc'   => 'SVG file, masasabing $1 × $2 pixels, dagul ning simpan: $3',
+'show-big-image'  => 'Pekamalino',
 
 # Special:NewFiles
 'newimages'             => 'Pirinan kareng bayung simpan (new files)',

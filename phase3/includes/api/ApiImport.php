@@ -42,13 +42,14 @@ class ApiImport extends ApiBase {
 
 	public function execute() {
 		global $wgUser;
-		if ( !$wgUser->isAllowed( 'import' ) ) {
-			$this->dieUsageMsg( array( 'cantimport' ) );
-		}
+
 		$params = $this->extractRequestParams();
 
 		$isUpload = false;
 		if ( isset( $params['interwikisource'] ) ) {
+			if ( !$wgUser->isAllowed( 'import' ) ) {
+				$this->dieUsageMsg( array( 'cantimport' ) );
+			}
 			if ( !isset( $params['interwikipage'] ) ) {
 				$this->dieUsageMsg( array( 'missingparam', 'interwikipage' ) );
 			}
@@ -131,7 +132,11 @@ class ApiImport extends ApiBase {
 	}
 
 	public function getDescription() {
-		return 'Import a page from another wiki, or an XML file';
+		return array(
+			'Import a page from another wiki, or an XML file.' ,
+			'Note that the HTTP POST must be done as a file upload (i.e. using multipart/form-data) when',
+			'sending a file for the "xml" parameter.'
+		);
 	}
 
 	public function getPossibleErrors() {

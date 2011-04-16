@@ -117,7 +117,8 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 				}
 
 				if ( isset( $prop['expiry'] ) ) {
-					$vals['expiry'] = Block::decodeExpiry( $row->pt_expiry, TS_ISO_8601 );
+					global $wgContLang;
+					$vals['expiry'] = $wgContLang->formatExpiry( $row->pt_expiry, TS_ISO_8601 );
 				}
 
 				if ( isset( $prop['level'] ) ) {
@@ -203,7 +204,7 @@ class ApiQueryProtectedTitles extends ApiQueryGeneratorBase {
 			'namespace' => 'Only list titles in these namespaces',
 			'start' => 'Start listing at this protection timestamp',
 			'end' => 'Stop listing at this protection timestamp',
-			'dir' => 'The direction in which to list',
+			'dir' => $this->getDirectionDescription( $this->getModulePrefix() ),
 			'limit' => 'How many total pages to return',
 			'prop' => array(
 				'Which properties to get',

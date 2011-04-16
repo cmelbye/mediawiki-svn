@@ -294,7 +294,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Titres_protégés', 'TitresProtégés', 'Titres_proteges', 'TitresProteges' ),
 	'Allpages'                  => array( 'Toutes_les_pages', 'ToutesLesPages' ),
 	'Prefixindex'               => array( 'Index', 'Préfixes', 'Prefixes' ),
-	'Ipblocklist'               => array( 'Liste_des_blocages', 'ListeDesBlocages', 'Blocages', 'Utilisateurs_bloqués', 'UtilisateursBloqués', 'Utilisateurs_bloques', 'UtilisateursBloques', 'IP_bloquées', 'IPBloquees', 'IPBloquées' ),
+	'BlockList'                 => array( 'Liste_des_blocages', 'ListeDesBlocages', 'Blocages', 'Utilisateurs_bloqués', 'UtilisateursBloqués', 'Utilisateurs_bloques', 'UtilisateursBloques', 'IP_bloquées', 'IPBloquees', 'IPBloquées' ),
 	'Unblock'                   => array( 'Débloquer', 'Déblocage' ),
 	'Specialpages'              => array( 'Pages_spéciales', 'PagesSpéciales', 'Pages_speciales', 'PagesSpeciales' ),
 	'Emailuser'                 => array( 'Envoyer_un_courriel', 'EnvoyerUnCourriel', 'Courriel', 'Envoyer_un_e-mail', 'EnvoyerUnEMail', 'E-mail', 'EMail' ),
@@ -308,7 +308,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exporter', 'Exportation' ),
 	'Allmessages'               => array( 'Messages_système', 'Messages_systeme', 'Messagessystème', 'Messagessysteme' ),
 	'Log'                       => array( 'Journal', 'Journaux' ),
-	'Blockip'                   => array( 'Bloquer', 'Blocage' ),
+	'Block'                     => array( 'Bloquer', 'Blocage' ),
 	'Undelete'                  => array( 'Restaurer', 'Restauration' ),
 	'Import'                    => array( 'Importer', 'Importation' ),
 	'Lockdb'                    => array( 'Verrouiller_la_base', 'Verrouillerlabase', 'Verrouiller_base', 'Verrouillerbase', 'Verrouiller_BD', 'VerrouillerBD', 'Verrouiller_bd', 'Verrouillerbd' ),
@@ -367,7 +367,7 @@ $messages = array(
 'tog-previewontop'            => 'Afficher la prévisualisation au-dessus de la zone de modification',
 'tog-previewonfirst'          => 'Afficher la prévisualisation lors de la première modification',
 'tog-nocache'                 => 'Désactiver le cache des pages par le navigateur',
-'tog-enotifwatchlistpages'    => 'M’avertir par courrier électronique lorsqu’une page de ma liste de suivi est modifiée',
+'tog-enotifwatchlistpages'    => 'M’avertir par courriel lorsqu’une page de ma liste de suivi est modifiée',
 'tog-enotifusertalkpages'     => 'M’avertir par courriel si ma page de discussion est modifiée',
 'tog-enotifminoredits'        => 'M’avertir par courriel même en cas de modifications mineures des pages',
 'tog-enotifrevealaddr'        => 'Afficher mon adresse de courriel dans les courriels de notification',
@@ -829,6 +829,7 @@ Ignorez ce message si ce compte a été créé par erreur.',
 'usernamehasherror'          => 'Le nom d’utilisateur ne peut pas contenir des caractères de hachage',
 'login-throttled'            => 'Vous avez tenté un trop grand nombre de connexions dernièrement.
 Veuillez attendre avant d’essayer à nouveau.',
+'login-abort-generic'        => 'Votre tentative de connexion a échoué',
 'loginlanguagelabel'         => 'Langue : $1',
 'suspicious-userlogout'      => 'Votre demande de déconnexion a été refusée car il semble qu’elle a été envoyée par un navigateur cassé ou la mise en cache d’un proxy.',
 
@@ -873,8 +874,6 @@ Vous avez peut-être déjà changé votre mot de passe ou demandé un nouveau mo
 'extlink_tip'     => 'Lien externe (n’oubliez pas le préfixe http://)',
 'headline_sample' => 'Texte de sous-titre',
 'headline_tip'    => 'Sous-titre niveau 2',
-'math_sample'     => 'Entrez votre formule ici',
-'math_tip'        => 'Formule mathématique (LaTeX)',
 'nowiki_sample'   => 'Entrez le texte non formaté ici',
 'nowiki_tip'      => 'Ignorer la syntaxe wiki',
 'image_sample'    => 'Exemple.jpg',
@@ -1097,7 +1096,7 @@ La raison donnée était ''$2''.",
 'page_last'              => 'dernière',
 'histlegend'             => 'Légende : ({{int:cur}}) = différence avec la version actuelle, ({{int:last}}) = différence avec la version précédente, <b>{{int:minoreditletter}}</b> = modification mineure',
 'history-fieldset-title' => 'Naviguer dans l’historique',
-'history-show-deleted'   => 'Supprimés seulement',
+'history-show-deleted'   => 'Masqués seulement',
 'histfirst'              => 'première page',
 'histlast'               => 'dernière page',
 'historysize'            => '($1 octet{{PLURAL:$1||s}})',
@@ -1363,16 +1362,15 @@ Essayez en utilisant le préfixe ''all:'' pour rechercher dans tout le contenu (
 'changepassword'                => 'Changer de mot de passe',
 'prefs-skin'                    => 'Habillage',
 'skin-preview'                  => 'Prévisualiser',
-'prefs-math'                    => 'Rendu des maths',
 'datedefault'                   => 'Aucune préférence',
 'prefs-datetime'                => 'Date et heure',
 'prefs-personal'                => 'Informations personnelles',
 'prefs-rc'                      => 'Modifications récentes',
 'prefs-watchlist'               => 'Liste de suivi',
 'prefs-watchlist-days'          => 'Nombre de jours à afficher dans la liste de suivi :',
-'prefs-watchlist-days-max'      => '(maximum 7 jours)',
+'prefs-watchlist-days-max'      => 'Maximum 7 jours',
 'prefs-watchlist-edits'         => 'Nombre de modifications à afficher dans la liste de suivi étendue :',
-'prefs-watchlist-edits-max'     => '(nombre maximum : 1000)',
+'prefs-watchlist-edits-max'     => 'Nombre maximum : 1000',
 'prefs-watchlist-token'         => 'Jeton pour la liste de suivi :',
 'prefs-misc'                    => 'Préférences diverses',
 'prefs-resetpass'               => 'Changer de mot de passe',
@@ -1646,7 +1644,7 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'rclinks'                           => 'Afficher les $1 dernières modifications effectuées au cours des $2 derniers jours<br />$3.',
 'diff'                              => 'diff',
 'hist'                              => 'hist',
-'hide'                              => 'masquer',
+'hide'                              => 'Masquer',
 'show'                              => 'Afficher',
 'minoreditletter'                   => 'm',
 'newpageletter'                     => 'N',
@@ -1765,6 +1763,8 @@ Si vous voulez toujours téléverser votre fichier, veuillez revenir en arrière
 'php-uploaddisabledtext'      => 'Le téléversement de fichiers a été désactivé dans PHP. Vérifiez l’option de configuration file_uploads.',
 'uploadscripted'              => 'Ce fichier contient du code HTML ou un script qui pourrait être interprété de façon incorrecte par un navigateur web.',
 'uploadvirus'                 => 'Ce fichier contient un virus ! Pour plus de détails, consultez : $1',
+'uploadjava'                  => "C'est un fichier ZIP qui contient un fichier Java .class.
+Le téléchargement de fichiers Java n'est pas autorisé, car ils peuvent entraîner des restrictions de sécurité.",
 'upload-source'               => 'Fichier source',
 'sourcefilename'              => 'Nom du fichier source :',
 'sourceurl'                   => 'URL source :',
@@ -1833,22 +1833,23 @@ Il ne peut pas être correctement vérifé pour la sécurité.',
 'uploadstash-refresh'  => 'Actualiser la liste des fichiers',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Accès refusé',
-'img-auth-nopathinfo'   => 'PATH_INFO manquant.
+'img-auth-accessdenied'     => 'Accès refusé',
+'img-auth-nopathinfo'       => 'PATH_INFO manquant.
 Votre serveur n’est pas paramétré pour passer cette information.
-Il fonctionne peut-être en CGI et ne supporte pas img_atuh.
+Il fonctionne peut-être en CGI et ne supporte pas img_auth.
 Consultez http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Le chemin demandé n’est pas le répertoire de téléversement configuré.',
-'img-auth-badtitle'     => 'Impossible de construire un titre valide à partir de « $1 ».',
-'img-auth-nologinnWL'   => 'Vous n’êtes pas connecté et « $1 » n’est pas dans la liste blanche.',
-'img-auth-nofile'       => 'Le fichier « $1 » n’existe pas.',
-'img-auth-isdir'        => 'Vous essayez d’accéder au répertoire « $1 ».
+'img-auth-notindir'         => 'Le chemin demandé n’est pas le répertoire de téléversement configuré.',
+'img-auth-badtitle'         => 'Impossible de construire un titre valide à partir de « $1 ».',
+'img-auth-nologinnWL'       => 'Vous n’êtes pas connecté et « $1 » n’est pas dans la liste blanche.',
+'img-auth-nofile'           => 'Le fichier « $1 » n’existe pas.',
+'img-auth-isdir'            => 'Vous essayez d’accéder au répertoire « $1 ».
 Seul l’accès aux fichiers est permis.',
-'img-auth-streaming'    => 'Lecture en continu de « $1 ».',
-'img-auth-public'       => 'La fonction de img_auth.php est d’afficher des fichiers d’un wiki privé.
+'img-auth-streaming'        => 'Lecture en continu de « $1 ».',
+'img-auth-public'           => 'La fonction de img_auth.php est d’afficher des fichiers d’un wiki privé.
 Ce wiki est configuré comme un wiki public.
 Pour une sécurité optimale, img_auth.php est désactivé.',
-'img-auth-noread'       => 'L’utilisateur n’a pas le droit en lecture sur « $1 ».',
+'img-auth-noread'           => 'L’utilisateur n’a pas le droit en lecture sur « $1 ».',
+'img-auth-bad-query-string' => "L'URL a une chaîne de requête invalide.",
 
 # HTTP errors
 'http-invalid-url'      => 'URL incorrecte : $1',
@@ -1914,13 +1915,15 @@ Une [[Special:WhatLinksHere/$2|liste complète]] est disponible.',
 'morelinkstoimage'                  => 'Voir [[Special:WhatLinksHere/$1|plus de liens]] vers ce fichier.',
 'redirectstofile'                   => '{{PLURAL:$1|Le fichier suivant redirige|Les fichiers suivants redirigent}} vers celui-ci :',
 'duplicatesoffile'                  => '{{PLURAL:$1|Le fichier suivant est un duplicata|Les fichiers suivants sont des duplicatas}} de celui-ci ([[Special:FileDuplicateSearch/$2|plus de détails]]) :',
-'sharedupload'                      => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets.',
-'sharedupload-desc-there'           => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets. Voyez [$2 sa page de description] pour plus d’informations.',
-'sharedupload-desc-here'            => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets. Sa [$2 page de description] est affichée ci-dessous.',
+'sharedupload'                      => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.',
+'sharedupload-desc-there'           => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.
+Veuillez consulter [$2 sa page de description] pour plus d’informations.',
+'sharedupload-desc-here'            => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.
+Sa description sur sa [$2 page de description] est affichée ci-dessous.',
 'filepage-nofile'                   => 'Aucun fichier de ce nom existe.',
 'filepage-nofile-link'              => 'Aucun fichier de ce nom n’existe, mais vous pouvez [$1 en téléverser un].',
 'uploadnewversion-linktext'         => 'Téléverser une nouvelle version de ce fichier',
-'shared-repo-from'                  => 'de $1',
+'shared-repo-from'                  => 'de : $1',
 'shared-repo'                       => 'un dépôt partagé',
 'shared-repo-name-wikimediacommons' => 'Wikimédia Commons',
 
@@ -2208,6 +2211,10 @@ L’adresse électronique que vous avez indiquée dans [[Special:Preferences|vos
 'noemailtext'          => 'Cet utilisateur n’a pas spécifié une adresse de courriel valide.',
 'nowikiemailtitle'     => 'Pas de courriel autorisé',
 'nowikiemailtext'      => 'Cet utilisateur a choisi de ne pas recevoir de courriel de la part d’autre utilisateurs.',
+'emailnotarget'        => "Nom d'utilisateur du destinataire inexistant ou invalide.",
+'emailtarget'          => "Entrez le nom d'utilisateur du destinataire",
+'emailusername'        => "Nom de l'utilisateur :",
+'emailusernamesubmit'  => 'Soumettre',
 'email-legend'         => 'Envoyer un courriel à un autre utilisateur de {{SITENAME}}',
 'emailfrom'            => 'Expéditeur :',
 'emailto'              => 'Destinataire :',
@@ -2471,9 +2478,10 @@ $1',
 'undelete-show-file-submit'    => 'Oui',
 
 # Namespace form on various pages
-'namespace'      => 'Espace de noms :',
-'invert'         => 'Inverser la sélection',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Espace de noms :',
+'invert'                => 'Inverser la sélection',
+'namespace_association' => 'Espace de noms associé',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contributions de l’utilisateur',
@@ -2499,7 +2507,7 @@ $1',
 La dernière entrée du journal des blocages est indiquée ci-dessous à titre d’information :',
 'sp-contributions-search'              => 'Rechercher les contributions',
 'sp-contributions-username'            => 'Adresse IP ou nom d’utilisateur :',
-'sp-contributions-toponly'             => 'Ne montrer que les révisions récentes',
+'sp-contributions-toponly'             => 'Ne montrer que les articles dont je suis le dernier contributeur',
 'sp-contributions-submit'              => 'Rechercher',
 
 # What links here
@@ -2522,13 +2530,15 @@ La dernière entrée du journal des blocages est indiquée ci-dessous à titre d
 'whatlinkshere-filters'    => 'Filtres',
 
 # Block/unblock
+'autoblockid'                     => 'Blocage automatique #$1',
+'block'                           => 'Bloquer l’utilisateur',
+'unblock'                         => 'Débloquer l’utilisateur',
 'blockip'                         => 'Bloquer l’utilisateur',
 'blockip-title'                   => 'Bloquer l’utilisateur',
 'blockip-legend'                  => 'Bloquer l’utilisateur',
 'blockiptext'                     => 'Utilisez le formulaire ci-dessous pour bloquer l’accès aux modifications faites à partir d’une adresse IP spécifique ou d’un nom d’utilisateur.
 Une telle mesure ne devrait être prise que pour prévenir le vandalisme et en accord avec les [[{{MediaWiki:Policy-url}}|règles internes]].
 Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont été vandalisées).',
-'ipaddress'                       => 'Adresse IP :',
 'ipadressorusername'              => 'Adresse IP ou nom d’utilisateur :',
 'ipbexpiry'                       => 'Durée avant expiration :',
 'ipbreason'                       => 'Motif :',
@@ -2541,7 +2551,7 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 ** Tentative d’intimidation ou harcèlement
 ** Abus d’utilisation de comptes multiples
 ** Nom d’utilisateur inacceptable, injurieux ou diffamant',
-'ipbanononly'                     => 'Bloquer uniquement les utilisateurs anonymes',
+'ipb-hardblock'                   => 'Empêche les modifications des utilisateurs enregistrés utilisant cette adresse IP',
 'ipbcreateaccount'                => 'Empêcher la création de compte',
 'ipbemailban'                     => 'Empêcher l’utilisateur d’envoyer des courriels',
 'ipbenableautoblock'              => 'Bloquer automatiquement la dernière adresse IP utilisée par l’utilisateur et toutes ses IPs ultérieures qu’il pourrait essayer',
@@ -2552,12 +2562,15 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 'ipbotherreason'                  => 'Motif différent ou supplémentaire :',
 'ipbhidename'                     => 'Masquer le nom d’utilisateur des modifications et des listes',
 'ipbwatchuser'                    => 'Suivre les pages utilisateur et de discussion de cet utilisateur',
-'ipballowusertalk'                => 'Permettre à cet utilisateur de modifier sa propre page de discussion durant sa période de blocage',
+'ipb-disableusertalk'             => 'Empêche cet utilisateur de modifier sa propre page de discussion pendant la durée de son blocage',
 'ipb-change-block'                => 'Bloquer à nouveau cet utilisateur avec ces paramètres',
+'ipb-confirm'                     => 'Confirmer le blocage',
 'badipaddress'                    => 'Adresse IP incorrecte',
 'blockipsuccesssub'               => 'Blocage réussi',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué{{GENDER:$1||e|}}.<br />
 Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour revoir les blocages.',
+'ipb-blockingself'                => 'Vous êtes sur le point de vous bloquer vous-même !  Étes-vous certain de que vouloir faire cela ?',
+'ipb-confirmhideuser'             => 'Vous êtes sur le point de bloquer un utilisateur avec « cacher l’utilisateur » activé. Cela supprime le nom de l’utilisateur dans toutes les listes et les entrées du journal. Êtes-vous sûr de vouloir le faire ?',
 'ipb-edit-dropdown'               => 'Modifier les motifs de blocage par défaut',
 'ipb-unblock-addr'                => 'Débloquer $1',
 'ipb-unblock'                     => 'Débloquer un compte utilisateur ou une adresse IP',
@@ -2567,17 +2580,23 @@ Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] p
 'unblockiptext'                   => 'Utilisez le formulaire ci-dessous pour rétablir l’accès aux modifications depuis une adresse IP ou un nom d’utilisateur.',
 'ipusubmit'                       => 'Supprimer ce blocage',
 'unblocked'                       => '[[User:$1|$1]] a été débloqué',
+'unblocked-range'                 => '$1 a été débloqué',
 'unblocked-id'                    => 'Le blocage $1 a été enlevé',
-'ipblocklist'                     => 'Adresses IP et utilisateurs bloqués',
+'blocklist'                       => 'Utilisateurs bloqués',
+'ipblocklist'                     => 'Utilisateurs bloqués',
 'ipblocklist-legend'              => 'Chercher un utilisateur bloqué',
-'ipblocklist-username'            => 'Nom de l’utilisateur ou adresse IP :',
-'ipblocklist-sh-userblocks'       => '$1 les blocages de comptes',
-'ipblocklist-sh-tempblocks'       => '$1 les blocages temporaires',
-'ipblocklist-sh-addressblocks'    => '$1 les blocages d’adresses IP uniques',
+'blocklist-userblocks'            => 'Masquer les blocages de comptes',
+'blocklist-tempblocks'            => 'Masquer les blocages temporaires',
+'blocklist-addressblocks'         => 'Masquer les blocages d’adresses IP uniques',
+'blocklist-timestamp'             => 'Date et heure',
+'blocklist-target'                => 'Cible',
+'blocklist-expiry'                => 'Date d’expiration',
+'blocklist-by'                    => 'Administrateur ayant effectué le blocage',
+'blocklist-params'                => 'Paramètres de blocage',
+'blocklist-reason'                => 'Motif',
 'ipblocklist-submit'              => 'Rechercher',
 'ipblocklist-localblock'          => 'Blocage local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
-'blocklistline'                   => '$1 : $2 a bloqué $3 ; $4',
 'infiniteblock'                   => 'permanent',
 'expiringblock'                   => 'expire le $1 à $2',
 'anononlyblock'                   => 'utilisateur non enregistré uniquement',
@@ -2614,9 +2633,9 @@ Consultez la [[Special:IPBlockList|liste des IP bloquées]] pour voir les bannis
 'ipb_expiry_temp'                 => 'Les blocages de noms d’utilisateurs cachés doivent être permanents.',
 'ipb_hide_invalid'                => 'Impossible de supprimer ce compte ; il semble avoir trop de modifications.',
 'ipb_already_blocked'             => '« $1 » est déjà bloqué',
-'ipb-needreblock'                 => '== Déjà bloqué ==
-$1 est déjà bloqué. Voulez-vous modifier les paramètres ?',
+'ipb-needreblock'                 => '$1 est déjà bloqué. Voulez-vous modifier les paramètres ?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
+'unblock-hideuser'                => "Vous ne peut débloquer cet utilisateur, son nom d'utilisateur a été masqué.",
 'ipb_cant_unblock'                => 'Erreur : identifiant de blocage $1 non trouvé.
 Il est possible qu’un déblocage ait déjà été effectué.',
 'ipb_blocked_as_range'            => 'Erreur : l’adresse IP $1 n’est pas bloquée directement et ne peut donc pas être débloquée.
@@ -2982,25 +3001,6 @@ Permet de rétablir la version précédente et d’ajouter un motif dans la boî
 'skinname-modern'      => 'Moderne',
 'skinname-vector'      => 'Vector',
 
-# Math options
-'mw_math_png'    => 'Toujours produire une image PNG',
-'mw_math_simple' => 'HTML si très simple, autrement PNG',
-'mw_math_html'   => 'HTML si possible, autrement PNG',
-'mw_math_source' => 'Laisser le code TeX original',
-'mw_math_modern' => 'Pour les navigateurs modernes',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Erreur math',
-'math_unknown_error'    => 'erreur indéterminée',
-'math_unknown_function' => 'fonction inconnue',
-'math_lexing_error'     => 'erreur lexicale',
-'math_syntax_error'     => 'erreur de syntaxe',
-'math_image_error'      => 'La conversion en PNG a échoué ; vérifiez l’installation de latex et dvipng (ou dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Impossible de créer ou d’écrire dans le répertoire math temporaire',
-'math_bad_output'       => 'Impossible de créer ou d’écrire dans le répertoire math de sortie',
-'math_notexvc'          => 'L’exécutable « texvc » est introuvable. Lisez math/README pour le configurer.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Marquer comme relue',
 'markaspatrolledtext'                 => 'Marquer cette page comme relue',
@@ -3036,22 +3036,24 @@ $1',
 'nextdiff'     => 'Modification suivante →',
 
 # Media information
-'mediawarning'         => "'''Attention :''' ce type de fichier peut contenir du code malveillant.
+'mediawarning'           => "'''Attention :''' ce type de fichier peut contenir du code malveillant.
 Si vous l’exécutez, votre système peut être compromis.",
-'imagemaxsize'         => "Taille maximale des images :<br />''(pour les pages de description de fichiers)''",
-'thumbsize'            => 'Taille de la miniature :',
-'widthheightpage'      => '$1 × $2, $3 page{{PLURAL:$3||s}}',
-'file-info'            => 'Taille du fichier : $1, type MIME : $2',
-'file-info-size'       => '$1 × $2 pixels, taille du fichier : $3, type MIME : $4',
-'file-nohires'         => '<small>Pas de plus haute résolution disponible.</small>',
-'svg-long-desc'        => 'Fichier SVG, résolution de $1 × $2 pixels, taille : $3',
-'show-big-image'       => 'Image en plus haute résolution',
-'show-big-image-thumb' => '<small>Taille de cet aperçu : $1 × $2 pixels</small>',
-'file-info-gif-looped' => 'en boucle',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|image|images}}',
-'file-info-png-looped' => 'en boucle',
-'file-info-png-repeat' => 'joué $1 {{PLURAL:$1|fois|fois}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|image|images}}',
+'imagemaxsize'           => "Taille maximale des images :<br />''(pour les pages de description de fichiers)''",
+'thumbsize'              => 'Taille de la miniature :',
+'widthheightpage'        => '$1 × $2, $3 page{{PLURAL:$3||s}}',
+'file-info'              => 'Taille du fichier : $1, type MIME : $2',
+'file-info-size'         => '$1 × $2 pixels, taille du fichier : $3, type MIME : $4',
+'file-nohires'           => '<small>Pas de plus haute résolution disponible.</small>',
+'svg-long-desc'          => 'Fichier SVG, résolution de $1 × $2 pixels, taille : $3',
+'show-big-image'         => 'Image en plus haute résolution',
+'show-big-image-preview' => '<small>Taille de cet aperçu : $1.</small>',
+'show-big-image-other'   => '<small>Autres résolutions : $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixels',
+'file-info-gif-looped'   => 'en boucle',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|image|images}}',
+'file-info-png-looped'   => 'en boucle',
+'file-info-png-repeat'   => 'joué $1 {{PLURAL:$1|fois|fois}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|image|images}}',
 
 # Special:NewFiles
 'newimages'             => 'Galerie des nouveaux fichiers',
@@ -3454,11 +3456,12 @@ $1',
 'trackbackdeleteok' => 'Le rétrolien a été supprimé avec succès.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Attention''' : cette page a été supprimée après que vous avez commencé à la modifier !",
-'confirmrecreate'     => "L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer, pour le motif suivant :
+'deletedwhileediting'      => "'''Attention''' : cette page a été supprimée après que vous avez commencé à la modifier !",
+'confirmrecreate'          => "L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer, pour le motif suivant :
 : ''$2''
 Veuillez confirmer que vous désirez réellement recréer cette page.",
-'recreate'            => 'Recréer',
+'confirmrecreate-noreason' => 'L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer. Veuillez confirmer que vous désirez réellement recréer cette page.',
+'recreate'                 => 'Recréer',
 
 # action=purge
 'confirm_purge_button' => 'Confirmer',
@@ -3497,9 +3500,9 @@ Veuillez confirmer que vous désirez réellement recréer cette page.",
 
 # Size units
 'size-bytes'     => '$1 o',
-'size-kilobytes' => '$1 Kio',
-'size-megabytes' => '$1 Mio',
-'size-gigabytes' => '$1 Gio',
+'size-kilobytes' => '$1 Ko',
+'size-megabytes' => '$1 Mo',
+'size-gigabytes' => '$1 Go',
 
 # Live preview
 'livepreview-loading' => 'Chargement…',
@@ -3520,14 +3523,14 @@ Essayez la prévisualisation normale.',
 'watchlistedit-normal-legend'  => 'Retirer des titres de la liste de suivi',
 'watchlistedit-normal-explain' => 'Les titres de votre liste de suivi sont visibles ci-dessous.
 Pour enlever un titre de la liste (et sa page de discussion), cochez la case à côté puis cliquez sur le bouton « {{int:Watchlistedit-normal-submit}} ».
-Vous pouvez aussi [[Special:Watchlist/raw|modifier la liste en mode brut]].',
+Vous pouvez aussi [[Special:EditWatchlist/raw|modifier la liste en mode brut]].',
 'watchlistedit-normal-submit'  => 'Retirer les titres sélectionnés',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Un titre a été enlevé|$1 titres ont été enlevés}} de votre liste de suivi :',
 'watchlistedit-raw-title'      => 'Modifier la liste de suivi en mode brut',
 'watchlistedit-raw-legend'     => 'Modification de la liste de suivi en mode brut',
 'watchlistedit-raw-explain'    => 'Les titres de votre liste de suivi sont affichés ci-dessous et peuvent être modifiés en les ajoutant ou les retirant de la liste (un titre par ligne).
 Lorsque vous avez fini, cliquez sur le bouton « {{int:Watchlistedit-raw-submit}} » en bas.
-Vous pouvez aussi [[Special:Watchlist/edit|utiliser l’éditeur normal]].',
+Vous pouvez aussi [[Special:EditWatchlist|utiliser l’éditeur normal]].',
 'watchlistedit-raw-titles'     => 'Titres :',
 'watchlistedit-raw-submit'     => 'Mettre à jour la liste de suivi',
 'watchlistedit-raw-done'       => 'Votre liste de suivi a été mise à jour.',
@@ -3603,7 +3606,8 @@ Entrez le nom du fichier sans le préfixe « {{ns:file}}: »',
 'specialpages'                   => 'Pages spéciales',
 'specialpages-note'              => '----
 * Pages spéciales normales.
-* <strong class="mw-specialpagerestricted">Pages spéciales restreintes.</strong>',
+* <span class="mw-specialpagerestricted">Pages spéciales restreintes.</span>
+* <span class="mw-specialpagecached">Pages spéciales seulement en cache.</span>',
 'specialpages-group-maintenance' => 'Rapports de maintenance',
 'specialpages-group-other'       => 'Autres pages spéciales',
 'specialpages-group-login'       => 'S’identifier / s’inscrire',

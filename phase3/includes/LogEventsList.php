@@ -27,9 +27,26 @@ class LogEventsList {
 	const NO_ACTION_LINK = 1;
 	const NO_EXTRA_USER_LINKS = 2;
 
+	/**
+	 * @var Skin
+	 */
 	private $skin;
+
+	/**
+	 * @var OutputPage
+	 */
 	private $out;
 	public $flags;
+
+	/**
+	 * @var Array
+	 */
+	protected $message;
+
+	/**
+	 * @var Array
+	 */
+	protected $mDefaultQuery;
 
 	public function __construct( $skin, $out, $flags = 0 ) {
 		$this->skin = $skin;
@@ -82,8 +99,7 @@ class LogEventsList {
 	 * @param $tagFilter: array?
 	 */
 	public function showOptions( $types=array(), $user='', $page='', $pattern='', $year='', 
-		$month = '', $filter = null, $tagFilter='' )
-	{
+		$month = '', $filter = null, $tagFilter='' ) {
 		global $wgScript, $wgMiserMode;
 
 		$action = $wgScript;
@@ -357,7 +373,15 @@ class LogEventsList {
 		return $comment;
 	}
 
-	// @TODO: split up!
+	/**
+	 * @TODO: split up!
+	 *
+	 * @param  $row
+	 * @param Title $title
+	 * @param Array $paramArray
+	 * @param  $comment
+	 * @return String
+	 */
 	private function logActionLinks( $row, $title, $paramArray, &$comment ) {
 		global $wgUser;
 		if( ( $this->flags & self::NO_ACTION_LINK ) // we don't want to see the action
@@ -400,18 +424,15 @@ class LogEventsList {
 		} else if( self::typeAction( $row, array( 'block', 'suppress' ), array( 'block', 'reblock' ), 'block' ) ) {
 			$revert = '(' .
 				$this->skin->link(
-					SpecialPage::getTitleFor( 'Ipblocklist' ),
+					SpecialPage::getTitleFor( 'Unblock', $row->log_title ),
 					$this->message['unblocklink'],
 					array(),
-					array(
-						'action' => 'unblock',
-						'ip' => $row->log_title
-					),
+					array(),
 					'known'
 				) .
 				$this->message['pipe-separator'] .
 				$this->skin->link(
-					SpecialPage::getTitleFor( 'Blockip', $row->log_title ),
+					SpecialPage::getTitleFor( 'Block', $row->log_title ),
 					$this->message['change-blocklink'],
 					array(),
 					array(),
@@ -506,8 +527,7 @@ class LogEventsList {
 	private function getShowHideLinks( $row ) {
 		global $wgUser;
 		if( ( $this->flags & self::NO_ACTION_LINK ) // we don't want to see the links
-			|| $row->log_type == 'suppress' ) // no one can hide items from the suppress log
-		{
+			|| $row->log_type == 'suppress' ) { // no one can hide items from the suppress log
 			return '';
 		}
 		$del = '';
@@ -602,7 +622,7 @@ class LogEventsList {
 	/**
 	 * Show log extract. Either with text and a box (set $msgKey) or without (don't set $msgKey)
 	 *
-	 * @param $out OutputPage or String-by-reference
+	 * @param $out OutputPage|String-by-reference
 	 * @param $types String or Array
 	 * @param $page String The page title to show log entries for
 	 * @param $user String The user who made the log entries
@@ -758,8 +778,7 @@ class LogPager extends ReverseChronologicalPager {
 	 * @param $tagFilter String: tag
 	 */
 	public function __construct( $list, $types = array(), $user = '', $title = '', $pattern = '',
-		$conds = array(), $year = false, $month = false, $tagFilter = '' ) 
-	{
+		$conds = array(), $year = false, $month = false, $tagFilter = '' ) {
 		parent::__construct();
 		$this->mConds = $conds;
 
@@ -878,8 +897,9 @@ class LogPager extends ReverseChronologicalPager {
 		global $wgMiserMode, $wgUser;
 
 		$title = Title::newFromText( $page );
-		if( strlen( $page ) == 0 || !$title instanceof Title )
+		if( strlen( $page ) == 0 || !$title instanceof Title ) {
 			return false;
+		}
 
 		$this->title = $title->getPrefixedText();
 		$ns = $title->getNamespace();
@@ -918,12 +938,21 @@ class LogPager extends ReverseChronologicalPager {
 		$this->mConds[] = 'user_id = log_user';
 		$index = array();
 		$options = array();
-		# Add log_search table if there are conditions on it
-		if( array_key_exists('ls_field',$this->mConds) ) {
+		# Add log_search table if there are conditions on it.
+		# This filters the results to only include log rows that have
+		# log_search records with the specified ls_field and ls_value values.
+		if( array_key_exists( 'ls_field', $this->mConds ) ) {
 			$tables[] = 'log_search';
 			$index['log_search'] = 'ls_field_val';
 			$index['logging'] = 'PRIMARY';
-			$options[] = 'DISTINCT';
+			if ( !$this->hasEqualsClause( 'ls_field' )
+				|| !$this->hasEqualsClause( 'ls_value' ) )
+			{
+				# Since (ls_field,ls_value,ls_logid) is unique, if the condition is
+				# to match a specific (ls_field,ls_value) tuple, then there will be
+				# no duplicate log rows. Otherwise, we need to remove the duplicates.
+				$options[] = 'DISTINCT';
+			}
 		# Avoid usage of the wrong index by limiting
 		# the choices of available indexes. This mainly
 		# avoids site-breaking filesorts.
@@ -947,7 +976,7 @@ class LogPager extends ReverseChronologicalPager {
 			'conds'      => $this->mConds,
 			'options'    => $options,
 			'join_conds' => array(
-				'user' => array( 'INNER JOIN', 'user_id=log_user' ),
+				'user' 		 => array( 'INNER JOIN', 'user_id=log_user' ),
 				'log_search' => array( 'INNER JOIN', 'ls_log_id=log_id' )
 			)
 		);
@@ -955,6 +984,14 @@ class LogPager extends ReverseChronologicalPager {
 		ChangeTags::modifyDisplayQuery( $info['tables'], $info['fields'], $info['conds'],
 			$info['join_conds'], $info['options'], $this->mTagFilter );
 		return $info;
+	}
+
+	// Checks if $this->mConds has $field matched to a *single* value
+	protected function hasEqualsClause( $field ) {
+		return (
+			array_key_exists( $field, $this->mConds ) &&
+			( !is_array( $this->mConds[$field] ) || count( $this->mConds[$field] ) == 1 )
+		);
 	}
 
 	function getIndexField() {
@@ -1091,7 +1128,7 @@ class LogViewer {
 	public function show() {
 		global $wgOut;
 		# Set title and add header
-		$this->list->showHeader( $pager->getType() );
+		$this->list->showHeader( $this->pager->getType() );
 		# Show form options
 		$this->list->showOptions( $this->pager->getType(), $this->pager->getUser(), $this->pager->getPage(),
 			$this->pager->getPattern(), $this->pager->getYear(), $this->pager->getMonth() );

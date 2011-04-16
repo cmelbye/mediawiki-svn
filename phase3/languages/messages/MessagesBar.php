@@ -410,8 +410,6 @@ Vagiss bittschee ned, daine [[Special:Preferences|{{SITENAME}}-Aistellungen]] å
 'extlink_tip'     => 'Externer Link (http:// beochten)',
 'headline_sample' => 'Ywerschrift auf da zwoaten Ewane',
 'headline_tip'    => 'Ewane-2-Ywerschrift',
-'math_sample'     => 'Formel dodan aifyng',
-'math_tip'        => 'Mathematische Formel (LaTeX)',
 'nowiki_sample'   => 'Den ned-formatirden Text dodan aifyng',
 'nowiki_tip'      => 'Ned-formatirder Text',
 'image_tip'       => 'Datailink',
@@ -444,7 +442,7 @@ Vagiss bittschee ned, daine [[Special:Preferences|{{SITENAME}}-Aistellungen]] å
 
 Des Posswort fyr des naiche Benutzerkonto kå auf da Speziaalseiten  „[[Special:ChangePassword|Posswort ändern]]“ gändert wern.',
 'newarticle'                       => '(Naich)',
-'newarticletext'                   => "↓ Du bist am Link zua ner Saiten gfóigt, dé néd vurhånden is.
+'newarticletext'                   => "Du bist am Link zua ner Saiten gfóigt, dé néd vurhånden is.
 Das d' dé Saiten åléng kååst, trog dain Text a dé untensteehate Boxen ai (schau unter da [[{{MediaWiki:Helppage}}|Hüifssaiten]] fyr merer Informaziónen).
 Bist du föischlicherwais dodan, dånn druck dé '''Zruck'''-Schoitflächen vo daim Browser.",
 'anontalkpagetext'                 => "---- ''De Seiten werd dodazua hergnumma, am ned-ågmöiderten Benutzer Nochrichten z' hinterlossen.
@@ -939,7 +937,7 @@ Da aktuelle Text vo da glöschtn Seitn is nur fia Administratoren zum seng.',
 'whatlinkshere'            => 'Links auf de Saiten',
 'whatlinkshere-title'      => 'Seitn, de nåch „$1“ valinkn',
 'whatlinkshere-page'       => 'Seitn:',
-'linkshere'                => "↓ Dé foiganden Saiten valinken auf '''„[[:$1]]“''':",
+'linkshere'                => "Dé foiganden Saiten valinken auf '''„[[:$1]]“''':",
 'isredirect'               => 'Weiterleitungsseitn',
 'istemplate'               => 'Voalãngeibindung',
 'isimage'                  => 'Datailink',
@@ -948,23 +946,22 @@ Da aktuelle Text vo da glöschtn Seitn is nur fia Administratoren zum seng.',
 'whatlinkshere-links'      => '← Vaweise',
 'whatlinkshere-hideredirs' => 'Weidaleitungen $1',
 'whatlinkshere-hidetrans'  => 'Voalãngeibindungen $1',
-'whatlinkshere-hidelinks'  => '↓ Links $1',
-'whatlinkshere-hideimages' => '↓ Datailinks $1',
+'whatlinkshere-hidelinks'  => 'Links $1',
+'whatlinkshere-hideimages' => 'Datailinks $1',
 'whatlinkshere-filters'    => 'Füita',
 
 # Block/unblock
-'blockip'                      => 'IP-Adress/Benytzer sperrn',
-'blockip-title'                => '↓ Benytzer sperrn',
-'blockip-legend'               => 'IP-Adresse/Benutzer sperrn',
-'blockiptext'                  => "Mid dem Formular sperrst a IP-Adress oder an Benytzernåmen, das vo durten aus koane Endarungen mer vurgnumma wern kennan.
+'blockip'                  => 'IP-Adress/Benytzer sperrn',
+'blockip-title'            => 'Benytzer sperrn',
+'blockip-legend'           => 'IP-Adresse/Benutzer sperrn',
+'blockiptext'              => "Mid dem Formular sperrst a IP-Adress oder an Benytzernåmen, das vo durten aus koane Endarungen mer vurgnumma wern kennan.
 Des soid nur dafoing, um an Vandalismus z' vahindern und in Yweraistimmung mid d' [[{{MediaWiki:Policy-url}}|Richtlinien]].
 Gib bittschee an Grund fyr d' Sperrn å.",
-'ipaddress'                    => 'IP-Adressen:',
-'ipadressorusername'           => 'IP-Adress oder Benytzernåm:',
-'ipbexpiry'                    => 'Sperrdauer:',
-'ipbreason'                    => 'Grund:',
-'ipbreasonotherlist'           => 'Åndarer Grund:',
-'ipbreason-dropdown'           => "*Oigmoane Sperrgrynd:
+'ipadressorusername'       => 'IP-Adress oder Benytzernåm:',
+'ipbexpiry'                => 'Sperrdauer:',
+'ipbreason'                => 'Grund:',
+'ipbreasonotherlist'       => 'Åndarer Grund:',
+'ipbreason-dropdown'       => "*Oigmoane Sperrgrynd:
 **Aifyng vo foische Informazionen
 **'s Laarn vo Saiten
 **a mossenwaiss Aifyng vo externe Links
@@ -972,52 +969,46 @@ Gib bittschee an Grund fyr d' Sperrn å.",
 **Ned åbrochts Vahoiten
 **Missbrauch mid mererne Benytzerkontos
 **Ned åbrochter Benyternåm",
-'ipbanononly'                  => 'Nur ned-ågmöidate Benytzer sperrn',
-'ipbcreateaccount'             => "D' Erstöiung vo Benytzerkontos vahindern",
-'ipbemailban'                  => 'E-Mäil-Vasånd sperrn',
-'ipbenableautoblock'           => "Sperr de aktuöi vo dem Benytzer gnytzte IP-Adress sowia automaatisch olle foiganden, vo denen aus er Beorwaitungen oder 's Åleeng vo naiche Benytzerkontos vasuacht",
-'ipbsubmit'                    => 'IP-Adress/Benytzer sperrn',
-'ipbother'                     => 'Åndare Dauer (auf englisch):',
-'ipboptions'                   => '2 Stund:2 hours,1 Dog:1 day,3 Dog:3 days,1 Woch:1 week,2 Wochen:2 weeks,1 Monad:1 month,3 Monad:3 months,6 Monad:6 months,1 Jor:1 year,Leemslång:infinite',
-'ipbotheroption'               => 'Åndre Dauer:',
-'ipbotherreason'               => 'Ånderner/ergenznder Grund:',
-'ipbhidename'                  => 'An Benytzernåmen in Beorwaitungen und Linsten vastecken',
-'ipbwatchuser'                 => 'De Benytzer(diskussions)saiten beowochten',
-'ipballowusertalk'             => "Da Benytzer derf d' oagane Dischkrirsaiten wärnd sainer Sperrn beorwaiten",
-'ipb-change-block'             => "D' Sperrn mid de Sperrparameter danaiern",
-'badipaddress'                 => 'De IP-Adress hod a foischs Format.',
-'blockipsuccesssub'            => 'De Sperrn is erfoigraich gween',
-'blockipsuccesstext'           => 'Da Benytzer/de IP-Adress [[Special:Contributions/$1|$1]] is gsperrt worn.<br />
+'ipbcreateaccount'         => "D' Erstöiung vo Benytzerkontos vahindern",
+'ipbemailban'              => 'E-Mäil-Vasånd sperrn',
+'ipbenableautoblock'       => "Sperr de aktuöi vo dem Benytzer gnytzte IP-Adress sowia automaatisch olle foiganden, vo denen aus er Beorwaitungen oder 's Åleeng vo naiche Benytzerkontos vasuacht",
+'ipbsubmit'                => 'IP-Adress/Benytzer sperrn',
+'ipbother'                 => 'Åndare Dauer (auf englisch):',
+'ipboptions'               => '2 Stund:2 hours,1 Dog:1 day,3 Dog:3 days,1 Woch:1 week,2 Wochen:2 weeks,1 Monad:1 month,3 Monad:3 months,6 Monad:6 months,1 Jor:1 year,Leemslång:infinite',
+'ipbotheroption'           => 'Åndre Dauer:',
+'ipbotherreason'           => 'Ånderner/ergenznder Grund:',
+'ipbhidename'              => 'An Benytzernåmen in Beorwaitungen und Linsten vastecken',
+'ipbwatchuser'             => 'De Benytzer(diskussions)saiten beowochten',
+'ipb-change-block'         => "D' Sperrn mid de Sperrparameter danaiern",
+'badipaddress'             => 'De IP-Adress hod a foischs Format.',
+'blockipsuccesssub'        => 'De Sperrn is erfoigraich gween',
+'blockipsuccesstext'       => 'Da Benytzer/de IP-Adress [[Special:Contributions/$1|$1]] is gsperrt worn.<br />
 Zur da Aufheewung vo da Sperrn schau unter da [[Special:IPBlockList|Listen vo olle aktivm Sperrn]].',
-'ipb-edit-dropdown'            => 'Sperrgrynd beorwaiten',
-'ipb-unblock-addr'             => '„$1“ fraigeem',
-'ipb-unblock'                  => 'IP-Adress/Benytzer fraigeem',
-'ipb-blocklist'                => 'Olle aktuöin Sperrn åzaang',
-'ipb-blocklist-contribs'       => 'Benytzerbaiträg vo „$1“',
-'unblockip'                    => 'IP-Adress fraigeem',
-'unblockiptext'                => 'Mid dem Formular do kååst du a IP-Adress oder an Benytzer fraigeem.',
-'ipusubmit'                    => 'Freigem',
-'unblocked'                    => '[[User:$1|$1]] is freigem worn',
-'unblocked-id'                 => 'Sperr-ID $1 is fraigeem worn',
-'ipblocklist'                  => 'Gspeade IP-Adressn und Benutzanãmen',
-'ipblocklist-legend'           => 'Suach noch am gsperrden Benytzer',
-'ipblocklist-username'         => 'Benytzernåm oder IP-Adress:',
-'ipblocklist-sh-userblocks'    => 'Benytzersperrn $1',
-'ipblocklist-sh-tempblocks'    => 'Befristate Sperrn $1',
-'ipblocklist-sh-addressblocks' => 'IP-Sperrn $1',
-'createaccountblock'           => 'Erstellung vo Benutzakonten gsperrt',
-'emailblock'                   => 'E-Post vaschicka gspead',
-'blocklink'                    => 'sperrn',
-'unblocklink'                  => 'freigem',
-'change-blocklink'             => 'Sperr ändern',
-'contribslink'                 => 'Baiträg',
-'autoblocker'                  => "Automatische Sperre, weil s' a gmeinsame IP-Adressn mit „$1“ hernehma. Grund: „$2“.",
-'blocklogpage'                 => 'Benutzasperrlogbiache',
-'blocklogentry'                => "håd „[[$1]]“ fia'n foigndn Zeidraum gspead: $2; $3",
-'unblocklogentry'              => "håd d'Spear vu „$1“ aufghom",
-'block-log-flags-anononly'     => 'netta Anonyme',
-'block-log-flags-nocreate'     => "S'Eastöin vu Benutzakontn is gspead",
-'block-log-flags-noemail'      => 'E-Post vaschicka gspead',
+'ipb-edit-dropdown'        => 'Sperrgrynd beorwaiten',
+'ipb-unblock-addr'         => '„$1“ fraigeem',
+'ipb-unblock'              => 'IP-Adress/Benytzer fraigeem',
+'ipb-blocklist'            => 'Olle aktuöin Sperrn åzaang',
+'ipb-blocklist-contribs'   => 'Benytzerbaiträg vo „$1“',
+'unblockip'                => 'IP-Adress fraigeem',
+'unblockiptext'            => 'Mid dem Formular do kååst du a IP-Adress oder an Benytzer fraigeem.',
+'ipusubmit'                => 'Freigem',
+'unblocked'                => '[[User:$1|$1]] is freigem worn',
+'unblocked-id'             => 'Sperr-ID $1 is fraigeem worn',
+'ipblocklist'              => 'Gsperrde Benutzer',
+'ipblocklist-legend'       => 'Suach noch am gsperrden Benytzer',
+'createaccountblock'       => 'Erstellung vo Benutzakonten gsperrt',
+'emailblock'               => 'E-Post vaschicka gspead',
+'blocklink'                => 'sperrn',
+'unblocklink'              => 'freigem',
+'change-blocklink'         => 'Sperr ändern',
+'contribslink'             => 'Baiträg',
+'autoblocker'              => "Automatische Sperre, weil s' a gmeinsame IP-Adressn mit „$1“ hernehma. Grund: „$2“.",
+'blocklogpage'             => 'Benutzasperrlogbiache',
+'blocklogentry'            => "håd „[[$1]]“ fia'n foigndn Zeidraum gspead: $2; $3",
+'unblocklogentry'          => "håd d'Spear vu „$1“ aufghom",
+'block-log-flags-anononly' => 'netta Anonyme',
+'block-log-flags-nocreate' => "S'Eastöin vu Benutzakontn is gspead",
+'block-log-flags-noemail'  => 'E-Post vaschicka gspead',
 
 # Developer tools
 'unlockdb'            => 'Datenbank freigem',
@@ -1155,9 +1146,6 @@ Vorschau der Änderungen an dieser Seite. Bitte vor dem Speichern benutzen!",
 'othercontribs'    => 'Basiert auf da Arbat vo $1',
 'creditspage'      => 'Seitninformationa',
 
-# Math errors
-'math_unknown_function' => 'Unbekannte Funktion',
-
 # Patrolling
 'markedaspatrollederrortext' => 'Sie miaßn a Seitnänderung auswähln.',
 
@@ -1170,11 +1158,10 @@ Vorschau der Änderungen an dieser Seite. Bitte vor dem Speichern benutzen!",
 'nextdiff'     => 'zum nextn Untaschied in de Veasionen →',
 
 # Media information
-'file-info-size'       => '$1 × $2 Pixl, Dateigreßn: $3, MIME-Typ: $4',
-'file-nohires'         => '<small>Es gibt ka hechane Auflösung.</small>',
-'svg-long-desc'        => 'SVG-Datei, Basisgreß: $1 × $2 Pixl, Dateigreß: $3',
-'show-big-image'       => 'Version in hechana Auflösung',
-'show-big-image-thumb' => '<small>Greßn vu da Voaãnsicht: $1 × $2 Pixl</small>',
+'file-info-size' => '$1 × $2 Pixl, Dateigreßn: $3, MIME-Typ: $4',
+'file-nohires'   => '<small>Es gibt ka hechane Auflösung.</small>',
+'svg-long-desc'  => 'SVG-Datei, Basisgreß: $1 × $2 Pixl, Dateigreß: $3',
+'show-big-image' => 'Version in hechana Auflösung',
 
 # Special:NewFiles
 'newimages'         => 'Neie Dateien',
@@ -1209,7 +1196,7 @@ Darauf foignde Links auf Seitn in da söiwn Zeun definian Ausnãhmen, in denen e
 
 # External editor support
 'edit-externally'      => 'De Datei mid am exteanen Programm beåawatn',
-'edit-externally-help' => '↓ (Schau unter [http://www.mediawiki.org/wiki/Manual:External_editors Installaziónsåwaisungen] fyr waiderne Informaziónen)',
+'edit-externally-help' => '(Schau unter [http://www.mediawiki.org/wiki/Manual:External_editors Installaziónsåwaisungen] fyr waiderne Informaziónen)',
 
 # 'all' in various places, this might be different for inflected languages
 'watchlistall2' => 'ålle',
@@ -1245,7 +1232,7 @@ Darauf foignde Links auf Seitn in da söiwn Zeun definian Ausnãhmen, in denen e
 'watchlistedit-noitems'        => 'Dei Beobachtungslistn is laar.',
 'watchlistedit-normal-title'   => 'Beobachtungslistn bearbatn',
 'watchlistedit-normal-legend'  => 'Eiträge vo da Beobachtungslistn wegnehma',
-'watchlistedit-normal-explain' => "Des san de Eiträg vo deiner Beowochtungslisten. Um de Eiträg z' entferna, markir de Kastln neem de Eiträg und druck am End vo da Seiten auf „{{int:Watchlistedit-normal-submit}}“. Du kåst dei Beowochtungslisten aa im  [[Special:Watchlist/raw|Listenformat beorweiten]].",
+'watchlistedit-normal-explain' => "Des san de Eiträg vo deiner Beowochtungslisten. Um de Eiträg z' entferna, markir de Kastln neem de Eiträg und druck am End vo da Seiten auf „{{int:Watchlistedit-normal-submit}}“. Du kåst dei Beowochtungslisten aa im  [[Special:EditWatchlist/raw|Listenformat beorweiten]].",
 'watchlistedit-normal-submit'  => 'Eiträge wegnehma',
 'watchlistedit-raw-titles'     => 'Eiträg:',
 

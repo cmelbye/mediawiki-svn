@@ -182,8 +182,6 @@ Kui tšüsümüssessä ebõõ rootšittu tšültši, võib õlla õlõttõ löü
 'extlink_tip'     => 'Eräpooliin linkki (mäleht http:// prefiksi)',
 'headline_sample' => 'Zagolofkka-teksti',
 'headline_tip'    => 'Zagolofkka',
-'math_sample'     => 'Lissä formula tänne',
-'math_tip'        => 'Matematillin formula (LaTeX)',
 'nowiki_sample'   => 'Lissä formattimatoo teksti tänne',
 'nowiki_tip'      => 'Ignoriiroit viki formatti',
 'image_tip'       => 'Kuva',
@@ -595,11 +593,10 @@ Toož, võittõ tširjutta väänteüssee süü.',
 'nextdiff'     => 'Uuvvõpi muutuz →',
 
 # Media information
-'file-info-size'       => '$1 × $2 px, $3, MIME-sortta: $4',
-'file-nohires'         => '<small>Suurõpaa kuva ebõõ.</small>',
-'svg-long-desc'        => 'SVG-faili $1 × $2 px, failii suuruz: $3',
-'show-big-image'       => 'Kõrka-rezoľuuttsiin verzija',
-'show-big-image-thumb' => '<small>Prestavľeńńaa suuruz: $1 × $2 px</small>',
+'file-info-size' => '$1 × $2 px, $3, MIME-sortta: $4',
+'file-nohires'   => '<small>Suurõpaa kuva ebõõ.</small>',
+'svg-long-desc'  => 'SVG-faili $1 × $2 px, failii suuruz: $3',
+'show-big-image' => 'Kõrka-rezoľuuttsiin verzija',
 
 # Bad image list
 'bad_image_list' => 'Spiizgaa formatti on:

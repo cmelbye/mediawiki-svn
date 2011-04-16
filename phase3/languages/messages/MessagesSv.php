@@ -10,6 +10,7 @@
  * @author Ainali
  * @author Boivie
  * @author Dafer45
+ * @author EPO
  * @author Fluff
  * @author GameOn
  * @author Grillo
@@ -114,7 +115,7 @@ $specialPageAliases = array(
 	'Protectedpages'            => array( 'Skyddade_sidor' ),
 	'Protectedtitles'           => array( 'Skyddade_titlar' ),
 	'Allpages'                  => array( 'Alla_sidor' ),
-	'Ipblocklist'               => array( 'Blockeringslista' ),
+	'BlockList'                 => array( 'Blockeringslista' ),
 	'Specialpages'              => array( 'Specialsidor' ),
 	'Contributions'             => array( 'Bidrag' ),
 	'Emailuser'                 => array( 'E-mail' ),
@@ -128,7 +129,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exportera' ),
 	'Allmessages'               => array( 'Systemmeddelanden' ),
 	'Log'                       => array( 'Logg' ),
-	'Blockip'                   => array( 'Blockera' ),
+	'Block'                     => array( 'Blockera' ),
 	'Undelete'                  => array( 'Återställ' ),
 	'Import'                    => array( 'Importera' ),
 	'Lockdb'                    => array( 'Lås_databasen' ),
@@ -789,6 +790,7 @@ Du kan ignorera detta meddelande om kontot skapats av misstag.',
 'usernamehasherror'          => 'Användarnamnet får inte innehålla #.',
 'login-throttled'            => 'Du har gjort för många misslyckade inloggningsförsök till det här kontot.
 Vänta innan du försöker igen.',
+'login-abort-generic'        => 'Din inloggning misslyckades - Avbröts',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din begäran om att logga ut nekades eftersom det ser ut som det skickades av en trasig webbläsare eller cachande proxy.',
 
@@ -833,8 +835,6 @@ Du kanske redan har lyckats ändra ditt lösenord eller begärt ett nytt tillfä
 'extlink_tip'     => 'Extern länk (kom ihåg prefixet http://)',
 'headline_sample' => 'Rubriktext',
 'headline_tip'    => 'Rubrik i nivå 2',
-'math_sample'     => 'Skriv formeln här',
-'math_tip'        => 'Matematisk formel (LaTeX)',
 'nowiki_sample'   => 'Skriv in oformaterad text här',
 'nowiki_tip'      => 'Ignorera wikiformatering',
 'image_sample'    => 'Exempel.jpg',
@@ -954,6 +954,7 @@ Om det fortfarande inte fungerar, pröva att [[Special:UserLogout|logga ut]] och
 'token_suffix_mismatch'            => "'''Din redigering har stoppats eftersom din klient har ändrat tecknen
 i redigeringens \"edit token\". Redigeringen stoppades för att förhindra att sidtexten skadas.
 Detta händer ibland om du använder buggiga webbaserade anonyma proxytjänster.'''",
+'edit_form_incomplete'             => "'''Vissa delar av redigeringen kunde inte nå servern, dubbelkolla att dina ändringar är intakta och försök igen.'''",
 'editing'                          => 'Redigerar $1',
 'editingsection'                   => 'Redigerar $1 (avsnitt)',
 'editingcomment'                   => 'Redigerar $1 (nytt avsnitt)',
@@ -1078,7 +1079,7 @@ Den kan ha tagits bort från wikin eller bytt namn.
 Prova att [[Special:Search|söka på wikin]] för relevanta nya sidor.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(kommentar borttagen)',
+'rev-deleted-comment'         => '(redigeringssammanfattning togs bort)',
 'rev-deleted-user'            => '(användarnamn borttaget)',
 'rev-deleted-event'           => '(loggåtgärd borttagen)',
 'rev-deleted-user-contribs'   => '[användarnamn eller IP-adress har tagits bort - redigeringen visas ej bland bidragen]',
@@ -1266,7 +1267,7 @@ Se till att sidhistorikens kontinuitet behålls när du sammanfogar historik.',
 'shown-title'                      => 'Visa $1 {{PLURAL:$1|resultat|resultat}} per sida',
 'viewprevnext'                     => 'Visa ($1 {{int:pipe-separator}} $2) ($3)',
 'searchmenu-legend'                => 'Sökalternativ',
-'searchmenu-exists'                => "'''Det finns en sida med namnet \"[[:\$1]]\" på denna wiki'''",
+'searchmenu-exists'                => "'''Det finns en sida med namnet \"[[:\$1]]\" på denna wiki.'''",
 'searchmenu-new'                   => "'''Skapa sidan \"[[:\$1]]\" på denna wiki!'''",
 'searchmenu-new-nocreate'          => '"$1" är ett ogiltigt namn eller kan inte skapas av dig.',
 'searchhelp-url'                   => 'Help:Innehåll',
@@ -1332,16 +1333,15 @@ Notera dock att deras indexering av {{SITENAME}} kan vara något föråldrad.',
 'changepassword'                => 'Byt lösenord',
 'prefs-skin'                    => 'Utseende',
 'skin-preview'                  => 'förhandsvisning',
-'prefs-math'                    => 'Matematik',
 'datedefault'                   => 'Ovidkommande',
 'prefs-datetime'                => 'Datum och tid',
 'prefs-personal'                => 'Mitt konto',
 'prefs-rc'                      => 'Senaste ändringar',
 'prefs-watchlist'               => 'Bevakningslista',
 'prefs-watchlist-days'          => 'Antal dygn som skall visas i bevakningslistan:',
-'prefs-watchlist-days-max'      => '(maximalt 7 dygn)',
+'prefs-watchlist-days-max'      => 'Maximalt 7 dygn',
 'prefs-watchlist-edits'         => 'Maximalt antal redigeringar som visas i utökad bevakningslista:',
-'prefs-watchlist-edits-max'     => '(maximalt antal: 1 000)',
+'prefs-watchlist-edits-max'     => 'Maximalt antal: 1 000',
 'prefs-watchlist-token'         => 'Bevakningslistsnyckel:',
 'prefs-misc'                    => 'Diverse',
 'prefs-resetpass'               => 'Ändra lösenord',
@@ -1735,6 +1735,8 @@ Om du ändå vill ladda upp din fil, gå då tillbaka och använd ett annat namn
 'php-uploaddisabledtext'      => 'PHP filuppladdningar är avaktiverade. Kolla inställningarna för file_uploads.',
 'uploadscripted'              => 'Denna fil innehåller HTML eller script som felaktigt kan komma att tolkas av webbläsare.',
 'uploadvirus'                 => 'Filen innehåller virus! Detaljer: $1',
+'uploadjava'                  => 'Filen är en ZIP-fil som innehåller en Java .class fil.
+Uppladdning av Java filer tillåts inte, eftersom de kan orsaka att säkerhetsbegränsningar kan kringgås.',
 'upload-source'               => 'Källfil',
 'sourcefilename'              => 'Ursprungsfilens namn:',
 'sourceurl'                   => 'Källans URL:',
@@ -1784,6 +1786,14 @@ Om problemet kvarstår, kontakta en [[Special:ListUsers/sysop|administratör]].'
 'upload-too-many-redirects' => 'URL-en innehöll för många omdirigeringar',
 'upload-unknown-size'       => 'Okänd storlek',
 'upload-http-error'         => 'Ett HTTP-fel uppstod: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Ett fel inträffade när filen öppnades för en ZIP-kontroll.',
+'zip-wrong-format'    => 'Den angivna filen var inte en ZIP-fil.',
+'zip-bad'             => 'Filen är en skadad eller annars oläsbar ZIP fil.
+Den kan inte säkerhetskontrolleras ordentligt.',
+'zip-unsupported'     => 'Filen är en ZIP-fil som använder ZIP funktioner som inte stöds av MediaWiki.
+Den kan inte säkerhetskontrolleras ordentligt.',
 
 # Special:UploadStash
 'uploadstash'          => 'Ladda upp stash',
@@ -2421,9 +2431,10 @@ $1',
 'undelete-show-file-submit'    => 'Ja',
 
 # Namespace form on various pages
-'namespace'      => 'Namnrymd:',
-'invert'         => 'Uteslut vald namnrymd',
-'blanknamespace' => '(Huvudnamnrymden)',
+'namespace'             => 'Namnrymd:',
+'invert'                => 'Uteslut vald namnrymd',
+'namespace_association' => 'Associerade namnutrymmen',
+'blanknamespace'        => '(Huvudnamnrymden)',
 
 # Contributions
 'contributions'       => 'Användarbidrag',
@@ -2438,10 +2449,10 @@ $1',
 'sp-contributions-newbies'             => 'Visa endast bidrag från nya konton',
 'sp-contributions-newbies-sub'         => 'Från nya konton',
 'sp-contributions-newbies-title'       => 'Bidrag från nya konton',
-'sp-contributions-blocklog'            => 'Blockeringslogg',
+'sp-contributions-blocklog'            => 'blockeringslogg',
 'sp-contributions-deleted'             => 'raderade användarbidrag',
 'sp-contributions-uploads'             => 'uppladdningar',
-'sp-contributions-logs'                => 'Loggar',
+'sp-contributions-logs'                => 'loggar',
 'sp-contributions-talk'                => 'diskussion',
 'sp-contributions-userrights'          => 'hantering av användarrättigheter',
 'sp-contributions-blocked-notice'      => 'Användaren är blockerad.
@@ -2473,13 +2484,15 @@ Den senaste posten i blockeringsloggen visas nedan som referens:',
 'whatlinkshere-filters'    => 'Filter',
 
 # Block/unblock
+'autoblockid'                     => 'Autoblockera #$1',
+'block'                           => 'Blockera användaren',
+'unblock'                         => 'Avblockera användaren',
 'blockip'                         => 'Blockera användare',
 'blockip-title'                   => 'Blockera användare',
 'blockip-legend'                  => 'Blockera användare',
 'blockiptext'                     => 'Använd formuläret nedan för att blockera möjligheten att redigera sidor från en specifik IP-adress eller ett användarnamn.
 Detta bör endast göras för att förhindra vandalisering, och i överensstämmelse med gällande [[{{MediaWiki:Policy-url}}|policy]].
 Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
-'ipaddress'                       => 'IP-adress',
 'ipadressorusername'              => 'IP-adress eller användarnamn:',
 'ipbexpiry'                       => 'Varaktighet:',
 'ipbreason'                       => 'Anledning:',
@@ -2492,7 +2505,7 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 ** Hotfullt beteende/trakasserier
 ** Missbruk av flera användarkonton
 ** Oacceptabelt användarnamn',
-'ipbanononly'                     => 'Blockera bara oinloggade användare',
+'ipb-hardblock'                   => 'Förhindra inloggade användare från att redigera från den här IP-adressen',
 'ipbcreateaccount'                => 'Förhindra registrering av användarkonton',
 'ipbemailban'                     => 'Hindra användaren från att skicka e-post',
 'ipbenableautoblock'              => 'Blockera automatiskt den IP-adress som användaren använde senast, samt alla adresser som användaren försöker redigera ifrån',
@@ -2503,12 +2516,13 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'ipbotherreason'                  => 'Annan/ytterligare anledning:',
 'ipbhidename'                     => 'Dölj användarnamnet från redigeringar och listor',
 'ipbwatchuser'                    => 'Bevaka användarens användarsida och diskussionssida',
-'ipballowusertalk'                => 'Låt användaren redigera sin egen diskussionssida under blockeringen',
+'ipb-disableusertalk'             => 'Hindra denne användare från att redigera sina egna diskussionssida under blockeringen',
 'ipb-change-block'                => 'Återblockera användaren med de här inställningarna',
 'badipaddress'                    => 'Du har inte skrivit IP-adressen korrekt.',
 'blockipsuccesssub'               => 'Blockeringen är utförd',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] har blockerats.
 <br />För att se alla aktuella blockeringar, gå till [[Special:IPBlockList|listan över blockeringar]].',
+'ipb-blockingself'                => 'Du håller på att blockera dig själv! Är du säker på att du vill göra det?',
 'ipb-edit-dropdown'               => 'Redigera blockeringsanledningar',
 'ipb-unblock-addr'                => 'Ta bort blockering av $1',
 'ipb-unblock'                     => 'Ta bort blockering av en användare eller IP-adress',
@@ -2518,17 +2532,21 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'unblockiptext'                   => 'Använd formuläret nedan för att ta bort blockeringen av en IP-adress.',
 'ipusubmit'                       => 'Upphäv denna blockering',
 'unblocked'                       => 'Blockeringen av [[User:$1|$1]] har hävts',
+'unblocked-range'                 => '$1 har avblockerats',
 'unblocked-id'                    => 'Blockeringen $1 har hävts',
-'ipblocklist'                     => 'Blockerade IP-adresser och användarnamn',
+'blocklist'                       => 'Blockerade användare',
+'ipblocklist'                     => 'Blockerade användare',
 'ipblocklist-legend'              => 'Sök efter en blockerad användare',
-'ipblocklist-username'            => 'Användarnamn eller IP-adress',
-'ipblocklist-sh-userblocks'       => '$1 blockeringar av konton',
-'ipblocklist-sh-tempblocks'       => '$1 tillfälliga blockeringar',
-'ipblocklist-sh-addressblocks'    => '$1 blockeringar av enskilda IP-adresser',
+'blocklist-tempblocks'            => 'Dölj tillfälliga blockeringar',
+'blocklist-timestamp'             => 'Tidsstämpel',
+'blocklist-target'                => 'Mål',
+'blocklist-expiry'                => 'Upphör',
+'blocklist-by'                    => 'Blockerande administratör',
+'blocklist-params'                => 'Blockeringsparametrar',
+'blocklist-reason'                => 'Orsak',
 'ipblocklist-submit'              => 'Sök',
 'ipblocklist-localblock'          => 'Lokalblockering',
 'ipblocklist-otherblocks'         => 'Övriga {{PLURAL:$1|blockering|blockeringar}}',
-'blocklistline'                   => '$1, $2 blockerade $3 ($4)',
 'infiniteblock'                   => 'för evigt',
 'expiringblock'                   => 'utgår den $1 kl $2',
 'anononlyblock'                   => 'endast oinloggade',
@@ -2567,9 +2585,9 @@ I [[Special:IPBlockList|blockeringslistan]] listas alla IP-adresser och använda
 'ipb_expiry_temp'                 => 'För att dölja användarnamnet måste blockeringen vara permanent.',
 'ipb_hide_invalid'                => 'Kan inte undanhålla detta konto; det kan ha för många redigeringar.',
 'ipb_already_blocked'             => '"$1" är redan blockerad',
-'ipb-needreblock'                 => '== Redan blockerad ==
-$1 är redan blockerad. Vill du ändra inställningarna?',
+'ipb-needreblock'                 => '$1 är redan blockerad. Vill du ändra inställningarna?',
 'ipb-otherblocks-header'          => 'Andra {{PLURAL:$1|blockering|blockeringar}}',
+'unblock-hideuser'                => 'Du kan inte ta bort blockeringen här användaren, eftersom dens användarnamn har dolts.',
 'ipb_cant_unblock'                => 'Fel: Hittade inte blockering $1. Det är möjligt att den redan har upphävts.',
 'ipb_blocked_as_range'            => 'Fel: IP-adressen $1 är inte direkt blockerad, och kan därför inte avblockeras. Adressen är blockerad som en del av IP-intervallet $2, som kan avblockeras.',
 'ip_range_invalid'                => 'Ogiltigt IP-intervall.',
@@ -2936,25 +2954,6 @@ Detta orsakades troligen av en länk till en svartlistad webbplats.',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
 
-# Math options
-'mw_math_png'    => 'Rendera alltid PNG',
-'mw_math_simple' => 'HTML om mycket enkel, annars PNG',
-'mw_math_html'   => 'HTML om möjligt, annars PNG',
-'mw_math_source' => 'Låt vara TeX (för textbaserade webbläsare)',
-'mw_math_modern' => 'Rekommenderat för modern webbläsare',
-'mw_math_mathml' => 'MathML om möjligt (experimentellt)',
-
-# Math errors
-'math_failure'          => 'Misslyckades med att tolka formel.',
-'math_unknown_error'    => 'okänt fel',
-'math_unknown_function' => 'okänd funktion',
-'math_lexing_error'     => 'regelfel',
-'math_syntax_error'     => 'syntaxfel',
-'math_image_error'      => 'Konvertering till PNG-format misslyckades; kontrollera om latex och dvipng (eller dvips + gs + convert) är korrekt installerade',
-'math_bad_tmpdir'       => 'Kan inte skriva till eller skapa temporär mapp för matematikresultat',
-'math_bad_output'       => 'Kan inte skriva till eller skapa mapp för matematikresultat',
-'math_notexvc'          => 'Applicationen texvc saknas; läs math/README för konfigureringsanvisningar.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Märk som patrullerad',
 'markaspatrolledtext'                 => 'Märk den här sidan som patrullerad',
@@ -2990,22 +2989,24 @@ $1',
 'nextdiff'     => 'Nyare redigering →',
 
 # Media information
-'mediawarning'         => "'''Varning''': Den här filen kan innehålla elak kod.
+'mediawarning'           => "'''Varning''': Den här filen kan innehålla elak kod.
 Om du kör den kan din dator skadas.",
-'imagemaxsize'         => "Begränsa bilders storlek:<br />''(för filbeskrivningssidor)''",
-'thumbsize'            => 'Storlek på minibild:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sida|sidor}}',
-'file-info'            => 'filstorlek: $1, MIME-typ: $2',
-'file-info-size'       => '$1 × $2 pixel, filstorlek: $3, MIME-typ: $4',
-'file-nohires'         => '<small>Det finns ingen version med högre upplösning.</small>',
-'svg-long-desc'        => 'SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3',
-'show-big-image'       => 'Högupplöst version',
-'show-big-image-thumb' => '<small>Storlek på förhandsvisningen: $1 × $2 pixel</small>',
-'file-info-gif-looped' => 'upprepad',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|ram|ramar}}',
-'file-info-png-looped' => 'loopad',
-'file-info-png-repeat' => 'spelad $1 {{PLURAL:$1|gång|gånger}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|bild|bilder}}',
+'imagemaxsize'           => "Begränsa bilders storlek:<br />''(för filbeskrivningssidor)''",
+'thumbsize'              => 'Storlek på minibild:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|sida|sidor}}',
+'file-info'              => 'filstorlek: $1, MIME-typ: $2',
+'file-info-size'         => '$1 × $2 pixel, filstorlek: $3, MIME-typ: $4',
+'file-nohires'           => '<small>Det finns ingen version med högre upplösning.</small>',
+'svg-long-desc'          => 'SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3',
+'show-big-image'         => 'Högupplöst version',
+'show-big-image-preview' => '<small>Storlek på förhandsvisningen: $1.</small>',
+'show-big-image-other'   => '<small>Andra upplösningar: $1.</small>',
+'show-big-image-size'    => '$1× $2 pixlar',
+'file-info-gif-looped'   => 'upprepad',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|ram|ramar}}',
+'file-info-png-looped'   => 'loopad',
+'file-info-png-repeat'   => 'spelad $1 {{PLURAL:$1|gång|gånger}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|bild|bilder}}',
 
 # Special:NewFiles
 'newimages'             => 'Galleri över nya filer',
@@ -3394,11 +3395,12 @@ $1',
 'trackbackdeleteok' => 'Trackback har tagits bort.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Varning''': Denna sida raderades efter att du började redigera!",
-'confirmrecreate'     => "Användaren [[User:$1|$1]] ([[User talk:$1|diskussion]]) raderade den här sidan efter att du började redigera den med motiveringen:
+'deletedwhileediting'      => "'''Varning''': Denna sida raderades efter att du började redigera!",
+'confirmrecreate'          => "Användaren [[User:$1|$1]] ([[User talk:$1|diskussion]]) raderade den här sidan efter att du började redigera den med motiveringen:
 : ''$2''
 Bekräfta att du verkligen vill återskapa sidan.",
-'recreate'            => 'Återskapa',
+'confirmrecreate-noreason' => 'Användare [[User:$1|$1]] ([[User talk:$1|diskussion]]) raderade den här sidan efter att du började redigera. Bekräfta att du verkligen vill återskapa sidan.',
+'recreate'                 => 'Återskapa',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3454,7 +3456,7 @@ Pröva vanlig förhandsgranskning istället.',
 'watchlistedit-normal-legend'  => 'Ta bort sidor från bevakningslistan',
 'watchlistedit-normal-explain' => 'Titlar på din bevakningslista visas nedan.
 För att ta bort en titel, markera rutan bredvid den och klicka på "{{int:Watchlistedit-normal-submit}}".
-Du kan också [[Special:Watchlist/raw|redigera listan i råformat]].',
+Du kan också [[Special:EditWatchlist/raw|redigera listan i råformat]].',
 'watchlistedit-normal-submit'  => 'Ta bort sidor',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 sida|$1 sidor}} togs bort från din bevakningslista:',
 'watchlistedit-raw-title'      => 'Redigera bevakningslistan i råformat',
@@ -3462,7 +3464,7 @@ Du kan också [[Special:Watchlist/raw|redigera listan i råformat]].',
 'watchlistedit-raw-explain'    => 'Titlar på din bevakningslista visas nedan, och kan redigeras genom att lägga till och ta bort från listan;
 en titel per rad.
 När du är klar klickar du på "{{int:Watchlistedit-raw-submit}}".
-Du kan också [[Special:Watchlist/edit|använda standardeditorn]].',
+Du kan också [[Special:EditWatchlist|använda standardeditorn]].',
 'watchlistedit-raw-titles'     => 'Sidor:',
 'watchlistedit-raw-submit'     => 'Uppdatera bevakningslistan',
 'watchlistedit-raw-done'       => 'Din bevakningslista har uppdaterats.',
@@ -3531,7 +3533,8 @@ Ange filens namn utan prefixet "{{ns:file}}:".',
 'specialpages'                   => 'Specialsidor',
 'specialpages-note'              => '----
 * Normala specialsidor.
-* <strong class="mw-specialpagerestricted">Specialsidor med begränsad åtkomst.</strong>',
+* <strong class="mw-specialpagerestricted">Specialsidor med begränsad åtkomst.</strong>
+* <span class="mw-specialpagecached">Endast cachade specialsidor.</span>',
 'specialpages-group-maintenance' => 'Underhållsrapporter',
 'specialpages-group-other'       => 'Övriga specialsidor',
 'specialpages-group-login'       => 'Inloggning/registrering',

@@ -14,10 +14,17 @@
  */
 class LocalRepo extends FSRepo {
 	var $fileFactory = array( 'LocalFile', 'newFromTitle' );
+	var $fileFactoryKey = array( 'LocalFile', 'newFromKey' );
 	var $oldFileFactory = array( 'OldLocalFile', 'newFromTitle' );
+	var $oldFileFactoryKey = array( 'OldLocalFile', 'newFromKey' );
 	var $fileFromRowFactory = array( 'LocalFile', 'newFromRow' );
 	var $oldFileFromRowFactory = array( 'OldLocalFile', 'newFromRow' );
 
+	/**
+	 * @throws MWException
+	 * @param  $row
+	 * @return File
+	 */
 	function newFileFromRow( $row ) {
 		if ( isset( $row->img_name ) ) {
 			return call_user_func( $this->fileFromRowFactory, $row, $this );
@@ -52,8 +59,8 @@ class LocalRepo extends FSRepo {
 				array( 'fa_storage_group' => 'deleted', 'fa_storage_key' => $key ),
 				__METHOD__, array( 'FOR UPDATE' ) );
 			if( !$inuse ) {
-				$sha1 = substr( $key, 0, strcspn( $key, '.' ) );
-				$ext = substr( $key, strcspn($key,'.') + 1 );
+				$sha1 = self::getHashFromKey( $key );
+				$ext = substr( $key, strcspn( $key, '.' ) + 1 );
 				$ext = File::normalizeExtension($ext);
 				$inuse = $dbw->selectField( 'oldimage', '1',
 					array( 'oi_sha1' => $sha1,
@@ -74,6 +81,17 @@ class LocalRepo extends FSRepo {
 			$dbw->commit();
 		}
 		return $status;
+	}
+
+	/**
+	 * Gets the SHA1 hash from a storage key
+	 *
+	 * @static
+	 * @param string $key
+	 * @return string
+	 */
+	public static function getHashFromKey( $key ) {
+		return strtok( $key, '.' );
 	}
 	
 	/**

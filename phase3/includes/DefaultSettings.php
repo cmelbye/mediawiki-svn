@@ -27,10 +27,10 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 # Create a site configuration object. Not used for much in a default install
-if ( !defined( 'MW_PHP4' ) ) {
+if ( !defined( 'MW_COMPILED' ) ) {
 	require_once( "$IP/includes/SiteConfiguration.php" );
-	$wgConf = new SiteConfiguration;
 }
+$wgConf = new SiteConfiguration;
 /** @endcond */
 
 /** MediaWiki version number */
@@ -54,7 +54,12 @@ $wgSitename         = 'MediaWiki';
 $wgServer = '';
 
 /** @cond file_level_code */
-if( isset( $_SERVER['SERVER_NAME'] ) ) {
+if( isset( $_SERVER['SERVER_NAME'] )
+	# additionially, for requests made directly to an IPv6 address we have
+	# to make sure the server enclose it in either [] or nothing at all
+	&& (strpos($_SERVER['SERVER_NAME'], '[')
+	    xor strpos( $_SERVER['SERVER_NAME'], ']'))
+	) {
 	$serverName = $_SERVER['SERVER_NAME'];
 } elseif( isset( $_SERVER['HOSTNAME'] ) ) {
 	$serverName = $_SERVER['HOSTNAME'];
@@ -183,6 +188,7 @@ $wgLocalStylePath   = false;
 /**
  * The URL path of the extensions directory.
  * Defaults to "{$wgScriptPath}/extensions".
+ * @since 1.16
  */
 $wgExtensionAssetsPath = false;
 
@@ -226,23 +232,6 @@ $wgFavicon			= '/favicon.ico';
  * Defaults to no icon.
  */
 $wgAppleTouchIcon   = false;
-
-/**
- * The URL path of the math directory. Defaults to "{$wgUploadPath}/math".
- *
- * See http://www.mediawiki.org/wiki/Manual:Enable_TeX for details about how to
- * set up mathematical formula display.
- */
-$wgMathPath         = false;
-
-/**
- * The filesystem path of the math directory.
- * Defaults to "{$wgUploadDirectory}/math".
- *
- * See http://www.mediawiki.org/wiki/Manual:Enable_TeX for details about how to
- * set up mathematical formula display.
- */
-$wgMathDirectory    = false;
 
 /**
  * The local filesystem path to a temporary directory. This is not required to
@@ -667,6 +656,8 @@ $wgCustomConvertCommand = false;
  * necessary to rasterize SVGs to PNG as a fallback format.
  *
  * An external program is required to perform this conversion.
+ * If set to an array, the first item is a PHP callable and any further items
+ * are passed as parameters after $srcPath, $dstPath, $width, $height
  */
 $wgSVGConverters = array(
 	'ImageMagick' => '$path/convert -background white -thumbnail $widthx$height\! $input PNG:$output',
@@ -675,6 +666,7 @@ $wgSVGConverters = array(
 	'batik' => 'java -Djava.awt.headless=true -jar $path/batik-rasterizer.jar -w $width -d $output $input',
 	'rsvg' => '$path/rsvg -w$width -h$height $input $output',
 	'imgserv' => '$path/imgserv-wrapper -i svg -o png -w$width $input $output',
+	'ImagickExt' => array( 'SvgHandler::rasterizeImagickExt' ),
 	);
 /** Pick a converter defined in $wgSVGConverters */
 $wgSVGConverter = 'ImageMagick';
@@ -682,6 +674,9 @@ $wgSVGConverter = 'ImageMagick';
 $wgSVGConverterPath = '';
 /** Don't scale a SVG larger than this */
 $wgSVGMaxSize = 2048;
+/** Don't read SVG metadata beyond this point.
+ * Default is 1024*256 bytes */
+$wgSVGMetadataCutoff = 262144; 
 
 /**
  * MediaWiki will reject HTMLesque tags in uploaded files due to idiotic browsers which can't
@@ -924,7 +919,7 @@ $wgGalleryOptions = array (
 	'imagesPerRow' => 0, // Default number of images per-row in the gallery. 0 -> Adapt to screensize
 	'imageWidth' => 120, // Width of the cells containing images in galleries (in "px")
 	'imageHeight' => 120, // Height of the cells containing images in galleries (in "px")
-	'captionLength' => 20, // Length of caption to truncate (in characters)
+	'captionLength' => 25, // Length of caption to truncate (in characters)
 	'showBytes' => true, // Show the filesize in bytes in categories
 );
 
@@ -1772,7 +1767,7 @@ $wgUseXVO = false;
  * $wgInternalServer = 'http://yourinternal.tld:8000';
  * </code>
  */
-$wgInternalServer = $wgServer;
+$wgInternalServer = false;
 
 /**
  * Cache timeout for the squid, will be sent as s-maxage (without ESI) or
@@ -1873,7 +1868,6 @@ $wgDummyLanguageCodes = array(
 	'nb',
 	'qqq',
 	'simple',
-	'tp',
 );
 
 /** @deprecated Since MediaWiki 1.5, this must always be set to UTF-8. */
@@ -2144,28 +2138,49 @@ $wgLocalTZoffset = null;
 /** The default Content-Type header. */
 $wgMimeType = 'text/html';
 
-/** The content type used in script tags. */
+/**
+ * The content type used in script tags.  This is mostly going to be ignored if
+ * $wgHtml5 is true, at least for actual HTML output, since HTML5 doesn't
+ * require a MIME type for JavaScript or CSS (those are the default script and
+ * style languages).
+ */
 $wgJsMimeType = 'text/javascript';
 
-/** The HTML document type. */
+/**
+ * The HTML document type.  Ignored if $wgHtml5 is true, since <!DOCTYPE html>
+ * doesn't actually have a doctype part to put this variable's contents in.
+ */
 $wgDocType = '-//W3C//DTD XHTML 1.0 Transitional//EN';
 
-/** The URL of the document type declaration. */
+/**
+ * The URL of the document type declaration.  Ignored if $wgHtml5 is true,
+ * since HTML5 has no DTD, and <!DOCTYPE html> doesn't actually have a DTD part
+ * to put this variable's contents in.
+ */
 $wgDTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
 
-/** The default xmlns attribute. */
+/**
+ * The default xmlns attribute.  Ignored if $wgHtml5 is true (or it's supposed
+ * to be), since we don't currently support XHTML5, and in HTML5 (i.e., served
+ * as text/html) the attribute has no effect, so why bother?
+ */
 $wgXhtmlDefaultNamespace = 'http://www.w3.org/1999/xhtml';
 
 /**
  * Should we output an HTML5 doctype?  If false, use XHTML 1.0 Transitional
  * instead, and disable HTML5 features.  This may eventually be removed and set
- * to always true.
+ * to always true.  If it's true, a number of other settings will be irrelevant
+ * and have no effect.
  */
 $wgHtml5 = true;
 
 /**
  * Defines the value of the version attribute in the &lt;html&gt; tag, if any.
- * Will be initialized later if not set explicitly.
+ * This is ignored if $wgHtml5 is false.  If $wgAllowRdfaAttributes and
+ * $wgHtml5 are both true, and this evaluates to boolean false (like if it's
+ * left at the default null value), it will be auto-initialized to the correct
+ * value for RDFa+HTML5.  As such, you should have no reason to ever actually
+ * set this to anything.
  */
 $wgHtml5Version = null;
 
@@ -2205,6 +2220,9 @@ $wgWellFormedXml = true;
  * $wgXhtmlNamespaces['svg'] = 'http://www.w3.org/2000/svg';
  * Normally we wouldn't have to define this in the root <html>
  * element, but IE needs it there in some circumstances.
+ *
+ * This is ignored if $wgHtml5 is true, for the same reason as
+ * $wgXhtmlDefaultNamespace.
  */
 $wgXhtmlNamespaces = array();
 
@@ -2501,10 +2519,17 @@ $wgResourceLoaderDebug = false;
 $wgResourceLoaderUseESI = false;
 
 /**
- * Enable removal of some of the vertical whitespace (like \r and \n) from
- * JavaScript code when minifying.
+ * Put each statement on its own line when minifying JavaScript. This makes
+ * debugging in non-debug mode a bit easier.
  */
-$wgResourceLoaderMinifyJSVerticalSpace = false;
+$wgResourceLoaderMinifierStatementsOnOwnLine = false;
+
+/**
+ * Maximum line length when minifying JavaScript. This is not a hard maximum:
+ * the minifier will try not to produce lines longer than this, but may be
+ * forced to do so in certain cases.
+ */
+$wgResourceLoaderMinifierMaxLineLength = 1000;
 
 /**
  * Whether to include the mediawiki.legacy JS library (old wikibits.js), and its
@@ -3179,12 +3204,6 @@ $wgSecureLogin        = false;
  * @{
  */
 
-/** Allow sysops to ban logged-in users */
-$wgSysopUserBans        = true;
-
-/** Allow sysops to ban IP ranges */
-$wgSysopRangeBans       = true;
-
 /**
  * Number of seconds before autoblock entries expire. Default 86400 = 1 day.
  */
@@ -3324,7 +3343,6 @@ $wgGroupPermissions['sysop']['autopatrol']       = true;
 $wgGroupPermissions['sysop']['protect']          = true;
 $wgGroupPermissions['sysop']['proxyunbannable']  = true;
 $wgGroupPermissions['sysop']['rollback']         = true;
-$wgGroupPermissions['sysop']['trackback']        = true;
 $wgGroupPermissions['sysop']['upload']           = true;
 $wgGroupPermissions['sysop']['reupload']         = true;
 $wgGroupPermissions['sysop']['reupload-shared']  = true;
@@ -3341,6 +3359,7 @@ $wgGroupPermissions['sysop']['movefile']         = true;
 $wgGroupPermissions['sysop']['unblockself']      = true;
 $wgGroupPermissions['sysop']['suppressredirect'] = true;
 #$wgGroupPermissions['sysop']['mergehistory']     = true;
+#$wgGroupPermissions['sysop']['trackback']        = true;
 
 // Permission to change users' group assignments
 $wgGroupPermissions['bureaucrat']['userrights']  = true;
@@ -3357,11 +3376,6 @@ $wgGroupPermissions['bureaucrat']['noratelimit'] = true;
 #$wgGroupPermissions['suppress']['suppressrevision'] = true;
 // For private suppression log access
 #$wgGroupPermissions['suppress']['suppressionlog'] = true;
-
-// Permission to disable user accounts
-// Note that disabling an account is not reversible without a system administrator
-// who has direct access to the database
-#$wgGroupPermissions['bureaucrat']['disableaccount']  = true;
 
 /**
  * The developer group is deprecated, but can be activated if need be
@@ -3723,10 +3737,8 @@ $wgCookiePrefix = false;
  * Set authentication cookies to HttpOnly to prevent access by JavaScript,
  * in browsers that support this feature. This can mitigates some classes of
  * XSS attack.
- *
- * Only supported on PHP 5.2 or higher.
  */
-$wgCookieHttpOnly = version_compare("5.2", PHP_VERSION, "<");
+$wgCookieHttpOnly = true;
 
 /**
  * If the requesting browser matches a regex in this blacklist, we won't
@@ -3759,28 +3771,6 @@ $wgSessionName = false;
  * Please see math/README for more information.
  */
 $wgUseTeX = false;
-/** Location of the texvc binary */
-$wgTexvc = $IP . '/math/texvc';
-/**
-  * Texvc background color
-  * use LaTeX color format as used in \special function
-  * for transparent background use value 'Transparent' for alpha transparency or
-  * 'transparent' for binary transparency.
-  */
-$wgTexvcBackgroundColor = 'transparent';
-
-/**
- * Normally when generating math images, we double-check that the
- * directories we want to write to exist, and that files that have
- * been generated still exist when we need to bring them up again.
- *
- * This lets us give useful error messages in case of permission
- * problems, and automatically rebuild images that have been lost.
- *
- * On a big site with heavy NFS traffic this can be slow and flaky,
- * so sometimes we want to short-circuit it by setting this to false.
- */
-$wgMathCheckFiles = true;
 
 /* @} */ # end LaTeX }
 
@@ -3944,6 +3934,14 @@ $wgDebugFunctionEntry = 0;
  */
 $wgStatsMethod = 'cache';
 
+/**
+ * When $wgStatsMethod is 'udp', setting this to a string allows statistics to 
+ * be aggregated over more than one wiki. The string will be used in place of
+ * the DB name in outgoing UDP packets. If this is set to false, the DB name
+ * will be used.
+ */
+$wgAggregateStatsID = false;
+
 /** Whereas to count the number of time an article is viewed.
  * Does not work if pages are cached (for example with squid).
  */
@@ -3952,6 +3950,8 @@ $wgDisableCounters = false;
 /**
  * Support blog-style "trackbacks" for articles.  See
  * http://www.sixapart.com/pronet/docs/trackback_spec for details.
+ *
+ * If enabling this, you also need to grant the 'trackback' right to a group
  */
 $wgUseTrackbacks = false;
 
@@ -4005,11 +4005,8 @@ $wgAdvancedSearchHighlighting = false;
 /**
  * Regexp to match word boundaries, defaults for non-CJK languages
  * should be empty for CJK since the words are not separate
- *
- * @todo FIXME: checks for lower than required PHP version (5.1.x).
  */
-$wgSearchHighlightBoundaries = version_compare("5.1", PHP_VERSION, "<")? '[\p{Z}\p{P}\p{C}]'
-	: '[ ,.;:!?~!@#$%\^&*\(\)+=\-\\|\[\]"\'<>\n\r\/{}]'; // PHP 5.0 workaround
+$wgSearchHighlightBoundaries = '[\p{Z}\p{P}\p{C}]';
 
 /**
  * Set to true to have the search engine count total
@@ -4596,6 +4593,7 @@ $wgExtensionCredits = array();
 
 /**
  * Authentication plugin.
+ * @var AuthPlugin
  */
 $wgAuth = null;
 
@@ -4624,6 +4622,24 @@ $wgJobClasses = array(
 	'fixDoubleRedirect' => 'DoubleRedirectJob',
 	'uploadFromUrl' => 'UploadFromUrlJob',
 );
+
+/**
+ * Extensions of "thumbnails" that are very expensive to regenerate and should be 
+ * excluded from normal action=purge thumbnail removal. 
+ */
+$wgExcludeFromThumbnailPurge = array();
+
+/**
+
+ * Jobs that must be explicitly requested, i.e. aren't run by job runners unless special flags are set.
+ * 
+ * These can be:
+ * - Very long-running jobs.
+ * - Jobs that you would never want to run as part of a page rendering request.
+ * - Jobs that you want to run on specialized machines ( like transcoding, or a particular
+ *   machine on your cluster has 'outside' web access you could restrict uploadFromUrl )
+ */
+$wgJobTypesExcludedFromDefaultQueue = array();
 
 /**
  * Additional functions to be performed with updateSpecialPages.
@@ -4825,7 +4841,6 @@ $wgLogActions = array(
 	'upload/revert'     => 'uploadedimage',
 	'move/move'         => '1movedto2',
 	'move/move_redir'   => '1movedto2_redir',
-	'move/move_rev'     => 'moverevlogentry',
 	'import/upload'     => 'import-logentry-upload',
 	'import/interwiki'  => 'import-logentry-interwiki',
 	'merge/merge'       => 'pagemerge-logentry',
@@ -4849,11 +4864,6 @@ $wgLogActionsHandlers = array();
  * Maintain a log of newusers at Log/newusers?
  */
 $wgNewUserLog = true;
-
-/**
- * Log the automatic creations of new users accounts?
- */
-$wgLogAutocreatedAccounts = false;
 
 /** @} */ # end logging }
 
@@ -4923,13 +4933,14 @@ $wgSpecialPageGroups = array(
 	'Listusers'                 => 'users',
 	'Activeusers'               => 'users',
 	'Listgrouprights'           => 'users',
-	'Ipblocklist'               => 'users',
+	'BlockList'                 => 'users',
 	'Contributions'             => 'users',
 	'Emailuser'                 => 'users',
 	'Listadmins'                => 'users',
 	'Listbots'                  => 'users',
 	'Userrights'                => 'users',
-	'Blockip'                   => 'users',
+	'Block'                     => 'users',
+	'Unblock'                   => 'users',
 	'Preferences'               => 'users',
 	'Resetpass'                 => 'users',
 	'DeletedContributions'      => 'users',
@@ -4999,6 +5010,38 @@ $wgCountCategorizedImagesAsUsed = false;
 $wgMaxRedirectLinksRetrieved = 500;
 
 /** @} */ # end special pages }
+
+/*************************************************************************//**
+ * @name   Actions
+ * @{
+ */
+
+/**
+ * Array of allowed values for the title=foo&action=<action> parameter. Syntax is:
+ *     'foo' => 'ClassName'    Load the specified class which subclasses Action
+ *     'foo' => true           Load the class FooAction which subclasses Action
+ *     'foo' => false          The action is disabled; show an error message
+ * Unsetting core actions will probably cause things to complain loudly.
+ */
+$wgActions = array(
+	'credits' => true,
+	'purge' => true,
+	'unwatch' => true,
+	'watch' => true,
+);
+
+/**
+ * Array of disabled article actions, e.g. view, edit, dublincore, delete, etc.
+ * @deprecated since 1.18; just set $wgActions['action'] = false instead
+ */
+$wgDisabledActions = array();
+
+/**
+ * Allow the "info" action, very inefficient at the moment
+ */
+$wgAllowPageInfo = false;
+
+/** @} */ # end actions }
 
 /*************************************************************************//**
  * @name   Robot (search engine crawler) policy
@@ -5265,20 +5308,14 @@ $wgUpdateRowsPerQuery = 100;
  * @{
  */
 
-/** Allow the "info" action, very inefficient at the moment */
-$wgAllowPageInfo = false;
-
 /** Name of the external diff engine to use */
 $wgExternalDiffEngine = false;
 
 /**
- * Array of disabled article actions, e.g. view, edit, dublincore, delete, etc.
- */
-$wgDisabledActions = array();
-
-/**
  * Disable redirects to special pages and interwiki redirects, which use a 302
- * and have no "redirected from" link.
+ * and have no "redirected from" link. Note this is only for articles with #Redirect
+ * in them. URL's containing a local interwiki prefix (or a non-canonical special
+ * page name) are still hard redirected regardless of this setting.
  */
 $wgDisableHardRedirects = false;
 

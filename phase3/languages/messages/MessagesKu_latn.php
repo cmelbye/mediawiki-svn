@@ -492,8 +492,6 @@ Eger account\'a bikarhêneran şaşî hate çêkirin, guhdare vê peyamê meke.'
 'extlink_tip'     => 'Lînka derve (http:// di destpêkê de ji bîr neke)',
 'headline_sample' => 'Nivîsara sernameyê',
 'headline_tip'    => 'Sername asta 2',
-'math_sample'     => 'Kurteristê matêmatîk li vir binivisîne',
-'math_tip'        => 'Kurteristê matêmatîk (LaTeX)',
 'nowiki_sample'   => 'Nivîs ku nebe formatkirin',
 'nowiki_tip'      => 'Guh nede formatkirina wiki',
 'image_sample'    => 'Mînak.jpg',
@@ -567,7 +565,7 @@ Ji bo alîkarî binêre: [[{{MediaWiki:Helppage}}|Alîkarî]].<br />
 Eger tu bi şaştî hatî, bizivire rûpela berê.",
 'anontalkpagetext'                 => "----''Ev rûpela guftûgo ye ji bo bikarhênerên nediyarkirî ku hîn hesabekî xwe çênekirine an jî bikarnaînin. Ji ber vê yekê divê em wan bi navnîşana IP ya hejmarî nîşan bikin. Navnîşaneke IP dikare ji aliyê gelek kesan ve were bikaranîn. Heger tu bikarhênerekî nediyarkirî bî û bawerdikî ku nirxandinên bê peywend di der barê te de hatine kirin ji kerema xwe re [[Special:UserLogin|hesabekî xwe veke an jî têkeve]] da ku tu xwe ji tevlîheviyên bi bikarhênerên din re biparêzî.''",
 'noarticletext'                    => 'Ev rûpel niha vala ye, tu dikarî [[Special:Search/{{PAGENAME}}|Di nav gotarên din de li "{{PAGENAME}}" bigere]] an [{{fullurl:{{FULLPAGENAME}}|action=edit}} vê rûpelê biguherînî].',
-'noarticletext-nopermission'       => '↓ Ev rûpel niha vala ye, tu dikarî [[Special:Search/{{PAGENAME}}|Di nav gotarên din de li "{{PAGENAME}}" bigere]] an [{{fullurl:{{FULLPAGENAME}}|action=edit}} vê rûpelê biguherînî].
+'noarticletext-nopermission'       => 'Ev rûpel niha vala ye, tu dikarî [[Special:Search/{{PAGENAME}}|Di nav gotarên din de li "{{PAGENAME}}" bigere]] an [{{fullurl:{{FULLPAGENAME}}|action=edit}} vê rûpelê biguherînî].
 Ev rûpel niha vala ye, tu dikarî [[Special:Search/{{PAGENAME}}|Di nav gotarên din de li "{{PAGENAME}}" bigere]] an [{{fullurl:{{FULLPAGENAME}}|action=edit}} vê rûpelê biguherînî].',
 'userpage-userdoesnotexist'        => 'Account\'î bikarhêneran "$1" nehatîye qeydkirin. Xêra xwe seke ku tu dixazê vê rûpelê çêkê/biguherînê.',
 'userpage-userdoesnotexist-view'   => 'Hesabê bikarhêner  "$1"  nehatiye qeyd kirin.',
@@ -766,7 +764,6 @@ Sedemê qedexekirinê ji $3 ev e: ''$2''",
 'changepassword'            => 'Şîfre biguherîne',
 'prefs-skin'                => 'Pêste',
 'skin-preview'              => 'Pêşdîtin',
-'prefs-math'                => 'TeX',
 'datedefault'               => 'Tercih tune ne',
 'prefs-datetime'            => 'Dem û rêkewt',
 'prefs-personal'            => 'Agahiyên bikarhênerê/î',
@@ -1441,7 +1438,6 @@ Ji bo jêbirinan û çêkirinên nuh ra, xêra xwe di [[Special:Log/delete|reşa
 Ev bes gireke were bikaranîn ji bo vandalîzmê biskinîne (bi vê [[{{MediaWiki:Policy-url}}|qebûlkirinê]]).
 
 Sedemekê binivîse!',
-'ipaddress'                   => "adresê IP'yekê",
 'ipadressorusername'          => "adresê IP'yekê ya navekî bikarhênerekî",
 'ipbexpiry'                   => 'Dem:',
 'ipbreason'                   => 'Sedem',
@@ -1455,7 +1451,6 @@ Sedemekê binivîse!',
 ** heqaretkirin
 ** pir accounts dikaranîn
 ** navekî pîs',
-'ipbanononly'                 => 'Bes bikarhênerî veşartî astengbike (bikarhênerên qeydkirî bi vê IP-adresê ne tên astengkirin).',
 'ipbcreateaccount'            => "Çêkirina account'an qedexebike.",
 'ipbemailban'                 => 'Şandinê E-Nameyan qedexe bike.',
 'ipbenableautoblock'          => "Otomatîk IP'yên niha û yên nuh yê vê bikarhênerê astengbike.",
@@ -1482,10 +1477,7 @@ Sedemekê binivîse!',
 'unblocked-id'                => '$1 dîsa vê astengkirinê ye',
 'ipblocklist'                 => "Listek ji adresên IP'yan û bikarhêneran yê hatine astengkirin",
 'ipblocklist-legend'          => 'Bikarhênerekî astengkirî bibîne',
-'ipblocklist-username'        => "Navî bikarhêner ya adrêsa IP'yê:",
-'ipblocklist-sh-tempblocks'   => 'Astengkirinên niha $1',
 'ipblocklist-submit'          => 'Lêbigere',
-'blocklistline'               => '$1, $2 $3 asteng kir ($4)',
 'infiniteblock'               => 'ji her demê ra',
 'expiringblock'               => 'heta $1 $2',
 'anononlyblock'               => 'bes kesên netên zanîn',
@@ -1510,8 +1502,7 @@ Sedemekê binivîse!',
 'block-log-flags-nousertalk'  => 'nikare guftûgoyê xwe biguherîne',
 'ipb_expiry_invalid'          => 'Dem ne serrast e.',
 'ipb_already_blocked'         => '"$1" berê hatîye astengkirin',
-'ipb-needreblock'             => '== Hatîye astengkirin ==
-$1 berê hatîye astengkirin. Tu dixazî astengkirinê biguherînê?',
+'ipb-needreblock'             => '$1 berê hatîye astengkirin. Tu dixazî astengkirinê biguherînê?',
 'ipb_cant_unblock'            => "Şaşbûn: ID'ya astengkirinê $1 nehate dîtin. Astengkirinê xwe niha belkî hatîye rakirin.",
 'blockme'                     => 'Min astengbike',
 'proxyblocksuccess'           => 'Çêbû.',
@@ -1563,11 +1554,12 @@ da bikarî navê wê rûpelê biguherînî.',
 Rûpela "[[:$1]]" berê heye. Tu rast dixazê wê jêbibê ji bo navguherandinê ra?',
 'delete_and_move_confirm'   => 'Erê, wê rûpelê jêbibe',
 'delete_and_move_reason'    => 'Jêbir ji bo navguherandinê',
-'immobile-source-page'      => 'Nava vê rûpelê nikare were guherandin.',
+'immobile-source-page'      => 'Navê vê rûpelê nikare were guherandin.',
 
 # Export
 'export'          => 'Rûpelan eksport bike',
 'export-addcat'   => 'Zêde bike',
+'export-addns'    => 'Zêde bike',
 'export-download' => 'Weka dosyeyê qeyd bike',
 
 # Namespace 8 related
@@ -1726,18 +1718,6 @@ if (wgUserLanguage == "ku-arab")
 'numtalkedits' => 'Hejmara guherandinan (guftûgo): $1',
 'numwatchers'  => 'Hejmara kesên dişopînin: $1',
 
-# Math options
-'mw_math_png'    => 'Her caran wek PNG nîşanbide',
-'mw_math_simple' => 'HTML eger asan be, wekî din PNG',
-'mw_math_html'   => 'HTML eger bibe, wekî din PNG',
-'mw_math_source' => "Wek TeX bêle (ji browser'ên gotaran ra)",
-'mw_math_modern' => "Baştir e ji browser'ên nuhtir",
-'mw_math_mathml' => 'MathML eger bibe (ceribandin)',
-
-# Math errors
-'math_unknown_error' => 'şaşbûnekî nezanîn',
-'math_image_error'   => 'Wêşandana PNG nemeşî',
-
 # Patrolling
 'markaspatrolleddiff'   => 'Wek serrastkirî nîşanbide',
 'markaspatrolledtext'   => 'Vê rûpelê wek serrastkirî nîşanbide',
@@ -1760,15 +1740,14 @@ if (wgUserLanguage == "ku-arab")
 'nextdiff'     => 'Ciyawaziya paştir →',
 
 # Media information
-'thumbsize'            => "Mezinbûna thunbnail'ê:",
-'widthheight'          => '$1 x $2',
-'widthheightpage'      => '$1×$2, $3 rûpel',
-'file-info'            => 'mezinbûnê data: $1, MIME-typ: $2',
-'file-info-size'       => '$1 × $2 pixel, mezinbûnê data: $3, MIME-typ: $4',
-'file-nohires'         => '<small>Versyonekî jê mezintir tune.</small>',
-'svg-long-desc'        => "Data'ya SVG, mezinbûna rast: $1 × $2 pixel; mezinbûna data'yê: $3",
-'show-big-image'       => 'Mezînbûn',
-'show-big-image-thumb' => '<small>Mezinbûna vê pêşnîşandanê: $1 × $2 pixel</small>',
+'thumbsize'       => "Mezinbûna thunbnail'ê:",
+'widthheight'     => '$1 x $2',
+'widthheightpage' => '$1×$2, $3 rûpel',
+'file-info'       => 'mezinbûnê data: $1, MIME-typ: $2',
+'file-info-size'  => '$1 × $2 pixel, mezinbûnê data: $3, MIME-typ: $4',
+'file-nohires'    => '<small>Versyonekî jê mezintir tune.</small>',
+'svg-long-desc'   => "Data'ya SVG, mezinbûna rast: $1 × $2 pixel; mezinbûna data'yê: $3",
+'show-big-image'  => 'Mezînbûn',
 
 # Special:NewFiles
 'newimages'             => 'Pêşangeha wêneyên nû',
@@ -1807,7 +1786,10 @@ if (wgUserLanguage == "ku-arab")
 
 'exif-exposureprogram-2' => 'Programa normal',
 
+'exif-meteringmode-0'   => 'Nenas',
 'exif-meteringmode-255' => 'Yên din',
+
+'exif-lightsource-0' => 'Nenas',
 
 'exif-scenecapturetype-1' => 'Bergeh',
 'exif-scenecapturetype-2' => 'Portre',
@@ -1819,6 +1801,9 @@ if (wgUserLanguage == "ku-arab")
 
 'exif-sharpness-0' => 'Normal',
 'exif-sharpness-1' => 'Nerm',
+
+# External editor support
+'edit-externally-help' => '(Ji bo agahîyên zav [http://www.mediawiki.org/wiki/Manual:External_editors setup instructions] li vir binêre)',
 
 # 'all' in various places, this might be different for inflected languages
 'recentchangesall' => 'hemû',

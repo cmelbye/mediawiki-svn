@@ -46,7 +46,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 	}
 
 	public function execute() {
-		global $wgUser;
+		global $wgUser, $wgContLang;
 
 		$params = $this->extractRequestParams();
 		if ( isset( $params['users'] ) && isset( $params['ip'] ) ) {
@@ -170,7 +170,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 				$block['timestamp'] = wfTimestamp( TS_ISO_8601, $row->ipb_timestamp );
 			}
 			if ( $fld_expiry ) {
-				$block['expiry'] = Block::decodeExpiry( $row->ipb_expiry, TS_ISO_8601 );
+				$block['expiry'] = $wgContLang->formatExpiry( $row->ipb_expiry, TS_ISO_8601 );
 			}
 			if ( $fld_reason ) {
 				$block['reason'] = $row->ipb_reason;
@@ -278,7 +278,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 		return array(
 			'start' => 'The timestamp to start enumerating from',
 			'end' => 'The timestamp to stop enumerating at',
-			'dir' => 'The direction in which to enumerate',
+			'dir' => $this->getDirectionDescription( $this->getModulePrefix() ),
 			'ids' => 'Pipe-separated list of block IDs to list (optional)',
 			'users' => 'Pipe-separated list of users to search for (optional)',
 			'ip' => array(	'Get all blocks applying to this IP or CIDR range, including range blocks.',

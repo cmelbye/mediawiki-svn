@@ -114,6 +114,27 @@ abstract class WebInstallerPage {
 	protected function getFieldsetEnd() {
 		return "</fieldset>\n";
 	}
+
+	/**
+	 * Opens a textarea used to display the progress of a long operation
+	 */
+	protected function startLiveBox() {
+		$this->addHTML(
+			'<div id="config-spinner" style="display:none;"><img src="../skins/common/images/ajax-loader.gif" /></div>' .
+			'<script>jQuery( "#config-spinner" ).show();</script>' .
+			'<textarea id="config-live-log" name="LiveLog" rows="10" cols="30" readonly="readonly">'
+		);
+		$this->parent->output->flush();
+	}
+
+	/**
+	 * Opposite to startLiveBox()
+	 */
+	protected function endLiveBox() {
+		$this->addHTML( '</textarea>
+<script>jQuery( "#config-spinner" ).hide()</script>' );
+		$this->parent->output->flush();
+	}
 }
 
 class WebInstaller_Language extends WebInstallerPage {
@@ -464,17 +485,17 @@ class WebInstaller_Upgrade extends WebInstallerPage {
 
 		if ( $this->parent->request->wasPosted() ) {
 			$installer->preUpgrade();
-			$this->addHTML(
-				'<div id="config-spinner" style="display:none;"><img src="../skins/common/images/ajax-loader.gif" /></div>' .
-				'<script>jQuery( "#config-spinner" )[0].style.display = "block";</script>' .
-				'<textarea id="config-update-log" name="UpdateLog" rows="10" readonly="readonly">'
-			);
-			$this->parent->output->flush();
+
+			$this->startLiveBox();
 			$result = $installer->doUpgrade();
-			$this->addHTML( '</textarea>
-<script>jQuery( "#config-spinner" )[0].style.display = "none";</script>' );
-			$this->parent->output->flush();
+			$this->endLiveBox();
+
 			if ( $result ) {
+				// If they're going to possibly regenerate LocalSettings, we
+				// need to create the upgrade/secret keys. Bug 26481
+				if( !$this->getVar( '_ExistingDBSettings' ) ) {
+					$this->parent->generateKeys();
+				}
 				$this->setVar( '_UpgradeDone', true );
 				$this->showDoneMessage();
 				return 'output';
@@ -552,7 +573,11 @@ class WebInstaller_Name extends WebInstallerPage {
 
 		$this->startForm();
 
-		if ( $this->getVar( 'wgSitename' ) == $GLOBALS['wgSitename'] ) {
+		// Encourage people to not name their site 'MediaWiki' by blanking the
+		// field. I think that was the intent with the original $GLOBALS['wgSitename']
+		// but these two always were the same so had the effect of making the
+		// installer forget $wgSitename when navigating back to this page.
+		if ( $this->getVar( 'wgSitename' ) == 'MediaWiki' ) {
 			$this->setVar( 'wgSitename', '' );
 		}
 
@@ -741,6 +766,7 @@ class WebInstaller_Options extends WebInstallerPage {
 			}
 		}
 
+		$emailwrapperStyle = $this->getVar( 'wgEnableEmail' ) ? '' : 'display: none';
 		$this->startForm();
 		$this->addHTML(
 			# User Rights
@@ -771,7 +797,7 @@ class WebInstaller_Options extends WebInstallerPage {
 				'attribs' => array( 'class' => 'showHideRadio', 'rel' => 'emailwrapper' ),
 			) ) .
 			$this->parent->getHelpBox( 'config-enable-email-help' ) .
-			"<div id=\"emailwrapper\">" .
+			"<div id=\"emailwrapper\" style=\"$emailwrapperStyle\">" .
 			$this->parent->getTextBox( array(
 				'var' => 'wgPasswordSender',
 				'label' => 'config-email-sender'
@@ -826,6 +852,7 @@ class WebInstaller_Options extends WebInstallerPage {
 			)
 		);
 
+		$uploadwrapperStyle = $this->getVar( 'wgEnableUploads' ) ? '' : 'display: none';
 		$this->addHTML(
 			# Uploading
 			$this->getFieldSetStart( 'config-upload-settings' ) .
@@ -835,7 +862,7 @@ class WebInstaller_Options extends WebInstallerPage {
 				'attribs' => array( 'class' => 'showHideRadio', 'rel' => 'uploadwrapper' ),
 				'help' => $this->parent->getHelpBox( 'config-upload-help' )
 			) ) .
-			'<div id="uploadwrapper" style="display: none;">' .
+			'<div id="uploadwrapper" style="' . $uploadwrapperStyle . '">' .
 			$this->parent->getTextBox( array(
 				'var' => 'wgDeletedDirectory',
 				'label' => 'config-upload-deleted',
@@ -923,9 +950,10 @@ class WebInstaller_Options extends WebInstallerPage {
 		} else {
 			$iframeAttribs['src'] = $this->getCCPartnerUrl();
 		}
+		$wrapperStyle = ($this->getVar('_LicenseCode') == 'cc-choose') ? '' : 'display: none';
 
 		return
-			"<div class=\"config-cc-wrapper\" id=\"config-cc-wrapper\" style=\"display: none;\">\n" .
+			"<div class=\"config-cc-wrapper\" id=\"config-cc-wrapper\" style=\"$wrapperStyle\">\n" .
 			Html::element( 'iframe', $iframeAttribs, '', false /* not short */ ) .
 			"</div>\n";
 	}
@@ -1069,9 +1097,15 @@ class WebInstaller_Install extends WebInstallerPage {
 
 	public function startStage( $step ) {
 		$this->addHTML( "<li>" . wfMsgHtml( "config-install-$step" ) . wfMsg( 'ellipsis') );
+		if ( $step == 'extension-tables' ) {
+			$this->startLiveBox();
+		}
 	}
 
 	public function endStage( $step, $status ) {
+		if ( $step == 'extension-tables' ) {
+			$this->endLiveBox();
+		}
 		$msg = $status->isOk() ? 'config-install-step-done' : 'config-install-step-failed';
 		$html = wfMsgHtml( 'word-separator' ) . wfMsgHtml( $msg );
 		if ( !$status->isOk() ) {

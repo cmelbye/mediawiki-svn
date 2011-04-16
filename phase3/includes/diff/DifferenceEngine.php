@@ -697,16 +697,12 @@ CONTROL;
 		global $wgExternalDiffEngine;
 		if ( $wgExternalDiffEngine == 'wikidiff' && !function_exists( 'wikidiff_do_diff' ) ) {
 			wfProfileIn( __METHOD__ . '-php_wikidiff.so' );
-			wfSuppressWarnings();
-			dl( 'php_wikidiff.so' );
-			wfRestoreWarnings();
+			wfDl( 'php_wikidiff' );
 			wfProfileOut( __METHOD__ . '-php_wikidiff.so' );
 		}
 		else if ( $wgExternalDiffEngine == 'wikidiff2' && !function_exists( 'wikidiff2_do_diff' ) ) {
 			wfProfileIn( __METHOD__ . '-php_wikidiff2.so' );
-			wfSuppressWarnings();
 			wfDl( 'wikidiff2' );
-			wfRestoreWarnings();
 			wfProfileOut( __METHOD__ . '-php_wikidiff2.so' );
 		}
 	}
@@ -833,18 +829,18 @@ CONTROL;
 			return '';
 		}
 
-		$oldid = $this->mOldRev->getId();
-		$newid = $this->mNewRev->getId();
-		if ( $oldid > $newid ) {
-			$tmp = $oldid; $oldid = $newid; $newid = $tmp;
+		if ( $this->mOldRev->getTimestamp() > $this->mNewRev->getTimestamp() ) {
+			$oldRev = $this->mNewRev; // flip
+			$newRev = $this->mOldRev; // flip
+		} else { // normal case
+			$oldRev = $this->mOldRev;
+			$newRev = $this->mNewRev;
 		}
 
-		$nEdits = $this->mTitle->countRevisionsBetween( $oldid, $newid );
+		$nEdits = $this->mTitle->countRevisionsBetween( $oldRev, $newRev );
 		if ( $nEdits > 0 ) {
-			$limit = 100;
-			// We use ($limit + 1) so we can detect if there are > 100 authors
-			// in a given revision range. In that case, diff-multi-manyusers is used.
-			$numUsers = $this->mTitle->countAuthorsBetween( $oldid, $newid, $limit + 1 );
+			$limit = 100; // use diff-multi-manyusers if too many users
+			$numUsers = $this->mTitle->countAuthorsBetween( $oldRev, $newRev, $limit );
 			return self::intermediateEditsMsg( $nEdits, $numUsers, $limit );
 		}
 		return ''; // nothing
@@ -1027,15 +1023,15 @@ CONTROL;
 			$this->mOldtitle = "<a href='$oldLink'>{$this->mOldPagetitle}</a>"
 			. " (<a href='$oldEdit'>" . wfMsgHtml( $editable ? 'editold' : 'viewsourceold' ) . "</a>)";
 			// Add an "undo" link
-			$newUndo = $this->mNewPage->escapeLocalUrl( array(
-				'action' => 'edit',
-				'undoafter' => $this->mOldid,
-				'undo' => $this->mNewid
-			) );
-			$htmlLink = htmlspecialchars( wfMsg( 'editundo' ) );
-			$htmlTitle = Xml::expandAttributes( array( 'title' => $wgUser->getSkin()->titleAttrib( 'undo' ) ) );
 			if ( $editable && !$this->mOldRev->isDeleted( Revision::DELETED_TEXT ) && !$this->mNewRev->isDeleted( Revision::DELETED_TEXT ) ) {
-				$this->mNewtitle .= " (<a href='$newUndo' $htmlTitle>" . $htmlLink . "</a>)";
+				$undoLink = Html::element( 'a', array(
+					'href' => $this->mNewPage->getLocalUrl( array(
+						'action' => 'edit',
+						'undoafter' => $this->mOldid,
+						'undo' => $this->mNewid ) ),
+					'title' => $wgUser->getSkin()->titleAttrib( 'undo' )
+				), wfMsg( 'editundo' ) );
+				$this->mNewtitle .= ' (' . $undoLink . ')';
 			}
 
 			if ( !$this->mOldRev->userCan( Revision::DELETED_TEXT ) ) {

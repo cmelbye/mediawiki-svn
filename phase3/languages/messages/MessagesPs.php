@@ -67,7 +67,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'ژغورلي_سرليکونه' ),
 	'Allpages'                  => array( 'ټول_مخونه' ),
 	'Prefixindex'               => array( 'د_مختاړيو_ليکلړ' ),
-	'Ipblocklist'               => array( 'د_بنديزلړليک' ),
+	'BlockList'                 => array( 'د_بنديزلړليک' ),
 	'Unblock'                   => array( 'بنديز_لرې_کول' ),
 	'Specialpages'              => array( 'ځانګړي_مخونه' ),
 	'Contributions'             => array( 'ونډې' ),
@@ -77,7 +77,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'بڼه' ),
 	'Allmessages'               => array( 'ټول-پيغامونه' ),
 	'Log'                       => array( 'يادښتونه،_يادښت' ),
-	'Blockip'                   => array( 'بنديز،_د_آی_پي_بنديز،_بنديز_لګېدلی_کارن_Block' ),
+	'Block'                     => array( 'بنديز،_د_آی_پي_بنديز،_بنديز_لګېدلی_کارن_Block' ),
 	'Undelete'                  => array( 'ناړنګول' ),
 	'Unwatchedpages'            => array( 'ناکتلي_مخونه' ),
 	'Unusedtemplates'           => array( 'ناکارېدلې_کينډۍ' ),
@@ -645,8 +645,6 @@ $1',
 'extlink_tip'     => 'باندنۍ تړنې (د http:// مختاړی مه هېروی)',
 'headline_sample' => 'سرليک',
 'headline_tip'    => 'د ۲ کچې سرليک',
-'math_sample'     => 'فورمول دلته ځای کړی',
-'math_tip'        => 'شمېرپوهنيز فورمول (LaTeX)',
 'nowiki_sample'   => 'دلته دې بې بڼې متن ځای پر ځای شي',
 'nowiki_tip'      => 'د ويکي بڼه نيونه بابېزه ګڼل',
 'image_tip'       => 'خښه شوې دوتنه',
@@ -958,7 +956,6 @@ $1',
 'changepassword'                => 'پټنوم بدلول',
 'prefs-skin'                    => 'بڼه',
 'skin-preview'                  => 'مخکتنه',
-'prefs-math'                    => 'شمېرپوهنه',
 'datedefault'                   => 'هېڅ نه ټاکل',
 'prefs-datetime'                => 'نېټه او وخت',
 'prefs-personal'                => 'د کارن پېژنليک',
@@ -1742,7 +1739,6 @@ $UNWATCHURL  نه ليدنه وکړۍ
 'blockip'                    => 'په کارن بنديز لګول',
 'blockip-title'              => 'په کارن بنديز لګول',
 'blockip-legend'             => 'په کارن بنديز لګول',
-'ipaddress'                  => 'IP پته',
 'ipadressorusername'         => 'IP پته يا کارن نوم',
 'ipbexpiry'                  => 'د پای نېټه:',
 'ipbreason'                  => 'سبب:',
@@ -1776,13 +1772,9 @@ $UNWATCHURL  نه ليدنه وکړۍ
 'unblocked'                  => 'له [[User:$1|$1]] بنديز ليري شو',
 'ipblocklist'                => 'د بنديز لګېدلي آی پي پتو او کارن نومونو لړليک',
 'ipblocklist-legend'         => 'يو بنديز شوی کارن موندل',
-'ipblocklist-username'       => 'کارن-نوم يا IP پته:',
-'ipblocklist-sh-userblocks'  => 'د ګڼون بنديزونه $1',
-'ipblocklist-sh-tempblocks'  => 'لنډمهاله بنديزونه $1',
 'ipblocklist-submit'         => 'پلټل',
 'ipblocklist-localblock'     => 'سيمه ايز بنديز',
 'ipblocklist-otherblocks'    => '{{PLURAL:$1|بل بنديز|نور بنديزونه}}',
-'blocklistline'              => '$1, $2 په $3 بنديز ولګاوه ($4)',
 'infiniteblock'              => 'لامحدوده',
 'expiringblock'              => 'په $1 نېټه، $2 بجو پای ته رسېږي',
 'anononlyblock'              => 'يواځې ورکنومی',
@@ -1803,8 +1795,7 @@ $UNWATCHURL  نه ليدنه وکړۍ
 'block-log-flags-noemail'    => 'ددې برېښليک مخه نيول شوی',
 'block-log-flags-hiddenname' => 'پټ کارن-نوم',
 'ipb_already_blocked'        => 'پر "$1" د پخوا نه بنديز دی',
-'ipb-needreblock'            => '== د پخوا نه بنديز لګېدلی ==
-پر $1 د پخوا نه بنديز لګېدلی.
+'ipb-needreblock'            => 'پر $1 د پخوا نه بنديز لګېدلی.
 آيا تاسې د امستنو بدلول غواړۍ؟',
 'ipb-otherblocks-header'     => '{{PLURAL:$1|بل بنديز|نور بنديزونه}}',
 'blockme'                    => 'پر ما بنديز لګول',
@@ -1991,10 +1982,6 @@ $UNWATCHURL  نه ليدنه وکړۍ
 'skinname-simple'      => 'ساده',
 'skinname-modern'      => 'نوی',
 
-# Math errors
-'math_unknown_error'    => 'ناجوته ستونزه',
-'math_unknown_function' => 'ناجوته کړنه',
-
 # Patrolling
 'markaspatrolledtext' => 'دا مخ څارل شوی په نخښه کول',
 
@@ -2010,13 +1997,12 @@ $UNWATCHURL  نه ليدنه وکړۍ
 'nextdiff'     => 'بل توپير →',
 
 # Media information
-'thumbsize'            => 'د بټنوک کچه:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|مخ|مخونه}}',
-'file-info-size'       => '$1 × $2 پېکسل, د دوتنې کچه: $3, MIME بڼه: $4',
-'file-nohires'         => '<small>تر دې کچې لوړې بېلن نښې نشته.</small>',
-'svg-long-desc'        => 'SVG دوتنه، نومېنلي $1 × $2 پېکسل، د دوتنې کچه: $3',
-'show-big-image'       => 'بشپړ بېلن نښې',
-'show-big-image-thumb' => '<small>د دې مخليدنې کچه: $1 × $2 pixels</small>',
+'thumbsize'       => 'د بټنوک کچه:',
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|مخ|مخونه}}',
+'file-info-size'  => '$1 × $2 پېکسل, د دوتنې کچه: $3, MIME بڼه: $4',
+'file-nohires'    => '<small>تر دې کچې لوړې بېلن نښې نشته.</small>',
+'svg-long-desc'   => 'SVG دوتنه، نومېنلي $1 × $2 پېکسل، د دوتنې کچه: $3',
+'show-big-image'  => 'بشپړ بېلن نښې',
 
 # Special:NewFiles
 'newimages'             => 'د نوو دوتنو نندارتون',

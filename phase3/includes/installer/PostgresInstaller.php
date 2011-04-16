@@ -35,6 +35,11 @@ class PostgresInstaller extends DatabaseInstaller {
 	}
 
 	function getConnectForm() {
+		// If this is our first time here, switch the default user presented in the form
+		if ( ! $this->getVar('_switchedInstallUser') ) {
+			$this->setVar('_InstallUser', 'postgres');
+			$this->setVar('_switchedInstallUser', true);
+		}
 		return
 			$this->getTextBox( 'wgDBserver', 'config-db-host', array(), $this->parent->getHelpBox( 'config-db-host-help' ) ) .
 			$this->getTextBox( 'wgDBport', 'config-db-port' ) .
@@ -104,7 +109,7 @@ class PostgresInstaller extends DatabaseInstaller {
 					$this->getVar( 'wgDBserver' ),
 					$this->getVar( '_InstallUser' ),
 					$this->getVar( '_InstallPassword' ),
-					'template1' );
+					'postgres' );
 			} else {
 				$db = new DatabasePostgres(
 					$this->getVar( 'wgDBserver' ),
@@ -219,18 +224,21 @@ class PostgresInstaller extends DatabaseInstaller {
 
 		$SQL = "SELECT 1 FROM pg_catalog.pg_database WHERE datname = " . $conn->addQuotes( $dbName );
 		$rows = $conn->numRows( $conn->query( $SQL ) );
+		$safedb = $conn->addIdentifierQuotes( $dbName );
 		if( !$rows ) {
-			$safedb = $conn->addIdentifierQuotes( $dbName );
 			$conn->query( "CREATE DATABASE $safedb OWNER $safeuser", __METHOD__ );
 		} else {
 			$conn->query( "ALTER DATABASE $safedb OWNER TO $safeuser", __METHOD__ );
 		}
 		
+		// Now that we've established the real database exists, connect to it
+		// Because we do not want the same connection, forcibly expire the existing conn
+		$this->db = null;
 		$this->useAdmin = false;
-			$status = $this->getConnection();
-			if ( !$status->isOK() ) {
-				return $status;
-			}
+		$status = $this->getConnection();
+		if ( !$status->isOK() ) {
+			return $status;
+		}
 		$conn = $status->value;
 
 		if( !$conn->schemaExists( $schema ) ) {
@@ -327,9 +335,7 @@ class PostgresInstaller extends DatabaseInstaller {
 			return $status;
 		}
 
-		$this->db->setFlag( DBO_DDLMODE ); // For Oracle's handling of schema files
 		$this->db->begin( __METHOD__ );
-
 
 		if( !$this->db->schemaExists( $schema ) ) {
 			$status->error( 'config-install-pg-schema-not-exist' );

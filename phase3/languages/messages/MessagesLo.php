@@ -399,8 +399,6 @@ $messages = array(
 'extlink_sample'  => 'http://www.example.com ຫົວຂໍ້ລິ້ງຄ໌',
 'headline_sample' => 'ສຳຄັນ',
 'headline_tip'    => 'ຫົວຂໍ້ລະດັບ 2',
-'math_sample'     => 'ໃສ່ສູດຢູ່ນີ້',
-'math_tip'        => 'ສູດຄະນິດສາດ (LaTeX)',
 'image_tip'       => 'ໄຟລ໌ຕິດຄັດ',
 'media_tip'       => 'ລິ້ງຄ໌ຫາໄຟລ໌',
 
@@ -511,7 +509,6 @@ $messages = array(
 'changepassword'        => 'ປ່ຽນລະຫັດຜ່ານ',
 'prefs-skin'            => 'ລວດລາຍ',
 'skin-preview'          => 'ລອງເບິ່ງ',
-'prefs-math'            => 'ຄະນິດສາດ',
 'datedefault'           => 'ແນວໃດກໍ່ໄດ້',
 'prefs-datetime'        => 'ວັນ ແລະ ເວລາ',
 'prefs-personal'        => 'ຂໍ້ມູນຫຼັກຜູ້ໃຊ້',
@@ -824,7 +821,6 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'badipaddress'      => 'ທີ່ຢູ່ IP ບໍ່ຖືກຕ້ອງ',
 'blockipsuccesssub' => 'ຫ້າມສຳເລັດ',
 'ipblocklist'       => 'ລາຍການ ທີ່ຢູ່ IP ແລະ ຊື່ຜູ້ໃຊ້ ທີ່ຖືກຫ້າມ',
-'blocklistline'     => '$1, $2 ຫ້າມ $3 ($4)',
 'blocklink'         => 'ຫ້າມ',
 'contribslink'      => 'ປະກອບສ່ວນ',
 'autoblocker'       => 'ຫ້າມໂດຍອັດຕາໂນມັດ ຍ້ອນ ທີ່ຢູ່ IP ຂອງທ່ານ ຖືກໃຊ້ໂດຍ "[[User:$1|$1]]" ໃນໄລຍະຫຼັງ. ເຫດຜົນໃນການຫ້າມ  $1 ແມ່ນ : "$2"',
@@ -908,20 +904,16 @@ Also see [[Special:WantedCategories|wanted categories]].',
 # Info page
 'numedits' => 'ຈຳນວນດັດແກ້ (ໜ້າ): $1',
 
-# Math errors
-'math_syntax_error' => 'ຜິດຫຼັກໄວຍະກອນ',
-
 # Browsing diffs
 'previousdiff' => 'ສ່ວນຕ່າງກ່ອນ',
 'nextdiff'     => 'ສ່ວນຕ່າງຕໍ່ໄປ →',
 
 # Media information
-'imagemaxsize'         => 'ກຳນົດຄວາມໃຫຍ່ຂອງ ຮູບ ຫຼື ໜ້າອະທິບາຍຮູບ ບໍ່ໃຫ້ກາຍ:',
-'thumbsize'            => 'ຂະໜາດສະແດງ:',
-'file-info-size'       => '$1 × $2  ປິກເຊລ, ຂະໜາດໄຟລ໌: $3, MIME type: $4',
-'file-nohires'         => 'ບໍ່ມີຂະໜາດລະອຽດກວ່າ',
-'show-big-image'       => 'ເຕັມຂະໜາດ',
-'show-big-image-thumb' => '<small>ຂະໜາດລອງເບິ່ງ: $1 × $2 ປິກເຊລ</small>',
+'imagemaxsize'   => 'ກຳນົດຄວາມໃຫຍ່ຂອງ ຮູບ ຫຼື ໜ້າອະທິບາຍຮູບ ບໍ່ໃຫ້ກາຍ:',
+'thumbsize'      => 'ຂະໜາດສະແດງ:',
+'file-info-size' => '$1 × $2  ປິກເຊລ, ຂະໜາດໄຟລ໌: $3, MIME type: $4',
+'file-nohires'   => 'ບໍ່ມີຂະໜາດລະອຽດກວ່າ',
+'show-big-image' => 'ເຕັມຂະໜາດ',
 
 # Special:NewFiles
 'newimages'         => 'ໄຟລ໌ຮູບໃໝ່',

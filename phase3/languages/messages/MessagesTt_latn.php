@@ -606,8 +606,6 @@ Sez sersüzegezne üzgärtkän yäisä yaña waqıtlı sersüz soratqan bulırğ
 'extlink_tip'     => 'Tışqı sıltama (http:// alquşımçası turında onıtmağız)',
 'headline_sample' => 'Başisem',
 'headline_tip'    => '2 nçe däräcäle isem',
-'math_sample'     => 'Formulanı monda östägez',
-'math_tip'        => 'Matematik formula (LaTeX formatı)',
 'nowiki_sample'   => 'Formatlanmağan tekstnı monda östägez',
 'nowiki_tip'      => 'Wiki-formatlawnı isäpkä almaw',
 'image_sample'    => 'Misal.jpg',
@@ -1003,7 +1001,6 @@ Barlıq alannarda (bäxäs bitläre, ürnäklär, h.b.) ezläw öçen ''all'' s�
 'changepassword'                => 'Sersüzne üzgärtü',
 'prefs-skin'                    => 'Küreneş',
 'skin-preview'                  => 'Aldan qaraw',
-'prefs-math'                    => 'Formulalar',
 'datedefault'                   => 'Baştağı köylänmälär',
 'prefs-datetime'                => 'Data häm waqıt',
 'prefs-personal'                => 'Şäxsi mäğlümatlar',
@@ -1746,12 +1743,11 @@ $1',
 'blockip'                    => 'Qullanuçını tıyu',
 'blockip-title'              => 'Qullanuçını tıyu',
 'blockip-legend'             => 'Qullanuçını tıyu',
-'ipaddress'                  => 'IP adresı:',
 'ipadressorusername'         => 'IP adresı yäki qullanuçı iseme:',
 'ipbexpiry'                  => 'Betä:',
 'ipbreason'                  => 'Säbäp:',
 'ipbreasonotherlist'         => 'Başqa säbäp',
-'ipbreason-dropdown'         => '↓ * Qısunıñ ğädättäge säbäpläre
+'ipbreason-dropdown'         => '* Qısunıñ ğädättäge säbäpläre
 ** Yalğan mäğlümat kertü
 ** Bitlärneñ eçtälegen sörtü
 ** Tışqı saytlarğa spam-sıltamalar
@@ -1771,7 +1767,6 @@ $1',
 'unblockip'                  => 'Qullanuçını tıyudan azat itü',
 'ipusubmit'                  => 'Bu tıyunı tuqtatu',
 'ipblocklist'                => 'Tıyılğan IP adresları häm qullanuçı isemnäre',
-'ipblocklist-username'       => 'qullanuçı iseme yäki IP adresı:',
 'ipblocklist-submit'         => 'Ezläw',
 'infiniteblock'              => 'bilgele ber waqıtsız',
 'blocklink'                  => 'tıyu',
@@ -1976,21 +1971,6 @@ Zinhar başqa isem saylağız.',
 'skinname-modern'      => 'Zamana',
 'skinname-vector'      => 'Sızımlı',
 
-# Math options
-'mw_math_png'    => 'Härwaqıt PNG belän bäyläw',
-'mw_math_simple' => 'Ğädi oçraqlarda HTML, yäisä PNG qullanılsın',
-'mw_math_html'   => 'Mömkin bulsa HTML, yäisä PNG qullanılsın',
-'mw_math_source' => 'TeX bilgeläneşendä qaldırılsın (tekstlı brauzerlar öçen)',
-'mw_math_modern' => 'Bügenge brauzerlar öçen qullanılsın',
-'mw_math_mathml' => 'Mömkin bulsa MathML qullanılsın (eksperimental)',
-
-# Math errors
-'math_failure'          => 'Uqıy almadım',
-'math_unknown_error'    => 'belenmägän xata',
-'math_unknown_function' => 'bilgesez funksiä',
-'math_lexing_error'     => 'leksik xata',
-'math_syntax_error'     => 'sintaksik xata',
-
 # Patrolling
 'markaspatrolledtext'   => 'Bu mäqäläne tikşerelgän dip tamğalaw',
 'markedaspatrolled'     => 'Tikşerelgän dip tamğalandı',
@@ -2017,16 +1997,15 @@ $1',
 'nextdiff'     => 'Çirattağı üzgärtü →',
 
 # Media information
-'imagemaxsize'         => "Räsemneñ zurlığına çikläwlär:<br />''(taswirlaw bite öçen)''",
-'thumbsize'            => 'Räsemneñ keçeräytelgän yuraması öçen:',
-'widthheight'          => '$1 × $2',
-'widthheightpage'      => '$1 × $2, $3{{PLURAL:$1|bit|bitlär}}',
-'file-info'            => 'fayl zurlığı: $1, MIME-tip: $2',
-'file-info-size'       => '$1 × $2 noqta, faylnıñ zurlığı: $3, MIME tibı: $4',
-'file-nohires'         => '<small>Yuğarı açıqlıq belän yurama yuq.</small>',
-'svg-long-desc'        => 'SVG faylı, şartlı $1 × $2 noqta, faylnıñ zurlığı: $3',
-'show-big-image'       => 'Tulı açıqlıq',
-'show-big-image-thumb' => '<small>Aldan qaraw zurlığı: $1 × $2 noqta</small>',
+'imagemaxsize'    => "Räsemneñ zurlığına çikläwlär:<br />''(taswirlaw bite öçen)''",
+'thumbsize'       => 'Räsemneñ keçeräytelgän yuraması öçen:',
+'widthheight'     => '$1 × $2',
+'widthheightpage' => '$1 × $2, $3{{PLURAL:$1|bit|bitlär}}',
+'file-info'       => 'fayl zurlığı: $1, MIME-tip: $2',
+'file-info-size'  => '$1 × $2 noqta, faylnıñ zurlığı: $3, MIME tibı: $4',
+'file-nohires'    => '<small>Yuğarı açıqlıq belän yurama yuq.</small>',
+'svg-long-desc'   => 'SVG faylı, şartlı $1 × $2 noqta, faylnıñ zurlığı: $3',
+'show-big-image'  => 'Tulı açıqlıq',
 
 # Special:NewFiles
 'newimages'        => 'Yaña sürätlär cıyılması',

@@ -223,8 +223,6 @@ Sila laporkan ka [[Special:ListUsers/sysop|Pengurus]], dengan manandokan alamat 
 'extlink_tip'     => 'Pranala lua (ingek awalannyo http://)',
 'headline_sample' => 'Teks tajuk',
 'headline_tip'    => 'Tingkek 2 tajuk',
-'math_sample'     => 'Masuakkan rumus di siko',
-'math_tip'        => 'Rumus matematika (LaTeX)',
 'nowiki_sample'   => 'Masuakkan disiko teks yang indak diformat',
 'nowiki_tip'      => 'Abaikan pemformatan wiki',
 'image_tip'       => 'Cantumkan berkas',
@@ -639,11 +637,10 @@ Awak hanyo buliah lihek sumber se',
 'nextdiff'     => 'Revisi salanjuiknyo →',
 
 # Media information
-'file-info-size'       => '$1 × $2 piksel, ukuran berkas: $3, tipe MIME: $4',
-'file-nohires'         => '<small>Indak tasadio resolusi yang labiah tinggi.</small>',
-'svg-long-desc'        => 'SVG berkas, nominal $1 × $2 piksel, ukuran berkas: $3',
-'show-big-image'       => 'Resolusi penuh',
-'show-big-image-thumb' => '<small>Ukuran pratonton ini: $1 × $2 piksel</small>',
+'file-info-size' => '$1 × $2 piksel, ukuran berkas: $3, tipe MIME: $4',
+'file-nohires'   => '<small>Indak tasadio resolusi yang labiah tinggi.</small>',
+'svg-long-desc'  => 'SVG berkas, nominal $1 × $2 piksel, ukuran berkas: $3',
+'show-big-image' => 'Resolusi penuh',
 
 # Bad image list
 'bad_image_list' => 'Formatnyo sabagai berikut:

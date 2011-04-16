@@ -112,7 +112,7 @@ class UserrightsPage extends SpecialPage {
 		}
 
 		$this->outputHeader();
-
+		$wgOut->addModuleStyles( 'mediawiki.special' );
 		$this->setHeaders();
 
 		// show the general form
@@ -222,7 +222,7 @@ class UserrightsPage extends SpecialPage {
 				$user->removeGroup( $group );
 			}
 		}
- 		if( $add ) {
+		if( $add ) {
 			$newGroups = array_merge( $newGroups, $add );
 			foreach( $add as $group ) {
 				$user->addGroup( $group );
@@ -429,12 +429,14 @@ class UserrightsPage extends SpecialPage {
 		}
 
 		$grouplist = '';
-		if( count( $list ) > 0 ) {
-			$grouplist = wfMsgHtml( 'userrights-groupsmember' );
+		$count = count( $list );
+		if( $count > 0 ) {
+			$grouplist = wfMessage( 'userrights-groupsmember', $count)->parse();
 			$grouplist = '<p>' . $grouplist  . ' ' . $wgLang->listToText( $list ) . "</p>\n";
 		}
-		if( count( $autolist ) > 0 ) {
-			$autogrouplistintro = wfMsgHtml( 'userrights-groupsmember-auto' );
+		$count = count( $autolist );
+		if( $count > 0 ) {
+			$autogrouplistintro = wfMessage( 'userrights-groupsmember-auto', $count)->parse();
 			$grouplist .= '<p>' . $autogrouplistintro  . ' ' . $wgLang->listToText( $autolist ) . "</p>\n";
 		}
 		$wgOut->addHTML(
@@ -535,7 +537,7 @@ class UserrightsPage extends SpecialPage {
 		foreach( $columns as $name => $column ) {
 			if( $column === array() )
 				continue;
-			$ret .= Xml::element( 'th', null, wfMsg( 'userrights-' . $name . '-col' ) );
+			$ret .= Xml::element( 'th', null, wfMessage( 'userrights-' . $name . '-col', count( $column ) )->text() );
 		}
 		$ret.= "</tr>\n<tr>\n";
 		foreach( $columns as $column ) {

@@ -340,8 +340,6 @@ $messages = array(
 'extlink_tip'     => 'بیرونی جوڑ (remember http:// prefix)',
 'headline_sample' => 'شہ سرخی',
 'headline_tip'    => 'دوسرے درجے دی سرخی',
-'math_sample'     => 'ایتھے فارمولا لاؤ',
-'math_tip'        => 'ریاضی دا فارمولا (LaTeX)',
 'nowiki_sample'   => 'فارمیٹ نہ ہوئی لکھائی ایتھے پاؤ',
 'nowiki_tip'      => 'وکی فارمیٹ رھندیو۔',
 'image_tip'       => 'وچ مورت لگاؤ',
@@ -522,7 +520,6 @@ $messages = array(
 'prefsnologin'              => 'لاگ ان نئیں او',
 'changepassword'            => 'کنجی بدلو',
 'prefs-skin'                => 'کھل',
-'prefs-math'                => 'حساب کتاب',
 'prefs-datetime'            => 'تاریخ تے ویلہ',
 'prefs-personal'            => 'ورتن آلے دا پروفائل',
 'prefs-rc'                  => 'نویاں تبدیلیاں',
@@ -989,12 +986,10 @@ $messages = array(
 # Block/unblock
 'blockip'                  => 'اس ورتن والے نو روکو',
 'blockip-legend'           => 'ورتن آلے نوں روکو',
-'ipaddress'                => 'آئی پی پتہ:',
 'ipadressorusername'       => 'آئی پی پتہ یا ورتن آلے دا ناں:',
 'ipbexpiry'                => 'انت:',
 'ipbreason'                => 'وجہ:',
 'ipbreasonotherlist'       => 'ہور وجہ',
-'ipbanononly'              => 'انجان ورتن آلیاں نوں روکو',
 'ipbcreateaccount'         => 'کھاتہ کھولنا روکو',
 'ipbemailban'              => 'ورتن آلے نوں ای میل پیجن توں روکو',
 'ipbsubmit'                => 'اس ورتن آلے نوں روکو',
@@ -1007,7 +1002,6 @@ $messages = array(
 'ipb-blocklist'            => 'روکیاں گياں نوں ویکھو',
 'unblockip'                => 'ورتن آلے تے روک بند کرو',
 'ipblocklist'              => 'بند کیتے گۓ آئی پی پتے تے ورتن والیاں دے ناں',
-'ipblocklist-username'     => 'ورتن آلے دا ناں یا آئی پی پتہ:',
 'ipblocklist-submit'       => 'کھوجو',
 'infiniteblock'            => 'بے انت',
 'emailblock'               => 'ای میل روک دتی گئی اے',
@@ -1177,20 +1171,15 @@ $messages = array(
 'numedits'     => 'لکھائی دی گنتی (صفحہ): $1',
 'numwatchers'  => 'ویکھنے آلیاں دی گنتی: $1',
 
-# Math errors
-'math_unknown_error'    => 'انجان مسئلہ',
-'math_unknown_function' => 'انجان کم',
-
 # Browsing diffs
 'previousdiff' => '← پرانی لکھائی',
 'nextdiff'     => 'نویں لکھائی →',
 
 # Media information
-'file-info-size'       => 'پکسل:$1 × $2, فائل سائز: $3, مائم ٹائپ: $4',
-'file-nohires'         => '<small>اس توں وڈی فوٹو موجود نہیں۔</small>',
-'svg-long-desc'        => 'ایس وی جی فائل، پکسل:$1 × $2، فائل سائز: $3',
-'show-big-image'       => 'وڈی مورت',
-'show-big-image-thumb' => '<small>کچے کم دے پکسل:$1 × $2</small>',
+'file-info-size' => 'پکسل:$1 × $2, فائل سائز: $3, مائم ٹائپ: $4',
+'file-nohires'   => '<small>اس توں وڈی فوٹو موجود نہیں۔</small>',
+'svg-long-desc'  => 'ایس وی جی فائل، پکسل:$1 × $2، فائل سائز: $3',
+'show-big-image' => 'وڈی مورت',
 
 # Special:NewFiles
 'newimages' => 'نئی فائلاں دی نگری',

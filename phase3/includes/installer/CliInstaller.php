@@ -31,9 +31,6 @@ class CliInstaller extends Installer {
 		'dbschema' => 'wgDBmwschema',
 		'dbpath' => 'wgSQLiteDataDir',
 		'scriptpath' => 'wgScriptPath',
-		'upgrade' => 'cliUpgrade', /* As long as it isn't $confItems
-									* in LocalSettingsGenerator, we
-									* should be fine. */
 	);
 
 	/**
@@ -44,6 +41,8 @@ class CliInstaller extends Installer {
 	 * @param $option Array
 	 */
 	function __construct( $siteName, $admin = null, array $option = array() ) {
+		global $wgContLang;
+
 		parent::__construct();
 
 		foreach ( $this->optionMap as $opt => $global ) {
@@ -54,7 +53,7 @@ class CliInstaller extends Installer {
 		}
 
 		if ( isset( $option['lang'] ) ) {
-			global $wgLang, $wgContLang, $wgLanguageCode;
+			global $wgLang, $wgLanguageCode;
 			$this->setVar( '_UserLang', $option['lang'] );
 			$wgContLang = Language::factory( $option['lang'] );
 			$wgLang = Language::factory( $option['lang'] );
@@ -62,6 +61,12 @@ class CliInstaller extends Installer {
 		}
 
 		$this->setVar( 'wgSitename', $siteName );
+
+		$metaNS = $wgContLang->ucfirst( str_replace( ' ', '_', $siteName ) );
+		if ( $metaNS == 'MediaWiki' ) {
+			$metaNS = 'Project';
+		}
+		$this->setVar( 'wgMetaNamespace', $metaNS );
 
 		if ( $admin ) {
 			$this->setVar( '_AdminName', $admin );
@@ -83,10 +88,8 @@ class CliInstaller extends Installer {
 	 * Main entry point.
 	 */
 	public function execute() {
-		global $cliUpgrade;
-
 		$vars = $this->getExistingLocalSettings();
-		if( $vars && ( !isset( $cliUpgrade ) || $cliUpgrade !== "yes" )  ) {
+		if( $vars ) {
 			$this->showStatusMessage(
 				Status::newFatal( "config-localsettings-cli-upgrade" )
 			);
@@ -109,23 +112,20 @@ class CliInstaller extends Installer {
 	}
 
 	public function startStage( $step ) {
-		$this->showMessage( wfMsg( "config-install-$step" ) .
-			wfMsg( 'ellipsis' ) . wfMsg( 'word-separator' ) );
+		$this->showMessage( "config-install-$step" );
 	}
 
 	public function endStage( $step, $status ) {
 		$this->showStatusMessage( $status );
-		$this->showMessage( wfMsg( 'config-install-step-done' ) . "\n" );
+		$this->showMessage( 'config-install-step-done' );
 	}
 
 	public function showMessage( $msg /*, ... */ ) {
 		$params = func_get_args();
 		array_shift( $params );
 
-		/* parseinline has the nasty side-effect of putting encoded
-		 * angle brackets, around the message, so the substr removes
-		 * them. */
-		$text = substr( wfMsgExt( $msg, array( 'parseinline' ), $params ), 4, -4 );
+		$text = wfMsgExt( $msg, array( 'parseinline' ), $params );
+
 		$text = preg_replace( '/<a href="(.*?)".*?>(.*?)<\/a>/', '$2 &lt;$1&gt;', $text );
 		echo html_entity_decode( strip_tags( $text ), ENT_QUOTES ) . "\n";
 		flush();
@@ -136,9 +136,8 @@ class CliInstaller extends Installer {
 			$status->getErrorsArray() );
 
 		if ( count( $warnings ) !== 0 ) {
-			foreach ( $status->getWikiTextArray( $warnings ) as $w ) {
-				$this->showMessage( $w . wfMsg( 'ellipsis' ) .
-					wfMsg( 'word-separator' ) );
+			foreach ( $warnings as $w ) {
+				call_user_func_array( array( $this, 'showMessage' ), $w );
 			}
 		}
 

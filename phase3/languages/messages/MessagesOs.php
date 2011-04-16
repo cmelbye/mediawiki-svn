@@ -8,6 +8,7 @@
  * @file
  *
  * @author Amikeco
+ * @author Amire80
  * @author Bouron
  * @author HalanTul
  * @author לערי ריינהארט
@@ -98,11 +99,11 @@ $messages = array(
 'january'       => 'январь',
 'february'      => 'февраль',
 'march'         => 'мартъи',
-'april'         => 'апрель',
+'april'         => 'апрелы',
 'may_long'      => 'май',
 'june'          => 'июнь',
 'july'          => 'июль',
-'august'        => 'август',
+'august'        => 'августы',
 'september'     => 'сентябрь',
 'october'       => 'октябрь',
 'november'      => 'ноябрь',
@@ -142,6 +143,7 @@ $messages = array(
 'hidden-category-category'       => 'Æмбæхст категоритæ',
 'category-subcat-count'          => '{{PLURAL:$2|Ацы категорийы мидæг æрмæст иу дæлкатегори и.|{{PLURAL:$1|$1 дæлкатегори æвдыст у|$1 дæлкатегорийы æвдыст сты}}, æдæппæт $2.}}',
 'category-subcat-count-limited'  => 'Ацы категорийы мидæг ис {{PLURAL:$1|$1 дæлкатегори|$1 дæлкатегорийы}}.',
+'category-article-count'         => '{{PLURAL:$2|Ацы категорийы æрмæст иу фарс и.|Ацы категорийы $2 фарсæй {{PLURAL:$1|æвдыст у $1.|æвдыст сты $1 фарсы.}}}}',
 'category-article-count-limited' => 'Ацы категорийы мидæг {{PLURAL:$1|$1 фарс|$1 фарсы}} ис.',
 'category-file-count-limited'    => 'Ацы категорийы {{PLURAL:$1|$1 файл|$1 файлы}} ис.',
 'listingcontinuesabbrev'         => '(дарддæрдзу)',
@@ -356,8 +358,6 @@ $messages = array(
 'extlink_sample'  => 'http://www.example.com æрвитæны текст',
 'extlink_tip'     => 'Æддаг æрвитæн (префикс http:// ма рох кæн)',
 'headline_sample' => 'Ам сæргонды текст уæд',
-'math_sample'     => 'Ныффысс формулæ',
-'math_tip'        => 'Математикон формулæ (формат LaTeX)',
 'media_tip'       => 'Файлмæ æрвитæн',
 
 # Edit pages
@@ -380,6 +380,7 @@ $messages = array(
 'editingsection'         => 'Ивыс $1 (фарсы хай)',
 'editconflict'           => 'Ивыны конфликт: $1',
 'yourtext'               => 'Дæхи текст',
+'yourdiff'               => 'Хицæндзинæдтæ',
 'templatesused'          => 'Ацы фарсы ис {{PLURAL:$1|шаблон|шаблоны}}:',
 'template-protected'     => '(æхгæд)',
 'template-semiprotected' => '(æрдæг-æхгæд)',
@@ -508,7 +509,7 @@ $messages = array(
 
 'group-user-member'       => 'архайæг',
 'group-bot-member'        => 'робот',
-'group-sysop-member'      => 'дьаһабыл',
+'group-sysop-member'      => 'админ',
 'group-bureaucrat-member' => 'бюрократ',
 
 'grouppage-user'       => '{{ns:project}}:Архайджытæ',
@@ -571,6 +572,7 @@ $3',
 'uploaderror'         => 'Файл сæвæрыны рæдыд',
 'filename'            => 'Файлы ном',
 'minlength1'          => 'Файлы номы хъуамæ æппынкъаддæр иу дамгъæ уа.',
+'badfilename'         => 'Нывы ном ивд æрцыдис. Ныр хуины «$1».',
 'savefile'            => 'Бавæр æй',
 'uploadvirus'         => 'Файлы разынд вирус! Кæс $1',
 'watchthisupload'     => 'Ацы файлмæ дæ цæст æрдар',
@@ -649,6 +651,7 @@ $3',
 'specialloguserlabel'  => 'Архайæг:',
 'speciallogtitlelabel' => 'Сæргонд:',
 'log'                  => 'Логтæ',
+'all-logs-page'        => 'Æппæт логтæ',
 
 # Special:AllPages
 'allpages'       => 'Æппæт фæрстæ',
@@ -708,6 +711,8 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'watching'   => 'Цæстдард фæрсты номхыгъдмæ афтауын...',
 'unwatching' => 'Цæстдард фæрсты номхыгъдæй аиуварс кæнын...',
 
+'changed' => 'ивд æрцыд',
+
 # Delete
 'deletepage'            => 'Фарс аппар',
 'exblank'               => 'фарс афтид уыдис',
@@ -719,6 +724,7 @@ Also see [[Special:WantedCategories|wanted categories]].',
 
 # Protect
 'protectedarticle'       => '«[[$1]]» — фарс æхгæд æрцыд',
+'prot_1movedto2'         => '[[$1]] хаст æрцыд [[$2]], зæгъгæ, ахæм фарсмæ',
 'protectcomment'         => 'Аххос:',
 'protectexpiry'          => 'Кæдмæ æхгæд у:',
 'protect-level-sysop'    => 'Æрмæст админтæ',
@@ -765,6 +771,8 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'ipbreason'              => 'Аххос:',
 'ipbreasonotherlist'     => 'Æндæр аххос',
 'ipbotherreason'         => 'Æндæр кæнæ уæлæмхасæн аххос:',
+'blockipsuccesstext'     => '[[Special:Contributions/$1|$1]] хъодыгонд æрцыд.<br />
+Кæс [[Special:Ipblocklist|хъодыгонд IP-адристы номхыгъд]].',
 'ipb-blocklist'          => 'Актуалон хъоды равдис',
 'ipb-blocklist-contribs' => '$1, зæгъгæ, уыцы архайæджы бавæрд',
 'ipblocklist'            => 'Хъодыгонд IP-адристæ æмæ архайджыты нæмттæ',
@@ -774,6 +782,7 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'unblocklink'            => 'хъоды айс',
 'contribslink'           => 'бавæрд',
 'blocklogpage'           => 'Хъодыты лог',
+'blocklogentry'          => 'бахъоды кодта [[$1]] $2 æмгъуыдмæ $3',
 
 # Developer tools
 'lockdbsuccesssub'    => 'Бæрæггæнæнты базæ æхгæд у',
@@ -791,7 +800,8 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'movereason'               => 'Аххос:',
 
 # Namespace 8 related
-'allmessages' => 'Æппæт техникон фыстытæ',
+'allmessages'     => 'Æппæт техникон фыстытæ',
+'allmessagesname' => 'Ном',
 
 # Thumbnails
 'thumbnail-more' => 'Фестырдæр кæн',
@@ -858,10 +868,6 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'skinname-myskin'      => 'Мæхи',
 'skinname-chick'       => 'Карк',
 
-# Math errors
-'math_unknown_function' => 'нæзонгæ функци',
-'math_syntax_error'     => 'синтаксисы рæдыд',
-
 # Browsing diffs
 'previousdiff' => '← Раздæры ивддзинад',
 'nextdiff'     => 'Фæстæдæр ивддзинад →',
@@ -906,6 +912,9 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'table_pager_prev'  => 'Раздæры фарс',
 'table_pager_first' => 'Фыццаг фарс',
 'table_pager_last'  => 'Фæстаг фарс',
+
+# Auto-summaries
+'autosumm-new' => 'Ног фарс, йæ код райдайы афтæ: «$1»',
 
 # Size units
 'size-bytes'     => '$1 байт(ы)',

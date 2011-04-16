@@ -665,7 +665,7 @@ class LocalFile extends File {
 	 * Delete cached transformed files
 	 */
 	function purgeThumbnails() {
-		global $wgUseSquid;
+		global $wgUseSquid, $wgExcludeFromThumbnailPurge;
 
 		// Delete thumbnails
 		$files = $this->getThumbnails();
@@ -673,6 +673,12 @@ class LocalFile extends File {
 		$urls = array();
 
 		foreach ( $files as $file ) {
+			// Only remove files not in the $wgExcludeFromThumbnailPurge configuration variable
+			$ext = pathinfo( "$dir/$file", PATHINFO_EXTENSION );
+			if ( in_array( $ext, $wgExcludeFromThumbnailPurge ) ) {
+				continue;
+			}
+			
 			# Check that the base file name is part of the thumb name
 			# This is a basic sanity check to avoid erasing unrelated directories
 			if ( strpos( $file, $this->getName() ) !== false ) {
@@ -859,8 +865,9 @@ class LocalFile extends File {
 	/**
 	 * Record a file upload in the upload log and the image table
 	 */
-	function recordUpload2( $oldver, $comment, $pageText, $props = false, $timestamp = false, $user = null )
-	{
+	function recordUpload2(
+		$oldver, $comment, $pageText, $props = false, $timestamp = false, $user = null
+	) {
 		if ( is_null( $user ) ) {
 			global $wgUser;
 			$user = $wgUser;
@@ -873,10 +880,14 @@ class LocalFile extends File {
 			$props = $this->repo->getFileProps( $this->getVirtualUrl() );
 		}
 
+		if ( $timestamp === false ) {
+			$timestamp = $dbw->timestamp();
+		}
+
 		$props['description'] = $comment;
 		$props['user'] = $user->getId();
 		$props['user_text'] = $user->getName();
-		$props['timestamp'] = wfTimestamp( TS_MW );
+		$props['timestamp'] = wfTimestamp( TS_MW, $timestamp ); // DB -> TS_MW
 		$this->setProps( $props );
 
 		# Delete thumbnails
@@ -892,10 +903,6 @@ class LocalFile extends File {
 		}
 
 		$reupload = false;
-
-		if ( $timestamp === false ) {
-			$timestamp = $dbw->timestamp();
-		}
 
 		# Test to see if the row exists using INSERT IGNORE
 		# This avoids race conditions by locking the row until the commit, and also
@@ -1044,16 +1051,22 @@ class LocalFile extends File {
 	 *
 	 * @param $srcPath String: local filesystem path to the source image
 	 * @param $flags Integer: a bitwise combination of:
-	 *     File::DELETE_SOURCE    Delete the source file, i.e. move
-	 *         rather than copy
+	 *     File::DELETE_SOURCE	Delete the source file, i.e. move rather than copy
+	 * @param $dstArchiveName string File name if the file is to be published 
+	 *     into the archive
 	 * @return FileRepoStatus object. On success, the value member contains the
 	 *     archive name, or an empty string if it was a new file.
 	 */
-	function publish( $srcPath, $flags = 0 ) {
+	function publish( $srcPath, $flags = 0, $dstArchiveName = null ) {
 		$this->lock();
 
-		$dstRel = $this->getRel();
-		$archiveName = gmdate( 'YmdHis' ) . '!' . $this->getName();
+		if ( $dstArchiveName ) {
+			$dstRel = 'archive/' . $this->getHashPath() . $dstArchiveName;
+		} else {
+			$dstRel = $this->getRel();
+		}
+			
+		$archiveName = wfTimestamp( TS_MW ) . '!'. $this->getName();
 		$archiveRel = 'archive/' . $this->getHashPath() . $archiveName;
 		$flags = $flags & File::DELETE_SOURCE ? LocalRepo::DELETE_SOURCE : 0;
 		$status = $this->repo->publish( $srcPath, $dstRel, $archiveRel, $flags );
@@ -2049,16 +2062,32 @@ class LocalFileMoveBatch {
 		$triplets = $this->getMoveTriplets();
 
 		$triplets = $this->removeNonexistentFiles( $triplets );
-		$statusDb = $this->doDBUpdates();
-		wfDebugLog( 'imagemove', "Renamed {$this->file->name} in database: {$statusDb->successCount} successes, {$statusDb->failCount} failures" );
-		$statusMove = $repo->storeBatch( $triplets, FSRepo::DELETE_SOURCE );
+		
+		// Copy the files into their new location
+		$statusMove = $repo->storeBatch( $triplets );
 		wfDebugLog( 'imagemove', "Moved files for {$this->file->name}: {$statusMove->successCount} successes, {$statusMove->failCount} failures" );
-
-		if ( !$statusMove->isOk() ) {
+		if ( !$statusMove->isGood() ) {
 			wfDebugLog( 'imagemove', "Error in moving files: " . $statusMove->getWikiText() );
-			$this->db->rollback();
+			$this->cleanupTarget( $triplets );
+			$statusMove->ok = false;
+			return $statusMove;
 		}
 
+		$this->db->begin();
+		$statusDb = $this->doDBUpdates();
+		wfDebugLog( 'imagemove', "Renamed {$this->file->name} in database: {$statusDb->successCount} successes, {$statusDb->failCount} failures" );
+		if ( !$statusDb->isGood() ) {
+			$this->db->rollback();
+			// Something went wrong with the DB updates, so remove the target files
+			$this->cleanupTarget( $triplets );
+			$statusDb->ok = false;
+			return $statusDb;
+		}
+		$this->db->commit();
+		
+		// Everything went ok, remove the source files
+		$this->cleanupSource( $triplets );
+		
 		$status->merge( $statusDb );
 		$status->merge( $statusMove );
 
@@ -2088,6 +2117,8 @@ class LocalFileMoveBatch {
 			$status->successCount++;
 		} else {
 			$status->failCount++;
+			$status->fatal( 'imageinvalidfilename' );
+			return $status;
 		}
 
 		// Update old images
@@ -2105,6 +2136,9 @@ class LocalFileMoveBatch {
 		$total = $this->oldCount;
 		$status->successCount += $affected;
 		$status->failCount += $total - $affected;
+		if ( $status->failCount ) {
+			$status->error( 'imageinvalidfilename' );
+		}
 
 		return $status;
 	}
@@ -2148,5 +2182,33 @@ class LocalFileMoveBatch {
 		}
 
 		return $filteredTriplets;
+	}
+	
+	/**
+	 * Cleanup a partially moved array of triplets by deleting the target 
+	 * files. Called if something went wrong half way.
+	 */
+	function cleanupTarget( $triplets ) {
+		// Create dest pairs from the triplets
+		$pairs = array();
+		foreach ( $triplets as $triplet ) {
+			$pairs[] = array( $triplet[1], $triplet[2] );
+		}
+		
+		$this->file->repo->cleanupBatch( $pairs );
+	}
+	
+	/**
+	 * Cleanup a fully moved array of triplets by deleting the source files.
+	 * Called at the end of the move process if everything else went ok. 
+	 */
+	function cleanupSource( $triplets ) {
+		// Create source file names from the triplets
+		$files = array();
+		foreach ( $triplets as $triplet ) {
+			$files[] = $triplet[0];
+		}
+		
+		$this->file->repo->cleanupBatch( $files );
 	}
 }

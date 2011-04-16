@@ -495,12 +495,8 @@ abstract class DatabaseBase implements DatabaseType {
 	function __construct( $server = false, $user = false, $password = false, $dbName = false,
 		$flags = 0, $tablePrefix = 'get from global'
 	) {
-		global $wgOut, $wgDBprefix, $wgCommandLineMode;
+		global $wgDBprefix, $wgCommandLineMode;
 
-		# Can't get a reference if it hasn't been set yet
-		if ( !isset( $wgOut ) ) {
-			$wgOut = null;
-		}
 		$this->mFlags = $flags;
 
 		if ( $this->mFlags & DBO_DEFAULT ) {
@@ -518,7 +514,7 @@ abstract class DatabaseBase implements DatabaseType {
 			$this->mTablePrefix = $tablePrefix;
 		}
 
-		if ( $server ) {
+		if ( $user ) {
 			$this->open( $server, $user, $password, $dbName );
 		}
 	}
@@ -1119,16 +1115,16 @@ abstract class DatabaseBase implements DatabaseType {
 	 * @param $table String: table name
 	 * @param $vars String: the selected variables
 	 * @param $conds Array: a condition map, terms are ANDed together.
-	 *   Items with numeric keys are taken to be literal conditions
-	 * Takes an array of selected variables, and a condition map, which is ANDed
-	 * e.g: selectRow( "page", array( "page_id" ), array( "page_namespace" =>
-	 * NS_MAIN, "page_title" => "Astronomy" ) )   would return an object where
-	 * $obj- >page_id is the ID of the Astronomy article
+	 *     Items with numeric keys are taken to be literal conditions
+	 *     Takes an array of selected variables, and a condition map, which is ANDed
+	 *     e.g: selectRow( "page", array( "page_id" ), array( "page_namespace" =>
+	 *     NS_MAIN, "page_title" => "Astronomy" ) )   would return an object where
+	 *     $obj- >page_id is the ID of the Astronomy article
 	 * @param $fname String: Calling function name
 	 * @param $options Array
 	 * @param $join_conds Array
 	 *
-	 * @todo migrate documentation to phpdocumentor format
+	 * @return ResultWrapper|Bool
 	 */
 	function selectRow( $table, $vars, $conds, $fname = 'DatabaseBase::selectRow', $options = array(), $join_conds = array() ) {
 		$options['LIMIT'] = 1;
@@ -1517,15 +1513,17 @@ abstract class DatabaseBase implements DatabaseType {
 	 * when calling query() directly.
 	 *
 	 * @param $name String: database table name
+	 * @param $quoted Boolean: Automatically pass the table name through 
+	 *          addIdentifierQuotes() so that it can be used in a query.
 	 * @return String: full database name
 	 */
-	function tableName( $name ) {
+	function tableName( $name, $quoted = true ) {
 		global $wgSharedDB, $wgSharedPrefix, $wgSharedTables;
 		# Skip the entire process when we have a string quoted on both ends.
 		# Note that we check the end so that we will still quote any use of
 		# use of `database`.table. But won't break things if someone wants
 		# to query a database table with a dot in the name.
-		if ( $name[0] == '`' && substr( $name, -1, 1 ) == '`' ) {
+		if ( $this->isQuotedIdentifier( $name ) ) {
 			return $name;
 		}
 
@@ -1551,17 +1549,11 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 		$prefix = $this->mTablePrefix; # Default prefix
 
-		# A database name has been specified in input. Quote the table name
-		# because we don't want any prefixes added.
-		if ( isset( $database ) ) {
-			$table = ( $table[0] == '`' ? $table : "`{$table}`" );
-		}
-
 		# Note that we use the long format because php will complain in in_array if
 		# the input is not an array, and will complain in is_array if it is not set.
 		if ( !isset( $database ) # Don't use shared database if pre selected.
 		 && isset( $wgSharedDB ) # We have a shared database
-		 && $table[0] != '`' # Paranoia check to prevent shared tables listing '`table`'
+		 && !$this->isQuotedIdentifier( $table ) # Paranoia check to prevent shared tables listing '`table`'
 		 && isset( $wgSharedTables )
 		 && is_array( $wgSharedTables )
 		 && in_array( $table, $wgSharedTables ) ) { # A shared table is selected
@@ -1571,9 +1563,14 @@ abstract class DatabaseBase implements DatabaseType {
 
 		# Quote the $database and $table and apply the prefix if not quoted.
 		if ( isset( $database ) ) {
-			$database = ( $database[0] == '`' ? $database : "`{$database}`" );
+			$database = ( !$quoted || $this->isQuotedIdentifier( $database ) ? $database : $this->addIdentifierQuotes( $database ) );
+			$prefix = '';
 		}
-		$table = ( $table[0] == '`' ? $table : "`{$prefix}{$table}`" );
+		
+		$table = "{$prefix}{$table}";
+		if ( $quoted && !$this->isQuotedIdentifier( $table ) ) {
+			$table = $this->addIdentifierQuotes( "{$table}" );
+		}
 
 		# Merge our database and table into our final table name.
 		$tableName = ( isset( $database ) ? "{$database}.{$table}" : "{$table}" );
@@ -1748,6 +1745,15 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	public function addIdentifierQuotes( $s ) {
 		return '"' . str_replace( '"', '""', $s ) . '"';
+	}
+
+	/**
+	 * Returns if the given identifier looks quoted or not according to 
+	 * the database convention for quoting identifiers .
+	 * @return boolean
+	 */
+	public function isQuotedIdentifier( $name ) {
+		return $name[0] == '"' && substr( $name, -1, 1 ) == '"';
 	}
 
 	/**
@@ -2314,6 +2320,8 @@ abstract class DatabaseBase implements DatabaseType {
 	 * Note that unlike most database abstraction functions, this function does not
 	 * automatically append database prefix, because it works at a lower
 	 * abstraction level.
+	 * The table names passed to this function shall not be quoted (this 
+	 * function calls addIdentifierQuotes when needed).
 	 *
 	 * @param $oldName String: name of table whose structure should be copied
 	 * @param $newName String: name of table to be created
@@ -2748,6 +2756,20 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Encode an expiry time
+	 *
+	 * @param $expiry String: timestamp for expiry, or the 'infinity' string
+	 * @return String
+	 */
+	public function encodeExpiry( $expiry ) {
+		if ( $expiry == '' || $expiry == $this->getInfinity() ) {
+			return $this->getInfinity();
+		} else {
+			return $this->timestamp( $expiry );
+		}
+	}
+
+	/**
 	 * Allow or deny "big selects" for this session only. This is done by setting
 	 * the sql_big_selects session variable.
 	 *
@@ -2933,7 +2955,7 @@ class DBConnectionError extends DBError {
 
 		$this->error = Html::element( 'span', array( 'dir' => 'ltr' ), $this->error );
 
-		$noconnect = "<p><strong>$sorry</strong><br />$again</p><p><small>$info</small></p>";
+		$noconnect = "<h1>$sorry</h1><p>$again</p><p><small>$info</small></p>";
 		$text = str_replace( '$1', $this->error, $noconnect );
 
 		if ( $wgShowDBErrorBacktrace ) {
@@ -3160,7 +3182,7 @@ class ResultWrapper implements Iterator {
 	 * Fields can be retrieved with $row->fieldname, with fields acting like
 	 * member variables.
 	 *
-	 * @return MySQL row object
+	 * @return object
 	 * @throws DBUnexpectedError Thrown if the database returns an error
 	 */
 	function fetchObject() {
@@ -3171,7 +3193,7 @@ class ResultWrapper implements Iterator {
 	 * Fetch the next row from the given result object, in associative array
 	 * form.  Fields are retrieved with $row['fieldname'].
 	 *
-	 * @return MySQL row object
+	 * @return Array
 	 * @throws DBUnexpectedError Thrown if the database returns an error
 	 */
 	function fetchRow() {

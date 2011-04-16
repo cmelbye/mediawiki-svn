@@ -211,7 +211,7 @@ class DeletedContribsPager extends IndexPager {
 		} else {
 			$mflag = '';
 		}
-		
+
 		// Revision delete link
 		$canHide = $wgUser->isAllowed( 'deleterevision' );
 		if( $canHide || ($rev->getVisibility() && $wgUser->isAllowed('deletedhistory')) ) {
@@ -234,9 +234,9 @@ class DeletedContribsPager extends IndexPager {
 			array( 'class' => 'mw-deletedcontribs-tools' ),
 			wfMsg( 'parentheses', $wgLang->pipeList( array( $last, $dellog, $reviewlink ) ) )
 		);
-		
+
 		$ret = "{$del}{$link} {$tools} . . {$mflag} {$pagelink} {$comment}";
-		
+
 		# Denote if username is redacted for this edit
 		if( $rev->isDeleted( Revision::DELETED_USER ) ) {
 			$ret .= " <strong>" . wfMsgHtml('rev-deleted-user-contribs') . "</strong>";
@@ -354,7 +354,7 @@ class DeletedContributionsPage extends SpecialPage {
 	 * @todo Fixme: almost the same as contributionsSub in SpecialContributions.php. Could be combined.
 	 */
 	function getSubTitle( $nt, $id ) {
-		global $wgSysopUserBans, $wgLang, $wgUser, $wgOut;
+		global $wgLang, $wgUser, $wgOut;
 
 		$sk = $wgUser->getSkin();
 
@@ -368,11 +368,11 @@ class DeletedContributionsPage extends SpecialPage {
 		if( $talk ) {
 			# Talk page link
 			$tools[] = $sk->link( $talk, wfMsgHtml( 'sp-contributions-talk' ) );
-			if( ( $id !== null && $wgSysopUserBans ) || ( $id === null && IP::isIPAddress( $nt->getText() ) ) ) {
+			if( ( $id !== null ) || ( $id === null && IP::isIPAddress( $nt->getText() ) ) ) {
 				if( $wgUser->isAllowed( 'block' ) ) { # Block / Change block / Unblock links
 					if ( $userObj->isBlocked() ) {
 						$tools[] = $sk->linkKnown( # Change block link
-							SpecialPage::getTitleFor( 'Blockip', $nt->getDBkey() ),
+							SpecialPage::getTitleFor( 'Block', $nt->getDBkey() ),
 							wfMsgHtml( 'change-blocklink' )
 						);
 						$tools[] = $sk->linkKnown( # Unblock link
@@ -381,13 +381,13 @@ class DeletedContributionsPage extends SpecialPage {
 							array(),
 							array(
 								'action' => 'unblock',
-								'ip' => $nt->getDBkey() 
+								'ip' => $nt->getDBkey()
 							)
 						);
 					}
 					else { # User is not blocked
 						$tools[] = $sk->linkKnown( # Block link
-							SpecialPage::getTitleFor( 'Blockip', $nt->getDBkey() ),
+							SpecialPage::getTitleFor( 'Block', $nt->getDBkey() ),
 							wfMsgHtml( 'blocklink' )
 						);
 					}
@@ -453,7 +453,7 @@ class DeletedContributionsPage extends SpecialPage {
 		// languages that want to put the "for" bit right after $user but before
 		// $links.  If 'contribsub' is around, use it for reverse compatibility,
 		// otherwise use 'contribsub2'.
-		if( wfEmptyMsg( 'contribsub', wfMsg( 'contribsub' ) ) ) {
+		if( wfEmptyMsg( 'contribsub' ) ) {
 			return wfMsgHtml( 'contribsub2', $user, $links );
 		} else {
 			return wfMsgHtml( 'contribsub', "$user ($links)" );

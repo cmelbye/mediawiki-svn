@@ -133,7 +133,7 @@ class ProtectionForm {
 				// Prevent users from setting levels that they cannot later unset
 				if( $val == 'sysop' ) {
 					// Special case, rewrite sysop to either protect and editprotected
-					if( !$wgUser->isAllowed('protect') && !$wgUser->isAllowed('editprotected') )
+					if( !$wgUser->isAllowedAny( 'protect', 'editprotected' ) )
 						continue;
 				} else {
 					if( !$wgUser->isAllowed($val) )
@@ -158,7 +158,7 @@ class ProtectionForm {
 			$value = $this->mExpirySelection[$action];
 		}
 		if ( $value == 'infinite' || $value == 'indefinite' || $value == 'infinity' ) {
-			$time = Block::infinity();
+			$time = wfGetDB( DB_SLAVE )->getInfinity();
 		} else {
 			$unix = strtotime( $value );
 
@@ -317,9 +317,9 @@ class ProtectionForm {
 		}
 
 		if( $wgRequest->getCheck( 'mwProtectWatch' ) && $wgUser->isLoggedIn() ) {
-			$this->mArticle->doWatch();
+			Action::factory( 'watch', $this->mArticle )->execute();
 		} elseif( $this->mTitle->userIsWatching() ) {
-			$this->mArticle->doUnwatch();
+			Action::factory( 'unwatch', $this->mArticle )->execute();
 		}
 		return $ok;
 	}
@@ -527,7 +527,7 @@ class ProtectionForm {
 			//don't let them choose levels above their own (aka so they can still unprotect and edit the page). but only when the form isn't disabled
 			if( $key == 'sysop' ) {
 				//special case, rewrite sysop to protect and editprotected
-				if( !$wgUser->isAllowed('protect') && !$wgUser->isAllowed('editprotected') && !$this->disabled )
+				if( !$wgUser->isAllowedAny( 'protect', 'editprotected' ) && !$this->disabled )
 					continue;
 			} else {
 				if( !$wgUser->isAllowed($key) && !$this->disabled )

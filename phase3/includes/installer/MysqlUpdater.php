@@ -175,6 +175,9 @@ class MysqlUpdater extends DatabaseUpdater {
 			array( 'dropIndex', 'archive', 'ar_page_revid',         'patch-archive_kill_ar_page_revid.sql' ),
 			array( 'addIndex', 'archive', 'ar_revid',               'patch-archive_ar_revid.sql' ),
 			array( 'doLangLinksLengthUpdate' ),
+
+			// 1.18
+			array( 'doUserNewTalkTimestampNotNull' ),
 		);
 	}
 
@@ -196,7 +199,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		} else {
 			$this->output( "Fixing $field encoding on $table table... " );
 			$this->applyPatch( $patchFile );
-			$this->output( "ok\n" );
+			$this->output( "done.\n" );
 		}
 	}
 
@@ -238,7 +241,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		$this->output( "ok\n" );
 		$this->output( 'Adding default interwiki definitions...' );
 		$this->applyPatch( "$IP/maintenance/interwiki.sql", true );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	/**
@@ -253,7 +256,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Updating indexes to 20031107..." );
 		$this->applyPatch( 'patch-indexes.sql', true );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	protected function doOldLinksUpdate() {
@@ -271,7 +274,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		$this->output( "Fixing ancient broken imagelinks table.\n" );
 		$this->output( "NOTE: you will have to run maintenance/refreshLinks.php after this.\n" );
 		$this->applyPatch( 'patch-fix-il_from.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	/**
@@ -293,7 +296,7 @@ class MysqlUpdater extends DatabaseUpdater {
 				'wl_title' => 'wl_title',
 				'wl_notificationtimestamp' => 'wl_notificationtimestamp'
 			), array( 'NOT (wl_namespace & 1)' ), __METHOD__, 'IGNORE' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	function doSchemaRestructuring() {
@@ -482,7 +485,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			} else {
 				$this->output( "Promoting $field from $info->Type to int... " );
 				$this->db->query( "ALTER TABLE $tablename MODIFY $field int NOT NULL", __METHOD__ );
-				$this->output( "ok\n" );
+				$this->output( "done.\n" );
 			}
 		}
 	}
@@ -495,7 +498,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Converting links and brokenlinks tables to pagelinks... " );
 		$this->applyPatch( 'patch-pagelinks.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 
 		global $wgContLang;
 		foreach ( MWNamespace::getCanonicalNamespaces() as $ns => $name ) {
@@ -517,7 +520,7 @@ class MysqlUpdater extends DatabaseUpdater {
 					   AND pl_title LIKE '$likeprefix:%'";
 
 			$this->db->query( $sql, __METHOD__ );
-			$this->output( "ok\n" );
+			$this->output( "done.\n" );
 		}
 	}
 
@@ -533,7 +536,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		}
 		$this->output( "Adding unique index on user_name... " );
 		$this->applyPatch( 'patch-user_nameindex.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	protected function doUserGroupsUpdate() {
@@ -596,7 +599,7 @@ class MysqlUpdater extends DatabaseUpdater {
 					__METHOD__ );
 			}
 		}
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	/**
@@ -612,7 +615,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Making wl_notificationtimestamp nullable... " );
 		$this->applyPatch( 'patch-watchlist-null.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	/**
@@ -699,7 +702,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		$this->output( "Creating page_restrictions table..." );
 		$this->applyPatch( 'patch-page_restrictions.sql' );
 		$this->applyPatch( 'patch-page_restrictions_sortkey.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 
 		$this->output( "Migrating old restrictions to new table...\n" );
 		$task = $this->maintenance->runChild( 'UpdateRestrictions' );
@@ -748,15 +751,16 @@ class MysqlUpdater extends DatabaseUpdater {
 		} else {
 			$this->output( "Adding pf_memory field to table profiling..." );
 			$this->applyPatch( 'patch-profiling-memory.sql' );
-			$this->output( "ok\n" );
+			$this->output( "done.\n" );
 		}
 	}
 
 	protected function doFilearchiveIndicesUpdate() {
 		$info = $this->db->indexInfo( 'filearchive', 'fa_user_timestamp', __METHOD__ );
 		if ( !$info ) {
+			$this->output( "Updating filearchive indices..." );
 			$this->applyPatch( 'patch-filearchive-user-index.sql' );
-			$this->output( "...filearchive indices updated\n" );
+			$this->output( "done.\n" );
 		}
 	}
 
@@ -769,7 +773,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Making pl_namespace, tl_namespace and il_to indices UNIQUE... " );
 		$this->applyPatch( 'patch-pl-tl-il-unique.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	protected function renameEuWikiId() {
@@ -780,7 +784,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Renaming eu_wiki_id -> eu_local_id... " );
 		$this->applyPatch( 'patch-eu_local_id.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	protected function doUpdateMimeMinorField() {
@@ -791,7 +795,7 @@ class MysqlUpdater extends DatabaseUpdater {
 
 		$this->output( "Altering all *_mime_minor fields to 100 bytes in size ... " );
 		$this->applyPatch( 'patch-mime_minor_length.sql' );
-		$this->output( "ok\n" );
+		$this->output( "done.\n" );
 	}
 
 	protected function doPopulateRevLen() {
@@ -827,5 +831,17 @@ class MysqlUpdater extends DatabaseUpdater {
 		} else {
 			$this->output( "...ll_lang is up-to-date.\n" );
 		}
+	}
+
+	protected function doUserNewTalkTimestampNotNull() {
+		$info = $this->db->fieldInfo( 'user_newtalk', 'user_last_timestamp' );
+		if ( $info->isNullable() ) {
+			$this->output( "...user_last_timestamp is already nullable.\n" );
+			return;
+		}
+
+		$this->output( "Making user_last_timestamp nullable... " );
+		$this->applyPatch( 'patch-user-newtalk-timestamp-null.sql' );
+		$this->output( "done.\n" );
 	}
 }

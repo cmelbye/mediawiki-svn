@@ -78,7 +78,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Esperthy' ),
 	'Version'                   => array( 'Versyon' ),
 	'Allmessages'               => array( 'OllMessajow' ),
-	'Blockip'                   => array( 'Lettya' ),
+	'Block'                     => array( 'Lettya' ),
 	'Import'                    => array( 'Ymperthy' ),
 	'Mypage'                    => array( 'OwFolen' ),
 	'Mytalk'                    => array( 'OwHows' ),
@@ -353,8 +353,6 @@ $messages = array(
 'extlink_tip'     => 'Kevren a-mes (remembra an rager http://)',
 'headline_sample' => 'Text pennlinen',
 'headline_tip'    => 'Pennlinen nivel 2',
-'math_sample'     => 'Keworrewgh an furvel obma',
-'math_tip'        => 'Furvel galcoriethek (LaTeX)',
 'image_tip'       => 'Restren neythys',
 'media_tip'       => 'Kevren restren',
 'sig_tip'         => 'Agas sinans gen stampa-termyn',
@@ -587,7 +585,7 @@ Gwrewgh assaya dhe rag-gorra agas govyn gen ''all:'' rag whila yn pub le (a-bart
 'recentchangeslinked-feed'    => 'Chanjyow kelmys',
 'recentchangeslinked-toolbox' => 'Chanjyow kelmys',
 'recentchangeslinked-title'   => 'Chanjyow kelmys dhe "$1"',
-'recentchangeslinked-summary' => "↓ Hemm yw rol a janjyow a-dhiwedhes gwres war folednow kevrednys dhort folen ragavysyes (po dhe esely class ragavysyes).
+'recentchangeslinked-summary' => "Hemm yw rol a janjyow a-dhiwedhes gwres war folednow kevrednys dhort folen ragavysyes (po dhe esely class ragavysyes).
 Yth yw folednow eus war agas [[Special:Watchlist|rol golyas]] yn '''tew'''.",
 'recentchangeslinked-page'    => 'Hanow an folen:',
 
@@ -800,7 +798,6 @@ Gwelewgh $2 rag covath a dhileansow a-dhiwedhes.',
 
 # Block/unblock
 'blockip'                    => 'Lettya an devnydhyer',
-'ipaddress'                  => 'Trigva IP:',
 'ipadressorusername'         => 'Trigva IP po hanow-usyer:',
 'ipbreason'                  => 'Acheson:',
 'ipbreasonotherlist'         => 'Acheson aral',
@@ -915,11 +912,10 @@ Why a ell gweles hy fennfenten.',
 'nextdiff'     => 'Chanj nowyttha →',
 
 # Media information
-'file-info-size'       => '$1 × $2 pixel, mens an restren: $3, sort MIME : $4',
-'file-nohires'         => '<small>Nyns eus clerder uhella cavadow.</small>',
-'svg-long-desc'        => 'Restren SVG, $1 × $2 pixel yn hanow, mens an restren: $3',
-'show-big-image'       => 'Clerder leun',
-'show-big-image-thumb' => '<small>Mens an ragwel-ma: $1 × $2 pixel</small>',
+'file-info-size' => '$1 × $2 pixel, mens an restren: $3, sort MIME : $4',
+'file-nohires'   => '<small>Nyns eus clerder uhella cavadow.</small>',
+'svg-long-desc'  => 'Restren SVG, $1 × $2 pixel yn hanow, mens an restren: $3',
+'show-big-image' => 'Clerder leun',
 
 # Special:NewFiles
 'ilsubmit' => 'Whila',

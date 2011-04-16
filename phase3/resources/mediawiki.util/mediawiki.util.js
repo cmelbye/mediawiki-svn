@@ -57,6 +57,9 @@
 					/* Enable CheckboxShiftClick */
 					$( 'input[type=checkbox]:not(.noshiftselect)' ).checkboxShiftClick();
 
+					/* Enable Tablesorting */
+					$( 'table.sortable' ).tablesorter(); 
+
 					/* Emulate placeholder if not supported by browser */
 					if ( !( 'placeholder' in document.createElement( 'input' ) ) ) {
 						$( 'input[placeholder]' ).placeholder();
@@ -274,9 +277,10 @@
 
 		/**
 		 * Checks wether the current page is the wiki's main page.
+		 * This function requires the document to be ready!
 		 *
 		 * @param alsoRelated Boolean value, if true this function also returns true if the current page is
-		 * in a different namespace page of the main page rather than the main page itself (eg. talk page)
+		 * in an associated namespace page of the main page rather than the main page itself (eg. talk page)
 		 * @return Boolean
 		 */
 		'isMainPage' : function( alsoRelated ) {
@@ -344,7 +348,7 @@
 				return null;
 			}
 			// Setup the anchor tag
-			var $link = $( '<a />' ).attr( 'href', href ).text( text );
+			var $link = $( '<a></a>' ).attr( 'href', href ).text( text );
 			if ( tooltip ) {
 				$link.attr( 'title', tooltip );
 			}
@@ -373,11 +377,11 @@
 				if ( $ul.length === 0 ) {
 					// If there's no <div> inside, append it to the portlet directly
 					if ( $portlet.find( 'div:first' ).length === 0 ) {
-						$portlet.append( '<ul/>' );
+						$portlet.append( '<ul></ul>' );
 					} else {
 						// otherwise if there's a div (such as div.body or div.pBody)
 						// append the <ul> to last (most likely only) div
-						$portlet.find( 'div' ).eq( -1 ).append( '<ul/>' );
+						$portlet.find( 'div' ).eq( -1 ).append( '<ul></ul>' );
 					}
 					// Select the created element
 					$ul = $portlet.find( 'ul' ).eq( 0 );
@@ -392,7 +396,7 @@
 
 				// Wrap the anchor tag in a <span> and create a list item for it
 				// and back up the selector to the list item
-				var $item = $link.wrap( '<li><span /></li>' ).parent().parent();
+				var $item = $link.wrap( '<li><span></span></li>' ).parent().parent();
 
 				// Implement the properties passed to the function
 				if ( id ) {

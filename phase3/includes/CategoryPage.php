@@ -70,10 +70,14 @@ class CategoryPage extends Article {
 	function closeShowCategory() {
 		global $wgOut, $wgRequest;
 
+		// Use these as defaults for back compat --catrope
+		$oldFrom = $wgRequest->getVal( 'from' );
+		$oldUntil = $wgRequest->getVal( 'until' );
+		
 		$from = $until = array();
 		foreach ( array( 'page', 'subcat', 'file' ) as $type ) {
-			$from[$type] = $wgRequest->getVal( "{$type}from" );
-			$until[$type] = $wgRequest->getVal( "{$type}until" );
+			$from[$type] = $wgRequest->getVal( "{$type}from", $oldFrom );
+			$until[$type] = $wgRequest->getVal( "{$type}until", $oldUntil );
 		}
 
 		$viewer = new $this->mCategoryViewerClass( $this->mTitle, $from, $until, $wgRequest->getValues() );
@@ -82,15 +86,48 @@ class CategoryPage extends Article {
 }
 
 class CategoryViewer {
-	var $title, $limit, $from, $until,
+	var $limit, $from, $until,
 		$articles, $articles_start_char,
 		$children, $children_start_char,
-		$showGallery, $gallery,
-		$imgsNoGalley, $imgsNoGallery_start_char,
-		$skin, $collation;
-	# Category object for this page
+		$showGallery, $imgsNoGalley,
+		$imgsNoGallery_start_char,
+		$skin, $imgsNoGallery;
+
+	/**
+	 * @var 
+	 */
+	var $nextPage;
+
+	/**
+	 * @var Array
+	 */
+	var $flip;
+
+	/**
+	 * @var Title
+	 */
+	var $title;
+
+	/**
+	 * @var Collation
+	 */
+	var $collation;
+
+	/**
+	 * @var ImageGallery
+	 */
+	var $gallery;
+
+	/**
+	 * Category object for this page
+	 * @var Category
+	 */
 	private $cat;
-	# The original query array, to be used in generating paging links.
+
+	/**
+	 * The original query array, to be used in generating paging links.
+	 * @var array
+	 */
 	private $query;
 
 	function __construct( $title, $from = '', $until = '', $query = array() ) {
@@ -160,6 +197,9 @@ class CategoryViewer {
 		}
 	}
 
+	/**
+	 * @return Skin
+	 */
 	function getSkin() {
 		if ( !$this->skin ) {
 			global $wgUser;
@@ -202,6 +242,9 @@ class CategoryViewer {
 	* entry in the categorylinks table is Category:A, not A, which it SHOULD be.
 	* Workaround: If sortkey == "Category:".$title, than use $title for sorting,
 	* else use sortkey...
+	*
+	* @param Title $title
+	* @param string $sortkey The human-readable sortkey (before transforming to icu or whatever).
 	*/
 	function getSubcategorySortChar( $title, $sortkey ) {
 		global $wgContLang;
@@ -304,8 +347,9 @@ class CategoryViewer {
 				array( 'page', 'categorylinks', 'category' ),
 				array( 'page_id', 'page_title', 'page_namespace', 'page_len',
 					'page_is_redirect', 'cl_sortkey', 'cat_id', 'cat_title',
-					'cat_subcats', 'cat_pages', 'cat_files', 'cl_sortkey_prefix' ),
-				array( 'cl_to' => $this->title->getDBkey() ) + $extraConds,
+					'cat_subcats', 'cat_pages', 'cat_files',
+					'cl_sortkey_prefix', 'cl_collation' ),
+				array_merge( array( 'cl_to' => $this->title->getDBkey() ),  $extraConds ),
 				__METHOD__,
 				array(
 					'USE INDEX' => array( 'categorylinks' => 'cl_sortkey' ),
@@ -321,22 +365,29 @@ class CategoryViewer {
 			$count = 0;
 			foreach ( $res as $row ) {
 				$title = Title::newFromRow( $row );
-				$rawSortkey = $title->getCategorySortkey( $row->cl_sortkey_prefix );
+				if ( $row->cl_collation === '' ) {
+					// Hack to make sure that while updating from 1.16 schema
+					// and db is inconsistent, that the sky doesn't fall.
+					// See r83544. Could perhaps be removed in a couple decades...
+					$humanSortkey = $row->cl_sortkey;
+				} else {
+					$humanSortkey = $title->getCategorySortkey( $row->cl_sortkey_prefix );
+				}
 
 				if ( ++$count > $this->limit ) {
 					# We've reached the one extra which shows that there
 					# are additional pages to be had. Stop here...
-					$this->nextPage[$type] = $rawSortkey;
+					$this->nextPage[$type] = $humanSortkey;
 					break;
 				}
 
 				if ( $title->getNamespace() == NS_CATEGORY ) {
 					$cat = Category::newFromRow( $row, $title );
-					$this->addSubcategoryObject( $cat, $rawSortkey, $row->page_len );
+					$this->addSubcategoryObject( $cat, $humanSortkey, $row->page_len );
 				} elseif ( $title->getNamespace() == NS_FILE ) {
-					$this->addImage( $title, $rawSortkey, $row->page_len, $row->page_is_redirect );
+					$this->addImage( $title, $humanSortkey, $row->page_len, $row->page_is_redirect );
 				} else {
-					$this->addPage( $title, $rawSortkey, $row->page_len, $row->page_is_redirect );
+					$this->addPage( $title, $humanSortkey, $row->page_len, $row->page_is_redirect );
 				}
 			}
 		}
@@ -528,10 +579,8 @@ class CategoryViewer {
 	static function shortList( $articles, $articles_start_char ) {
 		$r = '<h3>' . htmlspecialchars( $articles_start_char[0] ) . "</h3>\n";
 		$r .= '<ul><li>' . $articles[0] . '</li>';
-		for ( $index = 1; $index < count( $articles ); $index++ )
-		{
-			if ( $articles_start_char[$index] != $articles_start_char[$index - 1] )
-			{
+		for ( $index = 1; $index < count( $articles ); $index++ ) {
+			if ( $articles_start_char[$index] != $articles_start_char[$index - 1] ) {
 				$r .= "</ul><h3>" . htmlspecialchars( $articles_start_char[$index] ) . "</h3>\n<ul>";
 			}
 
@@ -629,8 +678,7 @@ class CategoryViewer {
 		}
 
 		if ( $dbcnt == $rescnt || ( ( $rescnt == $this->limit || $fromOrUntil )
-			&& $dbcnt > $rescnt ) )
-		{
+			&& $dbcnt > $rescnt ) ) {
 			# Case 1: seems sane.
 			$totalcnt = $dbcnt;
 		} elseif ( $rescnt < $this->limit && !$fromOrUntil ) {

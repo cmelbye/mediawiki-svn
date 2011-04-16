@@ -246,14 +246,23 @@ abstract class ApiQueryBase extends ApiBase {
 	 * Execute a SELECT query based on the values in the internal arrays
 	 * @param $method string Function the query should be attributed to.
 	 *  You should usually use __METHOD__ here
+	 * @param $extraQuery array Query data to add but not store in the object
+	 *  Format is array( 'tables' => ..., 'fields' => ..., 'where' => ..., 'options' => ..., 'join_conds' => ... )
 	 * @return ResultWrapper
 	 */
-	protected function select( $method ) {
+	protected function select( $method, $extraQuery = array() ) {
+
+		$tables = array_merge( $this->tables, isset( $extraQuery['tables'] ) ? (array)$extraQuery['tables'] : array() );
+		$fields = array_merge( $this->fields, isset( $extraQuery['fields'] ) ? (array)$extraQuery['fields'] : array() );
+		$where = array_merge( $this->where, isset( $extraQuery['where'] ) ? (array)$extraQuery['where'] : array() );
+		$options = array_merge( $this->options, isset( $extraQuery['options'] ) ? (array)$extraQuery['options'] : array() );
+		$join_conds = array_merge( $this->join_conds, isset( $extraQuery['join_conds'] ) ? (array)$extraQuery['join_conds'] : array() );
+
 		// getDB has its own profileDBIn/Out calls
 		$db = $this->getDB();
 
 		$this->profileDBIn();
-		$res = $db->select( $this->tables, $this->fields, $this->where, $method, $this->options, $this->join_conds );
+		$res = $db->select( $tables, $fields, $where, $method, $options, $join_conds );
 		$this->profileDBOut();
 
 		return $res;
@@ -441,6 +450,21 @@ abstract class ApiQueryBase extends ApiBase {
 	}
 
 	/**
+	 * Gets the personalised direction parameter description
+	 *
+	 * @param string $p ModulePrefix
+	 * @param string $extraDirText Any extra text to be appended on the description
+	 * @return array
+	 */
+	public function getDirectionDescription( $p = '', $extraDirText = '' ) {
+		return array(
+				"In which direction to enumerate{$extraDirText}",
+				" newer          - List oldest first. Note: {$p}start has to be before {$p}end.",
+				" older          - List newest first (default). Note: {$p}start has to be later than {$p}end.",
+			);
+	}
+
+	/**
 	 * @param $query String
 	 * @param $protocol String
 	 * @return null|string
@@ -464,6 +488,36 @@ abstract class ApiQueryBase extends ApiBase {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Filters hidden users (where the user doesn't have the right to view them)
+	 * Also adds relevant block information
+	 *
+	 * @param bool $showBlockInfo
+	 * @return void
+	 */
+	public function showHiddenUsersAddBlockInfo( $showBlockInfo ) {
+		global $wgUser;
+		$userCanViewHiddenUsers = $wgUser->isAllowed( 'hideuser' );
+
+		if ( $showBlockInfo || !$userCanViewHiddenUsers ) {
+			$this->addTables( 'ipblocks' );
+			$this->addJoinConds( array(
+				'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
+			) );
+
+			$this->addFields( 'ipb_deleted' );
+
+			if ( $showBlockInfo ) {
+				$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
+			}
+
+			// Don't show hidden names
+			if ( !$userCanViewHiddenUsers ) {
+				$this->addWhere( 'ipb_deleted = 0 OR ipb_deleted IS NULL' );
+			}
+		}
 	}
 
 	public function getPossibleErrors() {

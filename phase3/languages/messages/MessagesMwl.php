@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Alchimista
  * @author Cecílio
  * @author MCruz
  * @author Malafaya
@@ -435,8 +436,6 @@ de modo a cunfirmar que la cuonta ye mesmo la tue.',
 'extlink_tip'     => 'Lhigaçon sterna (lembra-te de l perfixo http://)',
 'headline_sample' => 'Testo de cabeçailho',
 'headline_tip'    => 'Cacho de nible 2',
-'math_sample'     => 'Poner fórmula eiqui',
-'math_tip'        => 'Fórmula matemática (LaTeX)',
 'nowiki_sample'   => 'Poner testo nun-formatado eiqui',
 'nowiki_tip'      => 'Nun fazer causo de la formataçon biqui',
 'image_tip'       => 'Fexeiro ambutido',
@@ -543,12 +542,13 @@ Legenda: (atu) = defrénças de la berson atual,
 'revertmerge' => 'Çfazer ounion',
 
 # Diffs
-'history-title'           => 'Stórico de eidiçones de "$1"',
-'difference'              => '(Defréncias antre rebisones)',
-'lineno'                  => 'Lhinha $1:',
-'compareselectedversions' => 'Cumparar las bersones marcadas',
-'editundo'                => 'çfazer',
-'diff-multi'              => '({{PLURAL:$1|ua eidiçon antermédia nun stá a ser amostrada|$1 eidiçones antermédias nun stan a ser amostradas}}.)',
+'history-title'            => 'Stórico de eidiçones de "$1"',
+'difference'               => '(Defréncias antre rebisones)',
+'lineno'                   => 'Lhinha $1:',
+'compareselectedversions'  => 'Cumparar las bersones marcadas',
+'showhideselectedversions' => 'Amostrar/ocultar bersones selecionadas',
+'editundo'                 => 'çfazer',
+'diff-multi'               => '({{PLURAL:$1|ua eidiçon antermédia nun stá a ser amostrada|$1 eidiçones antermédias nun stan a ser amostradas}}.)',
 
 # Search results
 'searchresults'             => 'Resultados de la percura',
@@ -587,7 +587,6 @@ Legenda: (atu) = defrénças de la berson atual,
 'mypreferences'             => 'Las mies perfréncias',
 'prefs-skin'                => 'Maçcarilha',
 'skin-preview'              => 'Amostrar',
-'prefs-math'                => 'Matemática',
 'prefs-datetime'            => 'Data i hora',
 'prefs-personal'            => 'Calantriç',
 'prefs-rc'                  => 'Redadeiras alteraçones',
@@ -1118,11 +1117,10 @@ Premite ajuntar la rezon de la eidiçon ne l sumário.',
 'nextdiff'     => 'Redadeira eidiçon →',
 
 # Media information
-'file-info-size'       => '$1 × $2 pixel, tamanho: $3, tipo MIME: $4',
-'file-nohires'         => '<small>Sin resoluçon maior çponible.</small>',
-'svg-long-desc'        => 'fexeiro SVG, de $1 × $2 pixeles, tamanho: $3',
-'show-big-image'       => 'Resoluçon cumpleta',
-'show-big-image-thumb' => '<small>Tamanho desta prebison: $1 × $2 pixeles</small>',
+'file-info-size' => '$1 × $2 pixel, tamanho: $3, tipo MIME: $4',
+'file-nohires'   => '<small>Sin resoluçon maior çponible.</small>',
+'svg-long-desc'  => 'fexeiro SVG, de $1 × $2 pixeles, tamanho: $3',
+'show-big-image' => 'Resoluçon cumpleta',
 
 # Special:NewFiles
 'newimages' => 'Galerie de nuobos fexeiros',

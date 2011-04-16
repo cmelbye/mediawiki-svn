@@ -150,7 +150,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'BeskermdeTitels' ),
 	'Allpages'                  => array( 'Alle_bladsye', 'Allebladsye' ),
 	'Prefixindex'               => array( 'VoorvoegselIndeks' ),
-	'Ipblocklist'               => array( 'IPBlokLys' ),
+	'BlockList'                 => array( 'IPBlokLys' ),
 	'Unblock'                   => array( 'Deblokkeer' ),
 	'Specialpages'              => array( 'Spesiale_bladsye', 'Spesialebladsye' ),
 	'Contributions'             => array( 'Bydraes', 'Gebruikersbydraes' ),
@@ -166,7 +166,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Weergawe' ),
 	'Allmessages'               => array( 'Stelselboodskappe', 'Alle_stelselboodskappe', 'Allestelselboodskappe', 'Boodskappe' ),
 	'Log'                       => array( 'Logboek', 'Logboeke' ),
-	'Blockip'                   => array( 'BlokIP' ),
+	'Block'                     => array( 'BlokIP' ),
 	'Undelete'                  => array( 'Ontskrap' ),
 	'Import'                    => array( 'Importeer' ),
 	'Lockdb'                    => array( 'SluitDB' ),
@@ -691,6 +691,7 @@ Indien hierdie rekening foutief geskep is, kan u hierdie boodskap ignoreer.',
 'usernamehasherror'          => "'n Gebruikersnaam mag nie 'n hekkie-karakter (#) in hê nie",
 'login-throttled'            => "U het al te veel kere met 'n ongeldige wagwoord probeer aanteken.
 Wag asseblief alvorens u weer probeer.",
+'login-abort-generic'        => 'U is nie aangemeld nie. Die prosedure is gestaak.',
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => "U versoek om af te teken is geïgnoreer omdat dit lyk asof dit deur 'n gebreekte webleser of instaanbediener gestuur is.",
 
@@ -735,8 +736,6 @@ U het moontlik reeds u wagwoord gewysig of 'n nuwe tydelike wagwoord aangevra.",
 'extlink_tip'     => 'Eksterne skakel (onthou http:// vooraan)',
 'headline_sample' => 'Opskrif',
 'headline_tip'    => 'Vlak 2-opskrif',
-'math_sample'     => 'Plaas formule hier',
-'math_tip'        => 'Wiskundige formule (LaTeX)',
 'nowiki_sample'   => 'Plaas ongeformatteerde teks hier',
 'nowiki_tip'      => 'Ignoreer wiki-formattering',
 'image_sample'    => 'Voorbeeld.jpg',
@@ -977,7 +976,7 @@ Dit was moontlik geskrap of geskuif.
 [[Special:Search|Deursoek die wiki]] vir relevante bladsye.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(opsomming geskrap)',
+'rev-deleted-comment'         => '(opmerking verwyder)',
 'rev-deleted-user'            => '(gebruikersnaam geskrap)',
 'rev-deleted-event'           => '(stawingsaksie verwyder)',
 'rev-deleted-user-contribs'   => '[gebruikersnaam of IP-adres is verwyder - wysiging versteek in bydraes]',
@@ -1231,7 +1230,6 @@ U kan ook 'n naamruimte as voorvoegsel gebruik.",
 'changepassword'                => 'Verander wagwoord',
 'prefs-skin'                    => 'Omslag',
 'skin-preview'                  => 'Voorskou',
-'prefs-math'                    => 'Wiskunde',
 'datedefault'                   => 'Geen voorkeur',
 'prefs-datetime'                => 'Datum en tyd',
 'prefs-personal'                => 'Gebruikersdata',
@@ -1686,6 +1684,9 @@ As daar steeds probleme is, kontak 'n [[Special:ListUsers/sysop|administrateur]]
 'upload-too-many-redirects' => 'Die URL bevat te veel aansture',
 'upload-unknown-size'       => 'Onbekende grootte',
 'upload-http-error'         => "'n HTTP-fout het voorgekom: $1",
+
+# ZipDirectoryReader
+'zip-wrong-format' => "Die gespesifiseerde lêer was nie 'n zip-lêer nie.",
 
 # Special:UploadStash
 'uploadstash'          => 'Verborge oplaaie',
@@ -2337,9 +2338,10 @@ $1',
 'undelete-show-file-submit'    => 'Ja',
 
 # Namespace form on various pages
-'namespace'      => 'Naamruimte:',
-'invert'         => 'Omgekeerde seleksie',
-'blanknamespace' => '(Hoof)',
+'namespace'             => 'Naamruimte:',
+'invert'                => 'Omgekeerde seleksie',
+'namespace_association' => 'Gekoppelde naamruimte',
+'blanknamespace'        => '(Hoof)',
 
 # Contributions
 'contributions'       => 'Gebruikersbydraes',
@@ -2388,13 +2390,15 @@ Die laaste inskrywing uit die blokkeerlogboek word hier ter inligting weergegee:
 'whatlinkshere-filters'    => 'Filters',
 
 # Block/unblock
+'autoblockid'                     => 'Outomatiese blokkade #$1',
+'block'                           => 'Blok gebruiker',
+'unblock'                         => 'Deblokkeer gebruiker',
 'blockip'                         => 'Blokkeer gebruiker',
 'blockip-title'                   => 'Blokkeer gebruiker',
 'blockip-legend'                  => 'Blokkeer gebruiker of IP-adres',
 'blockiptext'                     => "Gebruik die vorm hier onder om skryftoegang van 'n sekere IP-adres te blok.
 Dit moet net gedoen word om vandalisme te voorkom en in ooreenstemming met [[{{MediaWiki:Policy-url}}|{{SITENAME}}-beleid]].
 Vul 'n spesifieke rede hier onder in (haal byvoorbeeld spesifieke bladsye wat gevandaliseer is, aan).",
-'ipaddress'                       => 'IP-adres:',
 'ipadressorusername'              => 'IP-adres of gebruikersnaam:',
 'ipbexpiry'                       => 'Duur:',
 'ipbreason'                       => 'Rede:',
@@ -2407,7 +2411,6 @@ Vul 'n spesifieke rede hier onder in (haal byvoorbeeld spesifieke bladsye wat ge
 ** Intimiderende gedrag (teistering)
 ** Misbruik van veelvuldige rekeninge
 ** Onaanvaarbare gebruikersnaam',
-'ipbanononly'                     => 'Blokkeer slegs anonieme gebruikers',
 'ipbcreateaccount'                => 'Blokkeer registrasie van gebruikers',
 'ipbemailban'                     => 'Verbied gebruiker om e-pos te stuur',
 'ipbenableautoblock'              => 'Outomaties die IP-adresse van die gebruiker blokkeer',
@@ -2418,12 +2421,13 @@ Vul 'n spesifieke rede hier onder in (haal byvoorbeeld spesifieke bladsye wat ge
 'ipbotherreason'                  => 'Ander/ekstra rede:',
 'ipbhidename'                     => 'Verberg gebruiker van wysigings en lyste',
 'ipbwatchuser'                    => 'Hou die gebruiker se bladsy en besprekingsbladsy dop.',
-'ipballowusertalk'                => 'Laat gebruiker toe om sy eie besprekingsblad tydens die blokkade te wysig',
 'ipb-change-block'                => 'Herblokkeer die gebruiker met hierdie instellings',
+'ipb-confirm'                     => 'Bevestig blokkade',
 'badipaddress'                    => 'Die IP-adres is nie in die regte formaat nie.',
 'blockipsuccesssub'               => 'Blokkering het geslaag',
 'blockipsuccesstext'              => "[[Special:Contributions/$1|$1]] is geblokkeer.<br />
 Sien die [[Special:IPBlockList|IP-bloklys]] vir 'n oorsig van blokkerings.",
+'ipb-blockingself'                => 'U is besig om uself te blokkeer! Is u seker u wil dit doen?',
 'ipb-edit-dropdown'               => 'Werk lys van redes by',
 'ipb-unblock-addr'                => 'Deblokkeer $1',
 'ipb-unblock'                     => "Deblokkeer 'n gebruiker of IP-adres",
@@ -2433,17 +2437,20 @@ Sien die [[Special:IPBlockList|IP-bloklys]] vir 'n oorsig van blokkerings.",
 'unblockiptext'                   => "Gebruik die vorm hier onder om skryftoegang te herstel vir 'n voorheen geblokkeerde IP-adres.",
 'ipusubmit'                       => 'Hef blokkade op',
 'unblocked'                       => 'Blokkade van [[User:$1|$1]] is opgehef',
+'unblocked-range'                 => '$1 is gedeblokkeer',
 'unblocked-id'                    => 'Blokkade $1 is opgehef',
+'blocklist'                       => 'Geblokkeerde gebruikers',
 'ipblocklist'                     => 'Geblokkeerde IP-adresse en gebruikers',
 'ipblocklist-legend'              => "Soek 'n geblokkeerde gebruiker",
-'ipblocklist-username'            => 'Gebruikersnaam of IP adres:',
-'ipblocklist-sh-userblocks'       => 'gebruikersblokkades $1',
-'ipblocklist-sh-tempblocks'       => 'tydelike blokkades $1',
-'ipblocklist-sh-addressblocks'    => 'enkel IP-blokkades $1',
+'blocklist-timestamp'             => 'Tydstip',
+'blocklist-target'                => 'Doel',
+'blocklist-expiry'                => 'Verval',
+'blocklist-by'                    => 'Geblokkeer deur',
+'blocklist-params'                => 'Blokkadeparameters',
+'blocklist-reason'                => 'Rede',
 'ipblocklist-submit'              => 'Soek',
 'ipblocklist-localblock'          => 'Lokale blokkade',
 'ipblocklist-otherblocks'         => 'Ander {{PLURAL:$1|blokkade|blokkades}}',
-'blocklistline'                   => '$1, $2 het $3 geblok ($4)',
 'infiniteblock'                   => 'vir altyd',
 'expiringblock'                   => 'verval op $1 om $2',
 'anononlyblock'                   => 'anoniem-alleen',
@@ -2480,10 +2487,10 @@ Sien die [[Special:IPBlockList|IP-bloklys]] vir geblokkeerde adresse.",
 'ipb_expiry_temp'                 => 'Blokkades vir versteekte gebruikers moet permanent wees.',
 'ipb_hide_invalid'                => 'Dit is nie moontlik om hierdie gebruiker te verberg nie; miskien het hy al te veel wysigings gemaak.',
 'ipb_already_blocked'             => '"$1" is reeds geblok',
-'ipb-needreblock'                 => '== Hierdie gebruiker is reeds geblokkeer ==
-$1 is al geblokkeer.
+'ipb-needreblock'                 => '$1 is al geblokkeer.
 Wil u die instellings wysig?',
 'ipb-otherblocks-header'          => 'Ander {{PLURAL:$1|blokkade|blokkades}}',
+'unblock-hideuser'                => 'U kan nie die gebruiker deblokkeer nie, omdat die gebruikersnaam versteek is.',
 'ipb_cant_unblock'                => 'Fout: Blokkade-ID $1 kan nie gevind word nie.
 Die blokkade is moontlik reeds opgehef.',
 'ipb_blocked_as_range'            => "Fout: die IP-adres $1 is nie direk geblokkeer nie en die blokkade kan nie opgehef word nie.
@@ -2680,7 +2687,8 @@ Alle transwiki-laaie word opgeteken in die [[Special:Log/import|invoer-logboek]]
 'import-interwiki-namespace' => 'Doelnaamruimte:',
 'import-upload-filename'     => 'Lêernaam:',
 'import-comment'             => 'Opmerking:',
-'importtext'                 => 'Gebruik asseblief die [[Special:Export|eksport-funksie]] van die wiki waar die inligting vandaan kom, stoor die afvoer op u rekenaar, en laai dan hier op.',
+'importtext'                 => 'Gebruik die [[Special:Export|eksport-funksie]] van die wiki waar die inligting vandaan kom.
+Stoor die afvoer op u eie rekenaar, en laai dit hier op.',
 'importstart'                => 'Importeer bladsye...',
 'import-revision-count'      => '$1 {{PLURAL:$1|weergawe|weergawes}}',
 'importnopages'              => 'Geen bladsye om te importeer nie.',
@@ -2826,27 +2834,6 @@ Hierdie situasie was waarskynlik deur 'n skakel na 'n eksterne webtuiste op ons 
 'skinname-nostalgia'   => 'Nostalgie',
 'skinname-cologneblue' => 'Keulen blou',
 
-# Math options
-'mw_math_png'    => 'Gebruik altyd PNG.',
-'mw_math_simple' => 'Gebruik HTML indien dit eenvoudig is, andersins PNG.',
-'mw_math_html'   => 'Gebruik HTML wanneer moontlik, andersins PNG.',
-'mw_math_source' => 'Los as TeX (vir teksblaaiers).',
-'mw_math_modern' => 'Moderne blaaiers.',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Kon nie verbeeld nie',
-'math_unknown_error'    => 'onbekende fout',
-'math_unknown_function' => 'onbekende funksie',
-'math_lexing_error'     => 'leksikale fout',
-'math_syntax_error'     => 'sintaksfout',
-'math_image_error'      => 'PNG-omskakeling het gefaal.
-Kontroleer of LaTeX en dvipng (of dvips + gs + convert) korrek geïnstalleer is.',
-'math_bad_tmpdir'       => 'Die gids vir tydelike lêers vir wiskundige formules bestaan nie of kan nie geskep word nie',
-'math_bad_output'       => 'Die gids vir lêers met wiskundige formules bestaan nie of kan nie geskep word nie',
-'math_notexvc'          => 'Kan nie die texvc program vind nie;
-stel asseblief op volgens die beskrywing in math/README.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Merk as gekontroleerd',
 'markaspatrolledtext'                 => 'Merk hierdie bladsy as gekontroleerd',
@@ -2882,21 +2869,23 @@ $1',
 'nextdiff'     => 'Nuwer wysiging →',
 
 # Media information
-'mediawarning'         => "'''Waarskuwing''': hierdie lêertipe bevat moontlik programkode wat u stelsel skade kan berokken.",
-'imagemaxsize'         => "Beperk beeldgrootte tot:<br />''(vir lêerbeskrywingsbladsye)''",
-'thumbsize'            => 'Grootte van duimnaelskets:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|bladsy|bladsye}}',
-'file-info'            => 'lêergrootte: $1, MIME-tipe: $2',
-'file-info-size'       => '$1 × $2 pixels, lêergrootte: $3, MIME type: $4',
-'file-nohires'         => '<small>Geen hoër resolusie is beskikbaar nie.</small>',
-'svg-long-desc'        => 'SVG-lêer, nominaal $1 × $2 pixels, lêergrootte: $3',
-'show-big-image'       => 'Volle resolusie',
-'show-big-image-thumb' => '<small>Grootte van hierdie voorskou: $1 × $2 pixels</small>',
-'file-info-gif-looped' => 'herhalend',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|raam|rame}}',
-'file-info-png-looped' => 'herhalend',
-'file-info-png-repeat' => '$1 {{PLURAL:$1|keer|kere}} gespeel',
-'file-info-png-frames' => '$1 {{PLURAL:$1|raam|rame}}',
+'mediawarning'           => "'''Waarskuwing''': hierdie lêertipe bevat moontlik programkode wat u stelsel skade kan berokken.",
+'imagemaxsize'           => "Beperk beeldgrootte tot:<br />''(vir lêerbeskrywingsbladsye)''",
+'thumbsize'              => 'Grootte van duimnaelskets:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|bladsy|bladsye}}',
+'file-info'              => 'lêergrootte: $1, MIME-tipe: $2',
+'file-info-size'         => '$1 × $2 pixels, lêergrootte: $3, MIME type: $4',
+'file-nohires'           => '<small>Geen hoër resolusie is beskikbaar nie.</small>',
+'svg-long-desc'          => 'SVG-lêer, nominaal $1 × $2 pixels, lêergrootte: $3',
+'show-big-image'         => 'Volle resolusie',
+'show-big-image-preview' => '<small>Grootte van hierdie voorskou: $1.</small>',
+'show-big-image-other'   => '<small>Ander resolusies: $1.</small>',
+'show-big-image-size'    => '$1 × $2 piksels',
+'file-info-gif-looped'   => 'herhalend',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|raam|rame}}',
+'file-info-png-looped'   => 'herhalend',
+'file-info-png-repeat'   => '$1 {{PLURAL:$1|keer|kere}} gespeel',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|raam|rame}}',
 
 # Special:NewFiles
 'newimages'             => 'Gallery van nuwe beelde',
@@ -3281,10 +3270,12 @@ $1',
 'trackbackdeleteok' => 'Die verwysende bladsy is suksesvol verwyder.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Let op''': die bladsy is verwyder terwyl u besig was om dit te wysig!",
-'confirmrecreate'     => "Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreek]]) het hierdie blad uitgevee ná u begin redigeer het met rede: : ''$2''
+'deletedwhileediting'      => "'''Let op''': die bladsy is verwyder terwyl u besig was om dit te wysig!",
+'confirmrecreate'          => "Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreek]]) het hierdie blad uitgevee ná u begin redigeer het met rede: : ''$2''
 Bevestig asseblief dat u regtig hierdie blad oor wil skep.",
-'recreate'            => 'Herskep',
+'confirmrecreate-noreason' => 'Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreking]]) het die bladsy geskrap nadat u dit begin wysig het.
+Bevestig dat u die bladsy wil herskep.',
+'recreate'                 => 'Herskep',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3340,7 +3331,7 @@ Probeer normale voorskou.',
 'watchlistedit-normal-legend'  => 'Verwyder titels van dophoulys',
 'watchlistedit-normal-explain' => 'Die bladsye in u dophoulys word hier onder vertoon.
 Selekteer die titels wat verwyder moet word en kliek op {{int:Watchlistedit-normal-submit}}" onder aan die bladsy.
-Alternatiewelik kan u die [[Special:Watchlist/raw|bronkode wysig]].',
+Alternatiewelik kan u die [[Special:EditWatchlist/raw|bronkode wysig]].',
 'watchlistedit-normal-submit'  => 'Verwyder Titels',
 'watchlistedit-normal-done'    => 'Daar is {{PLURAL:$1|1 bladsy|$1 bladsye}} van u dophoulys verwyder:',
 'watchlistedit-raw-title'      => 'Wysig u dophoulys se bronkode',
@@ -3348,7 +3339,7 @@ Alternatiewelik kan u die [[Special:Watchlist/raw|bronkode wysig]].',
 'watchlistedit-raw-explain'    => 'Die bladsye in u dophoulys word hier onder vertoon.
 U kan die lys wysig deur titels by te sit of te verwyder (een bladsy per lyn).
 As u klaar is, klik op "{{int:Watchlistedit-raw-submit}}" onder aan die bladsy.
-U kan ook die [[Special:Watchlist/edit|standaard opdaterigskerm gebruik]].',
+U kan ook die [[Special:EditWatchlist|standaard opdaterigskerm gebruik]].',
 'watchlistedit-raw-titles'     => 'Titels:',
 'watchlistedit-raw-submit'     => 'Opdateer dophoulys',
 'watchlistedit-raw-done'       => 'U dophoulys is opgedateer.',
@@ -3418,7 +3409,8 @@ Sleutel die lêernaam in sonder die "{{ns:file}}:" voorvoegsel.',
 'specialpages'                   => 'Spesiale bladsye',
 'specialpages-note'              => '----
 * Normale spesiale bladsye.
-* <strong class="mw-specialpagerestricted">Beperkte spesiale bladsye.</strong>',
+* <strong class="mw-specialpagerestricted">Spesiale bladsye met beperkte toegang.</strong>
+* <strong class="mw-specialpagerestricted">Spesiale bladsye met slegs gegewens uit die kas.</strong>',
 'specialpages-group-maintenance' => 'Onderhoud verslae',
 'specialpages-group-other'       => 'Ander spesiale bladsye',
 'specialpages-group-login'       => 'Inteken / aansluit',

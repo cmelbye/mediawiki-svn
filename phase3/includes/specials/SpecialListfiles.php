@@ -20,16 +20,30 @@
  * @file
  * @ingroup SpecialPage
  */
- 
-function wfSpecialListfiles( $par = null ) {
-	global $wgOut;
 
-	$pager = new ImageListPager( $par );
+class SpecialListFiles extends IncludableSpecialPage {
 
-	$limit = $pager->getForm();
-	$body = $pager->getBody();
-	$nav = $pager->getNavigationBar();
-	$wgOut->addHTML( "$limit<br />\n$body<br />\n$nav" );
+	public function __construct(){
+		parent::__construct( 'Listfiles' );
+	}
+
+	public function execute( $par ){
+		global $wgOut;
+		$this->setHeaders();
+		$this->outputHeader();
+
+		$pager = new ImageListPager( $par, $this->including() );
+
+		if ( $this->including() ) {
+			$html = $pager->getBody();
+		} else {
+			$limit = $pager->getForm();
+			$body = $pager->getBody();
+			$nav = $pager->getNavigationBar();
+			$html = "$limit<br />\n$body<br />\n$nav";
+		}
+		$wgOut->addHTML( $html );
+	}
 }
 
 /**
@@ -39,32 +53,41 @@ class ImageListPager extends TablePager {
 	var $mFieldNames = null;
 	var $mQueryConds = array();
 	var $mUserName = null;
-	
-	function __construct( $par = null ) {
+	var $mIncluding = false;
+
+	function __construct( $par = null, $including = false ) {
 		global $wgRequest, $wgMiserMode;
-		if ( $wgRequest->getText( 'sort', 'img_date' ) == 'img_date' ) {
-			$this->mDefaultDirection = true;
-		} else {
-			$this->mDefaultDirection = false;
-		}
+
+		$this->mIncluding = $including;
+
 		
-		$userName = $wgRequest->getText( 'user', $par );
+		$userName = $including ? $par : $wgRequest->getText( 'user', $par );
 		if ( $userName ) {
 			$nt = Title::newFromText( $userName, NS_USER );
 			if ( !is_null( $nt ) ) {
 				$this->mUserName = $nt->getText();
 				$this->mQueryConds['img_user_text'] = $this->mUserName;
 			}
-		} 
-		
-		$search = $wgRequest->getText( 'ilsearch' );
-		if ( $search != '' && !$wgMiserMode ) {
-			$nt = Title::newFromURL( $search );
-			if ( $nt ) {
-				$dbr = wfGetDB( DB_SLAVE );
-				$this->mQueryConds[] = 'LOWER(img_name)' . $dbr->buildLike( $dbr->anyString(), 
-					strtolower( $nt->getDBkey() ), $dbr->anyString() );
+		}
+
+		if ( !$including ) {
+			if ( $wgRequest->getText( 'sort', 'img_date' ) == 'img_date' ) {
+				$this->mDefaultDirection = true;
+			} else {
+				$this->mDefaultDirection = false;
 			}
+
+			$search = $wgRequest->getText( 'ilsearch' );
+			if ( $search != '' && !$wgMiserMode ) {
+				$nt = Title::newFromURL( $search );
+				if ( $nt ) {
+					$dbr = wfGetDB( DB_SLAVE );
+					$this->mQueryConds[] = 'LOWER(img_name)' . $dbr->buildLike( $dbr->anyString(),
+						strtolower( $nt->getDBkey() ), $dbr->anyString() );
+				}
+			}
+		} else {
+			$this->mDefaultDirection = true;
 		}
 
 		parent::__construct();
@@ -77,11 +100,11 @@ class ImageListPager extends TablePager {
 		if ( !$this->mFieldNames ) {
 			global $wgMiserMode;
 			$this->mFieldNames = array(
-				'thumb' => wfMsg( 'listfiles_thumb' ),
 				'img_timestamp' => wfMsg( 'listfiles_date' ),
 				'img_name' => wfMsg( 'listfiles_name' ),
-				'img_user_text' => wfMsg( 'listfiles_user' ),
+				'thumb' => wfMsg( 'listfiles_thumb' ),
 				'img_size' => wfMsg( 'listfiles_size' ),
+				'img_user_text' => wfMsg( 'listfiles_user' ),
 				'img_description' => wfMsg( 'listfiles_description' ),
 			);
 			if( !$wgMiserMode ) {
@@ -92,6 +115,9 @@ class ImageListPager extends TablePager {
 	}
 
 	function isFieldSortable( $field ) {
+		if ( $this->mIncluding ) {
+			return false;
+		}
 		static $sortable = array( 'img_timestamp', 'img_name' );
 		if ( $field == 'img_size' ) {
 			# No index for both img_size and img_user_text
@@ -232,14 +258,24 @@ class ImageListPager extends TablePager {
 	function getSortHeaderClass() {
 		return 'listfiles_sort ' . parent::getSortHeaderClass();
 	}
-	
+
 	function getPagingQueries() {
 		$queries = parent::getPagingQueries();
 		if ( !is_null( $this->mUserName ) ) {
 			# Append the username to the query string
 			foreach ( $queries as &$query ) {
-				$query['username'] = $this->mUserName;
+				$query['user'] = $this->mUserName;
 			}
+		}
+		return $queries;
+	}
+
+	function getDefaultQuery() {
+		$queries = parent::getDefaultQuery();
+		if ( !isset( $queries['user'] )
+			&& !is_null( $this->mUserName ) )
+		{
+			$queries['user'] = $this->mUserName;
 		}
 		return $queries;
 	}

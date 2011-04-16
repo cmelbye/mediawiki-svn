@@ -30,14 +30,15 @@
  * @ingroup SpecialPage
  */
 class SpecialImport extends SpecialPage {
-	
+
 	private $interwiki = false;
 	private $namespace;
 	private $frompage = '';
 	private $logcomment= false;
 	private $history = true;
 	private $includeTemplates = false;
-	
+	private $pageLinkDepth;
+
 	/**
 	 * Constructor
 	 */
@@ -46,28 +47,50 @@ class SpecialImport extends SpecialPage {
 		global $wgImportTargetNamespace;
 		$this->namespace = $wgImportTargetNamespace;
 	}
-	
+
 	/**
 	 * Execute
 	 */
 	function execute( $par ) {
-		global $wgRequest;
-		
+		global $wgRequest, $wgUser, $wgOut;
+
 		$this->setHeaders();
 		$this->outputHeader();
-		
+
 		if ( wfReadOnly() ) {
-			global $wgOut;
 			$wgOut->readOnlyPage();
 			return;
 		}
-		
+
+		if( !$wgUser->isAllowedAny( 'import', 'importupload' ) ) {
+			return $wgOut->permissionRequired( 'import' );
+		}
+
+		# TODO: allow Title::getUserPermissionsErrors() to take an array
+		# FIXME: Title::checkSpecialsAndNSPermissions() has a very wierd expectation of what
+		# getUserPermissionsErrors() might actually be used for, hence the 'ns-specialprotected'
+		$errors = wfMergeErrorArrays(
+			$this->getTitle()->getUserPermissionsErrors(
+				'import', $wgUser, true,
+				array( 'ns-specialprotected', 'badaccess-group0', 'badaccess-groups' )
+			),
+			$this->getTitle()->getUserPermissionsErrors(
+				'importupload', $wgUser, true,
+				array( 'ns-specialprotected', 'badaccess-group0', 'badaccess-groups' )
+			)
+		);
+
+		if( $errors ){
+			$wgOut->showPermissionsErrorPage( $errors );
+			return;
+		}
+
 		if ( $wgRequest->wasPosted() && $wgRequest->getVal( 'action' ) == 'submit' ) {
 			$this->doImport();
 		}
 		$this->showForm();
 	}
-	
+
 	/**
 	 * Do the actual import
 	 */
@@ -90,6 +113,9 @@ class SpecialImport extends SpecialPage {
 				return $wgOut->permissionRequired( 'importupload' );
 			}
 		} elseif ( $sourceName == "interwiki" ) {
+			if( !$wgUser->isAllowed( 'import' ) ){
+				return $wgOut->permissionRequired( 'import' );
+			}
 			$this->interwiki = $wgRequest->getVal( 'interwiki' );
 			if ( !in_array( $this->interwiki, $wgImportSources ) ) {
 				$source = Status::newFatal( "import-invalid-interwiki" );
@@ -144,8 +170,6 @@ class SpecialImport extends SpecialPage {
 
 	private function showForm() {
 		global $wgUser, $wgOut, $wgImportSources, $wgExportMaxLinkDepth;
-		if( !$wgUser->isAllowed( 'import' ) && !$wgUser->isAllowed( 'importupload' ) )
-			return $wgOut->permissionRequired( 'import' );
 
 		$action = $this->getTitle()->getLocalUrl( array( 'action' => 'submit' ) );
 
@@ -290,8 +314,8 @@ class ImportReporter {
 	private $mLogItemCount = 0;
 
 	function __construct( $importer, $upload, $interwiki , $reason=false ) {
-		$this->mOriginalPageOutCallback = 
-		        $importer->setPageOutCallback( array( $this, 'reportPage' ) );
+		$this->mOriginalPageOutCallback =
+				$importer->setPageOutCallback( array( $this, 'reportPage' ) );
 		$this->mOriginalLogCallback =
 			$importer->setLogItemCallback( array( $this, 'reportLogItem' ) );
 		$this->mPageCount = 0;
@@ -304,7 +328,7 @@ class ImportReporter {
 		global $wgOut;
 		$wgOut->addHTML( "<ul>\n" );
 	}
-	
+
 	function reportLogItem( /* ... */ ) {
 		$this->mLogItemCount++;
 		if ( is_callable( $this->mOriginalLogCallback ) ) {
@@ -312,9 +336,17 @@ class ImportReporter {
 		}
 	}
 
+	/**
+	 * @param Title $title
+	 * @param Title $origTitle
+	 * @param int $revisionCount
+	 * @param  $successCount
+	 * @param  $pageInfo
+	 * @return void
+	 */
 	function reportPage( $title, $origTitle, $revisionCount, $successCount, $pageInfo ) {
 		global $wgOut, $wgUser, $wgLang, $wgContLang;
-		
+
 		$args = func_get_args();
 		call_user_func_array( $this->mOriginalPageOutCallback, $args );
 
@@ -367,7 +399,7 @@ class ImportReporter {
 
 	function close() {
 		global $wgOut, $wgLang;
-		
+
 		if ( $this->mLogItemCount > 0 ) {
 			$msg = wfMsgExt( 'imported-log-entries', 'parseinline',
 						$wgLang->formatNum( $this->mLogItemCount ) );

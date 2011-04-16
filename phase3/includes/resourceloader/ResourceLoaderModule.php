@@ -106,12 +106,13 @@ abstract class ResourceLoaderModule {
 	}
 
 	/**
-	 * Get whether CSS for this module should be flipped
 	 * @param $context ResourceLoaderContext
 	 * @return bool
 	 */
 	public function getFlip( $context ) {
-		return $context->getDirection() === 'rtl';
+		global $wgContLang;
+
+		return $wgContLang->getDir() !== $context->getDirection();
 	}
 
 	/**
@@ -134,7 +135,7 @@ abstract class ResourceLoaderModule {
 	 */
 	public function getStyles( ResourceLoaderContext $context ) {
 		// Stub, override expected
-		return '';
+		return array();
 	}
 
 	/**
@@ -157,6 +158,15 @@ abstract class ResourceLoaderModule {
 	public function getGroup() {
 		// Stub, override expected
 		return null;
+	}
+	
+	/**
+	 * Where on the HTML page should this module's JS be loaded?
+	 * 'top': in the <head>
+	 * 'bottom': at the bottom of the <body>
+	 */
+	public function getPosition() {
+		return 'bottom';
 	}
 
 	/**

@@ -219,7 +219,6 @@ U to indirizzu IP serà registratu indu a cronolugia di ista pagina.",
 # Preferences page
 'preferences'       => 'Preferenze',
 'mypreferences'     => 'Preferenze',
-'prefs-math'        => 'Matematica',
 'prefs-rc'          => 'Ultimi cambiamenti',
 'prefs-watchlist'   => 'Articuli seguitati',
 'columns'           => 'Culonne:',
@@ -400,10 +399,8 @@ U to indirizzu IP serà registratu indu a cronolugia di ista pagina.",
 'istemplate' => 'inclusione',
 
 # Block/unblock
-'ipaddress'                => 'Adrizzu IP',
 'ipadressorusername'       => 'Adrizzu IP o nome di cuntributore',
 'ipblocklist-submit'       => 'Ricerca',
-'blocklistline'            => '$1, $2 bluccati $3 ($4)',
 'anononlyblock'            => 'solu i cuntributori anonimi',
 'blocklink'                => 'bluccà',
 'unblocklink'              => 'sbluccà',
@@ -464,9 +461,6 @@ U to indirizzu IP serà registratu indu a cronolugia di ista pagina.",
 # Attribution
 'anonymous' => 'Utilizatore(/i) anonimu(/i) di {{SITENAME}}',
 'others'    => 'altri',
-
-# Math errors
-'math_syntax_error' => 'errore di sintassa',
 
 # Media information
 'show-big-image' => 'Imagine in alta resoluzione',

@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author 82-145
  * @author Bekiroflaz
  * @author Bombola
  * @author Dbl2010
@@ -21,6 +22,7 @@
  * @author Mach
  * @author Manco Capac
  * @author Metal Militia
+ * @author Mirzali
  * @author Mskyrider
  * @author Myildirim2007
  * @author Runningfridgesrule
@@ -104,7 +106,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'KorunanBaşlıklar' ),
 	'Allpages'                  => array( 'TümSayfalar' ),
 	'Prefixindex'               => array( 'ÖnekDizini' ),
-	'Ipblocklist'               => array( 'IPEngelListesi' ),
+	'BlockList'                 => array( 'IPEngelListesi' ),
 	'Unblock'                   => array( 'EngeliKaldır' ),
 	'Specialpages'              => array( 'ÖzelSayfalar' ),
 	'Contributions'             => array( 'Katkılar' ),
@@ -120,7 +122,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Sürüm' ),
 	'Allmessages'               => array( 'TümMesajlar' ),
 	'Log'                       => array( 'Kayıt', 'Kayıtlar' ),
-	'Blockip'                   => array( 'IPEngelle' ),
+	'Block'                     => array( 'IPEngelle' ),
 	'Undelete'                  => array( 'Gerigetir' ),
 	'Import'                    => array( 'İçeAktar' ),
 	'Lockdb'                    => array( 'DBKilitle' ),
@@ -492,12 +494,12 @@ $messages = array(
 'print'             => 'Bastır',
 'view'              => 'Görüntüle',
 'edit'              => 'Düzenle',
-'create'            => 'oluştur',
-'editthispage'      => 'Sayfayı değiştir',
+'create'            => 'Oluştur',
+'editthispage'      => 'Bu sayfayı değiştir',
 'create-this-page'  => 'Bu sayfayı oluştur',
-'delete'            => 'sil',
-'deletethispage'    => 'Sayfayı sil',
-'undelete_short'    => '{{PLURAL:$1|değişikliği|$1 değişiklikleri}} geri getir',
+'delete'            => 'Sil',
+'deletethispage'    => 'Bu sayfayı sil',
+'undelete_short'    => '$1 değişikliği geri getir',
 'viewdeleted_short' => '{{PLURAL:$1|bir silinmiş değişiklik|$1 silinmiş değişiklikleri}} görüntüle.',
 'protect'           => 'Korumaya al',
 'protect_change'    => 'Değiştir',
@@ -570,7 +572,7 @@ $1',
 'ok'                      => 'TAMAM',
 'retrievedfrom'           => '"$1" adresinden alındı.',
 'youhavenewmessages'      => 'Yeni <u>$1</u> var. ($2)',
-'newmessageslink'         => 'yeni mesajlar',
+'newmessageslink'         => 'mesajınız',
 'newmessagesdifflink'     => 'son değişiklik',
 'youhavenewmessagesmulti' => "$1'de yeni mesajınız var.",
 'editsection'             => 'düzenle',
@@ -826,8 +828,6 @@ Girişi bitirmek için, burada yeni bir parola yazın:',
 'extlink_tip'     => 'Dış bağlantı (Adresin önüne http:// koymayı unutmayın)',
 'headline_sample' => 'Başlık yazısı',
 'headline_tip'    => '2. seviye başlık',
-'math_sample'     => 'Matematiksel-ifadeyi-girin',
-'math_tip'        => 'Matematik formülü (LaTeX formatında)',
 'nowiki_sample'   => 'Serbest format yazınızı buraya yazınız',
 'nowiki_tip'      => 'wiki formatlamasını devre dışı bırak',
 'image_sample'    => 'Örnek.jpg',
@@ -1312,22 +1312,21 @@ Aramanızın başına '''all:''' önekini ekleyerek tüm içeriği aramayı (tar
 'prefs-edits'                   => 'Değişiklik sayısı:',
 'prefsnologin'                  => 'Oturum açık değil',
 'prefsnologintext'              => 'Kullanıcı tercihlerinizi ayarlamak için <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} giriş yapmalısınız]</span>.',
-'changepassword'                => 'Şifreyi değiştir',
+'changepassword'                => 'Parolayı değiştir',
 'prefs-skin'                    => 'Görünüm',
 'skin-preview'                  => 'Önizleme',
-'prefs-math'                    => 'Matematiksel simgeler',
 'datedefault'                   => 'Tercih yok',
 'prefs-datetime'                => 'Tarih ve saat',
 'prefs-personal'                => 'Kullanıcı bilgileri',
 'prefs-rc'                      => 'Son değişiklikler',
 'prefs-watchlist'               => 'İzleme listesi',
 'prefs-watchlist-days'          => 'İzleme listesinde görüntülenecek gün sayısı:',
-'prefs-watchlist-days-max'      => '(en fazla 7 gün)',
+'prefs-watchlist-days-max'      => 'En fazla 7 gün',
 'prefs-watchlist-edits'         => 'Genişletilmiş izleme listesinde gösterilecek değişiklik sayısı:',
-'prefs-watchlist-edits-max'     => '(en fazla sayı: 1000)',
+'prefs-watchlist-edits-max'     => 'En fazla sayı: 1000',
 'prefs-watchlist-token'         => 'İzleme listesi nişanı:',
 'prefs-misc'                    => 'Diğer ayarlar',
-'prefs-resetpass'               => 'Şifreyi değiştir',
+'prefs-resetpass'               => 'Parolayı değiştir',
 'prefs-email'                   => 'E-posta seçenekleri',
 'prefs-rendering'               => 'Görünüm',
 'saveprefs'                     => 'Kaydet',
@@ -2093,7 +2092,7 @@ Ayrıca [[Special:WantedCategories|İstenen kategoriler]]'e bakınız.",
 # Special:LinkSearch
 'linksearch'       => 'Dış bağlantılar',
 'linksearch-pat'   => 'Motif ara:',
-'linksearch-ns'    => 'İsim alanı:',
+'linksearch-ns'    => 'Ad alanı:',
 'linksearch-ok'    => 'Ara',
 'linksearch-text'  => '"*.wikipedia.org" gibi jokerler kullanılabilir.<br />
 Desteklenen iletişim kuralları: <tt>$1</tt>',
@@ -2225,7 +2224,7 @@ Sayfayı izleme listenizden çıkarmak istediğinizde "sayfayı izlemeyi durdur"
 'enotif_anon_editor'           => 'anonim kullanıcı $1',
 'enotif_body'                  => 'Sayın $WATCHINGUSERNAME,
 
-{{SITENAME}} sitesindeki $PAGETITLE başlıklı sayfa $PAGEEDITDATE tarihinde $PAGEEDITOR tarafından $CHANGEDORCREATED. Sayfanın son haline $PAGETITLE_URL adresinden ulaşabilirsiniz.
+{{SITENAME}} bünyesindeki $PAGETITLE başlıklı sayfa $PAGEEDITDATE tarihinde $PAGEEDITOR tarafından $CHANGEDORCREATED. Sayfanın son haline $PAGETITLE_URL adresinden ulaşabilirsiniz.
 
 $NEWPAGE
 
@@ -2421,9 +2420,9 @@ $1',
 'undelete-show-file-submit'    => 'Evet',
 
 # Namespace form on various pages
-'namespace'             => 'İsim alanı:',
+'namespace'             => 'Ad alanı:',
 'invert'                => 'Seçili haricindekileri göster',
-'namespace_association' => 'İlişkili isim alanı',
+'namespace_association' => 'İlişkili ad alanı',
 'blanknamespace'        => '(Ana)',
 
 # Contributions
@@ -2473,11 +2472,12 @@ Son engelleme günlüğü girdisi kaynak amacıyla aşağıda verilmiştir:',
 'whatlinkshere-filters'    => 'Süzgeçler',
 
 # Block/unblock
+'block'                           => 'Kullanıcıyı engelle',
+'unblock'                         => 'Kullanıcının engelini kaldır',
 'blockip'                         => 'Kullanıcıyı engelle',
 'blockip-title'                   => 'Kullanıcıyı engelle',
 'blockip-legend'                  => 'Kullanıcıyı engelle',
 'blockiptext'                     => "Aşağıdaki formu kullanarak belli bir IP'nin veya kayıtlı kullanıcının değişiklik yapmasını engelleyebilirsiniz. Bu sadece vandalizmi engellemek için ve [[{{MediaWiki:Policy-url}}|kurallara]] uygun olarak yapılmalı. Aşağıya mutlaka engelleme ile ilgili bir açıklama yazınız. (örnek: -Şu- sayfalarda vandalizm yapmıştır).",
-'ipaddress'                       => 'IP Adresi',
 'ipadressorusername'              => 'IP adresi veya kullanıcı adı',
 'ipbexpiry'                       => 'Bitiş süresi',
 'ipbreason'                       => 'Neden:',
@@ -2490,10 +2490,10 @@ Son engelleme günlüğü girdisi kaynak amacıyla aşağıda verilmiştir:',
 ** Tehditvari davranış/Taciz
 ** Birden fazla hesabı kötüye kullanmak
 ** Kabul edilemez kullanıcı adı',
-'ipbanononly'                     => 'Sadece anonim kullanıcıları engelle',
+'ipb-hardblock'                   => 'Bu IP adresindeki oturum açmış kullanıcıların değişiklik yapmasını önle',
 'ipbcreateaccount'                => 'Hesap oluşturulmasına engel ol',
 'ipbemailban'                     => 'Kullanıcının e-posta göndermesine engel ol',
-'ipbenableautoblock'              => 'Bu kullanıcı tarafından kullanılan son IP adresini ve değişişiklik yapmaya çalıştıkları mütakip IPleri otomatik olarak engelle',
+'ipbenableautoblock'              => 'Bu kullanıcı tarafından kullanılan son IP adresini ve değişiklik yapmaya çalıştığı sonraki IP adreslerini otomatik olarak engelle',
 'ipbsubmit'                       => 'Bu kullanıcıyı engelle',
 'ipbother'                        => 'Farklı zaman',
 'ipboptions'                      => '2 saat:2 hours,1 gün:1 day,3 gün:3 days,1 hafta:1 week,2 hafta:2 weeks,1 ay:1 month,3 ay:3 months,6 ay:6 months,1 yıl:1 year,Süresiz:infinite',
@@ -2501,12 +2501,15 @@ Son engelleme günlüğü girdisi kaynak amacıyla aşağıda verilmiştir:',
 'ipbotherreason'                  => 'Başka/ek sebepler:',
 'ipbhidename'                     => 'Kullanıcı adını katkılarda ve listelerde gizle',
 'ipbwatchuser'                    => 'Bu kullanıcının kullanıcı ve tartışma sayfalarını izle',
-'ipballowusertalk'                => 'Bu kullanıcının engelliyken kendi tartışma sayfasını değiştirebilmesine izin ver',
+'ipb-disableusertalk'             => 'Bu kullanıcının engelliyken kendi mesaj sayfasında değişiklik yapmasını önle',
 'ipb-change-block'                => 'Bu ayarlarla kullanıcıyı yeniden engelle',
+'ipb-confirm'                     => 'Engeli onayla',
 'badipaddress'                    => 'Geçersiz IP adresi',
 'blockipsuccesssub'               => 'IP adresi engelleme işlemi başarılı oldu',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] engellendi.
 <br />Engellemeleri gözden geçirmek için [[Special:IPBlockList|IP adresi engellenenler]] listesine bakınız.',
+'ipb-blockingself'                => 'Kendinizi engellemek üzeresiniz! Bunu yapmak istediğinizden emin misiniz?',
+'ipb-confirmhideuser'             => '"Kullanıcıyı gizle" seçiliyken bir kullanıcı engellemek üzeresiniz. Bu, kullanıcının adını tüm listeler ile günlük girişlerinde bastıracaktır. Bunu yapmak istediğinizden emin misiniz?',
 'ipb-edit-dropdown'               => 'Engelleme nedenleri düzenle',
 'ipb-unblock-addr'                => '$1 için engellemeyi kaldır',
 'ipb-unblock'                     => 'Engellemeyi kaldır',
@@ -2516,17 +2519,22 @@ Son engelleme günlüğü girdisi kaynak amacıyla aşağıda verilmiştir:',
 'unblockiptext'                   => 'Daha önceden engellenmiş bir IP adresine ya da kullanıcı adına yazma erişimini geri vermek için aşağıdaki formu kullanın.',
 'ipusubmit'                       => 'Bu engellemeyi kaldır',
 'unblocked'                       => '[[User:$1|$1]] - engelleme kaldırıldı',
+'unblocked-range'                 => '$1 engeli kaldırıldı',
 'unblocked-id'                    => '$1 engeli çıkarıldı',
-'ipblocklist'                     => 'Engellenmiş IP adresleri ve kullanıcı adları',
+'blocklist'                       => 'Engellenmiş kullanıcılar',
+'ipblocklist'                     => 'Engellenmiş kullanıcılar',
 'ipblocklist-legend'              => 'Engellenen kullanıcı ara',
-'ipblocklist-username'            => 'Kullanıcı adı veya IP adresi:',
-'ipblocklist-sh-userblocks'       => 'Hesap engellemelerini $1',
-'ipblocklist-sh-tempblocks'       => 'Geçici engellemeleri $1',
-'ipblocklist-sh-addressblocks'    => 'Tek IP engellemelerini $1',
+'blocklist-userblocks'            => 'Hesap engellemelerini gizle',
+'blocklist-tempblocks'            => 'Geçici engellemeleri gizle',
+'blocklist-addressblocks'         => 'Tek IP engellemelerini gizle',
+'blocklist-target'                => 'Hedef',
+'blocklist-expiry'                => 'Bitiş tarihi',
+'blocklist-by'                    => 'Engeli koyan hizmetli',
+'blocklist-params'                => 'Engel parametreleri',
+'blocklist-reason'                => 'Gerekçe',
 'ipblocklist-submit'              => 'Ara',
 'ipblocklist-localblock'          => 'Yerel engelleme',
 'ipblocklist-otherblocks'         => 'Diğer {{PLURAL:$1|engelleme|engellemeler}}',
-'blocklistline'                   => '$1, $2 engellendi: $3 ($4)',
 'infiniteblock'                   => 'Süresiz',
 'expiringblock'                   => '$1 $2 tarihinde doluyor',
 'anononlyblock'                   => 'sadece anonim',
@@ -2562,9 +2570,9 @@ Gizleme günlüğü referans için aşağıda sağlanmıştır:',
 'ipb_expiry_temp'                 => 'Gizli kullanıcı adı engellemeleri kalıcı olmalı.',
 'ipb_hide_invalid'                => 'Kullanıcı hesabı gizlenemiyor; çok fazla değişikliği olabilir.',
 'ipb_already_blocked'             => '"$1" zaten engellenmiş',
-'ipb-needreblock'                 => '== Zaten engellenmiş ==
-$1 zaten engellenmiş. Ayarları değiştirmek istiyor musunuz?',
+'ipb-needreblock'                 => '$1 zaten engellenmiş. Ayarları değiştirmek istiyor musunuz?',
 'ipb-otherblocks-header'          => 'Diğer {{PLURAL:$1|engelleme|engellemeler}}',
+'unblock-hideuser'                => 'Kullanıcı adı gizlenmiş olduğu için bu kullanıcının engelini kaldıramazsınız.',
 'ipb_cant_unblock'                => 'Hata: Engelleme IDsi $1 bulunamadı.
 Engelleme kaldırılmış olabilir.',
 'ipb_blocked_as_range'            => 'Hata: $1 IP adresi doğrudan engellenmemiş ve engelleme kaldırılamaz.
@@ -2718,7 +2726,7 @@ Sonuncu durumda, bir link de kullanabilirsiniz, ör: "[[{{MediaWiki:Mainpage}}]]
 'export-pagelinks'  => 'Bağlı sayfaları içerecek derinlik:',
 
 # Namespace 8 related
-'allmessages'                   => 'Sistem mesajları',
+'allmessages'                   => 'Sistem iletileri',
 'allmessagesname'               => 'İsim',
 'allmessagesdefault'            => 'Orjinal metin',
 'allmessagescurrent'            => 'Kullanımdaki metin',
@@ -2759,7 +2767,7 @@ Bütün vikilerarası içe aktarım eylemleri [[Special:Log/import|içe aktarım
 'import-interwiki-namespace' => 'Hedef ad alanı:',
 'import-upload-filename'     => 'Dosya adı:',
 'import-comment'             => 'Yorum:',
-'importtext'                 => 'Lütfen dosyayı viki kaynağından [[Special:Export|dışa aktarım uygulamasıyla]] dışa aktarın.
+'importtext'                 => 'Lütfen dosyayı [[Special:Export|dışa aktarım yardımcı yazılımıyla]] kaynak vikiden dışa aktarın.
 Bilgisayarınıza kaydedin ve buraya yükleyin.',
 'importstart'                => 'Sayfalar aktarmaktadır...',
 'import-revision-count'      => '$1 {{PLURAL:$1|revizyon|revizyon}}',
@@ -2789,7 +2797,7 @@ Geçici dosya kayıp.',
 'import-invalid-interwiki'   => 'Belirtilen vikiden içe aktarım yapılamaz.',
 
 # Import log
-'importlogpage'                    => 'Dosya aktarım kayıtları',
+'importlogpage'                    => 'Aktarım günlüğü',
 'importlogpagetext'                => 'Diğer vikilerden sayfaların değişiklik geçmişiyle idari içe aktarımları.',
 'import-logentry-upload'           => '[[$1]] dosya yüklemesiyle içe aktarıldı',
 'import-logentry-upload-detail'    => '$1 {{PLURAL:$1|revizyon|revizyon}}',
@@ -2911,26 +2919,6 @@ Geçici dosya kayıp.',
 'skinname-simple'    => 'Basit',
 'skinname-modern'    => 'Modern',
 
-# Math options
-'mw_math_png'    => 'Daima PNG resim formatına çevir',
-'mw_math_simple' => 'Çok basitse HTML, değilse PNG',
-'mw_math_html'   => 'Mümkünse HTML, değilse PNG',
-'mw_math_source' => 'Değiştirmeden TeX olarak bırak  (metin tabanlı tarayıcılar için)',
-'mw_math_modern' => 'Modern tarayıcılar için tavsiye edilen',
-'mw_math_mathml' => 'Mümkünse MathML (daha deneme aşamasında)',
-
-# Math errors
-'math_failure'          => 'Ayrıştırılamadı',
-'math_unknown_error'    => 'bilinmeyen hata',
-'math_unknown_function' => 'bilinmeyen fonksiyon',
-'math_lexing_error'     => 'lexing hatası',
-'math_syntax_error'     => 'sözdizim hatası',
-'math_image_error'      => 'PNG çevirisi başarısız; latex, dvips ve gs programlarının doğru yüklendiğine emin olun ve çeviri işlemini başlatın.',
-'math_bad_tmpdir'       => 'Math geçici dizinine yazılamıyor ya da oluşturulamıyor',
-'math_bad_output'       => 'Math çıktı dizinine yazılamıyor ya da oluşturulamıyor',
-'math_notexvc'          => "texvc çalıştırılabiliri kayıp;
-ayarlamak için math/README'ye bakın.",
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Kontrol edilmiş olarak işaretle',
 'markaspatrolledtext'                 => 'Kontrol edilmiş olarak işaretle',
@@ -2966,22 +2954,24 @@ $1',
 'nextdiff'     => 'Sonraki sürümle aradaki fark →',
 
 # Media information
-'mediawarning'         => "'''Uyarı''': Bu dosya türü kötü niyetli kodlar içerebilir.
+'mediawarning'           => "'''Uyarı''': Bu dosya türü kötü niyetli kodlar içerebilir.
 Bunu çalıştırarak, sisteminiz tehlikeye atılabilir.",
-'imagemaxsize'         => "Resim boyutu sınırı:<br />''(dosya açıklama sayfaları için)''",
-'thumbsize'            => 'Küçük boyut:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sayfa|sayfa}}',
-'file-info'            => 'dosya boyutu: $1, MIME tipi: $2',
-'file-info-size'       => '$1 × $2 piksel, dosya boyutu: $3, MIME tipi: $4',
-'file-nohires'         => '<small>Daha yüksek çözünürlüğe sahip sürüm bulunmamaktadır.</small>',
-'svg-long-desc'        => 'SVG dosyası, sözde $1 × $2 piksel, dosya boyutu: $3',
-'show-big-image'       => 'Tam çözünürlük',
-'show-big-image-thumb' => '<small>Ön izleme boyutu: $1 × $2 piksel</small>',
-'file-info-gif-looped' => 'döngüye girdi',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|kare|kare}}',
-'file-info-png-looped' => 'döngüye girdi',
-'file-info-png-repeat' => '$1 {{PLURAL:$1|defa|defa}} oynatıldı',
-'file-info-png-frames' => '$1 {{PLURAL:$1|frame|frames}}',
+'imagemaxsize'           => "Resim boyutu sınırı:<br />''(dosya açıklama sayfaları için)''",
+'thumbsize'              => 'Küçük boyut:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|sayfa|sayfa}}',
+'file-info'              => 'dosya boyutu: $1, MIME tipi: $2',
+'file-info-size'         => '$1 × $2 piksel, dosya boyutu: $3, MIME tipi: $4',
+'file-nohires'           => '<small>Daha yüksek çözünürlüğe sahip sürüm bulunmamaktadır.</small>',
+'svg-long-desc'          => 'SVG dosyası, sözde $1 × $2 piksel, dosya boyutu: $3',
+'show-big-image'         => 'Tam çözünürlük',
+'show-big-image-preview' => '<small>Ön izleme boyutu: $1.</small>',
+'show-big-image-other'   => '<small>Diğer çözünürlükleri: $1.</small>',
+'show-big-image-size'    => '$1 × $2 piksel',
+'file-info-gif-looped'   => 'döngüye girdi',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|kare|kare}}',
+'file-info-png-looped'   => 'döngüye girdi',
+'file-info-png-repeat'   => '$1 {{PLURAL:$1|defa|defa}} oynatıldı',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|frame|frames}}',
 
 # Special:NewFiles
 'newimages'             => 'Yeni dosya galerisi',
@@ -3403,11 +3393,12 @@ $1',
 'trackbackdeleteok' => 'Geri izleme başarıyla silindi.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Uyarı''': Bu sayfa siz değişiklik yapmaya başladıktan sonra silinmiş!",
-'confirmrecreate'     => "Bu sayfayı [[User:$1|$1]] ([[User talk:$1|mesaj]]) kullanıcısı siz sayfada değişiklik yaparken silmiştir, nedeni:
+'deletedwhileediting'      => "'''Uyarı''': Bu sayfa siz değişiklik yapmaya başladıktan sonra silinmiş!",
+'confirmrecreate'          => "Bu sayfayı [[User:$1|$1]] ([[User talk:$1|mesaj]]) kullanıcısı siz sayfada değişiklik yaparken silmiştir, nedeni:
 : ''$2''
 Sayfayı baştan açmak isityorsanız, lütfen onaylayın.",
-'recreate'            => 'Canlandır',
+'confirmrecreate-noreason' => '[[User:$1|$1]] ([[User talk:$1|mesaj]]) adlı kullanıcı, siz değişiklik yapmaya başladıktan sonra bu sayfayı sildi. Lütfen bu sayfayı gerçekten yeniden oluşturmak istediğinizi onaylayın.',
+'recreate'                 => 'Canlandır',
 
 'unit-pixel' => 'px',
 
@@ -3461,14 +3452,14 @@ Normal önizlemeyi deneyin.',
 'watchlistedit-normal-legend'  => 'İzleme listesinden başlıkları kaldır',
 'watchlistedit-normal-explain' => 'İzleme listenizdeki başlıklar aşağıda gösterilmiştir.
 Bir başlığı çıkarmak için, yanındaki kutucuğu işaretleyin ve "{{int:Watchlistedit-normal-submit}}" düğmesine tıklayın.
-[[Special:Watchlist/raw|Satır listesini]] de düzenleyebilirsiniz.',
+[[Special:EditWatchlist/raw|Satır listesini]] de düzenleyebilirsiniz.',
 'watchlistedit-normal-submit'  => 'Başlıkları kaldır',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 başlık|$1 başlık}} izleme listenizden çıkarıldı:',
 'watchlistedit-raw-title'      => 'Ham izleme listesini düzenle',
 'watchlistedit-raw-legend'     => 'Ham izleme listesini düzenle',
 'watchlistedit-raw-explain'    => 'İzleme listenizdeki başlıklar aşağıda gösterilmektedir. Her satırda bir başlık olmak üzere, başlıkları ekleyerek ya da silerek listeyi düzenleyebilirsiniz.
 Bittiğinde "{{int:Watchlistedit-raw-submit}}"ye tıklayınız.
-Ayrıca [[Special:Watchlist/edit|standart düzenleme sayfasını]] da kullanabilirsiniz.',
+Ayrıca [[Special:EditWatchlist|standart düzenleme sayfasını]] da kullanabilirsiniz.',
 'watchlistedit-raw-titles'     => 'Başlıklar:',
 'watchlistedit-raw-submit'     => 'İzleme listesini güncelle',
 'watchlistedit-raw-done'       => 'İzleme listeniz güncellendi.',
@@ -3536,9 +3527,9 @@ Dosya adını "{{ns:file}}:" öneki olmadan gir.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Özel sayfalar',
-'specialpages-note'              => '----
-* Normal özel sayfalar.
-* <strong class="mw-specialpagerestricted">Kısıtlı özel sayfalar.</strong>',
+'specialpages-note'              => '* Normal özel sayfalar.
+* <span class="mw-specialpagerestricted">Kısıtlı özel sayfalar.</span>
+* <span class="mw-specialpagecached">Yalnızca önbelleğe alınan özel sayfalar.</span>',
 'specialpages-group-maintenance' => 'Bakım raporları',
 'specialpages-group-other'       => 'Diğer özel sayfalar',
 'specialpages-group-login'       => 'Oturum aç / hesap edin',

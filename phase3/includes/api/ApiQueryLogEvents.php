@@ -148,6 +148,22 @@ class ApiQueryLogEvents extends ApiQueryBase {
 			$index['logging'] = is_null( $user ) ? 'page_time' : array( 'page_time', 'user_time' );
 		}
 
+		$prefix = $params['prefix'];
+
+		if ( !is_null( $prefix ) ) {
+			global $wgMiserMode;
+			if ( $wgMiserMode ) {
+				$this->dieUsage( 'Prefix search disabled in Miser Mode', 'prefixsearchdisabled' );
+			}
+
+			$title = Title::newFromText( $prefix );
+			if ( is_null( $title ) ) {
+				$this->dieUsage( "Bad title value '$prefix'", 'param_prefix' );
+			}
+			$this->addWhereFld( 'log_namespace',  $title->getNamespace() );
+			$this->addWhere( 'log_title ' . $db->buildLike( $title->getDBkey(), $db->anyString() ) );
+		}
+
 		$this->addOption( 'USE INDEX', $index );
 
 		// Paranoia: avoid brute force searches (bug 17342)
@@ -223,7 +239,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 				list( $vals2['duration'], $vals2['flags'] ) = $params;
 
 				// Indefinite blocks have no expiry time
-				if ( Block::parseExpiryInput( $params[0] ) !== Block::infinity() ) {
+				if ( SpecialBlock::parseExpiryInput( $params[0] ) !== wfGetDB( DB_SLAVE )->getInfinity() ) {
 					$vals2['expiry'] = wfTimestamp( TS_ISO_8601,
 						strtotime( $params[0], wfTimestamp( TS_UNIX, $ts ) ) );
 				}
@@ -372,6 +388,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 			),
 			'user' => null,
 			'title' => null,
+			'prefix' => null,
 			'tag' => null,
 			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
@@ -384,6 +401,7 @@ class ApiQueryLogEvents extends ApiQueryBase {
 	}
 
 	public function getParamDescription() {
+		$p = $this->getModulePrefix();
 		return array(
 			'prop' => array(
 				'Which properties to get',
@@ -399,12 +417,13 @@ class ApiQueryLogEvents extends ApiQueryBase {
 				' tags           - Lists tags for the event',
 			),
 			'type' => 'Filter log entries to only this type(s)',
-			'action' => "Filter log actions to only this type. Overrides {$this->getModulePrefix()}type",
+			'action' => "Filter log actions to only this type. Overrides {$p}type",
 			'start' => 'The timestamp to start enumerating from',
 			'end' => 'The timestamp to end enumerating',
-			'dir' => 'In which direction to enumerate',
+			'dir' => $this->getDirectionDescription( $p ),
 			'user' => 'Filter entries to those made by the given user',
 			'title' => 'Filter entries to those related to a page',
+			'prefix' => 'Filter entries that start with this prefix. Disabled in MiserMode',
 			'limit' => 'How many total event entries to return',
 			'tag' => 'Only list event entries tagged with this tag',
 		);
@@ -418,6 +437,8 @@ class ApiQueryLogEvents extends ApiQueryBase {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'param_user', 'info' => 'User name $user not found' ),
 			array( 'code' => 'param_title', 'info' => 'Bad title value \'title\'' ),
+			array( 'code' => 'param_prefix', 'info' => 'Bad title value \'prefix\'' ),
+			array( 'code' => 'prefixsearchdisabled', 'info' => 'Prefix search disabled in Miser Mode' ),
 		) );
 	}
 

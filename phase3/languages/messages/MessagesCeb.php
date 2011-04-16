@@ -510,8 +510,6 @@ Palihog sulayi'g usab.",
 'extlink_tip'     => 'Sumpay sa gawas (hinumdomi http:// prefix)',
 'headline_sample' => 'Teksto sa hedlayn',
 'headline_tip'    => 'Level 2 nga hedlayn',
-'math_sample'     => 'I-insert dinhi ang formula',
-'math_tip'        => 'Mathematical formula (LaTeX)',
 'nowiki_sample'   => 'Dinhi ang dili-pormaton nga teksto',
 'nowiki_tip'      => 'Dili i-wikipormat',
 'image_tip'       => 'Embedded nga payl',
@@ -781,7 +779,6 @@ Hinumdomi nga ang ilang indeks sa sulod sa {{SITENAME}} mahimong dugay-dugay na.
 'changepassword'                => 'Usba ang pasword',
 'prefs-skin'                    => 'Panit',
 'skin-preview'                  => 'Paunang tan-aw',
-'prefs-math'                    => 'Math',
 'datedefault'                   => 'Walay preperensiya',
 'prefs-datetime'                => 'Petsa ug oras',
 'prefs-personal'                => 'Profile sa gumagamit',
@@ -1227,11 +1224,10 @@ Puyde dugangan og rason sa mubong sugid.',
 'nextdiff'     => 'Mas bag-ong pag-usab →',
 
 # Media information
-'file-info-size'       => '$1 × $2 pixels, size sa payl: $3, MIME type: $4',
-'file-nohires'         => '<small>Walay mas taas nga resolusyon.</small>',
-'svg-long-desc'        => 'SVG nga payl, nominally $1 × $2 pixels, size sa payl: $3',
-'show-big-image'       => 'Tibuok resolusyon',
-'show-big-image-thumb' => '<small>Size niining preview: $1 × $2 pixels</small>',
+'file-info-size' => '$1 × $2 pixels, size sa payl: $3, MIME type: $4',
+'file-nohires'   => '<small>Walay mas taas nga resolusyon.</small>',
+'svg-long-desc'  => 'SVG nga payl, nominally $1 × $2 pixels, size sa payl: $3',
+'show-big-image' => 'Tibuok resolusyon',
 
 # Bad image list
 'bad_image_list' => 'Ang pormat mao ang mosunod:

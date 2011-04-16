@@ -28,11 +28,11 @@
  */
 class SpecialPrefixindex extends SpecialAllpages {
 	// Inherit $maxPerPage
-	
+
 	function __construct(){
 		parent::__construct( 'Prefixindex' );
 	}
-	
+
 	/**
 	 * Entry point : initialise variables and call subfunctions.
 	 * @param $par String: becomes "FOO" when called like Special:Prefixindex/FOO (default null)
@@ -42,6 +42,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 
 		$this->setHeaders();
 		$this->outputHeader();
+		$wgOut->addModuleStyles( 'mediawiki.special' );
 
 		# GET values
 		$from = $wgRequest->getVal( 'from', '' );
@@ -69,7 +70,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 			$wgOut->addHTML( $this->namespacePrefixForm( $namespace, null ) );
 		}
 	}
-	
+
 	/**
 	* HTML for the top form
 	* @param $namespace Integer: a namespace constant (default NS_MAIN).
@@ -159,7 +160,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 			$n = 0;
 			if( $res->numRows() > 0 ) {
 				$out = Xml::openElement( 'table', array( 'border' => '0', 'id' => 'mw-prefixindex-list-table' ) );
-	
+
 				while( ( $n < $this->maxPerPage ) && ( $s = $res->fetchObject() ) ) {
 					$t = Title::makeTitle( $s->page_namespace, $s->page_title );
 					if( $t ) {

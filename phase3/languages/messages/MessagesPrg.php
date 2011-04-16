@@ -503,8 +503,6 @@ Mazzingi tū assei ka tēr kitawīdinuns swajjan kliptaswīrdan anga assei madl�
 'extlink_tip'     => 'Izwinandas autengīnsenis (paminnais ezze prefiksan http:// )',
 'headline_sample' => 'Sirzdatītelas teksts',
 'headline_tip'    => 'Āntras līgmenes sirzdatītelis',
-'math_sample'     => 'Enpeisāis matemātiskan izbilīsenin stwi',
-'math_tip'        => 'Matemātiskas izbilīsenis (LaTeX)',
 'nowiki_sample'   => 'Stwi enpeisāis nifōrmatitan tekstan',
 'nowiki_tip'      => 'Ignōris wiki fōrmatisnan',
 'image_tip'       => 'Grafīki anga kits endīts en pāusu zūrbrukis',
@@ -892,7 +890,6 @@ Paminnais, kāi tenēisan indeksai mazzi ni būtwei aktuālin.',
 'changepassword'              => 'Kitawīdinais kliptaswīrdan',
 'prefs-skin'                  => 'Prusna',
 'skin-preview'                => 'Pirmādira',
-'prefs-math'                  => 'Matemātiki',
 'datedefault'                 => 'Auprestaminan',
 'prefs-datetime'              => 'Dātan be kerdā',
 'prefs-personal'              => 'Tērpautajas dātan',
@@ -1875,12 +1872,10 @@ $1',
 'blockiptext'                     => 'Tērpaus zemmaisin fōrmularan, kāi blōkilai enpeisāsenes mazīngiskwan iz kōnkretai IP adressin anga kōnkretasmu tērpautajan.
 Blōkitun prawerru tēr kāi ebsergītun ezze wandalisman be preitarīngi sen [[{{MediaWiki:Policy-url}}|pōlitikin]].
 Padāis brewīnslin zemmais (p. endījanei tītelins stēisan wandalizītan pāusan).',
-'ipaddress'                       => 'IP adressi:',
 'ipadressorusername'              => 'IP adressi anga tērpautajas pabilisnā:',
 'ipbexpiry'                       => 'Blōkisenis wanginna:',
 'ipbreason'                       => 'Brewīnsli:',
 'ipbreasonotherlist'              => 'Kitā brewīnsli',
-'ipbanononly'                     => 'Blōkis tēr anōnimans tērpautajans',
 'ipbcreateaccount'                => 'Ebsergēis ezze rekkenas teīkseņu',
 'ipbemailban'                     => 'Ebsergēis ezze e-mailas tengīnsnas mazīngiskwai',
 'ipbenableautoblock'              => 'Blōkis panzdauman šisse tērpautajas IP adressin be autōmatiskai wissans ripīntins, iz kawīdans tāns wīrst bandāwuns redigītun',
@@ -1891,7 +1886,6 @@ Padāis brewīnslin zemmais (p. endījanei tītelins stēisan wandalizītan pāu
 'ipbotherreason'                  => 'Kitā/papilnimina brewīnsli:',
 'ipbhidename'                     => 'Kliptinais tērpautajas pabilīsnan en redigīsenimans be listimans',
 'ipbwatchuser'                    => 'Nadirēis šisse tērpautajas persōniskan pāusan be diskusiōnis pāusan',
-'ipballowusertalk'                => 'Preiwērpjais šismu tērpautajan redigītun swajjan diskusiōnis pāusan, kaddan ast blōkitan',
 'ipb-change-block'                => 'Kitawīdinais blōkisenes ensadīnsenins',
 'badipaddress'                    => 'Nitikrōmiska IP adressi',
 'blockipsuccesssub'               => 'Blōkisenis izpalla',
@@ -1909,14 +1903,9 @@ Jaīs en [[Special:IPBlockList|listin stēisan IP adressin]] kai widālai blōki
 'unblocked-id'                    => 'Blōkisenis $1 pastāi izklaūtan',
 'ipblocklist'                     => 'Listi stēisan blōkitan IP adressin be tērpautajan pabilīsnan',
 'ipblocklist-legend'              => 'Aupallais blōkitan tērpautajan',
-'ipblocklist-username'            => 'Tērpautajas pabilisnā anga IP adressi:',
-'ipblocklist-sh-userblocks'       => '$1 rekkenan blōkisenei',
-'ipblocklist-sh-tempblocks'       => '$1 kīsmingiskai blōkisenei',
-'ipblocklist-sh-addressblocks'    => '$1 aīnasses IP adressis blōkisenei',
 'ipblocklist-submit'              => 'Laukīs',
 'ipblocklist-localblock'          => 'Lōkals blōkisenis',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Kits blōkisenis|Kitāi blōkisenei}}',
-'blocklistline'                   => '$1, $2 blōki $3 (blōkisenes kērda: $4)',
 'infiniteblock'                   => 'bewangiskai',
 'expiringblock'                   => 'wanginna si $1 $2',
 'anononlyblock'                   => 'tēr anōnimai',
@@ -1951,8 +1940,7 @@ Jaīs en [[Special:IPBlockList|IP blōkisenin listin]] ki widālai wissans tēnt
 'ipb_expiry_temp'                 => 'Kliptas tērpautajas pabilīsnas blōkisenis turri būtwei ainatīngi.',
 'ipb_hide_invalid'                => 'Ni mazīngi kliptintun šisse tērpautajas rekkenan, drūwiminai tāns ast segīwuns per tūlin redigīsenins.',
 'ipb_already_blocked'             => '"$1" ast jāu blōkitan',
-'ipb-needreblock'                 => '== Jāu blōkitan ==
-$1 ast jāu blōkitan. Kwāitu kitawīdintun blōkisenes ensadīnsenins?',
+'ipb-needreblock'                 => '$1 ast jāu blōkitan. Kwāitu kitawīdintun blōkisenes ensadīnsenins?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Kits blōkisenis|Kitāi blōkisenei}}',
 'ipb_cant_unblock'                => 'Blānda: Blōkisenes ID $1 ni pastāi aupaltan. Mazīngi tāns pastāi ankstāis izklaūtan.',
 'ipb_blocked_as_range'            => 'Blānda: IP adressi $1 ni ast blōkitan entikriskai be ni mazzi būtwei etblōkitan.
@@ -2250,27 +2238,6 @@ Sta ast drūwiminai dīlintan pra autengīnsenin prēi izwinandan pāusan iz kī
 'numauthors'     => 'Autōran gīrbis (pāusan): $1',
 'numtalkauthors' => 'Autōran gīrbis (diskusiōnis pāusan): $1',
 
-# Math options
-'mw_math_png'    => 'Wisaddan teīkeis PNG grāfikin',
-'mw_math_simple' => 'HTML ik spārtai prastan, ik ni - PNG',
-'mw_math_html'   => 'HTML ik mazīngi, ik ni - PNG',
-'mw_math_source' => 'Palaīdeis en TeX-as fōrmatu (per tekstas lasātlins)',
-'mw_math_modern' => 'HTML - radītan per nāunans lasātlins',
-'mw_math_mathml' => 'MathML ik mazīngi (eksperimentālai)',
-
-# Math errors
-'math_failure'          => 'Parsers ni mazēi skaitātun',
-'math_unknown_error'    => 'niwaīsta blānda',
-'math_unknown_function' => 'niwaīsta funkciōni',
-'math_lexing_error'     => 'laksisis blānda',
-'math_syntax_error'     => 'sīntaksis blānda',
-'math_image_error'      => 'Maināsna en PNG ni izpalla.
-Izbāndais, anga latex, dvips, gs be convert ast instalītan tikrōmiskai',
-'math_bad_tmpdir'       => 'Ni mazīngi teīktun anga enpeisātun en kīsmingiskasmu matemātiskan fōlderin',
-'math_bad_output'       => 'Ni mazīngi teīktun anga enpeisātun en izēiseniskasmu matemātiskan fōlderin',
-'math_notexvc'          => 'Ni ast texvc prōgraman.
-Wīdais math/README kāi kōnfigurilai.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Pazentlis kāigi "izbandātan"',
 'markaspatrolledtext'                 => 'Pazentlis šin pāusan kāigi "izbandātan"',
@@ -2316,7 +2283,6 @@ Enskattintei din,  tū mazzi ārditun twajjan sistēman.",
 'file-nohires'         => '<small>Mūisesa rezōluciōni ni ast preiēiminan.</small>',
 'svg-long-desc'        => 'SVG zūrbrukis, nōminalai $1 × $2 pikselai, debban: $3',
 'show-big-image'       => 'Pilnā rezōluciōni',
-'show-big-image-thumb' => '<small>Pirmādiras debban: $1 × $2 pikselai</small>',
 'file-info-gif-looped' => 'kalpenintan',
 
 # Special:NewFiles
@@ -2697,7 +2663,7 @@ Bāndais jāukun pirmādiran.',
 'watchlistedit-normal-legend'  => 'Āupausinais tītelins iz listin stēisan nadirītan',
 'watchlistedit-normal-explain' => 'Zemmais ast listi stēisan pāusan nadirītan prō tin.
 Kai āupausinlai nadirītan pāusan iz listin, ebzentlis laūkan pagār prei tītelin be gnetteis "Āupausinais ebzentlitans".
-Tū mazzi dīgi tērpautun [[Special:Watchlist/raw|nadirītan listis tekstiskan pagaptin]].',
+Tū mazzi dīgi tērpautun [[Special:EditWatchlist/raw|nadirītan listis tekstiskan pagaptin]].',
 'watchlistedit-normal-submit'  => 'Āupausinais tītelins',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 tītels|$1 tītelai}} pastāi āupausintan iz twajjan listin stēisan nadirītan:',
 'watchlistedit-raw-title'      => 'Redigīs listis appun sen tekstas ēnrankin',
@@ -2705,7 +2671,7 @@ Tū mazzi dīgi tērpautun [[Special:Watchlist/raw|nadirītan listis tekstiskan 
 'watchlistedit-raw-explain'    => 'Zemmais ast waidīntan tītelai en twajjan nadirītan listin. Listi mazzi būtwei redigītan preidāntei be āupausintei tītelins;
 aīnan tītelin per rīndan.
 Wanginnantei, gnetteis "Etnāuneis listin".
-Tu mazzi dīgi [[Special:Watchlist/edit|tērpautun stāndardiskan editōran]].',
+Tu mazzi dīgi [[Special:EditWatchlist|tērpautun stāndardiskan editōran]].',
 'watchlistedit-raw-titles'     => 'Nadirītai pāusai',
 'watchlistedit-raw-submit'     => 'Etnāuninais listin stēisan nadirītan',
 'watchlistedit-raw-done'       => 'Twajā nadirītan listi pastāi etnāunintan.',

@@ -25,8 +25,8 @@
  * @ingroup Maintenance
  */
 
-if ( !function_exists( 'version_compare' ) || ( version_compare( phpversion(), '5.1.0' ) < 0 ) ) {
-	echo "You are using PHP version " . phpversion() . " but MediaWiki needs PHP 5.1.0 or higher. ABORTING.\n" .
+if ( !function_exists( 'version_compare' ) || ( version_compare( phpversion(), '5.2.3' ) < 0 ) ) {
+	echo "You are using PHP version " . phpversion() . " but MediaWiki needs PHP 5.2.3 or higher. ABORTING.\n" .
 	"Check if you have a newer php executable with a different name, such as php5.\n";
 	die( 1 );
 }
@@ -50,7 +50,7 @@ class UpdateMediaWiki extends Maintenance {
 		return 2 /* Maintenance::DB_ADMIN */;
 	}
 
-	private function compatChecks() {
+	function compatChecks() {
 		$test = new PhpXmlBugTester();
 		if ( !$test->ok ) {
 			$this->error(
@@ -102,10 +102,14 @@ class UpdateMediaWiki extends Maintenance {
 		}
 
 		$shared = $this->hasOption( 'doshared' );
-		$purge = !$this->hasOption( 'nopurge' );
+
+		$updates = array('core','extensions');
+		if( !$this->hasOption('nopurge') ) {
+			$updates[] = 'purge';
+		}
 
 		$updater = DatabaseUpdater::newForDb( $db, $shared, $this );
-		$updater->doUpdates( $purge );
+		$updater->doUpdates( $updates );
 
 		foreach( $updater->getPostDatabaseUpdateMaintenance() as $maint ) {
 			$child = $this->runChild( $maint );

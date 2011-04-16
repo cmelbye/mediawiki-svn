@@ -357,8 +357,6 @@ j'm'escuse mais i feut prinde un aute nom.",
 'extlink_tip'     => "Éstérne loïen ( n'obliez mie ech préfix http:// )",
 'headline_sample' => 'Teske dechl in-téte',
 'headline_tip'    => 'In-téte nivieu 2',
-'math_sample'     => "Mètte l'formule ichi",
-'math_tip'        => 'Formule matématike (LaTeX)',
 'nowiki_sample'   => "Placher ch'teske non-formaté ichi",
 'nowiki_tip'      => "Poin d'format wiki",
 'image_tip'       => 'fichié incorporé',
@@ -828,11 +826,10 @@ Os pouvez vir l'source",
 'nextdiff'     => 'Nouvèle édichon →',
 
 # Media information
-'file-info-size'       => '$1 × $2 picséls, diminchon dech fichié: $3, MIME tipe: $4',
-'file-nohires'         => '<small>Poin éd pu grande résoluchon possibe.</small>',
-'svg-long-desc'        => 'Fichié SVG, résoluchon éd $1 × $2 picsels, diminchon: $3',
-'show-big-image'       => 'Plinne résoluchon',
-'show-big-image-thumb' => '<small>Diminchon del intérvue-lo : $1 × $2 picséls</small>',
+'file-info-size' => '$1 × $2 picséls, diminchon dech fichié: $3, MIME tipe: $4',
+'file-nohires'   => '<small>Poin éd pu grande résoluchon possibe.</small>',
+'svg-long-desc'  => 'Fichié SVG, résoluchon éd $1 × $2 picsels, diminchon: $3',
+'show-big-image' => 'Plinne résoluchon',
 
 # Bad image list
 'bad_image_list' => "Ch'format ch'est:

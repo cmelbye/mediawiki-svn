@@ -117,14 +117,6 @@ unknown/unknown application/octet-stream application/x-empty [UNKNOWN]
 END_STRING
 );
 
-// Note: because this file is possibly included by a function,
-// we need to access the global scope explicitely!
-global $wgLoadFileinfoExtension;
-
-if ( $wgLoadFileinfoExtension ) {
-	wfDl( 'fileinfo' );
-}
-
 /**
  * Implements functions related to mime types such as detection and mapping to
  * file extension.
@@ -160,6 +152,10 @@ class MimeMagic {
 	 */
 	private static $instance;
 
+	/** True if the fileinfo extension has been loaded
+	 */
+	private static $extensionLoaded = false;
+
 	/** Initializes the MimeMagic object. This is called by MimeMagic::singleton().
 	*
 	* This constructor parses the mime.types and mime.info files and build internal mappings.
@@ -169,12 +165,17 @@ class MimeMagic {
 		*   --- load mime.types ---
 		*/
 
-		global $wgMimeTypeFile, $IP;
+		global $wgMimeTypeFile, $IP, $wgLoadFileinfoExtension;
 
 		$types = MM_WELL_KNOWN_MIME_TYPES;
 
 		if ( $wgMimeTypeFile == 'includes/mime.types' ) {
 			$wgMimeTypeFile = "$IP/$wgMimeTypeFile";
+		}
+
+		if ( $wgLoadFileinfoExtension && !self::$extensionLoaded ) {
+			self::$extensionLoaded = true;
+			wfDl( 'fileinfo' );
 		}
 
 		if ( $wgMimeTypeFile ) {
@@ -198,20 +199,28 @@ class MimeMagic {
 		$lines = explode( "\n",$types );
 		foreach ( $lines as $s ) {
 			$s = trim( $s );
-			if ( empty( $s ) ) continue;
-			if ( strpos( $s, '#' ) === 0 ) continue;
+			if ( empty( $s ) ) {
+				continue;
+			}
+			if ( strpos( $s, '#' ) === 0 ) {
+				continue;
+			}
 
 			$s = strtolower( $s );
 			$i = strpos( $s, ' ' );
 
-			if ( $i === false ) continue;
+			if ( $i === false ) {
+				continue;
+			}
 
 			#print "processing MIME line $s<br>";
 
 			$mime = substr( $s, 0, $i );
 			$ext = trim( substr($s, $i+1 ) );
 
-			if ( empty( $ext ) ) continue;
+			if ( empty( $ext ) ) {
+				continue;
+			}
 
 			if ( !empty( $this->mMimeToExt[$mime] ) ) {
 				$this->mMimeToExt[$mime] .= ' ' . $ext;
@@ -223,7 +232,9 @@ class MimeMagic {
 
 			foreach ( $extensions as $e ) {
 				$e = trim( $e );
-				if ( empty( $e ) ) continue;
+				if ( empty( $e ) ) {
+					continue;
+				}
 
 				if ( !empty( $this->mExtToMime[$e] ) ) {
 					$this->mExtToMime[$e] .= ' ' . $mime;
@@ -265,13 +276,19 @@ class MimeMagic {
 		$lines = explode( "\n", $info );
 		foreach ( $lines as $s ) {
 			$s = trim( $s );
-			if ( empty( $s ) ) continue;
-			if ( strpos( $s, '#' ) === 0 ) continue;
+			if ( empty( $s ) ) {
+				continue;
+			}
+			if ( strpos( $s, '#' ) === 0 ) {
+				continue;
+			}
 
 			$s = strtolower( $s );
 			$i = strpos( $s, ' ' );
 
-			if ( $i === false ) continue;
+			if ( $i === false ) {
+				continue;
+			}
 
 			#print "processing MIME INFO line $s<br>";
 
@@ -291,7 +308,9 @@ class MimeMagic {
 
 			foreach ( $m as $mime ) {
 				$mime = trim( $mime );
-				if ( empty( $mime ) ) continue;
+				if ( empty( $mime ) ) {
+					continue;
+				}
 
 				$this->mMediaTypes[$mtype][] = $mime;
 			}
@@ -1049,6 +1068,8 @@ class MimeMagic {
 
 	/**
 	 * Get a cached instance of IEContentAnalyzer
+	 *
+	 * @return IEContentAnalyzer
 	 */
 	protected function getIEContentAnalyzer() {
 		if ( is_null( $this->mIEAnalyzer ) ) {

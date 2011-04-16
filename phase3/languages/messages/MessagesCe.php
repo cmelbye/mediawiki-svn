@@ -604,8 +604,6 @@ $1',
 'extlink_tip'     => 'Арахьа хьажориг (йиц ма йе хlотталушерг http://)',
 'headline_sample' => 'Йозан корта',
 'headline_tip'    => 'Корта 2-гlа локхаллийца',
-'math_sample'     => 'Каьчдинарг чудила кхузе',
-'math_tip'        => 'Матlематlекхиа каьчйар (барам LaTeX)',
 'nowiki_sample'   => 'Чудиллийша кхузе барамхlоттонза йоза.',
 'nowiki_tip'      => 'Тергал ца бо вики-бáрамхlоттор',
 'image_sample'    => 'Example.jpg',
@@ -1410,12 +1408,11 @@ PICT # тайп тайпан
 'nextdiff'     => 'Тlяхьа догlа нисдинарг →',
 
 # Media information
-'widthheightpage'      => '$1 × $2, $3 {{PLURAL:$3|агlо|агlонаш|агlонаш}}',
-'file-info-size'       => '$1 × $2 сиртакх, хlуман барам: $3, MIME-тайп: $4',
-'file-nohires'         => '<small>Кхи йоккха гlоле башхо яц.</small>',
-'svg-long-desc'        => 'SVG-хlума, хlоттамца $1 × $2 цинташ, хlуман барам: $3',
-'show-big-image'       => 'Сурт цlанал лаккхара бакъонца',
-'show-big-image-thumb' => '<small>Хьажарна барам: $1 × $2 цинташ</small>',
+'widthheightpage' => '$1 × $2, $3 {{PLURAL:$3|агlо|агlонаш|агlонаш}}',
+'file-info-size'  => '$1 × $2 сиртакх, хlуман барам: $3, MIME-тайп: $4',
+'file-nohires'    => '<small>Кхи йоккха гlоле башхо яц.</small>',
+'svg-long-desc'   => 'SVG-хlума, хlоттамца $1 × $2 цинташ, хlуман барам: $3',
+'show-big-image'  => 'Сурт цlанал лаккхара бакъонца',
 
 # Special:NewFiles
 'newimages'        => 'Керлачу хlумни галеларе',

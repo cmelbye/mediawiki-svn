@@ -101,6 +101,7 @@ class BitmapHandler extends ImageHandler {
 			'mimeType' => $image->getMimeType(),
 			'srcPath' => $image->getPath(),
 			'dstPath' => $dstPath,
+			'dstUrl' => $dstUrl,
 		);
 
 		wfDebug( __METHOD__ . ": creating {$scalerParams['physicalDimensions']} thumbnail at $dstPath\n" );
@@ -135,13 +136,28 @@ class BitmapHandler extends ImageHandler {
 			wfDebug( __METHOD__ . ": Unable to create thumbnail destination directory, falling back to client scaling\n" );
 			return $this->getClientScalingThumbnailImage( $image, $scalerParams );
 		}
-
+		
+		# Try a hook
+		$mto = null;
+		wfRunHooks( 'BitmapHandlerTransform', array( $this, $image, &$scalerParams, &$mto ) );
+		if ( !is_null( $mto ) ) {
+			wfDebug( __METHOD__ . ": Hook to BitmapHandlerTransform created an mto\n" );
+			$scaler = 'hookaborted';
+		}
+		
 		switch ( $scaler ) {
+			case 'hookaborted':
+				# Handled by the hook above
+				$err = $mto->isError() ? $mto : false;
+				break;
 			case 'im':
 				$err = $this->transformImageMagick( $image, $scalerParams );
 				break;
 			case 'custom':
 				$err = $this->transformCustom( $image, $scalerParams );
+				break;
+			case 'imext':
+				$err = $this->transformImageMagickExt( $image, $scalerParams );
 				break;
 			case 'gd':
 			default:
@@ -158,6 +174,8 @@ class BitmapHandler extends ImageHandler {
 			# Thumbnail was zero-byte and had to be removed
 			return new MediaTransformError( 'thumbnail_error',
 				$scalerParams['clientWidth'], $scalerParams['clientHeight'] );
+		} elseif ( $mto ) {
+			return $mto;
 		} else {
 			return new ThumbnailImage( $image, $dstUrl, $scalerParams['clientWidth'],
 				$scalerParams['clientHeight'], $dstPath );
@@ -184,6 +202,8 @@ class BitmapHandler extends ImageHandler {
 			$scaler = 'custom';
 		} elseif ( function_exists( 'imagecreatetruecolor' ) ) {
 			$scaler = 'gd';
+		} elseif ( class_exists( 'Imagick' ) ) {
+			$scaler = 'imext';
 		} else {
 			$scaler = 'client';
 		}
@@ -209,7 +229,7 @@ class BitmapHandler extends ImageHandler {
 		return new ThumbnailImage( $image, $image->getURL(),
 				$params['clientWidth'], $params['clientHeight'], $params['srcPath'] );
 	}
-
+	
 	/**
 	 * Transform an image using ImageMagick
 	 *
@@ -301,6 +321,91 @@ class BitmapHandler extends ImageHandler {
 
 		return false; # No error
 	}
+	
+	/**
+	 * Transform an image using the Imagick PHP extension
+	 * 
+	 * @param $image File File associated with this thumbnail
+	 * @param $params array Array with scaler params
+	 *
+	 * @return MediaTransformError Error object if error occured, false (=no error) otherwise
+	 */
+	protected function transformImageMagickExt( $image, $params ) {
+		global $wgSharpenReductionThreshold, $wgSharpenParameter, $wgMaxAnimatedGifArea;
+		
+		try {
+			$im = new Imagick();
+			$im->readImage( $params['srcPath'] );
+	
+			if ( $params['mimeType'] == 'image/jpeg' ) {
+				// Sharpening, see bug 6193
+				if ( ( $params['physicalWidth'] + $params['physicalHeight'] )
+						/ ( $params['srcWidth'] + $params['srcHeight'] )
+						< $wgSharpenReductionThreshold ) {
+					// Hack, since $wgSharpenParamater is written specifically for the command line convert
+					list( $radius, $sigma ) = explode( 'x', $wgSharpenParameter );
+					$im->sharpenImage( $radius, $sigma );
+				}
+				$im->setCompressionQuality( 80 );
+			} elseif( $params['mimeType'] == 'image/png' ) {
+				$im->setCompressionQuality( 95 );
+			} elseif ( $params['mimeType'] == 'image/gif' ) {
+				if ( $this->getImageArea( $image, $params['srcWidth'],
+						$params['srcHeight'] ) > $wgMaxAnimatedGifArea ) {
+					// Extract initial frame only; we're so big it'll
+					// be a total drag. :P
+					$im->setImageScene( 0 );
+				} elseif ( $this->isAnimatedImage( $image ) ) {
+					// Coalesce is needed to scale animated GIFs properly (bug 1017).
+					$im = $im->coalesceImages();
+				}
+			}
+			
+			$rotation = $this->getRotation( $image );
+			if ( $rotation == 90 || $rotation == 270 ) {
+				// We'll resize before rotation, so swap the dimensions again
+				$width = $params['physicalHeight'];
+				$height = $params['physicalWidth'];
+			} else {
+				$width = $params['physicalWidth'];
+				$height = $params['physicalHeight'];			
+			}
+			
+			$im->setImageBackgroundColor( new ImagickPixel( 'white' ) );
+			
+			// Call Imagick::thumbnailImage on each frame
+			foreach ( $im as $i => $frame ) {
+				if ( !$frame->thumbnailImage( $width, $height, /* fit */ false ) ) {
+					return $this->getMediaTransformError( $params, "Error scaling frame $i" );
+				}
+			}
+			$im->setImageDepth( 8 );
+			
+			if ( $rotation ) {
+				if ( !$im->rotateImage( new ImagickPixel( 'white' ), 360 - $rotation ) ) {
+					return $this->getMediaTransformError( $params, "Error rotating $rotation degrees" );
+				}
+			}
+	
+			if ( $this->isAnimatedImage( $image ) ) {
+				wfDebug( __METHOD__ . ": Writing animated thumbnail\n" );
+				// This is broken somehow... can't find out how to fix it
+				$result = $im->writeImages( $params['dstPath'], true );
+			} else {
+				$result = $im->writeImage( $params['dstPath'] );
+			}
+			if ( !$result ) {
+				return $this->getMediaTransformError( $params, 
+					"Unable to write thumbnail to {$params['dstPath']}" );
+			}
+
+		} catch ( ImagickException $e ) {
+			return $this->getMediaTransformError( $params, $e->getMessage() ); 
+		}
+		
+		return false;
+		
+	}
 
 	/**
 	 * Transform an image using a custom command
@@ -353,7 +458,7 @@ class BitmapHandler extends ImageHandler {
 	 * @param $errMsg string Error message
 	 * @return MediaTransformError
 	 */
-	protected function getMediaTransformError( $params, $errMsg ) {
+	public function getMediaTransformError( $params, $errMsg ) {
 		return new MediaTransformError( 'thumbnail_error', $params['clientWidth'],
 					$params['clientHeight'], $errMsg );
 	}
@@ -713,6 +818,9 @@ class BitmapHandler extends ImageHandler {
 		switch ( $scaler ) {
 			case 'im':
 				# ImageMagick supports autorotation
+				return true;
+			case 'imext':
+				# Imagick::rotateImage
 				return true;
 			case 'gd':
 				# GD's imagerotate function is used to rotate images, but not

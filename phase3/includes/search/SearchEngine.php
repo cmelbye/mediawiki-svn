@@ -129,19 +129,23 @@ class SearchEngine {
 			return $titleResult;
 		}
 
+		$context = new RequestContext;
+
 		foreach ( $allSearchTerms as $term ) {
 
 			# Exact match? No need to look further.
 			$title = Title::newFromText( $term );
-			if ( is_null( $title ) )
+			if ( is_null( $title ) ){
 				return null;
+			}
 
 			if ( $title->getNamespace() == NS_SPECIAL || $title->isExternal() || $title->exists() ) {
 				return $title;
 			}
 
 			# See if it still otherwise has content is some sane sense
-			$article = MediaWiki::articleFromTitle( $title );
+			$context->setTitle( $title );
+			$article = MediaWiki::articleFromTitle( $title, $context );
 			if ( $article->hasViewableContent() ) {
 				return $title;
 			}
@@ -439,13 +443,13 @@ class SearchEngine {
 	 * @return String
 	 */
 	public static function getOpenSearchTemplate() {
-		global $wgOpenSearchTemplate, $wgServer, $wgScriptPath;
+		global $wgOpenSearchTemplate, $wgServer;
 		if ( $wgOpenSearchTemplate )	{
 			return $wgOpenSearchTemplate;
 		} else {
 			$ns = implode( '|', SearchEngine::defaultNamespaces() );
 			if ( !$ns ) $ns = "0";
-			return $wgServer . $wgScriptPath . '/api.php?action=opensearch&search={searchTerms}&namespace=' . $ns;
+			return $wgServer . wfScript( 'api' ) . '?action=opensearch&search={searchTerms}&namespace=' . $ns;
 		}
 	}
 
@@ -455,11 +459,11 @@ class SearchEngine {
 	 * @return String
 	 */
 	public static function getMWSuggestTemplate() {
-		global $wgMWSuggestTemplate, $wgServer, $wgScriptPath;
+		global $wgMWSuggestTemplate, $wgServer;
 		if ( $wgMWSuggestTemplate )
 			return $wgMWSuggestTemplate;
 		else
-			return $wgServer . $wgScriptPath . '/api.php?action=opensearch&search={searchTerms}&namespace={namespaces}&suggest';
+			return $wgServer . wfScript( 'api' ) . '?action=opensearch&search={searchTerms}&namespace={namespaces}&suggest';
 	}
 }
 
@@ -630,8 +634,22 @@ class SearchResultTooMany {
  * @ingroup Search
  */
 class SearchResult {
+
+	/**
+	 * @var Revision
+	 */
 	var $mRevision = null;
 	var $mImage = null;
+
+	/**
+	 * @var Title
+	 */
+	var $mTitle;
+
+	/**
+	 * @var String
+	 */
+	var $mText;
 
 	/**
 	 * Return a new SearchResult and initializes it with a title.
@@ -1323,12 +1341,13 @@ class SearchHighlighter {
                 continue;
             }
             --$contextlines;
-            $pre = $wgContLang->truncate( $m[1], - $contextchars );
+            // truncate function changes ... to relevant i18n message.
+            $pre = $wgContLang->truncate( $m[1], - $contextchars, '...', false );
 
             if ( count( $m ) < 3 ) {
                 $post = '';
             } else {
-                $post = $wgContLang->truncate( $m[3], $contextchars );
+                $post = $wgContLang->truncate( $m[3], $contextchars, '...', false );
             }
 
             $found = $m[2];

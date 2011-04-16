@@ -382,8 +382,6 @@ Ga wa dumelwa go tlhoma tše dingwe.',
 'extlink_tip'     => 'Hlomaganyo ya ka ntle (gopola go thoma ka http://)',
 'headline_sample' => 'Tlhaka ya hlogotaba',
 'headline_tip'    => 'Hlogotaba ya boemo ba 2',
-'math_sample'     => "Lokela ''formula'' mo",
-'math_tip'        => 'Formula ya dipalo (LaTeX)',
 'nowiki_sample'   => "Tsenya ditlhaka tša go sebe le ''format'' mo",
 'nowiki_tip'      => "Hlokomologa tselangwalo (''formatting'') ya  wiki",
 'image_sample'    => 'Mohlala.jpg',
@@ -956,7 +954,6 @@ Seemo sa go lota ga letlakala '''$1''':",
 
 # Block/unblock
 'blockip'                  => 'Thibela mošomiši go tsena',
-'ipaddress'                => 'IP Atrese:',
 'ipbexpiry'                => 'Fetatšatši:',
 'ipbreason'                => 'Lebaka:',
 'ipbreasonotherlist'       => 'Lebaka le lengwe',
@@ -966,7 +963,6 @@ Seemo sa go lota ga letlakala '''$1''':",
 'ipbotheroption'           => 'yengwe',
 'ipblocklist'              => "Lenano la IP le bašumiši bao bathibilwego(''blocked'')",
 'ipblocklist-submit'       => 'Fetleka',
-'blocklistline'            => '$1, $2 o thibile $3 ($4)',
 'emailblock'               => 'e-mail e thibilwe',
 'blocklink'                => 'thibela',
 'unblocklink'              => 'tloša thibelo',
@@ -1103,10 +1099,6 @@ Ka kgopelo, kgetha leina le lengwe.',
 'numedits'    => 'Palo ya diphetogo (letlakala): $1',
 'numwatchers' => 'Palo ya batlhapedi: $1',
 
-# Math errors
-'math_unknown_error' => 'Phošo ya gose tsebege',
-'math_syntax_error'  => 'phošo ya popafoko',
-
 # Image deletion
 'filedeleteerror-short' => 'Phošo go phumuleng faele: $1',
 'filedeleteerror-long'  => 'Diphošo di hlagile ge go phumulwa faele:
@@ -1119,12 +1111,11 @@ $1',
 'nextdiff'     => 'Diphapano tše dimpšha →',
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|letlakala|matlakala}}',
-'file-info-size'       => '$1 × $2 pixel, bogolo ba faele: $3, Mohuta wa MIME: $4',
-'file-nohires'         => "<small>Gago ''resolution'' ya go feta mo.</small>",
-'svg-long-desc'        => 'SVG faele, nominally $1 × $2 pixels, bogolo ba faele: $3',
-'show-big-image'       => "''resolution'' ya gofella",
-'show-big-image-thumb' => '<small>Bogolo ba pono: $1 × $2 pixels</small>',
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|letlakala|matlakala}}',
+'file-info-size'  => '$1 × $2 pixel, bogolo ba faele: $3, Mohuta wa MIME: $4',
+'file-nohires'    => "<small>Gago ''resolution'' ya go feta mo.</small>",
+'svg-long-desc'   => 'SVG faele, nominally $1 × $2 pixels, bogolo ba faele: $3',
+'show-big-image'  => "''resolution'' ya gofella",
 
 # Special:NewFiles
 'newimages' => "''Gallery'' ya difaele tše mpsha",

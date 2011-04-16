@@ -281,7 +281,6 @@ $messages = array(
 # Edit page toolbar
 'link_sample'    => 'Link taitel',
 'extlink_sample' => 'http://www.example.com link taitel',
-'math_tip'       => 'Matematik formula (LaTeX)',
 'media_tip'      => 'Link bilong fail',
 
 # Edit pages
@@ -386,7 +385,6 @@ Na tu yu tok tru nau olsem yu raitim dispela yu yet, o yu kisim long wanpela hap
 'changepassword'            => 'Senis paswot',
 'prefs-skin'                => 'Skin',
 'skin-preview'              => 'pes mi senisim, pastaim long raitim',
-'prefs-math'                => 'Matematiks',
 'datedefault'               => 'Nogat laik',
 'prefs-rc'                  => 'Nupela senis',
 'prefs-watchlist'           => 'Lukautbuk',
@@ -701,7 +699,6 @@ Sapos yu laik rausim dispela pes long lukautbuk bilong yu bihain, paitim \"Pinis
 
 # Block/unblock
 'blockip'            => 'Pasim yusa (Block user)',
-'ipaddress'          => 'IP adres:',
 'ipboptions'         => '2 awa:2 hours,1 de:1 day,3 de:3 days,1 wik:1 week,2 wik:2 weeks,1 mun:1 month,3 mun:3 months,6 mun:6 months,1 yia:1 year,oltaim:infinite',
 'ipbotheroption'     => 'narapela',
 'ipblocklist'        => 'Ol IP adres na yusanem i pas',
@@ -825,7 +822,7 @@ Yu inap lukim as tok bilong em',
 'watchlistedit-noitems'        => 'Nogat wanpela samting long lukautbuk bilong yu.',
 'watchlistedit-normal-title'   => 'Senisim lukautbuk',
 'watchlistedit-normal-legend'  => 'Rausim ol samting long lukautbuk',
-'watchlistedit-normal-explain' => 'Ananit yu lukim ol samting long lukautbuk. Long rausim wanpela samting, makim liklik boxis long sait bilong en, na paitim "Rausim ol samting".  Na tu yu inap [[Special:Watchlist/raw|senisim lukautbuk long wanpela bokis]].',
+'watchlistedit-normal-explain' => 'Ananit yu lukim ol samting long lukautbuk. Long rausim wanpela samting, makim liklik boxis long sait bilong en, na paitim "Rausim ol samting".  Na tu yu inap [[Special:EditWatchlist/raw|senisim lukautbuk long wanpela bokis]].',
 'watchlistedit-normal-submit'  => 'Rausim ol samting',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Wanpela|$1}} samting i raus pinis long lukautbuk bilong yu:',
 'watchlistedit-raw-title'      => 'Senisim lukautbuk long wanpela bokis',
@@ -833,7 +830,7 @@ Yu inap lukim as tok bilong em',
 'watchlistedit-raw-explain'    => 'Ananit yu lukim ol samting long lukautbuk bilong yu insait long wanpela bokis.
 	Yu inap putim sampela moa samting igo insait, o rausim sampela ol samting. Putim
 	wanpela samting i go long wanwan lain.  Taim yu pinisim ol senis, paitim "Senisim lukautbuk".
-	Na tu yu inap [[Special:Watchlist/edit|senisim lukautbuk long planti liklik bokis]].',
+	Na tu yu inap [[Special:EditWatchlist|senisim lukautbuk long planti liklik bokis]].',
 'watchlistedit-raw-titles'     => 'Ol samting:',
 'watchlistedit-raw-submit'     => 'Senisim lukautbuk',
 'watchlistedit-raw-done'       => 'Lukautbuk bilong yu i senis pinis.',

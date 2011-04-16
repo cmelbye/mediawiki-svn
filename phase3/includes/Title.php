@@ -5,15 +5,6 @@
  */
 
 /**
- * @todo:  determine if it is really necessary to load this.  Appears to be left over from pre-autoloader versions, and
- *   is only really needed to provide access to constant UTF8_REPLACEMENT, which actually resides in UtfNormalDefines.php
- *   and is loaded by UtfNormalUtil.php, which is loaded by UtfNormal.php.
- */
-if ( !class_exists( 'UtfNormal' ) ) {
-	require_once( dirname( __FILE__ ) . '/normal/UtfNormal.php' );
-}
-
-/**
  * @deprecated This used to be a define, but was moved to
  * Title::GAID_FOR_UPDATE in 1.17. This will probably be removed in 1.18
  */
@@ -990,8 +981,9 @@ class Title {
 	 * @return String the URL
 	 */
 	public function getInternalURL( $query = '', $variant = false ) {
-		global $wgInternalServer;
-		$url = $wgInternalServer . $this->getLocalURL( $query, $variant );
+		global $wgInternalServer, $wgServer;
+		$server = $wgInternalServer !== false ? $wgInternalServer : $wgServer;
+		$url = $server . $this->getLocalURL( $query, $variant );
 		wfRunHooks( 'GetInternalURL', array( &$this, &$url, $query ) );
 		return $url;
 	}
@@ -1540,8 +1532,14 @@ class Title {
 			$errors[] = array( 'confirmedittext' );
 		}
 
-		// Edit blocks should not affect reading. Account creation blocks handled at userlogin.
-		if ( $action != 'read' && $action != 'createaccount' && $user->isBlockedFrom( $this ) ) {
+		if ( in_array( $action, array( 'read', 'createaccount', 'unblock' ) ) ){
+			// Edit blocks should not affect reading.
+			// Account creation blocks handled at userlogin.
+			// Unblocking handled in SpecialUnblock
+		} elseif( ( $action == 'edit' || $action == 'create' ) && !$user->isBlockedFrom( $this ) ){
+			// Don't block the user from editing their own talk page unless they've been
+			// explicitly blocked from that too.
+		} elseif( $user->isBlocked() && $user->mBlock->prevents( $action ) !== false ) {
 			$block = $user->mBlock;
 
 			// This is from OutputPage::blockedPage
@@ -1561,29 +1559,16 @@ class Title {
 			}
 
 			$link = '[[' . $wgContLang->getNsText( NS_USER ) . ":{$name}|{$name}]]";
-			$blockid = $block->mId;
+			$blockid = $block->getId();
 			$blockExpiry = $user->mBlock->mExpiry;
 			$blockTimestamp = $wgLang->timeanddate( wfTimestamp( TS_MW, $user->mBlock->mTimestamp ), true );
 			if ( $blockExpiry == 'infinity' ) {
-				// Entry in database (table ipblocks) is 'infinity' but 'ipboptions' uses 'infinite' or 'indefinite'
-				$scBlockExpiryOptions = wfMsg( 'ipboptions' );
-
-				foreach ( explode( ',', $scBlockExpiryOptions ) as $option ) {
-					if ( !strpos( $option, ':' ) )
-						continue;
-
-					list( $show, $value ) = explode( ':', $option );
-
-					if ( $value == 'infinite' || $value == 'indefinite' ) {
-						$blockExpiry = $show;
-						break;
-					}
-				}
+				$blockExpiry = wfMessage( 'infiniteblock' )->text();
 			} else {
 				$blockExpiry = $wgLang->timeanddate( wfTimestamp( TS_MW, $blockExpiry ), true );
 			}
 
-			$intended = $user->mBlock->mAddress;
+			$intended = strval( $user->mBlock->getTarget() );
 
 			$errors[] = array( ( $block->mAuto ? 'autoblockedtext' : 'blockedtext' ), $link, $reason, $ip, $name,
 				$blockid, $blockExpiry, $intended, $blockTimestamp );
@@ -1679,10 +1664,10 @@ class Title {
 
 		$dbw = wfGetDB( DB_MASTER );
 
-		$encodedExpiry = Block::encodeExpiry( $expiry, $dbw );
+		$encodedExpiry = $dbw->encodeExpiry( $expiry );
 
 		$expiry_description = '';
-		if ( $encodedExpiry != 'infinity' ) {
+		if ( $encodedExpiry != $dbw->getInfinity() ) {
 			$expiry_description = ' (' . wfMsgForContent( 'protect-expiring', $wgContLang->timeanddate( $expiry ),
 				$wgContLang->date( $expiry ) , $wgContLang->time( $expiry ) ) . ')';
 		} else {
@@ -1695,7 +1680,7 @@ class Title {
 					'pt_namespace' => $namespace,
 					'pt_title' => $title,
 					'pt_create_perm' => $create_perm,
-					'pt_timestamp' => Block::encodeExpiry( wfTimestampNow(), $dbw ),
+					'pt_timestamp' => $dbw->encodeExpiry( wfTimestampNow() ),
 					'pt_expiry' => $encodedExpiry,
 					'pt_user' => $wgUser->getId(),
 					'pt_reason' => $reason,
@@ -1954,7 +1939,7 @@ class Title {
 	 * Is this a *valid* .css or .js subpage of a user page?
 	 *
 	 * @return Bool
-	 * @deprecated @since 1.17
+	 * @deprecated since 1.17
 	 */
 	public function isValidCssJsSubpage() {
 		return $this->isCssJsSubpage();
@@ -1998,7 +1983,7 @@ class Title {
 	 */
 	public function userCanEditCssSubpage() {
 		global $wgUser;
-		return ( ( $wgUser->isAllowed( 'editusercssjs' ) && $wgUser->isAllowed( 'editusercss' ) )
+		return ( ( $wgUser->isAllowedAll( 'editusercssjs', 'editusercss' ) )
 			|| preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
 	}
 
@@ -2011,7 +1996,7 @@ class Title {
 	 */
 	public function userCanEditJsSubpage() {
 		global $wgUser;
-		return ( ( $wgUser->isAllowed( 'editusercssjs' ) && $wgUser->isAllowed( 'edituserjs' ) )
+		return ( ( $wgUser->isAllowedAll( 'editusercssjs', 'edituserjs' ) )
 			   || preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
 	}
 
@@ -2036,6 +2021,7 @@ class Title {
 	 *     contains a array of unique groups.
 	 */
 	public function getCascadeProtectionSources( $getPages = true ) {
+		global $wgContLang;
 		$pagerestrictions = array();
 
 		if ( isset( $this->mCascadeSources ) && $getPages ) {
@@ -2081,7 +2067,7 @@ class Title {
 		$purgeExpired = false;
 
 		foreach ( $res as $row ) {
-			$expiry = Block::decodeExpiry( $row->pr_expiry );
+			$expiry = $wgContLang->formatExpiry( $row->pr_expiry, TS_MW );
 			if ( $expiry > $now ) {
 				if ( $getPages ) {
 					$page_id = $row->pr_page;
@@ -2162,13 +2148,14 @@ class Title {
 	 *        restrictions from page table (pre 1.10)
 	 */
 	public function loadRestrictionsFromRows( $rows, $oldFashionedRestrictions = null ) {
+		global $wgContLang;
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$restrictionTypes = $this->getRestrictionTypes();
 
 		foreach ( $restrictionTypes as $type ) {
 			$this->mRestrictions[$type] = array();
-			$this->mRestrictionsExpiry[$type] = Block::decodeExpiry( '' );
+			$this->mRestrictionsExpiry[$type] = $wgContLang->formatExpiry( '', TS_MW );
 		}
 
 		$this->mCascadeRestriction = false;
@@ -2211,7 +2198,7 @@ class Title {
 
 				// This code should be refactored, now that it's being used more generally,
 				// But I don't really see any harm in leaving it in Block for now -werdna
-				$expiry = Block::decodeExpiry( $row->pr_expiry );
+				$expiry = $wgContLang->formatExpiry( $row->pr_expiry, TS_MW );
 
 				// Only apply the restrictions if they haven't expired!
 				if ( !$expiry || $expiry > $now ) {
@@ -2240,12 +2227,17 @@ class Title {
 	 *        restrictions from page table (pre 1.10)
 	 */
 	public function loadRestrictions( $oldFashionedRestrictions = null ) {
+		global $wgContLang;
 		if ( !$this->mRestrictionsLoaded ) {
 			if ( $this->exists() ) {
 				$dbr = wfGetDB( DB_SLAVE );
 
-				$res = $dbr->select( 'page_restrictions', '*',
-					array( 'pr_page' => $this->getArticleId() ), __METHOD__ );
+				$res = $dbr->select(
+					'page_restrictions',
+					'*',
+					array( 'pr_page' => $this->getArticleId() ),
+					__METHOD__
+				);
 
 				$this->loadRestrictionsFromResultWrapper( $res, $oldFashionedRestrictions );
 			} else {
@@ -2253,7 +2245,7 @@ class Title {
 
 				if ( $title_protection ) {
 					$now = wfTimestampNow();
-					$expiry = Block::decodeExpiry( $title_protection['pt_expiry'] );
+					$expiry = $wgContLang->formatExpiry( $title_protection['pt_expiry'], TS_MW );
 
 					if ( !$expiry || $expiry > $now ) {
 						// Apply the restrictions
@@ -2264,7 +2256,7 @@ class Title {
 						$this->mTitleProtection = false;
 					}
 				} else {
-					$this->mRestrictionsExpiry['create'] = Block::decodeExpiry( '' );
+					$this->mRestrictionsExpiry['create'] = $wgContLang->formatExpiry( '', TS_MW );
 				}
 				$this->mRestrictionsLoaded = true;
 			}
@@ -2577,8 +2569,6 @@ class Title {
 		global $wgContLang, $wgLocalInterwiki;
 
 		# Initialisation
-		$rxTc = self::getTitleInvalidRegex();
-
 		$this->mInterwiki = $this->mFragment = '';
 		$this->mNamespace = $this->mDefaultNamespace; # Usually NS_MAIN
 
@@ -2680,7 +2670,7 @@ class Title {
 		}
 		$fragment = strstr( $dbkey, '#' );
 		if ( false !== $fragment ) {
-			$this->setFragment( preg_replace( '/^#_*/', '#', $fragment ) );
+			$this->setFragment( $fragment );
 			$dbkey = substr( $dbkey, 0, strlen( $dbkey ) - strlen( $fragment ) );
 			# remove whitespace again: prevents "Foo_bar_#"
 			# becoming "Foo_bar_"
@@ -2688,6 +2678,7 @@ class Title {
 		}
 
 		# Reject illegal characters.
+		$rxTc = self::getTitleInvalidRegex();
 		if ( preg_match( $rxTc, $dbkey ) ) {
 			return false;
 		}
@@ -2987,22 +2978,7 @@ class Title {
 
 		// Image-specific checks
 		if ( $this->getNamespace() == NS_FILE ) {
-			if ( $nt->getNamespace() != NS_FILE ) {
-				$errors[] = array( 'imagenocrossnamespace' );
-			}
-			$file = wfLocalFile( $this );
-			if ( $file->exists() ) {
-				if ( $nt->getText() != wfStripIllegalFilenameChars( $nt->getText() ) ) {
-					$errors[] = array( 'imageinvalidfilename' );
-				}
-				if ( !File::checkExtensionCompatibility( $file, $nt->getDBkey() ) ) {
-					$errors[] = array( 'imagetypemismatch' );
-				}
-			}
-			$destfile = wfLocalFile( $nt );
-			if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destfile->exists() && wfFindFile( $nt ) ) {
-				$errors[] = array( 'file-exists-sharedrepo' );
-			}
+			$errors = array_merge( $errors, $this->validateFileMoveOperation( $nt ) );
 		}
 
 		if ( $nt->getNamespace() == NS_FILE && $this->getNamespace() != NS_FILE ) {
@@ -3050,6 +3026,38 @@ class Title {
 	}
 
 	/**
+	 * Check if the requested move target is a valid file move target
+	 * @param Title $nt Target title
+	 * @return array List of errors
+	 */
+	protected function validateFileMoveOperation( $nt ) {
+		global $wgUser;
+
+		$errors = array();
+
+		if ( $nt->getNamespace() != NS_FILE ) {
+			$errors[] = array( 'imagenocrossnamespace' );
+		}
+
+		$file = wfLocalFile( $this );
+		if ( $file->exists() ) {
+			if ( $nt->getText() != wfStripIllegalFilenameChars( $nt->getText() ) ) {
+				$errors[] = array( 'imageinvalidfilename' );
+			}
+			if ( !File::checkExtensionCompatibility( $file, $nt->getDBkey() ) ) {
+				$errors[] = array( 'imagetypemismatch' );
+			}
+		}
+
+		$destFile = wfLocalFile( $nt );
+		if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destFile->exists() && wfFindFile( $nt ) ) {
+			$errors[] = array( 'file-exists-sharedrepo' );
+		}
+
+		return $errors;
+	}
+
+	/**
 	 * Move a title to a new location
 	 *
 	 * @param $nt Title the new title
@@ -3079,13 +3087,16 @@ class Title {
 			}
 		}
 
-		$pageid = $this->getArticleID();
+		$dbw->begin(); # If $file was a LocalFile, its transaction would have closed our own.
+		$pageid = $this->getArticleID( GAID_FOR_UPDATE );
 		$protected = $this->isProtected();
 		$pageCountChange = ( $createRedirect ? 1 : 0 ) - ( $nt->exists() ? 1 : 0 );
 
 		// Do the actual move
 		$err = $this->moveToInternal( $nt, $reason, $createRedirect );
 		if ( is_array( $err ) ) {
+			# FIXME: What about the File we have already moved?
+			$dbw->rollback();
 			return $err;
 		}
 
@@ -3093,19 +3104,26 @@ class Title {
 
 		// Refresh the sortkey for this row.  Be careful to avoid resetting
 		// cl_timestamp, which may disturb time-based lists on some sites.
-		$prefix = $dbw->selectField(
+		$prefixes = $dbw->select(
 			'categorylinks',
-			'cl_sortkey_prefix',
+			array( 'cl_sortkey_prefix', 'cl_to' ),
 			array( 'cl_from' => $pageid ),
 			__METHOD__
 		);
-		$dbw->update( 'categorylinks',
-			array(
-				'cl_sortkey' => Collation::singleton()->getSortKey(
-					$nt->getCategorySortkey( $prefix ) ),
-				'cl_timestamp=cl_timestamp' ),
-			array( 'cl_from' => $pageid ),
-			__METHOD__ );
+		foreach ( $prefixes as $prefixRow ) {
+			$prefix = $prefixRow->cl_sortkey_prefix;
+			$catTo = $prefixRow->cl_to;
+			$dbw->update( 'categorylinks',
+				array(
+					'cl_sortkey' => Collation::singleton()->getSortKey(
+						$nt->getCategorySortkey( $prefix ) ),
+					'cl_timestamp=cl_timestamp' ),
+				array(
+					'cl_from' => $pageid,
+					'cl_to' => $catTo ),
+				__METHOD__
+			);
+		}
 
 		if ( $protected ) {
 			# Protect the redirect title as the title used to be...
@@ -3147,6 +3165,8 @@ class Title {
 		$u = new SearchUpdate( $redirid, $this->getPrefixedDBkey(), '' );
 		$u->doUpdate();
 
+		$dbw->commit();
+		
 		# Update site_stats
 		if ( $this->isContentPage() && !$nt->isContentPage() ) {
 			# No longer a content page
@@ -3207,11 +3227,14 @@ class Title {
 		if ( $reason ) {
 			$comment .= wfMsgForContent( 'colon-separator' ) . $reason;
 		}
-		# Truncate for whole multibyte characters. +5 bytes for ellipsis
-		$comment = $wgContLang->truncate( $comment, 250 );
+		# Truncate for whole multibyte characters.
+		$comment = $wgContLang->truncate( $comment, 255 );
 
 		$oldid = $this->getArticleID();
 		$latest = $this->getLatestRevID();
+
+		$oldns = $this->getNamespace();
+		$olddbk = $this->getDBkey();
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -3297,6 +3320,17 @@ class Title {
 				__METHOD__ );
 			$redirectSuppressed = false;
 		} else {
+			// Get rid of old new page entries in Special:NewPages and RC.
+			// Needs to be before $this->resetArticleID( 0 ).
+			$dbw->delete( 'recentchanges', array(
+					'rc_timestamp' => $dbw->timestamp( $this->getEarliestRevTime() ),
+					'rc_namespace' => $oldns,
+					'rc_title' => $olddbk,
+					'rc_new' => 1
+				),
+				__METHOD__
+			);
+
 			$this->resetArticleID( 0 );
 			$redirectSuppressed = true;
 		}
@@ -3603,21 +3637,30 @@ class Title {
 	 * @return Revision|Null if page doesn't exist
 	 */
 	public function getFirstRevision( $flags = 0 ) {
-		$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
 		$pageId = $this->getArticleId( $flags );
-		if ( !$pageId ) {
-			return null;
+		if ( $pageId ) {
+			$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
+			$row = $db->selectRow( 'revision', '*',
+				array( 'rev_page' => $pageId ),
+				__METHOD__,
+				array( 'ORDER BY' => 'rev_timestamp ASC', 'LIMIT' => 1 )
+			);
+			if ( $row ) {
+				return new Revision( $row );
+			}
 		}
-		$row = $db->selectRow( 'revision', '*',
-			array( 'rev_page' => $pageId ),
-			__METHOD__,
-			array( 'ORDER BY' => 'rev_timestamp ASC', 'LIMIT' => 1 )
-		);
-		if ( !$row ) {
-			return null;
-		} else {
-			return new Revision( $row );
-		}
+		return null;
+	}
+
+	/**
+	 * Get the oldest revision timestamp of this page
+	 *
+	 * @param $flags Int Title::GAID_FOR_UPDATE
+	 * @return String: MW timestamp
+	 */
+	public function getEarliestRevTime( $flags = 0 ) {
+		$rev = $this->getFirstRevision( $flags );	
+		return $rev ? $rev->getTimestamp() : null;
 	}
 
 	/**
@@ -3631,37 +3674,31 @@ class Title {
 	}
 
 	/**
-	 * Get the oldest revision timestamp of this page
-	 *
-	 * @return String: MW timestamp
-	 */
-	public function getEarliestRevTime() {
-		$dbr = wfGetDB( DB_SLAVE );
-		if ( $this->exists() ) {
-			$min = $dbr->selectField( 'revision',
-				'MIN(rev_timestamp)',
-				array( 'rev_page' => $this->getArticleId() ),
-				__METHOD__ );
-			return wfTimestampOrNull( TS_MW, $min );
-		}
-		return null;
-	}
-
-	/**
-	 * Get the number of revisions between the given revision IDs.
+	 * Get the number of revisions between the given revision.
 	 * Used for diffs and other things that really need it.
 	 *
-	 * @param $old Int Revision ID.
-	 * @param $new Int Revision ID.
-	 * @return Int Number of revisions between these IDs.
+	 * @param $old int|Revision Old revision or rev ID (first before range)
+	 * @param $new int|Revision New revision or rev ID (first after range)
+	 * @return Int Number of revisions between these revisions.
 	 */
 	public function countRevisionsBetween( $old, $new ) {
+		if ( !( $old instanceof Revision ) ) {
+			$old = Revision::newFromTitle( $this, (int)$old );
+		}
+		if ( !( $new instanceof Revision ) ) {
+			$new = Revision::newFromTitle( $this, (int)$new );
+		}
+		if ( !$old || !$new ) {
+			return 0; // nothing to compare
+		}
 		$dbr = wfGetDB( DB_SLAVE );
-		return (int)$dbr->selectField( 'revision', 'count(*)', array(
-				'rev_page' => intval( $this->getArticleId() ),
-				'rev_id > ' . intval( $old ),
-				'rev_id < ' . intval( $new )
-			), __METHOD__
+		return (int)$dbr->selectField( 'revision', 'count(*)',
+			array(
+				'rev_page' => $this->getArticleId(),
+				'rev_timestamp > ' . $dbr->addQuotes( $dbr->timestamp( $old->getTimestamp() ) ),
+				'rev_timestamp < ' . $dbr->addQuotes( $dbr->timestamp( $new->getTimestamp() ) )
+			),
+			__METHOD__
 		);
 	}
 
@@ -3669,23 +3706,31 @@ class Title {
 	 * Get the number of authors between the given revision IDs.
 	 * Used for diffs and other things that really need it.
 	 *
-	 * @param $fromRevId Int Revision ID (first before range)
-	 * @param $toRevId Int Revision ID (first after range)
+	 * @param $old int|Revision Old revision or rev ID (first before range)
+	 * @param $new int|Revision New revision or rev ID (first after range)
 	 * @param $limit Int Maximum number of authors
-	 * @param $flags Int Title::GAID_FOR_UPDATE
-	 * @return Int
+	 * @return Int Number of revision authors between these revisions.
 	 */
-	public function countAuthorsBetween( $fromRevId, $toRevId, $limit, $flags = 0 ) {
-		$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
-		$res = $db->select( 'revision', 'DISTINCT rev_user_text',
+	public function countAuthorsBetween( $old, $new, $limit ) {
+		if ( !( $old instanceof Revision ) ) {
+			$old = Revision::newFromTitle( $this, (int)$old );
+		}
+		if ( !( $new instanceof Revision ) ) {
+			$new = Revision::newFromTitle( $this, (int)$new );
+		}
+		if ( !$old || !$new ) {
+			return 0; // nothing to compare
+		}
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( 'revision', 'DISTINCT rev_user_text',
 			array(
 				'rev_page' => $this->getArticleID(),
-				'rev_id > ' . (int)$fromRevId,
-				'rev_id < ' . (int)$toRevId
+				'rev_timestamp > ' . $dbr->addQuotes( $dbr->timestamp( $old->getTimestamp() ) ),
+				'rev_timestamp < ' . $dbr->addQuotes( $dbr->timestamp( $new->getTimestamp() ) )
 			), __METHOD__,
-			array( 'LIMIT' => $limit )
+			array( 'LIMIT' => $limit + 1 ) // add one so caller knows it was truncated
 		);
-		return (int)$db->numRows( $res );
+		return (int)$dbr->numRows( $res );
 	}
 
 	/**
@@ -4119,6 +4164,10 @@ class Title {
 	 * @return array applicable restriction types
 	 */
 	public function getRestrictionTypes() {
+		if ( $this->getNamespace() == NS_SPECIAL ) {
+			return array();
+		}
+
 		$types = self::getFilteredRestrictionTypes( $this->exists() );
 
 		if ( $this->getNamespace() != NS_FILE ) {
@@ -4127,15 +4176,15 @@ class Title {
 		}
 
 		wfRunHooks( 'TitleGetRestrictionTypes', array( $this, &$types ) );
-		
-		wfDebug( __METHOD__ . ': applicable restriction types for ' . 
+
+		wfDebug( __METHOD__ . ': applicable restriction types for ' .
 			$this->getPrefixedText() . ' are ' . implode( ',', $types ) . "\n" );
 
 		return $types;
 	}
 	/**
-	 * Get a filtered list of all restriction types supported by this wiki. 
-	 * @param bool $exists True to get all restriction types that apply to 
+	 * Get a filtered list of all restriction types supported by this wiki.
+	 * @param bool $exists True to get all restriction types that apply to
 	 * titles that do exist, False for all restriction types that apply to
 	 * titles that do not exist
 	 * @return array
@@ -4145,7 +4194,7 @@ class Title {
 		$types = $wgRestrictionTypes;
 		if ( $exists ) {
 			# Remove the create restriction for existing titles
-			$types = array_diff( $types, array( 'create' ) );			
+			$types = array_diff( $types, array( 'create' ) );
 		} else {
 			# Only the create and upload restrictions apply to non-existing titles
 			$types = array_intersect( $types, array( 'create', 'upload' ) );
@@ -4174,5 +4223,39 @@ class Title {
 			return "$prefix\n$unprefixed";
 		}
 		return $unprefixed;
+	}
+}
+
+/**
+ * A BadTitle is generated in MediaWiki::parseTitle() if the title is invalid; the
+ * software uses this to display an error page.  Internally it's basically a Title
+ * for an empty special page
+ */
+class BadTitle extends Title {
+	public function __construct(){
+		$this->mTextform = '';
+		$this->mUrlform = '';
+		$this->mDbkeyform = '';
+		$this->mNamespace = NS_SPECIAL; // Stops talk page link, etc, being shown
+	}
+
+	public function exists(){
+		return false;
+	}
+
+	public function getPrefixedText(){
+		return '';
+	}
+
+	public function getText(){
+		return '';
+	}
+
+	public function getPrefixedURL(){
+		return '';
+	}
+
+	public function getPrefixedDBKey(){
+		return '';
 	}
 }

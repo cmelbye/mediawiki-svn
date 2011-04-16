@@ -54,6 +54,17 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		);
 		$mainPage = Title::newMainPage();
 		
+		#$localDateFormats = $wgContLang->getDateFormats();
+		#$localPreferedFormat = $localDateFormats[$wgContLang->getDefaultDateFormat().' date'];
+		
+		$monthNames = array('');
+		$monthNamesShort = array('');
+		for ($i=1; $i < 13; $i++) { 
+			$monthNames[]=$wgContLang->getMonthName($i);
+			$monthNamesShort[]=$wgContLang->getMonthAbbreviation($i);
+		}
+		
+		#$localPreferedFormat = $localDateFormats['dmy date'];
 		// Build list of variables
 		$vars = array(
 			'wgLoadScript' => $wgLoadScript,
@@ -73,6 +84,9 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgVersion' => $wgVersion,
 			'wgEnableAPI' => $wgEnableAPI,
 			'wgEnableWriteAPI' => $wgEnableWriteAPI,
+			'wgDefaultDateFormat' => $wgContLang->getDefaultDateFormat(),
+			'wgMonthNames' => $monthNames,
+			'wgMonthNamesShort' => $monthNamesShort,
 			'wgSeparatorTransformTable' => $compactSeparatorTransTable,
 			'wgDigitTransformTable' => $compactDigitTransTable,
 			'wgMainPageTitle' => $mainPage ? $mainPage->getPrefixedText() : null,
@@ -118,7 +132,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 				$deps = $module->getDependencies();
 				$group = $module->getGroup();
 				$version = wfTimestamp( TS_ISO_8601_BASIC, 
-					round( $module->getModifiedTime( $context ), -2 ) );
+					$module->getModifiedTime( $context ) );
 				$out .= ResourceLoader::makeCustomLoaderScript( $name, $version, $deps, $group, $loader );
 			}
 			// Automatically register module
@@ -159,17 +173,26 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 
 		$out = file_get_contents( "$IP/resources/startup.js" );
 		if ( $context->getOnly() === 'scripts' ) {
-			// Build load query for jquery and mediawiki modules
+
+			// The core modules:
+			$modules = array( 'jquery', 'mediawiki' );
+			wfRunHooks( 'ResourceLoaderGetStartupModules', array( &$modules ) );
+			
+			// Get the latest version
+			$version = 0;					
+			foreach ( $modules as $moduleName ) {
+				$version = max( $version,
+					$context->getResourceLoader()->getModule( $moduleName )->getModifiedTime( $context )
+				);
+			}
+			// Build load query for StartupModules 
 			$query = array(
-				'modules' => implode( '|', array( 'jquery', 'mediawiki' ) ),
+				'modules' => implode( '|',  $modules ),
 				'only' => 'scripts',
 				'lang' => $context->getLanguage(),
 				'skin' => $context->getSkin(),
 				'debug' => $context->getDebug() ? 'true' : 'false',
-				'version' => wfTimestamp( TS_ISO_8601_BASIC, round( max(
-					$context->getResourceLoader()->getModule( 'jquery' )->getModifiedTime( $context ),
-					$context->getResourceLoader()->getModule( 'mediawiki' )->getModifiedTime( $context )
-				), -2 ) )
+				'version' => wfTimestamp( TS_ISO_8601_BASIC, $version )
 			);
 			// Ensure uniform query order
 			ksort( $query );
@@ -216,16 +239,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			$time = max( $time, $module->getModifiedTime( $context ) );
 		}
 		return $this->modifiedTime[$hash] = $time;
-	}
-
-	/**
-	 * @param $context ResourceLoaderContext
-	 * @return bool
-	 */
-	public function getFlip( $context ) {
-		global $wgContLang;
-
-		return $wgContLang->getDir() !== $context->getDirection();
 	}
 	
 	/* Methods */

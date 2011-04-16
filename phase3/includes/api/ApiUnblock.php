@@ -66,23 +66,25 @@ class ApiUnblock extends ApiBase {
 		}
 		# bug 15810: blocked admins should have limited access here
 		if ( $wgUser->isBlocked() ) {
-			$status = IPBlockForm::checkUnblockSelf( $params['user'] );
+			$status = SpecialBlock::checkUnblockSelf( $params['user'] );
 			if ( $status !== true ) {
 				$this->dieUsageMsg( array( $status ) );
 			}
 		}
 
-		$id = $params['id'];
-		$user = $params['user'];
-		$reason = ( is_null( $params['reason'] ) ? '' : $params['reason'] );
-		$retval = IPUnblockForm::doUnblock( $id, $user, $reason, $range );
-		if ( $retval ) {
-			$this->dieUsageMsg( $retval );
+		$data = array(
+			'Target' => is_null( $params['id'] ) ? $params['user'] : "#{$params['id']}",
+			'Reason' => is_null( $params['reason'] ) ? '' : $params['reason']
+		);
+		$block = Block::newFromTarget( $data['Target'] );
+		$retval = SpecialUnblock::processUnblock( $data );
+		if ( $retval !== true ) {
+			$this->dieUsageMsg( $retval[0] );
 		}
 
-		$res['id'] = intval( $id );
-		$res['user'] = $user;
-		$res['reason'] = $reason;
+		$res['id'] = $block->getId();
+		$res['user'] = $block->getType() == Block::TYPE_AUTO ? '' : $block->getTarget();
+		$res['reason'] = $params['reason'];
 		$this->getResult()->addValue( null, $this->getModuleName(), $res );
 	}
 
@@ -96,7 +98,9 @@ class ApiUnblock extends ApiBase {
 
 	public function getAllowedParams() {
 		return array(
-			'id' => null,
+			'id' => array(
+				ApiBase::PARAM_TYPE => 'integer',
+			),
 			'user' => null,
 			'token' => null,
 			'gettoken' => false,

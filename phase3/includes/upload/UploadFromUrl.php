@@ -68,7 +68,7 @@ class UploadFromUrl extends UploadBase {
 			$desiredDestName = $request->getText( 'wpUploadFileURL' );
 		return $this->initialize(
 			$desiredDestName,
-			$request->getVal( 'wpUploadFileURL' ),
+			trim( $request->getVal( 'wpUploadFileURL' ) ),
 			false
 		);
 	}
@@ -171,11 +171,11 @@ class UploadFromUrl extends UploadBase {
 	 * Wrapper around the parent function in order to defer checking protection
 	 * until we are sure that the file can actually be uploaded
 	 */
-	public function verifyPermissions( $user ) {
+	public function verifyTitlePermissions( $user ) {
 		if ( $this->mAsync ) {
 			return true;
 		}
-		return parent::verifyPermissions( $user );
+		return parent::verifyTitlePermissions( $user );
 	}
 
 	/**

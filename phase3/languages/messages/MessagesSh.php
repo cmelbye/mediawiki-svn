@@ -565,8 +565,6 @@ Možda ste već uspješno promijenili Vašu lozinku ili ste tražili novu privre
 'extlink_tip'     => 'Eksterni link (zapamti prefiks http:// )',
 'headline_sample' => 'Tekst naslova',
 'headline_tip'    => 'Podnaslov',
-'math_sample'     => 'Unesite formulu ovdje',
-'math_tip'        => 'Matematička formula (LaTeX)',
 'nowiki_sample'   => 'Dodaj neformatirani tekst ovdje',
 'nowiki_tip'      => 'Ignoriraj wiki formatiranje',
 'image_tip'       => 'Uklopljena datoteka/fajl',
@@ -1075,7 +1073,6 @@ Uzmite u obzir da njegovi indeksi za ovu Wiki ne moraju biti ažurirani.',
 'changepassword'                => 'Promijeni lozinku',
 'prefs-skin'                    => 'Izgled (skin)',
 'skin-preview'                  => 'Pretpregled',
-'prefs-math'                    => 'Prikazivanje matematike',
 'datedefault'                   => 'Bez preferenci',
 'prefs-datetime'                => 'Datum i vrijeme',
 'prefs-personal'                => 'Korisnički profil',
@@ -2233,7 +2230,6 @@ Posljednje stavke zapisnika blokiranja možete pogledati ispod:',
 'blockiptext'                     => 'Upotrebite donji upitnik da biste uklonili prava pisanja sa određene IP adrese ili korisničkog imena.  
 Ovo bi trebalo da bude urađeno samo da bi se spriječio vandalizam, i u skladu sa [[{{MediaWiki:Policy-url}}|smjernicama]]. 
 Unesite konkretan razlog ispod (na primjer, navodeći koje konkretne stranice su vandalizovane).',
-'ipaddress'                       => 'IP adresa:',
 'ipadressorusername'              => 'IP adresa ili korisničko ime:',
 'ipbexpiry'                       => 'Ističe:',
 'ipbreason'                       => 'Razlog:',
@@ -2246,7 +2242,6 @@ Unesite konkretan razlog ispod (na primjer, navodeći koje konkretne stranice su
 **Osobni napadi (ili napadačko ponašanje)
 **Čarapare (zloupotreba više korisničkih računa)
 **Neprihvatljivo korisničko ime',
-'ipbanononly'                     => 'Blokiraj samo anonimne korisnike',
 'ipbcreateaccount'                => 'Onemogući stvaranje računa',
 'ipbemailban'                     => 'Onemogući korisnika da šalje e-mail',
 'ipbenableautoblock'              => 'Automatski blokiraj zadnju IP adresu koju je koristio ovaj korisnik i sve druge IP adrese s kojih je on pokušao uređivati',
@@ -2257,7 +2252,6 @@ Unesite konkretan razlog ispod (na primjer, navodeći koje konkretne stranice su
 'ipbotherreason'                  => 'Ostali/dodatni razlog/zi:',
 'ipbhidename'                     => 'Sakrij korisničko ime iz uređivanja i spiskova',
 'ipbwatchuser'                    => 'Prati korisničku stranicu i stranicu za razgovor ovog korisnika',
-'ipballowusertalk'                => 'Dopusti ovom korisniku da mijenja vlastitu stranicu za razgovor dok je blokiran',
 'ipb-change-block'                => 'Ponovno blokiraj korisnika sa ovim postavkama',
 'badipaddress'                    => 'Nevaljana IP adresa',
 'blockipsuccesssub'               => 'Blokiranje je uspjelo',
@@ -2275,14 +2269,9 @@ Unesite konkretan razlog ispod (na primjer, navodeći koje konkretne stranice su
 'unblocked-id'                    => 'Blokada ID oznake $1 je uklonjena',
 'ipblocklist'                     => 'Blokirane IP adrese i korisnička imena',
 'ipblocklist-legend'              => 'Traži blokiranog korisnika',
-'ipblocklist-username'            => 'Korisničko ime ili IP adresa:',
-'ipblocklist-sh-userblocks'       => '$1 blokade računa',
-'ipblocklist-sh-tempblocks'       => '$1 privremene blokade',
-'ipblocklist-sh-addressblocks'    => '$1 pojedinačne IP blokade',
 'ipblocklist-submit'              => 'Traži',
 'ipblocklist-localblock'          => 'Lokalna blokada',
 'ipblocklist-otherblocks'         => 'Ostale {{PLURAL:$1|blokada|blokade}}',
-'blocklistline'                   => '$1, $2 blokirao korisnika $3 ($4)',
 'infiniteblock'                   => 'nije ograničena',
 'expiringblock'                   => 'ističe dana $1 u $2',
 'anononlyblock'                   => 'samo anonimni korisnici',
@@ -2321,8 +2310,7 @@ Pogledajte [[Special:IPBlockList|blokirane IP adrese]] za spisak trenutnih zabra
 'ipb_expiry_temp'                 => 'Sakrivene blokade korisničkih imena moraju biti stalne.',
 'ipb_hide_invalid'                => 'Ne može se onemogućiti ovaj račun; možda ima isuviše izmjena.',
 'ipb_already_blocked'             => '"$1" je već blokiran',
-'ipb-needreblock'                 => '== Već blokirano ==
-$1 je već blokiran. 
+'ipb-needreblock'                 => '$1 je već blokiran. 
 Da li želite promijeniti postavke?',
 'ipb-otherblocks-header'          => 'Ostale {{PLURAL:$1|blokada|blokade}}',
 'ipb_cant_unblock'                => 'Greška: Blokada sa ID oznakom $1 nije pronađena.
@@ -2666,25 +2654,6 @@ Ovo je vjerovatno izazvano vezom ka vanjskoj nepoželjnoj stranici.',
 'numauthors'     => 'Broj različitih autora (stranice): $1',
 'numtalkauthors' => 'Broj različitih autora (stranice za razgovor): $1',
 
-# Math options
-'mw_math_png'    => 'Uvijek prikaži kao PNG',
-'mw_math_simple' => 'HTML ako je jednostavno, inače PNG',
-'mw_math_html'   => 'HTML ako je moguće, inače PNG',
-'mw_math_source' => 'Ostavi kao TeX (za tekstualne preglednike)',
-'mw_math_modern' => 'Preporučeno za moderne preglednike',
-'mw_math_mathml' => 'MathML ako je moguće (eksperimentalno)',
-
-# Math errors
-'math_failure'          => 'Neuspjeh pri parsiranju',
-'math_unknown_error'    => 'nepoznata greška',
-'math_unknown_function' => 'nepoznata funkcija',
-'math_lexing_error'     => 'riječnička greška',
-'math_syntax_error'     => 'sintaksna greška',
-'math_image_error'      => 'PNG konverzija neuspješna; provjerite tačnu instalaciju latex-a i dvipng-a (ili dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Ne može se napisati ili napraviti privremeni matematički direktorijum',
-'math_bad_output'       => 'Ne može se napisati ili napraviti direktorijum za matematički izvještaj.',
-'math_notexvc'          => 'Nedostaje izvršno texvc; molimo Vas da pogledate math/README da podesite.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Označi kao patrolirano',
 'markaspatrolledtext'                 => 'Označi ovu stranicu kao patroliranu',
@@ -2730,7 +2699,6 @@ Njegovim izvršavanjem možete da ugrozite Vaš sistem.",
 'file-nohires'         => '<small>Veća rezolucija nije dostupna.</small>',
 'svg-long-desc'        => 'SVG fajl, nominalno $1 × $2 piksela, veličina fajla: $3',
 'show-big-image'       => 'Puna rezolucija',
-'show-big-image-thumb' => '<small>Veličina ovog prikaza: $1 × $2 piksela</small>',
 'file-info-gif-looped' => 'stalno iznova',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|sličica|sličice|sličica}}',
 'file-info-png-looped' => 'stalno iznova',
@@ -3185,14 +3153,14 @@ Pokušajte normalni pregled.',
 'watchlistedit-normal-legend'  => 'Ukloni naslove iz spiska praćenja',
 'watchlistedit-normal-explain' => 'Naslovi na Vašem spisku praćenja su prikazani ispod.
 Da bi ste uklonili naslov, označite kutiju pored naslova, i kliknite "{{int:Watchlistedit-normal-submit}}".
-Također možete [[Special:Watchlist/raw|napredno urediti spisak]].',
+Također možete [[Special:EditWatchlist/raw|napredno urediti spisak]].',
 'watchlistedit-normal-submit'  => 'Ukloni naslove',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 naslov|$1 naslova}} je uklonjeno iz Vašeg spiska praćenja:',
 'watchlistedit-raw-title'      => 'Napredno uređivanje spiska praćenja',
 'watchlistedit-raw-legend'     => 'Napredno uređivanje spiska praćenja',
 'watchlistedit-raw-explain'    => 'Naslovi u Vašem spisku praćenja su prikazani ispod, i mogu biti uređeni dodavanjem ili brisanjem sa spiska; jedan naslov u svakom redu.
 Kada završite, kliknite "{{int:Watchlistedit-raw-submit}}".
-Također možete [[Special:Watchlist/edit|koristiti standardni uređivač]].',
+Također možete [[Special:EditWatchlist|koristiti standardni uređivač]].',
 'watchlistedit-raw-titles'     => 'Naslovi:',
 'watchlistedit-raw-submit'     => 'Ažuriraj spisak praćenja',
 'watchlistedit-raw-done'       => 'Vaš spisak praćenja je ažuriran.',

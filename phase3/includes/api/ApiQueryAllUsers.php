@@ -56,15 +56,15 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		}
 
 		$limit = $params['limit'];
+
 		$this->addTables( 'user' );
 		$useIndex = true;
 
-		if ( !is_null( $params['from'] ) ) {
-			$this->addWhere( 'user_name >= ' . $db->addQuotes( $this->keyToTitle( $params['from'] ) ) );
-		}
-		if ( !is_null( $params['to'] ) ) {
-			$this->addWhere( 'user_name <= ' . $db->addQuotes( $this->keyToTitle( $params['to'] ) ) );
-		}
+		$dir = ( $params['dir'] == 'descending' ? 'older' : 'newer' );
+		$from = is_null( $params['from'] ) ? null : $this->keyToTitle( $params['from'] );
+		$to = is_null( $params['to'] ) ? null : $this->keyToTitle( $params['to'] );
+
+		$this->addWhereRange( 'user_name', $dir, $from, $to );
 
 		if ( !is_null( $params['prefix'] ) ) {
 			$this->addWhere( 'user_name' . $db->buildLike( $this->keyToTitle( $params['prefix'] ), $db->anyString() ) );
@@ -85,7 +85,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			}
 		}
 
-		if ( !is_null( $params['group'] ) ) {
+		if ( !is_null( $params['group'] ) && count( $params['group'] ) ) {
 			$useIndex = false;
 			// Filter only users that belong to a given group
 			$this->addTables( 'user_groups', 'ug1' );
@@ -97,6 +97,8 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		if ( $params['witheditsonly'] ) {
 			$this->addWhere( 'user_editcount > 0' );
 		}
+
+		$this->showHiddenUsersAddBlockInfo( $fld_blockinfo );
 
 		if ( $fld_groups || $fld_rights ) {
 			// Show the groups the given users belong to
@@ -112,12 +114,21 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			$sqlLimit = $limit + 1;
 		}
 
-		if ( $fld_blockinfo ) {
-			$this->addTables( 'ipblocks' );
-			$this->addJoinConds( array(
-				'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
-			) );
-			$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
+		if ( $params['activeusers'] ) {
+			global $wgActiveUserDays;
+			$this->addTables( 'recentchanges' );
+
+			$this->addJoinConds( array( 'recentchanges' => array(
+				'INNER JOIN', 'rc_user_text=user_name'
+			) ) );
+
+			$this->addFields( 'COUNT(*) AS recentedits' );
+
+			$this->addWhere( "rc_log_type IS NULL OR rc_log_type != 'newusers'" );
+			$timestamp = $db->timestamp( wfTimestamp( TS_UNIX ) - $wgActiveUserDays*24*3600 );
+			$this->addWhere( "rc_timestamp >= {$db->addQuotes( $timestamp )}" );
+
+			$this->addOption( 'GROUP BY', 'user_name' );
 		}
 
 		$this->addOption( 'LIMIT', $sqlLimit );
@@ -129,7 +140,6 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		$this->addFieldsIf( 'user_editcount', $fld_editcount );
 		$this->addFieldsIf( 'user_registration', $fld_registration );
 
-		$this->addOption( 'ORDER BY', 'user_name' );
 		if ( $useIndex ) {
 			$this->addOption( 'USE INDEX', array( 'user' => 'user_name' ) );
 		}
@@ -183,14 +193,19 @@ class ApiQueryAllUsers extends ApiQueryBase {
 					$lastUserData['blockreason'] = $row->ipb_reason;
 					$lastUserData['blockexpiry'] = $row->ipb_expiry;
 				}
+				if ( $row->ipb_deleted ) {
+					$lastUserData['hidden'] = '';
+				}
 				if ( $fld_editcount ) {
 					$lastUserData['editcount'] = intval( $row->user_editcount );
+				}
+				if ( $params['activeusers'] ) {
+					$lastUserData['recenteditcount'] = intval( $row->recentedits );
 				}
 				if ( $fld_registration ) {
 					$lastUserData['registration'] = $row->user_registration ?
 						wfTimestamp( TS_ISO_8601, $row->user_registration ) : '';
 				}
-
 			}
 
 			if ( $sqlLimit == $count ) {
@@ -201,22 +216,25 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			}
 
 			// Add user's group info
-			if ( $fld_groups && !is_null( $row->ug_group2 ) ) {
+			if ( $fld_groups ) {
 				if ( !isset( $lastUserData['groups'] ) ) {
 					$lastUserData['groups'] = ApiQueryUsers::getAutoGroups( User::newFromName( $lastUser ) );
 				}
 
-				$lastUserData['groups'][] = $row->ug_group2;
+				if ( !is_null( $row->ug_group2 ) ) {
+					$lastUserData['groups'][] = $row->ug_group2;
+				}
 				$result->setIndexedTagName( $lastUserData['groups'], 'g' );
 			}
 
-			if ( $fld_rights && !is_null( $row->ug_group2 ) ) {
+			if ( $fld_rights ) {
 				if ( !isset( $lastUserData['rights'] ) ) {
-					$lastUserData['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
+					$lastUserData['rights'] =  User::getGroupPermissions( User::getImplicitGroups() );
 				}
-
-				$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
-					User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				if ( !is_null( $row->ug_group2 ) ) {
+					$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
+					                                        User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				}
 				$result->setIndexedTagName( $lastUserData['rights'], 'r' );
 			}
 		}
@@ -234,7 +252,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 	}
 
 	public function getCacheMode( $params ) {
-		return 'public';
+		return 'anon-public-user-private';
 	}
 
 	public function getAllowedParams() {
@@ -242,6 +260,13 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			'from' => null,
 			'to' => null,
 			'prefix' => null,
+			'dir' => array(
+				ApiBase::PARAM_DFLT => 'ascending',
+				ApiBase::PARAM_TYPE => array(
+					'ascending',
+					'descending'
+				),
+			),
 			'group' => array(
 				ApiBase::PARAM_TYPE => User::getAllGroups(),
 				ApiBase::PARAM_ISMULTI => true,
@@ -268,14 +293,17 @@ class ApiQueryAllUsers extends ApiQueryBase {
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
 			),
 			'witheditsonly' => false,
+			'activeusers' => false,
 		);
 	}
 
 	public function getParamDescription() {
+		global $wgActiveUserDays;
 		return array(
 			'from' => 'The user name to start enumerating from',
 			'to' => 'The user name to stop enumerating at',
 			'prefix' => 'Search for all users that begin with this value',
+			'dir' => 'Direction to sort in',
 			'group' => 'Limit users to given group name(s)',
 			'rights' => 'Limit users to given right(s)',
 			'prop' => array(
@@ -288,6 +316,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 				),
 			'limit' => 'How many total user names to return',
 			'witheditsonly' => 'Only list users who have made edits',
+			'activeusers' => "Only list users active in the last {$wgActiveUserDays} days(s)"
 		);
 	}
 

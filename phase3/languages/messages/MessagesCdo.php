@@ -372,7 +372,6 @@ Siók-mìng: (dāng) = gâe̤ng dék sĭng bēng-buōng bī-piâng, (sèng) = g�
 'prefs-edits'        => 'Siŭ-gāi ché̤ṳ-só:',
 'changepassword'     => 'Gāi-biéng mĭk-mā',
 'prefs-skin'         => 'Puòi-hŭ',
-'prefs-math'         => 'Só-hŏk',
 'datedefault'        => 'Mò̤ siék-diâng',
 'prefs-datetime'     => 'Nĭk-gĭ gâe̤ng sì-găng',
 'prefs-personal'     => 'Ê̤ṳng-hô cṳ̆-lâiu',
@@ -705,7 +704,6 @@ Có̤i âu gì siŭ-gāi sê [[User:$3|$3]] ([[User talk:$3|Tō̤-lâung]]) sū 
 # Block/unblock
 'blockip'                  => 'Hŭng-sō̤ ê̤ṳng-hô',
 'blockiptext'              => 'Sāi-ê̤ṳng â-dā̤ gì dăng-dăng lì hŭng-sō̤ IP dê-cī hĕ̤k-ciā ê̤ṳng-hô-miàng gì siā guòng-âing. Cuòi nâ sê ôi lāu huòng-cī nè̤ng cáuk-ták wiki, bêng-chiā găi-dŏng hù-hăk [[{{MediaWiki:Policy-url}}|céng-cháik]]. Chiāng diŏh â-dā̤ siā giâ hŭng-sō̤ gì nguòng-ĭng (pī-ṳ̀-gōng, īng-ê̤ṳng ké̤ṳk cáuk-ták gì hiĕk-miêng).',
-'ipaddress'                => 'IP dê-cī:',
 'ipadressorusername'       => 'IP dê-cī hĕ̤k ê̤ṳng-hô-miàng:',
 'ipbexpiry'                => 'Guó-gĭ:',
 'ipbreason'                => 'Nguòng-ĭng',
@@ -718,7 +716,6 @@ Có̤i âu gì siŭ-gāi sê [[User:$3|$3]] ([[User talk:$3|Tō̤-lâung]]) sū 
 ** Có̤-hák / lièu-sê̤ṳ
 ** Luâng kŭi dŏ̤ dióng-hô̤
 ** Luâng kī ê̤ṳng-hô-miàng',
-'ipbanononly'              => 'Nâ hŭng-sō̤ mò̤-miàng ê̤ṳng-hô',
 'ipbcreateaccount'         => 'Huòng-cī kŭi dióng-hô̤',
 'ipbemailban'              => 'Huòng-cī ê̤ṳng-hô gié diêng-piĕ',
 'ipbenableautoblock'       => 'Cê̤ṳ-dông hŭng-sō̤ ciā ê̤ṳng-hô siā-ê̤ṳng gì IP dê-cī',
@@ -739,7 +736,6 @@ Có̤i âu gì siŭ-gāi sê [[User:$3|$3]] ([[User talk:$3|Tō̤-lâung]]) sū 
 'unblocked'                => '[[User:$1|$1]] ī-gĭng ké̤ṳk gāi-hŭng lāu',
 'ipblocklist'              => 'Ké̤ṳk hŭng-sō̤ gì IP dê-cī gâe̤ng ê̤ṳng-hô-miàng gì dăng-dăng',
 'ipblocklist-legend'       => 'Tō̤ siŏh ciáh ké̤ṳk hŭng-sō̤ gì ê̤ṳng-hô',
-'ipblocklist-username'     => 'Ê̤ṳng-hô-miàng hĕ̤k IP dê-cī:',
 'ipblocklist-submit'       => 'Sìng-tō̤',
 'infiniteblock'            => 'īng-uōng',
 'anononlyblock'            => 'nâ mò̤-miàng ê̤ṳng-hô',
@@ -808,10 +804,6 @@ Nâ cūng-kuāng, nṳ̄ â̤-sāi cê-gă iè-dông hĕ̤k-ciā sê hăk-biáng
 # Attribution
 'anonymous'        => '{{SITENAME}} gì mò̤ miàng ê̤ṳng-hô.',
 'lastmodifiedatby' => 'Ciā hiĕk-miêng sê diŏh $2, $1, iù  $3 có̤i-hâiu siŭ-gāi gì.',
-
-# Math errors
-'math_unknown_error'    => 'muôi báik gì dâng',
-'math_unknown_function' => 'muôi báik hàng-só',
 
 # Image deletion
 'deletedrevision' => 'Ī-gĭng chēng lâi gì bēng-buōng $1.',

@@ -2,7 +2,7 @@
  * Implementation for mediaWiki.log stub
  */
 
-(function ($) {
+(function( $ ) {
 
 	/**
 	 * Log output to the console.
@@ -16,7 +16,7 @@
 	 * @param {string} string Message to output to console
 	 */
 	mw.log = function( string ) {
-		// Allow log messages to use a configured prefix
+		// Allow log messages to use a configured prefix to identify the source window (ie. frame)
 		if ( mw.config.exists( 'mw.log.prefix' ) ) {
 			string = mw.config.get( 'mw.log.prefix' ) + '> ' + string;
 		}

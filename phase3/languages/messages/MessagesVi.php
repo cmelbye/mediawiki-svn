@@ -96,7 +96,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Tựa_đề_bị_khóa' ),
 	'Allpages'                  => array( 'Mọi_bài' ),
 	'Prefixindex'               => array( 'Tiền_tố' ),
-	'Ipblocklist'               => array( 'Danh_sách_cấm' ),
+	'BlockList'                 => array( 'Danh_sách_cấm' ),
 	'Specialpages'              => array( 'Trang_đặc_biệt' ),
 	'Contributions'             => array( 'Đóng_góp' ),
 	'Emailuser'                 => array( 'Gửi_thư' ),
@@ -111,7 +111,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Phiên_bản' ),
 	'Allmessages'               => array( 'Mọi_thông_báo' ),
 	'Log'                       => array( 'Nhật_trình' ),
-	'Blockip'                   => array( 'Cấm_IP' ),
+	'Block'                     => array( 'Cấm_IP' ),
 	'Undelete'                  => array( 'Phục_hồi' ),
 	'Import'                    => array( 'Nhập' ),
 	'Lockdb'                    => array( 'Khóa_CSDL' ),
@@ -622,7 +622,7 @@ Cơ sở dữ liệu báo lỗi “$3: $4”',
 'enterlockreason'      => 'Nêu lý do khóa, cùng với thời hạn khóa',
 'readonlytext'         => 'Cơ sở dữ liệu hiện đã bị khóa không nhận trang mới và các điều chỉnh khác, có lẽ để bảo trì cơ sở dữ liệu định kỳ, một thời gian ngắn nữa nó sẽ trở lại bình thường.
 
-Người quản lý khóa nó đã đưa ra lời giải thích sau: $1',
+Quản lý viên khóa nó đã đưa ra lời giải thích sau: $1',
 'missing-article'      => 'Cơ sở dữ liệu không tìm thấy văn bản của trang lẽ ra phải có, trang      Normal   0               false   false   false      EN-US   X-NONE   X-NONE                                                     MicrosoftInternetExplorer4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     “$1” $2.
 
 Điều này thường xảy ra do nhấn vào liên kết khác biệt phiên bản đã quá lâu hoặc liên kết lịch sử của một trang đã bị xóa.
@@ -710,7 +710,7 @@ Tài khoản của bạn đã mở.
 Hãy chọn một tên khác.',
 'loginerror'                 => 'Lỗi đăng nhập',
 'createaccounterror'         => 'Không thể mở tài khoản: $1',
-'nocookiesnew'               => 'Tài khoản đã mở, nhưng bạn chưa đăng nhập. {{SITENAME}} sử dụng cookie để đăng nhập vào tài khoản. Bạn đã tắt cookie. Xin hãy kích hoạt nó, rồi đăng nhập lại với tên người dùng và mật khẩu mới.',
+'nocookiesnew'               => 'Bạn đã tạo tài khoản thành công, nhưng bạn chưa đăng nhập. {{SITENAME}} sử dụng cookie để đăng nhập vào tài khoản. Bạn đã tắt cookie. Xin hãy bật cookie lên, rồi đăng nhập lại với tên người dùng và mật khẩu mới.',
 'nocookieslogin'             => '{{SITENAME}} sử dụng cookie để đăng nhập thành viên. Bạn đã tắt cookie. Xin hãy kích hoạt rồi thử lại.',
 'nocookiesfornew'            => 'Không thể mở tài khoản vì không thể xác nhận nguồn yêu cầu nó.
 Hãy chắc chắn bạn đã bật lên cookie, làm mới trang này, và thử lại.',
@@ -730,9 +730,9 @@ Hãy kiểm tra lại chính tả, hoặc [[Special:UserLogin/signup|mở tài k
 'password-login-forbidden'   => 'Tên đăng nhập và mật khẩu này đã bị cấm không được sử dụng.',
 'mailmypassword'             => 'Gửi mật khẩu mới qua thư điện tử',
 'passwordremindertitle'      => 'Mật khẩu tạm thời cho {{SITENAME}}',
-'passwordremindertext'       => 'Người nào đó (có thể là bạn, có địa chỉ IP $1) đã yêu cầu chúng tôi gửi cho bạn mật khẩu mới của {{SITENAME}} ($4). Mật khẩu tạm cho thành viên “$2” đã được khởi tạo là “$3”. Nếu bạn chính là người đã yêu cầu mật khẩu, bạn sẽ cần phải đăng nhập và thay đổi mật khẩu ngay bây giờ. Mật khẩu tạm sẽ hết hạn trong vòng {{PLURAL:$5|một ngày|$5 ngày}}.
+'passwordremindertext'       => 'Ai đó (có thể là bạn, có địa chỉ IP $1) đã yêu cầu chúng tôi gửi mật khẩu mới của {{SITENAME}} ($4). Chúng tôi đã tạo một mật khẩu tạm “$3” cho thành viên “$2”. Nếu bạn chính là người đã yêu cầu mật khẩu, bạn cần phải đăng nhập và thay đổi mật khẩu ngay bây giờ. Mật khẩu tạm sẽ hết hạn trong vòng {{PLURAL:$5|một ngày|$5 ngày}}.
 
-Nếu bạn không phải là người yêu cầu gửi mật khẩu, hoặc nếu bạn đã nhớ ra mật khẩu gốc của mình và không còn muốn đổi nó nữa, bạn có thể bỏ qua bức thư này và tiếp tục sử dụng mật khẩu cũ của bạn.',
+Nếu bạn không yêu cầu gửi mật khẩu mới, hoặc bạn đã nhớ ra mật khẩu cũ của mình và không còn muốn đổi nó nữa, bạn có thể bỏ qua bức thư này và tiếp tục sử dụng mật khẩu cũ của bạn.',
 'noemail'                    => 'Thành viên “$1” không đăng ký thư điện tử.',
 'noemailcreate'              => 'Bạn cần cung cấp một địa chỉ thư điện tử hợp lệ',
 'passwordsent'               => 'Mật khẩu mới đã được gửi tới thư điện tử của thành viên “$1”. Xin đăng nhập lại sau khi nhận thư.',
@@ -756,6 +756,7 @@ Xin hãy bỏ qua thông báo này nếu tài khoản này không phải do bạ
 'usernamehasherror'          => 'Tên người dùng không thể chứa dấu rào',
 'login-throttled'            => 'Bạn đã thử quá nhiều mật khẩu của tài khoản này
 Xin hãy đợi chốc lát rồi thử lại.',
+'login-abort-generic'        => 'Thất bại khi đăng nhập',
 'loginlanguagelabel'         => 'Ngôn ngữ: $1',
 'suspicious-userlogout'      => 'Đã bỏ qua yêu cầu đăng xuất bạn, hình như được gửi từ trình duyệt hoặc máy proxy nhớ đệm hư.',
 
@@ -800,8 +801,6 @@ Có thể bạn đã thay đổi thành công mật khẩu của mình hoặc đ
 'extlink_tip'     => 'Liên kết ngoài (nhớ ghi http://)',
 'headline_sample' => 'Đề mục',
 'headline_tip'    => 'Đề mục cấp 2',
-'math_sample'     => 'Nhập công thức toán vào đây',
-'math_tip'        => 'Công thức toán (LaTeX)',
 'nowiki_sample'   => 'Nhập dòng chữ không theo định dạng wiki vào đây',
 'nowiki_tip'      => 'Không theo định dạng wiki',
 'image_sample'    => 'Ví dụ.jpg',
@@ -941,7 +940,7 @@ Bạn phải đảm bảo với chúng tôi rằng chính bạn là người vi�
 'longpageerror'                    => "'''LỖI: Văn bạn mà bạn muốn lưu dài $1 kilobyte, dài hơn độ dài tối đa cho phép $2 kilobyte. Không thể lưu trang.'''",
 'readonlywarning'                  => "'''CẢNH BÁO: Cơ sở dữ liệu đã bị khóa để bảo dưỡng, do đó bạn không thể lưu các sửa đổi của mình. Bạn nên cắt-dán đoạn bạn vừa sửa vào một tập tin và lưu nó lại để sửa đổi sau này.'''
 
-Người quản lý khi khóa dữ liệu đã đưa ra lý do: $1",
+Quản lý viên khi khóa dữ liệu đã đưa ra lý do: $1",
 'protectedpagewarning'             => "'''Cảnh báo: Trang này đã bị khóa và chỉ có các thành viên có quyền quản lý mới có thể sửa được.'''
 Thông tin mới nhất trong nhật trình được ghi dưới đây để tiện theo dõi:",
 'semiprotectedpagewarning'         => "'''Lưu ý:''' Trang này đã bị khóa và chỉ có các thành viên đã đăng ký mới có thể sửa đổi được.
@@ -1048,27 +1047,27 @@ Chú giải: (hiện) = khác với phiên bản hiện hành,
 Có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
 'rev-deleted-text-unhide'     => "Phiên bản này đã bị '''xóa'''.
 Có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].
-Vì là người quản lý, bạn vẫn có thể [$1 xem phiên bản này] nếu muốn.",
+Vì là quản lý viên, bạn vẫn có thể [$1 xem phiên bản này] nếu muốn.",
 'rev-suppressed-text-unhide'  => "Phiên bản này đã bị '''giấu'''.
 Có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình giấu].
-Vì là người quản lý, bạn vẫn có thể [$1 xem phiên bản này] nếu muốn.",
+Vì là quản lý viên, bạn vẫn có thể [$1 xem phiên bản này] nếu muốn.",
 'rev-deleted-text-view'       => "Phiên bản này đã bị '''xóa'''.
-Vì là người quản lý bạn vẫn có thể xem nó; có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
+Vì là quản lý viên bạn vẫn có thể xem nó; có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
 'rev-suppressed-text-view'    => "Phiên bản này đã bị '''giấu'''.
-Vì là người quản lý bạn vẫn có thể xem nó; có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình giấu].",
+Vì là quản lý viên bạn vẫn có thể xem nó; có thể có thêm chi tiết tại [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình giấu].",
 'rev-deleted-no-diff'         => "Bạn không thể xem khác biệt giữa các phiên bản vì một phiên bản đã bị '''xóa'''.
 Bạn có thể xem thêm chi tiết tại [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
 'rev-suppressed-no-diff'      => "Bạn không thể xem khác biệt vì một trong hai phiên bản đã bị '''xóa'''.",
 'rev-deleted-unhide-diff'     => "Một trong những phiên bản của khác biệt này đã bị '''xóa'''.
 Bạn có thể xem thêm chi tiết trong [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].
-Vì là người quản lý, bạn vẫn có thể [$1 xem khác biệt này] nếu muốn.",
+Vì là quản lý viên, bạn vẫn có thể [$1 xem khác biệt này] nếu muốn.",
 'rev-suppressed-unhide-diff'  => "Một trong các phiên bản trong lần so sánh này đã được '''ẩn giấu'''.
 Bạn có thể xem chi tiết trong [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình ẩn giấu].
-Là người quản lý bạn vẫn có thể [$1 so sánh khác biệt] nếu bạn muốn.",
+Là quản lý viên bạn vẫn có thể [$1 so sánh khác biệt] nếu bạn muốn.",
 'rev-deleted-diff-view'       => "Một trong những phiên bản trong khác biệt này đã bị '''xóa'''.
-Là người quản lý bạn vẫn có thể xem khác biệt này; có thể xem chi tiết trong [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
+Là quản lý viên bạn vẫn có thể xem khác biệt này; có thể xem chi tiết trong [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} nhật trình xóa].",
 'rev-suppressed-diff-view'    => "Trong trong những phiên bản trong khác biệt này đã bị '''ẩn giấu'''.
-Là người quản lý bạn vẫn có thể xem khác biệt này; có thể xem chi tiết trong [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình ẩn giấu].",
+Là quản lý viên bạn vẫn có thể xem khác biệt này; có thể xem chi tiết trong [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} nhật trình ẩn giấu].",
 'rev-delundel'                => 'hiện/ẩn',
 'rev-showdeleted'             => 'hiện',
 'revisiondelete'              => 'Xóa hay phục hồi phiên bản',
@@ -1101,7 +1100,7 @@ Các quản lý khác ở {{SITENAME}} vẫn có thể truy nhập vào nội du
 'revdelete-radio-same'        => '(không đổi)',
 'revdelete-radio-set'         => 'Có',
 'revdelete-radio-unset'       => 'Không',
-'revdelete-suppress'          => 'Che dữ liệu đối với người quản lý cũng như các thành viên khác',
+'revdelete-suppress'          => 'Che dữ liệu đối với quản lý viên cũng như các thành viên khác',
 'revdelete-unsuppress'        => 'Bỏ các hạn chế trên các phiên bản được phục hồi',
 'revdelete-log'               => 'Lý do:',
 'revdelete-submit'            => 'Áp dụng vào {{PLURAL:$1|phiên bản|các phiên bản}} được chọn',
@@ -1206,8 +1205,8 @@ Xin hãy bảo đảm giữ vững tính liên tục của lịch sử trang.',
 'compareselectedversions'  => 'So sánh các bản đã chọn',
 'showhideselectedversions' => 'Hiện/ẩn các phiên bản được chọn',
 'editundo'                 => 'lùi sửa',
-'diff-multi'               => '(Không hiển thị {{PLURAL:$1||$1}} phiên bản {{PLURAL:$2||của $2 người dùng}} ở giữa)',
-'diff-multi-manyusers'     => '(Không hiển thị {{PLURAL:$1||$1}} phiên bản của hơn $2 người dùng ở giữa)',
+'diff-multi'               => '(Không hiển thị {{PLURAL:$1||$1}} phiên bản {{PLURAL:$2||của $2 thành viên}} ở giữa)',
+'diff-multi-manyusers'     => '(Không hiển thị {{PLURAL:$1||$1}} phiên bản của hơn $2 thành viên ở giữa)',
 
 # Search results
 'searchresults'                    => 'Kết quả tìm kiếm',
@@ -1229,7 +1228,7 @@ Xin hãy bảo đảm giữ vững tính liên tục của lịch sử trang.',
 'searchmenu-legend'                => 'Tùy chọn tìm kiếm',
 'searchmenu-exists'                => "* Trang '''[[$1]]'''",
 'searchmenu-new'                   => "'''Tạo trang “[[:$1]]” trên wiki này!'''",
-'searchmenu-new-nocreate'          => 'Bạn không có thể tạo ra trang với tên “$1”, có thể vì tên này không hợp lệ.',
+'searchmenu-new-nocreate'          => 'Tên trang “$1” không hợp lệ, hoặc bạn không có quyền tạo trang này.',
 'searchhelp-url'                   => 'Help:Nội dung',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Duyệt các trang với tiền tố này]]',
 'searchprofile-articles'           => 'Trang nội dung',
@@ -1291,16 +1290,15 @@ Xin hãy bảo đảm giữ vững tính liên tục của lịch sử trang.',
 'changepassword'                => 'Đổi mật khẩu',
 'prefs-skin'                    => 'Hình dạng',
 'skin-preview'                  => 'Xem thử',
-'prefs-math'                    => 'Công thức toán',
 'datedefault'                   => 'Không quan tâm',
 'prefs-datetime'                => 'Ngày tháng',
 'prefs-personal'                => 'Thông tin cá nhân',
 'prefs-rc'                      => 'Thay đổi gần đây',
 'prefs-watchlist'               => 'Theo dõi',
 'prefs-watchlist-days'          => 'Số ngày hiển thị trong danh sách theo dõi:',
-'prefs-watchlist-days-max'      => '(tối đa 7 ngày)',
+'prefs-watchlist-days-max'      => 'Tối đa 7 ngày',
 'prefs-watchlist-edits'         => 'Số lần sửa đổi tối đa trong danh sách theo dõi mở rộng:',
-'prefs-watchlist-edits-max'     => '(con số tối đa: 1000)',
+'prefs-watchlist-edits-max'     => 'Con số tối đa: 1.000',
 'prefs-watchlist-token'         => 'Số thẻ Danh sách theo dõi:',
 'prefs-misc'                    => 'Linh tinh',
 'prefs-resetpass'               => 'Thay đổi mật khẩu',
@@ -1443,7 +1441,7 @@ Nếu bạn đồng ý cung cấp, nó sẽ dùng để ghi nhận công lao c�
 'grouppage-user'          => '{{ns:project}}:Thành viên',
 'grouppage-autoconfirmed' => '{{ns:project}}:Thành viên tự xác nhận',
 'grouppage-bot'           => '{{ns:project}}:Robot',
-'grouppage-sysop'         => '{{ns:project}}:Người quản lý',
+'grouppage-sysop'         => '{{ns:project}}:Quản lý viên',
 'grouppage-bureaucrat'    => '{{ns:project}}:Hành chính viên',
 'grouppage-suppress'      => '{{ns:project}}:Giám sát viên',
 
@@ -1663,9 +1661,9 @@ Chỉ chấp nhận {{PLURAL:$3|loại tập tin|các loại tập tin}} sau: $2
 'emptyfile'                   => 'Tập tin bạn vừa mới tải lên có vẻ trống không. Điều này có thể xảy ra khi bạn đánh sai tên tập tin. Xin hãy chắc chắn rằng bạn thật sự muốn tải lên tập tin này.',
 'fileexists'                  => "Một tập tin với tên này đã tồn tại, xin hãy kiểm tra lại '''<tt>[[:$1]]</tt>''' nếu bạn không chắc bạn có muốn thay đổi nó hay không.
 [[$1|thumb]]",
-'filepageexists'              => "Trang miêu tả tập tin này đã tồn tại ở '''<tt>[[:\$1]]</tt>''', nhưng chưa có tập tin với tên này.
+'filepageexists'              => "Trang miêu tả của tập tin này đã được tạo tại '''<tt>[[:\$1]]</tt>''', nhưng hiện không có tập tin nào có tên như vậy.
 Những gì bạn ghi trong ô \"Tóm tắt tập tin\" sẽ không hiện ra ở trang miêu tả.
-Để làm nó hiển thị, bạn sẽ cần phải sửa đổi trang đó bằng tay.
+Để khiến nó hiển thị, bạn cần phải sửa đổi trang đó bằng tay.
 [[\$1|thumb]]",
 'fileexists-extension'        => "Hiện có một tập tin trùng tên: [[$2|thumb]]
 * Tên tập tin đang tải lên: '''<tt>[[:$1]]</tt>'''
@@ -1764,22 +1762,23 @@ Không thể kiểm tra nó về bảo mật.',
 'uploadstash-refresh'  => 'Làm mới danh sách tập tin',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Không cho phép truy cập',
-'img-auth-nopathinfo'   => 'Thiếu PATH_INFO.
+'img-auth-accessdenied'     => 'Không cho phép truy cập',
+'img-auth-nopathinfo'       => 'Thiếu PATH_INFO.
 Máy chủ của bạn không được thiết lập để truyền thông tin này.
 Có thể do nó dựa trên CGI và không hỗ trợ img_auth.
 Xem http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Đường dẫn yêu cầu không nằm trong thư mục cấu hình tải lên.',
-'img-auth-badtitle'     => 'Không thể tạo tựa đề hợp lệ từ “$1”.',
-'img-auth-nologinnWL'   => 'Bạn chưa đăng nhập và “$1” không nằm trong danh sách trắng.',
-'img-auth-nofile'       => 'Không tồn tại tập tin “$1”.',
-'img-auth-isdir'        => 'Bạn đang cố truy cập vào thư mục “$1”.
+'img-auth-notindir'         => 'Đường dẫn yêu cầu không nằm trong thư mục cấu hình tải lên.',
+'img-auth-badtitle'         => 'Không thể tạo tựa đề hợp lệ từ “$1”.',
+'img-auth-nologinnWL'       => 'Bạn chưa đăng nhập và “$1” không nằm trong danh sách trắng.',
+'img-auth-nofile'           => 'Không tồn tại tập tin “$1”.',
+'img-auth-isdir'            => 'Bạn đang cố truy cập vào thư mục “$1”.
 Chỉ cho phép truy cập tập tin mà thôi.',
-'img-auth-streaming'    => 'Đang truyền “$1”.',
-'img-auth-public'       => 'Chức năng của img_auth.php là xuất tập tin từ wiki cá nhân.
+'img-auth-streaming'        => 'Đang truyền “$1”.',
+'img-auth-public'           => 'Chức năng của img_auth.php là xuất tập tin từ wiki cá nhân.
 Wiki này được cấu hình là wiki công cộng.
 Vì lý do bảo mật, img_auth.php đã bị tắt.',
-'img-auth-noread'       => 'Người dùng không đủ quyền truy cập để đọc “$1”.',
+'img-auth-noread'           => 'Người dùng không đủ quyền truy cập để đọc “$1”.',
+'img-auth-bad-query-string' => 'URL có một chuỗi truy vấn không hợp lệ.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL không hợp lệ: $1',
@@ -2137,6 +2136,10 @@ Có [[{{MediaWiki:Listgrouprights-helppage}}|thông tin thêm]] về từng nhó
 'noemailtext'          => 'Người này không cung cấp một địa chỉ thư hợp lệ.',
 'nowikiemailtitle'     => 'Không cho phép thư điện tử',
 'nowikiemailtext'      => 'Thành viên này quyết định không nhận thư từ các thành viên khác.',
+'emailnotarget'        => 'Người nhận không tồn tại hoặc tên hiệu không hợp lệ.',
+'emailtarget'          => 'Nhập tên hiệu của người nhận',
+'emailusername'        => 'Tên người dùng:',
+'emailusernamesubmit'  => 'Gửi',
 'email-legend'         => 'Gửi thư điện tử đến thành viên {{SITENAME}} khác',
 'emailfrom'            => 'Người gửi:',
 'emailto'              => 'Người nhận:',
@@ -2360,7 +2363,7 @@ Nếu một trang mới có cùng tên đã được tạo ra kể từ khi xóa
 Trong trường hợp đó, bạn phải bỏ đánh dấu hộp kiểm hoặc bỏ ẩn những phiên bản bị xóa mới nhất.',
 'undeletehistorynoadmin'       => 'Trang này đã bị xóa.
 Lý do xóa trang được hiển thị dưới đây, cùng với thông tin về những người đã sửa đổi trang này trước khi bị xóa.
-Chỉ có người quản lý mới xem được văn bản đầy đủ của những phiên bản trang bị xóa.',
+Chỉ có quản lý viên mới xem được văn bản đầy đủ của những phiên bản trang bị xóa.',
 'undelete-revision'            => 'Phiên bản đã xóa của $1 (vào lúc $4 tại $5) do $3 sửa đổi:',
 'undeleterevision-missing'     => 'Phiên bản này không hợp lệ hay không tồn tại. Đây có thể là một địa chỉ sai, hoặc là phiên bản đã được phục hồi hoặc đã xóa khỏi kho lưu trữ.',
 'undelete-nodiff'              => 'Không tìm thấy phiên bản cũ hơn.',
@@ -2396,9 +2399,10 @@ $1',
 'undelete-show-file-submit'    => 'Có',
 
 # Namespace form on various pages
-'namespace'      => 'Không gian tên:',
-'invert'         => 'Đảo ngược lựa chọn',
-'blanknamespace' => '(Chính)',
+'namespace'             => 'Không gian tên:',
+'invert'                => 'Đảo ngược lựa chọn',
+'namespace_association' => 'Không gian tên cùng đôi',
+'blanknamespace'        => '(Chính)',
 
 # Contributions
 'contributions'       => 'Đóng góp của thành viên',
@@ -2446,13 +2450,15 @@ $1',
 'whatlinkshere-filters'    => 'Bộ lọc',
 
 # Block/unblock
-'blockip'                         => 'Cấm thành viên',
-'blockip-title'                   => 'Cấm thành viên',
-'blockip-legend'                  => 'Cấm thành viên',
+'autoblockid'                     => 'Cấm tự động #$1',
+'block'                           => 'Cấm người dùng',
+'unblock'                         => 'Bỏ cấm người dùng',
+'blockip'                         => 'Cấm người dùng',
+'blockip-title'                   => 'Cấm người dùng',
+'blockip-legend'                  => 'Cấm người dùng',
 'blockiptext'                     => 'Dùng mẫu dưới để cấm một địa chỉ IP hoặc thành viên không được viết trang.
 Điều này chỉ nên làm để tránh phá hoại, và phải theo [[{{MediaWiki:Policy-url}}|quy định]].
 Điền vào lý do cụ thể ở dưới (ví dụ, chỉ ra trang nào bị phá hoại).',
-'ipaddress'                       => 'Địa chỉ IP:',
 'ipadressorusername'              => 'Địa chỉ IP hay tên thành viên:',
 'ipbexpiry'                       => 'Thời hạn:',
 'ipbreason'                       => 'Lý do:',
@@ -2469,7 +2475,7 @@ $1',
 ** Tạo nhiều trang mới vi phạm bản quyền, bỏ qua thảo luận và cảnh báo
 ** Truyền nhiều hình ảnh thiếu nguồn gốc hoặc bản quyền
 ** Con rối của thành viên bị cấm',
-'ipbanononly'                     => 'Chỉ cấm thành viên vô danh',
+'ipb-hardblock'                   => 'Ngăn không cho thành viên đã đăng nhập sửa đổi từ địa chỉ IP này',
 'ipbcreateaccount'                => 'Cấm mở tài khoản',
 'ipbemailban'                     => 'Không cho gửi email',
 'ipbenableautoblock'              => 'Tự động cấm các địa chỉ IP mà thành viên này sử dụng',
@@ -2480,12 +2486,15 @@ $1',
 'ipbotherreason'                  => 'Lý do khác',
 'ipbhidename'                     => 'Ẩn tên người dùng ra khỏi các sửa đổi và danh sách',
 'ipbwatchuser'                    => 'Theo dõi trang thành viên và thảo luận thành viên của thành viên này',
-'ipballowusertalk'                => 'Cho phép người dùng sửa trang thảo luận của chính họ trong khi bị khóa',
+'ipb-disableusertalk'             => 'Không cho người dùng này sửa trang thảo luận thành viên của họ khi bị cấm',
 'ipb-change-block'                => 'Cấm người dùng này lại theo các thiết lập này',
+'ipb-confirm'                     => 'Xác nhận cấm',
 'badipaddress'                    => 'Địa chỉ IP không hợp lệ',
 'blockipsuccesssub'               => 'Cấm thành công',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] đã bị cấm.
 <br />Xem lại những lần cấm tại [[Special:IPBlockList|danh sách cấm]].',
+'ipb-blockingself'                => 'Bạn sẽ tự bỏ cấm cho mình! Bạn có chắc chắn muốn làm vậy không?',
+'ipb-confirmhideuser'             => 'Bạn sẽ cấm người dùng với tùy chọn “ẩn người dùng”. Bạn có chắc chắn muốn dời tên người dùng khỏi tất cả mọi danh sách và nhật trình?',
 'ipb-edit-dropdown'               => 'Sửa đổi lý do cấm',
 'ipb-unblock-addr'                => 'Bỏ cấm $1',
 'ipb-unblock'                     => 'Bỏ cấm thành viên hay địa chỉ IP',
@@ -2495,17 +2504,23 @@ $1',
 'unblockiptext'                   => 'Sử dụng mẫu sau để phục hồi lại quyền sửa đổi đối với một địa chỉ IP hoặc tên thành viên đã bị cấm trước đó.',
 'ipusubmit'                       => 'Bỏ cấm',
 'unblocked'                       => '[[User:$1|$1]] đã hết bị cấm',
+'unblocked-range'                 => '$1 đã được bỏ cấm',
 'unblocked-id'                    => '$1 đã hết bị cấm',
-'ipblocklist'                     => 'Địa chỉ IP và tên người dùng bị cấm',
+'blocklist'                       => 'Những người dùng bị cấm',
+'ipblocklist'                     => 'Những người dùng bị cấm',
 'ipblocklist-legend'              => 'Tìm một thành viên bị cấm',
-'ipblocklist-username'            => 'Tên thành viên hoặc địa chỉ IP:',
-'ipblocklist-sh-userblocks'       => '$1 tác vụ cấm vĩnh viễn',
-'ipblocklist-sh-tempblocks'       => '$1 tác vụ cấm có thời hạn',
-'ipblocklist-sh-addressblocks'    => '$1 tác vụ cấm IP',
+'blocklist-userblocks'            => 'Ẩn tác vụ cấm tài khoản',
+'blocklist-tempblocks'            => 'Ẩn tác vụ cấm có thời hạn',
+'blocklist-addressblocks'         => 'Ẩn tác vụ cấm địa chỉ IP dứt khoát',
+'blocklist-timestamp'             => 'Thời gian',
+'blocklist-target'                => 'Người dùng',
+'blocklist-expiry'                => 'Thời hạn',
+'blocklist-by'                    => 'Quản lý viên cấm',
+'blocklist-params'                => 'Tham số cấm',
+'blocklist-reason'                => 'Lý do',
 'ipblocklist-submit'              => 'Tìm kiếm',
 'ipblocklist-localblock'          => 'Cấm tại wiki này',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Lần|Các lần}} cấm khác',
-'blocklistline'                   => '$1, $2 đã cấm $3 (hết hạn $4)',
 'infiniteblock'                   => 'vô hạn',
 'expiringblock'                   => 'hết hạn vào ngày $1 lúc $2',
 'anononlyblock'                   => 'chỉ cấm vô danh',
@@ -2539,9 +2554,9 @@ $1',
 'ipb_expiry_temp'                 => 'Cấm tên người dùng ẩn nên là cấm vô hạn.',
 'ipb_hide_invalid'                => 'Không thể ẩn tài khoản này; có thể do nó có quá nhiều sửa đổi.',
 'ipb_already_blocked'             => '“$1” đã bị cấm rồi',
-'ipb-needreblock'                 => '== Đã bị cấm ==
-$1 đã bị cấm. Bạn có muốn thay đổi các thiết lập?',
+'ipb-needreblock'                 => '$1 đã bị cấm. Bạn có muốn thay đổi các thiết lập?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Tác vụ cấm|Các tác vụ cấm}} khác',
+'unblock-hideuser'                => 'Bạn không thể bỏ cấm thành viên này vì tên đăng nhập của họ đã bị ẩn.',
 'ipb_cant_unblock'                => 'Lỗi: Không tìm được ID cấm $1. Địa chỉ IP này có thể đã được bỏ cấm.',
 'ipb_blocked_as_range'            => 'Lỗi: Địa chỉ IP $1 không bị cấm trực tiếp và do đó không thể bỏ cấm. Tuy nhiên, nó bị cấm do là một bộ phận của dải IP $2, bạn có thể bỏ cấm dải này.',
 'ip_range_invalid'                => 'Dải IP không hợp lệ.',
@@ -2736,7 +2751,7 @@ Tất cả những lần nhập trang từ wiki khác được ghi lại ở [[S
 'import-interwiki-namespace' => 'Không gian tên đích:',
 'import-upload-filename'     => 'Tên tập tin:',
 'import-comment'             => 'Lý do:',
-'importtext'                 => 'Xin hãy xuất tập tin từ wiki nguồn sử dụng [[Special:Export|tính năng xuất]].
+'importtext'                 => 'Xin hãy xuất tập tin từ wiki nguồn dùng [[Special:Export|công cụ xuất]].
 Lưu nó vào máy tính của bạn rồi tải nó lên đây.',
 'importstart'                => 'Đang nhập các trang…',
 'import-revision-count'      => '$1 {{PLURAL:$1|phiên bản|phiên bản}}',
@@ -2906,25 +2921,6 @@ Lưu nó vào máy tính của bạn rồi tải nó lên đây.',
 'skinname-modern'      => 'Hiện đại',
 'skinname-vector'      => 'Vectơ',
 
-# Math options
-'mw_math_png'    => 'Luôn cho ra dạng hình PNG',
-'mw_math_simple' => 'HTML nếu rất đơn giản, nếu không thì PNG',
-'mw_math_html'   => 'HTML nếu có thể, nếu không thì PNG',
-'mw_math_source' => 'Để nguyên mã TeX (dành cho trình duyệt văn bản)',
-'mw_math_modern' => 'Khuyên dùng với các trình duyệt hiện đại',
-'mw_math_mathml' => 'MathML nếu có thể (thử nghiệm)',
-
-# Math errors
-'math_failure'          => 'Không thể phân tích cú pháp',
-'math_unknown_error'    => 'lỗi lạ',
-'math_unknown_function' => 'hàm lạ',
-'math_lexing_error'     => 'lỗi chính tả',
-'math_syntax_error'     => 'lỗi cú pháp',
-'math_image_error'      => 'Không chuyển sang định dạng PNG được; xin kiểm tra lại cài đặt latex, dvips, gs, và convert (hoặc dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Không tạo mới hay viết vào thư mục toán tạm thời được',
-'math_bad_output'       => 'Không tạo mới hay viết vào thư mục kết quả được',
-'math_notexvc'          => 'Không thấy hàm thực thi texvc; xin xem math/README để biết cách cấu hình.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Đánh dấu tuần tra',
 'markaspatrolledtext'                 => 'Đánh dấu tuần tra trang này',
@@ -2960,22 +2956,24 @@ $1',
 'nextdiff'     => 'Sửa đổi sau →',
 
 # Media information
-'mediawarning'         => "'''Cảnh báo''': Kiểu tập tin này có thể chứa mã hiểm độc.
+'mediawarning'           => "'''Cảnh báo''': Kiểu tập tin này có thể chứa mã hiểm độc.
 Nếu thực thi nó máy tính của bạn có thể bị tiếm quyền.",
-'imagemaxsize'         => "Giới hạn cỡ hình:<br />''(trên trang miêu tả tập tin)''",
-'thumbsize'            => 'Cỡ hình thu nhỏ:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|trang|trang}}',
-'file-info'            => 'kích thước tập tin: $1, định dạng MIME: $2',
-'file-info-size'       => '$1×$2 điểm ảnh, kích thước: $3, định dạng MIME: $4',
-'file-nohires'         => '<small>Không có độ phân giải cao hơn.</small>',
-'svg-long-desc'        => 'tập tin SVG, $1 × $2 điểm ảnh trên danh nghĩa, kích thước: $3',
-'show-big-image'       => 'Độ phân giải tối đa',
-'show-big-image-thumb' => '<small>Kích thước xem thử: $1 × $2 điểm ảnh</small>',
-'file-info-gif-looped' => 'có lặp',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|khung ảnh|khung ảnh}}',
-'file-info-png-looped' => 'có lặp',
-'file-info-png-repeat' => 'chơi $1 lần',
-'file-info-png-frames' => '$1 khung ảnh',
+'imagemaxsize'           => "Giới hạn cỡ hình:<br />''(trên trang miêu tả tập tin)''",
+'thumbsize'              => 'Cỡ hình thu nhỏ:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|trang|trang}}',
+'file-info'              => 'kích thước tập tin: $1, định dạng MIME: $2',
+'file-info-size'         => '$1×$2 điểm ảnh, kích thước: $3, định dạng MIME: $4',
+'file-nohires'           => '<small>Không có độ phân giải cao hơn.</small>',
+'svg-long-desc'          => 'tập tin SVG, $1 × $2 điểm ảnh trên danh nghĩa, kích thước: $3',
+'show-big-image'         => 'Độ phân giải tối đa',
+'show-big-image-preview' => '<small>Kích thước của ảnh xem thử: $1.</small>',
+'show-big-image-other'   => '<small>Độ phân giải khác: $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixel',
+'file-info-gif-looped'   => 'có lặp',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|khung ảnh|khung ảnh}}',
+'file-info-png-looped'   => 'có lặp',
+'file-info-png-repeat'   => 'chơi $1 lần',
+'file-info-png-frames'   => '$1 khung ảnh',
 
 # Special:NewFiles
 'newimages'             => 'Trang trưng bày hình ảnh mới',
@@ -3411,11 +3409,12 @@ $1',
 'trackbackdeleteok' => 'Đã xóa trackback.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Cảnh báo''': Trang này đã bị xóa sau khi bắt đầu sửa đổi!",
-'confirmrecreate'     => "Thành viên [[User:$1|$1]] ([[User talk:$1|thảo luận]]) đã xóa trang này sau khi bạn bắt đầu sửa đổi trang với lý do:
+'deletedwhileediting'      => "'''Cảnh báo''': Trang này đã bị xóa sau khi bắt đầu sửa đổi!",
+'confirmrecreate'          => "Thành viên [[User:$1|$1]] ([[User talk:$1|thảo luận]]) đã xóa trang này sau khi bạn bắt đầu sửa đổi trang với lý do:
 : ''$2''
 Xin hãy xác nhận bạn thực sự muốn tạo lại trang này.",
-'recreate'            => 'Tạo ra lại',
+'confirmrecreate-noreason' => 'Người dùng [[User:$1|$1]] ([[User talk:$1|talk]]) xóa trang này sau khi bạn bắt đầu sửa đổi nó. Bạn có chắc chắn muốn tạo lại trang này không?',
+'recreate'                 => 'Tạo ra lại',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3467,14 +3466,14 @@ Xin hãy xác nhận bạn thực sự muốn tạo lại trang này.",
 'watchlistedit-noitems'        => 'Danh sách các trang bạn theo dõi hiện không có gì.',
 'watchlistedit-normal-title'   => 'Sửa các trang tôi theo dõi',
 'watchlistedit-normal-legend'  => 'Bỏ các trang đang theo dõi ra khỏi danh sách',
-'watchlistedit-normal-explain' => 'Tên các trang bạn theo dõi được hiển thị dưới đây. Để xóa một tên trang, chọn vào hộp kiểm bên cạnh nó, rồi nhấn “{{int:Watchlistedit-normal-submit}}”. Bạn cũng có thể [[Special:Watchlist/raw|sửa danh sách theo dạng thô]].',
+'watchlistedit-normal-explain' => 'Tên các trang bạn theo dõi được hiển thị dưới đây. Để xóa một tên trang, chọn vào hộp kiểm bên cạnh nó, rồi nhấn “{{int:Watchlistedit-normal-submit}}”. Bạn cũng có thể [[Special:EditWatchlist/raw|sửa danh sách theo dạng thô]].',
 'watchlistedit-normal-submit'  => 'Bỏ trang đã chọn',
 'watchlistedit-normal-done'    => '$1 {{PLURAL:$1|tựa đề|tựa đề}} đã được xóa khỏi danh sách các trang theo dõi:',
 'watchlistedit-raw-title'      => 'Sửa danh sách theo dõi dạng thô',
 'watchlistedit-raw-legend'     => 'Sửa danh sách theo dõi dạng thô',
 'watchlistedit-raw-explain'    => 'Danh sách này có tên các trang bạn theo dõi để bạn sửa chữa bằng cách thêm vào hoặc bỏ ra khỏi danh sách; mỗi trang một hàng.
 Khi xong, nhấn nút ”{{int:Watchlistedit-raw-submit}}”.
-Bạn cũng có thể [[Special:Watchlist/edit|dùng trang sửa đổi bình thường]] để sửa danh sách này.',
+Bạn cũng có thể [[Special:EditWatchlist|dùng trang sửa đổi bình thường]] để sửa danh sách này.',
 'watchlistedit-raw-titles'     => 'Tên các trang:',
 'watchlistedit-raw-submit'     => 'Cập nhật Trang tôi theo dõi',
 'watchlistedit-raw-done'       => 'Danh sách các trang bạn theo dõi đã được cập nhật.',
@@ -3592,7 +3591,8 @@ Hãy ghi vào tên tập tin, không bao gồm tiền tố “{{ns:file}}:”.',
 'specialpages'                   => 'Các trang đặc biệt',
 'specialpages-note'              => '----
 * Trang đặc biệt thông thường.
-* <strong class="mw-specialpagerestricted">Trang đặc biệt có hạn chế.</strong>',
+* <strong class="mw-specialpagerestricted">Trang đặc biệt có hạn chế.</strong>
+* <span class="mw-specialpagecached">Trang đặc biệt chỉ được lấy từ vùng nhớ đệm.</span>',
 'specialpages-group-maintenance' => 'Báo cáo bảo quản',
 'specialpages-group-other'       => 'Những trang đặc biệt khác',
 'specialpages-group-login'       => 'Đăng nhập / Mở tài khoản',

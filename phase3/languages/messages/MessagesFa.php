@@ -19,11 +19,13 @@
  * @author Meno25
  * @author Mjbmr
  * @author Mormegil
+ * @author Reza1615
  * @author Roozbeh Pournader <roozbeh at gmail.com>
  * @author Sahim
  * @author Wayiran
  * @author ZxxZxxZ
  * @author לערי ריינהארט
+ * @author محک
  */
 
 $namespaceNames = array(
@@ -97,7 +99,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'عنوان‌های_حفاظت_شده' ),
 	'Allpages'                  => array( 'تمام_صفحه‌ها' ),
 	'Prefixindex'               => array( 'نمایه_پیشوندی' ),
-	'Ipblocklist'               => array( 'فهرست_بستن_نشانی_آی‌پی' ),
+	'BlockList'                 => array( 'فهرست_بستن_نشانی_آی‌پی' ),
 	'Unblock'                   => array( 'باز_کردن' ),
 	'Specialpages'              => array( 'صفحه‌های_ویژه' ),
 	'Contributions'             => array( 'مشارکت‌ها' ),
@@ -113,7 +115,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'نسخه' ),
 	'Allmessages'               => array( 'تمام_پیغام‌ها' ),
 	'Log'                       => array( 'سیاهه‌ها' ),
-	'Blockip'                   => array( 'بستن_نشانی_آی‌پی' ),
+	'Block'                     => array( 'بستن_نشانی_آی‌پی' ),
 	'Undelete'                  => array( 'احیای_صفحهٔ_حذف‌شده' ),
 	'Import'                    => array( 'درون_ریزی_صفحه' ),
 	'Lockdb'                    => array( 'قفل_کردن_پایگاه_داده' ),
@@ -698,7 +700,7 @@ $1',
 'editlink'                => 'ویرایش',
 'viewsourcelink'          => 'نمایش مبدأ',
 'editsectionhint'         => 'ویرایش بخش: $1',
-'toc'                     => 'فهرست مندرجات',
+'toc'                     => 'محتویات',
 'showtoc'                 => 'نمایش',
 'hidetoc'                 => 'نهفتن',
 'collapsible-collapse'    => 'نهفتن',
@@ -842,7 +844,7 @@ $2',
 'notloggedin'                => 'به سامانه وارد نشده‌اید',
 'nologin'                    => "نام کاربری ندارید؟ '''$1'''.",
 'nologinlink'                => 'یک حساب جدید بسازید',
-'createaccount'              => 'ایجاد حساب جدید',
+'createaccount'              => 'ایجاد حساب کاربری',
 'gotaccount'                 => "حساب کاربری دارید؟ '''$1'''.",
 'gotaccountlink'             => 'وارد شوید',
 'createaccountmail'          => 'با پست الکترونیکی',
@@ -910,6 +912,7 @@ $2',
 'usernamehasherror'          => 'نام کاربری نمی‌تواند شامل نویسه‌های درهم باشد',
 'login-throttled'            => 'شما به تازگی چندین بار برای ورود به سامانه تلاش کرده‌اید.
 لطفاً پیش از آن که دوباره تلاش کنید، صبر کنید.',
+'login-abort-generic'        => 'ورود شما به سیستم ناموفق بود - خاتمه ناگهانی داده شد',
 'loginlanguagelabel'         => 'زبان: $1',
 'suspicious-userlogout'      => 'درخواست شما برای خروج از سامانه رد شد زیرا به نظر می‌رسد که این درخواست توسط یک مرورگر معیوب یا پروکسی میانگیر ارسال شده باشد.',
 
@@ -956,8 +959,6 @@ $2',
 'extlink_tip'     => 'پیوند به بیرون (پیشوند http://‎ را فراموش نکنید)',
 'headline_sample' => 'متن عنوان',
 'headline_tip'    => 'عنوان سطح ۲',
-'math_sample'     => 'درج فرمول در اینجا',
-'math_tip'        => 'فرمول ریاضی (LaTeX)',
 'nowiki_sample'   => 'اینجا متن قالب‌بندی‌نشده وارد شود',
 'nowiki_tip'      => 'نادیده گرفتن قالب‌بندی ویکی',
 'image_sample'    => 'مثال.jpg',
@@ -1284,7 +1285,7 @@ $1",
 'revdel-restore-visible'      => 'نسخه‌های پیدا',
 'pagehist'                    => 'تاریخچهٔ صفحه',
 'deletedhist'                 => 'تاریخچهٔ حذف شده',
-'revdelete-content'           => 'محتوا',
+'revdelete-content'           => 'مقدار',
 'revdelete-summary'           => 'خلاصه ویرایش',
 'revdelete-uname'             => 'نام کاربر',
 'revdelete-restricted'        => 'مدیران را محدود کرد',
@@ -1460,16 +1461,15 @@ $1",
 'changepassword'                => 'تغییر گذرواژه',
 'prefs-skin'                    => 'پوسته',
 'skin-preview'                  => 'پیش‌نمایش',
-'prefs-math'                    => 'نمایش ریاضیات',
 'datedefault'                   => 'بدون ترجیح',
 'prefs-datetime'                => 'تاریخ و زمان',
 'prefs-personal'                => 'داده‌های کاربر',
 'prefs-rc'                      => 'تغییرات اخیر',
 'prefs-watchlist'               => 'فهرست پی‌گیری‌ها',
 'prefs-watchlist-days'          => 'تعداد روزهایی که باید در فهرست پی‌گیری‌ها نمایش داده شود:',
-'prefs-watchlist-days-max'      => '(حداکثر ۷ روز)',
+'prefs-watchlist-days-max'      => 'حداکثر ۷ روز',
 'prefs-watchlist-edits'         => 'تعداد ویرایشهای نشان‌داده در فهرست پی‌گیری‌های گسترش‌یافته:',
-'prefs-watchlist-edits-max'     => '(حداکثر تعداد: ۱۰۰۰)',
+'prefs-watchlist-edits-max'     => 'حداکثر تعداد: ۱۰۰۰',
 'prefs-watchlist-token'         => 'نشانهٔ فهرست پی‌گیری:',
 'prefs-misc'                    => 'تنظیمات متفرقه',
 'prefs-resetpass'               => 'تغییر گذرواژه',
@@ -1494,7 +1494,7 @@ $1",
 'prefs-help-recentchangescount' => 'این گزینه شامل تغییرات اخیر، تاریخچهٔ صفحه‌ها و سیاهه‌ها می‌شود.',
 'prefs-help-watchlist-token'    => 'پر کردن این قسمت با یک کلید رمز باعث می‌شود که یک خوراک آراس‌اس برای فهرست پی‌گیری شما ایجاد شود.
 هر کس که این کلید را بداند می‌تواند فهرست پی‌گیری شما را بخواند، پس یک کلید ایمن انتخاب کنید.
-در این‌جا یک مقدار که به طور تصادفی ایجاد شده برای استفادهٔ شما ارائه می‌شود: $1',
+در اینجا یک مقدار که به صورت تصادفی ایجاد شده برای استفادهٔ شما ارائه می‌شود: $1',
 'savedprefs'                    => 'ترجیحات شما ذخیره شد.',
 'timezonelegend'                => 'منطقهٔ زمانی:',
 'localtime'                     => 'زمان محلی:',
@@ -1814,7 +1814,7 @@ $1",
 {{PLURAL:\$3|نوع پرونده ترجیح داده شده|انواع پرونده ترجیح داد شده}} از این قرار است: \$2 .",
 'filetype-banned-type'        => '&lrm;\'\'\'".$1"\'\'\' {{PLURAL:$4|یک نوع پرونده غیر مجاز است|انواعی پرونده غیر مجاز هستند}}.
 {{PLURAL:$3|نوع پرونده مجاز|انواع پرونده مجاز}} از این قرار است: $2 .',
-'filetype-missing'            => 'پرونده پسوند ندارد (مانند &lrm;«.jpg»&lrm;).',
+'filetype-missing'            => 'این پرونده پسوند (مثلاً «‎.jpg») ندارد.',
 'empty-file'                  => 'پرونده‌ای که ارسال کردید خالی بود.',
 'file-too-large'              => 'پرونده‌ای که ارسال کردید بیش از اندازه بزرگ بود.',
 'filename-tooshort'           => 'نام پرونده بیش از اندازه کوتاه است.',
@@ -1856,8 +1856,8 @@ $1",
 'uploadwarning'               => 'هشدار بار کردن',
 'uploadwarning-text'          => 'لطفاً توضیحات پرونده را در زیر تغییر دهید و دوباره تلاش کنید.',
 'savefile'                    => 'ذخیرهٔ پرونده',
-'uploadedimage'               => '«[[$1]]» بار شد',
-'overwroteimage'              => 'نسخه جدیدی از  «[[$1]]» را بارگذاری کرد.',
+'uploadedimage'               => '«[[$1]]» را بارگذاری کرد',
+'overwroteimage'              => 'نسخه جدیدی از  «[[$1]]» را بارگذاری کرد',
 'uploaddisabled'              => 'شرمنده، بار کردن از کار افتاده است.',
 'copyuploaddisabled'          => 'بارگذاری از طریق نشانی اینترنتی غیر فعال است.',
 'uploadfromurl-queued'        => 'بارگذاری شما به صف اضافه شد.',
@@ -1883,7 +1883,7 @@ $1",
 'filename-bad-prefix'         => "نام پرونده‌ای که بارگذاری می‌کنید با '''$1''' آغاز می‌شود که یک پیشوند مخصوص تصاویر ثبت شده توسط دوربین‌های دیجیتال است.
 لطفاً نامی بهتر برای پرونده برگزینید.",
 'upload-success-subj'         => 'بار کردن با موفقیت انجام شد',
-'upload-success-msg'          => 'بارگذاری شما از [$2] موفق بود. این پرونده در این‌جا قابل دسترسی است: [[:{{ns:file}}:$1]]',
+'upload-success-msg'          => 'بارگذاری شما از [$2] موفق بود. این پرونده در اینجا قابل دسترسی است: [[:{{ns:file}}:$1]]',
 'upload-failure-subj'         => 'مشکل در بارگذاری',
 'upload-failure-msg'          => 'مشکلی در بارگذاری شما از [$2] وجود داشت:
 
@@ -1922,22 +1922,23 @@ $1',
 'uploadstash-refresh'  => 'تازه کردن فهرست پرونده‌ها',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'منع دسترسی',
-'img-auth-nopathinfo'   => 'PATH_INFO موجود نیست.
+'img-auth-accessdenied'     => 'منع دسترسی',
+'img-auth-nopathinfo'       => 'PATH_INFO موجود نیست.
 کارساز شما برای رد کردن این مقدار تنظیم نشده‌است.
 ممکن است کارساز مبتنی بر سی‌جی‌آی باشد و از img_auth پشتیبانی نکند.
 http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
-'img-auth-notindir'     => 'مسیر درخواست شده در شاخهٔ بارگذاری تنظیم نشده‌است.',
-'img-auth-badtitle'     => 'امکان ایجاد یک عنوان مجاز از «$1» وجود ندارد.',
-'img-auth-nologinnWL'   => 'شما به سامانه وارد نشده‌اید و «$1» در فهرست سفید قرار ندارد.',
-'img-auth-nofile'       => 'پرونده «$1» وجود ندارد.',
-'img-auth-isdir'        => 'شما می‌خواهید به شاخهٔ «$1» دسترسی پیدا کنید.
+'img-auth-notindir'         => 'مسیر درخواست شده در شاخهٔ بارگذاری تنظیم نشده‌است.',
+'img-auth-badtitle'         => 'امکان ایجاد یک عنوان مجاز از «$1» وجود ندارد.',
+'img-auth-nologinnWL'       => 'شما به سامانه وارد نشده‌اید و «$1» در فهرست سفید قرار ندارد.',
+'img-auth-nofile'           => 'پرونده «$1» وجود ندارد.',
+'img-auth-isdir'            => 'شما می‌خواهید به شاخهٔ «$1» دسترسی پیدا کنید.
 تنها دسترسی به پرونده مجاز است.',
-'img-auth-streaming'    => 'در حال جاری ساختن «$1».',
-'img-auth-public'       => 'عملکرد img_auth.php برونداد پرونده‌ها از یک ویکی خصوصی است.
+'img-auth-streaming'        => 'در حال جاری ساختن «$1».',
+'img-auth-public'           => 'عملکرد img_auth.php برونداد پرونده‌ها از یک ویکی خصوصی است.
 این ویکی به عنوان یک ویکی عمومی تنظیم شده‌است.
 برای امنیت بهینه، img_auth.php غیر فعال است.',
-'img-auth-noread'       => 'کاربر دسترسی خواندن «$1» را ندارد.',
+'img-auth-noread'           => 'کاربر دسترسی خواندن «$1» را ندارد.',
+'img-auth-bad-query-string' => 'آدرس اینترنتی شامل یک رشتهٔ نامعتبر درخواست است.',
 
 # HTTP errors
 'http-invalid-url'      => 'نشانی نامعتبر: $1',
@@ -1984,14 +1985,14 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'filehist-deleteall'        => 'حذف همه',
 'filehist-deleteone'        => 'حذف این مورد',
 'filehist-revert'           => 'واگردانی',
-'filehist-current'          => 'نسخهٔ فعلی',
+'filehist-current'          => 'نسخهٔ کنونی',
 'filehist-datetime'         => 'تاریخ',
 'filehist-thumb'            => 'بند انگشتی',
 'filehist-thumbtext'        => 'تصویر بند انگشتی از نسخه تا $1',
 'filehist-nothumb'          => 'فاقد بند انگشتی',
 'filehist-user'             => 'کاربر',
 'filehist-dimensions'       => 'ابعاد',
-'filehist-filesize'         => 'اندازه پرونده',
+'filehist-filesize'         => 'اندازهٔ پرونده',
 'filehist-comment'          => 'توضیح',
 'filehist-missing'          => 'پروندهٔ ناموجود',
 'imagelinks'                => 'پیوندهای پرونده',
@@ -2007,7 +2008,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'sharedupload-desc-there'   => 'این پرونده در $1 قرار دارد و ممکن است در دیگر پروژه‌ها هم استفاده شود.
 برای اطلاعات بیشتر لطفاً [$2 صفحهٔ توضیحات پرونده] را ببینید.',
 'sharedupload-desc-here'    => 'این پرونده در $1 قرار دارد و ممکن است در دیگر پروژه‌ها هم استفاده شود.
-توضیحات موجود در [$2 صفحهٔ توضیحات پرونده] در آن‌جا، در زیر نشان داده شده‌است.',
+توضیحات موجود در [$2 صفحهٔ توضیحات پرونده] در آنجا، در زیر نشان داده شده‌است.',
 'filepage-nofile'           => 'پرونده‌ای با این نام وجود ندارد.',
 'filepage-nofile-link'      => 'پرونده‌ای با این نام وجود ندارد، اما شما می‌توانید آن را [$1 بارگذاری کنید].',
 'uploadnewversion-linktext' => 'بارکردن نسخهٔ جدیدی از پرونده',
@@ -2056,7 +2057,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'unwatchedpages' => 'صفحه‌های پی‌گیری‌نشده',
 
 # List redirects
-'listredirects' => 'فهرست صفحه‌های تغییرمسیر',
+'listredirects' => 'فهرست صفحه‌های تغییر مسیر',
 
 # Unused templates
 'unusedtemplates'     => 'الگوهای استفاده‌نشده',
@@ -2069,7 +2070,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'randompage-nopages' => 'هیچ صفحه‌ای در این {{PLURAL:$2|فضای نام|فضاهای نام}} موجود نیست: $1',
 
 # Random redirect
-'randomredirect'         => 'تغییرمسیر تصادفی',
+'randomredirect'         => 'تغییر مسیر تصادفی',
 'randomredirect-nopages' => 'هیج صفحهٔ تغییر مسیری در فضای نام «$1» موجود نیست.',
 
 # Statistics
@@ -2300,6 +2301,10 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 یا تصمیم گرفته از کاربران دیگر پست الکترونیکی دریافت نکند.',
 'nowikiemailtitle'     => 'اجازهٔ ارسال نامهٔ الکترونیکی داده نشده‌است',
 'nowikiemailtext'      => 'این کاربر انتخاب کرده که از دیگر کاربران نامهٔ الکترونیکی دریافت نکند.',
+'emailnotarget'        => 'نام کاربری غیر موجود یا نامعتبر برای گیرنده.',
+'emailtarget'          => 'نام کاربری دریافت‌کننده را وارد کنید',
+'emailusername'        => 'نام کاربری:',
+'emailusernamesubmit'  => 'ارسال',
 'email-legend'         => 'ارسال نامه الکترونیکی به یک کاربر دیگر {{SITENAME}}',
 'emailfrom'            => 'از:',
 'emailto'              => 'به:',
@@ -2394,7 +2399,7 @@ $NEWPAGE
 'deletepage'             => 'حذف صفحه',
 'confirm'                => 'تأیید',
 'excontent'              => "محتوای صفحه این بود: '$1'",
-'excontentauthor'        => "محتویات صفحه این بود: '$1' (و تنها مشارکت‌کننده '$2' بود)",
+'excontentauthor'        => "محتوای صفحه این بود: '$1' (و تنها مشارکت‌کننده '[[Special:Contributions/$2|$2]]' بود)",
 'exbeforeblank'          => "محتوای صفحه قبل از خالی‌کردن '$1' بود.",
 'exblank'                => 'صفحه خالی بود',
 'delete-confirm'         => 'حذف «$1»',
@@ -2538,7 +2543,8 @@ $NEWPAGE
 'undeletedrevisions-files'     => '$1 نسخه و $2 پرونده احیا {{PLURAL:$1|شد|شدند}}.',
 'undeletedfiles'               => '$1 پرونده احیا {{PLURAL:$1|شد|شدند}}.',
 'cannotundelete'               => 'نشد احیا کرد. ممکن است کس دیگری پیشتر این صفحه را احیا کرده باشد.',
-'undeletedpage'                => " '''$1 احیا شد.'''
+'undeletedpage'                => "'''$1 احیا شد'''
+
 برای دیدن سیاههٔ حذفها و احیاهای اخیر به  [[Special:Log/delete|سیاههٔ حذف]] رجوع کنید.",
 'undelete-header'              => 'برای دیدن صفحه‌های حذف‌شدهٔ اخیر [[Special:Log/delete|سیاههٔ حذف]] را ببینید.',
 'undelete-search-box'          => 'جستجوی صفحه‌های حذف‌شده.',
@@ -2559,7 +2565,7 @@ $1',
 # Namespace form on various pages
 'namespace'             => 'فضای نام:',
 'invert'                => 'انتخاب برعکس شود',
-'namespace_association' => 'فضای نامی مرتبط',
+'namespace_association' => 'فضای نام مربوط',
 'blanknamespace'        => '(اصلی)',
 
 # Contributions
@@ -2609,13 +2615,15 @@ $1',
 'whatlinkshere-filters'    => 'پالایه‌ها',
 
 # Block/unblock
+'autoblockid'                     => 'شناسه قطع دسترسی خودکار #$1',
+'block'                           => 'بستن کاربر',
+'unblock'                         => 'بازکردن کاربر',
 'blockip'                         => 'بستن کاربر',
 'blockip-title'                   => 'بستن کاربر',
 'blockip-legend'                  => 'بستن کاربر',
 'blockiptext'                     => 'از فرم زیر برای بستن دسترسی ویرایش یک نشانی آی‌پی یا نام کاربری مشخص استفاده کنید.
 این کار فقط فقط باید برای جلوگیری از خرابکاری و بر اساس [[{{MediaWiki:Policy-url}}|سیاست قطع دسترسی]] انجام شود.
 دلیل مشخص این کار را در زیر ذکر کنید (مثلاً با ذکر صفحه‌های به‌خصوصی که تخریب شده‌اند).',
-'ipaddress'                       => 'نشانی آی‌پی/نام کاربر',
 'ipadressorusername'              => 'نشانی آی‌پی یا نام کاربری',
 'ipbexpiry'                       => 'خاتمه',
 'ipbreason'                       => 'دلیل:',
@@ -2628,7 +2636,7 @@ $1',
 **تهدید یا ارعاب دیگر کاربران
 **سوء استفاده از چند حساب کاربری
 **نام کاربری نامناسب',
-'ipbanononly'                     => 'فقط بستن کاربران گمنام',
+'ipb-hardblock'                   => 'از ویرایش کردن کاربران ثبت نام کرده از طریق این نشانی آی‌پی جلوگیری کن',
 'ipbcreateaccount'                => 'جلوگیری از ایجاد حساب',
 'ipbemailban'                     => 'جلوگیری از ارسال پست الکترونیکی',
 'ipbenableautoblock'              => 'بستن  خودکار آخرین نشانی آی‌پی استفاده شده توسط کاربر و نشانی‌های دیگری که از آن‌ها برای ویرایش تلاش می‌کند',
@@ -2639,12 +2647,15 @@ $1',
 'ipbotherreason'                  => 'دلیل دیگر/اضافی:',
 'ipbhidename'                     => 'نهفتن نام کاربری از ویرایش‌ها و فهرست‌ها',
 'ipbwatchuser'                    => 'پیگیری صفحهٔ کاربری و بحث این کاربر',
-'ipballowusertalk'                => 'به این کاربر اجازه بده در مدت قطع دسترسی صفحهٔ بحث خودش را ویرایش کند.',
+'ipb-disableusertalk'             => 'زمانی که این کاربر بسته است از ویرایش صفحهٔ بحثش توسط خودش جلوگیری کن',
 'ipb-change-block'                => 'بستن دوبارهٔ کاربر با این تنظیم‌ها',
+'ipb-confirm'                     => 'تأیید بستن',
 'badipaddress'                    => 'کاربری با این نام وجود ندارد.',
 'blockipsuccesssub'               => 'بستن با موفقیت انجام شد',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] بسته شد.<br />
 برای بررسی بسته‌شدن‌ها [[Special:IPBlockList|فهرست نشانی‌های آی‌پی بسته‌شده]] را ببینید.',
+'ipb-blockingself'                => 'شما در حال بستن خودتان هستید!  آیا مطمئن هستید که می‌خواهید چنین کاری انجام دهید؟',
+'ipb-confirmhideuser'             => 'شما در حال بستن یک کاربر با «پنهان‌سازی کاربر» فعال شده هستید. این کار نام کاربر را از همهٔ فهرست‌ها و سیاهه‌ها مخفی می‌کند. آیا مطمئن هستید که می‌خواهید آن را انجام دهید؟',
 'ipb-edit-dropdown'               => 'دلایل قطع دسترسی',
 'ipb-unblock-addr'                => 'بازکردن $1',
 'ipb-unblock'                     => 'باز کردن نام کاربری یا نشانی آی‌پی',
@@ -2655,17 +2666,23 @@ $1',
 از فرم زیر استفاده کنید.',
 'ipusubmit'                       => 'باز کردن دسترسی',
 'unblocked'                       => 'دسترسی [[User:$1|$1]] دوباره برقرار شد.',
+'unblocked-range'                 => '$1 باز شد',
 'unblocked-id'                    => 'قطع دسترسی شماره $1 خاتمه یافت',
-'ipblocklist'                     => 'نشانی‌های آی‌پی و نام‌های کاربری بسته‌شده',
+'blocklist'                       => 'کاربران بسته‌شده',
+'ipblocklist'                     => 'کاربران بسته‌شده',
 'ipblocklist-legend'              => 'جستجوی کاربر بسته شده',
-'ipblocklist-username'            => 'نام کاربری یا نشانی آی‌پی',
-'ipblocklist-sh-userblocks'       => '$1 قطع دسترسی کاربر',
-'ipblocklist-sh-tempblocks'       => '$1 قطع دسترسی موقت',
-'ipblocklist-sh-addressblocks'    => '$1 قطع دسترسی نشانی آی‌پی',
+'blocklist-userblocks'            => 'پنهان‌کردن بسته‌شدن‌های حساب',
+'blocklist-tempblocks'            => 'پنهان‌کردن بستن‌های موقت',
+'blocklist-addressblocks'         => 'پنهان‌کردن تک آی‌پی‌های بسته شده',
+'blocklist-timestamp'             => 'برچسب زمان',
+'blocklist-target'                => 'هدف',
+'blocklist-expiry'                => 'به پایان رسیدن زمان',
+'blocklist-by'                    => 'مدیری قطع دسترسی کننده',
+'blocklist-params'                => 'پارامترهای بستن',
+'blocklist-reason'                => 'دلیل',
 'ipblocklist-submit'              => 'جستجو',
 'ipblocklist-localblock'          => 'قطع دسترسی محلی',
 'ipblocklist-otherblocks'         => 'سایر {{PLURAL:$1|بستن‌ها|بستن‌ها}}',
-'blocklistline'                   => '$1، $2 $3 را بست ($4)',
 'infiniteblock'                   => 'بی‌پایان',
 'expiringblock'                   => 'در $1 ساعت $2 به پایان می‌رسد',
 'anononlyblock'                   => 'فقط کاربران گمنام',
@@ -2702,9 +2719,9 @@ $1',
 'ipb_expiry_temp'                 => 'قطع دسترسی کاربرهای پهنان باید همیشگی باشد.',
 'ipb_hide_invalid'                => 'ناتوان از متوقف کردن این کاربر؛ شاید ویرایش‌های زیادی دارد.',
 'ipb_already_blocked'             => '«$1» همین الان هم بسته‌است.',
-'ipb-needreblock'                 => '== قطع دسترسی از قبل ==
-دسترسی $1 از قبل بسته است. آیا می‌خواهید تنظیم‌های آن را تغییر دهید؟',
+'ipb-needreblock'                 => 'دسترسی $1 از قبل بسته است. آیا می‌خواهید تنظیم‌های آن را تغییر دهید؟',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|قطع دسترسی|قطع دسترسی‌های}} دیگر',
+'unblock-hideuser'                => '‫به این خاطر که حساب کاربری این کاربر مخفی شده‌است شما نمی‌توانید آن را باز کنید.‬',
 'ipb_cant_unblock'                => 'خطا: شناسه بسته‌شدن $1 یافت نشد.
 ممکن است پیشتر باز شده باشد.',
 'ipb_blocked_as_range'            => 'خطا: نشانی آی‌پی $1 به شکل مستقیم بسته نشده‌است و نمی‌تواند باز شود.
@@ -2902,7 +2919,8 @@ $1',
 'import-interwiki-namespace' => 'فضای نام مقصد:',
 'import-upload-filename'     => 'نام پرونده:',
 'import-comment'             => 'توضیح:',
-'importtext'                 => 'لطفاً پرونده را از منبع ویکی با کمک ابزار Special:Export برون‌بری کنید، روی دستگاه‌تان ذخیره کنید و این‌جا بارگذاری نمایید.',
+'importtext'                 => 'لطفاً پرونده را از ویکی منبع با کمک [[Special:Export|ابزار برون‌بری]] دریافت کنید.
+روی دستگاه‌تان ذخیره کنید و اینجا بارگذاری نمایید.',
 'importstart'                => 'در حال درون‌ریزی صفحه‌ها...',
 'import-revision-count'      => '$1 {{PLURAL:$1|ویرایش|ویرایش}}',
 'importnopages'              => 'صفحه‌ای برای درون‌ریزی نیست.',
@@ -3051,25 +3069,6 @@ $1',
 'skinname-modern'      => 'مدرن',
 'skinname-vector'      => 'برداری',
 
-# Math options
-'mw_math_png'    => 'همیشه PNG کشیده شود',
-'mw_math_simple' => 'اگر خیلی ساده بود HTML وگرنه PNG',
-'mw_math_html'   => 'اگر ممکن بود HTML وگرنه PNG',
-'mw_math_source' => 'در قالب TeX باقی بماند (برای مرورگرهای متنی)',
-'mw_math_modern' => 'توصیه برای مرورگرهای امروزی',
-'mw_math_mathml' => 'استفاده از MathML در صورت امکان (آزمایشی)',
-
-# Math errors
-'math_failure'          => 'شکست در تجزیه',
-'math_unknown_error'    => 'خطای ناشناخته',
-'math_unknown_function' => 'تابع ناشناختهٔ',
-'math_lexing_error'     => 'خطای lexing',
-'math_syntax_error'     => 'خطای نحوی',
-'math_image_error'      => 'تبدیل به PNG شکست خورد؛ از نصب درست لاتکس و dvipng (یا dvips و gs و convert) اطمینان حاصل کنید',
-'math_bad_tmpdir'       => 'امکان ایجاد یا نوشتن اطلاعات در پوشه موقت (temp) ریاضی وجود ندارد.',
-'math_bad_output'       => 'امکان ایجاد یا نوشتن اطلاعات در پوشه خروجی (output) ریاضی وجود ندارد.',
-'math_notexvc'          => 'برنامهٔ اجرایی texvc موجود نیست. برای اطلاعات بیشتر به <span dir=ltr>math/README</span> مراجعه کنید.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'برچسب گشت بزن',
 'markaspatrolledtext'                 => 'به این صفحه برچسب گشت بزن',
@@ -3105,23 +3104,25 @@ $1',
 'nextdiff'     => 'تفاوت جدیدتر ←',
 
 # Media information
-'mediawarning'         => "'''هشدار''': این پرونده ممکن است حاوی کدهای مخرب باشد.
+'mediawarning'           => "'''هشدار''': این پرونده ممکن است حاوی کدهای مخرب باشد.
 با اجرای آن رایانهٔ شما ممکن است آسیب ببیند.",
-'imagemaxsize'         => "محدودیت ابعاد تصویر:<br />''(برای صفحه‌های توصیف پرونده)''",
-'thumbsize'            => 'اندازهٔ Thumbnail:',
-'widthheight'          => '$1 در $2',
-'widthheightpage'      => '$1×$2، $3 {{PLURAL:$3|صفحه|صفحه}}',
-'file-info'            => 'اندازهٔ پرونده: $1، نوع  MIME $2',
-'file-info-size'       => '<span dir="ltr">$1 × $2</span> پیکسل، اندازهٔ پرونده: $3، نوع MIME پرونده: $4',
-'file-nohires'         => '<small>تفکیک‌پذیری بالاتری در دسترس نیست.</small>',
-'svg-long-desc'        => 'پروندهٔ اس‌وی‌جی، با ابعاد $1 × $2 پیکسل، اندازهٔ پرونده: $3',
-'show-big-image'       => 'تصویر با تفکیک‌پذیری بالاتر',
-'show-big-image-thumb' => '<small>اندازهٔ این پیش‌نمایش: &#8206;$1 × $2 پیکسل</small>',
-'file-info-gif-looped' => 'حلقه‌ای',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|قاب|قاب}}',
-'file-info-png-looped' => 'حلقه‌ای',
-'file-info-png-repeat' => '$1 {{PLURAL:$1|بار|بار}} پخش شد',
-'file-info-png-frames' => '$1 {{PLURAL:$1|قاب|قاب}}',
+'imagemaxsize'           => "محدودیت ابعاد تصویر:<br />''(برای صفحه‌های توصیف پرونده)''",
+'thumbsize'              => 'اندازهٔ Thumbnail:',
+'widthheight'            => '$1 در $2',
+'widthheightpage'        => '$1×$2، $3 {{PLURAL:$3|صفحه|صفحه}}',
+'file-info'              => 'اندازهٔ پرونده: $1، نوع  MIME $2',
+'file-info-size'         => '<span dir="ltr">$1 × $2</span> پیکسل، اندازهٔ پرونده: $3، نوع MIME پرونده: $4',
+'file-nohires'           => '<small>تفکیک‌پذیری بالاتری در دسترس نیست.</small>',
+'svg-long-desc'          => 'پروندهٔ اس‌وی‌جی، با ابعاد <span dir="ltr">$1 × $2</span> پیکسل، اندازهٔ پرونده: $3',
+'show-big-image'         => 'تصویر با تفکیک‌پذیری بالاتر',
+'show-big-image-preview' => '<small>اندازهٔ این پیش‌نمایش: $1.</small>',
+'show-big-image-other'   => '<small>کیفیت‌های دیگر: $1.</small>',
+'show-big-image-size'    => '<span dir="ltr">$1 × $2</span> پیکسل',
+'file-info-gif-looped'   => 'حلقه‌ای',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|قاب|قاب}}',
+'file-info-png-looped'   => 'حلقه‌ای',
+'file-info-png-repeat'   => '$1 {{PLURAL:$1|بار|بار}} پخش شد',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|قاب|قاب}}',
 
 # Special:NewFiles
 'newimages'             => 'نگارخانهٔ پرونده‌های جدید',
@@ -3209,7 +3210,7 @@ $1',
 'exif-isospeedratings'             => 'درجه‌بندی سرعت ایزو',
 'exif-oecf'                        => 'عامل تبدیل نوری‌-الکترونیک',
 'exif-shutterspeedvalue'           => 'سرعت شاتر',
-'exif-aperturevalue'               => 'اندازه دیافراگم',
+'exif-aperturevalue'               => 'اندازهٔ دیافراگم',
 'exif-brightnessvalue'             => 'روشنی',
 'exif-exposurebiasvalue'           => 'خطای نوردهی',
 'exif-maxaperturevalue'            => 'حداکثر گشادگی زمین',
@@ -3507,11 +3508,12 @@ $1',
 'trackbackdeleteok' => 'بازتاب صفحه با موفقیت حذف شد.',
 
 # Delete conflict
-'deletedwhileediting' => "'''هشدار''': این صفحه پس از اینکه شما آغاز به ویرایش آن کرده‌اید، حذف شده است!",
-'confirmrecreate'     => "کاربر [[User:$1|$1]] ([[User talk:$1|بحث]]) این مقاله را پس از اینکه شما آغاز به ویرایش آن نموده‌اید به دلیل زیر حذف کرده است :
+'deletedwhileediting'      => "'''هشدار''': این صفحه پس از اینکه شما آغاز به ویرایش آن کرده‌اید، حذف شده است!",
+'confirmrecreate'          => "کاربر [[User:$1|$1]] ([[User talk:$1|بحث]]) این مقاله را پس از اینکه شما آغاز به ویرایش آن نموده‌اید به دلیل زیر حذف کرده است :
 : ''$2''
 لطفاً تأیید کنید که مجدداً می‌خواهید این مقاله را بسازید.",
-'recreate'            => 'بازایجاد',
+'confirmrecreate-noreason' => 'کاربر [[User:$1|$1]] ([[User talk:$1|بحث]]) این صفحه را پس از شروع ویرایش‌تان پاک کرده‌است.  لطفاً تأیید کنید که شما واقعاً می‌خواهید آن را دوباره ایجاد کنید.',
+'recreate'                 => 'بازایجاد',
 
 # action=purge
 'confirm_purge_button' => 'تأیید',
@@ -3560,7 +3562,7 @@ $1',
 
 # Friendlier slave lag warnings
 'lag-warn-normal' => 'ممکن است تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}} در این فهرست نشان داده نشوند.',
-'lag-warn-high'   => 'ممکن است ، به خاطر پس‌افتادگی زیاد کارگزار دادگان، تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}}، در این فهرست نشان داده نشده باشند.',
+'lag-warn-high'   => 'ممکن است، به خاطر پس‌افتادگی زیاد کارگزار دادگان، تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}} در این فهرست نشان داده نشده باشند.',
 
 # Watchlist editor
 'watchlistedit-numitems'       => 'فهرست پی‌گیری‌های شما شامل {{PLURAL:$1|$1 صفحه|$1 صفحه}} به جز صفحه‌های بحث است.',
@@ -3569,14 +3571,14 @@ $1',
 'watchlistedit-normal-legend'  => 'حذف عنوان‌ها از فهرست پی‌گیری‌ها',
 'watchlistedit-normal-explain' => 'عنوان‌های موجود در فهرست پیگیری شما در زیر نشان داده شده‌اند.
 برای حذف یک عنوان جعبهٔ کنار آن را علامت بزنید و دکمهٔ «{{int:Watchlistedit-normal-submit}}» را بزنید.
-شما هم‌چنین می‌توانید [[Special:Watchlist/raw|فهرست خام را ویرایش کنید]].',
+شما هم‌چنین می‌توانید [[Special:EditWatchlist/raw|فهرست خام را ویرایش کنید]].',
 'watchlistedit-normal-submit'  => 'حذف عنوان‌ها',
 'watchlistedit-normal-done'    => '$1 عنوان از فهرست پی‌گیری‌های شما حذف {{PLURAL:$1|شد|شدند}}:',
 'watchlistedit-raw-title'      => 'ویرایش فهرست خام پی‌گیری‌ها',
 'watchlistedit-raw-legend'     => 'ویرایش فهرست خام پی‌گیری‌ها',
 'watchlistedit-raw-explain'    => 'عنوان‌های موجود در فهرست پی‌گیری‌های شما در زیر نشان داده شده‌اند، و شما می‌توانید مواردی را حذف یا اضافه کنید؛ هر مورد در یک سطر جداگانه باید قرار بگیرد.
 در پایان، دکمهٔ «{{int:Watchlistedit-raw-submit}}» را بفشارید.
-توجه کنید که شما می‌توانید از [[Special:Watchlist/edit|ویرایشگر استاندارد فهرست پی‌گیری‌ها]] هم استفاده کنید.',
+توجه کنید که شما می‌توانید از [[Special:EditWatchlist|ویرایشگر استاندارد فهرست پی‌گیری‌ها]] هم استفاده کنید.',
 'watchlistedit-raw-titles'     => 'عنوان‌ها:',
 'watchlistedit-raw-submit'     => 'به روز رساندن پی‌گیری‌ها',
 'watchlistedit-raw-done'       => 'فهرست پی‌گیری‌های شما به روز شد.',
@@ -3695,15 +3697,17 @@ $1',
 'fileduplicatesearch-legend'    => 'جستجوی موارد تکراری',
 'fileduplicatesearch-filename'  => 'نام پرونده:',
 'fileduplicatesearch-submit'    => 'جستجو',
-'fileduplicatesearch-info'      => '$1 Ã— $2 پیکسل<br />اندازه پرونده: $3<br />نوع MIME: $4',
+'fileduplicatesearch-info'      => '<span dir="ltr">$1 × $2</span> پیکسل<br />اندازهٔ پرونده: $3<br />نوع MIME: $4',
 'fileduplicatesearch-result-1'  => 'پروندهٔ «$1» مورد تکراری ندارد.',
 'fileduplicatesearch-result-n'  => 'پروندهٔ «$1» دارای {{PLURAL:$2|یک مورد تکراری|$2 مورد تکراری}} است.',
 'fileduplicatesearch-noresults' => 'پرونده‌ای با نام «$1» یافت نشد.',
 
 # Special:SpecialPages
 'specialpages'                   => 'صفحه‌های ویژه',
-'specialpages-note'              => '<hr />
-* دسترسی به صفحه‌های ویژهٔ <strong class="mw-specialpagerestricted">رنگی</strong> محدود شده‌است.',
+'specialpages-note'              => '----
+* صفحه‌های ویژهٔ عادی.
+* <strong class="mw-specialpagerestricted">صفحات ویژهٔ محدود شده.</strong>
+* <strong class="mw-specialpagerestricted">صفحات ویژهٔ فقط دارای میانگیر.</strong>',
 'specialpages-group-maintenance' => 'گزارش‌های نگهداری',
 'specialpages-group-other'       => 'صفحه‌های ویژهٔ دیگر',
 'specialpages-group-login'       => 'ورود / ثبت نام',

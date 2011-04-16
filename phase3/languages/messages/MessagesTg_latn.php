@@ -471,8 +471,6 @@ Mumkin ast, ki şumo allakaj guzarvoƶaatonro bo muvaffaqijat taƣjir doda boşe
 'extlink_tip'     => 'Pajvandi beruna (peşvandi http:// faromūş nakuned)',
 'headline_sample' => 'Matni unvon',
 'headline_tip'    => 'Unvoni sathi 2',
-'math_sample'     => 'Ilova kardani formula dar inço',
-'math_tip'        => 'Formulai rijozī (LaTeX)',
 'nowiki_sample'   => 'Inço matni qolabbandi-naşudaro doxil kuned',
 'nowiki_tip'      => 'Rad kardani qolabbandiji viki',
 'image_tip'       => 'Tasviri doxili matn',
@@ -771,7 +769,6 @@ Itminon hosil kuned, ki in taƣjir davomnokiji ta'rixiji sahifaro nigoh dorad.",
 'changepassword'            => 'Ivaz namudani kalimai ubur',
 'prefs-skin'                => 'Pūst',
 'skin-preview'              => 'Peşnamoiş',
-'prefs-math'                => 'Rijozijot',
 'datedefault'               => 'Be tarçih',
 'prefs-datetime'            => 'Sana va vaqt',
 'prefs-personal'            => 'Dodahoi korbar',
@@ -1512,7 +1509,6 @@ $1',
 'blockiptext'                 => "Baroi bastani dastrasiji viroişi nişonai IP jo nomi korbarī muşaxxas az formi zerin istifoda kuned.
 In kor faqat bojad baroi çilavgirī az xarobkori va muvofiqi bo [[{{MediaWiki:Policy-url}}|sijosati qat'i dastrasī]] ançom şavad.
 Daleli muşaxxas baroi in korro dar zer zikr kuned (baroi misol, zikri sahifahoe, ki xarobkorī şudaand).",
-'ipaddress'                   => 'Nişonai IP:',
 'ipadressorusername'          => 'IP nişona jo nomi korbar:',
 'ipbexpiry'                   => 'Xotima:',
 'ipbreason'                   => 'Sabab:',
@@ -1525,7 +1521,6 @@ Daleli muşaxxas baroi in korro dar zer zikr kuned (baroi misol, zikri sahifahoe
 ** Raftori ba'd/masxarakuniji digar korbaron
 ** Sūiistifoda az cand hisobi korbarī
 ** Nomi korbariji nomunosib",
-'ipbanononly'                 => 'Faqat bastani korbaroni gumnom',
 'ipbcreateaccount'            => 'Çilavgirī az eçodi hisob',
 'ipbemailban'                 => 'Çilavgiriji korbar az firistodani poctai elektronī',
 'ipbenableautoblock'          => "Nişonai oxire ki az on in korbar istifoda mekunad, ba surati xudkor buband, va digar nişonahoi IP-hoi ba'dina, ki az onho metavonad viroiş kunand",
@@ -1550,9 +1545,7 @@ Baroi barrasī ba [[Special:IPBlockList|fehristi nişonahoi IP va nomhoi korbari
 'unblocked-id'                => "Qat'i dastrasiji şumorai $1 xotima joft",
 'ipblocklist'                 => 'IP nişonaho va nomhoi korbariji basta şuda',
 'ipblocklist-legend'          => 'Çustuçūi korbari basta şuda',
-'ipblocklist-username'        => 'Nomi korbarī jo nişonai IP:',
 'ipblocklist-submit'          => 'Çustuçū',
-'blocklistline'               => '$1, $2 ro bast $3 ($4)',
 'infiniteblock'               => 'be pojon',
 'anononlyblock'               => 'faqat korbaroni gumnom',
 'noautoblockblock'            => "bastani xudkor ƣajrifa'ol ast",
@@ -1851,25 +1844,6 @@ Ehtimolan in az sababi dar bar giriftani pajvandi beruna ba somonai xoriçiji ba
 'numauthors'     => "Te'dodi muallifoni muxtalif (maqola): $1",
 'numtalkauthors' => "Te'dodi muallifoni muxtalif (sahifai bahs): $1",
 
-# Math options
-'mw_math_png'    => 'Hameşa PNG kaşida şavad',
-'mw_math_simple' => 'Agar xele sodda HTML vagarna PNG',
-'mw_math_html'   => 'Az rūi imkon HTML vagarna PNG',
-'mw_math_source' => 'Hamcun TeX boqī bimon (baroi mururgarhoi matnī)',
-'mw_math_modern' => 'Tavseh şuda baroi mururgarhoi zamonavī',
-'mw_math_mathml' => 'Istifoda az MathML dar surati imkon (ozmoişī)',
-
-# Math errors
-'math_failure'          => 'Şikast dar taçzeh',
-'math_unknown_error'    => 'xatoi noşinos',
-'math_unknown_function' => "amali noma'lum",
-'math_lexing_error'     => 'xatoi lexing',
-'math_syntax_error'     => 'xatoi nahvī',
-'math_image_error'      => 'Tabdil ba PNG şikast xūr; nasbi durusti latex, dvips, gs, va tabdilotro barrasī kuned',
-'math_bad_tmpdir'       => 'Imkoni eçod jo navistani ittiloot dar pūşai muvaqqatiji rijozī (temp) vuçud nadorad',
-'math_bad_output'       => 'Imkoni eçod jo navistani ittiloot dar pūşai xuruçiji rijozī (output) vuçud nadorad',
-'math_notexvc'          => 'Barnomai icroiji texvc mavçud nest; baroi ittilooti beştar ba math/README nigared.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Ba unvoni barrasişuda alomat bizan',
 'markaspatrolledtext'                 => 'In maqolaro ba unvoni barrasişuda alomat bizan',
@@ -1902,16 +1876,15 @@ $1',
 'nextdiff'     => 'Tafovuti navtar →',
 
 # Media information
-'mediawarning'         => "'''Huşdor''': In parvanda mumkin ast ramzhoi badqasdro dar bar girad.
+'mediawarning'    => "'''Huşdor''': In parvanda mumkin ast ramzhoi badqasdro dar bar girad.
 Bo içroi on, sistemai şumo şojad oseb bubinad.",
-'thumbsize'            => 'Andozai anguştdona (thumbnail):',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sahifa|sahifaho}}',
-'file-info'            => "andozai parvanda: $1, nav'i MIME: $2",
-'file-info-size'       => "$1 × $2 piksel, haçmi parvanda: $3, nav'i MIME: $4",
-'file-nohires'         => '<small>Nusxai haçman va sifatan balandtar dastras nest.</small>',
-'svg-long-desc'        => 'SVG parvanda, ismī $1 × $2 piksel, andozai parvanda: $3',
-'show-big-image'       => 'Aksi purra',
-'show-big-image-thumb' => '<small>Andozai in peşnamoiş: $1 × $2 piksel</small>',
+'thumbsize'       => 'Andozai anguştdona (thumbnail):',
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|sahifa|sahifaho}}',
+'file-info'       => "andozai parvanda: $1, nav'i MIME: $2",
+'file-info-size'  => "$1 × $2 piksel, haçmi parvanda: $3, nav'i MIME: $4",
+'file-nohires'    => '<small>Nusxai haçman va sifatan balandtar dastras nest.</small>',
+'svg-long-desc'   => 'SVG parvanda, ismī $1 × $2 piksel, andozai parvanda: $3',
+'show-big-image'  => 'Aksi purra',
 
 # Special:NewFiles
 'newimages'             => 'Namoişgohi parvandahoi çadid',
@@ -2312,13 +2285,13 @@ Lutfan ta'jid kuned, ki muçaddadan mexohed in maqolaro eçod kuned.",
 'watchlistedit-normal-legend'  => 'Hazfi unvonho az fehristi pajgiriho',
 'watchlistedit-normal-explain' => "Unvonhoi mavçud dar fehristi pajgirihoi şumo dar pojon namoiş doda şudaand.
 Baroi hazfi jak unvon, ça'bai kūcaki kanori onro tik bizanid.
-Şumo metavoned [[Special:Watchlist/raw|fehristi xomi pajgirihoro viroiş kuned]].",
+Şumo metavoned [[Special:EditWatchlist/raw|fehristi xomi pajgirihoro viroiş kuned]].",
 'watchlistedit-normal-submit'  => 'Unvonho hazf şavand',
 'watchlistedit-normal-done'    => '$1 unvon az fehristi pajgirihoi şumo hazf {{PLURAL:$1|şud|şudand}}:',
 'watchlistedit-raw-title'      => 'Viroişi fehristi xomī pajgiriho',
 'watchlistedit-raw-legend'     => 'Viroişi fehristi xomī pajgiriho',
 'watchlistedit-raw-explain'    => 'Unvonhoi mavçud dar fehristi pajgirihoi şumo dar zer nişon doda şudaand, va şumo metavoned mavoridro hazf jo izofa kuned; jak unvon dar har satr bojad qaror bigirad. Dar pojon, tugmai "Ba rūzrasoniji pajgiriho"-ro fişor dihed.
-Tavaççūh kuned, ki şumo metavoned az [[Special:Watchlist/edit|viroişgari standartiji fehristi pajgiriho]] istifoda kuned.',
+Tavaççūh kuned, ki şumo metavoned az [[Special:EditWatchlist|viroişgari standartiji fehristi pajgiriho]] istifoda kuned.',
 'watchlistedit-raw-titles'     => 'Unvonho:',
 'watchlistedit-raw-submit'     => 'Ba rūz rasonidani pajgiriho',
 'watchlistedit-raw-done'       => 'Fehristi pajgirihoi şumo ba rūz şud.',

@@ -496,8 +496,6 @@ Per piasè, ve drent anmò dop che te l'ricevüü.",
 'extlink_tip'     => 'Ligam de föra (regordess el prefiss http:// )',
 'headline_sample' => "Intestazión de l'articul",
 'headline_tip'    => 'Intestazión de 2° nivel',
-'math_sample'     => 'Met dent una furmula chì',
-'math_tip'        => 'Furmula matematega (LaTeX)',
 'nowiki_sample'   => 'Met dent chì el test minga furmataa',
 'nowiki_tip'      => 'Ignora la furmatazión wiki',
 'image_tip'       => 'File inglubaa in del test',
@@ -649,7 +647,6 @@ Pröa a giuntagh denanz a la tò ricerca ''all:'' per cercà in tücc i namespac
 'prefs-edits'              => 'Quantità de mudifegh faa:',
 'changepassword'           => "Mudifega la paròla d'urdin",
 'prefs-skin'               => "Aspett de l'interfacia",
-'prefs-math'               => 'Matem',
 'datedefault'              => 'Nissüna preferenza',
 'prefs-datetime'           => 'Data e urari',
 'prefs-personal'           => 'Carateristich dal dupradur',
@@ -1142,7 +1139,6 @@ Quest chì a hinn i regulazión curent per la pagina '''$1''':",
 'blockiptext'              => "Druvee 'l mòdul chì de suta per blucà l'acess cun dirit de scritüra a un indirizz IP specifegh o a un druvadur registraa.
 El bloch gh'è de druvàl dumà per evità el vandalism e in acord cun i [[{{MediaWiki:Policy-url}}|regulament de {{SITENAME}}]].
 Scrivee chì de suta 'l mutiv specifegh per el bloch (presempi, a pudii scriv i titul di paginn che i henn stat suget a vandalism).",
-'ipaddress'                => 'Indirizz IP:',
 'ipadressorusername'       => 'Indirizz IP o nom del druvdur:',
 'ipbexpiry'                => 'Fina al:',
 'ipbreason'                => 'Reson:',
@@ -1155,7 +1151,6 @@ Scrivee chì de suta 'l mutiv specifegh per el bloch (presempi, a pudii scriv i 
 ** Cumpurtament intimidatori
 ** Avè druvaa püssee dun cünt in manera abüsiva
 ** El nom del druvàt l'è inacetabil",
-'ipbanononly'              => 'Blòca dumà i druvàt anonim',
 'ipbcreateaccount'         => 'Lassegh mia creà di alter cünt',
 'ipbemailban'              => "Fà in manera che quel druvàt chì 'l poda mia spedì di messagg e-mail",
 'ipbenableautoblock'       => "Bloca in manera utumatega l'ültim indirizz IP druvaa da 'stu druvadur chì, e qualsessìa olter indirizz IP cun al qual el cerca de fà di mudifegh.",
@@ -1166,7 +1161,6 @@ Scrivee chì de suta 'l mutiv specifegh per el bloch (presempi, a pudii scriv i 
 'ipbotherreason'           => 'Alter resón/spiegazión',
 'ipbhidename'              => "Scund 'l nom del druvat dai mudifegh e da i list.",
 'ipbwatchuser'             => "Tegn d'ögg i paginn duvrat e de discüssión de quel duvrat chì",
-'ipballowusertalk'         => "Permet a quel duvrat chì de mudifegà la sò pagina de discüssión intanta che l'è blucaa",
 'ipb-change-block'         => 'Blocà ancamò el duvrat cun quij impustazión chì',
 'badipaddress'             => 'Adrèss IP mia valid',
 'blockipsuccesssub'        => 'Blucagg bel-e faa',
@@ -1181,7 +1175,6 @@ Varda [[Special:IPBlockList|lista di IP blucaa]] per vidè anmò i bloch.",
 'ipusubmit'                => "Tö via 'stu bloch chì",
 'unblocked'                => "[[User:$1|$1]] l'è staa desblucaa",
 'ipblocklist'              => 'Adrèss IP e druvàt blucaa',
-'blocklistline'            => "$1, $2 l'ha blucaa $3 ($4)",
 'infiniteblock'            => 'per semper',
 'expiringblock'            => 'el finiss el $1 a $2',
 'anononlyblock'            => 'dumà i anònim',
@@ -1310,14 +1303,6 @@ Che 'l scerna, per piasè, un nom diferent per quel articul chì.",
 # Attribution
 'siteuser' => '{{SITENAME}} ütent $1',
 
-# Math options
-'mw_math_png'    => 'Trasfurmá sempər in PNG',
-'mw_math_simple' => 'HTML se mia cumplicaa altrimeent PNG',
-'mw_math_html'   => 'HTML se l è pussíbil altrimeent PNG',
-'mw_math_source' => 'Lassá in furmaa TeX (pər i prugráma də navigazziún dumá in furmaa da testu)',
-'mw_math_modern' => 'Racumandaa pər i bigatt püssè reçeent',
-'mw_math_mathml' => 'MathML se l è pussíbil (sperimentaal)',
-
 # Image deletion
 'deletedrevision' => 'Scancelada la revision vegia de $1.',
 
@@ -1326,13 +1311,12 @@ Che 'l scerna, per piasè, un nom diferent per quel articul chì.",
 'nextdiff'     => 'Mudifega püssee növa →',
 
 # Media information
-'imagemaxsize'         => 'Limitá i imagin süi pagin da descrizziún dii imagin a:',
-'thumbsize'            => 'Dimensiún diapusitiif:',
-'file-info-size'       => '$1 × $2 pixel, dimensión : $3, sort MIME: $4',
-'file-nohires'         => '<small>Nissüna resulüzión püssee granda dispunibila.</small>',
-'svg-long-desc'        => "archivi in furmaa SVG, dimensión nominaj  $1 × $2 pixel, dimensión de l'archivi: $3",
-'show-big-image'       => 'Versión a resolüzión volta',
-'show-big-image-thumb' => '<small>Dimensión de quela anteprima chì: $1 × $2 pixel</small>',
+'imagemaxsize'   => 'Limitá i imagin süi pagin da descrizziún dii imagin a:',
+'thumbsize'      => 'Dimensiún diapusitiif:',
+'file-info-size' => '$1 × $2 pixel, dimensión : $3, sort MIME: $4',
+'file-nohires'   => '<small>Nissüna resulüzión püssee granda dispunibila.</small>',
+'svg-long-desc'  => "archivi in furmaa SVG, dimensión nominaj  $1 × $2 pixel, dimensión de l'archivi: $3",
+'show-big-image' => 'Versión a resolüzión volta',
 
 # Special:NewFiles
 'newimages' => 'Espusizión di imàgin növ',

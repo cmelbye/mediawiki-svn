@@ -66,6 +66,11 @@ abstract class File {
 	var $lastError, $redirected, $redirectedTitle;
 
 	/**
+	 * @var MediaHandler
+	 */
+	protected $handler;
+
+	/**
 	 * Call this constructor from child classes
 	 */
 	function __construct( $title, $repo ) {
@@ -133,10 +138,10 @@ abstract class File {
 	 * Split an internet media type into its two components; if not
 	 * a two-part name, set the minor type to 'unknown'.
 	 *
-	 * @param $mime "text/html" etc
+	 * @param string $mime "text/html" etc
 	 * @return array ("text", "html") etc
 	 */
-	static function splitMime( $mime ) {
+	public static function splitMime( $mime ) {
 		if( strpos( $mime, '/' ) !== false ) {
 			return explode( '/', $mime, 2 );
 		} else {
@@ -467,9 +472,8 @@ abstract class File {
 	 * It would be unsafe to include private images, making public thumbnails inadvertently
 	 *
 	 * @return boolean Whether file exists in the repository and is includable.
-	 * @public
 	 */
-	function isVisible() {
+	public function isVisible() {
 		return $this->exists();
 	}
 
@@ -1347,8 +1351,9 @@ abstract class File {
 	
 	function getRedirectedTitle() {
 		if ( $this->redirected ) {
-			if ( !$this->redirectTitle )
+			if ( !$this->redirectTitle ) {
 				$this->redirectTitle = Title::makeTitle( NS_FILE, $this->redirected );
+			}
 			return $this->redirectTitle;
 		}
 	}

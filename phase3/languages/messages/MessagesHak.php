@@ -424,8 +424,6 @@ Ngì khó-yî ki-siu̍k yî ngia̍k-miàng fông-sṳt sṳ́-yung {{SITENAME}},
 'extlink_tip'     => 'Ngoi-phu lièn-kiet （ki-tet http://）',
 'headline_sample' => 'Thai-phêu-thì vùn-sṳ',
 'headline_tip'    => 'Ngi-khi̍p phêu-thì vùn-sṳ',
-'math_sample'     => 'Chhai-chhṳ́chhap-ngi̍p sṳ-ho̍k kûng-sṳt',
-'math_tip'        => 'Chhap-ngi̍p sṳ-ho̍k kûng-sṳt （LaTeX）',
 'nowiki_sample'   => 'Chhai-chhṳ́ chhap-ngi̍p fui kak-sṳt vùn-sṳ',
 'nowiki_tip'      => 'Chhap-ngi̍p fui kak-sṳt vùn-sṳ',
 'image_tip'       => 'Chhṳ̀m-ngi̍ thù-hiong',
@@ -681,7 +679,6 @@ Tông-tsûng pûn $3 fûng-só ke ngièn-yîn he ''$2''",
 'changepassword'        => 'Kiên-kói me̍t-me̍t',
 'prefs-skin'            => 'Mien-pán',
 'skin-preview'          => 'Yi-ko',
-'prefs-math'            => 'Sṳ-ho̍k kûng-sṳt',
 'datedefault'           => 'Yi-sat-chhṳ̍t',
 'prefs-datetime'        => 'Ngit-khì khi̍p sṳ̀-kiên',
 'prefs-personal'        => 'Yung-fu chṳ̂-liau',
@@ -1266,7 +1263,6 @@ Chhiáng chhâm-kháu [[Special:Log/delete|chhù-hi ngit-ki]] lòi chhà-chhut c
 # Block/unblock
 'blockip'                     => 'chhà-fûng IP thi-tiám',
 'blockiptext'                 => 'Yung ha-mien ke péu-tân kim-chṳ́ lòi-chhṳ mêu-yit thi̍t-thin IP thi-tiám ke kiên-kói hí-khó-khièn. Chṳ́-yû chhai-vi fòng-chṳ́ pho-fái, khi̍p fù-ha̍p [[{{MediaWiki:Policy-url}}|Sú-chet]] ke chhìn-khóng hâ chhòi khó chhái-chhí chhṳ́ hàng-thung. Chhiáng chhai ha-mien sû-ngi̍p yit-ke khí-thí ke lî-yù （chhiong-he yîn-sut yit-ke pûn-ngìn pho-fái ke hong-mien）.',
-'ipaddress'                   => 'IP thi-tiám',
 'ipadressorusername'          => 'IP thi-tiám fe̍t-he yung-fu-miàng',
 'ipbexpiry'                   => 'Khì-han:',
 'ipbreason'                   => 'Ngièn-yîn:',
@@ -1279,7 +1275,6 @@ Chhiáng chhâm-kháu [[Special:Log/delete|chhù-hi ngit-ki]] lòi chhà-chhut c
 ** Mò-lî ke hàng-vì, kûng-kit/sâu-yéu phe̍t-ngìn
 ** Lam-yung tô-ke chong-ho
 ** Put-nèn chiap-su ke yung-fu-miàng',
-'ipbanononly'                 => 'Chak kim-chṳ́ ngia̍k-mià yung-fu phiên-cho',
 'ipbcreateaccount'            => 'Chú-chṳ́ chhóng-li̍p sîn chong-ho',
 'ipbenableautoblock'          => 'Chhṳ-thung chhà-fûng ke-yung-fu sṳ́-yung-ko ke IP thi-tiám',
 'ipbsubmit'                   => 'Chhà-fûng ke-yung-fu',
@@ -1302,7 +1297,6 @@ Chhiáng chhâm-kháu [[Special:Log/delete|chhù-hi ngit-ki]] lòi chhà-chhut c
 'unblocked-id'                => 'Fûng-kim $1 yí-kîn pûn yì-chhù',
 'ipblocklist'                 => 'Pûn fûng IP thi-tiám lie̍t-péu',
 'ipblocklist-submit'          => 'Chhìm-cháu',
-'blocklistline'               => '$1，$2 kim-fûng $3 （$4）',
 'infiniteblock'               => 'yún-kiú',
 'expiringblock'               => '$1 $2 to-khì',
 'anononlyblock'               => 'Han-chṳ ngia̍k-miàng yung-fu.',
@@ -1560,25 +1554,6 @@ Please visit [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation]
 'numauthors'     => 'Chok-chá su-liòng （vùn-chông）: $1',
 'numtalkauthors' => 'Chok-chá su-liòng （thó-lun-chông）: $1',
 
-# Math options
-'mw_math_png'    => 'Yún-yén sṳ́-yung PNG thù-chhiong',
-'mw_math_simple' => 'Kó-yèn he kién-tân ke kûng-sṳt sṳ́-yung HTML, feu-chet sṳ́-yung PNG thù-chhiong',
-'mw_math_html'   => 'Chhin khó-nèn chhái-yung HTML, fe̍t-he yung PNG thù-tóng',
-'mw_math_source' => 'Hién-sṳ TeX thoi-ho （sṳ́-yung vùn-sṳ hi-khí sṳ̀）',
-'mw_math_modern' => 'Chhûi-chien sîn-pán hi-khí sṳ́-yung',
-'mw_math_mathml' => 'Chhin khó-nèn sṳ́-yung MathML （sṳ-ngiam chûng）',
-
-# Math errors
-'math_failure'          => 'Kié-sak sṳt-phai',
-'math_unknown_error'    => 'Mò-tî chho-ngu',
-'math_unknown_function' => 'Mò-tî chhṳ-su',
-'math_lexing_error'     => 'ki-fap chho-ngu',
-'math_syntax_error'     => 'ngî-fap chho-ngu',
-'math_image_error'      => 'PNG chón-von sṳt-phai; chhiáng kiám-chhà he-feu chṳn-khok ôn-chông latex, dvips, gs lâu convert',
-'math_bad_tmpdir'       => 'Mò-fap siá-ngi̍p fe̍t-chá kien-li̍p su-ho̍k kûng-sṳt lìm-sṳ̀ muk-liu̍k',
-'math_bad_output'       => 'Mò-fap siá-ngi̍p fe̍t-chá kien-li̍p su-ho̍k kûng-sṳt sû-chhut muk-liu̍k',
-'math_notexvc'          => 'Mò-fap chṳp-hàng "texvc"; chhiáng chhâm-cheu math/README chin-hàng phi-chṳ.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Phêu-ki sṳ̀n-vì yí-kîn kiám-chhà',
 'markaspatrolledtext'                 => 'Phêu-ki chhṳ́ vùn-chông sṳ̀n-vì yí-kîn kiám-chhà',
@@ -1603,15 +1578,14 @@ Please visit [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation]
 'nextdiff'     => 'Hâ-yit pán-pún →',
 
 # Media information
-'mediawarning'         => "'''Kín-ko''': Ke-tóng-on khó-nèn pâu-hàm ok-yi am-ho, chṳp-hàng kì khó-nèn tui ngì-ke ne-thúng tai-lòi ngùi-hiám.",
-'imagemaxsize'         => 'Chhai thù-chhiong mèu-siá chông tui thù-chhiong thai-séu han-chṳ he:',
-'thumbsize'            => 'Lio̍k-thù thai-séu:',
-'file-info'            => 'tóng-on thai-séu: $1, MIME lui-hìn: $2',
-'file-info-size'       => '$1 × $2 chhiong-su, tóng-on thai-séu:$3 ，MIME lui-hìn:$4',
-'file-nohires'         => '<small>Mò kien-kô kié-chhiong-thu khó-yî thì-kiûng.</small>',
-'svg-long-desc'        => 'SVG tóng-on, péu-mien thai-séu: $1 × $2 siong-su, tóng-on thai-séu: $3',
-'show-big-image'       => 'Vàn-cháng ke kié-chhiong-thu',
-'show-big-image-thumb' => '<small>Liá-ke puk-suk-thù ke kié-chhiong-thu he: $1 × $2 chhiong-su</small>',
+'mediawarning'   => "'''Kín-ko''': Ke-tóng-on khó-nèn pâu-hàm ok-yi am-ho, chṳp-hàng kì khó-nèn tui ngì-ke ne-thúng tai-lòi ngùi-hiám.",
+'imagemaxsize'   => 'Chhai thù-chhiong mèu-siá chông tui thù-chhiong thai-séu han-chṳ he:',
+'thumbsize'      => 'Lio̍k-thù thai-séu:',
+'file-info'      => 'tóng-on thai-séu: $1, MIME lui-hìn: $2',
+'file-info-size' => '$1 × $2 chhiong-su, tóng-on thai-séu:$3 ，MIME lui-hìn:$4',
+'file-nohires'   => '<small>Mò kien-kô kié-chhiong-thu khó-yî thì-kiûng.</small>',
+'svg-long-desc'  => 'SVG tóng-on, péu-mien thai-séu: $1 × $2 siong-su, tóng-on thai-séu: $3',
+'show-big-image' => 'Vàn-cháng ke kié-chhiong-thu',
 
 # Special:NewFiles
 'newimages'             => 'Sîn-kien thù-chhiong ke va̍k-lòng',

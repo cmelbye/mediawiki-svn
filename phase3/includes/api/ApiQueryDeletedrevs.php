@@ -50,6 +50,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$db = $this->getDB();
 		$params = $this->extractRequestParams( false );
 		$prop = array_flip( $params['prop'] );
+		$fld_parentid = isset( $prop['parentid'] );
 		$fld_revid = isset( $prop['revid'] );
 		$fld_user = isset( $prop['user'] );
 		$fld_userid = isset( $prop['userid'] );
@@ -82,6 +83,10 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$this->addTables( 'archive' );
 		$this->addWhere( 'ar_deleted = 0' );
 		$this->addFields( array( 'ar_title', 'ar_namespace', 'ar_timestamp' ) );
+
+		if ( $fld_parentid ) {
+			$this->addFields( 'ar_parent_id' );
+		}
 		if ( $fld_revid ) {
 			$this->addFields( 'ar_rev_id' );
 		}
@@ -128,6 +133,8 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$token = $wgUser->editToken( '', $this->getMain()->getRequest() );
 		}
 
+		$dir = $params['dir'];
+
 		// We need a custom WHERE clause that matches all titles.
 		if ( $mode == 'revs' ) {
 			$lb = new LinkBatch( $titles );
@@ -135,10 +142,10 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$this->addWhere( $where );
 		} elseif ( $mode == 'all' ) {
 			$this->addWhereFld( 'ar_namespace', $params['namespace'] );
-			if ( !is_null( $params['from'] ) ) {
-				$from = $this->getDB()->strencode( $this->titleToKey( $params['from'] ) );
-				$this->addWhere( "ar_title >= '$from'" );
-			}
+
+			$from = is_null( $params['from'] ) ? null : $this->titleToKey( $params['from'] );
+			$to = is_null( $params['to'] ) ? null : $this->titleToKey( $params['to'] );
+			$this->addWhereRange( 'ar_title', $dir, $from, $to );
 		}
 
 		if ( !is_null( $params['user'] ) ) {
@@ -148,8 +155,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				$this->getDB()->addQuotes( $params['excludeuser'] ) );
 		}
 
-		if ( !is_null( $params['continue'] ) && ( $mode == 'all' || $mode == 'revs' ) )
-		{
+		if ( !is_null( $params['continue'] ) && ( $mode == 'all' || $mode == 'revs' ) ) {
 			$cont = explode( '|', $params['continue'] );
 			if ( count( $cont ) != 3 ) {
 				$this->dieUsage( 'Invalid continue param. You should pass the original value returned by the previous query', 'badcontinue' );
@@ -157,7 +163,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$ns = intval( $cont[0] );
 			$title = $this->getDB()->strencode( $this->titleToKey( $cont[1] ) );
 			$ts = $this->getDB()->strencode( $cont[2] );
-			$op = ( $params['dir'] == 'newer' ? '>' : '<' );
+			$op = ( $dir == 'newer' ? '>' : '<' );
 			$this->addWhere( "ar_namespace $op $ns OR " .
 					"(ar_namespace = $ns AND " .
 					"(ar_title $op '$title' OR " .
@@ -170,17 +176,16 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		if ( $mode == 'all' ) {
 			if ( $params['unique'] ) {
 				$this->addOption( 'GROUP BY', 'ar_title' );
-				$this->addOption( 'ORDER BY', 'ar_title' );
 			} else {
 				$this->addOption( 'ORDER BY', 'ar_title, ar_timestamp' );
 			}
 		} else {
 			if ( $mode == 'revs' ) {
 				// Sort by ns and title in the same order as timestamp for efficiency
-				$this->addWhereRange( 'ar_namespace', $params['dir'], null, null );
-				$this->addWhereRange( 'ar_title', $params['dir'], null, null );
+				$this->addWhereRange( 'ar_namespace', $dir, null, null );
+				$this->addWhereRange( 'ar_title', $dir, null, null );
 			}
-			$this->addWhereRange( 'ar_timestamp', $params['dir'], $params['start'], $params['end'] );
+			$this->addWhereRange( 'ar_timestamp', $dir, $params['start'], $params['end'] );
 		}
 		$res = $this->select( __METHOD__ );
 		$pageMap = array(); // Maps ns&title to (fake) pageid
@@ -202,6 +207,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$rev['timestamp'] = wfTimestamp( TS_ISO_8601, $row->ar_timestamp );
 			if ( $fld_revid ) {
 				$rev['revid'] = intval( $row->ar_rev_id );
+			}
+			if ( $fld_parentid ) {
+				$rev['parentid'] = intval( $row->ar_parent_id );
 			}
 			if ( $fld_user ) {
 				$rev['user'] = $row->ar_user_text;
@@ -273,6 +281,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => 'older'
 			),
 			'from' => null,
+			'to' => null,
 			'continue' => null,
 			'unique' => false,
 			'user' => array(
@@ -296,6 +305,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => 'user|comment',
 				ApiBase::PARAM_TYPE => array(
 					'revid',
+					'parentid',
 					'user',
 					'userid',
 					'comment',
@@ -314,11 +324,14 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		return array(
 			'start' => 'The timestamp to start enumerating from (1,2)',
 			'end' => 'The timestamp to stop enumerating at (1,2)',
-			'dir' => 'The direction in which to enumerate (1,2)',
+			'dir' => $this->getDirectionDescription( $this->getModulePrefix(), ' (1,2)' ),
+			'from' => 'Start listing at this title (3)',
+			'to' => 'Stop listing at this title (3)',
 			'limit' => 'The maximum amount of revisions to list',
 			'prop' => array(
 				'Which properties to get',
 				' revid          - Adds the revision ID of the deleted revision',
+				' parentid       - Adds the revision ID of the previous revision to the page',
 				' user           - Adds the user who made the revision',
 				' userid         - Adds the user ID whom made the revision',
 				' comment        - Adds the comment of the revision',
@@ -331,7 +344,6 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'namespace' => 'Only list pages in this namespace (3)',
 			'user' => 'Only list revisions by this user',
 			'excludeuser' => 'Don\'t list revisions by this user',
-			'from' => 'Start listing at this title (3)',
 			'continue' => 'When more results are available, use this to continue (3)',
 			'unique' => 'List only one revision for each page (3)',
 		);

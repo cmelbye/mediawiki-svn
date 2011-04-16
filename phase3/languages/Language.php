@@ -174,12 +174,14 @@ class Language {
 			$class = 'Language';
 		} else {
 			$class = 'Language' . str_replace( '-', '_', ucfirst( $code ) );
-			// Preload base classes to work around APC/PHP5 bug
-			if ( file_exists( "$IP/languages/classes/$class.deps.php" ) ) {
-				include_once( "$IP/languages/classes/$class.deps.php" );
-			}
-			if ( file_exists( "$IP/languages/classes/$class.php" ) ) {
-				include_once( "$IP/languages/classes/$class.php" );
+			if ( !defined( 'MW_COMPILED' ) ) {
+				// Preload base classes to work around APC/PHP5 bug
+				if ( file_exists( "$IP/languages/classes/$class.deps.php" ) ) {
+					include_once( "$IP/languages/classes/$class.deps.php" );
+				}
+				if ( file_exists( "$IP/languages/classes/$class.php" ) ) {
+					include_once( "$IP/languages/classes/$class.php" );
+				}
 			}
 		}
 
@@ -187,7 +189,7 @@ class Language {
 			throw new MWException( "Language fallback loop detected when creating class $class\n" );
 		}
 
-		if ( !class_exists( $class ) ) {
+		if ( !MWInit::classExists( $class ) ) {
 			$fallback = Language::getFallbackFor( $code );
 			++$recursionLevel;
 			$lang = Language::newFromCode( $fallback );
@@ -493,10 +495,6 @@ class Language {
 		);
 	}
 
-	function getMathNames() {
-		return self::$dataCache->getItem( $this->mCode, 'mathNames' );
-	}
-
 	function getDatePreferences() {
 		return self::$dataCache->getItem( $this->mCode, 'datePreferences' );
 	}
@@ -540,8 +538,14 @@ class Language {
 	 * If $customisedOnly is true, only returns codes with a messages file
 	 */
 	public static function getLanguageNames( $customisedOnly = false ) {
-		global $wgLanguageNames, $wgExtraLanguageNames;
-		$allNames = $wgExtraLanguageNames + $wgLanguageNames;
+		global $wgExtraLanguageNames;
+		static $coreLanguageNames;
+
+		if ( $coreLanguageNames === null ) {
+			include( MWInit::compiledPath( 'languages/Names.php' ) );
+		}
+
+		$allNames = $wgExtraLanguageNames + $coreLanguageNames;
 		if ( !$customisedOnly ) {
 			return $allNames;
 		}
@@ -1086,7 +1090,7 @@ class Language {
 	private static function tsToIranian( $ts ) {
 		$gy = substr( $ts, 0, 4 ) -1600;
 		$gm = substr( $ts, 4, 2 ) -1;
-		$gd = substr( $ts, 6, 2 ) -1;
+		$gd = (int)substr( $ts, 6, 2 ) -1;
 
 		# Days passed from the beginning (including leap years)
 		$gDayNo = 365 * $gy
@@ -1855,8 +1859,7 @@ class Language {
 			return $s;
 		}
 
-		$isutf8 = preg_match( '/^([\x00-\x7f]|[\xc0-\xdf][\x80-\xbf]|' .
-				'[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf7][\x80-\xbf]{3})+$/', $s );
+		$isutf8 = ( $s == iconv("UTF-8","UTF-8//IGNORE", $s));
 		if ( $isutf8 ) {
 			return $s;
 		}
@@ -2382,32 +2385,45 @@ class Language {
 	 * If $length is negative, the string will be truncated from the beginning
 	 *
 	 * @param $string String to truncate
-	 * @param $length Int: maximum length (excluding ellipses)
+	 * @param $length Int: maximum length (including ellipses)
 	 * @param $ellipsis String to append to the truncated text
+	 * @param $adjustLength Boolean: Subtract length of ellipsis from $length.
+	 *	$adjustLength was introduced in 1.18, before that behaved as if false.
 	 * @return string
 	 */
-	function truncate( $string, $length, $ellipsis = '...' ) {
+	function truncate( $string, $length, $ellipsis = '...', $adjustLength = true ) {
 		# Use the localized ellipsis character
 		if ( $ellipsis == '...' ) {
 			$ellipsis = wfMsgExt( 'ellipsis', array( 'escapenoentities', 'language' => $this ) );
 		}
 		# Check if there is no need to truncate
 		if ( $length == 0 ) {
-			return $ellipsis;
+			return $ellipsis; // convention
 		} elseif ( strlen( $string ) <= abs( $length ) ) {
-			return $string;
+			return $string; // no need to truncate
 		}
 		$stringOriginal = $string;
-		if ( $length > 0 ) {
-			$string = substr( $string, 0, $length ); // xyz...
-			$string = $this->removeBadCharLast( $string );
-			$string = $string . $ellipsis;
+		# If ellipsis length is >= $length then we can't apply $adjustLength
+		if ( $adjustLength && strlen( $ellipsis ) >= abs( $length ) ) {
+			$string = $ellipsis; // this can be slightly unexpected
+		# Otherwise, truncate and add ellipsis...
 		} else {
-			$string = substr( $string, $length ); // ...xyz
-			$string = $this->removeBadCharFirst( $string );
-			$string = $ellipsis . $string;
+			$eLength = $adjustLength ? strlen( $ellipsis ) : 0;
+			if ( $length > 0 ) {
+				$length -= $eLength;
+				$string = substr( $string, 0, $length ); // xyz...
+				$string = $this->removeBadCharLast( $string );
+				$string = $string . $ellipsis;
+			} else {
+				$length += $eLength;
+				$string = substr( $string, $length ); // ...xyz
+				$string = $this->removeBadCharFirst( $string );
+				$string = $ellipsis . $string;
+			}
 		}
-		# Do not truncate if the ellipsis makes the string longer/equal (bug 22181)
+		# Do not truncate if the ellipsis makes the string longer/equal (bug 22181).
+		# This check is *not* redundant if $adjustLength, due to the single case where
+		# LEN($ellipsis) > ABS($limit arg); $stringOriginal could be shorter than $string. 
 		if ( strlen( $string ) < strlen( $stringOriginal ) ) {
 			return $string;
 		} else {
@@ -2423,17 +2439,19 @@ class Language {
 	 * @return string
 	 */
 	protected function removeBadCharLast( $string ) {
-		$char = ord( $string[strlen( $string ) - 1] );
-		$m = array();
-		if ( $char >= 0xc0 ) {
-			# We got the first byte only of a multibyte char; remove it.
-			$string = substr( $string, 0, -1 );
-		} elseif ( $char >= 0x80 &&
-			  preg_match( '/^(.*)(?:[\xe0-\xef][\x80-\xbf]|' .
-						  '[\xf0-\xf7][\x80-\xbf]{1,2})$/', $string, $m ) )
-		{
-			# We chopped in the middle of a character; remove it
-			$string = $m[1];
+		if ( $string != '' ) {
+			$char = ord( $string[strlen( $string ) - 1] );
+			$m = array();
+			if ( $char >= 0xc0 ) {
+				# We got the first byte only of a multibyte char; remove it.
+				$string = substr( $string, 0, -1 );
+			} elseif ( $char >= 0x80 &&
+				  preg_match( '/^(.*)(?:[\xe0-\xef][\x80-\xbf]|' .
+							  '[\xf0-\xf7][\x80-\xbf]{1,2})$/', $string, $m ) )
+			{
+				# We chopped in the middle of a character; remove it
+				$string = $m[1];
+			}
 		}
 		return $string;
 	}
@@ -2446,10 +2464,12 @@ class Language {
 	 * @return string
 	 */
 	protected function removeBadCharFirst( $string ) {
-		$char = ord( $string[0] );
-		if ( $char >= 0x80 && $char < 0xc0 ) {
-			# We chopped in the middle of a character; remove the whole thing
-			$string = preg_replace( '/^[\x80-\xbf]+/', '', $string );
+		if ( $string != '' ) {
+			$char = ord( $string[0] );
+			if ( $char >= 0x80 && $char < 0xc0 ) {
+				# We chopped in the middle of a character; remove the whole thing
+				$string = preg_replace( '/^[\x80-\xbf]+/', '', $string );
+			}
 		}
 		return $string;
 	}
@@ -2459,12 +2479,13 @@ class Language {
 	 * appending an optional string (e.g. for ellipses), and return valid HTML
 	 *
 	 * This is only intended for styled/linked text, such as HTML with
-	 * tags like <span> and <a>, were the tags are self-contained (valid HTML)
+	 * tags like <span> and <a>, were the tags are self-contained (valid HTML).
+	 * Also, this will not detect things like "display:none" CSS.
 	 *
-	 * Note: tries to fix broken HTML with MWTidy
+	 * Note: since 1.18 you do not need to leave extra room in $length for ellipses.
 	 *
 	 * @param string $text HTML string to truncate
-	 * @param int $length (zero/positive) Maximum length (excluding ellipses)
+	 * @param int $length (zero/positive) Maximum length (including ellipses)
 	 * @param string $ellipsis String to append to the truncated text
 	 * @returns string
 	 */
@@ -2473,22 +2494,45 @@ class Language {
 		if ( $ellipsis == '...' ) {
 			$ellipsis = wfMsgExt( 'ellipsis', array( 'escapenoentities', 'language' => $this ) );
 		}
-		# Check if there is no need to truncate
+		# Check if there is clearly no need to truncate
 		if ( $length <= 0 ) {
-			return $ellipsis; // no text shown, nothing to format
+			return $ellipsis; // no text shown, nothing to format (convention)
 		} elseif ( strlen( $text ) <= $length ) {
-			return $text; // string short enough even *with* HTML
+			return $text; // string short enough even *with* HTML (short-circuit)
 		}
-		$text = MWTidy::tidy( $text ); // fix tags
+
 		$displayLen = 0; // innerHTML legth so far
 		$testingEllipsis = false; // checking if ellipses will make string longer/equal?
 		$tagType = 0; // 0-open, 1-close
 		$bracketState = 0; // 1-tag start, 2-tag name, 0-neither
 		$entityState = 0; // 0-not entity, 1-entity
-		$tag = $ret = '';
+		$tag = $ret = $pRet = ''; // accumulated tag name, accumulated result string
 		$openTags = array(); // open tag stack
+		$pOpenTags = array();
+
 		$textLen = strlen( $text );
-		for ( $pos = 0; $pos < $textLen; ++$pos ) {
+		$neLength = max( 0, $length - strlen( $ellipsis ) ); // non-ellipsis len if truncated
+		for ( $pos = 0; true; ++$pos ) {
+			# Consider truncation once the display length has reached the maximim.
+			# Check that we're not in the middle of a bracket/entity...
+			if ( $displayLen >= $neLength && $bracketState == 0 && $entityState == 0 ) {
+				if ( !$testingEllipsis ) {
+					$testingEllipsis = true;
+					# Save where we are; we will truncate here unless there turn out to
+					# be so few remaining characters that truncation is not necessary.
+					$pOpenTags = $openTags; // save state
+					$pRet = $ret; // save state
+				} elseif ( $displayLen > $length && $displayLen > strlen( $ellipsis ) ) {
+					# String in fact does need truncation, the truncation point was OK.
+					$openTags = $pOpenTags; // reload state
+					$ret = $this->removeBadCharLast( $pRet ); // reload state, multi-byte char fix
+					$ret .= $ellipsis; // add ellipsis
+					break;
+				}
+			}
+			if ( $pos >= $textLen ) break; // extra iteration just for above checks
+
+			# Read the next char...
 			$ch = $text[$pos];
 			$lastCh = $pos ? $text[$pos - 1] : '';
 			$ret .= $ch; // add to result string
@@ -2526,29 +2570,12 @@ class Language {
 						$entityState = 1; // entity found, (e.g. "&#160;")
 					} else {
 						$displayLen++; // this char is displayed
-						// Add on the other display text after this...
-						$skipped = $this->truncate_skip(
-							$ret, $text, "<>&", $pos + 1, $length - $displayLen );
+						// Add the next $max display text chars after this in one swoop...
+						$max = ( $testingEllipsis ? $length : $neLength ) - $displayLen;
+						$skipped = $this->truncate_skip( $ret, $text, "<>&", $pos + 1, $max );
 						$displayLen += $skipped;
 						$pos += $skipped;
 					}
-				}
-			}
-			# Consider truncation once the display length has reached the maximim.
-			# Double-check that we're not in the middle of a bracket/entity...
-			if ( $displayLen >= $length && $bracketState == 0 && $entityState == 0 ) {
-				if ( !$testingEllipsis ) {
-					$testingEllipsis = true;
-					# Save where we are; we will truncate here unless
-					# the ellipsis actually makes the string longer.
-					$pOpenTags = $openTags; // save state
-					$pRet = $ret; // save state
-				} elseif ( $displayLen > ( $length + strlen( $ellipsis ) ) ) {
-					# Ellipsis won't make string longer/equal, the truncation point was OK.
-					$openTags = $pOpenTags; // reload state
-					$ret = $this->removeBadCharLast( $pRet ); // reload state, multi-byte char fix
-					$ret .= $ellipsis; // add ellipsis
-					break;
 				}
 			}
 		}
@@ -2565,7 +2592,12 @@ class Language {
 
 	// truncateHtml() helper function
 	// like strcspn() but adds the skipped chars to $ret
-	private function truncate_skip( &$ret, $text, $search, $start, $len = -1 ) {
+	private function truncate_skip( &$ret, $text, $search, $start, $len = null ) {
+		if ( $len === null ) {
+			$len = -1; // -1 means "no limit" for strcspn
+		} elseif ( $len < 0 ) {
+			$len = 0; // sanity
+		}
 		$skipCount = 0;
 		if ( $start < strlen( $text ) ) {
 			$skipCount = strcspn( $text, $search, $start, $len );
@@ -2675,28 +2707,19 @@ class Language {
 	}
 
 	/**
-	 * For translating of expiry times
-	 * @param $str String: the validated block time in English
-	 * @return Somehow translated block time
+	 * Maybe translate block durations.  Note that this function is somewhat misnamed: it
+	 * deals with translating the *duration* ("1 week", "4 days", etc), not the expiry time
+	 * (which is an absolute timestamp).
+	 * @param $str String: the validated block duration in English
+	 * @return Somehow translated block duration
 	 * @see LanguageFi.php for example implementation
 	 */
 	function translateBlockExpiry( $str ) {
-		$scBlockExpiryOptions = $this->getMessageFromDB( 'ipboptions' );
-
-		if ( $scBlockExpiryOptions == '-' ) {
-			return $str;
-		}
-
-		foreach ( explode( ',', $scBlockExpiryOptions ) as $option ) {
-			if ( strpos( $option, ':' ) === false ) {
-				continue;
-			}
-			list( $show, $value ) = explode( ':', $option );
+		foreach( SpecialBlock::getSuggestedDurations( $this ) as $show => $value ){
 			if ( strcmp( $str, $value ) == 0 ) {
 				return htmlspecialchars( trim( $show ) );
 			}
 		}
-
 		return $str;
 	}
 
@@ -2979,6 +3002,37 @@ class Language {
 		return array( $wikiUpperChars, $wikiLowerChars );
 	}
 
+	/**
+	 * Decode an expiry (block, protection, etc) which has come from the DB
+	 *
+	 * @param $expiry String: Database expiry String
+	 * @param $format Bool|Int true to process using language functions, or TS_ constant
+	 *     to return the expiry in a given timestamp
+	 * @return String
+	 */
+	public function formatExpiry( $expiry, $format = true ) {
+		static $infinity, $infinityMsg;
+		if( $infinity === null ){
+			$infinityMsg = wfMessage( 'infiniteblock' );
+			$infinity = wfGetDB( DB_SLAVE )->getInfinity();
+		}
+
+		if ( $expiry == '' || $expiry == $infinity ) {
+			return $format === true
+				? $infinityMsg
+				: $infinity;
+		} else {
+			return $format === true
+				? $this->timeanddate( $expiry )
+				: wfTimestamp( $format, $expiry );
+		}
+	}
+
+	/**
+	 * @todo Document
+	 * @param  $seconds String
+	 * @return string
+	 */
 	function formatTimePeriod( $seconds ) {
 		if ( round( $seconds * 10 ) < 100 ) {
 			return $this->formatNum( sprintf( "%.1f", round( $seconds * 10 ) / 10 ) ) . $this->getMessageFromDB( 'seconds-abbrev' );

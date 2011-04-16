@@ -18,6 +18,7 @@
  * @author Jan Luca
  * @author Jens Liebenau
  * @author Jimmy Collins <jimmy.collins@web.de>
+ * @author Kebap
  * @author Kghbln
  * @author Khaledelmansoury
  * @author Krinkle
@@ -140,7 +141,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Geschützte_Titel', 'Gesperrte_Titel' ),
 	'Allpages'                  => array( 'Alle_Seiten' ),
 	'Prefixindex'               => array( 'Präfixindex' ),
-	'Ipblocklist'               => array( 'Liste_der_Sperren', 'Gesperrte_IP-Adressen', 'Gesperrte_IPs' ),
+	'BlockList'                 => array( 'Liste_der_Sperren', 'Gesperrte_IP-Adressen', 'Gesperrte_IPs' ),
 	'Unblock'                   => array( 'Freigeben' ),
 	'Specialpages'              => array( 'Spezialseiten' ),
 	'Contributions'             => array( 'Beiträge' ),
@@ -155,7 +156,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exportieren' ),
 	'Allmessages'               => array( 'MediaWiki-Systemnachrichten' ),
 	'Log'                       => array( 'Logbuch' ),
-	'Blockip'                   => array( 'Sperren' ),
+	'Block'                     => array( 'Sperren' ),
 	'Undelete'                  => array( 'Wiederherstellen' ),
 	'Import'                    => array( 'Importieren' ),
 	'Lockdb'                    => array( 'Datenbank_sperren' ),
@@ -845,6 +846,7 @@ Falls das Benutzerkonto irrtümlich angelegt wurde, kannst du diese Nachricht ig
 'usernamehasherror'          => 'Benutzernamen dürfen kein Rautenzeichen enthalten',
 'login-throttled'            => 'Du hast zu oft versucht, dich anzumelden.
 Bitte warte, bevor du es erneut probierst.',
+'login-abort-generic'        => 'Deine Anmeldung war nicht erfolgreich – Abgebrochen',
 'loginlanguagelabel'         => 'Sprache: $1',
 'suspicious-userlogout'      => 'Deine Abmeldeanfrage wurde verweigert, da sie vermutlich von einem defekten Browser oder einem Cache-Proxy gesendet wurde.',
 
@@ -889,8 +891,6 @@ Möglicherweise hast du dein Passwort bereits erfolgreich geändert oder ein neu
 'extlink_tip'     => 'Externer Link (http:// beachten)',
 'headline_sample' => 'Ebene-2-Überschrift',
 'headline_tip'    => 'Ebene-2-Überschrift',
-'math_sample'     => 'Formel hier einfügen',
-'math_tip'        => 'Mathematische Formel (LaTeX)',
 'nowiki_sample'   => 'Unformatierten Text hier einfügen',
 'nowiki_tip'      => 'Unformatierter Text',
 'image_sample'    => 'Beispiel.jpg',
@@ -968,11 +968,12 @@ Um die Seite anzulegen, trage deinen Text in die untenstehende Box ein (siehe di
 Bist du fälschlicherweise hier, klicke die '''Zurück'''-Schaltfläche deines Browsers.",
 'anontalkpagetext'                 => "----''Diese Seite dient dazu, einem nicht angemeldeten Benutzer Nachrichten zu hinterlassen. Es wird seine IP-Adresse zur Identifizierung verwendet. IP-Adressen können von mehreren Benutzern gemeinsam verwendet werden. Wenn du mit den Kommentaren auf dieser Seite nichts anfangen kannst, richten sie sich vermutlich an einen früheren Inhaber deiner IP-Adresse und du kannst sie ignorieren. Du kannst dir auch ein [[Special:UserLogin/signup|Benutzerkonto erstellen]] oder dich [[Special:UserLogin|anmelden]], um künftig Verwechslungen mit anderen anonymen Benutzern zu vermeiden.''",
 'noarticletext'                    => 'Diese Seite enthält momentan noch keinen Text.
-Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]],
-<span class="plainlinks">in den zugehörigen [{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbüchern suchen] oder diese Seite [{{fullurl:{{FULLPAGENAME}}|action=edit}} bearbeiten]</span>.',
+Du kannst sie <span class="plainlinks">[{{fullurl:{{FULLPAGENAME}}|action=edit}} bearbeiten]</span>,
+ihren Titel auf anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]]
+oder die zugehörigen <span class="plainlinks">[{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbücher betrachten]</span>.',
 'noarticletext-nopermission'       => 'Diese Seite enthält momentan noch keinen Text.
-Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]]
-oder in den zugehörigen <span class="plainlinks">[{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbüchern suchen].</span>',
+Du kannst ihren Titel auf anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]]
+oder die zugehörigen <span class="plainlinks">[{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbücher betrachten].</span>',
 'userpage-userdoesnotexist'        => 'Das Benutzerkonto „$1“ ist nicht vorhanden. Bitte prüfe, ob du diese Seite wirklich erstellen/bearbeiten willst.',
 'userpage-userdoesnotexist-view'   => 'Das Benutzerkonto „$1“ existiert nicht.',
 'blocked-notice-logextract'        => '{{GENDER:$1|Dieser Benutzer|Diese Benutzerin|Dieser Benutzer}} ist zurzeit gesperrt.
@@ -1377,7 +1378,6 @@ Stelle sicher, dass die Versionsgeschichte einer Seite historisch korrekt ist.',
 'changepassword'                => 'Passwort ändern',
 'prefs-skin'                    => 'Benutzeroberfläche',
 'skin-preview'                  => 'Vorschau',
-'prefs-math'                    => 'TeX',
 'datedefault'                   => 'Standard',
 'prefs-datetime'                => 'Datum und Zeit',
 'prefs-personal'                => 'Benutzerdaten',
@@ -1445,7 +1445,7 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'prefs-textboxsize'             => 'Größe des Bearbeitungsfensters',
 'youremail'                     => 'E-Mail-Adresse:',
 'username'                      => 'Benutzername:',
-'uid'                           => 'Benutzer-ID:',
+'uid'                           => 'Benutzerkennung:',
 'prefs-memberingroups'          => 'Mitglied der {{PLURAL:$1|Benutzergruppe|Benutzergruppen}}:',
 'prefs-memberingroups-type'     => '$2',
 'prefs-registration'            => 'Anmeldezeitpunkt:',
@@ -1464,7 +1464,7 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'prefs-help-gender'             => 'Optional: Wird von der Software für die geschlechtsspezifische Anrede genutzt. Diese Information ist öffentlich.',
 'email'                         => 'E-Mail',
 'prefs-help-realname'           => 'Optional. Damit kann dein bürgerlicher Name deinen Beiträgen zugeordnet werden.',
-'prefs-help-email'              => 'Die Angabe einer E-Mail ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, wenn du dein Passwort vergessen hast.',
+'prefs-help-email'              => 'Die Angabe einer E-Mail-Adresse ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, sofern du dein Passwort vergessen hast.',
 'prefs-help-email-others'       => 'Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt aufnehmen, ohne dass du deine Identität offenlegen musst.',
 'prefs-help-email-required'     => 'Es wird eine gültige E-Mail-Adresse benötigt.',
 'prefs-info'                    => 'Basisinformationen',
@@ -1733,7 +1733,7 @@ Um ein '''Bild''' in einer Seite zu verwenden, nutze einen Link in der folgenden
 'empty-file'                  => 'Die übertragene Datei ist leer',
 'file-too-large'              => 'Die übertragene Datei ist zu groß',
 'filename-tooshort'           => 'Der Dateiname ist zu kurz',
-'filetype-banned'             => 'Dieser Dateityp ist gesperrt',
+'filetype-banned'             => 'Diese Dateiendung ist gesperrt.',
 'verification-error'          => 'Diese Datei hat die Dateiprüfung nicht bestanden.',
 'hookaborted'                 => 'Der Versuch, die Änderung durchzuführen, ist aufgrund eines Extension-Hooks fehlgeschlagen',
 'illegal-filename'            => 'Der Dateiname ist nicht erlaubt',
@@ -1850,22 +1850,23 @@ Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werd
 'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Zugriff verweigert',
-'img-auth-nopathinfo'   => 'PATH_INFO fehlt.
+'img-auth-accessdenied'     => 'Zugriff verweigert',
+'img-auth-nopathinfo'       => 'PATH_INFO fehlt.
 Dein Server ist nicht dafür eingerichtet, diese Information weiterzugeben.
 Es könnte CGI-basiert sein und unterstützt img_auth nicht.
 Siehe http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Der gewünschte Pfad ist nicht im konfigurierten Uploadverzeichnis.',
-'img-auth-badtitle'     => 'Aus „$1“ kann kein gültiger Titel erstellt werden.',
-'img-auth-nologinnWL'   => 'Du bist nicht angemeldet und „$1“ ist nicht in der weißen Liste.',
-'img-auth-nofile'       => 'Datei „$1“ existiert nicht.',
-'img-auth-isdir'        => 'Du versuchst, auf ein Verzeichnis „$1“ zuzugreifen.
+'img-auth-notindir'         => 'Der gewünschte Pfad ist nicht im konfigurierten Uploadverzeichnis.',
+'img-auth-badtitle'         => 'Aus „$1“ kann kein gültiger Titel erstellt werden.',
+'img-auth-nologinnWL'       => 'Du bist nicht angemeldet und „$1“ ist nicht in der weißen Liste.',
+'img-auth-nofile'           => 'Datei „$1“ existiert nicht.',
+'img-auth-isdir'            => 'Du versuchst, auf ein Verzeichnis „$1“ zuzugreifen.
 Nur Dateizugriff ist erlaubt.',
-'img-auth-streaming'    => 'Lade „$1“.',
-'img-auth-public'       => 'img_auth.php gibt Dateien von einem privaten Wiki aus.
+'img-auth-streaming'        => 'Lade „$1“.',
+'img-auth-public'           => 'img_auth.php gibt Dateien von einem privaten Wiki aus.
 Dieses Wiki wurde als ein öffentliches Wiki konfiguriert.
 Aus Sicherheitsgründen ist img_auth.php deaktiviert.',
-'img-auth-noread'       => 'Benutzer hat keine Berechtigung, „$1“ zu lesen.',
+'img-auth-noread'           => 'Benutzer hat keine Berechtigung, „$1“ zu lesen.',
+'img-auth-bad-query-string' => 'Die URL weist eine ungültige Abfragezeichenfolge auf.',
 
 # HTTP errors
 'http-invalid-url'      => 'Ungültige URL: $1',
@@ -2222,6 +2223,10 @@ Als Absender wird die E-Mail-Adresse aus deinen [[Special:Preferences|Einstellun
 'noemailtext'          => 'Dieser Benutzer hat keine gültige E-Mail-Adresse angegeben.',
 'nowikiemailtitle'     => 'E-Mail-Versand nicht möglich',
 'nowikiemailtext'      => 'Dieser Benutzer möchte keine E-Mails von anderen Benutzern erhalten.',
+'emailnotarget'        => 'Nicht vorhandener oder ungültiger Benutzername für den Empfang einer E-Mail.',
+'emailtarget'          => 'Den Benutzer eingeben, um E-Mails erhalten zu können.',
+'emailusername'        => 'Benutzername:',
+'emailusernamesubmit'  => 'Speichern',
 'email-legend'         => 'E-Mail an einen anderen {{SITENAME}}-Benutzer senden',
 'emailfrom'            => 'Von:',
 'emailto'              => 'An:',
@@ -2498,7 +2503,7 @@ $1',
 'sp-contributions-talk'                => 'Diskussion',
 'sp-contributions-userrights'          => 'Benutzerrechteverwaltung',
 'sp-contributions-blocked-notice'      => '{{GENDER:$1|Dieser Benutzer|Diese Benutzerin|Dieser Benutzer}} ist derzeit gesperrt. Es folgt der aktuelle Eintrag aus dem Benutzersperr-Logbuch:',
-'sp-contributions-blocked-notice-anon' => 'Diese IP-Adresse ist zur Zeit gesperrt.
+'sp-contributions-blocked-notice-anon' => 'Diese IP-Adresse ist zurzeit gesperrt.
 Zur Information folgt der aktuelle Auszug aus dem Sperr-Logbuch:',
 'sp-contributions-search'              => 'Suche nach Benutzerbeiträgen',
 'sp-contributions-username'            => 'IP-Adresse oder Benutzername:',
@@ -2525,13 +2530,15 @@ Zur Information folgt der aktuelle Auszug aus dem Sperr-Logbuch:',
 'whatlinkshere-filters'    => 'Filter',
 
 # Block/unblock
+'autoblockid'                     => 'Automatische Sperrung #$1',
+'block'                           => 'Benutzer sperren',
+'unblock'                         => 'Benutzer freigeben',
 'blockip'                         => 'IP-Adresse/Benutzer sperren',
 'blockip-title'                   => 'Benutzer sperren',
 'blockip-legend'                  => 'IP-Adresse/Benutzer sperren',
 'blockiptext'                     => 'Mit diesem Formular sperrst du eine IP-Adresse oder einen Benutzernamen, so dass von dort keine Änderungen mehr vorgenommen werden können.
 Dies sollte nur erfolgen, um Vandalismus zu verhindern und in Übereinstimmung mit den [[{{MediaWiki:Policy-url}}|Richtlinien]].
 Bitte gib den Grund für die Sperre an.',
-'ipaddress'                       => 'IP-Adresse:',
 'ipadressorusername'              => 'IP-Adresse oder Benutzername:',
 'ipbexpiry'                       => 'Sperrdauer:',
 'ipbreason'                       => 'Grund:',
@@ -2544,7 +2551,7 @@ Bitte gib den Grund für die Sperre an.',
 ** Ungebührliches Verhalten
 ** Missbrauch mit mehreren Benutzerkonten
 ** Ungeeigneter Benutzername',
-'ipbanononly'                     => 'Nur unangemeldete Benutzer sperren',
+'ipb-hardblock'                   => 'Angemeldete Benutzer daran hindern, Bearbeitungen unter dieser IP-Adresse vorzunehmen',
 'ipbcreateaccount'                => 'Erstellung von Benutzerkonten verhindern',
 'ipbemailban'                     => 'E-Mail-Versand sperren',
 'ipbenableautoblock'              => 'Sperre die aktuell von diesem Benutzer genutzte IP-Adresse sowie automatisch alle folgenden, von denen aus er Bearbeitungen oder das Anlegen von Benutzerkonten versucht',
@@ -2555,12 +2562,15 @@ Bitte gib den Grund für die Sperre an.',
 'ipbotherreason'                  => 'Anderer/ergänzender Grund:',
 'ipbhidename'                     => 'Benutzername in Bearbeitungen und Listen verstecken',
 'ipbwatchuser'                    => 'Benutzer(diskussions)seite beobachten',
-'ipballowusertalk'                => 'Benutzer darf eigene Diskussionsseiten während seiner Sperre bearbeiten',
+'ipb-disableusertalk'             => 'Diese Benutzer daran hindern seine eigene Diskussionsseite zu bearbeiten, solange er gesperrt ist',
 'ipb-change-block'                => 'Sperre mit diesen Sperrparametern erneuern',
+'ipb-confirm'                     => 'Sperrung bestätigen',
 'badipaddress'                    => 'Die IP-Adresse hat ein falsches Format.',
 'blockipsuccesssub'               => 'Sperre erfolgreich',
 'blockipsuccesstext'              => 'Der Benutzer/die IP-Adresse [[Special:Contributions/$1|$1]] wurde gesperrt.<br />
 Zur Aufhebung der Sperre siehe die [[Special:IPBlockList|Liste aller aktiven Sperren]].',
+'ipb-blockingself'                => 'Du bist gerade dabei, dich selbst zu sperren! Möchtest du das wirklich tun?',
+'ipb-confirmhideuser'             => 'Du bist gerade dabei einen Benutzer im Modus „Benutzer verstecken“ zu sperren. Dies führt dazu, dass der Benutzername in allen Listen und Logbüchern unterdrückt wird. Möchtest du das wirklich tun?',
 'ipb-edit-dropdown'               => 'Sperrgründe bearbeiten',
 'ipb-unblock-addr'                => '„$1“ freigeben',
 'ipb-unblock'                     => 'IP-Adresse/Benutzer freigeben',
@@ -2570,17 +2580,23 @@ Zur Aufhebung der Sperre siehe die [[Special:IPBlockList|Liste aller aktiven Spe
 'unblockiptext'                   => 'Mit diesem Formular kannst du eine IP-Adresse oder einen Benutzer freigeben.',
 'ipusubmit'                       => 'Freigeben',
 'unblocked'                       => '[[User:$1|$1]] wurde freigegeben',
+'unblocked-range'                 => 'Sperre für $1 wurde aufgehoben',
 'unblocked-id'                    => 'Sperr-ID $1 wurde freigegeben',
-'ipblocklist'                     => 'Gesperrte IP-Adressen und Benutzernamen',
+'blocklist'                       => 'Gesperrte Benutzer',
+'ipblocklist'                     => 'Gesperrte Benutzer',
 'ipblocklist-legend'              => 'Suche nach einem gesperrten Benutzer',
-'ipblocklist-username'            => 'Benutzername oder IP-Adresse:',
-'ipblocklist-sh-userblocks'       => 'Benutzersperren $1',
-'ipblocklist-sh-tempblocks'       => 'Befristete Sperren $1',
-'ipblocklist-sh-addressblocks'    => 'IP-Sperren $1',
+'blocklist-userblocks'            => 'Benutzersperren ausblenden',
+'blocklist-tempblocks'            => 'Befristete Sperren ausblenden',
+'blocklist-addressblocks'         => 'Sperren einzelner IP-Adressen ausblenden',
+'blocklist-timestamp'             => 'Zeitstempel',
+'blocklist-target'                => 'Ziel',
+'blocklist-expiry'                => 'Sperrdauer bis',
+'blocklist-by'                    => 'Gesperrt von',
+'blocklist-params'                => 'Sperrparameter',
+'blocklist-reason'                => 'Grund',
 'ipblocklist-submit'              => 'Suchen',
 'ipblocklist-localblock'          => 'Lokale Sperre',
 'ipblocklist-otherblocks'         => 'Andere {{PLURAL:$1|Sperre|Sperren}}',
-'blocklistline'                   => '$1, $2 sperrte $3 ($4)',
 'infiniteblock'                   => 'unbegrenzt',
 'expiringblock'                   => 'endet am $1 um $2 Uhr',
 'anononlyblock'                   => 'nur Anonyme',
@@ -2617,9 +2633,9 @@ Siehe die [[Special:IPBlockList|Liste der gesperrten IP-Adressen und Benutzernam
 'ipb_expiry_temp'                 => 'Benutzernamens-Sperren mit der Verstecken-Option müssen permanent sein.',
 'ipb_hide_invalid'                => 'Dieses Konto kann nicht unterdrückt werden, da es zu viele Bearbeitungen aufweist.',
 'ipb_already_blocked'             => '„$1“ wurde bereits gesperrt.',
-'ipb-needreblock'                 => '== Sperre vorhanden ==
-„$1“ ist bereits gesperrt. Möchtest du die Sperrparameter ändern?',
+'ipb-needreblock'                 => '„$1“ ist bereits gesperrt. Möchtest du die Sperrparameter ändern?',
 'ipb-otherblocks-header'          => 'Andere {{PLURAL:$1|Sperre|Sperren}}',
+'unblock-hideuser'                => 'Dieser Benutzer kann nicht entsperrt werden, da dessen Benutzername versteckt wurde.',
 'ipb_cant_unblock'                => 'Fehler: Sperr-ID $1 nicht gefunden. Die Sperre wurde bereits aufgehoben.',
 'ipb_blocked_as_range'            => 'Fehler: Die IP-Adresse $1 wurde als Teil der Bereichssperre $2 indirekt gesperrt. Eine Entsperrung von $1 alleine ist nicht möglich.',
 'ip_range_invalid'                => 'Ungültiger IP-Adressbereich.',
@@ -2628,7 +2644,7 @@ Siehe die [[Special:IPBlockList|Liste der gesperrten IP-Adressen und Benutzernam
 'proxyblocker'                    => 'Proxy blocker',
 'proxyblocker-disabled'           => 'Diese Funktion ist deaktiviert.',
 'proxyblockreason'                => 'Deine IP-Adresse wurde gesperrt, da sie ein offener Proxy ist. Bitte kontaktiere deinen Internet-Provider oder deine Systemadministratoren und informiere sie über dieses mögliche Sicherheitsproblem.',
-'proxyblocksuccess'               => 'Fertig.',
+'proxyblocksuccess'               => 'Erledigt.',
 'sorbsreason'                     => 'Die IP-Adresse ist in der DNSBL von {{SITENAME}} als offener PROXY gelistet.',
 'sorbs_create_account_reason'     => 'Die IP-Adresse ist in der DNSBL von {{SITENAME}} als offener PROXY gelistet. Das Anlegen neuer Benutzer ist nicht möglich.',
 'cant-block-while-blocked'        => 'Du kannst keine anderen Benutzer sperren, während du selbst gesperrt bist.',
@@ -2811,7 +2827,8 @@ Alle Transwiki-Import-Aktionen werden im [[Special:Log/import|Import-Logbuch]] p
 'import-interwiki-namespace' => 'Zielnamensraum:',
 'import-upload-filename'     => 'Dateiname:',
 'import-comment'             => 'Grund:',
-'importtext'                 => 'Auf dieser Spezialseite können über die [[Special:Export|Exportfunktion]] im Quellwiki exportierte Seiten in dieses Wiki importiert werden.',
+'importtext'                 => 'Bitte die Datei über die Spezialseite [[Special:Export|Exportfunktion]] aus dem Quellwiki exportieren.
+Diese auf dem lokalen Rechner speichern und danach hier hochladen.',
 'importstart'                => 'Importiere Seite …',
 'import-revision-count'      => '– {{PLURAL:$1|1 Version|$1 Versionen}}',
 'importnopages'              => 'Keine Seite zum Importieren vorhanden.',
@@ -2933,6 +2950,8 @@ Alle Transwiki-Import-Aktionen werden im [[Special:Log/import|Import-Logbuch]] p
 'vector.css'      => '/* Das folgende CSS wird für Benutzer der Vector-Benutzeroberfläche geladen. Für allgemeingültige Benutzeroberflächen-Anpassungen bitte [[MediaWiki:Common.css]] bearbeiten. */',
 'print.css'       => '/* Das folgende CSS wird in der Druckausgabe geladen. */',
 'handheld.css'    => '/* Das folgende CSS wird für Handheld-Geräte, basierend auf der in $wgHandheldStyle konfigurierten Benutzeroberfläche, geladen. */',
+'noscript.css'    => '/* Das folgende CSS wirkt sich für Benutzer aus, die JavaScript deaktiviert haben */',
+'bureaucrat.css'  => '/* Das folgende CSS wird nur für Bürokraten geladen. */',
 
 # Scripts
 'common.js'      => '/* Das folgende JavaScript wird für alle Benutzer geladen. */',
@@ -2991,25 +3010,6 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
 
-# Math options
-'mw_math_png'    => 'Immer als PNG darstellen',
-'mw_math_simple' => 'Einfaches TeX als HTML darstellen, ansonsten als PNG',
-'mw_math_html'   => 'Sofern möglich als HTML darstellen, ansonsten als PNG',
-'mw_math_source' => 'Als TeX belassen (für Textbrowser)',
-'mw_math_modern' => 'Für moderne Browser empfohlene Darstellungsmethode',
-'mw_math_mathml' => 'Sofern möglich als MathML darstellen (experimentell)',
-
-# Math errors
-'math_failure'          => 'Parser-Fehler',
-'math_unknown_error'    => 'Unbekannter Fehler',
-'math_unknown_function' => 'Unbekannte Funktion ',
-'math_lexing_error'     => '„Lexing“-Fehler',
-'math_syntax_error'     => 'Syntaxfehler',
-'math_image_error'      => 'PNG-Konvertierung fehlgeschlagen; korrekte Installation von LaTeX und dvipng überprüfen (oder dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Das temporäre Verzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
-'math_bad_output'       => 'Das Zielverzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
-'math_notexvc'          => 'Das texvc-Programm wurde nicht gefunden. Bitte math/README beachten.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Als kontrolliert markieren',
 'markaspatrolledtext'                 => 'Diese Seite als kontrolliert markieren',
@@ -3045,22 +3045,24 @@ $1',
 'nextdiff'     => 'Zum nächsten Versionsunterschied →',
 
 # Media information
-'mediawarning'         => "'''Warnung:''' Dieser Dateityp kann böswilligen Programmcode enthalten.
+'mediawarning'           => "'''Warnung:''' Dieser Dateityp kann böswilligen Programmcode enthalten.
 Durch das Herunterladen und Öffnen der Datei kann dein Computer beschädigt werden.",
-'imagemaxsize'         => "Maximale Bildgröße:<br />''(für Dateibeschreibungsseiten)''",
-'thumbsize'            => 'Standardgröße der Vorschaubilder (Thumbnails):',
-'widthheightpage'      => '$1×$2, {{PLURAL:$3|1 Seite|$3 Seiten}}',
-'file-info'            => 'Dateigröße: $1, MIME-Typ: $2',
-'file-info-size'       => '$1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4',
-'file-nohires'         => '<small>Keine höhere Auflösung vorhanden.</small>',
-'svg-long-desc'        => 'SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3',
-'show-big-image'       => 'Version in höherer Auflösung',
-'show-big-image-thumb' => '<small>Größe der Voransicht: $1 × $2 Pixel</small>',
-'file-info-gif-looped' => 'Endlosschleife',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|Bild|Bilder}}',
-'file-info-png-looped' => 'Endlosschleife',
-'file-info-png-repeat' => '$1-{{PLURAL:$1|mal|mal}} abgespielt',
-'file-info-png-frames' => '$1 {{PLURAL:$1|Bild|Bilder}}',
+'imagemaxsize'           => "Maximale Bildgröße:<br />''(für Dateibeschreibungsseiten)''",
+'thumbsize'              => 'Standardgröße der Vorschaubilder (Thumbnails):',
+'widthheightpage'        => '$1×$2, {{PLURAL:$3|1 Seite|$3 Seiten}}',
+'file-info'              => 'Dateigröße: $1, MIME-Typ: $2',
+'file-info-size'         => '$1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4',
+'file-nohires'           => '<small>Keine höhere Auflösung vorhanden.</small>',
+'svg-long-desc'          => 'SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3',
+'show-big-image'         => 'Version in höherer Auflösung',
+'show-big-image-preview' => '<small>Größe dieser Vorschau: $1.</small>',
+'show-big-image-other'   => '<small>Weitere Auflösungen: $1.</small>',
+'show-big-image-size'    => '$1 × $2 Pixel',
+'file-info-gif-looped'   => 'Endlosschleife',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|Bild|Bilder}}',
+'file-info-png-looped'   => 'Endlosschleife',
+'file-info-png-repeat'   => '$1-{{PLURAL:$1|mal|mal}} abgespielt',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|Bild|Bilder}}',
 
 # Special:NewFiles
 'newimages'             => 'Neue Dateien',
@@ -3287,7 +3289,7 @@ Darauf folgende Seitenlinks in derselben Zeile definieren Ausnahmen, in deren Ko
 
 'exif-focalplaneresolutionunit-2' => 'Zoll',
 
-'exif-sensingmethod-1' => 'Undefiniert',
+'exif-sensingmethod-1' => 'Nicht angegeben',
 'exif-sensingmethod-2' => 'Ein-Chip-Farbsensor',
 'exif-sensingmethod-3' => 'Zwei-Chip-Farbsensor',
 'exif-sensingmethod-4' => 'Drei-Chip-Farbsensor',
@@ -3449,12 +3451,13 @@ $1',
 'trackbackdeleteok' => 'Trackback wurde erfolgreich gelöscht.',
 
 # Delete conflict
-'deletedwhileediting' => 'Achtung: Diese Seite wurde gelöscht, nachdem du angefangen hast sie zu bearbeiten!
+'deletedwhileediting'      => 'Achtung: Diese Seite wurde gelöscht, nachdem du angefangen hast sie zu bearbeiten!
 Im [{{fullurl:{{#special:Log}}|type=delete&page={{FULLPAGENAMEE}}}} Lösch-Logbuch] findest du den Grund für die Löschung. Wenn du die Seite speicherst, wird sie neu angelegt.',
-'confirmrecreate'     => "Benutzer [[User:$1|$1]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du angefangen hast, sie zu bearbeiten. Die Begründung lautete:
+'confirmrecreate'          => "Benutzer [[User:$1|$1]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du angefangen hast, sie zu bearbeiten. Die Begründung lautete:
 :''$2''
 Bitte bestätige, dass du diese Seite wirklich neu erstellen möchten.",
-'recreate'            => 'Erneut anlegen',
+'confirmrecreate-noreason' => 'Benutzer [[User:$1|$1 ]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du mit der Bearbeitung begonnen hast. Bitte bestätige, dass du die Seite wirklich erneut erstellen möchtest.',
+'recreate'                 => 'Erneut anlegen',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3509,14 +3512,14 @@ Bitte bestätige, dass du diese Seite wirklich neu erstellen möchten.",
 'watchlistedit-noitems'        => 'Deine Beobachtungsliste ist leer.',
 'watchlistedit-normal-title'   => 'Beobachtungsliste bearbeiten',
 'watchlistedit-normal-legend'  => 'Einträge von der Beobachtungsliste entfernen',
-'watchlistedit-normal-explain' => 'Dies sind die Einträge deiner Beobachtungsliste. Um Einträge zu entfernen, markiere die Kästchen neben den Einträgen und klicke am Ende der Seite auf „{{int:Watchlistedit-normal-submit}}“. Du kannst deine Beobachtungsliste auch im [[Special:Watchlist/raw|Listenformat bearbeiten]].',
+'watchlistedit-normal-explain' => 'Dies sind die Einträge deiner Beobachtungsliste. Um Einträge zu entfernen, markiere die Kästchen neben den Einträgen und klicke am Ende der Seite auf „{{int:Watchlistedit-normal-submit}}“. Du kannst deine Beobachtungsliste auch im [[Special:EditWatchlist/raw|Listenformat bearbeiten]].',
 'watchlistedit-normal-submit'  => 'Einträge entfernen',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 Eintrag wurde|$1 Einträge wurden}} von deiner Beobachtungsliste entfernt:',
 'watchlistedit-raw-title'      => 'Beobachtungsliste im Listenformat bearbeiten',
 'watchlistedit-raw-legend'     => 'Beobachtungsliste im Listenformat bearbeiten',
 'watchlistedit-raw-explain'    => 'Dies sind die Einträge deiner Beobachtungsliste im Listenformat. Die Einträge können zeilenweise gelöscht oder hinzugefügt werden.
 Pro Zeile ist ein Eintrag erlaubt. Wenn du fertig bist, klicke auf „{{int:Watchlistedit-raw-submit}}“.
-Du kannst auch die [[Special:Watchlist/edit|Standard-Bearbeitungsseite]] benutzen.',
+Du kannst auch die [[Special:EditWatchlist|Standard-Bearbeitungsseite]] benutzen.',
 'watchlistedit-raw-titles'     => 'Einträge:',
 'watchlistedit-raw-submit'     => 'Beobachtungsliste aktualisieren',
 'watchlistedit-raw-done'       => 'Deine Beobachtungsliste wurde gespeichert.',
@@ -3585,8 +3588,9 @@ Die Eingabe muss ohne den Zusatz „{{ns:file}}:“ erfolgen.',
 # Special:SpecialPages
 'specialpages'                   => 'Spezialseiten',
 'specialpages-note'              => '----
-* Spezialseiten für jedermann
-* <strong class="mw-specialpagerestricted">Spezialseiten für Benutzer mit erweiterten Rechten</strong>',
+* Reguläre Spezialseiten
+* <span class="mw-specialpagerestricted">Zugriffsbeschränkte Spezialseiten</span>
+* <span class="mw-specialpagecached">Cachegenerierte Spezialseiten</span>',
 'specialpages-group-maintenance' => 'Wartungslisten',
 'specialpages-group-other'       => 'Andere Spezialseiten',
 'specialpages-group-login'       => 'Anmelden',

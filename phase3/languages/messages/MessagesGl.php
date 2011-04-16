@@ -98,7 +98,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Títulos_protexidos' ),
 	'Allpages'                  => array( 'Todas_as_páxinas' ),
 	'Prefixindex'               => array( 'Índice_de_prefixos' ),
-	'Ipblocklist'               => array( 'Lista_de_bloqueos', 'Lista_dos_bloqueos_a_enderezos_IP' ),
+	'BlockList'                 => array( 'Lista_de_bloqueos', 'Lista_dos_bloqueos_a_enderezos_IP' ),
 	'Unblock'                   => array( 'Desbloquear' ),
 	'Specialpages'              => array( 'Páxinas_especiais' ),
 	'Contributions'             => array( 'Contribucións' ),
@@ -114,7 +114,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Versión' ),
 	'Allmessages'               => array( 'Todas_as_mensaxes' ),
 	'Log'                       => array( 'Rexistros' ),
-	'Blockip'                   => array( 'Bloquear', 'Bloquear_o_enderezo_IP', 'Bloquear_o_usuario' ),
+	'Block'                     => array( 'Bloquear', 'Bloquear_o_enderezo_IP', 'Bloquear_o_usuario' ),
 	'Undelete'                  => array( 'Restaurar' ),
 	'Import'                    => array( 'Importar' ),
 	'Lockdb'                    => array( 'Pechar_a_base_de_datos' ),
@@ -697,7 +697,7 @@ Como resultado, os visitantes que usen este enderezo IP non poden crear máis co
 'invalidemailaddress'        => 'Non se pode aceptar o enderezo de correo electrónico porque semella ter un formato incorrecto.
 Insira un enderezo cun formato válido ou baleire ese campo.',
 'accountcreated'             => 'Conta creada',
-'accountcreatedtext'         => 'A conta de usuario para $1 foi creada.',
+'accountcreatedtext'         => 'Creouse a conta de usuario para "$1".',
 'createaccount-title'        => 'Creación dunha conta para {{SITENAME}}',
 'createaccount-text'         => 'Alguén creou unha conta chamada "$2" para o seu enderezo de correo electrónico en {{SITENAME}} ($4), e con contrasinal "$3".
 Debe acceder ao sistema e mudar o contrasinal agora.
@@ -706,6 +706,7 @@ Pode facer caso omiso desta mensaxe se se creou esta conta por erro.',
 'usernamehasherror'          => 'O nome de usuario non pode conter cancelos ("#")',
 'login-throttled'            => 'Fixo demasiados intentos de inserir o contrasinal.
 Por favor, agarde antes de probar outra vez.',
+'login-abort-generic'        => 'Acceso ao sistema incorrecto; abortado',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'Rexeitouse a súa petición de saír do sistema porque semella que a enviou un navegador roto ou a caché dun proxy.',
 
@@ -750,8 +751,6 @@ Pode ser que xa cambiase o seu contrasinal ou que solicitase un novo contrasinal
 'extlink_tip'     => 'Ligazón externa (lembre o prefixo http://)',
 'headline_sample' => 'Texto de cabeceira',
 'headline_tip'    => 'Cabeceira de nivel 2',
-'math_sample'     => 'Insira unha fórmula aquí',
-'math_tip'        => 'Fórmula matemática (LaTeX)',
 'nowiki_sample'   => 'Insira aquí un texto sen formato',
 'nowiki_tip'      => 'Ignorar o formato wiki',
 'image_sample'    => 'Exemplo.jpg',
@@ -1257,16 +1256,15 @@ Note que os seus índices do contido de {{SITENAME}} poden estar desactualizados
 'changepassword'                => 'Cambiar o meu contrasinal',
 'prefs-skin'                    => 'Aparencia',
 'skin-preview'                  => 'Vista previa',
-'prefs-math'                    => 'Fórmulas matemáticas',
 'datedefault'                   => 'Ningunha preferencia',
 'prefs-datetime'                => 'Data e hora',
 'prefs-personal'                => 'Información do usuario',
 'prefs-rc'                      => 'Cambios recentes',
 'prefs-watchlist'               => 'Lista de vixilancia',
 'prefs-watchlist-days'          => 'Días para amosar na lista de vixilancia:',
-'prefs-watchlist-days-max'      => '(máximo 7 días)',
+'prefs-watchlist-days-max'      => 'Máximo 7 días',
 'prefs-watchlist-edits'         => 'Número de edicións para mostrar na lista de vixilancia completa:',
-'prefs-watchlist-edits-max'     => '(número máximo: 1000)',
+'prefs-watchlist-edits-max'     => 'Número máximo: 1000',
 'prefs-watchlist-token'         => 'Pase para a lista de vixilancia:',
 'prefs-misc'                    => 'Preferencias varias',
 'prefs-resetpass'               => 'Cambiar o contrasinal',
@@ -1409,7 +1407,7 @@ Ha de ter menos {{PLURAL:$1|dun carácter|de $1 caracteres}}.',
 'grouppage-bot'           => '{{ns:project}}:Bots',
 'grouppage-sysop'         => '{{ns:project}}:Administradores',
 'grouppage-bureaucrat'    => '{{ns:project}}:Burócratas',
-'grouppage-suppress'      => '{{ns:project}}:Supervisor',
+'grouppage-suppress'      => '{{ns:project}}:Supervisores',
 
 # Rights
 'right-read'                  => 'Ler páxinas',
@@ -1735,22 +1733,23 @@ Non pode superar adecuadamente as comprobacións de seguridade.',
 'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Acceso rexeitado',
-'img-auth-nopathinfo'   => 'Falta a PATH_INFO.
+'img-auth-accessdenied'     => 'Acceso rexeitado',
+'img-auth-nopathinfo'       => 'Falta a PATH_INFO.
 O seu servidor non está configurado para pasar esta información.
 Pode ser que estea baseado en CGI e non puidese soportar img_auth.
 Olle http://www.mediawiki.org/wiki/Manual:Image_Authorization para obter máis información.',
-'img-auth-notindir'     => 'A ruta solicitada non está no directorio de carga configurado.',
-'img-auth-badtitle'     => 'Non é posible construír un título válido a partir de "$1".',
-'img-auth-nologinnWL'   => 'Non accedeu ao sistema e "$1" non está na lista de branca.',
-'img-auth-nofile'       => 'O ficheiro "$1" non existe.',
-'img-auth-isdir'        => 'Está intentando acceder ao directorio "$1".
+'img-auth-notindir'         => 'A ruta solicitada non está no directorio de carga configurado.',
+'img-auth-badtitle'         => 'Non é posible construír un título válido a partir de "$1".',
+'img-auth-nologinnWL'       => 'Non accedeu ao sistema e "$1" non está na lista de branca.',
+'img-auth-nofile'           => 'O ficheiro "$1" non existe.',
+'img-auth-isdir'            => 'Está intentando acceder ao directorio "$1".
 Só se permite o acceso ao ficheiro.',
-'img-auth-streaming'    => 'Secuenciando "$1".',
-'img-auth-public'       => 'A función de img_auth.php é para ficheiros de saída desde un wiki privado.
+'img-auth-streaming'        => 'Secuenciando "$1".',
+'img-auth-public'           => 'A función de img_auth.php é para ficheiros de saída desde un wiki privado.
 Este wiki está configurado como público.
 Para unha seguridade óptima, img_auth.php está desactivado.',
-'img-auth-noread'       => 'O usuario non ten acceso á lectura de "$1".',
+'img-auth-noread'           => 'O usuario non ten acceso á lectura de "$1".',
+'img-auth-bad-query-string' => 'O enderezo URL ten unha secuencia de consulta incorrecta.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL non válido: $1',
@@ -2112,6 +2111,10 @@ O correo electrónico que inseriu [[Special:Preferences|nas súas preferencias]]
 'noemailtext'          => 'Este usuario non especificou un enderezo de correo electrónico válido.',
 'nowikiemailtitle'     => 'Sen correo electrónico habilitado',
 'nowikiemailtext'      => 'Este usuario elixiu non recibir correos electrónicos doutros usuarios.',
+'emailnotarget'        => 'O nome de usuario do destinatario non existe ou é incorrecto.',
+'emailtarget'          => 'Introduza o nome de usuario do destinatario',
+'emailusername'        => 'Nome de usuario:',
+'emailusernamesubmit'  => 'Enviar',
 'email-legend'         => 'Enviar un correo electrónico a outro usuario de {{SITENAME}}',
 'emailfrom'            => 'De:',
 'emailto'              => 'Para:',
@@ -2425,13 +2428,15 @@ Velaquí está a última entrada do rexistro de bloqueos, por se quere consultal
 'whatlinkshere-filters'    => 'Filtros',
 
 # Block/unblock
-'blockip'                         => 'Bloquear este usuario',
+'autoblockid'                     => 'Bloqueo automático nº$1',
+'block'                           => 'Bloquear un usuario',
+'unblock'                         => 'Desbloquear un usuario',
+'blockip'                         => 'Bloquear o usuario',
 'blockip-title'                   => 'Bloquear un usuario',
 'blockip-legend'                  => 'Bloquear un usuario',
 'blockiptext'                     => 'Use o seguinte formulario para bloquear o acceso de escritura desde un enderezo IP ou para bloquear un usuario específico.
 Isto debería facerse só para previr vandalismo, e de acordo coa [[{{MediaWiki:Policy-url}}|política e normas]] vixentes.
 Explique a razón específica do bloqueo (por exemplo, citando as páxinas concretas que sufriron vandalismo).',
-'ipaddress'                       => 'Enderezo IP:',
 'ipadressorusername'              => 'Enderezo IP ou nome de usuario:',
 'ipbexpiry'                       => 'Duración:',
 'ipbreason'                       => 'Motivo:',
@@ -2444,7 +2449,7 @@ Explique a razón específica do bloqueo (por exemplo, citando as páxinas concr
 ** Comportamento intimidatorio/acoso
 ** Abuso de múltiples contas de usuario
 ** Nome de usuario inaceptábel',
-'ipbanononly'                     => 'Bloquear os usuarios anónimos unicamente',
+'ipb-hardblock'                   => 'Impedir que usuarios rexistrados editen desde este enderezo IP',
 'ipbcreateaccount'                => 'Previr a creación de contas',
 'ipbemailban'                     => 'Impedir que o usuario envíe correos electrónicos',
 'ipbenableautoblock'              => 'Bloquear automaticamente o último enderezo IP utilizado por este usuario, e calquera outro enderezo desde o que intente editar',
@@ -2455,12 +2460,15 @@ Explique a razón específica do bloqueo (por exemplo, citando as páxinas concr
 'ipbotherreason'                  => 'Outro motivo:',
 'ipbhidename'                     => 'Agochar o nome de usuario nas edicións e listas',
 'ipbwatchuser'                    => 'Vixiar a páxina de usuario e a de conversa deste usuario',
-'ipballowusertalk'                => 'Permitir que este usuario poida editar a súa páxina de conversa mentres estea bloqueado',
+'ipb-disableusertalk'             => 'Impedir que o usuario edite a súa propia páxina de conversa mentres dure o bloqueo',
 'ipb-change-block'                => 'Volver bloquear o usuario con estas configuracións',
+'ipb-confirm'                     => 'Confirmar o bloqueo',
 'badipaddress'                    => 'O enderezo IP non é válido',
 'blockipsuccesssub'               => 'Bloqueo exitoso',
 'blockipsuccesstext'              => 'O enderezo IP [[Special:Contributions/$1|$1]] foi bloqueado.<br />
 Olle a [[Special:IPBlockList|lista de enderezos IP e usuarios bloqueados]] para revisalo.',
+'ipb-blockingself'                => 'Está a piques de se bloquear! Está seguro de querer facelo?',
+'ipb-confirmhideuser'             => 'Está a piques de bloquear un usuario coa opción "agochar o usuario" activada. Isto suprime o nome de usuario de todas as listas e entradas de rexistro. Está seguro de querer facelo?',
 'ipb-edit-dropdown'               => 'Editar os motivos de bloqueo',
 'ipb-unblock-addr'                => 'Desbloquear a "$1"',
 'ipb-unblock'                     => 'Desbloquear un usuario ou enderezo IP',
@@ -2470,17 +2478,23 @@ Olle a [[Special:IPBlockList|lista de enderezos IP e usuarios bloqueados]] para 
 'unblockiptext'                   => 'Use o seguinte formulario para dar de novo acceso de escritura a un enderezo IP ou usuario que estea bloqueado.',
 'ipusubmit'                       => 'Retirar este bloqueo',
 'unblocked'                       => '"[[User:$1|$1]]" foi desbloqueado',
+'unblocked-range'                 => '$1 foi desbloqueado',
 'unblocked-id'                    => 'O bloqueo $1 foi eliminado',
-'ipblocklist'                     => 'Enderezos IP e usuarios bloqueados',
+'blocklist'                       => 'Usuarios bloqueados',
+'ipblocklist'                     => 'Usuarios bloqueados',
 'ipblocklist-legend'              => 'Buscar un usuario bloqueado',
-'ipblocklist-username'            => 'Nome de usuario ou enderezo IP:',
-'ipblocklist-sh-userblocks'       => '$1 as contas bloqueadas',
-'ipblocklist-sh-tempblocks'       => '$1 os bloqueos temporais',
-'ipblocklist-sh-addressblocks'    => '$1 os bloqueos únicos a enderezos IP',
+'blocklist-userblocks'            => 'Agochar os bloqueos de contas',
+'blocklist-tempblocks'            => 'Agochar os bloqueos temporais',
+'blocklist-addressblocks'         => 'Agochar os bloqueos a enderezos IP únicos',
+'blocklist-timestamp'             => 'Data e hora',
+'blocklist-target'                => 'Destino',
+'blocklist-expiry'                => 'Caduca',
+'blocklist-by'                    => 'Administrador que realizou o bloqueo',
+'blocklist-params'                => 'Parámetros de bloqueo',
+'blocklist-reason'                => 'Motivo',
 'ipblocklist-submit'              => 'Procurar',
 'ipblocklist-localblock'          => 'Bloqueo local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Outro bloqueo|Outros bloqueos}}',
-'blocklistline'                   => '$1, $2 bloqueou a "$3" ($4)',
 'infiniteblock'                   => 'para sempre',
 'expiringblock'                   => 'remata o $1 ás $2',
 'anononlyblock'                   => 'só anón.',
@@ -2517,9 +2531,9 @@ Olle a [[Special:IPBlockList|lista de enderezos IP e usuarios bloqueados]] se qu
 'ipb_expiry_temp'                 => 'Os bloqueos a nomes de usuario agochados deberían ser permanentes.',
 'ipb_hide_invalid'                => 'Incapaz de suprimir esta conta; pode que teña moitas edicións.',
 'ipb_already_blocked'             => '"$1" xa está bloqueado',
-'ipb-needreblock'                 => '== Xa está bloqueado ==
-"$1" xa está bloqueado. Quere cambiar as configuracións?',
+'ipb-needreblock'                 => '"$1" xa está bloqueado. Quere cambiar as configuracións?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Outro bloqueo|Outros bloqueos}}',
+'unblock-hideuser'                => 'Non pode desbloquear o usuario porque o seu nome foi agochado.',
 'ipb_cant_unblock'                => 'Erro: Non se atopa o Block ID $1. Posiblemente xa foi desbloqueado.',
 'ipb_blocked_as_range'            => 'Erro: O enderezo IP $1 non está bloqueado directamente e non se pode desbloquear. Porén, está bloqueado por estar no rango $2, que si se pode desbloquear.',
 'ip_range_invalid'                => 'Rango IP non válido.',
@@ -2755,7 +2769,7 @@ Gárdeo no seu disco duro e cárgueo aquí.',
 'tooltip-pt-mytalk'               => 'A súa páxina de conversa',
 'tooltip-pt-anontalk'             => 'Conversa acerca de edicións feitas desde este enderezo IP',
 'tooltip-pt-preferences'          => 'As miñas preferencias',
-'tooltip-pt-watchlist'            => 'Lista de páxinas cuxas modificacións estou a seguir',
+'tooltip-pt-watchlist'            => 'A lista de páxinas cuxas modificacións está a seguir',
 'tooltip-pt-mycontris'            => 'Lista das súas contribucións',
 'tooltip-pt-login'                => 'Recoméndaselle que acceda ao sistema, porén, non é obrigatorio.',
 'tooltip-pt-anonlogin'            => 'Recoméndaselle rexistrarse, se ben non é obrigatorio.',
@@ -2807,7 +2821,7 @@ Gárdeo no seu disco duro e cárgueo aquí.',
 'tooltip-save'                    => 'Gravar os seus cambios',
 'tooltip-preview'                 => 'Vista previa dos seus cambios; por favor, úsea antes de gravalos!',
 'tooltip-diff'                    => 'Mostrar os cambios que fixo no texto',
-'tooltip-compareselectedversions' => 'Ver as diferenzas entre as dúas versións seleccionadas desta páxina',
+'tooltip-compareselectedversions' => 'Ver as diferenzas entre dúas versións seleccionadas desta páxina',
 'tooltip-watch'                   => 'Engadir esta páxina á súa lista de vixilancia [alt-w]',
 'tooltip-recreate'                => 'Recrear a páxina a pesar de que foi borrada',
 'tooltip-upload'                  => 'Comezar a enviar',
@@ -2845,7 +2859,7 @@ Gárdeo no seu disco duro e cárgueo aquí.',
 # Metadata
 'nodublincore'      => 'A opción de metadatos RDF do Dublin Core está desactivada neste servidor.',
 'nocreativecommons' => 'A opción de metadatos Creative Commons RDF está desactivada neste servidor.',
-'notacceptable'     => 'O servidor wiki non pode fornecer datos nun formato que o seu cliente poida ler.',
+'notacceptable'     => 'O servidor do wiki non pode fornecer os datos nun formato que o seu cliente poida ler.',
 
 # Attribution
 'anonymous'        => '{{PLURAL:$1|Usuario anónimo|Usuarios anónimos}} de {{SITENAME}}',
@@ -2886,25 +2900,6 @@ Isto, probabelmente, se debe a unha ligazón cara a un sitio externo que está n
 'skinname-simple'      => 'Sinxela',
 'skinname-modern'      => 'Moderna',
 
-# Math options
-'mw_math_png'    => 'Orixinar sempre unha imaxe PNG',
-'mw_math_simple' => 'HTML se é moi simple, en caso contrario PNG',
-'mw_math_html'   => 'Se é posible HTML, se non PNG',
-'mw_math_source' => 'Deixalo como TeX (para navegadores de texto)',
-'mw_math_modern' => 'Recomendado para as versións recentes dos navegadores',
-'mw_math_mathml' => 'MathML se é posible (experimental)',
-
-# Math errors
-'math_failure'          => 'Fallou a conversión do código',
-'math_unknown_error'    => 'erro descoñecido',
-'math_unknown_function' => 'función descoñecida',
-'math_lexing_error'     => 'erro de léxico',
-'math_syntax_error'     => 'erro de sintaxe',
-'math_image_error'      => 'Fallou a conversión a PNG; comprobe que latex, dvips, gs e convert están ben instalados (ou dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Non se puido crear ou escribir no directorio temporal de fórmulas',
-'math_bad_output'       => 'Non se puido crear ou escribir no directorio de saída de fórmulas',
-'math_notexvc'          => 'Falta o executable texvc. Por favor consulte math/README para configurar.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Marcar como revisada',
 'markaspatrolledtext'                 => 'Marcar esta páxina como revisada',
@@ -2940,22 +2935,24 @@ $1',
 'nextdiff'     => 'Edición máis nova →',
 
 # Media information
-'mediawarning'         => "'''Aviso:''' este tipo de ficheiro pode conter código malicioso.
+'mediawarning'           => "'''Aviso:''' este tipo de ficheiro pode conter código malicioso.
 O seu sistema pode quedar comprometido se o executa.",
-'imagemaxsize'         => "Límite de tamaño das imaxes:<br />''(nas páxinas de descrición de ficheiros)''",
-'thumbsize'            => 'Tamaño da miniatura:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|páxina|páxinas}}',
-'file-info'            => 'Tamaño do ficheiro: $1, tipo MIME: $2',
-'file-info-size'       => '$1 × $2 píxeles, tamaño do ficheiro: $3, tipo MIME: $4',
-'file-nohires'         => '<small>Non se dispón dunha resolución máis grande.</small>',
-'svg-long-desc'        => 'ficheiro SVG, nominalmente $1 × $2 píxeles, tamaño do ficheiro: $3',
-'show-big-image'       => 'Imaxe na máxima resolución',
-'show-big-image-thumb' => '<small>Tamaño desta presentación da imaxe: $1 × $2 píxeles</small>',
-'file-info-gif-looped' => 'en bucle',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
-'file-info-png-looped' => 'en bucle',
-'file-info-png-repeat' => 'reproducido $1 {{PLURAL:$1|vez|veces}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
+'imagemaxsize'           => "Límite de tamaño das imaxes:<br />''(nas páxinas de descrición de ficheiros)''",
+'thumbsize'              => 'Tamaño da miniatura:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|páxina|páxinas}}',
+'file-info'              => 'Tamaño do ficheiro: $1, tipo MIME: $2',
+'file-info-size'         => '$1 × $2 píxeles, tamaño do ficheiro: $3, tipo MIME: $4',
+'file-nohires'           => '<small>Non se dispón dunha resolución máis grande.</small>',
+'svg-long-desc'          => 'ficheiro SVG, nominalmente $1 × $2 píxeles, tamaño do ficheiro: $3',
+'show-big-image'         => 'Imaxe na máxima resolución',
+'show-big-image-preview' => '<small>Tamaño desta vista previa: $1.</small>',
+'show-big-image-other'   => '<small>Outras resolucións: $1.</small>',
+'show-big-image-size'    => '$1 × $2 píxeles',
+'file-info-gif-looped'   => 'en bucle',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
+'file-info-png-looped'   => 'en bucle',
+'file-info-png-repeat'   => 'reproducido $1 {{PLURAL:$1|vez|veces}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
 
 # Special:NewFiles
 'newimages'             => 'Galería de imaxes novas',
@@ -3351,11 +3348,12 @@ $1',
 'trackbackdeleteok' => 'O trackback foi eliminado sen problemas.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Aviso:''' esta páxina foi borrada despois de que comezase a editala!",
-'confirmrecreate'     => "O usuario [[User:$1|$1]] ([[User talk:$1|conversa]]) borrou este artigo despois de que vostede comezara a editalo, dando o seguinte motivo:
+'deletedwhileediting'      => "'''Aviso:''' esta páxina foi borrada despois de que comezase a editala!",
+'confirmrecreate'          => "O usuario [[User:$1|$1]] ([[User talk:$1|conversa]]) borrou este artigo despois de que vostede comezara a editalo, dando o seguinte motivo:
 : ''$2''
 Por favor, confirme que realmente quere recrear esta páxina.",
-'recreate'            => 'Recrear',
+'confirmrecreate-noreason' => 'O usuario [[User:$1|$1]] ([[User talk:$1|conversa]]) borrou esta páxina despois de que vostede comezara a editala. Por favor, confirme que realmente quere recrear esta páxina.',
+'recreate'                 => 'Recrear',
 
 # action=purge
 'confirm_purge_button' => 'Si',
@@ -3404,14 +3402,14 @@ Probe coa vista previa normal.',
 'watchlistedit-normal-legend'  => 'Eliminar títulos da lista de vixilancia',
 'watchlistedit-normal-explain' => 'Os títulos da súa lista de vixilancia aparecen a continuación.
 Para eliminar un título, escóllao na súa caixa de selección e prema en "{{int:Watchlistedit-normal-submit}}".
-Tamén pode [[Special:Watchlist/raw|editar a lista simple]].',
+Tamén pode [[Special:EditWatchlist/raw|editar a lista simple]].',
 'watchlistedit-normal-submit'  => 'Eliminar os títulos',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Eliminouse un título|Elimináronse $1 títulos}} da súa lista de vixilancia:',
 'watchlistedit-raw-title'      => 'Editar a lista de vixilancia simple',
 'watchlistedit-raw-legend'     => 'Editar a lista de vixilancia simple',
 'watchlistedit-raw-explain'    => 'Os títulos da súa lista de vixilancia aparecen a continuación. Pódense editar engadíndoos ou retirándoos da lista; un título por liña.
 Ao rematar, prema en "{{int:Watchlistedit-raw-submit}}".
-Tamén pode [[Special:Watchlist/edit|empregar o editor normal]].',
+Tamén pode [[Special:EditWatchlist|empregar o editor normal]].',
 'watchlistedit-raw-titles'     => 'Títulos:',
 'watchlistedit-raw-submit'     => 'Actualizar a lista de vixilancia',
 'watchlistedit-raw-done'       => 'Actualizouse a súa lista de vixilancia.',
@@ -3481,7 +3479,8 @@ Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:"',
 'specialpages'                   => 'Páxinas especiais',
 'specialpages-note'              => '----
 * Páxinas especiais normais.
-* <strong class="mw-specialpagerestricted">Páxinas especiais restrinxidas.</strong>',
+* <span class="mw-specialpagerestricted">Páxinas especiais restrinxidas.</span>
+* <span class="mw-specialpagecached">Páxinas especiais só con caché.</span>',
 'specialpages-group-maintenance' => 'Informes de mantemento',
 'specialpages-group-other'       => 'Outras páxinas especiais',
 'specialpages-group-login'       => 'Rexistro',

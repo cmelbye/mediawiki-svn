@@ -10,11 +10,15 @@ LocalSettings.php. Also, configuration script directory has been renamed
 from config/ to mw-config/. The specific bugs are listed below in the 
 general notes.
 
+=== New ResourceLoader in 1.17 ===
+MediaWiki 1.17 ships with a ResourceLoader which combines and minifies css and
+javascript attached to the page. They are served from the new entry point load.php
+If the page is served with the &debug=true parameter, the non-minified files
+are used instead.
+
 === Configuration changes in 1.17 ===
 * DatabaseFunctions.php that was needed for compatibility with pre-1.3
   extensions has been removed.
-* $wgLogAutocreatedAccounts controls whether autocreation of accounts is logged
-  to new users log.
 * $wgAllowImageTag can be set to true to whitelist the <img> tag in wikitext.
 * (bug 12797) Add $wgGalleryOptions for adjusting of default gallery display
   options.
@@ -165,9 +169,6 @@ general notes.
 * (bug 23848) Add {{ARTICLEPATH}} Magic Word.
 * JavaScript-based password complexity checker on account creation and
   password change.
-* The HTML ID's generated for sections are now much prettier when they contain
-  punctuation or non-English letters, so a section named "Hello?" will now
-  result in a URL ending in "#Hello?" rather than "#Hello.3F".
 * (bug 8140) Add dedicated CSS classes to Special:Newpages elements
 * (bug 11005) Add CSS class to empty pages in Special:Newpages
 * The parser cache is now shared amongst users whose different settings aren't
@@ -455,6 +456,7 @@ general notes.
 * (bug 20244) Installer does not validate SQLite database directory for stable path
 * (bug 1379) Installer directory conflicts with some hosts' configuration panel.
 * (bug 12070) After Installation MySQL was blocked
+* Fix XML well-formedness on a few pages when $wgHtml5 is true (the default)
 
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.
@@ -805,9 +807,6 @@ changes to languages because of Bugzilla reports.
 * Note on non-existing user and user talk pages if user does not exist
 * New hook ShowMissingArticle so extensions can modify the output for
   non-existent pages.
-* Added $wgUseAJAXCategories allow enabling AJAX based categories system.
-  This works on all namespaces. Enabled namespaces can be reduces using
-  $wgAJAXCategoriesNamespaces.
 * Admins could disable some variants using $wgDisabledVariants now. ONLY apply
   on wikis enabled LanguageConverter.
 * (bug 16310) Credits page now lists IP addresses rather than saying the number

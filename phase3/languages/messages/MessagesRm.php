@@ -338,7 +338,7 @@ $1',
 'nstab-special'   => 'Pagina speziala',
 'nstab-project'   => 'pagina dal project',
 'nstab-image'     => 'Datoteca',
-'nstab-mediawiki' => 'messadi',
+'nstab-mediawiki' => 'Messadi',
 'nstab-template'  => 'Model',
 'nstab-help'      => 'Agid',
 'nstab-category'  => 'Categoria',
@@ -565,8 +565,6 @@ Eventualmain has ti gia midà cun success tes pled-clav u dumandà per in nov pl
 'extlink_tip'     => 'Link extern (betg emblidar il prefix http:// )',
 'headline_sample' => 'Titel',
 'headline_tip'    => 'Titel da segund livel',
-'math_sample'     => 'Scriva qua tia furmla',
-'math_tip'        => 'Furmla matematica (LaTeX)',
 'nowiki_sample'   => 'Scriva qua text che na duai betg vegnir formatà',
 'nowiki_tip'      => 'Ignorar las formataziuns vichi',
 'image_sample'    => 'Exempel.jpg',
@@ -985,7 +983,6 @@ Considerescha che lur index da {{SITENAME}} po cuntegnair datas ch'èn betg pli 
 'changepassword'              => 'Midar pled-clav',
 'prefs-skin'                  => 'Skin',
 'skin-preview'                => 'Prevista',
-'prefs-math'                  => 'TeX',
 'datedefault'                 => 'Nagina preferenza',
 'prefs-datetime'              => 'Data e temp',
 'prefs-personal'              => "Profil da l'utilisader",
@@ -1805,7 +1802,7 @@ Ti pos midar il livel da protecziun da quest\'artitgel, quai na vegn dentant bet
 # Contributions
 'contributions'       => "contribuziuns da l'utilisader",
 'contributions-title' => "Contribuziuns d'utilisader da $1",
-'mycontris'           => 'mias contribuziuns',
+'mycontris'           => 'Mias contribuziuns',
 'contribsub2'         => 'Per $1 ($2)',
 'nocontribs'          => 'Chattà naginas modificaziuns che correspundan a quests criteris.',
 'uctop'               => '(actual)',
@@ -1856,7 +1853,6 @@ L'ultima endataziun dal log da bloccar vegn mussà sutvart sco referenza:",
 'blockiptext'                     => "Utilisescha il formular sutvart per bloccar ina adressa IP u in utilisader uschia ch'el na po betg pli far midadas.
 Ti duessas be far quai per impedir vandalissem e en ina moda confurma a las [[{{MediaWiki:Policy-url}}|directivas]].
 Inditgescha sutvart in motiv (per exempel pos ti inditgar paginas ch'èn vegnidas destruidas).",
-'ipaddress'                       => 'Adressa IP:',
 'ipadressorusername'              => "Adressa IP u num d'utilisader:",
 'ipbexpiry'                       => 'Bloccà enfin:',
 'ipbreason'                       => 'Motiv:',
@@ -1869,7 +1865,6 @@ Inditgescha sutvart in motiv (per exempel pos ti inditgar paginas ch'èn vegnida
 ** Sedepurtar nunconvegnent u mulestant
 ** Abus da plirs contos
 ** Num d'utilisader nunacceptabel",
-'ipbanononly'                     => 'Bloccar be utilisaders anonims',
 'ipbcreateaccount'                => "Impedir la creaziun da contos d'utilisader",
 'ipbemailban'                     => 'Bloccar la funcziun da trametter e-mails',
 'ipbenableautoblock'              => "Bloccar automaticamain l'ultima adressa IP che quest utilisader ha utilisà e mintga adressa IP che succeda da la quala el emprova da far modificaziuns",
@@ -1880,7 +1875,6 @@ Inditgescha sutvart in motiv (per exempel pos ti inditgar paginas ch'èn vegnida
 'ipbotherreason'                  => 'Auter/ulteriur motiv:',
 'ipbhidename'                     => "Zuppentar il num d'utilisader en las modicaziuns e glistas",
 'ipbwatchuser'                    => "Observar las paginas d'utilisader e da discussiun da quest utilisader",
-'ipballowusertalk'                => "Lubir a quest utilisader da modifitgar l'atgna pagina da discussiun durant ch'el è bloccà",
 'ipb-change-block'                => "Re-bloccar l'utilisader cun las medemas configuraziuns",
 'badipaddress'                    => "L'adressa IP è nunvalida",
 'blockipsuccesssub'               => 'Bloccà cun success',
@@ -1898,14 +1892,9 @@ Sin [[Special:IPBlockList|la glista dad IPs bliccadas]] pos ti repassar tut las 
 'unblocked-id'                    => 'La bloccada $1 è vegnida allontanada',
 'ipblocklist'                     => "Adressas IP e nums d'utilisader bloccads",
 'ipblocklist-legend'              => 'Tschertgar in utilisader bloccà',
-'ipblocklist-username'            => "Num d'utilisader u adressa IP:",
-'ipblocklist-sh-userblocks'       => '$1 las bloccadas da contos',
-'ipblocklist-sh-tempblocks'       => '$1 las bloccadas temporaras',
-'ipblocklist-sh-addressblocks'    => '$1 las bloccadas da singulas adressas IP',
 'ipblocklist-submit'              => 'Tschertgar',
 'ipblocklist-localblock'          => 'Bloccadas localas',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Autra bloccada|Autras bloccadas}}',
-'blocklistline'                   => '$1, $2 ha bloccà $3 ($4)',
 'infiniteblock'                   => 'permanent',
 'expiringblock'                   => 'scroda ils $1 las $2 uras',
 'anononlyblock'                   => 'be anonims',
@@ -1937,8 +1926,7 @@ Qua il log da bloccaziun sco infurmaziun:',
 'ipb_expiry_invalid'              => 'La durada da la bloccada inditgada è nunvalaivla.',
 'ipb_expiry_temp'                 => "Bloccadas cun zuppentar il num d'utilisader sont esser permanentas.",
 'ipb_already_blocked'             => '"$1" è gia bloccà',
-'ipb-needreblock'                 => '== Gia bloccà ==
-$1 è gia bloccà.
+'ipb-needreblock'                 => '$1 è gia bloccà.
 Vuls ti midar las opziuns da la bloccada?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Autra bloccada|Autras bloccadas}}',
 'ipb_cant_unblock'                => "Errur: La bloccada cun lÎD $1 n'è betg vegnida chattada.
@@ -2234,26 +2222,6 @@ Probablamien è quai capità pervia dad in link ad ina pagina externa ch'è sin 
 'numauthors'     => 'Dumber dals auturs da quest artitgel: $1',
 'numtalkauthors' => 'dumber dals participants da la discussiun: $1',
 
-# Math options
-'mw_math_png'    => 'Adina mussar sco PNG',
-'mw_math_simple' => 'HTML sche fitg simpel, uschiglio PNG',
-'mw_math_html'   => 'HTML sche pussibel ed uschigio PNG',
-'mw_math_source' => 'Schar en furma da TeX (per browsers da text)',
-'mw_math_modern' => 'Recumandà per browsers moderns',
-'mw_math_mathml' => 'MathML sche pussibel (experimental)',
-
-# Math errors
-'math_failure'          => 'Errur dal parser',
-'math_unknown_error'    => 'errur nunenconuschenta',
-'math_unknown_function' => 'funcziun nunenconuschenta',
-'math_lexing_error'     => 'Errur lexicala',
-'math_syntax_error'     => 'Sbagl da la sintaxta',
-'math_image_error'      => "La conversiun da PNG n'è betg reussida; 
-controllescha l'installaziun correcta da latext, dvips, gs e convertescha lura",
-'math_bad_tmpdir'       => "Betg pussaivel da scriver u crear l'ordinatur temporar math",
-'math_bad_output'       => "Betg pussaivel da scriver u crear l'ordinatur da destinaziun math",
-'math_notexvc'          => "Il program texvc n'è betg vegnì chattà. Legia math/README per al configurar.",
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Marcar sco controllà',
 'markaspatrolledtext'                 => 'Marcar questa pagina sco controllada',
@@ -2299,7 +2267,6 @@ Cun exequir questa datoteca po tes sistem vegnir donnegià.",
 'file-nohires'         => '<small>Nagina resuluziun pli auta disponibla.</small>',
 'svg-long-desc'        => 'datoteca da SVG, grondezza da basa $1 × $2 pixels, grondezza da datoteca: $3',
 'show-big-image'       => 'Resoluziun cumplaina',
-'show-big-image-thumb' => '<small>Grondezza da quest prevista: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'marscha infinit',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|maletg|maletgs}}',
 
@@ -2611,14 +2578,14 @@ Emprova cun la prevista normala',
 'watchlistedit-normal-legend'  => "Allontanar da la glista d'observaziun",
 'watchlistedit-normal-explain' => 'Las endataziuns da tia glista d\'observaziun èn mussadas sutvart. 
 Per allontanar ina endataziun, tscherna il quadert dasperas e clicca sin "{{int:Watchlistedit-normal-submit}}".
-Ti pos era modifitgar tia glista d\'observaziun en il [[Special:Watchlist/raw|format da glistas]].',
+Ti pos era modifitgar tia glista d\'observaziun en il [[Special:EditWatchlist/raw|format da glistas]].',
 'watchlistedit-normal-submit'  => 'Allontanar endataziuns',
 'watchlistedit-normal-done'    => "{{PLURAL:$1|1 endataziun è vegnida|$1 endataziuns èn vegnidas}} allontanadas da la glista d'observaziun:",
 'watchlistedit-raw-title'      => "Modifitgar la glista d'observaziun en il format da la glista",
 'watchlistedit-raw-legend'     => "Modifitgar la glista d'observaziun en il format da la glista",
 'watchlistedit-raw-explain'    => 'Quai èn las endataziuns da tia glista d\'observaziun en il format da glista. Ti pos agiuntar ed allontanar endataziuns da la glista. Fa dentant attenziun che ti pos be inditgar ina endataziun per lingia. 
 Sche ti has terminà tia lavur, clicca sin "{{int:Watchlistedit-raw-submit}}".
-Ti pos era utilisar [[Special:Watchlist/edit|la pagina da standard]].',
+Ti pos era utilisar [[Special:EditWatchlist|la pagina da standard]].',
 'watchlistedit-raw-titles'     => 'Endataziuns:',
 'watchlistedit-raw-submit'     => "Actualisar la glista d'observaziun",
 'watchlistedit-raw-done'       => "Tia glista d'observaziun è vegnida actualisada.",

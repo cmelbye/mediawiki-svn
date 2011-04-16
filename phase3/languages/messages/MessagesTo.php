@@ -332,7 +332,6 @@ Kapau naʻe kole ia ʻe he tokotaha kehe, pea ʻosi hoʻo manatuʻi ʻo e leatap
 'extlink_tip'     => 'Fehokotaki ki tuʻa (manatuʻi ko e fakapipikimuʻa — http://)',
 'headline_sample' => 'Mataʻitohi tuʻumuʻa',
 'headline_tip'    => 'Tuʻumuʻa fakatuʻunga hono 2',
-'math_tip'        => "Kupuʻilea fakamatematika ''(LaTex)''",
 'nowiki_sample'   => 'Hulumaki ʻa e ʻū mataʻitohi taʻengaohi ʻi heni',
 'nowiki_tip'      => "taʻetokaʻi ngaohi ''wiki''",
 'sig_tip'         => 'Ko e fakamoʻoniʻi ʻaʻau mo hono taimi',
@@ -460,7 +459,6 @@ Ko e ʻuhinga loka ko e $1 ia.",
 'changepassword'        => 'Liliu hoʻo leatapu',
 'prefs-skin'            => 'Kili',
 'skin-preview'          => 'Vakai pē',
-'prefs-math'            => 'Matematika',
 'datedefault'           => 'ʻIkai ha faʻiteliha',
 'prefs-datetime'        => 'ʻAho mo e taimi',
 'prefs-personal'        => 'Fōtunga fakatafaʻaki',
@@ -884,11 +882,9 @@ Vakai ki he [[Special:Log/delete|hokohoko tāmateʻi]] ki he lekooti ʻo e ngaah
 # Block/unblock
 'blockip'              => 'Taʻofia ʻa e ʻetita',
 'blockiptext'          => 'Ngāueʻaki ʻa e foomu ʻi lalo ʻe taʻofia ʻa e ngofua tohi ʻo e tuʻasila IP pe hingoa ʻetita ʻe taha. ʻOku pau ʻe fai pehē ʻi he taʻofi laukovi pē, lototaha ia mo e [[{{MediaWiki:Policy-url}}|founga]]. Fakafonu ʻi lalo ʻa e ʻuhinga totonu (fakafuaʻaki, lau ki he ngaahi peesi naʻe laukovi).',
-'ipaddress'            => 'Tuʻasila IP',
 'ipadressorusername'   => 'Tuʻasila IP pe hingoa ʻo e ʻetita',
 'ipbexpiry'            => 'Mate',
 'ipbreason'            => 'ʻUhinga',
-'ipbanononly'          => 'Taʻofia ʻa e kau ʻetita taʻehingoa pē',
 'ipbcreateaccount'     => 'Taʻofia ʻa e fakatupu ʻo ha tohi kau-ki-ai',
 'ipbsubmit'            => 'Taʻofia ʻa e ʻetitá ni',
 'ipbother'             => 'Fuoloa kehe',
@@ -902,7 +898,6 @@ Vakai ki he [[Special:Log/delete|hokohoko tāmateʻi]] ki he lekooti ʻo e ngaah
 'ipusubmit'            => 'Taʻetaʻofia ʻa e ʻetitá ni',
 'unblocked'            => 'Kuo taʻetaʻofia ʻa [[User:$1|$1]]',
 'ipblocklist'          => 'Hokohoko ʻo e ngaahi tuʻasila IP mo e hingoa ʻo e ʻetita kuo taʻofi',
-'blocklistline'        => '$1, $2 taʻofi $3 ($4)',
 'infiniteblock'        => 'taʻengata',
 'expiringblock'        => 'ʻE mate ia $1 $2',
 'anononlyblock'        => 'taʻehingoa pē',
@@ -1043,19 +1038,6 @@ Pea hoko ai pē hoʻo lava tānaki ha ʻuhinga ʻi he fakanounou',
 # Info page
 'infosubtitle' => 'Fakamatala ki he peesi',
 
-# Math options
-'mw_math_png'    => 'Fai PNG taimi kotoa',
-'mw_math_simple' => 'Fai HTML kapau faingofua ʻaupito, pe toe PNG',
-'mw_math_html'   => 'Fai HTML kapau malava, pe toe PNG',
-'mw_math_source' => "Fakatoe ʻi he ''TeX'' maʻa e ngaahi palausa tohi pē",
-'mw_math_modern' => 'ʻOku fakahinohino maʻa e palausa fakaonopooni.',
-'mw_math_mathml' => 'Fai MathML kapau malava (fakatotolo)',
-
-# Math errors
-'math_unknown_error'    => 'hala taʻeʻiloa',
-'math_unknown_function' => 'lakanga taʻeʻiloa',
-'math_bad_output'       => 'ʻOku ʻikai lava ʻo tohi pe fakatupu ʻa e takafi maʻa e fua matematika',
-
 # Patrolling
 'rcpatroldisabled' => 'ʻOku fakataʻeʻaʻongaʻi ʻa e leʻo ʻo e ngaahi toki liliu',
 
@@ -1067,11 +1049,10 @@ Pea hoko ai pē hoʻo lava tānaki ha ʻuhinga ʻi he fakanounou',
 'nextdiff'     => 'Faikehe hoko →',
 
 # Media information
-'imagemaxsize'         => 'Fakangatangata ngaahi faitā ʻi he ʻū peesi fakamahino ki he:',
-'file-info'            => 'Ko e faile hono lahi: $1, faʻahinga MIME: $2',
-'file-nohires'         => '<small>ʻOku ʻikai ʻi ai ha faitā auiiki.</small>',
-'show-big-image'       => 'ʻAsi ʻa e faitā auiiki',
-'show-big-image-thumb' => '<small>Vakai pē ʻi hono lahi: $1 x $2 tefitoʻifaitā</small>',
+'imagemaxsize'   => 'Fakangatangata ngaahi faitā ʻi he ʻū peesi fakamahino ki he:',
+'file-info'      => 'Ko e faile hono lahi: $1, faʻahinga MIME: $2',
+'file-nohires'   => '<small>ʻOku ʻikai ʻi ai ha faitā auiiki.</small>',
+'show-big-image' => 'ʻAsi ʻa e faitā auiiki',
 
 # Special:NewFiles
 'newimages'             => 'Fakaʻaliʻali ʻo e ngaahi faitā foʻou',

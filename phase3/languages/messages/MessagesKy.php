@@ -337,7 +337,6 @@ $messages = array(
 'whatlinkshere' => 'Жетелеме шилтемелер',
 
 # Block/unblock
-'ipaddress'      => 'IP дареги',
 'ipbreason'      => 'Себеп',
 'ipbotheroption' => 'башка',
 'contribslink'   => 'салымдары',
@@ -374,9 +373,6 @@ $messages = array(
 
 # Attribution
 'others' => 'башкалар',
-
-# Math errors
-'math_unknown_error' => 'белгисиз ката',
 
 # Browsing diffs
 'nextdiff' => 'Жаңы түзөтүү →',

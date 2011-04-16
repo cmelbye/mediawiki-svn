@@ -296,10 +296,12 @@ class NewParserTest extends MediaWikiTestCase {
 		}
 
 		$langObj = Language::factory( $lang );
-		$GLOBALS['wgLang'] = $langObj;
 		$GLOBALS['wgContLang'] = $langObj;
+		$context = new RequestContext();
+		$GLOBALS['wgLang'] = $context->lang;
+
 		$GLOBALS['wgMemc'] = new EmptyBagOStuff;
-		$GLOBALS['wgOut'] = new OutputPage;
+		$GLOBALS['wgOut'] = new $context->output;
 
 		global $wgHooks;
 
@@ -384,6 +386,9 @@ class NewParserTest extends MediaWikiTestCase {
 	/** @dataProvider parserTestProvider */
 	public function testParserTest( $desc, $input, $result, $opts, $config ) {
 		if ( !preg_match( '/' . $this->regex . '/', $desc ) ) return; //$this->markTestSkipped( 'Filtered out by the user' );
+
+		wfDebug( "Running parser test: $desc\n" );
+
 		$opts = $this->parseOptions( $opts );
 		$this->setupGlobals( $opts, $config );
 
@@ -592,7 +597,7 @@ class NewParserTest extends MediaWikiTestCase {
 	 * Get a Parser object
 	 */
 	function getParser( $preprocessor = null ) {
-		global $wgParserConf, $wgHooks;
+		global $wgParserConf;
 
 		$class = $wgParserConf['class'];
 		$parser = new $class( array( 'preprocessorClass' => $preprocessor ) + $wgParserConf );

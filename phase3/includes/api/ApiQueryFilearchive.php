@@ -59,24 +59,23 @@ class ApiQueryFilearchive extends ApiQueryBase {
 		$fld_user = isset( $prop['user'] );
 		$fld_size = isset( $prop['size'] );
 		$fld_dimensions = isset( $prop['dimensions'] );
-		$fld_description = isset( $prop['description'] );
+		$fld_description = isset( $prop['description'] ) || isset( $prop['parseddescription'] );
 		$fld_mime = isset( $prop['mime'] );
 		$fld_metadata = isset( $prop['metadata'] );
 		$fld_bitdepth = isset( $prop['bitdepth'] );
 
 		$this->addTables( 'filearchive' );
 
-		$this->addFields( 'fa_name' );
+		$this->addFields( array( 'fa_name', 'fa_deleted' ) );
 		$this->addFieldsIf( 'fa_storage_key', $fld_sha1 );
 		$this->addFieldsIf( 'fa_timestamp', $fld_timestamp );
 
 		if ( $fld_user ) {
 			$this->addFields( array( 'fa_user', 'fa_user_text' ) );
 		}
-		$this->addFieldsIf( 'fa_size', $fld_size );
 
-		if ( $fld_dimensions ) {
-			$this->addFields( array( 'fa_height', 'fa_width' ) );
+		if ( $fld_dimensions || $fld_size ) {
+			$this->addFields( array( 'fa_height', 'fa_width', 'fa_size' ) );
 		}
 
 		$this->addFieldsIf( 'fa_description', $fld_description );
@@ -91,26 +90,20 @@ class ApiQueryFilearchive extends ApiQueryBase {
 		// Image filters
 		$dir = ( $params['dir'] == 'descending' ? 'older' : 'newer' );
 		$from = ( is_null( $params['from'] ) ? null : $this->titlePartToKey( $params['from'] ) );
-		$this->addWhereRange( 'fa_name', $dir, $from, null );
-		if ( isset( $params['prefix'] ) )
+		$to = ( is_null( $params['to'] ) ? null : $this->titlePartToKey( $params['to'] ) );
+		$this->addWhereRange( 'fa_name', $dir, $from, $to );
+		if ( isset( $params['prefix'] ) ) {
 			$this->addWhere( 'fa_name' . $db->buildLike( $this->titlePartToKey( $params['prefix'] ), $db->anyString() ) );
-
-		if ( isset( $params['minsize'] ) ) {
-			$this->addWhere( 'fa_size>=' . intval( $params['minsize'] ) );
 		}
 
-		if ( isset( $params['maxsize'] ) ) {
-			$this->addWhere( 'fa_size<=' . intval( $params['maxsize'] ) );
-		}
-
-		$sha1 = false;
-		if ( isset( $params['sha1'] ) ) {
-			$sha1 = wfBaseConvert( $params['sha1'], 16, 36, 31 );
-		} elseif ( isset( $params['sha1base36'] ) ) {
-			$sha1 = $params['sha1base36'];
-		}
-		if ( $sha1 ) {
-			$this->addWhere( 'fa_storage_key=' . $db->addQuotes( $sha1 ) );
+		if ( !$wgUser->isAllowed( 'suppressrevision' ) ) {
+			// Filter out revisions that the user is not allowed to see. There
+			// is no way to indicate that we have skipped stuff because the
+			// continuation parameter is fa_name
+			
+			// Note that this field is unindexed. This should however not be
+			// a big problem as files with fa_deleted are rare
+			$this->addWhereFld( 'fa_deleted', 0 );
 		}
 
 		$limit = $params['limit'];
@@ -132,9 +125,11 @@ class ApiQueryFilearchive extends ApiQueryBase {
 
 			$file = array();
 			$file['name'] = $row->fa_name;
+			$title = Title::makeTitle( NS_FILE, $row->fa_name );
+			self::addTitleInfo( $file, $title );
 
 			if ( $fld_sha1 ) {
-				$file['sha1'] = wfBaseConvert( $row->fa_storage_key, 36, 16, 40 );
+				$file['sha1'] = wfBaseConvert( LocalRepo::getHashFromKey( $row->fa_storage_key ), 36, 16, 40 );
 			}
 			if ( $fld_timestamp ) {
 				$file['timestamp'] = wfTimestamp( TS_ISO_8601, $row->fa_timestamp );
@@ -143,18 +138,28 @@ class ApiQueryFilearchive extends ApiQueryBase {
 				$file['userid'] = $row->fa_user;
 				$file['user'] = $row->fa_user_text;
 			}
-			if ( $fld_size ) {
+			if ( $fld_size || $fld_dimensions ) {
 				$file['size'] = $row->fa_size;
-			}
-			if ( $fld_dimensions ) {
+
+				$pageCount = ArchivedFile::newFromRow( $row )->pageCount();
+				if ( $pageCount !== false ) {
+					$vals['pagecount'] = $pageCount;
+				}
+
 				$file['height'] = $row->fa_height;
 				$file['width'] = $row->fa_width;
 			}
 			if ( $fld_description ) {
 				$file['description'] = $row->fa_description;
+				if ( isset( $prop['parseddescription'] ) ) {
+					$file['parseddescription'] = $wgUser->getSkin()->formatComment(
+						$row->fa_description, $title );
+				}
 			}
 			if ( $fld_metadata ) {
-				$file['metadata'] = $row->fa_metadata ? ApiQueryImageInfo::processMetaData( unserialize( $row->fa_metadata ), $result ) : null;
+				$file['metadata'] = $row->fa_metadata
+						? ApiQueryImageInfo::processMetaData( unserialize( $row->fa_metadata ), $result )
+						: null;
 			}
 			if ( $fld_bitdepth ) {
 				$file['bitdepth'] = $row->fa_bits;
@@ -162,7 +167,22 @@ class ApiQueryFilearchive extends ApiQueryBase {
 			if ( $fld_mime ) {
 				$file['mime'] = "$row->fa_major_mime/$row->fa_minor_mime";
 			}
+			
+			if ( $row->fa_deleted & File::DELETED_FILE ) {
+				$file['filehidden'] = '';
+			}
+			if ( $row->fa_deleted & File::DELETED_COMMENT ) {
+				$file['commenthidden'] = '';
+			}
+			if ( $row->fa_deleted & File::DELETED_USER ) {
+				$file['userhidden'] = '';
+			}
+			if ( $row->fa_deleted & File::DELETED_RESTRICTED ) {
+				// This file is deleted for normal admins
+				$file['suppressed'] = '';
+			}
 
+			
 			$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $file );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'from', $this->keyToTitle( $row->fa_name ) );
@@ -176,13 +196,8 @@ class ApiQueryFilearchive extends ApiQueryBase {
 	public function getAllowedParams() {
 		return array (
 			'from' => null,
+			'to' => null,
 			'prefix' => null,
-			'minsize' => array(
-				ApiBase::PARAM_TYPE => 'integer',
-			),
-			'maxsize' => array(
-				ApiBase::PARAM_TYPE => 'integer',
-			),
 			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
@@ -197,8 +212,6 @@ class ApiQueryFilearchive extends ApiQueryBase {
 					'descending'
 				)
 			),
-			'sha1' => null,
-			'sha1base36' => null,
 			'prop' => array(
 				ApiBase::PARAM_DFLT => 'timestamp',
 				ApiBase::PARAM_ISMULTI => true,
@@ -209,6 +222,7 @@ class ApiQueryFilearchive extends ApiQueryBase {
 					'size',
 					'dimensions',
 					'description',
+					'parseddescription',
 					'mime',
 					'metadata',
 					'bitdepth'
@@ -220,24 +234,22 @@ class ApiQueryFilearchive extends ApiQueryBase {
 	public function getParamDescription() {
 		return array(
 			'from' => 'The image title to start enumerating from',
+			'to' => 'The image title to stop enumerating at',
 			'prefix' => 'Search for all image titles that begin with this value',
 			'dir' => 'The direction in which to list',
-			'minsize' => 'Limit to images with at least this many bytes',
-			'maxsize' => 'Limit to images with at most this many bytes',
-			'limit' => 'How many total images to return',
-			'sha1' => "SHA1 hash of image. Overrides {$this->getModulePrefix()}sha1base36",
-			'sha1base36' => 'SHA1 hash of image in base 36 (used in MediaWiki)',
+			'limit' => 'How many images to return in total',
 			'prop' => array(
 				'What image information to get:',
-				' sha1         - Adds SHA-1 hash for the image',
-				' timestamp    - Adds timestamp for the uploaded version',
-				' user         - Adds user who uploaded the image version',
-				' size         - Adds the size of the image in bytes',
-				' dimensions   - Adds the height and width of the image',
-				' description  - Adds description the image version',
-				' mime         - Adds MIME of the image',
-				' metadata     - Lists EXIF metadata for the version of the image',
-				' bitdepth     - Adds the bit depth of the version',
+				' sha1              - Adds SHA-1 hash for the image',
+				' timestamp         - Adds timestamp for the uploaded version',
+				' user              - Adds user who uploaded the image version',
+				' size              - Adds the size of the image in bytes and the height, width and page count (if applicable)',
+				' dimensions        - Alias for size',
+				' description       - Adds description the image version',
+				' parseddescription - Parse the description on the version',
+				' mime              - Adds MIME of the image',
+				' metadata          - Lists EXIF metadata for the version of the image',
+				' bitdepth          - Adds the bit depth of the version',
             ),
 		);
 	}

@@ -19,7 +19,7 @@ Those wishing to use the latest code instead of a branch release can obtain
 it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 
 === PHP 5.2 now required ==
-In 1.18, the lowest supported version of MediaWiki is now 5.2.x. Please upgrade
+In 1.18, the lowest supported version of MediaWiki is now 5.2.3. Please upgrade
 PHP if you have not done so prior to upgrading MediaWiki.
 
 === Configuration changes in 1.18 ===
@@ -32,12 +32,6 @@ PHP if you have not done so prior to upgrading MediaWiki.
   $wgValidSkinNames but now the value. This means for
   $wgValidSkinNames["monobook"] = "MonoBook"; the skin loader will no longer try
   loading SkinMonobook and will instead load SkinMonoBook.
-* The parser now attempts to output markers for editsection tokens and defer the
-  rendering of them so skin and language specific markup does not need to be
-  saved inside the parser cache note that this changes the cache key making all
-  old entries in the parser cache invalid you can set $wgUseEditSectionTokens to
-  false to disable this and keep your old parser cache entries.
-  Note that this feature should reduce parser cache fragmentation when enabled.
 * $wgMaxUploadSize may now be set to an array to specify the upload size limit
   per upload type.
 * $wgAPICacheHelp added in 1.16 is now removed. To disable API help caching, set
@@ -49,10 +43,30 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * The transliteration for passwords in case they were migrated from an old Latin-1
   install (previous to MediaWiki 1.5) is now only done for wikis with
   $wgLegacyEncoding set.
+* (bug 27508) Add $wgSVGMetadataCutoff to limit the maximum amount of an svg we
+  look at when finding metadata to prevent excessive resource usage.
+* $wgSysopUserBans and $wgSysopRangeBans (deprecated in 1.17) are now removed.
+  Use $wgBlockCIDRLimit = array( 'IPv4' => 43, 'IPv6' => 128 ) to achieve the same
+  functionality as $wgSysopRangeBans; you can use the BlockIp hook to replicate
+  $wgSysopUserBans functionality.
+* The options on the block form have been standardised such that checking a box
+  makes the block 'more serious'; so while "check to prevent account creation" and
+  "check to enable autoblock" remain the same, "check to allow user-talk edit" is
+  reversed to "check to *disable* user-talk edit", and "check to block anon-only"
+  becomes "check to block logged-in users too".  The default settings remain the same.
+* Most of the field names on the Special:Block form have been changed, which will
+  probably break screen-scraping bots.
+* (bug 26866) The 'trackback' right is no longer granted to sysops by default.
+  $wgUseTrackbacks is already false by default
+* (bug 17009) the hiddenStructure CSS class, a highly hackish way of at least *appearing*
+  to hide article elements, has been removed.  Use the ParserFunctions extension to
+  actually remove unwanted elements from the output.
+* (bug 14202) $wgUseTeX has been superseded by the Math extension. To re-enable
+  math conversion after upgrading, obtain the Math extension from SVN or from
+  http://www.mediawiki.org/wiki/Extension:Math and add to LocalSettings.php:
+  require_once "$IP/extensions/Math/Math.php";
 
 === New features in 1.18 ===
-* Added a special page, disabled by default, that allows users with the
-  'disableaccount' privilege to permanently deactivate user accounts.
 * (bug 8130) Query pages should limit to content namespaces, not just main
   namespace
 * Search suggestions (other than in the Vector skin) will now use the HTML5
@@ -86,7 +100,36 @@ PHP if you have not done so prior to upgrading MediaWiki.
   potentially dangerous Java applets. This allows applets to be blocked
   specifically, rather than all ZIP files being blocked.
 * (bug 2429) Allow selection of associated namespace in recent changes
-* (bug 26995) File size is now checked before uploading in HTML5 browsers
+* (bug 26217) File size is now checked before uploading in HTML5 browsers
+* CSS stylesheet MediaWiki:Noscript.css is now loaded for users with JavaScript
+  disabled (enclosed in the head in a <noscript> tag)
+* Added UserGetLanguageObject hook to change the language used in $wgLang
+* (bug 14645) When $wgMiserMode is on, expensive special pages are styled
+  differently (italicized by default) on Special:SpecialPages
+* Added $wgAggregateStatsID, which allows UDP stats to be aggregated over
+  several wikis.
+* When $wgAllowMicrodataAttributes is true, all itemtypes are allowed, not just
+  the three that were defined in the original specification.
+* (bug 14706) Added support for the Imagick PHP extension.
+* (bug 18691) Added support for SVG rasterization using the Imagick PHP 
+  extension
+* (bug 2581, bug 6834) Added links to thumbnail in several resolutions to the 
+  file description page. The sizes are set by $wgImageLimits.
+* (bug 28031) Add pageCount support to ArchivedFile
+* (bug 27924) PhpHttpRequest doesn't return response body if HTTP != 200
+* Added hook BitmapHandlerTransform to allow extension to transform a file 
+  without overriding the entire handler.
+* The parser now attempts to output markers for editsection tokens and defer the
+  rendering of them post-cache to reduce parser cache fragmentation and ensure
+  skin customizability of edit section links.
+* (bug 24755) AuthPlugin auto-creation of local accounts can now be aborted by
+  other extensions by handling the 'AbortAutoAccount' hook, similar to the
+  'AbortNewAccount' triggered by explicit account creations. (They are separate
+  to avoid loops and confusion; auth plugins like CentralAuth need to handle
+  AbortNewAccount separately.
+* Special:ListFiles is now transcludable.
+* (bug 13879) Special:Emailuser asks for suitable target user if called without.
+
 
 === Bug fixes in 1.18 ===
 * (bug 23119) WikiError class and subclasses are now marked as deprecated
@@ -130,6 +173,8 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * (bug 26449) Keep underlines from headings outside of tables and thumbs by
   adding overflow:hidden to h1,h2,h3,h4,h5,h6 (also fixes editsection bunching).
 * (bug 26708) Remove background-color:white from tables in Monobook and Vector.
+* (bug 28422) Remove color:black from tables in Monobook and Vector. And add it
+  to table.wikitable instead.
 * (bug 26781) {{PAGENAME}} and related parser functions escape their output
   better.
 * (bug 26716) Provide link to instructions for external editor related
@@ -155,6 +200,43 @@ PHP if you have not done so prior to upgrading MediaWiki.
   double HTML escaped
 * (bug 27700) The upload protection can now also be set for files that do not
   exist.
+* (bug 27763) Article::getParserOutput() no longer throws a fatal given when an
+  incorrect revision ID is passed.
+* Trim the form field for uploading by url to remove extra spaces which could
+  cause confusing error messages.
+* (bug 27854) Http::isValidURI is way too lax.
+* Do not show enotifminoredits preference, if disabled by $wgEnotifMinorEdits.
+* AbortLogin returning "ABORTED" now handled.  Also allows message identifier
+  for "ABORTED" reason to be returned and displayed to user.
+* (bug 28034) uploading file to local wiki when file exists on shared repository
+  (commons) gives spurious info in the warning message
+* Usernames get lost when selecting different sorts on Special:listfiles
+* (bug 14005) editing section 0 of an existing but empty page gives no such
+  section error
+* (bug 26939) Installer does not set $wgMetaNamespace
+* (bug 28166) UploadBase assumes that 'edit' and 'upload' rights are not per
+  page restrictions
+* Make truncate function automatically consider length of '...' string,
+  since length can vary by localization.
+* (bug 28242) Make redirects generated by urls containing a local interwiki
+  prefix be a 301 instead of a 302.
+* (bug 15641) blocked administrators are now prevented from deleting or protecting
+  their own talk page; and all blocked users are more comprehensively prevented
+  from performing other actions
+* (bug 15641) Fixed positioning of permissions checks in Special:Import which
+  allowed users without the 'import' permission to import pages if they directly
+  submitted the form.
+* (bug 27893) Edit-on-doubleclick now applies only on view and purge actions;
+  no longer triggers unexpectedly on delete, history etc.
+* (bug 28417) Fix PHP notice when importing revision without a listed id
+* (bug 28430) Make html and TeX output of <math> always be left-to-right.
+* (bug 28306) Fix exposure of suppressed usernames in ForeignDBRepo
+* (bug 28372) Fix bogus link to suppressed file versions in ForeignDBRepo
+* (bug 27473) Fix regression: bold, italic no longer interfere with linktrail for ca, kaa
+* (bug 28444) Fix regression: edit-on-doubleclick retains revision id again
+* &apos; character entity is now allowed in wikitext
+* UtfNormal::cleanUp on an invalid utf-8 sequence no longer returns false if intl installed.
+* (bug 28561) The css class small will no longer make nested elements even smaller.
 
 === API changes in 1.18 ===
 * (bug 26339) Throw warning when truncating an overlarge API result
@@ -199,6 +281,61 @@ PHP if you have not done so prior to upgrading MediaWiki.
 * (bug 27688) Simplify queries to list user block information
 * (bug 27708) list=users does not have a property to return user id
 * (bug 27715) imageinfo didn't respect revdelete
+* (bug 27862) Useremail module didn't properly return success on success.
+* (bug 27590) prop=imageinfo now allows querying the media type
+* (bug 27587) list=filearchive now outputs full title info
+* (bug 27018) Added action=filerevert to revert files to an old version
+* (bug 27897) list=allusers and list=users list hidden users
+* (bug 27717) API's exturlusage module does not respect $wgMiserMode
+* (bug 27588) list=filearchive&faprop=sha1 returns empty attribute
+* (bug 28010) Passing a non existant user to list=users gives internal error
+* (bug 27549) action=query&list=users&usprop=groups doesn't show implicit
+  groups if a user doesn't have explicit groups
+* (bug 27670) Ordering by timestamp (and usage of start and end) isn't as clear
+  in auto generated document, as it is on mw.org
+* (bug 27182) API: Add filter by prefix for meta=allmessages
+* (bug 27183) API: Add filter by customisation state for meta=allmessages
+* (bug 27340) API: Allow listing of "small" categories
+* (bug 27342) Add audir param to list=allusers
+* (bug 27203) add fato param to list=filearchive
+* (bug 27341) Add drto param to list=deletedrevs
+* (bug 26630) Add api for Special:ActiveUsers
+* (bug 27020) API: Allow title prefix search of logevents (only when not in
+  miser mode)
+* (bug 26629) add Special:MIMESearch to api
+* (bug 27585) add pagecount to list=filearchive
+* (bug 28104) Namespace for local pages in interwiki backlinks (iwbacklinks)
+  is missing
+* (bug 27343) Add parseddescription to list=filearchive
+* (bug 27469) label implicit groups in list=allusers&auprop=groups/
+  list=users&usprop=groups
+* Addition of APIQuerySiteInfoGeneralInfo hook to add extra information to
+  the general site info results
+* (bug 16288) API: consider making closure status of wikis more clear
+  with meta=siteinfo
+* (bug 27589) list=allimages&aiprop=archivename is useless
+* (bug 27586) Remove duplication of props in ApiQueryStashImageInfo
+  by using ApiQueryImageInfo
+* (bug 28226) prop=extlinks&eloffset should be an integer
+* (bug 28070) Fix watchlist RSS for databases that store timestamps in a 
+  real timestamp field.
+* API upload errors may now return the parameter that needs to be changed and
+  a sessionkey to fix the error.
+* (bug 28249) allow dupes in meta=allmessages&amargs
+* (bug 28263) cannot import xml with the api, when have not "import" user
+  right, but "importupload"
+* (bug 28365) Added description for uiprop=preferencestoken in meta=userinfo
+* (bug 28394) Set forgotten parameters types in ApiUnblock
+* (bug 28395) Set forgotten parameters types in ApiParse
+* (bug 28368) add hint for multipart/form-data to api information of
+  action=import&xml=
+* (bug 28391) action=feedwatchlist&allrev should be a bool
+* (bug 28364) add registration date to meta=userinfo
+* (bug 28254) action=paraminfo: Extract type from PARAM_DFLT if
+  PARAM_TYPE is not set
+* (bug 27712) add parent_id to list=deletedrevs
+* (bug 28455) Add 'toponly' to recentchanges API module
+* (bug 26873) API: Add 'toponly' filter in usercontribs module
 
 === Languages updated in 1.18 ===
 
@@ -206,8 +343,9 @@ MediaWiki supports over 330 languages. Many localisations are updated
 regularly. Below only new and removed languages are listed, as well as
 changes to languages because of Bugzilla reports.
 
-* Liv (liv) (new)
-
+* Liv (Livonian) (new)
+* Tokipona: 'tp' language code no longer supported; 'tokipona' is still
+  valid, however.
 * (bug 17160) Gender specific display text for User namespace
 * Link trail added for sl and sh
 * (bug 27633) Add characters to linkTrail for Potuguese (pt and pt-br)
@@ -215,11 +353,13 @@ changes to languages because of Bugzilla reports.
 * (bug 27385) Set Polish $namespaceGenderAliases
 * (bug 27681) Set $namespaceGenderAliases for Portuguese (pt and pt-br)
 * (bug 27785) Fallback language for Kabardian (kbd) is English now.
+* (bug 27825) Raw watchlist edit message now uses formatted numbers.
+* (bug 28040) Turkish: properly lower case 'I' to 'ı' (dotless i) and
+  uppercase 'i' to 'İ' (dotted i)
 
 == Compatibility ==
 
-MediaWiki 1.18 requires PHP 5.1 (5.2 recommended). PHP 4 is no longer
-supported.
+MediaWiki 1.18 requires PHP 5.2.3. PHP 4 is no longer supported.
 
 MySQL 3.23.x is no longer supported; some older hosts may need to upgrade.
 At this time we still recommend 4.0, but 4.1/5.0 will work fine in most cases.

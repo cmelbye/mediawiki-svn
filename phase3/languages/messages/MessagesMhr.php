@@ -391,8 +391,6 @@ $messages = array(
 'extlink_tip'     => 'Ӧрдыж кылвер (http:// префиксым ит мондо)',
 'headline_sample' => 'Вуймут',
 'headline_tip'    => '2-шо кӱкшытан вуймут',
-'math_sample'     => 'Формулым тышке шынде',
-'math_tip'        => 'Математик формул (LaTeX)',
 'nowiki_sample'   => 'Форматироватлыдыме текстым тышке шынде',
 'nowiki_tip'      => 'Вики-форматированийым шотыш налаш огыл',
 'image_tip'       => 'Пуртымо сӱрет',
@@ -532,7 +530,6 @@ $messages = array(
 'changepassword'            => 'Шолыпмутым вашталташ',
 'prefs-skin'                => 'Сӧрастарыме йӧн',
 'skin-preview'              => 'Ончылгоч ончымаш',
-'prefs-math'                => 'Формуло-влак',
 'prefs-datetime'            => 'Кече да жап',
 'prefs-personal'            => 'Пайдаланышын профильже',
 'prefs-rc'                  => 'Шукертсе огыл тӧрлымаш-влак',
@@ -1004,25 +1001,16 @@ $messages = array(
 'tooltip-undo'                    => '"Чараш" тиде тӧрлатымашым мӧҥгешла пӧртыла да ончылгоч ончымашым почеш.
 Тый тӧрлатымаш амалже нерген возымо верыште  возын кертат.',
 
-# Math options
-'mw_math_png'    => 'Эре PNG-ым генерироватлаш',
-'mw_math_simple' => 'Тыглай годым - HTML, уке гын - PNG',
-'mw_math_html'   => 'Лиеш гын - HTML, уке гын - PNG',
-'mw_math_source' => 'TeX-ым разметкыште кодаш (текст браузер-влаклан)',
-'mw_math_modern' => 'Кызытлык (у) брузер-влаклан темлыме',
-'mw_math_mathml' => 'Лиеш гын - MathML (эксперимент опций)',
-
 # Browsing diffs
 'previousdiff' => '← Ондакрак тӧрлатымаш',
 'nextdiff'     => 'Вес тӧрлатымаш →',
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|лаштык|лаштык}}',
-'file-info-size'       => '$1 × $2 пиксел, файлын кугытшо: $3, MIME-тип: $4',
-'file-nohires'         => '<small>Кугурак чаплык уке.</small>',
-'svg-long-desc'        => 'SVG файл, шкенжын кугытшо: $1 × $2 пиксел, файлын кугытшо: $3',
-'show-big-image'       => 'Шкенжын чаплыкше',
-'show-big-image-thumb' => '<small>Ончылгоч ончымашын кугытшо $1 × $2 пиксель</small>',
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|лаштык|лаштык}}',
+'file-info-size'  => '$1 × $2 пиксел, файлын кугытшо: $3, MIME-тип: $4',
+'file-nohires'    => '<small>Кугурак чаплык уке.</small>',
+'svg-long-desc'   => 'SVG файл, шкенжын кугытшо: $1 × $2 пиксел, файлын кугытшо: $3',
+'show-big-image'  => 'Шкенжын чаплыкше',
 
 # Special:NewFiles
 'newimages-legend' => 'Фильтр',

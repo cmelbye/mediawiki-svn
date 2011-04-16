@@ -348,7 +348,7 @@ $messages = array(
 'yourname'                   => 'Όνεμαν χρήστε:',
 'yourpassword'               => 'Σημάδι:',
 'yourpasswordagain'          => "Ξαν' γράψτεν το σημάδι:",
-'remembermypassword'         => "Αποθήκεμαν τη σημαδίμ σ' αβούτον τον υπολογιστήν (for a maximum of $1 {{PLURAL:$1|day|days}})",
+'remembermypassword'         => "Αποθήκεμαν τη σημαδίμ σ' αβούτον τον υπολογιστήν (για μέγιστον $1 {{PLURAL:$1|ημέραν|ημέρας}})",
 'yourdomainname'             => 'Το domain εσούν:',
 'login'                      => 'Εμπάτε',
 'nav-login-createaccount'    => 'Εμπάτεν / ποισέστεν λογαρίαν',
@@ -442,8 +442,6 @@ $messages = array(
 'extlink_tip'     => 'Εξωτερικόν σύνδεσμον (να μην ανασπάλλετε το πρόθεμαν http:// )',
 'headline_sample' => 'Κείμενον τίτλονος',
 'headline_tip'    => 'Δεύτερον τίτλος (επίπεδον 2)',
-'math_sample'     => 'Αδά εισάγετε την φόρμουλαν',
-'math_tip'        => 'Μαθεματικόν φόρμουλα (LaTeX)',
 'nowiki_sample'   => 'Αδακά πα να εισάγετε το μη μορφοποιημένον κείμενον.',
 'nowiki_tip'      => "Ξάι 'κ να τερείται η μορφοποίηση Wiki.",
 'image_tip'       => 'Ενσωματωμένον εικόνα',
@@ -642,7 +640,6 @@ $messages = array(
 'changepassword'            => 'Άλλαξον σημάδιν',
 'prefs-skin'                => 'Όψην',
 'skin-preview'              => 'Πρώτον τέρεμαν',
-'prefs-math'                => 'Απόδοσην μαθηματικίων',
 'prefs-datetime'            => 'Ημερομηνίαν και ώραν',
 'prefs-rc'                  => 'Υστερνά αλλαγάς',
 'prefs-watchlist'           => 'Κατάλογον ωριαγματί',
@@ -1117,7 +1114,6 @@ $messages = array(
 'ipbexpiry'                => 'Τέλεμαν:',
 'ipbreason'                => 'Αιτία:',
 'ipbreasonotherlist'       => 'Άλλον αιτία',
-'ipbanononly'              => "Ασπάλισον τ'ανώνυμους τη χρήστες μαναχόν",
 'ipbsubmit'                => 'Ασπάλισον τον χρήστεν',
 'ipbother'                 => 'Άλλον ώρα:',
 'ipboptions'               => '2 ώρας:2 hours,1 ημέρα:1 day,3 ημέρας:3 days,1 εβδομάδα:1 week,2 εβδομάδας:2 weeks,1 μήνα:1 month,3 μήνας:3 months,6 μήνας:6 months,1 χρόνο:1 year,αόριστα:infinite',
@@ -1126,7 +1122,7 @@ $messages = array(
 'badipaddress'             => 'Άχρηστον IP',
 'blockipsuccesssub'        => "Τ' ασπάλιγμαν εγέντον",
 'ipb-edit-dropdown'        => 'Άλλαξον αιτίας ασπαλιγματί',
-'ipblocklist'              => 'Ασπαλιγμένα IP και λογαρίας',
+'ipblocklist'              => 'Ασπαλιγμένα λογαρίας',
 'ipblocklist-submit'       => 'Εύρον',
 'infiniteblock'            => 'άπειρον',
 'blocklink'                => 'Ασπάλιγμαν',
@@ -1288,11 +1284,6 @@ $messages = array(
 # Spam protection
 'spamprotectiontitle' => 'Φίλτρον προστασίας ασό σπαμ',
 
-# Math errors
-'math_unknown_function' => 'άγνωρος συνάρτησην',
-'math_lexing_error'     => 'σφάλμαν λεξικής ανάλυσης',
-'math_syntax_error'     => 'σφάλμαν σύνταξης',
-
 # Patrol log
 'patrol-log-auto' => '(αυτόματον)',
 
@@ -1301,12 +1292,11 @@ $messages = array(
 'nextdiff'     => 'Άλλον διαφορά →',
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|σελίδα|σελίδας}}',
-'file-info-size'       => '$1 × $2 εικονοστοιχεία, μέγεθος αρχείου: $3, MIME τύπον: $4',
-'file-nohires'         => "<small>'Κ εχ κι άλλο ψηλόν ανάλυσην.</small>",
-'svg-long-desc'        => "Αρχείον SVG, κατ' όνομα $1 × $2 εικονοστοιχεία, μέγεθος αρχεί: $3",
-'show-big-image'       => 'Τζιπ τρανόν ανάλυση',
-'show-big-image-thumb' => "<small>Μέγεθος τη πρώτ' τερεματί: $1 × $2 εικονοστοιχεία</small>",
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|σελίδα|σελίδας}}',
+'file-info-size'  => '$1 × $2 εικονοστοιχεία, μέγεθος αρχείου: $3, MIME τύπον: $4',
+'file-nohires'    => "<small>'Κ εχ κι άλλο ψηλόν ανάλυσην.</small>",
+'svg-long-desc'   => "Αρχείον SVG, κατ' όνομα $1 × $2 εικονοστοιχεία, μέγεθος αρχεί: $3",
+'show-big-image'  => 'Τζιπ τρανόν ανάλυση',
 
 # Special:NewFiles
 'newimages'        => 'Τερέστεν τα καινούρεα φωτογραφίας',

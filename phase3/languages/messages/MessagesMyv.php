@@ -88,7 +88,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Экспортировамс' ),
 	'Version'                   => array( 'Версия' ),
 	'Allmessages'               => array( 'ВесеПачтямнэть' ),
-	'Blockip'                   => array( 'СаймасСаемсIP' ),
+	'Block'                     => array( 'СаймасСаемсIP' ),
 	'Undelete'                  => array( 'Вельмевтемс' ),
 	'Import'                    => array( 'Импортировамс' ),
 	'Lockdb'                    => array( 'СёлгомсДБ' ),
@@ -612,8 +612,6 @@ $messages = array(
 'extlink_tip'     => 'Ушо ёнксонь сюлмавкс / налтке (мельсэ кирдить http:// путовксонть)',
 'headline_sample' => 'Конякссонть текстэсь',
 'headline_tip'    => 'Омбоце эскельксэнь конякс',
-'math_sample'     => 'Совавтомс тезэнь хвормула',
-'math_tip'        => 'Математикань хвормула (LaTeX)',
 'nowiki_sample'   => 'Совавтомс хворматтомо текст тезэнь',
 'nowiki_tip'      => 'Wiki -нь поладомантень-витнемантень мель апак яво',
 'image_sample'    => 'Саемга.jpg',
@@ -871,7 +869,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'changepassword'            => 'Салавань валонь полавтома',
 'prefs-skin'                => 'Неемань ладсема',
 'skin-preview'              => 'Васнянь неевтезэ',
-'prefs-math'                => 'Математика',
 'datedefault'               => 'Икелькс вешема арась',
 'prefs-datetime'            => 'Чи ды шка',
 'prefs-personal'            => 'Теицядо',
@@ -1529,7 +1526,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'blockip'                    => 'Пекстамондо теицянть',
 'blockip-title'              => 'Совицянть саймас саемс',
 'blockip-legend'             => 'Аравтомс теицянть саймас',
-'ipaddress'                  => 'IP адрес:',
 'ipadressorusername'         => 'IP адрес эли теицянь лем:',
 'ipbexpiry'                  => 'Таштомома шказо:',
 'ipbreason'                  => 'Тувталось:',
@@ -1549,7 +1545,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'ipusubmit'                  => 'Нардамс те саймас аравтоманть',
 'ipblocklist'                => 'Саймес саень IP адресст ды теицят',
 'ipblocklist-legend'         => 'Вешнемс саймас саезь теиця',
-'ipblocklist-username'       => 'Совицянть лемезэ эли IP адресэзэ:',
 'ipblocklist-submit'         => 'Вешнэме',
 'infiniteblock'              => 'певтеме',
 'expiringblock'              => 'саймас саемась прядови $1 $2 цяссто',
@@ -1763,20 +1758,6 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'skinname-simple'    => 'Шожда',
 'skinname-modern'    => 'НееньШкань',
 
-# Math options
-'mw_math_simple' => 'HTML зярдо вельть шожда, лиякс PNG',
-'mw_math_html'   => 'HTML, те тееви, теик, лиякс PNG',
-'mw_math_source' => 'Кадык TeX хорматсо (текст вальмас)',
-'mw_math_modern' => 'Арьсезь неень шкань содый машинань вальмас',
-'mw_math_mathml' => 'MathML косо ули кода (варчамонь)',
-
-# Math errors
-'math_failure'          => 'А ловнови',
-'math_unknown_error'    => 'апак содань ильведькс',
-'math_unknown_function' => 'апак содань функция',
-'math_lexing_error'     => 'лексиконь манявкс',
-'math_syntax_error'     => 'синтаксонь ильведевкс',
-
 # Patrolling
 'markaspatrolleddiff' => 'Тешкстамс ванстнемань ютазекс',
 'markaspatrolledtext' => 'Тешкстамс те лопанть ванстнемань ютазекс',
@@ -1795,14 +1776,13 @@ IP-тешкстэть — $3, саймас совавтоманть ID-сь — 
 'nextdiff'     => 'Од верзиязо →',
 
 # Media information
-'thumbsize'            => 'Кенжешканть покшолмазо:',
-'widthheightpage'      => '$1×$2, {{PLURAL:$3|лопа|$3 лопат}}',
-'file-info'            => 'файлонть-путовксонть сталмозо: $1, MIME типезе: $2',
-'file-info-size'       => '$1 × $2 пиксельть, файлонть-путовксонть сталмозо: $3, MIME типезе: $4',
-'file-nohires'         => '<small>Арась версия покш разрешения марто.</small>',
-'svg-long-desc'        => 'SVG файла, $1 × $2 пиксельть, файланть покшолмазо: $3',
-'show-big-image'       => 'Пешксе теевксесь',
-'show-big-image-thumb' => '<small>Васнянь невтевксэнть покшолмазо: $1 × $2 пиксэлт</small>',
+'thumbsize'       => 'Кенжешканть покшолмазо:',
+'widthheightpage' => '$1×$2, {{PLURAL:$3|лопа|$3 лопат}}',
+'file-info'       => 'файлонть-путовксонть сталмозо: $1, MIME типезе: $2',
+'file-info-size'  => '$1 × $2 пиксельть, файлонть-путовксонть сталмозо: $3, MIME типезе: $4',
+'file-nohires'    => '<small>Арась версия покш разрешения марто.</small>',
+'svg-long-desc'   => 'SVG файла, $1 × $2 пиксельть, файланть покшолмазо: $3',
+'show-big-image'  => 'Пешксе теевксесь',
 
 # Special:NewFiles
 'newimages'        => 'Од файлатьнень галлереясь',

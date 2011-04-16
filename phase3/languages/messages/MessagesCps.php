@@ -461,8 +461,6 @@ Palihog tistingan liwat.',
 'extlink_tip'     => 'Halin sa gwa nga link (tandaan ang http:// nga prefiks)',
 'headline_sample' => 'Teksto sang pangulong-dinalan',
 'headline_tip'    => 'Lebel 2 pangulong-dinalan',
-'math_sample'     => 'Isulod ang diya pormula',
-'math_tip'        => 'Pormula nga pangmatematika (LaTeX)',
 'nowiki_sample'   => 'Isal-ot ang wala na-format nga teksto diya',
 'nowiki_tip'      => 'Pabay-an ang wiki nga sulundan',
 'image_tip'       => 'Ginpilit nga file',
@@ -885,11 +883,10 @@ Ginapasugtan sa pagdugang sang rason sa kabilugan.',
 'nextdiff'     => 'Mas bag-o nga gin-islan →',
 
 # Media information
-'file-info-size'       => '$1 × $2 piksel, kadakuon sang file: $3, klase sang MIME: $4',
-'file-nohires'         => '<small>Wala na sang mas mataas pa nga resolusyon (katin-aw).</small>',
-'svg-long-desc'        => 'SVG file, nga ara sa $1 × $2 ka piksels, kadakuon sang file: $3',
-'show-big-image'       => 'Bilog nga resolusyon (katin-aw)',
-'show-big-image-thumb' => '<small>Kadakuon sang mini nga prebyu: $1 × $2 piksels</small>',
+'file-info-size' => '$1 × $2 piksel, kadakuon sang file: $3, klase sang MIME: $4',
+'file-nohires'   => '<small>Wala na sang mas mataas pa nga resolusyon (katin-aw).</small>',
+'svg-long-desc'  => 'SVG file, nga ara sa $1 × $2 ka piksels, kadakuon sang file: $3',
+'show-big-image' => 'Bilog nga resolusyon (katin-aw)',
 
 # Bad image list
 'bad_image_list' => 'Ang pormat nga pagasundon:

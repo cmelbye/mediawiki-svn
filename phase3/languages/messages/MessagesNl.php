@@ -268,7 +268,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'BeveiligdeTitels', 'BeschermdeTitels' ),
 	'Allpages'                  => array( 'AllePaginas', 'AllePagina’s', 'AllePagina\'s' ),
 	'Prefixindex'               => array( 'Voorvoegselindex' ),
-	'Ipblocklist'               => array( 'Blokkeerlijst', 'IP-blokkeerlijst', 'IPblokkeerlijst', 'IpBlokkeerlijst' ),
+	'BlockList'                 => array( 'Blokkeerlijst', 'IP-blokkeerlijst', 'IPblokkeerlijst', 'IpBlokkeerlijst' ),
 	'Unblock'                   => array( 'Deblokkeren' ),
 	'Specialpages'              => array( 'SpecialePaginas', 'SpecialePagina’s', 'SpecialePagina\'s' ),
 	'Contributions'             => array( 'Bijdragen' ),
@@ -284,7 +284,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Softwareversie', 'Versie' ),
 	'Allmessages'               => array( 'AlleBerichten', 'Systeemberichten' ),
 	'Log'                       => array( 'Logboeken', 'Logboek' ),
-	'Blockip'                   => array( 'Blokkeren', 'IPblokkeren', 'BlokkeerIP', 'BlokkeerIp' ),
+	'Block'                     => array( 'Blokkeren', 'IPblokkeren', 'BlokkeerIP', 'BlokkeerIp' ),
 	'Undelete'                  => array( 'Terugplaatsen', 'Herstellen', 'VerwijderenOngedaanMaken' ),
 	'Import'                    => array( 'Importeren' ),
 	'Lockdb'                    => array( 'DBblokkeren', 'DbBlokkeren', 'BlokkeerDB' ),
@@ -464,7 +464,7 @@ $messages = array(
 * [http://www.mediawiki.org/wiki/Manual:FAQ Veelgestelde vragen (FAQ)]
 * [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce Mailinglijst voor aankondigingen van nieuwe versies]',
 
-'about'         => 'Info',
+'about'         => 'Over',
 'article'       => 'Pagina',
 'newwindow'     => '(opent in een nieuw venster)',
 'cancel'        => 'Annuleren',
@@ -834,6 +834,7 @@ Negeer dit bericht als deze gebruiker zonder uw medeweten is aangemaakt.',
 'usernamehasherror'          => 'Een gebruikersnaam mag het karakter hekje ("#") niet bevatten.',
 'login-throttled'            => 'U hebt recentelijk te vaak geprobeerd aan te melden met een onjuist wachtwoord.
 Wacht even voordat u het opnieuw probeert.',
+'login-abort-generic'        => 'U bent niet aangemeld. De procedure is afgebroken.',
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => 'Uw verzoek om af te melden is genegeerd, omdat het lijkt alsof het verzoek is verzonden door een browser of cacheproxy die stuk is.',
 
@@ -880,8 +881,6 @@ Mogelijk hebt u uw wachtwoord al gewijzigd of een nieuw tijdelijk wachtwoord aan
 'extlink_tip'     => 'Externe verwijzing (vergeet http:// niet)',
 'headline_sample' => 'Deelonderwerp',
 'headline_tip'    => 'Tussenkopje (hoogste niveau)',
-'math_sample'     => 'Voer de formule in',
-'math_tip'        => 'Wiskundige formule (in LaTeX)',
 'nowiki_sample'   => 'Voer hier de niet op te maken tekst in',
 'nowiki_tip'      => 'Wiki-opmaak negeren',
 'image_sample'    => 'Voorbeeld.png',
@@ -1404,16 +1403,15 @@ De gegevens over {{SITENAME}} zijn mogelijk niet bijgewerkt.',
 'changepassword'                => 'Wachtwoord wijzigen',
 'prefs-skin'                    => 'Vormgeving',
 'skin-preview'                  => 'Voorvertoning',
-'prefs-math'                    => 'Formules',
 'datedefault'                   => 'Geen voorkeur',
 'prefs-datetime'                => 'Datum en tijd',
 'prefs-personal'                => 'Gebruikersprofiel',
 'prefs-rc'                      => 'Recente wijzigingen',
 'prefs-watchlist'               => 'Volglijst',
 'prefs-watchlist-days'          => 'Dagen weer te geven in de volglijst:',
-'prefs-watchlist-days-max'      => '(maximaal 7 dagen)',
+'prefs-watchlist-days-max'      => 'Maximaal 7 dagen',
 'prefs-watchlist-edits'         => 'Maximaal aantal bewerkingen in de uitgebreide volglijst:',
-'prefs-watchlist-edits-max'     => '(maximale aantal: 1000)',
+'prefs-watchlist-edits-max'     => 'Maximale aantal: 1000',
 'prefs-watchlist-token'         => 'Volglijstsleutel:',
 'prefs-misc'                    => 'Diversen',
 'prefs-resetpass'               => 'Wachtwoord wijzigen',
@@ -1892,22 +1890,23 @@ De veiligheid kan niet worden gecontroleerd.',
 'uploadstash-refresh'  => 'Lijst met bestanden bijwerken',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Toegang geweigerd',
-'img-auth-nopathinfo'   => 'PATH_INFO mist.
+'img-auth-accessdenied'     => 'Toegang geweigerd',
+'img-auth-nopathinfo'       => 'PATH_INFO mist.
 Uw server is niet ingesteld om deze informatie door te geven.
 Misschien gebruikt deze CGI, en dan wordt img_auth niet ondersteund.
 Zie http://www.mediawiki.org/wiki/Manual:Image_Authorization voor meer informatie.',
-'img-auth-notindir'     => 'Het opgevraagde pad is niet de ingestelde uploadmap.',
-'img-auth-badtitle'     => 'Het was niet mogelijk een geldige paginanaam te maken van "$1".',
-'img-auth-nologinnWL'   => 'U bent niet aangemeld en "$1" staat niet op de witte lijst.',
-'img-auth-nofile'       => 'Bestand "$1" bestaat niet.',
-'img-auth-isdir'        => 'U probeert de map "$1" te benaderen.
+'img-auth-notindir'         => 'Het opgevraagde pad is niet de ingestelde uploadmap.',
+'img-auth-badtitle'         => 'Het was niet mogelijk een geldige paginanaam te maken van "$1".',
+'img-auth-nologinnWL'       => 'U bent niet aangemeld en "$1" staat niet op de witte lijst.',
+'img-auth-nofile'           => 'Bestand "$1" bestaat niet.',
+'img-auth-isdir'            => 'U probeert de map "$1" te benaderen.
 Alleen toegang tot bestanden is toegestaan.',
-'img-auth-streaming'    => 'Bezig met het streamen van "$1".',
-'img-auth-public'       => 'Het doel van img_auth.php is de uitvoer van bestanden van een besloten wiki.
+'img-auth-streaming'        => 'Bezig met het streamen van "$1".',
+'img-auth-public'           => 'Het doel van img_auth.php is de uitvoer van bestanden van een besloten wiki.
 Deze wiki is ingesteld als publieke wiki.
 Om beveiligingsreden is img_auth.php uitgeschakeld.',
-'img-auth-noread'       => 'De gebruiker heeft geen leestoegang tot "$1".',
+'img-auth-noread'           => 'De gebruiker heeft geen leestoegang tot "$1".',
+'img-auth-bad-query-string' => 'De URL bevat een ongeldige querystring.',
 
 # HTTP errors
 'http-invalid-url'      => 'Ongeldige URL: $1',
@@ -2278,6 +2277,10 @@ De ontvanger kan dus direct naar u reageren.',
 'noemailtext'          => 'Deze gebruiker heeft geen geldig e-mailadres opgegeven.',
 'nowikiemailtitle'     => 'E-mail is niet toegestaan',
 'nowikiemailtext'      => 'Deze gebruiker wil geen e-mail ontvangen van andere gebruikers.',
+'emailnotarget'        => 'Niet-bestaande of ongeldige ontvanger.',
+'emailtarget'          => 'Voer de geadresseerde in',
+'emailusername'        => 'Gebruikersnaam:',
+'emailusernamesubmit'  => 'Opslaan',
 'email-legend'         => 'Een e-mail versturen naar een andere gebruiker van {{SITENAME}}',
 'emailfrom'            => 'Van:',
 'emailto'              => 'Aan:',
@@ -2594,13 +2597,15 @@ De laatste regel uit het blokkeerlogboek wordt hieronder ter referentie weergege
 'whatlinkshere-filters'    => 'Filters',
 
 # Block/unblock
+'autoblockid'                     => 'Automatische blokkade #$1',
+'block'                           => 'Gebruiker blokkeren',
+'unblock'                         => 'Gebruiker deblokkeren',
 'blockip'                         => 'Gebruiker blokkeren',
 'blockip-title'                   => 'Gebruiker blokkeren',
 'blockip-legend'                  => 'Een gebruiker of IP-adres blokkeren',
 'blockiptext'                     => "Gebruik het onderstaande formulier om schrijftoegang voor een gebruiker of IP-adres in te trekken.
 Doe dit alleen als bescherming tegen vandalisme en in overeenstemming met het [[{{MediaWiki:Policy-url}}|beleid]].
 Geef hieronder een reden op (bijvoorbeeld welke pagina's gevandaliseerd zijn).",
-'ipaddress'                       => 'IP-adres:',
 'ipadressorusername'              => 'IP-adres of gebruikersnaam:',
 'ipbexpiry'                       => 'Vervalt (maak een keuze):',
 'ipbreason'                       => 'Reden:',
@@ -2613,7 +2618,7 @@ Geef hieronder een reden op (bijvoorbeeld welke pagina's gevandaliseerd zijn).",
 ** Intimiderend gedrag
 ** Misbruik door meerdere gebruikers
 ** Onaanvaardbare gebruikersnaam",
-'ipbanononly'                     => 'Alleen anonieme gebruikers blokkeren',
+'ipb-hardblock'                   => 'Voorkomen dat aangemelde gebruikers vanaf dit IP-adres kunnen bewerken',
 'ipbcreateaccount'                => 'Registreren gebruikers blokkeren',
 'ipbemailban'                     => 'Gebruiker weerhouden van het sturen van e-mail',
 'ipbenableautoblock'              => 'Automatisch de IP-adressen van deze gebruiker blokkeren',
@@ -2624,12 +2629,15 @@ Geef hieronder een reden op (bijvoorbeeld welke pagina's gevandaliseerd zijn).",
 'ipbotherreason'                  => 'Andere/extra reden:',
 'ipbhidename'                     => 'Gebruiker in bewerkingen en lijsten verbergen',
 'ipbwatchuser'                    => 'Gebruikerspagina en overlegpagina op volglijst plaatsen',
-'ipballowusertalk'                => 'Deze gebruiker toestaan tijdens de blokkade de eigen overlegpagina te bewerken',
+'ipb-disableusertalk'             => 'Voorkomen dat deze gebruiker tijdens de blokkade de eigen overlegpagina kan bewerken',
 'ipb-change-block'                => 'De gebruiker opnieuw blokkeren met deze instellingen',
+'ipb-confirm'                     => 'Blokkade bevestigen',
 'badipaddress'                    => 'Geen geldig IP-adres',
 'blockipsuccesssub'               => 'De blokkering is ingesteld',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] is geblokkeerd.<br />
 Zie de [[Special:IPBlockList|Lijst van geblokkeerde IP-adressen]] voor recente blokkades.',
+'ipb-blockingself'                => 'U staat op het punt uzelf te blokkeren. Weet u zeker dat u dat wilt doen?',
+'ipb-confirmhideuser'             => 'U staat op het punt een verborgen gebruiker te blokkeren. Hiervoor worden gebruikersnamen in alle lijsten en logboekregels verborgen. Weet u het zeker?',
 'ipb-edit-dropdown'               => 'Lijst van redenen bewerken',
 'ipb-unblock-addr'                => '$1 deblokkeren',
 'ipb-unblock'                     => 'Een gebruiker of IP-adres deblokkeren',
@@ -2639,17 +2647,23 @@ Zie de [[Special:IPBlockList|Lijst van geblokkeerde IP-adressen]] voor recente b
 'unblockiptext'                   => 'Gebruik het onderstaande formulier om opnieuw schrijftoegang te geven aan een geblokkeerde gebruiker of IP-adres.',
 'ipusubmit'                       => 'Blokkade opheffen',
 'unblocked'                       => 'Blokkade van [[User:$1|$1]] is opgeheven',
+'unblocked-range'                 => '$1 is gedeblokkeerd',
 'unblocked-id'                    => 'Blokkade $1 is opgeheven',
-'ipblocklist'                     => 'Geblokkeerde IP-adressen en gebruikers',
+'blocklist'                       => 'Geblokkeerde gebruikers',
+'ipblocklist'                     => 'Geblokkeerde gebruikers',
 'ipblocklist-legend'              => 'Een geblokkeerde gebruiker zoeken',
-'ipblocklist-username'            => 'Gebruikersnaam of IP-adres:',
-'ipblocklist-sh-userblocks'       => 'gebruikersblokkades $1',
-'ipblocklist-sh-tempblocks'       => 'tijdelijke blokkades $1',
-'ipblocklist-sh-addressblocks'    => 'enkele IP-blokkades $1',
+'blocklist-userblocks'            => 'Geblokkeerde gebruikers verbergen',
+'blocklist-tempblocks'            => 'Tijdelijke blokkades verbergen',
+'blocklist-addressblocks'         => 'Blokkades van één IP-adres verbergen',
+'blocklist-timestamp'             => 'Tijdstip',
+'blocklist-target'                => 'Doel',
+'blocklist-expiry'                => 'Vervalt',
+'blocklist-by'                    => 'Geblokkeerd door',
+'blocklist-params'                => 'Blokkadeparameters',
+'blocklist-reason'                => 'Reden',
 'ipblocklist-submit'              => 'Zoeken',
 'ipblocklist-localblock'          => 'Lokale blokkade',
 'ipblocklist-otherblocks'         => 'Andere {{PLURAL:$1|blokkade|blokkades}}',
-'blocklistline'                   => 'Op $1 blokkeerde $2: $3 ($4)',
 'infiniteblock'                   => 'onbeperkt',
 'expiringblock'                   => 'vervalt op $1 om $2',
 'anononlyblock'                   => 'alleen anoniemen',
@@ -2687,10 +2701,10 @@ Zie ook [[Special:IPBlockList|Geblokkeerde IP-adressen en gebruikers]].',
 'ipb_expiry_temp'                 => 'Blokkades voor verborgen gebruikers moeten permanent zijn.',
 'ipb_hide_invalid'                => 'Het is niet mogelijk deze gebruiker te verbergen; mogelijk heeft deze te veel bewerkingen gemaakt.',
 'ipb_already_blocked'             => '"$1" is al geblokkeerd',
-'ipb-needreblock'                 => '== Deze gebruiker is al geblokkeerd ==
-$1 is al geblokkeerd.
+'ipb-needreblock'                 => '$1 is al geblokkeerd.
 Wilt u de instellingen wijzigen?',
 'ipb-otherblocks-header'          => 'Andere {{PLURAL:$1|blokkade|blokkades}}',
+'unblock-hideuser'                => 'U kunt deze gebruiker niet deblokkeeren, omdat de gebruikersnaam verborgen is.',
 'ipb_cant_unblock'                => 'Fout: blokkadenummer $1 niet gevonden.
 Misschien is de blokkade al opgeheven.',
 'ipb_blocked_as_range'            => 'Fout: het IP-adres $1 is niet direct geblokkeerd en de blokkade kan niet opgeheven worden.
@@ -2893,7 +2907,8 @@ Alle transwiki-importhandelingen worden opgeslagen in het [[Special:Log/import|i
 'import-interwiki-namespace' => 'Doelnaamruimte:',
 'import-upload-filename'     => 'Bestandsnaam:',
 'import-comment'             => 'Opmerking:',
-'importtext'                 => 'Gebruik de [[Special:Export|exportfunctie]] in de wiki waar de informatie vandaan komt, sla de uitvoer op uw eigen systeem op, en voeg die daarna hier toe.',
+'importtext'                 => 'Gebruik de [[Special:Export|exportfunctie]] in de wiki waar de informatie vandaan komt.
+Sla de uitvoer op uw eigen computer op, en voeg die daarna hier toe.',
 'importstart'                => "Pagina's aan het importeren…",
 'import-revision-count'      => '$1 {{PLURAL:$1|versie|versies}}',
 'importnopages'              => "Geen pagina's te importeren.",
@@ -3013,6 +3028,7 @@ U kunt in de bewerkingssamenvatting een reden opgeven.',
 'vector.css'        => '/* CSS die hier wordt geplaatst heeft alleen invloed op de skin Vector */',
 'print.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op de printuitvoer */',
 'handheld.css'      => '/* CSS die hier wordt geplaatst heeft alleen invloed op handheldapparaten gebaseerd op de skin die is ingesteld in $wgHandheldStyle */',
+'noscript.css'      => '/ * CSS die hier wordt geplaatst heeft invloed voor gebruikers die JavaScript hebben uitgeschakeld * /',
 'autoconfirmed.css' => '/* CSS die hier wordt geplaatst heeft alleen invloed op automatisch bevestigde gebruikers */',
 'bot.css'           => '/* CSS die hier wordt geplaatst heeft alleen invloed op robots */',
 'sysop.css'         => '/* CSS die hier wordt geplaatst heeft alleen invloed op beheerders */',
@@ -3079,25 +3095,6 @@ Meestal wordt dit door een externe verwijzing op een zwarte lijst veroorzaakt.',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
 
-# Math options
-'mw_math_png'    => 'Altijd als PNG weergeven',
-'mw_math_simple' => 'HTML voor eenvoudige formules, anders PNG',
-'mw_math_html'   => 'HTML indien mogelijk, anders PNG',
-'mw_math_source' => 'De TeX-broncode behouden (voor tekstbrowsers)',
-'mw_math_modern' => 'Aanbevolen methode voor recente browsers',
-'mw_math_mathml' => 'MathML als mogelijk (experimenteel)',
-
-# Math errors
-'math_failure'          => 'Parsen mislukt',
-'math_unknown_error'    => 'onbekende fout',
-'math_unknown_function' => 'onbekende functie',
-'math_lexing_error'     => 'lexicografische fout',
-'math_syntax_error'     => 'syntactische fout',
-'math_image_error'      => 'De PNG-omzetting is mislukt. Controleer of LaTeX en dvipng (of dvips + gs + convert) correct zijn geïnstalleerd.',
-'math_bad_tmpdir'       => 'De map voor tijdelijke bestanden voor wiskundige formules bestaat niet of kan niet gemaakt worden',
-'math_bad_output'       => 'De map voor bestanden met wiskundige formules bestaat niet of kan niet gemaakt worden.',
-'math_notexvc'          => 'Kan het programma texvc niet vinden; stel alles in volgens de beschrijving in math/README.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Markeren als gecontroleerd',
 'markaspatrolledtext'                 => 'Deze pagina als gecontroleerd markeren',
@@ -3133,23 +3130,25 @@ $1',
 'nextdiff'     => 'Nieuwere bewerking →',
 
 # Media information
-'mediawarning'         => "'''Waarschuwing''': dit bestandstype bevat mogelijk programmacode die uw systeem schade kan berokkenen.",
-'imagemaxsize'         => "Maximale afmetingen van afbeeldingen:<br />
+'mediawarning'           => "'''Waarschuwing''': dit bestandstype bevat mogelijk programmacode die uw systeem schade kan berokkenen.",
+'imagemaxsize'           => "Maximale afmetingen van afbeeldingen:<br />
 ''(voor op de beschrijvingspagina)''",
-'thumbsize'            => 'Grootte miniatuurafbeelding:',
-'widthheight'          => '$1x$2',
-'widthheightpage'      => "$1×$2, $3 {{PLURAL:$3|pagina|pagina's}}",
-'file-info'            => 'bestandsgrootte: $1, MIME-type: $2',
-'file-info-size'       => '$1 × $2 pixels, bestandsgrootte: $3, MIME-type: $4',
-'file-nohires'         => '<small>Geen hogere resolutie beschikbaar.</small>',
-'svg-long-desc'        => 'SVG-bestand, nominaal $1 × $2 pixels, bestandsgrootte: $3',
-'show-big-image'       => 'Volledige resolutie',
-'show-big-image-thumb' => '<small>Afmetingen van deze weergave: $1 × $2 pixels</small>',
-'file-info-gif-looped' => 'herhalend',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|frame|frames}}',
-'file-info-png-looped' => 'herhalend',
-'file-info-png-repeat' => '$1 {{PLURAL:$1|keer|keer}} afgespeeld',
-'file-info-png-frames' => '$1 {{PLURAL:$1|frame|frames}}',
+'thumbsize'              => 'Grootte miniatuurafbeelding:',
+'widthheight'            => '$1x$2',
+'widthheightpage'        => "$1×$2, $3 {{PLURAL:$3|pagina|pagina's}}",
+'file-info'              => 'bestandsgrootte: $1, MIME-type: $2',
+'file-info-size'         => '$1 × $2 pixels, bestandsgrootte: $3, MIME-type: $4',
+'file-nohires'           => '<small>Geen hogere resolutie beschikbaar.</small>',
+'svg-long-desc'          => 'SVG-bestand, nominaal $1 × $2 pixels, bestandsgrootte: $3',
+'show-big-image'         => 'Volledige resolutie',
+'show-big-image-preview' => '<small>Grootte van deze voorvertoning: $1.</small>',
+'show-big-image-other'   => '<small>Andere resoluties: $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixels',
+'file-info-gif-looped'   => 'herhalend',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|frame|frames}}',
+'file-info-png-looped'   => 'herhalend',
+'file-info-png-repeat'   => '$1 {{PLURAL:$1|keer|keer}} afgespeeld',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|frame|frames}}',
 
 # Special:NewFiles
 'newimages'             => 'Nieuwe bestanden',
@@ -3544,11 +3543,13 @@ $1",
 'trackbackdeleteok' => 'De terugverwijzende pagina is verwijderd.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Let op''': deze pagina is verwijderd terwijl u bezig was met uw bewerking!",
-'confirmrecreate'     => "Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd met opgave van de volgende reden:
+'deletedwhileediting'      => "'''Let op''': deze pagina is verwijderd terwijl u bezig was met uw bewerking!",
+'confirmrecreate'          => "Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd met opgave van de volgende reden:
 : ''$2''
 Bevestig dat u de pagina opnieuw wilt aanmaken.",
-'recreate'            => 'Opnieuw aanmaken',
+'confirmrecreate-noreason' => 'Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd.
+Bevestig dat u de pagina opnieuw wilt aanmaken.',
+'recreate'                 => 'Opnieuw aanmaken',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3601,7 +3602,7 @@ Probeer normale voorvertoning.',
 'watchlistedit-normal-legend'  => 'Pagina’s van uw volglijst verwijderen',
 'watchlistedit-normal-explain' => 'Hieronder worden de pagina’s op uw volglijst weergegeven.
 Klik op het vierkantje ernaast en daarna op "{{int:Watchlistedit-normal-submit}}" om een pagina te verwijderen.
-U kunt ook de [[Special:Watchlist/raw|ruwe lijst bewerken]].',
+U kunt ook de [[Special:EditWatchlist/raw|ruwe lijst bewerken]].',
 'watchlistedit-normal-submit'  => "Pagina's verwijderen",
 'watchlistedit-normal-done'    => 'Er {{PLURAL:$1|is 1 pagina|zijn $1 pagina’s}} verwijderd van uw volglijst:',
 'watchlistedit-raw-title'      => 'Ruwe volglijst bewerken',
@@ -3610,7 +3611,7 @@ U kunt ook de [[Special:Watchlist/raw|ruwe lijst bewerken]].',
 U kunt de lijst bewerken door pagina’s te verwijderen en toe te voegen.
 Eén pagina per regel.
 Als u klaar bent, klik dan op "{{int:Watchlistedit-raw-submit}}".
-U kunt ook [[Special:Watchlist/edit|het standaard bewerkingsscherm gebruiken]].',
+U kunt ook [[Special:EditWatchlist|het standaard bewerkingsscherm gebruiken]].',
 'watchlistedit-raw-titles'     => 'Pagina’s:',
 'watchlistedit-raw-submit'     => 'Volglijst bijwerken',
 'watchlistedit-raw-done'       => 'Uw volglijst is bijgewerkt.',
@@ -3695,7 +3696,8 @@ Voer de bestandsnaam in zonder het voorvoegsel "{{ns:file}}:".',
 'specialpages'                   => "Speciale pagina's",
 'specialpages-note'              => '----
 * Normale speciale pagina\'s
-* <strong class="mw-specialpagerestricted">Beperkt toegankelijke speciale pagina\'s</strong>',
+* <strong class="mw-specialpagerestricted">Beperkt toegankelijke speciale pagina\'s</strong>
+* <span class="mw-specialpagecached">Speciale pagina\'s met alleen gegevens uit de cache</span>',
 'specialpages-group-maintenance' => 'Onderhoudsrapporten',
 'specialpages-group-other'       => "Overige speciale pagina's",
 'specialpages-group-login'       => 'Aanmelden / registreren',

@@ -1,34 +1,14 @@
 /* JavaScript for Special:Block */
 
-// Fade or snap depending on argument
-jQuery.fn.goIn = function( instantToggle ) {
-	if ( typeof instantToggle != 'undefined' && instantToggle === true ) {
-		return jQuery(this).show();
-	}
-	return jQuery(this).stop( true, true ).fadeIn();
-};
-jQuery.fn.goOut = function( instantToggle ) {
-	if ( typeof instantToggle != 'undefined' && instantToggle === true ) {
-		return jQuery(this).hide();
-	}
-	return jQuery(this).stop( true, true ).fadeOut();
-};
-
 jQuery( function( $ ) {
 
 	var	DO_INSTANT = true,
-		$blockExpiry = $( '#wpBlockExpiry' ),	$blockOther = $( '#wpBlockOther' ),
-		$blockTarget = $( '#mw-bi-target' ),	$anonOnlyRow = $( '#wpAnonOnlyRow' ),
-		$enableAutoblockRow = $( '#wpEnableAutoblockRow' ),
-		$hideUser = $( '#wpEnableHideUser' ),	$watchUser = $( '#wpEnableWatchUser' );
+		$blockTarget = $( '#mw-bi-target' ),
+		$anonOnlyRow = $( '#mw-input-wpHardblock' ).closest( 'tr' ),
+		$enableAutoblockRow = $( '#mw-input-wpAutoBlock' ).closest( 'tr' ),
+		$hideUser = $( '#mw-input-wpHideUser' ).closest( 'tr' ),
+		$watchUser = $( '#mw-input-wpWatch' ).closest( 'tr' );
 
-	var considerChangingExpiryFocus = function( instant ) {
-		if ( $blockExpiry.val() == 'other' ) {
-			$blockOther.goIn( instant );
-		} else {
-			$blockOther.goOut( instant );
-		}
-	};
 	var updateBlockOptions = function( instant ) {
 		if ( !$blockTarget.length ) {
 			return;
@@ -59,10 +39,8 @@ jQuery( function( $ ) {
 	};
 
 	// Bind functions so they're checked whenever stuff changes
-	$blockExpiry.change( considerChangingExpiryFocus );
 	$blockTarget.keyup( updateBlockOptions );
 
 	// Call them now to set initial state (ie. Special:Block/Foobar?wpBlockExpiry=2+hours)
-	considerChangingExpiryFocus( DO_INSTANT );
 	updateBlockOptions( DO_INSTANT );
 });

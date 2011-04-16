@@ -92,7 +92,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'સંસ્કરણ' ),
 	'Allmessages'               => array( 'બધાંસંદેશા' ),
 	'Log'                       => array( 'લૉગ', 'લૉગ્સ' ),
-	'Blockip'                   => array( 'પ્રતિબંધ', 'IP_પર_પ્રતિબંધ', 'સભ્યપર_પ્રતિબંધ' ),
+	'Block'                     => array( 'પ્રતિબંધ', 'IP_પર_પ્રતિબંધ', 'સભ્યપર_પ્રતિબંધ' ),
 	'Undelete'                  => array( 'પુનઃપ્રાપ્ત' ),
 	'Import'                    => array( 'આયાત' ),
 	'Userrights'                => array( 'સભ્યાધિકાર' ),
@@ -546,7 +546,7 @@ $2',
 ધ્યાન રાખો કે જ્યાં સુધી તમે તમારા બ્રાઉઝરનો  કૅશ સાફ નહીં કરો ત્યાં સુધી કેટલાક પાનાં તમે પ્રવેશી ચુક્યા છો તેમ બતાવશે.",
 'welcomecreation'            => '== તમારૂં સ્વાગત છે $1! ==
 તમારૂં ખાતું બની ગયું છે.
-તમારી [[Special:Preferences|{{SITENAME}} પસંદગી]] બદલવાનું ભૂલશો નહીં.',
+તમારી [[Special:Preferences|{{SITENAME}} પસંદ]] બદલવાનું ભૂલશો નહીં.',
 'yourname'                   => 'સભ્ય નામ:',
 'yourpassword'               => 'ગુપ્ત સંજ્ઞા:',
 'yourpasswordagain'          => 'ગુપ્ત સંજ્ઞા (પાસવર્ડ) ફરી લખો',
@@ -686,8 +686,6 @@ Please log in again after you receive it.
 'extlink_tip'     => "બાહ્ય કડી (શરૂઆતામાં '''http://''' ઉમેરવાનું ભુલશો નહી)",
 'headline_sample' => 'મથાળાનાં મોટા અક્ષર',
 'headline_tip'    => 'બીજા ક્રમનું મથાળું',
-'math_sample'     => 'સૂત્ર અહીં દાખલ કરો',
-'math_tip'        => 'ગણિતિક સૂત્ર (LaTeX)',
 'nowiki_sample'   => 'ફોર્મેટ કર્યા વગરનું લખાણ અહીં ઉમેરો',
 'nowiki_tip'      => 'વિકિ ફોર્મેટીંગને અવગણો',
 'image_tip'       => 'અંદર વણાયેલી (Embedded) ફાઇલ',
@@ -1202,7 +1200,6 @@ $1",
 'changepassword'                => 'ગુપ્તસંજ્ઞા બદલો',
 'prefs-skin'                    => 'ફલક',
 'skin-preview'                  => 'ફેરફાર બતાવો',
-'prefs-math'                    => 'ગણિત',
 'datedefault'                   => 'મારી પસંદ',
 'prefs-datetime'                => 'તારીખ અને સમય',
 'prefs-personal'                => 'સભ્ય ઓળખ',
@@ -2114,7 +2111,7 @@ $1',
 'enotif_lastvisited'           => 'તમારા છેલ્લા ફેરફાર પછી થયેલા ફેરફાર $1 જુઓ',
 'enotif_lastdiff'              => 'આ ફેરફાર જોવા $1 જુઓ',
 'enotif_anon_editor'           => 'અજ્ઞાત સભ્ય $1',
-'enotif_body'                  => '↓ પ્રિય $WATCHINGUSERNAME,
+'enotif_body'                  => 'પ્રિય $WATCHINGUSERNAME,
 
 
  {{SITENAME}}નું પાનું  $PAGETITLE $PAGEEDITDATE ના દિવસે by $PAGEEDITOR દ્વારા $CHANGEDORCREATED છે , તાજા પુનરાવર્તન માટે $PAGETITLE_URL જુઓ.
@@ -2379,7 +2376,6 @@ Clicking '''''{{int:undeletereset}}''''' will clear the comment field and all ch
 'blockiptext'                     => 'કોઇ ચોક્કસ IP સરનામું કે સભ્ય  ના  લેખન યોગદાન પર પ્રતિબંધ મુકવા નીચેનું ફોર્મ વાપરો.
 તેનો ઉપયોગ માત્ર ભાંગફોડિયા પ્રવૃત્તિઓને રોકવા અને  [[{{MediaWiki:Policy-url}}|policy]] અનુસાર જ હોવી જોઇએ.
 કારણનું ખાનું અવશ્ય ફરશો (દા.ત. અમુક ભાંગફોડ કરાયેલ પાનું)',
-'ipaddress'                       => 'IP સરનામું:',
 'ipadressorusername'              => 'IP સરનામું અથવા સભ્યનામ:',
 'ipbexpiry'                       => 'કાલાતિત',
 'ipbreason'                       => 'કારણ:',
@@ -2392,7 +2388,6 @@ Clicking '''''{{int:undeletereset}}''''' will clear the comment field and all ch
 **  ત્રાસદાયક વર્તન 
 ** ઘણા ખાતાઓનું  સાથે શોષણ 
 ** અસ્વીકાર્ય સભ્ય નામ',
-'ipbanononly'                     => 'માત્ર બેનામી સભ્ય્ને છુપાવો',
 'ipbcreateaccount'                => 'ખાતા ખોલવા પર પ્રતિબંધ',
 'ipbemailban'                     => 'સભ્યના ઇ-મેલ મોકલવા પર પ્રતિબંધ મૂકો',
 'ipbenableautoblock'              => 'આ સભ્ય દ્વારા વપરાયેલ  IP સરનામા પર અને તત-પશ્ચ્યાત વપરાયેલ IP સરનામા ને સ્વયંચાલિત રીતે રોક લગાવો',
@@ -2403,7 +2398,6 @@ Clicking '''''{{int:undeletereset}}''''' will clear the comment field and all ch
 'ipbotherreason'                  => 'અન્ય/વધારાનું કારણ:',
 'ipbhidename'                     => 'ફેરફારો અને યાદિમાંથી સભ્ય નામ છુપાવો',
 'ipbwatchuser'                    => 'આ સભ્યના સભ્ય અને ચર્ચા પાના જુઓ',
-'ipballowusertalk'                => 'આ સભ્ય પ્રતિબંધિત હોય ત્યારે પણ ફેરફારા કરવાની રજા  આપો',
 'ipb-change-block'                => 'આ પ્રણાલી સાથે સભ્યને  ફરી પ્રતિબંધિત કરો',
 'badipaddress'                    => 'અવૈધ IP સરનામું',
 'blockipsuccesssub'               => 'સફળ પ્રતિબંધ મુકાયો',
@@ -2421,14 +2415,9 @@ Clicking '''''{{int:undeletereset}}''''' will clear the comment field and all ch
 'unblocked-id'                    => ' $1 નો પ્રતિબંધ હટાવાયો',
 'ipblocklist'                     => 'પ્રતિબંધિત IP સરનામા અને સભ્યોની યાદી',
 'ipblocklist-legend'              => 'પ્રતિબંધિત સભ્ય શોધો',
-'ipblocklist-username'            => 'સભ્યનામ કે IP સરનામું:',
-'ipblocklist-sh-userblocks'       => '$1 ખાતા પર પ્રતિબંધ',
-'ipblocklist-sh-tempblocks'       => '$1 હંગામી પ્રતિબંધની યાદિ',
-'ipblocklist-sh-addressblocks'    => ' $1 એકામાત્ર IP પ્રતિબંધન',
 'ipblocklist-submit'              => 'શોધો',
 'ipblocklist-localblock'          => 'સ્થાનીય પ્રતિબંધ',
 'ipblocklist-otherblocks'         => 'અન્ય {{PLURAL:$1|પ્રતિબંધન|પ્રતિબંધનો}}',
-'blocklistline'                   => '$1, $2 પ્રતિબંધ $3 ($4)',
 'infiniteblock'                   => 'અનિશ્ચિત',
 'expiringblock'                   => '$1 તારીખે  $2 વાગ્યે કાલાતીત થયું',
 'anononlyblock'                   => 'માત્ર અનામી',
@@ -2467,8 +2456,7 @@ Clicking '''''{{int:undeletereset}}''''' will clear the comment field and all ch
 'ipb_expiry_temp'                 => 'સંતાડેલા સભ્યનામ પ્રતિબંધનો કાયમી જ હોવા જોઇએ.',
 'ipb_hide_invalid'                => 'આ પાનાને છુપાવવો સંભવ નથી તેમાં ઘણા બધાં ફેરફારો છે',
 'ipb_already_blocked'             => ' "$1" પહેલેથી પ્રતિબંધિત છે',
-'ipb-needreblock'                 => '== પહેલેથી પ્રતિબંધિત  ==
-$1 પહેલેથી પ્રતિબંધિત છે.
+'ipb-needreblock'                 => '$1 પહેલેથી પ્રતિબંધિત છે.
 તમારે આ સેટીંગ બદલવી છે?',
 'ipb-otherblocks-header'          => 'અન્ય {{PLURAL:$1|પ્રતિબંધન|પ્રતિબંધનો}}',
 'ipb_cant_unblock'                => 'તૃટિ પ્રતિબંધિત ID $1 ન મળ્યો.
@@ -2812,25 +2800,6 @@ $1 પહેલેથી પ્રતિબંધિત છે.
 'numauthors'     => 'લેખકોની સંખ્યા (પાનું): $1',
 'numtalkauthors' => 'લેખકોની સંખ્યા (ચર્ચા પાનું): $1',
 
-# Math options
-'mw_math_png'    => 'PNGને હમેંશા પરત કરો',
-'mw_math_simple' => 'જો સરળ હોય તો  HTML અન્યથા PNG',
-'mw_math_html'   => 'જો સરળ હોય તો  HTML અન્યથા PNG',
-'mw_math_source' => 'આને શબ્દ રહેવા દો (ટેક્સ્ટ બ્રાઉઝર)',
-'mw_math_modern' => 'અત્યાધુનિક બ્રાઉઝરો માટે ભલામણ યોગ્ય',
-'mw_math_mathml' => ' MathML શક્ય હોય તો  (પ્રયોગાત્મક)',
-
-# Math errors
-'math_failure'          => 'પદચ્છેદ અસફળ',
-'math_unknown_error'    => 'અજ્ઞાત ત્રુટિ',
-'math_unknown_function' => 'અજ્ઞાત ફંક્શન',
-'math_lexing_error'     => 'લેખન ક્ર્મ / વિધી ત્રુટિ',
-'math_syntax_error'     => 'સૂત્ર લેખન ત્રુટિ',
-'math_image_error'      => 'PNG રૂપાંતરણ નિષ્ફળ;  latex અને dvipng (or dvips + gs + convert) બરાબર ચડાવાયું છે કે કેમ તે ચકાસો',
-'math_bad_tmpdir'       => 'હંગામી ગણિત ડીરેક્ટરી લખી કે રચી નહીં શકાય.',
-'math_bad_output'       => 'ઉત્તરીય ગણિત ડીરેક્ટરી લખી કે રચી નહીં શકાય.',
-'math_notexvc'          => 'ચલાવી શકાય તેવી texvc ગાયબ ; આને ચડાવવા math/README  જુઓ.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'નિરીક્ષીત અંકિત કરો',
 'markaspatrolledtext'                 => 'આ પાનાને નીરીક્ષિત અંકિત કરો',
@@ -2874,7 +2843,6 @@ $1 પહેલેથી પ્રતિબંધિત છે.
 'file-nohires'         => '<small>આથી વધુ આવર્તન ઉપલબ્ધ નથી.</small>',
 'svg-long-desc'        => 'SVG ફાઇલ, માત્ર $1 × $2 પીક્સલ, ફાઇલનું કદ: $3',
 'show-big-image'       => 'મહત્તમ આવર્તન',
-'show-big-image-thumb' => '<small>આ પુર્વાવલોકનનું પરિમાણ: $1 × $2 પીક્સલ</small>',
 'file-info-gif-looped' => 'આવર્તન  (લુપ)',
 'file-info-gif-frames' => ' $1 {{PLURAL:$1|છબી|છબીઓ}}',
 'file-info-png-looped' => 'આવર્તન',
@@ -3322,7 +3290,7 @@ $1',
 'watchlistedit-normal-legend'  => 'ધ્યાનસૂચિમાંથી આશીર્ષકો કાઢી નાખો',
 'watchlistedit-normal-explain' => 'તમારી ધ્યાનસૂચિના શીર્ષકો અહીં બતાવ્યાં છે.
 કોઇ શીર્ષક હતાવવા માટે , તેની બાજું નું ખાનું અંકિત કરો , અને "{{int:Watchlistedit-normal-submit}}"ના પર ક્લિક કરો.
-તમે [[Special:Watchlist/raw|edit the raw list]]માં  બદલાવ પણ કરી શકો.',
+તમે [[Special:EditWatchlist/raw|edit the raw list]]માં  બદલાવ પણ કરી શકો.',
 'watchlistedit-normal-submit'  => 'શીર્ષકો હટાવો',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 શીર્ષક |$1 શીર્ષકો }} ને તમારી ધ્યાનસૂચિમાંથી હટાવાયા:',
 'watchlistedit-raw-title'      => 'કાચી ધ્યાનસૂચિમાં ફેરફાર કરો',
@@ -3330,7 +3298,7 @@ $1',
 'watchlistedit-raw-explain'    => 'તમારી ધ્યાનસૂચિના શીર્ષકો અહીં બતાવ્યાં છે , તેમાં વસ્તુ ઓ ઉમેરીએ અને હટાવીને તેમાં ફેરફાર કરી શકાય છે;
 એક શીર્ષક પ્રતિ લિટી.
 જ્યારે કાર્ય સમાપ્ત થાય ત્યારે, અહીં ક્લિક કરો "{{int:Watchlistedit-raw-submit}}".
-તેમે  [[Special:Watchlist/edit|use the standard editor]] પણ કરી શકો.',
+તેમે  [[Special:EditWatchlist|use the standard editor]] પણ કરી શકો.',
 'watchlistedit-raw-titles'     => 'શિર્ષક:',
 'watchlistedit-raw-submit'     => 'ધ્યાનસૂચિ અધ્યતન બનાવો',
 'watchlistedit-raw-done'       => 'તમારી ધ્યાના સૂચિ અધ્યતન કરાઈ.',
@@ -3349,7 +3317,7 @@ $1',
 # Special:Version
 'version'                          => 'આવૃત્તિ',
 'version-extensions'               => 'પ્રસ્થાપિત વિસ્તારકો',
-'version-specialpages'             => 'ખાસ પાના',
+'version-specialpages'             => 'ખાસ પાનાં',
 'version-parserhooks'              => 'પદચ્છેદ ખૂંટો',
 'version-variables'                => 'સહગુણકો',
 'version-antispam'                 => 'સ્પેમ સંરક્ષણ',
@@ -3398,8 +3366,9 @@ $1',
 # Special:SpecialPages
 'specialpages'                   => 'ખાસ પાનાં',
 'specialpages-note'              => '----
-* સામાન્ય ખાસ પાનાઓ.
-* <strong class="mw-specialpagerestricted">Restricted special pages.</strong>',
+* નિયમિત ખાસ પાનાં.
+* <span class="mw-specialpagerestricted">સીમિત ખાસ પાનાં.</span>
+* <span class="mw-specialpagecached">માત્ર-સંગ્રહિત ખાસ પાનાં.</span>',
 'specialpages-group-maintenance' => 'સમારકામ અહેવાલ',
 'specialpages-group-other'       => 'અન્ય ખાસ પાનાઓ',
 'specialpages-group-login'       => 'પ્રવેશ / નોંધણી કરો',

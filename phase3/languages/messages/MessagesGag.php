@@ -153,6 +153,9 @@ $messages = array(
 'faq'            => 'SSS',
 'faqpage'        => 'Project:SSS',
 
+# Vector skin
+'vector-view-edit' => 'Diiştir',
+
 'errorpagetitle'    => 'Yannış',
 'returnto'          => '$1 dön.',
 'tagline'           => '{{SITENAME}} saydından',
@@ -374,8 +377,6 @@ O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk 
 'extlink_tip'     => 'Dış baalantı (Unutmayın adresin önüne http:// koymaa)',
 'headline_sample' => 'Başlık teksti',
 'headline_tip'    => '2. düzey başlık',
-'math_sample'     => 'Matematik-formulanı-koyun',
-'math_tip'        => 'Matematik formula (LaTeX formatında)',
 'nowiki_sample'   => 'Serbest format yazınızı buraya yazınız',
 'nowiki_tip'      => 'Wiki formatlamasını ignor et',
 'image_tip'       => 'Pätret eklemää',
@@ -516,7 +517,7 @@ Nışannar: (bitki) = şindiki versiyalan aradaki fark,
 'search-result-size'        => '$1 ({{PLURAL:$2|1 laf|$2 laf}})',
 'search-redirect'           => '(göndermää $1)',
 'search-section'            => '(bölüm $1)',
-'search-suggest'            => '↓ İstediniz demää: $1',
+'search-suggest'            => 'İstediniz demää: $1',
 'search-interwiki-caption'  => 'Kardaş proyektlär',
 'search-interwiki-default'  => '$1 rezultatlar:',
 'search-interwiki-more'     => '(taa çok)',
@@ -974,11 +975,10 @@ Yalvarêrêz başka bir ad seçmää.',
 'nextdiff'     => 'Geerki versiyalan aradaki fark →',
 
 # Media information
-'file-info-size'       => '$1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4',
-'file-nohires'         => '<small>Taa üüksek aydınnıklı versiya bulunmêêr.</small>',
-'svg-long-desc'        => 'SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3',
-'show-big-image'       => 'Taman aydınnık',
-'show-big-image-thumb' => '<small>Ön siir ölçüsü: $1 × $2 piksel</small>',
+'file-info-size' => '$1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4',
+'file-nohires'   => '<small>Taa üüksek aydınnıklı versiya bulunmêêr.</small>',
+'svg-long-desc'  => 'SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3',
+'show-big-image' => 'Taman aydınnık',
 
 # Special:NewFiles
 'newimages' => 'Eni pätretler',

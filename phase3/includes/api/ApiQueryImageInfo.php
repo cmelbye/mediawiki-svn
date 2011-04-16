@@ -107,7 +107,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 					}
 					break;
 				}
-				
+
 				// Check if we can make the requested thumbnail, and get transform parameters.
 				$finalThumbParams = $this->mergeThumbParams( $img, $scale, $params['urlparam'] );
 
@@ -119,7 +119,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 					( is_null( $params['end'] ) || $img->getTimestamp() >= $params['end'] )
 				) {
 					$gotOne = true;
-					
+
 					$fit = $this->addPageSubItem( $pageId,
 						self::getInfo( $img, $prop, $result,
 							$finalThumbParams, $params['metadataversion'] ) );
@@ -332,10 +332,11 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		$sha1 = isset( $prop['sha1'] );
 		$meta = isset( $prop['metadata'] );
 		$mime = isset( $prop['mime'] );
+		$mediatype = isset( $prop['mediatype'] );
 		$archive = isset( $prop['archivename'] );
 		$bitdepth = isset( $prop['bitdepth'] );
 
-		if ( ( $url || $sha1 || $meta || $mime || $archive || $bitdepth )
+		if ( ( $url || $sha1 || $meta || $mime || $mediatype || $archive || $bitdepth )
 				&& $file->isDeleted( File::DELETED_FILE ) ) {
 			$vals['filehidden'] = '';
 
@@ -359,9 +360,11 @@ class ApiQueryImageInfo extends ApiQueryBase {
 						$vals['thumbheight'] = intval( $file->getHeight() );
 					}
 
-					if ( isset( $prop['thumbmime'] ) ) {
-						$thumbFile = UnregisteredLocalFile::newFromPath( $mto->getPath(), false );
-						$vals['thumbmime'] = $thumbFile->getMimeType();
+					if ( isset( $prop['thumbmime'] ) && $file->getHandler() ) {
+						list( $ext, $mime ) = $file->getHandler()->getThumbType( 
+							substr( $mto->getPath(), strrpos( $mto->getPath(), '.' ) + 1 ), 
+							$file->getMimeType(), $thumbParams );
+						$vals['thumbmime'] = $mime;
 					}
 				} else if ( $mto && $mto->isError() ) {
 					$vals['thumberror'] = $mto->toText();
@@ -385,6 +388,10 @@ class ApiQueryImageInfo extends ApiQueryBase {
 
 		if ( $mime ) {
 			$vals['mime'] = $file->getMimeType();
+		}
+
+		if ( $mediatype ) {
+			$vals['mediatype'] = $file->getMediaType();
 		}
 
 		if ( $archive && $file->isOld() ) {
@@ -476,52 +483,55 @@ class ApiQueryImageInfo extends ApiQueryBase {
 
 	/**
 	 * Returns all possible parameters to iiprop
+	 *
+	 * @param array $filter List of properties to filter out
+	 *
 	 * @static
 	 * @return Array
 	 */
-	public static function getPropertyNames() {
+	public static function getPropertyNames( $filter = array() ) {
+		return array_diff( array_keys( self::getProperties() ), $filter );
+	}
+
+	/**
+	 * Returns array key value pairs of properties and their descriptions
+	 *
+	 * @static
+	 * @return array
+	 */
+	private static function getProperties() {
 		return array(
-			'timestamp',
-			'user',
-			'userid',
-			'comment',
-			'parsedcomment',
-			'url',
-			'size',
-			'dimensions', // For backwards compatibility with Allimages
-			'sha1',
-			'mime',
-			'thumbmime',
-			'metadata',
-			'archivename',
-			'bitdepth',
+			'timestamp' =>      ' timestamp     - Adds timestamp for the uploaded version',
+			'user' =>           ' user          - Adds the user who uploaded the image version',
+			'userid' =>         ' userid        - Add the user ID that uploaded the image version',
+			'comment' =>        ' comment       - Comment on the version',
+			'parsedcomment' =>  ' parsedcomment - Parse the comment on the version',
+			'url' =>            ' url           - Gives URL to the image and the description page',
+			'size' =>           ' size          - Adds the size of the image in bytes and the height, width and page count (if applicable)',
+			'dimensions' =>     ' dimensions    - Alias for size', // For backwards compatibility with Allimages
+			'sha1' =>           ' sha1          - Adds SHA-1 hash for the image',
+			'mime' =>           ' mime          - Adds MIME type of the image',
+			'thumbmime' =>      ' thumbmime     - Adds MIME type of the image thumbnail (requires url)',
+			'mediatype' =>      ' mediatype     - Adds the media type of the image',
+			'metadata' =>       ' metadata      - Lists EXIF metadata for the version of the image',
+			'archivename' =>    ' archivename   - Adds the file name of the archive version for non-latest versions',
+			'bitdepth' =>       ' bitdepth      - Adds the bit depth of the version',
 		);
 	}
 
 	/**
 	 * Returns the descriptions for the properties provided by getPropertyNames()
+	 * 
+	 * @param array $filter List of properties to filter out
 	 *
 	 * @static
 	 * @return array
 	 */
-	public static function getPropertyDescriptions() {
-		return array(
-				'What image information to get:',
-				' timestamp     - Adds timestamp for the uploaded version',
-				' user          - Adds the user who uploaded the image version',
-				' userid        - Add the user ID that uploaded the image version',
-				' comment       - Comment on the version',
-				' parsedcomment - Parse the comment on the version',
-				' url           - Gives URL to the image and the description page',
-				' size          - Adds the size of the image in bytes and the height, width and page count (if applicable)',
-				' dimensions    - Alias for size',
-				' sha1          - Adds SHA-1 hash for the image',
-				' mime          - Adds MIME type of the image',
-				' thumbmime     - Adds MIME type of the image thumbnail (requires url)',
-				' metadata      - Lists EXIF metadata for the version of the image',
-				' archivename   - Adds the file name of the archive version for non-latest versions',
-				' bitdepth      - Adds the bit depth of the version',
-			);
+	public static function getPropertyDescriptions( $filter = array() ) {
+		return array_merge(
+			array( 'What image information to get:' ),
+			array_values( array_diff_key( self::getProperties(), array_flip( $filter ) ) )
+		);
 	}
 
 	/**

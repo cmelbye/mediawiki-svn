@@ -20,7 +20,7 @@
  * @file
  * @ingroup SpecialPage
  */
- 
+
 /**
  * Implements Special:Allpages
  *
@@ -58,24 +58,27 @@ class SpecialAllpages extends IncludableSpecialPage {
 	 * @param $par String: becomes "FOO" when called like Special:Allpages/FOO (default NULL)
 	 */
 	function execute( $par ) {
-		global $wgRequest, $wgOut, $wgContLang;
+		global $wgContLang;
+		$request = $this->getRequest();
+		$out = $this->getOutput();
 
 		$this->setHeaders();
 		$this->outputHeader();
-		$wgOut->allowClickjacking();
+		$out->allowClickjacking();
 
 		# GET values
-		$from = $wgRequest->getVal( 'from', null );
-		$to = $wgRequest->getVal( 'to', null );
-		$namespace = $wgRequest->getInt( 'namespace' );
+		$from = $request->getVal( 'from', null );
+		$to = $request->getVal( 'to', null );
+		$namespace = $request->getInt( 'namespace' );
 
 		$namespaces = $wgContLang->getNamespaces();
 
-		$wgOut->setPagetitle( 
+		$out->setPagetitle(
 			( $namespace > 0 && in_array( $namespace, array_keys( $namespaces) ) ) ?
 			wfMsg( 'allinnamespace', str_replace( '_', ' ', $namespaces[$namespace] ) ) :
 			wfMsg( 'allarticles' )
 		);
+		$out->addModuleStyles( 'mediawiki.special' );
 
 		if( isset($par) ) {
 			$this->showChunk( $namespace, $par, $to );
@@ -96,7 +99,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 	function namespaceForm( $namespace = NS_MAIN, $from = '', $to = '' ) {
 		global $wgScript;
 		$t = $this->getTitle();
-	
+
 		$out  = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
 		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
 		$out .= Html::hidden( 'title', $t->getPrefixedText() );
@@ -141,7 +144,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 	 * @param $to String: list all pages to this name
 	 */
 	function showToplevel( $namespace = NS_MAIN, $from = '', $to = '' ) {
-		global $wgOut;
+		$output = $this->getOutput();
 
 		# TODO: Either make this *much* faster or cache the title index points
 		# in the querycache table.
@@ -220,7 +223,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 			if( !empty($lines) ) {
 				$this->showChunk( $namespace, $from, $to );
 			} else {
-				$wgOut->addHTML( $this->namespaceForm( $namespace, $from, $to ) );
+				$output->addHTML( $this->namespaceForm( $namespace, $from, $to ) );
 			}
 			return;
 		}
@@ -240,14 +243,13 @@ class SpecialAllpages extends IncludableSpecialPage {
 			$out2 = '';
 		} else {
 			if( isset($from) || isset($to) ) {
-				global $wgUser;
 				$out2 = Xml::openElement( 'table', array( 'class' => 'mw-allpages-table-form' ) ).
 						'<tr>
 							<td>' .
 								$nsForm .
 							'</td>
 							<td class="mw-allpages-nav">' .
-								$wgUser->getSkin()->link( $this->getTitle(), wfMsgHtml ( 'allpages' ),
+								$this->getSkin()->link( $this->getTitle(), wfMsgHtml ( 'allpages' ),
 									array(), array(), 'known' ) .
 							"</td>
 						</tr>" .
@@ -256,7 +258,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 				$out2 = $nsForm;
 			}
 		}
-		$wgOut->addHTML( $out2 . $out );
+		$output->addHTML( $out2 . $out );
 	}
 
 	/**
@@ -291,9 +293,9 @@ class SpecialAllpages extends IncludableSpecialPage {
 	 * @param $to String: list all pages to this name (default FALSE)
 	 */
 	function showChunk( $namespace = NS_MAIN, $from = false, $to = false ) {
-		global $wgOut, $wgUser, $wgContLang, $wgLang;
-
-		$sk = $wgUser->getSkin();
+		global $wgContLang, $wgLang;
+		$output = $this->getOutput();
+		$sk = $this->getSkin();
 
 		$fromList = $this->getNamespaceKeyAndText($namespace, $from);
 		$toList = $this->getNamespaceKeyAndText( $namespace, $to );
@@ -373,7 +375,7 @@ class SpecialAllpages extends IncludableSpecialPage {
 					'page_title',
 					array( 'page_namespace' => $namespace, 'page_title < '.$dbr->addQuotes($from) ),
 					__METHOD__,
-					array( 'ORDER BY' => 'page_title DESC', 
+					array( 'ORDER BY' => 'page_title DESC',
 						'LIMIT' => $this->maxPerPage, 'OFFSET' => ($this->maxPerPage - 1 )
 					)
 				);
@@ -446,14 +448,14 @@ class SpecialAllpages extends IncludableSpecialPage {
 			$out2 .= "</td></tr></table>";
 		}
 
-		$wgOut->addHTML( $out2 . $out );
+		$output->addHTML( $out2 . $out );
 
 		$links = array();
 		if ( isset( $prevLink ) ) $links[] = $prevLink;
 		if ( isset( $nextLink ) ) $links[] = $nextLink;
 
 		if ( count( $links ) ) {
-			$wgOut->addHTML(
+			$output->addHTML(
 				Html::element( 'hr' ) .
 				Html::rawElement( 'div', array( 'class' => 'mw-allpages-nav' ),
 					$wgLang->pipeList( $links )

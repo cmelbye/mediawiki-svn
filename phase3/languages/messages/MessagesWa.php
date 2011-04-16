@@ -434,8 +434,6 @@ Divant d' poleur evoyî èn ôte emile a ci conte la, vos dvroz shure les instru
 'extlink_tip'     => 'Difoûtrinne hårdêye (en rovyîz nén di mete «http://» pa dvant)',
 'headline_sample' => 'Tecse di tite',
 'headline_tip'    => 'Tite di 2inme livea',
-'math_sample'     => "Tapez l' formule matematike chal",
-'math_tip'        => 'Formule matematike (LaTeX)',
 'nowiki_sample'   => "Tapez l' tecse nén wiki chal",
 'nowiki_tip'      => 'Èn nén analijhî des côdes wiki, eyet purade les håyner sins fôrmater',
 'image_sample'    => 'Egzimpe.jpg',
@@ -647,7 +645,6 @@ Les ôtes manaedjeus so ç' wiki ci pôront todi vey li contnou catchî eyet l' 
 'changepassword'        => "Candjî l' sicret",
 'prefs-skin'            => 'Pea',
 'skin-preview'          => 'vey divant',
-'prefs-math'            => 'Formules matematikes',
 'datedefault'           => 'Nole preferince',
 'prefs-datetime'        => 'Cogne del date',
 'prefs-personal'        => 'Dinêyes da vosse',
@@ -1178,7 +1175,6 @@ vandales, et çoula doet esse fwait tot shuvant les
 [[{{MediaWiki:Policy-url}}|rîles]].
 Dinez ene råjhon do blocaedje (eg: dijhoz les pådjes k' ont
 stî vandalijheyes).",
-'ipaddress'                   => "Adresse IP/no d' uzeu",
 'ipadressorusername'          => "Adresse IP ou no d' uzeu",
 'ipbexpiry'                   => 'Tins do blocaedje',
 'ipbreason'                   => 'Råjhon',
@@ -1195,7 +1191,6 @@ stî vandalijheyes).",
 'unblocked'                   => '«[[User:$1|$1]]» a stî disbloké',
 'ipblocklist'                 => "Djivêye d' adresses IP et di nos d' uzeus ki sont blokés",
 'ipblocklist-submit'          => 'Cweri',
-'blocklistline'               => '$1, $2 a bloké $3 ($4)',
 'infiniteblock'               => 'po todi',
 'expiringblock'               => "disk' å $1 $2",
 'blocklink'                   => 'bloker',
@@ -1393,23 +1388,6 @@ Totes les accions di rcopiaedje eterwiki sont metowes e [[Special:Log/import|djo
 'numauthors'     => "Nombe d' oteurs diferins (årtike): $1",
 'numtalkauthors' => "Nombe d' oteurs diferins (pådje di copene): $1",
 
-# Math options
-'mw_math_png'    => 'Håyner tofer come ene imådje PNG',
-'mw_math_simple' => "Håyner en HTML si c' est foirt simpe, ôtmint e PNG",
-'mw_math_html'   => "Håyner en HTML si c' est possibe, ôtmint e PNG",
-'mw_math_source' => 'El leyî e TeX (po les betchteus e môde tecse)',
-'mw_math_modern' => 'Ricmandé po les betchteus modienes',
-'mw_math_mathml' => "Eployî MathML si c' est possibe (esperimintå)",
-
-# Math errors
-'math_unknown_error'    => 'aroke nén cnoxhowe',
-'math_unknown_function' => 'fonccion nén cnoxhowe',
-'math_syntax_error'     => 'aroke di sintacse',
-'math_image_error'      => 'Li cviersaedje e PNG a fwait berwete; verifyîz ki les programes latex, dvips, gs eyet convert ont stî astalés comifåt',
-'math_bad_tmpdir'       => "Dji n' sai nén scrire ou ahiver l' ridant timporaire po les formules matematikes",
-'math_bad_output'       => "Dji n' sai nén scrire ou ahiver l' ridant po les fitchîs di rexhowe des formules matematikes",
-'math_notexvc'          => 'I manke li fitchî enondåve texvc; lijhoz math/README po-z apontyî.',
-
 # Image deletion
 'deletedrevision' => 'Viye modêye $1 disfacêye',
 
@@ -1418,12 +1396,11 @@ Totes les accions di rcopiaedje eterwiki sont metowes e [[Special:Log/import|djo
 'nextdiff'     => 'Diferinces des candjmints shuvants →',
 
 # Media information
-'mediawarning'         => "'''Asteme''': Ci fitchî chal pôreut esse evirussé, si vos l' enondez vos pôrîz infecter l' sistinme da vosse.",
-'imagemaxsize'         => "Limite pol håynaedje ezès pådjes d' imådje:",
-'thumbsize'            => 'Grandeu po les imådjetes (thumb):',
-'file-info-size'       => '$1 × $2 picsels, groxheur do fitchî: $3, del sôre "MIME": $4',
-'show-big-image'       => 'Pus grande imådje',
-'show-big-image-thumb' => '<small>Grandeur di ci prevoeyaedje ci : $1 × $2 picsels</small>',
+'mediawarning'   => "'''Asteme''': Ci fitchî chal pôreut esse evirussé, si vos l' enondez vos pôrîz infecter l' sistinme da vosse.",
+'imagemaxsize'   => "Limite pol håynaedje ezès pådjes d' imådje:",
+'thumbsize'      => 'Grandeu po les imådjetes (thumb):',
+'file-info-size' => '$1 × $2 picsels, groxheur do fitchî: $3, del sôre "MIME": $4',
+'show-big-image' => 'Pus grande imådje',
 
 # Special:NewFiles
 'newimages'             => 'Galreye des nouvès imådjes',

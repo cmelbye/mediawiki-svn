@@ -179,7 +179,8 @@ class DatabaseOracle extends DatabaseBase {
 	function __construct( $server = false, $user = false, $password = false, $dbName = false,
 		$flags = 0, $tablePrefix = 'get from global' )
 	{
-		$tablePrefix = $tablePrefix == 'get from global' ? $tablePrefix : strtoupper( $tablePrefix );
+		global $wgDBprefix;
+		$tablePrefix = $tablePrefix == 'get from global' ? strtoupper( $wgDBprefix ) : strtoupper( $tablePrefix );
 		parent::__construct( $server, $user, $password, $dbName, $flags, $tablePrefix );
 		wfRunHooks( 'DatabaseOraclePostInit', array( $this ) );
 	}
@@ -462,7 +463,7 @@ class DatabaseOracle extends DatabaseBase {
 	private function fieldBindStatement ( $table, $col, &$val, $includeCol = false ) {
 		$col_info = $this->fieldInfoMulti( $table, $col );
 		$col_type = $col_info != false ? $col_info->type() : 'CONSTANT';
-		
+
 		$bind = '';
 		if ( is_numeric( $col ) ) {
 			$bind = $val;
@@ -632,8 +633,7 @@ class DatabaseOracle extends DatabaseBase {
 		return $retval;
 	}
 
-	function tableName( $name ) {
-		global $wgSharedDB, $wgSharedPrefix, $wgSharedTables;
+	function tableName( $name, $quoted = true ) {
 		/*
 		Replace reserved words with better ones
 		Using uppercase because that's the only way Oracle can handle
@@ -648,46 +648,7 @@ class DatabaseOracle extends DatabaseBase {
 				break;
 		}
 
-		/*
-			The rest of procedure is equal to generic Databse class
-			except for the quoting style
-		*/
-		if ( $name[0] == '"' && substr( $name, - 1, 1 ) == '"' ) {
-			return $name;
-		}
-		if ( preg_match( '/(^|\s)(DISTINCT|JOIN|ON|AS)(\s|$)/i', $name ) !== 0 ) {
-			return $name;
-		}
-		$dbDetails = array_reverse( explode( '.', $name, 2 ) );
-		if ( isset( $dbDetails[1] ) ) {
-			@list( $table, $database ) = $dbDetails;
-		} else {
-			@list( $table ) = $dbDetails;
-		}
-
-		$prefix = $this->mTablePrefix;
-
-		if ( isset( $database ) ) {
-			$table = ( $table[0] == '`' ? $table : "`{$table}`" );
-		}
-
-		if ( !isset( $database ) && isset( $wgSharedDB ) && $table[0] != '"'
-			&& isset( $wgSharedTables )
-			&& is_array( $wgSharedTables )
-			&& in_array( $table, $wgSharedTables )
-		) {
-			$database = $wgSharedDB;
-			$prefix   = isset( $wgSharedPrefix ) ? $wgSharedPrefix : $prefix;
-		}
-
-		if ( isset( $database ) ) {
-			$database = ( $database[0] == '"' ? $database : "\"{$database}\"" );
-		}
-		$table = ( $table[0] == '"') ? $table : "\"{$prefix}{$table}\"" ;
-
-		$tableName = ( isset( $database ) ? "{$database}.{$table}" : "{$table}" );
-
-		return strtoupper( $tableName );
+		return parent::tableName( strtoupper( $name ), $quoted );
 	}
 
 	/**
@@ -822,16 +783,19 @@ class DatabaseOracle extends DatabaseBase {
 
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseOracle::duplicateTableStructure' ) {
 		global $wgDBprefix;
+		$this->setFlag( DBO_DDLMODE );
 		
 		$temporary = $temporary ? 'TRUE' : 'FALSE';
 
-		$newName = trim( strtoupper( $newName ), '"');
-		$oldName = trim( strtoupper( $oldName ), '"');
+		$newName = strtoupper( $newName );
+		$oldName = strtoupper( $oldName );
 
-		$tabName = substr( $newName, strlen( $wgDBprefix ) );
-		$oldPrefix = substr( $oldName, 0, strlen( $oldName ) - strlen( $tabName ) );
+		$tabName = $this->addIdentifierQuotes( substr( $newName, strlen( $wgDBprefix ) ) );
+		$oldPrefix = $this->addIdentifierQuotes( substr( $oldName, 0, strlen( $oldName ) - strlen( $tabName ) ) );
+		$newPrefix = $this->addIdentifierQuotes( $wgDBprefix );
 
-		return $this->doQuery( 'BEGIN DUPLICATE_TABLE(\'' . $tabName . '\', \'' . $oldPrefix . '\', \'' . strtoupper( $wgDBprefix ) . '\', ' . $temporary . '); END;' );
+		$this->clearFlag( DBO_DDLMODE );
+		return $this->doQuery( "BEGIN DUPLICATE_TABLE( $tabName, $oldPrefix, $newPrefix, $temporary ); END;" );
 	}
 
 	function listTables( $prefix = null, $fname = 'DatabaseOracle::listTables' ) {
@@ -913,7 +877,7 @@ class DatabaseOracle extends DatabaseBase {
 	 * Query whether a given table exists (in the given schema, or the default mw one if not given)
 	 */
 	function tableExists( $table ) {
-		$table = trim($this->tableName($table), '"');
+		$table = $this->removeIdentifierQuotes($table);
 		$SQL = "SELECT 1 FROM user_tables WHERE table_name='$table'";
 		$res = $this->doQuery( $SQL );
 		if ( $res ) {
@@ -941,7 +905,7 @@ class DatabaseOracle extends DatabaseBase {
 			$table = array_map( array( &$this, 'tableName' ), $table );
 			$tableWhere = 'IN (';
 			foreach( $table as &$singleTable ) {
-				$singleTable = strtoupper( trim( $singleTable, '"' ) );
+				$singleTable = $this->removeIdentifierQuotes($singleTable);
 				if ( isset( $this->mFieldInfoCache["$singleTable.$field"] ) ) {
 					return $this->mFieldInfoCache["$singleTable.$field"];
 				}
@@ -949,7 +913,7 @@ class DatabaseOracle extends DatabaseBase {
 			}
 			$tableWhere = rtrim( $tableWhere, ',' ) . ')';
 		} else {
-			$table = strtoupper( trim( $this->tableName( $table ), '"' ) );
+			$table = $this->removeIdentifierQuotes($table);
 			if ( isset( $this->mFieldInfoCache["$table.$field"] ) ) {
 				return $this->mFieldInfoCache["$table.$field"];
 			}
@@ -1114,10 +1078,18 @@ class DatabaseOracle extends DatabaseBase {
 	}
 
 	public function addIdentifierQuotes( $s ) {
-		if ( !$this->mFlags & DBO_DDLMODE ) {
-			$s = '"' . str_replace( '"', '""', $s ) . '"';
+		if ( !$this->getFlag( DBO_DDLMODE ) ) {
+			$s = '/*Q*/' . $s;
 		}
 		return $s;
+	}
+
+	public function removeIdentifierQuotes( $s ) {
+		return strpos($s, '/*Q*/') === FALSE ? $s : substr($s, 5); ;
+	}
+
+	public function isQuotedIdentifier( $s ) {
+		return strpos($s, '/*Q*/') !== FALSE;
 	}
 
 	function selectRow( $table, $vars, $conds, $fname = 'DatabaseOracle::selectRow', $options = array(), $join_conds = array() ) {

@@ -13,8 +13,6 @@ class ImageGallery
 {
 	var $mImages, $mShowBytes, $mShowFilename;
 	var $mCaption = false;
-	var $mSkin = false;
-	var $mRevisionId = 0;
 
 	/**
 	 * Hide blacklisted images?
@@ -23,6 +21,7 @@ class ImageGallery
 
 	/**
 	 * Registered parser object for output callbacks
+	 * @var Parser
 	 */
 	var $mParser;
 
@@ -33,6 +32,13 @@ class ImageGallery
 	private $contextTitle = false;
 
 	private $mAttribs = array();
+
+	/**
+	 * Fixed margins
+	 */
+	const THUMB_PADDING = 30;
+	const GB_PADDING = 5;
+	const GB_BORDERS = 6;
 
 	/**
 	 * Create a new image gallery object.
@@ -120,24 +126,10 @@ class ImageGallery
 	 * Instruct the class to use a specific skin for rendering
 	 *
 	 * @param $skin Skin object
+	 * @deprecated Not used anymore
 	 */
 	function useSkin( $skin ) {
-		$this->mSkin = $skin;
-	}
-
-	/**
-	 * Return the skin that should be used
-	 *
-	 * @return Skin object
-	 */
-	function getSkin() {
-		if( !$this->mSkin ) {
-			global $wgUser;
-			$skin = $wgUser->getSkin();
-		} else {
-			$skin = $this->mSkin;
-		}
-		return $skin;
+		/* no op */
 	}
 
 	/**
@@ -223,47 +215,51 @@ class ImageGallery
 	function toHTML() {
 		global $wgLang;
 
-		$sk = $this->getSkin();
-
 		if ( $this->mPerRow > 0 ) {
-			$maxwidth = $this->mPerRow * ( $this->mWidths + 50 );
+			$maxwidth = $this->mPerRow * ( $this->mWidths + self::THUMB_PADDING + self::GB_PADDING + self::GB_BORDERS );
 			$oldStyle = isset( $this->mAttribs['style'] ) ? $this->mAttribs['style'] : ""; 
 			$this->mAttribs['style'] = "max-width: {$maxwidth}px;_width: {$maxwidth}px;" . $oldStyle;
 		}
 
 		$attribs = Sanitizer::mergeAttributes(
-			array(
-				'class' => 'gallery'),
-			$this->mAttribs );
+			array( 'class' => 'gallery' ), $this->mAttribs );
+
 		$s = Xml::openElement( 'ul', $attribs );
 		if ( $this->mCaption ) {
 			$s .= "\n\t<li class='gallerycaption'>{$this->mCaption}</li>";
 		}
 
 		$params = array( 'width' => $this->mWidths, 'height' => $this->mHeights );
-		$i = 0;
+		# Output each image...
 		foreach ( $this->mImages as $pair ) {
 			$nt = $pair[0];
 			$text = $pair[1]; # "text" means "caption" here
 
-			# Give extensions a chance to select the file revision for us
-			$time = $descQuery = false;
-			wfRunHooks( 'BeforeGalleryFindFile', array( &$this, &$nt, &$time, &$descQuery ) );
-
+			$descQuery = false;
 			if ( $nt->getNamespace() == NS_FILE ) {
-				$img = wfFindFile( $nt, array( 'time' => $time ) );
+				# Get the file...
+				if ( $this->mParser instanceof Parser ) {
+					# Give extensions a chance to select the file revision for us
+					$time = $sha1 = false;
+					wfRunHooks( 'BeforeParserFetchFileAndTitle',
+						array( $this->mParser, $nt, &$time, &$sha1, &$descQuery ) );
+					# Fetch and register the file (file title may be different via hooks)
+					list( $img, $nt ) = $this->mParser->fetchFileAndTitle( $nt, $time, $sha1 );
+				} else {
+					$img = wfFindFile( $nt );
+				}
 			} else {
 				$img = false;
 			}
 
 			if( !$img ) {
 				# We're dealing with a non-image, spit out the name and be done with it.
-				$thumbhtml = "\n\t\t\t".'<div style="height: '.(30 + $this->mHeights).'px;">'
+				$thumbhtml = "\n\t\t\t".'<div style="height: '.(self::THUMB_PADDING + $this->mHeights).'px;">'
 					. htmlspecialchars( $nt->getText() ) . '</div>';
 			} elseif( $this->mHideBadImages && wfIsBadImage( $nt->getDBkey(), $this->getContextTitle() ) ) {
 				# The image is blacklisted, just show it as a text link.
-				$thumbhtml = "\n\t\t\t".'<div style="height: '.(30 + $this->mHeights).'px;">' .
-					$sk->link(
+				$thumbhtml = "\n\t\t\t".'<div style="height: '.(self::THUMB_PADDING + $this->mHeights).'px;">' .
+					Linker::link(
 						$nt,
 						htmlspecialchars( $nt->getText() ),
 						array(),
@@ -273,13 +269,13 @@ class ImageGallery
 					'</div>';
 			} elseif( !( $thumb = $img->transform( $params ) ) ) {
 				# Error generating thumbnail.
-				$thumbhtml = "\n\t\t\t".'<div style="height: '.(30 + $this->mHeights).'px;">'
+				$thumbhtml = "\n\t\t\t".'<div style="height: '.(self::THUMB_PADDING + $this->mHeights).'px;">'
 					. htmlspecialchars( $img->getLastError() ) . '</div>';
 			} else {
 				//We get layout problems with the margin, if the image is smaller 
 				//than the line-height, so we less margin in these cases.
 				$minThumbHeight =  $thumb->height > 17 ? $thumb->height : 17;
-				$vpad = floor(( 30 + $this->mHeights - $minThumbHeight ) /2);
+				$vpad = floor(( self::THUMB_PADDING + $this->mHeights - $minThumbHeight ) /2);
 				
 
 				$imageParameters = array(
@@ -293,7 +289,7 @@ class ImageGallery
 
 				# Set both fixed width and min-height.
 				$thumbhtml = "\n\t\t\t".
-					'<div class="thumb" style="width: ' .($this->mWidths+30).'px;">'
+					'<div class="thumb" style="width: ' .($this->mWidths + self::THUMB_PADDING).'px;">'
 					# Auto-margin centering for block-level elements. Needed now that we have video
 					# handlers since they may emit block-level elements as opposed to simple <img> tags.
 					# ref http://css-discuss.incutio.com/?page=CenteringBlockElement
@@ -308,7 +304,7 @@ class ImageGallery
 
 			//TODO
 			// $linkTarget = Title::newFromText( $wgContLang->getNsText( MWNamespace::getUser() ) . ":{$ut}" );
-			// $ul = $sk->link( $linkTarget, $ut );
+			// $ul = Linker::link( $linkTarget, $ut );
 
 			if( $this->mShowBytes ) {
 				if( $img ) {
@@ -323,7 +319,7 @@ class ImageGallery
 			}
 
 			$textlink = $this->mShowFilename ?
-				$sk->link(
+				Linker::link(
 					$nt,
 					htmlspecialchars( $wgLang->truncate( $nt->getText(), $this->mCaptionLength ) ),
 					array(),
@@ -339,14 +335,13 @@ class ImageGallery
 			# Weird double wrapping in div needed due to FF2 bug
 			# Can be safely removed if FF2 falls completely out of existance
 			$s .=
-				"\n\t\t" . '<li class="gallerybox" style="width: ' . ( $this->mWidths + 35 ) . 'px">'
-					. '<div style="width: ' . ( $this->mWidths + 35 ) . 'px">'
+				"\n\t\t" . '<li class="gallerybox" style="width: ' . ( $this->mWidths + self::THUMB_PADDING + self::GB_PADDING ) . 'px">'
+					. '<div style="width: ' . ( $this->mWidths + self::THUMB_PADDING + self::GB_PADDING ) . 'px">'
 					. $thumbhtml
 					. "\n\t\t\t" . '<div class="gallerytext">' . "\n"
 						. $textlink . $text . $nb
 					. "\n\t\t\t</div>"
 				. "\n\t\t</div></li>";
-			++$i;
 		}
 		$s .= "\n</ul>";
 

@@ -105,7 +105,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Védett_címek' ),
 	'Allpages'                  => array( 'Az_összes_lap_listája' ),
 	'Prefixindex'               => array( 'Keresés_előtag_szerint' ),
-	'Ipblocklist'               => array( 'Blokkolt_IP-címek_listája' ),
+	'BlockList'                 => array( 'Blokkolt_IP-címek_listája' ),
 	'Unblock'                   => array( 'Blokkolás_feloldása' ),
 	'Specialpages'              => array( 'Speciális_lapok' ),
 	'Contributions'             => array( 'Szerkesztő_közreműködései' ),
@@ -121,7 +121,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Névjegy', 'Verziószám', 'Verzió' ),
 	'Allmessages'               => array( 'Rendszerüzenetek' ),
 	'Log'                       => array( 'Rendszernaplók', 'Naplók', 'Napló' ),
-	'Blockip'                   => array( 'Blokkolás' ),
+	'Block'                     => array( 'Blokkolás' ),
 	'Undelete'                  => array( 'Törölt_lapváltozatok_visszaállítása' ),
 	'Import'                    => array( 'Lapok_importálása' ),
 	'Lockdb'                    => array( 'Adatbázis_lezárása' ),
@@ -580,8 +580,8 @@ $1',
 'toc'                     => 'Tartalomjegyzék',
 'showtoc'                 => 'megjelenítés',
 'hidetoc'                 => 'elrejtés',
-'collapsible-collapse'    => 'kinyit',
-'collapsible-expand'      => 'becsuk',
+'collapsible-collapse'    => 'becsuk',
+'collapsible-expand'      => 'kinyit',
 'thisisdeleted'           => '$1 megtekintése vagy helyreállítása?',
 'viewdeleted'             => '$1 megtekintése',
 'restorelink'             => '{{PLURAL:$1|Egy|$1}} törölt szerkesztés',
@@ -741,6 +741,7 @@ Ellenőrizd, hogy helyesen írtad-e be.',
 'wrongpasswordempty'         => 'Nem adtál meg jelszót. Próbáld meg újra.',
 'passwordtooshort'           => 'A jelszónak legalább {{PLURAL:$1|egy|$1}} karakterből kell állnia.',
 'password-name-match'        => 'A jelszavadnak különböznie kell a szerkesztőnevedtől.',
+'password-login-forbidden'   => 'Ezen felhasználónév és jelszó használata tiltott.',
 'mailmypassword'             => 'Új jelszó küldése e-mailben',
 'passwordremindertitle'      => 'Ideiglenes jelszó a(z) {{SITENAME}} wikire',
 'passwordremindertext'       => 'Valaki (vélhetően te, a(z) $1 IP-címről) új jelszót kért a(z)
@@ -821,8 +822,6 @@ Lehet, hogy már sikeresen megváltoztattad a jelszavad, vagy pedig időközben 
 'extlink_tip'     => 'Külső hivatkozás (ne felejtsd el a http:// előtagot)',
 'headline_sample' => 'Alfejezet címe',
 'headline_tip'    => 'Alfejezetcím',
-'math_sample'     => 'Ide írd a képletet',
-'math_tip'        => 'Matematikai képlet (LaTeX)',
 'nowiki_sample'   => 'Ide írd a formázatlan szöveget',
 'nowiki_tip'      => 'Wiki formázás kikapcsolása',
 'image_sample'    => 'Pelda.jpg',
@@ -1068,7 +1067,7 @@ Lehet, hogy törölték a wikiből, vagy átnevezték.
 Próbálkozhatsz a témával kapcsolatos lapok [[Special:Search|keresésével]].',
 
 # Revision deletion
-'rev-deleted-comment'         => '(megjegyzés eltávolítva)',
+'rev-deleted-comment'         => '(szerkesztési összefoglaló eltávolítva)',
 'rev-deleted-user'            => '(szerkesztőnév eltávolítva)',
 'rev-deleted-event'           => '(bejegyzés eltávolítva)',
 'rev-deleted-user-contribs'   => '[felhasználónév vagy IP-cím eltávolítva – szerkesztés elrejtve a közreműködések közül]',
@@ -1315,16 +1314,15 @@ Győződj meg róla, hogy a laptörténet folytonossága megmarad.',
 'changepassword'                => 'Jelszócsere',
 'prefs-skin'                    => 'Felület',
 'skin-preview'                  => 'előnézet',
-'prefs-math'                    => 'Képletek',
 'datedefault'                   => 'Nincs beállítás',
 'prefs-datetime'                => 'Dátum és idő',
 'prefs-personal'                => 'Felhasználói adatok',
 'prefs-rc'                      => 'Friss változtatások',
 'prefs-watchlist'               => 'Figyelőlista',
 'prefs-watchlist-days'          => 'A figyelőlistában mutatott napok száma:',
-'prefs-watchlist-days-max'      => '(legfeljebb 7 nap)',
+'prefs-watchlist-days-max'      => 'Legfeljebb 7 nap',
 'prefs-watchlist-edits'         => 'A kiterjesztett figyelőlistán mutatott szerkesztések száma:',
-'prefs-watchlist-edits-max'     => '(legfeljebb 1000)',
+'prefs-watchlist-edits-max'     => 'Legfeljebb 1000',
 'prefs-watchlist-token'         => 'A figyelőlista kulcsa:',
 'prefs-misc'                    => 'Egyéb',
 'prefs-resetpass'               => 'Jelszó megváltoztatása',
@@ -1372,7 +1370,7 @@ Itt van egy véletlenszerűen generált érték, amit használhatsz: $1',
 'prefs-searchoptions'           => 'A keresés beállításai',
 'prefs-namespaces'              => 'Névterek',
 'defaultns'                     => 'Egyébként a következő névterekben keressen:',
-'default'                       => 'alapértelmezés',
+'default'                       => 'alapértelmezett',
 'prefs-files'                   => 'Fájlok',
 'prefs-custom-css'              => 'saját CSS',
 'prefs-custom-js'               => 'saját JS',
@@ -2437,7 +2435,7 @@ A blokknapló legutóbbi ide vonatkozó bejegyzése a következő:',
 'whatlinkshere-title'      => 'A(z) „$1” lapra hivatkozó lapok',
 'whatlinkshere-page'       => 'Lap:',
 'linkshere'                => 'Az alábbi lapok hivatkoznak erre: [[:$1]]',
-'nolinkshere'              => '[[:$1]]: erre a lapra semmi nem hivatkozik.',
+'nolinkshere'              => '[[:$1]]: erre a lapra egyetlen más lap sem hivatkozik.',
 'nolinkshere-ns'           => "A kiválasztott névtérben egyetlen oldal sem hivatkozik a(z) '''[[:$1]]''' lapra.",
 'isredirect'               => 'átirányítás',
 'istemplate'               => 'beillesztve',
@@ -2458,7 +2456,6 @@ A blokknapló legutóbbi ide vonatkozó bejegyzése a következő:',
 'blockiptext'                     => 'Az alábbi űrlap segítségével megvonhatod egy szerkesztő vagy IP-cím szerkesztési jogait.
 Ügyelj rá, hogy az intézkedésed mindig legyen tekintettel a vonatkozó [[{{MediaWiki:Policy-url}}|irányelvekre]].
 Add meg a blokkolás okát is (például idézd a blokkolandó személy által vandalizált lapokat).',
-'ipaddress'                       => 'IP-cím',
 'ipadressorusername'              => 'IP-cím vagy felhasználói név',
 'ipbexpiry'                       => 'Lejárat:',
 'ipbreason'                       => 'Ok:',
@@ -2471,7 +2468,6 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 ** Megfélemlítő viselkedés, zaklatás
 ** Több szerkesztői fiókkal való visszaélés
 ** Elfogadhatatlan azonosító',
-'ipbanononly'                     => 'Csak anonim felhasználók blokkolása',
 'ipbcreateaccount'                => 'Új regisztráció megakadályozása',
 'ipbemailban'                     => 'E-mailt se tudjon küldeni',
 'ipbenableautoblock'              => 'A szerkesztő által használt IP-címek automatikus blokkolása',
@@ -2482,7 +2478,6 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipbotherreason'                  => 'Más/további ok:',
 'ipbhidename'                     => 'A felhasználónév ne jelenjen meg a szerkesztéseknél és a listákban',
 'ipbwatchuser'                    => 'A felhasználó lapjának és vitalapjának figyelése',
-'ipballowusertalk'                => 'A szerkesztő módosíthatja saját vitalapját a blokkolás ideje alatt',
 'ipb-change-block'                => 'Blokk beállításainak megváltoztatása',
 'badipaddress'                    => 'Érvénytelen IP-cím',
 'blockipsuccesssub'               => 'Sikeres blokkolás',
@@ -2498,16 +2493,11 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipusubmit'                       => 'Blokk eltávolítása',
 'unblocked'                       => '[[User:$1|$1]] blokkolása feloldva',
 'unblocked-id'                    => '$1 blokkolása feloldásra került',
-'ipblocklist'                     => 'Blokkolt IP-címek és felhasználónevek listája',
+'ipblocklist'                     => 'Blokkolt felhasználók',
 'ipblocklist-legend'              => 'Blokkolt felhasználó keresése',
-'ipblocklist-username'            => 'Felhasználónév vagy IP-cím:',
-'ipblocklist-sh-userblocks'       => 'felhasználói fiókok blokkjainak $1',
-'ipblocklist-sh-tempblocks'       => 'ideiglenes blokkok $1',
-'ipblocklist-sh-addressblocks'    => 'egy IP-címre vonatkozó blokkok $1',
 'ipblocklist-submit'              => 'Keresés',
 'ipblocklist-localblock'          => 'Helyi blokk',
 'ipblocklist-otherblocks'         => 'További {{PLURAL:$1|blokk|blokkok}}',
-'blocklistline'                   => '$1, $2 blokkolta $3 felhasználót ($4)',
 'infiniteblock'                   => 'végtelen',
 'expiringblock'                   => 'lejárat: $1 $2',
 'anononlyblock'                   => 'csak anon.',
@@ -2541,8 +2531,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipb_expiry_temp'                 => 'A láthatatlan felhasználóinév-blokkok lehetnek állandóak.',
 'ipb_hide_invalid'                => 'A felhasználói fiókot nem lehet elrejteni; lehet, hogy túl sok szerkesztése van.',
 'ipb_already_blocked'             => '"$1" már blokkolva',
-'ipb-needreblock'                 => '== Már blokkolva ==
-$1 már blokkolva van. Meg szeretnéd változtatni a beállításokat?',
+'ipb-needreblock'                 => '$1 már blokkolva van. Meg szeretnéd változtatni a beállításokat?',
 'ipb-otherblocks-header'          => 'További {{PLURAL:$1|blokk|blokkok}}',
 'ipb_cant_unblock'                => 'Hiba: A(z) $1 blokkolási azonosító nem található. Lehet, hogy már feloldották a blokkolását.',
 'ipb_blocked_as_range'            => 'Hiba: a(z) $1 IP-cím nem blokkolható közvetlenül, és nem lehet feloldani. A(z) $2 tartomány részeként van blokkolva, amely feloldható.',
@@ -2598,6 +2587,16 @@ A lap '''nem''' nevezhető át, ha már van egy ugyanilyen című lap, hacsak ne
 Ez azt jelenti, hogy vissza tudsz nevezni egy tévedésből átnevezett lapot, és nem tudsz egy már létező lapot véletlenül felülírni.
 
 '''FIGYELEM!'''
+Népszerű oldalak esetén ez drasztikus és nem várt változtatás lehet;
+győződj meg a folytatás előtt arról, hogy tisztában vagy-e a következményekkel.",
+'movepagetext-noredirectfixer' => "Az alábbi űrlap használatával nevezhetsz át egy lapot, és helyezheted át teljes laptörténetét az új nevére.
+A régi cím az új címre való átirányítás lesz.
+Ellenőrizd a [[Special:DoubleRedirects|dupla]] és a [[Special:BrokenRedirects|hibás átirányításoknál]], hogy a linkek továbbra is oda mutatnak, ahová mutatniuk kell.
+
+A lap '''nem''' nevezhető át, ha már van egy ugyanilyen című lap, hacsak nem üres, vagy átirányítás, aminek nincs laptörténete.
+Ez azt jelenti, hogy vissza tudsz nevezni egy tévedésből átnevezett lapot, de nem tudsz egy már létező lapot véletlenül felülírni.
+
+'''Figyelem!'''
 Népszerű oldalak esetén ez drasztikus és nem várt változtatás lehet;
 győződj meg a folytatás előtt arról, hogy tisztában vagy-e a következményekkel.",
 'movepagetalktext'             => "A laphoz tartozó vitalap automatikusan átneveződik, '''kivéve, ha:'''
@@ -2895,25 +2894,6 @@ Ez valószínűleg egy olyan link miatt van, ami egy feketelistán lévő oldalr
 'skinname-simple'      => 'Egyszerű',
 'skinname-modern'      => 'Modern',
 
-# Math options
-'mw_math_png'    => 'Mindig készítsen PNG-t',
-'mw_math_simple' => 'HTML, ha nagyon egyszerű, egyébként PNG',
-'mw_math_html'   => 'HTML, ha lehetséges, egyébként PNG',
-'mw_math_source' => 'Hagyja TeX formában (szöveges böngészőknek)',
-'mw_math_modern' => 'Modern böngészőknek ajánlott beállítás',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Értelmezés sikertelen',
-'math_unknown_error'    => 'ismeretlen hiba',
-'math_unknown_function' => 'ismeretlen függvény',
-'math_lexing_error'     => 'lexikai hiba',
-'math_syntax_error'     => 'formai hiba',
-'math_image_error'      => 'PNG-vé alakítás sikertelen; ellenőrizd, hogy a latex és dvipng (vagy dvips + gs + convert) helyesen van-e telepítve',
-'math_bad_tmpdir'       => 'Nem írható vagy nem hozható létre a matematikai ideiglenes könyvtár',
-'math_bad_output'       => 'Nem lehet létrehozni vagy írni a matematikai függvények kimeneti könyvtárába',
-'math_notexvc'          => 'HIányzó texvc végrehajtható fájl; a beállítást lásd a math/README fájlban.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Ellenőrzöttnek jelölöd',
 'markaspatrolledtext'                 => 'Ellenőriztem',
@@ -2949,22 +2929,24 @@ $1',
 'nextdiff'     => 'Újabb szerkesztés →',
 
 # Media information
-'mediawarning'         => "'''Figyelmeztetés''': Ez a fájltípus kártékony kódot tartalmazhat.
+'mediawarning'           => "'''Figyelmeztetés''': Ez a fájltípus kártékony kódot tartalmazhat.
 A futtatása során kárt tehet a számítógépedben.",
-'imagemaxsize'         => "A képek mérete, legfeljebb:<br />''(a leírólapokon)''",
-'thumbsize'            => 'Bélyegkép mérete:',
-'widthheightpage'      => '$1×$2, {{PLURAL:$3|egy|$3}} oldal',
-'file-info'            => 'fájlméret: $1, MIME-típus: $2',
-'file-info-size'       => '$1 × $2 képpont, fájlméret: $3, MIME-típus: $4',
-'file-nohires'         => '<small>Nem érhető el nagyobb felbontású változat.</small>',
-'svg-long-desc'        => 'SVG fájl, névlegesen $1 × $2 képpont, fájlméret: $3',
-'show-big-image'       => 'A kép nagyfelbontású változata',
-'show-big-image-thumb' => '<small>Az előnézet mérete: $1 × $2 képpont</small>',
-'file-info-gif-looped' => 'ismétlődik',
-'file-info-gif-frames' => '{{PLURAL:$1|egy|$1}} képkocka',
-'file-info-png-looped' => 'ismétlődik',
-'file-info-png-repeat' => 'lejátszva {{PLURAL:$1|egy|$1}} alkalommal',
-'file-info-png-frames' => '{{PLURAL:$1|egy|$1}} képkocka',
+'imagemaxsize'           => "A képek mérete, legfeljebb:<br />''(a leírólapokon)''",
+'thumbsize'              => 'Bélyegkép mérete:',
+'widthheightpage'        => '$1×$2, {{PLURAL:$3|egy|$3}} oldal',
+'file-info'              => 'fájlméret: $1, MIME-típus: $2',
+'file-info-size'         => '$1 × $2 képpont, fájlméret: $3, MIME-típus: $4',
+'file-nohires'           => '<small>Nem érhető el nagyobb felbontású változat.</small>',
+'svg-long-desc'          => 'SVG fájl, névlegesen $1 × $2 képpont, fájlméret: $3',
+'show-big-image'         => 'A kép nagyfelbontású változata',
+'show-big-image-preview' => '<small>Az előnézet mérete: $1</small>',
+'show-big-image-other'   => '<small>Más felbontás: $1.</small>',
+'show-big-image-size'    => '$1 × $2 képpont',
+'file-info-gif-looped'   => 'ismétlődik',
+'file-info-gif-frames'   => '{{PLURAL:$1|egy|$1}} képkocka',
+'file-info-png-looped'   => 'ismétlődik',
+'file-info-png-repeat'   => 'lejátszva {{PLURAL:$1|egy|$1}} alkalommal',
+'file-info-png-frames'   => '{{PLURAL:$1|egy|$1}} képkocka',
 
 # Special:NewFiles
 'newimages'             => 'Új fájlok galériája',
@@ -3323,6 +3305,21 @@ e-mail cím megerősíthetőségének visszavonásához:
 $5
 
 A megerősítésre szánt kód felhasználhatósági idejének lejárata: $4.',
+'confirmemail_body_set'     => 'Valaki, valószínűleg te, ezt az email címet adta meg
+„$2” nevű {{SITENAME}}-fiókjához a következő IP-címről: $1.
+
+Ha meg szeretnéd erősíteni, hogy a fiók valóban hozzád tartozik,
+így aktiválva a(z) {{SITENAME}} e-mailes funkcióit, nyisd meg az
+alábbi linket a böngésződben:
+
+$3
+
+Ha a fiók *nem* hozzád tartozik, kövesd az alábbi linket a
+megerősítés visszavonásához:
+
+$5
+
+Ez a megerősítő e-mail $4-ig érvényes.',
 'confirmemail_invalidated'  => 'E-mail-cím megerősíthetősége visszavonva',
 'invalidateemail'           => 'E-mail-cím megerősíthetőségének visszavonása',
 
@@ -3394,14 +3391,14 @@ Kérlek erősítsd meg, hogy tényleg újra akarod-e írni a lapot.",
 'watchlistedit-normal-legend'  => 'Lapok eltávolítása a figyelőlistáról',
 'watchlistedit-normal-explain' => 'A figyelőlistádra felvett lapok címei alább láthatóak.
 Ha el szeretnél távolítani egy címet, pipáld ki a mellette található jelölőnégyzetet, majd kattints „{{int:Watchlistedit-normal-submit}}” gombra.
-Lehetőséged van a [[Special:Watchlist/raw|figyelőlista nyers változatának]] szerkesztésére is.',
+Lehetőséged van a [[Special:EditWatchlist/raw|figyelőlista nyers változatának]] szerkesztésére is.',
 'watchlistedit-normal-submit'  => 'A kijelöltek eltávolítása',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|A következő|A következő $1}} cikket eltávolítottam a figyelőlistádról:',
 'watchlistedit-raw-title'      => 'A nyers figyelőlista szerkesztése',
 'watchlistedit-raw-legend'     => 'A nyers figyelőlista szerkesztése',
 'watchlistedit-raw-explain'    => 'A figyelőlistádra felvett lapok az alábbi listában találhatók. A lista szerkeszthető;
 minden egyes sor egy figyelt lap címe. Ha kész vagy, kattints a lista alatt található
-„{{int:Watchlistedit-raw-submit}}” feliratú gombra. Használhatod a [[Special:Watchlist/edit|hagyományos listaszerkesztőt]] is.',
+„{{int:Watchlistedit-raw-submit}}” feliratú gombra. Használhatod a [[Special:EditWatchlist|hagyományos listaszerkesztőt]] is.',
 'watchlistedit-raw-titles'     => 'A figyelőlistádon található cikkek:',
 'watchlistedit-raw-submit'     => 'Mentés',
 'watchlistedit-raw-done'       => 'A figyelőlistád változtatásait elmentettem.',
@@ -3470,7 +3467,8 @@ Add meg a fájlnevet a „{{ns:file}}:” prefixum nélkül.',
 'specialpages'                   => 'Speciális lapok',
 'specialpages-note'              => '----
 * Mindenki számára elérhető speciális lapok.
-* <strong class="mw-specialpagerestricted">Korlátozott hozzáférésű speciális lapok.</strong>',
+* <span class="mw-specialpagerestricted">Korlátozott hozzáférésű speciális lapok.</span>
+* <span class="mw-specialpagecached">Csak gyorsítótárazott adatokat tartalmazó speciális lapok.</span>',
 'specialpages-group-maintenance' => 'Állapotjelentések',
 'specialpages-group-other'       => 'További speciális lapok',
 'specialpages-group-login'       => 'Bejelentkezés / fiók létrehozása',

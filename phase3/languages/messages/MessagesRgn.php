@@ -283,8 +283,6 @@ Par piasé, fa raport a un [[Special:ListUsers/sysop|aministrador]] cun la nota 
 'extlink_tip'     => 'Culegamént esteran (arcordat d\'scrivar dadnénz "http://")',
 'headline_sample' => 'Intestaziòn',
 'headline_tip'    => "Intestaziòn d'e' sgond livèl",
-'math_sample'     => 'Mèt aquè dentar una formula',
-'math_tip'        => 'Formula metemètica (LaTeX)',
 'nowiki_sample'   => 'Mèt dentar i tu scrètt sìnza furmataziòn',
 'nowiki_tip'      => 'Làsa perdar la furmataziòn wiki',
 'image_tip'       => "Figura ch'la sta insèn a e' scrètt",
@@ -702,11 +700,10 @@ Par piasé, met insem al du pàgin te, fasend copia e incola.",
 'nextdiff'     => 'Mudèfica piò nova →',
 
 # Media information
-'file-info-size'       => "$1 × $2 pixel, amsùra d'e' file: $3, tipo MIME: $4",
-'file-nohires'         => "<small>U n' è pusèbil d'avdé cun òna risoluziòn piò élta. </small>",
-'svg-long-desc'        => "file d'taja SVG, dimensiòn numinèli $1 × $2 pixel, dimensiòn d'e' file: $3",
-'show-big-image'       => 'Versiòn ad amsura pina',
-'show-big-image-thumb' => "<small>Amsùra d'sta versiòn: $1 × $2 pixel</small>",
+'file-info-size' => "$1 × $2 pixel, amsùra d'e' file: $3, tipo MIME: $4",
+'file-nohires'   => "<small>U n' è pusèbil d'avdé cun òna risoluziòn piò élta. </small>",
+'svg-long-desc'  => "file d'taja SVG, dimensiòn numinèli $1 × $2 pixel, dimensiòn d'e' file: $3",
+'show-big-image' => 'Versiòn ad amsura pina',
 
 # Bad image list
 'bad_image_list' => "E' quèdar l'è quest'aquè:

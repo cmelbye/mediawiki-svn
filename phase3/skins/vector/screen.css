@@ -825,7 +825,6 @@ dd {
 /* Tables */
 table {
 	font-size: 100%;
-	color: black;
 }
 /* Forms */
 fieldset {
@@ -958,9 +957,6 @@ div.tleft {
 img.thumbborder {
 	border: 1px solid #dddddd;
 }
-.hiddenStructure {
-	display: none;
-}
 /* Warning */
 .mw-warning {
 	margin-left: 50px;
@@ -1022,7 +1018,7 @@ span.subpages {
 	margin-right: auto;
 }
 /* Small for tables and similar */
-.small, .small * {
+.small {
 	font-size: 94%;
 }
 table.small {

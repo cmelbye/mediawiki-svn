@@ -431,12 +431,12 @@ class MWMemcached {
 			}
 		}
 
-		wfProfileOut( __METHOD__ );
+		$value = false;
 		if ( isset( $val[$key] ) ) {
-			return $val[$key];
-		} else {
-			return false;
+			$value = $val[$key];
 		}
+		wfProfileOut( __METHOD__ );
+		return $value;
 	}
 
 	// }}}
@@ -554,7 +554,7 @@ class MWMemcached {
 	 *       with a \n.  This is with the PHP flag auto_detect_line_endings set
 	 *       to falase (the default).
 	 *
-	 * @param $sock Ressource: socket to send command on
+	 * @param $sock Resource: socket to send command on
 	 * @param $cmd String: command to run
 	 *
 	 * @return Array: output array
@@ -857,7 +857,7 @@ class MWMemcached {
 	/**
 	 * Load items into $ret from $sock
 	 *
-	 * @param $sock Ressource: socket to read from
+	 * @param $sock Resource: socket to read from
 	 * @param $ret Array: returned values
 	 *
 	 * @access private

@@ -94,7 +94,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Titros_protègiês', 'TitrosProtègiês' ),
 	'Allpages'                  => array( 'Totes_les_pâges', 'TotesLesPâges' ),
 	'Prefixindex'               => array( 'Endèxe_des_prèfixos', 'EndèxeDesPrèfixos' ),
-	'Ipblocklist'               => array( 'Lista_des_blocâjos', 'ListaDesBlocâjos', 'Blocâjos', 'Utilisators_blocâs', 'UtilisatorsBlocâs', 'Adrèces_IP_blocâs', 'AdrècesIPBlocâs' ),
+	'BlockList'                 => array( 'Lista_des_blocâjos', 'ListaDesBlocâjos', 'Blocâjos', 'Utilisators_blocâs', 'UtilisatorsBlocâs', 'Adrèces_IP_blocâs', 'AdrècesIPBlocâs' ),
 	'Specialpages'              => array( 'Pâges_spèciâles', 'PâgesSpèciâles' ),
 	'Contributions'             => array( 'Contribucions' ),
 	'Emailuser'                 => array( 'Mandar_un_mèssâjo', 'MandarUnMèssâjo', 'Mèssâjo' ),
@@ -109,7 +109,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Vèrsion' ),
 	'Allmessages'               => array( 'Mèssâjos_sistèmo', 'MèssâjosSistèmo' ),
 	'Log'                       => array( 'Jornal', 'Jornals' ),
-	'Blockip'                   => array( 'Blocar', 'Blocâjo' ),
+	'Block'                     => array( 'Blocar', 'Blocâjo' ),
 	'Undelete'                  => array( 'Refâre', 'Rèstoracion' ),
 	'Import'                    => array( 'Importar', 'Importacion' ),
 	'Lockdb'                    => array( 'Vèrrolyér_la_bâsa_de_balyês', 'VèrrolyérLaBâsaDeBalyês' ),
@@ -845,8 +845,6 @@ Vos éd pôt-étre ja changiê voutron mot de pâssa avouéc reusséta ou ben de
 'extlink_tip'     => 'Lim de defôr (oubliâd pas lo prèfixo http://)',
 'headline_sample' => 'Tèxto de sot-titro',
 'headline_tip'    => 'Sot-titro nivél 2',
-'math_sample'     => 'Buchiéd voutra formula ique',
-'math_tip'        => 'Formula matèmatica (LaTeX)',
 'nowiki_sample'   => 'Buchiéd lo tèxto pas formatâ ique',
 'nowiki_tip'      => 'Ignorar lo formatâjo vouiqui',
 'image_sample'    => 'Ègzemplo.jpg',
@@ -870,7 +868,7 @@ Vos éd pôt-étre ja changiê voutron mot de pâssa avouéc reusséta ou ben de
 Voutra adrèce IP serat encartâ dens l’historico de ceta pâge.",
 'anonpreviewwarning'               => "''Vos éte pas branchiê. Sôvar encarterat voutra adrèce IP dens l’historico des changements de la pâge.''",
 'missingsummary'                   => "'''Rapèl :''' vos éd p’oncor balyê lo rèsumâ de voutron changement.
-Se vos tornâd clicar dessus « Sôvar ceta pâge », voutron changement serat sôvâ sen novél avèrtissement.",
+Se vos tornâd clicar dessus « {{int:savearticle}} », voutron changement serat sôvâ sen novél avèrtissement.",
 'missingcommenttext'               => 'Volyéd fâre voutron comentèro ce-desot.',
 'missingcommentheader'             => "'''Rapèl :''' vos éd p’oncor balyê de sujèt ou ben de titro a ceti comentèro.
 Se vos tornâd clicar dessus « {{int:savearticle}} », voutron changement serat sôvâ sen titro.",
@@ -1106,7 +1104,7 @@ El at pôt-étre étâ suprimâ ou ben renomâ.
 Tâchiéd de [[Special:Search|rechèrchiér sur lo vouiqui]] por trovar des pâges novèles que vont avouéc.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentèro suprimâ)',
+'rev-deleted-comment'         => '(rèsumâ de changement enlevâ)',
 'rev-deleted-user'            => '(nom d’utilisator suprimâ)',
 'rev-deleted-event'           => '(entrâ suprimâ)',
 'rev-deleted-user-contribs'   => '[nom d’utilisator ou ben adrèce IP suprimâ - changement cachiê sur les contribucions]',
@@ -1362,7 +1360,6 @@ Atencion, lor endèxacion du contegnu de {{SITENAME}} pôt pas étre a jorn.',
 'changepassword'                => 'Changement du mot de pâssa',
 'prefs-skin'                    => 'Habelyâjo',
 'skin-preview'                  => 'Prèvisualisar',
-'prefs-math'                    => 'Rendu de les formules matèmatiques',
 'datedefault'                   => 'Gins de prèference',
 'prefs-datetime'                => 'Dâta et hora',
 'prefs-personal'                => 'Enformacions a sè',
@@ -1371,7 +1368,7 @@ Atencion, lor endèxacion du contegnu de {{SITENAME}} pôt pas étre a jorn.',
 'prefs-watchlist-days'          => 'Nombro de jorns a fâre vêre dens la lista de survelyence :',
 'prefs-watchlist-days-max'      => '7 jorns u més',
 'prefs-watchlist-edits'         => 'Nombro de changements a fâre vêre dens la lista de survelyence ètendua :',
-'prefs-watchlist-edits-max'     => '(nombro lo ples grant : 1000)',
+'prefs-watchlist-edits-max'     => 'Nombro lo ples grant : 1000',
 'prefs-watchlist-token'         => 'Jeton por la lista de survelyence :',
 'prefs-misc'                    => 'Prèferences de totes sôrtes',
 'prefs-resetpass'               => 'Changiér lo mot de pâssa',
@@ -1735,7 +1732,7 @@ Volyéd controlar que vos voléd franc tèlèchargiér cél fichiér.',
 Volyéd controlar '''<tt>[[:$1]]</tt>'''.
 Éte-vos de sûr de lo volêr changiér ? [[$1|thumb]]",
 'filepageexists'              => "La pâge de dèscripcion por cél fichiér at ja étâ fêta ique '''<tt>[[:$1]]</tt>''', mas nion fichiér de cél nom ègziste ora.
-Lo rèsumâ que vos voléd ècrire remplacierat pas cél tèxto.
+Lo rèsumâ que vos voléd buchiér aparêtrat pas sur la pâge de dèscripcion.
 Por cen fâre vos devréd changiér la pâge a la man.
 [[$1|thumb]]",
 'fileexists-extension'        => "Un fichiér avouéc un nom d’ense ègziste ja : [[$2|thumb]]
@@ -2012,12 +2009,13 @@ Oubliâd pas de controlar s’y at pas d’ôtros lims de vers los modèlos deva
 Devriant pletout pouentar vers una pâge que vat avouéc.<br />
 Una pâge est trètâ coment una pâge d’homonimia s’encllut (tot drêt ou ben rècursivament) yon des modèlos listâs dessus [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Redirèccions dobles',
-'doubleredirectstext'        => 'Vê-que la lista de les pâges que redirijont vers des pâges que sont lor-mémes des pâges de redirèccion.
+'doubleredirects'                   => 'Redirèccions dobles',
+'doubleredirectstext'               => 'Vê-que la lista de les pâges que redirijont vers des pâges que sont lor-mémes des pâges de redirèccion.
 Châque entrâ contint des lims de vers la premiére et la seconda redirèccion, et pués la premiére legne de tèxto de la seconda pâge, cen que balye habituèlament la « veré » pâge ciba, de vers laquinta la premiére redirèccion devrêt redirigiér.
 Les entrâs <del>barrâs</del> ont étâ solucionâs.',
-'double-redirect-fixed-move' => 'Cela redirèccion, que la ciba [[$1]] at étâ renomâ, mène ora vers [[$2]].',
-'double-redirect-fixer'      => 'Corrèctor de redirèccion',
+'double-redirect-fixed-move'        => 'Cela redirèccion, que la ciba [[$1]] at étâ renomâ, mène ora vers [[$2]].',
+'double-redirect-fixed-maintenance' => 'Correge la redirèccion dobla de [[$1]] vers [[$2]].',
+'double-redirect-fixer'             => 'Corrèctor de redirèccion',
 
 'brokenredirects'        => 'Redirèccions câsses',
 'brokenredirectstext'    => 'Cetes redirèccions mènont vers des pâges pas ègzistentes :',
@@ -2350,7 +2348,7 @@ lo dèrriér contributor est lo solèt ôtor de ceta pâge.',
 quârqu’un d’ôtro at ja changiê ou ben rèvocâ la pâge.
 
 Lo dèrriér changement de la pâge at étâ fêt per [[User:$3|$3]] ([[User talk:$3|Discutar]]{{int:pipe-separator}}[[Special:Contributions/$3|{{int:contribslink}}]]).',
-'editcomment'       => "Lo rèsumâ du changement ére : « ''$1'' ».",
+'editcomment'       => "Lo rèsumâ de changement ére : « ''$1'' ».",
 'revertpage'        => 'Rèvocacion des changements a [[Special:Contributions/$2|$2]] ([[User talk:$2|Discutar]]) de vers la dèrriére vèrsion a [[User:$1|$1]]',
 'revertpage-nouser' => 'Rèvocacion des changements per (nom d’utilisator suprimâ) a la dèrriére vèrsion per [[User:$1|$1]]',
 'rollback-success'  => 'Rèvocacion des changements fêts per $1 ;
@@ -2481,9 +2479,10 @@ $1',
 'undelete-show-file-submit'    => 'Ouè',
 
 # Namespace form on various pages
-'namespace'      => 'Èspâço de noms :',
-'invert'         => 'Envèrsar lo chouèx',
-'blanknamespace' => '(Principâl)',
+'namespace'             => 'Èspâço de noms :',
+'invert'                => 'Envèrsar lo chouèx',
+'namespace_association' => 'Èspâço de noms associyê',
+'blanknamespace'        => '(Principâl)',
 
 # Contributions
 'contributions'       => 'Contribucions a l’utilisator',
@@ -2533,13 +2532,15 @@ La dèrriére entrâ du jornal des blocâjos est disponibla ce-desot :',
 'whatlinkshere-filters'    => 'Filtros',
 
 # Block/unblock
+'autoblockid'                     => 'Blocâjo ôtomatico #$1',
+'block'                           => 'Blocar l’utilisator',
+'unblock'                         => 'Dèblocar l’utilisator',
 'blockip'                         => 'Blocar l’utilisator',
 'blockip-title'                   => 'Blocar l’utilisator',
 'blockip-legend'                  => 'Blocar l’utilisator',
 'blockiptext'                     => 'Utilisâd lo formulèro ce-desot por blocar l’accès en ècritura dês una adrèce IP spècefica ou ben un nom d’utilisator.
 Una tâla mesera devrêt étre prêsa ren que por empachiér lo vandalismo et en acôrd avouéc les [[{{MediaWiki:Policy-url}}|règlles de dedens]].
 Balyéd ce-desot una rêson justa (per ègzemplo en citent les pâges qu’ont étâ vandalisâs).',
-'ipaddress'                       => 'Adrèce IP :',
 'ipadressorusername'              => 'Adrèce IP ou ben nom d’utilisator :',
 'ipbexpiry'                       => 'Temps devant èxpiracion :',
 'ipbreason'                       => 'Rêson :',
@@ -2552,7 +2553,6 @@ Balyéd ce-desot una rêson justa (per ègzemplo en citent les pâges qu’ont �
 ** Tentativa d’entimidacion ou ben de torment
 ** Abus d’usâjo d’un mouél de comptos
 ** Nom d’utilisator pas accèptâblo, ofensent ou ben difament',
-'ipbanononly'                     => 'Blocar ren que los utilisators pas encartâs',
 'ipbcreateaccount'                => 'Empachiér la crèacion de compto',
 'ipbemailban'                     => 'Empachiér l’utilisator de mandar des mèssâjos',
 'ipbenableautoblock'              => 'Blocar ôtomaticament la dèrriére adrèce IP utilisâ per l’utilisator et pués totes ses adrèces IP a vegnir que porrêt èprovar',
@@ -2563,8 +2563,8 @@ Balyéd ce-desot una rêson justa (per ègzemplo en citent les pâges qu’ont �
 'ipbotherreason'                  => 'Ôtra rêson / rêson de ples :',
 'ipbhidename'                     => 'Cachiér lo nom d’utilisator des changements et de les listes',
 'ipbwatchuser'                    => 'Siuvre les pâges utilisator et de discussion a ceti utilisator',
-'ipballowusertalk'                => 'Pèrmèt a ceti utilisator de changiér sa prôpra pâge de discussion pendent son temps de blocâjo',
 'ipb-change-block'                => 'Tornar blocar ceti utilisator avouéc celos paramètres',
+'ipb-confirm'                     => 'Confirmar lo blocâjo',
 'badipaddress'                    => 'L’adrèce IP est fôssa.',
 'blockipsuccesssub'               => 'Blocâjo reussi',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] at étâ blocâ.<br />
@@ -2574,21 +2574,27 @@ Vêde la [[Special:IPBlockList|lista ux utilisators et a les adrèces IP blocâs
 'ipb-unblock'                     => 'Dèblocar un compto utilisator ou ben una adrèce IP',
 'ipb-blocklist'                   => 'Vêde los blocâjos ègzistents',
 'ipb-blocklist-contribs'          => 'Contribucions por $1',
-'unblockip'                       => 'Dèblocar un utilisator ou ben una adrèce IP',
+'unblockip'                       => 'Dèblocar l’utilisator',
 'unblockiptext'                   => 'Utilisâd lo formulèro ce-desot por rètablir l’accès en ècritura dês una adrèce IP spècefica ou ben un nom d’utilisator.',
 'ipusubmit'                       => 'Enlevar ceti blocâjo',
 'unblocked'                       => '[[User:$1|$1]] at étâ dèblocâ',
+'unblocked-range'                 => '$1 at étâ dèblocâ',
 'unblocked-id'                    => 'Lo blocâjo $1 at étâ enlevâ',
-'ipblocklist'                     => 'Adrèces IP et utilisators blocâs',
+'blocklist'                       => 'Utilisators blocâs',
+'ipblocklist'                     => 'Utilisators blocâs',
 'ipblocklist-legend'              => 'Chèrchiér un utilisator blocâ',
-'ipblocklist-username'            => 'Nom d’utilisator ou ben adrèce IP :',
-'ipblocklist-sh-userblocks'       => '$1 los blocâjos de comptos',
-'ipblocklist-sh-tempblocks'       => '$1 los blocâjos temporèros',
-'ipblocklist-sh-addressblocks'    => '$1 los blocâjos d’adrèces IP solètes',
+'blocklist-userblocks'            => 'Cachiér los blocâjos de comptos',
+'blocklist-tempblocks'            => 'Cachiér los blocâjos temporèros',
+'blocklist-addressblocks'         => 'Cachiér los blocâjos d’adrèces IP solètes',
+'blocklist-timestamp'             => 'Dâta et hora',
+'blocklist-target'                => 'Ciba',
+'blocklist-expiry'                => 'Dâta d’èxpiracion',
+'blocklist-by'                    => 'Administrator qu’at fêt lo blocâjo',
+'blocklist-params'                => 'Paramètres de blocâjo',
+'blocklist-reason'                => 'Rêson',
 'ipblocklist-submit'              => 'Rechèrchiér',
 'ipblocklist-localblock'          => 'Blocâjo local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Ôtro blocâjo|Ôtros blocâjos}}',
-'blocklistline'                   => '$1 : $2 at blocâ $3 ; $4',
 'infiniteblock'                   => 'sen fin',
 'expiringblock'                   => 'èxpire lo $1 a $2',
 'anononlyblock'                   => 'ren que los utilisators pas encartâs',
@@ -2627,8 +2633,7 @@ Vêde la [[Special:IPBlockList|lista ux utilisators et a les adrèces IP blocâs
 'ipb_expiry_temp'                 => 'Los blocâjos de noms d’utilisator cachiês dêvont étre sen fin.',
 'ipb_hide_invalid'                => 'Empossiblo de suprimar ceti compto ; semble avêr trop de changements.',
 'ipb_already_blocked'             => '« $1 » est ja blocâ',
-'ipb-needreblock'                 => '== Ja blocâ ==
-$1 est ja blocâ.
+'ipb-needreblock'                 => '$1 est ja blocâ.
 Voléd-vos changiér los paramètres ?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Ôtro blocâjo|Ôtros blocâjos}}',
 'ipb_cant_unblock'                => 'Èrror : numerô de blocâjo $1 pas trovâ.
@@ -2832,7 +2837,7 @@ Totes les accions d’importacion entèrvouiqui sont consignês dens lo [[Specia
 'import-upload-filename'     => 'Nom du fichiér :',
 'import-comment'             => 'Comentèro :',
 'importtext'                 => 'Volyéd èxportar lo fichiér dês lo vouiqui d’origina en utilisent son [[Special:Export|outil d’èxportacion]].
-Sôvâd-lo sur voutron disco dur et pués tèlèchargiéd-lo ique.',
+Sôvâd-lo sur voutron ordenator et pués tèlèchargiéd-lo ique.',
 'importstart'                => 'Importacion de les pâges...',
 'import-revision-count'      => '$1 vèrsion{{PLURAL:$1||s}}',
 'importnopages'              => 'Gins de pâge a importar.',
@@ -3010,26 +3015,6 @@ O est probâblament diu a un lim de vers un seto de defôr qu’aparêt sur la l
 'skinname-modern'      => 'Modèrno',
 'skinname-vector'      => 'Vèctor',
 
-# Math options
-'mw_math_png'    => 'Tojorn fâre una émâge PNG',
-'mw_math_simple' => 'HTML se prod simplo, ôtrament PNG',
-'mw_math_html'   => 'HTML se possiblo, ôtrament PNG',
-'mw_math_source' => 'Lèssiér lo code TeX originâl',
-'mw_math_modern' => 'Por los navigators modèrnos',
-'mw_math_mathml' => 'MathML se possiblo (èxpèrimentâl)',
-
-# Math errors
-'math_failure'          => 'Èrror d’analise sintaxica',
-'math_unknown_error'    => 'èrror encognua',
-'math_unknown_function' => 'fonccion encognua',
-'math_lexing_error'     => 'èrror lèxicâla',
-'math_syntax_error'     => 'èrror de sintaxa',
-'math_image_error'      => 'La convèrsion en PNG at pas reussia ; controlâd l’enstalacion de LaTeX et dvipng (ou ben dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math temporèro',
-'math_bad_output'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math de sortia',
-'math_notexvc'          => 'L’ègzécutâblo « texvc » est entrovâblo.
-Volyéd liére « math/README » por lo configurar.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Marcar coment survelyê',
 'markaspatrolledtext'                 => 'Marcar ceta pâge coment survelyê',
@@ -3065,22 +3050,24 @@ $1',
 'nextdiff'     => 'Changement aprés →',
 
 # Media information
-'mediawarning'         => "'''Atencion :''' ceti tipo de fichiér pôt contegnir de code mâlvelyent.
+'mediawarning'           => "'''Atencion :''' ceti tipo de fichiér pôt contegnir de code mâlvelyent.
 Se vos l’ègzécutâd, voutron sistèmo pôt étre compromês.",
-'imagemaxsize'         => "Format lo ples grant de les émâges :<br />''(por les pâges de dèscripcion d’émâges)''",
-'thumbsize'            => 'Talye de la figura :',
-'widthheightpage'      => '$1 × $2, $3 pâge{{PLURAL:$3||s}}',
-'file-info'            => 'Talye du fichiér : $1, tipo MIME : $2',
-'file-info-size'       => '$1 × $2 pixèls, talye du fichiér : $3, tipo MIME : $4',
-'file-nohires'         => '<small>Gins de rèsolucion ples hôta disponibla.</small>',
-'svg-long-desc'        => 'Fichiér SVG, rèsolucion de $1 × $2 pixèls, talye : $3',
-'show-big-image'       => 'Émâge en rèsolucion ples hôta',
-'show-big-image-thumb' => '<small>Talye de ceti apèrçu : $1 × $2 pixèls</small>',
-'file-info-gif-looped' => 'en boclla',
-'file-info-gif-frames' => '$1 émâge{{PLURAL:$1||s}}',
-'file-info-png-looped' => 'en boclla',
-'file-info-png-repeat' => 'jouyê $1 côp{{PLURAL:$1||s}}',
-'file-info-png-frames' => '$1 émâge{{PLURAL:$1||s}}',
+'imagemaxsize'           => "Format lo ples grant de les émâges :<br />''(por les pâges de dèscripcion d’émâges)''",
+'thumbsize'              => 'Talye de la figura :',
+'widthheightpage'        => '$1 × $2, $3 pâge{{PLURAL:$3||s}}',
+'file-info'              => 'Talye du fichiér : $1, tipo MIME : $2',
+'file-info-size'         => '$1 × $2 pixèls, talye du fichiér : $3, tipo MIME : $4',
+'file-nohires'           => '<small>Gins de rèsolucion ples hôta disponibla.</small>',
+'svg-long-desc'          => 'Fichiér SVG, rèsolucion de $1 × $2 pixèls, talye : $3',
+'show-big-image'         => 'Émâge en rèsolucion ples hôta',
+'show-big-image-preview' => '<small>Talye de ceti apèrçu : $1.</small>',
+'show-big-image-other'   => '<small>Ôtres rèsolucions : $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixèls',
+'file-info-gif-looped'   => 'en boclla',
+'file-info-gif-frames'   => '$1 émâge{{PLURAL:$1||s}}',
+'file-info-png-looped'   => 'en boclla',
+'file-info-png-repeat'   => 'jouyê $1 côp{{PLURAL:$1||s}}',
+'file-info-png-frames'   => '$1 émâge{{PLURAL:$1||s}}',
 
 # Special:NewFiles
 'newimages'             => 'Galerie des novéls fichiérs',
@@ -3236,6 +3223,7 @@ Los ôtros champs seront cachiês per dèfôt.
 'exif-gpsareainformation'          => 'Nom de la zona GPS',
 'exif-gpsdatestamp'                => 'Dâta GPS',
 'exif-gpsdifferential'             => 'Corrèccion difèrencièla GPS',
+'exif-objectname'                  => 'Titro côrt',
 
 # EXIF attributes
 'exif-compression-1' => 'Pas comprèssâ',
@@ -3538,7 +3526,7 @@ Volyéd confirmar que vos voléd franc refâre cela pâge.",
 'watchlistedit-normal-legend'  => 'Enlevar des titros de la lista de survelyence',
 'watchlistedit-normal-explain' => 'Los titros de voutra lista de survelyence sont montrâs ce-desot.
 Por enlevar un titro (et sa pâge de discussion), pouentâd la câsa a coutâ et pués clicâd sur lo boton « {{int:Watchlistedit-normal-submit}} ».
-Vos pouede asse-ben changiér la [[Special:Watchlist/raw|lista en fôrma bruta]].',
+Vos pouede asse-ben changiér la [[Special:EditWatchlist/raw|lista en fôrma bruta]].',
 'watchlistedit-normal-submit'  => 'Enlevar los titros chouèsis',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Yon titro at étâ enlevâ|$1 titros ont étâ enlevâs}} de voutra lista de survelyence :',
 'watchlistedit-raw-title'      => 'Changiér la lista de survelyence en fôrma bruta',
@@ -3546,7 +3534,7 @@ Vos pouede asse-ben changiér la [[Special:Watchlist/raw|lista en fôrma bruta]]
 'watchlistedit-raw-explain'    => 'Los titros de voutra lista de survelyence sont montrâs ce-desot et pôvont étre changiês en los apondent ou ben en los enlevent de la lista ;
 yon titro per legne.
 Quand vos éd feni, clicâd sur lo boton « {{int:Watchlistedit-raw-submit}} ».
-Vos pouede asse-ben utilisar l’[[Special:Watchlist/edit|èditor normal]].',
+Vos pouede asse-ben utilisar l’[[Special:EditWatchlist|èditor normal]].',
 'watchlistedit-raw-titles'     => 'Titros :',
 'watchlistedit-raw-submit'     => 'Betar a jorn la lista de survelyence',
 'watchlistedit-raw-done'       => 'Voutra lista de survelyence at étâ betâ a jorn.',
@@ -3661,20 +3649,22 @@ Les émâges sont montrâs dens lor plêna rèsolucion, los ôtros fichiérs son
 Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Rechèrche des fichiérs en doblo',
-'fileduplicatesearch-summary'  => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.',
-'fileduplicatesearch-legend'   => 'Rechèrche d’un doblo',
-'fileduplicatesearch-filename' => 'Nom du fichiér :',
-'fileduplicatesearch-submit'   => 'Rechèrchiér',
-'fileduplicatesearch-info'     => '$1 × $2 pixèls<br />Talye du fichiér : $3<br />Tipo MIME : $4',
-'fileduplicatesearch-result-1' => 'Lo fichiér « $1 » at gins de doblo pariér.',
-'fileduplicatesearch-result-n' => 'Lo fichiér « $1 » at $2 {{PLURAL:$2|doblo pariér|doblos pariérs}}.',
+'fileduplicatesearch'           => 'Rechèrche des fichiérs en doblo',
+'fileduplicatesearch-summary'   => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.',
+'fileduplicatesearch-legend'    => 'Rechèrche d’un doblo',
+'fileduplicatesearch-filename'  => 'Nom du fichiér :',
+'fileduplicatesearch-submit'    => 'Rechèrchiér',
+'fileduplicatesearch-info'      => '$1 × $2 pixèls<br />Talye du fichiér : $3<br />Tipo MIME : $4',
+'fileduplicatesearch-result-1'  => 'Lo fichiér « $1 » at gins de doblo pariér.',
+'fileduplicatesearch-result-n'  => 'Lo fichiér « $1 » at $2 {{PLURAL:$2|doblo pariér|doblos pariérs}}.',
+'fileduplicatesearch-noresults' => 'Nion fichiér apelâ « $1 » at étâ trovâ.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Pâges spèciâles',
 'specialpages-note'              => '----
 * Pâges spèciâles normales.
-* <strong class="mw-specialpagerestricted">Pâges spèciâles rètrentes.</strong>',
+* <span class="mw-specialpagerestricted">Pâges spèciâles rètrentes.</span>
+* <span class="mw-specialpagecached">Pâges spèciâles solament en cache.</span>',
 'specialpages-group-maintenance' => 'Rapôrts de mantegnence',
 'specialpages-group-other'       => 'Ôtres pâges spèciâles',
 'specialpages-group-login'       => 'Branchement / encartâjo',

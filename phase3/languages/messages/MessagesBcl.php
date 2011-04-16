@@ -528,8 +528,6 @@ Matriumpo mo nang nailaog an sekretong panlaog o nakua an bàgong temporaryong s
 'extlink_tip'     => 'Panluwas na takod (giromdomon an http:// na prefiho)',
 'headline_sample' => 'Tekstong pamayohan',
 'headline_tip'    => 'Tangga ika-2 na pamayohan',
-'math_sample'     => 'Isaliôt an pormula digdi',
-'math_tip'        => 'Pórmulang matemátika (LaTeX)',
 'nowiki_sample'   => "Isaliot digdi an tekstong dai na-''format''",
 'nowiki_tip'      => "Dai pagindiendehon pag-''format'' kan wiki",
 'image_sample'    => 'Halimbawa.jpg',
@@ -798,7 +796,6 @@ An ibang mga administrador sa ining wiki pwede pang maghiling kan mga nakatagong
 'changepassword'            => 'Ribayan an sekretong panlaog',
 'prefs-skin'                => "''Skin''",
 'skin-preview'              => 'Tânawon',
-'prefs-math'                => 'Mat',
 'datedefault'               => 'Mayong kabôtan',
 'prefs-datetime'            => 'Petsa asin oras',
 'prefs-personal'            => 'Pambisto nin parágamit',
@@ -1474,7 +1471,6 @@ $1",
 'blockiptext'                 => 'Gamiton an pormularyo sa babâ para bagaton an pagsurat kan sarong espesipikong IP o ngaran nin parágamit.
 Dapat gibohon sana ini para maibitaran vandalismo, asin kompirmi sa [[{{MediaWiki:Policy-url}}|palakaw]].
 Magkaag nin espisipikong rason (halimbawa, magtao nin ehemplo kan mga páhinang rinaot).',
-'ipaddress'                   => 'Direksyón nin IP:',
 'ipadressorusername'          => 'direksyon nin IP o gahâ:',
 'ipbexpiry'                   => 'Pasó:',
 'ipbreason'                   => 'Rason:',
@@ -1487,7 +1483,6 @@ Magkaag nin espisipikong rason (halimbawa, magtao nin ehemplo kan mga páhinang 
 ** Gawî-gawing makatakót/makauyám
 ** Nag-aabuso nin mga lain-lain na ''account''
 ** Dai akong ngaran nin parágamit",
-'ipbanononly'                 => 'Bagaton an mga paragamit na anonimo sana',
 'ipbcreateaccount'            => 'Pugulon an pagibo nin kuenta.',
 'ipbemailban'                 => 'Pugolan ining paragamit na magpadara nin e-surat',
 'ipbenableautoblock'          => 'Enseguidang bagaton an huring direccion nin  IP na ginamit kaining paragamit, asin kon ano pang ibang IP na proprobaran nindang gamiton',
@@ -1512,9 +1507,7 @@ Magkaag nin espisipikong rason (halimbawa, magtao nin ehemplo kan mga páhinang 
 'unblocked-id'                => 'Hinali na an bagat na $1',
 'ipblocklist'                 => 'Lista nin mga direksyon nin IP asin ngaran nin paragamit na binagat',
 'ipblocklist-legend'          => 'Hanapon an sarong binagát na paragamit',
-'ipblocklist-username'        => 'Gahâ o dirección nin IP:',
 'ipblocklist-submit'          => 'Hanápon',
-'blocklistline'               => '$1, $2 binagat $3 ($4)',
 'infiniteblock'               => 'daing siring',
 'expiringblock'               => 'minapasó $1 $2',
 'anononlyblock'               => 'anon. sana',
@@ -1773,25 +1766,6 @@ Please visit [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation]
 'skinname-simple'   => 'Simple',
 'skinname-modern'   => 'Bago',
 
-# Math options
-'mw_math_png'    => 'Itaô pirmi an PNG',
-'mw_math_simple' => 'HTML kun simple sana o PNG kun bakô',
-'mw_math_html'   => 'HTML kun posible o PNG kun bakô',
-'mw_math_source' => "Pabayaan na bilang TeX (para sa mga ''browser'' na teksto)",
-'mw_math_modern' => "Pigrerekomendár para sa mga modernong ''browser''",
-'mw_math_mathml' => 'MathML kun posible (experimental)',
-
-# Math errors
-'math_failure'          => 'Nagprakaso an pagatíd-atíd',
-'math_unknown_error'    => 'dai aram an salâ',
-'math_unknown_function' => 'Dai aram an gamit',
-'math_lexing_error'     => 'may salâ sa analisador léxico',
-'math_syntax_error'     => 'may salâ sa analisador nin sintaksis',
-'math_image_error'      => 'Nagprakaso an konbersyon kan PNG; sosogon tabî an pagkaag nin latex, dvips, gs, asin ikonbertir',
-'math_bad_tmpdir'       => 'Dai masuratan o magibo an direktoryo nin mat temp',
-'math_bad_output'       => 'Dai masuratan o magibo an direktoryo kan salida nin math',
-'math_notexvc'          => 'May nawawarang texvc na ehekutable; hilingón tabî an mat/README para makonpigurar.',
-
 # Patrolling
 'markaspatrolleddiff'                 => 'Markahán na pigpapatrulya',
 'markaspatrolledtext'                 => 'Markahan ining pahina na pigpapatrulya',
@@ -1824,16 +1798,15 @@ $1",
 'nextdiff'     => 'Sunod na kaibhán →',
 
 # Media information
-'mediawarning'         => "'''Patanid''': May ''malicious code'' sa ''file'' na ini, kun gigibohon ini pwede ser na maraot an saimong ''system''.",
-'imagemaxsize'         => 'Limitaran an mga ladawan sa mga páhinang deskripsyon kan ladawan sa:',
-'thumbsize'            => 'Sokol nin retratito:',
-'widthheightpage'      => '$1×$2, $3 mga pahina',
-'file-info'            => "sokol kan ''file'': $1, tipo nin MIME: $2",
-'file-info-size'       => "$1 × $2 na pixel, sokol kan ''file'': $3, tipo nin MIME: $4",
-'file-nohires'         => '<small>Mayong mas halangkaw na resolusyón.</small>',
-'svg-long-desc'        => 'file na SVG, haros $1 × $2 pixels, sokol kan file: $3',
-'show-big-image'       => 'Todong resolusyon',
-'show-big-image-thumb' => '<small>Sokol kan patânaw: $1 × $2  na pixel</small>',
+'mediawarning'    => "'''Patanid''': May ''malicious code'' sa ''file'' na ini, kun gigibohon ini pwede ser na maraot an saimong ''system''.",
+'imagemaxsize'    => 'Limitaran an mga ladawan sa mga páhinang deskripsyon kan ladawan sa:',
+'thumbsize'       => 'Sokol nin retratito:',
+'widthheightpage' => '$1×$2, $3 mga pahina',
+'file-info'       => "sokol kan ''file'': $1, tipo nin MIME: $2",
+'file-info-size'  => "$1 × $2 na pixel, sokol kan ''file'': $3, tipo nin MIME: $4",
+'file-nohires'    => '<small>Mayong mas halangkaw na resolusyón.</small>',
+'svg-long-desc'   => 'file na SVG, haros $1 × $2 pixels, sokol kan file: $3',
+'show-big-image'  => 'Todong resolusyon',
 
 # Special:NewFiles
 'newimages'             => 'Galeria nin mga bàgong file',
@@ -2005,7 +1978,7 @@ Ikonpirmar tabi na talagang gusto mong gibohon giraray ining pahina.",
 'watchlistedit-normal-title'   => 'Hirahón an pigbabantayan',
 'watchlistedit-normal-legend'  => 'Halion an mga titulo sa pigbabantayan',
 'watchlistedit-normal-explain' => 'Mahihiling sa babâ an mga titulo na nasa pigbabantayan mo.
-Tangarig maghalì nin titulo, markahan an kahon sa gilid kaini, dangan pindotón an Tangkasón an mga Titulo. Pwede mo man na [[Special:Watchlist/raw|hirahón an bàgong lista]].',
+Tangarig maghalì nin titulo, markahan an kahon sa gilid kaini, dangan pindotón an Tangkasón an mga Titulo. Pwede mo man na [[Special:EditWatchlist/raw|hirahón an bàgong lista]].',
 'watchlistedit-normal-submit'  => 'Tangkasón an mga Titulo',
 'watchlistedit-normal-done'    => 'Pigtangkas an {{PLURAL:$1|1 an titulo|$1 mga titulo}} sa saimong pigbabantayan:',
 'watchlistedit-raw-title'      => 'Hirahón an bàgong pigbabantayan',
@@ -2013,7 +1986,7 @@ Tangarig maghalì nin titulo, markahan an kahon sa gilid kaini, dangan pindotón
 'watchlistedit-raw-explain'    => 'Mahihiling sa babâ an mga titulo na nasa pigbabantayan mo, asin pwede ining hirahón sa paagi nin pagdugang sagkod paghalì sa lista;
 sarong titulo kada linya.
 Pag tapos na, lagatikón an Bàgohón an Pigbabantayan.
-Pwede mo man [[Special:Watchlist/edit|gamiton an standard editor]].',
+Pwede mo man [[Special:EditWatchlist|gamiton an standard editor]].',
 'watchlistedit-raw-titles'     => 'Mga titulo:',
 'watchlistedit-raw-submit'     => 'Bàgohón an Pigbabantayan',
 'watchlistedit-raw-done'       => 'Binàgo na an saimong pigbabantayan.',

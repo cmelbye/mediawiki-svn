@@ -38,7 +38,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiQueryAllimages extends ApiQueryGeneratorBase {
 
-	private $mRepo;
+	protected $mRepo;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'ai' );
@@ -46,7 +46,7 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 	}
 
 	/**
-	 * Overide parent method to make sure to make sure the repo's DB is used
+	 * Override parent method to make sure to make sure the repo's DB is used
 	 * which may not necesarilly be the same as the local DB.
 	 *
 	 * TODO: allow querying non-local repos.
@@ -115,6 +115,18 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 		}
 		if ( $sha1 ) {
 			$this->addWhere( 'img_sha1=' . $db->addQuotes( $sha1 ) );
+		}
+
+		if ( !is_null( $params['mime'] ) ) {
+			global $wgMiserMode;
+			if ( $wgMiserMode  ) {
+				$this->dieUsage( 'MIME search disabled in Miser Mode', 'mimeearchdisabled' );
+			}
+
+			list( $major, $minor ) = File::splitMime( $params['mime'] );
+
+			$this->addWhereFld( 'img_major_mime', $major );
+			$this->addWhereFld( 'img_minor_mime', $minor );
 		}
 
 		$this->addTables( 'image' );
@@ -191,10 +203,11 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 			'sha1' => null,
 			'sha1base36' => null,
 			'prop' => array(
-				ApiBase::PARAM_TYPE => ApiQueryImageInfo::getPropertyNames(),
+				ApiBase::PARAM_TYPE => ApiQueryImageInfo::getPropertyNames( $this->propertyFilter ),
 				ApiBase::PARAM_DFLT => 'timestamp|url',
 				ApiBase::PARAM_ISMULTI => true
-			)
+			),
+			'mime' => null,
 		);
 	}
 
@@ -209,9 +222,12 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 			'limit' => 'How many images in total to return',
 			'sha1' => "SHA1 hash of image. Overrides {$this->getModulePrefix()}sha1base36",
 			'sha1base36' => 'SHA1 hash of image in base 36 (used in MediaWiki)',
-			'prop' => ApiQueryImageInfo::getPropertyDescriptions(),
+			'prop' => ApiQueryImageInfo::getPropertyDescriptions( $this->propertyFilter ),
+			'mime' => 'What MIME type to search for. e.g. image/jpeg. Disabled in Miser Mode',
 		);
 	}
+
+	private $propertyFilter = array( 'archivename' );
 
 	public function getDescription() {
 		return 'Enumerate all images sequentially';
@@ -221,6 +237,7 @@ class ApiQueryAllimages extends ApiQueryGeneratorBase {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'params', 'info' => 'Use "gaifilterredir=nonredirects" option instead of "redirects" when using allimages as a generator' ),
 			array( 'code' => 'unsupportedrepo', 'info' => 'Local file repository does not support querying all images' ),
+			array( 'code' => 'mimeearchdisabled', 'info' => 'MIME search disabled in Miser Mode' ),
 		) );
 	}
 

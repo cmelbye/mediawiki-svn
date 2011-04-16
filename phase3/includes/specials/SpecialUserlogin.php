@@ -47,9 +47,17 @@ class LoginForm extends SpecialPage {
 	var $mAction, $mCreateaccount, $mCreateaccountMail, $mMailmypassword;
 	var $mLoginattempt, $mRemember, $mEmail, $mDomain, $mLanguage;
 	var $mSkipCookieCheck, $mReturnToQuery, $mToken, $mStickHTTPS;
+	var $mType, $mReason, $mRealName;
+	var $mAbortLoginErrorMsg = 'login-abort-generic';
 
+	/**
+	 * @var ExternalUser
+	 */
 	private $mExtUser = null;
 
+	/**
+	 * @param WebRequest $request
+	 */
 	public function __construct( $request = null ) {
 		parent::__construct( 'Userlogin' );
 
@@ -81,9 +89,9 @@ class LoginForm extends SpecialPage {
 		$this->mPosted = $request->wasPosted();
 		$this->mCreateaccount = $request->getCheck( 'wpCreateaccount' );
 		$this->mCreateaccountMail = $request->getCheck( 'wpCreateaccountMail' )
-		                            && $wgEnableEmail;
+									&& $wgEnableEmail;
 		$this->mMailmypassword = $request->getCheck( 'wpMailmypassword' )
-		                         && $wgEnableEmail;
+								 && $wgEnableEmail;
 		$this->mLoginattempt = $request->getCheck( 'wpLoginattempt' );
 		$this->mAction = $request->getVal( 'action' );
 		$this->mRemember = $request->getCheck( 'wpRemember' );
@@ -103,9 +111,9 @@ class LoginForm extends SpecialPage {
 			$this->mEmail = '';
 		}
 		if( !in_array( 'realname', $wgHiddenPrefs ) ) {
-		    $this->mRealName = $request->getText( 'wpRealName' );
+			$this->mRealName = $request->getText( 'wpRealName' );
 		} else {
-		    $this->mRealName = '';
+			$this->mRealName = '';
 		}
 
 		if( !$wgAuth->validDomain( $this->mDomain ) ) {
@@ -260,7 +268,8 @@ class LoginForm extends SpecialPage {
 		// create a local account and login as any domain user). We only need
 		// to check this for domains that aren't local.
 		if( 'local' != $this->mDomain && $this->mDomain != '' ) {
-			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mUsername ) || !$wgAuth->authenticate( $this->mUsername, $this->mPassword ) ) ) {
+			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mUsername )
+				|| !$wgAuth->authenticate( $this->mUsername, $this->mPassword ) ) ) {
 				$this->mainLoginForm( wfMsg( 'wrongpassword' ) );
 				return false;
 			}
@@ -295,7 +304,7 @@ class LoginForm extends SpecialPage {
 			$wgOut->permissionRequired( 'createaccount' );
 			return false;
 		} elseif ( $wgUser->isBlockedFromCreateAccount() ) {
-			$this->userBlockedMessage();
+			$this->userBlockedMessage( $wgUser->isBlockedFromCreateAccount() );
 			return false;
 		}
 
@@ -527,7 +536,7 @@ class LoginForm extends SpecialPage {
 
 		// Give general extensions, such as a captcha, a chance to abort logins
 		$abort = self::ABORTED;
-		if( !wfRunHooks( 'AbortLogin', array( $u, $this->mPassword, &$abort ) ) ) {
+		if( !wfRunHooks( 'AbortLogin', array( $u, $this->mPassword, &$abort, &$this->mAbortLoginErrorMsg ) ) ) {
 			return $abort;
 		}
 
@@ -630,6 +639,14 @@ class LoginForm extends SpecialPage {
 			}
 		}
 
+		$abortError = '';
+		if( !wfRunHooks( 'AbortAutoAccount', array( $user, &$abortError ) ) ) {
+			// Hook point to add extra creation throttles and blocks
+			wfDebug( "LoginForm::attemptAutoCreate: a hook blocked creation: $abortError\n" );
+			$this->mAbortLoginErrorMsg = $abortError;
+			return self::ABORTED;
+		}
+
 		wfDebug( __METHOD__ . ": creating account\n" );
 		$this->initUser( $user, true );
 		return self::SUCCESS;
@@ -706,6 +723,9 @@ class LoginForm extends SpecialPage {
 			case self::USER_BLOCKED:
 				$this->mainLoginForm( wfMsgExt( 'login-userblocked',
 					array( 'parsemag', 'escape' ), $this->mUsername ) );
+				break;
+			case self::ABORTED:
+				$this->mainLoginForm( wfMsg( $this->mAbortLoginErrorMsg  ) );
 				break;
 			default:
 				throw new MWException( 'Unhandled case value' );
@@ -884,9 +904,14 @@ class LoginForm extends SpecialPage {
 		global $wgUser;
 		# Run any hooks; display injected HTML
 		$injected_html = '';
+		$welcome_creation_msg = 'welcomecreation';
+		
 		wfRunHooks( 'UserLoginComplete', array( &$wgUser, &$injected_html ) );
-
-		$this->displaySuccessfulLogin( 'welcomecreation', $injected_html );
+		
+		//let any extensions change what message is shown
+		wfRunHooks( 'BeforeWelcomeCreation', array( &$welcome_creation_msg, &$injected_html ) );
+		
+		$this->displaySuccessfulLogin( $welcome_creation_msg, $injected_html );
 	}
 
 	/**
@@ -896,7 +921,10 @@ class LoginForm extends SpecialPage {
 		global $wgOut, $wgUser;
 
 		$wgOut->setPageTitle( wfMsg( 'loginsuccesstitle' ) );
-		$wgOut->addWikiMsg( $msgname, $wgUser->getName() );
+		if( $msgname ){
+			$wgOut->addWikiMsg( $msgname, $wgUser->getName() );
+		}
+		
 		$wgOut->addHTML( $injected_html );
 
 		if ( !empty( $this->mReturnTo ) ) {
@@ -906,9 +934,15 @@ class LoginForm extends SpecialPage {
 		}
 	}
 
-	/** */
-	function userBlockedMessage() {
-		global $wgOut, $wgUser;
+	/**
+	 * Output a message that informs the user that they cannot create an account because
+	 * there is a block on them or their IP which prevents account creation.  Note that
+	 * User::isBlockedFromCreateAccount(), which gets this block, ignores the 'hardblock'
+	 * setting on blocks (bug 13611).
+	 * @param $block Block the block causing this error
+	 */
+	function userBlockedMessage( Block $block ) {
+		global $wgOut;
 
 		# Let's be nice about this, it's likely that this feature will be used
 		# for blocking large numbers of innocent people, e.g. range blocks on
@@ -920,14 +954,18 @@ class LoginForm extends SpecialPage {
 
 		$wgOut->setPageTitle( wfMsg( 'cantcreateaccounttitle' ) );
 
-		$ip = wfGetIP();
-		$blocker = User::whoIs( $wgUser->mBlock->mBy );
-		$block_reason = $wgUser->mBlock->mReason;
-
+		$block_reason = $block->mReason;
 		if ( strval( $block_reason ) === '' ) {
 			$block_reason = wfMsg( 'blockednoreason' );
 		}
-		$wgOut->addWikiMsg( 'cantcreateaccount-text', $ip, $block_reason, $blocker );
+
+		$wgOut->addWikiMsg(
+			'cantcreateaccount-text',
+			$block->getTarget(),
+			$block_reason,
+			$block->getBlocker()->getName()
+		);
+		
 		$wgOut->returnToMain( false );
 	}
 
@@ -951,7 +989,7 @@ class LoginForm extends SpecialPage {
 				$wgOut->readOnlyPage();
 				return;
 			} elseif ( $wgUser->isBlockedFromCreateAccount() ) {
-				$this->userBlockedMessage();
+				$this->userBlockedMessage( $wgUser->isBlockedFromCreateAccount() );
 				return;
 			} elseif ( count( $permErrors = $titleObj->getUserPermissionsErrors( 'createaccount', $wgUser, true ) )>0 ) {
 				$wgOut->showPermissionsErrorPage( $permErrors, 'createaccount' );

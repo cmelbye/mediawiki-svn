@@ -332,6 +332,7 @@ Ny jean jarrood dty [[Special:Preferences|{{SITENAME}} hosheeaghtyn]] y arraghey
 'gotaccount'                 => "Vel coontys ayd hannah? '''$1'''.",
 'gotaccountlink'             => 'Log stiagh',
 'createaccountmail'          => 'er post-L',
+'createaccountreason'        => 'Fa:',
 'loginerror'                 => 'Marranys log stiagh',
 'createaccounterror'         => 'Cha dod shin croo coontys: $1',
 'loginsuccesstitle'          => "T'ou loggalt stiagh",
@@ -383,8 +384,6 @@ Myr eiyrtys, cha nod keayrtee lesh yn enmys IP shoh ny smoo coontyssyn noa y chr
 'extlink_tip'     => 'Kiangley mooie (cooiney roie-ockle http://)',
 'headline_sample' => 'Teks y chione-linney',
 'headline_tip'    => 'Kione-linney corrym 2',
-'math_sample'     => 'Cur formley stiagh ayns shoh',
-'math_tip'        => 'Formley maddaghtoil (LaTeX)',
 'nowiki_sample'   => 'Cur stiagh teks gyn cummey ayns shoh',
 'nowiki_tip'      => 'Ny chur tastey da cummey wikiagh',
 'image_tip'       => 'Coadan jingit',
@@ -497,12 +496,16 @@ Ogher: '''({{int:cur}})''' = anchaslyssyn rish y lhieggan t'ayn nish,
 'rev-deleted-user'     => '(ennym yn ymmydeyr scughit)',
 'rev-delundel'         => 'taishbyney/follaghey',
 'revdelete-hide-image' => 'Cummal y choadan y ollaghey',
+'revdelete-log'        => 'Fa:',
 'revdel-restore'       => 'ceaghley leayrid',
 'pagehist'             => 'Shennaghys y duillag',
 'deletedhist'          => 'Shennaghys scryssit',
 'revdelete-content'    => 'cummal',
 'revdelete-summary'    => 'giare-choontey yn reaghey',
 'revdelete-uname'      => 'ennym yn ymmydeyr',
+
+# Revision move
+'revmove-reasonfield' => 'Fa:',
 
 # History merging
 'mergehistory'             => 'Shennaghys ny duillagyn y chochiangley',
@@ -511,6 +514,7 @@ Ogher: '''({{int:cur}})''' = anchaslyssyn rish y lhieggan t'ayn nish,
 'mergehistory-submit'      => 'Aavriwnyssyn y chochiangley',
 'mergehistory-autocomment' => 'Ta [[:$1]] cochianglit stiagh ayns [[:$2]]',
 'mergehistory-comment'     => 'Ta [[:$1]] cochianglit stiagh ayns [[:$2]]: $3',
+'mergehistory-reason'      => 'Fa:',
 
 # Merge log
 'revertmerge' => 'Jee-vestey',
@@ -596,7 +600,7 @@ My t'ou uss son ronsaghey dagh cooid (as shen goaill stiagh duillagyn resooney, 
 'timezoneregion-indian'     => 'Y Keayn Injinagh',
 'timezoneregion-pacific'    => 'Y Keayn Sheealtagh',
 'prefs-searchoptions'       => 'Ronsaghey',
-'default'                   => 'loght',
+'default'                   => 'roie-chiartagh',
 'prefs-files'               => 'Coadanyn',
 'youremail'                 => 'Post-L:',
 'username'                  => "Dt'ennym ymmydeyr:",
@@ -742,7 +746,7 @@ Ta duillagyn er [[Special:Watchlist|dty rolley arrey]] ayns '''clou trome'''.",
 'uploadnewversion-linktext' => "Laad neese lhieggan noa jeh'n choadan shoh",
 
 # File reversion
-'filerevert-comment' => 'Cohaggloo:',
+'filerevert-comment' => 'Fa:',
 
 # File deletion
 'filedelete'                  => 'Scryss $1',
@@ -953,7 +957,7 @@ Aaveaghey as cooney s\'odjey:
 'exblank'               => "va'n duillag follym",
 'delete-confirm'        => 'Scryss "$1"',
 'delete-legend'         => 'Scryss',
-'historywarning'        => 'Raaue: Ta shennaghys ec y duillag ta shiu er-chee scryssey magh:',
+'historywarning'        => 'Raaue: Ta shennaghys ec y duillag ta shiu er-chee scryssey magh, as mysh $1 {{PLURAL:$1|caghlaa|chaghlaa|chaghlaa|caghlaaghyn}} er:',
 'confirmdeletetext'     => 'Ta shiu er-çhee scryssey magh duillag myrane lesh y shennaghys eck.<br />
 Feeraghey dy vel eh y çhalee ayd eh y yannoo, dy vel ny scanshyn toiggit ayd, as dy vel oo jannoo eh ayns coardailys rish [[{{MediaWiki:Policy-url}}|y pholasee]].',
 'actioncomplete'        => 'Obbraghey creaghnit',
@@ -1015,7 +1019,7 @@ Shoh ny reaghaghyn roie da'n duillag '''$1''':",
 'undeletebtn'            => 'Cur er ash',
 'undeletelink'           => 'jeeagh/cur er ash',
 'undeletereset'          => 'Aahoiaghey',
-'undeletecomment'        => 'Cohaggloo:',
+'undeletecomment'        => 'Fa:',
 'undeletedarticle'       => '"[[$1]]" aahoiaghit',
 'undelete-search-box'    => 'Duillagyn scrysst y ronsaghey',
 'undelete-search-submit' => 'Ronsaghey',
@@ -1063,7 +1067,6 @@ Shoh ny reaghaghyn roie da'n duillag '''$1''':",
 # Block/unblock
 'blockip'                  => 'Glass magh yn ymmydeyr',
 'blockip-legend'           => 'Glass magh yn ymmydeyr',
-'ipaddress'                => 'Enmys IP / ennym ymmydeyr',
 'ipadressorusername'       => 'Enmys IP ny ennym ymmydeyr:',
 'ipbexpiry'                => 'Jerrey:',
 'ipbreason'                => 'Fa:',
@@ -1078,7 +1081,6 @@ Shoh ny reaghaghyn roie da'n duillag '''$1''':",
 * Oyr elley
 ** Ennym ymmydeyryn neuchooie
 ** Feyshtyn eddyr-wiki',
-'ipbanononly'              => 'Glass magh ymmydeyryn neuenmyssit',
 'ipbcreateaccount'         => 'Crooaght coontys y chumrail',
 'ipbsubmit'                => 'Glass magh yn ymmydeyr shoh',
 'ipbother'                 => 'Mooad elley am:',
@@ -1086,10 +1088,9 @@ Shoh ny reaghaghyn roie da'n duillag '''$1''':",
 'ipbotheroption'           => 'elley',
 'ipbotherreason'           => 'Fa elley/tooilley:',
 'badipaddress'             => 'Enmys IP gyn vree',
-'ipblocklist'              => 'Rolley enmyssyn IP as enmyn ymmydeyr fo ghlass',
-'ipblocklist-username'     => 'Ennym ymmydeyr ny enmys IP:',
+'ipblocklist'              => 'Ymmydeyryn fo ghlass',
+'blocklist-reason'         => 'Fa:',
 'ipblocklist-submit'       => 'Ronsaghey',
-'blocklistline'            => '$1, $3 er ny g(h)lassey magh ec $2 ($4)',
 'infiniteblock'            => 'neuyerrinagh',
 'createaccountblock'       => 'crooaght coontys glasst',
 'blocklink'                => 'glassey magh',
@@ -1233,12 +1234,6 @@ T'eh lhiggey da oyr y chur 'sy ghiare-choontey.",
 # Info page
 'infosubtitle' => 'Oayllys da duillag',
 
-# Math options
-'mw_math_png' => 'Jean PNG dagh ooilley hraa',
-
-# Math errors
-'math_syntax_error' => 'Co-ordrail marranagh',
-
 # Patrol log
 'patrol-log-auto' => '(seyr-obbragh)',
 'patrol-log-diff' => 'caghlaa $1',
@@ -1248,12 +1243,11 @@ T'eh lhiggey da oyr y chur 'sy ghiare-choontey.",
 'nextdiff'     => 'Y caghlaa ny snoa →',
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|duillag|duillagyn}}',
-'file-info-size'       => '$1 × {{PLURAL:$2|$2 pixel|$2 phixel|$2 phixel|$2 pixelyn}}, mooadys y choadan: $3, sorçh MIME: $4',
-'file-nohires'         => '<small>Cha nel jeeskeaylley ny smoo ry-gheddyn.</small>',
-'svg-long-desc'        => 'coadan SVG, $1 × {{PLURAL:$2|$2 pixel|$2 phixel|$2 phixel|$2 pixelyn}} dy ennymagh, mooadys y choadan: $3',
-'show-big-image'       => 'Jeeskeaylley ymlane',
-'show-big-image-thumb' => '<small>Mooadys y roie-haishbynys shoh: $1 × {{PLURAL:$2|$2 pixel|$2 phixel|$2 phixel|$2 pixelyn}}</small>',
+'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|duillag|duillagyn}}',
+'file-info-size'  => '$1 × {{PLURAL:$2|$2 pixel|$2 phixel|$2 phixel|$2 pixelyn}}, mooadys y choadan: $3, sorçh MIME: $4',
+'file-nohires'    => '<small>Cha nel jeeskeaylley ny smoo ry-gheddyn.</small>',
+'svg-long-desc'   => 'coadan SVG, $1 × {{PLURAL:$2|$2 pixel|$2 phixel|$2 phixel|$2 pixelyn}} dy ennymagh, mooadys y choadan: $3',
+'show-big-image'  => 'Jeeskeaylley ymlane',
 
 # Special:NewFiles
 'newimages'    => 'Laaragh coadanyn noa',
@@ -1401,5 +1395,8 @@ Bee adsyn elley follit dy seyr-obbragh.<br />
 
 # Special:Tags
 'tags-edit' => 'reaghey',
+
+# Special:DisableAccount
+'disableaccount-reason' => 'Fa:',
 
 );

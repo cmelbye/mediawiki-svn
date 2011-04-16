@@ -57,7 +57,7 @@ class AddWiki extends Maintenance {
 		$languageNames = Language::getLanguageNames();
 
 		if ( !isset( $languageNames[$lang] ) ) {
-			$this->error( "Language $lang not found in \$wgLanguageNames", true );
+			$this->error( "Language $lang not found in Names.php", true );
 		}
 		$name = $languageNames[$lang];
 
@@ -81,19 +81,18 @@ class AddWiki extends Maintenance {
 		$dbw->sourceFile( "$IP/extensions/Oversight/hidden.sql" );
 		$dbw->sourceFile( "$IP/extensions/GlobalBlocking/localdb_patches/setup-global_block_whitelist.sql" );
 		$dbw->sourceFile( "$IP/extensions/AbuseFilter/abusefilter.tables.sql" );
-		$dbw->sourceFile( "$IP/extensions/UsabilityInitiative/PrefStats/PrefStats.sql" );
+		$dbw->sourceFile( "$IP/extensions/PrefStats/patches/PrefStats.sql" );
 		$dbw->sourceFile( "$IP/extensions/ProofreadPage/ProofreadPage.sql" );
-		$dbw->sourceFile( "$IP/extensions/UsabilityInitiative/ClickTracking/ClickTrackingEvents.sql" );
-		$dbw->sourceFile( "$IP/extensions/UsabilityInitiative/ClickTracking/ClickTracking.sql" );
-		$dbw->sourceFile( "$IP/extensions/UsabilityInitiative/UserDailyContribs/UserDailyContribs.sql" );
-		$dbw->sourceFile( "$IP/extensions/UsabilityInitiative/OptIn/OptIn.sql" );
+		$dbw->sourceFile( "$IP/extensions/ClickTracking/patches/ClickTrackingEvents.sql" );
+		$dbw->sourceFile( "$IP/extensions/ClickTracking/patches/ClickTracking.sql" );
+		$dbw->sourceFile( "$IP/extensions/UserDailyContribs/patches/UserDailyContribs.sql" );
 
 		$dbw->query( "INSERT INTO site_stats(ss_row_id) VALUES (1)" );
 
 		# Initialise external storage
 		if ( is_array( $wgDefaultExternalStore ) ) {
 			$stores = $wgDefaultExternalStore;
-		} elseif ( $stores ) {
+		} elseif ( $wgDefaultExternalStore ) {
 			$stores = array( $wgDefaultExternalStore );
 		} else {
 			$stores = array();

@@ -534,8 +534,6 @@ Bifo tra e-mail kan seni go na a account, yu musu du san skrifi ini a e-mail fu 
 'extlink_tip'     => 'Miti go na dorosey (no fergiti fu poti http:// fosi)',
 'headline_sample' => 'Pisi ede nen',
 'headline_tip'    => 'Pisi ede nen',
-'math_sample'     => 'Poti formula dyaso',
-'math_tip'        => 'Formula fu teri (LaTeX)',
 'nowiki_sample'   => 'Skrifi sondro wiki skrifi-fasi dyaso',
 'nowiki_tip'      => 'Skotu a wiki skrifi-fasi',
 'image_tip'       => 'Media file',
@@ -677,7 +675,6 @@ A kan ben trowe efu dribi.
 'changepassword'            => 'Kenki yu waktiwortu',
 'prefs-skin'                => 'Buba',
 'skin-preview'              => 'Si-na-fesi',
-'prefs-math'                => 'Fomula',
 'datedefault'               => 'No wana',
 'prefs-datetime'            => 'Datum nanga ten',
 'prefs-personal'            => 'Masyinmasi',
@@ -1184,21 +1181,16 @@ Yu ka luku a source.',
 'siteuser'  => '{{SITENAME}}-masyin $1',
 'siteusers' => '{{SITENAME}}-masyin $1',
 
-# Math errors
-'math_lexing_error' => 'leksikografi fowtu',
-'math_syntax_error' => 'sintaki fowtu',
-
 # Browsing diffs
 'previousdiff' => '← A psa kenki',
 'nextdiff'     => "A kenki d'e kon →",
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 peprewoysi',
-'file-info-size'       => '$1 × $2 pixel, file marki: $3, MIME-type: $4',
-'file-nohires'         => '<small>Moro srapu no de.</small>',
-'svg-long-desc'        => 'SVG file, marki $1 × $2 pixel, bigi: $3',
-'show-big-image'       => 'Moro srapu',
-'show-big-image-thumb' => '<small>Bigi fu a luku-na-fesi disi: $1 × $2 pixel</small>',
+'widthheightpage' => '$1×$2, $3 peprewoysi',
+'file-info-size'  => '$1 × $2 pixel, file marki: $3, MIME-type: $4',
+'file-nohires'    => '<small>Moro srapu no de.</small>',
+'svg-long-desc'   => 'SVG file, marki $1 × $2 pixel, bigi: $3',
+'show-big-image'  => 'Moro srapu',
 
 # Special:NewFiles
 'newimages'    => 'Nyun file',

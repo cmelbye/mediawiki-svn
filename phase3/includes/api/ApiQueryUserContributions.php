@@ -81,6 +81,7 @@ class ApiQueryContributions extends ApiQueryBase {
 			$this->prefixMode = false;
 			$this->multiUserMode = ( count( $this->params['user'] ) > 1 );
 		}
+
 		$this->prepareQuery();
 
 		// Do the actual query.
@@ -264,6 +265,10 @@ class ApiQueryContributions extends ApiQueryBase {
 			$index['change_tag'] = $wgOldChangeTagsIndex ? 'ct_tag' : 'change_tag_tag_id';
 		}
 
+		if ( $this->params['toponly'] ) {
+			$this->addWhere( 'rev_id = page_latest' );
+		}
+
 		$this->addOption( 'USE INDEX', $index );
 	}
 
@@ -409,6 +414,7 @@ class ApiQueryContributions extends ApiQueryBase {
 				)
 			),
 			'tag' => null,
+			'toponly' => false,
 		);
 	}
 
@@ -422,7 +428,7 @@ class ApiQueryContributions extends ApiQueryBase {
 			'continue' => 'When more results are available, use this to continue',
 			'user' => 'The users to retrieve contributions for',
 			'userprefix' => "Retrieve contibutions for all users whose names begin with this value. Overrides {$p}user",
-			'dir' => 'The direction to search (older or newer)',
+			'dir' => $this->getDirectionDescription( $p ),
 			'namespace' => 'Only list contributions in these namespaces',
 			'prop' => array(
 				'Include additional pieces of information',
@@ -439,6 +445,7 @@ class ApiQueryContributions extends ApiQueryBase {
 			'show' => array( "Show only items that meet this criteria, e.g. non minor edits only: {$p}show=!minor",
 					"NOTE: if {$p}show=patrolled or {$p}show=!patrolled is set, revisions older than $wgRCMaxAge won\'t be shown", ),
 			'tag' => 'Only list revisions tagged with this tag',
+			'toponly' => 'Only list changes which are the latest revision',
 		);
 	}
 

@@ -236,32 +236,44 @@ class MWException extends Exception {
 			header( 'Pragma: nocache' );
 		}
 
-		$title = Html::element( 'title', null, $this->getPageTitle() );
+		$head = Html::element( 'title', null, $this->getPageTitle() ) . "\n";
+		$head .= Html::inlineStyle( <<<ENDL
+	body {
+		color: #000;
+		background-color: #fff;
+		font-family: sans-serif;
+		padding: 2em;
+		text-align: center;
+	}
+	p, img, h1 {
+		text-align: left;
+		margin: 0.5em 0;
+	}
+	h1 {
+		font-size: 120%;
+	}
+ENDL
+		);
 
-		$left = 'left';
-		$right = 'right';
 		$dir = 'ltr';
 		$code = 'en';
 
 		if ( $wgLang instanceof Language ) {
-			$left = $wgLang->alignStart();
-			$right = $wgLang->alignEnd();
 			$dir = $wgLang->getDir();
 			$code = $wgLang->getCode();
 		}
 
 		$header = Html::element( 'img', array(
 			'src' => $wgLogo,
-			'style' => "float: $left; margin-$right: 1em;",
 			'alt' => '' ), $this->getPageTitle() );
 
 		$attribs = array( 'dir' => $dir, 'lang' => $code );
 
 		return
 			Html::htmlHeader( $attribs ) .
-			Html::rawElement( 'head', null, $title ) . "\n". 
+			Html::rawElement( 'head', null, $head ) . "\n".
 			Html::openElement( 'body' ) . "\n" .
-			Html::rawElement( 'h1', null, $header ) . "\n";
+			$header . "\n";
 	}
 
 	/**
@@ -299,25 +311,134 @@ class FatalError extends MWException {
 }
 
 /**
+ * An error page which can definitely be safely rendered using the OutputPage
  * @ingroup Exception
  */
 class ErrorPageError extends MWException {
-	public $title, $msg;
+	public $title, $msg, $params;
 
 	/**
 	 * Note: these arguments are keys into wfMsg(), not text!
 	 */
-	function __construct( $title, $msg ) {
+	function __construct( $title, $msg, $params = null ) {
 		$this->title = $title;
 		$this->msg = $msg;
-		parent::__construct( wfMsg( $msg ) );
+		$this->params = $params;
+
+		if( $msg instanceof Message ){
+			parent::__construct( $msg );
+		} else {
+			parent::__construct( wfMsg( $msg ) );
+		}
 	}
 
 	function report() {
 		global $wgOut;
 
-		$wgOut->showErrorPage( $this->title, $this->msg );
+		if ( $wgOut->getTitle() ) {
+			$wgOut->debug( 'Original title: ' . $wgOut->getTitle()->getPrefixedText() . "\n" );
+		}
+		$wgOut->setPageTitle( wfMsg( $this->title ) );
+		$wgOut->setHTMLTitle( wfMsg( 'errorpagetitle' ) );
+		$wgOut->setRobotPolicy( 'noindex,nofollow' );
+		$wgOut->setArticleRelated( false );
+		$wgOut->enableClientCache( false );
+		$wgOut->mRedirect = '';
+		$wgOut->clearHTML();
+
+		if( $this->msg instanceof Message ){
+			$wgOut->addHTML( $this->msg->parse() );
+		} else {
+			$wgOut->addWikiMsgArray( $this->msg, $this->params );
+		}
+
+		$wgOut->returnToMain();
 		$wgOut->output();
+	}
+}
+
+/**
+ * Show an error when a user tries to do something they do not have the necessary
+ * permissions for.
+ */
+class PermissionsError extends ErrorPageError {
+	public $permission;
+
+	function __construct( $permission ) {
+		global $wgLang;
+
+		$this->permission = $permission;
+
+		$groups = array_map(
+			array( 'User', 'makeGroupLinkWiki' ),
+			User::getGroupsWithPermission( $this->permission )
+		);
+
+		if( $groups ) {
+			parent::__construct(
+				'badaccess',
+				'badaccess-groups',
+				array(
+					$wgLang->commaList( $groups ),
+					count( $groups )
+				)
+			);
+		} else {
+			parent::__construct(
+				'badaccess',
+				'badaccess-group0'
+			);
+		}
+	}
+}
+
+/**
+ * Show an error when the wiki is locked/read-only and the user tries to do
+ * something that requires write access
+ */
+class ReadOnlyError extends ErrorPageError {
+	public function __construct(){
+		parent::__construct(
+			'readonly',
+			'readonlytext',
+			wfReadOnlyReason()
+		);
+	}
+}
+
+/**
+ * Show an error when the user tries to do something whilst blocked
+ */
+class UserBlockedError extends ErrorPageError {
+	public function __construct( Block $block ){
+		global $wgLang;
+
+		$blockerUserpage = $block->getBlocker()->getUserPage();
+		$link = "[[{$blockerUserpage->getPrefixedText()}|{$blockerUserpage->getText()}]]";
+
+		$reason = $block->mReason;
+		if( $reason == '' ) {
+			$reason = wfMsg( 'blockednoreason' );
+		}
+
+		/* $ip returns who *is* being blocked, $intended contains who was meant to be blocked.
+		 * This could be a username, an IP range, or a single IP. */
+		$intended = $block->getTarget();
+
+		parent::__construct(
+			'blockedtitle',
+			$block->mAuto ? 'autoblocketext' : 'blockedtext',
+			array(
+				$link,
+				$reason,
+				wfGetIP(),
+				$block->getBlocker()->getName(),
+				$block->getId(),
+				$wgLang->formatExpiry( $block->mExpiry ),
+				$intended,
+				$wgLang->timeanddate( wfTimestamp( TS_MW, $block->mTimestamp ), true )
+			)
+		);
 	}
 }
 
@@ -338,6 +459,7 @@ function wfReportException( Exception $e ) {
 
 	if ( $e instanceof MWException ) {
 		try {
+			// Try and show the exception prettily, with the normal skin infrastructure
 			$e->report();
 		} catch ( Exception $e2 ) {
 			// Exception occurred from within exception handler
@@ -359,7 +481,7 @@ function wfReportException( Exception $e ) {
 			if ( $cmdLine ) {
 				wfPrintError( $message );
 			} else {
-				echo nl2br( htmlspecialchars( $message ) ) . "\n";
+				wfDie( htmlspecialchars( $message ) ) . "\n";
 			}
 		}
 	} else {
@@ -373,7 +495,7 @@ function wfReportException( Exception $e ) {
 		if ( $cmdLine ) {
 			wfPrintError( $message );
 		} else {
-			echo nl2br( htmlspecialchars( $message ) ) . "\n";
+			wfDie( htmlspecialchars( $message ) ) . "\n";
 		}
 	}
 }

@@ -51,8 +51,6 @@ if ( $wgLogo === false ) $wgLogo = "$wgStylePath/common/images/wiki.png";
 if ( $wgUploadPath === false ) $wgUploadPath = "$wgScriptPath/images";
 if ( $wgUploadDirectory === false ) $wgUploadDirectory = "$IP/images";
 
-if ( $wgMathPath === false ) $wgMathPath = "{$wgUploadPath}/math";
-if ( $wgMathDirectory === false ) $wgMathDirectory = "{$wgUploadDirectory}/math";
 if ( $wgTmpDirectory === false ) $wgTmpDirectory = "{$wgUploadDirectory}/tmp";
 
 if ( $wgReadOnlyFile === false ) $wgReadOnlyFile = "{$wgUploadDirectory}/lock_yBgMBwiR";
@@ -218,6 +216,35 @@ if ( $wgMetaNamespace === false ) {
 	$wgMetaNamespace = str_replace( ' ', '_', $wgSitename );
 }
 
+/**
+ * Definitions of the NS_ constants are in Defines.php
+ * @private
+ */
+$wgCanonicalNamespaceNames = array(
+	NS_MEDIA            => 'Media',
+	NS_SPECIAL          => 'Special',
+	NS_TALK             => 'Talk',
+	NS_USER             => 'User',
+	NS_USER_TALK        => 'User_talk',
+	NS_PROJECT          => 'Project',
+	NS_PROJECT_TALK     => 'Project_talk',
+	NS_FILE             => 'File',
+	NS_FILE_TALK        => 'File_talk',
+	NS_MEDIAWIKI        => 'MediaWiki',
+	NS_MEDIAWIKI_TALK   => 'MediaWiki_talk',
+	NS_TEMPLATE         => 'Template',
+	NS_TEMPLATE_TALK    => 'Template_talk',
+	NS_HELP             => 'Help',
+	NS_HELP_TALK        => 'Help_talk',
+	NS_CATEGORY         => 'Category',
+	NS_CATEGORY_TALK    => 'Category_talk',
+);
+
+/// @todo UGLY UGLY
+if( is_array( $wgExtraNamespaces ) ) {
+	$wgCanonicalNamespaceNames = $wgCanonicalNamespaceNames + $wgExtraNamespaces;
+}
+
 # These are now the same, always
 # To determine the user language, use $wgLang->getCode()
 $wgContLanguageCode = $wgLanguageCode;
@@ -236,6 +263,19 @@ if ( !$wgAllowRealName ) {
 
 if ( !$wgAllowUserSkin ) {
 	$wgHiddenPrefs[] = 'skin';
+}
+
+# Doesn't make sense to have if disabled.
+if ( !$wgEnotifMinorEdits ) {
+	$wgHiddenPrefs[] = 'enotifminoredits';
+}
+
+# $wgDisabledActions is deprecated as of 1.18
+foreach( $wgDisabledActions as $action ){
+	$wgActions[$action] = false;
+}
+if( !$wgAllowPageInfo ){
+	$wgActions['info'] = false;
 }
 
 if ( !$wgHtml5Version && $wgHtml5 && $wgAllowRdfaAttributes ) {
@@ -269,22 +309,23 @@ if ( $wgNewUserLog ) {
 	$wgLogActions['newusers/autocreate'] = 'newuserlog-autocreate-entry';
 }
 
-if ( !class_exists( 'AutoLoader' ) ) {
-	require_once( "$IP/includes/AutoLoader.php" );
+if ( !defined( 'MW_COMPILED' ) ) {
+	if ( !MWInit::classExists( 'AutoLoader' ) ) {
+		require_once( "$IP/includes/AutoLoader.php" );
+	}
+
+	wfProfileIn( $fname . '-exception' );
+	require_once( "$IP/includes/Exception.php" );
+	wfInstallExceptionHandler();
+	wfProfileOut( $fname . '-exception' );
+
+	wfProfileIn( $fname . '-includes' );
+	require_once( "$IP/includes/GlobalFunctions.php" );
+	require_once( "$IP/includes/Hooks.php" );
+	require_once( "$IP/includes/ProxyTools.php" );
+	require_once( "$IP/includes/ImageFunctions.php" );
+	wfProfileOut( $fname . '-includes' );
 }
-
-wfProfileIn( $fname . '-exception' );
-require_once( "$IP/includes/Exception.php" );
-wfInstallExceptionHandler();
-wfProfileOut( $fname . '-exception' );
-
-wfProfileIn( $fname . '-includes' );
-require_once( "$IP/includes/GlobalFunctions.php" );
-require_once( "$IP/includes/Hooks.php" );
-require_once( "$IP/includes/Namespace.php" );
-require_once( "$IP/includes/ProxyTools.php" );
-require_once( "$IP/includes/ImageFunctions.php" );
-wfProfileOut( $fname . '-includes' );
 wfProfileIn( $fname . '-misc1' );
 
 # Raise the memory limit if it's too low
@@ -360,9 +401,21 @@ $wgContLang = new StubContLang;
 
 // Now that variant lists may be available...
 $wgRequest->interpolateTitle();
-$wgUser = $wgCommandLineMode ? new User : User::newFromSession();
+$wgUser = RequestContext::getMain()->user; # BackCompat
+
+/**
+ * @var Language
+ */
 $wgLang = new StubUserLang;
-$wgOut = new StubObject( 'wgOut', 'OutputPage' );
+
+/**
+ * @var OutputPage
+ */
+$wgOut = RequestContext::getMain()->output; # BackCompat
+
+/**
+ * @var Parser
+ */
 $wgParser = new StubObject( 'wgParser', $wgParserConf['class'], array( $wgParserConf ) );
 
 if ( !is_object( $wgAuth ) ) {
@@ -417,4 +470,7 @@ wfRunHooks( 'LogPageActionText', array( &$wgLogActions ) );
 wfDebug( "Fully initialised\n" );
 $wgFullyInitialised = true;
 wfProfileOut( $fname . '-extensions' );
+
+require_once( MWInit::compiledPath( 'includes/normal/UtfNormalDefines.php' ) );
+
 wfProfileOut( $fname );

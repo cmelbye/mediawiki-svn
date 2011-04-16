@@ -27,7 +27,7 @@ abstract class UploadBase {
 	const EMPTY_FILE = 3;
 	const MIN_LENGTH_PARTNAME = 4;
 	const ILLEGAL_FILENAME = 5;
-	const OVERWRITE_EXISTING_FILE = 7; # Not used anymore; handled by verifyPermissions()
+	const OVERWRITE_EXISTING_FILE = 7; # Not used anymore; handled by verifyTitlePermissions()
 	const FILETYPE_MISSING = 8;
 	const FILETYPE_BADTYPE = 9;
 	const VERIFICATION_ERROR = 10;
@@ -148,12 +148,12 @@ abstract class UploadBase {
 	}
 
 	public function __construct() {}
-	
+
 	/**
 	 * Returns the upload type. Should be overridden by child classes
-	 * 
+	 *
 	 * @since 1.18
-	 * @return string 
+	 * @return string
 	 */
 	public function getSourceType() { return null; }
 
@@ -242,7 +242,7 @@ abstract class UploadBase {
 		 */
 		$maxSize = self::getMaxUploadSize( $this->getSourceType() );
 		if( $this->mFileSize > $maxSize ) {
-			return array( 
+			return array(
 				'status' => self::FILE_TOO_LARGE,
 				'max' => $maxSize,
 			);
@@ -350,9 +350,9 @@ abstract class UploadBase {
 	protected function verifyFile() {
 		global $wgAllowJavaUploads;
 		# get the title, even though we are doing nothing with it, because
-		# we need to populate mFinalExtension 
+		# we need to populate mFinalExtension
 		$this->getTitle();
-		
+
 		$this->mFileProps = File::getPropsFromPath( $this->mTempPath, $this->mFinalExtension );
 		$this->checkMacBinary();
 
@@ -373,11 +373,11 @@ abstract class UploadBase {
 			}
 		}
 
-		# Check for Java applets, which if uploaded can bypass cross-site 
+		# Check for Java applets, which if uploaded can bypass cross-site
 		# restrictions.
 		if ( !$wgAllowJavaUploads ) {
 			$this->mJavaDetected = false;
-			$zipStatus = ZipDirectoryReader::read( $this->mTempPath, 
+			$zipStatus = ZipDirectoryReader::read( $this->mTempPath,
 				array( $this, 'zipEntryCallback' ) );
 			if ( !$zipStatus->isOK() ) {
 				$errors = $zipStatus->getErrorsArray();
@@ -422,20 +422,31 @@ abstract class UploadBase {
 		$names = array( $entry['name'] );
 
 		// If there is a null character, cut off the name at it, because JDK's
-		// ZIP_GetEntry() uses strcmp() if the name hashes match. If a file name 
-		// were constructed which had ".class\0" followed by a string chosen to 
-		// make the hash collide with the truncated name, that file could be 
+		// ZIP_GetEntry() uses strcmp() if the name hashes match. If a file name
+		// were constructed which had ".class\0" followed by a string chosen to
+		// make the hash collide with the truncated name, that file could be
 		// returned in response to a request for the .class file.
 		$nullPos = strpos( $entry['name'], "\000" );
 		if ( $nullPos !== false ) {
 			$names[] = substr( $entry['name'], 0, $nullPos );
 		}
 
-		// If there is a trailing slash in the file name, we have to strip it, 
+		// If there is a trailing slash in the file name, we have to strip it,
 		// because that's what ZIP_GetEntry() does.
 		if ( preg_grep( '!\.class/?$!', $names ) ) {
 			$this->mJavaDetected = true;
 		}
+	}
+
+	/**
+	 * Alias for verifyTitlePermissions. The function was originally 'verifyPermissions' 
+	 * but that suggests it's checking the user, when it's really checking the title + user combination.
+	 * @param $user User object to verify the permissions against
+	 * @return mixed An array as returned by getUserPermissionsErrors or true
+	 *               in case the user has proper permissions.
+	 */
+	public function verifyPermissions( $user ) {
+		return $this->verifyTitlePermissions( $user );
 	}
 
 	/**
@@ -449,7 +460,7 @@ abstract class UploadBase {
 	 * @return mixed An array as returned by getUserPermissionsErrors or true
 	 *               in case the user has proper permissions.
 	 */
-	public function verifyPermissions( $user ) {
+	public function verifyTitlePermissions( $user ) {
 		/**
 		 * If the image is protected, non-sysop users won't be able
 		 * to modify it by uploading a new revision.
@@ -460,7 +471,7 @@ abstract class UploadBase {
 		}
 		$permErrors = $nt->getUserPermissionsErrors( 'edit', $user );
 		$permErrorsUpload = $nt->getUserPermissionsErrors( 'upload', $user );
-		if ( $nt->exists() ) {
+		if ( !$nt->exists() ) {
 			$permErrorsCreate = $nt->getUserPermissionsErrors( 'createpage', $user );
 		} else {
 			$permErrorsCreate = array();
@@ -470,12 +481,12 @@ abstract class UploadBase {
 			$permErrors = array_merge( $permErrors, wfArrayDiff2( $permErrorsCreate, $permErrors ) );
 			return $permErrors;
 		}
-		
+
 		$overwriteError = $this->checkOverwrite( $user );
 		if ( $overwriteError !== true ) {
-			return array( array( $overwriteError ) );
+			return array( $overwriteError );
 		}
-		
+
 		return true;
 	}
 
@@ -555,14 +566,14 @@ abstract class UploadBase {
 	 * @return Status indicating the whether the upload succeeded.
 	 */
 	public function performUpload( $comment, $pageText, $watch, $user ) {
-		$status = $this->getLocalFile()->upload( 
-			$this->mTempPath, 
-			$comment, 
+		$status = $this->getLocalFile()->upload(
+			$this->mTempPath,
+			$comment,
 			$pageText,
 			File::DELETE_SOURCE,
-			$this->mFileProps, 
-			false, 
-			$user 
+			$this->mFileProps,
+			false,
+			$user
 		);
 
 		if( $status->isGood() ) {
@@ -611,7 +622,7 @@ abstract class UploadBase {
 			$this->mFinalExtension = trim( $ext[count( $ext ) - 1] );
 		} else {
 			$this->mFinalExtension = '';
-			
+
 			# No extension, try guessing one
 			$magic = MimeMagic::singleton();
 			$mime = $magic->guessMimeType( $this->mTempPath );
@@ -621,22 +632,22 @@ abstract class UploadBase {
 				if ( $extList ) {
 					# Set the extension to the canonical extension
 					$this->mFinalExtension = strtok( $extList, ' ' );
-					
+
 					# Fix up the other variables
 					$this->mFilteredName .= ".{$this->mFinalExtension}";
 					$nt = Title::makeTitleSafe( NS_FILE, $this->mFilteredName );
 					$ext = array( $this->mFinalExtension );
 				}
 			}
-			
+
 		}
 
 		/* Don't allow users to override the blacklist (check file extension) */
 		global $wgCheckFileExtensions, $wgStrictFileExtensions;
 		global $wgFileExtensions, $wgFileBlacklist;
-		
+
 		$blackListedExtensions = $this->checkFileExtensionList( $ext, $wgFileBlacklist );
-		
+
 		if ( $this->mFinalExtension == '' ) {
 			$this->mTitleError = self::FILETYPE_MISSING;
 			return $this->mTitle = null;
@@ -703,15 +714,15 @@ abstract class UploadBase {
 	 *
 	 * This method will stash a file in a temporary directory for later processing, and save the necessary descriptive info
 	 * into the user's session.
-	 * This method returns the file object, which also has a 'sessionKey' property which can be passed through a form or 
+	 * This method returns the file object, which also has a 'sessionKey' property which can be passed through a form or
 	 * API request to find this stashed file again.
 	 *
 	 * @param $key String: (optional) the session key used to find the file info again. If not supplied, a key will be autogenerated.
 	 * @return UploadStashFile stashed file
 	 */
-	public function stashSessionFile( $key = null ) { 
+	public function stashSessionFile( $key = null ) {
 		$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
-		$data = array( 
+		$data = array(
 			'mFileProps' => $this->mFileProps,
 			'mSourceType' => $this->getSourceType(),
 		);
@@ -1101,14 +1112,14 @@ abstract class UploadBase {
 	 *
 	 * @param $user User
 	 *
-	 * @return mixed true on success, error string on failure
+	 * @return mixed true on success, array on failure
 	 */
 	private function checkOverwrite( $user ) {
 		// First check whether the local file can be overwritten
 		$file = $this->getLocalFile();
 		if( $file->exists() ) {
 			if( !self::userCanReUpload( $user, $file ) ) {
-				return 'fileexists-forbidden';
+				return array( 'fileexists-forbidden', $file->getName() );
 			} else {
 				return true;
 			}
@@ -1119,7 +1130,7 @@ abstract class UploadBase {
 		 */
 		$file = wfFindFile( $this->getTitle() );
 		if ( $file && !$user->isAllowed( 'reupload-shared' ) ) {
-			return 'fileexists-shared-forbidden';
+			return array( 'fileexists-shared-forbidden', $file->getName() );
 		}
 
 		return true;
@@ -1276,18 +1287,18 @@ abstract class UploadBase {
 	}
 
 	/**
-	 * Gets image info about the file just uploaded. 
+	 * Gets image info about the file just uploaded.
 	 *
-	 * Also has the effect of setting metadata to be an 'indexed tag name' in returned API result if 
+	 * Also has the effect of setting metadata to be an 'indexed tag name' in returned API result if
 	 * 'metadata' was requested. Oddly, we have to pass the "result" object down just so it can do that
-	 * with the appropriate format, presumably. 
+	 * with the appropriate format, presumably.
 	 *
 	 * @param $result ApiResult:
 	 * @return Array: image info
 	 */
 	public function getImageInfo( $result ) {
 		$file = $this->getLocalFile();
-		// TODO This cries out for refactoring. We really want to say $file->getAllInfo(); here. 
+		// TODO This cries out for refactoring. We really want to say $file->getAllInfo(); here.
 		// Perhaps "info" methods should be moved into files, and the API should just wrap them in queries.
 		if ( $file instanceof UploadStashFile ) {
 			$imParam = ApiQueryStashImageInfo::getPropertyNames();
@@ -1305,10 +1316,10 @@ abstract class UploadBase {
 		unset( $code['status'] );
 		return Status::newFatal( $this->getVerificationErrorCode( $code ), $error );
 	}
-	
+
 	public static function getMaxUploadSize( $forType = null ) {
 		global $wgMaxUploadSize;
-		
+
 		if ( is_array( $wgMaxUploadSize ) ) {
 			if ( !is_null( $forType ) && isset( $wgMaxUploadSize[$forType] ) ) {
 				return $wgMaxUploadSize[$forType];
@@ -1318,6 +1329,6 @@ abstract class UploadBase {
 		} else {
 			return intval( $wgMaxUploadSize );
 		}
-		
+
 	}
 }

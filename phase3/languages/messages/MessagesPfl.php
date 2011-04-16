@@ -206,8 +206,6 @@ S kann sai, dass es ää odder meh Zaiche drin hot, wu im Titel vun de Said nid 
 'extlink_tip'     => 'Externer Link (uff http:// Acht gewwe)',
 'headline_sample' => 'Abschnitts-Iwwerschrift',
 'headline_tip'    => 'Iwwerschrift Ewene 2',
-'math_sample'     => 'Do Formel aigewwe',
-'math_tip'        => 'Mathematische Formel (LaTeX)',
 'nowiki_sample'   => 'Gebb do en Text ai, wu nit formatiert wird',
 'nowiki_tip'      => 'Wiki-Formatierunge ignoriere',
 'image_tip'       => 'Bildverwais',
@@ -693,11 +691,10 @@ Du kannscht e Grund in dr Zammfassung aagewwe',
 'nextdiff'     => 'Naiere Bearwaidung →',
 
 # Media information
-'file-info-size'       => '$1 × $2 Pixels, Dateigreß: $3, MIME-Type: $4',
-'file-nohires'         => '<small>Ke hechere Ufflesung verfiechbar.</small>',
-'svg-long-desc'        => 'SVG-Datei, Basisgreß $1 × $2 Pixels, Dateigreß: $3',
-'show-big-image'       => 'Gsamte Ergebnis',
-'show-big-image-thumb' => '<small>Greß vun derre Vorschau: $1 × $2 Pixels</small>',
+'file-info-size' => '$1 × $2 Pixels, Dateigreß: $3, MIME-Type: $4',
+'file-nohires'   => '<small>Ke hechere Ufflesung verfiechbar.</small>',
+'svg-long-desc'  => 'SVG-Datei, Basisgreß $1 × $2 Pixels, Dateigreß: $3',
+'show-big-image' => 'Gsamte Ergebnis',
 
 # Special:NewFiles
 'showhidebots' => '(Bots $1)',

@@ -245,8 +245,6 @@ Dudicoxopes oxmaruşi yasaği na ren ar, varna daha dido kʼarakʼtʼeri uğun.'
 'extlink_tip'     => 'Galeni kʼontʼaktʼi (Adresiş dudis http:// ukʼatit)',
 'headline_sample' => 'Dudicoxoşi nçʼara',
 'headline_tip'    => '2. derece dudicoxo',
-'math_sample'     => 'Matematʼikuri-ifade-doçʼarit',
-'math_tip'        => 'Matʼematʼikuri formuli (LaTeX)',
 'nowiki_sample'   => 'Oxoşkveri formatʼi nçʼara-tkvani ak doçʼarit.',
 'nowiki_tip'      => 'vikʼiş formatʼi ipʼtʼali qʼvi.',
 'image_tip'       => 'Doxveri dosya',
@@ -698,11 +696,10 @@ Mu iqʼven başka coxo doçʼari.',
 'nextdiff'     => 'Ukʼaçxineri versiyoni kʼala na ren farkʼi →',
 
 # Media information
-'file-info-size'       => '$1 × $2 pikseli, dosyaşi didinoba: $3, MIME type: $4',
-'file-nohires'         => '<small>Çkva kʼai ozʼiramuşis na uğun versiyoni va ren.</small>',
-'svg-long-desc'        => 'SVG dosya, coxoten $1 × $2 pʼikʼseli, dosyaşi didinoba: $3',
-'show-big-image'       => 'Tam ozʼiramuşi',
-'show-big-image-thumb' => '<small>"Evvelişen i3ʼkʼedi" fonkʼsionişi didinoba: $1 × $2 pikseli</small>',
+'file-info-size' => '$1 × $2 pikseli, dosyaşi didinoba: $3, MIME type: $4',
+'file-nohires'   => '<small>Çkva kʼai ozʼiramuşis na uğun versiyoni va ren.</small>',
+'svg-long-desc'  => 'SVG dosya, coxoten $1 × $2 pʼikʼseli, dosyaşi didinoba: $3',
+'show-big-image' => 'Tam ozʼiramuşi',
 
 # Bad image list
 'bad_image_list' => 'Formatʼi aşo ren:
