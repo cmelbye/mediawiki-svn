@@ -17,8 +17,8 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
-if ( version_compare( $wgVersion, '1.17alpha', '<' ) ) {
-	die( "This version of Extension:Gadgets requires MediaWiki 1.17+\n" );
+if ( version_compare( $wgVersion, '1.18alpha', '<' ) ) {
+	die( "This version of Extension:Gadgets requires MediaWiki 1.18+\n" );
 }
 
 $wgExtensionCredits['other'][] = array(
@@ -39,12 +39,17 @@ $dir = dirname(__FILE__) . '/';
 $wgExtensionMessagesFiles['Gadgets'] = $dir . 'Gadgets.i18n.php';
 $wgExtensionAliasesFiles['Gadgets'] = $dir . 'Gadgets.alias.php';
 
+$wgAutoloadClasses['Gadget'] = $dir . 'backend/Gadget.php';
+$wgAutoloadClasses['GadgetHooks'] = $dir . 'backend/GadgetHooks.php';
+$wgAutoloadClasses['GadgetResourceLoaderModule'] = $dir . 'backend/GadgetResourceLoaderModule.php';
+
 $wgAutoloadClasses['ApiQueryGadgetCategories'] = $dir . 'api/ApiQueryGadgetCategories.php';
 $wgAutoloadClasses['ApiQueryGadgets'] = $dir . 'api/ApiQueryGadgets.php';
-$wgAutoloadClasses['Gadget'] = $dir . 'backend/Gadgets_body.php';
-$wgAutoloadClasses['GadgetHooks'] = $dir . 'backend/Gadgets_body.php';
-$wgAutoloadClasses['GadgetResourceLoaderModule'] = $dir . 'backend/Gadgets_body.php';
+
+
 $wgAutoloadClasses['SpecialGadgets'] = $dir . 'ui/SpecialGadgets.php';
+$wgAutoloadClasses['GadgetsView'] = $dir . 'ui/GadgetsView.php';
+$wgAutoloadClasses['MainGadgetsView'] = $dir . 'ui/MainGadgetsView.php';
 
 $wgSpecialPages['Gadgets'] = 'SpecialGadgets';
 $wgSpecialPageGroups['Gadgets'] = 'wiki';
