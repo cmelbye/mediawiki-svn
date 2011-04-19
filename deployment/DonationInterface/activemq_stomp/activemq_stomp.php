@@ -29,12 +29,10 @@ $wgHooks['ParserFirstCallInit'][] = 'efStompSetup';
 * Create <donate /> tag to include landing page donation form
 */
 function efStompSetup( &$parser ) {
-	global $wgParser;
-
 	// redundant and causes Fatal Error
 	// $parser->disableCache();
 
-	$wgParser->setHook( 'stomp', 'efStompTest' );
+	$parser->setHook( 'stomp', 'efStompTest' );
 
 	return true;
 }
@@ -154,8 +152,7 @@ function createQueueMessage( $transaction ) {
 		'supplemental_address_1' => '',
 		'city'                   => $transaction['city'],
 		'state_province'         => $transaction['state'],
-		'country'                => $transaction['country_name'],
-		'countryID'              => $transaction['country_code'],
+		'country'                => $transaction['country'],
 		'postal_code'            => $transaction['zip'],
 		'first_name_2'           => $transaction['fname2'],
 		'last_name_2'            => $transaction['lname2'],
@@ -163,8 +160,7 @@ function createQueueMessage( $transaction ) {
 		'supplemental_address_2' => '',
 		'city_2'                 => $transaction['city2'],
 		'state_province_2'       => $transaction['state2'],
-		'country_2'              => $transaction['country_name2'],
-		'countryID_2'            => $transaction['country_code2'],
+		'country_2'              => $transaction['country2'],
 		'postal_code_2'          => $transaction['zip'],
 		'gateway'                => $transaction[ 'gateway' ],
 		'gateway_txn_id'         => $transaction['PNREF'],
