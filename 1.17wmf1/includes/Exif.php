@@ -1017,7 +1017,10 @@ class FormatExif {
 				break;
 
 			case 'GPSDateStamp':
-				$tags[$tag] = $wgLang->date( substr( $val, 0, 4 ) . substr( $val, 5, 2 ) . substr( $val, 8, 2 ) . '000000' );
+				// Don't try to process misformatted dates, leads to fatals (bug 26815)
+				if ( preg_match( '/^(?:\d{4}):(?:\d\d):(?:\d\d)$/D', $val ) ) {
+					$tags[$tag] = $wgLang->date( substr( $val, 0, 4 ) . substr( $val, 5, 2 ) . substr( $val, 8, 2 ) . '000000' );
+				}
 				break;
 
 			// This is not in the Exif standard, just a special
