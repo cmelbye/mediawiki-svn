@@ -77,10 +77,6 @@ abstract class MapsBaseMap {
 		
 		$output = $this->getMapHTML( $params, $parser );
 		
-		if ( $egMapsUseRL ) {
-			$output .= $this->getJSON( $params, $parser );
-		}
-		
 		global $wgTitle;
 		if ( !is_null( $wgTitle ) && $wgTitle->getNamespace() == NS_SPECIAL ) {
 			global $wgOut;
@@ -91,41 +87,6 @@ abstract class MapsBaseMap {
 		}
 		
 		return $output;
-	}
-	
-	/**
-	 * Returns the JSON with the maps data.
-	 *
-	 * @since 0.7.3
-	 *
-	 * @param array $params
-	 * @param Parser $parser
-	 * 
-	 * @return string
-	 */	
-	protected function getJSON( array $params, Parser $parser ) {
-		$object = $this->getJSONObject( $params, $parser );
-		
-		if ( $object === false ) {
-			return '';
-		}
-		
-		// TODO
-		return Html::inlineScript( "maps=[]; maps['{$this->service->getName()}']=[]; maps['{$this->service->getName()}'].push(" . json_encode( $object ) . ')' );
-	}
-	
-	/**
-	 * Returns a PHP object to encode to JSON with the map data.
-	 *
-	 * @since 0.7.3
-	 *
-	 * @param array $params
-	 * @param Parser $parser
-	 * 
-	 * @return mixed
-	 */	
-	protected function getJSONObject( array $params, Parser $parser ) {
-		return $params;
 	}
 	
 	/**
