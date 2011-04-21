@@ -624,7 +624,7 @@ EOT
 			array( 'page_namespace', 'page_title' ),
 			array( 'il_to' => $this->mTitle->getDBkey(), 'il_from = page_id' ),
 			__METHOD__,
-			array( 'LIMIT' => $limit + 1 )
+			array( 'LIMIT' => $limit + 1, 'ORDER BY' => 'il_from', )
 		);
 		$count = $dbr->numRows( $res );
 		if ( $count == 0 ) {
