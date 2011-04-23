@@ -279,44 +279,51 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * 		'messages' => array( 'message1', 'message2' ... ),
 	 * 		'group' => 'stuff',
 	 * 	)
+	 *
+	 * @param $basePath String: base path to prepend to all paths in $options
 	 */
-	public function __construct( $options = array() ) {
+	public function __construct( $options = array(), $basePath = null ) {
 		foreach ( $options as $option => $value ) {
 			switch ( $option ) {
 				case 'scripts':
-					$this->scripts = (array)$value;
+				case 'debugScripts':
+				case 'languageScripts':
+				case 'skinScripts':
+				case 'loaders':
+					$this->{$option} = (array)$value;
+					// Automatically prefix script paths
+					if ( is_string( $basePath ) ) {
+						foreach ( $this->{$option} as $key => $value ) {
+							$this->{$option}[$key] = $basePath . $value;
+						}
+					}
 					break;
 				case 'styles':
-					$this->styles = (array)$value;
+				case 'skinStyles':
+					$this->{$option} = (array)$value;
+					// Automatically prefix style paths
+					if ( is_string( $basePath ) ) {
+						foreach ( $this->{$option} as $key => $value ) {
+							if ( is_array( $value ) ) {
+								$this->{$option}[$basePath . $key] = $value;
+								unset( $this->{$option}[$key] );
+							} else {
+								$this->{$option}[$key] = $basePath . $value;
+							}
+						}
+					}
 					break;
+				case 'dependencies':
 				case 'messages':
-					$this->messages = (array)$value;
+					$this->{$option} = (array)$value;
 					break;
 				case 'group':
 					$this->group = (string)$value;
 					break;
-				case 'dependencies':
-					$this->dependencies = (array)$value;
-					break;
-				case 'debugScripts':
-					$this->debugScripts = (array)$value;
-					break;
-				case 'languageScripts':
-					$this->languageScripts = (array)$value;
-					break;
-				case 'skinScripts':
-					$this->skinScripts = (array)$value;
-					break;
-				case 'skinStyles':
-					$this->skinStyles = (array)$value;
-					break;
-				case 'loaders':
-					$this->loaders = (array)$value;
-					break;
 			}
 		}
 	}
-
+	
 	/**
 	 * Add script files to this module. In order to be valid, a module
 	 * must contain at least one script file.
@@ -472,7 +479,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		
 		// Collect referenced files
 		$files = array();
-		foreach ( $styles as $media => $style ) {
+		foreach ( $styles as $style ) {
 			// Extract and store the list of referenced files
 			$files = array_merge( $files, CSSMin::getLocalFileReferences( $style ) );
 		}
@@ -488,12 +495,6 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 					'md_deps' => $encFiles,
 				)
 			);
-			
-			// Save into memcached
-			global $wgMemc;
-			
-			$key = wfMemcKey( 'resourceloader', 'module_deps', $this->getName(), $context->getSkin() );
-			$wgMemc->set( $key, $encFiles );
 		}
 		
 		return $styles;
@@ -538,13 +539,13 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		
 		// Sort of nasty way we can get a flat list of files depended on by all styles
 		$styles = array();
-		foreach ( self::organizeFilesByOption( $this->styles, 'media', 'all' ) as $media => $styleFiles ) {
+		foreach ( self::organizeFilesByOption( $this->styles, 'media', 'all' ) as $styleFiles ) {
 			$styles = array_merge( $styles, $styleFiles );
 		}
 		$skinFiles = (array) self::getSkinFiles(
 			$context->getSkin(), self::organizeFilesByOption( $this->skinStyles, 'media', 'all' )
 		);
-		foreach ( $skinFiles as $media => $styleFiles ) {
+		foreach ( $skinFiles as $styleFiles ) {
 			$styles = array_merge( $styles, $styleFiles );
 		}
 		
@@ -584,7 +585,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * Get the primary CSS for this module. This is pulled from the CSS
 	 * files added through addStyles()
 	 *
-	 * @return String: JS
+	 * @return Array
 	 */
 	protected function getPrimaryStyles() {
 		return self::concatStyles( $this->styles );
@@ -693,7 +694,7 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * Get the contents of a set of CSS files, remap then and concatenate
 	 * them, with newlines in between. Each file is used only once.
 	 *
-	 * @param $files Array of file names
+	 * @param $styles Array of file names
 	 * @return Array: list of concatenated and remapped contents of $files keyed by media type
 	 */
 	protected static function concatStyles( $styles ) {
@@ -728,18 +729,21 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 	 * @return string Remapped CSS
 	 */
 	protected static function remapStyle( $file ) {
-		global $wgUseDataURLs, $wgScriptPath;
+		global $wgScriptPath;
 		return CSSMin::remap(
 			file_get_contents( self::remapFilename( $file ) ),
 			dirname( $file ),
 			$wgScriptPath . '/' . dirname( $file ),
-			$wgUseDataURLs
+			true
 		);
 	}
 }
 
 /**
  * Abstraction for resource loader modules which pull from wiki pages
+ * 
+ * This can only be used for wiki pages in the MediaWiki and User namespaces, because of it's dependence on the
+ * functionality of Title::isValidCssJsSubpage.
  */
 abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	
@@ -756,7 +760,7 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	
 	protected function getContent( $page, $ns ) {
 		if ( $ns === NS_MEDIAWIKI ) {
-			return wfMsgExt( $page, 'content' );
+			return wfEmptyMsg( $page ) ? '' : wfMsgExt( $page, 'content' );
 		}
 		if ( $title = Title::newFromText( $page, $ns ) ) {
 			if ( $title->isValidCssJsSubpage() && $revision = Revision::newFromTitle( $title ) ) {
@@ -769,13 +773,11 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	/* Methods */
 
 	public function getScript( ResourceLoaderContext $context ) {
-		global $wgCanonicalNamespaceNames;
-		
 		$scripts = '';
 		foreach ( $this->getPages( $context ) as $page => $options ) {
 			if ( $options['type'] === 'script' ) {
 				if ( $script = $this->getContent( $page, $options['ns'] ) ) {
-					$ns = $wgCanonicalNamespaceNames[$options['ns']];
+					$ns = MWNamespace::getCanonicalName( $options['ns'] );
 					$scripts .= "/*$ns:$page */\n$script\n";
 				}
 			}
@@ -784,7 +786,6 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	}
 
 	public function getStyles( ResourceLoaderContext $context ) {
-		global $wgCanonicalNamespaceNames;
 		
 		$styles = array();
 		foreach ( $this->getPages( $context ) as $page => $options ) {
@@ -794,7 +795,7 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 					if ( !isset( $styles[$media] ) ) {
 						$styles[$media] = '';
 					}
-					$ns = $wgCanonicalNamespaceNames[$options['ns']];
+					$ns = MWNamespace::getCanonicalName( $options['ns'] );
 					$styles[$media] .= "/* $ns:$page */\n$style\n";
 				}
 			}
@@ -919,7 +920,7 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 	 * Fetch the context's user options, or if it doesn't match current user,
 	 * the default options.
 	 * 
-	 * @param ResourceLoaderContext $context
+	 * @param $context ResourceLoaderContext
 	 * @return array
 	 */
 	protected function contextUserOptions( ResourceLoaderContext $context ) {
@@ -950,10 +951,10 @@ class ResourceLoaderUserOptionsModule extends ResourceLoaderModule {
 				$rules[] = "a { text-decoration: " . ( $options['underline'] ? 'underline' : 'none' ) . "; }";
 			}
 			if ( $options['highlightbroken'] ) {
-				$rules[] = "a.new, #quickbar a.new { color: #CC2200; }\n";
+				$rules[] = "a.new, #quickbar a.new { color: #ba0000; }\n";
 			} else {
 				$rules[] = "a.new, #quickbar a.new, a.stub, #quickbar a.stub { color: inherit; }";
-				$rules[] = "a.new:after, #quickbar a.new:after { content: '?'; color: #CC2200; }";
+				$rules[] = "a.new:after, #quickbar a.new:after { content: '?'; color: #ba0000; }";
 				$rules[] = "a.stub:after, #quickbar a.stub:after { content: '!'; color: #772233; }";
 			}
 			if ( $options['justify'] ) {
@@ -1059,6 +1060,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 	 * @return String: JavaScript code for registering all modules with the client loader
 	 */
 	public static function getModuleRegistrations( ResourceLoaderContext $context ) {
+		global $wgCacheEpoch;
 		wfProfileIn( __METHOD__ );
 		
 		$out = '';
@@ -1073,22 +1075,23 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			}
 			// Automatically register module
 			else {
+				$mtime = max( $module->getModifiedTime( $context ), wfTimestamp( TS_UNIX, $wgCacheEpoch ) );
 				// Modules without dependencies or a group pass two arguments (name, timestamp) to 
 				// mediaWiki.loader.register()
 				if ( !count( $module->getDependencies() && $module->getGroup() === null ) ) {
-					$registrations[] = array( $name, $module->getModifiedTime( $context ) );
+					$registrations[] = array( $name, $mtime );
 				}
 				// Modules with dependencies but no group pass three arguments (name, timestamp, dependencies) 
 				// to mediaWiki.loader.register()
 				else if ( $module->getGroup() === null ) {
 					$registrations[] = array(
-						$name, $module->getModifiedTime( $context ),  $module->getDependencies() );
+						$name, $mtime,  $module->getDependencies() );
 				}
 				// Modules with dependencies pass four arguments (name, timestamp, dependencies, group) 
 				// to mediaWiki.loader.register()
 				else {
 					$registrations[] = array(
-						$name, $module->getModifiedTime( $context ),  $module->getDependencies(), $module->getGroup() );
+						$name, $mtime,  $module->getDependencies(), $module->getGroup() );
 				}
 			}
 		}
@@ -1123,18 +1126,18 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			// Startup function
 			$configuration = FormatJson::encode( $this->getConfig( $context ) );
 			$registrations = self::getModuleRegistrations( $context );
-			$out .= "window.startUp = function() {\n\t$registrations\n\tmediaWiki.config.set( $configuration );\n};";
+			$out .= "var startUp = function() {\n\t$registrations\n\tmediaWiki.config.set( $configuration );\n};";
 			
 			// Conditional script injection
 			$scriptTag = Xml::escapeJsString( Html::linkedScript( $wgLoadScript . '?' . wfArrayToCGI( $query ) ) );
-			$out .= "if ( isCompatible() ) {\n\tdocument.write( '$scriptTag' );\n}\ndelete window['isCompatible'];";
+			$out .= "if ( isCompatible() ) {\n\tdocument.write( '$scriptTag' );\n}\ndelete isCompatible;";
 		}
 
 		return $out;
 	}
 
 	public function getModifiedTime( ResourceLoaderContext $context ) {
-		global $IP;
+		global $IP, $wgCacheEpoch;
 
 		$hash = $context->getHash();
 		if ( isset( $this->modifiedTime[$hash] ) ) {
@@ -1144,7 +1147,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 
 		// ATTENTION!: Because of the line above, this is not going to cause infinite recursion - think carefully
 		// before making changes to this code!
-		$time = 1; // wfTimestamp() treats 0 as 'now', so that's not a suitable choice
+		$time = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $context->getResourceLoader()->getModules() as $module ) {
 			$time = max( $time, $module->getModifiedTime( $context ) );
 		}

@@ -189,6 +189,7 @@ $messages = array(
 'tog-shownumberswatching'    => 'د کتونکو کارنانو شمېر ښکاره کول',
 'tog-oldsig'                 => 'د شته لاسليک مخليدنه:',
 'tog-uselivepreview'         => 'ژوندۍ مخليدنه کارول (جاوا سکرېپټ ته اړتيا) (آزمېښتي)',
+'tog-forceeditsummary'       => 'د يوه تش سمون لنډيز په ورکولو سره دې خبر راکړل شي',
 'tog-watchlisthideown'       => 'په کتنلړ کې زما سمونې پټول',
 'tog-watchlisthidebots'      => 'په کتنلړ کې د روباټ سمونې پټول',
 'tog-watchlisthideminor'     => 'په کتنلړ کې وړې سمونې پټول',
@@ -384,6 +385,7 @@ $messages = array(
 لطفاً د دې مخ د کتلو د بيا هڅې نه دمخه يو څو شېبې صبر وکړۍ.
 
 $1',
+'pool-errorunknown' => 'ناجوته ستونزه',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => 'د {{SITENAME}} په اړه',
@@ -461,6 +463,7 @@ $1',
 # General errors
 'error'                => 'تېروتنه',
 'databaseerror'        => 'د ډاټابېز تېروتنه',
+'laggedslavemode'      => "'''ګواښنه:''' په دې مخ کې کېدای شي تازه اوسمهالېدنې نه وي.",
 'readonly'             => 'توکبنسټ تړل شوی',
 'missing-article'      => 'توکبنسټ د "$1" $2 په نامه د ورکړ شوي مخ متن چې بايد موندلی يې وای، و نه موند.
 
@@ -479,6 +482,8 @@ $1',
 'directorycreateerror' => 'د "$1" په نامه ليکلړ جوړ نه شو.',
 'filenotfound'         => '"$1" په نوم دوتنه مو و نه شوه موندلای.',
 'fileexistserror'      => 'د "$1" په نامه دوتنه نه ليکل کېږي: دوتنه د پخوا نه دلته شته',
+'unexpected'           => 'نا اټکله شمېره: "$1"="$2".',
+'formerror'            => 'ستونزه: فورمه مو و نه سپارل شوه',
 'badarticleerror'      => 'دا کړنه پدې مخ نه شي ترسره کېدلای.',
 'cannotdelete'         => 'د "$1" مخ يا دوتنې ړنګېدنه ترسره نه شوه.
 کېدای شي چې وار دمخې دا کوم بل چا ړنګه کړې وي.',
@@ -487,6 +492,7 @@ $1',
 کېدای شي چې ستاسې په ورکړ شوي سرليک کې يو يا څو داسې توري وي چې د سرليک په توګه بايد و نه کارېږي.',
 'viewsource'           => 'سرچينه کتل',
 'viewsourcefor'        => 'د $1 لپاره',
+'actionthrottled'      => 'د دې کړنې مخنيوی وشو',
 'protectedpagetext'    => 'دا مخ د بدلون او سمون د مخنيوي په تکل تړل شوی دی.',
 'viewsourcetext'       => 'تاسې د دې مخ سرچينه کتلی او لمېسلی شی:',
 'protectedinterface'   => 'په همدې مخ کې د پوستکالي د ليدنمخ متن دی او دا متن د ناسمو کارولو د مخنيوي په تکل تړل شوی.',
@@ -586,12 +592,15 @@ $1',
 تاسې بايد غونډال ته ورننوځۍ او همدا اوس خپل پټنوم بدل کړی.
 
 که چېرته دا کړنه په تېروتنه کې شوی وي نو تاسې کولای شی چې دا پيغام بابېزه وګڼۍ.',
+'usernamehasherror'          => 'کارن-نوم نشي کېدلای چې کرښکې لوښې ولري',
 'loginlanguagelabel'         => 'ژبه: $1',
 
 # JavaScript password checks
 'password-strength'            => 'د پټنوم اټکليز سېک: $1',
 'password-strength-bad'        => 'بد',
+'password-strength-mediocre'   => 'منځګوړی',
 'password-strength-acceptable' => 'د منلو وړ',
+'password-strength-good'       => 'ښه',
 'password-retype'              => 'پټنوم بيا وليکه',
 'password-retype-mismatch'     => 'پټنوم مو کټ مټ د يو بل سره سمون نه خوري',
 
@@ -957,7 +966,7 @@ $1',
 'timezoneregion-europe'       => 'اروپا',
 'timezoneregion-indian'       => 'هندی سمندر',
 'timezoneregion-pacific'      => 'آرام سمندر',
-'allowemail'                  => 'د نورو کارونکو لخوا د برېښليک رالېږل چارن کړه',
+'allowemail'                  => 'د نورو کارنانو لخوا د برېښليک رالېږل چارن کړه',
 'prefs-searchoptions'         => 'د پلټلو خوښنې',
 'prefs-namespaces'            => 'نوم-تشيالونه',
 'defaultns'                   => 'او يا هم په دغو نوم-تشيالونو کې پلټل:',
@@ -1162,16 +1171,23 @@ $1',
 'upload-source'         => 'سرچينيزه دوتنه',
 'sourcefilename'        => 'د سرچينيزې دوتنې نوم:',
 'sourceurl'             => 'د URL سرچينه:',
+'destfilename'          => 'د موخنيزې دوتنې نوم:',
 'upload-maxfilesize'    => 'د دوتنې تر ټولو لويه کچه: $1',
 'upload-description'    => 'د دوتنې څرګندونې',
 'upload-options'        => 'د پورته کولو خوښنې',
 'watchthisupload'       => 'همدا دوتنه کتل',
 'upload-success-subj'   => 'دوتنه پورته کېدل په برياليتوب سره ترسره شو',
 
-'upload-file-error' => 'کورنۍ ستونزه',
+'upload-file-error'   => 'کورنۍ ستونزه',
+'upload-unknown-size' => 'ناڅرګنده کچه',
+'upload-http-error'   => 'د HTTP يوه ستونزه رامېنځ ته شوې: $1',
 
 # img_auth script messages
 'img-auth-nofile' => 'د $1 په نوم کومه دوتنه نشته.',
+
+# HTTP errors
+'http-invalid-url' => 'ناسم URL: $1',
+'http-read-error'  => 'د HTTP د لوستلو ستونزه.',
 
 'nolicense'          => 'هېڅ نه دي ټاکل شوي',
 'upload_source_file' => '(ستاسو په کمپيوټر کې يوه دوتنه)',
@@ -1407,6 +1423,7 @@ $1',
 'emailuser'        => 'کارن ته برېښليک لېږل',
 'emailpage'        => 'کارن ته برېښليک لېږل',
 'defemailsubject'  => 'د {{SITENAME}} برېښليک',
+'usermaildisabled' => 'د کارن برېښليک ناچارند دی',
 'noemailtitle'     => 'هېڅ کومه برېښليک پته نشته.',
 'nowikiemailtitle' => 'د برېښليک لېږلو اجازه نشته',
 'emailfrom'        => 'لېږونکی',
@@ -1421,7 +1438,8 @@ $1',
 'emailuserfooter'  => 'همدا برېښليک د $1 لخوا $2 ته د {{SITENAME}} په وېبځي کې د "همدې کارونکي ته برېښليک لېږل" د کړنې په مرسته لېږل شوی دی.',
 
 # User Messenger
-'usermessage-editor' => 'د غونډال پيغام رسونکی',
+'usermessage-summary' => 'د غونډال پيغام پرېښودل.',
+'usermessage-editor'  => 'د غونډال پيغام رسونکی',
 
 # Watchlist
 'watchlist'            => 'زما کتنلړ',
@@ -2086,7 +2104,7 @@ $5
 'version-specialpages'     => 'ځانګړي مخونه',
 'version-other'            => 'بل',
 'version-version'          => '(بڼه $1)',
-'version-license'          => 'اجازتليک',
+'version-license'          => 'منښتليک',
 'version-poweredby-others' => 'نور',
 'version-software'         => 'نصب شوی ساوتری',
 'version-software-version' => 'بڼه',

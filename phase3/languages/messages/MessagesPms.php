@@ -1633,21 +1633,21 @@ La descrission an sla soa [$2 pàgina ëd dëscrission dël file] a l'é mostà 
 'filedelete-maintenance'      => 'Scanselassion e restaur ëd file disabilità temporaneament an mente dla manutension.',
 
 # MIME search
-'mimesearch'         => 'Arsërca për sòrt MIME',
+'mimesearch'         => 'Arserca për sòrt MIME',
 'mimesearch-summary' => "Sta pàgina-sì a lassa filtré j'archivi për sòrt MIME. Buté: sòrt/sotasòrt, pr'es. <tt>image/jpeg</tt>.",
 'mimetype'           => 'Sòrt MIME:',
 'download'           => 'dëscarié',
 
 # Unwatched pages
-'unwatchedpages' => 'Pàgine che as ten-o pì nen sot euj',
+'unwatchedpages' => 'Pàgine che gnun a ten sot-euj',
 
 # List redirects
 'listredirects' => 'Lista dle ridiression',
 
 # Unused templates
 'unusedtemplates'     => 'Stamp nen dovrà',
-'unusedtemplatestext' => "Sta pàgina-sì a la smon tute jë pàgine ant ël namespace {{ns:template}} che a son pa dovrà andrinta a gnun-a pàgina.
-Arcòrda ëd verifiché che në stamp a-j serva nen a dj'àutri stamp anans che fé che ranchelo via.",
+'unusedtemplatestext' => "Sta pàgina-sì a la smon tute lë pàgine ant lë spassi nominal {{ns:template}} che a son pa dovrà andrinta a d'àutre pàgine.
+Ch'as visa ëd controlé che në stamp a-j serva nen a dj'àutri stamp anans che fé che ranchelo via.",
 'unusedtemplateswlh'  => 'àutre anliure',
 
 # Random page
@@ -1667,7 +1667,7 @@ Arcòrda ëd verifiché che në stamp a-j serva nen a dj'àutri stamp anans che 
 'statistics-header-hooks'      => 'Àutre statìstiche',
 'statistics-articles'          => 'Pàgine ëd contnù',
 'statistics-pages'             => 'Pàgine',
-'statistics-pages-desc'        => 'Tute le pàgine ant la wiki, comprèise le pàgine ëd discussion, le rediression, etc...',
+'statistics-pages-desc'        => 'Tute le pàgine dla wiki, comprèise le pàgine ëd discussion, le ridiression e via fòrt.',
 'statistics-files'             => 'File carià',
 'statistics-edits'             => "Pàgine modificà da quand ël {{SITENAME}} a l'é stàit tirà su",
 'statistics-edits-average'     => 'Media dle modìfiche për pàgina',

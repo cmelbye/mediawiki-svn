@@ -240,7 +240,7 @@ class ResourceLoader {
 	 * @param $context ResourceLoaderContext object
 	 */
 	public function respond( ResourceLoaderContext $context ) {
-		global $wgResourceLoaderMaxage;
+		global $wgResourceLoaderMaxage, $wgCacheEpoch;
 
 		wfProfileIn( __METHOD__ );
 		
@@ -275,7 +275,7 @@ class ResourceLoader {
 		// To send Last-Modified and support If-Modified-Since, we need to detect 
 		// the last modified time
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
-		$mtime = 1;
+		$mtime = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $modules as $module ) {
 			// Bypass squid cache if the request includes any private modules
 			if ( $module->getGroup() === 'private' ) {
@@ -300,7 +300,10 @@ class ResourceLoader {
 			return;
 		}
 
-		echo $this->makeModuleResponse( $context, $modules, $missing );
+		$response = $this->makeModuleResponse( $context, $modules, $missing );
+		// Clear any warnings from the buffer
+		ob_clean();
+		echo $response;
 
 		wfProfileOut( __METHOD__ );
 	}
@@ -323,10 +326,7 @@ class ResourceLoader {
 
 			// Styles
 			$styles = array();
-			if (
-				$context->shouldIncludeStyles() &&
-				( count( $styles = $module->getStyles( $context ) ) )
-			) {
+			if ( $context->shouldIncludeStyles() && ( count( $styles = $module->getStyles( $context ) ) ) ) {
 				// Flip CSS on a per-module basis
 				if ( $this->modules[$name]->getFlip( $context ) ) {
 					foreach ( $styles as $media => $style ) {
@@ -430,18 +430,8 @@ class ResourceLoader {
 	public static function makeCustomLoaderScript( $name, $version, $dependencies, $group, $script ) {
 		$name = Xml::escapeJsString( $name );
 		$version = (int) $version > 1 ? (int) $version : 1;
-		if ( is_array( $dependencies ) ) {
-			$dependencies = FormatJson::encode( $dependencies );
-		} else if ( is_string( $dependencies ) ) {
-			$dependencies = "'" . Xml::escapeJsString( $dependencies ) . "'";
-		} else {
-			$dependencies = 'null';
-		}
-		if ( is_string( $group ) ) {
-			$group = "'" . Xml::escapeJsString( $group ) . "'";
-		} else {
-			$group = 'null';
-		}
+		$dependencies = FormatJson::encode( $dependencies );
+		$group = FormatJson::encode( $group );
 		$script = str_replace( "\n", "\n\t", trim( $script ) );
 		return "( function( name, version, dependencies, group ) {\n\t$script\n} )" .
 			"( '$name', $version, $dependencies, $group );\n";
@@ -454,18 +444,8 @@ class ResourceLoader {
 		} else {
 			$name = Xml::escapeJsString( $name );
 			$version = (int) $version > 1 ? (int) $version : 1;
-			if ( is_array( $dependencies ) ) {
-				$dependencies = FormatJson::encode( $dependencies );
-			} else if ( is_string( $dependencies ) ) {
-				$dependencies = "'" . Xml::escapeJsString( $dependencies ) . "'";
-			} else {
-				$dependencies = 'null';
-			}
-			if ( is_string( $group ) ) {
-				$group = "'" . Xml::escapeJsString( $group ) . "'";
-			} else {
-				$group = 'null';
-			}
+			$dependencies = FormatJson::encode( $dependencies );
+			$group = FormatJson::encode( $group );
 			return "mediaWiki.loader.register( '$name', $version, $dependencies, $group );\n";
 		}
 	}

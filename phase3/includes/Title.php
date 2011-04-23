@@ -133,7 +133,7 @@ class Title {
 		}
 
 		/**
-		 * Convert things like &eacute; &#257; or &#x3017; into normalized(bug 14952) text
+		 * Convert things like &eacute; &#257; or &#x3017; into normalized (bug 14952) text
 		 */
 		$filteredText = Sanitizer::decodeCharReferencesAndNormalize( $text );
 
@@ -1218,14 +1218,6 @@ class Title {
 	 * @return \type{\array} Array of arrays of the arguments to wfMsg to explain permissions problems.
 	 */
 	public function getUserPermissionsErrors( $action, $user, $doExpensiveQueries = true, $ignoreErrors = array() ) {
-		if ( !StubObject::isRealObject( $user ) ) {
-			// Since StubObject is always used on globals, we can
-			// unstub $wgUser here and set $user = $wgUser
-			global $wgUser;
-			$wgUser->_unstub( '', 5 );
-			$user = $wgUser;
-		}
-
 		$errors = $this->getUserPermissionsErrorsInternal( $action, $user, $doExpensiveQueries );
 
 		// Remove the errors being ignored.
@@ -1297,8 +1289,6 @@ class Title {
 				$errors[] = array( 'cant-move-to-user-page' );
 			}
 		} elseif ( !$user->isAllowed( $action ) ) {
-			$return = null;
-
 			// We avoid expensive display logic for quickUserCan's and such
 			$groups = false;
 			if ( !$short ) {
@@ -2139,9 +2129,8 @@ class Title {
 	 */
 	private function loadRestrictionsFromResultWrapper( $res, $oldFashionedRestrictions = null ) {
 		$rows = array();
-		$dbr = wfGetDB( DB_SLAVE );
 
-		while ( $row = $dbr->fetchObject( $res ) ) {
+		foreach ( $res as $row ) {
 			$rows[] = $row;
 		}
 

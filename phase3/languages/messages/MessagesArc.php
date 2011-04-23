@@ -10,6 +10,7 @@
  * @author 334a
  * @author A2raya07
  * @author Basharh
+ * @author Michaelovic
  * @author The Thadman
  */
 
@@ -274,6 +275,8 @@ $messages = array(
 'mainpage-description' => 'ܦܐܬܐ ܪܫܝܬܐ',
 'portal'               => 'ܬܪܥܐ ܕܟܢܫܐ',
 'portal-url'           => 'Project:ܬܪܥܐ ܕܟܢܫܐ',
+'privacy'              => 'ܦܘܪܢܣܐ ܕܕܝܠܢܝܘܬܐ',
+'privacypage'          => 'Project:ܦܘܪܢܣܐ ܕܕܝܠܢܝܘܬܐ',
 
 'badaccess' => 'ܦܘܕܐ ܒܦܣܣܐ',
 
@@ -775,7 +778,8 @@ Note that some pages may continue to be displayed as if you were still logged in
 'filedelete-edit-reasonlist'  => 'ܫܚܠܦ ܥܠܠܬ̈ܐ ܕܫܝܦܐ',
 
 # MIME search
-'download' => 'ܢܚܬ',
+'mimesearch' => 'MIME ܒܨܝܐ',
+'download'   => 'ܢܚܬ',
 
 # Unwatched pages
 'unwatchedpages' => 'ܦܐܬܬ̈ܐ ܠܐ ܪ̈ܗܝܬܐ',
@@ -832,6 +836,7 @@ Note that some pages may continue to be displayed as if you were still logged in
 'wantedpages'             => 'ܦܐܬܬ̈ܐ ܒܥܝܬ̈ܐ',
 'wantedfiles'             => 'ܠܦܦ̈ܐ ܒܥܝ̈ܐ',
 'wantedtemplates'         => 'ܩܠܒ̈ܐ ܒܥܝ̈ܐ',
+'prefixindex'             => 'ܟܠ ܦܐܬܬ̈ܐ ܥܡ ܫܪܘܝܐ',
 'shortpages'              => 'ܦܐܬܬ̈ܐ ܟܪ̈ܝܬܐ',
 'longpages'               => 'ܦܐܬܬ̈ܐ ܐܪ̈ܝܟܬܐ',
 'deadendpages'            => 'ܦܐܬܬ̈ܐ ܥܡ ܚܪܬܐ ܡܝܬܬܐ',
@@ -1046,7 +1051,7 @@ Note that some pages may continue to be displayed as if you were still logged in
 'sp-contributions-submit'        => 'ܒܨܝ',
 
 # What links here
-'whatlinkshere'            => 'ܡܐ ܐܣܪ ܠܟܐ',
+'whatlinkshere'            => 'ܡܐ ܐܣܪ ܠܗܪܟܐ',
 'whatlinkshere-title'      => 'ܦܐܬܬ̈ܐ ܕܐܣܝܪܝܢ ܥܡ "$1"',
 'whatlinkshere-page'       => 'ܦܐܬܐ:',
 'linkshere'                => "ܦܐܬܬ̈ܐ ܗܠܝܢ ܐܣܝܪܝܢ ܥܡ '''[[:$1]]''':",
@@ -1161,12 +1166,6 @@ Do you want to change the settings?',
 # Import log
 'import-logentry-upload-detail'    => '$1 {{PLURAL:$1|ܬܢܝܬܐ |ܬܢܝܬ̈ܐ}}',
 'import-logentry-interwiki-detail' => '$1 {{PLURAL:$1|ܬܢܝܬܐ |ܬܢܝܬ̈ܐ}} ܡܢ $2',
-
-# Tooltip help for the actions
-'tooltip-pt-userpage' => '',
-'tooltip-pt-mytalk'   => '',
-'tooltip-search'      => 'Search {{SITENAME}}',
-'tooltip-t-print'     => 'Printable version of this page',
 
 # Attribution
 'anonymous'   => '{{PLURAL:$1|ܡܦܠܚܢܐ ܠܐ ܝܕܝܥܐ|ܡܦܠܚܢ̈ܐ ܠܐ ܝܕ̈ܝܥܐ}} ܕ {{SITENAME}}',

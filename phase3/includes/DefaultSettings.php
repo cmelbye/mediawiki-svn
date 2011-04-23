@@ -394,13 +394,6 @@ $wgUseInstantCommons = false;
 $wgShowEXIF = function_exists( 'exif_read_data' );
 
 /**
- * Set to true to enable the upload _link_ while local uploads are disabled.
- * Assumes that the special page link will be bounced to another server where
- * uploads do work.
- */
-$wgRemoteUploads = false;
-
-/**
  * If you operate multiple wikis, you can define a shared upload path here.
  * Uploads to this wiki will NOT be put there - they will be put into
  * $wgUploadDirectory.
@@ -1680,12 +1673,6 @@ $wgResourceLoaderDebug = false;
  * web server (e..g a Squid or Varnish server) configured to process the ESI.
  */
 $wgResourceLoaderUseESI = false;
-
-/**
- * Enable data URL embedding (experimental). This variable is very temporary and
- * will be removed once we get this feature stable.
- */
-$wgUseDataURLs = false;
 
 /** @} */ # end of cache settings
 
@@ -5157,6 +5144,8 @@ $wgRepositoryPackageStates = array(
  * Allows running of selenium tests via maintenance/tests/RunSeleniumTests.php
  */
 $wgEnableSelenium = false;
+$wgSeleniumTestConfigs = array();
+$wgSeleniumConfigFile = null;
 
 
 
