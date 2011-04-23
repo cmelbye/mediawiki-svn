@@ -2,6 +2,7 @@
 
 -- Table structure for table `Confirm account`
 -- Replace /*$wgDBprefix*/ with the proper prefix
+-- Replace /*$wgDBTableOptions*/ with ENGINE=InnoDB preferably
 
 -- This stores all of our reviews, 
 -- the corresponding tags are stored in the tag table
@@ -62,7 +63,7 @@ CREATE TABLE /*$wgDBprefix*/account_requests (
   UNIQUE KEY (acr_email(255)),
   INDEX (acr_email_token),
   INDEX acr_type_del_reg (acr_type,acr_deleted,acr_registration)
-) TYPE=InnoDB;
+) /*$wgDBTableOptions*/;
 
 -- This stores all of credential information
 -- When accounts are confirmed, the identity info goes here
@@ -107,4 +108,4 @@ CREATE TABLE /*$wgDBprefix*/account_credentials (
   PRIMARY KEY (acd_user_id,acd_id),
   UNIQUE KEY (acd_id)
   
-) TYPE=InnoDB;
+) /*$wgDBTableOptions*/;
