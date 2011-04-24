@@ -81,7 +81,7 @@ class Xml {
 	/**
 	 * This opens an XML element
 	 *
-	 * @param $element name of the element
+	 * @param $element String name of the element
 	 * @param $attribs array of attributes, see Xml::expandAttributes()
 	 * @return string
 	 */
@@ -91,7 +91,7 @@ class Xml {
 
 	/**
 	 * Shortcut to close an XML element
-	 * @param $element element name
+	 * @param $element String element name
 	 * @return string
 	 */
 	public static function closeElement( $element ) { return "</$element>"; }
@@ -100,9 +100,9 @@ class Xml {
 	 * Same as Xml::element(), but does not escape contents. Handy when the
 	 * content you have is already valid xml.
 	 *
-	 * @param $element element name
+	 * @param $element String element name
 	 * @param $attribs array of attributes
-	 * @param $contents content of the element
+	 * @param $contents String content of the element
 	 * @return string
 	 */
 	public static function tags( $element, $attribs = null, $contents ) {
@@ -248,8 +248,8 @@ class Xml {
 
 	/**
 	 * Shortcut to make a span element
-	 * @param $text content of the element, will be escaped
-	 * @param $class class name of the span element
+	 * @param $text String content of the element, will be escaped
+	 * @param $class String class name of the span element
 	 * @param $attribs other attributes
 	 * @return string
 	 */
@@ -271,7 +271,7 @@ class Xml {
 
 	/**
 	 * Convenience function to build an HTML text input field
-	 * @param $name value of the name attribute
+	 * @param $name String value of the name attribute
 	 * @param $size value of the size attribute
 	 * @param $value value of the value attribute
 	 * @param $attribs other attributes
@@ -313,9 +313,9 @@ class Xml {
 
 	/**
 	 * Convenience function to build an HTML checkbox
-	 * @param $name value of the name attribute
-	 * @param $checked Whether the checkbox is checked or not
-	 * @param $attribs other attributes
+	 * @param $name String value of the name attribute
+	 * @param $checked Bool Whether the checkbox is checked or not
+	 * @param $attribs Array other attributes
 	 * @return string HTML
 	 */
 	public static function check( $name, $checked=false, $attribs=array() ) {
@@ -345,7 +345,7 @@ class Xml {
 
 	/**
 	 * Convenience function to build an HTML form label
-	 * @param $label text of the label
+	 * @param $label String text of the label
 	 * @param $id
 	 * @param $attribs Array, other attributes
 	 * @return string HTML
@@ -360,9 +360,9 @@ class Xml {
 
 	/**
 	 * Convenience function to build an HTML text input field with a label
-	 * @param $label text of the label
-	 * @param $name value of the name attribute
-	 * @param $id id of the input
+	 * @param $label String text of the label
+	 * @param $name String value of the name attribute
+	 * @param $id String id of the input
 	 * @param $size value of the size attribute
 	 * @param $value value of the value attribute
 	 * @param $attribs other attributes
@@ -594,6 +594,8 @@ class Xml {
 				$s .= self::encodeJsVar( $elt );
 			}
 			$s .= ']';
+		} elseif ( $value instanceof XmlJsCode ) {
+			$s = $value->value;
 		} elseif ( is_object( $value ) || is_array( $value ) ) {
 			// Objects and associative arrays
 			$s = '{';
@@ -608,6 +610,29 @@ class Xml {
 		} else {
 			$s = '"' . self::escapeJsString( $value ) . '"';
 		}
+		return $s;
+	}
+
+	/**
+	 * Create a call to a JavaScript function. The supplied arguments will be 
+	 * encoded using Xml::encodeJsVar(). 
+	 *
+	 * @param $name The name of the function to call, or a JavaScript expression
+	 *    which evaluates to a function object which is called.
+	 * @param $args Array of arguments to pass to the function.
+	 */
+	public static function encodeJsCall( $name, $args ) {
+		$s = "$name(";
+		$first = true;
+		foreach ( $args as $arg ) {
+			if ( $first ) {
+				$first = false;
+			} else {
+				$s .= ', ';
+			}
+			$s .= Xml::encodeJsVar( $arg );
+		}
+		$s .= ");\n";
 		return $s;
 	}
 
@@ -673,8 +698,8 @@ class Xml {
 	/**
 	* Generate a form (without the opening form element).
 	* Output optionally includes a submit button.
-	* @param $fields Associative array, key is message corresponding to a description for the field (colon is in the message), value is appropriate input.
-	* @param $submitLabel A message containing a label for the submit button.
+	* @param $fields Array Associative array, key is message corresponding to a description for the field (colon is in the message), value is appropriate input.
+	* @param $submitLabel String A message containing a label for the submit button.
 	* @return string HTML form.
 	*/
 	public static function buildForm( $fields, $submitLabel = null ) {
@@ -812,4 +837,23 @@ class XmlSelect {
 		return Xml::tags( 'select', $this->attributes, implode( "\n", $this->options ) );
 	}
 
+}
+
+/**
+ * A wrapper class which causes Xml::encodeJsVar() and Xml::encodeJsCall() to 
+ * interpret a given string as being a JavaScript expression, instead of string 
+ * data.
+ *
+ * Example:
+ *
+ *    Xml::encodeJsVar( new XmlJsCode( 'a + b' ) );
+ *
+ * Returns "a + b".
+ */
+class XmlJsCode {
+	public $value;
+
+	function __construct( $value ) {
+		$this->value = $value;
+	}
 }

@@ -333,6 +333,7 @@ $messages = array(
 'tog-watchdefault'            => 'Vigilar las páginas que yo modifique',
 'tog-watchmoves'              => 'Vigilar las páginas que renombre',
 'tog-watchdeletion'           => 'Vigilar las páginas que borre',
+'tog-minordefault'            => 'Marcar todas las ediciones como menores por defecto',
 'tog-previewontop'            => 'Mostrar la previsualización antes de la caja de edición en lugar de después',
 'tog-previewonfirst'          => 'Mostrar previsualización al comenzar a editar',
 'tog-nocache'                 => 'Deshabilitar la caché de páginas',
@@ -961,7 +962,7 @@ Esto sucede en ocasiones cuando se usa un servicio de proxy anónimo defectuoso.
 El área de texto superior contiene el texto de la página como existe actualmente.
 Tus cambios se muestran en el área de texto inferior.
 Si quieres grabar tus cambios, has de trasladarlos al área superior.
-'''Sólo''' el texto en el área de texto superior será grabado cuando pulses «Grabar página».",
+'''Sólo''' el texto en el área de texto superior será grabado cuando pulses «{{int:savearticle}}».",
 'yourtext'                         => 'Tu texto',
 'storedversion'                    => 'Versión almacenada',
 'nonunicodebrowser'                => "'''Atención: Tu navegador no cumple la norma Unicode. Se ha activado un sistema de edición alternativo que le permitirá editar artículos con seguridad: los caracteres no ASCII aparecerán en la caja de edición como códigos hexadecimales.'''",
@@ -1202,7 +1203,7 @@ Mire [[Special:IPBlockList|la lista de bloqueos activos]] para ver una lista de 
 'revmove-norevisions-title'    => 'Revisión especificada inválida',
 'revmove-norevisions'          => 'No has especificado una o más revisiones para realizar esta función o la revisión especificada no existe.',
 'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'Las páginas fuente y destino son idénticas. Por favor presione "atrás" e ingrese un nombre de página diferente a "$1".',
+'revmove-nullmove'             => 'Las páginas fuente y destino son idénticas. Por favor presione "atrás" e ingrese un nombre de página diferente a "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Una revisión de [[$2]] ha|$1 revisiones de [[$2]] han}} sido movida{{PLURAL:$1||s}} a la página existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Una revisión de [[$2]] ha|$1 revisiones de [[$2]] han}} sido movida{{PLURAL:$1||s}} a la página recién creada [[$3]].',
 

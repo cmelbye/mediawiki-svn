@@ -324,6 +324,7 @@ $messages = array(
 'tog-watchdefault'            => 'Dodaj sve nove i izmijenjene stranice u popis praćenja',
 'tog-watchmoves'              => 'Dodaj sve stranice koje premjestim na popis praćenja',
 'tog-watchdeletion'           => 'Dodaj sve stranice koje izbrišem na popis praćenja',
+'tog-minordefault'            => 'Normalno označavaj sve moje izmjene kao manje',
 'tog-previewontop'            => 'Prikaži kako će stranica izgledati iznad okvira za uređivanje',
 'tog-previewonfirst'          => 'Prikaži kako će stranica izgledati čim otvorim uređivanje',
 'tog-nocache'                 => 'Isključi međuspremnik (cache) stranica u pregledniku',
@@ -931,8 +932,11 @@ To se ponekad događa kad rabite neispravan web-baziran anonimni posrednik (prox
 'editingsection'                   => 'Uređujete $1 (odlomak)',
 'editingcomment'                   => 'Uređujete $1 (novi odlomak)',
 'editconflict'                     => 'Istovremeno uređivanje: $1',
-'explainconflict'                  => 'Netko je u međuvremenu promijenio stranicu. Gornje polje sadrži sadašnji tekst stranice.
-U donjem polju prikazane su Vaše promjene. Morat ćete unijeti Vaše promjene u sadašnji tekst. <b>Samo</b> će tekst u gornjem polju biti sačuvan kad pritisnete "{{int:savearticle}}".',
+'explainconflict'                  => "Netko je u međuvremenu promijenio stranicu.
+Gornje polje sadrži sadašnji tekst stranice.
+U donjem polju prikazane su Vaše promjene.
+Morat ćete unijeti Vaše promjene u sadašnji tekst.
+'''Samo''' će tekst u gornjem polju biti sačuvan kad pritisnete \"{{int:savearticle}}\".",
 'yourtext'                         => 'Vaš tekst',
 'storedversion'                    => 'Pohranjena inačica',
 'nonunicodebrowser'                => "'''UPOZORENJE: Vaš preglednik ne podržava Unicode zapis znakova, molimo promijenite ga prije sljedećeg uređivanja članaka.'''",
@@ -1166,7 +1170,7 @@ Vidi [[Special:IPBlockList|Popis blokiranih IP adresa]] za popis trenutačno akt
 'revmove-norevisions-title'    => 'Nevaljana ciljna inačica',
 'revmove-norevisions'          => 'Niste naveli jednu ili više ciljnih inačica potrebnih za obavljanje ove funkcije, ili odabrana inačica ne postoji.',
 'revmove-nullmove-title'       => 'Loš naslov',
-'revmove-nullmove'             => 'Odredišna stranica ne može biti ista kao izvorna stranica. Vratite se na prethodnu stranicu i odaberite ime koje nije "$1".',
+'revmove-nullmove'             => 'Odredišna stranica ne može biti ista kao izvorna stranica. Vratite se na prethodnu stranicu i odaberite ime koje nije "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Jedna inačica iz [[$2]] je premještena|$1 inačice iz [[$2]] su premještene|$1 inačica iz [[$2]] su premještene}} u postojeću stranicu [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Jedna inačica iz [[$2]] je premještena|$1 inačice iz [[$2]] su premještene|$1 inačica iz [[$2]] su premještene}} u novostvorenu stranicu [[$3]].',
 

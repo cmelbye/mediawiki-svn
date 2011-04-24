@@ -11,6 +11,7 @@
  * @author Candalua
  * @author Nick1915
  * @author Omnipaedista
+ * @author OrbiliusMagister
  * @author Urhixidur
  * @author Vajotwo
  * @author לערי ריינהארט
@@ -160,6 +161,7 @@ $messages = array(
 'tog-watchdefault'            => 'Zonta łe pajine modifegae a i oservai spesałi',
 'tog-watchmoves'              => 'Zonta łe pajine spostae a i oservai spesałi',
 'tog-watchdeletion'           => 'Zonta łe pajine scansełae a i oservai spesałi',
+'tog-minordefault'            => 'Indica ogni modifega come minore (soło come predefinio)',
 'tog-previewontop'            => "Mostra l'anteprima sora ła caseła de modifega e no soto",
 'tog-previewonfirst'          => "Mostra l'anteprima par ła prima modifega",
 'tog-nocache'                 => 'Disativa ła cache par łe pajine del browser',
@@ -578,6 +580,7 @@ Sceji on nome utente difarente.',
 'wrongpasswordempty'         => 'No xè sta inseria alcuna password. Riprovare.',
 'passwordtooshort'           => 'Łe password e ga da contegnere almanco {{PLURAL:$1|1 caratere|$1 carateri}}.',
 'password-name-match'        => 'Ła password a ga da esare difarente dal nome utente.',
+'password-too-weak'          => "Sta password l'e masa falba e te la pol usar,",
 'mailmypassword'             => 'Invia na nova password al me indiriso e-mail',
 'passwordremindertitle'      => 'Servisio Password Reminder de {{SITENAME}}',
 'passwordremindertext'       => 'Qualcheduni (probabilmente ti, da l\'indirizo IP $1) el gà domandà che ghe vegna mandà na nova password par {{SITENAME}} ($4).
@@ -776,7 +779,7 @@ Se no funsiona gnancora, te pol proár a [[Special:UserLogout|scolegarte]] e efe
 La casela de modifica de sora contegne el testo de la voxe ne ła so forma atuałe (el testo atualmente online).
 Le to modifiche łe xè invese contegnue ne ła caseła de modifica de soto.
 Te dovarè inserire, se te vołi, le to modifiche nel testo esistente, e perciò scrivarle ne ła caseła de sora.
-'''Soltanto''' el testo ne ła caseła de sora el sarà salvà se te struchi el botón \"Salva\".",
+'''Soltanto''' el testo ne ła caseła de sora el sarà salvà se te struchi el botón \"{{int:savearticle}}\".",
 'yourtext'                         => 'El to testo',
 'storedversion'                    => 'Version in archivio',
 'nonunicodebrowser'                => "'''OCIO: Te stè doparando un browser mìa conpatibile coi caràteri Unicode. Par consentir la modifica de le pagine senza crear inconvenienti, i caràteri non ASCII i vien mostrà ne la casela de modifica soto forma de codici esadecimali.'''",
@@ -1013,7 +1016,7 @@ No ti gà acesso su de ela.',
 'revmove-norevisions'          => 'No te ghè indicà nissuna revision su cui eseguir sta funsion o la revision indicà no la esiste.',
 'revmove-nullmove-title'       => 'Titolo mia valido',
 'revmove-nullmove'             => 'La pagine de partensa e quela de arivo le xe la stessa.
-Torna indrio e metighe un nome pagina difarente da "$1".',
+Torna indrio e metighe un nome pagina difarente da "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Una revision de [[$2]] la xe stà spostà|$1 revision de [[$2]] le xe stà spostà}} ne la pagina esistente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Una revision de [[$2]] la xe stà spostà|$1 revisioni de [[$2]] le xe stà spostà}} ne la nova pagina creà [[$3]].',
 

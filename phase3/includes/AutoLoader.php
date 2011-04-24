@@ -198,15 +198,15 @@ $wgAutoloadLocalClasses = array(
 	'RegexlikeReplacer' => 'includes/StringUtils.php',
 	'ReplacementArray' => 'includes/StringUtils.php',
 	'Replacer' => 'includes/StringUtils.php',
-	'ResourceLoader' => 'includes/ResourceLoader.php',
-	'ResourceLoaderContext' => 'includes/ResourceLoaderContext.php',
-	'ResourceLoaderModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderWikiModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderFileModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderSiteModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderUserModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderUserOptionsModule' => 'includes/ResourceLoaderModule.php',
-	'ResourceLoaderStartUpModule' => 'includes/ResourceLoaderModule.php',
+	'ResourceLoader' => 'includes/resourceloader/ResourceLoader.php',
+	'ResourceLoaderContext' => 'includes/resourceloader/ResourceLoaderContext.php',
+	'ResourceLoaderModule' => 'includes/resourceloader/ResourceLoaderModule.php',
+	'ResourceLoaderWikiModule' => 'includes/resourceloader/ResourceLoaderWikiModule.php',
+	'ResourceLoaderFileModule' => 'includes/resourceloader/ResourceLoaderFileModule.php',
+	'ResourceLoaderSiteModule' => 'includes/resourceloader/ResourceLoaderSiteModule.php',
+	'ResourceLoaderUserModule' => 'includes/resourceloader/ResourceLoaderUserModule.php',
+	'ResourceLoaderUserOptionsModule' => 'includes/resourceloader/ResourceLoaderUserOptionsModule.php',
+	'ResourceLoaderStartUpModule' => 'includes/resourceloader/ResourceLoaderStartUpModule.php',
 	'ReverseChronologicalPager' => 'includes/Pager.php',
 	'Revision' => 'includes/Revision.php',
 	'RevisionDelete' => 'includes/RevisionDelete.php',
@@ -260,6 +260,7 @@ $wgAutoloadLocalClasses = array(
 	'XCacheBagOStuff' => 'includes/BagOStuff.php',
 	'XmlDumpWriter' => 'includes/Export.php',
 	'Xml' => 'includes/Xml.php',
+	'XmlJsCode' => 'includes/Xml.php',
 	'XmlSelect' => 'includes/Xml.php',
 	'XmlTypeCheck' => 'includes/XmlTypeCheck.php',
 	'ZhClient' => 'includes/ZhClient.php',
@@ -298,6 +299,7 @@ $wgAutoloadLocalClasses = array(
 	'ApiPatrol' => 'includes/api/ApiPatrol.php',
 	'ApiProtect' => 'includes/api/ApiProtect.php',
 	'ApiPurge' => 'includes/api/ApiPurge.php',
+	'ApiRsd' => 'includes/api/ApiRsd.php',
 	'ApiQuery' => 'includes/api/ApiQuery.php',
 	'ApiQueryAllCategories' => 'includes/api/ApiQueryAllCategories.php',
 	'ApiQueryAllimages' => 'includes/api/ApiQueryAllimages.php',
@@ -483,6 +485,7 @@ $wgAutoloadLocalClasses = array(
 	'PNGHandler' => 'includes/media/PNG.php',
 	'PNGMetadataExtractor' => 'includes/media/PNGMetadataExtractor.php',
 	'SvgHandler' => 'includes/media/SVG.php',
+	'SVGMetadataExtractor' => 'includes/media/SVGMetadataExtractor.php',
 	'ThumbnailImage' => 'includes/media/MediaTransformOutput.php',
 	'TiffHandler' => 'includes/media/Tiff.php',
 	'TransformParameterError' => 'includes/media/MediaTransformOutput.php',
@@ -635,6 +638,7 @@ $wgAutoloadLocalClasses = array(
 	'SpecialRecentChanges' => 'includes/specials/SpecialRecentchanges.php',
 	'SpecialRecentchangeslinked' => 'includes/specials/SpecialRecentchangeslinked.php',
 	'SpecialSearch' => 'includes/specials/SpecialSearch.php',
+	'SpecialUploadStash' => 'includes/specials/SpecialUploadStash.php',
 	'SpecialSpecialpages' => 'includes/specials/SpecialSpecialpages.php',
 	'SpecialStatistics' => 'includes/specials/SpecialStatistics.php',
 	'SpecialTags' => 'includes/specials/SpecialTags.php',
@@ -670,6 +674,7 @@ $wgAutoloadLocalClasses = array(
 	'UserloginTemplate' => 'includes/templates/Userlogin.php',
 
 	# includes/upload
+	'UploadStash' => 'includes/upload/UploadStash.php',
 	'UploadBase' => 'includes/upload/UploadBase.php',
 	'UploadFromStash' => 'includes/upload/UploadFromStash.php',
 	'UploadFromFile' => 'includes/upload/UploadFromFile.php',
@@ -751,8 +756,9 @@ class AutoLoader {
 			}
 
 			if ( !$filename ) {
-				if ( function_exists( 'wfDebug' ) )
+				if ( function_exists( 'wfDebug' ) ) {
 					wfDebug( "Class {$className} not found; skipped loading\n" );
+				}
 
 				# Give up
 				return false;

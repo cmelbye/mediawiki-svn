@@ -155,6 +155,7 @@ $messages = array(
 'tog-watchdefault'            => "Agghiunci li pàggini canciati a l'ossirvati spiciali",
 'tog-watchmoves'              => "Agghiunci li pàggini spustati a l'ossirvati spiciali",
 'tog-watchdeletion'           => "Agghiunci li pàggini di mìa cancillati a l'ossirvati spiciali",
+'tog-minordefault'            => 'Ìndica ogni canciamentu comu nicu (sulu comu pridifinitu)',
 'tog-previewontop'            => "Ammustra l'antiprima prima dâ casella di canciamentu e nun doppu",
 'tog-previewonfirst'          => "Ammustra l'antiprima supra lu primu canciamentu",
 'tog-nocache'                 => 'Disabbìlita lu caching dî pàggini',
@@ -735,7 +736,11 @@ Siddu sî n’utenti anònimu e riteni ca li cummenti prisenti nta sta pàggina 
 'editingsection'                   => 'Canciamentu di $1 (sezzioni)',
 'editingcomment'                   => 'Canciu di $1 (nova sizzioni)',
 'editconflict'                     => "Cunflittu d'edizzioni supra $1",
-'explainconflict'                  => "N'àutru utenti havi sarvatu na virsioni nova dâ pàggina mentri stavi effittuannu li canciamenti.<br /> La casella di canciamentu supiriuri cunteni lu testu dâ pàggina attuarmenti online, accussì comu hà statu aggiurnatu di l'àutru utenti. La virsioni cu li tò canciamenti è mmeci ripurtata ntâ casella di canciamentu nfiriuri. Siddu addisìi cunfirmàrili, hai a ripurtari li tò canciamenti ntô testu asistenti (casella supiriuri). Primennu lu pulsanti 'Sarva la pàggina', veni sarvatu <b>sulu</b> lu testu cuntinutu ntâ casella di canciamentu supiriuri.<br />",
+'explainconflict'                  => "N'àutru utenti havi sarvatu na virsioni nova dâ pàggina mentri stavi effittuannu li canciamenti.
+La casella di canciamentu supiriuri cunteni lu testu dâ pàggina attuarmenti online, accussì comu hà statu aggiurnatu di l'àutru utenti.
+La virsioni cu li tò canciamenti è mmeci ripurtata ntâ casella di canciamentu nfiriuri.
+Siddu addisìi cunfirmàrili, hai a ripurtari li tò canciamenti ntô testu asistenti (casella supiriuri).
+Primennu lu pulsanti '{{int:savearticle}}', veni sarvatu '''sulu''' lu testu cuntinutu ntâ casella di canciamentu supiriuri.",
 'yourtext'                         => 'Lu tò testu',
 'storedversion'                    => 'La virsioni mimurizzata',
 'nonunicodebrowser'                => "''''''ACCURA: Lu tò browser nun supporta unicode, li caràttiri nun-ASCII appàrinu nta lu box di canciamentu comu còdici esadicimali.''''''",

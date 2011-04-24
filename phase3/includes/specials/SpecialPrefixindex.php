@@ -44,7 +44,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 		$this->outputHeader();
 
 		# GET values
-		$from = $wgRequest->getVal( 'from' );
+		$from = $wgRequest->getVal( 'from', '' );
 		$prefix = $wgRequest->getVal( 'prefix', '' );
 		$namespace = $wgRequest->getInt( 'namespace' );
 		$namespaces = $wgContLang->getNamespaces();
@@ -56,9 +56,9 @@ class SpecialPrefixindex extends SpecialAllpages {
 
 		if( isset( $par ) ){
 			$this->showPrefixChunk( $namespace, $par, $from );
-		} elseif( isset( $prefix ) ){
+		} elseif( $prefix != '' ){
 			$this->showPrefixChunk( $namespace, $prefix, $from );
-		} elseif( isset( $from ) ){
+		} elseif( $from != '' ){
 			$this->showPrefixChunk( $namespace, $from, $from );
 		} else {
 			$wgOut->addHTML( $this->namespacePrefixForm( $namespace, null ) );
@@ -76,7 +76,7 @@ class SpecialPrefixindex extends SpecialAllpages {
 
 		$out  = Xml::openElement( 'div', array( 'class' => 'namespaceoptions' ) );
 		$out .= Xml::openElement( 'form', array( 'method' => 'get', 'action' => $wgScript ) );
-		$out .= Xml::hidden( 'title', $t->getPrefixedText() );
+		$out .= Html::hidden( 'title', $t->getPrefixedText() );
 		$out .= Xml::openElement( 'fieldset' );
 		$out .= Xml::element( 'legend', null, wfMsg( 'allpages' ) );
 		$out .= Xml::openElement( 'table', array( 'id' => 'nsselect', 'class' => 'allpages' ) );

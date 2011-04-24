@@ -82,7 +82,7 @@ abstract class Installer {
 	 * @var array
 	 */
 	protected $envChecks = array(
-		'envLatestVersion',
+		'envCheckMediaWikiVersion',
 		'envCheckDB',
 		'envCheckRegisterGlobals',
 		'envCheckMagicQuotes',
@@ -97,7 +97,6 @@ abstract class Installer {
 		'envCheckDiff3',
 		'envCheckGraphics',
 		'envCheckPath',
-		'envCheckWriteableDir',
 		'envCheckExtension',
 		'envCheckShellLocale',
 		'envCheckUploadsDirectory',
@@ -230,10 +229,13 @@ abstract class Installer {
 		wfRestoreWarnings();
 
 		if( $ls ) {
-			if( $this->getDBInstaller()->needsUpgrade() ) {
+			$wgCacheEpoch = $wgCommandLineMode = false;
+			require_once( "$IP/LocalSettings.php" );
+			$vars = get_defined_vars();
+			if( isset( $vars['wgUpgradeKey'] ) && $vars['wgUpgradeKey'] ) {
 				$status->warning( 'config-localsettings-upgrade' );
-			}
-			else {
+				$this->setVar( '_UpgradeKey', $vars['wgUpgradeKey' ] );
+			} else {
 				$status->fatal( 'config-localsettings-noupgrade' );
 			}
 		}
@@ -357,7 +359,7 @@ abstract class Installer {
 		if( $status->isOK() ) {
 			LBFactory::enableBackend();
 		}
-
+		
 		return $status;
 	}
 
@@ -386,13 +388,16 @@ abstract class Installer {
 	/**
 	 * Check if we're installing the latest version.
 	 */
-	public function envLatestVersion() {
+	public function envCheckMediaWikiVersion() {
 		global $wgVersion;
+
+		if( !$this->getVar( '_ExternalHTTP' ) ) {
+			$this->showMessage( 'config-env-latest-disabled' );
+			return;
+		}
 
 		$repository = wfGetRepository();
 		$currentVersion = $repository->getLatestCoreVersion();
-
-		$this->setVar( '_ExternalHTTP', true );
 
 		if ( $currentVersion === false ) {
 			# For when the request is successful but there's e.g. some silly man in
@@ -407,9 +412,9 @@ abstract class Installer {
 			$this->showHelpBox( 'config-env-latest-help', $wgVersion, $currentVersion );
 		} elseif( version_compare( $wgVersion, $currentVersion, '>' ) ) {
 			$this->showMessage( 'config-env-latest-new' );
+		} else {
+			$this->showMessage( 'config-env-latest-ok' );
 		}
-
-		$this->showMessage( 'config-env-latest-ok' );
 	}
 
 	/**
@@ -655,26 +660,6 @@ abstract class Installer {
 	}
 
 	/**
-	 * Environment check for writable config/ directory.
-	 */
-	public function envCheckWriteableDir() {
-		$ipDir = $this->getVar( 'IP' );
-		$configDir = $ipDir . '/config';
-
-		if( !is_writeable( $configDir ) ) {
-			$webserverGroup = self::maybeGetWebserverPrimaryGroup();
-
-			if ( $webserverGroup !== null ) {
-				$this->showMessage( 'config-dir-not-writable-group', $ipDir, $webserverGroup );
-			} else {
-				$this->showMessage( 'config-dir-not-writable-nogroup', $ipDir, $webserverGroup );
-			}
-
-			return false;
-		}
-	}
-
-	/**
 	 * Environment check for setting the preferred PHP file extension.
 	 */
 	public function envCheckExtension() {
@@ -701,7 +686,7 @@ abstract class Installer {
 		}
 
 		# Get a list of available locales.
-		$lines = $ret = false;
+		$ret = false;
 		$lines = wfShellExec( '/usr/bin/locale -a', $ret );
 
 		if ( $ret ) {
@@ -843,11 +828,13 @@ abstract class Installer {
 		}
 
 		// Uses messages 'config-unicode-using-php', 'config-unicode-using-utf8', 'config-unicode-using-intl'
-		$this->showMessage( 'config-unicode-using-' . $useNormalizer );
 		if( $useNormalizer === 'php' ) {
 			$this->showMessage( 'config-unicode-pure-php-warning' );
-		} elseif( $needsUpdate ) {
-			$this->showMessage( 'config-unicode-update-warning' );
+		} else {
+			$this->showMessage( 'config-unicode-using-' . $useNormalizer );
+			if( $needsUpdate ) {
+				$this->showMessage( 'config-unicode-update-warning' );
+			}
 		}
 	}
 

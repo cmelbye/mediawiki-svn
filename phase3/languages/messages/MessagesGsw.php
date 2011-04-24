@@ -136,6 +136,7 @@ $messages = array(
 'tog-watchdefault'            => 'Vo dir nöi gmachti oder verändereti Syte beobachte',
 'tog-watchmoves'              => 'Sälber verschobeni Sytene beobachte',
 'tog-watchdeletion'           => 'Sälber glöschti Sytene beobachte',
+'tog-minordefault'            => 'Alli dyni Änderigen als «chlyni Änderige» markiere',
 'tog-previewontop'            => 'Vorschou vor em Editierfänschter aazeige',
 'tog-previewonfirst'          => 'Vorschou aazeige bim erschten Editiere',
 'tog-nocache'                 => 'Syte-Cache vum Browser deaktiviere',
@@ -763,7 +764,7 @@ S Spichere cha dr Inhalt vu dr Syte hii mache. Des git s e mänkmol, wänn eber 
 Im obere Tekschtfäld steit der jitzig Artikel.
 Im untere Tekschtfält stöh dyni Änderige.
 Bitte überträg dyni Änderigen i ds obere Tekschtfäld.
-We du «Syte spychere» drücksch, de wird '''nume''' der Inhalt vom obere Tekschtfäld gspycheret.",
+We du «{{int:savearticle}}» drücksch, de wird '''nume''' der Inhalt vom obere Tekschtfäld gspycheret.",
 'yourtext'                         => 'Dyy Täxt',
 'storedversion'                    => 'Gspychereti Version',
 'nonunicodebrowser'                => "'''Obacht:''' Dyy Browser cha Unicode-Zeiche nid richtig verschaffe. Bitte verwänd e andere Browser zum Syte bearbeite.",
@@ -998,7 +999,7 @@ Bitte prief d Logbiecher.',
 'revmove-norevisions-title'    => 'Nit giltigi Ziilversion',
 'revmove-norevisions'          => 'Du hesch kei Ziilversion aagee, zum die Aktion durzfiere oder d Version, wu Du aagee hesch, git s nit.',
 'revmove-nullmove-title'       => 'Nit giltige Titel',
-'revmove-nullmove'             => 'Quäll- un Ziilsyte sin idäntisch. Bitte druck uf „zruck“ un gib e andere Sytenname wie „$1“ yy.',
+'revmove-nullmove'             => 'Quäll- un Ziilsyte sin idäntisch. Bitte druck uf „zruck“ un gib e andere Sytenname wie „[[$1]]“ yy.',
 'revmove-success-existing'     => '{{PLURAL:$1|Ei Version vu [[$2]] isch|$1 Versione vu [[$2]] sin}} zu dr exischtänte Syte [[$3]] verschobe wore.',
 'revmove-success-created'      => '{{PLURAL:$1|Ei Version vu [[$2]] isch|$1 Versione vu [[$2]] sin}} zue dr nej aagleite Syte [[$3]] verschobe wore.',
 
@@ -2452,7 +2453,7 @@ Lueg au uf [http://www.mediawiki.org/wiki/Localisation MediaWiki Lokalisierig] u
 'allmessages-filter-submit'     => 'Gang',
 
 # Thumbnails
-'thumbnail-more'           => 'vergrösere',
+'thumbnail-more'           => 'Vergreßere',
 'filemissing'              => 'D Datei fäält',
 'thumbnail_error'          => 'Fähler bir Härstellig vo re Vorschou: $1',
 'djvu_page_error'          => 'DjVu-Syte isch uusserhalb vum Sytebereich',

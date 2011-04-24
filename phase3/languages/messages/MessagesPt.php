@@ -309,6 +309,7 @@ $messages = array(
 'tog-watchdefault'            => 'Adicionar as páginas que eu editar às minhas páginas vigiadas',
 'tog-watchmoves'              => 'Adicionar as páginas que eu mover às minhas páginas vigiadas',
 'tog-watchdeletion'           => 'Adicionar as páginas que eu eliminar às minhas páginas vigiadas',
+'tog-minordefault'            => 'Por omissão, marcar todas as edições como menores',
 'tog-previewontop'            => 'Mostrar a antevisão antes da caixa de edição',
 'tog-previewonfirst'          => 'Mostrar a antevisão na primeira edição',
 'tog-nocache'                 => 'Desactivar a cache de páginas do browser',
@@ -526,7 +527,7 @@ Espere um pouco antes de tentar aceder à página novamente, por favor.
 
 $1',
 'pool-timeout'      => 'Tempo limite de espera para o bloqueio excedido',
-'pool-queuefull'    => 'A pool queue está cheia',
+'pool-queuefull'    => 'A fila de processos está cheia',
 'pool-errorunknown' => 'Erro desconhecido',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -694,6 +695,7 @@ Não se esqueça de personalizar as suas [[Special:Preferences|preferências na 
 'yourpassword'               => 'Palavra-chave:',
 'yourpasswordagain'          => 'Repita a palavra-chave:',
 'remembermypassword'         => 'Recordar os meus dados neste computador (no máximo, por $1 {{PLURAL:$1|dia|dias}})',
+'securelogin-stick-https'    => 'Manter a ligação HTTPS após a autenticação',
 'yourdomainname'             => 'O seu domínio:',
 'externaldberror'            => 'Ocorreu um erro externo à base de dados durante a autenticação ou não lhe é permitido actualizar a sua conta externa.',
 'login'                      => 'Autenticação',
@@ -736,6 +738,7 @@ Verifique a ortografia, ou [[Special:UserLogin/signup|crie uma nova conta]].',
 'wrongpasswordempty'         => 'A palavra-chave não foi introduzida. Introduza-a, por favor.',
 'passwordtooshort'           => 'A palavra-chave deve ter no mínimo $1 {{PLURAL:$1|carácter|caracteres}}.',
 'password-name-match'        => 'A sua palavra-chave tem de ser diferente do seu nome de utilizador.',
+'password-too-weak'          => 'A palavra-chave fornecida não é suficientemente segura e não pode ser usada.',
 'mailmypassword'             => 'Enviar uma palavra-chave nova por correio electrónico',
 'passwordremindertitle'      => 'Nova palavra-chave temporária na {{SITENAME}}',
 'passwordremindertext'       => 'Alguém (provavelmente você, a partir do endereço IP $1) solicitou uma palavra-chave nova para a sua conta na {{SITENAME}} ($4).
@@ -951,11 +954,11 @@ Isso acontece ocasionalmente quando se usa um serviço de proxy anonimizador mal
 'editingsection'                   => 'A editar $1 (secção)',
 'editingcomment'                   => 'A editar $1 (nova secção)',
 'editconflict'                     => 'Conflito de edição: $1',
-'explainconflict'                  => "Alguém mudou a página enquanto você a editava.
-A caixa de texto acima mostra o texto existente, na forma como está neste momento.
-As suas mudanças são mostradas na caixa abaixo.
-Terá de reintegrar as suas mudanças no texto da caixa acima.
-'''Só''' o texto na caixa acima será gravado quando clicar \"Gravar página\".<br />",
+'explainconflict'                  => "Alguém mudou a página desde que começou a editá-la.
+A caixa de texto abaixo mostra o texto existente neste momento.
+As suas mudanças são mostradas na área ao fundo da página.
+Terá de reintegrar as suas mudanças no texto da caixa abaixo.
+'''Só''' o texto desta caixa será gravado quando clicar \"{{int:savearticle}}\".",
 'yourtext'                         => 'O seu texto',
 'storedversion'                    => 'Versão guardada',
 'nonunicodebrowser'                => "'''Aviso: O seu browser não é compatível com as especificações Unicode.
@@ -1206,7 +1209,7 @@ Veja a [[Special:IPBlockList|lista de bloqueios]] para uma lista de banimentos e
 'revmove-norevisions-title'    => 'A revisão especificada é inválida',
 'revmove-norevisions'          => 'Não especificou uma ou mais revisões sobre as quais deve ser executada esta operação, ou a revisão que especificou não existe.',
 'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "$1".',
+'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página recém-criada [[$3]].',
 
@@ -1476,8 +1479,8 @@ Também permite que outros entrem em contacto consigo através da sua página de
 
 'group-user-member'          => 'Utilizador',
 'group-autoconfirmed-member' => 'Utilizador auto-confirmado',
-'group-bot-member'           => 'Robô',
-'group-sysop-member'         => 'Administrador',
+'group-bot-member'           => 'robô',
+'group-sysop-member'         => 'administrador',
 'group-bureaucrat-member'    => 'Burocrata',
 'group-suppress-member'      => 'Supervisor',
 
@@ -1842,6 +1845,7 @@ Clique um cabeçalho de coluna para alterar a ordenação.',
 'listfiles_search_for'  => 'Pesquisar por nome de imagem:',
 'imgfile'               => 'ficheiro',
 'listfiles'             => 'Ficheiros',
+'listfiles_thumb'       => 'Miniatura',
 'listfiles_date'        => 'Data',
 'listfiles_name'        => 'Nome',
 'listfiles_user'        => 'Utilizador',
@@ -1992,6 +1996,8 @@ Cada linha contém links para o primeiro e segundo redireccionamentos, bem como 
 'nmembers'                => '$1 {{PLURAL:$1|membro|membros}}',
 'nrevisions'              => '$1 {{PLURAL:$1|edição|edições}}',
 'nviews'                  => '$1 {{PLURAL:$1|visita|visitas}}',
+'nimagelinks'             => 'Usada {{PLURAL:$1|numa página|em $1 páginas}}',
+'ntransclusions'          => 'usada {{PLURAL:$1|numa página|em $1 páginas}}',
 'specialpage-empty'       => 'Não existem dados para apresentar.',
 'lonelypages'             => 'Páginas órfãs',
 'lonelypagestext'         => 'As seguintes páginas não são destino de links nem são transcluídas a partir de outras páginas na {{SITENAME}}.',

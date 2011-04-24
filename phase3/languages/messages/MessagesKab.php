@@ -57,6 +57,7 @@ $messages = array(
 'tog-watchdefault'            => 'Rnu isebtar i ttbeddileɣ deg wumuɣ n uɛessi inu',
 'tog-watchmoves'              => 'Rnu isebtar i smimḍeɣ deg wumuɣ n uɛessi inu',
 'tog-watchdeletion'           => 'Rnu isebtar i mḥiɣ deg wumuɣ n uɛessi inu',
+'tog-minordefault'            => 'Rcem akk ibeddlen am ibeddlen ifessasen d ameslugen',
 'tog-previewontop'            => 'Ssken pre-timeẓriwt uqbel tankult ubeddel',
 'tog-previewonfirst'          => 'Ssken pre-timeẓriwt akk d ubeddel amezwaru',
 'tog-nocache'                 => 'Kkes lkac n usebter',
@@ -493,7 +494,7 @@ G leɛnayek ɛreḍ tikelt nniḍen. Lukan mazal yella ugur, ffeɣ umbeɛd kcem.
 Aḍris deg usawen yesɛa asebter am yella tura.
 Ibeddlen inek ahaten deg ukessar.
 Yesfek ad txelṭeḍ ibeddlen inek akk d usebter i yellan.
-'''Ala''' aḍris deg usawen i yettusmekta asmi twekkiḍ \"Smekti asebter\".",
+'''Ala''' aḍris deg usawen i yettusmekta asmi twekkiḍ \"{{int:savearticle}}\".",
 'yourtext'                  => 'Aḍris inek',
 'storedversion'             => 'Tasiwelt yettusmketen',
 'nonunicodebrowser'         => "'''AƔTAL: Browser/Explorateur inek ur yebil ara unicode. Nexdem akken ad tzemreḍ ad tbeddleḍ mebla amihi: isekkilin i mačči ASCII ttbanen deg tankult ubeddel s ungilen hexadecimal.'''",

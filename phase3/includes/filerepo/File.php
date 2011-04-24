@@ -267,6 +267,19 @@ abstract class File {
 	}
 
 	/**
+         *  Return true if the file is vectorized
+         */
+        public function isVectorized() {
+                $handler = $this->getHandler();
+                if ( $handler ) {
+                        return $handler->isVectorized( $this );
+                } else {
+                        return false;
+                }
+        }
+
+
+	/**
 	 * Get handler-specific metadata
 	 * Overridden by LocalFile, UnregisteredLocalFile
 	 * STUB
@@ -528,7 +541,7 @@ abstract class File {
 	 * @param $params Array: an associative array of handler-specific parameters.
 	 *                Typical keys are width, height and page.
 	 * @param $flags Integer: a bitfield, may contain self::RENDER_NOW to force rendering
-	 * @return MediaTransformOutput
+	 * @return MediaTransformOutput | false
 	 */
 	function transform( $params, $flags = 0 ) {
 		global $wgUseSquid, $wgIgnoreImageErrors, $wgThumbnailEpoch, $wgServer;
@@ -562,7 +575,7 @@ abstract class File {
 			$thumbPath = $this->getThumbPath( $thumbName );
 			$thumbUrl = $this->getThumbUrl( $thumbName );
 
-			if ( $this->repo->canTransformVia404() && !($flags & self::RENDER_NOW ) ) {
+			if ( $this->repo && $this->repo->canTransformVia404() && !($flags & self::RENDER_NOW ) ) {
 				$thumb = $this->handler->getTransform( $this, $thumbPath, $thumbUrl, $params );
 				break;
 			}
@@ -893,7 +906,8 @@ abstract class File {
 		$retVal = array();
 		if ( $db->numRows( $res ) ) {
 			foreach ( $res as $row ) {
-				if ( $titleObj = Title::newFromRow( $row ) ) {
+				$titleObj = Title::newFromRow( $row );
+				if ( $titleObj ) {
 					$linkCache->addGoodLinkObj( $row->page_id, $titleObj, $row->page_len, $row->page_is_redirect, $row->page_latest );
 					$retVal[] = $titleObj;
 				}

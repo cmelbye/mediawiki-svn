@@ -8,6 +8,7 @@
  * @file
  *
  * @author Ikiwaner
+ * @author Jagwar
  * @author Lloffiwr
  * @author Malangali
  * @author Marcos
@@ -141,6 +142,7 @@ $messages = array(
 'tog-watchdefault'            => 'Weka kurasa zote nilizohariri katika maangalizi yangu',
 'tog-watchmoves'              => 'Weka kurasa zote nilizohamisha katika maangalizi yangu',
 'tog-watchdeletion'           => 'Weka kurasa zote nilizofuta katika maangalizi yangu',
+'tog-minordefault'            => 'Weka alama zote za mabadiliko madogo kama matumizi mbadala',
 'tog-previewontop'            => 'Onyesha mandhari kabla ya sanduku la kuhariria',
 'tog-previewonfirst'          => 'Onyesha mandhari unapoanza kuhariri',
 'tog-nocache'                 => 'Kurasa zisiwekwe katika kache (akiba ya muda) ya kivinjari',
@@ -563,6 +565,7 @@ Jaribu tena.',
 'wrongpasswordempty'         => 'Neno la siri lilikuwa tupu. Jaribu tena.',
 'passwordtooshort'           => 'Ni lazima neno la siri liwe na {{PLURAL:$1|herufi}} $1 au zaidi.',
 'password-name-match'        => 'Neno lako la siri lazima liwe tofauti na jina lako la mtumiaji.',
+'password-too-weak'          => 'Neno la siri lililopewa halina nguvu ya kutosha, kwa hiyo haliwezi kutumiwa.',
 'mailmypassword'             => 'Nitume neno la siri jipya kwa barua-pepe',
 'passwordremindertitle'      => 'Neno la siri jipya la muda kwa ajili ya {{SITENAME}}',
 'passwordremindertext'       => 'Mtu mmoja (yamkini wewe, kutoka anwani ya IP $1)
@@ -770,9 +773,11 @@ Haya hutokea kwa muda ambao unatumia huduma ya seva ya wavu isiyotiwa jina na ye
 Sanduku la juu inaonyesha maandiko yaliyopo sasa hivi kwenye ukurasa.
 Mabadiliko yako yanaonyeshwa kwenye sanduku la chini.
 Inabidi uingize mabadiliko yako ndani ya sanduku la juu.
-Ni maandiko yaliyopo ndani ya sanduku la juu '''tu''' ambayo yatahifadhiwa utakapobonyeza \"Hifadhi ukurasa\".",
+Ni maandiko yaliyopo ndani ya sanduku la juu '''tu''' ambayo yatahifadhiwa utakapobonyeza \"{{int:savearticle}}\".",
 'yourtext'                         => 'Maandishi yako',
 'storedversion'                    => 'Pitio lililohifadhiwa mwishoni',
+'nonunicodebrowser'                => "'''Ilani: browser yako si Unicode inavyotakikana.''' 
+A workaround ni katika nafasi ya kuruhusu usalama hariri kurasa: non-ASCII characters itaonekana katika edit box kama hexadecimal codes.",
 'editingold'                       => "'''ANGALIA: Unakuwa unahariri toleo la zamani la ukurasa huu.
 Ukiendelea kulihariri, mabadilisho yote yaliyofanywa tangu pale yatapotezwa.'''",
 'yourdiff'                         => 'Tofauti',
@@ -1535,6 +1540,7 @@ Ukibofya kichwa cha safu mtindo wa kupanga orodha utabadilika.',
 'listfiles_search_for'  => 'Tafuta jina la faili:',
 'imgfile'               => 'faili',
 'listfiles'             => 'Orodha ya mafaili',
+'listfiles_thumb'       => 'Picha ndogo',
 'listfiles_date'        => 'Tarehe',
 'listfiles_name'        => 'Jina',
 'listfiles_user'        => 'Mtumiaji',
@@ -1684,6 +1690,8 @@ Sasa unaelekeza [[$2]].',
 'nmembers'                => '{{PLURAL:$1|kitu|vitu}} $1',
 'nrevisions'              => '{{PLURAL:$1|pitio|mapitio}} $1',
 'nviews'                  => '{{PLURAL:$1|mtazamaji|mitazamaji}} $1',
+'nimagelinks'             => 'Inatumika katika {{PLURAL:$1|ukurasa moja tu|kurasa $1}}',
+'ntransclusions'          => 'inatumika katika {{PLURAL:$1|ukurasa moja tu|kurasa $1}}',
 'specialpage-empty'       => 'Hakuna matokeo katika taarifa hii.',
 'lonelypages'             => 'Kurasa ambazo haziungwi kutoka ukurasa mwingine wowote',
 'uncategorizedpages'      => 'Kurasa ambazo hazijawekwa katika jamii',

@@ -28,7 +28,8 @@
  * @ingroup SpecialPage
  */
 class IPBlockForm extends SpecialPage {
-	var $BlockAddress, $BlockExpiry, $BlockReason;
+	var $BlockAddress, $BlockExpiry, $BlockReason, $BlockReasonList, $BlockOther, $BlockAnonOnly, $BlockCreateAccount,
+		$BlockEnableAutoblock, $BlockEmail, $BlockHideName, $BlockAllowUsertalk, $BlockReblock;
 	// The maximum number of edits a user can have and still be hidden
 	const HIDEUSER_CONTRIBLIMIT = 1000;
 
@@ -54,7 +55,7 @@ class IPBlockForm extends SpecialPage {
 	
 		# bug 15810: blocked admins should have limited access here
 		if ( $wgUser->isBlocked() ) {
-			$status = IPBlockForm::checkUnblockSelf( $ipb->BlockAddress );
+			$status = IPBlockForm::checkUnblockSelf( $this->BlockAddress );
 			if ( $status !== true ) {
 				throw new ErrorPageError( 'badaccess', $status );
 			}
@@ -358,8 +359,8 @@ class IPBlockForm extends SpecialPage {
 				</td>
 			</tr>" .
 			Xml::closeElement( 'table' ) .
-			Xml::hidden( 'wpEditToken', $wgUser->editToken() ) .
-			( $alreadyBlocked ? Xml::hidden( 'wpChangeBlock', 1 ) : "" ) .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) .
+			( $alreadyBlocked ? Html::hidden( 'wpChangeBlock', 1 ) : "" ) .
 			Xml::closeElement( 'fieldset' ) .
 			Xml::closeElement( 'form' ) .
 			Xml::tags( 'script', array( 'type' => 'text/javascript' ), 'updateBlockOptions()' ) . "\n"

@@ -322,6 +322,7 @@ $messages = array(
 'tog-watchdefault'            => 'Lägg till sidor jag redigerar i min bevakningslista',
 'tog-watchmoves'              => 'Lägg till sidor jag flyttar i min bevakningslista',
 'tog-watchdeletion'           => 'Lägg till sidor jag raderar i min bevakningslista',
+'tog-minordefault'            => 'Markera automatiskt ändringar som mindre',
 'tog-previewontop'            => 'Visa förhandsgranskningen ovanför redigeringsrutan',
 'tog-previewonfirst'          => 'Visa förhandsgranskning när redigering påbörjas',
 'tog-nocache'                 => 'Stäng av cachelagring för sidor',
@@ -948,7 +949,7 @@ Detta händer ibland om du använder buggiga webbaserade anonyma proxytjänster.
 Den översta textrutan innehåller den nuvarande sparade versionen av texten.
 Din ändrade version visas i den nedre rutan.
 Om du vill spara dina ändringar så måste du infoga dem i den övre texten.
-'''Endast''' texten i den översta textrutan kommer att sparas när du trycker på \"Spara\".",
+'''Endast''' texten i den översta textrutan kommer att sparas när du trycker på \"{{int:savearticle}}\".",
 'yourtext'                         => 'Din text',
 'storedversion'                    => 'Den sparade versionen',
 'nonunicodebrowser'                => "'''VARNING: Din webbläsare saknar stöd för unicode. För att du ska kunna redigera sidor utan problem, så visas icke-ASCII-tecken som hexadecimala koder i redigeringsrutan.'''",
@@ -1193,7 +1194,7 @@ Se [[Special:IPBlockList|blockeringslistan]] för listan över gällande blocker
 'revmove-norevisions-title'    => 'Ogiltig målversion',
 'revmove-norevisions'          => 'Du har inte angivit en eller flera målversioner för att utföra denna funktion eller den angivna versionen finns inte.',
 'revmove-nullmove-title'       => 'Dålig titel',
-'revmove-nullmove'             => 'Källa och målsida är identiska. Klicka på "tillbaka" och ange ett sidnamn som skiljer sig från "$1".',
+'revmove-nullmove'             => 'Källa och målsida är identiska. Klicka på "tillbaka" och ange ett sidnamn som skiljer sig från "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|En version från [[$2]] har|$1 versioner från [[$2]] har}} flyttats till den befintliga sidan [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|En version från [[$2]] har|$1 versioner från [[$2]] har}} flyttats till den nyskapade sidan [[$3]].',
 

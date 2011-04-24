@@ -425,13 +425,11 @@ function wfErrorLog( $text, $file ) {
 		# Needs the sockets extension
 		if ( preg_match( '!^(tcp|udp):(?://)?\[([0-9a-fA-F:]+)\]:(\d+)(?:/(.*))?$!', $file, $m ) ) {
 			// IPv6 bracketed host
-			$protocol = $m[1];
 			$host = $m[2];
 			$port = intval( $m[3] );
 			$prefix = isset( $m[4] ) ? $m[4] : false;
 			$domain = AF_INET6;
 		} elseif ( preg_match( '!^(tcp|udp):(?://)?([a-zA-Z0-9.-]+):(\d+)(?:/(.*))?$!', $file, $m ) ) {
-			$protocol = $m[1];
 			$host = $m[2];
 			if ( !IP::isIPv4( $host ) ) {
 				$host = gethostbyname( $host );
@@ -2019,32 +2017,34 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 			(int)$da[2], (int)$da[3], (int)$da[1] );
 	}
 
- 	switch( $outputtype ) {
-		case TS_UNIX:
-			return $uts;
-		case TS_MW:
-			return gmdate( 'YmdHis', $uts );
-		case TS_DB:
-			return gmdate( 'Y-m-d H:i:s', $uts );
-		case TS_ISO_8601:
-			return gmdate( 'Y-m-d\TH:i:s\Z', $uts );
-		case TS_ISO_8601_BASIC:
-			return gmdate( 'Ymd\THis\Z', $uts );
-		// This shouldn't ever be used, but is included for completeness
-		case TS_EXIF:
-			return gmdate( 'Y:m:d H:i:s', $uts );
-		case TS_RFC2822:
-			return gmdate( 'D, d M Y H:i:s', $uts ) . ' GMT';
-		case TS_ORACLE:
-			return gmdate( 'd-m-Y H:i:s.000000', $uts );
-			//return gmdate( 'd-M-y h.i.s A', $uts ) . ' +00:00';
-		case TS_POSTGRES:
-			return gmdate( 'Y-m-d H:i:s', $uts ) . ' GMT';
-		case TS_DB2:
-			return gmdate( 'Y-m-d H:i:s', $uts );
-		default:
-			throw new MWException( 'wfTimestamp() called with illegal output type.' );
+	static $formats = array(
+		TS_UNIX => 'U',
+		TS_MW => 'YmdHis',
+		TS_DB => 'Y-m-d H:i:s',
+		TS_ISO_8601 => 'Y-m-d\TH:i:s\Z',
+		TS_ISO_8601_BASIC => 'Ymd\THis\Z',
+		TS_EXIF => 'Y:m:d H:i:s', // This shouldn't ever be used, but is included for completeness
+		TS_RFC2822 => 'D, d M Y H:i:s',
+		TS_ORACLE => 'd-m-Y H:i:s.000000', // Was 'd-M-y h.i.s A' . ' +00:00' before r51500
+		TS_POSTGRES => 'Y-m-d H:i:s',
+		TS_DB2 => 'Y-m-d H:i:s',
+	);
+
+	if ( !isset( $formats[$outputtype] ) ) {
+		throw new MWException( 'wfTimestamp() called with illegal output type.' );
 	}
+
+	if ( TS_UNIX == $outputtype ) {
+		return $uts;
+	}
+
+	$output = gmdate( $formats[$outputtype], $uts );
+
+	if ( ( $outputtype == TS_RFC2822 ) || ( $outputtype == TS_POSTGRES ) ) {
+		$output .= ' GMT';
+	}
+
+	return $output;
 }
 
 /**
@@ -2068,11 +2068,11 @@ function wfTimestampOrNull( $outputtype = TS_UNIX, $ts = null ) {
  * @return Bool: true if it's Windows, False otherwise.
  */
 function wfIsWindows() {
-	if ( substr( php_uname(), 0, 7 ) == 'Windows' ) {
-		return true;
-	} else {
-		return false;
+	static $isWindows = null;
+	if ( $isWindows === null ) {
+		$isWindows = substr( php_uname(), 0, 7 ) == 'Windows';
 	}
+	return $isWindows;
 }
 
 /**
@@ -2454,12 +2454,14 @@ function wfDl( $extension ) {
 /**
  * Execute a shell command, with time and memory limits mirrored from the PHP
  * configuration if supported.
- * @param $cmd Command line, properly escaped for shell.
+ * @param $cmd String Command line, properly escaped for shell.
  * @param &$retval optional, will receive the program's exit code.
  *                 (non-zero is usually failure)
+ * @param $environ Array optional environment variables which should be 
+ *                 added to the executed command environment.
  * @return collected stdout as a string (trailing newlines stripped)
  */
-function wfShellExec( $cmd, &$retval = null ) {
+function wfShellExec( $cmd, &$retval = null, $environ = array() ) {
 	global $IP, $wgMaxShellMemory, $wgMaxShellFileSize, $wgMaxShellTime;
 
 	static $disabled;
@@ -2468,13 +2470,14 @@ function wfShellExec( $cmd, &$retval = null ) {
 		if( wfIniGetBool( 'safe_mode' ) ) {
 			wfDebug( "wfShellExec can't run in safe_mode, PHP's exec functions are too broken.\n" );
 			$disabled = 'safemode';
-		}
-		$functions = explode( ',', ini_get( 'disable_functions' ) );
-		$functions = array_map( 'trim', $functions );
-		$functions = array_map( 'strtolower', $functions );
-		if ( in_array( 'passthru', $functions ) ) {
-			wfDebug( "passthru is in disabled_functions\n" );
-			$disabled = 'passthru';
+		} else {
+			$functions = explode( ',', ini_get( 'disable_functions' ) );
+			$functions = array_map( 'trim', $functions );
+			$functions = array_map( 'strtolower', $functions );
+			if ( in_array( 'passthru', $functions ) ) {
+				wfDebug( "passthru is in disabled_functions\n" );
+				$disabled = 'passthru';
+			}
 		}
 	}
 	if ( $disabled ) {
@@ -2486,7 +2489,35 @@ function wfShellExec( $cmd, &$retval = null ) {
 
 	wfInitShellLocale();
 
-	if ( php_uname( 's' ) == 'Linux' ) {
+	$envcmd = '';
+	foreach( $environ as $k => $v ) {
+		if ( wfIsWindows() ) {
+			/* Surrounding a set in quotes (method used by wfEscapeShellArg) makes the quotes themselves 
+			 * appear in the environment variable, so we must use carat escaping as documented in 
+			 * http://technet.microsoft.com/en-us/library/cc723564.aspx 
+			 * Note however that the quote isn't listed there, but is needed, and the parentheses 
+			 * are listed there but doesn't appear to need it.
+			 */
+			$envcmd .= "set $k=" . preg_replace( '/([&|()<>^"])/', '^\\1', $v ) . ' && ';
+		} else {
+			/* Assume this is a POSIX shell, thus required to accept variable assignments before the command 
+			 * http://www.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_09_01
+			 */
+			$envcmd .= "$k=" . escapeshellarg( $v ) . ' ';
+		}
+	}
+	$cmd = $envcmd . $cmd;
+	
+	if ( wfIsWindows() ) {
+		if ( version_compare( PHP_VERSION, '5.3.0', '<' ) && /* Fixed in 5.3.0 :) */
+			( version_compare( PHP_VERSION, '5.2.1', '>=' ) || php_uname( 's' ) == 'Windows NT' ) )
+		{
+			# Hack to work around PHP's flawed invocation of cmd.exe
+			# http://news.php.net/php.internals/21796
+			# Windows 9x doesn't accept any kind of quotes
+			$cmd = '"' . $cmd . '"';
+		}
+	} elseif ( php_uname( 's' ) == 'Linux' ) {
 		$time = intval( $wgMaxShellTime );
 		$mem = intval( $wgMaxShellMemory );
 		$filesize = intval( $wgMaxShellFileSize );
@@ -2497,13 +2528,6 @@ function wfShellExec( $cmd, &$retval = null ) {
 				$cmd = '/bin/bash ' . escapeshellarg( $script ) . " $time $mem $filesize " . escapeshellarg( $cmd );
 			}
 		}
-	} elseif ( php_uname( 's' ) == 'Windows NT' &&
-		version_compare( PHP_VERSION, '5.3.0', '<' ) )
-	{
-		# This is a hack to work around PHP's flawed invocation of cmd.exe
-		# http://news.php.net/php.internals/21796
-		# Which is fixed in 5.3.0 :)
-		$cmd = '"' . $cmd . '"';
 	}
 	wfDebug( "wfShellExec: $cmd\n" );
 

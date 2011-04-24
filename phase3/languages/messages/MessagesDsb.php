@@ -172,6 +172,7 @@ $messages = array(
 'tog-watchdefault'            => 'Boki, kótarež změnijom, awtomatiski wobglědowaś',
 'tog-watchmoves'              => 'Boki, kótarež som pśesunuł, awtomatiski wobglědowaś',
 'tog-watchdeletion'           => 'Boki, kótarež som wulašował, awtomatiski wobglědowaś',
+'tog-minordefault'            => 'Wšykne móje změny ako małe markěrowaś',
 'tog-previewontop'            => 'Zespominanje wušej wobźěłowańskego póla pokazaś',
 'tog-previewonfirst'          => 'Pśi prědnem wobźěłanju pśecej zespominanje pokazaś',
 'tog-nocache'                 => 'Cache bokow wobglědowaka znjemóžniś',
@@ -766,7 +767,7 @@ Nejnowšy zapisk blokěrowańskego protokola pódawa se dołojce ako referenca:'
 Górjejcne tekstowe pólo wopśimjejo tekst boka, ako tuchylu eksistěrujo.
 Twóje změny pokazuju se w dołojcnem tekstowem pólu.
 Pšosym zapódaj twóje změny do górjejcnego tekstowego póla.
-'''Jano''' wopśimjeśe górjejcnego tekstowego póla se składujo, gaž tłocyš na \"składowaś\".",
+'''Jano''' wopśimjeśe górjejcnego tekstowego póla se składujo, gaž tłocyš na \"{{int:savearticle}}\".",
 'yourtext'                         => 'Twój tekst',
 'storedversion'                    => 'Składowana wersija',
 'nonunicodebrowser'                => "'''Glědaj:''' Twój browser njamóžo unicodowe znamuška pšawje pśeźěłaś. Pšosym wužywaj hynakšy browser.",
@@ -1002,7 +1003,7 @@ Pšosym pśeglědaj protokole.',
 'revmove-norevisions-title'    => 'Njepłaśiwa celowa wersija',
 'revmove-norevisions'          => 'Njejsy jadnu celowu wersiju abo wěcej celowych wersijow pódał, aby toś tu funkciju wuwjadł abo pódana wersija njeeksistěrujo.',
 'revmove-nullmove-title'       => 'Njepłaśiwy titel',
-'revmove-nullmove'             => 'Žrědłowy a celowy bok stej identeskejl. Pšosym klikni na "slědk" a zapódaj druge mě boka  ako "$1".',
+'revmove-nullmove'             => 'Žrědłowy a celowy bok stej identeskejl. Pšosym klikni na "slědk" a zapódaj druge mě boka  ako "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Jadna wersija jo se wót [[$2]]|$1 wersiji stej se wót [[$2]]|$1 wersije su se wót [[$2]]|$1 wersijow jo se wót [[$2]]}} k eksistěrujucemu bokoju  [[$3]] {{PLURAL:$1|pśesunuła|pśesunułej|pśesunuli|pśesunuło}}.',
 'revmove-success-created'      => '{{PLURAL:$1|Jadna wersija jo se wót [[$2]]|$1 wersiji stej se wót [[$2]]|$1 wersije su se wót [[$2]]|$1 wersijow jo se wót [[$2]]}} k rowno napóranemu bokoju  [[$3]] {{PLURAL:$1|pśesunuła|pśesunułej|pśesunuli|pśesunuło}}.',
 

@@ -185,7 +185,7 @@ class ForeignAPIRepo extends FileRepo {
 			'prop' => 'imageinfo' ) );
 		$info = $this->getImageInfo( $data );
 
-		if( $data && $info && $info['thumburl'] ) {
+		if( $data && $info && isset( $info['thumburl'] ) ) {
 			wfDebug( __METHOD__ . " got remote thumb " . $info['thumburl'] . "\n" );
 			return $info['thumburl'];
 		} else {
@@ -201,7 +201,8 @@ class ForeignAPIRepo extends FileRepo {
 		}
 
 		$key = $this->getLocalCacheKey( 'ForeignAPIRepo', 'ThumbUrl', $name );
-		if ( $thumbUrl = $wgMemc->get($key) ) {
+		$thumbUrl = $wgMemc->get($key);
+		if ( $thumbUrl ) {
 			wfDebug("Got thumb from local cache. $thumbUrl \n");
 			return $thumbUrl;
 		}

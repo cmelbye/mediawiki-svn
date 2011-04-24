@@ -320,6 +320,7 @@ $messages = array(
 'tog-watchdefault'            => 'Tambahkan halaman yang saya sunting ke daftar pantauan',
 'tog-watchmoves'              => 'Tambahkan halaman yang saya pindahkan ke daftar pantauan',
 'tog-watchdeletion'           => 'Tambahkan halaman yang saya hapus ke daftar pantauan',
+'tog-minordefault'            => 'Tandai semua suntingan sebagai suntingan kecil secara baku',
 'tog-previewontop'            => 'Perlihatkan pratayang sebelum kotak sunting dan tidak sesudahnya',
 'tog-previewonfirst'          => 'Perlihatkan pratayang pada suntingan pertama',
 'tog-nocache'                 => 'Nonaktifkan pembuatan tembolok halaman peramban ini',
@@ -919,7 +920,11 @@ Hal ini kadang terjadi jika Anda menggunakan layanan proxy anonim berbasis web y
 'editingsection'                   => 'Menyunting $1 (bagian)',
 'editingcomment'                   => 'Menyunting $1 (bagian baru)',
 'editconflict'                     => 'Konflik penyuntingan: $1',
-'explainconflict'                  => 'Orang lain telah menyunting halaman ini sejak Anda mulai menyuntingnya. Bagian atas teks ini mengandung teks halaman saat ini. Perubahan yang Anda lakukan ditunjukkan pada bagian bawah teks. Anda hanya perlu menggabungkan perubahan Anda dengan teks yang telah ada. <strong>Hanya</strong> teks pada bagian atas halamanlah yang akan disimpan apabila Anda menekan "Simpan halaman".<p>',
+'explainconflict'                  => "Orang lain telah menyunting halaman ini sejak Anda mulai menyuntingnya.
+Bagian atas teks ini mengandung teks halaman saat ini.
+Perubahan yang Anda lakukan ditunjukkan pada bagian bawah teks.
+Anda hanya perlu menggabungkan perubahan Anda dengan teks yang telah ada.
+'''Hanya''' teks pada bagian atas halamanlah yang akan disimpan apabila Anda menekan \"{{int:savearticle}}\".",
 'yourtext'                         => 'Teks Anda',
 'storedversion'                    => 'Versi tersimpan',
 'nonunicodebrowser'                => "'''Peringatan: Penjelajah web Anda tidak mendukung unicode.'''
@@ -1158,7 +1163,7 @@ Lihat [[Special:IPBlockList|daftar IP yang diblokir]] untuk daftar terkininya.',
 'revmove-norevisions-title'    => 'Revisi target tak sah',
 'revmove-norevisions'          => 'Anda belum menetapkan satu atau lebih revisi tujuan untuk menjalankan fungsi atau revisi yang diberikan tidak ada.',
 'revmove-nullmove-title'       => 'Judul tidak sah',
-'revmove-nullmove'             => 'Halaman sumber dan tujuan sama. Silahkan tekan "kembali" dan masukan nama halaman yang berbeda dari "$1".',
+'revmove-nullmove'             => 'Halaman sumber dan tujuan sama. Silahkan tekan "kembali" dan masukan nama halaman yang berbeda dari "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|satu revisi dari [[$2]] telah|$1 revisi dari [[$2]] telah}} dipindahkan ke halaman yang ada [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|satu revisi dari [[$2]] telah|$1 revisi dari [[$2]] telah}} dipindahkan ke halaman baru yang dibuat [[$3]].',
 

@@ -143,13 +143,9 @@ class ImagePage extends Article {
 			$wgOut->addHTML( $html );
 
 		if ( $showmeta ) {
-			$expand = htmlspecialchars( Xml::escapeJsString( wfMsg( 'metadata-expand' ) ) );
-			$collapse = htmlspecialchars( Xml::escapeJsString( wfMsg( 'metadata-collapse' ) ) );
 			$wgOut->addHTML( Xml::element( 'h2', array( 'id' => 'metadata' ), wfMsg( 'metadata' ) ) . "\n" );
 			$wgOut->addWikiText( $this->makeMetadataTable( $formattedMetadata ) );
 			$wgOut->addModules( array( 'mediawiki.legacy.metadata' ) );
-			$wgOut->addHTML(
-				"<script type=\"text/javascript\">attachMetadataToggle('mw_metadata', '$expand', '$collapse');</script>\n" );
 		}
 		
 		$css = $this->repo->getDescriptionStylesheetUrl();
@@ -364,20 +360,16 @@ class ImagePage extends Article {
 					);
 				} else {
 					# Image is small enough to show full size on image page
-					$msgbig = htmlspecialchars( $this->displayImg->getName() );
 					$msgsmall = wfMsgExt( 'file-nohires', array( 'parseinline' ) );
 				}
 
 				$params['width'] = $width;
 				$thumbnail = $this->displayImg->transform( $params );
 
-				$anchorclose = "<br />";
-				if ( $this->displayImg->mustRender() ) {
-					$showLink = true;
-				} else {
-					$anchorclose .=
-						$msgsmall .
-						'<br />' . Xml::tags( 'a', $linkAttribs,  $msgbig ) . "$dirmark " . $longDesc;
+				$showLink = true;
+				$anchorclose = '';
+				if ( !$this->displayImg->mustRender() ) {
+					$anchorclose = "<br />" . $msgsmall;
 				}
 
 				$isMulti = $this->displayImg->isMultipage() && $this->displayImg->pageCount() > 1;
@@ -446,7 +438,7 @@ class ImagePage extends Article {
 					$wgOut->addHTML(
 						'</td><td><div class="multipageimagenavbox">' .
 						Xml::openElement( 'form', $formParams ) .
-						Xml::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
+						Html::hidden( 'title', $this->getTitle()->getPrefixedDbKey() ) .
 						wfMsgExt( 'imgmultigoto', array( 'parseinline', 'replaceafter' ), $select ) .
 						Xml::submitButton( wfMsg( 'imgmultigo' ) ) .
 						Xml::closeElement( 'form' ) .
@@ -469,23 +461,22 @@ class ImagePage extends Article {
 
 			if ( $showLink ) {
 				$filename = wfEscapeWikiText( $this->displayImg->getName() );
-				$medialink = "[[Media:$filename|$filename]]";
+				$linktext = $filename;
+				if ( isset( $msgbig ) ) {
+					$linktext = wfEscapeWikiText( $msgbig );
+				}
+				$medialink = "[[Media:$filename|$linktext]]";
 
 				if ( !$this->displayImg->isSafeFile() ) {
 					$warning = wfMsgNoTrans( 'mediawarning' );
 					$wgOut->addWikiText( <<<EOT
-<div class="fullMedia">
-<span class="dangerousLink">{$medialink}</span>$dirmark
-<span class="fileInfo">$longDesc</span>
-</div>
+<div class="fullMedia"><span class="dangerousLink">{$medialink}</span>$dirmark <span class="fileInfo">$longDesc</span></div>
 <div class="mediaWarning">$warning</div>
 EOT
 						);
 				} else {
 					$wgOut->addWikiText( <<<EOT
-<div class="fullMedia">
-{$medialink}{$dirmark}
-<span class="fileInfo">$longDesc</span>
+<div class="fullMedia">{$medialink}{$dirmark} <span class="fileInfo">$longDesc</span>
 </div>
 EOT
 					);
@@ -649,7 +640,7 @@ EOT
 		$sk = $wgUser->getSkin();
 		$count = 0;
 		$elements = array();
-		while ( $s = $res->fetchObject() ) {
+		foreach ( $res as $s ) {
 			$count++;
 			if ( $count <= $limit ) {
 				// We have not yet reached the extra one that tells us there is more to fetch

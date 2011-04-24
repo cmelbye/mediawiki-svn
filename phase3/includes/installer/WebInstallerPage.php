@@ -8,7 +8,7 @@
 
 /**
  * Abstract class to define pages for the web installer.
- * 
+ *
  * @ingroup Deployment
  * @since 1.17
  */
@@ -16,7 +16,7 @@ abstract class WebInstallerPage {
 	
 	/**
 	 * The WebInstaller object this WebInstallerPage belongs to.
-	 * 
+	 *
 	 * @var WebInstaller
 	 */
 	public $parent;
@@ -25,7 +25,7 @@ abstract class WebInstallerPage {
 	
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param $parent WebInstaller
 	 */
 	public function __construct( WebInstaller $parent ) {
@@ -55,7 +55,7 @@ abstract class WebInstallerPage {
 		$id = $this->getId();
 		
 		if ( $id === false ) {
-			$s .= Xml::hidden( 'lastPage', $this->parent->request->getVal( 'lastPage' ) );
+			$s .= Html::hidden( 'lastPage', $this->parent->request->getVal( 'lastPage' ) );
 		}
 		
 		if ( $continue ) {
@@ -99,7 +99,67 @@ abstract class WebInstallerPage {
 	public function setVar( $name, $value ) {
 		$this->parent->setVar( $name, $value );
 	}
-	
+
+	/**
+	 * Get the starting tags of a fieldset.
+	 *
+	 * @param $legend String: message name
+	 */
+	protected function getFieldsetStart( $legend ) {
+		return "\n<fieldset><legend>" . wfMsgHtml( $legend ) . "</legend>\n";
+	}
+
+	/**
+	 * Get the end tag of a fieldset.
+	 */
+	protected function getFieldsetEnd() {
+		return "</fieldset>\n";
+	}
+}
+
+class WebInstaller_Locked extends WebInstallerPage {
+
+	// The status of Installer::getLocalSettingsStatus()
+	private $status;
+
+	public function setLocalSettingsStatus( Status $s ) {
+		$this->status = $s;
+	}
+
+	public function execute() {
+		$r = $this->parent->request;
+		if( !$r->wasPosted() || !$this->status->isOK() ) {
+			$this->display();
+			return 'output';
+		} else {
+			$key = $r->getText( 'config_wpUpgradeKey' );
+			if( !$key || $key !== $this->getVar( '_UpgradeKey' ) ) {
+				$this->parent->showError( 'config-localsettings-badkey' );
+				$this->display();
+				return 'output';
+			} else {
+				$this->setVar( '_LocalSettingsLocked', false );
+				return 'continue';
+			}
+		}
+	}
+
+	/**
+	 * Display stuff to the end user
+	 */
+	private function display() {
+		$this->startForm();
+		$this->parent->showStatusBox( $this->status );
+		if( $this->status->isOK() && !$this->status->isGood() ) {
+			$this->addHTML( "<br />" .
+				$this->parent->getTextBox( array(
+					'var' => 'wpUpgradeKey',
+					'label' => 'config-localsettings-key',
+				) )
+			);
+		}
+		$this->endForm();
+	}
 }
 
 class WebInstaller_Language extends WebInstallerPage {
@@ -137,6 +197,7 @@ class WebInstaller_Language extends WebInstallerPage {
 				if ( isset( $languages[$contLang] ) ) {
 					$this->setVar( 'wgLanguageCode', $contLang );
 				}
+				$this->setVar( '_ExternalHTTP', $r->getBool( 'config__ExternalHTTP' ) );
 				return 'continue';
 			}
 		} elseif ( $this->parent->showSessionWarning ) {
@@ -154,13 +215,16 @@ class WebInstaller_Language extends WebInstallerPage {
 			$contLang = $this->getVar( 'wgLanguageCode', 'en' );
 		}
 		$this->startForm();
-		$s =
-			Xml::hidden( 'LanguageRequestTime', time() ) .
-			$this->getLanguageSelector( 'UserLang', 'config-your-language', $userLang ) .
-			$this->parent->getHelpBox( 'config-your-language-help' ) .
-			$this->getLanguageSelector( 'ContLang', 'config-wiki-language', $contLang ) .
-			$this->parent->getHelpBox( 'config-wiki-language-help' );
-
+		$s = Html::hidden( 'LanguageRequestTime', time() ) .
+			$this->getLanguageSelector( 'UserLang', 'config-your-language', $userLang, $this->parent->getHelpBox( 'config-your-language-help' ) ) .
+			$this->getLanguageSelector( 'ContLang', 'config-wiki-language', $contLang, $this->parent->getHelpBox( 'config-wiki-language-help' ) ) .
+			$this->parent->getCheckBox(
+				array(
+					'var' => '_ExternalHTTP',
+					'label' => 'config-allow-requests',
+				    'help' => $this->parent->getHelpBox( 'config-allow-requests-help' )
+				)
+			);
 
 		$this->addHTML( $s );
 		$this->endForm();
@@ -197,7 +261,7 @@ class WebInstaller_Welcome extends WebInstallerPage {
 		$this->parent->output->addWikiText( wfMsgNoTrans( 'config-welcome' ) );
 		$status = $this->parent->doEnvironmentChecks();
 		if ( $status ) {
-			$this->parent->output->addWikiText( wfMsgNoTrans( 'config-copyright', 
+			$this->parent->output->addWikiText( wfMsgNoTrans( 'config-copyright',
 				SpecialVersion::getCopyrightAndAuthorList() ) );
 			$this->startForm();
 			$this->endForm();
@@ -229,7 +293,7 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 		$dbSupport = '';
 		foreach( $this->parent->getDBTypes() as $type ) {
 			$db = 'Database' . ucfirst( $type );
-			$dbSupport .= wfMsgNoTrans( "config-support-$type", 
+			$dbSupport .= wfMsgNoTrans( "config-support-$type",
 				call_user_func( array( $db, 'getSoftwareLink' ) ) ) . "\n";
 		}
 		$this->addHTML( $this->parent->getInfoBox(
@@ -398,22 +462,23 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->parent->getTextBox( array(
 				'var' => 'wgSitename',
 				'label' => 'config-site-name',
+			  'help' => $this->parent->getHelpBox( 'config-site-name-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-site-name-help' ) .
 			$this->parent->getRadioSet( array(
 				'var' => '_NamespaceType',
 				'label' => 'config-project-namespace',
 				'itemLabelPrefix' => 'config-ns-',
 				'values' => array( 'site-name', 'generic', 'other' ),
 				'commonAttribs' => array( 'class' => 'enableForOther', 'rel' => 'config_wgMetaNamespace' ),
+				'help' => $this->parent->getHelpBox( 'config-project-namespace-help' )
 			) ) .
 			$this->parent->getTextBox( array(
 				'var' => 'wgMetaNamespace',
 				'label' => '',
 				'attribs' => array( 'disabled' => '' ),
+			    
 			) ) .
-			$this->parent->getHelpBox( 'config-project-namespace-help' ) .
-			$this->parent->getFieldsetStart( 'config-admin-box' ) .
+			$this->getFieldSetStart( 'config-admin-box' ) .
 			$this->parent->getTextBox( array(
 				'var' => '_AdminName',
 				'label' => 'config-admin-name'
@@ -421,23 +486,23 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->parent->getPasswordBox( array(
 				'var' => '_AdminPassword',
 				'label' => 'config-admin-password',
+			    'help' => $this->parent->getHelpBox( 'config-admin-help' )
 			) ) .
 			$this->parent->getPasswordBox( array(
 				'var' => '_AdminPassword2',
 				'label' => 'config-admin-password-confirm'
 			) ) .
-			$this->parent->getHelpBox( 'config-admin-help' ) .
 			$this->parent->getTextBox( array(
 				'var' => '_AdminEmail',
-				'label' => 'config-admin-email'
+				'label' => 'config-admin-email',
+			    'help' => $this->parent->getHelpBox( 'config-admin-email-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-admin-email-help' ) .
 			$this->parent->getCheckBox( array(
 				'var' => '_Subscribe',
-				'label' => 'config-subscribe'
+				'label' => 'config-subscribe',
+			    'help' => $this->parent->getHelpBox( 'config-subscribe-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-subscribe-help' ) .
-			$this->parent->getFieldsetEnd() .
+			$this->getFieldSetEnd() .
 			$this->parent->getInfoBox( wfMsg( 'config-almost-done' ) ) .
 			$this->parent->getRadioSet( array(
 				'var' => '_SkipOptional',
@@ -518,9 +583,12 @@ class WebInstaller_Name extends WebInstallerPage {
 
 		// Validate password
 		$msg = false;
+		$valid = false;
 		$pwd = $this->getVar( '_AdminPassword' );
 		$user = User::newFromName( $cname );
-		$valid = $user->getPasswordValidity( $pwd );
+		if ( ( isset ( $pwd ) ) && ( $user != null ) ) {
+    		$valid = $user->getPasswordValidity( $pwd );
+		}
 		if ( strval( $pwd ) === '' ) {
 			# $user->getPasswordValidity just checks for $wgMinimalPasswordLength.
 			# This message is more specific and helpful.
@@ -578,7 +646,7 @@ class WebInstaller_Options extends WebInstallerPage {
 			$this->parent->getHelpBox( 'config-license-help' ) .
 
 			# E-mail
-			$this->parent->getFieldsetStart( 'config-email-settings' ) .
+			$this->getFieldSetStart( 'config-email-settings' ) .
 			$this->parent->getCheckBox( array(
 				'var' => 'wgEnableEmail',
 				'label' => 'config-enable-email',
@@ -612,13 +680,13 @@ class WebInstaller_Options extends WebInstallerPage {
 			) ) .
 			$this->parent->getHelpBox( 'config-email-auth-help' ) .
 			"</div>" .
-			$this->parent->getFieldsetEnd()
+			$this->getFieldSetEnd()
 		);
 
 		$extensions = $this->parent->findExtensions();
 		
 		if( $extensions ) {
-			$extHtml = $this->parent->getFieldsetStart( 'config-extensions' );
+			$extHtml = $this->getFieldSetStart( 'config-extensions' );
 			
 			foreach( $extensions as $ext ) {
 				$extHtml .= $this->parent->getCheckBox( array(
@@ -628,31 +696,31 @@ class WebInstaller_Options extends WebInstallerPage {
 			}
 			
 			$extHtml .= $this->parent->getHelpBox( 'config-extensions-help' ) .
-				$this->parent->getFieldsetEnd();
+			$this->getFieldSetEnd();
 			$this->addHTML( $extHtml );
 		}
 
 		$this->addHTML(
 			# Uploading
-			$this->parent->getFieldsetStart( 'config-upload-settings' ) .
-			$this->parent->getCheckBox( array( 
+			$this->getFieldSetStart( 'config-upload-settings' ) .
+			$this->parent->getCheckBox( array(
 				'var' => 'wgEnableUploads',
 				'label' => 'config-upload-enable',
 				'attribs' => array( 'class' => 'showHideRadio', 'rel' => 'uploadwrapper' ),
+			    'help' => $this->parent->getHelpBox( 'config-upload-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-upload-help' ) .
 			'<div id="uploadwrapper" style="display: none;">' .
-			$this->parent->getTextBox( array( 
+			$this->parent->getTextBox( array(
 				'var' => 'wgDeletedDirectory',
 				'label' => 'config-upload-deleted',
+			    'help' => $this->parent->getHelpBox( 'config-upload-deleted-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-upload-deleted-help' ) .
 			'</div>' .
 			$this->parent->getTextBox( array(
 				'var' => 'wgLogo',
-				'label' => 'config-logo'
-			) ) .
-			$this->parent->getHelpBox( 'config-logo-help' )
+				'label' => 'config-logo',
+			    'help' => $this->parent->getHelpBox( 'config-logo-help' )
+			) )
 		);
 		$canUse = $this->getVar( '_ExternalHTTP' ) ?
 			'config-instantcommons-good' : 'config-instantcommons-bad';
@@ -660,9 +728,9 @@ class WebInstaller_Options extends WebInstallerPage {
 			$this->parent->getCheckBox( array(
 				'var' => 'wgUseInstantCommons',
 				'label' => 'config-instantcommons',
+			    'help' => $this->parent->getHelpBox( 'config-instantcommons-help', wfMsgNoTrans( $canUse ) )
 			) ) .
-			$this->parent->getHelpBox( 'config-instantcommons-help', wfMsgNoTrans( $canUse ) ) .
-			$this->parent->getFieldsetEnd()
+			$this->getFieldSetEnd()
 		);
 
 		$caches = array( 'none' );
@@ -673,7 +741,7 @@ class WebInstaller_Options extends WebInstallerPage {
 
 		$this->addHTML(
 			# Advanced settings
-			$this->parent->getFieldsetStart( 'config-advanced-settings' ) .
+			$this->getFieldSetStart( 'config-advanced-settings' ) .
 			# Object cache settings
 			$this->parent->getRadioSet( array(
 				'var' => 'wgMainCacheType',
@@ -687,9 +755,10 @@ class WebInstaller_Options extends WebInstallerPage {
 			$this->parent->getTextBox( array(
 				'var' => '_MemCachedServers',
 				'label' => 'config-memcached-servers',
+				'help' => $this->parent->getHelpBox( 'config-memcached-help' )
 			) ) .
-			$this->parent->getHelpBox( 'config-memcached-help' ) . '</div>' .
-			$this->parent->getFieldsetEnd()
+			'</div>' .
+			$this->getFieldSetEnd()
 		);
 		$this->endForm();
 	}

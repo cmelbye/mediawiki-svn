@@ -192,7 +192,7 @@ class Skin extends Linker {
 	}
 
 	function initPage( OutputPage $out ) {
-		global $wgFavicon, $wgAppleTouchIcon;
+		global $wgFavicon, $wgAppleTouchIcon, $wgEnableAPI;
 
 		wfProfileIn( __METHOD__ );
 
@@ -215,6 +215,18 @@ class Skin extends Linker {
 			'href' => wfScript( 'opensearch_desc' ),
 			'title' => wfMsgForContent( 'opensearch-desc' ),
 		) );
+
+		if ( $wgEnableAPI ) {
+			# Real Simple Discovery link, provides auto-discovery information
+			# for the MediaWiki API (and potentially additional custom API
+			# support such as WordPress or Twitter-compatible APIs for a
+			# blogging extension, etc)
+			$out->addLink( array(
+				'rel' => 'EditURI',
+				'type' => 'application/rsd+xml',
+				'href' => wfExpandUrl( wfAppendQuery( wfScript( 'api' ), array( 'action' => 'rsd' ) ) ),
+			) );
+		}
 
 		$this->addMetadataLinks( $out );
 
@@ -249,12 +261,23 @@ class Skin extends Linker {
 	}
 
 	/**
-	 * Adds metadata links (Creative Commons/Dublin Core/copyright) to the HTML
-	 * output.
+	 * Adds metadata links below to the HTML output.
+	 * <ol>
+	 *  <li>Creative Commons
+	 *   <br />See http://wiki.creativecommons.org/Extend_Metadata.
+	 *  </li>
+	 *  <li>Dublin Core</li>
+	 *  <li>Use hreflang to specify canonical and alternate links
+	 *   <br />See http://www.google.com/support/webmasters/bin/answer.py?answer=189077
+	 *  </li>
+	 *  <li>Copyright</li>
+	 * <ol>
+	 * 
 	 * @param $out Object: instance of OutputPage
 	 */
 	function addMetadataLinks( OutputPage $out ) {
 		global $wgEnableDublinCoreRdf, $wgEnableCreativeCommonsRdf;
+		global $wgDisableLangConversion, $wgCanonicalLanguageLinks, $wgContLang;
 		global $wgRightsPage, $wgRightsUrl;
 
 		if ( $out->isArticleRelated() ) {
@@ -275,6 +298,29 @@ class Skin extends Linker {
 				);
 			}
 		}
+
+		if ( !$wgDisableLangConversion && $wgCanonicalLanguageLinks
+			&& $wgContLang->hasVariants() ) {
+
+			$urlvar = $wgContLang->getURLVariant();
+
+			if ( !$urlvar ) {
+				$variants = $wgContLang->getVariants();
+				foreach ( $variants as $_v ) {
+					$out->addLink( array(
+						'rel' => 'alternate',
+						'hreflang' => $_v,
+						'href' => $this->mTitle->getLocalURL( '', $_v ) )
+					);
+				}
+			} else {
+				$out->addLink( array(
+					'rel' => 'canonical',
+					'href' => $this->mTitle->getFullURL() )
+				);
+			}
+		}
+		
 		$copyright = '';
 		if ( $wgRightsPage ) {
 			$copy = Title::newFromText( $wgRightsPage );
@@ -485,17 +531,11 @@ class Skin extends Linker {
 	 */
 	function setupUserCss( OutputPage $out ) {
 		global $wgRequest;
-		global $wgUseSiteCss, $wgAllowUserCss, $wgAllowUserCssPrefs, $wgSquidMaxage;
+		global $wgUseSiteCss, $wgAllowUserCss, $wgAllowUserCssPrefs;
 
 		wfProfileIn( __METHOD__ );
 
 		$this->setupSkinUserCss( $out );
-
-		$siteargs = array(
-			'action' => 'raw',
-			'maxage' => $wgSquidMaxage,
-		);
-
 		// Add any extension CSS
 		foreach ( $out->getExtStyle() as $url ) {
 			$out->addStyle( $url );

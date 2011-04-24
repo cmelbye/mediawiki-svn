@@ -75,6 +75,7 @@ $messages = array(
 'tog-watchdefault'            => 'Aciungi is pàginas chi apo acontzadu a sa watchlist mea',
 'tog-watchmoves'              => 'Aciungi is pàginas chi apo mòvidu a sa watchlist mea',
 'tog-watchdeletion'           => 'Aciungi is pàginas chi apo fuliadu a sa watchlist mea',
+'tog-minordefault'            => 'Signa totu is acontzos comente minores pro difetu',
 'tog-previewontop'            => "Ammustra s'antiprima a subra sa casella de acontzu e no a suta",
 'tog-previewonfirst'          => "Ammustra s'antiprima pro su primu acontzu",
 'tog-nocache'                 => "Disativa sa ''cache'' pro is pàginas de su ''browser''",
@@ -556,7 +557,7 @@ Pro praxere abbàida si boles creare/acontzare custa pàgina.',
 S'àrea de testu de susu cuntènnet su testu de sa pàgina in sa forma atuale.
 Is mudàntzias tuas sunt ammustradas in s'àrea de testu de bàsciu.
 As a dèper insertare is mudàntzias tuas in su testu atuale, e pro custu a ddas scrìer in s'àrea de susu.
-'''Solu''' su testu in s'àrea de susu at a èsser sarbadu si carcas su butone \"Sarba sa pàgina\".",
+'''Solu''' su testu in s'àrea de susu at a èsser sarbadu si carcas su butone \"{{int:savearticle}}\".",
 'yourtext'                         => 'Su testu tuo',
 'storedversion'                    => 'Revisione in arkìvio',
 'editingold'                       => "'''ATENTZIONE: Ses acontzende una revisione non-agiornada de sa pàgina.'''

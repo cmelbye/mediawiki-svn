@@ -173,6 +173,7 @@ $messages = array(
 'tog-watchdefault'            => 'Tambahkan laman yang saya sunting ke dalam senarai pantau',
 'tog-watchmoves'              => 'Tambahkan laman yang saya pindahkan ke dalam senarai pantau',
 'tog-watchdeletion'           => 'Tambahkan laman yang saya hapuskan ke dalam senarai pantau',
+'tog-minordefault'            => 'Tandakan suntingan kecil secara lalai',
 'tog-previewontop'            => 'Tunjukkan pratonton di atas kotak sunting',
 'tog-previewonfirst'          => 'Tunjukkan pratonton pada suntingan pertama',
 'tog-nocache'                 => 'Lumpuhkan pengagregatan laman',
@@ -786,12 +787,11 @@ Hal ini kadangkala berlaku apabila anda menggunakan khidmat proksi tanpa nama be
 'editingsection'                   => 'Menyunting $1 (bahagian)',
 'editingcomment'                   => 'Menyunting $1 (bahagian baru)',
 'editconflict'                     => 'Percanggahan penyuntingan: $1',
-'explainconflict'                  => 'Pengguna lain telah menyunting laman ini ketika anda sedang menyuntingnya.
+'explainconflict'                  => "Pengguna lain telah menyunting laman ini ketika anda sedang menyuntingnya.
 Kawasan teks di atas mengandungi teks semasa.
 Perubahan anda dipaparkan dalam kawasan teks di bawah.
 Anda perlu menggabungkan perubahan anda dengan teks semasa.
-<b>Hanya</b> teks dalam kawasan teks di atas akan disimpan jika anda menekan
-"Simpan laman".<br />',
+'''Hanya''' teks dalam kawasan teks di atas akan disimpan jika anda menekan \"{{int:savearticle}}\".",
 'yourtext'                         => 'Teks anda',
 'storedversion'                    => 'Versi yang disimpan',
 'nonunicodebrowser'                => "'''AMARAN: Pelayar anda tidak mematuhi Unicode. Aksara-aksara bukan ASCII akan dipaparkan dalam kotak sunting sebagai kod perenambelasan.'''",
@@ -1035,7 +1035,7 @@ Sila lihat juga [[Special:IPBlockList|senarai sekatan IP]] yang sedang berkuatku
 'revmove-norevisions'          => 'Anda tidak menentukan mana-mana semakan atau semakan yang telah ditentukan tidak wujud.',
 'revmove-nullmove-title'       => 'Tajuk tidak sah',
 'revmove-nullmove'             => 'Laman sasaran tidak boleh sama dengan laman sumber.
-Kembali ke laman sebelumnya dan pilih nama yang berbeza daripada "$1".',
+Kembali ke laman sebelumnya dan pilih nama yang berbeza daripada "[[$1]]".',
 'revmove-success-existing'     => '1 {{PLURAL:$1|semakan|semakan}} telah dipindahkan dari ke laman [[$2]] ke laman wujud [[$3]].',
 'revmove-success-created'      => '1 {{PLURAL:$1|semakan|semakan}} telah dipindahkan dari ke laman [[$2]] ke laman baru [[$3]].',
 

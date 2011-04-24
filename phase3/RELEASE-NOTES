@@ -18,6 +18,12 @@ will be made on the development trunk and appear in the next quarterly release.
 Those wishing to use the latest code instead of a branch release can obtain
 it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 
+=== New installer in 1.17 ===
+MediaWiki 1.17 is shipping with a completely redesigned installer to fix
+a lot of outstanding bugs, cleanup the code quality, and make it easier to
+use. Notably, you can now run upgrades from the web without having to move
+LocalSettings.php. The specific bugs are listed below in the general notes.
+
 === Configuration changes in 1.17 ===
 * DatabaseFunctions.php that was needed for compatibility with pre-1.3
   extensions has been removed.
@@ -73,6 +79,11 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
   DatabaseUpdater::addExtensionUpdate().
 * Removed $wgServerName. It doesn't need to be set anymore and is no longer 
   available as input for other configuration items, either.
+* (bug 198) $wgUpgradeKey allows unlocking the web installer for upgrades
+  without having to move LocalSettings.php
+* The FailFunction "error handling" method has now been removed
+* $wgAdditionalMailParams added to allow setting extra options to mail() calls.
+* $wgSecureLogin & $wgSecureLoginStickHTTPS to optionaly login using HTTPS
 
 === New features in 1.17 ===
 * (bug 10183) Users can now add personal styles and scripts to all skins via
@@ -106,7 +117,6 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 20976) "searchmenu-new-nocreate" message now displayed when when there
   is no title match in search and the user has no rights to create pages.
 * (bug 23429) Added new hook WatchlistEditorBuildRemoveLine.
-* (bug 18488) Added maintenance script refreshCategoryCounts.php
 * (bug 22844) Added support for WinCache object caching.
 * (bug 23580) Add two new events to LivePreview so that scripts can be
   notified about the beginning and finishing of LivePreview actions.
@@ -140,9 +150,6 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
   {{DISPLAYTITLE}}
 * (bug 24045) MediaWiki:Ipb-needreblock is now wrapped in a div with class
   "mw-ipb-needreblock"
-* (bug 24313) The preference to mark edits minor by default was removed,
-  because it encourages edits to be marked minor accidentally and it can be
-  easily replicated by custom user scripts for those who really want it.
 * Non-file pages can no longer be moved to the file namespace, nor vice versa.
 * (bug 671) The <dfn>, <kbd> and <samp> elements have been whitelisted in user
   input
@@ -174,11 +181,22 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
   limit for IP addresses: [[MediaWiki:Ratelimit-excluded-ips]]
 * Special:Version now displays whether a SQLite database supports full-text
   search.
-* (bug 24343) New parser hook {{linkurl:}}, same as {{localurl:}} with fragment
 * TS_ISO_8691_BASIC was added as a time format, which is used by ResourceLoader
   for versioning
 * Maintenance scripts get a --memory-limit option to override defaults (which
   is usually to set it to -1 to disable the limit)
+* (bug 25397) Allow uploading (not displaying) of WebP images, disabled by default
+* (bug 23194) Special:ListFiles now has thumbnails
+* Use hreflang to specify canonical and alternate links, search engine friendly
+  when a wiki has multiple variant languages.
+* (bug 19593) Specifying --server in now works for all maintenance scripts
+* Now rebuildtextindex.php warns if SQLite doesn't support full-text search.
+* (bug 10541) Front/backend separation of installation/upgrade code
+* (bug 10596) Allow installer to enable extensions already in extensions folder
+* (bug 17394) Make installer check for latest version against MediaWiki.org
+* (bug 20627) Installer should be in languages other than English
+* Support for metadata in SVG files (title, description).
+* Special:Search: Add CSS classes to 'none found' and 'create link' messages
 
 === Bug fixes in 1.17 ===
 * (bug 17560) Half-broken deletion moved image files to deletion archive
@@ -355,6 +373,26 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 25167) Correctly load JS fixes for IE6 (fixing a regression in 1.16)
 * (bug 25367) wfShellExec() is more explicit when failing due to disabled
   passthru()
+* action=raw was removed for Special:Statistics. This information is still
+  available via the API
+* (bug 23934) Groups defined in $wgRevokePermissions but not in
+  $wgGroupPermissions now appear on Special:ListGroupRights
+* (bug 23923) Special:Prefixindex no longer shows results if nothing was
+  requested.
+* (bug 22308) Search now finds text in default main page immediately after setup
+* (bug 25697) Make sure empty lines render in diff view.
+* Use an actual minus sign in diff views, instead of a hyphen.
+* (bug 23732) Clarified "n links" message on Special:MostLinkedFiles
+* (bug 23731) Clarified "n links" message on Special:MostLinkedTemplates
+* (bug 25642) A exception is now thrown instead of a fatal error when using
+  $wgSMTP without PEAR mail package
+* (bug 19633) When possible, Upscale small SVGs when creating thumbnails.
+* (bug 25725) Unwanted linebreaks in diffs.
+* (bug 11013) Database driver detection needs rewriting for robustness
+* (bug 13409) Installer prompts could use clarification--now has help boxes
+* (bug 16902) Installer spews warnings when exec() and dl() are not available
+* (bug 19129) Only show MyISAM/InnoDB when supported
+* (bug 17762) Only show other e-mail options when e-mail is globally enabled
 
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.
@@ -429,6 +467,22 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 25248) API: paraminfo errors with certain modules
 * (bug 24792) API help for action=purge sometimes wrongly stated whether a
   POST request was needed due to cache pollution
+* Added iiprop=parsedcomment to prop=imageinfo, similar to prop=revisions
+* Added rvparse to parse revisions. For performance reasons if this option is 
+  used, rvlimit is enforced to 1.
+* (bug 25748) If a action=parse request provides an oldid that is actually the
+  current revision id, try the parser cache, and save it to it if necessary
+* (bug 25463) Export header should not be shown if no pages were requested, to
+  reduce confusion
+* (bug 25648) API discovery information has been added as RSD link in page 
+  <head> and by providing an API module action=rsd. Added hook 
+  ApiRsdServiceApis for extensions to add their own service to the services 
+  list.
+* The HTML of diff output markers has changed. Hyphens are now minus signs, 
+  empty markers are now filled with non-breaking-space characters
+* (bug 25741) Add more data to list=search's srprop
+* (bug 25760) counter property still reported by the API when
+  $wgDisableCounters enabled
 
 === Languages updated in 1.17 ===
 
@@ -455,6 +509,7 @@ changes to languages because of Bugzilla reports.
 * (bug 24628) Generic translations for NS_USER/NS_USER_TALK for Esperanto.
 * (bug 24917) Polish as fallback for Kashubia.
 * (bug 24794) Tatar link trail updated.
+* Esperanto date format corrected.
 
 == Compatibility ==
 

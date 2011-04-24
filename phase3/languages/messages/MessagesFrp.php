@@ -320,6 +320,7 @@ $messages = array(
 'tog-watchdefault'            => 'Apondre les pâges que chanjo a ma lista de survelyence',
 'tog-watchmoves'              => 'Apondre les pâges que renomo a ma lista de survelyence',
 'tog-watchdeletion'           => 'Apondre les pâges que suprimo a ma lista de survelyence',
+'tog-minordefault'            => 'Marcar per dèfôt mos changements coment petiôts',
 'tog-previewontop'            => 'Montrar la prèvisualisacion en-dessus de la bouèta d’èdicion',
 'tog-previewonfirst'          => 'Montrar la prèvisualisacion pendent la premiére èdicion',
 'tog-nocache'                 => 'Dèsactivar lo cache de les pâges per lo navigator',
@@ -970,7 +971,7 @@ Ceti problèmo arreve quand vos utilisâd un sèrvor mandatèro (''proxy'') anon
 La bouèta d’èdicion de d’amont contint lo tèxto coment il est encartâ ora dens la bâsa de balyês.
 Voutros changements aparèssont dens la bouèta d’èdicion de desot.
 Vos voléd devêr fusionar voutros changements dens lo tèxto ègzistent.
-'''Solament''' lo tèxto de la bouèta de d’amont serat sôvâ quand vos cliqueréd dessus « Sôvar ceta pâge ».",
+'''Solament''' lo tèxto de la bouèta de d’amont serat sôvâ quand vos cliqueréd dessus « {{int:savearticle}} ».",
 'yourtext'                         => 'Voutron tèxto',
 'storedversion'                    => 'Vèrsion encartâ',
 'nonunicodebrowser'                => "'''ATENCION : voutron navigator recognêt pas l’Unicode.'''
@@ -1223,7 +1224,7 @@ Volyéd clicar dessus « Devant » et pués tornâd èprovar.',
 'revmove-norevisions'          => 'Vos éd pas spècefiâ yona ou ben un mouél de vèrsions cibes por fâre cela fonccionalitât ou ben la vèrsion spècefiâ ègziste pas.',
 'revmove-nullmove-title'       => 'Crouyo titro',
 'revmove-nullmove'             => 'Les pâges sôrsa et ciba sont pariéres.
-Volyéd clicar dessus « Devant » et pués buchiéd un nom de pâge difèrent de « $1 ».',
+Volyéd clicar dessus « Devant » et pués buchiéd un nom de pâge difèrent de « [[$1]] ».',
 'revmove-success-existing'     => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge ègzistenta [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Yona vèrsion de [[$2]] at étâ dèplaciê|$1 vèrsions de [[$2]] ont étâ dèplaciês}} vers la pâge [[$3]] novèlament fêta.',
 
@@ -1937,7 +1938,7 @@ La dèscripcion de sa [$2 pâge de dèscripcion] est montrâ ce-desot.',
 ** Violacion du drêt d’ôtor
 ** Fichiér en doblo',
 'filedelete-edit-reasonlist'  => 'Changiér les rêsons de suprèssion',
-'filedelete-maintenance'      => 'La suprèssion et la rèstoracion de fichiérs est temporèrament dèsactivâ pendent la mantegnence.',
+'filedelete-maintenance'      => 'La suprèssion et la rèstoracion de fichiérs est dèsactivâ temporèrament pendent la mantegnence.',
 
 # MIME search
 'mimesearch'         => 'Rechèrche per tipo de contegnu MIME',

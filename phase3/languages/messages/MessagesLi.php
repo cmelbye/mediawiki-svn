@@ -174,6 +174,7 @@ $messages = array(
 'tog-watchdefault'            => "Voog pazjena's die se bewirks toe aan dien volglies",
 'tog-watchmoves'              => "Pazjena's die ich verplaats automatisch volge",
 'tog-watchdeletion'           => "Pazjena's die ich ewegsjaf automatisch volge",
+'tog-minordefault'            => 'Markeer sjtanderd alle bewirkinge es klein',
 'tog-previewontop'            => 'Veurvertuin baove bewèrkingsveld tuine',
 'tog-previewonfirst'          => 'Preview laote zien bie de ierste bewirking',
 'tog-nocache'                 => 'Zèt de browserpazjenacaching oet',
@@ -781,7 +782,7 @@ Probeer 't opnieuw. Als 't dan nog neet lukt, meldt dich dan aaf en weer aan.'''
 'explainconflict'                  => "Emes angers haet dees pagina verangerd naodats doe aan dees bewirking bis begós.
 't Ierste teksveld tuint de hujige versie van de pagina.
 De mós dien eige verangeringe dao-in inpasse.
-'''Allein''' d'n tèks in 't ierste teksveld weurt opgesjlage es te noe op \"Pagina opsjlaon\" duujs.",
+'''Allein''' d'n tèks in 't ierste teksveld weurt opgesjlage es te noe op \"{{int:savearticle}}\" duujs.",
 'yourtext'                         => 'Euren teks',
 'storedversion'                    => 'Opgesjlage versie',
 'nonunicodebrowser'                => "'''WAARSJUWING: Diene browser is voldit neet aan de unicode sjtandaarde, gebroek estebleef inne angere browser veurdas e artikele gis bewirke.'''",
@@ -1024,7 +1025,7 @@ Klik "Trök" en probeer t opnuuj.',
 'revmove-norevisions'          => 'De hes gein versies aangegaeve om dees handeling op oet te veuren of de aangegaeve versie besteit nit.',
 'revmove-nullmove-title'       => 'Óngeljige pazjenatitel',
 'revmove-nullmove'             => 'De bronpagina en doelpagina zeen tzelfde.
-Klik "Trök" en gaef n anger pagina dan "$1" op.',
+Klik "Trök" en gaef n anger pagina dan "[[$1]]" op.',
 'revmove-success-existing'     => "{{PLURAL:$1|'n Versie van [[$2]] is|$1 versies van [[$2]] zeen}} verplaats nao de aldao [[$3]].",
 'revmove-success-created'      => "{{PLURAL:$1|'n Versie van [[$2]] is|$1 versies van [[$2]] zeen}} verplaats nao [[$3]].",
 

@@ -33,6 +33,7 @@ $messages = array(
 'tog-watchdefault'            => "Vehilal las páhinas qu'eiti",
 'tog-watchmoves'              => 'Vehilal las páhinas que rellami',
 'tog-watchdeletion'           => "Vehilal las páhinas qu'esborri",
+'tog-minordefault'            => 'Aseñalal tolas eicionis cumu chiqueninas pol defeutu',
 'tog-previewontop'            => "Previsoreal sobri la caha d'eición, i nu embahu",
 'tog-previewonfirst'          => 'Previsoreal ena primera eición',
 'tog-nocache'                 => 'Desatival "caché" enas páhinas',
@@ -595,7 +596,7 @@ Esti pobrema se dá angunas vezis si estás gastandu un proxy anónimu basau en 
 El cuairu e testu superiol endica el testu que desisti atualmenti ena páhina.
 Los tus chambus se muestran nel cuairu e testu inferiol.
 Pa emburacal los tus chambus, ebis tresladalus al cuairu superiol.
-'''Solu''' s'emburacará el testu el cuairu superiol cuandu pursis \"Emburacal páhina\".",
+'''Solu''' s'emburacará el testu el cuairu superiol cuandu pursis \"{{int:savearticle}}\".",
 'yourtext'                         => 'El tu testu',
 'storedversion'                    => 'Velsión emburacá',
 'nonunicodebrowser'                => "'''Atención: El tu escrucaol nu cumpri la norma Unicode. S'á ativau un sistema d'eición alternativu que te premitirá eital artículus con seguráncia, inque los carateris que nu seyan ASCII apaicirán nel cuairu d'eición cumu cóigus esadecimalis.'''",

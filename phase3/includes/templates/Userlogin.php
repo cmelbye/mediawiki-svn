@@ -67,7 +67,7 @@ class UserloginTemplate extends QuickTemplate {
 
 			</td>
 		</tr>
-	<?php if( $this->data['usedomain'] ) {
+	<?php if( isset( $this->data['usedomain'] ) && $this->data['usedomain'] ) {
 		$doms = "";
 		foreach( $this->data['domainnames'] as $dom ) {
 			$doms .= "<option>" . htmlspecialchars( $dom ) . "</option>";
@@ -83,6 +83,11 @@ class UserloginTemplate extends QuickTemplate {
 			</td>
 		</tr>
 	<?php }
+
+	if( $this->haveData( 'extrafields' ) ) {
+		echo $this->data['extrafields'];
+	}
+
 	if( $this->data['canremember'] ) { ?>
 		<tr>
 			<td></td>
@@ -94,9 +99,25 @@ class UserloginTemplate extends QuickTemplate {
 					'wpRemember',
 					'wpRemember',
 					$this->data['remember'],
-					array( 'tabindex' => '4' )
+					array( 'tabindex' => '8' )
 				)
 				?>
+			</td>
+		</tr>
+<?php } ?>
+<?php if( $this->data['cansecurelogin'] ) { ?>
+		<tr>
+			<td></td>
+			<td class="mw-input">
+			<?php
+			echo Xml::checkLabel(
+				wfMsg( 'securelogin-stick-https' ),
+				'wpStickHTTPS',
+				'wpStickHTTPS',
+				$this->data['stickHTTPS'],
+				array( 'tabindex' => '9' )
+			);
+		?>
 			</td>
 		</tr>
 <?php } ?>
@@ -106,13 +127,13 @@ class UserloginTemplate extends QuickTemplate {
 				<?php
 		echo Html::input( 'wpLoginAttempt', wfMsg( 'login' ), 'submit', array(
 			'id' => 'wpLoginAttempt',
-			'tabindex' => '5'
+			'tabindex' => '9'
 		) );
 		if ( $this->data['useemail'] && $this->data['canreset'] ) {
 			echo '&#160;';
 			echo Html::input( 'wpMailmypassword', wfMsg( 'mailmypassword' ), 'submit', array(
 				'id' => 'wpMailmypassword',
-				'tabindex' => '6'
+				'tabindex' => '10'
 			) );
 		} ?>
 

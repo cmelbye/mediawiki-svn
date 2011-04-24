@@ -150,6 +150,7 @@ $messages = array(
 'tog-watchdefault'            => 'Adder le paginas que io modifica a mi observatorio',
 'tog-watchmoves'              => 'Adder le paginas que io renomina a mi observatorio',
 'tog-watchdeletion'           => 'Adder le paginas que io dele a mi observatorio',
+'tog-minordefault'            => 'Marcar omne modificationes initialmente como minor',
 'tog-previewontop'            => 'Monstrar previsualisation ante le quadro de modification',
 'tog-previewonfirst'          => 'Monstrar previsualisation al prime modification',
 'tog-nocache'                 => "Disactivar le ''cache'' de paginas in le navigator",
@@ -366,7 +367,7 @@ Per favor attende un momento ante que tu essaya acceder novemente a iste pagina.
 
 $1',
 'pool-timeout'      => 'Tempore limite excedite attendente le serratura',
-'pool-queuefull'    => 'Le cauda de ressources commun es plen',
+'pool-queuefull'    => 'Le cauda commun de processos es plen',
 'pool-errorunknown' => 'Error incognite',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -491,7 +492,7 @@ Per favor reporta isto a un [[Special:ListUsers/sysop|administrator]], faciente 
 'cannotdelete'         => 'Le pagina o file "$1" non poteva esser delite.
 Es possibile que un altere persona lo ha ja delite.',
 'badtitle'             => 'Titulo invalide',
-'badtitletext'         => 'Le titulo de pagina requestate esseva invalide, vacue, o un titulo interlingual o interwiki incorrectemente ligate.
+'badtitletext'         => 'Le titulo de pagina requestate es invalide, vacue, o un titulo interlingual o interwiki incorrectemente ligate.
 Es possibile que illo contine un o plure characteres que non pote esser usate in titulos.',
 'perfcached'           => 'Le sequente datos se recuperava del cache e possibilemente non es actual.',
 'perfcachedts'         => 'Le sequente datos se recuperava del cache. Ultime actualisation: le $1.',
@@ -536,6 +537,7 @@ Non oblida personalisar tu [[Special:Preferences|preferentias in {{SITENAME}}]].
 'yourpassword'               => 'Contrasigno:',
 'yourpasswordagain'          => 'Repete contrasigno:',
 'remembermypassword'         => 'Memorar mi contrasigno in iste navigator (pro un maximo de $1 {{PLURAL:$1|die|dies}})',
+'securelogin-stick-https'    => 'Remaner connectite via HTTPS post apertura de session',
 'yourdomainname'             => 'Tu dominio:',
 'externaldberror'            => 'O il occurreva un error in le base de datos de authentication, o tu non ha le autorisation de actualisar tu conto externe.',
 'login'                      => 'Aperir session',
@@ -550,7 +552,7 @@ Non oblida personalisar tu [[Special:Preferences|preferentias in {{SITENAME}}]].
 'nologinlink'                => 'Crear un conto',
 'createaccount'              => 'Crear conto',
 'gotaccount'                 => "Tu jam ha un conto? '''$1'''.",
-'gotaccountlink'             => 'Aperi un session',
+'gotaccountlink'             => 'Aperir session',
 'createaccountmail'          => 'per e-mail',
 'createaccountreason'        => 'Motivo:',
 'badretype'                  => 'Le duo contrasignos que tu scribeva non es identic.',
@@ -579,6 +581,7 @@ Verifica le orthographia.',
 'wrongpasswordempty'         => 'Tu non entrava un contrasigno. Per favor reprova.',
 'passwordtooshort'           => 'Le contrasignos debe continer al minus {{PLURAL:$1|1 character|$1 characteres}}.',
 'password-name-match'        => 'Tu contrasigno debe esser differente de tu nomine de usator.',
+'password-too-weak'          => 'Le contrasigno fornite es troppo debile e non pote esser usate.',
 'mailmypassword'             => 'Inviar un nove contrasigno in e-mail',
 'passwordremindertitle'      => 'Nove contrasigno temporari pro {{SITENAME}}',
 'passwordremindertext'       => 'Alcuno (probabilemente tu, ab le adresse IP $1) requestava un nove
@@ -799,8 +802,7 @@ ha comenciate a modificar lo.
 Le area de texto superior contine le texto del pagina como illo existe actualmente.
 Tu modificationes se monstra in le area de texto inferior.
 Tu debera incorporar tu modificationes in le texto existente.
-'''Solmente''' le texto del area superior essera publicate
-quando tu clicca super \"Publicar articulo\".",
+'''Solmente''' le texto del area superior essera publicate quando tu clicca super \"{{int:savearticle}}\".",
 'yourtext'                         => 'Tu texto',
 'storedversion'                    => 'Version immagazinate',
 'nonunicodebrowser'                => "'''Attention: Tu utilisa un navigator non compatibile con le characteres Unicode.'''
@@ -1049,7 +1051,7 @@ Vide le [[Special:IPBlockList|lista de blocadas IP]] pro le lista de bannimentos
 'revmove-norevisions-title'    => 'Le version de destination es invalide',
 'revmove-norevisions'          => 'Tu non ha specificate un o plus versiones de destination pro executar iste function o le version specificate non existe.',
 'revmove-nullmove-title'       => 'Titulo invalide',
-'revmove-nullmove'             => 'Le paginas de origine e de destination es identic. Per favor preme "retro" e entra un nomine de pagina differente de "$1".',
+'revmove-nullmove'             => 'Le paginas de origine e de destination es identic. Per favor preme "retro" e entra un nomine de pagina differente de "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al pagina existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Un version|$1 versiones}} de [[$2]] ha essite displaciate al nove pagina [[$3]].',
 
@@ -1683,6 +1685,7 @@ Tu pote reordinar le lista con un clic super le titulo de un columna.',
 'listfiles_search_for'  => 'Cercar un nomine de media:',
 'imgfile'               => 'file',
 'listfiles'             => 'Lista de files',
+'listfiles_thumb'       => 'Miniatura',
 'listfiles_date'        => 'Data',
 'listfiles_name'        => 'Nomine',
 'listfiles_user'        => 'Usator',
@@ -1835,6 +1838,8 @@ Le entratas <del>cancellate</del> ha essite resolvite.',
 'nmembers'                => '$1 {{PLURAL:$1|membro|membros}}',
 'nrevisions'              => '$1 {{PLURAL:$1|version|versiones}}',
 'nviews'                  => '$1 {{PLURAL:$1|visita|visitas}}',
+'nimagelinks'             => 'Usate in $1 {{PLURAL:$1|pagina|paginas}}',
+'ntransclusions'          => 'usate in $1 {{PLURAL:$1|pagina|paginas}}',
 'specialpage-empty'       => 'Il non ha resultatos pro iste reporto.',
 'lonelypages'             => 'Paginas orphanate',
 'lonelypagestext'         => 'Le sequente paginas non es ligate ni transcludite in altere paginas in {{SITENAME}}.',
@@ -1922,7 +1927,7 @@ Pro restringer le presentation, selige un typo de registro, le nomine de usator 
 'allpagesnext'      => 'Sequente',
 'allpagessubmit'    => 'Ir',
 'allpagesprefix'    => 'Monstrar le paginas con prefixo:',
-'allpagesbadtitle'  => 'Le titulo de pagina date esseva invalide o habeva un prefixo interlingual o interwiki.
+'allpagesbadtitle'  => 'Le titulo de pagina date es invalide o ha un prefixo interlingual o interwiki.
 Es possibile que illo contine un o plus characteres que non pote esser usate in titulos.',
 'allpages-bad-ns'   => '{{SITENAME}} non ha un spatio e nomines "$1".',
 

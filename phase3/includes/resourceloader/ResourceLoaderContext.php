@@ -20,8 +20,6 @@
  * @author Roan Kattouw
  */
 
-defined( 'MEDIAWIKI' ) || die( 1 );
-
 /**
  * Object passed around to modules which contains information about the state 
  * of a specific loader request
@@ -49,16 +47,19 @@ class ResourceLoaderContext {
 
 		$this->resourceLoader = $resourceLoader;
 		$this->request = $request;
+
 		// Interpret request
+		// List of modules
 		$modules = $request->getVal( 'modules' );
-		$this->modules = $modules ? explode( '|', $modules ) : array();
-		$this->language = $request->getVal( 'lang' );
+		$this->modules   = $modules ? explode( '|', $modules ) : array();
+		// Various parameters
+		$this->language  = $request->getVal( 'lang' );
 		$this->direction = $request->getVal( 'dir' );
-		$this->skin = $request->getVal( 'skin' );
-		$this->user = $request->getVal( 'user' );
-		$this->debug = $request->getFuzzyBool( 'debug', $wgResourceLoaderDebug );
-		$this->only = $request->getVal( 'only' );
-		$this->version = $request->getVal( 'version' );
+		$this->skin      = $request->getVal( 'skin' );
+		$this->user      = $request->getVal( 'user' );
+		$this->debug     = $request->getFuzzyBool( 'debug', $wgResourceLoaderDebug );
+		$this->only      = $request->getVal( 'only' );
+		$this->version   = $request->getVal( 'version' );
 
 		// Fallback on system defaults
 		if ( !$this->language ) {

@@ -492,7 +492,7 @@ class PageArchive {
 		$revision = null;
 		$restored = 0;
 
-		while( $row = $ret->fetchObject() ) {
+		foreach ( $ret as $row ) {
 			// Check for key dupes due to shitty archive integrity.
 			if( $row->ar_rev_id ) {
 				$exists = $dbw->selectField( 'revision', '1', array('rev_id' => $row->ar_rev_id), __METHOD__ );
@@ -714,7 +714,7 @@ class UndeleteForm extends SpecialPage {
 				'method' => 'get',
 				'action' => $wgScript ) ) .
 			Xml::fieldset( wfMsg( 'undelete-search-box' ) ) .
-			Xml::hidden( 'title',
+			Html::hidden( 'title',
 				$this->getTitle()->getPrefixedDbKey() ) .
 			Xml::inputLabel( wfMsg( 'undelete-search-prefix' ),
 				'prefix', 'prefix', 20,
@@ -1168,8 +1168,8 @@ class UndeleteForm extends SpecialPage {
 
 		if ( $this->mAllowed ) {
 			# Slip in the hidden controls here
-			$misc  = Xml::hidden( 'target', $this->mTarget );
-			$misc .= Xml::hidden( 'wpEditToken', $wgUser->editToken() );
+			$misc  = Html::hidden( 'target', $this->mTarget );
+			$misc .= Html::hidden( 'wpEditToken', $wgUser->editToken() );
 			$misc .= Xml::closeElement( 'form' );
 			$wgOut->addHTML( $misc );
 		}

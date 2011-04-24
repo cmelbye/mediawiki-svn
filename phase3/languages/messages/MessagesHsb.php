@@ -153,6 +153,7 @@ $messages = array(
 'tog-watchdefault'            => 'Strony, kotrež wobdźěłuju, swojim wobkedźbowankam přidać',
 'tog-watchmoves'              => 'Sam přesunjene strony wobkedźbowankam přidać',
 'tog-watchdeletion'           => 'Sam wušmórnjene strony wobkedźbowankam přidać',
+'tog-minordefault'            => 'Wšě změny zwoprědka jako snadne woznamjenić',
 'tog-previewontop'            => 'Přehlad nad wobdźěłanskim polom pokazać',
 'tog-previewonfirst'          => 'Do składowanja přeco přehlad pokazać',
 'tog-nocache'                 => 'Pufrowanje stronow wobhladowaka znjemóžnić',
@@ -743,7 +744,11 @@ Składowanje móže wobsah strony zničić. Móže so to na přikład přez wopa
 'editingsection'                   => 'Wobdźěłanje strony $1 (wotrězk)',
 'editingcomment'                   => '$1 so wobdźěłuje (nowy wotrězk)',
 'editconflict'                     => 'Wobdźěłowanski konflikt: $1',
-'explainconflict'                  => 'Něchtó druhi je stronu změnił w samsnym času, hdyž sy spytał ju wobdźěłować. Hornje tekstowe polo wobsahuje tekst strony kaž tuchwilu eksistuje. Twoje změny so w delnim tekstowym polu pokazuja. Dyrbiš swoje změny do eksistowaceho teksta zadźěłać. <b>Jenož</b> tekst w hornim tekstowym polu so składuje hdyž znowa na „Składować” kliknješ.<br />',
+'explainconflict'                  => "Něchtó druhi je stronu změnił w samsnym času, hdyž sy spytał ju wobdźěłować.
+Hornje tekstowe polo wobsahuje tekst strony kaž tuchwilu eksistuje.
+Twoje změny so w delnim tekstowym polu pokazuja.
+Dyrbiš swoje změny do eksistowaceho teksta zadźěłać.
+'''Jenož''' tekst w hornim tekstowym polu so składuje hdyž znowa na „{{int:savearticle}}” kliknješ.",
 'yourtext'                         => 'Twój tekst',
 'storedversion'                    => 'Składowana wersija',
 'nonunicodebrowser'                => "'''KEDŹBU: Twój wobhladowak z Unikodu kompatibelny njeje. Prošu wužiwaj hinaši wobhladowak.'''",
@@ -978,7 +983,7 @@ Prošu přepruwuj protokole.',
 'revmove-norevisions-title'    => 'Njepłaćiwa cilowa wersija',
 'revmove-norevisions'          => 'Njejsy jednu wersiju abo wjace wersijow podał, zo by tutu funkciju wuwjedł, abo podata wersija njeeksistuje.',
 'revmove-nullmove-title'       => 'Njepłaćiwy titul',
-'revmove-nullmove'             => 'Žórłowa a cilowa strona stej identiskej. Prošu klikń na  "wróćo" a zapodaj druhe mjeno strony hač "$1".',
+'revmove-nullmove'             => 'Žórłowa a cilowa strona stej identiskej. Prošu klikń na  "wróćo" a zapodaj druhe mjeno strony hač "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Jedna wersija je so wot [[$2]]|$1 wersiji stej so wot [[$2]]|$1 wersije su so wot [[$2]]|$1 wersijow je so wot [[$2]]}} do eksistowaceje strony [[$3]] {{PLURAL:$1|přesunyła|přesunyłoj|přesunyli|přesunyło}}.',
 'revmove-success-created'      => '{{PLURAL:$1|Jedna wersija je so wot [[$2]]|$1 wersiji stej so wot [[$2]]|$1 wersije su so wot [[$2]]|$1 wersijow je so wot [[$2]]}} do runje wutworjeneje strony [[$3]] {{PLURAL:$1|přesunyła|přesunyłoj|přesunyli|přesunyło}}.',
 

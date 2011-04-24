@@ -8,7 +8,7 @@
  
 /**
  * Class for setting up the MediaWiki database using Oracle.
- * 
+ *
  * @ingroup Deployment
  * @since 1.17
  */
@@ -28,6 +28,8 @@ class OracleInstaller extends DatabaseInstaller {
 		'_OracleUseSysdba' => true
 	);
 
+	public $minimumVersion = '9.0.1'; // 9iR1
+
 	public function getName() {
 		return 'oracle';
 	}
@@ -45,8 +47,7 @@ class OracleInstaller extends DatabaseInstaller {
 			Xml::element( 'legend', array(), wfMsg( 'config-db-web-account' ) ) .
 			Xml::openElement( 'div', array( 'id' => 'dbOtherAccount' ) ) .
 			$this->getTextBox( 'wgDBuser', 'config-db-username' ) .
-			$this->getPasswordBox( 'wgDBpassword', 'config-db-password' ) .
-			$this->parent->getHelpBox( 'config-db-web-help' ).
+			$this->getPasswordBox( 'wgDBpassword', 'config-db-password', array(), $this->parent->getHelpBox( 'config-db-web-help' ) ) .
 			$this->getCheckBox( '_CreateDBAccount', 'config-db-web-create', array( 'disabled' => true ) ).
 			Xml::closeElement( 'div' ) . Xml::closeElement( 'fieldset' );
 	}
@@ -55,14 +56,12 @@ class OracleInstaller extends DatabaseInstaller {
 		$this->parent->setVar( '_InstallUser', 'sys' );
 		$this->parent->setVar( 'wgDBserver', '' );
 		return
-			$this->getTextBox( 'wgDBserver', 'config-db-host-oracle' ) .
-			$this->parent->getHelpBox( 'config-db-host-oracle-help' ) . 
+			$this->getTextBox( 'wgDBserver', 'config-db-host-oracle', array(), $this->parent->getHelpBox( 'config-db-host-oracle-help' ) ) .
 			Xml::openElement( 'fieldset' ) .
 			Xml::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
 			$this->getTextBox( 'wgDBprefix', 'config-db-prefix' ) .
 			$this->getTextBox( '_OracleDefTS', 'config-oracle-def-ts' ) .
-			$this->getTextBox( '_OracleTempTS', 'config-oracle-temp-ts' ) .
-			$this->parent->getHelpBox( 'config-db-oracle-help' ) .
+			$this->getTextBox( '_OracleTempTS', 'config-oracle-temp-ts', array(), $this->parent->getHelpBox( 'config-db-oracle-help' ) ) .
 			Xml::closeElement( 'fieldset' ) .
 			$this->getInstallUserBox().
 			$this->getWebUserBox();
@@ -100,13 +99,12 @@ class OracleInstaller extends DatabaseInstaller {
 		}
 		$conn = $status->value;
 
-/*
 		// Check version
 		$version = $conn->getServerVersion();
 		if ( version_compare( $version, $this->minimumVersion ) < 0 ) {
-			return Status::newFatal( 'config-mysql-old', $this->minimumVersion, $version );
+			return Status::newFatal( 'config-oracle-old', $this->minimumVersion, $version );
 		}
-*/
+
 		return $status;
 	}
 
@@ -119,7 +117,6 @@ class OracleInstaller extends DatabaseInstaller {
 					$this->getVar( '_InstallUser' ),
 					$this->getVar( '_InstallPassword' ),
 					$this->getVar( 'wgDBname' ),
-					false,
 					DBO_SYSDBA,
 					$this->getVar( 'wgDBprefix' )
 				);
@@ -129,7 +126,6 @@ class OracleInstaller extends DatabaseInstaller {
 					$this->getVar( 'wgDBuser' ),
 					$this->getVar( 'wgDBpassword' ),
 					$this->getVar( 'wgDBname' ),
-					false,
 					0,
 					$this->getVar( 'wgDBprefix' )
 				);
@@ -177,27 +173,38 @@ class OracleInstaller extends DatabaseInstaller {
 		if ( !$status->isOK() ) {
 			return $status;
 		}
-
-		global $_OracleDefTS, $_OracleTempTS;
-		$_OracleDefTS = $this->getVar( '_OracleDefTS' );
-		$_OracleTempTS = $this->getVar( '_OracleTempTS' );
-		$error = $this->db->sourceFile( "$IP/maintenance/oracle/user.sql" );
-		if ( $error !== true || !$this->db->selectDB( $this->getVar( 'wgDBuser' ) ) ) {
-			$status->fatal( 'config-install-user-failed', $this->getVar( 'wgDBuser' ), $error );
+		
+		if ( !$this->db->selectDB( $this->getVar( 'wgDBuser' ) ) ) {
+			global $_OracleDefTS, $_OracleTempTS;
+			$_OracleDefTS = $this->getVar( '_OracleDefTS' );
+			$_OracleTempTS = $this->getVar( '_OracleTempTS' );
+			$error = $this->db->sourceFile( "$IP/maintenance/oracle/user.sql" );
+			if ( $error !== true || !$this->db->selectDB( $this->getVar( 'wgDBuser' ) ) ) {
+				$status->fatal( 'config-install-user-failed', $this->getVar( 'wgDBuser' ), $error );
+			}
 		}
+		
+		return $status;
+	}
+
+	/**
+	 * Overload: after this action field info table has to be rebuilt
+	 */
+	public function createTables() {
+		$status = parent::createTables();
+
+		$this->db->doQuery( 'BEGIN fill_wiki_info; END;' );
 
 		return $status;
 	}
+
 		
 	public function getLocalSettings() {
 		$prefix = $this->getVar( 'wgDBprefix' );
 		return
 "# Oracle specific settings
-\$wgDBprefix         = \"{$prefix}\";";
+\$wgDBprefix         = \"{$prefix}\";
+";
 	}
 
-	public function doUpgrade() {
-		// TODO
-		return false;
-	}
 }

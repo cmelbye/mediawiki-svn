@@ -42,6 +42,7 @@
  * @author Tarawneh
  * @author TheEgyptian
  * @author Uwe a
+ * @author Zanatos
  * @author ترجمان05
  * @author عصام بايزيدي
  * @author عمرو
@@ -445,6 +446,7 @@ $messages = array(
 'tog-watchdefault'            => 'أضف الصفحات التي أعدلها إلى قائمة مراقبتي',
 'tog-watchmoves'              => 'أضف الصفحات التي أنقلها إلى قائمة مراقبتي',
 'tog-watchdeletion'           => 'أضف الصفحات التي أحذفها إلى قائمة مراقبتي',
+'tog-minordefault'            => 'علم كل التعديلات طفيفة افتراضيا',
 'tog-previewontop'            => 'أظهر العرض المسبق قبل صندوق التحرير',
 'tog-previewonfirst'          => 'أظهر معاينة مع أول تعديل',
 'tog-nocache'                 => 'عطّل تخزين المتصفح للصفحة',
@@ -661,6 +663,7 @@ $messages = array(
 من فضلك انتظر قليلا قبل أن تحاول الوصول إلى هذه الصفحة مجددا.
 
 $1',
+'pool-queuefull'    => 'طابور الاقتراع ملئ',
 'pool-errorunknown' => 'خطأ غير معروف',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -1335,7 +1338,7 @@ $1",
 'revmove-norevisions-title'    => 'مراجعة مستهدفة غير صالحة',
 'revmove-norevisions'          => 'لم تحدد مراجعة هدفًا أو أكثر لتنفيذ الدالة أو أن المراجعة المحددة غير موجودة.',
 'revmove-nullmove-title'       => 'عنوان سيء',
-'revmove-nullmove'             => 'الصفحة المصدر والصفحة الهدف متطابقتان. من فضلك انقر "للخلف" وأدخل اسم صفحة غير "$1".',
+'revmove-nullmove'             => 'الصفحة المصدر والصفحة الهدف متطابقتان. من فضلك انقر "للخلف" وأدخل اسم صفحة غير "[[$1]]".',
 'revmove-success-existing'     => 'تم نقل {{PLURAL:$1||مراجعة واحدة|مراجعتين|$1 مراجعات|$1 مراجعة}} من [[$2]] إلى الصفحة الموجودة [[$3]]',
 'revmove-success-created'      => 'تم نقل {{PLURAL:$1||مراجعة واحدة|مراجعتين|$1 مراجعات|$1 مراجعة}} من [[$2]] إلى الصفحة المنشأة حديثًا [[$3]]',
 
@@ -1820,6 +1823,7 @@ $1",
 'filename-tooshort'           => 'اسم الملف قصير جدا.',
 'filetype-banned'             => 'نوع الملف هذا ممنوع.',
 'verification-error'          => 'لم يجتز الملف تحقق صحة الملفات.',
+'hookaborted'                 => 'التعديل الذي تحاول أن تقوم به أجهض من قبل تمديد هوك',
 'illegal-filename'            => 'لا يسمح باسم الملف هذا.',
 'overwrite'                   => 'لا يسمح بالكتابة فوق ملف موجود.',
 'unknown-error'               => 'خطأ غير معروف حدث.',
@@ -1968,6 +1972,7 @@ $1',
 'listfiles_search_for'  => 'ابحث عن اسم الميديا:',
 'imgfile'               => 'ملف',
 'listfiles'             => 'قائمة الملفات',
+'listfiles_thumb'       => 'تصغير',
 'listfiles_date'        => 'تاريخ',
 'listfiles_name'        => 'اسم',
 'listfiles_user'        => 'مستخدم',
@@ -3142,6 +3147,7 @@ $1',
 'show-big-image-thumb' => '<small>حجم هذا العرض: $1 × $2 بكسل</small>',
 'file-info-gif-looped' => 'ملفوف',
 'file-info-gif-frames' => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارا|$1 إطار}}',
+'file-info-png-looped' => 'ملفوف',
 'file-info-png-repeat' => 'عرضت {{PLURAL:$1||مرة واحدة|مرتين|$1 مرات|$1 مرة}}',
 'file-info-png-frames' => '{{PLURAL:$1||إطار واحد|إطاران|$1 إطارات|$1 إطارًا|$1 إطار}}',
 

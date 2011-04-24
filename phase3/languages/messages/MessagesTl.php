@@ -151,6 +151,7 @@ $messages = array(
 'tog-watchdefault'            => 'Idagdag ang mga pahinang binago ko sa aking tala ng mga binabantayan',
 'tog-watchmoves'              => 'Idagdag ang mga pahinang inilipat ko sa aking tala ng mga binabantayan',
 'tog-watchdeletion'           => 'Idagdag mga pahinang ibinura ko sa aking tala ng mga binabantayan',
+'tog-minordefault'            => 'Markahan ang lahat ng pagbabago bilang maliit nang nakatakda',
 'tog-previewontop'            => 'Ipakita ang paunang tingin bago ang kahon ng pagbabago',
 'tog-previewonfirst'          => 'Ipakita ang paunang tingin sa unang pagbabago',
 'tog-nocache'                 => 'Huwag paganahin ang pagtatago ng pahinang pantingintingin',
@@ -800,11 +801,11 @@ Kadalasang nangyayari ito kapag gumagamit ka ng masurot na serbisyo ng hindi-nak
 'editingsection'                   => 'Binabago ang $1 (bahagi)',
 'editingcomment'                   => 'Binabago ang $1 (bagong seksyon)',
 'editconflict'                     => 'Alitan sa pagbabago: $1',
-'explainconflict'                  => 'Mayroon nagbago ng pahinang ito simula nang baguhin mo ito.
+'explainconflict'                  => "Mayroon nagbago ng pahinang ito simula nang baguhin mo ito.
 Naglalaman ang mga nasa taas na teksto ng mga pahinang teksto at kasalukuyang mayroon ito.
 Ipinapakita sa ibabang teksto ang mga binago mo.
 Kailangan mong pagsamahin ang mga binago mo sa kasalukuyang teksto.
-Maitatala <b>lamang</b> ang nasa taas na teksto kapag pinindot ang "Itala ang pahina".<br />',
+Maitatala '''lamang''' ang nasa taas na teksto kapag pinindot ang \"{{int:savearticle}}\".",
 'yourtext'                         => 'Teksto mo',
 'storedversion'                    => 'Nakatagong rebisyon',
 'nonunicodebrowser'                => "'''Babala: Hindi sumusunod sa unicode ang browser mo.'''
@@ -1050,7 +1051,7 @@ Tingnan ang [[Special:IPBlockList|talaan ng hinarang na/hinadlangang IP]] para s
 'revmove-norevisions-title'    => 'Hindi tanggap na puntiryang pagbabago',
 'revmove-norevisions'          => 'Hindi ka tumukoy ng isa o higit pang puntiryang mga pagbabago upang magampanan ang tungkuling ito o hindi umiiral ang tinukoy na pagbabago.',
 'revmove-nullmove-title'       => 'Masamang pamagat',
-'revmove-nullmove'             => 'Magakawangis ang pahinang pinagmulan at puntirya.  Pakipindot ang "bumalik" at maglagay ng isang pahinang naiiba sa "$1".',
+'revmove-nullmove'             => 'Magakawangis ang pahinang pinagmulan at puntirya.  Pakipindot ang "bumalik" at maglagay ng isang pahinang naiiba sa "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|Isang pagbabago mula sa [[$2]] ang|$1 mga pagbabago mula sa [[$2]] ang}} inilipat papunta sa umiiral na pahinang [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Isang pagbabago mula sa [[$2]] ang|$1 mga pagbabago mula sa [[$2]] ang}} nailipat papunta sa bagong-likhang pahinang [[$3]].',
 

@@ -529,7 +529,7 @@ class Preferences {
 		$nowlocal = Xml::element( 'span', array( 'id' => 'wpLocalTime' ),
 			$wgLang->time( $now = wfTimestampNow(), true ) );
 		$nowserver = $wgLang->time( $now, false ) .
-			Xml::hidden( 'wpServerTime', substr( $now, 8, 2 ) * 60 + substr( $now, 10, 2 ) );
+			Html::hidden( 'wpServerTime', substr( $now, 8, 2 ) * 60 + substr( $now, 10, 2 ) );
 
 		$defaultPreferences['nowserver'] = array(
 			'type' => 'info',
@@ -704,6 +704,11 @@ class Preferences {
 			'type' => 'toggle',
 			'section' => 'editing/advancedediting',
 			'label-message' => 'tog-showtoolbar',
+		);
+		$defaultPreferences['minordefault'] = array(
+			'type' => 'toggle',
+			'section' => 'editing/advancedediting',
+			'label-message' => 'tog-minordefault',
 		);
 
 		if ( $wgUseExternalEditor ) {

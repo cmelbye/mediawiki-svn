@@ -192,6 +192,7 @@ $messages = array(
 'tog-watchdefault'            => 'Tilføj sider jeg redigerer til min overvågningsliste',
 'tog-watchmoves'              => 'Tilføj sider jeg flytter til min overvågningsliste',
 'tog-watchdeletion'           => 'Tilføj sider jeg sletter til min overvågningsliste',
+'tog-minordefault'            => 'Markér som standard alle redigering som mindre',
 'tog-previewontop'            => 'Vis forhåndsvisning over redigeringsboksen',
 'tog-previewonfirst'          => 'Vis forhåndsvisning når du starter med at redigere',
 'tog-nocache'                 => 'Slå browsercaching af sider fra',
@@ -805,11 +806,11 @@ Prøv venligst igen. Hvis problemet fortsætter, log af og log på igen.'''",
 'editingsection'                   => 'Redigerer $1 (afsnit)',
 'editingcomment'                   => 'Redigerer $1 (nyt afsnit)',
 'editconflict'                     => 'Redigeringskonflikt: $1',
-'explainconflict'                  => 'Nogen har ændret denne side, efter du startede på at redigere den.
+'explainconflict'                  => "Nogen har ændret denne side, efter du startede på at redigere den.
 Den øverste tekstboks indeholder den nuværende tekst.
 Dine ændringer er vist i den nederste tekstboks.
 Du er nødt til at sammenflette dine ændringer med den eksisterende tekst.
-<b>Kun</b> teksten i den øverste tekstboks vil blive gemt når du trykker "Gem side".<br />',
+'''Kun''' teksten i den øverste tekstboks vil blive gemt når du trykker \"{{int:savearticle}}\".",
 'yourtext'                         => 'Din tekst',
 'storedversion'                    => 'Den gemte version',
 'nonunicodebrowser'                => "'''Advarsel: Din browser er ikke unicode-kompatibel, skift eller opdater din browser før du redigerer en artikel.'''",
@@ -1048,7 +1049,7 @@ Vend tilbage til forrige side og prøv igen.',
 'revmove-norevisions'          => 'Du har ikke angivet en eller flere målversioner for at udføre denne funktion eller den angivne version eksisterer ikke.',
 'revmove-nullmove-title'       => 'Forkert titel',
 'revmove-nullmove'             => 'Slutsiden kan ikke være identisk med startsiden.
-Vend tilbage til forrige side og vælg et andet navn fra "$1".',
+Vend tilbage til forrige side og vælg et andet navn fra "[[$1]]".',
 'revmove-success-existing'     => '{{PLURAL:$1|En version fra [[$2]] er|$1 versioner fra [[$2]] er}} blevet flyttet til den eksisterende side [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|En version fra [[$2]] er|$1 versioner fra [[$2]] er}} blevet flyttet til den nyligt oprettede side [[$3]].',
 

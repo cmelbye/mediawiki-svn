@@ -118,6 +118,7 @@ This is the toolbar: [[Image:Toolbar.png]]",
 'tog-watchdefault'            => "[[Special:Preferences]], tab 'Watchlist'. Offers user to add edited pages to watchlist.",
 'tog-watchmoves'              => "[[Special:Preferences]], tab 'Watchlist'. Offers user to add moved pages to watchlist.",
 'tog-watchdeletion'           => "[[Special:Preferences]], tab 'Watchlist'. Offers user to add deleted pages to watchlist.",
+'tog-minordefault'            => "[[Special:Preferences]], tab 'Edit'. Offers user to mark all edits minor by default.",
 'tog-previewontop'            => 'Toggle option used in [[Special:Preferences]].',
 'tog-previewonfirst'          => 'Toggle option used in [[Special:Preferences]].',
 'tog-nocache'                 => "[[Special:Preferences]], tab 'Misc.'. Offers the user the option of disabling caching of pages in the browser",
@@ -339,7 +340,7 @@ Also used as title of [[Special:Search]] page in [[Special:SpecialPages]].
 'history_short'     => 'Text used on the history tab.
 
 {{Identical|History}}',
-'updatedmarker'     => 'Displayed in the page history (of a page you are [[Special:Watchlist|watching]]), when the page has been edited since the last time you visited it.',
+'updatedmarker'     => 'Displayed in the page history (of a page you are [[Special:Watchlist|watching]]), when the page has been edited since the last time you visited it. This feature is used if [[mw:Manual:$wgShowUpdatedMarker|$wgShowUpdatedMarker]] is enabled.',
 'info_short'        => '{{Identical|Information}}',
 'printableversion'  => 'Display name for link in wiki menu that leads to a printable version of a content page. Example: see one but last menu item on [[Main Page]].',
 'permalink'         => 'Display name for a permanent link to the current revision of a page. When the page is edited, permalink will still link to this revision. Example: Last menu link on [[{{MediaWiki:Mainpage}}]]',
@@ -401,7 +402,8 @@ See also [[MediaWiki:Lastmodifiedatby/{{SUBPAGENAME}}]].',
 
 {{Identical|Search}}',
 'pool-timeout'      => 'Part of {{msg-mw|view-pool-error}}.',
-'pool-queuefull'    => 'Part of {{msg-mw|view-pool-error}}.',
+'pool-queuefull'    => 'Part of {{msg-mw|view-pool-error}}.
+"Pool" refers to a pool of processes.',
 'pool-errorunknown' => 'Part of {{msg-mw|view-pool-error}}.',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -836,7 +838,7 @@ See also {{msg-mw|Noarticletext-nopermission}}.',
 'previewnote'                      => 'Note displayed when clicking on Show preview',
 'editing'                          => "Shown as page title when editing a page. \$1 is the name of the page that is being edited. Example: \"''Editing Main Page''\".",
 'editingsection'                   => 'The variable $1 is the page name.  This message displays at the top of the page when a user is editing a page section.',
-'explainconflict'                  => 'The text "Save page" is in {{msg-mw|savearticle}}.',
+'explainconflict'                  => 'Appears at the top of a page when there is an edit conflict.',
 'storedversion'                    => 'This is used in an edit conflict as the label for the top revision that has been stored, as opposed to your version that has not been stored which is shown at the bottom of the page.',
 'yourdiff'                         => '',
 'copyrightwarning'                 => 'Copyright warning displayed under the edit box in editor',
@@ -1163,7 +1165,7 @@ See also {{msg-mw|difference}}.',
 'diff-multi'               => "This message appears in the revision history of a page when comparing two versions which aren't consecutive.
 
 *Parameter $1 is the number of revisions
-*Parameter $2 is the number of users making those revisions",
+*Parameter $2 is the number of distinct users who made those revisions",
 'diff-multi-manyusers'     => "This message appears in the revision history of a page when comparing two versions which aren't consecutive, and the intermediate revisions have been edited by more than 100 users. Parameters:
 * $1 is the number of revisions, will always be 101 or more.
 * $2 is the number of users that were found, which was limited at 100.",
@@ -1812,6 +1814,7 @@ If \'scheme\' is difficult to translate, then you could use \'prefix\' instead.'
 'imgfile'               => '{{Identical|File}}',
 'listfiles'             => 'Page title and grouping label for the form displayed on [[Special:ListFiles]].
 {{Identical|File list}}',
+'listfiles_thumb'       => '{{Identical|Thumbnail}}',
 'listfiles_date'        => 'Column header for the result table displayed on [[Special:ListFiles]].
 {{Identical|Date}}',
 'listfiles_name'        => 'Column header for the result table displayed on [[Special:ListFiles]].
@@ -1842,7 +1845,8 @@ If \'scheme\' is difficult to translate, then you could use \'prefix\' instead.'
 {{Identical|Date}}',
 'filehist-thumb'                    => 'Shown in the file history list of a file description page.
 
-Example: [[:Image:Addon-icn.png]]',
+Example: [[:Image:Addon-icn.png]]
+{{Identical|Thumbnail}}',
 'filehist-thumbtext'                => "Shown in the file history list of a file description page.
 * '''$1''' is a time followed by a date, e.g. ''10:23, 18 april 2007''.
 * '''$2''' is the date,
@@ -2041,6 +2045,8 @@ Possible alternatives to the word 'content' are 'subject matter' or 'wiki subjec
 'nmembers'                => 'Appears in brackets after each category listed on the special page [[Special:WantedCategories]]. $1 is the number of members of the category.',
 'nrevisions'              => 'Number of revisions.',
 'nviews'                  => 'This message is used on [[Special:PopularPages]] to say how many times each page has been viewed. Parameter $1 is the number of views.',
+'nimagelinks'             => 'Used on [[Special:MostLinkedFiles]] to indicate how often a specific file is used.',
+'ntransclusions'          => 'Used on [[Special:MostLinkedTemplates]] to indicate how often a template is in use.',
 'specialpage-empty'       => 'Used on a special page when there is no data. For example on [[Special:Unusedimages]] when all images are used.',
 'lonelypages'             => 'Name of [[Special:LonelyPages]] displayed in [[Special:SpecialPages]]',
 'lonelypagestext'         => 'Text displayed in [[Special:LonelyPages]]',
@@ -3022,7 +3028,7 @@ The message appears after the name of the patroller.',
 'file-info'            => 'File info displayed on file description page.',
 'file-info-size'       => 'File info displayed on file description page.',
 'file-nohires'         => 'File info displayed on file description page. For example of message in use see [[:File:Mouse10.gif]].',
-'svg-long-desc'        => 'Displayed under an SVG image at the image description page. Note that argument 3 is a string that includes the file size unit symbol. See for example [[:Image:Wiki.svg]].',
+'svg-long-desc'        => 'Displayed under an SVG image at the image description page. Note that argument 3 is a string that includes the file size unit symbol. See for example [[:File:Yes check.svg]].',
 'show-big-image'       => 'Displayed under an image at the image description page, when it is displayed smaller there than it was uploaded.',
 'show-big-image-thumb' => 'File info displayed on file description page.',
 'file-info-gif-looped' => 'Part of the information provided about a [http://en.wikipedia.org/wiki/Gif .gif file] on its file description page. Looped means repeating in the context of an animated gif. It is a sequence of images, each displayed after the other, and the first one displayed after the last, in a never ending loop. For example of message in use see [[:File:Mouse10.gif]].',
@@ -3427,21 +3433,21 @@ Please leave the link http://www.mediawiki.org/wiki/Manual:External_editors exac
 {{Identical|All}}',
 
 # E-mail address confirmation
-'confirmemail'             => 'Title of [[Special:ConfirmEmail]] page.',
-'confirmemail_noemail'     => 'Failure message on [[Special:ConfirmEmail]].',
-'confirmemail_text'        => 'Explanation on [[Special:ConfirmEmail]]',
-'confirmemail_pending'     => 'Message on [[Special:ConfirmEmail]] when confirmation of e-mail not yet complete.',
-'confirmemail_send'        => 'Button label on [[Special:ConfirmEmail]]',
-'confirmemail_sent'        => 'Message appearing after button {{msg-mw|Confirmemail_send}} activated on [[Special:ConfirmEmail]].',
-'confirmemail_sendfailed'  => 'Failure message to do with [[Special:ConfirmEmail]].
+'confirmemail'              => 'Title of [[Special:ConfirmEmail]] page.',
+'confirmemail_noemail'      => 'Failure message on [[Special:ConfirmEmail]].',
+'confirmemail_text'         => 'Explanation on [[Special:ConfirmEmail]]',
+'confirmemail_pending'      => 'Message on [[Special:ConfirmEmail]] when confirmation of e-mail not yet complete.',
+'confirmemail_send'         => 'Button label on [[Special:ConfirmEmail]]',
+'confirmemail_sent'         => 'Message appearing after button {{msg-mw|Confirmemail_send}} activated on [[Special:ConfirmEmail]].',
+'confirmemail_sendfailed'   => 'Failure message to do with [[Special:ConfirmEmail]].
 
 $1 is a message from the e-mail delivery system.',
-'confirmemail_needlogin'   => 'Used on [[Special:ConfirmEmail]] when you are logged out.
+'confirmemail_needlogin'    => 'Used on [[Special:ConfirmEmail]] when you are logged out.
 * $1 is a link to [[Special:UserLogin]] with {{msg-mw|loginreqlink}} as link description',
-'confirmemail_loggedin'    => 'Explanation on [[Special:ConfirmEmail]] on completion of confirmation.',
-'confirmemail_subject'     => 'Text in subject box of e-mail sent to user during e-mail address confirmation
+'confirmemail_loggedin'     => 'Explanation on [[Special:ConfirmEmail]] on completion of confirmation.',
+'confirmemail_subject'      => 'Text in subject box of e-mail sent to user during e-mail address confirmation
 {{Identical|SITENAME e-mail address confirmation}}',
-'confirmemail_body'        => 'This message is sent as an e-mail to users when they add or change their e-mail adress in [[Special:Preferences]].
+'confirmemail_body'         => 'This message is sent as an e-mail to users when they add or change their e-mail adress in [[Special:Preferences]].
 *$1 is the IP address of the user that changed the e-mail address
 *$2 is the name of the user
 *$3 is a URL to [[Special:ConfirmEmail]]
@@ -3449,8 +3455,16 @@ $1 is a message from the e-mail delivery system.',
 *$5 is a URL to [[Special:InvalidateEmail]]
 *$6 is a date
 *$7 is a time',
-'confirmemail_invalidated' => 'This is the text of the special page [[Special:InvalidateEmail|InvalidateEmail]] (with the title in {{msg-mw|Invalidateemail}}) where user goes if he chooses the cancel e-mail confirmation link from the confirmation e-mail.',
-'invalidateemail'          => "This is the '''name of the special page''' where user goes if he chooses the cancel e-mail confirmation link from the confirmation e-mail.",
+'confirmemail_body_changed' => 'This message is sent as an e-mail to users when they add or change their e-mail adress in [[Special:Preferences]].
+*$1 is the IP address of the user that changed the e-mail address
+*$2 is the name of the user
+*$3 is a URL to [[Special:ConfirmEmail]]
+*$4 is a time and date (duplicated by $6 and $7)
+*$5 is a URL to [[Special:InvalidateEmail]]
+*$6 is a date
+*$7 is a time',
+'confirmemail_invalidated'  => 'This is the text of the special page [[Special:InvalidateEmail|InvalidateEmail]] (with the title in {{msg-mw|Invalidateemail}}) where user goes if he chooses the cancel e-mail confirmation link from the confirmation e-mail.',
+'invalidateemail'           => "This is the '''name of the special page''' where user goes if he chooses the cancel e-mail confirmation link from the confirmation e-mail.",
 
 # Trackbacks
 'trackbackbox'     => '* $1 is the content of [[MediaWiki:Trackbackexcerpt]] or [[MediaWiki:Trackback]], depending if the trackback has an excerpt

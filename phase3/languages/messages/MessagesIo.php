@@ -126,6 +126,7 @@ $messages = array(
 'tog-watchdefault'            => 'Adjuntez pagini redaktota da me ad mea surveyaji',
 'tog-watchmoves'              => 'Adjuntez pagini movota da me ad mea surveyaji',
 'tog-watchdeletion'           => 'Adjuntez pagini efacota da me ad mea surveyaji',
+'tog-minordefault'            => 'Markizez kustume omna redaktajo kom mikra',
 'tog-previewontop'            => 'Montrez prevido avan la redakto-buxo',
 'tog-previewonfirst'          => 'Montrez prevido pos la unesma redakto',
 'tog-nocache'                 => 'Nekapableskez cache-ar pagini',
@@ -556,7 +557,11 @@ Se ol ankore nefuncionas, probez [[Special:UserLogout|ekirar]] e pose enirar.",
 'editingsection'                   => 'Vu redaktas $1 (seciono)',
 'editingcomment'                   => 'Vu redaktas $1 (nova seciono)',
 'editconflict'                     => 'Redakto-konflikto: $1',
-'explainconflict'                  => 'Ulu chanjis ica pagino depos vu editeskis ol. La supra texto-areo kontenas la texto dil pagino quale ol existas aktuale. Vua chanji montresas en la infra texto-areo. Vu devas atachar vua chanji en la existanta texto. <b>Nur</b> la texto en la supra texto-areo registragesos kande vu presez sur "Registragar".',
+'explainconflict'                  => "Ulu chanjis ica pagino depos vu editeskis ol.
+La supra texto-areo kontenas la texto dil pagino quale ol existas aktuale.
+Vua chanji montresas en la infra texto-areo.
+Vu devas atachar vua chanji en la existanta texto.
+'''Nur''' la texto en la supra texto-areo registragesos kande vu presez sur \"{{int:savearticle}}\".",
 'yourtext'                         => 'Vua texto',
 'storedversion'                    => 'Gardita versiono',
 'nonunicodebrowser'                => "'''EGARDEZ: Vua navigilo esas ne obediema ad ''unicode''.'''

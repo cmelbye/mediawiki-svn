@@ -32,6 +32,7 @@ $messages = array(
 'tog-watchdefault'            => 'Preidāis pāusans kawīdans as redigijja prei majjan listin stēisan nadirītan',
 'tog-watchmoves'              => 'Preidāis pāusans, kawīdans as praskajjina prei majjan listin stēisan nadirītan',
 'tog-watchdeletion'           => 'Preidāis pāusans kawīdans as āupausina prei majjan listin stēisan nadirītan',
+'tog-minordefault'            => 'Ebzentlis auprestaminai wissans kitawidīnsnans kāigi mālkans',
 'tog-previewontop'            => 'Waidinnais pirmādiran pirzdau redigīsnas laūkan',
 'tog-previewonfirst'          => 'Waidinnais pirmādiran prei pirman redigīsenin',
 'tog-nocache'                 => 'Izklaūjais rānkas minīsnan',
@@ -615,7 +616,7 @@ Ik sta aīnat ni dīlilai, bāndais [[Special:UserLogout|izēitwei]] be etkūmps
 Tekstas laūks aūktais turri ēn sen pāusas tekstan, kawīds bigāntei ekzistijja.
 Twajjas kitawīdinsnas ast waidīntan en zemmaišasmu tekstas laūkan.
 Tebbei prawerru wīrstwei senlaīwuns(si) twajjans kitawīdinsnans sen ekzistīntin tekstan.
-'''Tēr''' teksts en aūktaišasmu tekstas laūkan wīrst būwuns enpeisātan, kaddan tu wīrst gnettuns \"Enpeisāis pāusan\".",
+'''Tēr''' teksts en aūktaišasmu tekstas laūkan wīrst būwuns enpeisātan, kaddan tu wīrst gnettuns \"{{int:savearticle}}\".",
 'yourtext'                         => 'Twājs teksts',
 'storedversion'                    => 'Enpeisāta wersiōni',
 'nonunicodebrowser'                => '"Empirssergīsenis: Twajā lasātla ni erzinna tikrōmiskai UTF-8 kōdisnan (Unicode).

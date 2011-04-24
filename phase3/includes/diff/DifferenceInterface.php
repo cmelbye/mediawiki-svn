@@ -243,7 +243,7 @@ CONTROL;
 			}
 			// Build the link
 			if( $rcid ) {
-				$token = $wgUser->editToken();
+				$token = $wgUser->editToken( $rcid );
 				$patrol = ' <span class="patrollink">[' . $sk->link(
 					$this->mTitle, 
 					wfMsgHtml( 'markaspatrolleddiff' ),
@@ -456,25 +456,28 @@ CONTROL;
 				$wgOut->addHTML( htmlspecialchars( $this->mNewtext ) );
 				$wgOut->addHTML( "\n</pre>\n" );
 			}
-		} elseif( $pCache ) {
-			$article = new Article( $this->mTitle, 0 );
-			$pOutput = ParserCache::singleton()->get( $article, $wgOut->parserOptions() );
-			if( $pOutput ) {
-				$wgOut->addParserOutput( $pOutput );
+		} elseif( wfRunHooks( 'ArticleContentOnDiff', array( $this, $wgOut ) ) ) {
+			if ( $pCache ) {
+				$article = new Article( $this->mTitle, 0 );
+				$pOutput = ParserCache::singleton()->get( $article, $wgOut->parserOptions() );
+				if( $pOutput ) {
+					$wgOut->addParserOutput( $pOutput );
+				} else {
+					$article->doViewParse();
+				} 
 			} else {
-				$article->doViewParse();
+				$wgOut->addWikiTextTidy( $this->mNewtext );
 			}
-		} else {
-			$wgOut->addWikiTextTidy( $this->mNewtext );
 		}
-
+	
 		if( is_object( $this->mNewRev ) && !$this->mNewRev->isCurrent() ) {
 			$wgOut->parserOptions()->setEditSection( $oldEditSectionSetting );
 		}
+
 		# Add redundant patrol link on bottom...
 		if( $this->mRcidMarkPatrolled && $this->mTitle->quickUserCan('patrol') ) {
 			$sk = $wgUser->getSkin();
-			$token = $wgUser->editToken();
+			$token = $wgUser->editToken( $this->mRcidMarkPatrolled );
 			$wgOut->addHTML(
 				"<div class='patrollink'>[" . $sk->link(
 					$this->mTitle,
@@ -1007,7 +1010,7 @@ CONTROL;
 				'undo' => $this->mNewid
 			) );
 			$htmlLink = htmlspecialchars( wfMsg( 'editundo' ) );
-			$htmlTitle = $wgUser->getSkin()->tooltip( 'undo' );
+			$htmlTitle = $wgUser->getSkin()->titleAttrib( 'undo' );
 			if( $editable && !$this->mOldRev->isDeleted( Revision::DELETED_TEXT ) && !$this->mNewRev->isDeleted( Revision::DELETED_TEXT ) ) {
 				$this->mNewtitle .= " (<a href='$newUndo' $htmlTitle>" . $htmlLink . "</a>)";
 			}

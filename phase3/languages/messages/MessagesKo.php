@@ -306,6 +306,7 @@ $messages = array(
 'tog-watchdefault'            => '내가 편집하는 문서를 주시문서 목록에 추가',
 'tog-watchmoves'              => '내가 이동하는 문서를 주시문서 목록에 추가',
 'tog-watchdeletion'           => '내가 삭제하는 문서를 주시문서 목록에 추가',
+'tog-minordefault'            => '‘사소한 편집’을 기본적으로 선택하기',
 'tog-previewontop'            => '편집상자 앞에 미리보기 보이기',
 'tog-previewonfirst'          => '처음 편집할 때 미리보기 보기',
 'tog-nocache'                 => '브라우저의 문서 캐시 끄기',
@@ -906,7 +907,7 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 'explainconflict'                  => "문서를 편집하는 도중에 누군가 이 문서를 고쳤습니다.
 위쪽의 문서가 지금 바뀐 문서이고, 아래쪽의 문서가 당신이 편집한 문서입니다.
 아래쪽의 내용을 위쪽에 적절히 합쳐 주시기 바랍니다.
-\"저장\"을 누르면 '''위쪽의 편집 내역만''' 저장됩니다.",
+\"{{int:savearticle}}\"을 누르면 '''위쪽의 편집 내역만''' 저장됩니다.",
 'yourtext'                         => '당신의 편집',
 'storedversion'                    => '현재 문서',
 'nonunicodebrowser'                => "'''주의: 당신의 웹 브라우저가 유니코드를 완벽하게 지원하지 않습니다. 몇몇 문자가 16진수 코드로 나타날 수 있습니다.'''",
@@ -1149,7 +1150,7 @@ $1",
 'revmove-norevisions-title'    => '대상 판 선택이 잘못됨',
 'revmove-norevisions'          => '당신은 이 기능을 수행할 대상 판을 설정하지 않았거나 존재하지 않는 판을 선택하였습니다.',
 'revmove-nullmove-title'       => '제목이 잘못됨',
-'revmove-nullmove'             => '옮기기 전 문서와 대상 문서의 제목이 같습니다. "뒤로"를 클릭하여 "$1"과 다른 문서 이름을 입력해주세요.',
+'revmove-nullmove'             => '옮기기 전 문서와 대상 문서의 제목이 같습니다. "뒤로"를 클릭하여 "[[$1]]"과 다른 문서 이름을 입력해주세요.',
 'revmove-success-existing'     => '[[$2]] 문서의 편집 $1개가 [[$3]] 문서로 옮겨졌습니다.',
 'revmove-success-created'      => '[[$2]] 문서의 편집 $1개가 [[$3]] 문서로 옮기면서 새 문서를 생성했습니다.',
 

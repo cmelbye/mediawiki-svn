@@ -31,6 +31,7 @@ $messages = array(
 'tog-watchdefault'            => 'Sahifahoi eçodkardaamro ba fehristi pajgiriam ilova kuned',
 'tog-watchmoves'              => 'Sahifahoi kūconidaamro ba fehristi pajgirihojam ilova kuned',
 'tog-watchdeletion'           => 'Sahifahoi eçodkardai manro ba fehristi pajgirihojam ilova kuned',
+'tog-minordefault'            => "Peşfarzi hamai viroişhoro çuz'i işora kuned",
 'tog-previewontop'            => 'Namoişi peşnamoişi qablī peş az quttiji viroiş va na pas az on',
 'tog-previewonfirst'          => 'Nişon dodani peşnamoiş dar naxustin viroiş',
 'tog-nocache'                 => 'Az kor andoxtani hofizai nihoniji sahifa',
@@ -556,7 +557,7 @@ Ba'zan in xato vaqte pajdo meşavad, ki şumo az xizmati (web-based proxy) istif
 Nohijai matni boloi şomili matni sahifa ba şakli fe'liji on ast.
 Taƣjiroti şumo dar nohijai matni pojoni nişon doda şudaast.
 Şumo bojad taƣjirotatonro bo matni fe'lī tarkib kuned.
-'''Faqat''', vaqte, ki tugmai \"Sahifa zaxira şavad\"-ro fişor dihed matni nohijai matni boloi zaxira xohad şud.",
+'''Faqat''', vaqte, ki tugmai \"{{int:savearticle}}\"-ro fişor dihed matni nohijai matni boloi zaxira xohad şud.",
 'yourtext'                         => 'Matni Şumo',
 'storedversion'                    => 'Nusxai sabtşuda',
 'nonunicodebrowser'                => "'''Huşdor: Murugari şumo bo standarti Junikod çavobgū nest. Alomathoi ƣajr az ASC11 ba surati adad ba kodi şonzdah ba şumo nişon doda meşavand.'''",
