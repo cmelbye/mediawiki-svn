@@ -10,6 +10,7 @@
  * @author Aleator
  * @author Cedric31
  * @author Davidpar
+ * @author El libre
  * @author Iradigalesc
  * @author Jordi Roqué
  * @author Juanpabl
@@ -658,6 +659,9 @@ Si us plau, esperi abans de tornar-ho a intentar.",
 'loginlanguagelabel'         => 'Llengua: $1',
 'suspicious-userlogout'      => "S'ha denegat la vostra petició per tancar la sessió ja què sembla que va ser enviada per un navegador defectuós o un proxy cau.",
 
+# E-mail sending
+'php-mail-error-unknown' => 'Error desconegut en la funció mail() de PHP',
+
 # JavaScript password checks
 'password-strength'            => 'Força estimada de la contrasenya: $1',
 'password-strength-bad'        => 'DOLENT',
@@ -786,12 +790,12 @@ Podeu [[Special:Search/{{PAGENAME}}|cercar aquest títol]] en altres pàgines o 
 'blocked-notice-logextract'        => "En aquests moments aquest compte d'usuari es troba blocat.
 Per més detalls, la darrera entrada del registre es mostra a continuació:",
 'clearyourcache'                   => "'''Nota:''' Després de desar, heu de posar al dia la memòria cau del vostre navegador per veure els canvis. '''Mozilla / Firefox / Safari:''' Premeu ''Shift'' mentre cliqueu ''Actualitza'' (Reload), o premeu ''Ctrl+F5'' o ''Ctrl+R'' (''Cmd+R'' en un Mac Apple); '''Internet Explorer:''' premeu ''Ctrl'' mentre cliqueu ''Actualitza'' (Refresh), o premeu ''Ctrl+F5''; '''Konqueror:''': simplement cliqueu el botó ''Recarregar'' (Reload), o premeu ''F5''; '''Opera''' haureu d'esborrar completament la vostra memòria cau (caché) a ''Tools→Preferences''.",
-'usercssyoucanpreview'             => "'''Consell:''' Utilitzeu el botó \"{{int:showpreview}}\" per probar el vostre nou CSS abans de desar-lo.",
-'userjsyoucanpreview'              => "'''Consell:''' Utilitzeu el botó \"{{int:showpreview}}\" per probar el vostre nou JavaScript abans de desar-lo.",
+'usercssyoucanpreview'             => "'''Consell:''' Utilitzeu el botó \"{{int:showpreview}}\" per provar el vostre nou CSS abans de desar-lo.",
+'userjsyoucanpreview'              => "'''Consell:''' Utilitzeu el botó \"{{int:showpreview}}\" per provar el vostre nou JavaScript abans de desar-lo.",
 'usercsspreview'                   => "'''Recordeu que esteu previsualitzant el vostre CSS d'usuari.'''
 '''Encara no s'ha desat!'''",
 'userjspreview'                    => "'''Recordeu que només estau provant/previsualitzant el vostre JavaScript, encara no ho heu desat!'''",
-'userinvalidcssjstitle'            => "'''Atenció:''' No existeix l'aparença «$1». Recordeu que les subpàgines personalitzades amb extensions .css i .js utilitzen el títol en minúscules, per exemple, {{ns:user}}:NOM/monobook.css no és el mateix que {{ns:user}}:NOM/Monobook.css.",
+'userinvalidcssjstitle'            => "'''Atenció:''' No existeix l'aparença «$1». Recordeu que les subpàgines personalitzades amb extensions .css i .js utilitzen el títol en minúscules, per exemple, {{ns:user}}:NOM/vector.css no és el mateix que {{ns:user}}:NOM/Vector.css.",
 'updated'                          => '(Actualitzat)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Açò només és una previsualització, els canvis de la qual encara no s'han desat!'''",
@@ -1056,7 +1060,7 @@ Si us plau, verifica els registres.",
 'revmove-norevisions-title'    => 'Revisió especificada no vàlida',
 'revmove-norevisions'          => 'No heu especificat una o més revisions on aplicar aquesta funció o bé les revisions especificades no existeixen.',
 'revmove-nullmove-title'       => 'Títol inadequat',
-'revmove-nullmove'             => "Les pàgines d'origen i de destinació són idèntiques. Torneu enrere i escriviu una pàgina diferent de «[[$1]]».",
+'revmove-nullmove'             => "Les pàgines d'origen i de destinació són idèntiques. Torneu enrere i escriviu una pàgina diferent de «$1».",
 'revmove-success-existing'     => '{{PLURAL:$1|Una revisió de [[$2]] ha estat traslladada|$1 revisions de [[$2]] han estat traslladades}} a la pàgina existent [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Una revisió de [[$2]] ha estat traslladada|$1 revisions de [[$2]] han estat traslladades}} a la nova pàgina [[$3]].',
 
@@ -1393,6 +1397,7 @@ També podeu contactar amb altres usuaris a través de la vostra pàgina d'usuar
 'right-override-export-depth' => 'Exporta pàgines incloent aquelles enllaçades fins a una fondària de 5',
 'right-sendemail'             => 'Envia un correu electrònic a altres usuaris.',
 'right-revisionmove'          => 'Moure revisions',
+'right-disableaccount'        => 'Deshabilita comptes',
 
 # User rights log
 'rightslog'      => "Registre dels permisos d'usuari",
@@ -2259,6 +2264,7 @@ $1",
 'sp-contributions-newbies-title'       => "Contribucions dels comptes d'usuari més nous",
 'sp-contributions-blocklog'            => 'Registre de bloquejos',
 'sp-contributions-deleted'             => "contribucions d'usuari esborrades",
+'sp-contributions-uploads'             => 'pujades',
 'sp-contributions-logs'                => 'registres',
 'sp-contributions-talk'                => 'discussió',
 'sp-contributions-userrights'          => "gestió de drets d'usuari",
@@ -3268,6 +3274,7 @@ També podeu [[Special:Watchlist/edit|utilitzar l'editor estàndard]].",
 'version-specialpages'             => 'Pàgines especials',
 'version-parserhooks'              => "Extensions de l'analitzador",
 'version-variables'                => 'Variables',
+'version-skins'                    => 'Aparences',
 'version-other'                    => 'Altres',
 'version-mediahandlers'            => 'Connectors multimèdia',
 'version-hooks'                    => 'Lligams',
@@ -3389,5 +3396,18 @@ Introduïu el nom del fitxer sense el prefix «{{ns:file}}:».",
 # SQLite database support
 'sqlite-has-fts' => '$1, amb suport de búsqueda de text íntegre',
 'sqlite-no-fts'  => '$1, sense supor de búsqueda de text íntegre',
+
+# Special:DisableAccount
+'disableaccount'             => "Deshabilita un compte d'usuari/a",
+'disableaccount-user'        => "Nom d'usuari/a :",
+'disableaccount-reason'      => 'Raó:',
+'disableaccount-mustconfirm' => 'Has de confirmar que vols desactivar aquest compte.',
+'disableaccount-nosuchuser'  => 'El compte d\'usuari/a "$1" no existeix.',
+'disableaccount-success'     => 'El compte d\'usuari/a "$1" ha estat permanentment deshabilitat.',
+'disableaccount-logentry'    => "permanentment deshabilitat el compte d'usuari/a  [[$1]]",
+
+# Special:UploadStash
+'uploadstash-errclear' => "L'esborrament dels arxius no va tenir èxit.",
+'uploadstash-refresh'  => 'Actualitzar la llista de fitxers.',
 
 );

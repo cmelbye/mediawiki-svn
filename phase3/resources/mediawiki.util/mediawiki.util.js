@@ -4,7 +4,7 @@
 
 (function ($, mw) {
 
-	mediaWiki.util = {
+	mw.util = {
 
 		/* Initialisation */
 		'initialised' : false,
@@ -15,10 +15,10 @@
 				// Any initialisation after the DOM is ready
 				$(function () {
 
-					// Shortcut
+					// Shortcut to client profile return
 					var profile = $.client.profile();
 
-					// Set tooltipAccessKeyPrefix
+					/* Set tooltipAccessKeyPrefix */
 
 					// Opera on any platform
 					if ( profile.name == 'opera' ) {
@@ -33,8 +33,7 @@
 					// Non-Windows Safari with webkit_version > 526
 					} else if ( profile.platform !== 'win'
 						&& profile.name == 'safari'
-						&& profile.layoutVersion > 526 )
-					{
+						&& profile.layoutVersion > 526 ) {
 						mw.util.tooltipAccessKeyPrefix = 'ctrl-alt-';
 
 					// Safari/Konqueror on any platform, or any browser on Mac
@@ -50,23 +49,45 @@
 						mw.util.tooltipAccessKeyPrefix = 'alt-shift-';
 					}
 
-					// Enable CheckboxShiftClick
-					$('input[type=checkbox]:not(.noshiftselect)').checkboxShiftClick();
+					/* Enable CheckboxShiftClick */
+					$( 'input[type=checkbox]:not(.noshiftselect)' ).checkboxShiftClick();
 
-					// Emulate placeholder if not supported by browser
+					/* Emulate placeholder if not supported by browser */
 					if ( !( 'placeholder' in document.createElement( 'input' ) ) ) {
-						$('input[placeholder]').placeholder();
+						$( 'input[placeholder]' ).placeholder();
 					}
 
-					// Fill $content var
-					if ( $('#bodyContent').length ) {
-						mw.util.$content = $('#bodyContent');
-					} else if ( $('#article').length ) {
-						mw.util.$content = $('#article');
+					/* Fill $content var */
+					if ( $( '#bodyContent' ).length ) {
+						mw.util.$content = $( '#bodyContent' );
+					} else if ( $( '#article' ).length ) {
+						mw.util.$content = $( '#article' );
 					} else {
-						mw.util.$content = $('#content');
+						mw.util.$content = $( '#content' );
 					}
-				});
+					
+					/* Enable makeCollapse */
+					$( '.mw-collapsible' ).makeCollapsible();
+
+					/* Table of Contents toggle */
+					var	$tocContainer = $( '#toc' ),
+						$tocTitle = $( '#toctitle' ),
+						$tocToggleLink = $( '#togglelink' );
+					// Only add it if there is a TOC and there is no toggle added already
+					if ( $tocContainer.size() && $tocTitle.size() && !$tocToggleLink.size() ) {
+						var	hideTocCookie = $.cookie( 'mw_hidetoc' );
+							$tocToggleLink = $( '<a href="#" class="internal" id="togglelink">' ).text( mw.msg( 'hidetoc' ) ).click( function(e){
+								e.preventDefault();
+								mw.util.toggleToc( $(this) );
+							} );
+						$tocTitle.append( $tocToggleLink.wrap( '<span class="toctoggle">' ).parent().prepend( '&nbsp;[' ).append( ']&nbsp;' ) );
+						
+						if ( hideTocCookie == '1' ) {
+							// Cookie says user want toc hidden
+							$tocToggleLink.click();
+						}
+					}
+				} );
 
 				return true;
 			}
@@ -81,7 +102,7 @@
 		 * @param str String to be encoded
 		 */
 		'rawurlencode' : function( str ) {
-			str = (str + '').toString();
+			str = ( str + '' ).toString();
 			return encodeURIComponent( str )
 				.replace( /!/g, '%21' ).replace( /'/g, '%27' ).replace( /\(/g, '%28' )
 				.replace( /\)/g, '%29' ).replace( /\*/g, '%2A' ).replace( /~/g, '%7E' );
@@ -103,7 +124,7 @@
 		 * Append a new style block to the head
 		 *
 		 * @param text String CSS to be appended
-		 * @return the CSS stylesheet
+		 * @return CSSStyleSheet object
 		 */
 		'addCSS' : function( text ) {
 			var s = document.createElement( 'style' );
@@ -116,6 +137,40 @@
 			}
 			document.getElementsByTagName("head")[0].appendChild( s );
 			return s.sheet || s;
+		},
+
+		/**
+		 * Hide/show the table of contents element
+		 *
+		 * @param $toggleLink jQuery object of the toggle link
+		 * @return String boolean visibility of the toc (true means it's visible)
+		 */
+		'toggleToc' : function( $toggleLink ) {
+			var $tocList = $( '#toc ul:first' );
+			
+			// This function shouldn't be called if there's no TOC,
+			// but just in case...
+			if ( $tocList.size() ) {
+				if ( $tocList.is( ':hidden' ) ) {
+					$tocList.slideDown( 'fast' );
+					$toggleLink.text( mw.msg( 'hidetoc' ) );
+					$.cookie( 'mw_hidetoc', null, {
+						expires: 30,
+						path: '/'
+					} );
+					return true;
+				} else {
+					$tocList.slideUp( 'fast' );
+					$toggleLink.text( mw.msg( 'showtoc' ) );
+					$.cookie( 'mw_hidetoc', '1', {
+						expires: 30,
+						path: '/'
+					} );
+					return false;
+				}
+			} else {
+				return false;
+			}
 		},
 
 		/**
@@ -166,16 +221,16 @@
 			if ( nodeList instanceof jQuery ) {
 				$nodes = nodeList;
 			} else if ( nodeList ) {
-				$nodes = $(nodeList);
+				$nodes = $( nodeList );
 			} else {
 				// Rather than scanning all links, just the elements that
 				// contain the relevant links
 				this.updateTooltipAccessKeys(
-					$('#column-one a, #mw-head a, #mw-panel a, #p-logo a') );
+					$( '#column-one a, #mw-head a, #mw-panel a, #p-logo a' ) );
 
 				// these are rare enough that no such optimization is needed
-				this.updateTooltipAccessKeys( $('input') );
-				this.updateTooltipAccessKeys( $('label') );
+				this.updateTooltipAccessKeys( $( 'input' ) );
+				this.updateTooltipAccessKeys( $( 'label' ) );
 				return;
 			}
 
@@ -186,7 +241,7 @@
 						'[' + mw.util.tooltipAccessKeyPrefix + "$5]" );
 					$(this).attr( 'title', tip );
 				}
-			});
+			} );
 		},
 
 		// jQuery object that refers to the page-content element
@@ -204,23 +259,23 @@
 		 *
 		 * By default the new link will be added to the end of the list. To
 		 * add the link before a given existing item, pass the DOM node
-		 * (document.getElementById('foobar')) or the jQuery-selector
-		 * ('#foobar') of that item.
+		 * (document.getElementById( 'foobar' )) or the jQuery-selector
+		 * ( '#foobar' ) of that item.
 		 *
 		 * @example mw.util.addPortletLink(
 		 *     'p-tb', 'http://mediawiki.org/',
 		 *     'MediaWiki.org', 't-mworg', 'Go to MediaWiki.org ', 'm', '#t-print'
 		 *   )
 		 *
-		 * @param portlet ID of the target portlet ('p-cactions' or 'p-personal' etc.)
+		 * @param portlet ID of the target portlet ( 'p-cactions' or 'p-personal' etc.)
 		 * @param href Link URL
 		 * @param text Link text (will be automatically converted to lower
 		 *     case by CSS for p-cactions in Monobook)
 		 * @param id ID of the new item, should be unique and preferably have
-		 *     the appropriate prefix ('ca-', 'pt-', 'n-' or 't-')
+		 *     the appropriate prefix ( 'ca-', 'pt-', 'n-' or 't-' )
 		 * @param tooltip Text to show when hovering over the link, without accesskey suffix
 		 * @param accesskey Access key to activate this link (one character, try
-		 *     to avoid conflicts. Use $('[accesskey=x').get() in the console to
+		 *     to avoid conflicts. Use $( '[accesskey=x' ).get() in the console to
 		 *     see if 'x' is already used.
 		 * @param nextnode DOM node or jQuery-selector of the item that the new
 		 *     item should be added before, should be another item in the same
@@ -236,7 +291,7 @@
 				return null;
 			}
 			// Setup the anchor tag
-			var $link = $('<a />').attr( 'href', href ).text( text );
+			var $link = $( '<a />' ).attr( 'href', href ).text( text );
 
 			// Some skins don't have any portlets
 			// just add it to the bottom of their 'sidebar' element as a fallback
@@ -251,7 +306,7 @@
 			default : // Skins like chick, modern, monobook, myskin, simple, vector...
 
 				// Select the specified portlet
-				var $portlet = $('#' + portlet);
+				var $portlet = $( '#' + portlet);
 				if ( $portlet.length === 0 ) {
 					return null;
 				}
@@ -314,10 +369,57 @@
 
 				return $item.get( 0 );
 			}
+		},
+
+		/**
+		 * Add a little box at the top of the screen to inform the user of
+		 * something, replacing any previous message.
+		 *
+		 * @param message	mixed	The DOM-element or HTML-string to be put inside the message box]
+		 *							Calling with no arguments, with an empty string or null will hide the message 
+		 * @param className	string	Used in adding a class; should be different for each
+		 *   call to allow CSS/JS to hide different boxes.  null = no class used.
+		 * @return Boolean       True on success, false on failure
+		 */
+		'jsMessage' : function( message, className ) {
+		
+			if ( !arguments.length || message === '' || message === null ) {
+			
+				$( '#mw-js-message' ).empty().hide();
+				return true; // Emptying and hiding message is intended behaviour, return true	
+			
+			} else {
+				// We special-case skin structures provided by the software.  Skins that
+				// choose to abandon or significantly modify our formatting can just define
+				// an mw-js-message div to start with.
+				var $messageDiv = $( '#mw-js-message' );
+				if ( !$messageDiv.length ) {
+					$messageDiv = $( '<div id="mw-js-message">' );
+					if ( mw.util.$content.parent().length ) { 
+						mw.util.$content.parent().prepend( $messageDiv );
+					} else {
+						return false;
+					}
+				}
+				
+				if ( className ) {
+					$messageDiv.attr( 'class', 'mw-js-message-' + className );
+				}
+				
+				if ( typeof message === 'object' ) {
+					$messageDiv.empty();
+					$messageDiv.append( message ); // Append new content
+				} else {
+					$messageDiv.html( message );
+				}
+
+				$messageDiv.slideDown();
+				return true;
+			}
 		}
 
 	};
 
-	mediaWiki.util.init();
+	mw.util.init();
 
 })(jQuery, mediaWiki);

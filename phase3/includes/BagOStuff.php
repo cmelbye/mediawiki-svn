@@ -240,14 +240,12 @@ class SqlBagOStuff extends BagOStuff {
 	var $lastExpireAll = 0;
 
 	protected function getDB() {
-		global $wgDBtype;
-
 		if ( !isset( $this->db ) ) {
 			/* We must keep a separate connection to MySQL in order to avoid deadlocks
 			 * However, SQLite has an opposite behaviour.
 			 * @todo Investigate behaviour for other databases
 			 */
-			if ( $wgDBtype == 'sqlite' ) {
+			if ( wfGetDB( DB_MASTER )->getType() == 'sqlite' ) {
 				$this->db = wfGetDB( DB_MASTER );
 			} else {
 				$this->lb = wfGetLBFactory()->newMainLB();
@@ -865,9 +863,11 @@ class WinCacheBagOStuff extends BagOStuff {
 	 * @return bool
 	 */
 	public function set( $key, $value, $expire = 0 ) {
-		wincache_ucache_set( $key, serialize( $value ), $expire );
+		$result = wincache_ucache_set( $key, serialize( $value ), $expire );
 
-		return true;
+		/* wincache_ucache_set returns an empty array on success if $value
+		   was an array, bool otherwise */
+		return ( is_array( $result ) && $result === array() ) || $result;
 	}
 
 	/**
@@ -887,6 +887,10 @@ class WinCacheBagOStuff extends BagOStuff {
 		$info = wincache_ucache_info();
 		$list = $info['ucache_entries'];
 		$keys = array();
+
+		if ( is_null( $list ) ) {
+			return array();
+		}
 
 		foreach ( $list as $entry ) {
 			$keys[] = $entry['key_name'];

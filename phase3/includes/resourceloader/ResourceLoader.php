@@ -51,7 +51,7 @@ class ResourceLoader {
 	 * @param $modules Array: List of module names to preload information for
 	 * @param $context ResourceLoaderContext: Context to load the information within
 	 */
-	protected function preloadModuleInfo( array $modules, ResourceLoaderContext $context ) {
+	public function preloadModuleInfo( array $modules, ResourceLoaderContext $context ) {
 		if ( !count( $modules ) ) {
 			return; // or else Database*::select() will explode, plus it's cheaper!
 		}
@@ -66,7 +66,7 @@ class ResourceLoader {
 			), __METHOD__
 		);
 
-		// Set modules' dependecies		
+		// Set modules' dependencies
 		$modulesWithDeps = array();
 		foreach ( $res as $row ) {
 			$this->getModule( $row->md_module )->setFileDependencies( $skin,
@@ -82,14 +82,12 @@ class ResourceLoader {
 		
 		// Get message blob mtimes. Only do this for modules with messages
 		$modulesWithMessages = array();
-		$modulesWithoutMessages = array();
 		foreach ( $modules as $name ) {
 			if ( count( $this->getModule( $name )->getMessages() ) ) {
 				$modulesWithMessages[] = $name;
-			} else {
-				$modulesWithoutMessages[] = $name;
 			}
 		}
+		$modulesWithoutMessages = array_flip( $modules ); // Will be trimmed down by the loop below
 		if ( count( $modulesWithMessages ) ) {
 			$res = $dbr->select( 'msg_resource', array( 'mr_resource', 'mr_timestamp' ), array(
 					'mr_resource' => $modulesWithMessages,
@@ -98,9 +96,10 @@ class ResourceLoader {
 			);
 			foreach ( $res as $row ) {
 				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, $row->mr_timestamp );
+				unset( $modulesWithoutMessages[$row->mr_resource] );
 			}
-		}
-		foreach ( $modulesWithoutMessages as $name ) {
+		} 
+		foreach ( array_keys( $modulesWithoutMessages ) as $name ) {
 			$this->getModule( $name )->setMsgBlobMtime( $lang, 0 );
 		}
 	}
@@ -111,14 +110,13 @@ class ResourceLoader {
 	 * Available filters are:
 	 *  - minify-js \see JSMin::minify
 	 *  - minify-css \see CSSMin::minify
-	 *  - flip-css \see CSSJanus::transform
 	 * 
 	 * If $data is empty, only contains whitespace or the filter was unknown, 
 	 * $data is returned unmodified.
 	 * 
 	 * @param $filter String: Name of filter to run
 	 * @param $data String: Text to filter, such as JavaScript or CSS text
-	 * @return String: Filtered data
+	 * @return String: Filtered data, or a comment containing an error message
 	 */
 	protected function filter( $filter, $data ) {
 		wfProfileIn( __METHOD__ );
@@ -126,7 +124,7 @@ class ResourceLoader {
 		// For empty/whitespace-only data or for unknown filters, don't perform 
 		// any caching or processing
 		if ( trim( $data ) === '' 
-			|| !in_array( $filter, array( 'minify-js', 'minify-css', 'flip-css' ) ) ) 
+			|| !in_array( $filter, array( 'minify-js', 'minify-css' ) ) ) 
 		{
 			wfProfileOut( __METHOD__ );
 			return $data;
@@ -151,17 +149,14 @@ class ResourceLoader {
 				case 'minify-css':
 					$result = CSSMin::minify( $data );
 					break;
-				case 'flip-css':
-					$result = CSSJanus::transform( $data, true, false );
-					break;
 			}
-		} catch ( Exception $exception ) {
-			throw new MWException( 'ResourceLoader filter error. ' . 
-				'Exception was thrown: ' . $exception->getMessage() );
-		}
 
-		// Save filtered text to Memcached
-		$cache->set( $key, $result );
+			// Save filtered text to Memcached
+			$cache->set( $key, $result );
+		} catch ( Exception $exception ) {
+			// Return exception as a comment
+			$result = "/*\n{$exception->__toString()}\n*/";
+		}
 
 		wfProfileOut( __METHOD__ );
 		
@@ -287,8 +282,18 @@ class ResourceLoader {
 	 */
 	public function respond( ResourceLoaderContext $context ) {
 		global $wgResourceLoaderMaxage, $wgCacheEpoch;
+		
+		// Buffer output to catch warnings. Normally we'd use ob_clean() on the
+		// top-level output buffer to clear warnings, but that breaks when ob_gzhandler
+		// is used: ob_clean() will clear the GZIP header in that case and it won't come
+		// back for subsequent output, resulting in invalid GZIP. So we have to wrap
+		// the whole thing in our own output buffer to be sure the active buffer
+		// doesn't use ob_gzhandler.
+		// See http://bugs.php.net/bug.php?id=36514
+		ob_start();
 
 		wfProfileIn( __METHOD__ );
+		$response = '';
 
 		// Split requested modules into two groups, modules and missing
 		$modules = array();
@@ -315,7 +320,12 @@ class ResourceLoader {
 		}
 
 		// Preload information needed to the mtime calculation below
-		$this->preloadModuleInfo( array_keys( $modules ), $context );
+		try {
+			$this->preloadModuleInfo( array_keys( $modules ), $context );
+		} catch( Exception $e ) {
+			// Add exception to the output as a comment
+			$response .= "/*\n{$e->__toString()}\n*/";
+		}
 
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
 
@@ -323,12 +333,17 @@ class ResourceLoader {
 		// the last modified time
 		$mtime = wfTimestamp( TS_UNIX, $wgCacheEpoch );
 		foreach ( $modules as $module ) {
-			// Bypass squid cache if the request includes any private modules
-			if ( $module->getGroup() === 'private' ) {
-				$smaxage = 0;
+			try {
+				// Bypass squid cache if the request includes any private modules
+				if ( $module->getGroup() === 'private' ) {
+					$smaxage = 0;
+				}
+				// Calculate maximum modified time
+				$mtime = max( $mtime, $module->getModifiedTime( $context ) );
+			} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+				$response .= "/*\n{$e->__toString()}\n*/";
 			}
-			// Calculate maximum modified time
-			$mtime = max( $mtime, $module->getModifiedTime( $context ) );
 		}
 
 		wfProfileOut( __METHOD__.'-getModifiedTime' );
@@ -353,6 +368,19 @@ class ResourceLoader {
 		if ( $ims !== false ) {
 			$imsTS = strtok( $ims, ';' );
 			if ( $mtime <= wfTimestamp( TS_UNIX, $imsTS ) ) {
+				// There's another bug in ob_gzhandler (see also the comment at
+				// the top of this function) that causes it to gzip even empty
+				// responses, meaning it's impossible to produce a truly empty
+				// response (because the gzip header is always there). This is
+				// a problem because 304 responses have to be completely empty
+				// per the HTTP spec, and Firefox behaves buggily when they're not.
+				// See also http://bugs.php.net/bug.php?id=51579
+				// To work around this, we tear down all output buffering before
+				// sending the 304.
+				while ( ob_get_level() > 0 ) {
+					ob_end_clean();
+				}
+				
 				header( 'HTTP/1.0 304 Not Modified' );
 				header( 'Status: 304 Not Modified' );
 				wfProfileOut( __METHOD__ );
@@ -361,15 +389,16 @@ class ResourceLoader {
 		}
 		
 		// Generate a response
-		$response = $this->makeModuleResponse( $context, $modules, $missing );
+		$response .= $this->makeModuleResponse( $context, $modules, $missing );
 
-		// Tack on PHP warnings as a comment in debug mode
+		// Capture any PHP warnings from the output buffer and append them to the
+		// response in a comment if we're in debug mode.
 		if ( $context->getDebug() && strlen( $warnings = ob_get_contents() ) ) {
 			$response .= "/*\n$warnings\n*/";
 		}
 
-		// Clear any warnings from the buffer
-		ob_clean();
+		// Remove the output buffer and output the response
+		ob_end_clean();
 		echo $response;
 
 		wfProfileOut( __METHOD__ );
@@ -386,64 +415,73 @@ class ResourceLoader {
 	public function makeModuleResponse( ResourceLoaderContext $context, 
 		array $modules, $missing = array() ) 
 	{
+		$out = '';
+		if ( $modules === array() && $missing === array() ) {
+			return '/* No modules requested. Max made me put this here */';
+		}
+		
 		// Pre-fetch blobs
 		if ( $context->shouldIncludeMessages() ) {
-			$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
+			//try {
+				$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
+			//} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+			//	$out .= "/*\n{$e->__toString()}\n*/";
+			//}
 		} else {
 			$blobs = array();
 		}
 
 		// Generate output
-		$out = '';
 		foreach ( $modules as $name => $module ) {
-
 			wfProfileIn( __METHOD__ . '-' . $name );
-
-			// Scripts
-			$scripts = '';
-			if ( $context->shouldIncludeScripts() ) {
-				$scripts .= $module->getScript( $context ) . "\n";
-			}
-
-			// Styles
-			$styles = array();
-			if ( $context->shouldIncludeStyles() ) {
-				$styles = $module->getStyles( $context );
-				// Flip CSS on a per-module basis
-				if ( $styles && $module->getFlip( $context ) ) {
-					foreach ( $styles as $media => $style ) {
-						$styles[$media] = $this->filter( 'flip-css', $style );
-					}
+			try {
+				// Scripts
+				$scripts = '';
+				if ( $context->shouldIncludeScripts() ) {
+					$scripts .= $module->getScript( $context ) . "\n";
 				}
-			}
 
-			// Messages
-			$messagesBlob = isset( $blobs[$name] ) ? $blobs[$name] : '{}';
+				// Styles
+				$styles = array();
+				if ( $context->shouldIncludeStyles() ) {
+					$styles = $module->getStyles( $context );
+				}
 
-			// Append output
-			switch ( $context->getOnly() ) {
-				case 'scripts':
-					$out .= $scripts;
-					break;
-				case 'styles':
-					$out .= self::makeCombinedStyles( $styles );
-					break;
-				case 'messages':
-					$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
-					break;
-				default:
-					// Minify CSS before embedding in mediaWiki.loader.implement call 
-					// (unless in debug mode)
-					if ( !$context->getDebug() ) {
-						foreach ( $styles as $media => $style ) {
-							$styles[$media] = $this->filter( 'minify-css', $style );
+				// Messages
+				$messagesBlob = isset( $blobs[$name] ) ? $blobs[$name] : '{}';
+
+				// Append output
+				switch ( $context->getOnly() ) {
+					case 'scripts':
+						$out .= $scripts;
+						break;
+					case 'styles':
+						$out .= self::makeCombinedStyles( $styles );
+						break;
+					case 'messages':
+						$out .= self::makeMessageSetScript( new XmlJsCode( $messagesBlob ) );
+						break;
+					default:
+						// Minify CSS before embedding in mediaWiki.loader.implement call
+						// (unless in debug mode)
+						if ( !$context->getDebug() ) {
+							foreach ( $styles as $media => $style ) {
+								$styles[$media] = $this->filter( 'minify-css', $style );
+							}
 						}
-					}
-					$out .= self::makeLoaderImplementScript( $name, $scripts, $styles, 
-						new XmlJsCode( $messagesBlob ) );
-					break;
-			}
+						$out .= self::makeLoaderImplementScript( $name, $scripts, $styles,
+							new XmlJsCode( $messagesBlob ) );
+						break;
+				}
+			} catch ( Exception $e ) {
+				// Add exception to the output as a comment
+				$out .= "/*\n{$e->__toString()}\n*/";
 
+				// Register module as missing
+				$missing[] = $name;
+				unset( $modules[$name] );
+			}
 			wfProfileOut( __METHOD__ . '-' . $name );
 		}
 

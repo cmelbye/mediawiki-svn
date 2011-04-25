@@ -654,6 +654,8 @@ Ikke glem å endre [[Special:Preferences|innstillingene]] dine.',
 'createaccounterror'         => 'Kunne ikke opprette konto: $1',
 'nocookiesnew'               => 'Din brukerkonto er nå opprettet, men du har ikke logget på. {{SITENAME}} bruker informasjonskapsler («cookies») for å logge brukere på. Du har slått dem av. Slå dem p åfor å kunne logge på med ditt nye brukernavn og passord.',
 'nocookieslogin'             => '{{SITENAME}} bruker informasjonskapsler («cookies») for å logge brukere på. Du har slått dem av. Slå dem på og prøv igjen.',
+'nocookiesfornew'            => 'Brukerkontoen ble ikke opprettet siden vi ikke kunne bekrefte dens kilde.
+Kontroller at du har aktivert informasjonskapsler, oppdater siden og prøv igjen.',
 'noname'                     => 'Du har ikke oppgitt et gyldig brukernavn.',
 'loginsuccesstitle'          => 'Du er nå logget inn',
 'loginsuccess'               => 'Du er nå logget inn på {{SITENAME}} som «$1».',
@@ -704,6 +706,9 @@ Du kan ignorere denne beskjeden dersom kontoen ble opprettet ved en feil.',
 'login-throttled'            => 'Du har prøvd å logge inn med denne kontoen for mange ganger. Vent før du prøver igjen.',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din forespørsel om å logge ut ble nektet fordi den så ut til å ha bli sendt av en ødelagt nettleser eller en mellomtjener.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Ukjent feil i PHPs mail()-funksjon',
 
 # JavaScript password checks
 'password-strength'            => 'Passordstyrke: $1',
@@ -842,7 +847,11 @@ Siste blokkeringsloggelement kan sees nedenfor.',
 'userjsyoucanpreview'              => "'''Tips:''' Bruk '{{int:showpreview}}'-knappen for å teste ditt nye JS før du lagrer.",
 'usercsspreview'                   => "'''Husk at dette bare er en forhåndsvisning av din bruker-CSS og at den ikke er lagret!'''",
 'userjspreview'                    => "'''Husk at dette bare er en test eller forhåndsvisning av ditt bruker-JavaScript, og det ikke er lagret!'''",
-'userinvalidcssjstitle'            => "'''Advarsel:''' Det finnes ikke noe utseende ved navn «$1». Husk at .css- og .js-sider bruker titler i små bokstaver, for eksempel {{ns:user}}:Eksempel/monobook.css, ikke {{ns:user}}:Eksempel/Monobook.css",
+'sitecsspreview'                   => "'''Husk at du bare forhåndsviser denne CSS.'''
+'''Den har ikke blitt lagret ennå!'''",
+'sitejspreview'                    => "'''Husk at du bare forhåndsviser denne JavaScript-koden.'''
+'''Den har ikke blitt lagret ennå!'''",
+'userinvalidcssjstitle'            => "'''Advarsel:''' Det finnes ikke noe utseende ved navn «$1». Husk at .css- og .js-sider bruker titler i små bokstaver, for eksempel {{ns:user}}:Eksempel/vector.css, ikke {{ns:user}}:Eksempel/Vector.css",
 'updated'                          => '(Oppdatert)',
 'note'                             => "'''Merk:'''",
 'previewnote'                      => "'''Husk at dette bare er en forhåndsvisning.'''
@@ -1100,7 +1109,7 @@ Se [[Special:IPBlockList|blokkeringslisten]] for oversikten over nåværende blo
 'revmove-norevisions-title'    => 'Ugyldig målrevisjon',
 'revmove-norevisions'          => 'Du har ikke oppgitt noen målrevisjon(er) å utføre denne funksjonen på, ellers finnes ikke den gitte revisjonen.',
 'revmove-nullmove-title'       => 'Ugyldig tittel',
-'revmove-nullmove'             => 'Kilde- og målside er identiske. Trykk «tilbake» og skriv inn et annet sidenavn enn «[[$1]]».',
+'revmove-nullmove'             => 'Kilde- og målside er identiske. Trykk «tilbake» og skriv inn et annet sidenavn enn «$1».',
 'revmove-success-existing'     => '{{PLURAL:$1|Én revisjon|$1 revisjoner}} fra [[$2]] ble flyttet til den eksisterende siden [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Én revisjon|$1 revisjoner}} fra [[$2]] ble flyttet til den nyopprettede siden [[$3]].',
 
@@ -1438,6 +1447,7 @@ Du kan også la velge å la andre brukere kontakte deg via brukersiden din uten 
 'right-override-export-depth' => 'Eksporter sider inkludert lenkede sider til en dypde på 5',
 'right-sendemail'             => 'Send e-post til andre brukere',
 'right-revisionmove'          => 'Flytte revisjoner',
+'right-disableaccount'        => 'Deaktivere kontoer',
 
 # User rights log
 'rightslog'      => 'Brukerrettighetslogg',
@@ -2306,6 +2316,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Bidrag av nye kontoer',
 'sp-contributions-blocklog'            => 'blokkeringslogg',
 'sp-contributions-deleted'             => 'slettede brukerbidrag',
+'sp-contributions-uploads'             => 'opplastinger',
 'sp-contributions-logs'                => 'logger',
 'sp-contributions-talk'                => 'diskusjon',
 'sp-contributions-userrights'          => 'brukerrettighetskontroll',
@@ -2732,7 +2743,7 @@ Du kan se på kildeteksten',
 'nostalgia.css'   => '/* CSS i denne fila vil gjelde alle som bruker drakta Nostalgia */',
 'cologneblue.css' => '/* CSS i denne fila vil gjelde alle som bruker drakta Kølnerblå */',
 'monobook.css'    => '/* CSS i denne fila vil gjelde alle som bruker drakta Monobook */',
-'myskin.css'      => '/* CSS i denne fila vil gjelde alle som bruker drakta Myskin */',
+'myskin.css'      => '/* CSS i denne fila vil gjelde alle som bruker drakta MySkin */',
 'chick.css'       => '/* CSS i denne fila vil gjelde alle som bruker drakta Chick */',
 'simple.css'      => '/* CSS i denne fila vil gjelde alle som bruker drakta Simple */',
 'modern.css'      => '/* CSS i denne fila vil gjelde alle som bruker drakta Modern */',
@@ -2743,7 +2754,7 @@ Du kan se på kildeteksten',
 'nostalgia.js'   => '/* Javascript i denne fila vil gjelde for brukere av drakta Nostalgia */',
 'cologneblue.js' => '/* Javascript i denne fila vil gjelde for brukere av drakta Kølnerblå */',
 'monobook.js'    => '/* Javascript i denne fila vil gjelde for brukere av drakta Monobook */',
-'myskin.js'      => '/* Javascript i denne fila vil gjelde for brukere av drakta Myskin */',
+'myskin.js'      => '/* Javascript i denne fila vil gjelde for brukere av drakta MySkin */',
 'chick.js'       => '/* Javascript i denne fila vil gjelde for brukere av drakta Chick */',
 'simple.js'      => '/* Javascript i denne fila vil gjelde for brukere av drakta Simple */',
 'modern.js'      => '/* Javascript i denne fila vil gjelde for brukere av drakta Modern */',
@@ -3347,6 +3358,8 @@ Du kan også [[Special:Watchlist/edit|bruke standardverktøyet]].',
 'version-specialpages'             => 'Spesialsider',
 'version-parserhooks'              => 'Parsertillegg',
 'version-variables'                => 'Variabler',
+'version-antispam'                 => 'Søppelpostforebygging',
+'version-skins'                    => 'Drakter',
 'version-other'                    => 'Annet',
 'version-mediahandlers'            => 'Mediahåndterere',
 'version-hooks'                    => 'Haker',
@@ -3466,5 +3479,27 @@ Skriv inn filnavn uten «{{ns:file}}:»-prefikset.',
 # SQLite database support
 'sqlite-has-fts' => '$1 med støtte for fulltekstsøk',
 'sqlite-no-fts'  => '$1 uten støtte for fulltekstsøk',
+
+# Special:DisableAccount
+'disableaccount'             => 'Deaktiver en brukerkonto',
+'disableaccount-user'        => 'Brukernavn:',
+'disableaccount-reason'      => 'Årsak:',
+'disableaccount-confirm'     => "Deaktiver denne brukerkontoen.
+Brukeren vil ikke kunne logge inn, tilbakestille sitt passord eller motta e-postvarsler.
+Om denne brukeren er pålogget et sted vil den umiddelbart bli logget ut.
+''Merk at å deaktivere en konto ikke er reversibelt uten inngripen fra en systemadministrator.''",
+'disableaccount-mustconfirm' => 'Du må bekrefte at du vil deaktivere denne kontoen.',
+'disableaccount-nosuchuser'  => 'Brukerkontoen «$1» finnes ikke.',
+'disableaccount-success'     => 'Brukerkontoen «$1» har blitt permanent deaktivert.',
+'disableaccount-logentry'    => 'deaktiverte brukerkontoen [[$1]] permanent',
+
+# Special:UploadStash
+'uploadstash'          => 'Last opp stash',
+'uploadstash-summary'  => 'Denne siden gir tilgang til filer som har blitt lastet opp (eller er i ferd med å bli lastet opp) men som ennå ikke er publisert til wikien. Disse filene er ikke synlige for andre enn brukeren som lastet dem opp.',
+'uploadstash-clear'    => 'Fjern stashede filer',
+'uploadstash-nofiles'  => 'Du har ingen stashede filer.',
+'uploadstash-badtoken' => 'Utføringen av den handlingen var mislykket, kanskje fordi dine redigeringsrettigheter har utløpt. Prøv igjen.',
+'uploadstash-errclear' => 'Fjerning av filene var mislykket.',
+'uploadstash-refresh'  => 'Oppdater listen over filer',
 
 );

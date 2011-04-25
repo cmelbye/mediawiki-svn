@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author *Surak*
  * @author Ahonc
  * @author Aleator
  * @author AlexSm
@@ -466,7 +467,7 @@ See also [[MediaWiki:Lastmodifiedatby/{{SUBPAGENAME}}]].',
 Do '''not''' replace SITENAME with a translation of Wikipedia or some encycopedic additions. The message has to be neutral for all projects.",
 'pagetitle-view-mainpage' => '{{optional}}',
 'retrievedfrom'           => 'Message which appears in the source of every page, but it is hidden. It is shown when printing. $1 is a link back to the current page: {{FULLURL:{{FULLPAGENAME}}}}.',
-'youhavenewmessages'      => 'The orange message appearing when someone edited your user talk page.
+'youhavenewmessages'      => 'The blue message appearing when someone edited your user talk page.
 The format is: "{{int:youhavenewmessages| [[MediaWiki:Newmessageslink/{{SUBPAGENAME}}|{{int:newmessageslink}}]] |[[MediaWiki:Newmessagesdifflink/{{SUBPAGENAME}}|{{int:newmessagesdifflink}}]]}}"',
 'newmessageslink'         => 'This is the first link displayed in an orange rectangle when a user gets a message on his talk page. Used in message {{msg-mw|youhavenewmessages}} (as parameter $1).
 
@@ -496,6 +497,8 @@ The format is: "{{int:youhavenewmessagesmulti| [[MediaWiki:Newmessageslink/{{SUB
 'hidetoc'                 => 'This is the link used to hide the table of contents
 
 {{Identical|Hide}}',
+'collapsible-collapse'    => 'This is the link used to collapse a collapsible element',
+'collapsible-expand'      => 'This is the link used to expand a collapsible element',
 'thisisdeleted'           => 'Message shown on a deleted page when the user has the undelete right. $1 is a link to [[Special:Undelete]], with {{msg-mw|restorelink}} as the text. See also {{msg-mw|viewdeleted}}.',
 'viewdeleted'             => 'Message shown on a deleted page when the user does not have the undelete right (but has the deletedhistory right). $1 is a link to [[Special:Undelete]], with {{msg-mw|restorelink}} as the text. See also {{msg-mw|thisisdeleted}}.',
 'restorelink'             => "This text is always displayed in conjunction with the {{msg-mw|thisisdeleted}} message (View or restore $1?). The user will see
@@ -642,7 +645,8 @@ $1 is a filename, I think.',
 'nologin'                    => 'A message shown in the log in form. $1 is a link to the account creation form, and the text of it is "[[MediaWiki:Nologinlink/{{SUBPAGENAME}}|{{int:nologinlink}}]]".',
 'nologinlink'                => 'Text of the link to the account creation form. Before that link, the message [[MediaWiki:Nologin/{{SUBPAGENAME}}]] appears.
 {{Identical|Create an account}}',
-'createaccount'              => 'The title of Special:CreateAccount, where users can register a new account. Used on Special:SpecialPages, and also on the submit button in the form where you register a new account.',
+'createaccount'              => 'The title of Special:CreateAccount, where users can register a new account. Used on Special:SpecialPages, and also on the submit button in the form where you register a new account.
+{{Identical|Create account}}',
 'gotaccount'                 => 'A message shown in the account creation form. $1 is a link to the log in form, and the text of it is "[[MediaWiki:Gotaccountlink/{{SUBPAGENAME}}|{{int:gotaccountlink}}]]".',
 'gotaccountlink'             => 'Text of the link to the log in form. Before that link, the message [[MediaWiki:Gotaccount/{{SUBPAGENAME}}]] appears.
 
@@ -653,6 +657,8 @@ $1 is a filename, I think.',
 * $1 is an error message',
 'nocookiesnew'               => "This message is displayed when a new account was successfully created, but the browser doesn't accept cookies.",
 'nocookieslogin'             => "This message is displayed when someone tried to login, but the browser doesn't accept cookies.",
+'nocookiesfornew'            => "This message is displayed when the user tried to create a new account, but it failed the CSRF check. It could be blocking an attack, but most likely, the browser isn't  accepting cookies.",
+'nocookiesforlogin'          => "This message is displayed when someone tried to login and the CSRF failed (most likely, the browser doesn't accept cookies). Defaults to nocookieslogin",
 'loginsuccesstitle'          => 'The title of the page saying that you are logged in. The content of the page is the message "[[MediaWiki:Loginsuccess/{{SUBPAGENAME}}]]".',
 'loginsuccess'               => 'The content of the page saying that you are logged in. The title of the page is "[[MediaWiki:Loginsuccesstitle/{{SUBPAGENAME}}|{{int:loginsuccesstitle}}]]". $1 is the name of the logged in user.
 
@@ -840,8 +846,8 @@ See also {{msg-mw|Noarticletext-nopermission}}.',
 'userjsyoucanpreview'              => 'Text displayed on every js page.',
 'usercsspreview'                   => 'Text displayed on preview of every user .css subpage',
 'userjspreview'                    => 'Text displayed on preview of every user .js subpage',
-'globalcsspreview'                 => 'Text displayed on preview of .css pages in MediaWiki namespace',
-'globaljspreview'                  => 'Text displayed on preview of .js pages in MediaWiki namespace',
+'sitecsspreview'                   => 'Text displayed on preview of .css pages in MediaWiki namespace',
+'sitejspreview'                    => 'Text displayed on preview of .js pages in MediaWiki namespace',
 'updated'                          => '{{Identical|Updated}}',
 'previewnote'                      => 'Note displayed when clicking on Show preview',
 'editing'                          => "Shown as page title when editing a page. \$1 is the name of the page that is being edited. Example: \"''Editing Main Page''\".",
@@ -2115,6 +2121,7 @@ The title is {{msg-mw|nopagetitle}}.',
 'pager-newer-n'           => "This is part of the navigation message on the top and bottom of Special pages which are lists of things in date order, e.g. the User's contributions page. It is passed as the second argument of {{msg-mw|Viewprevnext}}. $1 is the number of items shown per page.",
 'pager-older-n'           => "This is part of the navigation message on the top and bottom of Special pages which are lists of things in date order, e.g. the User's contributions page. It is passed as the first argument of {{msg-mw|Viewprevnext}}. $1 is the number of items shown per page.",
 'suppress'                => '{{Identical|Oversight}}',
+'querypage-disabled'      => "On special pages that use expensive database queries but are not cacheable, this message is displayed when 'miser mode' is on (i.e. no expensive queries allowed).",
 
 # Book sources
 'booksources'               => 'Name of special page displayed in [[Special:SpecialPages]]',
@@ -2123,6 +2130,7 @@ The title is {{msg-mw|nopagetitle}}.',
 'booksources-go'            => 'Name of button in [[Special:BookSources]]
 
 {{Identical|Go}}',
+'booksources-invalid-isbn'  => 'This message is displayed after an invalid ISBN is entered on Special:Booksources.',
 
 # Special:Log
 'specialloguserlabel'  => 'Used in [[Special:Log]].
@@ -2387,26 +2395,27 @@ $1 is the <b>approximate</b> number of revisions that the page has, the message 
 {{Identical|Edit delete reasons}}',
 
 # Rollback
-'rollback'         => '{{Identical|Rollback}}',
-'rollback_short'   => '{{Identical|Rollback}}',
-'rollbacklink'     => '{{Identical|Rollback}}',
-'rollbackfailed'   => '{{Identical|Rollback}}',
-'cantrollback'     => '{{Identical|Revert}}
+'rollback'          => '{{Identical|Rollback}}',
+'rollback_short'    => '{{Identical|Rollback}}',
+'rollbacklink'      => '{{Identical|Rollback}}',
+'rollbackfailed'    => '{{Identical|Rollback}}',
+'cantrollback'      => '{{Identical|Revert}}
 {{Identical|Rollback}}',
-'alreadyrolled'    => "Appear when there's rollback and/or edit collision.
+'alreadyrolled'     => "Appear when there's rollback and/or edit collision.
 * $1: the page to be rollbacked
 * $2: the editor to be rollbacked of that page
 * $3: the editor that cause collision
 
 {{Identical|Rollback}}",
-'editcomment'      => 'Only shown if there is an edit comment',
-'revertpage'       => '{{Identical|Revert}}
+'editcomment'       => 'Only shown if there is an edit comment',
+'revertpage'        => '{{Identical|Revert}}
 Additionally available:
 * $3: revid of the revision reverted to,
 * $4: timestamp of the revision reverted to,
 * $5: revid of the revision reverted from,
 * $6: timestamp of the revision reverted from',
-'rollback-success' => 'This message shows up on screen after successful revert (generally visible only to admins). $1 describes user whose changes have been reverted, $2 describes user which produced version, which replaces reverted version.
+'revertpage-nouser' => 'This is a confirmation message a user sees after reverting.',
+'rollback-success'  => 'This message shows up on screen after successful revert (generally visible only to admins). $1 describes user whose changes have been reverted, $2 describes user which produced version, which replaces reverted version.
 {{Identical|Revert}}
 {{Identical|Rollback}}',
 

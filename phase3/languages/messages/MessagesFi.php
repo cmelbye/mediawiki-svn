@@ -19,6 +19,7 @@
  * @author Silvonen
  * @author Str4nd
  * @author Tarmo
+ * @author Tofu II
  * @author ZeiP
  * @author לערי ריינהארט
  */
@@ -903,7 +904,7 @@ Alla on viimeisin estolokin tapahtuma:',
 'userjsyoucanpreview'              => 'Voit testata uutta JavaScriptiä ennen tallennusta käyttämällä painiketta ”{{int:showpreview}}”.',
 'usercsspreview'                   => "'''Tämä on CSS:n esikatselu. Muutoksia ei ole vielä tallennettu.'''",
 'userjspreview'                    => "'''Tämä on JavaScriptin esikatselu.'''",
-'userinvalidcssjstitle'            => "'''Varoitus:''' Tyyliä nimeltä ”$1” ei ole olemassa. Muista, että käyttäjän määrittelemät .css- ja .js-sivut alkavat pienellä alkukirjaimella, esim. {{ns:user}}:Matti Meikäläinen/monobook.css eikä {{ns:user}}:Matti Meikäläinen/Monobook.css.",
+'userinvalidcssjstitle'            => "'''Varoitus:''' Tyyliä nimeltä ”$1” ei ole olemassa. Muista, että käyttäjän määrittelemät .css- ja .js-sivut alkavat pienellä alkukirjaimella, esim. {{ns:user}}:Matti Meikäläinen/vector.css eikä {{ns:user}}:Matti Meikäläinen/Vector.css.",
 'updated'                          => '(Päivitetty)',
 'note'                             => "'''Huomautus:'''",
 'previewnote'                      => "'''Tämä on vasta sivun esikatselu. Sivua ei ole vielä tallennettu!'''",
@@ -1148,7 +1149,7 @@ Sinulla ei ole oikeutta siihen.',
 'revmove-norevisions-title'    => 'Virheellinen kohdeversio',
 'revmove-norevisions'          => 'Et määrittänyt yhtä tai useampaa versiota tämän funktion suoritettavaksi, tai määritettyä versiota ei ole olemassa.',
 'revmove-nullmove-title'       => 'Virheellinen otsikko',
-'revmove-nullmove'             => 'Lähde- ja kohdesivu ovat samat. Palaa edelliselle sivulle ja valitse sivunimi, joka on eri kuin "[[$1]]".',
+'revmove-nullmove'             => 'Lähde- ja kohdesivu ovat samat. Palaa edelliselle sivulle ja valitse sivunimi, joka on eri kuin "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Yksi versio|$1 versiota}} sivulta [[$2]] on siirretty olemassa olevalle sivulle [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Yksi versio|$1 versiota}} sivulta [[$2]] on siirretty juuri luodulle sivulle [[$3]].',
 
@@ -1738,6 +1739,7 @@ Parhaan turvallisuuden vuoksi img_auth.php on poissa käytöstä.',
 'listfiles_search_for'  => 'Nimihaku',
 'imgfile'               => 'tiedosto',
 'listfiles'             => 'Tiedostoluettelo',
+'listfiles_thumb'       => 'Pienoiskuva',
 'listfiles_date'        => 'Päiväys',
 'listfiles_name'        => 'Nimi',
 'listfiles_user'        => 'Tallentaja',
@@ -1940,6 +1942,7 @@ Huomaa, että muut verkkosivut saattavat viitata tiedostoon suoran URL:n avulla,
 'pager-newer-n'           => '← {{PLURAL:$1|1 uudempi|$1 uudempaa}}',
 'pager-older-n'           => '{{PLURAL:$1|1 vanhempi|$1 vanhempaa}} →',
 'suppress'                => 'Häivytys',
+'querypage-disabled'      => 'Tämä toimintosivu on poistettu käytöstä suorituskykysyistä.',
 
 # Book sources
 'booksources'               => 'Kirjalähteet',
@@ -2315,6 +2318,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Uusien tulokkaiden muokkaukset',
 'sp-contributions-blocklog'            => 'estot',
 'sp-contributions-deleted'             => 'poistetut muokkaukset',
+'sp-contributions-uploads'             => 'tallennukset',
 'sp-contributions-logs'                => 'lokit',
 'sp-contributions-talk'                => 'keskustelu',
 'sp-contributions-userrights'          => 'käyttöoikeuksien hallinta',
@@ -3291,6 +3295,7 @@ Voit myös muokata listaa [[Special:Watchlist/edit|tavalliseen tapaan]].',
 'version-specialpages'             => 'Toimintosivut',
 'version-parserhooks'              => 'Jäsenninkytkökset',
 'version-variables'                => 'Muuttujat',
+'version-skins'                    => 'Ulkoasut',
 'version-other'                    => 'Muut',
 'version-mediahandlers'            => 'Median käsittelijät',
 'version-hooks'                    => 'Kytköspisteet',
@@ -3405,5 +3410,8 @@ Kirjoita tiedostonimi ilman ”{{ns:file}}:”-etuliitettä.',
 'htmlform-submit'              => 'Lähetä',
 'htmlform-reset'               => 'Kumoa muutokset',
 'htmlform-selectorother-other' => 'Muu',
+
+# Special:DisableAccount
+'disableaccount' => 'Käyttäjätunnuksen poistaminen käytöstä',
 
 );

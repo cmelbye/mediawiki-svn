@@ -889,8 +889,12 @@ $1, 또는 [[{{MediaWiki:Grouppage-sysop}}|다른 관리자]]에게 차단에 �
 'userjsyoucanpreview'              => "'''안내''': JS 문서를 저장하기 전에 ‘{{int:showpreview}}’ 기능을 통해 작동을 확인해주세요.",
 'usercsspreview'                   => "'''이것은 사용자 CSS의 미리 보기이며, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userjspreview'                    => "'''이것은 자바스크립트 미리 보기로, 아직 저장하지 않았다는 것을 주의해 주세요!'''",
+'sitecsspreview'                   => "'''이것은 모두에게 적용되는 CSS의 미리 보기입니다.'''
+'''아직 저장하지 않았다는 것을 주의해 주세요!'''",
+'sitejspreview'                    => "'''이것은 모두에게 적용되는 자바스크립트의 미리 보기입니다.'''
+'''아직 저장하지 않았다는 것을 주의해 주세요!'''",
 'userinvalidcssjstitle'            => "'''경고''': ‘$1’ 스킨은 없습니다.
-.css와 .js 문서의 제목은 {{ns:user}}:Foo/monobook.css 처럼 소문자로 써야 합니다. {{ns:user}}:Foo/Monobook.css 와 같이 대문자로 쓸 경우 작동하지 않습니다.",
+.css와 .js 문서의 제목은 {{ns:user}}:Foo/vector.css 처럼 소문자로 써야 합니다. {{ns:user}}:Foo/Vector.css 와 같이 대문자로 쓸 경우 작동하지 않습니다.",
 'updated'                          => '(바뀜)',
 'note'                             => "'''주의:'''",
 'previewnote'                      => "'''지금 미리 보기로 보고 있는 내용은 아직 저장되지 않았습니다!'''",
@@ -1152,7 +1156,7 @@ $1",
 'revmove-norevisions-title'    => '대상 판 선택이 잘못됨',
 'revmove-norevisions'          => '당신은 이 기능을 수행할 대상 판을 설정하지 않았거나 존재하지 않는 판을 선택하였습니다.',
 'revmove-nullmove-title'       => '제목이 잘못됨',
-'revmove-nullmove'             => '옮기기 전 문서와 대상 문서의 제목이 같습니다. "뒤로"를 클릭하여 "[[$1]]"과 다른 문서 이름을 입력해주세요.',
+'revmove-nullmove'             => '옮기기 전 문서와 대상 문서의 제목이 같습니다. "뒤로"를 클릭하여 "$1"과 다른 문서 이름을 입력해주세요.',
 'revmove-success-existing'     => '[[$2]] 문서의 편집 $1개가 [[$3]] 문서로 옮겨졌습니다.',
 'revmove-success-created'      => '[[$2]] 문서의 편집 $1개가 [[$3]] 문서로 옮기면서 새 문서를 생성했습니다.',
 

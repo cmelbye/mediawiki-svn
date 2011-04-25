@@ -602,7 +602,7 @@ $1',
 'privacypage'          => 'Project:Confidentialité',
 
 'badaccess'        => 'Erreur de permission',
-'badaccess-group0' => 'Vous n’avez pas les droits suffisants pour réaliser l’action que vous demandez.',
+'badaccess-group0' => 'Vous n’avez pas les droits suffisants pour réaliser l’action demandée.',
 'badaccess-groups' => 'L’action que vous essayez de réaliser n’est accessible qu’aux utilisateurs {{PLURAL:$2|du groupe|des groupes}} : $1.',
 
 'versionrequired'     => 'Version $1 de MediaWiki nécessaire',
@@ -770,6 +770,8 @@ Veuillez en choisir un autre.',
 'createaccounterror'         => 'Impossible de créer le compte : $1',
 'nocookiesnew'               => "Le compte utilisateur a été créé, mais vous n’êtes pas connecté{{GENDER:||e|(e)}}. {{SITENAME}} utilise des témoins (''cookies'') pour la connexion mais vous les avez désactivés. Veuillez les activer et vous reconnecter avec le même nom et le même mot de passe.",
 'nocookieslogin'             => "{{SITENAME}} utilise des témoins (''cookies'') pour la connexion mais vous les avez désactivés. Veuillez les activer et vous reconnecter.",
+'nocookiesfornew'            => "Le compte utilisateur n'a pas été créé, car nous n'avons pas pu identifier son origine.
+Vérifiez que vous avez activé les cookies, rechargez la page et rééssayez.",
 'noname'                     => 'Vous n’avez pas saisi un nom d’utilisateur valide.',
 'loginsuccesstitle'          => 'Connexion réussie',
 'loginsuccess'               => 'Vous êtes maintenant connecté{{GENDER:$1||e|(e)}} à {{SITENAME}} en tant que « $1 ».',
@@ -906,7 +908,7 @@ La raison invoquée est la suivante : ''$2''.
 * Compte bloqué : $7.
 
 Vous pouvez contacter $1 ou un autre [[{{MediaWiki:Grouppage-sysop}}|administrateur]] pour en discuter.
-Vous ne pouvez utiliser la fonction « Envoyer un courriel à cet utilisateur » que si une adresse de courriel valide est spécifiée dans vos [[Special:Preferences|préférences]] et que cette fonctionnalité n’a pas été bloquée.
+Vous ne pouvez utiliser la fonction « {{MediaWiki:emailpage}} » que si une adresse de courriel valide est spécifiée dans vos [[Special:Preferences|préférences]] et que cette fonctionnalité n’a pas été bloquée.
 Votre adresse IP actuelle est $3 et votre identifiant de blocage est $5.
 Veuillez préciser ces indications dans toutes les requêtes que vous ferez.",
 'autoblockedtext'                  => "Votre adresse IP a été bloquée automatiquement car elle a été utilisée par un autre utilisateur, lui-même bloqué par $1.
@@ -964,7 +966,11 @@ La dernière entrée du registre des blocages est indiquée ci-dessous à titre 
 'usercsspreview'                   => "'''Rappelez-vous que vous n’êtes qu’en train de prévisualiser votre propre feuille CSS.'''
 '''Elle n’a pas encore été enregistrée !'''",
 'userjspreview'                    => "'''Rappelez-vous que vous êtes en train de visualiser ou de tester votre code JavaScript et qu’il n’a pas encore été enregistré !'''",
-'userinvalidcssjstitle'            => "'''Attention :''' il n’existe pas d’habillage « $1 ». Rappelez-vous que les pages personnelles avec extensions .css et .js utilisent des titres en minuscules, par exemple {{ns:user}}:Foo/monobook.css et non {{ns:user}}:Foo/Monobook.css.",
+'sitecsspreview'                   => "'''Souvenez-vous que vous êtes seulement en train de prévisualiser cette feuille de style.'''
+'''Elle n’a pas encore été enregistrée !'''",
+'sitejspreview'                    => "'''Souvenez-vous que vous êtes seulement en train de prévisualiser ce code Javascript.'''
+'''Il n’a pas encore été enregistré !'''",
+'userinvalidcssjstitle'            => "'''Attention :''' il n’existe pas d’habillage « $1 ». Rappelez-vous que les pages personnelles avec extensions .css et .js utilisent des titres en minuscules, par exemple {{ns:user}}:Foo/vector.css et non {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Mis à jour)',
 'note'                             => "'''Note :'''",
 'previewnote'                      => "'''Attention, ce texte n’est qu’une prévisualisation et n’a pas encore été publié !'''",
@@ -1223,7 +1229,7 @@ Voir la [[Special:IPBlockList|liste des adresses IP et utilisateurs bloqués]] p
 'revmove-norevisions-title'    => 'Révision cible invalide',
 'revmove-norevisions'          => 'Vous n’avez pas spécifié un ou plusieurs révisions cibles pour effectuer cette fonctionnalité ou la révision spécifiée n’existe pas.',
 'revmove-nullmove-title'       => 'Mauvais titre',
-'revmove-nullmove'             => 'Les pages source et cible sont identiques. Veuillez cliquer sur « précédent » et entrez un nom de page différent de « [[$1]] ».',
+'revmove-nullmove'             => 'Les pages source et cible sont identiques. Veuillez cliquer sur « précédent » et entrez un nom de page différent de « $1 ».',
 'revmove-success-existing'     => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page existante [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Une révision de [[$2]] a été déplacée|$1 révisions de [[$2]] ont été déplacées}} vers la page [[$3]] nouvellement créée.',
 
@@ -2091,7 +2097,7 @@ Vous pouvez restreindre la vue en sélectionnant un type de journal, un nom d’
 'allpages-bad-ns'   => '{{SITENAME}} n’a pas d’espace de noms « $1 ».',
 
 # Special:Categories
-'categories'                    => 'Catégories',
+'categories'                    => 'Liste des catégories',
 'categoriespagetext'            => '{{PLURAL:$1|La catégorie suivante est utilisée|Les catégories suivantes sont utilisées}} par des pages ou fichiers.
 [[Special:UnusedCategories|Les catégories inutilisées]] ne sont pas affichées ici.
 Voyez aussi [[Special:WantedCategories|les catégories demandées]].',
@@ -2519,8 +2525,8 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 'ipb-change-block'                => 'Bloquer à nouveau cet utilisateur avec ces paramètres',
 'badipaddress'                    => 'Adresse IP incorrecte',
 'blockipsuccesssub'               => 'Blocage réussi',
-'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué.<br />
-Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour réviser les blocages.',
+'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué{{GENDER:$1||e|}}.<br />
+Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour revoir les blocages.',
 'ipb-edit-dropdown'               => 'Modifier les motifs de blocage par défaut',
 'ipb-unblock-addr'                => 'Débloquer $1',
 'ipb-unblock'                     => 'Débloquer un compte utilisateur ou une adresse IP',
@@ -2883,7 +2889,7 @@ Permet de rétablir la version précédente et d’ajouter un motif dans la boî
 'nostalgia.css'   => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Nostalgia. */',
 'cologneblue.css' => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Cologne Blue. */',
 'monobook.css'    => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Monobook. */',
-'myskin.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Myskin. */',
+'myskin.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage MySkin. */',
 'chick.css'       => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Chick. */',
 'simple.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Simple. */',
 'modern.css'      => '/* Le CSS placé ici affectera les utilisateurs de l’habillage Modern. */',
@@ -3504,6 +3510,8 @@ Vous pouvez aussi [[Special:Watchlist/edit|utiliser l’éditeur normal]].',
 'version-specialpages'             => 'Pages spéciales',
 'version-parserhooks'              => 'Greffons du parseur',
 'version-variables'                => 'Variables',
+'version-antispam'                 => 'Prévention du pourriel',
+'version-skins'                    => 'Habillages',
 'version-other'                    => 'Divers',
 'version-mediahandlers'            => 'Manipulateurs de médias',
 'version-hooks'                    => 'Greffons',
@@ -3638,5 +3646,14 @@ Si l’utilisateur est actuellement identifié quelque part, il sera immédiatem
 'disableaccount-nosuchuser'  => "Le compte utilisateur « $1 » n'existe pas.",
 'disableaccount-success'     => 'Le compte utilisateur « $1 » a été définitivement désactivé.',
 'disableaccount-logentry'    => 'a désactivé définitivement le compte utilisateur [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => "Cache d'import",
+'uploadstash-summary'  => "Cette page donne accès aux fichiers qui sont importés (ou en cours d'importation), mais ne sont pas encore publiés dans le wiki. Ces fichiers ne sont pas encore, sauf pour l'utilisateur qui les a importés.",
+'uploadstash-clear'    => 'Effacer les fichiers en cache',
+'uploadstash-nofiles'  => "Vous n'avez pas de fichiers en cache d'import.",
+'uploadstash-badtoken' => "L'exécution de cette action a échoué, peut-être parce que vos informations d'identification ont expiré. Réessayez.",
+'uploadstash-errclear' => "L'effacement des fichiers a échoué.",
+'uploadstash-refresh'  => 'Actualiser la liste des fichiers',
 
 );

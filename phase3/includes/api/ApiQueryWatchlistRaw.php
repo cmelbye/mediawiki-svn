@@ -1,10 +1,10 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Oct 4, 2008
  *
- * Copyright © 2008 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2008 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

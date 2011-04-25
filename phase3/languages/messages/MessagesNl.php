@@ -761,6 +761,8 @@ Schakel die in en meld daarna aan met uw nieuwe gebruikersnaam en wachtwoord.',
 'nocookieslogin'             => '{{SITENAME}} gebruikt cookies voor het aanmelden van gebruikers.
 Cookies zijn uitgeschakeld in uw browser.
 Schakel deze optie aan en probeer het opnieuw.',
+'nocookiesfornew'            => 'De gebruiker is niet gemaakt omdat de bron niet bevestigd kon worden.
+Zorg ervoor dat u cookies hebt ingeschakeld, herlaad deze pagina en probeer het opnieuw.',
 'noname'                     => 'U hebt geen geldige gebruikersnaam opgegeven.',
 'loginsuccesstitle'          => 'Aanmelden geslaagd',
 'loginsuccess'               => "'''U bent nu aangemeld bij {{SITENAME}} als \"\$1\".'''",
@@ -825,6 +827,9 @@ Negeer dit bericht als deze gebruiker zonder uw medeweten is aangemaakt.',
 Wacht even voordat u het opnieuw probeert.',
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => 'Uw verzoek om af te melden is genegeerd, omdat het lijkt alsof het verzoek is verzonden door een browser of cacheproxy die stuk is.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Er is een onbekende fout opgetreden in de mail()-functie van PHP',
 
 # JavaScript password checks
 'password-strength'            => 'Geschatte wachtwoordsterkte: $1',
@@ -968,12 +973,16 @@ De laatste regel uit het blokkeerlogboek wordt hieronder ter referentie weergege
 '''Mozilla / Firefox / Safari:''' houd ''Shift'' ingedrukt terwijl u op ''Huidige pagina vernieuwen'' klikt of typ ''Ctrl-F5'' of ''Ctrl-R'' (''Command-R'' op eenMacintosh); '''Konqueror: '''klik ''Reload'' of typ ''F5;'' '''Opera:''' leeg uw cache in ''Extra → Voorkeuren;'' '''Internet Explorer:''' houd ''Ctrl'' ingedrukt terwijl u op ''Vernieuwen'' klikt of type ''Ctrl-F5.''",
 'usercssyoucanpreview'             => "'''Tip:''' Gebruik de knop \"{{int:showpreview}}\" om uw nieuwe CSS te testen alvorens op te slaan.",
 'userjsyoucanpreview'              => "'''Tip:''' Gebruik de knop \"{{int:showpreview}}\" om uw nieuwe JavaScript te testen alvorens op te slaan.",
-'usercsspreview'                   => "'''Dit is alleen een voorvertoning van uw persoonlijke CSS.
-Deze is nog niet opgeslagen!'''",
+'usercsspreview'                   => "'''Dit is alleen een voorvertoning van uw persoonlijke CSS.'''
+'''Deze is nog niet opgeslagen!'''",
 'userjspreview'                    => "'''Let op: u test nu uw persoonlijke JavaScript.'''
 '''De pagina is niet opgeslagen!'''",
+'sitecsspreview'                   => "'''Dit is alleen een voorvertoning van de CSS.'''
+'''Deze is nog niet opgeslagen!'''",
+'sitejspreview'                    => "'''Dit is alleen een voorvertoning van de JavaScriptcode.'''
+'''Deze is nog niet opgeslagen!'''",
 'userinvalidcssjstitle'            => "'''Waarschuwing:''' er is geen skin \"\$1\".
-Let op: uw eigen .css- en .js-pagina's beginnen met een kleine letter, bijvoorbeeld {{ns:user}}:Naam/monobook.css in plaats van {{ns:user}}:Naam/Monobook.css.",
+Let op: uw eigen .css- en .js-pagina's beginnen met een kleine letter, bijvoorbeeld {{ns:user}}:Naam/vector.css in plaats van {{ns:user}}:Naam/Vector.css.",
 'updated'                          => '(Bijgewerkt)',
 'note'                             => "'''Opmerking:'''",
 'previewnote'                      => "'''Let op: dit is een controlepagina; uw tekst is niet opgeslagen!'''",
@@ -1252,7 +1261,7 @@ Klik "Terug" en probeer het opnieuw.',
 'revmove-norevisions'          => 'U hebt geen versies aangegeven om deze handeling op uit te voeren of de aangegeven versie bestaat niet.',
 'revmove-nullmove-title'       => 'Ongeldige paginanaam',
 'revmove-nullmove'             => 'De bronpagina en doelpagina zijn hetzelfde.
-Klik "Terug" en geef een andere pagina dan "[[$1]]" op.',
+Klik "Terug" en geef een andere pagina dan "$1" op.',
 'revmove-success-existing'     => '{{PLURAL:$1|Een versie van[[$2]] is|$1 versies van [[$2]] zijn}} verplaatst naar de bestaande pagina [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Een versie van[[$2]] is|$1 versies van [[$2]] zijn}} verplaatst naar de nieuwe pagina [[$3]].',
 
@@ -2113,6 +2122,7 @@ Een bestand kan hier dus ten onrechte opgenomen zijn.',
 'pager-newer-n'           => '{{PLURAL:$1|1 nieuwere|$1 nieuwere}}',
 'pager-older-n'           => '{{PLURAL:$1|1 oudere|$1 oudere}}',
 'suppress'                => 'Toezicht',
+'querypage-disabled'      => 'Deze speciale pagina is uitgeschakeld om performanceredenen.',
 
 # Book sources
 'booksources'               => 'Boekinformatie',
@@ -3576,6 +3586,8 @@ U kunt ook [[Special:Watchlist/edit|het standaard bewerkingsscherm gebruiken]].'
 'version-specialpages'             => "Speciale pagina's",
 'version-parserhooks'              => 'Parserhooks',
 'version-variables'                => 'Variabelen',
+'version-antispam'                 => 'Spampreventie',
+'version-skins'                    => 'Vormgevingen',
 'version-other'                    => 'Overige',
 'version-mediahandlers'            => 'Mediaverwerkers',
 'version-hooks'                    => 'Hooks',
@@ -3711,5 +3723,14 @@ Als de gebruiker op dit moment is aangemeld, wordt deze per direct afgemeld.
 'disableaccount-nosuchuser'  => 'De gebruiker "$1" bestaat niet.',
 'disableaccount-success'     => 'De gebruiker "$1" is permanent uitgeschakeld.',
 'disableaccount-logentry'    => 'heeft de gebruiker [[$1]] permanent uitgeschakeld',
+
+# Special:UploadStash
+'uploadstash'          => 'Verborgen uploads',
+'uploadstash-summary'  => 'Deze pagina biedt toegang tot bestanden die geüpload zijn of nog geüpload worden maar nog niet beschikbaar gemaakt zijn in de wiki. Deze bestanden zijn alleen zichtbaar voor de gebruiker die ze uploadt.',
+'uploadstash-clear'    => 'Verborgen bestanden weggooien',
+'uploadstash-nofiles'  => 'Er zijn geen verborgen bestanden.',
+'uploadstash-badtoken' => 'Het uitvoeren van de handeling is mislukt. Dit komt mogelijk doordat uw bewerkingsreferenties zijn verlopen. Probeer het opnieuw.',
+'uploadstash-errclear' => 'Het verwijderen van de bestanden is mislukt.',
+'uploadstash-refresh'  => 'Lijst met bestanden bijwerken',
 
 );

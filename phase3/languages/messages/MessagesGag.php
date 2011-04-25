@@ -9,6 +9,7 @@
  *
  * @author Andrijko Z.
  * @author Cuman
+ * @author Emperyan
  */
 
 $fallback = 'tr';
@@ -20,14 +21,14 @@ $messages = array(
 'tog-justify'                 => 'Paragrafları düz',
 'tog-hideminor'               => 'Küçük diişmäkleri "Bitki diişmäkler" sayfasında sakla',
 'tog-extendwatchlist'         => 'İlerlemiş bakmaa listası',
-'tog-usenewrc'                => 'İlerlemiş bitki diişmäkler listası (her brauzerä uymêêr)',
+'tog-usenewrc'                => 'İlerlemiş bitki diişmäkler listası (JavaScript uymêêr)',
 'tog-numberheadings'          => 'Başlıklara avtomatik nomer yaz',
 'tog-showtoolbar'             => 'Diişmäk yapar känä yardımcı tuşları göster. (JavaScript)',
 'tog-editondblclick'          => 'Sayfayı çift tuşlayarak diiştirmää başla (JavaScript)',
 'tog-editsection'             => 'Bölümleri [diiştir] baalantılarılan diiştirmää hakkı ver',
 'tog-editsectiononrightclick' => 'Bölüm başlıına saa tuşla basarak bölümü düzmää izin ver.(JavaScript)',
 'tog-showtoc'                 => 'İçindäkiler tablițasını düz<br />(3-tän çok başlıı olan sayfalar için)',
-'tog-rememberpassword'        => 'Parolu hatırla (for a maximum of $1 {{PLURAL:$1|day|days}})',
+'tog-rememberpassword'        => 'Parolu hatırla (en fazla $1 {{PLURAL:$1|gün|gün}})',
 'tog-watchcreations'          => 'Yarattıım sayfaları bakmaa listama ekle',
 'tog-watchdefault'            => 'Diişmäk yapılan sayfayı bakmaa listasına ekle',
 'tog-watchmoves'              => 'Bakmaa listama ekle o sayfaları angılarını taşıdım',
@@ -184,7 +185,7 @@ $messages = array(
 'personaltools'     => 'Personal instrumentlär',
 'postcomment'       => 'Yorum ekle',
 'articlepage'       => 'Yazıya bak',
-'talk'              => 'Diskussiya',
+'talk'              => 'Dartışma',
 'views'             => 'Görünüşler',
 'toolbox'           => 'İnstrumentlär',
 'userpage'          => 'Kullanıcı sayfasını göster',
@@ -199,7 +200,7 @@ $messages = array(
 'redirectedfrom'    => '($1 sayfasınnan yönnendirildi)',
 'redirectpagesub'   => 'Yönnendirme sayfası',
 'lastmodifiedat'    => 'Bu sayfa bitki kerä $2, $1 datasında enilendi.',
-'viewcount'         => 'Bu sayfaya $1 kerä girildi.',
+'viewcount'         => 'Bu sayfaya {{PLURAL:$1|bir|$1 }} kerä girildi.',
 'protectedpage'     => 'Korunmaklı sayfa',
 'jumpto'            => 'Git hem:',
 'jumptonavigation'  => 'kullan',
@@ -434,7 +435,7 @@ Hem siz garantiyada bulunêrsiniz ani eklemäklerin avtorusunuz, yaki onnarı ko
 '''<center>AVTORLUK KORUNMAK HAKKILAN KORUNMAYAN MATERİALLAR EKLEMEYNİZ!</center>'''",
 'templatesused'                    => 'Bu sayfada kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
 'templatesusedpreview'             => '{{PLURAL:$1|Şablon|Şablonnar}} ani bu ön siirdä kullanıldı:',
-'templatesusedsection'             => 'Bu bölümde kullanılan şablonlar:',
+'templatesusedsection'             => 'Bu bölümde kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
 'template-protected'               => '(korumaa)',
 'template-semiprotected'           => '(yarı-korunmaa)',
 'hiddencategories'                 => 'Bu sayfa {{PLURAL:$1|1 saklı kategoriyaya|$1 saklı kategoriyaya}} baalı:',
@@ -545,7 +546,7 @@ Aaramaanızın önünä ''all:'' prefiksini koyun da deneyin hepsi içlii aarama
 'prefs-help-email-required' => 'E-mail adres istenildi.',
 
 # User rights
-'editinguser' => '"$1" sayfasını diiştirersiniz ([[User talk:$1|{{int:talkpagelinktext}}]] | [[Special:Contributions/$1|{{int:contribslink}}]])',
+'editinguser' => "'''[[User:$1|$1]]''' sayfasını diiştirersiniz ([[User talk:$1|{{int:talkpagelinktext}}]] | [[Special:Contributions/$1|{{int:contribslink}}]])",
 
 # Groups
 'group-sysop' => 'Administratorlar',
@@ -637,7 +638,25 @@ Sizin bakmaa [[Special:Watchlist|listasındaki]] sayfalar verildi '''kalın''' b
 'randomredirect' => 'Razgele yönnendirmäk',
 
 # Statistics
-'statistics' => 'Statistikalar',
+'statistics'                   => 'İstatistikalar',
+'statistics-header-pages'      => 'Sayfa istatistikaları',
+'statistics-header-edits'      => 'Diişmäkleri istatistikaları',
+'statistics-header-views'      => 'Resim istatikaları',
+'statistics-header-users'      => 'Kullanıcı istatistikaları',
+'statistics-header-hooks'      => 'Başka istatistakalar',
+'statistics-articles'          => 'Yazılar',
+'statistics-pages'             => 'Yapraklar',
+'statistics-pages-desc'        => 'Vikipediyadaki hepsi sayfalar, dartışma sayfaları, uur sayfaları',
+'statistics-files'             => 'Üklenmiş dosyeler',
+'statistics-edits'             => '{{SITENAME}} kurulmaa beeri yapmaa sayfa diişmäkleri',
+'statistics-edits-average'     => 'Her yapraktaki diişmäklerin sayısı',
+'statistics-views-total'       => 'Hepsi resimlär',
+'statistics-views-total-desc'  => 'Var nica olmadı hem maasus yapraklarından resim eklenmee',
+'statistics-views-peredit'     => 'Diişmäk başına resimlär',
+'statistics-users'             => 'Registratlı [[Special:ListUsers|kullanıcılar]]',
+'statistics-users-active'      => 'Aktivli kullanıcılar',
+'statistics-users-active-desc' => 'Bitki {{PLURAL:$1|gün|$1 günde}} çalışmaa yapmaa kullanıcılar',
+'statistics-mostpopular'       => 'En anılmış yazılar',
 
 'disambiguations' => 'Maana aydınnatmak yaprakları',
 
@@ -651,7 +670,7 @@ Sizin bakmaa [[Special:Watchlist|listasındaki]] sayfalar verildi '''kalın''' b
 
 # Miscellaneous special pages
 'nbytes'                  => '$1 {{PLURAL:$1|bayt|baytı}}',
-'nlinks'                  => '$1 baalantı',
+'nlinks'                  => '$1 {{PLURAL:$1|baalantı|baalantı}}',
 'nmembers'                => '$1 {{PLURAL:$1|aza|azaler}}',
 'lonelypages'             => 'Sayfalar ani yok kendisinä hiç baalantı',
 'uncategorizedpages'      => 'Kategorizațiya olunmamıș sayfalar',
@@ -818,7 +837,7 @@ Burada bitki seçimner '''$1''' yazı diiştirmää deyni:",
 'whatlinkshere-title'      => '$1 baalantısı olan sayfalar',
 'whatlinkshere-page'       => 'Yaprak:',
 'linkshere'                => "Buraya baalantısı var olan sayfalar '''[[:$1]]''':",
-'nolinkshere'              => 'Yok buraya baalanan sayfa.',
+'nolinkshere'              => "Yok buraya baalanan sayfa '''[[:$1]]'''.",
 'isredirect'               => 'yönnendirmäk sayfası',
 'istemplate'               => 'eklemää',
 'isimage'                  => 'fayl baalantısı',

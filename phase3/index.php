@@ -44,27 +44,21 @@ require_once( "$preIP/includes/WebStart.php" );
 $mediaWiki = new MediaWiki();
 
 wfProfileIn( 'main-misc-setup' );
-OutputPage::setEncodings(); # Not really used yet
 
 $maxLag = $wgRequest->getVal( 'maxlag' );
 if( !is_null( $maxLag ) && !$mediaWiki->checkMaxLag( $maxLag ) ) {
 	exit;
 }
 
-# Query string fields
-$action = $wgRequest->getVal( 'action', 'view' );
-$title = $wgRequest->getVal( 'title' );
-
 # Set title from request parameters
-$wgTitle = $mediaWiki->checkInitialQueries( $title, $action );
+$wgTitle = $mediaWiki->checkInitialQueries( $wgRequest );
 
 wfProfileOut( 'main-misc-setup' );
 
-#
+$action = $wgRequest->getVal( 'action' );
+
 # Send Ajax requests to the Ajax dispatcher.
-#
 if( $wgUseAjax && $action == 'ajax' ) {
-	require_once( $IP . '/includes/AjaxDispatcher.php' );
 	$dispatcher = new AjaxDispatcher();
 	$dispatcher->performAction();
 	$mediaWiki->restInPeace();
@@ -86,7 +80,10 @@ if( $wgUseFileCache && $wgTitle !== null ) {
 			# Do any stats increment/watchlist stuff
 			$wgArticle = MediaWiki::articleFromTitle( $wgTitle );
 			$wgArticle->viewUpdates();
+			# Tell $wgOut that output is taken care of
+			$wgOut->disable();
 			wfProfileOut( 'main-try-filecache' );
+			$mediaWiki->finalCleanup( $wgOut );
 			$mediaWiki->restInPeace();
 			exit;
 		}
@@ -95,12 +92,9 @@ if( $wgUseFileCache && $wgTitle !== null ) {
 }
 
 # Setting global variables in mediaWiki
-$mediaWiki->setVal( 'action', $action );
-$mediaWiki->setVal( 'DisabledActions', $wgDisabledActions );
 $mediaWiki->setVal( 'DisableHardRedirects', $wgDisableHardRedirects );
 $mediaWiki->setVal( 'EnableCreativeCommonsRdf', $wgEnableCreativeCommonsRdf );
 $mediaWiki->setVal( 'EnableDublinCoreRdf', $wgEnableDublinCoreRdf );
-$mediaWiki->setVal( 'JobRunRate', $wgJobRunRate );
 $mediaWiki->setVal( 'Server', $wgServer );
 $mediaWiki->setVal( 'SquidMaxage', $wgSquidMaxage );
 $mediaWiki->setVal( 'UseExternalEditor', $wgUseExternalEditor );
@@ -108,5 +102,4 @@ $mediaWiki->setVal( 'UsePathInfo', $wgUsePathInfo );
 
 $mediaWiki->performRequestForTitle( $wgTitle, $wgArticle, $wgOut, $wgUser, $wgRequest );
 $mediaWiki->finalCleanup( $wgOut );
-
 $mediaWiki->restInPeace();

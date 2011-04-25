@@ -29,6 +29,11 @@ class Preferences {
 	static $defaultPreferences = null;
 	static $saveFilters = array(
 			'timecorrection' => array( 'Preferences', 'filterTimezoneInput' ),
+			'cols' => array( 'Preferences', 'filterIntval' ),
+			'rows' => array( 'Preferences', 'filterIntval' ),
+			'rclimit' => array( 'Preferences', 'filterIntval' ),
+			'wllimit' => array( 'Preferences', 'filterIntval' ),
+			'searchlimit' => array( 'Preferences', 'filterIntval' ),
 	);
 
 	static function getPreferences( $user ) {
@@ -62,7 +67,7 @@ class Preferences {
 		## Prod in defaults from the user
 		foreach ( $defaultPreferences as $name => &$info ) {
 			$prefFromUser = self::getOptionFromUser( $name, $info, $user );
-			$field = HTMLForm::loadInputFromParameters( $info ); // For validation
+			$field = HTMLForm::loadInputFromParameters( $name, $info ); // For validation
 			$defaultOptions = User::getDefaultOptions();
 			$globalDefault = isset( $defaultOptions[$name] )
 				? $defaultOptions[$name]
@@ -1213,6 +1218,10 @@ class Preferences {
 			}
 		}
 		return $opt;
+	}
+	
+	static function filterIntval( $value, $alldata ){
+		return intval( $value );
 	}
 
 	static function filterTimezoneInput( $tz, $alldata ) {

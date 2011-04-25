@@ -179,7 +179,7 @@
 	'ku-latn' => "\xE2\x80\xAAKurdî (latînî)\xE2\x80\xAC",	# Northern Kurdish (Latin script)
 	'ku-arab' => "\xE2\x80\xABكوردي (عەرەبی)\xE2\x80\xAC",	# Northern Kurdish (Arabic script) (falls back to ckb)
 	'kv' => 'Коми',	# Komi-Zyrian (Cyrillic is common script but also written in Latin script)
-	'kw' => 'Kernewek',		# Cornish
+	'kw' => 'Kernowek',		# Cornish
 	'ky' => 'Кыргызча',	# Kirghiz
 	'la' => 'Latina',		# Latin
 	'lad' => 'Ladino',	# Ladino
@@ -251,7 +251,7 @@
 	'pcd' => 'Picard',	# Picard
 	'pdc' => 'Deitsch',	# Pennsylvania German
 	'pdt' => 'Plautdietsch',	# Plautdietsch/Mennonite Low German
-	'pfl' => 'Pfälzisch',	# Palatinate German
+	'pfl' => 'Pälzisch',	# Palatinate German
 	'pi' => 'पािऴ',	# Pali
 	'pih' => 'Norfuk / Pitkern', # Norfuk/Pitcairn/Norfolk
 	'pl' => 'Polski',		# Polish

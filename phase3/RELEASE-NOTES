@@ -3,7 +3,7 @@
 Security reminder: MediaWiki does not require PHP's register_globals
 setting since version 1.2.0. If you have it on, turn it *off* if you can.
 
-== MediaWiki 1.17 ==
+== MediaWiki 1.18 ==
 
 THIS IS NOT A RELEASE YET
 
@@ -18,12 +18,11 @@ will be made on the development trunk and appear in the next quarterly release.
 Those wishing to use the latest code instead of a branch release can obtain
 it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 
-=== New installer in 1.17 ===
-MediaWiki 1.17 is shipping with a completely redesigned installer to fix
-a lot of outstanding bugs, cleanup the code quality, and make it easier to
-use. Notably, you can now run upgrades from the web without having to move
-LocalSettings.php. The specific bugs are listed below in the general notes.
+=== Configuration changes in 1.18 ===
+* The WantedPages::getSQL hook has been removed and replaced with
+  WantedPages::getQueryInfo . This may break older extensions.
 
+<<<<<<< .working
 === Configuration changes in 1.17 ===
 * DatabaseFunctions.php that was needed for compatibility with pre-1.3
   extensions has been removed.
@@ -208,7 +207,14 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
 * When viewing a redirect, the redirect arrow and redirection target are both
   wrapped in a div that has the class "redirectMsg" so that the redirection
   arrow can be customized with CSS
+=======
+=== New features in 1.18 ===
+>>>>>>> .merge-right.r78206
+* Added a special page, disabled by default, that allows users with the
+  'disableaccount' privilege to permanently deactivate user accounts.
+* (bug 8130) Query pages should limit to content namespaces, not just main namespace 
 
+<<<<<<< .working
 === Bug fixes in 1.17 ===
 * (bug 17560) Half-broken deletion moved image files to deletion archive
   without updating database.
@@ -431,7 +437,24 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   $wgFixDoubleRedirects is set to false.
 * Fixed PHP warnings when updating a broken MySQL database.
 * (bug 26023) Corrected deleteBacth.php's documentation
+* (bug 25512) Subcategory list should not include category prefix for members.
+=======
+=== Bug fixes in 1.18 ===
+* (bug 23119) WikiError class and subclasses are now marked as deprecated
+* (bug 10871) Javascript and CSS pages in MediaWiki namespace are no longer
+  treated as wikitext on preview.
+>>>>>>> .merge-right.r78206
+* (bug 22753) Output from update.php is more clear when things changed, entries
+  indicating nothing changed are now all prefixed by "..."
+* Page existence is now not revealed (in the colour of the tabs) to users who
+  cannot read the page in question.
+* (bug 19006) {{REVISIONUSER}} no longer acts like {{CURRENTUSER}} in some cases
+* (bug 16019) $wgArticlePath = "/$1" no longer breaks API edit/watch actions
+* (bug 18372) File types blacklisted by $wgFileBlacklist will no longer be shown as
+  "Permitted file types" on the upload form
+* (bug 26379) importImages.php gives more descriptive error message on failure.
 
+<<<<<<< .working
 === API changes in 1.17 ===
 * (bug 22738) Allow filtering by action type on query=logevent.
 * (bug 22764) uselang parameter for action=parse.
@@ -526,37 +549,31 @@ LocalSettings.php. The specific bugs are listed below in the general notes.
   $wgDisableCounters enabled
 * (bug 25987) prop=info&inprop=watched now also works for missing pages
 * (bug 26006) prop=langlinks now allows obtaining full URL
+=======
+=== API changes in 1.18 ===
+<<<<<<< .working
+>>>>>>> .merge-right.r78206
+=======
+* (bug 26339) Throw warning when truncating an overlarge API result
+<<<<<<< .working
+>>>>>>> .merge-right.r78404
+=======
+* (bug 14869) Add API module for accessing QueryPage-based special pages
+<<<<<<< .working
+>>>>>>> .merge-right.r78833
+=======
+* (bug 14020) API for Special:Unwatchedpages
+* (bug 24287) Wrap API Help output at 100 characters
 
-=== Languages updated in 1.17 ===
+=== Languages updated in 1.18 ===
 
 MediaWiki supports over 330 languages. Many localisations are updated
 regularly. Below only new and removed languages are listed, as well as
 changes to languages because of Bugzilla reports.
 
-* Moroccan Spoken Arabic (ary) (new)
-* Banjar (bjn) (new)
-* Danish (dk) (removed deprecated language code)
-* Fiji Hindi (Devangari script) (removed)
-* Kabardian (kdb) (new, dummy)
-* Kabardian (Cyrillic) (kbd-cyrl) (new)
-* Latgalian (ltg) (new)
-* Minangkabau (min) (new)
-* Dutch (informal) (nl-informal) (new)
-* Rusyn (rue) (new)
-
-* (bug 23156) Commafy and search normalization updated for Belarusian
-  (Taraškievica).
-* (bug 23283) Native name for Old English -> Ænglisc.
-* (bug 23364) Native name for Azerbaijani -> Azərbaycanca.
-* (bug 24593) Native name for Sorani now uses only Arabic script.
-* (bug 24628) Generic translations for NS_USER/NS_USER_TALK for Esperanto.
-* (bug 24917) Polish as fallback for Kashubia.
-* (bug 24794) Tatar link trail updated.
-* Esperanto date format corrected.
-
 == Compatibility ==
 
-MediaWiki 1.17 requires PHP 5.1 (5.2 recommended). PHP 4 is no longer
+MediaWiki 1.18 requires PHP 5.1 (5.2 recommended). PHP 4 is no longer
 supported.
 
 MySQL 3.23.x is no longer supported; some older hosts may need to upgrade.
@@ -565,7 +582,7 @@ At this time we still recommend 4.0, but 4.1/5.0 will work fine in most cases.
 
 == Upgrading ==
 
-1.17 has several database changes since 1.16, and will not work without schema
+1.18 has several database changes since 1.17, and will not work without schema
 updates.
 
 If upgrading from before 1.11, and you are using a wiki as a commons reposito-
@@ -590,7 +607,7 @@ set $wgMimeType = "application/xhtml+xml"; to test for remaining problem
 cases, but this is not recommended on live sites. (This must be set for
 MathML to display properly in Mozilla.)
 
-For notes on 1.16.x and older releases, see HISTORY.
+For notes on 1.17.x and older releases, see HISTORY.
 
 
 === Online documentation ===

@@ -84,9 +84,16 @@ abstract class CoreInstaller extends Installer {
 		'_CCDone' => false,
 		'_Extensions' => array(),
 		'_MemCachedServers' => '',
-		'_LocalSettingsLocked' => true,
-		'_UpgradeKey' => '',
+		'_UpgradeKeySupplied' => false,
+		'_ExistingDBSettings' => false,
 	);
+
+	/**
+	 * The actual list of installation steps. This will be initialized by getInstallSteps()
+	 *
+	 * @var array
+	 */
+	private $installSteps = array();
 
 	/**
 	 * Extra steps for installation, for things like DatabaseInstallers to modify
@@ -296,37 +303,63 @@ abstract class CoreInstaller extends Installer {
 	}
 
 	/**
-	 * Get an array of install steps. These could be a plain key like the defaults
-	 * in $installSteps, or could be an array with a name and a specific callback
-	 * There must be a config-install-$step message defined per step, which will
+	 * Get an array of install steps. Should always be in the format of
+	 * array(
+	 *   'name'     => 'someuniquename',
+	 *   'callback' => array( $obj, 'method' ),
+	 * )
+	 * There must be a config-install-$name message defined per step, which will
 	 * be shown on install.
 	 *
 	 * @param $installer DatabaseInstaller so we can make callbacks
 	 * @return array
 	 */
 	protected function getInstallSteps( DatabaseInstaller &$installer ) {
-		$installSteps = array(
-			array( 'name' => 'database',  'callback' => array( $installer, 'setupDatabase' ) ),
-			array( 'name' => 'tables',    'callback' => array( $this, 'installTables' ) ),
-			array( 'name' => 'interwiki', 'callback' => array( $installer, 'populateInterwikiTable' ) ),
-			array( 'name' => 'secretkey', 'callback' => array( $this, 'generateSecretKey' ) ),
+		$coreInstallSteps = array(
+			array( 'name' => 'database',   'callback' => array( $installer, 'setupDatabase' ) ),
+			array( 'name' => 'tables',     'callback' => array( $this, 'installTables' ) ),
+			array( 'name' => 'interwiki',  'callback' => array( $installer, 'populateInterwikiTable' ) ),
+			array( 'name' => 'secretkey',  'callback' => array( $this, 'generateSecretKey' ) ),
 			array( 'name' => 'upgradekey', 'callback' => array( $this, 'generateUpgradeKey' ) ),
-			array( 'name' => 'sysop',     'callback' => array( $this, 'createSysop' ) ),
-			array( 'name' => 'mainpage',  'callback' => array( $this, 'createMainpage' ) ),
+			array( 'name' => 'sysop',      'callback' => array( $this, 'createSysop' ) ),
+			array( 'name' => 'mainpage',   'callback' => array( $this, 'createMainpage' ) ),
 		);
 		if( count( $this->getVar( '_Extensions' ) ) ) {
-			array_unshift( $installSteps,
+			array_unshift( $coreInstallSteps,
 				array( 'name' => 'extensions', 'callback' => array( $this, 'includeExtensions' ) )
 			);
 		}
-		foreach( $installSteps as $idx => $stepObj ) {
-			if( isset( $this->extraInstallSteps[ $stepObj['name'] ] ) ) {
-				$tmp = array_slice( $installSteps, 0, $idx );
-				$tmp[] = $this->extraInstallSteps[ $stepObj['name'] ];
-				$installSteps = array_merge( $tmp, array_slice( $installSteps, $idx ) );
+		$this->installSteps = $coreInstallSteps;
+		foreach( $this->extraInstallSteps as $step ) {
+			// Put the step at the beginning
+			if( !strval( $step['position' ] ) ) {
+				array_unshift( $installSteps, $step['callback'] );
+				continue;
+			} else {
+				// Walk the $coreInstallSteps array to see if we can modify
+				// $this->installSteps with a callback that wants to attach after
+				// a given step
+				array_walk( 
+					$coreInstallSteps,
+					array( $this, 'installStepCallback' ),
+					$step
+				);
 			}
 		}
-		return $installSteps;
+		return $this->installSteps;
+	}
+
+	/**
+	 * Callback for getInstallSteps() - used for finding if a given $insertableStep
+	 * should be inserted after the current $coreStep in question
+	 */
+	private function installStepCallback( $coreStep, $key, $insertableStep ) {
+		if( $coreStep['name'] == $insertableStep['position'] ) {
+			$front = array_slice( $this->installSteps, 0, $key + 1 );
+			$front[] = $insertableStep['callback'];
+			$back = array_slice( $this->installSteps, $key + 1 );
+			$this->installSteps = array_merge( $front, $back );
+		}
 	}
 
 	/**
@@ -381,7 +414,7 @@ abstract class CoreInstaller extends Installer {
 	 *
 	 * @return Status
 	 */
-	protected function generateSecret( $secretName ) {
+	protected function generateSecret( $secretName, $length = 64 ) {
 		if ( wfIsWindows() ) {
 			$file = null;
 		} else {
@@ -393,12 +426,12 @@ abstract class CoreInstaller extends Installer {
 		$status = Status::newGood();
 
 		if ( $file ) {
-			$secretKey = bin2hex( fread( $file, 32 ) );
+			$secretKey = bin2hex( fread( $file, $length / 2 ) );
 			fclose( $file );
 		} else {
 			$secretKey = '';
 
-			for ( $i=0; $i<8; $i++ ) {
+			for ( $i = 0; $i < $length / 8; $i++ ) {
 				$secretKey .= dechex( mt_rand( 0, 0x7fffffff ) );
 			}
 
@@ -411,13 +444,15 @@ abstract class CoreInstaller extends Installer {
 	}
 
 	/**
-	 * Generate a default $wgUpradeKey, Will warn if we had to use
+	 * Generate a default $wgUpgradeKey. Will warn if we had to use
 	 * mt_rand() instead of /dev/urandom
 	 *
 	 * @return Status
 	 */
-	protected function generateUpgradeKey() {
-		return $this->generateSecret( 'wgUpgradeKey' );
+	public function generateUpgradeKey() {
+		if ( strval( $this->getVar( 'wgUpgradeKey' ) ) === '' ) {
+			return $this->generateSecret( 'wgUpgradeKey', 16 );
+		}
 	}
 
 	/**
@@ -487,7 +522,7 @@ abstract class CoreInstaller extends Installer {
 		// Don't break forms
 		$GLOBALS['wgExternalLinkTarget'] = '_blank';
 
-		// Extended debugging. Maybe disable before release?
+		// Extended debugging
 		$GLOBALS['wgShowSQLErrors'] = true;
 		$GLOBALS['wgShowDBErrorBacktrace'] = true;
 
@@ -504,10 +539,12 @@ abstract class CoreInstaller extends Installer {
 	/**
 	 * Add an installation step following the given step.
 	 *
-	 * @param $findStep String the step to find.  Use NULL to put the step at the beginning.
-	 * @param $callback array A valid callback array, with name and callback given
+	 * @param $callback Array A valid callback array, with name and callback given
+	 * @param $findStep String the step to find. Omit to put the step at the beginning
 	 */
-	public function addInstallStepFollowing( $findStep, $callback ) {
-		$this->extraInstallSteps[$findStep] = $callback;
+	public function addInstallStep( $callback, $findStep = '' ) {
+		$this->extraInstallSteps[] = array(
+			'position' => $findStep, 'callback' => $callback
+		);
 	}
 }

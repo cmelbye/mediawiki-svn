@@ -5,7 +5,7 @@
  * @file
  * @ingroup Parser
  */
- 
+
 /**
  * Set options of the Parser
  * @todo document
@@ -18,46 +18,48 @@ class ParserOptions {
 	var $mAllowExternalImages;       # Allow external images inline
 	var $mAllowExternalImagesFrom;   # If not, any exception?
 	var $mEnableImageWhitelist;      # If not or it doesn't match, should we check an on-wiki whitelist?
-	var $mSkin;                      # Reference to the preferred skin
-	var $mDateFormat;                # Date format index
-	var $mEditSection;               # Create "edit section" links
-	var $mNumberHeadings;            # Automatically number headings
+	var $mSkin = null;               # Reference to the preferred skin
+	var $mDateFormat = null;         # Date format index
+	var $mEditSection = true;        # Create "edit section" links
 	var $mAllowSpecialInclusion;     # Allow inclusion of special pages
-	var $mTidy;                      # Ask for tidy cleanup
-	var $mInterfaceMessage;          # Which lang to call for PLURAL and GRAMMAR
-	var $mTargetLanguage;            # Overrides above setting with arbitrary language
+	var $mTidy = false;              # Ask for tidy cleanup
+	var $mInterfaceMessage = false;  # Which lang to call for PLURAL and GRAMMAR
+	var $mTargetLanguage = null;     # Overrides above setting with arbitrary language
 	var $mMaxIncludeSize;            # Maximum size of template expansions, in bytes
 	var $mMaxPPNodeCount;            # Maximum number of nodes touched by PPFrame::expand()
 	var $mMaxPPExpandDepth;          # Maximum recursion depth in PPFrame::expand()
 	var $mMaxTemplateDepth;          # Maximum recursion depth for templates within templates
-	var $mRemoveComments;            # Remove HTML comments. ONLY APPLIES TO PREPROCESS OPERATIONS
-	var $mTemplateCallback;          # Callback for template fetching
-	var $mEnableLimitReport;         # Enable limit report in an HTML comment on output
+	var $mRemoveComments = true;     # Remove HTML comments. ONLY APPLIES TO PREPROCESS OPERATIONS
+	var $mTemplateCallback =         # Callback for template fetching
+		array( 'Parser', 'statelessFetchTemplate' );
+	var $mEnableLimitReport = false; # Enable limit report in an HTML comment on output
 	var $mTimestamp;                 # Timestamp used for {{CURRENTDAY}} etc.
 	var $mExternalLinkTarget;        # Target attribute for external links
-	var $mMath;                      # User math preference (as integer)
-	var $mUserLang;                  # Language code of the User language.
-	var $mThumbSize;                 # Thumb size preferred by the user.
 	var $mCleanSignatures;           #
 
-	var $mUser;                      # Stored user object, just used to initialise the skin
-	var $mIsPreview;                 # Parsing the page for a "preview" operation
-	var $mIsSectionPreview;          # Parsing the page for a "preview" operation on a single section
-	var $mIsPrintable;               # Parsing the printable version of the page
-	
+	var $mNumberHeadings;            # Automatically number headings
+	var $mMath;                      # User math preference (as integer)
+	var $mThumbSize;                 # Thumb size preferred by the user.
+	var $mUserLang;                  # Language code of the User language.
+
+	var $mUser;                      # Stored user object
+	var $mIsPreview = false;         # Parsing the page for a "preview" operation
+	var $mIsSectionPreview = false;  # Parsing the page for a "preview" operation on a single section
+	var $mIsPrintable = false;       # Parsing the printable version of the page
+
 	var $mExtraKey = '';             # Extra key that should be present in the caching key.
-	
+
 	protected $accessedOptions;
-	
+
 	function getUseDynamicDates()               { return $this->mUseDynamicDates; }
 	function getInterwikiMagic()                { return $this->mInterwikiMagic; }
 	function getAllowExternalImages()           { return $this->mAllowExternalImages; }
 	function getAllowExternalImagesFrom()       { return $this->mAllowExternalImagesFrom; }
 	function getEnableImageWhitelist()          { return $this->mEnableImageWhitelist; }
 	function getEditSection()                   { $this->accessedOptions['editsection'] = true;
-	                                              return $this->mEditSection; }
+												  return $this->mEditSection; }
 	function getNumberHeadings()                { $this->accessedOptions['numberheadings'] = true;
-	                                              return $this->mNumberHeadings; }
+												  return $this->mNumberHeadings; }
 	function getAllowSpecialInclusion()         { return $this->mAllowSpecialInclusion; }
 	function getTidy()                          { return $this->mTidy; }
 	function getInterfaceMessage()              { return $this->mInterfaceMessage; }
@@ -72,14 +74,15 @@ class ParserOptions {
 	function getCleanSignatures()               { return $this->mCleanSignatures; }
 	function getExternalLinkTarget()            { return $this->mExternalLinkTarget; }
 	function getMath()                          { $this->accessedOptions['math'] = true;
-	                                              return $this->mMath; }
+												  return $this->mMath; }
 	function getThumbSize()                     { $this->accessedOptions['thumbsize'] = true;
-	                                              return $this->mThumbSize; }
-	
+												  return $this->mThumbSize; }
+
 	function getIsPreview()                     { return $this->mIsPreview; }
 	function getIsSectionPreview()              { return $this->mIsSectionPreview; }
 	function getIsPrintable()                   { $this->accessedOptions['printable'] = true;
-	                                              return $this->mIsPrintable; }
+												  return $this->mIsPrintable; }
+	function getUser()                          { return $this->mUser; }
 
 	function getSkin( $title = null ) {
 		if ( !isset( $this->mSkin ) ) {
@@ -138,7 +141,7 @@ class ParserOptions {
 	function setMath( $x )                      { return wfSetVar( $this->mMath, $x ); }
 	function setUserLang( $x )                  { return wfSetVar( $this->mUserLang, $x ); }
 	function setThumbSize( $x )                 { return wfSetVar( $this->mThumbSize, $x ); }
-	
+
 	function setIsPreview( $x )                 { return wfSetVar( $this->mIsPreview, $x ); }
 	function setIsSectionPreview( $x )          { return wfSetVar( $this->mIsSectionPreview, $x ); }
 	function setIsPrintable( $x )               { return wfSetVar( $this->mIsPrintable, $x ); }
@@ -191,30 +194,18 @@ class ParserOptions {
 		$this->mAllowExternalImages = $wgAllowExternalImages;
 		$this->mAllowExternalImagesFrom = $wgAllowExternalImagesFrom;
 		$this->mEnableImageWhitelist = $wgEnableImageWhitelist;
-		$this->mSkin = null; # Deferred
-		$this->mDateFormat = null; # Deferred
-		$this->mEditSection = true;
-		$this->mNumberHeadings = $user->getOption( 'numberheadings' );
 		$this->mAllowSpecialInclusion = $wgAllowSpecialInclusion;
-		$this->mTidy = false;
-		$this->mInterfaceMessage = false;
-		$this->mTargetLanguage = null; // default depends on InterfaceMessage setting
 		$this->mMaxIncludeSize = $wgMaxArticleSize * 1024;
 		$this->mMaxPPNodeCount = $wgMaxPPNodeCount;
 		$this->mMaxPPExpandDepth = $wgMaxPPExpandDepth;
 		$this->mMaxTemplateDepth = $wgMaxTemplateDepth;
-		$this->mRemoveComments = true;
-		$this->mTemplateCallback = array( 'Parser', 'statelessFetchTemplate' );
-		$this->mEnableLimitReport = false;
 		$this->mCleanSignatures = $wgCleanSignatures;
 		$this->mExternalLinkTarget = $wgExternalLinkTarget;
+
+		$this->mNumberHeadings = $user->getOption( 'numberheadings' );
 		$this->mMath = $user->getOption( 'math' );
-		$this->mUserLang = $wgLang->getCode();
 		$this->mThumbSize = $user->getOption( 'thumbsize' );
-		
-		$this->mIsPreview = false;
-		$this->mIsSectionPreview = false;
-		$this->mIsPrintable = false;
+		$this->mUserLang = $wgLang->getCode();
 
 		wfProfileOut( __METHOD__ );
 	}
@@ -225,16 +216,16 @@ class ParserOptions {
 	public function usedOptions() {
 		return array_keys( $this->accessedOptions );
 	}
-	
+
 	/**
 	 * Resets the memory of options usage.
 	 */
 	public function resetUsage() {
 		$this->accessedOptions = array();
 	}
-	
+
 	/**
-	 * Returns the full array of options that would have been used by 
+	 * Returns the full array of options that would have been used by
 	 * in 1.16.
 	 * Used to get the old parser cache entries when available.
 	 */
@@ -246,14 +237,14 @@ class ParserOptions {
 		}
 		return $legacyOpts;
 	}
-	
+
 	/**
 	 * Generate a hash string with the values set on these ParserOptions
 	 * for the keys given in the array.
 	 * This will be used as part of the hash key for the parser cache,
-	 * so users sharign the options with vary for the same page share 
+	 * so users sharign the options with vary for the same page share
 	 * the same cached data safely.
-	 * 
+	 *
 	 * Replaces User::getPageRenderingHash()
 	 *
 	 * Extensions which require it should install 'PageRenderingHash' hook,
@@ -267,15 +258,15 @@ class ParserOptions {
 		global $wgContLang, $wgRenderHashAppend;
 
 		$confstr = '';
-		
+
 		if ( in_array( 'math', $forOptions ) )
 			$confstr .= $this->mMath;
 		else
 			$confstr .= '*';
-			
+
 
 		// Space assigned for the stubthreshold but unused
-		// since it disables the parser cache, its value will always 
+		// since it disables the parser cache, its value will always
 		// be 0 when this function is called by parsercache.
 		// The conditional is here to avoid a confusing 0
 		if ( in_array( 'stubthreshold', $forOptions ) )
@@ -285,12 +276,12 @@ class ParserOptions {
 
 		if ( in_array( 'dateformat', $forOptions ) )
 			$confstr .= '!' . $this->getDateFormat();
-		
+
 		if ( in_array( 'numberheadings', $forOptions ) )
 			$confstr .= '!' . ( $this->mNumberHeadings ? '1' : '' );
 		else
 			$confstr .= '!*';
-		
+
 		if ( in_array( 'userlang', $forOptions ) )
 			$confstr .= '!' . $this->mUserLang;
 		else
@@ -308,24 +299,24 @@ class ParserOptions {
 		// Since the skin could be overloading link(), it should be
 		// included here but in practice, none of our skins do that.
 		// $confstr .= "!" . $this->mSkin->getSkinName();
-		
+
 		$confstr .= $wgRenderHashAppend;
 
 		if ( !$this->mEditSection && in_array( 'editsection', $forOptions ) )
 			$confstr .= '!edit=0';
 		if (  $this->mIsPrintable && in_array( 'printable', $forOptions ) )
 			$confstr .= '!printable=1';
-		
+
 		if ( $this->mExtraKey != '' )
 			$confstr .= $this->mExtraKey;
-		
+
 		// Give a chance for extensions to modify the hash, if they have
 		// extra options or other effects on the parser cache.
 		wfRunHooks( 'PageRenderingHash', array( &$confstr ) );
 
 		// Make it a valid memcached key fragment
 		$confstr = str_replace( ' ', '_', $confstr );
-		
+
 		return $confstr;
 	}
 }

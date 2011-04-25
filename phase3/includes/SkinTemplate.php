@@ -20,8 +20,9 @@
  * @file
  */
 
-if ( ! defined( 'MEDIAWIKI' ) )
+if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
+}
 
 /**
  * Wrapper object for MediaWiki's localization functions,
@@ -252,13 +253,13 @@ class SkinTemplate extends Skin {
 		$subpagestr = $this->subPageSubtitle();
 		$tpl->set(
 			'subtitle', !empty( $subpagestr ) ?
-			'<span class="subpages">'.$subpagestr.'</span>'.$out->getSubtitle() :
+			'<span class="subpages">' . $subpagestr . '</span>' . $out->getSubtitle() :
 			$out->getSubtitle()
 		);
 		$undelete = $this->getUndeleteLink();
 		$tpl->set(
 			'undelete', !empty( $undelete ) ?
-			'<span class="subpages">'.$undelete.'</span>' :
+			'<span class="subpages">' . $undelete . '</span>' :
 			''
 		);
 
@@ -288,11 +289,11 @@ class SkinTemplate extends Skin {
 		$tpl->setRef( 'loggedin', $this->loggedin );
 		$tpl->set( 'notspecialpage', $this->mTitle->getNamespace() != NS_SPECIAL );
 		/* XXX currently unused, might get useful later
-		$tpl->set( "editable", ($this->mTitle->getNamespace() != NS_SPECIAL ) );
-		$tpl->set( "exists", $this->mTitle->getArticleID() != 0 );
-		$tpl->set( "watch", $this->mTitle->userIsWatching() ? "unwatch" : "watch" );
-		$tpl->set( "protect", count($this->mTitle->isProtected()) ? "unprotect" : "protect" );
-		$tpl->set( "helppage", wfMsg('helppage'));
+		$tpl->set( 'editable', ( $this->mTitle->getNamespace() != NS_SPECIAL ) );
+		$tpl->set( 'exists', $this->mTitle->getArticleID() != 0 );
+		$tpl->set( 'watch', $this->mTitle->userIsWatching() ? 'unwatch' : 'watch' );
+		$tpl->set( 'protect', count( $this->mTitle->isProtected() ) ? 'unprotect' : 'protect' );
+		$tpl->set( 'helppage', wfMsg( 'helppage' ) );
 		*/
 		$tpl->set( 'searchaction', $this->escapeSearchLink() );
 		$tpl->set( 'searchtitle', SpecialPage::getTitleFor( 'Search' )->getPrefixedDBKey() );
@@ -343,8 +344,8 @@ class SkinTemplate extends Skin {
 		$tpl->setRef( 'newtalk', $newtalks );
 		$tpl->setRef( 'skin', $this );
 		$tpl->set( 'logo', $this->logoText() );
-		if ( $out->isArticle() and ( !isset( $oldid ) or isset( $diff ) ) and
-			$wgArticle and 0 != $wgArticle->getID() ){
+		if ( $out->isArticle() && ( !isset( $oldid ) || isset( $diff ) ) &&
+			$wgArticle && 0 != $wgArticle->getID() ){
 			if ( !$wgDisableCounters ) {
 				$viewcount = $wgLang->formatNum( $wgArticle->getCount() );
 				if ( $viewcount ) {
@@ -425,19 +426,23 @@ class SkinTemplate extends Skin {
 				'disclaimer',
 			),
 		) );
-		
+
 		global $wgFooterIcons;
 		$tpl->set( 'footericons', $wgFooterIcons );
-		foreach ( $tpl->data["footericons"] as $footerIconsKey => &$footerIconsBlock ) {
-			if ( count($footerIconsBlock) > 0 ) {
+		foreach ( $tpl->data['footericons'] as $footerIconsKey => &$footerIconsBlock ) {
+			if ( count( $footerIconsBlock ) > 0 ) {
 				foreach ( $footerIconsBlock as &$footerIcon ) {
-					if ( isset($footerIcon["src"]) ) {
-						if ( !isset($footerIcon["width"]) ) $footerIcon["width"] = 88;
-						if ( !isset($footerIcon["height"]) ) $footerIcon["height"] = 31;
+					if ( isset( $footerIcon['src'] ) ) {
+						if ( !isset( $footerIcon['width'] ) ) {
+							$footerIcon['width'] = 88;
+						}
+						if ( !isset( $footerIcon['height'] ) ) {
+							$footerIcon['height'] = 31;
+						}
 					}
 				}
 			} else {
-				unset($tpl->data["footericons"][$footerIconsKey]);
+				unset( $tpl->data['footericons'][$footerIconsKey] );
 			}
 		}
 
@@ -552,8 +557,9 @@ class SkinTemplate extends Skin {
 		$page = $wgRequest->getVal( 'returnto', $this->thisurl );
 		$query = $wgRequest->getVal( 'returntoquery', $this->thisquery );
 		$returnto = "returnto=$page";
-		if( $this->thisquery != '' )
+		if( $this->thisquery != '' ) {
 			$returnto .= "&returntoquery=$query";
+		}
 		if( $this->loggedin ) {
 			$personal_urls['userpage'] = array(
 				'text' => $this->username,
@@ -722,6 +728,7 @@ class SkinTemplate extends Skin {
 		$action = $wgRequest->getVal( 'action', 'view' );
 		$section = $wgRequest->getVal( 'section' );
 		$content_actions = array();
+		$userCanRead = $this->mTitle->userCanRead();
 
 		$prevent_active_tabs = false;
 		wfRunHooks( 'SkinTemplatePreventOtherActiveTabs', array( &$this, &$prevent_active_tabs ) );
@@ -735,7 +742,7 @@ class SkinTemplate extends Skin {
 				$subjpage,
 				$nskey,
 				!$this->mTitle->isTalkPage() && !$prevent_active_tabs,
-				'', true
+				'', $userCanRead
 			);
 
 			$content_actions['talk'] = $this->tabAction(
@@ -743,11 +750,11 @@ class SkinTemplate extends Skin {
 				'talk',
 				$this->mTitle->isTalkPage() && !$prevent_active_tabs,
 				'',
-				true
+				$userCanRead
 			);
 
 			wfProfileIn( __METHOD__ . '-edit' );
-			if ( $this->mTitle->quickUserCan( 'edit' ) && ( $this->mTitle->exists() || $this->mTitle->quickUserCan( 'create' ) ) ) {
+			if ( $userCanRead && $this->mTitle->quickUserCan( 'edit' ) && ( $this->mTitle->exists() || $this->mTitle->quickUserCan( 'create' ) ) ) {
 				$istalk = $this->mTitle->isTalkPage();
 				$istalkclass = $istalk?' istalk':'';
 				$content_actions['edit'] = array(
@@ -768,7 +775,7 @@ class SkinTemplate extends Skin {
 						);
 					}
 				}
-			} elseif ( $this->mTitle->hasSourceText() ) {
+			} elseif ( $this->mTitle->hasSourceText() && $userCanRead ) {
 				$content_actions['viewsource'] = array(
 					'class' => ($action == 'edit') ? 'selected' : false,
 					'text' => wfMsg( 'viewsource' ),
@@ -778,7 +785,7 @@ class SkinTemplate extends Skin {
 			wfProfileOut( __METHOD__ . '-edit' );
 
 			wfProfileIn( __METHOD__ . '-live' );
-			if ( $this->mTitle->exists() ) {
+			if ( $this->mTitle->exists() && $userCanRead ) {
 
 				$content_actions['history'] = array(
 					'class' => ($action == 'history') ? 'selected' : false,
@@ -1190,7 +1197,7 @@ abstract class QuickTemplate {
  * with the data stored in the QuickTemplate
  */
 abstract class BaseTemplate extends QuickTemplate {
-	
+
 	/**
 	 * Create an array of common toolbox items from the data in the quicktemplate
 	 * stored by SkinTemplate.
@@ -1202,49 +1209,49 @@ abstract class BaseTemplate extends QuickTemplate {
 
 		$toolbox = array();
 		if ( $this->data['notspecialpage'] ) {
-			$toolbox["whatlinkshere"] = $this->data['nav_urls']['whatlinkshere'];
-			$toolbox["whatlinkshere"]["id"] = "t-whatlinkshere";
+			$toolbox['whatlinkshere'] = $this->data['nav_urls']['whatlinkshere'];
+			$toolbox['whatlinkshere']['id'] = 't-whatlinkshere';
 			if ( $this->data['nav_urls']['recentchangeslinked'] ) {
-				$toolbox["recentchangeslinked"] = $this->data['nav_urls']['recentchangeslinked'];
-				$toolbox["recentchangeslinked"]["msg"] = "recentchangeslinked-toolbox";
-				$toolbox["recentchangeslinked"]["id"] = "t-recentchangeslinked";
+				$toolbox['recentchangeslinked'] = $this->data['nav_urls']['recentchangeslinked'];
+				$toolbox['recentchangeslinked']['msg'] = 'recentchangeslinked-toolbox';
+				$toolbox['recentchangeslinked']['id'] = 't-recentchangeslinked';
 			}
 		}
 		if( isset( $this->data['nav_urls']['trackbacklink'] ) && $this->data['nav_urls']['trackbacklink'] ) {
-			$toolbox["trackbacklink"] = $this->data['nav_urls']['trackbacklink'];
-			$toolbox["trackbacklink"]["id"] = "t-trackbacklink";
+			$toolbox['trackbacklink'] = $this->data['nav_urls']['trackbacklink'];
+			$toolbox['trackbacklink']['id'] = 't-trackbacklink';
 		}
 		if ( $this->data['feeds'] ) {
-			$toolbox["feeds"]["id"] = "feedlinks";
-			$toolbox["feeds"]["links"] = array();
+			$toolbox['feeds']['id'] = 'feedlinks';
+			$toolbox['feeds']['links'] = array();
 			foreach ( $this->data['feeds'] as $key => $feed ) {
-				$toolbox["feeds"]["links"][$key] = $feed;
-				$toolbox["feeds"]["links"][$key]["id"] = "feed-$key";
-				$toolbox["feeds"]["links"][$key]["rel"] = "alternate";
-				$toolbox["feeds"]["links"][$key]["type"] = "application/{$key}+xml";
-				$toolbox["feeds"]["links"][$key]["class"] = "feedlink";
+				$toolbox['feeds']['links'][$key] = $feed;
+				$toolbox['feeds']['links'][$key]['id'] = "feed-$key";
+				$toolbox['feeds']['links'][$key]['rel'] = 'alternate';
+				$toolbox['feeds']['links'][$key]['type'] = "application/{$key}+xml";
+				$toolbox['feeds']['links'][$key]['class'] = 'feedlink';
 			}
 		}
-		foreach ( array('contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages') as $special ) {
+		foreach ( array( 'contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages' ) as $special ) {
 			if ( $this->data['nav_urls'][$special] ) {
 				$toolbox[$special] = $this->data['nav_urls'][$special];
-				$toolbox[$special]["id"] = "t-$special";
+				$toolbox[$special]['id'] = "t-$special";
 			}
 		}
 		if ( !empty( $this->data['nav_urls']['print']['href'] ) ) {
-			$toolbox["print"] = $this->data['nav_urls']['print'];
-			$toolbox["print"]["rel"] = "alternate";
-			$toolbox["print"]["msg"] = "printableversion";
+			$toolbox['print'] = $this->data['nav_urls']['print'];
+			$toolbox['print']['rel'] = 'alternate';
+			$toolbox['print']['msg'] = 'printableversion';
 		}
 		if ( !empty( $this->data['nav_urls']['permalink']['href'] ) ) {
-			$toolbox["permalink"] = $this->data['nav_urls']['permalink'];
-			$toolbox["permalink"]["id"] = "t-permalink";
+			$toolbox['permalink'] = $this->data['nav_urls']['permalink'];
+			$toolbox['permalink']['id'] = 't-permalink';
 		} elseif ( $this->data['nav_urls']['permalink']['href'] === '' ) {
-			$toolbox["permalink"] = $this->data['nav_urls']['permalink'];
-			unset( $toolbox["permalink"]["href"] );
-			$toolbox["ispermalink"]["tooltiponly"] = true;
-			$toolbox["ispermalink"]["id"] = "t-ispermalink";
-			$toolbox["ispermalink"]["msg"] = "permalink";
+			$toolbox['permalink'] = $this->data['nav_urls']['permalink'];
+			unset( $toolbox['permalink']['href'] );
+			$toolbox['ispermalink']['tooltiponly'] = true;
+			$toolbox['ispermalink']['id'] = 't-ispermalink';
+			$toolbox['ispermalink']['msg'] = 'permalink';
 		}
 		wfRunHooks( 'BaseTemplateToolbox', array( &$this, &$toolbox ) );
 		wfProfileOut( __METHOD__ );
@@ -1254,7 +1261,7 @@ abstract class BaseTemplate extends QuickTemplate {
 	/**
 	 * Makes a link, usually used by makeListItem to generate a link for an item
 	 * in a list used in navigation lists, portlets, portals, sidebars, etc...
-	 * 
+	 *
 	 * $key is a string, usually a key from the list you are generating this link from
 	 * $item is an array containing some of a specific set of keys.
 	 * The text of the link will be generated either from the contents of the "text"
@@ -1264,41 +1271,44 @@ abstract class BaseTemplate extends QuickTemplate {
 	 * The href, id, class, rel, and type keys are used as attributes for the link if present.
 	 * If an "id" or "single-id" (if you don't want the actual id to be output on the link)
 	 * is present it will be used to generate a tooltip and accesskey for the link.
-	 * If you don't want an accesskey set $item["tooltiponly"] = true;
+	 * If you don't want an accesskey, set $item['tooltiponly'] = true;
 	 */
-	function makeLink($key, $item) {
-		if ( isset($item["text"]) ) {
-			$text = $item["text"];
+	function makeLink( $key, $item ) {
+		if ( isset( $item['text'] ) ) {
+			$text = $item['text'];
 		} else {
-			$text = $this->translator->translate( isset($item["msg"]) ? $item["msg"] : $key );
+			$text = $this->translator->translate( isset( $item['msg'] ) ? $item['msg'] : $key );
 		}
-		
-		if ( !isset($item["href"]) ) {
-			return htmlspecialchars($text);
+
+		if ( !isset( $item['href'] ) ) {
+			return htmlspecialchars( $text );
 		}
-		
+
 		$attrs = array();
-		foreach ( array("href", "id", "class", "rel", "type") as $attr ) {
-			if ( isset($item[$attr]) ) {
+		foreach ( array( 'href', 'id', 'class', 'rel', 'type' ) as $attr ) {
+			if ( isset( $item[$attr] ) ) {
 				$attrs[$attr] = $item[$attr];
 			}
 		}
-		
-		if ( isset($item["id"]) ) {
-			$item["single-id"] = $item["id"];
+
+		if ( isset( $item['id'] ) ) {
+			$item['single-id'] = $item['id'];
 		}
-		if ( isset($item["single-id"]) ) {
-			if ( isset($item["tooltiponly"]) && $item["tooltiponly"] ) {
-				$attrs["title"] = $this->skin->titleAttrib($item["single-id"]);
-				if ( $attrs["title"] === false ) {
-					unset($attrs["title"]);
+		if ( isset( $item['single-id'] ) ) {
+			if ( isset( $item['tooltiponly'] ) && $item['tooltiponly'] ) {
+				$attrs['title'] = $this->skin->titleAttrib( $item['single-id'] );
+				if ( $attrs['title'] === false ) {
+					unset( $attrs['title'] );
 				}
 			} else {
-				$attrs = array_merge($attrs, $this->skin->tooltipAndAccesskeyAttribs($item["single-id"]));
+				$attrs = array_merge(
+					$attrs,
+					$this->skin->tooltipAndAccesskeyAttribs( $item['single-id'] )
+				);
 			}
 		}
-		
-		return Html::element( "a", $attrs, $text );
+
+		return Html::element( 'a', $attrs, $text );
 	}
 
 	/**
@@ -1320,79 +1330,163 @@ abstract class BaseTemplate extends QuickTemplate {
 	 * If you need an id or class on a single link you should include a "links"
 	 * array with just one link item inside of it.
 	 */
-	function makeListItem($key, $item, $options = array()) {
-		if ( isset($item["links"]) ) {
+	function makeListItem( $key, $item, $options = array() ) {
+		if ( isset( $item['links'] ) ) {
 			$html = '';
-			foreach ( $item["links"] as $linkKey => $link ) {
-				$html .= $this->makeLink($linkKey, $link);
+			foreach ( $item['links'] as $linkKey => $link ) {
+				$html .= $this->makeLink( $linkKey, $link );
 			}
 		} else {
 			$link = array();
-			foreach ( array("text", "msg", "href", "rel", "type", "tooltiponly") as $k ) {
-				if ( isset($item[$k]) ) {
+			foreach ( array( 'text', 'msg', 'href', 'rel', 'type', 'tooltiponly' ) as $k ) {
+				if ( isset( $item[$k] ) ) {
 					$link[$k] = $item[$k];
 				}
 			}
-			if ( isset($item["id"]) ) {
+			if ( isset( $item['id'] ) ) {
 				// The id goes on the <li> not on the <a> for single links
 				// but makeSidebarLink still needs to know what id to use when
 				// generating tooltips and accesskeys.
-				$link["single-id"] = $item["id"];
+				$link['single-id'] = $item['id'];
 			}
-			$html = $this->makeLink($key, $link);
+			$html = $this->makeLink( $key, $link  );
 		}
-		
+
 		$attrs = array();
-		foreach ( array("id", "class") as $attr ) {
-			if ( isset($item[$attr]) ) {
+		foreach ( array( 'id', 'class' ) as $attr ) {
+			if ( isset( $item[$attr] ) ) {
 				$attrs[$attr] = $item[$attr];
 			}
 		}
-		if ( isset($item["active"]) && $item["active"] ) {
-			$attrs["class"] .= " active";
-			$attrs["class"] = trim($attrs["class"]);
+		if ( isset( $item['active'] ) && $item['active'] ) {
+			$attrs['class'] .= ' active';
+			$attrs['class'] = trim( $attrs['class'] );
 		}
-		return Html::rawElement( isset($options["tag"]) ? $options["tag"] : "li", $attrs, $html );
+		return Html::rawElement( isset( $options['tag'] ) ? $options['tag'] : 'li', $attrs, $html );
 	}
 
-	function makeSearchInput($attrs = array()) {
+	function makeSearchInput( $attrs = array() ) {
 		$realAttrs = array(
-			"type" => "search",
-			"name" => "search",
-			"value" => isset($this->data['search']) ? $this->data['search'] : '',
+			'type' => 'search',
+			'name' => 'search',
+			'value' => isset( $this->data['search'] ) ? $this->data['search'] : '',
 		);
-		$realAttrs = array_merge($realAttrs, $this->skin->tooltipAndAccesskeyAttribs('search'), $attrs);
-		return Html::element( "input", $realAttrs );
+		$realAttrs = array_merge( $realAttrs, $this->skin->tooltipAndAccesskeyAttribs( 'search' ), $attrs );
+		return Html::element( 'input', $realAttrs );
 	}
-	
-	function makeSearchButton($mode, $attrs = array()) {
-		switch($mode) {
-		case "go":
-		case "fulltext":
-			$realAttrs = array(
-				"type" => "submit",
-				"name" => $mode,
-				"value" => $this->translator->translate( $mode == "go" ? "searcharticle" : "searchbutton" ),
-			);
-			$realAttrs = array_merge($realAttrs, $this->skin->tooltipAndAccesskeyAttribs("search-$mode"), $attrs);
-			return Html::element( "input", $realAttrs );
-		case "image":
-			$buttonAttrs = array(
-				"type" => "submit",
-				"name" => "button",
-			);
-			$buttonAttrs = array_merge($buttonAttrs, $this->skin->tooltipAndAccesskeyAttribs("search-fulltext"), $attrs);
-			unset($buttonAttrs["src"]);
-			unset($buttonAttrs["alt"]);
-			$imgAttrs = array(
-				"src" => $attrs["src"],
-				"alt" => isset($attrs["alt"]) ? $attrs["alt"] : $this->translator->translate( "searchbutton" ),
-			);
-			return Html::rawElement( "button", $buttonAttrs, Html::element( "img", $imgAttrs ) );
-		default:
-			throw new MWException("Unknown mode passed to BaseTemplate::makeSearchButton");
+
+	function makeSearchButton( $mode, $attrs = array() ) {
+		switch( $mode ) {
+			case 'go':
+			case 'fulltext':
+				$realAttrs = array(
+					'type' => 'submit',
+					'name' => $mode,
+					'value' => $this->translator->translate( $mode == 'go' ? 'searcharticle' : 'searchbutton' ),
+				);
+				$realAttrs = array_merge(
+					$realAttrs,
+					$this->skin->tooltipAndAccesskeyAttribs( "search-$mode" ),
+					$attrs
+				);
+				return Html::element( 'input', $realAttrs );
+			case 'image':
+				$buttonAttrs = array(
+					'type' => 'submit',
+					'name' => 'button',
+				);
+				$buttonAttrs = array_merge(
+					$buttonAttrs,
+					$this->skin->tooltipAndAccesskeyAttribs( 'search-fulltext' ),
+					$attrs
+				);
+				unset( $buttonAttrs['src'] );
+				unset( $buttonAttrs['alt'] );
+				$imgAttrs = array(
+					'src' => $attrs['src'],
+					'alt' => isset( $attrs['alt'] ) ? $attrs['alt'] : $this->translator->translate( 'searchbutton' ),
+				);
+				return Html::rawElement( 'button', $buttonAttrs, Html::element( 'img', $imgAttrs ) );
+			default:
+				throw new MWException( 'Unknown mode passed to BaseTemplate::makeSearchButton' );
 		}
 	}
-	
+
+	/**
+	 * Returns an array of footerlinks trimmed down to only those footer links that
+	 * are valid.
+	 * If you pass "flat" as an option then the returned array will be a flat array
+	 * of footer icons instead of a key/value array of footerlinks arrays broken
+	 * up into categories.
+	 */
+	function getFooterLinks( $option = null ) {
+		$footerlinks = $this->data['footerlinks'];
+
+		// Reduce footer links down to only those which are being used
+		$validFooterLinks = array();
+		foreach( $footerlinks as $category => $links ) {
+			$validFooterLinks[$category] = array();
+			foreach( $links as $link ) {
+				if( isset( $this->data[$link] ) && $this->data[$link] ) {
+					$validFooterLinks[$category][] = $link;
+				}
+			}
+			if ( count( $validFooterLinks[$category] ) <= 0 ) {
+				unset( $validFooterLinks[$category] );
+			}
+		}
+
+		if ( $option == 'flat' ) {
+			// fold footerlinks into a single array using a bit of trickery
+			$validFooterLinks = call_user_func_array(
+				'array_merge',
+				array_values( $validFooterLinks )
+			);
+		}
+
+		return $validFooterLinks;
+	}
+
+	/**
+	 * Returns an array of footer icons filtered down by options relevant to how
+	 * the skin wishes to display them.
+	 * If you pass "icononly" as the option all footer icons which do not have an
+	 * image icon set will be filtered out.
+	 * If you pass "nocopyright" then MediaWiki's copyright icon will not be included
+	 * in the list of footer icons. This is mostly useful for skins which only
+	 * display the text from footericons instead of the images and don't want a
+	 * duplicate copyright statement because footerlinks already rendered one.
+	 */
+	function getFooterIcons( $option = null ) {
+		// Generate additional footer icons
+		$footericons = $this->data['footericons'];
+
+		if ( $option == 'icononly' ) {
+			// Unset any icons which don't have an image
+			foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
+				foreach ( $footerIconsBlock as $footerIconKey => $footerIcon ) {
+					if ( !is_string( $footerIcon ) && !isset( $footerIcon['src'] ) ) {
+						unset( $footerIconsBlock[$footerIconKey] );
+					}
+				}
+			}
+			// Redo removal of any empty blocks
+			foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
+				if ( count( $footerIconsBlock ) <= 0 ) {
+					unset( $footericons[$footerIconsKey] );
+				}
+			}
+		} elseif ( $option == 'nocopyright' ) {
+			$footericons = $this->data['footericons'];
+			unset( $footericons['copyright']['copyright'] );
+			if ( count( $footericons['copyright'] ) <= 0 ) {
+				unset( $footericons['copyright'] );
+			}
+		}
+
+		return $footericons;
+	}
+
+
 }
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Jul 2, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -318,9 +318,9 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'limit' => 'The maximum amount of revisions to list',
 			'prop' => array(
 				'Which properties to get',
-				' revid          - Adds the revision id of the deleted revision',
+				' revid          - Adds the revision ID of the deleted revision',
 				' user           - Adds the user who made the revision',
-				' userid         - Adds the user id whom made the revision',
+				' userid         - Adds the user ID whom made the revision',
 				' comment        - Adds the comment of the revision',
 				' parsedcomment  - Adds the parsed comment of the revision',
 				' minor          - Tags if the revision is minor',

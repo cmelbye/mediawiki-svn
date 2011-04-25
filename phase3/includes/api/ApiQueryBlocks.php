@@ -1,10 +1,10 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Sep 10, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -272,7 +272,7 @@ class ApiQueryBlocks extends ApiQueryBase {
 			'limit' => 'The maximum amount of blocks to list',
 			'prop' => array(
 				'Which properties to get',
-				' id         - Adds the id of the block',
+				' id         - Adds the ID of the block',
 				' user       - Adds the username of the blocked user',
 				' by         - Adds the username of the blocking admin',
 				' timestamp  - Adds the timestamp of when the block was given',

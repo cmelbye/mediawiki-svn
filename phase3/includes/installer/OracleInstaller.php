@@ -5,7 +5,7 @@
  * @file
  * @ingroup Deployment
  */
- 
+
 /**
  * Class for setting up the MediaWiki database using Oracle.
  *
@@ -152,7 +152,7 @@ class OracleInstaller extends DatabaseInstaller {
 				'callback' => array( $this, 'setupUser' ),
 			)
 		);
-		$this->parent->addInstallStepFollowing( "database", $callback );
+		$this->parent->addInstallStep( $callback, 'database' );
 	}
 
 
@@ -172,7 +172,7 @@ class OracleInstaller extends DatabaseInstaller {
 		if ( !$status->isOK() ) {
 			return $status;
 		}
-		
+
 		if ( !$this->db->selectDB( $this->getVar( 'wgDBuser' ) ) ) {
 			/**
 			 * The variables $_OracleDefTS, $_OracleTempTS are used by maintenance/oracle/user.sql
@@ -185,7 +185,7 @@ class OracleInstaller extends DatabaseInstaller {
 				$status->fatal( 'config-install-user-failed', $this->getVar( 'wgDBuser' ), $error );
 			}
 		}
-		
+
 		return $status;
 	}
 
@@ -195,12 +195,12 @@ class OracleInstaller extends DatabaseInstaller {
 	public function createTables() {
 		$status = parent::createTables();
 
-		$this->db->doQuery( 'BEGIN fill_wiki_info; END;' );
+		$this->db->query( 'BEGIN fill_wiki_info; END;' );
 
 		return $status;
 	}
 
-		
+
 	public function getLocalSettings() {
 		$prefix = $this->getVar( 'wgDBprefix' );
 		return

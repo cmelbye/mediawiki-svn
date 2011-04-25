@@ -1,6 +1,6 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Sep 7, 2006
  *
@@ -43,7 +43,12 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class ApiQuery extends ApiBase {
 
 	private $mPropModuleNames, $mListModuleNames, $mMetaModuleNames;
+
+	/**
+	 * @var ApiPageSet 
+	 */
 	private $mPageSet;
+
 	private $params, $redirects, $convertTitles;
 
 	private $mQueryPropModules = array(
@@ -88,6 +93,7 @@ class ApiQuery extends ApiBase {
 		'users' => 'ApiQueryUsers',
 		'random' => 'ApiQueryRandom',
 		'protectedtitles' => 'ApiQueryProtectedTitles',
+		'querypage' => 'ApiQueryQueryPage',
 	);
 
 	private $mQueryMetaModules = array(

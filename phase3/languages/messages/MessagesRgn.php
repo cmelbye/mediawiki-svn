@@ -143,13 +143,26 @@ $messages = array(
 
 'mainpagetext' => "↓ '''L'instalaziòn d'MediaWiki l'è andêda ben'''",
 
-'newwindow'  => "(la s'avèra int'una fnèstra nova)",
-'cancel'     => 'Làsa perdar',
-'mytalk'     => 'Al mi cunversaziòn',
-'navigation' => 'Navgaziòn',
+'about'         => "↓ A prupòsit d'",
+'article'       => '↓ Artècual',
+'newwindow'     => "(la s'avèra int'una fnèstra nova)",
+'cancel'        => 'Làsa perdar',
+'moredotdotdot' => '↓  Ad piò…',
+'mypage'        => '↓ La mi pàgina',
+'mytalk'        => 'Al mi cunversaziòn',
+'anontalk'      => "↓ Ciacarédi par 'st'indirèzz IP",
+'navigation'    => 'Navgaziòn',
+'and'           => '↓ &#32;e',
 
 # Cologne Blue skin
-'qbfind' => 'Tróva',
+'qbfind'         => 'Tróva',
+'qbbrowse'       => '↓ Sföja',
+'qbedit'         => '↓ Mudèfica',
+'qbpageoptions'  => '↓ Upziòn dla pàgina',
+'qbpageinfo'     => '↓ Infurmaziòn sora la pàgina',
+'qbmyoptions'    => '↓ Al mi pàgin',
+'qbspecialpages' => '↓ Pàgin particulèri',
+'faq'            => '↓ Question frequenti',
 
 'errorpagetitle'   => "Oci! T'ê fat una capèla",
 'returnto'         => 'Torna indrì a $1.',

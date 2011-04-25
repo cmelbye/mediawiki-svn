@@ -725,6 +725,8 @@ Unesite neko drugo ime.',
 'createaccounterror'         => 'Ne može se stvoriti račun: $1',
 'nocookiesnew'               => "Suradnički račun je otvoren, ali niste uspješno prijavljeni. Naime, {{SITENAME}} koristi kolačiće (''cookies'') u procesu prijave. Isključili ste kolačiće. Molim uključite ih i pokušajte ponovo s Vašim novim imenom i lozinkom.",
 'nocookieslogin'             => "{{SITENAME}} koristi kolačiće (''cookies'') u procesu prijave. Isključili ste kolačiće. Molim uključite ih i pokušajte ponovo.",
+'nocookiesfornew'            => "Suradnički račun nije napravljen, jer nismo mogli potvrditi njegov izvor.
+Provjerite jesu li kolačići (''cookies'') omogućeni, ponovo učitajte ovu stranicu i pokušajte opet.",
 'noname'                     => 'Niste unijeli valjano suradničko ime.',
 'loginsuccesstitle'          => 'Prijava uspješna',
 'loginsuccess'               => 'Prijavili ste se na wiki kao "$1".',
@@ -912,7 +914,11 @@ Posljednja stavka evidencije blokiranja navedena je niže kao napomena:',
 'userjsyoucanpreview'              => "'''Savjet:''' Rabite dugme \"{{int:showpreview}}\" za testiranje svog novog JavaScripta prije snimanja.",
 'usercsspreview'                   => "'''Ne zaboravite: samo isprobavate/pregledavate svoj suradnički CSS. Još nije snimljen!'''",
 'userjspreview'                    => "'''Ne zaboravite: samo isprobavate/pregledavate svoj suradnički JavaScript, i da još nije snimljen!'''",
-'userinvalidcssjstitle'            => "'''Upozorenje:''' Nema sučelja pod imenom \"\$1\". Ne zaboravite da imena stranica s .css and .js kodom počinju malim slovom, npr. {{ns:user}}:Mate/monobook.css, a ne {{ns:user}}:Mate/Monobook.css.",
+'sitecsspreview'                   => "'''Ne zaboravite ovo je samo pregled ovog CSS-a.'''
+'''Još uvijek nije sačuvan!'''",
+'sitejspreview'                    => "'''Ne zaboravite ovo je samo pregled JavaScript kôda.'''
+'''Još uvijek nije sačuvan!'''",
+'userinvalidcssjstitle'            => "'''Upozorenje:''' Nema sučelja pod imenom \"\$1\". Ne zaboravite da imena stranica s .css and .js kodom počinju malim slovom, npr. {{ns:user}}:Mate/vector.css, a ne {{ns:user}}:Mate/Vector.css.",
 'updated'                          => '(Ažurirano)',
 'note'                             => "'''Napomena:'''",
 'previewnote'                      => "'''Ne zaboravite da je ovo samo pregled kako će stranica izgledati i da stranica još nije snimljena!'''",
@@ -1168,7 +1174,7 @@ Vidi [[Special:IPBlockList|Popis blokiranih IP adresa]] za popis trenutačno akt
 'revmove-norevisions-title'    => 'Nevaljana ciljna inačica',
 'revmove-norevisions'          => 'Niste naveli jednu ili više ciljnih inačica potrebnih za obavljanje ove funkcije, ili odabrana inačica ne postoji.',
 'revmove-nullmove-title'       => 'Loš naslov',
-'revmove-nullmove'             => 'Odredišna stranica ne može biti ista kao izvorna stranica. Vratite se na prethodnu stranicu i odaberite ime koje nije "[[$1]]".',
+'revmove-nullmove'             => 'Odredišna stranica ne može biti ista kao izvorna stranica. Vratite se na prethodnu stranicu i odaberite ime koje nije "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Jedna inačica iz [[$2]] je premještena|$1 inačice iz [[$2]] su premještene|$1 inačica iz [[$2]] su premještene}} u postojeću stranicu [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Jedna inačica iz [[$2]] je premještena|$1 inačice iz [[$2]] su premještene|$1 inačica iz [[$2]] su premještene}} u novostvorenu stranicu [[$3]].',
 
@@ -1976,6 +1982,7 @@ Molimo obratite pozornost da druge web stranice mogu povezivati sliku izravnim U
 'pager-newer-n'           => '{{PLURAL:$1|novija $1|novije $1|novijih $1}}',
 'pager-older-n'           => '{{PLURAL:$1|starija $1|starije $1|starijih $1}}',
 'suppress'                => 'Nadzor',
+'querypage-disabled'      => 'Ova posebna stranica onemogućena je jer bi usporila funkcioniranje projekta.',
 
 # Book sources
 'booksources'               => 'Pretraživanje po ISBN-u',
@@ -3365,6 +3372,8 @@ Također možete koristiti [[Special:Watchlist/edit|standardni editor]].',
 'version-specialpages'             => 'Posebne stranice',
 'version-parserhooks'              => 'Kuke parsera',
 'version-variables'                => 'Varijable',
+'version-antispam'                 => 'Sprječavanje spama',
+'version-skins'                    => 'Izgledi',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Rukovatelji medijima',
 'version-hooks'                    => 'Kuke',
@@ -3498,5 +3507,14 @@ Ako je suradnik trenutno prijavljen negdje, odmah će biti odjavljen.
 'disableaccount-nosuchuser'  => 'Suradnik "$1" ne postoji.',
 'disableaccount-success'     => 'Suradnički račun "$1" je trajno onemogućen.',
 'disableaccount-logentry'    => 'trajno onesposobljen suradnički račun [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Snimi niz datoteka',
+'uploadstash-summary'  => 'Ova stranica pruža pristup datotekama koje su snimljene na wiki (ili u procesu snimanja), ali još nisu objavljeni na wiki. Ove datoteke nisu vidljive nikome, osim suradniku koji ih je snimio.',
+'uploadstash-clear'    => 'Očisti niz datoteka',
+'uploadstash-nofiles'  => 'Nemate neobjavljenih datoteka',
+'uploadstash-badtoken' => 'Obavljanje akcije je bilo neuspješano, možda jer je vaša prijava istekla. Pokušajte ponovno.',
+'uploadstash-errclear' => 'Brisanje neobjavljenih datoteka nije uspjelo.',
+'uploadstash-refresh'  => 'Osvježi popis datoteka',
 
 );

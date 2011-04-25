@@ -71,6 +71,67 @@ jQuery.extend({
 			}
 		}
 		return true;
+	},
+	compareObject : function( objectA, objectB ) {
+	
+		// Do a simple check if the types match
+		if ( typeof( objectA ) == typeof( objectB ) ) {
+	
+			// Only loop over the contents if it really is an object
+			if ( typeof( objectA ) == 'object' ) {
+				// If they are aliases of the same object (ie. mw and mediaWiki) return now
+				if ( objectA === objectB ) {
+					return true;
+				} else {
+					// Iterate over each property
+					for ( var prop in objectA ) {
+						// Check if this property is also present in the other object
+						if ( prop in objectB ) {
+							// Compare the types of the properties
+							var type = typeof( objectA[prop] );
+							if ( type == typeof( objectB[prop] ) ) {
+								// Recursively check objects inside this one
+								switch ( type ) {
+									case 'object' :
+										if ( !$.compareObject( objectA[prop], objectB[prop] ) ) {
+											return false;
+										}
+										break;
+									case 'function' :
+										// Functions need to be strings to compare them properly
+										if ( objectA[prop].toString() !== objectB[prop].toString() ) {
+											return false;
+										}
+										break;
+									default:
+										// Strings, numbers
+										if ( objectA[prop] !== objectB[prop] ) {
+											return false;
+										}
+										break;
+								}
+							} else {
+								return false;
+							}
+						} else {
+							return false;
+						}
+					}
+					// Check for properties in B but not in A
+					// This is about 15% faster (tested in Safari 5 and Firefox 3.6)
+					// ...than incrementing a count variable in the above and below loops
+					// See also: http://www.mediawiki.org/wiki/ResourceLoader/Default_modules/compareObject_test#Results
+					for ( var prop in objectB ) {
+						if ( !( prop in objectA ) ) {
+							return false;
+						}
+					}
+				}
+			}
+		} else {
+			return false;
+		}
+		return true;
 	}
 });
 >>>>>>> .merge-right.r76320
@@ -103,7 +164,7 @@ window.mediaWiki = new ( function( $ ) {
 	 */
 	function Map( global ) {
 		this.values = ( global === true ) ? window : {};
-	};
+	}
 
 	/**
 	 * Gets the value of a key, or a list of key/value pairs for an array of keys.
@@ -176,7 +237,7 @@ window.mediaWiki = new ( function( $ ) {
 		this.map = map;
 		this.key = key;
 		this.parameters = typeof parameters === 'undefined' ? [] : $.makeArray( parameters );
-	};
+	}
 
 	/**
 	 * Appends parameters for replacement
@@ -247,7 +308,100 @@ window.mediaWiki = new ( function( $ ) {
 	 * User object
 	 */
 	function User() {
+
+		/* Private Members */
+
+		var that = this;
+
+		/* Public Members */
+
 		this.options = new Map();
+
+		/* Public Methods */
+
+		/**
+		 * Generates a random user session ID (32 alpha-numeric characters).
+		 * 
+		 * This information would potentially be stored in a cookie to identify a user during a
+		 * session or series of sessions. It's uniqueness should not be depended on.
+		 * 
+		 * @return string random set of 32 alpha-numeric characters
+		 */
+		function generateId() {
+			var id = '';
+			var seed = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+			for ( var i = 0, r; i < 32; i++ ) {
+				r = Math.floor( Math.random() * seed.length );
+				id += seed.substring( r, r + 1 );
+			}
+			return id;
+		}
+
+		/**
+		 * Gets the current user's name.
+		 * 
+		 * @return mixed user name string or null if users is anonymous
+		 */
+		this.name = function() {
+			return mediaWiki.config.get( 'wgUserName' );
+		};
+
+		/**
+		 * Checks if the current user is anonymous.
+		 * 
+		 * @return boolean
+		 */
+		this.anonymous = function() {
+			return that.name() ? false : true;
+		};
+
+		/**
+		 * Gets a random session ID automatically generated and kept in a cookie.
+		 * 
+		 * This ID is ephemeral for everyone, staying in their browser only until they close
+		 * their browser.
+		 * 
+		 * Do not use this method before the first call to mediaWiki.loader.go(), it depends on
+		 * jquery.cookie, which is added to the first pay-load just after mediaWiki is defined, but
+		 * won't be loaded until the first call to go().
+		 * 
+		 * @return string user name or random session ID
+		 */
+		this.sessionId = function () {
+			var sessionId = $.cookie( 'mediaWiki.user.sessionId' );
+			if ( typeof sessionId == 'undefined' || sessionId == null ) {
+				sessionId = generateId();
+				$.cookie( 'mediaWiki.user.sessionId', sessionId, { 'expires': null, 'path': '/' } );
+			}
+			return sessionId;
+		};
+
+		/**
+		 * Gets the current user's name or a random ID automatically generated and kept in a cookie.
+		 * 
+		 * This ID is persistent for anonymous users, staying in their browser up to 1 year. The
+		 * expiration time is reset each time the ID is queried, so in most cases this ID will
+		 * persist until the browser's cookies are cleared or the user doesn't visit for 1 year.
+		 * 
+		 * Do not use this method before the first call to mediaWiki.loader.go(), it depends on
+		 * jquery.cookie, which is added to the first pay-load just after mediaWiki is defined, but
+		 * won't be loaded until the first call to go().
+		 * 
+		 * @return string user name or random session ID
+		 */
+		this.id = function() {
+			var name = that.name();
+			if ( name ) {
+				return name;
+			}
+			var id = $.cookie( 'mediaWiki.user.id' );
+			if ( typeof id == 'undefined' || id == null ) {
+				id = generateId();
+			}
+			// Set cookie if not set, or renew it if already set
+			$.cookie( 'mediaWiki.user.id', id, { 'expires': 365, 'path': '/' } );
+			return id;
+		};
 	}
 
 	/* Public Members */
@@ -259,11 +413,16 @@ window.mediaWiki = new ( function( $ ) {
 	this.log = function() { };
 
 	/*
+	 * Make the Map-class publicly available
+	 */
+	this.Map = Map;
+
+	/*
 	 * List of configuration values
 	 *
 	 * In legacy mode the values this object wraps will be in the global space
 	 */
-	this.config = new Map( LEGACY_GLOBALS );
+	this.config = new this.Map( LEGACY_GLOBALS );
 
 	/*
 	 * Information about the current user
@@ -273,7 +432,7 @@ window.mediaWiki = new ( function( $ ) {
 	/*
 	 * Localization system
 	 */
-	this.messages = new Map();
+	this.messages = new this.Map();
 
 	/* Public Methods */
 
@@ -344,6 +503,8 @@ window.mediaWiki = new ( function( $ ) {
 		var suspended = true;
 		// Flag inidicating that document ready has occured
 		var ready = false;
+		// Marker element for adding dynamic styles
+		var $marker = $( 'head meta[name=ResourceLoaderDynamicStyles]' );
 
 		/* Private Methods */
 
@@ -362,7 +523,7 @@ window.mediaWiki = new ( function( $ ) {
 				}
 			}
 			return true;
-		};
+		}
 
 		/**
 		 * Generates an ISO8601 "basic" string from a UNIX timestamp
@@ -438,7 +599,7 @@ window.mediaWiki = new ( function( $ ) {
 				return resolved;
 			}
 			throw new Error( 'Invalid module argument: ' + module );
-		};
+		}
 
 		/**
 		 * Narrows a list of module names down to those matching a specific
@@ -501,16 +662,15 @@ window.mediaWiki = new ( function( $ ) {
 			}
 			// Add style sheet to document
 			if ( typeof registry[module].style === 'string' && registry[module].style.length ) {
-				$( 'head' )
-					.append( mediaWiki.html.element( 'style',
-						{ type: "text/css" },
+				$marker.before( mediaWiki.html.element( 'style',
+						{ type: 'text/css' },
 						new mediaWiki.html.Cdata( registry[module].style )
 					) );
 			} else if ( typeof registry[module].style === 'object'
 				&& !( registry[module].style instanceof Array ) )
 			{
 				for ( var media in registry[module].style ) {
-					$( 'head' ).append( mediaWiki.html.element( 'style',
+					$marker.before( mediaWiki.html.element( 'style',
 						{ type: 'text/css', media: media },
 						new mediaWiki.html.Cdata( registry[module].style[media] )
 					) );
@@ -1041,6 +1201,9 @@ if ( typeof startUp === 'function' ) {
 	startUp();
 	delete startUp;
 }
+
+// Add jQuery Cookie to initial payload (used in mediaWiki.user)
+mediaWiki.loader.load( 'jquery.cookie' );
 
 // Alias $j to jQuery for backwards compatibility
 window.$j = jQuery;

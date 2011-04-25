@@ -1,5 +1,20 @@
 <?php
 /**
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance
  * @defgroup Maintenance Maintenance
@@ -32,21 +47,6 @@ if ( !function_exists( 'posix_isatty' ) ) {
  * maintenance scripts with minimal effort. All that _must_ be defined
  * is the execute() method. See docs/maintenance.txt for more info
  * and a quick demo of how to use it.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
- * http://www.gnu.org/copyleft/gpl.html
  *
  * @author Chad Horohoe <chad@anyonecanedit.org>
  * @since 1.16
@@ -102,10 +102,16 @@ abstract class Maintenance {
 	protected static $mCoreScripts = null;
 
 	/**
-	 * Default constructor. Children should call this if implementing
+	 * Default constructor. Children should call this *first* if implementing
 	 * their own constructors
 	 */
 	public function __construct() {
+		// Setup $IP, using MW_INSTALL_PATH if it exists
+		global $IP;
+		$IP = strval( getenv( 'MW_INSTALL_PATH' ) ) !== ''
+			? getenv( 'MW_INSTALL_PATH' )
+			: realpath( dirname( __FILE__ ) . '/..' );
+
 		$this->addDefaultParams();
 		register_shutdown_function( array( $this, 'outputChanneled' ), false );
 	}
@@ -415,7 +421,7 @@ abstract class Maintenance {
 	 * Do some sanity checking and basic setup
 	 */
 	public function setup() {
-		global $IP, $wgCommandLineMode, $wgRequestTime;
+		global $wgCommandLineMode, $wgRequestTime;
 
 		# Abort if called from a web server
 		if ( isset( $_SERVER ) && isset( $_SERVER['REQUEST_METHOD'] ) ) {
@@ -458,11 +464,6 @@ abstract class Maintenance {
 
 		# Define us as being in MediaWiki
 		define( 'MEDIAWIKI', true );
-
-		# Setup $IP, using MW_INSTALL_PATH if it exists
-		$IP = strval( getenv( 'MW_INSTALL_PATH' ) ) !== ''
-			? getenv( 'MW_INSTALL_PATH' )
-			: realpath( dirname( __FILE__ ) . '/..' );
 
 		$wgCommandLineMode = true;
 		# Turn off output buffering if it's on
@@ -1069,11 +1070,7 @@ abstract class Maintenance {
 	public static function readconsole( $prompt = '> ' ) {
 		static $isatty = null;
 		if ( is_null( $isatty ) ) {
-			if ( posix_isatty( 0 /*STDIN*/ ) ) {
-				$isatty = true;
-			} else {
-				$isatty = false;
-			}
+			$isatty = posix_isatty( 0 /*STDIN*/ );
 		}
 
 		if ( $isatty && function_exists( 'readline' ) ) {

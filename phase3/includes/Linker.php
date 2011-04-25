@@ -712,8 +712,8 @@ class Linker {
 
 				wfProfileOut( __METHOD__ );
 				return '<a href="' . htmlspecialchars( $href ) . '" class="new" title="' .
-								htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
-								htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
+					htmlspecialchars( $title->getPrefixedText(), ENT_QUOTES ) . '">' .
+					htmlspecialchars( $prefix . $text . $inside, ENT_NOQUOTES ) . '</a>' . $trail;
 			} else {
 				wfProfileOut( __METHOD__ );
 				return $this->linkKnown( $title, "$prefix$text$inside", array(), $query ) . $trail;
@@ -1102,7 +1102,7 @@ class Linker {
 
 		# fix up urlencoded title texts (copied from Parser::replaceInternalLinks)
 		if ( strpos( $match[1], '%' ) !== false ) {
-			$match[1] = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), urldecode( $match[1] ) );
+			$match[1] = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), rawurldecode( $match[1] ) );
 		}
 
 		# Handle link renaming [[foo|text]] will show link as "text"
@@ -1499,17 +1499,20 @@ class Linker {
 		$title = $rev->getTitle();
 		$query = array(
 			'action' => 'rollback',
-			'from' => $rev->getUserText()
+			'from' => $rev->getUserText(),
+			'token' => $wgUser->editToken( array( $title->getPrefixedText(), $rev->getUserText() ) ),
 		);
 		if ( $wgRequest->getBool( 'bot' ) ) {
 			$query['bot'] = '1';
 			$query['hidediff'] = '1'; // bug 15999
 		}
-		$query['token'] = $wgUser->editToken( array( $title->getPrefixedText(),
-			$rev->getUserText() ) );
-		return $this->link( $title, wfMsgHtml( 'rollbacklink' ),
+		return $this->link( 
+			$title, 
+			wfMsgHtml( 'rollbacklink' ),
 			array( 'title' => wfMsg( 'tooltip-rollback' ) ),
-			$query,	array( 'known', 'noclasses' ) );
+			$query,	
+			array( 'known', 'noclasses' ) 
+		);
 	}
 
 	/**
@@ -1667,10 +1670,12 @@ class Linker {
 	public function titleAttrib( $name, $options = null ) {
 		wfProfileIn( __METHOD__ );
 
-		if ( wfEmptyMsg( "tooltip-$name" ) ) {
+		$message = wfMessage( "tooltip-$name" );
+
+		if ( !$message->exists() ) {
 			$tooltip = false;
 		} else {
-			$tooltip = wfMsg( "tooltip-$name" );
+			$tooltip = $message->text();
 			# Compatibility: formerly some tooltips had [alt-.] hardcoded
 			$tooltip = preg_replace( "/ ?\[alt-.\]$/", '', $tooltip );
 			# Message equal to '-' means suppress it.
@@ -1707,10 +1712,16 @@ class Linker {
 	public function accesskey( $name ) {
 		wfProfileIn( __METHOD__ );
 
-		if ( wfEmptyMsg( "accesskey-$name" ) ) {
+		if ( isset( $this->accesskeycache[$name] ) ) {
+			return $this->accesskeycache[$name];
+		}
+
+		$message = wfMessage( "accesskey-$name" );
+
+		if ( !$message->exists() ) {
 			$accesskey = false;
 		} else {
-			$accesskey = wfMsg( "accesskey-$name" );
+			$accesskey = $message->plain();
 			if ( $accesskey === '' || $accesskey === '-' ) {
 				# FIXME: Per standard MW behavior, a value of '-' means to suppress the
 				# attribute, but this is broken for accesskey: that might be a useful
@@ -1720,7 +1731,7 @@ class Linker {
 		}
 
 		wfProfileOut( __METHOD__ );
-		return $accesskey;
+		return $this->accesskeycache[$name] = $accesskey;
 	}
 
 	/**
@@ -1973,7 +1984,6 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeStubLinkObj( $nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		// wfDeprecated( __METHOD__ );
 		return $this->makeColouredLinkObj( $nt, 'stub', $text, $query, $trail, $prefix );
 	}
 
@@ -1992,7 +2002,6 @@ class Linker {
 	 * @param $prefix String: Optional prefix
 	 */
 	function makeColouredLinkObj( $nt, $colour, $text = '', $query = '', $trail = '', $prefix = '' ) {
-		// wfDeprecated( __METHOD__ );
 		if ( $colour != '' ) {
 			$style = $this->getInternalLinkAttributesObj( $nt, $text, $colour );
 		} else $style = '';

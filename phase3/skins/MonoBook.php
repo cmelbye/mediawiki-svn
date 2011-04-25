@@ -70,27 +70,6 @@ class MonoBookTemplate extends BaseTemplate {
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
 
-		// Generate additional footer links
-		$footerlinks = $this->data["footerlinks"];
-		// fold footerlinks into a single array using a bit of trickery
-		$footerlinks = call_user_func_array('array_merge', array_values($footerlinks));
-		// Generate additional footer icons
-		$footericons = $this->data["footericons"];
-		// Unset any icons which don't have an image
-		foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
-			foreach ( $footerIconsBlock as $footerIconKey => $footerIcon ) {
-				if ( !is_string($footerIcon) && !isset($footerIcon["src"]) ) {
-					unset($footerIconsBlock[$footerIconKey]);
-				}
-			}
-		}
-		// Redo removal of any empty blocks
-		foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
-			if ( count($footerIconsBlock) <= 0 ) {
-				unset($footericons[$footerIconsKey]);
-			}
-		}
-
 		$this->html( 'headelement' );
 ?><div id="globalWrapper">
 <div id="column-content"><div id="content"<?php $this->html("specialpageattributes") ?>>
@@ -187,7 +166,7 @@ class MonoBookTemplate extends BaseTemplate {
 </div><!-- end of the left (by default at least) column -->
 <div class="visualClear"></div>
 <div id="footer"<?php $this->html('userlangattributes') ?>>
-<?php foreach ( $footericons as $blockName => $footerIcons ) { ?>
+<?php foreach ( $this->getFooterIcons("icononly") as $blockName => $footerIcons ) { ?>
 	<div id="f-<?php echo htmlspecialchars($blockName); ?>ico">
 <?php foreach ( $footerIcons as $icon ) { ?>
 		<?php echo $this->skin->makeFooterIcon( $icon ); ?>
@@ -198,19 +177,14 @@ class MonoBookTemplate extends BaseTemplate {
 <?php }
 
 		// Generate additional footer links
-		$validFooterLinks = array();
-		foreach( $footerlinks as $aLink ) {
-			if( isset( $this->data[$aLink] ) && $this->data[$aLink] ) {
-				$validFooterLinks[] = $aLink;
-			}
-		}
+		$validFooterLinks = $this->getFooterLinks("flat");
 		if ( count( $validFooterLinks ) > 0 ) {
 ?>	<ul id="f-list">
 <?php
-			foreach( $validFooterLinks as $aLink ) {
-				if( isset( $this->data[$aLink] ) && $this->data[$aLink] ) {
-?>		<li id="<?php echo $aLink ?>"><?php $this->html($aLink) ?></li>
-<?php 			}
+			foreach( $validFooterLinks as $aLink ) { ?>
+		<li id="<?php echo $aLink ?>"><?php $this->html($aLink) ?></li>
+
+<?php
 			}
 ?>
 	</ul>

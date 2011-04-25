@@ -13,7 +13,7 @@
  * @since 1.17
  */
 class MysqlInstaller extends DatabaseInstaller {
-	
+
 	protected $globalNames = array(
 		'wgDBserver',
 		'wgDBname',
@@ -140,8 +140,8 @@ class MysqlInstaller extends DatabaseInstaller {
 
 		# Determine existing default character set
 		if ( $conn->tableExists( "revision" ) ) {
-			$revision = $conn->escapeLike( $this->getVar( 'wgDBprefix' ) . 'revision' );
-			$res = $conn->query( "SHOW TABLE STATUS LIKE '$revision'", __METHOD__ );
+			$revision = $conn->buildLike( $this->getVar( 'wgDBprefix' ) . 'revision' );
+			$res = $conn->query( "SHOW TABLE STATUS $revision", __METHOD__ );
 			$row = $conn->fetchObject( $res );
 			if ( !$row ) {
 				$this->parent->showMessage( 'config-show-table-status' );
@@ -366,7 +366,7 @@ class MysqlInstaller extends DatabaseInstaller {
 		if ( !$create ) {
 			// Test the web account
 			try {
-				new Database(
+				new DatabaseMysql(
 					$this->getVar( 'wgDBserver' ),
 					$this->getVar( 'wgDBuser' ),
 					$this->getVar( 'wgDBpassword' ),
@@ -399,7 +399,7 @@ class MysqlInstaller extends DatabaseInstaller {
 			'name' => 'user',
 			'callback' => array( $this, 'setupUser' ),
 		);
-		$this->parent->addInstallStepFollowing( "tables", $callback );
+		$this->parent->addInstallStep( $callback, 'tables' );
 	}
 
 	public function setupDatabase() {

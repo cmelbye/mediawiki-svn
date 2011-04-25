@@ -758,6 +758,9 @@ Prosím, počkajte predtým, než to skúsite znova.',
 'loginlanguagelabel'         => 'Jazyk: $1',
 'suspicious-userlogout'      => 'Vaša požiadavka odhlásiť sa bola zamietnutá, pretože to vyzerá, že ju poslal pokazený prehliadač alebo proxy server.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Neznáma chyba vo funkcii PHP mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Odhadovaná sila hesla: $1',
 'password-strength-bad'        => 'VEĽMI SLABÉ',
@@ -897,7 +900,11 @@ Dolu je pre informáciu posledná položka zo záznamu blokovaní:',
 'userjsyoucanpreview'              => "'''Tip:''' Váš nový JS pred uložením otestujete stlačením tlačidla „{{int:showpreview}}“.",
 'usercsspreview'                   => "'''Nezabudnite, že toto je iba náhľad vášho používateľského CSS, ešte nebolo uložené!'''",
 'userjspreview'                    => "'''Nezabudnite, že iba testujete/náhľad vášho používateľského JavaScriptu, ešte nebol uložený!'''",
-'userinvalidcssjstitle'            => "'''Upozornenie:''' Neexistuje vzhľad „$1“. Pamätajte, že vlastné .css a .js stránky používajú názov s malými písmenami, napr. {{ns:user}}:Foo/monobook.css a nie {{ns:user}}:Foo/Monobook.css.",
+'sitecsspreview'                   => "'''Nezabudnite, že toto je iba náhľad tohto CSS.'''
+'''Zatiaľ nebolo uložené!'''",
+'sitejspreview'                    => "'''Nezabudnite, že toto je iba náhľad tohto JavaScriptu.'''
+'''Zatiaľ nebol uložený!'''",
+'userinvalidcssjstitle'            => "'''Upozornenie:''' Neexistuje vzhľad „$1“. Pamätajte, že vlastné .css a .js stránky používajú názov s malými písmenami, napr. {{ns:user}}:Foo/vector.css a nie {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Aktualizovaný)',
 'note'                             => "'''Poznámka: '''",
 'previewnote'                      => "'''Nezabudnite, toto je iba náhľad stránky, ktorú upravujete.
@@ -1165,7 +1172,7 @@ Pozrite sa prosím do záznamov.',
 'revmove-norevisions-title'    => 'Neplatná cieľová revízia',
 'revmove-norevisions'          => 'Buď ste neuviedli jednu alebo viac cieľových revízií alebo uvedená revízia neexistuje.',
 'revmove-nullmove-title'       => 'Chybný názov',
-'revmove-nullmove'             => 'Zdrojová a cieľová stránka sú zhodné. Prosím, stlačte „Späť“ a zadajte iný názov stránky ako „[[$1]]“.',
+'revmove-nullmove'             => 'Zdrojová a cieľová stránka sú zhodné. Prosím, stlačte „Späť“ a zadajte iný názov stránky ako „$1“.',
 'revmove-success-existing'     => '{{PLURAL:$1|Jedna revízia z[[$2]] bola|$1 revízie z [[$2]] boli|$1 revízií z [[$2]] bolo}} presunutých do existujúcej stránky [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Jedna revízia z[[$2]] bola|$1 revízie z [[$2]] boli|$1 revízií z [[$2]] bolo}} presunutých do novo vytvorenej stránky [[$3]].',
 
@@ -2379,6 +2386,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Príspevky nových používateľov',
 'sp-contributions-blocklog'            => 'záznam blokovaní',
 'sp-contributions-deleted'             => 'zmazané príspevky používateľa',
+'sp-contributions-uploads'             => 'nahrané súbory',
 'sp-contributions-logs'                => 'záznamy',
 'sp-contributions-talk'                => 'diskusia',
 'sp-contributions-userrights'          => 'spravovanie používateľských práv',
@@ -3417,6 +3425,7 @@ Tiež môžete [[Special:Watchlist/edit|použiť štandardný editor]].',
 'version-specialpages'             => 'Špeciálne stránky',
 'version-parserhooks'              => 'Prípojné body syntaktického analyzátora',
 'version-variables'                => 'Premenné',
+'version-skins'                    => 'Témy vzhľadu',
 'version-other'                    => 'Iné',
 'version-mediahandlers'            => 'Obsluha multimédií',
 'version-hooks'                    => 'Prípojné body',
@@ -3551,5 +3560,14 @@ Ak je používateľ momentálne niekde prihlásený, bude okamžite odhlásený.
 'disableaccount-nosuchuser'  => 'Používateľský účet „$1“ neexistuje.',
 'disableaccount-success'     => 'Používateľský účet „$1“ bol natrvalo zakázaný.',
 'disableaccount-logentry'    => 'natrvalo zakázaný používateľský účet [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Skrýša nahraných súborov',
+'uploadstash-summary'  => 'Táto stránka poskytuje prístup k súborom nahraným (alebo práve nahrávaným), ktoré zatiaľ nie sú zverejnené na wiki. Tieto súbory nevidí nikto iný okrem používateľa, ktorý ich nahral.',
+'uploadstash-clear'    => 'Vymazať skrýšu nahraných súborov',
+'uploadstash-nofiles'  => 'Nemáte žiadne súbory v skrýši nahraných súborov.',
+'uploadstash-badtoken' => 'Vykonanie operácie sa nepodarilo, možno preto, že platnosť vašich prihlasovacích údajov vypršala. Skúste to znova.',
+'uploadstash-errclear' => 'Vymazanie súborov bolo neúspešné.',
+'uploadstash-refresh'  => 'Obnoviť zoznam súborov',
 
 );

@@ -668,6 +668,8 @@ Masz obecnie w przeglądarce wyłączoną obsługę ciasteczek.
 'nocookieslogin'             => '{{SITENAME}} wykorzystuje ciasteczka do przechowywania informacji o zalogowaniu się przez użytkownika.
 Masz obecnie w przeglądarce wyłączoną obsługę ciasteczek.
 Spróbuj ponownie po ich odblokowaniu.',
+'nocookiesfornew'            => 'Konto użytkownika nie zostało utworzone, ponieważ nie można było potwierdzić jego źródła.
+Upewnij się, że masz włączoną obsługę ciasteczek, przeładuj stronę i spróbuj ponownie.',
 'noname'                     => 'To nie jest poprawna nazwa użytkownika.',
 'loginsuccesstitle'          => 'Zalogowano pomyślnie',
 'loginsuccess'               => "'''{{GENDER:|Zalogowałeś się|Zalogowałaś się|Zalogowano}} do {{GRAMMAR:D.lp|{{SITENAME}}}} jako „$1”.'''",
@@ -871,8 +873,12 @@ Ostatni wpis rejestru blokad jest pokazany poniżej.',
 'userjsyoucanpreview'              => "'''Podpowiedź:''' Użyj przycisku „Podgląd”, aby przetestować nowy kod JavaScript przed jego zapisaniem.",
 'usercsspreview'                   => "'''Pamiętaj, że to tylko podgląd arkusza stylów CSS – nic jeszcze nie zostało zapisane!'''",
 'userjspreview'                    => "'''Pamiętaj, że to tylko podgląd Twojego kodu JavaScript – nic jeszcze nie zostało zapisane!'''",
+'sitecsspreview'                   => "'''Pamiętaj, że to tylko podgląd arkusza stylów CSS.'''
+'''Zmiany nie zostały jeszcze zapisane!'''",
+'sitejspreview'                    => "'''Pamiętaj, że to tylko podgląd kodu JavaScript.'''
+'''Zmiany nie zostały jeszcze zapisane!'''",
 'userinvalidcssjstitle'            => "'''Uwaga:''' Brak skórki o nazwie „$1”.
-Strony użytkownika zawierające CSS i JavaScript powinny zaczynać się małą literą, np. {{ns:user}}:Foo/monobook.css, w przeciwieństwie do nieprawidłowego {{ns:user}}:Foo/Monobook.css.",
+Strony użytkownika zawierające CSS i JavaScript powinny zaczynać się małą literą, np. {{ns:user}}:Foo/vector.css, w przeciwieństwie do nieprawidłowego {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Zmodyfikowano)',
 'note'                             => "'''Uwaga:'''",
 'previewnote'                      => "'''To jest tylko podgląd – zmiany nie zostały jeszcze zapisane!'''",
@@ -1137,7 +1143,7 @@ Zobacz [[Special:IPBlockList|rejestr blokowania adresów IP]], jeśli chcesz spr
 'revmove-norevisions-title'    => 'Nieprawidłowa wersja docelowa',
 'revmove-norevisions'          => 'Nie określono jednej lub kilku wersji, na których ma zostać wykonana funkcja, lub wybrana wersja nie istnieje.',
 'revmove-nullmove-title'       => 'Zły tytuł',
-'revmove-nullmove'             => 'Strona źródłowa i docelowa są takie same. Naciśnij „wstecz“ i wpisz nazwę strony różną od „[[$1]]“.',
+'revmove-nullmove'             => 'Strona źródłowa i docelowa są takie same. Naciśnij „wstecz“ i wpisz nazwę strony różną od „$1“.',
 'revmove-success-existing'     => '{{PLURAL:$1|Jedna wersja [[$2]] została przeniesiona|$1 wersje [[$2]] zostały przeniesione|$1 wersji [[$2]] zostało przeniesionych}} do historii edycji istniejącej strony [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Jedna wersja [[$2]] została przeniesiona|$1 wersje [[$2]] zostały przeniesione|$1 wersji [[$2]] zostało przeniesionych}} do historii edycji nowo utworzonej strony [[$3]].',
 
@@ -1353,7 +1359,8 @@ Dopuszczalna długość to $1 {{PLURAL:$1|znak|znaki|znaków}}.',
 'email'                         => 'E‐mail',
 'prefs-help-realname'           => 'Wpisanie imienia i nazwiska nie jest obowiązkowe.
 Jeśli zdecydujesz się je podać, zostaną użyte, by udokumentować Twoje autorstwo.',
-'prefs-help-email'              => 'Podanie adresu e‐mail nie jest obowiązkowe, lecz pozwoli innym użytkownikom skontaktować się z Tobą poprzez odpowiedni formularz (bez ujawniania Twojego adresu). Będziesz także mógł poprosić o przysłanie Ci nowego hasła.',
+'prefs-help-email'              => 'Podanie adresu e‐mail nie jest obowiązkowe, lecz jest konieczne do zresetowania hasła, jeśli je zapomnisz.
+Umożliwi również innym użytkownikom skontaktowanie się z Tobą poprzez odpowiedni formularz (bez ujawniania Twojego adresu).',
 'prefs-help-email-required'     => 'Wymagany jest adres e‐mail.',
 'prefs-info'                    => 'Podstawowe informacje',
 'prefs-i18n'                    => 'Międzynarodowość',
@@ -1976,6 +1983,7 @@ Inne witryny mogą odwoływać się do tych plików, używając bezpośrednich a
 'pager-newer-n'           => '{{PLURAL:$1|1 nowszy|$1 nowsze|$1 nowszych}}',
 'pager-older-n'           => '{{PLURAL:$1|1 starszy|$1 starsze|$1 starszych}}',
 'suppress'                => 'Rewizor',
+'querypage-disabled'      => 'Ta strona specjalna została wyłączona ze względu na ograniczenia wydajności.',
 
 # Book sources
 'booksources'               => 'Książki',
@@ -2211,7 +2219,7 @@ Zobacz na stronie $2 rejestr ostatnio wykonanych usunięć.',
 ** Prośba autora
 ** Naruszenie praw autorskich
 ** Wandalizm',
-'delete-edit-reasonlist' => 'Edytuj listę powodów',
+'delete-edit-reasonlist' => 'Edytuj listę przyczyn usunięcia',
 'delete-toobig'          => 'Ta strona ma bardzo długą historię edycji, ponad $1 {{PLURAL:$1|zmianę|zmiany|zmian}}.
 Usunięcie jej mogłoby spowodować zakłócenia w pracy {{GRAMMAR:D.lp|{{SITENAME}}}} i dlatego zostało ograniczone.',
 'delete-warning-toobig'  => 'Ta strona ma bardzo długą historię edycji, ponad $1 {{PLURAL:$1|zmianę|zmiany|zmian}}.
@@ -2444,7 +2452,7 @@ Podaj powód (np. umieszczając nazwy stron, na których dopuszczono się wandal
 'blockipsuccesssub'               => 'Zablokowanie powiodło się',
 'blockipsuccesstext'              => '{{GENDER:$1|Użytkownik|Użytkowniczka}} [[Special:Contributions/$1|$1]] {{GENDER:$1|został zablokowany|została zablokowana}}.<br />
 Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrzeć blokady.',
-'ipb-edit-dropdown'               => 'Edytuj przyczynę blokady',
+'ipb-edit-dropdown'               => 'Edytuj listę przyczyn blokady',
 'ipb-unblock-addr'                => 'Odblokuj $1',
 'ipb-unblock'                     => 'Odblokuj użytkownika lub adres IP',
 'ipb-blocklist'                   => 'Zobacz istniejące blokady',
@@ -3465,6 +3473,8 @@ Możesz także użyć [[Special:Watchlist/edit|standardowego edytora obserwowany
 'version-specialpages'             => 'Strony specjalne',
 'version-parserhooks'              => 'Haki analizatora składni (ang. parser hooks)',
 'version-variables'                => 'Zmienne',
+'version-antispam'                 => 'Ochrona przed spamem',
+'version-skins'                    => 'Skórki',
 'version-other'                    => 'Pozostałe',
 'version-mediahandlers'            => 'Wtyczki obsługi mediów',
 'version-hooks'                    => 'Haki (ang. hooks)',
@@ -3599,5 +3609,14 @@ Jeśli użytkownik jest obecnie gdziekolwiek zalogowany, zostanie natychmiast wy
 'disableaccount-nosuchuser'  => 'Brak konta użytkownika „$1”.',
 'disableaccount-success'     => 'Konto użytkownika „$1” zostało trwale wyłączone.',
 'disableaccount-logentry'    => 'trwale wyłączył konto użytkownika [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Ukryte przesyłanie',
+'uploadstash-summary'  => 'Ta strona umożliwia dostęp do przesłanych lub właśnie przesyłanych plików, ale jeszcze nie opublikowanych na wiki. Pliki widzi wyłącznie użytkownik, które je przesłał.',
+'uploadstash-clear'    => 'Wyczyść ukryte pliki',
+'uploadstash-nofiles'  => 'Nie masz żadnych ukrytych plików.',
+'uploadstash-badtoken' => 'Operacja nie powiodła się. Możliwą przyczyną jest, że Twoje upoważnienie do edytowania wygasło. Spróbuj ponownie.',
+'uploadstash-errclear' => 'Czyszczenie plików nie powiodło się.',
+'uploadstash-refresh'  => 'Odśwież listę plików',
 
 );

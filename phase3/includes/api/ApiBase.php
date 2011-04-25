@@ -1,6 +1,6 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Sep 5, 2006
  *
@@ -336,7 +336,9 @@ abstract class ApiBase {
 								$choices[] =  $t;
 							}
 						}
-						$desc .= $paramPrefix . $nothingPrompt . $prompt . implode( ', ', $choices );
+                                                $desc .= $paramPrefix . $nothingPrompt . $prompt;
+                                                $choicesstring = implode( ', ', $choices );
+                                                $desc .= wordwrap( $choicesstring, 100, "\n                       " );
 					} else {
 						switch ( $type ) {
 							case 'namespace':
@@ -845,8 +847,8 @@ abstract class ApiBase {
 	 * Prints usage info on failure.
 	 * @param $paramName string Parameter name
 	 * @param $value int Parameter value
-	 * @param $min int Minimum value
-	 * @param $max int Maximum value for users
+	 * @param $min int|null Minimum value
+	 * @param $max int|null Maximum value for users
 	 * @param $botMax int Maximum value for sysops/bots
 	 * @param $enforceLimits Boolean Whether to enforce (die) if value is outside limits
 	 */

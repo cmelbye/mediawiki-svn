@@ -1,6 +1,6 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Sep 4, 2006
  *
@@ -123,7 +123,12 @@ class ApiMain extends ApiBase {
 		)
 	);
 
-	private $mPrinter, $mModules, $mModuleNames, $mFormats, $mFormatNames;
+	/**
+	 * @var ApiFormatBase
+	 */
+	private $mPrinter;
+
+	private $mModules, $mModuleNames, $mFormats, $mFormatNames;
 	private $mResult, $mAction, $mShowVersions, $mEnableWrite, $mRequest;
 	private $mInternalMode, $mSquidMaxage, $mModule;
 
@@ -785,7 +790,7 @@ class ApiMain extends ApiBase {
 	protected function getCredits() {
 		return array(
 			'API developers:',
-			'    Roan Kattouw <Firstname>.<Lastname>@home.nl (lead developer Sep 2007-present)',
+			'    Roan Kattouw <Firstname>.<Lastname>@gmail.com (lead developer Sep 2007-present)',
 			'    Victor Vasiliev - vasilvv at gee mail dot com',
 			'    Bryan Tong Minh - bryan . tongminh @ gmail . com',
 			'    Sam Reed - sam @ reedyboy . net',
@@ -867,6 +872,12 @@ class ApiMain extends ApiBase {
 		return $msg;
 	}
 
+	/**
+	 * @static
+	 * @param  $module ApiBase
+	 * @param  $paramName String What type of request is this? e.g. action, query, list, prop, meta, format
+	 * @return string
+	 */
 	public static function makeHelpMsgHeader( $module, $paramName ) {
 		$modulePrefix = $module->getModulePrefix();
 		if ( strval( $modulePrefix ) !== '' ) {

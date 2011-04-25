@@ -353,7 +353,7 @@ in [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Uporabniški priroč
 'variants'                       => 'Različice',
 
 'errorpagetitle'    => 'Napaka',
-'returnto'          => 'Vrnitev na $1.',
+'returnto'          => 'Vrnite se na $1.',
 'tagline'           => 'Iz {{GRAMMAR:rodilnik|{{SITENAME}}}}',
 'help'              => 'Pomoč',
 'search'            => 'Iskanje',
@@ -610,6 +610,8 @@ Prosimo, izberite si drugo.',
 Prosimo, omogočite jih, nato pa se s svojim uporabniškim imenom in geslom ponovno prijavite.',
 'nocookieslogin'             => '{{SITENAME}} za prijavljanje uporabnikov uporablja piškotke.
 Ker jih imate onemogočene, vas prosimo, da jih omogočite in se ponovno prijavite.',
+'nocookiesfornew'            => 'Uporabniški račun ni bil ustvarjen, ker nismo mogli potrditi njegovega izvora.
+Poskrbite, da imate omogočene piškotke, osvežite to stran in poskusite znova.',
 'noname'                     => 'Niste vnesli veljavnega uporabniškega imena.',
 'loginsuccesstitle'          => 'Uspešno ste se prijavili',
 'loginsuccess'               => "'''Sedaj ste prijavljeni v {{GRAMMAR:tožilnik|{{SITENAME}}}} kot »$1«.'''",
@@ -734,7 +736,7 @@ Morda ste že uspešno spremenili geslo ali pa ste zahtevali novo začasno geslo
 'showlivepreview'                  => 'Predogled v živo',
 'showdiff'                         => 'Prikaži spremembe',
 'anoneditwarning'                  => "'''Opozorilo''': niste prijavljeni. V zgodovino strani se bo zapisal vaš IP-naslov.",
-'anonpreviewwarning'               => 'Niste prijavljeni. Ob spremembi strani se bo vaš IP naslov zapisal v zgodovini urejanja te strani.',
+'anonpreviewwarning'               => 'Niste prijavljeni. Ob spremembi strani se bo vaš IP-naslov zapisal v zgodovini urejanja te strani.',
 'missingsummary'                   => "'''Opozorilo:''' Niste napisali povzetka urejanja. Ob ponovnem kliku gumba ''Shrani'' se bo vaše urejanje shranilo brez njega.",
 'missingcommenttext'               => 'Prosimo, vpišite v spodnje polje komentar.',
 'missingcommentheader'             => "'''Opozorilo:''' Niste vnesli zadeve/naslova za ta komentar.
@@ -807,8 +809,12 @@ Najnovejši vnos v dnevniku blokad je prikazan spodaj:',
 '''Ni še bil shranjen!'''",
 'userjspreview'                    => "'''Ne pozabite, da svoj uporabniški JavaScript le preizkušate/predogledujete.'''
 '''Ni še bil shranjen!'''",
+'sitecsspreview'                   => "'''Ne pozabite, da ta CSS samo preizkušate.'''
+'''Ni še bil shranjen!'''",
+'sitejspreview'                    => "'''Ne pozabite, da kodo tega JavaScripta samo preizkušate.'''
+'''Ni še bila shranjena!'''",
 'userinvalidcssjstitle'            => "'''Opozorilo:''' Koža »$1« ne obstaja.
-Vedite, da .css in .js strani po meri uporabljajo naslov z malo začetnico, npr. {{ns:user}}:Blabla/monobook.css namesto {{ns:user}}:Blabla/Monobook.css.",
+Vedite, da .css in .js strani po meri uporabljajo naslov z malo začetnico, npr. {{ns:user}}:Blabla/vector.css namesto {{ns:user}}:Blabla/Vector.css.",
 'updated'                          => '(Posodobljeno)',
 'note'                             => "'''Opomba:'''",
 'previewnote'                      => "'''Stran le predogledujete in še ni shranjena!'''",
@@ -1073,7 +1079,7 @@ Oglejte si [[Special:IPBlockList|seznam blokiranih IP-jev]] za seznam trenutno a
 'revmove-norevisions-title'    => 'Neveljavna ciljna redakcija',
 'revmove-norevisions'          => 'Niste določili ene ali več ciljnih redakcij za izvedbo te funkcije ali pa izbrana redakcija ne obstaja.',
 'revmove-nullmove-title'       => 'Nepravilen naslov',
-'revmove-nullmove'             => 'Izvorna in ciljna stran sta isti. Prosimo, kliknite »nazaj« in vnesite ime strani drugačno od »[[$1]]«.',
+'revmove-nullmove'             => 'Izvorna in ciljna stran sta isti. Prosimo, kliknite »nazaj« in vnesite ime strani drugačno od »$1«.',
 'revmove-success-existing'     => '$1 {{PLURAL:$1|redakcija je bila s strani [[$2]] prestavljena|redakciji sta bili s strani [[$2]] prestavljeni|redakcije so bile s strani [[$2]] prestavljene|redakcij je bilo s strani [[$2]] prestavljenih}} na obstoječo stran [[$3]].',
 'revmove-success-created'      => '$1 {{PLURAL:$1|redakcija je bila s strani [[$2]] prestavljena|redakciji sta bili s strani [[$2]] prestavljeni|redakcije so bile s strani [[$2]] prestavljene|redakcij je bilo s strani [[$2]] prestavljenih}} na novo ustvarjeno stran [[$3]].',
 
@@ -1923,6 +1929,7 @@ Prosimo, upoštevajte, da se lahko druge spletne strani povezujejo na datoteko z
 'pager-newer-n'           => '{{PLURAL:$1|novejši|novejša|novejši|novejših}} $1',
 'pager-older-n'           => '{{PLURAL:$1|starejši|starejša|starejši|starejših}} $1',
 'suppress'                => 'Nadzor',
+'querypage-disabled'      => 'Ta posebna stran je onemogočena iz zmogljivostnih razlogov.',
 
 # Book sources
 'booksources'               => 'Viri knjig',
@@ -3329,6 +3336,7 @@ Uporabite lahko tudi [[Special:Watchlist/edit|standardni urejevalnik]].',
 'version-specialpages'             => 'Posebne strani',
 'version-parserhooks'              => 'Razširitve razčlenjevalnika',
 'version-variables'                => 'Spremenljivke',
+'version-antispam'                 => 'Preprečevanje smetja',
 'version-skins'                    => 'Kože',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Upravljavci predstavnostnih vsebin',
@@ -3465,5 +3473,14 @@ Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-po
 'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
 'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
 'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Skrite naložene datoteke',
+'uploadstash-summary'  => 'Ta stran omogoča dostop do datotek, ki so naložene (oziroma v postopku nalaganja), vendar še niso objavljene na wikiju. Te datoteke so vidne samo uporabniku, ki jih je naložil, in nikomur drugemu.',
+'uploadstash-clear'    => 'Počisti skrite datoteke',
+'uploadstash-nofiles'  => 'Nimate skritih datotek.',
+'uploadstash-badtoken' => 'Izvedba dejanja ni bila uspešna, morda zaradi izteklih poverilnic za urejanje. Poskusite znova.',
+'uploadstash-errclear' => 'Čiščenje datotek ni bilo uspešno.',
+'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 );

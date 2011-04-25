@@ -1,13 +1,17 @@
 /**
  * CSS in this file is used by *all* skins (that have any CSS at all).  Be
  * careful what you put in here, since what looks good in one skin may not in
- * another, but don't ignore the poor non-Monobook users either.
+ * another, but don't ignore the poor pre-Monobook users either.
  */
 
 /* Colored watchlist and recent changes numbers */
 .mw-plusminus-pos { color: #006400; } /* dark green */
 .mw-plusminus-neg { color: #8b0000; } /* dark red */
 .mw-plusminus-null { color: #aaa; } /* gray */
+
+/* Links to redirects appear italicized on [[Special:AllPages]],
+   and in category listings */
+.allpagesredirect, .redirect-in-category { font-style: italic; }
 
 /* Comment and username portions of RC entries */
 span.comment {
@@ -793,17 +797,18 @@ li.gallerybox {
 	border: solid 2px white;
 	display: -moz-inline-box;
 }
-ul.gallery {
-	margin: 2px;
-	padding: 2px;
-	background-color: white;
-	display: block;
-}
 
 ul.gallery, li.gallerybox {
 	display: inline-block;
 	zoom: 1;
 	*display: inline;
+}
+
+ul.gallery {
+	margin: 2px;
+	padding: 2px;
+	background-color: white;
+	display: block;
 }
 
 li.gallerycaption {
@@ -882,19 +887,6 @@ td.mw-enhanced-rc {
 /* Sort arrows added by SortableTables */
 a.sortheader {
 	margin: 0 0.3em;
-}
-
-.grid-table {
-	display: table;
-}
-
-.grid-row {
-	display: table-row;
-}
-
-.grid-cell {
-	display: table-cell;
-	padding: 0.33ex;
 }
 
 /* Localised ordered list numbering for some languages */

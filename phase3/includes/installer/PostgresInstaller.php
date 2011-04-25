@@ -113,7 +113,7 @@ class PostgresInstaller extends DatabaseInstaller {
 			'name' => 'pg-commit',
 			'callback' => array( $this, 'commitChanges' ),
 		);
-		$this->parent->addInstallStepFollowing( 'interwiki', $callback );
+		$this->parent->addInstallStep( $callback, 'interwiki' );
 	}
 
 	function setupDatabase() {
@@ -129,14 +129,14 @@ class PostgresInstaller extends DatabaseInstaller {
 		$ctest = 'mediawiki_test_table';
 		$safeschema = $conn->addIdentifierQuotes( $schema );
 		if ( $conn->tableExists( $ctest, $schema ) ) {
-			$conn->doQuery( "DROP TABLE $safeschema.$ctest" );
+			$conn->query( "DROP TABLE $safeschema.$ctest" );
 		}
-		$res = $conn->doQuery( "CREATE TABLE $safeschema.$ctest(a int)" );
+		$res = $conn->query( "CREATE TABLE $safeschema.$ctest(a int)" );
 		if ( !$res ) {
 			$status->fatal( 'config-install-pg-schema-failed',
 				$this->getVar( 'wgDBuser'), $schema );
 		}
-		$conn->doQuery( "DROP TABLE $safeschema.$ctest" );
+		$conn->query( "DROP TABLE $safeschema.$ctest" );
 
 		return $status;
 	}

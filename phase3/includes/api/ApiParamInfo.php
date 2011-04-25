@@ -1,10 +1,10 @@
 <?php
 /**
- * API for MediaWiki 1.8+
+ *
  *
  * Created on Dec 01, 2007
  *
- * Copyright © 2008 Roan Kattouw <Firstname>.<Lastname>@home.nl
+ * Copyright © 2008 Roan Kattouw <Firstname>.<Lastname>@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,6 +84,10 @@ class ApiParamInfo extends ApiBase {
 		$result->addValue( null, $this->getModuleName(), $r );
 	}
 
+	/**
+	 * @param  $obj ApiBase
+	 * @return ApiResult
+	 */
 	function getClassInfo( $obj ) {
 		$result = $this->getResult();
 		$retval['classname'] = get_class( $obj );

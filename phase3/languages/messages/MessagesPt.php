@@ -726,6 +726,8 @@ Active-os e autentique-se com o seu nome de utilizador e a sua palavra-chave, po
 'nocookieslogin'             => "A {{SITENAME}} utiliza ''cookies'' para autenticar os utilizadores.
 Os ''cookies'' estão desactivados no seu browser.
 Active-os e tente novamente, por favor.",
+'nocookiesfornew'            => 'A conta de utilizador não foi criada, porque não foi possível confirmar a sua origem.
+Certifique-se de que tem os cookies activados, recarregue esta página e tente novamente.',
 'noname'                     => 'Não especificou um nome de utilizador válido.',
 'loginsuccesstitle'          => 'Login bem sucedido',
 'loginsuccess'               => "'''Encontra-se agora ligado à {{SITENAME}} como \"\$1\"'''.",
@@ -931,7 +933,11 @@ Para referência, o último registo de bloqueio é apresentado abaixo:',
 Este ainda não foi gravado!'''",
 'userjspreview'                    => "'''Lembre-se que está apenas a testar ou antever o seu JavaScript particular.'''
 Este ainda não foi gravado!",
-'userinvalidcssjstitle'            => "'''Aviso:''' Não existe um tema \"\$1\". Lembre-se que as páginas .css e  .js utilizam um título em minúsculas, exemplo: {{ns:user}}:Alguém/monobook.css aposto a {{ns:user}}:Alguém/Monobook.css.",
+'sitecsspreview'                   => "'''Lembre-se de que está apenas a antever este CSS.'''
+'''Ele ainda não foi gravado!'''",
+'sitejspreview'                    => "'''Lembre-se de que está apenas a antever este código JavaScript.'''
+'''Ele ainda não foi gravado!'''",
+'userinvalidcssjstitle'            => "'''Aviso:''' Não existe um tema \"\$1\". Lembre-se que as páginas .css e  .js têm um título em minúsculas, exemplo: {{ns:user}}:Alguém/vector.css em vez de {{ns:user}}:Alguém/Vector.css.",
 'updated'                          => '(Actualizado)',
 'note'                             => "'''Nota:'''",
 'previewnote'                      => "'''Lembre-se que esta é apenas uma antevisão do resultado.'''
@@ -1205,7 +1211,7 @@ Veja a [[Special:IPBlockList|lista de bloqueios]] para uma lista de banimentos e
 'revmove-norevisions-title'    => 'A revisão especificada é inválida',
 'revmove-norevisions'          => 'Não especificou uma ou mais revisões sobre as quais deve ser executada esta operação, ou a revisão que especificou não existe.',
 'revmove-nullmove-title'       => 'Título incorrecto',
-'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "[[$1]]".',
+'revmove-nullmove'             => 'As páginas de origem e destino são idênticas. Clique "voltar" e introduza um nome de página diferente de "$1".',
 'revmove-success-existing'     => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página existente [[$3]].',
 'revmove-success-created'      => '{{PLURAL:$1|Uma revisão de [[$2]] foi movida|$1 revisões de [[$2]] foram movidas}} para a página recém-criada [[$3]].',
 
@@ -2050,6 +2056,7 @@ No entanto, outros sites na internet podem ter links para um ficheiro através d
 'pager-newer-n'           => '{{PLURAL:$1|posterior|$1 posteriores}}',
 'pager-older-n'           => '{{PLURAL:$1|1 anterior|$1 anteriores}}',
 'suppress'                => 'Supervisor',
+'querypage-disabled'      => 'Esta página especial está desactivada para não prejudicar o desempenho.',
 
 # Book sources
 'booksources'               => 'Fontes de livros',
@@ -2438,8 +2445,8 @@ $1',
 'contribsub2'         => 'Para $1 ($2)',
 'nocontribs'          => 'Não foram encontradas alterações com este critério.',
 'uctop'               => ' (edição actual)',
-'month'               => 'Até ao mês:',
-'year'                => 'Até ao ano:',
+'month'               => 'Até o mês:',
+'year'                => 'Até o ano:',
 
 'sp-contributions-newbies'             => 'Mostrar só as contribuições das contas recentes',
 'sp-contributions-newbies-sub'         => 'Para contas novas',
@@ -3479,6 +3486,7 @@ Também pode [[Special:Watchlist/edit|editar a lista da maneira convencional]].'
 'version-specialpages'             => 'Páginas especiais',
 'version-parserhooks'              => "''Hooks'' do analisador sintáctico",
 'version-variables'                => 'Variáveis',
+'version-antispam'                 => 'Prevenção contra spam',
 'version-skins'                    => 'Temas',
 'version-other'                    => 'Diversos',
 'version-mediahandlers'            => 'Leitura e tratamento de multimédia',
@@ -3615,5 +3623,14 @@ Se neste momento o utilizador estiver autenticado algures, sairá de imediato.
 'disableaccount-nosuchuser'  => 'A conta de utilizador "$1" não existe.',
 'disableaccount-success'     => 'A conta de utilizador "$1" foi desactivada permanentemente.',
 'disableaccount-logentry'    => 'desactivou permanentemente a conta [[$1]]',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheiros escondidos',
+'uploadstash-summary'  => 'Esta página dá acesso aos ficheiros enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes ficheiros não são visíveis para ninguém, excepto para o utilizador que os enviou.',
+'uploadstash-clear'    => 'Apagar os ficheiros escondidos',
+'uploadstash-nofiles'  => 'Não tem ficheiros escondidos.',
+'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
+'uploadstash-errclear' => 'Não foi possível apagar os ficheiros.',
+'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 );

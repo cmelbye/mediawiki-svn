@@ -1617,8 +1617,7 @@ class OutputPage {
 		$sk = $wgUser->getSkin();
 
 		// Add base resources
-		$this->addModules( array( 'mediawiki.legacy.wikibits' ) );
-		$this->addModules( array( 'mediawiki.util' ) );
+		$this->addModules( array( 'mediawiki.legacy.wikibits', 'mediawiki.util' ) );
 
 		// Add various resources if required
 		if ( $wgUseAjax ) {
@@ -1627,7 +1626,7 @@ class OutputPage {
 			wfRunHooks( 'AjaxAddScript', array( &$this ) );
 
 			if( $wgAjaxWatch && $wgUser->isLoggedIn() ) {
-				$this->addModules( 'mediawiki.legacy.ajaxwatch' );
+				$this->addModules( 'mediawiki.action.watch.ajax' );
 			}
 
 			if ( $wgEnableMWSuggest && !$wgUser->getOption( 'disablesuggest', false ) ) {
@@ -1700,21 +1699,6 @@ class OutputPage {
 			}
 		}
 		print $outs;
-	}
-
-	/**
-	 * @todo document
-	 */
-	public static function setEncodings() {
-		global $wgInputEncoding, $wgOutputEncoding;
-
-		$wgInputEncoding = strtolower( $wgInputEncoding );
-
-		if ( empty( $_SERVER['HTTP_ACCEPT_CHARSET'] ) ) {
-			$wgOutputEncoding = strtolower( $wgOutputEncoding );
-			return;
-		}
-		$wgOutputEncoding = $wgInputEncoding;
 	}
 
 	/**
@@ -1818,9 +1802,7 @@ class OutputPage {
 		$this->mRedirect = '';
 		$this->mBodytext = '';
 
-		array_unshift( $params, 'parse' );
-		array_unshift( $params, $msg );
-		$this->addHTML( call_user_func_array( 'wfMsgExt', $params ) );
+		$this->addWikiMsgArray( $msg, $params );
 
 		$this->returnToMain();
 	}
@@ -1905,7 +1887,7 @@ class OutputPage {
 		$this->setPageTitle( wfMsg( 'loginreqtitle' ) );
 		$this->setHtmlTitle( wfMsg( 'errorpagetitle' ) );
 		$this->setRobotPolicy( 'noindex,nofollow' );
-		$this->setArticleFlag( false );
+		$this->setArticleRelated( false );
 
 		$loginTitle = SpecialPage::getTitleFor( 'Userlogin' );
 		$loginLink = $skin->link(
@@ -2464,7 +2446,7 @@ class OutputPage {
 			$action = $wgRequest->getVal( 'action', 'view' );
 			if( $this->mTitle && $this->mTitle->isJsSubpage() && $sk->userCanPreview( $action ) ) {
 				# XXX: additional security check/prompt?
-				$this->addInlineScript( $wgRequest->getText( 'wpTextbox1' ) );
+				$scripts .= Html::inlineScript( "\n" . $wgRequest->getText( 'wpTextbox1' ) . "\n" ) . "\n";
 			} else {
 				$scripts .= $this->makeResourceLoaderLink(
 					$sk, array( 'user', 'user.options' ), 'scripts'
@@ -2594,15 +2576,28 @@ class OutputPage {
 			}
 		}
 
-		// Split the styles into two groups, not user (0) and user (1)
-		$styles = array( array(), array() );
+		// Split the styles into three groups
+		$styles = array( 'other' => array(), 'user' => array(), 'site' => array() );
 		$resourceLoader = $this->getResourceLoader();
 		foreach ( $this->getModuleStyles() as $name ) {
-			$styles[$resourceLoader->getModule( $name )->getGroup() === 'user' ? 1 : 0][] = $name;
+			$group = $resourceLoader->getModule( $name )->getGroup();
+			// Modules in groups named "other" or anything different than "user" or "site" will
+			// be placed in the "other" group
+			$styles[isset( $styles[$group] ) ? $group : 'other'][] = $name;
 		}
-		// Add styles to tags, user modules last
-		$tags[] = $this->makeResourceLoaderLink( $sk, $styles[0], 'styles' );
-		$tags[] = $this->makeResourceLoaderLink( $sk, $styles[1], 'styles' );
+
+		// We want site and user styles to override dynamically added styles from modules, but we want
+		// dynamically added styles to override statically added styles from other modules. So the order
+		// has to be other, dynamic, site, user
+		// Add statically added styles for other modules
+		$tags[] = $this->makeResourceLoaderLink( $sk, $styles['other'], 'styles' );
+		// Add marker tag to mark the place where the client-side loader should inject dynamic styles
+		// We use a <meta> tag with a made-up name for this because that's valid HTML
+		$tags[] = Html::element( 'meta', array( 'name' => 'ResourceLoaderDynamicStyles', 'content' => '' ) );
+		// Add site and user styles
+		$tags[] = $this->makeResourceLoaderLink(
+			$sk, array_merge( $styles['site'], $styles['user'] ), 'styles'
+		);
 		return implode( "\n", $tags );
 	}
 
