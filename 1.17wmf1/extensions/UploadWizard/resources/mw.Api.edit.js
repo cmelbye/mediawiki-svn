@@ -23,7 +23,7 @@
 				// an infinite loop. If this fresh token is bad, something else is very wrong.
 				var useTokenToPost = function( token ) {
 					params.token = token; 
-					api.post( params, ok, err );
+					this.post( params, ok, err );
 				};
 				api.getEditToken( useTokenToPost, err );
 			} else {
@@ -54,8 +54,7 @@
 		 * @param {Function} error callback
 		 */
 		getEditToken: function( tokenCallback, err ) {
-			var api = this;
-
+			
 			var parameters = {			
 				'prop': 'info',
 				'intoken': 'edit',
@@ -82,29 +81,11 @@
 
 			var ajaxOptions = { 'ok': ok, 'err': err };
 
-			api.get( parameters, ajaxOptions );
-		},
-
-		/**
-		 * Create a new section of the page.
-		 * @param {mw.Title|String} target page
-		 * @param {String} header
-		 * @param {String} wikitext message
-		 * @param {Function} success handler
-	 	 * @param {Function} error handler
-		 */
-		newSection: function( title, header, message, ok, err ) {
-			var params = {
-				action: 'edit',
-				section: 'new',
-				format: 'json',
-				title: title.toString(),
-				summary: header,
-				text: message
-			};
-			this.postWithEditToken( params, ok, err );
+			this.get( parameters, ajaxOptions );
 		}
 
-	 } ); // end extend
+		
+		
+	} );
 
-} )( window.mediaWiki, jQuery );
+}) ( window.mediaWiki, jQuery );

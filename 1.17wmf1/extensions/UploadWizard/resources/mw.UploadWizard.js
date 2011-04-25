@@ -115,7 +115,7 @@ mw.UploadWizardUpload.prototype = {
 		var info = 'unknown';
 
 		if ( result.upload && result.upload.warnings ) {
-			if ( result.upload.warnings['exists'] ) {
+			if ( result.upload.warnings.exists ) {
 				// the filename we uploaded is in use already. Not a problem since we stashed it under a temporary name anyway
 				// potentially we could indicate to the upload that it should set the Title field to error state now, but we'll let them deal with that later.
 				// however, we don't get imageinfo, so let's try to get it and pretend that we did
@@ -138,27 +138,43 @@ mw.UploadWizardUpload.prototype = {
 					}
 				};
 				_this.getStashImageInfo( success, [ 'timestamp', 'url', 'size', 'dimensions', 'sha1', 'mime', 'metadata', 'bitdepth' ] );
-			} else if ( result.upload.warnings['duplicate'] ) {
-				code = 'duplicate';
-				_this.setError( code, _this.duplicateErrorInfo( 'duplicate', result.upload.warnings['duplicate'] ) );
-			} else if ( result.upload.warnings['duplicate-archive'] ) {
-				code = 'duplicate-archive';
-				_this.setError( code, _this.duplicateErrorInfo( 'duplicate-archive', result.upload.warnings['duplicate-archive'] ) );
-			} else {
-				// we have an unknown warning. Assume fatal
-				code = 'unknown-warning';
-				var warningInfo = [];
-				$j.each( result.upload.warnings, function( k, v ) {
-					warningInfo.push( k + ': ' + v );
-				} );
-				info = warningInfo.join( ', ' ); 
-				_this.setError( code, [ info ] );	
+			} else if ( result.upload.warnings.duplicate ) {
+				if ( typeof result.upload.warnings.duplicate == 'object' ) { 
+					var duplicates = result.upload.warnings.duplicate;
+					var $ul = $j( '<ul></ul>' );
+					$j.each( duplicates, function( i, filename ) { 
+						var $a = $j( '<a/>' ).append( filename );
+						var href;
+						try {
+							href = _this.filenameToUrl( filename );
+							$a.attr( { 'href': href, 'target': '_blank' } );
+						} catch ( e ) {
+							$a.click( function() { alert('could not parse filename=' + filename ); } );
+							$a.attr( 'href', '#' );
+						}
+						$ul.append( $j( '<li></li>' ).append( $a ) );
+					} );
+					var dialogFn = function() {
+						$j( '<div></div>' )
+							.html( $ul )
+							.dialog( {
+								width: 500,
+								zIndex: 200000,
+								autoOpen: true,
+								title: gM( 'mwe-upwiz-api-error-duplicate-popup-title', duplicates.length ),
+								modal: true
+							} );
+					};
+					code = 'duplicate';
+					info = [ duplicates.length, dialogFn ];
+				}
+				_this.setError( code, info );	
 			}
 		} else if ( result.upload && result.upload.result === 'Success' ) {
 			if ( result.upload.imageinfo ) {
 				_this.setSuccess( result );
 			} else { 
-				_this.setError( 'noimageinfo', info );
+				_this.setError( 'noimageinfo' );
 			}
 		} else {
 			if ( result.error ) {
@@ -177,46 +193,6 @@ mw.UploadWizardUpload.prototype = {
 
 
 	/**
-	 * Helper function to generate duplicate errors with dialog box. Works with existing duplicates and deleted dupes.
-	 * @param {String} error code, should have matching strings in .i18n.php
-	 * @param {Object} portion of the API error result listing duplicates
-	 */
-	duplicateErrorInfo: function( code, resultDuplicate ) {
-		var _this = this;
-		var duplicates;
-		if ( typeof resultDuplicate === 'object' ) { 
-			duplicates = resultDuplicate;
-		} else if ( typeof resultDuplicate === 'string' ) {
-			duplicates = [ resultDuplicate ];
-		}
-		var $ul = $j( '<ul></ul>' );
-		$j.each( duplicates, function( i, filename ) { 
-			var $a = $j( '<a/>' ).append( filename );
-			try {
-				var href = _this.filenameToUrl( filename );
-				$a.attr( { 'href': href, 'target': '_blank' } );
-			} catch ( e ) {
-				$a.click( function() { alert('could not parse filename=' + filename ); } );
-				$a.attr( 'href', '#' );
-			}
-			$ul.append( $j( '<li></li>' ).append( $a ) );
-		} );
-		var dialogFn = function() {
-			$j( '<div></div>' )
-				.html( $ul )
-				.dialog( {
-					width: 500,
-					zIndex: 200000,
-					autoOpen: true,
-					title: gM( 'mwe-upwiz-api-error-' + code + '-popup-title', duplicates.length ),
-					modal: true
-				} );
-		};
-		return [ duplicates.length, dialogFn ];
-	},
-
-
-	/**
 	 * Called from any upload success condition
 	 * @param {Mixed} result -- result of AJAX call
 	 */
@@ -229,13 +205,14 @@ mw.UploadWizardUpload.prototype = {
 		_this.ui.setStatus( 'mwe-upwiz-getting-metadata' );
 		if ( result.upload ) {
 			_this.extractUploadInfo( result.upload );
+			// create the small thumbnail used on the 'upload' step
 			_this.getThumbnail( 
 				function( image ) {
 					// n.b. if server returns a URL, which is a 404, we do NOT get broken image
 					_this.ui.setPreview( image ); // make the thumbnail the preview image
 				},
-				mw.UploadWizard.config[ 'thumbnailWidth' ], 
-				mw.UploadWizard.config[ 'thumbnailMaxHeight' ] 
+				mw.UploadWizard.config[ 'iconThumbnailWidth' ], 
+				mw.UploadWizard.config[ 'iconThumbnailMaxHeight' ] 
 			);
 			// create the large thumbnail that the other thumbnails link to
 			_this.getThumbnail( 
@@ -570,11 +547,17 @@ mw.UploadWizard.prototype = {
 
 	/**
 	 * Reset the entire interface so we can upload more stuff
-	 * (depends on updateFileCounts to reset the interface when uploads go down to 0)
 	 * Depending on whether we split uploading / detailing, it may actually always be as simple as loading a URL
 	 */
 	reset: function() {
-		this.removeMatchingUploads( function() { return true; } );
+		// window.location = wgArticlePath.replace( '$1', 'Special:UploadWizard?skiptutorial=true' );
+		var _this = this;
+		// deeds page
+		_this.deedChooser.remove();
+		_this.removeMatchingUploads( function() { return true; } );
+		// this could be slicker... need to reset the headline AND get rid of individual divs
+		$( '#mwe-upwiz-thanks' ).html( '' );
+		_this.moveToStep( 'file' );
 	},
 
 	
@@ -594,16 +577,13 @@ mw.UploadWizard.prototype = {
 		$j( '#mwe-first-spinner' ).remove();
 
 		// feedback request
-		if ( mw.isDefined( mw.UploadWizard.config['feedbackPage'] ) && mw.UploadWizard.config['feedbackPage'] !== '' ) {
-			var feedback = new mw.Feedback( _this.api,
-							new mw.Title( mw.UploadWizard.config['feedbackPage'] ) );
-			$j( '#contentSub' )
-				.msg( 'mwe-upwiz-feedback-prompt', 
-					function() {
-						feedback.launch();
-						return false;
-					}
-				);
+		if ( UploadWizardConfig['feedbackPage'] !== '' ) {
+			$j( '#contentSub' ).html('<i>Please <a id="mwe-upwiz-feedback" href="#">let us know</a> what you think of Upload Wizard!</i>');
+			$j( '#mwe-upwiz-feedback') 
+				.click( function() {
+					_this.launchFeedback();
+					return false;
+				} );
 		}
 		
 		// construct the arrow steps from the UL in the HTML
@@ -657,9 +637,8 @@ mw.UploadWizard.prototype = {
 			} );
 
 		$j( '#mwe-upwiz-stepdiv-file .mwe-upwiz-buttons .mwe-upwiz-button-next' ).click( function() {
-			_this.removeErrorUploads( function() { 
-				_this.prepareAndMoveToDeeds();
-			} );
+			_this.removeErrorUploads();
+			_this.prepareAndMoveToDeeds();
 		} ); 
 		$j ( '#mwe-upwiz-stepdiv-file .mwe-upwiz-buttons .mwe-upwiz-button-retry' ).click( function() {
 			_this.hideFileEndButtons();	
@@ -686,6 +665,11 @@ mw.UploadWizard.prototype = {
 							upload.deedChooser = _this.deedChooser;
 						}
 
+						/* put a border below every details div except the last */
+						if ( i < lastUploadIndex ) {
+							upload.details.div.css( 'border-bottom', '1px solid #e0e0e0' );
+						}
+
 						// only necessary if (somehow) they have beaten the check-as-you-type
 						upload.details.titleInput.checkUnique();
 					} );
@@ -696,37 +680,18 @@ mw.UploadWizard.prototype = {
 
 
 		// DETAILS div
-		var finalizeDetails = function() { 
-			if ( mw.isDefined( _this.allowCloseWindow ) ) {
-				_this.allowCloseWindow();
-			} 
-			_this.prefillThanksPage();
-			_this.moveToStep( 'thanks' );
-		};
 
-		var startDetails = function() {
-			$j( '.mwe-upwiz-hint' ).each( function(i) { $j( this ).tipsy( 'hide' ); } ); // close tipsy help balloons
-			if ( _this.detailsValid() ) { 
-				_this.hideDetailsEndButtons();	
-				_this.detailsSubmit( function() { 
-					_this.showNext( 'details', 'complete', finalizeDetails );
-				} );
-			}
-		};
-
-		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-file-next-some-failed' ).hide();
-		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-file-next-all-failed' ).hide();
-		
-		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-start-next .mwe-upwiz-button-next' )
-			.click( startDetails );
-
-		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-buttons .mwe-upwiz-button-next-despite-failures' )
+		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-button-next' )
 			.click( function() {
-				_this.removeErrorUploads( finalizeDetails );
+				$j( '.mwe-upwiz-hint' ).each( function(i) { $j( this ).tipsy( 'hide' ); } ); // close tipsy help balloons
+				if ( _this.detailsValid() ) { 
+					_this.detailsSubmit( function() { 
+						_this.prefillThanksPage();
+						_this.moveToStep( 'thanks' );
+					} );
+				}
 			} );
- 
-		$j ( '#mwe-upwiz-stepdiv-details .mwe-upwiz-buttons .mwe-upwiz-button-retry' )
-			.click( startDetails );
+
 
 
 		// WIZARD 
@@ -763,12 +728,10 @@ mw.UploadWizard.prototype = {
 			deeds.push( customDeed );
 		}
 
-		var uploadsClone = $j.map( _this.uploads, function( x ) { return x; } );
 		_this.deedChooser = new mw.UploadWizardDeedChooser( 
 			'#mwe-upwiz-deeds', 
 			deeds,
-			uploadsClone
-		 );
+			_this.uploads.length );
 
 	
 		$j( '<div></div>' )
@@ -780,7 +743,7 @@ mw.UploadWizard.prototype = {
 				.insertBefore( _this.deedChooser.$selector.find( '.mwe-upwiz-deed-custom' ) )
 				.msg( 'mwe-upwiz-deeds-custom-prompt' );
 		}
-
+		
 		_this.moveToStep( 'deeds' ); 
 
 	},	
@@ -905,13 +868,13 @@ mw.UploadWizard.prototype = {
 		// remove the div that passed along the trigger
 		var $div = $j( upload.ui.div );
 		$div.unbind(); // everything
-		// sexily fade away (TODO if we are looking at it)
-		//$div.fadeOut('fast', function() { 
+		// sexily fade away
+		$div.fadeOut('fast', function() { 
 			$div.remove(); 
 			// and do what we in the wizard need to do after an upload is removed
 			mw.UploadWizardUtil.removeItem( _this.uploads, upload );
 			_this.updateFileCounts();
-		//} );
+		});
 	},
 
 
@@ -919,11 +882,8 @@ mw.UploadWizard.prototype = {
 	 * Hide the button choices at the end of the file step.
 	 */
 	hideFileEndButtons: function() {
+		$j( '#mwe-upwiz-stepdiv .mwe-upwiz-buttons' ).hide();
 		$j( '#mwe-upwiz-stepdiv-file .mwe-upwiz-buttons .mwe-upwiz-file-endchoice' ).hide();
-	},
-
-	hideDetailsEndButtons: function() { 
-		$j( '#mwe-upwiz-stepdiv-details .mwe-upwiz-buttons .mwe-upwiz-file-endchoice' ).hide();
 	},
 
 	/**
@@ -938,13 +898,11 @@ mw.UploadWizard.prototype = {
 
 	/**
 	 * Clear out uploads that are in error mode, perhaps before proceeding to the next step
-	 * @param {Function} to be called when done
 	 */
-	removeErrorUploads: function( endCallback ) {
+	removeErrorUploads: function() {
 		this.removeMatchingUploads( function( upload ) {
 			return upload.state === 'error';
 		} );
-		endCallback();	
 	},
 
 
@@ -1031,9 +989,8 @@ mw.UploadWizard.prototype = {
 			}
 		} );
 
-		this.allowCloseWindow = mw.confirmCloseWindow( { 
-			message: function() { return gM( 'mwe-upwiz-prevent-close', _this.uploads.length ); },
-			test: function() { return _this.uploads.length > 0; }
+		var allowCloseWindow = $j().preventCloseWindow( { 
+			message: gM( 'mwe-prevent-close')
 		} );
 
 		$j( '#mwe-upwiz-progress' ).show();
@@ -1061,8 +1018,9 @@ mw.UploadWizard.prototype = {
 				upload.start();
 			},
 			function() {
+				allowCloseWindow();
 				$j().notify( gM( 'mwe-upwiz-files-complete' ) );
-				_this.showNext( 'file', 'stashed' );
+				_this.showFileNext();
 		  	} 
 		);
 	},
@@ -1076,26 +1034,28 @@ mw.UploadWizard.prototype = {
 	 * 4) All failed -- have to retry, no other option
 	 * In principle there could be other configurations, like having the uploads not all in error or stashed state, but 
 	 * we trust that this hasn't happened.
-	 *
-	 * @param {String} step that we are on
-	 * @param {String} desired state to proceed (other state is assumed to be 'error')
 	 */
-	showNext: function( step, desiredState, allOkCallback ) {
+	showFileNext: function() {
+		if ( this.uploads.length === 0 ) {
+			this.updateFileCounts();
+			$j( '#mwe-upwiz-progress' ).hide();
+			$j( '#mwe-upwiz-upload-ctrls' ).show();
+			$j( '#mwe-upwiz-add-file' ).show();
+			return;
+		}
 		var errorCount = 0;
-		var okCount = 0;
+		var stashedCount = 0;
 		$j.each( this.uploads, function( i, upload ) {
 			if ( upload.state === 'error' ) {
 				errorCount++;
-			} else if ( upload.state === desiredState ) {
-				okCount++;	
+			} else if ( upload.state === 'stashed' ) {
+				stashedCount++;	
 			} else {
 				mw.log( "mw.UploadWizardUpload::showFileNext> upload " + i + " not in appropriate state for filenext: " + upload.state );
 			}
 		} );
 		var selector = null;
-		var allOk = false;
-		if ( okCount === this.uploads.length ) {
-			allOk = true;
+		if ( stashedCount === this.uploads.length ) {
 			selector = '.mwe-upwiz-file-next-all-ok';
 		} else if ( errorCount === this.uploads.length ) {
 			selector = '.mwe-upwiz-file-next-all-failed';
@@ -1103,11 +1063,9 @@ mw.UploadWizard.prototype = {
 			selector = '.mwe-upwiz-file-next-some-failed';
 		}
 
-		if ( allOk && mw.isDefined( allOkCallback ) ) {
-			allOkCallback();
-		} else {
-			$j( '#mwe-upwiz-stepdiv-' + step + ' .mwe-upwiz-buttons' ).show().find( selector ).show();
-		}
+		// perhaps the button should slide down?
+		$j( '#mwe-upwiz-stepdiv-file .mwe-upwiz-buttons' ).show().find( selector ).show();
+
 	},	
 	
 	/**
@@ -1163,21 +1121,6 @@ mw.UploadWizard.prototype = {
 			$j( '#mwe-upwiz-upload-ctrls' ).show();
 			$j( '#mwe-upwiz-progress' ).hide();
 			$j( '#mwe-upwiz-add-file' ).show();
-
-			// fix various other pages that may have state
-			$j( '#mwe-upwiz-thanks' ).html( '' );
-
-			if ( mw.isDefined( _this.deedChooser ) ) { 
-				_this.deedChooser.remove();
-			}
-
-			// remove any blocks on closing the window
-			if ( mw.isDefined( _this.allowCloseWindow ) ) {
-				_this.allowCloseWindow();
-			}
-
-			// and move back to the file step
-			_this.moveToStep( 'file' );
 		}
 
 		// allow an "add another upload" button only if we aren't at max
@@ -1214,30 +1157,34 @@ mw.UploadWizard.prototype = {
 	 */
 	detailsSubmit: function( endCallback ) {
 		var _this = this;
-
-		$j.each( _this.uploads, function( i, upload ) { 
-			$j( upload.details.submittingDiv )
-				.find( '.mwe-upwiz-visible-file-filename-text' )
-				.html( upload.title.getMain() );
-		} );
+		// some details blocks cannot be submitted (for instance, identical file hash)
+		_this.removeBlockedDetails();
 
 		// remove ability to edit details
-		$j( '#mwe-upwiz-stepdiv-details' )
-			.find( '.mwe-upwiz-data' )
-			.morphCrossfade( '.mwe-upwiz-submitting' );
+		$j.each( _this.uploads, function( i, upload ) {
+			upload.details.div.mask();
+		} );
 
 		// add the upload progress bar, with ETA
 		// add in the upload count 
 		_this.makeTransitioner(
 			'details', 
 			[ 'submitting-details' ],  
-			[ 'error', 'complete' ], 
+			[ 'complete' ], 
 			function( upload ) {
 				upload.details.submit();
 			},
-			endCallback /* called when all uploads are in a valid end state */
+			endCallback /* called when all uploads are "complete" */
 		);
 	},
+
+	/**
+	 * Removes(?) details that we can't edit for whatever reason -- might just advance them to a different state?
+	 */
+	removeBlockedDetails: function() {
+		// TODO	
+	},
+
 
 	prefillThanksPage: function() {
 		var _this = this;
@@ -1303,6 +1250,82 @@ mw.UploadWizard.prototype = {
 	},
 
 	/**
+	 * Build interface for collecting user feedback on Upload Wizard
+	 */
+	launchFeedback: function() {
+		_this = this;
+		
+		var displayError = function( message ) {
+			$j( '#mwe-upwiz-feedback-form div' ).hide(); // remove everything else from the dialog box
+			$j( '#mwe-upwiz-feedback-form' ).append ( $j( '<div style="color:#990000;margin-top:0.4em;"></div>' ).msg( message ) );
+		};
+		
+		// Set up buttons for dialog box. We have to do it the hard way since the json keys are localized
+		var cancelButton = gM( 'mwe-upwiz-feedback-cancel' );
+		var submitButton = gM( 'mwe-upwiz-feedback-submit' );
+		var buttonSettings = {};
+		buttonSettings[cancelButton] = function() { $j( this ).dialog( 'close' ); };
+		buttonSettings[submitButton] = function() { 
+			$feedbackForm.dialog({buttons:{}});
+			$j( '#mwe-upwiz-feedback-form div' ).hide(); // remove everything else from the dialog box
+			$j( '#mwe-upwiz-feedback-form' ).append ( $j( '<div style="text-align:center;margin:3em 0;"></div>' ).append( gM( 'mwe-upwiz-feedback-adding' ), $j( '<br/>' ), $j( '<img src="http://upload.wikimedia.org/wikipedia/commons/4/42/Loading.gif" />' ) ) );
+			var subject = $j( '#mwe-upwiz-feedback-subject' ).val();
+			var message = $j( '#mwe-upwiz-feedback-message' ).val();
+			if ( message.indexOf( '~~~' ) == -1 ) {
+				message = message+' ~~~~';
+			}
+			var useTokenToPostFeedback = function( token ) {
+				$j.ajax({
+					url: wgScriptPath + '/api.php',
+					data: $.param({
+						action: 'edit',
+						title: mw.UploadWizard.config['feedbackPage'],
+						section: 'new',
+						summary: subject,
+						text: message,
+						format: 'json',
+						token: token
+					}),
+					dataType: 'json',
+					type: 'POST',
+					success: function( data ) {
+						if ( typeof data.edit != 'undefined' ) {
+							if ( data.edit.result == 'Success' ) {
+								$feedbackForm.dialog( 'close' ); // edit complete, close dialog box
+							} else {
+								displayError( 'mwe-upwiz-feedback-error1' ); // unknown API result
+							}
+						} else {
+							displayError( 'mwe-upwiz-feedback-error2' ); // edit failed
+						}
+					},
+					error: function( xhr ) {
+						displayError( 'mwe-upwiz-feedback-error3' ); // ajax request failed
+					}
+				}); // close Ajax request
+			}; // close useTokenToPost function
+			_this.api.getEditToken( useTokenToPostFeedback );
+		}; // close submit button function
+		
+		// Construct the feedback form
+		var feedbackLink = '<a href="'+wgArticlePath.replace( '$1', mw.UploadWizard.config['feedbackPage'].replace( /\s/g, '_' ) )+'" target="_blank">'+mw.UploadWizard.config['feedbackPage']+'</a>';
+		$feedbackForm = $j( '<div id="mwe-upwiz-feedback-form" style="position:relative;"></div>' )
+			.append( $j( '<div style="margin-top:0.4em;"></div>' ).append( $j( '<small></small>' ).msg( 'mwe-upwiz-feedback-note', feedbackLink ) ) )
+			.append( $j( '<div style="margin-top:1em;"></div>' ).append( gM( 'mwe-upwiz-feedback-subject' ), $j( '<br/>' ), $j( '<input type="text" id="mwe-upwiz-feedback-subject" name="subject" maxlength="60" style="width:99%;"/>' ) ) )
+          	.append( $j( '<div style="margin-top:0.4em;"></div>' ).append( gM( 'mwe-upwiz-feedback-message' ), $j( '<br/>' ), $j( '<textarea name="message" id="mwe-upwiz-feedback-message" style="width:99%;" rows="4" cols="60"></textarea>' ) ) )
+			.dialog({
+				width: 500,
+				autoOpen: false,
+				title: gM( 'mwe-upwiz-feedback-title' ),
+				modal: true,
+				buttons: buttonSettings
+			}); // close dialog, end $feedbackForm definition
+			
+		$feedbackForm.dialog( 'open' );
+		
+	}, // close launchFeedback function
+	
+	/**
 	 * Set a cookie which lets the user skip the tutorial step in the future
 	 */
 	setSkipTutorialCookie: function() {
@@ -1328,40 +1351,6 @@ mw.UploadWizard.prototype = {
 
 };
 
-/**	
- * Makes a modal dialog to confirm deletion of one or more uploads. Will have "Remove" and "Cancel" buttons
- * @param {Array} array of UploadWizardUpload objects
- * @param {String} message for dialog title
- * @param {String} message for dialog text, which will precede an unordered list of upload titles.
- */
-mw.UploadWizardDeleteDialog = function( uploads, dialogTitle, dialogText ) {
-	var $filenameList = $j( '<ul></ul>' );
-	$j.each( uploads, function( i, upload ) { 
-		$filenameList.append( $j( '<li></li>' ).append( upload.title.getMain() ) );
-	} );
-	var buttons = {};
-	buttons[ gM( 'mwe-upwiz-remove', uploads.length ) ] = function() { 
-		$j.each( uploads, function( i, upload ) { 
-			upload.remove();
-		} );
-		$j( this ).dialog( 'close' );
-	};
-	buttons[ gM( 'mwe-upwiz-cancel', uploads.length ) ] = function() {
-		$j( this ).dialog( 'close' );
-	};
-
-	return $j( '<div></div>' )
-		.append( $j( '<p></p>' ).append( dialogText ), $filenameList )
-		.dialog( { 
-			width: 500,
-			zIndex: 200000,
-			autoOpen: false,
-			title: dialogTitle,
-			modal: true,
-			buttons: buttons
-		} );
-};
-
 
 mw.UploadWizardDeedPreview = function(upload) {
 	this.upload = upload;
@@ -1371,16 +1360,46 @@ mw.UploadWizardDeedPreview.prototype = {
 	setup: function() {
 		var _this = this;
 		// add a preview on the deeds page
-		var thumbnailDiv = $j( '<div></div>' ).addClass( 'mwe-upwiz-thumbnail' );
+		var thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail-small"></div>' );
 		$j( '#mwe-upwiz-deeds-thumbnails' ).append( thumbnailDiv );
-		_this.upload.setThumbnail( thumbnailDiv, mw.UploadWizard.config[  'thumbnailWidth'  ], mw.UploadWizard.config[ 'thumbnailMaxHeight' ] );
+		_this.upload.setThumbnail( thumbnailDiv, mw.UploadWizard.config[  'smallThumbnailWidth'  ], mw.UploadWizard.config[ 'smallThumbnailMaxHeight' ] );
 		_this.upload.deedThumbnailDiv = thumbnailDiv;
 	}
 };
 
 } )( jQuery );
 
-( function ( $j ) {
+( function ( $j ) { 
+	/**
+	 * Prevent the closing of a window with a confirm message (the onbeforeunload event seems to 
+	 * work in most browsers 
+	 * e.g.
+	 *       var allowCloseWindow = jQuery().preventCloseWindow( { message: "Don't go away!" } );
+	 *       // ... do stuff that can't be interrupted ...
+	 *       allowCloseWindow();
+	 *
+	 * @param options 	object which should have a message string, already internationalized
+	 * @return closure	execute this when you want to allow the user to close the window
+	 */
+	$j.fn.preventCloseWindow = function( options ) {
+		if ( typeof options === 'undefined' ) {
+			options = {};
+		}
+
+		if ( typeof options.message === 'undefined' ) {
+			options.message = 'Are you sure you want to close this window?';
+		}
+		
+		$j( window ).unload( function() { 
+			return options.message;
+		} );
+		
+		return function() { 
+			$j( window ).removeAttr( 'unload' );
+		};
+				
+	};
+
 
 	$j.fn.notify = function ( message ) {
 		// could do something here with Chrome's in-browser growl-like notifications.
@@ -1565,8 +1584,6 @@ mw.UploadWizardDeedPreview.prototype = {
 	 * Somewhat recapitulates mw.UploadWizardUtil.makeToggler,
 	 * toggle() in vector.collapsibleNav.js, not to mention jquery.collapsible
 	 * but none of those do what we want, or are inaccessible to us
-	 *
-	 * TODO needs to iterate through elements, if we want to apply toggling behavior to many elements at once
 	 */
 	jQuery.fn.collapseToggle = function() {
 		var $el = this;
