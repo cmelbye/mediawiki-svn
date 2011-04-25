@@ -174,6 +174,11 @@ return array(
 				'licenses' => array( 
 					'fal'
 				)
+			),
+			array(
+				'head' => 'mwe-upwiz-license-none-applicable-head',
+				'subhead' => 'mwe-upwiz-license-none-applicable-subhead',
+				'special' => 'delete'
 			)
 		),
 		'defaults' => array(),
@@ -181,31 +186,19 @@ return array(
 
 
 	// Default thumbnail width
-	'thumbnailWidth' => 120, 
+	'thumbnailWidth' => 60, 
  
 	// Max thumbnail height:
-	'thumbnailMaxHeight' => 200,
+	'thumbnailMaxHeight' => 100,
 
-	// Min thumbnail width
-	'smallThumbnailWidth' => 60,  
-
-	// Small thumbnail max height
-	'smallThumbnailMaxHeight' => 100,
-	
 	// Large thumbnail width
 	'largeThumbnailWidth' => 500,
 
 	// Large thumbnail max height
 	'largeThumbnailMaxHeight' => 500,
 
-	// Icon thumbnail width: 
-	'iconThumbnailWidth' =>  32,
-
-	// Icon thumbnail height: 
-	'iconThumbnailMaxHeight' => 32,
-
 	// Max author string length
-	'maxAuthorLength' => 50,
+	'maxAuthorLength' => 100,
 
 	// Min author string length
 	'minAuthorLength' => 2,
