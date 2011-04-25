@@ -495,6 +495,7 @@ $messages = array(
 'printableversion'  => 'Utskriftsvänlig version',
 'permalink'         => 'Permanent länk',
 'print'             => 'Skriv ut',
+'view'              => 'Visa',
 'edit'              => 'Redigera',
 'create'            => 'Skapa',
 'editthispage'      => 'Redigera denna sida',
@@ -502,6 +503,7 @@ $messages = array(
 'delete'            => 'radera',
 'deletethispage'    => 'Radera denna sida',
 'undelete_short'    => 'Återställ {{PLURAL:$1|en version|$1 versioner}}',
+'viewdeleted_short' => 'Visa {{PLURAL:$1|en raderad redigering|$1 raderade redigeringar}}',
 'protect'           => 'Skrivskydda',
 'protect_change'    => 'ändra',
 'protectthispage'   => 'Skrivskydda denna sida',
@@ -585,6 +587,8 @@ $1',
 'toc'                     => 'Innehåll',
 'showtoc'                 => 'visa',
 'hidetoc'                 => 'göm',
+'collapsible-collapse'    => 'Göm',
+'collapsible-expand'      => 'Expandera',
 'thisisdeleted'           => 'Visa eller återställ $1?',
 'viewdeleted'             => 'Visa $1?',
 'restorelink'             => '{{PLURAL:$1|en raderad version|$1 raderade versioner}}',
@@ -733,6 +737,8 @@ Välj ett annat namn.',
 Du har cookies avaktiverade.
 Aktivera dem, och logga sen in med ditt nya användarnamn och lösenord.',
 'nocookieslogin'             => '{{SITENAME}} använder cookies för att logga in användare. Du har stängt av cookies i din webbläsare. Försök igen med stöd för cookies aktiverat.',
+'nocookiesfornew'            => 'Användarkontot skapades inte, eftersom vi inte kunde bekräfta dess källa.
+Se till att du har aktiverat cookies, ladda om denna sida och försök igen.',
 'noname'                     => 'Du har angett ett ogiltigt användarnamn.',
 'loginsuccesstitle'          => 'Inloggningen lyckades',
 'loginsuccess'               => "'''Du är nu inloggad på {{SITENAME}} som \"\$1\".'''",
@@ -746,7 +752,7 @@ Kontrollera din stavning, eller [[Special:UserLogin/signup|skapa ett nytt konto]
 'wrongpasswordempty'         => 'Lösenordet som angavs var blankt. Var god försök igen.',
 'passwordtooshort'           => 'Lösenord måste innehålla minst {{PLURAL:$1|$1 tecken}}.',
 'password-name-match'        => 'Ditt lösenord måste vara olikt ditt användarnamn.',
-'password-too-weak'          => 'Det angivna lösenordet är för svagt och får inte användas.',
+'password-login-forbidden'   => 'Användningen av dessa användarnamn och lösenord har förbjudits.',
 'mailmypassword'             => 'Skicka nytt lösenord',
 'passwordremindertitle'      => 'Nytt temporärt lösenord från {{SITENAME}}',
 'passwordremindertext'       => 'Någon (förmodligen du, från IP-adressen $1) har begärt ett nytt lösenord till {{SITENAME}} ($4). Ett tillfälligt lösenordet för användaren "$2" har skapats och det blev "$3". Om detta var vad du önskade, så behöver du nu logga in och välja ett nytt lösenord. Ditt tillfälliga lösenord går ut om {{PLURAL:$5|en dag|$5 dagar}}.
@@ -782,6 +788,9 @@ Du kan ignorera detta meddelande om kontot skapats av misstag.',
 Vänta innan du försöker igen.',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din begäran om att logga ut nekades eftersom det ser ut som det skickades av en trasig webbläsare eller cachande proxy.',
+
+# E-mail sending
+'php-mail-error-unknown' => "Okänt fel i PHP's mail()-funktion",
 
 # JavaScript password checks
 'password-strength'            => 'Beräknad styrka på lösenord: $1',
@@ -918,6 +927,10 @@ Orsaken till senaste blockeringen kan ses nedan:',
 'usercsspreview'                   => "'''Kom ihåg att du bara förhandsgranskar din användar-CSS.
 Den har inte sparats än!'''",
 'userjspreview'                    => "'''Kom ihåg att du bara testar/förhandsgranskar ditt JavaScript, det har inte sparats än!'''",
+'sitecsspreview'                   => "'''Kom ihåg att du bara förhandsgranskar detta CSS.''' 
+'''Det har ännu inte sparats!'''",
+'sitejspreview'                    => "'''Kom ihåg att du bara förhandsgranskar denna JavaScript-kod.'''
+'''Det har ännu inte sparats!'''",
 'userinvalidcssjstitle'            => "'''Varning:''' Skalet \"\$1\" finns inte. Kom ihåg att .css- och .js-sidor för enskilda användare börjar på liten bokstav. Exempel: {{ns:user}}:Foo/vector.css i stället för {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(Uppdaterad)',
 'note'                             => "'''Obs!'''",
@@ -1419,6 +1432,10 @@ Du kan också välja att låta andra användare kontakta dig genom din användar
 'prefs-displaywatchlist'        => 'Visningalternativ',
 'prefs-diffs'                   => 'Skillnader',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Ser giltig ut',
+'email-address-validity-invalid' => 'Giltig adress krävs!',
+
 # User rights
 'userrights'                   => 'Hantering av användarrättigheter',
 'userrights-lookup-user'       => 'Hantera användargrupper',
@@ -1764,6 +1781,15 @@ Om problemet kvarstår, kontakta en [[Special:ListUsers/sysop|administratör]].'
 'upload-unknown-size'       => 'Okänd storlek',
 'upload-http-error'         => 'Ett HTTP-fel uppstod: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Ladda upp stash',
+'uploadstash-summary'  => 'Denna sida ger tillgång till filer som är uppladdade (eller håller på att laddas upp) men som ännu inte är publicerade till wikin. Dessa filer är inte synliga för någon annan än den användare som laddade upp dem.',
+'uploadstash-clear'    => 'Rensa stashade filer',
+'uploadstash-nofiles'  => 'Du har inga stashade filer.',
+'uploadstash-badtoken' => 'Utförandet av den åtgärden misslyckades, kanske för att din redigeringsrättigheter löpt ut. Försök igen.',
+'uploadstash-errclear' => 'Rensning av filerna misslyckades.',
+'uploadstash-refresh'  => 'Uppdatera listan över filer',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Åtkomst nekad',
 'img-auth-nopathinfo'   => 'Saknad PATH_INFO.
@@ -2020,6 +2046,7 @@ Lägg märke till att andra webbplatser kan länka till en fil med en direkt URL
 'pager-newer-n'           => '{{PLURAL:$1|1 nyare|$1 nyare}}',
 'pager-older-n'           => '{{PLURAL:$1|1 äldre|$1 äldre}}',
 'suppress'                => 'Censur',
+'querypage-disabled'      => 'Den här specialsidan är inaktiverad av prestandaskäl.',
 
 # Book sources
 'booksources'               => 'Bokkällor',
@@ -2320,7 +2347,7 @@ Du kan ändra skyddet av den här sidan, men det påverkar inte det kaskaderande
 ** Redigeringskrig
 ** Sida med många besökare',
 'protect-edit-reasonlist'     => 'Redigera skyddsanledningar',
-'protect-expiry-options'      => '1 timme:1 hour,1 dag:1 day,1 vecka:1 week,2 veckor:2 weeks,1 månad:1 month,3 månader:3 months,6 månader:6 months,1 år:1 year,oändlig:infinite',
+'protect-expiry-options'      => '1 timme:1 hour,1 dygn:1 day,1 vecka:1 week,2 veckor:2 weeks,1 månad:1 month,3 månader:3 months,6 månader:6 months,1 år:1 year,oändlig:infinite',
 'restriction-type'            => 'Typ av skydd:',
 'restriction-level'           => 'Skyddsnivå:',
 'minimum-size'                => 'Minsta storlek',
@@ -2408,6 +2435,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Bidrag från nya konton',
 'sp-contributions-blocklog'            => 'Blockeringslogg',
 'sp-contributions-deleted'             => 'raderade användarbidrag',
+'sp-contributions-uploads'             => 'uppladdningar',
 'sp-contributions-logs'                => 'Loggar',
 'sp-contributions-talk'                => 'diskussion',
 'sp-contributions-userrights'          => 'hantering av användarrättigheter',
@@ -2917,7 +2945,7 @@ Detta orsakades troligen av en länk till en svartlistad webbplats.',
 'math_unknown_function' => 'okänd funktion',
 'math_lexing_error'     => 'regelfel',
 'math_syntax_error'     => 'syntaxfel',
-'math_image_error'      => 'Konvertering till PNG-format misslyckades; kontrollera om latex, dvips, gs och convert är korrekt installerade',
+'math_image_error'      => 'Konvertering till PNG-format misslyckades; kontrollera om latex och dvipng (eller dvips + gs + convert) är korrekt installerade',
 'math_bad_tmpdir'       => 'Kan inte skriva till eller skapa temporär mapp för matematikresultat',
 'math_bad_output'       => 'Kan inte skriva till eller skapa mapp för matematikresultat',
 'math_notexvc'          => 'Applicationen texvc saknas; läs math/README för konfigureringsanvisningar.',
@@ -3436,6 +3464,8 @@ Du kan också [[Special:Watchlist/edit|använda standardeditorn]].',
 'version-specialpages'             => 'Specialsidor',
 'version-parserhooks'              => 'Parsertillägg',
 'version-variables'                => 'Variabler',
+'version-antispam'                 => 'Förhindring av skräppost',
+'version-skins'                    => 'Utseenden',
 'version-other'                    => 'Annat',
 'version-mediahandlers'            => 'Mediahanterare',
 'version-hooks'                    => 'Hakar',

@@ -86,25 +86,25 @@ class ApiUpload extends ApiBase {
 
 		// Prepare the API result
 		$result = array();
-		
+
 		$warnings = $this->getApiWarnings();
-		if ( $warnings ) { 
+		if ( $warnings ) {
 			$result['result'] = 'Warning';
 			$result['warnings'] = $warnings;
 			// in case the warnings can be fixed with some further user action, let's stash this upload
 			// and return a key they can use to restart it
-			try { 
+			try {
 				$result['sessionkey'] = $this->performStash();
-			} catch ( MWException $e ) { 
+			} catch ( MWException $e ) {
 				$result['warnings']['stashfailed'] = $e->getMessage();
 			}
-		} elseif ( $this->mParams['stash'] ) { 
+		} elseif ( $this->mParams['stash'] ) {
 			// Some uploads can request they be stashed, so as not to publish them immediately.
 			// In this case, a failure to stash ought to be fatal
 			try {
-				$result['result'] = 'Success'; 
+				$result['result'] = 'Success';
 				$result['sessionkey'] = $this->performStash();
-			} catch ( MWException $e ) { 
+			} catch ( MWException $e ) {
 				$this->dieUsage( $e->getMessage(), 'stashfailed' );
 			}
 		} else {
@@ -113,12 +113,12 @@ class ApiUpload extends ApiBase {
 			$result = $this->performUpload();
 		}
 
-		if ( $result['result'] === 'Success' ) { 
+		if ( $result['result'] === 'Success' ) {
 			$result['imageinfo'] = $this->mUpload->getImageInfo( $this->getResult() );
 		}
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $result );
-		
+
 		// Cleanup any temporary mess
 		$this->mUpload->cleanupTempFile();
 	}
@@ -133,7 +133,7 @@ class ApiUpload extends ApiBase {
 		try {
 			$sessionKey = $this->mUpload->stashSessionFile()->getSessionKey();
 		} catch ( MWException $e ) {
-			throw new MWException( 'Stashing temporary file failed: ' . get_class($e) . ' ' . $e->getMessage() );
+			throw new MWException( 'Stashing temporary file failed: ' . get_class( $e ) . ' ' . $e->getMessage() );
 		}
 		return $sessionKey;
 	}
@@ -141,9 +141,9 @@ class ApiUpload extends ApiBase {
 
 	/**
 	 * Select an upload module and set it to mUpload. Dies on failure. If the
-	 * request was a status request and not a true upload, returns false; 
+	 * request was a status request and not a true upload, returns false;
 	 * otherwise true
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function selectUploadModule() {
@@ -158,7 +158,7 @@ class ApiUpload extends ApiBase {
 			// Status request for an async upload
 			$sessionData = UploadFromUrlJob::getSessionData( $this->mParams['statuskey'] );
 			if ( !isset( $sessionData['result'] ) ) {
-				$this->dieUsage( 'No result in session data', 'missingresult');
+				$this->dieUsage( 'No result in session data', 'missingresult' );
 			}
 			if ( $sessionData['result'] == 'Warning' ) {
 				$sessionData['warnings'] = $this->transformWarnings( $sessionData['warnings'] );
@@ -166,15 +166,13 @@ class ApiUpload extends ApiBase {
 			}
 			$this->getResult()->addValue( null, $this->getModuleName(), $sessionData );
 			return false;
-			
-		} 
 
+		}
 
 		// The following modules all require the filename parameter to be set
 		if ( is_null( $this->mParams['filename'] ) ) {
 			$this->dieUsageMsg( array( 'missingparam', 'filename' ) );
 		}
-			
 
 		if ( $this->mParams['sessionkey'] ) {
 			// Upload stashed in a previous request
@@ -187,7 +185,6 @@ class ApiUpload extends ApiBase {
 			$this->mUpload->initialize( $this->mParams['filename'],
 				$this->mParams['sessionkey'],
 				$sessionData[$this->mParams['sessionkey']] );
-
 
 		} elseif ( isset( $this->mParams['file'] ) ) {
 			$this->mUpload = new UploadFromFile();
@@ -207,7 +204,7 @@ class ApiUpload extends ApiBase {
 					$this->dieUsage( 'Using leavemessage without ignorewarnings is not supported',
 						'missing-ignorewarnings' );
 				}
-				
+
 				if ( $this->mParams['leavemessage'] ) {
 					$async = 'async-leavemessage';
 				} else {
@@ -219,7 +216,7 @@ class ApiUpload extends ApiBase {
 				$this->mParams['url'], $async );
 
 		}
-		
+
 		return true;
 	}
 
@@ -474,9 +471,7 @@ class ApiUpload extends ApiBase {
 			array( 'uploaddisabled' ),
 			array( 'invalid-session-key' ),
 			array( 'uploaddisabled' ),
-			array( 'badaccess-groups' ),
 			array( 'mustbeloggedin', 'upload' ),
-			array( 'badaccess-groups' ),
 			array( 'badaccess-groups' ),
 			array( 'code' => 'fetchfileerror', 'info' => '' ),
 			array( 'code' => 'nomodule', 'info' => 'No upload module set' ),
@@ -486,6 +481,8 @@ class ApiUpload extends ApiBase {
 			array( 'code' => 'overwrite', 'info' => 'Overwriting an existing file is not allowed' ),
 			array( 'code' => 'stashfailed', 'info' => 'Stashing temporary file failed' ),
 			array( 'code' => 'internal-error', 'info' => 'An internal error occurred' ),
+			array( 'code' => 'missingparam', 'info' => 'One of the parameters sessionkey, file, url, statuskey is required' ),
+			array( 'code' => 'invalidparammix', 'info' => 'The parameters sessionkey, file, url, statuskey can not be used together' ),
 		) );
 	}
 
@@ -507,6 +504,6 @@ class ApiUpload extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiUpload.php 51812 2009-06-12 23:45:20Z dale $';
+		return __CLASS__ . ': $Id$';
 	}
 }

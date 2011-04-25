@@ -288,7 +288,7 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	function tablePrefix( $prefix = null ) {
-		return wfSetVar( $this->mTablePrefix, $prefix );
+		return wfSetVar( $this->mTablePrefix, $prefix, true );
 	}
 
 	/**
@@ -508,13 +508,6 @@ abstract class DatabaseBase implements DatabaseType {
 			}
 		}
 
-		/*
-		// Faster read-only access
-		if ( wfReadOnly() ) {
-			$this->mFlags |= DBO_PERSISTENT;
-			$this->mFlags &= ~DBO_TRX;
-		}*/
-
 		/** Get the default table prefix*/
 		if ( $tablePrefix == 'get from global' ) {
 			$this->mTablePrefix = $wgDBprefix;
@@ -538,6 +531,27 @@ abstract class DatabaseBase implements DatabaseType {
 	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
 		wfDeprecated( __METHOD__ );
 		return new DatabaseMysql( $server, $user, $password, $dbName, $flags );
+	}
+
+	/**
+	 * Given a DB type, construct the name of the appropriate child class of
+	 * DatabaseBase. This is designed to replace all of the manual stuff like:
+	 *	$class = 'Database' . ucfirst( strtolower( $type ) );
+	 * as well as validate against the canonical list of DB types we have
+	 *
+	 * @param $dbType String A possible DB type
+	 * @return DatabaseBase subclass or null
+	 */
+	public final static function classFromType( $dbType ) {
+		$canonicalDBTypes = array(
+			'mysql', 'postgres', 'sqlite', 'oracle', 'mssql', 'ibm_db2'
+		);
+		$dbType = strtolower( $dbType );
+		if( in_array( $dbType, $canonicalDBTypes ) ) {
+			return 'Database' . ucfirst( $dbType );
+		} else {
+			return null;
+		}
 	}
 
 	protected function installErrorHandler() {
@@ -2078,16 +2092,6 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
-	 * Convert a field to an unix timestamp
-	 *
-	 * @param $field String: field name
-	 * @return String: SQL statement
-	 */
-	public function unixTimestamp( $field ) {
-		return "EXTRACT(epoch FROM $field)";
-	}
-
-	/**
 	 * Determines if the last failure was due to a deadlock
 	 * STUB
 	 */
@@ -2320,6 +2324,16 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseBase::duplicateTableStructure' ) {
 		throw new MWException( 'DatabaseBase::duplicateTableStructure is not implemented in descendant class' );
+	}
+	
+	/**
+	 * List all tables on the database
+	 *
+	 * @param $prefix Only show tables with this prefix, e.g. mw_
+	 * @param $fname String: calling function name
+	 */
+	function listTables( $prefix = null, $fname = 'DatabaseBase::listTables' ) {
+		throw new MWException( 'DatabaseBase::listTables is not implemented in descendant class' );
 	}
 
 	/**
@@ -2673,6 +2687,20 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Delete a table
+	 */
+	public function dropTable( $tableName, $fName = 'DatabaseBase::dropTable' ) {
+		if( !$this->tableExists( $tableName ) ) {
+			return false;
+		}
+		$sql = "DROP TABLE " . $this->tableName( $tableName );
+		if( $this->cascadingDeletes() ) {
+			$sql .= " CASCADE";
+		}
+		return $this->query( $sql, $fName );
+	}
+
+	/**
 	 * Get search engine class. All subclasses of this need to implement this
 	 * if they wish to use searching.
 	 *
@@ -2680,6 +2708,17 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	public function getSearchEngine() {
 		return 'SearchEngineDummy';
+	}
+
+	/**
+	 * Find out when 'infinity' is. Most DBMSes support this. This is a special
+	 * keyword for timestamps in PostgreSQL, and works with CHAR(14) as well
+	 * because "i" sorts after all numbers.
+	 *
+	 * @return String
+	 */
+	public function getInfinity() {
+		return 'infinity';
 	}
 
 	/**
@@ -2868,6 +2907,8 @@ class DBConnectionError extends DBError {
 			$this->error = $this->db->getProperty( 'mServer' );
 		}
 
+		$this->error = Html::element( 'span', array( 'dir' => 'ltr' ), $this->error );
+
 		$noconnect = "<p><strong>$sorry</strong><br />$again</p><p><small>$info</small></p>";
 		$text = str_replace( '$1', $this->error, $noconnect );
 
@@ -2946,8 +2987,8 @@ EOT;
 		return $trygoogle;
 	}
 
-	function fileCachedPage() {
-		global $wgTitle, $title, $wgLang, $wgOut;
+	private function fileCachedPage() {
+		global $wgTitle, $wgLang, $wgOut;
 
 		if ( $wgOut->isDisabled() ) {
 			return; // Done already?
@@ -2956,13 +2997,11 @@ EOT;
 		$mainpage = 'Main Page';
 
 		if ( $wgLang instanceof Language ) {
-			$mainpage    = htmlspecialchars( $wgLang->getMessage( 'mainpage' ) );
+			$mainpage = htmlspecialchars( $wgLang->getMessage( 'mainpage' ) );
 		}
 
 		if ( $wgTitle ) {
 			$t =& $wgTitle;
-		} elseif ( $title ) {
-			$t = Title::newFromURL( $title );
 		} else {
 			$t = Title::newFromText( $mainpage );
 		}

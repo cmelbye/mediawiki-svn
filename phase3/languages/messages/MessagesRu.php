@@ -28,6 +28,7 @@
  * @author HalanTul
  * @author Huuchin
  * @author Illusion
+ * @author Iniquity
  * @author Innv
  * @author JenVan
  * @author Jl
@@ -468,6 +469,7 @@ $messages = array(
 'printableversion'  => 'Версия для печати',
 'permalink'         => 'Постоянная ссылка',
 'print'             => 'Печать',
+'view'              => 'Просмотр',
 'edit'              => 'Править',
 'create'            => 'Создать',
 'editthispage'      => 'Править эту страницу',
@@ -475,6 +477,7 @@ $messages = array(
 'delete'            => 'Удалить',
 'deletethispage'    => 'Удалить эту страницу',
 'undelete_short'    => 'Восстановить $1 {{PLURAL:$1|правку|правки|правок}}',
+'viewdeleted_short' => 'Просмотр {{PLURAL:$1|$1 удалённой правки|$1 удалённых правок|$1 удалённых правок}}',
 'protect'           => 'Защитить',
 'protect_change'    => 'изменить',
 'protectthispage'   => 'Защитить эту страницу',
@@ -527,7 +530,7 @@ $1',
 'disclaimerpage'       => 'Project:Отказ от ответственности',
 'edithelp'             => 'Справка по редактированию',
 'edithelppage'         => 'Help:Справка по редактированию',
-'helppage'             => 'Help:Справка',
+'helppage'             => 'Help:Содержание',
 'mainpage'             => 'Заглавная страница',
 'mainpage-description' => 'Заглавная страница',
 'policy-url'           => 'Project:Правила',
@@ -559,6 +562,8 @@ $1',
 'toc'                     => 'Содержание',
 'showtoc'                 => 'показать',
 'hidetoc'                 => 'убрать',
+'collapsible-collapse'    => 'свернуть',
+'collapsible-expand'      => 'развернуть',
 'thisisdeleted'           => 'Просмотреть или восстановить $1?',
 'viewdeleted'             => 'Просмотреть $1?',
 'restorelink'             => '{{PLURAL:$1|$1 удалённую правку|$1 удалённые правки|$1 удалённых правок}}',
@@ -722,7 +727,7 @@ $2',
 'wrongpasswordempty'         => 'Пожалуйста, введите непустой пароль.',
 'passwordtooshort'           => 'Пароль должен состоять не менее чем из $1 {{PLURAL:$1|символа|символов|символов}}.',
 'password-name-match'        => 'Введённый пароль должен отличаться от имени участника.',
-'password-too-weak'          => 'Указанный пароль слишком слаб и не может быть использован.',
+'password-login-forbidden'   => 'Использование этого имени участника и пароля запрещено.',
 'mailmypassword'             => 'Получить новый пароль',
 'passwordremindertitle'      => 'Напоминание пароля участника {{grammar:genitive|{{SITENAME}}}}',
 'passwordremindertext'       => 'Кто-то (вероятно, вы, с IP-адреса $1) запросил создать
@@ -1405,6 +1410,10 @@ $1",
 'prefs-displaywatchlist'        => 'Настройки отображения',
 'prefs-diffs'                   => 'Разница версий',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Выглядит корректно',
+'email-address-validity-invalid' => 'Требуется корректный адрес!',
+
 # User rights
 'userrights'                   => 'Управление правами участника',
 'userrights-lookup-user'       => 'Управление группами участников',
@@ -1747,6 +1756,15 @@ $1',
 'upload-too-many-redirects' => 'URL содержит слишком много перенаправлений',
 'upload-unknown-size'       => 'Неизвестный размер',
 'upload-http-error'         => 'Произошла ошибка HTTP: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Скрытная загрузка',
+'uploadstash-summary'  => 'Данная страница предоставляет доступ к файлам, которые были загружены (или находятся в процессе загрузки), но ещё не были опубликованы в вики. Эти файлы никому не видны, кроме загрузившего их участника.',
+'uploadstash-clear'    => 'Очистить скрытые файлы',
+'uploadstash-nofiles'  => 'У вас нет скрытых файлов.',
+'uploadstash-badtoken' => 'Не удалось выполнить указанные действия. Возможно, истёк срок действия вашего жетона безопасности. Попробуйте ещё раз.',
+'uploadstash-errclear' => 'Очистка файлов не удалась.',
+'uploadstash-refresh'  => 'Обновить список файлов',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Доступ запрещён',
@@ -2184,7 +2202,7 @@ $1',
 'enotif_lastvisited'           => 'См. $1 для просмотра всех изменений, произошедших с вашего последнего посещения.',
 'enotif_lastdiff'              => 'См. $1 для ознакомления с изменением.',
 'enotif_anon_editor'           => 'анонимный участник $1',
-'enotif_body'                  => 'Уважаесый(ая) $WATCHINGUSERNAME,
+'enotif_body'                  => 'Уважаемый(ая) $WATCHINGUSERNAME,
 
 $PAGEEDITDATE страница проекта «{{SITENAME}}» $PAGETITLE была $CHANGEDORCREATED участником $PAGEEDITOR, см. $PAGETITLE_URL для просмотра текущей версии.
 
@@ -2895,7 +2913,7 @@ The wiki server can't provide data in a format your client can read.",
 'math_unknown_function' => 'неизвестная функция',
 'math_lexing_error'     => 'лексическая ошибка',
 'math_syntax_error'     => 'синтаксическая ошибка',
-'math_image_error'      => 'Преобразование в PNG прошло с ошибкой; проверьте правильность установки latex, dvips, gs и convert',
+'math_image_error'      => 'Преобразование в PNG прошло с ошибкой — проверьте правильность установки latex и dvips (или dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Не удаётся создать или записать во временный каталог математики',
 'math_bad_output'       => 'Не удаётся создать или записать в выходной каталог математики',
 'math_notexvc'          => 'Выполняемый файл texvc не найден; См. math/README — справку по настройке.',
@@ -3609,14 +3627,5 @@ MediaWiki распространяется в надежде, что она бу
 'disableaccount-nosuchuser'  => 'Не существует учетной записи участника «$1».',
 'disableaccount-success'     => 'Учетная запись участника «$1» была отключена навсегда.',
 'disableaccount-logentry'    => 'навсегда отключил учётную запись [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Скрытная загрузка',
-'uploadstash-summary'  => 'Данная страница предоставляет доступ к файлам, которые были загружены (или находятся в процессе загрузки), но ещё не были опубликованы в вики. Эти файлы никому не видны, кроме загрузившего их участника.',
-'uploadstash-clear'    => 'Очистить скрытые файлы',
-'uploadstash-nofiles'  => 'У вас нет скрытых файлов.',
-'uploadstash-badtoken' => 'Не удалось выполнить указанные действия. Возможно, истёк срок действия вашего жетона безопасности. Попробуйте ещё раз.',
-'uploadstash-errclear' => 'Очистка файлов не удалась.',
-'uploadstash-refresh'  => 'Обновить список файлов',
 
 );

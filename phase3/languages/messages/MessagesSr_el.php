@@ -1,5 +1,5 @@
 <?php
-/** Serbian Latin ekavian (Srpski (latinica))
+/**  ()
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -11,7 +11,9 @@
  * @author Liangent
  * @author Meno25
  * @author Michaello
+ * @author Rancher
  * @author Red Baron
+ * @author Reedy
  * @author Slaven Kosanovic
  * @author Жељко Тодоровић
  * @author Михајло Анђелковић
@@ -378,7 +380,7 @@ $messages = array(
 'vector-action-unprotect'  => 'Skini zaštitu',
 'vector-view-create'       => 'Napravi',
 'vector-view-edit'         => 'Izmeni',
-'vector-view-history'      => 'Istorija',
+'vector-view-history'      => 'Istorijat',
 'vector-view-view'         => 'Čitaj',
 'vector-view-viewsource'   => 'Izvornik',
 'actions'                  => 'Akcije',
@@ -611,7 +613,7 @@ Obratite pažnju da neke stranice mogu nastaviti da se prikazuju kao da ste još
 Vaš nalog je napravljen.
 Ne zaboravite da prilagodite sebi svoja [[Special:Preferences|{{SITENAME}} podešavanja]].',
 'yourname'                   => 'Korisničko ime',
-'yourpassword'               => 'Vaša lozinka',
+'yourpassword'               => 'Lozinka:',
 'yourpasswordagain'          => 'Ponovite lozinku',
 'remembermypassword'         => 'Zapamti moju lozinku na ovom računaru (najviše $1 {{PLURAL:$1|dan|dana}})',
 'yourdomainname'             => 'Vaš domen',
@@ -621,8 +623,8 @@ Ne zaboravite da prilagodite sebi svoja [[Special:Preferences|{{SITENAME}} pode�
 'loginprompt'                => "Morate da imate omogućene kolačiće (''cookies'') da biste se prijavili na {{SITENAME}}.",
 'userlogin'                  => 'Registruj se / Prijavi se',
 'userloginnocreate'          => 'Prijavi se',
-'logout'                     => 'Odjavi se',
-'userlogout'                 => 'Odjavi se',
+'logout'                     => 'Odjavi me',
+'userlogout'                 => 'Odjavi me',
 'notloggedin'                => 'Niste prijavljeni',
 'nologin'                    => "Nemate nalog? '''$1'''.",
 'nologinlink'                => 'Napravite nalog',
@@ -807,7 +809,7 @@ Takvu adresu može deliti više korisnika.
 Ako ste anonimni korisnik i mislite da su vam upućene nebitne primedbe, molimo vas da [[Special:UserLogin/signup|napravite nalog]] ili [[Special:UserLogin|se prijavite]] da biste izbegli buduću zabunu sa ostalim anonimnim korisnicima.',
 'noarticletext'                    => 'Trenutno ne postoji članak pod tim imenom.
 Možete [[Special:Search/{{PAGENAME}}|tražiti ovu stranicu]] u drugim člancima,
-<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} pretražiti srodne istorije zapisa], ili je [{{fullurl:{{FULLPAGENAME}}|action=edit}} urediti].',
+<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} pretražiti srodne istorije zapisa], ili je [{{fullurl:{{FULLPAGENAME}}|action=edit}} urediti]</span>.',
 'userpage-userdoesnotexist'        => 'Nalog "$1" nije registrovan. Proverite da li želite da pravite/uređujete ovu stranicu.',
 'userpage-userdoesnotexist-view'   => 'Korisnički nalog "$1" nije registrovan.',
 'blocked-notice-logextract'        => 'Ovaj korisnik je trenutno blokrian.
@@ -1170,7 +1172,7 @@ Pokušajte sa prefiksom '''sve:''' da pretražite ceo sadržaj (uključujući st
 'saveprefs'                   => 'Sačuvaj',
 'resetprefs'                  => 'Vrati',
 'restoreprefs'                => 'Vrati sva podrazumevana podešavanja',
-'prefs-editing'               => 'Veličine tekstualnog polja',
+'prefs-editing'               => 'Uređivanje',
 'prefs-edit-boxsize'          => 'Veličina prozora za pisanje izmene.',
 'rows'                        => 'Redova',
 'columns'                     => 'Kolona',
@@ -1205,7 +1207,7 @@ Pokušajte sa prefiksom '''sve:''' da pretražite ceo sadržaj (uključujući st
 'prefs-namespaces'            => 'Imenski prostori',
 'defaultns'                   => 'U suprotnom, traži u ovim imenskim prostorima:',
 'default'                     => 'standard',
-'prefs-files'                 => 'Fajlovi',
+'prefs-files'                 => 'Datoteke',
 'prefs-custom-css'            => 'Korisnički CSS',
 'prefs-custom-js'             => 'Korisnički JS',
 'prefs-emailconfirm-label'    => 'Potvrda e-pošte:',
@@ -2041,7 +2043,7 @@ Molimo kliknite "back" i ponovo učitajte stranu odakle ste došli, a onda poku�
 'protectlogtext'              => 'Ispod je spisak zaključavanja i otključavanja stranica.',
 'protectedarticle'            => 'je {{GENDER:|zaštitio|zaštitila|zaštitio}} „$1“',
 'modifiedarticleprotection'   => 'je promenio nivo zaštite za „[[$1]]“',
-'unprotectedarticle'          => 'skinuo zaštitu sa $1',
+'unprotectedarticle'          => 'je skinuo zaštitu sa „$1”',
 'movedarticleprotection'      => 'premestio podešavanja zaštite sa "[[$2]]" na "[[$1]]"',
 'protect-title'               => 'stavljanje zaštite "$1"',
 'prot_1movedto2'              => 'je promenio ime članku [[$1]] u [[$2]]',
@@ -2089,7 +2091,7 @@ Ovo su trenutna podešavanja za stranicu '''$1''':",
 'restriction-edit'   => 'Uređivanje',
 'restriction-move'   => 'Premeštanje',
 'restriction-create' => 'Napravi',
-'restriction-upload' => 'Pošalji fajl',
+'restriction-upload' => 'Otpremi',
 
 # Restriction levels
 'restriction-level-sysop'         => 'puna zaštita',
@@ -2277,7 +2279,7 @@ Dnevnik blokiranja je ponuđen ispod  kao referenca:',
 'reblock-logentry'                => 'promenjena podešavanja bloka za [[$1]] sa vremenom isteka $2 ($3)',
 'blocklogtext'                    => 'Ovo je istorija blokiranja i odblokiranja korisnika. Automatski
 blokirane IP adrese nisu navedene. Pogledajte [[{{ns:special}}:Ipblocklist|spisak blokiranih IP adresa]] za spisak trenutnih zabrana i blokiranja.',
-'unblocklogentry'                 => 'odblokirao "$1"',
+'unblocklogentry'                 => 'je odblokirao „$1”',
 'block-log-flags-anononly'        => 'samo anonimni korisnici',
 'block-log-flags-nocreate'        => 'zabranjeno pravljenje naloga',
 'block-log-flags-noautoblock'     => 'isključeno automatsko blokiranje',
@@ -2526,7 +2528,7 @@ Molimo Vas da opet pokušate.',
 'tooltip-pt-mycontris'            => 'Spisak vaših priloga',
 'tooltip-pt-login'                => 'Preporučuje se da se prijavite, ali nije obavezno',
 'tooltip-pt-anonlogin'            => 'Preporučuje se da se prijavite, ali nije obavezno',
-'tooltip-pt-logout'               => 'Odjavi se',
+'tooltip-pt-logout'               => 'Odjavi me',
 'tooltip-ca-talk'                 => 'Razgovor o članku',
 'tooltip-ca-edit'                 => 'Možete urediti ovu stranicu. Molimo koristite pretpregled pre sačuvavanja.',
 'tooltip-ca-addsection'           => 'Počnite novi odeljak',
@@ -3204,7 +3206,7 @@ Unesite ime fajla bez prefiksa "{{ns:file}}:".',
 'tags'                    => 'Dozvoljeni tagovi izmene',
 'tag-filter'              => 'Filter za [[Special:Tags|tagove]]:',
 'tag-filter-submit'       => 'Filtriraj',
-'tags-title'              => 'Tagovi',
+'tags-title'              => 'Oznake',
 'tags-intro'              => 'Ova stranica daje spisak i značenje tagova kojima softver može da označi neku izmenu.',
 'tags-tag'                => 'Interno ime taga',
 'tags-display-header'     => 'Izgled na spiskovima promena',

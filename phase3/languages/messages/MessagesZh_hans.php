@@ -1,5 +1,5 @@
 <?php
-/** Simplified Chinese (‪中文(简体)‬)
+/** Simplified Chinese (‪中文(简化字)‬)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -406,6 +406,7 @@ $messages = array(
 'printableversion'  => '可打印版',
 'permalink'         => '永久链接',
 'print'             => '打印',
+'view'              => '查看',
 'edit'              => '编辑',
 'create'            => '创建',
 'editthispage'      => '编辑此页',
@@ -413,6 +414,7 @@ $messages = array(
 'delete'            => '删除',
 'deletethispage'    => '删除此页',
 'undelete_short'    => '恢复被删除的$1项修订',
+'viewdeleted_short' => '查看被删除的$1项修订',
 'protect'           => '保护',
 'protect_change'    => '更改',
 'protectthispage'   => '保护此页',
@@ -496,6 +498,8 @@ $1',
 'toc'                     => '目录',
 'showtoc'                 => '显示',
 'hidetoc'                 => '隐藏',
+'collapsible-collapse'    => '折叠',
+'collapsible-expand'      => '展开',
 'thisisdeleted'           => '查看或恢复$1？',
 'viewdeleted'             => '查看$1？',
 'restorelink'             => '$1个被删除的版本',
@@ -632,6 +636,8 @@ $2',
 'createaccounterror'         => '无法建立账户：$1',
 'nocookiesnew'               => '已成功创建新账户！侦测到您已关闭Cookies，请开启它并登录。',
 'nocookieslogin'             => '本站利用Cookies进行用户登录，侦测到您已关闭Cookies，请开启它并重新登录。',
+'nocookiesfornew'            => '这位用户的账户未建立，我们不能确认它的来源。
+请肯定您已经开启 cookies，重载后再试。',
 'noname'                     => '你没有输入有效的用户名。',
 'loginsuccesstitle'          => '登录成功',
 'loginsuccess'               => "'''你现在以“$1”的身份登录到{{SITENAME}}。'''",
@@ -643,7 +649,7 @@ $2',
 'wrongpasswordempty'         => '您没有输入密码，请重试！',
 'passwordtooshort'           => '您的密码至少需要$1个字符。',
 'password-name-match'        => '您的密码必须和您的用户名不相同。',
-'password-too-weak'          => '提供的密码强度不足，不能使用。',
+'password-login-forbidden'   => '这些用户名称及密码的使用是被禁止的。',
 'mailmypassword'             => '将新密码寄给我',
 'passwordremindertitle'      => '{{SITENAME}}的新临时密码',
 'passwordremindertext'       => '有人（可能是您，来自IP地址$1）已请求{{SITENAME}}的新密码（$4）。
@@ -1626,6 +1632,15 @@ $1',
 'upload-unknown-size'       => '未知大小',
 'upload-http-error'         => '发生HTTP错误：$1',
 
+# Special:UploadStash
+'uploadstash'          => '文件贮藏',
+'uploadstash-summary'  => '这个页面提供已经上传（或者上传中）但未发布到wiki之文件存取。这些文件除了上传的用户之外不会被其他人可见。',
+'uploadstash-clear'    => '清除贮藏文件',
+'uploadstash-nofiles'  => '你没有已贮藏的文件。',
+'uploadstash-badtoken' => '进行这个动作不成功，或者你的编辑信息已经过期。请再试。',
+'uploadstash-errclear' => '清除文件不成功。',
+'uploadstash-refresh'  => '更新文件清单',
+
 # img_auth script messages
 'img-auth-accessdenied' => '拒绝访问',
 'img-auth-nopathinfo'   => 'PATH_INFO遗失。您的服务器尚未设置传送该信息。它可能是基于CGI的，因而不支持img_auth。参见http://www.mediawiki.org/wiki/Manual:Image_Authorization<nowiki></nowiki>。',
@@ -1880,6 +1895,7 @@ Template:消除歧義',
 'pager-newer-n'           => '新$1次',
 'pager-older-n'           => '旧$1次',
 'suppress'                => '监督',
+'querypage-disabled'      => '此特殊页面基于效能的原因已经被停用。',
 
 # Book sources
 'booksources'               => '网络书源',
@@ -3300,6 +3316,7 @@ $1',
 'version-specialpages'             => '特殊页面',
 'version-parserhooks'              => '解析器钩',
 'version-variables'                => '变量',
+'version-antispam'                 => '垃圾防止',
 'version-skins'                    => '皮肤',
 'version-other'                    => '其他',
 'version-mediahandlers'            => '媒体处理器',
@@ -3434,14 +3451,5 @@ MediaWiki是基于使用目的而加以发布，然而不负任何担保责任�
 'disableaccount-nosuchuser'  => '用户账户“$1”不存在。',
 'disableaccount-success'     => '用户账户“$1”已被永久禁用。',
 'disableaccount-logentry'    => '永久禁用用户账户[[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => '文件贮藏',
-'uploadstash-summary'  => '这个页面提供已经上传（或者上传中）但未发布到wiki之文件存取。这些文件除了上传的用户之外不会被其他人可见。',
-'uploadstash-clear'    => '清除贮藏文件',
-'uploadstash-nofiles'  => '你没有已贮藏的文件。',
-'uploadstash-badtoken' => '进行这个动作不成功，或者你的编辑信息已经过期。请再试。',
-'uploadstash-errclear' => '清除文件不成功。',
-'uploadstash-refresh'  => '更新文件清单',
 
 );

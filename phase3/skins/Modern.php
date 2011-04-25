@@ -72,14 +72,7 @@ class ModernTemplate extends MonoBookTemplate {
 						echo ' class="'.htmlspecialchars($tab['class']).'"';
 					}
 					echo'><a href="'.htmlspecialchars($tab['href']).'"';
-					# We don't want to give the watch tab an accesskey if the
-					# page is being edited, because that conflicts with the
-					# accesskey on the watch checkbox.  We also don't want to
-					# give the edit tab an accesskey, because that's fairly su-
-					# perfluous and conflicts with an accesskey (Ctrl-E) often
-					# used for editing in Safari.
-				 	if( in_array( $action, array( 'edit', 'submit' ) )
-				 	&& in_array( $key, array( 'edit', 'watch', 'unwatch' ))) {
+				 	if( isset($tab["tooltiponly"]) && $tab["tooltiponly"] ) {
 				 		echo $skin->tooltip( "ca-$key" );
 				 	} else {
 				 		echo $skin->tooltipAndAccesskey( "ca-$key" );
@@ -154,14 +147,10 @@ class ModernTemplate extends MonoBookTemplate {
 		<h5><?php $this->msg('personaltools') ?></h5>
 		<div class="pBody">
 			<ul>
-<?php 			foreach($this->data['personal_urls'] as $key => $item) { ?>
-				<li id="<?php echo Sanitizer::escapeId( "pt-$key" ) ?>"<?php
-					if ($item['active']) { ?> class="active"<?php } ?>><a href="<?php
-				echo htmlspecialchars($item['href']) ?>"<?php echo $skin->tooltipAndAccesskey('pt-'.$key) ?><?php
-				if(!empty($item['class'])) { ?> class="<?php
-				echo htmlspecialchars($item['class']) ?>"<?php } ?>><?php
-				echo htmlspecialchars($item['text']) ?></a></li>
-<?php			} ?>
+<?php		foreach($this->getPersonalTools() as $key => $item) { ?>
+				<?php echo $this->makeListItem($key, $item); ?>
+
+<?php		} ?>
 			</ul>
 		</div>
 	</div>
@@ -193,13 +182,7 @@ class ModernTemplate extends MonoBookTemplate {
 ?>
 	</div>
 
-	<?php $this->html('bottomscripts'); /* JS call to runBodyOnloadHook */ ?>
-<?php $this->html('reporttime') ?>
-<?php if ( $this->data['debug'] ): ?>
-<!-- Debug output:
-<?php $this->text( 'debug' ); ?>
--->
-<?php endif; ?>
+	<?php $this->printTrail(); ?>
 </body></html>
 <?php
 	wfRestoreWarnings();

@@ -42,10 +42,6 @@ class DatabaseSqlite extends DatabaseBase {
 	 */
 	function implicitGroupby()   { return false; }
 
-	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
-		return new DatabaseSqlite( $server, $user, $password, $dbName, $flags );
-	}
-
 	/** Open an SQLite database and return a resource handle to it
 	 *  NOTE: only $dbName is used, the other parameters are irrelevant for SQLite databases
 	 */
@@ -431,10 +427,6 @@ class DatabaseSqlite extends DatabaseBase {
 		return implode( $glue, $sqls );
 	}
 
-	public function unixTimestamp( $field ) {
-		return $field;
-	}
-
 	function wasDeadlock() {
 		return $this->lastErrno() == 5; // SQLITE_BUSY
 	}
@@ -599,6 +591,7 @@ class DatabaseSqlite extends DatabaseBase {
 	}
 
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseSqlite::duplicateTableStructure' ) {
+	
 		$res = $this->query( "SELECT sql FROM sqlite_master WHERE tbl_name='$oldName' AND type='table'", $fname );
 		$obj = $this->fetchObject( $res );
 		if ( !$obj ) {
@@ -607,6 +600,37 @@ class DatabaseSqlite extends DatabaseBase {
 		$sql = $obj->sql;
 		$sql = preg_replace( '/\b' . preg_quote( $oldName ) . '\b/', $newName, $sql, 1 );
 		return $this->query( $sql, $fname );
+	}
+	
+	
+	/**
+	 * List all tables on the database
+	 *
+	 * @param $prefix Only show tables with this prefix, e.g. mw_
+	 * @param $fname String: calling function name
+	 */
+	function listTables( $prefix = null, $fname = 'DatabaseSqlite::listTables' ) {
+		$result = $this->select(
+			'sqlite_master',
+			'name',
+			"type='table'"
+		);
+		
+		$endArray = array();
+		
+		foreach( $result as $table ) {	
+			$vars = get_object_vars($table);
+			$table = array_pop( $vars );
+			
+			if( !$prefix || strpos( $table, $prefix ) === 0 ) {
+				if ( strpos( $table, 'sqlite_' ) !== 0 ) {
+					$endArray[] = $table;
+				}
+				
+			}
+		}
+		
+		return $endArray;
 	}
 
 } // end DatabaseSqlite class

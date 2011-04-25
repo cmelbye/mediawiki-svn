@@ -374,6 +374,7 @@ $messages = array(
 'printableversion'  => 'Versió per a impressora',
 'permalink'         => 'Enllaç permanent',
 'print'             => "Envia aquesta pàgina a la cua d'impressió",
+'view'              => 'Mostra',
 'edit'              => 'Modifica',
 'create'            => 'Crea',
 'editthispage'      => 'Modifica la pàgina',
@@ -381,6 +382,7 @@ $messages = array(
 'delete'            => 'Elimina',
 'deletethispage'    => 'Elimina la pàgina',
 'undelete_short'    => "Restaura {{PLURAL:$1|l'edició eliminada|$1 edicions eliminades}}",
+'viewdeleted_short' => 'Mostra {{PLURAL:$1|una edició eliminada|$1 edicions eliminades}}',
 'protect'           => 'Protecció',
 'protect_change'    => 'canvia',
 'protectthispage'   => 'Protecció de la pàgina',
@@ -464,6 +466,8 @@ $1",
 'toc'                     => 'Contingut',
 'showtoc'                 => 'desplega',
 'hidetoc'                 => 'amaga',
+'collapsible-collapse'    => 'Tanca',
+'collapsible-expand'      => 'Estèn',
 'thisisdeleted'           => 'Voleu mostrar o restaurar $1?',
 'viewdeleted'             => 'Voleu mostrar $1?',
 'restorelink'             => '{{PLURAL:$1|una versió esborrada|$1 versions esborrades}}',
@@ -609,6 +613,8 @@ No oblideu de canviar les vostres [[Special:Preferences|preferències de {{SITEN
 'createaccounterror'         => "No s'ha pogut crear el compte: $1",
 'nocookiesnew'               => "S'ha creat el compte d'usuari, però no esteu enregistrat. El projecte {{SITENAME}} usa galetes per enregistrar els usuaris. Si us plau activeu-les, per a poder enregistrar-vos amb el vostre nom d'usuari i la clau.",
 'nocookieslogin'             => 'El programari {{SITENAME}} utilitza galetes per enregistrar usuaris. Teniu les galetes desactivades. Activeu-les i torneu a provar.',
+'nocookiesfornew'            => "No s'ha creat el compte d'usuari, ja que no es podia confirmar el seu origen.
+Verifiqueu que teniu habilitades les galetes al vostre navegador, torneu a carregar aquesta pàgina i intenteu-lo de nou.",
 'noname'                     => "No heu especificat un nom vàlid d'usuari.",
 'loginsuccesstitle'          => "S'ha iniciat la sessió amb èxit",
 'loginsuccess'               => 'Heu iniciat la sessió a {{SITENAME}} com a «$1».',
@@ -621,7 +627,7 @@ Reviseu-ne l'ortografia (recordeu que es distingeixen les majúscules i minúscu
 'wrongpasswordempty'         => "La contrasenya que s'ha introduït estava en blanc. Torneu-ho a provar.",
 'passwordtooshort'           => "La contrasenya ha de tenir un mínim {{PLURAL:$1|d'un caràcter|de $1 caràcters}}.",
 'password-name-match'        => "La contrasenya ha de ser diferent al vostre nom d'usuari.",
-'password-too-weak'          => "La clau d'accés que heu proporcionat no és gaire segura i no es pot fer servir-la.",
+'password-login-forbidden'   => "No és permès d'utilitzar aquest nom d'usuari i contrasenya.",
 'mailmypassword'             => "Envia'm una nova contrasenya per correu electrònic",
 'passwordremindertitle'      => 'Nova contrasenya temporal per al projecte {{SITENAME}}',
 'passwordremindertext'       => "Algú (vós mateix segurament, des de l'adreça l'IP $1) ha soŀlicitat que us enviéssim una nova contrasenya per a iniciar la sessió al projecte {{SITENAME}} ($4).
@@ -795,6 +801,10 @@ Per més detalls, la darrera entrada del registre es mostra a continuació:",
 'usercsspreview'                   => "'''Recordeu que esteu previsualitzant el vostre CSS d'usuari.'''
 '''Encara no s'ha desat!'''",
 'userjspreview'                    => "'''Recordeu que només estau provant/previsualitzant el vostre JavaScript, encara no ho heu desat!'''",
+'sitecsspreview'                   => "'''Adoneu-vos que esteu veient una vista prèvia d'aquest full d'estil CSS.'''
+'''No n'hi ha estat encara gravada!'''",
+'sitejspreview'                    => "'''Adoneu-vos que esteu veient una vista prèvia d'aquest codi Javascript.'''
+'''No n'hi ha estat encara gravat!'''",
 'userinvalidcssjstitle'            => "'''Atenció:''' No existeix l'aparença «$1». Recordeu que les subpàgines personalitzades amb extensions .css i .js utilitzen el títol en minúscules, per exemple, {{ns:user}}:NOM/vector.css no és el mateix que {{ns:user}}:NOM/Vector.css.",
 'updated'                          => '(Actualitzat)',
 'note'                             => "'''Nota:'''",
@@ -1099,7 +1109,7 @@ Assegureu-vos que aquest canvi mantindrà la continuïtat històrica de la pàgi
 'difference-multipage'     => '(Diferència entre pàgines)',
 'lineno'                   => 'Línia $1:',
 'compareselectedversions'  => 'Compara les versions seleccionades',
-'showhideselectedversions' => 'Mostrar/ocultar les versions seleccionades',
+'showhideselectedversions' => 'Mostra/oculta les versions seleccionades',
 'editundo'                 => 'desfés',
 'diff-multi'               => '({{PLURAL:$1|Hi ha una revisió intermèdia |Hi ha $1 revisions intermèdies}} sense mostrar fetes per {{PLURAL:$2|un usuari|$2 usuaris}})',
 'diff-multi-manyusers'     => "({{PLURAL:$1|Hi ha una revisió intermèdia|Hi ha $1 revisions intermèdies}} sense mostrar fetes per més {{PLURAL:$2|d'un usuari|de $2 usuaris}})",
@@ -1156,7 +1166,7 @@ Assegureu-vos que aquest canvi mantindrà la continuïtat històrica de la pàgi
 'showingresultsnum'                => 'Tot seguit es {{PLURAL:$3|llista el resultat|llisten els <b>$3</b> resultats començant pel número <b>$2</b>}}.',
 'showingresultsheader'             => "{{PLURAL:$5|Resultat '''$1''' de '''$3'''|Resultats '''$1 - $2''' de '''$3'''}} per '''$4'''",
 'nonefound'                        => "'''Nota''': Només se cerca en alguns espais de noms per defecte. Proveu d'afegir el prefix ''all:'' a la vostra consulta per a cercar a tot el contingut (incloent-hi les pàgines de discussió, les plantilles, etc.), o feu servir l'espai de noms on vulgueu cercar com a prefix.",
-'search-nonefound'                 => 'La búsqueda no ha produit cap resultat.',
+'search-nonefound'                 => 'La cerca no ha donat cap resultat.',
 'powersearch'                      => 'Cerca avançada',
 'powersearch-legend'               => 'Cerca avançada',
 'powersearch-ns'                   => 'Cerca als espais de noms:',
@@ -1257,7 +1267,7 @@ No es podrà desfer el canvi.',
 'prefs-memberingroups'          => 'Membre dels {{PLURAL:$1|grup|grups}}:',
 'prefs-registration'            => 'Hora de registre:',
 'yourrealname'                  => 'Nom real *',
-'yourlanguage'                  => 'Llengua:',
+'yourlanguage'                  => 'Idioma:',
 'yourvariant'                   => 'Variant lingüística:',
 'yournick'                      => 'Signatura:',
 'prefs-help-signature'          => "Els comentaris a les pàgines d'usuari s'han de signar amb \"<nowiki>~~~~</nowiki>\", que serà convertit en la vostra signatura i la data i l'hora.",
@@ -1611,6 +1621,10 @@ $1',
 'upload-too-many-redirects' => 'La URL conté massa redireccions',
 'upload-unknown-size'       => 'Mida desconeguda',
 'upload-http-error'         => 'Ha ocorregut un error HTTP: $1',
+
+# Special:UploadStash
+'uploadstash-errclear' => "L'esborrament dels arxius no va tenir èxit.",
+'uploadstash-refresh'  => 'Actualitzar la llista de fitxers.',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Accés denegat',
@@ -2562,7 +2576,7 @@ En el darrer cas, podeu fer servir un enllaç com ara [[{{#Special:Export}}/{{Me
 'allmessages-filter-all'        => 'Tots',
 'allmessages-filter-modified'   => 'Modificat',
 'allmessages-prefix'            => 'Filtra per prefix:',
-'allmessages-language'          => 'Llengua:',
+'allmessages-language'          => 'Idioma:',
 'allmessages-filter-submit'     => 'Vés-hi',
 
 # Thumbnails
@@ -3405,9 +3419,5 @@ Introduïu el nom del fitxer sense el prefix «{{ns:file}}:».",
 'disableaccount-nosuchuser'  => 'El compte d\'usuari/a "$1" no existeix.',
 'disableaccount-success'     => 'El compte d\'usuari/a "$1" ha estat permanentment deshabilitat.',
 'disableaccount-logentry'    => "permanentment deshabilitat el compte d'usuari/a  [[$1]]",
-
-# Special:UploadStash
-'uploadstash-errclear' => "L'esborrament dels arxius no va tenir èxit.",
-'uploadstash-refresh'  => 'Actualitzar la llista de fitxers.',
 
 );

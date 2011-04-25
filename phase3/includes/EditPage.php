@@ -557,7 +557,7 @@ class EditPage {
 			}
 
 			# Truncate for whole multibyte characters. +5 bytes for ellipsis
-			$this->summary = $wgLang->truncate( $request->getText( 'wpSummary' ), 250, '' );
+			$this->summary = $wgLang->truncate( $request->getText( 'wpSummary' ), 250 );
 
 			# Remove extra headings from summaries and new sections.
 			$this->summary = preg_replace('/^\s*=+\s*(.*?)\s*=+\s*$/', '$1', $this->summary);
@@ -1276,9 +1276,14 @@ HTML
 		$this->showFormBeforeText();
 
 		if ( $this->wasDeletedSinceLastEdit() && 'save' == $this->formtype ) {
+			$username = $this->lastDelete->user_name;
+			$comment = $this->lastDelete->log_comment;
+	
+			// It is better to not parse the comment at all than to have templates expanded in the middle
+			// TODO: can the checkLabel be moved outside of the div so that wrapWikiMsg could be used?
 			$wgOut->addHTML(
 				'<div class="mw-confirm-recreate">' .
-				$wgOut->parse( wfMsg( 'confirmrecreate',  $this->lastDelete->user_name , $this->lastDelete->log_comment ) ) .
+				wfMsgExt( 'confirmrecreate', 'parseinline', $username, "<nowiki>$comment</nowiki>" ) .
 				Xml::checkLabel( wfMsg( 'recreate' ), 'wpRecreate', 'wpRecreate', false,
 					array( 'title' => $sk->titleAttrib( 'recreate' ), 'tabindex' => 1, 'id' => 'wpRecreate' )
 				) .

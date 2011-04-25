@@ -482,6 +482,7 @@ $messages = array(
 'printableversion'  => 'Versão para impressão',
 'permalink'         => 'Link permanente',
 'print'             => 'Imprimir',
+'view'              => 'Ver',
 'edit'              => 'Editar',
 'create'            => 'Criar',
 'editthispage'      => 'Editar esta página',
@@ -489,6 +490,7 @@ $messages = array(
 'delete'            => 'Eliminar',
 'deletethispage'    => 'Eliminar esta página',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|uma edição|$1 edições}}',
+'viewdeleted_short' => 'Ver {{PLURAL:$1|uma edição eliminada|$1 edições eliminadas}}',
 'protect'           => 'Proteger',
 'protect_change'    => 'alterar',
 'protectthispage'   => 'Proteger esta página',
@@ -573,6 +575,8 @@ Veja a [[Special:Version|página sobre a versão do sistema]].',
 'toc'                     => 'Tabela de conteúdo',
 'showtoc'                 => 'mostrar',
 'hidetoc'                 => 'esconder',
+'collapsible-collapse'    => 'Ocultar',
+'collapsible-expand'      => 'Expandir',
 'thisisdeleted'           => 'Ver ou restaurar $1?',
 'viewdeleted'             => 'Ver $1?',
 'restorelink'             => '{{PLURAL:$1|uma edição eliminada|$1 edições eliminadas}}',
@@ -723,6 +727,8 @@ Escolha um nome diferente.',
 Você tem os ''cookies'' desativados no seu navegador.
 Por favor ative-os, depois autentique-se com o seu novo nome de usuário e a sua senha.",
 'nocookieslogin'             => 'Você tem os <i>cookies</i> desativados no seu navegador, e a {{SITENAME}} utiliza <i>cookies</i> para ligar os usuários às suas contas. Por favor os ative e tente novamente.',
+'nocookiesfornew'            => 'A conta de usuário não foi criada porque não foi possível confirmar a sua origem.
+Certifique-se de que tem os cookies ativados, recarregue esta página e tente novamente.',
 'noname'                     => 'Você não colocou um nome de usuário válido.',
 'loginsuccesstitle'          => 'Login bem sucedido',
 'loginsuccess'               => "'''Agora você está ligado à {{SITENAME}} como \"\$1\"'''.",
@@ -736,7 +742,7 @@ Verifique a ortografia, ou [[Special:UserLogin/signup|crie uma nova conta]].',
 'wrongpasswordempty'         => 'A senha introduzida está em branco. Por favor, tente novamente.',
 'passwordtooshort'           => 'As senhas devem ter no mínimo {{PLURAL:$1|1 caractere|$1 caracteres}}.',
 'password-name-match'        => 'A sua senha deve ser diferente do seu nome de usuário.',
-'password-too-weak'          => 'A senha informada é muito fraca e não pode ser usada.',
+'password-login-forbidden'   => 'Foi proibido o uso deste nome de utilizador e palavra-chave.',
 'mailmypassword'             => 'Enviar uma nova senha por e-mail',
 'passwordremindertitle'      => 'Nova senha temporária em {{SITENAME}}',
 'passwordremindertext'       => 'Alguém (provavelmente você, a partir do endereço de IP $1) solicitou uma nova senha para {{SITENAME}} ($4). Foi criada uma senha temporária para o usuário "$2", sendo ela "$3". Se esta era sua intenção, você precisará se autenticar e escolher uma nova senha agora.
@@ -1418,6 +1424,9 @@ Caso decida fornecê-lo, este será utilizado para dar-lhe crédito pelo seu tra
 'prefs-displaywatchlist'        => 'Opções de exibição',
 'prefs-diffs'                   => 'Diferenças',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid' => 'Parece válido',
+
 # User rights
 'userrights'                   => 'Gestão de privilégios de usuários',
 'userrights-lookup-user'       => 'Administrar grupos de usuários',
@@ -1759,6 +1768,15 @@ Por gentileza, entre em contato com um [[Special:ListUsers/sysop|administrador]]
 'upload-unknown-size'       => 'Tamanho desconhecido',
 'upload-http-error'         => 'Ocorreu um erro HTTP: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Arquivos escondidos',
+'uploadstash-summary'  => 'Esta página dá acesso aos arquivos enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes arquivos não são visíveis para ninguém, exceto para o usuário que os enviou.',
+'uploadstash-clear'    => 'Apagar os arquivos escondidos',
+'uploadstash-nofiles'  => 'Você não tem nenhum arquivo escondido.',
+'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
+'uploadstash-errclear' => 'Não foi possível apagar os arquivos.',
+'uploadstash-refresh'  => 'Atualizar a lista de arquivos',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Acesso negado',
 'img-auth-nopathinfo'   => 'Falta PATH_INFO
@@ -2014,6 +2032,7 @@ Por favor note que outros websites podem apontar para um arquivo através de um 
 'pager-newer-n'           => '{{PLURAL:$1|1 recente|$1 recentes}}',
 'pager-older-n'           => '{{PLURAL:$1|1 antiga|$1 antigas}}',
 'suppress'                => 'Visão geral',
+'querypage-disabled'      => 'Esta página especial está desativada para não prejudicar o desempenho.',
 
 # Book sources
 'booksources'               => 'Fontes de livros',
@@ -2895,7 +2914,8 @@ Tal bloqueio foi provavelmente causado por uma ligação para um ''website'' ext
 'math_unknown_function' => 'Função desconhecida',
 'math_lexing_error'     => 'Erro léxico',
 'math_syntax_error'     => 'Erro de sintaxe',
-'math_image_error'      => 'Falha na conversão para PNG. Verifique a instalação do latex, dvips, gs e convert',
+'math_image_error'      => 'Falha na conversão para PNG;
+verifique se o latex, dvips, gs e convert estão corretamente instalados',
 'math_bad_tmpdir'       => 'Ocorreram problemas na criação ou escrita no diretório temporário math',
 'math_bad_output'       => 'Ocorreram problemas na criação ou escrita no diretório de resultados math',
 'math_notexvc'          => 'O executável texvc não foi encontrado. Consulte math/README para instruções da configuração.',
@@ -3409,7 +3429,7 @@ Você também pode [[Special:Watchlist/edit|editar a lista da maneira convencion
 'version-specialpages'             => 'Páginas especiais',
 'version-parserhooks'              => 'Hooks do analisador (parser)',
 'version-variables'                => 'Variáveis',
-'version-antispam'                 => 'Antispam',
+'version-antispam'                 => 'Prevenção contra spam',
 'version-skins'                    => 'Temas',
 'version-other'                    => 'Diversos',
 'version-mediahandlers'            => 'Executores de média',
@@ -3545,14 +3565,5 @@ Se neste momento o usuário estiver autenticado em algum lugar, ele sairá de im
 'disableaccount-nosuchuser'  => 'A conta de usuário "$1" não existe.',
 'disableaccount-success'     => 'A conta de usuário "$1" foi desativada permanentemente.',
 'disableaccount-logentry'    => 'desativou permanentemente a conta [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Arquivos escondidos',
-'uploadstash-summary'  => 'Esta página dá acesso aos arquivos enviados (ou que estão no processo de envio) mas que ainda não foram publicados na wiki. Estes arquivos não são visíveis para ninguém, exceto para o usuário que os enviou.',
-'uploadstash-clear'    => 'Apagar os arquivos escondidos',
-'uploadstash-nofiles'  => 'Você não tem nenhum arquivo escondido.',
-'uploadstash-badtoken' => 'Não foi possível executar essa operação, talvez porque as suas credenciais de edição expiraram. Tente novamente.',
-'uploadstash-errclear' => 'Não foi possível apagar os arquivos.',
-'uploadstash-refresh'  => 'Atualizar a lista de arquivos',
 
 );

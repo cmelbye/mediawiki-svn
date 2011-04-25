@@ -10,6 +10,7 @@
  * @author Julian Mendez
  * @author Malafaya
  * @author McDutchie
+ * @author Reedy
  * @author לערי ריינהארט
  */
 
@@ -325,6 +326,7 @@ $messages = array(
 'printableversion'  => 'Version imprimibile',
 'permalink'         => 'Ligamine permanente',
 'print'             => 'Imprimer',
+'view'              => 'Leger',
 'edit'              => 'Modificar',
 'create'            => 'Crear',
 'editthispage'      => 'Modificar iste pagina',
@@ -332,6 +334,7 @@ $messages = array(
 'delete'            => 'Deler',
 'deletethispage'    => 'Deler iste pagina',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|un modification|$1 modificationes}}',
+'viewdeleted_short' => 'Vider {{PLURAL:$1|un modification|$1 modificationes}} delite',
 'protect'           => 'Proteger',
 'protect_change'    => 'cambiar',
 'protectthispage'   => 'Proteger iste pagina',
@@ -415,6 +418,8 @@ $1',
 'toc'                     => 'Contento',
 'showtoc'                 => 'revelar',
 'hidetoc'                 => 'celar',
+'collapsible-collapse'    => 'Plicar',
+'collapsible-expand'      => 'Displicar',
 'thisisdeleted'           => 'Vider o restaurar $1?',
 'viewdeleted'             => 'Vider $1?',
 'restorelink'             => '{{PLURAL:$1|un modification|$1 modificationes}} delite',
@@ -570,6 +575,8 @@ Per favor activa lo, postea aperi un session con tu nove nomine de usator e cont
 'nocookieslogin'             => "{{SITENAME}} usa ''cookies'' pro mantener le sessiones del usatores.
 Tu ha disactivate le functionalitate del ''cookies''.
 Per favor activa lo e reprova.",
+'nocookiesfornew'            => 'Le conto de usator non esseva create, proque nos non poteva confirmar su origine.
+Verifica que tu ha activate le "cookies", recarga iste pagina e reproba.',
 'noname'                     => 'Tu non specificava un nomine de usator valide.',
 'loginsuccesstitle'          => 'Session aperite con successo',
 'loginsuccess'               => "'''Tu es ora authenticate in {{SITENAME}} como \"\$1\".'''",
@@ -584,7 +591,7 @@ Verifica le orthographia.',
 'wrongpasswordempty'         => 'Tu non entrava un contrasigno. Per favor reprova.',
 'passwordtooshort'           => 'Le contrasignos debe continer al minus {{PLURAL:$1|1 character|$1 characteres}}.',
 'password-name-match'        => 'Tu contrasigno debe esser differente de tu nomine de usator.',
-'password-too-weak'          => 'Le contrasigno fornite es troppo debile e non pote esser usate.',
+'password-login-forbidden'   => 'Le uso de iste nomine de usator e contrasigno ha essite prohibite.',
 'mailmypassword'             => 'Inviar un nove contrasigno in e-mail',
 'passwordremindertitle'      => 'Nove contrasigno temporari pro {{SITENAME}}',
 'passwordremindertext'       => 'Alcuno (probabilemente tu, ab le adresse IP $1) requestava un nove
@@ -759,7 +766,7 @@ Si tu es un usator anonyme e pensa que commentos irrelevante ha essite dirigite 
 'noarticletext'                    => 'Al momento il non ha texto in iste pagina.
 Tu pote [[Special:Search/{{PAGENAME}}|cercar le titulo de iste pagina]] in altere paginas,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercar in le registros pertinente],
-o [{{fullurl:{{FULLPAGENAME}}|action=edit}} modificar iste pagina].',
+o [{{fullurl:{{FULLPAGENAME}}|action=edit}} modificar iste pagina]</span>.',
 'noarticletext-nopermission'       => 'Al momento il non ha texto in iste pagina.
 Tu pote [[Special:Search/{{PAGENAME}}|cercar le titulo de iste pagina]] in altere paginas,
 o <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} cercar in le registros pertinente].</span>',
@@ -1179,7 +1186,7 @@ Nota que lor indices del contento de {{SITENAME}} pote esser obsolete.',
 'mypreferences'                 => 'Mi preferentias',
 'prefs-edits'                   => 'Numero de modificationes:',
 'prefsnologin'                  => 'Tu non ha aperite un session',
-'prefsnologintext'              => 'Tu debe <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aperir un session] pro poter configurar tu preferentias.',
+'prefsnologintext'              => 'Tu debe <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aperir un session]</span> pro poter configurar tu preferentias.',
 'changepassword'                => 'Cambiar contrasigno',
 'prefs-skin'                    => 'Apparentia',
 'skin-preview'                  => 'Previsualisation',
@@ -1286,6 +1293,10 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'prefs-displaysearchoptions'    => 'Optiones de presentation',
 'prefs-displaywatchlist'        => 'Optiones de presentation',
 'prefs-diffs'                   => 'Differentias',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Sembla valide',
+'email-address-validity-invalid' => 'Un adresse valide es obligatori!',
 
 # User rights
 'userrights'                   => 'Gestion de derectos de usator',
@@ -1637,6 +1648,15 @@ Si le problema persiste, contacta un [[Special:ListUsers/sysop|administrator]].'
 'upload-unknown-size'       => 'Dimension incognite',
 'upload-http-error'         => 'Un error HTTP occurreva: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Pila de files incargate',
+'uploadstash-summary'  => 'Iste pagina forni accesso al files que ha essite incargate (o que es in le processo de incargamento) ma non es ancora publicate in le wiki. Iste files es solmente visibile pro le usator qui los incargava.',
+'uploadstash-clear'    => 'Rader le pila de files incargate',
+'uploadstash-nofiles'  => 'Il non ha files in le pila.',
+'uploadstash-badtoken' => 'Le execution de iste action non succedeva, forsan proque le datos del session expirava. Tenta lo de novo.',
+'uploadstash-errclear' => 'Le radimento del files non succedeva.',
+'uploadstash-refresh'  => 'Refrescar le lista de files',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Accesso refusate',
 'img-auth-nopathinfo'   => 'PATH_INFO mancante.
@@ -1899,6 +1919,7 @@ executar iste function.',
 'pager-newer-n'           => '{{PLURAL:$1|1 plus recente|$1 plus recente}}',
 'pager-older-n'           => '{{PLURAL:$1|1 minus recente|$1 minus recente}}',
 'suppress'                => 'Supervisor',
+'querypage-disabled'      => 'Iste pagina special es disactivate pro evitar de supercargar le systema.',
 
 # Book sources
 'booksources'               => 'Fontes de libros',
@@ -2829,8 +2850,8 @@ Le causa es probabilemente un ligamine verso un sito externe que es presente in 
 'math_unknown_function' => 'function incognite',
 'math_lexing_error'     => 'error lexic',
 'math_syntax_error'     => 'error de syntaxe',
-'math_image_error'      => "Le conversion in PNG ha fallite;
-verifica que le installation sia correcte del programmas ''latex, dvips, gs,'' e ''convert''.",
+'math_image_error'      => 'Le conversion in PNG ha fallite;
+verifica le installation del programmas \'\'latex" e "dvipng" (o "dvips" + "gs" + \'\'convert\'\').',
 'math_bad_tmpdir'       => 'Non pote scriber in o crear le directorio temporari "math".',
 'math_bad_output'       => 'Non pote scriber in o crear le directorio de output "math".',
 'math_notexvc'          => "Le executabile ''texvc'' manca;
@@ -3349,6 +3370,7 @@ Tu pote etiam [[Special:Watchlist/edit|usar le editor standard]].',
 'version-specialpages'             => 'Paginas special',
 'version-parserhooks'              => 'Uncinos del analysator syntactic',
 'version-variables'                => 'Variabiles',
+'version-antispam'                 => 'Prevention de spam',
 'version-skins'                    => 'Apparentias',
 'version-other'                    => 'Altere',
 'version-mediahandlers'            => 'Executores de media',
@@ -3484,14 +3506,5 @@ Si le usator es actualmente authenticate alicubi, su session essera immediatemen
 'disableaccount-nosuchuser'  => 'Le conto de usator "$1" non existe.',
 'disableaccount-success'     => 'Le conto de usator "$1" ha essite disactivate permanentemente.',
 'disableaccount-logentry'    => 'disactivava permanentemente le conto de usator [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Pila de files incargate',
-'uploadstash-summary'  => 'Iste pagina forni accesso al files que ha essite incargate (o que es in le processo de incargamento) ma non es ancora publicate in le wiki. Iste files es solmente visibile pro le usator qui los incargava.',
-'uploadstash-clear'    => 'Rader le pila de files incargate',
-'uploadstash-nofiles'  => 'Il non ha files in le pila.',
-'uploadstash-badtoken' => 'Le execution de iste action non succedeva, forsan proque le datos del session expirava. Tenta lo de novo.',
-'uploadstash-errclear' => 'Le radimento del files non succedeva.',
-'uploadstash-refresh'  => 'Refrescar le lista de files',
 
 );

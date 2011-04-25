@@ -20,6 +20,7 @@
  * @author Jens Liebenau
  * @author Krinkle
  * @author McDutchie
+ * @author Mihxil
  * @author Multichill
  * @author Mwpnl
  * @author Naudefj
@@ -513,6 +514,7 @@ $messages = array(
 'printableversion'  => 'Printervriendelijke versie',
 'permalink'         => 'Permanente verwijzing',
 'print'             => 'Afdrukken',
+'view'              => 'Lezen',
 'edit'              => 'Bewerken',
 'create'            => 'Aanmaken',
 'editthispage'      => 'Deze pagina bewerken',
@@ -520,6 +522,7 @@ $messages = array(
 'delete'            => 'Verwijderen',
 'deletethispage'    => 'Deze pagina verwijderen',
 'undelete_short'    => '$1 {{PLURAL:$1|bewerking|bewerkingen}} terugplaatsen',
+'viewdeleted_short' => '{{PLURAL: $1|Eén geschrapte bewerking |$1 geschrapte bewerkingen}} bekijken',
 'protect'           => 'Beveiligen',
 'protect_change'    => 'wijzigen',
 'protectthispage'   => 'Deze pagina beveiligen',
@@ -604,6 +607,8 @@ Meer informatie is beschikbaar op de pagina [[Special:Version|softwareversie]].'
 'toc'                     => 'Inhoud',
 'showtoc'                 => 'bekijken',
 'hidetoc'                 => 'verbergen',
+'collapsible-collapse'    => 'Inklappen',
+'collapsible-expand'      => 'Uitklappen',
 'thisisdeleted'           => '$1 bekijken of terugplaatsen?',
 'viewdeleted'             => '$1 bekijken?',
 'restorelink'             => '$1 verwijderde {{PLURAL:$1|versie|versies}}',
@@ -780,7 +785,7 @@ Probeer het opnieuw.',
 Probeer het opnieuw.',
 'passwordtooshort'           => 'Wachtwoorden moeten uit minstens {{PLURAL:$1|$1 teken|$1 tekens}} bestaan.',
 'password-name-match'        => 'Uw wachtwoord en uw gebruikersnaam mogen niet overeenkomen.',
-'password-too-weak'          => 'Het opgegeven wachtwoord is te onveilig en kan niet gebruikt worden.',
+'password-login-forbidden'   => 'Het gebruik van deze gebruikersnaam met dit wachtwoord is niet toegestaan.',
 'mailmypassword'             => 'Nieuw wachtwoord e-mailen',
 'passwordremindertitle'      => 'Nieuw tijdelijk wachtwoord voor {{SITENAME}}',
 'passwordremindertext'       => 'Iemand, waarschijnlijk u, heeft vanaf IP-adres $1 een verzoek
@@ -1499,6 +1504,10 @@ U kunt ook anderen in staat stellen per e-mail contact met u op te nemen via een
 'prefs-displaywatchlist'        => 'Weergaveopties',
 'prefs-diffs'                   => 'Verschillen',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Ziet er geldig uit',
+'email-address-validity-invalid' => 'Geldig adres verplicht!',
+
 # User rights
 'userrights'                   => 'Gebruikersrechtenbeheer',
 'userrights-lookup-user'       => 'Gebruikersgroepen beheren',
@@ -1856,6 +1865,15 @@ Als het probleem aanhoudt, neem dan contact op met een [[Special:ListUsers/sysop
 'upload-too-many-redirects' => 'De URL bevatte te veel doorverwijzingen',
 'upload-unknown-size'       => 'Onbekende grootte',
 'upload-http-error'         => 'Er is een HTTP-fout opgetreden: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Verborgen uploads',
+'uploadstash-summary'  => 'Deze pagina biedt toegang tot bestanden die geüpload zijn of nog geüpload worden maar nog niet beschikbaar gemaakt zijn in de wiki. Deze bestanden zijn alleen zichtbaar voor de gebruiker die ze uploadt.',
+'uploadstash-clear'    => 'Verborgen bestanden weggooien',
+'uploadstash-nofiles'  => 'Er zijn geen verborgen bestanden.',
+'uploadstash-badtoken' => 'Het uitvoeren van de handeling is mislukt. Dit komt mogelijk doordat uw bewerkingsreferenties zijn verlopen. Probeer het opnieuw.',
+'uploadstash-errclear' => 'Het verwijderen van de bestanden is mislukt.',
+'uploadstash-refresh'  => 'Lijst met bestanden bijwerken',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Toegang geweigerd',
@@ -3045,8 +3063,7 @@ Meestal wordt dit door een externe verwijzing op een zwarte lijst veroorzaakt.',
 'math_unknown_function' => 'onbekende functie',
 'math_lexing_error'     => 'lexicografische fout',
 'math_syntax_error'     => 'syntactische fout',
-'math_image_error'      => 'PNG-omzetting is mislukt.
-Ga na of latex, dvips en gs correct geïnstalleerd zijn en zet om',
+'math_image_error'      => 'De PNG-omzetting is mislukt. Controleer of LaTeX en dvipng (of dvips + gs + convert) correct zijn geïnstalleerd.',
 'math_bad_tmpdir'       => 'De map voor tijdelijke bestanden voor wiskundige formules bestaat niet of kan niet gemaakt worden',
 'math_bad_output'       => 'De map voor bestanden met wiskundige formules bestaat niet of kan niet gemaakt worden.',
 'math_notexvc'          => 'Kan het programma texvc niet vinden; stel alles in volgens de beschrijving in math/README.',
@@ -3723,14 +3740,5 @@ Als de gebruiker op dit moment is aangemeld, wordt deze per direct afgemeld.
 'disableaccount-nosuchuser'  => 'De gebruiker "$1" bestaat niet.',
 'disableaccount-success'     => 'De gebruiker "$1" is permanent uitgeschakeld.',
 'disableaccount-logentry'    => 'heeft de gebruiker [[$1]] permanent uitgeschakeld',
-
-# Special:UploadStash
-'uploadstash'          => 'Verborgen uploads',
-'uploadstash-summary'  => 'Deze pagina biedt toegang tot bestanden die geüpload zijn of nog geüpload worden maar nog niet beschikbaar gemaakt zijn in de wiki. Deze bestanden zijn alleen zichtbaar voor de gebruiker die ze uploadt.',
-'uploadstash-clear'    => 'Verborgen bestanden weggooien',
-'uploadstash-nofiles'  => 'Er zijn geen verborgen bestanden.',
-'uploadstash-badtoken' => 'Het uitvoeren van de handeling is mislukt. Dit komt mogelijk doordat uw bewerkingsreferenties zijn verlopen. Probeer het opnieuw.',
-'uploadstash-errclear' => 'Het verwijderen van de bestanden is mislukt.',
-'uploadstash-refresh'  => 'Lijst met bestanden bijwerken',
 
 );

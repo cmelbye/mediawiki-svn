@@ -10,6 +10,7 @@
  * @author Beau
  * @author Derbeth
  * @author Equadus
+ * @author Fizykaa
  * @author Herr Kriss
  * @author Holek
  * @author Jwitos
@@ -426,6 +427,7 @@ $messages = array(
 'printableversion'  => 'Wersja do druku',
 'permalink'         => 'Link do tej wersji',
 'print'             => 'Drukuj',
+'view'              => 'Podgląd',
 'edit'              => 'Edytuj',
 'create'            => 'Utwórz',
 'editthispage'      => 'Edytuj tę stronę',
@@ -433,6 +435,7 @@ $messages = array(
 'delete'            => 'Usuń',
 'deletethispage'    => 'Usuń tę stronę',
 'undelete_short'    => 'odtwórz {{PLURAL:$1|1 wersję|$1 wersje|$1 wersji}}',
+'viewdeleted_short' => 'Podgląd {{PLURAL:$1|usuniętej|$1 usuniętych}} wersji',
 'protect'           => 'Zabezpiecz',
 'protect_change'    => 'zmień',
 'protectthispage'   => 'Zabezpiecz tę stronę',
@@ -517,6 +520,8 @@ $1',
 'toc'                     => 'Spis treści',
 'showtoc'                 => 'pokaż',
 'hidetoc'                 => 'ukryj',
+'collapsible-collapse'    => 'Zwiń',
+'collapsible-expand'      => 'Rozwiń',
 'thisisdeleted'           => 'Pokazać lub odtworzyć $1?',
 'viewdeleted'             => 'Zobacz $1',
 'restorelink'             => '{{PLURAL:$1|jedną usuniętą wersję|$1 usunięte wersje|$1 usuniętych wersji}}',
@@ -684,7 +689,7 @@ Sprawdź poprawność pisowni.',
 'wrongpasswordempty'         => 'Wprowadzone hasło jest puste. Spróbuj ponownie.',
 'passwordtooshort'           => 'Hasło musi mieć co najmniej $1 {{PLURAL:$1|znak|znaki|znaków}}.',
 'password-name-match'        => 'Hasło musi być inne niż nazwa użytkownika.',
-'password-too-weak'          => 'Wprowadzone hasło nie może zostać użyte ponieważ jest zbyt proste.',
+'password-login-forbidden'   => 'Wykorzystanie tej nazwy użytkownika lub hasła zostało zabronione.',
 'mailmypassword'             => 'Wyślij mi nowe hasło poprzez e‐mail',
 'passwordremindertitle'      => 'Nowe tymczasowe hasło do {{GRAMMAR:D.lp|{{SITENAME}}}}',
 'passwordremindertext'       => 'Ktoś (prawdopodobnie Ty, spod adresu IP $1)
@@ -1377,6 +1382,10 @@ Umożliwi również innym użytkownikom skontaktowanie się z Tobą poprzez odpo
 'prefs-displaywatchlist'        => 'Opcje wyświetlania',
 'prefs-diffs'                   => 'Zmiany',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Wygląda na prawidłowy',
+'email-address-validity-invalid' => 'Wymagany jest prawidłowy adres!',
+
 # User rights
 'userrights'                   => 'Zarządzaj uprawnieniami użytkowników',
 'userrights-lookup-user'       => 'Zarządzaj grupami użytkownika',
@@ -1723,6 +1732,15 @@ Jeśli problem będzie się powtarzał, skontaktuj się z [[Special:ListUsers/sy
 'upload-too-many-redirects' => 'URL zawiera zbyt wiele przekierowań',
 'upload-unknown-size'       => 'Nieznany rozmiar',
 'upload-http-error'         => 'Wystąpił błąd protokołu HTTP – $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Ukryte przesyłanie',
+'uploadstash-summary'  => 'Ta strona umożliwia dostęp do przesłanych lub właśnie przesyłanych plików, ale jeszcze nie opublikowanych na wiki. Pliki widzi wyłącznie użytkownik, które je przesłał.',
+'uploadstash-clear'    => 'Wyczyść ukryte pliki',
+'uploadstash-nofiles'  => 'Nie masz żadnych ukrytych plików.',
+'uploadstash-badtoken' => 'Operacja nie powiodła się. Możliwą przyczyną jest, że Twoje upoważnienie do edytowania wygasło. Spróbuj ponownie.',
+'uploadstash-errclear' => 'Czyszczenie plików nie powiodło się.',
+'uploadstash-refresh'  => 'Odśwież listę plików',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Odmowa dostępu',
@@ -2895,8 +2913,7 @@ Najprawdopodobniej zostało to spowodowane przez link do zewnętrznej strony int
 'math_unknown_function' => 'nieznana funkcja',
 'math_lexing_error'     => 'błędna nazwa',
 'math_syntax_error'     => 'błąd składni',
-'math_image_error'      => 'Konwersja do formatu PNG nie powiodła się.
-Sprawdź, czy poprawnie zainstalowane są latex, dvips, gs i convert.',
+'math_image_error'      => 'Konwersja z lub do formatu PNG nie powiodła się. Sprawdź, czy poprawnie zainstalowane są latex i dvipng (lub dvips, gs i convert)',
 'math_bad_tmpdir'       => 'Nie można utworzyć lub zapisywać w tymczasowym katalogu dla wzorów matematycznych',
 'math_bad_output'       => 'Nie można utworzyć lub zapisywać w wyjściowym katalogu dla wzorów matematycznych',
 'math_notexvc'          => 'Brak programu texvc.
@@ -3609,14 +3626,5 @@ Jeśli użytkownik jest obecnie gdziekolwiek zalogowany, zostanie natychmiast wy
 'disableaccount-nosuchuser'  => 'Brak konta użytkownika „$1”.',
 'disableaccount-success'     => 'Konto użytkownika „$1” zostało trwale wyłączone.',
 'disableaccount-logentry'    => 'trwale wyłączył konto użytkownika [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Ukryte przesyłanie',
-'uploadstash-summary'  => 'Ta strona umożliwia dostęp do przesłanych lub właśnie przesyłanych plików, ale jeszcze nie opublikowanych na wiki. Pliki widzi wyłącznie użytkownik, które je przesłał.',
-'uploadstash-clear'    => 'Wyczyść ukryte pliki',
-'uploadstash-nofiles'  => 'Nie masz żadnych ukrytych plików.',
-'uploadstash-badtoken' => 'Operacja nie powiodła się. Możliwą przyczyną jest, że Twoje upoważnienie do edytowania wygasło. Spróbuj ponownie.',
-'uploadstash-errclear' => 'Czyszczenie plików nie powiodło się.',
-'uploadstash-refresh'  => 'Odśwież listę plików',
 
 );

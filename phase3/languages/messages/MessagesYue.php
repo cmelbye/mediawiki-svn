@@ -1,5 +1,5 @@
 <?php
-/** Cantonese (粵語)
+/** Cantonese (粵語/廣東話)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -334,6 +334,7 @@ $messages = array(
 'printableversion'  => '可打印版本',
 'permalink'         => '永久連結',
 'print'             => '印',
+'view'              => '去睇',
 'edit'              => '改',
 'create'            => '建立',
 'editthispage'      => '編輯呢頁',
@@ -341,6 +342,7 @@ $messages = array(
 'delete'            => '刪除',
 'deletethispage'    => '刪除呢頁',
 'undelete_short'    => '反刪除$1次修改',
+'viewdeleted_short' => '去睇$1次刪除咗嘅修改',
 'protect'           => '保護',
 'protect_change'    => '改',
 'protectthispage'   => '保護呢頁',
@@ -424,6 +426,8 @@ $1',
 'toc'                     => '目錄',
 'showtoc'                 => '展開',
 'hidetoc'                 => '收埋',
+'collapsible-collapse'    => '摺埋',
+'collapsible-expand'      => '展開',
 'thisisdeleted'           => '睇下定係還原 $1 ？',
 'viewdeleted'             => '去睇$1？',
 'restorelink'             => '$1 次已刪除嘅編輯',
@@ -566,6 +570,8 @@ $1',
 'createaccounterror'         => '開唔到戶口：$1',
 'nocookiesnew'               => '已經開咗戶口，但你未登入。 {{SITENAME}} 要用 cookies 嚟登入。你已經熄咗佢。請你開咗再試。',
 'nocookieslogin'             => '{{SITENAME}} 登入要開 cookies。熄咗佢。請你開咗再試。',
+'nocookiesfornew'            => '呢位用戶嘅戶開未開，我哋唔能夠確認佢嘅來源。
+請肯定你已經開咗 cookies，重新載入再試。',
 'noname'                     => '你未指定一個有效嘅用戶名。',
 'loginsuccesstitle'          => '登入成功',
 'loginsuccess'               => "'''「$1」登入咗{{SITENAME}}。'''",
@@ -579,7 +585,7 @@ $1',
 'wrongpasswordempty'         => '你都未入密碼，唔該再試多次啦。',
 'passwordtooshort'           => '你嘅密碼最少要有$1個半形字元。',
 'password-name-match'        => '你嘅密碼一定要同你嘅用戶名唔一樣。',
-'password-too-weak'          => '所提供嘅密碼太弱唔用得。',
+'password-login-forbidden'   => '呢啲用戶名同密碼嘅利用係被禁止嘅。',
 'mailmypassword'             => '寄個新密碼',
 'passwordremindertitle'      => '{{SITENAME}}嘅新臨時密碼',
 'passwordremindertext'       => '有人（可能係你，IP 位置 $1）
@@ -1570,6 +1576,15 @@ $1',
 'upload-unknown-size'       => '未知嘅大細',
 'upload-http-error'         => '一個HTTP錯誤發生咗: $1',
 
+# Special:UploadStash
+'uploadstash'          => '上載貯藏',
+'uploadstash-summary'  => '呢一版提供已經上載咗（或者上載緊）但係重未發佈到wiki嘅檔案存取。呢啲檔案除咗係上載佢哋嘅用戶之外其他人都會睇唔到。',
+'uploadstash-clear'    => '清除貯藏檔案',
+'uploadstash-nofiles'  => '你冇貯藏咗嘅檔案。',
+'uploadstash-badtoken' => '進行呢個動作唔成功，或者你嘅編輯資訊已經過咗期。再試吓喇。',
+'uploadstash-errclear' => '清除檔案唔成功。',
+'uploadstash-refresh'  => '更新檔案清單',
+
 # img_auth script messages
 'img-auth-accessdenied' => '拒絕通行',
 'img-auth-nopathinfo'   => 'PATH_INFO唔見咗。
@@ -1825,6 +1840,7 @@ Template:搞清楚',
 'pager-newer-n'           => '新$1次',
 'pager-older-n'           => '舊$1次',
 'suppress'                => '監督',
+'querypage-disabled'      => '呢個特別版基於效能嘅原因停用咗。',
 
 # Book sources
 'booksources'               => '書籍來源',
@@ -3240,6 +3256,7 @@ $1',
 'version-specialpages'             => '特別頁',
 'version-parserhooks'              => '語法鈎',
 'version-variables'                => '變數',
+'version-antispam'                 => '垃圾防止',
 'version-skins'                    => '畫面',
 'version-other'                    => '其它',
 'version-mediahandlers'            => '媒體處理器',
@@ -3375,14 +3392,5 @@ MediaWiki是基於使用目的而加以發佈，但係就唔會負上任何嘅�
 'disableaccount-nosuchuser'  => '用戶戶口 "$1" 唔存在。',
 'disableaccount-success'     => '用戶戶口 "$1" 已經永久停用咗。',
 'disableaccount-logentry'    => '永久停用咗用戶戶口[[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => '上載貯藏',
-'uploadstash-summary'  => '呢一版提供已經上載咗（或者上載緊）但係重未發佈到wiki嘅檔案存取。呢啲檔案除咗係上載佢哋嘅用戶之外其他人都會睇唔到。',
-'uploadstash-clear'    => '清除貯藏檔案',
-'uploadstash-nofiles'  => '你冇貯藏咗嘅檔案。',
-'uploadstash-badtoken' => '進行呢個動作唔成功，或者你嘅編輯資訊已經過咗期。再試吓喇。',
-'uploadstash-errclear' => '清除檔案唔成功。',
-'uploadstash-refresh'  => '更新檔案清單',
 
 );

@@ -15,6 +15,7 @@
  * @author Manie
  * @author Naudefj
  * @author Purodha
+ * @author Reedy
  * @author SPQRobin
  * @author Spacebirdy
  */
@@ -394,6 +395,7 @@ $messages = array(
 'printableversion'  => 'Drukbare weergawe',
 'permalink'         => 'Permanente skakel',
 'print'             => 'Druk',
+'view'              => 'Wys',
 'edit'              => 'Wysig',
 'create'            => 'Skep',
 'editthispage'      => 'Wysig hierdie bladsy',
@@ -401,6 +403,7 @@ $messages = array(
 'delete'            => 'Skrap',
 'deletethispage'    => 'Skrap die bladsy',
 'undelete_short'    => 'Herstel {{PLURAL:$1|een wysiging|$1 wysigings}}',
+'viewdeleted_short' => 'Wys {{PLURAL:$1|een geskrapte wysiging|$1 geskrapte wysigings}}',
 'protect'           => 'Beskerm',
 'protect_change'    => 'wysig',
 'protectthispage'   => 'Beskerm hierdie bladsy',
@@ -484,6 +487,8 @@ $1",
 'toc'                     => 'Inhoud',
 'showtoc'                 => 'wys',
 'hidetoc'                 => 'versteek',
+'collapsible-collapse'    => 'Vou toe',
+'collapsible-expand'      => 'Vou oop',
 'thisisdeleted'           => 'Bekyk of herstel $1?',
 'viewdeleted'             => 'Bekyk $1?',
 'restorelink'             => '{{PLURAL:$1|die geskrapte wysiging|$1 geskrapte wysigings}}',
@@ -636,6 +641,8 @@ Kies asseblief 'n ander naam.",
 U rekenaar laat tans nie koekies toe nie.
 Stel u rekenaar om dit te aanvaar, dan kan u met u nuwe naam en wagwoord inteken.',
 'nocookieslogin'             => '{{SITENAME}} gebruik koekies vir die aanteken van gebruikers, maar u blaaier laat dit nie toe nie. Skakel dit asseblief aan en probeer weer.',
+'nocookiesfornew'            => 'Die gebruiker is nie geskep nie omdat die oorsprong nie bevestig kon word nie.
+Maak seker dat u koekies aangeskakel het, herlaai die bladsy en probeer dan weer.',
 'noname'                     => 'Ongeldige gebruikersnaam.',
 'loginsuccesstitle'          => 'Suksesvolle intekening',
 'loginsuccess'               => 'U is nou by {{SITENAME}} as "$1" ingeteken.',
@@ -650,7 +657,7 @@ Intekening word verbied.',
 'wrongpasswordempty'         => 'Die wagwoord was leeg. Probeer asseblief weer.',
 'passwordtooshort'           => 'Wagwoorde moet ten minste {{PLURAL:$1|1 karakter|$1 karakters}} lank wees.',
 'password-name-match'        => 'U wagwoord mag nie dieselfde as u gebruikersnaam wees nie.',
-'password-too-weak'          => 'Die verskafde wagwoord is te onveilig en kan nie gebruik word nie.',
+'password-login-forbidden'   => 'Die gebruik van hierdie gebruikersnaam en wagwoord is geweier.',
 'mailmypassword'             => "E-pos my 'n nuwe wagwoord",
 'passwordremindertitle'      => 'Wagwoordwenk van {{SITENAME}}',
 'passwordremindertext'       => 'Iemand (waarskynlik u vanaf IP-adres $1) het \'n nuwe wagwoord vir {{SITENAME}} ($4) gevra. \'n Tydelike wagwoord is vir gebruiker "$2" geskep. Die nuwe wagwoord is "$3". U kan met die tydelike wagwoord aanteken en \'n nuwe wagwoord stel. Die tydelike wagwoord sal na {{PLURAL:$5|een dag|$5 dae}} verval.
@@ -1218,7 +1225,7 @@ U kan ook 'n naamruimte as voorvoegsel gebruik.",
 'mypreferences'                 => 'My voorkeure',
 'prefs-edits'                   => 'Aantal wysigings:',
 'prefsnologin'                  => 'Nie ingeteken nie',
-'prefsnologintext'              => 'U moet <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aanteken] om voorkeure te kan verander.',
+'prefsnologintext'              => 'U moet <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} aanteken]</span> om voorkeure te kan verander.',
 'changepassword'                => 'Verander wagwoord',
 'prefs-skin'                    => 'Omslag',
 'skin-preview'                  => 'Voorskou',
@@ -1674,6 +1681,15 @@ As daar steeds probleme is, kontak 'n [[Special:ListUsers/sysop|administrateur]]
 'upload-unknown-size'       => 'Onbekende grootte',
 'upload-http-error'         => "'n HTTP-fout het voorgekom: $1",
 
+# Special:UploadStash
+'uploadstash'          => 'Verborge oplaaie',
+'uploadstash-summary'  => 'Die bladsy wys lêers wat opgelaai is (of tans opgelaai word), maar nog nie op die wiki gepubliseer is nie. Hierdie lêers is slegs vir die gebruikers wat hulle opgelaai het sigbaar.',
+'uploadstash-clear'    => 'Gooi verborge lêers weg',
+'uploadstash-nofiles'  => 'U het geen verborge lêers nie.',
+'uploadstash-badtoken' => 'Uitvoering van die aksie het misluk, moontlik omdat u "editing credentials" verstryk het. Probeer asseblief weer.',
+'uploadstash-errclear' => 'Die skoonmaak van lêers het misluk.',
+'uploadstash-refresh'  => 'Verfris die lys van lêers',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Toegang geweier',
 'img-auth-nopathinfo'   => 'PATH_INFO word vermis.
@@ -1934,6 +1950,7 @@ Dit is dus moontlik dat 'n lêer hier gelys word terwyl dit tog in gebruik is.",
 'pager-newer-n'           => '{{PLURAL:$1|nuwer 1|nuwer $1}}',
 'pager-older-n'           => '{{PLURAL:$1|ouer 1|ouer $1}}',
 'suppress'                => 'Toesig',
+'querypage-disabled'      => 'Hierdie spesiale bladsy is afgeskakel om werkverrigting te verbeter (bediener is oorlaai).',
 
 # Book sources
 'booksources'               => 'Boekbronne',
@@ -2514,6 +2531,16 @@ Let daarop dat 'n bladsy '''nie''' geskuif sal word indien daar reeds 'n bladsy 
 <b>WAARSKUWING!</b>
 Hierdie kan 'n drastiese en onverwagte verandering vir 'n gewilde bladsy wees;
 maak asseblief seker dat u die gevolge van hierdie aksie verstaan voordat u voortgaan. Gebruik ook die ooreenstemmende besprekingsbladsy om oorleg te pleeg met ander bydraers.",
+'movepagetext-noredirectfixer' => "Die vorm hier onder hernoem 'n bladsy en skuif sy hele wysigingsgeskiedenis na die nuwe naam.
+Die ou bladsy sal vervang word met 'n aanstuurblad na die nuwe titel.
+Wees asseblief op die uitkyk vir vir [[Special:DoubleRedirects|dubbele]] of [[Special:BrokenRedirects|stukkende aansture]].
+Dit is u verantwoordelikheid om seker te maak dat skakels steeds wys na waarheen hulle behoort te gaan.
+
+Let daarop dat 'n bladsy '''nie''' geskuif sal word indien daar reeds 'n bladsy met dieselfde titel bestaan nie, tensy dit leeg of 'n aanstuurbladsy is en geen wysigingsgeskiedenis het nie. Dit beteken dat u 'n bladsy kan terugskuif na sy ou titel indien u 'n fout begaan het, maar u kan nie 'n bestaande bladsy oorskryf nie.
+
+<b>WAARSKUWING!</b>
+Hierdie kan 'n drastiese en onverwagte verandering vir 'n gewilde bladsy wees;
+maak asseblief seker dat u die gevolge van hierdie aksie verstaan voordat u voortgaan.",
 'movepagetalktext'             => "Die ooreenstemmende besprekingsblad sal outomaties saam geskuif word, '''tensy:'''
 *'n Besprekengsblad met die nuwe naam reeds bestaan, of
 *U die keuse hier onder deselekteer.
@@ -3323,6 +3350,7 @@ U kan ook die [[Special:Watchlist/edit|standaard opdaterigskerm gebruik]].',
 'version-specialpages'             => 'Spesiale bladsye',
 'version-parserhooks'              => 'Ontlederhoeke',
 'version-variables'                => 'Veranderlikes',
+'version-antispam'                 => 'Spam-voorkoming',
 'version-skins'                    => 'Omslae',
 'version-other'                    => 'Ander',
 'version-mediahandlers'            => 'Mediaverwerkers',
@@ -3450,12 +3478,13 @@ Verskaf die lêernaam sonder die "{{ns:file}}:" voorvoegsel.',
 'disableaccount'             => "Deaktiveer 'n gebruiker",
 'disableaccount-user'        => 'Gebruikernaam:',
 'disableaccount-reason'      => 'Rede:',
+'disableaccount-confirm'     => "Deaktiveer hierdie gebruiker.
+Die gebruiker sal nie langer kan aanmeld, sy wagwoord herstel, of e-pos ontvang nie.
+As die gebruiker tans aangeteken is, sal hy onmiddellik uitgeteken word.
+''Let daarop die aksie nie sonder die hulp van 'n administrateur omgekeer kan word nie.''",
 'disableaccount-mustconfirm' => 'U moet bevestig dat u hierdie gebruiker wil deaktiveer.',
 'disableaccount-nosuchuser'  => 'Die gebruiker "$1" bestaan nie.',
 'disableaccount-success'     => 'Die gebruiker "$1" is permanent gedeaktiveer.',
 'disableaccount-logentry'    => 'het die gebruiker [[$1]] permanent gedeaktiveer',
-
-# Special:UploadStash
-'uploadstash-refresh' => 'Verfris die lys van lêers',
 
 );

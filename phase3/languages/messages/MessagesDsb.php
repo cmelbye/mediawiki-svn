@@ -344,6 +344,7 @@ $messages = array(
 'printableversion'  => 'Wersija za śišć',
 'permalink'         => 'Wobstawny wótkaz',
 'print'             => 'Śišćaś',
+'view'              => 'Woglědaś se',
 'edit'              => 'wobźěłaś',
 'create'            => 'Wuźěłaś',
 'editthispage'      => 'Bok wobźěłaś',
@@ -351,6 +352,7 @@ $messages = array(
 'delete'            => 'Wulašowaś',
 'deletethispage'    => 'Toś ten bok wulašowaś',
 'undelete_short'    => '{{PLURAL:$1|1 wersiju|$1 wersiji|$1 wersije}} nawrośiś.',
+'viewdeleted_short' => '{{PLURAL:$1|jadnu wulašowanu změnu|$1 wulašowanej změnje|$1 wulašowane změny|$1 wulašowanych změnow}} se woglědaś',
 'protect'           => 'Šćitaś',
 'protect_change'    => 'změniś',
 'protectthispage'   => 'Bok šćitaś',
@@ -434,6 +436,8 @@ $1',
 'toc'                     => 'Wopśimjeśe',
 'showtoc'                 => 'pokazaś',
 'hidetoc'                 => 'schowaś',
+'collapsible-collapse'    => 'Schowaś',
+'collapsible-expand'      => 'Pokazaś',
 'thisisdeleted'           => '$1 woglědaś abo wobnowiś?',
 'viewdeleted'             => '$1 pokazaś?',
 'restorelink'             => '{{PLURAL:$1|1 wulašowana wersija|$1 wulašowanej wersiji|$1 wulašowane wersije}}',
@@ -589,7 +593,7 @@ Pśeglěduj pšawopis abo [[Special:UserLogin/signup|załož nowe konto]].',
 'wrongpasswordempty'         => 'Šćitne gronidło jo było prozne. Pšosym zapódaj jo hyšći raz.',
 'passwordtooshort'           => 'Gronidła deje nanejmjenjej {{PLURAL:$|1 znamuško|$1 znamušce|$1 znamuška|$1 znamuškow}} měś.',
 'password-name-match'        => 'Twójo gronidło musy se wót swójogo wužywarskego mjenja rozeznaś.',
-'password-too-weak'          => 'Pódane gronidło jo pśesłabe a njedajo se wužywaś.',
+'password-login-forbidden'   => 'Wužywanje toś togo wužywarskego mjenja a gronidła jo zakazane.',
 'mailmypassword'             => 'Nowe gronidło pśipósłaś',
 'passwordremindertitle'      => 'Nowe nachylne pótajmne słowo za {{SITENAME}}',
 'passwordremindertext'       => 'Něchten z IP-adresu $1 (nejskerjej ty) jo se wupšosył nowe gronidło za {{SITENAME}} ($4).
@@ -1242,6 +1246,10 @@ Móžoš toś ten bok wužywaś, aby slědk stajił swóje nastajenja na standar
 'prefs-displaywatchlist'        => 'Zwobraznjowańske opcije',
 'prefs-diffs'                   => 'Rozdźěle',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Zda se, až e-mailowa adresa jo płaśiwa',
+'email-address-validity-invalid' => 'Zapódaj płaśiwu e-mailowu adresu',
+
 # User rights
 'userrights'                   => 'Zastojanje wužywarskich pšawow',
 'userrights-lookup-user'       => 'Wužywarske kupki zastojaś',
@@ -1580,6 +1588,15 @@ $1',
 'upload-too-many-redirects' => 'URL jo pśewjele dalejpósrědnjenja wopśimjeł',
 'upload-unknown-size'       => 'Njeznata wjelikosć',
 'upload-http-error'         => 'HTTP-zmólka nastata: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Schowanje nagratych datajow',
+'uploadstash-summary'  => 'Toś ten bok zmóžnja dostup do datajow, kótarež su nagrate (abo so nagrawaju), ale hyšći njejsu do wikija wózjawjone. Toś te dataje njejsu widobne za nikogo, mimo až za wužywarja, kótaryž jo je nagrał.',
+'uploadstash-clear'    => 'Schowane nagrate dataje wulašowaś',
+'uploadstash-nofiles'  => 'Njamaš schowane nagrate dataje.',
+'uploadstash-badtoken' => 'Wuwjeźenje teje akcije jo se njeraźiło, snaź dokulaž twóje wobźěłowańske daty su spadnjone. Wopytaj hyšći raz.',
+'uploadstash-errclear' => 'Wótpóranje datajow jo se njeraźiło.',
+'uploadstash-refresh'  => 'Lisćinu datajow aktualizěrowaś',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Pśistup zawobarany',
@@ -2685,7 +2702,7 @@ W zespominanju dajo se pśicyna pódaś.',
 'math_unknown_function' => 'njeznata funkcija',
 'math_lexing_error'     => 'leksikaliska zmólka',
 'math_syntax_error'     => 'syntaktiska zmólka',
-'math_image_error'      => 'PNG-konwertěrowanje njejo se raźiło. Glědaj, lic su latex, dvips gs abo konwertěruj pšawje instalěrowane.',
+'math_image_error'      => 'PNG-konwertěrowanje njejo se raźiło; pśekontrolěruj korektnu instalaciju latex a dvipng (abo dvips + gs + konwertěruj)',
 'math_bad_tmpdir'       => 'Njejo móžno temporarny zapisk za matematiske formule załožyś resp. do njogo pisaś.',
 'math_bad_output'       => 'Njejo móžno celowy zapisk za matematiske formule załožyś resp. do njogo pisaś.',
 'math_notexvc'          => 'Program texvc felujo. Pšosym glědaj do math/README.',
@@ -3330,14 +3347,5 @@ Jolic wužywaŕ jo tuchylu hynźi pśizjawjony, buźo se ned wótzjawiś.
 'disableaccount-nosuchuser'  => 'Wužywaŕ konto "$1" njeeksistěrujo.',
 'disableaccount-success'     => 'Wužywarske konto "$1" jo se na pśecej znjemóžniło.',
 'disableaccount-logentry'    => 'jo wužywarske konto [[$1]] na pśecej znjemóžnił',
-
-# Special:UploadStash
-'uploadstash'          => 'Schowanje nagratych datajow',
-'uploadstash-summary'  => 'Toś ten bok zmóžnja dostup do datajow, kótarež su nagrate (abo so nagrawaju), ale hyšći njejsu do wikija wózjawjone. Toś te dataje njejsu widobne za nikogo, mimo až za wužywarja, kótaryž jo je nagrał.',
-'uploadstash-clear'    => 'Schowane nagrate dataje wulašowaś',
-'uploadstash-nofiles'  => 'Njamaš schowane nagrate dataje.',
-'uploadstash-badtoken' => 'Wuwjeźenje teje akcije jo se njeraźiło, snaź dokulaž twóje wobźěłowańske daty su spadnjone. Wopytaj hyšći raz.',
-'uploadstash-errclear' => 'Wótpóranje datajow jo se njeraźiło.',
-'uploadstash-refresh'  => 'Lisćinu datajow aktualizěrowaś',
 
 );

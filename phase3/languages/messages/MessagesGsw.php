@@ -303,6 +303,7 @@ $messages = array(
 'printableversion'  => 'Druck-Aasicht',
 'permalink'         => 'Bschtändigi URL',
 'print'             => 'Drucke',
+'view'              => 'Aaluege',
 'edit'              => 'Ändere',
 'create'            => 'Erstelle',
 'editthispage'      => 'Syte bearbeite',
@@ -310,6 +311,7 @@ $messages = array(
 'delete'            => 'Lösche',
 'deletethispage'    => 'Syte lösche',
 'undelete_short'    => '{{PLURAL:$1|1 Version|$1 Versione}} widerherstelle',
+'viewdeleted_short' => '{{PLURAL:$1|ei gleschti Änderig|$1 gleschti Ändrige}} aaluege',
 'protect'           => 'Schütze',
 'protect_change'    => 'ändere',
 'protectthispage'   => 'Artikel schütze',
@@ -394,9 +396,11 @@ Di maximal Wartezyt fir e Lock isch umme',
 'toc'                     => 'Inhaltsverzeichnis',
 'showtoc'                 => 'ufklappe',
 'hidetoc'                 => 'zueklappe',
+'collapsible-collapse'    => 'zueklappe',
+'collapsible-expand'      => 'ufklappe',
 'thisisdeleted'           => 'Aaluege oder widerherstelle vu $1?',
 'viewdeleted'             => '$1 aaluege?',
-'restorelink'             => '{{PLURAL:$1|glöschti Änderig|$1 glöschti Ändrige}}',
+'restorelink'             => '{{PLURAL:$1|gleschti Änderig|$1 gleschti Ändrige}}',
 'feedlinks'               => 'Feed:',
 'feed-invalid'            => 'Nit giltige Abonnement-Typ.',
 'feed-unavailable'        => 'S stehn keini Feeds z Verfiegig.',
@@ -554,7 +558,7 @@ Iberprief d Schrybwys, oder mäld Di as [[Special:UserLogin/signup|neje Benutzer
 'wrongpasswordempty'         => 'Du hesch vergässe dyy Passwort yyzgee. Bitte versuech s nomol.',
 'passwordtooshort'           => 'Passwerter mien zmindescht {{PLURAL:$1|1 Zeiche|$1 Zeiche}} haa.',
 'password-name-match'        => 'Dyy Passwort muess sich vu Dyynem Benutzername unterscheide.',
-'password-too-weak'          => 'D Passwort isch z schwach un cha nit brucht wäre.',
+'password-login-forbidden'   => 'D Verwändig vu däm Benutzernamen un Passwort isch verbotte.',
 'mailmypassword'             => 'Es nöis Passwort schicke',
 'passwordremindertitle'      => 'Nei Passwort fir {{SITENAME}}',
 'passwordremindertext'       => 'Ebber mit dr IP-Adress $1 het e nej Passwort fir d Aamäldig bi {{SITENAME}} ($4) aagfordert, wahrschyyns Du sälber.
@@ -1232,6 +1236,10 @@ Des cha nimmi ruckgängig gmacht wäre.',
 'prefs-displaywatchlist'        => 'Aazeigoptione',
 'prefs-diffs'                   => 'Versionsverglych',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Siht giltig uus',
+'email-address-validity-invalid' => 'S brucht e giltigi Adräss!',
+
 # User rights
 'userrights'                   => 'Benutzerrächtsverwaltig',
 'userrights-lookup-user'       => 'Verwalt d Gruppezuegherigkeit',
@@ -1560,6 +1568,15 @@ Wänn s Problem alno uftritt, informier e [[Special:ListUsers/sysop|Ammann]].',
 'upload-too-many-redirects' => 'In dr URL het s zvyl Wyterleitige',
 'upload-unknown-size'       => 'Nit bekannti Greßi',
 'upload-http-error'         => 'E HTTP-Fähler isch ufträtte: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Vorabspycherig binm Uffelade',
+'uploadstash-summary'  => 'Die Syte macht dr Zuegriff uf Dateie megli, wu uffeglade wore sin (oder grad uffeglade wäre), wu aber nonig uf em Wiki publiziert wore sin. Die Dateie cha no niemer aaluege, ußer däjenig, wu si uffelade duet.',
+'uploadstash-clear'    => 'Di vorab gspycherete Dateie uuseneh',
+'uploadstash-nofiles'  => 'S git keini vorab gspycherete Dateie.',
+'uploadstash-badtoken' => 'S Uuseneh vu dr vorab gspycherete Dateien isch fählgschlaa, villicht wel d Sitzigsdaten abglofe sin. Bitte versuech s nomol.',
+'uploadstash-errclear' => 'S Uuseneh vu dr vorab gspycherete Dateie isch fählgschlaa.',
+'uploadstash-refresh'  => 'Lischt vu dr Dateie aktualisiere',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Zuegriff verweigeret',
@@ -2646,8 +2663,7 @@ Alli Transwiki-Import-Aktione werde im [[Special:Log/import|Import-Logbuech]] pr
 'math_unknown_function' => 'Nit bekannti Funktion',
 'math_lexing_error'     => "'Lexing'-Fähler",
 'math_syntax_error'     => 'Syntaxfähler',
-'math_image_error'      => 'd PNG-Konvertierig het nit funktioniert;
-prief di korrekt Installation vu latex, dvips, gs un convert',
+'math_image_error'      => 'D PNG-Konvertierig het nit funktioniert; prief di korrekt Installation vu LaTeX un dvipng (oder dvips + gs + convert)',
 'math_bad_tmpdir'       => 'S temporär Verzeichnis fir mathematischi Formle cha nit aagleit oder bschribe wäre.',
 'math_bad_output'       => 'S Ziilverzeichnis fir mathematischi Formle cha nit aagleit oder bschribe wäre.',
 'math_notexvc'          => 'S texvc-Programm isch nit gfunde wore. Bitte acht gee uf math/README.',
@@ -3291,14 +3307,5 @@ Wänn dr Benutzer grad aagmäldet isch, wird er sofort abgmäldet.
 'disableaccount-nosuchuser'  => 'Dr Benutzer „$1“ git s nit.',
 'disableaccount-success'     => 'S Benutzerkonto „$1“ isch fir immer deaktiviert wore.',
 'disableaccount-logentry'    => 'het s Benutzerkonto [[$1]] fir immer deaktiviert',
-
-# Special:UploadStash
-'uploadstash'          => 'Vorabspycherig binm Uffelade',
-'uploadstash-summary'  => 'Die Syte macht dr Zuegriff uf Dateie megli, wu uffeglade wore sin (oder grad uffeglade wäre), wu aber nonig uf em Wiki publiziert wore sin. Die Dateie cha no niemer aaluege, ußer däjenig, wu si uffelade duet.',
-'uploadstash-clear'    => 'Di vorab gspycherete Dateie uuseneh',
-'uploadstash-nofiles'  => 'S git keini vorab gspycherete Dateie.',
-'uploadstash-badtoken' => 'S Uuseneh vu dr vorab gspycherete Dateien isch fählgschlaa, villicht wel d Sitzigsdaten abglofe sin. Bitte versuech s nomol.',
-'uploadstash-errclear' => 'S Uuseneh vu dr vorab gspycherete Dateie isch fählgschlaa.',
-'uploadstash-refresh'  => 'Lischt vu dr Dateie aktualisiere',
 
 );

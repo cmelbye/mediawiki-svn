@@ -76,7 +76,10 @@ CREATE TABLE /*_*/user (
   user_newpassword tinyblob NOT NULL,
 
   -- Timestamp of the last time when a new password was
-  -- sent, for throttling purposes
+  -- sent, for throttling and expiring purposes
+  -- Emailed passwords will expire $wgNewPasswordExpiry
+  -- (a week) after being set. If user_newpass_time is NULL
+  -- (eg. created by mail) it doesn't expire.
   user_newpass_time binary(14),
 
   -- Note: email should be restricted, not public info.
@@ -416,7 +419,7 @@ CREATE TABLE /*_*/archive (
 
 CREATE INDEX /*i*/name_title_timestamp ON /*_*/archive (ar_namespace,ar_title,ar_timestamp);
 CREATE INDEX /*i*/ar_usertext_timestamp ON /*_*/archive (ar_user_text,ar_timestamp);
-CREATE INDEX /*i*/ar_page_revid ON /*_*/archive (ar_namespace, ar_title, ar_rev_id);
+CREATE INDEX /*i*/ar_revid ON /*_*/archive (ar_rev_id);
 
 
 --
@@ -499,6 +502,8 @@ CREATE TABLE /*_*/categorylinks (
   -- concatenated with a null followed by the page title before the sortkey
   -- conversion algorithm is run.  We store this so that we can update
   -- collations without reparsing all pages.
+  -- Note: If you change the length of this field, you also need to change
+  -- code in LinksUpdate.php. See bug 25254.
   cl_sortkey_prefix varchar(255) binary NOT NULL default '',
 
   -- This isn't really used at present. Provided for an optional

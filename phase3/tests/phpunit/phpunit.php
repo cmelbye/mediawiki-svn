@@ -20,6 +20,12 @@ require_once( "$IP/maintenance/commandLine.inc" );
 // Assume UTC for testing purposes
 $wgLocaltimezone = 'UTC';
 
+if( !in_array( '--configuration', $_SERVER['argv'] ) ) {
+	//Hack to eliminate the need to use the Makefile (which sucks ATM)
+	$_SERVER['argv'][] = '--configuration';
+	$_SERVER['argv'][] = $IP . '/tests/phpunit/suite.xml';
+}
+
 require_once( 'PHPUnit/Runner/Version.php' );
 if( version_compare( PHPUnit_Runner_Version::id(), '3.5.0', '>=' ) ) {
 	# PHPUnit 3.5.0 introduced a nice autoloader based on class name
@@ -28,4 +34,7 @@ if( version_compare( PHPUnit_Runner_Version::id(), '3.5.0', '>=' ) ) {
 	# Keep the old pre PHPUnit 3.5.0 behaviour for compatibility
 	require_once( 'PHPUnit/TextUI/Command.php' );
 }
-PHPUnit_TextUI_Command::main();
+
+require_once( "$IP/tests/TestsAutoLoader.php" );
+MediaWikiPHPUnitCommand::main();
+

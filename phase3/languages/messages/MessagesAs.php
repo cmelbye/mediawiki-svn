@@ -12,6 +12,7 @@
  * @author Priyankoo
  * @author Psneog
  * @author Rajuonline
+ * @author Reedy
  * @author Urhixidur
  */
 
@@ -502,7 +503,6 @@ $messages = array(
 'wrongpasswordempty'         => 'দিয়া গুপ্তশব্দতো খালী; অনুগ্ৰহ কৰি আকৌ এবাৰ চেষ্টা কৰক। ।',
 'passwordtooshort'           => "গুপ্তশব্দ কমেও {{PLURAL:$1|১ তা|$1 তা}} আখৰ হ'ব লাগিব ।",
 'password-name-match'        => "আপুনাৰ গুপ্তশব্দ আৰু আপুনাৰ সদস্যনাম বেলেগ হ'ব লাগিব",
-'password-too-weak'          => 'আপুনি দাখিল কৰা গুপ্তশব্দ অতি দুৰ্বল আৰু সেয়ে ব্যবহাৰ উপযোগী নহয়',
 'mailmypassword'             => 'ই-মেইলত গুপ্তশব্দ পঠাওক',
 'passwordremindertitle'      => '{{SITENAME}} ৰ কাৰণে নতুন অস্থায়ী গুপ্তশব্দ',
 'passwordremindertext'       => 'কোনোবাই (হয়তো আপুনি, $1 আই-পি ঠিকনাৰ পৰা)
@@ -654,7 +654,7 @@ $1ৰ দ্বাৰ এই অবৰোধ কৰা হৈছে ।
 'noarticletext'                    => 'এই পৃষ্ঠাত বৰ্তমান কোনো পাঠ্য নাই ।
 আপুনি আন পৃষ্ঠাত [[Special:Search/{{PAGENAME}}| এই শিৰোণামা অনুসন্ধান কৰিব পাৰে]],
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} সম্পৰ্কিয় অভিলেখ অনুসন্ধান কৰিব পাৰে],
-বা [{{fullurl:{{FULLPAGENAME}}|action=edit}} এই পৃষ্ঠা সম্পাদনা কৰিব পাৰে] ।',
+বা [{{fullurl:{{FULLPAGENAME}}|action=edit}} এই পৃষ্ঠা সম্পাদনা কৰিব পাৰে]</span>',
 'userpage-userdoesnotexist-view'   => "সনস্য একাউন্ট ''$1'' পঞ্জীভূত নহয়",
 'note'                             => "'''টোকা:'''",
 'previewnote'                      => "'''মনত ৰাখিব যে এয়া কেৱল খচৰা হে, সাল-সলনিবোৰ এতিয়াও সংৰক্ষিত কৰা হোৱা নাই!'''",

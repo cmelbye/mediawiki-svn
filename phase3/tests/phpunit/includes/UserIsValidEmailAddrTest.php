@@ -1,6 +1,6 @@
 <?php
 
-class UserIsValidEmailAddrTest extends PHPUnit_Framework_TestCase {
+class UserIsValidEmailAddrTest extends MediaWikiTestCase {
 
 	private function checkEmail( $addr, $expected = true, $msg = '') {
 		$this->assertEquals(
@@ -31,10 +31,10 @@ class UserIsValidEmailAddrTest extends PHPUnit_Framework_TestCase {
 		$this->valid( 'user+@example.com' );
 	}
 	function testEmailWithWhiteSpacesBeforeOrAfterAreInvalids() {
-		$this->invalid( " user@host" );
-		$this->invalid( "user@host " );
-		$this->invalid( "\tuser@host" );
-		$this->invalid( "user@host\t" );
+		$this->invalid( " user@host.com" );
+		$this->invalid( "user@host.com " );
+		$this->invalid( "\tuser@host.com" );
+		$this->invalid( "user@host.com\t" );
 	}
 	function testEmailWithWhiteSpacesAreInvalids() {
 		$this->invalid( "User user@host" );

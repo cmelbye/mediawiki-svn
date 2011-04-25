@@ -8,6 +8,7 @@
  * @file
  *
  * @author Agbad
+ * @author Amire80
  * @author Drorsnir
  * @author Ijon
  * @author Rotem Dan (July 2003)
@@ -294,6 +295,7 @@ $specialPageAliases = array(
 	'Mytalk'                    => array( 'השיחה_שלי', 'דף_השיחה_שלי' ),
 	'Mycontributions'           => array( 'התרומות_שלי' ),
 	'Myuploads'                 => array( 'ההעלאות_שלי' ),
+	'PermanentLink'             => array( 'קישור_קבוע' ),
 	'Listadmins'                => array( 'רשימת_מפעילים' ),
 	'Listbots'                  => array( 'רשימת_בוטים' ),
 	'Popularpages'              => array( 'הדפים_הנצפים_ביותר', 'דפים_פופולריים' ),
@@ -531,6 +533,7 @@ $messages = array(
 'printableversion'  => 'גרסת הדפסה',
 'permalink'         => 'קישור קבוע',
 'print'             => 'גרסה להדפסה',
+'view'              => 'צפייה',
 'edit'              => 'עריכה',
 'create'            => 'יצירה',
 'editthispage'      => 'עריכת דף זה',
@@ -538,6 +541,7 @@ $messages = array(
 'delete'            => 'מחיקה',
 'deletethispage'    => 'מחיקת דף זה',
 'undelete_short'    => 'שחזור {{PLURAL:$1|עריכה אחת|$1 עריכות}}',
+'viewdeleted_short' => 'צפייה ב{{PLURAL:$1|עריכה מחוקה אחת|־$1 עריכות מחוקות}}',
 'protect'           => 'הגנה',
 'protect_change'    => 'שינוי',
 'protectthispage'   => 'הפעלת הגנה על דף זה',
@@ -785,7 +789,7 @@ $2',
 'wrongpasswordempty'         => 'הסיסמה שהקלדתם ריקה. אנא נסו שוב.',
 'passwordtooshort'           => 'סיסמאות חייבות להיות באורך {{PLURAL:$1|תו אחד|$1 תווים}} לפחות.',
 'password-name-match'        => 'סיסמתכם חייבת להיות שונה משם המשתמש שלכם.',
-'password-too-weak'          => 'הסיסמה שבחרתם חלשה מדי ולא ניתן להשתמש בה.',
+'password-login-forbidden'   => 'השימוש בשם המשתמש והסיסמה האלה נאסר.',
 'mailmypassword'             => 'שלחו לי סיסמה חדשה',
 'passwordremindertitle'      => 'סיסמה זמנית חדשה מ{{grammar:תחילית|{{SITENAME}}}}',
 'passwordremindertext'       => 'מישהו (ככל הנראה אתם, מכתובת ה־IP מספר $1) ביקש סיסמה
@@ -1467,6 +1471,10 @@ $1",
 'prefs-displaysearchoptions'    => 'אפשרויות תצוגה',
 'prefs-displaywatchlist'        => 'אפשרויות תצוגה',
 'prefs-diffs'                   => 'הבדלים בין גרסאות',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'נראית תקינה',
+'email-address-validity-invalid' => 'יש להזין כתובת תקינה!',
 
 # User rights
 'userrights'                   => 'ניהול הרשאות משתמש',
@@ -2641,7 +2649,6 @@ $1 כבר נחסם. האם ברצונכם לשנות את הגדרות החסי�
 
 # Move page
 'move-page'                    => 'העברת $1',
-'move-page-backlink'           => '→ $1',
 'move-page-legend'             => 'העברת דף',
 'movepagetext'                 => "שימוש בטופס שלהלן ישנה את שמו של דף, ויעביר את כל ההיסטוריה שלו לשם חדש.
 השם הישן יהפוך לדף הפניה אל הדף עם השם החדש.
@@ -2982,7 +2989,7 @@ $1 כבר נחסם. האם ברצונכם לשנות את הגדרות החסי�
 'math_unknown_function' => 'פונקציה לא מוכרת',
 'math_lexing_error'     => 'שגיאת לקסינג',
 'math_syntax_error'     => 'שגיאת תחביר',
-'math_image_error'      => 'ההמרה ל־PNG נכשלה; אנא בדקו אם התקנתם נכון את latex, את dvips, את gs ואת convert.',
+'math_image_error'      => 'ההמרה ל־PNG נכשלה; אנא בדקו אם התקנתם נכון את latex ואת dvipng (או צירוף של dvips‏, gs ו־convert)',
 'math_bad_tmpdir'       => 'התוכנה לא הצליחה לכתוב או ליצור את הספרייה הזמנית של המתמטיקה',
 'math_bad_output'       => 'התוכנה לא הצליחה לכתוב או ליצור את ספריית הפלט של המתמטיקה',
 'math_notexvc'          => 'קובץ בר־ביצוע של texvc אינו זמין; אנא צפו בקובץ math/README למידע על ההגדרות.',

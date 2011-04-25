@@ -749,14 +749,14 @@ class ApiMain extends ApiBase {
 		return array(
 			'',
 			'',
-			'******************************************************************************************',
-			'**                                                                                      **',
-			'**              This is an auto-generated MediaWiki API documentation page              **',
-			'**                                                                                      **',
-			'**                            Documentation and Examples:                               **',
-			'**                         http://www.mediawiki.org/wiki/API                            **',
-			'**                                                                                      **',
-			'******************************************************************************************',
+			'**********************************************************************************************************',
+			'**                                                                                                      **',
+			'**                      This is an auto-generated MediaWiki API documentation page                      **',
+			'**                                                                                                      **',
+			'**                                    Documentation and Examples:                                       **',
+			'**                                 http://www.mediawiki.org/wiki/API                                    **',
+			'**                                                                                                      **',
+			'**********************************************************************************************************',
 			'',
 			'Status:                All features shown on this page should be working, but the API',
 			'                       is still in active development, and  may change at any time.',
@@ -811,20 +811,20 @@ class ApiMain extends ApiBase {
 	 * Override the parent to generate help messages for all available modules.
 	 */
 	public function makeHelpMsg() {
-		global $wgMemc, $wgAPICacheHelp, $wgAPICacheHelpTimeout;
+		global $wgMemc, $wgAPICacheHelpTimeout;
 		$this->setHelp();
 		// Get help text from cache if present
 		$key = wfMemcKey( 'apihelp', $this->getModuleName(),
 			SpecialVersion::getVersion( 'nodb' ) .
 			$this->getMain()->getShowVersions() );
-		if ( $wgAPICacheHelp ) {
+		if ( $wgAPICacheHelpTimeout > 0 ) {
 			$cached = $wgMemc->get( $key );
 			if ( $cached ) {
 				return $cached;
 			}
 		}
 		$retval = $this->reallyMakeHelpMsg();
-		if ( $wgAPICacheHelp ) {
+		if ( $wgAPICacheHelpTimeout > 0 ) {
 			$wgMemc->set( $key, $retval, $wgAPICacheHelpTimeout );
 		}
 		return $retval;
@@ -836,7 +836,7 @@ class ApiMain extends ApiBase {
 		// Use parent to make default message for the main module
 		$msg = parent::makeHelpMsg();
 
-		$astriks = str_repeat( '*** ', 10 );
+		$astriks = str_repeat( '*** ', 14 );
 		$msg .= "\n\n$astriks Modules  $astriks\n\n";
 		foreach ( array_keys( $this->mModules ) as $moduleName ) {
 			$module = new $this->mModules[$moduleName] ( $this, $moduleName );

@@ -65,7 +65,7 @@ class ApiParse extends ApiBase {
 
 		// The parser needs $wgTitle to be set, apparently the
 		// $title parameter in Parser::parse isn't enough *sigh*
-		global $wgParser, $wgUser, $wgTitle, $wgEnableParserCache, $wgLang;
+		global $wgParser, $wgUser, $wgTitle, $wgLang;
 
 		// Currently unnecessary, code to act as a safeguard against any change in current behaviour of uselang breaks
 		$oldLang = null;
@@ -77,8 +77,11 @@ class ApiParse extends ApiBase {
 		$popts = new ParserOptions();
 		$popts->setTidy( true );
 		$popts->enableLimitReport( !$params['disablepp'] );
+
 		$redirValues = null;
+
 		if ( !is_null( $oldid ) || !is_null( $pageid ) || !is_null( $page ) ) {
+
 			if ( !is_null( $oldid ) ) {
 				// Don't use the parser cache
 				$rev = Revision::newFromID( $oldid );
@@ -93,40 +96,34 @@ class ApiParse extends ApiBase {
 
 				$wgTitle = $titleObj;
 
-				//If for some reason the "oldid" is actually the current revision, it may be cached
-				if ( $titleObj->getLatestRevID() === $oldid ) {
-					$p_result = false;
-					$pcache = ParserCache::singleton();
-					if ( $wgEnableParserCache ) {
-						$p_result = $pcache->get( $titleObj, $popts );
-					}
-					if ( !$p_result ) {
-						$text = $rev->getText( Revision::FOR_THIS_USER );
-						$p_result = $wgParser->parse( $text, $titleObj, $popts );
+				// If for some reason the "oldid" is actually the current revision, it may be cached
+				if ( $titleObj->getLatestRevID() === intval( $oldid ) )  {
+					$articleObj = new Article( $titleObj, 0 );
 
-						if ( $wgEnableParserCache ) {
-							$pcache->save( $p_result, $titleObj, $popts );
-						}
-					}
-				} else {
+					$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid ) ;
+
+				} else { // This is an old revision, so get the text differently
 					$text = $rev->getText( Revision::FOR_THIS_USER );
 
 					$wgTitle = $titleObj;
 
 					if ( $this->section !== false ) {
-						$text = $this->getSectionText( $text, 'r' . $rev );
+						$text = $this->getSectionText( $text, 'r' . $rev->getId() );
 					}
 
 					$p_result = $wgParser->parse( $text, $titleObj, $popts );
 				}
-			} else {
+
+			} else { // Not $oldid
+
 				if ( !is_null ( $pageid ) ) {
 					$titleObj = Title::newFromID( $pageid );
 
 					if ( !$titleObj ) {
 						$this->dieUsageMsg( array( 'nosuchpageid', $pageid ) );
 					}
-				} else {
+				} else { // $page
+
 					if ( $params['redirects'] ) {
 						$req = new FauxRequest( array(
 							'action' => 'query',
@@ -145,37 +142,22 @@ class ApiParse extends ApiBase {
 						$to = $page;
 					}
 					$titleObj = Title::newFromText( $to );
-					if ( !$titleObj ) {
+					if ( !$titleObj || !$titleObj->exists() ) {
 						$this->dieUsage( "The page you specified doesn't exist", 'missingtitle' );
 					}
 				}
 				$wgTitle = $titleObj;
 
-				$articleObj = new Article( $titleObj );
+				$articleObj = new Article( $titleObj, 0 );
 				if ( isset( $prop['revid'] ) ) {
 					$oldid = $articleObj->getRevIdFetched();
 				}
 
-				if ( $this->section !== false ) {
-					$text = $this->getSectionText( $text, !is_null ( $pageid ) ? 'page id ' . $pageid : $titleObj->getText() );
-					$p_result = $wgParser->parse( $text, $titleObj, $popts );
-				} else {
-					// Try the parser cache first
-					$p_result = false;
-					$pcache = ParserCache::singleton();
-					if ( $wgEnableParserCache ) {
-						$p_result = $pcache->get( $articleObj, $popts );
-					}
-					if ( !$p_result ) {
-						$p_result = $wgParser->parse( $articleObj->getContent(), $titleObj, $popts );
-
-						if ( $wgEnableParserCache ) {
-							$pcache->save( $p_result, $articleObj, $popts );
-						}
-					}
-				}
+				$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid ) ;
 			}
-		} else {
+
+		} else { // Not $oldid, $pageid, $page. Hence based on $text
+
 			$titleObj = Title::newFromText( $title );
 			if ( !$titleObj ) {
 				$titleObj = Title::newFromText( 'API' );
@@ -202,6 +184,13 @@ class ApiParse extends ApiBase {
 		// Return result
 		$result = $this->getResult();
 		$result_array = array();
+
+		$result_array['title'] = $titleObj->getPrefixedText();
+
+		if ( !is_null( $oldid ) ) {
+			$result_array['revid'] = intval( $oldid );
+		}
+
 		if ( $params['redirects'] && !is_null( $redirValues ) ) {
 			$result_array['redirects'] = $redirValues;
 		}
@@ -280,10 +269,6 @@ class ApiParse extends ApiBase {
 			$result_array['iwlinks'] = $this->formatIWLinks( $p_result->getInterwikiLinks() );
 		}
 
-		if ( !is_null( $oldid ) ) {
-			$result_array['revid'] = intval( $oldid );
-		}
-
 		$result_mapping = array(
 			'redirects' => 'r',
 			'langlinks' => 'll',
@@ -301,6 +286,27 @@ class ApiParse extends ApiBase {
 
 		if ( !is_null( $oldLang ) ) {
 			$wgLang = $oldLang; // Reset $wgLang to $oldLang
+		}
+	}
+
+	/**
+	 * @param  $articleObj Article
+	 * @param  $titleObj Title
+	 * @param  $popts ParserOptions
+	 * @param  $pageId Int
+	 * @return ParserOutput
+	 */
+	private function getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageId = null ) {
+		if ( $this->section !== false ) {
+			global $wgParser;
+
+			$text = $this->getSectionText( $articleObj->getRawText(), !is_null ( $pageId )
+					? 'page id ' . $pageId : $titleObj->getText() );
+
+			return $wgParser->parse( $text, $titleObj, $popts );
+		} else {
+			// Try the parser cache first
+			return $articleObj->getParserOutput();
 		}
 	}
 

@@ -22,10 +22,12 @@
  *     produces altered wiki markup.
  * preprocess()
  *     removes HTML comments and expands templates
- * cleanSig()
+ * cleanSig() / cleanSigInSig()
  *     Cleans a signature before saving it to preferences
- * extractSections()
- *     Extracts sections from an article for section editing
+ * getSection()
+ *     Return the content of a section from an article for section editing
+ * replaceSection()
+ *     Replaces a section by number inside an article
  * getPreloadText()
  *     Removes <noinclude> sections, and <includeonly> tags.
  *
@@ -192,6 +194,7 @@ class Parser {
 			$this->firstCallInit();
 		}
 		$this->mOutput = new ParserOutput;
+		$this->mOptions->registerWatcher( array( $this->mOutput, 'recordOption' ) );
 		$this->mAutonumber = 0;
 		$this->mLastSection = '';
 		$this->mDTopen = false;
@@ -268,12 +271,11 @@ class Parser {
 		wfProfileIn( __METHOD__ );
 		wfProfileIn( $fname );
 
+		$this->mOptions = $options;
 		if ( $clearState ) {
 			$this->clearState();
 		}
 
-		$options->resetUsage();
-		$this->mOptions = $options;
 		$this->setTitle( $title ); # Page title has to be set for the pre-processor
 
 		$oldRevisionId = $this->mRevisionId;
@@ -327,18 +329,11 @@ class Parser {
 		}
 
 		/**
-		 * A page get its title converted except:
-		 * a) Language conversion is globally disabled
-		 * b) Title convert is globally disabled
-		 * c) The page is a redirect page
-		 * d) User request with a "linkconvert" set to "no"
-		 * e) A "nocontentconvert" magic word has been set
-		 * f) A "notitleconvert" magic word has been set
-		 * g) User sets "noconvertlink" in his/her preference
-		 *
-		 * Note that if a user tries to set a title in a conversion
-		 * rule but content conversion was not done, then the parser
-		 * won't pick it up.  This is probably expected behavior.
+		 * A converted title will be provided in the output object if title and
+		 * content conversion are enabled, the article text does not contain 
+		 * a conversion-suppressing double-underscore tag, and no 
+		 * {{DISPLAYTITLE:...}} is present. DISPLAYTITLE takes precedence over
+		 * automatic link conversion.
 		 */
 		if ( !( $wgDisableLangConversion
 				|| $wgDisableTitleConversion
@@ -465,10 +460,9 @@ class Parser {
 	 */
 	function preprocess( $text, $title, $options, $revid = null ) {
 		wfProfileIn( __METHOD__ );
+		$this->mOptions = $options;
 		$this->clearState();
 		$this->setOutputType( self::OT_PREPROCESS );
-		$options->resetUsage();
-		$this->mOptions = $options;
 		$this->setTitle( $title );
 		if ( $revid !== null ) {
 			$this->mRevisionId = $revid;
@@ -489,10 +483,9 @@ class Parser {
 	 */
 	public function getPreloadText( $text, $title, $options ) {
 		# Parser (re)initialisation
+		$this->mOptions = $options;
 		$this->clearState();
 		$this->setOutputType( self::OT_PLAIN );
-		$options->resetUsage();
-		$this->mOptions = $options;
 		$this->setTitle( $title );
 
 		$flags = PPFrame::NO_ARGS | PPFrame::NO_TEMPLATES;
@@ -3682,6 +3675,9 @@ class Parser {
 		} else {
 			$showEditLink = $this->mOptions->getEditSection();
 		}
+		if ( $showEditLink ) {
+			$this->mOutput->setEditSectionTokens( true );
+		}
 
 		# Get all headlines for numbering them and adding funky stuff like [edit]
 		# links - this is for later, but we need the number of headlines right now
@@ -3935,12 +3931,27 @@ class Parser {
 
 			# give headline the correct <h#> tag
 			if ( $showEditLink && $sectionIndex !== false ) {
+				// Output edit section links as markers with styles that can be customized by skins
 				if ( $isTemplate ) {
 					# Put a T flag in the section identifier, to indicate to extractSections()
 					# that sections inside <includeonly> should be counted.
-					$editlink = $sk->doEditSectionLink( Title::newFromText( $titleText ), "T-$sectionIndex", null, $this->mOptions->getUserLang() );
+					$editlinkArgs = array( $titleText, "T-$sectionIndex"/*, null */ );
 				} else {
-					$editlink = $sk->doEditSectionLink( $this->mTitle, $sectionIndex, $headlineHint, $this->mOptions->getUserLang() );
+					$editlinkArgs = array( $this->mTitle->getPrefixedText(), $sectionIndex, $headlineHint );
+				}
+				// We use a bit of pesudo-xml for editsection markers. The language converter is run later on
+				// Using a UNIQ style marker leads to the converter screwing up the tokens when it converts stuff
+				// And trying to insert strip tags fails too. At this point all real inputted tags have already been escaped
+				// so we don't have to worry about a user trying to input one of these markers directly.
+				// We use a page and section attribute to stop the language converter from converting these important bits
+				// of data, but put the headline hint inside a content block because the language converter is supposed to
+				// be able to convert that piece of data.
+				$editlink = '<editsection page="' . htmlspecialchars($editlinkArgs[0]);
+				$editlink .= '" section="' . htmlspecialchars($editlinkArgs[1]) .'"';
+				if ( isset($editlinkArgs[2]) ) {
+					$editlink .= '>' . $editlinkArgs[2] . '</editsection>';
+				} else {
+					$editlink .= '/>';
 				}
 			} else {
 				$editlink = '';
@@ -4014,8 +4025,7 @@ class Parser {
 	 * @param $clearState Boolean: whether to clear the parser state first
 	 * @return String: the altered wiki markup
 	 */
-	public function preSaveTransform( $text, Title $title, $user, $options, $clearState = true ) {
-		$options->resetUsage();
+	public function preSaveTransform( $text, Title $title, User $user, ParserOptions $options, $clearState = true ) {
 		$this->mOptions = $options;
 		$this->setTitle( $title );
 		$this->setUser( $user );
@@ -4066,9 +4076,9 @@ class Parser {
 		# whatever crap the system uses, localised or not, so we cannot
 		# ship premade translations.
 		$key = 'timezone-' . strtolower( trim( $tzMsg ) );
-		$value = wfMsgForContent( $key );
-		if ( !wfEmptyMsg( $key, $value ) ) {
-			$tzMsg = $value;
+		$msg = wfMessage( $key )->inContentLanguage();
+		if ( $msg->exists() ) {
+			$tzMsg = $msg->text();
 		}
 
 		date_default_timezone_set( $oldtz );
@@ -4197,9 +4207,9 @@ class Parser {
 	function cleanSig( $text, $parsing = false ) {
 		if ( !$parsing ) {
 			global $wgTitle;
+			$this->mOptions = new ParserOptions;
 			$this->clearState();
 			$this->setTitle( $wgTitle );
-			$this->mOptions = new ParserOptions;
 			$this->setOutputType = self::OT_PREPROCESS;
 		}
 
@@ -4495,7 +4505,7 @@ class Parser {
 			if ( strpos( $matches[0], '%' ) !== false ) {
 				$matches[1] = rawurldecode( $matches[1] );
 			}
-			$tp = Title::newFromText( $matches[1] );
+			$tp = Title::newFromText( $matches[1], NS_FILE );
 			$nt =& $tp;
 			if ( is_null( $nt ) ) {
 				# Bogus title. Ignore these so we don't bomb out later.
@@ -4847,9 +4857,9 @@ class Parser {
 	 */
 	private function extractSections( $text, $section, $mode, $newText='' ) {
 		global $wgTitle;
+		$this->mOptions = new ParserOptions;
 		$this->clearState();
 		$this->setTitle( $wgTitle ); # not generally used but removes an ugly failure mode
-		$this->mOptions = new ParserOptions;
 		$this->setOutputType( self::OT_PLAIN );
 		$outText = '';
 		$frame = $this->getPreprocessor()->newFrame();
@@ -4954,6 +4964,15 @@ class Parser {
 		return $this->extractSections( $text, $section, "get", $deftext );
 	}
 
+	/**
+	 * This function returns $oldtext after the content of the section 
+	 * specified by $section has been replaced with $text.
+	 * 
+	 * @param $text String: former text of the article
+	 * @param $section Numeric: section identifier
+	 * @param $text String: replacing text
+	 * #return String: modified text
+	 */
 	public function replaceSection( $oldtext, $section, $text ) {
 		return $this->extractSections( $oldtext, $section, "replace", $text );
 	}
@@ -5129,13 +5148,13 @@ class Parser {
 	 * strip/replaceVariables/unstrip for preprocessor regression testing
 	 */
 	function testSrvus( $text, $title, $options, $outputType = self::OT_HTML ) {
+		$this->mOptions = $options;
 		$this->clearState();
 		if ( !$title instanceof Title ) {
 			$title = Title::newFromText( $title );
 		}
 		$this->mTitle = $title;
 		$options->resetUsage();
-		$this->mOptions = $options;
 		$this->setOutputType( $outputType );
 		$text = $this->replaceVariables( $text );
 		$text = $this->mStripState->unstripBoth( $text );

@@ -1,6 +1,6 @@
 <?php
 
-class GlobalTest extends PHPUnit_Framework_TestCase {
+class GlobalTest extends MediaWikiTestCase {
 	function setUp() {
 		global $wgReadOnlyFile, $wgContLang, $wgLang;
 		$this->originals['wgReadOnlyFile'] = $wgReadOnlyFile;
@@ -63,7 +63,7 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 
 	function testTime() {
 		$start = wfTime();
-		$this->assertType( 'float', $start );
+		$this->assertInternalType( 'float', $start );
 		$end = wfTime();
 		$this->assertTrue( $end > $start, "Time is running backwards!" );
 	}
@@ -348,6 +348,27 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	function testTimestampParameter() {
+		// There are a number of assumptions in our codebase where wfTimestamp() should give 
+		// the current date but it is not given a 0 there. See r71751 CR
+
+		$now = wfTimestamp( TS_UNIX );
+		// We check that wfTimestamp doesn't return false (error) and use a LessThan assert 
+		// for the cases where the test is run in a second boundary.
+		
+		$zero = wfTimestamp( TS_UNIX, 0 );
+		$this->assertNotEquals( false, $zero );
+		$this->assertLessThan( 5, $zero - $now );
+
+		$empty = wfTimestamp( TS_UNIX, '' );
+		$this->assertNotEquals( false, $empty );
+		$this->assertLessThan( 5, $empty - $now );
+
+		$null = wfTimestamp( TS_UNIX, null );
+		$this->assertNotEquals( false, $null );
+		$this->assertLessThan( 5, $null - $now );
+	}
+
 	function testBasename() {
 		$sets = array(
 			'' => '',
@@ -373,8 +394,232 @@ class GlobalTest extends PHPUnit_Framework_TestCase {
 				"wfBaseName('$from') => '$to'" );
 		}
 	}
+	
+	
+	function testFallbackMbstringFunctions() {
+		
+		if( !extension_loaded( 'mbstring' ) ) {
+			$this->markTestSkipped( "The mb_string functions must be installed to test the fallback functions" );
+		}
+		
+		$sampleUTF = "Östergötland_coat_of_arms.png";
+		
+		
+		//mb_substr
+		$substr_params = array(
+			array( 0, 0 ),
+			array( 5, -4 ),
+			array( 33 ),
+			array( 100, -5 ),
+			array( -8, 10 ),
+			array( 1, 1 ),
+			array( 2, -1 )
+		);
+		
+		foreach( $substr_params as $param_set ) {
+			$old_param_set = $param_set;
+			array_unshift( $param_set, $sampleUTF );
+			
+			$this->assertEquals(
+				MWFunction::callArray( 'mb_substr', $param_set ),
+				MWFunction::callArray( 'Fallback::mb_substr', $param_set ),
+				'Fallback mb_substr with params ' . implode( ', ', $old_param_set )
+			);			
+		}
+		
+		
+		//mb_strlen
+		$this->assertEquals(
+			mb_strlen( $sampleUTF ),
+			Fallback::mb_strlen( $sampleUTF ),
+			'Fallback mb_strlen'
+		);			
+		
+		
+		//mb_str(r?)pos
+		$strpos_params = array(
+			//array( 'ter' ),
+			//array( 'Ö' ),
+			//array( 'Ö', 3 ),
+			//array( 'oat_', 100 ),
+			//array( 'c', -10 ),
+			//Broken for now
+		);
+		
+		foreach( $strpos_params as $param_set ) {
+			$old_param_set = $param_set;
+			array_unshift( $param_set, $sampleUTF );
+			
+			$this->assertEquals(
+				MWFunction::callArray( 'mb_strpos', $param_set ),
+				MWFunction::callArray( 'Fallback::mb_strpos', $param_set ),
+				'Fallback mb_strpos with params ' . implode( ', ', $old_param_set )
+			);		
+			
+			$this->assertEquals(
+				MWFunction::callArray( 'mb_strrpos', $param_set ),
+				MWFunction::callArray( 'Fallback::mb_strrpos', $param_set ),
+				'Fallback mb_strrpos with params ' . implode( ', ', $old_param_set )
+			);	
+		}
+		
+	}
+	
+	
+	function testDebugFunctionTest() {
+	
+		global $wgDebugLogFile, $wgOut, $wgShowDebug;
+		
+		$old_log_file = $wgDebugLogFile;
+		$wgDebugLogFile = tempnam( wfTempDir(), 'mw-' );
+		
+		
+		
+		wfDebug( "This is a normal string" );
+		$this->assertEquals( "This is a normal string", file_get_contents( $wgDebugLogFile ) );
+		unlink( $wgDebugLogFile );
+		
+		
+		wfDebug( "This is nöt an ASCII string" );
+		$this->assertEquals( "This is nöt an ASCII string", file_get_contents( $wgDebugLogFile ) );
+		unlink( $wgDebugLogFile );
+		
+		
+		wfDebug( "\00305This has böth UTF and control chars\003" );
+		$this->assertEquals( " 05This has böth UTF and control chars ", file_get_contents( $wgDebugLogFile ) );
+		unlink( $wgDebugLogFile );
+		
+		
+		
+		$old_wgOut = $wgOut;
+		$old_wgShowDebug = $wgShowDebug;
+		
+		$wgOut = new StubObject( 'wgOut', 'MockOutputPage' );
+		$wgOut->doNothing(); //just to unstub it
+		
+		$wgShowDebug = true;
+		
+		$message = "\00305This has böth UTF and control chars\003";
+		
+		wfDebug( $message );
+		
+		if( $wgOut->message == "JAJA is a stupid error message. Anyway, here's your message: $message" ) {
+			$this->assertTrue( true, 'MockOutputPage called, set the proper message.' );
+		}
+		else {
+			$this->assertTrue( false, 'MockOutputPage was not called.' );
+		}
+		
+		$wgOut = $old_wgOut;
+		$wgShowDebug = $old_wgShowDebug;		
+		unlink( $wgDebugLogFile );
+		
+		
+		
+		wfDebugMem();
+		$this->assertGreaterThan( 5000, preg_replace( '/\D/', '', file_get_contents( $wgDebugLogFile ) ) );
+		unlink( $wgDebugLogFile );
+		
+		wfDebugMem(true);
+		$this->assertGreaterThan( 5000000, preg_replace( '/\D/', '', file_get_contents( $wgDebugLogFile ) ) );
+		unlink( $wgDebugLogFile );
+		
+		
+		
+		$wgDebugLogFile = $old_log_file;
+		
+	}
+	
+	function testClientAcceptsGzipTest() {
+		
+		$settings = array(
+			'gzip' => true,
+			'bzip' => false,
+			'*' => false,
+			'compress, gzip' => true,
+			'gzip;q=1.0' => true,
+			'foozip' => false,
+			'foo*zip' => false,
+			'gzip;q=abcde' => true, //is this REALLY valid?
+			'gzip;q=12345678.9' => true,
+			' gzip' => true,
+		);
+		
+		if( isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) ) $old_server_setting = $_SERVER['HTTP_ACCEPT_ENCODING'];
+		
+		foreach ( $settings as $encoding => $expect ) {
+			$_SERVER['HTTP_ACCEPT_ENCODING'] = $encoding;
+			
+			$this->assertEquals( $expect, wfClientAcceptsGzip( true ),
+				"'$encoding' => " . wfBoolToStr( $expect ) );
+		}
+		
+		if( isset( $old_server_setting ) ) $_SERVER['HTTP_ACCEPT_ENCODING'] = $old_server_setting;
+
+	}
+	
+	
+	
+	function testSwapVarsTest() {
+	
+
+		$var1 = 1;
+		$var2 = 2;
+
+		$this->assertEquals( $var1, 1, 'var1 is set originally' );
+		$this->assertEquals( $var2, 2, 'var1 is set originally' );
+
+		swap( $var1, $var2 );
+
+		$this->assertEquals( $var1, 2, 'var1 is swapped' );
+		$this->assertEquals( $var2, 1, 'var2 is swapped' );
+
+	}
+
+
+	function testWfPercentTest() {
+
+		$pcts = array(
+			array( 6/7, '0.86%', 2, false ),
+			array( 3/3, '1%' ),
+			array( 22/7, '3.14286%', 5 ),
+			array( 3/6, '0.5%' ),
+			array( 1/3, '0%', 0 ),
+			array( 10/3, '0%', -1 ),
+			array( 3/4/5, '0.1%', 1 ),
+			array( 6/7*8, '6.8571428571%', 10 ),
+		);
+		
+		foreach( $pcts as $pct ) {
+			if( !isset( $pct[2] ) ) $pct[2] = 2;
+			if( !isset( $pct[3] ) ) $pct[3] = true;
+			
+			$this->assertEquals( wfPercent( $pct[0], $pct[2], $pct[3] ), $pct[1], $pct[1] );
+		}
+
+	}
+
+
+	function testInStringTest() {
+	
+		$this->assertTrue( in_string( 'foo', 'foobar' ), 'foo is in foobar' );
+		$this->assertFalse( in_string( 'Bar', 'foobar' ), 'Case-sensitive by default' );
+		$this->assertTrue( in_string( 'Foo', 'foobar', true ), 'Case-insensitive when asked' );
+	
+	}
 
 	/* TODO: many more! */
 }
 
+
+class MockOutputPage {
+	
+	public $message;
+	
+	function debug( $message ) {
+		$this->message = "JAJA is a stupid error message. Anyway, here's your message: $message";
+	}
+	
+	function doNothing() {}
+}
 

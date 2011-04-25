@@ -415,7 +415,7 @@ $specialPageAliases = array(
 	'Ipblocklist'               => array( 'BlockList', 'ListBlocks', 'IPBlockList' ),
 	'Unblock'                   => array( 'Unblock' ),
 	'Specialpages'              => array( 'SpecialPages' ),
-	'Contributions'             => array( 'Contributions' ),
+	'Contributions'             => array( 'Contributions', 'Contribs' ),
 	'Emailuser'                 => array( 'EmailUser' ),
 	'Confirmemail'              => array( 'ConfirmEmail' ),
 	'Whatlinkshere'             => array( 'WhatLinksHere' ),
@@ -445,6 +445,7 @@ $specialPageAliases = array(
 	'Mytalk'                    => array( 'MyTalk' ),
 	'Mycontributions'           => array( 'MyContributions' ),
 	'Myuploads'                 => array( 'MyUploads' ),
+	'PermanentLink'             => array( 'PermanentLink', 'PermaLink' ),
 	'Listadmins'                => array( 'ListAdmins' ),
 	'Listbots'                  => array( 'ListBots' ),
 	'Popularpages'              => array( 'PopularPages' ),
@@ -816,6 +817,7 @@ XHTML id names.
 'printableversion'  => 'Printable version',
 'permalink'         => 'Permanent link',
 'print'             => 'Print',
+'view'              => 'View',
 'edit'              => 'Edit',
 'create'            => 'Create',
 'editthispage'      => 'Edit this page',
@@ -823,6 +825,7 @@ XHTML id names.
 'delete'            => 'Delete',
 'deletethispage'    => 'Delete this page',
 'undelete_short'    => 'Undelete {{PLURAL:$1|one edit|$1 edits}}',
+'viewdeleted_short' => 'View {{PLURAL:$1|one deleted edit|$1 deleted edits}}',
 'protect'           => 'Protect',
 'protect_change'    => 'change',
 'protectthispage'   => 'Protect this page',
@@ -1092,7 +1095,7 @@ Please try again.',
 Please try again.',
 'passwordtooshort'           => 'Passwords must be at least {{PLURAL:$1|1 character|$1 characters}}.',
 'password-name-match'        => 'Your password must be different from your username.',
-'password-too-weak'          => 'The provided password is too weak and cannot be used.',
+'password-login-forbidden'   => 'The use of this username and password has been forbidden.',
 'mailmypassword'             => 'E-mail new password',
 'passwordremindertitle'      => 'New temporary password for {{SITENAME}}',
 'passwordremindertext'       => 'Someone (probably you, from IP address $1) requested a new
@@ -1852,6 +1855,10 @@ You can also choose to let others contact you through your user or talk page wit
 'prefs-displaywatchlist'        => 'Display options',
 'prefs-diffs'                   => 'Diffs',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-mail address appears valid',
+'email-address-validity-invalid' => 'Enter a valid e-mail address',
+
 # User rights
 'userrights'                     => 'User rights management',
 'userrights-summary'             => '', # do not translate or duplicate this message to other languages
@@ -2216,6 +2223,15 @@ If the problem persists, contact an [[Special:ListUsers/sysop|administrator]].',
 'upload-too-many-redirects' => 'The URL contained too many redirects',
 'upload-unknown-size'       => 'Unknown size',
 'upload-http-error'         => 'An HTTP error occured: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Upload stash',
+'uploadstash-summary'  => 'This page provides access to files which are uploaded (or in the process of uploading) but are not yet published to the wiki. These files are not visible to anyone but the user who uploaded them.',
+'uploadstash-clear'    => 'Clear stashed files',
+'uploadstash-nofiles'  => 'You have no stashed files.',
+'uploadstash-badtoken' => 'Performing of that action was unsuccessful, perhaps because your editing credentials expired. Try again.',
+'uploadstash-errclear' => 'Clearing the files was unsuccessful.',
+'uploadstash-refresh'  => 'Refresh the list of files',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Access denied',
@@ -3121,7 +3137,6 @@ To lock or unlock the database, this needs to be writable by the web server.',
 
 # Move page
 'move-page'                    => 'Move $1',
-'move-page-backlink'           => '← $1', # only translate this message to other languages if you have to change it
 'move-page-legend'             => 'Move page',
 'movepagetext'                 => "Using the form below will rename a page, moving all of its history to the new name.
 The old title will become a redirect page to the new title.
@@ -3538,8 +3553,7 @@ This is probably caused by a link to a blacklisted external site.',
 'math_unknown_function' => 'unknown function',
 'math_lexing_error'     => 'lexing error',
 'math_syntax_error'     => 'syntax error',
-'math_image_error'      => 'PNG conversion failed;
-check for correct installation of latex, dvips, gs, and convert',
+'math_image_error'      => 'PNG conversion failed; check for correct installation of latex and dvipng (or dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Cannot write to or create math temp directory',
 'math_bad_output'       => 'Cannot write to or create math output directory',
 'math_notexvc'          => 'Missing texvc executable; please see math/README to configure.',
@@ -3586,10 +3600,10 @@ By executing it, your system may be compromised.",
 'thumbsize'            => 'Thumbnail size:',
 'widthheight'          => '$1×$2', # only translate this message to other languages if you have to change it
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|page|pages}}',
-'file-info'            => '(file size: $1, MIME type: $2)',
-'file-info-size'       => '($1 × $2 pixels, file size: $3, MIME type: $4)',
+'file-info'            => 'file size: $1, MIME type: $2',
+'file-info-size'       => '$1 × $2 pixels, file size: $3, MIME type: $4',
 'file-nohires'         => '<small>No higher resolution available.</small>',
-'svg-long-desc'        => '(SVG file, nominally $1 × $2 pixels, file size: $3)',
+'svg-long-desc'        => 'SVG file, nominally $1 × $2 pixels, file size: $3',
 'show-big-image'       => 'Full resolution',
 'show-big-image-thumb' => '<small>Size of this preview: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'looped',
@@ -4389,14 +4403,5 @@ If the user is currently logged in anywhere, they will be immediately logged out
 'disableaccount-nosuchuser'  => 'The user account "$1" does not exist.',
 'disableaccount-success'     => 'The user account "$1" has been permanently disabled.',
 'disableaccount-logentry'    => 'permanently disabled the user account [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Upload stash',
-'uploadstash-summary'  => 'This page provides access to files which are uploaded (or in the process of uploading) but are not yet published to the wiki. These files are not visible to anyone but the user who uploaded them.',
-'uploadstash-clear'    => 'Clear stashed files',
-'uploadstash-nofiles'  => 'You have no stashed files.',
-'uploadstash-badtoken' => 'Performing of that action was unsuccessful, perhaps because your editing credentials expired. Try again.',
-'uploadstash-errclear' => 'Clearing the files was unsuccessful.',
-'uploadstash-refresh'  => 'Refresh the list of files',
 
 );

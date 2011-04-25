@@ -39,12 +39,14 @@
  * @author Huji
  * @author IAlex
  * @author INkubusse
+ * @author Iniquity
  * @author Iwan Novirion
  * @author Jon Harald Søby
  * @author Karduelis
  * @author Kizito
  * @author Klenje
  * @author Klutzy
+ * @author Krinkle
  * @author Kwj2772
  * @author Leinad
  * @author Lejonel
@@ -70,6 +72,7 @@
  * @author Prima klasy4na
  * @author Prometheus.pyrphoros
  * @author Purodha
+ * @author Rancher
  * @author Raymond
  * @author Ryan Schmidt
  * @author SPQRobin
@@ -348,6 +351,9 @@ Also used as title of [[Special:Search]] page in [[Special:SpecialPages]].
 'printableversion'  => 'Display name for link in wiki menu that leads to a printable version of a content page. Example: see one but last menu item on [[Main Page]].',
 'permalink'         => 'Display name for a permanent link to the current revision of a page. When the page is edited, permalink will still link to this revision. Example: Last menu link on [[{{MediaWiki:Mainpage}}]]',
 'print'             => '{{Identical|Print}}',
+'view'              => 'The default text of the "View" or "Read" (Vector) views tab which represents the basic view for the page. Should be in the infinitive mood.
+
+{{Identical|View}}',
 'edit'              => 'The text of the tab going to the edit form. When the page is protected, you will see "[[MediaWiki:Viewsource/{{SUBPAGENAME}}|{{int:viewsource}}]]". Should be in the infinitive mood.
 
 {{Identical|Edit}}',
@@ -362,6 +368,7 @@ Also used as title of [[Special:Search]] page in [[Special:SpecialPages]].
 {{Identical|Delete}}',
 'deletethispage'    => '{{Identical|Delete this page}}',
 'undelete_short'    => "It is tab label. It's really can be named ''nstab-undelete''.",
+'viewdeleted_short' => 'Tab label for the undelete button when the user has permission to view the deleted history but not undelete.',
 'protect'           => 'Name of protect tab displayed for admins
 
 {{Identical|Protect}}',
@@ -497,8 +504,8 @@ The format is: "{{int:youhavenewmessagesmulti| [[MediaWiki:Newmessageslink/{{SUB
 'hidetoc'                 => 'This is the link used to hide the table of contents
 
 {{Identical|Hide}}',
-'collapsible-collapse'    => 'This is the link used to collapse a collapsible element',
-'collapsible-expand'      => 'This is the link used to expand a collapsible element',
+'collapsible-collapse'    => 'This is the link used to collapse a collapsible element. (used as plaintext. No wikitext or html is parsed.)',
+'collapsible-expand'      => 'This is the link used to expand a collapsible element (used as plaintext. No wikitext or html is parsed.)',
 'thisisdeleted'           => 'Message shown on a deleted page when the user has the undelete right. $1 is a link to [[Special:Undelete]], with {{msg-mw|restorelink}} as the text. See also {{msg-mw|viewdeleted}}.',
 'viewdeleted'             => 'Message shown on a deleted page when the user does not have the undelete right (but has the deletedhistory right). $1 is a link to [[Special:Undelete]], with {{msg-mw|restorelink}} as the text. See also {{msg-mw|thisisdeleted}}.',
 'restorelink'             => "This text is always displayed in conjunction with the {{msg-mw|thisisdeleted}} message (View or restore $1?). The user will see
@@ -657,14 +664,15 @@ $1 is a filename, I think.',
 * $1 is an error message',
 'nocookiesnew'               => "This message is displayed when a new account was successfully created, but the browser doesn't accept cookies.",
 'nocookieslogin'             => "This message is displayed when someone tried to login, but the browser doesn't accept cookies.",
-'nocookiesfornew'            => "This message is displayed when the user tried to create a new account, but it failed the CSRF check. It could be blocking an attack, but most likely, the browser isn't  accepting cookies.",
-'nocookiesforlogin'          => "This message is displayed when someone tried to login and the CSRF failed (most likely, the browser doesn't accept cookies). Defaults to nocookieslogin",
+'nocookiesfornew'            => "This message is displayed when the user tried to create a new account, but it failed the cross-site request forgery (CSRF) check. It could be blocking an attack, but most likely, the browser isn't  accepting cookies.",
+'nocookiesforlogin'          => "{{optional}}
+This message is displayed when someone tried to login and the CSRF failed (most likely, the browser doesn't accept cookies). Defaults to nocookieslogin",
 'loginsuccesstitle'          => 'The title of the page saying that you are logged in. The content of the page is the message "[[MediaWiki:Loginsuccess/{{SUBPAGENAME}}]]".',
 'loginsuccess'               => 'The content of the page saying that you are logged in. The title of the page is "[[MediaWiki:Loginsuccesstitle/{{SUBPAGENAME}}|{{int:loginsuccesstitle}}]]". $1 is the name of the logged in user.
 
 <nowiki>{{</nowiki>[[Gender|GENDER]]<nowiki>}}</nowiki> is supported.',
 'nosuchuser'                 => 'Displayed when trying to log in with an unexisting username. When you are not allowed to create an account, the message {{msg|nosuchusershort}} is displayed.',
-'nosuchusershort'            => "Displayed when trying to log in with an unexisting username. This message is only shown when you can't create an account, otherwise the message {{msg|nosuchusershort}} is displayed.",
+'nosuchusershort'            => "Displayed when trying to log in with a non-existant username. This message is only shown when you can't create an account, otherwise the message {{msg|nosuchusershort}} is displayed.",
 'login-userblocked'          => 'This message supports GENDER, username is available in $1.',
 'wrongpasswordempty'         => 'Error message displayed when entering a blank password',
 'passwordtooshort'           => 'This message is shown at
@@ -673,6 +681,7 @@ $1 is a filename, I think.',
 * [[Special:CreateAccount]]
 
 $1 is the minimum number of characters in the password.',
+'password-login-forbidden'   => 'Error message shown when the user has tried to log in using one of the special username/password combinations used for MediaWiki testing. (See [[mwr:75589]], [[mwr:75605]].)',
 'mailmypassword'             => 'Shown at [[Special:UserLogin]]',
 'passwordremindertitle'      => 'Title of e-mail which contains temporary password',
 'passwordremindertext'       => 'This text is used in an e-mail sent when a user requests a new temporary password (he has forgotten his password) or when an sysop creates a new user account choosing to have password and username sent to the new user by e-mail.
@@ -1522,7 +1531,7 @@ See also
 * {{msg|right-hideuser|pl=yes}}
 * {{msg|right-suppressrevision|pl=yes}}',
 'right-deletedhistory'        => '{{doc-right|deletedhistory}}',
-'right-deletedtext'           => '{{doc-right|deletedcontent}}',
+'right-deletedtext'           => '{{doc-right|deletedtext}}',
 'right-browsearchive'         => '{{doc-right|browsearchive}}',
 'right-undelete'              => '{{doc-right|undelete}}',
 'right-suppressrevision'      => 'This is a user right that is part of the [[mw:RevisionDelete|RevisionDelete]] feature.
@@ -1582,6 +1591,7 @@ An alternative wording for translators could be \'Get the wiki to accept a track
 'right-override-export-depth' => '{{doc-right|override-export-depth}}',
 'right-sendemail'             => '{{doc-right}}',
 'right-revisionmove'          => '{{doc-right|revisionmove}}',
+'right-disableaccount'        => '{{doc-right|disableaccount}}',
 
 # User rights log
 'rightslog'      => 'In [[Special:Log]]',
@@ -2414,7 +2424,8 @@ Additionally available:
 * $4: timestamp of the revision reverted to,
 * $5: revid of the revision reverted from,
 * $6: timestamp of the revision reverted from',
-'revertpage-nouser' => 'This is a confirmation message a user sees after reverting.',
+'revertpage-nouser' => 'This is a confirmation message a user sees after reverting, when the username of the version is hidden with RevisionDelete.
+In other cases the message {{msg-mw|revertpage}} is used.',
 'rollback-success'  => 'This message shows up on screen after successful revert (generally visible only to admins). $1 describes user whose changes have been reverted, $2 describes user which produced version, which replaces reverted version.
 {{Identical|Revert}}
 {{Identical|Rollback}}',
@@ -2531,7 +2542,7 @@ This message was something like "unlock move protection" in the past.',
 'undelete-show-file-submit'  => '{{Identical|Yes}}',
 
 # Namespace form on various pages
-'namespace'      => '{{Identical|Namespace}}',
+'namespace'      => 'This message is located at [[Special:Contributions]].',
 'invert'         => 'Displayed in [[Special:RecentChanges|RecentChanges]], [[Special:RecentChangesLinked|RecentChangesLinked]] and [[Special:Watchlist|Watchlist]]
 
 {{Identical|Invert selection}}',
@@ -2743,9 +2754,6 @@ Used on [[Special:Block]] as header for other blocks, i.e. from GlobalBlocking o
 
 # Move page
 'move-page'                    => 'Header of the special page to move pages. $1 is the name of the page to be moved.',
-'move-page-backlink'           => '{{optional|Translate it only if you have to change it, i.e. for RTL wikis}}
-
-Shown as subtitle of [[Special:MovePage/testpage]]. $1 is the title of the page to be moved.',
 'move-page-legend'             => 'Legend of the fieldset around the input form of [[Special:MovePage/testpage]].
 
 {{Identical|Move page}}',
@@ -2756,7 +2764,7 @@ Special pages mentioned: {{msg-mw|Doubleredirects}}, {{msg-mw|Brokenredirects}}
 See also {{msg-mw|Movepagetext-noredirectfixer|notext=1}}',
 'movepagetext-noredirectfixer' => 'A variant of {{msg-mw|Movepagetext|notext=1}} displayed when the automatic redirect fixer is not enabled.',
 'movepagetalktext'             => "Text on the special 'Move page'. This text only appears if the talk page is not empty.",
-'movearticle'                  => 'The text before the name of the page that you are moving.
+'movearticle'                  => 'The text before the name of the page that you are moving. Can be translated as "Page that is going to be moved"
 
 {{Identical|Move page}}',
 'movenologin'                  => '{{Identical|Not logged in}}',
@@ -3083,6 +3091,7 @@ For example of message in use see [[:File:Mouse10.gif]].',
 * $2 is a time (example: ''12:15'')",
 
 # Video information, used by Language::formatTimePeriod() to format lengths in the above messages
+'video-dims'     => '{{optional}}',
 'seconds-abbrev' => '{{optional}}',
 'minutes-abbrev' => '{{optional}}',
 'hours-abbrev'   => 'Abbreviation for "hours"',
@@ -3136,23 +3145,36 @@ Variant option for wikis with variants conversion enabled.',
 Variant option for wikis with variants conversion enabled.',
 
 # Variants for Serbian language
-'variantname-sr-ec' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-sr-el' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-sr'    => 'Varient Option for wikis with variants conversion enabled.',
+'variantname-sr-ec' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-sr-el' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-sr'    => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
 
 # Variants for Kazakh language
-'variantname-kk-kz'   => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk-tr'   => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk-cn'   => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk-cyrl' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk-latn' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk-arab' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-kk'      => 'Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-kz'   => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-tr'   => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-cn'   => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-cyrl' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-latn' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk-arab' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-kk'      => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
 
 # Variants for Kurdish language
-'variantname-ku-arab' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-ku-latn' => 'Varient Option for wikis with variants conversion enabled.',
-'variantname-ku'      => 'Varient Option for wikis with variants conversion enabled.',
+'variantname-ku-arab' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-ku-latn' => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
+'variantname-ku'      => '{{optional}}
+Varient Option for wikis with variants conversion enabled.',
 
 # Variants for Tajiki language
 'variantname-tg-cyrl' => '{{optional}}',
@@ -3246,7 +3268,8 @@ This tag shows the detail of the fraction of a second (1/100s) at which the file
 'exif-fnumber'                     => 'Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
 
 The [http://en.wikipedia.org/wiki/F_number F number] is the relative aperture of the camera.',
-'exif-fnumber-format'              => "Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
+'exif-fnumber-format'              => "{{optional}}
+Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
 
 *$1 is a number
 *f is the abbreviation used in English for 'f-number'.",
@@ -3282,7 +3305,8 @@ See this [http://en.wikipedia.org/wiki/Flash_(photography) Wikipedia article] fo
 'exif-focallength'                 => 'Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
 
 See this [http://en.wikipedia.org/wiki/Focal_length_(photography) Wikipedia article] for an explanation of the term.',
-'exif-focallength-format'          => "Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
+'exif-focallength-format'          => "{{optional}}
+Exif is a format for storing metadata in image files. See this [http://en.wikipedia.org/wiki/Exchangeable_image_file_format Wikipedia article] and the example at the bottom of [http://commons.wikimedia.org/wiki/File:Phalacrocorax-auritus-020.jpg this page on Commons]. The tags are explained [http://www.awaresystems.be/imaging/tiff/tifftags/privateifd/exif.html briefly] and [http://www.kodak.com/global/plugins/acrobat/en/service/digCam/exifStandard2.pdf in further detail].
 
 *$1 is a number
 *mm is the abbreviation used in English for the unit of measurement of length 'millimetre'.",
@@ -3328,6 +3352,7 @@ See also Wikipedia on [http://en.wikipedia.org/wiki/Focal_length#In_photography 
 'exif-compression-6' => '{{optional}}',
 
 'exif-photometricinterpretation-2' => '{{optional}}',
+'exif-photometricinterpretation-6' => '{{optional}}',
 
 'exif-orientation-1' => '{{Identical|Normal}}
 0th row: top; 0th column: left',
@@ -3346,6 +3371,9 @@ CW is an abbreviation for clockwise',
 'exif-orientation-8' => '0th row: left; 0th column: bottom
 
 CCW is an abbreviation for counter-clockwise.',
+
+'exif-colorspace-1'      => '{{optional}}',
+'exif-colorspace-ffff.h' => '{{optional}}',
 
 'exif-componentsconfiguration-1' => '{{optional}}',
 'exif-componentsconfiguration-2' => '{{optional}}',
@@ -3370,6 +3398,7 @@ CCW is an abbreviation for counter-clockwise.',
 
 'exif-lightsource-0'  => '{{Identical|Unknown}}',
 'exif-lightsource-4'  => '{{Identical|Flash}}',
+'exif-lightsource-20' => '{{optional}}',
 'exif-lightsource-21' => '{{optional}}',
 'exif-lightsource-22' => '{{optional}}',
 'exif-lightsource-23' => '{{optional}}',
@@ -3551,10 +3580,14 @@ Most languages use a space, but some Asian languages, such as Thai and Chinese, 
 'autosumm-new'     => 'The auto summary when creating a new page. $1 are the first X number of characters of the new page.',
 
 # Size units
-'size-bytes'     => 'Size (of a page, typically) in bytes.',
-'size-kilobytes' => 'Size (of a page, typically) in kibibytes (1 kibibyte = 1024 bytes).',
-'size-megabytes' => 'Size (of a file, typically) in mebibytes (1 mebibyte = 1024×1024 bytes).',
-'size-gigabytes' => 'Size (of a file, typically) in gibibytes (1 gibibyte = 1024×1024×1024 bytes).',
+'size-bytes'     => '{{optional}}
+Size (of a page, typically) in bytes.',
+'size-kilobytes' => '{{optional}}
+Size (of a page, typically) in kibibytes (1 kibibyte = 1024 bytes).',
+'size-megabytes' => '{{optional}}
+Size (of a file, typically) in mebibytes (1 mebibyte = 1024×1024 bytes).',
+'size-gigabytes' => '{{optional}}
+Size (of a file, typically) in gibibytes (1 gibibyte = 1024×1024×1024 bytes).',
 
 # Live preview
 'livepreview-loading' => '{{Identical|Loading}}',
@@ -3589,62 +3622,114 @@ Hint: the text "Remove Titles" is in {{msg-mw|watchlistedit-normal-submit}}',
 {{Identical|Edit raw watchlist}}',
 
 # Iranian month names
-'iranian-calendar-m1'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m2'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m3'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m4'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m5'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m6'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m7'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m8'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m9'  => 'Name of month in Iranian calender.',
-'iranian-calendar-m10' => 'Name of month in Iranian calender.',
-'iranian-calendar-m11' => 'Name of month in Iranian calender.',
-'iranian-calendar-m12' => 'Name of month in Iranian calender.',
+'iranian-calendar-m1'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m2'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m3'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m4'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m5'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m6'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m7'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m8'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m9'  => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m10' => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m11' => '{{optional}}
+Name of month in Iranian calender.',
+'iranian-calendar-m12' => '{{optional}}
+Name of month in Iranian calender.',
 
 # Hijri month names
-'hijri-calendar-m1'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m2'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m3'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m4'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m5'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m6'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m7'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m8'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m9'  => 'Name of month in Islamic calender.',
-'hijri-calendar-m10' => 'Name of month in Islamic calender.',
-'hijri-calendar-m11' => 'Name of month in Islamic calender.',
-'hijri-calendar-m12' => 'Name of month in Islamic calender.',
+'hijri-calendar-m1'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m2'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m3'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m4'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m5'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m6'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m7'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m8'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m9'  => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m10' => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m11' => '{{optional}}
+Name of month in Islamic calender.',
+'hijri-calendar-m12' => '{{optional}}
+Name of month in Islamic calender.',
 
 # Hebrew month names
-'hebrew-calendar-m1'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m2'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m3'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m4'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m5'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6a'     => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6b'     => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m7'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m8'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m9'      => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m10'     => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m11'     => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m12'     => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m1-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m2-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m3-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m4-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m5-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6a-gen' => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m6b-gen' => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m7-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m8-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m9-gen'  => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m10-gen' => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m11-gen' => 'Name of month in Hebrew calender.',
-'hebrew-calendar-m12-gen' => 'Name of month in Hebrew calender.',
+'hebrew-calendar-m1'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m2'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m3'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m4'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m5'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6a'     => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6b'     => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m7'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m8'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m9'      => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m10'     => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m11'     => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m12'     => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m1-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m2-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m3-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m4-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m5-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6a-gen' => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m6b-gen' => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m7-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m8-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m9-gen'  => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m10-gen' => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m11-gen' => '{{optional}}
+Name of month in Hebrew calender.',
+'hebrew-calendar-m12-gen' => '{{optional}}
+Name of month in Hebrew calender.',
 
 # Signatures
 'timezone-utc' => '{{optional}}',

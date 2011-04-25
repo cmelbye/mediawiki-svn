@@ -336,9 +336,9 @@ abstract class ApiBase {
 								$choices[] =  $t;
 							}
 						}
-                                                $desc .= $paramPrefix . $nothingPrompt . $prompt;
-                                                $choicesstring = implode( ', ', $choices );
-                                                $desc .= wordwrap( $choicesstring, 100, "\n                       " );
+						$desc .= $paramPrefix . $nothingPrompt . $prompt;
+						$choicesstring = implode( ', ', $choices );
+						$desc .= wordwrap( $choicesstring, 100, "\n                       " );
 					} else {
 						switch ( $type ) {
 							case 'namespace':
@@ -373,7 +373,7 @@ abstract class ApiBase {
 							$isArray = is_array( $paramSettings[self::PARAM_TYPE] );
 
 							if ( !$isArray
-									|| $isArray && count( $paramSettings[self::PARAM_TYPE] ) > self::LIMIT_SML1) {
+									|| $isArray && count( $paramSettings[self::PARAM_TYPE] ) > self::LIMIT_SML1 ) {
 								$desc .= $paramPrefix . "Maximum number of values " .
 									self::LIMIT_SML1 . " (" . self::LIMIT_SML2 . " for bots)";
 							}
@@ -1040,6 +1040,7 @@ abstract class ApiBase {
 		'sharedfile-exists' => array( 'code' => 'fileexists-sharedrepo-perm', 'info' => 'The target file exists on a shared repository. Use the ignorewarnings parameter to override it.' ),
 		'mustbeposted' => array( 'code' => 'mustbeposted', 'info' => "The \$1 module requires a POST request" ),
 		'show' => array( 'code' => 'show', 'info' => 'Incorrect parameter - mutually exclusive values may not be supplied' ),
+		'specialpage-cantexecute' => array( 'code' => 'specialpage-cantexecute', 'info' => "You don't have permission to view the results of this special page" ),
 
 		// ApiEditPage messages
 		'noimageredirect-anon' => array( 'code' => 'noimageredirect-anon', 'info' => "Anonymous users can't create image redirects" ),

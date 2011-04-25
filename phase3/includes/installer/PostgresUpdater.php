@@ -48,8 +48,8 @@ class PostgresUpdater extends DatabaseUpdater {
 			array( 'addTable', 'redirect',          'patch-redirect.sql' ),
 			array( 'addTable', 'updatelog',         'patch-updatelog.sql' ),
 			array( 'addTable', 'change_tag',        'patch-change_tag.sql' ),
-			array( 'addTable', 'tag_summary',       'patch-change_tag.sql' ),
-			array( 'addTable', 'valid_tag',         'patch-change_tag.sql' ),
+			array( 'addTable', 'tag_summary',       'patch-tag_summary.sql' ),
+			array( 'addTable', 'valid_tag',         'patch-valid_tag.sql' ),
 			array( 'addTable', 'user_properties',   'patch-user_properties.sql' ),
 			array( 'addTable', 'log_search',        'patch-log_search.sql' ),
 			array( 'addTable', 'l10n_cache',        'patch-l10n_cache.sql' ),
@@ -516,14 +516,10 @@ END;
 	protected function checkPgUser() {
 		global $wgDBmwschema, $wgDBts2schema, $wgDBuser;
 
-		# Just in case their LocalSettings.php does not have this:
-		if ( !isset( $wgDBmwschema ) ) {
-			$wgDBmwschema = 'mediawiki';
-		}
+		$config = $this->db->selectField( 
+			'pg_catalog.pg_user', "array_to_string(useconfig,'*')",
+			array( 'usename' => $wgDBuser ), __METHOD__ );
 
-		$safeuser = $this->db->addQuotes( $wgDBuser );
-		$SQL = "SELECT array_to_string(useconfig,'*') FROM pg_catalog.pg_user WHERE usename = $safeuser";
-		$config = pg_fetch_result( $this->db->query( $SQL ), 0, 0 );
 		$conf = array();
 		foreach ( explode( '*', $config ) as $c ) {
 			list( $x, $y ) = explode( '=', $c );

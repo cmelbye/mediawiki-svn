@@ -609,7 +609,6 @@ Kontrollér stavemåden, eller [[Special:UserLogin/signup|opret en ny konto]].',
 'wrongpasswordempty'         => 'Du glemte at indtaste password. Prøv igen.',
 'passwordtooshort'           => 'Adgangskoden skal mindst være på $1 {{PLURAL:$1|tegn|tegn}}.',
 'password-name-match'        => 'Kodeordet må ikke være det samme som brugernavnet.',
-'password-too-weak'          => 'Det angivne password er for svagt og kan ikke bruges.',
 'mailmypassword'             => 'Send nyt password',
 'passwordremindertitle'      => 'Nyt password til {{SITENAME}}',
 'passwordremindertext'       => 'Nogen (sandsynligvis dig, fra IP-adressen $1)
@@ -1615,6 +1614,9 @@ Informer venligst en [[Special:ListUsers/sysop|systemadministrator]].',
 'upload-too-many-redirects' => "URL'en indeholdt for mange omdirigeringer",
 'upload-unknown-size'       => 'Ukendt størrelse',
 'upload-http-error'         => 'Der opstod en HTTP-fejl: $1',
+
+# Special:UploadStash
+'uploadstash-summary' => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Adgang nægtet',
@@ -2730,7 +2732,7 @@ Dette skyldes sandsynligvis en henvisning til et sortlistet eksternt websted.',
 'math_unknown_function' => 'ukendt funktion',
 'math_lexing_error'     => 'lexerfejl',
 'math_syntax_error'     => 'syntaksfejl',
-'math_image_error'      => 'PNG-konvertering mislykkedes; undersøg om latex, dvips, gs og convert er installeret korrekt',
+'math_image_error'      => 'PNG-konvertering mislykkedes; undersøg om latex og dvipng (eller dvips + gs + convert) er installeret korrekt',
 'math_bad_tmpdir'       => 'Kan ikke skrive til eller oprette temp-mappe til math',
 'math_bad_output'       => 'Kan ikke skrive til eller oprette uddata-mappe til math',
 'math_notexvc'          => 'Manglende eksekvérbar texvc; se math/README for opsætningsoplysninger.',
@@ -3368,8 +3370,5 @@ Hvis brugeren er logget ind et sted, vil vedkommende blive logget ud øjeblikkel
 'disableaccount-nosuchuser'  => 'Brugerkontoen "$1" findes ikke.',
 'disableaccount-success'     => 'Brugerkontoen "$1" er blevet permanent deaktiveret.',
 'disableaccount-logentry'    => 'deaktiverede brugerkontoen [[$1]] permanent',
-
-# Special:UploadStash
-'uploadstash-summary' => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
 
 );

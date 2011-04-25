@@ -37,8 +37,7 @@ class Preprocessor_DOM implements Preprocessor {
 
 	function newPartNodeArray( $values ) {
 		//NOTE: DOM manipulation is slower than building & parsing XML! (or so Tim sais)
-		$xml = "";
-		$xml .= "<list>";
+		$xml = "<list>";
 
 		foreach ( $values as $k => $val ) {
 			 

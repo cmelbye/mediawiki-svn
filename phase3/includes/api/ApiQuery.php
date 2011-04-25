@@ -45,7 +45,7 @@ class ApiQuery extends ApiBase {
 	private $mPropModuleNames, $mListModuleNames, $mMetaModuleNames;
 
 	/**
-	 * @var ApiPageSet 
+	 * @var ApiPageSet
 	 */
 	private $mPageSet;
 
@@ -471,7 +471,7 @@ class ApiQuery extends ApiBase {
 	private function doExport( $pageSet, $result )	{
 		$exportTitles = array();
 		$titles = $pageSet->getGoodTitles();
-		if( count( $titles ) ) {
+		if ( count( $titles ) ) {
 			foreach ( $titles as $title ) {
 				if ( $title->userCanRead() ) {
 					$exportTitles[] = $title;
@@ -599,8 +599,8 @@ class ApiQuery extends ApiBase {
 		$this->mPageSet = null;
 		$this->mAllowedGenerators = array(); // Will be repopulated
 
-		$querySeparator = str_repeat( '--- ', 8 );
-		$moduleSeparator = str_repeat( '*** ', 10 );
+		$querySeparator = str_repeat( '--- ', 12 );
+		$moduleSeparator = str_repeat( '*** ', 14 );
 		$msg .= "\n$querySeparator Query: Prop  $querySeparator\n\n";
 		$msg .= $this->makeHelpMsgHelper( $this->mQueryPropModules, 'prop' );
 		$msg .= "\n$querySeparator Query: List  $querySeparator\n\n";

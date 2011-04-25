@@ -132,6 +132,8 @@ class Language {
 
 	/**
 	 * Get a cached language object for a given language code
+	 * @param $code String
+	 * @return Language
 	 */
 	static function factory( $code ) {
 		if ( !isset( self::$mLangObjCache[$code] ) ) {
@@ -146,6 +148,8 @@ class Language {
 
 	/**
 	 * Create a language object for a given language code
+	 * @param $code String
+	 * @return Language
 	 */
 	protected static function newFromCode( $code ) {
 		global $IP;
@@ -484,6 +488,25 @@ class Language {
 			}
 		}
 		closedir( $dir );
+		return $names;
+	}
+
+	/**
+	 * Get translated language names. This is done on best effort and
+	 * by default this is exactly the same as Language::getLanguageNames.
+	 * The CLDR extension provides translated names.
+	 * @param $code String Language code.
+	 * @return Array language code => language name
+	 * @since 1.18.0
+	 */
+	public static function getTranslatedLanguageNames( $code ) {
+		$names = array();
+		wfRunHooks( 'LanguageGetTranslatedLanguageNames', array( &$names, $code ) );
+
+		foreach ( self::getLanguageNames() as $code => $name ) {
+			if ( !isset( $names[$code] ) ) $names[$code] = $name;
+		}
+
 		return $names;
 	}
 
@@ -2879,7 +2902,8 @@ class Language {
 			throw new MWException(
 				"Utf8Case.ser is missing, please run \"make\" in the serialized directory\n" );
 		}
-		extract( $arr );
+		$wikiUpperChars = $arr['wikiUpperChars'];
+		$wikiLowerChars = $arr['wikiLowerChars'];
 		wfProfileOut( __METHOD__ );
 		return array( $wikiUpperChars, $wikiLowerChars );
 	}

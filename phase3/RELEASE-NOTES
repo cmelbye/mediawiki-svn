@@ -21,6 +21,20 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 === Configuration changes in 1.18 ===
 * The WantedPages::getSQL hook has been removed and replaced with
   WantedPages::getQueryInfo . This may break older extensions.
+* $wgUseCombinedLoginLink controls whether to output a combined login / create account
+  link in the personal bar, or to output separate login and create account links
+* Skin names are no longer created based on a ucfirst version of the key in $wgValidSkinNames but now
+  the value. This means for $wgValidSkinNames["monobook"] = "MonoBook"; the skin
+  loader will no longer try loading SkinMonobook and will instead load SkinMonoBook.
+* The parser now attempts to output markers for editsection tokens and defer the rendering
+  of them so skin and language specific markup does not need to be saved inside the parser cache
+  note that this changes the cache key making all old entries in the parser cache invalid you
+  can set $wgUseEditSectionTokens to false to disable this and keep your old parser cache entries.
+  Note that this feature should reduce parser cache fragmentation when enabled.
+* $wgMaxUploadSize may now be set to an array to specify the upload size limit 
+  per upload type.
+* $wgAPICacheHelp added in 1.16 is now removed. To disable API help caching, set
+  $wgAPICacheHelpTimeout = 0;
 
 <<<<<<< .working
 === Configuration changes in 1.17 ===
@@ -213,6 +227,12 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * Added a special page, disabled by default, that allows users with the
   'disableaccount' privilege to permanently deactivate user accounts.
 * (bug 8130) Query pages should limit to content namespaces, not just main namespace 
+* Search suggestions (other than in the Vector skin) will now use the HTML5
+  datalist feature where supported, currently only Firefox 4.
+* Special:Contribs now redirects to Special:Contributions
+* (bug 6672) Images are now autorotated according to their EXIF orientation. 
+  This only affects thumbnails; the source remains unrotated.
+* (bug 25708) Update case mappings and normalization to Unicode 6.0.0
 
 <<<<<<< .working
 === Bug fixes in 1.17 ===
@@ -453,6 +473,16 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 18372) File types blacklisted by $wgFileBlacklist will no longer be shown as
   "Permitted file types" on the upload form
 * (bug 26379) importImages.php gives more descriptive error message on failure.
+* (bug 26540) Fixed wrong call to applyPatch in MysqlUpdater
+* (bug 26574) Added 'upload' to $wgRestrictionTypes, allowing upload protected 
+  pages to be queried via the API and Special:ProtectedPages, and allowing 
+  disabling upload protection by removing it from $wgRestrictionTypes.
+* If an edit summary exceeds 250 bytes and is truncated, add an ellipse
+* (bug 26638) Database error pages display correctly in RTL languages
+* (bug 26187) Confirmrecreate no longer parses the edit summary
+* (bug 25506) Exception is thrown if OutputPage::parse is called inside a tag hook,
+  which would reset parser state
+* (bug 26208) Mark directionality of some interlanguage links
 
 <<<<<<< .working
 === API changes in 1.17 ===
@@ -564,6 +594,23 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 =======
 * (bug 14020) API for Special:Unwatchedpages
 * (bug 24287) Wrap API Help output at 100 characters
+* Add a realname uiprop option to query=userinfo so a user's realname can be extracted
+* Add a &watchuser option to ApiBlock
+* (bug 26541) Generator-ise ApiQueryRecentChanges
+* action=parse now correctly returns an error for nonexistent pages
+* (bug 25767) Add userrights properties to allusers and users query lists
+* (bug 26558) list=allusers auprop=groups does not list groups a user is automatically a member of
+* (bug 26559) list=allusers auprop=rights does not match list=users usprop=rights
+* (bug 26560) On allusers if limit < total number of users, last user gets duplicate
+* (bug 25135) add "normalized" to action=parse
+* (bug 26460) Add support for listing category members by category pageid
+* (bug 26482) add a imimages param to prop=images
+* (bug 26498) allow LinksUpdate with API
+* (bug 26485) add a elextlinks param to prop=extlinks
+* (bug 26483) add a iwtitles param to prop=iwlinks
+* (bug 26484) add a lltitles param to prop=langlinks
+* (bug 26480) add a pppageprops param to prop=pageprops
+* (bug 26650) Remove $wgAPICacheHelp in favour of $wgAPICacheHelpTimeout
 
 === Languages updated in 1.18 ===
 

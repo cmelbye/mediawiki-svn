@@ -325,6 +325,7 @@ $messages = array(
 'printableversion'  => 'Ćišćomna wersija',
 'permalink'         => 'Trajny wotkaz',
 'print'             => 'Ćišćeć',
+'view'              => 'Wobhladać',
 'edit'              => 'wobdźěłać',
 'create'            => 'Wutworić',
 'editthispage'      => 'Stronu wobdźěłać',
@@ -332,6 +333,7 @@ $messages = array(
 'delete'            => 'wušmórnyć',
 'deletethispage'    => 'Stronu wušmórnyć',
 'undelete_short'    => '{{PLURAL:$1|jednu wersiju|$1 wersiji|$1 wersije|$1 wersijow}} wobnowić',
+'viewdeleted_short' => '{{PLURAL:$1|jednu wušmórnjenu změnu|$1 wušmórnjenej změnje|$1 wušmórnjene změny|$1 wušmórnjenych změnow}} sej wobhladać',
 'protect'           => 'škitać',
 'protect_change'    => 'změnić',
 'protectthispage'   => 'Stronu škitać',
@@ -412,6 +414,8 @@ $1',
 'toc'                     => 'Wobsah',
 'showtoc'                 => 'pokazać',
 'hidetoc'                 => 'schować',
+'collapsible-collapse'    => 'Schować',
+'collapsible-expand'      => 'Pokazać',
 'thisisdeleted'           => '$1 pokazać abo wobnowić?',
 'viewdeleted'             => '$1 pokazać?',
 'restorelink'             => '{{PLURAL:$1|1 wušmórnjenu wersiju|$1 wušmórnjenej wersiji|$1 wušmórnjene wersije|$1 wušmórnjenych wersijow}}',
@@ -572,7 +576,7 @@ Přepruwuj swój prawopis abo [[Special:UserLogin/signup|wutwor nowe konto]].',
 'wrongpasswordempty'         => 'Hesło, kotrež sy zapodał, běše prózdne. Prošu spytaj hišće raz.',
 'passwordtooshort'           => 'Hesła dyrbja znajmjeńša {{PLURAL:$1|1 znamješko|$1 znamješce|$1 znamješka|$1 znamješkow}} měć.',
 'password-name-match'        => 'Twoje hesło dyrbi so wot twojeho wužiwarskeho mjena rozeznać.',
-'password-too-weak'          => 'Podate hesło je přesłabe a njehodźi so wužiwać.',
+'password-login-forbidden'   => 'Wužiwanje tutoho wužiwarskeho mjena a heska je zakazane.',
 'mailmypassword'             => 'Nowe hesło e-mejlować',
 'passwordremindertitle'      => 'Skedźbnjenje na hesło z {{GRAMMAR:genitiw|{{SITENAME}}}}',
 'passwordremindertext'       => 'Něchtó z IP-adresu $1 (najskerje ty) je wo nowe hesło za přizjewjenje za {{GRAMMAR:akuzatiw|{{SITENAME}}}} ($4) prosył. Nachwilne hesło za wužiwarja "$2" je so wutworiło a je nětko "$3". Jeli je to twój wotpohlad było dyrbiš so nětko přizjewić a nowe hesło wubrać. Twoje nachwilne hesło spadnje za {{PLURAL:$5|jeden dźeń|$5 dnjej|$5 dny|$5 dnjow}}.
@@ -1220,6 +1224,10 @@ Smě mjenje hač $1 {{PLURAL:$1|znamješko|znamješce|znamješka|znamješkow}} d
 'prefs-displaywatchlist'        => 'Zwobraznjenske opcije',
 'prefs-diffs'                   => 'Rozdźěle',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Zda so, zo e-mejlowa adresa je płaćiwa',
+'email-address-validity-invalid' => 'Zapodaj płaćiwu e-mejlowu adresu',
+
 # User rights
 'userrights'                   => 'Zrjadowanje wužiwarskich prawow',
 'userrights-lookup-user'       => 'Wužiwarske skupiny zrjadować',
@@ -1563,6 +1571,15 @@ $1',
 'upload-too-many-redirects' => 'URL wobsahowaše přewjele daleposrědkowanjow',
 'upload-unknown-size'       => 'Njeznata wulkosć',
 'upload-http-error'         => 'HTTP-zmylk je wustupił: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Schowanje nahratych datajow',
+'uploadstash-summary'  => 'Tuta strona zmóžnja přistup k datajam, kotrež su nahrate (abo so nahrawaja), ale hišće njejsu do wikija wozjejwene. Tute dataje  za nikoho widźomne njejsu, jenož za wužiwarja, kiž je je nahrał.',
+'uploadstash-clear'    => 'Schowane nahrate dataje zhašeć',
+'uploadstash-nofiles'  => 'Nimaš žane schowane nahrate dataje.',
+'uploadstash-badtoken' => 'Wuwjedźenje teje akcije je so njeporadźiło, snano dokelž twoje wobdźěłowanske daty su spadnjene. Spytaj hišće raz.',
+'uploadstash-errclear' => 'Wotstronjenje datajow je so njeporadźiło.',
+'uploadstash-refresh'  => 'Lisćinu datajow aktualizować',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Přistup wotpokazany',
@@ -2664,7 +2681,7 @@ W poslednim padźe móžeš tež wotkaz wužiwać, na př. „[[{{#Special:Expor
 'math_unknown_function' => 'njeznata funkcija',
 'math_lexing_error'     => 'leksikalny zmylk',
 'math_syntax_error'     => 'syntaktiski zmylk',
-'math_image_error'      => 'Konwertowanje do PNG zwrěšćiło; kontroluj prawu instalaciju latex, dvips, gs a konwertuj',
+'math_image_error'      => 'Konwertowanje do PNG zwrěšćiło; kontroluj prawu instalaciju latex a dvipng (abo dvips + gs + konwertuj)',
 'math_bad_tmpdir'       => 'Njemóžno do nachwilneho matematiskeho zapisa pisać abo jón wutworić',
 'math_bad_output'       => 'Njemóžno do matematiskeho zapisa za wudaće pisać abo jón wutworić',
 'math_notexvc'          => 'Wuwjedźomny texvc pobrachuje; prošu hlej math/README za konfiguraciju.',
@@ -3300,14 +3317,5 @@ Jeli wužiwar je tuchwilu druhdźe přizjewjeny, budźe so hnydom wotzjewjeć.
 'disableaccount-nosuchuser'  => 'Wužiwarske konto "$1" njeeksistuje.',
 'disableaccount-success'     => 'Wužiwarske konto "$1" bu na přeco znjemóžnjene.',
 'disableaccount-logentry'    => 'je wužiwarske konto [[$1]] na přeco znjemóžnił',
-
-# Special:UploadStash
-'uploadstash'          => 'Schowanje nahratych datajow',
-'uploadstash-summary'  => 'Tuta strona zmóžnja přistup k datajam, kotrež su nahrate (abo so nahrawaja), ale hišće njejsu do wikija wozjejwene. Tute dataje  za nikoho widźomne njejsu, jenož za wužiwarja, kiž je je nahrał.',
-'uploadstash-clear'    => 'Schowane nahrate dataje zhašeć',
-'uploadstash-nofiles'  => 'Nimaš žane schowane nahrate dataje.',
-'uploadstash-badtoken' => 'Wuwjedźenje teje akcije je so njeporadźiło, snano dokelž twoje wobdźěłowanske daty su spadnjene. Spytaj hišće raz.',
-'uploadstash-errclear' => 'Wotstronjenje datajow je so njeporadźiło.',
-'uploadstash-refresh'  => 'Lisćinu datajow aktualizować',
 
 );

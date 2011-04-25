@@ -26,6 +26,11 @@ abstract class DatabaseUpdater {
 
 	protected $extensionUpdates = array();
 
+	/**
+	 * Handle to the database subclass
+	 *
+	 * @var DatabaseBase
+	 */
 	protected $db;
 
 	protected $shared = false;
@@ -43,6 +48,7 @@ abstract class DatabaseUpdater {
 	 */
 	protected function __construct( DatabaseBase &$db, $shared, Maintenance $maintenance = null ) {
 		$this->db = $db;
+		$this->db->setFlag( DBO_DDLMODE ); // For Oracle's handling of schema files
 		$this->shared = $shared;
 		if ( $maintenance ) {
 			$this->maintenance = $maintenance;
@@ -71,6 +77,14 @@ abstract class DatabaseUpdater {
 		$wgExtModifiedFields = array(); // table, index, dir
 	}
 
+	/**
+	 * @static
+	 * @throws MWException
+	 * @param DatabaseBase $db
+	 * @param bool $shared
+	 * @param null $maintenance
+	 * @return
+	 */
 	public static function newForDB( &$db, $shared = false, $maintenance = null ) {
 		$type = $db->getType();
 		if( in_array( $type, Installer::getDBTypes() ) ) {
@@ -84,7 +98,7 @@ abstract class DatabaseUpdater {
 	/**
 	 * Get a database connection to run updates
 	 *
-	 * @return DatabasBase object
+	 * @return DatabaseBase object
 	 */
 	public function getDB() {
 		return $this->db;
@@ -115,11 +129,21 @@ abstract class DatabaseUpdater {
 	 *                first item is the callback function, it also can be a
 	 *                simple string with the name of a function in this class,
 	 *                following elements are parameters to the function.
-	 *                Note that callback functions will recieve this object as
+	 *                Note that callback functions will receive this object as
 	 *                first parameter.
 	 */
 	public function addExtensionUpdate( Array $update ) {
 		$this->extensionUpdates[] = $update;
+	}
+
+	/**
+	 * Convenience wrapper for addExtensionUpdate() when adding a new table (which
+	 * is the most common usage of updaters in an extension)
+	 * @param $tableName String Name of table to create
+	 * @param $sqlPath String Full path to the schema file
+	 */
+	public function addExtensionTable( $tableName, $sqlPath ) {
+		$this->extensionUpdates[] = array( 'addTable', $tableName, $sqlPath, true );
 	}
 
 	/**

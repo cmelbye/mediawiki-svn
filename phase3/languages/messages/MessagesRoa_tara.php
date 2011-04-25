@@ -212,6 +212,7 @@ $messages = array(
 'printableversion'  => 'Versione ca se stambe',
 'permalink'         => 'Collegamende ca remane pe sembre',
 'print'             => 'Stambe',
+'view'              => 'Vide',
 'edit'              => 'Cange',
 'create'            => 'Ccreje',
 'editthispage'      => 'Cange sta pàgene',
@@ -304,6 +305,8 @@ Vide [[Special:Version|Versione d'a pàgene]].",
 'toc'                     => 'Condenute',
 'showtoc'                 => 'fà vedè',
 'hidetoc'                 => 'scunne',
+'collapsible-collapse'    => 'Scunne',
+'collapsible-expand'      => 'Spanne',
 'thisisdeleted'           => 'Vide o ripristine $1?',
 'viewdeleted'             => 'Vue ccu vide $1?',
 'restorelink'             => "{{PLURAL:$1|'nu cangiamende scangellete|$1 cangiaminde scangellete}}",
@@ -479,7 +482,6 @@ Prueve n'otra vote.",
 Mitta n'otra vota.",
 'passwordtooshort'           => 'Le password onne a essere almene {{PLURAL:$1|1 carattere|$1 carattere}}.',
 'password-name-match'        => "'A password toje adda essere diverse da 'u nome utende tue.",
-'password-too-weak'          => "'A passuord mise jè troppe scarse e non ge pò essere ausate.",
 'mailmypassword'             => 'Passuord nova pe e-mail',
 'passwordremindertitle'      => 'Passuord temboranea nova pe {{SITENAME}}',
 'passwordremindertext'       => "Quacchedune (pò essere tu, da quiste indirizze IP \$1) ha cerchete 'na nova password pe {{SITENAME}} (\$4).
@@ -2363,7 +2365,6 @@ Pe bloccà o sbloccà 'u database quiste abbesogne de essere scritte da 'nu web 
 
 # Move page
 'move-page'                    => 'Spuèste $1',
-'move-page-backlink'           => '← $1',
 'move-page-legend'             => "Spuèste 'a pàgene",
 'movepagetext'                 => "Ausanne 'u form aqquà sotte ste cange 'u nome d'a pàgene, spustanne tutte a storia soje sus a 'u nome néve.
 U' vecchie titele devènde 'nu ridirezionamende sus 'a pàgena nove.

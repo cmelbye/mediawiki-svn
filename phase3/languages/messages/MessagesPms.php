@@ -232,6 +232,7 @@ dj'artìcoj ancó pa scrit",
 'printableversion'  => 'Version bon-a për stampé',
 'permalink'         => 'Anliura fissa',
 'print'             => 'Stampa',
+'view'              => 'Vardé',
 'edit'              => 'Modìfica',
 'create'            => 'Creé',
 'editthispage'      => "Modìfica st'artìcol-sì",
@@ -239,6 +240,7 @@ dj'artìcoj ancó pa scrit",
 'delete'            => 'Scancela',
 'deletethispage'    => 'Scancela pàgina',
 'undelete_short'    => 'Disdëscancela {{PLURAL:$1|na modìfica|$1 modìfiche}}',
+'viewdeleted_short' => 'Vardé {{PLURAL:$1|na modìfica scancelà|$1 modìfiche scancelà}}',
 'protect'           => 'Protegg',
 'protect_change'    => 'cambia',
 'protectthispage'   => 'Protegg sta pàgina-sì',
@@ -322,6 +324,8 @@ $1",
 'toc'                     => 'Contnù',
 'showtoc'                 => 'smon',
 'hidetoc'                 => 'stërma',
+'collapsible-collapse'    => 'Sëré',
+'collapsible-expand'      => 'Deurbe',
 'thisisdeleted'           => 'Veul-lo vardé ò ripristiné $1?',
 'viewdeleted'             => 'Veul-lo vardé $1?',
 'restorelink'             => '{{PLURAL:$1|na modìfica scancelà|$1 modìfiche scancelà}}',
@@ -468,6 +472,8 @@ Për piasì, sern në stranòm diferent.",
 {{SITENAME}} a deuvra ij cookies për fé rintré la gent ant sò sistema. Belavans chiel a l'ha pa ij cookies abilità.
 Për piasì, che as j'abìlita e peuj che a preuva torna a rintré con sò stranòm e soa ciav.",
 'nocookieslogin'             => "{{SITENAME}} a deuvra ij cookies për fé rintré la gent ant sò sistema. Belavans chiel a l'ha pa ij cookies abilità. Për piasì, che a j'abìlita e peuj che a preuva torna.",
+'nocookiesfornew'            => "Ël cont utent a l'é pa stàit creà, antlora i podoma pa confirmé soa sorziss.
+Sigurte d'avèj ij cookie abilità, torna carié la pàgina e preuva torna.",
 'noname'                     => "Lë stranòm che a l'ha batù as peul pa dovresse, as peul nen creésse un cont Utent con ës nòm-sì.",
 'loginsuccesstitle'          => "Compliment! A l'é pen-a rintrà ant ël sistema. A-i é pa staje gnun eror.",
 'loginsuccess'               => 'A l\'ha avù ël përmess ëd conession al servent ëd {{SITENAME}} con lë stranòm utent ëd "$1".',
@@ -481,7 +487,7 @@ Controla ël nòm che it l\'has batù, o [[Special:UserLogin/signup|fà un neuv 
 'wrongpasswordempty'         => "A l'ha butà na ciav veujda. Për piasì, che a preuva torna.",
 'passwordtooshort'           => 'Le ciav a devo avèj almanch {{PLURAL:$1|1 caràter|$1 caràter}}.',
 'password-name-match'        => 'Toa ciav a deuv esse diferenta da tò stranòm.',
-'password-too-weak'          => "La ciav dàita a l'é tròp debla e a peul pa esse dovrà",
+'password-login-forbidden'   => "L'usagi dë sto nòm utent e ciav a son ëstàit vietà.",
 'mailmypassword'             => 'Mandme na neuva ciav për pòsta eletrònica',
 'passwordremindertitle'      => 'Servissi për visé la paròla ciav ëd {{SITENAME}}',
 'passwordremindertext'       => "Cheidun (a l'é belfé che a sia stàit pròpe chiel, da 'nt l'adrëssa IP \$1) a l'ha ciamà che i-j mandèisso
@@ -662,6 +668,10 @@ o <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} 
 'usercsspreview'                   => "'''Che a varda che lòn che a s-ciàira a l'é nomach na preuva ëd sò CSS.'''
 '''A l'é ancó nen stàit salvà!'''",
 'userjspreview'                    => "'''Che as visa che a l'é mach antramentr che as fa na preuva ëd sò Javascript, che a l'é ancó pa stàit salvà!'''",
+'sitecsspreview'                   => "'''Che a varda che a l'é mach an mente ch'a preuva sto CSS.'''
+'''A l'é ancó pa stàit salvà!'''",
+'sitejspreview'                    => "'''Che a varda che a l'é mach an mente ch'a preuva sto còdes JavaScript.'''
+'''A l'é ancó pa stàit salvà!'''",
 'userinvalidcssjstitle'            => "'''Avis:''' A-i é pa gnun-a pel \"\$1\". Che as visa che le pàgine .css e .js che un as fa daspërchiel a deuvro tute minùscole për tìtol, pr'esempi {{ns:user}}:Scaramacaj/vector.css nopà che {{ns:user}}:Scaramacaj/Vector.css.",
 'updated'                          => '(Agiornà)',
 'note'                             => "'''NÒTA:'''",
@@ -1160,6 +1170,10 @@ A peul ëdcò serne ëd lassé che j'àutri a lo contato an soa pàgina d'utent 
 'prefs-displaywatchlist'        => 'Opsion ëd visualisassion',
 'prefs-diffs'                   => 'Diferense',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'A smija bon',
+'email-address-validity-invalid' => "A l'é ciamà n'adrëssa bon-a!",
+
 # User rights
 'userrights'                     => "Gestion dij drit dj'utent",
 'userrights-lookup-user'         => "Gestion dle partìe d'utent",
@@ -1508,6 +1522,15 @@ Se a-i riva sossì n'àotra vira, ch'as buta an comunicassion con n'[[Special:Li
 'upload-unknown-size'       => 'Dimension pa conossùa',
 'upload-http-error'         => "A l'é staje n'eror HTTP: $1.",
 
+# Special:UploadStash
+'uploadstash'          => 'Carié artorn',
+'uploadstash-summary'  => "Sta pàgina a dà acess a file ch'a son carià (o an mente ch'as cario) ma a non pa anco' publicà sla wiki. Sti file a son pa visìbij a gnun an gavand l'utent ch'a l'ha cariaje.",
+'uploadstash-clear'    => 'Polida file artornà',
+'uploadstash-nofiles'  => "It l'has pa dij file artornà.",
+'uploadstash-badtoken' => "L'esecussion dë st'assion a l'é pa andàita bin, miraco përchè toe credensiaj ëd modìfica a son scadùe. Preuva torna.",
+'uploadstash-errclear' => "polidé ij file a l'é pa andàit bin.",
+'uploadstash-refresh'  => 'Agiorna la lista ëd file',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Acess negà',
 'img-auth-nopathinfo'   => "PATH_INFO mancant.
@@ -1755,9 +1778,9 @@ Adess a l'é na ridiression a [[$2]].",
 'newpages-username'       => 'Stranòm:',
 'ancientpages'            => 'Le pàgine pì veje',
 'move'                    => 'Tramudé',
-'movethispage'            => 'Tramuda costa pàgina-sì',
+'movethispage'            => 'Tramudé costa pàgina',
 'unusedimagestext'        => "J'archivi sì-sota a esisto ma a son pa andrinta a gnun-e pàgine.
-Për piasì nòta che àutri sit an sl'aragnà a peulo coleghesse a n'archivi con n'anliura direta, e parèj a peulo ancó esse listà sì bele s'a son dovrà an coj sit.",
+Për piasì, ch'a nòta che d'àutri sit an sl'aragnà a peulo coleghesse a n'archivi con n'anliura direta, e parèj a peulo ancó esse listà ambelessì, bele s'a son dovrà an coj sit.",
 'unusedcategoriestext'    => "Le pàgine ëd coste categorìe-sì a son fasse ma peuj a l'han andrinta nì d'artìcoj, nì ëd sotacategorìe.",
 'notargettitle'           => 'A manco ij dat',
 'notargettext'            => "A l'ha pa dit a che pàgina ò Utent apliché l'operassion ciamà.",
@@ -1766,6 +1789,7 @@ Për piasì nòta che àutri sit an sl'aragnà a peulo coleghesse a n'archivi co
 'pager-newer-n'           => '{{PLURAL:$1|1|$1}} pì neuv',
 'pager-older-n'           => '{{PLURAL:$1|1|$1}} pì vej',
 'suppress'                => 'Oversight',
+'querypage-disabled'      => "Sta pàgina special a l'é disabilità për rason ëd prestassion.",
 
 # Book sources
 'booksources'               => 'Andoa trové dij lìber',
@@ -2645,7 +2669,7 @@ Sòn a l'é motobin belfé che a sia rivà përchè a-i era n'anliura a un sit e
 'math_unknown_function' => 'funsion che as sa pa lòn che a la sia',
 'math_lexing_error'     => 'eror ëd léssich',
 'math_syntax_error'     => 'eror ëd sintassi',
-'math_image_error'      => 'Conversion a PNG falà; che a contròla che latex, dvips, gs, e convert a sio instalà giust',
+'math_image_error'      => "Conversion a PNG falà; che a contròla l'ùltima instalassion ëd latex e dvipng (o dvips + gs + convert)",
 'math_bad_tmpdir'       => "Ël sistema a-i la fa pa a creé la diretriss '''math temp''', ò pura a-i la fa nen a scriv-je andrinta",
 'math_bad_output'       => "Ël sistema a-i la fa pa a creé la diretriss '''math output''', ò pura a-i la fa nen a scriv-je andrinta",
 'math_notexvc'          => 'Pa gnun texvc executable; për piasì, che a contròla math/README për la configurassion.',
@@ -3189,6 +3213,7 @@ As peul ëdcò [[Special:Watchlist/edit|dovré l'editor sòlit]].",
 'version-specialpages'             => 'Pàgine speciaj',
 'version-parserhooks'              => 'Gancio dlë scompositor',
 'version-variables'                => 'Variàbij',
+'version-antispam'                 => 'Prevension dlë spam',
 'version-skins'                    => 'Pej',
 'version-other'                    => 'Àutr',
 'version-mediahandlers'            => 'Gestor multimojen',

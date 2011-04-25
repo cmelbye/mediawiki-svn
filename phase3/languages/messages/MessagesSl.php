@@ -367,6 +367,7 @@ in [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Uporabniški priroč
 'printableversion'  => 'Različica za tisk',
 'permalink'         => 'Trajna povezava',
 'print'             => 'Tisk',
+'view'              => 'Ogled',
 'edit'              => 'Uredi stran',
 'create'            => 'Ustvari',
 'editthispage'      => 'Uredi stran',
@@ -374,6 +375,7 @@ in [http://meta.wikimedia.org/wiki/MediaWiki_User%27s_Guide Uporabniški priroč
 'delete'            => 'Briši',
 'deletethispage'    => 'Briši stran',
 'undelete_short'    => 'Vrni $1 {{PLURAL:$1|izbrisano urejanje|izbrisani urejanji|izbrisana urejanja|izbrisanih urejanj|izbrisanih urejanj}}',
+'viewdeleted_short' => 'Ogled {{PLURAL:$1|enega izbrisanega urejanja|$1 izbrisanih urejanj}}',
 'protect'           => 'Zaščiti',
 'protect_change'    => 'spremeni zaščito',
 'protectthispage'   => 'Zaščiti stran',
@@ -458,6 +460,8 @@ $1',
 'toc'                     => 'Vsebina',
 'showtoc'                 => 'prikaži',
 'hidetoc'                 => 'skrij',
+'collapsible-collapse'    => 'Skrči',
+'collapsible-expand'      => 'Razširi',
 'thisisdeleted'           => 'Prikažem ali vrnem $1?',
 'viewdeleted'             => 'Prikažem $1?',
 'restorelink'             => '$1 {{PLURAL:$1|izbrisano redakcijo|izbrisani redakciji|izbrisane redakcije|izbrisanih redakcij}}',
@@ -626,7 +630,7 @@ Preverite črkovanje.',
 'wrongpasswordempty'         => 'Vpisali ste prazno geslo. Prosimo, poskusite znova.',
 'passwordtooshort'           => 'Geslo mora imeti najmanj $1 {{PLURAL:$1|znak|znaka|znake|znakov|znakov}}.',
 'password-name-match'        => 'Vaše geslo se mora razlikovati od vašega uporabniškega imena.',
-'password-too-weak'          => 'Navedeno geslo je prešibko in ga ni mogoče uporabiti.',
+'password-login-forbidden'   => 'Uporaba tega uporabniškega imena in gesla je prepovedana.',
 'mailmypassword'             => 'Pošlji mi novo geslo',
 'passwordremindertitle'      => 'Novo začasno geslo za {{GRAMMAR:tožilnik|{{SITENAME}}}}',
 'passwordremindertext'       => 'Nekdo (verjetno vi, z IP-naslova $1) je zahteval novo
@@ -1315,6 +1319,10 @@ Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elek
 'prefs-displaywatchlist'        => 'Možnosti prikaza',
 'prefs-diffs'                   => 'Primerjave',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Izgleda veljaven',
+'email-address-validity-invalid' => 'Obvezen je veljaven naslov!',
+
 # User rights
 'userrights'                   => 'Upravljanje s pravicami uporabnikov',
 'userrights-lookup-user'       => 'Upravljanje z uporabniškimi skupinami',
@@ -1565,7 +1573,7 @@ Za grafični pogled obiščite [[Special:NewFiles|galerijo novih datotek]].',
 'filename-tooshort'           => 'Ime datoteke je prekratko',
 'filetype-banned'             => 'Ta vrsta datoteke je prepovedana',
 'verification-error'          => 'Ta datoteka ni opravila preverjanja datoteke',
-'hookaborted'                 => 'Spremembo, ki ste jo poskušali narediti, je prekinila razširitev',
+'hookaborted'                 => 'Spremembo, ki ste jo poskušali narediti, je prekinila razširitev.',
 'illegal-filename'            => 'Ime datoteke ni dovoljeno',
 'overwrite'                   => 'Prepisovanje obstoječe datoteke ni dovoljeno',
 'unknown-error'               => 'Prišlo je do neznane napake',
@@ -1665,6 +1673,15 @@ Prosimo, preverite veljavnost in dostopnost naslova URL ter poskusite ponovno.
 'upload-too-many-redirects' => 'URL vsebuje preveč preusmeritev',
 'upload-unknown-size'       => 'Neznana velikost',
 'upload-http-error'         => 'Prišlo je do napake HTTP: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Skrite naložene datoteke',
+'uploadstash-summary'  => 'Ta stran omogoča dostop do datotek, ki so naložene (oziroma v postopku nalaganja), vendar še niso objavljene na wikiju. Te datoteke so vidne samo uporabniku, ki jih je naložil, in nikomur drugemu.',
+'uploadstash-clear'    => 'Počisti skrite datoteke',
+'uploadstash-nofiles'  => 'Nimate skritih datotek.',
+'uploadstash-badtoken' => 'Izvedba dejanja ni bila uspešna, morda zaradi izteklih poverilnic za urejanje. Poskusite znova.',
+'uploadstash-errclear' => 'Čiščenje datotek ni bilo uspešno.',
+'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Dostop zavrnjen',
@@ -2811,8 +2828,7 @@ Omogoča vnos pojasnila v povzetku urejanja.',
 'math_unknown_function' => 'neznana funkcija',
 'math_lexing_error'     => 'slovarska napaka',
 'math_syntax_error'     => 'skladenjska napaka',
-'math_image_error'      => 'Pretvarjanje v PNG ni uspelo;
-preverite, ali so latex, dvips, gs, in convert pravilno nameščeni.',
+'math_image_error'      => 'Pretvarjanje v PNG ni uspelo; preverite, ali sta latex in dvips (ali dvips + gs + convert) pravilno nameščena.',
 'math_bad_tmpdir'       => 'Začasne mape za math ne morem ustvariti ali pisati vanjo.',
 'math_bad_output'       => 'Izhodne mape za math ne morem ustvariti ali pisati vanjo.',
 'math_notexvc'          => 'Manjka izvedbena datoteka texvc;
@@ -3473,14 +3489,5 @@ Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-po
 'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
 'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
 'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Skrite naložene datoteke',
-'uploadstash-summary'  => 'Ta stran omogoča dostop do datotek, ki so naložene (oziroma v postopku nalaganja), vendar še niso objavljene na wikiju. Te datoteke so vidne samo uporabniku, ki jih je naložil, in nikomur drugemu.',
-'uploadstash-clear'    => 'Počisti skrite datoteke',
-'uploadstash-nofiles'  => 'Nimate skritih datotek.',
-'uploadstash-badtoken' => 'Izvedba dejanja ni bila uspešna, morda zaradi izteklih poverilnic za urejanje. Poskusite znova.',
-'uploadstash-errclear' => 'Čiščenje datotek ni bilo uspešno.',
-'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 );

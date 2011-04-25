@@ -171,6 +171,8 @@ class MysqlUpdater extends DatabaseUpdater {
 			array( 'doCollationUpdate' ),
 			array( 'addTable', 'msg_resource',                      'patch-msg_resource.sql' ),
 			array( 'addTable', 'module_deps',                       'patch-module_deps.sql' ),
+			array( 'dropIndex', 'archive', 'ar_page_revid',         'patch-archive_kill_ar_page_revid.sql' ),
+			array( 'addIndex', 'archive', 'ar_revid',               'patch-archive_ar_revid.sql' ),
 		);
 	}
 
@@ -191,7 +193,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			$this->output( "...$table table has correct $field encoding.\n" );
 		} else {
 			$this->output( "Fixing $field encoding on $table table... " );
-			$this->db->applyPatch( $patchFile );
+			$this->applyPatch( $patchFile );
 			$this->output( "ok\n" );
 		}
 	}
@@ -311,6 +313,7 @@ class MysqlUpdater extends DatabaseUpdater {
 			$this->output( wfTimestamp( TS_DB ) );
 			$this->output( "......<b>Found duplicate entries</b>\n" );
 			$this->output( sprintf( "<b>      %-60s %3s %5s</b>\n", 'Title', 'NS', 'Count' ) );
+			$duplicate = array();
 			foreach ( $rows as $row ) {
 				if ( ! isset( $duplicate[$row->cur_namespace] ) ) {
 					$duplicate[$row->cur_namespace] = array();
@@ -622,7 +625,7 @@ class MysqlUpdater extends DatabaseUpdater {
 		$rows = $this->db->affectedRows();
 
 		if( $rows ) {
-			$this->output( "Set page_random to a random value on $row rows where it was set to 0\n" );
+			$this->output( "Set page_random to a random value on $rows rows where it was set to 0\n" );
 		} else {
 			$this->output( "...no page_random rows needed to be set\n" );
 		}

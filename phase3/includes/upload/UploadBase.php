@@ -78,20 +78,12 @@ abstract class UploadBase {
 	}
 
 	/**
-	 * Returns an array of permissions that is required to upload a file
-	 * 
-	 * @return array
-	 */
-	public static function getRequiredPermissions() {
-		return array( 'upload', 'edit' );
-	}
-	/**
 	 * Returns true if the user can use this upload module or else a string
 	 * identifying the missing permission.
 	 * Can be overriden by subclasses.
 	 */
 	public static function isAllowed( $user ) {
-		foreach ( self::getRequiredPermissions() as $permission ) {
+		foreach ( array( 'upload', 'edit' ) as $permission ) {
 			if ( !$user->isAllowed( $permission ) ) {
 				return $permission;
 			}
@@ -150,6 +142,14 @@ abstract class UploadBase {
 	}
 
 	public function __construct() {}
+	
+	/**
+	 * Returns the upload type. Should be overridden by child classes
+	 * 
+	 * @since 1.18
+	 * @return string 
+	 */
+	public function getSourceType() { return null; }
 
 	/**
 	 * Initialize the path information
@@ -234,11 +234,11 @@ abstract class UploadBase {
 		/**
 		 * Honor $wgMaxUploadSize
 		 */
-		global $wgMaxUploadSize;
-		if( $this->mFileSize > $wgMaxUploadSize ) {
+		$maxSize = self::getMaxUploadSize( $this->getSourceType() );
+		if( $this->mFileSize > $maxSize ) {
 			return array( 
 				'status' => self::FILE_TOO_LARGE,
-				'max' => $wgMaxUploadSize,
+				'max' => $maxSize,
 			);
 		}
 
@@ -637,7 +637,8 @@ abstract class UploadBase {
 	public function stashSessionFile( $key = null ) { 
 		$stash = new UploadStash();
 		$data = array( 
-			'mFileProps' => $this->mFileProps
+			'mFileProps' => $this->mFileProps,
+			'mSourceType' => $this->getSourceType(),
 		);
 		$file = $stash->stashFile( $this->mTempPath, $data, $key );
 		$this->mLocalFile = $file;
@@ -1227,5 +1228,20 @@ abstract class UploadBase {
 		$code = $error['status'];
 		unset( $code['status'] );
 		return Status::newFatal( $this->getVerificationErrorCode( $code ), $error );
+	}
+	
+	public static function getMaxUploadSize( $forType = null ) {
+		global $wgMaxUploadSize;
+		
+		if ( is_array( $wgMaxUploadSize ) ) {
+			if ( !is_null( $forType) && isset( $wgMaxUploadSize[$forType] ) ) {
+				return $wgMaxUploadSize[$forType];
+			} else {
+				return $wgMaxUploadSize['*'];
+			}
+		} else {
+			return intval( $wgMaxUploadSize );
+		}
+		
 	}
 }

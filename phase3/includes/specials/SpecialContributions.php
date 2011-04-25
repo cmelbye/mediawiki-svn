@@ -78,6 +78,10 @@ class SpecialContributions extends SpecialPage {
 			$target = $nt->getText();
 			$wgOut->setSubtitle( $this->contributionsSub( $nt, $id ) );
 			$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsgExt( 'contributions-title', array( 'parsemag' ),$target ) ) );
+			$user = User::newFromName( $target, false );
+			if ( is_object($user) ) {
+				$wgUser->getSkin()->setRelevantUser( $user );
+			}
 		} else {
 			$wgOut->setSubtitle( wfMsgHtml( 'sp-contributions-newbies-sub') );
 			$wgOut->setHTMLTitle( wfMsg( 'pagetitle', wfMsg( 'sp-contributions-newbies-title' ) ) );
@@ -139,6 +143,7 @@ class SpecialContributions extends SpecialPage {
 					'<p>' . $pager->getNavigationBar() . '</p>'
 				);
 			}
+			$wgOut->preventClickjacking( $pager->getPreventClickjacking() );
 
 
 			# Show the appropriate "footer" message - WHOIS tools, etc.
@@ -481,6 +486,7 @@ class ContribsPager extends ReverseChronologicalPager {
 	public $mDefaultDirection = true;
 	var $messages, $target;
 	var $namespace = '', $mDb;
+	var $preventClickjacking = false;
 
 	function __construct( $options ) {
 		parent::__construct();
@@ -629,6 +635,7 @@ class ContribsPager extends ReverseChronologicalPager {
 			if( !$row->page_is_new && $page->quickUserCan( 'rollback' )
 				&& $page->quickUserCan( 'edit' ) )
 			{
+				$this->preventClickjacking();
 				$topmarktext .= ' '.$sk->generateRollback( $rev );
 			}
 		}
@@ -749,4 +756,11 @@ class ContribsPager extends ReverseChronologicalPager {
 		}
 	}
 
+	protected function preventClickjacking() {
+		$this->preventClickjacking = true;
+	}
+
+	public function getPreventClickjacking() {
+		return $this->preventClickjacking;
+	}
 }

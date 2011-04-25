@@ -49,10 +49,6 @@ class DatabaseMssql extends DatabaseBase {
 		return false;
 	}
 
-	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
-		return new DatabaseMssql( $server, $user, $password, $dbName, $flags );
-	}
-
 	/**
 	 * Usually aborts on failure
 	 */
@@ -787,10 +783,6 @@ class DatabaseMssql extends DatabaseBase {
 		return false;
 	}
 
-	public function unixTimestamp( $field ) {
-		return "DATEDIFF(s,CONVERT(datetime,'1/1/1970'),$field)";
-	}
-
 	/**
 	 * Begin a transaction, committing any previously open transaction
 	 */
@@ -1042,6 +1034,14 @@ class DatabaseMssql extends DatabaseBase {
 
 	public function getSearchEngine() {
 		return "SearchMssql";
+	}
+
+	/**
+	 * Since MSSQL doesn't recognize the infinity keyword, set date manually.
+	 * @todo Remove magic date
+	 */
+	public function getInfinity() {
+		return '3000-01-31 00:00:00.000';
 	}
 
 } // end DatabaseMssql class

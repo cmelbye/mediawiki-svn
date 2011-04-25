@@ -15,6 +15,7 @@
  * @author Mormegil
  * @author Palica
  * @author Ragimiri
+ * @author Reedy
  * @author Rudko
  * @author Sp5uhe
  * @author Tchoř
@@ -467,6 +468,7 @@ $messages = array(
 'printableversion'  => 'Verzia na tlač',
 'permalink'         => 'Trvalý odkaz',
 'print'             => 'Tlač',
+'view'              => 'Zobraziť',
 'edit'              => 'upraviť',
 'create'            => 'Vytvoriť',
 'editthispage'      => 'Upraviť túto stránku',
@@ -474,6 +476,7 @@ $messages = array(
 'delete'            => 'Vymazať',
 'deletethispage'    => 'Vymazať túto stránku',
 'undelete_short'    => 'Obnoviť {{PLURAL:$1|jednu úpravu|$1 úpravy|$1 úprav}}',
+'viewdeleted_short' => 'Zobraziť {{PLURAL:$1|jednu zmazanú úpravu|$1 zmazané úpravy|$1 zmazaných úprav}}',
 'protect'           => 'Zamknúť',
 'protect_change'    => 'Zmeniť',
 'protectthispage'   => 'Zamknúť túto stránku',
@@ -557,6 +560,8 @@ $1',
 'toc'                     => 'Obsah',
 'showtoc'                 => 'zobraziť',
 'hidetoc'                 => 'skryť',
+'collapsible-collapse'    => 'zbaliť',
+'collapsible-expand'      => 'rozbaliť',
 'thisisdeleted'           => 'Zobraziť alebo obnoviť $1?',
 'viewdeleted'             => 'Zobraziť $1?',
 'restorelink'             => '{{PLURAL:$1|jednu zmazanú úpravu|$1 zmazané úpravy|$1 zmazaných úprav}}',
@@ -703,6 +708,8 @@ Zadajte iné meno.',
 'createaccounterror'         => 'Nepodarilo sa vytvoriť účet: $1',
 'nocookiesnew'               => 'Používateľské konto bolo vytvorené, ale nie ste prihlásený. {{SITENAME}} používa cookies na prihlásenie. Máte cookies vypnuté. Zapnite ich a potom sa prihláste pomocou vášho nového používateľského mena a hesla.',
 'nocookieslogin'             => '{{SITENAME}} používa cookies na prihlásenie. Vy máte cookies vypnuté. Prosíme, zapnite ich a skúste znovu.',
+'nocookiesfornew'            => 'Používateľský účet nebol vytvorený, pretože sme nemohli potvrdiť jeho zdroj. 
+Ubezpečte sa, že máte povolené cookies, obnovte túto stránku a skúste to znova.',
 'noname'                     => 'Nezadali ste platné používateľské meno.',
 'loginsuccesstitle'          => 'Prihlásenie úspešné',
 'loginsuccess'               => "'''Teraz ste prihlásený do {{GRAMMAR:genitív|{{SITENAME}}}} ako „$1“.'''",
@@ -716,7 +723,7 @@ Skontrolujte preklepy alebo sa [[Special:UserLogin/signup|zaregistrujte ako nov�
 'wrongpasswordempty'         => 'Zadané heslo bolo prázdne. Skúste prosím znova.',
 'passwordtooshort'           => 'Heslo musí mať dĺžku aspoň $1 {{PLURAL:$1|znak|znaky|znakov}}.',
 'password-name-match'        => 'Vaše heslo musí byť iné ako vaše používateľské meno.',
-'password-too-weak'          => 'Zadané heslo je príliš slabé a nemožno ho použiť.',
+'password-login-forbidden'   => 'Použitie tohto používateľského mena a hesla bolo zakázané.',
 'mailmypassword'             => 'Pošlite mi e-mailom dočasné heslo',
 'passwordremindertitle'      => 'Nové dočasné heslo pre {{GRAMMAR:akuzatív|{{SITENAME}}}}',
 'passwordremindertext'       => 'Niekto (pravdepodobne vy, z IP adresy $1)
@@ -886,7 +893,7 @@ Ak ste anonymný používateľ a máte pocit, že vám boli adresované irelevan
 'noarticletext'                    => 'Na tejto stránke sa momentálne nenachádza žiadny text.
 Môžete [[Special:Search/{{PAGENAME}}|vyhľadávať názov tejto stránky]] v obsahu iných stránok,
 <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} vyhľadávať v súvisiacich záznamoch],
-alebo [{{fullurl:{{FULLPAGENAME}}|action=edit}} upravovať túto stránku].',
+alebo [{{fullurl:{{FULLPAGENAME}}|action=edit}} upravovať túto stránku]</span>.',
 'noarticletext-nopermission'       => 'Táto stránka momentálne neobsahuje žiadny text.
 Môžete [[Special:Search/{{PAGENAME}}|hľadať názov tejto stránky]] v texte iných stránok
 alebo <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} si pozrieť súvisiace záznamy]</span>.',
@@ -1293,7 +1300,7 @@ Uistite sa, že táto zmena zachová historickú kontinuitu zmien stránky.',
 'mypreferences'                 => 'nastavenia',
 'prefs-edits'                   => 'Počet úprav:',
 'prefsnologin'                  => 'Nie ste prihlásený/á',
-'prefsnologintext'              => 'Aby ste mohli zmeniť svoje nastavenia, musíte byť <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} prihlásený].',
+'prefsnologintext'              => 'Aby ste mohli zmeniť svoje nastavenia, musíte byť <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} prihlásený]</span>.',
 'changepassword'                => 'Zmeniť heslo',
 'prefs-skin'                    => 'Vzhľad',
 'skin-preview'                  => 'Náhľad',
@@ -1743,6 +1750,15 @@ Ak problém pretrváva, kontaktujte [[Special:ListUsers/sysop|správcu systému]
 'upload-unknown-size'       => 'Neznáma veľkosť',
 'upload-http-error'         => 'Vyskytla sa chyba HTTP: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Skrýša nahraných súborov',
+'uploadstash-summary'  => 'Táto stránka poskytuje prístup k súborom nahraným (alebo práve nahrávaným), ktoré zatiaľ nie sú zverejnené na wiki. Tieto súbory nevidí nikto iný okrem používateľa, ktorý ich nahral.',
+'uploadstash-clear'    => 'Vymazať skrýšu nahraných súborov',
+'uploadstash-nofiles'  => 'Nemáte žiadne súbory v skrýši nahraných súborov.',
+'uploadstash-badtoken' => 'Vykonanie operácie sa nepodarilo, možno preto, že platnosť vašich prihlasovacích údajov vypršala. Skúste to znova.',
+'uploadstash-errclear' => 'Vymazanie súborov bolo neúspešné.',
+'uploadstash-refresh'  => 'Obnoviť zoznam súborov',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Prístup zamietnutý',
 'img-auth-nopathinfo'   => 'Chýba PATH_INFO.
@@ -1998,6 +2014,7 @@ na ktorý/-ého chcete aplikovať túto funkciu.',
 'pager-newer-n'           => '{{PLURAL:$1|1 novší|$1 novšie|$1 novších}}',
 'pager-older-n'           => '{{PLURAL:$1|1 starší|$1 staršie|$1 starších}}',
 'suppress'                => 'Dozor',
+'querypage-disabled'      => 'Táto špeciálna stránka bola zakázaná z výkonnostných dôvodov.',
 
 # Book sources
 'booksources'               => 'Knižné zdroje',
@@ -3425,6 +3442,7 @@ Tiež môžete [[Special:Watchlist/edit|použiť štandardný editor]].',
 'version-specialpages'             => 'Špeciálne stránky',
 'version-parserhooks'              => 'Prípojné body syntaktického analyzátora',
 'version-variables'                => 'Premenné',
+'version-antispam'                 => 'Ochranu proti spamu',
 'version-skins'                    => 'Témy vzhľadu',
 'version-other'                    => 'Iné',
 'version-mediahandlers'            => 'Obsluha multimédií',
@@ -3560,14 +3578,5 @@ Ak je používateľ momentálne niekde prihlásený, bude okamžite odhlásený.
 'disableaccount-nosuchuser'  => 'Používateľský účet „$1“ neexistuje.',
 'disableaccount-success'     => 'Používateľský účet „$1“ bol natrvalo zakázaný.',
 'disableaccount-logentry'    => 'natrvalo zakázaný používateľský účet [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Skrýša nahraných súborov',
-'uploadstash-summary'  => 'Táto stránka poskytuje prístup k súborom nahraným (alebo práve nahrávaným), ktoré zatiaľ nie sú zverejnené na wiki. Tieto súbory nevidí nikto iný okrem používateľa, ktorý ich nahral.',
-'uploadstash-clear'    => 'Vymazať skrýšu nahraných súborov',
-'uploadstash-nofiles'  => 'Nemáte žiadne súbory v skrýši nahraných súborov.',
-'uploadstash-badtoken' => 'Vykonanie operácie sa nepodarilo, možno preto, že platnosť vašich prihlasovacích údajov vypršala. Skúste to znova.',
-'uploadstash-errclear' => 'Vymazanie súborov bolo neúspešné.',
-'uploadstash-refresh'  => 'Obnoviť zoznam súborov',
 
 );

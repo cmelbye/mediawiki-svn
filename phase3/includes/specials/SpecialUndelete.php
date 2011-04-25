@@ -561,7 +561,7 @@ class PageArchive {
  *
  * @ingroup SpecialPage
  */
-class UndeleteForm extends SpecialPage {
+class SpecialUndelete extends SpecialPage {
 	var $mAction, $mTarget, $mTimestamp, $mRestore, $mInvert, $mTargetObj;
 	var $mTargetTimestamp, $mAllowed, $mCanView, $mComment, $mToken, $mRequest;
 
@@ -649,6 +649,7 @@ class UndeleteForm extends SpecialPage {
 		}
 		if ( $this->mTarget !== '' ) {
 			$this->mTargetObj = Title::newFromURL( $this->mTarget );
+			$wgUser->getSkin()->setRelevantTitle( $this->mTargetObj );
 		} else {
 			$this->mTargetObj = null;
 		}

@@ -812,15 +812,14 @@ class UploadForm extends HTMLForm {
 	 */
 	protected function getSourceSection() {
 		global $wgLang, $wgUser, $wgRequest;
-		global $wgMaxUploadSize;
 
 		if ( $this->mSessionKey ) {
 			return array(
-				'wpSessionKey' => array(
+				'SessionKey' => array(
 					'type' => 'hidden',
 					'default' => $this->mSessionKey,
 				),
-				'wpSourceType' => array(
+				'SourceType' => array(
 					'type' => 'hidden',
 					'default' => 'Stash',
 				),
@@ -855,7 +854,7 @@ class UploadForm extends HTMLForm {
 						wfShorthandToInteger( min( 
 							wfShorthandToInteger(
 								ini_get( 'upload_max_filesize' )
-							), $wgMaxUploadSize
+							), UploadBase::getMaxUploadSize( 'file' )
 						) )
 					)
 				) . ' ' . wfMsgHtml( 'upload_source_file' ),
@@ -871,7 +870,7 @@ class UploadForm extends HTMLForm {
 				'radio' => &$radio,
 				'help' => wfMsgExt( 'upload-maxfilesize',
 						array( 'parseinline', 'escapenoentities' ),
-						$wgLang->formatSize( $wgMaxUploadSize )
+						$wgLang->formatSize( UploadBase::getMaxUploadSize( 'url' ) )
 					) . ' ' . wfMsgHtml( 'upload_source_url' ),
 				'checked' => $selectedSourceType == 'url',
 			);
@@ -899,9 +898,6 @@ class UploadForm extends HTMLForm {
 		$wgFileExtensions, $wgFileBlacklist;
 
 		if( $wgCheckFileExtensions ) {
-			//don't show blacklisted types as permitted
-			$wgFileExtensions = array_diff ( $wgFileExtensions, $wgFileBlacklist );
-			
 			if( $wgStrictFileExtensions ) {
 				# Everything not permitted is banned
 				$extensionsList =
@@ -1082,8 +1078,12 @@ class UploadForm extends HTMLForm {
 
 		$wgOut->addScript( Skin::makeVariablesScript( $scriptVars ) );
 
-		// For <charinsert> support
-		$wgOut->addModules( array( 'mediawiki.legacy.edit', 'mediawiki.legacy.upload' ) );
+		
+		$wgOut->addModules( array(
+			'mediawiki.legacy.edit', // For <charinsert> support
+			'mediawiki.legacy.upload', // Old form stuff...
+			'mediawiki.special.upload', // Newer extras for thumbnail preview.
+		) );
 	}
 
 	/**

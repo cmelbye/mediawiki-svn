@@ -759,7 +759,6 @@ Revisa la ortografía, o [[Special:UserLogin/signup|crea una nueva cuenta]].',
 Por favor, inténtalo de nuevo.',
 'passwordtooshort'           => 'Las contraseñas deben tener al menos {{PLURAL:$1|1 caracter|$1 caracteres}}.',
 'password-name-match'        => 'Tu contraseña debe ser diferente de tu nombre de usuario.',
-'password-too-weak'          => 'La contraseña proporcionada es demasiado débil y no puede ser usada.',
 'mailmypassword'             => 'Enviar una nueva contraseña por correo electrónico',
 'passwordremindertitle'      => 'Recordatorio de contraseña de {{SITENAME}}',
 'passwordremindertext'       => 'Alguien (probablemente tú, desde la dirección IP $1) solicitó que te enviáramos una nueva contraseña para tu cuenta en {{SITENAME}} ($4).
@@ -1767,6 +1766,15 @@ $1',
 'upload-too-many-redirects' => 'La URL contenía demasiadas redirecciones',
 'upload-unknown-size'       => 'Tamaño desconocido',
 'upload-http-error'         => 'Ha ocurrido un error HTTP: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheros escondidos',
+'uploadstash-summary'  => 'Esta página da acceso a los ficheros enviados (o que están en el proceso de envío) pero que aún no han sido publicados en la wiki. Estos ficheros no son visibles para nadie, excepto para el usuario que los envió.',
+'uploadstash-clear'    => 'Borrar los ficheros escondidos',
+'uploadstash-nofiles'  => 'No tienes archivos escondidos.',
+'uploadstash-badtoken' => 'No fue posible ejecutar esa operación, tal vez porque sus credenciales de edición expiraron. Reinténtelo.',
+'uploadstash-errclear' => 'El borrado de los archivos no tuvo éxito.',
+'uploadstash-refresh'  => 'Actualizar la lista de archivos',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Acceso denegado',
@@ -3565,14 +3573,5 @@ Si el usuario está conectado, será desconectado de inmediato.
 'disableaccount-nosuchuser'  => 'La cuenta de usuario «$1» no existe.',
 'disableaccount-success'     => 'La cuenta de usuario «$1» ha sido deshabilitada definitivamente.',
 'disableaccount-logentry'    => 'desactivada permanentemente la cuenta «[[$1]]»',
-
-# Special:UploadStash
-'uploadstash'          => 'Ficheros escondidos',
-'uploadstash-summary'  => 'Esta página da acceso a los ficheros enviados (o que están en el proceso de envío) pero que aún no han sido publicados en la wiki. Estos ficheros no son visibles para nadie, excepto para el usuario que los envió.',
-'uploadstash-clear'    => 'Borrar los ficheros escondidos',
-'uploadstash-nofiles'  => 'No tienes archivos escondidos.',
-'uploadstash-badtoken' => 'No fue posible ejecutar esa operación, tal vez porque sus credenciales de edición expiraron. Reinténtelo.',
-'uploadstash-errclear' => 'El borrado de los archivos no tuvo éxito.',
-'uploadstash-refresh'  => 'Actualizar la lista de archivos',
 
 );

@@ -994,6 +994,10 @@ Use to define aliases of special pages names depending of the language
 $specialPageAliases: associative array of magic words synonyms
 $lang: laguage code (string)
 
+'LanguageGetTranslatedLanguageNames': Provide translated language names.
+&$names: array of language code => language name
+$code language of the preferred translations
+
 'LinkBegin': Used when generating internal and interwiki links in
 Linker::link(), before processing starts.  Return false to skip default proces-
 sing and return $ret.  See documentation for Linker::link() for details on the
@@ -1113,7 +1117,9 @@ $magicWords: array of strings
 $variableIDs: array of strings
 
 'MakeGlobalVariablesScript': called right before Skin::makeVariablesScript
-is executed
+is executed. Ideally, this hook should only be used to add variables that
+depend on the current page/request; static configuration should be added
+through ResourceLoaderConfigVars instead.
 &$vars: variable (or multiple variables) to be added into the output
 	of Skin::makeVariablesScript
 
@@ -1374,8 +1380,14 @@ loader request or generating HTML output.
 &$obj: RawPage object
 &$text: The text that's going to be the output
 
-'RecentChange_save': called at the end of RecenChange::save()
+'RecentChange_save': called at the end of RecentChange::save()
 $recentChange: RecentChange object
+
+'ResourceLoaderConfigVars': called at the end of
+ResourceLoaderStartUpModule::getConfig(). Use this to export static
+configuration variables to JavaScript. Things that depend on the current
+page/request state must be added through MakeGlobalVariablesScript instead.
+&$vars: array( variable name => value )
 
 'RevisionInsertComplete': called after a revision is inserted into the DB
 &$revision: the Revision
@@ -1486,22 +1498,15 @@ subPageSubtitle() generates.
 If true is returned, $subpages will be ignored and the rest of
 subPageSubtitle() will run.
 
-'SkinTemplateBuildContentActionUrlsAfterSpecialPage': after the single tab
-when showing a special page
-$sktemplate: SkinTemplate object
-$content_actions: array of tabs
-
 'SkinTemplateBuildNavUrlsNav_urlsAfterPermalink': after creating the
 "permanent link" tab
 $sktemplate: SkinTemplate object
 $nav_urls: array of tabs
 
-'SkinTemplateContentActions': Alter the "content action" links in SkinTemplates
-&$content_actions: Content actions
-[See http://svn.wikimedia.org/viewvc/mediawiki/trunk/extensions/examples/Content_action.php
-for an example]
-
-'SkinTemplateNavigation': Alter the structured navigation links in SkinTemplates
+Alter the structured navigation links in SkinTemplates, there are three of these hooks called in different spots.
+'SkinTemplateNavigation': Called on content pages after the tabs have been added but before before variants have been added
+'SkinTemplateNavigation::SpecialPage': Called on special pages after the special tab is added but before variants have been added
+'SkinTemplateNavigation::Universal': Called on both content and special pages after variants have been added
 &$sktemplate: SkinTemplate object
 &$links: Structured navigation links
 This is used to alter the navigation for skins which use buildNavigationUrls such as Vector.
@@ -1530,10 +1535,6 @@ $checkEdit: Whether or not the action=edit query should be added if appropriate.
 &$query: Query string to add to link.
 &$text: Link text.
 &$result: Complete assoc. array if you want to return true.
-
-'SkinTemplateTabs': called when finished to build the actions tabs
-$sktemplate: SkinTemplate object
-$content_actions: array of tabs
 
 'SkinTemplateToolboxEnd': Called by SkinTemplate skins after toolbox links have
 been rendered (useful for adding more)

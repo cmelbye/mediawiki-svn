@@ -616,16 +616,23 @@ class LoadBalancer {
 	 */
 	function reallyOpenConnection( $server, $dbNameOverride = false ) {
 		if( !is_array( $server ) ) {
-			throw new MWException( 'You must update your load-balancing configuration. See DefaultSettings.php entry for $wgDBservers.' );
+			throw new MWException( 'You must update your load-balancing configuration. ' .
+			                       'See DefaultSettings.php entry for $wgDBservers.' );
 		}
 
-		extract( $server );
+		$type = $server['type'];
+		$host = $server['host'];
+		$user = $server['user'];
+		$password = $server['password'];
+		$flags = $server['flags'];
+		$dbname = $server['dbname'];
+
 		if ( $dbNameOverride !== false ) {
 			$dbname = $dbNameOverride;
 		}
 
 		# Get class for this database type
-		$class = 'Database' . ucfirst( $type );
+		$class = DatabaseBase::classFromType( $type );
 
 		# Create object
 		wfDebug( "Connecting to $host $dbname...\n" );

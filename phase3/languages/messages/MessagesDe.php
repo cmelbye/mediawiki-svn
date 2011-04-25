@@ -20,6 +20,7 @@
  * @author Jimmy Collins <jimmy.collins@web.de>
  * @author Kghbln
  * @author Khaledelmansoury
+ * @author Krinkle
  * @author Kwin
  * @author Li-sung
  * @author Lyzzy
@@ -543,6 +544,7 @@ $messages = array(
 'printableversion'  => 'Druckversion',
 'permalink'         => 'Permanenter Link',
 'print'             => 'Drucken',
+'view'              => 'Lesen',
 'edit'              => 'Bearbeiten',
 'create'            => 'Erstellen',
 'editthispage'      => 'Seite bearbeiten',
@@ -550,6 +552,7 @@ $messages = array(
 'delete'            => 'Löschen',
 'deletethispage'    => 'Diese Seite löschen',
 'undelete_short'    => '{{PLURAL:$1|1 Version|$1 Versionen}} wiederherstellen',
+'viewdeleted_short' => '{{PLURAL:$1|Eine gelöschte Version|$1 gelöschte Versionen}} ansehen',
 'protect'           => 'Schützen',
 'protect_change'    => 'ändern',
 'protectthispage'   => 'Seite schützen',
@@ -635,6 +638,8 @@ Siehe die [[Special:Version|Versionsseite]]',
 'toc'                     => 'Inhaltsverzeichnis',
 'showtoc'                 => 'Anzeigen',
 'hidetoc'                 => 'Verbergen',
+'collapsible-collapse'    => 'Einklappen',
+'collapsible-expand'      => 'Ausklappen',
 'thisisdeleted'           => '$1 ansehen oder wiederherstellen?',
 'viewdeleted'             => '$1 anzeigen?',
 'restorelink'             => '$1 {{PLURAL:$1|gelöschte Version|gelöschte Versionen}}',
@@ -794,7 +799,7 @@ Es muss sichergestellt sein, dass Cookies aktiviert sind. Danach diese Seite ern
 'wrongpasswordempty'         => 'Es wurde kein Passwort eingegeben. Bitte versuche es erneut.',
 'passwordtooshort'           => 'Passwörter müssen mindestens {{PLURAL:$1|1 Zeichen|$1 Zeichen}} lang sein.',
 'password-name-match'        => 'Dein Passwort muss sich von deinem Benutzernamen unterscheiden.',
-'password-too-weak'          => 'Das Passwort ist zu schwach und kann nicht verwendet werden.',
+'password-login-forbidden'   => 'Die Verwendung dieses Benutzernamens und Passwortes ist nicht erlaubt.',
 'mailmypassword'             => 'Neues Passwort zusenden',
 'passwordremindertitle'      => 'Neues Passwort für ein {{SITENAME}}-Benutzerkonto',
 'passwordremindertext'       => 'Jemand mit der IP-Adresse $1, wahrscheinlich du selbst, hat ein neues Passwort für die Anmeldung bei {{SITENAME}} ($4) angefordert.
@@ -1467,6 +1472,10 @@ Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt
 'prefs-displaywatchlist'        => 'Anzeigeoptionen',
 'prefs-diffs'                   => 'Versionsvergleich',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Gültige E-Mail-Adresse',
+'email-address-validity-invalid' => 'Eine gültige E-Mail-Adresse ist erforderlich.',
+
 # User rights
 'userrights'                   => 'Benutzerrechteverwaltung',
 'userrights-lookup-user'       => 'Gruppenzugehörigkeit verwalten',
@@ -1809,6 +1818,15 @@ Wenn das Problem weiter besteht, informiere einen [[Special:ListUsers/sysop|Syst
 'upload-too-many-redirects' => 'Die URL beinhaltete zu viele Weiterleitungen',
 'upload-unknown-size'       => 'Unbekannte Größe',
 'upload-http-error'         => 'Ein HTTP-Fehler ist aufgetreten: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Vorabspeicherung beim Hochladen',
+'uploadstash-summary'  => 'Diese Seite ermöglicht den Zugriff auf Dateien, die hochgeladen wurden, bzw. gerade hochgeladen werden, aber noch nicht auf dem Wiki publiziert wurden. Diese Dateien sind, der hochladende Benutzer ausgenommen, noch nicht öffentlich einsehbar.',
+'uploadstash-clear'    => 'Die vorab gespeicherten Dateien entfernen',
+'uploadstash-nofiles'  => 'Es sind keine vorab gespeicherten Dateien vorhanden.',
+'uploadstash-badtoken' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos, vielleicht weil die Sitzungsdaten abgelaufen sind. Bitte erneut versuchen.',
+'uploadstash-errclear' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos.',
+'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Zugriff verweigert',
@@ -2964,7 +2982,7 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 'math_unknown_function' => 'Unbekannte Funktion ',
 'math_lexing_error'     => '„Lexing“-Fehler',
 'math_syntax_error'     => 'Syntaxfehler',
-'math_image_error'      => 'die PNG-Konvertierung schlug fehl',
+'math_image_error'      => 'PNG-Konvertierung fehlgeschlagen; korrekte Installation von LaTeX und dvipng überprüfen (oder dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Das temporäre Verzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
 'math_bad_output'       => 'Das Zielverzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
 'math_notexvc'          => 'Das texvc-Programm wurde nicht gefunden. Bitte math/README beachten.',
@@ -3618,14 +3636,5 @@ Sofern der Benutzer momentan angemeldet ist, wird er umgehend abgemeldet.
 'disableaccount-nosuchuser'  => 'Das Benutzerkonto „$1“ ist nicht vorhanden.',
 'disableaccount-success'     => 'Das Benutzerkonto „$1“ wurde dauerhaft deaktiviert.',
 'disableaccount-logentry'    => 'deaktivierte das Benutzerkonto [[$1]] dauerhaft',
-
-# Special:UploadStash
-'uploadstash'          => 'Vorabspeicherung beim Hochladen',
-'uploadstash-summary'  => 'Diese Seite ermöglicht den Zugriff auf Dateien, die hochgeladen wurden, bzw. gerade hochgeladen werden, aber noch nicht auf dem Wiki publiziert wurden. Diese Dateien sind, der hochladende Benutzer ausgenommen, noch nicht öffentlich einsehbar.',
-'uploadstash-clear'    => 'Die vorab gespeicherten Dateien entfernen',
-'uploadstash-nofiles'  => 'Es sind keine vorab gespeicherten Dateien vorhanden.',
-'uploadstash-badtoken' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos, vielleicht weil die Sitzungsdaten abgelaufen sind. Bitte erneut versuchen.',
-'uploadstash-errclear' => 'Das Entfernen der vorab gespeicherten Dateien war erfolglos.',
-'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 );

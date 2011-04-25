@@ -9,6 +9,7 @@
  *
  * @author Juanpabl
  * @author Malafaya
+ * @author Reedy
  * @author Remember the dot
  * @author The Evil IP address
  * @author Urhixidur
@@ -558,7 +559,6 @@ Comprebe si ha escrito bien o nombre u [[Special:UserLogin/signup|creye una nuev
 'wrongpasswordempty'         => 'No ha escrito garra contrasenya. Prebe unatra vegada.',
 'passwordtooshort'           => 'As contrasenyas han de tener a lo menos {{PLURAL:$1|1 carácter|$1 carácters}}.',
 'password-name-match'        => "A contrasenya ha d'estar diferent d'o suyo nombre d'usuario.",
-'password-too-weak'          => "A contrasenya d'acceso que ha proporcionau no ye guaire segura y no se puede fer servir.",
 'mailmypassword'             => 'Ninviar una nueva contrasenya por correu electronico',
 'passwordremindertitle'      => 'Nueva contrasenya temporal de {{SITENAME}}',
 'passwordremindertext'       => 'Bell un (probablement vusté mesmo, dende l\'adreza IP $1) demandó una nueva contrasenya ta la suya cuenta en {{SITENAME}} ($4). S\'ha creyato una nueva contrasenya temporal ta l\'usuario "$2", que ye "$3".
@@ -708,7 +708,7 @@ Si ye plegau por error, punche o botón \"enta zaga\" d'o suyo navegador.",
 'anontalkpagetext'                 => "----''Ista ye a pachina de descusión d'un usuario anonimo que encara no ha creyato una cuenta, u no l'ha feito servir. Por ixo, hemos d'emplegar a suya adreza IP ta identificar-lo/a.
 Diferents usuarios pueden compartir una mesma adreza IP.
 Si vusté ye un usuario anonimo y creye que l'han escrito comentarios no relevants, [[Special:UserLogin/signup|creye una cuenta]] u [[Special:UserLogin/signup|identifique-se]] ta privar confusions futuras con atros usuarios anonimos.''",
-'noarticletext'                    => 'Por agora no bi ha garra texto en ista pachina. Puet [[Special:Search/{{PAGENAME}}|mirar o títol d\'ista pachina]] en atras pachinas, <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mirar os rechistros relacionatos] u [{{fullurl:{{FULLPAGENAME}}|action=edit}} escribir ista pachina].',
+'noarticletext'                    => 'Por agora no bi ha garra texto en ista pachina. Puet [[Special:Search/{{PAGENAME}}|mirar o títol d\'ista pachina]] en atras pachinas, <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mirar os rechistros relacionatos] u [{{fullurl:{{FULLPAGENAME}}|action=edit}} escribir ista pachina]</span>.',
 'noarticletext-nopermission'       => 'Por l\'inte no i hai garra texto en ista pachina.
 Puet [[Special:Search/{{PAGENAME}}|mirar iste títol]] en atras páginas,
 u bien <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} mirar en os rechistros relacionatos]</span>.',

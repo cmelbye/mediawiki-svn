@@ -439,7 +439,19 @@ $wgAllowCopyUploads = false;
 $wgAllowAsyncCopyUploads = false;
 
 /**
- * Max size for uploads, in bytes. Applies to all uploads.
+ * Max size for uploads, in bytes. If not set to an array, applies to all 
+ * uploads. If set to an array, per upload type maximums can be set, using the
+ * file and url keys. If the * key is set this value will be used as maximum
+ * for non-specified types.
+ * 
+ * For example:
+ * 	$wgUploadSize = array(
+ * 		'*' => 250 * 1024,
+ * 		'url' => 500 * 1024,
+ * 	);
+ * Sets the maximum for all uploads to 250 kB except for upload-by-url, which
+ * will have a maximum of 500 kB.
+ * 
  */
 $wgMaxUploadSize = 1024*1024*100; # 100MB
 
@@ -2261,10 +2273,31 @@ $wgUseSiteCss = true;
 $wgEnableTooltipsAndAccesskeys = true;
 
 /**
- * Break out of framesets. This can be used to prevent external sites from
- * framing your site with ads.
+ * Break out of framesets. This can be used to prevent clickjacking attacks,
+ * or to prevent external sites from framing your site with ads.
  */
 $wgBreakFrames = false;
+
+/**
+ * The X-Frame-Options header to send on pages sensitive to clickjacking 
+ * attacks, such as edit pages. This prevents those pages from being displayed
+ * in a frame or iframe. The options are:
+ *
+ *   - 'DENY': Do not allow framing. This is recommended for most wikis.
+ *
+ *   - 'SAMEORIGIN': Allow framing by pages on the same domain. This can be used
+ *         to allow framing within a trusted domain. This is insecure if there
+ *         is a page on the same domain which allows framing of arbitrary URLs.
+ *
+ *   - false: Allow all framing. This opens up the wiki to XSS attacks and thus 
+ *         full compromise of local user accounts. Private wikis behind a 
+ *         corporate firewall are especially vulnerable. This is not 
+ *         recommended.
+ *
+ * For extra safety, set $wgBreakFrames = true, to prevent framing on all pages,
+ * not just edit pages.
+ */
+$wgEditPageFrameOptions = 'DENY';
 
 /**
  * Disable output compression (enabled by default if zlib is available)
@@ -2319,6 +2352,13 @@ $wgFooterIcons = array(
 		)
 	),
 );
+
+/**
+ * Login / create account link behavior when it's possible for anonymous users to create an account
+ * true = use a combined login / create account link
+ * false = split login and create account into two separate links
+ */
+$wgUseCombinedLoginLink = true;
 
 /**
  * Search form behavior for Vector skin only
@@ -2898,12 +2938,6 @@ $wgMinimalPasswordLength = 1;
 $wgLivePasswordStrengthChecks = false;
 
 /**
- * List of weak passwords which shouldn't be allowed.
- * The items should be in lowercase. The check is case insensitive.
- */
-$wgWeakPasswords = array( 'password', 'passpass', 'passpass1' );
-
-/**
  * Maximum number of Unicode characters in signature
  */
 $wgMaxSigChars		= 255;
@@ -3095,11 +3129,6 @@ $wgAllowPrefChange = array();
  * @since 1.17
  */
 $wgSecureLogin        = false;
-/**
- * Default for 'use secure login' checkbox
- * @since 1.17
- */
-$wgSecureLoginStickHTTPS = false;
 
 /** @} */ # end user accounts }
 
@@ -3344,8 +3373,10 @@ $wgGroupsRemoveFromSelf = array();
  * Set of available actions that can be restricted via action=protect
  * You probably shouldn't change this.
  * Translated through restriction-* messages.
+ * Title::getRestrictionTypes() will remove restrictions that are not 
+ * applicable to a specific title (upload currently)
  */
-$wgRestrictionTypes = array( 'edit', 'move' );
+$wgRestrictionTypes = array( 'edit', 'move', 'upload' );
 
 /**
  * Rights which can be required for each protection level (via action=protect)
@@ -4475,7 +4506,10 @@ $wgParserOutputHooks = array();
 
 /**
  * List of valid skin names.
- * The key should be the name in all lower case, the value should be a display name.
+ * The key should be the name in all lower case, the value should be a properly
+ * cased name for the skin. This value will be prefixed with "Skin" to create the
+ * class name of the skin to load, and if the skin's class cannot be found through
+ * the autoloader it will be used to load a .php file by that name in the skins directory.
  * The default skins will be added later, by Skin::getSkinNames(). Use
  * Skin::getSkinNames() as an accessor if you wish to have access to the full list.
  */
@@ -5027,14 +5061,7 @@ $wgAPIMaxUncachedDiffs = 1;
 $wgAPIRequestLog = false;
 
 /**
- * Cache the API help text for up to an hour. Disable this during API
- * debugging and development
- */
-$wgAPICacheHelp = true;
-
-/**
- * Set the timeout for the API help text cache. Ignored if $wgAPICacheHelp
- * is false.
+ * Set the timeout for the API help text cache. If set to 0, caching disabled
  */
 $wgAPICacheHelpTimeout = 60*60;
 
@@ -5052,7 +5079,6 @@ $wgAjaxExportList = array( 'wfAjaxGetFileUrl' );
 /**
  * Enable watching/unwatching pages using AJAX.
  * Requires $wgUseAjax to be true too.
- * Causes wfAjaxWatch to be added to $wgAjaxExportList
  */
 $wgAjaxWatch = true;
 
@@ -5261,6 +5287,8 @@ $wgUploadMaintenance = false;
 $wgEnableSelenium = false;
 $wgSeleniumTestConfigs = array();
 $wgSeleniumConfigFile = null;
+$wgDBtestuser = ''; //db user that has permission to create and drop the test databases only
+$wgDBtestpassword = '';
 
 /**
  * For really cool vim folding this needs to be at the end:

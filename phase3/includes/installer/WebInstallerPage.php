@@ -218,7 +218,6 @@ class WebInstaller_ExistingWiki extends WebInstallerPage {
 				$this->endForm( 'continue' );
 				return 'output';
 			}
-			//return $this->handleExistingUpgrade( $vars );
 		}
 
 		// If there is no $wgUpgradeKey, tell the user to add one to LocalSettings.php
@@ -301,7 +300,7 @@ class WebInstaller_ExistingWiki extends WebInstallerPage {
 		}
 
 		// Set the relevant variables from LocalSettings.php
-		$requiredVars = array( 'wgDBtype', 'wgDBuser', 'wgDBpassword' );
+		$requiredVars = array( 'wgDBtype', 'wgDBuser', 'wgDBpassword', 'wgDBname', 'wgDBserver' );
 		$status = $this->importVariables( $requiredVars , $vars );
 		$installer = $this->parent->getDBInstaller();
 		$status->merge( $this->importVariables( $installer->getGlobalNames(), $vars ) );
@@ -345,11 +344,15 @@ class WebInstaller_Welcome extends WebInstallerPage {
 		}
 		$this->parent->output->addWikiText( wfMsgNoTrans( 'config-welcome' ) );
 		$status = $this->parent->doEnvironmentChecks();
-		if ( $status ) {
+		if ( $status->isGood() ) {
+			$this->parent->output->addHTML( '<span class="success-message">' .
+				wfMsgHtml( 'config-env-good' ) . '</span>' );
 			$this->parent->output->addWikiText( wfMsgNoTrans( 'config-copyright',
 				SpecialVersion::getCopyrightAndAuthorList() ) );
 			$this->startForm();
 			$this->endForm();
+		} else {
+			$this->parent->showStatusMessage( $status );
 		}
 	}
 
@@ -381,7 +384,7 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 
 		$dbSupport = '';
 		foreach( $this->parent->getDBTypes() as $type ) {
-			$db = 'Database' . ucfirst( $type );
+			$db = DatabaseBase::classFromType( $type );
 			$dbSupport .= wfMsgNoTrans( "config-support-$type",
 				call_user_func( array( $db, 'getSoftwareLink' ) ) ) . "\n";
 		}
@@ -704,6 +707,14 @@ class WebInstaller_Name extends WebInstallerPage {
 			$this->setVar( '_AdminPassword2', '' );
 			$retVal = false;
 		}
+
+		// Validate e-mail if provided
+		$email = $this->getVar( '_AdminEmail' );
+		if( $email && !User::isValidEmailAddr( $email ) ) {
+			$this->parent->showError( 'config-admin-error-bademail' );
+			$retVal = false;
+		}
+
 		return $retVal;
 	}
 
@@ -1037,7 +1048,7 @@ class WebInstaller_Complete extends WebInstallerPage {
 		// Pop up a dialog box, to make it difficult for the user to forget
 		// to download the file
 		$lsUrl = $GLOBALS['wgServer'] . $this->parent->getURL( array( 'localsettings' => 1 ) );
-		$this->parent->request->response()->header( "Refresh: 0;$lsUrl" );
+		$this->parent->request->response()->header( "Refresh: 0;url=$lsUrl" );
 
 		$this->startForm();
 		$this->parent->disableLinkPopups();

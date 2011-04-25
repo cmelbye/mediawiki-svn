@@ -15,6 +15,7 @@
  * @author Neoneurone
  * @author Nguyễn Thanh Quang
  * @author Thaisk
+ * @author Thanhtai2009
  * @author Tmct
  * @author Trần Nguyễn Minh Huy
  * @author Trần Thế Trung
@@ -473,6 +474,7 @@ $messages = array(
 'printableversion'  => 'Bản để in',
 'permalink'         => 'Liên kết thường trực',
 'print'             => 'In',
+'view'              => 'Xem',
 'edit'              => 'Sửa đổi',
 'create'            => 'Tạo',
 'editthispage'      => 'Sửa trang này',
@@ -480,6 +482,7 @@ $messages = array(
 'delete'            => 'Xóa',
 'deletethispage'    => 'Xóa trang này',
 'undelete_short'    => 'Phục hồi {{PLURAL:$1|một sửa đổi|$1 sửa đổi}}',
+'viewdeleted_short' => 'Xem {{PLURAL:$1|sửa đổi|$1 sửa đổi}} đã xóa',
 'protect'           => 'Khóa',
 'protect_change'    => 'thay đổi',
 'protectthispage'   => 'Khóa trang này',
@@ -564,6 +567,8 @@ $1',
 'toc'                     => 'Mục lục',
 'showtoc'                 => 'hiện',
 'hidetoc'                 => 'ẩn',
+'collapsible-collapse'    => 'Thu gọn',
+'collapsible-expand'      => 'Mở rộng',
 'thisisdeleted'           => 'Xem hay phục hồi $1 ?',
 'viewdeleted'             => 'Xem $1?',
 'restorelink'             => '{{PLURAL:$1|một|$1}} sửa đổi đã xóa',
@@ -722,7 +727,7 @@ Hãy kiểm tra lại chính tả, hoặc [[Special:UserLogin/signup|mở tài k
 'wrongpasswordempty'         => 'Bạn chưa gõ vào mật khẩu. Xin thử lần nữa.',
 'passwordtooshort'           => 'Mật khẩu phải có ít nhất {{PLURAL:$1|1 ký tự|$1 ký tự}}.',
 'password-name-match'        => 'Mật khẩu của bạn phải khác với tên người dùng của bạn.',
-'password-too-weak'          => 'Không thể sử dụng mật khẩu được cung cấp vì nó quá yếu.',
+'password-login-forbidden'   => 'Tên đăng nhập và mật khẩu này đã bị cấm không được sử dụng.',
 'mailmypassword'             => 'Gửi mật khẩu mới qua thư điện tử',
 'passwordremindertitle'      => 'Mật khẩu tạm thời cho {{SITENAME}}',
 'passwordremindertext'       => 'Người nào đó (có thể là bạn, có địa chỉ IP $1) đã yêu cầu chúng tôi gửi cho bạn mật khẩu mới của {{SITENAME}} ($4). Mật khẩu tạm cho thành viên “$2” đã được khởi tạo là “$3”. Nếu bạn chính là người đã yêu cầu mật khẩu, bạn sẽ cần phải đăng nhập và thay đổi mật khẩu ngay bây giờ. Mật khẩu tạm sẽ hết hạn trong vòng {{PLURAL:$5|một ngày|$5 ngày}}.
@@ -735,8 +740,7 @@ Nếu bạn không phải là người yêu cầu gửi mật khẩu, hoặc n�
 'eauthentsent'               => 'Thư xác nhận đã được gửi. Trước khi dùng chức năng nhận thư, bạn cần thực hiện hướng dẫn trong thư xác nhận, để đảm bảo tài khoản thuộc về bạn.',
 'throttled-mailpassword'     => 'Mật khẩu đã được gửi đến cho bạn trong vòng {{PLURAL:$1|$1 giờ|$1 giờ}} đồng hồ trở lại. Để tránh lạm dụng, chỉ có thể gửi mật khẩu $1 giờ đồng hồ một lần.',
 'mailerror'                  => 'Lỗi gửi thư : $1',
-'acct_creation_throttle_hit' => 'Những người sử dụng địa chỉ IP này đã mở {{PLURAL:$1|1 tài khoản|$1 tài khoản}} trong vòng một ngày, và đó là số lượng tài khoản tối đa có thể mở trong ngày.
-Vì vậy, người khác sử dụng địa chỉ IP này hiện không thể mở thêm tài khoản được nữa.',
+'acct_creation_throttle_hit' => 'Ai đó cùng [[địa chỉ IP]] với bạn đã mở {{PLURAL:$1|một tài khoản|$1 tài khoản}} ở đây trong vòng 24 giờ. Vì quy định hạn chế số tài khoản mở trên một địa chỉ IP nên bạn hiện không thể mở thêm được nữa dùng địa chỉ IP này.',
 'emailauthenticated'         => 'Địa chỉ thư điện tử của bạn được xác nhận vào lúc $3 $2.',
 'emailnotauthenticated'      => 'Địa chỉ thư điện tử của bạn chưa được xác nhận. Chức năng thư điện tử chưa bật.',
 'noemailprefs'               => 'Hãy ghi một địa chỉ thư điện tử trong tùy chọn cá nhân để có thể sử dụng tính năng này.',
@@ -1391,6 +1395,10 @@ Bạn cũng có thể lựa chọn cho phép người khác liên lạc với b�
 'prefs-displaywatchlist'        => 'Tùy chọn hiển thị',
 'prefs-diffs'                   => 'Khác biệt',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Có vẻ hợp lệ',
+'email-address-validity-invalid' => 'Yêu cầu địa chỉ hợp lệ!',
+
 # User rights
 'userrights'                   => 'Quản lý quyền thành viên',
 'userrights-lookup-user'       => 'Quản lý nhóm thành viên',
@@ -1734,6 +1742,15 @@ Nếu vẫn còn bị lỗi, xin hãy liên hệ với một [[Special:ListUsers
 'upload-unknown-size'       => 'Không rõ kích thước',
 'upload-http-error'         => 'Xảy ra lỗi HTTP: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Hàng đợi tải lên',
+'uploadstash-summary'  => 'Đây là các tập tin mà bạn đã hoặc đang tải lên nhưng chưa xuất bản tại wiki. Chỉ bạn có thể xem các tập tin này.',
+'uploadstash-clear'    => 'Xóa các tập tin đợi tải lên',
+'uploadstash-nofiles'  => 'Bạn không có tập tin trong hàng đợi tải lên.',
+'uploadstash-badtoken' => 'Tác vụ bị thất bại, có lẽ vì thông tin đăng nhập của bạn đã hết hạn. Hãy thử lại.',
+'uploadstash-errclear' => 'Việc dọn sạch các tập tin bị thất bại.',
+'uploadstash-refresh'  => 'Làm mới danh sách tập tin',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Không cho phép truy cập',
 'img-auth-nopathinfo'   => 'Thiếu PATH_INFO.
@@ -1826,6 +1843,7 @@ Lời miêu tả tại [$2 trang mô tả tập tin] tại đấy được hiể
 'uploadnewversion-linktext' => 'Tải lên phiên bản mới',
 'shared-repo-from'          => 'tại $1',
 'shared-repo'               => 'kho lưu trữ dùng chung',
+'filepage.css'              => '/* Mã CSS tại đây sẽ ảnh hướng đến trang miêu tả tập tin, cũng như các wiki khách bên ngoài dựa trên wiki này */',
 
 # File reversion
 'filerevert'                => 'Lùi lại phiên bản của $1',
@@ -1990,6 +2008,7 @@ Xin lưu ý là các trang Web bên ngoài có thể liên kết đến một t�
 'pager-newer-n'           => '{{PLURAL:$1|1|$1}} mới hơn',
 'pager-older-n'           => '{{PLURAL:$1|1|$1}} cũ hơn',
 'suppress'                => 'Giám sát viên',
+'querypage-disabled'      => 'Trang đặc biệt này bị tắt vì lý do hiệu suất.',
 
 # Book sources
 'booksources'               => 'Nguồn sách',
@@ -2888,7 +2907,7 @@ Lưu nó vào máy tính của bạn rồi tải nó lên đây.',
 'math_unknown_function' => 'hàm lạ',
 'math_lexing_error'     => 'lỗi chính tả',
 'math_syntax_error'     => 'lỗi cú pháp',
-'math_image_error'      => 'Không chuyển sang định dạng PNG được; xin kiểm tra lại cài đặt latex, dvips, gs và convert',
+'math_image_error'      => 'Không chuyển sang định dạng PNG được; xin kiểm tra lại cài đặt latex, dvips, gs, và convert (hoặc dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Không tạo mới hay viết vào thư mục toán tạm thời được',
 'math_bad_output'       => 'Không tạo mới hay viết vào thư mục kết quả được',
 'math_notexvc'          => 'Không thấy hàm thực thi texvc; xin xem math/README để biết cách cấu hình.',
@@ -2967,6 +2986,40 @@ Nếu thực thi nó máy tính của bạn có thể bị tiếm quyền.",
 
 Chỉ có những mục được liệt kê (những dòng bắt đầu bằng *) mới được tính tới. Liên kết đầu tiên tại một dòng phải là liên kết đến tập tin phản cảm.
 Các liên kết sau đó trên cùng một dòng được xem là các ngoại lệ, có nghĩa là các trang mà tại đó có thể dùng được tập tin.',
+
+/*
+Short names for language variants used for language conversion links.
+To disable showing a particular link, set it to 'disable', e.g.
+'variantname-zh-sg' => 'disable',
+Variants for Chinese language
+*/
+'variantname-zh-hans' => 'Giản thể',
+'variantname-zh-hant' => 'Phồn thể',
+'variantname-zh-cn'   => 'Giản thể Hoa Lục',
+'variantname-zh-tw'   => 'Phồn thể Đài Loan',
+'variantname-zh-hk'   => 'Phồn thể Hồng Kông',
+'variantname-zh-mo'   => 'Phồn thể Ma Cao',
+'variantname-zh-sg'   => 'Giản thể Singapore',
+'variantname-zh-my'   => 'Giản thể Mã Lai',
+'variantname-zh'      => 'Không chuyển tự',
+
+# Variants for Gan language
+'variantname-gan-hans' => 'Giản thể',
+'variantname-gan-hant' => 'Phồn thể',
+'variantname-gan'      => 'Cám nguyên văn',
+
+# Variants for Kazakh language
+'variantname-kk-cyrl' => 'Kirin',
+'variantname-kk-latn' => 'Latinh',
+'variantname-kk-arab' => 'Ả Rập',
+
+# Variants for Kurdish language
+'variantname-ku-arab' => 'Ả Rập',
+'variantname-ku-latn' => 'Latinh',
+
+# Variants for Tajiki language
+'variantname-tg-cyrl' => 'Kirin',
+'variantname-tg-latn' => 'Latinh',
 
 # Metadata
 'metadata'          => 'Đặc tính hình',
@@ -3599,14 +3652,5 @@ Nếu người dùng đã dăng nhập vào bất cứ wiki nào trong hệ th�
 'disableaccount-nosuchuser'  => 'Tài khoản người dùng “$1” không tồn tại.',
 'disableaccount-success'     => 'Tài khoản người dùng “$1” đã bị vô hiệu hóa vĩnh viễn.',
 'disableaccount-logentry'    => 'đã vô hiệu hóa vĩnh viễn tài khoản của người dùng [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Hàng đợi tải lên',
-'uploadstash-summary'  => 'Đây là các tập tin mà bạn đã hoặc đang tải lên nhưng chưa xuất bản tại wiki. Chỉ bạn có thể xem các tập tin này.',
-'uploadstash-clear'    => 'Xóa các tập tin đợi tải lên',
-'uploadstash-nofiles'  => 'Bạn không có tập tin trong hàng đợi tải lên.',
-'uploadstash-badtoken' => 'Tác vụ bị thất bại, có lẽ vì thông tin đăng nhập của bạn đã hết hạn. Hãy thử lại.',
-'uploadstash-errclear' => 'Việc dọn sạch các tập tin bị thất bại.',
-'uploadstash-refresh'  => 'Làm mới danh sách tập tin',
 
 );

@@ -22,7 +22,7 @@ class MWException extends Exception {
 	function useOutputPage() {
 		return $this->useMessageCache() &&
 			!empty( $GLOBALS['wgFullyInitialised'] ) &&
-			( !empty( $GLOBALS['wgArticle'] ) || ( !empty( $GLOBALS['wgOut'] ) && !$GLOBALS['wgOut']->isArticle() ) ) &&
+			( !empty( $GLOBALS['wgArticle'] ) || ( !empty( $GLOBALS['wgOut'] ) && !$GLOBALS['wgOut']->isArticleRelated() ) ) &&
 			!empty( $GLOBALS['wgTitle'] );
 	}
 
@@ -39,7 +39,7 @@ class MWException extends Exception {
 			}
 		}
 
-		return is_object( $wgLang );
+		return $wgLang instanceof Language;
 	}
 
 	/**
@@ -226,7 +226,7 @@ class MWException extends Exception {
 	 * $wgOut to output the exception.
 	 */
 	function htmlHeader() {
-		global $wgLogo, $wgOutputEncoding;
+		global $wgLogo, $wgOutputEncoding, $wgLang;
 
 		if ( !headers_sent() ) {
 			header( 'HTTP/1.0 500 Internal Server Error' );
@@ -236,23 +236,39 @@ class MWException extends Exception {
 			header( 'Pragma: nocache' );
 		}
 
-		$logo = htmlspecialchars( $wgLogo, ENT_QUOTES );
-		$title = htmlspecialchars( $this->getPageTitle() );
+		$title = Html::element( 'title', null, $this->getPageTitle() );
 
-		return "<html>
-		<head>
-		<title>$title</title>
-		</head>
-		<body>
-		<h1><img src='$logo' style='float:left;margin-right:1em' alt=''/>$title</h1>
-		";
+		$left = 'left';
+		$right = 'right';
+		$dir = 'ltr';
+		$code = 'en';
+
+		if ( $wgLang instanceof Language ) {
+			$left = $wgLang->alignStart();
+			$right = $wgLang->alignEnd();
+			$dir = $wgLang->getDir();
+			$code = $wgLang->getCode();
+		}
+
+		$header = Html::element( 'img', array(
+			'src' => $wgLogo,
+			'style' => "float: $left; margin-$right: 1em;",
+			'alt' => '' ), $this->getPageTitle() );
+
+		$attribs = array( 'dir' => $dir, 'lang' => $code );
+
+		return
+			Html::htmlHeader( $attribs ) .
+			Html::rawElement( 'head', null, $title ) . "\n". 
+			Html::openElement( 'body' ) . "\n" .
+			Html::rawElement( 'h1', null, $header ) . "\n";
 	}
 
 	/**
 	 * print the end of the html page if not using $wgOut.
 	 */
 	function htmlFooter() {
-		return "</body></html>";
+		return Html::closeElement( 'body' ) . Html::closeElement( 'html' );
 	}
 
 	/**

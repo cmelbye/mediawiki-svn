@@ -466,6 +466,7 @@ $messages = array(
 'printableversion'  => 'Prilagođeno štampanju',
 'permalink'         => 'Trajni link',
 'print'             => 'Štampa',
+'view'              => 'Pogled',
 'edit'              => 'Uredi',
 'create'            => 'Napravi',
 'editthispage'      => 'Uredite ovu stranicu',
@@ -473,6 +474,7 @@ $messages = array(
 'delete'            => 'Obriši',
 'deletethispage'    => 'Obriši ovu stranicu',
 'undelete_short'    => 'Vrati obrisanih {{PLURAL:$1|$1 izmjenu|$1 izmjene|$1 izmjena}}',
+'viewdeleted_short' => 'Pogledaj {{PLURAL:$1|jednu obrisanu izmjenu|$1 obrisane izmjene|$1 obrisanih izmjena}}',
 'protect'           => 'Zaštitite',
 'protect_change'    => 'promijeni',
 'protectthispage'   => 'Zaštitite ovu stranicu',
@@ -557,6 +559,8 @@ $1',
 'toc'                     => 'Sadržaj',
 'showtoc'                 => 'pokaži',
 'hidetoc'                 => 'sakrij',
+'collapsible-collapse'    => 'Sakrij',
+'collapsible-expand'      => 'Proširi',
 'thisisdeleted'           => 'Pogledaj ili vrati $1?',
 'viewdeleted'             => 'Pogledaj $1?',
 'restorelink'             => '{{PLURAL:$1|$1 izbrisana izmjena|$1 izbrisanih izmjena}}',
@@ -722,7 +726,7 @@ Molimo Vas da pokušate ponovno.',
 Molimo Vas da pokušate ponovno.',
 'passwordtooshort'           => 'Šifra mora imati najmanje {{PLURAL:$1|1 znak|$1 znaka|$1 znakova}}.',
 'password-name-match'        => 'Vaša šifra mora biti različita od Vašeg korisničkog imena.',
-'password-too-weak'          => 'Navedena šifra je preslaba i ne može biti korištena.',
+'password-login-forbidden'   => 'Korištenje ovih korisničkih imena i šifara je zabranjeo.',
 'mailmypassword'             => 'Pošalji mi novu šifru',
 'passwordremindertitle'      => 'Nova privremena šifra za {{SITENAME}}',
 'passwordremindertext'       => 'Neko (vjerovatno Vi, sa IP adrese $1) je zahtjevao da vam pošaljemo novu šifru za {{SITENAME}}  ($4). Privremena šifra za korisnika "$2" je napravljena i glasi "$3". Ako ste to željeli, sad treba da se prijavite i promjenite šifru.
@@ -1283,7 +1287,7 @@ Korištenje navigacionih linkova će resetovati ovaj stupac.',
 'nonefound'                        => "'''Pažnja''': Po pretpostavljenim postavkama pretražuju se samo neki imenski prostori.
 Pokušajte u Vaš upit uključiti prefiks ''all:'' da bi ste pretražili sav sadržaj (uključujući stranice za razgovor, šablone i sl.) ili koristite željeni imenski prostor kao prefiks.",
 'search-nonefound'                 => 'Nisu pronađeni rezultati koji odgovaraju upitu.',
-'powersearch'                      => 'Traži',
+'powersearch'                      => 'Napredna pretraga',
 'powersearch-legend'               => 'Napredna pretraga',
 'powersearch-ns'                   => 'Pretraga u imenskim prostorima:',
 'powersearch-redir'                => 'Spisak preusmjerenja',
@@ -1416,6 +1420,10 @@ Također omogućuje drugim korisnicima da vas kontaktiraju preko Vaše korisnič
 'prefs-displaysearchoptions'    => 'Postavke izgleda',
 'prefs-displaywatchlist'        => 'Postavke izgleda',
 'prefs-diffs'                   => 'Razlike',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'Izgleda valjano',
+'email-address-validity-invalid' => 'Neophodna valjana adresa!',
 
 # User rights
 'userrights'                   => 'Postavke korisničkih prava',
@@ -1762,6 +1770,15 @@ Ako se problem ne riješi, kontaktirajte [[Special:ListUsers/sysop|administrator
 'upload-unknown-size'       => 'Nepoznata veličina',
 'upload-http-error'         => 'Desila se HTTP greška: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Postavi sakrivene datoteke',
+'uploadstash-summary'  => 'Ova stranica daje pristup datotekama koje su postavljene (ili su u postupku postavljanja) ali još nisu objavljene na wiki. Ove datoteke nisu vidljive nikom osim korisniku koji ih je postavio.',
+'uploadstash-clear'    => 'Očisti sakrivene datoteke',
+'uploadstash-nofiles'  => 'Nemate sakrivenih datoteka.',
+'uploadstash-badtoken' => 'Izvršavanje ove akcije je bilo neuspješno, možda zato što su vaša uređivačka odobrenja istekla. Pokušajte ponovo.',
+'uploadstash-errclear' => 'Brisanje sakrivenih datoteka je bilo neuspješno.',
+'uploadstash-refresh'  => 'Osvježi spisak datoteka',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Pristup onemogućen',
 'img-auth-nopathinfo'   => 'Nedostaje PATH_INFO.
@@ -2024,6 +2041,7 @@ na kome bi se izvela ova funkcija.',
 'pager-newer-n'           => '{{PLURAL:$1|novija 1|novije $1}}',
 'pager-older-n'           => '{{PLURAL:$1|starija 1|starije $1}}',
 'suppress'                => 'Nazdor',
+'querypage-disabled'      => 'Ova posebna stranica je onemogućena jer smanjuje performanse.',
 
 # Book sources
 'booksources'               => 'Štampani izvori',
@@ -2944,7 +2962,7 @@ Ovo je vjerovatno izazvao vezom ka vanjskoj nepoželjnoj stranici.',
 'math_unknown_function' => 'nepoznata funkcija',
 'math_lexing_error'     => 'riječnička greška',
 'math_syntax_error'     => 'sintaksna greška',
-'math_image_error'      => 'PNG konverzija neuspješna; provjerite tačnu instalaciju latex-a, dvips-a, gs-a i convert-a',
+'math_image_error'      => 'PNG konverzija neuspješna; provjerite tačnu instalaciju latex-a i dvipng-a (ili dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Ne može se napisati ili napraviti privremeni matematični direktorijum',
 'math_bad_output'       => 'Ne može se napisati ili napraviti direktorijum za matematični izvještaj.',
 'math_notexvc'          => 'Nedostaje izvršno texvc; molimo Vas da pogledate math/README da podesite.',
@@ -3659,14 +3677,5 @@ Ako je korisnik negdje u međuvremenu prijavljen, bit će automatski odmah odjav
 'disableaccount-nosuchuser'  => 'Korisnički račun "$1" ne postoji.',
 'disableaccount-success'     => 'Korisnički račun "$1" je trajno onemogućen.',
 'disableaccount-logentry'    => 'zauvijek je onemogućen korisnički račun [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Postavi sakrivene datoteke',
-'uploadstash-summary'  => 'Ova stranica daje pristup datotekama koje su postavljene (ili su u postupku postavljanja) ali još nisu objavljene na wiki. Ove datoteke nisu vidljive nikom osim korisniku koji ih je postavio.',
-'uploadstash-clear'    => 'Očisti sakrivene datoteke',
-'uploadstash-nofiles'  => 'Nemate sakrivenih datoteka.',
-'uploadstash-badtoken' => 'Izvršavanje ove akcije je bilo neuspješno, možda zato što su vaša uređivačka odobrenja istekla. Pokušajte ponovo.',
-'uploadstash-errclear' => 'Brisanje sakrivenih datoteka je bilo neuspješno.',
-'uploadstash-refresh'  => 'Osvježi spisak datoteka',
 
 );

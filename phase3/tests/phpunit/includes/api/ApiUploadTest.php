@@ -17,9 +17,6 @@
 // TODO: refactor into several files
 // TODO: port the other Upload tests, and other API tests to this framework
 
-require_once( dirname( __FILE__ ) . '/RandomImageGenerator.php' );
-require_once( dirname( __FILE__ ) . '/../../../../includes/User.php' );
-
 /* Wraps the user object, so we can also retain full access to properties like password if we log in via the API */
 class ApiTestUser {
 	public $username;
@@ -78,7 +75,7 @@ class ApiTestUser {
 
 }
 
-abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
+abstract class ApiTestCase extends MediaWikiTestCase {
 	public static $users;
 
 	function setUp() {
@@ -108,7 +105,7 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 
 	}
 
-	protected function doApiRequest( $params, $session = null ) {
+	protected function doApiRequest( $params, $session = null, $appendModule = false ) {
 		$_SESSION = isset( $session ) ? $session : array();
 
 		$request = new FauxRequest( $params, true, $_SESSION );
@@ -130,7 +127,7 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 			// add edit token to fake session
 			$session['wsEditToken'] = $session['wsToken'];
 			// add token to request parameters
-			$params['token'] = md5( $session['wsToken'] ) . EDIT_TOKEN_SUFFIX;
+			$params['token'] = md5( $session['wsToken'] ) . User::EDIT_TOKEN_SUFFIX;
 			return $this->doApiRequest( $params, $session );
 		} else {
 			throw new Exception( "request data not in right format" );
@@ -142,6 +139,8 @@ abstract class ApiTestCase extends PHPUnit_Framework_TestCase {
 /**
  * @group Database
  * @group Destructive
+ *
+ * This is pretty sucky... needs to be prettified.
  */
 class ApiUploadTest extends ApiTestCase {
 	/**

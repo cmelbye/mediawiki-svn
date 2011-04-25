@@ -12,6 +12,7 @@
  * @author Indiver
  * @author Lkhatiwada
  * @author RajeshPandey
+ * @author Reedy
  * @author ne.wikipedia.org sysops
  * @author सरोज कुमार ढकाल
  */
@@ -498,7 +499,6 @@ $2',
 'wrongpasswordempty'         => 'हालिएको पासवर्ड खालि थियो । कृपया फेरी प्रयास गर्नुहोला ।',
 'passwordtooshort'           => 'पासवर्ड कम्तिमा {{PLURAL:$1|१ अक्षर |$1 अक्षरहरु}}को हुनुपर्छ ।',
 'password-name-match'        => 'तपाईँको प्रवेशशव्द प्रयोगकर्ता नाम भन्दा फरक हुनुपर्छ ।',
-'password-too-weak'          => 'दिएको पासवर्ड अति कमजोर भयो जसलाई प्रयोग गर्न सकिंदैन।',
 'mailmypassword'             => 'नयाँ प्रवेशशव्द इमेल गर्नुहोस्',
 'passwordremindertitle'      => '{{SITENAME}}को लागि नयाँ अस्थायी पासवर्ड',
 'passwordremindertext'       => 'कसैले (सायद तपाईँ, IP ठेगाना $1 बाट), {{SITENAME}}($4) को लागि नयाँ प्रवेशशव्द अनुरोध गर्नुभएको छ । प्रयोगकर्ता "$2" को लागि नयाँ अस्थायी प्रवेशशव्द "$3"तयार पारिएको छ। यदि यो तपाईको इच्छामा भएको भए अहिले तपाईले तपाईँले प्रवेशगरी नयाँ प्रवेशशव्द छान्नु पर्ने हुन्छ।
@@ -1962,7 +1962,7 @@ $1को बन्देजको कारण : "$2" हो',
 'thumbnail-more'           => 'ठूलो बनाउने',
 'filemissing'              => 'हराइरहेको %s फाइल',
 'thumbnail_error'          => 'डाटावेस सिर्जना गर्दा त्रुटि: %s',
-'thumbnail_invalid_params' => "नोड <parameters> हराइरहेछ: '%s'",
+'thumbnail_invalid_params' => "नोड parameters हराइरहेछ: '%s'",
 'thumbnail_dest_directory' => '%s सिर्जना गर्दै ... डाइरेक्टरी सिर्जना गर्न असफल',
 'thumbnail_image-type'     => "अनुक्रमणिका फाइल प्रकार '%s' समर्थित छैन",
 'thumbnail_image-missing'  => 'डाटाबेस फाइलमा डाटाबेसको नाम प्रयोग गर्नका लागि',

@@ -169,7 +169,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 			$this->getResult()->setParsedLimit( $this->getModuleName(), $limit );
 		}
 
-		
+
 		if ( !is_null( $this->token ) || $pageCount > 0 ) {
 			$this->addFields( Revision::selectPageFields() );
 		}
@@ -224,7 +224,7 @@ class ApiQueryRevisions extends ApiQueryBase {
 			}
 		}
 
-		//Bug 24166 - API error when using rvprop=tags
+		// Bug 24166 - API error when using rvprop=tags
 		$this->addTables( 'revision' );
 
 
@@ -479,26 +479,9 @@ class ApiQueryRevisions extends ApiQueryBase {
 				$text = $wgParser->preprocess( $text, $title, new ParserOptions() );
 			}
 			if ( $this->parseContent ) {
-				global $wgEnableParserCache;
-			
-				$popts = new ParserOptions();
-				$popts->setTidy( true );
-				
 				$articleObj = new Article( $title );
 
-				$p_result = false;
-				$pcache = ParserCache::singleton();
-				if ( $wgEnableParserCache ) {
-					$p_result = $pcache->get( $articleObj, $popts );
-				}
-				if ( !$p_result ) {
-					$p_result = $wgParser->parse( $text, $title, $popts );
-
-					if ( $wgEnableParserCache ) {
-						$pcache->save( $p_result, $articleObj, $popts );
-					}
-				}
-				
+				$p_result = $articleObj->getParserOutput();
 				$text = $p_result->getText();
 			}
 			ApiResult::setContent( $vals, $text );

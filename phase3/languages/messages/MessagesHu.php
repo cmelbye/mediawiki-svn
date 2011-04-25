@@ -578,6 +578,8 @@ $1',
 'toc'                     => 'Tartalomjegyzék',
 'showtoc'                 => 'megjelenítés',
 'hidetoc'                 => 'elrejtés',
+'collapsible-collapse'    => 'kinyit',
+'collapsible-expand'      => 'becsuk',
 'thisisdeleted'           => '$1 megtekintése vagy helyreállítása?',
 'viewdeleted'             => '$1 megtekintése',
 'restorelink'             => '{{PLURAL:$1|Egy|$1}} törölt szerkesztés',
@@ -737,7 +739,6 @@ Ellenőrizd, hogy helyesen írtad-e be.',
 'wrongpasswordempty'         => 'Nem adtál meg jelszót. Próbáld meg újra.',
 'passwordtooshort'           => 'A jelszónak legalább {{PLURAL:$1|egy|$1}} karakterből kell állnia.',
 'password-name-match'        => 'A jelszavadnak különböznie kell a szerkesztőnevedtől.',
-'password-too-weak'          => 'A megadott jelszó túl gyenge, ezért nem használható.',
 'mailmypassword'             => 'Új jelszó küldése e-mailben',
 'passwordremindertitle'      => 'Ideiglenes jelszó a(z) {{SITENAME}} wikire',
 'passwordremindertext'       => 'Valaki (vélhetően te, a(z) $1 IP-címről) új jelszót kért a(z)
@@ -1756,6 +1757,11 @@ Kérjük, hogy lépj kapcsolatba egy  [[Special:ListUsers/sysop|adminisztrátorr
 'upload-too-many-redirects' => 'Az URL túl sokszor volt átirányítva',
 'upload-unknown-size'       => 'Ismeretlen méretű',
 'upload-http-error'         => 'HTTP-hiba történt: $1',
+
+# Special:UploadStash
+'uploadstash-summary'  => 'Ezen a lapon lehet hozzáférni azokhoz a fájlokhoz, melyek fel lettek töltve (vagy épp feltöltés alatt vannak), de még nem lettek közzétéve a wikin. Az ilyen fájlok csak a feltöltőik számára láthatóak.',
+'uploadstash-errclear' => 'A fájlok törlése nem sikerült.',
+'uploadstash-refresh'  => 'Fájlok listájának frissítése',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Hozzáférés megtagadva',
@@ -2897,7 +2903,7 @@ Ez valószínűleg egy olyan link miatt van, ami egy feketelistán lévő oldalr
 'math_unknown_function' => 'ismeretlen függvény',
 'math_lexing_error'     => 'lexikai hiba',
 'math_syntax_error'     => 'formai hiba',
-'math_image_error'      => 'Sikertelen PNG-vé alakítás; ellenőrizd a latex, dvips, gs telepítését',
+'math_image_error'      => 'PNG-vé alakítás sikertelen; ellenőrizd, hogy a latex és dvipng (vagy dvips + gs + convert) helyesen van-e telepítve',
 'math_bad_tmpdir'       => 'Nem írható vagy nem hozható létre a matematikai ideiglenes könyvtár',
 'math_bad_output'       => 'Nem lehet létrehozni vagy írni a matematikai függvények kimeneti könyvtárába',
 'math_notexvc'          => 'HIányzó texvc végrehajtható fájl; a beállítást lásd a math/README fájlban.',
@@ -3540,10 +3546,5 @@ Add meg a fájl nevét „{{ns:file}}:” előtag nélkül.',
 'disableaccount-nosuchuser'  => 'Nem létezik „$1” nevű felhasználói fiók.',
 'disableaccount-success'     => '„$1” felhasználói fiókja véglegesen le lett tiltva.',
 'disableaccount-logentry'    => 'véglegesen letiltotta [[$1]] felhasználói fiókját',
-
-# Special:UploadStash
-'uploadstash-summary'  => 'Ezen a lapon lehet hozzáférni azokhoz a fájlokhoz, melyek fel lettek töltve (vagy épp feltöltés alatt vannak), de még nem lettek közzétéve a wikin. Az ilyen fájlok csak a feltöltőik számára láthatóak.',
-'uploadstash-errclear' => 'A fájlok törlése nem sikerült.',
-'uploadstash-refresh'  => 'Fájlok listájának frissítése',
 
 );

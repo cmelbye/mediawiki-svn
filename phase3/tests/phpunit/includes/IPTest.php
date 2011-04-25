@@ -3,8 +3,10 @@
  * Tests for IP validity functions. Ported from /t/inc/IP.t by avar.
  */
 
-class IPTest extends PHPUnit_Framework_TestCase {
-	// not sure it should be tested with boolean false. hashar 20100924
+class IPTest extends MediaWikiTestCase {
+	/**
+	 *  not sure it should be tested with boolean false. hashar 20100924
+	 */
 	public function testisIPAddress() {
 		$this->assertFalse( IP::isIPAddress( false ), 'Boolean false is not an IP' );
 		$this->assertFalse( IP::isIPAddress( true  ), 'Boolean true is not an IP' );
@@ -90,7 +92,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue( IP::isIPv4( '74.24.52.13/20', 'IPv4 range' ) );
 	}
 
-	// tests isValid()
 	public function testValidIPs() {
 		foreach ( range( 0, 255 ) as $i ) {
 			$a = sprintf( "%03d", $i );
@@ -112,7 +113,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// tests isValid()
 	public function testInvalidIPs() {
 		// Out of range...
 		foreach ( range( 256, 999 ) as $i ) {
@@ -160,7 +160,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// tests isValidBlock()
 	public function testValidBlocks() {
 		$valid = array(
 			'116.17.184.5/32',
@@ -181,7 +180,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// tests isValidBlock()
 	public function testInvalidBlocks() {
 		$invalid = array(
 			'116.17.184.5/33',
@@ -202,7 +200,9 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		}
 	}
 
-	// test wrapper around ip2long which might return -1 or false depending on PHP version
+	/**
+	 * test wrapper around ip2long which might return -1 or false depending on PHP version
+	 */
 	public function testip2longWrapper() {
 		// fixme : add more tests ?
 		$this->assertEquals( pow(2,32) - 1, IP::toUnsigned( '255.255.255.255' ));
@@ -210,7 +210,6 @@ class IPTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse( IP::toUnSigned( $i ) );
 	}
 
-	// tests isPublic()
 	public function testPrivateIPs() {
 		$private = array( 'fc::3', 'fc::ff', '::1', '10.0.0.1', '172.16.0.1', '192.168.0.1' );
 		foreach ( $private as $p ) {

@@ -20,169 +20,43 @@ require_once dirname( __FILE__ ) . '/normal/UtfNormalUtil.php';
  * Re-implementations of newer functions or functions in non-standard
  * PHP extensions may be included here.
  */
+
 if( !function_exists( 'iconv' ) ) {
-	# iconv support is not in the default configuration and so may not be present.
-	# Assume will only ever use utf-8 and iso-8859-1.
-	# This will *not* work in all circumstances.
 	function iconv( $from, $to, $string ) {
-		if ( substr( $to, -8 ) == '//IGNORE' ) {
-			$to = substr( $to, 0, strlen( $to ) - 8 );
-		}
-		if( strcasecmp( $from, $to ) == 0 ) {
-			return $string;
-		}
-		if( strcasecmp( $from, 'utf-8' ) == 0 ) {
-			return utf8_decode( $string );
-		}
-		if( strcasecmp( $to, 'utf-8' ) == 0 ) {
-			return utf8_encode( $string );
-		}
-		return $string;
+		return Fallback::iconv( $from, $to, $string );
 	}
 }
 
 if ( !function_exists( 'mb_substr' ) ) {
-	/**
-	 * Fallback implementation for mb_substr, hardcoded to UTF-8.
-	 * Attempts to be at least _moderately_ efficient; best optimized
-	 * for relatively small offset and count values -- about 5x slower
-	 * than native mb_string in my testing.
-	 *
-	 * Larger offsets are still fairly efficient for Latin text, but
-	 * can be up to 100x slower than native if the text is heavily
-	 * multibyte and we have to slog through a few hundred kb.
-	 */
 	function mb_substr( $str, $start, $count='end' ) {
-		if( $start != 0 ) {
-			$split = mb_substr_split_unicode( $str, intval( $start ) );
-			$str = substr( $str, $split );
-		}
-
-		if( $count !== 'end' ) {
-			$split = mb_substr_split_unicode( $str, intval( $count ) );
-			$str = substr( $str, 0, $split );
-		}
-
-		return $str;
+		return Fallback::mb_substr( $str, $start, $count );
 	}
 
 	function mb_substr_split_unicode( $str, $splitPos ) {
-		if( $splitPos == 0 ) {
-			return 0;
-		}
-
-		$byteLen = strlen( $str );
-
-		if( $splitPos > 0 ) {
-			if( $splitPos > 256 ) {
-				// Optimize large string offsets by skipping ahead N bytes.
-				// This will cut out most of our slow time on Latin-based text,
-				// and 1/2 to 1/3 on East European and Asian scripts.
-				$bytePos = $splitPos;
-				while ( $bytePos < $byteLen && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					++$bytePos;
-				}
-				$charPos = mb_strlen( substr( $str, 0, $bytePos ) );
-			} else {
-				$charPos = 0;
-				$bytePos = 0;
-			}
-
-			while( $charPos++ < $splitPos ) {
-				++$bytePos;
-				// Move past any tail bytes
-				while ( $bytePos < $byteLen && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					++$bytePos;
-				}
-			}
-		} else {
-			$splitPosX = $splitPos + 1;
-			$charPos = 0; // relative to end of string; we don't care about the actual char position here
-			$bytePos = $byteLen;
-			while( $bytePos > 0 && $charPos-- >= $splitPosX ) {
-				--$bytePos;
-				// Move past any tail bytes
-				while ( $bytePos > 0 && $str{$bytePos} >= "\x80" && $str{$bytePos} < "\xc0" ) {
-					--$bytePos;
-				}
-			}
-		}
-
-		return $bytePos;
+		return Fallback::mb_substr_split_unicode( $str, $splitPos );
 	}
 }
 
 if ( !function_exists( 'mb_strlen' ) ) {
-	/**
-	 * Fallback implementation of mb_strlen, hardcoded to UTF-8.
-	 * @param string $str
-	 * @param string $enc optional encoding; ignored
-	 * @return int
-	 */
 	function mb_strlen( $str, $enc = '' ) {
-		$counts = count_chars( $str );
-		$total = 0;
-
-		// Count ASCII bytes
-		for( $i = 0; $i < 0x80; $i++ ) {
-			$total += $counts[$i];
-		}
-
-		// Count multibyte sequence heads
-		for( $i = 0xc0; $i < 0xff; $i++ ) {
-			$total += $counts[$i];
-		}
-		return $total;
+		return Fallback::mb_strlen( $str, $enc );
 	}
 }
 
-
 if( !function_exists( 'mb_strpos' ) ) {
-	/**
-	 * Fallback implementation of mb_strpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
-	 * @return int
-	 */
+	
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
-		$needle = preg_quote( $needle, '/' );
-
-		$ar = array();
-		preg_match( '/' . $needle . '/u', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
-
-		if( isset( $ar[0][1] ) ) {
-			return $ar[0][1];
-		} else {
-			return false;
-		}
+		return Fallback::mb_strpos( $haystack, $needle, $offset, $encoding );
 	}
+	
 }
 
 if( !function_exists( 'mb_strrpos' ) ) {
-	/**
-	 * Fallback implementation of mb_strrpos, hardcoded to UTF-8.
-	 * @param $haystack String
-	 * @param $needle String
-	 * @param $offset String: optional start position
-	 * @param $encoding String: optional encoding; ignored
-	 * @return int
-	 */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
-		$needle = preg_quote( $needle, '/' );
-
-		$ar = array();
-		preg_match_all( '/' . $needle . '/u', $haystack, $ar, PREG_OFFSET_CAPTURE, $offset );
-
-		if( isset( $ar[0] ) && count( $ar[0] ) > 0 &&
-			isset( $ar[0][count( $ar[0] ) - 1][1] ) ) {
-			return $ar[0][count( $ar[0] ) - 1][1];
-		} else {
-			return false;
-		}
+		return Fallback::mb_strrpos( $haystack, $needle, $offset, $encoding );
 	}
 }
+
 
 // Support for Wietse Venema's taint feature
 if ( !function_exists( 'istainted' ) ) {
@@ -198,6 +72,7 @@ if ( !function_exists( 'istainted' ) ) {
 	define( 'TC_SELF', 1 );
 }
 /// @endcond
+
 
 
 /**
@@ -596,6 +471,26 @@ function wfMessage( $key /*...*/) {
 }
 
 /**
+ * This function accepts multiple message keys and returns a message instance
+ * for the first message which is non-empty. If all messages are empty then an
+ * instance of the first message key is returned.
+ * Varargs: message keys
+ * @return \type{Message}
+ * @since 1.18
+ */
+function wfMessageFallback( /*...*/ ) {
+	$keys = func_get_args();
+	$first = $keys[0];
+	foreach ( $keys as $key ) {
+		if ( wfEmptyMsg( $key ) ) {
+			continue;
+		}
+		return wfMessage( $key );
+	}
+	return wfMessage( $first );
+}
+
+/**
  * Get a message from anywhere, for the current user language.
  *
  * Use wfMsgForContent() instead if the message should NOT
@@ -861,12 +756,15 @@ function wfMsgExt( $key, $options ) {
 	if( in_array( 'content', $options, true ) ) {
 		$forContent = true;
 		$langCode = true;
+		$langCodeObj = null;
 	} elseif( array_key_exists( 'language', $options ) ) {
 		$forContent = false;
 		$langCode = wfGetLangObj( $options['language'] );
+		$langCodeObj = $langCode;
 	} else {
 		$forContent = false;
 		$langCode = false;
+		$langCodeObj = null;
 	}
 
 	$string = wfMsgGetKey( $key, /*DB*/true, $langCode, /*Transform*/false );
@@ -876,9 +774,9 @@ function wfMsgExt( $key, $options ) {
 	}
 
 	if( in_array( 'parse', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent );
+		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
 	} elseif ( in_array( 'parseinline', $options, true ) ) {
-		$string = $wgOut->parse( $string, true, !$forContent );
+		$string = $wgOut->parse( $string, true, !$forContent, $langCodeObj );
 		$m = array();
 		if( preg_match( '/^<p>(.*)\n?<\/p>\n?$/sU', $string, $m ) ) {
 			$string = $m[1];
@@ -887,8 +785,7 @@ function wfMsgExt( $key, $options ) {
 		global $wgMessageCache;
 		if ( isset( $wgMessageCache ) ) {
 			$string = $wgMessageCache->transform( $string,
-				!$forContent,
-				is_object( $langCode ) ? $langCode : null );
+				!$forContent, $langCodeObj );
 		}
 	}
 
@@ -1216,9 +1113,9 @@ function wfNumLink( $offset, $limit, $title, $query = '' ) {
  *
  * @return bool Whereas client accept gzip compression
  */
-function wfClientAcceptsGzip() {
+function wfClientAcceptsGzip( $force = false ) {
 	static $result = null;
-	if ( $result === null ) {
+	if ( $result === null || $force ) {
 		$result = false;
 		if( isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) ) {
 			# FIXME: we may want to blacklist some broken browsers
@@ -1287,10 +1184,11 @@ function wfTime() {
 /**
  * Sets dest to source and returns the original value of dest
  * If source is NULL, it just returns the value, it doesn't set the variable
+ * If force is true, it will set the value even if source is NULL
  */
-function wfSetVar( &$dest, $source ) {
+function wfSetVar( &$dest, $source, $force = false ) {
 	$temp = $dest;
-	if ( !is_null( $source ) ) {
+	if ( !is_null( $source ) || $force ) {
 		$dest = $source;
 	}
 	return $temp;
@@ -1948,7 +1846,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 	$da = array();
 	$strtime = '';
 
-	if ( $ts === 0 ) {
+	if ( !$ts ) { // We want to catch 0, '', null... but not date strings starting with a letter.
 		$uts = time();
 		$strtime = "@$uts";
 	} elseif ( preg_match( '/^(\d{4})\-(\d\d)\-(\d\d) (\d\d):(\d\d):(\d\d)$/D', $ts, $da ) ) {
@@ -1988,7 +1886,7 @@ function wfTimestamp( $outputtype = TS_UNIX, $ts = 0 ) {
 		# asctime
 		$strtime = $ts;
 	} else {
-		# Bogus value; fall back to the epoch...
+		# Bogus value...
 		wfDebug("wfTimestamp() fed bogus time value: TYPE=$outputtype; VALUE=$ts\n");
 
 		return false;
@@ -2368,10 +2266,14 @@ function wfEmptyMsg( $key ) {
  *
  * @param $needle String
  * @param $str String
+ * @param $insensitive Boolean
  * @return Boolean
  */
-function in_string( $needle, $str ) {
-	return strpos( $str, $needle ) !== false;
+function in_string( $needle, $str, $insensitive = false ) {
+	$func = 'strpos';
+	if( $insensitive ) $func = 'stripos';
+	
+	return $func( $str, $needle ) !== false;
 }
 
 function wfSpecialList( $page, $details ) {
@@ -2942,27 +2844,10 @@ function wfBaseConvert( $input, $sourceBase, $destBase, $pad = 1, $lowercase = t
  * Create an object with a given name and an array of construct parameters
  * @param $name String
  * @param $p Array: parameters
+ * @deprecated
  */
 function wfCreateObject( $name, $p ) {
-	$p = array_values( $p );
-	switch ( count( $p ) ) {
-		case 0:
-			return new $name;
-		case 1:
-			return new $name( $p[0] );
-		case 2:
-			return new $name( $p[0], $p[1] );
-		case 3:
-			return new $name( $p[0], $p[1], $p[2] );
-		case 4:
-			return new $name( $p[0], $p[1], $p[2], $p[3] );
-		case 5:
-			return new $name( $p[0], $p[1], $p[2], $p[3], $p[4] );
-		case 6:
-			return new $name( $p[0], $p[1], $p[2], $p[3], $p[4], $p[5] );
-		default:
-			throw new MWException( 'Too many arguments to construtor in wfCreateObject' );
-	}
+	return MWFunction::newObj( $name, $p );
 }
 
 function wfHttpOnlySafe() {
@@ -3153,6 +3038,7 @@ function wfGetLB( $wiki = false ) {
 
 /**
  * Get the load balancer factory object
+ * @return LBFactory
  */
 function &wfGetLBFactory() {
 	return LBFactory::singleton();

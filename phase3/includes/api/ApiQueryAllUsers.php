@@ -50,6 +50,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			$fld_blockinfo = isset( $prop['blockinfo'] );
 			$fld_editcount = isset( $prop['editcount'] );
 			$fld_groups = isset( $prop['groups'] );
+			$fld_rights = isset( $prop['rights'] );
 			$fld_registration = isset( $prop['registration'] );
 		} else {
 			$fld_blockinfo = $fld_editcount = $fld_groups = $fld_registration = false;
@@ -70,6 +71,21 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			$this->addWhere( 'u1.user_name' . $db->buildLike( $this->keyToTitle( $params['prefix'] ), $db->anyString() ) );
 		}
 
+		if ( !is_null( $params['rights'] ) ) {
+			$groups = array();
+			foreach( $params['rights'] as $r ) {
+				$groups = array_merge( $groups, User::getGroupsWithPermission( $r ) );
+			}
+
+			$groups = array_diff( array_unique( $groups ), User::getImplicitGroups() );
+
+			if ( is_null( $params['group'] ) ) {
+				$params['group'] = $groups;
+			} else {
+				$params['group'] = array_unique( array_merge( $params['group'], $groups ) );
+			}
+		}
+
 		if ( !is_null( $params['group'] ) ) {
 			$useIndex = false;
 			// Filter only users that belong to a given group
@@ -83,7 +99,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			$this->addWhere( 'u1.user_editcount > 0' );
 		}
 
-		if ( $fld_groups ) {
+		if ( $fld_groups || $fld_rights ) {
 			// Show the groups the given users belong to
 			// request more than needed to avoid not getting all rows that belong to one user
 			$groupCount = count( User::getAllGroups() );
@@ -96,6 +112,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 		} else {
 			$sqlLimit = $limit + 1;
 		}
+
 		if ( $fld_blockinfo ) {
 			$this->addTables( 'ipblocks' );
 			$this->addTables( 'user', 'u2' );
@@ -143,6 +160,9 @@ class ApiQueryAllUsers extends ApiQueryBase {
 				if ( is_array( $lastUserData ) ) {
 					$fit = $result->addValue( array( 'query', $this->getModuleName() ),
 							null, $lastUserData );
+
+					$lastUserData = null;
+
 					if ( !$fit ) {
 						$this->setContinueEnumParameter( 'from',
 								$this->keyToTitle( $lastUserData['name'] ) );
@@ -185,8 +205,22 @@ class ApiQueryAllUsers extends ApiQueryBase {
 
 			// Add user's group info
 			if ( $fld_groups && !is_null( $row->ug_group2 ) ) {
+				if ( !isset( $lastUserData['groups'] ) ) {
+					$lastUserData['groups'] = ApiQueryUsers::getAutoGroups( User::newFromName( $lastUser ) );
+				}
+
 				$lastUserData['groups'][] = $row->ug_group2;
 				$result->setIndexedTagName( $lastUserData['groups'], 'g' );
+			}
+
+			if ( $fld_rights && !is_null( $row->ug_group2 ) ) {
+				if ( !isset( $lastUserData['rights'] ) ) {
+					$lastUserData['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
+				}
+
+				$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
+					User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				$result->setIndexedTagName( $lastUserData['rights'], 'r' );
 			}
 		}
 
@@ -212,13 +246,19 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			'to' => null,
 			'prefix' => null,
 			'group' => array(
-				ApiBase::PARAM_TYPE => User::getAllGroups()
+				ApiBase::PARAM_TYPE => User::getAllGroups(),
+				ApiBase::PARAM_ISMULTI => true,
+			),
+			'rights' => array(
+				ApiBase::PARAM_TYPE => User::getAllRights(),
+				ApiBase::PARAM_ISMULTI => true,
 			),
 			'prop' => array(
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_TYPE => array(
 					'blockinfo',
 					'groups',
+					'rights',
 					'editcount',
 					'registration'
 				)
@@ -239,14 +279,16 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			'from' => 'The user name to start enumerating from',
 			'to' => 'The user name to stop enumerating at',
 			'prefix' => 'Search for all users that begin with this value',
-			'group' => 'Limit users to a given group name',
+			'group' => 'Limit users to given group name(s)',
+			'rights' => 'Limit users to given right(s)',
 			'prop' => array(
 				'What pieces of information to include.',
 				' blockinfo     - Adds the information about a current block on the user',
-				' groups        - Lists groups that the user is in',
+				' groups        - Lists groups that the user is in. This uses more server resources and may return fewer results than the limit',
+				' rights        - Lists rights that the user has',
 				' editcount     - Adds the edit count of the user',
 				' registration  - Adds the timestamp of when the user registered',
-				'`groups` property uses more server resources and may return fewer results than the limit' ),
+				),
 			'limit' => 'How many total user names to return',
 			'witheditsonly' => 'Only list users who have made edits',
 		);

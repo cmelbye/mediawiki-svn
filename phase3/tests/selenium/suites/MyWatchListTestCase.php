@@ -5,8 +5,8 @@
  *
  * @file
  * @ingroup Testing
- * Copyright (C) 2010 Dan Nessett <dnessett@yahoo.com>
- * http://citizendium.org/
+ * Copyright (C) 2010 Nadeesha Weerasinghe <nadeesha@calcey.com>
+ * http://www.calcey.com/ 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
  *
  */
 
+require_once dirname( dirname( __FILE__ ) ) . '/SeleniumTestConstants.php';
 
 class MyWatchListTestCase extends SeleniumTestCase {
 
@@ -35,21 +36,21 @@ class MyWatchListTestCase extends SeleniumTestCase {
 
         $pageName = $this->createNewTestPage( "MyWatchListTest", true );
         // Verify link 'My Watchlist' available
-        $this->assertTrue( $this->isElementPresent( "link=Watchlist" ) );
+        $this->assertTrue( $this->isElementPresent( SeleniumTestConstants::LINK_START."Watchlist" ) );
 
-        $this->click( "link=Watchlist" );
-        $this->waitForPageToLoad( WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_START."Watchlist" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify newly added page to the watchlist is available
-        $this->assertEquals( $pageName, $this->getText( "link=".$pageName ));
+        $this->assertEquals( $pageName, $this->getText( SeleniumTestConstants::LINK_START.$pageName ));
 
-        $this->click( "link=".$pageName );
-        $this->waitForPageToLoad( WIKI_TEST_WAIT_TIME );
-        $this->click( LINK_EDIT );
-        $this->waitForPageToLoad( WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_START.$pageName );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_EDIT );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
         $this->click( "wpWatchthis" );
-        $this->click( BUTTON_SAVE );
-        $this->assertFalse( $this->isElementPresent( "link=".$pageName ) );
+        $this->click( SeleniumTestConstants::BUTTON_SAVE );
+        $this->assertFalse( $this->isElementPresent( SeleniumTestConstants::LINK_START.$pageName ) );
         //todo watch using the dropdown menu
     }
 }

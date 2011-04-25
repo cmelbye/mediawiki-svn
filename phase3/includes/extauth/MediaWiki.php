@@ -72,13 +72,12 @@ class ExternalUser_MediaWiki extends ExternalUser {
 	private function initFromCond( $cond ) {
 		global $wgExternalAuthConf;
 
-		$class = 'Database' . $wgExternalAuthConf['DBtype'];
+		$class = DatabaseBase::classFromType( $wgExternalAuthConf['DBtype'] );
 		$this->mDb = new $class(
 			$wgExternalAuthConf['DBserver'],
 			$wgExternalAuthConf['DBuser'],
 			$wgExternalAuthConf['DBpassword'],
 			$wgExternalAuthConf['DBname'],
-			false,
 			0,
 			$wgExternalAuthConf['DBprefix']
 		);

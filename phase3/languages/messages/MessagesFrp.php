@@ -8,6 +8,7 @@
  * @file
  *
  * @author ChrisPtDe
+ * @author Reedy
  * @author לערי ריינהארט
  */
 
@@ -492,6 +493,7 @@ $messages = array(
 'printableversion'  => 'Vèrsion emprimâbla',
 'permalink'         => 'Lim historico',
 'print'             => 'Emprimar',
+'view'              => 'Liére',
 'edit'              => 'Changiér',
 'create'            => 'Fâre',
 'editthispage'      => 'Changiér ceta pâge',
@@ -499,6 +501,7 @@ $messages = array(
 'delete'            => 'Suprimar',
 'deletethispage'    => 'Suprimar ceta pâge',
 'undelete_short'    => 'Refâre {{PLURAL:$1|yon changement|$1 changements}}',
+'viewdeleted_short' => 'Vêre {{PLURAL:$1|yon changement suprimâ|$1 changements suprimâs}}',
 'protect'           => 'Protègiér',
 'protect_change'    => 'changiér',
 'protectthispage'   => 'Protègiér ceta pâge',
@@ -583,6 +586,8 @@ Vêde la [[Special:Version|pâge de les vèrsions]].',
 'toc'                     => 'Somèro',
 'showtoc'                 => 'fâre vêre',
 'hidetoc'                 => 'cachiér',
+'collapsible-collapse'    => 'Recllôre',
+'collapsible-expand'      => 'Dèvelopar',
 'thisisdeleted'           => 'Voléd-vos fâre vêre ou ben refâre $1 ?',
 'viewdeleted'             => 'Fâre vêre $1 ?',
 'restorelink'             => '{{PLURAL:$1|yon changement suprimâ|$1 changements suprimâs}}',
@@ -736,6 +741,8 @@ Nen volyéd chouèsir un ôtro.',
 Los volyéd activar et pués vos tornar branchiér avouéc lo mémo nom et lo mémo mot de pâssa.",
 'nocookieslogin'             => "{{SITENAME}} utilise des tèmouens (''cookies'') por lo branchement mas vos los éd dèsactivâs.
 Los volyéd activar et pués vos tornar branchiér.",
+'nocookiesfornew'            => "Lo compto utilisator at pas étâ fêt, perce que nos ens pas possu confirmar sa sôrsa.
+Controlâd que vos éd activâ los tèmouens (''cookies''), rechargiéd la pâge et pués tornâd èprovar.",
 'noname'                     => 'Vos éd pas buchiê un nom d’utilisator valido.',
 'loginsuccesstitle'          => 'Branchement reussi.',
 'loginsuccess'               => "'''Ora, vos éte branchiê a {{SITENAME}} coment « $1 ».'''",
@@ -752,7 +759,7 @@ Volyéd tornar èprovar.',
 Volyéd tornar èprovar.',
 'passwordtooshort'           => 'Voutron mot de pâssa dêt contegnir u muens $1 caractèro{{PLURAL:$1||s}}.',
 'password-name-match'        => 'Voutron mot de pâssa dêt étre difèrent de voutron nom d’utilisator.',
-'password-too-weak'          => 'Lo mot de pâssa balyê est trop fêblo et pués pôt pas étre utilisâ.',
+'password-login-forbidden'   => 'L’usâjo de cél nom d’utilisator et de cél mot de pâssa at étâ dèfendu.',
 'mailmypassword'             => 'Recêvre un mot de pâssa novél per mèssageria èlèctronica',
 'passwordremindertitle'      => 'Mot de pâssa temporèro novél por {{SITENAME}}',
 'passwordremindertext'       => 'Quârqu’un (probâblament vos, avouéc l’adrèce IP $1) at demandâ un mot de pâssa
@@ -1633,7 +1640,7 @@ Vos pouede asse-ben dècidar de lèssiér los ôtros sè veriér vers vos avoué
 'rcshowhideanons'                   => '$1 los utilisators pas encartâs',
 'rcshowhidepatr'                    => '$1 los changements survelyês',
 'rcshowhidemine'                    => '$1 mos changements',
-'rclinks'                           => 'Fâre vêre los $1 dèrriérs changements fêts pendent los $2 jorns passâs ;<br/ >$3.',
+'rclinks'                           => 'Fâre vêre los $1 dèrriérs changements fêts pendent los $2 jorns passâs ;<br />$3.',
 'diff'                              => 'dif',
 'hist'                              => 'hist',
 'hide'                              => 'cachiér',
@@ -1816,6 +1823,15 @@ Se lo problèmo continue, veriéd-vos vers un [[Special:ListUsers/sysop|administ
 'upload-too-many-redirects' => 'L’URL contint trop de redirèccions',
 'upload-unknown-size'       => 'Talye encognua',
 'upload-http-error'         => 'Una èrror HTTP est arrevâ : $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Cache d’importacion',
+'uploadstash-summary'  => 'Ceta pâge balye accès ux fichiérs que sont importâs (ou ben en cors d’importacion), mas sont p’oncor publeyês dens lo vouiqui. Celos fichiérs sont p’oncor visiblos, solament por l’utilisator que los at importâs.',
+'uploadstash-clear'    => 'Èfaciér los fichiérs en cache d’importacion',
+'uploadstash-nofiles'  => 'Vos avéd gins de fichiér en cache d’importacion.',
+'uploadstash-badtoken' => 'L’ègzécucion de cela accion at pas reussia, pôt-étre perce que voutres enformacions de branchement ont èxpirâs. Tornâd èprovar.',
+'uploadstash-errclear' => 'L’èfacement des fichiérs at pas reussi.',
+'uploadstash-refresh'  => 'Rafrèchir la lista des fichiérs',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Accès refusâ',
@@ -2079,6 +2095,7 @@ Volyéd notar que d’ôtros setos pôvont avêr un lim drêt de vers un fichié
 'pager-newer-n'           => '{{PLURAL:$1|ples novèla|$1 ples novèles}}',
 'pager-older-n'           => '{{PLURAL:$1|ples vielye|$1 ples vielyes}}',
 'suppress'                => 'Supèrvisar',
+'querypage-disabled'      => 'Ceta pâge spèciâla est dèsactivâ por des rêsons de capacitât.',
 
 # Book sources
 'booksources'               => 'Ôvres de refèrence',
@@ -3008,8 +3025,7 @@ O est probâblament diu a un lim de vers un seto de defôr qu’aparêt sur la l
 'math_unknown_function' => 'fonccion encognua',
 'math_lexing_error'     => 'èrror lèxicâla',
 'math_syntax_error'     => 'èrror de sintaxa',
-'math_image_error'      => 'La convèrsion en PNG at pas reussia ;
-controlâd l’enstalacion de LaTeX, dvips, gs et convert',
+'math_image_error'      => 'La convèrsion en PNG at pas reussia ; controlâd l’enstalacion de LaTeX et dvipng (ou ben dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math temporèro',
 'math_bad_output'       => 'Empossiblo d’ècrire dens ou ben de fâre lo rèpèrtouèro math de sortia',
 'math_notexvc'          => 'L’ègzécutâblo « texvc » est entrovâblo.

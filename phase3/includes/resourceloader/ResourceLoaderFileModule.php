@@ -464,12 +464,13 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		}
 		$styles = self::collateFilePathListByOption( $styles, 'media', 'all' );
 		foreach ( $styles as $media => $files ) {
+			$uniqueFiles = array_unique( $files );
 			$styles[$media] = implode(
 				"\n",
 				array_map(
 					array( $this, 'readStyleFile' ),
-					array_unique( $files ),
-					array( $flip )
+					$uniqueFiles,
+					array_fill( 0, count( $uniqueFiles ), $flip )
 				)
 			);
 		}
@@ -493,8 +494,13 @@ class ResourceLoaderFileModule extends ResourceLoaderModule {
 		if ( $flip ) {
 			$style = CSSJanus::transform( $style, true, false );
 		}
-		$dir = $this->getLocalPath( dirname( $path ) );
-		$remoteDir = $this->getRemotePath( dirname( $path ) );
+		$dirname = dirname( $path );
+		if ( $dirname == '.' ) {
+			// If $path doesn't have a directory component, don't prepend a dot
+			$dirname = '';
+		}
+		$dir = $this->getLocalPath( $dirname );
+		$remoteDir = $this->getRemotePath( $dirname );
 		// Get and register local file references
 		$this->localFileRefs = array_merge( 
 			$this->localFileRefs, 

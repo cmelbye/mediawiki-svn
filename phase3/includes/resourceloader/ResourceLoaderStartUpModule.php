@@ -30,7 +30,7 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 	
 	protected function getConfig( $context ) {
 		global $wgLoadScript, $wgScript, $wgStylePath, $wgScriptExtension, 
-			$wgArticlePath, $wgScriptPath, $wgServer, $wgContLang, $wgBreakFrames, 
+			$wgArticlePath, $wgScriptPath, $wgServer, $wgContLang, 
 			$wgVariantArticlePath, $wgActionPaths, $wgUseAjax, $wgVersion, 
 			$wgEnableAPI, $wgEnableWriteAPI, $wgDBname, $wgEnableMWSuggest, 
 			$wgSitename, $wgFileExtensions;
@@ -66,7 +66,6 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 			'wgServer' => $wgServer,
 			'wgUserLanguage' => $context->getLanguage(),
 			'wgContentLanguage' => $wgContLang->getCode(),
-			'wgBreakFrames' => $wgBreakFrames,
 			'wgVersion' => $wgVersion,
 			'wgEnableAPI' => $wgEnableAPI,
 			'wgEnableWriteAPI' => $wgEnableWriteAPI,
@@ -85,6 +84,8 @@ class ResourceLoaderStartUpModule extends ResourceLoaderModule {
 		if ( $wgUseAjax && $wgEnableMWSuggest ) {
 			$vars['wgMWSuggestTemplate'] = SearchEngine::getMWSuggestTemplate();
 		}
+		
+		wfRunHooks( 'ResourceLoaderGetConfigVars', array( &$vars ) );
 		
 		return $vars;
 	}

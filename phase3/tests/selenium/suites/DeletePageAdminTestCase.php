@@ -5,8 +5,8 @@
  *
  * @file
  * @ingroup Testing
- * Copyright (C) 2010 Dan Nessett <dnessett@yahoo.com>
- * http://citizendium.org/
+ * Copyright (C) 2010 Nadeesha Weerasinghe <nadeesha@calcey.com>
+ * http://www.calcey.com/ 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,40 +41,40 @@ class DeletePageAdminTestCase extends SeleniumTestCase {
 
         $this->type( "searchInput", $newPage );
         $this->click( "searchGoButton" );
-        $this->waitForPageToLoad( "30000" );
-        $this->click( "link=".$displayName );
-        $this->waitForPageToLoad( "60000" );
-        $this->type( "wpTextbox1", $newPage." text" );
-        $this->click( "wpSave" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_START.$displayName );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
+        $this->type( SeleniumTestConstants::TEXT_EDITOR, $newPage." text" );
+        $this->click( SeleniumTestConstants::BUTTON_SAVE );
 
         $this->open( $this->getUrl() .
                 '/index.php?title=Main_Page&action=edit' );
-        $this->click( "link=Log out" );
-        $this->waitForPageToLoad( "30000" );
-        $this->click( "link=Log in / create account" );
-        $this->waitForPageToLoad( "30000" );
+        $this->click( SeleniumTestConstants::LINK_START."Log out" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
+        $this->click( SeleniumTestConstants::LINK_START."Log in / create account" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         $this->type( "wpName1", $this->selenium->getUser() );
         $this->type( "wpPassword1", $this->selenium->getPass() );
         $this->click( "wpLoginAttempt" );
-        $this->waitForPageToLoad( "30000" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
         $this->type( "searchInput", "new" );
         $this->click( "searchGoButton");
-        $this->waitForPageToLoad( "30000" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify  'Delete' link displayed
-        $source = $this->gettext( "link=Delete" );
+        $source = $this->gettext( SeleniumTestConstants::LINK_START."Delete" );
         $correct = strstr ( $source, "Delete" );
         $this->assertEquals($correct, true );
 
-        $this->click( "link=Delete" );
-        $this->waitForPageToLoad( "30000" );
+        $this->click( SeleniumTestConstants::LINK_START."Delete" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify 'Delete' button available
         $this->assertTrue($this->isElementPresent( "wpConfirmB" ));
 
         $this->click( "wpConfirmB" );
-        $this->waitForPageToLoad( "30000" );
+        $this->waitForPageToLoad( SeleniumTestConstants::WIKI_TEST_WAIT_TIME );
 
         // Verify  'Action complete' text displayed
         $source = $this->gettext( "firstHeading" );

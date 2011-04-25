@@ -24,7 +24,7 @@ class Block {
 	const EB_RANGE_ONLY = 4;
 
 	function __construct( $address = '', $user = 0, $by = 0, $reason = '',
-		$timestamp = '' , $auto = 0, $expiry = '', $anonOnly = 0, $createAccount = 0, $enableAutoblock = 0,
+		$timestamp = 0, $auto = 0, $expiry = '', $anonOnly = 0, $createAccount = 0, $enableAutoblock = 0,
 		$hideName = 0, $blockEmail = 0, $allowUsertalk = 0, $byName = false )
 	{
 		$this->mId = 0;
@@ -849,25 +849,12 @@ class Block {
 
 	/**
 	 * Get a value to insert into expiry field of the database when infinite expiry
-	 * is desired. In principle this could be DBMS-dependant, but currently all
-	 * supported DBMS's support the string "infinity", so we just use that.
+	 * is desired
 	 *
 	 * @return String
 	 */
 	public static function infinity() {
-		# This is a special keyword for timestamps in PostgreSQL, and
-		# works with CHAR(14) as well because "i" sorts after all numbers.
-
-		# BEGIN DatabaseMssql hack
-		# Since MSSQL doesn't recognize the infinity keyword, set date manually.
-		# TO-DO: Refactor for better DB portability and remove magic date
-		$dbr = wfGetDB( DB_SLAVE );
-		if ( $dbr->getType() == 'mssql' ) {
-			return '3000-01-31 00:00:00.000';
-		}
-		# End DatabaseMssql hack
-
-		return 'infinity';
+		return wfGetDB( DB_SLAVE )->getInfinity();
 	}
 
 	/**

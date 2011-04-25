@@ -23,7 +23,7 @@ class OutputPage {
 	var $mLastModified = '', $mETag = false;
 	var $mCategoryLinks = array(), $mCategories = array(), $mLanguageLinks = array();
 
-	var $mScripts = '', $mLinkColours, $mPageLinkTitle = '', $mHeadItems = array();
+	var $mScripts = '', $mInlineStyles = '', $mLinkColours, $mPageLinkTitle = '', $mHeadItems = array();
 	var $mModules = array(), $mModuleScripts = array(), $mModuleStyles = array(), $mModuleMessages = array();
 	var $mResourceLoader;
 	var $mInlineMsg = array();
@@ -48,6 +48,7 @@ class OutputPage {
 	var $mPageTitleActionText = '';
 	var $mParseWarnings = array();
 	var $mSquidMaxage = 0;
+	var $mPreventClickjacking = true;
 	var $mRevisionId = null;
 	protected $mTitle = null;
 
@@ -1000,14 +1001,6 @@ class OutputPage {
 	}
 
 	/**
-	 * @deprecated use parserOptions() instead
-	 */
-	public function setParserOptions( $options ) {
-		wfDeprecated( __METHOD__ );
-		return $this->parserOptions( $options );
-	}
-
-	/**
 	 * Get/set the ParserOptions object to use for wikitext parsing
 	 *
 	 * @param $options either the ParserOption to use or null to only get the
@@ -1118,43 +1111,6 @@ class OutputPage {
 	}
 
 	/**
-	 * Add wikitext to the buffer, assuming that this is the primary text for a page view
-	 * Saves the text into the parser cache if possible.
-	 *
-	 * @param $text String: wikitext
-	 * @param $article Article object
-	 * @param $cache Boolean
-	 * @deprecated Use Article::outputWikitext
-	 */
-	public function addPrimaryWikiText( $text, $article, $cache = true ) {
-		global $wgParser;
-
-		wfDeprecated( __METHOD__ );
-
-		$popts = $this->parserOptions();
-		$popts->setTidy( true );
-		$parserOutput = $wgParser->parse(
-			$text, $article->mTitle,
-			$popts, true, true, $this->mRevisionId
-		);
-		$popts->setTidy( false );
-		if ( $cache && $article && $parserOutput->isCacheable() ) {
-			$parserCache = ParserCache::singleton();
-			$parserCache->save( $parserOutput, $article, $popts );
-		}
-
-		$this->addParserOutput( $parserOutput );
-	}
-
-	/**
-	 * @deprecated use addWikiTextTidy()
-	 */
-	public function addSecondaryWikiText( $text, $linestart = true ) {
-		wfDeprecated( __METHOD__ );
-		$this->addWikiTextTitleTidy( $text, $this->getTitle(), $linestart );
-	}
-
-	/**
 	 * Add a ParserOutput object, but without Html
 	 *
 	 * @param $parserOutput ParserOutput object
@@ -1226,24 +1182,44 @@ class OutputPage {
 	 * @param $interface Boolean: use interface language ($wgLang instead of
 	 *                   $wgContLang) while parsing language sensitive magic
 	 *                   words like GRAMMAR and PLURAL
+	 * @param $language  Language object: target language object, will override
+	 *                   $interface
 	 * @return String: HTML
 	 */
-	public function parse( $text, $linestart = true, $interface = false ) {
+	public function parse( $text, $linestart = true, $interface = false, $language = null ) {
+		// Check one for one common cause for parser state resetting
+		$callers = wfGetAllCallers( 10 );
+		if ( strpos( $callers, 'Parser::extensionSubstitution' ) !== false ) {
+			throw new MWException( "wfMsg* function with parsing cannot be used " .
+				"inside a tag hook. Should use parser->recursiveTagParse() instead" );
+		}
+
 		global $wgParser;
+
 		if( is_null( $this->getTitle() ) ) {
 			throw new MWException( 'Empty $mTitle in ' . __METHOD__ );
 		}
+
 		$popts = $this->parserOptions();
 		if ( $interface ) {
 			$popts->setInterfaceMessage( true );
 		}
+		if ( $language !== null ) {
+			$oldLang = $popts->setTargetLanguage( $language );
+		}
+
 		$parserOutput = $wgParser->parse(
 			$text, $this->getTitle(), $popts,
 			$linestart, true, $this->mRevisionId
 		);
+
 		if ( $interface ) {
 			$popts->setInterfaceMessage( false );
 		}
+		if ( $language !== null ) {
+			$popts->setTargetLanguage( $oldLang );
+		}
+
 		return $parserOutput->getText();
 	}
 
@@ -1266,24 +1242,6 @@ class OutputPage {
 		}
 
 		return $parsed;
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * @param $article Article
-	 * @return Boolean: true if successful, else false.
-	 */
-	public function tryParserCache( &$article ) {
-		wfDeprecated( __METHOD__ );
-		$parserOutput = ParserCache::singleton()->get( $article, $article->getParserOptions() );
-
-		if ( $parserOutput !== false ) {
-			$this->addParserOutput( $parserOutput );
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**
@@ -1443,6 +1401,41 @@ class OutputPage {
 	}
 
 	/**
+	 * Set a flag which will cause an X-Frame-Options header appropriate for 
+	 * edit pages to be sent. The header value is controlled by 
+	 * $wgEditPageFrameOptions.
+	 *
+	 * This is the default for special pages. If you display a CSRF-protected 
+	 * form on an ordinary view page, then you need to call this function.
+	 */
+	public function preventClickjacking( $enable = true ) {
+		$this->mPreventClickjacking = $enable;
+	}
+
+	/**
+	 * Turn off frame-breaking. Alias for $this->preventClickjacking(false).
+	 * This can be called from pages which do not contain any CSRF-protected
+	 * HTML form.
+	 */
+	public function allowClickjacking() {
+		$this->mPreventClickjacking = false;
+	}
+
+	/**
+	 * Get the X-Frame-Options header value (without the name part), or false 
+	 * if there isn't one. This is used by Skin to determine whether to enable 
+	 * JavaScript frame-breaking, for clients that don't support X-Frame-Options.
+	 */
+	public function getFrameOptions() {
+		global $wgBreakFrames, $wgEditPageFrameOptions;
+		if ( $wgBreakFrames ) {
+			return 'DENY';
+		} elseif ( $this->mPreventClickjacking && $wgEditPageFrameOptions ) {
+			return $wgEditPageFrameOptions;
+		}
+	}
+
+	/**
 	 * Send cache control HTTP headers
 	 */
 	public function sendCacheControl() {
@@ -1578,7 +1571,6 @@ class OutputPage {
 		global $wgLanguageCode, $wgDebugRedirects, $wgMimeType;
 		global $wgUseAjax, $wgAjaxWatch;
 		global $wgEnableMWSuggest, $wgUniversalEditButton;
-		global $wgArticle;
 
 		if( $this->mDoNothing ) {
 			return;
@@ -1639,7 +1631,7 @@ class OutputPage {
 		}
 
 		if( $wgUniversalEditButton ) {
-			if( isset( $wgArticle ) && $this->getTitle() && $this->getTitle()->quickUserCan( 'edit' )
+			if( $this->isArticleRelated() && $this->getTitle() && $this->getTitle()->quickUserCan( 'edit' )
 				&& ( $this->getTitle()->exists() || $this->getTitle()->quickUserCan( 'create' ) ) ) {
 				// Original UniversalEditButton
 				$msg = wfMsg( 'edit' );
@@ -1664,6 +1656,12 @@ class OutputPage {
 
 		$wgRequest->response()->header( "Content-type: $wgMimeType; charset={$wgOutputEncoding}" );
 		$wgRequest->response()->header( 'Content-language: ' . $wgLanguageCode );
+
+		// Prevent framing, if requested
+		$frameOptions = $this->getFrameOptions();
+		if ( $frameOptions ) {
+			$wgRequest->response()->header( "X-Frame-Options: $frameOptions" );
+		}
 
 		if ( $this->mArticleBodyOnly ) {
 			$this->out( $this->mBodytext );
@@ -1699,17 +1697,6 @@ class OutputPage {
 			}
 		}
 		print $outs;
-	}
-
-	/**
-	 * @deprecated use wfReportTime() instead.
-	 *
-	 * @return String
-	 */
-	public function reportTime() {
-		wfDeprecated( __METHOD__ );
-		$time = wfReportTime();
-		return $time;
 	}
 
 	/**
@@ -2053,53 +2040,6 @@ class OutputPage {
 		$this->addModules( 'mediawiki.legacy.password' );
 	}
 
-	/** @deprecated */
-	public function errorpage( $title, $msg ) {
-		wfDeprecated( __METHOD__ );
-		throw new ErrorPageError( $title, $msg );
-	}
-
-	/** @deprecated */
-	public function databaseError( $fname, $sql, $error, $errno ) {
-		throw new MWException( "OutputPage::databaseError is obsolete\n" );
-	}
-
-	/** @deprecated */
-	public function fatalError( $message ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( $message );
-	}
-
-	/** @deprecated */
-	public function unexpectedValueError( $name, $val ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( wfMsg( 'unexpected', $name, $val ) );
-	}
-
-	/** @deprecated */
-	public function fileCopyError( $old, $new ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( wfMsg( 'filecopyerror', $old, $new ) );
-	}
-
-	/** @deprecated */
-	public function fileRenameError( $old, $new ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( wfMsg( 'filerenameerror', $old, $new ) );
-	}
-
-	/** @deprecated */
-	public function fileDeleteError( $name ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( wfMsg( 'filedeleteerror', $name ) );
-	}
-
-	/** @deprecated */
-	public function fileNotFoundError( $name ) {
-		wfDeprecated( __METHOD__ );
-		throw new FatalError( wfMsg( 'filenotfound', $name ) );
-	}
-
 	public function showFatalError( $message ) {
 		$this->setPageTitle( wfMsg( 'internalerror' ) );
 		$this->setRobotPolicy( 'noindex,nofollow' );
@@ -2220,12 +2160,9 @@ class OutputPage {
 
 		$ret .= implode( "\n", array(
 			$this->getHeadLinks( $sk ),
-			$this->buildCssLinks(),
-			$this->getHeadItems(),
+			$this->buildCssLinks( $sk ),
+			$this->getHeadItems()
 		) );
-		if ( $sk->usercss ) {
-			$ret .= Html::inlineStyle( $sk->usercss );
-		}
 
 		if ( $wgUseTrackbacks && $this->isArticleRelated() ) {
 			$ret .= $this->getTitle()->trackbackRDF();
@@ -2297,7 +2234,7 @@ class OutputPage {
 	 */
 	protected function makeResourceLoaderLink( Skin $skin, $modules, $only, $useESI = false ) {
 		global $wgUser, $wgLang, $wgLoadScript, $wgResourceLoaderUseESI,
-			$wgResourceLoaderInlinePrivateModules;
+			$wgResourceLoaderInlinePrivateModules, $wgRequest;
 		// Lazy-load ResourceLoader
 		// TODO: Should this be a static function of ResourceLoader instead?
 		// TODO: Divide off modules starting with "user", and add the user parameter to them
@@ -2307,6 +2244,13 @@ class OutputPage {
 			'skin' => $skin->getSkinName(),
 			'only' => $only,
 		);
+		// Propagate printable and handheld parameters if present
+		if ( $wgRequest->getBool( 'printable' ) ) {
+			$query['printable'] = 1;
+		}
+		if ( $wgRequest->getBool( 'handheld' ) ) {
+			$query['handheld'] = 1;
+		}
 		
 		if ( !count( $modules ) ) {
 			return '';
@@ -2575,29 +2519,6 @@ class OutputPage {
 				}
 			}
 		}
-
-		// Split the styles into three groups
-		$styles = array( 'other' => array(), 'user' => array(), 'site' => array() );
-		$resourceLoader = $this->getResourceLoader();
-		foreach ( $this->getModuleStyles() as $name ) {
-			$group = $resourceLoader->getModule( $name )->getGroup();
-			// Modules in groups named "other" or anything different than "user" or "site" will
-			// be placed in the "other" group
-			$styles[isset( $styles[$group] ) ? $group : 'other'][] = $name;
-		}
-
-		// We want site and user styles to override dynamically added styles from modules, but we want
-		// dynamically added styles to override statically added styles from other modules. So the order
-		// has to be other, dynamic, site, user
-		// Add statically added styles for other modules
-		$tags[] = $this->makeResourceLoaderLink( $sk, $styles['other'], 'styles' );
-		// Add marker tag to mark the place where the client-side loader should inject dynamic styles
-		// We use a <meta> tag with a made-up name for this because that's valid HTML
-		$tags[] = Html::element( 'meta', array( 'name' => 'ResourceLoaderDynamicStyles', 'content' => '' ) );
-		// Add site and user styles
-		$tags[] = $this->makeResourceLoaderLink(
-			$sk, array_merge( $styles['site'], $styles['user'] ), 'styles'
-		);
 		return implode( "\n", $tags );
 	}
 
@@ -2648,15 +2569,42 @@ class OutputPage {
 	 * @param $style_css Mixed: inline CSS
 	 */
 	public function addInlineStyle( $style_css ){
-		$this->mScripts .= Html::inlineStyle( $style_css );
+		$this->mInlineStyles .= Html::inlineStyle( $style_css );
 	}
 
 	/**
 	 * Build a set of <link>s for the stylesheets specified in the $this->styles array.
 	 * These will be applied to various media & IE conditionals.
+	 * @param $sk Skin object
 	 */
-	public function buildCssLinks() {
-		return implode( "\n", $this->buildCssLinksArray() );
+	public function buildCssLinks( $sk ) {
+		$ret = '';
+		// Add ResourceLoader styles
+		// Split the styles into three groups
+		$styles = array( 'other' => array(), 'user' => array(), 'site' => array() );
+		$resourceLoader = $this->getResourceLoader();
+		foreach ( $this->getModuleStyles() as $name ) {
+			$group = $resourceLoader->getModule( $name )->getGroup();
+			// Modules in groups named "other" or anything different than "user" or "site" will
+			// be placed in the "other" group
+			$styles[isset( $styles[$group] ) ? $group : 'other'][] = $name;
+		}
+
+		// We want site and user styles to override dynamically added styles from modules, but we want
+		// dynamically added styles to override statically added styles from other modules. So the order
+		// has to be other, dynamic, site, user
+		// Add statically added styles for other modules
+		$ret .= $this->makeResourceLoaderLink( $sk, $styles['other'], 'styles' );
+		// Add normal styles added through addStyle()/addInlineStyle() here
+		$ret .= implode( "\n", $this->buildCssLinksArray() ) . $this->mInlineStyles;
+		// Add marker tag to mark the place where the client-side loader should inject dynamic styles
+		// We use a <meta> tag with a made-up name for this because that's valid HTML
+		$ret .= Html::element( 'meta', array( 'name' => 'ResourceLoaderDynamicStyles', 'content' => '' ) );
+		// Add site and user styles
+		$ret .= $this->makeResourceLoaderLink(
+			$sk, array_merge( $styles['site'], $styles['user'] ), 'styles'
+		);
+		return $ret;
 	}
 
 	public function buildCssLinksArray() {
@@ -2687,7 +2635,7 @@ class OutputPage {
 		}
 
 		if( isset( $options['media'] ) ) {
-			$media = $this->transformCssMedia( $options['media'] );
+			$media = self::transformCssMedia( $options['media'] );
 			if( is_null( $media ) ) {
 				return '';
 			}
@@ -2719,7 +2667,7 @@ class OutputPage {
 	 * @param $media String: current value of the "media" attribute
 	 * @return String: modified value of the "media" attribute
 	 */
-	function transformCssMedia( $media ) {
+	public static function transformCssMedia( $media ) {
 		global $wgRequest, $wgHandheldForIPhone;
 
 		// Switch in on-screen display for media testing
@@ -2868,7 +2816,7 @@ class OutputPage {
 	 * @param $modules Array: list of jQuery modules which should be loaded
 	 * @return Array: the list of modules which were not loaded.
 	 * @since 1.16
-	 * @deprecated No longer needed as of 1.17
+	 * @deprecated @since 1.17
 	 */
 	public function includeJQuery( $modules = array() ) {
 		return array();

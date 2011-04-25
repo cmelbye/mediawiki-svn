@@ -5,8 +5,8 @@
  *
  * @file
  * @ingroup Testing
- * Copyright (C) 2010 Dan Nessett <dnessett@yahoo.com>
- * http://citizendium.org/
+ * Copyright (C) 2010 Nadeesha Weerasinghe <nadeesha@calcey.com>
+ * http://www.calcey.com/ 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ class PreviewPageTestCase extends SeleniumTestCase {
         $this->open( $this->getUrl() .
                 '/index.php?title=Main_Page&action=edit' );
         $this->getNewPage( $newPage );
-        $this->type( "wpTextbox1", $wikiText."" );
+        $this->type( SeleniumTestConstants::TEXT_EDITOR, $wikiText."" );
         $this->assertTrue($this->isElementPresent( "//*[@id='wpPreview']" ));
 
         $this->click( "wpPreview" );

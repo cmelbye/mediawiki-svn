@@ -155,7 +155,7 @@ class ResourceLoader {
 			$cache->set( $key, $result );
 		} catch ( Exception $exception ) {
 			// Return exception as a comment
-			$result = "/*\n{$exception->__toString()}\n*/";
+			$result = "/*\n{$exception->__toString()}\n*/\n";
 		}
 
 		wfProfileOut( __METHOD__ );
@@ -293,7 +293,7 @@ class ResourceLoader {
 		ob_start();
 
 		wfProfileIn( __METHOD__ );
-		$response = '';
+		$exceptions = '';
 
 		// Split requested modules into two groups, modules and missing
 		$modules = array();
@@ -324,7 +324,7 @@ class ResourceLoader {
 			$this->preloadModuleInfo( array_keys( $modules ), $context );
 		} catch( Exception $e ) {
 			// Add exception to the output as a comment
-			$response .= "/*\n{$e->__toString()}\n*/";
+			$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 		}
 
 		wfProfileIn( __METHOD__.'-getModifiedTime' );
@@ -342,7 +342,7 @@ class ResourceLoader {
 				$mtime = max( $mtime, $module->getModifiedTime( $context ) );
 			} catch ( Exception $e ) {
 				// Add exception to the output as a comment
-				$response .= "/*\n{$e->__toString()}\n*/";
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 			}
 		}
 
@@ -377,7 +377,11 @@ class ResourceLoader {
 				// See also http://bugs.php.net/bug.php?id=51579
 				// To work around this, we tear down all output buffering before
 				// sending the 304.
-				while ( ob_get_level() > 0 ) {
+				// On some setups, ob_get_level() doesn't seem to go down to zero
+				// no matter how often we call ob_get_clean(), so instead of doing
+				// the more intuitive while ( ob_get_level() > 0 ) ob_get_clean();
+				// we have to be safe here and avoid an infinite loop.
+				for ( $i = 0; $i < ob_get_level(); $i++ ) {
 					ob_end_clean();
 				}
 				
@@ -389,12 +393,15 @@ class ResourceLoader {
 		}
 		
 		// Generate a response
-		$response .= $this->makeModuleResponse( $context, $modules, $missing );
+		$response = $this->makeModuleResponse( $context, $modules, $missing );
+		
+		// Prepend comments indicating exceptions
+		$response = $exceptions . $response;
 
 		// Capture any PHP warnings from the output buffer and append them to the
 		// response in a comment if we're in debug mode.
 		if ( $context->getDebug() && strlen( $warnings = ob_get_contents() ) ) {
-			$response .= "/*\n$warnings\n*/";
+			$response = "/*\n$warnings\n*/\n" . $response;
 		}
 
 		// Remove the output buffer and output the response
@@ -416,18 +423,19 @@ class ResourceLoader {
 		array $modules, $missing = array() ) 
 	{
 		$out = '';
+		$exceptions = '';
 		if ( $modules === array() && $missing === array() ) {
 			return '/* No modules requested. Max made me put this here */';
 		}
 		
 		// Pre-fetch blobs
 		if ( $context->shouldIncludeMessages() ) {
-			//try {
+			try {
 				$blobs = MessageBlobStore::get( $this, $modules, $context->getLanguage() );
-			//} catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				// Add exception to the output as a comment
-			//	$out .= "/*\n{$e->__toString()}\n*/";
-			//}
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
+			}
 		} else {
 			$blobs = array();
 		}
@@ -476,7 +484,7 @@ class ResourceLoader {
 				}
 			} catch ( Exception $e ) {
 				// Add exception to the output as a comment
-				$out .= "/*\n{$e->__toString()}\n*/";
+				$exceptions .= "/*\n{$e->__toString()}\n*/\n";
 
 				// Register module as missing
 				$missing[] = $name;
@@ -501,12 +509,12 @@ class ResourceLoader {
 		}
 
 		if ( $context->getDebug() ) {
-			return $out;
+			return $exceptions . $out;
 		} else {
 			if ( $context->getOnly() === 'styles' ) {
-				return $this->filter( 'minify-css', $out );
+				return $exceptions . $this->filter( 'minify-css', $out );
 			} else {
-				return $this->filter( 'minify-js', $out );
+				return $exceptions . $this->filter( 'minify-js', $out );
 			}
 		}
 	}
@@ -533,7 +541,7 @@ class ResourceLoader {
 			'mediaWiki.loader.implement', 
 			array(
 				$name,
-				new XmlJsCode( "function() {{$scripts}}" ),
+				new XmlJsCode( "function( $, mw ) {{$scripts}}" ),
 				(object)$styles,
 				(object)$messages
 			) );
@@ -558,7 +566,18 @@ class ResourceLoader {
 	public static function makeCombinedStyles( array $styles ) {
 		$out = '';
 		foreach ( $styles as $media => $style ) {
-			$out .= "@media $media {\n" . str_replace( "\n", "\n\t", "\t" . $style ) . "\n}\n";
+			// Transform the media type based on request params and config
+			// The way that this relies on $wgRequest to propagate request params is slightly evil
+			$media = OutputPage::transformCssMedia( $media );
+			
+			if ( $media === null ) {
+				// Skip
+			} else if ( $media === '' || $media == 'all' ) {
+				// Don't output invalid or frivolous @media statements
+				$out .= "$style\n";
+			} else {
+				$out .= "@media $media {\n" . str_replace( "\n", "\n\t", "\t" . $style ) . "\n}\n";
+			}
 		}
 		return $out;
 	}

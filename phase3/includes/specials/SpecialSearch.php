@@ -39,10 +39,11 @@ class SpecialSearch extends SpecialPage {
 	 * @param $par String or null
 	 */
 	public function execute( $par ) {
-		global $wgRequest, $wgUser;
+		global $wgRequest, $wgUser, $wgOut;
 
 		$this->setHeaders();
 		$this->outputHeader();
+		$wgOut->allowClickjacking();
 
 		// Strip underscores from title parameter; most of the time we'll want
 		// text form here. But don't strip underscores from actual text params!
@@ -593,7 +594,7 @@ class SpecialSearch extends SpecialPage {
 			if( $img ) {
 				$thumb = $img->transform( array( 'width' => 120, 'height' => 120 ) );
 				if( $thumb ) {
-					$desc = $img->getShortDesc();
+					$desc = wfMsgExt( 'parentheses', 'parseinline', $img->getShortDesc() );
 					wfProfileOut( __METHOD__ );
 					// Float doesn't seem to interact well with the bullets.
 					// Table messes up vertical alignment of the bullets.

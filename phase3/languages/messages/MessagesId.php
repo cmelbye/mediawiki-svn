@@ -492,6 +492,7 @@ $messages = array(
 'printableversion'  => 'Versi cetak',
 'permalink'         => 'Pranala permanen',
 'print'             => 'Cetak',
+'view'              => 'Baca',
 'edit'              => 'Sunting',
 'create'            => 'Buat',
 'editthispage'      => 'Sunting halaman ini',
@@ -499,6 +500,7 @@ $messages = array(
 'delete'            => 'Hapus',
 'deletethispage'    => 'Hapus halaman ini',
 'undelete_short'    => 'Batal hapus $1 {{PLURAL:$1|suntingan|suntingan}}',
+'viewdeleted_short' => 'Lihat {{PLURAL:$1|satu suntingan|$1 suntingan}} yang dihapus',
 'protect'           => 'Lindungi',
 'protect_change'    => 'ubah',
 'protectthispage'   => 'Lindungi halaman ini',
@@ -582,6 +584,8 @@ $1',
 'toc'                     => 'Daftar isi',
 'showtoc'                 => 'tampilkan',
 'hidetoc'                 => 'sembunyikan',
+'collapsible-collapse'    => 'Ciutkan',
+'collapsible-expand'      => 'Kembangkan',
 'thisisdeleted'           => 'Lihat atau kembalikan $1?',
 'viewdeleted'             => 'Lihat $1?',
 'restorelink'             => '$1 {{PLURAL:$1|suntingan|suntingan}} yang telah dihapus',
@@ -658,8 +662,8 @@ Silakan laporkan hal ini kepada salah seorang [[Special:ListUsers/sysop|Pengurus
 Mungkin telah dihapus oleh orang lain.',
 'badtitle'             => 'Judul tidak sah',
 'badtitletext'         => 'Judul halaman yang diminta tidak sah, kosong, atau judul antarbahasa atau antarwiki yang salah sambung.',
-'perfcached'           => 'Data berikut ini diambil dari <em>cache</em> dan mungkin bukan data mutakhir:',
-'perfcachedts'         => 'Data berikut ini diambil dari <em>cache</em>, dan terakhir diperbarui pada $1.',
+'perfcached'           => 'Data berikut ini diambil dari singgahan dan mungkin bukan data mutakhir:',
+'perfcachedts'         => 'Data berikut ini diambil dari singgahan dan terakhir diperbarui pada $1.',
 'querypage-no-updates' => 'Pemutakhiran dari halaman ini sedang dimatikan. Data yang ada di sini saat ini tidak akan dimuat ulang.',
 'wrong_wfQuery_params' => 'Parameter salah ke wfQuery()<br />Fungsi: $1<br />Permintaan: $2',
 'viewsource'           => 'Lihat sumber',
@@ -738,7 +742,7 @@ Silakan periksa kembali ejaan Anda.',
 'wrongpasswordempty'         => 'Anda tidak memasukkan kata sandi. Silakan coba lagi.',
 'passwordtooshort'           => 'Kata sandi paling tidak harus terdiri dari {{PLURAL:$1|1 karakter|$1 karakter}}.',
 'password-name-match'        => 'Kata sandi Anda harus berbeda dari nama pengguna Anda.',
-'password-too-weak'          => 'Sandi yang diberikan terlalu lemah dan tidak dapat digunakan.',
+'password-login-forbidden'   => 'Penggunaan nama pengguna dan sandi ini telah dilarang.',
 'mailmypassword'             => 'Kirim kata sandi baru',
 'passwordremindertitle'      => 'Peringatan kata sandi dari {{SITENAME}}',
 'passwordremindertext'       => 'Seseorang (mungkin Anda, dari alamat IP $1) meminta kata sandi baru untuk {{SITENAME}} ($4). Kata sandi sementara untuk pengguna "$2" telah dibuatkan dan diset menjadi "$3". Jika memang Anda yang mengajukan permintaan ini, Anda perlu masuk log dan memilih kata sandi baru sekarang. Kata sandi sementara Anda akan kedaluwarsa dalam waktu {{PLURAL:$5|satu hari|$5 hari}}.
@@ -904,7 +908,10 @@ Anda dapat [[Special:Search/{{PAGENAME}}|melakukan pencarian untuk judul halaman
 'userpage-userdoesnotexist-view'   => 'Pengguna "$1" tidak terdaftar.',
 'blocked-notice-logextract'        => 'Pengguna ini sedang diblokir.
 Entri log pemblokiran terakhir tersedia di bawah ini sebagai rujukan.',
-'clearyourcache'                   => "'''Catatan:''' Setelah menyimpan preferensi, Anda perlu membersihkan <em>cache</em> penjelajah web Anda untuk melihat perubahan. '''Mozilla / Firefox / Safari:''' tekan ''Ctrl-Shift-R'' (''Cmd-Shift-R'' pada Apple Mac); '''IE:''' tekan ''Ctrl-F5''; '''Konqueror:''': tekan ''F5''; '''Opera''' bersihkan <em>cache</em> melalui menu ''Tools→Preferences''.",
+'clearyourcache'                   => "'''Catatan:''' Setelah menyimpan preferensi, Anda mungkin perlu membersihkan singgahan penjelajah web Anda untuk melihat perubahan. '''Mozilla / Firefox / Safari:''' tekan ''Ctrl-R'' (''Cmd-R'' pada Macintosh);
+'''Konqueror:''': tekan ''F5'';
+'''Opera''' bersihkan singgahan melalui menu ''Tools → Preferences'';
+'''Internet Explorer:''' tekan ''Ctrl-F5''.",
 'usercssyoucanpreview'             => "'''Tips:''' Gunakan tombol \"{{int:showpreview}}\" untuk menguji CSS baru Anda sebelum menyimpannya.",
 'userjsyoucanpreview'              => "'''Tips:''' Gunakan tombol \"{{int:showpreview}}\" untuk menguji JS baru Anda sebelum menyimpannya.",
 'usercsspreview'                   => "'''Ingatlah bahwa Anda sedang menampilkan pratayang dari CSS Anda.
@@ -1732,6 +1739,15 @@ Silakan hubungi salah seorang [[Special:ListUsers/sysop|pengurus]].',
 'upload-unknown-size'       => 'Ukuran tidak diketahui',
 'upload-http-error'         => 'Kesalahan HTTP terjadi: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'Simpanan unggahan',
+'uploadstash-summary'  => 'Halaman ini memberikan akses terhadap berkas yang diunggah (atau dalam proses pengunggahan), namun belum diterbitkan ke wiki. Berkas-berkas ini tidak dapat dilihat oleh siapa pun kecuali pengunggahnya.',
+'uploadstash-clear'    => 'Hapus berkas simpanan',
+'uploadstash-nofiles'  => 'Anda tidak memiliki berkas simpanan.',
+'uploadstash-badtoken' => 'Pelaksanaan tindakan tersebut gagal. Mungkin karena hak penyuntingan Anda telah kedaluwarsa. Coba lagi.',
+'uploadstash-errclear' => 'Penghapusan berkas gagal.',
+'uploadstash-refresh'  => 'Segarkan daftar berkas.',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Akses ditolak',
 'img-auth-nopathinfo'   => 'PATH_INFO hilang.
@@ -1989,6 +2005,7 @@ Harap perhatikan bahwa situs web lain mungkin memiliki pranala ke suatu berkas d
 'pager-newer-n'           => '{{PLURAL:$1|1 lebih baru|$1 lebih baru}}',
 'pager-older-n'           => '{{PLURAL:$1|1 lebih lama|$1 lebih lama}}',
 'suppress'                => 'Pengawas',
+'querypage-disabled'      => 'Halaman istimewa ini dinonaktifkan demi alasan kinerja.',
 
 # Book sources
 'booksources'               => 'Sumber buku',
@@ -2864,7 +2881,7 @@ Ini mungkin disebabkan oleh pranala ke situs luar yang termasuk dalam daftar hit
 'math_unknown_function' => 'fungsi yang tidak diketahui',
 'math_lexing_error'     => 'kesalahan lexing',
 'math_syntax_error'     => 'kesalahan sintaks',
-'math_image_error'      => 'Konversi PNG gagal; periksa apakah latex, dvips, gs, dan convert terinstal dengan benar',
+'math_image_error'      => 'Konversi PNG gagal; periksa apakah latex dan dvips (atau dvips + gs + convert) terinstal dengan benar',
 'math_bad_tmpdir'       => 'Tidak dapat menulisi atau membuat direktori sementara math',
 'math_bad_output'       => 'Tidak dapat menulisi atau membuat direktori keluaran math',
 'math_notexvc'          => 'Executable texvc hilang; silakan lihat math/README untuk cara konfigurasi.',
@@ -3557,14 +3574,5 @@ Jika pengguna saat ini sedang masuk di mana saja, mereka akan segera dikeluarkan
 'disableaccount-nosuchuser'  => 'Akun pengguna "$1" tidak ada.',
 'disableaccount-success'     => 'Akun pengguna "$1" telah dinonaktifkan secara permanen.',
 'disableaccount-logentry'    => 'menonaktifkan secara permanen akun pengguna [[$1]]',
-
-# Special:UploadStash
-'uploadstash'          => 'Simpanan unggahan',
-'uploadstash-summary'  => 'Halaman ini memberikan akses terhadap berkas yang diunggah (atau dalam proses pengunggahan), namun belum diterbitkan ke wiki. Berkas-berkas ini tidak dapat dilihat oleh siapa pun kecuali pengunggahnya.',
-'uploadstash-clear'    => 'Hapus berkas simpanan',
-'uploadstash-nofiles'  => 'Anda tidak memiliki berkas simpanan.',
-'uploadstash-badtoken' => 'Pelaksanaan tindakan tersebut gagal. Mungkin karena hak penyuntingan Anda telah kedaluwarsa. Coba lagi.',
-'uploadstash-errclear' => 'Penghapusan berkas gagal.',
-'uploadstash-refresh'  => 'Segarkan daftar berkas.',
 
 );

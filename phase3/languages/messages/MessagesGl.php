@@ -400,6 +400,7 @@ $messages = array(
 'printableversion'  => 'Versión para imprimir',
 'permalink'         => 'Ligazón permanente',
 'print'             => 'Imprimir',
+'view'              => 'Ver',
 'edit'              => 'Editar',
 'create'            => 'Crear',
 'editthispage'      => 'Editar esta páxina',
@@ -407,6 +408,7 @@ $messages = array(
 'delete'            => 'Borrar',
 'deletethispage'    => 'Borrar esta páxina',
 'undelete_short'    => 'Restaurar {{PLURAL:$1|unha edición|$1 edicións}}',
+'viewdeleted_short' => 'Ver {{PLURAL:$1|unha edición borrada|$1 edicións borradas}}',
 'protect'           => 'Protexer',
 'protect_change'    => 'cambiar',
 'protectthispage'   => 'Protexer esta páxina',
@@ -490,6 +492,8 @@ $1',
 'toc'                     => 'Índice',
 'showtoc'                 => 'amosar',
 'hidetoc'                 => 'agochar',
+'collapsible-collapse'    => 'Contraer',
+'collapsible-expand'      => 'Expandir',
 'thisisdeleted'           => 'Quere ver ou restaurar $1?',
 'viewdeleted'             => 'Quere ver $1?',
 'restorelink'             => '{{PLURAL:$1|unha edición borrada|$1 edicións borradas}}',
@@ -662,7 +666,7 @@ Por favor, insira outro.',
 Por favor, inténteo de novo.',
 'passwordtooshort'           => 'Os contrasinais deben conter, como mínimo, {{PLURAL:$1|1 carácter|$1 caracteres}}.',
 'password-name-match'        => 'O seu contrasinal debe ser diferente do seu nome de usuario.',
-'password-too-weak'          => 'O contrasinal dado é demasiado débil; non o pode empregar.',
+'password-login-forbidden'   => 'O uso deste nome de usuario e contrasinal foi prohibido.',
 'mailmypassword'             => 'Enviádeme un contrasinal novo por correo',
 'passwordremindertitle'      => 'Novo contrasinal temporal para {{SITENAME}}',
 'passwordremindertext'       => 'Alguén (probablemente vostede, desde o enderezo IP $1) solicitou un novo
@@ -1355,6 +1359,10 @@ Tamén pode deixar que outras persoas se poñan en contacto con vostede desde a 
 'prefs-displaywatchlist'        => 'Opcións de visualización',
 'prefs-diffs'                   => 'Diferenzas',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'O enderezo de correo electrónico semella válido',
+'email-address-validity-invalid' => 'Escriba un enderezo de correo electrónico válido',
+
 # User rights
 'userrights'                   => 'Xestión dos dereitos de usuario',
 'userrights-lookup-user'       => 'Administrar os grupos do usuario',
@@ -1704,6 +1712,15 @@ Se o problema persiste contacte cun [[Special:ListUsers/sysop|administrador]] do
 'upload-too-many-redirects' => 'O enderezo URL contiña moitas redireccións',
 'upload-unknown-size'       => 'Tamaño descoñecido',
 'upload-http-error'         => 'Produciuse un erro HTTP: $1',
+
+# Special:UploadStash
+'uploadstash'          => 'Ficheiros agochados',
+'uploadstash-summary'  => 'Esta páxina proporciona acceso a ficheiros que xa están cargados (ou en proceso de carga), pero que aínda non están publicados no wiki. Estes ficheiros non son visibles para ninguén, agás para o usuario que os cargou.',
+'uploadstash-clear'    => 'Borrar os ficheros agochados',
+'uploadstash-nofiles'  => 'Non ten ningún ficheiro agochado.',
+'uploadstash-badtoken' => 'A acción non se puido completar, seica porque caducou a información de acceso. Inténteo de novo.',
+'uploadstash-errclear' => 'Fallou o borrado de ficheiros.',
+'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Acceso rexeitado',
@@ -2869,7 +2886,7 @@ Isto, probabelmente, se debe a unha ligazón cara a un sitio externo que está n
 'math_unknown_function' => 'función descoñecida',
 'math_lexing_error'     => 'erro de léxico',
 'math_syntax_error'     => 'erro de sintaxe',
-'math_image_error'      => 'Fallou a conversión a PNG; comprobe que latex, dvips, gs e convert están ben instalados',
+'math_image_error'      => 'Fallou a conversión a PNG; comprobe que latex, dvips, gs e convert están ben instalados (ou dvips + gs + convert)',
 'math_bad_tmpdir'       => 'Non se puido crear ou escribir no directorio temporal de fórmulas',
 'math_bad_output'       => 'Non se puido crear ou escribir no directorio de saída de fórmulas',
 'math_notexvc'          => 'Falta o executable texvc. Por favor consulte math/README para configurar.',
@@ -3523,14 +3540,5 @@ Se o usuario está conectado, sairá ao anonimato inmediatamente.
 'disableaccount-nosuchuser'  => 'A conta de usuario "$1" non existe.',
 'disableaccount-success'     => 'Esta conta de usuario, "$1", foi desactivada permanentemente.',
 'disableaccount-logentry'    => 'desactivou permanentemente a conta de usuario "[[$1]]"',
-
-# Special:UploadStash
-'uploadstash'          => 'Ficheiros agochados',
-'uploadstash-summary'  => 'Esta páxina proporciona acceso a ficheiros que xa están cargados (ou en proceso de carga), pero que aínda non están publicados no wiki. Estes ficheiros non son visibles para ninguén, agás para o usuario que os cargou.',
-'uploadstash-clear'    => 'Borrar os ficheros agochados',
-'uploadstash-nofiles'  => 'Non ten ningún ficheiro agochado.',
-'uploadstash-badtoken' => 'A acción non se puido completar, seica porque caducou a información de acceso. Inténteo de novo.',
-'uploadstash-errclear' => 'Fallou o borrado de ficheiros.',
-'uploadstash-refresh'  => 'Actualizar a lista de ficheiros',
 
 );

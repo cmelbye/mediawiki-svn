@@ -17,6 +17,7 @@
  * @author Kiranmayee
  * @author Kumar
  * @author Purodha
+ * @author Reedy
  * @author Shrish
  * @author Shyam
  * @author Shyam123.ckp
@@ -503,7 +504,6 @@ $2',
 'wrongpasswordempty'         => 'कूटशब्द खाली है; फिरसे यत्न किजीये ।',
 'passwordtooshort'           => 'आपका कूटशब्द कम से कम {{PLURAL:$1|1 अक्षर|$1 अक्षरे}} होने चाहिये।',
 'password-name-match'        => 'आपका कूटशब्द, आपके सदस्यनाम से भिन्न होना चाहिए।',
-'password-too-weak'          => 'प्रदान किया गया पासवर्ड बहुत कमजोर है और इस्तेमाल किया जा सकता है',
 'mailmypassword'             => 'डाक द्वारा नया कूटशब्द भेजें',
 'passwordremindertitle'      => '{{SITENAME}} के लिया नया अस्थायी कूटशब्द',
 'passwordremindertext'       => 'किसी ने (शायद आपने ही, $1 आईपी पते से) {{SITENAME}} ($4) पर इस्तेमाल के लिये नया कूटशब्द मंगाया है। प्रयोक्ता "$2" के लिए एक अस्थायी कूटशब्द बना दिया गया है, और यह अभी "$3" है। यदि आपकी यही मंशा थी, तो अब आपको सत्रारंभ करके एक नया कूटशब्द चुनना होगा।
@@ -1056,7 +1056,7 @@ $1",
 'mypreferences'                 => 'मेरी वरीयताएँ',
 'prefs-edits'                   => 'संपादनोंकी संख्या:',
 'prefsnologin'                  => 'लॉग इन नहीं किया हैं',
-'prefsnologintext'              => 'वरीयताएँ बदलने के लिए आपको <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} सत्रारंभ] करना होगा।',
+'prefsnologintext'              => 'वरीयताएँ बदलने के लिए आपको <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} सत्रारंभ]</span> करना होगा।',
 'changepassword'                => 'कूटशब्द बदलें',
 'prefs-skin'                    => 'त्वचा',
 'skin-preview'                  => 'झलक',

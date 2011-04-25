@@ -1,7 +1,5 @@
 <?php
 
-require_once( dirname( __FILE__ ) . '/ApiSetup.php' );
-
 class MockApi extends ApiBase {
 	public function execute() { }
 	public function getVersion() { }
@@ -60,6 +58,7 @@ class ApiTest extends ApiTestSetup {
 	 * @expectedException UsageException
 	 */
 	function testApi() {
+	
 		$api = new ApiMain(
 			new FauxRequest( array( 'action' => 'help', 'format' => 'xml' ) )
 		);
@@ -70,7 +69,7 @@ class ApiTest extends ApiTestSetup {
 
 		libxml_use_internal_errors( true );
 		$sxe = simplexml_load_string( $resp );
-		$this->assertNotType( "bool", $sxe );
+		$this->assertNotInternalType( "bool", $sxe );
 		$this->assertThat( $sxe, $this->isInstanceOf( "SimpleXMLElement" ) );
 	}
 
@@ -79,7 +78,7 @@ class ApiTest extends ApiTestSetup {
 	 */
 	function testApiLoginNoName() {
 		$data = $this->doApiRequest( array( 'action' => 'login',
-			'lgname' => '', 'lgpassword' => self::$user->password,
+			'lgname' => '', 'lgpassword' => $this->user->password,
 		) );
 		$this->assertEquals( 'NoName', $data[0]['login']['result'] );
 	}
@@ -87,7 +86,7 @@ class ApiTest extends ApiTestSetup {
 	function testApiLoginBadPass() {
 		global $wgServer;
 
-		$user = self::$user;
+		$user = $this->user;
 
 		if ( !isset( $wgServer ) ) {
 			$this->markTestIncomplete( 'This test needs $wgServer to be set in LocalSettings.php' );
@@ -101,7 +100,7 @@ class ApiTest extends ApiTestSetup {
 
 		$result = $ret[0];
 
-		$this->assertNotType( "bool", $result );
+		$this->assertNotInternalType( "bool", $result );
 		$a = $result["login"]["result"];
 		$this->assertEquals( "NeedToken", $a );
 
@@ -117,7 +116,7 @@ class ApiTest extends ApiTestSetup {
 
 		$result = $ret[0];
 
-		$this->assertNotType( "bool", $result );
+		$this->assertNotInternalType( "bool", $result );
 		$a = $result["login"]["result"];
 
 		$this->assertEquals( "WrongPass", $a );
@@ -130,7 +129,7 @@ class ApiTest extends ApiTestSetup {
 			$this->markTestIncomplete( 'This test needs $wgServer to be set in LocalSettings.php' );
 		}
 
-		$user = self::$user;
+		$user = $this->user;
 
 		$ret = $this->doApiRequest( array(
 			"action" => "login",
@@ -140,8 +139,8 @@ class ApiTest extends ApiTestSetup {
 		);
 
 		$result = $ret[0];
-		$this->assertNotType( "bool", $result );
-		$this->assertNotType( "null", $result["login"] );
+		$this->assertNotInternalType( "bool", $result );
+		$this->assertNotInternalType( "null", $result["login"] );
 
 		$a = $result["login"]["result"];
 		$this->assertEquals( "NeedToken", $a );
@@ -157,7 +156,7 @@ class ApiTest extends ApiTestSetup {
 
 		$result = $ret[0];
 
-		$this->assertNotType( "bool", $result );
+		$this->assertNotInternalType( "bool", $result );
 		$a = $result["login"]["result"];
 
 		$this->assertEquals( "Success", $a );
@@ -174,15 +173,15 @@ class ApiTest extends ApiTestSetup {
 		$req = MWHttpRequest::factory( self::$apiUrl . "?action=login&format=xml",
 			array( "method" => "POST",
 				"postData" => array(
-				"lgname" => self::$user->userName,
-				"lgpassword" => self::$user->password ) ) );
+				"lgname" => $this->user->userName,
+				"lgpassword" => $this->user->password ) ) );
 		$req->execute();
 
 		libxml_use_internal_errors( true );
 		$sxe = simplexml_load_string( $req->getContent() );
-		$this->assertNotType( "bool", $sxe );
+		$this->assertNotInternalType( "bool", $sxe );
 		$this->assertThat( $sxe, $this->isInstanceOf( "SimpleXMLElement" ) );
-		$this->assertNotType( "null", $sxe->login[0] );
+		$this->assertNotInternalType( "null", $sxe->login[0] );
 
 		$a = $sxe->login[0]->attributes()->result[0];
 		$this->assertEquals( ' result="NeedToken"', $a->asXML() );
@@ -190,8 +189,8 @@ class ApiTest extends ApiTestSetup {
 
 		$req->setData( array(
 			"lgtoken" => $token,
-			"lgname" => self::$user->userName,
-			"lgpassword" => self::$user->password ) );
+			"lgname" => $this->user->userName,
+			"lgpassword" => $this->user->password ) );
 		$req->execute();
 
 		$cj = $req->getCookieJar();
@@ -199,7 +198,7 @@ class ApiTest extends ApiTestSetup {
 		$this->assertNotEquals( false, $serverName );
 		$serializedCookie = $cj->serializeToHttpRequest( $wgScriptPath, $serverName );
 		$this->assertNotEquals( '', $serializedCookie );
-		$this->assertRegexp( '/_session=[^;]*; .*UserID=[0-9]*; .*UserName=' . self::$user->userName . '; .*Token=/', $serializedCookie );
+		$this->assertRegexp( '/_session=[^;]*; .*UserID=[0-9]*; .*UserName=' . $this->user->userName . '; .*Token=/', $serializedCookie );
 
 		return $cj;
 	}
@@ -220,8 +219,70 @@ class ApiTest extends ApiTestSetup {
 		$req->execute();
 		libxml_use_internal_errors( true );
 		$sxe = simplexml_load_string( $req->getContent() );
-		$this->assertNotType( "bool", $sxe );
+		$this->assertNotInternalType( "bool", $sxe );
 		$this->assertThat( $sxe, $this->isInstanceOf( "SimpleXMLElement" ) );
 		$a = $sxe->query[0]->pages[0]->page[0]->attributes();
+	}
+	
+	function testRunLogin() {
+		$data = $this->doApiRequest( array(
+			'action' => 'login',
+			'lgname' => $this->sysopUser->userName,
+			'lgpassword' => $this->sysopUser->password ) );
+
+		$this->assertArrayHasKey( "login", $data[0] );
+		$this->assertArrayHasKey( "result", $data[0]['login'] );
+		$this->assertEquals( "NeedToken", $data[0]['login']['result'] );
+		$token = $data[0]['login']['token'];
+
+		$data = $this->doApiRequest( array(
+			'action' => 'login',
+			"lgtoken" => $token,
+			"lgname" => $this->sysopUser->userName,
+			"lgpassword" => $this->sysopUser->password ), $data );
+
+		$this->assertArrayHasKey( "login", $data[0] );
+		$this->assertArrayHasKey( "result", $data[0]['login'] );
+		$this->assertEquals( "Success", $data[0]['login']['result'] );
+		$this->assertArrayHasKey( 'lgtoken', $data[0]['login'] );
+		
+		return $data;
+	}
+	
+	function testGettingToken() {
+		foreach ( array( $this->user, $this->sysopUser ) as $user ) {
+			$this->runTokenTest( $user );
+		}
+	}
+
+	function runTokenTest( $user ) {
+		
+		$data = $this->getTokenList( $user );
+
+		$this->assertArrayHasKey( 'query', $data[0] );
+		$this->assertArrayHasKey( 'pages', $data[0]['query'] );
+		$keys = array_keys( $data[0]['query']['pages'] );
+		$key = array_pop( $keys );
+
+		$rights = $user->user->getRights();
+
+		$this->assertArrayHasKey( $key, $data[0]['query']['pages'] );
+		$this->assertArrayHasKey( 'edittoken', $data[0]['query']['pages'][$key] );
+		$this->assertArrayHasKey( 'movetoken', $data[0]['query']['pages'][$key] );
+
+		if ( isset( $rights['delete'] ) ) {
+			$this->assertArrayHasKey( 'deletetoken', $data[0]['query']['pages'][$key] );
+		}
+
+		if ( isset( $rights['block'] ) ) {
+			$this->assertArrayHasKey( 'blocktoken', $data[0]['query']['pages'][$key] );
+			$this->assertArrayHasKey( 'unblocktoken', $data[0]['query']['pages'][$key] );
+		}
+
+		if ( isset( $rights['protect'] ) ) {
+			$this->assertArrayHasKey( 'protecttoken', $data[0]['query']['pages'][$key] );
+		}
+
+		return $data;
 	}
 }

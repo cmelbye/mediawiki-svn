@@ -14,6 +14,7 @@
  * @author Jaakonam
  * @author Jack Phoenix
  * @author Mobe
+ * @author Nedergard
  * @author Nike
  * @author Olli
  * @author Silvonen
@@ -1350,7 +1351,7 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 'yourlanguage'                  => 'Käyttöliittymän kieli',
 'yourvariant'                   => 'Kielivariantti',
 'yournick'                      => 'Allekirjoitus',
-'prefs-help-signature'          => 'Kommentit keskustelusivuilla pitäisi allekirjoittaa käyttäen merkintää <nowiki>~~~~</nowiki>, joka muuntuu allekirjoitukseksi ja aikaleimaksi.',
+'prefs-help-signature'          => 'Kommentit keskustelusivuilla allekirjoitetaan merkinnällä <nowiki>~~~~</nowiki>, joka muuntuu allekirjoitukseksi ja aikaleimaksi.',
 'badsig'                        => 'Allekirjoitus ei kelpaa.',
 'badsiglength'                  => 'Allekirjoitus on liian pitkä – sen on oltava alle $1 {{PLURAL:$1|merkki|merkkiä}}.',
 'yourgender'                    => 'Sukupuoli',
@@ -1386,7 +1387,7 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 'userrights-editusergroup'     => 'Käyttäjän ryhmät',
 'saveusergroups'               => 'Tallenna',
 'userrights-groupsmember'      => 'Käyttäjä on jäsenenä ryhmissä',
-'userrights-groupsmember-auto' => 'Implisiittinen jäsen:',
+'userrights-groupsmember-auto' => 'Virtuaaliset ryhmät:',
 'userrights-groups-help'       => 'Voit muuttaa ryhmiä, joissa tämä käyttäjä on.
 * Merkattu valintaruutu tarkoittaa, että käyttäjä on kyseisessä ryhmässä.
 * Merkkaamaton valintaruutu tarkoittaa, että käyttäjä ei ole kyseisessä ryhmässä.
@@ -1489,7 +1490,7 @@ Tässä satunnaisesti tuotettu arvo, jota voit käyttää: $1',
 # User rights log
 'rightslog'      => 'Käyttöoikeusloki',
 'rightslogtext'  => 'Tämä on loki käyttäjien käyttöoikeuksien muutoksista.',
-'rightslogentry' => 'Käyttäjän $1 oikeudet muutettiin ryhmistä $2 ryhmiin $3',
+'rightslogentry' => 'muutti käyttäjän $1 oikeudet ryhmistä $2 ryhmiin $3',
 'rightsnone'     => '(ei oikeuksia)',
 
 # Associated actions - in the sentence "You do not have permission to X"
@@ -2476,7 +2477,7 @@ $1 on jo estetty. Haluatko muuttaa eston asetuksia?',
 'databasenotlocked'   => 'Tietokanta ei ole lukittu.',
 
 # Move page
-'move-page'                    => 'Siirrä $1',
+'move-page'                    => 'Sivun $1 siirto',
 'move-page-legend'             => 'Siirrä sivu',
 'movepagetext'                 => "Alla olevalla lomakkeella voit nimetä uudelleen sivuja, jolloin niiden koko historia siirtyy uuden nimen alle.
 Vanhasta sivusta tulee ohjaussivu, joka osoittaa uuteen sivuun.
@@ -2494,7 +2495,7 @@ Tämä saattaa olla suuri ja odottamaton muutos suositulle sivulle. Varmista, et
 *Kumoat alla olevan ruudun asetuksen.
 
 Näissä tapauksissa sivut täytyy siirtää tai yhdistää käsin.",
-'movearticle'                  => 'Siirrä sivu',
+'movearticle'                  => 'Siirrettävä sivu',
 'moveuserpage-warning'         => "'''Varoitus:''' Olet siirtämässä käyttäjäsivua. Huomaa, että vain sivu siirretään ja käyttäjää ''ei'' nimetä uudelleen.",
 'movenologin'                  => 'Et ole kirjautunut sisään',
 'movenologintext'              => 'Sinun pitää olla rekisteröitynyt käyttäjä ja [[Special:UserLogin|kirjautua sisään]], jotta voisit siirtää sivun.',
@@ -2513,7 +2514,7 @@ Näissä tapauksissa sivut täytyy siirtää tai yhdistää käsin.",
 'cantmove-titleprotected'      => 'Sivua ei voi siirtää tälle nimelle, koska tämän nimisen sivun luonti on estetty.',
 'talkexists'                   => 'Sivun siirto onnistui, mutta keskustelusivua ei voitu siirtää, koska uuden otsikon alla on jo keskustelusivu. Keskustelusivujen sisältö täytyy yhdistää käsin.',
 'movedto'                      => 'Siirretty uudelle otsikolle',
-'movetalk'                     => 'Siirrä myös keskustelusivu.',
+'movetalk'                     => 'Siirrä myös keskustelusivu',
 'move-subpages'                => 'Siirrä kaikki alasivut (enintään $1)',
 'move-talk-subpages'           => 'Siirrä kaikki keskustelusivun alasivut (enintään $1)',
 'movepage-page-exists'         => 'Sivu $1 on jo olemassa ja sitä ei voi automaattisesti korvata.',
@@ -2795,7 +2796,7 @@ Jos haluat muokata MediaWikin yleistä kotoistusta, käy [http://www.mediawiki.o
 'markaspatrolleddiff'                 => 'Merkitse tarkastetuksi',
 'markaspatrolledtext'                 => 'Merkitse muokkaus tarkastetuksi',
 'markedaspatrolled'                   => 'Tarkastettu',
-'markedaspatrolledtext'               => 'Valittu versio sivusta [[:$1]] on tarkastettu.',
+'markedaspatrolledtext'               => 'Valittu versio sivusta [[:$1]] on merkitty tarkastetuksi.',
 'rcpatroldisabled'                    => 'Tuoreiden muutosten tarkastustoiminto ei ole käytössä',
 'rcpatroldisabledtext'                => 'Tuoreiden muutosten tarkastustoiminto ei ole käytössä.',
 'markedaspatrollederror'              => 'Muutoksen merkitseminen tarkastetuksi epäonnistui.',
@@ -2858,7 +2859,9 @@ Suorittamalla sen järjestelmäsi voi muuttua epäluotettavaksi.",
 # Bad image list
 'bad_image_list' => 'Listan muoto on seuraava:
 
-Vain *-merkillä alkavat rivit otetaan huomioon. Ensimmäisen linkin on osoitettava arveluttavaan tiedostoon. Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa saa käyttää.',
+Vain *-merkillä alkavat rivit otetaan huomioon.
+Rivin ensimmäisen linkin on osoitettava tiedostoon.
+Kaikki muut linkit ovat poikkeuksia eli toisin sanoen sivuja, joissa tiedostoa saa käyttää.',
 
 # Metadata
 'metadata'          => 'Sisältökuvaukset',
