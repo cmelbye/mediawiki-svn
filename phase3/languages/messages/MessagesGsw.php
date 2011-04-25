@@ -774,7 +774,6 @@ Hiemit gisch du zue, das du dä Tekscht '''sälber gschribe''' hesch, das der Te
 'copyrightwarning2'                => "Dängge Si dra, dass alli Änderige {{GRAMMAR:dativ {{SITENAME}}}} vo andere Benutzer wider gänderet oder glöscht chönne wärde. Wenn Si nit wänn, dass ander Lüt an Ihrem Tekscht ummedoktere denn schicke Si ihn jetz nit ab.<br />
 Si verspräche uns usserdäm, dass Si des alles selber gschribe oder vo nere Quälle kopiert hen, wo Public Domain odr sunscht frei isch (lueg $1 für Details).
 '''SETZE SI DO OHNI ERLAUBNIS KEINI URHEBERRÄCHTLICH GSCHÜTZTI WÄRK INE!'''",
-'longpagewarning'                  => '<span style="color:#ff0000">WARNIG:</span> Die Syten isch $1 kB gross; elteri Browser chönnte Problem ha, Sytene z bearbeite wo grösser sy als 32 kB. Überleg bitte, öb du Abschnitt vo dere Syte zu eigete Sytene chönntsch usboue.',
 'longpageerror'                    => "'''Fähler: Dä Täxt, wu Du spichere wit, isch $1 KB gross. Des isch gresser wie s erlaubt Maximum vu $2 KB – s Spichere isch nid megli.'''",
 'readonlywarning'                  => "'''Achtung: Die Datebank isch fir Wartigsarbete gesperrt. Wäge däm chenne Dyyni Änderige im Momänt nid gspicheret wäre.
 Sichere de Täxt bitte lokal uf Dyynem Computer un versuech speter nomol, d Änderige z ibertrage.'''
@@ -1468,7 +1467,7 @@ Lueg au d [[Special:NewFiles|Galerii vu neije Dateie]] fir e visuälle Iberblick
 'filetype-missing'            => 'D Datei, wu soll uffeglade wäre, het kei Erwyterig (z. B. „.jpg“).',
 'empty-file'                  => 'D Datei, wu Du ibertrait hesch, isch läär.',
 'file-too-large'              => 'D Datei, wu Du ibertrait hesch, isch z groß.',
-'filename-tooshort'           => 'Dr Dateiname isch z chruz.',
+'filename-tooshort'           => 'Dr Dateiname isch z churz.',
 'filetype-banned'             => 'Dää Dateityp isch gsperrt.',
 'verification-error'          => 'Die Datei het d Dateipriefig nit bstande.',
 'hookaborted'                 => 'D Änderig, wu Du versuecht hesch, isch wäg eme Erwyterigs-Hooks abbroche wore.',
@@ -1921,7 +1920,7 @@ As Absender wird d E-Mail-Adräss us Dyyne [[Special:Preferences|Yystellige]] yy
 'email-legend'         => 'E-Mail an e andere {{SITENAME}}-Benutzer schicke',
 'emailfrom'            => 'Vu:',
 'emailto'              => 'An:',
-'emailsubject'         => 'Betreff:',
+'emailsubject'         => 'Beträff:',
 'emailmessage'         => 'Nochricht:',
 'emailsend'            => 'Abschicke',
 'emailccme'            => 'Schick e Kopii vu dr E-Mail a mii',
@@ -2260,7 +2259,6 @@ Go d Sperri ufhebe lueg d [[Special:IPBlockList|Lisch vu allene aktive Sperrine]
 'ipb-edit-dropdown'               => 'Sperrgrind bearbeite',
 'ipb-unblock-addr'                => '„$1“ frejgee',
 'ipb-unblock'                     => 'IP-Adräss/Benutzer frejgee',
-'ipb-blocklist-addr'              => 'Aktuälli Sperri fir „$1“ aazeige',
 'ipb-blocklist'                   => 'Alli aktuälle Sperrine aazeige',
 'ipb-blocklist-contribs'          => 'Benutzerbyytreg fir „$1“',
 'unblockip'                       => 'IP-Adräss frejgee',

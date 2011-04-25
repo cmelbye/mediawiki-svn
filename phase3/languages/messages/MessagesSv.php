@@ -957,9 +957,6 @@ Du lovar oss också att du skrev texten själv, eller kopierade från kulturellt
 'copyrightwarning2'                => "Observera att alla bidrag till {{SITENAME}} kan komma att redigeras, ändras, eller tas bort av andra deltagare. Om du inte vill se din text förändrad efter andras gottfinnade skall du inte skriva in någon text här.<br />
 Du lovar oss också att du skrev texten själv, eller kopierade från kulturellt allmängods som inte skyddas av upphovsrätt, eller liknande källor - se $1 för detaljer.
 '''LÄGG INTE UT UPPHOVSRÄTTSSKYDDAT MATERIAL HÄR UTAN TILLÅTELSE!'''",
-'longpagewarning'                  => "'''VARNING: Den här sidan är $1 kilobyte lång;
-vissa webbläsare kan ha problem att redigera sidor som närmar sig eller är större än 32 kB.
-Överväg att bryta upp sidan i mindre delar.'''",
 'longpageerror'                    => "'''FEL: Texten som du försöker spara är $1 kilobyte, vilket är mer än det maximalt tillåtna $2 kilobyte. Den kan inte sparas.'''",
 'readonlywarning'                  => "'''VARNING: Databasen är tillfälligt låst för underhåll. Du kommer inte att kunna spara dina ändringar just nu.
 Det kan vara klokt att kopiera över texten till din egen dator, tills databasen är upplåst igen.'''
@@ -1530,6 +1527,7 @@ Du kan också välja att låta andra användare kontakta dig genom din användar
 'right-override-export-depth' => 'Exportera sidor inklusive länkade sidor till ett djup på 5',
 'right-sendemail'             => 'Skicka e-post till andra användare',
 'right-revisionmove'          => 'Flytta versioner',
+'right-disableaccount'        => 'Inaktivera konton',
 
 # User rights log
 'rightslog'      => 'Användarrättighetslogg',
@@ -2481,7 +2479,6 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'ipb-edit-dropdown'               => 'Redigera blockeringsanledningar',
 'ipb-unblock-addr'                => 'Ta bort blockering av $1',
 'ipb-unblock'                     => 'Ta bort blockering av en användare eller IP-adress',
-'ipb-blocklist-addr'              => 'Gällande blockeringar av $1',
 'ipb-blocklist'                   => 'Visa gällande blockeringar',
 'ipb-blocklist-contribs'          => 'Bidrag från $1',
 'unblockip'                       => 'Ta bort blockering av användare/IP-adress',
@@ -2501,7 +2498,7 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'blocklistline'                   => '$1, $2 blockerade $3 ($4)',
 'infiniteblock'                   => 'för evigt',
 'expiringblock'                   => 'utgår den $1 kl $2',
-'anononlyblock'                   => 'endast för oinloggade',
+'anononlyblock'                   => 'endast oinloggade',
 'noautoblockblock'                => 'utan automatisk blockering',
 'createaccountblock'              => 'kontoregistrering blockerad',
 'emailblock'                      => 'e-post blockerad',
@@ -3559,5 +3556,18 @@ Skriv filnamnet utan prefixet "{{ns:file}}:" .',
 # SQLite database support
 'sqlite-has-fts' => '$1 med stöd för fulltextsökning',
 'sqlite-no-fts'  => '$1 utan stöd för fulltextsökning',
+
+# Special:DisableAccount
+'disableaccount'             => 'Inaktivera ett användarkonto',
+'disableaccount-user'        => 'Användarnamn:',
+'disableaccount-reason'      => 'Orsak:',
+'disableaccount-confirm'     => "Inaktivera detta användarkonto.
+Användaren kommer inte att kunna logga in, återställa sitt lösenord, eller ta emot e-postmeddelanden.
+Om användaren är inloggad någonstans, kommer den att omedelbart loggas ut.
+''Observera att inaktivering av ett konto inte är reversibelt utan ingripande av en systemadministratör.''",
+'disableaccount-mustconfirm' => 'Du måste bekräfta att du vill inaktivera detta konto.',
+'disableaccount-nosuchuser'  => 'Användarkontot "$1" existerar inte.',
+'disableaccount-success'     => 'Användarkontot "$1" har inaktiverats permanent.',
+'disableaccount-logentry'    => 'inaktivera användarkontot [[$1]] permanent',
 
 );

@@ -682,8 +682,6 @@ Aap ii bhi waada kartaa hai ki iske aap likha hai aur koi duusra jagah se copy n
 Agar aap nai mangta ki koi aur aap ke yogdaan ke badle, tab aap hian par nai likho.<br />
 Aap ii bhi kasam khata hai ki aap iske apne se likha hai aur kahin se copy nai karaa hai (Aur jaankari khatir $1 ke dekho).
 ''' COPYRIGHT WORK KE BINA AUNUMATI KE SUBMIT NAI KARNA!'''",
-'longpagewarning'                  => "'''Chetauni:''' Ii panna $1 kilobytes lamba hae; kuch browsers sait etna barra panna ke khole nai pai.
-Meherbani kar ke ii panna ke chota chota tukrra me kar do.",
 'longpageerror'                    => "'''ERROR: Jon text aap submit karaa hai uu $1 kilobytes lamba hai, ii maximum $2 kilobytes se lamba hai.
 Iske save nai karaa jae sake hai.'''",
 'readonlywarning'                  => "'''WARNING: Database ke maintenance khatir band kar dewa gais hai, tab abhi aap aapan badlao ke save nai kare paega.
@@ -2216,7 +2214,6 @@ Ii rukawat pe fir se bichar kare ke khatir [[Special:IPBlockList|IP block list]]
 'ipb-edit-dropdown'               => 'Badlao ke roke ke kaaran',
 'ipb-unblock-addr'                => '$1 ke rukawat ke khalaas karo',
 'ipb-unblock'                     => 'Ek username nai to IP address ke rukawat ke khalaas karo',
-'ipb-blocklist-addr'              => '$1 ke abhi ke rukawat',
 'ipb-blocklist'                   => 'Abhi ke rukawat ke dekho',
 'ipb-blocklist-contribs'          => '$1 ke yogdaan',
 'unblockip'                       => 'Sadasya ke rukawat ke khalaas karo',

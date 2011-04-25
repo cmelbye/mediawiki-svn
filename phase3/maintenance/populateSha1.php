@@ -63,7 +63,7 @@ class PopulateSha1 extends Maintenance {
 			$this->output( "Using pipe method\n" );
 			$pipe = popen( $cmd, 'w' );
 		}
-	
+
 		$numRows = $res->numRows();
 		$i = 0;
 		foreach ( $res as $row ) {

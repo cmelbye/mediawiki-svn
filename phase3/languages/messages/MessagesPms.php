@@ -695,10 +695,6 @@ Se a veul nen che sò test a peula esse modificà e distribuì da qualsëssìa p
 'copyrightwarning2'                => "Për piasì, che a ten-a present che tute le contribussion a {{SITENAME}} a peulo esse modificà ò scancelà da dj'àutri contributor. Se a veul nen che lòn che a scriv a ven-a modificà sensa limitassion ëd gnun-a sòrt, che a lo manda nen ambelessì.<br />
 Ant l'istess temp, ën mandand dël material un as pija la responsabilità dë dì che a l'ha scrivusslo daspërchiel (ò daspërchila), ò pura che a l'ha copialo da na sorgiss ëd domini pùblich, ò pura da 'nt n'àutra sorgiss dla midema sòrt (che a varda $1 për avèj pì d'anformassion).
 '''CHE A MANDA PA DËL MATERIAL COATÀ DA DRIT D'AUTOR SENSA AVÈJ AVÙ ËL PËRMESS SCRIT DË FELO!'''",
-'longpagewarning'                  => "'''CHE A TEN-A PRESENT!: Sta pàgina-sì a l'é longa $1 kb; chèich
-programa ëd navigassion a podrìa avèj dle gran-e a modifiché dle pàgine che a-j rivo a brus
-ò pura a passo ij 32 kb.
-Për piasì che a varda se a-i fussa mai la possibilità dë divide sto paginon an vàire tòch pì cit.'''",
 'longpageerror'                    => "'''EROR: Ël test che a l'ha mandà a l'é longh $1 kb, che a resta pì che ël
 lìmit màssim ëd $2 kb. Parèj as peul nen salvesse. A venta che a në fasa vàire
 pàgine diferente për rintré ant ij lìmit técnich.'''",
@@ -1697,9 +1693,9 @@ Adess a l'é na ridiression a [[$2]].",
 'brokenredirects-delete' => 'scancelé',
 
 'withoutinterwiki'         => "Pàgine ch'a l'han gnun-a anliura interwiki",
-'withoutinterwiki-summary' => "Le pàgine ambelessì sota a l'han gnun-a anliura a dj'àotre lenghe:",
+'withoutinterwiki-summary' => "Le pàgine ambelessì-sota a l'han gnun-a anliura a dj'àotre lenghe:",
 'withoutinterwiki-legend'  => 'Prefiss',
-'withoutinterwiki-submit'  => 'Smon',
+'withoutinterwiki-submit'  => 'Smon-e',
 
 'fewestrevisions' => 'Artìcoj con manch ëd modìfiche',
 
@@ -1714,7 +1710,7 @@ Adess a l'é na ridiression a [[$2]].",
 'ntransclusions'          => 'dovrà dzora a $1 {{PLURAL:$1|pàgina|pàgine}}',
 'specialpage-empty'       => 'Pàgina veujda.',
 'lonelypages'             => 'Pàgine daspërlor',
-'lonelypagestext'         => "Le pàgine ambelessì sota a l'han pa gnun-a anliura che a-i riva da dj'àotre pàgine e a son nen anserìe An gnun-e àutre pàgine ëd {{SITENAME}}.",
+'lonelypagestext'         => "Le pàgine ambelessì-sota a l'han gnun-e anliure che a-j men-o ansima nì a son anserìe an d'àotre pàgine ëd {{SITENAME}}.",
 'uncategorizedpages'      => 'Pàgine che a son nen assignà a na categorìa',
 'uncategorizedcategories' => 'Categorìe che a son pa assignà a na categorìa',
 'uncategorizedimages'     => 'Archivi multimojen nen categorisà',
@@ -1724,8 +1720,8 @@ Adess a l'é na ridiression a [[$2]].",
 'popularpages'            => 'Pàgine pì s-ciairà',
 'wantedcategories'        => 'Categorìe dont a fa da manca',
 'wantedpages'             => 'Artìcoj pì ciamà',
-'wantedpages-badtitle'    => "Tìtol nen vàlid ant l'ansema d'arzultà: $1",
-'wantedfiles'             => 'File ciamà',
+'wantedpages-badtitle'    => "Tìtol nen vàlid ant l'ansema dj'arzultà: $1",
+'wantedfiles'             => 'Archivi pì ciamà',
 'wantedtemplates'         => 'Stamp ciamà',
 'mostlinked'              => "Pàgine che a l'han pì d'anliure che a-i men-o la gent ansima",
 'mostlinkedcategories'    => "Categorìe che a l'han pì d'anliure che a-i men-o la gent ansima",
@@ -1733,7 +1729,7 @@ Adess a l'é na ridiression a [[$2]].",
 'mostcategories'          => 'Artìcoj che a son marcà an pì categorìe',
 'mostimages'              => 'Figure pì dovrà',
 'mostrevisions'           => 'Artìcoj pì modificà',
-'prefixindex'             => 'Tute jë pàgine con prefiss',
+'prefixindex'             => "Tute le pàgine ch'a ancamin-o con",
 'shortpages'              => 'Pàgine curte',
 'longpages'               => 'Pàgine longhe',
 'deadendpages'            => 'Pàgine che a men-o da gnun-a part',
@@ -2232,7 +2228,6 @@ Varda [[Special:IPBlockList|lista dj'IP blocà]] Për rivëdde ij blòch.",
 'ipb-edit-dropdown'               => 'Motiv dël blòch',
 'ipb-unblock-addr'                => 'Dësbloché $1',
 'ipb-unblock'                     => "Dësbloché n'utent ò n'adrëssa IP",
-'ipb-blocklist-addr'              => 'Blòch esistent për $1',
 'ipb-blocklist'                   => 'Vardé ij blòch ativ',
 'ipb-blocklist-contribs'          => 'Contribussion për $1',
 'unblockip'                       => "Dësblòca st'adrëssa IP-sì",
@@ -3310,5 +3305,8 @@ Ch'a bata 'l nòm dl'archivi sensa pa bute-ie 'l prefiss \"{{ns:file}}:\".",
 # SQLite database support
 'sqlite-has-fts' => 'apògg $1 con arserca a test pien',
 'sqlite-no-fts'  => 'apògg $1 sensa arserca a test pien',
+
+# Special:DisableAccount
+'disableaccount-reason' => 'Rason:',
 
 );

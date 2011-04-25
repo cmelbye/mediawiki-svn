@@ -927,7 +927,6 @@ Te kinnitate ka, et kirjutasite selle ise või võtsite selle kopeerimiskitsendu
 'copyrightwarning2'                => "Pea silmas, et teised kaastöölised võivad kogu {{GRAMMAR:inessive|{{SITENAME}}}} tehtud kaastööd muuta või eemaldada. Kui sa ei soovi, et su kirjutatut halastamatult redigeeritakse, siis ära seda siia salvesta.<br />
 Sa kinnitad ka, et kirjutasid selle ise või võtsid selle kopeerimiskitsenduseta allikast (vaata ka $1).
 '''Ära saada autoriõigusega kaitstud materjali loata!'''",
-'longpagewarning'                  => "'''HOIATUS: Selle lehekülje pikkus ületab $1 kilobaiti. Mõne brauseri puhul valmistab raskusi juba 32-le kilobaidile läheneva pikkusega lehekülgede redigeerimine. Palun kaaluge selle lehekülje sisu jaotamist lühemate lehekülgede vahel.'''",
 'longpageerror'                    => "'''Viga: Lehekülje suurus on $1 kilobaiti. Lehekülge ei saa salvestada, kuna see on pikem kui maksimaalsed $2 kilobaiti.'''",
 'readonlywarning'                  => "'''Hoiatus: Andmebaas on lukustatud hooldustöödeks, nii et praegu ei saa parandusi salvestada.'''
 Võid teksti hilisemaks kasutamiseks alles hoida tekstifailina.
@@ -955,10 +954,10 @@ Võid pöörduda tagasi ja toimetada olemasolevat lehekülge või [[Special:User
 'permissionserrors'                => 'Viga õigustes',
 'permissionserrorstext'            => 'Sul pole õigust seda teha {{PLURAL:$1|järgmisel põhjusel|järgmistel põhjustel}}:',
 'permissionserrorstext-withaction' => 'Sul pole lubatud {{lcfirst:$2}} {{PLURAL:$1|järgneval põhjusel|järgnevatel põhjustel}}:',
-'recreate-moveddeleted-warn'       => "'''Hoiatus: Te loote uuesti lehte, mis on varem kustutatud.'''
+'recreate-moveddeleted-warn'       => "'''Hoiatus: Lood uuesti lehekülge, mis on varem kustutatud.'''
 
-Kaaluge, kas lehe uuesti loomine on kohane.
-Lehe eelnevad kustutamised ja teisaldamised:",
+Kaalu, kas lehekülje uuesti loomine on kohane.
+Lehekülje eelnevad kustutamised ja teisaldamised:",
 'moveddeleted-notice'              => 'See lehekülg on kustutatud.
 Allpool on esitatud lehekülje kustutamis- ja teisaldamislogi.',
 'log-fulllog'                      => 'Vaata kogu logi',
@@ -1495,6 +1494,7 @@ See ei tohi olla pikem kui $1 {{PLURAL:$1|sümbol|sümbolit}}.',
 'right-override-export-depth' => 'Eksportida lehekülgi, kaasates viidatud leheküljed kuni viienda tasemeni',
 'right-sendemail'             => 'Saata teistele kasutajatele e-kirju',
 'right-revisionmove'          => 'Teisaldada redaktsioone',
+'right-disableaccount'        => 'Lukustada kontosid',
 
 # User rights log
 'rightslog'      => 'Kasutaja õiguste logi',
@@ -1775,6 +1775,7 @@ Tulba päisel klõpsamine muudab sortimist.',
 'listfiles_search_for'  => 'Nimeotsing:',
 'imgfile'               => 'fail',
 'listfiles'             => 'Piltide loend',
+'listfiles_thumb'       => 'Pisipilt',
 'listfiles_date'        => 'Kuupäev',
 'listfiles_name'        => 'Nimi',
 'listfiles_user'        => 'Kasutaja',
@@ -2377,6 +2378,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Uute kasutajate kaastöö',
 'sp-contributions-blocklog'            => 'blokeerimised',
 'sp-contributions-deleted'             => 'kustutatud kaastöö',
+'sp-contributions-uploads'             => 'üleslaadimised',
 'sp-contributions-logs'                => 'logid',
 'sp-contributions-talk'                => 'arutelu',
 'sp-contributions-userrights'          => 'kasutaja õiguste muutmine',
@@ -2446,7 +2448,6 @@ Kehtivaid blokeeringuid vaata [[Special:IPBlockList|blokeeringute loendist]].',
 'ipb-edit-dropdown'               => 'Muuda blokeeringu põhjuseid',
 'ipb-unblock-addr'                => 'Kustuta $1 blokeering',
 'ipb-unblock'                     => 'Kasutaja või IP-aadressi vabastamine blokeerimisest',
-'ipb-blocklist-addr'              => 'Kasutaja $1 blokeeringud',
 'ipb-blocklist'                   => 'Vaata kehtivaid keelde',
 'ipb-blocklist-contribs'          => 'Kasutaja $1 kaastöö',
 'unblockip'                       => 'Blokeerimise eemaldamine',
@@ -3450,5 +3451,18 @@ Sisesta faili nimi eesliiteta "{{ns:file}}:".',
 'htmlform-submit'              => 'Saada',
 'htmlform-reset'               => 'Tühista muudatused',
 'htmlform-selectorother-other' => 'Muu',
+
+# Special:DisableAccount
+'disableaccount'             => 'Kasutajakonto lukustamine',
+'disableaccount-user'        => 'Kasutajanimi:',
+'disableaccount-reason'      => 'Põhjus:',
+'disableaccount-confirm'     => "Lukusta see kasutajakonto.
+Edaspidi ei saa kasutaja sisse logida, oma parooli lähtestada ega e-kirjatsi teateid saada.
+Kui kasutaja on praegu kuskile sisse logitud, logitakse ta koheselt välja.
+''Pane tähele, et lukustatud konto uuesti kasutamiseks on tarvis süsteemiadministraatori sekkumist.''",
+'disableaccount-mustconfirm' => 'Pead kinnitama, et soovid seda kontot lukustada.',
+'disableaccount-nosuchuser'  => 'Kasutajakontot "$1" pole.',
+'disableaccount-success'     => 'Kasutajakonto "$1" on jäädavalt lukustatud.',
+'disableaccount-logentry'    => 'lukustas jäädavalt kasutajakonto [[$1]].',
 
 );

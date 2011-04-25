@@ -1015,8 +1015,6 @@ Hierbij belooft u ons tevens dat u deze tekst zelf hebt geschreven of overgenome
 Als u niet wilt dat uw teksten rigoureus aangepast worden door anderen, plaats ze hier dan niet.<br />
 U belooft ook dat u de oorspronkelijke auteur bent van dit materiaal of dat u het hebt gekopieerd uit een bron in het publieke domein of een soortgelijke vrije bron (zie $1 voor details).
 '''GEBRUIK GEEN MATERIAAL DAT BESCHERMD WORDT DOOR AUTEURSRECHT, TENZIJ U DAARVOOR TOESTEMMING HEBT!'''",
-'longpagewarning'                  => "'''WAARSCHUWING: Deze pagina is $1 kilobyte groot; sommige browsers hebben problemen met het bewerken van pagina's die groter zijn dan 32 kilobyte.
-Wellicht kan deze pagina gesplitst worden in kleinere delen.'''",
 'longpageerror'                    => "'''FOUT: de tekst die u hebt toegevoegd is $1 kilobyte groot, wat groter is dan het maximum van $2 kilobyte.
 Opslaan is niet mogelijk.'''",
 'readonlywarning'                  => "'''WAARSCHUWING: De database is geblokkeerd voor bewerkingen, waarschijnlijk voor regulier databaseonderhoud, dus u kunt deze nu niet opslaan.
@@ -1600,6 +1598,7 @@ U kunt ook anderen in staat stellen per e-mail contact met u op te nemen via een
 'right-override-export-depth' => "Pagina's exporteren inclusief pagina's waarnaar verwezen wordt tot een diepte van vijf",
 'right-sendemail'             => 'E-mail versturen aan andere gebruikers',
 'right-revisionmove'          => 'Versies verplaatsen',
+'right-disableaccount'        => 'Gebruikers uitschakelen',
 
 # User rights log
 'rightslog'      => 'Gebruikersrechtenlogboek',
@@ -2515,6 +2514,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Bijdragen van nieuwe gebruikers',
 'sp-contributions-blocklog'            => 'blokkeerlogboek',
 'sp-contributions-deleted'             => 'verwijderde bijdragen',
+'sp-contributions-uploads'             => 'uploads',
 'sp-contributions-logs'                => 'logboeken',
 'sp-contributions-talk'                => 'overleg',
 'sp-contributions-userrights'          => 'gebruikersrechtenbeheer',
@@ -2586,7 +2586,6 @@ Zie de [[Special:IPBlockList|Lijst van geblokkeerde IP-adressen]] voor recente b
 'ipb-edit-dropdown'               => 'Lijst van redenen bewerken',
 'ipb-unblock-addr'                => '$1 deblokkeren',
 'ipb-unblock'                     => 'Een gebruiker of IP-adres deblokkeren',
-'ipb-blocklist-addr'              => 'Bestaande blokkades voor $1',
 'ipb-blocklist'                   => 'Bestaande blokkades bekijken',
 'ipb-blocklist-contribs'          => 'Bijdragen van $1',
 'unblockip'                       => 'Gebruiker deblokkeren',
@@ -3699,5 +3698,18 @@ Voer de bestandsnaam in zonder het voorvoegsel "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => 'Versie $1 met ondersteuning voor "full-text" zoeken',
 'sqlite-no-fts'  => 'Versie $1 zonder ondersteuning voor "full-text" zoeken',
+
+# Special:DisableAccount
+'disableaccount'             => 'Een gebruiker uitschakelen',
+'disableaccount-user'        => 'Gebruikersnaam:',
+'disableaccount-reason'      => 'Reden:',
+'disableaccount-confirm'     => "Deze gebruiker uitschakelen.
+De gebruiker kan niet langer aanmelden, het wachtwoord opnieuw instellen of e-mails ontvangen.
+Als de gebruiker op dit moment is aangemeld, wordt deze per direct afgemeld.
+''Het uitschakelen van een gebruiker is niet terug te draaien zonder hulp van een systeembeheerder.''",
+'disableaccount-mustconfirm' => 'U moet bevestigen dat u deze gebruiker wilt uitschakelen.',
+'disableaccount-nosuchuser'  => 'De gebruiker "$1" bestaat niet.',
+'disableaccount-success'     => 'De gebruiker "$1" is permanent uitgeschakeld.',
+'disableaccount-logentry'    => 'heeft de gebruiker [[$1]] permanent uitgeschakeld',
 
 );

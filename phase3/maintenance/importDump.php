@@ -60,13 +60,13 @@ class BackupReader {
 			call_user_func( $this->importCallback, $rev );
 		}
 	}
-	
+
 	function handleUpload( $revision ) {
 		if ( $this->uploads ) {
 			$this->uploadCount++;
 			// $this->report();
 			$this->progress( "upload: " . $revision->getFilename() );
-			
+
 			if ( !$this->dryRun ) {
 				// bluuuh hack
 				// call_user_func( $this->uploadCallback, $revision );
@@ -150,7 +150,7 @@ class BackupReader {
 			array( &$this, 'handleUpload' ) );
 		$this->logItemCallback = $importer->setLogItemCallback(
 			array( &$this, 'handleLogItem' ) );
-			
+
 		if ( $this->dryRun ) {
 			$importer->setPageOutCallback( null );
 		}
@@ -186,12 +186,6 @@ if ( isset( $args[0] ) ) {
 	$result = $reader->importFromStdin();
 }
 
-if ( WikiError::isError( $result ) ) {
-	echo $result->getMessage() . "\n";
-} else {
-	echo "Done!\n";
-	echo "You might want to run rebuildrecentchanges.php to regenerate\n";
-	echo "the recentchanges page.\n";
-}
-
-
+echo "Done!\n";
+echo "You might want to run rebuildrecentchanges.php to regenerate\n";
+echo "the recentchanges page.\n";

@@ -937,9 +937,6 @@ z voľného diela (public domain) alebo podobného zdroja neobmedzeného autorsk
 Týmto sa právne zaväzujete, že ste tento text buď napísali sám, alebo že je skopírovaný
 z voľného diela (public domain) alebo podobného zdroja neobmedzeného autorskými právami (podrobnosti: $1).
 '''NEUMIESTŇUJTE SEM BEZ POVOLENIA DIELA CHRÁNENÉ AUTORSKÝM PRÁVOM!'''",
-'longpagewarning'                  => "'''UPOZORNENIE: Táto stránka má $1 kilobajtov; niektoré
-prehliadače by mohli mať problémy s úpravou stránok, ktorých veľkosť sa blíži k alebo presahuje 32 kb.
-Zvážte, či by nebolo možné rozdeliť stránku na menšie sekcie.'''",
 'longpageerror'                    => "'''CHYBA: Text, ktorý ste poslali má $1 kilobajtov, čo je viac ako maximum $2 kilobajtov. Nie je možné ho uložiť.'''",
 'readonlywarning'                  => "'''UPOZORNENIE: Databáza bola počas upravovania stránky zamknutá z dôvodu údržby,
 takže stránku momentálne nemôžete uložiť. Môžete skopírovať a vložiť
@@ -1503,6 +1500,7 @@ Musí obsahovať menej ako $1 {{PLURAL:$1|znak|znaky|znakov}}.',
 'right-override-export-depth' => 'Exportovať stránky vrátane okdazovaných stránok do hĺbky 5 odkazov',
 'right-sendemail'             => 'Posielať e-mail ostatným používateľom',
 'right-revisionmove'          => 'Presunúť revízie',
+'right-disableaccount'        => 'Zakázať účty',
 
 # User rights log
 'rightslog'      => 'Záznam používateľských práv',
@@ -2451,7 +2449,6 @@ Nižšie uveďte konkrétny dôvod (napríklad uveďte konkrétne stránky, ktor
 'ipb-edit-dropdown'               => 'Upraviť dôvody pre blokovanie',
 'ipb-unblock-addr'                => 'Odblokovať $1',
 'ipb-unblock'                     => 'Odblokovať používateľa alebo IP adresu',
-'ipb-blocklist-addr'              => 'Existujúce blokovania pre $1',
 'ipb-blocklist'                   => 'Zobraziť existujúce blokovania',
 'ipb-blocklist-contribs'          => 'Príspevky $1',
 'unblockip'                       => 'Odblokovať používateľa',
@@ -3541,5 +3538,18 @@ Zadajte názov súboru bez predpony „{{ns:file}}:“.',
 # SQLite database support
 'sqlite-has-fts' => '$1 s podporou vyhľadávania v plnom texte',
 'sqlite-no-fts'  => '$1 bez podpory vyhľadávania v plnom texte',
+
+# Special:DisableAccount
+'disableaccount'             => 'Zakázať používateľský účet',
+'disableaccount-user'        => 'Používateľské meno:',
+'disableaccount-reason'      => 'Dôvod:',
+'disableaccount-confirm'     => "Zakázať tento používateľský účet.
+Používateľ sa nebude môcť prihlásiť, zmeniť svoje heslo ani dostávať upozornenia emailom.
+Ak je používateľ momentálne niekde prihlásený, bude okamžite odhlásený.
+''Pamätajte, že zakázanie používateľského účtu je nezvratné bez zásahu správcu.''",
+'disableaccount-mustconfirm' => 'Musíte potvrdiť, že chcete zakázať tento účet.',
+'disableaccount-nosuchuser'  => 'Používateľský účet „$1“ neexistuje.',
+'disableaccount-success'     => 'Používateľský účet „$1“ bol natrvalo zakázaný.',
+'disableaccount-logentry'    => 'natrvalo zakázaný používateľský účet [[$1]]',
 
 );

@@ -6,7 +6,7 @@
  * @ingroup Database
  */
 
-class PostgresField {
+class PostgresField implements Field {
 	private $name, $tablename, $type, $nullable, $max_length, $deferred, $deferrable, $conname;
 
 	static function fromText($db, $table, $field) {
@@ -69,7 +69,7 @@ SQL;
 		return $this->type;
 	}
 
-	function nullable() {
+	function isNullable() {
 		return $this->nullable;
 	}
 
@@ -209,7 +209,7 @@ class DatabasePostgres extends DatabaseBase {
 			&& preg_match( '/^\w+$/', $wgDBmwschema )
 			&& preg_match( '/^\w+$/', $wgDBts2schema )
 		) {
-			$safeschema = $this->quote_ident( $wgDBmwschema );
+			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 			$this->doQuery( "SET search_path = $safeschema, $wgDBts2schema, public" );
 		}
 
@@ -234,11 +234,11 @@ class DatabasePostgres extends DatabaseBase {
 		$PGMINVER = '8.1';
 		if ( $version < $PGMINVER ) {
 			print "<b>FAILED</b>. Required version is $PGMINVER. You have " . htmlspecialchars( $version ) . "</li>\n";
-			dieout( '' );
+			dieout( );
 		}
 		print 'version ' . htmlspecialchars( $this->numeric_version ) . " is OK.</li>\n";
 
-		$safeuser = $this->quote_ident( $wgDBuser );
+		$safeuser = $this->addIdentifierQuotes( $wgDBuser );
 		// Are we connecting as a superuser for the first time?
 		if ( $superuser ) {
 			// Are we really a superuser? Check out our rights
@@ -251,7 +251,7 @@ class DatabasePostgres extends DatabaseBase {
 			$rows = $this->numRows( $res = $this->doQuery( $SQL ) );
 			if ( !$rows ) {
 				print '<li>ERROR: Could not read permissions for user "' . htmlspecialchars( $superuser ) . "\"</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 			$perms = pg_fetch_result( $res, 0, 0 );
 
@@ -263,7 +263,7 @@ class DatabasePostgres extends DatabaseBase {
 				if ( $perms != 1 && $perms != 3 ) {
 					print '<li>ERROR: the user "' . htmlspecialchars( $superuser ) . '" cannot create other users. ';
 					print 'Please use a different Postgres user.</li>';
-					dieout( '' );
+					dieout( );
 				}
 				print '<li>Creating user <b>' . htmlspecialchars( $wgDBuser ) . '</b>...';
 				$safepass = $this->addQuotes( $wgDBpassword );
@@ -281,10 +281,10 @@ class DatabasePostgres extends DatabaseBase {
 					if ( $perms < 1 ) {
 						print '<li>ERROR: the user "' . htmlspecialchars( $superuser ) . '" cannot create databases. ';
 						print 'Please use a different Postgres user.</li>';
-						dieout( '' );
+						dieout( );
 					}
 					print '<li>Creating database <b>' . htmlspecialchars( $wgDBname ) . '</b>...';
-					$safename = $this->quote_ident( $wgDBname );
+					$safename = $this->addIdentifierQuotes( $wgDBname );
 					$SQL = "CREATE DATABASE $safename OWNER $safeuser ";
 					$this->doQuery( $SQL );
 					print "OK</li>\n";
@@ -309,7 +309,7 @@ class DatabasePostgres extends DatabaseBase {
 				@$this->mConn = pg_connect( $this->makeConnectionString( $connectVars ) );
 				if ( !$this->mConn ) {
 					print "<b>FAILED TO CONNECT!</b></li>";
-					dieout( '' );
+					dieout( );
 				}
 				print "OK</li>\n";
 			}
@@ -323,7 +323,7 @@ class DatabasePostgres extends DatabaseBase {
 						htmlspecialchars( $wgDBname ) . '".';
 					print 'Please see <a href="http://www.devx.com/opensource/Article/21674/0/page/2">this article</a>';
 					print " for instructions or ask on #postgresql on irc.freenode.net</li>\n";
-					dieout( '' );
+					dieout( );
 				}
 				print "OK</li>\n";
 				print '<li>Ensuring that user "' . htmlspecialchars( $wgDBuser ) .
@@ -337,13 +337,13 @@ class DatabasePostgres extends DatabaseBase {
 
 			// Setup the schema for this user if needed
 			$result = $this->schemaExists( $wgDBmwschema );
-			$safeschema = $this->quote_ident( $wgDBmwschema );
+			$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 			if ( !$result ) {
 				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
 				$result = $this->doQuery( "CREATE SCHEMA $safeschema AUTHORIZATION $safeuser" );
 				if ( !$result ) {
 					print "<b>FAILED</b>.</li>\n";
-					dieout( '' );
+					dieout( );
 				}
 				print "OK</li>\n";
 			} else {
@@ -361,7 +361,7 @@ class DatabasePostgres extends DatabaseBase {
 				$res = $this->doQuery( $SQL );
 				if ( !$res ) {
 					print "<b>FAILED</b>. Could not set rights for the user.</li>\n";
-					dieout( '' );
+					dieout( );
 				}
 				$this->doQuery( "SET search_path = $safeschema" );
 				$rows = $this->numRows( $res );
@@ -388,7 +388,7 @@ class DatabasePostgres extends DatabaseBase {
 					print '<b>FAILED</b>. Make sure tsearch2 is installed. See <a href="';
 					print 'http://www.devx.com/opensource/Article/21674/0/page/2">this article</a>';
 					print " for instructions.</li>\n";
-					dieout( '' );
+					dieout( );
 				}
 				print "OK</li>\n";
 
@@ -398,7 +398,7 @@ class DatabasePostgres extends DatabaseBase {
 				// Let's check all four, just to be safe
 				error_reporting( 0 );
 				$ts2tables = array( 'cfg', 'cfgmap', 'dict', 'parser' );
-				$safetsschema = $this->quote_ident( $wgDBts2schema );
+				$safetsschema = $this->addIdentifierQuotes( $wgDBts2schema );
 				foreach ( $ts2tables as $tname ) {
 					$SQL = "SELECT count(*) FROM $safetsschema.pg_ts_$tname";
 					$res = $this->doQuery( $SQL );
@@ -406,7 +406,7 @@ class DatabasePostgres extends DatabaseBase {
 						print "<b>FAILED</b> to access " . htmlspecialchars( "pg_ts_$tname" ) .
 							". Make sure that the user \"". htmlspecialchars( $wgDBuser ) .
 							"\" has SELECT access to all four tsearch2 tables</li>\n";
-						dieout( '' );
+						dieout( );
 					}
 				}
 				$SQL = "SELECT ts_name FROM $safetsschema.pg_ts_cfg WHERE locale = " . $this->addQuotes( $ctype ) ;
@@ -443,7 +443,7 @@ class DatabasePostgres extends DatabaseBase {
 						print '<b>FAILED</b>. ';
 						print 'Please make sure that the locale in pg_ts_cfg for "default" is set to "' .
 							htmlspecialchars( $ctype ) . "\"</li>\n";
-						dieout( '' );
+						dieout( );
 					}
 					print 'OK</li>';
 				}
@@ -453,7 +453,7 @@ class DatabasePostgres extends DatabaseBase {
 				$res = $this->doQuery( $SQL );
 				if ( !$res ) {
 					print '<b>FAILED</b>. Specifically, "' . htmlspecialchars( $SQL ) . '" did not work.</li>';
-					dieout( '' );
+					dieout( );
 				}
 				print 'OK</li>';
 			}
@@ -466,7 +466,7 @@ class DatabasePostgres extends DatabaseBase {
 			if ( !$result ) {
 				print '<li>Creating schema <b>' . htmlspecialchars( $wgDBmwschema ) . '</b> ...';
 				error_reporting( 0 );
-				$safeschema = $this->quote_ident( $wgDBmwschema );
+				$safeschema = $this->addIdentifierQuotes( $wgDBmwschema );
 				$result = $this->doQuery( "CREATE SCHEMA $safeschema" );
 				error_reporting( E_ALL );
 				if ( !$result ) {
@@ -475,7 +475,7 @@ class DatabasePostgres extends DatabaseBase {
 						'You can try making them the owner of the database, or try creating the schema with a '.
 						'different user, and then grant access to the "' .
 						htmlspecialchars( $wgDBuser ) . "\" user.</li>\n";
-					dieout( '' );
+					dieout( );
 				}
 				print "OK</li>\n";
 			} elseif ( $result != $wgDBuser ) {
@@ -492,7 +492,7 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<b>FAILED</b>.</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 			print "OK</li>\n";
 			// Set for the rest of this session
@@ -500,7 +500,7 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<li>Failed to set timezone</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 
 			print '<li>Setting the datestyle to ISO, YMD for user "' . htmlspecialchars( $wgDBuser ) . '" ...';
@@ -508,7 +508,7 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<b>FAILED</b>.</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 			print "OK</li>\n";
 			// Set for the rest of this session
@@ -516,14 +516,14 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<li>Failed to set datestyle</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 
 			// Fix up the search paths if needed
 			print '<li>Setting the search path for user "' . htmlspecialchars( $wgDBuser ) . '" ...';
-			$path = $this->quote_ident( $wgDBmwschema );
+			$path = $this->addIdentifierQuotes( $wgDBmwschema );
 			if ( $wgDBts2schema !== $wgDBmwschema ) {
-				$path .= ', '. $this->quote_ident( $wgDBts2schema );
+				$path .= ', '. $this->addIdentifierQuotes( $wgDBts2schema );
 			}
 			if ( $wgDBmwschema !== 'public' && $wgDBts2schema !== 'public' ) {
 				$path .= ', public';
@@ -532,7 +532,7 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<b>FAILED</b>.</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 			print "OK</li>\n";
 			// Set for the rest of this session
@@ -540,7 +540,7 @@ class DatabasePostgres extends DatabaseBase {
 			$result = pg_query( $this->mConn, $SQL );
 			if ( !$result ) {
 				print "<li>Failed to set search_path</li>\n";
-				dieout( '' );
+				dieout( );
 			}
 			define( 'POSTGRES_SEARCHPATH', $path );
 		}
@@ -565,12 +565,12 @@ class DatabasePostgres extends DatabaseBase {
 				if ( !$result ) {
 					print '<b>FAILED</b>. You need to install the language PL/pgSQL in the database <tt>' .
 						htmlspecialchars( $wgDBname ) . '</tt></li>';
-					dieout( '' );
+					dieout( );
 				}
 			} else {
 				print '<b>FAILED</b>. You need to install the language PL/pgSQL in the database <tt>' .
 					htmlspecialchars( $wgDBname ) . '</tt></li>';
-				dieout( '' );
+				dieout( );
 			}
 		}
 		print "OK</li>\n";
@@ -598,7 +598,7 @@ class DatabasePostgres extends DatabaseBase {
 		return $this->mLastResult;
 	}
 
-	function queryIgnore( $sql, $fname = '' ) {
+	function queryIgnore( $sql, $fname = 'DatabasePostgres::queryIgnore' ) {
 		return $this->query( $sql, $fname, true );
 	}
 
@@ -973,7 +973,7 @@ class DatabasePostgres extends DatabaseBase {
 	 * Return the next in a sequence, save the value for retrieval via insertId()
 	 */
 	function nextSequenceValue( $seqName ) {
-		$safeseq = preg_replace( "/'/", "''", $seqName );
+		$safeseq = str_replace( "'", "''", $seqName );
 		$res = $this->query( "SELECT nextval('$safeseq')" );
 		$row = $this->fetchRow( $res );
 		$this->mInsertId = $row[0];
@@ -984,7 +984,7 @@ class DatabasePostgres extends DatabaseBase {
 	 * Return the current value of a sequence. Assumes it has been nextval'ed in this session.
 	 */
 	function currentSequenceValue( $seqName ) {
-		$safeseq = preg_replace( "/'/", "''", $seqName );
+		$safeseq = str_replace( "'", "''", $seqName );
 		$res = $this->query( "SELECT currval('$safeseq')" );
 		$row = $this->fetchRow( $res );
 		$currval = $row[0];
@@ -1242,7 +1242,7 @@ SQL;
 	 * Query whether a given schema exists. Returns the name of the owner
 	 */
 	function schemaExists( $schema ) {
-		$eschema = preg_replace( "/'/", "''", $schema );
+		$eschema = str_replace( "'", "''", $schema );
 		$SQL = "SELECT rolname FROM pg_catalog.pg_namespace n, pg_catalog.pg_roles r "
 				."WHERE n.nspowner=r.oid AND n.nspname = '$eschema'";
 		$res = $this->query( $SQL );
@@ -1298,10 +1298,6 @@ SQL;
 			return "'" . $s->fetch( $s ) . "'";
 		}
 		return "'" . pg_escape_string( $this->mConn, $s ) . "'";
-	}
-
-	function quote_ident( $s ) {
-		return '"' . preg_replace( '/"/', '""', $s ) . '"';
 	}
 
 	/**

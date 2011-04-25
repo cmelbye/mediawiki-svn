@@ -440,7 +440,6 @@ abstract class UploadBase {
 		$localFile = $this->getLocalFile();
 		$filename = $localFile->getName();
 		$n = strrpos( $filename, '.' );
-		$partname = $n ? substr( $filename, 0, $n ) : $filename;
 
 		/**
 		 * Check whether the resulting filename is different from the desired one,
@@ -569,9 +568,10 @@ abstract class UploadBase {
 		if ( $this->mFinalExtension == '' ) {
 			$this->mTitleError = self::FILETYPE_MISSING;
 			return $this->mTitle = null;
-		} elseif ( $this->checkFileExtensionList( $ext, $wgFileBlacklist ) ||
-				( $wgCheckFileExtensions && $wgStrictFileExtensions &&
-					!$this->checkFileExtension( $this->mFinalExtension, $wgFileExtensions ) ) ) {
+		} elseif ( ( $this->checkFileExtensionList( $ext, $wgFileBlacklist )
+				&& !$this->checkFileExtensionList( $ext, $wgFileExtensions ) ) ||
+					( $wgCheckFileExtensions && $wgStrictFileExtensions &&
+						!$this->checkFileExtension( $this->mFinalExtension, $wgFileExtensions ) ) ) {
 			$this->mTitleError = self::FILETYPE_BADTYPE;
 			return $this->mTitle = null;
 		}

@@ -1272,8 +1272,8 @@ class Preferences {
 					# Mail a temporary password to the dirty address.
 					# User can come back through the confirmation URL to re-enable email.
 					$result = $wgUser->sendConfirmationMail( $oldaddr != '' );
-					if ( WikiError::isError( $result ) ) {
-						return wfMsg( 'mailerror', htmlspecialchars( $result->getMessage() ) );
+					if ( !$result->isGood() ) {
+						return htmlspecialchars( $result->getWikiText( 'mailerror' ) );
 					} elseif ( $entryPoint == 'ui' ) {
 						$result = 'eauth';
 					}
@@ -1328,7 +1328,7 @@ class Preferences {
 			$wgOut->redirect( $url );
 		}
 
-		return true;
+		return Status::newGood();
 	}
 
 	public static function loadOldSearchNs( $user ) {

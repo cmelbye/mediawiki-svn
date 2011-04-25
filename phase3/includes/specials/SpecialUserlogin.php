@@ -170,8 +170,8 @@ class LoginForm {
 		$wgOut->setRobotPolicy( 'noindex,nofollow' );
 		$wgOut->setArticleRelated( false );
 
-		if( WikiError::isError( $result ) ) {
-			$this->mainLoginForm( wfMsg( 'mailerror', $result->getMessage() ) );
+		if( !$result->isGood() ) {
+			$this->mainLoginForm( wfMsg( 'mailerror', $result->getWikiText() ) );
 		} else {
 			$wgOut->addWikiMsg( 'accmailtext', $u->getName(), $u->getEmail() );
 			$wgOut->returnToMain( false );
@@ -199,11 +199,11 @@ class LoginForm {
 
 		# Send out an email authentication message if needed
 		if( $wgEmailAuthentication && User::isValidEmailAddr( $u->getEmail() ) ) {
-			$error = $u->sendConfirmationMail();
-			if( WikiError::isError( $error ) ) {
-				$wgOut->addWikiMsg( 'confirmemail_sendfailed', $error->getMessage() );
-			} else {
+			$status = $u->sendConfirmationMail();
+			if( $status->isGood() ) {
 				$wgOut->addWikiMsg( 'confirmemail_oncreate' );
+			} else {
+				$wgOut->addWikiText( $status->getWikiText( 'confirmemail_sendfailed' ) );
 			}
 		}
 
@@ -290,7 +290,7 @@ class LoginForm {
 
 		# Check permissions
 		if ( !$wgUser->isAllowed( 'createaccount' ) ) {
-			$this->userNotPrivilegedMessage( 'createaccount' );
+			$wgOut->permissionRequired( 'createaccount' );
 			return false;
 		} elseif ( $wgUser->isBlockedFromCreateAccount() ) {
 			$this->userBlockedMessage();
@@ -787,11 +787,11 @@ class LoginForm {
 		}
 
 		$result = $this->mailPasswordInternal( $u, true, 'passwordremindertitle', 'passwordremindertext' );
-		if( WikiError::isError( $result ) ) {
-			$this->mainLoginForm( wfMsg( 'mailerror', $result->getMessage() ) );
-		} else {
+		if( $result->isGood() ) {
 			$this->mainLoginForm( wfMsg( 'passwordsent', $u->getName() ), 'success' );
 			self::clearLoginToken();
+		} else {
+			$this->mainLoginForm( $result->getWikiText( 'mailerror' ) );
 		}
 	}
 
@@ -801,18 +801,18 @@ class LoginForm {
 	 * @param $throttle Boolean
 	 * @param $emailTitle String: message name of email title
 	 * @param $emailText String: message name of email text
-	 * @return Mixed: true on success, WikiError on failure
+	 * @return Status object
 	 * @private
 	 */
 	function mailPasswordInternal( $u, $throttle = true, $emailTitle = 'passwordremindertitle', $emailText = 'passwordremindertext' ) {
 		global $wgServer, $wgScript, $wgUser, $wgNewPasswordExpiry;
 
 		if ( $u->getEmail() == '' ) {
-			return new WikiError( wfMsg( 'noemail', $u->getName() ) );
+			return Status::newFatal( 'noemail', $u->getName() );
 		}
 		$ip = wfGetIP();
 		if( !$ip ) {
-			return new WikiError( wfMsg( 'badipaddress' ) );
+			return Status::newFatal( 'badipaddress' );
 		}
 
 		wfRunHooks( 'User::mailPasswordInternal', array( &$wgUser, &$ip, &$u ) );
@@ -894,22 +894,6 @@ class LoginForm {
 		} else {
 			$wgOut->returnToMain( null );
 		}
-	}
-
-	/** */
-	function userNotPrivilegedMessage( $errors ) {
-		global $wgOut;
-
-		$wgOut->setPageTitle( wfMsg( 'permissionserrors' ) );
-		$wgOut->setRobotPolicy( 'noindex,nofollow' );
-		$wgOut->setArticleRelated( false );
-
-		$wgOut->addWikiText( $wgOut->formatPermissionsErrorMessage( $errors, 'createaccount' ) );
-		// Stuff that might want to be added at the end. For example, instruc-
-		// tions if blocked.
-		$wgOut->addWikiMsg( 'cantcreateaccount-nonblock-text' );
-
-		$wgOut->returnToMain( false );
 	}
 
 	/** */

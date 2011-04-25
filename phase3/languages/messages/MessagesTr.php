@@ -25,6 +25,7 @@
  * @author Runningfridgesrule
  * @author Srhat
  * @author Suelnur
+ * @author Szoszv
  * @author Urhixidur
  * @author Uğur Başak
  * @author Vito Genovese
@@ -550,7 +551,7 @@ $1',
 
 'badaccess'        => 'İzin hatası',
 'badaccess-group0' => 'Bu işlemi yapma yetkiniz yok.',
-'badaccess-groups' => 'Yapmak istediğiniz işlem, sadece {{PLURAL:$2|grubundaki|grubundaki}}: $1  kullanıcılardan biri tarafından yapılabilir.',
+'badaccess-groups' => 'Yapmak istediğiniz işlem, sadece {{PLURAL:$2|şu gruptaki|şu gruplardaki}} kullanıcılar tarafından yapılabilir: $1',
 
 'versionrequired'     => "MediaWiki'nin $1 sürümü gerekiyor",
 'versionrequiredtext' => "Bu sayfayı kullanmak için MediaWiki'nin $1 versiyonu gerekmektedir. [[Special:Version|Versiyon sayfasına]] bakınız.",
@@ -767,6 +768,9 @@ Lütfen tekrar denemeden önce bekleyin.',
 'loginlanguagelabel'         => 'Dil: $1',
 'suspicious-userlogout'      => 'Çıkış isteğiniz reddedildi çünkü bozuk bir tarayıcı ya da önbellekli vekil tarafından gönerilmiş gibi görünüyor.',
 
+# E-mail sending
+'php-mail-error-unknown' => "PHP's mail() fonksiyonunda bilinmeyen hata",
+
 # JavaScript password checks
 'password-strength'            => 'Tahmini şifre güçlüğü: $1',
 'password-strength-bad'        => 'KÖTÜ',
@@ -934,7 +938,6 @@ Ayrıca, buraya katkıda bulunarak, bu katkının kendiniz tarafından yazıldı
 '''<center>TELİF HAKKI İLE KORUNAN HİÇBİR ÇALIŞMAYI BURAYA EKLEMEYİNİZ!</center>'''",
 'copyrightwarning2'                => 'Lütfen, {{SITENAME}} sitesinea bulunacağınız tüm katkıların diğer üyeler tarafından düzenlenebileceğini, değiştirilebileceğini ya da silinebileceğini hatırlayın. Yazılarınızın merhametsizce değiştirilebilmesine rıza göstermiyorsanız buraya katkıda bulunmayın. <br />
 Ayrıca bu ekleyeceğiniz yazıyı sizin yazdığınızı ya da serbest kopyalama izni veren bir kaynaktan kopyaladığınızı bize taahhüt etmektesiniz (ayrıntılar için referans: $1).',
-'longpagewarning'                  => "'''UYARI: Bu sayfa $1 kilobayt büyüklüğündedir; bazı tarayıcılar değişiklik yaparken 32 kb ve üstü büyüklüklerde sorunlar yaşayabilir. Sayfayı bölümlere ayırmaya çalışın.'''",
 'longpageerror'                    => "'''HATA: Girdiğiniz metnin uzunluğu $1 kilobyte, ve maksimum uzunluktan $2 kilobyte daha fazladır.
 Kaydedilmesi mümkün değildir.'''",
 'readonlywarning'                  => "'''DİKKAT: Bakım nedeni ile veritabanı şu anda kilitlidir. Bu sebeple değişiklikleriniz şu anda kaydedilememektedir. Yazdıklarınızı başka bir editöre alıp saklayabilir ve daha sonra tekrar buraya getirip kaydedebilirsiniz'''
@@ -1501,6 +1504,7 @@ Aynı zamanda diğer kullanıcıların kullanıcı ve kullanıcı mesaj sayfalar
 'right-override-export-depth' => "Sayfaları, derinlik 5'e kadar bağlantılı sayfalarla beraber, dışa aktar",
 'right-sendemail'             => 'Diğer kullanıcılara e-posta gönder',
 'right-revisionmove'          => 'Revizyonları taşı',
+'right-disableaccount'        => 'Hesapları devre dışı bırak',
 
 # User rights log
 'rightslog'      => 'Kullanıcı hakları kayıtları',
@@ -2389,6 +2393,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Yeni hesaplar için kullanıcı katkıları',
 'sp-contributions-blocklog'            => 'Engel kaydı',
 'sp-contributions-deleted'             => 'silinen kullanıcı katkıları',
+'sp-contributions-uploads'             => 'yüklenenler',
 'sp-contributions-logs'                => 'günlükler',
 'sp-contributions-talk'                => 'tartışma',
 'sp-contributions-userrights'          => 'kullanıcı hakları yönetimi',
@@ -2457,7 +2462,6 @@ Son engelleme günlüğü girdisi referans amacıyla aşağıda verilmiştir:',
 'ipb-edit-dropdown'               => 'Engelleme nedenleri düzenle',
 'ipb-unblock-addr'                => '$1 için engellemeyi kaldır',
 'ipb-unblock'                     => 'Engellemeyi kaldır',
-'ipb-blocklist-addr'              => '$1 için mevcut engellemeler',
 'ipb-blocklist'                   => 'Mevcut olan engellemeleri göster',
 'ipb-blocklist-contribs'          => '$1 için katkılar',
 'unblockip'                       => 'Kullanıcının engellemesini kaldır',
@@ -2563,6 +2567,17 @@ Eğer yeni isimde bir madde zaten varsa isim değişikliği '''yapılmayacaktır
 
 '''UYARI!'''
 Bu değişim popüler bir sayfa için beklenmeyen sonuçlar doğurabilir; lütfen değişikliği yapmadan önce olabilecekleri göz önünde bulundurun.",
+'movepagetext-noredirectfixer' => "Aşağıdaki formu doldurmak bir sayfayı yeniden adlandırır, tüm geçmişini yeni ada taşır.
+Eski başlık yeni başlığa bir yönlendirme sayfası olur.
+[[Special:DoubleRedirects|Çift]] ya da [[Special:BrokenRedirects|nozuk yönlendirmeler]] sayfalarını kontrol edin.
+Bağlantıların gitmeleri gereken yerlere gittiklerinden emin olmak sizin sorumluluğunuzdadır.
+
+Yeni başlıkta mevcut bir sayfa varsa, boş yada bir yönlendirme olmadıkça ve değişiklik geçmişi bulunmadıkça, sayfa '''taşınmayacaktır'''.
+Bu şu anlama gelir, bir sayfayı yanlışlık yaparsanız sayfayı eski adıyla yeniden adlandırabilirsiniz, bu mevcut sayfanın üzerine yazmaz.
+
+'''Uyarı!'''
+Bu popüler bir sayfa için etkili ve beklenmedik bir değişiklik olabilir;
+Lütfen onaylamadan önce bunun sonuçlarını anladığınızdan emin olun.",
 'movepagetalktext'             => "İlişikteki tartışma sayfası da (eğer varsa) otomatik olarak yeni isme taşınacaktır. Ama şu durumlarda '''taşınmaz''':
 
 *Alanlar arası bir taşıma ise, (örnek: \"Project:\" --> \"Help:\")
@@ -3536,5 +3551,18 @@ Dosya adını "{{ns:file}}:" öneki olmadan gir.',
 # SQLite database support
 'sqlite-has-fts' => '$1 tam-metin arama desteği ile',
 'sqlite-no-fts'  => '$1 tam-metin arama desteği olmaksızın',
+
+# Special:DisableAccount
+'disableaccount'             => 'Bir kullanıcı hesabını devre dışı bırak',
+'disableaccount-user'        => 'Kullanıcı adı:',
+'disableaccount-reason'      => 'Neden:',
+'disableaccount-confirm'     => "Bu kullanıcı hesabını devre dışı bırak.
+Kullanıcı giriş yapamayacak, parolasını sıfırlayamayacak, ya da e-posta bildirimlerini alamayacak.
+Eğer kullanıcı bir yerde giriş yapmış ise, hemen çıkış yapılacak.
+''Bir hesabın devre dışı bırakılmasının sistem yöneticisinin müdahalesi olmadan geri alınamayacağına dikkat edin.''",
+'disableaccount-mustconfirm' => 'Bu hesabı devre dışı bırakmak istediğinizi onaylamalısınız.',
+'disableaccount-nosuchuser'  => '"$1" kullanıcı hesabı mevcut değil.',
+'disableaccount-success'     => '"$1" kullanıcı hesabı kalıcı olarak devre dışı bırakıldı.',
+'disableaccount-logentry'    => ', [[$1]] kullanıcı hesabını kalıcı olarak devre dışı bıraktı',
 
 );

@@ -685,7 +685,7 @@ $messages = array(
 'group-suppress-member'      => 'ܚܝܘܪܐ',
 
 'grouppage-user'          => '{{ns:project}}:ܡܦܠܚܢ̈ܐ',
-'grouppage-autoconfirmed' => '{{ns:project}}:ܡܬܚܫܚܢ̈ܐ ܚܬܝܬ̈ܐ ܝܬܐܝܬ',
+'grouppage-autoconfirmed' => '{{ns:project}}:ܡܦܠܚܢ̈ܐ ܚܬܝܬ̈ܐ ܝܬܐܝܬ',
 'grouppage-bot'           => '{{ns:project}}:ܒܘܬ̈ܐ',
 'grouppage-sysop'         => '{{ns:project}}:ܡܕܒܪ̈ܢܐ',
 'grouppage-bureaucrat'    => '{{ns:project}}:ܒܝܪܘܩܪ̈ܛܐ',
@@ -884,7 +884,7 @@ $1',
 
 # Statistics
 'statistics-pages'        => 'ܦܐܬܬ̈ܐ',
-'statistics-users-active' => 'ܡܬܚܫܚܢ̈ܐ ܟܫܝܪ̈ܐ',
+'statistics-users-active' => 'ܡܦܠܚܢ̈ܐ ܟܫܝܪ̈ܐ',
 
 'disambiguations'     => 'ܦܐܬܬ̈ܐ ܕܠܐ ܕܠܘܚܝܐ',
 'disambiguationspage' => 'Template:ܠܐ ܕܠܘܚܝܐ',
@@ -1103,7 +1103,7 @@ $1',
 'prot_1movedto2'              => '[[$1]] ܐܬܫܢܝܬ ܠ [[$2]]',
 'protect-legend'              => 'ܚܬܬ ܢܘܛܪܐ',
 'protectcomment'              => 'ܥܠܬܐ:',
-'protect-default'             => 'ܦܣܣܐ ܠܟܠ ܡܬܚܫܚܢ̈ܐ',
+'protect-default'             => 'ܦܣܣܐ ܠܟܠ ܡܦܠܚܢ̈ܐ',
 'protect-fallback'            => 'ܒܥܝ "$1" ܦܣܣܐ',
 'protect-level-autoconfirmed' => 'ܚܪܘܡ ܡܦܠܚܢ̈ܐ ܚܕ̈ܬܐ ܘܠܐ ܥܠܝܠ̈ܐ',
 'protect-level-sysop'         => 'ܡܕܒܪ̈ܢܐ ܒܠܚܘܕ',
@@ -1297,6 +1297,8 @@ Do you want to change the settings?',
 'import-upload-filename'  => 'ܫܡܐ ܕܠܦܦܐ:',
 'import-revision-count'   => '$1 {{PLURAL:$1|ܬܢܝܬܐ |ܬܢܝܬ̈ܐ}}',
 'importnopages'           => 'ܠܝܬ ܦܐܬܬ̈ܐ ܠܡܥܠܢܘܬܐ.',
+'importnotext'            => 'ܣܦܝܩܐ ܐܘ ܠܝܬ ܒܗ ܟܬܒܬܐ',
+'importsuccess'           => 'ܡܥܠܢܘܬܐ ܓܡܪܬ',
 'import-noarticle'        => 'ܠܝܬ ܦܐܬܬ̈ܐ ܠܡܥܠܢܘܬܐ!',
 'import-upload'           => 'ܐܣܩ ܓܠܝܬ̈ܐ  ܕ XML',
 
@@ -1459,9 +1461,11 @@ $1',
 'autosumm-new'     => "ܒܪܐ ܦܐܬܐ ܥܡ '$1'",
 
 # Watchlist editor
-'watchlistedit-normal-title' => 'ܫܚܠܦ ܪ̈ܗܝܬܐ',
-'watchlistedit-raw-titles'   => 'ܟܘܢܝ̈ܐ:',
-'watchlistedit-raw-submit'   => 'ܚܕܬ ܪ̈ܗܝܬܐ',
+'watchlistedit-normal-title'  => 'ܫܚܠܦ ܪ̈ܗܝܬܐ',
+'watchlistedit-normal-legend' => 'ܠܚܝ ܟܘܢܝ̈ܐ ܡܢ ܪ̈ܗܝܬܟ',
+'watchlistedit-normal-submit' => 'ܠܚܝ ܟܘܢܝܐ',
+'watchlistedit-raw-titles'    => 'ܟܘܢܝ̈ܐ:',
+'watchlistedit-raw-submit'    => 'ܚܕܬ ܪ̈ܗܝܬܐ',
 
 # Watchlist editing tools
 'watchlisttools-view' => 'ܚܘܝ ܫܘܚܠܦ̈ܐ ܕ̈ܡܝܐ',

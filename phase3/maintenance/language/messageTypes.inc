@@ -91,6 +91,8 @@ $wgIgnoredMessages = array(
 	'loginstart',
 	'loginend',
 	'loginlanguagelinks',
+	'pear-mail-error',
+	'php-mail-error',
 	'markaspatrolledlink',
 	'newarticletextanon',
 	'newsectionheaderdefaultlevel',
@@ -101,7 +103,6 @@ $wgIgnoredMessages = array(
 	'pubmedurl',
 	'randompage-url',
 	'recentchanges-url',
-	'cantcreateaccount-nonblock-text',
 	'revision-info-current',
 	'revision-nav',
 	'rfcurl',
@@ -168,6 +169,7 @@ $wgIgnoredMessages = array(
 	'editpage-tos-summary',
 	'addsection-preload',
 	'addsection-editintro',
+	'longpage-hint',
 );
 
 /** Optional messages, which may be translated only if changed in the target language. */

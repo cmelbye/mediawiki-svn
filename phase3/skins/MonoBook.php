@@ -51,7 +51,7 @@ class SkinMonoBook extends SkinTemplate {
  * @todo document
  * @ingroup Skins
  */
-class MonoBookTemplate extends QuickTemplate {
+class MonoBookTemplate extends BaseTemplate {
 	var $skin;
 	/**
 	 * Template filter callback for MonoBook skin.
@@ -69,6 +69,27 @@ class MonoBookTemplate extends QuickTemplate {
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
+
+		// Generate additional footer links
+		$footerlinks = $this->data["footerlinks"];
+		// fold footerlinks into a single array using a bit of trickery
+		$footerlinks = call_user_func_array('array_merge', array_values($footerlinks));
+		// Generate additional footer icons
+		$footericons = $this->data["footericons"];
+		// Unset any icons which don't have an image
+		foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
+			foreach ( $footerIconsBlock as $footerIconKey => $footerIcon ) {
+				if ( !is_string($footerIcon) && !isset($footerIcon["src"]) ) {
+					unset($footerIconsBlock[$footerIconKey]);
+				}
+			}
+		}
+		// Redo removal of any empty blocks
+		foreach ( $footericons as $footerIconsKey => &$footerIconsBlock ) {
+			if ( count($footerIconsBlock) <= 0 ) {
+				unset($footericons[$footerIconsKey]);
+			}
+		}
 
 		$this->html( 'headelement' );
 ?><div id="globalWrapper">
@@ -166,19 +187,17 @@ class MonoBookTemplate extends QuickTemplate {
 </div><!-- end of the left (by default at least) column -->
 <div class="visualClear"></div>
 <div id="footer"<?php $this->html('userlangattributes') ?>>
-<?php
-if($this->data['poweredbyico']) { ?>
-	<div id="f-poweredbyico"><?php $this->html('poweredbyico') ?></div>
+<?php foreach ( $footericons as $blockName => $footerIcons ) { ?>
+	<div id="f-<?php echo htmlspecialchars($blockName); ?>ico">
+<?php foreach ( $footerIcons as $icon ) { ?>
+		<?php echo $this->skin->makeFooterIcon( $icon ); ?>
+
 <?php }
-if($this->data['copyrightico']) { ?>
-	<div id="f-copyrightico"><?php $this->html('copyrightico') ?></div>
+?>
+	</div>
 <?php }
 
 		// Generate additional footer links
-		$footerlinks = array(
-			'lastmod', 'viewcount', 'numberofwatchingusers', 'credits', 'copyright',
-			'privacy', 'about', 'disclaimer', 'tagline',
-		);
 		$validFooterLinks = array();
 		foreach( $footerlinks as $aLink ) {
 			if( isset( $this->data[$aLink] ) && $this->data[$aLink] ) {
@@ -250,49 +269,11 @@ if($this->data['copyrightico']) { ?>
 		<div class="pBody">
 			<ul>
 <?php
-		if($this->data['notspecialpage']) { ?>
-				<li id="t-whatlinkshere"><a href="<?php
-				echo htmlspecialchars($this->data['nav_urls']['whatlinkshere']['href'])
-				?>"<?php echo $this->skin->tooltipAndAccesskey('t-whatlinkshere') ?>><?php $this->msg('whatlinkshere') ?></a></li>
+		foreach ( $this->getToolbox() as $key => $tbitem ) { ?>
+				<?php echo $this->makeListItem($key, $tbitem); ?>
+
 <?php
-			if( $this->data['nav_urls']['recentchangeslinked'] ) { ?>
-				<li id="t-recentchangeslinked"><a href="<?php
-				echo htmlspecialchars($this->data['nav_urls']['recentchangeslinked']['href'])
-				?>"<?php echo $this->skin->tooltipAndAccesskey('t-recentchangeslinked') ?>><?php $this->msg('recentchangeslinked-toolbox') ?></a></li>
-<?php 		}
 		}
-		if( isset( $this->data['nav_urls']['trackbacklink'] ) && $this->data['nav_urls']['trackbacklink'] ) { ?>
-			<li id="t-trackbacklink"><a href="<?php
-				echo htmlspecialchars($this->data['nav_urls']['trackbacklink']['href'])
-				?>"<?php echo $this->skin->tooltipAndAccesskey('t-trackbacklink') ?>><?php $this->msg('trackbacklink') ?></a></li>
-<?php 	}
-		if($this->data['feeds']) { ?>
-			<li id="feedlinks"><?php foreach($this->data['feeds'] as $key => $feed) {
-					?><a id="<?php echo Sanitizer::escapeId( "feed-$key" ) ?>" href="<?php
-					echo htmlspecialchars($feed['href']) ?>" rel="alternate" type="application/<?php echo $key ?>+xml" class="feedlink"<?php echo $this->skin->tooltipAndAccesskey('feed-'.$key) ?>><?php echo htmlspecialchars($feed['text'])?></a>&#160;
-					<?php } ?></li><?php
-		}
-
-		foreach( array('contributions', 'log', 'blockip', 'emailuser', 'upload', 'specialpages') as $special ) {
-
-			if($this->data['nav_urls'][$special]) {
-				?><li id="t-<?php echo $special ?>"><a href="<?php echo htmlspecialchars($this->data['nav_urls'][$special]['href'])
-				?>"<?php echo $this->skin->tooltipAndAccesskey('t-'.$special) ?>><?php $this->msg($special) ?></a></li>
-<?php		}
-		}
-
-		if(!empty($this->data['nav_urls']['print']['href'])) { ?>
-				<li id="t-print"><a href="<?php echo htmlspecialchars($this->data['nav_urls']['print']['href'])
-				?>" rel="alternate"<?php echo $this->skin->tooltipAndAccesskey('t-print') ?>><?php $this->msg('printableversion') ?></a></li><?php
-		}
-
-		if(!empty($this->data['nav_urls']['permalink']['href'])) { ?>
-				<li id="t-permalink"><a href="<?php echo htmlspecialchars($this->data['nav_urls']['permalink']['href'])
-				?>"<?php echo $this->skin->tooltipAndAccesskey('t-permalink') ?>><?php $this->msg('permalink') ?></a></li><?php
-		} elseif ($this->data['nav_urls']['permalink']['href'] === '') { ?>
-				<li id="t-ispermalink"<?php echo $this->skin->tooltip('t-ispermalink') ?>><?php $this->msg('permalink') ?></li><?php
-		}
-
 		wfRunHooks( 'MonoBookTemplateToolboxEnd', array( &$this ) );
 		wfRunHooks( 'SkinTemplateToolboxEnd', array( &$this ) );
 ?>
@@ -310,10 +291,9 @@ if($this->data['copyrightico']) { ?>
 		<h5<?php $this->html('userlangattributes') ?>><?php $this->msg('otherlanguages') ?></h5>
 		<div class="pBody">
 			<ul>
-<?php		foreach($this->data['language_urls'] as $langlink) { ?>
-				<li class="<?php echo htmlspecialchars($langlink['class'])?>"><?php
-				?><a href="<?php echo htmlspecialchars($langlink['href']) ?>" title="<?php
-				echo htmlspecialchars($langlink['title']) ?>"><?php echo $langlink['text'] ?></a></li>
+<?php		foreach($this->data['language_urls'] as $key => $langlink) { ?>
+				<?php echo $this->makeListItem($key, $langlink); ?>
+
 <?php		} ?>
 			</ul>
 		</div>
@@ -331,9 +311,8 @@ if($this->data['copyrightico']) { ?>
 <?php   if ( is_array( $cont ) ) { ?>
 			<ul>
 <?php 			foreach($cont as $key => $val) { ?>
-				<li id="<?php echo Sanitizer::escapeId($val['id']) ?>"<?php
-					if ( $val['active'] ) { ?> class="active" <?php }
-				?>><a href="<?php echo htmlspecialchars($val['href']) ?>"<?php echo $this->skin->tooltipAndAccesskey($val['id']) ?>><?php echo htmlspecialchars($val['text']) ?></a></li>
+				<?php echo $this->makeListItem($key, $val); ?>
+
 <?php			} ?>
 			</ul>
 <?php   } else {

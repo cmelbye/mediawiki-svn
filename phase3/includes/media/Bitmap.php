@@ -238,8 +238,10 @@ class BitmapHandler extends ImageHandler {
 			// or ImageMagick may decide your ratio is wrong and slice off
 			// a pixel.
 			" -thumbnail " . wfEscapeShellArg( "{$params['physicalDimensions']}!" ) .
-			// Add the source url as a comment to the thumb.
-			" -set comment " . wfEscapeShellArg( $this->escapeMagickProperty( $params['comment'] ) ) .
+			// Add the source url as a comment to the thumb, but don't add the flag if there's no comment
+			( $params['comment'] !== ''
+				? " -set comment " . wfEscapeShellArg( $this->escapeMagickProperty( $params['comment'] ) )
+				: '' ) .
 			" -depth 8 $sharpen" .
 			" {$animation_post} " .
 			wfEscapeShellArg( $this->escapeMagickOutput( $params['dstPath'] ) ) . " 2>&1";
@@ -305,7 +307,7 @@ class BitmapHandler extends ImageHandler {
 	/**
 	 * Get a MediaTransformError with error 'thumbnail_error'
 	 * 
-	 * @param $params array Paramter array as passed to the transform* functions
+	 * @param $params array Parameter array as passed to the transform* functions
 	 * @param $errMsg string Error message
 	 * @return MediaTransformError
 	 */

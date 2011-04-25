@@ -579,7 +579,6 @@ By wćepać swoje pomjyńańo muśiš pomjyńać tekst w polu na wjyrchu.
 'copyrightwarning2'                => "Pamjyntej uo tym, aže couki wkuod do {{GRAMMAR:MS.lp|{{SITENAME}}}} može być sprowjany, pomjyńany abo wyćepany bez inkšych užytkownikůw. Jak ńy chceš, coby koždy můg go zmjyńać i dali rozpowšychńać bez uograničyń, ńy wćepuj go sam.<br />
 Škryflajůnc sam tukej pośwjadčoš tyž, co te pisańy je twoje wuasne, abo žeś go wźůn(a) s matyrjouůw kere sům na public domain, abo kůmpatybilne (kuknij tyž: $1).
 '''PROŠA ŃY WĆEPYWAĆ SAM MATYRJOUŮW KERE SŮM CHRŮŃONE PRAWYM AUTORSKIM BEZ DOZWOLEŃO WUAŚĆIĆELA!'''",
-'longpagewarning'                  => "'''Dej pozůr: Ta zajta je $1 kilobajt-y/-ůw wjelgo; w ńykerych přyglůndarkach můgům wystůmpić problymy w sprowjańu zajtůw kere majům wjyncyj jak 32 kilobajty. Kejbyś ůmjou, podźel tekst na myńše tajle.'''",
 'longpageerror'                    => "'''Feler: Tekst kery žeś sam wćepywou mo $1 kilobajtůw. Maksymalno dugość tekstu ńy može być wjynkšo kej $2 kilobajtůw. Twůj tekst ńy bydźe sam naškryflany.'''",
 'readonlywarning'                  => "'''Dej pozůr: Baza danych zostoua filowo zawarto skuli potřeb admińistracyjnych. Bestůž ńy do śe terozki naškryflać Twojich pomjyńań. Radzymy přećepać nowy tekst kajś do plika tekstowego (wytnij/wklej) a wćepać sam zaś po uodymkńyńću bazy.'''
 
@@ -1784,7 +1783,6 @@ Přyńdź do [[Special:IPBlockList|listy zawartych adresůw IP]] coby přejřeć
 'ipb-edit-dropdown'               => 'Sprowjej powody zawjyrańo uod sprowjyń',
 'ipb-unblock-addr'                => 'Uodymknij $1',
 'ipb-unblock'                     => 'Uodymknij užytkowńika abo adres IP',
-'ipb-blocklist-addr'              => 'Istńejůnce zawarća uod sprowjyń lů $1',
 'ipb-blocklist'                   => 'Zoboč istńijůnce zawarća',
 'ipb-blocklist-contribs'          => 'Wkłod $1',
 'unblockip'                       => 'Uodymkńij sprowjyńo užytkowńikowi',

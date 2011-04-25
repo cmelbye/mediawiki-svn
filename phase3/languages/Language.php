@@ -52,7 +52,7 @@ class FakeConverter {
 	function getParsedTitle() { return ''; }
 	function markNoConversion( $text, $noParse = false ) { return $text; }
 	function convertCategoryKey( $key ) { return $key; }
-	function convertLinkToAllVariants( $text ) { return autoConvertToAllVariants( $text ); }
+	function convertLinkToAllVariants( $text ) { return $this->autoConvertToAllVariants( $text ); }
 	function armourMath( $text ) { return $text; }
 }
 
@@ -1543,11 +1543,11 @@ class Language {
 	}
 
 	function getMessage( $key ) {
-		return self::$dataCache->getSubitem( $this->mCode, 'messages', $key );
+		return self::$dataCache->getSubitem( $this->getCodeForMessage(), 'messages', $key );
 	}
 
 	function getAllMessages() {
-		return self::$dataCache->getItem( $this->mCode, 'messages' );
+		return self::$dataCache->getItem( $this->getCodeForMessage(), 'messages' );
 	}
 
 	function iconv( $in, $out, $string ) {
@@ -2704,6 +2704,8 @@ class Language {
 	 * If a language supports multiple variants, converts text
 	 * into an array of all possible variants of the text:
 	 *  'variant' => text in that variant
+	 *
+	 * @deprecated Use autoConvertToAllVariants()
 	 */
 	function convertLinkToAllVariants( $text ) {
 		return $this->mConverter->convertLinkToAllVariants( $text );
@@ -2761,6 +2763,18 @@ class Language {
 	 */
 	function getCode() {
 		return $this->mCode;
+	}
+	
+	/**
+	 * Get langcode for message
+	 * Some language, like Chinese (zh, without any suffix), has multiple
+	 * interface languages, we could choose a better one for user.
+	 * Inherit class can override this function if necessary.
+	 *
+	 * @return string
+	 */
+	function getCodeForMessage() {
+		return $this->getPreferredVariant();
 	}
 
 	function setCode( $code ) {

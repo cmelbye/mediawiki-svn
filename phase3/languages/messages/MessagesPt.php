@@ -780,6 +780,9 @@ Aguarde antes de tentar novamente, por favor.',
 'loginlanguagelabel'         => 'Língua: $1',
 'suspicious-userlogout'      => 'O seu pedido para sair foi negado porque parece ter sido enviado por um browser danificado ou por um proxy com cache.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Erro desconhecido na função mail() do PHP',
+
 # JavaScript password checks
 'password-strength'            => 'Estimativa da segurança da palavra-chave: $1',
 'password-strength-bad'        => 'MÁ',
@@ -968,9 +971,6 @@ Garante-nos também que isto é algo escrito por si, ou copiado do domínio púb
 'copyrightwarning2'                => "Por favor, note que todas as suas contribuições na {{SITENAME}} podem ser editadas, alteradas ou removidas por outros utilizadores. Se não deseja que o seu texto seja inexoravelmente editado, não o envie.
 Garante-nos também que isto é algo escrito por si, ou copiado do domínio público ou de outra fonte de teor livre (veja $1 para detalhes).<br />
 '''NÃO ENVIE TRABALHO PROTEGIDO POR DIREITOS DE AUTOR SEM A DEVIDA PERMISSÃO!'''",
-'longpagewarning'                  => "'''AVISO:''' Esta página possui $1 kilobytes; alguns
-browsers têm problemas em editar páginas maiores do que 32 kb.
-Tente dividir a página em secções de menor dimensão, por favor.",
 'longpageerror'                    => "'''Erro: O texto que submeteu ocupa $1 KB, um espaço superior ao máximo de $2 KB.
 A página não pode ser gravada.'''",
 'readonlywarning'                  => "'''Aviso: A base de dados foi bloqueada para manutenção, pelo que não poderá gravar a sua edição neste momento.'''
@@ -1549,6 +1549,7 @@ Também permite que outros entrem em contacto consigo através da sua página de
 'right-override-export-depth' => 'Exportar páginas incluindo páginas ligadas até uma profundidade de 5',
 'right-sendemail'             => 'Enviar correio electrónico a outros utilizadores',
 'right-revisionmove'          => 'Mover revisões',
+'right-disableaccount'        => 'Desactivar contas',
 
 # User rights log
 'rightslog'      => 'Registo de privilégios de utilizador',
@@ -1690,7 +1691,7 @@ Altere o nome do ficheiro e tente enviá-lo novamente, por favor.',
 'empty-file'                  => 'O ficheiro que enviou estava vazio.',
 'file-too-large'              => 'O ficheiro que enviou era demasiado grande.',
 'filename-tooshort'           => 'O nome do ficheiro é demasiado curto.',
-'filetype-banned'             => 'O tipo do ficheiro é proibido.',
+'filetype-banned'             => 'Este tipo de ficheiro é proibido.',
 'verification-error'          => 'O ficheiro não passou a verificação de ficheiros.',
 'hookaborted'                 => 'A modificação que pretendia foi abortada pelo hook de uma extensão.',
 'illegal-filename'            => 'O nome do ficheiro não é permitido.',
@@ -2445,6 +2446,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contribuições de contas novas',
 'sp-contributions-blocklog'            => 'registo de bloqueios',
 'sp-contributions-deleted'             => 'contribuições eliminadas',
+'sp-contributions-uploads'             => 'uploads',
 'sp-contributions-logs'                => 'registos',
 'sp-contributions-talk'                => 'discussão',
 'sp-contributions-userrights'          => 'gestão de privilégios de utilizador',
@@ -2515,7 +2517,6 @@ Consulte a [[Special:IPBlockList|lista de IPs bloqueados]] para rever os bloquei
 'ipb-edit-dropdown'               => 'Editar motivos de bloqueio',
 'ipb-unblock-addr'                => 'Desbloquear $1',
 'ipb-unblock'                     => 'Desbloquear um utilizador ou endereço IP',
-'ipb-blocklist-addr'              => 'Bloqueios em vigência para $1',
 'ipb-blocklist'                   => 'Ver bloqueios em vigência',
 'ipb-blocklist-contribs'          => 'Contribuições de $1',
 'unblockip'                       => 'Desbloquear utilizador',
@@ -3478,6 +3479,7 @@ Também pode [[Special:Watchlist/edit|editar a lista da maneira convencional]].'
 'version-specialpages'             => 'Páginas especiais',
 'version-parserhooks'              => "''Hooks'' do analisador sintáctico",
 'version-variables'                => 'Variáveis',
+'version-skins'                    => 'Temas',
 'version-other'                    => 'Diversos',
 'version-mediahandlers'            => 'Leitura e tratamento de multimédia',
 'version-hooks'                    => 'Hooks',
@@ -3600,5 +3602,18 @@ Introduza o nome do ficheiro sem o prefixo \"{{ns:file}}:\".",
 # SQLite database support
 'sqlite-has-fts' => '$1 com suporte de pesquisa de texto completo',
 'sqlite-no-fts'  => '$1 sem suporte de pesquisa de texto completo',
+
+# Special:DisableAccount
+'disableaccount'             => 'Desactivar uma conta',
+'disableaccount-user'        => 'Nome de utilizador:',
+'disableaccount-reason'      => 'Motivo:',
+'disableaccount-confirm'     => "Desactivar esta conta.
+O utilizador ficará impossibilitado de se autenticar, de reiniciar a palavra-chave e de receber notificações por correio electrónico.
+Se neste momento o utilizador estiver autenticado algures, sairá de imediato.
+''Note que a desactivação de uma conta não pode ser revertida sem intervenção de um administrador.''",
+'disableaccount-mustconfirm' => 'Tem de confirmar que pretende desactivar esta conta.',
+'disableaccount-nosuchuser'  => 'A conta de utilizador "$1" não existe.',
+'disableaccount-success'     => 'A conta de utilizador "$1" foi desactivada permanentemente.',
+'disableaccount-logentry'    => 'desactivou permanentemente a conta [[$1]]',
 
 );

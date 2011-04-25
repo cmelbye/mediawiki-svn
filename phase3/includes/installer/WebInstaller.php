@@ -99,6 +99,10 @@ class WebInstaller extends CoreInstaller {
 		parent::__construct();
 		$this->output = new WebInstallerOutput( $this );
 		$this->request = $request;
+
+		// Add parser hook for WebInstaller_Complete
+		global $wgParser;
+		$wgParser->setHook( 'downloadlink', array( $this, 'downloadLinkHook' ) );		
 	}
 
 	/**
@@ -118,10 +122,10 @@ class WebInstaller extends CoreInstaller {
 		$this->exportVars();
 		$this->setupLanguage();
 
-		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) ) 
+		if( ( $this->getVar( '_InstallDone' ) || $this->getVar( '_UpgradeDone' ) )
 			&& $this->request->getVal( 'localsettings' ) )
 		{
-			$this->request->response()->header( 'Content-type: text/plain' );
+			$this->request->response()->header( 'Content-type: application/x-httpd-php' );
 			$this->request->response()->header(
 				'Content-Disposition: attachment; filename="LocalSettings.php"'
 			);
@@ -332,6 +336,25 @@ class WebInstaller extends CoreInstaller {
 	}
 
 	/**
+	 * Get a hash of data identifying this MW installation.
+	 *
+	 * This is used by config/index.php to prevent multiple installations of MW
+	 * on the same cookie domain from interfering with each other.
+	 */
+	public function getFingerprint() {
+		// Get the base URL of the installation
+		$url = $this->request->getFullRequestURL();
+		if ( preg_match( '!^(.*)/[^/]*/[^/]*$!', $url, $m ) ) {
+			$url = $m[1];
+		}
+		return md5( serialize( array(
+			'local path' => dirname( dirname( __FILE__ ) ),
+			'url' => $url,
+			'version' => $GLOBALS['wgVersion']
+		) ) );
+	}
+
+	/**
 	 * Show an error message in a box. Parameters are like wfMsg().
 	 */
 	public function showError( $msg /*...*/ ) {
@@ -469,8 +492,9 @@ class WebInstaller extends CoreInstaller {
 	 * @param $currentPageName String
 	 */
 	private function startPageWrapper( $currentPageName ) {
-		$s = "<div class=\"config-page-wrapper\">\n" .
-			"<div class=\"config-page-list\"><ul>\n";
+		$s = "<div class=\"config-page-wrapper\">\n";
+		$s .= "<div class=\"config-page\">\n";
+		$s .= "<div class=\"config-page-list\"><ul>\n";
 		$lastHappy = -1;
 
 		foreach ( $this->pageSequence as $id => $pageName ) {
@@ -492,9 +516,8 @@ class WebInstaller extends CoreInstaller {
 			$s .= $this->getPageListItem( $pageName, true, $currentPageName );
 		}
 
-		$s .= "</ul></div>\n". // end list pane
-			"<div class=\"config-page\">\n" .
-			Html::element( 'h2', array(),
+		$s .= "</ul></div>\n"; // end list pane
+		$s .= Html::element( 'h2', array(),
 				wfMsg( 'config-page-' . strtolower( $currentPageName ) ) );
 
 		$this->output->addHTMLNoFlush( $s );
@@ -613,14 +636,16 @@ class WebInstaller extends CoreInstaller {
 		array_shift( $args );
 		$args = array_map( 'htmlspecialchars', $args );
 		$text = wfMsgReal( $msg, $args, false, false, false );
-		//$html = $this->parse( $text, true );
-    $html = $text;
-		return
-            "<span class=\"mw-help-field-hint\"\n" .
-      	    "     title=\"" . $html . "\"\n" .
-    	    "     original-title=\"" . $html . "\"></span>\n";
+		$html = htmlspecialchars( $text );
+		$html = $this->parse( $text, true );
+		
+		
+		return "<div class=\"mw-help-field-container\">\n" .
+		         "<span class=\"mw-help-field-hint\">" . wfMsgHtml( 'config-help' ) . "</span>\n" .
+		         "<span class=\"mw-help-field-data\">" . $html . "</span>\n" .
+		       "</div>\n";
 	}
-	
+
 	/**
 	 * Output a help box.
 	 */
@@ -687,7 +712,7 @@ class WebInstaller extends CoreInstaller {
 			"  </div>\n" .
 			"</div>\n";
 	}
-	
+
 	/**
 	 * Get a labelled text box to configure a variable.
 	 *
@@ -732,7 +757,7 @@ class WebInstaller extends CoreInstaller {
 				$params['help']
 			);
 	}
-	
+
 	/**
 	 * Get a labelled password box to configure a variable.
 	 *
@@ -796,6 +821,7 @@ class WebInstaller extends CoreInstaller {
 
 		return
 			"<div class=\"config-input-check\">\n" .
+			$params['help'] .
 			"<label>\n" .
 			Xml::check(
 				$params['controlName'],
@@ -807,7 +833,6 @@ class WebInstaller extends CoreInstaller {
 			) .
 			$labelText . "\n" .
 			"</label>\n" .
-			$params['help'] .
 			"</div>\n";
 	}
 
@@ -935,4 +960,15 @@ class WebInstaller extends CoreInstaller {
 		return $url;
 	}
 
+	public function downloadLinkHook( $text, $attribs, $parser  ) {
+		$img = Html::element( 'img', array( 
+			'src' => '../skins/common/images/download-32.png',
+			'width' => '32',
+			'height' => '32',
+		) );
+		$anchor = Html::rawElement( 'a', 
+			array( 'href' => $this->getURL( array( 'localsettings' => 1 ) ) ),
+			$img . ' ' . wfMsgHtml( 'config-download-localsettings' ) );
+		return Html::rawElement( 'div', array( 'class' => 'config-download-link' ), $anchor );
+	}
 }

@@ -651,7 +651,7 @@ Za preprečevanje zlorab je lahko na {{PLURAL:$1|uro|$1 uri|$1 ure|$1 ur}} posla
 == Urejate prek posredniškega strežnika? ==
 
 Če urejate prek AOL ali iz Bližnjega vzhoda, Afrike, Avstralije, Nove Zelandije ali iz šole, knjižnice ali podjetja, si IP-naslov morda delite z drugimi uporabniki. Če je tako, ste to sporočilo morda prejeli, čeprav niste ustvarili še nobenega računa. Znova se lahko poskusite registrirati po nekaj urah.',
-'emailauthenticated'         => 'Vaš e-poštni naslov je bil potrjen $2 ob $3.',
+'emailauthenticated'         => 'Vaš e-poštni naslov je bil potrjen dne $2 ob $3.',
 'emailnotauthenticated'      => 'Vaš e-poštni naslov še ni potrjen. Za navedene
 možnosti se e-pošte ne bo pošiljalo.',
 'noemailprefs'               => 'E-poštnega naslova niste vnesli, zato naslednje možnosti ne bodo delovale.',
@@ -669,6 +669,9 @@ To sporočilo lahko prezrete, če je bil račun ustvarjen pomotoma.',
 Prosimo počakajte, preden poskusite znova.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaša zahteva za odjavo je bila zavrnjena, saj kaže, da je bila poslana iz pokvarjenega brskalnika ali proxyja s predpomnilnikom.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Neznana napaka v funkciji PHP mail()',
 
 # JavaScript password checks
 'password-strength'            => 'Ocenjena moč gesla: $1',
@@ -844,9 +847,6 @@ Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa
 Če niste pripravljeni na neusmiljeno urejanje in prosto razširjanje vašega gradiva, ga ne prispevajte.<br />
 Poleg tega zagotavljate, da ste prispevke napisali oziroma ustvarili sami ali pa prepisali iz javno dostopnega ali podobnega prostega vira (za podrobnosti glej $1).
 '''Ne dodajajte avtorsko zaščitenega dela brez dovoljenja!'''",
-'longpagewarning'                  => 'Stran je dolga $1 {{PLURAL:$1|kilobajt|kilobajta|kilobajte|kilobajtov|kilobajtov}};
-nekateri brskalniki imajo lahko težave z urejanjem strani, daljših od 32 KB.
-Prosimo, razmislite o razdelitvi strani na manjše razdelke.',
 'longpageerror'                    => "'''Napaka: Predloženo besedilo je dolgo $1 {{PLURAL:$1|kilobajt|kilobajta|kilobajte|kilobajtov|kilobajtov}}, s čimer presega največjo dovoljeno dolžino $2 {{PLURAL:$2|kilobajta|kilobajtov|kilobajtov|kilobajtov|kilobajtov}}.'''
 Zato ga ni mogoče shraniti.",
 'readonlywarning'                  => "'''Opozorilo: Zbirka podatkov je zaradi vzdrževanja začasno zaklenjena, kar pomeni, da sprememb trenutno ne morete shraniti. Prosimo, prenesite besedilo v urejevalnik in ga dodajte pozneje.'''
@@ -1268,7 +1268,7 @@ Tukaj je naključno ustvarjena vrednost, ki jo lahko uporabite: $1',
 Tega ni mogoče razveljaviti.',
 'prefs-emailconfirm-label'      => 'Potrditev e-pošte:',
 'prefs-textboxsize'             => 'Velikost urejevalnega polja',
-'youremail'                     => 'E-pošta:',
+'youremail'                     => 'E-poštni naslov:',
 'username'                      => 'Uporabniško ime:',
 'uid'                           => 'ID uporabnika:',
 'prefs-memberingroups'          => 'Član {{PLURAL:$1|naslednje skupine|naslednjih skupin|naslednjih skupin|naslednjih skupin|naslednjih skupin}}:',
@@ -1292,7 +1292,7 @@ Podatek bo javno prikazan.',
 'prefs-help-realname'           => 'Pravo ime je neobvezno.
 Če se ga odločite navesti, bo uporabljeno za priznavanje vašega dela.',
 'prefs-help-email'              => 'E-poštni naslov ni obvezen, vendar vam omogoča, da vam v primeru pozabljenega gesla pošljemo novo.
-Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elektronsko pošto brez razkritja vaše identitete.',
+Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elektronsko pošto brez razkritja vaše istovetnosti.',
 'prefs-help-email-required'     => 'E-poštni naslov je obvezen.',
 'prefs-info'                    => 'Osnovni podatki',
 'prefs-i18n'                    => 'Internacionalizacija',
@@ -1417,6 +1417,7 @@ Poleg tega vpisan e-poštni naslov omogoča drugim, da vam lahko pošiljajo elek
 'right-override-export-depth' => 'Izvoz strani, vključno s povezaimi straneh do globine 5',
 'right-sendemail'             => 'Pošiljanje e-pošte drugim uporabnikom',
 'right-revisionmove'          => 'Prestavi redakcije',
+'right-disableaccount'        => 'Onemogočanje računov',
 
 # User rights log
 'rightslog'      => 'Dnevnik uporabniških pravic',
@@ -2321,6 +2322,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Uporabniški prispevki novih računov',
 'sp-contributions-blocklog'            => 'dnevnik blokiranja',
 'sp-contributions-deleted'             => 'izbrisani uporabnikovi prispevki',
+'sp-contributions-uploads'             => 'naložene datoteke',
 'sp-contributions-logs'                => 'dnevniki',
 'sp-contributions-talk'                => 'pogovor',
 'sp-contributions-userrights'          => 'upravljanje s pravicami uporabnikov',
@@ -2392,7 +2394,6 @@ Oglejte si [[Special:IPBlockList|seznam blokiranih IP-naslovov]] za pregled blok
 'ipb-edit-dropdown'               => 'Uredi razloge blokade',
 'ipb-unblock-addr'                => 'Deblokiraj $1',
 'ipb-unblock'                     => 'Odblokirajte uporabniško ime ali IP-naslov',
-'ipb-blocklist-addr'              => 'Obstoječe blokade za $1',
 'ipb-blocklist'                   => 'Ogled obstoječih blokad',
 'ipb-blocklist-contribs'          => 'Prispevki za $1',
 'unblockip'                       => 'Deblokirajte uporabnika',
@@ -3328,6 +3329,7 @@ Uporabite lahko tudi [[Special:Watchlist/edit|standardni urejevalnik]].',
 'version-specialpages'             => 'Posebne strani',
 'version-parserhooks'              => 'Razširitve razčlenjevalnika',
 'version-variables'                => 'Spremenljivke',
+'version-skins'                    => 'Kože',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Upravljavci predstavnostnih vsebin',
 'version-hooks'                    => 'Razširitve',
@@ -3450,5 +3452,18 @@ Ta stran se sooča s tehničnimi težavami.',
 # SQLite database support
 'sqlite-has-fts' => '$1 s podporo iskanju polnih besedil',
 'sqlite-no-fts'  => '$1 brez podpore iskanju polnih besedil',
+
+# Special:DisableAccount
+'disableaccount'             => 'Onemogoči uporabniški račun',
+'disableaccount-user'        => 'Uporabniško ime:',
+'disableaccount-reason'      => 'Razlog:',
+'disableaccount-confirm'     => "Onemogočite ta uporabniški račun.
+Uporabnik se ne bo mogel prijaviti, ponastaviti svojega gesla ali prejemati e-poštnih obvestil.
+Če je uporabnik trenutno kjer koli prijavljen, bo nemudoma odjavljen.
+''Pomnite, da povrnitev onemogočitve računa ni mogoča brez posredovanja sistemskega upravljavca.''",
+'disableaccount-mustconfirm' => 'Potrditi morate, da želite onemogočiti ta račun.',
+'disableaccount-nosuchuser'  => 'Uporabniški račun »$1« ne obstaja.',
+'disableaccount-success'     => 'Uporabniški račun »$1« je trajno onemogočen.',
+'disableaccount-logentry'    => 'je trajno onemogočil(-a) uporabniški račun [[$1]]',
 
 );

@@ -99,6 +99,7 @@ class User {
 		'deletedhistory',
 		'deletedtext',
 		'deleterevision',
+		'disableaccount',
 		'edit',
 		'editinterface',
 		'editusercssjs',
@@ -301,7 +302,7 @@ class User {
 	 *    User::getCanonicalName(), except that true is accepted as an alias
 	 *    for 'valid', for BC.
 	 *
-	 * @return \type{User} The User object, or false if the username is invalid 
+	 * @return User The User object, or false if the username is invalid
 	 *    (e.g. if it contains illegal characters or is an IP address). If the
 	 *    username is not present in the database, the result will be a user object
 	 *    with a name, zero user ID and default settings.
@@ -556,7 +557,7 @@ class User {
 	 * either by batch processes or by user accounts which have
 	 * already been created.
 	 *
-	 * Additional blacklisting may be added here rather than in 
+	 * Additional blacklisting may be added here rather than in
 	 * isValidUserName() to avoid disrupting existing accounts.
 	 *
 	 * @param $name \string String to match
@@ -615,7 +616,7 @@ class User {
 				return 'passwordtooshort';
 			} elseif ( $lcPassword == $wgContLang->lc( $this->mName ) ) {
 				return 'password-name-match';
-			} elseif ( in_array( $lcPassword, $wgWeakPasswords ) ) {			
+			} elseif ( in_array( $lcPassword, $wgWeakPasswords ) ) {
 				return 'password-too-weak';
 			} else {
 				//it seems weird returning true here, but this is because of the
@@ -658,7 +659,7 @@ class User {
 		[$rfc1034_ldh_str]+       # First domain part
 		(\\.[$rfc1034_ldh_str]+)+  # Following part prefixed with a dot
 		$                      # End of string
-		/ix" ; // case Insensitive, eXtended 
+		/ix" ; // case Insensitive, eXtended
 
 		return (bool) preg_match( $HTML5_email_regexp, $addr );
 	}
@@ -1456,7 +1457,7 @@ class User {
 
 	/**
 	 * Get the user's ID.
-	 * @return \int The user's ID; 0 if the user is anonymous or nonexistent
+	 * @return Integer The user's ID; 0 if the user is anonymous or nonexistent
 	 */
 	function getId() {
 		if( $this->mId === null and $this->mName !== null
@@ -1762,11 +1763,11 @@ class User {
 			}
 
 			if( !$this->isValidPassword( $str ) ) {
- 				global $wgMinimalPasswordLength;
+				global $wgMinimalPasswordLength;
 				$valid = $this->getPasswordValidity( $str );
 				throw new PasswordError( wfMsgExt( $valid, array( 'parsemag' ),
 					$wgMinimalPasswordLength ) );
- 			}
+			}
 		}
 
 		if( !$wgAuth->setPassword( $this, $str ) ) {
@@ -2038,7 +2039,7 @@ class User {
 		global $wgMaxArticleSize; # Maximum article size, in Kb
 		$threshold = intval( $this->getOption( 'stubthreshold' ) );
 		if ( $threshold > $wgMaxArticleSize * 1024 ) {
-			# If they have set an impossible value, disable the preference 
+			# If they have set an impossible value, disable the preference
 			# so we can use the parser cache again.
 			$threshold = 0;
 		}
@@ -2248,7 +2249,7 @@ class User {
 			return $this->mSkin;
 		}
 	}
-	
+
 	// Creates a Skin object, for getSkin()
 	private function createSkinObject() {
 		wfProfileIn( __METHOD__ );
@@ -2267,7 +2268,7 @@ class User {
 
 		$skin = Skin::newFromKey( $userSkin );
 		wfProfileOut( __METHOD__ );
-		
+
 		return $skin;
 	}
 
@@ -2402,7 +2403,7 @@ class User {
 
 		// If an option is not set in $str, use the default value
 		$this->mOptions = self::getDefaultOptions();
-		
+
 		$a = explode( "\n", $str );
 		foreach ( $a as $s ) {
 			$m = array();
@@ -2514,8 +2515,8 @@ class User {
 				'user_newpassword' => $this->mNewpassword,
 				'user_newpass_time' => $dbw->timestampOrNull( $this->mNewpassTime ),
 				'user_real_name' => $this->mRealName,
-		 		'user_email' => $this->mEmail,
-		 		'user_email_authenticated' => $dbw->timestampOrNull( $this->mEmailAuthenticated ),
+				'user_email' => $this->mEmail,
+				'user_email_authenticated' => $dbw->timestampOrNull( $this->mEmailAuthenticated ),
 				'user_options' => '',
 				'user_touched' => $dbw->timestamp( $this->mTouched ),
 				'user_token' => $this->mToken,
@@ -2573,12 +2574,13 @@ class User {
 		}
 		$dbw = wfGetDB( DB_MASTER );
 		$seqVal = $dbw->nextSequenceValue( 'user_user_id_seq' );
+
 		$fields = array(
 			'user_id' => $seqVal,
 			'user_name' => $name,
 			'user_password' => $user->mPassword,
 			'user_newpassword' => $user->mNewpassword,
-			'user_newpass_time' => $dbw->timestamp( $user->mNewpassTime ),
+			'user_newpass_time' => $dbw->timestampOrNull( $user->mNewpassTime ),
 			'user_email' => $user->mEmail,
 			'user_email_authenticated' => $dbw->timestampOrNull( $user->mEmailAuthenticated ),
 			'user_real_name' => $user->mRealName,
@@ -2612,7 +2614,7 @@ class User {
 				'user_name' => $this->mName,
 				'user_password' => $this->mPassword,
 				'user_newpassword' => $this->mNewpassword,
-				'user_newpass_time' => $dbw->timestamp( $this->mNewpassTime ),
+				'user_newpass_time' => $dbw->timestampOrNull( $this->mNewpassTime ),
 				'user_email' => $this->mEmail,
 				'user_email_authenticated' => $dbw->timestampOrNull( $this->mEmailAuthenticated ),
 				'user_real_name' => $this->mRealName,
@@ -2671,7 +2673,7 @@ class User {
 		wfDeprecated( __METHOD__ );
 
 		// stubthreshold is only included below for completeness,
-		// since it disables the parser cache, its value will always 
+		// since it disables the parser cache, its value will always
 		// be 0 when this function is called by parsercache.
 
 		$confstr =        $this->getOption( 'math' );
@@ -2779,15 +2781,6 @@ class User {
 	function checkPassword( $password ) {
 		global $wgAuth;
 		$this->load();
-
-		// Even though we stop people from creating passwords that
-		// are shorter than this, doesn't mean people wont be able
-		// to. Certain authentication plugins do NOT want to save
-		// domain passwords in a mysql database, so we should
-		// check this (incase $wgAuth->strict() is false).
-		if( !$this->isValidPassword( $password ) ) {
-			return false;
-		}
 
 		if( $wgAuth->authenticate( $this->getName(), $password ) ) {
 			return true;
@@ -2900,7 +2893,7 @@ class User {
 	 * mail to the user's given address.
 	 *
 	 * @param $changed Boolean: whether the adress changed
-	 * @return \types{\bool,\type{WikiError}} True on success, a WikiError object on failure.
+	 * @return Status object
 	 */
 	function sendConfirmationMail( $changed = false ) {
 		global $wgLang;
@@ -2930,7 +2923,7 @@ class User {
 	 * @param $body \string Message body
 	 * @param $from \string Optional From address; if unspecified, default $wgPasswordSender will be used
 	 * @param $replyto \string Reply-To address
-	 * @return \types{\bool,\type{WikiError}} True on success, a WikiError object on failure
+	 * @return Status object
 	 */
 	function sendMail( $subject, $body, $from = null, $replyto = null ) {
 		if( is_null( $from ) ) {
@@ -3215,7 +3208,7 @@ class User {
 	 * Return the set of defined explicit groups.
 	 * The implicit groups (by default *, 'user' and 'autoconfirmed')
 	 * are not included, as they are defined automatically, not in the database.
-	 * @return \type{\arrayof{\string}} Array of internal group names
+	 * @return Array of internal group names
 	 */
 	static function getAllGroups() {
 		global $wgGroupPermissions, $wgRevokePermissions;
@@ -3227,7 +3220,7 @@ class User {
 
 	/**
 	 * Get a list of all available permissions.
-	 * @return \type{\arrayof{\string}} Array of permission names
+	 * @return Array of permission names
 	 */
 	static function getAllRights() {
 		if ( self::$mAllRights === false ) {

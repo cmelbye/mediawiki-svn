@@ -8,6 +8,7 @@
  * @file
  *
  * @author Liangent
+ * @author Lokal Profil
  * @author PhiLiP
  * @author Philip <philip.npc@gmail.com>
  * @author Symane
@@ -599,8 +600,6 @@ $2',
 'copyrightwarning2'                => "请记得别𠮶人编得正、改得正或者删得正倷到{{SITENAME}}𠮶全部贡献。要系倷伓想自家𠮶编辑好嚟嚟拖改吥，唉就莫递交。<br />
 倷都要话正倷𠮶文字系倷自家写𠮶，或者系公有领域或别𠮶自由资源复制到𠮶（望吖$1有别𠮶资料）。
 '''冇任何许可𠮶情况下请莫递交有版权𠮶作品！'''",
-'longpagewarning'                  => "'''警告：个页有$1 kilobytes咁长；有𠮶浏览器会编伓正超吥32 kb𠮶页面。
-请考虑吖拿佢分到细嚸𠮶小段落。'''",
 'longpageerror'                    => "'''错误：倷递交𠮶文字有$1 kilobytes咁长，佢长过最大𠮶$2 kilobytes。存伓正倷递交𠮶文字。'''",
 'readonlywarning'                  => "'''警告: 数据库锁到嘞进行定期修护，眼下倷存伓正倷𠮶改动。倷可以拿佢存到文档再著。'''",
 'protectedpagewarning'             => "'''警告: 个页已经受保护，单只管理员权限𠮶用户才改得正。'''",
@@ -917,9 +916,9 @@ $2',
 要眵或要寻先前上传𠮶图像请去[[Special:FileList|图像列表]]，上传同删除会记到[[Special:Log/upload|上传日志]]里度。
 
 要系想扻文件到页面，用得正下底𠮶方式链接:
-'''[[{{ns:file}}:File.jpg]]''',
-'''[[{{ns:file}}:File.png|alt text]]''' 或
-'''[[{{ns:media}}:File.ogg]]''' 直接连接到个只文件。",
+'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.jpg]]</nowiki></tt>''',
+'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.png|alt text]]</nowiki></tt>''' 或
+'''<tt><nowiki>[[</nowiki>{{ns:media}}<nowiki>:File.ogg]]</nowiki></tt>''' 直接连接到个只文件。",
 'upload-permitted'            => '容许𠮶文件类型：$1。',
 'upload-preferred'            => '优先𠮶文件类型：$1。',
 'upload-prohibited'           => '禁止𠮶文件类型：$1。',
@@ -1500,7 +1499,6 @@ $1',
 'ipb-edit-dropdown'           => '编写封锁原因',
 'ipb-unblock-addr'            => '解封$1',
 'ipb-unblock'                 => '解封用户名或IP地址',
-'ipb-blocklist-addr'          => '望吖$1目前𠮶封禁',
 'ipb-blocklist'               => '望吖目前𠮶封禁',
 'unblockip'                   => '解封IP地址',
 'unblockiptext'               => '用下底𠮶表格去恢复早先拖封𠮶IP𠮶编写权。',

@@ -622,6 +622,9 @@ Móžoš toś te zdźělenje ignorowaś, jolic toś te konto jo se jano zamólnj
 'loginlanguagelabel'         => 'Rěc: $1',
 'suspicious-userlogout'      => 'Twójo póžedanje za wótzjawjenim jo se wótpokazało, dokulaž zda se, až jo se pósłało pśez wobškóźony wobglědowak abo pufrowański proksy',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Njeznata zmólka w PHP-funkciji mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Pówoblicona gronidłowa wjelikosć: $1',
 'password-strength-bad'        => 'ŠPATNA',
@@ -746,7 +749,7 @@ abo <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}
 'blocked-notice-logextract'        => 'Toś ten wužywaŕ jo tuchylu blokěrowany.
 Nejnowšy zapisk blokěrowańskego protokola pódawa se dołojce ako referenca:',
 'clearyourcache'                   => "'''Pokazka: Jo móžno, až dejš wuprozniś cache wobglědowaka, aby změny wiźeł.'''
-'''Mozilla/Firefox/Safari:''' Źarź ''Umsch'' tłocony, mjaztym až kliknjoš ''Znowego'' abo tłoc pak ''Strg-F5'' pak ''Strg-R'' (''Command-R'' na Makintošu); '''Konqueror: '''Klikni ''' na ''Aktualisieren'' abo tłoc ''F5;'' '''Opera:''' wuprozni cache w ''Extras -> Eisntellungen;'' '''Internet Explorer:''' źarź ''Strg'' tłocony, mjaztym až kliknjoš na ''Aktualisieren'' abo tłoc ''Strg-F5.''",
+'''Mozilla/Firefox/Safari:''' Źarź ''Umsch'' tłocony, mjaztym až kliknjoš ''Znowego'' abo tłoc pak ''Strg-F5'' pak ''Strg-R'' (''Command-R'' na Makintošu); '''Konqueror: '''Klikni ''' na ''Aktualisieren'' abo tłoc ''F5;'' '''Opera:''' wuprozni cache w ''Extras -> Einstellungen;'' '''Internet Explorer:''' źarź ''Strg'' tłocony, mjaztym až kliknjoš na ''Aktualisieren'' abo tłoc ''Strg-F5.''",
 'usercssyoucanpreview'             => "'''Pokazka:''' Wužywaj tłocašk '{{int:showpreview}}', aby swój nowy css testował, nježli až jen składujoš.",
 'userjsyoucanpreview'              => "'''Pokazka:''' Wužywaj tłocašk \"{{int:showpreview}}\", aby swój nowy JavaScript testował, nježli až jen składujoš.",
 'usercsspreview'                   => "'''Źiwaj na to, až wobglědujoš se jano pśeglěd swójogo wužywarskego CSS. Njejo se hyšći składował!'''",
@@ -783,8 +786,6 @@ Ty teke wobkšuśijoš, až sy tekst sam napisał abo sy jen wót public domainy
 
 '''NJEWÓZJAW WÓT COPYRIGHTA ŠĆITANE ŹĚŁA MIMO DOWÓLNOSĆI!'''",
 'copyrightwarning2'                => "Pšosym buź se togo wědobny, až wšykne pśinoski na {{SITENAME}} mógu wót drugich wužywarjow se wobźěłaś, narownaś abo wulašowaś. Jolic až njocoš, až twój tekst se mimo zmilnosći wobźěłujo, ga pón jen how njeskładuj.<br /> Ty teke wobkšuśijoš, až sy tekst sam napisał abo sy jen wót public domainy resp. wót pódobneje lichotneje resursy kopěrował (glědaj $1 za dalše detaile). '''NJEWÓZJAW WÓT COPYRIGHTA ŠĆITANE ŹĚŁA MIMO DOWÓLNOSĆI!'''",
-'longpagewarning'                  => "'''GLĚDAJ: Toś ten bok wopśimjejo $1 kilobajtow; někotare wobglědowaki mógu měś problemy z wobźěłowanim bokow, kótarež su wětše ako 32 kb.
-Pšosym pśemysli, jolic njamóžo se bok na mjeńše wótrězki rozdźěliś.'''",
 'longpageerror'                    => "'''Zmólka: Tekst, kótaryž coš składowaś jo $1 KB wjeliki. To jo wěcej, ako dowólony maksimum ($2 KB). Składowanje njejo móžno.'''",
 'readonlywarning'                  => "'''WARNOWANJE: Datowa banka jo se za wótwardowanje zacyniła, togodla njebuźo tuchylu móžno, twóje změny składowaś. Jolic až coš, ga móžoš tekst do tekstoweje dataje kopěrowaś a pózdźej składowaś.'''
 
@@ -1343,6 +1344,7 @@ Móžoš toś ten bok wužywaś, aby slědk stajił swóje nastajenja na standar
 'right-override-export-depth' => 'Boki inkluziwnje wótkazanych bokow až do dłyma 5 eksportěrowaś',
 'right-sendemail'             => 'Drugim wužywarjam e-mail pósłaś',
 'right-revisionmove'          => 'Wersije pśesunuś',
+'right-disableaccount'        => 'Konta znjemóžniś',
 
 # User rights log
 'rightslog'      => 'Protokol wužywarskich pšawow',
@@ -2209,6 +2211,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Wužywarske pśinoski nowych kontow',
 'sp-contributions-blocklog'            => 'Protokol blokěrowanjow',
 'sp-contributions-deleted'             => 'Wulašowane wužywarske pśinoski',
+'sp-contributions-uploads'             => 'nagraśa',
 'sp-contributions-logs'                => 'protokole',
 'sp-contributions-talk'                => 'diskusija',
 'sp-contributions-userrights'          => 'Zastojanje wužywarskich pšawow',
@@ -2277,7 +2280,6 @@ Glědaj do [[Special:IPBlockList|lisćiny aktiwnych blokěrowanjow]], aby blokě
 'ipb-edit-dropdown'               => 'Pśicyny blokěrowanja wobźěłaś',
 'ipb-unblock-addr'                => '$1 dopušćiś',
 'ipb-unblock'                     => 'Wužywarske mě abo IP-adresu dopušćiś',
-'ipb-blocklist-addr'              => 'Eksistěrujuce blokěrowanja za $1',
 'ipb-blocklist'                   => 'Wšykne aktualne blokěrowanja pokazaś',
 'ipb-blocklist-contribs'          => 'Pśinoski za $1',
 'unblockip'                       => 'Wužywarja dopušćiś',
@@ -3191,6 +3193,7 @@ Móžoš teke [[Special:Watchlist/edit|standardny wobźěłowański bok wužywa�
 'version-specialpages'             => 'Specialne boki',
 'version-parserhooks'              => 'Parserowe kokule',
 'version-variables'                => 'Wariable',
+'version-skins'                    => 'Suknje',
 'version-other'                    => 'Druge',
 'version-mediahandlers'            => 'Pśeźěłaki medijow',
 'version-hooks'                    => 'Kokule',
@@ -3306,5 +3309,18 @@ Zapódaj datajowe mě bźez prefiksa "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => 'Wersija $1 z pódpěru za połnotekstowe pytanje',
 'sqlite-no-fts'  => 'Wersija $1 bźez pódpěry za połnotekstowe pytanje',
+
+# Special:DisableAccount
+'disableaccount'             => 'Wužywarske konto znjemóžniś',
+'disableaccount-user'        => 'Wužywarske mě:',
+'disableaccount-reason'      => 'Pśicyna:',
+'disableaccount-confirm'     => "Znjemóžni toś to wužywarske konto.
+Wužywaŕ njamóžo se pśizjawiś, jogo gronidło slědk stajiś abo e-mailowe powěźeńki dostaś.
+Jolic wužywaŕ jo tuchylu hynźi pśizjawjony, buźo se ned wótzjawiś.
+''Źiwaj na to, až znjemóžnjanje konto njejo rewersibelne bźez zapśimowanja systemowego administratora.''",
+'disableaccount-mustconfirm' => 'Musyš wobkšuśiś, až coš toś to konto znjemóžniś.',
+'disableaccount-nosuchuser'  => 'Wužywaŕ konto "$1" njeeksistěrujo.',
+'disableaccount-success'     => 'Wužywarske konto "$1" jo se na pśecej znjemóžniło.',
+'disableaccount-logentry'    => 'jo wužywarske konto [[$1]] na pśecej znjemóžnił',
 
 );

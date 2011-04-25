@@ -674,7 +674,6 @@ Izvēloties \"Saglabāt lapu\", Tu apliecini, ka šo rakstu esi rakstījis vai p
 Tu apliecini, ka šo rakstu esi rakstījis vai papildinājis pats vai izmantojis informāciju no darba, ko neaizsargā autortiesības, vai tamlīdzīga brīvi pieejama resursa (sīkāk skatīt $1).
 
 '''BEZ ATĻAUJAS NEPIEVIENO DARBU, KO AIZSARGĀ AUTORTIESĪBAS!'''",
-'longpagewarning'                  => "'''Šī lapa ir $1 kilobaitus liela. Tas var būt vairāk par lapas optimālo izmēru. Lūdzu apsver iespēju sašķelt to mazākās sekcijās.'''",
 'longpageerror'                    => "'''Kļūda: Teksts, kuru tu mēģināji saglabāt, ir $1 kilobaitus garš, kas ir vairāk nekā pieļaujamie $2 kilobaiti.
 Tas nevar tikt saglabāts.'''",
 'readonlywarning'                  => "'''Brīdinājums: Datubāze ir slēgta apkopei, tāpēc tu tagad nevarēsi saglabāt veiktās izmaiņas.
@@ -2006,7 +2005,6 @@ Visus blokus var apskatīties [[Special:IPBlockList|IP bloku sarakstā]].',
 'ipb-edit-dropdown'            => 'Izmainīt bloķēšanas iemeslus',
 'ipb-unblock-addr'             => 'Atbloķēt $1',
 'ipb-unblock'                  => 'Atbloķēt lietotāju vai IP adresi',
-'ipb-blocklist-addr'           => 'Skatīt $1 uzliktos, esošos blokus',
 'ipb-blocklist'                => 'Apskatīties esošos blokus',
 'ipb-blocklist-contribs'       => '$1 devums',
 'unblockip'                    => 'Atbloķēt lietotāju',

@@ -629,6 +629,9 @@ Per favor attende ante de probar lo novemente.',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'Le requesta de clauder le session ha essite refusate proque illo pare haber essite inviate per un navigator o proxy de cache defectuose.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Error incognite in le function mail() de PHP',
+
 # JavaScript password checks
 'password-strength'            => 'Estimation del securitate del contrasigno: $1',
 'password-strength-bad'        => 'MAL',
@@ -816,9 +819,6 @@ In addition, tu nos garanti que tu es le autor de isto, o que tu lo ha copiate d
 Si tu non vole que tu scripto sia modificate impietosemente, alora non lo submitte hic.<br />
 In addition, tu nos garanti que tu es le autor de isto, o que tu lo ha copiate de un ressource a dominio public o alteremente libere de derectos (vide $1 pro detalios).
 '''Non submitte material subjecte a copyright sin autorisation expresse!'''",
-'longpagewarning'                  => "'''Attention:''' Iste pagina occupa $1 kilobytes;
-alcun navigatores pote presentar problemas in modificar paginas de 32 kilobytes o plus.
-Per favor considera divider le pagina in sectiones minus grande.",
 'longpageerror'                    => "'''Error: Le texto que tu submitteva occupa $1 kilobytes, excedente le maximo de $2 kilobytes.'''
 Illo non pote esser salveguardate.",
 'readonlywarning'                  => "'''Attention: Le base de datos ha essite blocate pro mantenentia, ergo tu non pote salveguardar tu modificationes in iste momento.'''
@@ -1391,6 +1391,7 @@ Si tu opta pro dar lo, isto essera usate pro dar te attribution pro tu contribut
 'right-override-export-depth' => 'Exportar paginas includente paginas ligate usque a un profunditate de 5',
 'right-sendemail'             => 'Inviar e-mail a altere usatores',
 'right-revisionmove'          => 'Displaciar versiones',
+'right-disableaccount'        => 'Disactivar contos',
 
 # User rights log
 'rightslog'      => 'Registro de derectos de usator',
@@ -2304,6 +2305,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contributiones de nove contos de usator',
 'sp-contributions-blocklog'            => 'Registro de blocadas',
 'sp-contributions-deleted'             => 'contributiones delite de usatores',
+'sp-contributions-uploads'             => 'incargamentos',
 'sp-contributions-logs'                => 'registros',
 'sp-contributions-talk'                => 'discussion',
 'sp-contributions-userrights'          => 'gestion de derectos de usator',
@@ -2377,7 +2379,6 @@ Vide le [[Special:IPBlockList|lista de adresses IP blocate]] pro revider le bloc
 'ipb-edit-dropdown'               => 'Modificar le motivos pro blocar',
 'ipb-unblock-addr'                => 'Disblocar $1',
 'ipb-unblock'                     => 'Disblocar un nomine de usator o un adresse IP',
-'ipb-blocklist-addr'              => 'Blocadas existente pro $1',
 'ipb-blocklist'                   => 'Vider blocadas existente',
 'ipb-blocklist-contribs'          => 'Contributiones de $1',
 'unblockip'                       => 'Disblocar adresse IP',
@@ -3465,5 +3466,18 @@ Entra le nomine del file sin le prefixo \"{{ns:file}}:\".",
 # SQLite database support
 'sqlite-has-fts' => '$1 con supporto de recerca de texto integre',
 'sqlite-no-fts'  => '$1 sin supporto de recerca de texto integre',
+
+# Special:DisableAccount
+'disableaccount'             => 'Disactivar un conto de usator',
+'disableaccount-user'        => 'Nomine de usator:',
+'disableaccount-reason'      => 'Motivo:',
+'disableaccount-confirm'     => "Disactivar iste conto de usator.
+Le usator non potera aperir session, ni reinitialisar su contrasigno, ni reciper notificationes per e-mail.
+Si le usator es actualmente authenticate alicubi, su session essera immediatemente claudite.
+''Nota que le disactivation de un conto de usator non es reversibile sin intervention de un administrator del systema.''",
+'disableaccount-mustconfirm' => 'Tu debe confirmar que tu vole disactivar iste conto.',
+'disableaccount-nosuchuser'  => 'Le conto de usator "$1" non existe.',
+'disableaccount-success'     => 'Le conto de usator "$1" ha essite disactivate permanentemente.',
+'disableaccount-logentry'    => 'disactivava permanentemente le conto de usator [[$1]]',
 
 );

@@ -19,9 +19,9 @@
 		/**
 		* Adds a row to the test-table
 		*
-		* @param String code	Code of the test to be executed
-		* @param String result	Expected result in 'var (vartype)' form
-		* @param String contain	Important part of the result, if result is different but does contain this it will not return ERROR but PARTIALLY
+		* @param code String	Code of the test to be executed
+		* @param result String	Expected result in 'var (vartype)' form
+		* @param contain String	Important part of the result, if result is different but does contain this it will not return ERROR but PARTIALLY
 		*/
 		'addTest' : function( code, result, contain ) {
 			if (!contain) {
@@ -60,6 +60,14 @@
 							'function (string)');
 						mw.test.addTest('$.trimRight(\'  foo bar  \')',
 							'  foo bar (string)');
+						mw.test.addTest('typeof $.isEmpty',
+							'function (string)');
+						mw.test.addTest('$.isEmpty(\'string\')',
+							'false (boolean)');
+						mw.test.addTest('$.isEmpty(\'0\')',
+							'true (boolean)');
+						mw.test.addTest('$.isEmpty([])',
+							'true (boolean)');
 						mw.test.addTest('typeof $.compareArray',
 							'function (string)');
 						mw.test.addTest('$.compareArray( [1, "a", [], [2, \'b\'] ], [1, \'a\', [], [2, "b"] ] )',

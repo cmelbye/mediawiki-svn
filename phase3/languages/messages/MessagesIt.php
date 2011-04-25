@@ -723,6 +723,9 @@ Riprovare più tardi.',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'La tua richiesta di disconnessione è stata negata perché sembra inviata da un browser non funzionante o un proxy di caching.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Errore sconosciuto nella funzione PHP mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Robustezza stimata della password: $1',
 'password-strength-bad'        => 'DEBOLE',
@@ -887,7 +890,6 @@ Con l'invio del testo dichiari inoltre, sotto la tua responsabilità, che il tes
 'copyrightwarning2'                => "Nota: tutti i contributi inviati a {{SITENAME}} possono essere modificati, stravolti o cancellati da parte degli altri partecipanti. Se non desideri che i tuoi testi possano essere modificati senza alcun riguardo, non inviarli a questo sito.<br />
 Con l'invio del testo dichiari inoltre, sotto la tua responsabilità, che il testo è stato scritto da te personalmente oppure che è stato copiato da una fonte di pubblico dominio o analogamente libera (vedi $1 per maggiori dettagli).
 '''NON INVIARE MATERIALE COPERTO DA DIRITTO DI AUTORE SENZA AUTORIZZAZIONE!'''",
-'longpagewarning'                  => "'''ATTENZIONE: Questa pagina è lunga $1 kilobyte; alcuni browser potrebbero presentare dei problemi nella modifica di pagine che si avvicinano o superano i 32 KB. Valuta l'opportunità di suddividere la pagina in sezioni più piccole.'''",
 'longpageerror'                    => "'''ERRORE: Il testo inviato è lungo $1 kilobyte, più della dimensione massima consentita ($2 kilobyte). Il testo non può essere salvato.'''",
 'readonlywarning'                  => "'''ATTENZIONE: Il database è stato bloccato per manutenzione, è quindi impossibile salvare le modifiche in questo momento. Per non perderle, è possibile copiare quanto inserito finora nella casella di modifica, incollarlo in un programma di elaborazione testi e salvarlo in attesa dello sblocco del database.'''
 
@@ -1438,6 +1440,7 @@ L'operazione non può essere annullata.",
 'right-override-export-depth' => 'Esporta le pagine includendo le pagine collegate fino ad una profondità di 5',
 'right-sendemail'             => 'Invia e-mail ad altri utenti',
 'right-revisionmove'          => 'Sposta le revisioni',
+'right-disableaccount'        => 'Disabilitare gli account',
 
 # User rights log
 'rightslog'      => 'Diritti degli utenti',
@@ -2368,7 +2371,6 @@ Consultare la [[Special:IPBlockList|lista degli IP bloccati]] per vedere i blocc
 'ipb-edit-dropdown'               => 'Modifica i motivi per il blocco',
 'ipb-unblock-addr'                => 'Sblocca $1',
 'ipb-unblock'                     => 'Sblocca un utente o un indirizzo IP',
-'ipb-blocklist-addr'              => 'Blocchi attivi per $1',
 'ipb-blocklist'                   => 'Elenca i blocchi attivi',
 'ipb-blocklist-contribs'          => 'Contributi di $1',
 'unblockip'                       => "Sblocca l'utente",
@@ -3420,5 +3422,18 @@ Inserire il nome del file senza il prefisso \"{{ns:file}}:\"",
 # SQLite database support
 'sqlite-has-fts' => '$1 con la possibilità di ricerca completa nel testo',
 'sqlite-no-fts'  => '$1 senza la possibilità di ricerca completa nel testo',
+
+# Special:DisableAccount
+'disableaccount'             => 'Disabilitare account utente',
+'disableaccount-user'        => 'Nome utente:',
+'disableaccount-reason'      => 'Motivo:',
+'disableaccount-confirm'     => "Disabilitare permanentemente questo account utente.
+L'utente non sarà in grado di accedere, reimpostare la password o ricevere notifiche via e-mail.
+Tutte le attuali connessioni dell'utente, saranno immediatamente terminate.
+''Si noti che la disattivazione di un account non è reversibile senza l'intervento dell'amministratore di sistema''.",
+'disableaccount-mustconfirm' => 'Devi confermare che vuoi disabilitare questo account.',
+'disableaccount-nosuchuser'  => 'L\'account utente "$1" non esiste.',
+'disableaccount-success'     => 'L\'account utente "$1" è stato disabilitato definitivamente.',
+'disableaccount-logentry'    => "ha disabilitato permanentemente l'account utente [[$1]]",
 
 );

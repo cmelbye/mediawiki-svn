@@ -602,6 +602,9 @@ Móžeš tutu zdźělenku ignorować, jeli so wužiwarske konto zmylnje wutwori�
 'loginlanguagelabel'         => 'Rěč: $1',
 'suspicious-userlogout'      => 'Twoje naprašowanje za wotzjewjenje bu wotpokazane, dokelž zda so, jako by so přez wobškodźeny wobhladowak abo pufrowacy proksy pósłało',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Njeznaty zmylk w PHP-funkciji mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Trochowana hesłowa sylnosć: $1',
 'password-strength-bad'        => 'ŠPATNA',
@@ -764,7 +767,6 @@ Kopěrowanje tekstow, kiž su přez awtorske prawa škitane, je zakazane! '''NJE
 Lubiš nam tež, zo sy jón sam napisał abo ze zjawneje domejny abo z podobneho swobodneho žórła kopěrował (hlej $1 za podrobnosće).
 
 '''NJESKŁADUJ PŘINOŠKI Z COPYRIGHTOM BJEZ DOWOLNOSĆE!'''",
-'longpagewarning'                  => "'''KEDŹBU: Strona wobsahuje $1 kB; někotre wobhladowaki maja problemy, strony wobdźěłać, kotrež wobsahuja 32 kB abo wjace. Prošu přemysli sej stronu do mjeńšich wotrězkow rozrjadować.'''",
 'longpageerror'                    => "'''ZMYLK: Tekst, kotryž sy spytał składować wobsahuje $1 kB, maksimalna wulkosć pak je $2 kB. Njehodźi so składować.'''",
 'readonlywarning'                  => "'''KEDŹBU: Datowa banka bu wothladanja dla zawrjena, tohodla njemóžeš swoje změny nětko składować. Móžeš tekst do tekstoweje dataje přesunyć a jón za pozdźišo składować.'''
 
@@ -1320,6 +1322,7 @@ Smě mjenje hač $1 {{PLURAL:$1|znamješko|znamješce|znamješka|znamješkow}} d
 'right-override-export-depth' => 'Strony inkluziwnje wotkazanych stronow hač do hłubokosće 5 eksportować',
 'right-sendemail'             => 'Druhim wužiwarjam e-mejl pósłać',
 'right-revisionmove'          => 'Wersije přesunyć',
+'right-disableaccount'        => 'Konta znjemóžnić',
 
 # User rights log
 'rightslog'      => 'Protokol zrjadowanja wužiwarskich prawow',
@@ -2186,6 +2189,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Wužiwarske přinoški za nowe konta',
 'sp-contributions-blocklog'            => 'protokol zablokowanjow',
 'sp-contributions-deleted'             => 'wušmórnjene wužiwarske přinoški',
+'sp-contributions-uploads'             => 'nahraća',
 'sp-contributions-logs'                => 'protokole',
 'sp-contributions-talk'                => 'diskusija',
 'sp-contributions-userrights'          => 'Zrjadowanje wužiwarskich prawow',
@@ -2255,7 +2259,6 @@ Najnowši zapisk w protokolu blokowanjow so deleka jako referenca podawa:',
 'ipb-edit-dropdown'               => 'přičiny zablokowanjow wobdźěłać',
 'ipb-unblock-addr'                => 'zablokowanje wužiwarja „$1“ zběhnyć',
 'ipb-unblock'                     => 'zablokowanje wužiwarja abo IP-adresy zběhnyć',
-'ipb-blocklist-addr'              => 'Eksistowace zablokowanja za "$1"',
 'ipb-blocklist'                   => 'tuchwilne blokowanja zwobraznić',
 'ipb-blocklist-contribs'          => 'Přinoški za $1',
 'unblockip'                       => 'Zablokowanje zběhnyć',
@@ -3161,6 +3164,7 @@ Móžeš tež [[Special:Watchlist/edit|standardnu wobdźěłowansku stronu]] wu�
 'version-specialpages'             => 'Specialne strony',
 'version-parserhooks'              => 'Parserowe hoki',
 'version-variables'                => 'Wariable',
+'version-skins'                    => 'Šaty',
 'version-other'                    => 'Druhe',
 'version-mediahandlers'            => 'Předźěłaki medijow',
 'version-hooks'                    => 'Hoki',
@@ -3275,5 +3279,18 @@ Zapodaj datajowe mjeno '''bjez''' prefiksa \"{{ns:file}}:\".",
 'htmlform-submit'              => 'Wotpósłać',
 'htmlform-reset'               => 'Změny cofnyć',
 'htmlform-selectorother-other' => 'Druhe',
+
+# Special:DisableAccount
+'disableaccount'             => 'Wužiwarske konto znjemóžnić',
+'disableaccount-user'        => 'Wužiwarske mjeno:',
+'disableaccount-reason'      => 'Přičina:',
+'disableaccount-confirm'     => "Znjemóžń tute wužiwarske konto.
+Wužiwar njemóže so přizjewić, woje hesło wróćo stajić abo e-mejlowe zdźělenki dóstać.
+Jeli wužiwar je tuchwilu druhdźe přizjewjeny, budźe so hnydom wotzjewjeć.
+''Wobkedźbuj, zo znjemóžnjenje konta njeje rewersibelne bjez zapřimowanja administratora.''",
+'disableaccount-mustconfirm' => 'Dyrbiš wobkrućić, zo chceš tute konto znjemóžnić.',
+'disableaccount-nosuchuser'  => 'Wužiwarske konto "$1" njeeksistuje.',
+'disableaccount-success'     => 'Wužiwarske konto "$1" bu na přeco znjemóžnjene.',
+'disableaccount-logentry'    => 'je wužiwarske konto [[$1]] na přeco znjemóžnił',
 
 );

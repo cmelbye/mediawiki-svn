@@ -9,7 +9,7 @@ window.licenseSelectorCheck = function() {
 	}
 	// We might show a preview
 	wgUploadLicenseObj.fetchPreview( selection );
-}
+};
 
 window.wgUploadSetup = function() {
 	// Disable URL box if the URL copy upload source type is not selected
@@ -84,12 +84,11 @@ window.wgUploadSetup = function() {
 		document.getElementById( wgUploadSourceIds[i] ).onchange = function (e) {
 			fillDestFilename( this.id );
 		};
-}
+};
 
 /**
  * Iterate over all upload source fields and disable all except the selected one.
  * 
- * @param enabledId The id of the selected radio button 
  * @return emptiness
  */
 window.toggleUploadInputs = function() {
@@ -124,7 +123,7 @@ window.toggleUploadInputs = function() {
 				inputs[j].disabled = !isChecked;
 		}
 	}
-}
+};
 
 window.wgUploadWarningObj = {
 	'responseCache' : { '' : '&nbsp;' },
@@ -210,7 +209,7 @@ window.wgUploadWarningObj = {
 			element.innerHTML = text;
 		}
 	}
-}
+};
 
 window.fillDestFilename = function(id) {
 	if (!wgUploadAutoFill) {
@@ -264,7 +263,7 @@ window.fillDestFilename = function(id) {
 			if( e ) e.className = 'error';
 
 			// Clear wpDestFile as well
-			var e = document.getElementById( 'wpDestFile' )
+			var e = document.getElementById( 'wpDestFile' );
 			if( e ) e.value = '';
 
 			return false;
@@ -284,7 +283,7 @@ window.fillDestFilename = function(id) {
 		destFile.value = fname;
 		wgUploadWarningObj.checkNow(fname) ;
 	}
-}
+};
 
 window.toggleFilenameFiller = function() {
 	if(!document.getElementById) return;
@@ -295,7 +294,7 @@ window.toggleFilenameFiller = function() {
 	} else {
 		wgUploadAutoFill = false;
 	}
-}
+};
 
 window.wgUploadLicenseObj = {
 
@@ -341,6 +340,6 @@ window.wgUploadLicenseObj = {
 			previewPanel.innerHTML = preview;
 	}
 
-}
+};
 
 addOnloadHook( wgUploadSetup );

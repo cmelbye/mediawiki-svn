@@ -709,9 +709,6 @@ Tu na promettere pure ca le cose ca scrive tu, sonde 'mbormaziune libbere o copi
 Ce tu non ge vuè ca quidde ca scrive avène cangete da tre, allore non scè scrivenne proprie aqquà.<br />
 Tu ne stè promitte ca quidde ca scrive tu, o lè scritte cu 'u penziere tue o lè cupiate da risorse de pubbliche dominie o sembre robba libbere (vide $1 pe cchiù dettaglie).
 '''NO REGGISTRA' FATIJE CUPERTE DA 'U COPYRIGHT SENZA PERMESSE! NO FA STUDECARIE!'''",
-'longpagewarning'                  => "'''ATTENZIO': Sta pàgene jè longhe $1 kilobyte;
-certe brauser ponne avè probleme quanne vuè cu cange pàggene ca sonde granne cchiù o mene 32 KB.
-Pe piacere considere de cangià 'a pàgene a stuezze stuezze ausanne le sezione.'''",
 'longpageerror'                    => "'''ERRORE: 'U teste ca tu vuè ccu reggistre è luenghe $1 kilobyte, invece 'u limite massime jè de $2 kilobyte.'''
 Non ge puè reggistrà sta pàggene.",
 'readonlywarning'                  => "'''FA ATTENZIO': 'U database ha state bloccate pe manutenziona, e allore tu non ge puè reggistrà le cangiaminde ca ste face mò.'''
@@ -1685,6 +1682,7 @@ Arrecuèrdete de condrollà pe otre collegaminde a le template apprime de scange
 'statistics-edits'             => 'Cangiaminde de le pàggene da quanne sta {{SITENAME}} ha state ccrejete',
 'statistics-edits-average'     => 'Cangiaminde medie pe pàgene',
 'statistics-views-total'       => 'Visite totele',
+'statistics-views-total-desc'  => 'Le viste cu le pàggene inesistende e le pàggene speciale non ge sonde ingluse',
 'statistics-views-peredit'     => 'Visite pe cangiaminde',
 'statistics-users'             => '[[Special:ListUsers|Utinde reggistrete]]',
 'statistics-users-active'      => 'Utinde attive',
@@ -2258,7 +2256,6 @@ Vide [[Special:IPBlockList|'a liste de le IP bloccate]] pe revedè le blocche.",
 'ipb-edit-dropdown'               => "Cange le mutive d'u blocche",
 'ipb-unblock-addr'                => 'Sblocche $1',
 'ipb-unblock'                     => 'Sblocche nome utende o indirizze IP',
-'ipb-blocklist-addr'              => 'Vide le blocche ca esistene pe $1',
 'ipb-blocklist'                   => 'Vide le blocche ca esistene',
 'ipb-blocklist-contribs'          => 'Condrebbute pe $1',
 'unblockip'                       => "Sblocche l'utende",
@@ -2375,6 +2372,17 @@ Quieste significhe ca tu puè fà turnà 'u vecchie nome 'a pàgene ce jedde ha 
 '''ATTENZIONE!'''
 Quiste pò essere 'nu cangiamende drastiche e inaspettete de 'na pàgene famose assaje;
 pe piacere a essere secure-secure de le conseguenze prime de procedere.",
+'movepagetext-noredirectfixer' => "Ausanne 'u module aqquà sotte puè renomenà 'na pàgene, spustanne tutte 'a storia soje sotte a 'u nome nuève.
+'U titele vecchie addevende 'na pàgene de ridirezionamende a 'u titele nuève.
+Me raccomande condrolle le redirezionaminde [[Special:DoubleRedirects|a doppie]] o [[Special:BrokenRedirects|scuasciate]].
+Tu si responsabbele de assicurarte ca le collagaminde appondene a 'u punde giuste.
+
+Vide ca 'a pàgene '''non''' g'avene spustate ce già stè 'na pàgene cu 'u titele nuève, a meno che non g'è vacande o jè 'nu ridirezionamende e non ge tène 'na storie de cangiaminde.
+Quiste signifeche ca jè possibbele renominà 'na pàgene accume se chiamave apprime addò tu è fatte 'n'errore e non g'è possibbele sovrascirevere 'na pàgene esistende.
+
+'''Fà Attenziò!'''
+Quiste pò essere 'nu cangiamende inaspettate pe 'na pàgene popolare;
+Pe piacere ha essere secure secure de avere capite le conzeguenze apprime de scè nnande.",
 'movepagetalktext'             => "'A pagene de le 'ngazzaminde associete avène spustete automaticamende ce però:
 
 * Ste 'na pàgene de 'ngazzaminde chiena sotte 'a vôsce nova, o

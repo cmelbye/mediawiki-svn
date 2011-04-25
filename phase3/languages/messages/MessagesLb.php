@@ -640,6 +640,9 @@ Waart w.e.g. ier Dir et nach eng Kéier versicht.",
 'loginlanguagelabel'         => 'Sprooch: $1',
 'suspicious-userlogout'      => 'Är Ufro fir Iech auszeloggen gouf refuséiert well et esou ausgesäit wéi wann se vun engem Futtise Browser oder Proxy-Tëschespäicher kënnt.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Onbekannte Feeler an der PHP-Mail-Fonctioun',
+
 # JavaScript password checks
 'password-strength'            => 'Geschate Stäerkt vum Passwuert: $1',
 'password-strength-bad'        => 'SCHLECHT',
@@ -815,9 +818,6 @@ Dir verspriecht ausserdeem datt Dir dësen Text selwer verfaasst hutt, oder aus 
 '''DROT KEE COPYRECHTLECH GESCHÜTZTE CONTENU OUNI ERLAABNES AN!'''",
 'copyrightwarning2'                => "W.e.g. notéiert datt all Kontributiounen op {{SITENAME}} vun anere Benotzer verännert oder geläscht kënne ginn. Wann dir dat net wëllt, da setzt näischt heihinner.<br />
 Dir verspriecht ausserdeem datt dir dësen Text selwer verfaasst hutt, oder aus dem Domaine public oder anere fräie Quelle kopéiert hutt. (cf. $1 fir méi Detailler). '''DROT KEE COPYRECHTLECH GESCHÜTZTE CONTENU AN!'''",
-'longpagewarning'                  => "'''WARNUNG: Dës Säit ass $1 kB grouss; verschidde Browser kéinte Problemer hunn, Säiten ze verschaffen, déi méi grouss wéi 32 kB sinn.
-
-Iwwerleet w.e.g., ob eng Opdeelung vun der Säit a méi kleng Abschnitter méiglich ass.'''",
 'longpageerror'                    => "'''FEELER: Den Text, den Dir Versicht ze späicheren, huet $1 KB. Dëst ass méi wéi den erlaabte Maximum vun $2 KB – dofir kann den Text net gespäichert ginn.'''",
 'readonlywarning'                  => "'''OPGEPASST: D'Datebank gouf wéinst Maintenanceaarbechte fir Säitenännerunge gespaart, dofir kënnt Dir déi Säit den Ament net ofspäicheren. Versuergt den Text a versicht d'Ännerunge méi spéit nach emol ze maachen.'''
 
@@ -1380,6 +1380,7 @@ Dir kënnt et och zouloossen datt aner Benotzer iech - iwwert e Link op Ärer Be
 'right-override-export-depth' => 'Säiten exportéieren inklusiv de verlinkte Säite bis zu enger Déift vu 5',
 'right-sendemail'             => 'Anere Benotzer E-Maile schécken',
 'right-revisionmove'          => 'Versioune réckelen',
+'right-disableaccount'        => 'Benotzerkonten desaktivéieren',
 
 # User rights log
 'rightslog'      => 'Logbuch vun de Benotzerrechter',
@@ -1517,8 +1518,8 @@ Erwënschte {{PLURAL:\$3|Format ass|Formater sinn}}: \$2.",
 'filetype-banned-type'        => "'''.$1''' ass ee Fichersformat deen net erlaabt ass.
 Erlaabt {{PLURAL:$3|ass|sinn}}: $2.",
 'filetype-missing'            => 'De Fichier huet keng Erweiderung (wéi z. B. ".jpg").',
-'empty-file'                  => 'De Fichier deen Dir geschéckt huet war eidel.',
-'file-too-large'              => 'De Fichier deen Dir geschéckt huet war ze grouss.',
+'empty-file'                  => 'De Fichier deen Dir geschéckt hutt war eidel.',
+'file-too-large'              => 'De Fichier deen Dir geschéckt hutt war ze grouss.',
 'filename-tooshort'           => 'Den Numm vum Fichier ass ze kuerz.',
 'filetype-banned'             => 'Dësen Typ vu Fichier kann net eropgeluede ginn.',
 'verification-error'          => "Dëse Fichier huet d'Fichiers-Iwwerpréifung net passéiert.",
@@ -2249,6 +2250,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Kontributioune vun neie Benotzer',
 'sp-contributions-blocklog'            => 'Spärlescht',
 'sp-contributions-deleted'             => 'geläschte Benotzer-Kontributiounen',
+'sp-contributions-uploads'             => 'Eropgeluede Fichieren',
 'sp-contributions-logs'                => 'Logbicher',
 'sp-contributions-talk'                => 'diskutéieren',
 'sp-contributions-userrights'          => 'Verwaltung vun de Benotzerrechter',
@@ -2318,7 +2320,6 @@ Kuckt d'[[Special:IPBlockList|IP Spär-Lëscht]] fir all Spären ze gesin.",
 'ipb-edit-dropdown'               => 'Spärgrënn änneren',
 'ipb-unblock-addr'                => 'Spär vum $1 ophiewen',
 'ipb-unblock'                     => 'Spär vun enger IP-Adress oder engem Benotzer ophiewen',
-'ipb-blocklist-addr'              => 'Aktuell Späre fir $1',
 'ipb-blocklist'                   => 'Kuckt aktuell Spären',
 'ipb-blocklist-contribs'          => 'Kontributioune fir $1',
 'unblockip'                       => 'Spär vum Benotzer ophiewen',
@@ -3354,5 +3355,18 @@ Gitt den Numm vum Fichier ouni de Prefix \"{{ns:file}}:\" an.",
 'htmlform-submit'              => 'Späicheren',
 'htmlform-reset'               => 'Ännerungen zrécksetzen',
 'htmlform-selectorother-other' => 'Anerer',
+
+# Special:DisableAccount
+'disableaccount'             => 'E Benotzerkont desaktivéieren',
+'disableaccount-user'        => 'Benotzernumm:',
+'disableaccount-reason'      => 'Grond:',
+'disableaccount-confirm'     => "Dëse Benotzerkont desaktivéieren.
+De Benotzer ka sech net méi aloggen, säi Passwuert änneren, a kritt och keng Noriichte méi per Mail.
+Wann e Benotzer elo iergendwou ageloggt ass da gëtt hien direkt ausgeloggt.
+''Denkt drun datt desaktivéiere vun engem Kont net ka réckgängeg gemaach ginn ouni d'Interventioun vun engem Administrateur vum System.''",
+'disableaccount-mustconfirm' => 'Dir musst confirméieren datt Dir dëse Kont desaktivéiere wëllt.',
+'disableaccount-nosuchuser'  => 'De Benotzerkont "$1" gëtt et net.',
+'disableaccount-success'     => 'De Benotzerkont "$1" gouf definitiv desaktivéiert.',
+'disableaccount-logentry'    => 'huet de Benotzer [[$1]] definitiv desaktivéiert',
 
 );

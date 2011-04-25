@@ -759,6 +759,9 @@ Molimo Vas da sačekate prije nego što pokušate ponovo.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaš zahtjev za odjavu je odbijen jer je poslan preko pokvarenog preglednika ili keširanog proksija.',
 
+# E-mail sending
+'php-mail-error-unknown' => 'Nepoznata greška u PHP funkciji mail()',
+
 # JavaScript password checks
 'password-strength'            => 'Procijenjena snaga šifre: $1',
 'password-strength-bad'        => 'LOŠA',
@@ -946,9 +949,6 @@ nemojte ih slati ovdje. Takođe, slanje članka podrazumijeva i vašu izjavu da 
 'copyrightwarning2'                => "Zapamtite da svi doprinosi na stranici {{SITENAME}} može biti izmijenjen, promijenjen ili uklonjen od strane ostalih korisnika. Ako ne želite da ovo desi sa Vašim tekstom, onda ga nemojte slati ovdje.<br />
 Također nam garantujete da ste ovo Vi napisali, ili da ste ga kopirali iz javne domene ili sličnog slobodnog izvora informacija (pogledajte $1 za više detalja).
 '''NE ŠALJITE AUTORSKIM PRAVOM ZAŠTIĆENE TEKSTOVE BEZ DOZVOLE!'''",
-'longpagewarning'                  => "'''Pažnja''': Ova stranica ima $1 kilobajta;
-neki preglednici mogu imati problema kad uređujete stranice skoro ili veće od 32 kilobajta.
-Molimo Vas da razmotrite razbijanje stranice na manje dijelove.",
 'longpageerror'                    => "'''Greška: Tekst, koji ste poslali, je dug $1 kilobajta, što je veće od maksimuma, koji iznosi $2 kilobajta.
 Stranica ne može biti spremljena.'''",
 'readonlywarning'                  => "'''PAŽNJA: Baza je zaključana zbog održavanja, tako da nećete moći da sačuvate svoje izmjene za sada.
@@ -1519,6 +1519,7 @@ Također omogućuje drugim korisnicima da vas kontaktiraju preko Vaše korisnič
 'right-override-export-depth' => 'Izvoz stranica uključujući povezane stranice do dubine od 5 linkova',
 'right-sendemail'             => 'Slanje e-maila drugim korisnicima',
 'right-revisionmove'          => 'Premještanje revizija',
+'right-disableaccount'        => 'Onemogućavanje računa',
 
 # User rights log
 'rightslog'      => 'Zapisnik korisničkih prava',
@@ -2416,6 +2417,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Doprinosi novih korisnika',
 'sp-contributions-blocklog'            => 'Evidencija blokiranja',
 'sp-contributions-deleted'             => 'obrisani doprinosi korisnika',
+'sp-contributions-uploads'             => 'postavljanja',
 'sp-contributions-logs'                => 'zapisnici',
 'sp-contributions-talk'                => 'razgovor',
 'sp-contributions-userrights'          => 'postavke korisničkih prava',
@@ -2484,7 +2486,6 @@ Posljednje stavke zapisnika blokiranja možete pogledati ispod:',
 'ipb-edit-dropdown'               => 'Uredi razloge blokiranja',
 'ipb-unblock-addr'                => 'Deblokiraj $1',
 'ipb-unblock'                     => 'Deblokiraj korisničko ime ili IP adresu',
-'ipb-blocklist-addr'              => 'Postojeće blokade za $1',
 'ipb-blocklist'                   => 'Vidi postojeće blokade',
 'ipb-blocklist-contribs'          => 'Doprinosi za $1',
 'unblockip'                       => 'Odblokiraj korisnika',
@@ -3516,6 +3517,7 @@ Također možete [[Special:Watchlist/edit|koristiti standardni uređivač]].',
 'version-specialpages'             => 'Posebne stranice',
 'version-parserhooks'              => 'Kuke parsera',
 'version-variables'                => 'Promjenjive',
+'version-skins'                    => 'Kože',
 'version-other'                    => 'Ostalo',
 'version-mediahandlers'            => 'Upravljači medije',
 'version-hooks'                    => 'Kuke',
@@ -3637,5 +3639,18 @@ Unesite ime datoteke bez "{{ns:file}}:" prefiksa.',
 # SQLite database support
 'sqlite-has-fts' => '$1 sa podrškom pretrage cijelog teksta',
 'sqlite-no-fts'  => '$1 bez podrške pretrage cijelog teksta',
+
+# Special:DisableAccount
+'disableaccount'             => 'Onemogućavanje korisničkog računa',
+'disableaccount-user'        => 'Korisničko ime:',
+'disableaccount-reason'      => 'Razlog:',
+'disableaccount-confirm'     => "Onemogući ovaj korisnički račun.
+Korisnik se neće moći prijaviti, staviti novu šifru ili primati obavještenja putem e-maila.
+Ako je korisnik negdje u međuvremenu prijavljen, bit će automatski odmah odjavljen.
+''Zapamtite da se onemogućavanje računa ne može poništiti bez intervencije sistemskog administratora.''",
+'disableaccount-mustconfirm' => 'Morate potvrditi da želite onemogućiti ovaj račun.',
+'disableaccount-nosuchuser'  => 'Korisnički račun "$1" ne postoji.',
+'disableaccount-success'     => 'Korisnički račun "$1" je trajno onemogućen.',
+'disableaccount-logentry'    => 'zauvijek je onemogućen korisnički račun [[$1]]',
 
 );

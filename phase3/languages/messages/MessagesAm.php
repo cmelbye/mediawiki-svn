@@ -587,7 +587,6 @@ $1ን ወይም ማንም ሌላ [[{{MediaWiki:Grouppage-sysop}}|መጋቢ]] ስ
 'copyrightwarning2'                => "ወደ {{SITENAME}} የሚላከው አስተዋጽኦ ሁሉ በሌሎች ተጠቃሚዎች ሊታረም፣ ሊለወጥ፣ ወይም ሊጠፋ እንደሚቻል ያስታውሱ። ጽሕፈትዎ እንዲታረም ካልወደዱ፣ ወደዚህ አይልኩት።<br />
 ደግሞ ይህ የራስዎ ጽሕፈት ወይም ከነጻ ምንጭ የተቀዳ ጽሕፈት መሁኑን ያረጋግጣሉ። (ለዝርዝር $1 ይዩ)።
 '''አለፈቃድ፡ መብቱ የተጠበቀውን ሥራ አይልኩት!'''",
-'longpagewarning'                  => "'''ማስጠንቀቂያ፦ የዚሁ ገጽ መጠን እስከ $1 kilobyte ድረስ ደርሷል፤ አንድ ጽሑፍ ከ32 kilobyte የበለጠ ሲሆን ይህ ግዙፍነት ለአንዳንድ ተጠቃሚ ዌብ-ብራውዘር ያስቸግራል። እባክዎን፣ ገጹን ወደ ተለያዩ ገጾች ማከፋፈልን ያስቡበት። '''",
 'longpageerror'                    => "'''ስህተት፦ ያቀረቡት ጽሕፈት $1 kb ነው፤ ይህም ከተፈቀደው ወሰን $2 kb በላይ ነው። ሊቆጠብ አይችልም።'''",
 'readonlywarning'                  => ":'''ማስታወቂያ፦''' {{SITENAME}} አሁን ለአጭር ግዜ ተቆልፎ ገጹን ለማቅረብ አይቻልም። ጥቂት ደቂቃ ቆይተው እባክዎ እንደገና ይሞክሩት!
 :(The database has been temporarily locked for maintenance, so you cannot save your edits at this time. You may wish to cut-&-paste the text into another file, and try again in a moment or two.)",
@@ -1637,7 +1636,6 @@ $1',
 'ipb-edit-dropdown'           => "'ተራ የማገጃ ምክንያቶች' ለማስተካከል",
 'ipb-unblock-addr'            => 'ከ$1 መገጃ ለማንሣት',
 'ipb-unblock'                 => 'ከብዕር ስም ወይም ከቁ. አድራሻ ማገጃ ለማንሣት',
-'ipb-blocklist-addr'          => 'በ$1 ላይ አሁን ያለውን ማገጃ ለመመልከት',
 'ipb-blocklist'               => 'አሁን ያሉትን ማገጃዎች ለመመልከት',
 'ipb-blocklist-contribs'      => 'የ$1 ለውጦች',
 'unblockip'                   => 'ከተጠቃሚ ማገጃ ለማንሣት',

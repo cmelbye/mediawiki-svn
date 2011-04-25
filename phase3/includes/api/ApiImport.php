@@ -65,16 +65,11 @@ class ApiImport extends ApiBase {
 			}
 			$source = ImportStreamSource::newFromUpload( 'xml' );
 		}
-		if ( $source instanceof WikiErrorMsg ) {
-			$this->dieUsageMsg( array_merge(
-				array( $source->getMessageKey() ),
-				$source->getMessageArgs() ) );
-		} elseif ( WikiError::isError( $source ) ) {
-			// This shouldn't happen
-			$this->dieUsageMsg( array( 'import-unknownerror', $source->getMessage() ) );
+		if ( !$source->isOK() ) {
+			$this->dieUsageMsg( $source->getErrorsArray() );
 		}
 
-		$importer = new WikiImporter( $source );
+		$importer = new WikiImporter( $source->value );
 		if ( isset( $params['namespace'] ) ) {
 			$importer->setTargetNamespace( $params['namespace'] );
 		}
@@ -85,15 +80,10 @@ class ApiImport extends ApiBase {
 			$params['summary']
 		);
 
-		$result = $importer->doImport();
-		if ( $result instanceof WikiXmlError ) {
-			$this->dieUsageMsg( array( 'import-xml-error',
-				$result->mLine,
-				$result->mColumn,
-				$result->mByte . $result->mContext,
-				xml_error_string( $result->mXmlError ) ) );
-		} elseif ( WikiError::isError( $result ) ) {
-			$this->dieUsageMsg( array( 'import-unknownerror', $result->getMessage() ) ); // This shouldn't happen
+		try {
+			$importer->doImport();
+		} catch ( MWException $e ) {
+			$this->dieUsageMsg( array( 'import-unknownerror', $e->getMessage() ) );
 		}
 
 		$resultData = $reporter->getData();
@@ -165,7 +155,7 @@ class ApiImport extends ApiBase {
 	protected function getExamples() {
 		return array(
 			'Import [[meta:Help:Parserfunctions]] to namespace 100 with full history:',
-			'  api.php?action=import&interwikisource=meta&interwikipage=Help:ParserFunctions&namespace=100&fullhistory&token=123ABC',
+			'  api.php?action=import&interwikisource=meta&interwikipage=Help:ParserFunctions&namespace=100&fullhistory=&token=123ABC',
 		);
 	}
 

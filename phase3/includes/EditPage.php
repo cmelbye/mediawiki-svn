@@ -274,6 +274,24 @@ class EditPage {
 		return $this->deletedSinceEdit;
 	}
 
+	/**
+	 * Checks whether the user entered a skin name in uppercase,
+	 * e.g. "User:Example/Monobook.css" instead of "monobook.css"
+	 */
+	protected function isWrongCaseCssJsPage() {
+		if( $this->mTitle->isCssJsSubpage() ) {
+			$name = $this->mTitle->getSkinFromCssJsSubpage();
+			$skins = array_merge(
+				array_keys( Skin::getSkinNames() ),
+				array( 'common' )
+			);
+			return !in_array( $name, $skins )
+				&& in_array( strtolower( $name ), $skins );
+		} else {
+			return false;
+		}
+	}
+
 	function submit() {
 		$this->edit();
 	}
@@ -360,7 +378,7 @@ class EditPage {
 		$this->isCssJsSubpage      = $this->mTitle->isCssJsSubpage();
 		$this->isCssSubpage        = $this->mTitle->isCssSubpage();
 		$this->isJsSubpage         = $this->mTitle->isJsSubpage();
-		$this->isValidCssJsSubpage = $this->mTitle->isValidCssJsSubpage();
+		$this->isWrongCaseCssJsPage = $this->isWrongCaseCssJsPage();
 
 		# Show applicable editing introductions
 		if ( $this->formtype == 'initial' || $this->firsttime )
@@ -1425,7 +1443,7 @@ HTML
 		} else {
 			if ( $this->isCssJsSubpage ) {
 				# Check the skin exists
-				if ( !$this->isValidCssJsSubpage ) {
+				if ( $this->isWrongCaseCssJsPage ) {
 					$wgOut->wrapWikiMsg( "<div class='error' id='mw-userinvalidcssjstitle'>\n$1\n</div>", array( 'userinvalidcssjstitle', $wgTitle->getSkinFromCssJsSubpage() ) );
 				}
 				if ( $this->formtype !== 'preview' ) {
@@ -1475,13 +1493,16 @@ HTML
 		}
 
 		if ( $this->tooBig || $this->kblength > $wgMaxArticleSize ) {
-			$wgOut->addHTML( "<div class='error' id='mw-edit-longpageerror'>\n" );
-			$wgOut->addWikiMsg( 'longpageerror', $wgLang->formatNum( $this->kblength ), $wgLang->formatNum( $wgMaxArticleSize ) );
-			$wgOut->addHTML( "</div>\n" );
-		} elseif ( $this->kblength > 29 ) {
-			$wgOut->addHTML( "<div id='mw-edit-longpagewarning'>\n" );
-			$wgOut->addWikiMsg( 'longpagewarning', $wgLang->formatNum( $this->kblength ) );
-			$wgOut->addHTML( "</div>\n" );
+			$wgOut->wrapWikiMsg( "<div class='error' id='mw-edit-longpageerror'>\n$1\n</div>",
+				array( 'longpageerror', $wgLang->formatNum( $this->kblength ), $wgLang->formatNum( $wgMaxArticleSize ) ) );
+		} else {
+			$msg = 'longpage-hint';
+			$text = wfMsg( $msg );
+			if( !wfEmptyMsg( $msg, $text ) && $text !== '-' ) {
+				$wgOut->wrapWikiMsg( "<div id='mw-edit-longpage-hint'>\n$1\n</div>",
+					array( 'longpage-hint', $wgLang->formatSize( strlen( $this->textbox1 ) ), strlen( $this->textbox1 ) )
+				);
+			}
 		}
 	}
 
@@ -1875,17 +1896,30 @@ HTML
 		}
 
 		# don't parse user css/js, show message about preview
-		# XXX: stupid php bug won't let us use $wgTitle->isCssJsSubpage() here
+		# XXX: stupid php bug won't let us use $wgTitle->isCssJsSubpage() here -- This note has been there since r3530. Sure the bug was fixed time ago?
 
-		if ( $this->isCssJsSubpage ) {
-			if (preg_match( "/\\.css$/", $this->mTitle->getText() ) ) {
-				$previewtext = "<div id='mw-usercsspreview'>\n" . wfMsg( 'usercsspreview' ) . "\n</div>";
-			} else if (preg_match( "/\\.js$/", $this->mTitle->getText() ) ) {
-				$previewtext = "<div id='mw-userjspreview'>\n" . wfMsg( 'userjspreview' ) . "\n</div>";
+		if ( $this->isCssJsSubpage || $this->mTitle->isCssOrJsPage() ) {
+			$level = 'user';
+			if ( $this->mTitle->getNamespace() == NS_MEDIAWIKI ) {
+				$level = 'global';
 			}
+
+			# Used messages to make sure grep find them:
+			# usercsspreview, userjspreview, globalcsspreview, globaljspreview
+			if (preg_match( "/\\.css$/", $this->mTitle->getText() ) ) {
+				$previewtext = "<div id='mw-{$level}csspreview'>\n" . wfMsg( "{$level}csspreview" ) . "\n</div>";
+				$class = "mw-code mw-css";
+			} elseif (preg_match( "/\\.js$/", $this->mTitle->getText() ) ) {
+				$previewtext = "<div id='mw-{$level}jspreview'>\n" . wfMsg( "{$level}jspreview" ) . "\n</div>";
+				$class = "mw-code mw-js";
+			} else {
+				throw new MWException( 'A CSS/JS (sub)page but which is not css nor js!' );
+			}
+
 			$parserOptions->setTidy( true );
 			$parserOutput = $wgParser->parse( $previewtext, $this->mTitle, $parserOptions );
 			$previewHTML = $parserOutput->mText;
+			$previewHTML .= "<pre class=\"$class\" dir=\"ltr\">\n" . htmlspecialchars( $this->textbox1 ) . "\n</pre>\n";
 		} else {
 			$rt = Title::newFromRedirectArray( $this->textbox1 );
 			if ( $rt ) {
@@ -2044,6 +2078,7 @@ HTML
 	 * Produce the stock "your edit contains spam" page
 	 *
 	 * @param $match Text which triggered one or more filters
+	 * @deprecated Use method spamPageWithContent() instead
 	 */
 	static function spamPage( $match = false ) {
 		global $wgOut, $wgTitle;
@@ -2061,6 +2096,38 @@ HTML
 
 		$wgOut->returnToMain( false, $wgTitle );
 	}
+
+	/**
+	 * Show "your edit contains spam" page with your diff and text
+	 *
+	 * @param $match Text which triggered one or more filters
+	 */
+	public function spamPageWithContent( $match = false ) {
+		global $wgOut, $wgTitle;
+		$this->textbox2 = $this->textbox1;
+
+		$wgOut->setPageTitle( wfMsg( 'spamprotectiontitle' ) );
+		$wgOut->setRobotPolicy( 'noindex,nofollow' );
+		$wgOut->setArticleRelated( false );
+
+		$wgOut->addHTML( '<div id="spamprotected">' );
+		$wgOut->addWikiMsg( 'spamprotectiontext' );
+		if ( $match ) {
+			$wgOut->addWikiMsg( 'spamprotectionmatch', wfEscapeWikiText( $match ) );
+		}
+		$wgOut->addHTML( '</div>' );
+
+		$wgOut->wrapWikiMsg( '<h2>$1</h2>', "yourdiff" );
+		$de = new DifferenceEngine( $this->mTitle );
+		$de->setText( $this->getContent(), $this->textbox2 );
+		$de->showDiff( wfMsg( "storedversion" ), wfMsg( "yourtext" ) );
+
+		$wgOut->wrapWikiMsg( '<h2>$1</h2>', "yourtext" );
+		$this->showTextbox2();
+
+		$wgOut->addReturnTo( $wgTitle, array( 'action' => 'edit' ) );
+	}
+
 
 	/**
 	 * @private
@@ -2637,7 +2704,7 @@ HTML
 				return false;
 
 			case self::AS_SPAM_ERROR:
-				self::spamPage( $resultDetails['spam'] );
+				$this->spamPageWithContent( $resultDetails['spam'] );
 				return false;
 
 			case self::AS_BLOCKED_PAGE_FOR_USER:

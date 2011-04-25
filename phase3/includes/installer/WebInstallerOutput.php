@@ -88,15 +88,20 @@ class WebInstallerOutput {
 		$skinDir = dirname( dirname( dirname( __FILE__ ) ) ) . '/skins';
 		$vectorCssFile = "$skinDir/vector/screen.css";
 		$configCssFile = "$skinDir/common/config.css";
+		$css = '';
 		wfSuppressWarnings();
-		$css = file_get_contents( $vectorCssFile ) . "\n" . file_get_contents( $configCssFile );
+		$vectorCss = file_get_contents( $vectorCssFile );
+		$configCss = file_get_contents( $configCssFile );
 		wfRestoreWarnings();
-		if( !$css ) {
-			return "/** Your webserver cannot read $vectorCssFile or $configCssFile, please check file permissions */";
-		} elseif( $dir == 'rtl' ) {
+		if( !$vectorCss || !$configCss ) {
+			$css = "/** Your webserver cannot read $vectorCssFile or $configCssFile, please check file permissions */";
+		}
+
+		$css .= str_replace( 'images/', '../skins/vector/images/', $vectorCss ) . "\n" . str_replace( 'images/', '../skins/common/images/', $configCss );
+		if( $dir == 'rtl' ) {
 			$css = CSSJanus::transform( $css, true );
 		}
-		return str_replace( 'images/', '../skins/vector/images/', $css );
+		return $css;
 	}
 
 	/**
@@ -178,7 +183,6 @@ class WebInstallerOutput {
 	<?php echo Html::linkedStyle( $this->getCssUrl() ) . "\n"; ?>
 	<?php echo Html::inlineScript(  "var dbTypes = " . Xml::encodeJsVar( $dbTypes ) ) . "\n"; ?>
 	<?php echo $this->getJQuery() . "\n"; ?>
-	<?php echo $this->getJQueryTipsy() . "\n"; ?>
 	<?php echo Html::linkedScript( '../skins/common/config.js' ) . "\n"; ?>
 </head>
 
@@ -205,19 +209,17 @@ class WebInstallerOutput {
 
 
 <div id="mw-panel">
-	<div class="portlet" id="p-logo">
+	<div class="portal" id="p-logo">
 	  <a style="background-image: url(../skins/common/images/mediawiki.png);"
 	    href="http://www.mediawiki.org/"
 	    title="Main Page"></a>
 	</div>
 	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
-	<div class='portlet'><div class='pBody'>
+	<div class="portal"><div class="body">
 <?php
 	echo $this->parent->parse( wfMsgNoTrans( 'config-sidebar' ), true );
 ?>
 	</div></div>
-</div>
-
 </div>
 
 </body>
@@ -234,7 +236,6 @@ class WebInstallerOutput {
 	<title><?php $this->outputTitle(); ?></title>
 	<?php echo Html::linkedStyle( $this->getCssUrl() ) . "\n"; ?>
 	<?php echo $this->getJQuery(); ?>
-	<?php echo $this->getJQueryTipsy() . "\n"; ?>
 	<?php echo Html::linkedScript( '../skins/common/config.js' ); ?>
 </head>
 
@@ -249,8 +250,5 @@ class WebInstallerOutput {
 
 	public function getJQuery() {
 		return Html::linkedScript( "../resources/jquery/jquery.js" );
-	}
-	public function getJQueryTipsy() {
-		return Html::linkedScript( "../resources/jquery/jquery.tipsy.js" );
 	}
 }

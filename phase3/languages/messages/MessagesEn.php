@@ -461,8 +461,7 @@ $specialPageAliases = array(
 	'RevisionMove'              => array( 'RevisionMove' ),
 	'ComparePages'              => array( 'ComparePages' ),
 	'Badtitle'                  => array( 'Badtitle' ),
-	'Globalfileusage'           => array( 'GlobalFileUsage' ),
-	'Globaltemplateusage'       => array( 'GlobalTemplateUsage' ),
+	'DisableAccount'            => array( 'DisableAccount' ),
 );
 
 /**
@@ -1339,9 +1338,7 @@ If you do not want your writing to be edited mercilessly, then do not submit it 
 You are also promising us that you wrote this yourself, or copied it from a public domain or similar free resource (see $1 for details).
 '''Do not submit copyrighted work without permission!'''",
 'editpage-tos-summary'             => '-', # do not translate or duplicate this message to other languages
-'longpagewarning'                  => "'''Warning:''' This page is $1 kilobytes long;
-some browsers may have problems editing pages approaching or longer than 32kb.
-Please consider breaking the page into smaller sections.",
+'longpage-hint'                    => '-', # do not translate or duplicate this message to other languages
 'longpageerror'                    => "'''Error: The text you have submitted is $1 kilobytes long, which is longer than the maximum of $2 kilobytes.'''
 It cannot be saved.",
 'readonlywarning'                  => "'''Warning: The database has been locked for maintenance, so you will not be able to save your edits right now.'''
@@ -1358,9 +1355,6 @@ The latest log entry is provided below for reference:",
 'templatesused'                    => '{{PLURAL:$1|Template|Templates}} used on this page:',
 'templatesusedpreview'             => '{{PLURAL:$1|Template|Templates}} used in this preview:',
 'templatesusedsection'             => '{{PLURAL:$1|Template|Templates}} used in this section:',
-'distanttemplatesused'             => 'Distant {{PLURAL:$1|template|templates}} used on this page:',
-'distanttemplatesusedpreview'      => 'Distant {{PLURAL:$1|template|templates}} used in this preview:',
-'distanttemplatesusedsection'      => 'Distant {{PLURAL:$1|template|templates}} used in this section:',
 'template-protected'               => '(protected)',
 'template-semiprotected'           => '(semi-protected)',
 'hiddencategories'                 => 'This page is a member of {{PLURAL:$1|1 hidden category|$1 hidden categories}}:',
@@ -3007,7 +3001,6 @@ See [[Special:IPBlockList|IP block list]] to review blocks.',
 'ipb-edit-dropdown'               => 'Edit block reasons',
 'ipb-unblock-addr'                => 'Unblock $1',
 'ipb-unblock'                     => 'Unblock a username or IP address',
-'ipb-blocklist-addr'              => 'Existing blocks for $1',
 'ipb-blocklist'                   => 'View existing blocks',
 'ipb-blocklist-contribs'          => 'Contributions for $1',
 'unblockip'                       => 'Unblock user',
@@ -4341,30 +4334,6 @@ Enter the filename without the "{{ns:file}}:" prefix.',
 'compare-rev2'     => 'Revision 2',
 'compare-submit'   => 'Compare',
 
-# Special:GlobalFileUsage
-'globalfileusage'      => 'Global file usage',
-'globalfileusage-for'  => 'Global file usage for "$1"',
-'globalfileusage-desc' => '[[Special:GlobalFileUsage|Special page]] to view global file usage',
-'globalfileusage-ok'   => 'Search',
-'globalfileusage-text' => 'Search global file usage',
-'globalfileusage-no-results' => '[[$1]] is not used on other wikis.',
-'globalfileusage-on-wiki' => 'Usage on $2',
-'globalfileusage-of-file' => 'The following other wikis use this file:',
-'globalfileusage-more' => 'View [[{{#Special:GlobalUsage}}/$1|more global usage]] of this file.',
-'globalfileusage-filterlocal' => 'Do not show local usage',
-
-# Special:GlobalTemplateUsage
-'globaltemplateusage'      => 'Global template usage',
-'globaltemplateusage-for'  => 'Global template usage for "$1"',
-'globaltemplateusage-desc' => '[[Special:GlobalTemplateUsage|Special page]] to view global template usage',
-'globaltemplateusage-ok'   => 'Search',
-'globaltemplateusage-text' => 'Search global template usage',
-'globaltemplateusage-no-results' => '[[$1]] is not used on other wikis.',
-'globaltemplateusage-on-wiki' => 'Usage on $2',
-'globaltemplateusage-of-file' => 'The following other wikis use this template:',
-'globaltemplateusage-more' => 'View [[{{#Special:GlobalUsage}}/$1|more global usage]] of this template.',
-'globaltemplateusage-filterlocal' => 'Do not show local usage',
-
 # Database error messages
 'dberr-header'      => 'This wiki has a problem',
 'dberr-problems'    => 'Sorry!
@@ -4391,4 +4360,17 @@ This site is experiencing technical difficulties.',
 'sqlite-has-fts' => '$1 with full-text search support',
 'sqlite-no-fts'  => '$1 without full-text search support',
 
+## Special:DisableAccount
+'disableaccount-desc' => 'Allows administrators to disable individual accounts.',
+'right-disableaccount' => 'Disable accounts',
+'disableaccount' => 'Disable a user account',
+'disableaccount-user' => 'User name:',
+'disableaccount-confirm' => "Disable this user account.
+The user will not be able to log in, reset their password, or receive email notifications.
+If the user is currently logged in anywhere, they will be immediately logged out.
+''Note that disabling an account is not reversible without system administrator intervention.''",
+'disableaccount-mustconfirm' => 'You must confirm that you wish to disable this account.',
+'disableaccount-nosuchuser' => 'The user account "$1" does not exist.',
+'disableaccount-success' => 'The user account "$1" has been permanently disabled.',
+'disableaccount-logentry' => 'permanently disabled the user account [[$1]].',
 );

@@ -965,8 +965,6 @@ Bes De secher, watte mähs?
 'copyrightwarning'                 => 'Ding Beidräch stonn unger de [[$2]], süch $1. Wann De nit han wells, dat Dinge Tex ömjemodelt weed, un söns wohin verdeilt, dun en hee nit speichere. Mem Avspeichere sähs De och zo, dat et vun Dir selvs es, un/oder Do dat Rääch häs, en hee zo verbreide. Wann et nit stemmp, oder Do kanns et nit nohwiese, kann Dich dat en dr Bau bränge!',
 'copyrightwarning2'                => 'De Beidräch en de {{SITENAME}} künne vun andere Metmaacher ömjemodelt
 oder fottjeschmesse wääde. Wann Der dat nit rääch es, schriev nix. Et es och nüdich, dat et vun Dir selvs es, oder dat Do dat Rääch häs, et hee öffentlich wigger ze jevve. Süch $1. Wann et nit stemmp, oder Do kanns et nit nohwiese, künnt Dich dat en dr Bau bränge!',
-'longpagewarning'                  => "'''Oppjepass:''' Dä Tex, dä De heh jescheck häs, dä es '''$1'''
-Kilobyte jroß. Manch Brauser kütt nit domet klor, wann et mieh wie '''32''' Kilobyte sin. Do künnts De drüvver nohdenke, dat Dinge en kleiner Stöckche ze zerkloppe.",
 'longpageerror'                    => "'''Janz schlemme Fähler:'''
 Dä Tex, dä De heh jescheck häs, dä es '''$1''' Kilobyte jroß.
 Dat sin mieh wie '''$2''' Kilobyte. Dat künne mer nit speichere!
@@ -2559,7 +2557,6 @@ un och wann De se ändere wells.',
 'ipb-edit-dropdown'               => 'De Jründ för et Sperre beärrbejde',
 'ipb-unblock-addr'                => '„$1“ widder zohlohße',
 'ipb-unblock'                     => 'En IP-Addräß ov ene Metmaacher widder zohlohße',
-'ipb-blocklist-addr'              => 'De Sperre för „$1“ aanzeije, die jrad bestonn',
 'ipb-blocklist'                   => 'All de Sperre för Metmaacher un IP-Adresse aanzeije, die jrad bestonn',
 'ipb-blocklist-contribs'          => 'De Metmaacher ier Bäjdrähsch för „$1“',
 'unblockip'                       => 'Dä Medmacher widder maache looße',

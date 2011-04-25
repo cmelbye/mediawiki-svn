@@ -1571,8 +1571,9 @@ class Article {
 		}
 
 		$imageUrl = $wgStylePath . '/common/images/redirect' . $imageDir . '.png';		
-		return Html::element( 'img', array( 'src' => $imageUrl, 'alt' => '#REDIRECT' ) ) .
-			'<span class="redirectText">' . $link . '</span>';
+		return '<div class="redirectMsg">' .
+			Html::element( 'img', array( 'src' => $imageUrl, 'alt' => '#REDIRECT' ) ) .
+			'<span class="redirectText">' . $link . '</span></div>';
 	}
 
 	/**
@@ -2517,7 +2518,7 @@ class Article {
 		$id = $this->mTitle->getArticleID();
 
 		if ( $id <= 0 ) {
-			wfDebug( "updateRestrictions failed: $id <= 0\n" );
+			wfDebug( "updateRestrictions failed: article id $id <= 0\n" );
 			return false;
 		}
 
@@ -3927,7 +3928,7 @@ class Article {
 		$cacheable = false;
 
 		if ( HTMLFileCache::useFileCache() ) {
-			$cacheable = $this->getID() && !$this->mRedirectedFrom;
+			$cacheable = $this->getID() && !$this->mRedirectedFrom && !$this->mTitle->isRedirect();
 			// Extension may have reason to disable file caching on some pages.
 			if ( $cacheable ) {
 				$cacheable = wfRunHooks( 'IsFileCacheable', array( &$this ) );

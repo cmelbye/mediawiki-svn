@@ -860,10 +860,6 @@ Raha io no tahirizinao, dia ho very ny fanovana ity pejy ity rehetra taorian'io 
 Ny zava-tsoratanao eto dia vokatr'asa naverinao soratana na nodikainao tany amina loharano ao amin'ny vala sarababem-bahoaka na loharano malalaka hafa (Jereo $1 ho an'ny antsipirihany).
 
 '''Aza mampiasa tahirin-kevitra tsy nahazoan-dalana!'''",
-'longpagewarning'                  => "'''FAMPITANDREMANA: Mahatratra $1 kilooktety ny hangezan'ity pejy ity;
-Ny navigateur sasantsasany dia mety hanana olana
-amin'ny fanovana ny pejy manakaiky na mihoatra ny 32 ko.
-Tsara raha saratsarahinao ho fizarana maromaro ity pejy ity.'''",
 'readonlywarning'                  => "'''FAMPITANDREMANA: Nohidiana noho ny antony fikolokoloana aloha ny banky angona,
 koa tsy afaka mitahiry ny fanovana nataonao aloha ianao izao. Angamba tokony hanao Couper coller aloha
 ianao dia tehirizo anaty rakitra ny fanovanao mandra-paha.'''
@@ -1624,6 +1620,10 @@ Raha mbola misy foana ilay  olana, manorata any amin'ny [[Special:ListUsers/syso
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Tsy azo aleha',
+'img-auth-nopathinfo'   => "Tsy misy ny PATH_INFO.
+Tsy voaparametatra ny lohamilinao hampita io fampahalalàna io.
+Mety mifototra amin'ny CGI izy ka mety tsy mahazaka img_auth
+Vangio ny ttp://www.mediawiki.org/wiki/Manual:Image_Authorization.",
 'img-auth-notindir'     => 'Ny lalana nangatahana dia tsy ny petra-drakitra nokaonfigiorena.',
 'img-auth-badtitle'     => "Tsy afaka mamorona lohateny azo ampiasaina avy amin'ny « $1 ».",
 'img-auth-nologinnWL'   => "Tsy mbola niditra ianao ary tsy ao amin'ny lisitra fotsy « $1 ».",
@@ -1723,6 +1723,9 @@ Tsindrio eo amin'ny lohan-tsanganana raha hanova ny laharam-pisehoana.",
 'filedelete-nofile-old'       => "Tsy nisy santiôna voatahirin'i '''$1''' miaraka amin'ny mahasamihafa naseho.",
 'filedelete-otherreason'      => 'Antony fanampiny :',
 'filedelete-reason-otherlist' => 'Antony hafa',
+'filedelete-reason-dropdown'  => '* Antom-pamafàna rakitra miasa matetika
+** Tsi-fanajana ny zom-pamorona
+** Rakitra efa misy',
 'filedelete-edit-reasonlist'  => 'Hanova ny antom-pamafàna',
 'filedelete-maintenance'      => 'Ny famafana sy ny famerenan-drakitra dia tsy alefa mandritra ny fikojakojana.',
 
@@ -2277,7 +2280,6 @@ Fenoy etsy ambany ny antony manokana (ohatra, mitanisà pejy nosomparana).",
 'ipb-edit-dropdown'               => 'Hanova ny antony fanakanana tsipalotra',
 'ipb-unblock-addr'                => "Hanala ny sakan' i $1",
 'ipb-unblock'                     => "Hanala ny sakan'ny mpikambana na adiresy IP",
-'ipb-blocklist-addr'              => "Sakana efa misy ho an'i $1",
 'ipb-blocklist'                   => 'Hijery ny sakana efa misy',
 'ipb-blocklist-contribs'          => "Fandraisan'anjaran'i $1",
 'unblockip'                       => "Esory ny sakana amin'io mpikambana io",

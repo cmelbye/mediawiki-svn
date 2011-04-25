@@ -700,6 +700,7 @@ Ne zaboravite prilagoditi [[Special:Preferences|{{SITENAME}} postavke]].',
 'yourpassword'               => 'Lozinka:',
 'yourpasswordagain'          => 'Ponovno upišite lozinku',
 'remembermypassword'         => 'Zapamti moju lozinku na ovom računalu (najduže $1 {{PLURAL:$1|dan|dana}})',
+'securelogin-stick-https'    => 'Ostani spojen na HTTPS nakon prijave',
 'yourdomainname'             => 'Vaša domena',
 'externaldberror'            => 'Došlo je do pogreške s vanjskom autorizacijom ili Vam nije dopušteno osvježavanje vanjskog suradničkog računa.',
 'login'                      => 'Prijavi se',
@@ -737,6 +738,7 @@ Provjerite jeste li točno upisali, ili [[Special:UserLogin/signup|otvorite novi
 'wrongpasswordempty'         => 'Niste unijeli lozinku. Pokušajte ponovno.',
 'passwordtooshort'           => 'Lozinka mora sadržavati najmanje {{PLURAL:$1|1 znak|$1 znaka|$1 znakova}}.',
 'password-name-match'        => 'Vaša lozinka mora biti različita od Vašeg suradničkog imena.',
+'password-too-weak'          => 'Lozinka koju ste dali je preslaba i ne može se koristiti.',
 'mailmypassword'             => 'Pošalji mi novu lozinku',
 'passwordremindertitle'      => '{{SITENAME}}: nova lozinka.',
 'passwordremindertext'       => 'Netko je (vjerojatno Vi, s IP adrese $1) zatražio novu lozinku za projekt {{SITENAME}} ($4).
@@ -776,6 +778,9 @@ Možete zanemariti ovu poruku ako je suradnički račun stvoren nenamjerno.',
 Molimo Vas da pričekate prije nego što pokušate ponovo.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaš zahtjev za odjavu je odbijen jer to izgleda kao da je poslan preko pokvarenog preglednika ili keširanog posrednika (proxyja).',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Nepoznata pogreška u PHP-mail() funkciji',
 
 # JavaScript password checks
 'password-strength'            => 'Procijenjena snaga lozinke: $1',
@@ -942,8 +947,6 @@ ove stranice. Ako je sačuvate, sve će promjene učinjene nakon ove inačice bi
 Također nam obećavate da ste ovo sami napisali, ili da ste to prepisali iz nečeg što je u javnom vlasništvu ili pod sličnom slobodnom licencijom.
 '''NE POSTAVLJAJTE RADOVE ZAŠTIĆENE AUTORSKIM PRAVIMA BEZ DOPUŠTENJA!'''",
 'copyrightwarning2'                => "Molimo uočite da svi suradnici mogu mijenjati sve doprinose na {{SITENAME}}. Ako ne želite da se Vaše pisanje nemilosrdno uređuje, nemojte ga slati ovdje.<br /> Također nam obećavate da ste ovo sami napisali, ili da ste to prepisali iz nečeg što je u javnom vlasništvu ili pod sličnom slobodnom licencijom (vidi $1 za detalje). '''NE POSTAVLJAJTE RADOVE ZAŠTIĆENE AUTORSKIM PRAVIMA BEZ DOPUŠTENJA!'''",
-'longpagewarning'                  => 'PAŽNJA: Ova stranica je dugačka $1 kilobajta; neki bi preglednici mogli imati problema pri uređivanju stranica koje se približavaju ili su duže od 32 kb.
-Molimo razmislite o rastavljanju stranice na manje odjeljke.',
 'longpageerror'                    => "'''GREŠKA: Tekst koji ste unijeli dug je $1 kilobajta, što je više od maksimalnih $2 kilobajta. Nije ga moguće snimiti.'''",
 'readonlywarning'                  => "'''UPOZORENJE: Baza podataka je zaključana zbog održavanja, pa trenutačno ne možete sačuvati svoje
 promjene. Najbolje je da kopirate i zaljepite tekst u tekstualnu datoteku te je snimite za kasnije.'''
@@ -1501,6 +1504,7 @@ Možete omogućiti drugima da Vas kontaktiraju na suradničkoj stranici ili stra
 'right-override-export-depth' => 'Izvezi stranice uključujući i povezane stranice do dubine od 5',
 'right-sendemail'             => 'Slanje e-maila drugim korisnicima',
 'right-revisionmove'          => 'Premjesti izmjene',
+'right-disableaccount'        => 'Onemogući račune',
 
 # User rights log
 'rightslog'      => 'Evidencija suradničkih prava',
@@ -1764,6 +1768,7 @@ Poredak datoteka mijenja se pritiskom na naslov stupca.',
 'listfiles_search_for'  => 'Traži ime slike:',
 'imgfile'               => 'datoteka',
 'listfiles'             => 'Popis slika',
+'listfiles_thumb'       => 'Smanjeni pregled',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Naziv slike',
 'listfiles_user'        => 'Suradnik',
@@ -1875,6 +1880,7 @@ Slijedeći popis prikazuje {{PLURAL:$1|stranice koje|prvih $1 stranica koje}} vo
 'statistics-edits'             => 'Broj uređivanja od nastanka projekta {{SITENAME}}',
 'statistics-edits-average'     => 'Prosječan broj uređivanja po stranici',
 'statistics-views-total'       => 'Posjeta ukupno',
+'statistics-views-total-desc'  => 'Posjeti nepostojećim i posebnim stranicama nisu uključeni',
 'statistics-views-peredit'     => 'Posjeta po uređivanju',
 'statistics-users'             => 'Prijavljeni [[Special:ListUsers|suradnici]]',
 'statistics-users-active'      => 'Aktivni suradnici',
@@ -1914,6 +1920,8 @@ koja obično ukazuje na "pravu" odredišnu stranicu, na koju bi trebalo pokaziva
 'nmembers'                => '$1 {{PLURAL:$1|član|članova}}',
 'nrevisions'              => '$1 {{PLURAL:$1|inačica|inačice|inačica}}',
 'nviews'                  => '$1 {{PLURAL:$1|put pogledano|puta pogledano|puta pogledano}}',
+'nimagelinks'             => 'Koristi se na $1 {{PLURAL:$1|stranici|stranice|stranica}}',
+'ntransclusions'          => 'koristi se na $1 {{PLURAL:$1|stranici|stranice|stranica}}',
 'specialpage-empty'       => 'Nema rezultata za traženi izvještaj.',
 'lonelypages'             => 'Stranice siročad',
 'lonelypagestext'         => 'Sljedeće stranice nemaju poveznicu na druge stranice niti su uključene transkluzijom u druge stranice projekta {{SITENAME}}.',
@@ -2358,6 +2366,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Doprinosi novih suradnika',
 'sp-contributions-blocklog'            => 'Evidencija blokiranja',
 'sp-contributions-deleted'             => 'obrisani suradnički doprinosi',
+'sp-contributions-uploads'             => "snimljene datoteke (''uploads'')",
 'sp-contributions-logs'                => 'evidencije',
 'sp-contributions-talk'                => 'razgovor',
 'sp-contributions-userrights'          => 'upravljanje suradničkim pravima',
@@ -2430,7 +2439,6 @@ Pogledaj [[Special:IPBlockList|popis blokiranih IP adresa]] za pregled.',
 'ipb-edit-dropdown'               => 'Uredi razloge blokiranja',
 'ipb-unblock-addr'                => 'Odblokiraj $1',
 'ipb-unblock'                     => 'Odblokiraj suradničko ime ili IP adresu',
-'ipb-blocklist-addr'              => 'Postojeća blokiranja za $1',
 'ipb-blocklist'                   => 'Vidi postojeća blokiranja',
 'ipb-blocklist-contribs'          => 'Doprinosi za $1',
 'unblockip'                       => 'Deblokiraj suradnika',
@@ -2536,6 +2544,17 @@ To znači: 1. ako pogriješite, možete opet preimenovati stranicu na stari nasl
 
 '''Upozorenje!'''
 Ovo može biti drastična i neočekivana promjena kad su u pitanju popularne stranice. Molimo dobro razmislite prije nego što preimenujete stranicu.",
+'movepagetext-noredirectfixer' => "Pomoću donjeg obrasca ćete preimenovati stranicu i premjestiti sve stare izmjene na novo ime. 
+Stari će se naslov pretvoriti u stranicu koja automatski preusmjerava na novi naslov. 
+Budite sigurni da ste provjerili [[Special:DoubleRedirects|dvostruka]] ili [[Special:BrokenRedirects|nevaljana preusmjeravanja]]. 
+Vi ste odgovorni za to da poveznice i dalje povezuju tamo gdje treba.
+
+Imajte na umu da će stranica'''neće''' premjestiti ako već postoji stranica s novim naslovom, osim u slučaju prazne stranice ili stranice za preusmjeravanje koja nema nikakvih starih izmjena. 
+To znači da možete preimenovati stranicu natrag do mjesta gdje je preimenovan iz ako pogriješite, i ne možete prepisati postojeću stranicu. 
+
+ '''Upozorenje!''' 
+Ovo može biti drastična i neočekivana promjena kad su u pitanju popularne stranice; 
+budite sigurni da razumijete posljedice ove akcije prije nastavka.",
 'movepagetalktext'             => "Stranica za razgovor, ako postoji, automatski će se premjestiti zajedno sa stranicom koju premještate. '''Stranica za razgovor neće se premjestiti ako:'''
 *premještate stranicu iz jednog prostora u drugi,
 *pod novim imenom već postoji stranica za razgovor s nekim sadržajem, ili
@@ -3446,7 +3465,7 @@ Unesite ime datoteke bez prefiksa "{{ns:file}}:"',
 'dberr-header'      => 'Ovaj wiki ima problem',
 'dberr-problems'    => 'Ispričavamo se! Ova stranica ima tehničkih poteškoća.',
 'dberr-again'       => 'Pričekajte nekoliko minuta i ponovno učitajte.',
-'dberr-info'        => '(Nemogu se spojiti na poslužitelj baze: $1)',
+'dberr-info'        => '(Ne mogu se spojiti na poslužitelj baze: $1)',
 'dberr-usegoogle'   => 'U međuvremenu pokušajte tražiti putem Googlea.',
 'dberr-outofdate'   => 'Imajte na umu da su njihova kazala našeg sadržaja možda zastarjela.',
 'dberr-cachederror' => 'Sljedeće je dohvaćena kopija tražene stranice, te možda nije ažurirana.',
@@ -3466,5 +3485,18 @@ Unesite ime datoteke bez prefiksa "{{ns:file}}:"',
 # SQLite database support
 'sqlite-has-fts' => '$1 s podrškom pretraživanja cijelog teksta',
 'sqlite-no-fts'  => '$1 bez podrške pretraživanja cijelog teksta',
+
+# Special:DisableAccount
+'disableaccount'             => 'Onemogući suradnički račun',
+'disableaccount-user'        => 'Suradničko ime:',
+'disableaccount-reason'      => 'Razlog:',
+'disableaccount-confirm'     => "Onemogućite ovaj suradnički račun. 
+Suradnik neće biti u mogućnosti prijaviti se, promijeniti svoju lozinku, niti primati e-mail obavijesti. 
+Ako je suradnik trenutno prijavljen negdje, odmah će biti odjavljen. 
+''Napominjemo da onemogućavanje računa nije reverzibilno bez intervencije administratora sustava.''",
+'disableaccount-mustconfirm' => 'Morate potvrditi da želite onemogućiti ovaj račun.',
+'disableaccount-nosuchuser'  => 'Suradnik "$1" ne postoji.',
+'disableaccount-success'     => 'Suradnički račun "$1" je trajno onemogućen.',
+'disableaccount-logentry'    => 'trajno onesposobljen suradnički račun [[$1]]',
 
 );

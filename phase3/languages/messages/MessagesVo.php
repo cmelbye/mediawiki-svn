@@ -718,9 +718,6 @@ If no vilol, das vödems olik poredakons nenmisero, tän no pladolös onis isio.
 Garanol obes, das ol it epenol atosi, u das ekopiedol atosi se räyun notidik u se fon libik sümik (logolös eli $1 pro notets).
 
 '''NO PLADOLÖD ISIO NEN DÄL LAUTANA VÖDEMIS LABÜ KOPIEDAGITÄT!'''",
-'longpagewarning'                  => "'''NUNED: Pad at labon lunoti miljölätas $1;
-bevüresodatävöms anik ba no fägons ad redakön nendsäkädo padis lunotü miljölats plu 32.
-Betikolös dilami pada at ad pads smalikum.'''",
 'longpageerror'                    => "'''PÖL: Vödem fa ol pesedöl labon lunoti miljölätas $1, kelos pluon leigodü völad muik pedälöl miljölätas $2. No kanon padakipön.'''",
 'readonlywarning'                  => "'''NUNED: Vük pefärmükon kodü kodididazesüd. No kanol dakipön votükamis olik anu. Kopiedolös vödemi nulik ini program votik e dakipolös oni in nünöm olik. Poso okanol dönu steifülön ad pladön oni isio.'''
 
@@ -2006,7 +2003,6 @@ $1',
 'ipb-edit-dropdown'               => 'Redakön kodis blokama',
 'ipb-unblock-addr'                => 'Säblokön eli $1',
 'ipb-unblock'                     => 'Säblokön gebananemi u ladeti-IP',
-'ipb-blocklist-addr'              => 'Blokams dabinöl tefü el $1',
 'ipb-blocklist'                   => 'Logön blokamis dabinöl',
 'ipb-blocklist-contribs'          => 'Keblünots gebana: $1',
 'unblockip'                       => 'Säblokön gebani',

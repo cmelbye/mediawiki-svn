@@ -667,6 +667,9 @@ $2',
 'loginlanguagelabel'         => '語言: $1',
 'suspicious-userlogout'      => '您登出的要求已經被拒絕，因為它可能是由已損壞的瀏覽器或者快取代理傳送。',
 
+# E-mail sending
+'php-mail-error-unknown' => '在PHP的mail（）參數中的未知錯誤',
+
 # JavaScript password checks
 'password-strength'            => '預估密碼強度： $1',
 'password-strength-bad'        => '差',
@@ -839,7 +842,6 @@ $2',
 如果您不希望您的文字被任意修改和再散佈，請不要提交。<br />
 您同時也要向我們保證您所提交的內容是您自己所作，或得自一個不受版權保護或相似自由的來源（參閱$1的細節）。
 '''不要在未獲授權的情況下發表！'''",
-'longpagewarning'                  => "'''警告''': 本頁長度達$1KB；一些瀏覽器將無法編輯長過32KB頁面。請考慮將本文切割成幾個小段落。",
 'longpageerror'                    => "'''錯誤: 您所提交的文字長度有$1KB，這大於$2KB的最大值。'''該文本不能被儲存。",
 'readonlywarning'                  => "'''警告: 資料庫被鎖定以進行維護，所以您目前將無法保存您的修改。'''您或許希望先將本段文字複製並保存到文字文件，然後等一會兒再修改。
 
@@ -1399,6 +1401,7 @@ $1",
 'right-override-export-depth' => '匯出含有五層深度連結頁面之頁面',
 'right-sendemail'             => '發電子郵件給其他用戶',
 'right-revisionmove'          => '移動修訂版本',
+'right-disableaccount'        => '禁用帳戶',
 
 # User rights log
 'rightslog'      => '用戶權限日誌',
@@ -2332,7 +2335,6 @@ $1',
 'ipb-edit-dropdown'               => '編輯查封原因',
 'ipb-unblock-addr'                => '解封$1',
 'ipb-unblock'                     => '解除禁封用戶名或IP地址',
-'ipb-blocklist-addr'              => '$1的現有封禁',
 'ipb-blocklist'                   => '檢視現有的封禁',
 'ipb-blocklist-contribs'          => '$1的貢獻',
 'unblockip'                       => '解封用戶',

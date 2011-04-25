@@ -884,9 +884,6 @@ Ao mesmo tempo, prométanos que o que escribiu é da súa autoría ou que está 
 'copyrightwarning2'                => "Por favor, decátese de que todas as súas contribucións a {{SITENAME}} poden ser editadas, alteradas ou eliminadas por outras persoas. Se non quere que os seus escritos sexan editados sen piedade, non os publique aquí.<br />
 Do mesmo xeito, comprométese a que o que vostede escriba sexa da súa autoría ou copiado dunha fonte de dominio público ou recurso público semellante (vexa $1 para detalles).
 '''NON ENVÍE SEN PERMISO TRABALLOS CON DEREITOS DE COPIA!'''",
-'longpagewarning'                  => "'''ATENCIÓN: esta páxina ten $1 kilobytes;
-algúns navegadores poden ter problemas editando páxinas de 32kb ou máis.
-Por favor, considere partir a páxina en seccións máis pequenas.'''",
 'longpageerror'                    => "'''Erro: o texto que pretende gardar ocupa $1 kilobytes, e existe un límite dun máximo de $2 kilobytes.'''
 Polo tanto, non se pode gardar.",
 'readonlywarning'                  => "'''ATENCIÓN: a base de datos foi fechada para facer mantemento, polo que non vai poder gardar as súas edicións polo de agora.
@@ -1457,6 +1454,7 @@ Tamén pode deixar que outras persoas se poñan en contacto con vostede desde a 
 'right-override-export-depth' => 'Exportar páxinas incluíndo as páxinas ligadas ata unha profundidade de 5',
 'right-sendemail'             => 'Enviar correos electrónicos a outros usuarios',
 'right-revisionmove'          => 'Mover revisións',
+'right-disableaccount'        => 'Desactivar contas',
 
 # User rights log
 'rightslog'      => 'Rexistro de dereitos de usuario',
@@ -2354,6 +2352,7 @@ $1',
 'sp-contributions-newbies-title'       => 'Contribucións dos usuarios novos',
 'sp-contributions-blocklog'            => 'rexistro de bloqueos',
 'sp-contributions-deleted'             => 'contribucións borradas do usuario',
+'sp-contributions-uploads'             => 'cargas',
 'sp-contributions-logs'                => 'rexistros',
 'sp-contributions-talk'                => 'conversa',
 'sp-contributions-userrights'          => 'xestión dos dereitos de usuario',
@@ -2424,7 +2423,6 @@ Olle a [[Special:IPBlockList|lista de enderezos IP e usuarios bloqueados]] para 
 'ipb-edit-dropdown'               => 'Editar os motivos de bloqueo',
 'ipb-unblock-addr'                => 'Desbloquear a "$1"',
 'ipb-unblock'                     => 'Desbloquear un usuario ou enderezo IP',
-'ipb-blocklist-addr'              => 'Bloqueos vixentes de "$1"',
 'ipb-blocklist'                   => 'Ver os bloqueos vixentes',
 'ipb-blocklist-contribs'          => 'Contribucións de "$1"',
 'unblockip'                       => 'Desbloquear o usuario',
@@ -3500,5 +3498,18 @@ Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:".',
 # SQLite database support
 'sqlite-has-fts' => '$1 con soporte para procuras de texto completo',
 'sqlite-no-fts'  => '$1 sen soporte para procuras de texto completo',
+
+# Special:DisableAccount
+'disableaccount'             => 'Desactivar unha conta de usuario',
+'disableaccount-user'        => 'Nome de usuario:',
+'disableaccount-reason'      => 'Motivo:',
+'disableaccount-confirm'     => "Desactivar esta conta de usuario.
+O usuario non poderá acceder ao sistema, restablecer o contrasinal ou recibir notificacións por correo electrónico.
+Se o usuario está conectado, sairá ao anonimato inmediatamente.
+''Teña en conta que a desactivación dunha conta non é reversible sen a intervención dun administrador do sistema.''",
+'disableaccount-mustconfirm' => 'Ten que confirmar que quere desactivar esta conta.',
+'disableaccount-nosuchuser'  => 'A conta de usuario "$1" non existe.',
+'disableaccount-success'     => 'Esta conta de usuario, "$1", foi desactivada permanentemente.',
+'disableaccount-logentry'    => 'desactivou permanentemente a conta de usuario "[[$1]]"',
 
 );

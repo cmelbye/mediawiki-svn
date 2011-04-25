@@ -258,6 +258,7 @@ De Leschaidrach fer die Said isch do unne aagewwe als Quell.',
 'nextrevision'           => 'Naier Version →',
 'currentrevisionlink'    => 'Aktuell Version',
 'cur'                    => 'jetzert',
+'next'                   => 'Negschte',
 'last'                   => 'vorich',
 'histlegend'             => "Du kannscht zwää Versione auswähle un verglaiche.<br />
 Erklärung: '''({{int:cur}})''' = Unnerschied zu jetzert,
@@ -300,13 +301,17 @@ Erklärung: '''({{int:cur}})''' = Unnerschied zu jetzert,
 'search-interwiki-default'  => '$1 Ergebnis:',
 'search-interwiki-more'     => '(meh)',
 'search-mwsuggest-enabled'  => 'mid Vorschläch',
-'search-mwsuggest-disabled' => 'ke Vorschläch',
+'search-mwsuggest-disabled' => 'kää Vorschläch',
 'nonefound'                 => "'''Hiiwais:''' S werre standardmäßich numme e Dail Namensraim durchsucht. Setz ''all:'' vor Dai Suchbegriff zum alle Saide (mit Dischbediersaide, Voalaache usw.) durchsuche odder direkt de Name vum Namensraum, wu durchsucht werre sell.",
 'powersearch'               => 'Erwaiterte Such',
 'powersearch-legend'        => 'Erwaiterte Such',
 'powersearch-ns'            => 'In de Namensraim suche:',
 'powersearch-redir'         => 'Wairerlaitunge aazaiche',
 'powersearch-field'         => 'Suche noch',
+'powersearch-togglenone'    => 'Kään',
+
+# Quickbar
+'qbsettings-none' => 'Kään',
 
 # Preferences page
 'preferences'   => 'Optione',
@@ -329,7 +334,8 @@ Erklärung: '''({{int:cur}})''' = Unnerschied zu jetzert,
 'grouppage-sysop' => '{{ns:project}}:Adminischtratore',
 
 # User rights log
-'rightslog' => 'Benutzerrecht-Logbuch',
+'rightslog'  => 'Benutzerrecht-Logbuch',
+'rightsnone' => '(-)',
 
 # Associated actions - in the sentence "You do not have permission to X"
 'action-edit' => 'die Said bearwaide',
@@ -427,6 +433,8 @@ Saide uff [[Special:Watchlist|Dainer Beowachdungslischt]] sin '''fett'''.",
 'allpagesfrom'   => 'Saide aazaische wu aafange mid:',
 'allpagesto'     => 'Saide aazaische wu ufhere mid:',
 'allarticles'    => 'Alle Saide',
+'allpagesprev'   => 'Voriche',
+'allpagesnext'   => 'Negschte',
 'allpagessubmit' => 'Zaische',
 
 # Special:LinkSearch
@@ -717,6 +725,8 @@ Annere Metadate sinn standardmäßig versteckelt.
 * fnumber
 * isospeedratings
 * focallength',
+
+'exif-gaincontrol-0' => 'Kään',
 
 # External editor support
 'edit-externally'      => 'Die Datei bearwaide mit ener externe Aawendung',

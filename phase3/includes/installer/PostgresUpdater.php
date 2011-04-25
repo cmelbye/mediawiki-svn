@@ -5,7 +5,7 @@
  * @file
  * @ingroup Deployment
  */
- 
+
 /**
  * Class for handling updates to Postgres databases.
  *
@@ -39,9 +39,7 @@ class PostgresUpdater extends DatabaseUpdater {
 
 			# new tables
 			array( 'addTable', 'category',          'patch-category.sql' ),
-			array( 'addTable', 'mwuser',            'patch-mwuser.sql' ),
 			array( 'addTable', 'page',              'patch-page.sql' ),
-			array( 'addTable', 'pagecontent',       'patch-pagecontent.sql' ),
 			array( 'addTable', 'querycachetwo',     'patch-querycachetwo.sql' ),
 			array( 'addTable', 'page_props',        'patch-page_props.sql' ),
 			array( 'addTable', 'page_restrictions', 'patch-page_restrictions.sql' ),
@@ -59,6 +57,10 @@ class PostgresUpdater extends DatabaseUpdater {
 			array( 'addTable', 'msg_resource',      'patch-msg_resource.sql' ),
 			array( 'addTable', 'msg_resource_links','patch-msg_resource_links.sql' ),
 			array( 'addTable', 'module_deps',       'patch-module_deps.sql' ),
+
+			# rename tables
+			array( 'renameTable', 'text',       'pagecontent' ),
+			array( 'renameTable', 'user',       'mwuser' ),
 
 			# Needed before new field
 			array( 'convertArchive2' ),
@@ -260,7 +262,7 @@ class PostgresUpdater extends DatabaseUpdater {
 					$fieldRecord[2]
 				);
 		}
-		
+
 		return $updates;
 	}
 
@@ -399,6 +401,13 @@ END;
 		}
 	}
 
+	protected function renameTable( $old, $new ) {
+		if ( $this->db->tableExists( $old ) ) {
+			$this->output( "Renaming table $old to $new\n" );
+			$this->db->query( "ALTER TABLE \"$old\" RENAME TO $new" );
+		}
+	}
+
 	protected function addPgField( $table, $field, $type ) {
 		$fi = $this->db->fieldInfo( $table, $field );
 		if ( !is_null( $fi ) ) {
@@ -442,7 +451,7 @@ END;
 			$this->output( "... error: expected column $table.$field to exist\n" );
 			exit( 1 );
 		}
-		if ( $fi->nullable() ) {
+		if ( $fi->isNullable() ) {
 			# # It's NULL - does it need to be NOT NULL?
 			if ( 'NOT NULL' === $null ) {
 				$this->output( "Changing \"$table.$field\" to not allow NULLs\n" );
@@ -616,7 +625,7 @@ END;
 
 	protected function checkRcCurIdNullable(){
 		$fi = $this->db->fieldInfo( 'recentchanges', 'rc_cur_id' );
-		if ( !$fi->nullable() ) {
+		if ( !$fi->isNullable() ) {
 			$this->output( "Removing NOT NULL constraint from \"recentchanges.rc_cur_id\"\n" );
 			$this->applyPatch( 'patch-rc_cur_id-not-null.sql' );
 		} else {

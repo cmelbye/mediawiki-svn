@@ -44,7 +44,7 @@ interface DatabaseType {
 
 	/**
 	 * The DBMS-dependent part of query()
-	 * @todo @fixme Make this private someday
+	 * @todo Fixme: Make this private someday
 	 *
 	 * @param  $sql String: SQL query.
 	 * @return Result object to feed to fetchObject, fetchRow, ...; or false on failure
@@ -147,6 +147,15 @@ interface DatabaseType {
 	 * @param $field string: field name
 	 */
 	public function fieldInfo( $table, $field );
+
+	/**
+	 * Get information about an index into an object
+	 * @param $table string: Table name
+	 * @param $index string: Index name
+	 * @param $fname string: Calling function name
+	 * @return Mixed: Database-specific index description class or false if the index does not exist
+	 */
+	function indexInfo( $table, $index, $fname = 'Database::indexInfo' );
 
 	/**
 	 * Get the number of rows affected by the last write query
@@ -595,7 +604,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 *     comment (you can use __METHOD__ or add some extra info)
 	 * @param  $tempIgnore Boolean:   Whether to avoid throwing an exception on errors...
 	 *     maybe best to catch the exception instead?
-	 * @return true for a successful write query, ResultWrapper object for a successful read query,
+	 * @return boolean or ResultWrapper. true for a successful write query, ResultWrapper object for a successful read query,
 	 *     or false on failure if $tempIgnore set
 	 * @throws DBQueryError Thrown when the database returns an error of any kind
 	 */
@@ -1003,7 +1012,7 @@ abstract class DatabaseBase implements DatabaseType {
 	/**
 	 * SELECT wrapper
 	 *
-	 * @param $table   Mixed:  Array or string, table name(s) (prefix auto-added)
+	 * @param $table   Mixed:  Array or string, table name(s) (prefix auto-added). Array keys are table aliases (optional)
 	 * @param $vars    Mixed:  Array or string, field name(s) to be retrieved
 	 * @param $conds   Mixed:  Array or string, condition(s) for WHERE
 	 * @param $fname   String: Calling function name (use __METHOD__) for logs/profiling
@@ -1026,7 +1035,7 @@ abstract class DatabaseBase implements DatabaseType {
 			if ( !empty( $join_conds ) || ( isset( $options['USE INDEX'] ) && is_array( @$options['USE INDEX'] ) ) ) {
 				$from = ' FROM ' . $this->tableNamesWithUseIndexOrJOIN( $table, @$options['USE INDEX'], $join_conds );
 			} else {
-				$from = ' FROM ' . implode( ',', array_map( array( &$this, 'tableName' ), $table ) );
+				$from = ' FROM ' . implode( ',', $this->tableNamesWithAlias( $table ) );
 			}
 		} elseif ( $table != '' ) {
 			if ( $table { 0 } == ' ' ) {
@@ -1173,35 +1182,6 @@ abstract class DatabaseBase implements DatabaseType {
 		} else {
 			return $info !== false;
 		}
-	}
-
-
-	/**
-	 * Get information about an index into an object
-	 * Returns false if the index does not exist
-	 */
-	function indexInfo( $table, $index, $fname = 'DatabaseBase::indexInfo' ) {
-		# SHOW INDEX works in MySQL 3.23.58, but SHOW INDEXES does not.
-		# SHOW INDEX should work for 3.x and up:
-		# http://dev.mysql.com/doc/mysql/en/SHOW_INDEX.html
-		$table = $this->tableName( $table );
-		$index = $this->indexName( $index );
-		$sql = 'SHOW INDEX FROM ' . $table;
-		$res = $this->query( $sql, $fname );
-
-		if ( !$res ) {
-			return null;
-		}
-
-		$result = array();
-
-		foreach ( $res as $row ) {
-			if ( $row->Key_name == $index ) {
-				$result[] = $row;
-			}
-		}
-
-		return empty( $result ) ? false : $result;
 	}
 
 	/**
@@ -1629,6 +1609,39 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Get an aliased table name
+	 * e.g. tableName AS newTableName
+	 *
+	 * @param $name string Table name, see tableName()
+	 * @param $alias string Alias (optional)
+	 * @return string SQL name for aliased table. Will not alias a table to its own name
+	 */
+	public function tableNameWithAlias( $name, $alias = false ) {
+		if ( !$alias || $alias == $name ) {
+			return $this->tableName( $name );
+		} else {
+			return $this->tableName( $name ) . ' `' . $alias . '`';
+		}
+	}
+
+	/**
+	 * Gets an array of aliased table names
+	 *
+	 * @param $tables array( [alias] => table )
+	 * @return array of strings, see tableNameWithAlias()
+	 */
+	public function tableNamesWithAlias( $tables ) {
+		$retval = array();
+		foreach ( $tables as $alias => $table ) {
+			if ( is_numeric( $alias ) ) {
+				$alias = $table;
+			}
+			$retval[] = $this->tableNameWithAlias( $table, $alias );
+		}
+		return $retval;
+	}
+
+	/**
 	 * @private
 	 */
 	function tableNamesWithUseIndexOrJOIN( $tables, $use_index = array(), $join_conds = array() ) {
@@ -1637,35 +1650,37 @@ abstract class DatabaseBase implements DatabaseType {
 		$use_index_safe = is_array( $use_index ) ? $use_index : array();
 		$join_conds_safe = is_array( $join_conds ) ? $join_conds : array();
 
-		foreach ( $tables as $table ) {
+		foreach ( $tables as $alias => $table ) {
+			if ( !is_string( $alias ) ) {
+				// No alias? Set it equal to the table name
+				$alias = $table;
+			}
 			// Is there a JOIN and INDEX clause for this table?
-			if ( isset( $join_conds_safe[$table] ) && isset( $use_index_safe[$table] ) ) {
-				$tableClause = $join_conds_safe[$table][0] . ' ' . $this->tableName( $table );
-				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$table] ) );
-				$on = $this->makeList( (array)$join_conds_safe[$table][1], LIST_AND );
-
+			if ( isset( $join_conds_safe[$alias] ) && isset( $use_index_safe[$alias] ) ) {
+				$tableClause = $join_conds_safe[$alias][0] . ' ' . $this->tableNameWithAlias( $table, $alias );
+				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$alias] ) );
+				$on = $this->makeList( (array)$join_conds_safe[$alias][1], LIST_AND );
 				if ( $on != '' ) {
 					$tableClause .= ' ON (' . $on . ')';
 				}
 
 				$retJOIN[] = $tableClause;
 			// Is there an INDEX clause?
-			} else if ( isset( $use_index_safe[$table] ) ) {
-				$tableClause = $this->tableName( $table );
-				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$table] ) );
+			} else if ( isset( $use_index_safe[$alias] ) ) {
+				$tableClause = $this->tableNameWithAlias( $table, $alias );
+				$tableClause .= ' ' . $this->useIndexClause( implode( ',', (array)$use_index_safe[$alias] ) );
 				$ret[] = $tableClause;
 			// Is there a JOIN clause?
-			} else if ( isset( $join_conds_safe[$table] ) ) {
-				$tableClause = $join_conds_safe[$table][0] . ' ' . $this->tableName( $table );
-				$on = $this->makeList( (array)$join_conds_safe[$table][1], LIST_AND );
-
+			} else if ( isset( $join_conds_safe[$alias] ) ) {
+				$tableClause = $join_conds_safe[$alias][0] . ' ' . $this->tableNameWithAlias( $table, $alias );
+				$on = $this->makeList( (array)$join_conds_safe[$alias][1], LIST_AND );
 				if ( $on != '' ) {
 					$tableClause .= ' ON (' . $on . ')';
 				}
 
 				$retJOIN[] = $tableClause;
 			} else {
-				$tableClause = $this->tableName( $table );
+				$tableClause = $this->tableNameWithAlias( $table, $alias );
 				$ret[] = $tableClause;
 			}
 		}
@@ -1710,6 +1725,27 @@ abstract class DatabaseBase implements DatabaseType {
 			# conversion is not 1:1.
 			return "'" . $this->strencode( $s ) . "'";
 		}
+	}
+
+	/**
+	 * Quotes an identifier using `backticks` or "double quotes" depending on the database type.
+	 * MySQL uses `backticks` while basically everything else uses double quotes.
+	 * Since MySQL is the odd one out here the double quotes are our generic
+	 * and we implement backticks in DatabaseMysql.
+	 */ 	 
+	public function addIdentifierQuotes( $s ) {
+		return '"' . str_replace( '"', '""', $s ) . '"';
+	}
+
+	/**
+	 * Backwards compatibility, identifier quoting originated in DatabasePostgres
+	 * which used quote_ident which does not follow our naming conventions
+	 * was renamed to addIdentifierQuotes.
+	 * @deprecated use addIdentifierQuotes
+	 */
+	function quote_ident( $s ) {
+		wfDeprecated( __METHOD__ );
+		return $this->addIdentifierQuotes( $s );
 	}
 
 	/**
@@ -2039,6 +2075,16 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	function strreplace( $orig, $old, $new ) {
 		return "REPLACE({$orig}, {$old}, {$new})";
+	}
+
+	/**
+	 * Convert a field to an unix timestamp
+	 *
+	 * @param $field String: field name
+	 * @return String: SQL statement
+	 */
+	public function unixTimestamp( $field ) {
+		return "EXTRACT(epoch FROM $field)";
 	}
 
 	/**
@@ -2509,6 +2555,32 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Database independent variable replacement, replaces a set of named variables
+	 * in a sql statement with the contents of their global variables.
+	 * Supports '{$var}' `{$var}` and / *$var* / (without the spaces) style variables
+	 * 
+	 * '{$var}' should be used for text and is passed through the database's addQuotes method
+	 * `{$var}` should be used for identifiers (eg: table and database names), it is passed through
+	 *          the database's addIdentifierQuotes method which can be overridden if the database
+	 *          uses something other than backticks.
+	 * / *$var* / is just encoded, besides traditional dbprefix and tableoptions it's use should be avoided
+	 * 
+	 * @param $ins String: SQL statement to replace variables in
+	 * @param $varnames Array: Array of global variable names to replace
+	 * @return String The new SQL statement with variables replaced
+	 */
+	protected function replaceGlobalVars( $ins, $varnames ) {
+		foreach ( $varnames as $var ) {
+			if ( isset( $GLOBALS[$var] ) ) {
+				$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $GLOBALS[$var] ), $ins ); // replace '{$var}'
+				$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $GLOBALS[$var] ), $ins ); // replace `{$var}`
+				$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $GLOBALS[$var] ) , $ins ); // replace /*$var*/
+			}
+		}
+		return $ins;
+	}
+
+	/**
 	 * Replace variables in sourced SQL
 	 */
 	protected function replaceVars( $ins ) {
@@ -2518,15 +2590,7 @@ abstract class DatabaseBase implements DatabaseType {
 			'wgDBadminuser', 'wgDBadminpassword', 'wgDBTableOptions',
 		);
 
-		// Ordinary variables
-		foreach ( $varnames as $var ) {
-			if ( isset( $GLOBALS[$var] ) ) {
-				$val = addslashes( $GLOBALS[$var] ); // FIXME: safety check?
-				$ins = str_replace( '{$' . $var . '}', $val, $ins );
-				$ins = str_replace( '/*$' . $var . '*/`', '`' . $val, $ins );
-				$ins = str_replace( '/*$' . $var . '*/', $val, $ins );
-			}
-		}
+		$ins = $this->replaceGlobalVars( $ins, $varnames );
 
 		// Table prefixes
 		$ins = preg_replace_callback( '!/\*(?:\$wgDBprefix|_)\*/([a-zA-Z_0-9]*)!',
@@ -2679,57 +2743,33 @@ class Blob {
 }
 
 /**
- * Utility class.
+ * Base for all database-specific classes representing information about database fields
  * @ingroup Database
  */
-class MySQLField {
-	private $name, $tablename, $default, $max_length, $nullable,
-		$is_pk, $is_unique, $is_multiple, $is_key, $type;
+interface Field {
+	/**
+	 * Field name
+	 * @return string
+	 */
+	function name();
 
-	function __construct ( $info ) {
-		$this->name = $info->name;
-		$this->tablename = $info->table;
-		$this->default = $info->def;
-		$this->max_length = $info->max_length;
-		$this->nullable = !$info->not_null;
-		$this->is_pk = $info->primary_key;
-		$this->is_unique = $info->unique_key;
-		$this->is_multiple = $info->multiple_key;
-		$this->is_key = ( $this->is_pk || $this->is_unique || $this->is_multiple );
-		$this->type = $info->type;
-	}
+	/**
+	 * Name of table this field belongs to
+	 * @return string
+	 */
+	function tableName();
 
-	function name() {
-		return $this->name;
-	}
+	/**
+	 * Database type
+	 * @return string
+	 */
+	function type();
 
-	function tableName() {
-		return $this->tableName;
-	}
-
-	function defaultValue() {
-		return $this->default;
-	}
-
-	function maxLength() {
-		return $this->max_length;
-	}
-
-	function nullable() {
-		return $this->nullable;
-	}
-
-	function isKey() {
-		return $this->is_key;
-	}
-
-	function isMultipleKey() {
-		return $this->is_multiple;
-	}
-
-	function type() {
-		return $this->type;
-	}
+	/**
+	 * Whether this field can store NULL values
+	 * @return bool
+	 */
+	function isNullable();
 }
 
 /******************************************************************************
@@ -2872,7 +2912,7 @@ class DBConnectionError extends DBError {
 	}
 
 	function searchForm() {
-		global $wgSitename, $wgServer, $wgLang, $wgInputEncoding;
+		global $wgSitename, $wgServer, $wgLang;
 
 		$usegoogle = "You can try searching via Google in the meantime.";
 		$outofdate = "Note that their indexes of our content may be out of date.";
@@ -2886,20 +2926,23 @@ class DBConnectionError extends DBError {
 
 		$search = htmlspecialchars( @$_REQUEST['search'] );
 
+		$server = htmlspecialchars( $wgServer );
+		$sitename = htmlspecialchars( $wgSitename );
+
 		$trygoogle = <<<EOT
 <div style="margin: 1.5em">$usegoogle<br />
 <small>$outofdate</small></div>
 <!-- SiteSearch Google -->
 <form method="get" action="http://www.google.com/search" id="googlesearch">
-	<input type="hidden" name="domains" value="$wgServer" />
+	<input type="hidden" name="domains" value="$server" />
 	<input type="hidden" name="num" value="50" />
-	<input type="hidden" name="ie" value="$wgInputEncoding" />
-	<input type="hidden" name="oe" value="$wgInputEncoding" />
+	<input type="hidden" name="ie" value="UTF-8" />
+	<input type="hidden" name="oe" value="UTF-8" />
 
 	<input type="text" name="q" size="31" maxlength="255" value="$search" />
 	<input type="submit" name="btnG" value="$googlesearch" />
   <div>
-	<input type="radio" name="sitesearch" id="gwiki" value="$wgServer" checked="checked" /><label for="gwiki">$wgSitename</label>
+	<input type="radio" name="sitesearch" id="gwiki" value="$server" checked="checked" /><label for="gwiki">$sitename</label>
 	<input type="radio" name="sitesearch" id="gWWW" value="" /><label for="gWWW">WWW</label>
   </div>
 </form>

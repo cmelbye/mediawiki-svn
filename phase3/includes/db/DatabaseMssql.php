@@ -460,14 +460,14 @@ class DatabaseMssql extends DatabaseBase {
 					$sql .= ',';
 				}
 				if ( is_string( $value ) ) {
-					$sql .= $this->quote_ident( $value );
+					$sql .= $this->addIdentifierQuotes( $value );
 				} elseif ( is_null( $value ) ) {
 					$sql .= 'null';
 				} elseif ( is_array( $value ) || is_object( $value ) ) {
 					if ( is_object( $value ) && strtolower( get_class( $value ) ) == 'blob' ) {
-						$sql .= $this->quote_ident( $value->fetch() );
+						$sql .= $this->addIdentifierQuotes( $value->fetch() );
 					}  else {
-						$sql .= $this->quote_ident( serialize( $value ) );
+						$sql .= $this->addIdentifierQuotes( serialize( $value ) );
 					}
 				} else {
 					$sql .= $value;
@@ -787,6 +787,10 @@ class DatabaseMssql extends DatabaseBase {
 		return false;
 	}
 
+	public function unixTimestamp( $field ) {
+		return "DATEDIFF(s,CONVERT(datetime,'1/1/1970'),$field)";
+	}
+
 	/**
 	 * Begin a transaction, committing any previously open transaction
 	 */
@@ -824,7 +828,7 @@ class DatabaseMssql extends DatabaseBase {
 		$res = $this->doQuery( $SQL );
 		if ( !$res ) {
 			print "<b>FAILED</b>. Make sure that the user " . htmlspecialchars( $wgDBuser ) . " can write to the database</li>\n";
-			dieout( "" );
+			dieout( );
 		}
 		$this->doQuery( "DROP TABLE $ctest" );
 
@@ -993,10 +997,6 @@ class DatabaseMssql extends DatabaseBase {
 		}
 	}
 
-	function quote_ident( $s ) {
-		return "'" . str_replace( "'", "''", $s ) . "'";
-	}
-
 	function selectDB( $db ) {
 		return ( $this->query( "SET DATABASE $db" ) !== false );
 	}
@@ -1051,7 +1051,7 @@ class DatabaseMssql extends DatabaseBase {
  *
  * @ingroup Database
  */
-class MssqlField {
+class MssqlField implements Field {
 	private $name, $tablename, $default, $max_length, $nullable, $type;
 	function __construct ( $info ) {
 		$this->name = $info['COLUMN_NAME'];
@@ -1077,7 +1077,7 @@ class MssqlField {
 		return $this->max_length;
 	}
 
-	function nullable() {
+	function isNullable() {
 		return $this->nullable;
 	}
 
@@ -1117,7 +1117,7 @@ class MssqlResult {
 		foreach ( $array as $key => $value ) {
 			if ( is_array( $value ) ) {
 				$obj->$key = new stdClass();
-				array_to_obj( $value, $obj->$key );
+				$this->array_to_obj( $value, $obj->$key );
 			} else {
 				if ( !empty( $key ) ) {
 					$obj->$key = $value;

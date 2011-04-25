@@ -105,8 +105,8 @@ $.suggestions = {
 	},
 	/**
 	 * Sets the value of a property, and updates the widget accordingly
-	 * @param {String} property Name of property
-	 * @param {Mixed} value Value to set property with
+	 * @param property String Name of property
+	 * @param value Mixed Value to set property with
 	 */
 	configure: function( context, property, value ) {
 		// Validate creation using fallback values
@@ -134,7 +134,7 @@ $.suggestions = {
 							'bottom': 'auto',
 							'width': context.config.$region.outerWidth(),
 							'height': 'auto'
-						}
+						};
 						if ( context.config.positionFromLeft ) {
 							newCSS['left'] = context.config.$region.offset().left;
 							newCSS['right'] = 'auto';
@@ -270,7 +270,7 @@ $.suggestions = {
 	},
 	/**
 	 * Respond to keypress event
-	 * @param {Integer} key Code of key pressed
+	 * @param key Integer Code of key pressed
 	 */
 	keypress: function( e, context, key ) {
 		var wasVisible = context.data.$container.is( ':visible' );
@@ -405,7 +405,7 @@ $.fn.suggestions = function() {
 				'top': Math.round( context.data.$textbox.offset().top + context.data.$textbox.outerHeight() ),
 				'width': context.data.$textbox.outerWidth(),
 				'display': 'none'
-			}
+			};
 			if ( context.config.positionFromLeft ) {
 				newCSS['left'] = context.config.$region.offset().left;
 				newCSS['right'] = 'auto';
