@@ -343,9 +343,10 @@ class SpecialPage {
 		if( isset($specialPageGroupsCache[$page->mName]) ) {
 			return $specialPageGroupsCache[$page->mName];
 		}
-		$group = wfMsg('specialpages-specialpagegroup-'.strtolower($page->mName));
-		if( $group == ''
-		 || wfEmptyMsg('specialpages-specialpagegroup-'.strtolower($page->mName), $group ) ) {
+		$msg = wfMessage('specialpages-specialpagegroup-'.strtolower($page->mName));
+		if ( !$msg->isBlank() ) {
+			$group = $msg->text();
+		} else {
 			$group = isset($wgSpecialPageGroups[$page->mName])
 				? $wgSpecialPageGroups[$page->mName]
 				: '-';
@@ -507,7 +508,7 @@ class SpecialPage {
 
 	/**
 	 * Execute a special page path.
-	 * The path	may contain parameters, e.g. Special:Name/Params
+	 * The path may contain parameters, e.g. Special:Name/Params
 	 * Extracts the special page name and call the execute method, passing the parameters
 	 *
 	 * Returns a title object if the page is redirected, false if there was no such special
@@ -634,7 +635,7 @@ class SpecialPage {
 			$found = false;
 			foreach ( $aliases as $n => $values ) {
 				if ( strcasecmp( $name, $n ) === 0 ) {
-					wfWarn( "Found alias defined for $n when searching for" .
+					wfWarn( "Found alias defined for $n when searching for " .
 						"special page aliases for $name. Case mismatch?" );
 					$name = $values[0];
 					$found = true;
@@ -884,8 +885,7 @@ class SpecialPage {
 		} else {
 			$msg = $summaryMessageKey;
 		}
-		$out = wfMsgNoTrans( $msg );
-		if ( ! wfEmptyMsg( $msg, $out ) and  $out !== '' and ! $this->including() ) {
+		if ( !wfMessage( $msg )->isBlank() and ! $this->including() ) {
 			$wgOut->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1\n</div>", $msg );
 		}
 

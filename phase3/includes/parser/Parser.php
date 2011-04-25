@@ -271,12 +271,7 @@ class Parser {
 		wfProfileIn( __METHOD__ );
 		wfProfileIn( $fname );
 
-		$this->mOptions = $options;
-		if ( $clearState ) {
-			$this->clearState();
-		}
-
-		$this->setTitle( $title ); # Page title has to be set for the pre-processor
+		$this->startExternalParse( $title, $options, self::OT_HTML, $clearState );
 
 		$oldRevisionId = $this->mRevisionId;
 		$oldRevisionObject = $this->mRevisionObject;
@@ -288,7 +283,7 @@ class Parser {
 			$this->mRevisionTimestamp = null;
 			$this->mRevisionUser = null;
 		}
-		$this->setOutputType( self::OT_HTML );
+
 		wfRunHooks( 'ParserBeforeStrip', array( &$this, &$text, &$this->mStripState ) );
 		# No more strip!
 		wfRunHooks( 'ParserAfterStrip', array( &$this, &$text, &$this->mStripState ) );
@@ -460,10 +455,7 @@ class Parser {
 	 */
 	function preprocess( $text, $title, $options, $revid = null ) {
 		wfProfileIn( __METHOD__ );
-		$this->mOptions = $options;
-		$this->clearState();
-		$this->setOutputType( self::OT_PREPROCESS );
-		$this->setTitle( $title );
+		$this->startExternalParse( $title, $options, self::OT_PREPROCESS, true );
 		if ( $revid !== null ) {
 			$this->mRevisionId = $revid;
 		}
@@ -483,10 +475,7 @@ class Parser {
 	 */
 	public function getPreloadText( $text, $title, $options ) {
 		# Parser (re)initialisation
-		$this->mOptions = $options;
-		$this->clearState();
-		$this->setOutputType( self::OT_PLAIN );
-		$this->setTitle( $title );
+		$this->startExternalParse( $title, $options, self::OT_PLAIN, true );
 
 		$flags = PPFrame::NO_ARGS | PPFrame::NO_TEMPLATES;
 		$dom = $this->preprocessToDom( $text, self::PTD_FOR_INCLUSION );
@@ -825,7 +814,22 @@ class Parser {
 		$has_opened_tr = array(); # Did this table open a <tr> element?
 		$indent_level = 0; # indent level of the table
 
-		foreach ( $lines as $outLine ) {
+		# Keep pulling lines off the front of the array until they're all gone.
+		# we want to be able to push lines back on to the front of the stream,
+		# but StringUtils::explode() returns funky optimised Iterators which don't
+		# support insertion.  So maintain a separate buffer and draw on that first if
+		# there's anything in it
+		$extraLines = array();
+		$lines->rewind();
+		do {
+			if( $extraLines ){
+				$outLine = array_shift( $extraLines );
+			} elseif( $lines->valid() ) {
+				$outLine = $lines->current();
+				$lines->next();
+			} else {
+				break;
+			}
 			$line = trim( $outLine );
 
 			if ( $line === '' ) { # empty line, go to next line
@@ -901,11 +905,10 @@ class Parser {
 			} elseif ( $first_character === '|' || $first_character === '!' || substr( $line , 0 , 2 )  === '|+' ) {
 				# This might be cell elements, td, th or captions
 				if ( substr( $line , 0 , 2 ) === '|+' ) {
-					$first_character = '+';
-					$line = substr( $line , 1 );
+					$first_character = '|+';
 				}
 
-				$line = substr( $line , 1 );
+				$line = substr( $line , strlen( $first_character ) );
 
 				if ( $first_character === '!' ) {
 					$line = str_replace( '!!' , '||' , $line );
@@ -916,62 +919,84 @@ class Parser {
 				# by earlier parser steps, but should avoid splitting up eg
 				# attribute values containing literal "||".
 				$cells = StringUtils::explodeMarkup( '||' , $line );
+				$cell = array_shift( $cells );
+
+				# Inject cells back into the stream to be dealt with later
+				# TODO: really we should do the whole thing as a stream...
+				# but that would be too much like a sensible implementation :P
+				if( count( $cells ) ){
+					foreach( array_reverse( $cells ) as $extraCell ){
+						array_unshift( $extraLines, $first_character . $extraCell );
+					}
+				}
 
 				$outLine = '';
 
-				# Loop through each table cell
-				foreach ( $cells as $cell ) {
-					$previous = '';
-					if ( $first_character !== '+' ) {
-						$tr_after = array_pop( $tr_attributes );
-						if ( !array_pop( $tr_history ) ) {
-							$previous = "<tr{$tr_after}>\n";
-						}
-						array_push( $tr_history , true );
-						array_push( $tr_attributes , '' );
-						array_pop( $has_opened_tr );
-						array_push( $has_opened_tr , true );
+				$previous = '';
+				if ( $first_character !== '|+' ) {
+					$tr_after = array_pop( $tr_attributes );
+					if ( !array_pop( $tr_history ) ) {
+						$previous = "<tr{$tr_after}>\n";
 					}
-
-					$last_tag = array_pop( $last_tag_history );
-
-					if ( array_pop( $td_history ) ) {
-						$previous = "</{$last_tag}>\n{$previous}";
-					}
-
-					if ( $first_character === '|' ) {
-						$last_tag = 'td';
-					} elseif ( $first_character === '!' ) {
-						$last_tag = 'th';
-					} elseif ( $first_character === '+' ) {
-						$last_tag = 'caption';
-					} else {
-						$last_tag = '';
-					}
-
-					array_push( $last_tag_history , $last_tag );
-
-					# A cell could contain both parameters and data
-					$cell_data = explode( '|' , $cell , 2 );
-
-					# Bug 553: Note that a '|' inside an invalid link should not
-					# be mistaken as delimiting cell parameters
-					if ( strpos( $cell_data[0], '[[' ) !== false ) {
-						$cell = "{$previous}<{$last_tag}>{$cell}";
-					} elseif ( count( $cell_data ) == 1 ) {
-						$cell = "{$previous}<{$last_tag}>{$cell_data[0]}";
-					} else {
-						$attributes = $this->mStripState->unstripBoth( $cell_data[0] );
-						$attributes = Sanitizer::fixTagAttributes( $attributes , $last_tag );
-						$cell = "{$previous}<{$last_tag}{$attributes}>{$cell_data[1]}";
-					}
-
-					$outLine .= $cell;
-					array_push( $td_history , true );
+					array_push( $tr_history , true );
+					array_push( $tr_attributes , '' );
+					array_pop( $has_opened_tr );
+					array_push( $has_opened_tr , true );
 				}
+
+				$last_tag = array_pop( $last_tag_history );
+
+				if ( array_pop( $td_history ) ) {
+					$previous = "</{$last_tag}>\n{$previous}";
+				}
+
+				if ( $first_character === '|' ) {
+					$last_tag = 'td';
+				} elseif ( $first_character === '!' ) {
+					$last_tag = 'th';
+				} elseif ( $first_character === '|+' ) {
+					$last_tag = 'caption';
+				} else {
+					$last_tag = '';
+				}
+
+				array_push( $last_tag_history , $last_tag );
+
+				# A cell could contain both parameters and data... but the pipe could
+				# also be the start of a nested table, or a raw pipe inside an invalid
+				# link (bug 553).  
+				$cell_data = preg_split( '/(?<!\{)\|/', $cell, 2 );
+
+				# Bug 553: a '|' inside an invalid link should not
+				# be mistaken as delimiting cell parameters
+				if ( strpos( $cell_data[0], '[[' ) !== false ) {
+					$data = $cell;
+					$cell = "{$previous}<{$last_tag}>";
+				} elseif ( count( $cell_data ) == 1 ) {
+					$cell = "{$previous}<{$last_tag}>";
+					$data = $cell_data[0];
+				} else {
+					$attributes = $this->mStripState->unstripBoth( $cell_data[0] );
+					$attributes = Sanitizer::fixTagAttributes( $attributes , $last_tag );
+					$cell = "{$previous}<{$last_tag}{$attributes}>";
+					$data = $cell_data[1];
+				}
+
+				# Bug 529: the start of a table cell should be a linestart context for
+				# processing other block markup, including nested tables.  The original
+				# implementation of this was to add a newline before every brace construct,
+				# which broke all manner of other things.  Instead, push the contents
+				# of the cell back into the stream and come back to it later.  But don't
+				# do that if the first line is empty, or you may get extra whitespace
+				if( $data ){
+					array_unshift( $extraLines, trim( $data ) );
+				}
+
+				$outLine .= $cell;
+				array_push( $td_history , true );
 			}
 			$out .= $outLine . "\n";
-		}
+		} while( $lines->valid() || count( $extraLines ) );
 
 		# Closing open td, tr && table
 		while ( count( $td_history ) > 0 ) {
@@ -2235,6 +2260,7 @@ class Parser {
 					'/(?:<\\/table|<\\/blockquote|<\\/h1|<\\/h2|<\\/h3|<\\/h4|<\\/h5|<\\/h6|'.
 					'<td|<th|<\\/?div|<hr|<\\/pre|<\\/p|'.$this->mUniqPrefix.'-pre|<\\/li|<\\/ul|<\\/ol|<\\/?center)/iS', $t );
 				if ( $openmatch or $closematch ) {
+
 					$paragraphStack = false;
 					# TODO bug 5718: paragraph closed
 					$output .= $this->closeParagraph();
@@ -2556,25 +2582,25 @@ class Parser {
 				$value = wfEscapeWikiText( $this->mTitle->getText() );
 				break;
 			case 'pagenamee':
-				$value = $this->mTitle->getPartialURL();
+				$value = wfEscapeWikiText( $this->mTitle->getPartialURL() );
 				break;
 			case 'fullpagename':
 				$value = wfEscapeWikiText( $this->mTitle->getPrefixedText() );
 				break;
 			case 'fullpagenamee':
-				$value = $this->mTitle->getPrefixedURL();
+				$value = wfEscapeWikiText( $this->mTitle->getPrefixedURL() );
 				break;
 			case 'subpagename':
 				$value = wfEscapeWikiText( $this->mTitle->getSubpageText() );
 				break;
 			case 'subpagenamee':
-				$value = $this->mTitle->getSubpageUrlForm();
+				$value = wfEscapeWikiText( $this->mTitle->getSubpageUrlForm() );
 				break;
 			case 'basepagename':
 				$value = wfEscapeWikiText( $this->mTitle->getBaseText() );
 				break;
 			case 'basepagenamee':
-				$value = wfUrlEncode( str_replace( ' ', '_', $this->mTitle->getBaseText() ) );
+				$value = wfEscapeWikiText( wfUrlEncode( str_replace( ' ', '_', $this->mTitle->getBaseText() ) ) );
 				break;
 			case 'talkpagename':
 				if ( $this->mTitle->canTalk() ) {
@@ -2587,7 +2613,7 @@ class Parser {
 			case 'talkpagenamee':
 				if ( $this->mTitle->canTalk() ) {
 					$talkPage = $this->mTitle->getTalkPage();
-					$value = $talkPage->getPrefixedUrl();
+					$value = wfEscapeWikiText( $talkPage->getPrefixedUrl() );
 				} else {
 					$value = '';
 				}
@@ -2598,7 +2624,7 @@ class Parser {
 				break;
 			case 'subjectpagenamee':
 				$subjPage = $this->mTitle->getSubjectPage();
-				$value = $subjPage->getPrefixedUrl();
+				$value = wfEscapeWikiText( $subjPage->getPrefixedUrl() );
 				break;
 			case 'revisionid':
 				# Let the edit saving system know we should parse the page
@@ -3224,11 +3250,11 @@ class Parser {
 			$text = wfEscapeWikiText( $text );
 		} elseif ( is_string( $text )
 			&& !$piece['lineStart']
-			&& preg_match( '/^(?:{\\||:|;|#|\*)/', $text ) )
+			&& preg_match( '/^{\\|/', $text ) )
 		{
-			# Bug 529: if the template begins with a table or block-level
-			# element, it should be treated as beginning a new line.
-			# This behaviour is somewhat controversial.
+			# Bug 529: if the template begins with a table, it should be treated as
+			# beginning a new line.  This previously handled other block-level elements
+			# such as #, :, etc, but these have many false-positives (bug 12974).
 			$text = "\n" . $text;
 		}
 
@@ -3287,7 +3313,7 @@ class Parser {
 
 		if ( !$title->equals( $cacheTitle ) ) {
 			$this->mTplRedirCache[$cacheTitle->getPrefixedDBkey()] =
-				array( $title->getNamespace(), $cdb = $title->getDBkey() );
+				array( $title->getNamespace(), $title->getDBkey() );
 		}
 
 		return array( $dom, $title );
@@ -3368,12 +3394,12 @@ class Parser {
 				$text = $rev->getText();
 			} elseif ( $title->getNamespace() == NS_MEDIAWIKI ) {
 				global $wgContLang;
-				$message = $wgContLang->lcfirst( $title->getText() );
-				$text = wfMsgForContentNoTrans( $message );
-				if ( wfEmptyMsg( $message, $text ) ) {
+				$message = wfMessage( $wgContLang->lcfirst( $title->getText() ) )->inContentLanguage();
+				if ( !$message->exists() ) {
 					$text = false;
 					break;
 				}
+				$text = $message->plain();
 			} else {
 				break;
 			}
@@ -4026,20 +4052,16 @@ class Parser {
 	 * @return String: the altered wiki markup
 	 */
 	public function preSaveTransform( $text, Title $title, User $user, ParserOptions $options, $clearState = true ) {
-		$this->mOptions = $options;
-		$this->setTitle( $title );
+		$this->startExternalParse( $title, $options, self::OT_WIKI, $clearState );
 		$this->setUser( $user );
-		$this->setOutputType( self::OT_WIKI );
-
-		if ( $clearState ) {
-			$this->clearState();
-		}
 
 		$pairs = array(
 			"\r\n" => "\n",
 		);
 		$text = str_replace( array_keys( $pairs ), array_values( $pairs ), $text );
-		$text = $this->pstPass2( $text, $user );
+		if( $options->getPreSaveTransform() ) {
+			$text = $this->pstPass2( $text, $user );
+		}
 		$text = $this->mStripState->unstripBoth( $text );
 
 		$this->setUser( null ); #Reset
@@ -4089,6 +4111,9 @@ class Parser {
 		# Because mOutputType is OT_WIKI, this will only process {{subst:xxx}} type tags
 		$text = $this->replaceVariables( $text );
 
+		# This works almost by chance, as the replaceVariables are done before the getUserSig(), 
+		# which may corrupt this parser instance via its wfMsgExt( parsemag ) call-
+
 		# Signatures
 		$sigText = $this->getUserSig( $user );
 		$text = strtr( $text, array(
@@ -4134,6 +4159,8 @@ class Parser {
 	 * validated, ready-to-insert wikitext.
 	 * If you have pre-fetched the nickname or the fancySig option, you can
 	 * specify them here to save a database query.
+	 * Do not reuse this parser instance after calling getUserSig(),
+	 * as it may have changed if it's the $wgParser.
 	 *
 	 * @param $user User
 	 * @param $nickname String: nickname to use or false to use user's default nickname
@@ -4254,7 +4281,6 @@ class Parser {
 	 */
 	public function startExternalParse( &$title, $options, $outputType, $clearState = true ) {
 		$this->setTitle( $title );
-		$options->resetUsage();
 		$this->mOptions = $options;
 		$this->setOutputType( $outputType );
 		if ( $clearState ) {
@@ -4301,6 +4327,7 @@ class Parser {
 	 */
 	public function setHook( $tag, $callback ) {
 		$tag = strtolower( $tag );
+		if ( preg_match( '/[<>\r\n]/', $tag, $m ) ) throw new MWException( "Invalid character {$m[0]} in setHook('$tag', ...) call" );
 		$oldVal = isset( $this->mTagHooks[$tag] ) ? $this->mTagHooks[$tag] : null;
 		$this->mTagHooks[$tag] = $callback;
 		if ( !in_array( $tag, $this->mStripList ) ) {
@@ -4312,6 +4339,7 @@ class Parser {
 
 	function setTransparentTagHook( $tag, $callback ) {
 		$tag = strtolower( $tag );
+		if ( preg_match( '/[<>\r\n]/', $tag, $m ) ) throw new MWException( "Invalid character {$m[0]} in setTransparentHook('$tag', ...) call" );
 		$oldVal = isset( $this->mTransparentTagHooks[$tag] ) ? $this->mTransparentTagHooks[$tag] : null;
 		$this->mTransparentTagHooks[$tag] = $callback;
 
@@ -4416,6 +4444,7 @@ class Parser {
 	 */
 	function setFunctionTagHook( $tag, $callback, $flags ) {
 		$tag = strtolower( $tag );
+		if ( preg_match( '/[<>\r\n]/', $tag, $m ) ) throw new MWException( "Invalid character {$m[0]} in setFunctionTagHook('$tag', ...) call" );
 		$old = isset( $this->mFunctionTagHooks[$tag] ) ?
 			$this->mFunctionTagHooks[$tag] : null;
 		$this->mFunctionTagHooks[$tag] = array( $callback, $flags );
@@ -4856,11 +4885,8 @@ class Parser {
 	 *                 for "replace", the whole page with the section replaced.
 	 */
 	private function extractSections( $text, $section, $mode, $newText='' ) {
-		global $wgTitle;
-		$this->mOptions = new ParserOptions;
-		$this->clearState();
-		$this->setTitle( $wgTitle ); # not generally used but removes an ugly failure mode
-		$this->setOutputType( self::OT_PLAIN );
+		global $wgTitle; # not generally used but removes an ugly failure mode
+		$this->startExternalParse( $wgTitle, new ParserOptions, self::OT_PLAIN, true );
 		$outText = '';
 		$frame = $this->getPreprocessor()->newFrame();
 
@@ -5148,14 +5174,11 @@ class Parser {
 	 * strip/replaceVariables/unstrip for preprocessor regression testing
 	 */
 	function testSrvus( $text, $title, $options, $outputType = self::OT_HTML ) {
-		$this->mOptions = $options;
-		$this->clearState();
 		if ( !$title instanceof Title ) {
 			$title = Title::newFromText( $title );
 		}
-		$this->mTitle = $title;
-		$options->resetUsage();
-		$this->setOutputType( $outputType );
+		$this->startExternalParse( $title, $options, $outputType, true );
+
 		$text = $this->replaceVariables( $text );
 		$text = $this->mStripState->unstripBoth( $text );
 		$text = Sanitizer::removeHTMLtags( $text );

@@ -22,7 +22,6 @@
  * @author GoEThe
  * @author Hamilton Abreu
  * @author Helder.wiki
- * @author Heldergeovane
  * @author Jesielt
  * @author Jorge Morais
  * @author Leonardo.stabile
@@ -320,8 +319,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Mostrar o número de usuários que estão vigiando',
 'tog-oldsig'                  => 'Previsão da assinatura existente:',
 'tog-fancysig'                => 'Tratar assinatura como wikitexto (sem link automático)',
-'tog-externaleditor'          => 'Utilizar editor externo por padrão (apenas para usuários avançados, já que serão necessárias configurações adicionais em seus computadores)',
-'tog-externaldiff'            => 'Utilizar diferenças externas por padrão (apenas para usuários avançados, já que serão necessárias configurações adicionais em seus computadores)',
+'tog-externaleditor'          => 'Utilizar editor externo por padrão (apenas para usuários avançados; requer configurações adicionais em seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
+'tog-externaldiff'            => 'Utilizar comparador de versões externo por padrão (apenas para usuários avançados; requer configurações adicionais em seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
 'tog-showjumplinks'           => 'Ativar hiperligações de acessibilidade "ir para"',
 'tog-uselivepreview'          => 'Utilizar pré-visualização em tempo real (JavaScript) (Experimental)',
 'tog-forceeditsummary'        => 'Avisar-me ao introduzir um sumário vazio',
@@ -1257,6 +1256,7 @@ Certifique-se de que tal alteração manterá a continuidade das ações.',
 'searchmenu-legend'                => 'Opções de pesquisa',
 'searchmenu-exists'                => "*'''Há uma página chamada \"[[\$1]]\" nesta wiki'''",
 'searchmenu-new'                   => "'''Criar a página \"[[:\$1|\$1]]\" nesta wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" é um nome de página inválido ou não pode ser criado por você.',
 'searchhelp-url'                   => 'Help:Conteúdos',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Navegue pelas páginas com este prefixo]]',
 'searchprofile-articles'           => 'Páginas de conteúdo',
@@ -1407,7 +1407,8 @@ Ela deve ter menos de $1 {{PLURAL:$1|caractere|caracteres}}.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'O fornecimento de seu nome verdadeiro é opcional.
 Caso decida fornecê-lo, este será utilizado para dar-lhe crédito pelo seu trabalho.',
-'prefs-help-email'              => "O fornecimento de um endereço de ''e-mail'' é opcional, mas permite que uma nova senha lhe seja enviada caso você esqueça sua senha. Você pode ainda preferir deixar que os usuários entrem em contato consigo através de sua página de usuário ou discussão sem ter de revelar sua identidade.",
+'prefs-help-email'              => 'O endereço de correio eletrônico é opcional, mas será necessário para recriar sua senha caso esqueça a antiga.',
+'prefs-help-email-others'       => 'Você também pode optar por permitir que outros entrem em contato com você através de sua página de usuário ou de discussão sem ter de revelar seus dados pessoais.',
 'prefs-help-email-required'     => 'O endereço de e-mail é requerido.',
 'prefs-info'                    => 'Informações básicas',
 'prefs-i18n'                    => 'Internacionalização',
@@ -1425,7 +1426,8 @@ Caso decida fornecê-lo, este será utilizado para dar-lhe crédito pelo seu tra
 'prefs-diffs'                   => 'Diferenças',
 
 # User preference: e-mail validation using jQuery
-'email-address-validity-valid' => 'Parece válido',
+'email-address-validity-valid'   => 'Parece válido',
+'email-address-validity-invalid' => 'Forneça um endereço de e-mail válido',
 
 # User rights
 'userrights'                   => 'Gestão de privilégios de usuários',
@@ -1664,7 +1666,7 @@ A [[Special:NewFiles|galeria de arquivos novos]] oferece uma listagem mais visua
 'minlength1'                  => 'Os nomes de arquivos devem de ter pelo menos uma letra.',
 'illegalfilename'             => 'O arquivo "$1" possui caracteres que não são permitidos no título de uma página. Por favor, altere o nome do arquivo e tente carregar novamente.',
 'badfilename'                 => 'O nome do arquivo foi alterado para "$1".',
-'filetype-mime-mismatch'      => 'A extensão do arquivo não corresponde ao tipo MIME.',
+'filetype-mime-mismatch'      => 'A extensão ".$1" não corresponde ao tipo MIME do arquivo ($2).',
 'filetype-badmime'            => 'Arquivos de tipo MIME "$1" não são permitidos de serem enviados.',
 'filetype-bad-ie-mime'        => 'Este arquivo não pode ser carregado porque o Internet Explorer o detectaria como "$1", que é um tipo de arquivo não permitido e potencialmente perigoso.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' é um tipo de arquivo não desejado.
@@ -2960,10 +2962,10 @@ Executá-lo poderá comprometer a segurança do seu sistema.",
 'imagemaxsize'         => "Limite de tamanho de imagem:<br />''(para páginas de descrição de arquivos)''",
 'thumbsize'            => 'Tamanho de miniaturas:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|página|páginas}}',
-'file-info'            => '(tamanho: $1, tipo MIME: $2)',
-'file-info-size'       => '($1 × $2 pixels, tamanho: $3, tipo MIME: $4)',
+'file-info'            => 'tamanho: $1, tipo MIME: $2',
+'file-info-size'       => '$1 × $2 pixels, tamanho: $3, tipo MIME: $4',
 'file-nohires'         => '<small>Sem resolução maior disponível.</small>',
-'svg-long-desc'        => '(arquivo SVG, de $1 × $2 pixels, tamanho: $3)',
+'svg-long-desc'        => 'arquivo SVG, de $1 × $2 pixels, tamanho: $3',
 'show-big-image'       => 'Resolução completa',
 'show-big-image-thumb' => '<small>Tamanho desta previsão: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'cíclico',

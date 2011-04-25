@@ -44,14 +44,23 @@ class CategoryPage extends Article {
 
 	/**
 	 * Don't return a 404 for categories in use.
+	 * In use defined as: either the actual page exists
+	 * or the category currently has members.
 	 */
 	function hasViewableContent() {
 		if ( parent::hasViewableContent() ) {
 			return true;
 		} else {
 			$cat = Category::newFromTitle( $this->mTitle );
-			return $cat->getId() != 0;
+			// If any of these are not 0, then has members
+			if ( $cat->getPageCount()
+				|| $cat->getSubcatCount()
+				|| $cat->getFileCount()
+			) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	function openShowCategory() {
@@ -59,18 +68,15 @@ class CategoryPage extends Article {
 	}
 
 	function closeShowCategory() {
-		global $wgOut;
+		global $wgOut, $wgRequest;
 
 		$from = $until = array();
 		foreach ( array( 'page', 'subcat', 'file' ) as $type ) {
-			# Use $_GET instead of $wgRequest, because the latter helpfully
-			# normalizes Unicode, which removes nulls.  TODO: do something
-			# smarter than passing nulls in URLs.  :/
-			$from[$type] = isset( $_GET["{$type}from"] ) ? $_GET["{$type}from"] : null;
-			$until[$type] = isset( $_GET["{$type}until"] ) ? $_GET["{$type}until"] : null;
+			$from[$type] = $wgRequest->getVal( "{$type}from" );
+			$until[$type] = $wgRequest->getVal( "{$type}until" );
 		}
 
-		$viewer = new $this->mCategoryViewerClass( $this->mTitle, $from, $until, $_GET );
+		$viewer = new $this->mCategoryViewerClass( $this->mTitle, $from, $until, $wgRequest->getValues() );
 		$wgOut->addHTML( $viewer->getHTML() );
 	}
 }
@@ -80,7 +86,8 @@ class CategoryViewer {
 		$articles, $articles_start_char,
 		$children, $children_start_char,
 		$showGallery, $gallery,
-		$skin;
+		$imgsNoGalley, $imgsNoGallery_start_char,
+		$skin, $collation;
 	# Category object for this page
 	private $cat;
 	# The original query array, to be used in generating paging links.
@@ -94,6 +101,7 @@ class CategoryViewer {
 		$this->limit = $wgCategoryPagingLimit;
 		$this->cat = Category::newFromTitle( $title );
 		$this->query = $query;
+		$this->collation = Collation::singleton();
 		unset( $this->query['title'] );
 	}
 
@@ -146,6 +154,9 @@ class CategoryViewer {
 		if ( $this->showGallery ) {
 			$this->gallery = new ImageGallery();
 			$this->gallery->setHideBadImages();
+		} else {
+			$this->imgsNoGallery = array();
+			$this->imgsNoGallery_start_char = array();
 		}
 	}
 
@@ -163,13 +174,15 @@ class CategoryViewer {
 	function addSubcategoryObject( Category $cat, $sortkey, $pageLength ) {
 		// Subcategory; strip the 'Category' namespace from the link text.
 		$title = $cat->getTitle();
-		$this->children[] = $this->getSkin()->link(
-			$title,
-			$title->getText(),
-			array(),
-			array(),
-			array( 'known', 'noclasses' )
-		);
+
+		$link = $this->getSkin()->link( $title, $title->getText() );
+		if ( $title->isRedirect() ) {
+			// This didn't used to add redirect-in-category, but might
+			// as well be consistent with the rest of the sections
+			// on a category page.
+			$link = '<span class="redirect-in-category">' . $link . '</span>';
+		}
+		$this->children[] = $link;
 
 		$this->children_start_char[] = 
 			$this->getSubcategorySortChar( $cat->getTitle(), $sortkey );
@@ -199,7 +212,7 @@ class CategoryViewer {
 			$word = $sortkey;
 		}
 
-		$firstChar = $wgContLang->firstLetterForLists( $word );
+		$firstChar = $this->collation->getFirstLetter( $word );
 
 		return $wgContLang->convert( $firstChar );
 	}
@@ -208,6 +221,7 @@ class CategoryViewer {
 	 * Add a page in the image namespace
 	 */
 	function addImage( Title $title, $sortkey, $pageLength, $isRedirect = false ) {
+		global $wgContLang;
 		if ( $this->showGallery ) {
 			$flip = $this->flip['file'];
 			if ( $flip ) {
@@ -216,7 +230,16 @@ class CategoryViewer {
 				$this->gallery->add( $title );
 			}
 		} else {
-			$this->addPage( $title, $sortkey, $pageLength, $isRedirect );
+			$link = $this->getSkin()->link( $title );
+			if ( $isRedirect ) {
+				// This seems kind of pointless given 'mw-redirect' class,
+				// but keeping for back-compatibility with user css.
+				$link = '<span class="redirect-in-category">' . $link . '</span>';
+			}
+			$this->imgsNoGallery[] = $link;
+
+			$this->imgsNoGallery_start_char[] = $wgContLang->convert( 
+				$this->collation->getFirstLetter( $sortkey ) );
 		}
 	}
 
@@ -225,18 +248,17 @@ class CategoryViewer {
 	 */
 	function addPage( $title, $sortkey, $pageLength, $isRedirect = false ) {
 		global $wgContLang;
-		$this->articles[] = $isRedirect
-			? '<span class="redirect-in-category">' .
-				$this->getSkin()->link(
-					$title,
-					null,
-					array(),
-					array(),
-					array( 'known', 'noclasses' )
-				) . '</span>'
-			: $this->getSkin()->link( $title );
 
-		$this->articles_start_char[] = $wgContLang->convert( $wgContLang->firstLetterForLists( $sortkey ) );
+		$link = $this->getSkin()->link( $title );
+		if ( $isRedirect ) {
+			// This seems kind of pointless given 'mw-redirect' class,
+			// but keeping for back-compatiability with user css.
+			$link = '<span class="redirect-in-category">' . $link . '</span>';
+		}
+		$this->articles[] = $link;
+
+		$this->articles_start_char[] = $wgContLang->convert( 
+			$this->collation->getFirstLetter( $sortkey ) );
 	}
 
 	function finaliseCategoryState() {
@@ -248,11 +270,13 @@ class CategoryViewer {
 			$this->articles            = array_reverse( $this->articles );
 			$this->articles_start_char = array_reverse( $this->articles_start_char );
 		}
+		if ( !$this->showGallery && $this->flip['file'] ) {
+			$this->imgsNoGallery            = array_reverse( $this->imgsNoGallery );
+			$this->imgsNoGallery_start_char = array_reverse( $this->imgsNoGallery_start_char );
+		}
 	}
 
 	function doCategoryQuery() {
-		global $wgContLang;
-
 		$dbr = wfGetDB( DB_SLAVE, 'category' );
 
 		$this->nextPage = array(
@@ -265,14 +289,14 @@ class CategoryViewer {
 		foreach ( array( 'page', 'subcat', 'file' ) as $type ) {
 			# Get the sortkeys for start/end, if applicable.  Note that if
 			# the collation in the database differs from the one
-			# $wgContLang is using, pagination might go totally haywire.
+			# set in $wgCategoryCollation, pagination might go totally haywire.
 			$extraConds = array( 'cl_type' => $type );
 			if ( $this->from[$type] !== null ) {
 				$extraConds[] = 'cl_sortkey >= '
-					. $dbr->addQuotes( $wgContLang->convertToSortkey( $this->from[$type] ) );
+					. $dbr->addQuotes( $this->collation->getSortKey( $this->from[$type] ) );
 			} elseif ( $this->until[$type] !== null ) {
 				$extraConds[] = 'cl_sortkey < '
-					. $dbr->addQuotes( $wgContLang->convertToSortkey( $this->until[$type] ) );
+					. $dbr->addQuotes( $this->collation->getSortKey( $this->until[$type] ) );
 				$this->flip[$type] = true;
 			}
 
@@ -309,7 +333,7 @@ class CategoryViewer {
 				if ( $title->getNamespace() == NS_CATEGORY ) {
 					$cat = Category::newFromRow( $row, $title );
 					$this->addSubcategoryObject( $cat, $rawSortkey, $row->page_len );
-				} elseif ( $this->showGallery && $title->getNamespace() == NS_FILE ) {
+				} elseif ( $title->getNamespace() == NS_FILE ) {
 					$this->addImage( $title, $rawSortkey, $row->page_len, $row->page_is_redirect );
 				} else {
 					$this->addPage( $title, $rawSortkey, $row->page_len, $row->page_is_redirect );
@@ -373,16 +397,20 @@ class CategoryViewer {
 
 	function getImageSection() {
 		$r = '';
-		if ( $this->showGallery && ! $this->gallery->isEmpty() ) {
+		$rescnt = $this->showGallery ? $this->gallery->count() : count( $this->imgsNoGallery );
+		if ( $rescnt > 0 ) {
 			$dbcnt = $this->cat->getFileCount();
-			$rescnt = $this->gallery->count();
 			$countmsg = $this->getCountMessage( $rescnt, $dbcnt, 'file' );
 
 			$r .= "<div id=\"mw-category-media\">\n";
 			$r .= '<h2>' . wfMsg( 'category-media-header', htmlspecialchars( $this->title->getText() ) ) . "</h2>\n";
 			$r .= $countmsg;
 			$r .= $this->getSectionPagingLinks( 'file' );
-			$r .= $this->gallery->toHTML();
+			if ( $this->showGallery ) {
+				$r .= $this->gallery->toHTML();
+			} else {
+				$r .= $this->formatList( $this->imgsNoGallery, $this->imgsNoGallery_start_char );
+			}
 			$r .= $this->getSectionPagingLinks( 'file' );
 			$r .= "\n</div>";
 		}
@@ -560,8 +588,8 @@ class CategoryViewer {
 
 	/**
 	 * What to do if the category table conflicts with the number of results
-	 * returned?  This function says what.  It works the same whether the
-	 * things being counted are articles, subcategories, or files.
+	 * returned?  This function says what. Each type is considered independently
+	 * of the other types.
 	 *
 	 * Note for grepping: uses the messages category-article-count,
 	 * category-article-count-limited, category-subcat-count,
@@ -584,24 +612,28 @@ class CategoryViewer {
 		#      than $this->limit and there's no offset.  In this case we still
 		#      know the right figure.
 		#   3) We have no idea.
-		$totalrescnt = count( $this->articles ) + count( $this->children ) +
-			( $this->showGallery ? $this->gallery->count() : 0 );
 
 		# Check if there's a "from" or "until" for anything
-		$fromOrUntil = false;
-		foreach ( array( 'page', 'subcat', 'file' ) as $t ) {
-			if ( $this->from[$t] !== null || $this->until[$t] !== null ) {
-				$fromOrUntil = true;
-				break;
-			}
+
+		// This is a little ugly, but we seem to use different names
+		// for the paging types then for the messages.
+		if ( $type === 'article' ) {
+			$pagingType = 'page';
+		} else {
+			$pagingType = $type;
 		}
 
-		if ( $dbcnt == $rescnt || ( ( $totalrescnt == $this->limit || $fromOrUntil )
+		$fromOrUntil = false;
+		if ( $this->from[$pagingType] !== null || $this->until[$pagingType] !== null ) {
+			$fromOrUntil = true;
+		}
+
+		if ( $dbcnt == $rescnt || ( ( $rescnt == $this->limit || $fromOrUntil )
 			&& $dbcnt > $rescnt ) )
 		{
 			# Case 1: seems sane.
 			$totalcnt = $dbcnt;
-		} elseif ( $totalrescnt < $this->limit && !$fromOrUntil ) {
+		} elseif ( $rescnt < $this->limit && !$fromOrUntil ) {
 			# Case 2: not sane, but salvageable.  Use the number of results.
 			# Since there are fewer than 200, we can also take this opportunity
 			# to refresh the incorrect category table entry -- which should be

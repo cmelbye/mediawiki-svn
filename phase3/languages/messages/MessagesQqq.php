@@ -414,7 +414,8 @@ See also [[MediaWiki:Lastmodifiedatby/{{SUBPAGENAME}}]].',
 
 {{Identical|Search}}',
 'pool-timeout'      => 'Part of {{msg-mw|view-pool-error}}.',
-'pool-queuefull'    => 'Part of {{msg-mw|view-pool-error}}.
+'pool-queuefull'    => 'Part of {{msg-mw|view-pool-error}}
+
 "Pool" refers to a pool of processes.',
 'pool-errorunknown' => 'Part of {{msg-mw|view-pool-error}}.',
 
@@ -437,26 +438,25 @@ See also [[MediaWiki:Lastmodifiedatby/{{SUBPAGENAME}}]].',
 {{doc-important|Do not translate <tt>Project:</tt> part.}}",
 'disclaimers'          => 'Used as display name for the link to [[{{MediaWiki:Disclaimerpage}}]] shown at the bottom of every page on the wiki. Example [[{{MediaWiki:Disclaimerpage}}|{{MediaWiki:Disclaimers}}]].',
 'disclaimerpage'       => 'Used as page for that contains the site disclaimer. Used at the bottom of every page on the wiki. Example: [[{{MediaWiki:Disclaimerpage}}|{{MediaWiki:Disclaimers}}]].
-{{doc-important|Do not change <tt>Project:</tt> part.}}',
+{{doc-important|Do not change the "<tt>Project:</tt>" part.}}',
 'edithelp'             => 'This is the text that appears on the editing help link that is near the bottom of the editing page',
 'edithelppage'         => 'The help page displayed when a user clicks on editing help link which is present on the right of Show changes button.
-{{doc-important|Do not change <tt>Help:</tt> part.}}',
+{{doc-important|Do not change the "<tt>Help:</tt>" part.}}',
 'helppage'             => 'The link destination used by default in the sidebar, and in {{msg|noarticletext}}.
-{{doc-important|Do not change <tt>Help:</tt> part.}}
+{{doc-important|Do not change the "<tt>Help:</tt>" part.}}
 {{Identical|HelpContent}}',
 'mainpage'             => 'Defines the link and display name of the main page of the wiki. Shown as the top link in the navigation part of the interface. Please do not change it too often, that could break things!
 
 {{Identical|Main page}}',
 'mainpage-description' => 'The same as {{msg|mainpage|pl=yes}}, used as link text on [[MediaWiki:Sidebar]]. This makes it possible to the change the link destination (the message "mainpage") without changing the link text or without disabling translations.',
 'policy-url'           => 'Description: The URL of the project page describing the policies of the wiki. This is shown below every page (the left link).
-{{doc-important|Do not change "Project:" part.}}',
+{{doc-important|Do not change the "<tt>Project:</tt>" part.}}',
 'portal'               => "Display name for the 'Community portal', shown in the sidebar menu of all pages. The target page is meant to be a portal for users where useful links are to be found about the wiki's operation.",
 'portal-url'           => 'Description: The URL of the community portal. This is shown in the sidebar by default (removed on translatewiki.net).
-{{doc-important|Do not change "Project:" part.}}',
+{{doc-important|Do not change the "<tt>Project:</tt>" part.}}',
 'privacy'              => 'Used as page name and link at the bottom of each wiki page. The page contains a legal notice providing information about the use of personal information by the website owner.of the site. Example: [[Privacy policy]].',
 'privacypage'          => 'Used as page for that contains the privacy policy. Used at the bottom of every page on the wiki. Example: [[{{MediaWiki:Privacypage}}|{{MediaWiki:Privacy}}]].
-
-{{doc-important|Do not change <tt>Project:</tt> part.}}',
+{{doc-important|Do not change the "<tt>Project:</tt>" part.}}',
 
 'badaccess'        => 'Title shown within page indicating unauthorized access.',
 'badaccess-group0' => 'Shown when you are not allowed to do something.',
@@ -1221,7 +1221,7 @@ Viewprevnext is sometimes preceded by the {{msg-mw|Showingresults}} or {{msg-mw|
 'searchmenu-new'                 => 'An option shown in a menu beside search form offering a red link to the not yet existing page having the specified title (when using the default MediaWiki search engine).',
 'searchhelp-url'                 => '{{Identical|HelpContent}}
 Description: The URL of the search help page.
-{{doc-important|Do not change "Help:" part.}}',
+{{doc-important|Do not change the "<tt>Help:</tt>" part.}}',
 'searchprofile-articles'         => "A quick link in the advanced search box on [[Special:Search]]. Clicking on this link starts a search in the content pages of the wiki.
 
 A 'content page' is a page that forms part of the purpose of the wiki. It includes the main page and pages in the main namespace and any other namespaces that are included when the wiki is customised. For example on Wikimedia Commons 'content pages' include pages in the file and category namespaces. On Wikinews 'content pages' include pages in the Portal namespace. For technical definition of 'content namespaces' see [http://www.mediawiki.org/wiki/Manual:Using_custom_namespaces#Content_namespaces Mediawiki].
@@ -1745,13 +1745,17 @@ Text displayed when uploading a file using [[Special:Upload]].",
 
 {{Identical|Source}}',
 'ignorewarnings'              => 'In [[Special:Upload]]',
+'filetype-mime-mismatch'      => 'Upload error. Parameters:
+* $1 is the extension of the uploaded file
+* $2 is the MIME type of the uploaded file',
 'filetype-bad-ie-mime'        => '$1 will contain a mime type like <tt>image/jpeg</tt> or <tt>application/zip</tt>',
 'filetype-unwanted-type'      => "* $1 is the extension of the file which cannot be uploaded
 * $2 is the list of file extensions that can be uploaded (Example: ''png, gif, jpg, jpeg, ogg, pdf, svg.'')
 * $3 is the number of allowed file formats (to be used for the PLURAL function)",
-'filetype-banned-type'        => "* $1 is the extension of the file which cannot be uploaded
+'filetype-banned-type'        => "* $1 is the extension(s) of the file which cannot be uploaded
 * $2 is the list of file extensions that can be uploaded (Example: ''png, gif, jpg, jpeg, ogg, pdf, svg.'')
-* $3 is the number of allowed file formats (to be used for the PLURAL function)",
+* $3 is the number of allowed file formats (to be used for the PLURAL function)
+* $4 is the number of extensions that could not be uploaded (to be used for the PLURAL function)",
 'filetype-missing'            => 'Error when uploading a file with no extension',
 'verification-error'          => 'Error message shown when an uploaded file contents does not pass verification, i.e. the file is corrupted, it is not the type it claims to be etc.',
 'large-file'                  => 'Variables $1 and $2 have appropriate unit symbols already. See for example [[Mediawiki:size-kilobytes]].',
@@ -3891,8 +3895,10 @@ Used on [[Special:Tags]]. Verb. Used as display text on a link to create/edit a 
 'sqlite-no-fts'  => 'Shown on Special:Version, $1 is version',
 
 # Special:DisableAccount
+'disableaccount'          => 'Name of the special page',
 'disableaccount-user'     => '{{Identical|Username}}',
 'disableaccount-reason'   => '{{Identical|Reason}}',
+'disableaccount-confirm'  => 'A system administrator here is one having access to the system the wiki is running on beyond that of a sysop or a bureaucrat. In Wikimedia terminology they have \'shell access\'. This message refers to "no return without direct database changes."',
 'disableaccount-logentry' => 'This message is used as a [[Special:Log|log entry]], appearing after the username of the person who did the action. Parameters:
 * $1 is a user page',
 

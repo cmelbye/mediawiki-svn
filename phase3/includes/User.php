@@ -442,6 +442,13 @@ class User {
 	}
 
 	/**
+	 * Reset the cache used in idFromName(). For use in tests.
+	 */
+	public static function resetIdByNameCache() {
+		self::$idCacheByName = array();
+	}
+
+	/**
 	 * Does the string match an anonymous IPv4 address?
 	 *
 	 * This function exists for username validation, in order to reject
@@ -599,7 +606,7 @@ class User {
 	 * Given unvalidated password input, return error message on failure.
 	 *
 	 * @param $password String Desired password
-	 * @return mixed: true on success, string of error message on failure
+	 * @return mixed: true on success, string or array of error message on failure
 	 */
 	function getPasswordValidity( $password ) {
 		global $wgMinimalPasswordLength, $wgContLang;
@@ -638,11 +645,25 @@ class User {
 	/**
 	 * Does a string look like an e-mail address?
 	 *
-	 * There used to be a regular expression here, it got removed because it
-	 * rejected valid addresses. Actually just check if there is '@' somewhere
-	 * in the given address.
+	 * This validates an email address using an HTML5 specification found at:
+	 * http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#valid-e-mail-address
+	 * Which as of 2011-01-24 says:
 	 *
-	 * @todo Check for RFC 2822 compilance (bug 959)
+	 *     A valid e-mail address is a string that matches the ABNF production
+	 *   1*( atext / "." ) "@" ldh-str *( "." ldh-str ) where atext is defined
+	 *   in RFC 5322 section 3.2.3, and ldh-str is defined in RFC 1034 section
+	 *   3.5.
+	 *
+	 * This function is an implementation of the specification as requested in
+	 * bug 22449.
+	 *
+	 * Client-side forms will use the same standard validation rules via JS or
+	 * HTML 5 validation; additional restrictions can be enforced server-side
+	 * by extensions via the 'isValidEmailAddr' hook.
+	 *
+	 * Note that this validation doesn't 100% match RFC 2822, but is believed
+	 * to be liberal enough for wide use. Some invalid addresses will still
+	 * pass validation here.
 	 *
 	 * @param $addr String E-mail address
 	 * @return Bool
@@ -660,7 +681,7 @@ class User {
 		[$rfc5322_atext\\.]+    # user part which is liberal :p
 		@                      # 'apostrophe'
 		[$rfc1034_ldh_str]+       # First domain part
-		(\\.[$rfc1034_ldh_str]+)+  # Following part prefixed with a dot
+		(\\.[$rfc1034_ldh_str]+)*  # Following part prefixed with a dot
 		$                      # End of string
 		/ix" ; // case Insensitive, eXtended
 
@@ -1757,8 +1778,14 @@ class User {
 			if( !$this->isValidPassword( $str ) ) {
 				global $wgMinimalPasswordLength;
 				$valid = $this->getPasswordValidity( $str );
-				throw new PasswordError( wfMsgExt( $valid, array( 'parsemag' ),
-					$wgMinimalPasswordLength ) );
+				if ( is_array( $valid ) ) {
+					$message = array_shift( $valid );
+					$params = $valid;
+				} else {
+					$message = $valid;
+					$params = array( $wgMinimalPasswordLength );
+				}
+				throw new PasswordError( wfMsgExt( $message, array( 'parsemag' ), $params ) );
 			}
 		}
 
@@ -3181,11 +3208,8 @@ class User {
 	 * @return String Localized descriptive group name
 	 */
 	static function getGroupName( $group ) {
-		$key = "group-$group";
-		$name = wfMsg( $key );
-		return $name == '' || wfEmptyMsg( $key, $name )
-			? $group
-			: $name;
+		$msg = wfMessage( "group-$group" );
+		return $msg->isBlank() ? $group : $msg->text();
 	}
 
 	/**
@@ -3195,11 +3219,8 @@ class User {
 	 * @return String Localized name for group member
 	 */
 	static function getGroupMember( $group ) {
-		$key = "group-$group-member";
-		$name = wfMsg( $key );
-		return $name == '' || wfEmptyMsg( $key, $name )
-			? $group
-			: $name;
+		$msg = wfMessage( "group-$group-member" );
+		return $msg->isBlank() ? $group : $msg->text();
 	}
 
 	/**
@@ -3251,9 +3272,9 @@ class User {
 	 * @return Title|Bool Title of the page if it exists, false otherwise
 	 */
 	static function getGroupPage( $group ) {
-		$page = wfMsgForContent( 'grouppage-' . $group );
-		if( !wfEmptyMsg( 'grouppage-' . $group, $page ) ) {
-			$title = Title::newFromText( $page );
+		$msg = wfMessage( 'grouppage-' . $group )->inContentLanguage();
+		if( $msg->exists() ) {
+			$title = Title::newFromText( $msg->text() );
 			if( is_object( $title ) )
 				return $title;
 		}

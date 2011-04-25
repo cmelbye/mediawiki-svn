@@ -114,7 +114,7 @@ class DatabaseIbm_db2 extends DatabaseBase {
 	protected $mPHPError = false;
 
 	protected $mServer, $mUser, $mPassword, $mConn = null, $mDBname;
-	protected $mOut, $mOpened = false;
+	protected $mOpened = false;
 
 	protected $mTablePrefix;
 	protected $mFlags;
@@ -264,15 +264,6 @@ class DatabaseIbm_db2 extends DatabaseBase {
 							$dbName = false, $flags = 0,
 							$schema = self::USE_GLOBAL )
 	{
-
-		global $wgOut, $wgDBmwschema;
-		# Can't get a reference if it hasn't been set yet
-		if ( !isset( $wgOut ) ) {
-			$wgOut = null;
-		}
-		$this->mOut =& $wgOut;
-		$this->mFlags = DBO_TRX | $flags;
-
 		if ( $schema == self::USE_GLOBAL ) {
 			$this->mSchema = $wgDBmwschema;
 		} else {
@@ -287,7 +278,7 @@ class DatabaseIbm_db2 extends DatabaseBase {
 		$this->setDB2Option( 'rowcount', 'DB2_ROWCOUNT_PREFETCH_ON',
 			self::STMT_OPTION );
 
-		$this->open( $server, $user, $password, $dbName );
+		parent::__construct( $server, $user, $password, $dbName, $flags );
 	}
 
 	/**

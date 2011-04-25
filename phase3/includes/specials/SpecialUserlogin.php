@@ -327,7 +327,14 @@ class LoginForm extends SpecialPage {
 		$valid = $u->getPasswordValidity( $this->mPassword );
 		if ( $valid !== true ) {
 			if ( !$this->mCreateaccountMail ) {
-				$this->mainLoginForm( wfMsgExt( $valid, array( 'parsemag' ), $wgMinimalPasswordLength ) );
+				if ( is_array( $valid ) ) {
+					$message = array_shift( $valid );
+					$params = $valid;
+				} else {
+					$message = $valid;
+					$params = array( $wgMinimalPasswordLength );
+				}
+				$this->mainLoginForm( wfMsgExt( $message, array( 'parsemag' ), $params ) );
 				return false;
 			} else {
 				# do not force a password for account creation by email
@@ -925,7 +932,8 @@ class LoginForm extends SpecialPage {
 	 * @private
 	 */
 	function mainLoginForm( $msg, $msgtype = 'error' ) {
-		global $wgUser, $wgOut, $wgHiddenPrefs, $wgEnableEmail;
+		global $wgUser, $wgOut, $wgHiddenPrefs;
+		global $wgEnableEmail, $wgEnableUserEmail;
 		global $wgRequest, $wgLoginLanguageSelector;
 		global $wgAuth, $wgEmailConfirmToEdit, $wgCookieExpiration;
 		global $wgSecureLogin;
@@ -1014,6 +1022,7 @@ class LoginForm extends SpecialPage {
 		$template->set( 'userealname', !in_array( 'realname', $wgHiddenPrefs ) );
 		$template->set( 'useemail', $wgEnableEmail );
 		$template->set( 'emailrequired', $wgEmailConfirmToEdit );
+		$template->set( 'emailothers', $wgEnableUserEmail );
 		$template->set( 'canreset', $wgAuth->allowPasswordChange() );
 		$template->set( 'canremember', ( $wgCookieExpiration > 0 ) );
 		$template->set( 'usereason', $wgUser->isLoggedIn() );
@@ -1186,9 +1195,9 @@ class LoginForm extends SpecialPage {
 	function makeLanguageSelector() {
 		global $wgLang;
 
-		$msg = wfMsgForContent( 'loginlanguagelinks' );
-		if( $msg != '' && !wfEmptyMsg( 'loginlanguagelinks', $msg ) ) {
-			$langs = explode( "\n", $msg );
+		$msg = wfMessage( 'loginlanguagelinks' )->inContentLanguage();
+		if( !$msg->isBlank() ) {
+			$langs = explode( "\n", $msg->text() );
 			$links = array();
 			foreach( $langs as $lang ) {
 				$lang = trim( $lang, '* ' );

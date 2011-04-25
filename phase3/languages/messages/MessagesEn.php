@@ -652,8 +652,8 @@ XHTML id names.
 'tog-shownumberswatching'     => 'Show the number of watching users',
 'tog-oldsig'                  => 'Preview of existing signature:',
 'tog-fancysig'                => 'Treat signature as wikitext (without an automatic link)',
-'tog-externaleditor'          => 'Use external editor by default (for experts only, needs special settings on your computer)',
-'tog-externaldiff'            => 'Use external diff by default (for experts only, needs special settings on your computer)',
+'tog-externaleditor'          => 'Use external editor by default (for experts only, needs special settings on your computer. [http://www.mediawiki.org/wiki/Manual:External_editors More information.])',
+'tog-externaldiff'            => 'Use external diff by default (for experts only, needs special settings on your computer. [http://www.mediawiki.org/wiki/Manual:External_editors More information.])',
 'tog-showjumplinks'           => 'Enable "jump to" accessibility links',
 'tog-uselivepreview'          => 'Use live preview (requires JavaScript) (experimental)',
 'tog-forceeditsummary'        => 'Prompt me when entering a blank edit summary',
@@ -1662,7 +1662,7 @@ Note that using the navigation links will reset this column.',
 'searchmenu-legend'                => 'Search options',
 'searchmenu-exists'                => "'''There is a page named \"[[:\$1]]\" on this wiki.'''",
 'searchmenu-new'                   => "'''Create the page \"[[:\$1]]\" on this wiki!'''",
-'searchmenu-new-nocreate'          => '', # do not translate or duplicate this message to other languages
+'searchmenu-new-nocreate'          => '"$1" is an invalid page name or cannot be created by you.',
 'searchhelp-url'                   => 'Help:Contents',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Browse pages with this prefix]]',
 'searchmenu-help'                  => '[[{{MediaWiki:Searchhelp-url}}|{{int:help}}]]?', # do not translate or duplicate this message to other languages
@@ -1837,8 +1837,8 @@ This information will be public.',
 'email'                         => 'E-mail',
 'prefs-help-realname'           => 'Real name is optional.
 If you choose to provide it, this will be used for giving you attribution for your work.',
-'prefs-help-email'              => 'E-mail address is optional, but is needed for password resets, should you forget your password.
-You can also choose to let others contact you through your user or talk page without needing to reveal your identity.',
+'prefs-help-email'              => 'E-mail address is optional, but is needed for password resets, should you forget your password.',
+'prefs-help-email-others'       => 'You can also choose to let others contact you through your user or talk page without needing to reveal your identity.',
 'prefs-help-email-required'     => 'E-mail address is required.',
 'prefs-info'                    => 'Basic information',
 'prefs-i18n'                    => 'Internationalisation',
@@ -2107,13 +2107,13 @@ See the [[Special:NewFiles|gallery of new files]] for a more visual overview.',
 'illegalfilename'             => 'The filename "$1" contains characters that are not allowed in page titles.
 Please rename the file and try uploading it again.',
 'badfilename'                 => 'File name has been changed to "$1".',
-'filetype-mime-mismatch'      => 'File extension does not match MIME type.',
+'filetype-mime-mismatch'      => 'File extension ".$1" does not match the detected MIME type of the file ($2).',
 'filetype-badmime'            => 'Files of the MIME type "$1" are not allowed to be uploaded.',
 'filetype-bad-ie-mime'        => 'Cannot upload this file because Internet Explorer would detect it as "$1", which is a disallowed and potentially dangerous file type.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' is an unwanted file type.
 Preferred {{PLURAL:\$3|file type is|file types are}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' is not a permitted file type.
-Permitted {{PLURAL:\$3|file type is|file types are}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|is not a permitted file type|are not permitted file types}}.
+Permitted {{PLURAL:$3|file type is|file types are}} $2.',
 'filetype-missing'            => 'The file has no extension (like ".jpg").',
 'empty-file'                  => 'The file you submitted was empty.',
 'file-too-large'              => 'The file you submitted was too large.',

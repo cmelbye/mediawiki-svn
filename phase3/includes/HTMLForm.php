@@ -33,6 +33,10 @@
  *	'help-message'        -- message key for a message to use as a help text.
  *	                         can be an array of msg key and then parameters to
  *	                         the message.
+ *                           Overwrites 'help-messages'.
+ *  'help-messages'       -- array of message key. As above, each item can
+ *                           be an array of msg key and then parameters.
+ *                           Overwrites 'help-message'.
  *	'required'            -- passed through to the object, indicating that it
  *	                         is a required field.
  *	'size'                -- the length of text fields
@@ -88,6 +92,8 @@ class HTMLForm {
 	protected $mPre = '';
 	protected $mHeader = '';
 	protected $mFooter = '';
+	protected $mSectionHeaders = array();
+	protected $mSectionFooters = array();
 	protected $mPost = '';
 	protected $mId;
 
@@ -305,13 +311,31 @@ class HTMLForm {
 	 * Add header text, inside the form.
 	 * @param $msg String complete text of message to display
 	 */
-	function addHeaderText( $msg ) { $this->mHeader .= $msg; }
+	function addHeaderText( $msg, $section = null ) { 
+		if ( is_null( $section ) ) {
+			$this->mHeader .= $msg; 
+		} else {
+			if ( !isset( $this->mSectionHeaders[$section] ) ) {
+				$this->mSectionHeaders[$section] = '';
+			}
+			$this->mSectionHeaders[$section] .= $msg;
+		}
+	}
 
 	/**
 	 * Add footer text, inside the form.
 	 * @param $msg String complete text of message to display
 	 */
-	function addFooterText( $msg ) { $this->mFooter .= $msg; }
+	function addFooterText( $msg, $section = null ) { 
+		if ( is_null( $section ) ) {
+			$this->mFooter .= $msg; 
+		} else {
+			if ( !isset( $this->mSectionFooters[$section] ) ) {
+				$this->mSectionFooters[$section] = '';
+			}
+			$this->mSectionFooters[$section] .= $msg;			
+		}
+	}
 
 	/**
 	 * Add text to the end of the display.
@@ -629,7 +653,13 @@ class HTMLForm {
 			} elseif ( is_array( $value ) ) {
 				$section = $this->displaySection( $value, $key );
 				$legend = wfMsg( "{$this->mMessagePrefix}-$key" );
-				$subsectionHtml .= Xml::fieldset( $legend, $section ) . "\n";
+				if ( isset( $this->mSectionHeaders[$key] ) ) {
+					$section = $this->mSectionHeaders[$key] . $section;
+				} 
+				if ( isset( $this->mSectionFooters[$key] ) ) {
+					$section .= $this->mSectionFooters[$key];
+				}
+				$subsectionHtml .= Xml::fieldset( $legend, $section ) . "\n";					
 			}
 		}
 
@@ -898,6 +928,17 @@ abstract class HTMLFormField {
 				# Never mind
 				$helptext = null;
 			}
+		} elseif ( isset( $this->mParams['help-messages'] ) ) {
+			# help-message can be passed a message key (string) or an array containing
+			# a message key and additional parameters. This makes it impossible to pass
+			# an array of message key
+			foreach( $this->mParams['help-messages'] as $msg ) {
+				$candidate = wfMsgExt( $msg, 'parseinline' );
+				if( wfEmptyMsg( $msg ) ) {
+					$candidate = null;
+				}
+				$helptext .= $candidate; // append message
+			}	
 		} elseif ( isset( $this->mParams['help'] ) ) {
 			$helptext = $this->mParams['help'];
 		}

@@ -245,7 +245,7 @@ class SkinTemplate extends Skin {
 		$tpl->set( 'titleprefixeddbkey', $this->mTitle->getPrefixedDBKey() );
 		$tpl->set( 'titletext', $this->mTitle->getText() );
 		$tpl->set( 'articleid', $this->mTitle->getArticleId() );
-		$tpl->set( 'currevisionid', isset( $wgArticle ) ? $wgArticle->getLatest() : 0 );
+		$tpl->set( 'currevisionid', $this->mTitle->getLatestRevID() );
 
 		$tpl->set( 'isarticle', $out->isArticle() );
 
@@ -345,7 +345,7 @@ class SkinTemplate extends Skin {
 		$tpl->setRef( 'skin', $this );
 		$tpl->set( 'logo', $this->logoText() );
 		if ( $out->isArticle() && ( !isset( $oldid ) || isset( $diff ) ) &&
-			$wgArticle && 0 != $wgArticle->getID() ){
+			$this->mTitle->exists() ){
 			if ( !$wgDisableCounters ) {
 				$viewcount = $wgLang->formatNum( $wgArticle->getCount() );
 				if ( $viewcount ) {
@@ -706,8 +706,16 @@ class SkinTemplate extends Skin {
 			$query = 'action=edit&redlink=1';
 		}
 
-		$text = wfMsg( $message );
-		if ( wfEmptyMsg( $message, $text ) ) {
+		// wfMessageFallback will nicely accept $message as an array of fallbacks
+		// or just a single key
+		$msg = wfMessageFallback( $message );
+		if ( is_array($message) ) {
+			// for hook compatibility just keep the last message name
+			$message = end($message);
+		}
+		if ( $msg->exists() ) {
+			$text = $msg->text();
+		} else {
 			global $wgContLang;
 			$text = $wgContLang->getFormattedNsText( MWNamespace::getSubject( $title->getNamespace() ) );
 		}
@@ -784,7 +792,7 @@ class SkinTemplate extends Skin {
 	 * @private
 	 */
 	function buildContentNavigationUrls() {
-		global $wgContLang, $wgLang, $wgOut, $wgUser, $wgRequest, $wgArticle;
+		global $wgContLang, $wgLang, $wgOut, $wgUser, $wgRequest;
 		global $wgDisableLangConversion;
 
 		wfProfileIn( __METHOD__ );
@@ -828,12 +836,16 @@ class SkinTemplate extends Skin {
 			}
 
 			// Adds namespace links
+			$subjectMsg = array( "nstab-$subjectId" );
+			if ( $subjectPage->isMainPage() ) {
+				array_unshift($subjectMsg, 'mainpage-nstab');
+			}
 			$content_navigation['namespaces'][$subjectId] = $this->tabAction(
-				$subjectPage, 'nstab-' . $subjectId, !$isTalk && !$preventActiveTabs, '', $userCanRead
+				$subjectPage, $subjectMsg, !$isTalk && !$preventActiveTabs, '', $userCanRead
 			);
 			$content_navigation['namespaces'][$subjectId]['context'] = 'subject';
 			$content_navigation['namespaces'][$talkId] = $this->tabAction(
-				$talkPage, 'talk', $isTalk && !$preventActiveTabs, '', $userCanRead
+				$talkPage, array( "nstab-$talkId", 'talk' ), $isTalk && !$preventActiveTabs, '', $userCanRead
 			);
 			$content_navigation['namespaces'][$talkId]['context'] = 'talk';
 
@@ -841,8 +853,8 @@ class SkinTemplate extends Skin {
 			if ( $title->exists() && $userCanRead ) {
 				$content_navigation['views']['view'] = $this->tabAction(
 					$isTalk ? $talkPage : $subjectPage,
-					!wfEmptyMsg( "$skname-view-view" ) ? "$skname-view-view" : 'view',
-					( $onPage && $action == 'view' ), '', true
+					array( "$skname-view-view", 'view' ),
+					( $onPage && ($action == 'view' || $action == 'purge' ) ), '', true
 				);
 				$content_navigation['views']['view']['redundant'] = true; // signal to hide this from simple content_actions
 			}
@@ -873,20 +885,20 @@ class SkinTemplate extends Skin {
 					"edit" : "create";
 				$content_navigation['views']['edit'] = array(
 					'class' => ( $selected ? 'selected' : '' ) . $isTalkClass,
-					'text' => wfMessageFallback( "$skname-view-$msgKey", $msgKey )->plain(),
+					'text' => wfMessageFallback( "$skname-view-$msgKey", $msgKey )->text(),
 					'href' => $title->getLocalURL( $this->editUrlOptions() ),
 					'primary' => true, // don't collapse this in vector
 				);
 				// Checks if this is a current rev of talk page and we should show a new
 				// section link
-				if ( ( $isTalk && $wgArticle && $wgArticle->isCurrent() ) || ( $wgOut->showNewSectionLink() ) ) {
+				if ( ( $isTalk && $this->isRevisionCurrent() ) || ( $wgOut->showNewSectionLink() ) ) {
 					// Checks if we should ever show a new section link
 					if ( !$wgOut->forceHideNewSectionLink() ) {
 						// Adds new section link
 						//$content_navigation['actions']['addsection']
 						$content_navigation['views']['addsection'] = array(
 							'class' => $section == 'new' ? 'selected' : false,
-							'text' => wfMessageFallback( "$skname-action-addsection", 'addsection' )->plain(),
+							'text' => wfMessageFallback( "$skname-action-addsection", 'addsection' )->text(),
 							'href' => $title->getLocalURL( 'action=edit&section=new' )
 						);
 					}
@@ -896,7 +908,7 @@ class SkinTemplate extends Skin {
 				// Adds view source view link
 				$content_navigation['views']['viewsource'] = array(
 					'class' => ( $onPage && $action == 'edit' ) ? 'selected' : false,
-					'text' => wfMessageFallback( "$skname-action-viewsource", 'viewsource' )->plain(),
+					'text' => wfMessageFallback( "$skname-action-viewsource", 'viewsource' )->text(),
 					'href' => $title->getLocalURL( $this->editUrlOptions() ),
 					'primary' => true, // don't collapse this in vector
 				);
@@ -910,7 +922,7 @@ class SkinTemplate extends Skin {
 				// Adds history view link
 				$content_navigation['views']['history'] = array(
 					'class' => ( $onPage && $action == 'history' ) ? 'selected' : false,
-					'text' => wfMessageFallback( "$skname-view-history", 'history_short' )->plain(),
+					'text' => wfMessageFallback( "$skname-view-history", 'history_short' )->text(),
 					'href' => $title->getLocalURL( 'action=history' ),
 					'rel' => 'archives',
 				);
@@ -918,7 +930,7 @@ class SkinTemplate extends Skin {
 				if( $wgUser->isAllowed( 'delete' ) ) {
 					$content_navigation['actions']['delete'] = array(
 						'class' => ( $onPage && $action == 'delete' ) ? 'selected' : false,
-						'text' => wfMessageFallback( "$skname-action-delete", 'delete' )->plain(),
+						'text' => wfMessageFallback( "$skname-action-delete", 'delete' )->text(),
 						'href' => $title->getLocalURL( 'action=delete' )
 					);
 				}
@@ -926,7 +938,7 @@ class SkinTemplate extends Skin {
 					$moveTitle = SpecialPage::getTitleFor( 'Movepage', $title->getPrefixedDBkey() );
 					$content_navigation['actions']['move'] = array(
 						'class' => $this->mTitle->isSpecial( 'Movepage' ) ? 'selected' : false,
-						'text' => wfMessageFallback( "$skname-action-move", 'move' )->plain(),
+						'text' => wfMessageFallback( "$skname-action-move", 'move' )->text(),
 						'href' => $moveTitle->getLocalURL()
 					);
 				}
@@ -935,7 +947,7 @@ class SkinTemplate extends Skin {
 					$mode = !$title->isProtected() ? 'protect' : 'unprotect';
 					$content_navigation['actions'][$mode] = array(
 						'class' => ( $onPage && $action == $mode ) ? 'selected' : false,
-						'text' => wfMessageFallback( "$skname-action-$mode", $mode )->plain(),
+						'text' => wfMessageFallback( "$skname-action-$mode", $mode )->text(),
 						'href' => $title->getLocalURL( "action=$mode" )
 					);
 				}
@@ -960,7 +972,7 @@ class SkinTemplate extends Skin {
 					$mode = !$title->getRestrictions( 'create' ) ? 'protect' : 'unprotect';
 					$content_navigation['actions'][$mode] = array(
 						'class' => ( $onPage && $action == $mode ) ? 'selected' : false,
-						'text' => wfMessageFallback( "$skname-action-$mode", $mode )->plain(),
+						'text' => wfMessageFallback( "$skname-action-$mode", $mode )->text(),
 						'href' => $title->getLocalURL( "action=$mode" )
 					);
 				}

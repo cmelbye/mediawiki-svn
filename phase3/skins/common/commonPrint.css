@@ -18,11 +18,8 @@ a.new {
 	background-color: #f9f9f9;
 	padding: 5px;
 }
-body.ltr .tocindent {
+.tocindent {
 	margin-left: 2em;
-}
-body.rtl .tocindent {
-	margin-right: 2em;
 }
 .tocline {
 	margin-bottom: 0px;
@@ -35,11 +32,6 @@ div.floatright {
 	position: relative;
 	margin: 0.5em 0 0.8em 1.4em;
 }
-body.rtl div.floatright {
-	float: left;
-	clear: left;
-	margin: 0.5em 1.4em 0.8em 0;
-}
 div.floatright p {
 	font-style: italic;
 }
@@ -48,11 +40,6 @@ div.floatleft {
 	clear: left;
 	position: relative;
 	margin: 0.5em 1.4em 0.8em 0;
-}
-body.rtl div.floatleft {
-	float: right;
-	clear: right;
-	margin: 0.5em 0 0.8em 1.4em;
 }
 div.floatleft p {
 	font-style: italic;
@@ -84,32 +71,21 @@ html .thumbcaption {
 	padding: 3px !important;
 	font-size: 94%;
 }
-body.rtl .thumbcaption {
-	text-align: right;
-}
 
 div.magnify {
 	display: none;
 }
+/* @noflip */
 div.tright {
 	float: right;
 	clear: right;
 	margin: 0.5em 0 0.8em 1.4em;
 }
+/* @noflip */
 div.tleft {
 	float: left;
 	clear: left;
 	margin: 0.5em 1.4em 0.8em 0;
-}
-body.rtl div.tright {
-	float: left;
-	clear: left;
-	border-width: 0.5em 1.4em 0.8em 0;
-}
-body.rtl div.tleft {
-	float: right;
-	clear: right;
-	border-width: 0.5em 0 0.8em 1.4em;
 }
 img.thumbborder {
 	border: 1px solid #dddddd;
@@ -162,11 +138,13 @@ ul {
 	border: none ! important;
 	padding: 0 ! important;
 	margin: 0 ! important;
+	direction: ltr;
 }
 #footer {
 	background : white;
 	color : black;
 	border-top: 1px solid black;
+	direction: ltr;
 }
 
 h1, h2, h3, h4, h5, h6 {

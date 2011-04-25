@@ -5,7 +5,7 @@
  * @file
  */
 
-define( 'MW_CONFIG_CALLBACK', 'CoreInstaller::overrideConfig' );
+define( 'MW_CONFIG_CALLBACK', 'Installer::overrideConfig' );
 define( 'MEDIAWIKI_INSTALL', true );
 
 chdir( dirname( dirname( __FILE__ ) ) );
@@ -39,7 +39,7 @@ function wfInstallerMain() {
 	}
 	$wgLang = Language::factory( $langCode );
 
-	$installer->setParserLanguage( $wgLang->getCode() );
+	$installer->setParserLanguage( $wgLang );
 
 	$wgMetaNamespace = $wgCanonicalNamespaceNames[NS_PROJECT];
 

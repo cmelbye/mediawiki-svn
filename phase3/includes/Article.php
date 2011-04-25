@@ -33,7 +33,7 @@ class Article {
 	var $mRedirectTarget = null;      // !< Title object if set
 	var $mRedirectUrl = false;        // !<
 	var $mRevIdFetched = 0;           // !<
-	var $mRevision;                   // !< Revision object if set
+	var $mRevision = null;            // !< Revision object if set
 	var $mTimestamp = '';             // !<
 	var $mTitle;                      // !< Title object
 	var $mTotalAdjustment = 0;        // !<
@@ -685,7 +685,7 @@ class Article {
 			return true;
 		}
 
-		return $this->exists() && isset( $this->mRevision ) && $this->mRevision->isCurrent();
+		return $this->exists() && $this->mRevision && $this->mRevision->isCurrent();
 	}
 
 	/**
@@ -1270,8 +1270,7 @@ class Article {
 		global $wgOut;
 
 		if ( $this->mTitle->isTalkPage() ) {
-			$msg = wfMsgNoTrans( 'talkpageheader' );
-			if ( $msg !== '-' && !wfEmptyMsg( 'talkpageheader', $msg ) ) {
+			if ( !wfMessage( 'talkpageheader' )->isDisabled() ) {
 				$wgOut->wrapWikiMsg( "<div class=\"mw-talkpageheader\">\n$1\n</div>", array( 'talkpageheader' ) );
 			}
 		}
@@ -1296,6 +1295,9 @@ class Article {
 		if ( $wgUseTrackbacks ) {
 			$this->addTrackbacks();
 		}
+
+		wfRunHooks( 'ArticleViewFooter', array( $this ) );
+
 	}
 
 	/**
@@ -1939,11 +1941,11 @@ class Article {
 	}
 
 	/**
-	 * This function is not deprecated until somebody fixes the core not to use
-	 * it. Nevertheless, use Article::doEdit() instead.
-	 * @deprecated @since 1.7
+	 * @deprecated @since 1.7 use Article::doEdit()
 	 */
 	function insertNewArticle( $text, $summary, $isminor, $watchthis, $suppressRC = false, $comment = false, $bot = false ) {
+		wfDeprecated( __METHOD__ );
+
 		$flags = EDIT_NEW | EDIT_DEFER_UPDATES | EDIT_AUTOSUMMARY |
 			( $isminor ? EDIT_MINOR : 0 ) |
 			( $suppressRC ? EDIT_SUPPRESS_RC : 0 ) |
@@ -1976,6 +1978,8 @@ class Article {
 	 * @deprecated @since 1.7 use Article::doEdit()
 	 */
 	function updateArticle( $text, $summary, $minor, $watchthis, $forceBot = false, $sectionanchor = '' ) {
+		wfDeprecated( __METHOD__ );
+
 		$flags = EDIT_UPDATE | EDIT_DEFER_UPDATES | EDIT_AUTOSUMMARY |
 			( $minor ? EDIT_MINOR : 0 ) |
 			( $forceBot ? EDIT_FORCE_BOT : 0 );
@@ -3600,10 +3604,17 @@ class Article {
 
 		global $wgParser;
 
+		if( $user === null ) {
+			global $wgUser;
+			$user = $wgUser;
+		}
+		$popts = ParserOptions::newFromUser( $user );
+		wfRunHooks( 'ArticlePrepareTextForEdit', array( $this, $popts ) );
+
 		$edit = (object)array();
 		$edit->revid = $revid;
 		$edit->newText = $text;
-		$edit->pst = $this->preSaveTransform( $text, $user );
+		$edit->pst = $this->preSaveTransform( $text, $user, $popts );
 		$edit->popts = $this->getParserOptions( true );
 		$edit->output = $wgParser->parse( $edit->pst, $this->mTitle, $edit->popts, true, true, $revid );
 		$edit->oldText = $this->getRawText();
@@ -3851,8 +3862,7 @@ class Article {
 		# Show user links if allowed to see them. If hidden, then show them only if requested...
 		$userlinks = $sk->revUserTools( $revision, !$unhide );
 
-		$m = wfMsg( 'revision-info-current' );
-		$infomsg = $current && !wfEmptyMsg( 'revision-info-current', $m ) && $m != '-'
+		$infomsg = $current && !wfMessage( 'revision-info-current' )->isDisabled()
 			? 'revision-info-current'
 			: 'revision-info';
 
@@ -3881,10 +3891,12 @@ class Article {
 	 * @param $text String article contents
 	 * @param $user User object: user doing the edit, $wgUser will be used if
 	 *              null is given
+	 * @param $popts ParserOptions object: parser options, default options for
+	 *               the user loaded if null given
 	 * @return string article contents with altered wikitext markup (signatures
 	 * 	converted, {{subst:}}, templates, etc.)
 	 */
-	public function preSaveTransform( $text, User $user = null ) {
+	public function preSaveTransform( $text, User $user = null, ParserOptions $popts = null ) {
 		global $wgParser;
 
 		if ( $user === null ) {
@@ -3892,7 +3904,11 @@ class Article {
 			$user = $wgUser;
 		}
 
-		return $wgParser->preSaveTransform( $text, $this->mTitle, $user, ParserOptions::newFromUser( $user ) );
+		if ( $popts === null ) {
+			$popts = ParserOptions::newFromUser( $user );
+		}
+
+		return $wgParser->preSaveTransform( $text, $this->mTitle, $user, $popts );
 	}
 
 	/* Caching functions */

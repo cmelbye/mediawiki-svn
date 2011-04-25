@@ -1566,11 +1566,21 @@ class Language {
 	}
 
 	function getMessage( $key ) {
-		return self::$dataCache->getSubitem( $this->getCodeForMessage(), 'messages', $key );
+		// Don't change getPreferredVariant() to getCode() / mCode, because:
+
+		// 1. Some language like Chinese has multiple variant languages. Only
+		//    getPreferredVariant() (in LanguageConverter) could return a
+		//    sub-language which would be more suitable for the user.
+		// 2. To languages without multiple variants, getPreferredVariant()
+		//    (in FakeConverter) functions exactly same as getCode() / mCode,
+		//    it won't break anything.
+
+		// The same below.
+		return self::$dataCache->getSubitem( $this->getPreferredVariant(), 'messages', $key );
 	}
 
 	function getAllMessages() {
-		return self::$dataCache->getItem( $this->getCodeForMessage(), 'messages' );
+		return self::$dataCache->getItem( $this->getPreferredVariant(), 'messages' );
 	}
 
 	function iconv( $in, $out, $string ) {
@@ -2787,18 +2797,6 @@ class Language {
 	function getCode() {
 		return $this->mCode;
 	}
-	
-	/**
-	 * Get langcode for message
-	 * Some language, like Chinese (zh, without any suffix), has multiple
-	 * interface languages, we could choose a better one for user.
-	 * Inherit class can override this function if necessary.
-	 *
-	 * @return string
-	 */
-	function getCodeForMessage() {
-		return $this->getPreferredVariant();
-	}
 
 	function setCode( $code ) {
 		$this->mCode = $code;
@@ -2993,51 +2991,5 @@ class Language {
 	 */
 	function getConvRuleTitle() {
 		return $this->mConverter->getConvRuleTitle();
-	}
-
-	/**
-	 * Given a string, convert it to a (hopefully short) key that can be used
-	 * for efficient sorting.  A binary sort according to the sortkeys
-	 * corresponds to a logical sort of the corresponding strings.  Current
-	 * code expects that a null character should sort before all others, but
-	 * has no other particular expectations (and that one can be changed if
-	 * necessary).
-	 *
-	 * @param string $string UTF-8 string
-	 * @return string Binary sortkey
-	 */
-	public function convertToSortkey( $string ) {
-		# Fake function for now
-		return strtoupper( $string );
-	}
-
-	/**
-	 * Given a string, return the logical "first letter" to be used for
-	 * grouping on category pages and so on.  This has to be coordinated
-	 * carefully with convertToSortkey(), or else the sorted list might jump
-	 * back and forth between the same "initial letters" or other pathological
-	 * behavior.  For instance, if you just return the first character, but "a"
-	 * sorts the same as "A" based on convertToSortkey(), then you might get a
-	 * list like
-	 *
-	 * == A ==
-	 * * [[Aardvark]]
-	 *
-	 * == a ==
-	 * * [[antelope]]
-	 *
-	 * == A ==
-	 * * [[Ape]]
-	 *
-	 * etc., assuming for the sake of argument that $wgCapitalLinks is false.
-	 *
-	 * @param string $string UTF-8 string
-	 * @return string UTF-8 string corresponding to the first letter of input
-	 */
-	public function firstLetterForLists( $string ) {
-		if ( $string[0] == "\0" ) {
-			$string = substr( $string, 1 );
-		}
-		return strtoupper( $this->firstChar( $string ) );
 	}
 }

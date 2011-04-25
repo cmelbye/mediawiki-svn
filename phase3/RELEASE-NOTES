@@ -233,6 +233,13 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 6672) Images are now autorotated according to their EXIF orientation. 
   This only affects thumbnails; the source remains unrotated.
 * (bug 25708) Update case mappings and normalization to Unicode 6.0.0
+* New hook ArticlePrepareTextForEdit added, called when preparing text to be saved.
+* New parser option PreSaveTransform added, allows the pre-save transformation
+  to be selectively disabled.
+* Alternative to $wgHooks implemented, using the new Hooks class. 
+* Add width parameter to Special:Filepath to allow getting the file path of a thumbnail.
+* (bug 26870) Add size to {{filepath:}}
+* Upload warnings now show a thumbnail of the uploaded file
 
 <<<<<<< .working
 === Bug fixes in 1.17 ===
@@ -483,6 +490,34 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 25506) Exception is thrown if OutputPage::parse is called inside a tag hook,
   which would reset parser state
 * (bug 26208) Mark directionality of some interlanguage links
+* (bug 26034) Make the "View / Read" tab in content_navigation style tabs remain
+  selected when the action is "purge".
+* (bug 14267) Support a MediaWiki:Mainpage-nstab override for the subject namespace
+  tab on the mainpage of a wiki.
+* (bug 10158) Do not mention allowing others to contact you when the feature
+  is disabled ($wgEnableUserEmail=false)
+* (bug 26733) Wrap initial table creation in transaction
+* (bug 26729) Category pages should return 404 if they do not exist and have no
+  members.
+* (bug 2585) Image pages should send 404 if no image, no shared image and no
+  description page.
+* (bug 12974) The behaviour of wikitable and template parsing was altered.  Previously,
+  all templates were treated as being at the start of a block context for the purposes
+  of evaluating wikitext elements like #, :, *, and tables (bug 529).  Now this 
+  behaviour is only applied to wikitable-start {|, but the first line of a wikitable
+  cell is now treated as a linestart.
+* Custom editintro's using the editintro url parameter will no longer show <noinclude>
+  sections on pages they are included on.
+* (bug 26449) Keep underlines from headings outside of tables and thumbs by
+  adding overflow:hidden to h1,h2,h3,h4,h5,h6 (also fixes editsection bunching).
+* (bug 26708) Remove background-color:white from tables in Monobook and Vector.
+* (bug 26781) {{PAGENAME}} and related parser functions escape their output better.
+* (bug 26716) Provide link to instructions for external editor related preferences
+  and add a comment to the ini control file explaining what is going on.
+* Trying to upload a file with no extension or with a disallowed MIME type now gives
+  the right message instead of complaining about a MIME/extension mismatch
+* (bug 26809) Uploading files with multiple extensions where one of the extensions
+  is blacklisted now gives the proper extension in the error message.
 
 <<<<<<< .working
 === API changes in 1.17 ===
@@ -611,6 +646,8 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 26484) add a lltitles param to prop=langlinks
 * (bug 26480) add a pppageprops param to prop=pageprops
 * (bug 26650) Remove $wgAPICacheHelp in favour of $wgAPICacheHelpTimeout
+* (bug 24650) Fix API to work with categorylinks changes
+* Expose list of skins in meta=siteinfo
 
 === Languages updated in 1.18 ===
 

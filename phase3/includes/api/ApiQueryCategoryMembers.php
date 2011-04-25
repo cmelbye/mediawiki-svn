@@ -77,28 +77,28 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		$fld_ids = isset( $prop['ids'] );
 		$fld_title = isset( $prop['title'] );
 		$fld_sortkey = isset( $prop['sortkey'] );
+		$fld_sortkeyprefix = isset( $prop['sortkeyprefix'] );
 		$fld_timestamp = isset( $prop['timestamp'] );
+		$fld_type = isset( $prop['type'] );
 
 		if ( is_null( $resultPageSet ) ) {
-			$this->addFields( array( 'cl_from', 'cl_sortkey', 'page_namespace', 'page_title' ) );
+			$this->addFields( array( 'cl_from', 'page_namespace', 'page_title' ) );
 			$this->addFieldsIf( 'page_id', $fld_ids );
+			$this->addFieldsIf( 'cl_sortkey_prefix', $fld_sortkeyprefix );
+			$this->addFieldsIf( 'cl_sortkey', $fld_sortkey );
 		} else {
 			$this->addFields( $resultPageSet->getPageTableFields() ); // will include page_ id, ns, title
 			$this->addFields( array( 'cl_from', 'cl_sortkey' ) );
 		}
 
 		$this->addFieldsIf( 'cl_timestamp', $fld_timestamp || $params['sort'] == 'timestamp' );
-		$this->addTables( array( 'page', 'categorylinks' ) );	// must be in this order for 'USE INDEX'
-									// Not needed after bug 10280 is applied to servers
-		if ( $params['sort'] == 'timestamp' ) {
-			$this->addOption( 'USE INDEX', 'cl_timestamp' );
-		} else {
-			$this->addOption( 'USE INDEX', 'cl_sortkey' );
-		}
+		$this->addFieldsIf( 'cl_type', $fld_type );
 
-		$this->addWhere( 'cl_from=page_id' );
-		$this->setContinuation( $params['continue'], $params['dir'] );
+		$this->addTables( array( 'page', 'categorylinks' ) );	// must be in this order for 'USE INDEX'
+
 		$this->addWhereFld( 'cl_to', $categoryTitle->getDBkey() );
+		$this->addWhereFld( 'cl_type', $params['type'] );
+
 		// Scanning large datasets for rare categories sucks, and I already told
 		// how to have efficient subcategory access :-) ~~~~ (oh well, domas)
 		global $wgMiserMode;
@@ -108,18 +108,35 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		} else {
 			$this->addWhereFld( 'page_namespace', $params['namespace'] );
 		}
+
+		$dir = $params['dir'] == 'asc' ? 'newer' : 'older';
+
 		if ( $params['sort'] == 'timestamp' ) {
-			$this->addWhereRange( 'cl_timestamp', ( $params['dir'] == 'asc' ? 'newer' : 'older' ), $params['start'], $params['end'] );
+			$this->addWhereRange( 'cl_timestamp',
+				$dir,
+				$params['start'],
+				$params['end'] );
+
+			$this->addOption( 'USE INDEX', 'cl_timestamp' );
 		} else {
-			$this->addWhereRange( 'cl_sortkey', ( $params['dir'] == 'asc' ? 'newer' : 'older' ), $params['startsortkey'], $params['endsortkey'] );
-			$this->addWhereRange( 'cl_from', ( $params['dir'] == 'asc' ? 'newer' : 'older' ), null, null );
+			// The below produces ORDER BY cl_type, cl_sortkey, cl_from, possibly with DESC added to each of them
+			$this->addWhereRange( 'cl_type', $dir, null, null );
+			$this->addWhereRange( 'cl_sortkey',
+				$dir,
+				$params['startsortkey'],
+				$params['endsortkey'] );
+			$this->addWhereRange( 'cl_from', $dir, null, null );
+			$this->addOption( 'USE INDEX', 'cl_sortkey' );
 		}
+
+		$this->setContinuation( $params['continue'], $params['dir'] );
+
+		$this->addWhere( 'cl_from=page_id' );
 
 		$limit = $params['limit'];
 		$this->addOption( 'LIMIT', $limit + 1 );
 
 		$count = 0;
-		$lastSortKey = null;
 		$res = $this->select( __METHOD__ );
 		foreach ( $res as $row ) {
 			if ( ++ $count > $limit ) {
@@ -128,7 +145,7 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 				if ( $params['sort'] == 'timestamp' ) {
 					$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->cl_timestamp ) );
 				} else {
-					$this->setContinueEnumParameter( 'continue', $this->getContinueStr( $row, $lastSortKey ) );
+					$this->setContinueEnumParameter( 'continue', $row->cl_from );
 				}
 				break;
 			}
@@ -153,6 +170,12 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 				if ( $fld_sortkey ) {
 					$vals['sortkey'] = $row->cl_sortkey;
 				}
+				if ( $fld_sortkeyprefix ) {
+					$vals['sortkeyprefix'] = $row->cl_sortkey_prefix;
+				}
+				if ( $fld_type  ) {
+					$vals['type'] = $row->cl_type;
+				}
 				if ( $fld_timestamp ) {
 					$vals['timestamp'] = wfTimestamp( TS_ISO_8601, $row->cl_timestamp );
 				}
@@ -162,28 +185,19 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 					if ( $params['sort'] == 'timestamp' ) {
 						$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->cl_timestamp ) );
 					} else {
-						$this->setContinueEnumParameter( 'continue', $this->getContinueStr( $row, $lastSortKey ) );
+						$this->setContinueEnumParameter( 'continue', $row->cl_from );
 					}
 					break;
 				}
 			} else {
 				$resultPageSet->processDbRow( $row );
 			}
-			$lastSortKey = $row->cl_sortkey; // detect duplicate sortkeys
 		}
 
 		if ( is_null( $resultPageSet ) ) {
 			$this->getResult()->setIndexedTagName_internal(
 					 array( 'query', $this->getModuleName() ), 'cm' );
 		}
-	}
-
-	private function getContinueStr( $row, $lastSortKey ) {
-		$ret = $row->cl_sortkey . '|';
-		if ( $row->cl_sortkey == $lastSortKey )	{ // duplicate sort key, add cl_from
-			$ret .= $row->cl_from;
-		}
-		return $ret;
 	}
 
 	/**
@@ -194,26 +208,11 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			return;	// This is not a continuation request
 		}
 
-		$pos = strrpos( $continue, '|' );
-		$sortkey = substr( $continue, 0, $pos );
-		$fromstr = substr( $continue, $pos + 1 );
-		$from = intval( $fromstr );
+		$encFrom = $this->getDB()->addQuotes( intval( $continue ) );
 
-		if ( $from == 0 && strlen( $fromstr ) > 0 ) {
-			$this->dieUsage( 'Invalid continue param. You should pass the original value returned by the previous query', 'badcontinue' );
-		}
+		$op = ( $dir == 'desc' ? '<=' : '>=' );
 
-		$encSortKey = $this->getDB()->addQuotes( $sortkey );
-		$encFrom = $this->getDB()->addQuotes( $from );
-
-		$op = ( $dir == 'desc' ? '<' : '>' );
-
-		if ( $from != 0 ) {
-			// Duplicate sort key continue
-			$this->addWhere( "cl_sortkey$op$encSortKey OR (cl_sortkey=$encSortKey AND cl_from$op=$encFrom)" );
-		} else {
-			$this->addWhere( "cl_sortkey$op=$encSortKey" );
-		}
+		$this->addWhere( "cl_from $op $encFrom" );
 	}
 
 	public function getAllowedParams() {
@@ -231,12 +230,23 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 					'ids',
 					'title',
 					'sortkey',
+					'sortkeyprefix',
+					'type',
 					'timestamp',
 				)
 			),
 			'namespace' => array (
 				ApiBase::PARAM_ISMULTI => true,
 				ApiBase::PARAM_TYPE => 'namespace',
+			),
+			'type' => array(
+				ApiBase::PARAM_ISMULTI => true,
+				ApiBase::PARAM_DFLT => 'page|subcat|file',
+				ApiBase::PARAM_TYPE => array(
+					'page',
+					'subcat',
+					'file'
+				)
 			),
 			'continue' => null,
 			'limit' => array(
@@ -279,12 +289,15 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			'pageid' => 'Page ID of the category to enumerate. Cannot be used together with cmtitle',
 			'prop' => array(
 				'What pieces of information to include',
-				' ids        - Adds the page ID',
-				' title      - Adds the title and namespace ID of the page',
-				' sortkey    - Adds the sortkey used for the category',
-				' timestamp  - Adds the timestamp of when the page was included',
+				' ids           - Adds the page ID',
+				' title         - Adds the title and namespace ID of the page',
+				' sortkey       - Adds the sortkey used for sorting in the category (may not be human-readble)',
+				' sortkeyprefix - Adds the sortkey prefix used for sorting in the category (human-readable part of the sortkey)',
+				' type          - Adds the type that the page has been categorised as (page, subcat or file)',
+				' timestamp     - Adds the timestamp of when the page was included',
 			),
 			'namespace' => 'Only include pages in these namespaces',
+			'type' => 'What type of category members to include',
 			'sort' => 'Property to sort by',
 			'dir' => 'In which direction to sort',
 			'start' => "Timestamp to start listing from. Can only be used with {$p}sort=timestamp",

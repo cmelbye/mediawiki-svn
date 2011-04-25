@@ -22,6 +22,7 @@
  * @author Khaledelmansoury
  * @author Krinkle
  * @author Kwin
+ * @author LWChris
  * @author Li-sung
  * @author Lyzzy
  * @author MF-Warburg
@@ -51,6 +52,7 @@
  * @author Wikifan
  * @author Ziko
  * @author לערי ריינהארט
+ * @author ✓
  */
 
 $capitalizeAllNouns = true;
@@ -382,8 +384,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Anzahl der beobachtenden Benutzer anzeigen',
 'tog-oldsig'                  => 'Vorschau der aktuellen Signatur:',
 'tog-fancysig'                => 'Signatur als Wikitext behandeln (ohne automatische Verlinkung)',
-'tog-externaleditor'          => 'Externen Editor als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer)',
-'tog-externaldiff'            => 'Externes Programm für Versionsunterschiede als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer)',
+'tog-externaleditor'          => 'Externen Editor als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Weitere Informationen hierzu.])',
+'tog-externaldiff'            => 'Externes Programm für Versionsunterschiede als Standard benutzen (nur für Experten, erfordert spezielle Einstellungen auf dem eigenen Computer. [http://www.mediawiki.org/wiki/Manual:External_editors Weitere Informationen hierzu.])',
 'tog-showjumplinks'           => '„Wechseln zu“-Links aktivieren',
 'tog-uselivepreview'          => 'Live-Vorschau nutzen (benötigt JavaScript) (experimentell)',
 'tog-forceeditsummary'        => 'Warnen, wenn beim Speichern die Zusammenfassung fehlt',
@@ -966,7 +968,7 @@ Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|such
 Du kannst diesen Titel auf den anderen Seiten [[Special:Search/{{PAGENAME}}|suchen]]
 oder in den zugehörigen <span class="plainlinks">[{{fullurl:{{#special:Log}}|page={{FULLPAGENAMEE}}}} Logbüchern suchen].</span>',
 'userpage-userdoesnotexist'        => 'Das Benutzerkonto „$1“ ist nicht vorhanden. Bitte prüfe, ob du diese Seite wirklich erstellen/bearbeiten willst.',
-'userpage-userdoesnotexist-view'   => 'Benutzerkonto „$1“ existiert nicht.',
+'userpage-userdoesnotexist-view'   => 'Das Benutzerkonto „$1“ existiert nicht.',
 'blocked-notice-logextract'        => '{{GENDER:$1|Dieser Benutzer|Diese Benutzerin|Dieser Benutzer}} ist zurzeit gesperrt.
 Zur Information folgt ein aktueller Auszug aus dem Benutzersperr-Logbuch:',
 'clearyourcache'                   => "'''Hinweis - Leere nach dem Speichern den Browser-Cache, um die Änderungen sehen zu können:''' '''Mozilla/Firefox/Safari:''' ''Shift'' gedrückt halten und auf ''Aktualisieren'' klicken oder alternativ entweder ''Strg-F5'' oder ''Strg-R'' (''Befehlstaste-R'' auf dem Macintosh) drücken; '''Konqueror: '''Auf ''Aktualisieren'' klicken oder ''F5'' drücken; '''Opera:''' Cache unter ''Extras → Einstellungen'' leeren; '''Internet Explorer:''' ''Strg-F5'' drücken oder ''Strg'' gedrückt halten und dabei ''Aktualisieren'' anklicken.",
@@ -1087,7 +1089,7 @@ Bitte prüfe den Vergleich unten um sicherzustellen, dass du dies tun möchtest,
 Grund der Sperre: ''$2''",
 
 # History pages
-'viewpagelogs'           => 'Logbücher für diese Seite anzeigen',
+'viewpagelogs'           => 'Logbücher dieser Seite anzeigen',
 'nohistory'              => 'Es gibt keine Versionsgeschichte für diese Seite.',
 'currentrev'             => 'Aktuelle Version',
 'currentrev-asof'        => 'Aktuelle Version vom $2, $3 Uhr',
@@ -1306,6 +1308,7 @@ Stelle sicher, dass die Versionsgeschichte einer Seite historisch korrekt ist.',
 'searchmenu-legend'                => 'Suchoptionen',
 'searchmenu-exists'                => "'''Es gibt eine Seite, die den Namen „[[:$1]]“ hat.'''",
 'searchmenu-new'                   => "'''Erstelle die Seite „[[:$1|$1]]“ in diesem Wiki.'''",
+'searchmenu-new-nocreate'          => '„$1“ ist ein ungültiger Seitenname oder kann von dir nicht erstellt werden.',
 'searchhelp-url'                   => 'Help:Hilfe',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Zeige alle Seiten, die mit dem Suchbegriff anfangen]]',
 'searchprofile-articles'           => 'Inhaltsseiten',
@@ -1454,8 +1457,8 @@ Dies kann nicht mehr rückgängig gemacht werden.',
 'prefs-help-gender'             => 'Optional: Wird von der Software für die geschlechtsspezifische Anrede genutzt. Diese Information ist öffentlich.',
 'email'                         => 'E-Mail',
 'prefs-help-realname'           => 'Optional. Damit kann dein bürgerlicher Name deinen Beiträgen zugeordnet werden.',
-'prefs-help-email'              => 'Die Angabe einer E-Mail ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, wenn du dein Passwort vergessen hast.
-Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt aufnehmen, ohne dass du deine Identität offenlegen musst.',
+'prefs-help-email'              => 'Die Angabe einer E-Mail ist optional, ermöglicht aber die Zusendung eines Ersatzpasswortes, wenn du dein Passwort vergessen hast.',
+'prefs-help-email-others'       => 'Mit anderen Benutzern kannst du auch über die Benutzerdiskussionsseiten Kontakt aufnehmen, ohne dass du deine Identität offenlegen musst.',
 'prefs-help-email-required'     => 'Es wird eine gültige E-Mail-Adresse benötigt.',
 'prefs-info'                    => 'Basisinformationen',
 'prefs-i18n'                    => 'Internationalisierung',
@@ -1713,11 +1716,12 @@ Um ein '''Bild''' in einer Seite zu verwenden, nutze einen Link in der folgenden
 'minlength1'                  => 'Dateinamen müssen mindestens einen Buchstaben lang sein.',
 'illegalfilename'             => 'Der Dateiname „$1“ enthält mindestens ein nicht erlaubtes Zeichen. Bitte benenne die Datei um und versuche sie erneut hochzuladen.',
 'badfilename'                 => 'Der Dateiname wurde in „$1“ geändert.',
-'filetype-mime-mismatch'      => 'Dateierweiterung stimmt nicht mit dem MIME-Typ überein.',
+'filetype-mime-mismatch'      => 'Dateierweiterung „.$1“ stimmt nicht mit dem MIME-Typ ($2) überein.',
 'filetype-badmime'            => 'Dateien mit dem MIME-Typ „$1“ dürfen nicht hochgeladen werden.',
 'filetype-bad-ie-mime'        => 'Diese Datei kann nicht hochgeladen werden, da der Internet Explorer sie als „$1“ erkennt, welcher ein nicht erlaubter potentiell gefährlicher Dateityp ist.',
 'filetype-unwanted-type'      => "'''„.$1“''' ist ein unerwünschtes Dateiformat. Erlaubt {{PLURAL:$3|ist das Dateiformat|sind die Dateiformate}}: $2.",
-'filetype-banned-type'        => "'''„.$1“''' ist ein nicht erlaubtes Dateiformat. Erlaubt {{PLURAL:$3|ist das Dateiformat|sind die Dateiformate}}: $2.",
+'filetype-banned-type'        => "'''„.$1“''' {{PLURAL:$4|ist ein nicht erlaubter Dateityp|sind nicht erlaubte Dateitypen}}.
+{{PLURAL:$3|Erlaubter Dateityp ist|Erlaubte Dateitypen sind}} $2.",
 'filetype-missing'            => 'Die hochzuladende Datei hat keine Erweiterung (z. B. „.jpg“).',
 'empty-file'                  => 'Die übertragene Datei ist leer',
 'file-too-large'              => 'Die übertragene Datei ist zu groß',
@@ -1988,7 +1992,7 @@ Eine [[Special:WhatLinksHere/$2|vollständige Liste]] ist verfügbar.',
 'statistics-edits'             => 'Seitenbearbeitungen',
 'statistics-edits-average'     => 'Bearbeitungen pro Seite im Durchschnitt',
 'statistics-views-total'       => 'Seitenaufrufe gesamt',
-'statistics-views-total-desc'  => 'Aufrufe von nich existierenden Seiten und Spezialseiten werden nicht berücksichtigt',
+'statistics-views-total-desc'  => 'Aufrufe nicht vorhandener Seiten und von Spezialseiten werden nicht berücksichtigt',
 'statistics-views-peredit'     => 'Seitenaufrufe pro Bearbeitung',
 'statistics-users'             => 'Registrierte [[Special:ListUsers|Benutzer]]',
 'statistics-users-active'      => 'Aktive Benutzer',
@@ -2214,7 +2218,7 @@ Als Absender wird die E-Mail-Adresse aus deinen [[Special:Preferences|Einstellun
 
 # User Messenger
 'usermessage-summary'  => 'Systemnachricht gespeichert.',
-'usermessage-editor'   => 'Systemnachrichtenbearbeiter',
+'usermessage-editor'   => 'System-Messenger',
 'usermessage-template' => 'MediaWiki:Benutzernachricht',
 
 # Watchlist
@@ -3027,10 +3031,10 @@ Durch das Herunterladen und Öffnen der Datei kann dein Computer beschädigt wer
 'imagemaxsize'         => "Maximale Bildgröße:<br />''(für Dateibeschreibungsseiten)''",
 'thumbsize'            => 'Standardgröße der Vorschaubilder (Thumbnails):',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|1 Seite|$3 Seiten}}',
-'file-info'            => '(Dateigröße: $1, MIME-Typ: $2)',
-'file-info-size'       => '($1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4)',
+'file-info'            => 'Dateigröße: $1, MIME-Typ: $2',
+'file-info-size'       => '$1 × $2 Pixel, Dateigröße: $3, MIME-Typ: $4',
 'file-nohires'         => '<small>Keine höhere Auflösung vorhanden.</small>',
-'svg-long-desc'        => '(SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3)',
+'svg-long-desc'        => 'SVG-Datei, Basisgröße: $1 × $2 Pixel, Dateigröße: $3',
 'show-big-image'       => 'Version in höherer Auflösung',
 'show-big-image-thumb' => '<small>Größe der Voransicht: $1 × $2 Pixel</small>',
 'file-info-gif-looped' => 'Endlosschleife',
@@ -3448,7 +3452,7 @@ Bitte bestätige, dass du diese Seite wirklich neu erstellen möchten.",
 # Auto-summaries
 'autosumm-blank'   => 'Die Seite wurde geleert.',
 'autosumm-replace' => 'Der Seiteninhalt wurde durch einen anderen Text ersetzt: „$1“',
-'autoredircomment' => 'Weiterleitung nach [[$1]] erstellt',
+'autoredircomment' => 'Weiterleitung auf [[$1]] erstellt',
 'autosumm-new'     => 'Die Seite wurde neu angelegt: „$1“',
 
 # Size units

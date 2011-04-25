@@ -300,7 +300,7 @@ class WebInstaller_ExistingWiki extends WebInstallerPage {
 		}
 
 		// Set the relevant variables from LocalSettings.php
-		$requiredVars = array( 'wgDBtype', 'wgDBuser', 'wgDBpassword', 'wgDBname', 'wgDBserver' );
+		$requiredVars = array( 'wgDBtype' );
 		$status = $this->importVariables( $requiredVars , $vars );
 		$installer = $this->parent->getDBInstaller();
 		$status->merge( $this->importVariables( $installer->getGlobalNames(), $vars ) );
@@ -384,9 +384,8 @@ class WebInstaller_DBConnect extends WebInstallerPage {
 
 		$dbSupport = '';
 		foreach( $this->parent->getDBTypes() as $type ) {
-			$db = DatabaseBase::classFromType( $type );
-			$dbSupport .= wfMsgNoTrans( "config-support-$type",
-				call_user_func( array( $db, 'getSoftwareLink' ) ) ) . "\n";
+			$link = DatabaseBase::newFromType( $type )->getSoftwareLink();
+			$dbSupport .= wfMsgNoTrans( "config-support-$type", $link ) . "\n";
 		}
 		$this->addHTML( $this->parent->getInfoBox(
 			wfMsg( 'config-support-info', $dbSupport ) ) );
@@ -702,7 +701,7 @@ class WebInstaller_Name extends WebInstallerPage {
 			$msg = $valid;
 		}
 		if ( $msg !== false ) {
-			$this->parent->showError( $msg );
+			call_user_func_array( array( $this->parent, 'showError' ), (array)$msg );
 			$this->setVar( '_AdminPassword', '' );
 			$this->setVar( '_AdminPassword2', '' );
 			$retVal = false;
@@ -808,6 +807,14 @@ class WebInstaller_Options extends WebInstallerPage {
 			$this->getFieldSetEnd();
 			$this->addHTML( $extHtml );
 		}
+
+		// Having / in paths in Windows looks funny :)
+		$this->setVar( 'wgDeletedDirectory',
+			str_replace(
+				'/', DIRECTORY_SEPARATOR,
+				$this->getVar( 'wgDeletedDirectory' )
+			)
+		);
 
 		$this->addHTML(
 			# Uploading

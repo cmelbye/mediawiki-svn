@@ -660,7 +660,9 @@ class ParserTest {
 			'wgHtml5' => true,
 			'wgWellFormedXml' => true,
 			'wgAllowMicrodataAttributes' => true,
-			'wgAdaptiveMessageCache' => true
+			'wgAdaptiveMessageCache' => true,
+			'wgDisableLangConversion' => false,
+			'wgDisableTitleConversion' => false,
 		);
 
 		if ( $config ) {
@@ -1063,7 +1065,9 @@ class ParserTest {
 	 * @return String
 	 */
 	protected function quickDiff( $input, $output, $inFileTail = 'expected', $outFileTail = 'actual' ) {
-		$prefix = wfTempDir() . "/mwParser-" . mt_rand();
+		# Windows, or at least the fc utility, is retarded
+		$slash = wfIsWindows() ? '\\' : '/';
+		$prefix = wfTempDir() . "{$slash}mwParser-" . mt_rand();
 
 		$infile = "$prefix-$inFileTail";
 		$this->dumpToFile( $input, $infile );
@@ -1071,7 +1075,12 @@ class ParserTest {
 		$outfile = "$prefix-$outFileTail";
 		$this->dumpToFile( $output, $outfile );
 
-		$diff = `diff -au $infile $outfile`;
+		$shellInfile = wfEscapeShellArg($infile);
+		$shellOutfile = wfEscapeShellArg($outfile);
+
+		$diff = wfIsWindows()
+			? `fc $shellInfile $shellOutfile`
+			: `diff -au $shellInfile $shellOutfile`;
 		unlink( $infile );
 		unlink( $outfile );
 

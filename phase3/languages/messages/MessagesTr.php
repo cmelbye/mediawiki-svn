@@ -547,8 +547,8 @@ $1',
 'mainpage'             => 'Ana sayfa',
 'mainpage-description' => 'Ana sayfa',
 'policy-url'           => 'Project:Politika',
-'portal'               => 'Topluluk portalı',
-'portal-url'           => 'Project:Topluluk portalı',
+'portal'               => 'Topluluk portali',
+'portal-url'           => 'Project:Topluluk portali',
 'privacy'              => 'Gizlilik ilkesi',
 'privacypage'          => 'Project:Gizlilik ilkesi',
 
@@ -735,6 +735,7 @@ Yazılışı kontrol edin veya [[Special:UserLogin/signup|yeni bir hesap açın]
 'wrongpasswordempty'         => 'Boş parola girdiniz. Lütfen tekrar deneyiniz.',
 'passwordtooshort'           => 'Parolalar en az {{PLURAL:$1|1 karakter|$1 karakter}} uzunluğunda olmalı.',
 'password-name-match'        => 'Şifreniz kullanıcı adınızdan farklı olmalıdır.',
+'password-login-forbidden'   => 'Bu kullanıcı adı ve şifre kullanımı yasaklanmıştır',
 'mailmypassword'             => 'Bana e-posta ile yeni parola gönder',
 'passwordremindertitle'      => '{{SITENAME}} için yeni geçici şifre',
 'passwordremindertext'       => 'Birisi (muhtemelen siz, $1 IP adresinden) {{SITENAME}} ($4) için yeni bir parola gönderilmesi istedi. "$2" kullanıcısına geçici olarak "$3" parolası oluşturuldu. Eğer bu sizin isteğiniz ise, oturum açıp yeni bir parola oluşturmanız gerekmektedir. Geçici parolanızın süresi {{PLURAL:$5|1 gün|$5 gün}} içinde dolacaktır.
@@ -906,6 +907,10 @@ Son engelleme günlüğü girdisi referans için aşağıda sağlanmıştır:',
 'userjsyoucanpreview'              => "'''İpucu:''' Kaydetmeden önce \"{{int:showpreview}}\"e tıklayarak yeni JavaScript'inizi test edin.",
 'usercsspreview'                   => "'''Sadece kullanıcı CSS dosyanızın önizlemesini görüyorsun.''' '''Kullanıcı CSS dosyası henüz kaydolmadı!'''",
 'userjspreview'                    => "'''Sadece test ediyorsun ya da önizleme görüyorsun - kullanıcı JavaScript'i henüz kaydolmadı.'''",
+'sitecsspreview'                   => "'''Sadece kullanıcı CSS dosyanızın önizlemesini görüyorsunuz.''' 
+'''Henüz kaydedilmedi!'''",
+'sitejspreview'                    => "'''Sadece kullanıcı JavaScript kod dosyanızın önizlemesini görüyorsunuz.''' 
+'''Henüz kaydedilmedi!'''",
 'userinvalidcssjstitle'            => "''Uyarı:''' \"\$1\" adıyla bir tema yoktur. tema-adı.css ve .js dosyalarının adları küçük harf ile yazması gerek, yani {{ns:user}}:Temel/'''V'''ector.css değil, {{ns:user}}:Temel/'''v'''ector.css.",
 'updated'                          => '(Güncellendi)',
 'note'                             => "'''Not: '''",
@@ -1382,8 +1387,7 @@ $1 {{PLURAL:$1|karakterin|karakterin}} altında olmalı.',
 'prefs-help-gender'             => 'İsteğe bağlı: yazılım tarafından doğru cinsiyet adreslemesi için kullanılır. Bu bilgi umumi olacaktır.',
 'email'                         => 'E-posta',
 'prefs-help-realname'           => '* Gerçek isim (isteğe bağlı): eğer gerçek isminizi vermeyi seçerseniz, çalışmanızı size atfederken kullanılacaktır.',
-'prefs-help-email'              => 'E-posta adresi isteğe bağlıdır; ancak eğer parolanızı unutursanız e-posta adresinize yeni parola gönderilmesine olanak sağlar.
-Aynı zamanda diğer kullanıcıların kullanıcı ve kullanıcı mesaj sayfalarınız üzerinden kimliğinizi bilmeksizin sizinle iletişim kurmalarına da olanak sağlar.',
+'prefs-help-email'              => 'E-posta adresi isteğe bağlıdır; ancak eğer parolanızı unutursanız e-posta adresinize yeni parola gönderilmesine olanak sağlar.',
 'prefs-help-email-required'     => 'E-posta adresi gerekmektedir.',
 'prefs-info'                    => 'Temel bilgiler',
 'prefs-i18n'                    => 'Uluslararasılaştırma',
@@ -1399,6 +1403,10 @@ Aynı zamanda diğer kullanıcıların kullanıcı ve kullanıcı mesaj sayfalar
 'prefs-displaysearchoptions'    => 'Görüntüleme seçenekleri',
 'prefs-displaywatchlist'        => 'Görüntüleme seçenekleri',
 'prefs-diffs'                   => 'Farklar',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-posta adresi geçerli görünüyor',
+'email-address-validity-invalid' => 'Geçerli bir e-posta adresi girin',
 
 # User rights
 'userrights'                   => 'Kullanıcı hakları yönetimi',
@@ -1743,6 +1751,9 @@ Eğer problem tekrarlanırsa, bir [[Special:ListUsers/sysop|hizmetli]] ile temas
 'upload-unknown-size'       => 'Bilinmeyen boyut',
 'upload-http-error'         => 'Bir HTTP hatası oluştu: $1',
 
+# Special:UploadStash
+'uploadstash-refresh' => 'Dosya listelerini yenile',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'Erişim engellendi',
 'img-auth-nopathinfo'   => 'Eksik PATH_INFO.
@@ -1900,7 +1911,7 @@ Sıradaki liste sadece bu dosyaya bağlantı veren {{PLURAL:$1|ilk dosyayı|ilk 
 'statistics-header-hooks'      => 'Diğer istatistikler',
 'statistics-articles'          => 'Maddeler',
 'statistics-pages'             => 'Sayfalar',
-'statistics-pages-desc'        => 'Vikipedideki tüm sayfalar, tartışma sayfaları, yönlendirmeler vs.',
+'statistics-pages-desc'        => "Viki'deki tüm sayfalar, tartışma sayfaları, yönlendirmeler vs.",
 'statistics-files'             => 'Yüklenmiş dosyalar',
 'statistics-edits'             => '{{SITENAME}} kurulduğundan beri yapılan sayfa değişiklikleri',
 'statistics-edits-average'     => 'Her sayfadaki ortalama değişiklik',
@@ -1910,20 +1921,20 @@ Sıradaki liste sadece bu dosyaya bağlantı veren {{PLURAL:$1|ilk dosyayı|ilk 
 'statistics-users'             => 'Kayıtlı [[Special:ListUsers|kullanıcılar]]',
 'statistics-users-active'      => 'Aktif kullanıcılar',
 'statistics-users-active-desc' => 'Son {{PLURAL:$1|gün|$1 günde}} çalışma yapan kullanıcılar',
-'statistics-mostpopular'       => 'En popüler maddeler',
+'statistics-mostpopular'       => 'En çok ziyaret edilen sayfalar',
 
 'disambiguations'      => 'Anlam ayrım sayfaları',
 'disambiguationspage'  => 'Template:Anlam ayrımı',
 'disambiguations-text' => 'İlk satırda yer alan sayfalar bir anlam ayrım sayfasına iç bağlantı olduğunu gösterir. İkinci sırada yer alan sayfalar anlam ayrım sayfalarını gösterir. <br />Burada [[MediaWiki:Disambiguationspage]] tüm anlam ayrım şablonlarına bağlantılar verilmesi gerekmektedir.',
 
-'doubleredirects'            => 'Yönlendirmeye olan yönlendirmeler',
+'doubleredirects'            => 'Çift yönlendirmeler',
 'doubleredirectstext'        => 'Bu sayfa diğer yönlendirme sayfalarına yönlendirme yapan sayfaları listeler.
 Her satırın içerdiği bağlantılar; birinci ve ikinci yönlendirme, ayrıca ikinci yönlendirmenin hedefi, ki bu genelde birinci yönlendirmenin göstermesi gereken "gerçek" hedef sayfasıdır.
 <del>Üstü çizili</del> girdiler çözülmüştür.',
 'double-redirect-fixed-move' => '[[$1]] taşındı, artık [[$2]] sayfasına yönlendiriyor',
 'double-redirect-fixer'      => 'Yönlendirme tamircisi',
 
-'brokenredirects'        => 'Varolmayan maddeye yapılmış yönlendirmeler',
+'brokenredirects'        => 'Boş yönlendirmeler',
 'brokenredirectstext'    => 'Aşağıdaki yönlendirmeler varolmayan sayfalara bağlantı veriyor:',
 'brokenredirects-edit'   => 'değiştir',
 'brokenredirects-delete' => 'sil',
@@ -1938,7 +1949,7 @@ Her satırın içerdiği bağlantılar; birinci ve ikinci yönlendirme, ayrıca 
 # Miscellaneous special pages
 'nbytes'                  => '$1 {{PLURAL:$1|bayt|bayt}}',
 'ncategories'             => '{{PLURAL:$1|kategori|kategoriler}}',
-'nlinks'                  => '$1 {{PLURAL:$1|bağlantı|bağlantı}}',
+'nlinks'                  => '$1 {{PLURAL:$1|bağlantı|bağlantılar}}',
 'nmembers'                => '{{PLURAL:$1|üye|üyeler}}',
 'nrevisions'              => '{{PLURAL:$1|değişiklik|değişiklikler}}',
 'nviews'                  => '$1 {{PLURAL:$1|görünüm|görünüm}}',
@@ -1998,6 +2009,7 @@ Lütfen unutmayın ki, diğer web siteleri bir dosyaya doğrudan bir URL ile ba�
 'pager-newer-n'           => '{{PLURAL:$1|1 daha yeni|$1 daha yeni}}',
 'pager-older-n'           => '{{PLURAL:$1|1 daha eski|$1 daha eski}}',
 'suppress'                => 'Gözetim',
+'querypage-disabled'      => 'Bu özel sayfa, performansa dayalı nedenlerle devre dışı bırakılır.',
 
 # Book sources
 'booksources'               => 'Kaynak kitaplar',
@@ -2927,10 +2939,10 @@ Bunu çalıştırarak, sisteminiz tehlikeye atılabilir.",
 'imagemaxsize'         => "Resim boyutu sınırı:<br />''(dosya açıklama sayfaları için)''",
 'thumbsize'            => 'Küçük boyut:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sayfa|sayfa}}',
-'file-info'            => '(dosya boyutu: $1, MIME tipi: $2)',
-'file-info-size'       => '($1 × $2 piksel, dosya boyutu: $3, MIME tipi: $4)',
+'file-info'            => 'dosya boyutu: $1, MIME tipi: $2',
+'file-info-size'       => '$1 × $2 piksel, dosya boyutu: $3, MIME tipi: $4',
 'file-nohires'         => '<small>Daha yüksek çözünürlüğe sahip sürüm bulunmamaktadır.</small>',
-'svg-long-desc'        => '(SVG dosyası, sözde $1 × $2 piksel, dosya boyutu: $3)',
+'svg-long-desc'        => 'SVG dosyası, sözde $1 × $2 piksel, dosya boyutu: $3',
 'show-big-image'       => 'Tam çözünürlük',
 'show-big-image-thumb' => '<small>Ön izleme boyutu: $1 × $2 piksel</small>',
 'file-info-gif-looped' => 'döngüye girdi',

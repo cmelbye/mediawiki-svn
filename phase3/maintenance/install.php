@@ -20,7 +20,7 @@
  * @see wfWaitForSlaves()
  */
 
-define( 'MW_CONFIG_CALLBACK', 'CoreInstaller::overrideConfig' );
+define( 'MW_CONFIG_CALLBACK', 'Installer::overrideConfig' );
 
 require_once( dirname( dirname( __FILE__ ) )."/maintenance/Maintenance.php" );
 
@@ -90,4 +90,4 @@ class CommandLineInstaller extends Maintenance {
 
 $maintClass = "CommandLineInstaller";
 
-require_once( DO_MAINTENANCE );
+require_once( RUN_MAINTENANCE_IF_MAIN );

@@ -29,9 +29,9 @@ class ForeignAPIRepo extends FileRepo {
 
 	var $fileFactory = array( 'ForeignAPIFile', 'newFromTitle' );
 	/* Check back with Commons after a day */
-	var $apiThumbCacheExpiry = 86400;
+	var $apiThumbCacheExpiry = 86400; /* 24*60*60 */
 	/* Redownload thumbnail files after a month */
-	var $fileCacheExpiry = 2629743;
+	var $fileCacheExpiry = 2592000; /* 86400*30 */
 	/* Local image directory */
 	var $directory;
 	var $thumbDir;
@@ -102,7 +102,6 @@ class ForeignAPIRepo extends FileRepo {
 		return false;
 	}
 
-
 	function fileExistsBatch( $files, $flags = 0 ) {
 		$results = array();
 		foreach ( $files as $k => $f ) {
@@ -118,7 +117,7 @@ class ForeignAPIRepo extends FileRepo {
 			}
 		}
 
-		$results = $this->fetchImageQuery( array( 'titles' => implode( $files, '|' ),
+		$data = $this->fetchImageQuery( array( 'titles' => implode( $files, '|' ),
 											'prop' => 'imageinfo' ) );
 		if( isset( $data['query']['pages'] ) ) {
 			$i = 0;
@@ -127,7 +126,9 @@ class ForeignAPIRepo extends FileRepo {
 				$i++;
 			}
 		}
+		return $results;
 	}
+
 	function getFileProps( $virtualUrl ) {
 		return false;
 	}
@@ -196,7 +197,7 @@ class ForeignAPIRepo extends FileRepo {
 		return $ret;
 	}
 
-	function getThumbUrl( $name, $width=-1, $height=-1, &$result=NULL ) {
+	function getThumbUrl( $name, $width = -1, $height = -1, &$result = null ) {
 		$data = $this->fetchImageQuery( array(
 			'titles' => 'File:' . $name,
 			'iiprop' => 'url|timestamp',

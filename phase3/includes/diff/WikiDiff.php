@@ -1045,7 +1045,7 @@ class _HWLDF_WordAccumulator {
 
 	function getLines() {
 		$this->_flushLine( '~done' );
-		return preg_replace( '/\n/m', '', $this->_lines );
+		return $this->_lines;
 	}
 }
 
@@ -1173,7 +1173,7 @@ class TableDiffFormatter extends DiffFormatter {
 
 	# HTML-escape parameter before calling this
 	function deletedLine( $line ) {
-		return $this->wrapLine( '&minus;', 'diff-deletedline', $line );
+		return $this->wrapLine( '−', 'diff-deletedline', $line );
 	}
 
 	# HTML-escape parameter before calling this

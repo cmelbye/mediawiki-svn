@@ -409,7 +409,7 @@ class CoreParserFunctions {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return $t->getPartialURL();
+		return wfEscapeWikiText( $t->getPartialURL() );
 	}
 	static function fullpagename( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
@@ -421,31 +421,31 @@ class CoreParserFunctions {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) || !$t->canTalk() )
 			return '';
-		return $t->getPrefixedURL();
+		return wfEscapeWikiText( $t->getPrefixedURL() );
 	}
 	static function subpagename( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return $t->getSubpageText();
+		return wfEscapeWikiText( $t->getSubpageText() );
 	}
 	static function subpagenamee( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return $t->getSubpageUrlForm();
+		return wfEscapeWikiText( $t->getSubpageUrlForm() );
 	}
 	static function basepagename( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return $t->getBaseText();
+		return wfEscapeWikiText( $t->getBaseText() );
 	}
 	static function basepagenamee( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return wfUrlEncode( str_replace( ' ', '_', $t->getBaseText() ) );
+		return wfEscapeWikiText( wfUrlEncode( str_replace( ' ', '_', $t->getBaseText() ) ) );
 	}
 	static function talkpagename( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
@@ -457,7 +457,7 @@ class CoreParserFunctions {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) || !$t->canTalk() )
 			return '';
-		return $t->getTalkPage()->getPrefixedUrl();
+		return wfEscapeWikiText( $t->getTalkPage()->getPrefixedUrl() );
 	}
 	static function subjectpagename( $parser, $title = null ) {
 		$t = Title::newFromText( $title );
@@ -469,7 +469,7 @@ class CoreParserFunctions {
 		$t = Title::newFromText( $title );
 		if ( is_null( $t ) )
 			return '';
-		return $t->getSubjectPage()->getPrefixedUrl();
+		return wfEscapeWikiText( $t->getSubjectPage()->getPrefixedUrl() );
 	}
 
 	/**
@@ -615,11 +615,41 @@ class CoreParserFunctions {
 				'</span>' );
 	}
 
-	public static function filepath( $parser, $name='', $option='' ) {
+	// Usage {{filepath|300}}, {{filepath|nowiki}}, {{filepath|nowiki|300}} or {{filepath|300|nowiki}}
+	public static function filepath( $parser, $name='', $argA='', $argB='' ) {
 		$file = wfFindFile( $name );
-		if( $file ) {
-			$url = $file->getFullUrl();
-			if( $option == 'nowiki' ) {
+		$size = '';
+		$argA_int = intval( $argA );
+		$argB_int = intval( $argB );
+
+		if ( $argB_int > 0 ) {
+			// {{filepath: | option | size }}
+			$size = $argB_int;
+			$option = $argA;
+
+		} elseif ( $argA_int > 0 ) {
+			// {{filepath: | size [|option] }}
+			$size = $argA_int;
+			$option = $argB;
+
+		} else {
+			// {{filepath: [|option] }}
+			$option = $argA;
+		}
+
+		if ( $file ) {
+			$url = $file->getUrl();
+
+			// If a size is requested...			
+			if ( is_integer( $size ) ) {
+				$mto = $file->transform( array( 'width' => $size ) );
+				// ... and we can
+				if ( $mto && !$mto->isError() ) {
+					// ... change the URL to point to a thumbnail.
+					$url = wfExpandUrl( $mto->getUrl() );
+				}
+			}
+			if ( $option == 'nowiki' ) {
 				return array( $url, 'nowiki' => true );
 			}
 			return $url;

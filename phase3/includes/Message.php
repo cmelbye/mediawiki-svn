@@ -96,7 +96,7 @@ class Message {
 
 	/**
 	 * Constructor.
-	 * @param $key String: message key
+	 * @param $key: message key, or array of message keys to try and use the first non-empty message for
 	 * @param $params Array message parameters
 	 * @return Message: $this
 	 */
@@ -122,6 +122,27 @@ class Message {
 	}
 
 	/**
+	 * Factory function accepting multiple message keys and returning a message instance
+	 * for the first message which is non-empty. If all messages are empty then an
+	 * instance of the first message key is returned.
+	 * @param Varargs: message keys
+	 * @return Message: $this
+	 */
+	public static function newFallbackSequence( /*...*/ ) {
+		$keys = func_get_args();
+		if ( func_num_args() == 1 ) {
+			if ( is_array($keys[0]) ) {
+				// Allow an array to be passed as the first argument instead
+				$keys = array_values($keys[0]);
+			} else {
+				// Optimize a single string to not need special fallback handling
+				$keys = $keys[0];
+			}
+		}
+		return new self( $keys );
+	}
+
+	/**
 	 * Adds parameters to the parameter list of this message.
 	 * @param Varargs: parameters as Strings
 	 * @return Message: $this
@@ -144,6 +165,20 @@ class Message {
 		$params = func_get_args();
 		foreach( $params as $param ) {
 			$this->parameters[] = self::rawParam( $param );
+		}
+		return $this;
+	}
+	
+	/**
+	 * Add parameters that are numeric and will be passed through
+	 * Language::formatNum before substitution
+	 * @param Varargs: numeric parameters
+	 * @return Message: $this
+	 */
+	public function numParams( /*...*/ ) {
+		$params = func_get_args();
+		foreach( $params as $param ) {
+			$this->parameters[] = self::numParam( $param );
 		}
 		return $this;
 	}
@@ -286,8 +321,30 @@ class Message {
 		return $this->fetchMessage() !== false;
 	}
 
+	/**
+	 * Check whether a message does not exist, or is an empty string
+	 * @return Bool: true if is is and false if not
+	 */
+	public function isBlank() {
+		$message = $this->fetchMessage();
+		return $message === false || $message === '';
+	}
+
+	/**
+	 * Check whether a message does not exist, is an empty string, or is "-"
+	 * @return Bool: true if is is and false if not
+	 */
+	public function isDisabled() {
+		$message = $this->fetchMessage();
+		return $message === false || $message === '' || $message === '-';
+	}
+
 	public static function rawParam( $value ) {
 		return array( 'raw' => $value );
+	}
+	
+	public static function numParam( $value ) {
+		return array( 'num' => $value );
 	}
 
 	/**
@@ -303,6 +360,9 @@ class Message {
 				$replacementKeys['$' . ($n + 1)] = $param;
 			} elseif ( $type === 'after' && isset( $param['raw'] ) ) {
 				$replacementKeys['$' . ($n + 1)] = $param['raw'];
+			} elseif ( isset( $param['num'] ) ) {
+				$replacementKeys['$' . ($n + 1)] = 
+					$this->language->formatNum( $param['num'] );
 			}
 		}
 		$message = strtr( $message, $replacementKeys );
@@ -336,7 +396,7 @@ class Message {
 	protected function getMessageText() {
 		$message = $this->fetchMessage();
 		if ( $message === false ) {
-			return '&lt;' . htmlspecialchars( $this->key ) . '&gt;';
+			return '&lt;' . htmlspecialchars( is_array($this->key) ? $this->key[0] : $this->key ) . '&gt;';
 		} else {
 			return $message;
 		}
@@ -348,7 +408,17 @@ class Message {
 	protected function fetchMessage() {
 		if ( !isset( $this->message ) ) {
 			global $wgMessageCache;
-			$this->message = $wgMessageCache->get( $this->key, $this->useDatabase, $this->language );
+			if ( is_array($this->key) ) {
+				foreach ( $this->key as $key ) {
+					$message = $wgMessageCache->get( $key, $this->useDatabase, $this->language );
+					if ( $message !== false && $message !== '' ) {
+						break;
+					}
+				}
+				$this->message = $message;
+			} else {
+				$this->message = $wgMessageCache->get( $this->key, $this->useDatabase, $this->language );
+			}
 		}
 		return $this->message;
 	}

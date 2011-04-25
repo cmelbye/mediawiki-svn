@@ -3,7 +3,7 @@
  * Note that additional code still lives in skins/common/upload.js
  */
 
-$( function() {
+jQuery( function( $ ) {
 	/**
 	 * Is the FileAPI available with sufficient functionality?
 	 */
@@ -21,9 +21,9 @@ $( function() {
 	 * @return boolean
 	 */
 	function fileIsPreviewable( file ) {
-		var known = ['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml'];
-		var tooHuge = 10 * 1024 * 1024;
-		return ($.inArray( file.type, known ) !== -1) && file.size > 0 && file.size < tooHuge;
+		var	known = ['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml'],
+			tooHuge = 10 * 1024 * 1024;
+		return ( $.inArray( file.type, known ) !== -1 ) && file.size > 0 && file.size < tooHuge;
 	}
 
 	/**
@@ -39,9 +39,8 @@ $( function() {
 	 * @param {File} file
 	 */
 	function showPreview( file ) {
-		var previewSize = 180;
-		
-		var thumb = $( '<div id="mw-upload-thumbnail" class="thumb tright">' +
+		var	previewSize = 180,
+			thumb = $( '<div id="mw-upload-thumbnail" class="thumb tright">' +
 						'<div class="thumbinner">' +
 							'<canvas width="' + previewSize + '" height="' + previewSize + '" ></canvas>' +
 							'<div class="thumbcaption"><div class="filename"></div><div class="fileinfo"></div></div>' +
@@ -50,18 +49,36 @@ $( function() {
 		thumb.find( '.filename' ).text( file.name ).end()
 			.find( '.fileinfo' ).text( prettySize( file.size ) ).end();
 		
-		var ctx = thumb.find( 'canvas' )[0].getContext( '2d' );
-		var spinner = new Image();
+		var	ctx = thumb.find( 'canvas' )[0].getContext( '2d' ),
+			spinner = new Image();
 		spinner.onload = function() { 
 			ctx.drawImage( spinner, (previewSize - spinner.width) / 2, 
 					(previewSize - spinner.height) / 2 ); 
 		};
-		spinner.src = wgScriptPath + '/skins/common/images/spinner.gif';
+		spinner.src = mw.config.get( 'wgScriptPath' ) + '/skins/common/images/spinner.gif';
 		$( '#mw-htmlform-source' ).parent().prepend( thumb );
 
-		fetchPreview( file, function( dataURL ) {	
-			var img = new Image();
-			var rotation = 0;
+		var meta;
+		fetchPreview( file, function( dataURL ) {
+			var	img = new Image(),
+				rotation = 0;
+			
+			if ( meta && meta.tiff.Orientation ) {
+				rotation = (360 - function () {
+					// See includes/media/Bitmap.php
+					switch ( meta.tiff.Orientation.value ) {
+						case 8:
+							return 90;
+						case 3:
+							return 180;
+						case 6:
+							return 270;
+						default:
+							return 0;
+					}
+				}() ) % 360;
+			}
+			
 			img.onload = function() {
 				// Fit the image within the previewSizexpreviewSize box
 				if ( img.width > img.height ) {
@@ -84,6 +101,7 @@ $( function() {
 						y = dy;
 						break;
 					case 90:
+						
 						x = dx;
 						y = dy - previewSize;
 						break;
@@ -107,22 +125,44 @@ $( function() {
 				$( '#mw-upload-thumbnail .fileinfo' ).text( info );
 			};
 			img.src = dataURL;
-		} );
+		}, mediaWiki.config.get( 'wgFileCanRotate' ) ? function ( data ) {
+			try {
+				meta = mediaWiki.util.jpegmeta( data, file.fileName );
+				meta._binary_data = null;
+			} catch ( e ) {
+				meta = null;
+			}
+		} : null );
 	}
 
 	/**
 	 * Start loading a file into memory; when complete, pass it as a
-	 * data URL to the callback function.
+	 * data URL to the callback function. If the callbackBinary is set it will
+	 * first be read as binary and afterwards as data URL. Useful if you want
+	 * to do preprocessing on the binary data first.
 	 *
 	 * @param {File} file
 	 * @param {function} callback
+	 * @param {function} callbackBinary
 	 */
-	function fetchPreview( file, callback ) {
+	function fetchPreview( file, callback, callbackBinary ) {
 		var reader = new FileReader();
 		reader.onload = function() {
-			callback( reader.result );
+			if ( callbackBinary ) {
+				callbackBinary( reader.result );
+				reader.onload = function() {
+					callback( reader.result );
+				}
+				reader.readAsDataURL( file );
+			} else {
+				callback( reader.result );
+			}
 		};
-		reader.readAsDataURL( file );
+		if ( callbackBinary ) {
+			reader.readAsBinaryString( file );
+		} else {
+			reader.readAsDataURL( file );
+		}
 	}
 
 	/**

@@ -325,19 +325,27 @@ class Preferences {
 		global $wgEnableEmail;
 		if ( $wgEnableEmail ) {
 			global $wgEmailConfirmToEdit;
+			global $wgEnableUserEmail;
+
+			$helpMessages[] = $wgEmailConfirmToEdit
+					? 'prefs-help-email-required'
+					: 'prefs-help-email' ;
+
+			if( $wgEnableUserEmail ) {
+				// additional messages when users can send email to each other
+				$helpMessages[] = 'prefs-help-email-others';
+			}
 
 			$defaultPreferences['emailaddress'] = array(
 				'type' => $wgAuth->allowPropChange( 'emailaddress' ) ? 'email' : 'info',
 				'default' => $user->getEmail(),
 				'section' => 'personal/email',
 				'label-message' => 'youremail',
-				'help-message' => $wgEmailConfirmToEdit
-					? 'prefs-help-email-required'
-					: 'prefs-help-email',
+				'help-messages' => $helpMessages,
 				'validation-callback' => array( 'Preferences', 'validateEmail' ),
 			);
 
-			global $wgEnableUserEmail, $wgEmailAuthentication;
+			global $wgEmailAuthentication;
 
 			$disableEmailPrefs = false;
 
@@ -1013,10 +1021,9 @@ class Preferences {
 		# Sort by UI skin name. First though need to update validSkinNames as sometimes
 		# the skinkey & UI skinname differ (e.g. "standard" skinkey is "Classic" in the UI).
 		foreach ( $validSkinNames as $skinkey => &$skinname ) {
-			$msgName = "skinname-{$skinkey}";
-			$localisedSkinName = wfMsg( $msgName );
-			if ( !wfEmptyMsg( $msgName, $localisedSkinName ) ) {
-				$skinname = htmlspecialchars( $localisedSkinName );
+			$msg = wfMessage( "skinname-{$skinkey}" );
+			if ( $msg->exists() ) {
+				$skinname = htmlspecialchars( $msg->text() );
 			}
 		}
 		asort( $validSkinNames );

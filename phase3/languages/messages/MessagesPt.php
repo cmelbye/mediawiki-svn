@@ -13,7 +13,6 @@
  * @author Giro720
  * @author Hamilton Abreu
  * @author Helder.wiki
- * @author Heldergeovane
  * @author Indech
  * @author Jens Liebenau
  * @author Jorge Morais
@@ -321,8 +320,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Mostrar o número de utilizadores a vigiar',
 'tog-oldsig'                  => 'Antevisão da assinatura:',
 'tog-fancysig'                => 'Tratar assinatura como texto wiki (sem link automático)',
-'tog-externaleditor'          => 'Por omissão, utilizar um editor externo (só para utilizadores avançados, exige configurações adicionais no seu computador)',
-'tog-externaldiff'            => 'Por omissão, utilizar diferenças externas (só para utilizadores avançados, exige configurações adicionais no seu computador)',
+'tog-externaleditor'          => 'Por omissão, utilizar um editor externo (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
+'tog-externaldiff'            => 'Por omissão, utilizar diferenças externas (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
 'tog-showjumplinks'           => 'Possibilitar links de acessibilidade "{{int:jumpto}}"',
 'tog-uselivepreview'          => 'Usar a antevisão em tempo real (requer JavaScript; é experimental)',
 'tog-forceeditsummary'        => 'Avisar-me ao introduzir um resumo vazio',
@@ -1281,6 +1280,7 @@ Note que, se usar os links de navegação, os botões de opção voltarão aos v
 'searchmenu-legend'                => 'Opções de pesquisa',
 'searchmenu-exists'                => "'''Há uma página com o nome \"[[:\$1]]\" nesta wiki'''",
 'searchmenu-new'                   => "'''Crie a página \"[[:\$1]]\" nesta wiki!'''",
+'searchmenu-new-nocreate'          => '"$1" é um nome de página inválido ou que não pode ser criado por si.',
 'searchhelp-url'                   => 'Help:Conteúdos',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Navegar as páginas com este prefixo]]',
 'searchprofile-articles'           => 'Páginas de conteúdo',
@@ -1433,8 +1433,8 @@ Não deverá conter mais de $1 {{PLURAL:$1|carácter|caracteres}}.',
 Esta informação será pública.',
 'email'                         => 'Correio electrónico',
 'prefs-help-realname'           => 'Opcional: se optar por revelar o seu nome verdadeiro, este será utilizado para atribuir-lhe crédito pelo seu trabalho.',
-'prefs-help-email'              => 'Opcional: o endereço de correio electrónico é opcional, mas permite-nos enviar-lhe uma nova palavra-chave caso esqueça a antiga.
-Também permite que outros entrem em contacto consigo através da sua página de utilizador ou de discussão sem lhes revelar a sua identidade.',
+'prefs-help-email'              => 'Opcional: o endereço de correio electrónico é opcional, mas será necessário para reiniciar a palavra-chave caso esqueça a antiga.',
+'prefs-help-email-others'       => 'Também pode optar por permitir que outros entrem em contacto consigo por correio electrónico, através de um link nas suas páginas de utilizador ou de discussão, sem revelar o seu endereço de correio electrónico.',
 'prefs-help-email-required'     => 'O endereço de correio electrónico é requerido.',
 'prefs-info'                    => 'Informações básicas',
 'prefs-i18n'                    => 'Internacionalização',
@@ -1694,13 +1694,13 @@ Consulte a [[Special:NewFiles|galeria de novos ficheiros]] para visioná-los.',
 'illegalfilename'             => 'O nome do ficheiro "$1" contém caracteres que não são permitidos no título das páginas.
 Altere o nome do ficheiro e tente enviá-lo novamente, por favor.',
 'badfilename'                 => 'O nome do ficheiro foi alterado para "$1".',
-'filetype-mime-mismatch'      => 'A extensão do ficheiro não corresponde ao tipo MIME.',
+'filetype-mime-mismatch'      => 'A extensão ".$1" não corresponde ao tipo MIME do ficheiro ($2).',
 'filetype-badmime'            => 'Não é permitido carregar ficheiros do tipo MIME "$1".',
 'filetype-bad-ie-mime'        => 'Não é possível carregar este ficheiro porque o Internet Explorer o detectaria como "$1", que é um tipo de ficheiro não permitido e potencialmente perigoso.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' não é um tipo de ficheiro desejado.
 {{PLURAL:\$3|O tipo preferido é|Os tipos preferidos são}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' não é um tipo de ficheiro permitido.
-{{PLURAL:\$3|O tipo permitido é|Os tipos permitidos são}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|não é um tipo de ficheiro permitido|não são tipos de ficheiro permitidos}}.
+{{PLURAL:$3|O tipo de ficheiro permitido é|Os tipos de ficheiro permitidos são}} $2.',
 'filetype-missing'            => 'O ficheiro não possui uma extensão (como, por exemplo, ".jpg").',
 'empty-file'                  => 'O ficheiro que enviou estava vazio.',
 'file-too-large'              => 'O ficheiro que enviou era demasiado grande.',
@@ -3029,10 +3029,10 @@ Executá-lo poderá comprometer a segurança do seu sistema.",
 'imagemaxsize'         => "Limite de tamanho de imagens:<br />''(para páginas de descrição)''",
 'thumbsize'            => 'Tamanho de miniaturas:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|página|páginas}}',
-'file-info'            => '(tamanho: $1, tipo MIME: $2)',
-'file-info-size'       => '($1 × $2 pixels, tamanho: $3, tipo MIME: $4)',
+'file-info'            => 'tamanho: $1, tipo MIME: $2',
+'file-info-size'       => '$1 × $2 pixels, tamanho: $3, tipo MIME: $4',
 'file-nohires'         => '<small>Sem resolução maior disponível.</small>',
-'svg-long-desc'        => '(ficheiro SVG, de $1 × $2 pixels, tamanho: $3)',
+'svg-long-desc'        => 'ficheiro SVG, de $1 × $2 pixels, tamanho: $3',
 'show-big-image'       => 'Resolução completa',
 'show-big-image-thumb' => '<small>Dimensões desta antevisão: $1 × $2 pixels</small>',
 'file-info-gif-looped' => 'cíclico',
@@ -3636,7 +3636,7 @@ Introduza o nome do ficheiro sem o prefixo \"{{ns:file}}:\".",
 'disableaccount-confirm'     => "Desactivar esta conta.
 O utilizador ficará impossibilitado de se autenticar, de reiniciar a palavra-chave e de receber notificações por correio electrónico.
 Se neste momento o utilizador estiver autenticado algures, sairá de imediato.
-''Note que a desactivação de uma conta não pode ser revertida sem intervenção de um administrador.''",
+''Note que a desactivação de uma conta não pode ser revertida sem intervenção de um administrador de sistema.''",
 'disableaccount-mustconfirm' => 'Tem de confirmar que pretende desactivar esta conta.',
 'disableaccount-nosuchuser'  => 'A conta de utilizador "$1" não existe.',
 'disableaccount-success'     => 'A conta de utilizador "$1" foi desactivada permanentemente.',

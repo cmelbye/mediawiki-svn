@@ -225,6 +225,7 @@ abstract class DatabaseBase implements DatabaseType {
 	protected $mLBInfo = array();
 	protected $mFakeSlaveLag = null, $mFakeMaster = false;
 	protected $mDefaultBigSelects = null;
+	protected $mSchemaVars = false;
 
 # ------------------------------------------------------------------------------
 # Accessors
@@ -522,11 +523,7 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Same as new DatabaseMysql( ... ), kept for backward compatibility
-	 * @param $server String: database server host
-	 * @param $user String: database user name
-	 * @param $password String: database user password
-	 * @param $dbName String: database name
-	 * @param $flags
+	 * @deprecated
 	 */
 	static function newFromParams( $server, $user, $password, $dbName, $flags = 0 ) {
 		wfDeprecated( __METHOD__ );
@@ -539,16 +536,36 @@ abstract class DatabaseBase implements DatabaseType {
 	 *	$class = 'Database' . ucfirst( strtolower( $type ) );
 	 * as well as validate against the canonical list of DB types we have
 	 *
+	 * This factory function is mostly useful for when you need to connect to a
+	 * database other than the MediaWiki default (such as for external auth,
+	 * an extension, et cetera). Do not use this to connect to the MediaWiki
+	 * database. Example uses in core:
+	 * @see LoadBalancer::reallyOpenConnection()
+	 * @see ExternalUser_MediaWiki::initFromCond()
+	 * @see ForeignDBRepo::getMasterDB()
+	 * @see WebInstaller_DBConnect::execute()
+	 *
 	 * @param $dbType String A possible DB type
+	 * @param $p Array An array of options to pass to the constructor.
+	 *    Valid options are: host, user, password, dbname, flags, tableprefix
 	 * @return DatabaseBase subclass or null
 	 */
-	public final static function classFromType( $dbType ) {
+	public final static function newFromType( $dbType, $p = array() ) {
 		$canonicalDBTypes = array(
 			'mysql', 'postgres', 'sqlite', 'oracle', 'mssql', 'ibm_db2'
 		);
 		$dbType = strtolower( $dbType );
+
 		if( in_array( $dbType, $canonicalDBTypes ) ) {
-			return 'Database' . ucfirst( $dbType );
+			$class = 'Database' . ucfirst( $dbType );
+			return new $class(
+				isset( $p['host'] ) ? $p['host'] : false,
+				isset( $p['user'] ) ? $p['user'] : false,
+				isset( $p['password'] ) ? $p['password'] : false,
+				isset( $p['dbname'] ) ? $p['dbname'] : false,
+				isset( $p['flags'] ) ? $p['flags'] : 0,
+				isset( $p['tableprefix'] ) ? $p['tableprefix'] : 'get from global'
+			);
 		} else {
 			return null;
 		}
@@ -2490,6 +2507,17 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
+	 * Set variables to be used in sourceFile/sourceStream, in preference to the
+	 * ones in $GLOBALS. If an array is set here, $GLOBALS will not be used at 
+	 * all. If it's set to false, $GLOBALS will be used.
+	 *
+	 * @param $vars False, or array mapping variable name to value.
+	 */
+	function setSchemaVars( $vars ) {
+		$this->mSchemaVars = $vars;
+	}
+
+	/**
 	 * Read and execute commands from an open file handle
 	 * Returns true on success, error string or exception on failure (depending on object's error ignore settings)
 	 * @param $fp String: File handle
@@ -2564,8 +2592,8 @@ abstract class DatabaseBase implements DatabaseType {
 	}
 
 	/**
-	 * Database independent variable replacement, replaces a set of named variables
-	 * in a sql statement with the contents of their global variables.
+	 * Database independent variable replacement, replaces a set of variables
+	 * in a sql statement with their contents as given by $this->getSchemaVars().
 	 * Supports '{$var}' `{$var}` and / *$var* / (without the spaces) style variables
 	 * 
 	 * '{$var}' should be used for text and is passed through the database's addQuotes method
@@ -2575,16 +2603,17 @@ abstract class DatabaseBase implements DatabaseType {
 	 * / *$var* / is just encoded, besides traditional dbprefix and tableoptions it's use should be avoided
 	 * 
 	 * @param $ins String: SQL statement to replace variables in
-	 * @param $varnames Array: Array of global variable names to replace
 	 * @return String The new SQL statement with variables replaced
 	 */
-	protected function replaceGlobalVars( $ins, $varnames ) {
-		foreach ( $varnames as $var ) {
-			if ( isset( $GLOBALS[$var] ) ) {
-				$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $GLOBALS[$var] ), $ins ); // replace '{$var}'
-				$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $GLOBALS[$var] ), $ins ); // replace `{$var}`
-				$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $GLOBALS[$var] ) , $ins ); // replace /*$var*/
-			}
+	protected function replaceSchemaVars( $ins ) {
+		$vars = $this->getSchemaVars();
+		foreach ( $vars as $var => $value ) {
+			// replace '{$var}'
+			$ins = str_replace( '\'{$' . $var . '}\'', $this->addQuotes( $value ), $ins );
+			// replace `{$var}`
+			$ins = str_replace( '`{$' . $var . '}`', $this->addIdentifierQuotes( $value ), $ins );
+			// replace /*$var*/
+			$ins = str_replace( '/*$' . $var . '*/', $this->strencode( $value ) , $ins );
 		}
 		return $ins;
 	}
@@ -2593,13 +2622,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 * Replace variables in sourced SQL
 	 */
 	protected function replaceVars( $ins ) {
-		$varnames = array(
-			'wgDBserver', 'wgDBname', 'wgDBintlname', 'wgDBuser',
-			'wgDBpassword', 'wgDBsqluser', 'wgDBsqlpassword',
-			'wgDBadminuser', 'wgDBadminpassword', 'wgDBTableOptions',
-		);
-
-		$ins = $this->replaceGlobalVars( $ins, $varnames );
+		$ins = $this->replaceSchemaVars( $ins );
 
 		// Table prefixes
 		$ins = preg_replace_callback( '!/\*(?:\$wgDBprefix|_)\*/([a-zA-Z_0-9]*)!',
@@ -2610,6 +2633,27 @@ abstract class DatabaseBase implements DatabaseType {
 			array( $this, 'indexNameCallback' ), $ins );
 
 		return $ins;
+	}
+
+	/**
+	 * Get schema variables. If none have been set via setSchemaVars(), then
+	 * use some defaults from the current object.
+	 */
+	protected function getSchemaVars() {
+		if ( $this->mSchemaVars ) {
+			return $this->mSchemaVars;
+		} else {
+			return $this->getDefaultSchemaVars();
+		}
+	}
+
+	/**
+	 * Get schema variables to use if none have been set via setSchemaVars().
+	 * Override this in derived classes to provide variables for tables.sql 
+	 * and SQL patch files. 
+	 */
+	protected function getDefaultSchemaVars() {
+		return array();
 	}
 
 	/**

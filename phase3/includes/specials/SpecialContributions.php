@@ -29,6 +29,8 @@
 
 class SpecialContributions extends SpecialPage {
 
+	protected $opts;
+
 	public function __construct() {
 		parent::__construct( 'Contributions' );
 	}
@@ -159,8 +161,7 @@ class SpecialContributions extends SpecialPage {
 					}
 				}
 
-				$text = wfMsgNoTrans( $message, $target );
-				if( !wfEmptyMsg( $message, $text ) && $text != '-' ) {
+				if( !wfMessage( $message, $target )->isDisabled() ) {
 					$wgOut->wrapWikiMsg(
 						"<div class='mw-contributions-footer'>\n$1\n</div>",
 						array( $message, $target ) );

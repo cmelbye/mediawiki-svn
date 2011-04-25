@@ -457,8 +457,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'اعرض عدد المستخدمين المراقبين',
 'tog-oldsig'                  => 'معاينة للتوقيع الموجود:',
 'tog-fancysig'                => 'عامل التوقيع كنص ويكي (بدون وصلة أوتوماتيكية)',
-'tog-externaleditor'          => 'استخدم محررا خارجيا افتراضيا (للخبراء فقط، يحتاج إعدادات خاصة على حاسوبك)',
-'tog-externaldiff'            => 'استخدم فرقا خارجيا افتراضيا (للخبراء فقط، يحتاج إعدادات خاصة على حاسوبك)',
+'tog-externaleditor'          => 'استخدم محررا خارجيا بشكل افتراضي (للخبراء فقط، يحتاج إعدادات خاصة على حاسوبك) ([http://www.mediawiki.org/wiki/Manual:External_editors مزيد من المعلومات.])',
+'tog-externaldiff'            => 'استخدم فرقا خارجيا بشكل افتراضي (للخبراء فقط، يحتاج إعدادات خاصة على حاسوبك) ([http://www.mediawiki.org/wiki/Manual:External_editors للمزيد من المعلومات.])',
 'tog-showjumplinks'           => 'مكن وصلات "اذهب إلى" المساعدة',
 'tog-uselivepreview'          => 'استخدم الاستعراض السريع (جافاسكريبت) (تجريبي)',
 'tog-forceeditsummary'        => 'نبهني عند إدخال ملخص تعديل فارغ',
@@ -619,6 +619,7 @@ $messages = array(
 'printableversion'  => 'نسخة للطباعة',
 'permalink'         => 'وصلة دائمة',
 'print'             => 'اطبع',
+'view'              => 'عرض',
 'edit'              => 'عدل',
 'create'            => 'أنشئ',
 'editthispage'      => 'عدل هذه الصفحة',
@@ -626,6 +627,7 @@ $messages = array(
 'delete'            => 'احذف',
 'deletethispage'    => 'احذف هذه الصفحة',
 'undelete_short'    => 'استرجاع {{PLURAL:$1|تعديل واحد|تعديلين|$1 تعديلات|$1 تعديل|$1 تعديلا}}',
+'viewdeleted_short' => 'عرض {{PLURAL:$1|تعديل محذوف|$1 تعديلات محذوفة}}',
 'protect'           => 'احم',
 'protect_change'    => 'غير',
 'protectthispage'   => 'احم هذه الصفحة',
@@ -708,6 +710,8 @@ $1',
 'toc'                     => 'محتويات',
 'showtoc'                 => 'اعرض',
 'hidetoc'                 => 'أخف',
+'collapsible-collapse'    => 'تقليص',
+'collapsible-expand'      => 'توسيع',
 'thisisdeleted'           => 'أأعرض أو أسترجع $1؟',
 'viewdeleted'             => 'أأعرض $1؟',
 'restorelink'             => '{{PLURAL:$1|$1 تعديل محذوف|تعديلا واحدا محذوفا|تعديلين محذوفين|$1 تعديلات محذوفة|$1 تعديلا محذوفا|$1 تعديلا محذوفا}}',
@@ -865,6 +869,8 @@ $2',
 'nocookieslogin'             => 'يستخدم {{SITENAME}} الكوكيز لتسجيل الدخول.
 الكوكيز معطلة لديك.
 من فضلك فعلها ثم حاول مرة أخرى.',
+'nocookiesfornew'            => 'لم يتم إنشاء حساب المستخدم ، ونحن لا يستطيع تأكيد مصدره. 
+تأكد من أن ملفات تعريف الارتباط (كوكيز) مفعلة، ثم أعد تحديث الصفحة وحاول مرة أخرى.',
 'noname'                     => 'لم تحدد اسم مستخدم صحيح.',
 'loginsuccesstitle'          => 'تم الدخول بشكل صحيح',
 'loginsuccess'               => "'''لقد قمت بتسجيل الدخول ل{{SITENAME}} باسم \"\$1\".'''",
@@ -881,6 +887,7 @@ $2',
 من فضلك حاول مرة أخرى.',
 'passwordtooshort'           => 'يجب أن تتكون كلمة السر على الأقل من {{PLURAL:$1|حرف واحد|حرفين|$1 حروف|$1 حرفا|$1 حرف}}.',
 'password-name-match'        => 'يجب أن تكون كلمة المرور مختلفة عن اسم المستخدم.',
+'password-login-forbidden'   => 'تم منع استخدام اسم المستخدم هذا وكلمة السر.',
 'mailmypassword'             => 'أرسل لي كلمة سر جديدة',
 'passwordremindertitle'      => 'كلمة سر مؤقتة جديدة ل{{SITENAME}}',
 'passwordremindertext'       => 'لقد طلب شخص ما (غالبا أنت، من عنوان الآيبي $1) كلمة سر جديدة ل{{SITENAME}} ($4).
@@ -920,6 +927,9 @@ $2',
 من فضلك انتظر قبل المحاولة مرة أخرى.',
 'loginlanguagelabel'         => 'اللغة: $1',
 'suspicious-userlogout'      => 'رفض طلب خروجك لأنه يبدو كأنه أرسل عن طريق متصفح معطوب أو وسيط تخزين.',
+
+# E-mail sending
+'php-mail-error-unknown' => "خطأ غير معروف في وظيفة البريد PHP's mail()",
 
 # JavaScript password checks
 'password-strength'            => 'قوة كلمة المرور المقدرة: $1',
@@ -1003,8 +1013,7 @@ $2',
 لا يمكنك استخدام خاصية 'مراسلة هذا المستخدم' إلا إذا كنت قد وضعت عنوان بريدي صحيح في [[Special:Preferences|تفضيلات حسابك]] ولم يتم منعك من استخدامها.
 عنوان الأيبي الخاص بك حاليا هو $3، ورقم المنع هو #$5.
 من فضلك اذكر كل التفاصيل بالأعلى في أي استعلامات تقوم بها.",
-'autoblockedtext'                  => 'تم منع عنوان آيبيك تلقائيا لأن مستخدما آخرا ممنوعا استخدمه؛ {{GENDER:$4|منعه|منعته}} $1.
-
+'autoblockedtext'                  => 'تم منع عنوان آيبيك تلقائيا لأن مستخدما آخرا ممنوعا بواسطة $1 استخدمه.
 السبب الممنوح هو التالي:
 
 :\'\'$2\'\'
@@ -1061,6 +1070,10 @@ $2',
 لم يتم حفظها بعد!'''",
 'userjspreview'                    => "'''تذكر أنك فقط تجرب/تعاين جافاسكربت.'''
 '''لم يتم الحفظ بعد!'''",
+'sitecsspreview'                   => "''' تذكر أنك فقط في وضع المعاينة لهذا CSS ''' 
+''' ولم يتم حفظ الصفحة بعد! '''",
+'sitejspreview'                    => "''' تذكر أنك فقط في وضع المعاينة لكود JavaScript هذا''' 
+''' ولم يتم حفظه بعد! '''",
 'userinvalidcssjstitle'            => "'''تحذير:''' لا توجد واجهة  \"\$1\".
 تذكر أن ملفات ال.css و ال.js تستخدم حروف صغيرة في العنوان ، كمثال {{ns:user}}:Foo/vector.css و ليس {{ns:user}}:Foo/Vector.css.",
 'updated'                          => '(محدثة)',
@@ -1402,6 +1415,7 @@ $1",
 'searchmenu-legend'                => 'خيارات البحث',
 'searchmenu-exists'                => "*الصفحة '''[[$1]]'''",
 'searchmenu-new'                   => "'''أنشئ الصفحة \"[[:\$1]]\" في هذا الويكي!'''",
+'searchmenu-new-nocreate'          => '"$1" هو اسم صفحة غير صحيح أو لا يمكن إنشاؤه بواسطتك.',
 'searchhelp-url'                   => 'Help:محتويات',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|تصفح الصفحات بهذه البادئة]]',
 'searchprofile-articles'           => 'صفحات المحتوى',
@@ -1553,8 +1567,8 @@ $1",
 'email'                         => 'البريد الإلكتروني',
 'prefs-help-realname'           => 'الاسم الحقيقي اختياري.
 لو اخترت أن توفره، فسيستخدم في الإشارة إلى عملك.',
-'prefs-help-email'              => 'عنوان البريد الإلكتروني اختياري، لكن يسمح بأن يتم إرسال كلمة السر الخاصة بك إليك لو نسيتها.
-يمكنك أيضا اختيار السماح للآخرين بالاتصال بك عن طريق صفحتك أو صفحة نقاشك من دون معرفة هويتك.',
+'prefs-help-email'              => 'عنوان البريد الإلكتروني هو أمر اختياري، ولكن ستحتاج لإعادة تعيين كلمة المرور، إن نسيت كلمة المرور الخاصة بك.',
+'prefs-help-email-others'       => 'يمكنك أيضا اختيار للسماح للآخرين الاتصال بك عن طريق صفحة المستخدم أو نقاش المستخدم الخاص بك دون الحاجة إلى الكشف عن الهوية الخاصة بك.',
 'prefs-help-email-required'     => 'عنوان البريد الإلكتروني مطلوب.',
 'prefs-info'                    => 'المعلومات الأساسية',
 'prefs-i18n'                    => 'الترجمة',
@@ -1570,6 +1584,10 @@ $1",
 'prefs-displaysearchoptions'    => 'خصائص العرض',
 'prefs-displaywatchlist'        => 'خصائص العرض',
 'prefs-diffs'                   => 'فروقات',
+
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'يبدو أن عنوان البريد الإلكتروني صالح',
+'email-address-validity-invalid' => 'أدخل عنوان بريد إلكتروني صالح',
 
 # User rights
 'userrights'                   => 'إدارة صلاحيات المستخدم',
@@ -1679,6 +1697,7 @@ $1",
 'right-override-export-depth' => 'تصدير الصفحات متضمنة الصفحات الموصولة حتى عمق 5',
 'right-sendemail'             => 'إرسال رسائل بريد إلكتروني إلى مستخدمين آخرين',
 'right-revisionmove'          => 'نقل المراجعات',
+'right-disableaccount'        => 'تعطيل الحسابات',
 
 # User rights log
 'rightslog'      => 'سجل صلاحيات المستخدمين',
@@ -1809,13 +1828,13 @@ $1",
 'illegalfilename'             => 'اسم الملف "$1" يحتوي على حروف غير مسموح بها في عناوين الصفحات.
 من فضلك أعد تسمية الملف وحاول رفعه مرة أخرى.',
 'badfilename'                 => 'تم تغيير اسم الملف إلى "$1".',
-'filetype-mime-mismatch'      => 'امتداد الملف لا يطابق نوع MIME.',
+'filetype-mime-mismatch'      => 'امتداد الملف ".$1" لا يطابق نوع MIME للملف ($2).',
 'filetype-badmime'            => 'من غير المسموح به رفع ملفات من النوع "$1".',
 'filetype-bad-ie-mime'        => 'لم يمكن رفع هذا المف لأن إنترنت إكسبلورر سيكتشفه ك"$1", وهو نوع ملف ممنوع ومن المحتمل أن يكون خطرا.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' هو نوع ملف غير مرغوب فيه.
 {{PLURAL:\$3|نوع الملف المفضل هو|أنواع الملفات المفضلة هي}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' ليس نوع ملف مسموح به.
-{{PLURAL:\$3|نوع الملف المسموح به هو|أنواع الملفات المسموح بها هي}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|ليس نوع ملف مسموح به|ليسوا أنواع ملفات مسموح بها}}.
+{{PLURAL:$3|نوع الملف المسموح به هو|أنواع الملفات المسموح بها هي}} $2.',
 'filetype-missing'            => 'الملف بدون امتداد (مثل ".jpg").',
 'empty-file'                  => 'الملف الذي أرسلته كان فارغا.',
 'file-too-large'              => 'الملف الذي أرسلته كان كبيرا جدا.',
@@ -1920,6 +1939,15 @@ $1',
 'upload-unknown-size'       => 'حجم غير معروف',
 'upload-http-error'         => 'صودف خطأ HTTP: $1',
 
+# Special:UploadStash
+'uploadstash'          => 'تحميل مخبأ',
+'uploadstash-summary'  => ' توفر هذه الصفحة الوصول إلى الملفات التي يتم تحميلها (أو في أثناء عملية التحميل) ولكنها لم تنشر بعد. هذه الملفات هي غير مرئية لأحد إلا للمستخدم الذين تم الرفع لهم.',
+'uploadstash-clear'    => 'مسح الملفات المخبأة',
+'uploadstash-nofiles'  => 'ليس لديك أي ملفات مخبأة.',
+'uploadstash-badtoken' => 'لم ينجح أداء ذلك العمل، ربما لأن وثائق تفويض التحرير الخاصة بك منتهية الصلاحية. حاول مرة أخرى.',
+'uploadstash-errclear' => 'لم تنجح عملية مسح الملفات.',
+'uploadstash-refresh'  => 'تحديث قائمة الملفات',
+
 # img_auth script messages
 'img-auth-accessdenied' => 'رفض الوصول',
 'img-auth-nopathinfo'   => 'PATH_INFO مفقودة.
@@ -2017,6 +2045,7 @@ $1',
 'shared-repo-from'                  => 'من $1',
 'shared-repo'                       => 'مستودع مشترك',
 'shared-repo-name-wikimediacommons' => 'ويكيميديا كومنز',
+'filepage.css'                      => '/* CSS المعروض هنا سيضمن في صفحات وصف الملفات، أيضا على الويكيات الأجنبية */',
 
 # File reversion
 'filerevert'                => 'استرجع $1',
@@ -2183,6 +2212,7 @@ $1',
 'pager-newer-n'           => '{{PLURAL:$1|أجدد 1|أجدد $1}}',
 'pager-older-n'           => '{{PLURAL:$1|أقدم 1|أقدم $1}}',
 'suppress'                => 'أوفرسايت',
+'querypage-disabled'      => 'تم تعطيل هذه الصفحة الخاصة لأسباب تتعلق بالأداء.',
 
 # Book sources
 'booksources'               => 'مصادر كتاب',
@@ -2248,7 +2278,7 @@ $1',
 'listusersfrom'      => 'اعرض المستخدمين بدءا من:',
 'listusers-submit'   => 'اعرض',
 'listusers-noresult' => 'لم يتم إيجاد مستخدم.',
-'listusers-blocked'  => '({{GENDER:$1|ممنوع|ممنوعة}})',
+'listusers-blocked'  => '(ممنوع)',
 
 # Special:ActiveUsers
 'activeusers'            => 'قائمة المستخدمين النشطين',
@@ -2586,10 +2616,11 @@ $1',
 'sp-contributions-newbies-title'       => 'مساهمات المستخدم للحسابات الجديدة',
 'sp-contributions-blocklog'            => 'سجل المنع',
 'sp-contributions-deleted'             => 'مساهمات المستخدم المحذوفة',
+'sp-contributions-uploads'             => 'تحميل',
 'sp-contributions-logs'                => 'سجلات',
 'sp-contributions-talk'                => 'نقاش',
 'sp-contributions-userrights'          => 'إدارة صلاحيات المستخدم',
-'sp-contributions-blocked-notice'      => '{{GENDER:$1|هذا المستخدم ممنوع|هذه المستخدمة ممنوعة}} حاليا.
+'sp-contributions-blocked-notice'      => 'هذا المستخدم ممنوع حاليا.
 إن آخر مدخلة في سجل المنع موجودة أدناه كمرجع:',
 'sp-contributions-blocked-notice-anon' => 'عنوان الأيبي هذا ممنوع حاليا.
 آخر مدخلة لسجل المنع معروضة هنا كمرجع:',
@@ -2691,9 +2722,9 @@ $1',
 'autoblocker'                     => 'تم منعك تلقائيا لأن الأيبي الخاص بك تم استخدامه مؤخرا بواسطة "[[User:$1|$1]]".
 السبب المعطى لمنع $1 هو: "$2"',
 'blocklogpage'                    => 'سجل المنع',
-'blocklog-showlog'                => 'سبق منع {{GENDER:$1|هذا المستخدم|هذه المستخدمة}}.
+'blocklog-showlog'                => 'سبق منع هذا المستخدم.
 سجل المنع معروض بالأسفل كمرجع:',
-'blocklog-showsuppresslog'        => 'سبق منع وإخفاء {{GENDER:$1|هذا المستخدم|هذه المستخدمة}}.
+'blocklog-showsuppresslog'        => 'سبق منع وإخفاء هذا المستخدم.
 سجل الإخفاء معروض بالأسفل كمرجع:',
 'blocklogentry'                   => 'منع "[[$1]]" لفترة زمنية مدتها $2 $3',
 'reblock-logentry'                => 'غير إعدادات المنع ل[[$1]] بتاريخ انتهاء $2 $3',
@@ -3045,7 +3076,7 @@ $1 ممنوع بالفعل. هل تريد تغيير الإعدادات؟',
 'anonymous'        => '{{PLURAL:$1|مستخدم مجهول|مستخدمون مجهولون}} ل{{SITENAME}}',
 'siteuser'         => 'مستخدم {{SITENAME}} $1',
 'anonuser'         => 'مستخدم {{SITENAME}}  المجهول $1',
-'lastmodifiedatby' => '{{GENDER:$4|أجرى|أجرت}} آخر تعديل لهذه الصفحة $3 في $2، $1.',
+'lastmodifiedatby' => 'أجرى آخر تعديل لهذه الصفحة $3 في $2، $1.',
 'othercontribs'    => 'بناء على عمل $1.',
 'others'           => 'أخرون',
 'siteusers'        => '{{PLURAL:$2||مستخدم|مستخدمي}} {{SITENAME}} $1',
@@ -3095,8 +3126,7 @@ $1 ممنوع بالفعل. هل تريد تغيير الإعدادات؟',
 'math_unknown_function' => 'وظيفة غير معروفة',
 'math_lexing_error'     => 'خطأ في الصيغة',
 'math_syntax_error'     => 'خطأ في الصياغة',
-'math_image_error'      => 'فشل التحويل لPNG؛
-تحقق من تثبيت كل من Latex و dvips و gs و convert.',
+'math_image_error'      => 'فشل التحويل إلى صيغة PNG؛ تحقق من تثبيت كل من Latex و dvipng (أو dvips + gs + محول)',
 'math_bad_tmpdir'       => 'لا يمكن الكتابة إلى أو إنشاء مجلد الرياضيات المؤقت',
 'math_bad_output'       => 'لا يمكن الكتابة إلى أو إنشاء مجلد الخرج للرياضيات',
 'math_notexvc'          => 'مفقود texvc executable؛
@@ -3141,10 +3171,10 @@ $1',
 'imagemaxsize'         => "حد حجم الصور:<br />''(لصفحات وصف الملفات)''",
 'thumbsize'            => 'حجم العرض المصغر:',
 'widthheightpage'      => '$1×$2، $3 {{PLURAL:$3|صفحة|صفحة}}',
-'file-info'            => '(حجم الملف: $1، نوع MIME: $2)',
-'file-info-size'       => '($1 × $2 بكسل حجم الملف: $3، نوع MIME: $4)',
+'file-info'            => 'حجم الملف: $1، نوع MIME: $2',
+'file-info-size'       => '$1 × $2 بكسل حجم الملف: $3، نوع MIME: $4',
 'file-nohires'         => '<small>لا توجد دقة أعلى متوفرة.</small>',
-'svg-long-desc'        => '(ملف SVG، أبعاده $1 × $2 بكسل، حجم الملف: $3)',
+'svg-long-desc'        => 'ملف SVG، أبعاده $1 × $2 بكسل، حجم الملف: $3',
 'show-big-image'       => 'دقة كاملة',
 'show-big-image-thumb' => '<small>حجم هذا العرض: $1 × $2 بكسل</small>',
 'file-info-gif-looped' => 'ملفوف',
@@ -3718,6 +3748,8 @@ $1',
 'version-specialpages'             => 'صفحات خاصة',
 'version-parserhooks'              => 'خطاطيف المحلل',
 'version-variables'                => 'المتغيرات',
+'version-antispam'                 => 'منع البريد المزعج',
+'version-skins'                    => 'واجهات',
 'version-other'                    => 'أخرى',
 'version-mediahandlers'            => 'متحكمات الميديا',
 'version-hooks'                    => 'الخطاطيف',
@@ -3840,5 +3872,18 @@ $1',
 # SQLite database support
 'sqlite-has-fts' => '$1 بدعم البحث في كامل النص',
 'sqlite-no-fts'  => '$1 بدون دعم البحث في كامل النص',
+
+# Special:DisableAccount
+'disableaccount'             => 'تعطيل حساب مستخدم',
+'disableaccount-user'        => 'اسم المستخدم :',
+'disableaccount-reason'      => 'السبب :',
+'disableaccount-confirm'     => 'تعطيل حساب المستخدم هذا. 
+المستخدم لن يكون قادرا على تسجيل الدخول، إعادة تعيين كلمة المرور الخاصة به، أو تلقي إعلامات البريد الإلكتروني. 
+إذا تم تسجيل المستخدم حاليا في أي مكان، سيتم تسجيله على الفور. 
+«لاحظ أن تعطيل الحساب لا يمكن عكسه دون تدخل المسؤول عن النظام».',
+'disableaccount-mustconfirm' => 'يجب التأكد من أنك ترغب في تعطيل هذا الحساب.',
+'disableaccount-nosuchuser'  => 'حساب المستخدم "$1" غير موجود.',
+'disableaccount-success'     => 'تم تعطيل حساب المستخدم "$1" بشكل دائم.',
+'disableaccount-logentry'    => 'تعطيل حساب المستخدم [[$1]] بشكل دائم',
 
 );

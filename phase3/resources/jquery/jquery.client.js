@@ -169,7 +169,7 @@ $.client = new ( function() {
 		var profile = $.client.profile();
 		var dir = $( 'body' ).is( '.rtl' ) ? 'rtl' : 'ltr';
 		// Check over each browser condition to determine if we are running in a compatible client
-		if ( typeof map[dir] !== 'object' || map[dir][profile.name] !== 'object' ) {
+		if ( typeof map[dir] !== 'object' || typeof map[dir][profile.name] === 'undefined' ) {
 			// Unknown, so we assume it's working
 			return true;
 		}
@@ -192,3 +192,12 @@ $.client = new ( function() {
 		return true;
 	}
 } )();
+
+$( document ).ready( function() {
+	var profile = $.client.profile();
+	$( 'html' )
+		.addClass( 'client-' + profile.name )
+		.addClass( 'client-' + profile.name + '-' + profile.versionBase )
+		.addClass( 'client-' + profile.layout )
+		.addClass( 'client-' + profile.platform );
+} );

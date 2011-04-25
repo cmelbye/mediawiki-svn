@@ -285,10 +285,10 @@ class SpecialUpload extends SpecialPage {
 		$form->addPreText( $message );
 
 		# Add footer to form
-		$uploadFooter = wfMsgNoTrans( 'uploadfooter' );
-		if ( $uploadFooter != '-' && !wfEmptyMsg( 'uploadfooter', $uploadFooter ) ) {
+		$uploadFooter = wfMessage( 'uploadfooter' );
+		if ( !$uploadFooter->isDisabled() ) {
 			$form->addPostText( '<div id="mw-upload-footer-message">'
-				. $wgOut->parse( $uploadFooter ) . "</div>\n" );
+				. $wgOut->parse( $uploadFooter->plain() ) . "</div>\n" );
 		}
 
 		return $form;
@@ -583,18 +583,26 @@ class SpecialUpload extends SpecialPage {
 				$this->showUploadError( wfMsgHtml( 'largefileserver' ) );
 				break;
 			case UploadBase::FILETYPE_BADTYPE:
-				$finalExt = $details['finalExt'];
-				$this->showUploadError(
-					wfMsgExt( 'filetype-banned-type',
-						array( 'parseinline' ),
-						htmlspecialchars( $finalExt ),
-						implode(
-							wfMsgExt( 'comma-separator', array( 'escapenoentities' ) ),
-							$wgFileExtensions
-						),
-						$wgLang->formatNum( count( $wgFileExtensions ) )
-					)
-				);
+				$msg = wfMessage( 'filetype-banned-type' );
+				$sep = wfMsg( 'comma-separator' );
+				if ( isset( $details['blacklistedExt'] ) ) {
+					$msg->params( implode( $sep, $details['blacklistedExt'] ) );
+				} else {
+					$msg->params( $details['finalExt'] );
+				}
+				$msg->params( implode( $sep, $wgFileExtensions ),
+					count( $wgFileExtensions ) );
+				
+				// Add PLURAL support for the first parameter. This results 
+				// in a bit unlogical parameter sequence, but does not break 
+				// old translations 
+				if ( isset( $details['blacklistedExt'] ) ) {
+					$msg->numParams( count( $details['blacklistedExt'] ) );
+				} else {
+					$msg->numParams( 1 );
+				}
+				
+				$this->showUploadError( $msg->parse() );
 				break;
 			case UploadBase::VERIFICATION_ERROR:
 				unset( $details['status'] );
@@ -930,6 +938,26 @@ class UploadForm extends HTMLForm {
 	protected function getDescriptionSection() {
 		global $wgUser;
 
+		if ( $this->mSessionKey ) {
+			$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
+			try {
+				$file = $stash->getFile( $this->mSessionKey );
+			} catch ( MWException $e ) {
+				$file = null;	
+			}
+			if ( $file ) {
+				global $wgContLang;
+				
+				$mto = $file->transform( array( 'width' => 120 ) );
+				$this->addHeaderText( 
+					'<div class="thumb t' . $wgContLang->alignEnd() . '">' .
+					Html::element( 'img', array( 
+						'src' => $mto->getUrl(),
+						'class' => 'thumbimage',
+					) ) . '</div>', 'description' );
+			}
+		}
+		
 		$descriptor = array(
 			'DestFile' => array(
 				'type' => 'text',

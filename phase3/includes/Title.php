@@ -41,7 +41,7 @@ class Title {
 	const CACHE_MAX = 1000;
 
 	/**
-	 * Used to be GAID_FOR_UPDATE define. Used with getArticleId() and friends
+	 * Used to be GAID_FOR_UPDATE define. Used with getArticleID() and friends
 	 * to use the master DB
 	 */
 	const GAID_FOR_UPDATE = 1;
@@ -1857,6 +1857,19 @@ class Title {
 	}
 
 	/**
+	 * Is this the mainpage?
+	 * @note Title::newFromText seams to be sufficiently optimized by the title
+	 * cache that we don't need to over-optimize by doing direct comparisons and
+	 * acidentally creating new bugs where $title->equals( Title::newFromText() )
+	 * ends up reporting something differently than $title->isMainPage();
+	 * 
+	 * @return Bool
+	 */
+	public function isMainPage() {
+		return $this->equals( Title::newMainPage() );
+	}
+
+	/**
 	 * Is this a talk page of some sort?
 	 *
 	 * @return \type{\bool}
@@ -3079,8 +3092,6 @@ class Title {
 	 * @return \type{\mixed} true on success, getUserPermissionsErrors()-like array on failure
 	 */
 	public function moveTo( &$nt, $auth = true, $reason = '', $createRedirect = true ) {
-		global $wgContLang;
-
 		$err = $this->isValidMoveOperation( $nt, $auth, $reason );
 		if ( is_array( $err ) ) {
 			return $err;
@@ -3120,7 +3131,8 @@ class Title {
 		);
 		$dbw->update( 'categorylinks',
 			array(
-				'cl_sortkey' => $wgContLang->convertToSortkey( $nt->getCategorySortkey( $prefix ) ),
+				'cl_sortkey' => Collation::singleton()->getSortKey( 
+					$nt->getCategorySortkey( $prefix ) ),
 				'cl_timestamp=cl_timestamp' ),
 			array( 'cl_from' => $pageid ),
 			__METHOD__ );
@@ -3511,15 +3523,15 @@ class Title {
 
 		$titlekey = $this->getArticleId();
 		$dbr = wfGetDB( DB_SLAVE );
-		$categorylinks = $dbr->tableName( 'categorylinks' );
 
-		# NEW SQL
-		$sql = "SELECT * FROM $categorylinks"
-		     . " WHERE cl_from='$titlekey'"
-			 . " AND cl_from <> '0'"
-			 . " ORDER BY cl_sortkey";
-
-		$res = $dbr->query( $sql );
+		$res = $dbr->select( 'categorylinks', '*',
+			array(
+				'cl_from' => $titleKey,
+				"cl_from <> '0'",
+			),
+			__METHOD__,
+			array( 'ORDER BY' => 'cl_sortkey' )
+		);
 		$data = array();
 
 		if ( $dbr->numRows( $res ) > 0 ) {
@@ -4129,7 +4141,7 @@ class Title {
 
 	/**
 	 * Returns the raw sort key to be used for categories, with the specified
-	 * prefix.  This will be fed to Language::convertToSortkey() to get a
+	 * prefix.  This will be fed to Collation::getSortKey() to get a
 	 * binary sortkey that can be used for actual sorting.
 	 *
 	 * @param $prefix string The prefix to be used, specified using
@@ -4143,7 +4155,8 @@ class Title {
 			# Separate with a null byte, so the unprefixed part is only used as
 			# a tiebreaker when two pages have the exact same prefix -- null
 			# sorts before everything else (hopefully).
-			return "$prefix\0$unprefixed";
+			$prefix = strtr( $prefix, "\n\t", '  ' );
+			return "$prefix\n$unprefixed";
 		}
 		return $unprefixed;
 	}

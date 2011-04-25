@@ -1599,7 +1599,7 @@ $wgCacheEpoch = '20030516000000';
  * to ensure that client-side caches do not keep obsolete copies of global
  * styles.
  */
-$wgStyleVersion = '301';
+$wgStyleVersion = '302';
 
 /**
  * This will cache static pages for non-logged-in users to reduce
@@ -2447,6 +2447,12 @@ $wgResourceLoaderDebug = false;
  * web server (e..g a Squid or Varnish server) configured to process the ESI.
  */
 $wgResourceLoaderUseESI = false;
+
+/**
+ * Enable removal of some of the vertical whitespace (like \r and \n) from
+ * JavaScript code when minifying.
+ */
+$wgResourceLoaderMinifyJSVerticalSpace = false;
 
 /** @} */ # End of resource loader settings }
 
@@ -4633,13 +4639,24 @@ $wgCategoryMagicGallery = true;
 $wgCategoryPagingLimit = 200;
 
 /**
- * A version indicator for collations that will be stored in cl_collation for
- * all new rows.  Used when the collation algorithm changes: a script checks
- * for all rows where cl_collation != $wgCategoryCollation and regenerates
- * cl_sortkey based on the page name and cl_sortkey_prefix.
+ * Specify how category names should be sorted, when listed on a category page. 
+ * A sorting scheme is also known as a collation.
  *
- * Currently only supports 'uppercase', which just uppercases the string.  This
- * is a dummy collation, to be replaced later by real ones.
+ * Available values are:
+ *
+ *   - uppercase: Converts the category name to upper case, and sorts by that.
+ *
+ *   - uca-default: Provides access to the Unicode Collation Algorithm with 
+ *     the default element table. This is a compromise collation which sorts
+ *     all languages in a mediocre way. However, it is better than "uppercase".
+ *
+ * To use the uca-default collation, you must have PHP's intl extension 
+ * installed. See http://php.net/manual/en/intl.setup.php . The details of the 
+ * resulting collation will depend on the version of ICU installed on the 
+ * server.
+ *
+ * After you change this, you must run maintenance/updateCollation.php to fix
+ * the sort keys in the database. 
  */
 $wgCategoryCollation = 'uppercase';
 

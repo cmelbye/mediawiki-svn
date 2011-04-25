@@ -37,6 +37,7 @@
  * @author StefanB
  * @author Steinninn
  * @author Str4nd
+ * @author Tobulos1
  * @author Where next Columbus
  * @author Where next Columbus?
  * @author לערי ריינהארט
@@ -306,7 +307,7 @@ $messages = array(
 'tog-underline'               => 'Stryk under länkar',
 'tog-highlightbroken'         => 'Formatera trasiga länkar <a href="" class="new">så här</a> (alternativt: <a href="" class="internal">?</a>).',
 'tog-justify'                 => 'Marginaljustera stycken',
-'tog-hideminor'               => 'Visa inte mindre redigeringar i Senaste ändringar',
+'tog-hideminor'               => 'Visa inte mindre redigeringar i senaste ändringar',
 'tog-hidepatrolled'           => 'Dölj patrullerade redigeringar i senaste ändringar',
 'tog-newpageshidepatrolled'   => 'Göm patrullerade sidor från listan över nya sidor',
 'tog-extendwatchlist'         => 'Utöka bevakningslistan till att visa alla ändringar, inte bara den senaste',
@@ -500,7 +501,7 @@ $messages = array(
 'create'            => 'Skapa',
 'editthispage'      => 'Redigera denna sida',
 'create-this-page'  => 'Skapa denna sida',
-'delete'            => 'radera',
+'delete'            => 'Radera',
 'deletethispage'    => 'Radera denna sida',
 'undelete_short'    => 'Återställ {{PLURAL:$1|en version|$1 versioner}}',
 'viewdeleted_short' => 'Visa {{PLURAL:$1|en raderad redigering|$1 raderade redigeringar}}',
@@ -1414,8 +1415,8 @@ Den får inte vara längre än $1 {{PLURAL:$1|tecken|tecken}}.',
 'email'                         => 'E-post',
 'prefs-help-realname'           => 'Riktigt namn behöver inte anges.
 Om du väljer att ange ditt riktiga namn, kommer det att användas för att tillskriva dig ditt arbete.',
-'prefs-help-email'              => 'Att ange e-postadress är valfritt, men gör det möjligt att få ditt lösenord mejlat till dig om du glömmer det.
-Du kan också välja att låta andra användare kontakta dig genom din användar- eller användardiskussionssida utan att du behöver avslöja din identitet.',
+'prefs-help-email'              => 'Att ange e-postadress är valfritt, men gör det möjligt att få ditt lösenord mejlat till dig om du glömmer det.',
+'prefs-help-email-others'       => 'Du kan också välja att låta andra användare kontakta dig genom din användar-eller diskussionssida utan att avslöja din identitet.',
 'prefs-help-email-required'     => 'E-postadress måste anges.',
 'prefs-info'                    => 'Grundläggande information',
 'prefs-i18n'                    => 'Internationalisering',
@@ -2990,10 +2991,10 @@ Om du kör den kan din dator skadas.",
 'imagemaxsize'         => "Begränsa bilders storlek:<br />''(för filbeskrivningssidor)''",
 'thumbsize'            => 'Storlek på minibild:',
 'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|sida|sidor}}',
-'file-info'            => '(filstorlek: $1, MIME-typ: $2)',
-'file-info-size'       => '($1 × $2 pixel, filstorlek: $3, MIME-typ: $4)',
+'file-info'            => 'filstorlek: $1, MIME-typ: $2',
+'file-info-size'       => '$1 × $2 pixel, filstorlek: $3, MIME-typ: $4',
 'file-nohires'         => '<small>Det finns ingen version med högre upplösning.</small>',
-'svg-long-desc'        => '(SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3)',
+'svg-long-desc'        => 'SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3',
 'show-big-image'       => 'Högupplöst version',
 'show-big-image-thumb' => '<small>Storlek på förhandsvisningen: $1 × $2 pixel</small>',
 'file-info-gif-looped' => 'upprepad',

@@ -287,6 +287,9 @@ abstract class UploadBase {
 			}
 			if ( $this->mTitleError == self::FILETYPE_BADTYPE ) {
 				$result['finalExt'] = $this->mFinalExtension;
+				if ( count( $this->mBlackListedExtensions ) ) {
+					$result['blacklistedExt'] = $this->mBlackListedExtensions;
+				}
 			}
 			return $result;
 		}
@@ -305,13 +308,14 @@ abstract class UploadBase {
 		global $wgVerifyMimeType;
 		if ( $wgVerifyMimeType ) {
 			wfDebug ( "\n\nmime: <$mime> extension: <{$this->mFinalExtension}>\n\n");
-			if ( !$this->verifyExtension( $mime, $this->mFinalExtension ) ) {
-				return array( 'filetype-mime-mismatch' );
-			}
-
 			global $wgMimeTypeBlacklist;
 			if ( $this->checkFileExtension( $mime, $wgMimeTypeBlacklist ) ) {
 				return array( 'filetype-badmime', $mime );
+			}
+
+			# XXX: Missing extension will be caught by validateName() via getTitle()
+			if ( $this->mFinalExtension != '' && !$this->verifyExtension( $mime, $this->mFinalExtension ) ) {
+				return array( 'filetype-mime-mismatch', $this->mFinalExtension, $mime );
 			}
 
 			# Check IE type
@@ -565,12 +569,16 @@ abstract class UploadBase {
 		/* Don't allow users to override the blacklist (check file extension) */
 		global $wgCheckFileExtensions, $wgStrictFileExtensions;
 		global $wgFileExtensions, $wgFileBlacklist;
+		
+		$blackListedExtensions = $this->checkFileExtensionList( $ext, $wgFileBlacklist );
+		
 		if ( $this->mFinalExtension == '' ) {
 			$this->mTitleError = self::FILETYPE_MISSING;
 			return $this->mTitle = null;
-		} elseif ( $this->checkFileExtensionList( $ext, $wgFileBlacklist ) ||
+		} elseif ( $blackListedExtensions ||
 				( $wgCheckFileExtensions && $wgStrictFileExtensions &&
 					!$this->checkFileExtension( $this->mFinalExtension, $wgFileExtensions ) ) ) {
+			$this->mBlackListedExtensions = $blackListedExtensions;
 			$this->mTitleError = self::FILETYPE_BADTYPE;
 			return $this->mTitle = null;
 		}
@@ -635,7 +643,7 @@ abstract class UploadBase {
 	 * @return File: stashed file
 	 */
 	public function stashSessionFile( $key = null ) { 
-		$stash = new UploadStash();
+		$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();;
 		$data = array( 
 			'mFileProps' => $this->mFileProps,
 			'mSourceType' => $this->getSourceType(),
@@ -698,19 +706,14 @@ abstract class UploadBase {
 
 	/**
 	 * Perform case-insensitive match against a list of file extensions.
-	 * Returns true if any of the extensions are in the list.
+	 * Returns an array of matching extensions.
 	 *
 	 * @param $ext Array
 	 * @param $list Array
 	 * @return Boolean
 	 */
 	public static function checkFileExtensionList( $ext, $list ) {
-		foreach( $ext as $e ) {
-			if( in_array( strtolower( $e ), $list ) ) {
-				return true;
-			}
-		}
-		return false;
+		return array_intersect( array_map( 'strtolower', $ext ), $list );
 	}
 
 	/**
@@ -1179,9 +1182,9 @@ abstract class UploadBase {
 	 */
 	public static function getFilenamePrefixBlacklist() {
 		$blacklist = array();
-		$message = wfMsgForContent( 'filename-prefix-blacklist' );
-		if( $message && !( wfEmptyMsg( 'filename-prefix-blacklist', $message ) || $message == '-' ) ) {
-			$lines = explode( "\n", $message );
+		$message = wfMessage( 'filename-prefix-blacklist' )->inContentLanguage();
+		if( !$message->isDisabled() ) {
+			$lines = explode( "\n", $message->plain() );
 			foreach( $lines as $line ) {
 				// Remove comment lines
 				$comment = substr( trim( $line ), 0, 1 );

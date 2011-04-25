@@ -247,9 +247,8 @@ class Interwiki {
 	 * @return String
 	 */
 	public function getName() {
-		$key = 'interwiki-name-' . $this->mPrefix;
-		$msg = wfMsgForContent( $key );
-		return wfEmptyMsg( $key, $msg ) ? '' : $msg;
+		$msg = wfMessage( 'interwiki-name-' . $this->mPrefix )->inContentLanguage();
+		return !$msg->exists() ? '' : $msg;
 	}
 
 	/**
@@ -258,9 +257,8 @@ class Interwiki {
 	 * @return String
 	 */
 	public function getDescription() {
-		$key = 'interwiki-desc-' . $this->mPrefix;
-		$msg = wfMsgForContent( $key );
-		return wfEmptyMsg( $key, $msg ) ? '' : $msg;
+		$msg = wfMessage( 'interwiki-desc-' . $this->mPrefix )->inContentLanguage();
+		return !$msg->exists() ? '' : $msg;
 	}
 	
 
