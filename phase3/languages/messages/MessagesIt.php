@@ -113,7 +113,7 @@ $specialPageAliases = array(
 	'Uncategorizedcategories'   => array( 'CategorieSenzaCategorie' ),
 	'Uncategorizedimages'       => array( 'ImmaginiSenzaCategorie' ),
 	'Uncategorizedtemplates'    => array( 'TemplateSenzaCategorie' ),
-	'Unusedcategories'          => array( 'CategorieNonUsate' ),
+	'Unusedcategories'          => array( 'CategorieNonUsate', 'CategorieVuote' ),
 	'Unusedimages'              => array( 'ImmaginiNonUsate' ),
 	'Wantedpages'               => array( 'PagineRichieste' ),
 	'Wantedcategories'          => array( 'CategorieRichieste' ),
@@ -135,7 +135,8 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'TitoliProtetti' ),
 	'Allpages'                  => array( 'TutteLePagine' ),
 	'Prefixindex'               => array( 'Prefissi' ),
-	'Ipblocklist'               => array( 'IPBloccati', 'ElencoBlocchi' ),
+	'Ipblocklist'               => array( 'IPBloccati', 'ElencoBlocchi', 'Blocchi' ),
+	'Unblock'                   => array( 'ElencoSblocchi', 'Sblocchi' ),
 	'Specialpages'              => array( 'PagineSpeciali' ),
 	'Contributions'             => array( 'Contributi', 'ContributiUtente' ),
 	'Emailuser'                 => array( 'InviaEMail' ),
@@ -163,10 +164,10 @@ $specialPageAliases = array(
 	'Revisiondelete'            => array( 'CancellaRevisione' ),
 	'Unusedtemplates'           => array( 'TemplateNonUsati' ),
 	'Randomredirect'            => array( 'RedirectCasuale' ),
-	'Mypage'                    => array( 'MiaPaginaUtente' ),
+	'Mypage'                    => array( 'MiaPaginaUtente', 'MiaPagina' ),
 	'Mytalk'                    => array( 'MieDiscussioni' ),
 	'Mycontributions'           => array( 'MieiContributi' ),
-	'Listadmins'                => array( 'Amministratori', 'ElencoAmministratori' ),
+	'Listadmins'                => array( 'Amministratori', 'ElencoAmministratori', 'Admin' ),
 	'Listbots'                  => array( 'Bot', 'ElencoBot' ),
 	'Popularpages'              => array( 'PaginePiùVisitate' ),
 	'Search'                    => array( 'Ricerca', 'Cerca' ),
@@ -180,6 +181,8 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'ContributiCancellati' ),
 	'Tags'                      => array( 'Etichette' ),
 	'Activeusers'               => array( 'UtentiAttivi' ),
+	'ComparePages'              => array( 'ComparaPagine' ),
+	'Badtitle'                  => array( 'TitoloErrato' ),
 );
 
 $magicWords = array(
@@ -231,7 +234,10 @@ $magicWords = array(
 	'language'              => array( '0', '#LINGUA', '#LANGUAGE:' ),
 	'numberofadmins'        => array( '1', 'NUMEROADMIN', 'NUMBEROFADMINS' ),
 	'special'               => array( '0', 'speciale', 'special' ),
+	'pagesincategory'       => array( '1', 'PAGINEINCAT', 'PAGESINCATEGORY', 'PAGESINCAT' ),
 	'pagesize'              => array( '1', 'DIMENSIONEPAGINA', 'PESOPAGINA', 'PAGESIZE' ),
+	'index'                 => array( '1', '__INDICE__', '__INDEX__' ),
+	'noindex'               => array( '1', '__NOINDICE__', '__NOINDEX__' ),
 	'protectionlevel'       => array( '1', 'LIVELLOPROTEZIONE', 'PROTECTIONLEVEL' ),
 );
 
@@ -716,11 +722,6 @@ Se l\'accesso è stato creato per errore, si può ignorare questo messaggio.',
 Riprovare più tardi.',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'La tua richiesta di disconnessione è stata negata perché sembra inviata da un browser non funzionante o un proxy di caching.',
-'ratelimit-excluded-ips'     => ' # <!-- non modificare in alcun modo questa riga --><pre>
-# La sintassi è la seguente: 
-#   * Quanto compare tra un carattere "#" fino alla fine della riga è un commento 
-#   * Ogni riga non vuota è un indirizzo IP escluso dal limite di velocità 
- # </pre><!-- non modificare in alcun modo questa riga -->',
 
 # JavaScript password checks
 'password-strength'            => 'Robustezza stimata della password: $1',
@@ -1558,7 +1559,7 @@ Consultare la [[Special:NewFiles|galleria dei nuovi file]] per una visione d'ins
 'filestatus'                  => 'Informazioni sul copyright:',
 'filesource'                  => 'Fonte:',
 'uploadedfiles'               => 'Elenco dei file caricati',
-'ignorewarning'               => "Ignora l'avviso e salva comunque il file. La versione esistente verrà sovrascritta.",
+'ignorewarning'               => "Ignora l'avviso e salva comunque il file",
 'ignorewarnings'              => 'Ignora i messaggi di avvertimento del sistema',
 'minlength1'                  => "Il nome del file dev'essere composto da almeno un carattere.",
 'illegalfilename'             => 'Il nome "$1" contiene dei caratteri non ammessi nei titoli delle pagine. Dare al file un nome diverso e provare a caricarlo di nuovo.',
@@ -1654,7 +1655,7 @@ $1',
 'upload-proto-error-text'   => "Per l'upload remoto è necessario specificare URL che iniziano con <code>http://</code> oppure <code>ftp://</code>.",
 'upload-file-error'         => 'Errore interno',
 'upload-file-error-text'    => 'Si è verificato un errore interno durante la creazione di un file temporaneo sul server. Contattare un [[Special:ListUsers/sysop|amministratore]] del sito.',
-'upload-misc-error'         => "Errore non identificato per l'upload",
+'upload-misc-error'         => 'Errore di caricamento sconosciuto',
 'upload-misc-error-text'    => 'Si è verificato un errore non identificato durante il caricamento del file. Verificare che la URL sia corretta e accessibile e provare di nuovo. Se il problema persiste, contattare un [[Special:ListUsers/sysop|amministratore]] del sito.',
 'upload-too-many-redirects' => "L'URL conteneva troppi redirect",
 'upload-unknown-size'       => 'Dimensione sconosciuta',
@@ -1822,6 +1823,7 @@ Di seguito viene mostrata la descrizione presente nella [$2 pagina di descrizion
 'statistics-edits'             => "Modifiche a partire dall'installazione di {{SITENAME}}",
 'statistics-edits-average'     => 'Media delle modifiche per pagina',
 'statistics-views-total'       => 'Visualizzazioni totali',
+'statistics-views-total-desc'  => 'Visualizzazioni di pagine inesistenti e pagine speciali non sono incluse',
 'statistics-views-peredit'     => 'Visualizzazioni per modifica',
 'statistics-users'             => '[[Special:ListUsers|Utenti]] registrati',
 'statistics-users-active'      => 'Utenti attivi',
@@ -2459,6 +2461,12 @@ Ricordare di [[Special:UnlockDB|rimuovere il blocco]] dopo aver terminato le ope
 'move-page'                    => 'Spostamento di $1',
 'move-page-legend'             => 'Spostamento di pagina',
 'movepagetext'                 => "Questo modulo consente di rinominare una pagina, spostando tutta la sua cronologia al nuovo nome. La pagina attuale diverrà automaticamente un redirect al nuovo titolo. Puoi aggiornare automaticamente i redirect che puntano al titolo originale. Puoi decidere di non farlo, ma ricordati di verificare che lo spostamento non abbia creato [[Special:DoubleRedirects|doppi redirect]] o [[Special:BrokenRedirects|redirect errati]]. L'onere di garantire che i collegamenti alla pagina restino corretti spetta a chi la sposta.
+
+Si noti che la pagina '''non''' sarà spostata se ne esiste già una con il nuovo nome, a meno che non sia vuota o costituita solo da un redirect alla vecchia e sia priva di versioni precedenti. In caso di spostamento errato si può quindi tornare subito al vecchio titolo, e non è possibile sovrascrivere per errore una pagina già esistente.
+
+'''ATTENZIONE:'''
+Un cambiamento così drastico può creare contrattempi e problemi, soprattutto per le pagine più visitate. Accertarsi di aver valutato le conseguenze dello spostamento prima di procedere.",
+'movepagetext-noredirectfixer' => "Questo modulo consente di rinominare una pagina, spostando tutta la sua cronologia al nuovo nome. La pagina attuale diverrà automaticamente un redirect al nuovo titolo. Controlla che lo spostamento non abbia creato [[Special:DoubleRedirects|doppi redirect]] o [[Special:BrokenRedirects|redirect errati]]. L'onere di garantire che i collegamenti alla pagina restino corretti spetta a chi la sposta.
 
 Si noti che la pagina '''non''' sarà spostata se ne esiste già una con il nuovo nome, a meno che non sia vuota o costituita solo da un redirect alla vecchia e sia priva di versioni precedenti. In caso di spostamento errato si può quindi tornare subito al vecchio titolo, e non è possibile sovrascrivere per errore una pagina già esistente.
 

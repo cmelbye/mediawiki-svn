@@ -745,6 +745,7 @@ N’oubliez pas de personnaliser vos [[Special:Preferences|préférences sur {{S
 'yourpassword'               => 'Mot de passe :',
 'yourpasswordagain'          => 'Confirmez le mot de passe :',
 'remembermypassword'         => 'Me reconnecter automatiquement aux prochaines visites (au maximum $1 {{PLURAL:$1|jour|jours}})',
+'securelogin-stick-https'    => 'Rester connecté en HTTPS après la connexion',
 'yourdomainname'             => 'Votre domaine',
 'externaldberror'            => 'Une erreur s’est produite avec la base de données d’authentification externe, ou bien vous n’êtes pas autorisé{{GENDER:||e|(e)}} à mettre à jour votre compte externe.',
 'login'                      => 'Connexion',
@@ -782,6 +783,7 @@ Vérifiez l’orthographe, ou [[Special:UserLogin/signup|créez un nouveau compt
 'wrongpasswordempty'         => 'Vous n’avez pas entré de mot de passe. Veuillez essayer à nouveau.',
 'passwordtooshort'           => 'Votre mot de passe doit contenir au moins $1 caractère{{PLURAL:$1||s}}.',
 'password-name-match'        => 'Votre mot de passe doit être différent de votre nom d’utilisateur.',
+'password-too-weak'          => 'Le mot de passe fourni est trop faible et ne peut pas être utilisé.',
 'mailmypassword'             => 'Recevoir un nouveau mot de passe par courriel',
 'passwordremindertitle'      => 'Nouveau mot de passe temporaire pour {{SITENAME}}',
 'passwordremindertext'       => 'Quelqu’un (probablement vous, ayant l’adresse IP $1) a demandé un nouveau mot de
@@ -821,11 +823,6 @@ Ignorez ce message si ce compte a été créé par erreur.',
 Veuillez attendre avant d’essayer à nouveau.',
 'loginlanguagelabel'         => 'Langue : $1',
 'suspicious-userlogout'      => 'Votre demande de déconnexion a été refusée car il semble qu’elle a été envoyée par un navigateur cassé ou la mise en cache d’un proxy.',
-'ratelimit-excluded-ips'     => ' # <!-- leave this line exactly as it is --><pre>
-# La syntaxe est comme suit: 
-#   * Tout ce qui est entre un caractère "#" et la fin de la ligne est un commentaire. 
-#   * Toute ligne non vide est une adresse IP exclue de la limitation de fréquence.
- # </pre><!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Niveau de sécurité du mot de passe : $1',
@@ -1845,6 +1842,7 @@ Cliquer sur un en-tête de colonne permet de changer l’ordre d’affichage.',
 'listfiles_search_for'  => 'Rechercher un nom de média :',
 'imgfile'               => 'fichier',
 'listfiles'             => 'Liste de fichiers',
+'listfiles_thumb'       => 'Miniature',
 'listfiles_date'        => 'Date',
 'listfiles_name'        => 'Nom',
 'listfiles_user'        => 'Utilisateur',
@@ -1958,6 +1956,7 @@ N’oubliez pas de vérifier s’il n’y a pas d’autres liens vers les modèl
 'statistics-edits'             => 'Modifications de pages depuis l’installation de {{SITENAME}}',
 'statistics-edits-average'     => 'Nombre moyen de modifications par page',
 'statistics-views-total'       => 'Visites',
+'statistics-views-total-desc'  => 'Les vues des pages non existantes et des pages spéciales ne sont pas incluses',
 'statistics-views-peredit'     => 'Visites par modification',
 'statistics-users'             => '[[Special:ListUsers|Utilisateurs]] enregistrés',
 'statistics-users-active'      => 'Utilisateurs actifs',
@@ -1996,6 +1995,8 @@ Les entrées <del>barrées</del> ont été résolues.',
 'nmembers'                => '$1 membre{{PLURAL:$1||s}}',
 'nrevisions'              => '$1 version{{PLURAL:$1||s}}',
 'nviews'                  => '$1 consultation{{PLURAL:$1||s}}',
+'nimagelinks'             => 'Utilisé sur $1 {{PLURAL:$1|page|pages}}',
+'ntransclusions'          => 'Utilisé sur $1 {{PLURAL:$1|page|pages}}',
 'specialpage-empty'       => 'Il n’y a aucun résultat à afficher.',
 'lonelypages'             => 'Pages orphelines',
 'lonelypagestext'         => 'Les pages suivantes ne sont ni pointées, ni incluses par d’autres pages du wiki.',
@@ -2620,11 +2621,20 @@ Pour bloquer ou débloquer la base de données, il doit être accessible par le 
 # Move page
 'move-page'                    => 'Renommer $1',
 'move-page-legend'             => 'Renommer une page',
-'movepagetext'                 => "Utilisez le formulaire ci-dessous pour renommer une page, en déplaçant tout son historique vers le nouveau nom. L’ancien titre deviendra une page de redirection vers le nouveau titre. Vous pouvez mettre à jour automatiquement les redirections actuelles qui pointent vers le titre original. Si vous choisissez de ne pas le faire, asssurez-vous de vérifier toute [[Special:DoubleRedirects|double redirection]] ou [[Special:BrokenRedirects|redirection cassée]]. Vous avez la responsabilité de vous assurer que les liens continuent de pointer vers leur destination supposée.
+'movepagetext'                 => "Utilisez le formulaire ci-dessous pour renommer une page, en déplaçant tout son historique vers le nouveau nom. L’ancien titre deviendra une page de redirection vers le nouveau titre. Vous pouvez mettre à jour automatiquement les redirections actuelles qui pointent vers le titre original. Si vous choisissez de ne pas le faire, assurez-vous de vérifier toute [[Special:DoubleRedirects|double redirection]] ou [[Special:BrokenRedirects|redirection cassée]]. Vous avez la responsabilité de vous assurer que les liens continuent de pointer vers leur destination supposée.
 
 Notez que la page ne sera '''pas''' déplacée s’il existe déjà une page avec le nouveau titre, sauf si cette dernière a un historique de modifications vierge et est soit vide, soit une simple redirection. Ceci permet de renommer une page vers sa position d’origine si le déplacement s’avère erroné.
 
-'''ATTENTION !'''
+'''Attention !'''
+Ceci peut provoquer un changement radical et imprévu pour une page souvent consultée ; assurez-vous d’en avoir compris les conséquences avant de continuer.",
+'movepagetext-noredirectfixer' => "Utilisez le formulaire ci-dessous pour renommer une page, en déplaçant tout son historique vers le nouveau nom.
+L’ancien titre deviendra une page de redirection vers le nouveau titre.
+Vérifiez bien les [[Special:DoubleRedirects|doubles redirections]] ou les [[Special:BrokenRedirects|redirections cassées]].
+Vous avez la responsabilité de vous assurer que les liens continuent de pointer vers leur destination supposée.
+
+Notez que la page ne sera '''pas''' déplacée s’il existe déjà une page avec le nouveau titre, sauf si cette dernière a un historique de modifications vierge et est soit vide, soit une simple redirection. Ceci permet de renommer une page vers sa position d’origine si le déplacement s’avère erroné, et il est impossible d’écraser une page existante.
+
+'''Attention !'''
 Ceci peut provoquer un changement radical et imprévu pour une page souvent consultée ; assurez-vous d’en avoir compris les conséquences avant de continuer.",
 'movepagetalktext'             => "La page de discussion associée, si présente, sera automatiquement renommée '''sauf si :'''
 * vous déplacez la page vers un autre espace de noms, ou

@@ -399,7 +399,7 @@ Re a implijerien a glask mont war ar bajenn-mañ war un dro.
 Gortozit ur pennadig a-raok klask mont war ar bjann-mañ en-dro.
 
 $1',
-'pool-timeout'      => "Timeout zo o c'hortoz evit klozañ",
+'pool-timeout'      => "Aet eur dreist d'an termen gortoz evit ar stankadenn",
 'pool-queuefull'    => 'Soulgarget eo ar servijerioù',
 'pool-errorunknown' => 'Fazi dianav',
 
@@ -642,11 +642,6 @@ Na daolit ket evezh ouzh ar c\'hemenn-mañ m\'eo bet krouet ar gont dre fazi.',
 Gortozit a-raok klask en-dro.",
 'loginlanguagelabel'         => 'Yezh : $1',
 'suspicious-userlogout'      => 'Distaolet eo bet ho koulenn digevreañ rak kaset e oa bet gant ur merdeer direizhet pe krubuilhadenn ur proksi, evit doare.',
-'ratelimit-excluded-ips'     => " #<!-- laoskit al linenn-mañ tre evel m'emañ --> <pre>
-# Setu penaos emañ an ereadur :
-#  * Kement tra war-lerc'h an arouezenn \"#\" zo un urzhiad, betek penn all al linenn
-#  * Kement linenn n'eo ket goullo zo ur chomlec'h IP e-maez ar feur termen
-  #</pre> <!-- laoskit al linenn-mañ tre evel m'emañ -->",
 
 # JavaScript password checks
 'password-strength'            => 'Live surentez ar ger-tremen : $1',
@@ -810,7 +805,7 @@ C'hoarvezout a ra a-wechoù pa implijit ur servijer proksi dreinek dizanav.'''",
 E-krec'h an takad aozañ emañ an destenn evel m'emañ enrollet bremañ er bank roadennoù.
 Ho kemmoù deoc'h a zeu war wel en takad aozañ traoñ.
 Ret e vo deoc'h degas ho kemmoù d'an destenn zo evit poent.
-N'eus nemet an destenn zo en takad krec'h a vo saveteet.",
+N'eus '''nemet''' an destenn zo en takad krec'h a vo saveteet pa klikot war \"{{int:savearticle}}\".",
 'yourtext'                         => 'Ho testenn',
 'storedversion'                    => 'Stumm enrollet',
 'nonunicodebrowser'                => "'''DIWALLIT: N'eo ket skoret an Unicode gant ho merdeer. Un diskoulm da c'hortoz zo bet kavet evit ma c'hallfec'h degas kemmoù er pennadoù : dont a raio war wel an arouezennoù an-ASCII er prenestr skridaozañ evel kodoù eizhdekvedennel.'''",
@@ -1092,7 +1087,7 @@ Gwiriit ne vo ket torret red istor ar bajenn gant ar c'hemm-mañ.",
 'showhideselectedversions' => 'Diskouez/Kuzhat ar stummoù diuzet',
 'editundo'                 => 'disteuler',
 'diff-multi'               => "({{PLURAL:$1|Ur reizhadenn da c'hortoz|$1 reizhadenn da c'hortoz}} gant {{PLURAL:$2|un implijer|$2 implijer}} kuzhet.)",
-'diff-multi-manyusers'     => "({{PLURAL:$1|Ur reizhadenn da c'hortoz|$1 reizhadenn da c'hortoz}} gant muioc'h evit $2 {{PLURAL:$2|implijer|implijer}} kuzhet.)",
+'diff-multi-manyusers'     => "({{PLURAL:$1|Ur reizhadenn da c'hortoz|$1 reizhadenn da c'hortoz}} gant muioc'h eget $2 {{PLURAL:$2|implijer|implijer}} kuzhet.)",
 
 # Search results
 'searchresults'                    => "Disoc'h ar c'hlask",
@@ -1822,6 +1817,8 @@ $1 {{PLURAL:$1|rummad|rummad}}',
 'nmembers'                => '$1 {{PLURAL:$1|elfenn|elfenn}}',
 'nrevisions'              => '$1 {{PLURAL:$1|stumm|stumm}}',
 'nviews'                  => '$1 {{PLURAL:$1|selladenn|selladenn}}',
+'nimagelinks'             => 'Implijet e $1 {{PLURAL:$1|pajenn|pajenn}}',
+'ntransclusions'          => 'implijet e $1 {{PLURAL:$1|pajenn|pajenn}}',
 'specialpage-empty'       => 'Goullo eo ar bajenn-mañ.',
 'lonelypages'             => 'Pajennoù hep liamm daveto',
 'lonelypagestext'         => "N'eo ket liammet pe enframmet ar pajennoù da-heul ouzh pajenn all ebet eus {{SITENAME}}.",
@@ -3135,7 +3132,7 @@ Kement liamm all war an hevelep linenn a seller outañ evel un nemedenn, da skou
 'confirmemail_pending'      => "Ur c'hod kadarnaat zo bet kaset deoc'h dre bostel c'hoazh;
 a-raok klask goulenn unan nevez, m'emaoc'h o paouez krouiñ ho kont, e vo fur eus ho perzh gortoz un nebeud munutoù ha leuskel amzer dezhañ d'en em gavout betek ennoc'h.",
 'confirmemail_send'         => "Kas ur c'hod kadarnaat",
-'confirmemail_sent'         => 'Postel kadarnaat kaset',
+'confirmemail_sent'         => 'Postel kadarnaat kaset.',
 'confirmemail_oncreate'     => "Kaset ez eus bet ur c'hod kadarnaat d'ho chomlec'h postel.
 N'eus ket ezhomm eus ar c'hod-mañ evit kevreañ met ret e vo deoc'h ober gantañ evit aotren hini pe hini eus arc'hwelioù postel ar wiki.",
 'confirmemail_sendfailed'   => "Dibosupl kas ar postel kadarnaat deoc'h gant {{SITENAME}}.

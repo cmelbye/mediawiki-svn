@@ -669,11 +669,6 @@ To sporočilo lahko prezrete, če je bil račun ustvarjen pomotoma.',
 Prosimo počakajte, preden poskusite znova.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaša zahteva za odjavo je bila zavrnjena, saj kaže, da je bila poslana iz pokvarjenega brskalnika ali proxyja s predpomnilnikom.',
-'ratelimit-excluded-ips'     => ' #<!-- pustite to vrstico takšno, kot je --> <pre>
-# Skladnja je sledeča:
-#   * Vse od znaka »#« do konca vrstice je pripomba
-#   * Vsaka neprazna vrstica je IP-naslov izključen iz omejitve ocenjevanja
- #</pre> <!-- pustite to vrstico takšno, kot je -->',
 
 # JavaScript password checks
 'password-strength'            => 'Ocenjena moč gesla: $1',
@@ -1831,6 +1826,7 @@ Preden jih izbrišete, preverite še druge povezave nanje.',
 'statistics-edits'             => 'Urejanja strani od postavitve {{GRAMMAR:rodilnik|{{SITENAME}}}}',
 'statistics-edits-average'     => 'Povprečno število urejanj na stran',
 'statistics-views-total'       => 'Vseh ogledov',
+'statistics-views-total-desc'  => 'Ogledi neoobstoječih in posebnih strani niso vključeni',
 'statistics-views-peredit'     => 'Razmerje med ogledi in urejanji',
 'statistics-users'             => 'Registrirani [[Special:ListUsers|uporabniki]]',
 'statistics-users-active'      => 'Aktivni uporabniki',
@@ -2509,6 +2505,17 @@ To pomeni, da lahko, če se zmotite, strani vrnete prvotno ime, ne morete pa pre
 
 '''Opozorilo!'''
 Prestavitev strani je lahko za priljubljeno stran velika in nepričakovana sprememba, zato pred izbiro ukaza dobro premislite.",
+'movepagetext-noredirectfixer' => "Z uporabo spodnjega obrazca lahko preimenujete stran tako, da prestavite vso njeno zgodovino na novo ime.
+Star naslov bo postal preusmeritvena stran na nov naslov.
+Ne pozabite preveriti [[Special:DoubleRedirects|dvojnih]] ali [[Special:BrokenRedirects|pretrganih preusmeritev]].
+Vi ste odgovorni, da vse povezave še naprej kažejo tja, kamor naj bi.
+
+Upoštevajte, da stran '''ne''' bo prestavljena, če že obstaja stran z novim naslovom, razen če je prazna ali preusmeritev brez pretekle zgodovine urejanj.
+To pomeni, da lahko stran preimenujete nazaj, če ste naredili napako, vendar ne morete prepisati obstoječe strani.
+
+'''Opozorilo!'''
+To je lahko velika in nepričakovana sprememba za priljubljeno stran;
+prosimo, pred nadaljevanjem se prepričajte, da razumete posledice tega dejanja.",
 'movepagetalktext'             => "Če obstaja, bo samodejno prestavljena tudi pripadajoča pogovorna stran, '''razen kadar'''
 *pod novim imenom že obstaja neprazna pogovorna stran ali
 *ste odkljukali spodnji okvirček.

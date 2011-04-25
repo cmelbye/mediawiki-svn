@@ -16,6 +16,7 @@
  * @author Aotake
  * @author Bangin
  * @author Bennylin
+ * @author Beta16
  * @author Boivie
  * @author Brest
  * @author BrokenArrow
@@ -382,7 +383,8 @@ Also used as title of [[Special:Search]] page in [[Special:SpecialPages]].
 {{Identical|Discussion}}',
 'views'             => 'Subtitle for the list of available views, for the current page. In "monobook" skin the list of views are shown as tabs, so this sub-title is not shown.  To check when and where this message is displayed switch to "simple" skin.
 
-\'\'\'Note:\'\'\' This is "views" as in "appearances"/"representations", \'\'\'not\'\'\' as in "visits"/"accesses".',
+\'\'\'Note:\'\'\' This is "views" as in "appearances"/"representations", \'\'\'not\'\'\' as in "visits"/"accesses".
+{{Identical|View}}',
 'toolbox'           => 'The title of the toolbox below the search menu.',
 'otherlanguages'    => 'This message is shown under the toolbox. It is used if there are interwiki links added to the page, like <tt><nowiki>[[</nowiki>en:Interwiki article]]</tt>.',
 'redirectedfrom'    => 'The text displayed when a certain page is redirected to another page. Variable <tt>$1</tt> contains the name of the page user came from.',
@@ -2733,7 +2735,10 @@ Shown as subtitle of [[Special:MovePage/testpage]]. $1 is the title of the page 
 {{Identical|Move page}}',
 'movepagetext'                 => 'Introduction shown when moving a page ([[Special:MovePage]]).
 
-Special pages mentioned: {{msg-mw|Doubleredirects}}, {{msg-mw|Brokenredirects}}',
+Special pages mentioned: {{msg-mw|Doubleredirects}}, {{msg-mw|Brokenredirects}}
+
+See also {{msg-mw|Movepagetext-noredirectfixer|notext=1}}',
+'movepagetext-noredirectfixer' => 'A variant of {{msg-mw|Movepagetext|notext=1}} displayed when the automatic redirect fixer is not enabled.',
 'movepagetalktext'             => "Text on the special 'Move page'. This text only appears if the talk page is not empty.",
 'movearticle'                  => 'The text before the name of the page that you are moving.
 
@@ -3013,7 +3018,8 @@ The message appears after the name of the patroller.',
 'patrol-log-auto'      => 'Automated edit summary when patrolling.
 
 {{Identical|Automatic}}',
-'patrol-log-diff'      => 'The text of the diff link in [[MediaWiki:Patrol-log-line]] (inside $1 there)',
+'patrol-log-diff'      => 'The text of the diff link in [[MediaWiki:Patrol-log-line]] (inside $1 there)
+{{Identical|Revision}}',
 'log-show-hide-patrol' => '* $1 is one of {{msg|show}} or {{msg|hide}}',
 
 # Browsing diffs

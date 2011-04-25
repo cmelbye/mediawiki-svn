@@ -968,16 +968,21 @@ $wgEmergencyContact = 'wikiadmin@' . $serverName;
  *
  * The address we should use as sender when a user is requesting his password.
  */
-$wgPasswordSender	= 'MediaWiki Mail <apache@' . $serverName . '>';
+$wgPasswordSender = 'apache@' . $serverName;
 
-unset($serverName); # Don't leak local variables to global scope
+unset( $serverName ); # Don't leak local variables to global scope
+
+/**
+ * Password reminder name
+ */
+$wgPasswordSenderName = 'MediaWiki Mail';
 
 /**
  * Dummy address which should be accepted during mail send action.
  * It might be necessary to adapt the address or to set it equal
  * to the $wgEmergencyContact address.
  */
-$wgNoReplyAddress	= 'reply@not.possible';
+$wgNoReplyAddress = 'reply@not.possible';
 
 /**
  * Set to true to enable the e-mail basic features:
@@ -1032,9 +1037,6 @@ $wgSMTP				= false;
  * Additional email parameters, will be passed as the last argument to mail() call.
  */
 $wgAdditionalMailParams = null;
-
-/** For email notification on page changes */
-$wgPasswordSender = $wgEmergencyContact;
 
 /**
  * True: from page editor if s/he opted-in. False: Enotif mails appear to come
@@ -1442,7 +1444,7 @@ $wgCacheDirectory = false;
  *   - CACHE_ANYTHING:   Use anything, as long as it works
  *   - CACHE_NONE:       Do not cache
  *   - CACHE_DB:         Store cache objects in the DB
- *   - CACHE_MEMCACHED:  MemCached, must specify servers in $wgMemCacheServers
+ *   - CACHE_MEMCACHED:  MemCached, must specify servers in $wgMemCachedServers
  *   - CACHE_ACCEL:      eAccelerator, APC, XCache or WinCache
  *   - CACHE_DBA:        Use PHP's DBA extension to store in a DBM-style
  *                       database. This is slow, and is not recommended for
@@ -1661,8 +1663,9 @@ $wgResourceLoaderMaxage = array(
 );
 
 /**
- * Whether to embed private modules inline with HTML output or to bypass caching and check the user parameter against
- * $wgUser to prevent unauthorized access to private modules.
+ * Whether to embed private modules inline with HTML output or to bypass 
+ * caching and check the user parameter against $wgUser to prevent 
+ * unauthorized access to private modules.
  */
 $wgResourceLoaderInlinePrivateModules = true;
 
@@ -3466,8 +3469,6 @@ $wgRateLimitsExcludedGroups = array();
 /**
  * Array of IPs which should be excluded from rate limits.
  * This may be useful for whitelisting NAT gateways for conferences, etc.
- * Wiki administrators can add additional IP addresses via
- * [[MediaWiki:Ratelimit-excluded-ips]]
  */
 $wgRateLimitsExcludedIPs = array();
 

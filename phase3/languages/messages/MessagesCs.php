@@ -276,10 +276,10 @@ $specialPageAliases = array(
 	'Uncategorizedtemplates'    => array( 'Nekategorizované_šablony', 'Nekategorizovane_sablony' ),
 	'Unusedcategories'          => array( 'Nepoužívané_kategorie', 'Nepouzivane_kategorie' ),
 	'Unusedimages'              => array( 'Nepoužívané_soubory', 'Nepouzivane_soubory' ),
-	'Wantedpages'               => array( 'Požadované_stránky', 'Pozadovane_stranky', 'Chybějící_stránky' ),
-	'Wantedcategories'          => array( 'Požadované_kategorie', 'Pozadovane_kategorie', 'Chybějící_kategorie' ),
-	'Wantedfiles'               => array( 'Požadované_soubory', 'Pozadovane_soubory', 'Chybějící_soubory' ),
-	'Wantedtemplates'           => array( 'Požadované_šablony', 'Pozadovane_sablony', 'Chybějící_šablony' ),
+	'Wantedpages'               => array( 'Chybějící_stránky', 'Požadované_stránky', 'Pozadovane_stranky' ),
+	'Wantedcategories'          => array( 'Chybějící_kategorie', 'Požadované_kategorie', 'Pozadovane_kategorie' ),
+	'Wantedfiles'               => array( 'Chybějící_soubory', 'Požadované_soubory', 'Pozadovane_soubory' ),
+	'Wantedtemplates'           => array( 'Chybějící_šablony', 'Požadované_šablony', 'Pozadovane_sablony' ),
 	'Mostlinked'                => array( 'Nejodkazovanější_stránky', 'Nejodkazovanejsi_stranky' ),
 	'Mostlinkedcategories'      => array( 'Nejpoužívanější_kategorie', 'Nejpouzivanejsi_kategorie' ),
 	'Mostlinkedtemplates'       => array( 'Nejpoužívanější_šablony', 'Nejpouzivanejsi_sablony' ),
@@ -381,7 +381,7 @@ $messages = array(
 'tog-forceeditsummary'        => 'Upozornit, když nevyplním shrnutí editace',
 'tog-watchlisthideown'        => 'Na seznamu sledovaných stránek skrýt moje editace',
 'tog-watchlisthidebots'       => 'Na seznamu sledovaných stránek skrýt editace botů',
-'tog-watchlisthideminor'      => 'Skrýt malé editace z mých sledovaných stránek',
+'tog-watchlisthideminor'      => 'Na seznamu sledovaných stránek skrýt malé editace',
 'tog-watchlisthideliu'        => 'Na seznamu sledovaných stránek skrýt editace přihlášených uživatelů',
 'tog-watchlisthideanons'      => 'Na seznamu sledovaných stránek skrýt editace nepřihlášených uživatelů',
 'tog-watchlisthidepatrolled'  => 'Skrýt patrolované editace ve sledovaných stránkách',
@@ -821,11 +821,6 @@ Pokud byl účet vytvořen omylem, považujte tuto zprávu za bezpředmětnou.',
 Počkejte chvíli, než to zkusíte znovu.',
 'loginlanguagelabel'         => 'Jazyk: $1',
 'suspicious-userlogout'      => 'Váš požadavek na odhlášení byl odmítnut, neboť to vypadá, že ho poslal rozbitý prohlížeč nebo cachující proxy.',
-'ratelimit-excluded-ips'     => ' #<!-- Nechte tento řádek přesně tak jak je --> <pre>
-# Syntaxe je následující:
-#  * Všechno od znaku „#“ do konce řádku je komentář
-#  * Každý neprázdný řádek je IP adresa, na kterou se nevztahuje rychlostní omezení
- #</pre> <!-- Nechte tento řádek přesně tak jak je -->',
 
 # JavaScript password checks
 'password-strength'            => 'Odhad síly hesla: $1',
@@ -1368,9 +1363,9 @@ Pokud na začátek dotazu přidáte ''all:'', bude se hledat všude (včetně di
 'rows'                          => 'Řádky',
 'columns'                       => 'Sloupce',
 'searchresultshead'             => 'Vyhledávání',
-'resultsperpage'                => 'Počet výsledků na jedné stránce',
-'contextlines'                  => 'Počet řádek zobrazených z každé nalezené stránky',
-'contextchars'                  => 'Počet znaků kontextu na každé řádce',
+'resultsperpage'                => 'Počet výsledků na stránku:',
+'contextlines'                  => 'Počet řádků u každého výsledku:',
+'contextchars'                  => 'Kontext na každé řádce:',
 'stub-threshold'                => 'Limit pro formátování odkazu jako <a href="#" class="stub">pahýl</a> (v bajtech):',
 'stub-threshold-disabled'       => 'Vypnuto',
 'recentchangesdays'             => 'Počet dní zobrazených v posledních změnách:',
@@ -1945,6 +1940,7 @@ Vstup: <code>typ obsahu/podtyp</code>, např. <code>image/jpeg</code>.',
 'statistics-edits'             => 'Počet editací od založení wiki',
 'statistics-edits-average'     => 'Průměrný počet editací na stránku',
 'statistics-views-total'       => 'Celkový počet zobrazení',
+'statistics-views-total-desc'  => 'Zobrazení neexistujících a speciálních stránek se nepočítají',
 'statistics-views-peredit'     => 'Počet zobrazení na editaci',
 'statistics-users'             => 'Registrovaní [[Special:ListUsers|uživatelé]]',
 'statistics-users-active'      => 'Aktivní uživatelé',
@@ -2207,7 +2203,7 @@ E-mailová adresa, kterou máte uvedenu v [[Special:Preferences|nastavení]], se
 'enotif_mailer'                => 'Zasílač hlášení {{grammar:2sg|{{SITENAME}}}}',
 'enotif_reset'                 => 'Označit vše jako navštívené',
 'enotif_newpagetext'           => 'Toto je nová stránka.',
-'enotif_impersonal_salutation' => 'Uživateli wiki {{SITENAME}}',
+'enotif_impersonal_salutation' => 'Uživatel {{grammar:2sg|{{SITENAME}}}}',
 'changed'                      => 'upravil',
 'created'                      => 'vytvořil',
 'enotif_subject'               => '$PAGEEDITOR upravil stránku $PAGETITLE na {{grammar:6sg|{{SITENAME}}}}.',
@@ -2583,6 +2579,16 @@ $1 je již zablokován(a). Chcete změnit nastavení bloku?',
 Původní název se stane přesměrováním na nový název.
 Přesměrování na původní název můžete nechat aktualizovat automaticky.
 Pokud nenecháte, nezapomeňte poté zkontrolovat [[Special:DoubleRedirects|dvojitá]] nebo [[Special:BrokenRedirects|přerušená]] přesměrování.
+Je na vaší zodpovědnosti zajistit, aby odkazy stále vedly tam, kam mají.
+
+Stránku '''není možno''' přejmenovat, pokud pod cílovým názvem již nějaká stránka existuje, s výjimkou situace, kdy je cílová stránka prázdná nebo je přesměrováním na tuto stránku a nemá žádnou historii editací.
+To znamená, že stránku můžete přesunout zpět na původní název, pokud uděláte chybu, a že nemůžete přepsat existující stránku.
+
+'''Upozornění!'''
+Přejmenování oblíbené stránky může být drastická a nečekaná změna; ujistěte se, prosím, že chápete důsledky svého kroku před tím, než změnu provedete.",
+'movepagetext-noredirectfixer' => "Použitím tohoto formuláře změníte název stránky a přesunete i celou její historii na nový název.
+Původní název se stane přesměrováním na nový název.
+Nezapomeňte poté zkontrolovat [[Special:DoubleRedirects|dvojitá]] nebo [[Special:BrokenRedirects|přerušená]] přesměrování.
 Je na vaší zodpovědnosti zajistit, aby odkazy stále vedly tam, kam mají.
 
 Stránku '''není možno''' přejmenovat, pokud pod cílovým názvem již nějaká stránka existuje, s výjimkou situace, kdy je cílová stránka prázdná nebo je přesměrováním na tuto stránku a nemá žádnou historii editací.

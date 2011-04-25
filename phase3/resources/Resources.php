@@ -25,7 +25,9 @@ return array(
 	
 	/* jQuery */
 	
-	'jquery' => new ResourceLoaderFileModule( array( 'scripts' => 'resources/jquery/jquery.js', 'debugRaw' => false ) ),
+	'jquery' => new ResourceLoaderFileModule( 
+		array( 'scripts' => 'resources/jquery/jquery.js', 'debugRaw' => false ) 
+	),
 	
 	/* jQuery Plugins */
 	
@@ -71,6 +73,12 @@ return array(
 	'jquery.textSelection' => new ResourceLoaderFileModule(
 		array( 'scripts' => 'resources/jquery/jquery.textSelection.js' )
 	),
+	'jquery.tipsy' => new ResourceLoaderFileModule(
+		array(
+			'scripts' => 'resources/jquery.tipsy/jquery.tipsy.js',
+			'styles' => 'resources/jquery.tipsy/jquery.tipsy.css',
+		)
+	),
 	
 	/* jQuery UI */
 	
@@ -106,7 +114,9 @@ return array(
 	) ),
 	'jquery.ui.droppable' => new ResourceLoaderFileModule( array(
 		'scripts' => 'resources/jquery.ui/jquery.ui.droppable.js',
-		'dependencies' => array( 'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable' ),
+		'dependencies' => array( 
+			'jquery.ui.core', 'jquery.ui.mouse', 'jquery.ui.widget', 'jquery.ui.draggable' 
+		),
 	) ),
 	'jquery.ui.resizable' => new ResourceLoaderFileModule( array(
 		'scripts' => 'resources/jquery.ui/jquery.ui.resizable.js',
@@ -316,16 +326,23 @@ return array(
 		'debugScripts' => 'resources/mediawiki/mediawiki.log.js',
 		'debugRaw' => false
 	) ),
-
-	'mediawiki.specials.preferences' => new ResourceLoaderFileModule( array(
-		'scripts' => 'resources/mediawiki.specials/mediawiki.specials.preferences.js',
-		'styles' => 'resources/mediawiki.specials/mediawiki.specials.preferences.css',
+	'mediawiki.util' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
+		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client' ),
+		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
 	) ),
-	'mediawiki.specials.search' => new ResourceLoaderFileModule( array(
-		'scripts' => 'resources/mediawiki.specials/mediawiki.specials.search.js',
+	'mediawiki.action.view.rightClickEdit' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.action/mediawiki.action.view.rightClickEdit.js',
 	) ),
-	'mediawiki.views.history' => new ResourceLoaderFileModule( array(
-		'scripts' => 'resources/mediawiki.views/mediawiki.views.history.js',
+	'mediawiki.special.preferences' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.special/mediawiki.special.preferences.js',
+		'styles' => 'resources/mediawiki.special/mediawiki.special.preferences.css',
+	) ),
+	'mediawiki.special.search' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.special/mediawiki.special.search.js',
+	) ),
+	'mediawiki.action.history' => new ResourceLoaderFileModule( array(
+		'scripts' => 'resources/mediawiki.action/mediawiki.action.history.js',
 		'dependencies' => 'mediawiki.legacy.history',
 	) ),
 
@@ -379,17 +396,15 @@ return array(
 			'wa' => 'resources/mediawiki.language/languages/wa.js',
 		),
 	) ),
-	'mediawiki.util' => new ResourceLoaderFileModule( array(
-		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
-		'dependencies' => array( 'jquery.checkboxShiftClick', 'jquery.client' ),
-		'debugScripts' => 'resources/mediawiki.util/mediawiki.util.test.js',
-	) ),
 	
 	/* mediawiki Legacy */
 	
 	'mediawiki.legacy.ajax' => new ResourceLoaderFileModule( array(
 		'scripts' => 'skins/common/ajax.js',
-		'messages' => array( 'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch', 'tooltip-ca-unwatch' ),
+		'messages' => array( 
+			'watch', 'unwatch', 'watching', 'unwatching', 'tooltip-ca-watch', 
+			'tooltip-ca-unwatch' 
+		),
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	) ),
 	'mediawiki.legacy.ajaxwatch' => new ResourceLoaderFileModule( array(

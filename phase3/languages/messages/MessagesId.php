@@ -243,7 +243,7 @@ $specialPageAliases = array(
 	'Shortpages'                => array( 'Halaman_pendek', 'HalamanPendek' ),
 	'Longpages'                 => array( 'Halaman_panjang', 'HalamanPanjang' ),
 	'Newpages'                  => array( 'Halaman_baru', 'HalamanBaru' ),
-	'Ancientpages'              => array( 'Artikel_lama', 'ArtikelLama' ),
+	'Ancientpages'              => array( 'Halaman_lama', 'HalamanLama', 'Artikel_lama' ),
 	'Deadendpages'              => array( 'Halaman_buntu', 'HalamanBuntu' ),
 	'Protectedpages'            => array( 'Halaman_yang_dilindungi', 'HalamanDilindungi' ),
 	'Protectedtitles'           => array( 'Judul_yang_dilindungi', 'JudulDilindungi' ),
@@ -711,7 +711,7 @@ Akun Anda telah dibuat. Jangan lupa mengatur konfigurasi [[Special:Preferences|p
 'createaccountmail'          => 'melalui surel',
 'createaccountreason'        => 'Alasan:',
 'badretype'                  => 'Kata sandi yang Anda masukkan salah.',
-'userexists'                 => 'Nama pengguna yang Anda masukkan sudah dipakai.
+'userexists'                 => 'Nama pengguna yang Anda pilih sudah dipakai oleh orang lain.
 Silakan pilih nama yang lain.',
 'loginerror'                 => 'Kesalahan masuk log',
 'createaccounterror'         => 'Tidak dapat membuat akun: $1',

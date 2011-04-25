@@ -90,6 +90,7 @@ $specialPageAliases = array(
 	'Allpages'                  => array( 'SveStranice' ),
 	'Prefixindex'               => array( 'IndeksPrefiksa' ),
 	'Ipblocklist'               => array( 'ListaBlokiranjaPrekoIP' ),
+	'Unblock'                   => array( 'Deblokada' ),
 	'Specialpages'              => array( 'SpecijalneStranice' ),
 	'Contributions'             => array( 'Doprinos' ),
 	'Emailuser'                 => array( 'EmailKorisnika' ),
@@ -134,6 +135,9 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'ObrisaniDoprinosi' ),
 	'Tags'                      => array( 'Oznake' ),
 	'Activeusers'               => array( 'AktivniKorisnici' ),
+	'RevisionMove'              => array( 'PremjestanjeRevizije' ),
+	'ComparePages'              => array( 'UporedjivanjeStranica' ),
+	'Badtitle'                  => array( 'Losnaslov' ),
 );
 
 $magicWords = array(
@@ -204,7 +208,7 @@ $magicWords = array(
 	'img_framed'            => array( '1', 'okvir', 'ram', 'framed', 'enframed', 'frame' ),
 	'img_frameless'         => array( '1', 'bez_okvira', 'frameless' ),
 	'img_page'              => array( '1', 'stranica=$1', 'stranica $1', 'page=$1', 'page $1' ),
-	'img_upright'           => array( '1', 'na_gore', 'na_gore=$1', 'na_gore $1', 'upright', 'upright=$1', 'upright $1' ),
+	'img_upright'           => array( '1', 'na_gore', 'na_gore=$1', 'na_gore_$1', 'upright', 'upright=$1', 'upright $1' ),
 	'img_border'            => array( '1', 'granica', 'border' ),
 	'img_baseline'          => array( '1', 'pocetna_linija', 'baseline' ),
 	'img_sub'               => array( '1', 'odjeljak', 'sub' ),
@@ -261,6 +265,8 @@ $magicWords = array(
 	'staticredirect'        => array( '1', '__STATISTICNOPREUSMJERENJE__', '__STATICREDIRECT__' ),
 	'protectionlevel'       => array( '1', 'NIVOZASTITE', 'PROTECTIONLEVEL' ),
 	'formatdate'            => array( '0', 'formatdatuma', 'formatdate', 'dateformat' ),
+	'url_path'              => array( '0', 'PUTANJA', 'PATH' ),
+	'url_query'             => array( '0', 'UPIT', 'QUERY' ),
 );
 
 $fallback8bitEncoding = "iso-8859-2";
@@ -752,11 +758,6 @@ Možete ignorisati ovu poruku, ako je korisnički račun napravljen greškom.',
 Molimo Vas da sačekate prije nego što pokušate ponovo.',
 'loginlanguagelabel'         => 'Jezik: $1',
 'suspicious-userlogout'      => 'Vaš zahtjev za odjavu je odbijen jer je poslan preko pokvarenog preglednika ili keširanog proksija.',
-'ratelimit-excluded-ips'     => ' #<!-- ostavite ovaj red onakav kakav je  --> <pre>
-# Sintaksa je slijedeća:
-#   * Sve od znaka "#" do kraja reda je komentar
-#   * Svaki neprazni red je IP adresa isključena od ograničenja brzine
- #</pre> <!-- ostavite ovaj red onakav kakav je -->',
 
 # JavaScript password checks
 'password-strength'            => 'Procijenjena snaga šifre: $1',
@@ -1920,6 +1921,7 @@ Prije brisanja provjerite da li druge stranice vode na te šablone.',
 'statistics-edits'             => 'Broj izmjena od kako je instalirana {{SITENAME}}',
 'statistics-edits-average'     => 'Prosječno izmjena po stranici',
 'statistics-views-total'       => 'Ukupno pregleda',
+'statistics-views-total-desc'  => 'Pregledi nepostojećih stranica i posebnih stranica nisu uključeni',
 'statistics-views-peredit'     => 'Pogleda po izmjeni',
 'statistics-users'             => 'Registrovani [[Special:ListUsers|korisnici]]',
 'statistics-users-active'      => 'Aktivni korisnici',
@@ -2605,6 +2607,17 @@ preusmjerite.
 '''Pažnja!'''
 Imajte na umu da preusmjeravanje popularnog članka može biti
 drastična i neočekivana promjena za korisnike.",
+'movepagetext-noredirectfixer' => "Koristeći obrazac ispod ćete preimenovati stranicu i premjestiti cijelu njenu historiju na novi naziv.
+Stari naziv će postati preusmjerenje na novi naziv.
+Molimo provjerite da li postoje [[Special:DoubleRedirects|dvostruka]] ili [[Special:BrokenRedirects|nedovršena preusmjerenja]].
+Vi ste za to odgovorni te morate provjeriti da li su linkovi ispravni i da li vode tamo gdje bi trebali.
+
+Imajte na umu da stranica '''neće''' biti premještena ako već postoji stranica s tim imenom, osim ako je prazna ili je preusmjerenje ili nema ranije historije.
+Ovo znali da možete preimenovati stranicu nazad gdje je ranije bila preimenovana ako ste pogriješili a ne možete ponovo preimenovati postojeću stranicu.
+
+'''Pažnja!'''
+Imajte na umu da preusmjeravanje popularnog članka može biti
+drastična i neočekivana promjena za korisnike; molimo budite sigurni da ste shvatili posljedice prije nego što nastavite.",
 'movepagetalktext'             => "Odgovarajuća stranica za razgovor, ako postoji, će automatski biti premještena istovremeno '''osim:'''
 *Ako premještate stranicu preko imenskih prostora,
 *Neprazna stranica za razgovor već postoji pod novim imenom, ili

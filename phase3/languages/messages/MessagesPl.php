@@ -722,11 +722,6 @@ Możesz zignorować tę wiadomość, jeśli konto zostało utworzone przez pomy�
 Odczekaj chwilę zanim ponowisz próbę.',
 'loginlanguagelabel'         => 'Język: $1',
 'suspicious-userlogout'      => 'Żądanie wylogowania zostało odrzucone ponieważ wygląda na to, że zostało wysłane przez uszkodzoną przeglądarkę lub buforujący serwer proxy.',
-'ratelimit-excluded-ips'     => ' #<!-- nie modyfikuj tej linii --> <pre>
-# Składnia jest następująca:
-# * Wszystko od znaku „#” do końca linii uznawane jest za komentarz
-# * Każda niepusta linia, zawiera adres IP wyłączony z ograniczenia przepustowości
- #</pre> <!-- nie modyfikuj tej linii -->',
 
 # JavaScript password checks
 'password-strength'            => 'Szacowane bezpieczeństwo hasła – $1',
@@ -1412,7 +1407,7 @@ Jeśli zdecydujesz się je podać, zostaną użyte, by udokumentować Twoje auto
 'group-suppress-member'      => 'rewizor',
 
 'grouppage-user'          => '{{ns:project}}:Użytkownicy',
-'grouppage-autoconfirmed' => '{{ns:project}}:Automatycznie zatwierdzani użytkownicy',
+'grouppage-autoconfirmed' => '{{ns:project}}:Automatycznie zatwierdzeni użytkownicy',
 'grouppage-bot'           => '{{ns:project}}:Boty',
 'grouppage-sysop'         => '{{ns:project}}:Administratorzy',
 'grouppage-bureaucrat'    => '{{ns:project}}:Biurokraci',
@@ -1531,7 +1526,7 @@ Jeśli zdecydujesz się je podać, zostaną użyte, by udokumentować Twoje auto
 'recentchangestext'                 => 'Ta strona przedstawia historię ostatnich zmian w tej wiki.',
 'recentchanges-feed-description'    => 'Obserwuj najświeższe zmiany w tej wiki.',
 'recentchanges-label-newpage'       => 'W tej edycji utworzono nową stronę',
-'recentchanges-label-minor'         => 'W tej edycji dokonano drobnych zmian',
+'recentchanges-label-minor'         => 'To jest drobna zmiana',
 'recentchanges-label-bot'           => 'Ta edycja została wykonana przez bota',
 'recentchanges-label-unpatrolled'   => 'Ta edycja nie została jeszcze sprawdzona',
 'rcnote'                            => "Poniżej {{PLURAL:$1|znajduje się '''1''' ostatnia zmiana wykonana|znajdują się ostatnie '''$1''' zmiany wykonane|znajduje się ostatnich '''$1''' zmian wykonanych}} w ciągu {{PLURAL:$2|ostatniego dnia|ostatnich '''$2''' dni}}, licząc od $5 dnia $4.",
@@ -1882,6 +1877,7 @@ Sprawdź inne linki do szablonów, zanim usuniesz tę stronę.',
 'statistics-edits'             => 'Edycje wykonane od powstania {{GRAMMAR:D.lp|{{SITENAME}}}}',
 'statistics-edits-average'     => 'Średnia liczba edycji na stronę',
 'statistics-views-total'       => 'Całkowita liczba odwiedzin',
+'statistics-views-total-desc'  => 'Odsłony stron nieistniejących oraz specjalnych nie zostały uwzględnione.',
 'statistics-views-peredit'     => 'Liczba odwiedzin na edycję',
 'statistics-users'             => 'Zarejestrowanych [[Special:ListUsers|użytkowników]]',
 'statistics-users-active'      => 'Aktywnych użytkowników',
@@ -2549,6 +2545,17 @@ Blokowanie i odblokowywanie bazy danych, wymaga by plik mógł być zapisywany p
 Pod starym tytułem zostanie umieszczona strona przekierowująca.
 Możesz automatycznie zaktualizować przekierowania wskazujące na tytuł przed zmianą.
 Jeśli nie wybierzesz tej opcji, upewnij się po przeniesieniu strony, czy nie powstały [[Special:DoubleRedirects|podwójne]] lub [[Special:BrokenRedirects|zerwane przekierowania]].
+Jesteś odpowiedzialny za to, by linki w dalszym ciągu pokazywały tam, gdzie powinny.
+
+Strona '''nie''' zostanie przeniesiona, jeśli strona o nowej nazwie już istnieje, chyba że jest pusta lub jest przekierowaniem i ma pustą historię edycji.
+To oznacza, że błędną operację zmiany nazwy można bezpiecznie odwrócić, zmieniając nową nazwę strony na poprzednią, i że nie można nadpisać istniejącej strony.
+
+'''UWAGA!'''
+Może to być drastyczna lub nieprzewidywalna zmiana w przypadku popularnych stron.
+Upewnij się co do konsekwencji tej operacji, zanim się na nią zdecydujesz.",
+'movepagetext-noredirectfixer' => "Za pomocą poniższego formularza zmienisz nazwę strony, przenosząc jednocześnie jej historię.
+Pod starym tytułem zostanie umieszczona strona przekierowująca.
+Upewnij się po przeniesieniu strony, czy nie powstały [[Special:DoubleRedirects|podwójne]] lub [[Special:BrokenRedirects|zerwane przekierowania]].
 Jesteś odpowiedzialny za to, by linki w dalszym ciągu pokazywały tam, gdzie powinny.
 
 Strona '''nie''' zostanie przeniesiona, jeśli strona o nowej nazwie już istnieje, chyba że jest pusta lub jest przekierowaniem i ma pustą historię edycji.

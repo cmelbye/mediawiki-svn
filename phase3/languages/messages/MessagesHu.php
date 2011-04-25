@@ -776,11 +776,6 @@ Ha nem kértél új azonosítót, és tévedésből kaptad ezt a levelet, nyugod
 Várj egy kicsit, mielőtt újra próbálkozol.',
 'loginlanguagelabel'         => 'Nyelv: $1',
 'suspicious-userlogout'      => 'A kijelentkezési kérésed vissza lett utasítva, mert úgy tűnik, hogy egy hibás böngésző vagy gyorsítótárazó proxy küldte.',
-'ratelimit-excluded-ips'     => '# <!-- leave this line exactly as it is --><pre>
-# A szintaktika a következő:
-#  * Minden „#” karakterrel kezdődő sor megjegyzésnek számít a sor végéig
-#  * Minden nem üres sor egy IP-cím, ami ki van zárva a sebességkorlátozásból 
-#</pre> <!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Becsült jelszóerősség: $1',
@@ -1917,6 +1912,7 @@ Ellenőrizd a meglévő hivatkozásokat, mielőtt törölnéd őket.',
 'statistics-edits'             => 'Szerkesztések száma a(z) {{SITENAME}} indulása óta',
 'statistics-edits-average'     => 'Szerkesztések átlagos száma laponként',
 'statistics-views-total'       => 'Összes megtekintés',
+'statistics-views-total-desc'  => 'A nem létező és speciális lapok megtekintési adatai nincsenek beleszámolva.',
 'statistics-views-peredit'     => 'Megtekintések szerkesztésenként',
 'statistics-users'             => 'Regisztrált [[Speciális:Szerkesztők listája|szerkesztők]]',
 'statistics-users-active'      => 'Aktív szerkesztők',

@@ -347,7 +347,10 @@ class Xml {
 	 * Convenience function to build an HTML form label
 	 * @param $label String text of the label
 	 * @param $id
-	 * @param $attribs Array, other attributes
+	 * @param $attribs Array an attribute array.  This will usuall be 
+	 *     the same array as is passed to the corresponding input element,
+	 *     so this function will cherry-pick appropriate attributes to 
+	 *     apply to the label as well; currently only class is applied.
 	 * @return string HTML
 	 */
 	public static function label( $label, $id, $attribs=array() ) {
@@ -620,6 +623,7 @@ class Xml {
 	 * @param $name The name of the function to call, or a JavaScript expression
 	 *    which evaluates to a function object which is called.
 	 * @param $args Array of arguments to pass to the function.
+	 * @since 1.17
 	 */
 	public static function encodeJsCall( $name, $args ) {
 		$s = "$name(";
@@ -849,6 +853,7 @@ class XmlSelect {
  *    Xml::encodeJsVar( new XmlJsCode( 'a + b' ) );
  *
  * Returns "a + b".
+ * @since 1.17
  */
 class XmlJsCode {
 	public $value;

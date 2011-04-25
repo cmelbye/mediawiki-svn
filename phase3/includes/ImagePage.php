@@ -22,7 +22,11 @@ class ImagePage extends Article {
 		$this->dupes = null;
 		$this->repo = null;
 	}
-	
+
+	/**
+	 * @param  $file File:
+	 * @return void
+	 */
 	public function setFile( $file ) {
 		$this->displayImg = $file;
 		$this->img = $file;
@@ -327,8 +331,6 @@ class ImagePage extends Article {
 			$height_orig = $this->displayImg->getHeight( $page );
 			$height = $height_orig;
 
-			$showLink = false;
-			$linkAttribs = array( 'href' => $full_url );
 			$longDesc = $this->displayImg->getLongDesc();
 
 			wfRunHooks( 'ImageOpenShowImageInlineBefore', array( &$this, &$wgOut ) );
@@ -515,6 +517,11 @@ EOT
 
 		$descUrl = $this->img->getDescriptionUrl();
 		$descText = $this->img->getDescriptionText();
+
+		/* Add canonical to head if there is no local page for this shared file */
+		if( $descUrl && $this->getID() == 0 ) {
+			$wgOut->addLink( array( 'rel' => 'canonical', 'href' => $descUrl ) );
+		}
 
 		$wrap = "<div class=\"sharedUploadNotice\">\n$1\n</div>\n";
 		$repo = $this->img->getRepo()->getDisplayName();
@@ -1002,6 +1009,7 @@ class ImageHistoryList {
 		}
 		$row .= '</td>';
 
+		$rowClass = null;
 		wfRunHooks( 'ImagePageFileHistoryLine', array( $this, $file, &$row, &$rowClass ) );
 		$classAttr = $rowClass ? " class='$rowClass'" : "";
 

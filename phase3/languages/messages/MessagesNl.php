@@ -161,6 +161,7 @@ $magicWords = array(
 	'ns'                    => array( '0', 'NR:', 'NS:' ),
 	'localurl'              => array( '0', 'LOKALEURL', 'LOCALURL:' ),
 	'localurle'             => array( '0', 'LOKALEURLE', 'LOCALURLE:' ),
+	'articlepath'           => array( '0', 'ARTIKELPAD', 'ARTICLEPATH' ),
 	'servername'            => array( '0', 'SERVERNAAM', 'SERVERNAME' ),
 	'scriptpath'            => array( '0', 'SCRIPTPAD', 'SCRIPTPATH' ),
 	'stylepath'             => array( '0', 'STIJLPAD', 'STYLEPATH' ),
@@ -176,6 +177,7 @@ $magicWords = array(
 	'revisionday'           => array( '1', 'VERSIEDAG', 'REVISIONDAY' ),
 	'revisionday2'          => array( '1', 'VERSIEDAG2', 'REVISIONDAY2' ),
 	'revisionmonth'         => array( '1', 'VERSIEMAAND', 'REVISIONMONTH' ),
+	'revisionmonth1'        => array( '1', 'VERSIEMAAND1', 'REVISIONMONTH1' ),
 	'revisionyear'          => array( '1', 'VERSIEJAAR', 'REVISIONYEAR' ),
 	'revisiontimestamp'     => array( '1', 'VERSIETIJD', 'REVISIONTIMESTAMP' ),
 	'revisionuser'          => array( '1', 'VERSIEGEBRUIKER', 'REVISIONUSER' ),
@@ -312,6 +314,7 @@ $specialPageAliases = array(
 	'Activeusers'               => array( 'ActieveGebruikers' ),
 	'RevisionMove'              => array( 'VersieVerplaatsen' ),
 	'ComparePages'              => array( 'PaginasVergelijken', 'Pagina\'sVergelijken' ),
+	'Badtitle'                  => array( 'OnjuisteNaam' ),
 );
 
 $linkTrail = '/^([a-zäöüïëéèà]+)(.*)$/sDu';
@@ -822,11 +825,6 @@ Negeer dit bericht als deze gebruiker zonder uw medeweten is aangemaakt.',
 Wacht even voordat u het opnieuw probeert.',
 'loginlanguagelabel'         => 'Taal: $1',
 'suspicious-userlogout'      => 'Uw verzoek om af te melden is genegeerd, omdat het lijkt alsof het verzoek is verzonden door een browser of cacheproxy die stuk is.',
-'ratelimit-excluded-ips'     => ' #<!-- laat deze regel zoals hij is --> <pre>
-# De syntaxis is als volgt:
-#   * Alle tekst vanaf het karakter "#" tot het einde van de regels wordt gezien als opmerking
-#   * Iedere niet-lege regel is een IP-adres waarop geen snelheidsbeperkingen van toepassing zijn
- #</pre> <!-- laat deze regel zoals hij is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Geschatte wachtwoordsterkte: $1',
@@ -844,7 +842,7 @@ Voer een nieuw wachtwoord in om het aanmelden te voltooien:',
 'resetpass_text'            => '<!-- Voeg hier tekst toe -->',
 'resetpass_header'          => 'Wachtwoord wijzigen',
 'oldpassword'               => 'Huidige wachtwoord:',
-'newpassword'               => 'Nieuwe wachtwoord:',
+'newpassword'               => 'Nieuw wachtwoord:',
 'retypenew'                 => 'Herhaling nieuwe wachtwoord:',
 'resetpass_submit'          => 'Wachtwoord instellen en aanmelden',
 'resetpass_success'         => 'Uw wachtwoord is gewijzigd.
@@ -1080,7 +1078,8 @@ Deze parameters zijn weggelaten.',
 'language-converter-depth-warning'        => 'De dieptelimiet voor de taalconvertor is overschreden ($1)',
 
 # "Undo" feature
-'undo-success' => 'Hieronder staat de tekst waarin de wijziging ongedaan is gemaakt.
+'undo-success' => 'Deze bewerking kan ongedaan gemaakt worden.
+Hieronder staat de tekst waarin de wijziging ongedaan is gemaakt.
 Controleer voor het opslaan of het resultaat gewenst is.',
 'undo-failure' => 'De wijziging kan niet ongedaan gemaakt worden vanwege andere strijdige wijzigingen.',
 'undo-norev'   => 'De bewerking kon niet ongedaan gemaakt worden, omdat die niet bestaat of is verwijderd.',
@@ -1306,7 +1305,7 @@ Let op dat het gebruiken van de navigatieverwijzingen deze kolom opnieuw instelt
 'searchresults-title'              => 'Zoekresultaten voor "$1"',
 'searchresulttext'                 => 'Voor meer informatie over zoeken op {{SITENAME}}, zie [[{{MediaWiki:Helppage}}|{{int:help}}]].',
 'searchsubtitle'                   => 'U zocht naar \'\'\'[[:$1]]\'\'\' ([[Special:Prefixindex/$1|pagina\'s die beginnen met "$1"]] {{int:pipe-separator}}[[Special:WhatLinksHere/$1|pagina\'s die verwijzen naar "$1"]])',
-'searchsubtitleinvalid'            => 'Voor zoekopdracht "$1"',
+'searchsubtitleinvalid'            => "U hebt gezocht naar '''$1'''",
 'toomanymatches'                   => 'Er waren te veel resultaten.
 Probeer een andere zoekopdracht.',
 'titlematches'                     => 'Overeenkomst met onderwerp',
@@ -2017,6 +2016,7 @@ Vergeet niet de "Verwijzingen naar deze pagina" te controleren alvorens dit sjab
 'statistics-edits'             => 'Paginabewerkingen sinds het begin van {{SITENAME}}',
 'statistics-edits-average'     => 'Gemiddeld aantal bewerkingen per pagina',
 'statistics-views-total'       => "Totaal aantal weergegeven pagina's",
+'statistics-views-total-desc'  => "Het bekijken van niet-bestaande pagina's en speciale pagina's is niet inbegrepen",
 'statistics-views-peredit'     => "Weergegeven pagina's per bewerking",
 'statistics-users'             => 'Geregistreerde [[Special:ListUsers|gebruikers]]',
 'statistics-users-active'      => 'Actieve gebruikers',
@@ -2399,7 +2399,7 @@ Zie de [[Special:ProtectedPages|lijst met beveiligde pagina's]] voor alle beveil
 Hier zijn de huidige instellingen voor de pagina '''$1''':",
 'protect-locked-dblock'       => "Het beveiligingsniveau kan niet worden gewijzigd, omdat de database gesloten is.
 Hier zijn de huidige instellingen voor de pagina '''$1''':",
-'protect-locked-access'       => "'''U hebt geen rechten om het beveiligingsniveau te wijzigen.'''
+'protect-locked-access'       => "U hebt geen rechten om het beveiligingsniveau te wijzigen.
 Dit zijn de huidige instellingen voor de pagina '''$1''':",
 'protect-cascadeon'           => "Deze pagina is beveiligd, omdat die in de volgende {{PLURAL:$1|pagina|pagina's}} is opgenomen, die beveiligd {{PLURAL:$1|is|zijn}} met de cascade-optie.
 Het beveiligingsniveau wijzigen heeft geen enkel effect.",
@@ -2704,6 +2704,16 @@ Een pagina kan '''alleen''' hernoemd worden als de nieuwe paginanaam niet bestaa
 '''WAARSCHUWING!'''
 Voor veel bekeken pagina's kan het hernoemen drastische en onvoorziene gevolgen hebben.
 Zorg ervoor dat u die gevolgen overziet voordat u deze handeling uitvoert.",
+'movepagetext-noredirectfixer' => "Door middel van het onderstaande formulier kunt u een pagina en alle bijbehorende oude versies hernoemen.
+De oude naam wordt automatisch een doorverwijzing naar de nieuwe pagina.
+Controleer dan of er geen [[Special:DoubleRedirects|dubbele]] of [[Special:BrokenRedirects|onjuiste doorverwijzingen]] zijn ontstaan.
+
+Een pagina kan '''alleen''' hernoemd worden als de nieuwe paginanaam niet bestaat of een doorverwijspagina zonder verdere geschiedenis is.
+U kunt dus een pagina die abusievelijk is hernoemd terug hernoemen en u kunt een bestaande pagina niet overschrijven. 
+
+'''Waarschuwing!'''
+Voor veel bekeken pagina's kan het hernoemen drastische en onvoorziene gevolgen hebben.
+Zorg ervoor dat u die gevolgen overziet voordat u deze handeling uitvoert.",
 'movepagetalktext'             => "De bijbehorende overlegpagina krijgt automatisch een andere naam, '''tenzij''':
 * De overlegpagina onder de nieuwe naam al bestaat;
 * U het onderstaande vinkje deselecteert.",
@@ -2879,7 +2889,7 @@ De tijdelijke map is niet aanwezig.',
 'tooltip-pt-mytalk'               => 'Uw overlegpagina',
 'tooltip-pt-anontalk'             => 'Overlegpagina van de anonieme gebruiker van dit IP-adres',
 'tooltip-pt-preferences'          => 'Mijn voorkeuren',
-'tooltip-pt-watchlist'            => 'Pagina',
+'tooltip-pt-watchlist'            => "Overzicht van pagina's die u volgt",
 'tooltip-pt-mycontris'            => 'Overzicht van uw bijdragen',
 'tooltip-pt-login'                => 'U wordt van harte uitgenodigd om u aan te melden als gebruiker, maar dit is niet verplicht',
 'tooltip-pt-anonlogin'            => 'U wordt van harte uitgenodigd om u aan te melden als gebruiker, maar dit is niet verplicht',

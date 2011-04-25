@@ -358,6 +358,7 @@ Watumiaji wengi mno wanajaribu kutazama ukurasa huu.
 Tafadhali subiri kwa muda kadhaa kabla ya kujaribu kufungua tena.
 
 $1',
+'pool-errorunknown' => 'Hitilafu isiyojulikana',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => 'Kuhusu {{SITENAME}}',
@@ -565,7 +566,7 @@ Jaribu tena.',
 'wrongpasswordempty'         => 'Neno la siri lilikuwa tupu. Jaribu tena.',
 'passwordtooshort'           => 'Ni lazima neno la siri liwe na {{PLURAL:$1|herufi}} $1 au zaidi.',
 'password-name-match'        => 'Neno lako la siri lazima liwe tofauti na jina lako la mtumiaji.',
-'password-too-weak'          => 'Neno la siri lililopewa halina nguvu ya kutosha, kwa hiyo haliwezi kutumiwa.',
+'password-too-weak'          => 'Neno la siri lililopewa ni dhaifu mno na haliwezi kutumika.',
 'mailmypassword'             => 'Nitume neno la siri jipya kwa barua-pepe',
 'passwordremindertitle'      => 'Neno la siri jipya la muda kwa ajili ya {{SITENAME}}',
 'passwordremindertext'       => 'Mtu mmoja (yamkini wewe, kutoka anwani ya IP $1)
@@ -1005,7 +1006,7 @@ Tazama [[Special:IPBlockList|orodha ya uzuio wa IP]] kuona orodha ya zuio zilizo
 'compareselectedversions'  => 'Linganisha mapitio mawili uliyochagua',
 'showhideselectedversions' => 'Onyesha/ficha mapitio yaliyoteuliwa',
 'editundo'                 => 'tengua',
-'diff-multi'               => '(Haionyeshwi {{PLURAL:$1|pitio moja la katikati|mapitio $1 ya katikati}}.)',
+'diff-multi'               => '(Haionyeshwi {{PLURAL:$1|pitio moja la katikati lililoandikwa|mapitio $1 ya katikati yaliyoandikwa}} na {{PLURAL:$2|mtumiaji moja|watumiaji $2}})',
 
 # Search results
 'searchresults'                    => 'Matokeo ya utafutaji',
@@ -1652,6 +1653,7 @@ Kumbuka kuhakikisha kwamba hakuna viungo vingine vinavyoelekea kigezo fulani kab
 'statistics-edits'             => 'Kurasa zilizohaririwa tangu {{SITENAME}} ilivyoanzishwa',
 'statistics-edits-average'     => 'Wastani wa uhariri kwa kurasa',
 'statistics-views-total'       => 'Jumla ya mitazamaji',
+'statistics-views-total-desc'  => 'Ziara za kurasa zisizopatikana na kurasa maalum hazihesabiwi',
 'statistics-views-peredit'     => 'Mitazamaji kwa haririo',
 'statistics-users'             => '[[Special:ListUsers|Watumiaji]] waliojisajiri',
 'statistics-users-active'      => 'Watumiaji wanaofanya kazi',
@@ -2766,6 +2768,7 @@ Tovuti hii inapata matatatizo wakati huu.',
 'dberr-outofdate' => 'Elewa kwamba fahirisi yao ya yaliyomo katika tovuti hii inaweza kuwa imepitwa na wakati.',
 
 # HTML forms
+'htmlform-submit'              => 'Wasilisha',
 'htmlform-reset'               => 'Tengua mabadiliko',
 'htmlform-selectorother-other' => 'Nyingine',
 

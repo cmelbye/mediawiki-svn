@@ -133,6 +133,7 @@ $specialPageAliases = array(
 	'Allpages'                  => array( 'Todas', 'Todas_las_páginas' ),
 	'Prefixindex'               => array( 'PáginasPorPrefijo', 'Páginas_por_prefijo' ),
 	'Ipblocklist'               => array( 'UsuariosBloqueados', 'Lista_de_usuarios_bloqueados' ),
+	'Unblock'                   => array( 'Desbloquear' ),
 	'Specialpages'              => array( 'PáginasEspeciales', 'Páginas_especiales' ),
 	'Contributions'             => array( 'Contribuciones' ),
 	'Emailuser'                 => array( 'MandarEmailUsuario' ),
@@ -177,6 +178,8 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'ContribucionesBorradas', 'Contribuciones_Borradas' ),
 	'Tags'                      => array( 'Etiquetas' ),
 	'Activeusers'               => array( 'UsuariosActivos' ),
+	'RevisionMove'              => array( 'MoverRevision' ),
+	'ComparePages'              => array( 'CompararPáginas' ),
 );
 
 $magicWords = array(
@@ -716,6 +719,7 @@ No olvides personalizar [[Special:Preferences|tus preferencias]].',
 'yourpassword'               => 'Contraseña:',
 'yourpasswordagain'          => 'Repita la contraseña:',
 'remembermypassword'         => 'Recordar mi nombre de usuario y contraseña entre sesiones en esta computadora (por un máximo de $1 {{PLURAL:$1|día|días}})',
+'securelogin-stick-https'    => 'Permanecer conectado a HTTPS después de iniciar sesión',
 'yourdomainname'             => 'Dominio',
 'externaldberror'            => 'Hubo un error de autenticación externa de la base de datos o bien no tienes autorización para actualizar tu cuenta externa.',
 'login'                      => 'Entrar',
@@ -754,6 +758,7 @@ Revisa la ortografía, o [[Special:UserLogin/signup|crea una nueva cuenta]].',
 Por favor, inténtalo de nuevo.',
 'passwordtooshort'           => 'Las contraseñas deben tener al menos {{PLURAL:$1|1 caracter|$1 caracteres}}.',
 'password-name-match'        => 'Tu contraseña debe ser diferente de tu nombre de usuario.',
+'password-too-weak'          => 'La contraseña proporcionada es demasiado débil y no puede ser usada.',
 'mailmypassword'             => 'Enviar una nueva contraseña por correo electrónico',
 'passwordremindertitle'      => 'Recordatorio de contraseña de {{SITENAME}}',
 'passwordremindertext'       => 'Alguien (probablemente tú, desde la dirección IP $1) solicitó que te enviáramos una nueva contraseña para tu cuenta en {{SITENAME}} ($4).
@@ -791,11 +796,6 @@ Puedes ignorar este mensaje si esta cuenta fue creada erróneamente.',
 'login-throttled'            => 'Has intentado demasiadas veces iniciar sesión. Por favor espera antes de intentarlo nuevamente.',
 'loginlanguagelabel'         => 'Idioma: $1',
 'suspicious-userlogout'      => 'Su solicitud de desconexión ha sido denegada debido a que parece que ésta ha sido envidada desde un navegador defectuoso o un proxy caché.',
-'ratelimit-excluded-ips'     => ' #<!-- Deja esta línea exactamente como esta --> <pre>
-# La sintaxis es la siguiente:
-#  * Todo desde el carácter "#" hasta el final de la línea es un comentario
-#  * Todo línea no vacía es una dirección IP excluida del límite de frecuencia
- #</pre> <!-- Deja esta línea exactamente como esta -->',
 
 # JavaScript password checks
 'password-strength'            => 'Dificultad estimada de la contraseña: $1',
@@ -1176,9 +1176,9 @@ No tiene acceso a él.',
 'revdelete-concurrent-change' => 'Error modificando el objeto de fecha $2, $1: su estado parece haber sido cambiado por alguien más cuando tratabas de modificarlo. Por favor verifica los registros.',
 'revdelete-only-restricted'   => 'Error ocultando el item de fecha $2, $1: no puedes suprimir elementos de vista de los administradores sin seleccionar asímismo una de las otras opciones de visibilidad.',
 'revdelete-reason-dropdown'   => '*Razones de borrado comunes
-** Violación de Copyright
+** Violación a los derechos de autor
 ** Información personal inapropiada
-** Difamación o libelo grave',
+** Información potencialmente injuriosa o calumniante',
 'revdelete-otherreason'       => 'Otra/adicional razón:',
 'revdelete-reasonotherlist'   => 'Otra razón',
 'revdelete-edit-reasonlist'   => 'Editar razones de borrado',
@@ -1476,10 +1476,10 @@ También puede permitir a otros usuarios que te contacten a través de tu págin
 
 'grouppage-user'          => '{{ns:project}}:Usuarios',
 'grouppage-autoconfirmed' => '{{ns:project}}:Usuarios autoconfirmados',
-'grouppage-bot'           => '{{ns:project}}:Bot',
+'grouppage-bot'           => '{{ns:project}}:Bots',
 'grouppage-sysop'         => '{{ns:project}}:Administradores',
 'grouppage-bureaucrat'    => '{{ns:project}}:Burócratas',
-'grouppage-suppress'      => '{{ns:project}}:Supresores',
+'grouppage-suppress'      => '{{ns:project}}:Supresores de ediciones',
 
 # Rights
 'right-read'                  => 'Leer páginas',
@@ -1809,6 +1809,7 @@ Un click sobre el encabezamiento de la columna cambia el orden.',
 'listfiles_search_for'  => 'Buscar por nombre de imagen:',
 'imgfile'               => 'archivo',
 'listfiles'             => 'Lista de archivos',
+'listfiles_thumb'       => 'Miniatura',
 'listfiles_date'        => 'Fecha',
 'listfiles_name'        => 'Nombre',
 'listfiles_user'        => 'Usuario',
@@ -1924,6 +1925,7 @@ Entrada: contenttype/subtype, p. ej. <tt>image/jpeg</tt>.',
 'statistics-edits'             => 'Ediciones en páginas desde que {{SITENAME}} fue instalado',
 'statistics-edits-average'     => 'Media de ediciones por página',
 'statistics-views-total'       => 'Visitas totales',
+'statistics-views-total-desc'  => 'No se incluyen accesos a páginas no existentes ni páginas especiales',
 'statistics-views-peredit'     => 'Visitas por edición',
 'statistics-users'             => '[[Special:ListUsers|Usuarios]] registrados',
 'statistics-users-active'      => 'Usuarios activos',
@@ -1962,6 +1964,8 @@ Las entradas <del>tachadas</del> han sido resueltas.',
 'nmembers'                => '$1 {{PLURAL:$1|artículo|artículos}}',
 'nrevisions'              => '$1 {{PLURAL:$1|revisión|revisiones}}',
 'nviews'                  => '$1 {{PLURAL:$1|vista|vistas}}',
+'nimagelinks'             => 'Usado en {{PLURAL:$1|una página|$1 páginas}}',
+'ntransclusions'          => 'usado en {{PLURAL:$1|una página|$1 páginas}}',
 'specialpage-empty'       => 'Esta página está vacía.',
 'lonelypages'             => 'Páginas huérfanas',
 'lonelypagestext'         => 'Las siguientes páginas no están enlazadas ni transcluídas en otras páginas de {{SITENAME}}.',
@@ -2577,6 +2581,17 @@ Sin embargo, está bloqueada como parte del rango $2, que puede ser desbloqueado
 'movepagetext'                 => "Usando el siguiente formulario se renombrará una página, moviendo todo su historial al nuevo nombre.
 El título anterior se convertirá en una redirección al nuevo título.
 Los enlaces al antiguo título de la página no se cambiarán.
+Asegúrate de no dejar [[Special:DoubleRedirects|redirecciones dobles]] o [[Special:BrokenRedirects|rotas]].
+Tú eres responsable de hacer que los enlaces sigan apuntando adonde se supone que deberían hacerlo.
+
+Recuerda que la página '''no''' será renombrada si ya existe una página con el nuevo título, a no ser que sea una página vacía o una redirección sin historial.
+Esto significa que podrás renombrar una página a su título original si has cometido un error, pero que no podrás sobrescribir una página existente.
+
+'''¡Advertencia!'''
+Este puede ser un cambio drástico e inesperado para una página popular;
+por favor, asegúrate de entender las consecuencias del procedimiento antes de seguir adelante.",
+'movepagetext-noredirectfixer' => "Usando el siguiente formulario se renombrará una página, moviendo todo su historial al nuevo nombre.
+El título anterior se convertirá en una redirección al nuevo título.
 Asegúrate de no dejar [[Special:DoubleRedirects|redirecciones dobles]] o [[Special:BrokenRedirects|rotas]].
 Tú eres responsable de hacer que los enlaces sigan apuntando adonde se supone que deberían hacerlo.
 

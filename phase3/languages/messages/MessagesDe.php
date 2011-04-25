@@ -12,6 +12,7 @@
  * @author Church of emacs
  * @author DaSch
  * @author Duesentrieb
+ * @author Giftpflanze
  * @author Imre
  * @author Jan Luca
  * @author Jens Liebenau
@@ -536,7 +537,7 @@ $messages = array(
 'searcharticle'     => 'Seite',
 'history'           => 'Versionen',
 'history_short'     => 'Versionen/Autoren',
-'updatedmarker'     => 'geändert seit meinem letztem Besuch',
+'updatedmarker'     => 'geändert seit meinem letzten Besuch',
 'info_short'        => 'Information',
 'printableversion'  => 'Druckversion',
 'permalink'         => 'Permanenter Link',
@@ -830,11 +831,6 @@ Falls das Benutzerkonto irrtümlich angelegt wurde, kannst du diese Nachricht ig
 Bitte warte, bevor du es erneut probierst.',
 'loginlanguagelabel'         => 'Sprache: $1',
 'suspicious-userlogout'      => 'Deine Abmeldeanfrage wurde verweigert, da sie vermutlich von einem defekten Browser oder einem Cache-Proxy gesendet wurde.',
-'ratelimit-excluded-ips'     => ' #<!-- Diese Zeile darf nicht verändert werden! --> <pre>
-#  Syntax:
-#  * Alles von einem #-Zeichen bis zum Ende der Zeile ist ein Kommentar
-#  * Jede nicht-leere Zeile ist eine IP-Adresse, die von der Begrenzung ausgenommen ist
- #</pre> <!-- Diese Zeile darf nicht verändert werden! -->',
 
 # JavaScript password checks
 'password-strength'            => 'Geschätzte Passwortstärke: $1',
@@ -1965,6 +1961,7 @@ Eine [[Special:WhatLinksHere/$2|vollständige Liste]] ist verfügbar.',
 'statistics-edits'             => 'Seitenbearbeitungen',
 'statistics-edits-average'     => 'Bearbeitungen pro Seite im Durchschnitt',
 'statistics-views-total'       => 'Seitenaufrufe gesamt',
+'statistics-views-total-desc'  => 'Aufrufe von nich existierenden Seiten und Spezialseiten werden nicht berücksichtigt',
 'statistics-views-peredit'     => 'Seitenaufrufe pro Bearbeitung',
 'statistics-users'             => 'Registrierte [[Special:ListUsers|Benutzer]]',
 'statistics-users-active'      => 'Aktive Benutzer',
@@ -2608,17 +2605,29 @@ Siehe die [[Special:IPBlockList|Liste der gesperrten IP-Adressen und Benutzernam
 # Move page
 'move-page'                    => 'Verschieben von „$1“',
 'move-page-legend'             => 'Seite verschieben',
-'movepagetext'                 => "Mit diesem Formular kannst du eine Seite umbenennen (mitsamt allen Versionen).
-Der alte Titel wird zum neuen weiterleiten.
+'movepagetext'                 => "Mit untenstehendem Formular kannst du eine Seite umbenennen, indem du sie mitsamt allen Versionen auf einen neuen Titel verschiebst.
+Der alte Titel wird danach zum neuen weiterleiten.
 Du kannst Weiterleitungen, die auf den Originaltitel verlinken, automatisch korrigieren lassen.
-Falls du dies nicht tust, prüfe auf [[Special:DoubleRedirects|doppelte]] oder [[Special:BrokenRedirects|kaputte Weiterleitungen]].
-Du bist dafür verantwortlich, dass Links weiterhin auf das korrekte Ziel zeigen.
+Stelle sicher, dass du im Anschluss alle [[Special:DoubleRedirects|doppelten]] oder [[Special:BrokenRedirects|kaputten Weiterleitungen]] überprüfst.
+Du bist dafür verantwortlich, dass Links weiterhin auf das korrekte Ziel verweisen.
 
-Die Seite wird '''nicht''' verschoben, wenn es bereits eine Seite mit demselben Namen gibt, sofern diese nicht leer oder eine Weiterleitung ohne Versionsgeschichte ist. Dies bedeutet, dass du die Seite zurück verschieben kannst, wenn du einen Fehler gemacht hast. Du kannst hingegen keine Seite überschreiben.
+Die Seite wird '''nicht''' verschoben, sofern es bereits eine Seite mit dem vorgesehenen Titel gibt, es sei denn, diese ist leer oder eine Weiterleitung ohne Versionsgeschichte.
+Dies bedeutet, dass du die Umbenennung rückgängig machen kannst, sofern du einen Fehler gemacht hast. Du kannst hingegen keine Seite überschreiben.
 
-'''Warnung'''
-Die Verschiebung kann weitreichende und unerwartete Folgen für beliebte Seiten haben.
-Du solltest daher die Konsequenzen verstanden haben, bevor du fortfährst.",
+'''Warnung!'''
+Die Verschiebung kann weitreichende und unerwartete Folgen für häufig besuchte Seiten haben.
+Du solltest daher die Konsequenzen verstanden haben, bevor du jetzt fortfährst.",
+'movepagetext-noredirectfixer' => "Mit untenstehendem Formular kannst du eine Seite umbenennen, indem du sie mitsamt allen Versionen auf einen neuen Titel verschiebst.
+Der alte Titel wird danach zum neuen weiterleiten.
+Stelle sicher, dass du im Anschluss alle [[Special:DoubleRedirects|doppelten]] oder [[Special:BrokenRedirects|kaputten Weiterleitungen]] überprüfst.
+Du bist dafür verantwortlich, dass Links weiterhin auf das korrekte Ziel verweisen.
+
+Die Seite wird '''nicht''' verschoben, sofern es bereits eine Seite mit dem vorgesehenen Titel gibt, es sei denn, diese ist leer oder eine Weiterleitung ohne Versionsgeschichte.
+Dies bedeutet, dass du die Umbenennung rückgängig machen kannst, sofern du einen Fehler gemacht hast. Du kannst hingegen keine Seite überschreiben.
+
+'''Warnung!'''
+Die Verschiebung kann weitreichende und unerwartete Folgen für häufig besuchte Seiten haben.
+Du solltest daher die Konsequenzen verstanden haben, bevor du jetzt fortfährst.",
 'movepagetalktext'             => "Die dazugehörige Diskussionsseite wird, sofern vorhanden, mitverschoben, '''es sei denn:'''
 *Es existiert bereits eine Diskussionsseite mit diesem Namen, oder
 *du wählst die unten stehende Option ab.

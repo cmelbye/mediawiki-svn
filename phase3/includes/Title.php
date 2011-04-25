@@ -329,8 +329,8 @@ class Title {
 	 * This will only return the very next target, useful for
 	 * the redirect table and other checks that don't need full recursion
 	 *
-	 * @param $text \type{\string} Text with possible redirect
-	 * @return \type{Title} The corresponding Title
+	 * @param $text String: Text with possible redirect
+	 * @return Title: The corresponding Title
 	 */
 	public static function newFromRedirect( $text ) {
 		return self::newFromRedirectInternal( $text );
@@ -608,21 +608,21 @@ class Title {
 	/**
 	 * Get the main part with underscores
 	 *
-	 * @return \type{\string} Main part of the title, with underscores
+	 * @return String: Main part of the title, with underscores
 	 */
 	public function getDBkey() { return $this->mDbkeyform; }
 
 	/**
 	 * Get the namespace index, i.e.\ one of the NS_xxxx constants.
 	 *
-	 * @return \type{\int} Namespace index
+	 * @return Integer: Namespace index
 	 */
 	public function getNamespace() { return $this->mNamespace; }
 
 	/**
 	 * Get the namespace text
 	 *
-	 * @return \type{\string} Namespace text
+	 * @return String: Namespace text
 	 */
 	public function getNsText() {
 		global $wgContLang;
@@ -1635,6 +1635,10 @@ class Title {
 		return $this->mTitleProtection;
 	}
 
+	private function invalidateTitleProtectionCache() {
+		unset( $this->mTitleProtection );
+	}
+
 	/**
 	 * Update the title protection status
 	 *
@@ -1683,6 +1687,8 @@ class Title {
 			$dbw->delete( 'protected_titles', array( 'pt_namespace' => $namespace,
 				'pt_title' => $title ), __METHOD__ );
 		}
+		$this->invalidateTitleProtectionCache();
+
 		# Update the protection log
 		if ( $dbw->affectedRows() ) {
 			$log = new LogPage( 'protect' );
@@ -1709,6 +1715,7 @@ class Title {
 			array( 'pt_namespace' => $this->getNamespace(), 'pt_title' => $this->getDBkey() ),
 			__METHOD__
 		);
+		$this->invalidateTitleProtectionCache();
 	}
 
 	/**
@@ -2091,6 +2098,7 @@ class Title {
 		}
 		if ( $purgeExpired ) {
 			Title::purgeExpiredRestrictions();
+			$this->invalidateTitleProtectionCache();
 		}
 
 		wfProfileOut( __METHOD__ );
@@ -2210,6 +2218,7 @@ class Title {
 
 			if ( $purgeExpired ) {
 				Title::purgeExpiredRestrictions();
+				$this->invalidateTitleProtectionCache();
 			}
 		}
 
@@ -2244,6 +2253,7 @@ class Title {
 						$this->mRestrictions['create'] = explode( ',', trim( $title_protection['pt_create_perm'] ) );
 					} else { // Get rid of the old restrictions
 						Title::purgeExpiredRestrictions();
+						$this->invalidateTitleProtectionCache();
 					}
 				} else {
 					$this->mRestrictionsExpiry['create'] = Block::decodeExpiry( '' );
@@ -3346,7 +3356,6 @@ class Title {
 		# Truncate for whole multibyte characters. +5 bytes for ellipsis
 		$comment = $wgContLang->truncate( $comment, 250 );
 
-		$newid = $nt->getArticleID();
 		$oldid = $this->getArticleID();
 		$latest = $this->getLatestRevId();
 
@@ -3760,6 +3769,29 @@ class Title {
 	}
 
 	/**
+	 * Get the number of authors between the given revision IDs.
+	 * Used for diffs and other things that really need it.
+	 *
+	 * @param $fromRevId \type{\int} Revision ID (first before range)
+	 * @param $toRevId \type{\int} Revision ID (first after range)
+	 * @param $limit \type{\int} Maximum number of authors
+	 * @param $flags \type{\int} Title::GAID_FOR_UPDATE
+	 * @return \type{\int}
+	 */
+	public function countAuthorsBetween( $fromRevId, $toRevId, $limit, $flags = 0 ) {
+		$db = ( $flags & self::GAID_FOR_UPDATE ) ? wfGetDB( DB_MASTER ) : wfGetDB( DB_SLAVE );
+		$res = $db->select( 'revision', 'DISTINCT rev_user_text',
+			array(
+				'rev_page = ' . $this->getArticleID(),
+				'rev_id > ' . (int)$fromRevId,
+				'rev_id < ' . (int)$toRevId
+			), __METHOD__,
+			array( 'LIMIT' => $limit )
+		);
+		return (int)$db->numRows( $res );
+	}
+
+	/**
 	 * Compare with another title.
 	 *
 	 * @param $title \type{Title}
@@ -4074,7 +4106,7 @@ class Title {
 	 * In other words, is this a content page, for the purposes of calculating
 	 * statistics, etc?
 	 *
-	 * @return \type{\bool}
+	 * @return Boolean
 	 */
 	public function isContentPage() {
 		return MWNamespace::isContent( $this->getNamespace() );

@@ -521,11 +521,6 @@ Se sòn a l\'é rivà për eror, a peul lassé sté e fe gnente sensa problema.'
 Për piasì speta prima ëd prové torna.",
 'loginlanguagelabel'         => 'Lenga: $1',
 'suspicious-userlogout'      => "Soa arcesta ëd seurte dal sistema a l'é stàita arfudà përchè a smija com s'a fussa stàita mandà da 'n navigador scolegà o da l'archiviassion an local d'un proxy.",
-'ratelimit-excluded-ips'     => " #<!-- leave this line exactly as it is --> <pre>
-# La sintassi a l'é parèj:
-#   * Tut lòn ch'a part da 'n caràter \"#\" a la fin ëd la linia a l'é un coment
-#   * Minca linia nen veuida a l'é n'adrëssa IP gavà dal lìmit ëd frequensa
- #</pre> <!-- leave this line exactly as it is -->",
 
 # JavaScript password checks
 'password-strength'            => 'Fòrsa stimà dla ciav: $1',
@@ -1676,6 +1671,7 @@ Ch'as visa ëd controlé che në stamp a-j serva nen a dj'àutri stamp anans che
 'statistics-edits'             => "Pàgine modificà da quand ël {{SITENAME}} a l'é stàit tirà su",
 'statistics-edits-average'     => 'Media dle modìfiche për pàgina',
 'statistics-views-total'       => 'Total dle visualisassion',
+'statistics-views-total-desc'  => 'Visualisassion ëd pàgine pa esistente e ëd pàgine speciaj a son pa comprèise',
 'statistics-views-peredit'     => 'Visualisassion për modìfica',
 'statistics-users'             => '[[Special:ListUsers|Utent]] argistrà',
 'statistics-users-active'      => 'Utent ativ',
@@ -1684,21 +1680,21 @@ Ch'as visa ëd controlé che në stamp a-j serva nen a dj'àutri stamp anans che
 
 'disambiguations'      => "Pàgine për la gestion dj'omonimìe",
 'disambiguationspage'  => "Template:Gestion dj'omonimìe",
-'disambiguations-text' => "Ste pàgine-sì a men-o a në '''pàgina ëd gestion dij sinònim''', mach che a dovrìo ëmné bele drit a n'artìcol.<br />
-Na pàgina as trata coma \"pàgina ëd gestion dij sinònim\" se a dòvra në stamp dont anliura as treuva ant ël [[MediaWiki:Disambiguationspage]]",
+'disambiguations-text' => "Ste pàgine-sì a men-o a na '''pàgina ëd gestion dj'omònim''', mach che a dovrìo ëmné bele drit a n'artìcol.<br />
+Na pàgina as trata coma \"pàgina ëd gestion dj'omònim\" se a deuvra në stamp dont l'anliura as treuva ant ël [[MediaWiki:Disambiguationspage]]",
 
 'doubleredirects'            => 'Ridiression dobie',
 'doubleredirectstext'        => "Sta pàgina-sì a a lista dle pàgine ch'a armando a d'àutre pàgine ëd ridiression.
 Vira riga a l'ha andrinta j'anliure a la prima e a la sconda ridiression, ant sël pat ëd la prima riga ëd test dla seconda ridiression, che për sòlit a l'ha andrinta l'artìcol ëd destinassion vèir, col andoa che a dovrìa ëmné ëdcò la prima ridiression.
 Le ridiression <del>sganfà</del> a son stàite arzolvùe.",
 'double-redirect-fixed-move' => "[[$1]] a l'é stàit spostà.
-Adess a l'é na rediression a [[$2]].",
-'double-redirect-fixer'      => 'Coretor ëd rediression',
+Adess a l'é na ridiression a [[$2]].",
+'double-redirect-fixer'      => 'Coretor ëd ridiression',
 
 'brokenredirects'        => 'Ridiression nen giuste',
-'brokenredirectstext'    => "Coste ridiression-sì a men-o a dj'articoj ancó pa creà:",
-'brokenredirects-edit'   => 'modìfica',
-'brokenredirects-delete' => 'scancela',
+'brokenredirectstext'    => "Coste ridiression-sì a men-o a d'artìcoj ch'a-i son pa:",
+'brokenredirects-edit'   => 'modifiché',
+'brokenredirects-delete' => 'scancelé',
 
 'withoutinterwiki'         => "Pàgine ch'a l'han gnun-a anliura interwiki",
 'withoutinterwiki-summary' => "Le pàgine ambelessì sota a l'han gnun-a anliura a dj'àotre lenghe:",
@@ -2345,6 +2341,17 @@ Sòn a veul dì che, se a l'avèissa mai da fé n'operassion nen giusta, a podr�
 '''ATENSION!'''
 Un cambiament dràstich parej a podrìa dé dle gran-e an dzora a na pàgina motobin visità.
 Che a varda mach dë esse pì che sigur d'avej presente le conseguense, prima che fé che fé.",
+'movepagetext-noredirectfixer' => "Dovré ël formolari sota a arnominerà na pàgina, tramudand tuta soa stòria al nòm neuv.
+Ël tìtol vèj a vnirà na pàgina ëd rediression al tìtol neuv.
+Sigurte ëd controlé ij [[Special:DoubleRedirects|dobi]] o le [[Special:BrokenRedirects|rediression rote]].
+It ses responsàbil ëd sigurete che ij colegament a continuo a ponté andova as pensa ch'a vado.
+
+Nòta che la pàgina a sarà '''pa''' tramudà s'a-i é già na pàgina con ël tìtol neuv, a men ch'a sia veuida o na rediression e ch'a l'abia pa stòria ëd modìfiche passà.
+Sossì a veul dì ch'it peule arnominé na pàgina andré da andova it l'avìa arnominala s'it fas un eror, e ch'it peule pa covaté na pàgina esistenta.
+
+'''Avis!'''
+Sossì a peul esse un cambi dràstich e pa spetà për na pàgina popolar;
+për piasì sigurte ëd capì le conseguense ëd sossì prima d'andé anans.",
 'movepagetalktext'             => "La pàgina ëd discussion tacà a costa pàgina d'articol, se a-i é, a sarà tramudà n'automatich ansema a l'artìcol, '''gavà costi cas-sì''':
 *quand as tramuda la pàgina tra diferent spassi nominal,
 *quand na pàgina ëd discussion nen veujda a-i é già për ël nòm neuv, ò pura

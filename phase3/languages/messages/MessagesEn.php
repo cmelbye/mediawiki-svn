@@ -1143,11 +1143,6 @@ Please wait before trying again.',
 * Italiano|it
 * Nederlands|nl', # do not translate or duplicate this message to other languages
 'suspicious-userlogout'      => 'Your request to log out was denied because it looks like it was sent by a broken browser or caching proxy.',
-'ratelimit-excluded-ips'     => ' #<!-- leave this line exactly as it is --> <pre>
-# Syntax is as follows:
-#   * Everything from a "#" character to the end of the line is a comment
-#   * Every non-blank line is an IP address excluded from the rate limit
- #</pre> <!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Estimated password strength: $1',
@@ -2392,6 +2387,7 @@ Remember to check for other links to the templates before deleting them.',
 'statistics-edits'             => 'Page edits since {{SITENAME}} was set up',
 'statistics-edits-average'     => 'Average edits per page',
 'statistics-views-total'       => 'Views total',
+'statistics-views-total-desc'  => 'Views to non-existing pages and special pages are not included',
 'statistics-views-peredit'     => 'Views per edit',
 'statistics-users'             => 'Registered [[Special:ListUsers|users]]',
 'statistics-users-active'      => 'Active users',
@@ -3123,6 +3119,17 @@ To lock or unlock the database, this needs to be writable by the web server.',
 The old title will become a redirect page to the new title.
 You can update redirects that point to the original title automatically.
 If you choose not to, be sure to check for [[Special:DoubleRedirects|double]] or [[Special:BrokenRedirects|broken redirects]].
+You are responsible for making sure that links continue to point where they are supposed to go.
+
+Note that the page will '''not''' be moved if there is already a page at the new title, unless it is empty or a redirect and has no past edit history.
+This means that you can rename a page back to where it was renamed from if you make a mistake, and you cannot overwrite an existing page.
+
+'''Warning!'''
+This can be a drastic and unexpected change for a popular page;
+please be sure you understand the consequences of this before proceeding.",
+'movepagetext-noredirectfixer' => "Using the form below will rename a page, moving all of its history to the new name.
+The old title will become a redirect page to the new title.
+Be sure to check for [[Special:DoubleRedirects|double]] or [[Special:BrokenRedirects|broken redirects]].
 You are responsible for making sure that links continue to point where they are supposed to go.
 
 Note that the page will '''not''' be moved if there is already a page at the new title, unless it is empty or a redirect and has no past edit history.

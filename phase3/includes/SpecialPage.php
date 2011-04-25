@@ -274,6 +274,7 @@ class SpecialPage {
 		if ( !self::$mListInitialised ) self::initList();
 		if ( is_null( self::$mAliases ) ) self::initAliasList();
 		$caseFoldedAlias = $wgContLang->caseFold( $alias );
+		$caseFoldedAlias = str_replace( ' ', '_', $caseFoldedAlias );
 		if ( isset( self::$mAliases[$caseFoldedAlias] ) ) {
 			return self::$mAliases[$caseFoldedAlias];
 		} else {
@@ -966,7 +967,8 @@ class SpecialRedirectToSpecial extends UnlistedSpecialPage {
 class SpecialMypage extends UnlistedSpecialPage {
 	function __construct() {
 		parent::__construct( 'Mypage' );
-		$this->mAllowedRedirectParams = array( 'action' , 'preload' , 'editintro', 'section' );
+		$this->mAllowedRedirectParams = array( 'action' , 'preload' , 'editintro',
+			'section', 'oldid', 'diff', 'dir' );
 	}
 
 	function getRedirect( $subpage ) {
@@ -986,7 +988,8 @@ class SpecialMypage extends UnlistedSpecialPage {
 class SpecialMytalk extends UnlistedSpecialPage {
 	function __construct() {
 		parent::__construct( 'Mytalk' );
-		$this->mAllowedRedirectParams = array( 'action' , 'preload' , 'editintro', 'section' );
+		$this->mAllowedRedirectParams = array( 'action' , 'preload' , 'editintro',
+			'section', 'oldid', 'diff', 'dir' );
 	}
 
 	function getRedirect( $subpage ) {

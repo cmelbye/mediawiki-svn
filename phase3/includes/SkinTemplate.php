@@ -217,7 +217,7 @@ class SkinTemplate extends Skin {
 			$tpl->setRef( 'xhtmldefaultnamespace', $wgXhtmlDefaultNamespace );
 			$tpl->set( 'xhtmlnamespaces', $wgXhtmlNamespaces );
 			$tpl->set( 'html5version', $wgHtml5Version );
-			$tpl->set( 'headlinks', $out->getHeadLinks( $this->getSkinName() ) );
+			$tpl->set( 'headlinks', $out->getHeadLinks( $this ) );
 			$tpl->set( 'csslinks', $out->buildCssLinks() );
 
 			if( $wgUseTrackbacks && $out->isArticleRelated() ) {
@@ -358,7 +358,6 @@ class SkinTemplate extends Skin {
 
 			if( $wgPageShowWatchingUsers ) {
 				$dbr = wfGetDB( DB_SLAVE );
-				$watchlist = $dbr->tableName( 'watchlist' );
 				$res = $dbr->select( 'watchlist',
 					array( 'COUNT(*) AS n' ),
 					array( 'wl_title' => $dbr->strencode( $this->mTitle->getDBkey() ), 'wl_namespace' => $this->mTitle->getNamespace() ),

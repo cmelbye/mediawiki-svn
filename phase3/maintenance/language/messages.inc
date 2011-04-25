@@ -462,7 +462,6 @@ $wgMessageStructure = array(
 		'loginlanguagelabel',
 		'loginlanguagelinks',
 		'suspicious-userlogout',
-		'ratelimit-excluded-ips',
 	),
 	'passwordstrength' => array(
 		'password-strength',
@@ -1477,6 +1476,7 @@ $wgMessageStructure = array(
 		'statistics-edits',
 		'statistics-edits-average',
 		'statistics-views-total',
+		'statistics-views-total-desc',
 		'statistics-views-peredit',
 		'statistics-users',
 		'statistics-users-active',
@@ -2108,6 +2108,7 @@ $wgMessageStructure = array(
 		'move-page-backlink',
 		'move-page-legend',
 		'movepagetext',
+		'movepagetext-noredirectfixer',
 		'movepagetalktext',
 		'movearticle',
 		'moveuserpage-warning',

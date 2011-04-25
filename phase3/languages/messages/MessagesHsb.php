@@ -533,6 +533,7 @@ Twoje konto bu wutworjene. Njezabudź swoje nastajenja za [[Special:Preferences|
 'yourpassword'               => 'Hesło:',
 'yourpasswordagain'          => 'Hesło znowa zapodać',
 'remembermypassword'         => 'Na tutym ličaku přizjewjeny wostać (za maksimalnje $1 {{PLURAL:$1|dźeń|dnjej|dny|dnjow}})',
+'securelogin-stick-https'    => 'Po přizjewjenju z HTTPS zwjazany wostać',
 'yourdomainname'             => 'Twoja domejna',
 'externaldberror'            => 'Běše pak eksterny zmylk awtentifikacije datoweje banki, pak njesměš swoje eksterne konto aktualizować.',
 'login'                      => 'Přizjewić',
@@ -569,6 +570,7 @@ Přepruwuj swój prawopis abo [[Special:UserLogin/signup|wutwor nowe konto]].',
 'wrongpasswordempty'         => 'Hesło, kotrež sy zapodał, běše prózdne. Prošu spytaj hišće raz.',
 'passwordtooshort'           => 'Hesła dyrbja znajmjeńša {{PLURAL:$1|1 znamješko|$1 znamješce|$1 znamješka|$1 znamješkow}} měć.',
 'password-name-match'        => 'Twoje hesło dyrbi so wot twojeho wužiwarskeho mjena rozeznać.',
+'password-too-weak'          => 'Podate hesło je přesłabe a njehodźi so wužiwać.',
 'mailmypassword'             => 'Nowe hesło e-mejlować',
 'passwordremindertitle'      => 'Skedźbnjenje na hesło z {{GRAMMAR:genitiw|{{SITENAME}}}}',
 'passwordremindertext'       => 'Něchtó z IP-adresu $1 (najskerje ty) je wo nowe hesło za přizjewjenje za {{GRAMMAR:akuzatiw|{{SITENAME}}}} ($4) prosył. Nachwilne hesło za wužiwarja "$2" je so wutworiło a je nětko "$3". Jeli je to twój wotpohlad było dyrbiš so nětko přizjewić a nowe hesło wubrać. Twoje nachwilne hesło spadnje za {{PLURAL:$5|jeden dźeń|$5 dnjej|$5 dny|$5 dnjow}}.
@@ -1599,6 +1601,7 @@ Za optimalnu wěstotu je img_auth.php znjemóžnjeny.',
 'listfiles_search_for'  => 'Za mjenom wobraza pytać:',
 'imgfile'               => 'dataja',
 'listfiles'             => 'Lisćina datajow',
+'listfiles_thumb'       => 'Wobrazk',
 'listfiles_date'        => 'datum',
 'listfiles_name'        => 'mjeno dataje',
 'listfiles_user'        => 'wužiwar',
@@ -1709,6 +1712,7 @@ Slědowaca lisćina pokazuje jenož {{PLURAL:$1|prěni wotkaz strony|prěnjej $1
 'statistics-edits'             => 'Změny stronow wot załoženja {{SITENAME}}',
 'statistics-edits-average'     => 'Změny na stronu w přerězku',
 'statistics-views-total'       => 'Zwobraznjenja dohromady',
+'statistics-views-total-desc'  => 'Pohlady do njeeksistowacych stronow a specialnych stronow njejsu zapřijate',
 'statistics-views-peredit'     => 'Zwobraznjenja na změnu',
 'statistics-users'             => 'Zregistrowani [[Special:ListUsers|wužiwarjo]]',
 'statistics-users-active'      => 'Aktiwni wužiwarjo',
@@ -1744,6 +1748,8 @@ Kóžda rjadka wobsahuje wotkazy k prěnjemu a druhemu daleposrědkowanju kaž t
 'nmembers'                => '{{PLURAL:$1|$1 čłon|$1 čłonaj|$1 čłony|$1 čłonow}}',
 'nrevisions'              => '$1 {{PLURAL:$1|wobdźěłanje|wobdźěłani|wobdźěłanja|wobdźěłanjow}}',
 'nviews'                  => '$1 {{PLURAL:$1|jedyn wopyt|wopytaj|wopyty|wopytow}}',
+'nimagelinks'             => 'Wužiwa so na $1 {{PLURAL:$1|stronje|stronomaj|stronach|stronach}}',
+'ntransclusions'          => 'wužiwa so na $1 {{PLURAL:$1|stronje|stronomaj|stronach|stronach}}',
 'specialpage-empty'       => 'Tuchwilu žane zapiski.',
 'lonelypages'             => 'Wosyroćene strony',
 'lonelypagestext'         => 'Slědowace strony njejsu wotkazowe cile druhich stronow abo njezapřijimaja so do druhich stronow w {{SITENAME}}.',
@@ -2346,6 +2352,17 @@ $1 je hižo zablokowany. Chceš nastajenja změnić?',
 Wobkedźbuj, zo strona so <b>nje</b> přesunje, jeli strona z nowym titlom hizo eksistuje, chibazo wona je prózdna abo dalesposrědkowanje a nima zašłe stawizny. To woznamjenja, zo móžeš stronu tam wróćo přemjenować, hdźež bu runje přemjenowana, jeli zmylk činiš a njemóžeš wobstejacu stronu přepisować.
 
 <b>KEDŹBU!</b> Móže to drastiska a njewočakowana změna za woblubowanu stronu być; prošu budź sej wěsty, zo sćěwki rozumiš, prjedy hač pokročuješ.',
+'movepagetext-noredirectfixer' => "Wužiwajo slědowacy formular, móžeš stronu přemjenować a wšě jich daty do stawiznow noweho titula přesunyć.
+Stary titul budźe dalesposrědkowanska strona k nowemu titulej.
+Skontroluj za [[Special:DoubleRedirects|dwójnymi]] abo [[Special:BrokenRedirects|wobškodźenymi dalesposrědkowanjemi]].
+Sy za to zamołwity, zo wotkazy na tón cil pokazuja, na kotryž maja pokazować.
+
+Dźiwaj na to, zo strona so '''nje'''přesunje, jeli je hižo strona z nowym titulom, chibazo wona je prózdna abo dalesposrědkowanje a nima stawizny změnow.
+To woznamjenja, zo móžeš stronu do stareho mjena wróćopřemjenować, jeli činiš zmylk a njemóžeš eksistowacu stronu přepisać.
+
+'''Warnowanje!'''
+To móže drastiska a njewočakowana změna za woblubowanu stronu być:
+prošu wuwědomće sej konsekwency, prjedy hač pokročuješ.",
 'movepagetalktext'             => 'Přisłušna diskusijna strona přesunje so awtomatisce hromadźe z njej, <b>chibazo:</b>
 *Njeprózdna diskusijna strona pod nowym mjenom hižo eksistuje abo
 *wotstronješ hóčku z kašćika deleka.
@@ -3155,6 +3172,11 @@ Móžeš tež [[Special:Watchlist/edit|standardnu wobdźěłowansku stronu]] wu�
 'version-hook-subscribedby'        => 'Abonowany wot',
 'version-version'                  => '(Wersija $1)',
 'version-license'                  => 'Licenca',
+'version-license-info'             => 'MediaWiki je swobodna softwara: móžeš ju pod wuměnjenjemi licency GNU General Public License, wozjewjeneje wot załožby Free Software Foundation, rozdźělić a/abo změnić: pak pod wersiju 2 licency pak pod někajkej pozdźišej wersiju.
+
+MediaWiki so w nadźiji rozdźěla, zo budźe wužitny, ale BJEZ GARANTIJU: samo bjez wobsahowaneje garantije PŘEDAWAJOMNOSĆE abo PŘIHÓDNOSĆE ZA WĚSTY ZAMĚR. Hlej GNU general Public License za dalše podrobnosće.
+
+Ty měł [{{SERVER}}{{SCRIPTPATH}}/COPYING kopiju licency GNU General Public License] hromadźe z tutym programom dóstanu měć: jeli nic, napisaj do załožby Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA abo [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html přečitaj ju online].',
 'version-software'                 => 'Instalowana software',
 'version-software-product'         => 'Produkt',
 'version-software-version'         => 'Wersija',

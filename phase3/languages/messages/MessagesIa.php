@@ -127,6 +127,9 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( 'Contributiones_delite' ),
 	'Tags'                      => array( 'Etiquettas' ),
 	'Activeusers'               => array( 'Usatores_active' ),
+	'RevisionMove'              => array( 'Displaciar_versiones' ),
+	'ComparePages'              => array( 'Comparar_paginas' ),
+	'Badtitle'                  => array( 'Titulo_invalide' ),
 );
 
 $messages = array(
@@ -625,11 +628,6 @@ Tu pote ignorar iste message si iste conto ha essite create in error.',
 Per favor attende ante de probar lo novemente.',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'Le requesta de clauder le session ha essite refusate proque illo pare haber essite inviate per un navigator o proxy de cache defectuose.',
-'ratelimit-excluded-ips'     => ' #<!-- non modificar in alcun modo iste linea --> <pre>
-# Le syntaxe es lo sequente:
-#  * Toto a partir de un character "#" usque al fin del linea es un commento
-#  * Omne linea non vacue es un adresse IP excludite del limite de frequentia
-  #</pre> <!-- non modificar in alcun modo iste linea -->',
 
 # JavaScript password checks
 'password-strength'            => 'Estimation del securitate del contrasigno: $1',
@@ -686,7 +684,7 @@ Es possibile que tu ha ja cambiate tu contrasigno o requestate un nove contrasig
 'subject'                          => 'Subjecto/titulo:',
 'minoredit'                        => 'Isto es un modification minor',
 'watchthis'                        => 'Observar iste pagina',
-'savearticle'                      => 'Publicar articulo',
+'savearticle'                      => 'Publicar pagina',
 'preview'                          => 'Previsualisation',
 'showpreview'                      => 'Monstrar previsualisation',
 'showlivepreview'                  => 'Previsualisation directe',
@@ -1673,7 +1671,7 @@ Pote esser preferite reprovar quando le sito es minus occupate.',
 
 'license'            => 'Licentia:',
 'license-header'     => 'Licentia',
-'nolicense'          => 'Necun licentia seligite',
+'nolicense'          => 'Nulle licentia seligite',
 'license-nopreview'  => '(Previsualisation non disponibile)',
 'upload_source_url'  => ' (un adresse URL valide e publicamente accessibile)',
 'upload_source_file' => ' (un file in tu computator)',
@@ -1800,6 +1798,7 @@ Memora verificar que non existe altere ligamines al patronos ante que tu los del
 'statistics-edits'             => 'Modificationes de paginas depost le installation de {{SITENAME}}',
 'statistics-edits-average'     => 'Media del modificationes per pagina',
 'statistics-views-total'       => 'Visitas total',
+'statistics-views-total-desc'  => 'Le visitas a paginas inexistente e special non es includite',
 'statistics-views-peredit'     => 'Visitas per modification',
 'statistics-users'             => '[[Special:ListUsers|Usatores]] registrate',
 'statistics-users-active'      => 'Usatores active',
@@ -2494,6 +2493,17 @@ Nota que le pagina '''non''' essera renominate si existe ja un pagina sub le nov
 Isto vole dicer que tu pote renominar un pagina retro a su titulo original si tu ha committite un error, ben que tu non pote superscriber un pagina existente.
 
 '''ATTENTION!'''
+Isto pote esser un cambio drastic e inexpectate pro un pagina popular;
+per favor assecura te de haber comprendite le consequentias de isto ante de continuar.",
+'movepagetext-noredirectfixer' => "Per medio del formulario infra tu pote renominar un pagina, transferente tote su historia al nove nomine.
+Le titulo anterior devenira un pagina de redirection verso le nove titulo.
+Assecura te de reparar omne redirectiones [[Special:DoubleRedirects|duple]] o [[Special:BrokenRedirects|rupte]].
+Tu ha le responsabilitate de assecurar que le ligamines continua a punctar verso le paginas correcte.
+
+Nota que le pagina '''non''' essera renominate si existe ja un pagina sub le nove titulo, salvo si illo es vacue o un redirection e non ha un historia de modificationes passate.
+Isto vole dicer que tu pote renominar un pagina retro a su titulo original si tu ha committite un error, ben que tu non pote superscriber un pagina existente.
+
+'''Attention!'''
 Isto pote esser un cambio drastic e inexpectate pro un pagina popular;
 per favor assecura te de haber comprendite le consequentias de isto ante de continuar.",
 'movepagetalktext'             => "Le pagina de discussion associate essera automaticamente renominate conjunctemente con illo '''a minus que''':

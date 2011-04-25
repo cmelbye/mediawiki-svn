@@ -177,6 +177,7 @@ $magicWords = array(
 	'numberofusers'         => array( '1', 'KASUTAJAMÄÄR', 'NUMBEROFUSERS' ),
 	'numberofactiveusers'   => array( '1', 'TEGUSKASUTAJAMÄÄR', 'NUMBEROFACTIVEUSERS' ),
 	'numberofedits'         => array( '1', 'REDIGEERIMISMÄÄR', 'NUMBEROFEDITS' ),
+	'numberofviews'         => array( '1', 'VAATAMISTEARV', 'NUMBEROFVIEWS' ),
 	'pagename'              => array( '1', 'LEHEKÜLJENIMI', 'PAGENAME' ),
 	'pagenamee'             => array( '1', 'LEHEKÜLJENIMI1', 'PAGENAMEE' ),
 	'namespace'             => array( '1', 'NIMERUUM', 'NAMESPACE' ),
@@ -202,6 +203,7 @@ $magicWords = array(
 	'img_center'            => array( '1', 'keskel', 'center', 'centre' ),
 	'img_framed'            => array( '1', 'raam', 'framed', 'enframed', 'frame' ),
 	'img_frameless'         => array( '1', 'raamita', 'frameless' ),
+	'img_page'              => array( '1', 'lehekülg=$1', 'lehekülg_$1', 'page=$1', 'page $1' ),
 	'img_border'            => array( '1', 'ääris', 'border' ),
 	'sitename'              => array( '1', 'KOHANIMI', 'SITENAME' ),
 	'ns'                    => array( '0', 'NR:', 'NS:' ),
@@ -711,6 +713,7 @@ Kontrollige kirjapilti või [[Special:UserLogin/signup|looge uus kasutajakonto]]
 'passwordtooshort'           => 'Parool on liiga lühike.
 See peab koosnema vähemalt {{PLURAL:$1|ühest|$1}} tähemärgist.',
 'password-name-match'        => 'Parool peab kasutajanimest erinema.',
+'password-too-weak'          => 'See parool on liiga nõrk ja seda ei saa kasutada.',
 'mailmypassword'             => 'Saada e-posti teel uus parool',
 'passwordremindertitle'      => '{{SITENAME}} – ajutine parool',
 'passwordremindertext'       => 'Keegi IP-aadressiga $1, tõenäoliselt sa ise, palus, et talle saadetaks {{GRAMMAR:elative|{{SITENAME}}}} uus parool ($4). Kasutaja "$2" ajutiseks paroolis seati "$3". Kui soovid tõepoolest uut parooli, pead sisse logima ja uue parooli valima. Ajutine parool aegub {{PLURAL:$5|ühe päeva|$5 päeva}} pärast.
@@ -934,7 +937,7 @@ Administraator, kes andmebaasi lukustas, andis järgmise selgituse: $1",
 Allpool on toodud uusim logisissekanne:",
 'semiprotectedpagewarning'         => "'''Märkus:''' See lehekülg on lukustatud nii et üksnes registreeritud kasutajad saavad seda muuta.
 Allpool on toodud uusim logisissekanne:",
-'cascadeprotectedwarning'          => "'''Hoiatus:''' See lehekülg on nii lukustatud, et ainult ülema õigustega kasutajad saavad seda redigeerida, sest lehekülg on osa {{PLURAL:$1|järgmisest|järgmisest}} kaskaadkaitsega {{PLURAL:$1|leheküljest|lehekülgedest}}:",
+'cascadeprotectedwarning'          => "'''Hoiatus:''' See lehekülg on nii lukustatud, et ainult administraatori õigustega kasutajad saavad seda redigeerida, sest lehekülg on osa {{PLURAL:$1|järgmisest|järgmisest}} kaskaadkaitsega {{PLURAL:$1|leheküljest|lehekülgedest}}:",
 'titleprotectedwarning'            => "'''Hoiatus: See lehekülg on nii lukustatud, et selle loomiseks on tarvis [[Special:ListGroupRights|eriõigusi]].'''
 Allpool on toodud uusim logisissekanne:",
 'templatesused'                    => 'Sellel leheküljel on kasutusel {{PLURAL:$1|järgnev mall|järgnevad mallid}}:',
@@ -1401,7 +1404,7 @@ See ei tohi olla pikem kui $1 {{PLURAL:$1|sümbol|sümbolit}}.',
 'userrights-reason'            => 'Põhjus:',
 'userrights-no-interwiki'      => 'Sul ei ole luba muuta kasutajaõigusi teistes vikides.',
 'userrights-nodatabase'        => 'Andmebaasi $1 ei ole olemas või pole see kohalik.',
-'userrights-nologin'           => 'Kasutaja õiguste muutmiseks, pead sa ülema õigustega kontoga [[Special:UserLogin|sisse logima]].',
+'userrights-nologin'           => 'Kasutaja õiguste muutmiseks, pead sa administraatori õigustega kontoga [[Special:UserLogin|sisse logima]].',
 'userrights-notallowed'        => 'Sulle pole antud luba jagada kasutajatele õigusi.',
 'userrights-changeable-col'    => 'Rühmad, mida sa saad muuta',
 'userrights-unchangeable-col'  => 'Rühmad, mida sa ei saa muuta',
@@ -1921,6 +1924,8 @@ Igal real on ära toodud esimene ja teine ümbersuunamisleht ning samuti teise �
 'nmembers'                => '$1 {{PLURAL:$1|liige|liiget}}',
 'nrevisions'              => '$1 {{PLURAL:$1|redaktsioon|redaktsiooni}}',
 'nviews'                  => '$1 {{PLURAL:$1|külastus|külastust}}',
+'nimagelinks'             => 'Kasutuses {{PLURAL:$1|ühel leheküljel|$1 leheküljel}}',
+'ntransclusions'          => 'kasutuses {{PLURAL:$1|ühel leheküljel|$1 leheküljel}}',
 'specialpage-empty'       => 'Vasteid ei leidu.',
 'lonelypages'             => 'Viitamata leheküljed',
 'lonelypagestext'         => 'Järgmistele lehekülgedele ei ole linki ühelgi Viki leheküljel, samuti ei ole nad kasutusel teiste lehekülgede osana.',
@@ -2539,18 +2544,29 @@ Andmebaasi lukustamiseks ja avamiseks peavad veebiserveril olema sellele kirjutu
 # Move page
 'move-page'                    => 'Teisalda $1',
 'move-page-legend'             => 'Lehekülje teisaldamine',
-'movepagetext'                 => "Allolevat vormi kasutades saate lehekülje ümber nimetada.
-Lehekülje ajalugu tõstetakse uue pealkirja alla automaatselt.
-Praeguse pealkirjaga leheküljest saab ümbersuunamisleht uuele leheküljele.
-Teistes artiklites olevaid linke praeguse nimega leheküljele automaatselt ei muudeta.
-Teie kohuseks on hoolitseda, et ei tekiks topeltümbersuunamisi ning et kõik jääks toimima nagu enne ümbernimetamist.
+'movepagetext'                 => "Allolevat vormi kasutades saad lehekülje ümber nimetada. Lehekülje ajalugu tõstetakse uue pealkirja alla automaatselt.
+Praeguse pealkirjaga leheküljest saab ümbersuunamislehekülg uuele leheküljele.
+Saad senisele pealkirjale viitavad ümbersuunamised automaatselt parandada.
+Kui sa seda ei tee, kontrolli, et teisaldamise tõttu ei jää maha [[Special:DoubleRedirects|kahekordseid]] ega [[Special:BrokenRedirects|katkiseid ümbersuunamisi]].
+Sinu kohus on hoolitseda selle eest, et kõik jääks toimima, nagu ette nähtud.
 
-Lehekülge '''ei nimetata ümber''' juhul, kui uue nimega lehekülg on juba olemas. Erandiks on juhud, kui olemasolev lehekülg on tühi või ümbersuunamislehekülg ja sellel pole redigeerimisajalugu.
-See tähendab, et te ei saa kogemata üle kirjutada juba olemasolevat lehekülge, kuid saate ebaõnnestunud ümbernimetamise tagasi pöörata.
+Pane tähele, et lehekülge '''ei teisaldata''' juhul, kui uue pealkirjaga lehekülg on juba olemas. Erandiks on juhud, kui olemasolev lehekülg on tühi või redigeerimisajaloota ümbersuunamislehekülg.
+See tähendab, et kogemata ei saa üle kirjutada juba olemasolevat lehekülge, kuid saab ebaõnnestunud ümbernimetamise tagasi pöörata.
 
-'''ETTEVAATUST!'''
-Võimalik, et kavatsete teha ootamatut ning drastilist muudatust väga loetavasse artiklisse;
-enne muudatuse tegemist mõelge palun järele, mis võib olla selle tagajärjeks.",
+'''Hoiatus!'''
+Tegu võib olla väga loetava lehekülje jaoks tõsise ja ootamatu muudatusega;
+enne jätkamist teadvusta palun tagajärgi.",
+'movepagetext-noredirectfixer' => "Allolevat vormi kasutades saad lehekülje ümber nimetada. Lehekülje ajalugu tõstetakse uue pealkirja alla automaatselt.
+Praeguse pealkirjaga leheküljest saab ümbersuunamislehekülg uuele leheküljele.
+Kontrolli, et teisaldamise tõttu ei jää maha [[Special:DoubleRedirects|kahekordseid]] ega [[Special:BrokenRedirects|katkiseid ümbersuunamisi]].
+Sinu kohus on hoolitseda selle eest, et kõik jääks toimima, nagu ette nähtud.
+
+Pane tähele, et lehekülge '''ei teisaldata''' juhul, kui uue pealkirjaga lehekülg on juba olemas. Erandiks on juhud, kui olemasolev lehekülg on tühi või redigeerimisajaloota ümbersuunamislehekülg.
+See tähendab, et kogemata ei saa üle kirjutada juba olemasolevat lehekülge, kuid saab ebaõnnestunud ümbernimetamise tagasi pöörata.
+
+'''Hoiatus!'''
+Tegu võib olla väga loetava lehekülje jaoks tõsise ja ootamatu muudatusega;
+enne jätkamist teadvusta palun tagajärgi.",
 'movepagetalktext'             => "Koos artiklileheküljega teisaldatakse automaatselt ka arutelulehekülg, '''välja arvatud juhtudel, kui:'''
 *liigutate lehekülge ühest nimeruumist teise,
 *uue nime all on juba olemas mittetühi arutelulehekülg või

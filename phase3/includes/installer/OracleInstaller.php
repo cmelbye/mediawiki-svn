@@ -39,17 +39,16 @@ class OracleInstaller extends DatabaseInstaller {
 	}
 
 	public function getWebUserBox( $noCreateMsg = false ) {
-		$name = $this->getName();
 		$this->parent->setVar( '_SameAccount', false );
 		$this->parent->setVar( '_CreateDBAccount', true );
 		$this->parent->setVar( 'wgDBname', '' );
-		return Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-web-account' ) ) .
-			Xml::openElement( 'div', array( 'id' => 'dbOtherAccount' ) ) .
+		return Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-web-account' ) ) .
+			Html::openElement( 'div', array( 'id' => 'dbOtherAccount' ) ) .
 			$this->getTextBox( 'wgDBuser', 'config-db-username' ) .
 			$this->getPasswordBox( 'wgDBpassword', 'config-db-password', array(), $this->parent->getHelpBox( 'config-db-web-help' ) ) .
 			$this->getCheckBox( '_CreateDBAccount', 'config-db-web-create', array( 'disabled' => true ) ).
-			Xml::closeElement( 'div' ) . Xml::closeElement( 'fieldset' );
+			Html::closeElement( 'div' ) . Html::closeElement( 'fieldset' );
 	}
 
 	public function getConnectForm() {
@@ -57,12 +56,12 @@ class OracleInstaller extends DatabaseInstaller {
 		$this->parent->setVar( 'wgDBserver', '' );
 		return
 			$this->getTextBox( 'wgDBserver', 'config-db-host-oracle', array(), $this->parent->getHelpBox( 'config-db-host-oracle-help' ) ) .
-			Xml::openElement( 'fieldset' ) .
-			Xml::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
+			Html::openElement( 'fieldset' ) .
+			Html::element( 'legend', array(), wfMsg( 'config-db-wiki-settings' ) ) .
 			$this->getTextBox( 'wgDBprefix', 'config-db-prefix' ) .
 			$this->getTextBox( '_OracleDefTS', 'config-oracle-def-ts' ) .
 			$this->getTextBox( '_OracleTempTS', 'config-oracle-temp-ts', array(), $this->parent->getHelpBox( 'config-db-oracle-help' ) ) .
-			Xml::closeElement( 'fieldset' ) .
+			Html::closeElement( 'fieldset' ) .
 			$this->getInstallUserBox().
 			$this->getWebUserBox();
 	}

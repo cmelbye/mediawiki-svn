@@ -705,6 +705,7 @@ Glöm inte att justera dina [[Special:Preferences|{{SITENAME}}-inställningar]].
 'yourpassword'               => 'Lösenord:',
 'yourpasswordagain'          => 'Upprepa lösenord',
 'remembermypassword'         => 'Spara min inloggning på den här datorn (i max $1 {{PLURAL:$1|dag|dagar}})',
+'securelogin-stick-https'    => 'Fortsätt vara ansluten till HTTPS efter inloggning',
 'yourdomainname'             => 'Din domän',
 'externaldberror'            => 'Antingen inträffade autentiseringsproblem med en extern databas, eller så får du inte uppdatera ditt externa konto.',
 'login'                      => 'Logga in',
@@ -745,6 +746,7 @@ Kontrollera din stavning, eller [[Special:UserLogin/signup|skapa ett nytt konto]
 'wrongpasswordempty'         => 'Lösenordet som angavs var blankt. Var god försök igen.',
 'passwordtooshort'           => 'Lösenord måste innehålla minst {{PLURAL:$1|$1 tecken}}.',
 'password-name-match'        => 'Ditt lösenord måste vara olikt ditt användarnamn.',
+'password-too-weak'          => 'Det angivna lösenordet är för svagt och får inte användas.',
 'mailmypassword'             => 'Skicka nytt lösenord',
 'passwordremindertitle'      => 'Nytt temporärt lösenord från {{SITENAME}}',
 'passwordremindertext'       => 'Någon (förmodligen du, från IP-adressen $1) har begärt ett nytt lösenord till {{SITENAME}} ($4). Ett tillfälligt lösenordet för användaren "$2" har skapats och det blev "$3". Om detta var vad du önskade, så behöver du nu logga in och välja ett nytt lösenord. Ditt tillfälliga lösenord går ut om {{PLURAL:$5|en dag|$5 dagar}}.
@@ -780,11 +782,6 @@ Du kan ignorera detta meddelande om kontot skapats av misstag.',
 Vänta innan du försöker igen.',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din begäran om att logga ut nekades eftersom det ser ut som det skickades av en trasig webbläsare eller cachande proxy.',
-'ratelimit-excluded-ips'     => ' #<!-- leave this line exactly as it is --> <pre>
-# Syntaxen är följande:
-#  * Allt från ett "#" tecken till slutet av raden är en kommentar
-#  * Varje icke-tom rad är en IP-adress som exkluderas från hastighetsbegränsningen
- #</pre> <!-- leave this line exactly as it is -->',
 
 # JavaScript password checks
 'password-strength'            => 'Beräknad styrka på lösenord: $1',
@@ -1817,6 +1814,7 @@ Genom att klicka på rubrikerna för kolumnerna kan man ändra sorteringsordning
 'listfiles_search_for'  => 'Sök efter filnamn:',
 'imgfile'               => 'fil',
 'listfiles'             => 'Fillista',
+'listfiles_thumb'       => 'Miniatyrbild',
 'listfiles_date'        => 'Datum',
 'listfiles_name'        => 'Namn',
 'listfiles_user'        => 'Användare',
@@ -1930,6 +1928,7 @@ Innan mallarna raderas, kontrollera att det inte finns andra länkar till dem.',
 'statistics-edits'             => 'Sidredigeringar sedan {{SITENAME}} startades',
 'statistics-edits-average'     => 'Redigeringar per sida i genomsnitt',
 'statistics-views-total'       => 'Totalt antal sidvisningar',
+'statistics-views-total-desc'  => 'Visningar av icke-existerande sidor och specialsidor ingår inte',
 'statistics-views-peredit'     => 'Antal sidvisningar per redigering',
 'statistics-users'             => 'Registrerade [[Special:ListUsers|användare]]',
 'statistics-users-active'      => 'Aktiva användare',
@@ -1967,6 +1966,8 @@ En sida anses vara en förgreningssida om den inkluderar en mall som länkas til
 'nmembers'                => '$1 {{PLURAL:$1|medlem|medlemmar}}',
 'nrevisions'              => '$1 {{PLURAL:$1|version|versioner}}',
 'nviews'                  => '$1 {{PLURAL:$1|visning|visningar}}',
+'nimagelinks'             => 'Använd på $1 {{PLURAL:$1|sida|sidor}}',
+'ntransclusions'          => 'använd på $1 {{PLURAL:$1|sida|sidor}}',
 'specialpage-empty'       => 'Den här sidan är tom.',
 'lonelypages'             => 'Föräldralösa sidor',
 'lonelypagestext'         => 'Följande sidor länkas inte till från någon annan sida på {{SITENAME}}.',
@@ -2590,6 +2591,17 @@ Det innebär att du kan flytta tillbaks en sida om du råkar göra fel, och att 
 '''VARNING!'''
 Att flytta en populär sida kan vara en drastisk och oväntad ändring;
 därför bör du vara säker på att du förstår konsekvenserna innan du fortsätter med flytten.",
+'movepagetext-noredirectfixer' => "Formuläret nedan kommer att byta namn på en sida, och flytta hela sin historik till det nya namnet.
+Den gamla titeln kommer att bli en omdirigeringssida till den nya titeln.
+Glöm inte att kontrollera [[Special:DoubleRedirects|dubbla]] eller [[Special:BrokenRedirects|brutna omdirigeringar]].
+Du är ansvarig för att se till att länkar fortsätter att peka där de förväntas gå.
+
+Observera att sidan '''inte''' kommer att flyttas om det finns redan en sida på den nya titeln, förutom om den är tom eller en omdirigering och saknar tidigare redigeringshistorik.
+Detta innebär att du kan byta tillbaka namnet på en sida om du av misstag bytt namn på den, och du kan inte skriva över en befintlig sida.
+
+'''Varning!'''
+Detta kan vara en drastisk och oväntad förändring för en populär sida;
+se till att du förstår konsekvenserna av detta innan du fortsätter.",
 'movepagetalktext'             => "Diskussionssidan kommer att även den automatiskt flyttas '''om inte''':
 *Det redan finns en diskussionssida som inte är tom med det nya namnet, eller
 *Du avmarkerar rutan nedan.

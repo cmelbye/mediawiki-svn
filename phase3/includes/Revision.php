@@ -338,8 +338,7 @@ class Revision {
 
 			if( isset( $row->page_latest ) ) {
 				$this->mCurrent = ( $row->rev_id == $row->page_latest );
-				$this->mTitle = Title::makeTitle( $row->page_namespace, $row->page_title );
-				$this->mTitle->resetArticleID( $this->mPage );
+				$this->mTitle = Title::newFromRow( $row );
 			} else {
 				$this->mCurrent = false;
 				$this->mTitle = null;
@@ -825,7 +824,7 @@ class Revision {
 	 * Insert a new revision into the database, returning the new revision ID
 	 * number on success and dies horribly on failure.
 	 *
-	 * @param $dbw DatabaseBase (master connection)
+	 * @param $dbw DatabaseBase: (master connection)
 	 * @return Integer
 	 */
 	public function insertOn( $dbw ) {
