@@ -311,8 +311,8 @@ class LanguageConverter {
 	 * @return String like ' alt="yyyy"' or ' title="yyyy"'
 	 */
 	protected function captionConvert( $matches ) {
-	  // TODO: cache the preferred variant in every autoConvert() process,
-	  // this helps improve performance in a way.
+		// TODO: cache the preferred variant in every autoConvert() process,
+		// this helps improve performance in a way.
 		$toVariant = $this->getPreferredVariant();
 		$title = $matches[1];
 		$text = $matches[2];
@@ -348,6 +348,7 @@ class LanguageConverter {
 		if ( !$toVariant ) {
 			$toVariant = $this->getPreferredVariant();
 			if ( !$toVariant ) {
+				wfProfileOut( __METHOD__ );
 				return $text;
 			}
 		}
@@ -846,12 +847,7 @@ class LanguageConverter {
 	 *
 	 */
 	function parseCachedTable( $code, $subpage = '', $recursive = true ) {
-		global $wgMessageCache;
 		static $parsed = array();
-
-		if ( !is_object( $wgMessageCache ) ) {
-			return array();
-		}
 
 		$key = 'Conversiontable/' . $code;
 		if ( $subpage ) {
@@ -862,7 +858,7 @@ class LanguageConverter {
 		}
 
 		if ( strpos( $code, '/' ) === false ) {
-			$txt = $wgMessageCache->get( 'Conversiontable', true, $code );
+			$txt = MessageCache::singleton()->get( 'Conversiontable', true, $code );
 			if ( $txt === false ) {
 				# FIXME: this method doesn't seem to be expecting
 				# this possible outcome...

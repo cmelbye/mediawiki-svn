@@ -1488,7 +1488,7 @@ Kiek na, wat du dat Bild nich ok in vulle Grött hest un laad dat ünner’n Ori
 Wenn du ehr liekers hoochladen wullt, gah trüch un laad de Datei ünner en annern Naam hooch. [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'Dat gifft al en Datei mit dissen Naam. Gah trüch un laad de Datei ünner en annern Naam hooch. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'De Datei is desülve as disse {{PLURAL:$1|Datei|$1 Datein}}:',
-'file-deleted-duplicate'      => 'Jüst disse Datei ([[$1]]) is al mal löscht worrn. Kiek man eerst, wat in dat Löschlogbook steiht, ehrdat du ehr noch wedder hoochlaadst.',
+'file-deleted-duplicate'      => 'Jüst disse Datei ([[:$1]]) is al mal löscht worrn. Kiek man eerst, wat in dat Löschlogbook steiht, ehrdat du ehr noch wedder hoochlaadst.',
 'uploadwarning'               => 'Wohrschau',
 'savefile'                    => 'Datei spiekern',
 'uploadedimage'               => '„$1“ hoochladen',
@@ -3065,9 +3065,7 @@ Geev den Dateinaam ahn den Tosatz „{{ns:file}}:“ an.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Söök na Datein, de jüst gliek sünd',
-'fileduplicatesearch-summary'  => 'Söök na Datein, de na jemehr Hash-Tallen jüst gliek sünd.
-
-Geev den Dateinaam ahn dat Präfix „{{ns:file}}:“ in.',
+'fileduplicatesearch-summary'  => 'Söök na Datein, de na jemehr Hash-Tallen jüst gliek sünd.',
 'fileduplicatesearch-legend'   => 'Söök na Datein, de jüst gliek sünd',
 'fileduplicatesearch-filename' => 'Dateinaam:',
 'fileduplicatesearch-submit'   => 'Söken',

@@ -63,7 +63,7 @@ jQuery( function( $ ) {
 			var	img = new Image(),
 				rotation = 0;
 			
-			if ( meta && meta.tiff.Orientation ) {
+			if ( meta && meta.tiff && meta.tiff.Orientation ) {
 				rotation = (360 - function () {
 					// See includes/media/Bitmap.php
 					switch ( meta.tiff.Orientation.value ) {
@@ -152,7 +152,7 @@ jQuery( function( $ ) {
 				callbackBinary( reader.result );
 				reader.onload = function() {
 					callback( reader.result );
-				}
+				};
 				reader.readAsDataURL( file );
 			} else {
 				callback( reader.result );

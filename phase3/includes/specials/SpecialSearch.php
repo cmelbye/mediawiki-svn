@@ -233,7 +233,7 @@ class SpecialSearch extends SpecialPage {
 
 		// Sometimes the search engine knows there are too many hits
 		if( $titleMatches instanceof SearchResultTooMany ) {
-			$wgOut->addWikiText( '==' . wfMsg( 'toomanymatches' ) . "==\n" );
+			$wgOut->wrapWikiMsg( "==$1==\n", 'toomanymatches' );
 			wfProfileOut( __METHOD__ );
 			return;
 		}
@@ -596,7 +596,7 @@ class SpecialSearch extends SpecialPage {
 			if( $img ) {
 				$thumb = $img->transform( array( 'width' => 120, 'height' => 120 ) );
 				if( $thumb ) {
-					$desc = wfMsgExt( 'parentheses', 'parseinline', $img->getShortDesc() );
+					$desc = wfMsg( 'parentheses', $img->getShortDesc() );
 					wfProfileOut( __METHOD__ );
 					// Float doesn't seem to interact well with the bullets.
 					// Table messes up vertical alignment of the bullets.

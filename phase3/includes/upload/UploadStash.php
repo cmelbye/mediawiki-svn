@@ -186,14 +186,12 @@ class UploadStash {
 		return true;
 	}
 
-
 	/**
 	 * List all files in the stash.
 	 */
 	public function listFiles() {
 		return array_keys( $_SESSION[UploadBase::SESSION_KEYNAME] );
 	}
-	
 
 	/**
 	 * Find or guess extension -- ensuring that our extension matches our mime type.
@@ -269,8 +267,6 @@ class UploadStashFile extends UnregisteredLocalFile {
 			throw new UploadStashFileNotFoundException( 'cannot find path, or not a plain file' );
 		}
 
-			
-
 		parent::__construct( false, $repo, $path, false );
 
 		$this->name = basename( $this->path );
@@ -305,36 +301,15 @@ class UploadStashFile extends UnregisteredLocalFile {
 	}
 
 	/**
-	 * Return the file/url base name of a thumbnail with the specified parameters
+	 * Return the file/url base name of a thumbnail with the specified parameters. 
+	 * We override this because we want to use the pretty url name instead of the 
+	 * ugly file name.
 	 *
 	 * @param $params Array: handler-specific parameters
 	 * @return String: base name for URL, like '120px-12345.jpg', or null if there is no handler
 	 */
 	function thumbName( $params ) {
-		return $this->getParamThumbName( $this->getUrlName(), $params );
-	}
-
-
-	/**
-	 * Given the name of the original, i.e. Foo.jpg, and scaling parameters, returns filename with appropriate extension
-	 * This is abstracted from getThumbName because we also use it to calculate the thumbname the file should have on 
-	 * remote image scalers	
-	 *
-	 * @param String $urlName: A filename, like MyMovie.ogx
-	 * @param Array $parameters: scaling parameters, like array( 'width' => '120' );
-	 * @return String|null parameterized thumb name, like 120px-MyMovie.ogx.jpg, or null if no handler found
-	 */
-	function getParamThumbName( $urlName, $params ) {
-		if ( !$this->getHandler() ) {
-			return null;
-		}
-		$extension = $this->getExtension();
-		list( $thumbExt, ) = $this->handler->getThumbType( $extension, $this->getMimeType(), $params );
-		$thumbName = $this->getHandler()->makeParamString( $params ) . '-' . $urlName;
-		if ( $thumbExt != $extension ) {
-			$thumbName .= ".$thumbExt";
-		}
-		return $thumbName;
+		return $this->generateThumbName( $this->getUrlName(), $params );
 	}
 
 	/**
@@ -345,7 +320,6 @@ class UploadStashFile extends UnregisteredLocalFile {
 	private function getSpecialUrl( $subPage ) {
 		return SpecialPage::getTitleFor( 'UploadStash', $subPage )->getLocalURL();
 	}
-
 
 	/** 
 	 * Get a URL to access the thumbnail 
@@ -358,7 +332,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 	 */
 	public function getThumbUrl( $thumbName = false ) { 
 		wfDebug( __METHOD__ . " getting for $thumbName \n" );
-		return $this->getSpecialUrl( $thumbName );
+		return $this->getSpecialUrl( 'thumb/' . $this->getUrlName() . '/' . $thumbName );
 	}
 
 	/** 
@@ -382,7 +356,7 @@ class UploadStashFile extends UnregisteredLocalFile {
 	 */
 	public function getUrl() {
 		if ( !isset( $this->url ) ) {
-			$this->url = $this->getSpecialUrl( $this->getUrlName() );
+			$this->url = $this->getSpecialUrl( 'file/' . $this->getUrlName() );
 		}
 		return $this->url;
 	}
@@ -396,7 +370,6 @@ class UploadStashFile extends UnregisteredLocalFile {
 	public function getFullUrl() { 
 		return $this->getUrl();
 	}
-
 
 	/**
 	 * Getter for session key (the session-unique id by which this file's location & metadata is stored in the session)

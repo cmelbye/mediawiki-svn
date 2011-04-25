@@ -87,7 +87,7 @@ $specialPageAliases = array(
 	'Newimages'                 => array( 'پەڕگە_نوێکان' ),
 	'Listusers'                 => array( 'لیستی_بەکارھێنەران' ),
 	'Statistics'                => array( 'ئامارەکان' ),
-	'Randompage'                => array( 'ھەڵکەوت،پەڕەی_بە_ھەرمەکی', 'بەھەڵکەوت' ),
+	'Randompage'                => array( 'ھەڵکەوت،پەڕەی_بە_ھەرمەکی' ),
 	'Lonelypages'               => array( 'پەڕە_تاکەکان،_پەڕە_ھەتیوکراوەکان' ),
 	'Uncategorizedpages'        => array( 'پەڕە_پۆلێننەکراوەکان' ),
 	'Uncategorizedcategories'   => array( 'پۆلە_پۆلێننەکراوەکان' ),
@@ -1488,7 +1488,7 @@ $1",
 گەر هێشتا دەتەوێ پەڕگەکەت باربکەی، تکایە بگەڕێ دواوە و ناوێکی نوێ بەکاربهێنە.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'ئەم پەڕگەیە لێ‌گرتنەوەی ئەم {{PLURAL:$1|پەڕگەیە|پەڕگانەیە}}:',
-'file-deleted-duplicate'      => 'ئەم پەڕگەیە ڕێک وەک ئەم پەڕگە ([[$1]]) دەچێت کە لەم دواییانەدا سڕاوەتەوە.
+'file-deleted-duplicate'      => 'ئەم پەڕگەیە ڕێک وەک ئەم پەڕگە ([[:$1]]) دەچێت کە لەم دواییانەدا سڕاوەتەوە.
 پێش دەست‌پێ‌کردنی دیسان بارکردنەوەی، تکایە چاو لە مێژووی سڕینەوەی ئەو پەڕگە بکە.',
 'uploadwarning'               => 'ئاگادارییەکانی بارکردن',
 'savefile'                    => 'پەڕگە پاشەکەوت بکە',
@@ -2971,9 +2971,7 @@ $5
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'گەڕان بۆ پەڕگە دووپات کراوەکان',
-'fileduplicatesearch-summary'  => 'گەڕان بۆ پەڕگە دووبارەکراوەکان لەسەر بنەمای نرخی hash.
-
-ناوی پەڕگەکە بێ پێشگری "{{ns:file}}" بنووسە.',
+'fileduplicatesearch-summary'  => 'گەڕان بۆ پەڕگە دووبارەکراوەکان لەسەر بنەمای نرخی hash.',
 'fileduplicatesearch-legend'   => 'گەڕان بۆ دووبارەکردنێک',
 'fileduplicatesearch-filename' => 'ناوی پەرگە:',
 'fileduplicatesearch-submit'   => 'گەڕان',

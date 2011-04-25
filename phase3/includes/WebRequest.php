@@ -56,6 +56,75 @@ class WebRequest {
 	}
 
 	/**
+	 * Extract the PATH_INFO variable even when it isn't a reasonable
+	 * value. On some large webhosts, PATH_INFO includes the script
+	 * path as well as everything after it.
+	 *
+	 * @param $want string: If this is not 'all', then the function
+	 * will return an empty array if it determines that the URL is
+	 * inside a rewrite path.
+	 *
+	 * @return Array: 'title' key is the title of the article.
+	 */
+	static public function getPathInfo( $want = 'all' ) {
+		// PATH_INFO is mangled due to http://bugs.php.net/bug.php?id=31892
+		// And also by Apache 2.x, double slashes are converted to single slashes.
+		// So we will use REQUEST_URI if possible.
+		$matches = array();
+		if ( !empty( $_SERVER['REQUEST_URI'] ) ) {
+			// Slurp out the path portion to examine...
+			$url = $_SERVER['REQUEST_URI'];
+			if ( !preg_match( '!^https?://!', $url ) ) {
+				$url = 'http://unused' . $url;
+			}
+			$a = parse_url( $url );
+			if( $a ) {
+				$path = isset( $a['path'] ) ? $a['path'] : '';
+
+				global $wgScript;
+				if( $path == $wgScript && $want !== 'all' ) {
+					// Script inside a rewrite path?
+					// Abort to keep from breaking...
+					return $matches;
+				}
+				// Raw PATH_INFO style
+				$matches = self::extractTitle( $path, "$wgScript/$1" );
+
+				global $wgArticlePath;
+				if( !$matches && $wgArticlePath ) {
+					$matches = self::extractTitle( $path, $wgArticlePath );
+				}
+
+				global $wgActionPaths;
+				if( !$matches && $wgActionPaths ) {
+					$matches = self::extractTitle( $path, $wgActionPaths, 'action' );
+				}
+
+				global $wgVariantArticlePath, $wgContLang;
+				if( !$matches && $wgVariantArticlePath ) {
+					$variantPaths = array();
+					foreach( $wgContLang->getVariants() as $variant ) {
+						$variantPaths[$variant] =
+							str_replace( '$2', $variant, $wgVariantArticlePath );
+					}
+					$matches = self::extractTitle( $path, $variantPaths, 'variant' );
+				}
+			}
+		} elseif ( isset( $_SERVER['ORIG_PATH_INFO'] ) && $_SERVER['ORIG_PATH_INFO'] != '' ) {
+			// Mangled PATH_INFO
+			// http://bugs.php.net/bug.php?id=31892
+			// Also reported when ini_get('cgi.fix_pathinfo')==false
+			$matches['title'] = substr( $_SERVER['ORIG_PATH_INFO'], 1 );
+
+		} elseif ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != '') ) {
+			// Regular old PATH_INFO yay
+			$matches['title'] = substr( $_SERVER['PATH_INFO'], 1 );
+		}
+
+		return $matches;
+	}
+
+	/**
 	 * Check for title, action, and/or variant data in the URL
 	 * and interpolate it into the GET variables.
 	 * This should only be run after $wgContLang is available,
@@ -71,60 +140,7 @@ class WebRequest {
 		}
 
 		if ( $wgUsePathInfo ) {
-			// PATH_INFO is mangled due to http://bugs.php.net/bug.php?id=31892
-			// And also by Apache 2.x, double slashes are converted to single slashes.
-			// So we will use REQUEST_URI if possible.
-			$matches = array();
-
-			if ( !empty( $_SERVER['REQUEST_URI'] ) ) {
-				// Slurp out the path portion to examine...
-				$url = $_SERVER['REQUEST_URI'];
-				if ( !preg_match( '!^https?://!', $url ) ) {
-					$url = 'http://unused' . $url;
-				}
-				$a = parse_url( $url );
-				if( $a ) {
-					$path = isset( $a['path'] ) ? $a['path'] : '';
-
-					global $wgScript;
-					if( $path == $wgScript ) {
-						// Script inside a rewrite path?
-						// Abort to keep from breaking...
-						return;
-					}
-					// Raw PATH_INFO style
-					$matches = $this->extractTitle( $path, "$wgScript/$1" );
-
-					global $wgArticlePath;
-					if( !$matches && $wgArticlePath ) {
-						$matches = $this->extractTitle( $path, $wgArticlePath );
-					}
-
-					global $wgActionPaths;
-					if( !$matches && $wgActionPaths ) {
-						$matches = $this->extractTitle( $path, $wgActionPaths, 'action' );
-					}
-
-					global $wgVariantArticlePath, $wgContLang;
-					if( !$matches && $wgVariantArticlePath ) {
-						$variantPaths = array();
-						foreach( $wgContLang->getVariants() as $variant ) {
-							$variantPaths[$variant] =
-								str_replace( '$2', $variant, $wgVariantArticlePath );
-						}
-						$matches = $this->extractTitle( $path, $variantPaths, 'variant' );
-					}
-				}
-			} elseif ( isset( $_SERVER['ORIG_PATH_INFO'] ) && $_SERVER['ORIG_PATH_INFO'] != '' ) {
-				// Mangled PATH_INFO
-				// http://bugs.php.net/bug.php?id=31892
-				// Also reported when ini_get('cgi.fix_pathinfo')==false
-				$matches['title'] = substr( $_SERVER['ORIG_PATH_INFO'], 1 );
-
-			} elseif ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != '') ) {
-				// Regular old PATH_INFO yay
-				$matches['title'] = substr( $_SERVER['PATH_INFO'], 1 );
-			}
+			$matches = self::getPathInfo( 'title' );
 			foreach( $matches as $key => $val) {
 				$this->data[$key] = $_GET[$key] = $_REQUEST[$key] = $val;
 			}
@@ -141,7 +157,7 @@ class WebRequest {
 	 *             passed on as the value of this URL parameter
 	 * @return array of URL variables to interpolate; empty if no match
 	 */
-	private function extractTitle( $path, $bases, $key=false ) {
+	private static function extractTitle( $path, $bases, $key=false ) {
 		foreach( (array)$bases as $keyValue => $base ) {
 			// Find the part after $wgArticlePath
 			$base = str_replace( '$1', '', $base );
@@ -357,7 +373,7 @@ class WebRequest {
 	public function getBool( $name, $default = false ) {
 		return (bool)$this->getVal( $name, $default );
 	}
-	
+
 	/**
 	 * Fetch a boolean value from the input or return $default if not set.
 	 * Unlike getBool, the string "false" will result in boolean false, which is

@@ -564,6 +564,24 @@ abstract class UploadBase {
 			$this->mFinalExtension = trim( $ext[count( $ext ) - 1] );
 		} else {
 			$this->mFinalExtension = '';
+			
+			# No extension, try guessing one
+			$magic = MimeMagic::singleton();
+			$mime = $magic->guessMimeType( $this->mTempPath );
+			if ( $mime !== 'unknown/unknown' ) {
+				# Get a space separated list of extensions
+				$extList = $magic->getExtensionsForType( $mime );
+				if ( $extList ) {
+					# Set the extension to the canonical extension
+					$this->mFinalExtension = strtok( $extList, ' ' );
+					
+					# Fix up the other variables
+					$this->mFilteredName .= ".{$this->mFinalExtension}";
+					$nt = Title::makeTitleSafe( NS_FILE, $this->mFilteredName );
+					$ext = array( $this->mFinalExtension );
+				}
+			}
+			
 		}
 
 		/* Don't allow users to override the blacklist (check file extension) */
@@ -643,7 +661,7 @@ abstract class UploadBase {
 	 * @return File: stashed file
 	 */
 	public function stashSessionFile( $key = null ) { 
-		$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();;
+		$stash = RepoGroup::singleton()->getLocalRepo()->getUploadStash();
 		$data = array( 
 			'mFileProps' => $this->mFileProps,
 			'mSourceType' => $this->getSourceType(),
@@ -1084,7 +1102,7 @@ abstract class UploadBase {
 	 * - File exists with normalized extension
 	 * - The file looks like a thumbnail and the original exists
 	 *
-	 * @param $file The File object to check
+	 * @param $file File The File object to check
 	 * @return mixed False if the file does not exists, else an array
 	 */
 	public static function getExistsWarning( $file ) {

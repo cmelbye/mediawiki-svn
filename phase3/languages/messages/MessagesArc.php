@@ -14,6 +14,31 @@
  * @author The Thadman
  */
 
+$namespaceNames = array(
+	NS_MEDIA            => 'ܡܝܕܝܐ',
+	NS_SPECIAL          => 'ܕܝܠܢܝܐ',
+	NS_MAIN             => '',
+	NS_TALK             => 'ܡܡܠܠܐ',
+	NS_USER             => 'ܡܦܠܚܢܐ',
+	NS_USER_TALK        => 'ܡܡܠܠܐ_ܕܡܦܠܚܢܐ',
+	NS_PROJECT_TALK     => 'ܡܡܠܠܐ_ܕ$1',
+	NS_FILE             => 'ܠܦܦܐ',
+	NS_FILE_TALK        => 'ܡܡܠܠܐ_ܕܠܦܦܐ',
+	NS_MEDIAWIKI        => 'ܡܝܕܝܐܘܝܩܝ',
+	NS_MEDIAWIKI_TALK   => 'ܡܡܠܠܐ_ܕܡܝܕܝܐܘܝܩܝ',
+	NS_TEMPLATE         => 'ܩܠܒܐ',
+	NS_TEMPLATE_TALK    => 'ܡܡܠܠܐ_ܕܩܠܒܐ',
+	NS_HELP             => 'ܥܘܕܪܢܐ',
+	NS_HELP_TALK        => 'ܡܡܠܠܐ_ܕܥܘܕܪܢܐ',
+	NS_CATEGORY         => 'ܣܕܪܐ',
+	NS_CATEGORY_TALK    => 'ܡܡܠܠܐ_ܕܣܕܪܐ',
+);
+
+$namespaceAliases = array(
+	'ܡܬܚܫܚܢܐ'        => NS_USER,
+	'ܡܡܠܠܐ_ܕܡܬܚܫܚܢܐ' => NS_USER_TALK,
+);
+
 $specialPageAliases = array(
 	'CreateAccount'             => array( 'ܒܪܝ_ܚܘܫܒܢܐ' ),
 	'Preferences'               => array( 'ܓܒܝܬ̈ܐ' ),
@@ -24,10 +49,11 @@ $specialPageAliases = array(
 	'Longpages'                 => array( 'ܦܐܬܬ̈ܐ_ܐܪ̈ܝܟܬܐ' ),
 	'Newpages'                  => array( 'ܦܐܬܬ̈ܐ_ܚܕ̈ܬܬܐ' ),
 	'Protectedpages'            => array( 'ܦܐܬܬ̈ܐ_ܢܛܝܪ̈ܬܐ' ),
+	'Protectedtitles'           => array( 'ܟܘܢܝ̈ܐ_ܢܛܝܪ̈ܐ' ),
 	'Allpages'                  => array( 'ܟܠ_ܦܐܬܬ̈ܐ' ),
 	'Specialpages'              => array( 'ܦܐܬܬ̈ܐ_ܕ̈ܝܠܢܝܬܐ' ),
 	'Contributions'             => array( 'ܫܘܬܦܘܝܬ̈ܐ' ),
-	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܟܐ' ),
+	'Whatlinkshere'             => array( 'ܡܐ_ܐܣܪ_ܠܗܪܟܐ' ),
 	'Movepage'                  => array( 'ܫܢܝ_ܦܐܬܐ' ),
 	'Categories'                => array( 'ܣܕܪ̈ܐ' ),
 	'Allmessages'               => array( 'ܟܠ_ܐܓܪ̈ܬܐ' ),
@@ -62,26 +88,6 @@ $rtl = true;
 $defaultUserOptionOverrides = array(
 	# Swap sidebar to right side by default
 	'quickbar' => 2,
-);
-
-$namespaceNames = array(
-	NS_MEDIA            => 'ܡܝܕܝܐ',
-	NS_SPECIAL          => 'ܕܝܠܢܝܐ',
-	NS_MAIN             => '',
-	NS_TALK             => 'ܡܡܠܠܐ',
-	NS_USER             => 'ܡܬܚܫܚܢܐ',
-	NS_USER_TALK        => 'ܡܡܠܠܐ_ܕܡܬܚܫܚܢܐ',
-	NS_PROJECT_TALK     => 'ܡܡܠܠܐ_ܕ$1',
-	NS_FILE             => 'ܠܦܦܐ',
-	NS_FILE_TALK        => 'ܡܡܠܠܐ_ܕܠܦܦܐ',
-	NS_MEDIAWIKI        => 'ܡܝܕܝܐܘܝܩܝ',
-	NS_MEDIAWIKI_TALK   => 'ܡܡܠܠܐ_ܕܡܝܕܝܐܘܝܩܝ',
-	NS_TEMPLATE         => 'ܩܠܒܐ',
-	NS_TEMPLATE_TALK    => 'ܡܡܠܠܐ_ܕܩܠܒܐ',
-	NS_HELP             => 'ܥܘܕܪܢܐ',
-	NS_HELP_TALK        => 'ܡܡܠܠܐ_ܕܥܘܕܪܢܐ',
-	NS_CATEGORY         => 'ܣܕܪܐ',
-	NS_CATEGORY_TALK    => 'ܡܡܠܠܐ_ܕܣܕܪܐ',
 );
 
 $messages = array(
@@ -347,7 +353,7 @@ $messages = array(
 'userloginnocreate'       => 'ܥܘܠ',
 'logout'                  => 'ܦܠܘܛ',
 'userlogout'              => 'ܦܠܘܛ',
-'notloggedin'             => 'ܠܐ ܥܠܝܠܐ',
+'notloggedin'             => 'ܠܝܬܝܟ ܥܠܝܠܐ',
 'nologin'                 => "ܠܝܬ ܠܟ ܚܘܫܒܢܐ؟ '''$1'''.",
 'nologinlink'             => 'ܒܪܝ ܚܘܫܒܢܐ',
 'createaccount'           => 'ܒܪܝ ܚܘܫܒܢܐ',
@@ -414,11 +420,11 @@ $messages = array(
 'showpreview'                      => 'ܚܘܝ ܚܝܪܐ ܩܕܡܝܐ',
 'showlivepreview'                  => 'ܚܝܪܐ ܩܕܡܝܐ ܚܝܐ',
 'showdiff'                         => 'ܚܘܝ ܫܘܚܠܦ̈ܐ',
-'anoneditwarning'                  => "'''ܙܘܗܪܐ:''' ܠܐ ܥܠܝܠܐ ܐܢܬ.
+'anoneditwarning'                  => "'''ܙܘܗܪܐ:''' ܠܐ ܐܝܬܝܟ ܥܠܝܠܐ.
 ܐܝ ܦܝ (IP) ܕܝܠܟ ܢܬܟܬܒ ܒܬܫܥܝܬܐ ܕܦܐܬܐ.",
 'summary-preview'                  => 'ܚܝܪܐ ܩܕܡܝܐ ܕܦܣܝܩܬ̈ܐ :',
 'blockedtitle'                     => 'ܡܦܠܚܢܐ ܗܘ ܡܚܪܡܐ',
-'blockednoreason'                  => 'ܠܐ ܥܠܬܐ ܝܗܝܒܬܐ',
+'blockednoreason'                  => 'ܠܝܬ ܥܠܬܐ ܝܗܝܒܬܐ',
 'blockedoriginalsource'            => "ܡܒܘܥܐ ܕ'''$1''' ܓܠܝܚܐ ܠܬܚܬ:",
 'nosuchsectiontitle'               => 'ܠܐ ܡܨܐ ܐܫܟܚ ܡܢܬܐ',
 'loginreqlink'                     => 'ܥܘܠ',
@@ -440,7 +446,7 @@ $messages = array(
 'permissionserrorstext-withaction' => 'ܠܝܬ ܠܟ ܦܣܣܐ ܠ$2, ܒ{{PLURAL:$1|ܥܠܬܐ|ܥܠܬ̈ܐ}} ܕ:',
 'log-fulllog'                      => 'ܚܙܝ ܣܓܠܐ ܓܡܝܪܐ',
 'edit-already-exists'              => 'ܒܪܝܐ ܕܦܐܬܐ ܚܕܬܐ ܠܐ ܡܬܡܨܝܢܐ.
-ܦܐܬܐ ܐܝܬ ܡܢ ܟܕܘ.',
+ܗܕܐ ܦܐܬܐ ܐܝܬ ܡܢ ܟܕܘ.',
 
 # "Undo" feature
 'undo-summary' => 'ܠܐ ܥܒܘܕ $1 ܒܝܕ [[Special:Contributions/$2|$2]] ([[User talk:$2|ܡܡܠܠܐ]])',
@@ -590,7 +596,7 @@ $messages = array(
 'preferences'                 => 'ܓܒܝܬ̈ܐ',
 'mypreferences'               => 'ܓܒܝܬ̈ܝ',
 'prefs-edits'                 => 'ܡܢܝܢܐ ܕܫܘܚܠܦ̈ܐ:',
-'prefsnologin'                => 'ܠܐ ܥܠܝܠܐ',
+'prefsnologin'                => 'ܠܝܬܝܟ ܥܠܝܠܐ',
 'changepassword'              => 'ܫܚܠܦ ܡܠܬܐ ܕܥܠܠܐ',
 'prefs-skin'                  => 'ܓܠܕܐ',
 'skin-preview'                => 'ܚܝܪܐ ܩܕܡܝܐ',
@@ -772,7 +778,7 @@ $messages = array(
 # Upload
 'upload'              => 'ܐܣܩ ܠܦܦܐ',
 'uploadbtn'           => 'ܐܣܩ ܠܦܦܐ',
-'uploadnologin'       => 'ܠܐ ܥܠܝܠܐ',
+'uploadnologin'       => 'ܠܝܬܝܟ ܥܠܝܠܐ',
 'uploaderror'         => 'ܦܘܕܐ ܒܡܣܩܬܐ',
 'uploadlog'           => 'ܣܓܠܐ ܕܣܠܩܐ',
 'uploadlogpage'       => 'ܣܓܠܐ ܕܣܠܩܐ',
@@ -1047,7 +1053,7 @@ $1',
 'mywatchlist'       => 'ܪ̈ܗܝܬܝ',
 'watchlistfor2'     => 'ܠ $1 $2',
 'nowatchlist'       => 'ܠܝܬ ܠܟ ܡܕܡ ܒܪ̈ܗܝܬܐ ܕܝܠܟ',
-'watchnologin'      => 'ܠܐ ܥܠܝܠܐ',
+'watchnologin'      => 'ܠܝܬܝܟ ܥܠܝܠܐ',
 'addedwatch'        => 'ܐܘܣܦ ܠܪ̈ܗܝܬܐ',
 'removedwatch'      => 'ܠܚܝܬ ܡܢ ܪ̈ܗܝܬܟ',
 'removedwatchtext'  => 'ܦܐܬܐ "[[:$1]]" ܐܫܬܩܠܬ ܡܢ [[Special:Watchlist|ܪ̈ܗܝܬܟ]].',
@@ -1250,7 +1256,7 @@ Do you want to change the settings?',
 'move-page'               => 'ܫܢܝ $1',
 'move-page-legend'        => 'ܫܢܝ ܦܐܬܐ',
 'movearticle'             => 'ܫܢܝ ܦܐܬܐ:',
-'movenologin'             => 'ܠܐ ܥܠܝܠܐ',
+'movenologin'             => 'ܠܝܬܝܟ ܥܠܝܠܐ',
 'newtitle'                => 'ܠܫܡܐ ܚܕܬܐ:',
 'move-watch'              => 'ܪܗܝ ܦܐܬܐ ܗܕܐ',
 'movepagebtn'             => 'ܫܢܝ ܦܐܬܐ',
@@ -1303,6 +1309,7 @@ Do you want to change the settings?',
 'import-upload'           => 'ܐܣܩ ܓܠܝܬ̈ܐ  ܕ XML',
 
 # Import log
+'importlogpage'                    => 'ܣܓܠܐ ܕܡܥܠܢܘܬܐ',
 'import-logentry-upload-detail'    => '$1 {{PLURAL:$1|ܬܢܝܬܐ |ܬܢܝܬ̈ܐ}}',
 'import-logentry-interwiki-detail' => '$1 {{PLURAL:$1|ܬܢܝܬܐ |ܬܢܝܬ̈ܐ}} ܡܢ $2',
 
@@ -1311,6 +1318,7 @@ Do you want to change the settings?',
 'siteuser'    => '{{SITENAME}} ܡܦܠܚܢܐ $1',
 'others'      => 'ܐܚܪ̈ܢܐ',
 'siteusers'   => '{{SITENAME}} {{PLURAL:$2|ܡܦܠܚܢܐ|ܡܦܠܚܢ̈ܐ}} $1',
+'anonusers'   => '{{SITENAME}} {{PLURAL:$2|ܡܦܠܚܢܐ ܠܐ ܝܕܝܥܐ|ܡܦܠܚܢ̈ܐ ܠܐ ܝܕ̈ܝܥܐ}} $1',
 'creditspage' => 'ܙܕ̈ܩܐ ܕܦܐܬܐ',
 
 # Info page

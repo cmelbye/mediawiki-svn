@@ -1360,7 +1360,7 @@ $1",
 'fileexists'                 => "'''<tt>[[:$1]]</tt>'''存矣，欲蓋之則再也。 [[$1|thumb]]",
 'filepageexists'             => "此檔之述於'''<tt>[[:$1]]</tt>'''存矣，檔未存也。爾入述無存也。要現之，爾需纂之。",
 'file-exists-duplicate'      => '此檔乃重檔{{PLURAL:$1|一|數}}：',
-'file-deleted-duplicate'     => '此檔（[[$1]]）前刪。爾需查刪錄再貢之。',
+'file-deleted-duplicate'     => '此檔（[[:$1]]）前刪。爾需查刪錄再貢之。',
 'uploadwarning'              => '慎焉！',
 'uploadwarning-text'         => '改下檔述再試之。',
 'savefile'                   => '存之',
@@ -2790,9 +2790,7 @@ MediaWiki乃為用之發，無擔之責也；亦無售目之默擔也。參GNU�
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => '擇重檔',
-'fileduplicatesearch-summary'  => '以重檔之切去查重也。
-
-入名時無 "{{ns:file}}:" 首也。',
+'fileduplicatesearch-summary'  => '以重檔之切去查重也。',
 'fileduplicatesearch-legend'   => '尋重',
 'fileduplicatesearch-filename' => '名：',
 'fileduplicatesearch-submit'   => '尋',

@@ -170,12 +170,14 @@ $specialPageAliases = array(
 	'Mypage'                    => array( '我的用户页' ),
 	'Mytalk'                    => array( '我的讨论页' ),
 	'Mycontributions'           => array( '我的贡献' ),
+	'Myuploads'                 => array( '我的上传' ),
+	'PermanentLink'             => array( '永久链接' ),
 	'Listadmins'                => array( '管理员列表' ),
 	'Listbots'                  => array( '机器人列表' ),
 	'Popularpages'              => array( '热点页面' ),
 	'Search'                    => array( '搜索' ),
 	'Resetpass'                 => array( '修改密码' ),
-	'Withoutinterwiki'          => array( '无跨wiki链接页面' ),
+	'Withoutinterwiki'          => array( '无跨维基链接页面' ),
 	'MergeHistory'              => array( '合并历史' ),
 	'Filepath'                  => array( '文件路径' ),
 	'Invalidateemail'           => array( '不可识别的电邮地址' ),
@@ -184,6 +186,9 @@ $specialPageAliases = array(
 	'DeletedContributions'      => array( '已删除的用户贡献' ),
 	'Tags'                      => array( '标签' ),
 	'Activeusers'               => array( '活跃用户' ),
+	'ComparePages'              => array( '对比页子' ),
+	'Badtitle'                  => array( '坏标题' ),
+	'DisableAccount'            => array( '禁用帐户' ),
 );
 
 $linkTrail = '/^()(.*)$/sD';
@@ -343,8 +348,8 @@ $messages = array(
 'category-file-count'            => '{{PLURAL:$2|本分类只有下列一个文件。|本分类包含下列$1个文件，共有$2个文件。}}',
 'category-file-count-limited'    => '本分类包含下列$1个文件。',
 'listingcontinuesabbrev'         => '续',
-'index-category'                 => '已做索引的页面',
-'noindex-category'               => '未做索引的页面',
+'index-category'                 => '允许索引的页面',
+'noindex-category'               => '禁止索引的页面',
 
 'mainpagetext'      => "'''已成功安装MediaWiki。'''",
 'mainpagedocfooter' => '请查阅[http://meta.wikimedia.org/wiki/Help:Contents 用户指南]以获取使用本wiki软件的信息！
@@ -1593,7 +1598,7 @@ $1",
 'fileexists-shared-forbidden' => '在共享文件库中已存在此名称的文件。
 如果你仍然想去上传它的话，请返回并用一个新的名称来上传此文件。[[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => '这个文件与以下{{PLURAL:$1|一|多}}个文件重复：',
-'file-deleted-duplicate'      => '一个相同名称的文件 （[[$1]]） 在先前删除过。您应该在重新上传之前检查一下该文件之删除纪录。',
+'file-deleted-duplicate'      => '一个相同名称的文件 （[[:$1]]） 在先前删除过。您应该在重新上传之前检查一下该文件之删除纪录。',
 'uploadwarning'               => '上传警告',
 'uploadwarning-text'          => '请修改以下的文件描述并重试。',
 'savefile'                    => '保存文件',
@@ -1823,10 +1828,11 @@ Template:消歧義
 Template:消除歧義',
 'disambiguations-text' => '以下的页面都有到<b>消歧义页</b>的链接, 但它们应该是链到适当的标题。<br />一个页面会被视为消歧义页如果它是链自[[MediaWiki:Disambiguationspage]]。',
 
-'doubleredirects'            => '双重重定向页面',
-'doubleredirectstext'        => '此页列出了所有重定向到另一重定向页面的页面。每一行都包含有到第一和第二个重定向页面的链接，以及第二个重定向页面的目标——通常就是“真正的”目标页面，亦即是第一个重定向页面应该指向的页面。<del>已划去</del>的为已经解决的项目。',
-'double-redirect-fixed-move' => '[[$1]]已经完成移动，它现在重定向到[[$2]]。',
-'double-redirect-fixer'      => '重定向修正器',
+'doubleredirects'                   => '双重重定向页面',
+'doubleredirectstext'               => '此页列出了所有重定向到另一重定向页面的页面。每一行都包含有到第一和第二个重定向页面的链接，以及第二个重定向页面的目标——通常就是“真正的”目标页面，亦即是第一个重定向页面应该指向的页面。<del>已划去</del>的为已经解决的项目。',
+'double-redirect-fixed-move'        => '[[$1]]已经完成移动，它现在重定向到[[$2]]。',
+'double-redirect-fixed-maintenance' => '修复从[[$1]]到[[$2]]的双重重定向。',
+'double-redirect-fixer'             => '重定向修正器',
 
 'brokenredirects'        => '损坏的重定向页',
 'brokenredirectstext'    => '以下的重定向页面指向的是不存在的页面：',
@@ -2402,7 +2408,7 @@ $1被封禁的理由是：“$2”',
 'blocklogentry'                   => '[[$1]]已被封禁，终止时间为$2 $3',
 'reblock-logentry'                => '更改[[$1]]的封禁终止时间 $2 $3',
 'blocklogtext'                    => '此处给出了封禁和解封用户的操作日志，被自动封禁的IP地址不在此表。请查看[[Special:IPBlockList|封禁列表]]获知当前被封禁的用户和IP地址。',
-'unblocklogentry'                 => '$1已被解除封禁',
+'unblocklogentry'                 => '已解封 $1',
 'block-log-flags-anononly'        => '仅限匿名用户',
 'block-log-flags-nocreate'        => '创建账户已禁用',
 'block-log-flags-noautoblock'     => '禁用自动封禁',
@@ -3228,6 +3234,20 @@ $3
 $5
 
 确认码会在$4过期。',
+'confirmemail_body_set'     => '有人，可能是您，来自IP地址$1，
+已设置的帐户"$2"这个地址{{SITENAME}}网站名称电邮地址。
+
+为了确认这个帐号确实属于自己的，重新激活
+电子邮件功能于{{SITENAME}}网站名称，在浏览器中打开这个链接：
+
+$3
+
+如果该帐户不*不*属于你，请点击此链接
+取消电子邮件地址确认：
+
+$5
+
+这个确认码会在$4时过期。',
 'confirmemail_invalidated'  => '电邮地址确认已取消',
 'invalidateemail'           => '取消电邮确认',
 
@@ -3366,16 +3386,15 @@ MediaWiki是基于使用目的而加以发布，然而不负任何担保责任�
 请输入文件名，不要包含“{{ns:file}}:”前缀。',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => '搜索重复文件',
-'fileduplicatesearch-summary'  => '根据散列值（Hash值）搜索重复文件。
-
-输入文件名时不需要输入“{{ns:file}}:”前缀。',
-'fileduplicatesearch-legend'   => '搜索重复文件',
-'fileduplicatesearch-filename' => '文件名：',
-'fileduplicatesearch-submit'   => '搜索',
-'fileduplicatesearch-info'     => '$1×$2像素<br />文件大小：$3<br />MIME类型：$4',
-'fileduplicatesearch-result-1' => '文件“$1”没有完全相同的重复副本。',
-'fileduplicatesearch-result-n' => '文件“$1”有$2项完全相同的重复副本。',
+'fileduplicatesearch'           => '搜索重复文件',
+'fileduplicatesearch-summary'   => '根据散列值（Hash值）搜索重复文件。',
+'fileduplicatesearch-legend'    => '搜索重复文件',
+'fileduplicatesearch-filename'  => '文件名：',
+'fileduplicatesearch-submit'    => '搜索',
+'fileduplicatesearch-info'      => '$1×$2像素<br />文件大小：$3<br />MIME类型：$4',
+'fileduplicatesearch-result-1'  => '文件“$1”没有完全相同的重复副本。',
+'fileduplicatesearch-result-n'  => '文件“$1”有$2项完全相同的重复副本。',
+'fileduplicatesearch-noresults' => '没有文件命名为"$1"发现。',
 
 # Special:SpecialPages
 'specialpages'                   => '特殊页面',

@@ -3,12 +3,12 @@
 class MessageTest extends MediaWikiTestCase {
 
 	function setUp() {
-		global $wgLanguageCode, $wgLang, $wgContLang, $wgMessageCache;
+		global $wgLanguageCode, $wgLang, $wgContLang;
 
 		$wgLanguageCode = 'en'; # For mainpage to be 'Main Page'
 		//Note that a Stub Object is not enough for this test
 		$wgContLang = $wgLang = Language::factory( $wgLanguageCode );
-		$wgMessageCache = new MessageCache( false, false, 3600 );
+		MessageCache::singleton()->disable();
 	}
 
 	function testExists() {
@@ -34,11 +34,19 @@ class MessageTest extends MediaWikiTestCase {
 		$this->assertEquals( 'Заглавная страница', wfMessage( 'mainpage' )->inLanguage( Language::factory( 'ru' ) )->text() );
 	}
 
-	function testMessagePararms() {
+	function testMessageParams() {
 		$this->assertEquals( 'Return to $1.', wfMessage( 'returnto' )->text() );
 		$this->assertEquals( 'Return to $1.', wfMessage( 'returnto', array() )->text() );
 		$this->assertEquals( 'You have foo (bar).', wfMessage( 'youhavenewmessages', 'foo', 'bar' )->text() );
 		$this->assertEquals( 'You have foo (bar).', wfMessage( 'youhavenewmessages', array( 'foo', 'bar' ) )->text() );
+	}
+
+	function testMessageParamSubstitution() {
+		$this->assertEquals( '(Заглавная страница)', wfMessage( 'parentheses', 'Заглавная страница' )->plain() );
+		$this->assertEquals( '(Заглавная страница $1)', wfMessage( 'parentheses', 'Заглавная страница $1' )->plain() );
+		$this->assertEquals( '(Заглавная страница)', wfMessage( 'parentheses' )->rawParams( 'Заглавная страница' )->plain() );
+		$this->assertEquals( '(Заглавная страница $1)', wfMessage( 'parentheses' )->rawParams( 'Заглавная страница $1' )->plain() );
+
 	}
 
 	/**

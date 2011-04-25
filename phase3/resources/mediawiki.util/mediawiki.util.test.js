@@ -8,11 +8,16 @@
 
 ( function( $, mw ) {
 
-	mediaWiki.test = {
+	mw.test = {
 
 		/* Variables */
 		'$table' : null,
+		// contains either a header or a test
+		// test:   [ code, result, contain ]  see addTest
+		// header: [ 'HEADER', escapedtitle, id ] see addHead
 		'addedTests' : [],
+		'headResults' : [],
+		'numberOfHeader' : 0,
 
 		/* Functions */
 
@@ -29,7 +34,8 @@
 				contain = result;
 			}
 			this.addedTests.push( [code, result, contain] );
-			this.$table.append( '<tr><td>' + mw.html.escape( code ).replace( /  /g, '&nbsp;&nbsp;' )
+			this.$table.append( '<tr class="mw-mwutiltest-test">'
+				+ '<td>' + mw.html.escape( code ).replace( /  /g, '&nbsp;&nbsp;' )
 				+ '</td><td>' + mw.html.escape( result ).replace( /  /g, '&nbsp;&nbsp;' )
 				+ '</td><td></td><td>?</td></tr>' );
 			return true;
@@ -44,7 +50,9 @@
 			if ( !title ) {
 				return false;
 			}
-			this.$table.append( '<tr><th colspan="4">' + mw.html.escape( title ).replace( /  /g, '&nbsp;&nbsp;' ) + '</th></tr>' );
+			escapedtitle = mw.html.escape( title ).replace( /  /g, '&nbsp;&nbsp;' );
+			this.addedTests.push( [ 'HEADER', escapedtitle, mw.test.numberOfHeader++ ] );
+			this.$table.append( '<tr class="mw-mwutiltest-head" id="mw-mwutiltest-head'+mw.test.numberOfHeader+'"><th colspan="4">' + escapedtitle + '</th></tr>' );
 			return true;
 		},
 
@@ -75,10 +83,16 @@
 							'<p>Below is a list of tests to confirm proper functionality of the mediaWiki JavaScript library</p>'
 							+ '<p>' + skinLinksText + '</p>'
 							+ '<hr />'
-							+ '<table id="mw-mwutiltest-table" class="wikitable sortable" style="white-space:break; font-family:monospace,\'Courier New\'">'
+							+ '<table id="mw-mwutiltest-table" class="wikitable" style="white-space:break; font-family:monospace,\'Courier New\'; width:100%;">'
 							+ '<tr><th>Exec</th><th>Should return</th><th>Does return</th><th>Equal ?</th></tr>'
 							+ '</table>'
 						);
+
+						mw.util.addCSS(
+							'#mw-mwutiltest-table tr td { padding:0 !important; }' +	// Override wikitable padding for <td>
+							'.mw-mwutiltest-head:hover { cursor: pointer; } '			// Header-clicks hide/show the below rows
+						);
+
 						mw.test.$table = $( 'table#mw-mwutiltest-table' );
 
 						/* Populate tests */
@@ -273,6 +287,17 @@
 						mw.test.addTest( 'mw.util.validateEmail( "user@localhost" )',
 							'true (boolean)' );
 
+						// testEmailWithCommasAreInvalids
+						mw.test.addTest( 'mw.util.validateEmail( "user,foo@example.org" )',
+							'false (boolean)' );
+						mw.test.addTest( 'mw.util.validateEmail( "userfoo@ex,ample.org" )',
+							'false (boolean)' );
+						// testEmailWithHyphens
+						mw.test.addTest( 'mw.util.validateEmail( "user-foo@example.org" )',
+							'true (boolean)' );
+						mw.test.addTest( 'mw.util.validateEmail( "userfoo@ex-ample.org" )',
+							'true (boolean)' );
+
 						// jQuery plugins
 						mw.test.addHead( 'jQuery plugins' );
 
@@ -288,51 +313,96 @@
 						mw.test.addTest( 'typeof $.fn.makeCollapsible',
 							'function (string)' );
 
+
+						// End of tests.
+						mw.test.addHead( '*** End of tests ***' );
+
 						// Run tests and compare results
 						var	exec,
 							result,
 							resulttype,
-							numberoftests = 0,
-							numberofpasseds = 0,
-							numberofpartials = 0,
-							numberoferrors = 0,
+							numberOfTests = 0,
+							numberOfPasseds = 0,
+							numberOfPartials = 0,
+							numberOfErrors = 0,
+							headNumberOfTests = 0,
+							headNumberOfPasseds = 0,
+							headNumberOfPartials = 0,
+							headNumberOfErrors = 0,
+							numberOfHeaders = 0,
+							previousHeadTitle = '',
 							$testrows = mw.test.$table.find( 'tr:has(td)' );
 
-						$.each( mw.test.addedTests, function( i ) {
-							numberoftests++;
+						$.each( mw.test.addedTests, function( i, item ) {
 
-							exec = mw.test.addedTests[i][0];
-							shouldreturn = mw.test.addedTests[i][1];
-							shouldcontain = mw.test.addedTests[i][2];
-							doesreturn = eval( exec );
-							doesreturn = doesreturn + ' (' + typeof doesreturn + ')';
-							$thisrow = $testrows.eq( i );
-							$thisrow.find( '> td' ).eq(2).html( mw.html.escape( doesreturn ).replace(/  /g, '&nbsp;&nbsp;' ) );
+							// New header
+							if( item[0] == 'HEADER' ) {
 
-							if ( doesreturn.indexOf( shouldcontain ) !== -1 ) {
-								if ( doesreturn == shouldreturn ) {
+								// update current header with its tests results
+								mw.test.$table.find( 'tr#mw-mwutiltest-head' + numberOfHeaders +' > th' )
+									.html( previousHeadTitle + ' <span style="float:right">('
+										+ 'T: ' + headNumberOfTests
+										+ ' ok: ' + headNumberOfPasseds
+										+ ' partial: ' + headNumberOfPartials
+										+ ' err: ' + headNumberOfErrors
+										+ ')</span>' );
+
+								numberOfHeaders++;
+								// Reset values for the new header;
+								headNumberOfTests = 0;
+								headNumberOfPasseds = 0;
+								headNumberOfPartials = 0;
+								headNumberOfErrors = 0;
+
+								previousHeadTitle = item[1];
+
+								return true;
+							}
+
+							exec = item[0];
+							shouldreturn = item[1];
+							shouldcontain = item[2];
+
+							numberOfTests++;
+							headNumberOfTests++;
+							doesReturn = eval( exec );
+							doesReturn = doesReturn + ' (' + typeof doesReturn + ')';
+							$thisrow = $testrows.eq( i - numberOfHeaders ); // since headers are rows as well
+							$thisrow.find( '> td' ).eq(2).html( mw.html.escape( doesReturn ).replace(/  /g, '&nbsp;&nbsp;' ) );
+
+							if ( doesReturn.indexOf( shouldcontain ) !== -1 ) {
+								if ( doesReturn == shouldreturn ) {
 									$thisrow.find( '> td' ).eq(3).css( 'background', '#AFA' ).text( 'OK' );
-									numberofpasseds++;
+									numberOfPasseds++;
+									headNumberOfPasseds++;
 								} else {
 									$thisrow.find( '> td' ).eq(3).css( 'background', '#FFA' ).html( '<small>PARTIALLY</small>' );
-									numberofpartials++;
+									numberOfPartials++;
+									headNumberOfPartials++;
 								}
 							} else {
 								$thisrow.find( '> td' ).eq(3).css( 'background', '#FAA' ).text( 'ERROR' );
-								numberoferrors++;
+								numberOfErrors++;
+								headNumberOfErrors++;
 							}
 
 						} );
-						mw.test.$table.before( '<p><strong>Ran ' + numberoftests + ' tests. ' +
-							numberofpasseds + ' passed test(s). ' + numberoferrors + ' error(s). ' +
-							numberofpartials + ' partially passed test(s). </p>' );
+						mw.test.$table.before( '<p><strong>Ran ' + numberOfTests + ' tests. ' +
+							numberOfPasseds + ' passed test(s). ' + numberOfErrors + ' error(s). ' +
+							numberOfPartials + ' partially passed test(s). </p>' );
 
+						// hide all tests. TODO hide only OK?
+						mw.test.$table.find( '.mw-mwutiltest-test' ).hide();
+						// clickable header to show/hide the tests
+						mw.test.$table.find( '.mw-mwutiltest-head' ).click(function() {
+							$(this).nextUntil( '.mw-mwutiltest-head' ).toggle();
+						});
 					}
 				} );
 			}
 		}
 	};
 
-	mediaWiki.test.init();
+	mw.test.init();
 
 } )(jQuery, mediaWiki);

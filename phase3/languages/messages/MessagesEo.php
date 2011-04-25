@@ -32,30 +32,39 @@
 
 $namespaceNames = array(
 	NS_MEDIA            => 'Aŭdvidaĵo',
-	NS_SPECIAL          => 'Speciala',
+	NS_SPECIAL          => 'Specialaĵo',
 	NS_TALK             => 'Diskuto',
-	NS_USER             => 'Uzulo',
-	NS_USER_TALK        => 'Uzula_diskuto',
-	NS_PROJECT_TALK     => '$1_diskuto',
+	NS_USER             => 'Uzanto',
+	NS_USER_TALK        => 'Uzanto-Diskuto',
+	NS_PROJECT_TALK     => '$1-Diskuto',
 	NS_FILE             => 'Dosiero',
-	NS_FILE_TALK        => 'Dosiera_diskuto',
-	NS_MEDIAWIKI        => 'MediaVikio',
-	NS_MEDIAWIKI_TALK   => 'MediaVikia_diskuto',
+	NS_FILE_TALK        => 'Dosiero-Diskuto',
+	NS_MEDIAWIKI        => 'MediaWiki',
+	NS_MEDIAWIKI_TALK   => 'MediaWiki-Diskuto',
 	NS_TEMPLATE         => 'Ŝablono',
-	NS_TEMPLATE_TALK    => 'Ŝablona_diskuto',
+	NS_TEMPLATE_TALK    => 'Ŝablono-Diskuto',
 	NS_HELP             => 'Helpo',
-	NS_HELP_TALK        => 'Helpa_diskuto',
+	NS_HELP_TALK        => 'Helpo-Diskuto',
 	NS_CATEGORY         => 'Kategorio',
-	NS_CATEGORY_TALK    => 'Kategoria_diskuto',
+	NS_CATEGORY_TALK    => 'Kategorio-Diskuto',
 );
 
 $namespaceAliases = array(
+	'Speciala'             => NS_SPECIAL,
 	'Vikipediisto'         => NS_USER,
 	'Vikipediista_diskuto' => NS_USER_TALK,
+	'Uzulo'                => NS_USER,
 	'Uzanto'               => NS_USER,
+	'Uzula_diskuto'        => NS_USER_TALK,
 	'Uzanta_diskuto'       => NS_USER_TALK,
-	'MediaWiki'            => NS_MEDIAWIKI,
+	'$1_diskuto'           => NS_PROJECT_TALK,
+	'Dosiera_diskuto'      => NS_FILE_TALK,
+	'MediaVikio'            => NS_MEDIAWIKI,
 	'MediaWiki_diskuto'    => NS_MEDIAWIKI_TALK,
+	'MediaVikia_diskuto'   => NS_MEDIAWIKI_TALK,
+	'Ŝablona_diskuto'      => NS_TEMPLATE_TALK,
+	'Helpa_diskuto'        => NS_HELP_TALK,
+	'Kategoria_diskuto'    => NS_CATEGORY_TALK,
 );
 
 $specialPageAliases = array(
@@ -89,7 +98,7 @@ $specialPageAliases = array(
 	'Mostlinked'                => array( 'Plej_ligitaj_paĝoj' ),
 	'Mostlinkedcategories'      => array( 'Plej_ligitaj_kategorioj', 'Plej_uzataj_kategorioj' ),
 	'Mostlinkedtemplates'       => array( 'Plej_ligitaj_ŝablonoj', 'Plej_uzataj_ŝablonoj' ),
-	'Mostimages'                => array( 'Plej_multaj_bildoj' ),
+	'Mostimages'                => array( 'Plej_ligitaj_bildoj' ),
 	'Mostcategories'            => array( 'Plej_multaj_kategorioj' ),
 	'Mostrevisions'             => array( 'Plej_multaj_revizioj' ),
 	'Fewestrevisions'           => array( 'Plej_malmultaj_revizioj' ),
@@ -117,16 +126,16 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Eksporti' ),
 	'Version'                   => array( 'Versio' ),
 	'Allmessages'               => array( 'Ĉiuj_mesaĝoj' ),
-	'Log'                       => array( 'Loglibro', 'Loglibroj' ),
+	'Log'                       => array( 'Protokolo', 'Protokoloj' ),
 	'Blockip'                   => array( 'Forbari_IP-adreson' ),
 	'Undelete'                  => array( 'Restarigi' ),
 	'Import'                    => array( 'Importi' ),
 	'Lockdb'                    => array( 'Ŝlosi_datumbazon' ),
 	'Unlockdb'                  => array( 'Malŝlosi_datumbazon' ),
-	'Userrights'                => array( 'Uzantaj_rajtoj' ),
+	'Userrights'                => array( 'Rajtoj_de_uzantoj' ),
 	'MIMEsearch'                => array( 'MIME-Serĉo' ),
 	'FileDuplicateSearch'       => array( 'Serĉi_pri_duoblaj_dosieroj' ),
-	'Unwatchedpages'            => array( 'Neatentaro' ),
+	'Unwatchedpages'            => array( 'Neatentitaj_paĝoj' ),
 	'Listredirects'             => array( 'Listigi_alidirektojn' ),
 	'Revisiondelete'            => array( 'Forigi_revizion' ),
 	'Unusedtemplates'           => array( 'Neuzataj_ŝablonoj' ),
@@ -134,15 +143,16 @@ $specialPageAliases = array(
 	'Mypage'                    => array( 'MiaPaĝo', 'Mia_paĝo' ),
 	'Mytalk'                    => array( 'Mia_diskutpaĝo', 'MiaDiskutpaĝo' ),
 	'Mycontributions'           => array( 'Miaj_kontribuoj', 'MiajKontribuoj' ),
+	'Myuploads'                 => array( 'Miaj_alŝutaĵoj' ),
 	'Listadmins'                => array( 'Listigi_administrantojn' ),
 	'Listbots'                  => array( 'Listigi_robotojn' ),
 	'Popularpages'              => array( 'Popularaj_paĝoj' ),
 	'Search'                    => array( 'Serĉi' ),
 	'Resetpass'                 => array( 'Ŝanĝi_pasvorton' ),
 	'Withoutinterwiki'          => array( 'Sen_intervikia_ligilo' ),
-	'MergeHistory'              => array( 'Kunigi_kronologion' ),
-	'Filepath'                  => array( 'Dosierpado' ),
-	'Invalidateemail'           => array( 'Nevalidigi_retpoŝton' ),
+	'MergeHistory'              => array( 'Kunigi_historion' ),
+	'Filepath'                  => array( 'Dosiero-pado' ),
+	'Invalidateemail'           => array( 'Malvalidigi_retpoŝton' ),
 	'Blankpage'                 => array( 'Malplena_paĝo' ),
 	'LinkSearch'                => array( 'Serĉi_ligilon' ),
 	'DeletedContributions'      => array( 'Forigitaj_kontribuoj' ),
@@ -1702,7 +1712,7 @@ Se vi ankoraŭ volas alŝuti vian dosieron, bonvolu reprovi kun nova nomo.
 'fileexists-shared-forbidden' => 'Dosiero kun ĉi tia nomo jam ekzistas en la komuna dosierujo.
 Se vi ankoraŭ volas alŝuti vian dosieron, bonvolu retroigi kaj uzi novan nomon.[[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ĉi tiu dosiero estas duplikato de la {{PLURAL:$1|jena dosiero|jenaj dosieroj}}:',
-'file-deleted-duplicate'      => 'Duplikata dosiero de ĉi tiu dosiero ([[$1]]) estis antaŭe forigita. Vi legu la forigan historion de tiu dosiero antaŭ provi realŝuti ĝin.',
+'file-deleted-duplicate'      => 'Duplikata dosiero de ĉi tiu dosiero ([[:$1]]) estis antaŭe forigita. Vi legu la forigan historion de tiu dosiero antaŭ provi realŝuti ĝin.',
 'uploadwarning'               => 'Alŝuta averto',
 'uploadwarning-text'          => 'Bonvolu ŝanĝi la dosieran priskribon kaj reprovi.',
 'savefile'                    => 'Konservi dosieron',
@@ -1934,12 +1944,13 @@ Bonvolu kontroli aliajn ligilojn al la ŝablonoj antaŭ ol forigi ilin.',
 Ili devus anstataŭe alligi la ĝustan temon.<br />
 Paĝo estas traktata kiel apartigilo se ĝi uzas ŝablonon kiu estas ligita de [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Duoblaj alidirektadoj',
-'doubleredirectstext'        => 'Ĉi tiu paĝo montras paĝojn kiuj alidirektas al aliaj alidirektiloj.
+'doubleredirects'                   => 'Duoblaj alidirektadoj',
+'doubleredirectstext'               => 'Ĉi tiu paĝo montras paĝojn kiuj alidirektas al aliaj alidirektiloj.
 Ĉiu vico enhavas ligilojn ĉe la unua kaj dua alidirektadoj, kaj la unua linio de la dua alidirektado, kiu ĝenerale montras la "veran" celpaĝon, kiu celu la unuan alidirektadon.
 <del>Forstrekitaj</del> listeroj estis riparitaj.',
-'double-redirect-fixed-move' => '[[$1]] estis alinomita; ĝi nun alidirektas al [[$2]]',
-'double-redirect-fixer'      => 'Alidirektila riparilo',
+'double-redirect-fixed-move'        => '[[$1]] estis alinomita; ĝi nun alidirektas al [[$2]]',
+'double-redirect-fixed-maintenance' => 'Riparas duoblan alidirektilon de [[$1]] al [[$2]].',
+'double-redirect-fixer'             => 'Alidirektila riparilo',
 
 'brokenredirects'        => 'Rompitaj alidirektadoj',
 'brokenredirectstext'    => 'La jenaj alidirektadoj ligas al neekzistantaj paĝoj:',
@@ -2675,9 +2686,9 @@ Bonvolu elekti alian nomon.',
 'exporttext'        => 'Vi povas eksporti la tekston kaj la redaktohistorion de aparta paĝo aŭ de paĝaro kolektita en ia XML.
 Ĉi tio povas esti importita en alian programon funkciantan per MediaWiki-softvaro per la [[Special:Import|import-paĝo]].
 
-Eksporti paĝojn, enigu la titolojn en la jena tekst-skatolo, po unu por linio, kaj elektu ĉu vi volas kaj la nunan version kaj ĉiujn antaŭajn versiojn, kun la paĝaj historiaj linioj, a la nunan version kun la informo pri la lasta redakto.
+Por eksporti paĝojn, enigu la titolojn en la jena tekst-skatolo, po unu por linio, kaj elektu ĉu vi volas kaj la nunan version kaj ĉiujn antaŭajn versiojn, kun la paĝaj historiaj linioj, aŭ la nunan version kun la informo pri la lasta redakto.
 
-En la lasta kazo, vi ankaŭ povas uzi ligilo, ekz-e [[{{#Special:Export}}/{{MediaWiki:Mainpage}}]] por la paĝo "[[{{MediaWiki:Mainpage}}]]".',
+En la lasta okazo, vi ankaŭ povas uzi ligilon, ekz-e [[{{#Special:Export}}/{{MediaWiki:Mainpage}}]] por la paĝo "[[{{MediaWiki:Mainpage}}]]".',
 'exportcuronly'     => 'Entenas nur la aktualan version, ne la malnovajn.',
 'exportnohistory'   => "----
 '''Notu:''' Eksportado de la plena historio de paĝoj per ĉi paĝo estis malebligita pro funkciigaj kialoj.",
@@ -3302,6 +3313,19 @@ por nuligi la retadresan konfirmadon:
 $5
 
 Ĉi tiu konfirmkodo malvalidiĝos je $4.',
+'confirmemail_body_set'     => 'Iu, supozeble vi mem, je IP-adreso $1,
+agordis la retpoŝadreson de konto "$2" al ĉi tiu adreso je {{SITENAME}}.
+
+Por konfirmi ke ĉi tiu konto vere apertenas al vi kaj refunkciigi la retpoŝtfunkciojn je {{SITENAME}}, bonvolu
+malfermi la jenon ligon per via foliumilo:
+
+$3
+
+Se ĉi tiu konto *ne* apertenas al vi, bonvolu sekvi jenan ligon por nuligi la konfirmon pir la retpoŝadreso:
+
+$5
+
+Ĉi tiu konfirma kodo eksvalidiĝos je $4',
 'confirmemail_invalidated'  => 'Konfirmado de retadreso estas nuligita',
 'invalidateemail'           => 'Nuligi konfirmadon de retadreso',
 
@@ -3427,16 +3451,15 @@ Bildoj montriĝas en plena distingivo, aliaj dosiertipoj estas malfermataj rekte
 Entajpu la dosiernomon sen la prefikso "{{ns:file}}:"',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Serĉu duplikatajn dosierojn',
-'fileduplicatesearch-summary'  => 'Serĉu duplikatajn dosierojn bazite de haketvaloro.
-
-Enigu la dosiernomon sen la "{{ns:file}}:" prefikso.',
-'fileduplicatesearch-legend'   => 'Serĉi duplikaton',
-'fileduplicatesearch-filename' => 'Dosiernomo:',
-'fileduplicatesearch-submit'   => 'Serĉi',
-'fileduplicatesearch-info'     => '$1 × $2 rastrumero<br />Dosiera pezo: $3<br />MIME-tipo: $4',
-'fileduplicatesearch-result-1' => 'La dosiero "$1" ne havas identan duplikaton.',
-'fileduplicatesearch-result-n' => 'La dosiero "$1" havas {{PLURAL:$2|1 identan duplikaton|$2 identajn duplikatojn}}.',
+'fileduplicatesearch'           => 'Serĉu duplikatajn dosierojn',
+'fileduplicatesearch-summary'   => 'Serĉi duplikatajn dosierojn bazite de haketvaloro.',
+'fileduplicatesearch-legend'    => 'Serĉi duplikaton',
+'fileduplicatesearch-filename'  => 'Dosiernomo:',
+'fileduplicatesearch-submit'    => 'Serĉi',
+'fileduplicatesearch-info'      => '$1 × $2 rastrumero<br />Dosiera pezo: $3<br />MIME-tipo: $4',
+'fileduplicatesearch-result-1'  => 'La dosiero "$1" ne havas identan duplikaton.',
+'fileduplicatesearch-result-n'  => 'La dosiero "$1" havas {{PLURAL:$2|1 identan duplikaton|$2 identajn duplikatojn}}.',
+'fileduplicatesearch-noresults' => 'Neniu dosiero nomita "$1" troviĝis.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Specialaj paĝoj',

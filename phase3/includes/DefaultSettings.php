@@ -434,7 +434,7 @@ $wgCacheSharedUploads = true;
 $wgAllowCopyUploads = false;
 /**
  * Allow asynchronous copy uploads.
- * This feature is experimental.
+ * This feature is experimental is broken as of r81612.
  */
 $wgAllowAsyncCopyUploads = false;
 
@@ -551,9 +551,16 @@ $wgMimeTypeBlacklist = array(
 	# A ZIP file may be a valid Java archive containing an applet which exploits the
 	# same-origin policy to steal cookies
 	'application/zip',
+
 	# MS Office OpenXML and other Open Package Conventions files are zip files
-	# and thus blacklisted just as other zip files
+	# and thus blacklisted just as other zip files. If you remove these entries
+	# from the blacklist in your local configuration, a malicious file upload
+	# will be able to compromise the wiki's user accounts, and the user 
+	# accounts of any other website in the same cookie domain.
 	'application/x-opc+zip',
+	'application/msword',
+	'application/vnd.ms-powerpoint',
+	'application/vnd.msexcel',
 );
 
 /**
@@ -1039,6 +1046,11 @@ $wgPasswordReminderResendTime = 24;
 $wgNewPasswordExpiry  = 3600 * 24 * 7;
 
 /**
+ * The time, in seconds, when an email confirmation email expires
+ */
+$wgUserEmailConfirmationTokenExpiry = 7 * 24 * 60 * 60;
+
+/**
  * SMTP Mode
  * For using a direct (authenticated) SMTP server connection.
  * Default to false or fill an array :
@@ -1180,8 +1192,6 @@ $wgSQLMode = '';
 
 /** Mediawiki schema */
 $wgDBmwschema       = 'mediawiki';
-/** Tsearch2 schema */
-$wgDBts2schema      = 'public';
 
 /** To override default SQLite data directory ($docroot/../data) */
 $wgSQLiteDataDir    = '';
@@ -1599,7 +1609,7 @@ $wgCacheEpoch = '20030516000000';
  * to ensure that client-side caches do not keep obsolete copies of global
  * styles.
  */
-$wgStyleVersion = '302';
+$wgStyleVersion = '303';
 
 /**
  * This will cache static pages for non-logged-in users to reduce
@@ -2324,11 +2334,13 @@ $wgExperimentalHtmlIds = true;
  * $wgFooterIcons itself is a key/value array.
  * The key is the name of a block that the icons will be wrapped in. The final id varies 
  * by skin; Monobook and Vector will turn poweredby into f-poweredbyico while Modern 
- * turns it into mw_poweredby.  The value is a key/value array of icons. The key may or 
- * may not be used by the skin but it can be used to find the icon and unset it or 
- * change the icon if needed. This is useful for disabling icons that are set by extensions.
+ * turns it into mw_poweredby.
+ * The value is either key/value array of icons or a string.
+ * In the key/value array the key may or may not be used by the skin but it can
+ * be used to find the icon and unset it or change the icon if needed.
+ * This is useful for disabling icons that are set by extensions.
  * The value should be either a string or an array. If it is a string it will be output 
- * directly, however some skins may choose to ignore it. An array is the preferred format 
+ * directly as html, however some skins may choose to ignore it. An array is the preferred format 
  * for the icon, the following keys are used:
  *   src: An absolute url to the image to use for the icon, this is recommended
  *        but not required, however some skins will ignore icons without an image
@@ -3669,7 +3681,7 @@ $wgProxyKey = false;
 $wgCookieExpiration = 30*86400;
 
 /**
- * Set to set an explicit domain on the login cookies eg, "justthis.domain. org"
+ * Set to set an explicit domain on the login cookies eg, "justthis.domain.org"
  * or ".any.subdomain.net"
  */
 $wgCookieDomain = '';
@@ -4369,7 +4381,10 @@ $wgRightsIcon = null;
  */
 $wgLicenseTerms = false;
 
-/** Set this to some HTML to override the rights icon with an arbitrary logo */
+/**
+ * Set this to some HTML to override the rights icon with an arbitrary logo
+ * @deprecated Use $wgFooterIcons['copyright']['copyright']
+ */
 $wgCopyrightIcon = null;
 
 /** Set this to true if you want detailed copyright information forms on Upload. */

@@ -202,8 +202,8 @@ class AllmessagesTablePager extends TablePager {
 
 		// Normalise message names so they look like page titles
 		$messageNames = array_map( array( $this->lang, 'ucfirst' ), $messageNames );
-		wfProfileIn( __METHOD__ );
 
+		wfProfileOut( __METHOD__ );
 		return $messageNames;
 	}
 
@@ -265,10 +265,12 @@ class AllmessagesTablePager extends TablePager {
 				( $descending && ( $key < $offset || !$offset ) || !$descending && $key > $offset ) &&
 				( ( $this->prefix && preg_match( $this->prefix, $key ) ) || $this->prefix === false )
 			){
+				$actual = wfMessage( $key )->inLanguage( $this->langcode )->plain();
+				$default = wfMessage( $key )->inLanguage( $this->langcode )->useDatabase( false )->plain();
 				$result->result[] = array(
 					'am_title'      => $key,
-					'am_actual'     => wfMsgGetKey( $key, /*useDB*/true, $this->langcode, false ),
-					'am_default'    => wfMsgGetKey( $key, /*useDB*/false, $this->langcode, false ),
+					'am_actual'     => $actual,
+					'am_default'    => $default,
 					'am_customised' => $customised,
 					'am_talk_exists' => isset( $statuses['talks'][$key] )
 				);

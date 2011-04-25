@@ -10,6 +10,11 @@
  * @ingroup Parser
  */
 class CoreParserFunctions {
+	/**
+	 * @static
+	 * @param $parser Parser
+	 * @return void
+	 */
 	static function register( $parser ) {
 		global $wgAllowDisplayTitle, $wgAllowSlowParserFunctions;
 
@@ -86,9 +91,8 @@ class CoreParserFunctions {
 	static function intFunction( $parser, $part1 = '' /*, ... */ ) {
 		if ( strval( $part1 ) !== '' ) {
 			$args = array_slice( func_get_args(), 2 );
-			$message = wfMsgGetKey( $part1, true, $parser->getOptions()->getUserLang(), false );
-			$message = wfMsgReplaceArgs( $message, $args );
-			$message = $parser->replaceVariables( $message ); // like $wgMessageCache->transform()
+			$message = wfMessage( $part1, $args )->inLanguage( $parser->getOptions()->getUserLang() )->plain();
+			$message = $parser->replaceVariables( $message ); // like MessageCache::transform()
 			return $message;
 		} else {
 			return array( 'found' => false );
@@ -508,6 +512,7 @@ class CoreParserFunctions {
 	 *   to the link cache, so the local cache here should be unnecessary, but
 	 *   in fact calling getLength() repeatedly for the same $page does seem to
 	 *   run one query for each call?
+	 * @param $parser Parser
 	 */
 	static function pagesize( $parser, $page = '', $raw = null ) {
 		static $cache = array();
@@ -585,6 +590,12 @@ class CoreParserFunctions {
 		return self::pad( $string, $length, $padding );
 	}
 
+	/**
+	 * @static
+	 * @param $parser Parser
+	 * @param  $text
+	 * @return string
+	 */
 	static function anchorencode( $parser, $text ) {
 		return substr( $parser->guessSectionNameFromWikiText( $text ), 1);
 	}
@@ -599,6 +610,12 @@ class CoreParserFunctions {
 		}
 	}
 
+	/**
+	 * @static
+	 * @param $parser Parser
+	 * @param  $text
+	 * @return string
+	 */
 	public static function defaultsort( $parser, $text ) {
 		$text = trim( $text );
 		if( strlen( $text ) == 0 )

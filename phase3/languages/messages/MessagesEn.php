@@ -1375,6 +1375,7 @@ The latest log entry is provided below for reference:",
 'template-semiprotected'           => '(semi-protected)',
 'hiddencategories'                 => 'This page is a member of {{PLURAL:$1|1 hidden category|$1 hidden categories}}:',
 'edittools'                        => '<!-- Text here will be shown below edit and upload forms. -->', # only translate this message to other languages if you have to change it
+'edittools-upload'                 => '-', # only translate this message to other languages if you have to change it
 'nocreatetitle'                    => 'Page creation limited',
 'nocreatetext'                     => '{{SITENAME}} has restricted the ability to create new pages.
 You can go back and edit an existing page, or [[Special:UserLogin|log in or create an account]].',
@@ -2156,7 +2157,7 @@ If you still want to upload your file, please go back and use a new name.
 If you still want to upload your file, please go back and use a new name.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'This file is a duplicate of the following {{PLURAL:$1|file|files}}:',
-'file-deleted-duplicate'      => "A file identical to this file ([[$1]]) has previously been deleted.
+'file-deleted-duplicate'      => "A file identical to this file ([[:$1]]) has previously been deleted.
 You should check that file's deletion history before proceeding to re-upload it.",
 'uploadwarning'               => 'Upload warning',
 'uploadwarning-text'          => 'Please modify the file description below and try again.',
@@ -2425,14 +2426,15 @@ Remember to check for other links to the templates before deleting them.',
 They should link to the appropriate topic instead.<br />
 A page is treated as disambiguation page if it uses a template which is linked from [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Double redirects',
-'doubleredirects-summary'    => '', # do not translate or duplicate this message to other languages
-'doubleredirectstext'        => 'This page lists pages which redirect to other redirect pages.
+'doubleredirects'                   => 'Double redirects',
+'doubleredirects-summary'           => '', # do not translate or duplicate this message to other languages
+'doubleredirectstext'               => 'This page lists pages which redirect to other redirect pages.
 Each row contains links to the first and second redirect, as well as the target of the second redirect, which is usually the "real" target page, which the first redirect should point to.
 <del>Crossed out</del> entries have been solved.',
-'double-redirect-fixed-move' => '[[$1]] has been moved.
+'double-redirect-fixed-move'        => '[[$1]] has been moved.
 It now redirects to [[$2]].',
-'double-redirect-fixer'      => 'Redirect fixer',
+'double-redirect-fixed-maintenance' => 'Fixing double redirect from [[$1]] to [[$2]].',
+'double-redirect-fixer'             => 'Redirect fixer',
 
 'brokenredirects'         => 'Broken redirects',
 'brokenredirects-summary' => '', # do not translate or duplicate this message to other languages
@@ -4055,6 +4057,20 @@ to cancel the e-mail address confirmation:
 $5
 
 This confirmation code will expire at $4.',
+'confirmemail_body_set'     => 'Someone, probably you, from IP address $1,
+has set the e-mail address of the account "$2" to this address on {{SITENAME}}.
+
+To confirm that this account really does belong to you and reactivate
+e-mail features on {{SITENAME}}, open this link in your browser:
+
+$3
+
+If the account does *not* belong to you, follow this link
+to cancel the e-mail address confirmation:
+
+$5
+
+This confirmation code will expire at $4.',
 'confirmemail_invalidated'  => 'E-mail address confirmation canceled',
 'invalidateemail'           => 'Cancel e-mail confirmation',
 
@@ -4299,16 +4315,15 @@ Images are shown in full resolution, other file types are started with their ass
 Enter the file name without the "{{ns:file}}:" prefix.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Search for duplicate files',
-'fileduplicatesearch-summary'  => 'Search for duplicate files based on hash values.
-
-Enter the filename without the "{{ns:file}}:" prefix.',
-'fileduplicatesearch-legend'   => 'Search for a duplicate',
-'fileduplicatesearch-filename' => 'Filename:',
-'fileduplicatesearch-submit'   => 'Search',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />File size: $3<br />MIME type: $4',
-'fileduplicatesearch-result-1' => 'The file "$1" has no identical duplication.',
-'fileduplicatesearch-result-n' => 'The file "$1" has {{PLURAL:$2|1 identical duplication|$2 identical duplications}}.',
+'fileduplicatesearch'           => 'Search for duplicate files',
+'fileduplicatesearch-summary'   => 'Search for duplicate files based on hash values.',
+'fileduplicatesearch-legend'    => 'Search for a duplicate',
+'fileduplicatesearch-filename'  => 'Filename:',
+'fileduplicatesearch-submit'    => 'Search',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />File size: $3<br />MIME type: $4',
+'fileduplicatesearch-result-1'  => 'The file "$1" has no identical duplication.',
+'fileduplicatesearch-result-n'  => 'The file "$1" has {{PLURAL:$2|1 identical duplication|$2 identical duplications}}.',
+'fileduplicatesearch-noresults' => 'No file named "$1" found.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Special pages',

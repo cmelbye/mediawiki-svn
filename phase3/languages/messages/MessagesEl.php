@@ -825,10 +825,10 @@ $2',
 
 # JavaScript password checks
 'password-strength'            => 'Εκτιμώμενη ισχύς κωδικού:  $1',
-'password-strength-bad'        => 'Κακό',
-'password-strength-mediocre'   => 'μέτριος',
+'password-strength-bad'        => 'ΚΑΚΗ',
+'password-strength-mediocre'   => 'μέτρια',
 'password-strength-acceptable' => 'αποδεκτή',
-'password-strength-good'       => 'καλός',
+'password-strength-good'       => 'καλή',
 'password-retype'              => 'Πληκτρολογήστε ξανά τον κωδικό πρόσβασης',
 'password-retype-mismatch'     => 'Οι κωδικοί πρόσβασης δεν ταιριάζουν',
 
@@ -1731,7 +1731,7 @@ $1",
 'fileexists-shared-forbidden' => "Ένα αρχείο με αυτό το όνομα υπάρχει ήδη στο χώρο φύλαξης κοινών αρχείων.
 Εάν θέλετε παρ' όλ' αυτά να επιφορτώσετε το δικό σας αρχείο, παρακαλούμε πηγαίνετε πίσω και χρησιμοποιήστε ένα νέο όνομα. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => 'Αυτό το αρχείο είναι διπλότυπο {{PLURAL:$1|αυτού του αρχείου|αυτών των αρχείων}}:',
-'file-deleted-duplicate'      => 'Αρχείο παρόμοιο με αυτό εδώ ([[$1]]) έχει προηγουμένως διαγραφεί. Θα πρέπει να ελέγξετε το ιστορικό διαγραφής του πριν να προχωρήσετε στην επαναφόρτωσή του.',
+'file-deleted-duplicate'      => 'Αρχείο παρόμοιο με αυτό εδώ ([[:$1]]) έχει προηγουμένως διαγραφεί. Θα πρέπει να ελέγξετε το ιστορικό διαγραφής του πριν να προχωρήσετε στην επαναφόρτωσή του.',
 'uploadwarning'               => 'Προειδοποίηση φόρτωσης',
 'uploadwarning-text'          => 'Παρακαλώ αλλάξτε την περιγραφή του αρχείου παρακάτω και προσπαθήστε ξανά.',
 'savefile'                    => 'Αποθήκευση αρχείου',
@@ -3498,9 +3498,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Αναζήτηση για διπλά αρχεία',
-'fileduplicatesearch-summary'  => 'Αναζήτηση για διπλά αρχεία με βάση την τιμή hash του αρχείου.
-
-Εισάγετε το όνομα του αρχείου χωρίς το πρόθεμα "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Αναζήτηση για διπλά αρχεία με βάση την τιμή hash του αρχείου.',
 'fileduplicatesearch-legend'   => 'Αναζήτηση για διπλό αρχείο',
 'fileduplicatesearch-filename' => 'Όνομα αρχείου:',
 'fileduplicatesearch-submit'   => 'Αναζήτηση',

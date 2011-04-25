@@ -8,6 +8,7 @@
  * @file
  *
  * @author Danny B.
+ * @author Dontlietome7
  * @author Helix84
  * @author Kuvaly
  * @author Li-sung
@@ -267,7 +268,7 @@ $specialPageAliases = array(
 	'Newimages'                 => array( 'Nové_obrázky', 'Galerie_nových_obrázků', 'Nove_obrazky' ),
 	'Listusers'                 => array( 'Uživatelé', 'Uzivatele', 'Seznam_uživatelů', 'Seznam_uzivatelu' ),
 	'Listgrouprights'           => array( 'Seznam_uživatelských_práv', 'Seznam_uzivatelskych_prav' ),
-	'Statistics'                => array( 'Statistiky' ),
+	'Statistics'                => array( 'Statistika', 'Statistiky' ),
 	'Randompage'                => array( 'Náhodná_stránka', 'Nahodna_stranka' ),
 	'Lonelypages'               => array( 'Sirotčí_stránky', 'Sirotci_stranky' ),
 	'Uncategorizedpages'        => array( 'Nekategorizované_stránky', 'Nekategorizovane_stranky' ),
@@ -290,7 +291,7 @@ $specialPageAliases = array(
 	'Shortpages'                => array( 'Nejkratší_stránky', 'Nejkratsi_stranky' ),
 	'Longpages'                 => array( 'Nejdelší_stránky', 'Nejdelsi_stranky' ),
 	'Newpages'                  => array( 'Nové_stránky', 'Nove_stranky', 'Nejnovější_stránky', 'Nejnovejsi_stranky' ),
-	'Ancientpages'              => array( 'Staré_stránky', 'Stare_stranky', 'Nejstarší_stránky' ),
+	'Ancientpages'              => array( 'Nejstarší_stránky', 'Staré_stránky', 'Stare_stranky' ),
 	'Deadendpages'              => array( 'Slepé_stránky', 'Slepe_stranky' ),
 	'Protectedpages'            => array( 'Zamčené_stránky', 'Zamcene_stranky' ),
 	'Protectedtitles'           => array( 'Zamčené_názvy', 'Zamcene_nazvy', 'Stránky_které_nelze_vytvořit' ),
@@ -1736,7 +1737,7 @@ Pokud chcete přesto soubor načíst, vraťte se a zvolte jiný název.
 [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'Soubor s tímto názvem již existuje ve sdíleném úložišti. Pokud přesto chcete váš soubor načíst, vraťte se a zvolte jiný název. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tento soubor je duplikát {{PLURAL:$1|následujícího souboru|následujících souborů}}:',
-'file-deleted-duplicate'      => 'Identický soubor k tomuto ([[$1]]) byl již dříve smazán. Před tím, než soubor znovu nahrajete, byste měli zkontrolovat záznamy o předchozím smazání.',
+'file-deleted-duplicate'      => 'Identický soubor k tomuto ([[:$1]]) byl již dříve smazán. Před tím, než soubor znovu nahrajete, byste měli zkontrolovat záznamy o předchozím smazání.',
 'uploadwarning'               => 'Upozornění k načítání',
 'uploadwarning-text'          => 'Prosíme, upravte popis souboru níže a zkuste to znovu.',
 'savefile'                    => 'Uložit soubor',
@@ -1798,6 +1799,10 @@ Kontaktuje prosím [[Special:ListUsers/sysop|správce]].',
 'upload-http-error'         => 'Došlo k chybě HTTP: $1',
 
 # Special:UploadStash
+'uploadstash'          => 'Skrýš načtených souborů',
+'uploadstash-summary'  => 'Tato stránka nabízí přístup k nahraným (nebo právě nahrávaným) souborům, ale dosud nejsou zveřejněné na wiki. Tyto soubory se nezobrazí nikomu kromě uživatele, který je nahrál.',
+'uploadstash-clear'    => 'Vymazat soubory ve skrýši',
+'uploadstash-nofiles'  => 'Ve skrýši nemáte žádné soubory.',
 'uploadstash-badtoken' => 'Operace se nezdařila, možná vypršela platnost vašeho oprávnění k editaci. Zkuste to znovu.',
 'uploadstash-errclear' => 'Soubory se nepodařilo vymazat.',
 'uploadstash-refresh'  => 'Aktualizovat seznam souborů',
@@ -1975,12 +1980,13 @@ Vstup: <code>typ obsahu/podtyp</code>, např. <code>image/jpeg</code>.',
 'disambiguationspage'  => 'Template:Rozcestník',
 'disambiguations-text' => 'Odkazy na následujících stránkách vedou na rozcestníky (stránky obsahující některou ze šablon uvedených na [[MediaWiki:Disambiguationspage|seznamu rozcestníkových šablon]]) místo na příslušný článek.',
 
-'doubleredirects'            => 'Dvojitá přesměrování',
-'doubleredirectstext'        => 'Na této stránce je seznam přesměrování vedoucích na další přesměrování.
+'doubleredirects'                   => 'Dvojitá přesměrování',
+'doubleredirectstext'               => 'Na této stránce je seznam přesměrování vedoucích na další přesměrování.
 Každý řádek obsahuje odkaz na první a druhé přesměrování a k tomu cíl druhého přesměrování, který obvykle ukazuje jméno „skutečné“ cílové stránky, na kterou by mělo první přesměrování odkazovat.
 <del>Přeškrtnuté</del> položky již byly vyřešeny.',
-'double-redirect-fixed-move' => 'Stránka [[$1]] byla přesunuta, nyní přesměrovává na [[$2]]',
-'double-redirect-fixer'      => 'Opravář přesměrování',
+'double-redirect-fixed-move'        => 'Stránka [[$1]] byla přesunuta, nyní přesměrovává na [[$2]]',
+'double-redirect-fixed-maintenance' => 'Oprava dvojitého přesměrování z [[$1]] na [[$2]].',
+'double-redirect-fixer'             => 'Opravář přesměrování',
 
 'brokenredirects'        => 'Přerušená přesměrování',
 'brokenredirectstext'    => 'Tato přesměrování vedou na neexistující stránky:',
@@ -3342,6 +3348,21 @@ Pokud jste o toto potvrzení *nežádali*, klikněte na následující odkaz,
 $5
 
 Platnost tohoto potvrzovacího kódu vyprší $4.',
+'confirmemail_body_set'     => 'Někdo (patrně vy, z IP adresy $1) nastavil e-mailovou adresu
+účtu „$2“ na {{grammar:6sg|{{SITENAME}}}} na tuto adresu.
+
+Pokud si přejete znovu aktivovat e-mailové funkce na
+{{grammar:6sg|{{SITENAME}}}}, tak pro potvrzení, že tato adresa opravdu
+patří vám, přejděte svým internetovým prohlížečem na následující adresu:
+
+$3
+
+Pokud vám tento účet *nepatří*, klikněte na následující
+odkaz, čímž potvrzení zrušíte:
+
+$5
+
+Platnost tohoto potvrzovacího kódu vyprší $4.',
 'confirmemail_invalidated'  => 'Potvrzení e-mailové adresy bylo zrušeno',
 'invalidateemail'           => 'Zrušit potvrzení e-mailové adresy',
 
@@ -3533,16 +3554,15 @@ MediaWiki je distribuována v naději, že bude užitečná, avšak BEZ JAKÉKOL
 Jméno souboru vkládejte bez označení "{{ns:file}}:" .',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Hledání duplicitních souborů',
-'fileduplicatesearch-summary'  => 'Hledání duplicitních souborů vychází z hodnoty hashovací funkce.
-
-Zadejte jméno souboru bez označení "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Hledání duplikátů',
-'fileduplicatesearch-filename' => 'Jméno souboru:',
-'fileduplicatesearch-submit'   => 'Hledat',
-'fileduplicatesearch-info'     => '(rozměr: $1 × $2 pixelů, velikost souboru: $3, MIME typ: $4)',
-'fileduplicatesearch-result-1' => 'Soubor „$1“ nemá žádný identický duplikát.',
-'fileduplicatesearch-result-n' => 'Soubor „$1“ má {{PLURAL:$2|jeden identický duplikát|$2 identické duplikáty|$2 identických duplikátů}}.',
+'fileduplicatesearch'           => 'Hledání duplicitních souborů',
+'fileduplicatesearch-summary'   => 'Hledání duplicitních souborů vychází z hodnoty hashovací funkce.',
+'fileduplicatesearch-legend'    => 'Hledání duplikátů',
+'fileduplicatesearch-filename'  => 'Jméno souboru:',
+'fileduplicatesearch-submit'    => 'Hledat',
+'fileduplicatesearch-info'      => '(rozměr: $1 × $2 pixelů, velikost souboru: $3, MIME typ: $4)',
+'fileduplicatesearch-result-1'  => 'Soubor „$1“ nemá žádný identický duplikát.',
+'fileduplicatesearch-result-n'  => 'Soubor „$1“ má {{PLURAL:$2|jeden identický duplikát|$2 identické duplikáty|$2 identických duplikátů}}.',
+'fileduplicatesearch-noresults' => 'Žádný soubor s názvem „$1“ nebyl nalezen.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Speciální stránky',

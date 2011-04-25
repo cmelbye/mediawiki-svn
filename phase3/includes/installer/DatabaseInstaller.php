@@ -119,7 +119,7 @@ abstract class DatabaseInstaller {
 	 * 
 	 * This will return a cached connection if one is available.
 	 *
-	 * @return DatabaseBase
+	 * @return Status
 	 */
 	public function getConnection() {
 		if ( $this->db ) {
@@ -171,6 +171,40 @@ abstract class DatabaseInstaller {
 	}
 
 	/**
+	 * Create the tables for each extension the user enabled
+	 * @return Status
+	 */
+	public function createExtensionTables() {
+		$status = $this->getConnection();
+		if ( !$status->isOK() ) {
+			return $status;
+		}
+		$updater = DatabaseUpdater::newForDB( $this->db );
+		$extensionUpdates = $updater->getNewExtensions();
+
+		// No extensions need tables (or haven't updated to new installer support)
+		if( !count( $extensionUpdates ) ) {
+			return $status;
+		}
+
+		$ourExtensions = array_map( 'strtolower', $this->getVar( '_Extensions' ) );
+
+		foreach( $ourExtensions as $ext ) {
+			if( isset( $extensionUpdates[$ext] ) ) {
+				$this->db->begin( __METHOD__ );
+				$error = $this->db->sourceFile( $extensionUpdates[$ext] );
+				if( $error !== true ) {
+					$this->db->rollback( __METHOD__ );
+					$status->warning( 'config-install-tables-failed', $error );
+				} else {
+					$this->db->commit( __METHOD__ );
+				}
+			}
+		}
+		return $status;
+	}
+
+	/**
 	 * Get the DBMS-specific options for LocalSettings.php generation.
 	 *
 	 * @return String
@@ -195,6 +229,8 @@ abstract class DatabaseInstaller {
 		$status = $this->getConnection();
 		if ( $status->isOK() ) {
 			$status->value->setSchemaVars( $this->getSchemaVars() );
+		} else {
+			throw new MWException( __METHOD__.': unexpected DB connection error' );
 		}
 	}
 
@@ -210,14 +246,6 @@ abstract class DatabaseInstaller {
 		}
 		LBFactory::setInstance( new LBFactory_Single( array(
 			'connection' => $status->value ) ) );
-	}
-
-	/**
-	 * Get a Database connection object. Throw an exception if we can't get one.
-	 *
-	 * @return DatabaseBase
-	 */
-	public function getConnectionOrDie() {
 	}
 
 	/**
@@ -437,6 +465,8 @@ abstract class DatabaseInstaller {
 
 	/**
 	 * Get a standard install-user fieldset.
+	 *
+	 * @return String
 	 */
 	public function getInstallUserBox() {
 		return
@@ -459,6 +489,8 @@ abstract class DatabaseInstaller {
 	 * Get a standard web-user fieldset
 	 * @param $noCreateMsg String: Message to display instead of the creation checkbox.
 	 *   Set this to false to show a creation checkbox.
+	 *
+	 * @return String
 	 */
 	public function getWebUserBox( $noCreateMsg = false ) {
 		$s = Html::openElement( 'fieldset' ) .
@@ -500,6 +532,8 @@ abstract class DatabaseInstaller {
 
 	/**
 	 * Common function for databases that don't understand the MySQLish syntax of interwiki.sql.
+	 *
+	 * @return Status
 	 */
 	public function populateInterwikiTable() {
 		$status = $this->getConnection();
@@ -513,11 +547,13 @@ abstract class DatabaseInstaller {
 			return $status;
 		}
 		global $IP;
+		wfSuppressWarnings();
 		$rows = file( "$IP/maintenance/interwiki.list",
 			FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		wfRestoreWarnings();
 		$interwikis = array();
 		if ( !$rows ) {
-			return Status::newFatal( 'config-install-interwiki-sql' );
+			return Status::newFatal( 'config-install-interwiki-list' );
 		}
 		foreach( $rows as $row ) {
 			$row = preg_replace( '/^\s*([^#]*?)\s*(#.*)?$/', '\\1', $row ); // strip comments - whee

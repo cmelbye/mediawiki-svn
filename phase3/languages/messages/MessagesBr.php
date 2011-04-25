@@ -53,7 +53,7 @@ $specialPageAliases = array(
 	'Recentchanges'             => array( 'KemmoùDiwezhañ' ),
 	'Upload'                    => array( 'Pellgargañ' ),
 	'Listfiles'                 => array( 'RollSkeudennoù' ),
-	'Newimages'                 => array( 'SkeudennoùNevez' ),
+	'Newimages'                 => array( 'RestroùNevez', 'SkeudennoùNevez' ),
 	'Listusers'                 => array( 'RollImplijerien' ),
 	'Listgrouprights'           => array( 'RollGwirioùStrollad' ),
 	'Statistics'                => array( 'Stadegoù' ),
@@ -66,6 +66,10 @@ $specialPageAliases = array(
 	'Unusedcategories'          => array( 'RummadoùDizimplij' ),
 	'Unusedimages'              => array( 'RestroùDizimplij' ),
 	'Wantedpages'               => array( 'LiammoùTorr' ),
+	'Wantedcategories'          => array( 'RummadoùGoulennet' ),
+	'Wantedfiles'               => array( 'RestroùGoulennet' ),
+	'Wantedtemplates'           => array( 'PatromoùGoulennet' ),
+	'Mostlinkedtemplates'       => array( 'PatromoùImplijetañ' ),
 	'Shortpages'                => array( 'PajennoùBerr' ),
 	'Longpages'                 => array( 'PajennoùHir' ),
 	'Newpages'                  => array( 'PajennoùNevez' ),
@@ -91,9 +95,16 @@ $specialPageAliases = array(
 	'Blockip'                   => array( 'Stankañ' ),
 	'Undelete'                  => array( 'Diziverkañ' ),
 	'Import'                    => array( 'Enporzhiañ' ),
+	'Userrights'                => array( 'GwirioùImplijer' ),
+	'Unwatchedpages'            => array( 'PajennoùNannEvezhiet' ),
 	'Listredirects'             => array( 'RollañAdkasoù' ),
+	'Unusedtemplates'           => array( 'PatromoùDizimplij' ),
 	'Mypage'                    => array( 'MaFajenn' ),
 	'Mytalk'                    => array( 'MaC\'haozeadennoù' ),
+	'Mycontributions'           => array( 'MaDegasadennoù' ),
+	'Listadmins'                => array( 'RollMerourien' ),
+	'Listbots'                  => array( 'RollBotoù' ),
+	'Popularpages'              => array( 'PajennoùPoblek' ),
 	'Search'                    => array( 'Klask' ),
 	'Resetpass'                 => array( 'KemmañGer-tremen' ),
 	'Withoutinterwiki'          => array( 'HepEtrewiki' ),
@@ -102,6 +113,7 @@ $specialPageAliases = array(
 	'Tags'                      => array( 'Balizennoù' ),
 	'Activeusers'               => array( 'ImplijerienOberiant' ),
 	'ComparePages'              => array( 'KeñveriañPajennoù' ),
+	'Badtitle'                  => array( 'TitlFall' ),
 );
 
 $magicWords = array(
@@ -1571,7 +1583,7 @@ Mar fell deoc'h enporzhiañ ho restr memes tra, kit war ho kiz ha grit gant un a
 'fileexists-shared-forbidden' => "Ur restr all dezhi an hevelep anv zo c'hoazh er c'havlec'h eskemm restroù.
 Mar fell deoc'h enporzhiañ ar restr-mañ da vat, kit war ho kiz hag enporzhiit anezhi adarre dindan un anv all. [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => 'Un eil eus ar {{PLURAL:$1|restr|restroù}} da-heul eo ar restr-mañ :',
-'file-deleted-duplicate'      => "Diverket ez eus bet c'hoazh ur restr heñvel-poch ouzh ar restr-mañ ([[$1]]). Gwelloc'h e vefe deoc'h teuler ur sell war istor diverkadenn ar bajenn-se a-raok hec'h enporzhiañ en-dro.",
+'file-deleted-duplicate'      => "Diverket ez eus bet c'hoazh ur restr heñvel-poch ouzh ar restr-mañ ([[:$1]]). Gwelloc'h e vefe deoc'h teuler ur sell war istor diverkadenn ar bajenn-se a-raok hec'h enporzhiañ en-dro.",
 'uploadwarning'               => 'Diwallit!',
 'uploadwarning-text'          => 'Cheñchit deskrivadur ar restr a-is ha klaskit en-dro.',
 'savefile'                    => 'Enrollañ ar restr',
@@ -1816,12 +1828,13 @@ Diskouezet eo deskrivadur he [$2 fajenn zeskrivañ] amañ dindan.',
 Padal e tlefent kas war-eeun d'an danvez anezho.<br />
 Sellet e vez ouzh ur bajenn evel ouzh ur bajenn disheñvelout ma ra gant ur patrom liammet ouzh [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Adkasoù doubl',
-'doubleredirectstext'        => 'Rollañ a ra ar bajenn-mañ ar pajennoù a adkas da bajennoù adkas all.
+'doubleredirects'                   => 'Adkasoù doubl',
+'doubleredirectstext'               => 'Rollañ a ra ar bajenn-mañ ar pajennoù a adkas da bajennoù adkas all.
 War bep linenn ez eus liammoù war-du pajennoù an adkas kentañ hag en eil adkas, hag ivez war-du pajenn-dal an eil adkas zo sañset bezañ ar pal "gwirion" a zlefe an adkas kentañ kas di.
 Diskoulmet eo bet an enmontoù <del>barrennet</del>.',
-'double-redirect-fixed-move' => 'Adanvet eo bet [[$1]], adkaset eo war-du [[$2]] bremañ',
-'double-redirect-fixer'      => 'Reizher adkasoù',
+'double-redirect-fixed-move'        => 'Adanvet eo bet [[$1]], adkaset eo war-du [[$2]] bremañ',
+'double-redirect-fixed-maintenance' => 'O reizhañ an adkas doubl adalek [[$1]] war-zu [[$2]].',
+'double-redirect-fixer'             => 'Reizher adkasoù',
 
 'brokenredirects'        => 'Adkasoù torret',
 'brokenredirectstext'    => "Kas a ra an adkasoù-mañ da bajennoù n'eus ket anezho.",
@@ -3200,6 +3213,20 @@ evit nullañ kadarnaat ar chomlec'h postel :
 \$5
 
 Mont a raio ar c'hod kadarnaat-mañ d'e dermen d'ar \$4.",
+'confirmemail_body_set'     => "Unan bennak, c'hwi moarvat, gant ar chomlec'h IP \$1,
+en deus enrollet ur gont \"\$2\" gant ar chomlec'h postel-mañ war lec'hienn {{SITENAME}}.
+
+Evit kadarnaat eo deoc'h ar gont-se ha gweredekaat en-dro
+an arc'hwelioù postelerezh war {{SITENAME}}, digorit al liamm-mañ en ho merdeer :
+
+\$3
+
+Ma n'eo *ket* deoc'h ar gont heuilhit al liamm-mañ
+evit nullañ kadarnaat ar chomlec'h postel :
+
+\$5
+
+Mont a raio ar c'hod-mañ d'e dermen d'ar \$4.",
 'confirmemail_invalidated'  => "Nullet eo bet kadarnaat ar chomlec'h postel",
 'invalidateemail'           => 'Nullañ kadarnaat ar postel',
 
@@ -3351,16 +3378,15 @@ Sañset oc'h bezañ resevet [{{SERVER}}{{SCRIPTPATH}}/COPYING un eilskrid eus ar
 Merkit anv ar restr hep ar rakger "{{ns:file}} :"',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Klask ar restroù e doubl',
-'fileduplicatesearch-summary'  => 'Klask restroù e doubl war diazez talvoudennoù darnek.
-
-Merkañ anv ar restr hep ar rakger "{{ns:file}}:"',
-'fileduplicatesearch-legend'   => 'Klask un doubl',
-'fileduplicatesearch-filename' => 'Anv ar restr :',
-'fileduplicatesearch-submit'   => 'Klask',
-'fileduplicatesearch-info'     => '$1 × $2 piksel<br />Ment ar restr : $3<br />seurt MIME : $4',
-'fileduplicatesearch-result-1' => 'N\'eus ket a zoubloù heñvel-poch gant ar restr "$1".',
-'fileduplicatesearch-result-n' => '{{PLURAL:$2|1 doubl heñvel-poch|$2 doubl heñvel-poch}} zo gant ar restr "$1".',
+'fileduplicatesearch'           => 'Klask ar restroù e doubl',
+'fileduplicatesearch-summary'   => 'Klask restroù e doubl war diazez talvoudennoù krennet.',
+'fileduplicatesearch-legend'    => 'Klask un doubl',
+'fileduplicatesearch-filename'  => 'Anv ar restr :',
+'fileduplicatesearch-submit'    => 'Klask',
+'fileduplicatesearch-info'      => '$1 × $2 piksel<br />Ment ar restr : $3<br />seurt MIME : $4',
+'fileduplicatesearch-result-1'  => 'N\'eus ket a zoubloù heñvel-poch gant ar restr "$1".',
+'fileduplicatesearch-result-n'  => '{{PLURAL:$2|1 doubl heñvel-poch|$2 doubl heñvel-poch}} zo gant ar restr "$1".',
+'fileduplicatesearch-noresults' => 'N\'eus bet kavet restr ebet anvet "$1".',
 
 # Special:SpecialPages
 'specialpages'                   => 'Pajennoù dibar',

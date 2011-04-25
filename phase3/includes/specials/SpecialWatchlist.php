@@ -57,12 +57,12 @@ function wfSpecialWatchlist( $par ) {
 	if( $wgUser->isAnon() ) {
 		$wgOut->setPageTitle( wfMsg( 'watchnologin' ) );
 		$llink = $skin->linkKnown(
-			SpecialPage::getTitleFor( 'Userlogin' ), 
+			SpecialPage::getTitleFor( 'Userlogin' ),
 			wfMsgHtml( 'loginreqlink' ),
 			array(),
 			array( 'returnto' => $specialTitle->getPrefixedText() )
 		);
-		$wgOut->addHTML( wfMsgWikiHtml( 'watchlistanontext', $llink ) );
+		$wgOut->addWikiMsgArray( 'watchlistanontext', array( $llink ), array( 'replaceafter' ) );
 		return;
 	}
 
@@ -103,7 +103,7 @@ function wfSpecialWatchlist( $par ) {
 	$prefs['days']      = floatval( $wgUser->getOption( 'watchlistdays' ) );
 	$prefs['hideminor'] = $wgUser->getBoolOption( 'watchlisthideminor' );
 	$prefs['hidebots']  = $wgUser->getBoolOption( 'watchlisthidebots' );
-	$prefs['hideanons'] = $wgUser->getBoolOption( 'watchlisthideanon' );
+	$prefs['hideanons'] = $wgUser->getBoolOption( 'watchlisthideanons' );
 	$prefs['hideliu']   = $wgUser->getBoolOption( 'watchlisthideliu' );
 	$prefs['hideown' ]  = $wgUser->getBoolOption( 'watchlisthideown' );
 	$prefs['hidepatrolled' ] = $wgUser->getBoolOption( 'watchlisthidepatrolled' );

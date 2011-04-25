@@ -224,6 +224,8 @@ $wgAutoloadLocalClasses = array(
 	'SiteStatsUpdate' => 'includes/SiteStats.php',
 	'Skin' => 'includes/Skin.php',
 	'SkinTemplate' => 'includes/SkinTemplate.php',
+	'SkinLegacy' => 'includes/SkinLegacy.php',
+	'LegacyTemplate' => 'includes/SkinLegacy.php',
 	'SpecialMycontributions' => 'includes/SpecialPage.php',
 	'SpecialMypage' => 'includes/SpecialPage.php',
 	'SpecialMytalk' => 'includes/SpecialPage.php',
@@ -684,7 +686,7 @@ $wgAutoloadLocalClasses = array(
 	'WantedFilesPage' => 'includes/specials/SpecialWantedfiles.php',
 	'WantedPagesPage' => 'includes/specials/SpecialWantedpages.php',
 	'WantedTemplatesPage' => 'includes/specials/SpecialWantedtemplates.php',
-	'WikiImporter' => 'includes/ImportXMLReader.php',
+	'WikiImporter' => 'includes/Import.php',
 	'WikiRevision' => 'includes/Import.php',
 	'WithoutInterwikiPage' => 'includes/specials/SpecialWithoutinterwiki.php',
 

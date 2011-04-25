@@ -254,6 +254,7 @@ $magicWords = array(
 	'nse'                   => array( '0', 'نطم:', 'NSE:' ),
 	'localurl'              => array( '0', 'مسار_محلي:', 'LOCALURL:' ),
 	'localurle'             => array( '0', 'عنوان_المسار_المحلي:', 'LOCALURLE:' ),
+	'articlepath'           => array( '0', 'مسار_المقالة', 'ARTICLEPATH' ),
 	'server'                => array( '0', 'خادم', 'SERVER' ),
 	'servername'            => array( '0', 'اسم_الخادم', 'SERVERNAME' ),
 	'scriptpath'            => array( '0', 'مسار_السكريبت', 'مسار_سكريبت', 'SCRIPTPATH' ),
@@ -328,6 +329,7 @@ $specialPageAliases = array(
 	'Watchlist'                 => array( 'قائمة_المراقبة' ),
 	'Recentchanges'             => array( 'أحدث_التغييرات' ),
 	'Upload'                    => array( 'رفع' ),
+	'UploadStash'               => array( 'رفع_مخفي' ),
 	'Listfiles'                 => array( 'عرض_الملفات', 'قائمة_الملفات', 'قائمة_الصور' ),
 	'Newimages'                 => array( 'ملفات_جديدة', 'صور_جديدة' ),
 	'Listusers'                 => array( 'عرض_المستخدمين', 'قائمة_المستخدمين' ),
@@ -393,6 +395,8 @@ $specialPageAliases = array(
 	'Mypage'                    => array( 'صفحتي' ),
 	'Mytalk'                    => array( 'نقاشي' ),
 	'Mycontributions'           => array( 'مساهماتي' ),
+	'Myuploads'                 => array( 'رفوعاتي' ),
+	'PermanentLink'             => array( 'وصلة_دائمة', 'رابط_دائم' ),
 	'Listadmins'                => array( 'عرض_الإداريين' ),
 	'Listbots'                  => array( 'عرض_البوتات' ),
 	'Popularpages'              => array( 'صفحات_مشهورة' ),
@@ -408,6 +412,9 @@ $specialPageAliases = array(
 	'Tags'                      => array( 'وسوم' ),
 	'Activeusers'               => array( 'مستخدمون_نشطون' ),
 	'RevisionMove'              => array( 'نقل_مراجعة' ),
+	'ComparePages'              => array( 'مقارنة_الصفحات' ),
+	'Badtitle'                  => array( 'عوان_سئ' ),
+	'DisableAccount'            => array( 'تعطيل_الحساب' ),
 );
 
 /**
@@ -1874,7 +1881,7 @@ $1",
 لو كنت مازلت تريد رفع ملفك، من فضلك ارجع واستخدم اسما جديدا.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'هذا الملف مكرر  {{PLURAL:$1|للملف|للملفات}} التالية:',
-'file-deleted-duplicate'      => 'ملف مطابق لهذه الملف ([[$1]]) تم حذفه من قبل. ينبغي أن تتحقق من تاريخ الحذف لهذا الملف قبل المتابعة بإعادة رفعه.',
+'file-deleted-duplicate'      => 'ملف مطابق لهذه الملف ([[:$1]]) تم حذفه من قبل. ينبغي أن تتحقق من تاريخ الحذف لهذا الملف قبل المتابعة بإعادة رفعه.',
 'uploadwarning'               => 'تحذير الرفع',
 'uploadwarning-text'          => 'من فضلك عدل وصف الملف أدناه وحاول مرة أخرى.',
 'savefile'                    => 'احفظ الملف',
@@ -2130,12 +2137,13 @@ $1',
 ينبغي في المقابل أن تصل إلى الصفحة الملائمة. <br />
 تعامل الصفحة كصفحة توضيح إذا كان بها قالب موجود في [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'تحويلات مزدوجة',
-'doubleredirectstext'        => 'هذه الصفحة تعرض الصفحات التي تحول إلى صفحات تحويل أخرى.
+'doubleredirects'                   => 'تحويلات مزدوجة',
+'doubleredirectstext'               => 'هذه الصفحة تعرض الصفحات التي تحول إلى صفحات تحويل أخرى.
 كل سطر يحتوي على وصلات للتحويلة الأولى والثانية وهدف التحويلة الثانية، والذي عادة ما يشير إلى صفحة الهدف "الحقيقية"، التي من المفترض أن تحول إليها التحويلة الأولى.
 المدخلات <del>المشطوبة</del> صححت.',
-'double-redirect-fixed-move' => '[[$1]] تم نقلها، هي الآن تحويلة إلى [[$2]]',
-'double-redirect-fixer'      => 'مصلح التحويل',
+'double-redirect-fixed-move'        => '[[$1]] تم نقلها، هي الآن تحويلة إلى [[$2]]',
+'double-redirect-fixed-maintenance' => 'تصليح تحويلة مزدوجة من [[$1]] إلى [[$2]].',
+'double-redirect-fixer'             => 'مصلح التحويل',
 
 'brokenredirects'        => 'تحويلات مكسورة',
 'brokenredirectstext'    => 'التحويلات التالية تصل لصفحات غير موجودة:',
@@ -3783,16 +3791,15 @@ $1',
 أدخل اسم الملف بدون البادئة "{{ns:file}}:"',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'بحث عن ملفات مكررة',
-'fileduplicatesearch-summary'  => 'ابحث عن الملفات المكررة بناء على قيمة الهاش الخاصة بها.
-
-أدخل اسم الملف بدون بادئة "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'بحث عن مكرر',
-'fileduplicatesearch-filename' => 'اسم الملف:',
-'fileduplicatesearch-submit'   => 'ابحث',
-'fileduplicatesearch-info'     => '$1 × $2 بكسل<br />حجم الملف: $3<br />نوع MIME: $4',
-'fileduplicatesearch-result-1' => 'الملف "$1" ليس له تكرار مطابق.',
-'fileduplicatesearch-result-n' => 'الملف "$1" له {{PLURAL:$2|1 تكرار مطابق|$2 تكرار مطابق}}.',
+'fileduplicatesearch'           => 'بحث عن ملفات مكررة',
+'fileduplicatesearch-summary'   => 'ابحث عن الملفات المكررة بناء على قيم الهاش.',
+'fileduplicatesearch-legend'    => 'بحث عن مكرر',
+'fileduplicatesearch-filename'  => 'اسم الملف:',
+'fileduplicatesearch-submit'    => 'ابحث',
+'fileduplicatesearch-info'      => '$1 × $2 بكسل<br />حجم الملف: $3<br />نوع MIME: $4',
+'fileduplicatesearch-result-1'  => 'الملف "$1" ليس له تكرار مطابق.',
+'fileduplicatesearch-result-n'  => 'الملف "$1" له {{PLURAL:$2|1 تكرار مطابق|$2 تكرار مطابق}}.',
+'fileduplicatesearch-noresults' => 'لا ملف بالاسم "$1" تم العثور عليه.',
 
 # Special:SpecialPages
 'specialpages'                   => 'الصفحات الخاصة',

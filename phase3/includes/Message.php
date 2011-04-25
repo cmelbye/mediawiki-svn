@@ -95,6 +95,11 @@ class Message {
 	protected $useDatabase = true;
 
 	/**
+	 * Title object to use as context
+	 */
+	protected $title = null;
+
+	/**
 	 * Constructor.
 	 * @param $key: message key, or array of message keys to try and use the first non-empty message for
 	 * @param $params Array message parameters
@@ -148,7 +153,11 @@ class Message {
 	 * @return Message: $this
 	 */
 	public function params( /*...*/ ) {
-		$args_values = array_values( func_get_args() );
+		$args = func_get_args();
+		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
+			$args = $args[0];
+		}
+		$args_values = array_values( $args );
 		$this->parameters = array_merge( $this->parameters, $args_values );
 		return $this;
 	}
@@ -163,6 +172,9 @@ class Message {
 	 */
 	public function rawParams( /*...*/ ) {
 		$params = func_get_args();
+		if ( isset( $params[0] ) && is_array( $params[0] ) ) {
+			$params = $params[0];
+		}
 		foreach( $params as $param ) {
 			$this->parameters[] = self::rawParam( $param );
 		}
@@ -177,6 +189,9 @@ class Message {
 	 */
 	public function numParams( /*...*/ ) {
 		$params = func_get_args();
+		if ( isset( $params[0] ) && is_array( $params[0] ) ) {
+			$params = $params[0];
+		}
 		foreach( $params as $param ) {
 			$this->parameters[] = self::numParam( $param );
 		}
@@ -225,6 +240,17 @@ class Message {
 	 */
 	public function useDatabase( $value ) {
 		$this->useDatabase = (bool) $value;
+		return $this;
+	}
+
+	/**
+	 * Set the Title object to use as context when transforming the message
+	 *
+	 * @param $title Title object
+	 * @return Message: $this
+	 */
+	public function title( $title ) {
+		$this->title = $title;
 		return $this;
 	}
 
@@ -324,6 +350,7 @@ class Message {
 	/**
 	 * Check whether a message does not exist, or is an empty string
 	 * @return Bool: true if is is and false if not
+	 * @todo Merge with isDisabled()?
 	 */
 	public function isBlank() {
 		$message = $this->fetchMessage();
@@ -349,24 +376,40 @@ class Message {
 
 	/**
 	 * Substitutes any paramaters into the message text.
-	 * @param $message String, the message text
+	 * @param $message String: the message text
 	 * @param $type String: either before or after
 	 * @return String
 	 */
 	protected function replaceParameters( $message, $type = 'before' ) {
 		$replacementKeys = array();
 		foreach( $this->parameters as $n => $param ) {
-			if ( $type === 'before' && !is_array( $param ) ) {
-				$replacementKeys['$' . ($n + 1)] = $param;
-			} elseif ( $type === 'after' && isset( $param['raw'] ) ) {
-				$replacementKeys['$' . ($n + 1)] = $param['raw'];
-			} elseif ( isset( $param['num'] ) ) {
-				$replacementKeys['$' . ($n + 1)] = 
-					$this->language->formatNum( $param['num'] );
+			list( $paramType, $value ) = $this->extractParam( $param );
+			if ( $type === $paramType ) {
+				$replacementKeys['$' . ($n + 1)] = $value;
 			}
 		}
 		$message = strtr( $message, $replacementKeys );
 		return $message;
+	}
+
+	/**
+	 * Extracts the parameter type and preprocessed the value if needed.
+	 * @param $param String|Array: Parameter as defined in this class.
+	 * @return Tuple(type, value)
+	 * @throws MWException
+	 */
+	protected function extractParam( $param ) {
+		if ( is_array( $param ) && isset( $param['raw'] ) ) {
+			return array( 'after', $param['raw'] );
+		} elseif ( is_array( $param ) && isset( $param['num'] ) ) {
+			// Replace number params always in before step for now.
+			// No support for combined raw and num params
+			return array( 'before', $this->language->formatNum( $param['num'] ) );
+		} elseif ( !is_array( $param ) ) {
+			return array( 'before', $param );
+		} else {
+			throw new MWException( "Invalid message parameter" );
+		}
 	}
 
 	/**
@@ -385,8 +428,7 @@ class Message {
 	 * @return Wikitext with {{-constructs replaced with their values.
 	 */
 	protected function transformText( $string ) {
-		global $wgMessageCache;
-		return $wgMessageCache->transform( $string, $this->interface, $this->language );
+		return MessageCache::singleton()->transform( $string, $this->interface, $this->language, $this->title );
 	}
 
 	/**
@@ -407,17 +449,17 @@ class Message {
 	 */
 	protected function fetchMessage() {
 		if ( !isset( $this->message ) ) {
-			global $wgMessageCache;
+			$cache = MessageCache::singleton();
 			if ( is_array($this->key) ) {
 				foreach ( $this->key as $key ) {
-					$message = $wgMessageCache->get( $key, $this->useDatabase, $this->language );
+					$message = $cache->get( $key, $this->useDatabase, $this->language );
 					if ( $message !== false && $message !== '' ) {
 						break;
 					}
 				}
 				$this->message = $message;
 			} else {
-				$this->message = $wgMessageCache->get( $this->key, $this->useDatabase, $this->language );
+				$this->message = $cache->get( $this->key, $this->useDatabase, $this->language );
 			}
 		}
 		return $this->message;

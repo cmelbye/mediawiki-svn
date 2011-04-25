@@ -234,6 +234,7 @@ $specialPageAliases = array(
 	'Watchlist'                 => array( 'Volglijst' ),
 	'Recentchanges'             => array( 'RecenteWijzigingen' ),
 	'Upload'                    => array( 'Uploaden' ),
+	'UploadStash'               => array( 'TijdelijkeUpload' ),
 	'Listfiles'                 => array( 'Bestandenlijst', 'Afbeeldingenlijst' ),
 	'Newimages'                 => array( 'NieuweBestanden', 'NieuweAfbeeldingen' ),
 	'Listusers'                 => array( 'Gebruikerslijst', 'Gebruikerlijst' ),
@@ -299,6 +300,8 @@ $specialPageAliases = array(
 	'Mypage'                    => array( 'MijnPagina' ),
 	'Mytalk'                    => array( 'MijnOverleg' ),
 	'Mycontributions'           => array( 'MijnBijdragen' ),
+	'Myuploads'                 => array( 'MijnUploads' ),
+	'PermanentLink'             => array( 'PermanenteVerwijzing' ),
 	'Listadmins'                => array( 'Beheerderlijst', 'Administratorlijst', 'Adminlijst', 'Beheerderslijst' ),
 	'Listbots'                  => array( 'Botlijst', 'Lijstbots' ),
 	'Popularpages'              => array( 'PopulairePaginas', 'PopulairePagina’s', 'PopulairePagina\'s' ),
@@ -316,6 +319,7 @@ $specialPageAliases = array(
 	'RevisionMove'              => array( 'VersieVerplaatsen' ),
 	'ComparePages'              => array( 'PaginasVergelijken', 'Pagina\'sVergelijken' ),
 	'Badtitle'                  => array( 'OnjuisteNaam' ),
+	'DisableAccount'            => array( 'GebruikerUitschakelen' ),
 );
 
 $linkTrail = '/^([a-zäöüïëéèà]+)(.*)$/sDu';
@@ -1800,7 +1804,7 @@ Upload uw bestand onder een andere naam.
 Als u het bestand alsnog wilt uploaden, ga dan terug en kies een andere naam.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Dit bestand is indentiek aan {{PLURAL:$1|het volgende bestand|de volgende bestanden}}:',
-'file-deleted-duplicate'      => 'Een bestand dat identiek is aan dit bestand ([[$1]]) is voorheen verwijderd.
+'file-deleted-duplicate'      => 'Een bestand dat identiek is aan dit bestand ([[:$1]]) is voorheen verwijderd.
 Raadpleeg het verwijderingslogboek voordat u verder gaat.',
 'uploadwarning'               => 'Uploadwaarschuwing',
 'uploadwarning-text'          => 'Pas de onderstaande bestandsbeschrijving aan en probeer het daarna opnieuw.',
@@ -2056,13 +2060,14 @@ Vergeet niet de "Verwijzingen naar deze pagina" te controleren alvorens dit sjab
 Deze horen waarschijnlijk direct naar het juiste onderwerp te verwijzen.
 <br />Een pagina wordt gezien als doorverwijspagina als er een sjabloon op staat dat opgenomen is op [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Dubbele doorverwijzingen',
-'doubleredirectstext'        => "Deze lijst bevat pagina's die doorverwijzen naar andere doorverwijspagina's.
+'doubleredirects'                   => 'Dubbele doorverwijzingen',
+'doubleredirectstext'               => "Deze lijst bevat pagina's die doorverwijzen naar andere doorverwijspagina's.
 Elke rij bevat verwijzingen naar de eerste en de tweede doorverwijspagina en een verwijzing naar de doelpagina van de tweede doorverwijspagina.
 Meestal is de laatste pagina het eigenlijke doel, waar de eerste pagina naar zou moeten doorverwijzen.
 <del>Doorgehaalde regels</del> geven aan dat het probleem al is opgelost.",
-'double-redirect-fixed-move' => '[[$1]] is verplaatst en is nu een doorverwijzing naar [[$2]]',
-'double-redirect-fixer'      => 'Doorverwijzingen opschonen',
+'double-redirect-fixed-move'        => '[[$1]] is verplaatst en is nu een doorverwijzing naar [[$2]]',
+'double-redirect-fixed-maintenance' => 'Correctie dubbele doorverwijzing van [[$1]] naar [[$2]].',
+'double-redirect-fixer'             => 'Doorverwijzingen opschonen',
 
 'brokenredirects'        => 'Defecte doorverwijzingen',
 'brokenredirectstext'    => "De onderstaande doorverwijzigingen verwijzen naar niet-bestaande pagina's.",
@@ -3486,6 +3491,18 @@ Als u uzelf *niet* hebt aangemeld, volg dan de volgende verwijzing om de bevesti
 $5
 
 De bevestigingscode vervalt op $4.',
+'confirmemail_body_set'     => 'Iemand, waarschijnlijk u, met het IP-adres $1,
+heeft het het e-mailadres voor gebruiker "$2" op {{SITENAME}} ingesteld op dit e-mailadres.
+
+Open de volgende verwijzing in uw webbrowser om te bevestigen dat u deze gebruiker bent en om de e-mailmogelijkheden op {{SITENAME}} opnieuw te activeren:
+
+$3
+
+Als u zelf deze wijziging *niet* hebt gemaakt, volg dan de volgende verwijzing om de bevestiging van uw e-mailadres te annuleren:
+
+$5
+
+De bevestigingscode vervalt op $4.',
 'confirmemail_invalidated'  => 'De e-mailbevestiging is geannuleerd',
 'invalidateemail'           => 'E-mailbevestiging annuleren',
 
@@ -3639,16 +3656,15 @@ Andere bestandstypen worden direct in het met het MIME-type verbonden programma 
 Voer de bestandsnaam in zonder het voorvoegsel "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Duplicaatbestanden zoeken',
-'fileduplicatesearch-summary'  => 'Duplicaatbestanden zoeken op basis van de hashwaarde.
-
-Voer de bestandsnaam in zonder het voorvoegsel "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Duplicaatbestanden zoeken',
-'fileduplicatesearch-filename' => 'Bestandsnaam:',
-'fileduplicatesearch-submit'   => 'Zoeken',
-'fileduplicatesearch-info'     => '$1 × $2 pixels<br />Bestandsgrootte: $3<br />MIME-type: $4',
-'fileduplicatesearch-result-1' => 'Het bestand "$1" heeft geen duplicaten.',
-'fileduplicatesearch-result-n' => 'Het bestand "$1" heeft {{PLURAL:$2|één duplicaat|$2 duplicaten}}.',
+'fileduplicatesearch'           => 'Duplicaatbestanden zoeken',
+'fileduplicatesearch-summary'   => 'Duplicaatbestanden zoeken op basis van de hashwaarde.',
+'fileduplicatesearch-legend'    => 'Duplicaatbestanden zoeken',
+'fileduplicatesearch-filename'  => 'Bestandsnaam:',
+'fileduplicatesearch-submit'    => 'Zoeken',
+'fileduplicatesearch-info'      => '$1 × $2 pixels<br />Bestandsgrootte: $3<br />MIME-type: $4',
+'fileduplicatesearch-result-1'  => 'Het bestand "$1" heeft geen duplicaten.',
+'fileduplicatesearch-result-n'  => 'Het bestand "$1" heeft {{PLURAL:$2|één duplicaat|$2 duplicaten}}.',
+'fileduplicatesearch-noresults' => 'Er is geen bestand met de naam "$1" gevonden.',
 
 # Special:SpecialPages
 'specialpages'                   => "Speciale pagina's",

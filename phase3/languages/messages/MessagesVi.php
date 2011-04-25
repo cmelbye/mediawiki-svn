@@ -1681,7 +1681,7 @@ Nếu bạn vẫn muốn tải tập tin của bạn lên, xin hãy quay lại v
 'fileexists-shared-forbidden' => 'Một tập tin với tên này đã tồn tại ở kho tập tin dùng chung.
 Nếu bạn vẫn muốn tải tập tin của bạn lên, xin hãy quay lại và dùng một tên khác. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Tập tin này có vẻ là bản sao của {{PLURAL:$1|tập tin|các  tập tin}} sau:',
-'file-deleted-duplicate'      => 'Một tập tin giống hệt như tập tin này ([[$1]]) đã từng bị xóa trước đây. Bạn nên xem lại lịch sử xóa tập tin trước khi tiếp tục tải nó lên lại.',
+'file-deleted-duplicate'      => 'Một tập tin giống hệt như tập tin này ([[:$1]]) đã từng bị xóa trước đây. Bạn nên xem lại lịch sử xóa tập tin trước khi tiếp tục tải nó lên lại.',
 'uploadwarning'               => 'Cảnh báo!',
 'uploadwarning-text'          => 'Xin hãy chỉnh sửa miêu tả tập tin ở dưới và thử lại.',
 'savefile'                    => 'Lưu tập tin',
@@ -1927,12 +1927,13 @@ Hãy nhớ kiểm tra các liên kết khác đến bản mẫu trước khi xó
 'disambiguationspage'  => 'Template:disambig',
 'disambiguations-text' => "Các trang này có liên kết đến một '''trang định hướng'''. Nên sửa các liên kết này để chỉ đến một trang đúng nghĩa hơn.<br />Các trang định hướng là trang sử dụng những bản mẫu được liệt kê ở [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Đổi hướng kép',
-'doubleredirectstext'        => 'Trang này liệt kê các trang đổi hướng đến một trang đổi hướng khác.
+'doubleredirects'                   => 'Đổi hướng kép',
+'doubleredirectstext'               => 'Trang này liệt kê các trang đổi hướng đến một trang đổi hướng khác.
 Mỗi hàng có chứa các liên kết đến trang đổi hướng thứ nhất và thứ hai, cũng như mục tiêu của trang đổi hướng thứ hai, thường là trang đích “thực sự”, là nơi mà trang đổi hướng đầu tiên nên trỏ đến.
 Các mục <del>bị gạch bỏ</del> là các trang đã được sửa.',
-'double-redirect-fixed-move' => '[[$1]] đã được đổi tên, giờ nó là trang đổi hướng đến [[$2]]',
-'double-redirect-fixer'      => 'Người sửa trang đổi hướng',
+'double-redirect-fixed-move'        => '[[$1]] đã được đổi tên, giờ nó là trang đổi hướng đến [[$2]]',
+'double-redirect-fixed-maintenance' => 'Giải quyết đổi hướng kép từ [[$1]] đến [[$2]].',
+'double-redirect-fixer'             => 'Người sửa trang đổi hướng',
 
 'brokenredirects'        => 'Đổi hướng sai',
 'brokenredirectstext'    => 'Các trang đổi hướng sau đây liên kết đến trang không tồn tại:',
@@ -3368,6 +3369,20 @@ tục xác nhận địa chỉ thư điện tử:
 $5
 
 Mã xác nhận này sẽ hết hạn vào $4.',
+'confirmemail_body_set'     => 'Ai đó, có thể là bạn, từ địa chỉ IP $1, đã đặt địa chỉ này là địa
+chỉ thư điện tử của tài khoản "$2" tại {{SITENAME}}.
+
+Để xác nhận rằng tài khoản này thực sự là của bạn và để tái kích hoạt tính năng
+thư điện tử tại {{SITENAME}}, xin mở liên kết này trong trình duyệt:
+
+$3
+
+Nếu tài khoản *không* phải là của bạn, hãy nhấn vào liên kết này để hủy thủ
+tục xác nhận địa chỉ thư điện tử:
+
+$5
+
+Mã xác nhận này sẽ hết hạn vào $4.',
 'confirmemail_invalidated'  => 'Đã hủy xác nhận địa chỉ thư điện tử',
 'invalidateemail'           => 'Hủy xác nhận thư điện tử',
 
@@ -3551,16 +3566,15 @@ hoặc [http://www.gnu.org/licenses/old-licenses/gpl-2.0.html đọc nó trực 
 Hãy ghi vào tên tập tin, không bao gồm tiền tố “{{ns:file}}:”.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Tìm kiếm các tập tin trùng lắp',
-'fileduplicatesearch-summary'  => 'Tìm kiếm các bản sao y hệt với tập tin khác, theo giá trị băm của nó.
-
-Hãy cho vào tên của tập tin, trừ tiền tố “{{ns:file}}:”.',
-'fileduplicatesearch-legend'   => 'Tìm kiếm tập tin trùng lắp',
-'fileduplicatesearch-filename' => 'Tên tập tin:',
-'fileduplicatesearch-submit'   => 'Tìm kiếm',
-'fileduplicatesearch-info'     => '$1×$2 điểm ảnh<br />Kích thước tập tin: $3<br />Định dạng MIME: $4',
-'fileduplicatesearch-result-1' => 'Không có bản sao y hệt với tập tin “$1”.',
-'fileduplicatesearch-result-n' => 'Có {{PLURAL:$2|1 bản sao|$2 bản sao}} y hệt với tập tin “$1”.',
+'fileduplicatesearch'           => 'Tìm kiếm các tập tin trùng lắp',
+'fileduplicatesearch-summary'   => 'Tìm kiếm các bản sao y hệt với tập tin khác, theo giá trị băm của nó.',
+'fileduplicatesearch-legend'    => 'Tìm kiếm tập tin trùng lắp',
+'fileduplicatesearch-filename'  => 'Tên tập tin:',
+'fileduplicatesearch-submit'    => 'Tìm kiếm',
+'fileduplicatesearch-info'      => '$1×$2 điểm ảnh<br />Kích thước tập tin: $3<br />Định dạng MIME: $4',
+'fileduplicatesearch-result-1'  => 'Không có bản sao y hệt với tập tin “$1”.',
+'fileduplicatesearch-result-n'  => 'Có {{PLURAL:$2|1 bản sao|$2 bản sao}} y hệt với tập tin “$1”.',
+'fileduplicatesearch-noresults' => 'Không tìm thấy tập tin nào tên “$1”.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Các trang đặc biệt',

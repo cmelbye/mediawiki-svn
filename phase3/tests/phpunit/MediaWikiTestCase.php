@@ -23,13 +23,8 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 	);
 
 	function  __construct( $name = null, array $data = array(), $dataName = '' ) {
-		if ($name !== null) {
-			$this->setName($name);
-		}
+		parent::__construct( $name, $data, $dataName );
 
-		$this->data = $data;
-		$this->dataName = $dataName;
-		
 		$this->backupGlobals = false;
         $this->backupStaticAttributes = false;
 	}
@@ -175,6 +170,7 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 			'assertInternalType' => 'assertType',
 			'assertNotInternalType' => 'assertNotType',
 			'assertInstanceOf' => 'assertType',
+			'assertEmpty' => 'assertEmpty2',
 		);
 
 		if ( method_exists( $this->suite, $func ) ) {
@@ -185,6 +181,10 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 			throw new MWException( "Called non-existant $func method on "
 				. get_class( $this ) );
 		}
+	}
+
+	private function assertEmpty2( $value, $msg ) {
+		return $this->assertTrue( $value == '', $msg );
 	}
 	
 	static private function unprefixTable( $tableName ) {

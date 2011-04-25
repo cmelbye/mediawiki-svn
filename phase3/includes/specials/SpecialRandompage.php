@@ -43,7 +43,9 @@ class RandomPage extends SpecialPage {
 	}
 
 	public function setNamespace ( $ns ) {
-		if( !$ns || $ns < NS_MAIN ) $ns = NS_MAIN;
+		if( !$ns || $ns < NS_MAIN ) {
+			$ns = NS_MAIN;
+		}
 		$this->namespaces = array( $ns );
 	}
 
@@ -83,14 +85,14 @@ class RandomPage extends SpecialPage {
 		global $wgContLang;
 		$nsNames = array();
 		foreach( $this->namespaces as $n ) {
-			if( $n === NS_MAIN )
+			if( $n === NS_MAIN ) {
 				$nsNames[] = wfMsgForContent( 'blanknamespace' );
-			else
+			} else {
 				$nsNames[] = $wgContLang->getNsText( $n );
+			}
 		}
 		return $wgContLang->commaList( $nsNames );
 	}
-
 
 	/**
 	 * Choose a random title.
@@ -99,7 +101,8 @@ class RandomPage extends SpecialPage {
 	public function getRandomTitle() {
 		$randstr = wfRandom();
 		$title = null;
-		if ( !wfRunHooks( 'SpecialRandomGetRandomTitle', array( &$randstr, &$this->isRedir, &$this->namespaces, &$this->extra, &$title ) ) ) {
+		if ( !wfRunHooks( 'SpecialRandomGetRandomTitle', array( &$randstr, &$this->isRedir, &$this->namespaces,
+			&$this->extra, &$title ) ) ) {
 			return $title;
 		}
 		$row = $this->selectRandomPageFromDB( $randstr );
@@ -111,45 +114,58 @@ class RandomPage extends SpecialPage {
 		 * any more bias than what the page_random scheme
 		 * causes anyway.  Trust me, I'm a mathematician. :)
 		 */
-		if( !$row )
+		if( !$row ) {
 			$row = $this->selectRandomPageFromDB( "0" );
+		}
 
-		if( $row )
+		if( $row ) {
 			return Title::makeTitleSafe( $row->page_namespace, $row->page_title );
-		else
+		} else {
 			return null;
+		}
 	}
 
-	private function selectRandomPageFromDB( $randstr ) {
+	protected function getQueryInfo( $randstr ) {
 		global $wgExtraRandompageSQL;
-		$dbr = wfGetDB( DB_SLAVE );
-
-		$use_index = $dbr->useIndexClause( 'page_random' );
-		$page = $dbr->tableName( 'page' );
-
-		$ns = implode( ",", $this->namespaces );
 		$redirect = $this->isRedirect() ? 1 : 0;
-		
+
 		if ( $wgExtraRandompageSQL ) {
 			$this->extra[] = $wgExtraRandompageSQL;
 		}
 		if ( $this->addExtraSQL() ) {
 			$this->extra[] = $this->addExtraSQL();
 		}
-		$extra = '';
-		if ( $this->extra ) {
-			$extra = 'AND (' . implode( ') AND (', $this->extra ) . ')';
-		}
-		$sql = "SELECT page_title, page_namespace
-			FROM $page $use_index
-			WHERE page_namespace IN ( $ns )
-			AND page_is_redirect = $redirect
-			AND page_random >= $randstr
-			$extra
-			ORDER BY page_random";
 
-		$sql = $dbr->limitResult( $sql, 1, 0 );
-		$res = $dbr->query( $sql, __METHOD__ );
+		return array(
+			'tables' => array( 'page' ),
+			'fields' => array( 'page_title', 'page_namespace' ),
+			'conds' => array_merge( array(
+				'page_namespace' => $this->namespaces,
+				'page_is_redirect' => $redirect,
+				'page_random >= ' . $randstr
+			), $this->extra ),
+			'options' => array(
+				'ORDER BY' => 'page_random',
+				'USE INDEX' => 'page_random',
+				'LIMIT' => 1,
+			),
+			'join_conds' => array()
+		);
+	}
+
+	private function selectRandomPageFromDB( $randstr, $fname = __METHOD__ ) {
+		$dbr = wfGetDB( DB_SLAVE );
+
+		$query = $this->getQueryInfo( $randstr );
+		$res = $dbr->select(
+			$query['tables'],
+			$query['fields'],
+			$query['conds'],
+			$fname,
+			$query['options'],
+			$query['join_conds']
+		);
+
 		return $dbr->fetchObject( $res );
 	}
 

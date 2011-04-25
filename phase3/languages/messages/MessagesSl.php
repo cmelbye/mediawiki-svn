@@ -1608,7 +1608,7 @@ Izgleda, da je to pomanjšana slika ''(thumbnail)''.
 Prosimo, vrnite se in naložite svojo datoteko pod drugim imenom.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ta datoteka je dvojnik {{PLURAL:$1|naslednje datoteke|naslednjih datotek}}:',
-'file-deleted-duplicate'      => 'Datoteka je identična tej ([[$1]]), ki je bila predhodno izbrisana.
+'file-deleted-duplicate'      => 'Datoteka je identična tej ([[:$1]]), ki je bila predhodno izbrisana.
 Preverite zgodovino brisanja datoteke, preden jo ponovno naložite.',
 'uploadwarning'               => 'Opozorilo!',
 'uploadwarning-text'          => 'Prosimo, spremenite opis datoteke spodaj in poskusite ponovno.',
@@ -1864,13 +1864,14 @@ Preden jih izbrišete, preverite še druge povezave nanje.',
 Namesto tega bi se naj povezovale na primerno temo.<br />
 Stran se obravnava kot razločitvena, če uporablja predloge povezane iz [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Dvojne preusmeritve',
-'doubleredirectstext'        => 'Ta stran navaja strani, ki se preusmerjajo na druge preusmeritvene strani.
+'doubleredirects'                   => 'Dvojne preusmeritve',
+'doubleredirectstext'               => 'Ta stran navaja strani, ki se preusmerjajo na druge preusmeritvene strani.
 Vsaka vrstica vsebuje povezavo do prve in druge preusmeritve, kakor tudi do cilja druge preusmeritve, ki je po navadi »prava« ciljna stran, na katero naj bi kazala prva preusmeritev.
 <del>Prečrtani</del> vnosi so bili razrešeni.',
-'double-redirect-fixed-move' => 'Stran [[$1]] je bil premaknjen.
+'double-redirect-fixed-move'        => 'Stran [[$1]] je bil premaknjen.
 Sedaj je preusmeritev na [[$2]].',
-'double-redirect-fixer'      => 'Popravljalec preusmeritev',
+'double-redirect-fixed-maintenance' => 'Popravljanje dvojne preusmeritve z [[$1]] na [[$2]].',
+'double-redirect-fixer'             => 'Popravljalec preusmeritev',
 
 'brokenredirects'        => 'Pretrgane preusmeritve',
 'brokenredirectstext'    => 'Naslednje preusmeritve kažejo na neobstoječe strani:',
@@ -3238,20 +3239,34 @@ in tako prekličite potrditev elektronskega naslova:
 $5
 
 Potrditvena koda bo potekla $4.',
-'confirmemail_body_changed' => 'Nekdo, najverjetneje vi, je iz IP-naslova $1
-na strani {{SITENAME}} spremenil e-poštni naslov računa »$2« v ta naslov.
+'confirmemail_body_changed' => 'Nekdo, najverjetneje vi, je z IP-naslova $1
+na strani {{SITENAME}} spremenil e-poštni naslov računa »$2« na ta naslov.
 
 Da potrdite lastništvo tega računa in ponovno aktivirate
 e-poštne funkcije na {{GRAMMAR:dajalnik|{{SITENAME}}}}, odprite to povezavo v vašem brskalniku:
 
 $3
 
-Če ta račun *ni* vaš, sledite spodnji povezavi za preklic
+Če omenjeni račun *ni* vaš, sledite spodnji povezavi za preklic
 potrditve e-poštnega naslova:
 
 $5
 
-Ta potrditvena koda poteče $4.',
+Potrditvena koda poteče $4.',
+'confirmemail_body_set'     => 'Nekdo, najverjetneje vi, je z IP-naslova $1
+na strani {{SITENAME}} nastavil e-poštni naslov računa »$2« na ta naslov.
+
+Da potrdite lastništvo tega računa in ponovno aktivirate
+e-poštne funkcije na {{GRAMMAR:dajalnik|{{SITENAME}}}}, odprite to povezavo v vašem brskalniku:
+
+$3
+
+Če omenjeni račun *ni* vaš, sledite spodnji povezavi za preklic
+potrditve e-poštnega naslova:
+
+$5
+
+Potrditvena koda poteče $4.',
 'confirmemail_invalidated'  => 'Potrditev e-poštnega naslova preklicana',
 'invalidateemail'           => 'Prekliči potrditev e-poštnega naslova',
 
@@ -3387,16 +3402,15 @@ Slike so prikazane v polni ločljivosti, druge vrste datotek pa se zaženejo v z
 Vnesite ime datoteke brez predpone »{{ns:image}}:«.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Iskanje podvojenih datotek',
-'fileduplicatesearch-summary'  => 'Iskanje podvojenih datotek temelji na podlagi njenih hashvrednosti.
-
-Vnesite ime datoteke brez predpone »{{ns:image}}:«.',
-'fileduplicatesearch-legend'   => 'Poišči dvojnik',
-'fileduplicatesearch-filename' => 'Ime datoteke:',
-'fileduplicatesearch-submit'   => 'Iskanje',
-'fileduplicatesearch-info'     => '$1 × $2 pik<br />Velikost datoteke: $3<br />Vrsta MIME: $4',
-'fileduplicatesearch-result-1' => 'Datoteka »$1« nima identičnih dvojnikov.',
-'fileduplicatesearch-result-n' => 'Datoteka »$1« ima $2 {{PLURAL:$2|identični dvojnik|identična dvojnika|identične dvojnike|identičnih dvojnikov}}.',
+'fileduplicatesearch'           => 'Iskanje podvojenih datotek',
+'fileduplicatesearch-summary'   => 'Iskanje podvojenih datotek, ki temelji na podlagi njenih hashvrednosti.',
+'fileduplicatesearch-legend'    => 'Poišči dvojnik',
+'fileduplicatesearch-filename'  => 'Ime datoteke:',
+'fileduplicatesearch-submit'    => 'Iskanje',
+'fileduplicatesearch-info'      => '$1 × $2 pik<br />Velikost datoteke: $3<br />Vrsta MIME: $4',
+'fileduplicatesearch-result-1'  => 'Datoteka »$1« nima identičnih dvojnikov.',
+'fileduplicatesearch-result-n'  => 'Datoteka »$1« ima $2 {{PLURAL:$2|identični dvojnik|identična dvojnika|identične dvojnike|identičnih dvojnikov}}.',
+'fileduplicatesearch-noresults' => 'Datoteke imenovane »$1« ni mogoče najti.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Posebne strani',

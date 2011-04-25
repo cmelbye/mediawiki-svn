@@ -19,34 +19,34 @@ class UploadFromStash extends UploadBase {
 	public static function isValidRequest( $request ) {
 		$sessionData = $request->getSessionData( UploadBase::SESSION_KEYNAME );
 		return self::isValidSessionKey(
-			$request->getInt( 'wpSessionKey' ),
+			$request->getText( 'wpSessionKey' ),
 			$sessionData
 		);
 	}
 
 	public function initialize( $name, $sessionKey, $sessionData ) {
-			/**
-			 * Confirming a temporarily stashed upload.
-			 * We don't want path names to be forged, so we keep
-			 * them in the session on the server and just give
-			 * an opaque key to the user agent.
-			 */
+		/**
+		 * Confirming a temporarily stashed upload.
+		 * We don't want path names to be forged, so we keep
+		 * them in the session on the server and just give
+		 * an opaque key to the user agent.
+		 */
 
-			$this->initializePathInfo( $name,
-				$this->getRealPath ( $sessionData['mTempPath'] ),
-				$sessionData['mFileSize'],
-				false
-			);
-			
-			$this->mSessionKey = $sessionKey;
-			$this->mVirtualTempPath = $sessionData['mTempPath'];
-			$this->mFileProps = $sessionData['mFileProps'];
-			$this->mSourceType = isset( $sessionData['mSourceType'] ) ?
-				$sessionData['mSourceType'] : null;
+		$this->initializePathInfo( $name,
+			$this->getRealPath ( $sessionData['mTempPath'] ),
+			$sessionData['mFileSize'],
+			false
+		);
+
+		$this->mSessionKey = $sessionKey;
+		$this->mVirtualTempPath = $sessionData['mTempPath'];
+		$this->mFileProps = $sessionData['mFileProps'];
+		$this->mSourceType = isset( $sessionData['mSourceType'] ) ?
+			$sessionData['mSourceType'] : null;
 	}
 
 	public function initializeFromRequest( &$request ) {
-		$sessionKey = $request->getInt( 'wpSessionKey' );
+		$sessionKey = $request->getText( 'wpSessionKey' );
 		$sessionData = $request->getSessionData( UploadBase::SESSION_KEYNAME );
 
 		$desiredDestName = $request->getText( 'wpDestFile' );

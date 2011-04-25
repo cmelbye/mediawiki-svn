@@ -24,11 +24,9 @@
 abstract class Installer {
 
 	/**
-	 * TODO: make protected?
-	 *
 	 * @var array
 	 */
-	public $settings;
+	protected $settings;
 
 	/**
 	 * Cached DB installer instances, access using getDBInstaller().
@@ -594,7 +592,6 @@ abstract class Installer {
 		global $wgLang;
 
 		$compiledDBs = array();
-		$goodNames = array();
 		$allNames = array();
 
 		foreach ( self::getDBTypes() as $name ) {
@@ -603,9 +600,7 @@ abstract class Installer {
 
 			if ( $db->isCompiled() ) {
 				$compiledDBs[] = $name;
-				$goodNames[] = $readableName;
 			}
-
 			$allNames[] = $readableName;
 		}
 
@@ -1197,8 +1192,20 @@ abstract class Installer {
 	 * @return Status
 	 */
 	protected function includeExtensions() {
+		global $IP;
 		$exts = $this->getVar( '_Extensions' );
-		$path = $this->getVar( 'IP' ) . '/extensions';
+		$IP = $this->getVar( 'IP' );
+		$path = $IP . '/extensions';
+
+		/**
+		 * We need to include DefaultSettings before including extensions to avoid
+		 * warnings about unset variables. However, the only thing we really
+		 * want here is $wgHooks['LoadExtensionSchemaUpdates']. This won't work
+		 * if the extension has hidden hook registration in $wgExtensionFunctions,
+		 * but we're not opening that can of worms
+		 * @see https://bugzilla.wikimedia.org/show_bug.cgi?id=26857
+		 */
+		require( "$IP/includes/DefaultSettings.php" );
 
 		foreach( $exts as $e ) {
 			require( "$path/$e/$e.php" );
@@ -1256,6 +1263,10 @@ abstract class Installer {
 			array_unshift( $this->installSteps,
 				array( 'name' => 'extensions', 'callback' => array( $this, 'includeExtensions' ) )
 			);
+			$this->installSteps[] = array(
+				'name' => 'extension-tables',
+				'callback' => array( $installer, 'createExtensionTables' )
+			);
 		}
 		return $this->installSteps;
 	}
@@ -1272,7 +1283,6 @@ abstract class Installer {
 		$installResults = array();
 		$installer = $this->getDBInstaller();
 		$installer->preInstall();
-		$installer->setupSchemaVars();
 		$steps = $this->getInstallSteps( $installer );
 		foreach( $steps as $stepObj ) {
 			$name = $stepObj['name'];
@@ -1352,6 +1362,7 @@ abstract class Installer {
 		if ( strval( $this->getVar( 'wgUpgradeKey' ) ) === '' ) {
 			return $this->generateSecret( 'wgUpgradeKey', 16 );
 		}
+		return Status::newGood();
 	}
 
 	/**
@@ -1426,12 +1437,7 @@ abstract class Installer {
 	protected function createMainpage( DatabaseInstaller $installer ) {
 		$status = Status::newGood();
 		try {
-			// STUPID STUPID $wgTitle. PST calls getUserSig(), which joyfully
-			// calls for a parsed message and uses $wgTitle. There isn't even
-			// a signature in this...
-			global $wgTitle;
-			$wgTitle = Title::newMainPage();
-			$article = new Article( $wgTitle );
+			$article = new Article( Title::newMainPage() );
 			$article->doEdit( wfMsgForContent( 'mainpagetext' ) . "\n\n" .
 								wfMsgForContent( 'mainpagedocfooter' ),
 								'',

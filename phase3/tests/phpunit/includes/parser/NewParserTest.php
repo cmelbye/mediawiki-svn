@@ -24,7 +24,7 @@ class NewParserTest extends MediaWikiTestCase {
 	//PHPUnit + MediaWikiTestCase functions
 
 	function setUp() {
-		global $wgContLang, $wgUseDatabaseMessages, $wgMsgCacheExpiry, $wgNamespaceProtection, $wgNamespaceAliases, $IP, $messageMemc;
+		global $wgContLang, $wgNamespaceProtection, $wgNamespaceAliases, $IP;
 		$wgContLang = Language::factory( 'en' );
 		
 		//Setup CLI arguments
@@ -58,7 +58,7 @@ class NewParserTest extends MediaWikiTestCase {
 		$tmpGlobals['wgEnableParserCache'] = false;
 		$tmpGlobals['wgDeferredUpdateList'] = array();
 		$tmpGlobals['wgMemc'] = &wfGetMainCache();
-		$messageMemc = &wfGetMessageCacheStorage();
+		$tmpGlobals['messageMemc'] = &wfGetMessageCacheStorage();
 		$tmpGlobals['parserMemc'] = &wfGetParserCacheStorage();
 
 		// $tmpGlobals['wgContLang'] = new StubContLang;
@@ -68,9 +68,6 @@ class NewParserTest extends MediaWikiTestCase {
 		$tmpGlobals['wgParser'] = new StubObject( 'wgParser', $GLOBALS['wgParserConf']['class'], array( $GLOBALS['wgParserConf'] ) );
 		$tmpGlobals['wgRequest'] = new WebRequest;
 
-		$tmpGlobals['wgMessageCache'] = new StubObject( 'wgMessageCache', 'MessageCache',
-										  array( $messageMemc, $wgUseDatabaseMessages,
-												 $wgMsgCacheExpiry ) );
 		if ( $GLOBALS['wgStyleDirectory'] === false ) {
 			$tmpGlobals['wgStyleDirectory'] = "$IP/skins";
 		}
@@ -150,9 +147,8 @@ class NewParserTest extends MediaWikiTestCase {
 		# Reinitialise the LocalisationCache to match the database state
 		Language::getLocalisationCache()->unloadAll();
 
-		# Make a new message cache
-		global $wgMessageCache, $wgMemc;
-		$wgMessageCache = new MessageCache( $wgMemc, true, 3600 );
+		# Clear the message cache
+		MessageCache::singleton()->clear();
 
 		$this->uploadDir = $this->setupUploadDir();
 		
@@ -508,11 +504,7 @@ class NewParserTest extends MediaWikiTestCase {
 				$parser->parse( $input, $title, $opts );
 				$this->assertTrue( true, "Test $id, fuzz seed {$this->fuzzSeed}" );
 			} catch ( Exception $exception ) {
-				
-				ob_start();
-				var_dump( $input );
-				$input_dump = ob_get_contents();
-				ob_end_clean();
+				$input_dump = sprintf( "string(%d) \"%s\"\n", strlen( $input ), $input );
 				
 				$this->assertTrue( false, "Test $id, fuzz seed {$this->fuzzSeed}. \n\nInput: $input_dump\n\nError: {$exception->getMessage()}\n\nBacktrace: {$exception->getTraceAsString()}" );
 			}

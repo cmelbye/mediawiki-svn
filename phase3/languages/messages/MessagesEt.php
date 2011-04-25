@@ -1672,7 +1672,7 @@ Palun pöörduge tagasi ja laadige fail üles mõne teise nime all. [[File:$1|th
 Kui soovid siiski oma faili üles laadida, siis palun mine tagasi ja kasuta teist failinime.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'See fail on {{PLURAL:$1|järgneva faili|järgnevate failide}} duplikaat:',
-'file-deleted-duplicate'      => 'Selle failiga ([[$1]]) identne fail on hiljuti kustutatud.
+'file-deleted-duplicate'      => 'Selle failiga ([[:$1]]) identne fail on hiljuti kustutatud.
 Vaata selle faili kustutamise ajalugu enne jätkamist.',
 'uploadwarning'               => 'Üleslaadimise hoiatus',
 'uploadwarning-text'          => 'Muuda allpool olevat faili kirjeldust ning proovi uuesti.',
@@ -3367,9 +3367,7 @@ Sisesta faili nimi eesliiteta "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Faili duplikaatide otsimine',
-'fileduplicatesearch-summary'  => 'Otsi duplikaatfaile nende räsiväärtuse järgi.
-
-Sisesta faili nimi eesliiteta "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Otsi duplikaatfaile nende räsiväärtuse järgi.',
 'fileduplicatesearch-legend'   => 'Otsi faili duplikaati',
 'fileduplicatesearch-filename' => 'Faili nimi:',
 'fileduplicatesearch-submit'   => 'Otsi',

@@ -77,14 +77,15 @@ class JavaScriptDistiller {
 		// Protect strings. The original code had [^\'\\v] here, but that didn't armor multiline
 		// strings correctly. This also armors multiline strings that don't have backslashes at the
 		// end of the line (these are invalid), but that's fine because we're just armoring here.
-		$parser->add( '/\'[^\']*\'/', '$1' );
-		$parser->add( '/"[^"]*"/', '$1' );
+		$parser->add( '/\'([^\'\\\\]*(\\\\.[^\'\\\\]*)*)\'/', '$1' );
+		$parser->add( '/"([^"\\\\]*(\\\\.[^"\\\\]*)*)"/', '$1' );
 		// Protect regular expressions
 		$parser->add( '/[ \\t]+(\\/[^\\/\\r\\n\\*][^\\/\\r\\n]*\\/g?i?)/', '$2' );
 		$parser->add( '/[^\\w\\$\\/\'"*)\\?:]\\/[^\\/\\r\\n\\*][^\\/\\r\\n]*\\/g?i?/', '$1' );
 		// Remove comments
 		$parser->add( '/\\/\\*(.|[\\r\\n])*?\\*\\//' );
-		$parser->add( '/\\/\\/[^\\r\\n]*[\\r\\n]/' );
+		// Preserve the newline after a C++-style comment -- bug 27046
+		$parser->add( '/\\/\\/[^\\r\\n]*([\\r\\n])/', '$2' );
 		return $parser;
 	}
 }
@@ -161,7 +162,7 @@ class ParseMaster {
 		foreach ($this->_patterns as $reg) {
 			$regexp .= '(' . substr($reg[self::EXPRESSION], 1, -1) . ')|';
 		}
-		$regexp = substr($regexp, 0, -1) . '/';
+		$regexp = substr($regexp, 0, -1) . '/S';
 		$regexp .= ($this->ignoreCase) ? 'i' : '';
 		
 		$string = $this->_escape($string, $this->escapeChar);

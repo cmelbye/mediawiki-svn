@@ -1482,7 +1482,7 @@ Si tiene ista imachen a toda resolución, cargue-la, si no, por favor, cambee o 
 Si encara quiere cargar ixe fichero, torne y faiga servir un nuevo nombre. [[File:$1|thumb|center|$1]]',
 'fileexists-shared-forbidden' => 'Ya bi ha un fichero con ixe nombre en o reposte compartito. Si encara quiere cargar o fichero, por favor, torne enta zaga y faiga servir un nuevo nombre. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => "Iste fichero ye un duplicau {{PLURAL:$1|d'o siguient fichero|d'os siguients fichers}}:",
-'file-deleted-duplicate'      => "Un fichero igual que iste ([[$1]]) s'ha borrato enantes. Debería mirar-se o historial de borraus d'o fichero antes de continar cargando-lo atra vegada.",
+'file-deleted-duplicate'      => "Un fichero igual que iste ([[:$1]]) s'ha borrato enantes. Debería mirar-se o historial de borraus d'o fichero antes de continar cargando-lo atra vegada.",
 'uploadwarning'               => 'Alvertencia de carga de fichero',
 'uploadwarning-text'          => "Por favor, modifique a descripción d'o fichero d'abaixo y torne a intentar-lo.",
 'savefile'                    => 'Alzar fichero',
@@ -3171,9 +3171,7 @@ Escriba o nombre d'o fichero sin o prefixo \"{{ns:file}}:\".",
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Mirar fichers duplicatos',
-'fileduplicatesearch-summary'  => 'Mirar archivos duplicatos basatos en a suya valura hash.
-
-Escriba o nombre d\'o fichero sin o prefixo "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Mirar archivos duplicatos basatos en a suya valura hash.',
 'fileduplicatesearch-legend'   => 'Mirar duplicatos',
 'fileduplicatesearch-filename' => "Nombre d'o fichero:",
 'fileduplicatesearch-submit'   => 'Mirar',

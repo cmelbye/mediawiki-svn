@@ -1679,7 +1679,7 @@ Voeg 't bestaand toe onder een aandere naam.
 A-j 't bestaand asnog toevoegen willen, gao dan weerumme en kies een aandere naam.
 [[File:$1|thumb|center|$1]]",
 'file-exists-duplicate'       => "Dit bestaand is liekeleens as {{PLURAL:$1|'t volgende bestaand|de volgende bestanen}}:",
-'file-deleted-duplicate'      => "Een bestaand dat liekeleens is an dit bestaand ([[$1]]) is eerder al vort-edaon.
+'file-deleted-duplicate'      => "Een bestaand dat liekeleens is an dit bestaand ([[:$1]]) is eerder al vort-edaon.
 Bekiek 't vortdologboek veurda-j veurdan gaon.",
 'uploadwarning'               => 'Waorschuwing',
 'uploadwarning-text'          => "Pas de bestaansbeschrieving hieronder an en prebeer 't opniej",
@@ -3368,9 +3368,7 @@ Voer de bestaansnaam in zonder 't veurvoegsel \"{{ns:file}}:\".",
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Dubbele bestanen zeuken',
-'fileduplicatesearch-summary'  => 'Dubbele bestanen zeuken op baosis van de hashweerde.
-
-Voer de bestaansnaam in zonder \'t veurvoegsel "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Dubbele bestanen zeuken op baosis van de hashweerde.',
 'fileduplicatesearch-legend'   => 'Dubbele bestanen zeuken',
 'fileduplicatesearch-filename' => 'Bestaansnaam:',
 'fileduplicatesearch-submit'   => 'Zeuken',

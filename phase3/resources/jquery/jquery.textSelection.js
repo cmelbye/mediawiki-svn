@@ -1,6 +1,7 @@
 /**
  * These plugins provide extra functionality for interaction with textareas.
  */
+( function( $ ) {
 $.fn.textSelection = function( command, options ) {
 var fn = {
 /**
@@ -260,7 +261,7 @@ setSelection: function( options ) {
  */
 scrollToCaretPosition: function( options ) {
 	function getLineLength( e ) {
-		return Math.floor( e.scrollWidth / ( $.os.name == 'linux' ? 7 : 8 ) );
+		return Math.floor( e.scrollWidth / ( $.client.profile().platform == 'linux' ? 7 : 8 ) );
 	}
 	function getCaretScrollPosition( e ) {
 		// FIXME: This functions sucks and is off by a few lines most
@@ -303,7 +304,7 @@ scrollToCaretPosition: function( options ) {
 			charInLine = caret - lastSpaceInLine;
 			row++;
 		}
-		return ( $.os.name == 'mac' ? 13 : ( $.os.name == 'linux' ? 15 : 16 ) ) * row;
+		return ( $.client.profile().platform == 'mac' ? 13 : ( $.client.profile().platform == 'linux' ? 15 : 16 ) ) * row;
 	}
 	return this.each(function() {
 		if ( $(this).is( ':hidden' ) ) {
@@ -399,3 +400,4 @@ scrollToCaretPosition: function( options ) {
 	}
 	return retval;
 };
+} )( jQuery );

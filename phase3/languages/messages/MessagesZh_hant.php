@@ -306,17 +306,17 @@ $messages = array(
 
 # Categories related messages
 'pagecategories'                 => '$1個分類',
-'category_header'                => '類別「$1」中的頁面',
+'category_header'                => '「$1」分類中的頁面',
 'subcategories'                  => '附分類',
-'category-media-header'          => '"$1"分類中的媒體',
+'category-media-header'          => '「$1」分類中的媒體',
 'category-empty'                 => "''這個分類中尚未包含任何頁面或媒體。''",
 'hidden-categories'              => '$1個隱藏分類',
 'hidden-category-category'       => '隱藏分類',
-'category-subcat-count'          => '{{PLURAL:$2|這個分類中只有以下的附分類。|這個分類中有以下的$1個附分類，共有$2個附分類。}}',
+'category-subcat-count'          => '{{PLURAL:$2|這個分類中只有以下的子分類。|這個分類中有以下的 $1 個子分類，共有 $2 個子分類。}}',
 'category-subcat-count-limited'  => '這個分類下有$1個附分類。',
-'category-article-count'         => '{{PLURAL:$2|這個分類中只有以下的頁面。|這個分類中有以下的$1個頁面，共有$2個頁面。}}',
+'category-article-count'         => '{{PLURAL:$2|這個分類中只有以下的頁面。|這個分類中有以下的 $1 個頁面，共有 $2 個頁面。}}',
 'category-article-count-limited' => '這個分類下有$1個頁面。',
-'category-file-count'            => '{{PLURAL:$2|這個分類中只有以下的檔案。|這個分類中有以下的$1個檔案，共有$2個檔案。}}',
+'category-file-count'            => '{{PLURAL:$2|這個分類中只有以下的檔案。|這個分類中有以下的 $1 個檔案，共有 $2 個檔案。}}',
 'category-file-count-limited'    => '這個分類下有$1個檔案。',
 'listingcontinuesabbrev'         => '續',
 'index-category'                 => '已做索引的頁面',
@@ -953,9 +953,9 @@ $2',
 嘗試[[Special:Search|搜索本站]]獲得相關的新建頁面。',
 
 # Revision deletion
-'rev-deleted-comment'         => '（註釋已移除）',
+'rev-deleted-comment'         => '（註釋已除）',
 'rev-deleted-user'            => '（用戶名已移除）',
-'rev-deleted-event'           => '（日誌動作已移除）',
+'rev-deleted-event'           => '（日誌已除）',
 'rev-deleted-user-contribs'   => '[用戶名或IP地址已移除 - 從貢獻中隱藏編輯]',
 'rev-deleted-text-permission' => "該頁面修訂已被'''刪除'''。
 在[{{fullurl:{{#Special:Log}}/delete|page={{PAGENAMEE}}}} 刪除日誌]中可以找到詳細的訊息。",
@@ -1017,7 +1017,7 @@ $2',
 'revdelete-unsuppress'        => '在已恢復的修訂中移除限制',
 'revdelete-log'               => '理由：',
 'revdelete-submit'            => '應用於選取的{{PLURAL:$1|修訂}}',
-'revdelete-logentry'          => '「[[$1]]」的修訂可見性已更改',
+'revdelete-logentry'          => '已更改「[[$1]]」之修訂可見度',
 'logdelete-logentry'          => '「[[$1]]」的事件可見性已更改',
 'revdelete-success'           => "'''修訂的可見性已經成功更新。'''",
 'revdelete-failure'           => "'''修訂的可見性無法更新：'''
@@ -1464,7 +1464,7 @@ $1",
 
 # Recent changes
 'nchanges'                          => '$1次更改',
-'recentchanges'                     => '最近更改',
+'recentchanges'                     => '近期變動',
 'recentchanges-legend'              => '最近更改選項',
 'recentchangestext'                 => '跟蹤這個wiki上的最新更改。',
 'recentchanges-feed-description'    => '追蹤此訂閱在 wiki 上的最近更改。',
@@ -1538,7 +1538,7 @@ $1",
 'filename'                    => '檔案名',
 'filedesc'                    => '檔案描述',
 'fileuploadsummary'           => '檔案描述:',
-'filereuploadsummary'         => '檔案更改:',
+'filereuploadsummary'         => '檔案更改說明：',
 'filestatus'                  => '版權狀態:',
 'filesource'                  => '來源：',
 'uploadedfiles'               => '已上載檔案',
@@ -1585,12 +1585,12 @@ $1",
 'fileexists-shared-forbidden' => '在共享檔案庫中已存在此名稱的檔案。
 如果{{GENDER:|你|妳|你}}仍然想去上載它的話，請返回並用一個新的名稱來上傳此檔案。[[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => '這個檔案是跟以下的{{PLURAL:$1|一|多}}個檔案重覆:',
-'file-deleted-duplicate'      => '一個相同名稱的檔案 （[[$1]]） 在先前刪除過。您應該在重新上傳之前檢查一下該檔案之刪除紀錄。',
+'file-deleted-duplicate'      => '一個相同名稱的檔案 （[[:$1]]） 在先前刪除過。您應該在重新上傳之前檢查一下該檔案之刪除紀錄。',
 'uploadwarning'               => '上載警告',
 'uploadwarning-text'          => '請修改以下的檔案描述並重試。',
 'savefile'                    => '保存檔案',
 'uploadedimage'               => '已上載「[[$1]]」',
-'overwroteimage'              => '已經上載"[[$1]]"的新版本',
+'overwroteimage'              => '已經上傳「[[$1]]」的新版本',
 'uploaddisabled'              => '上傳己停用。',
 'copyuploaddisabled'          => '通過網址上傳功能未開通。',
 'uploadfromurl-queued'        => '上傳已被列入隊列。',
@@ -1821,11 +1821,12 @@ Template:消歧義
 Template:消除歧義',
 'disambiguations-text' => '以下的頁面都有到<b>消含糊頁</b>的連結，但它們應該是連到適當的標題。<br />一個頁面會被視為消含糊頁如果它是連自[[MediaWiki:Disambiguationspage]]。',
 
-'doubleredirects'            => '雙重重定向頁面',
-'doubleredirectstext'        => '這一頁列出所有重定向頁面重定向到另一個重定向頁的頁面。每一行都包含到第一和第二個重定向頁面的連結，以及第二個重定向頁面的目標，通常顯示的都會是"真正"的目標頁面，也就是第一個重定向頁面應該指向的頁面。
+'doubleredirects'                   => '雙重重定向頁面',
+'doubleredirectstext'               => '這一頁列出所有重定向頁面重定向到另一個重定向頁的頁面。每一行都包含到第一和第二個重定向頁面的連結，以及第二個重定向頁面的目標，通常顯示的都會是"真正"的目標頁面，也就是第一個重定向頁面應該指向的頁面。
 <del>已劃去</del>的為已經解決之項目。',
-'double-redirect-fixed-move' => '[[$1]]已經完成移動，它現在重新定向到[[$2]]。',
-'double-redirect-fixer'      => '重新定向修正器',
+'double-redirect-fixed-move'        => '[[$1]]已經完成移動，它現在重新定向到[[$2]]。',
+'double-redirect-fixed-maintenance' => '修復從[[$1]]到[[$2]]的雙重重定向。',
+'double-redirect-fixer'             => '重新定向修正器',
 
 'brokenredirects'        => '損壞的重定向頁',
 'brokenredirectstext'    => '以下的重定向頁指向的是不存在的頁面:',
@@ -1982,7 +1983,7 @@ Template:消除歧義',
 'newuserlog-byemail'          => '密碼已由電子郵件寄出',
 'newuserlog-create-entry'     => '新進使用者帳戶',
 'newuserlog-create2-entry'    => '已創建$1的新賬戶',
-'newuserlog-autocreate-entry' => '已自動建立賬戶',
+'newuserlog-autocreate-entry' => '自動建立的帳號',
 
 # Special:ListGroupRights
 'listgrouprights'                      => '用戶群組權限',
@@ -2166,10 +2167,10 @@ $UNWATCHURL
 'protectlogpage'              => '保護日誌',
 'protectlogtext'              => '下面是頁面保護和取消保護的列表。請參考[[Special:ProtectedPages|保護頁面清單]]以檢視目前進行的頁面保護。',
 'protectedarticle'            => '已保護"[[$1]]"',
-'modifiedarticleprotection'   => '已經更改 "[[$1]]" 的保護等級',
+'modifiedarticleprotection'   => '已經更改「[[$1]]」的保護等級',
 'unprotectedarticle'          => '已解除保護"[[$1]]"',
 'movedarticleprotection'      => '已將「[[$2]]」的保護設定移動至「[[$1]]」',
-'protect-title'               => '正在更改"$1"的保護等級',
+'protect-title'               => '更改「$1」的保護等級',
 'prot_1movedto2'              => '[[$1]]移動到[[$2]]',
 'protect-legend'              => '確認保護',
 'protectcomment'              => '理由：',
@@ -2191,7 +2192,7 @@ $UNWATCHURL
 'protect-level-sysop'         => '僅操作員',
 'protect-summary-cascade'     => '連鎖',
 'protect-expiring'            => '終止於 $1 （UTC）',
-'protect-expiry-indefinite'   => '無期',
+'protect-expiry-indefinite'   => '永久',
 'protect-cascade'             => '保護本頁中包含的頁面 （連鎖保護）',
 'protect-cantedit'            => '您無法更改這個頁面的保護等級，因為您沒有權限去編輯它。',
 'protect-othertime'           => '其它時間:',
@@ -2397,10 +2398,10 @@ $1被封禁的理由是“$2”',
 'blocklogpage'                    => '查封日誌',
 'blocklog-showlog'                => '這位用戶曾經被封鎖過。在下列提供封鎖記錄以便參考：',
 'blocklog-showsuppresslog'        => '這位用戶曾經被封鎖和隱藏過。在下列提供廢止記錄以便參考：',
-'blocklogentry'                   => '“[[$1]]”已被查封，終止時間為$2 $3',
+'blocklogentry'                   => '已封禁“[[$1]]” $3而終止時間為$2',
 'reblock-logentry'                => '更改[[$1]]的封禁設定時間 $2 $3',
 'blocklogtext'                    => '這是關於用戶封禁和解除封禁操作的記錄。被自動封禁的IP地址沒有被列出。請參閱[[Special:IPBlockList|被查封的IP地址和用戶列表]]。',
-'unblocklogentry'                 => '$1已被解封',
+'unblocklogentry'                 => '已解封 $1',
 'block-log-flags-anononly'        => '僅限匿名用戶',
 'block-log-flags-nocreate'        => '建立帳號已禁用',
 'block-log-flags-noautoblock'     => '停用自動封禁',
@@ -3225,6 +3226,17 @@ $3
 $5
 
 確認碼會在$4過期。',
+'confirmemail_body_set'     => '有人，可能是您，來自IP地址$1，已設置的戶口"$2"這個地址{{SITENAME}}網站名稱電郵地址。
+
+為了確認這個帳戶確實屬於自己的，重新確認電子郵件功能於{{SITENAME}}網站名稱，請在瀏覽器中打開這個鏈接：
+
+$3
+
+如果這帳戶*不*是你的，請點此鏈接取消電子郵件地址確認：
+
+$5
+
+這個確認碼會在$4時過期。',
 'confirmemail_invalidated'  => '電郵地址確認已取消',
 'invalidateemail'           => '取消電郵確認',
 
@@ -3362,9 +3374,7 @@ MediaWiki是基於使用目的而加以發佈，然而不負任何擔保責任�
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => '選擇重覆檔案',
-'fileduplicatesearch-summary'  => '用重覆檔案的切細值去找出檔案是否重覆。
-
-輸入檔名時不需要輸入 "{{ns:file}}:" 開頭。',
+'fileduplicatesearch-summary'  => '用重覆檔案的切細值去找出檔案是否重覆。',
 'fileduplicatesearch-legend'   => '找重覆',
 'fileduplicatesearch-filename' => '檔案名稱：',
 'fileduplicatesearch-submit'   => '找',

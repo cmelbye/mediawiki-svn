@@ -243,7 +243,7 @@ $specialPageAliases = array(
 	'Shortpages'                => array( 'Halaman_pendek', 'HalamanPendek' ),
 	'Longpages'                 => array( 'Halaman_panjang', 'HalamanPanjang' ),
 	'Newpages'                  => array( 'Halaman_baru', 'HalamanBaru' ),
-	'Ancientpages'              => array( 'Halaman_lama', 'HalamanLama', 'Artikel_lama' ),
+	'Ancientpages'              => array( 'Halaman_lama', 'HalamanLama' ),
 	'Deadendpages'              => array( 'Halaman_buntu', 'HalamanBuntu' ),
 	'Protectedpages'            => array( 'Halaman_yang_dilindungi', 'HalamanDilindungi' ),
 	'Protectedtitles'           => array( 'Judul_yang_dilindungi', 'JudulDilindungi' ),
@@ -1663,8 +1663,8 @@ Lihat [[Special:NewFiles|galeri berkas baru]] untuk tampilan visual.',
 'filetype-bad-ie-mime'        => 'Tidak dapat memuat berkas ini karena Internet Explorer mendeteksinya sebagai "$1", yang tak diizinkan dan merupakan tipe berkas yang memiliki potensi bahaya.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' termasuk jenis berkas yang tidak diijinkan.
 {{PLURAL:\$3|Jenis berkas yang disarankan adalah|Jenis berkas yang disarankan adalah}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' termasuk dalam jenis berkas yang tidak diijinkan.
-{{PLURAL:\$3|Jenis berkas yang diijinkan adalah|Jenis berkas yang diijinkan adalah}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' {{PLURAL:$4|adalah ekstensi berkas yang tidak diizinkan|adalah ekstensi berkas yang tidak diizinkan}}.
+{{PLURAL:$3|Jenis berkas yang diperolehkan adalah|Jenis berkas yang diperolehkan adalah}} $2.',
 'filetype-missing'            => 'Berkas tak memiliki ekstensi (misalnya ".jpg").',
 'empty-file'                  => 'Berkas yang Anda kirim kosong.',
 'file-too-large'              => 'Ukuran berkas yang Anda muat terlalu besar.',
@@ -1699,7 +1699,7 @@ Jika Anda masih ingin memuat berkas Anda, silakan kembali dan gunakan nama baru.
 'fileexists-shared-forbidden' => 'Ditemukan berkas lain dengan nama yang sama di repositori bersama.
 Jika Anda tetap ingin memuatkan berkas Anda, harap kembali dan gunakan nama lain. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Berkas ini berduplikasi dengan {{PLURAL:$1|berkas|berkas-berkas}} berikut:',
-'file-deleted-duplicate'      => 'Sebuah berkas yang identik dengan berkas ini ([[$1]]) sudah pernah dihapuskan sebelumnya. Anda harus memeriksa sejarah penghapusan berkas tersebut sebelum melanjutkan memuat ulang berkas ini.',
+'file-deleted-duplicate'      => 'Sebuah berkas yang identik dengan berkas ini ([[:$1]]) sudah pernah dihapuskan sebelumnya. Anda harus memeriksa sejarah penghapusan berkas tersebut sebelum melanjutkan memuat ulang berkas ini.',
 'uploadwarning'               => 'Peringatan pemuatan',
 'uploadwarning-text'          => 'Mohon perbaiki keterangan berkas di bawah dan coba lagi.',
 'savefile'                    => 'Simpan berkas',
@@ -1930,12 +1930,13 @@ Cek dahulu pranala lain ke templat tersebut sebelum menghapusnya.',
 Halaman-halaman tersebut seharusnya berpaut ke topik-topik yang sesuai.<br />
 Suatu halaman dianggap sebagai halaman disambiguasi apabila halaman tersebut menggunakan templat yang terhubung ke [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Pengalihan ganda',
-'doubleredirectstext'        => 'Halaman ini memuat daftar halaman yang dialihkan ke halaman pengalihan yang lain.
+'doubleredirects'                   => 'Pengalihan ganda',
+'doubleredirectstext'               => 'Halaman ini memuat daftar halaman yang dialihkan ke halaman pengalihan yang lain.
 Setiap baris memuat pranala ke pengalihan pertama dan pengalihan kedua serta target dari pengalihan kedua yang umumnya adalah halaman yang "sebenarnya". Halaman peralihan pertama seharusnya dialihkan ke halaman yang bukan merupakan halaman peralihan.
 Nama yang telah <del>dicoret</del> berarti telah dibetulkan.',
-'double-redirect-fixed-move' => '[[$1]] telah dipindahkan menjadi halaman peralihan ke [[$2]]',
-'double-redirect-fixer'      => 'Revisi pengalihan',
+'double-redirect-fixed-move'        => '[[$1]] telah dipindahkan menjadi halaman peralihan ke [[$2]]',
+'double-redirect-fixed-maintenance' => 'Memperbaiki pengalihan ganda dari [[$1]] ke [[$2]].',
+'double-redirect-fixer'             => 'Revisi pengalihan',
 
 'brokenredirects'        => 'Pengalihan rusak',
 'brokenredirectstext'    => 'Pengalihan-pengalihan berikut merujuk pada halaman yang tidak ada:',
@@ -3305,6 +3306,20 @@ untuk membatalkan konfirmasi alamat surel:
 $5
 
 Kode konfirmasi ini akan kedaluwarsa pada $4.',
+'confirmemail_body_set'     => 'Seseorang, mungkin Anda, dari alamat IP $1,
+telah mengubah surel dari akun "$2" pada alamat ini di {{SITENAME}}.
+
+Untuk mengonfirmasi bahwa akun ini adalah milik Anda sekaligus mengaktifkan
+kembali fitur surel pada {{SITENAME}}, ikuti pranala berikut pada browser Anda:
+
+$3
+
+Jika akun ini *bukan* milik Anda, ikuti pranala berikut
+untuk membatalkan konfirmasi alamat surel:
+
+$5
+
+Kode konfirmasi ini akan kedaluwarsa pada $4.',
 'confirmemail_invalidated'  => 'Konfirmasi alamat surel dibatalkan',
 'invalidateemail'           => 'Batalkan konfirmasi surel',
 
@@ -3480,9 +3495,7 @@ Masukkan nama berkas tanpa prefiks "{{ns:file}}:"-nya.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Pencarian berkas duplikat',
-'fileduplicatesearch-summary'  => 'Pencarian duplikat berkas berdasarkan nilai hash-nya.
-
-Masukkan nama berkas tanpa prefiks "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'Pencarian duplikat berkas berdasarkan nilai hash-nya.',
 'fileduplicatesearch-legend'   => 'Cari duplikat',
 'fileduplicatesearch-filename' => 'Nama berkas:',
 'fileduplicatesearch-submit'   => 'Cari',

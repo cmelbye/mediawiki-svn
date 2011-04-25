@@ -539,7 +539,7 @@ $1',
 'copyrightpage'        => '{{ns:project}}:Direitos_de_autor',
 'currentevents'        => 'Notícias',
 'currentevents-url'    => 'Project:Notícias',
-'disclaimers'          => 'Alerta de Conteúdo',
+'disclaimers'          => 'Exoneração de responsabilidade',
 'disclaimerpage'       => 'Project:Aviso_geral',
 'edithelp'             => 'Ajuda de edição',
 'edithelppage'         => 'Help:Editar',
@@ -1930,7 +1930,7 @@ A descrição na [$2 página de descrição] é mostrada abaixo.',
 'filedelete-success'          => "'''$1''' foi eliminado.",
 'filedelete-success-old'      => "A versão de '''[[Media:$1|$1]]''' tal como $3, $2 foi eliminada.",
 'filedelete-nofile'           => "'''$1''' não existe.",
-'filedelete-nofile-old'       => "Não há nehuma versão de '''$1''' em arquivo com os parâmetros especificados.",
+'filedelete-nofile-old'       => "Não há nenhuma versão de '''$1''' em arquivo com os parâmetros especificados.",
 'filedelete-otherreason'      => 'Outro/motivo adicional:',
 'filedelete-reason-otherlist' => 'Outro motivo',
 'filedelete-reason-dropdown'  => '*Motivos comuns para eliminação
@@ -1991,12 +1991,14 @@ A descrição na [$2 página de descrição] é mostrada abaixo.',
 Estes links deviam ser desambiguados, apontando-os para a página apropriada.<br />
 Considera-se que uma página é de desambiguação se nela for utilizada uma predefinição que esteja definida em [[MediaWiki:Disambiguationspage]].',
 
-'doubleredirects'            => 'Redireccionamentos duplos',
-'doubleredirectstext'        => 'Esta página lista todas as páginas que redireccionam para outras páginas de redireccionamento.
+'doubleredirects'                   => 'Redireccionamentos duplos',
+'doubleredirectstext'               => 'Esta página lista todas as páginas que redireccionam para outras páginas de redireccionamento.
 Cada linha contém links para o primeiro e segundo redireccionamentos, bem como o destino do segundo redireccionamento, geralmente contendo a verdadeira página de destino, que devia ser o destino do primeiro redireccionamento.
 <del>Entradas cortadas</del> já foram solucionadas.',
-'double-redirect-fixed-move' => '[[$1]] foi movido, passando a redirecionar para [[$2]]',
-'double-redirect-fixer'      => 'Corretor de redirecionamentos',
+'double-redirect-fixed-move'        => '[[$1]] foi movido.
+Agora redirecciona para [[$2]].',
+'double-redirect-fixed-maintenance' => 'A corrigir redireccionamento duplo de [[$1]] para [[$2]].',
+'double-redirect-fixer'             => 'Corrector de redireccionamentos',
 
 'brokenredirects'        => 'Redireccionamentos quebrados',
 'brokenredirectstext'    => 'Os seguintes redireccionamentos ligam para páginas inexistentes:',
@@ -2049,10 +2051,10 @@ Cada linha contém links para o primeiro e segundo redireccionamentos, bem como 
 'protectedpages-indef'    => 'Apenas protecções infinitas',
 'protectedpages-cascade'  => 'Apenas protecções em cascata',
 'protectedpagestext'      => 'As seguintes páginas encontram-se protegidas contra edições ou movimentações',
-'protectedpagesempty'     => 'Neste momento, nenhuma página está protegida com estes parâmetros.',
+'protectedpagesempty'     => 'Neste momento, nenhuma das páginas está protegida com estes parâmetros.',
 'protectedtitles'         => 'Títulos protegidos',
 'protectedtitlestext'     => 'Os títulos a seguir encontram-se protegidos contra criação',
-'protectedtitlesempty'    => 'Neste momento, nenhum título está protegido com estes parâmetros.',
+'protectedtitlesempty'    => 'Neste momento, nenhum dos títulos está protegido com estes parâmetros.',
 'listusers'               => 'Utilizadores',
 'listusers-editsonly'     => 'Mostrar apenas utilizadores com edições',
 'listusers-creationsort'  => 'Ordenar por data de criação',
@@ -3370,7 +3372,7 @@ O sistema de correio devolveu o erro: $1',
 'confirmemail_invalid'      => 'Código de confirmação inválido. O código poderá ter expirado.',
 'confirmemail_needlogin'    => 'Precisa de $1 para confirmar o seu endereço de correio electrónico.',
 'confirmemail_success'      => 'O seu endereço de correio electrónico foi confirmado.
-Pode agora [[Special:UserLogin|autenticar-se]] e disfrutar da wiki.',
+Pode agora [[Special:UserLogin|autenticar-se]] e desfrutar da wiki.',
 'confirmemail_loggedin'     => 'O seu endereço de correio electrónico foi confirmado.',
 'confirmemail_error'        => 'Alguma coisa correu mal ao gravar a sua confirmação.',
 'confirmemail_subject'      => 'Confirmação de endereço de correio electrónico da {{SITENAME}}',
@@ -3391,6 +3393,21 @@ $5
 Este código de confirmação irá expirar a $4.',
 'confirmemail_body_changed' => 'Alguém, provavelmente você com o endereço IP $1,
 alterou o endereço de correio electrónico da conta "$2" para este na {{SITENAME}}.
+
+Para confirmar que esta conta é realmente sua e reactivar
+as funcionalidades de correio electrónico na {{SITENAME}},
+abra o seguinte link no seu browser:
+
+$3
+
+Caso a conta *não* lhe pertença, siga o seguinte link
+para cancelar a confirmação do endereço de correio electrónico:
+
+$5
+
+Este código de confirmação irá expirar a $4.',
+'confirmemail_body_set'     => 'Alguém, provavelmente você com o endereço IP $1,
+definiu o endereço de correio electrónico da conta "$2" para este na {{SITENAME}}.
 
 Para confirmar que esta conta é realmente sua e reactivar
 as funcionalidades de correio electrónico na {{SITENAME}},

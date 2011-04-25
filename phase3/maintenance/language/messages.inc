@@ -626,6 +626,7 @@ $wgMessageStructure = array(
 		'template-semiprotected',
 		'hiddencategories',
 		'edittools',
+		'edittools-upload',
 		'nocreatetitle',
 		'nocreatetext',
 		'nocreate-loggedin',
@@ -1541,6 +1542,7 @@ $wgMessageStructure = array(
 		'doubleredirects-summary',
 		'doubleredirectstext',
 		'double-redirect-fixed-move',
+		'double-redirect-fixed-maintenance',
 		'double-redirect-fixer',
 	),
 	'brokenredirects' => array(
@@ -2992,6 +2994,7 @@ $wgMessageStructure = array(
 		'confirmemail_subject',
 		'confirmemail_body',
 		'confirmemail_body_changed',
+		'confirmemail_body_set',
 		'confirmemail_invalidated',
 		'invalidateemail',
 	),
@@ -3207,6 +3210,7 @@ $wgMessageStructure = array(
 		'fileduplicatesearch-info',
 		'fileduplicatesearch-result-1',
 		'fileduplicatesearch-result-n',
+		'fileduplicatesearch-noresults',
 	),
 	'special-specialpages' => array(
 		'specialpages',

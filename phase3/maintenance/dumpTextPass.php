@@ -95,18 +95,28 @@ class TextPassDumper extends BackupDumper {
 	}
 
 	function processFileOpt( $val, $param ) {
-		switch( $val ) {
-		case "file":
-			return $param;
-		case "gzip":
-			return "compress.zlib://$param";
-		case "bzip2":
-			return "compress.bzip2://$param";
-		case "7zip":
-			return "mediawiki.compress.7z://$param";
-		default:
-			return $val;
+		$fileURIs = explode(';',$param);
+		foreach ( $fileURIs as $URI ) {
+			switch( $val ) {
+				case "file":
+					$newURI = $URI;
+					break;
+				case "gzip":
+					$newURI = "compress.zlib://$URI";
+					break;
+				case "bzip2":
+					$newURI = "compress.bzip2://$URI";
+					break;
+				case "7zip":
+					$newURI = "mediawiki.compress.7z://$URI";
+					break;
+				default:
+					$newURI = $URI;
+			}
+			$newFileURIs[] = $newURI;
 		}
+		$val = implode( ';', $newFileURIs );
+		return $val;
 	}
 
 	/**
@@ -147,7 +157,7 @@ class TextPassDumper extends BackupDumper {
 		$reader = new XMLReader();
 		$reader->open( $this->input );
 		$writer = new XMLWriter();
-		$writer->openURI( 'php://stdout' );
+		$writer->openMemory();
 
 
 		while ( $reader->read() ) {
@@ -206,8 +216,8 @@ class TextPassDumper extends BackupDumper {
 				}
 				$writer->text( $reader->value );
 			}
+			$this->sink->write( $writer->outputMemory() );
 		}
-		$writer->flush();
 	}
 
 	function getText( $id ) {
@@ -441,6 +451,8 @@ Options:
   --report=n  Report position and speed after every n pages processed.
 			  (Default: 100)
   --server=h  Force reading from MySQL server h
+  --output=<type>:<file> Write to a file instead of stdout
+              <type>s: file, gzip, bzip2, 7zip
   --current	  Base ETA on number of pages in database instead of all revisions
   --spawn	  Spawn a subprocess for loading text records
   --help      Display this help message

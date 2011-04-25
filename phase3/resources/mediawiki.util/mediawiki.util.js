@@ -1,8 +1,7 @@
 /**
  * Utilities
  */
-
-(function($, mw) {
+( function( $, mw ) {
 
 	mw.util = {
 
@@ -13,7 +12,13 @@
 				this.initialised = true;
 
 				// Any initialisation after the DOM is ready
-				$(function() {
+				$( function() {
+
+					/* Set up $.messageBox */
+					$.messageBoxNew( {
+						'id': 'mw-js-message',
+						'parent': '#content'
+					} );
 
 					// Shortcut to client profile return
 					var profile = $.client.profile();
@@ -475,7 +480,7 @@
 						 "|" / "}" /
 						 "~"
 			*/
-			var	rfc5322_atext = "a-z0-9!#$%&'*+-/=?^_`{|}~",
+			var	rfc5322_atext = "a-z0-9!#$%&'*+\\-/=?^_`{|}~",
 
 			/**
 			 * Next define the RFC 1034 'ldh-str'
@@ -486,14 +491,14 @@
 			 *	<let-dig-hyp> ::= <let-dig> | "-"
 			 *	<let-dig> ::= <letter> | <digit>
 			 */
-				rfc1034_ldh_str = "a-z0-9-",
+				rfc1034_ldh_str = "a-z0-9\\-",
 
 				HTML5_email_regexp = new RegExp(
 					// start of string
 					'^'
 					+
 					// User part which is liberal :p
-					'[' + rfc5322_atext + '\\.' + ']' + '+'
+					'[' + rfc5322_atext + '\\.]+'
 					+
 					// 'at'
 					'@'
@@ -516,4 +521,4 @@
 
 	mw.util.init();
 
-})(jQuery, mediaWiki);
+} )( jQuery, mediaWiki );

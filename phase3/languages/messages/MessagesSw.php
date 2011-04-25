@@ -1035,6 +1035,7 @@ Tazama [[Special:IPBlockList|orodha ya uzuio wa IP]] kuona orodha ya zuio zilizo
 'searchmenu-legend'                => 'Hitiari za kutafuta',
 'searchmenu-exists'                => "'''Ukurasa wa \"[[:\$1]]\" upo kwenye wiki hii'''",
 'searchmenu-new'                   => "'''Anzisha ukurasa wa \"[[:\$1]]\" katika wiki hii!'''",
+'searchmenu-new-nocreate'          => 'Huenda jina la "$1" ni jina batili la ukurasa, ama huna uwezo wa kuanzisha ukurasa wenye jina hili.',
 'searchhelp-url'                   => 'Help:Yaliyomo',
 'searchmenu-prefix'                => '[[Special:PrefixIndex/$1|Tafuta kurasa kwenye eneo hili la wiki]]',
 'searchprofile-articles'           => 'Kurasa kwa kusudi ya wiki',
@@ -1461,7 +1462,7 @@ Kama unataka kupakia faili lako, tafadhali rudia kwa kutumia jina lingine. [[Fil
 Kama bado unataka kupakia faili lako, tafadhali rudi na utumie jina jipya.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Faili hili ni nakala ya {{PLURAL:$1|faili lifuatalo|mafaili yafuatayo}}:',
-'file-deleted-duplicate'      => 'Faili linalofanana na faili hili ([[$1]]) limeshafutwa hapo awali.
+'file-deleted-duplicate'      => 'Faili linalofanana na faili hili ([[:$1]]) limeshafutwa hapo awali.
 Tazama kumbukumbu za kufuta faili lile kabla hujaendelea kulipakia upya.',
 'uploadwarning'               => 'Ilani kuhusu kupakia',
 'uploadwarning-text'          => 'Tafadhali ubadilishe maelezo ya faili hapo chini, halafu jaribu tena.',
@@ -1680,12 +1681,13 @@ Kumbuka kuhakikisha kwamba hakuna viungo vingine vinavyoelekea kigezo fulani kab
 Ni afadhali kiungo kiende makala inayostahili moja kwa moja.<br />
 Kurasa za kutofautishana maana ni zile zinazotumia kigezo kinachoorodheshwa katika ukurasa wa [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Maelekezo mawilimawili',
-'doubleredirectstext'        => 'Ukurasa huu unaorodhesha kurasa zinazoelekeza kurasa zingine za kuelekeza.
+'doubleredirects'                   => 'Maelekezo mawilimawili',
+'doubleredirectstext'               => 'Ukurasa huu unaorodhesha kurasa zinazoelekeza kurasa zingine za kuelekeza.
 Katika kila mstari kuna viungo vinavyokwenda katika kurasa za kuelekeza zote mbili, pamoja na ukurasa wa mwishilio mwa elekezo la pili. Ukurasa huu wa mwishilio huwa ni ukurasa unaostahili kuelekezwa kutoka kwa ukurasa wa kuelekeza wa kwanza. Vitu <del>vilivyokatwa kwa mstari</del> vimeshatatuliwa.',
-'double-redirect-fixed-move' => '[[$1]] umehamishwa.
+'double-redirect-fixed-move'        => '[[$1]] umehamishwa.
 Sasa unaelekeza [[$2]].',
-'double-redirect-fixer'      => 'Boti ya kurekebisha maelekezo',
+'double-redirect-fixed-maintenance' => 'Elekezo maradufu inarekebishwa toka [[$1]] kwenda [[$2]].',
+'double-redirect-fixer'             => 'Boti ya kurekebisha maelekezo',
 
 'brokenredirects'        => 'Maelekezo yenye hitilafu',
 'brokenredirectstext'    => 'Maelekezo yafuatayo yanaelekeza katika kurasa zisizopatikana:',
@@ -2673,6 +2675,17 @@ na kama *huja* sajili akaunti hii, fuata kiungo hiki ili kubatilisha uthibitisho
 $5
 
 Ishara hizi za uthibitisho zitaishia mnamo $4.',
+'confirmemail_body_set'     => 'Kuna mtu, huenda ikawa wewe, kutoka anwani ya IP $1, ambaye ameweka anwani ya barua pepe ya akaunti "$2" iwe anwani ya barua pepe hii, kule {{SITENAME}}.
+
+Ili kuthibitisha ya kwamba akaunti hii inamilikiwa na wewe, pamoja na kuwezesha upya zana zinazotumia barua pepe kule {{SITENAME}}, ufungue kiungo hiki katika kivinjari chako:
+
+$3
+
+na kama *huja* sajili akaunti hii, fuata kiungo hiki ili kubatilisha uthibitisho wa anwani ya barua pepe:
+
+$5
+
+Ishara hizi za uthibitisho zitaishia mnamo $4.',
 'confirmemail_invalidated'  => 'Uthibitisho wa barua pepe umebatilishwa.',
 'invalidateemail'           => 'Batilisha barua pepe ya uthibitisho.',
 
@@ -2782,16 +2795,15 @@ Picha zinaonyeshwa kwenye ukubwa mzima, na mafaili ya aina zingine yanaanzishwa 
 Andika jina la faili bila kiambishi awali cha "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Tafuta mafaili ya nakili',
-'fileduplicatesearch-summary'  => 'Kutafuta mafaili ya nakili kwa kuzingatia thamani za reli.
-
-Andika jina la faili bila kiambishi awali cha "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Kutafuta kifani',
-'fileduplicatesearch-filename' => 'Jina la faili:',
-'fileduplicatesearch-submit'   => 'Tafuta',
-'fileduplicatesearch-info'     => 'Piseli $1 × $2<br />Ukubwa wa faili: $3<br />Aina ya MIME: $4',
-'fileduplicatesearch-result-1' => 'Faili la "$1" halina kifani.',
-'fileduplicatesearch-result-n' => 'Faili la "$1" lina {{PLURAL:$2|kifani 1|vifani $2}}.',
+'fileduplicatesearch'           => 'Tafuta mafaili ya nakili',
+'fileduplicatesearch-summary'   => 'Kutafuta mafaili ya nakili kwa kuzingatia thamani za reli.',
+'fileduplicatesearch-legend'    => 'Kutafuta kifani',
+'fileduplicatesearch-filename'  => 'Jina la faili:',
+'fileduplicatesearch-submit'    => 'Tafuta',
+'fileduplicatesearch-info'      => 'Piseli $1 × $2<br />Ukubwa wa faili: $3<br />Aina ya MIME: $4',
+'fileduplicatesearch-result-1'  => 'Faili la "$1" halina kifani.',
+'fileduplicatesearch-result-n'  => 'Faili la "$1" lina {{PLURAL:$2|kifani 1|vifani $2}}.',
+'fileduplicatesearch-noresults' => 'Faili linaloitwa "$1" halikupatikana.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Kurasa maalum',

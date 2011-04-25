@@ -1756,7 +1756,7 @@ Se vos voléd adés tèlèchargiér voutron fichiér, volyéd tornar arriér et 
 Se vos voléd adés tèlèchargiér voutron fichiér, volyéd tornar arriér et pués utilisar un novél nom.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Cél fichiér est un doblo {{PLURAL:$1|de ceti fichiér|de cetos fichiérs}} :',
-'file-deleted-duplicate'      => 'Un fichiér pariér a ceti ([[$1]]) at ja étâ suprimâ.
+'file-deleted-duplicate'      => 'Un fichiér pariér a ceti ([[:$1]]) at ja étâ suprimâ.
 Vos devriâd controlar lo jornal de les suprèssions de cél fichiér devant que lo tornar tèlèchargiér.',
 'uploadwarning'               => 'Atencion !',
 'uploadwarning-text'          => 'Changiéd la dèscripcion du fichiér et pués tornâd èprovar.',
@@ -3662,9 +3662,7 @@ Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Rechèrche des fichiérs en doblo',
-'fileduplicatesearch-summary'  => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.
-
-Buchiéd lo nom du fichiér sen lo prèfixo « {{ns:file}}: ».',
+'fileduplicatesearch-summary'  => 'Rechèrche des fichiérs en doblo d’aprés lor mârca de chaplâjo.',
 'fileduplicatesearch-legend'   => 'Rechèrche d’un doblo',
 'fileduplicatesearch-filename' => 'Nom du fichiér :',
 'fileduplicatesearch-submit'   => 'Rechèrchiér',

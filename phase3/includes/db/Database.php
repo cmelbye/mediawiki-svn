@@ -950,7 +950,10 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 
 		if ( isset( $options['GROUP BY'] ) ) {
-			$preLimitTail .= " GROUP BY {$options['GROUP BY']}";
+			$gb = is_array( $options['GROUP BY'] )
+				? implode( ',', $options['GROUP BY'] )
+				: $options['GROUP BY'];
+			$preLimitTail .= " GROUP BY {$gb}";
 		}
 
 		if ( isset( $options['HAVING'] ) ) {
@@ -958,7 +961,10 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 
 		if ( isset( $options['ORDER BY'] ) ) {
-			$preLimitTail .= " ORDER BY {$options['ORDER BY']}";
+			$ob = is_array( $options['ORDER BY'] )
+				? implode( ',', $options['ORDER BY'] )
+				: $options['ORDER BY'];
+			$preLimitTail .= " ORDER BY {$ob}";
 		}
 
 		// if (isset($options['LIMIT'])) {
@@ -1507,6 +1513,7 @@ abstract class DatabaseBase implements DatabaseType {
 		# Stub.  Shouldn't cause serious problems if it's not overridden, but
 		# if your database engine supports a concept similar to MySQL's
 		# databases you may as well.
+		$this->mDBname = $db;
 		return true;
 	}
 
@@ -1651,7 +1658,7 @@ abstract class DatabaseBase implements DatabaseType {
 		if ( !$alias || $alias == $name ) {
 			return $this->tableName( $name );
 		} else {
-			return $this->tableName( $name ) . ' `' . $alias . '`';
+			return $this->tableName( $name ) . ' ' . $this->addIdentifierQuotes( $alias );
 		}
 	}
 
@@ -1763,7 +1770,7 @@ abstract class DatabaseBase implements DatabaseType {
 	 * MySQL uses `backticks` while basically everything else uses double quotes.
 	 * Since MySQL is the odd one out here the double quotes are our generic
 	 * and we implement backticks in DatabaseMysql.
-	 */ 	 
+	 */
 	public function addIdentifierQuotes( $s ) {
 		return '"' . str_replace( '"', '""', $s ) . '"';
 	}
@@ -2342,7 +2349,7 @@ abstract class DatabaseBase implements DatabaseType {
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseBase::duplicateTableStructure' ) {
 		throw new MWException( 'DatabaseBase::duplicateTableStructure is not implemented in descendant class' );
 	}
-	
+
 	/**
 	 * List all tables on the database
 	 *
@@ -2508,7 +2515,7 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Set variables to be used in sourceFile/sourceStream, in preference to the
-	 * ones in $GLOBALS. If an array is set here, $GLOBALS will not be used at 
+	 * ones in $GLOBALS. If an array is set here, $GLOBALS will not be used at
 	 * all. If it's set to false, $GLOBALS will be used.
 	 *
 	 * @param $vars False, or array mapping variable name to value.
@@ -2520,7 +2527,7 @@ abstract class DatabaseBase implements DatabaseType {
 	/**
 	 * Read and execute commands from an open file handle
 	 * Returns true on success, error string or exception on failure (depending on object's error ignore settings)
-	 * @param $fp String: File handle
+	 * @param $fp Resource: File handle
 	 * @param $lineCallback Callback: Optional function called before reading each line
 	 * @param $resultCallback Callback: Optional function called for each MySQL result
 	 * @param $fname String: Calling function name
@@ -2595,13 +2602,13 @@ abstract class DatabaseBase implements DatabaseType {
 	 * Database independent variable replacement, replaces a set of variables
 	 * in a sql statement with their contents as given by $this->getSchemaVars().
 	 * Supports '{$var}' `{$var}` and / *$var* / (without the spaces) style variables
-	 * 
+	 *
 	 * '{$var}' should be used for text and is passed through the database's addQuotes method
 	 * `{$var}` should be used for identifiers (eg: table and database names), it is passed through
 	 *          the database's addIdentifierQuotes method which can be overridden if the database
 	 *          uses something other than backticks.
 	 * / *$var* / is just encoded, besides traditional dbprefix and tableoptions it's use should be avoided
-	 * 
+	 *
 	 * @param $ins String: SQL statement to replace variables in
 	 * @return String The new SQL statement with variables replaced
 	 */
@@ -2649,8 +2656,8 @@ abstract class DatabaseBase implements DatabaseType {
 
 	/**
 	 * Get schema variables to use if none have been set via setSchemaVars().
-	 * Override this in derived classes to provide variables for tables.sql 
-	 * and SQL patch files. 
+	 * Override this in derived classes to provide variables for tables.sql
+	 * and SQL patch files.
 	 */
 	protected function getDefaultSchemaVars() {
 		return array();
@@ -2930,7 +2937,7 @@ class DBConnectionError extends DBError {
 	}
 
 	function getHTML() {
-		global $wgLang, $wgMessageCache, $wgUseFileCache, $wgShowDBErrorBacktrace;
+		global $wgLang, $wgUseFileCache, $wgShowDBErrorBacktrace;
 
 		$sorry = 'Sorry! This site is experiencing technical difficulties.';
 		$again = 'Try waiting a few minutes and reloading.';
@@ -2943,9 +2950,7 @@ class DBConnectionError extends DBError {
 		}
 
 		# No database access
-		if ( is_object( $wgMessageCache ) ) {
-			$wgMessageCache->disable();
-		}
+		MessageCache::singleton()->disable();
 
 		if ( trim( $this->error ) == '' ) {
 			$this->error = $this->db->getProperty( 'mServer' );
@@ -3152,6 +3157,9 @@ class ResultWrapper implements Iterator {
 
 	/**
 	 * Create a new result object from a result resource and a Database object
+	 *
+	 * @param Database $database
+	 * @param resource $result
 	 */
 	function __construct( $database, $result ) {
 		$this->db = $database;
@@ -3165,6 +3173,8 @@ class ResultWrapper implements Iterator {
 
 	/**
 	 * Get the number of rows in a result object
+	 *
+	 * @return integer
 	 */
 	function numRows() {
 		return $this->db->numRows( $this );
@@ -3203,8 +3213,10 @@ class ResultWrapper implements Iterator {
 	}
 
 	/**
-	 * Change the position of the cursor in a result object
+	 * Change the position of the cursor in a result object.
 	 * See mysql_data_seek()
+	 *
+	 * @param $row integer
 	 */
 	function seek( $row ) {
 		$this->db->dataSeek( $this, $row );
@@ -3294,10 +3306,20 @@ class FakeResultWrapper extends ResultWrapper {
 class LikeMatch {
 	private $str;
 
+	/**
+	 * Store a string into a LikeMatch marker object.
+	 *
+	 * @param String $s
+	 */
 	public function __construct( $s ) {
 		$this->str = $s;
 	}
 
+	/**
+	 * Return the original stored string.
+	 *
+	 * @return String
+	 */
 	public function toString() {
 		return $this->str;
 	}

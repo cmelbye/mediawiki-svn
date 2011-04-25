@@ -1531,7 +1531,7 @@ Jolic maš toś ten wobraz w połnem rozeznaśu, nagraj jen, howac změń pšosy
 'fileexists-shared-forbidden' => 'Dataja z toś tym mjenim južo eksistěrujo w zgromadnej chowarni. Jolic hyšći coš nagraś swóju dataju, źi pšosym slědk a wužyj nowe mě.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Toś ta dataja jo duplikat {{PLURAL:$1|slědujuceje dataje|slědujuceju datajow|slědujucych datajow|slědujucych datajow}}:',
-'file-deleted-duplicate'      => 'Dataja, kótaraž jo identiska z toś teju dataju ([[$1]]) jo se pjerwjej wulašowała. Ty měł stawizny wulašowanja toś teje dataje pśeglědaś, pjerwjej až pokšacujoš z jeje zasejnagrawanjom.',
+'file-deleted-duplicate'      => 'Dataja, kótaraž jo identiska z toś teju dataju ([[:$1]]) jo se pjerwjej wulašowała. Ty měł stawizny wulašowanja toś teje dataje pśeglědaś, pjerwjej až pokšacujoš z jeje zasejnagrawanjom.',
 'uploadwarning'               => 'Warnowanje',
 'uploadwarning-text'          => 'Pšosym změń slědujuce datajowe wopisanje a wopytaj hyšći raz.',
 'savefile'                    => 'Dataju składowaś',
@@ -1770,11 +1770,12 @@ Slědujuca lisćina pokazujo jano {{PLURAL:$1|prědny wótkaz|prědnej $1 wótka
 Wótkazujśo lubjej na pótrjefjony bok.<br />
 Bok wobjadnawa se ako bok wujasnjenja zapśimjeśa, gaž wótkazujo na nju [[MediaWiki:Disambiguationspage]].',
 
-'doubleredirects'            => 'Dwójne dalejpósrědnjenja',
-'doubleredirectstext'        => 'Toś ten bok nalicujo boki, kótarež dalej pósrědnjaju na druge dalejpósrědnjenja.
+'doubleredirects'                   => 'Dwójne dalejpósrědnjenja',
+'doubleredirectstext'               => 'Toś ten bok nalicujo boki, kótarež dalej pósrědnjaju na druge dalejpósrědnjenja.
 Kužda smužka wopśimjejo wótkaze na prědne a druge dalejpósrědnjenje a teke na cel drugego dalejpósrědnjenja, což jo w normalnem paźe "napšawdny" celowy bok, na kótaryž by mógło prědne dalejpósrědnjenje pokazaś. <del>Pśešmarnjone</del> zapiski su južo wobstarane.',
-'double-redirect-fixed-move' => '[[$1]] jo se pśesunuł, jo něnto dalejposrědnjenje do [[$2]]',
-'double-redirect-fixer'      => 'Pórěźaŕ dalejpósrědnjenjow',
+'double-redirect-fixed-move'        => '[[$1]] jo se pśesunuł, jo něnto dalejposrědnjenje do [[$2]]',
+'double-redirect-fixed-maintenance' => 'Dwójne dalejpósrědnjenje wót [[$1]] do [[$2]] se pórěźa.',
+'double-redirect-fixer'             => 'Pórěźaŕ dalejpósrědnjenjow',
 
 'brokenredirects'        => 'Skóńcowane dalejpósrědnjenja',
 'brokenredirectstext'    => 'Slědujuce dalejpósrědnjenja wótkazuju na njeeksistěrujuce boki:',
@@ -3110,6 +3111,17 @@ Jolic toś to konto śi *nje*słuša, slěduj toś tomu wótkazoju, aby wobkśu�
 $5
 
 Toś ten wobkšuśeński kod płaśi až do $4.',
+'confirmemail_body_set'     => 'Něchten, nejskerjej ty z IP-adresy $1, jo e-mailowu adresu konta "$2" do toś teje adrese na {{GRAMMAR:lokatiw{{SITENAME}}}} změnił.
+
+Aby wobkšuśił, až toś to konto napšawdu śi słuša a aby e-mailowe funkcije na {{GRAMMAR:lokatiw{{SITENAME}}}} aktiwěrował, wócyń toś ten wótkaz w swójom wobglědowaku:
+
+$3
+
+Jolic toś to konto śi *nje*słuša, slěduj toś tomu wótkazoju, aby wobkśuśenje e-mejloweje adrese anulěrował:
+
+$5
+
+Toś ten wobkšuśeński kod płaśi až do $4.',
 'confirmemail_invalidated'  => 'Emailowe wobkšuśenje pśetergnjone',
 'invalidateemail'           => 'Emailowe wobkšuśenje pśetergnuś',
 
@@ -3247,16 +3259,15 @@ Móžoš teke [[Special:Watchlist/edit|standardny wobźěłowański bok wužywa�
 Zapódaj datajowe mě bźez dodanka "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Za duplikatnymi datajami pytaś',
-'fileduplicatesearch-summary'  => 'Za datajowymi duplikatami na zakłaźe gótnoty hash pytaś.
-
-Zapódaj datajowe mě bźez prefiksa "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'pytaś duplikata',
-'fileduplicatesearch-filename' => 'Datajowe mě:',
-'fileduplicatesearch-submit'   => 'Pytaś',
-'fileduplicatesearch-info'     => '$1 × $2 Piksel<br />wjelikosć dataja: $3<br />typ MIME: $4',
-'fileduplicatesearch-result-1' => 'Dataja "$1" njama identiske duplikaty.',
-'fileduplicatesearch-result-n' => 'Dataja "$1" ma {{PLURAL:$2|1 identiski duplikat|$2 identiskej duplikata|$2 identiske duplikaty|$2 identiskich duplikatow}}.',
+'fileduplicatesearch'           => 'Za duplikatnymi datajami pytaś',
+'fileduplicatesearch-summary'   => 'Za datajowymi duplikatami na zakłaźe gótnoty hash pytaś.',
+'fileduplicatesearch-legend'    => 'pytaś duplikata',
+'fileduplicatesearch-filename'  => 'Datajowe mě:',
+'fileduplicatesearch-submit'    => 'Pytaś',
+'fileduplicatesearch-info'      => '$1 × $2 Piksel<br />wjelikosć dataja: $3<br />typ MIME: $4',
+'fileduplicatesearch-result-1'  => 'Dataja "$1" njama identiske duplikaty.',
+'fileduplicatesearch-result-n'  => 'Dataja "$1" ma {{PLURAL:$2|1 identiski duplikat|$2 identiskej duplikata|$2 identiske duplikaty|$2 identiskich duplikatow}}.',
+'fileduplicatesearch-noresults' => 'Žedna dataja z mjenim "$1" namakana.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Specialne boki',

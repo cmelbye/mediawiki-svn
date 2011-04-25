@@ -32,6 +32,9 @@ defined( 'MEDIAWIKI' ) || die( 1 );
 abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	
 	/* Protected Members */
+
+	# Origin is user-supplied code
+	protected $origin = self::ORIGIN_USER_SITEWIDE;
 	
 	// In-object cache for modified time
 	protected $modifiedTime = array();
@@ -41,13 +44,17 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 	abstract protected function getPages( ResourceLoaderContext $context );
 	
 	/* Protected Methods */
-	
-	protected function getContent( $page, $ns ) {
-		if ( $ns === NS_MEDIAWIKI ) {
-			return wfEmptyMsg( $page ) ? '' : wfMsgExt( $page, 'content' );
+
+	/**
+	 * @param $title Title
+	 * @return null|string
+	 */
+	protected function getContent( $title ) {
+		if ( $title->getNamespace() === NS_MEDIAWIKI ) {
+			$dbkey = $title->getDBkey();
+			return wfEmptyMsg( $dbkey ) ? '' : wfMsgExt( $dbkey, 'content' );
 		}
-		$title = Title::newFromText( $page, $ns );
-		if ( !$title || !$title->isCssJsSubpage() ) {
+		if ( !$title->isCssJsSubpage() ) {
 			return null;
 		}
 		$revision = Revision::newFromTitle( $title );
@@ -61,39 +68,53 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 
 	public function getScript( ResourceLoaderContext $context ) {
 		$scripts = '';
-		foreach ( $this->getPages( $context ) as $page => $options ) {
+		foreach ( $this->getPages( $context ) as $titleText => $options ) {
 			if ( $options['type'] !== 'script' ) {
 				continue;
 			}
-			$script = $this->getContent( $page, $options['ns'] );
-			if ( $script ) {
-				$ns = MWNamespace::getCanonicalName( $options['ns'] );
-				$scripts .= "/* $ns:$page */\n$script\n";
+			$title = Title::newFromText( $titleText );
+			if ( !$title ) {
+				continue;
+			}
+			$script = $this->getContent( $title );
+			if ( strval( $script ) !== '' ) {
+				if ( strpos( $titleText, '*/' ) === false ) {
+					$scripts .=  "/* $titleText */\n";
+				}
+				$scripts .= $script . "\n";
 			}
 		}
 		return $scripts;
 	}
 
 	public function getStyles( ResourceLoaderContext $context ) {
+		global $wgScriptPath;
 		
 		$styles = array();
-		foreach ( $this->getPages( $context ) as $page => $options ) {
+		foreach ( $this->getPages( $context ) as $titleText => $options ) {
 			if ( $options['type'] !== 'style' ) {
 				continue;
 			}
+			$title = Title::newFromText( $titleText );
+			if ( !$title ) {
+				continue;
+			}			
 			$media = isset( $options['media'] ) ? $options['media'] : 'all';
-			$style = $this->getContent( $page, $options['ns'] );
-			if ( !$style ) {
+			$style = $this->getContent( $title );
+			if ( strval( $style ) === '' ) {
 				continue;
 			}
 			if ( $this->getFlip( $context ) ) {
 				$style = CSSJanus::transform( $style, true, false );
 			}
+			$style = CSSMin::remap( $style, false, $wgScriptPath, true );
 			if ( !isset( $styles[$media] ) ) {
 				$styles[$media] = '';
 			}
-			$ns = MWNamespace::getCanonicalName( $options['ns'] );
-			$styles[$media] .= "/* $ns:$page */\n$style\n";
+			if ( strpos( $titleText, '*/' ) === false ) {
+				$styles[$media] .=  "/* $titleText */\n";
+			}
+			$styles[$media] .= $style . "\n";
 		}
 		return $styles;
 	}
@@ -104,17 +125,16 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 			return $this->modifiedTime[$hash];
 		}
 
-		$titles = array();
-		foreach ( $this->getPages( $context ) as $page => $options ) {
-			$titles[$options['ns']][$page] = true;
+		$batch = new LinkBatch;
+		foreach ( $this->getPages( $context ) as $titleText => $options ) {
+			$batch->addObj( Title::newFromText( $titleText ) );
 		}
 
 		$modifiedTime = 1; // wfTimestamp() interprets 0 as "now"
-
-		if ( $titles ) {
+		if ( !$batch->isEmpty() ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			$latest = $dbr->selectField( 'page', 'MAX(page_touched)',
-				$dbr->makeWhereFrom2d( $titles, 'page_namespace', 'page_title' ),
+				$batch->constructSet( 'page', $dbr ),
 				__METHOD__ );
 
 			if ( $latest ) {
@@ -122,6 +142,7 @@ abstract class ResourceLoaderWikiModule extends ResourceLoaderModule {
 			}
 		}
 
-		return $this->modifiedTime[$hash] = $modifiedTime;
+		$this->modifiedTime[$hash] = $modifiedTime;
+		return $modifiedTime;
 	}
 }

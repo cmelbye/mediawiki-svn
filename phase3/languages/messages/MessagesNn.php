@@ -295,7 +295,7 @@ $messages = array(
 'tog-editsection'             => 'Endre avsnitt ved hjelp av [endre]-lenkje',
 'tog-editsectiononrightclick' => 'Endre avsnitt ved å høgreklikke på avsnittsoverskrift (JavaScript)',
 'tog-showtoc'                 => 'Vis innhaldsliste (for sider med meir enn tre bolkar)',
-'tog-rememberpassword'        => 'Hugs innlogginga mi på denne datamaskinen (for høgst {{PLURAL:$1|éin dag|$1 dagar}})',
+'tog-rememberpassword'        => 'Hugs innlogginga mi med denne nettlesaren (for høgst {{PLURAL:$1|éin dag|$1 dagar}})',
 'tog-watchcreations'          => 'Legg til sidene eg opprettar på overvakingslista mi',
 'tog-watchdefault'            => 'Legg til sidene eg endrar på overvakingslista mi',
 'tog-watchmoves'              => 'Legg til sidene eg flyttar på overvakingslista mi',
@@ -468,7 +468,7 @@ $messages = array(
 'searcharticle'     => 'Vis',
 'history'           => 'Sidehistorikk',
 'history_short'     => 'Historikk',
-'updatedmarker'     => 'oppdatert etter det siste besøket mitt',
+'updatedmarker'     => 'oppdatert etter førre vitjinga mi',
 'info_short'        => 'Informasjon',
 'printableversion'  => 'Utskriftsversjon',
 'permalink'         => 'Fast lenkje',
@@ -722,7 +722,7 @@ Dersom denne førespurnaden blei utført av nokon andre, eller om du kom på pas
 'throttled-mailpassword'     => 'Ei passordpåminning er allereie sendt {{PLURAL:$1|den siste timen|dei siste $1 timane}}. For å hindre misbruk vert det berre sendt ut nytt passord ein gong kvar {{PLURAL:$1|time|$1. time}}.',
 'mailerror'                  => 'Ein feil oppstod ved sending av e-post: $1',
 'acct_creation_throttle_hit' => 'Vitjande på denne wikien som nytta IP-adressa di har alt oppretta {{PLURAL:$1|éin konto|$1 kontoar}} den siste dagen, noko som er det høgaste tillate talet i denne tidsperioden.
-Grunna dette vil ikkje vitjande som nyttar denne IP-adressa kunna oppretta nye kontoar på noverande tidspunkt.',
+Grunna dette vil ikkje vitjande som nyttar denne IP-adressa kunna oppretta nye kontoar nett no.',
 'emailauthenticated'         => 'E-postadressa di vart stadfesta $2 $3.',
 'emailnotauthenticated'      => 'E-postadressa di er enno ikkje stadfest. Dei følgjande funksjonane kan ikkje bruke ho.',
 'noemailprefs'               => 'Oppgje ei e-postadresse i innstillingane dine for at desse funksjonane skal verke.',
@@ -854,14 +854,14 @@ Passordet for den nye kontoen kan verta endra på ''[[Special:ChangePassword|end
 * Dersom du ikkje ønskjer å endre sida, kan du utan risiko klikke på '''attende'''-knappen i nettlesaren din.",
 'anontalkpagetext'                 => "----''Dette er ei diskusjonsside for ein anonym brukar som ikkje har oppretta konto eller ikkje har logga inn.
 Vi er difor nøydde til å bruke den numeriske IP-adressa til å identifisere brukaren. Same IP-adresse kan vere knytt til fleire brukarar. Om du er ein anonym brukar og meiner at du har fått irrelevante kommentarar på ei slik side, [[Special:UserLogin/signup|opprett ein brukarkonto]] eller [[Special:UserLogin|logg inn]] slik at vi unngår framtidige forvekslingar med andre anonyme brukarar.''",
-'noarticletext'                    => 'Det finst på noverande tidspunkt ikkje noko tekst på denne sida.
+'noarticletext'                    => 'Det er nett no ikkje noko tekst på denne sida.
 Du kan [[Special:Search/{{PAGENAME}}|søkja etter denne sidetittelen]] i andre sider, <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} søkja i dei relaterte loggane]
 eller [{{fullurl:{{FULLPAGENAME}}|action=edit}} endra denne sida]</span>.',
-'noarticletext-nopermission'       => 'Der er i augenblinken ikkje noko tekst på denne sida.
+'noarticletext-nopermission'       => 'Der er nett no ikkje noko tekst på denne sida.
 Du kan [[Special:Search/{{PAGENAME}}|søkja etter tittelen på denne sida]] på andre sider,
 eller <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} sjå loggføringar med tilknytting]</span>.',
 'userpage-userdoesnotexist'        => 'Brukarkontoen «$1» finst ikkje. Vil du verkeleg opprette/endre denne sida?',
-'userpage-userdoesnotexist-view'   => 'Brukarkontoen "$1" er ikkje oppretta.',
+'userpage-userdoesnotexist-view'   => 'Brukarkontoen «$1» er ikkje oppretta.',
 'blocked-notice-logextract'        => 'Denne brukaren er for tida blokkert.
 Det siste elementet i blokkeringsloggen er oppgjeve nedanfor:',
 'clearyourcache'                   => "'''Merk: Etter lagring vil det kanskje vera naudsynt at nettlesaren slettar mellomlageret sitt for at endringane skal tre i kraft.''' '''Firefox og Safari:''' Hald ''Shift'' nede medan du trykkjer anten ''Ctrl-F5'' eller ''Ctrl-R'' (''Command-R'' på Mac). '''Konqueror:''' Trykk ''Oppdater'' eller på ''F5''. '''Opera:''' Tøm mellomlageret i ''Verktøy → Innstillingar''. '''Internet Explorer:''' Hald nede ''Ctrl'' medan du trykkjer ''Oppdater'', eler trykk ''Ctrl-F5.''",
@@ -1625,7 +1625,7 @@ Om du framleis ynskjer å laste opp fila, lyt du gå attende og nytte eit anna n
 'fileexists-shared-forbidden' => 'Ei fil med dette namnet finst frå før i det delte fillageret.
 Om du framleis ønskjer å laste opp fila, gå tilbake og last ho opp med eit anna namn. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Denne fila er ein duplikat av følgjande {{PLURAL:$1|fil|filer}}:',
-'file-deleted-duplicate'      => 'Ei identisk fil ([[$1]]) har tidlegare blitt sletta. Du bør sjekka slettehistorikken til denne før du held fram med å lasta ho opp på nytt.',
+'file-deleted-duplicate'      => 'Ei identisk fil ([[:$1]]) er tidlegare sletta. Du bør sjekka slettehistorikken hennar før du held fram med å lasta henne opp på nytt.',
 'uploadwarning'               => 'Opplastingsåtvaring',
 'uploadwarning-text'          => 'Ver venleg og endra filskildringa nedanfor og prøv på nytt',
 'savefile'                    => 'Lagre fil',
@@ -2281,7 +2281,7 @@ Sjå [[Special:Log/delete|sletteloggen]] for eit oversyn over sider som nyleg er
 'undelete-error-long'          => 'Feil ved attoppretting av fila:
 
 $1',
-'undelete-show-file-confirm'   => 'Er du sikker på at du vil visa ein sletta versjon av fila "<nowiki>$1</nowiki>" frå den $2 klokka $3?',
+'undelete-show-file-confirm'   => 'Er du sikker på at du vil visa ein sletta versjon av fila «<nowiki>$1</nowiki>» frå den $2 klokka $3?',
 'undelete-show-file-submit'    => 'Ja',
 
 # Namespace form on various pages
@@ -2299,18 +2299,21 @@ $1',
 'month'               => 'Månad:',
 'year'                => 'År:',
 
-'sp-contributions-newbies'        => 'Vis berre bidrag frå nye brukarar',
-'sp-contributions-newbies-sub'    => 'Frå nye brukarkontoar',
-'sp-contributions-newbies-title'  => 'Brukarbidrag av nye brukarar',
-'sp-contributions-blocklog'       => 'Blokkeringslogg',
-'sp-contributions-deleted'        => 'sletta brukarbidrag',
-'sp-contributions-logs'           => 'loggar',
-'sp-contributions-talk'           => 'diskusjon',
-'sp-contributions-userrights'     => 'administrering av brukartilgang',
-'sp-contributions-blocked-notice' => 'Brukaren er i for tida blokkert. Loggen over den siste blokkeringa kan sjåast nedanfor:',
-'sp-contributions-search'         => 'Søk etter bidrag',
-'sp-contributions-username'       => 'IP-adresse eller brukarnamn:',
-'sp-contributions-submit'         => 'Søk',
+'sp-contributions-newbies'             => 'Vis berre bidrag frå nye brukarar',
+'sp-contributions-newbies-sub'         => 'Frå nye brukarkontoar',
+'sp-contributions-newbies-title'       => 'Brukarbidrag av nye brukarar',
+'sp-contributions-blocklog'            => 'blokkeringslogg',
+'sp-contributions-deleted'             => 'sletta brukarbidrag',
+'sp-contributions-uploads'             => '↓opplastingar',
+'sp-contributions-logs'                => 'loggar',
+'sp-contributions-talk'                => 'diskusjon',
+'sp-contributions-userrights'          => 'administrering av brukartilgang',
+'sp-contributions-blocked-notice'      => 'Denne brukaren er for tida blokkert. Den siste oppføringa i blokkeringsloggen er synt nedanfor:',
+'sp-contributions-blocked-notice-anon' => 'Denne IP-adressa er for tida blokkert. Den siste oppføringa i blokkeringsloggen er synt nedanfor:',
+'sp-contributions-search'              => 'Søk etter bidrag',
+'sp-contributions-username'            => 'IP-adresse eller brukarnamn:',
+'sp-contributions-toponly'             => 'Einast vis endringar som er dei siste på sida.',
+'sp-contributions-submit'              => 'Søk',
 
 # What links here
 'whatlinkshere'            => 'Lenkjer hit',
@@ -2560,13 +2563,13 @@ Dersom du berre vil ha noverande versjon, kan du også bruke ei lenkje, til døm
 'allmessagescurrent'            => 'Noverande tekst',
 'allmessagestext'               => 'Dette er ei liste over systemmeldingar i MediaWiki-namnerommet.
 Vitja [http://www.mediawiki.org/wiki/Localisation MediaWiki Localisation] og [http://translatewiki.net translatewiki.net] om du ynskjer å bidra til den generelle omsetjinga av MediaWiki.',
-'allmessagesnotsupportedDB'     => "Denne sida er ikkje brukande fordi \"'''\$wgUseDatabaseMessages'''\" er slått av.",
-'allmessages-filter-legend'     => 'Filtrér',
-'allmessages-filter'            => 'Filtrér etter tilpassingsgrad:',
+'allmessagesnotsupportedDB'     => "Denne sida kan ein ikkje bruka fordi «'''\$wgUseDatabaseMessages'''» er slått av.",
+'allmessages-filter-legend'     => 'Filtrer',
+'allmessages-filter'            => 'Filtrer etter tilpassingsgrad:',
 'allmessages-filter-unmodified' => 'Ikkje endra',
 'allmessages-filter-all'        => 'Alle',
 'allmessages-filter-modified'   => 'Endra',
-'allmessages-prefix'            => 'Filtrér etter prefiks:',
+'allmessages-prefix'            => 'Filtrer etter prefiks:',
 'allmessages-language'          => 'Språk:',
 'allmessages-filter-submit'     => 'Gå',
 
@@ -2807,7 +2810,7 @@ $1',
 'filedelete-missing'              => 'Det finst ikkje noko fil som heiter «$1», og difor går det heller ikkje å slette noko slik fil.',
 'filedelete-old-unregistered'     => 'Filversjonen «$1» finst ikkje i databasen.',
 'filedelete-current-unregistered' => 'Fila «$1» finst ikkje i databasen.',
-'filedelete-archive-read-only'    => 'Webserveraren har ikkje skrivetilgang til arkivkatalogen "$1".',
+'filedelete-archive-read-only'    => 'Tenaren har ikkje skrivetilgang til arkivkatalogen «$1».',
 
 # Browsing diffs
 'previousdiff' => '← Eldre endring',
@@ -2818,14 +2821,15 @@ $1',
 'imagemaxsize'         => "Avgrens storleiken for bilete:<br />''(for sider som skildrar filer)''",
 'thumbsize'            => 'Miniatyrstørrelse:',
 'widthheightpage'      => '$1×$2, {{PLURAL:$3|éi side|$3 sider}}',
-'file-info'            => '(filstorleik: $1, MIME-type: $2)',
-'file-info-size'       => '($1 × $2 pikslar, filstorleik: $3, MIME-type: $4)',
+'file-info'            => 'filstorleik: $1, MIME-type: $2',
+'file-info-size'       => '$1 × $2 pikslar, filstorleik: $3, MIME-type: $4',
 'file-nohires'         => '<small>Høgare oppløysing er ikkje tilgjengeleg.</small>',
-'svg-long-desc'        => '(SVG-fil, standardoppløysing: $1 × $2 pikslar, filstorleik: $3)',
+'svg-long-desc'        => 'SVG-fil, standardoppløysing: $1 × $2 pikslar, filstorleik: $3',
 'show-big-image'       => 'Full oppløysing',
 'show-big-image-thumb' => '<small>Storleiken på denne førehandsvisinga: $1 × $2 pikslar</small>',
 'file-info-gif-looped' => 'gjentatt',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|rame|ramer}}',
+'file-info-png-looped' => '↓oppatteke',
 'file-info-png-repeat' => 'spela av {{PLURAL:$1|éin gong|$1 gonger}}',
 
 # Special:NewFiles
@@ -3298,9 +3302,7 @@ Skriv inn filnamnet utan «{{ns:file}}:»-prefikset.',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'Søk etter duplikatfiler',
-'fileduplicatesearch-summary'  => 'Søk etter duplikatfiler basert på hash-verdiane deira.
-
-Skriv inn filnamn utan «{{ns:file}}:»-prefikset.',
+'fileduplicatesearch-summary'  => 'Søk etter duplikatfiler basert på hash-verdiane deira.',
 'fileduplicatesearch-legend'   => 'Søk etter ei duplikatfil',
 'fileduplicatesearch-filename' => 'Filnamn:',
 'fileduplicatesearch-submit'   => 'Søk',
@@ -3386,5 +3388,12 @@ Skriv inn filnamn utan «{{ns:file}}:»-prefikset.',
 # SQLite database support
 'sqlite-has-fts' => '$1 med støtte for fulltekstsøk',
 'sqlite-no-fts'  => '$1 utan støtte for fulltekstsøk',
+
+# Special:DisableAccount
+'disableaccount-reason'      => '↓Grunngjeving:',
+'disableaccount-mustconfirm' => 'Du lyt stadfesta at du ynskjer å deaktivera denne kontoen.',
+'disableaccount-nosuchuser'  => 'Brukarkontoen «$1» finst ikkje.',
+'disableaccount-success'     => 'Brukarkontoen «$1» er permanent deaktivert.',
+'disableaccount-logentry'    => 'deaktiverte brukarkontoen [[$1]] permanent',
 
 );

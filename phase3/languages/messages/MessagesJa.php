@@ -1669,7 +1669,7 @@ HTMLタグを見直してください。',
 'nchanges'                          => '$1回の変更',
 'recentchanges'                     => '最近の更新',
 'recentchanges-legend'              => '最近の更新のオプション',
-'recentchangestext'                 => 'このページでそのウィキへの最近の更新を追跡。',
+'recentchangestext'                 => '最近の更新はこのページから確認できます。',
 'recentchanges-feed-description'    => 'このフィードでそのウィキへの最近の更新を追跡。',
 'recentchanges-label-newpage'       => 'この編集で新しいページが作成されました',
 'recentchanges-label-minor'         => 'これは細部の編集です',
@@ -1800,7 +1800,7 @@ HTMLタグを見直してください。',
 アップロードを継続したい場合は、前のページに戻り、別のファイル名を使用してください。
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'このファイルは以下の{{PLURAL:$1|ファイル}}と重複しています：',
-'file-deleted-duplicate'      => 'このファイル（[[$1]]）と同一のファイルが以前に削除されています。
+'file-deleted-duplicate'      => 'このファイル（[[:$1]]）と同一のファイルが以前に削除されています。
 再度アップロードをする前に、以前削除されたファイルの削除記録を確認してください。',
 'uploadwarning'               => 'アップロード警告',
 'uploadwarning-text'          => '下記のファイル解説を修正して再試行してください。',
@@ -1869,6 +1869,7 @@ $1',
 'upload-http-error'         => 'HTTPエラー発生：$1',
 
 # Special:UploadStash
+'uploadstash'          => '未公開アップロード',
 'uploadstash-summary'  => 'このページでは、アップロードされた、もしくはアップロード中の、ウィキ上でまだ公開されていないファイルを表示します。これらのファイルは、アップロードした利用者以外閲覧できません。',
 'uploadstash-clear'    => '未公開ファイルを消去',
 'uploadstash-nofiles'  => '未公開ファイルはありません。',
@@ -2055,13 +2056,14 @@ contenttype/subtypeの形式で指定してください（例：<tt>image/jpeg</
 これらのページは、より適した主題のページへリンクされるべきです。<br />
 [[MediaWiki:Disambiguationspage]]からリンクされたテンプレートを使用しているページは、曖昧さ回避ページと見なされます。",
 
-'doubleredirects'            => '二重転送',
-'doubleredirectstext'        => 'これは他のリダイレクトページへのリダイレクトの一覧です。
+'doubleredirects'                   => '二重転送',
+'doubleredirectstext'               => 'これは他のリダイレクトページへのリダイレクトの一覧です。
 各行には、最初のリダイレクトと、その転送先のリダイレクト、そのまた転送先へのリンクが表示されています。多くの場合、最終の転送先が正しい転送先であり、最初のリダイレクトは直接最後の転送先に向けるべきです。。
 <del>打ち消し線</del>のはいった項目は既に修正されています。',
-'double-redirect-fixed-move' => '[[$1]]が移動されています。
+'double-redirect-fixed-move'        => '[[$1]]が移動されています。
 [[$2]]に転送されます。',
-'double-redirect-fixer'      => '転送修正係',
+'double-redirect-fixed-maintenance' => '[[$1]]から[[$2]]への二重転送を修正します。',
+'double-redirect-fixer'             => '転送修正係',
 
 'brokenredirects'        => '迷子のリダイレクト',
 'brokenredirectstext'    => '以下のページは、存在しないページへのリダイレクトです：',
@@ -2930,7 +2932,7 @@ hideuser権限を持っていないため、この利用者のブロックを閲
 'tooltip-ca-watch'                => 'このページをウォッチリストに追加',
 'tooltip-ca-unwatch'              => 'このページをウォッチリストから除去',
 'tooltip-search'                  => '{{SITENAME}}内を検索',
-'tooltip-search-go'               => 'この正確な名前をもつページが存在すれば、そのページへ移動します',
+'tooltip-search-go'               => '厳密に一致する名前のページが存在すれば、そのページへ移動します',
 'tooltip-search-fulltext'         => '入力された文字列が含まれるページを検索します',
 'tooltip-p-logo'                  => 'メインページに移動',
 'tooltip-n-mainpage'              => 'メインページに移動',
@@ -2941,7 +2943,7 @@ hideuser権限を持っていないため、この利用者のブロックを閲
 'tooltip-n-randompage'            => '無作為に抽出されたページの読み込み',
 'tooltip-n-help'                  => '情報を得る場所',
 'tooltip-t-whatlinkshere'         => 'ここにリンクしている全ウィキのページの一覧',
-'tooltip-t-recentchangeslinked'   => 'ここにリンクしている全ウィキのページの最近の変更',
+'tooltip-t-recentchangeslinked'   => 'このページからリンクしているページの最近の更新',
 'tooltip-feed-rss'                => 'このページのRSSフィード',
 'tooltip-feed-atom'               => 'このページのAtomフィード',
 'tooltip-t-contributions'         => 'この利用者の投稿の一覧を表示',
@@ -3497,6 +3499,20 @@ $3
 $5
 
 この確認用コードは$4に期限切れになります。',
+'confirmemail_body_set'     => 'だれかが、IPアドレス$1から
+{{SITENAME}}でアカウント「$2」の電子メールアドレスをこのアドレスに設定しました。
+
+このアカウントが本当に自分のものであるならば、
+{{SITENAME}}のメール機能を再び有効化にするために、以下のURLをブラウザーで開いてください：
+
+$3
+
+もし自分のアカウントでない場合は、
+次のURLをブラウザーで開いて、電子メール確認を中止してください：
+
+$5
+
+この確認用コードは$4に期限切れになります。',
 'confirmemail_invalidated'  => 'メールアドレスの確認が中止されました',
 'invalidateemail'           => 'メールアドレスの認証中止',
 
@@ -3698,16 +3714,15 @@ MediaWikiは、有用であることを期待して配布されていますが�
 ファイル名は接頭辞「{{ns:file}}:」を付けずに入力してください。',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => '重複ファイルの検索',
-'fileduplicatesearch-summary'  => '重複ファイルを、ファイルのハッシュ値に基づいて検索します。
-
-ファイル名は接頭辞「{{ns:file}}:」を付けずに入力してください。',
-'fileduplicatesearch-legend'   => '重複の検索',
-'fileduplicatesearch-filename' => 'ファイル名：',
-'fileduplicatesearch-submit'   => '検索',
-'fileduplicatesearch-info'     => '$1×$2ピクセル<br />ファイルサイズ：$3<br />MIMEタイプ：$4',
-'fileduplicatesearch-result-1' => 'ファイル「$1」と重複するファイルはありません。',
-'fileduplicatesearch-result-n' => 'ファイル「$1」は$2ファイルと重複しています。',
+'fileduplicatesearch'           => '重複ファイルの検索',
+'fileduplicatesearch-summary'   => '重複ファイルをハッシュ値に基づいて検索します。',
+'fileduplicatesearch-legend'    => '重複の検索',
+'fileduplicatesearch-filename'  => 'ファイル名：',
+'fileduplicatesearch-submit'    => '検索',
+'fileduplicatesearch-info'      => '$1×$2ピクセル<br />ファイルサイズ：$3<br />MIMEタイプ：$4',
+'fileduplicatesearch-result-1'  => 'ファイル「$1」と重複するファイルはありません。',
+'fileduplicatesearch-result-n'  => 'ファイル「$1」は$2ファイルと重複しています。',
+'fileduplicatesearch-noresults' => '「$1」という名前のファイルがみつかりません。',
 
 # Special:SpecialPages
 'specialpages'                   => '特別ページ',

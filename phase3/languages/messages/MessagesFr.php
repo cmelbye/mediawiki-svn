@@ -357,14 +357,14 @@ $messages = array(
 'tog-editsection'             => 'Activer les modifications de sections grâce aux liens « [modifier] »',
 'tog-editsectiononrightclick' => 'Un clic droit sur un titre de section permet de modifier celle-ci (nécessite JavaScript)',
 'tog-showtoc'                 => 'Afficher la table des matières (pour les pages ayant plus de 3 sections)',
-'tog-rememberpassword'        => 'Se souvenir de mon identification dans ce navigateur (au maximum $1 {{PLURAL:$1|jour|jours}})',
+'tog-rememberpassword'        => 'Se souvenir de mon identification avec ce navigateur (au maximum $1 {{PLURAL:$1|jour|jours}})',
 'tog-watchcreations'          => 'Ajouter les pages que je crée à ma liste de suivi',
 'tog-watchdefault'            => 'Ajouter les pages que je modifie à ma liste de suivi',
 'tog-watchmoves'              => 'Ajouter les pages que je renomme à ma liste de suivi',
 'tog-watchdeletion'           => 'Ajouter les pages que je supprime à ma liste de suivi',
 'tog-minordefault'            => 'Marquer mes modifications comme mineures par défaut',
-'tog-previewontop'            => 'Montrer la prévisualisation au-dessus de la zone de modification',
-'tog-previewonfirst'          => 'Montrer la prévisualisation lors de la première modification',
+'tog-previewontop'            => 'Afficher la prévisualisation au-dessus de la zone de modification',
+'tog-previewonfirst'          => 'Afficher la prévisualisation lors de la première modification',
 'tog-nocache'                 => 'Désactiver le cache des pages par le navigateur',
 'tog-enotifwatchlistpages'    => 'M’avertir par courrier électronique lorsqu’une page de ma liste de suivi est modifiée',
 'tog-enotifusertalkpages'     => 'M’avertir par courriel si ma page de discussion est modifiée',
@@ -1327,8 +1327,8 @@ Assurez-vous que cette opération conservera la continuité de l’historique de
 'searcheverything-enable'          => 'Rechercher dans tous les espaces de noms',
 'searchrelated'                    => 'relaté',
 'searchall'                        => 'tout',
-'showingresults'                   => 'Affichage de <b>$1</b> résultat{{PLURAL:$1||s}} à partir du #<b>$2</b>.',
-'showingresultsnum'                => 'Affichage de <b>$3</b> résultat{{PLURAL:$3||s}} à partir du #<b>$2</b>.',
+'showingresults'                   => 'Affichage de <b>$1</b> résultat{{PLURAL:$1||s}} à partir du n°<b>$2</b>.',
+'showingresultsnum'                => 'Affichage de <b>$3</b> résultat{{PLURAL:$3||s}} à partir du n°<b>$2</b>.',
 'showingresultsheader'             => "{{PLURAL:$5|Résultat '''$1'''|Résultats '''$1–$2'''}} de '''$3''' pour '''$4'''",
 'nonefound'                        => "'''Note''' : par défaut, seuls certains espaces de noms sont utilisés pour la recherche.
 Essayez en utilisant le préfixe ''all:'' pour rechercher dans tout le contenu (y compris les pages de discussion, les modèles, etc.) ou bien utilisez l’espace de noms souhaité comme préfixe.",
@@ -1501,12 +1501,12 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'group-suppress'      => 'Superviseurs',
 'group-all'           => '(tous)',
 
-'group-user-member'          => 'Utilisateur',
-'group-autoconfirmed-member' => 'Utilisateur enregistré',
+'group-user-member'          => 'utilisateur',
+'group-autoconfirmed-member' => 'utilisateur enregistré',
 'group-bot-member'           => 'bot',
-'group-sysop-member'         => 'Administrateur',
-'group-bureaucrat-member'    => 'Bureaucrate',
-'group-suppress-member'      => 'Superviseur',
+'group-sysop-member'         => 'administrateur',
+'group-bureaucrat-member'    => 'bureaucrate',
+'group-suppress-member'      => 'superviseur',
 
 'grouppage-user'          => '{{ns:project}}:Utilisateurs',
 'grouppage-autoconfirmed' => '{{ns:project}}:Utilisateurs enregistrés',
@@ -1645,7 +1645,7 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'diff'                              => 'diff',
 'hist'                              => 'hist',
 'hide'                              => 'masquer',
-'show'                              => 'afficher',
+'show'                              => 'Afficher',
 'minoreditletter'                   => 'm',
 'newpageletter'                     => 'N',
 'boteditletter'                     => 'b',
@@ -1750,7 +1750,7 @@ Si vous voulez toujours téléverser votre fichier, merci de retourner en arriè
 'fileexists-shared-forbidden' => 'Un fichier portant ce nom existe déjà dans le dépôt de fichiers partagé.
 Si vous voulez toujours téléverser votre fichier, veuillez revenir en arrière et utiliser un autre nom. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Ce fichier est un doublon {{PLURAL:$1|du fichier suivant|des fichiers suivants}} :',
-'file-deleted-duplicate'      => 'Un fichier identique à celui-ci ([[$1]]) a déjà été supprimé. Vous devriez vérifier le journal des suppressions de ce fichier avant de le téléverser à nouveau.',
+'file-deleted-duplicate'      => 'Un fichier identique à celui-ci ([[:$1]]) a déjà été supprimé. Vous devriez vérifier le journal des suppressions de ce fichier avant de le téléverser à nouveau.',
 'uploadwarning'               => 'Attention !',
 'uploadwarning-text'          => 'Modifiez la description du fichier et essayez de nouveau.',
 'savefile'                    => 'Sauvegarder le fichier',
@@ -1997,12 +1997,13 @@ N’oubliez pas de vérifier s’il n’y a pas d’autres liens vers les modèl
 Ces liens ambigus devraient plutôt pointer vers le bon article.<br />
 Une page est considérée comme une page d’homonymie si elle inclut (directement ou récursivement) un des modèles listés sur [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Doubles redirections',
-'doubleredirectstext'        => 'Voici une liste des pages qui redirigent vers des pages qui sont elles-mêmes des pages de redirection.
+'doubleredirects'                   => 'Doubles redirections',
+'doubleredirectstext'               => 'Voici une liste des pages qui redirigent vers des pages qui sont elles-mêmes des pages de redirection.
 Chaque entrée contient des liens vers la première et la seconde redirections, ainsi que la première ligne de texte de la seconde page, ce qui fournit habituellement la « vraie » page cible, vers laquelle la première redirection devrait rediriger.
 Les entrées <del>barrées</del> ont été résolues.',
-'double-redirect-fixed-move' => 'Cette redirection, dont la cible [[$1]] a été renommée, mène maintenant vers [[$2]].',
-'double-redirect-fixer'      => 'Correcteur de redirection',
+'double-redirect-fixed-move'        => 'Cette redirection, dont la cible [[$1]] a été renommée, mène maintenant vers [[$2]].',
+'double-redirect-fixed-maintenance' => 'Corrige la double redirection de [[$1]] vers [[$2]].',
+'double-redirect-fixer'             => 'Correcteur de redirection',
 
 'brokenredirects'        => 'Redirections cassées',
 'brokenredirectstext'    => 'Ces redirections mènent vers des pages inexistantes :',
@@ -3413,6 +3414,19 @@ confirmation de votre adresse courriel :
 $5
 
 Ce code de confirmation expirera le $4.',
+'confirmemail_body_set'     => "Quelqu'un, probablement vous, de l'adresse IP address $1,
+a modifié l'adresse de courriel du compte « $2 » à cette adresse sur {{SITENAME}}.
+
+Pour confirmer que ce compte vous appartient et réactiver les fonctions de courriel
+sur {{SITENAME}}, ouvrez ce lien dans votre navigateur web :
+
+$3
+
+Si le compte ne vous appartient PAS, suivez plutôt ce lien pour annuler la confirmation de l'adresse de courriel :
+
+$5
+
+Ce code de confirmation expirera le $4.",
 'confirmemail_invalidated'  => 'Confirmation de l’adresse courriel annulée',
 'invalidateemail'           => 'Annuler la confirmation de l’adresse de courriel',
 
@@ -3459,7 +3473,7 @@ Veuillez confirmer que vous désirez réellement recréer cette page.",
 'table_pager_prev'         => 'Page précédente',
 'table_pager_first'        => 'Première page',
 'table_pager_last'         => 'Dernière page',
-'table_pager_limit'        => 'Montrer $1 élément{{PLURAL:$1||s}} par page',
+'table_pager_limit'        => 'Afficher $1 éléments par page',
 'table_pager_limit_label'  => 'Résultats par page :',
 'table_pager_limit_submit' => 'Accéder',
 'table_pager_empty'        => 'Aucun résultat',
@@ -3564,16 +3578,15 @@ Les images sont montrées dans leur pleine résolution, les autres fichiers sont
 Entrez le nom du fichier sans le préfixe « {{ns:file}}: »',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Recherche de doublons',
-'fileduplicatesearch-summary'  => 'Recherche des copies de fichiers identiques d’après leur empreinte de hachage.
-
-Entrez le nom du fichier sans le préfixe « {{ns:file}}: ».',
-'fileduplicatesearch-legend'   => 'Rechercher un doublon',
-'fileduplicatesearch-filename' => 'Nom du fichier :',
-'fileduplicatesearch-submit'   => 'Rechercher',
-'fileduplicatesearch-info'     => '$1 × $2 pixels<br />Taille du fichier : $3<br />Type MIME : $4',
-'fileduplicatesearch-result-1' => 'Le fichier « $1 » n’a aucun doublon.',
-'fileduplicatesearch-result-n' => 'Le fichier « $1 » a {{PLURAL:$2|1 doublon|$2 doublons}}.',
+'fileduplicatesearch'           => 'Recherche de doublons',
+'fileduplicatesearch-summary'   => 'Recherche des copies de fichiers identiques d’après leur empreinte de hachage.',
+'fileduplicatesearch-legend'    => 'Rechercher un doublon',
+'fileduplicatesearch-filename'  => 'Nom du fichier :',
+'fileduplicatesearch-submit'    => 'Rechercher',
+'fileduplicatesearch-info'      => '$1 × $2 pixels<br />Taille du fichier : $3<br />Type MIME : $4',
+'fileduplicatesearch-result-1'  => 'Le fichier « $1 » n’a aucun doublon.',
+'fileduplicatesearch-result-n'  => 'Le fichier « $1 » a {{PLURAL:$2|1 doublon|$2 doublons}}.',
+'fileduplicatesearch-noresults' => 'Aucun fichier nommé « $1 » n’a été trouvé.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Pages spéciales',

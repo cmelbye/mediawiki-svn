@@ -127,6 +127,8 @@ class ParserOutput extends CacheTime {
 	private $mIndexPolicy = '';	      # 'index' or 'noindex'?  Any other value will result in no change.
 	private $mAccessedOptions = null; # List of ParserOptions (stored in the keys)
 
+	const EDITSECTION_REGEX = '#<(?:mw:)?editsection page="(.*?)" section="(.*?)"(?:/>|>(.*?)(</(?:mw:)?editsection>))#';
+
 	function __construct( $text = '', $languageLinks = array(), $categoryLinks = array(),
 		$containsOldMagic = false, $titletext = '' )
 	{
@@ -139,7 +141,8 @@ class ParserOutput extends CacheTime {
 
 	function getText() {
 		if ( $this->mEditSectionTokens ) {
-			return preg_replace_callback( '#<editsection page="(.*?)" section="(.*?)"(?:/>|>(.*?)(</editsection>))#', array( &$this, 'replaceEditSectionLinksCallback' ), $this->mText );
+			return preg_replace_callback( ParserOutput::EDITSECTION_REGEX,
+				array( &$this, 'replaceEditSectionLinksCallback' ), $this->mText );
 		}
 		return $this->mText;
 	}

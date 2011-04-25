@@ -1667,7 +1667,7 @@ $1",
 لو كنت لسه عايز ترفعه، لو سمحت ارجع وحمل الملف دا باسم جديد.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'الملف دا تكرار  {{PLURAL:$1|للملف|للملفات}} دي:',
-'file-deleted-duplicate'      => 'فى ملف مطابق للملف دا ([[$1]]) اتمسح قبل كدا. انتا لازم تشيك على تاريخ المسح بتاع الملف دا قبل ما تحمله مرة تانية',
+'file-deleted-duplicate'      => 'فى ملف مطابق للملف دا ([[:$1]]) اتمسح قبل كدا. انتا لازم تشيك على تاريخ المسح بتاع الملف دا قبل ما تحمله مرة تانية',
 'uploadwarning'               => 'تحذير التحميل',
 'uploadwarning-text'          => 'لو سمحت عدل وصف الملف اللى تحت وحاول تانى.',
 'savefile'                    => 'حفظ الملف',
@@ -3495,9 +3495,7 @@ $1',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => 'دور على الملفات المتكررة',
-'fileduplicatesearch-summary'  => 'دور على الملفات المتكررة على اساس قيمة الهاش بتاعتها.
-
-دخل اسم الملف من غير البريفكس "{{ns:file}}:".',
+'fileduplicatesearch-summary'  => 'دور على الملفات المتكررة على اساس قيمة الهاش بتاعتها.',
 'fileduplicatesearch-legend'   => 'تدوير على متكرر',
 'fileduplicatesearch-filename' => 'اسم الملف:',
 'fileduplicatesearch-submit'   => 'تدوير',

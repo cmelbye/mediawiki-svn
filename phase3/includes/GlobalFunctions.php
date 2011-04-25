@@ -22,29 +22,33 @@ require_once dirname( __FILE__ ) . '/normal/UtfNormalUtil.php';
  */
 
 if( !function_exists( 'iconv' ) ) {
+	/** @codeCoverageIgnore */
 	function iconv( $from, $to, $string ) {
 		return Fallback::iconv( $from, $to, $string );
 	}
 }
 
 if ( !function_exists( 'mb_substr' ) ) {
+	/** @codeCoverageIgnore */
 	function mb_substr( $str, $start, $count='end' ) {
 		return Fallback::mb_substr( $str, $start, $count );
 	}
 
+	/** @codeCoverageIgnore */
 	function mb_substr_split_unicode( $str, $splitPos ) {
 		return Fallback::mb_substr_split_unicode( $str, $splitPos );
 	}
 }
 
 if ( !function_exists( 'mb_strlen' ) ) {
+	/** @codeCoverageIgnore */
 	function mb_strlen( $str, $enc = '' ) {
 		return Fallback::mb_strlen( $str, $enc );
 	}
 }
 
 if( !function_exists( 'mb_strpos' ) ) {
-	
+	/** @codeCoverageIgnore */
 	function mb_strpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		return Fallback::mb_strpos( $haystack, $needle, $offset, $encoding );
 	}
@@ -52,6 +56,7 @@ if( !function_exists( 'mb_strpos' ) ) {
 }
 
 if( !function_exists( 'mb_strrpos' ) ) {
+	/** @codeCoverageIgnore */
 	function mb_strrpos( $haystack, $needle, $offset = 0, $encoding = '' ) {
 		return Fallback::mb_strrpos( $haystack, $needle, $offset, $encoding );
 	}
@@ -60,10 +65,13 @@ if( !function_exists( 'mb_strrpos' ) ) {
 
 // Support for Wietse Venema's taint feature
 if ( !function_exists( 'istainted' ) ) {
+	/** @codeCoverageIgnore */
 	function istainted( $var ) {
 		return 0;
 	}
+	/** @codeCoverageIgnore */
 	function taint( $var, $level = 0 ) {}
+	/** @codeCoverageIgnore */
 	function untaint( $var, $level = 0 ) {}
 	define( 'TC_HTML', 1 );
 	define( 'TC_SHELL', 1 );
@@ -72,8 +80,6 @@ if ( !function_exists( 'istainted' ) ) {
 	define( 'TC_SELF', 1 );
 }
 /// @endcond
-
-
 
 /**
  * Like array_diff( $a, $b ) except that it works with two-dimensional arrays.
@@ -295,12 +301,21 @@ function wfErrorLog( $text, $file ) {
 		} else {
 			throw new MWException( __METHOD__ . ': Invalid UDP specification' );
 		}
+
 		// Clean it up for the multiplexer
 		if ( strval( $prefix ) !== '' ) {
 			$text = preg_replace( '/^/m', $prefix . ' ', $text );
+
+			// Limit to 64KB
+			if ( strlen( $text ) > 65534 ) {
+				$text = substr( $text, 0, 65534 );
+			}
+
 			if ( substr( $text, -1 ) != "\n" ) {
 				$text .= "\n";
 			}
+		} elseif ( strlen( $text ) > 65535 ) {
+			$text = substr( $text, 0, 65535 );
 		}
 
 		$sock = socket_create( $domain, SOCK_DGRAM, SOL_UDP );
@@ -607,7 +622,9 @@ function wfMsgReal( $key, $args, $useDB = true, $forContent = false, $transform 
 
 /**
  * This function provides the message source for messages to be edited which are *not* stored in the database.
- * @param $key String:
+ *
+ * @deprecated in 1.18; use wfMessage()
+ * @param $key String
  */
 function wfMsgWeirdKey( $key ) {
 	$source = wfMsgGetKey( $key, false, true, false );
@@ -628,19 +645,14 @@ function wfMsgWeirdKey( $key ) {
  * @return string
  */
 function wfMsgGetKey( $key, $useDB, $langCode = false, $transform = true ) {
-	global $wgMessageCache;
-
 	wfRunHooks( 'NormalizeMessageKey', array( &$key, &$useDB, &$langCode, &$transform ) );
 
-	if ( !is_object( $wgMessageCache ) ) {
-		throw new MWException( 'Trying to get message before message cache is initialised' );
-	}
-
-	$message = $wgMessageCache->get( $key, $useDB, $langCode );
+	$cache = MessageCache::singleton();
+	$message = $cache->get( $key, $useDB, $langCode );
 	if( $message === false ) {
 		$message = '&lt;' . htmlspecialchars( $key ) . '&gt;';
 	} elseif ( $transform ) {
-		$message = $wgMessageCache->transform( $message );
+		$message = $cache->transform( $message );
 	}
 	return $message;
 }
@@ -775,11 +787,8 @@ function wfMsgExt( $key, $options ) {
 			$string = $m[1];
 		}
 	} elseif ( in_array( 'parsemag', $options, true ) ) {
-		global $wgMessageCache;
-		if ( isset( $wgMessageCache ) ) {
-			$string = $wgMessageCache->transform( $string,
+		$string = MessageCache::singleton()->transform( $string,
 				!$forContent, $langCodeObj );
-		}
 	}
 
 	if ( in_array( 'escape', $options, true ) ) {
@@ -2250,8 +2259,7 @@ function wfAppendToArrayIfNotDefault( $key, $value, $default, &$changed ) {
  * @return Boolean True if the message *doesn't* exist.
  */
 function wfEmptyMsg( $key ) {
-	global $wgMessageCache;
-	return $wgMessageCache->get( $key, /*useDB*/true, /*content*/false ) === false;
+	return MessageCache::singleton()->get( $key, /*useDB*/true, /*content*/false ) === false;
 }
 
 /**
@@ -3074,6 +3082,7 @@ function wfLocalFile( $title ) {
  * Should low-performance queries be disabled?
  *
  * @return Boolean
+ * @codeCoverageIgnore
  */
 function wfQueriesMustScale() {
 	global $wgMiserMode;
@@ -3132,6 +3141,7 @@ function wfBoolToStr( $value ) {
 /**
  * Load an extension messages file
  * @deprecated in 1.16, warnings in 1.18, remove in 1.20
+ * @codeCoverageIgnore
  */
 function wfLoadExtensionMessages( $extensionName, $langcode = false ) {
 	wfDeprecated( __FUNCTION__ );
@@ -3269,6 +3279,7 @@ function wfOut( $s ) {
 /**
  * Count down from $n to zero on the terminal, with a one-second pause
  * between showing each number. For use in command-line scripts.
+ * @codeCoverageIgnore
  */
 function wfCountDown( $n ) {
 	for ( $i = $n; $i >= 0; $i-- ) {
@@ -3288,6 +3299,7 @@ function wfCountDown( $n ) {
  * Generate a random 32-character hexadecimal token.
  * @param $salt Mixed: some sort of salt, if necessary, to add to random
  *              characters before hashing.
+ * @codeCoverageIgnore
  */
 function wfGenerateToken( $salt = '' ) {
 	$salt = serialize( $salt );
@@ -3404,6 +3416,7 @@ function wfShorthandToInteger( $string = '' ) {
 
 /**
  * Get the normalised IETF language tag
+ * See unit test for examples.
  * @param $code String: The language code.
  * @return $langCode String: The language code which complying with BCP 47 standards.
  */
@@ -3411,12 +3424,15 @@ function wfBCP47( $code ) {
 	$codeSegment = explode( '-', $code );
 	foreach ( $codeSegment as $segNo => $seg ) {
 		if ( count( $codeSegment ) > 0 ) {
+			// when previous segment is x, it is a private segment and should be lc 
+			if( $segNo > 0 && strtolower( $codeSegment[($segNo - 1)] ) == 'x') {
+				$codeBCP[$segNo] = strtolower( $seg );
 			// ISO 3166 country code
-			if ( ( strlen( $seg ) == 2 ) && ( $segNo > 0 ) ) {
+			} elseif ( ( strlen( $seg ) == 2 ) && ( $segNo > 0 ) ) {
 				$codeBCP[$segNo] = strtoupper( $seg );
 			// ISO 15924 script code
 			} elseif ( ( strlen( $seg ) == 4 ) && ( $segNo > 0 ) ) {
-				$codeBCP[$segNo] = ucfirst( $seg );
+				$codeBCP[$segNo] = ucfirst( strtolower( $seg ) );
 			// Use lowercase for other cases
 			} else {
 				$codeBCP[$segNo] = strtolower( $seg );

@@ -1585,7 +1585,7 @@ Si tu vole ancora incargar iste file, per favor retorna e usa un nove nomine. [[
 'fileexists-shared-forbidden' => 'Un file con iste nomine existe ja in le deposito de files commun.
 Si tu vole totevia incargar iste file, per favor retorna e usa un nove nomine. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Iste file es un duplicato del sequente {{PLURAL:$1|file|files}}:',
-'file-deleted-duplicate'      => 'Un file identic a iste file ([[$1]]) esseva ja delite anteriormente. Tu deberea verificar le registro de deletiones concernente iste file ante de re-incargar lo.',
+'file-deleted-duplicate'      => 'Un file identic a iste file ([[:$1]]) esseva ja delite anteriormente. Tu deberea verificar le registro de deletiones concernente iste file ante de re-incargar lo.',
 'uploadwarning'               => 'Advertimento de incargamento',
 'uploadwarning-text'          => 'Per favor modifica le description del file ci infra e reproba.',
 'savefile'                    => 'Salveguardar file',
@@ -1838,12 +1838,13 @@ Memora verificar que non existe altere ligamines al patronos ante que tu los del
 Istes deberea esser reimplaciate con ligamines al topicos appropriate.<br />
 Un pagina se tracta como pagina de disambiguation si illo usa un patrono al qual [[MediaWiki:Disambiguationspage]] ha un ligamine.",
 
-'doubleredirects'            => 'Redirectiones duple',
-'doubleredirectstext'        => 'Iste pagina lista paginas de redirection verso altere paginas de redirection.
+'doubleredirects'                   => 'Redirectiones duple',
+'doubleredirectstext'               => 'Iste pagina lista paginas de redirection verso altere paginas de redirection.
 Cata linea contine ligamines al prime e al secunde redirection, con le destination del secunde redirection. Iste es normalmente le "ver" pagina de destination, al qual le prime redirection tamben deberea punctar.
 Le entratas <del>cancellate</del> ha essite resolvite.',
-'double-redirect-fixed-move' => '[[$1]] ha essite renominate, illo es ora un redirection verso [[$2]]',
-'double-redirect-fixer'      => 'Corrector de redirectiones',
+'double-redirect-fixed-move'        => '[[$1]] ha essite renominate, illo es ora un redirection verso [[$2]]',
+'double-redirect-fixed-maintenance' => 'Corrige redirection duple de [[$1]] a [[$2]].',
+'double-redirect-fixer'             => 'Corrector de redirectiones',
 
 'brokenredirects'        => 'Redirectiones rupte',
 'brokenredirectstext'    => 'Le sequente redirectiones mena a paginas non existente:',
@@ -1980,7 +1981,7 @@ Vide etiam le [[Special:WantedCategories|categorias desirate]].',
 'linksearch-text'  => 'Es possibile usar metacharacteres como in "*.wikipedia.org".<br />
 Protocollos supportate: <tt>$1</tt>',
 'linksearch-line'  => '$1 ligate ab $2',
-'linksearch-error' => 'Le metacharacteres pote apparer solmente al initio del nomine del hospite.',
+'linksearch-error' => 'Le metacharacteres pote apparer solmente al initio del nomine de host.',
 
 # Special:ListUsers
 'listusersfrom'      => 'Monstrar usatores a partir de:',
@@ -3274,6 +3275,20 @@ pro cancellar le confirmation del adresse de e-mail:
 $5
 
 Iste codice de confirmation expirara a $4.',
+'confirmemail_body_set'     => 'Un persona, probabilemente tu, usante le adresse IP $1,
+ha specificate que iste adresse de e-mail pertine al conto "$2" in {{SITENAME}}.
+
+Pro confirmar que iste conto es de facto tue, e pro reactivar le functiones
+de e-mail in {{SITENAME}}, visita iste ligamine in tu navigator:
+
+$3
+
+Si le conto *non* pertine a te, seque iste ligamine
+pro cancellar le confirmation del adresse de e-mail:
+
+$5
+
+Iste codice de confirmation expirara a $4.',
 'confirmemail_invalidated'  => 'Confirmation del adresse de e-mail cancellate',
 'invalidateemail'           => 'Cancellar confirmation del adresse de e-mail',
 
@@ -3406,16 +3421,15 @@ Le imagines se monstra in plen resolution, le altere typos de file se executa di
 Entra le nomine del file sin le prefixo "{{ns:file}}:".',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Cercar files duplicate',
-'fileduplicatesearch-summary'  => "Cercar files duplicate a base de lor summas de verification ''(hash).''
-
-Entra le nomine del file sin le prefixo \"{{ns:file}}:\".",
-'fileduplicatesearch-legend'   => 'Cercar un duplicato',
-'fileduplicatesearch-filename' => 'Nomine del file:',
-'fileduplicatesearch-submit'   => 'Cercar',
-'fileduplicatesearch-info'     => '$1 × $2 pixel<br />Grandor del file: $3<br />Typo MIME: $4',
-'fileduplicatesearch-result-1' => 'Le file "$1" ha nulle duplicato identic.',
-'fileduplicatesearch-result-n' => 'Le file "$1" ha {{PLURAL:$2|1 duplicato|$2 duplicatos}} identic.',
+'fileduplicatesearch'           => 'Cercar files duplicate',
+'fileduplicatesearch-summary'   => "Cercar files duplicate a base de lor summas de verification ''(hash).''",
+'fileduplicatesearch-legend'    => 'Cercar un duplicato',
+'fileduplicatesearch-filename'  => 'Nomine del file:',
+'fileduplicatesearch-submit'    => 'Cercar',
+'fileduplicatesearch-info'      => '$1 × $2 pixel<br />Grandor del file: $3<br />Typo MIME: $4',
+'fileduplicatesearch-result-1'  => 'Le file "$1" ha nulle duplicato identic.',
+'fileduplicatesearch-result-n'  => 'Le file "$1" ha {{PLURAL:$2|1 duplicato|$2 duplicatos}} identic.',
+'fileduplicatesearch-noresults' => 'Nulle file con nomine "$1" trovate.',
 
 # Special:SpecialPages
 'specialpages'                   => 'Paginas special',

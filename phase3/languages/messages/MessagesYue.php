@@ -349,7 +349,7 @@ $messages = array(
 'protect_change'    => '改',
 'protectthispage'   => '保護呢頁',
 'unprotect'         => '解除保護',
-'unprotectthispage' => '解呢頁嘅保護',
+'unprotectthispage' => '解除保護',
 'newpage'           => '開新頁',
 'talkpage'          => '討論呢版',
 'talkpagelinktext'  => '傾偈',
@@ -1537,7 +1537,7 @@ $1",
 'fileexists-shared-forbidden' => '共享檔案庫入面已經有一個同名嘅檔案。
 如果你仍然想去上載佢嘅話，麻煩返轉去用第二個名嚟上載呢個檔案。[[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => '呢個檔案係同下面嘅{{PLURAL:$1|一|幾}}個檔案重覆:',
-'file-deleted-duplicate'      => '一個同名嘅檔案 ([[$1]]) 響之前刪除過。你應該響重新上載之前檢查一下嗰個檔案嘅刪除紀錄。',
+'file-deleted-duplicate'      => '一個同名嘅檔案 ([[:$1]]) 響之前刪除過。你應該響重新上載之前檢查一下嗰個檔案嘅刪除紀錄。',
 'uploadwarning'               => '上載警告',
 'uploadwarning-text'          => '請修改下面嘅檔案描述再重試。',
 'savefile'                    => '儲存檔案',
@@ -3298,9 +3298,7 @@ MediaWiki是基於使用目的而加以發佈，但係就唔會負上任何嘅�
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'          => '㨂重覆檔案',
-'fileduplicatesearch-summary'  => '用重覆檔案嘅切細值去搵個檔案係唔係重覆。
-
-輸入檔名嗰陣唔使輸入 "{{ns:file}}:" 開頭。',
+'fileduplicatesearch-summary'  => '用重覆檔案嘅切細值去搵個檔案係唔係重覆。',
 'fileduplicatesearch-legend'   => '搵重覆',
 'fileduplicatesearch-filename' => '檔名:',
 'fileduplicatesearch-submit'   => '搵',

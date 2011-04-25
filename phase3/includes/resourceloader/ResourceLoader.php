@@ -95,7 +95,8 @@ class ResourceLoader {
 				), __METHOD__
 			);
 			foreach ( $res as $row ) {
-				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, $row->mr_timestamp );
+				$this->getModule( $row->mr_resource )->setMsgBlobMtime( $lang, 
+					wfTimestamp( TS_UNIX, $row->mr_timestamp ) );
 				unset( $modulesWithoutMessages[$row->mr_resource] );
 			}
 		} 
@@ -142,6 +143,7 @@ class ResourceLoader {
 			return $cacheEntry;
 		}
 
+		$result = '';
 		// Run the filter - we've already verified one of these will work
 		try {
 			switch ( $filter ) {
@@ -206,6 +208,7 @@ class ResourceLoader {
 			foreach ( $name as $key => $value ) {
 				$this->register( $key, $value );
 			}
+			wfProfileOut( __METHOD__ );
 			return;
 		}
 
@@ -251,7 +254,7 @@ class ResourceLoader {
 	 * Get the ResourceLoaderModule object for a given module name.
 	 *
 	 * @param $name String: Module name
-	 * @return Mixed: ResourceLoaderModule if module has been registered, null otherwise
+	 * @return ResourceLoaderModule if module has been registered, null otherwise
 	 */
 	public function getModule( $name ) {
 		if ( !isset( $this->modules[$name] ) ) {
@@ -441,6 +444,7 @@ class ResourceLoader {
 			return '/* No modules requested. Max made me put this here */';
 		}
 		
+		wfProfileIn( __METHOD__ );
 		// Pre-fetch blobs
 		if ( $context->shouldIncludeMessages() ) {
 			try {
@@ -521,15 +525,16 @@ class ResourceLoader {
 			}
 		}
 
-		if ( $context->getDebug() ) {
-			return $exceptions . $out;
-		} else {
+		if ( !$context->getDebug() ) {
 			if ( $context->getOnly() === 'styles' ) {
-				return $exceptions . $this->filter( 'minify-css', $out );
+				$out = $this->filter( 'minify-css', $out );
 			} else {
-				return $exceptions . $this->filter( 'minify-js', $out );
+				$out = $this->filter( 'minify-js', $out );
 			}
 		}
+		
+		wfProfileOut( __METHOD__ );
+		return $exceptions . $out;
 	}
 
 	/* Static Methods */

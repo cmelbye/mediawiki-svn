@@ -34,7 +34,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  */
 class ApiParse extends ApiBase {
 
-	private $section;
+	private $section, $text, $pstText = null;
 
 	public function __construct( $main, $action ) {
 		parent::__construct( $main, $action );
@@ -100,18 +100,19 @@ class ApiParse extends ApiBase {
 				if ( $titleObj->getLatestRevID() === intval( $oldid ) )  {
 					$articleObj = new Article( $titleObj, 0 );
 
-					$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid ) ;
+					$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid,
+						 isset( $prop['wikitext'] ) ) ;
 
 				} else { // This is an old revision, so get the text differently
-					$text = $rev->getText( Revision::FOR_THIS_USER );
+					$this->text = $rev->getText( Revision::FOR_THIS_USER );
 
 					$wgTitle = $titleObj;
 
 					if ( $this->section !== false ) {
-						$text = $this->getSectionText( $text, 'r' . $rev->getId() );
+						$this->text = $this->getSectionText( $this->text, 'r' . $rev->getId() );
 					}
 
-					$p_result = $wgParser->parse( $text, $titleObj, $popts );
+					$p_result = $wgParser->parse( $this->text, $titleObj, $popts );
 				}
 
 			} else { // Not $oldid
@@ -153,11 +154,13 @@ class ApiParse extends ApiBase {
 					$oldid = $articleObj->getRevIdFetched();
 				}
 
-				$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid ) ;
+				$p_result = $this->getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageid,
+					 isset( $prop['wikitext'] ) ) ;
 			}
 
 		} else { // Not $oldid, $pageid, $page. Hence based on $text
 
+			$this->text = $text;
 			$titleObj = Title::newFromText( $title );
 			if ( !$titleObj ) {
 				$titleObj = Title::newFromText( 'API' );
@@ -165,20 +168,24 @@ class ApiParse extends ApiBase {
 			$wgTitle = $titleObj;
 
 			if ( $this->section !== false ) {
-				$text = $this->getSectionText( $text, $titleObj->getText() );
+				$this->text = $this->getSectionText( $this->text, $titleObj->getText() );
 			}
 
 			if ( $params['pst'] || $params['onlypst'] ) {
-				$text = $wgParser->preSaveTransform( $text, $titleObj, $wgUser, $popts );
+				$this->pstText = $wgParser->preSaveTransform( $this->text, $titleObj, $wgUser, $popts );
 			}
 			if ( $params['onlypst'] ) {
 				// Build a result and bail out
 				$result_array['text'] = array();
-				$this->getResult()->setContent( $result_array['text'], $text );
+				$this->getResult()->setContent( $result_array['text'], $this->pstText );
+				if ( isset( $prop['wikitext'] ) ) {
+					$result_array['wikitext'] = array();
+					$this->getResult()->setContent( $result_array['wikitext'], $this->text );
+				}
 				$this->getResult()->addValue( null, $this->getModuleName(), $result_array );
 				return;
 			}
-			$p_result = $wgParser->parse( $text, $titleObj, $popts );
+			$p_result = $wgParser->parse( $params['pst'] ? $this->pstText : $this->text, $titleObj, $popts );
 		}
 
 		// Return result
@@ -268,6 +275,15 @@ class ApiParse extends ApiBase {
 		if ( isset( $prop['iwlinks'] ) ) {
 			$result_array['iwlinks'] = $this->formatIWLinks( $p_result->getInterwikiLinks() );
 		}
+		
+		if ( isset( $prop['wikitext'] ) ) {
+			$result_array['wikitext'] = array();
+			$result->setContent( $result_array['wikitext'], $this->text );
+			if ( !is_null( $this->pstText ) ) {
+				$result_array['psttext'] = array();
+				$result->setContent( $result_array['psttext'], $this->pstText );
+			}
+		}
 
 		$result_mapping = array(
 			'redirects' => 'r',
@@ -294,19 +310,27 @@ class ApiParse extends ApiBase {
 	 * @param  $titleObj Title
 	 * @param  $popts ParserOptions
 	 * @param  $pageId Int
+	 * @param  $getWikitext Bool
 	 * @return ParserOutput
 	 */
-	private function getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageId = null ) {
+	private function getParsedSectionOrText( $articleObj, $titleObj, $popts, $pageId = null, $getWikitext = false ) {
 		if ( $this->section !== false ) {
 			global $wgParser;
 
-			$text = $this->getSectionText( $articleObj->getRawText(), !is_null ( $pageId )
+			$this->text = $this->getSectionText( $articleObj->getRawText(), !is_null ( $pageId )
 					? 'page id ' . $pageId : $titleObj->getText() );
 
-			return $wgParser->parse( $text, $titleObj, $popts );
+			return $wgParser->parse( $this->text, $titleObj, $popts );
 		} else {
 			// Try the parser cache first
-			return $articleObj->getParserOutput();
+			$pout = $articleObj->getParserOutput();
+			if ( $getWikitext ) {
+				$rev = Revision::newFromTitle( $titleObj );
+				if ( $rev ) {
+					$this->text = $rev->getText();
+				}
+			}
+			return $pout;
 		}
 	}
 
@@ -324,7 +348,12 @@ class ApiParse extends ApiBase {
 		foreach ( $links as $link ) {
 			$entry = array();
 			$bits = explode( ':', $link, 2 );
+			$title = Title::newFromText( $link );
+			
 			$entry['lang'] = $bits[0];
+			if ( $title ) {
+				$entry['url'] = $title->getFullURL();
+			}
 			$this->getResult()->setContent( $entry, $bits[1] );
 			$result[] = $entry;
 		}
@@ -349,11 +378,35 @@ class ApiParse extends ApiBase {
 		return $sk->getCategories();
 	}
 
+	/**
+	 * @deprecated No modern skin generates langlinks this way, please use langlinks data to generate your own html
+	 */
 	private function languagesHtml( $languages ) {
-		global $wgOut, $wgUser;
-		$wgOut->setLanguageLinks( $languages );
-		$sk = $wgUser->getSkin();
-		return $sk->otherLanguages();
+		global $wgContLang, $wgHideInterlanguageLinks;
+
+		if ( $wgHideInterlanguageLinks || count( $languages ) == 0 ) {
+			return '';
+		}
+
+		$s = htmlspecialchars( wfMsg( 'otherlanguages' ) . wfMsg( 'colon-separator' ) );
+
+		$langs = array();
+		foreach ( $languages as $l ) {
+			$nt = Title::newFromText( $l );
+			$text = $wgContLang->getLanguageName( $nt->getInterwiki() );
+
+			$langs[] = Html::element( 'a',
+				array( 'href' => $nt->getFullURL(), 'title' => $nt->getText(), 'class' => "external" ),
+				$text == '' ? $l : $text );
+		}
+
+		$s .= implode( htmlspecialchars( wfMsgExt( 'pipe-separator', 'escapenoentities' ) ), $langs );
+
+		if ( $wgContLang->isRTL() ) {
+			$s = Html::rawElement( 'span', array( 'dir' => "LTR" ), $s );
+		}
+
+		return $s;
 	}
 
 	private function formatLinks( $links ) {
@@ -451,6 +504,7 @@ class ApiParse extends ApiBase {
 					'headitems',
 					'headhtml',
 					'iwlinks',
+					'wikitext',
 				)
 			),
 			'pst' => false,
@@ -488,6 +542,7 @@ class ApiParse extends ApiBase {
 				' headitems      - Gives items to put in the <head> of the page',
 				' headhtml       - Gives parsed <head> of the page',
 				' iwlinks        - Gives interwiki links in the parsed wikitext',
+				' wikitext       - Gives the original wikitext that was parsed',
 				'NOTE: Section tree is only generated if there are more than 4 sections, or if the __TOC__ keyword is present'
 			),
 			'pst' => array(

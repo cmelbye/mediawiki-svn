@@ -102,12 +102,15 @@ class User {
 		'disableaccount',
 		'edit',
 		'editinterface',
-		'editusercssjs',
+		'editusercssjs', #deprecated
+		'editusercss',
+		'edituserjs',
 		'hideuser',
 		'import',
 		'importupload',
 		'ipblock-exempt',
 		'markbotedits',
+		'mergehistory',
 		'minoredit',
 		'move',
 		'movefile',
@@ -168,7 +171,7 @@ class User {
 	var $mFrom;
 
 	/**
-	 * Lazy-initialized variables, invalidated with clearInstanceCache 
+	 * Lazy-initialized variables, invalidated with clearInstanceCache
 	 */
 	var $mNewtalk, $mDatePreference, $mBlockedby, $mHash, $mSkin, $mRights,
 		$mBlockreason, $mBlock, $mEffectiveGroups, $mBlockedGlobally,
@@ -582,10 +585,13 @@ class User {
 			return false;
 		}
 
-		if( preg_match( '/[' . preg_quote( $wgInvalidUsernameCharacters, '/' ) . ']/', $name ) ) {
-			wfDebugLog( 'username', __METHOD__ .
-				": '$name' invalid due to wgInvalidUsernameCharacters" );
-			return false;
+		// Preg yells if you try to give it an empty string
+		if( $wgInvalidUsernameCharacters !== '' ) {
+			if( preg_match( '/[' . preg_quote( $wgInvalidUsernameCharacters, '/' ) . ']/', $name ) ) {
+				wfDebugLog( 'username', __METHOD__ .
+					": '$name' invalid due to wgInvalidUsernameCharacters" );
+				return false;
+			}
 		}
 
 		return self::isUsableName( $name );
@@ -610,7 +616,7 @@ class User {
 	 */
 	function getPasswordValidity( $password ) {
 		global $wgMinimalPasswordLength, $wgContLang;
-		
+
 		static $blockedLogins = array(
 			'Useruser' => 'Passpass', 'Useruser1' => 'Passpass1', # r75589
 			'Apitestsysop' => 'testpass', 'Apitestuser' => 'testpass' # r75605
@@ -673,8 +679,12 @@ class User {
 		if( !wfRunHooks( 'isValidEmailAddr', array( $addr, &$result ) ) ) {
 			return $result;
 		}
-		$rfc5322_atext   = "a-z0-9!#$%&'*+-\/=?^_`{|}~" ;
-		$rfc1034_ldh_str = "a-z0-9-" ;
+
+		// Please note strings below are enclosed in brackets [], this make the
+		// hyphen "-" a range indicator. Hence it is double backslashed below.
+		// See bug 26948
+		$rfc5322_atext   = "a-z0-9!#$%&'*+\\-\/=?^_`{|}~" ;
+		$rfc1034_ldh_str = "a-z0-9\\-" ;
 
 		$HTML5_email_regexp = "/
 		^                      # start of string
@@ -2030,7 +2040,7 @@ class User {
 	 * Reset all options to the site defaults
 	 */
 	function resetOptions() {
-		$this->mOptions = User::getDefaultOptions();
+		$this->mOptions = self::getDefaultOptions();
 	}
 
 	/**
@@ -2240,21 +2250,16 @@ class User {
 	 * @todo: FIXME : need to check the old failback system [AV]
 	 */
 	function getSkin( $t = null ) {
-		if ( $t ) {
+		if( !$this->mSkin ) {
+			global $wgOut;
+			$this->mSkin = $this->createSkinObject();
+			$this->mSkin->setTitle( $wgOut->getTitle() );
+		}
+		if ( $t && ( !$this->mSkin->getTitle() || !$t->equals( $this->mSkin->getTitle() ) ) ) {
 			$skin = $this->createSkinObject();
 			$skin->setTitle( $t );
 			return $skin;
 		} else {
-			if ( !$this->mSkin ) {
-				$this->mSkin = $this->createSkinObject();
-			}
-
-			if ( !$this->mSkin->getTitle() ) {
-				global $wgOut;
-				$t = $wgOut->getTitle();
-				$this->mSkin->setTitle($t);
-			}
-
 			return $this->mSkin;
 		}
 	}
@@ -2913,10 +2918,10 @@ class User {
 	 * Generate a new e-mail confirmation token and send a confirmation/invalidation
 	 * mail to the user's given address.
 	 *
-	 * @param $changed Boolean: whether the adress changed
+	 * @param $type String: message to send, either "created", "changed" or "set"
 	 * @return Status object
 	 */
-	function sendConfirmationMail( $changed = false ) {
+	function sendConfirmationMail( $type = 'created' ) {
 		global $wgLang;
 		$expiration = null; // gets passed-by-ref and defined in next line.
 		$token = $this->confirmationToken( $expiration );
@@ -2924,7 +2929,14 @@ class User {
 		$invalidateURL = $this->invalidationTokenUrl( $token );
 		$this->saveSettings();
 
-		$message = $changed ? 'confirmemail_body_changed' : 'confirmemail_body';
+		if ( $type == 'created' || $type === false ) {
+			$message = 'confirmemail_body';
+		} elseif ( $type === true ) {
+			$message = 'confirmemail_body_changed';
+		} else {
+			$message = 'confirmemail_body_' . $type;
+		}
+
 		return $this->sendMail( wfMsg( 'confirmemail_subject' ),
 			wfMsg( $message,
 				wfGetIP(),
@@ -2970,8 +2982,9 @@ class User {
 	 * @private
 	 */
 	function confirmationToken( &$expiration ) {
+		global $wgUserEmailConfirmationTokenExpiry;
 		$now = time();
-		$expires = $now + 7 * 24 * 60 * 60;
+		$expires = $now + $wgUserEmailConfirmationTokenExpiry;
 		$expiration = wfTimestamp( TS_MW, $expires );
 		$token = self::generateToken( $this->mId . $this->mEmail . $expires );
 		$hash = md5( $token );
@@ -3753,91 +3766,7 @@ class User {
 		return $ret;
 	}
 
-	/**
-	 * Format the user message using a hook, a template, or, failing these, a static format.
-	 * @param $subject   String the subject of the message
-	 * @param $text      String the content of the message
-	 * @param $signature String the signature, if provided.
-	 */
-	static protected function formatUserMessage( $subject, $text, $signature ) {
-		if ( wfRunHooks( 'FormatUserMessage',
-				array( $subject, &$text, $signature ) ) ) {
-
-			$signature = empty($signature) ? "~~~~~" : "{$signature} ~~~~~";
-
-			$template = Title::newFromText( wfMsgForContent( 'usermessage-template' ) );
-			if ( !$template
-					|| $template->getNamespace() !== NS_TEMPLATE
-					|| !$template->exists() ) {
-				$text = "\n== $subject ==\n\n$text\n\n-- $signature";
-			} else {
-				$text = '{{'. $template->getText()
-					. " | subject=$subject | body=$text | signature=$signature }}";
-			}
-		}
-
-		return $text;
-	}
-
-	/**
-	 * Leave a user a message
-	 * @param $subject String the subject of the message
-	 * @param $text String the message to leave
-	 * @param $signature String Text to leave in the signature
-	 * @param $summary String the summary for this change, defaults to
-	 *                        "Leave system message."
-	 * @param $editor User The user leaving the message, defaults to
-	 *                        "{{MediaWiki:usermessage-editor}}"
-	 * @param $flags Int default edit flags
-	 *
-	 * @return boolean true if it was successful
-	 */
-	public function leaveUserMessage( $subject, $text, $signature = "",
-			$summary = null, $editor = null, $flags = 0 ) {
-		if ( !isset( $summary ) ) {
-			$summary = wfMsgForContent( 'usermessage-summary' );
-		}
-
-		if ( !isset( $editor ) ) {
-			$editor = User::newFromName( wfMsgForContent( 'usermessage-editor' ) );
-			if ( !$editor->isLoggedIn() ) {
-				$editor->addToDatabase();
-			}
-		}
-
-		$article = new Article( $this->getTalkPage() );
-		wfRunHooks( 'SetupUserMessageArticle',
-			array( $this, &$article, $subject, $text, $signature, $summary, $editor ) );
 
 
-		$text = self::formatUserMessage( $subject, $text, $signature );
-		$flags = $article->checkFlags( $flags );
 
-		if ( $flags & EDIT_UPDATE ) {
-			$text = $article->getContent() . $text;
-		}
-
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
-
-		try {
-			$status = $article->doEdit( $text, $summary, $flags, false, $editor );
-		} catch ( DBQueryError $e ) {
-			$status = Status::newFatal("DB Error");
-		}
-
-		if ( $status->isGood() ) {
-			// Set newtalk with the right user ID
-			$this->setNewtalk( true );
-			wfRunHooks( 'AfterUserMessage',
-				array( $this, $article, $summary, $text, $signature, $summary, $editor ) );
-			$dbw->commit();
-		} else {
-			// The article was concurrently created
-			wfDebug( __METHOD__ . ": Error ".$status->getWikiText() );
-			$dbw->rollback();
-		}
-
-		return $status->isGood();
-	}
 }

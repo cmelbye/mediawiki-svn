@@ -453,7 +453,7 @@ class Parser {
 	 * Expand templates and variables in the text, producing valid, static wikitext.
 	 * Also removes comments.
 	 */
-	function preprocess( $text, $title, $options, $revid = null ) {
+	function preprocess( $text, Title $title, ParserOptions $options, $revid = null ) {
 		wfProfileIn( __METHOD__ );
 		$this->startExternalParse( $title, $options, self::OT_PREPROCESS, true );
 		if ( $revid !== null ) {
@@ -473,7 +473,7 @@ class Parser {
 	 * <noinclude>, <includeonly> etc. are parsed as for template transclusion,
 	 * comments, templates, arguments, tags hooks and parser functions are untouched.
 	 */
-	public function getPreloadText( $text, $title, $options ) {
+	public function getPreloadText( $text, Title $title, ParserOptions $options ) {
 		# Parser (re)initialisation
 		$this->startExternalParse( $title, $options, self::OT_PLAIN, true );
 
@@ -814,22 +814,7 @@ class Parser {
 		$has_opened_tr = array(); # Did this table open a <tr> element?
 		$indent_level = 0; # indent level of the table
 
-		# Keep pulling lines off the front of the array until they're all gone.
-		# we want to be able to push lines back on to the front of the stream,
-		# but StringUtils::explode() returns funky optimised Iterators which don't
-		# support insertion.  So maintain a separate buffer and draw on that first if
-		# there's anything in it
-		$extraLines = array();
-		$lines->rewind();
-		do {
-			if( $extraLines ){
-				$outLine = array_shift( $extraLines );
-			} elseif( $lines->valid() ) {
-				$outLine = $lines->current();
-				$lines->next();
-			} else {
-				break;
-			}
+		foreach ( $lines as $outLine ) {
 			$line = trim( $outLine );
 
 			if ( $line === '' ) { # empty line, go to next line
@@ -905,10 +890,11 @@ class Parser {
 			} elseif ( $first_character === '|' || $first_character === '!' || substr( $line , 0 , 2 )  === '|+' ) {
 				# This might be cell elements, td, th or captions
 				if ( substr( $line , 0 , 2 ) === '|+' ) {
-					$first_character = '|+';
+					$first_character = '+';
+					$line = substr( $line , 1 );
 				}
 
-				$line = substr( $line , strlen( $first_character ) );
+				$line = substr( $line , 1 );
 
 				if ( $first_character === '!' ) {
 					$line = str_replace( '!!' , '||' , $line );
@@ -919,84 +905,62 @@ class Parser {
 				# by earlier parser steps, but should avoid splitting up eg
 				# attribute values containing literal "||".
 				$cells = StringUtils::explodeMarkup( '||' , $line );
-				$cell = array_shift( $cells );
-
-				# Inject cells back into the stream to be dealt with later
-				# TODO: really we should do the whole thing as a stream...
-				# but that would be too much like a sensible implementation :P
-				if( count( $cells ) ){
-					foreach( array_reverse( $cells ) as $extraCell ){
-						array_unshift( $extraLines, $first_character . $extraCell );
-					}
-				}
 
 				$outLine = '';
 
-				$previous = '';
-				if ( $first_character !== '|+' ) {
-					$tr_after = array_pop( $tr_attributes );
-					if ( !array_pop( $tr_history ) ) {
-						$previous = "<tr{$tr_after}>\n";
+				# Loop through each table cell
+				foreach ( $cells as $cell ) {
+					$previous = '';
+					if ( $first_character !== '+' ) {
+						$tr_after = array_pop( $tr_attributes );
+						if ( !array_pop( $tr_history ) ) {
+							$previous = "<tr{$tr_after}>\n";
+						}
+						array_push( $tr_history , true );
+						array_push( $tr_attributes , '' );
+						array_pop( $has_opened_tr );
+						array_push( $has_opened_tr , true );
 					}
-					array_push( $tr_history , true );
-					array_push( $tr_attributes , '' );
-					array_pop( $has_opened_tr );
-					array_push( $has_opened_tr , true );
+
+					$last_tag = array_pop( $last_tag_history );
+
+					if ( array_pop( $td_history ) ) {
+						$previous = "</{$last_tag}>\n{$previous}";
+					}
+
+					if ( $first_character === '|' ) {
+						$last_tag = 'td';
+					} elseif ( $first_character === '!' ) {
+						$last_tag = 'th';
+					} elseif ( $first_character === '+' ) {
+						$last_tag = 'caption';
+					} else {
+						$last_tag = '';
+					}
+
+					array_push( $last_tag_history , $last_tag );
+
+					# A cell could contain both parameters and data
+					$cell_data = explode( '|' , $cell , 2 );
+
+					# Bug 553: Note that a '|' inside an invalid link should not
+					# be mistaken as delimiting cell parameters
+					if ( strpos( $cell_data[0], '[[' ) !== false ) {
+						$cell = "{$previous}<{$last_tag}>{$cell}";
+					} elseif ( count( $cell_data ) == 1 ) {
+						$cell = "{$previous}<{$last_tag}>{$cell_data[0]}";
+					} else {
+						$attributes = $this->mStripState->unstripBoth( $cell_data[0] );
+						$attributes = Sanitizer::fixTagAttributes( $attributes , $last_tag );
+						$cell = "{$previous}<{$last_tag}{$attributes}>{$cell_data[1]}";
+					}
+
+					$outLine .= $cell;
+					array_push( $td_history , true );
 				}
-
-				$last_tag = array_pop( $last_tag_history );
-
-				if ( array_pop( $td_history ) ) {
-					$previous = "</{$last_tag}>\n{$previous}";
-				}
-
-				if ( $first_character === '|' ) {
-					$last_tag = 'td';
-				} elseif ( $first_character === '!' ) {
-					$last_tag = 'th';
-				} elseif ( $first_character === '|+' ) {
-					$last_tag = 'caption';
-				} else {
-					$last_tag = '';
-				}
-
-				array_push( $last_tag_history , $last_tag );
-
-				# A cell could contain both parameters and data... but the pipe could
-				# also be the start of a nested table, or a raw pipe inside an invalid
-				# link (bug 553).  
-				$cell_data = preg_split( '/(?<!\{)\|/', $cell, 2 );
-
-				# Bug 553: a '|' inside an invalid link should not
-				# be mistaken as delimiting cell parameters
-				if ( strpos( $cell_data[0], '[[' ) !== false ) {
-					$data = $cell;
-					$cell = "{$previous}<{$last_tag}>";
-				} elseif ( count( $cell_data ) == 1 ) {
-					$cell = "{$previous}<{$last_tag}>";
-					$data = $cell_data[0];
-				} else {
-					$attributes = $this->mStripState->unstripBoth( $cell_data[0] );
-					$attributes = Sanitizer::fixTagAttributes( $attributes , $last_tag );
-					$cell = "{$previous}<{$last_tag}{$attributes}>";
-					$data = $cell_data[1];
-				}
-
-				# Bug 529: the start of a table cell should be a linestart context for
-				# processing other block markup, including nested tables.  The original
-				# implementation of this was to add a newline before every brace construct,
-				# which broke all manner of other things.  Instead, push the contents
-				# of the cell back into the stream and come back to it later.  But don't
-				# do that if the first line is empty, or you may get extra whitespace
-				if( $data ){
-					array_unshift( $extraLines, trim( $data ) );
-				}
-
-				$outLine .= $cell;
-				array_push( $td_history , true );
 			}
 			$out .= $outLine . "\n";
-		} while( $lines->valid() || count( $extraLines ) );
+		}
 
 		# Closing open td, tr && table
 		while ( count( $td_history ) > 0 ) {
@@ -1147,10 +1111,9 @@ class Parser {
 				throw new MWException( __METHOD__.': unrecognised match type "' .
 					substr( $m[0], 0, 20 ) . '"' );
 			}
-			$url = wfMsgForContent( $urlmsg, $id);
+			$url = wfMsgForContent( $urlmsg, $id );
 			$sk = $this->mOptions->getSkin( $this->mTitle );
-			$la = $sk->getExternalLinkAttributes( "external $CssClass" );
-			return "<a href=\"{$url}\"{$la}>{$keyword} {$id}</a>";
+			return $sk->makeExternalLink( $url, "{$keyword} {$id}", true, $CssClass );
 		} elseif ( isset( $m[5] ) && $m[5] !== '' ) {
 			# ISBN
 			$isbn = $m[5];
@@ -2260,7 +2223,6 @@ class Parser {
 					'/(?:<\\/table|<\\/blockquote|<\\/h1|<\\/h2|<\\/h3|<\\/h4|<\\/h5|<\\/h6|'.
 					'<td|<th|<\\/?div|<hr|<\\/pre|<\\/p|'.$this->mUniqPrefix.'-pre|<\\/li|<\\/ul|<\\/ol|<\\/?center)/iS', $t );
 				if ( $openmatch or $closematch ) {
-
 					$paragraphStack = false;
 					# TODO bug 5718: paragraph closed
 					$output .= $this->closeParagraph();
@@ -2486,6 +2448,7 @@ class Parser {
 		}
 		if ( $stack > 0 ) {
 			wfDebug( __METHOD__.": Invalid input; not enough close tags (stack $stack, state $state)\n" );
+			wfProfileOut( __METHOD__ );
 			return false;
 		}
 		wfProfileOut( __METHOD__ );
@@ -3250,11 +3213,11 @@ class Parser {
 			$text = wfEscapeWikiText( $text );
 		} elseif ( is_string( $text )
 			&& !$piece['lineStart']
-			&& preg_match( '/^{\\|/', $text ) )
+			&& preg_match( '/^(?:{\\||:|;|#|\*)/', $text ) )
 		{
-			# Bug 529: if the template begins with a table, it should be treated as
-			# beginning a new line.  This previously handled other block-level elements
-			# such as #, :, etc, but these have many false-positives (bug 12974).
+			# Bug 529: if the template begins with a table or block-level
+			# element, it should be treated as beginning a new line.
+			# This behaviour is somewhat controversial.
 			$text = "\n" . $text;
 		}
 
@@ -3313,7 +3276,7 @@ class Parser {
 
 		if ( !$title->equals( $cacheTitle ) ) {
 			$this->mTplRedirCache[$cacheTitle->getPrefixedDBkey()] =
-				array( $title->getNamespace(), $title->getDBkey() );
+				array( $title->getNamespace(), $cdb = $title->getDBkey() );
 		}
 
 		return array( $dom, $title );
@@ -3972,10 +3935,10 @@ class Parser {
 				// We use a page and section attribute to stop the language converter from converting these important bits
 				// of data, but put the headline hint inside a content block because the language converter is supposed to
 				// be able to convert that piece of data.
-				$editlink = '<editsection page="' . htmlspecialchars($editlinkArgs[0]);
+				$editlink = '<mw:editsection page="' . htmlspecialchars($editlinkArgs[0]);
 				$editlink .= '" section="' . htmlspecialchars($editlinkArgs[1]) .'"';
 				if ( isset($editlinkArgs[2]) ) {
-					$editlink .= '>' . $editlinkArgs[2] . '</editsection>';
+					$editlink .= '>' . $editlinkArgs[2] . '</mw:editsection>';
 				} else {
 					$editlink .= '/>';
 				}
@@ -4279,7 +4242,7 @@ class Parser {
 	 * Set up some variables which are usually set up in parse()
 	 * so that an external function can call some class members with confidence
 	 */
-	public function startExternalParse( &$title, $options, $outputType, $clearState = true ) {
+	public function startExternalParse( Title $title = null, ParserOptions $options, $outputType, $clearState = true ) {
 		$this->setTitle( $title );
 		$this->mOptions = $options;
 		$this->setOutputType( $outputType );
@@ -4293,10 +4256,10 @@ class Parser {
 	 *
 	 * @param $text String: the text to preprocess
 	 * @param $options ParserOptions: options
+	 * @param $title Title object or null to use $wgTitle
 	 * @return String
 	 */
-	public function transformMsg( $text, $options ) {
-		global $wgTitle;
+	public function transformMsg( $text, $options, $title = null ) {
 		static $executing = false;
 
 		# Guard against infinite recursion
@@ -4306,7 +4269,16 @@ class Parser {
 		$executing = true;
 
 		wfProfileIn( __METHOD__ );
-		$text = $this->preprocess( $text, $wgTitle, $options );
+		if ( !$title ) {
+			global $wgTitle;
+			$title = $wgTitle;
+		}
+		if ( !$title ) {
+			# It's not uncommon having a null $wgTitle in scripts. See r80898
+			# Create a ghost title in such case
+			$title = Title::newFromText( 'Dwimmerlaik' );
+		}
+		$text = $this->preprocess( $text, $title, $options );
 
 		$executing = false;
 		wfProfileOut( __METHOD__ );
@@ -5089,7 +5061,11 @@ class Parser {
 
 	/**
 	 * Accessor for $mDefaultSort
-	 * Will use the title/prefixed title if none is set
+	 * Will use the empty string if none is set.
+	 *
+	 * This value is treated as a prefix, so the
+	 * empty string is equivalent to sorting by
+	 * page name.
 	 *
 	 * @return string
 	 */
@@ -5097,7 +5073,7 @@ class Parser {
 		if ( $this->mDefaultSort !== false ) {
 			return $this->mDefaultSort;
 		} else {
-			return $this->mTitle->getCategorySortkey();
+			return '';
 		}
 	}
 
@@ -5173,7 +5149,7 @@ class Parser {
 	/**
 	 * strip/replaceVariables/unstrip for preprocessor regression testing
 	 */
-	function testSrvus( $text, $title, $options, $outputType = self::OT_HTML ) {
+	function testSrvus( $text, $title, ParserOptions $options, $outputType = self::OT_HTML ) {
 		if ( !$title instanceof Title ) {
 			$title = Title::newFromText( $title );
 		}

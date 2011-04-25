@@ -124,16 +124,12 @@ class OutputPage {
 
 	var $mTemplateIds = array();
 
-	/** Initialized with a global value. Let us override it.
-	 *  Should probably get deleted / rewritten ... */
-	var $mAllowUserJs;
-
-	/**
-	 * This was for the old skins and for users with 640x480 screen.
-	 * Please note old skins are still used and might prove useful for
-	 * users having old computers or visually impaired.
-	 */
-	var $mSuppressQuickbar = false;
+	# What level of 'untrustworthiness' is allowed in CSS/JS modules loaded on this page?
+	# @see ResourceLoaderModule::$origin
+	# ResourceLoaderModule::ORIGIN_ALL is assumed unless overridden;
+	protected $mAllowedModules = array(
+		ResourceLoaderModule::TYPE_COMBINED => ResourceLoaderModule::ORIGIN_ALL,
+	);
 
 	/**
 	 * @EasterEgg I just love the name for this self documenting variable.
@@ -217,15 +213,6 @@ class OutputPage {
 		'Accept-Encoding' => array( 'list-contains=gzip' ),
 		'Cookie' => null
 	);
-
-	/**
-	 * Constructor
-	 * Initialise private variables
-	 */
-	function __construct() {
-		global $wgAllowUserJs;
-		$this->mAllowUserJs = $wgAllowUserJs;
-	}
 
 	/**
 	 * Redirect to $url rather than displaying the normal page
@@ -374,12 +361,33 @@ class OutputPage {
 	}
 
 	/**
+	 * Filter an array of modules to remove insufficiently trustworthy members
+	 * @param $modules Array
+	 * @return Array
+	 */
+	protected function filterModules( $modules, $type = ResourceLoaderModule::TYPE_COMBINED ){
+		$resourceLoader = $this->getResourceLoader();
+		$filteredModules = array();
+		foreach( $modules as $val ){
+			$module = $resourceLoader->getModule( $val );
+			if( $module->getOrigin() <= $this->getAllowedModules( $type ) ) {
+				$filteredModules[] = $val;
+			}
+		}
+		return $filteredModules;
+	}
+
+	/**
 	 * Get the list of modules to include on this page
 	 *
+	 * @param $filter Bool whether to filter out insufficiently trustworthy modules
 	 * @return Array of module names
 	 */
-	public function getModules() {
-		return array_values( array_unique( $this->mModules ) );
+	public function getModules( $filter = false, $param = 'mModules' ) {
+		$modules = array_values( array_unique( $this->$param ) );
+		return $filter
+			? $this->filterModules( $modules )
+			: $modules;
 	}
 
 	/**
@@ -397,8 +405,8 @@ class OutputPage {
 	 * Get the list of module JS to include on this page
 	 * @return array of module names
 	 */
-	public function getModuleScripts() {
-		return array_values( array_unique( $this->mModuleScripts ) );
+	public function getModuleScripts( $filter = false ) {
+		return $this->getModules( $filter, 'mModuleScripts' );
 	}
 
 	/**
@@ -417,8 +425,8 @@ class OutputPage {
 	 *
 	 * @return Array of module names
 	 */
-	public function getModuleStyles() {
-		return array_values( array_unique( $this->mModuleStyles ) );
+	public function getModuleStyles( $filter = false ) {
+		return $this->getModules( $filter, 'mModuleStyles' );
 	}
 
 	/**
@@ -437,8 +445,8 @@ class OutputPage {
 	 *
 	 * @return Array of module names
 	 */
-	public function getModuleMessages() {
-		return array_values( array_unique( $this->mModuleMessages ) );
+	public function getModuleMessages( $filter = false ) {
+		return $this->getModules( $filter, 'mModuleMessages' );
 	}
 
 	/**
@@ -981,7 +989,7 @@ class OutputPage {
 	/**
 	 * Add an array of categories, with names in the keys
 	 *
-	 * @param $categories Associative array mapping category name to its sort key
+	 * @param $categories Array mapping category name => sort key
 	 */
 	public function addCategoryLinks( $categories ) {
 		global $wgUser, $wgContLang;
@@ -1001,7 +1009,8 @@ class OutputPage {
 			array( 'page_id', 'page_namespace', 'page_title', 'page_len', 'page_is_redirect', 'page_latest', 'pp_value' ),
 			$lb->constructSet( 'page', $dbr ),
 			__METHOD__,
-			array( 'LEFT JOIN' => array( "pp_propname='hiddencat'", "pp_page=page_id"  ) )
+			array(),
+			array( 'page_props' => array( 'LEFT JOIN', array( 'pp_propname' => 'hiddencat', 'pp_page = page_id' ) ) )
 		);
 
 		# Add the results to the link cache
@@ -1042,7 +1051,7 @@ class OutputPage {
 	/**
 	 * Reset the category links (but not the category list) and add $categories
 	 *
-	 * @param $categories Associative array mapping category name to its sort key
+	 * @param $categories Array mapping category name => sort key
 	 */
 	public function setCategoryLinks( $categories ) {
 		$this->mCategoryLinks = array();
@@ -1071,36 +1080,58 @@ class OutputPage {
 	}
 
 	/**
-	 * Suppress the quickbar from the output, only for skin supporting
-	 * the quickbar
-	 */
-	public function suppressQuickbar() {
-		$this->mSuppressQuickbar = true;
-	}
-
-	/**
-	 * Return whether the quickbar should be suppressed from the output
-	 *
-	 * @return Boolean
-	 */
-	public function isQuickbarSuppressed() {
-		return $this->mSuppressQuickbar;
-	}
-
-	/**
-	 * Remove user JavaScript from scripts to load
+	 * Do not allow scripts which can be modified by wiki users to load on this page;
+	 * only allow scripts bundled with, or generated by, the software.
 	 */
 	public function disallowUserJs() {
-		$this->mAllowUserJs = false;
+		$this->reduceAllowedModules(
+			ResourceLoaderModule::TYPE_SCRIPTS,
+			ResourceLoaderModule::ORIGIN_CORE_INDIVIDUAL
+		);
 	}
 
 	/**
 	 * Return whether user JavaScript is allowed for this page
-	 *
+	 * @deprecated @since 1.18 Load modules with ResourceLoader, and origin and
+	 *     trustworthiness is identified and enforced automagically. 
 	 * @return Boolean
 	 */
 	public function isUserJsAllowed() {
-		return $this->mAllowUserJs;
+		return $this->getAllowedModules( ResourceLoaderModule::TYPE_SCRIPTS ) >= ResourceLoaderModule::ORIGIN_USER_INDIVIDUAL;
+	}
+
+	/**
+	 * Show what level of JavaScript / CSS untrustworthiness is allowed on this page
+	 * @see ResourceLoaderModule::$origin
+	 * @param $type String ResourceLoaderModule TYPE_ constant
+	 * @return Int ResourceLoaderModule ORIGIN_ class constant
+	 */
+	public function getAllowedModules( $type ){
+		if( $type == ResourceLoaderModule::TYPE_COMBINED ){
+			return min( array_values( $this->mAllowedModules ) );
+		} else {
+			return isset( $this->mAllowedModules[$type] )
+				? $this->mAllowedModules[$type]
+				: ResourceLoaderModule::ORIGIN_ALL;
+		}
+	}
+
+	/**
+	 * Set the highest level of CSS/JS untrustworthiness allowed
+	 * @param  $type String ResourceLoaderModule TYPE_ constant
+	 * @param  $level Int ResourceLoaderModule class constant
+	 */
+	public function setAllowedModules( $type, $level ){
+		$this->mAllowedModules[$type] = $level;
+	}
+
+	/**
+	 * As for setAllowedModules(), but don't inadvertantly make the page more accessible
+	 * @param  $type String
+	 * @param  $level Int ResourceLoaderModule class constant
+	 */
+	public function reduceAllowedModules( $type, $level ){
+		$this->mAllowedModules[$type] = min( $this->getAllowedModules($type), $level );
 	}
 
 	/**
@@ -1470,7 +1501,7 @@ class OutputPage {
 	 * Add an HTTP header that will influence on the cache
 	 *
 	 * @param $header String: header name
-	 * @param $option either an Array or null
+	 * @param $option Array|null
 	 * @fixme Document the $option parameter; it appears to be for
 	 *        X-Vary-Options but what format is acceptable?
 	 */
@@ -2032,7 +2063,7 @@ class OutputPage {
 			array( 'returnto' => $this->getTitle()->getPrefixedText() ),
 			array( 'known', 'noclasses' )
 		);
-		$this->addHTML( wfMsgWikiHtml( 'loginreqpagetext', $loginLink ) );
+		$this->addWikiMsgArray( 'loginreqpagetext', array( $loginLink ), array( 'replaceafter' ) );
 		$this->addHTML( "\n<!--" . $this->getTitle()->getPrefixedUrl() . '-->' );
 
 		# Don't return to the main page if the user can't read it
@@ -2046,7 +2077,7 @@ class OutputPage {
 	/**
 	 * Format a list of error messages
 	 *
-	 * @param $errors An array of arrays returned by Title::getUserPermissionsErrors
+	 * @param $errors Array of arrays returned by Title::getUserPermissionsErrors
 	 * @param $action String: action that was denied or null if unknown
 	 * @return String: the wikitext error-messages, formatted into a list.
 	 */
@@ -2284,7 +2315,8 @@ class OutputPage {
 		}
 		$sk->setupUserCss( $this );
 
-		$ret = Html::htmlHeader( array( 'lang' => wfUILang()->getCode() ) );
+		$lang = wfUILang();
+		$ret = Html::htmlHeader( array( 'lang' => $lang->getCode(), 'dir' => $lang->getDir() ) );
 
 		if ( $this->getHTMLTitle() == '' ) {
 			$this->setHTMLTitle( wfMsg( 'pagetitle', $this->getPageTitle() ) );
@@ -2343,16 +2375,8 @@ class OutputPage {
 			# A <body> class is probably not the best way to do this . . .
 			$bodyAttrs['class'] .= ' capitalize-all-nouns';
 		}
-		$bodyAttrs['class'] .= ' ns-' . $this->getTitle()->getNamespace();
-		if ( $this->getTitle()->getNamespace() == NS_SPECIAL ) {
-			$bodyAttrs['class'] .= ' ns-special';
-		} elseif ( $this->getTitle()->isTalkPage() ) {
-			$bodyAttrs['class'] .= ' ns-talk';
-		} else {
-			$bodyAttrs['class'] .= ' ns-subject';
-		}
-		$bodyAttrs['class'] .= ' ' . Sanitizer::escapeClass( 'page-' . $this->getTitle()->getPrefixedText() );
-		$bodyAttrs['class'] .= ' skin-' . Sanitizer::escapeClass( $wgUser->getSkin()->getSkinName() );
+		$bodyAttrs['class'] .= ' ' . $sk->getPageClasses( $this->getTitle() );
+		$bodyAttrs['class'] .= ' skin-' . Sanitizer::escapeClass( $sk->getSkinName() );
 
 		$sk->addToBodyAttributes( $this, $bodyAttrs ); // Allow skins to add body attributes they need
 		wfRunHooks( 'OutputPageBodyAttributes', array( $this, $sk, &$bodyAttrs ) );
@@ -2376,7 +2400,7 @@ class OutputPage {
 	 * TODO: Document
 	 * @param $skin Skin
 	 * @param $modules Array/string with the module name
-	 * @param $only string May be styles, messages or scripts
+	 * @param $only String ResourceLoaderModule TYPE_ class constant
 	 * @param $useESI boolean
 	 * @return string html <script> and <style> tags
 	 */
@@ -2425,12 +2449,23 @@ class OutputPage {
 		$resourceLoader = $this->getResourceLoader();
 		foreach ( (array) $modules as $name ) {
 			$module = $resourceLoader->getModule( $name );
+			# Check that we're allowed to include this module on this page
+			if( ( $module->getOrigin() > $this->getAllowedModules( ResourceLoaderModule::TYPE_SCRIPTS )
+					&& $only == ResourceLoaderModule::TYPE_SCRIPTS )
+				|| ( $module->getOrigin() > $this->getAllowedModules( ResourceLoaderModule::TYPE_STYLES )
+					&& $only == ResourceLoaderModule::TYPE_STYLES )
+				)
+			{
+				continue;
+			}
+
 			$group = $module->getGroup();
 			if ( !isset( $groups[$group] ) ) {
 				$groups[$group] = array();
 			}
 			$groups[$group][$name] = $module;
 		}
+
 		$links = '';
 		foreach ( $groups as $group => $modules ) {
 			$query['modules'] = implode( '|', array_keys( $modules ) );
@@ -2441,7 +2476,7 @@ class OutputPage {
 			// Support inlining of private modules if configured as such
 			if ( $group === 'private' && $wgResourceLoaderInlinePrivateModules ) {
 				$context = new ResourceLoaderContext( $resourceLoader, new FauxRequest( $query ) );
-				if ( $only == 'styles' ) {
+				if ( $only == ResourceLoaderModule::TYPE_STYLES ) {
 					$links .= Html::inlineStyle(
 						$resourceLoader->makeModuleResponse( $context, $modules )
 					);
@@ -2475,14 +2510,14 @@ class OutputPage {
 			$url = wfAppendQuery( $wgLoadScript, $query );
 			if ( $useESI && $wgResourceLoaderUseESI ) {
 				$esi = Xml::element( 'esi:include', array( 'src' => $url ) );
-				if ( $only == 'styles' ) {
+				if ( $only == ResourceLoaderModule::TYPE_STYLES ) {
 					$links .= Html::inlineStyle( $esi );
 				} else {
 					$links .= Html::inlineScript( $esi );
 				}
 			} else {
 				// Automatically select style/script elements
-				if ( $only === 'styles' ) {
+				if ( $only === ResourceLoaderModule::TYPE_STYLES ) {
 					$links .= Html::linkedStyle( wfAppendQuery( $wgLoadScript, $query ) ) . "\n";
 				} else {
 					$links .= Html::linkedScript( wfAppendQuery( $wgLoadScript, $query ) ) . "\n";
@@ -2501,24 +2536,24 @@ class OutputPage {
 	 * @return String: HTML fragment
 	 */
 	function getHeadScripts( Skin $sk ) {
-		global $wgUser, $wgRequest, $wgUseSiteJs;
+		global $wgUser, $wgRequest, $wgUseSiteJs, $wgAllowUserJs;
 
 		// Startup - this will immediately load jquery and mediawiki modules
-		$scripts = $this->makeResourceLoaderLink( $sk, 'startup', 'scripts', true );
+		$scripts = $this->makeResourceLoaderLink( $sk, 'startup', ResourceLoaderModule::TYPE_SCRIPTS, true );
 
 		// Configuration -- This could be merged together with the load and go, but
 		// makeGlobalVariablesScript returns a whole script tag -- grumble grumble...
 		$scripts .= Skin::makeGlobalVariablesScript( $sk->getSkinName() ) . "\n";
 
 		// Script and Messages "only" requests
-		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleScripts(), 'scripts' );
-		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleMessages(), 'messages' );
+		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleScripts( true ), ResourceLoaderModule::TYPE_SCRIPTS );
+		$scripts .= $this->makeResourceLoaderLink( $sk, $this->getModuleMessages( true ), ResourceLoaderModule::TYPE_MESSAGES );
 
 		// Modules requests - let the client calculate dependencies and batch requests as it likes
-		if ( $this->getModules() ) {
+		if ( $this->getModules( true ) ) {
 			$scripts .= Html::inlineScript(
 				ResourceLoader::makeLoaderConditionalScript(
-					Xml::encodeJsCall( 'mediaWiki.loader.load', array( $this->getModules() ) ) .
+					Xml::encodeJsCall( 'mediaWiki.loader.load', array( $this->getModules( true ) ) ) .
 					Xml::encodeJsCall( 'mediaWiki.loader.go', array() )
 				)
 			) . "\n";
@@ -2529,25 +2564,25 @@ class OutputPage {
 
 		// Add site JS if enabled
 		if ( $wgUseSiteJs ) {
-			$scripts .= $this->makeResourceLoaderLink( $sk, 'site', 'scripts' );
+			$scripts .= $this->makeResourceLoaderLink( $sk, 'site', ResourceLoaderModule::TYPE_SCRIPTS );
 		}
 
 		// Add user JS if enabled - trying to load user.options as a bundle if possible
 		$userOptionsAdded = false;
-		if ( $this->isUserJsAllowed() && $wgUser->isLoggedIn() ) {
+		if ( $wgAllowUserJs && $wgUser->isLoggedIn() ) {
 			$action = $wgRequest->getVal( 'action', 'view' );
 			if( $this->mTitle && $this->mTitle->isJsSubpage() && $sk->userCanPreview( $action ) ) {
 				# XXX: additional security check/prompt?
 				$scripts .= Html::inlineScript( "\n" . $wgRequest->getText( 'wpTextbox1' ) . "\n" ) . "\n";
 			} else {
 				$scripts .= $this->makeResourceLoaderLink(
-					$sk, array( 'user', 'user.options' ), 'scripts'
+					$sk, array( 'user', 'user.options' ), ResourceLoaderModule::TYPE_SCRIPTS
 				);
 				$userOptionsAdded = true;
 			}
 		}
 		if ( !$userOptionsAdded ) {
-			$scripts .= $this->makeResourceLoaderLink( $sk, 'user.options', 'scripts' );
+			$scripts .= $this->makeResourceLoaderLink( $sk, 'user.options', ResourceLoaderModule::TYPE_SCRIPTS );
 		}
 
 		return $scripts;
@@ -2742,7 +2777,7 @@ class OutputPage {
 		// dynamically added styles to override statically added styles from other modules. So the order
 		// has to be other, dynamic, site, user
 		// Add statically added styles for other modules
-		$ret .= $this->makeResourceLoaderLink( $sk, $styles['other'], 'styles' );
+		$ret .= $this->makeResourceLoaderLink( $sk, $styles['other'], ResourceLoaderModule::TYPE_STYLES );
 		// Add normal styles added through addStyle()/addInlineStyle() here
 		$ret .= implode( "\n", $this->buildCssLinksArray() ) . $this->mInlineStyles;
 		// Add marker tag to mark the place where the client-side loader should inject dynamic styles
@@ -2750,7 +2785,7 @@ class OutputPage {
 		$ret .= Html::element( 'meta', array( 'name' => 'ResourceLoaderDynamicStyles', 'content' => '' ) );
 		// Add site and user styles
 		$ret .= $this->makeResourceLoaderLink(
-			$sk, array_merge( $styles['site'], $styles['user'] ), 'styles'
+			$sk, array_merge( $styles['site'], $styles['user'] ), ResourceLoaderModule::TYPE_STYLES
 		);
 		return $ret;
 	}
@@ -2954,7 +2989,7 @@ class OutputPage {
 			}
 			$s = str_replace( '$' . ( $n + 1 ), wfMsgExt( $name, $options, $args ), $s );
 		}
-		$this->addHTML( $this->parse( $s, /*linestart*/true, /*uilang*/true ) );
+		$this->addWikiText( $s );
 	}
 
 	/**

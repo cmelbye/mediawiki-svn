@@ -84,11 +84,11 @@ $specialPageAliases = array(
 	'Wantedtemplates'           => array( 'Modelos_requiridos' ),
 	'Mostlinked'                => array( 'Páxinas_máis_ligadas' ),
 	'Mostlinkedcategories'      => array( 'Categorías_máis_ligadas' ),
-	'Mostlinkedtemplates'       => array( 'Modelos_máis_enlazados' ),
-	'Mostimages'                => array( 'Máis_imaxes' ),
-	'Mostcategories'            => array( 'Máis_categorías' ),
-	'Mostrevisions'             => array( 'Máis_revisións' ),
-	'Fewestrevisions'           => array( 'Menos_revisións' ),
+	'Mostlinkedtemplates'       => array( 'Modelos_máis_ligados' ),
+	'Mostimages'                => array( 'Ficheiros_máis_ligados' ),
+	'Mostcategories'            => array( 'Páxinas_con_máis_categorías' ),
+	'Mostrevisions'             => array( 'Páxinas_con_máis_revisións' ),
+	'Fewestrevisions'           => array( 'Páxinas_con_menos_revisións' ),
 	'Shortpages'                => array( 'Páxinas_curtas' ),
 	'Longpages'                 => array( 'Páxinas_longas' ),
 	'Newpages'                  => array( 'Páxinas_novas' ),
@@ -98,15 +98,15 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Títulos_protexidos' ),
 	'Allpages'                  => array( 'Todas_as_páxinas' ),
 	'Prefixindex'               => array( 'Índice_de_prefixos' ),
-	'Ipblocklist'               => array( 'Lista_dos_bloqueos_a_enderezos_IP' ),
+	'Ipblocklist'               => array( 'Lista_de_bloqueos', 'Lista_dos_bloqueos_a_enderezos_IP' ),
 	'Unblock'                   => array( 'Desbloquear' ),
 	'Specialpages'              => array( 'Páxinas_especiais' ),
 	'Contributions'             => array( 'Contribucións' ),
-	'Emailuser'                 => array( 'Correo_electrónico_de_usuario' ),
-	'Confirmemail'              => array( 'Confirmar_correo_electrónico' ),
+	'Emailuser'                 => array( 'Correo_electrónico' ),
+	'Confirmemail'              => array( 'Confirmar_o_correo_electrónico' ),
 	'Whatlinkshere'             => array( 'Páxinas_que_ligan_con_esta' ),
 	'Recentchangeslinked'       => array( 'Cambios_relacionados' ),
-	'Movepage'                  => array( 'Mover_páxina' ),
+	'Movepage'                  => array( 'Mover_a_páxina' ),
 	'Blockme'                   => array( 'Bloquearme' ),
 	'Booksources'               => array( 'Fontes_bibliográficas' ),
 	'Categories'                => array( 'Categorías' ),
@@ -114,7 +114,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Versión' ),
 	'Allmessages'               => array( 'Todas_as_mensaxes' ),
 	'Log'                       => array( 'Rexistros' ),
-	'Blockip'                   => array( 'Bloquear_enderezo_IP' ),
+	'Blockip'                   => array( 'Bloquear', 'Bloquear_o_enderezo_IP', 'Bloquear_o_usuario' ),
 	'Undelete'                  => array( 'Restaurar' ),
 	'Import'                    => array( 'Importar' ),
 	'Lockdb'                    => array( 'Pechar_a_base_de_datos' ),
@@ -134,10 +134,10 @@ $specialPageAliases = array(
 	'Listbots'                  => array( 'Lista_de_bots' ),
 	'Popularpages'              => array( 'Páxinas_populares' ),
 	'Search'                    => array( 'Procurar' ),
-	'Resetpass'                 => array( 'Cambiar_contrasinal' ),
+	'Resetpass'                 => array( 'Cambiar_o_contrasinal' ),
 	'Withoutinterwiki'          => array( 'Sen_interwiki' ),
-	'MergeHistory'              => array( 'Fusionar_historiais' ),
-	'Filepath'                  => array( 'Enderezo_de_ficheiro' ),
+	'MergeHistory'              => array( 'Fusionar_os_historiais' ),
+	'Filepath'                  => array( 'Ruta_do_ficheiro' ),
 	'Invalidateemail'           => array( 'Invalidar_o_enderezo_de_correo_electrónico' ),
 	'Blankpage'                 => array( 'Baleirar_a_páxina' ),
 	'LinkSearch'                => array( 'Buscar_ligazóns_web' ),
@@ -1607,8 +1607,8 @@ Por favor, cambie o nome do ficheiro e intente cargalo de novo.',
 'filetype-bad-ie-mime'        => 'Non se pode cargar este ficheiro porque o Internet Explorer detectaríao como "$1", o cal é un tipo de ficheiro non permitido e potencialmente perigoso.',
 'filetype-unwanted-type'      => "'''\".\$1\"''' é un tipo de ficheiro non desexado.
 {{PLURAL:\$3|O tipo de ficheiro preferido é|Os tipos de ficheiro preferidos son}} \$2.",
-'filetype-banned-type'        => "'''\".\$1\"''' non é un tipo de ficheiro permitido.
-{{PLURAL:\$3|O tipo de ficheiro permitido é|Os tipos de ficheiros permitidos son}} \$2.",
+'filetype-banned-type'        => '\'\'\'".$1"\'\'\' non {{PLURAL:$4|é un tipo de ficheiro permitido|son tipos de ficheiro permitidos}}.
+{{PLURAL:$3|O tipo de ficheiro permitido é|Os tipos de ficheiro permitidos son}} $2.',
 'filetype-missing'            => 'O ficheiro non conta cunha extensión (como ".jpg").',
 'empty-file'                  => 'O ficheiro que enviou estaba baleiro.',
 'file-too-large'              => 'O ficheiro que enviou era grande de máis.',
@@ -1649,7 +1649,7 @@ Se aínda quere cargar o seu ficheiro, por favor, retroceda e use un novo nome. 
 Se aínda quere cargar o seu ficheiro, volva atrás e use outro nome.
 [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'Este ficheiro é un duplicado {{PLURAL:$1|do seguinte|dos seguintes}}:',
-'file-deleted-duplicate'      => 'Un ficheiro idéntico a este ("[[$1]]") foi borrado previamente. Debería comprobar o historial de borrados do ficheiro antes de proceder a cargalo de novo.',
+'file-deleted-duplicate'      => 'Un ficheiro idéntico a este ("[[:$1]]") foi borrado previamente. Debería comprobar o historial de borrados do ficheiro antes de proceder a cargalo de novo.',
 'uploadwarning'               => 'Advertencia ao cargar o ficheiro',
 'uploadwarning-text'          => 'Por favor, modifique a descrición do ficheiro e inténteo de novo.',
 'savefile'                    => 'Gardar o ficheiro',
@@ -1901,12 +1901,13 @@ Lembre verificar outras ligazóns cara aos modelos antes de borralos.',
 No canto de ligar cos homónimos deben apuntar cara á páxina apropiada.<br />
 Unha páxina trátase como páxina de homónimos cando nela se usa un modelo que está ligado desde [[MediaWiki:Disambiguationspage]].",
 
-'doubleredirects'            => 'Redireccións dobres',
-'doubleredirectstext'        => 'Esta lista contén as páxinas que redirixen cara a outras páxinas de redirección.
+'doubleredirects'                   => 'Redireccións dobres',
+'doubleredirectstext'               => 'Esta lista contén as páxinas que redirixen cara a outras páxinas de redirección.
 Cada ringleira contén ligazóns cara á primeira e segunda redireccións, así como a primeira liña de texto da segunda páxina, que é frecuentemente o artigo "real", á que a primeira redirección debera apuntar.
 As entradas <del>riscadas</del> xa foron resoltas.',
-'double-redirect-fixed-move' => 'A páxina "[[$1]]" foi movida, agora é unha redirección cara a "[[$2]]"',
-'double-redirect-fixer'      => 'Amañador de redireccións',
+'double-redirect-fixed-move'        => 'A páxina "[[$1]]" foi movida, agora é unha redirección cara a "[[$2]]"',
+'double-redirect-fixed-maintenance' => 'Arranxo a redirección dobre entre "[[$1]]" e "[[$2]]".',
+'double-redirect-fixer'             => 'Amañador de redireccións',
 
 'brokenredirects'        => 'Redireccións rotas',
 'brokenredirectstext'    => 'As seguintes redireccións ligan cara a páxinas que non existen:',
@@ -3282,8 +3283,8 @@ Pode ser que caducase.',
 'confirmemail_body'         => 'Alguén, probablemente vostede, desde o enderezo IP $1,
 rexistrou a conta "$2" con este enderezo de correo electrónico en {{SITENAME}}.
 
-Para confirmar que esta conta realmente lle pertence e así poder activar
-as funcións de correo electrónico en {{SITENAME}}, abra esta ligazón no seu navegador:
+Para confirmar que realmente esta conta lle pertence a vostede e activar
+as características do correo electrónico en {{SITENAME}}, abra esta ligazón no seu navegador:
 
 $3
 
@@ -3292,21 +3293,35 @@ para cancelar a confirmación do enderezo de correo electrónico:
 
 $5
 
-Este código de confirmación caducará o $6 ás $7.',
+O código de confirmación caduca o $6 ás $7.',
 'confirmemail_body_changed' => 'Alguén, probablemente vostede, desde o enderezo IP $1,
 cambiou o enderezo de correo electrónico da conta "$2" a estoutro en {{SITENAME}}.
 
-Para confirmar que esta conta realmente lle pertence e así poder reactivar
-as funcións do correo electrónico en {{SITENAME}}, abra esta ligazón no seu navegador:
+Para confirmar que realmente esta conta lle pertence a vostede e reactivar
+as características do correo electrónico en {{SITENAME}}, abra esta ligazón no seu navegador:
 
 $3
 
-Se a conta *non* lle pertence siga estoutra ligazón
+Se a conta *non* é súa, siga estoutra ligazón
 para cancelar a confirmación do enderezo de correo electrónico:
 
 $5
 
-Este código de confirmación caducará o $4.',
+O código de confirmación caduca o $6 ás $7.',
+'confirmemail_body_set'     => 'Alguén, probablemente vostede, desde o enderezo IP $1,
+estableceu este enderezo de correo electrónico como o da conta "$2" en {{SITENAME}}.
+
+Para confirmar que realmente esta conta lle pertence a vostede e reactivar
+as características do correo electrónico en {{SITENAME}}, abra esta ligazón no seu navegador:
+
+$3
+
+Se a conta *non* é súa, siga estoutra ligazón
+para cancelar a confirmación do enderezo de correo electrónico:
+
+$5
+
+O código de confirmación caduca o $6 ás $7.',
 'confirmemail_invalidated'  => 'A confirmación do enderezo de correo electrónico foi cancelada',
 'invalidateemail'           => 'Cancelar a confirmación do correo electrónico',
 
@@ -3439,16 +3454,15 @@ As imaxes móstranse na súa resolución completa; outros tipos de ficheiros in�
 Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:"',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Procurar ficheiros duplicados',
-'fileduplicatesearch-summary'  => 'Procurar ficheiros duplicados a partir do valor de <i>hash</i> (un mecanismo de comprobación).
-
-Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:".',
-'fileduplicatesearch-legend'   => 'Procurar un duplicado',
-'fileduplicatesearch-filename' => 'Nome do ficheiro:',
-'fileduplicatesearch-submit'   => 'Procurar',
-'fileduplicatesearch-info'     => '$1 × $2 píxeles<br />Tamaño do ficheiro: $3<br />Tipo MIME: $4',
-'fileduplicatesearch-result-1' => 'O ficheiro "$1" non ten un duplicado idéntico.',
-'fileduplicatesearch-result-n' => 'O ficheiro "$1" ten {{PLURAL:$2|1 duplicado idéntico|$2 duplicados idénticos}}.',
+'fileduplicatesearch'           => 'Procurar ficheiros duplicados',
+'fileduplicatesearch-summary'   => 'Procurar ficheiros duplicados a partir do valor de <i>hash</i> (un mecanismo de comprobación).',
+'fileduplicatesearch-legend'    => 'Procurar un duplicado',
+'fileduplicatesearch-filename'  => 'Nome do ficheiro:',
+'fileduplicatesearch-submit'    => 'Procurar',
+'fileduplicatesearch-info'      => '$1 × $2 píxeles<br />Tamaño do ficheiro: $3<br />Tipo MIME: $4',
+'fileduplicatesearch-result-1'  => 'O ficheiro "$1" non ten un duplicado idéntico.',
+'fileduplicatesearch-result-n'  => 'O ficheiro "$1" ten {{PLURAL:$2|1 duplicado idéntico|$2 duplicados idénticos}}.',
+'fileduplicatesearch-noresults' => 'Non se atopou ningún ficheiro chamado "$1".',
 
 # Special:SpecialPages
 'specialpages'                   => 'Páxinas especiais',
