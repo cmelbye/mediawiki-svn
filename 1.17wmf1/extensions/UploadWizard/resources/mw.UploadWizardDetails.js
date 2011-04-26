@@ -20,7 +20,7 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 
 	_this.descriptions = [];
 
-	_this.div = $j( '<div class="mwe-upwiz-info-file ui-helper-clearfix"></div>' );
+	_this.div = $j( '<div class="mwe-upwiz-info-file ui-helper-clearfix filled"></div>' );
 
 	_this.thumbnailDiv = $j( '<div class="mwe-upwiz-thumbnail mwe-upwiz-thumbnail-side"></div>' );
 	
@@ -126,14 +126,9 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 						  name: categoriesId,
 						  type: 'text' } )
 		);
-	
-	var moreDetailsDiv = $j('<div class="mwe-more-details"></div>');
-
-	var moreDetailsCtrlDiv = $j( '<div class="mwe-upwiz-details-more-options"></div>' );
 
 	var dateInputId = "dateInput" + ( _this.upload.index ).toString();
-	var dateDisplayInputId = "dateDisplayInput" + ( _this.upload.index ).toString();
-	
+
 	var dateErrorDiv = $j('<div class="mwe-upwiz-details-input-error"><label class="mwe-validator-error" for="' + dateInputId + '" generated="true"/></div>');
 
 	/* XXX must localize this by loading jquery.ui.datepicker-XX.js where XX is a language code */
@@ -141,15 +136,16 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 	/* $.datepicker.setDefaults() for other settings */	
 	_this.dateInput = 
 		$j( '<input type="text" id="' + dateInputId + '" name="' + dateInputId + '" type="text" class="mwe-date" size="20"/>' );
-	_this.dateDisplayInput = 
-		$j( '<input type="text" id="' + dateDisplayInputId + '" name="' + dateDisplayInputId + '" type="text" class="mwe-date-display" size="20"/>' );
-	
 
 	var dateInputDiv = $j( '<div class="mwe-upwiz-details-fieldname-input ui-helper-clearfix"></div>' )
 		.append(
 			dateErrorDiv, 
-			$j( '<div class="mwe-upwiz-details-fieldname"></div>' ).append( gM( 'mwe-upwiz-date-created' ) ), 
-			$j( '<div class="mwe-upwiz-details-input"></div>' ).append( _this.dateInput, _this.dateDisplayInput ) );
+			$j( '<div class="mwe-upwiz-details-fieldname"></div>' ).append( gM( 'mwe-upwiz-date-created' ) ).requiredFieldLabel().addHint( 'date' ), 
+			$j( '<div class="mwe-upwiz-details-input"></div>' ).append( _this.dateInput ) );
+
+	var moreDetailsCtrlDiv = $j( '<div class="mwe-upwiz-details-more-options"></div>' );
+	
+	var moreDetailsDiv = $j('<div class="mwe-more-details"></div>');
 
 	var otherInformationId = "otherInformation" + _this.upload.index;
 	_this.otherInformationInput = $j( '<textarea id="' + otherInformationId + '" name="' + otherInformationId + '" class="mwe-upwiz-other-textarea"></textarea>' )
@@ -160,7 +156,6 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 		.append( _this.otherInformationInput );
 
 	$j( moreDetailsDiv ).append( 
-		dateInputDiv, 
 		// location goes here
 		otherInformationDiv
 	);
@@ -173,14 +168,25 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 		_this.descriptionsDiv, 
 		descriptionAdderDiv,
 		_this.copyrightInfoFieldset,
+		dateInputDiv,
 		$categoriesDiv,
 		moreDetailsCtrlDiv,
 		moreDetailsDiv
 	);
 
+	_this.submittingDiv = $j( '<div></div>' ).addClass( 'mwe-upwiz-submitting' )
+		.append( 
+			$j( '<div></div>' ).addClass( 'mwe-upwiz-file-indicator' ),
+			$j( '<div></div>' ).addClass( 'mwe-upwiz-details-texts' ).append( 
+				$j( '<div></div>' ).addClass( 'mwe-upwiz-visible-file-filename-text' ),
+				$j( '<div></div>' ).addClass( 'mwe-upwiz-file-status-line' )
+			)
+		);
+
 	$j( _this.dataDiv ).append( 
-		_this.$form 
-	);
+		_this.$form,
+		_this.submittingDiv
+	).morphCrossfader();
 
 	$j( _this.div ).append( 
 		_this.thumbnailDiv, 
@@ -189,36 +195,28 @@ mw.UploadWizardDetails = function( upload, containerDiv ) {
 
 	_this.$form.validate();
 	_this.$form.find( '.mwe-date' ).rules( "add", {
-		dateISO: true,
+		required: true,
+		/* dateISO: true, */
 		messages: {
-			dateISO: gM( 'mwe-upwiz-error-date' )
+			required: gM( 'mwe-upwiz-error-blank' )
+			/* dateISO: gM( 'mwe-upwiz-error-date' ) */
 		}
 	} );
 
-	// we hide the "real" ISO date, and create another "display" date
-	_this.$form.find( '.mwe-date-display' )
-		.datepicker( { 	
-			dateFormat: 'DD, MM d, yy', 
+	_this.$form.find( '.mwe-date' )
+		.datepicker( { 
+			dateFormat: 'yy-mm-dd',
+			constrainInput: false,
 			//buttonImage: mw.getMwEmbedPath() + 'skins/common/images/calendar.gif',
 			showOn: 'focus',
 			/* buttonImage: '???', 
 			buttonImageOnly: true,  */
-			changeMonth: true, 
-			changeYear: true, 
+			changeMonth: true,
+			changeYear: true,
 			showAnim: 'slideDown',
-			altField: '#' + dateInputId,
-			altFormat: 'yy-mm-dd',
-			minDate: new Date( 1800, 0, 1 )
+			showButtonPanel: true
 		} )
-		.click( function() { $j( this ).datepicker( 'show' ); } )
-		.readonly();
-
-	_this.$form.find( '.mwe-date' )	
-		.bind( 'change', function() { $j( this ).valid(); } )
-		.hide();
-	
-	/* if the date is not valid, we need to pop open the "more options". How? 
-	   guess we'll revalidate it with element */
+		.click( function() { $j( this ).datepicker( 'show' ); } );
 
 	mw.UploadWizardUtil.makeToggler( moreDetailsCtrlDiv, moreDetailsDiv );	
 
@@ -291,7 +289,8 @@ mw.UploadWizardDetails.prototype = {
 		_this.upload.deedChooser = new mw.UploadWizardDeedChooser( 
 			_this.deedDiv,
 			[ new mw.UploadWizardDeedOwnWork(), 
-			  new mw.UploadWizardDeedThirdParty() ]
+			  new mw.UploadWizardDeedThirdParty() ],
+			[ _this.upload ]
 		);
 	},
 
@@ -466,11 +465,10 @@ mw.UploadWizardDetails.prototype = {
 		if ( !mw.isDefined( dateObj ) ) {
 			dateObj = new Date();
 		}
-		dateStr = dateObj.getUTCFullYear() + '-' + pad( dateObj.getUTCMonth() ) + '-' + pad( dateObj.getUTCDate() );
+		dateStr = dateObj.getFullYear() + '-' + pad( dateObj.getMonth() + 1 ) + '-' + pad( dateObj.getDate() );
 
 		// ok by now we should definitely have a dateObj and a date string
 		$j( _this.dateInput ).val( dateStr );
-		$j( _this.dateDisplayInput ).datepicker( "setDate", dateObj );
 	},
 
 	/**
@@ -620,7 +618,6 @@ mw.UploadWizardDetails.prototype = {
 			information['description'] += desc.getWikiText();
 		} );	
 
-		// XXX add a sanity check here for good date
 		information['date'] = $j.trim( $j( _this.dateInput ).val() );
 
 		var deed = _this.upload.deedChooser.deed;
@@ -670,6 +667,7 @@ mw.UploadWizardDetails.prototype = {
 		var _this = this;
 
 		_this.upload.state = 'submitting-details';
+		_this.setStatus( gM( 'mwe-upwiz-submitting-details' ) ); 
 		_this.showIndicator( 'progress' );
 
 		// XXX check state of details for okayness ( license selected, at least one desc, sane filename )
@@ -685,6 +683,7 @@ mw.UploadWizardDetails.prototype = {
 		};
 
 		var err = function( code, info ) {
+			_this.upload.state = 'error';
 			_this.showError( code, info );	
 		};
 
@@ -695,7 +694,7 @@ mw.UploadWizardDetails.prototype = {
 				_this.upload.state = 'complete';
 				_this.showIndicator( 'uploaded' );
 			} else {
-				_this.showError( 'details-info-missing', result );
+				err( 'details-info-missing', result );
 			}
 		};
 
@@ -714,11 +713,11 @@ mw.UploadWizardDetails.prototype = {
 	},
 
 	setStatus: function( s ) { 
-		this.div.data( 'statusLine' ).html( s ).show();
+		this.div.find( '.mwe-upwiz-file-status-line' ).html( s ).show();
 	},
 
 	showIndicator: function( statusStr ) { 
-		this.div.data( 'indicator' )
+		this.div.find( '.mwe-upwiz-file-indicator' )
 			.show()
 			.removeClass( 'mwe-upwiz-status-progress mwe-upwiz-status-error mwe-upwiz-status-uploaded' )
 			.addClass( 'mwe-upwiz-status-' + statusStr );
