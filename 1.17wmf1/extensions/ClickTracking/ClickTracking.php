@@ -87,4 +87,11 @@ $wgResourceModules['ext.clickTracking.special'] = array(
 	'styles' => 'ext.clickTracking.special.css',
 	'dependencies' => array( 'jquery.ui.datepicker', 'jquery.ui.dialog' ),
 ) + $ctResourceTemplate;
+$wgResourceModules['ext.UserBuckets'] = array(
+	'scripts' => 'ext.UserBuckets.js',
+	'dependencies' => array('jquery.clickTracking', 'jquery.cookie'),
+) + $ctResourceTemplate;
+
+//uncomment for sample campaign
+//ClickTrackingHooks::addCampaign($dir. 'modules', 'ClickTracking/modules', 'sampleCampaign' );
 
