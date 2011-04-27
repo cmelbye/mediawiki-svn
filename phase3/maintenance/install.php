@@ -50,12 +50,8 @@ class CommandLineInstaller extends Maintenance {
 		$this->addOption( 'dbpass', 'The pasword for the DB user for normal operations', false, true );
 		$this->addOption( 'confpath', "Path to write LocalSettings.php to, default $IP", false, true );
 		/* $this->addOption( 'dbschema', 'The schema for the MediaWiki DB in pg (mediawiki)', false, true ); */
-		/* $this->addOption( 'dbtsearch2schema', 'The schema for the tsearch2 DB in pg (public)', false, true ); */
 		/* $this->addOption( 'namespace', 'The project namespace (same as the name)', false, true ); */
 		$this->addOption( 'env-checks', "Run environment checks only, don't change anything" );
-		$this->addOption( 'upgrade',
-			'Allow the upgrade to continue despite an existing LocalSettings.php', false, true );
-
 	}
 
 	public function execute() {
@@ -67,15 +63,14 @@ class CommandLineInstaller extends Maintenance {
 		$installer =
 			new CliInstaller( $siteName, $adminName, $this->mOptions );
 
-		if ( $this->hasOption( 'env-checks' ) ) {
-			$status = $installer->doEnvironmentChecks();
-			if( $status->isGood() ) {
-				$installer->showMessage( 'config-env-good' );
-			} else {
-				$installer->showStatusMessage( $status );
-				return;
-			}
+		$status = $installer->doEnvironmentChecks();
+		if( $status->isGood() ) {
+			$installer->showMessage( 'config-env-good' );
 		} else {
+			$installer->showStatusMessage( $status );
+			return;
+		}
+		if( !$this->getVar( 'env-checks' ) ) {
 			$installer->execute();
 			$installer->writeConfigurationFile( $this->getOption( 'confpath', $IP ) );
 		}

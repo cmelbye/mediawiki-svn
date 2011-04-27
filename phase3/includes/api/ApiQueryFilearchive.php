@@ -59,7 +59,7 @@ class ApiQueryFilearchive extends ApiQueryBase {
 		$fld_user = isset( $prop['user'] );
 		$fld_size = isset( $prop['size'] );
 		$fld_dimensions = isset( $prop['dimensions'] );
-		$fld_description = isset( $prop['description'] );
+		$fld_description = isset( $prop['description'] ) || isset( $prop['parseddescription'] );
 		$fld_mime = isset( $prop['mime'] );
 		$fld_metadata = isset( $prop['metadata'] );
 		$fld_bitdepth = isset( $prop['bitdepth'] );
@@ -73,10 +73,9 @@ class ApiQueryFilearchive extends ApiQueryBase {
 		if ( $fld_user ) {
 			$this->addFields( array( 'fa_user', 'fa_user_text' ) );
 		}
-		$this->addFieldsIf( 'fa_size', $fld_size );
 
-		if ( $fld_dimensions ) {
-			$this->addFields( array( 'fa_height', 'fa_width' ) );
+		if ( $fld_dimensions || $fld_size ) {
+			$this->addFields( array( 'fa_height', 'fa_width', 'fa_size' ) );
 		}
 
 		$this->addFieldsIf( 'fa_description', $fld_description );
@@ -126,7 +125,8 @@ class ApiQueryFilearchive extends ApiQueryBase {
 
 			$file = array();
 			$file['name'] = $row->fa_name;
-			self::addTitleInfo( $file, Title::makeTitle( NS_FILE, $row->fa_name ) ); 
+			$title = Title::makeTitle( NS_FILE, $row->fa_name );
+			self::addTitleInfo( $file, $title );
 
 			if ( $fld_sha1 ) {
 				$file['sha1'] = wfBaseConvert( LocalRepo::getHashFromKey( $row->fa_storage_key ), 36, 16, 40 );
@@ -138,20 +138,23 @@ class ApiQueryFilearchive extends ApiQueryBase {
 				$file['userid'] = $row->fa_user;
 				$file['user'] = $row->fa_user_text;
 			}
-			if ( $fld_size ) {
+			if ( $fld_size || $fld_dimensions ) {
 				$file['size'] = $row->fa_size;
 
 				$pageCount = ArchivedFile::newFromRow( $row )->pageCount();
 				if ( $pageCount !== false ) {
 					$vals['pagecount'] = $pageCount;
 				}
-			}
-			if ( $fld_dimensions ) {
+
 				$file['height'] = $row->fa_height;
 				$file['width'] = $row->fa_width;
 			}
 			if ( $fld_description ) {
 				$file['description'] = $row->fa_description;
+				if ( isset( $prop['parseddescription'] ) ) {
+					$file['parseddescription'] = $wgUser->getSkin()->formatComment(
+						$row->fa_description, $title );
+				}
 			}
 			if ( $fld_metadata ) {
 				$file['metadata'] = $row->fa_metadata
@@ -219,6 +222,7 @@ class ApiQueryFilearchive extends ApiQueryBase {
 					'size',
 					'dimensions',
 					'description',
+					'parseddescription',
 					'mime',
 					'metadata',
 					'bitdepth'
@@ -236,15 +240,16 @@ class ApiQueryFilearchive extends ApiQueryBase {
 			'limit' => 'How many images to return in total',
 			'prop' => array(
 				'What image information to get:',
-				' sha1         - Adds SHA-1 hash for the image',
-				' timestamp    - Adds timestamp for the uploaded version',
-				' user         - Adds user who uploaded the image version',
-				' size         - Adds the size of the image in bytes',
-				' dimensions   - Adds the height and width of the image',
-				' description  - Adds description the image version',
-				' mime         - Adds MIME of the image',
-				' metadata     - Lists EXIF metadata for the version of the image',
-				' bitdepth     - Adds the bit depth of the version',
+				' sha1              - Adds SHA-1 hash for the image',
+				' timestamp         - Adds timestamp for the uploaded version',
+				' user              - Adds user who uploaded the image version',
+				' size              - Adds the size of the image in bytes and the height, width and page count (if applicable)',
+				' dimensions        - Alias for size',
+				' description       - Adds description the image version',
+				' parseddescription - Parse the description on the version',
+				' mime              - Adds MIME of the image',
+				' metadata          - Lists EXIF metadata for the version of the image',
+				' bitdepth          - Adds the bit depth of the version',
             ),
 		);
 	}

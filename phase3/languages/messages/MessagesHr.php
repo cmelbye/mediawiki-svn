@@ -7,12 +7,14 @@
  * @ingroup Language
  * @file
  *
+ * @author Anton008
  * @author Brest
  * @author Dalibor Bosits
  * @author Demicx
  * @author Dnik
  * @author Ex13
  * @author Excaliboor
+ * @author Herr Mlinka
  * @author Luka Krstulovic
  * @author MayaSimFan
  * @author Meno25
@@ -92,7 +94,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Zaštićeni_naslovi' ),
 	'Allpages'                  => array( 'Sve_stranice' ),
 	'Prefixindex'               => array( 'Prefiks_indeks', 'Stranice_po_prefiksu' ),
-	'Ipblocklist'               => array( 'Blokirane_adrese' ),
+	'BlockList'                 => array( 'Blokirane_adrese' ),
 	'Unblock'                   => array( 'Odblokiraj' ),
 	'Specialpages'              => array( 'Posebne_stranice' ),
 	'Contributions'             => array( 'Doprinosi' ),
@@ -108,7 +110,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Verzija' ),
 	'Allmessages'               => array( 'Sve_poruke' ),
 	'Log'                       => array( 'Evidencije' ),
-	'Blockip'                   => array( 'Blokiraj' ),
+	'Block'                     => array( 'Blokiraj' ),
 	'Undelete'                  => array( 'Vrati' ),
 	'Import'                    => array( 'Uvezi' ),
 	'Lockdb'                    => array( 'Zaključaj_bazu' ),
@@ -335,8 +337,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Prikaži broj suradnika koji prate stranicu (u nedavnim izmjenama, popisu praćenja i samim člancima)',
 'tog-oldsig'                  => 'Pregled postojećeg potpisa:',
 'tog-fancysig'                => 'Običan potpis kao wikitekst (bez automatske poveznice)',
-'tog-externaleditor'          => 'Uvijek rabi vanjski program za uređivanje (samo za napredne, potrebne su posebne postavke na računalu)',
-'tog-externaldiff'            => 'Uvijek koristi vanjski program za usporedbu',
+'tog-externaleditor'          => 'Uvijek koristi vanjski program za uređivanje (samo za napredne, potrebne su posebne postavke na računalu. [http://www.mediawiki.org/wiki/Manual:External_editors Dodatne informacije.])',
+'tog-externaldiff'            => 'Uvijek koristi vanjski program za usporedbu (samo za napredne, potrebne su posebne postavke na računalu. [http://www.mediawiki.org/wiki/Manual:External_editors Dodatne informacije.])',
 'tog-showjumplinks'           => 'Uključi pomoćne poveznice "Skoči na"',
 'tog-uselivepreview'          => 'Uključi trenutačni pretpregled (JavaScript) (eksperimentalno)',
 'tog-forceeditsummary'        => 'Podsjeti me ako sažetak uređivanja ostavljam praznim',
@@ -1406,6 +1408,10 @@ Možete omogućiti drugima da Vas kontaktiraju na suradničkoj stranici ili stra
 'prefs-displaywatchlist'        => 'Opcije prikaza',
 'prefs-diffs'                   => 'razl',
 
+# User preference: e-mail validation using jQuery
+'email-address-validity-valid'   => 'E-mail adresa se pokazuje ispravnom',
+'email-address-validity-invalid' => 'Unesite valjanu e-mail adresu',
+
 # User rights
 'userrights'                   => 'Upravljanje suradničkim pravima',
 'userrights-lookup-user'       => 'Upravljaj suradničkim skupinama',
@@ -2465,6 +2471,7 @@ Pogledaj [[Special:IPBlockList|popis blokiranih IP adresa]] za pregled.',
 'unblocked-id'                    => 'Blok $1 je uklonjen',
 'ipblocklist'                     => 'Popis blokiranih IP adresa i suradničkih računa',
 'ipblocklist-legend'              => 'Pronađi blokiranog suradnika',
+'blocklist-target'                => 'Cilj',
 'ipblocklist-submit'              => 'Traži',
 'ipblocklist-localblock'          => 'Lokalno blokiranje',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Ostalo blokiranje|Ostala blokiranja}}',
@@ -2561,10 +2568,10 @@ Stari će se naslov pretvoriti u stranicu koja automatski preusmjerava na novi n
 Budite sigurni da ste provjerili [[Special:DoubleRedirects|dvostruka]] ili [[Special:BrokenRedirects|nevaljana preusmjeravanja]]. 
 Vi ste odgovorni za to da poveznice i dalje povezuju tamo gdje treba.
 
-Imajte na umu da će stranica'''neće''' premjestiti ako već postoji stranica s novim naslovom, osim u slučaju prazne stranice ili stranice za preusmjeravanje koja nema nikakvih starih izmjena. 
-To znači da možete preimenovati stranicu natrag do mjesta gdje je preimenovan iz ako pogriješite, i ne možete prepisati postojeću stranicu. 
+Imajte na umu da stranica '''neće''' biti premještena ako već postoji stranica s novim naslovom, osim u slučaju prazne stranice ili stranice za preusmjeravanje koja nema nikakvih starih izmjena. 
+To znači da stranicu možete preimenovati u prethodno ime ukoliko ste pogriješili te ne možete pisati preko postojeće stranice. 
 
- '''Upozorenje!''' 
+'''Upozorenje!''' 
 Ovo može biti drastična i neočekivana promjena kad su u pitanju popularne stranice; 
 budite sigurni da razumijete posljedice ove akcije prije nastavka.",
 'movepagetalktext'             => "Stranica za razgovor, ako postoji, automatski će se premjestiti zajedno sa stranicom koju premještate. '''Stranica za razgovor neće se premjestiti ako:'''
@@ -2862,7 +2869,7 @@ Razlog je vjerojatno vanjska poveznica koja se nalazi na crnom popisu.',
 'math_unknown_function' => 'nepoznata funkcija',
 'math_lexing_error'     => 'rječnička pogreška (lexing error)',
 'math_syntax_error'     => 'sintaksna pogreška',
-'math_image_error'      => 'Konverzija u PNG nije uspjela; provjerite jesu li dobro instalirani latex, dvips, gs, i convert',
+'math_image_error'      => 'Pretvorba u PNG nije uspjela; provjerite jesu li dobro instalirani latex, dvips, gs, i convert',
 'math_bad_tmpdir'       => 'Ne mogu otvoriti ili pisati u privremeni direktorij za matematiku',
 'math_bad_output'       => 'Ne mogu otvoriti ili pisati u odredišni direktorij za matematiku',
 'math_notexvc'          => 'Nedostaje izvršna datoteka texvc-a; pogledajte math/README za postavke.',
@@ -3279,6 +3286,20 @@ za poništavanje potvrde adrese e-pošte:
 $5
 
 Valjanost ovog potvrdnog koda istječe $4.',
+'confirmemail_body_set'     => 'Netko, najvjerojatnije vi, s IP adrese $1,
+otvorio je suradnički račun pod imenom "$2" s ovom e-mail adresom na {{SITENAME}}.
+
+Kako biste potvrdili da je ovaj suradnički račun uistinu vaš i uključili 
+e-mail naredbe na {{SITENAME}}, otvorite u vašem pregledniku sljedeću poveznicu:
+
+$3
+
+Ako ovaj suradnički račun *ne* pripada vama, slijedite ovaj link 
+kako biste poništili potvrdu e-mail adrese:
+
+$5
+
+Valjanost ovog potvrdnog koda istječe u $4',
 'confirmemail_invalidated'  => 'Potvrda E-mail adrese je otkazana',
 'invalidateemail'           => 'Poništi potvrđivanje elektroničke pošte',
 
@@ -3347,14 +3368,14 @@ Potvrdite namjeru vraćanja ovog članka.",
 'watchlistedit-normal-legend'  => 'Ukloni stranice iz popisa praćenja',
 'watchlistedit-normal-explain' => 'Prikazane su stranice na Vašem popisu praćenja.
 Da uklonite stranicu s popisa praćenja, označite kućicu kraj nje i kliknite gumb "{{int:Watchlistedit-normal-submit}}".
-Možete također [[Special:Watchlist/raw|uređivati ovaj popis u okviru za uređivanje]].',
+Možete također [[Special:EditWatchlist/raw|uređivati ovaj popis u okviru za uređivanje]].',
 'watchlistedit-normal-submit'  => 'Ukloni stranice',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 stranica je uklonjena|$1 stranice su uklonjene|$1 stranica je uklonjeno}} iz Vašeg popisa praćenja:',
 'watchlistedit-raw-title'      => 'Uredi praćene stranice u okviru za uređivanje',
 'watchlistedit-raw-legend'     => 'Uredi praćene stranice',
 'watchlistedit-raw-explain'    => 'Stranice na Vašem popisu praćenja su prikazane ispod, možete uređivati taj popis dodavanjem novih stranica ili brisanjem postojećih; u jednom retku je ime jedne stranice.
 Kad završite s uređivanjem, kliknite na "{{int:Watchlistedit-raw-submit}}".
-Također možete koristiti [[Special:Watchlist/edit|standardni editor]].',
+Također možete koristiti [[Special:EditWatchlist|standardni editor]].',
 'watchlistedit-raw-titles'     => 'Imena stranica:',
 'watchlistedit-raw-submit'     => 'Snimi promjene',
 'watchlistedit-raw-done'       => 'Vaš popis praćenja je snimljen.',
@@ -3422,7 +3443,7 @@ Unesite ime datoteke bez predmetka (''prefiksa'') imenskog prostora \"{{ns:file}
 'specialpages'                   => 'Posebne stranice',
 'specialpages-note'              => '----
 * Normalne posebne stranice
-*<strong class="mw-specialpagerestricted">Posebne stranice s ograničenim pristupom</strong>',
+* <strong class="mw-specialpagerestricted">Posebne stranice s ograničenim pristupom.</strong>',
 'specialpages-group-maintenance' => 'Izvještaji za održavanje',
 'specialpages-group-other'       => 'Ostale posebne stranice',
 'specialpages-group-login'       => 'Prijava / Otvaranje računa',

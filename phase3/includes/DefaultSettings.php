@@ -928,7 +928,7 @@ $wgGalleryOptions = array (
 	'imagesPerRow' => 0, // Default number of images per-row in the gallery. 0 -> Adapt to screensize
 	'imageWidth' => 120, // Width of the cells containing images in galleries (in "px")
 	'imageHeight' => 120, // Height of the cells containing images in galleries (in "px")
-	'captionLength' => 20, // Length of caption to truncate (in characters)
+	'captionLength' => 25, // Length of caption to truncate (in characters)
 	'showBytes' => true, // Show the filesize in bytes in categories
 );
 
@@ -1534,9 +1534,9 @@ $wgObjectCaches = array(
 	CACHE_DB => array( 'class' => 'SqlBagOStuff', 'table' => 'objectcache' ),
 	CACHE_DBA => array( 'class' => 'DBABagOStuff' ),
 
-	CACHE_ANYTHING => array( 'factory' => array( 'ObjectCache', 'newAnything' ) ),
-	CACHE_ACCEL => array( 'factory' => array( 'ObjectCache', 'newAccelerator' ) ),
-	CACHE_MEMCACHED => array( 'factory' => array( 'ObjectCache', 'newMemcached' ) ),
+	CACHE_ANYTHING => array( 'factory' => 'ObjectCache::newAnything' ),
+	CACHE_ACCEL => array( 'factory' => 'ObjectCache::newAccelerator' ),
+	CACHE_MEMCACHED => array( 'factory' => 'ObjectCache::newMemcached' ),
 
 	'eaccelerator' => array( 'class' => 'eAccelBagOStuff' ),
 	'apc' => array( 'class' => 'APCBagOStuff' ),
@@ -3363,7 +3363,6 @@ $wgGroupPermissions['sysop']['autopatrol']       = true;
 $wgGroupPermissions['sysop']['protect']          = true;
 $wgGroupPermissions['sysop']['proxyunbannable']  = true;
 $wgGroupPermissions['sysop']['rollback']         = true;
-$wgGroupPermissions['sysop']['trackback']        = true;
 $wgGroupPermissions['sysop']['upload']           = true;
 $wgGroupPermissions['sysop']['reupload']         = true;
 $wgGroupPermissions['sysop']['reupload-shared']  = true;
@@ -3380,6 +3379,7 @@ $wgGroupPermissions['sysop']['movefile']         = true;
 $wgGroupPermissions['sysop']['unblockself']      = true;
 $wgGroupPermissions['sysop']['suppressredirect'] = true;
 #$wgGroupPermissions['sysop']['mergehistory']     = true;
+#$wgGroupPermissions['sysop']['trackback']        = true;
 
 // Permission to change users' group assignments
 $wgGroupPermissions['bureaucrat']['userrights']  = true;
@@ -3762,10 +3762,8 @@ $wgCookiePrefix = false;
  * Set authentication cookies to HttpOnly to prevent access by JavaScript,
  * in browsers that support this feature. This can mitigates some classes of
  * XSS attack.
- *
- * Only supported on PHP 5.2 or higher.
  */
-$wgCookieHttpOnly = version_compare("5.2", PHP_VERSION, "<");
+$wgCookieHttpOnly = true;
 
 /**
  * If the requesting browser matches a regex in this blacklist, we won't
@@ -3999,6 +3997,8 @@ $wgDisableCounters = false;
 /**
  * Support blog-style "trackbacks" for articles.  See
  * http://www.sixapart.com/pronet/docs/trackback_spec for details.
+ *
+ * If enabling this, you also need to grant the 'trackback' right to a group
  */
 $wgUseTrackbacks = false;
 
@@ -4052,11 +4052,8 @@ $wgAdvancedSearchHighlighting = false;
 /**
  * Regexp to match word boundaries, defaults for non-CJK languages
  * should be empty for CJK since the words are not separate
- *
- * @todo FIXME: checks for lower than required PHP version (5.1.x).
  */
-$wgSearchHighlightBoundaries = version_compare("5.1", PHP_VERSION, "<")? '[\p{Z}\p{P}\p{C}]'
-	: '[ ,.;:!?~!@#$%\^&*\(\)+=\-\\|\[\]"\'<>\n\r\/{}]'; // PHP 5.0 workaround
+$wgSearchHighlightBoundaries = '[\p{Z}\p{P}\p{C}]';
 
 /**
  * Set to true to have the search engine count total
@@ -4643,6 +4640,7 @@ $wgExtensionCredits = array();
 
 /**
  * Authentication plugin.
+ * @var AuthPlugin
  */
 $wgAuth = null;
 
@@ -4671,6 +4669,24 @@ $wgJobClasses = array(
 	'fixDoubleRedirect' => 'DoubleRedirectJob',
 	'uploadFromUrl' => 'UploadFromUrlJob',
 );
+
+/**
+ * Extensions of "thumbnails" that are very expensive to regenerate and should be 
+ * excluded from normal action=purge thumbnail removal. 
+ */
+$wgExcludeFromThumbnailPurge = array();
+
+/**
+
+ * Jobs that must be explicitly requested, i.e. aren't run by job runners unless special flags are set.
+ * 
+ * These can be:
+ * - Very long-running jobs.
+ * - Jobs that you would never want to run as part of a page rendering request.
+ * - Jobs that you want to run on specialized machines ( like transcoding, or a particular
+ *   machine on your cluster has 'outside' web access you could restrict uploadFromUrl )
+ */
+$wgJobTypesExcludedFromDefaultQueue = array();
 
 /**
  * Additional functions to be performed with updateSpecialPages.
@@ -5328,7 +5344,9 @@ $wgDisabledActions = array();
 
 /**
  * Disable redirects to special pages and interwiki redirects, which use a 302
- * and have no "redirected from" link.
+ * and have no "redirected from" link. Note this is only for articles with #Redirect
+ * in them. URL's containing a local interwiki prefix (or a non-canonical special
+ * page name) are still hard redirected regardless of this setting.
  */
 $wgDisableHardRedirects = false;
 

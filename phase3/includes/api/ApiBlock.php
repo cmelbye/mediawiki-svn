@@ -48,7 +48,7 @@ class ApiBlock extends ApiBase {
 	 * of success. If it fails, the result will specify the nature of the error.
 	 */
 	public function execute() {
-		global $wgUser, $wgBlockAllowsUTEdit;
+		global $wgUser;
 		$params = $this->extractRequestParams();
 
 		if ( $params['gettoken'] ) {
@@ -98,13 +98,13 @@ class ApiBlock extends ApiBase {
 			$this->dieUsageMsg( $retval );
 		}
 
-		list( $target, $type ) = SpecialBlock::getTargetAndType( $params['user'] );
+		list( $target, /*...*/ ) = SpecialBlock::getTargetAndType( $params['user'] );
 		$res['user'] = $params['user'];
 		$res['userID'] = $target instanceof User ? $target->getId() : 0;
 
-		$block = Block::newFromTargetAndType( $target, $type );
+		$block = Block::newFromTarget( $target );
 		if( $block instanceof Block ){
-			$res['expiry'] = $block->mExpiry == Block::infinity()
+			$res['expiry'] = $block->mExpiry == wfGetDB( DB_SLAVE )->getInfinity()
 				? 'infinite'
 				: wfTimestamp( TS_ISO_8601, $block->mExpiry );
 		} else {

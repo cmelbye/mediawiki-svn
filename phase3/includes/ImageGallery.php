@@ -14,7 +14,6 @@ class ImageGallery
 	var $mImages, $mShowBytes, $mShowFilename;
 	var $mCaption = false;
 	var $mSkin = false;
-	var $mRevisionId = 0;
 
 	/**
 	 * Hide blacklisted images?
@@ -23,6 +22,7 @@ class ImageGallery
 
 	/**
 	 * Registered parser object for output callbacks
+	 * @var Parser
 	 */
 	var $mParser;
 
@@ -239,26 +239,32 @@ class ImageGallery
 		}
 
 		$attribs = Sanitizer::mergeAttributes(
-			array(
-				'class' => 'gallery'),
-			$this->mAttribs );
+			array( 'class' => 'gallery' ), $this->mAttribs );
+
 		$s = Xml::openElement( 'ul', $attribs );
 		if ( $this->mCaption ) {
 			$s .= "\n\t<li class='gallerycaption'>{$this->mCaption}</li>";
 		}
 
 		$params = array( 'width' => $this->mWidths, 'height' => $this->mHeights );
-		$i = 0;
+		# Output each image...
 		foreach ( $this->mImages as $pair ) {
 			$nt = $pair[0];
 			$text = $pair[1]; # "text" means "caption" here
 
-			# Give extensions a chance to select the file revision for us
-			$time = $descQuery = false;
-			wfRunHooks( 'BeforeGalleryFindFile', array( &$this, &$nt, &$time, &$descQuery ) );
-
+			$descQuery = false;
 			if ( $nt->getNamespace() == NS_FILE ) {
-				$img = wfFindFile( $nt, array( 'time' => $time ) );
+				# Get the file...
+				if ( $this->mParser instanceof Parser ) {
+					# Give extensions a chance to select the file revision for us
+					$time = $sha1 = false;
+					wfRunHooks( 'BeforeParserFetchFileAndTitle',
+						array( $this->mParser, &$nt, &$time, &$sha1, &$descQuery ) );
+					# Fetch and register the file (file title may be different via hooks)
+					list( $img, $nt ) = $this->mParser->fetchFileAndTitle( $nt, $time, $sha1 );
+				} else {
+					$img = wfFindFile( $nt );
+				}
 			} else {
 				$img = false;
 			}
@@ -353,7 +359,6 @@ class ImageGallery
 						. $textlink . $text . $nb
 					. "\n\t\t\t</div>"
 				. "\n\t\t</div></li>";
-			++$i;
 		}
 		$s .= "\n</ul>";
 

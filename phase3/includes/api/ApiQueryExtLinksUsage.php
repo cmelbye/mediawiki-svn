@@ -60,7 +60,6 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 		$query = $params['query'];
 		$protocol = self::getProtocolPrefix( $params['protocol'] );
 
-		$db = $this->getDB();
 		$this->addTables( array( 'page', 'externallinks' ) );	// must be in this order for 'USE INDEX'
 		$this->addOption( 'USE INDEX', 'el_index' );
 		$this->addWhere( 'page_id=el_from' );
@@ -73,7 +72,7 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 			$this->addWhereFld( 'page_namespace', $params['namespace'] );
 		}
 
-		$whereQuery = $this->prepareUrlQuerySearchString( $db, $query, $protocol );
+		$whereQuery = $this->prepareUrlQuerySearchString( $query, $protocol );
 
 		if ( $whereQuery !== null ) {
 			$this->addWhere( $whereQuery );

@@ -520,7 +520,7 @@ EOT
 			if ( !$this->getID() ) {
 				// If there is no image, no shared image, and no description page,
 				// output a 404, to be consistent with articles.
-				$wgRequest->response()->header( "HTTP/1.x 404 Not Found" );
+				$wgRequest->response()->header( "HTTP/1.1 404 Not Found" );
 			}
 		}
 	}
@@ -930,7 +930,7 @@ class ImageHistoryList {
 			. $navLinks . "\n"
 			. Xml::openElement( 'table', array( 'class' => 'wikitable filehistory' ) ) . "\n"
 			. '<tr><td></td>'
-			. ( $this->current->isLocal() && ( $wgUser->isAllowed( 'delete' ) || $wgUser->isAllowed( 'deletedhistory' ) ) ? '<td></td>' : '' )
+			. ( $this->current->isLocal() && ( $wgUser->isAllowedAny( 'delete', 'deletedhistory' ) ) ? '<td></td>' : '' )
 			. '<th>' . wfMsgHtml( 'filehist-datetime' ) . '</th>'
 			. ( $this->showThumb ? '<th>' . wfMsgHtml( 'filehist-thumb' ) . '</th>' : '' )
 			. '<th>' . wfMsgHtml( 'filehist-dimensions' ) . '</th>'
@@ -961,7 +961,7 @@ class ImageHistoryList {
 		$row = $selected = '';
 
 		// Deletion link
-		if ( $local && ( $wgUser->isAllowed( 'delete' ) || $wgUser->isAllowed( 'deletedhistory' ) ) ) {
+		if ( $local && ( $wgUser->isAllowedAny( 'delete', 'deletedhistory' ) ) ) {
 			$row .= '<td>';
 			# Link to remove from history
 			if ( $wgUser->isAllowed( 'delete' ) ) {

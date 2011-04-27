@@ -694,10 +694,6 @@ class PhpHttpRequest extends MWHttpRequest {
 			$this->postData = wfArrayToCGI( $this->postData );
 		}
 
-		// At least on Centos 4.8 with PHP 5.1.6, using max_redirects to follow redirects
-		// causes a segfault
-		$manuallyRedirect = version_compare( phpversion(), '5.1.7', '<' );
-
 		if ( $this->parsedUrl['scheme'] != 'http' ) {
 			$this->status->fatal( 'http-invalid-scheme', $this->parsedUrl['scheme'] );
 		}
@@ -715,7 +711,7 @@ class PhpHttpRequest extends MWHttpRequest {
 			$options['request_fulluri'] = true;
 		}
 
-		if ( !$this->followRedirects || $manuallyRedirect ) {
+		if ( !$this->followRedirects ) {
 			$options['max_redirects'] = 0;
 		} else {
 			$options['max_redirects'] = $this->maxRedirects;
@@ -736,12 +732,7 @@ class PhpHttpRequest extends MWHttpRequest {
 			$options['content'] = $this->postData;
 		}
 
-		$oldTimeout = false;
-		if ( version_compare( '5.2.1', phpversion(), '>' ) ) {
-			$oldTimeout = ini_set( 'default_socket_timeout', $this->timeout );
-		} else {
-			$options['timeout'] = $this->timeout;
-		}
+		$options['timeout'] = $this->timeout;
 
 		$context = stream_context_create( array( 'http' => $options ) );
 
@@ -765,7 +756,7 @@ class PhpHttpRequest extends MWHttpRequest {
 			$this->headerList = $result['wrapper_data'];
 			$this->parseHeader();
 
-			if ( !$manuallyRedirect || !$this->followRedirects ) {
+			if ( !$this->followRedirects ) {
 				break;
 			}
 
@@ -782,10 +773,6 @@ class PhpHttpRequest extends MWHttpRequest {
 			}
 		} while ( true );
 
-		if ( $oldTimeout !== false ) {
-			ini_set( 'default_socket_timeout', $oldTimeout );
-		}
-
 		$this->setStatus();
 
 		if ( $fh === false ) {
@@ -798,7 +785,10 @@ class PhpHttpRequest extends MWHttpRequest {
 			return $this->status;
 		}
 
-		if ( $this->status->isOK() ) {
+		// If everything went OK, or we recieved some error code
+		// get the response body content.
+		if ( $this->status->isOK()
+				|| (int)$this->respStatus >= 300) {
 			while ( !feof( $fh ) ) {
 				$buf = fread( $fh, 8192 );
 

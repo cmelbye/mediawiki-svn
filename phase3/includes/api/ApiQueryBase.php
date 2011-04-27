@@ -246,14 +246,23 @@ abstract class ApiQueryBase extends ApiBase {
 	 * Execute a SELECT query based on the values in the internal arrays
 	 * @param $method string Function the query should be attributed to.
 	 *  You should usually use __METHOD__ here
+	 * @param $extraQuery array Query data to add but not store in the object
+	 *  Format is array( 'tables' => ..., 'fields' => ..., 'where' => ..., 'options' => ..., 'join_conds' => ... )
 	 * @return ResultWrapper
 	 */
-	protected function select( $method ) {
+	protected function select( $method, $extraQuery = array() ) {
+
+		$tables = array_merge( $this->tables, isset( $extraQuery['tables'] ) ? (array)$extraQuery['tables'] : array() );
+		$fields = array_merge( $this->fields, isset( $extraQuery['fields'] ) ? (array)$extraQuery['fields'] : array() );
+		$where = array_merge( $this->where, isset( $extraQuery['where'] ) ? (array)$extraQuery['where'] : array() );
+		$options = array_merge( $this->options, isset( $extraQuery['options'] ) ? (array)$extraQuery['options'] : array() );
+		$join_conds = array_merge( $this->join_conds, isset( $extraQuery['join_conds'] ) ? (array)$extraQuery['join_conds'] : array() );
+
 		// getDB has its own profileDBIn/Out calls
 		$db = $this->getDB();
 
 		$this->profileDBIn();
-		$res = $db->select( $this->tables, $this->fields, $this->where, $method, $this->options, $this->join_conds );
+		$res = $db->select( $tables, $fields, $where, $method, $options, $join_conds );
 		$this->profileDBOut();
 
 		return $res;

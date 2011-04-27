@@ -95,6 +95,7 @@ abstract class Job {
 	 * @return Job or false if there's no jobs
 	 */
 	static function pop( $offset = 0 ) {
+		global $wgJobTypesExcludedFromDefaultQueue;
 		wfProfileIn( __METHOD__ );
 
 		$dbr = wfGetDB( DB_SLAVE );
@@ -105,16 +106,23 @@ abstract class Job {
 			NB: If random fetch previously was used, offset
 				will always be ahead of few entries
 		*/
-
-		$row = $dbr->selectRow( 'job', '*', "job_id >= ${offset}", __METHOD__,
-			array( 'ORDER BY' => 'job_id', 'LIMIT' => 1 ) );
+		$conditions = array();
+		if ( count( $wgJobTypesExcludedFromDefaultQueue ) != 0 ) {
+			foreach ( $wgJobTypesExcludedFromDefaultQueue as $cmdType ) {
+				$conditions[] = "job_cmd != " . $dbr->addQuotes( $cmdType );
+			}
+		}
+		$offset = intval( $offset );
+		$row = $dbr->selectRow( 'job', '*', array_merge( $conditions, array( "job_id >= $offset" ) ) , __METHOD__,
+			array( 'ORDER BY' => 'job_id', 'LIMIT' => 1 ) 
+		);
 
 		// Refetching without offset is needed as some of job IDs could have had delayed commits
 		// and have lower IDs than jobs already executed, blame concurrency :)
 		//
 		if ( $row === false ) {
 			if ( $offset != 0 ) {
-				$row = $dbr->selectRow( 'job', '*', '', __METHOD__,
+				$row = $dbr->selectRow( 'job', '*', $conditions, __METHOD__,
 					array( 'ORDER BY' => 'job_id', 'LIMIT' => 1 ) );
 			}
 
@@ -221,12 +229,12 @@ abstract class Job {
 	 * @param $jobs array of Job objects
 	 */
 	static function batchInsert( $jobs ) {
-		if( !count( $jobs ) ) {
+		if ( !count( $jobs ) ) {
 			return;
 		}
 		$dbw = wfGetDB( DB_MASTER );
 		$rows = array();
-		foreach( $jobs as $job ) {
+		foreach ( $jobs as $job ) {
 			$rows[] = $job->insertFields();
 			if ( count( $rows ) >= 50 ) {
 				# Do a small transaction to avoid slave lag
@@ -236,12 +244,40 @@ abstract class Job {
 				$rows = array();
 			}
 		}
-		if ( $rows ) {
-			wfIncrStats( 'job-insert', count( $rows ) );
+		if ( $rows ) { // last chunk
 			$dbw->begin();
 			$dbw->insert( 'job', $rows, __METHOD__, 'IGNORE' );
 			$dbw->commit();
 		}
+		wfIncrStats( 'job-insert', count( $jobs ) );
+	}
+
+	/**
+	 * Insert a group of jobs into the queue.
+	 *
+	 * Same as batchInsert() but does not commit and can thus
+	 * be rolled-back as part of a larger transaction. However,
+	 * large batches of jobs can cause slave lag.
+	 *
+	 * @param $jobs array of Job objects
+	 */
+	static function safeBatchInsert( $jobs ) {
+		if ( !count( $jobs ) ) {
+			return;
+		}
+		$dbw = wfGetDB( DB_MASTER );
+		$rows = array();
+		foreach ( $jobs as $job ) {
+			$rows[] = $job->insertFields();
+			if ( count( $rows ) >= 500 ) {
+				$dbw->insert( 'job', $rows, __METHOD__, 'IGNORE' );
+				$rows = array();
+			}
+		}
+		if ( $rows ) { // last chunk
+			$dbw->insert( 'job', $rows, __METHOD__, 'IGNORE' );
+		}
+		wfIncrStats( 'job-insert', count( $jobs ) );
 	}
 
 	/*-------------------------------------------------------------------------

@@ -84,7 +84,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Titulos_protegite' ),
 	'Allpages'                  => array( 'Tote_le_paginas' ),
 	'Prefixindex'               => array( 'Indice_de_prefixos' ),
-	'Ipblocklist'               => array( 'Lista_de_blocadas', 'Lista_de_blocadas_IP' ),
+	'BlockList'                 => array( 'Lista_de_blocadas', 'Lista_de_blocadas_IP' ),
 	'Specialpages'              => array( 'Paginas_special' ),
 	'Contributions'             => array( 'Contributiones' ),
 	'Emailuser'                 => array( 'Inviar_e-mail_a_un_usator' ),
@@ -98,7 +98,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exportar' ),
 	'Allmessages'               => array( 'Tote_le_messages' ),
 	'Log'                       => array( 'Registro', 'Registros' ),
-	'Blockip'                   => array( 'Blocar', 'Blocar_IP', 'Blocar_usator' ),
+	'Block'                     => array( 'Blocar', 'Blocar_IP', 'Blocar_usator' ),
 	'Undelete'                  => array( 'Restaurar' ),
 	'Import'                    => array( 'Importar' ),
 	'Lockdb'                    => array( 'Blocar_BDD' ),
@@ -2379,6 +2379,8 @@ Le ultime entrata del registro de blocadas es reproducite hic infra pro informat
 
 # Block/unblock
 'autoblockid'                     => 'Auto-blocada №$1',
+'block'                           => 'Blocar un usator o adresse IP',
+'unblock'                         => 'Disblocar un usator o adresse IP',
 'blockip'                         => 'Blocar usator',
 'blockip-title'                   => 'Blocar usator',
 'blockip-legend'                  => 'Blocar usator',
@@ -2427,9 +2429,20 @@ Vide le [[Special:IPBlockList|lista de adresses IP blocate]] pro revider le bloc
 a un adresse IP blocate previemente.',
 'ipusubmit'                       => 'Cancellar iste blocada',
 'unblocked'                       => '[[User:$1|$1]] ha essite disblocate',
+'unblocked-range'                 => '$1 ha essite disblocate',
 'unblocked-id'                    => 'Le blocada $1 ha essite eliminate',
+'blocklist'                       => 'Adresses IP e nomines de usator blocate',
 'ipblocklist'                     => 'Adresses IP e nomines de usator blocate',
 'ipblocklist-legend'              => 'Cercar un usator blocate',
+'blocklist-userblocks'            => 'Celar blocadas de conto',
+'blocklist-tempblocks'            => 'Celar blocadas temporari',
+'blocklist-addressblocks'         => 'Celar blocadas de singule adresse IP',
+'blocklist-timestamp'             => 'Data e hora',
+'blocklist-target'                => 'Objectivo',
+'blocklist-expiry'                => 'Expira',
+'blocklist-by'                    => 'Blocate per',
+'blocklist-params'                => 'Parametros del blocada',
+'blocklist-reason'                => 'Motivo',
 'ipblocklist-submit'              => 'Cercar',
 'ipblocklist-localblock'          => 'Blocada local',
 'ipblocklist-otherblocks'         => 'Altere {{PLURAL:$1|blocada|blocadas}}',
@@ -2472,6 +2485,7 @@ Vide le [[Special:IPBlockList|lista de blocadas IP]] pro le lista de bannimentos
 'ipb-needreblock'                 => '== Ja blocate ==
 $1 es ja blocate. Esque tu vole cambiar le configurationes?',
 'ipb-otherblocks-header'          => 'Altere {{PLURAL:$1|blocada|blocadas}}',
+'unblock-hideuser'                => 'Tu non pote disblocar iste usator, proque su nomine de usator ha essite celate.',
 'ipb_cant_unblock'                => 'Error: ID de blocada $1 non trovate. Es possibile que illo ha ja essite disblocate.',
 'ipb_blocked_as_range'            => 'Error: Le IP $1 non es blocate directemente e non pote esser disblocate.
 Illo es, nonobstante, blocate como parte del intervallo $2, le qual pote esser disblocate.',
@@ -3368,7 +3382,7 @@ Per favor confirma que tu realmente vole recrear iste pagina.",
 'watchlistedit-normal-legend'  => 'Eliminar titulos del observatorio',
 'watchlistedit-normal-explain' => 'Le titulos in tu observatorio es monstrate hic infra.
 Pro eliminar un titulo, marca le quadrato correspondente, e clicca "{{int:Watchlistedit-normal-submit}}".
-Tu pote etiam [[Special:Watchlist/raw|modificar le lista in forma crude]].',
+Tu pote etiam [[Special:EditWatchlist/raw|modificar le lista in forma crude]].',
 'watchlistedit-normal-submit'  => 'Eliminar titulos',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 titulo|$1 titulos}} ha essite eliminate de tu observatorio:',
 'watchlistedit-raw-title'      => 'Modification del observatorio in forma crude',
@@ -3376,7 +3390,7 @@ Tu pote etiam [[Special:Watchlist/raw|modificar le lista in forma crude]].',
 'watchlistedit-raw-explain'    => 'Le titulos in tu observatorio es monstrate hic infra, e pote esser modificate per adder e eliminar entratas del lista;
 un titulo per linea.
 Quando tu ha finite, clicca super "{{int:Watchlistedit-raw-submit}}".
-Tu pote etiam [[Special:Watchlist/edit|usar le editor standard]].',
+Tu pote etiam [[Special:EditWatchlist|usar le editor standard]].',
 'watchlistedit-raw-titles'     => 'Titulos:',
 'watchlistedit-raw-submit'     => 'Actualisar observatorio',
 'watchlistedit-raw-done'       => 'Tu observatorio ha essite actualisate.',

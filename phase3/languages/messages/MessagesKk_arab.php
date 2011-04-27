@@ -358,7 +358,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'قورعالعان_تاقىرىپتار', 'قورعالعان_اتاۋلار' ),
 	'Allpages'                  => array( 'بارلىق_بەتتەر' ),
 	'Prefixindex'               => array( 'ٴباستاۋىش_ٴتىزىمى' ),
-	'Ipblocklist'               => array( 'بۇعاتتالعاندار' ),
+	'BlockList'                 => array( 'بۇعاتتالعاندار' ),
 	'Specialpages'              => array( 'ارنايى_بەتتەر' ),
 	'Contributions'             => array( 'ۇلەسى' ),
 	'Emailuser'                 => array( 'حات_جىبەرۋ' ),
@@ -373,7 +373,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'نۇسقاسى' ),
 	'Allmessages'               => array( 'بارلىق_حابارلار' ),
 	'Log'                       => array( 'جۋرنال', 'جۋرنالدار' ),
-	'Blockip'                   => array( 'جايدى_بۇعاتتاۋ', 'IP_بۇعاتتاۋ' ),
+	'Block'                     => array( 'جايدى_بۇعاتتاۋ', 'IP_بۇعاتتاۋ' ),
 	'Undelete'                  => array( 'جويۋدى_بولدىرماۋ', 'جويىلعاندى_قايتارۋ' ),
 	'Import'                    => array( 'سىرتتان_الۋ' ),
 	'Lockdb'                    => array( 'دەرەكقوردى_قۇلىپتاۋ' ),
@@ -2883,7 +2883,7 @@ $1',
 'watchlistedit-normal-legend'  => 'باقىلاۋ تىزىمىنەن تاقىرىپ اتتارىن الاستاۋ',
 'watchlistedit-normal-explain' => 'باقىلاۋ تىزىمىڭىزدەگى تاقىرىپ اتتار تومەندە كورسەتىلەدى.
 تاقىرىپ اتىن الاستاۋ ٴۇشىن, ٴبۇيىر كوزگە قۇسبەلگى سالىڭىز, جانە «تاقىرىپ اتتارىن الاستا» دەگەندى نۇقىڭىز.
-تاعى دا [[{{#special:Watchlist}}/raw|قام ٴتىزىمدى وڭدەي]] الاسىز.',
+تاعى دا [[Special:EditWatchlist/raw|قام ٴتىزىمدى وڭدەي]] الاسىز.',
 'watchlistedit-normal-submit'  => 'تاقىرىپ اتتارىن الاستا',
 'watchlistedit-normal-done'    => 'باقىلاۋ تىزىمىڭىزدەن $1 تاقىرىپ اتى الاستالدى:',
 'watchlistedit-raw-title'      => 'قام باقىلاۋ ٴتىزىمدى وڭدەۋ',
@@ -2891,7 +2891,7 @@ $1',
 'watchlistedit-raw-explain'    => 'باقىلاۋ تىزىمىڭىزدەگى تاقىرىپ اتتارى تومەندە كورسەتىلەدى, جانە دە تىزمگە ۇستەپ جانە تىزمدەن الاستاپ وڭدەلۋى مۇمكىن;
 جول سايىن ٴبىر تاقىرىپ اتى بولۋ ٴجون.
 بىتىرگەننەن سوڭ «باقىلاۋ ٴتىزىمدى جاڭارتۋ» دەگەندى نۇقىڭىز.
-تاعى دا [[{{#special:Watchlist}}/edit|قالىپالعان وڭدەۋىشتى پايدالانا]] الاسىز.',
+تاعى دا [[Special:EditWatchlist|قالىپالعان وڭدەۋىشتى پايدالانا]] الاسىز.',
 'watchlistedit-raw-titles'     => 'تاقىرىپ اتتارى:',
 'watchlistedit-raw-submit'     => 'باقىلاۋ ٴتىزىمدى جاڭارتۋ',
 'watchlistedit-raw-done'       => 'باقىلاۋ ٴتىزىمىڭىز جاڭارتىلدى.',

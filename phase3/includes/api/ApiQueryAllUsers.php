@@ -85,7 +85,7 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			}
 		}
 
-		if ( !is_null( $params['group'] ) ) {
+		if ( !is_null( $params['group'] ) && count( $params['group'] ) ) {
 			$useIndex = false;
 			// Filter only users that belong to a given group
 			$this->addTables( 'user_groups', 'ug1' );
@@ -216,22 +216,25 @@ class ApiQueryAllUsers extends ApiQueryBase {
 			}
 
 			// Add user's group info
-			if ( $fld_groups && !is_null( $row->ug_group2 ) ) {
+			if ( $fld_groups ) {
 				if ( !isset( $lastUserData['groups'] ) ) {
 					$lastUserData['groups'] = ApiQueryUsers::getAutoGroups( User::newFromName( $lastUser ) );
 				}
 
-				$lastUserData['groups'][] = $row->ug_group2;
+				if ( !is_null( $row->ug_group2 ) ) {
+					$lastUserData['groups'][] = $row->ug_group2;
+				}
 				$result->setIndexedTagName( $lastUserData['groups'], 'g' );
 			}
 
-			if ( $fld_rights && !is_null( $row->ug_group2 ) ) {
+			if ( $fld_rights ) {
 				if ( !isset( $lastUserData['rights'] ) ) {
-					$lastUserData['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
+					$lastUserData['rights'] =  User::getGroupPermissions( User::getImplicitGroups() );
 				}
-
-				$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
-					User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				if ( !is_null( $row->ug_group2 ) ) {
+					$lastUserData['rights'] = array_unique( array_merge( $lastUserData['rights'],
+					                                        User::getGroupPermissions( array( $row->ug_group2 ) ) ) );
+				}
 				$result->setIndexedTagName( $lastUserData['rights'], 'r' );
 			}
 		}

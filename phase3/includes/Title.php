@@ -1562,29 +1562,16 @@ class Title {
 			}
 
 			$link = '[[' . $wgContLang->getNsText( NS_USER ) . ":{$name}|{$name}]]";
-			$blockid = $block->mId;
+			$blockid = $block->getId();
 			$blockExpiry = $user->mBlock->mExpiry;
 			$blockTimestamp = $wgLang->timeanddate( wfTimestamp( TS_MW, $user->mBlock->mTimestamp ), true );
 			if ( $blockExpiry == 'infinity' ) {
-				// Entry in database (table ipblocks) is 'infinity' but 'ipboptions' uses 'infinite' or 'indefinite'
-				$scBlockExpiryOptions = wfMsg( 'ipboptions' );
-
-				foreach ( explode( ',', $scBlockExpiryOptions ) as $option ) {
-					if ( !strpos( $option, ':' ) )
-						continue;
-
-					list( $show, $value ) = explode( ':', $option );
-
-					if ( $value == 'infinite' || $value == 'indefinite' ) {
-						$blockExpiry = $show;
-						break;
-					}
-				}
+				$blockExpiry = wfMessage( 'infiniteblock' );
 			} else {
 				$blockExpiry = $wgLang->timeanddate( wfTimestamp( TS_MW, $blockExpiry ), true );
 			}
 
-			$intended = $user->mBlock->mAddress;
+			$intended = $user->mBlock->getTarget();
 
 			$errors[] = array( ( $block->mAuto ? 'autoblockedtext' : 'blockedtext' ), $link, $reason, $ip, $name,
 				$blockid, $blockExpiry, $intended, $blockTimestamp );
@@ -1680,10 +1667,10 @@ class Title {
 
 		$dbw = wfGetDB( DB_MASTER );
 
-		$encodedExpiry = Block::encodeExpiry( $expiry, $dbw );
+		$encodedExpiry = $dbw->encodeExpiry( $expiry );
 
 		$expiry_description = '';
-		if ( $encodedExpiry != 'infinity' ) {
+		if ( $encodedExpiry != $dbw->getInfinity() ) {
 			$expiry_description = ' (' . wfMsgForContent( 'protect-expiring', $wgContLang->timeanddate( $expiry ),
 				$wgContLang->date( $expiry ) , $wgContLang->time( $expiry ) ) . ')';
 		} else {
@@ -1696,7 +1683,7 @@ class Title {
 					'pt_namespace' => $namespace,
 					'pt_title' => $title,
 					'pt_create_perm' => $create_perm,
-					'pt_timestamp' => Block::encodeExpiry( wfTimestampNow(), $dbw ),
+					'pt_timestamp' => $dbw->encodeExpiry( wfTimestampNow() ),
 					'pt_expiry' => $encodedExpiry,
 					'pt_user' => $wgUser->getId(),
 					'pt_reason' => $reason,
@@ -1999,7 +1986,7 @@ class Title {
 	 */
 	public function userCanEditCssSubpage() {
 		global $wgUser;
-		return ( ( $wgUser->isAllowed( 'editusercssjs' ) && $wgUser->isAllowed( 'editusercss' ) )
+		return ( ( $wgUser->isAllowedAll( 'editusercssjs', 'editusercss' ) )
 			|| preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
 	}
 
@@ -2012,7 +1999,7 @@ class Title {
 	 */
 	public function userCanEditJsSubpage() {
 		global $wgUser;
-		return ( ( $wgUser->isAllowed( 'editusercssjs' ) && $wgUser->isAllowed( 'edituserjs' ) )
+		return ( ( $wgUser->isAllowedAll( 'editusercssjs', 'edituserjs' ) )
 			   || preg_match( '/^' . preg_quote( $wgUser->getName(), '/' ) . '\//', $this->mTextform ) );
 	}
 
@@ -2037,6 +2024,7 @@ class Title {
 	 *     contains a array of unique groups.
 	 */
 	public function getCascadeProtectionSources( $getPages = true ) {
+		global $wgContLang;
 		$pagerestrictions = array();
 
 		if ( isset( $this->mCascadeSources ) && $getPages ) {
@@ -2082,7 +2070,7 @@ class Title {
 		$purgeExpired = false;
 
 		foreach ( $res as $row ) {
-			$expiry = Block::decodeExpiry( $row->pr_expiry );
+			$expiry = $wgContLang->formatExpiry( $row->pr_expiry, TS_MW );
 			if ( $expiry > $now ) {
 				if ( $getPages ) {
 					$page_id = $row->pr_page;
@@ -2164,13 +2152,14 @@ class Title {
 	 *        restrictions from page table (pre 1.10)
 	 */
 	public function loadRestrictionsFromRows( $rows, $oldFashionedRestrictions = null ) {
+		global $wgContLang;
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$restrictionTypes = $this->getRestrictionTypes();
 
 		foreach ( $restrictionTypes as $type ) {
 			$this->mRestrictions[$type] = array();
-			$this->mRestrictionsExpiry[$type] = Block::decodeExpiry( '' );
+			$this->mRestrictionsExpiry[$type] = $wgContLang->formatExpiry( '', TS_MW );
 		}
 
 		$this->mCascadeRestriction = false;
@@ -2213,7 +2202,7 @@ class Title {
 
 				// This code should be refactored, now that it's being used more generally,
 				// But I don't really see any harm in leaving it in Block for now -werdna
-				$expiry = Block::decodeExpiry( $row->pr_expiry );
+				$expiry = $wgContLang->formatExpiry( $row->pr_expiry, TS_MW );
 
 				// Only apply the restrictions if they haven't expired!
 				if ( !$expiry || $expiry > $now ) {
@@ -2242,12 +2231,17 @@ class Title {
 	 *        restrictions from page table (pre 1.10)
 	 */
 	public function loadRestrictions( $oldFashionedRestrictions = null ) {
+		global $wgContLang;
 		if ( !$this->mRestrictionsLoaded ) {
 			if ( $this->exists() ) {
 				$dbr = wfGetDB( DB_SLAVE );
 
-				$res = $dbr->select( 'page_restrictions', '*',
-					array( 'pr_page' => $this->getArticleId() ), __METHOD__ );
+				$res = $dbr->select(
+					'page_restrictions',
+					'*',
+					array( 'pr_page' => $this->getArticleId() ),
+					__METHOD__
+				);
 
 				$this->loadRestrictionsFromResultWrapper( $res, $oldFashionedRestrictions );
 			} else {
@@ -2255,7 +2249,7 @@ class Title {
 
 				if ( $title_protection ) {
 					$now = wfTimestampNow();
-					$expiry = Block::decodeExpiry( $title_protection['pt_expiry'] );
+					$expiry = $wgContLang->formatExpiry( $title_protection['pt_expiry'], TS_MW );
 
 					if ( !$expiry || $expiry > $now ) {
 						// Apply the restrictions
@@ -2266,7 +2260,7 @@ class Title {
 						$this->mTitleProtection = false;
 					}
 				} else {
-					$this->mRestrictionsExpiry['create'] = Block::decodeExpiry( '' );
+					$this->mRestrictionsExpiry['create'] = $wgContLang->formatExpiry( '', TS_MW );
 				}
 				$this->mRestrictionsLoaded = true;
 			}
@@ -2991,7 +2985,7 @@ class Title {
 		if ( $this->getNamespace() == NS_FILE ) {
 			$errors = array_merge( $errors, $this->validateFileMoveOperation( $nt ) );
 		}
-		
+
 		if ( $nt->getNamespace() == NS_FILE && $this->getNamespace() != NS_FILE ) {
 			$errors[] = array( 'nonfile-cannot-move-to-file' );
 		}
@@ -3035,7 +3029,7 @@ class Title {
 		}
 		return $errors;
 	}
-	
+
 	/**
 	 * Check if the requested move target is a valid file move target
 	 * @param Title $nt Target title
@@ -3043,13 +3037,13 @@ class Title {
 	 */
 	protected function validateFileMoveOperation( $nt ) {
 		global $wgUser;
-		
+
 		$errors = array();
-		
+
 		if ( $nt->getNamespace() != NS_FILE ) {
 			$errors[] = array( 'imagenocrossnamespace' );
 		}
-		
+
 		$file = wfLocalFile( $this );
 		if ( $file->exists() ) {
 			if ( $nt->getText() != wfStripIllegalFilenameChars( $nt->getText() ) ) {
@@ -3059,12 +3053,12 @@ class Title {
 				$errors[] = array( 'imagetypemismatch' );
 			}
 		}
-		
+
 		$destFile = wfLocalFile( $nt );
-		if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destfile->exists() && wfFindFile( $nt ) ) {
+		if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destFile->exists() && wfFindFile( $nt ) ) {
 			$errors[] = array( 'file-exists-sharedrepo' );
 		}
-		
+
 		return $errors;
 	}
 
@@ -3098,13 +3092,16 @@ class Title {
 			}
 		}
 
-		$pageid = $this->getArticleID();
+		$dbw->begin(); # If $file was a LocalFile, its transaction would have closed our own.
+		$pageid = $this->getArticleID( GAID_FOR_UPDATE );
 		$protected = $this->isProtected();
 		$pageCountChange = ( $createRedirect ? 1 : 0 ) - ( $nt->exists() ? 1 : 0 );
 
 		// Do the actual move
 		$err = $this->moveToInternal( $nt, $reason, $createRedirect );
 		if ( is_array( $err ) ) {
+			# FIXME: What about the File we have already moved?
+			$dbw->rollback();
 			return $err;
 		}
 
@@ -3173,6 +3170,8 @@ class Title {
 		$u = new SearchUpdate( $redirid, $this->getPrefixedDBkey(), '' );
 		$u->doUpdate();
 
+		$dbw->commit();
+		
 		# Update site_stats
 		if ( $this->isContentPage() && !$nt->isContentPage() ) {
 			# No longer a content page
@@ -3233,11 +3232,14 @@ class Title {
 		if ( $reason ) {
 			$comment .= wfMsgForContent( 'colon-separator' ) . $reason;
 		}
-		# Truncate for whole multibyte characters. +5 bytes for ellipsis
-		$comment = $wgContLang->truncate( $comment, 250 );
+		# Truncate for whole multibyte characters.
+		$comment = $wgContLang->truncate( $comment, 255 );
 
 		$oldid = $this->getArticleID();
 		$latest = $this->getLatestRevID();
+
+		$oldns = $this->getNamespace();
+		$olddbk = $this->getDBkey();
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -3323,6 +3325,17 @@ class Title {
 				__METHOD__ );
 			$redirectSuppressed = false;
 		} else {
+			// Get rid of old new page entries in Special:NewPages and RC.
+			// Needs to be before $this->resetArticleID( 0 ).
+			$dbw->delete( 'recentchanges', array(
+					'rc_timestamp' => $dbw->timestamp( $this->getEarliestRevTime() ),
+					'rc_namespace' => $oldns,
+					'rc_title' => $olddbk,
+					'rc_new' => 1
+				),
+				__METHOD__
+			);
+
 			$this->resetArticleID( 0 );
 			$redirectSuppressed = true;
 		}
@@ -4143,15 +4156,15 @@ class Title {
 		}
 
 		wfRunHooks( 'TitleGetRestrictionTypes', array( $this, &$types ) );
-		
-		wfDebug( __METHOD__ . ': applicable restriction types for ' . 
+
+		wfDebug( __METHOD__ . ': applicable restriction types for ' .
 			$this->getPrefixedText() . ' are ' . implode( ',', $types ) . "\n" );
 
 		return $types;
 	}
 	/**
-	 * Get a filtered list of all restriction types supported by this wiki. 
-	 * @param bool $exists True to get all restriction types that apply to 
+	 * Get a filtered list of all restriction types supported by this wiki.
+	 * @param bool $exists True to get all restriction types that apply to
 	 * titles that do exist, False for all restriction types that apply to
 	 * titles that do not exist
 	 * @return array

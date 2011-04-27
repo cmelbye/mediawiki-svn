@@ -20,16 +20,25 @@
  * @file
  * @ingroup SpecialPage
  */
- 
-function wfSpecialListfiles( $par = null ) {
-	global $wgOut;
 
-	$pager = new ImageListPager( $par );
+class SpecialListFiles extends SpecialPage {
 
-	$limit = $pager->getForm();
-	$body = $pager->getBody();
-	$nav = $pager->getNavigationBar();
-	$wgOut->addHTML( "$limit<br />\n$body<br />\n$nav" );
+	public function __construct(){
+		parent::__construct( 'Listfiles' );
+	}
+
+	public function execute( $par ){
+		global $wgOut;
+		$this->setHeaders();
+		$this->outputHeader();
+
+		$pager = new ImageListPager( $par );
+
+		$limit = $pager->getForm();
+		$body = $pager->getBody();
+		$nav = $pager->getNavigationBar();
+		$wgOut->addHTML( "$limit<br />\n$body<br />\n$nav" );
+	}
 }
 
 /**
@@ -39,7 +48,7 @@ class ImageListPager extends TablePager {
 	var $mFieldNames = null;
 	var $mQueryConds = array();
 	var $mUserName = null;
-	
+
 	function __construct( $par = null ) {
 		global $wgRequest, $wgMiserMode;
 		if ( $wgRequest->getText( 'sort', 'img_date' ) == 'img_date' ) {
@@ -47,7 +56,7 @@ class ImageListPager extends TablePager {
 		} else {
 			$this->mDefaultDirection = false;
 		}
-		
+
 		$userName = $wgRequest->getText( 'user', $par );
 		if ( $userName ) {
 			$nt = Title::newFromText( $userName, NS_USER );
@@ -55,14 +64,14 @@ class ImageListPager extends TablePager {
 				$this->mUserName = $nt->getText();
 				$this->mQueryConds['img_user_text'] = $this->mUserName;
 			}
-		} 
-		
+		}
+
 		$search = $wgRequest->getText( 'ilsearch' );
 		if ( $search != '' && !$wgMiserMode ) {
 			$nt = Title::newFromURL( $search );
 			if ( $nt ) {
 				$dbr = wfGetDB( DB_SLAVE );
-				$this->mQueryConds[] = 'LOWER(img_name)' . $dbr->buildLike( $dbr->anyString(), 
+				$this->mQueryConds[] = 'LOWER(img_name)' . $dbr->buildLike( $dbr->anyString(),
 					strtolower( $nt->getDBkey() ), $dbr->anyString() );
 			}
 		}
@@ -232,14 +241,24 @@ class ImageListPager extends TablePager {
 	function getSortHeaderClass() {
 		return 'listfiles_sort ' . parent::getSortHeaderClass();
 	}
-	
+
 	function getPagingQueries() {
 		$queries = parent::getPagingQueries();
 		if ( !is_null( $this->mUserName ) ) {
 			# Append the username to the query string
 			foreach ( $queries as &$query ) {
-				$query['username'] = $this->mUserName;
+				$query['user'] = $this->mUserName;
 			}
+		}
+		return $queries;
+	}
+
+	function getDefaultQuery() {
+		$queries = parent::getDefaultQuery();
+		if ( !isset( $queries['user'] )
+			&& !is_null( $this->mUserName ) )
+		{
+			$queries['user'] = $this->mUserName;
 		}
 		return $queries;
 	}

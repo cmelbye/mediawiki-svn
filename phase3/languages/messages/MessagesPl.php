@@ -33,6 +33,7 @@
  * @author ToSter
  * @author Wpedzich
  * @author Ymar
+ * @author Žekřil71pl
  * @author לערי ריינהארט
  */
 
@@ -131,7 +132,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Zabezpieczone_nazwy_stron' ),
 	'Allpages'                  => array( 'Wszystkie_strony' ),
 	'Prefixindex'               => array( 'Strony_według_prefiksu' ),
-	'Ipblocklist'               => array( 'Zablokowani' ),
+	'BlockList'                 => array( 'Zablokowani' ),
 	'Unblock'                   => array( 'Odblokuj' ),
 	'Specialpages'              => array( 'Strony_specjalne' ),
 	'Contributions'             => array( 'Wkład' ),
@@ -147,7 +148,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Wersja' ),
 	'Allmessages'               => array( 'Wszystkie_komunikaty' ),
 	'Log'                       => array( 'Rejestr', 'Logi' ),
-	'Blockip'                   => array( 'Blokuj' ),
+	'Block'                     => array( 'Blokuj' ),
 	'Undelete'                  => array( 'Odtwórz' ),
 	'Lockdb'                    => array( 'Zablokuj_bazę' ),
 	'Unlockdb'                  => array( 'Odblokuj_bazę' ),
@@ -2415,8 +2416,8 @@ $1',
 'contribsub2'         => 'Dla użytkownika $1 ($2)',
 'nocontribs'          => 'Brak zmian odpowiadających tym kryteriom.',
 'uctop'               => ' (jako ostatnia)',
-'month'               => 'Przed miesiącem (włącznie)',
-'year'                => 'Przed rokiem (włącznie)',
+'month'               => 'Do miesiąca (włącznie)',
+'year'                => 'Do roku (włącznie)',
 
 'sp-contributions-newbies'             => 'Pokaż wyłącznie wkład nowych użytkowników',
 'sp-contributions-newbies-sub'         => 'Dla nowych użytkowników',
@@ -2506,6 +2507,7 @@ Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrze
 'unblocked'                       => '[[User:$1|$1]] {{GENDER:$1|został odblokowany|została odblokowana|został odblokowany}}.',
 'unblocked-range'                 => '$1 został odblokowany',
 'unblocked-id'                    => 'Blokada $1 została zdjęta',
+'blocklist'                       => 'Zablokowane adresy IP i konta użytkowników',
 'ipblocklist'                     => 'Lista zablokowanych adresów IP i użytkowników',
 'ipblocklist-legend'              => 'Znajdź zablokowanego użytkownika',
 'blocklist-userblocks'            => 'Ukryj blokady konta',
@@ -3471,14 +3473,14 @@ Czy na pewno chcesz ją ponownie utworzyć?",
 'watchlistedit-normal-legend'  => 'Usuń strony z listy obserwowanych',
 'watchlistedit-normal-explain' => 'Poniżej znajduje się lista obserwowanych przez Ciebie stron.
 Aby usunąć stronę z listy zaznacz znajdujące się obok niej pole i naciśnij „{{int:Watchlistedit-normal-submit}}”.
-Możesz także skorzystać z [[Special:Watchlist/raw|tekstowego edytora listy obserwowanych]].',
+Możesz także skorzystać z [[Special:EditWatchlist/raw|tekstowego edytora listy obserwowanych]].',
 'watchlistedit-normal-submit'  => 'Usuń zaznaczone z listy',
 'watchlistedit-normal-done'    => 'Z Twojej listy obserwowanych {{PLURAL:$1|została usunięta 1 strona|zostały usunięte $1 strony|zostało usuniętych $1 stron}}:',
 'watchlistedit-raw-title'      => 'Tekstowy edytor listy obserwowanych',
 'watchlistedit-raw-legend'     => 'Tekstowy edytor listy obserwowanych',
 'watchlistedit-raw-explain'    => 'Poniżej wypisane zostały tytuły stron znajdujących się na Twojej liście obserwowanych. Możesz dodać lub usunąć dowolny tytuł z tej listy – jeden wiersz to jeden tytuł.
 Aby zatwierdzić zmiany kliknij „{{int:Watchlistedit-raw-submit}}”.
-Możesz także użyć [[Special:Watchlist/edit|standardowego edytora obserwowanych stron]].',
+Możesz także użyć [[Special:EditWatchlist|standardowego edytora obserwowanych stron]].',
 'watchlistedit-raw-titles'     => 'Obserwowane strony:',
 'watchlistedit-raw-submit'     => 'Uaktualnij listę',
 'watchlistedit-raw-done'       => 'Lista obserwowanych stron została uaktualniona.',

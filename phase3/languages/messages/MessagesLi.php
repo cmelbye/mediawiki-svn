@@ -93,7 +93,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Beveiligde_titels' ),
 	'Allpages'                  => array( 'Alle_pagina\'s' ),
 	'Prefixindex'               => array( 'Alle_artikele' ),
-	'Ipblocklist'               => array( 'Geblokkeerde_IP\'s' ),
+	'BlockList'                 => array( 'Geblokkeerde_IP\'s' ),
 	'Specialpages'              => array( 'Speciaal_pagina\'s' ),
 	'Contributions'             => array( 'Biedrage' ),
 	'Emailuser'                 => array( 'E-maile' ),
@@ -108,7 +108,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Versie' ),
 	'Allmessages'               => array( 'Alle_berichte' ),
 	'Log'                       => array( 'Logbeuk', 'Logbook' ),
-	'Blockip'                   => array( 'Blokkere' ),
+	'Block'                     => array( 'Blokkere' ),
 	'Undelete'                  => array( 'Hersjtèlle' ),
 	'Import'                    => array( 'Importere' ),
 	'Lockdb'                    => array( 'DB_blokkere' ),
@@ -908,7 +908,7 @@ Wellich is ze gewis of verplaats.
 [[Special:Search|Doorzeuk de wiki]] veur relevante pagina's.",
 
 # Revision deletion
-'rev-deleted-comment'         => '(opmerking weggehaold)',
+'rev-deleted-comment'         => '(bewirkingssamevatting eweggesjaf)',
 'rev-deleted-user'            => '(gebroeker weggehaold)',
 'rev-deleted-event'           => '(actie weggehaold)',
 'rev-deleted-user-contribs'   => '[gebroeker of IP gewösj - bewèrking verbórge in biedraag]',
@@ -3175,14 +3175,14 @@ Probeer normaal veurvertuin.',
 'watchlistedit-normal-legend'  => "Pazjena's ewegsjaffe van dien volglies",
 'watchlistedit-normal-explain' => "Pazjena's op dien volglies waere hiejónger getuind.
 Klik op 't veerkentje d'rnaeve óm 'n pazjena eweg te sjaffe. Klik daonao op '{{int:Watchlistedit-normal-submit}}'.
-De kèns ouch [[Special:Watchlist/raw|de roew lies bewirke]].",
+De kèns ouch [[Special:EditWatchlist/raw|de roew lies bewirke]].",
 'watchlistedit-normal-submit'  => "Pazjena's ewegsjaffe",
 'watchlistedit-normal-done'    => "{{PLURAL:$1|1 pazjena is|$1 pazjena's zeen}} eweggesjaf van dien volglies:",
 'watchlistedit-raw-title'      => 'Roew volglies bewirke',
 'watchlistedit-raw-legend'     => 'Roew volglies bewirke',
 'watchlistedit-raw-explain'    => "Hiejónger sjtaon pazjena's op dien volglies. De kèns de lies bewirke door pazjena's eweg te sjaffe en d'rbie te doon. Ein pazjena per regel.
 Wens te vaerdig bis, klik dan op '{{int:Watchlistedit-raw-submit}}'.
-De kèns ouch [[Special:Watchlist/edit|'t sjtanderd bewirkingssjirm gebroeke]].",
+De kèns ouch [[Special:EditWatchlist|'t sjtanderd bewirkingssjirm gebroeke]].",
 'watchlistedit-raw-titles'     => "Pazjena's:",
 'watchlistedit-raw-submit'     => 'Volglies biewirke',
 'watchlistedit-raw-done'       => 'Dien volglies is biegewirk.',
@@ -3248,8 +3248,8 @@ Veur de bestandjsnaam in zónger 't veurvoegsel \"{{ns:file}}:\".",
 # Special:SpecialPages
 'specialpages'                   => "Speciaal pagina's",
 'specialpages-note'              => '----
-* Normale speciale pagina\'s
-* <strong class="mw-specialpagerestricted">Beperk toegankelijke speciale pagina\'s</strong>',
+* <span class="mw-specialpagerestricted">Normale speciaal pagina\'s.</span>
+* <span class="mw-specialpagerestricted">Speciaal pagina\'s mèt allein gegeves oet de cache.</span>',
 'specialpages-group-maintenance' => 'Óngerhajingsrapporter',
 'specialpages-group-other'       => "Euverige speciaal pazjena's",
 'specialpages-group-login'       => 'Aanmelje / registrere',

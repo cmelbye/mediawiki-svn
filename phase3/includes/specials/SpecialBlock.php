@@ -70,7 +70,7 @@ class SpecialBlock extends SpecialPage {
 			# User logs, UserRights, etc.
 			$wgUser->getSkin()->setRelevantUser( $this->target );
 		}
-	
+
 		# bug 15810: blocked admins should have limited access here
 		$status = self::checkUnblockSelf( $this->target );
 		if ( $status !== true ) {
@@ -120,7 +120,7 @@ class SpecialBlock extends SpecialPage {
 				'validation-callback' => array( __CLASS__, 'validateTargetField' ),
 			),
 			'Expiry' => array(
-				'type' => 'selectorother',
+				'type' => !count( self::getSuggestedDurations() ) ? 'text' : 'selectorother',
 				'label-message' => 'ipbexpiry',
 				'required' => true,
 				'tabindex' => '2',
@@ -138,10 +138,6 @@ class SpecialBlock extends SpecialPage {
 				'default' => true,
 			),
 		);
-
-		if( wfMsgForContent( 'ipboptions' ) == '-' ){
-			$a['Expiry']['type'] = 'text';
-		}
 
 		if( self::canBlockEmail( $wgUser ) ) {
 			$a['DisableEmail'] = array(
@@ -205,19 +201,25 @@ class SpecialBlock extends SpecialPage {
 	protected function maybeAlterFormDefaults( &$fields ){
 		$fields['Target']['default'] = (string)$this->target;
 
-		$block = Block::newFromTargetAndType( $this->target, $this->type );
+		$block = Block::newFromTarget( $this->target );
 
 		if( $block instanceof Block && !$block->mAuto # The block exists and isn't an autoblock
 			&& ( $this->type != Block::TYPE_RANGE # The block isn't a rangeblock
-			  || $block->mAddress == $this->target ) # or if it is, the range is what we're about to block
+			  || $block->getTarget() == $this->target ) # or if it is, the range is what we're about to block
 			)
 		{
-			$fields['HardBlock']['default'] = !$block->mAnonOnly;
-			$fields['CreateAccount']['default'] = $block->mCreateAccount;
-			$fields['AutoBlock']['default'] = $block->mEnableAutoblock;
-			$fields['DisableEmail']['default'] = $block->mBlockEmail;
-			$fields['HideUser']['default'] = $block->mHideName;
-			$fields['DisableUTEdit']['default'] = !$block->mAllowUsertalk;
+			$fields['HardBlock']['default'] = $block->isHardblock();
+			$fields['CreateAccount']['default'] = $block->prevents( 'createaccount' );
+			$fields['AutoBlock']['default'] = $block->isAutoblocking();
+			if( isset( $fields['DisableEmail'] ) ){
+				$fields['DisableEmail']['default'] = $block->prevents( 'sendemail' );
+			}
+			if( isset( $fields['HideUser'] ) ){
+				$fields['HideUser']['default'] = $block->mHideName;
+			}
+			if( isset( $fields['DisableUTEdit'] ) ){
+				$fields['DisableUTEdit']['default'] = $block->prevents( 'editownusertalk' );
+			}
 			$fields['Reason']['default'] = $block->mReason;
 			$fields['AlreadyBlocked']['default'] = true;
 
@@ -386,7 +388,7 @@ class SpecialBlock extends SpecialPage {
 					if( $request instanceof WebRequest ){
 						$target = $request->getText( 'wpTarget', null );
 					}
-			        break;
+					break;
 				case 1:
 					$target = $par;
 					break;
@@ -394,13 +396,13 @@ class SpecialBlock extends SpecialPage {
 					if( $request instanceof WebRequest ){
 						$target = $request->getText( 'ip', null );
 					}
-			        break;
+					break;
 				case 3:
 					# B/C @since 1.18
 					if( $request instanceof WebRequest ){
 						$target = $request->getText( 'wpBlockAddress', null );
 					}
-			        break;
+					break;
 				case 4:
 					break 2;
 			}
@@ -495,13 +497,13 @@ class SpecialBlock extends SpecialPage {
 		}
 
 		if( ( strlen( $data['Expiry'] ) == 0) || ( strlen( $data['Expiry'] ) > 50 )
-			|| !Block::parseExpiryInput( $data['Expiry'] ) )
+			|| !self::parseExpiryInput( $data['Expiry'] ) )
 		{
 			return array( 'ipb_expiry_invalid' );
 		}
 
-		if( !$wgBlockAllowsUTEdit ){
-			$data['PreventUTEdit'] = true;
+		if( !isset( $data['DisableEmail'] ) ){
+			$data['DisableEmail'] = false;
 		}
 
 		# If the user has done the form 'properly', they won't even have been given the
@@ -522,7 +524,7 @@ class SpecialBlock extends SpecialPage {
 			if( $type != Block::TYPE_USER ) {
 				$data['HideUser'] = false; # IP users should not be hidden
 
-			} elseif( !in_array( $data['Expiry'], array( 'inifinite', 'infinity', 'indefinite' ) ) ) {
+			} elseif( !in_array( $data['Expiry'], array( 'infinite', 'infinity', 'indefinite' ) ) ) {
 				# Bad expiry.
 				return array( 'ipb_expiry_temp' );
 
@@ -533,44 +535,37 @@ class SpecialBlock extends SpecialPage {
 			}
 		}
 
-		# Create block object.  Note that for a user block, ipb_address is only for display purposes
-		# FIXME: Why do we need to pass fourteen optional parameters to do this!?!
-		$block = new Block(
-			$target,                                    # IP address or User name
-			$userId,                                    # User id
-			$wgUser->getId(),                           # Blocker id
-			$data['Reason'][0],                         # Reason string
-			wfTimestampNow(),                           # Block Timestamp
-			0,                                          # Is this an autoblock (no)
-			Block::parseExpiryInput( $data['Expiry'] ), # Expiry time
-			!$data['HardBlock'],                        # Block anon only
-			$data['CreateAccount'],
-			$data['AutoBlock'],
-			$data['HideUser'],
-			$data['DisableEmail'],
-			!$data['DisableUTEdit']                     # *Allow* UTEdit
-		);
+		# Create block object.
+		$block = new Block();
+		$block->setTarget( $target );
+		$block->setBlocker( $wgUser );
+		$block->mReason = $data['Reason'][0];
+		$block->mExpiry = self::parseExpiryInput( $data['Expiry'] );
+		$block->prevents( 'createaccount', $data['CreateAccount'] );
+		$block->prevents( 'editownusertalk', ( !$wgBlockAllowsUTEdit || $data['DisableUTEdit'] ) );
+		$block->prevents( 'sendemail', $data['DisableEmail'] );
+		$block->isHardblock( $data['HardBlock'] );
+		$block->isAutoblocking( $data['AutoBlock'] );
+		$block->mHideName = $data['HideUser'];
 
 		if( !wfRunHooks( 'BlockIp', array( &$block, &$wgUser ) ) ) {
 			return array( 'hookaborted' );
 		}
 
 		# Try to insert block. Is there a conflicting block?
-		if( !$block->insert() ) {
-
+		$status = $block->insert();
+		if( !$status ) {
 			# Show form unless the user is already aware of this...
 			if( !$data['AlreadyBlocked'] ) {
-				return array( array( 'ipb_already_blocked', $data['Target'] ) );
-
+				return array( array( 'ipb_already_blocked', $block->getTarget() ) );
 			# Otherwise, try to update the block...
 			} else {
-
 				# This returns direct blocks before autoblocks/rangeblocks, since we should
 				# be sure the user is blocked by now it should work for our purposes
-				$currentBlock = Block::newFromDB( $target, $userId );
+				$currentBlock = Block::newFromTarget( $target );
 
 				if( $block->equals( $currentBlock ) ) {
-					return array( 'ipb_already_blocked' );
+					return array( array( 'ipb_already_blocked', $block->getTarget() ) );
 				}
 
 				# If the name was hidden and the blocking user cannot hide
@@ -580,7 +575,7 @@ class SpecialBlock extends SpecialPage {
 				}
 
 				$currentBlock->delete();
-				$block->insert();
+				$status = $block->insert();
 				$logaction = 'reblock';
 
 				# Unset _deleted fields if requested
@@ -593,7 +588,6 @@ class SpecialBlock extends SpecialPage {
 					$data['HideUser'] = true;
 				}
 			}
-
 		} else {
 			$logaction = 'block';
 		}
@@ -611,8 +605,8 @@ class SpecialBlock extends SpecialPage {
 		}
 
 		# Block constructor sanitizes certain block options on insert
-		$data['BlockEmail'] = $block->mBlockEmail;
-		$data['AutoBlock'] = $block->mEnableAutoblock;
+		$data['BlockEmail'] = $block->prevents( 'sendemail' );
+		$data['AutoBlock'] = $block->isAutoblocking();
 
 		# Prepare log parameters
 		$logParams = array();
@@ -622,12 +616,15 @@ class SpecialBlock extends SpecialPage {
 		# Make log entry, if the name is hidden, put it in the oversight log
 		$log_type = $data['HideUser'] ? 'suppress' : 'block';
 		$log = new LogPage( $log_type );
-		$log->addEntry(
+		$log_id = $log->addEntry(
 			$logaction,
 			Title::makeTitle( NS_USER, $target ),
 			$data['Reason'][0],
 			$logParams
 		);
+		# Relate log ID to block IDs (bug 25763)
+		$blockIds = array_merge( array( $status['id'] ), $status['autoIds']  );
+		$log->addRelations( 'ipb_id', $blockIds, $log_id );
 
 		# Report to the user
 		return true;
@@ -639,14 +636,47 @@ class SpecialBlock extends SpecialPage {
 	 *     to the standard "**<duration>|<displayname>" format?
 	 * @return Array
 	 */
-	protected static function getSuggestedDurations(){
+	public static function getSuggestedDurations( $lang = null ){
 		$a = array();
-		foreach( explode( ',', wfMsgForContent( 'ipboptions' ) ) as $option ) {
-			if( strpos( $option, ':' ) === false ) $option = "$option:$option";
+		$msg = $lang === null
+			? wfMessage( 'ipboptions' )->inContentLanguage()->text()
+			: wfMessage( 'ipboptions' )->inLanguage( $lang )->text();
+
+		if( $msg == '-' ){
+			return array();
+		}
+
+		foreach( explode( ',', $msg ) as $option ) {
+			if( strpos( $option, ':' ) === false ){
+				$option = "$option:$option";
+			}
 			list( $show, $value ) = explode( ':', $option );
 			$a[htmlspecialchars( $show )] = htmlspecialchars( $value );
 		}
 		return $a;
+	}
+
+	/**
+	 * Convert a submitted expiry time, which may be relative ("2 weeks", etc) or absolute
+	 * ("24 May 2034", etc), into an absolute timestamp we can put into the database.
+	 * @param $expiry String: whatever was typed into the form
+	 * @return String: timestamp or "infinity" string for the DB implementation
+	 */
+	public static function parseExpiryInput( $expiry ) {
+		static $infinity;
+		if( $infinity == null ){
+			$infinity = wfGetDB( DB_READ )->getInfinity();
+		}
+		if ( $expiry == 'infinite' || $expiry == 'indefinite' ) {
+			$expiry = $infinity;
+		} else {
+			$expiry = strtotime( $expiry );
+			if ( $expiry < 0 || $expiry === false ) {
+				return false;
+			}
+			$expiry = wfTimestamp( TS_MW, $expiry );
+		}
+		return $expiry;
 	}
 
 	/**

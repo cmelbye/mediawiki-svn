@@ -130,7 +130,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Títulos_protegidos' ),
 	'Allpages'                  => array( 'Todas_as_páginas', 'Todos_os_artigos', 'Todas_páginas', 'Todos_artigos' ),
 	'Prefixindex'               => array( 'Índice_de_prefixo', 'Índice_por_prefixo' ),
-	'Ipblocklist'               => array( 'Registro_de_bloqueios', 'IPs_bloqueados', 'Utilizadores_bloqueados', 'Usuários_bloqueados', 'Registo_de_bloqueios' ),
+	'BlockList'                 => array( 'Registro_de_bloqueios', 'IPs_bloqueados', 'Utilizadores_bloqueados', 'Usuários_bloqueados', 'Registo_de_bloqueios' ),
 	'Unblock'                   => array( 'Desbloquear' ),
 	'Specialpages'              => array( 'Páginas_especiais' ),
 	'Contributions'             => array( 'Contribuições' ),
@@ -146,7 +146,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Versão', 'Sobre' ),
 	'Allmessages'               => array( 'Todas_as_mensagens', 'Todas_mensagens' ),
 	'Log'                       => array( 'Registro', 'Registos', 'Registros', 'Registo' ),
-	'Blockip'                   => array( 'Bloquear', 'Bloquear_IP', 'Bloquear_utilizador', 'Bloquear_usuário' ),
+	'Block'                     => array( 'Bloquear', 'Bloquear_IP', 'Bloquear_utilizador', 'Bloquear_usuário' ),
 	'Undelete'                  => array( 'Restaurar', 'Restaurar_páginas_eliminadas', 'Restaurar_artigos_eliminados' ),
 	'Import'                    => array( 'Importar' ),
 	'Lockdb'                    => array( 'Bloquear_banco_de_dados', 'Bloquear_a_base_de_dados' ),
@@ -1075,7 +1075,7 @@ Poderá ter sido eliminada da wiki ou renomeada.
 Tente [[Special:Search|pesquisar na wiki]] por páginas relevantes.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentário removido)',
+'rev-deleted-comment'         => '(resumo da edição suprimido)',
 'rev-deleted-user'            => '(nome de usuário removido)',
 'rev-deleted-event'           => '(entrada removida)',
 'rev-deleted-user-contribs'   => '[nome de usuário ou endereço de IP eliminado - edição ocultada das contribuições]',
@@ -3417,14 +3417,14 @@ Tente a previsão comum.',
 'watchlistedit-normal-legend'  => 'Remover títulos da lista de páginas vigiadas',
 'watchlistedit-normal-explain' => 'Os títulos das páginas de sua lista de vigiadas são exibidos abaixo.
 Para remover um título, marque a caixa ao lado do mesmo e clique "{{int:Watchlistedit-normal-submit}}".
-Você pode também [[Special:Watchlist/raw|editar a lista de páginas vigiadas em forma de texto]].',
+Você pode também [[Special:EditWatchlist/raw|editar a lista de páginas vigiadas em forma de texto]].',
 'watchlistedit-normal-submit'  => 'Remover Títulos',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|um título foi removido|$1 títulos foram removidos}} de sua lista de páginas vigiadas:',
 'watchlistedit-raw-title'      => 'Edição crua da lista de páginas vigiadas',
 'watchlistedit-raw-legend'     => 'Edição crua da lista de páginas vigiadas',
 'watchlistedit-raw-explain'    => 'A lista de páginas vigiadas é apresentada abaixo. Você pode adicionar novas linhas ou remover linhas para aumentar ou reduzir a lista, desde que mantenha uma única página por linha.
 Quando terminar, clique "{{int:Watchlistedit-raw-submit}}".
-Você também pode [[Special:Watchlist/edit|editar a lista da maneira convencional]].',
+Você também pode [[Special:EditWatchlist|editar a lista da maneira convencional]].',
 'watchlistedit-raw-titles'     => 'Títulos:',
 'watchlistedit-raw-submit'     => 'Atualizar a lista de páginas vigiadas',
 'watchlistedit-raw-done'       => 'Sua lista de páginas vigiadas foi atualizada.',
@@ -3494,7 +3494,8 @@ Insira o nome do arquivo sem o prefixo "{{ns:file}}:".',
 'specialpages'                   => 'Páginas especiais',
 'specialpages-note'              => '----
 * Páginas especiais normais.
-* <strong class="mw-specialpagerestricted">Páginas especiais restritas.</strong>',
+* <span class="mw-specialpagerestricted">Páginas especiais restritas.</span>
+* <span class="mw-specialpagecached">Páginas especiais com cache.</span>',
 'specialpages-group-maintenance' => 'Relatórios de manutenção',
 'specialpages-group-other'       => 'Outras páginas especiais',
 'specialpages-group-login'       => 'Entrar / registrar-se',

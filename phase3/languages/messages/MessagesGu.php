@@ -92,7 +92,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'સંસ્કરણ' ),
 	'Allmessages'               => array( 'બધાંસંદેશા' ),
 	'Log'                       => array( 'લૉગ', 'લૉગ્સ' ),
-	'Blockip'                   => array( 'પ્રતિબંધ', 'IP_પર_પ્રતિબંધ', 'સભ્યપર_પ્રતિબંધ' ),
+	'Block'                     => array( 'પ્રતિબંધ', 'IP_પર_પ્રતિબંધ', 'સભ્યપર_પ્રતિબંધ' ),
 	'Undelete'                  => array( 'પુનઃપ્રાપ્ત' ),
 	'Import'                    => array( 'આયાત' ),
 	'Userrights'                => array( 'સભ્યાધિકાર' ),
@@ -546,7 +546,7 @@ $2',
 ધ્યાન રાખો કે જ્યાં સુધી તમે તમારા બ્રાઉઝરનો  કૅશ સાફ નહીં કરો ત્યાં સુધી કેટલાક પાનાં તમે પ્રવેશી ચુક્યા છો તેમ બતાવશે.",
 'welcomecreation'            => '== તમારૂં સ્વાગત છે $1! ==
 તમારૂં ખાતું બની ગયું છે.
-તમારી [[Special:Preferences|{{SITENAME}} પસંદગી]] બદલવાનું ભૂલશો નહીં.',
+તમારી [[Special:Preferences|{{SITENAME}} પસંદ]] બદલવાનું ભૂલશો નહીં.',
 'yourname'                   => 'સભ્ય નામ:',
 'yourpassword'               => 'ગુપ્ત સંજ્ઞા:',
 'yourpasswordagain'          => 'ગુપ્ત સંજ્ઞા (પાસવર્ડ) ફરી લખો',
@@ -3313,7 +3313,7 @@ $1',
 'watchlistedit-normal-legend'  => 'ધ્યાનસૂચિમાંથી આશીર્ષકો કાઢી નાખો',
 'watchlistedit-normal-explain' => 'તમારી ધ્યાનસૂચિના શીર્ષકો અહીં બતાવ્યાં છે.
 કોઇ શીર્ષક હતાવવા માટે , તેની બાજું નું ખાનું અંકિત કરો , અને "{{int:Watchlistedit-normal-submit}}"ના પર ક્લિક કરો.
-તમે [[Special:Watchlist/raw|edit the raw list]]માં  બદલાવ પણ કરી શકો.',
+તમે [[Special:EditWatchlist/raw|edit the raw list]]માં  બદલાવ પણ કરી શકો.',
 'watchlistedit-normal-submit'  => 'શીર્ષકો હટાવો',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 શીર્ષક |$1 શીર્ષકો }} ને તમારી ધ્યાનસૂચિમાંથી હટાવાયા:',
 'watchlistedit-raw-title'      => 'કાચી ધ્યાનસૂચિમાં ફેરફાર કરો',
@@ -3321,7 +3321,7 @@ $1',
 'watchlistedit-raw-explain'    => 'તમારી ધ્યાનસૂચિના શીર્ષકો અહીં બતાવ્યાં છે , તેમાં વસ્તુ ઓ ઉમેરીએ અને હટાવીને તેમાં ફેરફાર કરી શકાય છે;
 એક શીર્ષક પ્રતિ લિટી.
 જ્યારે કાર્ય સમાપ્ત થાય ત્યારે, અહીં ક્લિક કરો "{{int:Watchlistedit-raw-submit}}".
-તેમે  [[Special:Watchlist/edit|use the standard editor]] પણ કરી શકો.',
+તેમે  [[Special:EditWatchlist|use the standard editor]] પણ કરી શકો.',
 'watchlistedit-raw-titles'     => 'શિર્ષક:',
 'watchlistedit-raw-submit'     => 'ધ્યાનસૂચિ અધ્યતન બનાવો',
 'watchlistedit-raw-done'       => 'તમારી ધ્યાના સૂચિ અધ્યતન કરાઈ.',
@@ -3340,7 +3340,7 @@ $1',
 # Special:Version
 'version'                          => 'આવૃત્તિ',
 'version-extensions'               => 'પ્રસ્થાપિત વિસ્તારકો',
-'version-specialpages'             => 'ખાસ પાના',
+'version-specialpages'             => 'ખાસ પાનાં',
 'version-parserhooks'              => 'પદચ્છેદ ખૂંટો',
 'version-variables'                => 'સહગુણકો',
 'version-antispam'                 => 'સ્પેમ સંરક્ષણ',
@@ -3389,8 +3389,9 @@ $1',
 # Special:SpecialPages
 'specialpages'                   => 'ખાસ પાનાં',
 'specialpages-note'              => '----
-* સામાન્ય ખાસ પાનાઓ.
-* <strong class="mw-specialpagerestricted">Restricted special pages.</strong>',
+* નિયમિત ખાસ પાનાં.
+* <span class="mw-specialpagerestricted">સીમિત ખાસ પાનાં.</span>
+* <span class="mw-specialpagecached">માત્ર-સંગ્રહિત ખાસ પાનાં.</span>',
 'specialpages-group-maintenance' => 'સમારકામ અહેવાલ',
 'specialpages-group-other'       => 'અન્ય ખાસ પાનાઓ',
 'specialpages-group-login'       => 'પ્રવેશ / નોંધણી કરો',

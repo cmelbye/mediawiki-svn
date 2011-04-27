@@ -115,9 +115,10 @@ class WebInstaller extends Installer {
 		$this->output = new WebInstallerOutput( $this );
 		$this->request = $request;
 
-		// Add parser hook for WebInstaller_Complete
+		// Add parser hooks
 		global $wgParser;
 		$wgParser->setHook( 'downloadlink', array( $this, 'downloadLinkHook' ) );
+		$wgParser->setHook( 'doclink', array( $this, 'docLink' ) );
 	}
 
 	/**
@@ -176,6 +177,7 @@ class WebInstaller extends Installer {
 		if ( $this->request->getVal( 'SubmitCC' ) ) {
 			$page = $this->getPageByName( 'Options' );
 			$this->output->useShortHeader();
+			$this->output->allowFrames();
 			$page->submitCC();
 			return $this->finish();
 		}
@@ -183,6 +185,7 @@ class WebInstaller extends Installer {
 		if ( $this->request->getVal( 'ShowCC' ) ) {
 			$page = $this->getPageByName( 'Options' );
 			$this->output->useShortHeader();
+			$this->output->allowFrames();
 			$this->output->addHTML( $page->getCCDoneBox() );
 			return $this->finish();
 		}
@@ -322,7 +325,13 @@ class WebInstaller extends Installer {
 	public function getFingerprint() {
 		// Get the base URL of the installation
 		$url = $this->request->getFullRequestURL();
+		if ( preg_match( '!^(.*\?)!', $url, $m) ) {
+			// Trim query string
+			$url = $m[1];
+		}
 		if ( preg_match( '!^(.*)/[^/]*/[^/]*$!', $url, $m ) ) {
+			// This... seems to try to get the base path from
+			// the /mw-config/index.php. Kinda scary though?
 			$url = $m[1];
 		}
 		return md5( serialize( array(
@@ -993,6 +1002,16 @@ class WebInstaller extends Installer {
 		return $url;
 	}
 
+	/**
+	 * Extension tag hook for a documentation link.
+	 */
+	public function docLink( $linkText, $attribs, $parser ) {
+		$url = $this->getDocUrl( $attribs['href'] );
+		return '<a href="' . htmlspecialchars( $url ) . '">' .
+			htmlspecialchars( $linkText ) .
+			'</a>';
+	}
+	
 	/**
 	 * Helper for "Download LocalSettings" link on WebInstall_Complete
 	 * @return String Html for download link

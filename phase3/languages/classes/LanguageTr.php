@@ -28,4 +28,16 @@ class LanguageTr extends Language {
 		}
 	}
 
+	/** @see bug 28040 */
+	function uc( $string, $first = false ) {
+		$string = preg_replace( '/i/', 'İ', $string );
+		return parent::uc( $string, $first );
+	}
+
+	/** @see bug 28040 */
+	function lc( $string, $first = false ) {
+		$string = preg_replace( '/I/', 'ı', $string );
+		return parent::lc( $string, $first );
+	}
+
 }

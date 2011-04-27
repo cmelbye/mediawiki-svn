@@ -252,7 +252,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'عناوين_محميه' ),
 	'Allpages'                  => array( 'كل_الصفح' ),
 	'Prefixindex'               => array( 'فهرس_بدايه' ),
-	'Ipblocklist'               => array( 'ليستة_البلوك', 'بيّن_البلوك', 'ليستة_بلوك_IP' ),
+	'BlockList'                 => array( 'ليستة_البلوك', 'بيّن_البلوك', 'ليستة_بلوك_IP' ),
 	'Unblock'                   => array( 'رفع_منع' ),
 	'Specialpages'              => array( 'صفح_مخصوصه' ),
 	'Contributions'             => array( 'مساهمات' ),
@@ -268,7 +268,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'نسخه' ),
 	'Allmessages'               => array( 'كل_الرسايل' ),
 	'Log'                       => array( 'سجل', 'سجلات' ),
-	'Blockip'                   => array( 'بلوك', 'بلوك_IP', 'بلوك_يوزر' ),
+	'Block'                     => array( 'بلوك', 'بلوك_IP', 'بلوك_يوزر' ),
 	'Undelete'                  => array( 'استرجاع' ),
 	'Import'                    => array( 'استوراد' ),
 	'Lockdb'                    => array( 'قفل_قب' ),
@@ -3370,7 +3370,7 @@ $1',
 'watchlistedit-normal-legend'  => 'شيل العناوين من لستة المراقبة',
 'watchlistedit-normal-explain' => 'العناوين فى لستة المراقبة بتاعتك معروضة تحت.
 علشان تشيل عنوان، دوس على الصندوق اللى جنبه، ودوس على شيل العناوين"{{int:Watchlistedit-normal-submit}}".
-ممكن كمان [[Special:Watchlist/raw|تعديل اللستة الخام]].',
+ممكن كمان [[Special:EditWatchlist/raw|تعديل اللستة الخام]].',
 'watchlistedit-normal-submit'  => 'شيل العناوين',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|عنوان واحد|$1 عنوان}} اتشال من لستة المراقبة بتاعتك:',
 'watchlistedit-raw-title'      => 'تعديل لستة المراقبة الخام',
@@ -3378,7 +3378,7 @@ $1',
 'watchlistedit-raw-explain'    => 'العناوين فى لستة مراقبتك معروضه تحت، وممكن تعدلها لما تزود او تشيل من اللستة؛
 عنوان واحد فى السطر.
 لما تخلص، دوس تحديث لستة المراقبه "{{int:Watchlistedit-raw-submit}}".
-ممكن كمان [[Special:Watchlist/edit|تستعمل المحرر القياسي]].',
+ممكن كمان [[Special:EditWatchlist|تستعمل المحرر القياسي]].',
 'watchlistedit-raw-titles'     => 'العناوين:',
 'watchlistedit-raw-submit'     => 'تحديث لستة المراقبة',
 'watchlistedit-raw-done'       => 'لستة المراقبة بتاعتك اتحدثت خلاص.',

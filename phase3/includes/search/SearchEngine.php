@@ -630,8 +630,22 @@ class SearchResultTooMany {
  * @ingroup Search
  */
 class SearchResult {
+
+	/**
+	 * @var Revision
+	 */
 	var $mRevision = null;
 	var $mImage = null;
+
+	/**
+	 * @var Title
+	 */
+	var $mTitle;
+
+	/**
+	 * @var String
+	 */
+	var $mText;
 
 	/**
 	 * Return a new SearchResult and initializes it with a title.
@@ -1323,12 +1337,13 @@ class SearchHighlighter {
                 continue;
             }
             --$contextlines;
-            $pre = $wgContLang->truncate( $m[1], - $contextchars );
+            // truncate function changes ... to relevant i18n message.
+            $pre = $wgContLang->truncate( $m[1], - $contextchars, '...', false );
 
             if ( count( $m ) < 3 ) {
                 $post = '';
             } else {
-                $post = $wgContLang->truncate( $m[3], $contextchars );
+                $post = $wgContLang->truncate( $m[3], $contextchars, '...', false );
             }
 
             $found = $m[2];

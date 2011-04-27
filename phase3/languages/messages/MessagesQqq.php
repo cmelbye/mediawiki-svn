@@ -945,7 +945,8 @@ Please report at [[Support]] if you are unable to properly translate this messag
 'last'                   => 'Link in page history
 
 {{Identical|Last}}',
-'page_first'             => "This is part of the navigation message on the top and bottom of Special pages which are lists of things in alphabetical order, e.g. the '[[Special:Categories|Categories]]' special page. It is followed by the message {{msg-mw|Viewprevnext}}.",
+'page_first'             => "This is part of the navigation message on the top and bottom of Special pages which are lists of things in alphabetical order, e.g. the '[[Special:Categories|Categories]]' special page. It is followed by the message {{msg-mw|Viewprevnext}}.
+{{Identical|First}}",
 'page_last'              => "This is part of the navigation message on the top and bottom of Special pages which are lists of things in alphabetical order, e.g. the '[[Special:Categories|Categories]]' special page. It is followed by the message {{msg-mw|Viewprevnext}}.
 
 {{Identical|Last}}",
@@ -2683,6 +2684,7 @@ Parameter $1 is the message "[[MediaWiki:Hide/{{SUBPAGENAME}}|hide]]" or "[[Medi
 'unblocked-range'             => 'Shown when successfully lifting a rangeblock, so do not link to contributions.
 * $1 - the range that was unblocked.',
 'ipblocklist'                 => 'Title of [[Special:Ipblocklist]].',
+'blocklist-reason'            => '{{Identical|Reason}}',
 'ipblocklist-submit'          => '{{Identical|Search}}',
 'ipblocklist-localblock'      => '[[File:Special IPBlockList new.png|thumb|Example]]
 Used on [[Special:IPBlockList]] as header when global blocks exists too.',
@@ -3030,12 +3032,12 @@ See also {{msg-mw|Anonuser}} and {{msg-mw|Siteusers}}.',
 'skinname-modern'      => '{{optional}}',
 
 # Math options
-'mw_math_png'    => 'In user preferences.',
-'mw_math_simple' => 'In [[Special:Preferences|user preferences]].',
-'mw_math_html'   => 'In user preferences.',
-'mw_math_source' => 'In user preferences (math)',
-'mw_math_modern' => 'In user preferences (math)',
-'mw_math_mathml' => 'In user preferences.',
+'mw_math_png'    => 'In user preferences. All mw_math_* messages MUST be different, things will break otherwise!',
+'mw_math_simple' => 'In [[Special:Preferences|user preferences]]. All mw_math_* messages MUST be different, things will break otherwise!',
+'mw_math_html'   => 'In user preferences. All mw_math_* messages MUST be different, things will break otherwise!',
+'mw_math_source' => 'In user preferences (math). All mw_math_* messages MUST be different, things will break otherwise!',
+'mw_math_modern' => 'In user preferences (math). All mw_math_* messages MUST be different, things will break otherwise!',
+'mw_math_mathml' => 'In user preferences. All mw_math_* messages MUST be different, things will break otherwise!',
 
 # Math errors
 'math_syntax_error' => '{{Identical|Syntax error}}',

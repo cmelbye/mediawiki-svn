@@ -80,10 +80,12 @@ class SpecialProtectedpages extends SpecialPage {
 
 		wfProfileIn( __METHOD__ );
 
-		static $skin=null;
+		static $skin = null, $infinity = null;
 
-		if( is_null( $skin ) )
+		if( is_null( $skin ) ){
 			$skin = $wgUser->getSkin();
+			$infinity = wfGetDB( DB_READ )->getInfinity();
+		}
 
 		$title = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
 		$link = $skin->link( $title );
@@ -100,11 +102,15 @@ class SpecialProtectedpages extends SpecialPage {
 
 		$stxt = '';
 
-		if( $row->pr_expiry != 'infinity' && strlen($row->pr_expiry) ) {
-			$expiry = Block::decodeExpiry( $row->pr_expiry );
+		$expiry = $wgLang->formatExpiry( $row->pr_expiry, TS_MW );
+		if( $expiry != $infinity ) {
 
-			$expiry_description = wfMsg( 'protect-expiring' , $wgLang->timeanddate( $expiry ) , 
-				$wgLang->date( $expiry ) , $wgLang->time( $expiry ) );
+			$expiry_description = wfMsg(
+				'protect-expiring',
+				$wgLang->timeanddate( $expiry ),
+				$wgLang->date( $expiry ),
+				$wgLang->time( $expiry )
+			);
 
 			$description_items[] = htmlspecialchars($expiry_description);
 		}
@@ -193,7 +199,7 @@ class SpecialProtectedpages extends SpecialPage {
 		return
 			Xml::checkLabel( wfMsg('protectedpages-indef'), 'indefonly', 'indefonly', $indefOnly ) . "\n";
 	}
-	
+
 	/**
 	 * @return string Formatted HTML
 	 */
@@ -288,7 +294,7 @@ class ProtectedPagesPager extends AlphabeticPager {
 	public $mForm, $mConds;
 	private $type, $level, $namespace, $sizetype, $size, $indefonly;
 
-	function __construct( $form, $conds = array(), $type, $level, $namespace, $sizetype='', $size=0, 
+	function __construct( $form, $conds = array(), $type, $level, $namespace, $sizetype='', $size=0,
 		$indefonly = false, $cascadeonly = false )
 	{
 		$this->mForm = $form;
@@ -323,7 +329,7 @@ class ProtectedPagesPager extends AlphabeticPager {
 				'OR pr_expiry IS NULL)';
 		$conds[] = 'page_id=pr_page';
 		$conds[] = 'pr_type=' . $this->mDb->addQuotes( $this->type );
-		
+
 		if( $this->sizetype=='min' ) {
 			$conds[] = 'page_len>=' . $this->size;
 		} else if( $this->sizetype=='max' ) {

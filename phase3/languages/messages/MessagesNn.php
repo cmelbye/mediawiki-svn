@@ -227,7 +227,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Verna_sidenamn' ),
 	'Allpages'                  => array( 'Alle_sider' ),
 	'Prefixindex'               => array( 'Prefiksindeks' ),
-	'Ipblocklist'               => array( 'Blokkeringsliste' ),
+	'BlockList'                 => array( 'Blokkeringsliste' ),
 	'Specialpages'              => array( 'Spesialsider' ),
 	'Contributions'             => array( 'Bidrag' ),
 	'Emailuser'                 => array( 'E-post' ),
@@ -242,7 +242,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Versjon' ),
 	'Allmessages'               => array( 'Alle_systemmeldingar' ),
 	'Log'                       => array( 'Logg', 'Loggar' ),
-	'Blockip'                   => array( 'Blokker' ),
+	'Block'                     => array( 'Blokker' ),
 	'Undelete'                  => array( 'Attopprett' ),
 	'Import'                    => array( 'Importer' ),
 	'Lockdb'                    => array( 'Lås_database' ),
@@ -473,6 +473,7 @@ $messages = array(
 'printableversion'  => 'Utskriftsversjon',
 'permalink'         => 'Fast lenkje',
 'print'             => 'Skriv ut',
+'view'              => 'Sjå',
 'edit'              => 'Endre',
 'create'            => 'Opprett',
 'editthispage'      => 'Endre sida',
@@ -480,6 +481,7 @@ $messages = array(
 'delete'            => 'Slett',
 'deletethispage'    => 'Slett denne sida',
 'undelete_short'    => 'Attopprett {{PLURAL:$1|éin versjon|$1 versjonar}}',
+'viewdeleted_short' => '↓ Vis {{PLURAL:$1|éin sletta versjon|$1 sletta versjonar}}',
 'protect'           => 'Vern',
 'protect_change'    => 'endre',
 'protectthispage'   => 'Vern denne sida',
@@ -517,6 +519,8 @@ For mange brukarar prøver å sjå denne sida.
 Vent ei lita stund, før du prøver å sjå på sida.
 
 $1',
+'pool-timeout'      => 'Tidsavbrot under venting på låsing.',
+'pool-queuefull'    => 'Køen er full.',
 'pool-errorunknown' => 'Ukjend feil',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
@@ -561,6 +565,8 @@ $1',
 'toc'                     => 'Innhaldsliste',
 'showtoc'                 => 'vis',
 'hidetoc'                 => 'gøym',
+'collapsible-collapse'    => 'Slå saman.',
+'collapsible-expand'      => 'Utvid',
 'thisisdeleted'           => 'Sjå eller attopprett $1?',
 'viewdeleted'             => 'Sjå historikk for $1?',
 'restorelink'             => '{{PLURAL:$1|Éin sletta versjon|$1 sletta versjonar}}',
@@ -661,15 +667,16 @@ Grunnen som er gjeven er: ''$2''.",
 # Login and logout pages
 'logouttext'                 => "'''Du er no utlogga.'''
 
-Du kan no halde fram og bruke {{SITENAME}} anonymt, eller du kan [[Special:UserLogin|logge inn att]]  med same kontoen eller ein annan brukar kan logge inn.
-Ver merksam på at nokre sider kan halde fram med å verte viste som om du er innlogga fram til du slettar mellomlageret til nettlesaren din.",
+Du kan no halde fram å bruke {{SITENAME}} anonymt, eller du kan [[Special:UserLogin|logge inn att]]  med same kontoen eller ein annan brukar kan logge inn.
+Ver merksam på at nokre sider framleis kan visast fram som om du er innlogga fram til du slettar mellomlageret til nettlesaren din.",
 'welcomecreation'            => '== Hjarteleg velkommen til {{SITENAME}}, $1! ==
-Brukarkontoen din er vorten oppretta.
-Ikkje gløym å endre på [[Special:Preferences|innstillingane]] dine.',
+Brukarkontoen din er oppretta.
+Hugs at du kan endre på [[Special:Preferences|innstillingane]] dine.',
 'yourname'                   => 'Brukarnamn:',
 'yourpassword'               => 'Passord:',
 'yourpasswordagain'          => 'Skriv opp att passordet',
 'remembermypassword'         => 'Hugs innlogginga mi på denne datamaskinen (for høgst {{PLURAL:$1|éin dag|$1 dagar}})',
+'securelogin-stick-https'    => 'Fortset HTTPS-tilkopling etter innlogging.',
 'yourdomainname'             => 'Domenet ditt',
 'externaldberror'            => 'Det var anten ein ekstern databasefeil i tilgjengekontrollen, eller du har ikkje løyve til å oppdatere den eksterne kontoen din.',
 'login'                      => 'Logg inn',
@@ -695,6 +702,8 @@ Ikkje gløym å endre på [[Special:Preferences|innstillingane]] dine.',
 nettlesaren din er innstilt for ikkje å godta desse. Etter at du har endra innstillingane slik at nettlesaren godtek informasjonskapslar, kan du logge inn med det nye brukarnamnet og passordet ditt.',
 'nocookieslogin'             => '{{SITENAME}} bruker informasjonskapslar for å logge inn brukarar, nettlesaren din er innstilt for ikkje å godta desse.
 Etter at du har endra innstillingane slik at nettlesaren godtek informasjonskapslar kan du prøve å logge inn på nytt.',
+'nocookiesfornew'            => 'Brukarkontoen blei ikkje oppretta ettersom kjelda ikkje kunne stadfestast.
+Sjå etter om du tek imot informasjonskapslar (cookies), last ned sida ein gong til og prøv igjen.',
 'noname'                     => 'Du har ikkje oppgjeve gyldig brukarnamn.',
 'loginsuccesstitle'          => 'Du er no innlogga',
 'loginsuccess'               => 'Du er no innlogga som «$1».',
@@ -707,6 +716,7 @@ Brukarnamn skil mellom stor og liten bokstav. Sjekk at du har skrive brukarnamet
 'wrongpasswordempty'         => 'Du oppgav ikkje noko passord. Ver venleg og prøv igjen.',
 'passwordtooshort'           => 'Passord må innehalda minst {{PLURAL:$1|eitt teikn|$1 teikn}}.',
 'password-name-match'        => 'Passordet ditt lyt vera noko anna enn brukarnamnet ditt.',
+'password-login-forbidden'   => 'Bruk av dette brukarnamnet og passordet er vorte forbode.',
 'mailmypassword'             => 'Send nytt passord',
 'passwordremindertitle'      => 'Nytt passord til {{SITENAME}}',
 'passwordremindertext'       => 'Nokon (truleg du, frå IP-adressa $1) bad oss sende deg eit nytt passord til {{SITENAME}} ($4). Eit mellombels passord for «$2» er oppretta, og er sett til «$3». Om det var det du ville, må du logge inn
@@ -736,8 +746,12 @@ Grunna dette vil ikkje vitjande som nyttar denne IP-adressa kunna oppretta nye k
 Du kan sjå bort frå denne meldinga dersom kontoen vart oppretta med eit uhell.',
 'usernamehasherror'          => 'Brukarnamn kan ikkje innehalda nummerteikn.',
 'login-throttled'            => 'Du har prøvd å logge inn for mange gonger. Ver venleg og vent før du prøver igjen.',
+'login-abort-generic'        => 'Innlogginga er avbroten.',
 'loginlanguagelabel'         => 'Språk: $1',
-'suspicious-userlogout'      => 'Forespurnaden din om å logge ut vart nekta fordi han såg ut til å være sendt av ein øydelagt nettlesar eller mellomtenar.',
+'suspicious-userlogout'      => 'Førespurnaden din om å logge ut vart nekta fordi han såg ut til å vere sendt av ein øydelagt nettlesar eller mellomtenar.',
+
+# E-mail sending
+'php-mail-error-unknown' => 'Ukjend feil i PHPs mail()-funksjon',
 
 # JavaScript password checks
 'password-strength'            => 'Utrekna passordstyrke: $1',
@@ -869,6 +883,10 @@ Det siste elementet i blokkeringsloggen er oppgjeve nedanfor:',
 'userjsyoucanpreview'              => "''Tips:''' Bruk «{{int:showpreview}}»-knappen for å teste den nye CSS- eller JavaScript-koden din før du lagrar.",
 'usercsspreview'                   => "'''Hugs at dette berre er ei førehandsvising av din eigen CSS og at han ikkje er lagra enno!'''",
 'userjspreview'                    => "'''Hugs at du berre testar ditt eige JavaScript, det har ikkje vorte lagra enno!!'''",
+'sitecsspreview'                   => "'''Hugs at du berre førehandsviser dette stilarket. '''
+'''Det er ikkje lagra enno!'''",
+'sitejspreview'                    => "'''Hugs at du berre førehandsviser denne JavaScript-koden.'''
+'''Han er ikkje lagra enno!'''",
 'userinvalidcssjstitle'            => "'''Åtvaring:''' Det finst ikkje noka sidedrakt som heiter «$1». Hugs på at vanlege .css- og .js-sider brukar titlar med små bokstavar, til dømes {{ns:user}}:Døme/vector.css, og ikkje {{ns:user}}:Døme/Vector.css.",
 'updated'                          => '(Oppdatert)',
 'note'                             => "'''Merk:'''",
@@ -937,7 +955,7 @@ Du kan gå attende og endre ei eksisterande side, [[Special:UserLogin|logge inn 
 
 Du bør tenkje over om det er høveleg å halde fram med å endre denne sida.
 Sletteloggen for sida finn du her:",
-'moveddeleted-notice'              => 'Denne sida har blitt sletta. Sletteloggen og flytteloggen er vist nedanfor for referanse.',
+'moveddeleted-notice'              => 'Denne sida er vorten sletta. Sletteloggen og flytteloggen er vist nedanfor for referanse.',
 'log-fulllog'                      => 'Sjå full loggføring',
 'edit-hook-aborted'                => 'Endring avbroten av ein funksjon, utan forklaring.',
 'edit-gone-missing'                => 'Kunne ikkje oppdatere sida.
@@ -2169,7 +2187,7 @@ Tilbakemeldingar og anna hjelp:
 
 Den siste endringa vart gjort av [[User:$3|$3]] ([[User talk:$3|brukardiskusjon]]{{int:pipe-separator}}[[Special:Contributions/$3|{{int:contribslink}}]]).',
 'editcomment'       => "Samandraget for endringa var: «''$1''».",
-'revertpage'        => 'Attenderulla endring gjord av [[Special:Contributions/$2|$2]] ([[User talk:$2|ordskifte]]) til tidlegare versjon endra av [[User:$1|$1]]',
+'revertpage'        => 'Attenderulla endring gjort av [[Special:Contributions/$2|$2]] ([[User talk:$2|diskusjon]]) til tidlegare versjon endra av [[User:$1|$1]]',
 'revertpage-nouser' => 'Tilbakestilte endringar av (brukarnamn fjerna) til den siste versjonen av [[User:$1|$1]]',
 'rollback-success'  => 'Rulla attende endringane av $1, tilbake til siste versjon av $2.',
 
@@ -2460,6 +2478,16 @@ $1 er alt blokkert. Vil du endre innstillingane?',
 Merk at sida '''ikkje''' kan flyttast dersom det allereie finst ei side med den nye tittelen. Du kan likevel flytte ei side attende dit ho vart flytt frå dersom du gjer ein feil, så lenge den sida du flytter attende til ikkje er vorten endra sidan flyttinga.
 
 <b>ÅTVARING!</b> Dette kan vera ei drastisk og uventa endring for ei populær side; ver sikker på at du skjønner konsekvensane av dette før du fortset.",
+'movepagetext-noredirectfixer' => "Ved å bruke skjemaet under kan du få omdøypt ei side og flytt heile historikken til det nye namnet. 
+Den gamle tittelen vil omdirigere til den nye tittelen. 
+Pass på å sjekke for doble eller dårlege omdirigeringar. 
+Du er ansvarleg for at alle lenkjene stadig peiker dit det er meininga at dei skal peike.
+
+Merk at sida '''ikkje''' kan flyttast dersom det allereie finst ei side med den nye tittelen, om ho då ikkje er ei omdirigeringsside utan endringshistorikk. Dette vil seie at du kan flytte ei side attende dit ho vart flytt frå dersom du gjer ein feil, og at du ikkje kan skriva over ei side som finst.
+
+<b>ÅTVARING!</b>
+Dette kan vera ei drastisk og uventa endring for ei populær side;
+ver sikker på at du skjøner konsekvensane av dette før du fortset.",
 'movepagetalktext'             => "Den tilhøyrande diskusjonssida, om ho finst, vil automatisk bli flytt med sida '''med mindre:'''
 *Du flytter sida til eit anna namnerom, eller
 *Du fjernar merkinga i boksen nedanfor.
@@ -3236,7 +3264,7 @@ Du må stadfeste at du verkeleg vil nyopprette denne sida.",
 'watchlistedit-normal-legend'  => 'Fjern sider frå overvakingslista',
 'watchlistedit-normal-explain' => 'Sidene på overvakingslista di er viste nedanfor.
 For å fjerne ei side, kryss av boksen ved sida av sida du vil fjerne og klikk på «{{int:Watchlistedit-normal-submit}}».
-Du kan òg [[Special:Watchlist/raw|endre overvakingslista i råformat]].',
+Du kan òg [[Special:EditWatchlist/raw|endre overvakingslista i råformat]].',
 'watchlistedit-normal-submit'  => 'Fjern sider',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Éi side|$1 sider}} vart fjerna frå overvakingslista di:',
 'watchlistedit-raw-title'      => 'Endre på overvakingslista i råformat',
@@ -3244,7 +3272,7 @@ Du kan òg [[Special:Watchlist/raw|endre overvakingslista i råformat]].',
 'watchlistedit-raw-explain'    => 'Sidene på overvakingslista di er viste nedanfor, og lista kan endrast ved å legge til eller fjerne sider frå lista;
 ei side per line.
 Når du er ferdig, klikk «{{int:Watchlistedit-raw-submit}}».
-Du kan òg [[Special:Watchlist/edit|nytte standardverktøyet]].',
+Du kan òg [[Special:EditWatchlist|nytte standardverktøyet]].',
 'watchlistedit-raw-titles'     => 'Sider:',
 'watchlistedit-raw-submit'     => 'Oppdater overvakingslista',
 'watchlistedit-raw-done'       => 'Overvakingslista er oppdatert.',

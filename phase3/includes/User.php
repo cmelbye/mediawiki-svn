@@ -1129,42 +1129,26 @@ class User {
 		$this->mHideName = 0;
 		$this->mAllowUsertalk = 0;
 
-		# Check if we are looking at an IP or a logged-in user
-		if ( $this->isAllowed( 'ipblock-exempt' ) ) {
-			# Exempt from all types of IP-block
-			$ip = '';
-		} elseif ( $this->isIP( $this->getName() ) ) {
-			$ip = $this->getName();
+		# We only need to worry about passing the IP address to the Block generator if the
+		# user is not immune to autoblocks/hardblocks, and they are the current user so we
+		# know which IP address they're actually coming from
+		if ( !$this->isAllowed( 'ipblock-exempt' ) && $this->getID() == $wgUser->getID() ) {
+			$ip = wfGetIP();
 		} else {
-			# Check if we are looking at the current user
-			# If we don't, and the user is logged in, we don't know about
-			# his IP / autoblock status, so ignore autoblock of current user's IP
-			if ( $this->getID() != $wgUser->getID() ) {
-				$ip = '';
-			} else {
-				# Get IP of current user
-				$ip = wfGetIP();
-			}
+			$ip = null;
 		}
 
 		# User/IP blocking
-		$this->mBlock = new Block();
-		$this->mBlock->fromMaster( !$bFromSlave );
-		if ( $this->mBlock->load( $ip , $this->mId ) ) {
+		$this->mBlock = Block::newFromTarget( $this->getName(), $ip, !$bFromSlave );
+		if ( $this->mBlock instanceof Block ) {
 			wfDebug( __METHOD__ . ": Found block.\n" );
-			$this->mBlockedby = $this->mBlock->mBy;
-			if( $this->mBlockedby == 0 )
-				$this->mBlockedby = $this->mBlock->mByName;
+			$this->mBlockedby = $this->mBlock->getBlocker()->getName();
 			$this->mBlockreason = $this->mBlock->mReason;
 			$this->mHideName = $this->mBlock->mHideName;
-			$this->mAllowUsertalk = $this->mBlock->mAllowUsertalk;
+			$this->mAllowUsertalk = !$this->mBlock->prevents( 'editownusertalk' );
 			if ( $this->isLoggedIn() && $wgUser->getID() == $this->getID() ) {
 				$this->spreadBlock();
 			}
-		} else {
-			// Bug 13611: don't remove mBlock here, to allow account creation blocks to
-			// apply to users. Note that the existence of $this->mBlock is not used to
-			// check for edit blocks, $this->mBlockedby is instead.
 		}
 
 		# Proxy blocking
@@ -1374,7 +1358,7 @@ class User {
 	 */
 	function isBlocked( $bFromSlave = true ) { // hacked from false due to horrible probs on site
 		$this->getBlockedStatus( $bFromSlave );
-		return $this->mBlockedby !== 0;
+		return $this->mBlock instanceof Block && $this->mBlock->prevents( 'edit' );
 	}
 
 	/**
@@ -1427,7 +1411,7 @@ class User {
 	 */
 	function getBlockId() {
 		$this->getBlockedStatus();
-		return ( $this->mBlock ? $this->mBlock->mId : false );
+		return ( $this->mBlock ? $this->mBlock->getId() : false );
 	}
 
 	/**
@@ -1492,8 +1476,8 @@ class User {
 	 * @return Int The user's ID; 0 if the user is anonymous or nonexistent
 	 */
 	function getId() {
-		if( $this->mId === null and $this->mName !== null
-		and User::isIP( $this->mName ) ) {
+		if( $this->mId === null && $this->mName !== null
+		&& User::isIP( $this->mName ) ) {
 			// Special case, we know the user is anonymous
 			return 0;
 		} elseif( $this->mId === null ) {
@@ -1963,11 +1947,13 @@ class User {
 	 *
 	 * @param $oname String The option to check
 	 * @param $defaultOverride String A default value returned if the option does not exist
+	 * @param $ignoreHidden Bool = whether to ignore the effects of $wgHiddenPrefs
 	 * @return String User's current value for the option
 	 * @see getBoolOption()
 	 * @see getIntOption()
 	 */
-	function getOption( $oname, $defaultOverride = null ) {
+	function getOption( $oname, $defaultOverride = null, $ignoreHidden = false ) {
+		global $wgHiddenPrefs;
 		$this->loadOptions();
 
 		if ( is_null( $this->mOptions ) ) {
@@ -1975,6 +1961,15 @@ class User {
 				return $defaultOverride;
 			}
 			$this->mOptions = User::getDefaultOptions();
+		}
+
+		# We want 'disabled' preferences to always behave as the default value for
+		# users, even if they have set the option explicitly in their settings (ie they
+		# set it, and then it was disabled removing their ability to change it).  But
+		# we don't want to erase the preferences in the database in case the preference
+		# is re-enabled again.  So don't touch $mOptions, just override the returned value
+		if( in_array( $oname, $wgHiddenPrefs ) && !$ignoreHidden ){
+			return self::getDefaultOption( $oname );
 		}
 
 		if ( array_key_exists( $oname, $this->mOptions ) ) {
@@ -1990,8 +1985,23 @@ class User {
 	 * @return array
 	 */
 	public function getOptions() {
+		global $wgHiddenPrefs;
 		$this->loadOptions();
-		return $this->mOptions;
+		$options = $this->mOptions;
+
+		# We want 'disabled' preferences to always behave as the default value for
+		# users, even if they have set the option explicitly in their settings (ie they
+		# set it, and then it was disabled removing their ability to change it).  But
+		# we don't want to erase the preferences in the database in case the preference
+		# is re-enabled again.  So don't touch $mOptions, just override the returned value
+		foreach( $wgHiddenPrefs as $pref ){
+			$default = self::getDefaultOption( $pref );
+			if( $default !== null ){
+				$options[$pref] = $default;
+			}
+		}
+
+		return $options;
 	}
 
 	/**
@@ -2160,17 +2170,18 @@ class User {
 	 * @param $group String Name of the group to add
 	 */
 	function addGroup( $group ) {
-		$dbw = wfGetDB( DB_MASTER );
-		if( $this->getId() ) {
-			$dbw->insert( 'user_groups',
-				array(
-					'ug_user'  => $this->getID(),
-					'ug_group' => $group,
-				),
-				__METHOD__,
-				array( 'IGNORE' ) );
+		if( wfRunHooks( 'UserAddGroup', array( &$this, &$group ) ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			if( $this->getId() ) {
+				$dbw->insert( 'user_groups',
+					array(
+						'ug_user'  => $this->getID(),
+						'ug_group' => $group,
+					),
+					__METHOD__,
+					array( 'IGNORE' ) );
+			}
 		}
-
 		$this->loadGroups();
 		$this->mGroups[] = $group;
 		$this->mRights = User::getGroupPermissions( $this->getEffectiveGroups( true ) );
@@ -2185,13 +2196,14 @@ class User {
 	 */
 	function removeGroup( $group ) {
 		$this->load();
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->delete( 'user_groups',
-			array(
-				'ug_user'  => $this->getID(),
-				'ug_group' => $group,
-			), __METHOD__ );
-
+		if( wfRunHooks( 'UserRemoveGroup', array( &$this, &$group ) ) ) {
+			$dbw = wfGetDB( DB_MASTER );
+			$dbw->delete( 'user_groups',
+				array(
+					'ug_user'  => $this->getID(),
+					'ug_group' => $group,
+				), __METHOD__ );
+		}
 		$this->loadGroups();
 		$this->mGroups = array_diff( $this->mGroups, array( $group ) );
 		$this->mRights = User::getGroupPermissions( $this->getEffectiveGroups( true ) );
@@ -2217,10 +2229,39 @@ class User {
 
 	/**
 	 * Check if user is allowed to access a feature / make an action
-	 * @param $action String action to be checked
-	 * @return Boolean: True if action is allowed, else false
+	 * @param varargs String permissions to test
+	 * @return Boolean: True if user is allowed to perform *any* of the given actions
 	 */
-	function isAllowed( $action = '' ) {
+	public function isAllowedAny( /*...*/ ){
+		$permissions = func_get_args();
+		foreach( $permissions as $permission ){
+			if( $this->isAllowed( $permission ) ){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param varargs String
+	 * @return bool True if the user is allowed to perform *all* of the given actions
+	 */
+	public function isAllowedAll( /*...*/ ){
+		$permissions = func_get_args();
+		foreach( $permissions as $permission ){
+			if( !$this->isAllowed( $permission ) ){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Internal mechanics of testing a permission
+	 * @param $action String
+	 * @return bool
+	 */
+	public function isAllowed( $action = '' ) {
 		if ( $action === '' ) {
 			return true; // In the spirit of DWIM
 		}
@@ -2241,7 +2282,7 @@ class User {
 	 */
 	public function useRCPatrol() {
 		global $wgUseRCPatrol;
-		return( $wgUseRCPatrol && ( $this->isAllowed( 'patrol' ) || $this->isAllowed( 'patrolmarks' ) ) );
+		return $wgUseRCPatrol && $this->isAllowedAny( 'patrol', 'patrolmarks' );
 	}
 
 	/**
@@ -2250,7 +2291,7 @@ class User {
 	 */
 	public function useNPPatrol() {
 		global $wgUseRCPatrol, $wgUseNPPatrol;
-		return( ( $wgUseRCPatrol || $wgUseNPPatrol ) && ( $this->isAllowed( 'patrol' ) || $this->isAllowed( 'patrolmarks' ) ) );
+		return( ( $wgUseRCPatrol || $wgUseNPPatrol ) && ( $this->isAllowedAny( 'patrol', 'patrolmarks' ) ) );
 	}
 
 	/**
@@ -2678,7 +2719,7 @@ class User {
 			return;
 		}
 
-		$userblock = Block::newFromDB( '', $this->mId );
+		$userblock = Block::newFromTarget( $this->getName() );
 		if ( !$userblock ) {
 			return;
 		}
@@ -2740,11 +2781,24 @@ class User {
 
 	/**
 	 * Get whether the user is explicitly blocked from account creation.
-	 * @return Bool
+	 * @return Bool|Block
 	 */
 	function isBlockedFromCreateAccount() {
 		$this->getBlockedStatus();
-		return $this->mBlock && $this->mBlock->mCreateAccount;
+		if( $this->mBlock && $this->mBlock->prevents( 'createaccount' ) ){
+			return $this->mBlock;
+		}
+
+		# bug 13611: if the IP address the user is trying to create an account from is
+		# blocked with createaccount disabled, prevent new account creation there even
+		# when the user is logged in
+		static $accBlock = false;
+		if( $accBlock === false ){
+			$accBlock = Block::newFromTarget( null, wfGetIP() );
+		}
+		return $accBlock instanceof Block && $accBlock->prevents( 'createaccount' )
+			? $accBlock
+			: false;
 	}
 
 	/**
@@ -2753,7 +2807,7 @@ class User {
 	 */
 	function isBlockedFromEmailuser() {
 		$this->getBlockedStatus();
-		return $this->mBlock && $this->mBlock->mBlockEmail;
+		return $this->mBlock && $this->mBlock->prevents( 'sendemail' );
 	}
 
 	/**

@@ -318,7 +318,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Қорғалған_тақырыптар', 'Қорғалған_атаулар' ),
 	'Allpages'                  => array( 'Барлық_беттер' ),
 	'Prefixindex'               => array( 'Бастауыш_тізімі' ),
-	'Ipblocklist'               => array( 'Бұғатталғандар' ),
+	'BlockList'                 => array( 'Бұғатталғандар' ),
 	'Specialpages'              => array( 'Арнайы_беттер' ),
 	'Contributions'             => array( 'Үлесі' ),
 	'Emailuser'                 => array( 'Хат_жіберу' ),
@@ -333,7 +333,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Нұсқасы' ),
 	'Allmessages'               => array( 'Барлық_хабарлар' ),
 	'Log'                       => array( 'Журнал', 'Журналдар' ),
-	'Blockip'                   => array( 'Жайды_бұғаттау', 'IP_бұғаттау' ),
+	'Block'                     => array( 'Жайды_бұғаттау', 'IP_бұғаттау' ),
 	'Undelete'                  => array( 'Жоюды_болдырмау', 'Жойылғанды_қайтару' ),
 	'Import'                    => array( 'Сырттан_алу' ),
 	'Lockdb'                    => array( 'Дерекқорды_құлыптау' ),
@@ -2867,7 +2867,7 @@ $1',
 'watchlistedit-normal-legend'  => 'Бақылау тізімінен тақырып аттарын аластау',
 'watchlistedit-normal-explain' => 'Бақылау тізіміңіздегі тақырып аттар төменде көрсетіледі.
 Тақырып атын аластау үшін, бүйір көзге құсбелгі салыңыз, және «Тақырып аттарын аласта» дегенді нұқыңыз.
-Тағы да [[{{#special:Watchlist}}/raw|қам тізімді өңдей]] аласыз.',
+Тағы да [[Special:EditWatchlist/raw|қам тізімді өңдей]] аласыз.',
 'watchlistedit-normal-submit'  => 'Тақырып аттарын аласта',
 'watchlistedit-normal-done'    => 'Бақылау тізіміңізден $1 тақырып аты аласталды:',
 'watchlistedit-raw-title'      => 'Қам бақылау тізімді өңдеу',
@@ -2875,7 +2875,7 @@ $1',
 'watchlistedit-raw-explain'    => 'Бақылау тізіміңіздегі тақырып аттары төменде көрсетіледі, және де тізмге үстеп және тізмден аластап өңделуі мүмкін;
 жол сайын бір тақырып аты болу жөн.
 Бітіргеннен соң «Бақылау тізімді жаңарту» дегенді нұқыңыз.
-Тағы да [[{{#special:Watchlist}}/edit|қалыпалған өңдеуішті пайдалана]] аласыз.',
+Тағы да [[Special:EditWatchlist|қалыпалған өңдеуішті пайдалана]] аласыз.',
 'watchlistedit-raw-titles'     => 'Тақырып аттары:',
 'watchlistedit-raw-submit'     => 'Бақылау тізімді жаңарту',
 'watchlistedit-raw-done'       => 'Бақылау тізіміңіз жаңартылды.',

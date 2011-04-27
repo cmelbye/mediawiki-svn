@@ -677,7 +677,7 @@ window.mediaWiki = new ( function( $ ) {
 		 * @param module string module name to execute
 		 */
 		function execute( module ) {
-			var _method = 'mw.loader::execute';
+			var _fn = 'mw.loader::execute> ';
 			if ( typeof registry[module] === 'undefined' ) {
 				throw new Error( 'Module has not been registered yet: ' + module );
 			} else if ( registry[module].state === 'registered' ) {
@@ -710,7 +710,6 @@ window.mediaWiki = new ( function( $ ) {
 			// Execute script
 			try {
 				registry[module].script( jQuery );
-				mw.log( 'State ready: ' + module, _method )
 				registry[module].state = 'ready';
 				// Run jobs who's dependencies have just been met
 				for ( var j = 0; j < jobs.length; j++ ) {
@@ -737,8 +736,12 @@ window.mediaWiki = new ( function( $ ) {
 					}
 				}
 			} catch ( e ) {
-				mediaWiki.log( 'Exception thrown by ' + module + ': ' + e.message, _method );
-				mediaWiki.log( e );
+				// This needs to NOT use mw.log because these errors are common in production mode
+				// and not in debug mode, such as when a symbol that should be global isn't exported
+				if ( console && typeof console.log === 'function' ) {
+					console.log( _fn + 'Exception thrown by ' + module + ': ' + e.message );
+					console.log( e );
+				}
 				registry[module].state = 'error';
 				// Run error callbacks of jobs affected by this condition
 				for ( var j = 0; j < jobs.length; j++ ) {

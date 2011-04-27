@@ -293,7 +293,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Titres_protégés', 'TitresProtégés', 'Titres_proteges', 'TitresProteges' ),
 	'Allpages'                  => array( 'Toutes_les_pages', 'ToutesLesPages' ),
 	'Prefixindex'               => array( 'Index', 'Préfixes', 'Prefixes' ),
-	'Ipblocklist'               => array( 'Liste_des_blocages', 'ListeDesBlocages', 'Blocages', 'Utilisateurs_bloqués', 'UtilisateursBloqués', 'Utilisateurs_bloques', 'UtilisateursBloques', 'IP_bloquées', 'IPBloquees', 'IPBloquées' ),
+	'BlockList'                 => array( 'Liste_des_blocages', 'ListeDesBlocages', 'Blocages', 'Utilisateurs_bloqués', 'UtilisateursBloqués', 'Utilisateurs_bloques', 'UtilisateursBloques', 'IP_bloquées', 'IPBloquees', 'IPBloquées' ),
 	'Unblock'                   => array( 'Débloquer', 'Déblocage' ),
 	'Specialpages'              => array( 'Pages_spéciales', 'PagesSpéciales', 'Pages_speciales', 'PagesSpeciales' ),
 	'Emailuser'                 => array( 'Envoyer_un_courriel', 'EnvoyerUnCourriel', 'Courriel', 'Envoyer_un_e-mail', 'EnvoyerUnEMail', 'E-mail', 'EMail' ),
@@ -307,7 +307,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exporter', 'Exportation' ),
 	'Allmessages'               => array( 'Messages_système', 'Messages_systeme', 'Messagessystème', 'Messagessysteme' ),
 	'Log'                       => array( 'Journal', 'Journaux' ),
-	'Blockip'                   => array( 'Bloquer', 'Blocage' ),
+	'Block'                     => array( 'Bloquer', 'Blocage' ),
 	'Undelete'                  => array( 'Restaurer', 'Restauration' ),
 	'Import'                    => array( 'Importer', 'Importation' ),
 	'Lockdb'                    => array( 'Verrouiller_la_base', 'Verrouillerlabase', 'Verrouiller_base', 'Verrouillerbase', 'Verrouiller_BD', 'VerrouillerBD', 'Verrouiller_bd', 'Verrouillerbd' ),
@@ -2525,6 +2525,9 @@ La dernière entrée du journal des blocages est indiquée ci-dessous à titre d
 'whatlinkshere-filters'    => 'Filtres',
 
 # Block/unblock
+'autoblockid'                     => 'Blocage automatique #$1',
+'block'                           => 'Bloquer un utilisateur ou une adresse IP',
+'unblock'                         => 'Débloquer un utilisateur ou une adresse IP',
 'blockip'                         => 'Bloquer l’utilisateur',
 'blockip-title'                   => 'Bloquer l’utilisateur',
 'blockip-legend'                  => 'Bloquer l’utilisateur',
@@ -2569,9 +2572,20 @@ Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] p
 'unblockiptext'                   => 'Utilisez le formulaire ci-dessous pour rétablir l’accès aux modifications depuis une adresse IP ou un nom d’utilisateur.',
 'ipusubmit'                       => 'Supprimer ce blocage',
 'unblocked'                       => '[[User:$1|$1]] a été débloqué',
+'unblocked-range'                 => '$1 a été débloqué',
 'unblocked-id'                    => 'Le blocage $1 a été enlevé',
+'blocklist'                       => 'Adresses IP et utilisateurs bloqués',
 'ipblocklist'                     => 'Adresses IP et utilisateurs bloqués',
 'ipblocklist-legend'              => 'Chercher un utilisateur bloqué',
+'blocklist-userblocks'            => 'Masquer les blocages de comptes',
+'blocklist-tempblocks'            => 'Masquer les blocages temporaires',
+'blocklist-addressblocks'         => 'Masquer les blocages d’adresses IP uniques',
+'blocklist-timestamp'             => 'Date et heure',
+'blocklist-target'                => 'Cible',
+'blocklist-expiry'                => 'Date d’expiration',
+'blocklist-by'                    => 'Administrateur ayant effectué le blocage',
+'blocklist-params'                => 'Paramètres de blocage',
+'blocklist-reason'                => 'Motif',
 'ipblocklist-submit'              => 'Rechercher',
 'ipblocklist-localblock'          => 'Blocage local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
@@ -2614,6 +2628,7 @@ Consultez la [[Special:IPBlockList|liste des IP bloquées]] pour voir les bannis
 'ipb-needreblock'                 => '== Déjà bloqué ==
 $1 est déjà bloqué. Voulez-vous modifier les paramètres ?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
+'unblock-hideuser'                => "Vous ne peut débloquer cet utilisateur, son nom d'utilisateur a été masqué.",
 'ipb_cant_unblock'                => 'Erreur : identifiant de blocage $1 non trouvé.
 Il est possible qu’un déblocage ait déjà été effectué.',
 'ipb_blocked_as_range'            => 'Erreur : l’adresse IP $1 n’est pas bloquée directement et ne peut donc pas être débloquée.
@@ -3519,14 +3534,14 @@ Essayez la prévisualisation normale.',
 'watchlistedit-normal-legend'  => 'Retirer des titres de la liste de suivi',
 'watchlistedit-normal-explain' => 'Les titres de votre liste de suivi sont visibles ci-dessous.
 Pour enlever un titre de la liste (et sa page de discussion), cochez la case à côté puis cliquez sur le bouton « {{int:Watchlistedit-normal-submit}} ».
-Vous pouvez aussi [[Special:Watchlist/raw|modifier la liste en mode brut]].',
+Vous pouvez aussi [[Special:EditWatchlist/raw|modifier la liste en mode brut]].',
 'watchlistedit-normal-submit'  => 'Retirer les titres sélectionnés',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Un titre a été enlevé|$1 titres ont été enlevés}} de votre liste de suivi :',
 'watchlistedit-raw-title'      => 'Modifier la liste de suivi en mode brut',
 'watchlistedit-raw-legend'     => 'Modification de la liste de suivi en mode brut',
 'watchlistedit-raw-explain'    => 'Les titres de votre liste de suivi sont affichés ci-dessous et peuvent être modifiés en les ajoutant ou les retirant de la liste (un titre par ligne).
 Lorsque vous avez fini, cliquez sur le bouton « {{int:Watchlistedit-raw-submit}} » en bas.
-Vous pouvez aussi [[Special:Watchlist/edit|utiliser l’éditeur normal]].',
+Vous pouvez aussi [[Special:EditWatchlist|utiliser l’éditeur normal]].',
 'watchlistedit-raw-titles'     => 'Titres :',
 'watchlistedit-raw-submit'     => 'Mettre à jour la liste de suivi',
 'watchlistedit-raw-done'       => 'Votre liste de suivi a été mise à jour.',

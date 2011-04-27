@@ -129,6 +129,7 @@ tr.mw-htmlform-vertical-label td.mw-label {
 .mw-htmlform-multiselect-flatlist div.mw-htmlform-multiselect-item {
 	display: inline;
 	margin-right: 1em;
+	white-space: nowrap;
 }
 
 input#wpSummary {
@@ -578,6 +579,11 @@ ol:lang(ckb) li {
 ol:lang(bn) li {
 	list-style-type: -moz-bengali;
 	list-style-type: bengali;
+}
+
+ol:lang(or) li {
+	list-style-type: -moz-oriya;
+	list-style-type: oriya;
 }
 
 /* tooltip styles */

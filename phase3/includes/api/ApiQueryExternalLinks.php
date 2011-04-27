@@ -46,7 +46,6 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 		}
 
 		$params = $this->extractRequestParams();
-		$db = $this->getDB();
 
 		$query = $params['query'];
 		$protocol = ApiQueryExtLinksUsage::getProtocolPrefix( $params['protocol'] );
@@ -59,7 +58,7 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 		$this->addTables( 'externallinks' );
 		$this->addWhereFld( 'el_from', array_keys( $this->getPageSet()->getGoodTitles() ) );
 
-		$whereQuery = $this->prepareUrlQuerySearchString( $db, $query, $protocol );
+		$whereQuery = $this->prepareUrlQuerySearchString( $query, $protocol );
 
 		if ( $whereQuery !== null ) {
 			$this->addWhere( $whereQuery );
@@ -108,7 +107,9 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
 			),
-			'offset' => null,
+			'offset' => array(
+				ApiBase::PARAM_TYPE => 'integer'
+			),
 			'protocol' => array(
 				ApiBase::PARAM_TYPE => ApiQueryExtLinksUsage::prepareProtocols(),
 				ApiBase::PARAM_DFLT => '',

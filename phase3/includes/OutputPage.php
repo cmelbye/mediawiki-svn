@@ -5,16 +5,16 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 /**
  * This class should be covered by a general architecture document which does
- * not exist as of january 2011.  This is one of the Core class and should
+ * not exist as of January 2011.  This is one of the Core classes and should
  * be read at least once by any new developers.
  *
  * This class is used to prepare the final rendering. A skin is then
  * applied to the output parameters (links, javascript, html, categories ...).
  * 
- * Another class (fixme) handle sending the whole page to the client.
+ * Another class (fixme) handles sending the whole page to the client.
  * 
  * Some comments comes from a pairing session between Zak Greant and Ashar Voultoiz
- * in november 2010.
+ * in November 2010.
  *
  * @todo document
  */
@@ -37,7 +37,7 @@ class OutputPage {
 	var $mBodytext = '';
 
 	/**
-	 * Holds the debug lines that will be outputted as comments in page source if
+	 * Holds the debug lines that will be output as comments in page source if
 	 * $wgDebugComments is enabled. See also $wgShowDebug.
 	 * TODO: make a getter method for this
 	 */
@@ -68,7 +68,7 @@ class OutputPage {
 
 	/**
 	 * mLastModified and mEtag are used for sending cache control.
-	 * The whole caching system should probably be moved in its own class.
+	 * The whole caching system should probably be moved into its own class.
 	 */
 	var $mLastModified = '';
 
@@ -76,8 +76,8 @@ class OutputPage {
 	 * Should be private. No getter but used in sendCacheControl();
 	 * Contains an HTTP Entity Tags (see RFC 2616 section 3.13) which is used
 	 * as a unique identifier for the content. It is later used by the client
-	 * to compare its cache version with the server version. Client sends
-	 * headers If-Match and If-None-Match containing its local cache ETAG value.
+	 * to compare its cached version with the server version. Client sends
+	 * headers If-Match and If-None-Match containing its locally cached ETAG value.
 	 *
 	 * To get more information, you will have to look at HTTP1/1 protocols which
 	 * is properly described in RFC 2616 : http://tools.ietf.org/html/rfc2616
@@ -123,6 +123,7 @@ class OutputPage {
 	var $mInlineMsg = array();
 
 	var $mTemplateIds = array();
+	var $mImageTimeKeys = array();
 
 	# What level of 'untrustworthiness' is allowed in CSS/JS modules loaded on this page?
 	# @see ResourceLoaderModule::$origin
@@ -361,7 +362,8 @@ class OutputPage {
 	}
 
 	/**
-	 * Filter an array of modules to remove insufficiently trustworthy members
+	 * Filter an array of modules to remove insufficiently trustworthy members, and modules
+	 * which are no longer registered (eg a page is cached before an extension is disabled)
 	 * @param $modules Array
 	 * @return Array
 	 */
@@ -370,7 +372,9 @@ class OutputPage {
 		$filteredModules = array();
 		foreach( $modules as $val ){
 			$module = $resourceLoader->getModule( $val );
-			if( $module->getOrigin() <= $this->getAllowedModules( $type ) ) {
+			if( $module instanceof ResourceLoaderModule
+				&& $module->getOrigin() <= $this->getAllowedModules( $type ) )
+			{
 				$filteredModules[] = $val;
 			}
 		}
@@ -1305,13 +1309,18 @@ class OutputPage {
 		$this->mNoGallery = $parserOutput->getNoGallery();
 		$this->mHeadItems = array_merge( $this->mHeadItems, $parserOutput->getHeadItems() );
 		$this->addModules( $parserOutput->getModules() );
-		// Versioning...
-		foreach ( (array)$parserOutput->mTemplateIds as $ns => $dbks ) {
+
+		// Template versioning...
+		foreach ( (array)$parserOutput->getTemplateIds() as $ns => $dbks ) {
 			if ( isset( $this->mTemplateIds[$ns] ) ) {
 				$this->mTemplateIds[$ns] = $dbks + $this->mTemplateIds[$ns];
 			} else {
 				$this->mTemplateIds[$ns] = $dbks;
 			}
+		}
+		// File versioning...
+		foreach ( (array)$parserOutput->getImageTimeKeys() as $dbk => $data ) {
+			$this->mImageTimeKeys[$dbk] = $data;
 		}
 
 		// Hooks registered in the object
@@ -1895,7 +1904,7 @@ class OutputPage {
 		$this->setRobotPolicy( 'noindex,nofollow' );
 		$this->setArticleRelated( false );
 
-		$name = User::whoIs( $wgUser->blockedBy() );
+		$name = $wgUser->blockedBy();
 		$reason = $wgUser->blockedFor();
 		if( $reason == '' ) {
 			$reason = wfMsg( 'blockednoreason' );
@@ -1907,29 +1916,9 @@ class OutputPage {
 
 		$link = '[[' . $wgContLang->getNsText( NS_USER ) . ":{$name}|{$name}]]";
 
-		$blockid = $wgUser->mBlock->mId;
+		$blockid = $wgUser->mBlock->getId();
 
-		$blockExpiry = $wgUser->mBlock->mExpiry;
-		if ( $blockExpiry == 'infinity' ) {
-			// Entry in database (table ipblocks) is 'infinity' but 'ipboptions' uses 'infinite' or 'indefinite'
-			// Search for localization in 'ipboptions'
-			$scBlockExpiryOptions = wfMsg( 'ipboptions' );
-			foreach ( explode( ',', $scBlockExpiryOptions ) as $option ) {
-				if ( strpos( $option, ':' ) === false ) {
-					continue;
-				}
-				list( $show, $value ) = explode( ':', $option );
-				if ( $value == 'infinite' || $value == 'indefinite' ) {
-					$blockExpiry = $show;
-					break;
-				}
-			}
-		} else {
-			$blockExpiry = $wgLang->timeanddate(
-				wfTimestamp( TS_MW, $blockExpiry ),
-				true
-			);
-		}
+		$blockExpiry = $wgLang->formatExpiry( $wgUser->mBlock->mExpiry );
 
 		if ( $wgUser->mBlock->mAuto ) {
 			$msg = 'autoblockedtext';
@@ -1939,7 +1928,7 @@ class OutputPage {
 
 		/* $ip returns who *is* being blocked, $intended contains who was meant to be blocked.
 		 * This could be a username, an IP range, or a single IP. */
-		$intended = $wgUser->mBlock->mAddress;
+		$intended = $wgUser->mBlock->getTarget();
 
 		$this->addWikiMsg(
 			$msg, $link, $reason, $ip, $name, $blockid, $blockExpiry,

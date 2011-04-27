@@ -106,12 +106,13 @@ abstract class ResourceLoaderModule {
 	}
 
 	/**
-	 * Get whether CSS for this module should be flipped
 	 * @param $context ResourceLoaderContext
 	 * @return bool
 	 */
 	public function getFlip( $context ) {
-		return $context->getDirection() === 'rtl';
+		global $wgContLang;
+
+		return $wgContLang->getDir() !== $context->getDirection();
 	}
 
 	/**
@@ -134,7 +135,7 @@ abstract class ResourceLoaderModule {
 	 */
 	public function getStyles( ResourceLoaderContext $context ) {
 		// Stub, override expected
-		return '';
+		return array();
 	}
 
 	/**

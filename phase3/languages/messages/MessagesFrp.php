@@ -94,7 +94,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'Titros_protègiês', 'TitrosProtègiês' ),
 	'Allpages'                  => array( 'Totes_les_pâges', 'TotesLesPâges' ),
 	'Prefixindex'               => array( 'Endèxe_des_prèfixos', 'EndèxeDesPrèfixos' ),
-	'Ipblocklist'               => array( 'Lista_des_blocâjos', 'ListaDesBlocâjos', 'Blocâjos', 'Utilisators_blocâs', 'UtilisatorsBlocâs', 'Adrèces_IP_blocâs', 'AdrècesIPBlocâs' ),
+	'BlockList'                 => array( 'Lista_des_blocâjos', 'ListaDesBlocâjos', 'Blocâjos', 'Utilisators_blocâs', 'UtilisatorsBlocâs', 'Adrèces_IP_blocâs', 'AdrècesIPBlocâs' ),
 	'Specialpages'              => array( 'Pâges_spèciâles', 'PâgesSpèciâles' ),
 	'Contributions'             => array( 'Contribucions' ),
 	'Emailuser'                 => array( 'Mandar_un_mèssâjo', 'MandarUnMèssâjo', 'Mèssâjo' ),
@@ -109,7 +109,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Vèrsion' ),
 	'Allmessages'               => array( 'Mèssâjos_sistèmo', 'MèssâjosSistèmo' ),
 	'Log'                       => array( 'Jornal', 'Jornals' ),
-	'Blockip'                   => array( 'Blocar', 'Blocâjo' ),
+	'Block'                     => array( 'Blocar', 'Blocâjo' ),
 	'Undelete'                  => array( 'Refâre', 'Rèstoracion' ),
 	'Import'                    => array( 'Importar', 'Importacion' ),
 	'Lockdb'                    => array( 'Vèrrolyér_la_bâsa_de_balyês', 'VèrrolyérLaBâsaDeBalyês' ),
@@ -3529,7 +3529,7 @@ Volyéd confirmar que vos voléd franc refâre cela pâge.",
 'watchlistedit-normal-legend'  => 'Enlevar des titros de la lista de survelyence',
 'watchlistedit-normal-explain' => 'Los titros de voutra lista de survelyence sont montrâs ce-desot.
 Por enlevar un titro (et sa pâge de discussion), pouentâd la câsa a coutâ et pués clicâd sur lo boton « {{int:Watchlistedit-normal-submit}} ».
-Vos pouede asse-ben changiér la [[Special:Watchlist/raw|lista en fôrma bruta]].',
+Vos pouede asse-ben changiér la [[Special:EditWatchlist/raw|lista en fôrma bruta]].',
 'watchlistedit-normal-submit'  => 'Enlevar los titros chouèsis',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Yon titro at étâ enlevâ|$1 titros ont étâ enlevâs}} de voutra lista de survelyence :',
 'watchlistedit-raw-title'      => 'Changiér la lista de survelyence en fôrma bruta',
@@ -3537,7 +3537,7 @@ Vos pouede asse-ben changiér la [[Special:Watchlist/raw|lista en fôrma bruta]]
 'watchlistedit-raw-explain'    => 'Los titros de voutra lista de survelyence sont montrâs ce-desot et pôvont étre changiês en los apondent ou ben en los enlevent de la lista ;
 yon titro per legne.
 Quand vos éd feni, clicâd sur lo boton « {{int:Watchlistedit-raw-submit}} ».
-Vos pouede asse-ben utilisar l’[[Special:Watchlist/edit|èditor normal]].',
+Vos pouede asse-ben utilisar l’[[Special:EditWatchlist|èditor normal]].',
 'watchlistedit-raw-titles'     => 'Titros :',
 'watchlistedit-raw-submit'     => 'Betar a jorn la lista de survelyence',
 'watchlistedit-raw-done'       => 'Voutra lista de survelyence at étâ betâ a jorn.',

@@ -150,7 +150,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'BeskermdeTitels' ),
 	'Allpages'                  => array( 'Alle_bladsye', 'Allebladsye' ),
 	'Prefixindex'               => array( 'VoorvoegselIndeks' ),
-	'Ipblocklist'               => array( 'IPBlokLys' ),
+	'BlockList'                 => array( 'IPBlokLys' ),
 	'Unblock'                   => array( 'Deblokkeer' ),
 	'Specialpages'              => array( 'Spesiale_bladsye', 'Spesialebladsye' ),
 	'Contributions'             => array( 'Bydraes', 'Gebruikersbydraes' ),
@@ -166,7 +166,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Weergawe' ),
 	'Allmessages'               => array( 'Stelselboodskappe', 'Alle_stelselboodskappe', 'Allestelselboodskappe', 'Boodskappe' ),
 	'Log'                       => array( 'Logboek', 'Logboeke' ),
-	'Blockip'                   => array( 'BlokIP' ),
+	'Block'                     => array( 'BlokIP' ),
 	'Undelete'                  => array( 'Ontskrap' ),
 	'Import'                    => array( 'Importeer' ),
 	'Lockdb'                    => array( 'SluitDB' ),
@@ -3341,7 +3341,7 @@ Probeer normale voorskou.',
 'watchlistedit-normal-legend'  => 'Verwyder titels van dophoulys',
 'watchlistedit-normal-explain' => 'Die bladsye in u dophoulys word hier onder vertoon.
 Selekteer die titels wat verwyder moet word en kliek op {{int:Watchlistedit-normal-submit}}" onder aan die bladsy.
-Alternatiewelik kan u die [[Special:Watchlist/raw|bronkode wysig]].',
+Alternatiewelik kan u die [[Special:EditWatchlist/raw|bronkode wysig]].',
 'watchlistedit-normal-submit'  => 'Verwyder Titels',
 'watchlistedit-normal-done'    => 'Daar is {{PLURAL:$1|1 bladsy|$1 bladsye}} van u dophoulys verwyder:',
 'watchlistedit-raw-title'      => 'Wysig u dophoulys se bronkode',
@@ -3349,7 +3349,7 @@ Alternatiewelik kan u die [[Special:Watchlist/raw|bronkode wysig]].',
 'watchlistedit-raw-explain'    => 'Die bladsye in u dophoulys word hier onder vertoon.
 U kan die lys wysig deur titels by te sit of te verwyder (een bladsy per lyn).
 As u klaar is, klik op "{{int:Watchlistedit-raw-submit}}" onder aan die bladsy.
-U kan ook die [[Special:Watchlist/edit|standaard opdaterigskerm gebruik]].',
+U kan ook die [[Special:EditWatchlist|standaard opdaterigskerm gebruik]].',
 'watchlistedit-raw-titles'     => 'Titels:',
 'watchlistedit-raw-submit'     => 'Opdateer dophoulys',
 'watchlistedit-raw-done'       => 'U dophoulys is opgedateer.',

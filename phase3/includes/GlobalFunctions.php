@@ -1599,7 +1599,13 @@ function wfResetOutputBuffers( $resetGzipEncoding = true ) {
 			if( $status['name'] == 'ob_gzhandler' ) {
 				// Reset the 'Content-Encoding' field set by this handler
 				// so we can start fresh.
-				header( 'Content-Encoding:' );
+				if ( function_exists( 'header_remove' ) ) {
+					// Available since PHP 5.3.0
+					header_remove( 'Content-Encoding' );
+				} else {
+					// We need to provide a valid content-coding. See bug 28069
+					header( 'Content-Encoding: identity' );
+				}
 				break;
 			}
 		}
@@ -2756,9 +2762,6 @@ function wfCreateObject( $name, $p ) {
 
 function wfHttpOnlySafe() {
 	global $wgHttpOnlyBlacklist;
-	if( !version_compare( '5.2', PHP_VERSION, '<' ) ) {
-		return false;
-	}
 
 	if( isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		foreach( $wgHttpOnlyBlacklist as $regex ) {
@@ -3366,7 +3369,7 @@ function wfArrayMap( $function, $input ) {
 
 /**
  * Get a cache object.
- * @param $inputType Cache type, one the the CACHE_* constants.
+ * @param integer $inputType Cache type, one the the CACHE_* constants.
  *
  * @return BagOStuff
  */

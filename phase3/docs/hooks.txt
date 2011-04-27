@@ -354,6 +354,11 @@ associated RecentChange object. In the hook, just add your callback to the
 $tokenFunctions array and return true (returning false makes no sense)
 $tokenFunctions: array(action => callback)
 
+'APIQuerySiteInfoGeneralInfo': use this hook to add extra information to
+the sites general information.
+$module: the current ApiQuerySiteInfo module
+&$results: array of results, add things here
+
 'APIQueryUsersTokens': use this hook to add custom token to list=users.
 Every token has an action, which will be used in the ustoken parameter
 and in the output (actiontoken="..."), and a callback function which
@@ -545,11 +550,6 @@ $name: Image name being checked
 Change $bad and return false to override. If an image is "bad", it is not
 rendered inline in wiki pages or galleries in category pages.
 
-'BeforeGalleryFindFile': before an image is fetched for a gallery
-&$gallery,: the gallery object
-&$nt: the image title
-&$time: image timestamp
-
 'BeforeInitialize': before anything is initialized in performRequestForTitle()
 &$title: Title being used for request
 &$article: The associated Article object
@@ -562,21 +562,29 @@ $mediaWiki: Mediawiki object
 &$out: OutputPage object
 &$skin: Skin object
 
+'BeforeParserFetchFileAndTitle': before an image is rendered by Parser
+&$parser: Parser object
+&$nt: the image title
+&$time: the image timestamp (use '0' to force a broken thumbnail)
+&$sha1: image base 36 sha1 (used to specify the file, $nt will be ignored if this is set)
+&$descQuery: query string to add to thumbnail URL
+
 'BeforeParserFetchTemplateAndtitle': before a template is fetched by Parser
 &$parser: Parser object
 &$title: title of the template
 &$skip: skip this template and link it?
 &$id: the id of the revision being parsed
 
-'BeforeParserMakeImageLinkObj': before an image is rendered by Parser
-&$parser: Parser object
-&$nt: the image title
-&$skip: skip this image and link it?
-&$time: the image timestamp
-
 'BeforeParserrenderImageGallery': before an image gallery is rendered by Parser
 &$parser: Parser object
 &$ig: ImageGallery object
+
+'BitmapHandlerTransform': before a file is transformed, gives extension the 
+possibility to transform it themselves
+$handler: BitmapHandler 
+$image: File
+&$scalerParams: Array with scaler parameters 
+&$mto: null, set to a MediaTransformOutput
 
 'BlockIp': before an IP address or user is blocked
 $block: the Block object about to be saved
@@ -963,6 +971,12 @@ $request: WebRequest
 $ignoreRedirect: boolean to skip redirect check
 $target: Title/string of redirect target
 $article: Article object
+
+'InterwikiLoadPrefix': When resolving if a given prefix is an interwiki or not.
+Return true without providing an interwiki to continue interwiki search.
+$prefix: interwiki prefix we are looking for.
+&$iwData: output array describing the interwiki with keys iw_url, iw_local, 
+  iw_trans and optionally iw_api and iw_wikiid.
 
 'InternalParseBeforeLinks': during Parser's internalParse method before links
 but after noinclude/includeonly/onlyinclude and other processing.
@@ -1384,6 +1398,11 @@ $out: OutputPage object
 loader request or generating HTML output.
 &$resourceLoader: ResourceLoader object
 
+'ResourceLoaderGetStartupModules': Run once the startup module is being generated. This allows you
+to add modules to the startup module. This hook should be used sparingly since any module added here
+will be loaded on all pages. This hook is useful if you want to make code available to module loader 
+scripts. 
+
 'RawPageViewBeforeOutput': Right before the text is blown out in action=raw
 &$obj: RawPage object
 &$text: The text that's going to be the output
@@ -1759,6 +1778,11 @@ $user: the user who sent the message out
 $ip: IP of the user who sent the message out
 $u: the account whose new password will be set
 
+'UserAddGroup': called when adding a group; return false to override
+stock group addition.
+$user: the user object that is to have a group added
+&$group: the group to add, can be modified
+
 'UserArrayFromResult': called when creating an UserArray object from a
 database result
 &$userArray: set this to an object to override the default object returned
@@ -1885,6 +1909,11 @@ $user: the user object that is about to be logged out
 $user: the user object _after_ logout (won't have name, ID, etc.)
 $inject_html: Any HTML to inject after the "logged out" message.
 $oldName: name of the user before logout (string)
+
+'UserRemoveGroup': called when removing a group; return false to override
+stock group removal.
+$user: the user object that is to have a group removed
+&$group: the group to be removed, can be modified
 
 'UserRights': After a user's group memberships are changed
 $user  : User object that was changed

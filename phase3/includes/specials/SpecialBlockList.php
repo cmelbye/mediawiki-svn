@@ -40,7 +40,7 @@ class SpecialBlockList extends SpecialPage {
 	 * @param $par String title fragment
 	 */
 	public function execute( $par ) {
-		global $wgUser, $wgOut, $wgRequest;
+		global $wgOut, $wgRequest;
 
 		$this->setHeaders();
 		$this->outputHeader();
@@ -65,7 +65,7 @@ class SpecialBlockList extends SpecialPage {
 		$fields = array(
 			'Target' => array(
 				'type' => 'text',
-				'label-message' => 'ipaddressorusername',
+				'label-message' => 'ipadressorusername',
 				'tabindex' => '1',
 				'size' => '45',
 			),
@@ -76,7 +76,7 @@ class SpecialBlockList extends SpecialPage {
 					wfMsg( 'blocklist-tempblocks' ) => 'tempblocks',
 					wfMsg( 'blocklist-addressblocks' ) => 'addressblocks',
 				),
-				'cssclass' => 'mw-htmlform-multiselect-flatlist',
+				'flatlist' => true,
 			),
 		);
 		$form = new HTMLForm( $fields );
@@ -85,29 +85,9 @@ class SpecialBlockList extends SpecialPage {
 		$form->setWrapperLegend( wfMsg( 'ipblocklist-legend' ) );
 		$form->setSubmitText( wfMsg( 'ipblocklist-submit' ) );
 		$form->prepareForm();
-		
+
 		$form->displayForm( '' );
 		$this->showList();
-	}
-
-	/**
-	 * Get the component of an IP address which is certain to be the same between an IP
-	 * address and a rangeblock containing that IP address.
-	 * @todo: should be in IP.php??
-	 * @param  $ip String
-	 * @return String
-	 */
-	protected static function getIpFragment( $ip ){
-		global $wgBlockCIDRLimit;
-		if( IP::isIPv4( $ip ) ){
-			$hexAddress = IP::toHex( $ip );
-			return substr( $hexAddress, 0,  wfBaseconvert( $wgBlockCIDRLimit['IPv4'], 10, 16 ) );
-		} elseif( IP::isIPv6( $ip ) ) {
-			$hexAddress = substr( IP::toHex( $ip ), 2 );
-			return 'v6-' . substr( $hexAddress, 0,  wfBaseconvert( $wgBlockCIDRLimit['IPv6'], 10, 16 ) );
-		} else {
-			return null;
-		}
 	}
 
 	function showList() {
@@ -133,25 +113,16 @@ class SpecialBlockList extends SpecialPage {
 					break;
 
 				case Block::TYPE_IP:
-				case BLock::TYPE_RANGE:
+				case Block::TYPE_RANGE:
 					list( $start, $end ) = IP::parseRange( $target );
-					# Per bug 14634, we want to include relevant active rangeblocks; for
-					# rangeblocks, we want to include larger ranges which enclose the given
-					# range. We know that all blocks must be smaller than $wgBlockCIDRLimit,
-					# so we can improve performance by filtering on a LIKE clause
-					$chunk = self::getIpFragment( $start );
 					$dbr = wfGetDB( DB_SLAVE );
-					$like = $dbr->buildLike( $chunk, $dbr->anyString() );
-						
-					# Fairly hard to make a malicious SQL statement out of hex characters,
-					# but stranger things have happened...
-					$safeStart = $dbr->addQuotes( IP::toHex( $start ) );
-					$safeEnd = $dbr->addQuotes( IP::toHex( $end ) );
-					$safeTarget = $dbr->addQuotes( IP::toHex( $target ) );
-
-					# TODO: abstract this away
-					$conds[] = "(ipb_address = $safeTarget) OR
-						(ipb_range_start $like AND ipb_range_start <= $safeStart AND ipb_range_end >= $safeEnd)";
+					$conds[] = $dbr->makeList(
+						array(
+							'ipb_address' => $target,
+							Block::getRangeCond( $start, $end )
+						),
+						LIST_OR
+					);
 					$conds['ipb_auto'] = 0;
 					break;
 
@@ -233,7 +204,6 @@ class BlockListPager extends TablePager {
 	}
 
 	function getFieldNames() {
-		global $wgUser;
 		static $headers = null;
 
 		if ( $headers == array() ) {
@@ -252,7 +222,7 @@ class BlockListPager extends TablePager {
 	}
 
 	function formatValue( $name, $value ) {
-		global $wgOut, $wgLang, $wgUser;
+		global $wgLang, $wgUser;
 
 		static $sk, $msg;
 		if ( empty( $sk ) ) {
@@ -301,9 +271,7 @@ class BlockListPager extends TablePager {
 				break;
 
 			case 'ipb_expiry':
-				$formatted = $value == Block::infinity()
-					? $msg['infiniteblock']
-					: $wgLang->timeanddate( $value );
+				$formatted = $wgLang->formatExpiry( $value );
 				if( $wgUser->isAllowed( 'block' ) ){
 					if( $row->ipb_auto ){
 						$links[] = $sk->linkKnown(
@@ -325,7 +293,7 @@ class BlockListPager extends TablePager {
 					$formatted .= ' ' . Html::rawElement(
 						'span',
 						array( 'class' => 'mw-blocklist-actions' ),
-						"[{$wgLang->pipeList($links)}]"
+						wfMsg( 'parentheses', $wgLang->pipeList( $links ) )
 					);
 				}
 				break;

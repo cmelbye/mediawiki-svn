@@ -134,7 +134,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Извези' ),
 	'Version'                   => array( 'Верзија' ),
 	'Allmessages'               => array( 'СвеПоруке' ),
-	'Blockip'                   => array( 'Блокирај', 'БлокирајИП', 'БлокирајКорисника' ),
+	'Block'                     => array( 'Блокирај', 'БлокирајИП', 'БлокирајКорисника' ),
 	'Import'                    => array( 'Увези' ),
 	'Lockdb'                    => array( 'ЗакључајБазу' ),
 	'Unlockdb'                  => array( 'ОткључајБазу' ),
@@ -1684,7 +1684,7 @@ $1",
 'uploadwarning'               => 'Упозорење при слању',
 'uploadwarning-text'          => 'Измените опис датотеке и покушајте поново.',
 'savefile'                    => 'Сачувај датотеку',
-'uploadedimage'               => '{{GENDER:|је послао|је послала|посла}} „[[$1]]“',
+'uploadedimage'               => '{{GENDER:|је послао|је послала|је послао}} „[[$1]]“',
 'overwroteimage'              => '{{GENDER:|је послао|је послала|посла}} ново издање „[[$1]]“',
 'uploaddisabled'              => 'Слање је онемогућено.',
 'copyuploaddisabled'          => 'Отпремање путем URL адресе је онемогућено.',
@@ -2163,8 +2163,8 @@ $1',
 'watchlist-options'    => 'Опције списка надгледања',
 
 # Displayed when you click the "watch" button and it is in the process of watching
-'watching'   => 'Надгледање...',
-'unwatching' => 'Прекидање надгледања...',
+'watching'   => 'Надгледање…',
+'unwatching' => 'Прекидање надгледања…',
 
 'enotif_mailer'                => '{{SITENAME}} пошта обавештења',
 'enotif_reset'                 => 'Означи све странице као посећене',
@@ -2268,7 +2268,7 @@ $UNWATCHURL
 'protectlogpage'              => 'Историја закључавања',
 'protectlogtext'              => 'Испод је списак заштићених страница.<br />
 Погледајте [[Special:ProtectedPages|правила о заштити страница]] за више информација.',
-'protectedarticle'            => '{{GENDER:|је заштитио|је заштитила|заштити}} „[[$1]]“',
+'protectedarticle'            => '{{GENDER:|је заштитио|је заштитила|је заштитио}} „[[$1]]“',
 'modifiedarticleprotection'   => '{{GENDER:|је променио|је променила|промени}} ниво заштите за „[[$1]]“',
 'unprotectedarticle'          => '{{GENDER:|је скинуо|је скинула|скину}} заштиту са „[[$1]]“',
 'movedarticleprotection'      => '{{GENDER:|је преместио|је преместила|премести}} поставке заштите са „[[$2]]“ на „[[$1]]“',
@@ -2506,7 +2506,7 @@ $1',
 'blocklogtext'                    => 'Ово је историја блокирања корисника.
 Аутоматски забрањене IP адресе нису исписане овде.
 Погледајте [[Special:IPBlockList|забрањене IP адресе]] за списак тренутних блокова.',
-'unblocklogentry'                 => '{{GENDER:|је деблокирао|је деблокирала|деблокира}} „$1“',
+'unblocklogentry'                 => '{{GENDER:|је деблокирао|је деблокирала|је деблокирао}} „$1“',
 'block-log-flags-anononly'        => 'само анонимни корисници',
 'block-log-flags-nocreate'        => 'забрањено прављење налога',
 'block-log-flags-noautoblock'     => 'искључено аутоматско блокирање',
@@ -3381,7 +3381,7 @@ $1',
 'watchlistedit-normal-legend'  => 'Уклањање наслова са списка надгледања',
 'watchlistedit-normal-explain' => 'Наслови на вашем списку надгледања су приказани испод.
 Да бисте уклонили наслов, означите кућицу до њега и кликните на „{{int:Watchlistedit-normal-submit}}“.
-Можете и да [[Special:Watchlist/raw|измените сиров списак]].',
+Можете и да [[Special:EditWatchlist/raw|измените сиров списак]].',
 'watchlistedit-normal-submit'  => 'Уклони наслове',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Једна страница је уклоњена|$1 странице су уклоњене|$1 страница је уклоњено}} с вашег списка надгледања:',
 'watchlistedit-raw-title'      => 'Измена сировог списка надгледања',
@@ -3389,7 +3389,7 @@ $1',
 'watchlistedit-raw-explain'    => 'Наслови са списка надгледања су приказани испод и могу се мењати додавањем или уклањањем;
 Уносите један наслов по линији.
 Када завршите, кликните на „{{int:Watchlistedit-raw-submit}}“.
-Можете и да [[Special:Watchlist/edit|користите стандардан уређивач списка]].',
+Можете и да [[Special:EditWatchlist|користите стандардан уређивач списка]].',
 'watchlistedit-raw-titles'     => 'Наслови:',
 'watchlistedit-raw-submit'     => 'Ажурирај списак надгледања',
 'watchlistedit-raw-done'       => 'Ваш списак надгледања је ажуриран.',

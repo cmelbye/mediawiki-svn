@@ -206,7 +206,7 @@ $messages = array(
 'mypage'        => 'مه صفحه',
 'mytalk'        => 'مه گپ',
 'anontalk'      => 'گپ بزوئن اینتا آی‌پی وسّه',
-'navigation'    => 'چـأرخـه‌سـه‌ن',
+'navigation'    => 'بگردستن',
 'and'           => '&#32;و',
 
 # Cologne Blue skin
@@ -240,7 +240,7 @@ $messages = array(
 'errorpagetitle'    => 'خطا!',
 'returnto'          => 'بردگستن تا $1',
 'tagline'           => '{{SITENAME}} جه',
-'help'              => 'دأسـگـیـری',
+'help'              => 'کمک و راهنمایی',
 'search'            => 'چـأرخـه تـو',
 'searchbutton'      => 'چـأرخـه‌تـو',
 'go'                => 'بـور',
@@ -309,7 +309,7 @@ $2، $1',
 'edithelppage'         => 'Help:دَچی‌ین',
 'helppage'             => 'Help:رونما',
 'mainpage'             => 'گت ولگ',
-'mainpage-description' => 'گت ولگ',
+'mainpage-description' => 'گت صفحه',
 'policy-url'           => 'Project:سیاستون',
 'portal'               => 'کارورون ِلوش',
 'portal-url'           => 'Project:کارورون لوش',
@@ -494,7 +494,7 @@ $2، $1',
 اتا ته هستی.',
 
 # History pages
-'revisionasof'     => 'دأچـیـه‌نی کـه  $1  ده‌لـه جـا دأکـه‌تـه',
+'revisionasof'     => 'دچی‌یه‌ئونی که $1 جا دکتنه',
 'previousrevision' => '→ پـیـشـیـن ده‌گه‌ره‌سه‌ن',
 'cur'              => 'ئه‌سا',
 'last'             => 'تاریخچه',
@@ -549,7 +549,7 @@ $2، $1',
 'email'                     => 'رایانومه',
 'prefs-help-realname'       => 'اصلی نوم اختیاری هسه. اگه شه‌ما بنویسین شمه کارون ونه جا ثبت بونه.',
 'prefs-help-email'          => 'ایمیل اختیاری هسته. ولی اگه شِما شه پاسورد ره یاد بکارد‌نی نو پاسورد ره شِمسه ایمیل کامبی. شِما همینتی توندی بی‌یلین که دیگه کارورون شمه وسّه کاروری صفحه و کاروری گپ جه ایمیل بَزنن بی اونکه شِمه ایمیل معلوم بَواشه.',
-'prefs-help-email-required' => 'ایمیل نه‌شونی لازم هسه.',
+'prefs-help-email-required' => 'ایمیل نشونی لازم هسه.',
 
 # User rights
 'userrights-user-editname' => 'کارور نوم ره بنویش هاکنین',
@@ -595,13 +595,22 @@ $2، $1',
 
 # Recent changes linked
 'recentchangeslinked'         => 'واری دأچیـه‌ن‌ئون',
-'recentchangeslinked-feed'    => 'واری دچیه‌ن‌ئون',
-'recentchangeslinked-toolbox' => 'واری دچیه‌ن‌ئون',
+'recentchangeslinked-feed'    => 'واری دچی‌یه‌ئون',
+'recentchangeslinked-toolbox' => 'واری دچی‌یه‌ئون',
 'recentchangeslinked-page'    => 'صفحه ایسم:',
 
 # Upload
 'upload'        => 'باربی‌یشتن فـایـل',
-'uploadlogpage' => 'بـاربـیـه‌شـتـه‌ن گوزاره‌ش',
+'uploadbtn'     => 'باربی‌یشتن فایل',
+'uploadtext'    => "فرم زیر جه باربی‌یشتن نو پرونده‌ئون وسّه استفاده هاکنین.
+بدی‌ین پرونده‌ئونی که قبلاً باربی‌یشته بَینه به [[Special:FileList|فهرست پرونده‌ها]] بورین. باربی‌یشتن مجدد [[Special:Log/upload|سیاههٔ بارگذاری‌ها]] و حذف پرونده‌ئون [[Special:Log/delete|deletion log]] دله ثبت وانه.
+
+بعد از این که پرونده‌یی ره باربی‌یشتنی، به این سه شکل بنشنه وه ره صفحه‌ئون دله بی‌یشتن:
+
+*'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.jpg]]</nowiki></tt>''' استفاده از نسخه کامل پرونده وسّه
+*'''<tt><nowiki>[[</nowiki>{{ns:file}}<nowiki>:File.png|200px|thumb|left|alt text]]</nowiki></tt>''' استفاده از اتا نسخه ۲۰۰ پیکسلی از پرونده که اتا جعبه سمت چپ متن دله دره و عبارت alt text ونه دله به عنوان توضیح استفاده بیّه وسّه
+*'''<tt><nowiki>[[</nowiki>{{ns:media}}<nowiki>:File.ogg]]</nowiki></tt>''' بساتن اتا پیوند مستقیم به پرونده بدون نمایش پرونده",
+'uploadlogpage' => 'باربی‌یشتن گزارش',
 'uploadedimage' => 'بـاربـیـه‌شـتـه بـأیـه "[[$1]]"',
 
 # Special:ListFiles
@@ -661,7 +670,7 @@ $2، $1',
 'allpagessubmit' => 'بـور',
 
 # Special:Categories
-'categories' => 'دسته ئون',
+'categories' => 'رج‌ئون',
 
 # Special:LinkSearch
 'linksearch' => 'دأیا لـیـنـک‌ئون',
@@ -709,7 +718,8 @@ $2، $1',
 'rollback-success'  => 'چیزونی که $1 دچی‌ین دگاردسته بیّه همونتایی که $2 آخرسری دچی‌ین دلـه هاکرده',
 
 # Restrictions (nouns)
-'restriction-edit' => 'دچی‌ین',
+'restriction-edit'   => 'دچی‌ین',
+'restriction-upload' => 'باربی‌یشتن',
 
 # Undelete
 'undeletelink'     => 'بـأویـنـه‌ن / ده‌واره جـا بـیـه‌شـتـه‌ن',
@@ -732,7 +742,7 @@ $2، $1',
 'sp-contributions-submit'   => 'چـأرخـه‌تـو',
 
 # What links here
-'whatlinkshere'       => 'کـه‌جـه‌ لـیـنـک هـه‌دائـه‌ ایـجـه ره؟',
+'whatlinkshere'       => 'لینک‌ئون ِاینتا صفحه',
 'whatlinkshere-title' => 'وألـگ‌ئونی که "$1" ره لـیـنک هه‌دانه',
 'whatlinkshere-page'  => 'صفحه:',
 'linkshere'           => "ولـگ‌ئـونی کـه لـیـنـک هـه‌دائـه‌نـه '''[[:$1]]''' ره:",
@@ -787,7 +797,7 @@ $2، $1',
 'tooltip-search-go'              => 'بـور اتـا ولـگـی کـه وه‌نـه نـوم هـأمـیـنـتـا بـوئـه',
 'tooltip-search-fulltext'        => 'ولـگ‌ئـون ره ایـنـتـا تـه‌کـسـت وه‌سـه چـأرخ بـأزوئـه‌ن',
 'tooltip-p-logo'                 => 'گَت صفحه ره بَدی‌ین',
-'tooltip-n-mainpage'             => 'بدی‌ین گت ولگ',
+'tooltip-n-mainpage'             => 'گت صفحه ره بدی‌ین',
 'tooltip-n-mainpage-description' => 'گَت ِصفحه ره هارشائن',
 'tooltip-n-portal'               => 'په‌روجه ده‌له‌واره، چه‌شی به‌توده‌نی هاکه‌نی ئو که‌جه چیزئون ره بأره‌سی',
 'tooltip-n-currentevents'        => 'تازه چی‌ئون درباره بدونستن',
@@ -800,7 +810,7 @@ $2، $1',
 'tooltip-feed-atom'              => 'Atom خوراک این صفحه وسّه',
 'tooltip-t-emailuser'            => 'ای کـارور ره اتـا ئـه‌لـه‌کـتـه‌رونـیـکـی‌نـومـه راهـی هـه‌کـارده‌ن',
 'tooltip-t-upload'               => 'بـاربـیـه‌شـتـه‌ن فـایـل‌ئون',
-'tooltip-t-specialpages'         => 'هأمـه شـا ولـگ‌ئون ره لـیـسـت',
+'tooltip-t-specialpages'         => 'همه شا صفحه‌ئون ِلیسـت',
 'tooltip-t-print'                => 'پِرینت هـاکاردن صفحه دگاردسته',
 'tooltip-t-permalink'            => 'موندستنی لینک این صفحه ره اینتا محتوا وسّه',
 'tooltip-ca-nstab-main'          => 'بدی‌ین ِصفحه',
@@ -877,6 +887,6 @@ $5
 'autosumm-replace' => "صفحه ره اینتا جه عوض هاکرد: '$1'",
 
 # Special:SpecialPages
-'specialpages' => 'شـا ولـگ‌ئون',
+'specialpages' => 'شا صفحه‌ئون',
 
 );

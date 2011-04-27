@@ -976,6 +976,33 @@ External links: wiki links within external link (Bug 3695)
 !! end
 
 !! test
+External links: links containing empty bracket pair []
+!! input
+[http://example.com?parameter[]=foo link]
+!! result
+<p><a rel="nofollow" class="external text" href="http://example.com?parameter%5B%5D=foo">link</a>
+</p>
+!! end
+
+!! test
+External links: links ending in empty bracket pair []
+!! input
+[http://example.com?parameter[]=foo&option[]]
+!! result
+<p><a rel="nofollow" class="external autonumber" href="http://example.com?parameter%5B%5D=foo&amp;option%5B%5D">[1]</a>
+</p>
+!! end
+
+!! test
+External links: bare links ending in empty bracket pair []
+!! input
+http://example.com?parameter[]=foo&option[]
+!! result
+<p><a rel="nofollow" class="external free" href="http://example.com?parameter%5B%5D=foo&amp;option%5B%5D">http://example.com?parameter%5B%5D=foo&amp;option%5B%5D</a>
+</p>
+!! end
+
+!! test
 BUG 787: Links with one slash after the url protocol are invalid
 !! input
 http:/example.com
@@ -6801,6 +6828,41 @@ some <b>caption</b> <a href="/wiki/Main_Page">Main Page</a>
 			<div class="gallerytext">
 <p><a href="/wiki/File:Foobar.jpg" title="File:Foobar.jpg">Foobar.jpg</a><br />
 </p>
+			</div>
+		</div></li>
+</ul>
+
+!! end
+
+!! test
+Gallery (with namespace-less filenames)
+!! input
+<gallery>
+File:Nonexistant.jpg
+Nonexistant.jpg
+image:foobar.jpg
+foobar.jpg
+</gallery>
+!! result
+<ul class="gallery">
+		<li class="gallerybox" style="width: 155px"><div style="width: 155px">
+			<div style="height: 150px;">Nonexistant.jpg</div>
+			<div class="gallerytext">
+			</div>
+		</div></li>
+		<li class="gallerybox" style="width: 155px"><div style="width: 155px">
+			<div style="height: 150px;">Nonexistant.jpg</div>
+			<div class="gallerytext">
+			</div>
+		</div></li>
+		<li class="gallerybox" style="width: 155px"><div style="width: 155px">
+			<div class="thumb" style="width: 150px;"><div style="margin:66px auto;"><a href="/wiki/File:Foobar.jpg" class="image"><img alt="Foobar.jpg" src="http://example.com/images/3/3a/Foobar.jpg" width="120" height="14" /></a></div></div>
+			<div class="gallerytext">
+			</div>
+		</div></li>
+		<li class="gallerybox" style="width: 155px"><div style="width: 155px">
+			<div class="thumb" style="width: 150px;"><div style="margin:66px auto;"><a href="/wiki/File:Foobar.jpg" class="image"><img alt="Foobar.jpg" src="http://example.com/images/3/3a/Foobar.jpg" width="120" height="14" /></a></div></div>
+			<div class="gallerytext">
 			</div>
 		</div></li>
 </ul>

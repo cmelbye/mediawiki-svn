@@ -105,12 +105,7 @@ abstract class FileRepo {
 	 *                     be found.
 	 */
 	function findFile( $title, $options = array() ) {
-		if ( !is_array( $options ) ) {
-			// MW 1.15 compat
-			$time = $options;
-		} else {
-			$time = isset( $options['time'] ) ? $options['time'] : false;
-		}
+		$time = isset( $options['time'] ) ? $options['time'] : false;
 		if ( !($title instanceof Title) ) {
 			$title = Title::makeTitleSafe( NS_FILE, $title );
 			if ( !is_object( $title ) ) {
@@ -185,7 +180,7 @@ abstract class FileRepo {
 
 	/**
 	 * Create a new File object from the local repository
-	 * @param $sha1 Mixed: SHA-1 key
+	 * @param $sha1 Mixed: base 36 SHA-1 hash
 	 * @param $time Mixed: time at which the image was uploaded.
 	 *              If this is specified, the returned object will be an
 	 *              of the repository's old file class instead of a current
@@ -198,12 +193,13 @@ abstract class FileRepo {
 		if ( $time ) {
 			if ( $this->oldFileFactoryKey ) {
 				return call_user_func( $this->oldFileFactoryKey, $sha1, $this, $time );
-			} else {
-				return false;
 			}
 		} else {
-			return call_user_func( $this->fileFactoryKey, $sha1, $this );
+			if ( $this->fileFactoryKey ) {
+				return call_user_func( $this->fileFactoryKey, $sha1, $this );
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -211,16 +207,11 @@ abstract class FileRepo {
 	 * Returns false if the file does not exist. Repositories not supporting
 	 * version control should return false if the time is specified.
 	 *
-	 * @param $sha1 String
+	 * @param $sha1 String base 36 SHA-1 hash
 	 * @param $options Option array, same as findFile().
 	 */
 	function findFileFromKey( $sha1, $options = array() ) {
-		if ( !is_array( $options ) ) {
-			# MW 1.15 compat
-			$time = $options;
-		} else {
-			$time = isset( $options['time'] ) ? $options['time'] : false;
-		}
+		$time = isset( $options['time'] ) ? $options['time'] : false;
 
 		# First try the current version of the file to see if it precedes the timestamp
 		$img = $this->newFileFromKey( $sha1 );
@@ -233,7 +224,7 @@ abstract class FileRepo {
 		# Now try an old version of the file
 		if ( $time !== false ) {
 			$img = $this->newFileFromKey( $sha1, $time );
-			if ( $img->exists() ) {
+			if ( $img && $img->exists() ) {
 				if ( !$img->isDeleted(File::DELETED_FILE) ) {
 					return $img;
 				} else if ( !empty( $options['private'] ) && $img->userCan(File::DELETED_FILE) ) {

@@ -114,7 +114,7 @@ $specialPageAliases = array(
 	'Protectedpages'            => array( 'Skyddade_sidor' ),
 	'Protectedtitles'           => array( 'Skyddade_titlar' ),
 	'Allpages'                  => array( 'Alla_sidor' ),
-	'Ipblocklist'               => array( 'Blockeringslista' ),
+	'BlockList'                 => array( 'Blockeringslista' ),
 	'Specialpages'              => array( 'Specialsidor' ),
 	'Contributions'             => array( 'Bidrag' ),
 	'Emailuser'                 => array( 'E-mail' ),
@@ -128,7 +128,7 @@ $specialPageAliases = array(
 	'Export'                    => array( 'Exportera' ),
 	'Allmessages'               => array( 'Systemmeddelanden' ),
 	'Log'                       => array( 'Logg' ),
-	'Blockip'                   => array( 'Blockera' ),
+	'Block'                     => array( 'Blockera' ),
 	'Undelete'                  => array( 'Återställ' ),
 	'Import'                    => array( 'Importera' ),
 	'Lockdb'                    => array( 'Lås_databasen' ),
@@ -3452,7 +3452,7 @@ Pröva vanlig förhandsgranskning istället.',
 'watchlistedit-normal-legend'  => 'Ta bort sidor från bevakningslistan',
 'watchlistedit-normal-explain' => 'Titlar på din bevakningslista visas nedan.
 För att ta bort en titel, markera rutan bredvid den och klicka på "{{int:Watchlistedit-normal-submit}}".
-Du kan också [[Special:Watchlist/raw|redigera listan i råformat]].',
+Du kan också [[Special:EditWatchlist/raw|redigera listan i råformat]].',
 'watchlistedit-normal-submit'  => 'Ta bort sidor',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 sida|$1 sidor}} togs bort från din bevakningslista:',
 'watchlistedit-raw-title'      => 'Redigera bevakningslistan i råformat',
@@ -3460,7 +3460,7 @@ Du kan också [[Special:Watchlist/raw|redigera listan i råformat]].',
 'watchlistedit-raw-explain'    => 'Titlar på din bevakningslista visas nedan, och kan redigeras genom att lägga till och ta bort från listan;
 en titel per rad.
 När du är klar klickar du på "{{int:Watchlistedit-raw-submit}}".
-Du kan också [[Special:Watchlist/edit|använda standardeditorn]].',
+Du kan också [[Special:EditWatchlist|använda standardeditorn]].',
 'watchlistedit-raw-titles'     => 'Sidor:',
 'watchlistedit-raw-submit'     => 'Uppdatera bevakningslistan',
 'watchlistedit-raw-done'       => 'Din bevakningslista har uppdaterats.',

@@ -30,14 +30,15 @@
  * @ingroup SpecialPage
  */
 class SpecialImport extends SpecialPage {
-	
+
 	private $interwiki = false;
 	private $namespace;
 	private $frompage = '';
 	private $logcomment= false;
 	private $history = true;
 	private $includeTemplates = false;
-	
+	private $pageLinkDepth;
+
 	/**
 	 * Constructor
 	 */
@@ -46,28 +47,28 @@ class SpecialImport extends SpecialPage {
 		global $wgImportTargetNamespace;
 		$this->namespace = $wgImportTargetNamespace;
 	}
-	
+
 	/**
 	 * Execute
 	 */
 	function execute( $par ) {
 		global $wgRequest;
-		
+
 		$this->setHeaders();
 		$this->outputHeader();
-		
+
 		if ( wfReadOnly() ) {
 			global $wgOut;
 			$wgOut->readOnlyPage();
 			return;
 		}
-		
+
 		if ( $wgRequest->wasPosted() && $wgRequest->getVal( 'action' ) == 'submit' ) {
 			$this->doImport();
 		}
 		$this->showForm();
 	}
-	
+
 	/**
 	 * Do the actual import
 	 */
@@ -144,8 +145,9 @@ class SpecialImport extends SpecialPage {
 
 	private function showForm() {
 		global $wgUser, $wgOut, $wgImportSources, $wgExportMaxLinkDepth;
-		if( !$wgUser->isAllowed( 'import' ) && !$wgUser->isAllowed( 'importupload' ) )
+		if( !$wgUser->isAllowedAny( 'import', 'importupload' ) ) {
 			return $wgOut->permissionRequired( 'import' );
+		}
 
 		$action = $this->getTitle()->getLocalUrl( array( 'action' => 'submit' ) );
 
@@ -290,8 +292,8 @@ class ImportReporter {
 	private $mLogItemCount = 0;
 
 	function __construct( $importer, $upload, $interwiki , $reason=false ) {
-		$this->mOriginalPageOutCallback = 
-		        $importer->setPageOutCallback( array( $this, 'reportPage' ) );
+		$this->mOriginalPageOutCallback =
+				$importer->setPageOutCallback( array( $this, 'reportPage' ) );
 		$this->mOriginalLogCallback =
 			$importer->setLogItemCallback( array( $this, 'reportLogItem' ) );
 		$this->mPageCount = 0;
@@ -304,7 +306,7 @@ class ImportReporter {
 		global $wgOut;
 		$wgOut->addHTML( "<ul>\n" );
 	}
-	
+
 	function reportLogItem( /* ... */ ) {
 		$this->mLogItemCount++;
 		if ( is_callable( $this->mOriginalLogCallback ) ) {
@@ -312,9 +314,17 @@ class ImportReporter {
 		}
 	}
 
+	/**
+	 * @param Title $title
+	 * @param Title $origTitle
+	 * @param int $revisionCount
+	 * @param  $successCount
+	 * @param  $pageInfo
+	 * @return void
+	 */
 	function reportPage( $title, $origTitle, $revisionCount, $successCount, $pageInfo ) {
 		global $wgOut, $wgUser, $wgLang, $wgContLang;
-		
+
 		$args = func_get_args();
 		call_user_func_array( $this->mOriginalPageOutCallback, $args );
 
@@ -367,7 +377,7 @@ class ImportReporter {
 
 	function close() {
 		global $wgOut, $wgLang;
-		
+
 		if ( $this->mLogItemCount > 0 ) {
 			$msg = wfMsgExt( 'imported-log-entries', 'parseinline',
 						$wgLang->formatNum( $this->mLogItemCount ) );

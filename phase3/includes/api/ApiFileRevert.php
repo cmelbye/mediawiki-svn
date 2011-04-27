@@ -55,7 +55,6 @@ class ApiFileRevert extends ApiBase {
 		$this->params = $this->extractRequestParams();
 		$this->validateParameters();
 
-
 		$sourceUrl = $this->file->getArchiveVirtualUrl( $this->archiveName );
 		$status = $this->file->upload( $sourceUrl, $this->params['comment'], $this->params['comment'] );
 
@@ -78,7 +77,7 @@ class ApiFileRevert extends ApiBase {
 	 * @param $user User The user to check.
 	 */
 	protected function checkPermissions( $user ) {
-		$permission = $user->isAllowed( 'edit' ) && $user->isAllowed( 'upload' );
+		$permission = $user->isAllowedAll( 'edit', 'upload' );
 
 		if ( $permission !== true ) {
 			if ( !$user->isLoggedIn() ) {

@@ -96,7 +96,7 @@ $specialPageAliases = array(
 	'Protectedtitles'           => array( 'АралафКонякст' ),
 	'Allpages'                  => array( 'СембеЛопат' ),
 	'Prefixindex'               => array( 'ВалынгольксИндекс' ),
-	'Ipblocklist'               => array( 'IPСёлгоматЛувома' ),
+	'BlockList'                 => array( 'IPСёлгоматЛувома' ),
 	'Specialpages'              => array( 'БашкаЛопат' ),
 	'Contributions'             => array( 'Путксне' ),
 	'Emailuser'                 => array( 'АдресТиись' ),
@@ -111,7 +111,7 @@ $specialPageAliases = array(
 	'Version'                   => array( 'Верзие' ),
 	'Allmessages'               => array( 'СембеПачфтематне' ),
 	'Log'                       => array( 'Лувома', 'Лувомат' ),
-	'Blockip'                   => array( 'СёлгомаIP' ),
+	'Block'                     => array( 'СёлгомаIP' ),
 	'Undelete'                  => array( 'Мърдафтомс' ),
 	'Import'                    => array( 'Сувафтомс' ),
 	'Lockdb'                    => array( 'ПякстамсДатабазать' ),
@@ -2763,7 +2763,7 @@ $1',
 'watchlistedit-normal-legend'  => 'Нардамс конякст мельгеваномаста',
 'watchlistedit-normal-explain' => 'Тонь мельгеваномаса коняксне няфтьфт ала.
 Коняксонь нардаманди, путт тяште кудняс сонь ваксса ди люпштак Нардамс конякст.
-Тондейть ули кода [[Special:Watchlist/raw|петнемс ише лувомать]].',
+Тондейть ули кода [[Special:EditWatchlist/raw|петнемс ише лувомать]].',
 'watchlistedit-normal-submit'  => 'Нардамс коняксне',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|1 нардаф|$1 нардафт}} тонь мельгеваномастот:',
 'watchlistedit-raw-title'      => 'Петнемс ише мельгеваномать',
@@ -2771,7 +2771,7 @@ $1',
 'watchlistedit-raw-explain'    => 'Коняксне тонь мельгеваномастот няфтьфт ала, синь улихть кода петнемс лувомас поладомать эли лувомаста нардамать вельде;
 фкя конякс киксс.
 Аделамда меле люпштак Одонзамс Мельгеваномать.
-Тондейть тага ули кода  [[Special:Watchlist/edit|кунцемс кърдань петнема лезксть]].',
+Тондейть тага ули кода  [[Special:EditWatchlist|кунцемс кърдань петнема лезксть]].',
 'watchlistedit-raw-titles'     => 'Конякст:',
 'watchlistedit-raw-submit'     => 'Одонзамс мельгеваномать',
 'watchlistedit-raw-done'       => 'Тонь мельгованомацень одонзафоль.',

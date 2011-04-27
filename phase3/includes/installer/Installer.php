@@ -304,7 +304,7 @@ abstract class Installer {
 	 * Constructor, always call this from child classes.
 	 */
 	public function __construct() {
-		global $wgExtensionMessagesFiles, $wgUser, $wgHooks;
+		global $wgExtensionMessagesFiles, $wgUser;
 
 		// Disable the i18n cache and LoadBalancer
 		Language::getLocalisationCache()->disableBackend();
@@ -316,9 +316,6 @@ abstract class Installer {
 
 		// Having a user with id = 0 safeguards us from DB access via User::loadOptions().
 		$wgUser = User::newFromId( 0 );
-
-		// Set our custom <doclink> hook.
-		$wgHooks['ParserFirstCallInit'][] = array( $this, 'registerDocLink' );
 
 		$this->settings = $this->internalDefaults;
 
@@ -610,13 +607,10 @@ abstract class Installer {
 		$allNames = array();
 
 		foreach ( self::getDBTypes() as $name ) {
-			$db = $this->getDBInstaller( $name );
-			$readableName = wfMsg( 'config-type-' . $name );
-
-			if ( $db->isCompiled() ) {
+			if ( $this->getDBInstaller( $name )->isCompiled() ) {
 				$compiledDBs[] = $name;
 			}
-			$allNames[] = $readableName;
+			$allNames[] = wfMsg( 'config-type-' . $name );;
 		}
 
 		$this->setVar( '_CompiledDBs', $compiledDBs );
@@ -1142,33 +1136,11 @@ abstract class Installer {
 	}
 
 	/**
-	 * Register tag hook below.
-	 *
-	 * @todo Move this to WebInstaller with the two things below?
-	 *
-	 * @param $parser Parser
-	 */
-	public function registerDocLink( Parser &$parser ) {
-		$parser->setHook( 'doclink', array( $this, 'docLink' ) );
-		return true;
-	}
-
-	/**
 	 * ParserOptions are constructed before we determined the language, so fix it
 	 */
 	public function setParserLanguage( $lang ) {
 		$this->parserOptions->setTargetLanguage( $lang );
 		$this->parserOptions->setUserLang( $lang->getCode() );
-	}
-
-	/**
-	 * Extension tag hook for a documentation link.
-	 */
-	public function docLink( $linkText, $attribs, $parser ) {
-		$url = $this->getDocUrl( $attribs['href'] );
-		return '<a href="' . htmlspecialchars( $url ) . '">' .
-			htmlspecialchars( $linkText ) .
-			'</a>';
 	}
 
 	/**
@@ -1221,11 +1193,11 @@ abstract class Installer {
 		 * but we're not opening that can of worms
 		 * @see https://bugzilla.wikimedia.org/show_bug.cgi?id=26857
 		 */
-		global $wgHooks, $wgAutoloadClasses;
+		global $wgAutoloadClasses;
 		require( "$IP/includes/DefaultSettings.php" );
 
 		foreach( $exts as $e ) {
-			require( "$path/$e/$e.php" );
+			require_once( "$path/$e/$e.php" );
 		}
 
 		$hooksWeWant = isset( $wgHooks['LoadExtensionSchemaUpdates'] ) ?
@@ -1233,8 +1205,7 @@ abstract class Installer {
 
 		// Unset everyone else's hooks. Lord knows what someone might be doing
 		// in ParserFirstCallInit (see bug 27171)
-		unset( $wgHooks );
-		$wgHooks = array( 'LoadExtensionSchemaUpdates' => $hooksWeWant );
+		$GLOBALS['wgHooks'] = array( 'LoadExtensionSchemaUpdates' => $hooksWeWant );
 
 		return Status::newGood();
 	}
@@ -1257,8 +1228,7 @@ abstract class Installer {
 			array( 'name' => 'tables',     'callback' => array( $installer, 'createTables' ) ),
 			array( 'name' => 'interwiki',  'callback' => array( $installer, 'populateInterwikiTable' ) ),
 			array( 'name' => 'stats',      'callback' => array( $this, 'populateSiteStats' ) ),
-			array( 'name' => 'secretkey',  'callback' => array( $this, 'generateSecretKey' ) ),
-			array( 'name' => 'upgradekey', 'callback' => array( $this, 'generateUpgradeKey' ) ),
+			array( 'name' => 'keys',       'callback' => array( $this, 'generateKeys' ) ),
 			array( 'name' => 'sysop',      'callback' => array( $this, 'createSysop' ) ),
 			array( 'name' => 'mainpage',   'callback' => array( $this, 'createMainpage' ) ),
 		);
@@ -1338,56 +1308,52 @@ abstract class Installer {
 	 *
 	 * @return Status
 	 */
-	protected function generateSecretKey() {
-		return $this->generateSecret( 'wgSecretKey' );
+	public function generateKeys() {
+		$keys = array( 'wgSecretKey' => 64 );
+		if ( strval( $this->getVar( 'wgUpgradeKey' ) ) === '' ) {
+			$keys['wgUpgradeKey'] = 16;
+		}
+		return $this->doGenerateKeys( $keys );
 	}
 
 	/**
-	 * Generate a secret value for a variable using either
-	 * /dev/urandom or mt_rand() Produce a warning in the later case.
+	 * Generate a secret value for variables using either
+	 * /dev/urandom or mt_rand(). Produce a warning in the later case.
 	 *
+	 * @param $keys Array
 	 * @return Status
 	 */
-	protected function generateSecret( $secretName, $length = 64 ) {
-		if ( wfIsWindows() ) {
-			$file = null;
-		} else {
-			wfSuppressWarnings();
-			$file = fopen( "/dev/urandom", "r" );
-			wfRestoreWarnings();
-		}
-
+	protected function doGenerateKeys( $keys ) {
 		$status = Status::newGood();
 
-		if ( $file ) {
-			$secretKey = bin2hex( fread( $file, $length / 2 ) );
-			fclose( $file );
-		} else {
-			$secretKey = '';
+		wfSuppressWarnings();
+		$file = fopen( "/dev/urandom", "r" );
+		wfRestoreWarnings();
 
-			for ( $i = 0; $i < $length / 8; $i++ ) {
-				$secretKey .= dechex( mt_rand( 0, 0x7fffffff ) );
+		foreach ( $keys as $name => $length ) {
+			if ( $file ) {
+					$secretKey = bin2hex( fread( $file, $length / 2 ) );
+			} else {
+				$secretKey = '';
+
+				for ( $i = 0; $i < $length / 8; $i++ ) {
+					$secretKey .= dechex( mt_rand( 0, 0x7fffffff ) );
+				}
 			}
 
-			$status->warning( 'config-insecure-secret', '$' . $secretName );
+			$this->setVar( $name, $secretKey );
 		}
 
-		$this->setVar( $secretName, $secretKey );
+		if ( $file ) {
+			fclose( $file );
+		} else {
+			$names = array_keys ( $keys );
+			$names = preg_replace( '/^(.*)$/', '\$$1', $names );
+			global $wgLang;
+			$status->warning( 'config-insecure-keys', $wgLang->listToText( $names ), count( $names ) );
+		}
 
 		return $status;
-	}
-
-	/**
-	 * Generate a default $wgUpgradeKey. Will warn if we had to use
-	 * mt_rand() instead of /dev/urandom
-	 *
-	 * @return Status
-	 */
-	public function generateUpgradeKey() {
-		if ( strval( $this->getVar( 'wgUpgradeKey' ) ) === '' ) {
-			return $this->generateSecret( 'wgUpgradeKey', 16 );
-		}
-		return Status::newGood();
 	}
 
 	/**
