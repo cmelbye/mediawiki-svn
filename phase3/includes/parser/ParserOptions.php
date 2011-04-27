@@ -17,8 +17,7 @@ class ParserOptions {
 	var $mInterwikiMagic;            # Interlanguage links are removed and returned in an array
 	var $mAllowExternalImages;       # Allow external images inline
 	var $mAllowExternalImagesFrom;   # If not, any exception?
-	var $mEnableImageWhitelist;      # If not or it doesn't match, should we check an on-wiki whitelist?
-	var $mSkin = null;               # Reference to the preferred skin
+	var $mEnableImageWhitelist;      # If not or it doesn't match, should we check an on-wiki whitelist? 
 	var $mDateFormat = null;         # Date format index
 	var $mEditSection = true;        # Create "edit section" links
 	var $mAllowSpecialInclusion;     # Allow inclusion of special pages
@@ -91,15 +90,14 @@ class ParserOptions {
 	function getUser()                          { return $this->mUser; }
 	function getPreSaveTransform()              { return $this->mPreSaveTransform; }
 
-	/**
-	 * @param $title Title
-	 * @return Skin
-	 */
-	function getSkin( $title = null ) {
-		if ( !isset( $this->mSkin ) ) {
-			$this->mSkin = $this->mUser->getSkin( $title );
-		}
-		return $this->mSkin;
+	/** 	 
+	 * @param $title Title 	 
+	 * @return Skin 	 
+	 * @deprecated Use Linker::* instead 	 
+	 */ 	 
+	function getSkin( $title = null ) { 	 
+		wfDeprecated( __METHOD__ );
+		return new DummyLinker;
 	}
 
 	function getDateFormat() {
@@ -311,10 +309,6 @@ class ParserOptions {
 		// add in language specific options, if any
 		// FIXME: This is just a way of retrieving the url/user preferred variant
 		$confstr .= $wgContLang->getExtraHashOptions();
-
-		// Since the skin could be overloading link(), it should be
-		// included here but in practice, none of our skins do that.
-		// $confstr .= "!" . $this->mSkin->getSkinName();
 
 		$confstr .= $wgRenderHashAppend;
 

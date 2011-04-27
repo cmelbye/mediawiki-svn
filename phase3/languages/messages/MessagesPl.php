@@ -543,7 +543,7 @@ $1',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'Strona',
-'nstab-user'      => 'Strona użytkownika',
+'nstab-user'      => '{{GENDER:{{BASEPAGENAME}}|Strona użytkownika|Strona użytkowniczki}}',
 'nstab-media'     => 'Pliki',
 'nstab-special'   => 'Strona specjalna',
 'nstab-project'   => 'Strona projektu',
@@ -781,8 +781,6 @@ Być może właśnie zmienił{{GENDER:|eś|aś|eś(‐aś)}} swoje hasło lub po
 'extlink_tip'     => 'Link zewnętrzny (pamiętaj o przedrostku http:// )',
 'headline_sample' => 'Tekst nagłówka',
 'headline_tip'    => 'Nagłówek 2. poziomu',
-'math_sample'     => 'Tutaj wprowadź wzór',
-'math_tip'        => 'Wzór matematyczny (LaTeX)',
 'nowiki_sample'   => 'Tutaj wstaw niesformatowany tekst',
 'nowiki_tip'      => 'Zignoruj formatowanie wiki',
 'image_sample'    => 'Przykład.jpg',
@@ -1287,16 +1285,15 @@ Jednak informacje o treści {{GRAMMAR:D.lp|{{SITENAME}}}} mogą być w Google ni
 'changepassword'                => 'Zmiana hasła',
 'prefs-skin'                    => 'Skórka',
 'skin-preview'                  => 'podgląd',
-'prefs-math'                    => 'Wzory',
 'datedefault'                   => 'Domyślny',
 'prefs-datetime'                => 'Data i czas',
 'prefs-personal'                => 'Dane użytkownika',
 'prefs-rc'                      => 'Ostatnie zmiany',
 'prefs-watchlist'               => 'Obserwowane',
 'prefs-watchlist-days'          => 'Liczba dni widocznych na liście obserwowanych',
-'prefs-watchlist-days-max'      => '(maksimum 7 dni)',
+'prefs-watchlist-days-max'      => 'Maksimum 7 dni',
 'prefs-watchlist-edits'         => 'Liczba edycji pokazywanych w rozszerzonej liście obserwowanych',
-'prefs-watchlist-edits-max'     => '(maksymalna liczba: 1000)',
+'prefs-watchlist-edits-max'     => 'Maksymalnie 1000',
 'prefs-watchlist-token'         => 'Identyfikator listy obserwowanych',
 'prefs-misc'                    => 'Ustawienia różne',
 'prefs-resetpass'               => 'Zmień hasło',
@@ -2457,8 +2454,8 @@ Poniżej znajduje się ostatni wpis w rejestrze blokowania.',
 
 # Block/unblock
 'autoblockid'                     => 'Automatyczna blokada nr $1',
-'block'                           => 'Zablokuj użytkownika lub adres IP',
-'unblock'                         => 'Odblokuj użytkownika lub adres IP',
+'block'                           => 'Zablokuj użytkownika',
+'unblock'                         => 'Odblokuj użytkownika',
 'blockip'                         => 'Zablokuj użytkownika',
 'blockip-title'                   => 'Zablokowanie użytkownika',
 'blockip-legend'                  => 'Zablokuj użytkownika',
@@ -2492,10 +2489,13 @@ Podaj powód (np. umieszczając nazwy stron, na których dopuszczono się wandal
 'ipbwatchuser'                    => 'Obserwuj stronę osobistą i stronę dyskusji tego użytkownika',
 'ipb-disableusertalk'             => 'Zablokuj możliwość edytowania przez tego użytkownika własnej strony dyskusji w czasie trwania blokady.',
 'ipb-change-block'                => 'Zmień ustawienia blokady',
+'ipb-confirm'                     => 'Potwierdzam blokadę',
 'badipaddress'                    => 'Niepoprawny adres IP',
 'blockipsuccesssub'               => 'Zablokowanie powiodło się',
 'blockipsuccesstext'              => '{{GENDER:$1|Użytkownik|Użytkowniczka}} [[Special:Contributions/$1|$1]] {{GENDER:$1|został zablokowany|została zablokowana}}.<br />
 Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrzeć blokady.',
+'ipb-blockingself'                => 'Usiłujesz zablokować siebie samego! Czy na pewno chcesz to zrobić?',
+'ipb-confirmhideuser'             => 'Zamierzasz zablokować użytkownika z włączoną opcją „ukryj użytkownika”. Spowoduje to pominięcie nazwy użytkownika we wszystkich listach i rejestrach. Czy na pewno chcesz to zrobić?',
 'ipb-edit-dropdown'               => 'Edytuj listę przyczyn blokady',
 'ipb-unblock-addr'                => 'Odblokuj $1',
 'ipb-unblock'                     => 'Odblokuj użytkownika lub adres IP',
@@ -2507,8 +2507,8 @@ Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrze
 'unblocked'                       => '[[User:$1|$1]] {{GENDER:$1|został odblokowany|została odblokowana|został odblokowany}}.',
 'unblocked-range'                 => '$1 został odblokowany',
 'unblocked-id'                    => 'Blokada $1 została zdjęta',
-'blocklist'                       => 'Zablokowane adresy IP i konta użytkowników',
-'ipblocklist'                     => 'Lista zablokowanych adresów IP i użytkowników',
+'blocklist'                       => 'Zablokowani użytkownicy',
+'ipblocklist'                     => 'Zablokowani użytkownicy',
 'ipblocklist-legend'              => 'Znajdź zablokowanego użytkownika',
 'blocklist-userblocks'            => 'Ukryj blokady konta',
 'blocklist-tempblocks'            => 'Ukryj tymczasowe blokady',
@@ -2558,8 +2558,7 @@ By przejrzeć listę obecnie aktywnych blokad, przejdź na stronę [[Special:IPB
 'ipb_expiry_temp'                 => 'Ukryte blokowanie nazwy użytkownika należy wykonać trwale.',
 'ipb_hide_invalid'                => 'Ukrycie konta tego użytkownika nie jest możliwe, prawdopodobnie wykonał on zbyt wiele edycji.',
 'ipb_already_blocked'             => '„$1” jest już zablokowany',
-'ipb-needreblock'                 => '== Istniejąca blokada ==
-$1 jest już zablokowany. Czy chcesz zmienić ustawienia blokady?',
+'ipb-needreblock'                 => '$1 jest już zablokowany. Czy chcesz zmienić ustawienia blokady?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Inna blokada|Inne blokady}}',
 'unblock-hideuser'                => 'Nie można odblokować użytkownika, jeśli jego nazwa została ukryta.',
 'ipb_cant_unblock'                => 'Błąd: Blokada o ID $1 nie została znaleziona. Mogła ona zostać zdjęta wcześniej.',
@@ -2759,7 +2758,8 @@ Wszystkie operacje importu transwiki są odnotowywane w [[Special:Log/import|rej
 'import-interwiki-namespace' => 'Docelowa przestrzeń nazw',
 'import-upload-filename'     => 'Nazwa pliku',
 'import-comment'             => 'Komentarz:',
-'importtext'                 => 'Używając narzędzia [[Special:Export|eksportu]], wyeksportuj plik ze źródłowej wiki, zapisz go na swoim dysku, a następnie prześlij go tutaj.',
+'importtext'                 => 'Korzystając na źródłowej wiki z narzędzia [[Special:Export|eksportu]] wyeksportuj plik.
+Zapisz go na swoim dysku, a następnie prześlij go tutaj.',
 'importstart'                => 'Trwa importowanie stron...',
 'import-revision-count'      => '$1 {{PLURAL:$1|wersja|wersje|wersji}}',
 'importnopages'              => 'Brak stron do importu.',
@@ -2932,26 +2932,6 @@ Najprawdopodobniej zostało to spowodowane przez link do zewnętrznej strony int
 'skinname-simple'      => 'Prosta',
 'skinname-modern'      => 'Nowoczesna',
 'skinname-vector'      => 'Wektor',
-
-# Math options
-'mw_math_png'    => 'Zawsze generuj grafikę PNG',
-'mw_math_simple' => 'HTML dla prostych, dla pozostałych grafika PNG',
-'mw_math_html'   => 'Spróbuj HTML, a jeśli zawiedzie użyj grafiki PNG',
-'mw_math_source' => 'Pozostaw w TeXu (dla przeglądarek tekstowych)',
-'mw_math_modern' => 'HTML – zalecane dla nowych przeglądarek',
-'mw_math_mathml' => 'MathML jeśli dostępny (eksperymentalne)',
-
-# Math errors
-'math_failure'          => 'Parser nie mógł rozpoznać',
-'math_unknown_error'    => 'nieznany błąd',
-'math_unknown_function' => 'nieznana funkcja',
-'math_lexing_error'     => 'błędna nazwa',
-'math_syntax_error'     => 'błąd składni',
-'math_image_error'      => 'Konwersja z lub do formatu PNG nie powiodła się. Sprawdź, czy poprawnie zainstalowane są latex i dvipng (lub dvips, gs i convert)',
-'math_bad_tmpdir'       => 'Nie można utworzyć lub zapisywać w tymczasowym katalogu dla wzorów matematycznych',
-'math_bad_output'       => 'Nie można utworzyć lub zapisywać w wyjściowym katalogu dla wzorów matematycznych',
-'math_notexvc'          => 'Brak programu texvc.
-Zapoznaj się z math/README w celu konfiguracji.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'oznacz edycję jako „sprawdzoną”',
@@ -3411,11 +3391,12 @@ $1',
 'trackbackdeleteok' => 'TrackBack został usunięty.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Uwaga!''' Ta strona została usunięta po tym, jak rozpoczął{{GENDER:|eś|aś|eś(‐aś)}} jej edycję!",
-'confirmrecreate'     => "[[User:$1|$1]] ([[User talk:$1|dyskusja]]) usun{{GENDER:$1|ął|ęła|ął(‐ęła)}} tę stronę po tym, jak rozpoczął{{GENDER:|eś|aś|eś(‐aś)}} jego edycję, podając jako powód usunięcia:
+'deletedwhileediting'      => "'''Uwaga!''' Ta strona została usunięta po tym, jak rozpoczął{{GENDER:|eś|aś|eś(‐aś)}} jej edycję!",
+'confirmrecreate'          => "[[User:$1|$1]] ([[User talk:$1|dyskusja]]) usun{{GENDER:$1|ął|ęła|ął(‐ęła)}} tę stronę po tym, jak rozpoczął{{GENDER:|eś|aś|eś(‐aś)}} jego edycję, podając jako powód usunięcia:
 : ''$2''
 Czy na pewno chcesz ją ponownie utworzyć?",
-'recreate'            => 'Utwórz ponownie',
+'confirmrecreate-noreason' => 'Użytkownik [[User:$1|$1]] ([[User talk:$1|dyskusja]]) usunął tę stronę po rozpoczęciu przez Ciebie edycji. Potwierdź, czy naprawdę chcesz, ponownie utworzyć tę stronę.',
+'recreate'                 => 'Utwórz ponownie',
 
 # action=purge
 'confirm_purge_button' => 'Wyczyść',

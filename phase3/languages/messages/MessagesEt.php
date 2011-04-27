@@ -790,8 +790,6 @@ Võib-olla oled juba edukalt muudnud oma salasõna või taotlenud uut ajutist sa
 'extlink_tip'     => 'Välislink (ära unusta eesliidet http://)',
 'headline_sample' => 'Pealkiri',
 'headline_tip'    => '2. taseme pealkiri',
-'math_sample'     => 'Sisesta valem siia',
-'math_tip'        => 'Matemaatiline valem (LaTeX)',
 'nowiki_sample'   => 'Sisesta vormindamata tekst',
 'nowiki_tip'      => 'Ignoreeri viki vormindust',
 'image_sample'    => 'Näidis.jpg',
@@ -1285,7 +1283,6 @@ Pane tähele, et Google'is talletatud {{GRAMMAR:genitive|{{SITENAME}}}} sisu võ
 'changepassword'                => 'Muuda parool',
 'prefs-skin'                    => 'Kujundus',
 'skin-preview'                  => 'eelvaade',
-'prefs-math'                    => 'Valemite näitamine',
 'datedefault'                   => 'Eelistus puudub',
 'prefs-datetime'                => 'Kuupäev ja kellaaeg',
 'prefs-personal'                => 'Kasutaja andmed',
@@ -1704,7 +1701,7 @@ Selle faili kustutamislogi on toodud siinsamas:",
 'filename-bad-prefix'         => "Üleslaaditava faili nimi algab eesliitega '''\"\$1\"''', mis on omane digikaamera antud ebamäärastele nimedele.
 Palun vali oma failile kirjeldavam nimi.",
 'upload-success-subj'         => 'Üleslaadimine õnnestus',
-'upload-success-msg'          => '↓ Üleslaadimine allikast [$2] läks edukalt. See on leitav siit: [[:{{ns:file}}:$1]]',
+'upload-success-msg'          => 'Üleslaadimine allikast [$2] läks edukalt. See on leitav siit: [[:{{ns:file}}:$1]]',
 'upload-failure-subj'         => 'Üleslaadimisprobleem',
 'upload-failure-msg'          => 'Üleslaadimisel allikast [$2] ilmnes probleem:
 
@@ -2491,8 +2488,7 @@ Kehtivaid blokeeringuid vaata [[Special:IPBlockList|blokeeringute loendist]].',
 'ipb_expiry_temp'                 => 'Peidetud kasutajanime blokeeringud peavad olema alalised.',
 'ipb_hide_invalid'                => 'Selle konto varjamine ei õnnestunud. Sellelt võib olla tehtud liiga palju redigeerimisi.',
 'ipb_already_blocked'             => '"$1" on juba blokeeritud.',
-'ipb-needreblock'                 => '==Juba blokeeritud==
-$1 on juba blokeeritud.
+'ipb-needreblock'                 => '$1 on juba blokeeritud.
 Kas soovid muuta blokeeringu sätteid?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Teine blokeering|Teised blokeeringud}}',
 'ipb_cant_unblock'                => 'Tõrge: Blokeerimis-ID $1 pole leitav.
@@ -2847,26 +2843,6 @@ See on ilmselt põhjustatud linkimisest mustas nimekirjas olevasse välisvõrguk
 'skinname-simple'      => 'Lihtne',
 'skinname-modern'      => 'Uudne',
 'skinname-vector'      => 'Vektor',
-
-# Math options
-'mw_math_png'    => 'Alati PNG',
-'mw_math_simple' => 'Kui väga lihtne, siis HTML, muidu PNG',
-'mw_math_html'   => 'Võimaluse korral HTML, muidu PNG',
-'mw_math_source' => 'Säilitada TeX (tekstibrauserite puhul)',
-'mw_math_modern' => 'Soovitatav moodsate brauserite puhul',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Arusaamatu süntaks',
-'math_unknown_error'    => 'Tundmatu viga',
-'math_unknown_function' => 'Tundmatu funktsioon',
-'math_lexing_error'     => 'Väljalugemisviga',
-'math_syntax_error'     => 'Süntaksiviga',
-'math_image_error'      => "PNG konverteerimine ebaõnnestus;
-kontrollige oma ''latex'', ''dvips'', ''gs'', ''convert'' installatsioonide korrektsust.",
-'math_bad_tmpdir'       => 'Ajutise matemaatikakataloogi loomine või sinna kirjutamine ebaõnnestus',
-'math_bad_output'       => 'Matemaatika-väljundkataloogi loomine või sinna kirjutamine ebaõnnestus',
-'math_notexvc'          => 'Texvc-rakendus puudub; häälestamiseks vaata matemaatikakataloogist README-faili',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Märgi kui kontrollitud',

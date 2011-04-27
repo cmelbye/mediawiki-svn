@@ -569,8 +569,6 @@ Láti parí ìmúwọlẹ́, ẹ gbọ́dọ̀ ṣètò ọ̀rọ̀ìpamọ́ tu
 'extlink_tip'     => 'Ìjápọ̀ lóde (ẹ mọ́ gbàgbé àlẹ̀mọ́wájú http://)',
 'headline_sample' => 'Ìkọ àkọlé',
 'headline_tip'    => 'Àkọlé onípele 2',
-'math_sample'     => "Ẹ fi àgbékalẹ̀ s'íhín",
-'math_tip'        => 'Àgbékalẹ̀ ìsirò (LaTeX)',
 'nowiki_sample'   => 'Ìkìbọ̀ ìkọ àìjẹ́ síṣèdá síbí',
 'nowiki_tip'      => 'Kí á fojú fo bí wiki ṣe rí',
 'image_tip'       => 'Fáìlì tí a kìbọ̀',
@@ -989,7 +987,6 @@ Ní báyìí ná ẹ le ṣàwárí lọ́dọ̀ Google.
 'changepassword'              => 'Ìyípadà ọ̀rọ̀ìpamọ́',
 'prefs-skin'                  => 'Skin (Àwọ̀)',
 'skin-preview'                => 'Àkọ́yẹ̀wò',
-'prefs-math'                  => 'Ìṣirò',
 'datedefault'                 => 'Kò sí ìfẹ́ràn',
 'prefs-datetime'              => 'Ọjọ́ọdún àti àkókò',
 'prefs-personal'              => 'Ọ̀rọ̀ nípa oníṣe',
@@ -1851,8 +1848,7 @@ $1',
 'block-log-flags-noemail'     => 'e-mail jẹ́ dídílọ́nà',
 'block-log-flags-hiddenname'  => 'orúkọ oníṣe jẹ́ bíbòmọ́lẹ̀',
 'ipb_already_blocked'         => '"$1" jẹ́ dídèlọ́nà tẹ́lẹ̀',
-'ipb-needreblock'             => '== Dídèlọ́nà tẹ́lẹ̀ ==
-"$1" jẹ́ dídèlọ́nà tẹ́lẹ̀
+'ipb-needreblock'             => '"$1" jẹ́ dídèlọ́nà tẹ́lẹ̀
 Ṣé ẹ fẹ́ yí àwọn ìtò yí padà?',
 'ipb-otherblocks-header'      => '{{PLURAL:$1|Ìdínà|Àwọn ìdínà}} mìíràn',
 'blockme'                     => 'Dínà mi',
@@ -2044,11 +2040,6 @@ Ojúewé àdésí "[[:$1]]" wà tẹ́lẹ̀tẹ́lẹ̀.
 'numedits'     => 'Íyé áwon àtúnṣe (ojúewé): $1',
 'numtalkedits' => 'Íyé áwon àtúnṣe (ojúewé ìfọ̀rọ̀wérọ̀): $1',
 'numwatchers'  => 'Iye àwọn aláàbójúwò: $1',
-
-# Math errors
-'math_unknown_error'    => 'àsiṣe àwámárìdí',
-'math_unknown_function' => 'ìfiṣe àwámárìdí',
-'math_lexing_error'     => 'àsiṣe òye ọ̀rọ̀',
 
 # Patrol log
 'patrol-log-auto' => '(fúnraara)',

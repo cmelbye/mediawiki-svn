@@ -273,7 +273,7 @@ class Revision {
 	 * Return the list of revision fields that should be selected to create
 	 * a new revision.
 	 */
-	static function selectFields() {
+	public static function selectFields() {
 		return array(
 			'rev_id',
 			'rev_page',
@@ -633,6 +633,7 @@ class Revision {
 	 * @return String
 	 */
 	public function revText() {
+		wfDeprecated();
 		return $this->getText( self::FOR_THIS_USER );
 	}
 

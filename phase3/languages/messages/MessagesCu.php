@@ -226,6 +226,7 @@ $messages = array(
 'portal'               => 'обьщє́ниꙗ съвѣ́тъ',
 'portal-url'           => 'Project:Обьщє́ниꙗ съвѣ́тъ',
 
+'youhavenewmessages'  => '$1 тєбѣ напьсанꙑ сѫтъ ($2)',
 'newmessageslink'     => 'но́ви напь́саниꙗ',
 'newmessagesdifflink' => 'послѣ́дьнꙗ мѣ́на',
 'editsection'         => 'испра́ви',
@@ -289,7 +290,6 @@ $messages = array(
 # Edit page toolbar
 'link_sample'    => 'съвѧ́ꙁи и́мѧ',
 'extlink_sample' => 'http://www.example.com съвѧ́ꙁи и́мѧ',
-'math_tip'       => 'маѳиматїчьна формоула (LaTeX)',
 'sig_tip'        => 'твои аѵто́графъ и нꙑ́нѣшьна врѣ́мѧ и дьнь',
 
 # Edit pages
@@ -405,7 +405,7 @@ $messages = array(
 'rcshowhideminor'             => '$1 ма́лꙑ мѣ́нꙑ',
 'rcshowhidebots'              => '$1 аѵтома́тъ',
 'rcshowhideliu'               => '$1 по́льꙃєватєлъ · ѩжє съꙁижьдє сѥ мѣ́сто · мѣ́нꙑ',
-'rcshowhideanons'             => '$1 анонѷмьнъ по́льꙃєватєлъ мѣ́нꙑ',
+'rcshowhideanons'             => '$1 анѡнѷмьнъ по́льꙃєватєлъ мѣ́нꙑ',
 'rcshowhidemine'              => '$1 моꙗ́ мѣ́нꙑ',
 'rclinks'                     => '$1 послѣдьн҄ь  мѣнъ · ѩжє $2 послѣдьни дьни створѥнꙑ сѫтъ · каꙁаниѥ<br />$3',
 'diff'                        => 'ра҃ꙁн',

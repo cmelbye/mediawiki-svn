@@ -211,8 +211,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Vis antal brugere, der overvåger',
 'tog-oldsig'                  => 'Forhåndsvisning af nuværende signatur',
 'tog-fancysig'                => 'Behandl signatur som wikitekst uden automatisk henvisning',
-'tog-externaleditor'          => 'Brug ekstern editor automatisk',
-'tog-externaldiff'            => 'Brug ekstern forskelsvisning automatisk',
+'tog-externaleditor'          => 'Brug ekstern editor automatisk (kun for rutinerede brugere, da det kræver særlige indstillinger på din computer. [http://www.mediawiki.org/wiki/Manual:External_editors Flere oplysninger.])',
+'tog-externaldiff'            => 'Brug ekstern forskelsvisning automatisk (kun for rutinerede brugere, da det kræver særlige indstillinger på din computer. [http://www.mediawiki.org/wiki/Manual:External_editors Flere oplysninger.])',
 'tog-showjumplinks'           => 'Vis tilgængeligheds-henvisninger',
 'tog-uselivepreview'          => 'Brug automatisk forhåndsvisning (JavaScript) (eksperimentel)',
 'tog-forceeditsummary'        => 'Advar mig hvis jeg ikke udfylder beskrivelsesfeltet',
@@ -366,6 +366,7 @@ $messages = array(
 'printableversion'  => 'Udskriftsvenlig udgave',
 'permalink'         => 'Permanent henvisning',
 'print'             => 'Udskriv',
+'view'              => 'Vis',
 'edit'              => 'Redigér',
 'create'            => 'opret',
 'editthispage'      => 'Redigér side',
@@ -699,8 +700,6 @@ Du har muligvis allerede skiftet din adgangskode eller anmodet om en ny midlerti
 'extlink_tip'     => 'Ekstern henvisning (husk http:// præfiks)',
 'headline_sample' => 'Tekst til overskrift',
 'headline_tip'    => 'Type 2 overskrift',
-'math_sample'     => 'Indsæt formel her (LaTeX)',
-'math_tip'        => 'Matematisk formel (LaTeX)',
 'nowiki_sample'   => 'Indsæt tekst her som ikke skal wikiformateres',
 'nowiki_tip'      => 'Ignorer wikiformatering',
 'image_sample'    => 'Eksempel.jpg',
@@ -1195,16 +1194,15 @@ Du kan prøve at bruge \"all:\" som præfiks for at søge i alt indhold (inkl. d
 'changepassword'                => 'Skift adgangskode',
 'prefs-skin'                    => 'Udseende',
 'skin-preview'                  => 'Forhåndsvisning',
-'prefs-math'                    => 'Matematiske formler',
 'datedefault'                   => 'Ingen præference',
 'prefs-datetime'                => 'Dato og klokkeslæt',
 'prefs-personal'                => 'Brugerdata',
 'prefs-rc'                      => 'Seneste ændringer',
 'prefs-watchlist'               => 'Overvågningsliste',
 'prefs-watchlist-days'          => 'Antal dage, som overvågningslisten standardmæssigt skal omfatte:',
-'prefs-watchlist-days-max'      => '(maks. 7 dage)',
+'prefs-watchlist-days-max'      => 'Maks. 7 dage',
 'prefs-watchlist-edits'         => 'Antal redigeringer der vises i udvidet overvågningsliste:',
-'prefs-watchlist-edits-max'     => '(maks. 1000)',
+'prefs-watchlist-edits-max'     => 'Maks. 1000',
 'prefs-watchlist-token'         => 'Overvågningslistenøgle:',
 'prefs-misc'                    => 'Forskelligt',
 'prefs-resetpass'               => 'Skift adgangskode',
@@ -1282,6 +1280,7 @@ Det kan ikke gøres om.',
 'prefs-help-realname'           => 'Angivelse af rigtigt navn er valgfrit.
 Hvis du vælger at oplyse dit navn, vil det blive brugt til at tilskrive dig dit arbejde.',
 'prefs-help-email'              => 'Angivelse af e-mail-adresse er valgfrit. Det gør det muligt at sende dig en ny adgangskode hvis du glemmer den.',
+'prefs-help-email-others'       => 'Du kan også vælge at lade andre kontakte dig gennem din bruger eller diskussions side uden at behøve at afsløre din identitet.',
 'prefs-help-email-required'     => 'E-mail-adresse er krævet.',
 'prefs-info'                    => 'Grundlæggende information',
 'prefs-i18n'                    => 'Internationalisering:',
@@ -1549,7 +1548,7 @@ Brug en henvisning af en de følgende typer for at bruge en fil på en side:
 'filename-tooshort'           => 'Filnavnet er for kort.',
 'filetype-banned'             => 'Denne type fil er ikke tilladt',
 'verification-error'          => 'Denne fil bestod ikke fil verifikationen.',
-'hookaborted'                 => '↓ Ændringen du forsøgte at gøre blev afbrudt af en udvidelses hook.',
+'hookaborted'                 => 'Ændringen du forsøgte at gøre blev afbrudt af en udvidelses hook.',
 'illegal-filename'            => 'Filnavnet er ikke tilladt.',
 'overwrite'                   => 'Overskrivning af en eksisterende fil er ikke tilladt.',
 'unknown-error'               => 'En ukendt fejl opstod.',
@@ -1631,11 +1630,21 @@ Informer venligst en [[Special:ListUsers/sysop|systemadministrator]].',
 'upload-http-error'         => 'Der opstod en HTTP-fejl: $1',
 
 # ZipDirectoryReader
-'zip-wrong-format' => 'Den angivne fil var ikke en ZIP-fil.',
+'zip-file-open-error' => 'En fejl opstod under åbning af filen til ZIP kontrol.',
+'zip-wrong-format'    => 'Den angivne fil var ikke en ZIP-fil.',
+'zip-bad'             => 'Filen er en korrupt eller på anden måde ulæselige ZIP-fil.
+Den kan ikke kontrolleres rigtigt for sikkerhed.',
+'zip-unsupported'     => 'Filen er en ZIP-fil, der bruger ZIP funktioner, der ikke understøttes af MediaWiki.
+Den kan ikke kontrolleres rigtigt for sikkerhed.',
 
 # Special:UploadStash
-'uploadstash-summary' => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
-'uploadstash-refresh' => 'Opdatér filoversigten',
+'uploadstash'          => 'Upload stash',
+'uploadstash-summary'  => 'Denne side giver adgang til filer, de er uploadet (eller er i gang med at blive det), men som endnu ikke er offentliggjort på wikien. Disse filer er kun synlige for brugeren, der har uploadet dem.',
+'uploadstash-clear'    => 'Ryd stashede filer',
+'uploadstash-nofiles'  => 'Du har ingen stashede filer.',
+'uploadstash-badtoken' => 'Udførelse af handlingen mislykkedes, måske fordi dine redigerings legitimationsoplysninger udløbet. Prøv igen.',
+'uploadstash-errclear' => 'Rydning af filerne mislykkedes.',
+'uploadstash-refresh'  => 'Opdatér filoversigten',
 
 # img_auth script messages
 'img-auth-accessdenied' => 'Adgang nægtet',
@@ -2313,6 +2322,9 @@ Den seneste post i blokeringsloggen vises nedenfor:',
 'whatlinkshere-filters'    => 'Filtre',
 
 # Block/unblock
+'autoblockid'                     => 'Autoblock #$1',
+'block'                           => 'Bloker bruger',
+'unblock'                         => 'Ophæv blokering af bruger',
 'blockip'                         => 'Bloker bruger',
 'blockip-title'                   => 'Bloker bruger',
 'blockip-legend'                  => 'Bloker bruger',
@@ -2331,6 +2343,7 @@ Angiv en konkret begrundelse herunder (for eksempel med angivelse af sider der h
 ** Utilstedelig opførsel
 ** Misbrug af flere brugerkonti
 ** Uacceptabelt brugernavn',
+'ipb-hardblock'                   => 'Forhindr indloggede brugere i at redigere fra denne IP-adresse',
 'ipbcreateaccount'                => 'Forhindr oprettelse af brugerkontoer',
 'ipbemailban'                     => 'Spær brugerens adgang til at sende e-mail',
 'ipbenableautoblock'              => 'Spærre den IP-adresse, der bruges af denne bruger samt automatisk alle følgende, hvorfra han foretager ændringer eller forsøger at anlægge brugerkonti',
@@ -2341,11 +2354,15 @@ Angiv en konkret begrundelse herunder (for eksempel med angivelse af sider der h
 'ipbotherreason'                  => 'Anden/uddybende begrundelse',
 'ipbhidename'                     => 'Skjul brugernavnet i redigeringer og lister',
 'ipbwatchuser'                    => 'Overvåg denne brugers brugerside og diskussionsside.',
+'ipb-disableusertalk'             => 'Forhindr denne bruger i at redigere sin egen brugerdiskussion under blokeringen',
 'ipb-change-block'                => 'Forny brugerens blokering med disse indstillinger',
+'ipb-confirm'                     => 'Bekræft blokering',
 'badipaddress'                    => 'IP-adressen/brugernavnet er udformet forkert eller eksistere ikke.',
 'blockipsuccesssub'               => 'Blokeringen er gennemført.',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] er blevet blokeret.<br />
 Se [[Special:IPBlockList|IP-blokeringslisten]] for alle blokeringer.',
+'ipb-blockingself'                => 'Du er ved at blokere dig selv! Er du sikker på, du vil gøre det?',
+'ipb-confirmhideuser'             => 'Du er ved at blokere en bruger med "skjul bruger" aktiveret. Dette vil skjule brugerens navn på alle lister og logposter. Er du sikker på du vil gøre det?',
 'ipb-edit-dropdown'               => 'Ændre spærreårsager',
 'ipb-unblock-addr'                => 'Ophæv blokeringen af "$1"',
 'ipb-unblock'                     => 'Frigive IP-adresse/bruger',
@@ -2355,9 +2372,20 @@ Se [[Special:IPBlockList|IP-blokeringslisten]] for alle blokeringer.',
 'unblockiptext'                   => 'Brug formularen herunder for at gendanne skriveadgangen for en tidligere blokeret IP-adresse eller bruger.',
 'ipusubmit'                       => 'Ophæv blokeringen',
 'unblocked'                       => '[[User:$1|$1]] blev frigivet',
+'unblocked-range'                 => '$1 er fjernet fra blokering',
 'unblocked-id'                    => 'Blokering $1 er blevet fjernet',
-'ipblocklist'                     => 'Blokerede IP-adresser og brugernavne',
+'blocklist'                       => 'Blokerede brugere',
+'ipblocklist'                     => 'Blokerede brugere',
 'ipblocklist-legend'              => 'Find en blokeret bruger',
+'blocklist-userblocks'            => 'Skjul blokeringer af kontoer',
+'blocklist-tempblocks'            => 'Skjul midlertidige blokeringer',
+'blocklist-addressblocks'         => 'Skjul enkel IP blokeringer',
+'blocklist-timestamp'             => 'Tidsstempel',
+'blocklist-target'                => 'Mål',
+'blocklist-expiry'                => 'Udløber',
+'blocklist-by'                    => 'Blokerende administrator',
+'blocklist-params'                => 'Block parametre',
+'blocklist-reason'                => 'Årsag',
 'ipblocklist-submit'              => 'Søg',
 'ipblocklist-localblock'          => 'Lokal blokering',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Øvrig blokering|Øvrige blokeringer}}',
@@ -2397,9 +2425,9 @@ Skjulningsloggen vises nedenfor som reference:',
 'ipb_expiry_temp'                 => 'Brugernavnet kan kun skjules ved permanente blokeringer.',
 'ipb_hide_invalid'                => 'Kan ikke skjule denne konto; den kan have for mange redigeringer.',
 'ipb_already_blocked'             => '„$1“ er allerede blokeret',
-'ipb-needreblock'                 => '== Allerede blokkeret ==
-$1 er allerede blokkeret. Vil du ændre indstillingene?',
+'ipb-needreblock'                 => '$1 er allerede blokkeret. Vil du ændre indstillingene?',
 'ipb-otherblocks-header'          => 'Yderligere {{PLURAL:$1|blokering|blokeringer}}',
+'unblock-hideuser'                => 'Du kan ikke ophæve denne brugers blokering, da brugernavnet er blevet skjult.',
 'ipb_cant_unblock'                => 'Fejl: Spærre-ID $1 ikke fundet. Spærringen er allerede ophævet.',
 'ipb_blocked_as_range'            => 'Fejl: IP-adressen $1 er ikke dirkete blokeret. Derfor kan en blokering ikke ophæves. Adressen er blokeret som en del af intervallet $2. Denne blokering kan ophæves.',
 'ip_range_invalid'                => 'Ugyldigt IP-interval.',
@@ -2578,7 +2606,7 @@ Alle Transwiki import-aktioner protokolleres i [[Special:Log/import|import-logge
 'import-interwiki-namespace' => 'Importer til navnerum:',
 'import-upload-filename'     => 'Filnavn:',
 'import-comment'             => 'Kommentar:',
-'importtext'                 => "Eksportér filen fra kilde-wiki'en ved hjælp af værktøjet Special:Export, gem den på din harddisk og læg den op her.",
+'importtext'                 => "Eksportér filen fra kilde-wiki'en ved hjælp af [[Special:Export|eksporterings værktøjet]], gem den på din harddisk og upload den her.",
 'importstart'                => 'Importerer sider …',
 'import-revision-count'      => '– {{PLURAL:$1|1 version|$1 versioner}}',
 'importnopages'              => 'Ingen sider fundet til import.',
@@ -2731,25 +2759,6 @@ Dette skyldes sandsynligvis en henvisning til et sortlistet eksternt websted.',
 'skinname-chick'       => 'Chick',
 'skinname-simple'      => 'Enkelt',
 'skinname-modern'      => 'Moderne',
-
-# Math options
-'mw_math_png'    => 'Vis altid som PNG',
-'mw_math_simple' => 'HTML hvis meget simpel ellers PNG',
-'mw_math_html'   => 'HTML hvis muligt ellers PNG',
-'mw_math_source' => 'Lad være som TeX (for tekstbrowsere)',
-'mw_math_modern' => 'Anbefalet til moderne browsere',
-'mw_math_mathml' => 'MathML hvis muligt',
-
-# Math errors
-'math_failure'          => 'Fejl i matematikken',
-'math_unknown_error'    => 'ukendt fejl',
-'math_unknown_function' => 'ukendt funktion',
-'math_lexing_error'     => 'lexerfejl',
-'math_syntax_error'     => 'syntaksfejl',
-'math_image_error'      => 'PNG-konvertering mislykkedes; undersøg om latex og dvipng (eller dvips + gs + convert) er installeret korrekt',
-'math_bad_tmpdir'       => 'Kan ikke skrive til eller oprette temp-mappe til math',
-'math_bad_output'       => 'Kan ikke skrive til eller oprette uddata-mappe til math',
-'math_notexvc'          => 'Manglende eksekvérbar texvc; se math/README for opsætningsoplysninger.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Markér som patruljeret',
@@ -3125,7 +3134,7 @@ Kun indholdet af lister (linjer startende med *) bliver brugt. Den første henvi
 'confirmemail_oncreate'     => 'En bekræftelseskode er sendt til din e-mail-adresse. Denne kode skal ikke bruges til anmeldelsen, den kræves dog til aktiveringen af e-mail-funktionerne indenfor Wikien.',
 'confirmemail_sendfailed'   => 'Bekræftelsesmailen kunne ikke afsendes. Kontroller at e-mail-adressen er korrekt.
 
-Rückmeldung des Mailservers: $1',
+Svarbesked fra mailserveren: $1',
 'confirmemail_invalid'      => 'Ugyldig bekræftelseskode. Kodens gyldighed er muligvis udløbet.',
 'confirmemail_needlogin'    => 'Du skal $1 for at bekræfte e-mail-adressen.',
 'confirmemail_success'      => 'E-mail-adressen er nu bekræftet. Du kan nu logge på.',
@@ -3155,6 +3164,20 @@ Hvis denne konto *ikke* tilhører dig, bedes du åbne følgende link, for at afb
 $5
 
 Denne bekræftelseskode udløber $4',
+'confirmemail_body_set'     => 'En person, sandsynligvis dig, har fra IP-adressen $1,
+angivet denne e-mail-adresse til kontoen "$2" på {{SITENAME}}.
+
+For at bekræfte, at denne konto virkelig tilhører dig og genaktivere
+e-mail-funktioner på {{SITENAME}}, åbn dette link i din browser:
+
+$3
+
+Hvis kontoen ikke *ikke* tilhører dig, så følg dette link
+for at annullere e-mail-adressens bekræftelse:
+
+$5
+
+Denne bekræftelseskode vil udløbe den $4.',
 'confirmemail_invalidated'  => 'E-mail-bekræftelse afvist',
 'invalidateemail'           => 'Cancel e-mail confirmation',
 
@@ -3171,13 +3194,14 @@ $1',
 'trackbackdeleteok' => 'Trackback blev slettet.',
 
 # Delete conflict
-'deletedwhileediting' => 'Bemærk: Det blev forsøgt at slette denne side, efter at du var begyndt, at ændre den!
+'deletedwhileediting'      => 'Bemærk: Det blev forsøgt at slette denne side, efter at du var begyndt, at ændre den!
 Kig i [{{fullurl:Special:Log|type=delete&page=}}{{FULLPAGENAMEE}} slette-loggen],
 hvorfor siden blev slettet. Hvis du gemmer siden bliver den oprettet igen.',
-'confirmrecreate'     => "Bruger [[User:$1|$1]] ([[User talk:$1|Diskussion]]) har slettet denne side, efter at du begyndte at ændre den. Begrundelsen lyder:
+'confirmrecreate'          => "Bruger [[User:$1|$1]] ([[User talk:$1|Diskussion]]) har slettet denne side, efter at du begyndte at ændre den. Begrundelsen lyder:
 : ''$2''
 Bekræft venligst, at du virkelig vil oprette denne side igen.",
-'recreate'            => 'Opret igen',
+'confirmrecreate-noreason' => '[[User:$1|$1]] ([[User talk:$1|diskussion]]) har slettet denne side, efter du begyndte at redigere. Bekræft venligst, at du gerne vil genoprette siden.',
+'recreate'                 => 'Opret igen',
 
 # action=purge
 'confirm_purge_button' => 'O.k.',

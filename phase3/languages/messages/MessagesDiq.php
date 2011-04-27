@@ -140,13 +140,13 @@ $messages = array(
 'category-article-count-limited' => '{{PLURAL:$1|Pela cêrêne|$1 Pelê cêrêni}} na kategoriye derê.',
 'category-file-count'            => '{{PLURAL:$2|Na kategoriye de tenya dosya cêrêne esta.|Teberê $2 ra pêro, {{PLURAL:$1|dosya cêrêne|$1 dosyê cêrêni}} na kategoriye derê.}}',
 'category-file-count-limited'    => '{{PLURAL:$1|Dosya cêrêne|$1 Dosyê cêrêni}} na kategoriye derê.',
-'listingcontinuesabbrev'         => '↓ dewam',
+'listingcontinuesabbrev'         => 'dewam',
 'index-category'                 => 'Pelê endeksıni',
 'noindex-category'               => 'Pelê ke endeksıni niyê',
 
 'linkprefix'        => "'''MediaWiki niya ro.'''",
-'mainpagetext'      => "↓ '''MediaWiki vıst ra ser, vıraziya.'''",
-'mainpagedocfooter' => '↓ Seba gurenayış u eyarkerdışê Wiki-Softwarey [http://meta.wikimedia.org/wiki/Help:Contents İdarê karberi] de mıracaet ke.
+'mainpagetext'      => "'''MediaWiki vıst ra ser, vıraziya.'''",
+'mainpagedocfooter' => 'Seba gurenayış u eyarkerdışê Wiki-Softwarey [http://meta.wikimedia.org/wiki/Help:Contents İdarê karberi] de mıracaet ke.
 
 == Yardımê Sıftekerdışi ==
 
@@ -154,9 +154,9 @@ $messages = array(
 * [http://www.mediawiki.org/wiki/Manual:FAQ MediaWiki de ÇZP]
 * [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce MediaWiki ra lista serbest-dayışê postey]',
 
-'about'         => '↓ Heqa',
-'article'       => '↓ Pela tedeesteyan',
-'newwindow'     => '↓ (zerrey pençereyê dê newey de beno a)',
+'about'         => 'Heqa',
+'article'       => 'Pela tedeesteyan',
+'newwindow'     => '(zerrey pençereyê dê newey de beno a)',
 'cancel'        => 'Texelnayış',
 'moredotdotdot' => 'Vêşêri...',
 'mypage'        => 'Pela mı',
@@ -532,8 +532,6 @@ Bıne vındere u newe ra dest pê bıkere.',
 'extlink_tip'     => 'Çımeyo tewer (http:// prefix)',
 'headline_sample' => 'nuşteyo headline',
 'headline_tip'    => 'Ket 2 headline',
-'math_sample'     => 'Formula itiya ra bınus',
-'math_tip'        => 'Formulayo Matematik (LaTeX)',
 'nowiki_sample'   => 'Non-format nuşte itiya ra bıerz',
 'nowiki_tip'      => 'Formatê wiki iptal bık',
 'image_sample'    => 'resım bıerze cı',
@@ -627,7 +625,7 @@ Cıkewtışo tewr peyêno ke bloke biyo, cêr seba referansi belikerdeyo:',
 'userjsyoucanpreview'              => "'''Yardim:''' Ser \"{{int:showpreview}}\" sima eskeni CSSe newe test bikeri.",
 'usercsspreview'                   => "'''şıma tena verqaydê dosyayê CSS vineni.''' '''Dosyayê Karberi CSS hema qayd nebiyo!'''",
 'userjspreview'                    => "'''şıma tena test keni ya ziverqayn seyr keni - karberê JavaScript'i hema qayd nebiyo.'''",
-'userinvalidcssjstitle'            => "↓ '''Teme:''' Mewzuyê \"\$1\" çıniyo.
+'userinvalidcssjstitle'            => "'''Teme:''' Mewzuyê \"\$1\" çıniyo.
 Dosyanê be namey .css u .js'i de herfa werdiye bıgurêne, mesela herında {{ns:user}}:Foo/Vector.css'i de {{ns:user}}:Foo/vector.css bınuse.",
 'updated'                          => '(Rocaniye biyo)',
 'note'                             => "'''Not:'''",
@@ -1011,7 +1009,6 @@ Pe verbendi ''all:'', vaceyê xo bıvurni ki contenti hemi cıgeyro (pelanê mı
 'changepassword'                => 'parola bivurne',
 'prefs-skin'                    => 'Çerme',
 'skin-preview'                  => 'Verqayt',
-'prefs-math'                    => 'Math',
 'datedefault'                   => 'Tercih çino',
 'prefs-datetime'                => 'Wext u Tarix',
 'prefs-personal'                => 'Pela karberi',
@@ -1587,13 +1584,13 @@ listeya ke ha ver a têna na {{PLURAL:$1|dosyaya ewwili|dosyaya $1 ewwili}} mocn
 
 # Statistics
 'statistics'                   => 'İstatistiki',
-'statistics-header-pages'      => '↓ İstatistikê pele',
+'statistics-header-pages'      => 'İstatistikê pele',
 'statistics-header-edits'      => 'Îstatistiksê vurnayîşî',
 'statistics-header-views'      => 'Îstatistiksê vînayîşî',
 'statistics-header-users'      => 'Îstatistiksê karberî',
 'statistics-header-hooks'      => 'Îstatistiksê binî',
 'statistics-articles'          => 'Pelanê tedesteyî',
-'statistics-pages'             => '↓ Peli',
+'statistics-pages'             => 'Peli',
 'statistics-pages-desc'        => 'Pelanê hemî ke wîkî de estê, pelanê mineqeşeyî, redireksiyon ucb... dehil o.',
 'statistics-files'             => 'Dosyayê bar biye',
 'statistics-edits'             => 'Amarê vurnayîşî ke wextê {{SITENAME}} ronayîşî ra',
@@ -1601,7 +1598,7 @@ listeya ke ha ver a têna na {{PLURAL:$1|dosyaya ewwili|dosyaya $1 ewwili}} mocn
 'statistics-views-total'       => 'Yekunî bivîne',
 'statistics-views-peredit'     => 'Ser her vurnayîşî de vînayîşî',
 'statistics-users'             => 'Qeyd biye [[Special:ListUsers|karberî]]',
-'statistics-users-active'      => '↓ Karberê aktifi',
+'statistics-users-active'      => 'Karberê aktifi',
 'statistics-users-active-desc' => '{{PLURAL:$1|roco peyin de|$1 roco peyin de}} karber ê ke kar kerdê.',
 'statistics-mostpopular'       => 'Pelayanê ke tewr zafî vînî biye',
 
@@ -2194,8 +2191,7 @@ Sebebê kılit-biyayışê $1\'i: "$2"o',
 'ipb_expiry_temp'                 => 'Kılitbiyayışê karberê nımıtey gani ebedi bo.',
 'ipb_hide_invalid'                => 'hesabê karberi pinani nêbeno; belka semedê zaf vurnayişi ra yo.',
 'ipb_already_blocked'             => '"$1" zaten blok biya',
-'ipb-needreblock'                 => '==Zaten blok biya ==
-"$1" zaten blok biya
+'ipb-needreblock'                 => '"$1" zaten blok biya
 Ti wazene ayaran bivurne?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Kılitkerdışo bin|Kılitkerdışê bini}}',
 'ipb_cant_unblock'                => 'xeta: IDyê ver-grewtışi $1 nêesa/asa.
@@ -2521,27 +2517,6 @@ Tı eşkeno yew sebeb bınus.',
 'numwatchers'    => 'amarê temaşakerdoxi: $1',
 'numauthors'     => 'amarê nuştoxê ferqıni (pel): $1',
 'numtalkauthors' => 'Teneyê karberi ke ferkliyê (pela minaqeşe): $1',
-
-# Math options
-'mw_math_png'    => 'Herzeman PNG render bike',
-'mw_math_simple' => 'Eka HTML zaf basit o ya zi PNG',
-'mw_math_html'   => 'Eka HTM mumkin ya zi PNG',
-'mw_math_source' => 'Bi TeX biman (qe nuşte browseroği)',
-'mw_math_modern' => 'Semed browseroğê moderni tafsiye biyê',
-'mw_math_mathml' => 'Eka mumkin, MathML (deneme)',
-
-# Math errors
-'math_failure'          => 'Parse de ğeleti biyo',
-'math_unknown_error'    => 'ğeleti nizanyeno',
-'math_unknown_function' => 'fonksiyon nizanyeno',
-'math_lexing_error'     => 'ğeleto lexing',
-'math_syntax_error'     => 'ğeleto sintaks',
-'math_image_error'      => 'Conversiyonê PNG de ğeleti esta;
-qe ronayişê raşti ye latex, dvips, gs kontrol bike u convert bike',
-'math_bad_tmpdir'       => 'Nieşkeno binusi ya zi direktorê mathi virazi',
-'math_bad_output'       => 'Nieşkeno binusi ya zi direktorê mathi ye outputi virazi',
-'math_notexvc'          => "xebetnayekarê texvc'i vindbiyo
-qey 'eyar kerdışi bıewnê math/README'yi.",
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Nişan bike ke devriye biyo',

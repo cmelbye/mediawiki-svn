@@ -60,14 +60,14 @@ class RefreshLinks extends Maintenance {
 	 */
 	private function doRefreshLinks( $start, $newOnly = false, $maxLag = false,
 						$end = 0, $redirectsOnly = false, $oldRedirectsOnly = false ) {
-		global $wgUser, $wgParser, $wgUseTidy;
+		global $wgParser, $wgUseTidy;
 
 		$reportingInterval = 100;
 		$dbr = wfGetDB( DB_SLAVE );
 		$start = intval( $start );
 
-		# Don't generate TeX PNGs (lack of a sensible current directory causes errors anyway)
-		$wgUser->setOption( 'math', MW_MATH_SOURCE );
+		// Give extensions a chance to optimize settings
+		wfRunHooks( 'MaintenanceRefreshLinksInit', array( $this ) );
 
 		# Don't generate extension images (e.g. Timeline)
 		$wgParser->clearTagHooks();

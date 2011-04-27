@@ -8,7 +8,9 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "This file is part of MediaWiki, it is not a valid entry point" );
 }
 
-require_once dirname( __FILE__ ) . '/normal/UtfNormalUtil.php';
+if ( !defined( 'MW_COMPILED' ) ) {
+	require_once( dirname( __FILE__ ) . '/normal/UtfNormalUtil.php' );
+}
 
 // Hide compatibility functions from Doxygen
 /// @cond
@@ -16,7 +18,7 @@ require_once dirname( __FILE__ ) . '/normal/UtfNormalUtil.php';
 /**
  * Compatibility functions
  *
- * We support PHP 5.1.x and up.
+ * We support PHP 5.2.3 and up.
  * Re-implementations of newer functions or functions in non-standard
  * PHP extensions may be included here.
  */
@@ -329,7 +331,7 @@ function wfErrorLog( $text, $file ) {
 		$exists = file_exists( $file );
 		$size = $exists ? filesize( $file ) : false;
 		if ( !$exists || ( $size !== false && $size + strlen( $text ) < 0x7fffffff ) ) {
-			error_log( $text, 3, $file );
+			file_put_contents( $file, $text, FILE_APPEND );
 		}
 		wfRestoreWarnings();
 	}
@@ -495,7 +497,7 @@ function wfMessage( $key /*...*/) {
  */
 function wfMessageFallback( /*...*/ ) {
 	$args = func_get_args();
-	return call_user_func_array( array( 'Message', 'newFallbackSequence' ), $args );
+	return MWFunction::callArray( 'Message::newFallbackSequence', $args );
 }
 
 /**
@@ -849,13 +851,20 @@ function wfErrorExit() {
 }
 
 /**
- * Print a simple message and die, returning nonzero to the shell if any.
- * Plain die() fails to return nonzero to the shell if you pass a string.
+ * Print an error message and die, returning nonzero to the shell if any.  Plain die()
+ * fails to return nonzero to the shell if you pass a string.  Entry points may customise
+ * this function to return a prettier error message, but implementations must not assume
+ * access to any of the usual MediaWiki infrastructure (AutoLoader, localisation, database,
+ * etc).  This should not be called directly once $wgFullyInitialised is set; instead,
+ * throw an exception and let Exception.php handle whether or not it's possible to show
+ * a prettier error.
  * @param $msg String
  */
-function wfDie( $msg = '' ) {
-	echo $msg;
-	die( 1 );
+if( !function_exists( 'wfDie' ) ){
+	function wfDie( $msg = '' ) {
+		echo $msg;
+		die( 1 );
+	}
 }
 
 /**
@@ -1994,6 +2003,13 @@ function wfIsWindows() {
 }
 
 /**
+ * Check if we are running under HipHop
+ */
+function wfIsHipHop() {
+	return function_exists( 'hphp_thread_set_warmup_enabled' );
+}
+
+/**
  * Swap two variables
  */
 function swap( &$x, &$y ) {
@@ -2781,13 +2797,23 @@ function wfSetupSession( $sessionId = false ) {
 	global $wgSessionsInMemcached, $wgCookiePath, $wgCookieDomain,
 			$wgCookieSecure, $wgCookieHttpOnly, $wgSessionHandler;
 	if( $wgSessionsInMemcached ) {
-		require_once( 'MemcachedSessions.php' );
+		if ( !defined( 'MW_COMPILED' ) ) {
+			require_once( 'MemcachedSessions.php' );
+		}
+		session_set_save_handler( 'memsess_open', 'memsess_close', 'memsess_read', 
+			'memsess_write', 'memsess_destroy', 'memsess_gc' );
+
+		// It's necessary to register a shutdown function to call session_write_close(), 
+		// because by the time the request shutdown function for the session module is 
+		// called, $wgMemc has already been destroyed. Shutdown functions registered
+		// this way are called before object destruction.
+		register_shutdown_function( 'memsess_write_close' );
 	} elseif( $wgSessionHandler && $wgSessionHandler != ini_get( 'session.save_handler' ) ) {
 		# Only set this if $wgSessionHandler isn't null and session.save_handler
 		# hasn't already been set to the desired value (that causes errors)
 		ini_set( 'session.save_handler', $wgSessionHandler );
 	}
-	$httpOnlySafe = wfHttpOnlySafe();
+	$httpOnlySafe = wfHttpOnlySafe() && $wgCookieHttpOnly;
 	wfDebugLog( 'cookie',
 		'session_set_cookie_params: "' . implode( '", "',
 			array(
@@ -2795,13 +2821,8 @@ function wfSetupSession( $sessionId = false ) {
 				$wgCookiePath,
 				$wgCookieDomain,
 				$wgCookieSecure,
-				$httpOnlySafe && $wgCookieHttpOnly ) ) . '"' );
-	if( $httpOnlySafe && $wgCookieHttpOnly ) {
-		session_set_cookie_params( 0, $wgCookiePath, $wgCookieDomain, $wgCookieSecure, $wgCookieHttpOnly );
-	} else {
-		// PHP 5.1 throws warnings if you pass the HttpOnly parameter for 5.2.
-		session_set_cookie_params( 0, $wgCookiePath, $wgCookieDomain, $wgCookieSecure );
-	}
+				$httpOnlySafe ) ) . '"' );
+	session_set_cookie_params( 0, $wgCookiePath, $wgCookieDomain, $wgCookieSecure, $httpOnlySafe );
 	session_cache_limiter( 'private, must-revalidate' );
 	if ( $sessionId ) {
 		session_id( $sessionId );
@@ -3063,26 +3084,6 @@ function wfGetNull() {
 	return wfIsWindows()
 		? 'NUL'
 		: '/dev/null';
-}
-
-/**
- * Displays a maxlag error
- *
- * @param $host String: server that lags the most
- * @param $lag Integer: maxlag (actual)
- * @param $maxLag Integer: maxlag (requested)
- */
-function wfMaxlagError( $host, $lag, $maxLag ) {
-	global $wgShowHostnames;
-	header( 'HTTP/1.1 503 Service Unavailable' );
-	header( 'Retry-After: ' . max( intval( $maxLag ), 5 ) );
-	header( 'X-Database-Lag: ' . intval( $lag ) );
-	header( 'Content-Type: text/plain' );
-	if( $wgShowHostnames ) {
-		echo "Waiting for $host: $lag seconds lagged\n";
-	} else {
-		echo "Waiting for a database server: $lag seconds lagged\n";
-	}
 }
 
 /**

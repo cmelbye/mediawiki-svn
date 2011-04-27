@@ -721,8 +721,6 @@ Morda ste že uspešno spremenili geslo ali pa ste zahtevali novo začasno geslo
 'extlink_tip'     => 'Zunanja povezava (ne pozabite na predpono http://)',
 'headline_sample' => 'Besedilo naslovne vrstice',
 'headline_tip'    => 'Naslovna vrstica druge ravni',
-'math_sample'     => 'Tu vnesite enačbo',
-'math_tip'        => 'Matematična enačba (LaTeX)',
 'nowiki_sample'   => 'Tu vnesite neoblikovano besedilo',
 'nowiki_tip'      => 'Prezri wikioblikovanje',
 'image_sample'    => 'Zgled.jpg',
@@ -1217,7 +1215,6 @@ Upoštevajte, da so njihovi podatki vsebine {{GRAMMAR:rodilnik|{{SITENAME}}}} mo
 'changepassword'                => 'Zamenjava gesla',
 'prefs-skin'                    => 'Koža',
 'skin-preview'                  => 'Predogled',
-'prefs-math'                    => 'Prikaz matematičnega besedila',
 'datedefault'                   => 'Kakor koli',
 'prefs-datetime'                => 'Datum in čas',
 'prefs-personal'                => 'Podatki o uporabniku',
@@ -1699,22 +1696,23 @@ Ni mogoče ustrezno preveriti njene varnosti.',
 'uploadstash-refresh'  => 'Osveži seznam datotek',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Dostop zavrnjen',
-'img-auth-nopathinfo'   => 'Manjka PATH_INFO.
+'img-auth-accessdenied'     => 'Dostop zavrnjen',
+'img-auth-nopathinfo'       => 'Manjka PATH_INFO.
 Vaš strežnik ne poda te informacije.
 Morda temelji na CGI in ne more podpirati img_auth.
 Oglejte si http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Zahtevana pot ni v konfigurirani mapi za nalaganje.',
-'img-auth-badtitle'     => 'Ni mogoče sestaviti veljavnega naslova iz »$1«.',
-'img-auth-nologinnWL'   => 'Niste prijavljeni in »$1« ni na seznamu dovoljenih datotek.',
-'img-auth-nofile'       => 'Datoteka »$1« ne obstaja.',
-'img-auth-isdir'        => 'Poskušate dostopati do mape »$1«.
+'img-auth-notindir'         => 'Zahtevana pot ni v konfigurirani mapi za nalaganje.',
+'img-auth-badtitle'         => 'Ni mogoče sestaviti veljavnega naslova iz »$1«.',
+'img-auth-nologinnWL'       => 'Niste prijavljeni in »$1« ni na seznamu dovoljenih datotek.',
+'img-auth-nofile'           => 'Datoteka »$1« ne obstaja.',
+'img-auth-isdir'            => 'Poskušate dostopati do mape »$1«.
 Dovoljeno je samo dostopanje do datotek.',
-'img-auth-streaming'    => 'Pretakanje »$1«.',
-'img-auth-public'       => 'Funkcija img_auth.php je izvoz datotek iz zasebnega wikija.
+'img-auth-streaming'        => 'Pretakanje »$1«.',
+'img-auth-public'           => 'Funkcija img_auth.php je izvoz datotek iz zasebnega wikija.
 Ta wiki je konfiguriran kot javni wiki.
 Za optimalno varnost je img_auth.php onemogočen.',
-'img-auth-noread'       => 'Uporabnik nima dostopa za branje »$1«.',
+'img-auth-noread'           => 'Uporabnik nima dostopa za branje »$1«.',
+'img-auth-bad-query-string' => 'URL ima neveljavni niz poizvedbe.',
 
 # HTTP errors
 'http-invalid-url'      => 'Napačen URL: $1',
@@ -2079,6 +2077,10 @@ E-poštni naslov, ki ste ga vpisali v [[Special:Preferences|uporabniških nastav
 'noemailtext'          => 'Uporabnik ni navedel veljavnega e-poštnega naslova.',
 'nowikiemailtitle'     => 'E-pošta ni dovoljena',
 'nowikiemailtext'      => 'Ta uporabnik se je odločil, da ne bo prejmal e-pošte od drugih uporabnikov.',
+'emailnotarget'        => 'Neobstoječe ali neveljavno uporabniško ime prejemnika.',
+'emailtarget'          => 'Vnesite uporabniško ime prejemnika',
+'emailusername'        => 'Uporabniško ime:',
+'emailusernamesubmit'  => 'Potrdi',
 'email-legend'         => 'Pošlji e-pošto drugemu uporabniku {{GRAMMAR:akuzativ|{{SITENAME}}}}',
 'emailfrom'            => 'Od:',
 'emailto'              => 'Za:',
@@ -2397,8 +2399,8 @@ Najnovejši vnos v dnevniku blokad je naveden spodaj:',
 
 # Block/unblock
 'autoblockid'                     => 'Samodejna blokada št. $1',
-'block'                           => 'Blokiraj uporabnika/IP-naslov',
-'unblock'                         => 'Odblokiraj uporabnika/IP-naslov',
+'block'                           => 'Blokiraj uporabnika',
+'unblock'                         => 'Odblokiraj uporabnika',
 'blockip'                         => 'Blokiranje IP-naslova ali uporabniškega imena',
 'blockip-title'                   => 'Blokiraj uporabnika',
 'blockip-legend'                  => 'Blokiraj uporabnika',
@@ -2430,10 +2432,13 @@ Vnesite tudi razlog (''na primer'' seznam strani, ki jih je uporabnik po nepotre
 'ipbwatchuser'                    => 'Nadzoruj uporabnikovo uporabniško in pogovorno stran',
 'ipb-disableusertalk'             => 'Med blokado prepreči temu uporabniku urejati lastno pogovorno stran',
 'ipb-change-block'                => 'Ponovno blokiraj uporabnika s temi nastavitvami',
+'ipb-confirm'                     => 'Potrdi blokado',
 'badipaddress'                    => 'Neveljaven IP-naslov ali uporabniško ime.',
 'blockipsuccesssub'               => 'Blokiranje je uspelo',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] je {{GENDER:$1|blokiran|blokirana|blokiran(-a)}}.<br />
 Oglejte si [[Special:IPBlockList|seznam blokiranih IP-naslovov]] za pregled blokad.',
+'ipb-blockingself'                => 'Nameravate se blokirati! Ste prepričani, da želite to storiti?',
+'ipb-confirmhideuser'             => 'Nameravate blokirati uporabnika z omogočeno možnostjo »skrij uporabnika«. To bo skrilo uporabnikovo ime na vseh seznamih in dnevniških vnosih. Ste prepričani, da želite to storiti?',
 'ipb-edit-dropdown'               => 'Uredi razloge blokade',
 'ipb-unblock-addr'                => 'Deblokiraj $1',
 'ipb-unblock'                     => 'Odblokirajte uporabniško ime ali IP-naslov',
@@ -2445,8 +2450,8 @@ Oglejte si [[Special:IPBlockList|seznam blokiranih IP-naslovov]] za pregled blok
 'unblocked'                       => '[[User:$1|$1]] je bil odblokiran',
 'unblocked-range'                 => '$1 so odblokirani',
 'unblocked-id'                    => 'Blokada $1 je odstranjena',
-'blocklist'                       => 'Blokirani IP-naslovi in uporabniška imena',
-'ipblocklist'                     => 'Seznam blokiranih IP-naslovov in uporabniških imen',
+'blocklist'                       => 'Blokirani uporabniki',
+'ipblocklist'                     => 'Blokirani uporabniki',
 'ipblocklist-legend'              => 'Najdi blokiranega uporabnika',
 'blocklist-userblocks'            => 'Skrij blokade računov',
 'blocklist-tempblocks'            => 'Skrij začasne blokade',
@@ -2496,8 +2501,7 @@ Dnevnik skrivanja je na voljo spodaj:',
 'ipb_expiry_temp'                 => 'Blokade skritih uporabniških imen morajo biti trajne.',
 'ipb_hide_invalid'                => 'Ne morem skriti tega računa; morda ima preveč urejanj.',
 'ipb_already_blocked'             => '"$1" je že blokiran',
-'ipb-needreblock'                 => '== Uporeabnik je že blokiran ==
-$1 je že blokiran.
+'ipb-needreblock'                 => '$1 je že blokiran.
 Ali želite spremeniti nastavitve blokade?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Druga blokada|Drugi blokadi|Druge blokade}}',
 'unblock-hideuser'                => 'Ne morete odblokirati tega uporabnika, ker je njegovo uporabniško ime skrito.',
@@ -2701,7 +2705,7 @@ Vsi uvozi med wikiji so zabeleženi v [[Special:Log/import|dnevniku uvozov]].',
 'import-interwiki-namespace' => 'Prenesi strani v imenski prostor:',
 'import-upload-filename'     => 'Ime datoteke:',
 'import-comment'             => 'Komentar:',
-'importtext'                 => 'Prosimo, izvozite datoteko iz izvornega wikija s pomočjo [[Special:Export|orodja za izvoz]].
+'importtext'                 => 'Prosimo, izvozite datoteko z izvornega wikija s pomočjo [[Special:Export|orodja za izvoz]].
 Shranite jo na vaš računalnik in naložite tukaj.',
 'importstart'                => 'Uvažam strani ...',
 'import-revision-count'      => '$1 {{PLURAL:$1|redakcija|redakciji|redakcije|redakcij|redakcij}}',
@@ -2839,26 +2843,6 @@ Omogoča vnos pojasnila v povzetku urejanja.',
 'numwatchers'    => 'Število oseb, ki spremljajo stran: $1',
 'numauthors'     => 'Število različnih avtorjev (stran): $1',
 'numtalkauthors' => 'Število različnih avtorjev (pogovorna stran): $1',
-
-# Math options
-'mw_math_png'    => 'Vedno prikaži PNG',
-'mw_math_simple' => 'Kadar je dovolj preprosto, uporabi HTML, sicer pa PNG',
-'mw_math_html'   => 'Kadar je mogoče, uporabi HTML, sicer pa PNG',
-'mw_math_source' => 'Pusti v TeX-ovi obliki (za besedilne brskalnike)',
-'mw_math_modern' => 'Priporočeno za sodobne brskalnike',
-'mw_math_mathml' => 'Če je le mogoče, uporabi MathML (preizkusno)',
-
-# Math errors
-'math_failure'          => 'Ni mi uspelo razčleniti',
-'math_unknown_error'    => 'neznana napaka',
-'math_unknown_function' => 'neznana funkcija',
-'math_lexing_error'     => 'slovarska napaka',
-'math_syntax_error'     => 'skladenjska napaka',
-'math_image_error'      => 'Pretvarjanje v PNG ni uspelo; preverite, ali sta latex in dvips (ali dvips + gs + convert) pravilno nameščena.',
-'math_bad_tmpdir'       => 'Začasne mape za math ne morem ustvariti ali pisati vanjo.',
-'math_bad_output'       => 'Izhodne mape za math ne morem ustvariti ali pisati vanjo.',
-'math_notexvc'          => 'Manjka izvedbena datoteka texvc;
-za njeno namestitev si poglejte math/README.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Označite kot nadzorovano',
@@ -3310,11 +3294,12 @@ $1',
 'trackbackdeleteok' => 'Sledilnik je uspešno izbrisan.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Opozorilo''': Med vašim urejanjem je bila stran izbrisana!",
-'confirmrecreate'     => "Medtem ko ste stran urejali, jo je uporabnik [[User:$1|$1]] ([[User talk:$1|pogovor]]) izbrisal z razlogom:
+'deletedwhileediting'      => "'''Opozorilo''': Med vašim urejanjem je bila stran izbrisana!",
+'confirmrecreate'          => "Medtem ko ste stran urejali, jo je uporabnik [[User:$1|$1]] ([[User talk:$1|pogovor]]) izbrisal z razlogom:
 :''$2''
 Prosimo, potrdite, da jo resnično želite znova ustvariti.",
-'recreate'            => 'Ponovno ustvari',
+'confirmrecreate-noreason' => 'Uporabnik [[User:$1|$1]] ([[User talk:$1|pogovor]]) je izbrisal to stran po začetku vašega urejanja. Potrdite, da jo resnično želite znova ustvariti.',
+'recreate'                 => 'Ponovno ustvari',
 
 'unit-pixel' => ' točk',
 

@@ -45,7 +45,6 @@ class Preferences {
 		self::profilePreferences( $user, $defaultPreferences );
 		self::skinPreferences( $user, $defaultPreferences );
 		self::filesPreferences( $user, $defaultPreferences );
-		self::mathPreferences( $user, $defaultPreferences );
 		self::datetimePreferences( $user, $defaultPreferences );
 		self::renderingPreferences( $user, $defaultPreferences );
 		self::editingPreferences( $user, $defaultPreferences );
@@ -495,19 +494,6 @@ class Preferences {
 		}
 	}
 
-	static function mathPreferences( $user, &$defaultPreferences ) {
-		## Math #####################################
-		global $wgUseTeX, $wgLang;
-		if ( $wgUseTeX ) {
-			$defaultPreferences['math'] = array(
-				'type' => 'radio',
-				'options' => array_flip( array_map( 'wfMsgHtml', $wgLang->getMathNames() ) ),
-				'label' => '&#160;',
-				'section' => 'rendering/math',
-			);
-		}
-	}
-
 	static function filesPreferences( $user, &$defaultPreferences ) {
 		## Files #####################################
 		$defaultPreferences['imagesize'] = array(
@@ -539,10 +525,11 @@ class Preferences {
 		}
 
 		// Info
+		$now = wfTimestampNow();
 		$nowlocal = Xml::element( 'span', array( 'id' => 'wpLocalTime' ),
-			$wgLang->time( $now = wfTimestampNow(), true ) );
+			$wgLang->time( $now, true ) );
 		$nowserver = $wgLang->time( $now, false ) .
-			Html::hidden( 'wpServerTime', substr( $now, 8, 2 ) * 60 + substr( $now, 10, 2 ) );
+			Html::hidden( 'wpServerTime', (int)substr( $now, 8, 2 ) * 60 + (int)substr( $now, 10, 2 ) );
 
 		$defaultPreferences['nowserver'] = array(
 			'type' => 'info',
@@ -743,7 +730,7 @@ class Preferences {
 			'label-message' => 'tog-forceeditsummary',
 		);
 
-				
+
 		$defaultPreferences['uselivepreview'] = array(
 			'type' => 'toggle',
 			'section' => 'editing/advancedediting',
@@ -931,7 +918,7 @@ class Preferences {
 				'section' => 'searchoptions/displaysearchoptions',
 			);
 		}
-		
+
 		global $wgVectorUseSimpleSearch;
 		if ( $wgVectorUseSimpleSearch ) {
 			$defaultPreferences['vector-simplesearch'] = array(
@@ -1227,7 +1214,7 @@ class Preferences {
 		}
 		return $opt;
 	}
-	
+
 	static function filterIntval( $value, $alldata ){
 		return intval( $value );
 	}

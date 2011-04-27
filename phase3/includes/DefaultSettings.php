@@ -28,7 +28,9 @@ if( !defined( 'MEDIAWIKI' ) ) {
 
 # Create a site configuration object. Not used for much in a default install
 if ( !defined( 'MW_PHP4' ) ) {
-	require_once( "$IP/includes/SiteConfiguration.php" );
+	if ( !defined( 'MW_COMPILED' ) ) {
+		require_once( "$IP/includes/SiteConfiguration.php" );
+	}
 	$wgConf = new SiteConfiguration;
 }
 /** @endcond */
@@ -231,23 +233,6 @@ $wgFavicon			= '/favicon.ico';
  * Defaults to no icon.
  */
 $wgAppleTouchIcon   = false;
-
-/**
- * The URL path of the math directory. Defaults to "{$wgUploadPath}/math".
- *
- * See http://www.mediawiki.org/wiki/Manual:Enable_TeX for details about how to
- * set up mathematical formula display.
- */
-$wgMathPath         = false;
-
-/**
- * The filesystem path of the math directory.
- * Defaults to "{$wgUploadDirectory}/math".
- *
- * See http://www.mediawiki.org/wiki/Manual:Enable_TeX for details about how to
- * set up mathematical formula display.
- */
-$wgMathDirectory    = false;
 
 /**
  * The local filesystem path to a temporary directory. This is not required to
@@ -1877,7 +1862,6 @@ $wgDummyLanguageCodes = array(
 	'nb',
 	'qqq',
 	'simple',
-	'tp',
 );
 
 /** @deprecated Since MediaWiki 1.5, this must always be set to UTF-8. */
@@ -2148,28 +2132,49 @@ $wgLocalTZoffset = null;
 /** The default Content-Type header. */
 $wgMimeType = 'text/html';
 
-/** The content type used in script tags. */
+/**
+ * The content type used in script tags.  This is mostly going to be ignored if
+ * $wgHtml5 is true, at least for actual HTML output, since HTML5 doesn't
+ * require a MIME type for JavaScript or CSS (those are the default script and
+ * style languages).
+ */
 $wgJsMimeType = 'text/javascript';
 
-/** The HTML document type. */
+/**
+ * The HTML document type.  Ignored if $wgHtml5 is true, since <!DOCTYPE html>
+ * doesn't actually have a doctype part to put this variable's contents in.
+ */
 $wgDocType = '-//W3C//DTD XHTML 1.0 Transitional//EN';
 
-/** The URL of the document type declaration. */
+/**
+ * The URL of the document type declaration.  Ignored if $wgHtml5 is true,
+ * since HTML5 has no DTD, and <!DOCTYPE html> doesn't actually have a DTD part
+ * to put this variable's contents in.
+ */
 $wgDTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
 
-/** The default xmlns attribute. */
+/**
+ * The default xmlns attribute.  Ignored if $wgHtml5 is true (or it's supposed
+ * to be), since we don't currently support XHTML5, and in HTML5 (i.e., served
+ * as text/html) the attribute has no effect, so why bother?
+ */
 $wgXhtmlDefaultNamespace = 'http://www.w3.org/1999/xhtml';
 
 /**
  * Should we output an HTML5 doctype?  If false, use XHTML 1.0 Transitional
  * instead, and disable HTML5 features.  This may eventually be removed and set
- * to always true.
+ * to always true.  If it's true, a number of other settings will be irrelevant
+ * and have no effect.
  */
 $wgHtml5 = true;
 
 /**
  * Defines the value of the version attribute in the &lt;html&gt; tag, if any.
- * Will be initialized later if not set explicitly.
+ * This is ignored if $wgHtml5 is false.  If $wgAllowRdfaAttributes and
+ * $wgHtml5 are both true, and this evaluates to boolean false (like if it's
+ * left at the default null value), it will be auto-initialized to the correct
+ * value for RDFa+HTML5.  As such, you should have no reason to ever actually
+ * set this to anything.
  */
 $wgHtml5Version = null;
 
@@ -2209,6 +2214,9 @@ $wgWellFormedXml = true;
  * $wgXhtmlNamespaces['svg'] = 'http://www.w3.org/2000/svg';
  * Normally we wouldn't have to define this in the root <html>
  * element, but IE needs it there in some circumstances.
+ *
+ * This is ignored if $wgHtml5 is true, for the same reason as
+ * $wgXhtmlDefaultNamespace.
  */
 $wgXhtmlNamespaces = array();
 
@@ -3796,28 +3804,6 @@ $wgSessionName = false;
  * Please see math/README for more information.
  */
 $wgUseTeX = false;
-/** Location of the texvc binary */
-$wgTexvc = $IP . '/math/texvc';
-/**
-  * Texvc background color
-  * use LaTeX color format as used in \special function
-  * for transparent background use value 'Transparent' for alpha transparency or
-  * 'transparent' for binary transparency.
-  */
-$wgTexvcBackgroundColor = 'transparent';
-
-/**
- * Normally when generating math images, we double-check that the
- * directories we want to write to exist, and that files that have
- * been generated still exist when we need to bring them up again.
- *
- * This lets us give useful error messages in case of permission
- * problems, and automatically rebuild images that have been lost.
- *
- * On a big site with heavy NFS traffic this can be slow and flaky,
- * so sometimes we want to short-circuit it by setting this to false.
- */
-$wgMathCheckFiles = true;
 
 /* @} */ # end LaTeX }
 
@@ -4912,11 +4898,6 @@ $wgLogActionsHandlers = array();
  * Maintain a log of newusers at Log/newusers?
  */
 $wgNewUserLog = true;
-
-/**
- * Log the automatic creations of new users accounts?
- */
-$wgLogAutocreatedAccounts = false;
 
 /** @} */ # end logging }
 

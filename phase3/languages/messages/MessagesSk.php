@@ -808,8 +808,6 @@ Je možné, že sa vám už podarilo úspešne zmeniť svoje heslo alebo ste si 
 'extlink_tip'     => 'Externý odkaz (nezabudnite na predponu http://)',
 'headline_sample' => 'Text nadpisu',
 'headline_tip'    => 'Text nadpisu úrovne 2',
-'math_sample'     => 'Sem vložte vzorec',
-'math_tip'        => 'Matematický vzorec (LaTeX)',
 'nowiki_sample'   => 'Sem vložte neformátovaný text',
 'nowiki_tip'      => 'Ignoruj wiki formátovanie',
 'image_sample'    => 'Príklad.jpg',
@@ -1308,16 +1306,15 @@ Uistite sa, že táto zmena zachová historickú kontinuitu zmien stránky.',
 'changepassword'                => 'Zmeniť heslo',
 'prefs-skin'                    => 'Vzhľad',
 'skin-preview'                  => 'Náhľad',
-'prefs-math'                    => 'Vykreslenie matematiky',
 'datedefault'                   => 'štandardný',
 'prefs-datetime'                => 'Dátum a čas',
 'prefs-personal'                => 'Profil',
 'prefs-rc'                      => 'Posledné úpravy',
 'prefs-watchlist'               => 'Sledované stránky',
 'prefs-watchlist-days'          => 'Koľko dní zobrazovať v sledovaných stránkach:',
-'prefs-watchlist-days-max'      => '(maximálne 7 dní)',
+'prefs-watchlist-days-max'      => 'Maximálne 7 dní',
 'prefs-watchlist-edits'         => 'Počet úprav, ktorý sa zobrazí v rozšírenom zozname sledovaných:',
-'prefs-watchlist-edits-max'     => '(maximum: 1000)',
+'prefs-watchlist-edits-max'     => 'Maximum: 1000',
 'prefs-watchlist-token'         => 'Token zoznamu sledovaných?',
 'prefs-misc'                    => 'Rôzne',
 'prefs-resetpass'               => 'Zmeniť heslo',
@@ -1779,22 +1776,23 @@ Nie je možné správne skontrolovať jeho bezpečnosť.',
 'uploadstash-refresh'  => 'Obnoviť zoznam súborov',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Prístup zamietnutý',
-'img-auth-nopathinfo'   => 'Chýba PATH_INFO.
+'img-auth-accessdenied'     => 'Prístup zamietnutý',
+'img-auth-nopathinfo'       => 'Chýba PATH_INFO.
 Váš server nie je nastavený tak, aby poskytoval tieto informácie.
 Môže byť založený na CGI a nedokáže podporovať img_auth.
 Pozri http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Požadovaná cesta nie je v nastavenom adresári na nahrávanie.',
-'img-auth-badtitle'     => 'Nepodarilo sa zostaviť platný názov z „$1“.',
-'img-auth-nologinnWL'   => 'Nie ste prihlásený a „$1“ nie je na bielej listine.',
-'img-auth-nofile'       => 'Súbor „$1“ neexistuje.',
-'img-auth-isdir'        => 'Pokúšate sa o prístup k adresáru „$1“.
+'img-auth-notindir'         => 'Požadovaná cesta nie je v nastavenom adresári na nahrávanie.',
+'img-auth-badtitle'         => 'Nepodarilo sa zostaviť platný názov z „$1“.',
+'img-auth-nologinnWL'       => 'Nie ste prihlásený a „$1“ nie je na bielej listine.',
+'img-auth-nofile'           => 'Súbor „$1“ neexistuje.',
+'img-auth-isdir'            => 'Pokúšate sa o prístup k adresáru „$1“.
 Je povolený iba prístup k súborom.',
-'img-auth-streaming'    => 'Streamovanie „$1“.',
-'img-auth-public'       => 'Funkciou img_auth.php je výstup súborov zo súkromnej wiki.
+'img-auth-streaming'        => 'Streamovanie „$1“.',
+'img-auth-public'           => 'Funkciou img_auth.php je výstup súborov zo súkromnej wiki.
 Nastavená wiki je verejná.
 Aby bolo zabezpečenie optimálne, img_auth.php je vypnutý.',
-'img-auth-noread'       => 'Používateľ nemá prístup na čítanie „$1“.',
+'img-auth-noread'           => 'Používateľ nemá prístup na čítanie „$1“.',
+'img-auth-bad-query-string' => 'URL má neplatný reťazec požiadavky.',
 
 # HTTP errors
 'http-invalid-url'      => 'Neplatný URL: $1',
@@ -2457,8 +2455,8 @@ Nižšie si môžete pozrieť najnovšiu položku záznamu blokovaní:',
 
 # Block/unblock
 'autoblockid'                     => 'Autoblokovanie #$1',
-'block'                           => 'Zablokovať používateľa/IP adresu',
-'unblock'                         => 'Odblokovať používateľa/IP adresu',
+'block'                           => 'Zablokovať používateľa',
+'unblock'                         => 'Odblokovať používateľa',
 'blockip'                         => 'Zablokovať používateľa',
 'blockip-title'                   => 'Zablokovať používateľa',
 'blockip-legend'                  => 'Zablokovať používateľa',
@@ -2490,10 +2488,13 @@ Nižšie uveďte konkrétny dôvod (napríklad uveďte konkrétne stránky, ktor
 'ipbwatchuser'                    => 'Sledovať používateľskú a diskusnú stránku tohto používateľa',
 'ipb-disableusertalk'             => 'Zabrániť tomuto používateľovi upravovať vlastnú diskusnú stránku, kým je zablokovaný',
 'ipb-change-block'                => 'Znovu zablokovať používateľa s týmito voľbami',
+'ipb-confirm'                     => 'Potvrdiť blokovanie',
 'badipaddress'                    => 'IP adresa má nesprávny formát.',
 'blockipsuccesssub'               => 'Zablokovanie bolo úspešné',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] bol zablokovaný.<br />
 [[Special:IPBlockList|IP block list]] obsahuje zoznam blokovaní.',
+'ipb-blockingself'                => 'Chystáte sa zablokovať sám seba! Ste si istí, že to chcete urobiť?',
+'ipb-confirmhideuser'             => 'Chystáte sa zablokovať používateľa so zapnutou funkciou „skryť používateľa“. Tým sa potlačí meno používateľa vo všetkých zoznamoch a záznamoch. Ste si istí, že chcete urobiť?',
 'ipb-edit-dropdown'               => 'Upraviť dôvody pre blokovanie',
 'ipb-unblock-addr'                => 'Odblokovať $1',
 'ipb-unblock'                     => 'Odblokovať používateľa alebo IP adresu',
@@ -2506,8 +2507,8 @@ z/od momentálne zablokovanej IP adresy/používateľa.',
 'unblocked'                       => '[[User:$1|$1]] bol odblokovaný',
 'unblocked-range'                 => '$1 bol odblokovaný',
 'unblocked-id'                    => 'Blokovanie $1 bolo odstránené',
-'blocklist'                       => 'Zablokované IP adresy a používateľské mená',
-'ipblocklist'                     => 'Zablokovaní používatelia/IP adresy',
+'blocklist'                       => 'Zablokovaní používatelia',
+'ipblocklist'                     => 'Zablokovaní používatelia',
 'ipblocklist-legend'              => 'Nájsť zablokovaného používateľa',
 'blocklist-userblocks'            => 'Skryť blokovania účtov',
 'blocklist-tempblocks'            => 'Skryť dočasné blokovania',
@@ -2557,8 +2558,7 @@ blokované IP adresy nie sú zahrnuté. Pozri zoznam
 'ipb_expiry_temp'                 => 'Blokovania skrytých používateľských mien by mali byť trvalé.',
 'ipb_hide_invalid'                => 'Nepodarilo sa potlačiť tento účet; je možné, že má príliš veľa úprav.',
 'ipb_already_blocked'             => '„$1“ je už zablokovaný',
-'ipb-needreblock'                 => '== Už je zablokovaný ==
-$1 je už zablokovaný. Chcete zmeniť voľby blokovania?',
+'ipb-needreblock'                 => '$1 je už zablokovaný. Chcete zmeniť voľby blokovania?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Iný blok|Iné blokovania}}',
 'unblock-hideuser'                => 'Nemôžete odblokovať tohto používateľa, pretože jeho meno bolo skryté.',
 'ipb_cant_unblock'                => 'Chyba: ID bloku $1 nenájdený. Možno už bol odblokovaný.',
@@ -2767,7 +2767,8 @@ Všetky transwiki importy sa zaznamenávajú v [[Special:Log/import|Zázname imp
 'import-interwiki-namespace' => 'Cieľový menný priestor:',
 'import-upload-filename'     => 'Názov súboru:',
 'import-comment'             => 'komentár:',
-'importtext'                 => 'Prosím exportujte súbor zo zdrojovej wiki použitím [[Special:Export|nástroja na export]], uložte ho na svoj disk a nahrajte sem.',
+'importtext'                 => 'Prosím, exportujte súbor zo zdrojovej wiki použitím [[Special:Export|nástroja na export]].
+Uložte ho na svoj disk a nahrajte sem.',
 'importstart'                => 'Importujú sa stránky...',
 'import-revision-count'      => '$1 {{PLURAL:$1|revízia|revízie|revízií}}',
 'importnopages'              => 'Žiadne stránky pre import.',
@@ -2937,25 +2938,6 @@ Pravdepodobne to spôsobil odkaz na externú internetovú lokalitu, ktorá sa na
 'skinname-chick'       => 'Kuriatko',
 'skinname-simple'      => 'Jednoduchý',
 'skinname-modern'      => 'Moderný',
-
-# Math options
-'mw_math_png'    => 'Vždy vykresľovať PNG',
-'mw_math_simple' => 'Na jednoduché použiť HTML, inak PNG',
-'mw_math_html'   => 'Ak sa dá, použiť HTML, inak PNG',
-'mw_math_source' => 'Ponechať TeX (pre textové prehliadače)',
-'mw_math_modern' => 'Odporúčané pre moderné prehliadače',
-'mw_math_mathml' => 'MathML (experimentálne)',
-
-# Math errors
-'math_failure'          => 'Syntaktická analýza (parsing) neúspešná',
-'math_unknown_error'    => 'neznáma chyba',
-'math_unknown_function' => 'neznáma funkcia',
-'math_lexing_error'     => 'lexikálna chyba',
-'math_syntax_error'     => 'syntaktická chyba',
-'math_image_error'      => 'PNG konverzia neúspešná; skontrolujte správnosť inštalácie programov: latex a dvipng (alebo dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Nemožno zapisovať alebo vytvoriť dočasný matematický adresár',
-'math_bad_output'       => 'Nemožno zapisovať alebo vytvoriť výstupný matematický adresár',
-'math_notexvc'          => 'Chýbajúci program texvc; konfigurácia je popísaná v math/README.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Označiť ako stráženú',
@@ -3403,11 +3385,12 @@ $1',
 'trackbackdeleteok' => 'Trackback úspešne zmazaný.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Upozornenie''': Táto stránka bola zmazaná potom ako ste začali s jej úpravami!",
-'confirmrecreate'     => "Používateľ [[User:$1|$1]] ([[User talk:$1|diskusia]]) zmazal túto stránku potom, ako ste ju začali upravovať, s odôvodnením:
+'deletedwhileediting'      => "'''Upozornenie''': Táto stránka bola zmazaná potom ako ste začali s jej úpravami!",
+'confirmrecreate'          => "Používateľ [[User:$1|$1]] ([[User talk:$1|diskusia]]) zmazal túto stránku potom, ako ste ju začali upravovať, s odôvodnením:
 : ''$2''
 Prosím, potvrďte, že túto stránku chcete skutočne znovu vytvoriť.",
-'recreate'            => 'Znova vytvoriť',
+'confirmrecreate-noreason' => 'Používateľ [[User:$1|$1]] ([[User talk:$1|diskusia]]) zmazal túto stránku potom, ako ste ju začali upravovať. Prosím, potvrďte, že túto stránku chcete skutočne znovu vytvoriť.',
+'recreate'                 => 'Znova vytvoriť',
 
 # action=purge
 'confirm_purge_button' => 'OK',

@@ -564,8 +564,6 @@ Xèj-na baatujàll bi soppi nga ko ba noppi, walla xéj-na it dangaa laaj beneen
 'extlink_tip'     => 'Lëkkalekaay yu biti (bul fattee jiital http://)',
 'headline_sample' => 'Ron-koj',
 'headline_tip'    => 'Ron-koj 2 tolluwaay',
-'math_sample'     => 'Duggalal sa mbind fii',
-'math_tip'        => 'Mbindu xayma (LaTeX)',
 'nowiki_sample'   => 'Dugalal fii mbind mi ñu joxul melokaan',
 'nowiki_tip'      => 'Jéllaleel mbindinu wiki',
 'image_sample'    => 'Misaal.jpg',
@@ -977,14 +975,13 @@ Jéemala bindaale ''all'' ngir seet ci biir ëmbit gépp (boolewaale ci xëti wa
 'changepassword'                => 'Coppiteg baatujàll bi',
 'prefs-skin'                    => 'Melokaan',
 'skin-preview'                  => 'Wonendil',
-'prefs-math'                    => 'Xayma',
 'datedefault'                   => 'Benn tànneef',
 'prefs-datetime'                => 'Taariix ak waxtu',
 'prefs-personal'                => 'Xibaar yu la ñeel',
 'prefs-rc'                      => 'Coppite yu mujj',
 'prefs-watchlist'               => 'Limu toppte',
 'prefs-watchlist-days'          => 'Limu bes yi nga koy ba ci sa limu toppte :',
-'prefs-watchlist-days-max'      => '(Du weesu 7 fan)',
+'prefs-watchlist-days-max'      => 'Du weesu 7 fan',
 'prefs-watchlist-edits'         => 'Limu coppite yi ngay wone ci limu toppte gees yaatal gi:',
 'prefs-misc'                    => 'Yeneeni tànneef',
 'prefs-resetpass'               => 'Soppi baatujàll',
@@ -1941,8 +1938,7 @@ Xoolal [[Special:IPBlockList|limu IP yees téye]] ngir gis ñees téye ñépp.',
 'ipb_expiry_temp'                 => 'Danki jëfandikukat yi nëbbu dañu wara doon yuy jeex.',
 'ipb_hide_invalid'                => 'Maneesul a far mii sàq; dafa mel ne ay coppiteem dañoo bari lool.',
 'ipb_already_blocked'             => 'Jëfandikukat bi « $1 » dañ ko téye ba noppi',
-'ipb-needreblock'                 => '== Téyees ba noppi ==
-$1 dañu koo téye ba noppi.
+'ipb-needreblock'                 => '$1 dañu koo téye ba noppi.
 Dangaa bëgg a soppi anam yi?',
 'ipb_cant_unblock'                => 'Njuumte: téyeg $1 gisuwul. Xéj-na dañ kaa téyedi ba noppi.',
 'ipb_blocked_as_range'            => 'Njuumte: màkkaan mi $1 téyewuñ ko moom kase, kon doo ko man téyedi. Ci mbooloom $2 la bokk, faww nga téyedi mbooloo mépp.',
@@ -2162,16 +2158,6 @@ Dafay tax nga man a bind ngirte li ci boyotu tënk bi.',
 'spamprotectiontitle' => 'Seggukaay lank-spam',
 'spam_reverting'      => 'Loppantib sumb mu mujj mu amul lëkkalekaay buy jëme $1',
 'spam_blanking'       => 'Setal nañ wecc sumb yi amoon lëkkalekaay buy jëme $1',
-
-# Math options
-'mw_math_html' => 'HTML su manee ne, lu ko moy PNG',
-
-# Math errors
-'math_failure'          => 'Njuumte ci xayma',
-'math_unknown_error'    => 'Njuumte li xamuñ ko',
-'math_unknown_function' => 'Solo si xamuñ ko',
-'math_lexing_error'     => 'Njuumteg mbindin',
-'math_syntax_error'     => 'njuumtey mbindin',
 
 # Browsing diffs
 'previousdiff' => '← Coppite yi gën a yàgg',

@@ -771,8 +771,6 @@ La password potrebbe essere stata già cambiata, oppure potrebbe essere stata ri
 'extlink_tip'     => 'Collegamento esterno (ricorda il prefisso http:// )',
 'headline_sample' => 'Intestazione',
 'headline_tip'    => 'Intestazione di 2° livello',
-'math_sample'     => 'Inserire qui la formula',
-'math_tip'        => 'Formula matematica (LaTeX)',
 'nowiki_sample'   => 'Inserire qui il testo non formattato',
 'nowiki_tip'      => 'Ignora la formattazione wiki',
 'image_sample'    => 'Esempio.jpg',
@@ -1243,16 +1241,15 @@ $1",
 'changepassword'                => 'Cambia password',
 'prefs-skin'                    => 'Aspetto grafico (skin)',
 'skin-preview'                  => 'Anteprima',
-'prefs-math'                    => 'Formule matematiche',
 'datedefault'                   => 'Nessuna preferenza',
 'prefs-datetime'                => 'Data e ora',
 'prefs-personal'                => 'Profilo utente',
 'prefs-rc'                      => 'Ultime modifiche',
 'prefs-watchlist'               => 'Osservati speciali',
 'prefs-watchlist-days'          => 'Numero di giorni da mostrare negli osservati speciali:',
-'prefs-watchlist-days-max'      => '(massimo 7 giorni)',
+'prefs-watchlist-days-max'      => 'Massimo 7 giorni',
 'prefs-watchlist-edits'         => 'Numero di modifiche da mostrare con le funzioni avanzate:',
-'prefs-watchlist-edits-max'     => '(numero massimo: 1000)',
+'prefs-watchlist-edits-max'     => 'Numero massimo: 1000',
 'prefs-watchlist-token'         => 'Token Osservati speciali:',
 'prefs-misc'                    => 'Varie',
 'prefs-resetpass'               => 'Cambia password',
@@ -2369,8 +2366,8 @@ $1',
 
 # Block/unblock
 'autoblockid'                     => 'Autoblocco #$1',
-'block'                           => 'Blocca utente/indirizzo IP',
-'unblock'                         => 'Sblocca utente/indirizzo IP',
+'block'                           => 'Blocca utente',
+'unblock'                         => 'Sblocca utente',
 'blockip'                         => 'Blocco utente',
 'blockip-title'                   => 'Blocca utente',
 'blockip-legend'                  => "Blocca l'utente",
@@ -2402,10 +2399,15 @@ Indicare il motivo specifico per il quale si procede al blocco (per esempio, cit
 'ipbwatchuser'                    => 'Segui le pagine e le discussioni utente di questo utente',
 'ipb-disableusertalk'             => 'Impedisci a questo utente di modificare la propria pagina di discussioni mentre è bloccato',
 'ipb-change-block'                => "Ri-blocca l'utente con queste impostazioni",
+'ipb-confirm'                     => 'Conferma il blocco',
 'badipaddress'                    => 'Indirizzo IP non valido.',
 'blockipsuccesssub'               => 'Blocco eseguito',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] è stato bloccato. <br />
 Consultare la [[Special:IPBlockList|lista degli IP bloccati]] per vedere i blocchi attivi.',
+'ipb-blockingself'                => 'Stai per bloccare te stesso! Sei sicuro di volerlo fare?',
+'ipb-confirmhideuser'             => 'Si sta per bloccare un utente con l\'opzione "Nascondi utente" abilitata.
+In questo modo si evita che il nome utente compaia in tutte le liste e le voci di registro.
+Sei sicuro di voler continuare?',
 'ipb-edit-dropdown'               => 'Modifica i motivi per il blocco',
 'ipb-unblock-addr'                => 'Sblocca $1',
 'ipb-unblock'                     => 'Sblocca un utente o un indirizzo IP',
@@ -2417,8 +2419,8 @@ Consultare la [[Special:IPBlockList|lista degli IP bloccati]] per vedere i blocc
 'unblocked'                       => "L'utente [[User:$1|$1]] è stato sbloccato",
 'unblocked-range'                 => '$1 è stato sbloccato',
 'unblocked-id'                    => 'Il blocco $1 è stato rimosso',
-'blocklist'                       => 'Utenti e indirizzi IP bloccati',
-'ipblocklist'                     => 'Utenti e indirizzi IP bloccati',
+'blocklist'                       => 'Utenti bloccati',
+'ipblocklist'                     => 'Utenti bloccati',
 'ipblocklist-legend'              => 'Trova un utente bloccato',
 'blocklist-userblocks'            => 'Nascondi i blocchi degli account',
 'blocklist-tempblocks'            => 'Nascondi i blocchi temporanei',
@@ -2465,8 +2467,7 @@ Il blocco dell\'utente $1 è stato imposto per il seguente motivo: "$2".',
 'ipb_expiry_temp'                 => 'I blocchi dei nomi utenti nascosti dovrebbero essere infiniti',
 'ipb_hide_invalid'                => "Impossibile cancellare l'account; potrebbe avere troppe modifiche.",
 'ipb_already_blocked'             => 'L\'utente "$1" è già bloccato',
-'ipb-needreblock'                 => "== Già bloccato ==
-L'utente $1 è già bloccato. Modificare le impostazioni?",
+'ipb-needreblock'                 => "L'utente $1 è già bloccato. Modificare le impostazioni?",
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Altro blocco|Altri blocchi}}',
 'unblock-hideuser'                => 'Non puoi sbloccare questo utente, perché il suo nome utente è stato nascosto.',
 'ipb_cant_unblock'                => 'Errore: Impossibile trovare il blocco con ID $1. Il blocco potrebbe essere già stato rimosso.',
@@ -2807,25 +2808,6 @@ Tutte le operazioni di importazione trans-wiki sono registrate nel [[Special:Log
 'numwatchers'    => 'Numero di osservatori: $1',
 'numauthors'     => 'Numero di autori distinti (pagina): $1',
 'numtalkauthors' => 'Numero di autori distinti (pagina di discussione): $1',
-
-# Math options
-'mw_math_png'    => 'Mostra sempre in PNG',
-'mw_math_simple' => 'HTML se molto semplice, altrimenti PNG',
-'mw_math_html'   => 'HTML se possibile, altrimenti PNG',
-'mw_math_source' => 'Lascia in formato TeX (per browser testuali)',
-'mw_math_modern' => 'Formato consigliato per i browser moderni',
-'mw_math_mathml' => 'Usa MathML se possibile (sperimentale)',
-
-# Math errors
-'math_failure'          => 'Errore del parser',
-'math_unknown_error'    => 'errore sconosciuto',
-'math_unknown_function' => 'funzione sconosciuta',
-'math_lexing_error'     => 'errore lessicale',
-'math_syntax_error'     => 'errore di sintassi',
-'math_image_error'      => 'Conversione in PNG non riuscita; verificare che siano correttamente installati i seguenti programmi: latex e dvipng (o dvips, gs e convert).',
-'math_bad_tmpdir'       => 'Impossibile scrivere o creare la directory temporanea per math',
-'math_bad_output'       => 'Impossibile scrivere o creare la directory di output per math',
-'math_notexvc'          => 'Eseguibile texvc mancante; per favore consultare math/README per la configurazione.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Segna la modifica come verificata',
@@ -3274,10 +3256,12 @@ $1',
 'trackbackdeleteok' => 'Informazioni di trackback eliminate correttamente.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Attenzione''': questa pagina è stata cancellata dopo che hai cominciato a modificarla!",
-'confirmrecreate'     => "L'utente [[User:$1|$1]] ([[User talk:$1|discussioni]]) ha cancellato questa pagina dopo che hai iniziato a modificarla, per il seguente motivo: ''$2''
+'deletedwhileediting'      => "'''Attenzione''': questa pagina è stata cancellata dopo che hai cominciato a modificarla!",
+'confirmrecreate'          => "L'utente [[User:$1|$1]] ([[User talk:$1|discussioni]]) ha cancellato questa pagina dopo che hai iniziato a modificarla, per il seguente motivo: ''$2''
 Per favore, conferma che desideri veramente ricreare questa pagina.",
-'recreate'            => 'Ricrea',
+'confirmrecreate-noreason' => "L'utente [[User:$1|$1]] ([[User talk:$1|discussioni]]) ha cancellato questa pagina dopo che hai iniziato a modificarla.
+Per favore, conferma che desideri veramente ricreare questa pagina.",
+'recreate'                 => 'Ricrea',
 
 # action=purge
 'confirm_purge_button' => 'Conferma',

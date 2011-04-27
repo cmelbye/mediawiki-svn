@@ -464,7 +464,7 @@ $messages = array(
 * [http://www.mediawiki.org/wiki/Manual:FAQ Veelgestelde vragen (FAQ)]
 * [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce Mailinglijst voor aankondigingen van nieuwe versies]',
 
-'about'         => 'Info',
+'about'         => 'Over',
 'article'       => 'Pagina',
 'newwindow'     => '(opent in een nieuw venster)',
 'cancel'        => 'Annuleren',
@@ -881,8 +881,6 @@ Mogelijk hebt u uw wachtwoord al gewijzigd of een nieuw tijdelijk wachtwoord aan
 'extlink_tip'     => 'Externe verwijzing (vergeet http:// niet)',
 'headline_sample' => 'Deelonderwerp',
 'headline_tip'    => 'Tussenkopje (hoogste niveau)',
-'math_sample'     => 'Voer de formule in',
-'math_tip'        => 'Wiskundige formule (in LaTeX)',
 'nowiki_sample'   => 'Voer hier de niet op te maken tekst in',
 'nowiki_tip'      => 'Wiki-opmaak negeren',
 'image_sample'    => 'Voorbeeld.png',
@@ -1405,16 +1403,15 @@ De gegevens over {{SITENAME}} zijn mogelijk niet bijgewerkt.',
 'changepassword'                => 'Wachtwoord wijzigen',
 'prefs-skin'                    => 'Vormgeving',
 'skin-preview'                  => 'Voorvertoning',
-'prefs-math'                    => 'Formules',
 'datedefault'                   => 'Geen voorkeur',
 'prefs-datetime'                => 'Datum en tijd',
 'prefs-personal'                => 'Gebruikersprofiel',
 'prefs-rc'                      => 'Recente wijzigingen',
 'prefs-watchlist'               => 'Volglijst',
 'prefs-watchlist-days'          => 'Dagen weer te geven in de volglijst:',
-'prefs-watchlist-days-max'      => '(maximaal 7 dagen)',
+'prefs-watchlist-days-max'      => 'Maximaal 7 dagen',
 'prefs-watchlist-edits'         => 'Maximaal aantal bewerkingen in de uitgebreide volglijst:',
-'prefs-watchlist-edits-max'     => '(maximale aantal: 1000)',
+'prefs-watchlist-edits-max'     => 'Maximale aantal: 1000',
 'prefs-watchlist-token'         => 'Volglijstsleutel:',
 'prefs-misc'                    => 'Diversen',
 'prefs-resetpass'               => 'Wachtwoord wijzigen',
@@ -1893,22 +1890,23 @@ De veiligheid kan niet worden gecontroleerd.',
 'uploadstash-refresh'  => 'Lijst met bestanden bijwerken',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Toegang geweigerd',
-'img-auth-nopathinfo'   => 'PATH_INFO mist.
+'img-auth-accessdenied'     => 'Toegang geweigerd',
+'img-auth-nopathinfo'       => 'PATH_INFO mist.
 Uw server is niet ingesteld om deze informatie door te geven.
 Misschien gebruikt deze CGI, en dan wordt img_auth niet ondersteund.
 Zie http://www.mediawiki.org/wiki/Manual:Image_Authorization voor meer informatie.',
-'img-auth-notindir'     => 'Het opgevraagde pad is niet de ingestelde uploadmap.',
-'img-auth-badtitle'     => 'Het was niet mogelijk een geldige paginanaam te maken van "$1".',
-'img-auth-nologinnWL'   => 'U bent niet aangemeld en "$1" staat niet op de witte lijst.',
-'img-auth-nofile'       => 'Bestand "$1" bestaat niet.',
-'img-auth-isdir'        => 'U probeert de map "$1" te benaderen.
+'img-auth-notindir'         => 'Het opgevraagde pad is niet de ingestelde uploadmap.',
+'img-auth-badtitle'         => 'Het was niet mogelijk een geldige paginanaam te maken van "$1".',
+'img-auth-nologinnWL'       => 'U bent niet aangemeld en "$1" staat niet op de witte lijst.',
+'img-auth-nofile'           => 'Bestand "$1" bestaat niet.',
+'img-auth-isdir'            => 'U probeert de map "$1" te benaderen.
 Alleen toegang tot bestanden is toegestaan.',
-'img-auth-streaming'    => 'Bezig met het streamen van "$1".',
-'img-auth-public'       => 'Het doel van img_auth.php is de uitvoer van bestanden van een besloten wiki.
+'img-auth-streaming'        => 'Bezig met het streamen van "$1".',
+'img-auth-public'           => 'Het doel van img_auth.php is de uitvoer van bestanden van een besloten wiki.
 Deze wiki is ingesteld als publieke wiki.
 Om beveiligingsreden is img_auth.php uitgeschakeld.',
-'img-auth-noread'       => 'De gebruiker heeft geen leestoegang tot "$1".',
+'img-auth-noread'           => 'De gebruiker heeft geen leestoegang tot "$1".',
+'img-auth-bad-query-string' => 'De URL bevat een ongeldige querystring.',
 
 # HTTP errors
 'http-invalid-url'      => 'Ongeldige URL: $1',
@@ -2279,6 +2277,10 @@ De ontvanger kan dus direct naar u reageren.',
 'noemailtext'          => 'Deze gebruiker heeft geen geldig e-mailadres opgegeven.',
 'nowikiemailtitle'     => 'E-mail is niet toegestaan',
 'nowikiemailtext'      => 'Deze gebruiker wil geen e-mail ontvangen van andere gebruikers.',
+'emailnotarget'        => 'Niet-bestaande of ongeldige ontvanger.',
+'emailtarget'          => 'Voer de geadresseerde in',
+'emailusername'        => 'Gebruikersnaam:',
+'emailusernamesubmit'  => 'Opslaan',
 'email-legend'         => 'Een e-mail versturen naar een andere gebruiker van {{SITENAME}}',
 'emailfrom'            => 'Van:',
 'emailto'              => 'Aan:',
@@ -2596,8 +2598,8 @@ De laatste regel uit het blokkeerlogboek wordt hieronder ter referentie weergege
 
 # Block/unblock
 'autoblockid'                     => 'Automatische blokkade #$1',
-'block'                           => 'Gebruiker of IP-adres blokkeren',
-'unblock'                         => 'Gebruiker of IP-adres deblokkeren',
+'block'                           => 'Gebruiker blokkeren',
+'unblock'                         => 'Gebruiker deblokkeren',
 'blockip'                         => 'Gebruiker blokkeren',
 'blockip-title'                   => 'Gebruiker blokkeren',
 'blockip-legend'                  => 'Een gebruiker of IP-adres blokkeren',
@@ -2629,10 +2631,13 @@ Geef hieronder een reden op (bijvoorbeeld welke pagina's gevandaliseerd zijn).",
 'ipbwatchuser'                    => 'Gebruikerspagina en overlegpagina op volglijst plaatsen',
 'ipb-disableusertalk'             => 'Voorkomen dat deze gebruiker tijdens de blokkade de eigen overlegpagina kan bewerken',
 'ipb-change-block'                => 'De gebruiker opnieuw blokkeren met deze instellingen',
+'ipb-confirm'                     => 'Blokkade bevestigen',
 'badipaddress'                    => 'Geen geldig IP-adres',
 'blockipsuccesssub'               => 'De blokkering is ingesteld',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] is geblokkeerd.<br />
 Zie de [[Special:IPBlockList|Lijst van geblokkeerde IP-adressen]] voor recente blokkades.',
+'ipb-blockingself'                => 'U staat op het punt uzelf te blokkeren. Weet u zeker dat u dat wilt doen?',
+'ipb-confirmhideuser'             => 'U staat op het punt een verborgen gebruiker te blokkeren. Hiervoor worden gebruikersnamen in alle lijsten en logboekregels verborgen. Weet u het zeker?',
 'ipb-edit-dropdown'               => 'Lijst van redenen bewerken',
 'ipb-unblock-addr'                => '$1 deblokkeren',
 'ipb-unblock'                     => 'Een gebruiker of IP-adres deblokkeren',
@@ -2644,8 +2649,8 @@ Zie de [[Special:IPBlockList|Lijst van geblokkeerde IP-adressen]] voor recente b
 'unblocked'                       => 'Blokkade van [[User:$1|$1]] is opgeheven',
 'unblocked-range'                 => '$1 is gedeblokkeerd',
 'unblocked-id'                    => 'Blokkade $1 is opgeheven',
-'blocklist'                       => 'Geblokkeerde IP-adressen en gebruikers',
-'ipblocklist'                     => 'Geblokkeerde IP-adressen en gebruikers',
+'blocklist'                       => 'Geblokkeerde gebruikers',
+'ipblocklist'                     => 'Geblokkeerde gebruikers',
 'ipblocklist-legend'              => 'Een geblokkeerde gebruiker zoeken',
 'blocklist-userblocks'            => 'Geblokkeerde gebruikers verbergen',
 'blocklist-tempblocks'            => 'Tijdelijke blokkades verbergen',
@@ -2696,8 +2701,7 @@ Zie ook [[Special:IPBlockList|Geblokkeerde IP-adressen en gebruikers]].',
 'ipb_expiry_temp'                 => 'Blokkades voor verborgen gebruikers moeten permanent zijn.',
 'ipb_hide_invalid'                => 'Het is niet mogelijk deze gebruiker te verbergen; mogelijk heeft deze te veel bewerkingen gemaakt.',
 'ipb_already_blocked'             => '"$1" is al geblokkeerd',
-'ipb-needreblock'                 => '== Deze gebruiker is al geblokkeerd ==
-$1 is al geblokkeerd.
+'ipb-needreblock'                 => '$1 is al geblokkeerd.
 Wilt u de instellingen wijzigen?',
 'ipb-otherblocks-header'          => 'Andere {{PLURAL:$1|blokkade|blokkades}}',
 'unblock-hideuser'                => 'U kunt deze gebruiker niet deblokkeeren, omdat de gebruikersnaam verborgen is.',
@@ -2903,7 +2907,8 @@ Alle transwiki-importhandelingen worden opgeslagen in het [[Special:Log/import|i
 'import-interwiki-namespace' => 'Doelnaamruimte:',
 'import-upload-filename'     => 'Bestandsnaam:',
 'import-comment'             => 'Opmerking:',
-'importtext'                 => 'Gebruik de [[Special:Export|exportfunctie]] in de wiki waar de informatie vandaan komt, sla de uitvoer op uw eigen systeem op, en voeg die daarna hier toe.',
+'importtext'                 => 'Gebruik de [[Special:Export|exportfunctie]] in de wiki waar de informatie vandaan komt.
+Sla de uitvoer op uw eigen computer op, en voeg die daarna hier toe.',
 'importstart'                => "Pagina's aan het importeren…",
 'import-revision-count'      => '$1 {{PLURAL:$1|versie|versies}}',
 'importnopages'              => "Geen pagina's te importeren.",
@@ -3089,25 +3094,6 @@ Meestal wordt dit door een externe verwijzing op een zwarte lijst veroorzaakt.',
 'skinname-simple'      => 'Eenvoudig',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
-
-# Math options
-'mw_math_png'    => 'Altijd als PNG weergeven',
-'mw_math_simple' => 'HTML voor eenvoudige formules, anders PNG',
-'mw_math_html'   => 'HTML indien mogelijk, anders PNG',
-'mw_math_source' => 'De TeX-broncode behouden (voor tekstbrowsers)',
-'mw_math_modern' => 'Aanbevolen methode voor recente browsers',
-'mw_math_mathml' => 'MathML als mogelijk (experimenteel)',
-
-# Math errors
-'math_failure'          => 'Parsen mislukt',
-'math_unknown_error'    => 'onbekende fout',
-'math_unknown_function' => 'onbekende functie',
-'math_lexing_error'     => 'lexicografische fout',
-'math_syntax_error'     => 'syntactische fout',
-'math_image_error'      => 'De PNG-omzetting is mislukt. Controleer of LaTeX en dvipng (of dvips + gs + convert) correct zijn geïnstalleerd.',
-'math_bad_tmpdir'       => 'De map voor tijdelijke bestanden voor wiskundige formules bestaat niet of kan niet gemaakt worden',
-'math_bad_output'       => 'De map voor bestanden met wiskundige formules bestaat niet of kan niet gemaakt worden.',
-'math_notexvc'          => 'Kan het programma texvc niet vinden; stel alles in volgens de beschrijving in math/README.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Markeren als gecontroleerd',
@@ -3557,11 +3543,13 @@ $1",
 'trackbackdeleteok' => 'De terugverwijzende pagina is verwijderd.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Let op''': deze pagina is verwijderd terwijl u bezig was met uw bewerking!",
-'confirmrecreate'     => "Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd met opgave van de volgende reden:
+'deletedwhileediting'      => "'''Let op''': deze pagina is verwijderd terwijl u bezig was met uw bewerking!",
+'confirmrecreate'          => "Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd met opgave van de volgende reden:
 : ''$2''
 Bevestig dat u de pagina opnieuw wilt aanmaken.",
-'recreate'            => 'Opnieuw aanmaken',
+'confirmrecreate-noreason' => 'Nadat u begonnen bent met uw wijziging heeft [[User:$1|$1]] ([[User talk:$1|overleg]]) deze pagina verwijderd.
+Bevestig dat u de pagina opnieuw wilt aanmaken.',
+'recreate'                 => 'Opnieuw aanmaken',
 
 # action=purge
 'confirm_purge_button' => 'OK',

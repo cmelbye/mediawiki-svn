@@ -353,8 +353,6 @@ $messages = array(
 'extlink_tip'     => 'Kevren a-mes (remembra an rager http://)',
 'headline_sample' => 'Text pennlinen',
 'headline_tip'    => 'Pennlinen nivel 2',
-'math_sample'     => 'Keworrewgh an furvel obma',
-'math_tip'        => 'Furvel galcoriethek (LaTeX)',
 'image_tip'       => 'Restren neythys',
 'media_tip'       => 'Kevren restren',
 'sig_tip'         => 'Agas sinans gen stampa-termyn',
@@ -587,7 +585,7 @@ Gwrewgh assaya dhe rag-gorra agas govyn gen ''all:'' rag whila yn pub le (a-bart
 'recentchangeslinked-feed'    => 'Chanjyow kelmys',
 'recentchangeslinked-toolbox' => 'Chanjyow kelmys',
 'recentchangeslinked-title'   => 'Chanjyow kelmys dhe "$1"',
-'recentchangeslinked-summary' => "↓ Hemm yw rol a janjyow a-dhiwedhes gwres war folednow kevrednys dhort folen ragavysyes (po dhe esely class ragavysyes).
+'recentchangeslinked-summary' => "Hemm yw rol a janjyow a-dhiwedhes gwres war folednow kevrednys dhort folen ragavysyes (po dhe esely class ragavysyes).
 Yth yw folednow eus war agas [[Special:Watchlist|rol golyas]] yn '''tew'''.",
 'recentchangeslinked-page'    => 'Hanow an folen:',
 

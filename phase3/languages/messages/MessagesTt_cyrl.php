@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Bulatbulat
  * @author Don Alessandro
  * @author Haqmar
  * @author Himiq Dzyu
@@ -16,6 +17,7 @@
  * @author Rinatus
  * @author Timming
  * @author Yildiz
+ * @author Zahidulla
  * @author Ерней
  * @author Ильнар
  * @author Рашат Якупов
@@ -401,6 +403,7 @@ $messages = array(
 'delete'            => 'Бетерү',
 'deletethispage'    => 'Бу битне бетерү',
 'undelete_short'    => '$1 {{PLURAL:$1|үзгәртмәне}} торгызу',
+'viewdeleted_short' => '{{PLURAL:$1|1 бетерелгән үзгәртүне|$1 бетерелгән үзгәртүне}} карау',
 'protect'           => 'Яклау',
 'protect_change'    => 'үзгәртү',
 'protectthispage'   => 'Бу битне яклау',
@@ -722,8 +725,6 @@ $2',
 'extlink_tip'     => 'Тышкы сылтама (http:// алкушымчасы турында онытмагыз)',
 'headline_sample' => 'Башисем',
 'headline_tip'    => '2 нче дәрәҗәле исем',
-'math_sample'     => 'Формуланы монда өстәгез',
-'math_tip'        => 'Математик формула (LaTeX форматы)',
 'nowiki_sample'   => 'Форматланмаган текстны монда өстәгез',
 'nowiki_tip'      => 'Вики-форматлауны исәпкә алмау',
 'image_sample'    => 'Мисал.jpg',
@@ -818,6 +819,10 @@ $2',
 'userjsyoucanpreview'              => "'''Ярдәм:''' \"{{int:showpreview}}\" төймәсенә басып, яңа JS-файлны тикшереп була.",
 'usercsspreview'                   => "'''Бу бары тик CSS-файлны алдан карау гына, ул әле сакланмаган!'''",
 'userjspreview'                    => "'''Бу бары тик JavaScript файлын алдан карау гына, ул әле сакланмаган!'''",
+'sitecsspreview'                   => "'''онытмагыз, бу бары тик CSS-файлны алдан карау гына.'''
+'''Ул әле сакланмаган!'''",
+'sitejspreview'                    => "'''Бу бары тик JavaScript файлын алдан карау гына.'''
+'''Ул әле сакланмаган!'''",
 'userinvalidcssjstitle'            => "'''Игътибар:''' \"\$1\" бизәү темасы табылмады. Кулланучының .css һәм .js битләре исемнәре бары тик кечкенә (юл) хәрефләрдән генә торырга тиеш икәнен онытмагыз. Мисалга: {{ns:user}}:Foo/vector.css, ә {{ns:user}}:Foo/Vector.css түгел!",
 'updated'                          => '(Яңартылды)',
 'note'                             => "'''Искәрмә:'''",
@@ -986,6 +991,10 @@ $3 күрсәткән сәбәп: ''$2''",
 'rev-suppressed-unhide-diff'  => "Битнең кайсыдыр юрамасы '''яшерелгән'''.
 [{{fullurl:{{#Special:Log}}/suppress|page={{FULLPAGENAMEE}}}} Яшерүләр көндәлегендә] тулырак мәгълүмат табып була.
 Сез идарәче булу сәбәпле, [$1 яшерелгән юраманы карый аласыз]",
+'rev-deleted-diff-view'       => "Бу юрамалар чагыштыруының бер юрамасы '''бетерелгән'''.
+Сез идарәче буларак чагыштыруны карый аласыз, [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} бетерүләр көндәлегендә] тулырак мәгълүмат бирелгән булырга мөмкин.",
+'rev-suppressed-diff-view'    => "Бу юрамалар чагыштыруының бер юрамасы '''яшерелгән'''.
+Сез идарәче буларак чагыштыруны карый аласыз, [{{fullurl:{{#Special:Log}}/delete|page={{FULLPAGENAMEE}}}} яшерүләр көндәлегендә] тулырак мәгълүмат бирелгән булырга мөмкин.",
 'rev-delundel'                => 'күрсәтү/яшерү',
 'rev-showdeleted'             => 'күрсәтү',
 'revisiondelete'              => 'Битнең юрамасын бетерү / кайтару',
@@ -1014,6 +1023,7 @@ $3 күрсәткән сәбәп: ''$2''",
 'revdelete-restricted'        => 'чикләүләр идарәчеләргә дә кулланыла',
 'revdelete-hid'               => ' $1 яшерелгән',
 'revdelete-unhid'             => '$1 ачылган',
+'revdelete-otherreason'       => 'Башка/өстәмә сәбәп:',
 'revdelete-reasonotherlist'   => 'Башка сәбәп',
 'revdelete-edit-reasonlist'   => 'Сәбәпләр исемлеген үзгәртү',
 'revdelete-offender'          => 'Әлеге юрамалы битнең авторы:',
@@ -1022,10 +1032,11 @@ $3 күрсәткән сәбәп: ''$2''",
 'suppressionlog' => 'Яшерү көндәлеге',
 
 # Revision move
-'revmove-reasonfield'    => 'Сәбәп:',
-'revmove-titlefield'     => 'Төп бит:',
-'revmove-badparam-title' => 'Яраксыз параметрлар',
-'revmove-nullmove-title' => 'Яраксыз исем',
+'revisionmoveselectedversions' => 'Сайланган юрамаларны күчерү',
+'revmove-reasonfield'          => 'Сәбәп:',
+'revmove-titlefield'           => 'Төп бит:',
+'revmove-badparam-title'       => 'Яраксыз параметрлар',
+'revmove-nullmove-title'       => 'Яраксыз исем',
 
 # History merging
 'mergehistory'        => 'Үзгәртүләр тарихын берләштерү',
@@ -1119,7 +1130,6 @@ $3 күрсәткән сәбәп: ''$2''",
 'changepassword'                => 'Серсүзне үзгәртү',
 'prefs-skin'                    => 'Күренеш',
 'skin-preview'                  => 'Алдан карау',
-'prefs-math'                    => 'Формулалар',
 'datedefault'                   => 'Баштагы көйләнмәләр',
 'prefs-datetime'                => 'Дата һәм вакыт',
 'prefs-personal'                => 'Шәхси мәгълүматлар',
@@ -1298,6 +1308,7 @@ $3 күрсәткән сәбәп: ''$2''",
 'recentchanges-feed-description'    => 'Бу агымда соңгы үзгәртүләрне күзәтү.',
 'recentchanges-label-newpage'       => 'Бу үзгәртү белән яңа бит төзелде',
 'recentchanges-label-minor'         => 'Бу кече үзгәртү',
+'recentchanges-label-bot'           => 'Бу үзгәртү бот белән эшләнгән иде',
 'rcnote'                            => 'Аста $4 $5 вакытынна соңгы {{PLURAL:$2|1|$2}} көн эчендә булган соңгы {{PLURAL:$1|1|$1}} үзгәртмә күрсәтелә:',
 'rcnotefrom'                        => "Астарак '''$2''' башлап ('''$1''' кадәр) үзгәртүләр күрсәтелгән.",
 'rclistfrom'                        => '$1 башлап яңа үзгәртүләрне күрсәт',
@@ -1880,7 +1891,7 @@ $1',
 'ipbexpiry'                  => 'Бетә:',
 'ipbreason'                  => 'Сәбәп:',
 'ipbreasonotherlist'         => 'Башка сәбәп',
-'ipbreason-dropdown'         => '↓ * Кысуның гадәттәге сәбәпләре
+'ipbreason-dropdown'         => '* Кысуның гадәттәге сәбәпләре
 ** Ялган мәгълүмат кертү
 ** Битләрнең эчтәлеген сөртү
 ** Тышкы сайтларга спам-сылтамалар
@@ -1899,7 +1910,7 @@ $1',
 'ipb-unblock'                => 'Кулланучы яки IP адресы тыюдан азат итү',
 'unblockip'                  => 'Кулланучыны тыюдан азат итү',
 'ipusubmit'                  => 'Бу тыюны туктату',
-'ipblocklist'                => 'Тыелган IP адреслары һәм кулланучы исемнәре',
+'ipblocklist'                => 'Тыелган кулланучылар',
 'ipblocklist-submit'         => 'Эзләү',
 'infiniteblock'              => 'билгеле бер вакытсыз',
 'blocklink'                  => 'тыю',
@@ -2088,21 +2099,6 @@ $1',
 'skinname-simple'      => 'Гади',
 'skinname-modern'      => 'Замана',
 'skinname-vector'      => 'Сызымлы',
-
-# Math options
-'mw_math_png'    => 'Һәрвакыт PNG белән бәйләү',
-'mw_math_simple' => 'Гади очракларда HTML, яисә PNG кулланылсын',
-'mw_math_html'   => 'Мөмкин булса HTML, яисә PNG кулланылсын',
-'mw_math_source' => 'ТеХ билгеләнешендә калдырылсын (текстлы браузерлар өчен)',
-'mw_math_modern' => 'Бүгенге браузерлар өчен кулланылсын',
-'mw_math_mathml' => 'Мөмкин булса MathML кулланылсын (эксперименталь)',
-
-# Math errors
-'math_failure'          => 'Укый алмадым',
-'math_unknown_error'    => 'беленмәгән хата',
-'math_unknown_function' => 'билгесез функция',
-'math_lexing_error'     => 'лексик хата',
-'math_syntax_error'     => 'синтаксик хата',
 
 # Patrolling
 'markaspatrolledtext'   => 'Бу мәкаләне тикшерелгән дип тамгалау',
@@ -2435,5 +2431,9 @@ $1',
 'htmlform-submit'              => 'Җибәрү',
 'htmlform-reset'               => 'Үзгәртүләрне кире кайтару',
 'htmlform-selectorother-other' => 'Башка',
+
+# Special:DisableAccount
+'disableaccount-user'   => 'Кулланучы исеме:',
+'disableaccount-reason' => 'Сәбәп:',
 
 );

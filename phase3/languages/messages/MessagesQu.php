@@ -779,8 +779,6 @@ Yaykuna rimaykitaqa aypalla hukcharqunkiñachá icha huk mit'alla yaykuna rimata
 'extlink_tip'     => "Hawa t'inki (ñawpaqta http:// nisqata yapariy)",
 'headline_sample' => "Uma siq'i qillqa",
 'headline_tip'    => "Iskay ñiqi hanaq siq'i qillqa",
-'math_sample'     => 'Kayman minuywata qillqamuy',
-'math_tip'        => 'Yupana minuywa (LaTeX)',
 'nowiki_sample'   => "Kayman mana wiki rikch'akuyniyuq qillqata yapamuy",
 'nowiki_tip'      => "Wiki rikch'akuy ama kachunchu",
 'image_sample'    => 'Qhawarichiy.jpg',
@@ -1254,7 +1252,6 @@ Takyachikuy kay hukchayqa allin wiñay kawsay ñiqita ama waqllichunchu chaylla.
 'changepassword'                => 'Yaykuna rimata hukchay',
 'prefs-skin'                    => 'Qara',
 'skin-preview'                  => 'Ñawpaqta qhaway',
-'prefs-math'                    => 'Minuywa',
 'datedefault'                   => 'Kikinmanta allinkachina',
 'prefs-datetime'                => "P'unchaw, pacha",
 'prefs-personal'                => 'Kikinpa willankuna',
@@ -1263,7 +1260,7 @@ Takyachikuy kay hukchayqa allin wiñay kawsay ñiqita ama waqllichunchu chaylla.
 'prefs-watchlist-days'          => "Hayk'a p'unchawkunata watiqana sutisuyupi rikuchiy:",
 'prefs-watchlist-days-max'      => "(ama qanchismanta aswan p'unchaw kachunchu)",
 'prefs-watchlist-edits'         => "Hayk'a hukchasqakunata hatunchasqa watiqana sutisuyupi rikuchiy:",
-'prefs-watchlist-edits-max'     => '(ama waranqamanta aswan kachunchu)',
+'prefs-watchlist-edits-max'     => 'Ama waranqamanta aswan kachunchu',
 'prefs-watchlist-token'         => 'Watiqay sutisuyu sanancha:',
 'prefs-misc'                    => 'Ñawra',
 'prefs-resetpass'               => 'Yaykuna rimata hukchay',
@@ -2436,8 +2433,7 @@ Willariy imaraykum hark'anki (ahinataq: sapaq wandaluchasqa p'anqakunamanta will
 'ipb_expiry_temp'                 => "Pakasqa ruraqpa sutin hark'aykunaqa tiyaqllam kachun.",
 'ipb_hide_invalid'                => "Manam atinichu kay rakiqunata ñit'ipayta; nisyu llamk'apusqayuqñachá.",
 'ipb_already_blocked'             => '"$1" sutiyuqqa hark\'asqañam kachkan.',
-'ipb-needreblock'                 => "== Hark'asqaña ==
-$1 sutiyuqqa hark'asqañam. Allinchanakunata hukchayta munankichu?",
+'ipb-needreblock'                 => "$1 sutiyuqqa hark'asqañam. Allinchanakunata hukchayta munankichu?",
 'ipb-otherblocks-header'          => "Huk {{PLURAL:$1|hark'ay|hark'aykuna}}",
 'ipb_cant_unblock'                => "'''Pantasqa''': Manam tarinichu ID $1 hark'ay huchhata. Qispisqañachá.",
 'ipb_blocked_as_range'            => "Pantasqa: IP $1 huchhaqa manam chiqallachu hark'asqa kaptinmi manam paskanallachu. Chaywanpas, $2 patayayku kaspataq hark'asqam kachkan. Chay patayaykuqa hark'asqamanta paskanallam.",
@@ -2783,25 +2779,6 @@ Tukuy hawa wikimanta chaskisqakunaqa [[Special:Log/import|hawamanta chaskiy hall
 'numwatchers'    => "Hayk'a watiqaqkuna: $1",
 'numauthors'     => "Hayk'a sapaq llamk'apuqkuna (qillqa p'anqa): $1",
 'numtalkauthors' => "Hayk'a sapaq llamk'apuqkuna (rimanakuy p'anqa): $1",
-
-# Math options
-'mw_math_png'    => "Hayk'appas PNG-ta ruray",
-'mw_math_simple' => 'Ancha sikllalla kaptinqa HTML, mana hinaptinqa PNG',
-'mw_math_html'   => 'Paqtanayaptinqa HTML, mana hinaptinqa PNG',
-'mw_math_source' => "TeX hinatam saqiy (qillqa wamp'unapaq)",
-'mw_math_modern' => "Musuq wamp'unakunapaq kamallisqa",
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => "Manam hap'inichu",
-'math_unknown_error'    => 'mana riqsisqa pantasqa',
-'math_unknown_function' => 'mana riqsisqa rurana',
-'math_lexing_error'     => 'rima pantasqa',
-'math_syntax_error'     => 'rimay ukhunpuray pantasqa',
-'math_image_error'      => "Manam atinichu PNG-man t'ikrayta; latex nisqawan dvipng (icha dvips + gs + convert) nisqakunap tiyachisqa kayninta llanchiy",
-'math_bad_tmpdir'       => "Manam atinichu <em>math</em> nisqapaq mit'alla willañiqi churanata kamayta icha qillqayta",
-'math_bad_output'       => 'Manam atinichu <em>math</em> nisqapaq lluqsichina willañiqi churanata kamayta icha qillqayta',
-'math_notexvc'          => 'Manam kanchu ruranalla <strong>texvc</strong>. Ama hina kaspa, <em>math/README</em> nisqata ñawiriy allinkachinaykipaq.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Qhawakipasqaman sananchay',

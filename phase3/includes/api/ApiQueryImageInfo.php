@@ -107,7 +107,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 					}
 					break;
 				}
-				
+
 				// Check if we can make the requested thumbnail, and get transform parameters.
 				$finalThumbParams = $this->mergeThumbParams( $img, $scale, $params['urlparam'] );
 
@@ -119,7 +119,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 					( is_null( $params['end'] ) || $img->getTimestamp() >= $params['end'] )
 				) {
 					$gotOne = true;
-					
+
 					$fit = $this->addPageSubItem( $pageId,
 						self::getInfo( $img, $prop, $result, $finalThumbParams ) );
 					if ( !$fit ) {
@@ -357,9 +357,11 @@ class ApiQueryImageInfo extends ApiQueryBase {
 						$vals['thumbheight'] = intval( $file->getHeight() );
 					}
 
-					if ( isset( $prop['thumbmime'] ) ) {
-						$thumbFile = UnregisteredLocalFile::newFromPath( $mto->getPath(), false );
-						$vals['thumbmime'] = $thumbFile->getMimeType();
+					if ( isset( $prop['thumbmime'] ) && $file->getHandler() ) {
+						list( $ext, $mime ) = $file->getHandler()->getThumbType( 
+							substr( $mto->getPath(), strrpos( $mto->getPath(), '.' ) + 1 ), 
+							$file->getMimeType(), $thumbParams );
+						$vals['thumbmime'] = $mime;
 					}
 				} else if ( $mto && $mto->isError() ) {
 					$vals['thumberror'] = $mto->toText();
@@ -381,7 +383,7 @@ class ApiQueryImageInfo extends ApiQueryBase {
 		if ( $mime ) {
 			$vals['mime'] = $file->getMimeType();
 		}
-		
+
 		if ( $mediatype ) {
 			$vals['mediatype'] = $file->getMediaType();
 		}

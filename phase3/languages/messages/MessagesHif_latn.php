@@ -548,8 +548,6 @@ Sait aap password ke safalta se badal sia hoga nai to nawaa temporary password k
 'extlink_tip'     => 'Bahari jorr (yaad rakhna http:// prefix)',
 'headline_sample' => 'Khaas samaachar ke akchhar',
 'headline_tip'    => 'Duusra level ke headline',
-'math_sample'     => 'Hian pe formula insert karo',
-'math_tip'        => 'Mathematiical niyam (LaTeX)',
 'nowiki_sample'   => 'Non-formatted text ke hian par insert karo',
 'nowiki_tip'      => 'Wiki bhasa ke anusaar badlao nahi karo',
 'image_tip'       => 'Jamawa gais suchi',
@@ -1056,16 +1054,15 @@ Yaad rakhna ki uu log ke {{SITENAME}} ke index saait purana hoi.',
 'changepassword'                => 'Pasword ke badlo',
 'prefs-skin'                    => 'Skin',
 'skin-preview'                  => 'Jhalak',
-'prefs-math'                    => 'Math',
 'datedefault'                   => 'Koi pasand nai',
 'prefs-datetime'                => 'Tarik aur time',
 'prefs-personal'                => 'Sadasya ke profile',
 'prefs-rc'                      => 'Nawaa badlao',
 'prefs-watchlist'               => 'Dhyan suchi',
 'prefs-watchlist-days'          => 'Dhyan suchi me ketna roj dekhawa jaae:',
-'prefs-watchlist-days-max'      => '(jaada se jaada 7 din)',
+'prefs-watchlist-days-max'      => 'Jaada se jaada 7 din',
 'prefs-watchlist-edits'         => 'Barraa dhyan suchi me jaada se jaada ketna badlao dekhawa jaae:',
-'prefs-watchlist-edits-max'     => '(jaada se jaada: 1000)',
+'prefs-watchlist-edits-max'     => 'Jaada se jaada: 1000',
 'prefs-watchlist-token'         => 'Dhyan suchi ke nisani:',
 'prefs-misc'                    => 'Futkar',
 'prefs-resetpass'               => 'Password badlo',
@@ -2292,8 +2289,7 @@ Abhi ke rukawat ke dekhe ke khatir meharbani kar ke [[Special:IPBlockList|IP blo
 'ipb_expiry_temp'                 => 'Lukawa gais username ke rukawat ke permanent hoe ke chaahi.',
 'ipb_hide_invalid'                => 'Ii account ke dabae nai sakaa hai; saait bahut jaada badlao hoi.',
 'ipb_already_blocked'             => '"$1" ke pahile rok dewa gais hai',
-'ipb-needreblock'                 => '== Pahile se rok dewa gais hai ==
-$1 ke rok dewa gais hai.
+'ipb-needreblock'                 => '$1 ke rok dewa gais hai.
 Ka aapp ii settings ke badle mangtaa hai?',
 'ipb-otherblocks-header'          => 'Duusra {{PLURAL:$1|block|blocks}}',
 'ipb_cant_unblock'                => 'Error: Roke waala ID $1 nai milaa.
@@ -2623,26 +2619,6 @@ Ii saait ii kaaran se hoi ki panna ke ek jorr koi blacklisted external site se h
 'numwatchers'    => 'Dekhe waala ke ginti: $1',
 'numauthors'     => 'Likhe waala ke ginti (panna): $1',
 'numtalkauthors' => 'Likhe waala ke ginti (salah waala panna): $1',
-
-# Math options
-'mw_math_png'    => 'PNG ke sab time render karo',
-'mw_math_simple' => 'HTML agar bahut sahaj hai, nai to PNG',
-'mw_math_html'   => 'HTML agar hoe sake, nai to PNG',
-'mw_math_source' => 'TeX ke rakam chhorr do (text browsers ke khatir)',
-'mw_math_modern' => 'Modern browsers khatir thiik hai',
-'mw_math_mathml' => 'MathML hoe sake tab (experimental)',
-
-# Math errors
-'math_failure'          => 'Parse nai kare sakaa',
-'math_unknown_error'    => 'galti ke nai samajhta',
-'math_unknown_function' => 'nai samajhta ki ii kon chij khatir hai',
-'math_lexing_error'     => 'lexing me galti',
-'math_syntax_error'     => 'syntax me galti',
-'math_image_error'      => 'PNG conversion fail hoe gais; latex, dvips aur gs ke correct installation ke check kar ke convert convert karo',
-'math_bad_tmpdir'       => 'Math temporary directory nai banae sakta hai',
-'math_bad_output'       => 'Math output directory me likhe nai to banae nai sakta hai',
-'math_notexvc'          => 'Texvc executable nai hai;
-Configure kare khatir meharbani kar ke math/README ke dekho.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Mark karo ke pahraa dewa jaawe hai',

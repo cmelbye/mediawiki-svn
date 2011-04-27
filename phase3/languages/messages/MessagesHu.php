@@ -741,6 +741,7 @@ Ellenőrizd, hogy helyesen írtad-e be.',
 'wrongpasswordempty'         => 'Nem adtál meg jelszót. Próbáld meg újra.',
 'passwordtooshort'           => 'A jelszónak legalább {{PLURAL:$1|egy|$1}} karakterből kell állnia.',
 'password-name-match'        => 'A jelszavadnak különböznie kell a szerkesztőnevedtől.',
+'password-login-forbidden'   => 'Ezen felhasználónév és jelszó használata tiltott.',
 'mailmypassword'             => 'Új jelszó küldése e-mailben',
 'passwordremindertitle'      => 'Ideiglenes jelszó a(z) {{SITENAME}} wikire',
 'passwordremindertext'       => 'Valaki (vélhetően te, a(z) $1 IP-címről) új jelszót kért a(z)
@@ -821,8 +822,6 @@ Lehet, hogy már sikeresen megváltoztattad a jelszavad, vagy pedig időközben 
 'extlink_tip'     => 'Külső hivatkozás (ne felejtsd el a http:// előtagot)',
 'headline_sample' => 'Alfejezet címe',
 'headline_tip'    => 'Alfejezetcím',
-'math_sample'     => 'Ide írd a képletet',
-'math_tip'        => 'Matematikai képlet (LaTeX)',
 'nowiki_sample'   => 'Ide írd a formázatlan szöveget',
 'nowiki_tip'      => 'Wiki formázás kikapcsolása',
 'image_sample'    => 'Pelda.jpg',
@@ -1315,16 +1314,15 @@ Győződj meg róla, hogy a laptörténet folytonossága megmarad.',
 'changepassword'                => 'Jelszócsere',
 'prefs-skin'                    => 'Felület',
 'skin-preview'                  => 'előnézet',
-'prefs-math'                    => 'Képletek',
 'datedefault'                   => 'Nincs beállítás',
 'prefs-datetime'                => 'Dátum és idő',
 'prefs-personal'                => 'Felhasználói adatok',
 'prefs-rc'                      => 'Friss változtatások',
 'prefs-watchlist'               => 'Figyelőlista',
 'prefs-watchlist-days'          => 'A figyelőlistában mutatott napok száma:',
-'prefs-watchlist-days-max'      => '(legfeljebb 7 nap)',
+'prefs-watchlist-days-max'      => 'Legfeljebb 7 nap',
 'prefs-watchlist-edits'         => 'A kiterjesztett figyelőlistán mutatott szerkesztések száma:',
-'prefs-watchlist-edits-max'     => '(legfeljebb 1000)',
+'prefs-watchlist-edits-max'     => 'Legfeljebb 1000',
 'prefs-watchlist-token'         => 'A figyelőlista kulcsa:',
 'prefs-misc'                    => 'Egyéb',
 'prefs-resetpass'               => 'Jelszó megváltoztatása',
@@ -2495,7 +2493,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipusubmit'                       => 'Blokk eltávolítása',
 'unblocked'                       => '[[User:$1|$1]] blokkolása feloldva',
 'unblocked-id'                    => '$1 blokkolása feloldásra került',
-'ipblocklist'                     => 'Blokkolt IP-címek és felhasználónevek listája',
+'ipblocklist'                     => 'Blokkolt felhasználók',
 'ipblocklist-legend'              => 'Blokkolt felhasználó keresése',
 'ipblocklist-submit'              => 'Keresés',
 'ipblocklist-localblock'          => 'Helyi blokk',
@@ -2533,8 +2531,7 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipb_expiry_temp'                 => 'A láthatatlan felhasználóinév-blokkok lehetnek állandóak.',
 'ipb_hide_invalid'                => 'A felhasználói fiókot nem lehet elrejteni; lehet, hogy túl sok szerkesztése van.',
 'ipb_already_blocked'             => '"$1" már blokkolva',
-'ipb-needreblock'                 => '== Már blokkolva ==
-$1 már blokkolva van. Meg szeretnéd változtatni a beállításokat?',
+'ipb-needreblock'                 => '$1 már blokkolva van. Meg szeretnéd változtatni a beállításokat?',
 'ipb-otherblocks-header'          => 'További {{PLURAL:$1|blokk|blokkok}}',
 'ipb_cant_unblock'                => 'Hiba: A(z) $1 blokkolási azonosító nem található. Lehet, hogy már feloldották a blokkolását.',
 'ipb_blocked_as_range'            => 'Hiba: a(z) $1 IP-cím nem blokkolható közvetlenül, és nem lehet feloldani. A(z) $2 tartomány részeként van blokkolva, amely feloldható.',
@@ -2592,7 +2589,7 @@ Ez azt jelenti, hogy vissza tudsz nevezni egy tévedésből átnevezett lapot, �
 '''FIGYELEM!'''
 Népszerű oldalak esetén ez drasztikus és nem várt változtatás lehet;
 győződj meg a folytatás előtt arról, hogy tisztában vagy-e a következményekkel.",
-'movepagetext-noredirectfixer' => "↓ Az alábbi űrlap használatával nevezhetsz át egy lapot, és helyezheted át teljes laptörténetét az új nevére.
+'movepagetext-noredirectfixer' => "Az alábbi űrlap használatával nevezhetsz át egy lapot, és helyezheted át teljes laptörténetét az új nevére.
 A régi cím az új címre való átirányítás lesz.
 Ellenőrizd a [[Special:DoubleRedirects|dupla]] és a [[Special:BrokenRedirects|hibás átirányításoknál]], hogy a linkek továbbra is oda mutatnak, ahová mutatniuk kell.
 
@@ -2896,25 +2893,6 @@ Ez valószínűleg egy olyan link miatt van, ami egy feketelistán lévő oldalr
 'skinname-chick'       => 'Chick',
 'skinname-simple'      => 'Egyszerű',
 'skinname-modern'      => 'Modern',
-
-# Math options
-'mw_math_png'    => 'Mindig készítsen PNG-t',
-'mw_math_simple' => 'HTML, ha nagyon egyszerű, egyébként PNG',
-'mw_math_html'   => 'HTML, ha lehetséges, egyébként PNG',
-'mw_math_source' => 'Hagyja TeX formában (szöveges böngészőknek)',
-'mw_math_modern' => 'Modern böngészőknek ajánlott beállítás',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Értelmezés sikertelen',
-'math_unknown_error'    => 'ismeretlen hiba',
-'math_unknown_function' => 'ismeretlen függvény',
-'math_lexing_error'     => 'lexikai hiba',
-'math_syntax_error'     => 'formai hiba',
-'math_image_error'      => 'PNG-vé alakítás sikertelen; ellenőrizd, hogy a latex és dvipng (vagy dvips + gs + convert) helyesen van-e telepítve',
-'math_bad_tmpdir'       => 'Nem írható vagy nem hozható létre a matematikai ideiglenes könyvtár',
-'math_bad_output'       => 'Nem lehet létrehozni vagy írni a matematikai függvények kimeneti könyvtárába',
-'math_notexvc'          => 'HIányzó texvc végrehajtható fájl; a beállítást lásd a math/README fájlban.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Ellenőrzöttnek jelölöd',
@@ -3327,6 +3305,21 @@ e-mail cím megerősíthetőségének visszavonásához:
 $5
 
 A megerősítésre szánt kód felhasználhatósági idejének lejárata: $4.',
+'confirmemail_body_set'     => 'Valaki, valószínűleg te, ezt az email címet adta meg
+„$2” nevű {{SITENAME}}-fiókjához a következő IP-címről: $1.
+
+Ha meg szeretnéd erősíteni, hogy a fiók valóban hozzád tartozik,
+így aktiválva a(z) {{SITENAME}} e-mailes funkcióit, nyisd meg az
+alábbi linket a böngésződben:
+
+$3
+
+Ha a fiók *nem* hozzád tartozik, kövesd az alábbi linket a
+megerősítés visszavonásához:
+
+$5
+
+Ez a megerősítő e-mail $4-ig érvényes.',
 'confirmemail_invalidated'  => 'E-mail-cím megerősíthetősége visszavonva',
 'invalidateemail'           => 'E-mail-cím megerősíthetőségének visszavonása',
 

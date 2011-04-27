@@ -871,8 +871,6 @@ Možná jste si již úspěšně heslo změnili, nebo jste si vyžádali nové d
 'extlink_tip'     => 'Externí odkaz (nezapomeňte na předponu http://)',
 'headline_sample' => 'Text nadpisu',
 'headline_tip'    => 'Nadpis druhé úrovně',
-'math_sample'     => 'Vložit sem vzorec',
-'math_tip'        => 'Matematický vzorec (LaTeX)',
 'nowiki_sample'   => 'Sem vložte neformátovaný text',
 'nowiki_tip'      => 'Ignorovat formátování wiki',
 'image_sample'    => 'Příklad.jpg',
@@ -1356,16 +1354,15 @@ Pokud na začátek dotazu přidáte ''all:'', bude se hledat všude (včetně di
 'changepassword'                => 'Změna hesla',
 'prefs-skin'                    => 'Vzhled',
 'skin-preview'                  => 'Náhled',
-'prefs-math'                    => 'Matematika',
 'datedefault'                   => 'Implicitní',
 'prefs-datetime'                => 'Datum a čas',
 'prefs-personal'                => 'Údaje o uživateli',
 'prefs-rc'                      => 'Poslední změny',
 'prefs-watchlist'               => 'Sledované stránky',
 'prefs-watchlist-days'          => 'Počet dní zobrazených ve sledovaných stránkách:',
-'prefs-watchlist-days-max'      => '(maximálně 7 dní)',
+'prefs-watchlist-days-max'      => 'Maximálně 7 dní',
 'prefs-watchlist-edits'         => 'Počet editací zobrazených ve zdokonalených sledovaných stránkách:',
-'prefs-watchlist-edits-max'     => '(maximum: 1000)',
+'prefs-watchlist-edits-max'     => 'Maximum: 1000',
 'prefs-watchlist-token'         => 'Klíč k seznamu sledovaných stránek:',
 'prefs-misc'                    => 'Různé',
 'prefs-resetpass'               => 'Změnit heslo',
@@ -1820,22 +1817,23 @@ Nelze náležitě zkontrolovat jeho bezpečnost.',
 'uploadstash-refresh'  => 'Aktualizovat seznam souborů',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Přístup odepřen',
-'img-auth-nopathinfo'   => 'Chybí PATH_INFO.
+'img-auth-accessdenied'     => 'Přístup odepřen',
+'img-auth-nopathinfo'       => 'Chybí PATH_INFO.
 Váš server není nastaven tak, aby poskytoval tuto informaci.
 Možná funguje pomocí CGI a img_auth na něm nemůže fungovat.
 Vizte http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Požadovaná cesta nespadá pod nakonfigurovaný adresář s načtenými soubory.',
-'img-auth-badtitle'     => 'Z „$1“ nelze vytvořit platný název stránky.',
-'img-auth-nologinnWL'   => 'Nejste přihlášen(a) a „$1“ není na bílé listině.',
-'img-auth-nofile'       => 'Soubor „$1“ neexistuje.',
-'img-auth-isdir'        => 'Pokoušíte se zobrazit adresář „$1“.
+'img-auth-notindir'         => 'Požadovaná cesta nespadá pod nakonfigurovaný adresář s načtenými soubory.',
+'img-auth-badtitle'         => 'Z „$1“ nelze vytvořit platný název stránky.',
+'img-auth-nologinnWL'       => 'Nejste přihlášen(a) a „$1“ není na bílé listině.',
+'img-auth-nofile'           => 'Soubor „$1“ neexistuje.',
+'img-auth-isdir'            => 'Pokoušíte se zobrazit adresář „$1“.
 Dovolen je pouze přístup k souborům.',
-'img-auth-streaming'    => 'Přenáší se „$1“.',
-'img-auth-public'       => 'Pomocí img_auth.php se poskytují soubory na soukromých wiki.
+'img-auth-streaming'        => 'Přenáší se „$1“.',
+'img-auth-public'           => 'Pomocí img_auth.php se poskytují soubory na soukromých wiki.
 Tato wiki je nastavena jako veřejná.
 Z bezpečnostních důvodů je img_auth.php vypnuto.',
-'img-auth-noread'       => 'Uživatel nemá oprávnění ke čtení „$1“.',
+'img-auth-noread'           => 'Uživatel nemá oprávnění ke čtení „$1“.',
+'img-auth-bad-query-string' => 'URL obsahuje neplatný dotaz.',
 
 # HTTP errors
 'http-invalid-url'      => 'Neplatné URL: $1',
@@ -2193,6 +2191,10 @@ E-mailová adresa, kterou máte uvedenu v [[Special:Preferences|nastavení]], se
 'noemailtext'          => 'Tento uživatel nezadal platnou e-mailovou adresu.',
 'nowikiemailtitle'     => 'E-mail není povolen',
 'nowikiemailtext'      => 'Tento uživatel si nepřeje dostávat e-maily od ostatních uživatelů.',
+'emailnotarget'        => 'Neexistující nebo neplatné uživatelské jméno příjemce.',
+'emailtarget'          => 'Zadejte uživatelské jméno příjemce',
+'emailusername'        => 'Uživatelské jméno:',
+'emailusernamesubmit'  => 'Odeslat',
 'email-legend'         => 'Odeslání e-mailu jinému uživateli {{GRAMMAR:2sg|{{SITENAME}}}}',
 'emailfrom'            => 'Od:',
 'emailto'              => 'Komu:',
@@ -2490,8 +2492,8 @@ Zde je pro přehled zobrazen nejnovější záznam z knihy zablokování:',
 
 # Block/unblock
 'autoblockid'                     => 'Autoblok #$1',
-'block'                           => 'Zablokovat uživatele/IP adresu',
-'unblock'                         => 'Odblokovat uživatele/IP adresu',
+'block'                           => 'Zablokovat uživatele',
+'unblock'                         => 'Odblokovat uživatele',
 'blockip'                         => 'Zablokovat uživatele',
 'blockip-title'                   => 'Blokovat uživatele',
 'blockip-legend'                  => 'Zablokovat uživatele',
@@ -2523,10 +2525,13 @@ Udejte přesný důvod níže (například ocitujte, které stránky byly poško
 'ipbwatchuser'                    => 'Sledovat uživatelskou a diskusní stranu tohoto uživatele',
 'ipb-disableusertalk'             => 'Zabránit tomuto uživateli editovat vlastní uživatelskou diskusi po dobu zablokování',
 'ipb-change-block'                => 'Znovu zablokovat uživatele s tímto nastavením',
+'ipb-confirm'                     => 'Potvrdit zablokování',
 'badipaddress'                    => 'Neplatná IP adresa',
 'blockipsuccesssub'               => 'Zablokování uspělo',
 'blockipsuccesstext'              => 'Uživatel „[[Special:Contributions/$1|$1]]“ je zablokován.<br />
 Můžete si prohlédnout [[Special:IPBlockList|seznam zablokovaných uživatelů]].',
+'ipb-blockingself'                => 'Chystáte se zablokovat {{gender:|sám|sama|sami}} sebe! Jste si {{gender:|jist|jista|jisti}}, že to chcete udělat?',
+'ipb-confirmhideuser'             => 'Chystáte se zablokovat uživatele se zapnutou volbou „skrýt uživatelské jméno“. To způsobí, že jméno uživatele zmizí ze všech seznamů a protokolovacích záznamů. Jste si {{gender:|jist|jista|jisti}}, že to chcete udělat?',
 'ipb-edit-dropdown'               => 'Editace seznamu důvodů zablokování',
 'ipb-unblock-addr'                => 'Odblokovat uživatele nebo IP $1',
 'ipb-unblock'                     => 'Odblokovat uživatele nebo IP adresu',
@@ -2538,8 +2543,8 @@ Můžete si prohlédnout [[Special:IPBlockList|seznam zablokovaných uživatelů
 'unblocked'                       => '{{GENDER:$1|||Uživatel}} [[User:$1|$1]] {{GENDER:$1|byl odblokován|byla odblokována|byl odblokován}}',
 'unblocked-range'                 => '$1 bylo odblokováno',
 'unblocked-id'                    => 'Blok $1 byl zrušen',
-'blocklist'                       => 'Blokované IP adresy a uživatelská jména',
-'ipblocklist'                     => 'Blokované IP adresy a uživatelská jména',
+'blocklist'                       => 'Zablokovaní uživatelé',
+'ipblocklist'                     => 'Zablokovaní uživatelé',
 'ipblocklist-legend'              => 'Hledat zablokovaného uživatele',
 'blocklist-userblocks'            => 'Skrýt zablokované účty',
 'blocklist-tempblocks'            => 'Skrýt dočasná zablokování',
@@ -2587,8 +2592,7 @@ Zde je pro přehled zobrazen výpis z knihy zablokování:',
 'ipb_expiry_temp'                 => 'Blokování skrytých uživatelských jmen by měla být trvalá.',
 'ipb_hide_invalid'                => 'Tento účet nelze utajit; možná má příliš mnoho editací.',
 'ipb_already_blocked'             => '„$1“ již je zablokován.',
-'ipb-needreblock'                 => '== Již zablokován(a) ==
-$1 je již zablokován(a). Chcete změnit nastavení bloku?',
+'ipb-needreblock'                 => '$1 je již zablokován(a). Chcete změnit nastavení bloku?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Jiné zablokování|Jiná zablokování}}',
 'unblock-hideuser'                => 'Tohoto uživatele nemůžete odblokovat, protože jeho uživatelské jméno bylo skryto.',
 'ipb_cant_unblock'                => 'Chyba: Blokování s ID $1 nebylo nalezeno. Uživatel již možná byl odblokován.',
@@ -2776,7 +2780,8 @@ Pokud si přejete přispívat k lokalizaci softwaru MediaWiki, navštivte [http:
 'import-interwiki-namespace' => 'Cílový jmenný prostor:',
 'import-upload-filename'     => 'Jméno souboru:',
 'import-comment'             => 'Zdůvodnění:',
-'importtext'                 => 'Prosím exportujte soubor ze zdrojové wiki pomocí nástroje [[Special:Export|{{ns:special}}:Export]], uložte jej na svůj disk a nahrajte ho sem.',
+'importtext'                 => 'Prosím exportujte soubor ze zdrojové wiki pomocí [[Special:Export|exportního nástroje]].
+Uložte jej na svůj disk a nahrajte ho sem.',
 'importstart'                => 'Stránky se importují…',
 'import-revision-count'      => '$1 {{PLURAL:$1|revize|revize|revizí}}',
 'importnopages'              => 'Není co importovat.',
@@ -2944,25 +2949,6 @@ Pokud si přejete přispívat k lokalizaci softwaru MediaWiki, navštivte [http:
 'skinname-simple'      => 'Jednoduchý',
 'skinname-modern'      => 'Moderní',
 'skinname-vector'      => 'Vektor',
-
-# Math options
-'mw_math_png'    => 'Vždy jako PNG',
-'mw_math_simple' => 'Jednoduché jako HTML, jinak PNG',
-'mw_math_html'   => 'HTML pokud je to možné, jinak PNG',
-'mw_math_source' => 'Ponechat jako TeX (pro textové prohlížeče)',
-'mw_math_modern' => 'Doporučené nastavení pro moderní prohlížeče',
-'mw_math_mathml' => 'MathML, pokud je podporováno (experimentální)',
-
-# Math errors
-'math_failure'          => 'Nelze pochopit',
-'math_unknown_error'    => 'neznámá chyba',
-'math_unknown_function' => 'neznámá funkce',
-'math_lexing_error'     => 'chyba při lexingu',
-'math_syntax_error'     => 'syntaktická chyba',
-'math_image_error'      => 'Selhala konverze do PNG; zkontrolujte správnou instalaci latexu a dvipng (nebo dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Nelze zapsat nebo vytvořit dočasný adresář pro matematiku',
-'math_bad_output'       => 'Nelze zapsat nebo vytvořit adresář pro výstup matematiky',
-'math_notexvc'          => 'Chybí spustitelný texvc; podívejte se prosím do math/README na konfiguraci.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Označit jako prověřené',
@@ -3404,11 +3390,12 @@ $1',
 'trackbackdeleteok' => 'Zpětný odkaz byl úspěšně smazán.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Upozornění''': V průběhu vaší editace byla tato stránka smazána!",
-'confirmrecreate'     => 'Uživatel [[User:$1|$1]] ([[User talk:$1|diskuse]]) tuto stránku smazal poté, co jste začali editovat, s odůvodněním:
+'deletedwhileediting'      => "'''Upozornění''': V průběhu vaší editace byla tato stránka smazána!",
+'confirmrecreate'          => 'Uživatel [[User:$1|$1]] ([[User talk:$1|diskuse]]) tuto stránku smazal poté, co jste začali editovat, s odůvodněním:
 : „$2“
 Opravdu si přejete znovu tuto stránku založit?',
-'recreate'            => 'Znovu založit',
+'confirmrecreate-noreason' => '{{gender:$1|Uživatel|Uživatelka|Uživatel}} [[User:$1|$1]] ([[User talk:$1|diskuse]]) {{gender:$1|smazal|smazala|smazal}} tuto stránku poté, co jste {{gender:|začal|začala|začali}} s editací. Potvrďte, zda chcete stránku skutečně znovu založit.',
+'recreate'                 => 'Znovu založit',
 
 # action=purge
 'confirm_purge_button' => 'OK',

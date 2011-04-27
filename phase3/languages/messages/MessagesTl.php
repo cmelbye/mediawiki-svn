@@ -679,8 +679,6 @@ Maaaring matagumpay mo nang nabago ang iyong hudyat o nakahiling na ng isang bag
 'extlink_tip'     => 'Panlabas na kawing (tandaan ang unlaping http://)',
 'headline_sample' => 'Paulong teksto',
 'headline_tip'    => 'Paulong antas 2',
-'math_sample'     => 'Isingit ang pormula dito',
-'math_tip'        => 'Pormulang pangmatematika (LaTeX)',
 'nowiki_sample'   => 'Isingit ang hindi nakapormat na teksto dito',
 'nowiki_tip'      => 'Balewalain ang pormat na pangwiki',
 'image_sample'    => 'Halimbawa.jpg',
@@ -1189,16 +1187,15 @@ Subuking lagyan ng unlapi/paunang ''all:'' upang hanapin ang lahat ng mga nialal
 'changepassword'                => 'Baguhin ang hudyat',
 'prefs-skin'                    => 'Pabalat',
 'skin-preview'                  => 'Unang tingin',
-'prefs-math'                    => 'Matematika',
 'datedefault'                   => 'Walang kagustuhan',
 'prefs-datetime'                => 'Petsa at oras',
 'prefs-personal'                => 'Sanligang pangkatangian ng tagagamit',
 'prefs-rc'                      => 'Kamakailan lamang na mga pagbabago',
 'prefs-watchlist'               => 'Talaan ng mga binabantayan',
 'prefs-watchlist-days'          => 'Mga araw na ipapakita sa talaan ng mga binabantayan:',
-'prefs-watchlist-days-max'      => '(pinakamarami ang 7 mga araw)',
+'prefs-watchlist-days-max'      => 'Pinakamarami ang 7 mga araw',
 'prefs-watchlist-edits'         => 'Pinakamaraming bilang ng mga pagbabagong ipapakita sa pinalawak na talaan ng mga binabantayan:',
-'prefs-watchlist-edits-max'     => '(pinakamataas na bilang: 1000)',
+'prefs-watchlist-edits-max'     => 'Pinakamataas na bilang: 1000',
 'prefs-watchlist-token'         => 'Balap ng talaan ng mga binabantayan:',
 'prefs-misc'                    => 'Bala-balaki',
 'prefs-resetpass'               => 'Baguhin ang hudyat',
@@ -1645,22 +1642,23 @@ Hindi ito maaaring suriin ng tama para sa kaligtasan.',
 'uploadstash-refresh'  => 'Sariwain ang talaan ng mga talaksan',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Hindi pinayagan ang pagpunta',
-'img-auth-nopathinfo'   => 'Nawawalang PATH_INFO.
+'img-auth-accessdenied'     => 'Hindi pinayagan ang pagpunta',
+'img-auth-nopathinfo'       => 'Nawawalang PATH_INFO.
 Ang tagapaghain mo ay hindi nakatakdang na maipasa ang kabatirang ito.
 Maaaring pang-CGI ito at hindi makatangkilik ng img_auth.
 Tingnan ang http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Ang hiniling na daan ay wala sa loob ng isinaayos na direktoryo ng pagkarga.',
-'img-auth-badtitle'     => 'Hindi nagawang makabuo ng tanggap na pamagat mula sa "$1".',
-'img-auth-nologinnWL'   => 'Hindi ka nakalagda at ang "$1" ay wala sa puting talaan.',
-'img-auth-nofile'       => 'Hindi umiiral ang talaksang "$1".',
-'img-auth-isdir'        => 'Sinusubok mong puntahan ang direktoryong "$1".
+'img-auth-notindir'         => 'Ang hiniling na daan ay wala sa loob ng isinaayos na direktoryo ng pagkarga.',
+'img-auth-badtitle'         => 'Hindi nagawang makabuo ng tanggap na pamagat mula sa "$1".',
+'img-auth-nologinnWL'       => 'Hindi ka nakalagda at ang "$1" ay wala sa puting talaan.',
+'img-auth-nofile'           => 'Hindi umiiral ang talaksang "$1".',
+'img-auth-isdir'            => 'Sinusubok mong puntahan ang direktoryong "$1".
 Tanging ang pagpunta lang sa talaksan ang pinapayagan.',
-'img-auth-streaming'    => 'Pinapaagos ang "$1".',
-'img-auth-public'       => 'Ang tungkulin ng img_auth.php ay maglabas ng mga talaksan mula sa isang pribadong wiki.
+'img-auth-streaming'        => 'Pinapaagos ang "$1".',
+'img-auth-public'           => 'Ang tungkulin ng img_auth.php ay maglabas ng mga talaksan mula sa isang pribadong wiki.
 Isinaayos ang wiking ito bilang isang pampublikong wiki.
 Para sa pinakamatatag na kaligtasan, hindi pinagana ang img_auth.php.',
-'img-auth-noread'       => 'Hindi makakapunta ang tagagamit para mabasa ang "$1".',
+'img-auth-noread'           => 'Hindi makakapunta ang tagagamit para mabasa ang "$1".',
+'img-auth-bad-query-string' => 'Ang URL ay may isang hindi katanggap-tanggap na sinulid ng tanong.',
 
 # HTTP errors
 'http-invalid-url'      => 'Hindi tanggap na URL: $1',
@@ -2022,6 +2020,10 @@ Ang ipinasok mong adres ng e-liham sa [[Special:Preferences|iyong mga kagustuhan
 'noemailtext'          => 'Ang tagagamit na ito ay hindi tumukoy ng isang tanggap na adres ng e-liham.',
 'nowikiemailtitle'     => 'Walang pinapahintulutang e-liham',
 'nowikiemailtext'      => 'Pinili ng tagagamit na ito na huwag makatanggap ng e-liham mula sa ibang mga tagagamit.',
+'emailnotarget'        => 'Hindi umiiral o hindi katanggap-tanggap na pangalan ng tagagamit para sa tagatanggap.',
+'emailtarget'          => 'Ipasok ang pangalan ng tagagamit ng tagatanggap',
+'emailusername'        => 'Pangalan ng tagagamit:',
+'emailusernamesubmit'  => 'Ipasa',
 'email-legend'         => 'Magpadala ng e-liham patungo sa isa pang tagagamit ng {{SITENAME}}',
 'emailfrom'            => 'Mula kay:',
 'emailto'              => 'Para kay:',
@@ -2332,8 +2334,8 @@ Ang pinakahuling entrada sa talaan  ng pagharang ay ibinigay sa ibaba para sa pa
 
 # Block/unblock
 'autoblockid'                     => 'Kusang harangin ang #$1',
-'block'                           => 'Harangin ang tagagamit/tirahan ng IP',
-'unblock'                         => 'Huwag harangin ang tagagamit/tirahan ng IP',
+'block'                           => 'Harangin ang tagagamit',
+'unblock'                         => 'Huwag harangin ang tagagamit',
 'blockip'                         => 'Harangin/hadlangan ang tagagamit',
 'blockip-title'                   => 'Harangin ang tagagamit',
 'blockip-legend'                  => 'Iharang ang tagagamit',
@@ -2365,10 +2367,13 @@ Punan ang espesipikong dahilan sa ibaba (halimbawa, magbanggit ng partikular na 
 'ipbwatchuser'                    => 'Bantayan ang pahinang pantagagamit at pahina ng usapan ng tagagamit na ito',
 'ipb-disableusertalk'             => 'Pigilan ang tagagamit na ito mula sa pamamatnugot ng kanilang pansariling pahina ng usapan habang hinahadlangan',
 'ipb-change-block'                => 'Muling harangin/hadlangan ang tagagamit na ginagamitan ng ganitong mga pagtatakda',
+'ipb-confirm'                     => 'Tiyakin ang pagharang',
 'badipaddress'                    => 'Hindi tanggap na adres ng IP',
 'blockipsuccesssub'               => 'Matagumpay ang pagharang/paghadlang',
 'blockipsuccesstext'              => 'Hinadlangan ang  [[Special:Contributions/$1|$1]].<br />
 Tingnan ang [[Special:IPBlockList|talaan ng mga hinadlangang IP]] upang makita ang mga paghadlang.',
+'ipb-blockingself'                => 'Hahadlangan mo na ang sarili mo!  Nakatitiyak ka bang nais mong gawin iyan?',
+'ipb-confirmhideuser'             => 'Hahadlangan mo na ang isang tagagamit na pinagagana ang "ikubli ang tagagamit".  Susupilin nito ang pangalan ng tagagamit sa lahat ng mga pagpapasok sa mga tala at mga talaan.  Nakatitiyak ka bang nais mong gawin iyan?',
 'ipb-edit-dropdown'               => 'Baguhin ang mga dahilan sa pagharang',
 'ipb-unblock-addr'                => 'Tanggalin ang pagkaharang ng $1',
 'ipb-unblock'                     => 'Tanggalin ang pagkaharang ng isang bansag o IP address',
@@ -2380,8 +2385,8 @@ Tingnan ang [[Special:IPBlockList|talaan ng mga hinadlangang IP]] upang makita a
 'unblocked'                       => 'Natanggal sa pagkaharang ang tagagamit na [[User:$1|$1]]',
 'unblocked-range'                 => 'Hindi na hinaharang ang $1',
 'unblocked-id'                    => 'Tinanggal na ang pagharang/paghadlang na $1',
-'blocklist'                       => 'Hinahadlangang mga tirahan ng IP at mga pangalan ng tagagamit',
-'ipblocklist'                     => 'Tala ng mga hinarang na mga IP address at bansag',
+'blocklist'                       => 'Hinahadlangang mga tagagamit',
+'ipblocklist'                     => 'Hinahadlangang mga tagagamit',
 'ipblocklist-legend'              => 'Hanapin ang isang hinarang na tagagamit',
 'blocklist-userblocks'            => 'Itago ang mga paghahadlang ng akawnt',
 'blocklist-tempblocks'            => 'Pansamantalang ikubli ang mga pagharang',
@@ -2433,8 +2438,7 @@ Tingnan ang [[Special:IPBlockList|talaan ng mga hinarang na/hinadlangang IP]] pa
 'ipb_expiry_temp'                 => 'Kinakailangang pamalagian ang mga nakatagong paghadlang ng pangalan ng tagagamit.',
 'ipb_hide_invalid'                => 'Hindi nasupil ang akawnt na ito; maaaring mayroon itong napakaraming mga pagbabago.',
 'ipb_already_blocked'             => 'Nakaharang na ang "$1"',
-'ipb-needreblock'                 => '== Hinarang/hinadlangan na ==
-Hinarang/hinadlangan na si $1.  Ibig mo bang baguhin ang mga pagtatakda?',
+'ipb-needreblock'                 => 'Hinarang/hinadlangan na si $1.  Ibig mo bang baguhin ang mga pagtatakda?',
 'ipb-otherblocks-header'          => 'Ibang {{PLURAL:$1|harang|mga harang}}',
 'unblock-hideuser'                => 'Hindi mo matatanggal ang paghadlang sa tagagamit na ito, dahil naitago ang kanilang pangalan ng tagagamit.',
 'ipb_cant_unblock'                => 'Kamalian: Hindi natagpuan ang ID ng pagharang/paghadlang na $1.  Maaaring natanggal na ang pagkakaharang nito/paghahadlang dito.',
@@ -2632,7 +2636,8 @@ Naitatala sa [[Special:Log/import|tala ng inangkat]] ang lahat ng mga transwikin
 'import-interwiki-namespace' => 'Kapupuntahang espasyo ng pangalan:',
 'import-upload-filename'     => 'Pangalan ng talaksan:',
 'import-comment'             => 'Komento:',
-'importtext'                 => 'Pakiluwas/pakikuha ang talaksan mula sa pinagmulang wiki na ginagamit ang [[Special:Export|kasangkapang pangluwas]].  Sagipin mo ito sa iyong kompyuter at ikarga rito.',
+'importtext'                 => 'Pakiluwas ang talaksan magmula sa pinagmulang wiki na ginagamit ang [[Special:Export|kasangkapang pangluwas]].  
+Sagipin mo ito sa iyong kompyuter at papaitaas na ikarga ito rito.',
 'importstart'                => 'Inaangkat na ang mga pahina...',
 'import-revision-count'      => '$1 {{PLURAL:$1|pagbabago|mga pagbabago}}',
 'importnopages'              => 'Walang mga pahinang maangkat.',
@@ -2799,26 +2804,6 @@ Maaaring dahil ito sa isang kawing sa isang nakatalang hinarang dahil di-kinaisn
 'skinname-chick'       => "\"Pambabae\" (''Chick'')",
 'skinname-simple'      => 'Payak',
 'skinname-modern'      => 'Makabago (Moderno)',
-
-# Math options
-'mw_math_png'    => 'Palaging ilarawan sa anyong PNG',
-'mw_math_simple' => 'HTML kung napakapayak o kaya PNG kung iba',
-'mw_math_html'   => 'HTML kung maaari o kaya PNG kapag iba',
-'mw_math_source' => "Iwanan bilang TeX (para sa mga panghanap na pangteksto o ''text browser'')",
-'mw_math_modern' => 'Irekomenda para sa makabagong mga panghanap',
-'mw_math_mathml' => 'MathML kung maaari (sinusubok pa)',
-
-# Math errors
-'math_failure'          => 'Nabigo sa pagbanghay',
-'math_unknown_error'    => 'hindi nalalamang kamalian',
-'math_unknown_function' => 'hindi nalalamang tungkulin',
-'math_lexing_error'     => 'kamalian sa pagbabatas',
-'math_syntax_error'     => 'kamalian sa palaugnayan',
-'math_image_error'      => 'Nabigo ang pagpapalit upang maging PNG; suriin kung tama ang pagtatalaga ng latex at dvipng (o dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Hindi maisulat sa o makalikha ng pansamantalang direktoryong pangmatematika',
-'math_bad_output'       => 'Hindi maisulat sa o makalikha ng direktoryo ng produktong pangmatematika',
-'math_notexvc'          => 'Nawawala ang maisasakatuparang texvc;
-pakitingnan ang matematika/BASAHINAKO para maisaayos ang konpigurasyon.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Tatakan bilang napatrolya na',
@@ -3268,11 +3253,12 @@ $1",
 'trackbackdeleteok' => "Tagumpay na nabura ang ''trackback''.",
 
 # Delete conflict
-'deletedwhileediting' => 'Babala: Binura ang pahinang ito pagkaraan mong simulan ang pagbago!',
-'confirmrecreate'     => "Binura ni [[User:$1|$1]] ([[User talk:$1|usapan]]) ang pahinang ito pagkaraan mong magumpisang magbago na may dahilang:
+'deletedwhileediting'      => 'Babala: Binura ang pahinang ito pagkaraan mong simulan ang pagbago!',
+'confirmrecreate'          => "Binura ni [[User:$1|$1]] ([[User talk:$1|usapan]]) ang pahinang ito pagkaraan mong magumpisang magbago na may dahilang:
 : ''$2''
 Pakitiyak kung ibig mo talagang likhain muli ang pahinang ito.",
-'recreate'            => 'Likhain muli',
+'confirmrecreate-noreason' => 'Binura ng tagagamit na si [[User:$1|$1]] ([[User talk:$1|talk]]) ang pahinang ito pagkaraang simulan mo ang pagbago.  Mangyaring tiyakan na nais mo talagang muling likhain ang pahinang ito.',
+'recreate'                 => 'Likhain muli',
 
 'unit-pixel' => 'px',
 

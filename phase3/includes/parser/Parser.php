@@ -68,7 +68,7 @@ class Parser {
 
 	# Constants needed for external link processing
 	# Everything except bracket, space, or control characters
-	const EXT_LINK_URL_CLASS = '[^][<>"\\x00-\\x20\\x7F]';
+	const EXT_LINK_URL_CLASS = '(?:[^\]\[<>"\\x00-\\x20\\x7F]|(?:\[\]))';
 	const EXT_IMAGE_REGEX = '/^(http:\/\/|https:\/\/)([^][<>"\\x00-\\x20\\x7F]+)
 		\\/([A-Za-z0-9_.,~%\\-+&;#*?!=()@\\x80-\\xFF]+)\\.((?i)gif|png|jpg|jpeg)$/Sx';
 
@@ -154,14 +154,12 @@ class Parser {
 
 	/**
 	 * Constructor
-	 *
-	 * @public
 	 */
-	function __construct( $conf = array() ) {
+	public function __construct( $conf = array() ) {
 		$this->mConf = $conf;
 		$this->mUrlProtocols = wfUrlProtocols();
 		$this->mExtLinkBracketedRegex = '/\[(\b(' . wfUrlProtocols() . ')'.
-			'[^][<>"\\x00-\\x20\\x7F]+) *([^\]\\x00-\\x08\\x0a-\\x1F]*?)\]/S';
+			'(?:[^\]\[<>"\x00-\x20\x7F]|\[\])+) *([^\]\\x00-\\x08\\x0a-\\x1F]*?)\]/S';
 		if ( isset( $conf['preprocessorClass'] ) ) {
 			$this->mPreprocessorClass = $conf['preprocessorClass'];
 		} elseif ( extension_loaded( 'domxml' ) ) {
@@ -1127,8 +1125,7 @@ class Parser {
 					substr( $m[0], 0, 20 ) . '"' );
 			}
 			$url = wfMsgForContent( $urlmsg, $id );
-			$sk = $this->mOptions->getSkin( $this->mTitle );
-			return $sk->makeExternalLink( $url, "{$keyword} {$id}", true, $CssClass );
+			return Linker::makeExternalLink( $url, "{$keyword} {$id}", true, $CssClass );
 		} elseif ( isset( $m[5] ) && $m[5] !== '' ) {
 			# ISBN
 			$isbn = $m[5];
@@ -1155,7 +1152,6 @@ class Parser {
 		global $wgContLang;
 		wfProfileIn( __METHOD__ );
 
-		$sk = $this->mOptions->getSkin( $this->mTitle );
 		$trail = '';
 
 		# The characters '<' and '>' (which were escaped by
@@ -1186,7 +1182,7 @@ class Parser {
 		$text = $this->maybeMakeExternalImage( $url );
 		if ( $text === false ) {
 			# Not an image, make a link
-			$text = $sk->makeExternalLink( $url, $wgContLang->markNoConversion($url), true, 'free',
+			$text = Linker::makeExternalLink( $url, $wgContLang->markNoConversion($url), true, 'free',
 				$this->getExternalLinkAttribs( $url ) );
 			# Register it in the output object...
 			# Replace unnecessary URL escape codes with their equivalent characters
@@ -1402,8 +1398,6 @@ class Parser {
 		global $wgContLang;
 		wfProfileIn( __METHOD__ );
 
-		$sk = $this->mOptions->getSkin( $this->mTitle );
-
 		$bits = preg_split( $this->mExtLinkBracketedRegex, $text, -1, PREG_SPLIT_DELIM_CAPTURE );
 		$s = array_shift( $bits );
 
@@ -1461,7 +1455,7 @@ class Parser {
 			# This means that users can paste URLs directly into the text
 			# Funny characters like ö aren't valid in URLs anyway
 			# This was changed in August 2004
-			$s .= $sk->makeExternalLink( $url, $text, false, $linktype,
+			$s .= Linker::makeExternalLink( $url, $text, false, $linktype,
 				$this->getExternalLinkAttribs( $url ) ) . $dtrail . $trail;
 
 			# Register link in the output object.
@@ -1551,7 +1545,6 @@ class Parser {
 	 * @private
 	 */
 	function maybeMakeExternalImage( $url ) {
-		$sk = $this->mOptions->getSkin( $this->mTitle );
 		$imagesfrom = $this->mOptions->getAllowExternalImagesFrom();
 		$imagesexception = !empty( $imagesfrom );
 		$text = false;
@@ -1573,7 +1566,7 @@ class Parser {
 			 || ( $imagesexception && $imagematch ) ) {
 			if ( preg_match( self::EXT_IMAGE_REGEX, $url ) ) {
 				# Image found
-				$text = $sk->makeExternalImage( $url );
+				$text = Linker::makeExternalImage( $url );
 			}
 		}
 		if ( !$text && $this->mOptions->getEnableImageWhitelist()
@@ -1586,7 +1579,7 @@ class Parser {
 				}
 				if ( preg_match( '/' . str_replace( '/', '\\/', $entry ) . '/i', $url ) ) {
 					# Image matches a whitelist entry
-					$text = $sk->makeExternalImage( $url );
+					$text = Linker::makeExternalImage( $url );
 					break;
 				}
 			}
@@ -1627,7 +1620,6 @@ class Parser {
 			$e1_img = "/^([{$tc}]+)\\|(.*)\$/sD";
 		}
 
-		$sk = $this->mOptions->getSkin( $this->mTitle );
 		$holders = new LinkHolderArray( $this );
 
 		# split the entire text string on occurences of [[
@@ -1862,11 +1854,11 @@ class Parser {
 							$holders->merge( $this->replaceInternalLinks2( $text ) );
 						}
 						# cloak any absolute URLs inside the image markup, so replaceExternalLinks() won't touch them
-						$s .= $prefix . $this->armorLinks( $this->makeImage( $nt, $text, $holders ) ) . $trail;
+						$s .= $prefix . $this->armorLinks(
+							$this->makeImage( $nt, $text, $holders ) ) . $trail;
 					} else {
 						$s .= $prefix . $trail;
 					}
-					$this->mOutput->addImage( $nt->getDBkey() );
 					wfProfileOut( __METHOD__."-image" );
 					continue;
 
@@ -1900,7 +1892,7 @@ class Parser {
 			# Self-link checking
 			if ( $nt->getFragment() === '' && $ns != NS_SPECIAL ) {
 				if ( in_array( $nt->getPrefixedText(), $selflink, true ) ) {
-					$s .= $prefix . $sk->makeSelfLinkObj( $nt, $text, '', $trail );
+					$s .= $prefix . Linker::makeSelfLinkObj( $nt, $text, '', $trail );
 					continue;
 				}
 			}
@@ -1910,16 +1902,23 @@ class Parser {
 			if ( $ns == NS_MEDIA ) {
 				wfProfileIn( __METHOD__."-media" );
 				# Give extensions a chance to select the file revision for us
-				$skip = $time = false;
-				wfRunHooks( 'BeforeParserMakeImageLinkObj', array( &$this, &$nt, &$skip, &$time ) );
+				$skip = $time = $sha1 = $descQuery = false;
+				wfRunHooks( 'BeforeParserMakeImageLinkObj',
+					array( &$this, &$nt, &$skip, &$time, &$descQuery, &$sha1 ) );
 				if ( $skip ) {
+					$this->mOutput->addImage( $nt->getDBkey() ); // register
 					$link = $sk->link( $nt );
 				} else {
-					$link = $sk->makeMediaLinkObj( $nt, $text, $time );
+					# Fetch and register the file
+					$file = $this->fetchFile( $nt, $time, $sha1 );
+					if ( $file ) {
+						$nt = $file->getTitle(); // file title may be different (via hooks)
+					}
+					$link = $sk->makeMediaLinkFile( $nt, $file, $text );
 				}
 				# Cloak with NOPARSE to avoid replacement in replaceExternalLinks
-				$s .= $prefix . $this->armorLinks( $link ) . $trail;
-				$this->mOutput->addImage( $nt->getDBkey() );
+				$s .= $prefix . $this->armorLinks(
+					Linker::makeMediaLinkFile( $nt, $file, $text ) ) . $trail;
 				wfProfileOut( __METHOD__."-media" );
 				continue;
 			}
@@ -1935,7 +1934,7 @@ class Parser {
 				$s .= $this->makeKnownLinkHolder( $nt, $text, array(), $trail, $prefix );
 			} else {
 				# Links will be added to the output link list after checking
-				$s .= $holders->makeHolder( $nt, $text, '', $trail, $prefix );
+				$s .= $holders->makeHolder( $nt, $text, array(), $trail, $prefix );
 			}
 			wfProfileOut( __METHOD__."-always_known" );
 		}
@@ -1951,7 +1950,7 @@ class Parser {
 	 *
 	 * @deprecated
 	 */
-	function makeLinkHolder( &$nt, $text = '', $query = '', $trail = '', $prefix = '' ) {
+	function makeLinkHolder( &$nt, $text = '', $query = array(), $trail = '', $prefix = '' ) {
 		return $this->mLinkHolders->makeHolder( $nt, $text, $query, $trail, $prefix );
 	}
 
@@ -1975,14 +1974,11 @@ class Parser {
 		if ( is_string( $query ) ) {
 			$query = wfCgiToArray( $query );
 		}
-
-		$sk = $this->mOptions->getSkin( $this->mTitle );
-
 		if ( $text == '' ) {
-			$text = $sk->linkText( $title );
+			$text = htmlspecialchars( $nt->getPrefixedText() );
 		}
 
-		$link = $sk->linkKnown( $nt, "$prefix$text$inside", array(), $query );
+		$link = Linker::linkKnown( $nt, "$prefix$text$inside", array(), $query );
 
 		return $this->armorLinks( $link ) . $trail;
 	}
@@ -3355,14 +3351,16 @@ class Parser {
 		for ( $i = 0; $i < 2 && is_object( $title ); $i++ ) {
 			# Give extensions a chance to select the revision instead
 			$id = false; # Assume current
-			wfRunHooks( 'BeforeParserFetchTemplateAndtitle', array( $parser, &$title, &$skip, &$id ) );
+			wfRunHooks( 'BeforeParserFetchTemplateAndtitle',
+				array( $parser, $title, &$skip, &$id ) );
 
 			if ( $skip ) {
 				$text = false;
 				$deps[] = array(
-					'title' => $title,
-					'page_id' => $title->getArticleID(),
-					'rev_id' => null );
+					'title' 	=> $title,
+					'page_id' 	=> $title->getArticleID(),
+					'rev_id' 	=> null
+				);
 				break;
 			}
 			$rev = $id ? Revision::newFromId( $id ) : Revision::newFromTitle( $title );
@@ -3374,9 +3372,9 @@ class Parser {
 			}
 
 			$deps[] = array(
-				'title' => $title,
-				'page_id' => $title->getArticleID(),
-				'rev_id' => $rev_id );
+				'title' 	=> $title,
+				'page_id' 	=> $title->getArticleID(),
+				'rev_id' 	=> $rev_id );
 
 			if ( $rev ) {
 				$text = $rev->getText();
@@ -3720,9 +3718,6 @@ class Parser {
 			$enoughToc = true;
 		}
 
-		# We need this to perform operations on the HTML
-		$sk = $this->mOptions->getSkin( $this->mTitle );
-
 		# headline counter
 		$headlineCount = 0;
 		$numVisible = 0;
@@ -3773,7 +3768,7 @@ class Parser {
 				$sublevelCount[$toclevel] = 0;
 				if ( $toclevel<$wgMaxTocLevel ) {
 					$prevtoclevel = $toclevel;
-					$toc .= $sk->tocIndent();
+					$toc .= Linker::tocIndent();
 					$numVisible++;
 				}
 			} elseif ( $level < $prevlevel && $toclevel > 1 ) {
@@ -3796,16 +3791,16 @@ class Parser {
 				if ( $toclevel<$wgMaxTocLevel ) {
 					if ( $prevtoclevel < $wgMaxTocLevel ) {
 						# Unindent only if the previous toc level was shown :p
-						$toc .= $sk->tocUnindent( $prevtoclevel - $toclevel );
+						$toc .= Linker::tocUnindent( $prevtoclevel - $toclevel );
 						$prevtoclevel = $toclevel;
 					} else {
-						$toc .= $sk->tocLineEnd();
+						$toc .= Linker::tocLineEnd();
 					}
 				}
 			} else {
 				# No change in level, end TOC line
 				if ( $toclevel<$wgMaxTocLevel ) {
-					$toc .= $sk->tocLineEnd();
+					$toc .= Linker::tocLineEnd();
 				}
 			}
 
@@ -3913,7 +3908,7 @@ class Parser {
 				$legacyAnchor .= '_' . $refers[$legacyArrayKey];
 			}
 			if ( $enoughToc && ( !isset( $wgMaxTocLevel ) || $toclevel < $wgMaxTocLevel ) ) {
-				$toc .= $sk->tocLine( $anchor, $tocline,
+				$toc .= Linker::tocLine( $anchor, $tocline,
 					$numbering, $toclevel, ( $isTemplate ? false : $sectionIndex ) );
 			}
 
@@ -3968,7 +3963,7 @@ class Parser {
 			} else {
 				$editlink = '';
 			}
-			$head[$headlineCount] = $sk->makeHeadline( $level,
+			$head[$headlineCount] = Linker::makeHeadline( $level,
 				$matches['attrib'][$headlineCount], $anchor, $headline,
 				$editlink, $legacyAnchor );
 
@@ -3984,9 +3979,9 @@ class Parser {
 
 		if ( $enoughToc ) {
 			if ( $prevtoclevel > 0 && $prevtoclevel < $wgMaxTocLevel ) {
-				$toc .= $sk->tocUnindent( $prevtoclevel - 1 );
+				$toc .= Linker::tocUnindent( $prevtoclevel - 1 );
 			}
-			$toc = $sk->tocList( $toc, $this->mOptions->getUserLang() );
+			$toc = Linker::tocList( $toc, $this->mOptions->getUserLang() );
 			$this->mOutput->setTOCHTML( $toc );
 		}
 
@@ -4493,8 +4488,6 @@ class Parser {
 		$ig->setParser( $this );
 		$ig->setHideBadImages();
 		$ig->setAttributes( Sanitizer::validateTagAttributes( $params, 'table' ) );
-		$ig->useSkin( $this->mOptions->getSkin( $this->mTitle ) );
-		$ig->mRevisionId = $this->mRevisionId;
 
 		if ( isset( $params['showfilename'] ) ) {
 			$ig->setShowFilename( true );
@@ -4548,11 +4541,6 @@ class Parser {
 			$html = $this->recursiveTagParse( trim( $label ) );
 
 			$ig->add( $nt, $html );
-
-			# Only add real images (bug #5586)
-			if ( $nt->getNamespace() == NS_FILE ) {
-				$this->mOutput->addImage( $nt->getDBkey() );
-			}
 		}
 		return $ig->toHTML();
 	}
@@ -4603,6 +4591,7 @@ class Parser {
 	 * @param $title Title
 	 * @param $options String
 	 * @param $holders LinkHolderArray
+	 * @return string HTML
 	 */
 	function makeImage( $title, $options, $holders = false ) {
 		# Check if the options text is of the form "options|alt text"
@@ -4631,18 +4620,20 @@ class Parser {
 		#  * text-bottom
 
 		$parts = StringUtils::explode( "|", $options );
-		$sk = $this->mOptions->getSkin( $this->mTitle );
 
 		# Give extensions a chance to select the file revision for us
-		$skip = $time = $descQuery = false;
-		wfRunHooks( 'BeforeParserMakeImageLinkObj', array( &$this, &$title, &$skip, &$time, &$descQuery ) );
-
+		$skip = $time = $sha1 = $descQuery = false;
+		wfRunHooks( 'BeforeParserMakeImageLinkObj',
+			array( &$this, &$title, &$skip, &$time, &$descQuery, &$sha1 ) );
 		if ( $skip ) {
+			$this->mOutput->addImage( $title->getDBkey() ); // register
 			return $sk->link( $title );
 		}
-
-		# Get the file
-		$file = wfFindFile( $title, array( 'time' => $time ) );
+		# Fetch and register the file
+		$file = $this->fetchFile( $title, $time, $sha1 );
+		if ( $file ) {
+			$title = $file->getTitle(); // file title may be different (via hooks)
+		}
 		# Get parameter map
 		$handler = $file ? $file->getHandler() : false;
 
@@ -4797,7 +4788,8 @@ class Parser {
 		wfRunHooks( 'ParserMakeImageParams', array( $title, $file, &$params ) );
 
 		# Linker does the rest
-		$ret = $sk->makeImageLink2( $title, $file, $params['frame'], $params['handler'], $time, $descQuery, $this->mOptions->getThumbSize() );
+		$ret = Linker::makeImageLink2( $title, $file, $params['frame'], $params['handler'],
+			$time, $descQuery, $this->mOptions->getThumbSize() );
 
 		# Give the handler a chance to modify the parser object
 		if ( $handler ) {
@@ -4933,6 +4925,10 @@ class Parser {
 		if ( $sectionIndex == 0 ) {
 			# Section zero doesn't nest, level=big
 			$targetLevel = 1000;
+			if ( !$node ) {
+				# The page definitely exists - we checked that earlier - so it must be blank: see bug #14005
+				return $text;
+			}
 		} else {
 			while ( $node ) {
 				if ( $node->getName() === 'h' ) {

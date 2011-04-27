@@ -471,8 +471,6 @@ Możliwe co właśńy zmjyńiłżeś swoje hasło abo poprosiłżeś uo nowe tym
 'extlink_tip'     => 'Link zewnyntřny (pamjyntej uo prefikśe http:// )',
 'headline_sample' => 'Tekst naguůwka',
 'headline_tip'    => 'Naguůwek 2. poźůma',
-'math_sample'     => 'Sam tukej wprowadź wzůr',
-'math_tip'        => 'Wzůr matymatyčny (LaTeX)',
 'nowiki_sample'   => 'Wćepej sam tekst bez formatowańo',
 'nowiki_tip'      => 'Zignoruj formatowańy wiki',
 'image_tip'       => 'Plik uosadzůny',
@@ -826,16 +824,15 @@ Inkśi admińistratoři {{GRAMMAR:D.lp|{{SITENAME}}}} dali bydům mjeć dostymp 
 'changepassword'            => 'Zmjana hasua',
 'prefs-skin'                => 'Skůrka',
 'skin-preview'              => 'podglůnd',
-'prefs-math'                => 'Wzory',
 'datedefault'               => 'Důmyślny',
 'prefs-datetime'            => 'Data a czas',
 'prefs-personal'            => 'Dane užytkowńika',
 'prefs-rc'                  => 'Ńydowno pomjyńane',
 'prefs-watchlist'           => 'Pozůrlista',
 'prefs-watchlist-days'      => 'Ličba dńi widočnych na liśće artikli, na kere dowoš pozůr:',
-'prefs-watchlist-days-max'  => '(maksimum 7 dńi)',
+'prefs-watchlist-days-max'  => 'Maksimum 7 dńi',
 'prefs-watchlist-edits'     => 'Ličba půmjyńań pokazywanych we rozšyřůnyj liśće artiklůw, na kere dowoš pozůr:',
-'prefs-watchlist-edits-max' => '(maksymalno liczba: 1000)',
+'prefs-watchlist-edits-max' => 'Maksymalno liczba: 1000',
 'prefs-misc'                => 'Roztůmajte',
 'prefs-resetpass'           => 'Zmjyń hasło',
 'saveprefs'                 => 'Naškryflej',
@@ -1822,8 +1819,7 @@ Coby přejřeć lista uobecńy aktywnych zawarć, přyńdź na zajta [[Special:I
 'ipb_expiry_invalid'              => 'Felerny čas wygaśńjyńćo zawarća.',
 'ipb_expiry_temp'                 => 'Schrůńůne mjano użytkowńika noleży zawrzić trwale.',
 'ipb_already_blocked'             => '"$1" je już zawarty uod sprowjyń',
-'ipb-needreblock'                 => '== Istńejůnce zawarće ==
-$1 je już zawarty uod sprowjyń. Chcesz půmjyńić sztalowańa zawarćo?',
+'ipb-needreblock'                 => '$1 je już zawarty uod sprowjyń. Chcesz půmjyńić sztalowańa zawarćo?',
 'ipb_cant_unblock'                => 'Feler: Zawarće uo ID $1 ńy zostouo znejdźone. Moguo uone zostać oudymkńynte wčeśnij.',
 'ipb_blocked_as_range'            => 'Feler: Adres IP $1 ńy zostou zawarty bezpośredńo i ńy može zostać uodymkńjynty.
 Noležy uůn do zawartygo zakresu adresůw $2. Uodymknůńć možno ino couki zakres.',
@@ -2100,25 +2096,6 @@ Nojprawdopodobńij zostoło to spowodowane bez link do zewnyntrznyj zajty intern
 'numwatchers'    => 'Ličba dowajůncych pozůr: $1',
 'numauthors'     => 'Ličba autorůw (artikel) $1',
 'numtalkauthors' => 'Ličba autorůw (zajta godki): $1',
-
-# Math options
-'mw_math_png'    => 'Zawše gyneruj grafika PNG',
-'mw_math_simple' => 'HTML dla prostych, do pozostouych grafika PNG',
-'mw_math_html'   => 'Sprůbuj HTML, a jak ńy idźe užyj grafiki PNG',
-'mw_math_source' => 'Uostow w TeXu (dla přyglůndarek tekstowych)',
-'mw_math_modern' => 'HTML – zalecane do nowych přyglůndarek',
-'mw_math_mathml' => 'MathML jak dostympny (eksperymyntalne)',
-
-# Math errors
-'math_failure'          => 'Parser ńy můg rozpoznać',
-'math_unknown_error'    => 'ńyznany feler',
-'math_unknown_function' => 'ńyznano funkcyjo',
-'math_lexing_error'     => 'feler leksera',
-'math_syntax_error'     => 'felerno skuadńa',
-'math_image_error'      => 'kůnwersyjo do formatu PNG ńy powjodua śe; uobadej, eli poprawńy zainštalowane sům lotex, dvips, gs i convert',
-'math_bad_tmpdir'       => 'Ńy idźe utwořić abo naškryflać w tymčasowym katalůgu do wzorůw matymatyčnych',
-'math_bad_output'       => 'Ńy idźe utwořić abo naškryflać we wyjśćowym katalůgu do wzorůw matymatyčnych',
-'math_notexvc'          => 'Ńy ma sam texvc; zapoznej śe z math/README w celu kůnfiguracyje.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'uoznoč sprawjyńy kej „sprawdzůne”',

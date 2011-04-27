@@ -179,7 +179,8 @@ class DatabaseOracle extends DatabaseBase {
 	function __construct( $server = false, $user = false, $password = false, $dbName = false,
 		$flags = 0, $tablePrefix = 'get from global' )
 	{
-		$tablePrefix = $tablePrefix == 'get from global' ? $tablePrefix : strtoupper( $tablePrefix );
+		global $wgDBprefix;
+		$tablePrefix = $tablePrefix == 'get from global' ? strtoupper( $wgDBprefix ) : strtoupper( $tablePrefix );
 		parent::__construct( $server, $user, $password, $dbName, $flags, $tablePrefix );
 		wfRunHooks( 'DatabaseOraclePostInit', array( $this ) );
 	}
@@ -632,8 +633,7 @@ class DatabaseOracle extends DatabaseBase {
 		return $retval;
 	}
 
-	function tableName( $name ) {
-		global $wgSharedDB, $wgSharedPrefix, $wgSharedTables;
+	function tableName( $name, $quoted ) {
 		/*
 		Replace reserved words with better ones
 		Using uppercase because that's the only way Oracle can handle
@@ -648,46 +648,7 @@ class DatabaseOracle extends DatabaseBase {
 				break;
 		}
 
-		/*
-			The rest of procedure is equal to generic Databse class
-			except for the quoting style
-		*/
-		if ( $name[0] == '"' && substr( $name, - 1, 1 ) == '"' ) {
-			return $name;
-		}
-		if ( preg_match( '/(^|\s)(DISTINCT|JOIN|ON|AS)(\s|$)/i', $name ) !== 0 ) {
-			return $name;
-		}
-		$dbDetails = array_reverse( explode( '.', $name, 2 ) );
-		if ( isset( $dbDetails[1] ) ) {
-			@list( $table, $database ) = $dbDetails;
-		} else {
-			@list( $table ) = $dbDetails;
-		}
-
-		$prefix = $this->mTablePrefix;
-
-		if ( isset( $database ) ) {
-			$table = ( $table[0] == '`' ? $table : "`{$table}`" );
-		}
-
-		if ( !isset( $database ) && isset( $wgSharedDB ) && $table[0] != '"'
-			&& isset( $wgSharedTables )
-			&& is_array( $wgSharedTables )
-			&& in_array( $table, $wgSharedTables )
-		) {
-			$database = $wgSharedDB;
-			$prefix   = isset( $wgSharedPrefix ) ? $wgSharedPrefix : $prefix;
-		}
-
-		if ( isset( $database ) ) {
-			$database = ( $database[0] == '"' ? $database : "\"{$database}\"" );
-		}
-		$table = ( $table[0] == '"') ? $table : "\"{$prefix}{$table}\"" ;
-
-		$tableName = ( isset( $database ) ? "{$database}.{$table}" : "{$table}" );
-
-		return strtoupper( $tableName );
+		return parent::tableName( strtoupper( $name ), $quoted );
 	}
 
 	/**
@@ -822,16 +783,19 @@ class DatabaseOracle extends DatabaseBase {
 
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseOracle::duplicateTableStructure' ) {
 		global $wgDBprefix;
+		$this->setFlag( DBO_DDLMODE );
 		
 		$temporary = $temporary ? 'TRUE' : 'FALSE';
 
-		$newName = trim( strtoupper( $newName ), '"');
-		$oldName = trim( strtoupper( $oldName ), '"');
+		$newName = strtoupper( $newName );
+		$oldName = strtoupper( $oldName );
 
-		$tabName = substr( $newName, strlen( $wgDBprefix ) );
-		$oldPrefix = substr( $oldName, 0, strlen( $oldName ) - strlen( $tabName ) );
+		$tabName = $this->addIdentifierQuotes( substr( $newName, strlen( $wgDBprefix ) ) );
+		$oldPrefix = $this->addIdentifierQuotes( substr( $oldName, 0, strlen( $oldName ) - strlen( $tabName ) ) );
+		$newPrefix = $this->addIdentifierQuotes( $wgDBprefix );
 
-		return $this->doQuery( 'BEGIN DUPLICATE_TABLE(\'' . $tabName . '\', \'' . $oldPrefix . '\', \'' . strtoupper( $wgDBprefix ) . '\', ' . $temporary . '); END;' );
+		$this->clearFlag( DBO_DDLMODE );
+		return $this->doQuery( "BEGIN DUPLICATE_TABLE( $tabName, $oldPrefix, $newPrefix, $temporary ); END;" );
 	}
 
 	function listTables( $prefix = null, $fname = 'DatabaseOracle::listTables' ) {
@@ -1114,6 +1078,12 @@ class DatabaseOracle extends DatabaseBase {
 	}
 
 	public function addIdentifierQuotes( $s ) {
+		return parent::addIdentifierQuotes( $s );
+		
+		/* Does this old code make any sense?
+		 * We could always use quoted identifier.
+		 * See http://download.oracle.com/docs/cd/B19306_01/server.102/b14200/sql_elements008.htm
+		 */
 		if ( !$this->mFlags & DBO_DDLMODE ) {
 			$s = '"' . str_replace( '"', '""', $s ) . '"';
 		}

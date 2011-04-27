@@ -495,12 +495,8 @@ abstract class DatabaseBase implements DatabaseType {
 	function __construct( $server = false, $user = false, $password = false, $dbName = false,
 		$flags = 0, $tablePrefix = 'get from global'
 	) {
-		global $wgOut, $wgDBprefix, $wgCommandLineMode;
+		global $wgDBprefix, $wgCommandLineMode;
 
-		# Can't get a reference if it hasn't been set yet
-		if ( !isset( $wgOut ) ) {
-			$wgOut = null;
-		}
 		$this->mFlags = $flags;
 
 		if ( $this->mFlags & DBO_DEFAULT ) {
@@ -1550,15 +1546,17 @@ abstract class DatabaseBase implements DatabaseType {
 	 * when calling query() directly.
 	 *
 	 * @param $name String: database table name
+	 * @param $quoted Boolean: Automatically pass the table name through 
+	 *          addIdentifierQuotes() so that it can be used in a query.
 	 * @return String: full database name
 	 */
-	function tableName( $name ) {
+	function tableName( $name, $quoted = true ) {
 		global $wgSharedDB, $wgSharedPrefix, $wgSharedTables;
 		# Skip the entire process when we have a string quoted on both ends.
 		# Note that we check the end so that we will still quote any use of
 		# use of `database`.table. But won't break things if someone wants
 		# to query a database table with a dot in the name.
-		if ( $name[0] == '`' && substr( $name, -1, 1 ) == '`' ) {
+		if ( $this->isQuotedIdentifier( $name ) ) {
 			return $name;
 		}
 
@@ -1584,17 +1582,11 @@ abstract class DatabaseBase implements DatabaseType {
 		}
 		$prefix = $this->mTablePrefix; # Default prefix
 
-		# A database name has been specified in input. Quote the table name
-		# because we don't want any prefixes added.
-		if ( isset( $database ) ) {
-			$table = ( $table[0] == '`' ? $table : "`{$table}`" );
-		}
-
 		# Note that we use the long format because php will complain in in_array if
 		# the input is not an array, and will complain in is_array if it is not set.
 		if ( !isset( $database ) # Don't use shared database if pre selected.
 		 && isset( $wgSharedDB ) # We have a shared database
-		 && $table[0] != '`' # Paranoia check to prevent shared tables listing '`table`'
+		 && !$this->isQuotedIdentifier( $table ) # Paranoia check to prevent shared tables listing '`table`'
 		 && isset( $wgSharedTables )
 		 && is_array( $wgSharedTables )
 		 && in_array( $table, $wgSharedTables ) ) { # A shared table is selected
@@ -1604,9 +1596,14 @@ abstract class DatabaseBase implements DatabaseType {
 
 		# Quote the $database and $table and apply the prefix if not quoted.
 		if ( isset( $database ) ) {
-			$database = ( $database[0] == '`' ? $database : "`{$database}`" );
+			$database = ( !$quoted || $this->isQuotedIdentifier( $database ) ? $database : $this->addIdentifierQuotes( $database ) );
+			$prefix = '';
 		}
-		$table = ( $table[0] == '`' ? $table : "`{$prefix}{$table}`" );
+		
+		$table = "{$prefix}{$table}";
+		if ( $quoted && !$this->isQuotedIdentifier( $table ) ) {
+			$table = $this->addIdentifierQuotes( "{$table}" );
+		}
 
 		# Merge our database and table into our final table name.
 		$tableName = ( isset( $database ) ? "{$database}.{$table}" : "{$table}" );
@@ -1781,6 +1778,15 @@ abstract class DatabaseBase implements DatabaseType {
 	 */
 	public function addIdentifierQuotes( $s ) {
 		return '"' . str_replace( '"', '""', $s ) . '"';
+	}
+
+	/**
+	 * Returns if the given identifier looks quoted or not according to 
+	 * the database convention for quoting identifiers .
+	 * @return boolean
+	 */
+	public function isQuotedIdentifier( $name ) {
+		return $name[0] == '"' && substr( $name, -1, 1 ) == '"';
 	}
 
 	/**
@@ -2347,6 +2353,8 @@ abstract class DatabaseBase implements DatabaseType {
 	 * Note that unlike most database abstraction functions, this function does not
 	 * automatically append database prefix, because it works at a lower
 	 * abstraction level.
+	 * The table names passed to this function shall not be quoted (this 
+	 * function calls addIdentifierQuotes when needed).
 	 *
 	 * @param $oldName String: name of table whose structure should be copied
 	 * @param $newName String: name of table to be created
@@ -2980,7 +2988,7 @@ class DBConnectionError extends DBError {
 
 		$this->error = Html::element( 'span', array( 'dir' => 'ltr' ), $this->error );
 
-		$noconnect = "<p><strong>$sorry</strong><br />$again</p><p><small>$info</small></p>";
+		$noconnect = "<h1>$sorry</h1><p>$again</p><p><small>$info</small></p>";
 		$text = str_replace( '$1', $this->error, $noconnect );
 
 		if ( $wgShowDBErrorBacktrace ) {

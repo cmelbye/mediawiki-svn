@@ -694,8 +694,6 @@ Vläicht hutt Dir Äert Passwuert scho geännert oder en neit temporäert Passwu
 'extlink_tip'     => 'Externe Link (Vergiesst net den http:// Prefix)',
 'headline_sample' => 'Titel Text',
 'headline_tip'    => 'Iwwerschrëft vum Niveau 2',
-'math_sample'     => 'Formel hei asetzen',
-'math_tip'        => 'Mathematesch Formel (LaTeX)',
 'nowiki_sample'   => 'Net-formatéierten Text hei androen',
 'nowiki_tip'      => 'Wiki-Format ignoréieren',
 'image_sample'    => 'Beispill.jpg',
@@ -886,7 +884,7 @@ Et däerfen net méi wéi $2 {{PLURAL:$2|Ufro|Ufroe}} sinn, aktuell {{PLURAL:$2|
 'language-converter-depth-warning'        => "D'Limite vun der déift vun der Sproochëmwandlung gouf iwwerschratt ($1)",
 
 # "Undo" feature
-'undo-success' => "D'Ännerung gëtt réckgängeg gemaach. Iwwerpréift w.e.g. de Verglach ënnedrënner fir nozekuckeen ob et esou richteg ass, duerno späichert w.e.g d'Ännerungen of fir dës Aktioun ofzeschléissen.",
+'undo-success' => "D'Ännerung gëtt réckgängeg gemaach. Iwwerpréift w.e.g. de Verglach ënnendrënner fir nozekuckeen ob et esou richteg ass, duerno späichert w.e.g d'Ännerungen of, fir dës Aktioun ofzeschléissen.",
 'undo-failure' => "D'Ännerung konnt net réckgängeg gemaach ginn, wëll de betraffenen Abschnitt an der Tëschenzäit geännert gouf.",
 'undo-norev'   => "D'Ännerung kann net zréckgesat ginn, well et se net gëtt oder well se scho geläscht ass.",
 'undo-summary' => 'Ännerung $1 vu(n) [[Special:Contributions/$2|$2]] ([[User talk:$2|Diskussioun]] | [[Special:Contributions/$2|{{MediaWiki:Contribslink}}]]) annulléieren.',
@@ -1186,16 +1184,15 @@ Denkt w.e.g drunn datt d'Navigatiounslinken d'Wiel vun de Versiounen nees zréck
 'changepassword'                => 'Passwuert änneren',
 'prefs-skin'                    => 'Skin',
 'skin-preview'                  => 'Kucken',
-'prefs-math'                    => 'Math/TeX',
 'datedefault'                   => 'Egal (Standard)',
 'prefs-datetime'                => 'Datum an Auerzäit',
 'prefs-personal'                => 'Benotzerprofil',
 'prefs-rc'                      => 'Rezent Ännerungen',
 'prefs-watchlist'               => 'Iwwerwaachungslëscht',
 'prefs-watchlist-days'          => 'Zuel vun den Deeg, déi an der Iwwerwaachungslëscht ugewise solle ginn:',
-'prefs-watchlist-days-max'      => '(Maximal 7 Deeg)',
+'prefs-watchlist-days-max'      => 'Maximal 7 Deeg',
 'prefs-watchlist-edits'         => 'Maximal Zuel vun den Ännerungen déi an der erweiderter Iwwerwaachungslëscht ugewise solle ginn:',
-'prefs-watchlist-edits-max'     => '(Maximal Zuel: 1000)',
+'prefs-watchlist-edits-max'     => 'Maximal Zuel: 1000',
 'prefs-watchlist-token'         => 'Iwwerwaachungslëscht-Token:',
 'prefs-misc'                    => 'Verschiddenes',
 'prefs-resetpass'               => 'Passwuert änneren',
@@ -1646,18 +1643,23 @@ E kann net op d'Sécherheet nogekuckt ginn.",
 'uploadstash-refresh'  => 'Lëscht vun de Fichieren aktualiséieren',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Zougang refuséiert',
-'img-auth-notindir'     => 'De gefrote Pad ass net am Upload-Repertoire agestallt.',
-'img-auth-badtitle'     => 'Aus "$1" ka kee valabelen Titel gemaach ginn.',
-'img-auth-nologinnWL'   => 'Dir sidd net ageloggt a(n) "$1" ass net op der Wäisser Lëscht.',
-'img-auth-nofile'       => 'De Fichier "$1" gëtt et net.',
-'img-auth-isdir'        => 'Dir versicht op de Repertoire "$1" zouzegräifen.
+'img-auth-accessdenied'     => 'Zougang refuséiert',
+'img-auth-nopathinfo'       => 'PATH_INFO feelt.
+Äre Server ass net agestallt fir déi Informatioun weiderzeginn.
+Et kann u CGI leien an datt imag_auth net ënnerstëtzt gëtt.
+Kuckt http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
+'img-auth-notindir'         => 'De gefrote Pad ass net am Upload-Repertoire agestallt.',
+'img-auth-badtitle'         => 'Aus "$1" ka kee valabelen Titel gemaach ginn.',
+'img-auth-nologinnWL'       => 'Dir sidd net ageloggt a(n) "$1" ass net op der Wäisser Lëscht.',
+'img-auth-nofile'           => 'De Fichier "$1" gëtt et net.',
+'img-auth-isdir'            => 'Dir versicht op de Repertoire "$1" zouzegräifen.
 Nèemmen Datenofruff ass erlaabt.',
-'img-auth-streaming'    => '"$1" lueden.',
-'img-auth-public'       => "D'Fonctioun img_auth.php erlaabt et fir Fichieren vun enger privater Wiki erauszeginn.
+'img-auth-streaming'        => '"$1" lueden.',
+'img-auth-public'           => "D'Fonctioun img_auth.php erlaabt et fir Fichieren vun enger privater Wiki erauszeginn.
 Dës Wiki ass als ëffentlech Wiki configuréiert.
 Fir eng oprimal Sécherheet ass img_auth.php ausgeschalt.",
-'img-auth-noread'       => 'De Benotzer hut keen Zougang fir "$1" ze liesen',
+'img-auth-noread'           => 'De Benotzer hut keen Zougang fir "$1" ze liesen',
+'img-auth-bad-query-string' => "D'URL huet eng net valabel Rei vun Zeechen.",
 
 # HTTP errors
 'http-invalid-url'      => 'Net-valabel URL: $1',
@@ -1726,7 +1728,7 @@ Eng [[Special:WhatLinksHere/$2|komplett Lëscht]] ass disponibel.',
 'sharedupload-desc-there'           => "Dëse Fichier ass vu(n) $1 a kann an anere Projete benotzt ginn.
 Kuckt w.e.g. d'[$2 Säit mat der Beschreiwung vum Fichier] fir méi Informatiounen.",
 'sharedupload-desc-here'            => "Dëse Fichier ass vu(n) $1 an däerf vun anere Projete benotzt ginn.
-D'Beschreiwung op senger [$2 Beschreiwungssäit] steet hei ënnedrënner.",
+D'Beschreiwung op senger [$2 Beschreiwungssäit] steet hei ënnendrënner.",
 'filepage-nofile'                   => 'Et gëtt kee Fichier mat deem Numm.',
 'filepage-nofile-link'              => 'Et gëtt kee Fichier mat deem Numm, awer Dir kënnt [$1 en eroplueden].',
 'uploadnewversion-linktext'         => 'Eng nei Versioun vun dësem Fichier eroplueden',
@@ -2327,8 +2329,8 @@ $1',
 
 # Block/unblock
 'autoblockid'                     => 'Automatesch Spär #$1',
-'block'                           => 'Benotzer/IP-Adress spären',
-'unblock'                         => "D'Spär vum Benotzer/der IP-Adress ophiewen",
+'block'                           => 'Benotzer spären',
+'unblock'                         => "D'Spär vum Benotzer ophiewen",
 'blockip'                         => 'Benotzer spären',
 'blockip-title'                   => 'Benotzer spären',
 'blockip-legend'                  => 'Benotzer spären',
@@ -2345,6 +2347,7 @@ $1',
 **Beleidegt oder bedréit aner Mataarbechter
 **Mëssbrauch vu verschiddene Benotzernimm
 **Net akzeptabele Benotzernumm",
+'ipb-hardblock'                   => 'Verhënneren datt ageloggte Benotzer vun dëser IP-Adress aus Ännerunge maache kënnen',
 'ipbcreateaccount'                => 'Opmaache vun engem Benotzerkont verhënneren',
 'ipbemailban'                     => 'Verhënneren datt de Benotzer E-Maile verschéckt',
 'ipbenableautoblock'              => 'Automatesch déi lescht IP-Adress spären déi vun dësem Benotzer benotzt gouf, an all IP-Adresse vun denen dëse Benotzer versicht Ännerunge virzehuelen',
@@ -2357,11 +2360,14 @@ $1',
 'ipbwatchuser'                    => 'Dësem Benotzer seng Benotzer- an Diskussiouns-Säit iwwerwaachen',
 'ipb-disableusertalk'             => "Dëse Benotzer dorun hënnere fir seng eegen Diskussiounssäit z'änneren esou laang wéi et gespaart ass",
 'ipb-change-block'                => 'De Benotzer mat dese Parameteren nees spären',
+'ipb-confirm'                     => 'Spär confirméieren',
 'badipaddress'                    => "D'IP-Adress huet dat falscht Format.",
 'blockipsuccesssub'               => 'Gouf gespaart',
 'blockipsuccesstext'              => "[[Special:Contributions/$1|$1]] gouf gespaart. <br />
 
 Kuckt d'[[Special:IPBlockList|IP Spär-Lëscht]] fir all Spären ze gesin.",
+'ipb-blockingself'                => 'Dir sidd am gaang Iech selwer ze spären! Sidd Dir sécher datt Dir dat maache wëllt?',
+'ipb-confirmhideuser'             => 'Dir sidd am gaang e Benotzer ze späre mat der Fonctioun "Benotzer verstoppen" ageschalt. Dëst hëlt den Numm vum Benotzer aus alle Lëschten a Logbicher eraus. Sidd Dir sécher datt Dir dat maache wëllt?',
 'ipb-edit-dropdown'               => 'Spärgrënn änneren',
 'ipb-unblock-addr'                => 'Spär vum $1 ophiewen',
 'ipb-unblock'                     => 'Spär vun enger IP-Adress oder engem Benotzer ophiewen',
@@ -2373,8 +2379,8 @@ Kuckt d'[[Special:IPBlockList|IP Spär-Lëscht]] fir all Spären ze gesin.",
 'unblocked'                       => "D'Spär fir de [[User:$1|Benotzer $1]] gouf opgehuewen",
 'unblocked-range'                 => "D'Spär vum $1 gouf opgehuewen",
 'unblocked-id'                    => "D'Spär $1 gouf opgehuewen",
-'blocklist'                       => 'Gespaarten IP-Adressen a Benotzernimm',
-'ipblocklist'                     => 'Lëscht vu gespaarten IP-Adressen a Benotzernimm',
+'blocklist'                       => 'Gespaarte Benotzer',
+'ipblocklist'                     => 'Gespaarte Benotzer',
 'ipblocklist-legend'              => 'No engem gespaarte Benotzer sichen',
 'blocklist-userblocks'            => 'Benotzerspäre verstoppen',
 'blocklist-tempblocks'            => 'Temporär Späre verstoppen',
@@ -2424,8 +2430,7 @@ Kuckt d'[[Special:IPBlockList|IP Spärlëscht]] fir déi aktuell Spären.",
 'ipb_expiry_temp'                 => 'Verstoppte Späre vu Benotzernimm solle permanent sinn.',
 'ipb_hide_invalid'                => 'Dëse Benotzerkont kann net geläscht ginn; et ka sinn datt zevill Ännerunge vun deem Benotzer gemaach goufen.',
 'ipb_already_blocked'             => '"$1" ass scho gespaart.',
-'ipb-needreblock'                 => "== Scho gespaart ==
-„$1“ ass scho gespaart. Wëllt dir d'Parametere vun der Spär änneren?",
+'ipb-needreblock'                 => "$1 ass scho gespaart. Wëllt Dir d'Parametere vun der Spär änneren?",
 'ipb-otherblocks-header'          => 'Aner  {{PLURAL:$1|Spär|Spären}}',
 'unblock-hideuser'                => "D'Spär vun dësem Benotzer kann net vun Iech opgehuewe gi well dee Benotzernumm verstoppt gouf.",
 'ipb_cant_unblock'                => "Feeler: D'Nummer vun der Spär $1 gouf net fonnt. D'Spär gouf waarscheinlech schonn opgehuewen.",
@@ -2620,7 +2625,7 @@ All Transwiki-Import-Aktioune ginn am [[Special:Log/import|Import-Logbuch]] prot
 'import-interwiki-namespace' => 'Zil-Nummraum:',
 'import-upload-filename'     => 'Numm vum Fichier:',
 'import-comment'             => 'Bemierkung:',
-'importtext'                 => 'Exportéiert de Fichier w.e.g vun der Source-Wiki mat der [[Special:Export|Funktioun Export]].
+'importtext'                 => 'Exportéiert de Fichier w.e.g vun der Source-Wiki mat der [[Special:Export|Export-Fonctioun]].
 Späichert en op Ärem Computer of a luet en hei nees erop.',
 'importstart'                => 'Importéier Säiten …',
 'import-revision-count'      => '$1 {{PLURAL:$1|Versioun|Versiounen}}',
@@ -2779,25 +2784,6 @@ Dëst warscheinlech duerch en externe Link den op der schwaarzer Lëscht (blackl
 'skinname-chick'       => 'Chick',
 'skinname-simple'      => 'Einfach',
 'skinname-modern'      => 'Modern',
-
-# Math options
-'mw_math_png'    => 'Ëmmer als PNG duerstellen',
-'mw_math_simple' => 'Einfachen TeX als HTML duerstellen, soss PNG',
-'mw_math_html'   => 'Wa méiglech als HTML duerstellen, soss PNG',
-'mw_math_source' => 'Als TeX loossen (fir Textbrowser)',
-'mw_math_modern' => 'Recommandéiert fir modern Browser',
-'mw_math_mathml' => 'MathML wa méiglech (experimentell)',
-
-# Math errors
-'math_failure'          => 'Parser-Feeler',
-'math_unknown_error'    => 'Onbekannte Feeler',
-'math_unknown_function' => 'Onbekannte Funktioun',
-'math_lexing_error'     => "'Lexing'-Feeler",
-'math_syntax_error'     => 'Syntaxfeeler',
-'math_image_error'      => "D'PNG-Konvertéierung huet net fonctionnéiert;
-iwwerpréift déi korrekt Installatioun vu LaTeX an dvipng (oder dvips + gs + convert)",
-'math_bad_tmpdir'       => 'Den temporäre Repertire fir mathematesch Formele kann net ugeluecht ginn oder et kann näischt do gespäichert ginn.',
-'math_bad_output'       => 'Den Zilrepertoire fir mathematesch Formele kann net ugeluecht ginn oder et kann näischt do gespäichert ginn.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Als kontrolléiert markéieren',
@@ -3230,9 +3216,10 @@ $1",
 'trackbackdeleteok' => "Den ''Trackback'' gouf geläscht.",
 
 # Delete conflict
-'deletedwhileediting' => "'''Opgepasst''': Dës Säit gouf geläscht nodeems datt dir ugefaangen hutt se z'änneren!",
-'confirmrecreate'     => "De Benotzer [[User:$1|$1]] ([[User talk:$1|Diskussioun]]) huet dës Säit geläscht, nodeems datt där ugefaangen hutt drun ze schaffen. D'Begrënnung war: ''$2'' Bestätegt w.e.g., datt Dir dës Säit wierklich erëm nei opmaache wëllt.",
-'recreate'            => 'Erëm uleeën',
+'deletedwhileediting'      => "'''Opgepasst''': Dës Säit gouf geläscht nodeems datt dir ugefaangen hutt se z'änneren!",
+'confirmrecreate'          => "De Benotzer [[User:$1|$1]] ([[User talk:$1|Diskussioun]]) huet dës Säit geläscht, nodeems datt där ugefaangen hutt drun ze schaffen. D'Begrënnung war: ''$2'' Bestätegt w.e.g., datt Dir dës Säit wierklich erëm nei opmaache wëllt.",
+'confirmrecreate-noreason' => 'De Benotzer [[User:$1|$1]] ([[User talk:$1|Diskussioun]]) huet dës Säit geläscht, nodeems datt Dir ugefaangen hutt drun ze schaffen. Confirméiert w.e.g., datt Dir dës Säit wierklech erëm nei opmaache wëllt.',
+'recreate'                 => 'Erëm uleeën',
 
 # action=purge
 'confirm_purge_button' => 'OK',

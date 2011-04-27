@@ -987,7 +987,6 @@ class EditPage {
 			# Article exists. Check for edit conflict.
 
 			$this->mArticle->clear(); # Force reload of dates, etc.
-			$this->mArticle->forUpdate( true ); # Lock the article
 
 			wfDebug( "timestamp: {$this->mArticle->getTimestamp()}, edittime: {$this->edittime}\n" );
 
@@ -1358,9 +1357,12 @@ HTML
 
 			// It is better to not parse the comment at all than to have templates expanded in the middle
 			// TODO: can the checkLabel be moved outside of the div so that wrapWikiMsg could be used?
+			$key = $comment === ''
+				? 'confirmrecreate-noreason'
+				: 'confirmrecreate';
 			$wgOut->addHTML(
 				'<div class="mw-confirm-recreate">' .
-				wfMsgExt( 'confirmrecreate', 'parseinline', $username, "<nowiki>$comment</nowiki>" ) .
+				wfMsgExt( $key, 'parseinline', $username, "<nowiki>$comment</nowiki>" ) .
 				Xml::checkLabel( wfMsg( 'recreate' ), 'wpRecreate', 'wpRecreate', false,
 					array( 'title' => $sk->titleAttrib( 'recreate' ), 'tabindex' => 1, 'id' => 'wpRecreate' )
 				) .

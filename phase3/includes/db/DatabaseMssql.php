@@ -452,14 +452,14 @@ class DatabaseMssql extends DatabaseBase {
 					$sql .= ',';
 				}
 				if ( is_string( $value ) ) {
-					$sql .= $this->addIdentifierQuotes( $value );
+					$sql .= $this->addQuotes( $value );
 				} elseif ( is_null( $value ) ) {
 					$sql .= 'null';
 				} elseif ( is_array( $value ) || is_object( $value ) ) {
 					if ( is_object( $value ) && strtolower( get_class( $value ) ) == 'blob' ) {
-						$sql .= $this->addIdentifierQuotes( $value->fetch() );
+						$sql .= $this->addQuotes( $value );
 					}  else {
-						$sql .= $this->addIdentifierQuotes( serialize( $value ) );
+						$sql .= $this->addQuotes( serialize( $value ) );
 					}
 				} else {
 					$sql .= $value;
@@ -507,35 +507,6 @@ class DatabaseMssql extends DatabaseBase {
 			return $ret;
 		}
 		return NULL;
-	}
-
-	/**
-	 * Format a table name ready for use in constructing an SQL query
-	 *
-	 * This does two important things: it brackets table names which as necessary,
-	 * and it adds a table prefix if there is one.
-	 *
-	 * All functions of this object which require a table name call this function
-	 * themselves. Pass the canonical name to such functions. This is only needed
-	 * when calling query() directly.
-	 *
-	 * @param $name String: database table name
-	 */
-	function tableName( $name ) {
-		global $wgSharedDB;
-		# Skip quoted literals
-		if ( $name != '' && $name { 0 } != '[' ) {
-			if ( $this->mTablePrefix !== '' &&  strpos( '.', $name ) === false ) {
-				$name = "{$this->mTablePrefix}$name";
-			}
-			if ( isset( $wgSharedDB ) && "{$this->mTablePrefix}user" == $name ) {
-				$name = "[$wgSharedDB].[$name]";
-			} else {
-				# Standard quoting
-				if ( $name != '' ) $name = "[$name]";
-			}
-		}
-		return $name;
 	}
 
 	/**
@@ -987,6 +958,15 @@ class DatabaseMssql extends DatabaseBase {
 		} else {
 			return parent::addQuotes( $s );
 		}
+	}
+
+	public function addIdentifierQuotes( $s ) {
+		// http://msdn.microsoft.com/en-us/library/aa223962.aspx
+		return '[' . $s . ']';
+	}
+
+	public function isQuotedIdentifier( $name ) {
+		return $name[0] == '[' && substr( $name, -1, 1 ) == ']';
 	}
 
 	function selectDB( $db ) {

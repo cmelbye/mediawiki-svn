@@ -67,12 +67,12 @@ class LanguageConverter {
 	public function __construct( $langobj, $maincode, $variants = array(),
 								$variantfallbacks = array(), $flags = array(),
 								$manualLevel = array() ) {
-		global $wgDisabledVariants, $wgLanguageNames;
+		global $wgDisabledVariants;
 		$this->mLangObj = $langobj;
 		$this->mMainLanguageCode = $maincode;
 		$this->mVariants = array_diff( $variants, $wgDisabledVariants );
 		$this->mVariantFallbacks = $variantfallbacks;
-		$this->mVariantNames = $wgLanguageNames;
+		$this->mVariantNames = Language::getLanguageNames();
 		$this->mCacheKey = wfMemcKey( 'conversiontables', $maincode );
 		$defaultflags = array(
 			// 'S' show converted text
@@ -291,7 +291,7 @@ class LanguageConverter {
 		if ( !$this->mHeaderVariant ) {
 			// process fallback languages now
 			$fallback_languages = array_unique( $fallbackLanguages );
-			foreach ( $fallbackLanguages as $language ) {
+			foreach ( $fallback_languages as $language ) {
 				$this->mHeaderVariant = $this->validateVariant( $language );
 				if ( $this->mHeaderVariant ) {
 					break;

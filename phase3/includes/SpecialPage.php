@@ -74,20 +74,10 @@ class SpecialPage {
 	 */
 	var $mAddedRedirectParams = array();
 	/**
-	 * Current request
-	 * @var WebRequest 
+	 * Current request context
+	 * @var RequestContext
 	 */
-	protected $mRequest;
-	/**
-	 * Current output page
-	 * @var OutputPage
-	 */
-	protected $mOutput;
-	/**
-	 * Full title including $par
-	 * @var Title
-	 */
-	protected $mFullTitle;
+	protected $mContext;
 		
 	/**
 	 * List of special pages, followed by parameters.
@@ -144,7 +134,7 @@ class SpecialPage {
 		'Preferences'               => 'SpecialPreferences',
 		'Contributions'             => 'SpecialContributions',
 		'Listgrouprights'           => 'SpecialListGroupRights',
-		'Listusers'                 => 'SpecialListusers',
+		'Listusers'                 => array( 'SpecialPage', 'Listusers' ),
 		'Listadmins'                => array( 'SpecialRedirectToSpecial', 'Listadmins', 'Listusers', 'sysop' ),
 		'Listbots'                  => array( 'SpecialRedirectToSpecial', 'Listbots', 'Listusers', 'bot' ),
 		'Activeusers'               => 'SpecialActiveUsers',
@@ -531,11 +521,11 @@ class SpecialPage {
 	 * Returns a title object if the page is redirected, false if there was no such special
 	 * page, and true if it was successful.
 	 *
-	 * @param $title          a title object
-	 * @param $including      output is being captured for use in {{special:whatever}}
+	 * @param $title          Title object
+	 * @param $context        RequestContext
+	 * @param $including      Bool output is being captured for use in {{special:whatever}}
 	 */
-	static function executePath( &$title, $including = false ) {
-		global $wgOut, $wgTitle, $wgRequest;
+	public static function executePath( &$title, RequestContext &$context, $including = false ) {
 		wfProfileIn( __METHOD__ );
 
 		# FIXME: redirects broken due to this call
@@ -549,18 +539,16 @@ class SpecialPage {
 		$page = SpecialPage::getPageByAlias( $name );
 		# Nonexistent?
 		if ( !$page ) {
-			if ( !$including ) {
-				$wgOut->setArticleRelated( false );
-				$wgOut->setRobotPolicy( 'noindex,nofollow' );
-				$wgOut->setStatusCode( 404 );
-				$wgOut->showErrorPage( 'nosuchspecialpage', 'nospecialpagetext' );
-			}
+			$context->output->setArticleRelated( false );
+			$context->output->setRobotPolicy( 'noindex,nofollow' );
+			$context->output->setStatusCode( 404 );
+			$context->output->showErrorPage( 'nosuchspecialpage', 'nospecialpagetext' );
 			wfProfileOut( __METHOD__ );
 			return false;
 		}
 		
 		# Page exists, set the context
-		$page->setContext( $wgRequest, $wgOut );
+		$page->setContext( $context );
 
 		# Check for redirect
 		if ( !$including ) {
@@ -568,13 +556,13 @@ class SpecialPage {
 			$query = $page->getRedirectQuery();
 			if ( $redirect instanceof Title ) {
 				$url = $redirect->getFullUrl( $query );
-				$wgOut->redirect( $url );
+				$context->output->redirect( $url );
 				wfProfileOut( __METHOD__ );
 				return $redirect;
 			} elseif( $redirect === true ) {
 				global $wgScript;
 				$url = $wgScript . '?' . wfArrayToCGI( $query );
-				$wgOut->redirect( $url );
+				$context->output->redirect( $url );
 				wfProfileOut( __METHOD__ );
 				return $redirect;
 			}
@@ -585,13 +573,13 @@ class SpecialPage {
 		# the request. Such POST requests are possible for old extensions that
 		# generate self-links without being aware that their default name has
 		# changed.
-		if ( !$including && $name != $page->getLocalName() && !$wgRequest->wasPosted() ) {
+		if ( !$including && $name != $page->getLocalName() && !$context->request->wasPosted() ) {
 			$query = $_GET;
 			unset( $query['title'] );
 			$query = wfArrayToCGI( $query );
 			$title = $page->getTitle( $par );
 			$url = $title->getFullUrl( $query );
-			$wgOut->redirect( $url );
+			$context->output->redirect( $url );
 			wfProfileOut( __METHOD__ );
 			return $redirect;
 		}
@@ -600,7 +588,7 @@ class SpecialPage {
 			wfProfileOut( __METHOD__ );
 			return false;
 		} elseif ( !$including ) {
-			$wgTitle = $page->getTitle();
+			$context->title = $page->getTitle();
 		}
 		$page->including( $including );
 
@@ -625,10 +613,12 @@ class SpecialPage {
 
 		$oldTitle = $wgTitle;
 		$oldOut = $wgOut;
-		$wgOut = new OutputPage;
-		$wgOut->setTitle( $title );
+		
+		$context = new RequestContext;
+		$context->setTitle( $title );
+		$wgOut = $context->getOutput();
 
-		$ret = SpecialPage::executePath( $title, true );
+		$ret = SpecialPage::executePath( $title, $context, true );
 		if ( $ret === true ) {
 			$ret = $wgOut->getHTML();
 		}
@@ -863,18 +853,17 @@ class SpecialPage {
 	 * Output an error message telling the user what access level they have to have
 	 */
 	function displayRestrictionError() {
-		global $wgOut;
-		$wgOut->permissionRequired( $this->mRestriction );
+		$this->getOutput()->permissionRequired( $this->mRestriction );
 	}
 
 	/**
 	 * Sets headers - this should be called from the execute() method of all derived classes!
 	 */
 	function setHeaders() {
-		global $wgOut;
-		$wgOut->setArticleRelated( false );
-		$wgOut->setRobotPolicy( "noindex,nofollow" );
-		$wgOut->setPageTitle( $this->getDescription() );
+		$out = $this->getOutput();
+		$out->setArticleRelated( false );
+		$out->setRobotPolicy( "noindex,nofollow" );
+		$out->setPageTitle( $this->getDescription() );
 	}
 
 	/**
@@ -884,11 +873,9 @@ class SpecialPage {
 	 * This may be overridden by subclasses.
 	 */
 	function execute( $par ) {
-		global $wgUser;
-
 		$this->setHeaders();
 
-		if ( $this->userCanExecute( $wgUser ) ) {
+		if ( $this->userCanExecute( $this->getUser() ) ) {
 			$func = $this->mFunction;
 			// only load file if the function does not exist
 			if(!is_callable($func) and $this->mFile) {
@@ -910,7 +897,7 @@ class SpecialPage {
 	 * @param $summaryMessageKey String: message key of the summary
 	 */
 	function outputHeader( $summaryMessageKey = '' ) {
-		global $wgOut, $wgContLang;
+		global $wgContLang;
 
 		if( $summaryMessageKey == '' ) {
 			$msg = $wgContLang->lc( $this->name() ) . '-summary';
@@ -918,7 +905,7 @@ class SpecialPage {
 			$msg = $summaryMessageKey;
 		}
 		if ( !wfMessage( $msg )->isBlank() and ! $this->including() ) {
-			$wgOut->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1\n</div>", $msg );
+			$this->getOutput()->wrapWikiMsg( "<div class='mw-specialpage-summary'>\n$1\n</div>", $msg );
 		}
 
 	}
@@ -968,12 +955,11 @@ class SpecialPage {
 	 * @return String
 	 */
 	function getRedirectQuery() {
-		global $wgRequest;
 		$params = array();
 
 		foreach( $this->mAllowedRedirectParams as $arg ) {
-			if( $wgRequest->getVal( $arg, null ) !== null ){
-				$params[$arg] = $wgRequest->getVal( $arg );
+			if( $this->getContext()->request->getVal( $arg, null ) !== null ){
+				$params[$arg] = $this->getContext()->request->getVal( $arg );
 			}
 		}
 
@@ -989,14 +975,78 @@ class SpecialPage {
 	/**
 	 * Sets the context this SpecialPage is executed in
 	 * 
-	 * @param $request WebRequest
-	 * @param $output OutputPage
+	 * @param $context RequestContext
+	 * @since 1.18
 	 */
-	protected function setContext( $request, $output ) {
-		$this->mRequest = $request;
-		$this->mOutput = $output;
-		$this->mFullTitle = $output->getTitle();
+	protected function setContext( $context ) {
+		$this->mContext = $context;
 	}
+
+	/**
+	 * Gets the context this SpecialPage is executed in
+	 * 
+	 * @return RequestContext
+	 * @since 1.18
+	 */
+	public function getContext() {
+		if ( $this->mContext instanceof RequestContext ) {
+			return $this->mContext;
+		} else {
+			wfDebug( __METHOD__ . " called and \$mContext is null. Return RequestContext::getMain(); for sanity\n" );
+			return RequestContext::getMain();
+		}
+	}
+
+	/**
+	 * Get the WebRequest being used for this instance
+	 *
+	 * @return WebRequest
+	 * @since 1.18
+	 */
+	public function getRequest() {
+		return $this->getContext()->getRequest();
+	}
+
+	/**
+	 * Get the OutputPage being used for this instance
+	 *
+	 * @return OutputPage
+	 * @since 1.18
+	 */
+	public function getOutput() {
+		return $this->getContext()->getOutput();
+	}
+
+	/**
+	 * Shortcut to get the skin being used for this instance
+	 *
+	 * @return User
+	 * @since 1.18
+	 */
+	public function getUser() {
+		return $this->getContext()->getUser();
+	}
+
+	/**
+	 * Shortcut to get the skin being used for this instance
+	 *
+	 * @return Skin
+	 * @since 1.18
+	 */
+	public function getSkin() {
+		return $this->getContext()->getSkin();
+	}
+
+	/**
+	 * Return the full title, including $par
+	 *
+	 * @return Title
+	 * @since 1.18
+	 */
+	public function getFullTitle() {
+		return $this->getContext()->getTitle();
+	}
+
 	/**
 	 * Wrapper around wfMessage that sets the current context. Currently this
 	 * is only the title.
@@ -1004,7 +1054,7 @@ class SpecialPage {
 	 * @see wfMessage
 	 */
 	public function msg( /* $args */ ) {
-		return call_user_func_array( 'wfMessage', func_get_args() )->title( $this->mFullTitle );
+		return call_user_func_array( 'wfMessage', func_get_args() )->title( $this->getFullTitle() );
 	}
 }
 

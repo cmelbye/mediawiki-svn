@@ -122,18 +122,6 @@ $namespaceGenderAliases = array(
 $namespaceGenderAliases = array();
 
 /**
- * Deprecated, use the message array
- */
-$mathNames = array(
-	MW_MATH_PNG => 'mw_math_png',
-	MW_MATH_SIMPLE => 'mw_math_simple',
-	MW_MATH_HTML => 'mw_math_html',
-	MW_MATH_SOURCE => 'mw_math_source',
-	MW_MATH_MODERN => 'mw_math_modern',
-	MW_MATH_MATHML => 'mw_math_mathml'
-);
-
-/**
  * A list of date format preference keys which can be selected in user
  * preferences. New preference keys can be added, provided they are supported
  * by the language class's timeanddate(). Only the 5 keys listed below are
@@ -382,7 +370,6 @@ $specialPageAliases = array(
 	'Allmessages'               => array( 'AllMessages' ),
 	'Allpages'                  => array( 'AllPages' ),
 	'Ancientpages'              => array( 'AncientPages' ),
-	'Badtitle'                  => array( 'Badtitle' ),
 	'Blankpage'                 => array( 'BlankPage' ),
 	'Block'                     => array( 'Block', 'BlockIP', 'BlockUser' ),
 	'Blockme'                   => array( 'BlockMe' ),
@@ -1208,8 +1195,6 @@ You may have already successfully changed your password or requested a new tempo
 'extlink_tip'     => 'External link (remember http:// prefix)',
 'headline_sample' => 'Headline text',
 'headline_tip'    => 'Level 2 headline',
-'math_sample'     => 'Insert formula here',
-'math_tip'        => 'Mathematical formula (LaTeX)',
 'nowiki_sample'   => 'Insert non-formatted text here',
 'nowiki_tip'      => 'Ignore wiki formatting',
 'image_sample'    => 'Example.jpg', # only translate this message to other languages if you have to change it
@@ -1761,7 +1746,6 @@ Note that their indexes of {{SITENAME}} content may be out of date.',
 'changepassword'                => 'Change password',
 'prefs-skin'                    => 'Skin',
 'skin-preview'                  => 'Preview',
-'prefs-math'                    => 'Math',
 'datedefault'                   => 'No preference',
 'prefs-datetime'                => 'Date and time',
 'prefs-personal'                => 'User profile',
@@ -2259,22 +2243,23 @@ It cannot be properly checked for security.',
 'uploadstash-refresh'  => 'Refresh the list of files',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Access denied',
-'img-auth-nopathinfo'   => 'Missing PATH_INFO.
+'img-auth-accessdenied'     => 'Access denied',
+'img-auth-nopathinfo'       => 'Missing PATH_INFO.
 Your server is not set up to pass this information.
 It may be CGI-based and cannot support img_auth.
 See http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Requested path is not in the configured upload directory.',
-'img-auth-badtitle'     => 'Unable to construct a valid title from "$1".',
-'img-auth-nologinnWL'   => 'You are not logged in and "$1" is not in the whitelist.',
-'img-auth-nofile'       => 'File "$1" does not exist.',
-'img-auth-isdir'        => 'You are trying to access a directory "$1".
+'img-auth-notindir'         => 'Requested path is not in the configured upload directory.',
+'img-auth-badtitle'         => 'Unable to construct a valid title from "$1".',
+'img-auth-nologinnWL'       => 'You are not logged in and "$1" is not in the whitelist.',
+'img-auth-nofile'           => 'File "$1" does not exist.',
+'img-auth-isdir'            => 'You are trying to access a directory "$1".
 Only file access is allowed.',
-'img-auth-streaming'    => 'Streaming "$1".',
-'img-auth-public'       => 'The function of img_auth.php is to output files from a private wiki.
+'img-auth-streaming'        => 'Streaming "$1".',
+'img-auth-public'           => 'The function of img_auth.php is to output files from a private wiki.
 This wiki is configured as a public wiki.
 For optimal security, img_auth.php is disabled.',
-'img-auth-noread'       => 'User does not have access to read "$1".',
+'img-auth-noread'           => 'User does not have access to read "$1".',
+'img-auth-bad-query-string' => 'The URL has an invalid query string.',
 
 # HTTP errors
 'http-invalid-url'      => 'Invalid URL: $1',
@@ -2692,6 +2677,10 @@ The e-mail address you entered in [[Special:Preferences|your user preferences]] 
 'noemailtext'          => 'This user has not specified a valid e-mail address.',
 'nowikiemailtitle'     => 'No e-mail allowed',
 'nowikiemailtext'      => 'This user has chosen not to receive e-mail from other users.',
+'emailnotarget'        => 'Non-existent or invalid username for recipient.',
+'emailtarget'          => 'Enter username of recipient',
+'emailusername'        => 'Username:',
+'emailusernamesubmit'  => 'Submit',
 'email-legend'         => 'Send an e-mail to another {{SITENAME}} user',
 'emailfrom'            => 'From:',
 'emailto'              => 'To:',
@@ -3021,8 +3010,8 @@ The latest block log entry is provided below for reference:',
 
 # Block/unblock
 'autoblockid'                     => 'Autoblock #$1',
-'block'                           => 'Block user/IP address',
-'unblock'                         => 'Unblock user/IP address',
+'block'                           => 'Block user',
+'unblock'                         => 'Unblock user',
 'blockip'                         => 'Block user',
 'blockip-title'                   => 'Block user',
 'blockip-legend'                  => 'Block user',
@@ -3054,10 +3043,13 @@ Fill in a specific reason below (for example, citing particular pages that were 
 'ipbwatchuser'                    => "Watch this user's user and talk pages",
 'ipb-disableusertalk'             => 'Prevent this user from editing their own talk page while blocked',
 'ipb-change-block'                => 'Re-block the user with these settings',
+'ipb-confirm'                     => 'Confirm block',
 'badipaddress'                    => 'Invalid IP address',
 'blockipsuccesssub'               => 'Block succeeded',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] has been blocked.<br />
 See [[Special:IPBlockList|IP block list]] to review blocks.',
+'ipb-blockingself'                => 'You are about to block yourself!  Are you sure you want to do that?',
+'ipb-confirmhideuser'             => 'You are about to block a user with "hide user" enabled.  This will suppress the user\'s name in all lists and log entries.  Are you sure you want to do that?',
 'ipb-edit-dropdown'               => 'Edit block reasons',
 'ipb-unblock-addr'                => 'Unblock $1',
 'ipb-unblock'                     => 'Unblock a username or IP address',
@@ -3069,8 +3061,8 @@ See [[Special:IPBlockList|IP block list]] to review blocks.',
 'unblocked'                       => '[[User:$1|$1]] has been unblocked',
 'unblocked-range'                 => '$1 has been unblocked',
 'unblocked-id'                    => 'Block $1 has been removed',
-'blocklist'                       => 'Blocked IP addresses and usernames',
-'ipblocklist'                     => 'Blocked IP addresses and usernames',
+'blocklist'                       => 'Blocked users',
+'ipblocklist'                     => 'Blocked users',
 'ipblocklist-legend'              => 'Find a blocked user',
 'blocklist-userblocks'            => 'Hide account blocks',
 'blocklist-tempblocks'            => 'Hide temporary blocks',
@@ -3123,13 +3115,10 @@ See the [[Special:IPBlockList|IP block list]] for the list of currently operatio
 'ipb_expiry_temp'                 => 'Hidden username blocks must be permanent.',
 'ipb_hide_invalid'                => 'Unable to suppress this account; it may have too many edits.',
 'ipb_already_blocked'             => '"$1" is already blocked',
-'ipb-needreblock'                 => '== Already blocked ==
-$1 is already blocked.
-Do you want to change the settings?',
+'ipb-needreblock'                 => '$1 is already blocked. Do you want to change the settings?',
 'ipb-otherblocks-header'          => 'Other {{PLURAL:$1|block|blocks}}',
 'unblock-hideuser'                => 'You cannot unblock this user, as their username has been hidden.',
-'ipb_cant_unblock'                => 'Error: Block ID $1 not found.
-It may have been unblocked already.',
+'ipb_cant_unblock'                => 'Error: Block ID $1 not found. It may have been unblocked already.',
 'ipb_blocked_as_range'            => 'Error: The IP address $1 is not blocked directly and cannot be unblocked.
 It is, however, blocked as part of the range $2, which can be unblocked.',
 'ip_range_invalid'                => 'Invalid IP range.',
@@ -3583,25 +3572,6 @@ This is probably caused by a link to a blacklisted external site.',
 'skinname-simple'      => 'Simple', # only translate this message to other languages if you have to change it
 'skinname-modern'      => 'Modern', # only translate this message to other languages if you have to change it
 'skinname-vector'      => 'Vector', # only translate this message to other languages if you have to change it
-
-# Math options
-'mw_math_png'    => 'Always render PNG',
-'mw_math_simple' => 'HTML if very simple or else PNG',
-'mw_math_html'   => 'HTML if possible or else PNG',
-'mw_math_source' => 'Leave it as TeX (for text browsers)',
-'mw_math_modern' => 'Recommended for modern browsers',
-'mw_math_mathml' => 'MathML if possible (experimental)',
-
-# Math errors
-'math_failure'          => 'Failed to parse',
-'math_unknown_error'    => 'unknown error',
-'math_unknown_function' => 'unknown function',
-'math_lexing_error'     => 'lexing error',
-'math_syntax_error'     => 'syntax error',
-'math_image_error'      => 'PNG conversion failed; check for correct installation of latex and dvipng (or dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Cannot write to or create math temp directory',
-'math_bad_output'       => 'Cannot write to or create math output directory',
-'math_notexvc'          => 'Missing texvc executable; please see math/README to configure.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Mark as patrolled',
@@ -4135,11 +4105,12 @@ $1',
 'trackbackdeleteok' => 'The trackback was successfully deleted.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Warning''': This page was deleted after you started editing!",
-'confirmrecreate'     => "User [[User:$1|$1]] ([[User talk:$1|talk]]) deleted this page after you started editing with reason:
+'deletedwhileediting'      => "'''Warning''': This page was deleted after you started editing!",
+'confirmrecreate'          => "User [[User:$1|$1]] ([[User talk:$1|talk]]) deleted this page after you started editing with reason:
 : ''$2''
 Please confirm that you really want to recreate this page.",
-'recreate'            => 'Recreate',
+'confirmrecreate-noreason' => 'User [[User:$1|$1]] ([[User talk:$1|talk]]) deleted this page after you started editing.  Please confirm that you really want to recreate this page.',
+'recreate'                 => 'Recreate',
 
 'unit-pixel' => 'px', # only translate this message to other languages if you have to change it
 

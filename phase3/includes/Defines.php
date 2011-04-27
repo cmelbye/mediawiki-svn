@@ -1,6 +1,11 @@
 <?php
 /**
- * A few constants that might be needed during LocalSettings.php
+ * A few constants that might be needed during LocalSettings.php.
+ *
+ * Note: these constants must all be resolvable at compile time by HipHop, 
+ * since this file will not be executed during request startup for a compiled
+ * MediaWiki.
+ *
  * @file
  */
 
@@ -89,17 +94,6 @@ $wgFeedClasses = array(
 	'rss' => 'RSSFeed',
 	'atom' => 'AtomFeed',
 );
-
-/**@{
- * Maths constants
- */
-define( 'MW_MATH_PNG',    0 );
-define( 'MW_MATH_SIMPLE', 1 );
-define( 'MW_MATH_HTML',   2 );
-define( 'MW_MATH_SOURCE', 3 );
-define( 'MW_MATH_MODERN', 4 );
-define( 'MW_MATH_MATHML', 5 );
-/**@}*/
 
 /**@{
  * Cache type

@@ -85,6 +85,9 @@ li span.deleted, span.history-deleted {
 	color: #888;
 	font-style: italic;
 }
+li span.deleted a, span.history-deleted a {
+	color: #888;
+}
 
 /**
  * Patrol stuff
@@ -296,6 +299,7 @@ table.wikitable {
 	background: #f9f9f9;
 	border: 1px #aaa solid;
 	border-collapse: collapse;
+	color: black;
 }
 .wikitable th, .wikitable td {
 	border: 1px #aaa solid;
@@ -379,6 +383,14 @@ table.collapsed tr.collapsable {
 .TablePager {
 	min-width: 80%;
 	border-collapse: collapse;
+	margin: 0 auto;
+}
+.TablePager_nav {
+	margin: 0 auto;
+}
+.TablePager_nav td {
+	padding: 3px;
+	text-align: center;
 }
 .TablePager_nav a {
 	text-decoration: none;

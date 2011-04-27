@@ -36,6 +36,7 @@
  * @author Mzm5zbC3
  * @author Ohgi
  * @author Penn Station
+ * @author Reedy
  * @author Suisui
  * @author Vigorous action
  * @author W.CC
@@ -888,8 +889,6 @@ $2',
 'extlink_tip'     => '外部リンク (http:// を忘れずにつけてください)',
 'headline_sample' => '見出し文',
 'headline_tip'    => '2段目の見出し',
-'math_sample'     => 'ここに数式を挿入',
-'math_tip'        => '数式 (LaTeX)',
 'nowiki_sample'   => 'ここにマークアップを無効にするテキストを入力します',
 'nowiki_tip'      => 'ウィキ書式を無視',
 'image_tip'       => 'ファイルの埋め込み',
@@ -1404,7 +1403,6 @@ $1",
 'changepassword'                => 'パスワードの変更',
 'prefs-skin'                    => '外装',
 'skin-preview'                  => 'プレビュー',
-'prefs-math'                    => '数式',
 'datedefault'                   => '選択なし',
 'prefs-datetime'                => '日付と時刻',
 'prefs-personal'                => '利用者情報',
@@ -1413,7 +1411,7 @@ $1",
 'prefs-watchlist-days'          => 'ウォッチリストに表示する日数：',
 'prefs-watchlist-days-max'      => '（最大7日間）',
 'prefs-watchlist-edits'         => '拡張ウォッチリストに表示する件数：',
-'prefs-watchlist-edits-max'     => '（最大数：1000）',
+'prefs-watchlist-edits-max'     => '最大数：1000',
 'prefs-watchlist-token'         => 'ウォッチリストのトークン：',
 'prefs-misc'                    => 'その他',
 'prefs-resetpass'               => 'パスワードの変更',
@@ -1890,22 +1888,23 @@ $1',
 'uploadstash-refresh'  => 'ファイルの一覧を更新',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'アクセスが拒否されました',
-'img-auth-nopathinfo'   => 'PATH_INFOが見つかりません。
+'img-auth-accessdenied'     => 'アクセスが拒否されました',
+'img-auth-nopathinfo'       => 'PATH_INFOが見つかりません。
 サーバーが、この情報を渡すように構成されていません。
 CGIベースで、img_authに対応できない可能性もあります。
 http://www.mediawiki.org/wiki/Manual:Image_Authorization を参照してください。',
-'img-auth-notindir'     => '要求されたパスは、設定済みのアップロード用ディレクトリーの中にありません。',
-'img-auth-badtitle'     => '「$1」からは有効なページ名を構築できません。',
-'img-auth-nologinnWL'   => 'ログインしておらず、さらに「$1」はホワイトリストに入っていません。',
-'img-auth-nofile'       => 'ファイル「$1」は存在しません。',
-'img-auth-isdir'        => 'ディレクトリー「$1」にアクセスしようとしています。
+'img-auth-notindir'         => '要求されたパスは、設定済みのアップロード用ディレクトリーの中にありません。',
+'img-auth-badtitle'         => '「$1」からは有効なページ名を構築できません。',
+'img-auth-nologinnWL'       => 'ログインしておらず、さらに「$1」はホワイトリストに入っていません。',
+'img-auth-nofile'           => 'ファイル「$1」は存在しません。',
+'img-auth-isdir'            => 'ディレクトリー「$1」にアクセスしようとしています。
 ファイルへのアクセスのみが許可されています。',
-'img-auth-streaming'    => '「$1」を転送中。',
-'img-auth-public'       => 'img_auth.phpの機能は非公開ウィキからファイルを出力することです。
+'img-auth-streaming'        => '「$1」を転送中。',
+'img-auth-public'           => 'img_auth.phpの機能は非公開ウィキからファイルを出力することです。
 このウィキは公開ウィキとして構成されています。
 最適なセキュリティーのため、img_auth.phpは無効化されています。',
-'img-auth-noread'       => '利用者は「$1」の読み取り権限を持っていません。',
+'img-auth-noread'           => '利用者は「$1」の読み取り権限を持っていません。',
+'img-auth-bad-query-string' => 'URLの中に無効なクエリ文字列があります。',
 
 # HTTP errors
 'http-invalid-url'      => '無効なURL：$1',
@@ -2270,6 +2269,10 @@ contenttype/subtypeの形式で指定してください（例：<tt>image/jpeg</
 'noemailtext'          => 'この利用者は有効なメールアドレスを登録していません。',
 'nowikiemailtitle'     => '電子メール不許可',
 'nowikiemailtext'      => 'この利用者は他の利用者からメールを受け取らない設定にしています。',
+'emailnotarget'        => '受信者の利用者名が存在しない、あるいは無効です。',
+'emailtarget'          => '受信者の利用者名を入力してください',
+'emailusername'        => '利用者名：',
+'emailusernamesubmit'  => '送信',
 'email-legend'         => '{{SITENAME}}の他の利用者に電子メールを送る',
 'emailfrom'            => '差出人：',
 'emailto'              => '宛先：',
@@ -2587,8 +2590,8 @@ $1',
 
 # Block/unblock
 'autoblockid'                     => '自動ブロック #$1',
-'block'                           => '利用者/IPアドレスをブロック',
-'unblock'                         => '利用者/IPアドレスのブロックを解除',
+'block'                           => '利用者をブロック',
+'unblock'                         => '利用者のブロックを解除',
 'blockip'                         => '利用者をブロック',
 'blockip-title'                   => '利用者のブロック',
 'blockip-legend'                  => '利用者をブロック',
@@ -2620,10 +2623,13 @@ $1',
 'ipbwatchuser'                    => 'この利用者の利用者ページとトークページをウォッチする',
 'ipb-disableusertalk'             => 'この利用者がブロック中に自身のトークページを編集することを不許可',
 'ipb-change-block'                => 'これらの設定で、利用者を再びブロック',
+'ipb-confirm'                     => 'ブロックの確認',
 'badipaddress'                    => '不正なIPアドレス',
 'blockipsuccesssub'               => 'ブロックしました',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]]をブロックしました。<br />
 [[Special:IPBlockList|投稿ブロック中の利用者やIPアドレス]]を参照してください。',
+'ipb-blockingself'                => '自分自身をブロックしようとしています。本当に実行しますか。',
+'ipb-confirmhideuser'             => '利用者名の秘匿を有効にしてブロックしようとしています。実行すると、すべてのリストやログにおいて利用者名が非表示になります。本当にこれでよろしいですか。',
 'ipb-edit-dropdown'               => 'ブロック理由を編集する',
 'ipb-unblock-addr'                => '$1のブロックを解除',
 'ipb-unblock'                     => '利用者またはIPアドレスのブロックを解除する',
@@ -2635,8 +2641,8 @@ $1',
 'unblocked'                       => '[[User:$1|$1]]のブロックを解除しました',
 'unblocked-range'                 => '$1のブロックは解除されています',
 'unblocked-id'                    => 'ブロック$1は除去されました',
-'blocklist'                       => 'ブロック中のIPアドレスや利用者',
-'ipblocklist'                     => 'ブロック中のIPアドレスや利用者',
+'blocklist'                       => 'ブロック中の利用者',
+'ipblocklist'                     => 'ブロック中の利用者',
 'ipblocklist-legend'              => 'ブロック中の利用者を検索',
 'blocklist-userblocks'            => 'アカウントのブロックを非表示',
 'blocklist-tempblocks'            => '有期ブロックを非表示',
@@ -2688,8 +2694,7 @@ $1のブロックの理由は「$2」です。',
 'ipb_expiry_temp'                 => '利用者名秘匿のブロックは、無期限ブロックになります。',
 'ipb_hide_invalid'                => 'このアカウントを秘匿できません。編集回数が非常に多いためだと思われます。',
 'ipb_already_blocked'             => '「$1」は既にブロックされています',
-'ipb-needreblock'                 => '== すでにブロックされています ==
-$1は、すでにブロックされています。
+'ipb-needreblock'                 => '$1は、すでにブロックされています。
 設定を変更しますか？',
 'ipb-otherblocks-header'          => 'その他の{{PLURAL:$1|ブロック}}',
 'unblock-hideuser'                => '利用者名が隠されているため、この利用者のブロックを解除できません。',
@@ -2891,8 +2896,8 @@ hideuser権限を持っていないため、この利用者のブロックを閲
 'import-interwiki-namespace' => '目的の名前空間：',
 'import-upload-filename'     => 'ファイルの名前：',
 'import-comment'             => 'コメント：',
-'importtext'                 => '書き出し元となるウィキから[[Special:Export|書き出し用機能]]を使ってファイルを書き出してください。
-それをコンピューターに保存した後、ここにアップロードしてください。',
+'importtext'                 => '元のウィキで[[Special:Export|書き出し機能]]を使ってファイルに書き出してください。
+それをコンピューターに保存した後、こちらへアップロードしてください。',
 'importstart'                => 'ページを取り込んでいます・・・',
 'import-revision-count'      => '$1版',
 'importnopages'              => '取り込むページがありません。',
@@ -3067,25 +3072,6 @@ hideuser権限を持っていないため、この利用者のブロックを閲
 'skinname-simple'      => 'シンプル',
 'skinname-modern'      => 'モダン',
 'skinname-vector'      => 'ベクター',
-
-# Math options
-'mw_math_png'    => '常にPNGで描画',
-'mw_math_simple' => '簡単ならHTML、それ以外はPNG',
-'mw_math_html'   => '可能ならHTML、それ以外はPNG',
-'mw_math_source' => 'TeXのまま（テキストブラウザー向け）',
-'mw_math_modern' => '最新のブラウザーでの推奨',
-'mw_math_mathml' => '可能ならMathML（試験中の機能）',
-
-# Math errors
-'math_failure'          => '構文解析失敗',
-'math_unknown_error'    => '不明なエラー',
-'math_unknown_function' => '不明な関数',
-'math_lexing_error'     => '字句解析エラー',
-'math_syntax_error'     => '構文エラー',
-'math_image_error'      => 'PNGへの変換に失敗しました。dvipng（もしくはdvipsとgsとconvert）およびlatexが正しくインストールされているか確認してください。',
-'math_bad_tmpdir'       => '数式一時ディレクトリーへの書き込みまたは作成ができません',
-'math_bad_output'       => '数式一時ディレクトリーへの書き込みまたは作成ができません',
-'math_notexvc'          => 'texvc実行可能プログラムが見つかりません。math/READMEを読んで設定してください。',
 
 # Patrolling
 'markaspatrolleddiff'                 => '巡回済みにする',
@@ -3554,11 +3540,12 @@ $1',
 'trackbackdeleteok' => 'トラックバックは正常に削除されました。',
 
 # Delete conflict
-'deletedwhileediting' => "'''警告：'''このページが、編集開始後に削除されました！",
-'confirmrecreate'     => "[[User:$1|$1]]（[[User talk:$1|トーク]]）が、このページの編集開始後に、このページを、次の理由で削除しました。
+'deletedwhileediting'      => "'''警告：'''このページが、編集開始後に削除されました！",
+'confirmrecreate'          => "[[User:$1|$1]]（[[User talk:$1|トーク]]）が、このページの編集開始後に、このページを、次の理由で削除しました。
 : ''$2''
 本当にこのままこのページを再作成して良いか確認してください。",
-'recreate'            => '再作成する',
+'confirmrecreate-noreason' => 'あなたの編集を開始した後、このページを[[User:$1|$1]] ([[User talk:$1|トーク]])が削除しました。本当にこのページを再作成していいのかご確認ください。',
+'recreate'                 => '再作成する',
 
 # action=purge
 'confirm_purge_button' => 'はい',
@@ -3753,7 +3740,7 @@ MediaWikiは、有用であることを期待して配布されていますが�
 'specialpages'                   => '特別ページ',
 'specialpages-note'              => '----
 * 通常の特別ページ。
-* <span class="mw-specialpagerestricted">制限されている特別ページ。</strong>
+* <span class="mw-specialpagerestricted">制限されている特別ページ。</span>
 * <span class="mw-specialpagecached">キャッシュのみの特別ページ。</span>',
 'specialpages-group-maintenance' => 'メンテナンス報告',
 'specialpages-group-other'       => 'その他の特別ページ',

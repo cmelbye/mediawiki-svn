@@ -397,6 +397,7 @@ class LinksUpdate {
 		}
 	}
 
+
 	/**
 	 * Get an array of pagelinks insertions for passing to the DB
 	 * Skips the titles specified by the 2-D array $existing

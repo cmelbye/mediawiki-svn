@@ -408,7 +408,6 @@ Meeglicherweise host du dei Poaßwurt bereits erfolgreich geändert oder a neues
 'extlink_tip'     => 'Externe Verknipfung (http:// beoachta)',
 'headline_sample' => 'Ieberschreft (Ebene 2)',
 'headline_tip'    => 'Ebene 2 Ieberschreft',
-'math_sample'     => 'Formel hier eifiega',
 'nowiki_sample'   => 'unformatierta Text hier eifiega',
 'nowiki_tip'      => 'unformatierter Text (nowiki)',
 'image_tip'       => 'Verknipfung miet Datei',
@@ -1640,8 +1639,7 @@ Siehe de [[Special:IPBlockList|Liste dar gesperrta IP-Atressa und Nutzernoama]] 
 'range_block_disabled'        => 'De Meeglichkeit, ganze Atressräume zu sperra, ies ne aktiviert.',
 'ipb_expiry_invalid'          => 'De eingegebene Dauer ies ungiltig.',
 'ipb_expiry_temp'             => 'Versteckte Nutzernoamas-Sperra sulla permanent sei.',
-'ipb-needreblock'             => '== Sperre vurhanda ==
-„$1“ ies bereits gesperrt. Mechtest du de Sperrparameter ändern?',
+'ipb-needreblock'             => '„$1“ ies bereits gesperrt. Mechtest du de Sperrparameter ändern?',
 'ipb-otherblocks-header'      => 'Andere {{PLURAL:$1|Sperre|Sperra}}',
 'ipb_cant_unblock'            => 'Fahler: Sperr-ID $1 ne gefunda. De Sperre wurde bereits uffgehuba.',
 'ipb_blocked_as_range'        => 'Fahler: De IP-Atresse $1 wurde ols Teel dar Bereichssperre $2 indirekt gesperrt. Anne Entsperrung vu $1 alleene ies ne meeglich.',
@@ -1899,24 +1897,6 @@ Olle Transwiki-Import-Aksjonna waan eim [[Special:Log/import|Import-Logbuch]] pr
 'numwatchers'    => 'Oazoahl dar Beobachter: $1',
 'numauthors'     => 'Oazoahl dar Autoren: $1',
 'numtalkauthors' => 'Oazoahl dar Dischkurteelnahmer: $1',
-
-# Math options
-'mw_math_png'    => 'Emmer ols PNG darstalla',
-'mw_math_simple' => 'Einfaches TeX ols HTML darstella, sunst PNG',
-'mw_math_html'   => 'Wenn meeglich ols HTML darstella, sunst PNG',
-'mw_math_source' => 'Ols TeX belassen (fier Textbrowser)',
-'mw_math_modern' => 'Empfehlenswert fier moderne Browser',
-
-# Math errors
-'math_failure'          => 'Parser-Fahler',
-'math_unknown_error'    => 'Unbekennter Fahler',
-'math_unknown_function' => 'Unbekennte Funksjonn',
-'math_lexing_error'     => '„Lexing“-Fahler',
-'math_syntax_error'     => 'Syntaxfahler',
-'math_image_error'      => 'de PNG-Konvertierung schlug fehl',
-'math_bad_tmpdir'       => 'Doas temporäre Verzeichnis fier mathematische Formeln koan ne oagelagt oder beschrieba waan.',
-'math_bad_output'       => 'Doas Zielverzeichnis fier mathematische Formeln koan ne oagelegt oder beschrieba waan.',
-'math_notexvc'          => 'Doas texvc-Programm wurde ne gefunda. Bitte math/README beachten.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Ols kontrolliert markiern',

@@ -73,6 +73,7 @@ abstract class Installer {
 		'postgres',
 		'oracle',
 		'sqlite',
+		'ibm_db2',
 	);
 
 	/**
@@ -610,7 +611,7 @@ abstract class Installer {
 			if ( $this->getDBInstaller( $name )->isCompiled() ) {
 				$compiledDBs[] = $name;
 			}
-			$allNames[] = wfMsg( 'config-type-' . $name );;
+			$allNames[] = wfMsg( 'config-type-' . $name );
 		}
 
 		$this->setVar( '_CompiledDBs', $compiledDBs );
@@ -625,8 +626,7 @@ abstract class Installer {
 		// Check for FTS3 full-text search module
 		$sqlite = $this->getDBInstaller( 'sqlite' );
 		if ( $sqlite->isCompiled() ) {
-			$db = new DatabaseSqliteStandalone( ':memory:' );
-			if( $db->getFulltextSearchModule() != 'FTS3' ) {
+			if( DatabaseSqlite::getFulltextSearchModule() != 'FTS3' ) {
 				$this->showMessage( 'config-no-fts3' );
 			}
 		}
@@ -819,7 +819,7 @@ abstract class Installer {
 			$this->showMessage( 'config-gd' );
 			return true;
 		} else {
-			$this->showMessage( 'no-scaling' );
+			$this->showMessage( 'config-no-scaling' );
 		}
 	}
 
@@ -1194,6 +1194,8 @@ abstract class Installer {
 		 * @see https://bugzilla.wikimedia.org/show_bug.cgi?id=26857
 		 */
 		global $wgAutoloadClasses;
+		$wgAutoloadClasses = array();
+		
 		require( "$IP/includes/DefaultSettings.php" );
 
 		foreach( $exts as $e ) {

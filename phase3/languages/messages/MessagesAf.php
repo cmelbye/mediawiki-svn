@@ -736,8 +736,6 @@ U het moontlik reeds u wagwoord gewysig of 'n nuwe tydelike wagwoord aangevra.",
 'extlink_tip'     => 'Eksterne skakel (onthou http:// vooraan)',
 'headline_sample' => 'Opskrif',
 'headline_tip'    => 'Vlak 2-opskrif',
-'math_sample'     => 'Plaas formule hier',
-'math_tip'        => 'Wiskundige formule (LaTeX)',
 'nowiki_sample'   => 'Plaas ongeformatteerde teks hier',
 'nowiki_tip'      => 'Ignoreer wiki-formattering',
 'image_sample'    => 'Voorbeeld.jpg',
@@ -978,7 +976,7 @@ Dit was moontlik geskrap of geskuif.
 [[Special:Search|Deursoek die wiki]] vir relevante bladsye.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(opsomming geskrap)',
+'rev-deleted-comment'         => '(opmerking verwyder)',
 'rev-deleted-user'            => '(gebruikersnaam geskrap)',
 'rev-deleted-event'           => '(stawingsaksie verwyder)',
 'rev-deleted-user-contribs'   => '[gebruikersnaam of IP-adres is verwyder - wysiging versteek in bydraes]',
@@ -1232,7 +1230,6 @@ U kan ook 'n naamruimte as voorvoegsel gebruik.",
 'changepassword'                => 'Verander wagwoord',
 'prefs-skin'                    => 'Omslag',
 'skin-preview'                  => 'Voorskou',
-'prefs-math'                    => 'Wiskunde',
 'datedefault'                   => 'Geen voorkeur',
 'prefs-datetime'                => 'Datum en tyd',
 'prefs-personal'                => 'Gebruikersdata',
@@ -1687,6 +1684,9 @@ As daar steeds probleme is, kontak 'n [[Special:ListUsers/sysop|administrateur]]
 'upload-too-many-redirects' => 'Die URL bevat te veel aansture',
 'upload-unknown-size'       => 'Onbekende grootte',
 'upload-http-error'         => "'n HTTP-fout het voorgekom: $1",
+
+# ZipDirectoryReader
+'zip-wrong-format' => "Die gespesifiseerde lêer was nie 'n zip-lêer nie.",
 
 # Special:UploadStash
 'uploadstash'          => 'Verborge oplaaie',
@@ -2391,8 +2391,8 @@ Die laaste inskrywing uit die blokkeerlogboek word hier ter inligting weergegee:
 
 # Block/unblock
 'autoblockid'                     => 'Outomatiese blokkade #$1',
-'block'                           => 'Blokkeer gebruiker of IP-adres',
-'unblock'                         => 'Deblokkeer gebruiker of IP-adres',
+'block'                           => 'Blok gebruiker',
+'unblock'                         => 'Deblokkeer gebruiker',
 'blockip'                         => 'Blokkeer gebruiker',
 'blockip-title'                   => 'Blokkeer gebruiker',
 'blockip-legend'                  => 'Blokkeer gebruiker of IP-adres',
@@ -2422,10 +2422,12 @@ Vul 'n spesifieke rede hier onder in (haal byvoorbeeld spesifieke bladsye wat ge
 'ipbhidename'                     => 'Verberg gebruiker van wysigings en lyste',
 'ipbwatchuser'                    => 'Hou die gebruiker se bladsy en besprekingsbladsy dop.',
 'ipb-change-block'                => 'Herblokkeer die gebruiker met hierdie instellings',
+'ipb-confirm'                     => 'Bevestig blokkade',
 'badipaddress'                    => 'Die IP-adres is nie in die regte formaat nie.',
 'blockipsuccesssub'               => 'Blokkering het geslaag',
 'blockipsuccesstext'              => "[[Special:Contributions/$1|$1]] is geblokkeer.<br />
 Sien die [[Special:IPBlockList|IP-bloklys]] vir 'n oorsig van blokkerings.",
+'ipb-blockingself'                => 'U is besig om uself te blokkeer! Is u seker u wil dit doen?',
 'ipb-edit-dropdown'               => 'Werk lys van redes by',
 'ipb-unblock-addr'                => 'Deblokkeer $1',
 'ipb-unblock'                     => "Deblokkeer 'n gebruiker of IP-adres",
@@ -2437,8 +2439,14 @@ Sien die [[Special:IPBlockList|IP-bloklys]] vir 'n oorsig van blokkerings.",
 'unblocked'                       => 'Blokkade van [[User:$1|$1]] is opgehef',
 'unblocked-range'                 => '$1 is gedeblokkeer',
 'unblocked-id'                    => 'Blokkade $1 is opgehef',
+'blocklist'                       => 'Geblokkeerde gebruikers',
 'ipblocklist'                     => 'Geblokkeerde IP-adresse en gebruikers',
 'ipblocklist-legend'              => "Soek 'n geblokkeerde gebruiker",
+'blocklist-timestamp'             => 'Tydstip',
+'blocklist-target'                => 'Doel',
+'blocklist-expiry'                => 'Verval',
+'blocklist-by'                    => 'Geblokkeer deur',
+'blocklist-params'                => 'Blokkadeparameters',
 'blocklist-reason'                => 'Rede',
 'ipblocklist-submit'              => 'Soek',
 'ipblocklist-localblock'          => 'Lokale blokkade',
@@ -2479,10 +2487,10 @@ Sien die [[Special:IPBlockList|IP-bloklys]] vir geblokkeerde adresse.",
 'ipb_expiry_temp'                 => 'Blokkades vir versteekte gebruikers moet permanent wees.',
 'ipb_hide_invalid'                => 'Dit is nie moontlik om hierdie gebruiker te verberg nie; miskien het hy al te veel wysigings gemaak.',
 'ipb_already_blocked'             => '"$1" is reeds geblok',
-'ipb-needreblock'                 => '== Hierdie gebruiker is reeds geblokkeer ==
-$1 is al geblokkeer.
+'ipb-needreblock'                 => '$1 is al geblokkeer.
 Wil u die instellings wysig?',
 'ipb-otherblocks-header'          => 'Ander {{PLURAL:$1|blokkade|blokkades}}',
+'unblock-hideuser'                => 'U kan nie die gebruiker deblokkeer nie, omdat die gebruikersnaam versteek is.',
 'ipb_cant_unblock'                => 'Fout: Blokkade-ID $1 kan nie gevind word nie.
 Die blokkade is moontlik reeds opgehef.',
 'ipb_blocked_as_range'            => "Fout: die IP-adres $1 is nie direk geblokkeer nie en die blokkade kan nie opgehef word nie.
@@ -2679,7 +2687,8 @@ Alle transwiki-laaie word opgeteken in die [[Special:Log/import|invoer-logboek]]
 'import-interwiki-namespace' => 'Doelnaamruimte:',
 'import-upload-filename'     => 'Lêernaam:',
 'import-comment'             => 'Opmerking:',
-'importtext'                 => 'Gebruik asseblief die [[Special:Export|eksport-funksie]] van die wiki waar die inligting vandaan kom, stoor die afvoer op u rekenaar, en laai dan hier op.',
+'importtext'                 => 'Gebruik die [[Special:Export|eksport-funksie]] van die wiki waar die inligting vandaan kom.
+Stoor die afvoer op u eie rekenaar, en laai dit hier op.',
 'importstart'                => 'Importeer bladsye...',
 'import-revision-count'      => '$1 {{PLURAL:$1|weergawe|weergawes}}',
 'importnopages'              => 'Geen bladsye om te importeer nie.',
@@ -2824,27 +2833,6 @@ Hierdie situasie was waarskynlik deur 'n skakel na 'n eksterne webtuiste op ons 
 'skinname-standard'    => 'Standaard',
 'skinname-nostalgia'   => 'Nostalgie',
 'skinname-cologneblue' => 'Keulen blou',
-
-# Math options
-'mw_math_png'    => 'Gebruik altyd PNG.',
-'mw_math_simple' => 'Gebruik HTML indien dit eenvoudig is, andersins PNG.',
-'mw_math_html'   => 'Gebruik HTML wanneer moontlik, andersins PNG.',
-'mw_math_source' => 'Los as TeX (vir teksblaaiers).',
-'mw_math_modern' => 'Moderne blaaiers.',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Kon nie verbeeld nie',
-'math_unknown_error'    => 'onbekende fout',
-'math_unknown_function' => 'onbekende funksie',
-'math_lexing_error'     => 'leksikale fout',
-'math_syntax_error'     => 'sintaksfout',
-'math_image_error'      => 'PNG-omskakeling het gefaal.
-Kontroleer of LaTeX en dvipng (of dvips + gs + convert) korrek geïnstalleer is.',
-'math_bad_tmpdir'       => 'Die gids vir tydelike lêers vir wiskundige formules bestaan nie of kan nie geskep word nie',
-'math_bad_output'       => 'Die gids vir lêers met wiskundige formules bestaan nie of kan nie geskep word nie',
-'math_notexvc'          => 'Kan nie die texvc program vind nie;
-stel asseblief op volgens die beskrywing in math/README.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Merk as gekontroleerd',
@@ -3282,10 +3270,12 @@ $1',
 'trackbackdeleteok' => 'Die verwysende bladsy is suksesvol verwyder.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Let op''': die bladsy is verwyder terwyl u besig was om dit te wysig!",
-'confirmrecreate'     => "Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreek]]) het hierdie blad uitgevee ná u begin redigeer het met rede: : ''$2''
+'deletedwhileediting'      => "'''Let op''': die bladsy is verwyder terwyl u besig was om dit te wysig!",
+'confirmrecreate'          => "Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreek]]) het hierdie blad uitgevee ná u begin redigeer het met rede: : ''$2''
 Bevestig asseblief dat u regtig hierdie blad oor wil skep.",
-'recreate'            => 'Herskep',
+'confirmrecreate-noreason' => 'Gebruiker [[User:$1|$1]] ([[User talk:$1|bespreking]]) het die bladsy geskrap nadat u dit begin wysig het.
+Bevestig dat u die bladsy wil herskep.',
+'recreate'                 => 'Herskep',
 
 # action=purge
 'confirm_purge_button' => 'OK',
@@ -3419,7 +3409,8 @@ Sleutel die lêernaam in sonder die "{{ns:file}}:" voorvoegsel.',
 'specialpages'                   => 'Spesiale bladsye',
 'specialpages-note'              => '----
 * Normale spesiale bladsye.
-* <strong class="mw-specialpagerestricted">Beperkte spesiale bladsye.</strong>',
+* <strong class="mw-specialpagerestricted">Spesiale bladsye met beperkte toegang.</strong>
+* <strong class="mw-specialpagerestricted">Spesiale bladsye met slegs gegewens uit die kas.</strong>',
 'specialpages-group-maintenance' => 'Onderhoud verslae',
 'specialpages-group-other'       => 'Ander spesiale bladsye',
 'specialpages-group-login'       => 'Inteken / aansluit',

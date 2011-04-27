@@ -127,6 +127,13 @@ class ApiQueryUserInfo extends ApiQueryBase {
 			}
 		}
 
+		if ( isset( $this->prop['registrationdate'] ) ) {
+			$regDate = $wgUser->getRegistration();
+			if ( $regDate !== false ) {
+				$vals['registrationdate'] = wfTimestamp( TS_ISO_8601, $regDate );
+			}
+		}
+
 		if ( isset( $this->prop['acceptlang'] ) ) {
 			$langs = $wgRequest->getAcceptLang();
 			$acceptLang = array();
@@ -193,6 +200,7 @@ class ApiQueryUserInfo extends ApiQueryBase {
 					'email',
 					'realname',
 					'acceptlang',
+					'registrationdate'
 				)
 			)
 		);
@@ -208,11 +216,13 @@ class ApiQueryUserInfo extends ApiQueryBase {
 				'  rights           - Lists all the rights the current user has',
 				'  changeablegroups - Lists the groups the current user can add to and remove from',
 				'  options          - Lists all preferences the current user has set',
+				'  preferencestoken - Get a token to change current user\'s preferences',
 				'  editcount        - Adds the current user\'s edit count',
 				'  ratelimits       - Lists all rate limits applying to the current user',
 				'  realname         - Adds the user\'s real name',
 				'  email            - Adds the user\'s email address and email authentication date',
 				'  acceptlang       - Echoes the Accept-Language header sent by the client in a structured format',
+				'  registrationdate - Adds the user\'s registration date',
 			)
 		);
 	}

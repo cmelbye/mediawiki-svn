@@ -5,7 +5,7 @@
   *
   * @ingroup Language
   */
-/* private */ $wgLanguageNames = array(
+/* private */ $coreLanguageNames = array(
 	'aa' => 'Qafár af',	# Afar
 	'ab' => 'Аҧсуа',	# Abkhaz, should possibly add ' бысжѡа'
 	'ace' => 'Acèh',	# Aceh
@@ -190,7 +190,7 @@
 	'lg' => 'Luganda',		# Ganda
 	'li' => 'Limburgs',	# Limburgian
 	'lij' => 'Líguru',	# Ligurian
-	'liv' => 'Līvõ kēļ',	# Liv
+	'liv' => 'Līvõ kēļ',	# Livonian
 	'lmo' => 'Lumbaart',	# Lombard
 	'ln' => 'Lingála',		# Lingala
 	'lo' => 'ລາວ',# Laotian
@@ -326,7 +326,6 @@
 	'tn' => 'Setswana',		# Setswana
 	'to' => 'lea faka-Tonga',		# Tonga (Tonga Islands)
 	'tokipona' => 'Toki Pona',      # Toki Pona
-	'tp' => 'Toki Pona (deprecated:tokipona)',	# Toki Pona - non-standard language code
 	'tpi' => 'Tok Pisin',	# Tok Pisin
 	'tr' => 'Türkçe',	# Turkish
 	'ts' => 'Xitsonga',		# Tsonga

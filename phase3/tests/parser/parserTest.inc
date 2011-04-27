@@ -631,8 +631,6 @@ class ParserTest {
 			'wgNoFollowDomainExceptions' => array(),
 			'wgThumbnailScriptPath' => false,
 			'wgUseImageResize' => false,
-			'wgUseTeX' => isset( $opts['math'] ),
-			'wgMathDirectory' => $this->uploadDir . '/math',
 			'wgLocaltimezone' => 'UTC',
 			'wgAllowExternalImages' => true,
 			'wgUseTidy' => false,
@@ -681,10 +679,12 @@ class ParserTest {
 		}
 
 		$langObj = Language::factory( $lang );
-		$GLOBALS['wgLang'] = $langObj;
 		$GLOBALS['wgContLang'] = $langObj;
+		$context = new RequestContext();
+		$GLOBALS['wgLang'] = $context->getLang();
+
 		$GLOBALS['wgMemc'] = new EmptyBagOStuff;
-		$GLOBALS['wgOut'] = new OutputPage;
+		$GLOBALS['wgOut'] = new $context->output;
 
 		global $wgHooks;
 
@@ -746,8 +746,9 @@ class ParserTest {
 		$this->oldTablePrefix = $wgDBprefix;
 
 		# SqlBagOStuff broke when using temporary tables on r40209 (bug 15892).
-		# It seems to have been fixed since (r55079?).
-		# If it fails, $wgCaches[CACHE_DB] = new HashBagOStuff(); should work around it.
+		# It seems to have been fixed since (r55079?), but regressed at some point before r85701.
+		# This works around it for now...
+		ObjectCache::$instances[CACHE_DB] = new HashBagOStuff;
 
 		# CREATE TEMPORARY TABLE breaks if there is more than one server
 		if ( wfGetLB()->getServerCount() != 1 ) {

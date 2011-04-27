@@ -891,8 +891,6 @@ Möglicherweise hast du dein Passwort bereits erfolgreich geändert oder ein neu
 'extlink_tip'     => 'Externer Link (http:// beachten)',
 'headline_sample' => 'Ebene-2-Überschrift',
 'headline_tip'    => 'Ebene-2-Überschrift',
-'math_sample'     => 'Formel hier einfügen',
-'math_tip'        => 'Mathematische Formel (LaTeX)',
 'nowiki_sample'   => 'Unformatierten Text hier einfügen',
 'nowiki_tip'      => 'Unformatierter Text',
 'image_sample'    => 'Beispiel.jpg',
@@ -1380,7 +1378,6 @@ Stelle sicher, dass die Versionsgeschichte einer Seite historisch korrekt ist.',
 'changepassword'                => 'Passwort ändern',
 'prefs-skin'                    => 'Benutzeroberfläche',
 'skin-preview'                  => 'Vorschau',
-'prefs-math'                    => 'TeX',
 'datedefault'                   => 'Standard',
 'prefs-datetime'                => 'Datum und Zeit',
 'prefs-personal'                => 'Benutzerdaten',
@@ -1853,22 +1850,23 @@ Sie kann daher keiner ordnungsgemäßen Sicherheitsüberprüfung unterzogen werd
 'uploadstash-refresh'  => 'Liste der Dateien aktualisieren',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Zugriff verweigert',
-'img-auth-nopathinfo'   => 'PATH_INFO fehlt.
+'img-auth-accessdenied'     => 'Zugriff verweigert',
+'img-auth-nopathinfo'       => 'PATH_INFO fehlt.
 Dein Server ist nicht dafür eingerichtet, diese Information weiterzugeben.
 Es könnte CGI-basiert sein und unterstützt img_auth nicht.
 Siehe http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Der gewünschte Pfad ist nicht im konfigurierten Uploadverzeichnis.',
-'img-auth-badtitle'     => 'Aus „$1“ kann kein gültiger Titel erstellt werden.',
-'img-auth-nologinnWL'   => 'Du bist nicht angemeldet und „$1“ ist nicht in der weißen Liste.',
-'img-auth-nofile'       => 'Datei „$1“ existiert nicht.',
-'img-auth-isdir'        => 'Du versuchst, auf ein Verzeichnis „$1“ zuzugreifen.
+'img-auth-notindir'         => 'Der gewünschte Pfad ist nicht im konfigurierten Uploadverzeichnis.',
+'img-auth-badtitle'         => 'Aus „$1“ kann kein gültiger Titel erstellt werden.',
+'img-auth-nologinnWL'       => 'Du bist nicht angemeldet und „$1“ ist nicht in der weißen Liste.',
+'img-auth-nofile'           => 'Datei „$1“ existiert nicht.',
+'img-auth-isdir'            => 'Du versuchst, auf ein Verzeichnis „$1“ zuzugreifen.
 Nur Dateizugriff ist erlaubt.',
-'img-auth-streaming'    => 'Lade „$1“.',
-'img-auth-public'       => 'img_auth.php gibt Dateien von einem privaten Wiki aus.
+'img-auth-streaming'        => 'Lade „$1“.',
+'img-auth-public'           => 'img_auth.php gibt Dateien von einem privaten Wiki aus.
 Dieses Wiki wurde als ein öffentliches Wiki konfiguriert.
 Aus Sicherheitsgründen ist img_auth.php deaktiviert.',
-'img-auth-noread'       => 'Benutzer hat keine Berechtigung, „$1“ zu lesen.',
+'img-auth-noread'           => 'Benutzer hat keine Berechtigung, „$1“ zu lesen.',
+'img-auth-bad-query-string' => 'Die URL weist eine ungültige Abfragezeichenfolge auf.',
 
 # HTTP errors
 'http-invalid-url'      => 'Ungültige URL: $1',
@@ -2225,6 +2223,10 @@ Als Absender wird die E-Mail-Adresse aus deinen [[Special:Preferences|Einstellun
 'noemailtext'          => 'Dieser Benutzer hat keine gültige E-Mail-Adresse angegeben.',
 'nowikiemailtitle'     => 'E-Mail-Versand nicht möglich',
 'nowikiemailtext'      => 'Dieser Benutzer möchte keine E-Mails von anderen Benutzern erhalten.',
+'emailnotarget'        => 'Nicht vorhandener oder ungültiger Benutzername für den Empfang einer E-Mail.',
+'emailtarget'          => 'Den Benutzer eingeben, um E-Mails erhalten zu können.',
+'emailusername'        => 'Benutzername:',
+'emailusernamesubmit'  => 'Speichern',
 'email-legend'         => 'E-Mail an einen anderen {{SITENAME}}-Benutzer senden',
 'emailfrom'            => 'Von:',
 'emailto'              => 'An:',
@@ -2529,8 +2531,8 @@ Zur Information folgt der aktuelle Auszug aus dem Sperr-Logbuch:',
 
 # Block/unblock
 'autoblockid'                     => 'Automatische Sperrung #$1',
-'block'                           => 'Benutzer/ IP-Adresse sperren',
-'unblock'                         => 'Benutzer/ IP-Adresse freigeben',
+'block'                           => 'Benutzer sperren',
+'unblock'                         => 'Benutzer freigeben',
 'blockip'                         => 'IP-Adresse/Benutzer sperren',
 'blockip-title'                   => 'Benutzer sperren',
 'blockip-legend'                  => 'IP-Adresse/Benutzer sperren',
@@ -2562,10 +2564,13 @@ Bitte gib den Grund für die Sperre an.',
 'ipbwatchuser'                    => 'Benutzer(diskussions)seite beobachten',
 'ipb-disableusertalk'             => 'Diese Benutzer daran hindern seine eigene Diskussionsseite zu bearbeiten, solange er gesperrt ist',
 'ipb-change-block'                => 'Sperre mit diesen Sperrparametern erneuern',
+'ipb-confirm'                     => 'Sperrung bestätigen',
 'badipaddress'                    => 'Die IP-Adresse hat ein falsches Format.',
 'blockipsuccesssub'               => 'Sperre erfolgreich',
 'blockipsuccesstext'              => 'Der Benutzer/die IP-Adresse [[Special:Contributions/$1|$1]] wurde gesperrt.<br />
 Zur Aufhebung der Sperre siehe die [[Special:IPBlockList|Liste aller aktiven Sperren]].',
+'ipb-blockingself'                => 'Du bist gerade dabei, dich selbst zu sperren! Möchtest du das wirklich tun?',
+'ipb-confirmhideuser'             => 'Du bist gerade dabei einen Benutzer im Modus „Benutzer verstecken“ zu sperren. Dies führt dazu, dass der Benutzername in allen Listen und Logbüchern unterdrückt wird. Möchtest du das wirklich tun?',
 'ipb-edit-dropdown'               => 'Sperrgründe bearbeiten',
 'ipb-unblock-addr'                => '„$1“ freigeben',
 'ipb-unblock'                     => 'IP-Adresse/Benutzer freigeben',
@@ -2577,8 +2582,8 @@ Zur Aufhebung der Sperre siehe die [[Special:IPBlockList|Liste aller aktiven Spe
 'unblocked'                       => '[[User:$1|$1]] wurde freigegeben',
 'unblocked-range'                 => 'Sperre für $1 wurde aufgehoben',
 'unblocked-id'                    => 'Sperr-ID $1 wurde freigegeben',
-'blocklist'                       => 'Gesperrte Benutzernamen und IP-Adressen',
-'ipblocklist'                     => 'Gesperrte IP-Adressen und Benutzernamen',
+'blocklist'                       => 'Gesperrte Benutzer',
+'ipblocklist'                     => 'Gesperrte Benutzer',
 'ipblocklist-legend'              => 'Suche nach einem gesperrten Benutzer',
 'blocklist-userblocks'            => 'Benutzersperren ausblenden',
 'blocklist-tempblocks'            => 'Befristete Sperren ausblenden',
@@ -2628,8 +2633,7 @@ Siehe die [[Special:IPBlockList|Liste der gesperrten IP-Adressen und Benutzernam
 'ipb_expiry_temp'                 => 'Benutzernamens-Sperren mit der Verstecken-Option müssen permanent sein.',
 'ipb_hide_invalid'                => 'Dieses Konto kann nicht unterdrückt werden, da es zu viele Bearbeitungen aufweist.',
 'ipb_already_blocked'             => '„$1“ wurde bereits gesperrt.',
-'ipb-needreblock'                 => '== Sperre vorhanden ==
-„$1“ ist bereits gesperrt. Möchtest du die Sperrparameter ändern?',
+'ipb-needreblock'                 => '„$1“ ist bereits gesperrt. Möchtest du die Sperrparameter ändern?',
 'ipb-otherblocks-header'          => 'Andere {{PLURAL:$1|Sperre|Sperren}}',
 'unblock-hideuser'                => 'Dieser Benutzer kann nicht entsperrt werden, da dessen Benutzername versteckt wurde.',
 'ipb_cant_unblock'                => 'Fehler: Sperr-ID $1 nicht gefunden. Die Sperre wurde bereits aufgehoben.',
@@ -2823,7 +2827,8 @@ Alle Transwiki-Import-Aktionen werden im [[Special:Log/import|Import-Logbuch]] p
 'import-interwiki-namespace' => 'Zielnamensraum:',
 'import-upload-filename'     => 'Dateiname:',
 'import-comment'             => 'Grund:',
-'importtext'                 => 'Auf dieser Spezialseite können über die [[Special:Export|Exportfunktion]] im Quellwiki exportierte Seiten in dieses Wiki importiert werden.',
+'importtext'                 => 'Bitte die Datei über die Spezialseite [[Special:Export|Exportfunktion]] aus dem Quellwiki exportieren.
+Diese auf dem lokalen Rechner speichern und danach hier hochladen.',
 'importstart'                => 'Importiere Seite …',
 'import-revision-count'      => '– {{PLURAL:$1|1 Version|$1 Versionen}}',
 'importnopages'              => 'Keine Seite zum Importieren vorhanden.',
@@ -3004,25 +3009,6 @@ Das liegt wahrscheinlich an einem Link auf eine externe Seite.',
 'skinname-simple'      => 'Einfach',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
-
-# Math options
-'mw_math_png'    => 'Immer als PNG darstellen',
-'mw_math_simple' => 'Einfaches TeX als HTML darstellen, ansonsten als PNG',
-'mw_math_html'   => 'Sofern möglich als HTML darstellen, ansonsten als PNG',
-'mw_math_source' => 'Als TeX belassen (für Textbrowser)',
-'mw_math_modern' => 'Für moderne Browser empfohlene Darstellungsmethode',
-'mw_math_mathml' => 'Sofern möglich als MathML darstellen (experimentell)',
-
-# Math errors
-'math_failure'          => 'Parser-Fehler',
-'math_unknown_error'    => 'Unbekannter Fehler',
-'math_unknown_function' => 'Unbekannte Funktion ',
-'math_lexing_error'     => '„Lexing“-Fehler',
-'math_syntax_error'     => 'Syntaxfehler',
-'math_image_error'      => 'PNG-Konvertierung fehlgeschlagen; korrekte Installation von LaTeX und dvipng überprüfen (oder dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Das temporäre Verzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
-'math_bad_output'       => 'Das Zielverzeichnis für mathematische Formeln kann nicht angelegt oder beschrieben werden.',
-'math_notexvc'          => 'Das texvc-Programm wurde nicht gefunden. Bitte math/README beachten.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Als kontrolliert markieren',
@@ -3465,12 +3451,13 @@ $1',
 'trackbackdeleteok' => 'Trackback wurde erfolgreich gelöscht.',
 
 # Delete conflict
-'deletedwhileediting' => 'Achtung: Diese Seite wurde gelöscht, nachdem du angefangen hast sie zu bearbeiten!
+'deletedwhileediting'      => 'Achtung: Diese Seite wurde gelöscht, nachdem du angefangen hast sie zu bearbeiten!
 Im [{{fullurl:{{#special:Log}}|type=delete&page={{FULLPAGENAMEE}}}} Lösch-Logbuch] findest du den Grund für die Löschung. Wenn du die Seite speicherst, wird sie neu angelegt.',
-'confirmrecreate'     => "Benutzer [[User:$1|$1]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du angefangen hast, sie zu bearbeiten. Die Begründung lautete:
+'confirmrecreate'          => "Benutzer [[User:$1|$1]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du angefangen hast, sie zu bearbeiten. Die Begründung lautete:
 :''$2''
 Bitte bestätige, dass du diese Seite wirklich neu erstellen möchten.",
-'recreate'            => 'Erneut anlegen',
+'confirmrecreate-noreason' => 'Benutzer [[User:$1|$1 ]] ([[User talk:$1|Diskussion]]) hat diese Seite gelöscht, nachdem du mit der Bearbeitung begonnen hast. Bitte bestätige, dass du die Seite wirklich erneut erstellen möchtest.',
+'recreate'                 => 'Erneut anlegen',
 
 # action=purge
 'confirm_purge_button' => 'OK',

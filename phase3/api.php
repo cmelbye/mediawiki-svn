@@ -37,7 +37,20 @@
 // So extensions (and other code) can check whether they're running in API mode
 define( 'MW_API', true );
 
-// Initialise common code
+// We want a plain message on catastrophic errors that machines can identify
+function wfDie( $msg = '' ) {
+	header( $_SERVER['SERVER_PROTOCOL'] . ' 500 MediaWiki configuration Error', true, 500 );
+	echo $msg;
+	die( 1 );
+}
+
+// Die on unsupported PHP versions
+if( !function_exists( 'version_compare' ) || version_compare( phpversion(), '5.2.3' ) < 0 ){
+	$version = htmlspecialchars( $wgVersion );
+	wfDie( "MediaWiki $version requires at least PHP version 5.2.3." );
+}
+
+// Initialise common code.
 require ( dirname( __FILE__ ) . '/includes/WebStart.php' );
 
 wfProfileIn( 'api.php' );
@@ -55,16 +68,15 @@ $starttime = microtime( true );
 //
 if ( $wgRequest->isPathInfoBad() ) {
 	wfHttpError( 403, 'Forbidden',
-		'Invalid file extension found in PATH_INFO. ' .
-		'The API must be accessed through the primary script entry point.' );
+		'Invalid file extension found in PATH_INFO or QUERY_STRING.' );
 	return;
 }
 
 // Verify that the API has not been disabled
 if ( !$wgEnableAPI ) {
-	echo 'MediaWiki API is not enabled for this site. Add the following line to your LocalSettings.php';
-	echo '<pre><b>$wgEnableAPI=true;</b></pre>';
-	die( 1 );
+	wfDie( 'MediaWiki API is not enabled for this site. Add the following line to your LocalSettings.php'
+		. '<pre><b>$wgEnableAPI=true;</b></pre>'
+	);
 }
 
 // Selectively allow cross-site AJAX
@@ -132,7 +144,8 @@ if ( $wgAPIRequestLog ) {
 			$_SERVER['HTTP_USER_AGENT']
 	);
 	$items[] = $wgRequest->wasPosted() ? 'POST' : 'GET';
-	if ( $processor->getModule()->mustBePosted() ) {
+	$module = $processor->getModule();
+	if ( $module->mustBePosted() ) {
 		$items[] = "action=" . $wgRequest->getVal( 'action' );
 	} else {
 		$items[] = wfArrayToCGI( $wgRequest->getValues() );
@@ -141,6 +154,8 @@ if ( $wgAPIRequestLog ) {
 	wfDebug( "Logged API request to $wgAPIRequestLog\n" );
 }
 
-// Shut down the database
-wfGetLBFactory()->shutdown();
+// Shut down the database.  foo()->bar() syntax is not supported in PHP4: we won't ever actually
+// get here to worry about whether this should be = or =&, but the file has to parse properly.
+$lb = wfGetLBFactory();
+$lb->shutdown();
 

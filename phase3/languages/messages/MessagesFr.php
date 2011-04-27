@@ -873,8 +873,6 @@ Vous avez peut-être déjà changé votre mot de passe ou demandé un nouveau mo
 'extlink_tip'     => 'Lien externe (n’oubliez pas le préfixe http://)',
 'headline_sample' => 'Texte de sous-titre',
 'headline_tip'    => 'Sous-titre niveau 2',
-'math_sample'     => 'Entrez votre formule ici',
-'math_tip'        => 'Formule mathématique (LaTeX)',
 'nowiki_sample'   => 'Entrez le texte non formaté ici',
 'nowiki_tip'      => 'Ignorer la syntaxe wiki',
 'image_sample'    => 'Exemple.jpg',
@@ -1097,7 +1095,7 @@ La raison donnée était ''$2''.",
 'page_last'              => 'dernière',
 'histlegend'             => 'Légende : ({{int:cur}}) = différence avec la version actuelle, ({{int:last}}) = différence avec la version précédente, <b>{{int:minoreditletter}}</b> = modification mineure',
 'history-fieldset-title' => 'Naviguer dans l’historique',
-'history-show-deleted'   => 'Supprimés seulement',
+'history-show-deleted'   => 'Masqués seulement',
 'histfirst'              => 'première page',
 'histlast'               => 'dernière page',
 'historysize'            => '($1 octet{{PLURAL:$1||s}})',
@@ -1363,16 +1361,15 @@ Essayez en utilisant le préfixe ''all:'' pour rechercher dans tout le contenu (
 'changepassword'                => 'Changer de mot de passe',
 'prefs-skin'                    => 'Habillage',
 'skin-preview'                  => 'Prévisualiser',
-'prefs-math'                    => 'Rendu des maths',
 'datedefault'                   => 'Aucune préférence',
 'prefs-datetime'                => 'Date et heure',
 'prefs-personal'                => 'Informations personnelles',
 'prefs-rc'                      => 'Modifications récentes',
 'prefs-watchlist'               => 'Liste de suivi',
 'prefs-watchlist-days'          => 'Nombre de jours à afficher dans la liste de suivi :',
-'prefs-watchlist-days-max'      => '(maximum 7 jours)',
+'prefs-watchlist-days-max'      => 'Maximum 7 jours',
 'prefs-watchlist-edits'         => 'Nombre de modifications à afficher dans la liste de suivi étendue :',
-'prefs-watchlist-edits-max'     => '(nombre maximum : 1000)',
+'prefs-watchlist-edits-max'     => 'Nombre maximum : 1000',
 'prefs-watchlist-token'         => 'Jeton pour la liste de suivi :',
 'prefs-misc'                    => 'Préférences diverses',
 'prefs-resetpass'               => 'Changer de mot de passe',
@@ -1646,7 +1643,7 @@ Elle ne doit pas dépasser $1 caractère{{PLURAL:$1||s}}.',
 'rclinks'                           => 'Afficher les $1 dernières modifications effectuées au cours des $2 derniers jours<br />$3.',
 'diff'                              => 'diff',
 'hist'                              => 'hist',
-'hide'                              => 'masquer',
+'hide'                              => 'Masquer',
 'show'                              => 'Afficher',
 'minoreditletter'                   => 'm',
 'newpageletter'                     => 'N',
@@ -1838,7 +1835,7 @@ Il ne peut pas être correctement vérifé pour la sécurité.',
 'img-auth-accessdenied' => 'Accès refusé',
 'img-auth-nopathinfo'   => 'PATH_INFO manquant.
 Votre serveur n’est pas paramétré pour passer cette information.
-Il fonctionne peut-être en CGI et ne supporte pas img_atuh.
+Il fonctionne peut-être en CGI et ne supporte pas img_auth.
 Consultez http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
 'img-auth-notindir'     => 'Le chemin demandé n’est pas le répertoire de téléversement configuré.',
 'img-auth-badtitle'     => 'Impossible de construire un titre valide à partir de « $1 ».',
@@ -1916,13 +1913,15 @@ Une [[Special:WhatLinksHere/$2|liste complète]] est disponible.',
 'morelinkstoimage'                  => 'Voir [[Special:WhatLinksHere/$1|plus de liens]] vers ce fichier.',
 'redirectstofile'                   => '{{PLURAL:$1|Le fichier suivant redirige|Les fichiers suivants redirigent}} vers celui-ci :',
 'duplicatesoffile'                  => '{{PLURAL:$1|Le fichier suivant est un duplicata|Les fichiers suivants sont des duplicatas}} de celui-ci ([[Special:FileDuplicateSearch/$2|plus de détails]]) :',
-'sharedupload'                      => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets.',
-'sharedupload-desc-there'           => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets. Voyez [$2 sa page de description] pour plus d’informations.',
-'sharedupload-desc-here'            => 'Ce fichier provient de $1 et peut être utilisé par d’autres projets. Sa [$2 page de description] est affichée ci-dessous.',
+'sharedupload'                      => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.',
+'sharedupload-desc-there'           => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.
+Veuillez consulter [$2 sa page de description] pour plus d’informations.',
+'sharedupload-desc-here'            => 'Ce fichier provient de : $1. Il peut être utilisé par d’autres projets.
+Sa description sur sa [$2 page de description] est affichée ci-dessous.',
 'filepage-nofile'                   => 'Aucun fichier de ce nom existe.',
 'filepage-nofile-link'              => 'Aucun fichier de ce nom n’existe, mais vous pouvez [$1 en téléverser un].',
 'uploadnewversion-linktext'         => 'Téléverser une nouvelle version de ce fichier',
-'shared-repo-from'                  => 'de $1',
+'shared-repo-from'                  => 'de : $1',
 'shared-repo'                       => 'un dépôt partagé',
 'shared-repo-name-wikimediacommons' => 'Wikimédia Commons',
 
@@ -2502,7 +2501,7 @@ $1',
 La dernière entrée du journal des blocages est indiquée ci-dessous à titre d’information :',
 'sp-contributions-search'              => 'Rechercher les contributions',
 'sp-contributions-username'            => 'Adresse IP ou nom d’utilisateur :',
-'sp-contributions-toponly'             => 'Ne montrer que les révisions récentes',
+'sp-contributions-toponly'             => 'Ne montrer que les articles dont je suis le dernier contributeur',
 'sp-contributions-submit'              => 'Rechercher',
 
 # What links here
@@ -2526,8 +2525,8 @@ La dernière entrée du journal des blocages est indiquée ci-dessous à titre d
 
 # Block/unblock
 'autoblockid'                     => 'Blocage automatique #$1',
-'block'                           => 'Bloquer un utilisateur ou une adresse IP',
-'unblock'                         => 'Débloquer un utilisateur ou une adresse IP',
+'block'                           => 'Bloquer l’utilisateur',
+'unblock'                         => 'Débloquer l’utilisateur',
 'blockip'                         => 'Bloquer l’utilisateur',
 'blockip-title'                   => 'Bloquer l’utilisateur',
 'blockip-legend'                  => 'Bloquer l’utilisateur',
@@ -2559,10 +2558,13 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 'ipbwatchuser'                    => 'Suivre les pages utilisateur et de discussion de cet utilisateur',
 'ipb-disableusertalk'             => 'Empêche cet utilisateur de modifier sa propre page de discussion pendant la durée de son blocage',
 'ipb-change-block'                => 'Bloquer à nouveau cet utilisateur avec ces paramètres',
+'ipb-confirm'                     => 'Confirmer le blocage',
 'badipaddress'                    => 'Adresse IP incorrecte',
 'blockipsuccesssub'               => 'Blocage réussi',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a été bloqué{{GENDER:$1||e|}}.<br />
 Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] pour revoir les blocages.',
+'ipb-blockingself'                => 'Vous êtes sur le point de vous bloquer vous-même !  Étes-vous certain de que vouloir faire cela ?',
+'ipb-confirmhideuser'             => 'Vous êtes sur le point de bloquer un utilisateur avec « cacher l’utilisateur » activé. Cela supprime le nom de l’utilisateur dans toutes les listes et les entrées du journal. Êtes-vous sûr de vouloir le faire ?',
 'ipb-edit-dropdown'               => 'Modifier les motifs de blocage par défaut',
 'ipb-unblock-addr'                => 'Débloquer $1',
 'ipb-unblock'                     => 'Débloquer un compte utilisateur ou une adresse IP',
@@ -2574,8 +2576,8 @@ Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] p
 'unblocked'                       => '[[User:$1|$1]] a été débloqué',
 'unblocked-range'                 => '$1 a été débloqué',
 'unblocked-id'                    => 'Le blocage $1 a été enlevé',
-'blocklist'                       => 'Adresses IP et utilisateurs bloqués',
-'ipblocklist'                     => 'Adresses IP et utilisateurs bloqués',
+'blocklist'                       => 'Utilisateurs bloqués',
+'ipblocklist'                     => 'Utilisateurs bloqués',
 'ipblocklist-legend'              => 'Chercher un utilisateur bloqué',
 'blocklist-userblocks'            => 'Masquer les blocages de comptes',
 'blocklist-tempblocks'            => 'Masquer les blocages temporaires',
@@ -2625,8 +2627,7 @@ Consultez la [[Special:IPBlockList|liste des IP bloquées]] pour voir les bannis
 'ipb_expiry_temp'                 => 'Les blocages de noms d’utilisateurs cachés doivent être permanents.',
 'ipb_hide_invalid'                => 'Impossible de supprimer ce compte ; il semble avoir trop de modifications.',
 'ipb_already_blocked'             => '« $1 » est déjà bloqué',
-'ipb-needreblock'                 => '== Déjà bloqué ==
-$1 est déjà bloqué. Voulez-vous modifier les paramètres ?',
+'ipb-needreblock'                 => '$1 est déjà bloqué. Voulez-vous modifier les paramètres ?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
 'unblock-hideuser'                => "Vous ne peut débloquer cet utilisateur, son nom d'utilisateur a été masqué.",
 'ipb_cant_unblock'                => 'Erreur : identifiant de blocage $1 non trouvé.
@@ -2993,25 +2994,6 @@ Permet de rétablir la version précédente et d’ajouter un motif dans la boî
 'skinname-simple'      => 'Simple',
 'skinname-modern'      => 'Moderne',
 'skinname-vector'      => 'Vector',
-
-# Math options
-'mw_math_png'    => 'Toujours produire une image PNG',
-'mw_math_simple' => 'HTML si très simple, autrement PNG',
-'mw_math_html'   => 'HTML si possible, autrement PNG',
-'mw_math_source' => 'Laisser le code TeX original',
-'mw_math_modern' => 'Pour les navigateurs modernes',
-'mw_math_mathml' => 'MathML',
-
-# Math errors
-'math_failure'          => 'Erreur math',
-'math_unknown_error'    => 'erreur indéterminée',
-'math_unknown_function' => 'fonction inconnue',
-'math_lexing_error'     => 'erreur lexicale',
-'math_syntax_error'     => 'erreur de syntaxe',
-'math_image_error'      => 'La conversion en PNG a échoué ; vérifiez l’installation de latex et dvipng (ou dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Impossible de créer ou d’écrire dans le répertoire math temporaire',
-'math_bad_output'       => 'Impossible de créer ou d’écrire dans le répertoire math de sortie',
-'math_notexvc'          => 'L’exécutable « texvc » est introuvable. Lisez math/README pour le configurer.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Marquer comme relue',
@@ -3468,11 +3450,12 @@ $1',
 'trackbackdeleteok' => 'Le rétrolien a été supprimé avec succès.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Attention''' : cette page a été supprimée après que vous avez commencé à la modifier !",
-'confirmrecreate'     => "L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer, pour le motif suivant :
+'deletedwhileediting'      => "'''Attention''' : cette page a été supprimée après que vous avez commencé à la modifier !",
+'confirmrecreate'          => "L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer, pour le motif suivant :
 : ''$2''
 Veuillez confirmer que vous désirez réellement recréer cette page.",
-'recreate'            => 'Recréer',
+'confirmrecreate-noreason' => 'L’utilisateur [[User:$1|$1]] ([[User talk:$1|Discussion]]) a supprimé cette page, alors que vous aviez commencé à l’éditer. Veuillez confirmer que vous désirez réellement recréer cette page.',
+'recreate'                 => 'Recréer',
 
 # action=purge
 'confirm_purge_button' => 'Confirmer',

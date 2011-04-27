@@ -70,6 +70,9 @@ abstract class Maintenance {
 	// This is the desired params
 	protected $mParams = array();
 
+	// Array of mapping short parameters to long ones
+	protected $mShortParamsMap = array();
+
 	// Array of desired args
 	protected $mArgList = array();
 
@@ -92,8 +95,12 @@ abstract class Maintenance {
 	// Have we already loaded our user input?
 	protected $mInputLoaded = false;
 
-	// Batch size. If a script supports this, they should set
-	// a default with setBatchSize()
+	/**
+	 * Batch size. If a script supports this, they should set
+	 * a default with setBatchSize()
+	 *
+	 * @var int
+	 */
 	protected $mBatchSize = null;
 
 	// Generic options added by addDefaultParams()
@@ -135,7 +142,7 @@ abstract class Maintenance {
 		if( count( $bt ) !== 2 ) {
 			return false;
 		}
-		return ( $bt[1]['function'] == 'require_once' || $bt[1]['function'] == 'require' ) &&
+		return in_array( $bt[1]['function'], array( 'require_once', 'require', 'include' ) ) &&
 			$bt[0]['class'] == 'Maintenance' &&
 			$bt[0]['function'] == 'shouldExecute';
 	}
@@ -153,9 +160,13 @@ abstract class Maintenance {
 	 * @param $description String: the description of the param to show on --help
 	 * @param $required Boolean: is the param required?
 	 * @param $withArg Boolean: is an argument required with this option?
+	 * @param $shortName String: character to use as short name
 	 */
-	protected function addOption( $name, $description, $required = false, $withArg = false ) {
-		$this->mParams[$name] = array( 'desc' => $description, 'require' => $required, 'withArg' => $withArg );
+	protected function addOption( $name, $description, $required = false, $withArg = false, $shortName = false ) {
+		$this->mParams[$name] = array( 'desc' => $description, 'require' => $required, 'withArg' => $withArg, 'shortName' => $shortName );
+		if ( $shortName !== false ) {
+			$this->mShortParamsMap[$shortName] = $name;
+		}
 	}
 
 	/**
@@ -387,8 +398,8 @@ abstract class Maintenance {
 
 		# Generic (non script dependant) options:
 
-		$this->addOption( 'help', 'Display this help message' );
-		$this->addOption( 'quiet', 'Whether to supress non-error output' );
+		$this->addOption( 'help', 'Display this help message', false, false, 'h' );
+		$this->addOption( 'quiet', 'Whether to supress non-error output', false, false, 'q' );
 		$this->addOption( 'conf', 'Location of LocalSettings.php, if not default', false, true );
 		$this->addOption( 'wiki', 'For specifying the wiki ID', false, true );
 		$this->addOption( 'globals', 'Output globals at the end of processing for debugging' );
@@ -426,11 +437,11 @@ abstract class Maintenance {
 	 */
 	public function runChild( $maintClass, $classFile = null ) {
 		// Make sure the class is loaded first
-		if ( !class_exists( $maintClass ) ) {
+		if ( !MWInit::classExists( $maintClass ) ) {
 			if ( $classFile ) {
 				require_once( $classFile );
 			}
-			if ( !class_exists( $maintClass ) ) {
+			if ( !MWInit::classExists( $maintClass ) ) {
 				$this->error( "Cannot spawn child: $maintClass" );
 			}
 		}
@@ -452,7 +463,7 @@ abstract class Maintenance {
 		}
 
 		# Make sure we can handle script parameters
-		if ( !ini_get( 'register_argc_argv' ) ) {
+		if ( !function_exists( 'hphp_thread_set_warmup_enabled' ) && !ini_get( 'register_argc_argv' ) ) {
 			$this->error( 'Cannot get command line arguments, register_argc_argv is set to false', true );
 		}
 
@@ -603,6 +614,9 @@ abstract class Maintenance {
 				# Short options
 				for ( $p = 1; $p < strlen( $arg ); $p++ ) {
 					$option = $arg { $p } ;
+					if ( !isset( $this->mParams[$option] ) && isset( $this->mShortParamsMap[$option] ) ) {
+						$option = $this->mShortParamsMap[$option];
+					}
 					if ( isset( $this->mParams[$option]['withArg'] ) && $this->mParams[$option]['withArg'] ) {
 						$param = next( $argv );
 						if ( $param === false ) {
@@ -715,6 +729,9 @@ abstract class Maintenance {
 		// Generic parameters
 		$this->output( "Generic maintenance parameters:\n" );
 		foreach ( $this->mGenericParameters as $par => $info ) {
+			if ( $info['shortName'] !== false ) {
+				$par .= " (-{$info['shortName']})";
+			}
 			$this->output(
 				wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
 						"\n$tab$tab" ) . "\n"
@@ -727,6 +744,9 @@ abstract class Maintenance {
 			$this->output( "Script dependant parameters:\n" );
 			// Parameters description
 			foreach ( $scriptDependantParams as $par => $info ) {
+				if ( $info['shortName'] !== false ) {
+					$par .= " (-{$info['shortName']})";
+				}
 				$this->output(
 					wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
 							"\n$tab$tab" ) . "\n"
@@ -749,6 +769,9 @@ abstract class Maintenance {
 			$this->output( "Script specific parameters:\n" );
 			// Parameters description
 			foreach ( $scriptSpecificParams as $par => $info ) {
+				if ( $info['shortName'] !== false ) {
+					$par .= " (-{$info['shortName']})";
+				}
 				$this->output(
 					wordwrap( "$tab--$par: " . $info['desc'], $descWidth,
 							"\n$tab$tab" ) . "\n"
@@ -1072,7 +1095,7 @@ abstract class Maintenance {
 	 * Perform a search index update with locking
 	 * @param $maxLockTime Integer: the maximum time to keep the search index locked.
 	 * @param $callback callback String: the function that will update the function.
-	 * @param $dbw Database object
+	 * @param $dbw DatabaseBase object
 	 * @param $results
 	 */
 	public function updateSearchIndex( $maxLockTime, $callback, $dbw, $results ) {

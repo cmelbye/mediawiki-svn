@@ -822,8 +822,6 @@ Anda mungkin telah berhasil mengganti kata sandi Anda atau telah meminta kata sa
 'extlink_tip'     => 'Pranala luar (jangan lupa awalan http:// )',
 'headline_sample' => 'Teks judul',
 'headline_tip'    => 'Subbagian tingkat 1',
-'math_sample'     => 'Masukkan rumus di sini',
-'math_tip'        => 'Rumus matematika (LaTeX)',
 'nowiki_sample'   => 'Masukkan teks yang tidak akan diformat di sini',
 'nowiki_tip'      => 'Abaikan pemformatan wiki',
 'image_sample'    => 'Contoh.jpg',
@@ -1315,16 +1313,15 @@ Perlu diingat bahwa indeks Google untuk konten {{SITENAME}} mungkin belum mencak
 'changepassword'                => 'Ganti kata sandi',
 'prefs-skin'                    => 'Kulit',
 'skin-preview'                  => 'Pratayang',
-'prefs-math'                    => 'Matematika',
 'datedefault'                   => 'Tak ada preferensi',
 'prefs-datetime'                => 'Tanggal dan waktu',
 'prefs-personal'                => 'Profil',
 'prefs-rc'                      => 'Perubahan terbaru',
 'prefs-watchlist'               => 'Pemantauan',
 'prefs-watchlist-days'          => 'Jumlah hari maksimum yang ditampilkan di daftar pantauan:',
-'prefs-watchlist-days-max'      => '(maksimum 7 hari)',
+'prefs-watchlist-days-max'      => 'Maksimum 7 hari',
 'prefs-watchlist-edits'         => 'Jumlah suntingan maksimum yang ditampilkan di daftar pantauan yang lebih lengkap:',
-'prefs-watchlist-edits-max'     => '(nilai maksimum: 1000)',
+'prefs-watchlist-edits-max'     => 'Nilai maksimum: 1000',
 'prefs-watchlist-token'         => 'Token pantauan:',
 'prefs-misc'                    => 'Lain-lain',
 'prefs-resetpass'               => 'Ganti kata sandi',
@@ -2528,8 +2525,7 @@ Lihat [[Special:IPBlockList|daftar alamat IP yang diblokir]] untuk daftar pemblo
 'ipb_expiry_temp'                 => 'Pemblokiran atas nama pengguna yang disembunyikan harus permanen.',
 'ipb_hide_invalid'                => 'Tak dapat menutup akun ini; mungkin akun tersebut memiliki terlalu banyak suntingan.',
 'ipb_already_blocked'             => '"$1" telah diblokir',
-'ipb-needreblock'                 => '== Sudah diblokir ==
-$1 sudah diblokir. Apakah Anda ingin mengubah set pemblokiran yang bersangkutan?',
+'ipb-needreblock'                 => '$1 sudah diblokir. Apakah Anda ingin mengubah set pemblokiran yang bersangkutan?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Blok|Blok}} lain',
 'ipb_cant_unblock'                => 'Kesalahan: Blokir dengan ID $1 tidak ditemukan. Blokir tersebut kemungkinan telah dibuka.',
 'ipb_blocked_as_range'            => 'Kesalahan: IP $1 tidak diblok secara langsung dan tidak dapat dilepaskan. IP $1 diblok sebagai bagian dari pemblokiran kelompok IP $2, yang dapat dilepaskan.',
@@ -2879,25 +2875,6 @@ Ini mungkin disebabkan oleh pranala ke situs luar yang termasuk dalam daftar hit
 # Skin names
 'skinname-standard' => 'Klasik',
 'skinname-simple'   => 'Sederhana',
-
-# Math options
-'mw_math_png'    => 'Selalu buat PNG',
-'mw_math_simple' => 'HTML jika sangat sederhana atau PNG',
-'mw_math_html'   => 'HTML jika mungkin atau PNG',
-'mw_math_source' => 'Biarkan sebagai TeX (untuk penjelajah web teks)',
-'mw_math_modern' => 'Disarankan untuk penjelajah web modern',
-'mw_math_mathml' => 'MathML jika mungkin (percobaan)',
-
-# Math errors
-'math_failure'          => 'Gagal memparse',
-'math_unknown_error'    => 'Kesalahan yang tidak diketahui',
-'math_unknown_function' => 'fungsi yang tidak diketahui',
-'math_lexing_error'     => 'kesalahan lexing',
-'math_syntax_error'     => 'kesalahan sintaks',
-'math_image_error'      => 'Konversi PNG gagal; periksa apakah latex dan dvips (atau dvips + gs + convert) terinstal dengan benar',
-'math_bad_tmpdir'       => 'Tidak dapat menulisi atau membuat direktori sementara math',
-'math_bad_output'       => 'Tidak dapat menulisi atau membuat direktori keluaran math',
-'math_notexvc'          => 'Executable texvc hilang; silakan lihat math/README untuk cara konfigurasi.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Tandai telah dipatroli',

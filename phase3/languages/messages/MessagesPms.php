@@ -10,6 +10,7 @@
  * @author Borichèt
  * @author Bèrto 'd Sèra
  * @author Dragonòt
+ * @author MaxSem
  * @author SabineCretella
  * @author Teak
  * @author The Evil IP address
@@ -444,7 +445,7 @@ Che as dësmentia pa ëd cambié ij [[Special:Preferences|"sò gust" an {{SITENA
 'yourname'                   => 'Sò stranòm',
 'yourpassword'               => 'Soa ciav',
 'yourpasswordagain'          => 'Che a bata torna soa ciav',
-'remembermypassword'         => "↓ Vis-te mia ciav ansima a st'ordinator-sì (për al pi $1 {{PLURAL:$1|di|di}})",
+'remembermypassword'         => "Vis-te mia ciav ansima a st'ordinator-sì (për al pi $1 {{PLURAL:$1|di|di}})",
 'securelogin-stick-https'    => "Resté colegà an HTTPS apress d'esse intrà ant ël sistema",
 'yourdomainname'             => 'Sò domini',
 'externaldberror'            => "Ò che a l'é rivaje n'eror d'autenticassion esterna, ò pura a l'é chiel (chila) che a l'é nen autorisà a agiornesse sò cont estern.",
@@ -570,8 +571,6 @@ Miraco it l'has già cambià la ciav o it l'has ciamà na neuva ciav a temp.",
 'extlink_tip'     => 'Anliura esterna (che as visa dë buté ël prefiss http://)',
 'headline_sample' => "Antestassion dl'artìcol",
 'headline_tip'    => 'Antestassion dë scond livel',
-'math_sample'     => 'Che a buta la fòrmula ambelessì',
-'math_tip'        => 'Fòrmula matemàtica (LaTeX)',
 'nowiki_sample'   => 'Che a buta ël test nen formatà ambelessì',
 'nowiki_tip'      => 'Lassé un tòch ëd test fòra dla formatassion dla wiki',
 'image_sample'    => 'Esempi.jpg',
@@ -1066,7 +1065,6 @@ Ch'a preuva a gionté dnans a soa arserca ël prefiss ''all:'' për sërché an 
 'changepassword'                => 'Cangé la ciav',
 'prefs-skin'                    => 'Facia',
 'skin-preview'                  => 'Preuva',
-'prefs-math'                    => 'Fòrmule ëd matemàtica',
 'datedefault'                   => "Franch l'istess",
 'prefs-datetime'                => 'Data e ora',
 'prefs-personal'                => "Profil dl'utent",
@@ -2232,8 +2230,8 @@ L'ùltima intrada dël registr dij blocagi a l'é butà sì-sota për arferiment
 
 # Block/unblock
 'autoblockid'                     => 'Autoblòch #$1',
-'block'                           => 'Blòca utent/adrëssa IP',
-'unblock'                         => 'Sblòca utent/adrëssa IP',
+'block'                           => "Bloché l'utent",
+'unblock'                         => "Dësblòca l'utent",
 'blockip'                         => "Blochè n'adrëssa IP",
 'blockip-title'                   => "Bloché l'utent",
 'blockip-legend'                  => "Bloché l'utent",
@@ -2282,8 +2280,8 @@ Varda [[Special:IPBlockList|lista dj'IP blocà]] Për rivëdde ij blòch.",
 'unblocked'                       => "[[User:$1|$1]] a l'é stait dësblocà",
 'unblocked-range'                 => "$1 a l'é stàit sblocà",
 'unblocked-id'                    => "Ël blòch $1 a l'é stait gavà via.",
-'blocklist'                       => 'Adrësse IP e utent blocà',
-'ipblocklist'                     => 'Adrësse IP e utent blocà',
+'blocklist'                       => 'Utent blocà',
+'ipblocklist'                     => 'Utent blocà',
 'ipblocklist-legend'              => "Trové n'utent blocà",
 'blocklist-userblocks'            => 'Stërma blòch dij cont',
 'blocklist-tempblocks'            => 'Stërma blòch a temp',
@@ -2333,8 +2331,7 @@ coj che sio ij blocagi ativ al dì d'ancheuj.",
 'ipb_expiry_temp'                 => "Ij blòch ëd j'utent stërmà a deuvo esse përmanent.",
 'ipb_hide_invalid'                => 'Ampossìbil scanselé sto cont-sì; a peul avèj tròpe modìfiche.',
 'ipb_already_blocked'             => '"$1" a l\'é già blocà',
-'ipb-needreblock'                 => "== Già blocà ==
-$1 a l'é già blocà.
+'ipb-needreblock'                 => "$1 a l'é già blocà.
 It veule cambié le ampostassion?",
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Àutr|Àutri}} blocagi',
 'unblock-hideuser'                => "It peule pa sloché st'utent, da già che sò nòm a l'é stàit stërmà.",
@@ -2535,7 +2532,7 @@ Tute le amportassion antra wiki diferente a resto marcà ant ël [[Special:Log/i
 'import-interwiki-namespace' => 'Spassi nominal ëd destinassion:',
 'import-upload-filename'     => 'Nòm dël file:',
 'import-comment'             => 'Oget:',
-'importtext'                 => "Për piasì, che as espòrta l'archivi da 'nt la sorgiss wiki esterna ën dovrand l'utiss  Special:Esportassion, che as lo salva ansima a sò disch e peui che a lo caria ambelessì.",
+'importtext'                 => "Për piasì, che as espòrta l'archivi da 'nt la sorgiss wiki esterna ën dovrand l'utiss  Special:Export, che as lo salva ansima a sò disch e peui che a lo caria ambelessì.",
 'importstart'                => 'I soma antramentr che amportoma le pàgine...',
 'import-revision-count'      => '{{PLURAL:$1|Na|$1}} revision',
 'importnopages'              => 'Pa gnun-a pàgina da amporté',
@@ -2678,25 +2675,6 @@ Sòn a l'é motobin belfé che a sia rivà përchè a-i era n'anliura a un sit e
 'numwatchers'    => "Nùmer d'utent che as ten-o sossì sot euj: $1",
 'numauthors'     => "Nùmer d'autor diferent (artìcol): $1",
 'numtalkauthors' => "Nùmer d'autor distint (pàgina ëd discussion): $1",
-
-# Math options
-'mw_math_png'    => 'Most-lo sempe coma PNG',
-'mw_math_simple' => "But-lo an HTML se a l'é motobin belfé a fesse, dësnò but-lo an PNG",
-'mw_math_html'   => 'But-lo an HTML se as peul, dësnò an PNG',
-'mw_math_source' => 'Lass-lo coma TeX (për ij programa ëd navigassion testual)',
-'mw_math_modern' => 'As racomanda për ij programa ëd navigassion pì modern',
-'mw_math_mathml' => 'But-lo an MathML se as peul (sperimental)',
-
-# Math errors
-'math_failure'          => 'Parsificassion falà',
-'math_unknown_error'    => 'Eror nen conossù',
-'math_unknown_function' => 'funsion che as sa pa lòn che a la sia',
-'math_lexing_error'     => 'eror ëd léssich',
-'math_syntax_error'     => 'eror ëd sintassi',
-'math_image_error'      => "La conversion an PNG a l'é falìa; che a contròla l'ùltima instalassion ëd latex e dvipng (o dvips + gs + convert)",
-'math_bad_tmpdir'       => "Ël sistema a-i la fa pa a creé la diretriss '''math temp''', ò pura a-i la fa nen a scriv-je andrinta",
-'math_bad_output'       => "Ël sistema a-i la fa pa a creé la diretriss '''math output''', ò pura a-i la fa nen a scriv-je andrinta",
-'math_notexvc'          => 'Pa gnun texvc executable; për piasì, che a contròla math/README për la configurassion.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Marca coma verificà',

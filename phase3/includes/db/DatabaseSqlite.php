@@ -130,19 +130,20 @@ class DatabaseSqlite extends DatabaseBase {
 	 * Returns version of currently supported SQLite fulltext search module or false if none present.
 	 * @return String
 	 */
-	function getFulltextSearchModule() {
+	static function getFulltextSearchModule() {
 		static $cachedResult = null;
 		if ( $cachedResult !== null ) {
 			return $cachedResult;
 		}
 		$cachedResult = false;
 		$table = 'dummy_search_test';
-		$this->query( "DROP TABLE IF EXISTS $table", __METHOD__ );
+		
+		$db = new DatabaseSqliteStandalone( ':memory:' );
 
-		if ( $this->query( "CREATE VIRTUAL TABLE $table USING FTS3(dummy_field)", __METHOD__, true ) ) {
-			$this->query( "DROP TABLE IF EXISTS $table", __METHOD__ );
+		if ( $db->query( "CREATE VIRTUAL TABLE $table USING FTS3(dummy_field)", __METHOD__, true ) ) {
 			$cachedResult = 'FTS3';
 		}
+		$db->close();
 		return $cachedResult;
 	}
 
@@ -253,10 +254,10 @@ class DatabaseSqlite extends DatabaseBase {
 	/**
 	 * Use MySQL's naming (accounts for prefix etc) but remove surrounding backticks
 	 */
-	function tableName( $name ) {
+	function tableName( $name, $quoted = true ) {
 		// table names starting with sqlite_ are reserved
 		if ( strpos( $name, 'sqlite_' ) === 0 ) return $name;
-		return str_replace( '`', '', parent::tableName( $name ) );
+		return str_replace( '"', '', parent::tableName( $name, $quoted ) );
 	}
 
 	/**
@@ -460,7 +461,7 @@ class DatabaseSqlite extends DatabaseBase {
 	 * @return string User-friendly database information
 	 */
 	public function getServerInfo() {
-		return wfMsg( $this->getFulltextSearchModule() ? 'sqlite-has-fts' : 'sqlite-no-fts', $this->getServerVersion() );
+		return wfMsg( self::getFulltextSearchModule() ? 'sqlite-has-fts' : 'sqlite-no-fts', $this->getServerVersion() );
 	}
 
 	/**
@@ -576,6 +577,8 @@ class DatabaseSqlite extends DatabaseBase {
 			$s = preg_replace( '/\bauto_increment\b/i', 'AUTOINCREMENT', $s );
 			// No explicit options
 			$s = preg_replace( '/\)[^);]*(;?)\s*$/', ')\1', $s );
+			// AUTOINCREMENT should immedidately follow PRIMARY KEY
+			$s = preg_replace( '/primary key (.*?) autoincrement/i', 'PRIMARY KEY AUTOINCREMENT $1', $s );
 		} elseif ( preg_match( '/^\s*CREATE (\s*(?:UNIQUE|FULLTEXT)\s+)?INDEX/i', $s ) ) {
 			// No truncated indexes
 			$s = preg_replace( '/\(\d+\)/', '', $s );
@@ -593,14 +596,13 @@ class DatabaseSqlite extends DatabaseBase {
 	}
 
 	function duplicateTableStructure( $oldName, $newName, $temporary = false, $fname = 'DatabaseSqlite::duplicateTableStructure' ) {
-	
-		$res = $this->query( "SELECT sql FROM sqlite_master WHERE tbl_name='$oldName' AND type='table'", $fname );
+		$res = $this->query( "SELECT sql FROM sqlite_master WHERE tbl_name=" . $this->addQuotes( $oldName ) . " AND type='table'", $fname );
 		$obj = $this->fetchObject( $res );
 		if ( !$obj ) {
 			throw new MWException( "Couldn't retrieve structure for table $oldName" );
 		}
 		$sql = $obj->sql;
-		$sql = preg_replace( '/\b' . preg_quote( $oldName ) . '\b/', $newName, $sql, 1 );
+		$sql = preg_replace( '/(?<=\W)"?' . preg_quote( trim( $this->addIdentifierQuotes( $oldName ), '"' ) ) . '"?(?=\W)/', $this->addIdentifierQuotes( $newName ), $sql, 1 );
 		if ( $temporary ) {
 			if ( preg_match( '/^\\s*CREATE\\s+VIRTUAL\\s+TABLE\b/i', $sql ) ) {
 				wfDebug( "Table $oldName is virtual, can't create a temporary duplicate.\n" );

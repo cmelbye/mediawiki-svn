@@ -496,7 +496,7 @@ pe titlul secțiunii (JavaScript)',
 'create-this-page'  => 'Creați această pagină',
 'delete'            => 'Ștergere',
 'deletethispage'    => 'Șterge pagina',
-'undelete_short'    => 'Recuperarea {{PLURAL:$1|unei editări|a $1 editări}}',
+'undelete_short'    => 'Recuperarea {{PLURAL:$1|unei modificări|a $1 modificări}}',
 'viewdeleted_short' => 'Vedeți {{PLURAL:$1|o modificare ștearsă|$1 (de) modificări șterse}}',
 'protect'           => 'Protejare',
 'protect_change'    => 'schimbă protecția',
@@ -820,8 +820,6 @@ Este posibil să fi reușit deja schimbarea parolei sau să fi cerut o parolă t
 'extlink_tip'     => 'Legătură externă (nu uitați prefixul http://)',
 'headline_sample' => 'Text de titlu',
 'headline_tip'    => 'Titlu de nivel 2',
-'math_sample'     => 'Introduceți formula aici',
-'math_tip'        => 'Formulă matematică (LaTeX)',
 'nowiki_sample'   => 'Introduceți text neformatat aici',
 'nowiki_tip'      => 'Ignoră formatarea wiki',
 'image_sample'    => 'Exemplu.jpg',
@@ -899,12 +897,13 @@ Parola pentru acest nou cont poate fi schimbată după autentificare din ''[[Spe
 De aceea trebuie să folosim adresă IP pentru a identifica această persoană.
 O adresă IP poate fi folosită în comun de mai mulți utilizatori.
 Dacă sunteți un astfel de utilizator și credeți că vă sunt adresate mesaje irelevante, vă rugăm să [[Special:UserLogin/signup|vă creați un cont]] sau să [[Special:UserLogin|vă autentificați]] pentru a evita confuzii cu alți utilizatori anonimi în viitor.''",
-'noarticletext'                    => 'În acest moment nu este niciun text în această pagină.
+'noarticletext'                    => 'Actualmente, această pagină este lipsită de conținut.
 Puteți [[Special:Search/{{PAGENAME}}|căuta acest titlu]] în alte pagini,
-<span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} căuta înregistrări în jurnale], sau [{{fullurl:{{FULLPAGENAME}}|action=edit}} crea această pagină]</span>.',
-'noarticletext-nopermission'       => 'Nu este niciun text în această pagină.
-Puteți [[Special:Search/{{PAGENAME}}|căuta titlul paginii]] în alte pagini,
-sau <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} să căutați în jurnale]</span>.',
+puteți <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} căuta înregistrări în jurnale] 
+sau puteți [{{fullurl:{{FULLPAGENAME}}|action=edit}} crea această pagină]</span>.',
+'noarticletext-nopermission'       => 'Actualmente, această pagină este lipsită de conținut.
+Puteți [[Special:Search/{{PAGENAME}}|căuta acest titlu]] în alte pagini
+sau puteți <span class="plainlinks">[{{fullurl:{{#Special:Log}}|page={{FULLPAGENAMEE}}}} căuta înregistrări în jurnale]</span>.',
 'userpage-userdoesnotexist'        => 'Contul de utilizator "$1" nu este înregistrat. Verificați dacă doriți să creați/modificați această pagină.',
 'userpage-userdoesnotexist-view'   => 'Contul de utilizator "$1" nu este înregistrat.',
 'blocked-notice-logextract'        => 'Acest utilizator este momentan blocat.
@@ -1313,16 +1312,15 @@ Folosirea linkurilor de navigare va reseta această coloană.',
 'changepassword'                => 'Schimbă parola',
 'prefs-skin'                    => 'Aspect',
 'skin-preview'                  => 'Previzualizare',
-'prefs-math'                    => 'Aspect formule',
 'datedefault'                   => 'Nici o preferință',
 'prefs-datetime'                => 'Data și ora',
 'prefs-personal'                => 'Informații personale',
 'prefs-rc'                      => 'Schimbări recente',
 'prefs-watchlist'               => 'Listă de urmărire',
 'prefs-watchlist-days'          => 'Numărul de zile care apar în lista paginilor urmărite:',
-'prefs-watchlist-days-max'      => '(maxim 7 zile)',
+'prefs-watchlist-days-max'      => 'Maxim 7 zile',
 'prefs-watchlist-edits'         => 'Numărul de editări care apar în lista extinsă a paginilor urmărite:',
-'prefs-watchlist-edits-max'     => '(număr maxim: 1000)',
+'prefs-watchlist-edits-max'     => 'Număr maxim: 1000',
 'prefs-watchlist-token'         => 'Jeton pentru lista de pagini urmărite:',
 'prefs-misc'                    => 'Parametri diverși',
 'prefs-resetpass'               => 'Modifică parola',
@@ -1588,7 +1586,7 @@ Dacă decideți furnizarea sa, acesta va fi folosit pentru a vă atribui munca.'
 'recentchanges-label-unpatrolled'   => 'Această modificare nu a fost patrulată încă',
 'rcnote'                            => "Mai jos se află {{PLURAL:$|ultima modificare|ultimele '''$1''' modificări}} din {{PLURAL:$2|ultima zi|ultimele '''$2''' zile}}, începând cu $5, $4.",
 'rcnotefrom'                        => 'Dedesubt sunt modificările de la <b>$2</b> (maxim <b>$1</b> de modificări sunt afișate - schimbă numărul maxim de linii alegând altă valoare mai jos).',
-'rclistfrom'                        => 'Arată modificările începând de la $1',
+'rclistfrom'                        => 'Arată modificările începând cu $1',
 'rcshowhideminor'                   => '$1 modificările minore',
 'rcshowhidebots'                    => '$1 roboții',
 'rcshowhideliu'                     => '$1 utilizatorii autentificați',
@@ -1777,22 +1775,23 @@ Nu poate fi verificat în mod corespunzător în vederea securității.',
 'uploadstash-refresh'  => 'Reîmprospătează lista de fișiere',
 
 # img_auth script messages
-'img-auth-accessdenied' => 'Acces interzis',
-'img-auth-nopathinfo'   => 'PATH_INFO lipsește.
+'img-auth-accessdenied'     => 'Acces interzis',
+'img-auth-nopathinfo'       => 'PATH_INFO lipsește.
 Serverul dumneavoastră nu a fost setat pentru a trece aceste informații.
 S-ar putea să fie bazat pe CGI și să nu suporte img_auth.
 Vedeți http://www.mediawiki.org/wiki/Manual:Image_Authorization.',
-'img-auth-notindir'     => 'Adresa cerută nu este în directorul pentru încărcări configurat.',
-'img-auth-badtitle'     => 'Nu s-a putut construi un titlu valid din "$1".',
-'img-auth-nologinnWL'   => 'Nu sunteți autentificat și "$1" nu este pe lista albă.',
-'img-auth-nofile'       => 'Fișierul "$1" nu există.',
-'img-auth-isdir'        => 'Încercați să accesați directorul "$1".
+'img-auth-notindir'         => 'Adresa cerută nu este în directorul pentru încărcări configurat.',
+'img-auth-badtitle'         => 'Nu s-a putut construi un titlu valid din "$1".',
+'img-auth-nologinnWL'       => 'Nu sunteți autentificat și "$1" nu este pe lista albă.',
+'img-auth-nofile'           => 'Fișierul "$1" nu există.',
+'img-auth-isdir'            => 'Încercați să accesați directorul "$1".
 Numai accesul la fișiere este permis.',
-'img-auth-streaming'    => 'Derularea continuă a "$1".',
-'img-auth-public'       => 'Funcția img_auth.php este pentru a exporta fișiere de pe un wiki privat.
+'img-auth-streaming'        => 'Derularea continuă a "$1".',
+'img-auth-public'           => 'Funcția img_auth.php este pentru a exporta fișiere de pe un wiki privat.
 Acest wiki este configurat ca unul public.
 Pentru securitate optimă, img_auth.php este dezactivat.',
-'img-auth-noread'       => 'Acest utilizator nu are acces să citească "$1".',
+'img-auth-noread'           => 'Acest utilizator nu are acces să citească "$1".',
+'img-auth-bad-query-string' => 'Adresa URL are un șir de interogare invalid.',
 
 # HTTP errors
 'http-invalid-url'      => 'URL invalid: $1',
@@ -2081,7 +2080,7 @@ Puteți limita vizualizarea selectând tipul jurnalului, numele de utilizator sa
 'allpagesprev'      => 'Anterior',
 'allpagesnext'      => 'Următor',
 'allpagessubmit'    => 'Trimite',
-'allpagesprefix'    => 'Afișează paginile cu prefix:',
+'allpagesprefix'    => 'Se afișează paginile cu prefixul:',
 'allpagesbadtitle'  => 'Titlul paginii este nevalid sau conține un prefix inter-wiki. Este posibil să conțină unul sau mai multe caractere care nu pot fi folosite în titluri.',
 'allpages-bad-ns'   => '{{SITENAME}} nu are spațiul de nume „$1”.',
 
@@ -2166,6 +2165,10 @@ Adresa de e-mail introdusă de tine în [[Special:Preferences|preferințele de u
 'noemailtext'          => 'Utilizatorul nu a specificat o adresă validă de e-mail.',
 'nowikiemailtitle'     => 'Nu este permis e-mail-ul',
 'nowikiemailtext'      => 'Acest utilizator a ales să nu primească e-mail-uri de la alți utilizatori.',
+'emailnotarget'        => 'Destinatarul este un nume de utilizator inexistent sau invalid.',
+'emailtarget'          => 'Introduceți numele de utilizator al destinatarului',
+'emailusername'        => 'Nume de utilizator:',
+'emailusernamesubmit'  => 'Trimite',
 'email-legend'         => 'Trimite e-mail altui utilizator de la {{SITENAME}}',
 'emailfrom'            => 'De la:',
 'emailto'              => 'Către:',
@@ -2424,7 +2427,7 @@ $1',
 
 # Contributions
 'contributions'       => 'Contribuțiile utilizatorului',
-'contributions-title' => 'Contribuțiile utilizatorului pentru $1',
+'contributions-title' => 'Contribuțiile utilizatorului $1',
 'mycontris'           => 'Contribuții',
 'contribsub2'         => 'Pentru $1 ($2)',
 'nocontribs'          => 'Nu a fost găsită nici o modificare care să satisfacă acest criteriu.',
@@ -2471,8 +2474,8 @@ Iată aici ultima înregistrare relevantă din jurnalul blocărilor:',
 
 # Block/unblock
 'autoblockid'                     => 'Autoblocare #$1',
-'block'                           => 'Blocare utilizator/adresă IP',
-'unblock'                         => 'Deblocare utilizator/adresă IP',
+'block'                           => 'Blocare utilizator',
+'unblock'                         => 'Deblocare utilizator',
 'blockip'                         => 'Blocare utilizator',
 'blockip-title'                   => 'Blocare utilizator',
 'blockip-legend'                  => 'Blocare utilizator/adresă IP',
@@ -2504,10 +2507,13 @@ Precizați motivul blocării; de exemplu indicați paginile vandalizate de acest
 'ipbwatchuser'                    => 'Urmărește pagina sa de utilizator și de discuții',
 'ipb-disableusertalk'             => 'Se interzice acestui utilizator modificarea propriei pagini de discuții în timpul blocării',
 'ipb-change-block'                => 'Reblochează utilizatorul cu acești parametri',
+'ipb-confirm'                     => 'Confirmare blocare',
 'badipaddress'                    => 'Adresa IP este invalidă.',
 'blockipsuccesssub'               => 'Utilizatorul a fost blocat',
 'blockipsuccesstext'              => '[[Special:Contributions/$1|$1]] a fost blocată.<br />
 Vezi [[Special:IPBlockList|lista de adrese IP și conturi blocate]] pentru a revizui adresele blocate.',
+'ipb-blockingself'                => 'Sunteți pe cale să vă autoblocați! Sunteți sigur că doriți să continuați?',
+'ipb-confirmhideuser'             => 'Sunteți pe cale să blocați un utilizator cu funcția „ascunde utilizator” activată. Acest lucru va înlătura numele său de utilizator din toate listele și jurnalele. Sunteți sigur că vreți să continuați?',
 'ipb-edit-dropdown'               => 'Modifică motivele blocării',
 'ipb-unblock-addr'                => 'Deblochează utilizatorul $1',
 'ipb-unblock'                     => 'Deblocați un nume de utilizator sau o adresă IP',
@@ -2519,8 +2525,8 @@ Vezi [[Special:IPBlockList|lista de adrese IP și conturi blocate]] pentru a rev
 'unblocked'                       => '[[User:$1|$1]] a fost deblocat',
 'unblocked-range'                 => '$1 a fost deblocat',
 'unblocked-id'                    => 'Blocarea $1 a fost eliminată',
-'blocklist'                       => 'Adrese IP și utilizatori blocați',
-'ipblocklist'                     => 'Lista adreselor IP și a conturilor blocate',
+'blocklist'                       => 'Utilizatori blocați',
+'ipblocklist'                     => 'Utilizatori blocați',
 'ipblocklist-legend'              => 'Găsire utilizator blocat',
 'blocklist-userblocks'            => 'Ascunde conturile blocate',
 'blocklist-tempblocks'            => 'Ascunde blocările temporare',
@@ -2570,8 +2576,7 @@ Jurnalul suprimărilor este indicat mai jos:',
 'ipb_expiry_temp'                 => 'Blocarea numelor de utilizator ascunse trebuie să fie permanentă.',
 'ipb_hide_invalid'                => 'Imposibil de a suprima acest cont; acesta poate avea prea multe modificări.',
 'ipb_already_blocked'             => '„$1” este deja blocat',
-'ipb-needreblock'                 => '== Deja blocat ==
-$1 este deja blocat. Vrei să schimbi parametrii?',
+'ipb-needreblock'                 => '$1 este deja blocat. Doriți să modificați parametrii?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Altă blocare|Alte blocări}}',
 'unblock-hideuser'                => 'Nu puteți debloca acest utilizator, întrucât numele său de utilizator a fost ascuns.',
 'ipb_cant_unblock'                => 'Eroare: nu găsesc identificatorul $1. Probabil a fost deja deblocat.',
@@ -2718,7 +2723,7 @@ Ultima intrare în jurnal este afișată mai jos pentru referință:",
 Alegeți un alt nume.',
 
 # Export
-'export'            => 'Exportă pagini',
+'export'            => 'Exportare de pagini',
 'exporttext'        => 'Puteți exporta textul și istoricul unei pagini anume sau ale unui grup de pagini în XML.
 Acesta poate fi apoi importate în alt wiki care rulează software MediaWiki prin [[Special:Import|pagina de importare]].
 
@@ -2776,8 +2781,8 @@ Vă rugăm să vizitați [http://www.mediawiki.org/wiki/Localisation MediaWiki L
 'import-interwiki-namespace' => 'Transferă către spațiul de nume:',
 'import-upload-filename'     => 'Nume fișier:',
 'import-comment'             => 'Comentariu:',
-'importtext'                 => 'Te rog exportă fișierul din sursa wiki folosind [[Special:Export|utilitarul de exportare]].
-Salvează-l pe discul tău și trimite-l aici.',
+'importtext'                 => 'Vă rugăm să exportați fișierul din wikiul sursă folosind [[Special:Export|utilitarul de exportare]].
+Salvați-l pe calculatorul dumneavoastră și încărcați-l aici.',
 'importstart'                => 'Se importă paginile...',
 'import-revision-count'      => '$1 {{PLURAL:$1|versiune|versiuni}}',
 'importnopages'              => 'Nu există pagini de importat.',
@@ -2937,25 +2942,6 @@ Permite adăugarea unui motiv în descrierea modificărilor',
 'skinname-simple'      => 'Simplu',
 'skinname-modern'      => 'Modern',
 'skinname-vector'      => 'Vector',
-
-# Math options
-'mw_math_png'    => 'Întodeauna afișează PNG',
-'mw_math_simple' => 'HTML pentru formule simple, altfel PNG',
-'mw_math_html'   => 'HTML dacă este posibil, altfel PNG',
-'mw_math_source' => 'Lasă ca TeX (pentru browser-ele text)',
-'mw_math_modern' => 'Recomandat pentru browser-ele moderne',
-'mw_math_mathml' => 'MathML dacă este posibil (experimental)',
-
-# Math errors
-'math_failure'          => 'Nu s-a putut interpreta',
-'math_unknown_error'    => 'eroare necunoscută',
-'math_unknown_function' => 'funcție necunoscută',
-'math_lexing_error'     => 'eroare lexicală',
-'math_syntax_error'     => 'eroare de sintaxă',
-'math_image_error'      => 'Conversiune în PNG eșuată; verificați corectitudinea instalării sistemelor LaTex sau dvipng (sau dvips + gs + convert)',
-'math_bad_tmpdir'       => 'Nu se poate crea sau nu se poate scrie în directorul temporar pentru formule matematice',
-'math_bad_output'       => 'Nu se poate crea sau nu se poate scrie în directorul de ieșire pentru formule matematice',
-'math_notexvc'          => 'Lipsește executabilul texvc; vezi math/README pentru configurare.',
 
 # Patrolling
 'markaspatrolleddiff'                 => 'Marchează ca patrulat',
@@ -3396,11 +3382,12 @@ $1',
 'trackbackdeleteok' => 'Urmăritorul a fost șters cu succes.',
 
 # Delete conflict
-'deletedwhileediting' => "'''Atenție''': Această pagină a fost ștearsă după ce ați început s-o modificați!",
-'confirmrecreate'     => "Utilizatorul [[User:$1|$1]] ([[User talk:$1|discuție]]) a șters acest articol după ce ați început să contribuiți la el din motivul:
+'deletedwhileediting'      => "'''Atenție''': Această pagină a fost ștearsă după ce ați început s-o modificați!",
+'confirmrecreate'          => "Utilizatorul [[User:$1|$1]] ([[User talk:$1|discuție]]) a șters acest articol după ce ați început să contribuiți la el din motivul:
 : ''$2''
 Vă rugăm să confirmați faptul că într-adevăr doriți să recreați acest articol.",
-'recreate'            => 'Recreează',
+'confirmrecreate-noreason' => 'Utilizatorul [[User:$1|$1]] ([[User talk:$1|discuție]]) a șters această pagină după ce dumneavoastră ați început să o modificați. Vă rugăm să confirmați faptul că într-adevăr doriți să recreați această pagină.',
+'recreate'                 => 'Recreează',
 
 # action=purge
 'confirm_purge_button' => 'OK',

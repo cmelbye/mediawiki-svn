@@ -1333,7 +1333,7 @@ class User {
 				if( $count > $max ) {
 					wfDebug( __METHOD__ . ": tripped! $key at $count $summary\n" );
 					if( $wgRateLimitLog ) {
-						@error_log( wfTimestamp( TS_MW ) . ' ' . wfWikiID() . ': ' . $this->getName() . " tripped $key at $count $summary\n", 3, $wgRateLimitLog );
+						@file_put_contents( $wgRateLimitLog, wfTimestamp( TS_MW ) . ' ' . wfWikiID() . ': ' . $this->getName() . " tripped $key at $count $summary\n", FILE_APPEND );
 					}
 					$triggered = true;
 				} else {
@@ -2295,46 +2295,13 @@ class User {
 	}
 
 	/**
-	 * Get the current skin, loading it if required, and setting a title
-	 * @param $t Title: the title to use in the skin
+	 * Get the current skin, loading it if required
 	 * @return Skin The current skin
 	 * @todo: FIXME : need to check the old failback system [AV]
+	 * @deprecated Use ->getSkin() in the most relevant outputting context you have
 	 */
-	function getSkin( $t = null ) {
-		if( !$this->mSkin ) {
-			global $wgOut;
-			$this->mSkin = $this->createSkinObject();
-			$this->mSkin->setTitle( $wgOut->getTitle() );
-		}
-		if ( $t && ( !$this->mSkin->getTitle() || !$t->equals( $this->mSkin->getTitle() ) ) ) {
-			$skin = $this->createSkinObject();
-			$skin->setTitle( $t );
-			return $skin;
-		} else {
-			return $this->mSkin;
-		}
-	}
-
-	// Creates a Skin object, for getSkin()
-	private function createSkinObject() {
-		wfProfileIn( __METHOD__ );
-
-		global $wgHiddenPrefs;
-		if( !in_array( 'skin', $wgHiddenPrefs ) ) {
-			global $wgRequest;
-			# get the user skin
-			$userSkin = $this->getOption( 'skin' );
-			$userSkin = $wgRequest->getVal( 'useskin', $userSkin );
-		} else {
-			# if we're not allowing users to override, then use the default
-			global $wgDefaultSkin;
-			$userSkin = $wgDefaultSkin;
-		}
-
-		$skin = Skin::newFromKey( $userSkin );
-		wfProfileOut( __METHOD__ );
-
-		return $skin;
+	function getSkin() {
+		return RequestContext::getMain()->getSkin();
 	}
 
 	/**
@@ -2629,9 +2596,9 @@ class User {
 	 * Add a user to the database, return the user object
 	 *
 	 * @param $name String Username to add
-	 * @param $params Array of Strings Non-default parameters to save to the database:
-	 *   - password             The user's password. Password logins will be disabled if this is omitted.
-	 *   - newpassword          A temporary password mailed to the user
+	 * @param $params Array of Strings Non-default parameters to save to the database as user_* fields:
+	 *   - password             The user's password hash. Password logins will be disabled if this is omitted.
+	 *   - newpassword          Hash for a temporary password that has been mailed to the user
 	 *   - email                The user's email address
 	 *   - email_authenticated  The email authentication timestamp
 	 *   - real_name            The user's real name
@@ -3699,8 +3666,8 @@ class User {
 	 * Used by things like CentralAuth and perhaps other authplugins.
 	 */
 	public function addNewUserLogEntryAutoCreate() {
-		global $wgNewUserLog, $wgLogAutocreatedAccounts;
-		if( !$wgNewUserLog || !$wgLogAutocreatedAccounts ) {
+		global $wgNewUserLog;
+		if( !$wgNewUserLog ) {
 			return true; // disabled
 		}
 		$log = new LogPage( 'newusers', false );
