@@ -789,6 +789,7 @@ Du kan ignorera detta meddelande om kontot skapats av misstag.',
 'usernamehasherror'          => 'Användarnamnet får inte innehålla #.',
 'login-throttled'            => 'Du har gjort för många misslyckade inloggningsförsök till det här kontot.
 Vänta innan du försöker igen.',
+'login-abort-generic'        => 'Din inloggning misslyckades - Avbröts',
 'loginlanguagelabel'         => 'Språk: $1',
 'suspicious-userlogout'      => 'Din begäran om att logga ut nekades eftersom det ser ut som det skickades av en trasig webbläsare eller cachande proxy.',
 
@@ -954,6 +955,7 @@ Om det fortfarande inte fungerar, pröva att [[Special:UserLogout|logga ut]] och
 'token_suffix_mismatch'            => "'''Din redigering har stoppats eftersom din klient har ändrat tecknen
 i redigeringens \"edit token\". Redigeringen stoppades för att förhindra att sidtexten skadas.
 Detta händer ibland om du använder buggiga webbaserade anonyma proxytjänster.'''",
+'edit_form_incomplete'             => "'''Vissa delar av redigeringen kunde inte nå servern, dubbelkolla att dina ändringar är intakta och försök igen.'''",
 'editing'                          => 'Redigerar $1',
 'editingsection'                   => 'Redigerar $1 (avsnitt)',
 'editingcomment'                   => 'Redigerar $1 (nytt avsnitt)',
@@ -1078,7 +1080,7 @@ Den kan ha tagits bort från wikin eller bytt namn.
 Prova att [[Special:Search|söka på wikin]] för relevanta nya sidor.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(kommentar borttagen)',
+'rev-deleted-comment'         => '(redigeringssammanfattning togs bort)',
 'rev-deleted-user'            => '(användarnamn borttaget)',
 'rev-deleted-event'           => '(loggåtgärd borttagen)',
 'rev-deleted-user-contribs'   => '[användarnamn eller IP-adress har tagits bort - redigeringen visas ej bland bidragen]',
@@ -1785,6 +1787,10 @@ Om problemet kvarstår, kontakta en [[Special:ListUsers/sysop|administratör]].'
 'upload-unknown-size'       => 'Okänd storlek',
 'upload-http-error'         => 'Ett HTTP-fel uppstod: $1',
 
+# ZipDirectoryReader
+'zip-file-open-error' => 'Ett fel inträffade när filen öppnades för en ZIP-kontroll.',
+'zip-wrong-format'    => 'Den angivna filen var inte en ZIP-fil.',
+
 # Special:UploadStash
 'uploadstash'          => 'Ladda upp stash',
 'uploadstash-summary'  => 'Denna sida ger tillgång till filer som är uppladdade (eller håller på att laddas upp) men som ännu inte är publicerade till wikin. Dessa filer är inte synliga för någon annan än den användare som laddade upp dem.',
@@ -2421,9 +2427,10 @@ $1',
 'undelete-show-file-submit'    => 'Ja',
 
 # Namespace form on various pages
-'namespace'      => 'Namnrymd:',
-'invert'         => 'Uteslut vald namnrymd',
-'blanknamespace' => '(Huvudnamnrymden)',
+'namespace'             => 'Namnrymd:',
+'invert'                => 'Uteslut vald namnrymd',
+'namespace_association' => 'Associerade namnutrymmen',
+'blanknamespace'        => '(Huvudnamnrymden)',
 
 # Contributions
 'contributions'       => 'Användarbidrag',
@@ -2438,10 +2445,10 @@ $1',
 'sp-contributions-newbies'             => 'Visa endast bidrag från nya konton',
 'sp-contributions-newbies-sub'         => 'Från nya konton',
 'sp-contributions-newbies-title'       => 'Bidrag från nya konton',
-'sp-contributions-blocklog'            => 'Blockeringslogg',
+'sp-contributions-blocklog'            => 'blockeringslogg',
 'sp-contributions-deleted'             => 'raderade användarbidrag',
 'sp-contributions-uploads'             => 'uppladdningar',
-'sp-contributions-logs'                => 'Loggar',
+'sp-contributions-logs'                => 'loggar',
 'sp-contributions-talk'                => 'diskussion',
 'sp-contributions-userrights'          => 'hantering av användarrättigheter',
 'sp-contributions-blocked-notice'      => 'Användaren är blockerad.
@@ -2479,7 +2486,6 @@ Den senaste posten i blockeringsloggen visas nedan som referens:',
 'blockiptext'                     => 'Använd formuläret nedan för att blockera möjligheten att redigera sidor från en specifik IP-adress eller ett användarnamn.
 Detta bör endast göras för att förhindra vandalisering, och i överensstämmelse med gällande [[{{MediaWiki:Policy-url}}|policy]].
 Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
-'ipaddress'                       => 'IP-adress',
 'ipadressorusername'              => 'IP-adress eller användarnamn:',
 'ipbexpiry'                       => 'Varaktighet:',
 'ipbreason'                       => 'Anledning:',
@@ -2492,7 +2498,6 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 ** Hotfullt beteende/trakasserier
 ** Missbruk av flera användarkonton
 ** Oacceptabelt användarnamn',
-'ipbanononly'                     => 'Blockera bara oinloggade användare',
 'ipbcreateaccount'                => 'Förhindra registrering av användarkonton',
 'ipbemailban'                     => 'Hindra användaren från att skicka e-post',
 'ipbenableautoblock'              => 'Blockera automatiskt den IP-adress som användaren använde senast, samt alla adresser som användaren försöker redigera ifrån',
@@ -2503,7 +2508,6 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'ipbotherreason'                  => 'Annan/ytterligare anledning:',
 'ipbhidename'                     => 'Dölj användarnamnet från redigeringar och listor',
 'ipbwatchuser'                    => 'Bevaka användarens användarsida och diskussionssida',
-'ipballowusertalk'                => 'Låt användaren redigera sin egen diskussionssida under blockeringen',
 'ipb-change-block'                => 'Återblockera användaren med de här inställningarna',
 'badipaddress'                    => 'Du har inte skrivit IP-adressen korrekt.',
 'blockipsuccesssub'               => 'Blockeringen är utförd',
@@ -2521,14 +2525,9 @@ Ange orsak nedan (exempelvis genom att nämna sidor som blivit vandaliserade).',
 'unblocked-id'                    => 'Blockeringen $1 har hävts',
 'ipblocklist'                     => 'Blockerade IP-adresser och användarnamn',
 'ipblocklist-legend'              => 'Sök efter en blockerad användare',
-'ipblocklist-username'            => 'Användarnamn eller IP-adress',
-'ipblocklist-sh-userblocks'       => '$1 blockeringar av konton',
-'ipblocklist-sh-tempblocks'       => '$1 tillfälliga blockeringar',
-'ipblocklist-sh-addressblocks'    => '$1 blockeringar av enskilda IP-adresser',
 'ipblocklist-submit'              => 'Sök',
 'ipblocklist-localblock'          => 'Lokalblockering',
 'ipblocklist-otherblocks'         => 'Övriga {{PLURAL:$1|blockering|blockeringar}}',
-'blocklistline'                   => '$1, $2 blockerade $3 ($4)',
 'infiniteblock'                   => 'för evigt',
 'expiringblock'                   => 'utgår den $1 kl $2',
 'anononlyblock'                   => 'endast oinloggade',
@@ -3000,7 +2999,6 @@ Om du kör den kan din dator skadas.",
 'file-nohires'         => '<small>Det finns ingen version med högre upplösning.</small>',
 'svg-long-desc'        => 'SVG-fil, grundstorlek: $1 × $2 pixel, filstorlek: $3',
 'show-big-image'       => 'Högupplöst version',
-'show-big-image-thumb' => '<small>Storlek på förhandsvisningen: $1 × $2 pixel</small>',
 'file-info-gif-looped' => 'upprepad',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|ram|ramar}}',
 'file-info-png-looped' => 'loopad',
@@ -3531,7 +3529,8 @@ Ange filens namn utan prefixet "{{ns:file}}:".',
 'specialpages'                   => 'Specialsidor',
 'specialpages-note'              => '----
 * Normala specialsidor.
-* <strong class="mw-specialpagerestricted">Specialsidor med begränsad åtkomst.</strong>',
+* <strong class="mw-specialpagerestricted">Specialsidor med begränsad åtkomst.</strong>
+* <span class="mw-specialpagecached">Endast cachade specialsidor.</span>',
 'specialpages-group-maintenance' => 'Underhållsrapporter',
 'specialpages-group-other'       => 'Övriga specialsidor',
 'specialpages-group-login'       => 'Inloggning/registrering',

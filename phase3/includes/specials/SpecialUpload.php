@@ -45,6 +45,10 @@ class SpecialUpload extends SpecialPage {
 	/** Misc variables **/
 	public $mRequest;			// The WebRequest or FauxRequest this form is supposed to handle
 	public $mSourceType;
+
+	/**
+	 * @var UploadBase
+	 */
 	public $mUpload;
 
 	/**
@@ -451,8 +455,8 @@ class SpecialUpload extends SpecialPage {
 		$permErrors = $this->mUpload->verifyPermissions( $wgUser );
 		if( $permErrors !== true ) {
 			$code = array_shift( $permErrors[0] );
-			$this->showRecoverableUploadError( wfMsgExt( $code,
-					'parseinline', $permErrors[0] ) );
+			$this->showRecoverableUploadError( wfMsgExt( $code[0],
+					'parseinline', $code[1] ) );
 			return;
 		}
 
@@ -771,6 +775,8 @@ class UploadForm extends HTMLForm {
 	protected $mTextAfterSummary;
 
 	protected $mSourceIds;
+	
+	protected $mMaxFileSize = array();
 
 	public function __construct( $options = array() ) {
 		$this->mWatch = !empty( $options['watch'] );
@@ -851,6 +857,10 @@ class UploadForm extends HTMLForm {
 			);
 		}
 
+		$this->mMaxUploadSize['file'] = min( 
+			wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ), 
+			UploadBase::getMaxUploadSize( 'file' ) );
+			
 		$descriptor['UploadFile'] = array(
 			'class' => 'UploadSourceField',
 			'section' => 'source',
@@ -861,17 +871,12 @@ class UploadForm extends HTMLForm {
 			'radio' => &$radio,
 			'help' => wfMsgExt( 'upload-maxfilesize',
 					array( 'parseinline', 'escapenoentities' ),
-					$wgLang->formatSize(
-						wfShorthandToInteger( min( 
-							wfShorthandToInteger(
-								ini_get( 'upload_max_filesize' )
-							), UploadBase::getMaxUploadSize( 'file' )
-						) )
-					)
+					$wgLang->formatSize( $this->mMaxUploadSize['file'] )
 				) . ' ' . wfMsgHtml( 'upload_source_file' ),
 			'checked' => $selectedSourceType == 'file',
 		);
 		if ( $canUploadByUrl ) {
+			$this->mMaxUploadSize['url'] = UploadBase::getMaxUploadSize( 'url' );
 			$descriptor['UploadFileURL'] = array(
 				'class' => 'UploadSourceField',
 				'section' => 'source',
@@ -881,7 +886,7 @@ class UploadForm extends HTMLForm {
 				'radio' => &$radio,
 				'help' => wfMsgExt( 'upload-maxfilesize',
 						array( 'parseinline', 'escapenoentities' ),
-						$wgLang->formatSize( UploadBase::getMaxUploadSize( 'url' ) )
+						$wgLang->formatSize( $this->mMaxUploadSize['url'] )
 					) . ' ' . wfMsgHtml( 'upload_source_url' ),
 				'checked' => $selectedSourceType == 'url',
 			);
@@ -1095,6 +1100,7 @@ class UploadForm extends HTMLForm {
 
 		$useAjaxDestCheck = $wgUseAjax && $wgAjaxUploadDestCheck;
 		$useAjaxLicensePreview = $wgUseAjax && $wgAjaxLicensePreview && $wgEnableAPI;
+		$this->mMaxUploadSize['*'] = UploadBase::getMaxUploadSize();
 
 		$scriptVars = array(
 			'wgAjaxUploadDestCheck' => $useAjaxDestCheck,
@@ -1106,6 +1112,7 @@ class UploadForm extends HTMLForm {
 			'wgUploadSourceIds' => $this->mSourceIds,
 			'wgStrictFileExtensions' => $wgStrictFileExtensions,
 			'wgCapitalizeUploads' => MWNamespace::isCapitalized( NS_FILE ),
+			'wgMaxUploadSize' => $this->mMaxUploadSize,
 		);
 
 		$wgOut->addScript( Skin::makeVariablesScript( $scriptVars ) );

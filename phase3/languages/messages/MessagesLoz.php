@@ -857,7 +857,6 @@ Petohoni di petulo '''$1''' sa:",
 
 # Block/unblock
 'blockip'            => 'Bolok sebelu',
-'ipaddress'          => 'IP:',
 'ipadressorusername' => 'IP/sebelu:',
 'ipboptions'         => '2 ora:2 hours,1 dia:1 day,3 dia:3 days,1 wiki:1 week,2 wiki:2 weeks,1 muna:1 month,3 muna:3 months,6 muna:6 months,1 anu:1 year,di simuluzi:infinite',
 'badipaddress'       => 'IP ni sa',
@@ -1006,12 +1005,11 @@ $1',
 'nextdiff'     => 'Lila petuho →',
 
 # Media information
-'widthheightpage'      => '$1×$2, $3 petulo',
-'file-info-size'       => '$1 × $2 pixel, imegi: $3, MIME type: $4',
-'file-nohires'         => '<small>A sa risolusi aku balise.</small>',
-'svg-long-desc'        => 'SVG imegi, nominali $1 × $2 pixel, imega: $3',
-'show-big-image'       => 'Risolusi bakisize',
-'show-big-image-thumb' => '<small>PendiBe: $1 × $2 pixel</small>',
+'widthheightpage' => '$1×$2, $3 petulo',
+'file-info-size'  => '$1 × $2 pixel, imegi: $3, MIME type: $4',
+'file-nohires'    => '<small>A sa risolusi aku balise.</small>',
+'svg-long-desc'   => 'SVG imegi, nominali $1 × $2 pixel, imega: $3',
+'show-big-image'  => 'Risolusi bakisize',
 
 # Special:NewFiles
 'newimages'             => 'Imegina nca',

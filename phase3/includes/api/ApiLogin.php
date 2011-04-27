@@ -72,10 +72,11 @@ class ApiLogin extends ApiBase {
 
 		global $wgCookiePrefix, $wgUser, $wgPasswordAttemptThrottle;
 
-		switch ( $authRes = $loginForm->authenticateUserData() ) {
+		$authRes = $loginForm->authenticateUserData();
+		switch ( $authRes ) {
 			case LoginForm::SUCCESS:
 				$wgUser->setOption( 'rememberpassword', 1 );
-				$wgUser->setCookies();
+				$wgUser->setCookies( $this->getMain()->getRequest() );
 
 				// Run hooks. FIXME: split back and frontend from this hook.
 				// FIXME: This hook should be placed in the backend
@@ -138,6 +139,11 @@ class ApiLogin extends ApiBase {
 
 			case LoginForm::USER_BLOCKED:
 				$result['result'] = 'Blocked';
+				break;
+
+			case LoginForm::ABORTED:
+				$result['result'] = 'Aborted';
+				$result['reason'] =  $loginForm->mAbortLoginErrorMsg;
 				break;
 
 			default:

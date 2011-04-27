@@ -15,7 +15,7 @@ $fallback = 'tr';
 $messages = array(
 # User preference toggles
 'tog-underline'               => 'Bınê girey de xete bıonce:',
-'tog-highlightbroken'         => 'Girêunê thalu {a href="" class="new"}nia{/a} (alternative: nia{a
+'tog-highlightbroken'         => 'Girêunê thalu {a href="" class="new"}nia{/a} (alternatif: nia{a
 href="" class="internal"}?{/a}) bıasne.',
 'tog-justify'                 => 'Paragrafu ayar ke',
 'tog-hideminor'               => 'Vurnaisunê senıku pela vurnaisunê peyênu de wedare',
@@ -27,9 +27,9 @@ href="" class="internal"}?{/a}) bıasne.',
 'tog-showtoolbar'             => 'Gozagunê hacetunê vurnaişi bıasne (JavaScript lazımo)',
 'tog-editondblclick'          => 'Pê dı rey teqnaene pele sero bıguriye (JavaScript lazımo)',
 'tog-editsection'             => 'Vurnaena qısımi ebe girêunê [bıvurne] ra feal ke',
-'tog-editsectiononrightclick' => 'Qısımu teqnaena serrêze be gozaga raste bıvurne (JavaScript lazımo)',
+'tog-editsectiononrightclick' => 'Qısımu be teqnaena serrêze ra ebe gozaga raste bıvurne (JavaScript lazımo)',
 'tog-showtoc'                 => 'Tabloê tedeesteu bıasne (de pelunê be hirê sernustu ra zêdêri de)',
-'tog-rememberpassword'        => 'Parola mı nê cıcêraoği de bia ho viri (serba $1 ra hata {{PLURAL:$1|roze|roji}}).',
+'tog-rememberpassword'        => 'Parola mı nê cıcêraoği de bia ho viri (serba tewr jêde $1 {{PLURAL:$1|roze|rozu}}).',
 'tog-watchcreations'          => 'Pelê ke mı afernê, lista mına şêrkerdişi ke',
 'tog-watchdefault'            => 'Pelê ke mı vurnê, lista mına şêrkerdişi ke',
 'tog-watchmoves'              => 'Pelê ke mı kırısnê, lista mına şêrkerdişi ke',
@@ -41,12 +41,12 @@ href="" class="internal"}?{/a}) bıasne.',
 'tog-enotifwatchlistpages'    => 'Pela ke ez şêr kenune eke vurnê mı rê e-mail bırusne',
 'tog-enotifusertalkpages'     => 'Pela mına hurênaişi ke vurnê mı rê e-mail bırusne',
 'tog-enotifminoredits'        => 'Vurnaisunê qızkeku de ki mı rê e-mail bırusne',
-'tog-enotifrevealaddr'        => 'E-mailadresa mı emailunê xeberu de bıasne',
+'tog-enotifrevealaddr'        => 'Adresa e-postê mı postê xeberu de bıasne',
 'tog-shownumberswatching'     => 'Amorê karberunê şêrkerdoğu bıasne',
 'tog-oldsig'                  => 'Verqaytê imza mewcude:',
 'tog-fancysig'                => 'İmza rê mamelê wikimeqaley bıke (bê gireo otomatik)',
-'tog-externaleditor'          => 'Editorê teberi standart bıgurene (teyna serba ekspertuno, komputerê sıma de ayarê xısuşiy lazımê)',
-'tog-externaldiff'            => 'Têversanaene pê programê teberi vıraze (teyna serba ekspertuno, komputerê sıma de ayarê xısuşiy lazımê)',
+'tog-externaleditor'          => 'Editorê teberi standart bıgurene (teyna serba ekspertuno, komputerê sıma de ayarê xısuşiy lazımê. [http://www.mediawiki.org/wiki/Manual:External_editors Melumato jêdêr.])',
+'tog-externaldiff'            => 'Têversanaene pê programê teberi vıraze (teyna serba ekspertuno, komputerê sıma de ayarê xısuşiy lazımê. [http://www.mediawiki.org/wiki/Manual:External_editors Melumato jêdêr.])',
 'tog-showjumplinks'           => 'Girê "so"y feal ke',
 'tog-uselivepreview'          => 'Verqayto cınde bıgurene (JavaScript) (hona cerrebnaene dero)',
 'tog-forceeditsummary'        => 'Mı ke xulasa kerde cı vira, hay be mı ser de',
@@ -1328,11 +1328,10 @@ Serba areze-kerdene qaytê ''math/README''y ke.",
 'nextdiff'     => 'Vurnaena newêre →',
 
 # Media information
-'file-info-size'       => '$1 × $2 piksel, gırsênia dosya: $3, MIME tipê cı: $4',
-'file-nohires'         => '<small>Tewrêna berz rovıleşiyaene nêbena.</small>',
-'svg-long-desc'        => 'Dosya SVGy, seha ke $1 × $2 pixels, gırşênia dosya: $3',
-'show-big-image'       => 'Rovıleşiyaena tame',
-'show-big-image-thumb' => '<small>Gırsênia verqayti: $1 × $2 piksel</small>',
+'file-info-size' => '$1 × $2 piksel, gırsênia dosya: $3, MIME tipê cı: $4',
+'file-nohires'   => '<small>Tewrêna berz rovıleşiyaene nêbena.</small>',
+'svg-long-desc'  => 'Dosya SVGy, seha ke $1 × $2 pixels, gırşênia dosya: $3',
+'show-big-image' => 'Rovıleşiyaena tame',
 
 # Bad image list
 'bad_image_list' => 'Sıkılo umumi niaro:

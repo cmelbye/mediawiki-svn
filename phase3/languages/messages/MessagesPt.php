@@ -328,7 +328,7 @@ $messages = array(
 'tog-externaleditor'          => 'Por omissão, utilizar um editor externo (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
 'tog-externaldiff'            => 'Por omissão, utilizar diferenças externas (só para utilizadores avançados, exige configurações adicionais no seu computador. [http://www.mediawiki.org/wiki/Manual:External_editors Mais informações.])',
 'tog-showjumplinks'           => 'Possibilitar links de acessibilidade "{{int:jumpto}}"',
-'tog-uselivepreview'          => 'Usar a antevisão em tempo real (requer JavaScript; é experimental)',
+'tog-uselivepreview'          => 'Usar a antevisão ao vivo (requer JavaScript; é experimental)',
 'tog-forceeditsummary'        => 'Avisar-me ao introduzir um resumo vazio',
 'tog-watchlisthideown'        => 'Esconder as minhas edições ao listar mudanças às páginas vigiadas',
 'tog-watchlisthidebots'       => 'Esconder edições de robôs ao listar mudanças às páginas vigiadas',
@@ -787,6 +787,7 @@ Se a conta foi criada por engano, pode ignorar esta mensagem.',
 'usernamehasherror'          => 'O nome de utilizador não pode conter o símbolo de cardinal (#).',
 'login-throttled'            => 'Realizou demasiadas tentativas de autenticação com esta conta.
 Aguarde antes de tentar novamente, por favor.',
+'login-abort-generic'        => 'A sua autenticação não teve êxito - Abortada',
 'loginlanguagelabel'         => 'Língua: $1',
 'suspicious-userlogout'      => 'O seu pedido para sair foi negado porque parece ter sido enviado por um browser danificado ou por um proxy com cache.',
 
@@ -1095,7 +1096,7 @@ Pode ter sido eliminada da wiki ou o nome sido alterado.
 Tente [[Special:Search|pesquisar na wiki]] novas páginas relevantes.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentário removido)',
+'rev-deleted-comment'         => '(resumo da edição suprimido)',
 'rev-deleted-user'            => '(nome de utilizador removido)',
 'rev-deleted-event'           => '(entrada removida)',
 'rev-deleted-user-contribs'   => '[nome de utilizador ou IP removido - edição ocultada das contribuições]',
@@ -1260,7 +1261,7 @@ Note que, se usar os links de navegação, os botões de opção voltarão aos v
 'difference'               => '(Diferença entre edições)',
 'difference-multipage'     => '(Diferenças entre páginas)',
 'lineno'                   => 'Linha $1:',
-'compareselectedversions'  => 'Compare as versões seleccionadas',
+'compareselectedversions'  => 'Comparar as versões seleccionadas',
 'showhideselectedversions' => 'Mostrar/ocultar versões selecionadas',
 'editundo'                 => 'desfazer',
 'diff-multi'               => '({{PLURAL:$1|Uma edição intermédia|$1 edições intermédias}} de {{PLURAL:$2|um utilizador|$2 utilizadores}} {{PLURAL:$1|não apresentada|não apresentadas}})',
@@ -1781,7 +1782,7 @@ Para sua conveniência, é apresentado de seguida o registo de eliminação do f
 'filename-bad-prefix'         => "O nome do ficheiro que está a enviar começa por '''\"\$1\"''', um nome pouco explicativo, normalmente originado de forma automática por câmaras digitais. Escolha um nome de ficheiro mais explicativo, por favor.",
 'filename-prefix-blacklist'   => ' #<!-- deixe esta linha exactamente como está --> <pre>
 # A sintaxe é a seguinte:
-#   * Tudo a partir do caractere "#" até ao fim da linha é um comentário
+#   * Tudo a partir do carácter "#" até ao fim da linha é um comentário
 #   * Todas as linhas não vazias são um prefixo para nomes de ficheiros típicos atribuídos automaticamente por câmaras digitais
 CIMG # Casio
 DSC_ # Nikon
@@ -2469,9 +2470,10 @@ $1',
 'undelete-show-file-submit'    => 'Sim',
 
 # Namespace form on various pages
-'namespace'      => 'Espaço nominal:',
-'invert'         => 'Inverter selecção',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Espaço nominal:',
+'invert'                => 'Inverter selecção',
+'namespace_association' => 'Domínio associado',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contribuições do utilizador',
@@ -2526,7 +2528,6 @@ Para sua referência, encontra abaixo a entrada mais recente no registo de bloqu
 'blockip-legend'                  => 'Bloquear utilizador',
 'blockiptext'                     => 'Utilize o formulário abaixo para bloquear o acesso de escrita a um endereço IP específico ou a um nome de utilizador.
 Isto só deve ser feito para prevenir vandalismo e de acordo com a [[{{MediaWiki:Policy-url}}|política]]. Indique a seguir um motivo de bloqueio específico (por exemplo, indicando as páginas que foram alvo de vandalismo).',
-'ipaddress'                       => 'Endereço IP:',
 'ipadressorusername'              => 'Endereço IP ou nome de utilizador:',
 'ipbexpiry'                       => 'Expiração:',
 'ipbreason'                       => 'Motivo:',
@@ -2539,7 +2540,7 @@ Isto só deve ser feito para prevenir vandalismo e de acordo com a [[{{MediaWiki
 ** Comportamento intimidador/inoportuno
 ** Uso abusivo de contas múltiplas
 ** Nome de utilizador inaceitável',
-'ipbanononly'                     => 'Bloquear apenas utilizadores anónimos',
+'ipb-hardblock'                   => 'Impedir que utilizadores autenticados editem a partir deste endereço IP',
 'ipbcreateaccount'                => 'Impedir criação de contas de utilizador',
 'ipbemailban'                     => 'Impedir utilizador de enviar correio electrónico',
 'ipbenableautoblock'              => 'Bloquear automaticamente o endereço IP mais recente deste utilizador e todos os endereços IP subsequentes a partir dos quais ele tente editar',
@@ -2550,7 +2551,7 @@ Isto só deve ser feito para prevenir vandalismo e de acordo com a [[{{MediaWiki
 'ipbotherreason'                  => 'Outro motivo/motivo adicional:',
 'ipbhidename'                     => 'Ocultar nome de utilizador nas edições e listas',
 'ipbwatchuser'                    => 'Vigiar as páginas de utilizador e de discussão deste utilizador',
-'ipballowusertalk'                => 'Permitir que este utilizador edite a sua própria página de discussão mesmo estando bloqueado',
+'ipb-disableusertalk'             => 'Impedir que este utilizador edite a sua página de discussão enquanto estiver bloqueado',
 'ipb-change-block'                => 'Voltar a bloquear o utilizador com estes parâmetros',
 'badipaddress'                    => 'Endereço IP inválido',
 'blockipsuccesssub'               => 'Bloqueio bem sucedido',
@@ -2568,14 +2569,9 @@ Consulte a [[Special:IPBlockList|lista de IPs bloqueados]] para rever os bloquei
 'unblocked-id'                    => 'O bloqueio de $1 foi removido com sucesso',
 'ipblocklist'                     => 'Utilizadores e endereços IP bloqueados',
 'ipblocklist-legend'              => 'Procurar um utilizador bloqueado',
-'ipblocklist-username'            => 'Nome de utilizador ou endereço IP:',
-'ipblocklist-sh-userblocks'       => '$1 bloqueios de contas',
-'ipblocklist-sh-tempblocks'       => '$1 bloqueios temporários',
-'ipblocklist-sh-addressblocks'    => '$1 bloqueios de IP único',
 'ipblocklist-submit'              => 'Pesquisar',
 'ipblocklist-localblock'          => 'Bloqueio local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Outro bloqueio|Outros bloqueios}}',
-'blocklistline'                   => '$1, $2 bloqueou $3 ($4)',
 'infiniteblock'                   => 'infinito',
 'expiringblock'                   => 'expira em $1 às $2',
 'anononlyblock'                   => 'apenas anón.',
@@ -3042,22 +3038,24 @@ $1',
 'nextdiff'     => 'Edição posterior →',
 
 # Media information
-'mediawarning'         => "'''Aviso''': Este tipo de ficheiro pode conter código malicioso.
+'mediawarning'           => "'''Aviso''': Este tipo de ficheiro pode conter código malicioso.
 Executá-lo poderá comprometer a segurança do seu sistema.",
-'imagemaxsize'         => "Limite de tamanho de imagens:<br />''(para páginas de descrição)''",
-'thumbsize'            => 'Tamanho de miniaturas:',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|página|páginas}}',
-'file-info'            => 'tamanho: $1, tipo MIME: $2',
-'file-info-size'       => '$1 × $2 pixels, tamanho: $3, tipo MIME: $4',
-'file-nohires'         => '<small>Sem resolução maior disponível.</small>',
-'svg-long-desc'        => 'ficheiro SVG, de $1 × $2 pixels, tamanho: $3',
-'show-big-image'       => 'Resolução completa',
-'show-big-image-thumb' => '<small>Dimensões desta antevisão: $1 × $2 pixels</small>',
-'file-info-gif-looped' => 'cíclico',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|quadro|quadros}}',
-'file-info-png-looped' => 'ciclo infinito',
-'file-info-png-repeat' => 'reproduzido $1 {{PLURAL:$1|vez|vezes}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
+'imagemaxsize'           => "Limite de tamanho de imagens:<br />''(para páginas de descrição)''",
+'thumbsize'              => 'Tamanho de miniaturas:',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|página|páginas}}',
+'file-info'              => 'tamanho: $1, tipo MIME: $2',
+'file-info-size'         => '$1 × $2 pixels, tamanho: $3, tipo MIME: $4',
+'file-nohires'           => '<small>Sem resolução maior disponível.</small>',
+'svg-long-desc'          => 'ficheiro SVG, de $1 × $2 pixels, tamanho: $3',
+'show-big-image'         => 'Resolução completa',
+'show-big-image-preview' => '<small>Tamanho desta antevisão: $1.</small>',
+'show-big-image-other'   => '<small>Outras resoluções: $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixels',
+'file-info-gif-looped'   => 'cíclico',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|quadro|quadros}}',
+'file-info-png-looped'   => 'ciclo infinito',
+'file-info-png-repeat'   => 'reproduzido $1 {{PLURAL:$1|vez|vezes}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
 
 # Special:NewFiles
 'newimages'             => 'Galeria de novos ficheiros',
@@ -3588,7 +3586,8 @@ Introduza o nome do ficheiro sem o prefixo \"{{ns:file}}:\".",
 'specialpages'                   => 'Páginas especiais',
 'specialpages-note'              => '----
 * Páginas especiais normais.
-* <strong class="mw-specialpagerestricted">Páginas especiais restritas.</strong>',
+* <span class="mw-specialpagerestricted">Páginas especiais restritas.</span>
+* <span class="mw-specialpagecached">Páginas especiais com cache.</span>',
 'specialpages-group-maintenance' => 'Relatórios de manutenção',
 'specialpages-group-other'       => 'Outras páginas especiais',
 'specialpages-group-login'       => 'Entrar / registar-se',

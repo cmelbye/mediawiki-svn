@@ -69,6 +69,8 @@ class LoadBalancer {
 
 	/**
 	 * Get a LoadMonitor instance
+	 *
+	 * @return LoadMonitor
 	 */
 	function getLoadMonitor() {
 		if ( !isset( $this->mLoadMonitor ) ) {
@@ -338,10 +340,24 @@ class LoadBalancer {
 		}
 		wfProfileOut( __METHOD__ );
 	}
+	
+	/**
+	 * Set the master wait position and wait for ALL slaves to catch up to it
+	 */
+	public function waitForAll( $pos ) {
+		wfProfileIn( __METHOD__ );
+		$this->mWaitForPos = $pos;
+		for ( $i = 1; $i < count( $this->mServers ); $i++ ) {
+			$this->doWait( $i , true );
+		}
+		wfProfileOut( __METHOD__ );
+	}
 
 	/**
 	 * Get any open connection to a given server index, local or foreign
 	 * Returns false if there is no connection open
+	 *
+	 * @return DatabaseBase
 	 */
 	function getAnyOpenConnection( $i ) {
 		foreach ( $this->mConns as $conns ) {
@@ -355,12 +371,20 @@ class LoadBalancer {
 	/**
 	 * Wait for a given slave to catch up to the master pos stored in $this
 	 */
-	function doWait( $index ) {
+	function doWait( $index, $open = false ) {
 		# Find a connection to wait on
 		$conn = $this->getAnyOpenConnection( $index );
 		if ( !$conn ) {
-			wfDebug( __METHOD__ . ": no connection open\n" );
-			return false;
+			if ( !$open ) {
+				wfDebug( __METHOD__ . ": no connection open\n" );
+				return false;
+			} else {
+				$conn = $this->openConnection( $index );
+				if ( !$conn ) {
+					wfDebug( __METHOD__ . ": failed to open connection\n" );
+					return false;
+				}
+			}
 		}
 
 		wfDebug( __METHOD__.": Waiting for slave #$index to catch up...\n" );
@@ -447,6 +471,8 @@ class LoadBalancer {
 	 * Mark a foreign connection as being available for reuse under a different
 	 * DB name or prefix. This mechanism is reference-counted, and must be called
 	 * the same number of times as getConnection() to work.
+	 *
+	 * @param DatabaseBase $conn
 	 */
 	public function reuseConnection( $conn ) {
 		$serverIndex = $conn->getLBInfo('serverIndex');

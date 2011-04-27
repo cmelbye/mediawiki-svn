@@ -2,7 +2,6 @@
  * JavaScript backwards-compatibility alternatives and other convenience functions
  */
 
-<<<<<<< .working
 // New fallback String trimming functionality, was introduced natively in JavaScript 1.8.1
 if ( typeof String.prototype.trim === 'undefined' ) {
 	// Add removing trailing and leading whitespace functionality cross-browser
@@ -22,20 +21,19 @@ if ( typeof String.prototype.trimRight === 'undefined' ) {
 		return this.replace(/\s\s*$/, "");
 	};
 }
-=======
 jQuery.extend({
 	trimLeft : function( str ) {
-		return str == null ? '' : str.toString().replace( /^\s+/, '' );
+		return str === null ? '' : str.toString().replace( /^\s+/, '' );
 	},
 	trimRight : function( str ) {
-		return str == null ?
+		return str === null ?
 				'' : str.toString().replace( /\s+$/, '' );
 	},
 	ucFirst : function( str ) {
 		return str.substr( 0, 1 ).toUpperCase() + str.substr( 1, str.length );
 	},
 	escapeRE : function( str ) {
-		return str.replace ( /([\\{}()|.?*+^$\[\]])/g, "\\$1" );
+		return str.replace ( /([\\{}()|.?*+\-^$\[\]])/g, "\\$1" );
 	},
 	// $.isDomElement( document.getElementById('content') ) === true
 	// $.isDomElement( document.getElementsByClassName('portal') ) === false (array)
@@ -143,7 +141,6 @@ jQuery.extend({
 		return true;
 	}
 });
->>>>>>> .merge-right.r76320
 
 /*
  * Core MediaWiki JavaScript Library
@@ -276,6 +273,16 @@ window.mediaWiki = new ( function( $ ) {
 			var index = parseInt( match, 10 ) - 1;
 			return index in parameters ? parameters[index] : '$' + match;
 		} );
+		
+		if ( this.format === 'plain' ) {
+			return text;
+		}
+		if ( this.format === 'escaped' ) {
+			// According to Message.php this needs {{-transformation, which is
+			// still todo
+			return mediaWiki.html.escape( text );
+		}
+		
 		/* This should be fixed up when we have a parser
 		if ( this.format === 'parse' && 'language' in mediaWiki ) {
 			text = mediaWiki.language.parse( text );
@@ -301,6 +308,16 @@ window.mediaWiki = new ( function( $ ) {
 	 */
 	Message.prototype.plain = function() {
 		this.format = 'plain';
+		return this.toString();
+	};
+	
+	/**
+	 * Changes the format to html escaped and converts message to string
+	 * 
+	 * @return {string} String form of html escaped message
+	 */
+	Message.prototype.escaped = function() {
+		this.format = 'escaped';
 		return this.toString();
 	};
 
@@ -378,7 +395,7 @@ window.mediaWiki = new ( function( $ ) {
 		 */
 		this.sessionId = function () {
 			var sessionId = $.cookie( 'mediaWiki.user.sessionId' );
-			if ( typeof sessionId == 'undefined' || sessionId == null ) {
+			if ( typeof sessionId == 'undefined' || sessionId === null ) {
 				sessionId = generateId();
 				$.cookie( 'mediaWiki.user.sessionId', sessionId, { 'expires': null, 'path': '/' } );
 			}
@@ -404,7 +421,7 @@ window.mediaWiki = new ( function( $ ) {
 				return name;
 			}
 			var id = $.cookie( 'mediaWiki.user.id' );
-			if ( typeof id == 'undefined' || id == null ) {
+			if ( typeof id == 'undefined' || id === null ) {
 				id = generateId();
 			}
 			// Set cookie if not set, or renew it if already set
@@ -490,16 +507,16 @@ window.mediaWiki = new ( function( $ ) {
 		 * mediawiki.
 		 *
 		 * Format:
-		 * 	{
-		 * 		'moduleName': {
-		 * 			'dependencies': ['required module', 'required module', ...], (or) function() {}
-		 * 			'state': 'registered', 'loading', 'loaded', 'ready', or 'error'
-		 * 			'script': function() {},
-		 * 			'style': 'css code string',
-		 * 			'messages': { 'key': 'value' },
-		 * 			'version': ############## (unix timestamp)
-		 * 		}
-		 * 	}
+		 *   {
+		 *     'moduleName': {
+		 *       'dependencies': ['required module', 'required module', ...], (or) function() {}
+		 *       'state': 'registered', 'loading', 'loaded', 'ready', or 'error'
+		 *       'script': function() {},
+		 *       'style': 'css code string',
+		 *       'messages': { 'key': 'value' },
+		 *       'version': ############## (unix timestamp)
+		 *     }
+		 *   }
 		 */
 		var registry = {};
 		// List of modules which will be loaded as when ready
@@ -557,7 +574,7 @@ window.mediaWiki = new ( function( $ ) {
 				throw new Error( 'Unknown dependency: ' + module );
 			}
 			// Resolves dynamic loader function and replaces it with its own results
-			if ( typeof registry[module].dependencies === 'function' ) {
+			if ( $.isFunction( registry[module].dependencies ) ) {
 				registry[module].dependencies = registry[module].dependencies();
 				// Ensures the module's dependencies are always in an array
 				if ( typeof registry[module].dependencies !== 'object' ) {
@@ -626,7 +643,7 @@ window.mediaWiki = new ( function( $ ) {
 				states = [states];
 			}
 			// If called without a list of modules, build and use a list of all modules
-			var list = [];
+			var list = [], module;
 			if ( typeof modules === 'undefined' ) {
 				modules = [];
 				for ( module in registry ) {
@@ -660,6 +677,7 @@ window.mediaWiki = new ( function( $ ) {
 		 * @param module string module name to execute
 		 */
 		function execute( module ) {
+			var _method = 'mw.loader::execute';
 			if ( typeof registry[module] === 'undefined' ) {
 				throw new Error( 'Module has not been registered yet: ' + module );
 			} else if ( registry[module].state === 'registered' ) {
@@ -676,7 +694,7 @@ window.mediaWiki = new ( function( $ ) {
 						new mediaWiki.html.Cdata( registry[module].style )
 					) );
 			} else if ( typeof registry[module].style === 'object'
-				&& !( registry[module].style instanceof Array ) )
+				&& !( $.isArray( registry[module].style ) ) )
 			{
 				for ( var media in registry[module].style ) {
 					$marker.before( mediaWiki.html.element( 'style',
@@ -692,6 +710,7 @@ window.mediaWiki = new ( function( $ ) {
 			// Execute script
 			try {
 				registry[module].script( jQuery );
+				mw.log( 'State ready: ' + module, _method )
 				registry[module].state = 'ready';
 				// Run jobs who's dependencies have just been met
 				for ( var j = 0; j < jobs.length; j++ ) {
@@ -699,7 +718,7 @@ window.mediaWiki = new ( function( $ ) {
 						filter( 'ready', jobs[j].dependencies ),
 						jobs[j].dependencies ) )
 					{
-						if ( typeof jobs[j].ready === 'function' ) {
+						if ( $.isFunction( jobs[j].ready ) ) {
 							jobs[j].ready();
 						}
 						jobs.splice( j, 1 );
@@ -707,7 +726,7 @@ window.mediaWiki = new ( function( $ ) {
 					}
 				}
 				// Execute modules who's dependencies have just been met
-				for ( r in registry ) {
+				for ( var r in registry ) {
 					if ( registry[r].state == 'loaded' ) {
 						if ( compare(
 							filter( ['ready'], registry[r].dependencies ),
@@ -718,13 +737,13 @@ window.mediaWiki = new ( function( $ ) {
 					}
 				}
 			} catch ( e ) {
-				mediaWiki.log( 'Exception thrown by ' + module + ': ' + e.message );
+				mediaWiki.log( 'Exception thrown by ' + module + ': ' + e.message, _method );
 				mediaWiki.log( e );
 				registry[module].state = 'error';
 				// Run error callbacks of jobs affected by this condition
 				for ( var j = 0; j < jobs.length; j++ ) {
 					if ( $.inArray( module, jobs[j].dependencies ) !== -1 ) {
-						if ( typeof jobs[j].error === 'function' ) {
+						if ( $.isFunction( jobs[j].error ) ) {
 							jobs[j].error();
 						}
 						jobs.splice( j, 1 );
@@ -864,7 +883,7 @@ window.mediaWiki = new ( function( $ ) {
 				}
 				// Load asynchronously after documument ready
 				if ( ready ) {
-					setTimeout(  function() { $( 'body' ).append( request() ); }, 0 )
+					setTimeout( function() { $( 'body' ).append( request() ); }, 0 );
 				} else {
 					document.write( request() );
 				}
@@ -899,12 +918,12 @@ window.mediaWiki = new ( function( $ ) {
 				'state': 'registered',
 				'group': typeof group === 'string' ? group : null,
 				'dependencies': [],
-				'version': typeof version !== 'undefined' ? parseInt( version ) : 0
+				'version': typeof version !== 'undefined' ? parseInt( version, 10 ) : 0
 			};
 			if ( typeof dependencies === 'string' ) {
 				// Allow dependencies to be given as a single module name
 				registry[module].dependencies = [dependencies];
-			} else if ( typeof dependencies === 'object' || typeof dependencies === 'function' ) {
+			} else if ( typeof dependencies === 'object' || $.isFunction( dependencies ) ) {
 				// Allow dependencies to be given as an array of module names
 				// or a function which returns an array
 				registry[module].dependencies = dependencies;
@@ -922,7 +941,7 @@ window.mediaWiki = new ( function( $ ) {
 				that.register( module );
 			}
 			// Validate input
-			if ( typeof script !== 'function' ) {
+			if ( !$.isFunction( script ) ) {
 				throw new Error( 'script must be a function, not a ' + typeof script );
 			}
 			if ( typeof style !== 'undefined'
@@ -977,7 +996,7 @@ window.mediaWiki = new ( function( $ ) {
 			// Validate input
 			if ( typeof dependencies !== 'object' && typeof dependencies !== 'string' ) {
 				throw new Error( 'dependencies must be a string or an array, not a ' +
-					typeof dependencies )
+					typeof dependencies );
 			}
 			// Allow calling with a single dependency as a string
 			if ( typeof dependencies === 'string' ) {
@@ -987,13 +1006,13 @@ window.mediaWiki = new ( function( $ ) {
 			dependencies = resolve( dependencies );
 			// If all dependencies are met, execute ready immediately
 			if ( compare( filter( ['ready'], dependencies ), dependencies ) ) {
-				if ( typeof ready === 'function' ) {
+				if ( $.isFunction( ready ) ) {
 					ready();
 				}
 			}
 			// If any dependencies have errors execute error immediately
 			else if ( filter( ['error'], dependencies ).length ) {
-				if ( typeof error === 'function' ) {
+				if ( $.isFunction( error ) ) {
 					error();
 				}
 			}
@@ -1016,8 +1035,8 @@ window.mediaWiki = new ( function( $ ) {
 		this.load = function( modules, type ) {
 			// Validate input
 			if ( typeof modules !== 'object' && typeof modules !== 'string' ) {
-				throw new Error( 'dependencies must be a string or an array, not a ' +
-					typeof dependencies )
+				throw new Error( 'modules must be a string or an array, not a ' +
+					typeof modules );
 			}
 			// Allow calling with an external script or single dependency as a string
 			if ( typeof modules === 'string' ) {
@@ -1206,7 +1225,7 @@ window.mediaWiki = new ( function( $ ) {
 
 /* Auto-register from pre-loaded startup scripts */
 
-if ( typeof startUp === 'function' ) {
+if ( $.isFunction( startUp ) ) {
 	startUp();
 	delete startUp;
 }

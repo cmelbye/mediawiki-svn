@@ -173,9 +173,19 @@ class User {
 	/**
 	 * Lazy-initialized variables, invalidated with clearInstanceCache
 	 */
-	var $mNewtalk, $mDatePreference, $mBlockedby, $mHash, $mSkin, $mRights,
-		$mBlockreason, $mBlock, $mEffectiveGroups, $mBlockedGlobally,
+	var $mNewtalk, $mDatePreference, $mBlockedby, $mHash, $mRights,
+		$mBlockreason, $mEffectiveGroups, $mBlockedGlobally,
 		$mLocked, $mHideName, $mOptions;
+
+	/**
+	 * @var Skin
+	 */
+	var $mSkin;
+
+	/**
+	 * @var Block
+	 */
+	var $mBlock;
 
 	static $idCacheByName = array();
 
@@ -191,6 +201,10 @@ class User {
 	 */
 	function __construct() {
 		$this->clearInstanceCache( 'defaults' );
+	}
+
+	function __toString(){
+		return $this->getName();
 	}
 
 	/**
@@ -2447,9 +2461,15 @@ class User {
 
 	/**
 	 * Set the default cookies for this session on the user's client.
+	 *
+	 * @param $request WebRequest object to use; $wgRequest will be used if null
+	 *        is passed.
 	 */
-	function setCookies() {
-		global $wgRequest;
+	function setCookies( $request = null ) {
+		if ( $request === null ) {
+			global $wgRequest;
+			$request = $wgRequest;
+		}
 
 		$this->load();
 		if ( 0 == $this->mId ) return;
@@ -2471,7 +2491,7 @@ class User {
 		wfRunHooks( 'UserSetCookies', array( $this, &$session, &$cookies ) );
 
 		foreach ( $session as $name => $value ) {
-			$wgRequest->setSessionData( $name, $value );
+			$request->setSessionData( $name, $value );
 		}
 		foreach ( $cookies as $name => $value ) {
 			if ( $value === false ) {
@@ -2677,7 +2697,7 @@ class User {
 	 * which will give them a chance to modify this key based on their own
 	 * settings.
 	 *
-	 * @deprecated @since 1.17 use the ParserOptions object to get the relevant options
+	 * @deprecated since 1.17 use the ParserOptions object to get the relevant options
 	 * @return String Page rendering hash
 	 */
 	function getPageRenderingHash() {
@@ -2821,7 +2841,7 @@ class User {
 			# Some wikis were converted from ISO 8859-1 to UTF-8, the passwords can't be converted
 			# Check for this with iconv
 			$cp1252Password = iconv( 'UTF-8', 'WINDOWS-1252//TRANSLIT', $password );
-			if ( $cp1252Password != $password && 
+			if ( $cp1252Password != $password &&
 				self::comparePasswords( $this->mPassword, $cp1252Password, $this->mId ) )
 			{
 				return true;
@@ -2855,18 +2875,22 @@ class User {
 	 * submission.
 	 *
 	 * @param $salt String|Array of Strings Optional function-specific data for hashing
+	 * @param $request WebRequest object to use or null to use $wgRequest
 	 * @return String The new edit token
 	 */
-	function editToken( $salt = '' ) {
-		global $wgRequest;
+	function editToken( $salt = '', $request = null ) {
+		if ( $request == null ) {
+			global $wgRequest;
+			$request = $wgRequest;
+		}
 
 		if ( $this->isAnon() ) {
 			return EDIT_TOKEN_SUFFIX;
 		} else {
-			$token = $wgRequest->getSessionData( 'wsEditToken' );
+			$token = $request->getSessionData( 'wsEditToken' );
 			if ( $token === null ) {
 				$token = self::generateToken();
-				$wgRequest->setSessionData( 'wsEditToken', $token );
+				$request->setSessionData( 'wsEditToken', $token );
 			}
 			if( is_array( $salt ) ) {
 				$salt = implode( '|', $salt );
@@ -2894,10 +2918,11 @@ class User {
 	 *
 	 * @param $val String Input value to compare
 	 * @param $salt String Optional function-specific data for hashing
+	 * @param $request WebRequest object to use or null to use $wgRequest
 	 * @return Boolean: Whether the token matches
 	 */
-	function matchEditToken( $val, $salt = '' ) {
-		$sessionToken = $this->editToken( $salt );
+	function matchEditToken( $val, $salt = '', $request = null ) {
+		$sessionToken = $this->editToken( $salt, $request );
 		if ( $val != $sessionToken ) {
 			wfDebug( "User::matchEditToken: broken session data\n" );
 		}
@@ -2910,10 +2935,11 @@ class User {
 	 *
 	 * @param $val String Input value to compare
 	 * @param $salt String Optional function-specific data for hashing
+	 * @param $request WebRequest object to use or null to use $wgRequest
 	 * @return Boolean: Whether the token matches
 	 */
-	function matchEditTokenNoSuffix( $val, $salt = '' ) {
-		$sessionToken = $this->editToken( $salt );
+	function matchEditTokenNoSuffix( $val, $salt = '', $request = null ) {
+		$sessionToken = $this->editToken( $salt, $request );
 		return substr( $sessionToken, 0, 32 ) == substr( $val, 0, 32 );
 	}
 
@@ -3502,7 +3528,7 @@ class User {
 	static function getRightDescription( $right ) {
 		$key = "right-$right";
 		$name = wfMsg( $key );
-		return $name == '' || wfEmptyMsg( $key, $name )
+		return $name == '' || wfEmptyMsg( $key )
 			? $right
 			: $name;
 	}
@@ -3768,8 +3794,4 @@ class User {
 
 		return $ret;
 	}
-
-
-
-
 }

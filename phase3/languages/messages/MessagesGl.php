@@ -697,7 +697,7 @@ Como resultado, os visitantes que usen este enderezo IP non poden crear máis co
 'invalidemailaddress'        => 'Non se pode aceptar o enderezo de correo electrónico porque semella ter un formato incorrecto.
 Insira un enderezo cun formato válido ou baleire ese campo.',
 'accountcreated'             => 'Conta creada',
-'accountcreatedtext'         => 'A conta de usuario para $1 foi creada.',
+'accountcreatedtext'         => 'Creouse a conta de usuario para "$1".',
 'createaccount-title'        => 'Creación dunha conta para {{SITENAME}}',
 'createaccount-text'         => 'Alguén creou unha conta chamada "$2" para o seu enderezo de correo electrónico en {{SITENAME}} ($4), e con contrasinal "$3".
 Debe acceder ao sistema e mudar o contrasinal agora.
@@ -706,6 +706,7 @@ Pode facer caso omiso desta mensaxe se se creou esta conta por erro.',
 'usernamehasherror'          => 'O nome de usuario non pode conter cancelos ("#")',
 'login-throttled'            => 'Fixo demasiados intentos de inserir o contrasinal.
 Por favor, agarde antes de probar outra vez.',
+'login-abort-generic'        => 'Acceso ao sistema incorrecto; abortado',
 'loginlanguagelabel'         => 'Lingua: $1',
 'suspicious-userlogout'      => 'Rexeitouse a súa petición de saír do sistema porque semella que a enviou un navegador roto ou a caché dun proxy.',
 
@@ -1004,7 +1005,7 @@ Puido borrarse ou moverse a outro nome.
 Probe a [[Special:Search|buscar no wiki]] para atopar as páxinas relacionadas.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentario eliminado)',
+'rev-deleted-comment'         => '(resumo de edición eliminado)',
 'rev-deleted-user'            => '(nome de usuario eliminado)',
 'rev-deleted-event'           => '(rexistro de evento eliminado)',
 'rev-deleted-user-contribs'   => '[nome de usuario ou enderezo IP eliminado; edición agochada das contribucións]',
@@ -1663,6 +1664,8 @@ Se aínda quere cargar o seu ficheiro, volva atrás e use outro nome.
 'php-uploaddisabledtext'      => 'As cargas de ficheiros PHP están desactivadas. Por favor, comprobe a característica file_uploads.',
 'uploadscripted'              => 'Este ficheiro contén HTML ou código (script code) que pode producir erros ao ser interpretado polo navegador.',
 'uploadvirus'                 => 'O ficheiro contén un virus! Detalles: $1',
+'uploadjava'                  => 'O ficheiro é un ZIP que contén un ficheiro .class de Java.
+Non están permitidas as cargas de ficheiros Java, dado que poden causar restricións de seguridade.',
 'upload-source'               => 'Ficheiro de orixe',
 'sourcefilename'              => 'Nome do ficheiro a cargar:',
 'sourceurl'                   => 'URL de orixe:',
@@ -1714,6 +1717,14 @@ Se o problema persiste contacte cun [[Special:ListUsers/sysop|administrador]] do
 'upload-too-many-redirects' => 'O enderezo URL contiña moitas redireccións',
 'upload-unknown-size'       => 'Tamaño descoñecido',
 'upload-http-error'         => 'Produciuse un erro HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Atopouse un erro ao abrir o ficheiro ZIP para realizar as comprobacións.',
+'zip-wrong-format'    => 'O ficheiro especificado non é ZIP.',
+'zip-bad'             => 'O ficheiro ZIP está corrompido ou a súa lectura é imposible.
+Non pode superar adecuadamente as comprobacións de seguridade.',
+'zip-unsupported'     => 'O ficheiro é un ZIP que emprega características non soportadas por MediaWiki.
+Non pode superar adecuadamente as comprobacións de seguridade.',
 
 # Special:UploadStash
 'uploadstash'          => 'Ficheiros agochados',
@@ -2363,9 +2374,10 @@ $1',
 'undelete-show-file-submit'    => 'Si',
 
 # Namespace form on various pages
-'namespace'      => 'Espazo de nomes:',
-'invert'         => 'Inverter a selección',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Espazo de nomes:',
+'invert'                => 'Inverter a selección',
+'namespace_association' => 'Espazo de nomes asociado',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contribucións do usuario',
@@ -2420,7 +2432,6 @@ Velaquí está a última entrada do rexistro de bloqueos, por se quere consultal
 'blockiptext'                     => 'Use o seguinte formulario para bloquear o acceso de escritura desde un enderezo IP ou para bloquear un usuario específico.
 Isto debería facerse só para previr vandalismo, e de acordo coa [[{{MediaWiki:Policy-url}}|política e normas]] vixentes.
 Explique a razón específica do bloqueo (por exemplo, citando as páxinas concretas que sufriron vandalismo).',
-'ipaddress'                       => 'Enderezo IP:',
 'ipadressorusername'              => 'Enderezo IP ou nome de usuario:',
 'ipbexpiry'                       => 'Duración:',
 'ipbreason'                       => 'Motivo:',
@@ -2433,7 +2444,6 @@ Explique a razón específica do bloqueo (por exemplo, citando as páxinas concr
 ** Comportamento intimidatorio/acoso
 ** Abuso de múltiples contas de usuario
 ** Nome de usuario inaceptábel',
-'ipbanononly'                     => 'Bloquear os usuarios anónimos unicamente',
 'ipbcreateaccount'                => 'Previr a creación de contas',
 'ipbemailban'                     => 'Impedir que o usuario envíe correos electrónicos',
 'ipbenableautoblock'              => 'Bloquear automaticamente o último enderezo IP utilizado por este usuario, e calquera outro enderezo desde o que intente editar',
@@ -2444,7 +2454,6 @@ Explique a razón específica do bloqueo (por exemplo, citando as páxinas concr
 'ipbotherreason'                  => 'Outro motivo:',
 'ipbhidename'                     => 'Agochar o nome de usuario nas edicións e listas',
 'ipbwatchuser'                    => 'Vixiar a páxina de usuario e a de conversa deste usuario',
-'ipballowusertalk'                => 'Permitir que este usuario poida editar a súa páxina de conversa mentres estea bloqueado',
 'ipb-change-block'                => 'Volver bloquear o usuario con estas configuracións',
 'badipaddress'                    => 'O enderezo IP non é válido',
 'blockipsuccesssub'               => 'Bloqueo exitoso',
@@ -2462,14 +2471,9 @@ Olle a [[Special:IPBlockList|lista de enderezos IP e usuarios bloqueados]] para 
 'unblocked-id'                    => 'O bloqueo $1 foi eliminado',
 'ipblocklist'                     => 'Enderezos IP e usuarios bloqueados',
 'ipblocklist-legend'              => 'Buscar un usuario bloqueado',
-'ipblocklist-username'            => 'Nome de usuario ou enderezo IP:',
-'ipblocklist-sh-userblocks'       => '$1 as contas bloqueadas',
-'ipblocklist-sh-tempblocks'       => '$1 os bloqueos temporais',
-'ipblocklist-sh-addressblocks'    => '$1 os bloqueos únicos a enderezos IP',
 'ipblocklist-submit'              => 'Procurar',
 'ipblocklist-localblock'          => 'Bloqueo local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Outro bloqueo|Outros bloqueos}}',
-'blocklistline'                   => '$1, $2 bloqueou a "$3" ($4)',
 'infiniteblock'                   => 'para sempre',
 'expiringblock'                   => 'remata o $1 ás $2',
 'anononlyblock'                   => 'só anón.',
@@ -2939,7 +2943,6 @@ O seu sistema pode quedar comprometido se o executa.",
 'file-nohires'         => '<small>Non se dispón dunha resolución máis grande.</small>',
 'svg-long-desc'        => 'ficheiro SVG, nominalmente $1 × $2 píxeles, tamaño do ficheiro: $3',
 'show-big-image'       => 'Imaxe na máxima resolución',
-'show-big-image-thumb' => '<small>Tamaño desta presentación da imaxe: $1 × $2 píxeles</small>',
 'file-info-gif-looped' => 'en bucle',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|fotograma|fotogramas}}',
 'file-info-png-looped' => 'en bucle',
@@ -3470,7 +3473,8 @@ Introduza o nome do ficheiro sen o prefixo "{{ns:file}}:"',
 'specialpages'                   => 'Páxinas especiais',
 'specialpages-note'              => '----
 * Páxinas especiais normais.
-* <strong class="mw-specialpagerestricted">Páxinas especiais restrinxidas.</strong>',
+* <span class="mw-specialpagerestricted">Páxinas especiais restrinxidas.</span>
+* <span class="mw-specialpagecached">Páxinas especiais só con caché.</span>',
 'specialpages-group-maintenance' => 'Informes de mantemento',
 'specialpages-group-other'       => 'Outras páxinas especiais',
 'specialpages-group-login'       => 'Rexistro',

@@ -7,10 +7,17 @@
  */
 class ImagePage extends Article {
 
-	/* private */ var $img;  // Image object
+	/**
+	 * @var File
+	 */
+	/* private */ var $img;
+	/**
+	 * @var File
+	 */
 	/* private */ var $displayImg;
 	/* private */ var $repo;
 	/* private */ var $fileLoaded;
+
 	var $mExtraDescription = false;
 	var $dupes;
 
@@ -168,6 +175,7 @@ class ImagePage extends Article {
 		}
 		return $this->mRedirectTarget = Title::makeTitle( NS_FILE, $to );
 	}
+
 	public function followRedirect() {
 		$this->loadFile();
 		if ( $this->img->isLocal() ) {
@@ -180,6 +188,7 @@ class ImagePage extends Article {
 		}
 		return Title::makeTitle( NS_FILE, $to );
 	}
+
 	public function isRedirect( $text = false ) {
 		$this->loadFile();
 		if ( $this->img->isLocal() )
@@ -225,7 +234,6 @@ class ImagePage extends Article {
 		return $this->dupes = $dupes;
 		
 	}
-	
 
 	/**
 	 * Create the TOC
@@ -352,16 +360,25 @@ class ImagePage extends Article {
 						# because of rounding.
 					}
 					$msgbig  = wfMsgHtml( 'show-big-image' );
-					$msgsmall = wfMsgExt( 'show-big-image-thumb', 'parseinline',
-						$wgLang->formatNum( $width ),
-						$wgLang->formatNum( $height )
-					);
+					$otherSizes = array();
+					foreach ( $wgImageLimits as $size ) {
+						if ( $size[0] < $width_orig && $size[1] < $height_orig &&
+								$size[0] != $width && $size[1] != $height ) {
+							$otherSizes[] = $this->makeSizeLink( $params, $size[0], $size[1] );							
+						}
+					}
+					$msgsmall = wfMessage( 'show-big-image-preview' )->
+						rawParams( $this->makeSizeLink( $params, $width, $height ) )->
+						parse() . ' ' . 
+						wfMessage( 'show-big-image-other' )->
+						rawParams( $wgLang->pipeList( $otherSizes ) )->parse();
 				} else {
 					# Image is small enough to show full size on image page
 					$msgsmall = wfMsgExt( 'file-nohires', array( 'parseinline' ) );
 				}
 
 				$params['width'] = $width;
+				$params['height'] = $height;
 				$thumbnail = $this->displayImg->transform( $params );
 
 				$showLink = true;
@@ -507,6 +524,30 @@ EOT
 			}
 		}
 	}
+	
+	/**
+	 * Creates an thumbnail of specified size and returns an HTML link to it  
+	 * @param array $params Scaler parameters
+	 * @param int $width
+	 * @param int $height
+	 */
+	private function makeSizeLink( $params, $width, $height ) {
+		global $wgLang;
+		
+		$params['width'] = $width;
+		$params['height'] = $height;
+		$thumbnail = $this->displayImg->transform( $params );
+		if ( $thumbnail && !$thumbnail->isError() ) {
+			return Html::rawElement( 'a', array(
+				'href' => $thumbnail->getUrl(),
+				'class' => 'mw-thumbnail-link'
+				), wfMessage( 'show-big-image-size' )->numParams(
+					$thumbnail->getWidth(), $thumbnail->getHeight() 
+				)->parse() );
+		} else {
+			return '';
+		}
+	}
 
 	/**
 	 * Show a notice that the file is from a shared repository
@@ -556,7 +597,9 @@ EOT
 	protected function uploadLinksBox() {
 		global $wgUser, $wgOut, $wgEnableUploads, $wgUseExternalEditor;
 
-		if ( !$wgEnableUploads ) { return; }
+		if ( !$wgEnableUploads ) {
+			return;
+		}
 
 		$this->loadFile();
 		if ( !$this->img->isLocal() )
@@ -714,7 +757,9 @@ EOT
 		$this->loadFile();
 
 		$dupes = $this->getDuplicates();
-		if ( count( $dupes ) == 0 ) return;
+		if ( count( $dupes ) == 0 ) {
+			return;
+		}
 
 		$wgOut->addHTML( "<div id='mw-imagepage-section-duplicates'>\n" );
 		$wgOut->addWikiMsg( 'duplicatesoffile',
@@ -805,7 +850,6 @@ EOT
 		$wgOut->addWikiText( $description );
 	}
 
-
 	/**
 	 * Callback for usort() to do link sorts by (namespace, title)
 	 * Function copied from Title::compare()
@@ -830,9 +874,32 @@ EOT
  */
 class ImageHistoryList {
 
-	protected $imagePage, $img, $skin, $title, $repo, $showThumb;
+	/**
+	 * @var Title
+	 */
+	protected $title;
+
+	/**
+	 * @var File
+	 */
+	protected $img;
+
+	/**
+	 * @var ImagePage
+	 */
+	protected $imagePage;
+
+	/**
+	 * @var Skin
+	 */
+	protected $skin;
+
+	protected $repo, $showThumb;
 	protected $preventClickjacking = false;
 
+	/**
+	 * @param ImagePage $imagePage
+	 */
 	public function __construct( $imagePage ) {
 		global $wgUser, $wgShowArchiveThumbnails;
 		$this->skin = $wgUser->getSkin();
@@ -876,6 +943,11 @@ class ImageHistoryList {
 		return "</table>\n$navLinks\n</div>\n";
 	}
 
+	/**
+	 * @param  $iscur
+	 * @param File $file
+	 * @return string
+	 */
 	public function imageHistoryLine( $iscur, $file ) {
 		global $wgUser, $wgLang;
 
@@ -1020,6 +1092,10 @@ class ImageHistoryList {
 		return "<tr{$classAttr}>{$row}</tr>\n";
 	}
 
+	/**
+	 * @param File $file
+	 * @return string
+	 */
 	protected function getThumbForLine( $file ) {
 		global $wgLang;
 
@@ -1059,6 +1135,19 @@ class ImageHistoryList {
 class ImageHistoryPseudoPager extends ReverseChronologicalPager {
 	protected $preventClickjacking = false;
 
+	/**
+	 * @var File
+	 */
+	protected $mImg;
+
+	/**
+	 * @var Title
+	 */
+	protected $mTitle;
+
+	/**
+	 * @param ImagePage $imagePage
+	 */
 	function __construct( $imagePage ) {
 		parent::__construct();
 		$this->mImagePage = $imagePage;

@@ -23,6 +23,7 @@
  * @author Matma Rex
  * @author McMonster
  * @author Nux
+ * @author Odder
  * @author Remember the dot
  * @author Saper
  * @author Sp5uhe
@@ -499,8 +500,8 @@ $1',
 'policy-url'           => 'Project:Zasady',
 'portal'               => 'Portal społeczności',
 'portal-url'           => 'Project:Portal społeczności',
-'privacy'              => 'Zasady ochrony prywatności',
-'privacypage'          => 'Project:Zasady ochrony prywatności',
+'privacy'              => 'Zasady zachowania poufności',
+'privacypage'          => 'Project:Zasady zachowania poufności',
 
 'badaccess'        => 'Niewłaściwe uprawnienia',
 'badaccess-group0' => 'Nie masz uprawnień wymaganych do wykonania tej operacji.',
@@ -733,6 +734,7 @@ Możesz zignorować tę wiadomość, jeśli konto zostało utworzone przez pomy�
 'usernamehasherror'          => 'Nazwa użytkownika nie może zawierać znaków kratki „#”',
 'login-throttled'            => 'Zbyt wiele razy próbowałeś zalogować się na to konto.
 Odczekaj chwilę zanim ponowisz próbę.',
+'login-abort-generic'        => 'Logowanie nieudane – przerwano',
 'loginlanguagelabel'         => 'Język: $1',
 'suspicious-userlogout'      => 'Żądanie wylogowania zostało odrzucone ponieważ wygląda na to, że zostało wysłane przez uszkodzoną przeglądarkę lub buforujący serwer proxy.',
 
@@ -2401,9 +2403,10 @@ $1',
 'undelete-show-file-submit'    => 'Tak',
 
 # Namespace form on various pages
-'namespace'      => 'Przestrzeń nazw',
-'invert'         => 'odwróć wybór',
-'blanknamespace' => '(główna)',
+'namespace'             => 'Przestrzeń nazw',
+'invert'                => 'odwróć wybór',
+'namespace_association' => 'powiązana przestrzeń nazw',
+'blanknamespace'        => '(główna)',
 
 # Contributions
 'contributions'       => 'Wkład użytkownika',
@@ -2452,13 +2455,15 @@ Poniżej znajduje się ostatni wpis w rejestrze blokowania.',
 'whatlinkshere-filters'    => 'Filtry',
 
 # Block/unblock
+'autoblockid'                     => 'Automatyczna blokada nr $1',
+'block'                           => 'Zablokuj użytkownika lub adres IP',
+'unblock'                         => 'Odblokuj użytkownika lub adres IP',
 'blockip'                         => 'Zablokuj użytkownika',
 'blockip-title'                   => 'Zablokowanie użytkownika',
 'blockip-legend'                  => 'Zablokuj użytkownika',
 'blockiptext'                     => 'Użyj poniższego formularza do zablokowania możliwości edycji spod określonego adresu IP lub konkretnemu użytkownikowi.
 Blokować należy jedynie po to, by zapobiec wandalizmom, zgodnie z [[{{MediaWiki:Policy-url}}|przyjętymi zasadami]].
 Podaj powód (np. umieszczając nazwy stron, na których dopuszczono się wandalizmu).',
-'ipaddress'                       => 'Adres IP',
 'ipadressorusername'              => 'Adres IP lub nazwa użytkownika',
 'ipbexpiry'                       => 'Upływa',
 'ipbreason'                       => 'Powód',
@@ -2473,7 +2478,7 @@ Podaj powód (np. umieszczając nazwy stron, na których dopuszczono się wandal
 ** Wprowadzanie fałszywych informacji
 ** Wulgaryzmy
 ** Wypisywanie bzdur na stronach',
-'ipbanononly'                     => 'Zablokuj tylko anonimowych użytkowników',
+'ipb-hardblock'                   => 'Zablokuj możliwość edytowania przez zalogowanych użytkowników z tego adresu IP.',
 'ipbcreateaccount'                => 'Zapobiegnij utworzeniu konta',
 'ipbemailban'                     => 'Zablokuj możliwość wysyłania e‐mailów',
 'ipbenableautoblock'              => 'Zablokuj ostatni adres IP tego użytkownika i automatycznie wszystkie kolejne, z których będzie próbował edytować',
@@ -2484,7 +2489,7 @@ Podaj powód (np. umieszczając nazwy stron, na których dopuszczono się wandal
 'ipbotherreason'                  => 'Inne lub dodatkowy powód',
 'ipbhidename'                     => 'Ukryj nazwę użytkownika w edycjach i listach',
 'ipbwatchuser'                    => 'Obserwuj stronę osobistą i stronę dyskusji tego użytkownika',
-'ipballowusertalk'                => 'Pozwól temu użytkownikowi edytować własną stronę dyskusji, kiedy jest zablokowany',
+'ipb-disableusertalk'             => 'Zablokuj możliwość edytowania przez tego użytkownika własnej strony dyskusji w czasie trwania blokady.',
 'ipb-change-block'                => 'Zmień ustawienia blokady',
 'badipaddress'                    => 'Niepoprawny adres IP',
 'blockipsuccesssub'               => 'Zablokowanie powiodło się',
@@ -2499,17 +2504,22 @@ Przejdź do [[Special:IPBlockList|listy zablokowanych adresów IP]], by przejrze
 'unblockiptext'                   => 'Użyj poniższego formularza, by przywrócić możliwość edycji z wcześniej zablokowanego adresu IP lub użytkownikowi.',
 'ipusubmit'                       => 'Odblokuj',
 'unblocked'                       => '[[User:$1|$1]] {{GENDER:$1|został odblokowany|została odblokowana|został odblokowany}}.',
+'unblocked-range'                 => '$1 został odblokowany',
 'unblocked-id'                    => 'Blokada $1 została zdjęta',
 'ipblocklist'                     => 'Lista zablokowanych adresów IP i użytkowników',
 'ipblocklist-legend'              => 'Znajdź zablokowanego użytkownika',
-'ipblocklist-username'            => 'Nazwa użytkownika lub adres IP',
-'ipblocklist-sh-userblocks'       => '$1 blokady kont',
-'ipblocklist-sh-tempblocks'       => '$1 tymczasowe blokady',
-'ipblocklist-sh-addressblocks'    => '$1 blokady pojedynczych adresów IP',
+'blocklist-userblocks'            => 'Ukryj blokady konta',
+'blocklist-tempblocks'            => 'Ukryj tymczasowe blokady',
+'blocklist-addressblocks'         => 'Ukryj blokady pojedynczych adresów IP',
+'blocklist-timestamp'             => 'Znacznik czasu',
+'blocklist-target'                => 'Cel',
+'blocklist-expiry'                => 'Upływa',
+'blocklist-by'                    => 'Zarządzanie blokowaniem',
+'blocklist-params'                => 'Parametry blokad',
+'blocklist-reason'                => 'Powód',
 'ipblocklist-submit'              => 'Szukaj',
 'ipblocklist-localblock'          => 'Lokalna blokada',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Inna blokada|Inne blokady}}',
-'blocklistline'                   => '$1, $2 zablokował $3 ($4)',
 'infiniteblock'                   => 'na zawsze',
 'expiringblock'                   => 'wygasa $1 o $2',
 'anononlyblock'                   => 'tylko niezalogowani',
@@ -2549,6 +2559,7 @@ By przejrzeć listę obecnie aktywnych blokad, przejdź na stronę [[Special:IPB
 'ipb-needreblock'                 => '== Istniejąca blokada ==
 $1 jest już zablokowany. Czy chcesz zmienić ustawienia blokady?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Inna blokada|Inne blokady}}',
+'unblock-hideuser'                => 'Nie można odblokować użytkownika, jeśli jego nazwa została ukryta.',
 'ipb_cant_unblock'                => 'Błąd: Blokada o ID $1 nie została znaleziona. Mogła ona zostać zdjęta wcześniej.',
 'ipb_blocked_as_range'            => 'Błąd – adres IP $1 nie został zablokowany bezpośrednio i nie może zostać odblokowany.
 Należy on do zablokowanego zakresu adresów $2. Odblokować można tylko cały zakres.',
@@ -2861,6 +2872,7 @@ Pozwala na wpisanie powodu w opisie zmian.',
 'vector.css'      => '/* Umieszczony tutaj kod CSS wpłynie na wygląd skórki Wektor */',
 'print.css'       => '/* Umieszczony tutaj kod CSS wpłynie na wygląd wydruku */',
 'handheld.css'    => '/* Umieszczony tutaj kod CSS wpłynie na wygląd na urządzeniach kieszonkowych skórki ustawionej w zmiennej $wgHandheldStyle */',
+'noscript.css'    => '/* Umieszczony tu arkusz stylów CSS będzie wykorzystywany dla użytkowników z wyłączoną obsługą JavaScript */',
 
 # Scripts
 'common.js'      => '/* Umieszczony tutaj kod JavaScript zostanie załadowany przez każdego użytkownika, podczas każdego ładowania strony. */',
@@ -2974,22 +2986,24 @@ $1',
 'nextdiff'     => 'następna edycja →',
 
 # Media information
-'mediawarning'         => "'''Uwaga!''' Plik w tym formacie może zawierać złośliwy kod.
+'mediawarning'           => "'''Uwaga!''' Plik w tym formacie może zawierać złośliwy kod.
 Jeśli go otworzysz, możesz zarazić swój system.",
-'imagemaxsize'         => "Ograniczenie wielkości obrazków<br />''(na stronach opisu plików)''",
-'thumbsize'            => 'Rozmiar miniaturki',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|strona|strony|stron}}',
-'file-info'            => 'rozmiar pliku: $1, typ MIME: $2',
-'file-info-size'       => '$1 × $2 pikseli, rozmiar pliku: $3, typ MIME: $4',
-'file-nohires'         => '<small>Grafika w wyższej rozdzielczości jest niedostępna.</small>',
-'svg-long-desc'        => 'Plik SVG, nominalnie $1 × $2 pikseli, rozmiar pliku: $3',
-'show-big-image'       => 'Pełna rozdzielczość',
-'show-big-image-thumb' => '<small>Rozmiar podglądu: $1 × $2 pikseli</small>',
-'file-info-gif-looped' => 'zapętlony',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|klatka|klatki|klatek}}',
-'file-info-png-looped' => 'zapętlony',
-'file-info-png-repeat' => 'powtarzany $1 {{PLURAL:$1|raz|razy}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|klatka|klatki|klatek}}',
+'imagemaxsize'           => "Ograniczenie wielkości obrazków<br />''(na stronach opisu plików)''",
+'thumbsize'              => 'Rozmiar miniaturki',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|strona|strony|stron}}',
+'file-info'              => 'rozmiar pliku: $1, typ MIME: $2',
+'file-info-size'         => '$1 × $2 pikseli, rozmiar pliku: $3, typ MIME: $4',
+'file-nohires'           => '<small>Grafika w wyższej rozdzielczości jest niedostępna.</small>',
+'svg-long-desc'          => 'Plik SVG, nominalnie $1 × $2 pikseli, rozmiar pliku: $3',
+'show-big-image'         => 'Pełna rozdzielczość',
+'show-big-image-preview' => '<small>Rozmiar podglądu – $1.</small>',
+'show-big-image-other'   => '<small>Inne rozmiary: $1.</small>',
+'show-big-image-size'    => '$1 x $2 pikseli',
+'file-info-gif-looped'   => 'zapętlony',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|klatka|klatki|klatek}}',
+'file-info-png-looped'   => 'zapętlony',
+'file-info-png-repeat'   => 'powtarzany $1 {{PLURAL:$1|raz|razy}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|klatka|klatki|klatek}}',
 
 # Special:NewFiles
 'newimages'             => 'Najnowsze pliki',
@@ -3572,8 +3586,9 @@ Wpisz nazwę pliku bez prefiksu „{{ns:file}}:”.',
 # Special:SpecialPages
 'specialpages'                   => 'Strony specjalne',
 'specialpages-note'              => '----
-* Strony specjalne ogólnie dostępne.
-* <strong class="mw-specialpagerestricted">Strony specjalne o ograniczonym dostępie.</strong>',
+* Typowe strony specjalne.
+* <span class="mw-specialpagerestricted">Strony specjalne o ograniczonym dostępie.</span>
+* <span class="mw-specialpagecached">Buforowane strony specjalne.</span>',
 'specialpages-group-maintenance' => 'Raporty konserwacyjne',
 'specialpages-group-other'       => 'Inne strony specjalne',
 'specialpages-group-login'       => 'Logowanie i rejestracja',

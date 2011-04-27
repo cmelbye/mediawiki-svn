@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Diupwijk
  * @author Krun
  * @author Quackor
  * @author S.Örvarr.S
@@ -226,6 +227,16 @@ $messages = array(
 'qbspecialpages' => 'Serstakar síður',
 'faq'            => 'OSS',
 'faqpage'        => 'Project:OSS',
+
+# Vector skin
+'vector-action-delete'    => 'Strika',
+'vector-action-move'      => 'Flyt',
+'vector-action-protect'   => 'Friða',
+'vector-action-unprotect' => 'Strika friðing',
+'vector-view-create'      => 'Stovna',
+'vector-view-edit'        => 'Rætta',
+'vector-view-history'     => 'Søga',
+'vector-view-viewsource'  => 'Vís keldu',
 
 'errorpagetitle'    => 'Villa',
 'returnto'          => 'Vend aftur til $1.',
@@ -769,6 +780,7 @@ Also see [[Special:WantedCategories|wanted categories]].',
 
 # Special:LinkSearch
 'linksearch-ns' => 'Navnarúm:',
+'linksearch-ok' => 'Leita',
 
 # Special:ListUsers
 'listusersfrom'      => 'Vís brúkarar ið byrja við:',
@@ -906,25 +918,23 @@ Sí $2 fyri fulla skráseting av strikingum.',
 'whatlinkshere-links' => '← slóðir',
 
 # Block/unblock
-'blockip'              => 'Banna brúkara',
-'ipaddress'            => 'IP-adressa:',
-'ipadressorusername'   => 'IP-adressa ella brúkaranavn:',
-'ipbreason'            => 'Orsøk:',
-'ipbsubmit'            => 'Banna henda brúkaran',
-'badipaddress'         => 'Ógyldug IP-adressa',
-'blockipsuccesssub'    => 'Banning framd',
-'ipb-unblock-addr'     => 'Óbanna $1',
-'ipusubmit'            => 'Óbanna hesa adressuna',
-'ipblocklist'          => 'Bannað brúkaranøvn og IP-adressur',
-'ipblocklist-username' => 'Brúkaranavn ella IP-adressa:',
-'ipblocklist-submit'   => 'Leita',
-'expiringblock'        => 'gongur út $1 $2',
-'blocklink'            => 'banna',
-'unblocklink'          => 'óbanna',
-'contribslink'         => 'íkøst',
-'blocklogpage'         => 'Bannagerðabók',
-'unblocklogentry'      => 'óbannaði $1',
-'proxyblocksuccess'    => 'Liðugt.',
+'blockip'            => 'Banna brúkara',
+'ipadressorusername' => 'IP-adressa ella brúkaranavn:',
+'ipbreason'          => 'Orsøk:',
+'ipbsubmit'          => 'Banna henda brúkaran',
+'badipaddress'       => 'Ógyldug IP-adressa',
+'blockipsuccesssub'  => 'Banning framd',
+'ipb-unblock-addr'   => 'Óbanna $1',
+'ipusubmit'          => 'Óbanna hesa adressuna',
+'ipblocklist'        => 'Bannað brúkaranøvn og IP-adressur',
+'ipblocklist-submit' => 'Leita',
+'expiringblock'      => 'gongur út $1 $2',
+'blocklink'          => 'banna',
+'unblocklink'        => 'óbanna',
+'contribslink'       => 'íkøst',
+'blocklogpage'       => 'Bannagerðabók',
+'unblocklogentry'    => 'óbannaði $1',
+'proxyblocksuccess'  => 'Liðugt.',
 
 # Developer tools
 'lockdbtext'        => 'At læsa dátugrunnin steðgar møguleikanum hjá øllum

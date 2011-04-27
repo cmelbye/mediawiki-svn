@@ -18,6 +18,10 @@ will be made on the development trunk and appear in the next quarterly release.
 Those wishing to use the latest code instead of a branch release can obtain
 it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 
+=== PHP 5.2 now required ==
+In 1.18, the lowest supported version of MediaWiki is now 5.2.3. Please upgrade
+PHP if you have not done so prior to upgrading MediaWiki.
+
 === Configuration changes in 1.18 ===
 * The WantedPages::getSQL hook has been removed and replaced with
   WantedPages::getQueryInfo . This may break older extensions.
@@ -43,8 +47,21 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * Pure "Skin" class based custom skins are no longer supported, all custom skins
   should be put together using SkinTemplate and BaseTemplate or QuickTemplate.
 * The transliteration for passwords in case they were migrated from an old Latin-1
-  install (previous to MediaWiki 1.5) is now only done for wikis with 
+  install (previous to MediaWiki 1.5) is now only done for wikis with
   $wgLegacyEncoding set.
+* (bug 27508) Add $wgSVGMetadataCutoff to limit the maximum amount of an svg we
+  look at when finding metadata to prevent excessive resource usage.
+* $wgSysopUserBans and $wgSysopRangeBans (deprecated in 1.17) are now removed.
+  Use $wgBlockCIDRLimit = array( 'IPv4' => 43, 'IPv6' => 128 ) to achieve the same
+  functionality as $wgSysopRangeBans; you can use the BlockIp hook to replicate
+  $wgSysopUserBans functionality.
+* The options on the block form have been standardised such that checking a box
+  makes the block 'more serious'; so while "check to prevent account creation" and
+  "check to enable autoblock" remain the same, "check to allow user-talk edit" is
+  reversed to "check to *disable* user-talk edit", and "check to block anon-only"
+  becomes "check to block logged-in users too".  The default settings remain the same.
+* Most of the field names on the Special:Block form have been changed, which will
+  probably break screen-scraping bots.
 
 === New features in 1.18 ===
 * Added a special page, disabled by default, that allows users with the
@@ -74,12 +91,29 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * New maintenance script to fix double redirects
   (maintenance/fixDoubleRedirects.php)
 * (bug 23315) New body classes to allow easier styling of special pages
-* CSS/JS for each user group is imported from MediaWiki:Sysop.js, 
+* CSS/JS for each user group is imported from MediaWiki:Sysop.js,
   MediaWiki:Autoconfirmed.css, etc.
 * (bug 24230) Uploads of ZIP types, such as MS Office or OpenOffice can now be
   safely enabled. A ZIP file reader was added which can scan a ZIP file for
   potentially dangerous Java applets. This allows applets to be blocked
   specifically, rather than all ZIP files being blocked.
+* (bug 2429) Allow selection of associated namespace in recent changes
+* (bug 26217) File size is now checked before uploading in HTML5 browsers
+* CSS stylesheet MediaWiki:Noscript.css is now loaded for users with JavaScript
+  disabled (enclosed in the head in a <noscript> tag)
+* Added UserGetLanguageObject hook to change the language used in $wgLang
+* (bug 14645) When $wgMiserMode is on, expensive special pages are styled
+  differently (italicized by default) on Special:SpecialPages
+* Added $wgAggregateStatsID, which allows UDP stats to be aggregated over
+  several wikis.
+* When $wgAllowMicrodataAttributes is true, all itemtypes are allowed, not just
+  the three that were defined in the original specification.
+* (bug 14706) Added support for the Imagick PHP extension.
+* (bug 18691) Added support for SVG rasterization using the Imagick PHP 
+  extension
+* (bug 2581, bug 6834) Added links to thumbnail in several resolutions to the 
+  file description page. The sizes are set by $wgImageLimits.
+* (bug 28031) Add pageCount support to ArchivedFile
 
 === Bug fixes in 1.18 ===
 * (bug 23119) WikiError class and subclasses are now marked as deprecated
@@ -139,13 +173,23 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 26548) ForeignAPIRepo (InstantCommons) now works with PDF files
   and other multi-paged file formats.
 * Files with a mime type that does not match the extension are now properly
-  thumbnailed 
+  thumbnailed
 * (bug 27201) Special:WhatLinksHere output no longer contains duplicate IDs
 * (bug 27560) Search queries no longer fail in walloon language
-* (bug 27679) Broken embedded files with special characters are no longer 
+* (bug 27679) Broken embedded files with special characters are no longer
   double HTML escaped
 * (bug 27700) The upload protection can now also be set for files that do not
   exist.
+* (bug 27763) Article::getParserOutput() no longer throws a fatal given when an
+  incorrect revision ID is passed.
+* Trim the form field for uploading by url to remove extra spaces which could
+  cause confusing error messages.
+* (bug 27854) Http::isValidURI is way too lax.
+* Do not show enotifminoredits preference, if disabled by $wgEnotifMinorEdits.
+* AbortLogin returning "ABORTED" now handled.  Also allows message identifier
+  for "ABORTED" reason to be returned and displayed to user.
+* (bug 28034) uploading file to local wiki when file exists on shared repository
+  (commons) gives spurious info in the warning message
 
 === API changes in 1.18 ===
 * (bug 26339) Throw warning when truncating an overlarge API result
@@ -187,12 +231,37 @@ it from source control: http://www.mediawiki.org/wiki/Download_from_SVN
 * (bug 27688) Simplify queries to list user block information
 * (bug 27708) list=users does not have a property to return user id
 * (bug 27715) imageinfo didn't respect revdelete
+* (bug 27862) Useremail module didn't properly return success on success.
+* (bug 27590) prop=imageinfo now allows querying the media type
+* (bug 27587) list=filearchive now outputs full title info
+* (bug 27018) Added action=filerevert to revert files to an old version
+* (bug 27897) list=allusers and list=users list hidden users
+* (bug 27717) API's exturlusage module does not respect $wgMiserMode
+* (bug 27588) list=filearchive&faprop=sha1 returns empty attribute
+* (bug 28010) Passing a non existant user to list=users gives internal error
+* (bug 27549) action=query&list=users&usprop=groups doesn't show implicit
+  groups if a user doesn't have explicit groups
+* (bug 27670) Ordering by timestamp (and usage of start and end) isn't as clear
+  in auto generated document, as it is on mw.org
+* (bug 27182) API: Add filter by prefix for meta=allmessages
+* (bug 27183) API: Add filter by customisation state for meta=allmessages
+* (bug 27340) API: Allow listing of "small" categories
+* (bug 27342) Add audir param to list=allusers
+* (bug 27203) add fato param to list=filearchive
+* (bug 27341) Add drto param to list=deletedrevs
+* (bug 26630) Add api for Special:ActiveUsers
+* (bug 27020) API: Allow title prefix search of logevents (only when not in
+  miser mode)
+* (bug 26629) add Special:MIMESearch to api
+* (bug 27585) add pagecount to list=filearchive
 
 === Languages updated in 1.18 ===
 
 MediaWiki supports over 330 languages. Many localisations are updated
 regularly. Below only new and removed languages are listed, as well as
 changes to languages because of Bugzilla reports.
+
+* Liv (liv) (new)
 
 * (bug 17160) Gender specific display text for User namespace
 * Link trail added for sl and sh
@@ -201,6 +270,8 @@ changes to languages because of Bugzilla reports.
 * (bug 27385) Set Polish $namespaceGenderAliases
 * (bug 27681) Set $namespaceGenderAliases for Portuguese (pt and pt-br)
 * (bug 27785) Fallback language for Kabardian (kbd) is English now.
+* (bug 27825) Raw watchlist edit message now uses formatted numbers.
+* (bug 28040) Turkish: properly lower case 'I' to 'ı' (dotless i)
 
 == Compatibility ==
 

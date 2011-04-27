@@ -88,6 +88,7 @@ class SpecialEmailUser extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		$this->outputHeader();
+		$wgOut->addModuleStyles( 'mediawiki.special' );
 
 		$this->mTarget = is_null( $par )
 			? $wgRequest->getVal( 'wpTarget', $wgRequest->getVal( 'target', '' ) )
@@ -221,7 +222,8 @@ class SpecialEmailUser extends UnlistedSpecialPage {
 	 * getPermissionsError(). It is probably also a good 
 	 * idea to check the edit token and ping limiter in advance.
 	 *
-	 * @return Mixed: True on success, String on error
+	 * @return Mixed: Status object, or potentially a String on error
+	 * or maybe even true on success if anything uses the EmailUser hook.
 	 */
 	public static function submit( $data ) {
 		global $wgUser, $wgUserEmailUseReplyTo;

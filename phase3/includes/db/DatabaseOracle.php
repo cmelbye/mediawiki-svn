@@ -165,7 +165,6 @@ class ORAField implements Field {
 class DatabaseOracle extends DatabaseBase {
 	var $mInsertId = null;
 	var $mLastResult = null;
-	var $numeric_version = null;
 	var $lastResult = null;
 	var $cursor = 0;
 	var $mAffectedRows;
@@ -243,11 +242,13 @@ class DatabaseOracle extends DatabaseBase {
 		}
 
 		$session_mode = $this->mFlags & DBO_SYSDBA ? OCI_SYSDBA : OCI_DEFAULT;
+		wfSuppressWarnings();
 		if ( $this->mFlags & DBO_DEFAULT ) {
 			$this->mConn = oci_new_connect( $this->mUser, $this->mPassword, $this->mServer, $this->defaultCharset, $session_mode );
 		} else {
 			$this->mConn = oci_connect( $this->mUser, $this->mPassword, $this->mServer, $this->defaultCharset, $session_mode );
 		}
+		wfRestoreWarnings();
 
 		if ( $this->mUser != $this->mDBname ) {
 			//change current schema in session
@@ -789,12 +790,7 @@ class DatabaseOracle extends DatabaseBase {
 	# Returns the size of a text field, or -1 for "unlimited"
 	function textFieldSize( $table, $field ) {
 		$fieldInfoData = $this->fieldInfo( $table, $field );
-		if ( $fieldInfoData->type() == 'varchar' ) {
-			$size = $row->size - 4; // FIXME: $row is undefined
-		} else {
-			$size = $row->size;
-		}
-		return $size;
+		return $fieldInfoData->maxLength();
 	}
 
 	function limitResult( $sql, $limit, $offset = false ) {

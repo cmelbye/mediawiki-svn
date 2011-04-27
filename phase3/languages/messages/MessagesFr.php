@@ -366,7 +366,7 @@ $messages = array(
 'tog-previewontop'            => 'Afficher la prévisualisation au-dessus de la zone de modification',
 'tog-previewonfirst'          => 'Afficher la prévisualisation lors de la première modification',
 'tog-nocache'                 => 'Désactiver le cache des pages par le navigateur',
-'tog-enotifwatchlistpages'    => 'M’avertir par courrier électronique lorsqu’une page de ma liste de suivi est modifiée',
+'tog-enotifwatchlistpages'    => 'M’avertir par courriel lorsqu’une page de ma liste de suivi est modifiée',
 'tog-enotifusertalkpages'     => 'M’avertir par courriel si ma page de discussion est modifiée',
 'tog-enotifminoredits'        => 'M’avertir par courriel même en cas de modifications mineures des pages',
 'tog-enotifrevealaddr'        => 'Afficher mon adresse de courriel dans les courriels de notification',
@@ -828,6 +828,7 @@ Ignorez ce message si ce compte a été créé par erreur.',
 'usernamehasherror'          => 'Le nom d’utilisateur ne peut pas contenir des caractères de hachage',
 'login-throttled'            => 'Vous avez tenté un trop grand nombre de connexions dernièrement.
 Veuillez attendre avant d’essayer à nouveau.',
+'login-abort-generic'        => 'Votre tentative de connexion a échoué',
 'loginlanguagelabel'         => 'Langue : $1',
 'suspicious-userlogout'      => 'Votre demande de déconnexion a été refusée car il semble qu’elle a été envoyée par un navigateur cassé ou la mise en cache d’un proxy.',
 
@@ -1111,7 +1112,7 @@ Elle a peut-être été effacée ou renommée.
 Essayez de [[Special:Search|rechercher sur le wiki]] pour trouver des pages en rapport.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(commentaire enlevé)',
+'rev-deleted-comment'         => "(résumé d'édition enlevé)",
 'rev-deleted-user'            => '(nom d’utilisateur supprimé)',
 'rev-deleted-event'           => '(entrée supprimée)',
 'rev-deleted-user-contribs'   => '[nom d’utilisateur ou adresse IP supprimée - modification cachée sur les contributions]',
@@ -1764,6 +1765,8 @@ Si vous voulez toujours téléverser votre fichier, veuillez revenir en arrière
 'php-uploaddisabledtext'      => 'Le téléversement de fichiers a été désactivé dans PHP. Vérifiez l’option de configuration file_uploads.',
 'uploadscripted'              => 'Ce fichier contient du code HTML ou un script qui pourrait être interprété de façon incorrecte par un navigateur web.',
 'uploadvirus'                 => 'Ce fichier contient un virus ! Pour plus de détails, consultez : $1',
+'uploadjava'                  => "C'est un fichier ZIP qui contient un fichier Java .class.
+Le téléchargement de fichiers Java n'est pas autorisé, car ils peuvent entraîner des restrictions de sécurité.",
 'upload-source'               => 'Fichier source',
 'sourcefilename'              => 'Nom du fichier source :',
 'sourceurl'                   => 'URL source :',
@@ -1813,6 +1816,14 @@ Si le problème persiste, contactez un [[Special:ListUsers/sysop|administrateur]
 'upload-too-many-redirects' => 'L’URL contient trop de redirections.',
 'upload-unknown-size'       => 'Taille inconnue',
 'upload-http-error'         => 'Une erreur HTTP est intervenue : $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => "Une erreur s'est produite lors de l'ouverture du fichier ZIP pour contrôle.",
+'zip-wrong-format'    => "Le fichier spécifié n'est pas un fichier ZIP.",
+'zip-bad'             => 'Le fichier est un fichier ZIP corrompu ou illisible.
+Il ne peut pas être correctement vérifié pour la sécurité.',
+'zip-unsupported'     => 'Le fichier est un fichier ZIP qui utilise ZIP non supportées par MediaWiki. 
+Il ne peut pas être correctement vérifé pour la sécurité.',
 
 # Special:UploadStash
 'uploadstash'          => "Cache d'import",
@@ -2095,7 +2106,7 @@ Veuillez noter que d’autres sites peuvent avoir un lien direct vers un fichier
 'specialloguserlabel'  => 'Utilisateur :',
 'speciallogtitlelabel' => 'Titre :',
 'log'                  => 'Journaux d’opérations',
-'all-logs-page'        => 'Toutes les opérations publiques',
+'all-logs-page'        => 'Tous les journaux publics',
 'alllogstext'          => 'Affichage combiné de tous les journaux disponibles sur {{SITENAME}}.<br />
 Vous pouvez restreindre la vue en sélectionnant un type de journal, un nom d’utilisateur ou une page affectée (les deux derniers étant sensibles à la casse).',
 'logempty'             => 'Aucune opération correspondante dans les journaux.',
@@ -2462,9 +2473,10 @@ $1',
 'undelete-show-file-submit'    => 'Oui',
 
 # Namespace form on various pages
-'namespace'      => 'Espace de noms :',
-'invert'         => 'Inverser la sélection',
-'blanknamespace' => '(Principal)',
+'namespace'             => 'Espace de noms :',
+'invert'                => 'Inverser la sélection',
+'namespace_association' => 'Espace de noms associé',
+'blanknamespace'        => '(Principal)',
 
 # Contributions
 'contributions'       => 'Contributions de l’utilisateur',
@@ -2519,7 +2531,6 @@ La dernière entrée du journal des blocages est indiquée ci-dessous à titre d
 'blockiptext'                     => 'Utilisez le formulaire ci-dessous pour bloquer l’accès aux modifications faites à partir d’une adresse IP spécifique ou d’un nom d’utilisateur.
 Une telle mesure ne devrait être prise que pour prévenir le vandalisme et en accord avec les [[{{MediaWiki:Policy-url}}|règles internes]].
 Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont été vandalisées).',
-'ipaddress'                       => 'Adresse IP :',
 'ipadressorusername'              => 'Adresse IP ou nom d’utilisateur :',
 'ipbexpiry'                       => 'Durée avant expiration :',
 'ipbreason'                       => 'Motif :',
@@ -2532,7 +2543,7 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 ** Tentative d’intimidation ou harcèlement
 ** Abus d’utilisation de comptes multiples
 ** Nom d’utilisateur inacceptable, injurieux ou diffamant',
-'ipbanononly'                     => 'Bloquer uniquement les utilisateurs anonymes',
+'ipb-hardblock'                   => 'Empêche les modifications des utilisateurs enregistrés utilisant cette adresse IP',
 'ipbcreateaccount'                => 'Empêcher la création de compte',
 'ipbemailban'                     => 'Empêcher l’utilisateur d’envoyer des courriels',
 'ipbenableautoblock'              => 'Bloquer automatiquement la dernière adresse IP utilisée par l’utilisateur et toutes ses IPs ultérieures qu’il pourrait essayer',
@@ -2543,7 +2554,7 @@ Donnez ci-dessous un motif précis (par exemple en citant les pages qui ont ét�
 'ipbotherreason'                  => 'Motif différent ou supplémentaire :',
 'ipbhidename'                     => 'Masquer le nom d’utilisateur des modifications et des listes',
 'ipbwatchuser'                    => 'Suivre les pages utilisateur et de discussion de cet utilisateur',
-'ipballowusertalk'                => 'Permet à cet utilisateur de modifier sa propre page de discussion durant sa période de blocage',
+'ipb-disableusertalk'             => 'Empêche cet utilisateur de modifier sa propre page de discussion pendant la durée de son blocage',
 'ipb-change-block'                => 'Bloquer à nouveau cet utilisateur avec ces paramètres',
 'badipaddress'                    => 'Adresse IP incorrecte',
 'blockipsuccesssub'               => 'Blocage réussi',
@@ -2561,14 +2572,9 @@ Consultez la [[Special:IPBlockList|liste des adresses IP et comptes bloqués]] p
 'unblocked-id'                    => 'Le blocage $1 a été enlevé',
 'ipblocklist'                     => 'Adresses IP et utilisateurs bloqués',
 'ipblocklist-legend'              => 'Chercher un utilisateur bloqué',
-'ipblocklist-username'            => 'Nom de l’utilisateur ou adresse IP :',
-'ipblocklist-sh-userblocks'       => '$1 les blocages de comptes',
-'ipblocklist-sh-tempblocks'       => '$1 les blocages temporaires',
-'ipblocklist-sh-addressblocks'    => '$1 les blocages d’adresses IP uniques',
 'ipblocklist-submit'              => 'Rechercher',
 'ipblocklist-localblock'          => 'Blocage local',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Autre blocage|Autres blocages}}',
-'blocklistline'                   => '$1 : $2 a bloqué $3 ; $4',
 'infiniteblock'                   => 'permanent',
 'expiringblock'                   => 'expire le $1 à $2',
 'anononlyblock'                   => 'utilisateur non enregistré uniquement',
@@ -2703,7 +2709,7 @@ Veuillez en choisir un autre.',
 '1movedto2'                    => 'a déplacé [[$1]] vers [[$2]]',
 '1movedto2_redir'              => 'a déplacé [[$1]] vers [[$2]] en écrasant sa redirection',
 'move-redirect-suppressed'     => 'redirection supprimée',
-'movelogpage'                  => 'Historique des renommages',
+'movelogpage'                  => 'Journal des renommages',
 'movelogpagetext'              => 'Voici la liste de toutes les pages renommées ou déplacées.',
 'movesubpage'                  => 'Sous-page{{PLURAL:$1||s}}',
 'movesubpagetext'              => 'Cette page a $1 {{PLURAL:$1|sous-page affichée|sous-pages affichées}} ci-dessous.',
@@ -3004,7 +3010,7 @@ Permet de rétablir la version précédente et d’ajouter un motif dans la boî
 'markedaspatrollederror-noautopatrol' => 'Vous n’avez pas le droit de marquer vos propres modifications comme relues.',
 
 # Patrol log
-'patrol-log-page'      => 'Historique des relectures',
+'patrol-log-page'      => 'Journal des relectures',
 'patrol-log-header'    => 'Voici l’historique des versions relues.',
 'patrol-log-line'      => 'a marqué la $1 de $2 comme relue $3',
 'patrol-log-auto'      => '(automatique)',
@@ -3027,22 +3033,24 @@ $1',
 'nextdiff'     => 'Modification suivante →',
 
 # Media information
-'mediawarning'         => "'''Attention :''' ce type de fichier peut contenir du code malveillant.
+'mediawarning'           => "'''Attention :''' ce type de fichier peut contenir du code malveillant.
 Si vous l’exécutez, votre système peut être compromis.",
-'imagemaxsize'         => "Taille maximale des images :<br />''(pour les pages de description de fichiers)''",
-'thumbsize'            => 'Taille de la miniature :',
-'widthheightpage'      => '$1 × $2, $3 page{{PLURAL:$3||s}}',
-'file-info'            => 'Taille du fichier : $1, type MIME : $2',
-'file-info-size'       => '$1 × $2 pixels, taille du fichier : $3, type MIME : $4',
-'file-nohires'         => '<small>Pas de plus haute résolution disponible.</small>',
-'svg-long-desc'        => 'Fichier SVG, résolution de $1 × $2 pixels, taille : $3',
-'show-big-image'       => 'Image en plus haute résolution',
-'show-big-image-thumb' => '<small>Taille de cet aperçu : $1 × $2 pixels</small>',
-'file-info-gif-looped' => 'en boucle',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|image|images}}',
-'file-info-png-looped' => 'en boucle',
-'file-info-png-repeat' => 'joué $1 {{PLURAL:$1|fois|fois}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|image|images}}',
+'imagemaxsize'           => "Taille maximale des images :<br />''(pour les pages de description de fichiers)''",
+'thumbsize'              => 'Taille de la miniature :',
+'widthheightpage'        => '$1 × $2, $3 page{{PLURAL:$3||s}}',
+'file-info'              => 'Taille du fichier : $1, type MIME : $2',
+'file-info-size'         => '$1 × $2 pixels, taille du fichier : $3, type MIME : $4',
+'file-nohires'           => '<small>Pas de plus haute résolution disponible.</small>',
+'svg-long-desc'          => 'Fichier SVG, résolution de $1 × $2 pixels, taille : $3',
+'show-big-image'         => 'Image en plus haute résolution',
+'show-big-image-preview' => '<small>Taille de cet aperçu : $1.</small>',
+'show-big-image-other'   => '<small>Autres résolutions : $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixels',
+'file-info-gif-looped'   => 'en boucle',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|image|images}}',
+'file-info-png-looped'   => 'en boucle',
+'file-info-png-repeat'   => 'joué $1 {{PLURAL:$1|fois|fois}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|image|images}}',
 
 # Special:NewFiles
 'newimages'             => 'Galerie des nouveaux fichiers',
@@ -3488,9 +3496,9 @@ Veuillez confirmer que vous désirez réellement recréer cette page.",
 
 # Size units
 'size-bytes'     => '$1 o',
-'size-kilobytes' => '$1 Kio',
-'size-megabytes' => '$1 Mio',
-'size-gigabytes' => '$1 Gio',
+'size-kilobytes' => '$1 Ko',
+'size-megabytes' => '$1 Mo',
+'size-gigabytes' => '$1 Go',
 
 # Live preview
 'livepreview-loading' => 'Chargement…',
@@ -3594,7 +3602,8 @@ Entrez le nom du fichier sans le préfixe « {{ns:file}}: »',
 'specialpages'                   => 'Pages spéciales',
 'specialpages-note'              => '----
 * Pages spéciales normales.
-* <strong class="mw-specialpagerestricted">Pages spéciales restreintes.</strong>',
+* <span class="mw-specialpagerestricted">Pages spéciales restreintes.</span>
+* <span class="mw-specialpagecached">Pages spéciales seulement en cache.</span>',
 'specialpages-group-maintenance' => 'Rapports de maintenance',
 'specialpages-group-other'       => 'Autres pages spéciales',
 'specialpages-group-login'       => 'S’identifier / s’inscrire',

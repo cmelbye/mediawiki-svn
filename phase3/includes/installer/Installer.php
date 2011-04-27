@@ -23,6 +23,9 @@
  */
 abstract class Installer {
 
+	// This is the absolute minimum PHP version we can support
+	const MINIMUM_PHP_VERSION = '5.2.3';
+
 	/**
 	 * @var array
 	 */
@@ -240,6 +243,10 @@ abstract class Installer {
 			'url' => 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
 			'icon' => '{$wgStylePath}/common/images/cc-by-nc-sa.png',
 		),
+		'cc-0' => array(
+			'url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
+			'icon' => '{$wgStylePath}/common/images/cc-0.png',
+		),
 		'pd' => array(
 			'url' => 'http://creativecommons.org/licenses/publicdomain/',
 			'icon' => '{$wgStylePath}/common/images/public-domain.png',
@@ -363,14 +370,21 @@ abstract class Installer {
 	 * @return Status
 	 */
 	public function doEnvironmentChecks() {
-		$this->showMessage( 'config-env-php', phpversion() );
+		$phpVersion = phpversion();
+		if( version_compare( $phpVersion, self::MINIMUM_PHP_VERSION, '>=' ) ) {
+			$this->showMessage( 'config-env-php', $phpVersion );
+			$good = true;
+		} else {
+			$this->showMessage( 'config-env-php-toolow', $phpVersion, self::MINIMUM_PHP_VERSION );
+			$good = false;
+		}
 
-		$good = true;
-
-		foreach ( $this->envChecks as $check ) {
-			$status = $this->$check();
-			if ( $status === false ) {
-				$good = false;
+		if( $good ) {
+			foreach ( $this->envChecks as $check ) {
+				$status = $this->$check();
+				if ( $status === false ) {
+					$good = false;
+				}
 			}
 		}
 
@@ -570,7 +584,8 @@ abstract class Installer {
 			'ss_total_pages' => 0,
 			'ss_users' => 0,
 			'ss_admins' => 0,
-			'ss_images' => 0 ) );
+			'ss_images' => 0 ),
+			__METHOD__, 'IGNORE' );
 		return Status::newGood();
 	}
 
@@ -651,7 +666,7 @@ abstract class Installer {
 		$test = new PhpRefCallBugTester;
 		$test->execute();
 		if ( !$test->ok ) {
-			$this->showMessage( 'config-using531' );
+			$this->showMessage( 'config-using531', phpversion() );
 			return false;
 		}
 	}
@@ -801,6 +816,7 @@ abstract class Installer {
 		$names = array( wfIsWindows() ? 'convert.exe' : 'convert' );
 		$convert = self::locateExecutableInDefaultPaths( $names, array( '$1 -version', 'ImageMagick' ) );
 
+		$this->setVar( 'wgImageMagickConvertCommand', '' );
 		if ( $convert ) {
 			$this->setVar( 'wgImageMagickConvertCommand', $convert );
 			$this->showMessage( 'config-imagemagick', $convert );
@@ -1211,6 +1227,14 @@ abstract class Installer {
 		foreach( $exts as $e ) {
 			require( "$path/$e/$e.php" );
 		}
+
+		$hooksWeWant = isset( $wgHooks['LoadExtensionSchemaUpdates'] ) ?
+			$wgHooks['LoadExtensionSchemaUpdates'] : array();
+
+		// Unset everyone else's hooks. Lord knows what someone might be doing
+		// in ParserFirstCallInit (see bug 27171)
+		unset( $wgHooks );
+		$wgHooks = array( 'LoadExtensionSchemaUpdates' => $hooksWeWant );
 
 		return Status::newGood();
 	}

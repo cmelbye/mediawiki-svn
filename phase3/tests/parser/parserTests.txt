@@ -1264,7 +1264,7 @@ Multiplication table
 <caption>Multiplication table
 </caption>
 <tr>
-<th> &times; </th>
+<th> &#215; </th>
 <th> 1 </th>
 <th> 2 </th>
 <th> 3
@@ -1351,7 +1351,7 @@ Nested table
 !! result
 <table border="1">
 <tr>
-<td> &alpha;
+<td> &#945;
 </td>
 <td>
 <table bgcolor="#ABCDEF" border="2">
@@ -1730,7 +1730,7 @@ Non-breaking spaces in title
 !! input
 [[&nbsp; Main &nbsp; Page &nbsp;]]
 !! result
-<p><a href="/wiki/Main_Page" title="Main Page">&nbsp; Main &nbsp; Page &nbsp;</a>
+<p><a href="/wiki/Main_Page" title="Main Page">&#160; Main &#160; Page &#160;</a>
 </p>
 !!end
 
@@ -4349,7 +4349,7 @@ text with character entity: eacute
 !! input
 I always thought &eacute; was a cute letter.
 !! result
-<p>I always thought &eacute; was a cute letter.
+<p>I always thought &#233; was a cute letter.
 </p>
 !! end
 
@@ -6732,7 +6732,7 @@ image:foobar.jpg|some '''caption''' [[Main Page]]
 image:foobar.jpg
 </gallery>
 !! result
-<ul class="gallery" style="max-width: 220px;_width: 220px;">
+<ul class="gallery" style="max-width: 202px;_width: 202px;">
 	<li class='gallerycaption'>Foo <a href="/wiki/Main_Page">Main Page</a></li>
 		<li class="gallerybox" style="width: 95px"><div style="width: 95px">
 			<div style="height: 70px;">Nonexistant.jpg</div>
@@ -8433,6 +8433,26 @@ Special characters in embedded file links (bug 27679)
 </p>
 !! end
 
+!! article
+A
+!! text
+A
+!! endarticle
+
+!! article
+Ä
+!! text
+Ä
+!! endarticle
+
+!! test
+Bug#542 Link text shouldn't be duplicated in title attributes
+!! input
+[[A]] [[a]] [[Ä]] [[ä]]
+!! result
+<p><a href="/wiki/A">A</a> <a href="/wiki/A">a</a> <a href="/wiki/%C3%84">Ä</a> <a href="/wiki/%C3%84">ä</a>
+</p>
+!! end
 
 TODO:
 more images

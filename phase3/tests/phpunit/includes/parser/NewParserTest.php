@@ -70,9 +70,9 @@ class NewParserTest extends MediaWikiTestCase {
 		$tmpGlobals['wgEnableParserCache'] = false;
 		$tmpGlobals['wgHooks'] = $wgHooks;
 		$tmpGlobals['wgDeferredUpdateList'] = array();
-		$tmpGlobals['wgMemc'] = &wfGetMainCache();
-		$tmpGlobals['messageMemc'] = &wfGetMessageCacheStorage();
-		$tmpGlobals['parserMemc'] = &wfGetParserCacheStorage();
+		$tmpGlobals['wgMemc'] = wfGetMainCache();
+		$tmpGlobals['messageMemc'] = wfGetMessageCacheStorage();
+		$tmpGlobals['parserMemc'] = wfGetParserCacheStorage();
 
 		// $tmpGlobals['wgContLang'] = new StubContLang;
 		$tmpGlobals['wgUser'] = new User;
@@ -298,7 +298,7 @@ class NewParserTest extends MediaWikiTestCase {
 		$langObj = Language::factory( $lang );
 		$GLOBALS['wgLang'] = $langObj;
 		$GLOBALS['wgContLang'] = $langObj;
-		$GLOBALS['wgMemc'] = new FakeMemCachedClient;
+		$GLOBALS['wgMemc'] = new EmptyBagOStuff;
 		$GLOBALS['wgOut'] = new OutputPage;
 
 		global $wgHooks;
@@ -592,7 +592,7 @@ class NewParserTest extends MediaWikiTestCase {
 	 * Get a Parser object
 	 */
 	function getParser( $preprocessor = null ) {
-		global $wgParserConf, $wgHooks;
+		global $wgParserConf;
 
 		$class = $wgParserConf['class'];
 		$parser = new $class( array( 'preprocessorClass' => $preprocessor ) + $wgParserConf );

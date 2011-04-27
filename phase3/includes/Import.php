@@ -192,6 +192,7 @@ class WikiImporter {
 	 * Dummy for now...
 	 */
 	public function importUpload( $revision ) {
+			   $revision->importUpload();
 		//$dbw = wfGetDB( DB_MASTER );
 		//return $dbw->deadlockLoop( array( $revision, 'importUpload' ) );
 		return false;
@@ -295,7 +296,7 @@ class WikiImporter {
 				return $buffer;
 			}
 		}
-		
+
 		$this->reader->close();
 		return '';
 	}
@@ -600,13 +601,15 @@ class WikiImporter {
 		return $this->processUpload( $pageInfo, $uploadInfo );
 	}
 
+
 	private function processUpload( $pageInfo, $uploadInfo ) {
 		$revision = new WikiRevision;
+			   $text = isset( $uploadInfo['text'] ) ? $uploadInfo['text'] : '';
 
 		$revision->setTitle( $pageInfo['_title'] );
-		$revision->setID( $uploadInfo['id'] );
+			   $revision->setID( $pageInfo['id'] );
 		$revision->setTimestamp( $uploadInfo['timestamp'] );
-		$revision->setText( $uploadInfo['text'] );
+			   $revision->setText( $text );
 		$revision->setFilename( $uploadInfo['filename'] );
 		$revision->setSrc( $uploadInfo['src'] );
 		$revision->setSize( intval( $uploadInfo['size'] ) );
@@ -619,7 +622,7 @@ class WikiImporter {
 			$revision->setUserName( $uploadInfo['contributor']['username'] );
 		}
 
-		return $this->uploadCallback( $revision );
+			   return call_user_func( $this->mUploadCallback, $revision );
 	}
 
 	private function handleContributor() {
@@ -840,15 +843,15 @@ class WikiRevision {
 	function setSize( $size ) {
 		$this->size = intval( $size );
 	}
-	
+
 	function setType( $type ) {
 		$this->type = $type;
 	}
-	
+
 	function setAction( $action ) {
 		$this->action = $action;
 	}
-	
+
 	function setParams( $params ) {
 		$this->params = $params;
 	}
@@ -892,15 +895,15 @@ class WikiRevision {
 	function getSize() {
 		return $this->size;
 	}
-	
+
 	function getType() {
 		return $this->type;
 	}
-	
+
 	function getAction() {
 		return $this->action;
 	}
-	
+
 	function getParams() {
 		return $this->params;
 	}
@@ -959,7 +962,7 @@ class WikiRevision {
 			) );
 		$revId = $revision->insertOn( $dbw );
 		$changed = $article->updateIfNewerOn( $dbw, $revision );
-		
+
 		# To be on the safe side...
 		$tempTitle = $GLOBALS['wgTitle'];
 		$GLOBALS['wgTitle'] = $this->title;
@@ -987,12 +990,12 @@ class WikiRevision {
 
 		return true;
 	}
-	
+
 	function importLogItem() {
 		$dbw = wfGetDB( DB_MASTER );
 		# FIXME: this will not record autoblocks
 		if( !$this->getTitle() ) {
-			wfDebug( __METHOD__ . ": skipping invalid {$this->type}/{$this->action} log time, timestamp " . 
+			wfDebug( __METHOD__ . ": skipping invalid {$this->type}/{$this->action} log time, timestamp " .
 				$this->timestamp . "\n" );
 			return;
 		}
@@ -1011,7 +1014,7 @@ class WikiRevision {
 		);
 		// FIXME: this could fail slightly for multiple matches :P
 		if( $prior ) {
-			wfDebug( __METHOD__ . ": skipping existing item for Log:{$this->type}/{$this->action}, timestamp " . 
+			wfDebug( __METHOD__ . ": skipping existing item for Log:{$this->type}/{$this->action}, timestamp " .
 				$this->timestamp . "\n" );
 			return false;
 		}
@@ -1054,8 +1057,7 @@ class WikiRevision {
 				$resultDetails = array( 'internal' => $status->getWikiText() );
 		*/
 
-		// @todo Fixme: upload() uses $wgUser, which is wrong here
-		// it may also create a page without our desire, also wrong potentially.
+			   // @todo Fixme: it may create a page without our desire, also wrong potentially.
 		// and, it will record a *current* upload, but we might want an archive version here
 
 		$file = wfLocalFile( $this->getTitle() );
@@ -1070,12 +1072,15 @@ class WikiRevision {
 			return false;
 		}
 
+			   $user = User::newFromName( $this->user_text );
+
 		$status = $file->upload( $source,
 			$this->getComment(),
 			$this->getComment(), // Initial page, if none present...
 			File::DELETE_SOURCE,
 			false, // props...
-			$this->getTimestamp() );
+					   $this->getTimestamp(),
+					   is_object( $user ) ? ( $user->isLoggedIn() ? $user : null ) : null );
 
 		if( $status->isGood() ) {
 			// yay?

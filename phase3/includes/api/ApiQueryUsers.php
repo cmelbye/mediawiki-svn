@@ -34,7 +34,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  *
  * @ingroup API
  */
- class ApiQueryUsers extends ApiQueryBase {
+class ApiQueryUsers extends ApiQueryBase {
 
 	private $tokenFunctions, $prop;
 
@@ -109,28 +109,23 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			}
 		}
 
+		$result = $this->getResult();
+
 		if ( count( $goodNames ) ) {
 			$this->addTables( 'user' );
 			$this->addFields( '*' );
 			$this->addWhereFld( 'user_name', $goodNames );
 
-			if ( isset( $this->prop['groups'] ) ) {
+			if ( isset( $this->prop['groups'] ) || isset( $this->prop['rights'] ) ) {
 				$this->addTables( 'user_groups' );
 				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=user_id' ) ) );
 				$this->addFields( 'ug_group' );
 			}
-			if ( isset( $this->prop['blockinfo'] ) ) {
-				$this->addTables( 'ipblocks' );
-				$this->addJoinConds( array(
-					'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
-				) );
-				$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
-			}
+
+			$this->showHiddenUsersAddBlockInfo( isset( $this->prop['blockinfo'] ) );
 
 			$data = array();
 			$res = $this->select( __METHOD__ );
-
-			$result = $this->getResult();
 
 			foreach ( $res as $row ) {
 				$user = User::newFromRow( $row );
@@ -147,26 +142,30 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 					$data[$name]['registration'] = wfTimestampOrNull( TS_ISO_8601, $user->getRegistration() );
 				}
 
-				if ( isset( $this->prop['groups'] ) && !is_null( $row->ug_group ) ) {
-					if ( !isset( $data[$u]['groups'] ) ) {
-						$data[$u]['groups'] = ApiQueryUsers::getAutoGroups( User::newFromName( $u ) );
+				if ( isset( $this->prop['groups'] ) ) {
+					if ( !isset( $data[$name]['groups'] ) ) {
+						$data[$name]['groups'] = self::getAutoGroups( $user );
 					}
 
-					// This row contains only one group, others will be added from other rows
-					$data[$name]['groups'][] = $row->ug_group;
-					$result->setIndexedTagName( $data[$u]['groups'], 'g' );
+					if ( !is_null( $row->ug_group ) ) {
+						// This row contains only one group, others will be added from other rows
+						$data[$name]['groups'][] = $row->ug_group;
+					}
 				}
 
-				if ( isset( $this->prop['rights'] ) && !is_null( $row->ug_group ) ) {
+				if ( isset( $this->prop['rights'] ) ) {
 					if ( !isset( $data[$name]['rights'] ) ) {
 						$data[$name]['rights'] = User::getGroupPermissions( User::getImplicitGroups() );
 					}
 
-					$data[$name]['rights'] = array_unique( array_merge( $data[$name]['rights'],
-						User::getGroupPermissions( array( $row->ug_group ) ) ) );
-					$result->setIndexedTagName( $data[$name]['rights'], 'r' );
+					if ( !is_null( $row->ug_group ) ) {
+						$data[$name]['rights'] = array_unique( array_merge( $data[$name]['rights'],
+							User::getGroupPermissions( array( $row->ug_group ) ) ) );
+					}
 				}
-
+				if ( $row->ipb_deleted ) {
+					$data[$name]['hidden'] = '';
+				}
 				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->ipb_by_text ) ) {
 					$data[$name]['blockedby'] = $row->ipb_by_text;
 					$data[$name]['blockreason'] = $row->ipb_reason;
@@ -198,6 +197,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				}
 			}
 		}
+
 		// Second pass: add result data to $retval
 		foreach ( $goodNames as $u ) {
 			if ( !isset( $data[$u] ) ) {
@@ -223,6 +223,13 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 				} else {
 					$data[$u]['missing'] = '';
 				}
+			} else {
+				if ( isset( $this->prop['groups'] ) && isset( $data[$u]['groups'] ) ) {
+					$result->setIndexedTagName( $data[$u]['groups'], 'g' );	
+				}
+				if ( isset( $this->prop['rights'] ) && isset( $data[$u]['rights'] ) ) {
+					$result->setIndexedTagName( $data[$u]['rights'], 'r' );
+				}
 			}
 
 			$fit = $result->addValue( array( 'query', $this->getModuleName() ),
@@ -234,7 +241,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 			}
 			$done[] = $u;
 		}
-		return $this->getResult()->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
+		return $result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
 	}
 
 	/**
@@ -256,7 +263,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 		if ( isset( $params['token'] ) ) {
 			return 'private';
 		} else {
-			return 'public';
+			return 'anon-public-user-private';
 		}
 	}
 

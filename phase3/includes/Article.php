@@ -1833,15 +1833,18 @@ class Article {
 		// Delete if changing from redirect to non-redirect
 		$isRedirect = !is_null( $redirectTitle );
 
-		if ( $isRedirect || is_null( $lastRevIsRedirect ) || $lastRevIsRedirect !== $isRedirect ) {
-			wfProfileIn( __METHOD__ );
-			if ( $isRedirect ) {
-				$this->insertRedirectEntry( $redirectTitle );
-			} else {
-				// This is not a redirect, remove row from redirect table
-				$where = array( 'rd_from' => $this->getId() );
-				$dbw->delete( 'redirect', $where, __METHOD__ );
-			}
+		if ( !$isRedirect && !is_null( $lastRevIsRedirect ) && $lastRevIsRedirect === $isRedirect ) {
+			return true;
+		}
+
+		wfProfileIn( __METHOD__ );
+		if ( $isRedirect ) {
+			$this->insertRedirectEntry( $redirectTitle );
+		} else {
+			// This is not a redirect, remove row from redirect table
+			$where = array( 'rd_from' => $this->getId() );
+			$dbw->delete( 'redirect', $where, __METHOD__ );
+		}
 
 			if ( $this->getTitle()->getNamespace() == NS_FILE ) {
 				RepoGroup::singleton()->getLocalRepo()->invalidateImageRedirect( $this->getTitle() );
@@ -4594,7 +4597,7 @@ class Article {
 	 * @since 1.16 (r52326) for LiquidThreads
 	 *
 	 * @param $oldid mixed integer Revision ID or null
-	 * @return ParserOutput
+	 * @return ParserOutput or false if the given revsion ID is not found
 	 */
 	public function getParserOutput( $oldid = null ) {
 		global $wgEnableParserCache, $wgUser;
@@ -4611,19 +4614,25 @@ class Article {
 			wfIncrStats( 'pcache_miss_stub' );
 		}
 
-		$parserOutput = false;
 		if ( $useParserCache ) {
 			$parserOutput = ParserCache::singleton()->get( $this, $this->getParserOptions() );
+			if ( $parserOutput !== false ) {
+				return $parserOutput;
+			}
 		}
 
-		if ( $parserOutput === false ) {
-			// Cache miss; parse and output it.
-			$rev = Revision::newFromTitle( $this->getTitle(), $oldid );
-
-			return $this->getOutputFromWikitext( $rev->getText(), $useParserCache );
+		// Cache miss; parse and output it.
+		if ( $oldid === null ) {
+			$text = $this->getRawText();
 		} else {
-			return $parserOutput;
+			$rev = Revision::newFromTitle( $this->getTitle(), $oldid );
+			if ( $rev === null ) {
+				return false;
+			}
+			$text = $rev->getText();
 		}
+
+		return $this->getOutputFromWikitext( $text, $useParserCache );
 	}
 
 }

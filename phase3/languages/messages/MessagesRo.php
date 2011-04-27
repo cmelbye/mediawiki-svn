@@ -566,7 +566,7 @@ $1',
 'versionrequiredtext' => 'Versiunea $1 MediaWiki este necesară pentru a folosi această pagină. Vezi [[Special:Version|versiunea actuală]].',
 
 'ok'                      => 'OK',
-'retrievedfrom'           => 'Adus de la "$1"',
+'retrievedfrom'           => 'Adus de la „$1”',
 'youhavenewmessages'      => 'Aveți $1 ($2).',
 'newmessageslink'         => 'mesaje noi',
 'newmessagesdifflink'     => 'comparație cu versiunea precedentă',
@@ -774,6 +774,7 @@ Ignorați acest mesaj dacă crearea contului s-a produs în urma unei greșeli.'
 'usernamehasherror'          => 'Numele de utilizator nu poate conține caractere diez (#)',
 'login-throttled'            => 'Ați avut prea multe încercări de a vă autentifica.
 Vă rugăm să așteptați până să mai încercați.',
+'login-abort-generic'        => 'Procesul de autentificare a eșuat și a fost abandonat',
 'loginlanguagelabel'         => 'Limba: $1',
 'suspicious-userlogout'      => 'Cererea dumneavoastră de a închide sesiunea a fost refuzată întrucât pare că a fost trimisă printr-o eroare a navigatorului sau de un proxy memorat în cache.',
 
@@ -1059,7 +1060,7 @@ E posibil să fi fost ștearsă sau redenumită.
 Încearcă să [[Special:Search|cauți]] pe wiki pentru pagini noi semnificative.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(comentariu șters)',
+'rev-deleted-comment'         => '(descrierea modificării ștearsă)',
 'rev-deleted-user'            => '(nume de utilizator șters)',
 'rev-deleted-event'           => '(intrare ștearsă)',
 'rev-deleted-user-contribs'   => '[nume de utilizator sau adresă IP ștearsă - modificare ascunsă din contribuții]',
@@ -1718,6 +1719,8 @@ Mergeți înapoi și încărcați acest fișier sub un nume nou. [[File:$1|thumb
 Vă rugăm să verificați setările din file_uploads.',
 'uploadscripted'              => 'Fișierul conține HTML sau cod script care poate fi interpretat în mod eronat de un browser.',
 'uploadvirus'                 => 'Fișierul conține un virus! Detalii: $1',
+'uploadjava'                  => 'Fișierul de față este o arhivă ZIP care conține un fișier de clasă Java.
+Încărcarea fișierelor Java nu este permisă, întrucât pot evita restricțiile de securitate.',
 'upload-source'               => 'Fișier sursă',
 'sourcefilename'              => 'Numele fișierului sursă:',
 'sourceurl'                   => 'URL sursă:',
@@ -1754,6 +1757,14 @@ Dacă problema persistă, contactați un [[Special:ListUsers/sysop|administrator
 'upload-too-many-redirects' => 'URL-ul conținea prea multe redirecționări',
 'upload-unknown-size'       => 'Mărime necunoscută',
 'upload-http-error'         => 'A avut loc o eroare HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'A intervenit o eroare în momentul deschiderii fișierului ZIP pentru verificări.',
+'zip-wrong-format'    => 'Fișierul specificat nu era un fișier de tip ZIP.',
+'zip-bad'             => 'Fișierul este un fișier corupt de tip ZIP, fiind imposibil de citit.
+Nu poate fi verificat în mod corespunzător în vederea securității.',
+'zip-unsupported'     => 'Fișierul este unul de tip ZIP cu caracteristici neacceptate de MediaWiki.
+Nu poate fi verificat în mod corespunzător în vederea securității.',
 
 # Special:UploadStash
 'uploadstash'          => 'Fișiere trimise în așteptare',
@@ -2405,9 +2416,10 @@ $1',
 'undelete-show-file-submit'    => 'Da',
 
 # Namespace form on various pages
-'namespace'      => 'Spațiu de nume:',
-'invert'         => 'Inversează selecţia',
-'blanknamespace' => 'Articole',
+'namespace'             => 'Spațiu de nume:',
+'invert'                => 'Inversează selecţia',
+'namespace_association' => 'Spații de nume asociate',
+'blanknamespace'        => 'Articole',
 
 # Contributions
 'contributions'       => 'Contribuțiile utilizatorului',
@@ -2457,13 +2469,15 @@ Iată aici ultima înregistrare relevantă din jurnalul blocărilor:',
 'whatlinkshere-filters'    => 'Filtre',
 
 # Block/unblock
+'autoblockid'                     => 'Autoblocare #$1',
+'block'                           => 'Blocare utilizator/adresă IP',
+'unblock'                         => 'Deblocare utilizator/adresă IP',
 'blockip'                         => 'Blochează utilizator / IP',
 'blockip-title'                   => 'Blochează utilizator',
 'blockip-legend'                  => 'Blochează utilizator / IP',
 'blockiptext'                     => "Pentru a bloca un utilizator completați rubricile de mai jos.<br />
 '''Respectați [[{{MediaWiki:Policy-url}}|politica de blocare]].'''<br />
 Precizați motivul blocării; de exemplu indicați paginile vandalizate de acest utilizator.",
-'ipaddress'                       => 'Adresă IP:',
 'ipadressorusername'              => 'Adresă IP sau nume de utilizator',
 'ipbexpiry'                       => 'Expiră',
 'ipbreason'                       => 'Motiv:',
@@ -2476,7 +2490,7 @@ Precizați motivul blocării; de exemplu indicați paginile vandalizate de acest
 ** Tentative de intimidare
 ** Abuz utilizare conturi multiple
 ** Nume de utilizator inacceptabil',
-'ipbanononly'                     => 'Blochează doar utilizatorii anonimi',
+'ipb-hardblock'                   => 'Se interzice utilizatorilor autentificați să contribuie folosind această adresă IP',
 'ipbcreateaccount'                => 'Nu permite crearea de conturi',
 'ipbemailban'                     => 'Nu permite utilizatorului să trimită e-mail',
 'ipbenableautoblock'              => 'Blochează automat ultima adresă IP folosită de acest utilizator și toate adresele de la care încearcă să editeze în viitor',
@@ -2487,7 +2501,7 @@ Precizați motivul blocării; de exemplu indicați paginile vandalizate de acest
 'ipbotherreason'                  => 'Motiv diferit/adițional:',
 'ipbhidename'                     => 'Ascunde numele de utilizator la editare și afișare',
 'ipbwatchuser'                    => 'Urmărește pagina sa de utilizator și de discuții',
-'ipballowusertalk'                => 'Permite acestui utilizator să-și modifice propria pagină de discuție cât timp este blocat',
+'ipb-disableusertalk'             => 'Se interzice acestui utilizator modificarea propriei pagini de discuții în timpul blocării',
 'ipb-change-block'                => 'Reblochează utilizatorul cu acești parametri',
 'badipaddress'                    => 'Adresa IP este invalidă.',
 'blockipsuccesssub'               => 'Utilizatorul a fost blocat',
@@ -2502,17 +2516,13 @@ Vezi [[Special:IPBlockList|lista de adrese IP și conturi blocate]] pentru a rev
 'unblockiptext'                   => 'Folosiți formularul de mai jos pentru a restaura permisiunea de scriere pentru adrese IP sau nume de utilizator blocate anterior.',
 'ipusubmit'                       => 'Elimină blocarea',
 'unblocked'                       => '[[User:$1|$1]] a fost deblocat',
+'unblocked-range'                 => '$1 a fost deblocat',
 'unblocked-id'                    => 'Blocarea $1 a fost eliminată',
 'ipblocklist'                     => 'Lista adreselor IP și a conturilor blocate',
 'ipblocklist-legend'              => 'Găsește un utilizator blocat',
-'ipblocklist-username'            => 'Nume de utilizator sau adresă IP:',
-'ipblocklist-sh-userblocks'       => '$1 blocări de conturi',
-'ipblocklist-sh-tempblocks'       => '$1 blocări temporare',
-'ipblocklist-sh-addressblocks'    => '$1 blocări de adrese IP',
 'ipblocklist-submit'              => 'Caută',
 'ipblocklist-localblock'          => 'Blocare locală',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Altă blocare|Alte $1 blocări}}',
-'blocklistline'                   => '$1, $2 a blocat $3 ($4)',
 'infiniteblock'                   => 'termen nelimitat',
 'expiringblock'                   => 'expiră în $1 la $2',
 'anononlyblock'                   => 'doar anonimi',
@@ -2552,6 +2562,7 @@ Jurnalul suprimărilor este indicat mai jos:',
 'ipb-needreblock'                 => '== Deja blocat ==
 $1 este deja blocat. Vrei să schimbi parametrii?',
 'ipb-otherblocks-header'          => '{{PLURAL:$1|Altă blocare|Alte blocări}}',
+'unblock-hideuser'                => 'Nu puteți debloca acest utilizator, întrucât numele său de utilizator a fost ascuns.',
 'ipb_cant_unblock'                => 'Eroare: nu găsesc identificatorul $1. Probabil a fost deja deblocat.',
 'ipb_blocked_as_range'            => 'Eroare: Adresa IP $1 nu este blocată direct deci nu poate fi deblocată.
 Face parte din area de blocare $2, care nu poate fi deblocată.',
@@ -2968,23 +2979,25 @@ $1',
 'nextdiff'     => 'Diferența următoare →',
 
 # Media information
-'mediawarning'         => "'''Atenție''': Acest tip de fișier poate conține cod periculos.
+'mediawarning'           => "'''Atenție''': Acest tip de fișier poate conține cod periculos.
 Executându-l, sistemul dvs. poate fi compromis.",
-'imagemaxsize'         => "Limita mărimii imaginilor:<br />''(pentru paginile de descriere)''",
-'thumbsize'            => 'Dimensiunea miniaturii:',
-'widthheight'          => '$1x$2',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pagină|pagini}}',
-'file-info'            => 'mărime fișier: $1, tip MIME: $2',
-'file-info-size'       => '$1 × $2 pixeli, mărime fișier: $3, tip MIME: $4',
-'file-nohires'         => '<small>Rezoluții mai mari nu sunt disponibile.</small>',
-'svg-long-desc'        => 'fișier SVG, cu dimensiunea nominală de $1 × $2 pixeli, mărime fișier: $3',
-'show-big-image'       => 'Mărește rezoluția imaginii',
-'show-big-image-thumb' => '<small>Mărimea acestei previzualizări: $1 × $2 pixeli</small>',
-'file-info-gif-looped' => 'în buclă',
-'file-info-gif-frames' => '$1 {{PLURAL:$1|imagine|imagini}}',
-'file-info-png-looped' => 'în buclă',
-'file-info-png-repeat' => 'redat {{PLURAL:$1|o dată|de $1 ori}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|cadru|cadre}}',
+'imagemaxsize'           => "Limita mărimii imaginilor:<br />''(pentru paginile de descriere)''",
+'thumbsize'              => 'Dimensiunea miniaturii:',
+'widthheight'            => '$1x$2',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|pagină|pagini}}',
+'file-info'              => 'mărime fișier: $1, tip MIME: $2',
+'file-info-size'         => '$1 × $2 pixeli, mărime fișier: $3, tip MIME: $4',
+'file-nohires'           => '<small>Rezoluții mai mari nu sunt disponibile.</small>',
+'svg-long-desc'          => 'fișier SVG, cu dimensiunea nominală de $1 × $2 pixeli, mărime fișier: $3',
+'show-big-image'         => 'Mărește rezoluția imaginii',
+'show-big-image-preview' => '<small> Mărimea acestei previzualizări: $1.</small>',
+'show-big-image-other'   => '<small>Alte rezoluții: $1.</small>',
+'show-big-image-size'    => '$1 × $2 pixeli',
+'file-info-gif-looped'   => 'în buclă',
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|imagine|imagini}}',
+'file-info-png-looped'   => 'în buclă',
+'file-info-png-repeat'   => 'redat {{PLURAL:$1|o dată|de $1 ori}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|cadru|cadre}}',
 
 # Special:NewFiles
 'newimages'             => 'Galeria de imagini noi',
@@ -3500,7 +3513,8 @@ Introduceți numele fișierului fără prefixul „{{ns:file}}:”.',
 'specialpages'                   => 'Pagini speciale',
 'specialpages-note'              => '----
 * Pagini speciale normale.
-* <strong class="mw-specialpagerestricted">Pagini speciale restricționate.</strong>',
+* <span class="mw-specialpagerestricted">Pagini speciale restricționate.</span>
+* <span class="mw-specialpagecached">Pagini speciale aflate doar în memoria cache.</span>',
 'specialpages-group-maintenance' => 'Întreținere',
 'specialpages-group-other'       => 'Alte pagini speciale',
 'specialpages-group-login'       => 'Autentificare / Înregistrare',

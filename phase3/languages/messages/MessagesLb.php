@@ -288,7 +288,7 @@ $messages = array(
 'category-subcat-count-limited'  => 'Dës Kategorie huet dës {{PLURAL:$1|Ënnerkategorie|$1 Ënnerkategorien}}.',
 'category-article-count'         => 'An dëser Kategorie {{PLURAL:$2|ass just dës Säit.|{{PLURAL:$1|ass just dës Säit|si(nn) $1 Säiten}}, vu(n) $2 am Ganzen.}}',
 'category-article-count-limited' => 'Dës {{PLURAL:$1|Säit ass|$1 Säite sinn}} an dëser Kategorie.',
-'category-file-count'            => 'An dëser Kategorie {{PLURAL:$2|ass just dëse Fichier.|{{PLURAL:$1|ass just dëse Fichier|si(nn) $1 Fichieren}}, vu(n) $2 am Ganzen.}}',
+'category-file-count'            => '{{PLURAL:$2|Just dëse Fichier ass an dëser Kategorie.|{{PLURAL:$1|Just dëse Fichier ass|Dës $1 Fichiere sinn}} an dëser Kategorie, vu(n) $2 am Ganzen.}}',
 'category-file-count-limited'    => '{{PLURAL:$1|Dëse Fichier ass|Dës $1 Fichiere sinn}} an dëser Kategorie.',
 'listingcontinuesabbrev'         => '(Fortsetzung)',
 'index-category'                 => 'Indexéiert Säiten',
@@ -648,6 +648,7 @@ Wann dëse Benotzerkont ongewollt ugeluecht gouf, kënnt Dir dës Noriicht einfa
 'usernamehasherror'          => "Am Benotzernumm däerfe keng ''hash'' Zeeche sinn",
 'login-throttled'            => "Dir hutt zevill dacks versicht d'Passwuert vun dësem Benotzerkont anzeginn.
 Waart w.e.g. ier Dir et nach eng Kéier versicht.",
+'login-abort-generic'        => 'Dir sidd net ageloggt - Aloggen ofgebrach',
 'loginlanguagelabel'         => 'Sprooch: $1',
 'suspicious-userlogout'      => 'Är Ufro fir Iech auszeloggen gouf refuséiert well et esou ausgesäit wéi wann se vun engem Futtise Browser oder Proxy-Tëschespäicher kënnt.',
 
@@ -931,7 +932,7 @@ Vläicht gouf se geläscht oder geréckelt.
 [[Special:Search|Sich op]] {{SITENAME}} no passenden neie Säiten.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(Bemierkung geläscht)',
+'rev-deleted-comment'         => '(Resumé vun der Ännerung ewechgeholl)',
 'rev-deleted-user'            => '(Benotzernumm ewechgeholl)',
 'rev-deleted-event'           => '(Aktioun aus dem Logbuch erausgeholl)',
 'rev-deleted-user-contribs'   => '[Benotzernumm oder IP-Adress ewechgeholl - Ännerung an der Lescht vun de Kontributioune verstoppt]',
@@ -1100,7 +1101,7 @@ Denkt w.e.g drunn datt d'Navigatiounslinken d'Wiel vun de Versiounen nees zréck
 'compareselectedversions'  => 'Ausgewielte Versioune vergläichen',
 'showhideselectedversions' => 'Erausgesichte Versioune weisen/verstoppen',
 'editundo'                 => 'zréck',
-'diff-multi'               => '({{PLURAL:$1|Eng Tëscheversioun|$1 Tëscheversioune}} vun {{PLURAL:$2|engem|$2}} Benotzer {{PLURAL:$1|¨gëtt|ginn}} net gewisen)',
+'diff-multi'               => '({{PLURAL:$1|Eng Tëscheversioun|$1 Tëscheversioune}} vun {{PLURAL:$2|engem|$2}} Benotzer {{PLURAL:$1|gëtt|ginn}} net gewisen)',
 'diff-multi-manyusers'     => '({{PLURAL:$1|Eng Tëscheversioun|$1 Tëscheversioune}} vu méi wéi $2 {{PLURAL:$2|Benotzer|Benotzer}} ginn net gewisen)',
 
 # Search results
@@ -2273,9 +2274,10 @@ $1',
 'undelete-show-file-submit'    => 'Jo',
 
 # Namespace form on various pages
-'namespace'      => 'Nummraum:',
-'invert'         => 'Auswiel ëmdréinen',
-'blanknamespace' => '(Haapt)',
+'namespace'             => 'Nummraum:',
+'invert'                => 'Auswiel ëmdréinen',
+'namespace_association' => 'Associéierten Nummraum',
+'blanknamespace'        => '(Haapt)',
 
 # Contributions
 'contributions'       => 'Kontributioune vum Benotzer',
@@ -2328,7 +2330,6 @@ $1',
 'blockip-title'                   => 'Benotzer spären',
 'blockip-legend'                  => 'Benotzer spären',
 'blockiptext'                     => 'Benotzt dëse Formulaire fir eng spezifesch IP-Adress oder e Benotzernumm ze spären. Dëst soll nëmmen am Fall vu Vandalismus gemaach ginn, en accordance mat den [[{{MediaWiki:Policy-url}}|interne Richlinen]]. Gitt e spezifesche Grond un (zum Beispill Säite wou Vandalismus virgefall ass).',
-'ipaddress'                       => 'IP-Adress oder Benotzernamm:',
 'ipadressorusername'              => 'IP-Adress oder Benotzernumm:',
 'ipbexpiry'                       => 'Gültegkeet:',
 'ipbreason'                       => 'Grond:',
@@ -2341,7 +2342,6 @@ $1',
 **Beleidegt oder bedréit aner Mataarbechter
 **Mëssbrauch vu verschiddene Benotzernimm
 **Net akzeptabele Benotzernumm",
-'ipbanononly'                     => 'Nëmmen anonym Benotzer spären',
 'ipbcreateaccount'                => 'Opmaache vun engem Benotzerkont verhënneren',
 'ipbemailban'                     => 'Verhënneren datt de Benotzer E-Maile verschéckt',
 'ipbenableautoblock'              => 'Automatesch déi lescht IP-Adress spären déi vun dësem Benotzer benotzt gouf, an all IP-Adresse vun denen dëse Benotzer versicht Ännerunge virzehuelen',
@@ -2352,7 +2352,6 @@ $1',
 'ipbotherreason'                  => 'Aneren oder zousätzleche Grond:',
 'ipbhidename'                     => 'Benotzernumm op Lëschten a bei Ännerunge verstoppen',
 'ipbwatchuser'                    => 'Dësem Benotzer seng Benotzer- an Diskussiouns-Säit iwwerwaachen',
-'ipballowusertalk'                => 'Benotzer däerf seng Diskussiounssäiten änneren esouguer wann e gespaart ass',
 'ipb-change-block'                => 'De Benotzer mat dese Parameteren nees spären',
 'badipaddress'                    => "D'IP-Adress huet dat falscht Format.",
 'blockipsuccesssub'               => 'Gouf gespaart',
@@ -2371,14 +2370,10 @@ Kuckt d'[[Special:IPBlockList|IP Spär-Lëscht]] fir all Spären ze gesin.",
 'unblocked-id'                    => "D'Spär $1 gouf opgehuewen",
 'ipblocklist'                     => 'Lëscht vu gespaarten IP-Adressen a Benotzernimm',
 'ipblocklist-legend'              => 'No engem gespaarte Benotzer sichen',
-'ipblocklist-username'            => 'Benotzernumm oder IP-Adress:',
-'ipblocklist-sh-userblocks'       => 'Benotzerspäre $1',
-'ipblocklist-sh-tempblocks'       => 'temporär Späre $1',
-'ipblocklist-sh-addressblocks'    => 'eenzel IP-Adressen déi gespaart si $1',
+'blocklist-reason'                => 'Grond',
 'ipblocklist-submit'              => 'Sichen',
 'ipblocklist-localblock'          => 'Lokal Spär',
 'ipblocklist-otherblocks'         => 'Aner {{PLURAL:$1|Spär|Spären}}',
-'blocklistline'                   => '$1, $2 huet de Benotzer:$3 gespaart (gëllt $4)',
 'infiniteblock'                   => 'onbegrenzt',
 'expiringblock'                   => 'bis den $1 ëm $2',
 'anononlyblock'                   => 'nëmmen anonym Benotzer',
@@ -2834,7 +2829,6 @@ Duerch d'Opmaache vum Fichier kann Äre System beschiedegt ginn.",
 'file-nohires'         => '<small>Et gëtt keng méi héich Opléisung.</small>',
 'svg-long-desc'        => 'SVG-Fichier, Basisgréisst: $1 × $2 Pixel, Gréisst vum Fichier: $3',
 'show-big-image'       => 'Versioun an enger méi héijer Opléisung',
-'show-big-image-thumb' => '<small>Gréisst vun der Miniatur: $1 × $2 Pixel</small>',
 'file-info-gif-looped' => 'Endloosschleef',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|Bild|Biller}}',
 'file-info-png-looped' => 'Endlossschleef',
@@ -3341,8 +3335,9 @@ D\'Ufro muss ouni den Zousaz "{{ns:file}}": gemaach ginn.',
 # Special:SpecialPages
 'specialpages'                   => 'Spezialsäiten',
 'specialpages-note'              => '----
-* Normal Spezialsäiten
-* <strong class="mw-specialpagerestricted">Fettgeschriwwe</strong> Spezialsäite sinn nëmme fir Benotzer mat méi Rechter.',
+* Normal Spezialsäiten.
+* <span class="mw-specialpagerestricted">Spezialsäite fir Benotzer mat méi Rechter.</span>
+* <span class="mw-specialpagecached">Spezialsäite aus dem Tëschespäicher</span>',
 'specialpages-group-maintenance' => 'Maintenance-Rapporten',
 'specialpages-group-other'       => 'Aner Spezialsäiten',
 'specialpages-group-login'       => 'Aloggen / Umellen',

@@ -238,6 +238,11 @@ if ( !$wgAllowUserSkin ) {
 	$wgHiddenPrefs[] = 'skin';
 }
 
+# Doesn't make sense to have if disabled.
+if ( !$wgEnotifMinorEdits ) {
+	$wgHiddenPrefs[] = 'enotifminoredits';
+}
+
 if ( !$wgHtml5Version && $wgHtml5 && $wgAllowRdfaAttributes ) {
 	# see http://www.w3.org/TR/rdfa-in-html/#document-conformance
 	if ( $wgMimeType == 'application/xhtml+xml' ) {
@@ -283,7 +288,6 @@ require_once( "$IP/includes/GlobalFunctions.php" );
 require_once( "$IP/includes/Hooks.php" );
 require_once( "$IP/includes/Namespace.php" );
 require_once( "$IP/includes/ProxyTools.php" );
-require_once( "$IP/includes/ObjectCache.php" );
 require_once( "$IP/includes/ImageFunctions.php" );
 wfProfileOut( $fname . '-includes' );
 wfProfileIn( $fname . '-misc1' );
@@ -323,9 +327,9 @@ if ( $wgCommandLineMode ) {
 wfProfileOut( $fname . '-misc1' );
 wfProfileIn( $fname . '-memcached' );
 
-$wgMemc =& wfGetMainCache();
-$messageMemc =& wfGetMessageCacheStorage();
-$parserMemc =& wfGetParserCacheStorage();
+$wgMemc = wfGetMainCache();
+$messageMemc = wfGetMessageCacheStorage();
+$parserMemc = wfGetParserCacheStorage();
 
 wfDebug( 'CACHES: ' . get_class( $wgMemc ) . '[main] ' .
 	get_class( $messageMemc ) . '[message] ' .

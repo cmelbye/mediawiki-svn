@@ -86,17 +86,15 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		$fld_type = isset( $prop['type'] );
 
 		if ( is_null( $resultPageSet ) ) {
-			$this->addFields( array( 'cl_from', 'page_namespace', 'page_title' ) );
+			$this->addFields( array( 'cl_from', 'cl_sortkey', 'cl_type', 'page_namespace', 'page_title' ) );
 			$this->addFieldsIf( 'page_id', $fld_ids );
 			$this->addFieldsIf( 'cl_sortkey_prefix', $fld_sortkeyprefix );
-			$this->addFieldsIf( 'cl_sortkey', $fld_sortkey );
 		} else {
 			$this->addFields( $resultPageSet->getPageTableFields() ); // will include page_ id, ns, title
-			$this->addFields( array( 'cl_from', 'cl_sortkey' ) );
+			$this->addFields( array( 'cl_from', 'cl_sortkey', 'cl_type' ) );
 		}
 
 		$this->addFieldsIf( 'cl_timestamp', $fld_timestamp || $params['sort'] == 'timestamp' );
-		$this->addFieldsIf( 'cl_type', $fld_type );
 
 		$this->addTables( array( 'page', 'categorylinks' ) );	// must be in this order for 'USE INDEX'
 
@@ -123,17 +121,48 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 
 			$this->addOption( 'USE INDEX', 'cl_timestamp' );
 		} else {
-			// The below produces ORDER BY cl_type, cl_sortkey, cl_from, possibly with DESC added to each of them
-			$this->addWhereRange( 'cl_type', $dir, null, null );
-			$this->addWhereRange( 'cl_sortkey',
-				$dir,
-				$params['startsortkey'],
-				$params['endsortkey'] );
-			$this->addWhereRange( 'cl_from', $dir, null, null );
+			if ( $params['continue'] ) {
+				// from|sortkey
+				$cont = explode( '|', $params['continue'], 2 );
+				if ( count( $cont ) != 2 ) {
+					$this->dieUsage( 'Invalid continue param. You should pass the original value returned '.
+						'by the previous query', '_badcontinue'
+					);
+				}
+				list ( $from, $contsortkey )  = $cont;
+				if ( intval( $from ) == 0 ) {
+					$this->dieUsage( 'Invalid continue param. You should pass the original value returned '.
+						'by the previous query', '_badcontinue'
+					);
+				}
+				$where_outer = array();
+				$where_inner = array();
+				$db = $this->getDB();
+				$op = ( $dir === 'newer' ? '>' : '<' );
+				$sortdir = ( $dir === 'newer' ? 'asc' : 'desc' );
+				$where_outer[] = 'cl_sortkey ' . $op . ' ' .
+					$db->addQuotes( $contsortkey );
+				// OR
+					$where_inner[] = 'cl_sortkey = ' .
+						$db->addQuotes( $contsortkey );
+					// AND
+					$where_inner[] = 'cl_from ' . $op . '= '.  $from;
+
+				$where_outer[] = $db->makeList( $where_inner, LIST_AND );
+				$this->addWhere( $db->makeList( $where_outer, LIST_OR ) );
+				$this->addOption( 'ORDER BY', 
+					'cl_sortkey ' . $sortdir .', cl_from ' . $sortdir );
+				
+			} else {
+				// The below produces ORDER BY cl_sortkey, cl_from, possibly with DESC added to each of them
+				$this->addWhereRange( 'cl_sortkey',
+					$dir,
+					$params['startsortkey'],
+					$params['endsortkey'] );
+				$this->addWhereRange( 'cl_from', $dir, null, null );
+			}
 			$this->addOption( 'USE INDEX', 'cl_sortkey' );
 		}
-
-		$this->setContinuation( $params['continue'], $params['dir'] );
 
 		$this->addWhere( 'cl_from=page_id' );
 
@@ -149,7 +178,13 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 				if ( $params['sort'] == 'timestamp' ) {
 					$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->cl_timestamp ) );
 				} else {
-					$this->setContinueEnumParameter( 'continue', $row->cl_from );
+					// Continue format is type|from|sortkey
+					// The order is a bit weird but it's convenient to put the sortkey at the end
+					// because we don't have to worry about pipes in the sortkey that way
+					// (and type and from can't contain pipes anyway)
+					$this->setContinueEnumParameter( 'continue',
+						"{$row->cl_from}|{$row->cl_sortkey}"
+					);
 				}
 				break;
 			}
@@ -189,7 +224,9 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 					if ( $params['sort'] == 'timestamp' ) {
 						$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->cl_timestamp ) );
 					} else {
-						$this->setContinueEnumParameter( 'continue', $row->cl_from );
+						$this->setContinueEnumParameter( 'continue',
+							"{$row->cl_from}|{$row->cl_sortkey}"
+						);
 					}
 					break;
 				}
@@ -202,21 +239,6 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			$this->getResult()->setIndexedTagName_internal(
 					 array( 'query', $this->getModuleName() ), 'cm' );
 		}
-	}
-
-	/**
-	 * Add DB WHERE clause to continue previous query based on 'continue' parameter
-	 */
-	private function setContinuation( $continue, $dir ) {
-		if ( is_null( $continue ) ) {
-			return;	// This is not a continuation request
-		}
-
-		$encFrom = $this->getDB()->addQuotes( intval( $continue ) );
-
-		$op = ( $dir == 'desc' ? '<=' : '>=' );
-
-		$this->addWhere( "cl_from $op $encFrom" );
 	}
 
 	public function getAllowedParams() {
@@ -289,8 +311,8 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 		global $wgMiserMode;
 		$p = $this->getModulePrefix();
 		$desc = array(
-			'title' => 'Which category to enumerate (required). Must include Category: prefix. Cannot be used together with cmpageid',
-			'pageid' => 'Page ID of the category to enumerate. Cannot be used together with cmtitle',
+			'title' => "Which category to enumerate (required). Must include Category: prefix. Cannot be used together with {$p}pageid",
+			'pageid' => "Page ID of the category to enumerate. Cannot be used together with {$p}title",
 			'prop' => array(
 				'What pieces of information to include',
 				' ids           - Adds the page ID',
@@ -311,11 +333,13 @@ class ApiQueryCategoryMembers extends ApiQueryGeneratorBase {
 			'continue' => 'For large categories, give the value retured from previous query',
 			'limit' => 'The maximum number of pages to return.',
 		);
+
 		if ( $wgMiserMode ) {
 			$desc['namespace'] = array(
 				$desc['namespace'],
-				'NOTE: Due to $wgMiserMode, using this may result in fewer than "limit" results',
-				'returned before continuing; in extreme cases, zero results may be returned',
+				"NOTE: Due to \$wgMiserMode, using this may result in fewer than \"{$p}limit\" results",
+				'returned before continuing; in extreme cases, zero results may be returned.',
+				"Note that you can use {$p}type=subcat or {$p}type=file instead of {$p}namespace=14 or 6.",
 			);
 		}
 		return $desc;

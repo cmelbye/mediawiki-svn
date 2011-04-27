@@ -990,8 +990,9 @@ class Title {
 	 * @return String the URL
 	 */
 	public function getInternalURL( $query = '', $variant = false ) {
-		global $wgInternalServer;
-		$url = $wgInternalServer . $this->getLocalURL( $query, $variant );
+		global $wgInternalServer, $wgServer;
+		$server = $wgInternalServer !== false ? $wgInternalServer : $wgServer;
+		$url = $server . $this->getLocalURL( $query, $variant );
 		wfRunHooks( 'GetInternalURL', array( &$this, &$url, $query ) );
 		return $url;
 	}
@@ -1954,7 +1955,7 @@ class Title {
 	 * Is this a *valid* .css or .js subpage of a user page?
 	 *
 	 * @return Bool
-	 * @deprecated @since 1.17
+	 * @deprecated since 1.17
 	 */
 	public function isValidCssJsSubpage() {
 		return $this->isCssJsSubpage();
@@ -2988,24 +2989,9 @@ class Title {
 
 		// Image-specific checks
 		if ( $this->getNamespace() == NS_FILE ) {
-			if ( $nt->getNamespace() != NS_FILE ) {
-				$errors[] = array( 'imagenocrossnamespace' );
-			}
-			$file = wfLocalFile( $this );
-			if ( $file->exists() ) {
-				if ( $nt->getText() != wfStripIllegalFilenameChars( $nt->getText() ) ) {
-					$errors[] = array( 'imageinvalidfilename' );
-				}
-				if ( !File::checkExtensionCompatibility( $file, $nt->getDBkey() ) ) {
-					$errors[] = array( 'imagetypemismatch' );
-				}
-			}
-			$destfile = wfLocalFile( $nt );
-			if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destfile->exists() && wfFindFile( $nt ) ) {
-				$errors[] = array( 'file-exists-sharedrepo' );
-			}
+			$errors = array_merge( $errors, $this->validateFileMoveOperation( $nt ) );
 		}
-
+		
 		if ( $nt->getNamespace() == NS_FILE && $this->getNamespace() != NS_FILE ) {
 			$errors[] = array( 'nonfile-cannot-move-to-file' );
 		}
@@ -3047,6 +3033,38 @@ class Title {
 		if ( empty( $errors ) ) {
 			return true;
 		}
+		return $errors;
+	}
+	
+	/**
+	 * Check if the requested move target is a valid file move target
+	 * @param Title $nt Target title
+	 * @return array List of errors
+	 */
+	protected function validateFileMoveOperation( $nt ) {
+		global $wgUser;
+		
+		$errors = array();
+		
+		if ( $nt->getNamespace() != NS_FILE ) {
+			$errors[] = array( 'imagenocrossnamespace' );
+		}
+		
+		$file = wfLocalFile( $this );
+		if ( $file->exists() ) {
+			if ( $nt->getText() != wfStripIllegalFilenameChars( $nt->getText() ) ) {
+				$errors[] = array( 'imageinvalidfilename' );
+			}
+			if ( !File::checkExtensionCompatibility( $file, $nt->getDBkey() ) ) {
+				$errors[] = array( 'imagetypemismatch' );
+			}
+		}
+		
+		$destFile = wfLocalFile( $nt );
+		if ( !$wgUser->isAllowed( 'reupload-shared' ) && !$destfile->exists() && wfFindFile( $nt ) ) {
+			$errors[] = array( 'file-exists-sharedrepo' );
+		}
+		
 		return $errors;
 	}
 
@@ -3094,19 +3112,26 @@ class Title {
 
 		// Refresh the sortkey for this row.  Be careful to avoid resetting
 		// cl_timestamp, which may disturb time-based lists on some sites.
-		$prefix = $dbw->selectField(
+		$prefixes = $dbw->select(
 			'categorylinks',
-			'cl_sortkey_prefix',
+			array( 'cl_sortkey_prefix', 'cl_to' ),
 			array( 'cl_from' => $pageid ),
 			__METHOD__
 		);
-		$dbw->update( 'categorylinks',
-			array(
-				'cl_sortkey' => Collation::singleton()->getSortKey(
-					$nt->getCategorySortkey( $prefix ) ),
-				'cl_timestamp=cl_timestamp' ),
-			array( 'cl_from' => $pageid ),
-			__METHOD__ );
+		foreach ( $prefixes as $prefixRow ) {
+			$prefix = $prefixRow->cl_sortkey_prefix;
+			$catTo = $prefixRow->cl_to;
+			$dbw->update( 'categorylinks',
+				array(
+					'cl_sortkey' => Collation::singleton()->getSortKey(
+						$nt->getCategorySortkey( $prefix ) ),
+					'cl_timestamp=cl_timestamp' ),
+				array(
+					'cl_from' => $pageid,
+					'cl_to' => $catTo ),
+				__METHOD__
+			);
+		}
 
 		if ( $protected ) {
 			# Protect the redirect title as the title used to be...
@@ -4106,6 +4131,10 @@ class Title {
 	 * @return array applicable restriction types
 	 */
 	public function getRestrictionTypes() {
+		if ( $this->getNamespace() == NS_SPECIAL ) {
+			return array();
+		}
+
 		$types = self::getFilteredRestrictionTypes( $this->exists() );
 
 		if ( $this->getNamespace() != NS_FILE ) {
@@ -4116,7 +4145,7 @@ class Title {
 		wfRunHooks( 'TitleGetRestrictionTypes', array( $this, &$types ) );
 		
 		wfDebug( __METHOD__ . ': applicable restriction types for ' . 
-			$this->getPrefixedText() . ' are ' . implode( ',', $types ) );
+			$this->getPrefixedText() . ' are ' . implode( ',', $types ) . "\n" );
 
 		return $types;
 	}
@@ -4132,7 +4161,7 @@ class Title {
 		$types = $wgRestrictionTypes;
 		if ( $exists ) {
 			# Remove the create restriction for existing titles
-			$types = array_diff( $types, array( 'create' ) );			
+			$types = array_diff( $types, array( 'create' ) );
 		} else {
 			# Only the create and upload restrictions apply to non-existing titles
 			$types = array_intersect( $types, array( 'create', 'upload' ) );

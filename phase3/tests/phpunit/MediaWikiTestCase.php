@@ -30,12 +30,11 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 	}
 	
 	function run( PHPUnit_Framework_TestResult $result = NULL ) {
-		global $wgCaches;
 		/* Some functions require some kind of caching, and will end up using the db,
 		 * which we can't allow, as that would open a new connection for mysql.
 		 * Replace with a HashBag. They would not be going to persist anyway.
 		 */
-		$wgCaches[CACHE_DB] = new HashBagOStuff;
+		ObjectCache::$instances[CACHE_DB] = new HashBagOStuff;
 		   
 		if( $this->needsDB() ) {
 		
@@ -68,6 +67,10 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 		if( $this->needsDB() ) {
 			$this->destroyDB();
 		}
+	}
+
+	function dbPrefix() {
+		return $this->db->getType() == 'oracle' ? self::ORA_DB_PREFIX : self::DB_PREFIX;
 	}
 	
 	function needsDB() {
@@ -112,15 +115,13 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 
 		$dbType = $this->db->getType();
 		
-		if ( $wgDBprefix === self::DB_PREFIX || ( $dbType == 'oracle' && $wgDBprefix === self::ORA_DB_PREFIX ) ) {
+		if ( $wgDBprefix === $this->dbPrefix() ) {
 			throw new MWException( 'Cannot run unit tests, the database prefix is already "unittest_"' );
 		}
 
 		$tables = $this->listTables();
 		
-		$prefix = $dbType != 'oracle' ? self::DB_PREFIX : self::ORA_DB_PREFIX;
-		
-		$this->dbClone = new CloneDatabase( $this->db, $tables, $prefix );
+		$this->dbClone = new CloneDatabase( $this->db, $tables, $this->dbPrefix() );
 		$this->dbClone->useTemporaryTables( $this->useTemporaryTables );
 		$this->dbClone->cloneTableStructure();
 		
@@ -150,12 +151,7 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 			return;
 		}
 		
-		if( $this->db->getType() == 'oracle' ) {
-			$tables = $this->db->listTables( self::ORA_DB_PREFIX, __METHOD__ );
-		}
-		else {
-			$tables = $this->db->listTables( self::DB_PREFIX, __METHOD__ );
-		}
+		$tables = $this->db->listTables( $this->dbPrefix(), __METHOD__ );
 		
 		foreach ( $tables as $table ) {
 			try {
@@ -203,6 +199,15 @@ abstract class MediaWikiTestCase extends PHPUnit_Framework_TestCase {
 		
 		$tables = $this->db->listTables( $wgDBprefix, __METHOD__ );
 		$tables = array_map( array( __CLASS__, 'unprefixTable' ), $tables );
+
+		if ( $this->db->getType() == 'sqlite' ) {
+			$tables = array_flip( $tables );
+			// these are subtables of searchindex and don't need to be duped/dropped separately
+			unset( $tables['searchindex_content'] );
+			unset( $tables['searchindex_segdir'] );
+			unset( $tables['searchindex_segments'] );
+			$tables = array_flip( $tables );
+		}
 		return $tables;
 		
 	}

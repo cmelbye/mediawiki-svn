@@ -118,25 +118,33 @@ class StandardTemplate extends LegacyTemplate {
 		unset( $bar['SEARCH'] );
 		unset( $bar['LANGUAGES'] );
 		unset( $bar['TOOLBOX'] );
-		$browseLinks = reset( $bar );
 
-		foreach ( $browseLinks as $link ) {
-			if ( $link['text'] != '-' ) {
-				$s .= "<a href=\"{$link['href']}\">" .
-					htmlspecialchars( $link['text'] ) . '</a>' . $sep;
+		$barnumber = 1;
+		foreach ( $bar as $heading => $browseLinks ) {
+			if ( $barnumber > 1 ) {
+				$s .= "\n<hr class='sep' />";
+			} 
+			foreach ( $browseLinks as $link ) {
+				if ( $link['text'] != '-' ) {
+					$s .= "<a href=\"{$link['href']}\">" .
+						htmlspecialchars( $link['text'] ) . '</a>' . $sep;
+				}
 			}
+			if ( $barnumber == 1 ) {
+				// only show watchlist link if logged in
+				if( $wgUser->isLoggedIn() ) {
+					$s.= $this->getSkin()->specialLink( 'Watchlist' ) ;
+					$s .= $sep . $this->getSkin()->linkKnown(
+						SpecialPage::getTitleFor( 'Contributions' ),
+						wfMsg( 'mycontris' ),
+						array(),
+						array( 'target' => $wgUser->getName() )
+					);
+				}
+			}
+			$barnumber = $barnumber + 1;
 		}
 
-		if( $wgUser->isLoggedIn() ) {
-			$s.= $this->getSkin()->specialLink( 'Watchlist' ) ;
-			$s .= $sep . $this->getSkin()->linkKnown(
-				SpecialPage::getTitleFor( 'Contributions' ),
-				wfMsg( 'mycontris' ),
-				array(),
-				array( 'target' => $wgUser->getName() )
-			);
-		}
-		// only show watchlist link if logged in
 		$s .= "\n<hr class='sep' />";
 		$articleExists = $this->getSkin()->getTitle()->getArticleId();
 		if ( $wgOut->isArticle() || $action == 'edit' || $action == 'history' || $wpPreview ) {
@@ -251,7 +259,7 @@ class StandardTemplate extends LegacyTemplate {
 				if( $id || $ip ){
 					$s .= $sep . $this->userContribsLink();
 				}
-				if( $this->showEmailUser( $id ) ) {
+				if( $this->getSkin()->showEmailUser( $id ) ) {
 					$s .= $sep . $this->emailUserLink();
 				}
 			}

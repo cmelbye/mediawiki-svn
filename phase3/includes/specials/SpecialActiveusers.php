@@ -32,6 +32,16 @@
  */
 class ActiveUsersPager extends UsersPager {
 
+	/**
+	 * @var FormOptions
+	 */
+	protected $opts;
+
+	/**
+	 * @var Array
+	 */
+	protected $groups;
+
 	function __construct( $group = null ) {
 		global $wgRequest, $wgActiveUserDays;
 		$this->RCMaxAge = $wgActiveUserDays;

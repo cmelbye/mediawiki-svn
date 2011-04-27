@@ -1208,7 +1208,7 @@ $2',
 [[Special:Search|جستجوی]] صفحه‌های جدید مرتبطِ موجود در این ویکی را هم بیازمایید. شاید افاقه کرد.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(توضیحات پاک شد)',
+'rev-deleted-comment'         => '(خلاصه ویرایش حذف شد)',
 'rev-deleted-user'            => '(نام کاربری حذف شده‌است)',
 'rev-deleted-event'           => '(مورد پاک شد)',
 'rev-deleted-user-contribs'   => '[نام کاربری یا نشانی آی‌پی حذف شده - ویرایش مخفی شده در مشارکت‌ها]',
@@ -1814,7 +1814,7 @@ $1",
 {{PLURAL:\$3|نوع پرونده ترجیح داده شده|انواع پرونده ترجیح داد شده}} از این قرار است: \$2 .",
 'filetype-banned-type'        => '&lrm;\'\'\'".$1"\'\'\' {{PLURAL:$4|یک نوع پرونده غیر مجاز است|انواعی پرونده غیر مجاز هستند}}.
 {{PLURAL:$3|نوع پرونده مجاز|انواع پرونده مجاز}} از این قرار است: $2 .',
-'filetype-missing'            => 'پرونده پسوند ندارد (مانند &lrm;«.jpg»&lrm;).',
+'filetype-missing'            => 'این پرونده پسوند (مثلاً «‎.jpg») ندارد.',
 'empty-file'                  => 'پرونده‌ای که ارسال کردید خالی بود.',
 'file-too-large'              => 'پرونده‌ای که ارسال کردید بیش از اندازه بزرگ بود.',
 'filename-tooshort'           => 'نام پرونده بیش از اندازه کوتاه است.',
@@ -1851,7 +1851,8 @@ $1",
 'fileexists-shared-forbidden' => 'در حال‌ حاضر، پرونده‌ای با همین نام در انبارهٔ مشترک پرونده‌ها وجود دارد.
 اگر هنوز می‌خواهید پرونده خود را بار کنید، لطفاً برگردید و پروندهٔ موردنظر خود را با نام دیگری بار کنید. [[File:$1|thumb|center|$1]]',
 'file-exists-duplicate'       => 'به نظر می‌رسد این پرونده نسخه‌ای تکراری از {{PLURAL:$1|پروندهٔ|پرونده‌های}} زیر باشد:',
-'file-deleted-duplicate'      => 'یک پرونده نظیر این پرونده ([[$1]]) قبلاً حذف شده‌است. شما باید تاریخچهٔ حذف آن پرونده را قبل از بارگذاری مجدد آن ببینید.',
+'file-deleted-duplicate'      => 'یک پرونده نظیر این پرونده ([[:$1]]) قبلاً حذف شده‌است.
+شما باید تاریخچهٔ حذف آن پرونده را قبل از بارگذاری مجدد آن ببینید.',
 'uploadwarning'               => 'هشدار بار کردن',
 'uploadwarning-text'          => 'لطفاً توضیحات پرونده را در زیر تغییر دهید و دوباره تلاش کنید.',
 'savefile'                    => 'ذخیرهٔ پرونده',
@@ -1956,7 +1957,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 
 'license'            => 'اجازه‌نامه:',
 'license-header'     => 'اجازه‌نامه',
-'nolicense'          => 'هیچیک انتخاب نشده‌است.',
+'nolicense'          => 'هیچ کدام انتخاب نشده‌است',
 'license-nopreview'  => '(پیش‌نمایش وجود ندارد)',
 'upload_source_url'  => '(یک نشانی اینترنتی معتبر و قابل دسترسی برای عموم)',
 'upload_source_file' => '(پرونده‌ای در رایانهٔ شما)',
@@ -1990,7 +1991,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'filehist-nothumb'          => 'فاقد بند انگشتی',
 'filehist-user'             => 'کاربر',
 'filehist-dimensions'       => 'ابعاد',
-'filehist-filesize'         => 'اندازه پرونده',
+'filehist-filesize'         => 'اندازهٔ پرونده',
 'filehist-comment'          => 'توضیح',
 'filehist-missing'          => 'پروندهٔ ناموجود',
 'imagelinks'                => 'پیوندهای پرونده',
@@ -2006,7 +2007,7 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 'sharedupload-desc-there'   => 'این پرونده در $1 قرار دارد و ممکن است در دیگر پروژه‌ها هم استفاده شود.
 برای اطلاعات بیشتر لطفاً [$2 صفحهٔ توضیحات پرونده] را ببینید.',
 'sharedupload-desc-here'    => 'این پرونده در $1 قرار دارد و ممکن است در دیگر پروژه‌ها هم استفاده شود.
-توضیحات موجود در [$2 صفحهٔ توضیحات پرونده] در آن‌جا، در زیر نشان داده شده‌است.',
+توضیحات موجود در [$2 صفحهٔ توضیحات پرونده] در آنجا، در زیر نشان داده شده‌است.',
 'filepage-nofile'           => 'پرونده‌ای با این نام وجود ندارد.',
 'filepage-nofile-link'      => 'پرونده‌ای با این نام وجود ندارد، اما شما می‌توانید آن را [$1 بارگذاری کنید].',
 'uploadnewversion-linktext' => 'بارکردن نسخهٔ جدیدی از پرونده',
@@ -2098,12 +2099,13 @@ http://www.mediawiki.org/wiki/Manual:Image_Authorization را ببینید.',
 این صفحه‌ها باید در عوض به موضوعات مرتبط پیوند داده شوند.<br />
 یک صفحه هنگامی صفحهٔ ابهام‌زدایی در نظر گرفته می‌شود که در آن از الگویی که به [[MediaWiki:Disambiguationspage]] پیوند دارد استفاده شده باشد.",
 
-'doubleredirects'            => 'تغییرمسیرهای دوتایی',
-'doubleredirectstext'        => 'این صفحه فهرستی از صفحه‌های تغییر مسیری را ارائه می‌کند که به صفحهٔ تغییر مسیر دیگری اشاره می‌کنند.
+'doubleredirects'                   => 'تغییرمسیرهای دوتایی',
+'doubleredirectstext'               => 'این صفحه فهرستی از صفحه‌های تغییر مسیری را ارائه می‌کند که به صفحهٔ تغییر مسیر دیگری اشاره می‌کنند.
 هر سطر دربردارندهٔ پیوندهایی به تغییر مسیر اول و دوم و همچنین مقصد تغییر مسیر دوم است، که معمولاً صفحهٔ مقصد واقعی است و نخستین تغییر مسیر باید به آن اشاره کند.
 موارد <del>خط خورده</del> درست شده‌اند.',
-'double-redirect-fixed-move' => '[[$1]] انتقال داده شده‌است، و در حال حاضر تغییر مسیری به [[$2]] است',
-'double-redirect-fixer'      => 'تعمیرکار تغییر مسیرها',
+'double-redirect-fixed-move'        => '[[$1]] انتقال داده شده‌است، و در حال حاضر تغییر مسیری به [[$2]] است',
+'double-redirect-fixed-maintenance' => 'رفع تغییر مسیر دوتایی از [[$1]] به [[$2]].',
+'double-redirect-fixer'             => 'تعمیرکار تغییر مسیرها',
 
 'brokenredirects'        => 'تغییرمسیرهای خراب',
 'brokenredirectstext'    => 'تغییرمسیرهای زیر به یک صفحهٔ ناموجود پیوند دارند:',
@@ -2555,9 +2557,10 @@ $1',
 'undelete-show-file-submit'    => 'آری',
 
 # Namespace form on various pages
-'namespace'      => 'فضای نام:',
-'invert'         => 'انتخاب برعکس شود',
-'blanknamespace' => '(اصلی)',
+'namespace'             => 'فضای نام:',
+'invert'                => 'انتخاب برعکس شود',
+'namespace_association' => 'فضای نامی مرتبط',
+'blanknamespace'        => '(اصلی)',
 
 # Contributions
 'contributions'       => 'مشارکت‌ها',
@@ -2686,7 +2689,7 @@ $1',
 'blocklogtext'                    => 'این سیاهه‌ای از اعمال بستن و باز کردن کاربرها است.
 نشانی‌های آی‌پی که به طور خودکار بسته شده‌اند فهرست نشده‌اند.
 برای فهرست محرومیت‌ها و بسته‌شدن‌های عملیاتی در لحظهٔ حاضر، به [[Special:IPBlockList|فهرست آی‌پی‌های بسته]] مراجعه کنید.',
-'unblocklogentry'                 => '«$1» باز شد',
+'unblocklogentry'                 => '«$1» را باز کرد',
 'block-log-flags-anononly'        => 'فقط کاربران گمنام',
 'block-log-flags-nocreate'        => 'قابلیت ایجاد حساب غیرفعال شد.',
 'block-log-flags-noautoblock'     => 'قطع دسترسی خودکار غیرفعال شد',
@@ -3111,9 +3114,9 @@ $1',
 'file-info'            => 'اندازهٔ پرونده: $1، نوع  MIME $2',
 'file-info-size'       => '<span dir="ltr">$1 × $2</span> پیکسل، اندازهٔ پرونده: $3، نوع MIME پرونده: $4',
 'file-nohires'         => '<small>تفکیک‌پذیری بالاتری در دسترس نیست.</small>',
-'svg-long-desc'        => 'پروندهٔ اس‌وی‌جی، با ابعاد $1 × $2 پیکسل، اندازهٔ پرونده: $3',
+'svg-long-desc'        => 'پروندهٔ اس‌وی‌جی، با ابعاد <span dir="ltr">$1 × $2</span> پیکسل، اندازهٔ پرونده: $3',
 'show-big-image'       => 'تصویر با تفکیک‌پذیری بالاتر',
-'show-big-image-thumb' => '<small>اندازهٔ این پیش‌نمایش: &#8206;$1 × $2 پیکسل</small>',
+'show-big-image-thumb' => '<small>اندازهٔ این پیش‌نمایش: <span dir="ltr">$1 × $2</span> پیکسل</small>',
 'file-info-gif-looped' => 'حلقه‌ای',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|قاب|قاب}}',
 'file-info-png-looped' => 'حلقه‌ای',
@@ -3206,7 +3209,7 @@ $1',
 'exif-isospeedratings'             => 'درجه‌بندی سرعت ایزو',
 'exif-oecf'                        => 'عامل تبدیل نوری‌-الکترونیک',
 'exif-shutterspeedvalue'           => 'سرعت شاتر',
-'exif-aperturevalue'               => 'اندازه دیافراگم',
+'exif-aperturevalue'               => 'اندازهٔ دیافراگم',
 'exif-brightnessvalue'             => 'روشنی',
 'exif-exposurebiasvalue'           => 'خطای نوردهی',
 'exif-maxaperturevalue'            => 'حداکثر گشادگی زمین',
@@ -3477,6 +3480,17 @@ $3
 $5
 
 این تأییدیه در $4 منقضی می‌گردد.',
+'confirmemail_body_set'     => 'یک نفر، احتمالأ خود شما، از نشانی آی‌پی $1 نشانی پست الکترونیکی حساب «$2» در {{SITENAME}} را به این نشانی تغییر داده‌است.
+
+برای تأیید این که این حساب واقعاً به شما تعلق دارد و فعال کردن دوبارهٔ ویژگی پست الکترونیک در {{SITENAME}}، پیوند زیر را در مرورگرتان باز کنید:
+
+$3
+
+اگر این حساب متعلق به شما نیست، پیوند زیر را دنبال کنید تا تغییر پست الکترونیکی را لغو کنید:
+
+$5
+
+این تأییدیه در $4 منقضی می‌گردد.',
 'confirmemail_invalidated'  => 'تأیید نشانی پست الکترونیکی لغو شد',
 'invalidateemail'           => 'لغو کردن تأیید نشانی پست الکترونیکی',
 
@@ -3546,7 +3560,7 @@ $1',
 
 # Friendlier slave lag warnings
 'lag-warn-normal' => 'ممکن است تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}} در این فهرست نشان داده نشوند.',
-'lag-warn-high'   => 'ممکن است ، به خاطر پس‌افتادگی زیاد کارگزار دادگان، تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}}، در این فهرست نشان داده نشده باشند.',
+'lag-warn-high'   => 'ممکن است، به خاطر پس‌افتادگی زیاد کارگزار دادگان، تغییرات تازه‌تر از $1 {{PLURAL:$1|ثانیه|ثانیه}} در این فهرست نشان داده نشده باشند.',
 
 # Watchlist editor
 'watchlistedit-numitems'       => 'فهرست پی‌گیری‌های شما شامل {{PLURAL:$1|$1 صفحه|$1 صفحه}} به جز صفحه‌های بحث است.',
@@ -3676,21 +3690,22 @@ $1',
 نشانی پرونده را بدون پیشوند «{{ns:file}}:» وارد کنید.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'جستجو برای پرونده‌های تکراری',
-'fileduplicatesearch-summary'  => 'جستجو برای پرونده‌های تکراری بر اساس مقدار درهم‌شدهٔ آن‌ها صورت می‌گیرد.
-
-نام پرونده را بدون پیشوند «{{ns:file}}:» وارد کنید.',
-'fileduplicatesearch-legend'   => 'جستجوی موارد تکراری',
-'fileduplicatesearch-filename' => 'نام پرونده:',
-'fileduplicatesearch-submit'   => 'جستجو',
-'fileduplicatesearch-info'     => '$1 Ã— $2 پیکسل<br />اندازه پرونده: $3<br />نوع MIME: $4',
-'fileduplicatesearch-result-1' => 'پروندهٔ «$1» مورد تکراری ندارد.',
-'fileduplicatesearch-result-n' => 'پروندهٔ «$1» دارای {{PLURAL:$2|یک مورد تکراری|$2 مورد تکراری}} است.',
+'fileduplicatesearch'           => 'جستجو برای پرونده‌های تکراری',
+'fileduplicatesearch-summary'   => 'جستجو برای پرونده‌های تکراری بر اساس مقدار درهم‌شدهٔ آن‌ها صورت می‌گیرد.',
+'fileduplicatesearch-legend'    => 'جستجوی موارد تکراری',
+'fileduplicatesearch-filename'  => 'نام پرونده:',
+'fileduplicatesearch-submit'    => 'جستجو',
+'fileduplicatesearch-info'      => '<span dir="ltr">$1 × $2</span> پیکسل<br />اندازهٔ پرونده: $3<br />نوع MIME: $4',
+'fileduplicatesearch-result-1'  => 'پروندهٔ «$1» مورد تکراری ندارد.',
+'fileduplicatesearch-result-n'  => 'پروندهٔ «$1» دارای {{PLURAL:$2|یک مورد تکراری|$2 مورد تکراری}} است.',
+'fileduplicatesearch-noresults' => 'پرونده‌ای با نام «$1» یافت نشد.',
 
 # Special:SpecialPages
 'specialpages'                   => 'صفحه‌های ویژه',
-'specialpages-note'              => '<hr />
-* دسترسی به صفحه‌های ویژهٔ <strong class="mw-specialpagerestricted">رنگی</strong> محدود شده‌است.',
+'specialpages-note'              => '----
+* صفحه‌های ویژهٔ عادی.
+* <strong class="mw-specialpagerestricted">صفحات ویژهٔ محدود شده.</strong>
+* <strong class="mw-specialpagerestricted">صفحات ویژهٔ فقط دارای میانگیر.</strong>',
 'specialpages-group-maintenance' => 'گزارش‌های نگهداری',
 'specialpages-group-other'       => 'صفحه‌های ویژهٔ دیگر',
 'specialpages-group-login'       => 'ورود / ثبت نام',

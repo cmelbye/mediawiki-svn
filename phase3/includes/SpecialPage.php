@@ -136,9 +136,9 @@ class SpecialPage {
 		'CreateAccount'             => array( 'SpecialRedirectToSpecial', 'CreateAccount', 'Userlogin', 'signup', array( 'uselang' ) ),
 
 		# Users and rights
-		'Blockip'                   => 'IPBlockForm',
-		'Ipblocklist'               => 'IPUnblockForm',
-		'Unblock'                   => array( 'SpecialRedirectToSpecial', 'Unblock', 'Ipblocklist', false, array( 'uselang', 'ip', 'id' ), array( 'action' => 'unblock' ) ),
+		'Block'                     => 'SpecialBlock',
+		'Unblock'                   => 'SpecialUnblock',
+		'BlockList'                 => 'SpecialBlockList',
 		'Resetpass'                 => 'SpecialResetpass',
 		'DeletedContributions'      => 'DeletedContributionsPage',
 		'Preferences'               => 'SpecialPreferences',
@@ -819,6 +819,18 @@ class SpecialPage {
 			$this->mLocalName = self::getLocalNameFor( $this->mName );
 		}
 		return $this->mLocalName;
+	}
+
+	/**
+	 * Is this page expensive (for some definition of expensive)?
+	 * Expensive pages are disabled or cached in miser mode.  Originally used
+	 * (and still overridden) by QueryPage and subclasses, moved here so that
+	 * Special:SpecialPages can safely call it for all special pages.
+	 *
+	 * @return Boolean
+	 */
+	public function isExpensive() {
+		return false;
 	}
 
 	/**

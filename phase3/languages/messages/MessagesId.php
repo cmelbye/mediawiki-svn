@@ -777,6 +777,7 @@ Anda dapat mengabaikan pesan ini jika akun ini dibuat karena suatu kesalahan.',
 'usernamehasherror'          => 'Nama pengguna tidak bisa mengandung tanda pagar',
 'login-throttled'            => 'Anda telah berkali-kali mencoba masuk log.
 Silakan menunggu sebelum mencoba lagi.',
+'login-abort-generic'        => 'Proses masuk Anda tidak berhasil - Dibatalkan',
 'loginlanguagelabel'         => 'Bahasa: $1',
 'suspicious-userlogout'      => 'Permintaan Anda untuk keluar log ditolak karena tampaknya dikirim oleh penjelajah yang rusak atau proksi penyinggah.',
 
@@ -940,6 +941,7 @@ Jika masih tetap tidak berhasil, cobalah [[Special:UserLogout|keluar log]] dan m
 'token_suffix_mismatch'            => "'''Suntingan Anda ditolak karena aplikasi klien Anda mengubah karakter tanda baca pada suntingan.'''
 Suntingan tersebut ditolak untuk mencegah kesalahan pada teks halaman.
 Hal ini kadang terjadi jika Anda menggunakan layanan proxy anonim berbasis web yang bermasalah.",
+'edit_form_incomplete'             => "'''Beberapa bagian dari formulir suntingan tidak mencapai server; periksa ulang apakah suntingan Anda tetap utuh dan coba lagi.'''",
 'editing'                          => 'Menyunting $1',
 'editingsection'                   => 'Menyunting $1 (bagian)',
 'editingcomment'                   => 'Menyunting $1 (bagian baru)',
@@ -1061,7 +1063,7 @@ Kemungkinan telah dihapus dari wiki, atau diberi nama baru.
 Coba [[Special:Search|lakukan pencarian di wiki]] untuk halaman baru yang relevan.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(komentar dihapus)',
+'rev-deleted-comment'         => '(ringkasan suntingan dihapus)',
 'rev-deleted-user'            => '(nama pengguna dihapus)',
 'rev-deleted-event'           => '(isi dihapus)',
 'rev-deleted-user-contribs'   => '[nama pengguna atau alamat IP dihapus - suntingan disembunyikan pada daftar kontribusi]',
@@ -1712,6 +1714,8 @@ Jika Anda tetap ingin memuatkan berkas Anda, harap kembali dan gunakan nama lain
 'php-uploaddisabledtext'      => 'Pemuatan berkas dimatikan di PHP. Silakan cek pengaturan file_uploads.',
 'uploadscripted'              => 'Berkas ini mengandung HTML atau kode yang dapat diinterpretasikan dengan keliru oleh penjelajah web.',
 'uploadvirus'                 => 'Berkas tersebut mengandung virus! Rincian: $1',
+'uploadjava'                  => 'Berkas ini adalah berkas ZIP yang mengnadung berkas .class Java.
+Penggunggahan berkas Java tidak diperbolehkan karena dapat menyebabkan pengabaian batasan keamanan.',
 'upload-source'               => 'Berkas sumber',
 'sourcefilename'              => 'Nama berkas sumber:',
 'sourceurl'                   => 'URL sumber:',
@@ -1745,6 +1749,14 @@ Silakan hubungi salah seorang [[Special:ListUsers/sysop|pengurus]].',
 'upload-too-many-redirects' => 'URL mengandung terlalu banyak pengalihan',
 'upload-unknown-size'       => 'Ukuran tidak diketahui',
 'upload-http-error'         => 'Kesalahan HTTP terjadi: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Timbul galat saat membuka berkas untuk pengecekan ZIP.',
+'zip-wrong-format'    => 'Berkas yang diberikan bukanlah berkas ZIP.',
+'zip-bad'             => 'Berkas adalah berkas ZIP yang rusak atau tidak terbaca.
+Berkas tersebut tidak dapat diperiksa keamanannya dengan baik.',
+'zip-unsupported'     => 'Berkas ini adalah berkas ZIP yang menggunakan fitur ZIP yang tidak didukung oleh MediaWiki. 
+Berkas tersebut tidak dapat diperiksa keamanannya dengan baik.',
 
 # Special:UploadStash
 'uploadstash'          => 'Simpanan unggahan',
@@ -2379,9 +2391,10 @@ $1',
 'undelete-show-file-submit'    => 'Ya',
 
 # Namespace form on various pages
-'namespace'      => 'Ruang nama:',
-'invert'         => 'Balikkan pilihan',
-'blanknamespace' => '(Utama)',
+'namespace'             => 'Ruang nama:',
+'invert'                => 'Balikkan pilihan',
+'namespace_association' => 'Ruang nama terkait',
+'blanknamespace'        => '(Utama)',
 
 # Contributions
 'contributions'       => 'Kontribusi pengguna',
@@ -2436,7 +2449,6 @@ Catatan log pemblokiran terakhir tersedia di bawah ini sebagai rujukan:',
 'blockiptext'                     => 'Gunakan formulir di bawah untuk memblokir akses penulisan dari sebuah alamat IP atau pengguna tertentu.
 Ini hanya boleh dilakukan untuk mencegah vandalisme, dan sejalan dengan [[{{MediaWiki:Policy-url}}|kebijakan]].
 Masukkan alasan Anda di bawah (contoh, menuliskan nama halaman yang telah divandalisasi).',
-'ipaddress'                       => 'Alamat IP:',
 'ipadressorusername'              => 'Alamat IP atau nama pengguna:',
 'ipbexpiry'                       => 'Kedaluwarsa:',
 'ipbreason'                       => 'Alasan:',
@@ -2450,7 +2462,6 @@ Masukkan alasan Anda di bawah (contoh, menuliskan nama halaman yang telah divand
 ** Perilaku intimidasi/pelecehan
 ** Menyalahgunakan beberapa akun
 ** Nama pengguna tak layak',
-'ipbanononly'                     => 'Hanya blokir pengguna anonim',
 'ipbcreateaccount'                => 'Cegah pembuatan akun',
 'ipbemailban'                     => 'Cegah pengguna mengirimkan surel',
 'ipbenableautoblock'              => 'Blokir alamat IP terakhir yang digunakan pengguna ini secara otomatis, dan semua alamat berikutnya yang mereka coba gunakan untuk menyunting.',
@@ -2461,7 +2472,6 @@ Masukkan alasan Anda di bawah (contoh, menuliskan nama halaman yang telah divand
 'ipbotherreason'                  => 'Alasan lain/tambahan:',
 'ipbhidename'                     => 'Sembunyikan nama pengguna dari suntingan dan daftar',
 'ipbwatchuser'                    => 'Pantau halaman pengguna dan pembicaraan pengguna ini',
-'ipballowusertalk'                => 'Izinkan pengguna ini untuk menyunting halaman pembicaraan sendiri ketika diblokir',
 'ipb-change-block'                => 'Blokir kembali pengguna dengan set konfigurasi berikut',
 'badipaddress'                    => 'Format alamat IP atau nama pengguna salah.',
 'blockipsuccesssub'               => 'Pemblokiran sukses',
@@ -2479,14 +2489,9 @@ Lihat [[Special:IPBlockList|Daftar IP]] untuk meninjau kembali pemblokiran.',
 'unblocked-id'                    => 'Blokir $1 telah dicabut',
 'ipblocklist'                     => 'Daftar pemblokiran alamat IP dan nama penguna',
 'ipblocklist-legend'              => 'Cari pengguna yang diblokir',
-'ipblocklist-username'            => 'Nama pengguna atau alamat IP:',
-'ipblocklist-sh-userblocks'       => '$1 pemblokiran akun',
-'ipblocklist-sh-tempblocks'       => '$1 pemblokiran sementara',
-'ipblocklist-sh-addressblocks'    => '$1 pemblokiran IP tunggal',
 'ipblocklist-submit'              => 'Cari',
 'ipblocklist-localblock'          => 'Blok lokal',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|pemblokiran|pemblokiran}} lain',
-'blocklistline'                   => '$1, $2 memblokir $3 ($4)',
 'infiniteblock'                   => 'tak terbatas',
 'expiringblock'                   => 'kedaluwarsa pada $1 $2',
 'anononlyblock'                   => 'hanya pengguna anonim',
@@ -2939,7 +2944,6 @@ Jika dijalankan, sistem Anda akan berisiko terserang.",
 'file-nohires'         => '<small>Tak tersedia resolusi yang lebih tinggi.</small>',
 'svg-long-desc'        => 'Berkas SVG, nominal $1 × $2 piksel, besar berkas: $3',
 'show-big-image'       => 'Resolusi penuh',
-'show-big-image-thumb' => '<small>Ukuran pratayang ini: $1 × $2 piksel</small>',
 'file-info-gif-looped' => 'melingkar',
 'file-info-gif-frames' => '$1 {{PLURAL:$1||}}frame',
 'file-info-png-looped' => 'ulang',
@@ -3103,6 +3107,7 @@ Pranala-pranala selanjutnya pada baris yang sama dianggap sebagai pengecualian, 
 'exif-gpsareainformation'          => 'Nama wilayah GPS',
 'exif-gpsdatestamp'                => 'Tanggal GPS',
 'exif-gpsdifferential'             => 'Koreksi diferensial GPS',
+'exif-objectname'                  => 'Judul singkat',
 
 # EXIF attributes
 'exif-compression-1' => 'Tak terkompresi',
@@ -3494,14 +3499,15 @@ Gambar ditampilkan dalam resolusi penuh dan tipe lain berkas akan dibuka langsun
 Masukkan nama berkas tanpa prefiks "{{ns:file}}:"-nya.',
 
 # Special:FileDuplicateSearch
-'fileduplicatesearch'          => 'Pencarian berkas duplikat',
-'fileduplicatesearch-summary'  => 'Pencarian duplikat berkas berdasarkan nilai hash-nya.',
-'fileduplicatesearch-legend'   => 'Cari duplikat',
-'fileduplicatesearch-filename' => 'Nama berkas:',
-'fileduplicatesearch-submit'   => 'Cari',
-'fileduplicatesearch-info'     => '$1 × $2 piksel<br />Besar berkas: $3<br />Tipe MIME: $4',
-'fileduplicatesearch-result-1' => 'Berkas "$1" tidak memiliki duplikat identik.',
-'fileduplicatesearch-result-n' => 'Berkas "$1" memiliki {{PLURAL:$2|1 duplikat identik|$2 duplikat identik}}.',
+'fileduplicatesearch'           => 'Pencarian berkas duplikat',
+'fileduplicatesearch-summary'   => 'Pencarian duplikat berkas berdasarkan nilai hash-nya.',
+'fileduplicatesearch-legend'    => 'Cari duplikat',
+'fileduplicatesearch-filename'  => 'Nama berkas:',
+'fileduplicatesearch-submit'    => 'Cari',
+'fileduplicatesearch-info'      => '$1 × $2 piksel<br />Besar berkas: $3<br />Tipe MIME: $4',
+'fileduplicatesearch-result-1'  => 'Berkas "$1" tidak memiliki duplikat identik.',
+'fileduplicatesearch-result-n'  => 'Berkas "$1" memiliki {{PLURAL:$2|1 duplikat identik|$2 duplikat identik}}.',
+'fileduplicatesearch-noresults' => 'Tidak ditemukan berkas dengan nama "$1".',
 
 # Special:SpecialPages
 'specialpages'                   => 'Halaman istimewa',

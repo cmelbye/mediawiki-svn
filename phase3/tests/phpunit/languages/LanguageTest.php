@@ -58,4 +58,34 @@ class LanguageTest extends MediaWikiTestCase {
 			'formatTimePeriod() rounding (>=1h)'
 		);
 	}
+
+	/**
+	 * Test Language::isValidBuiltInCode()
+	 * @dataProvider provideLanguageCodes
+	 */
+	function testBuiltInCodeValidation( $code, $message = '' ) {
+		$this->assertTrue(
+			(bool) Language::isValidBuiltInCode( $code ),
+			"validating code $code $message"
+		);
+	}
+
+	function testBuiltInCodeValidationRejectUnderscore() {
+		$this->assertFalse(
+			(bool) Language::isValidBuiltInCode( 'be_tarask' ),
+			"reject underscore in language code"
+		);
+	}
+
+	function provideLanguageCodes() {
+		return array(
+			array( 'fr'       , 'Two letters, minor case' ),
+			array( 'EN'       , 'Two letters, upper case' ),
+			array( 'tyv'      , 'Three letters' ),
+			array( 'tokipona'   , 'long language code' ),
+			array( 'be-tarask', 'With dash' ),
+			array( 'Zh-classical', 'Begin with upper case, dash' ),
+			array( 'Be-x-old', 'With extension (two dashes)' ),
+		);
+	}
 }

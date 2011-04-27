@@ -274,9 +274,10 @@
 
 		/**
 		 * Checks wether the current page is the wiki's main page.
+		 * This function requires the document to be ready!
 		 *
 		 * @param alsoRelated Boolean value, if true this function also returns true if the current page is
-		 * in a different namespace page of the main page rather than the main page itself (eg. talk page)
+		 * in an associated namespace page of the main page rather than the main page itself (eg. talk page)
 		 * @return Boolean
 		 */
 		'isMainPage' : function( alsoRelated ) {
@@ -344,7 +345,7 @@
 				return null;
 			}
 			// Setup the anchor tag
-			var $link = $( '<a />' ).attr( 'href', href ).text( text );
+			var $link = $( '<a></a>' ).attr( 'href', href ).text( text );
 			if ( tooltip ) {
 				$link.attr( 'title', tooltip );
 			}
@@ -373,11 +374,11 @@
 				if ( $ul.length === 0 ) {
 					// If there's no <div> inside, append it to the portlet directly
 					if ( $portlet.find( 'div:first' ).length === 0 ) {
-						$portlet.append( '<ul/>' );
+						$portlet.append( '<ul></ul>' );
 					} else {
 						// otherwise if there's a div (such as div.body or div.pBody)
 						// append the <ul> to last (most likely only) div
-						$portlet.find( 'div' ).eq( -1 ).append( '<ul/>' );
+						$portlet.find( 'div' ).eq( -1 ).append( '<ul></ul>' );
 					}
 					// Select the created element
 					$ul = $portlet.find( 'ul' ).eq( 0 );
@@ -392,7 +393,7 @@
 
 				// Wrap the anchor tag in a <span> and create a list item for it
 				// and back up the selector to the list item
-				var $item = $link.wrap( '<li><span /></li>' ).parent().parent();
+				var $item = $link.wrap( '<li><span></span></li>' ).parent().parent();
 
 				// Implement the properties passed to the function
 				if ( id ) {
@@ -544,6 +545,32 @@
 					'i'
 				);
 			return (null !== mailtxt.match( HTML5_email_regexp ) );
+		},
+		// Note: borrows from IP::isIPv4
+		'isIPv4Address' : function( address, allowBlock ) {
+			var block = allowBlock ? '(?:\\/(?:3[0-2]|[12]?\\d))?' : '';
+			var RE_IP_BYTE = '(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|0?[0-9]?[0-9])';
+			var RE_IP_ADD = '(?:' + RE_IP_BYTE + '\\.){3}' + RE_IP_BYTE;
+			return address.search( new RegExp( '^' + RE_IP_ADD + block + '$' ) ) != -1;
+		},
+		// Note: borrows from IP::isIPv6
+		'isIPv6Address' : function( address, allowBlock ) {
+			var block = allowBlock ? '(?:\\/(?:12[0-8]|1[01][0-9]|[1-9]?\\d))?' : '';
+			var RE_IPV6_ADD =
+			'(?:' + // starts with "::" (including "::")
+			':(?::|(?::' + '[0-9A-Fa-f]{1,4}' + '){1,7})' +
+			'|' + // ends with "::" (except "::")
+			'[0-9A-Fa-f]{1,4}' + '(?::' + '[0-9A-Fa-f]{1,4}' + '){0,6}::' +
+			'|' + // contains no "::"
+			'[0-9A-Fa-f]{1,4}' + '(?::' + '[0-9A-Fa-f]{1,4}' + '){7}' +
+			')';
+			if ( address.search( new RegExp( '^' + RE_IPV6_ADD + block + '$' ) ) != -1 ) {
+				return true;
+			}
+			RE_IPV6_ADD = // contains one "::" in the middle (single '::' check below)
+				'[0-9A-Fa-f]{1,4}' + '(?:::?' + '[0-9A-Fa-f]{1,4}' + '){1,6}';
+			return address.search( new RegExp( '^' + RE_IPV6_ADD + block + '$' ) ) != -1
+				&& address.search( /::/ ) != -1 && address.search( /::.*::/ ) == -1;
 		}
 
 	};

@@ -580,8 +580,8 @@ $1',
 'toc'                     => 'Tartalomjegyzék',
 'showtoc'                 => 'megjelenítés',
 'hidetoc'                 => 'elrejtés',
-'collapsible-collapse'    => 'kinyit',
-'collapsible-expand'      => 'becsuk',
+'collapsible-collapse'    => 'becsuk',
+'collapsible-expand'      => 'kinyit',
 'thisisdeleted'           => '$1 megtekintése vagy helyreállítása?',
 'viewdeleted'             => '$1 megtekintése',
 'restorelink'             => '{{PLURAL:$1|Egy|$1}} törölt szerkesztés',
@@ -2458,7 +2458,6 @@ A blokknapló legutóbbi ide vonatkozó bejegyzése a következő:',
 'blockiptext'                     => 'Az alábbi űrlap segítségével megvonhatod egy szerkesztő vagy IP-cím szerkesztési jogait.
 Ügyelj rá, hogy az intézkedésed mindig legyen tekintettel a vonatkozó [[{{MediaWiki:Policy-url}}|irányelvekre]].
 Add meg a blokkolás okát is (például idézd a blokkolandó személy által vandalizált lapokat).',
-'ipaddress'                       => 'IP-cím',
 'ipadressorusername'              => 'IP-cím vagy felhasználói név',
 'ipbexpiry'                       => 'Lejárat:',
 'ipbreason'                       => 'Ok:',
@@ -2471,7 +2470,6 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 ** Megfélemlítő viselkedés, zaklatás
 ** Több szerkesztői fiókkal való visszaélés
 ** Elfogadhatatlan azonosító',
-'ipbanononly'                     => 'Csak anonim felhasználók blokkolása',
 'ipbcreateaccount'                => 'Új regisztráció megakadályozása',
 'ipbemailban'                     => 'E-mailt se tudjon küldeni',
 'ipbenableautoblock'              => 'A szerkesztő által használt IP-címek automatikus blokkolása',
@@ -2482,7 +2480,6 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'ipbotherreason'                  => 'Más/további ok:',
 'ipbhidename'                     => 'A felhasználónév ne jelenjen meg a szerkesztéseknél és a listákban',
 'ipbwatchuser'                    => 'A felhasználó lapjának és vitalapjának figyelése',
-'ipballowusertalk'                => 'A szerkesztő módosíthatja saját vitalapját a blokkolás ideje alatt',
 'ipb-change-block'                => 'Blokk beállításainak megváltoztatása',
 'badipaddress'                    => 'Érvénytelen IP-cím',
 'blockipsuccesssub'               => 'Sikeres blokkolás',
@@ -2500,14 +2497,9 @@ Add meg a blokkolás okát is (például idézd a blokkolandó személy által v
 'unblocked-id'                    => '$1 blokkolása feloldásra került',
 'ipblocklist'                     => 'Blokkolt IP-címek és felhasználónevek listája',
 'ipblocklist-legend'              => 'Blokkolt felhasználó keresése',
-'ipblocklist-username'            => 'Felhasználónév vagy IP-cím:',
-'ipblocklist-sh-userblocks'       => 'felhasználói fiókok blokkjainak $1',
-'ipblocklist-sh-tempblocks'       => 'ideiglenes blokkok $1',
-'ipblocklist-sh-addressblocks'    => 'egy IP-címre vonatkozó blokkok $1',
 'ipblocklist-submit'              => 'Keresés',
 'ipblocklist-localblock'          => 'Helyi blokk',
 'ipblocklist-otherblocks'         => 'További {{PLURAL:$1|blokk|blokkok}}',
-'blocklistline'                   => '$1, $2 blokkolta $3 felhasználót ($4)',
 'infiniteblock'                   => 'végtelen',
 'expiringblock'                   => 'lejárat: $1 $2',
 'anononlyblock'                   => 'csak anon.',
@@ -2598,6 +2590,16 @@ A lap '''nem''' nevezhető át, ha már van egy ugyanilyen című lap, hacsak ne
 Ez azt jelenti, hogy vissza tudsz nevezni egy tévedésből átnevezett lapot, és nem tudsz egy már létező lapot véletlenül felülírni.
 
 '''FIGYELEM!'''
+Népszerű oldalak esetén ez drasztikus és nem várt változtatás lehet;
+győződj meg a folytatás előtt arról, hogy tisztában vagy-e a következményekkel.",
+'movepagetext-noredirectfixer' => "↓ Az alábbi űrlap használatával nevezhetsz át egy lapot, és helyezheted át teljes laptörténetét az új nevére.
+A régi cím az új címre való átirányítás lesz.
+Ellenőrizd a [[Special:DoubleRedirects|dupla]] és a [[Special:BrokenRedirects|hibás átirányításoknál]], hogy a linkek továbbra is oda mutatnak, ahová mutatniuk kell.
+
+A lap '''nem''' nevezhető át, ha már van egy ugyanilyen című lap, hacsak nem üres, vagy átirányítás, aminek nincs laptörténete.
+Ez azt jelenti, hogy vissza tudsz nevezni egy tévedésből átnevezett lapot, de nem tudsz egy már létező lapot véletlenül felülírni.
+
+'''Figyelem!'''
 Népszerű oldalak esetén ez drasztikus és nem várt változtatás lehet;
 győződj meg a folytatás előtt arról, hogy tisztában vagy-e a következményekkel.",
 'movepagetalktext'             => "A laphoz tartozó vitalap automatikusan átneveződik, '''kivéve, ha:'''
@@ -2959,7 +2961,6 @@ A futtatása során kárt tehet a számítógépedben.",
 'file-nohires'         => '<small>Nem érhető el nagyobb felbontású változat.</small>',
 'svg-long-desc'        => 'SVG fájl, névlegesen $1 × $2 képpont, fájlméret: $3',
 'show-big-image'       => 'A kép nagyfelbontású változata',
-'show-big-image-thumb' => '<small>Az előnézet mérete: $1 × $2 képpont</small>',
 'file-info-gif-looped' => 'ismétlődik',
 'file-info-gif-frames' => '{{PLURAL:$1|egy|$1}} képkocka',
 'file-info-png-looped' => 'ismétlődik',

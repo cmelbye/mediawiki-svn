@@ -61,6 +61,7 @@
  * @author Toniher
  * @author Translationista
  * @author Urhixidur
+ * @author VegaDark
  * @author Wilfredor
  * @author XalD
  * @author לערי ריינהארט
@@ -89,6 +90,12 @@ $namespaceAliases = array(
 	'Imagen' => NS_FILE,
 	'Imagen_Discusión' => NS_FILE_TALK,
 );
+
+$namespaceGenderAliases = array(
+	NS_USER => array( 'male' => 'Usuario', 'female' => 'Usuaria' ),
+	NS_USER_TALK => array( 'male' => 'Usuario_Discusión', 'female' => 'Usuaria_Discusión' ),
+);
+
 
 $specialPageAliases = array(
 	'DoubleRedirects'           => array( 'RedireccionesDobles', 'Redirecciones_dobles' ),
@@ -2483,7 +2490,6 @@ A continuación se muestra la última entrada del registro de bloqueos para mayo
 'blockiptext'                     => 'Usa el siguiente formulario para bloquear el acceso de escritura desde una dirección IP específica o nombre de usuario.
 Esto debería hacerse sólo para prevenir vandalismos, y de acuerdo a las [[{{MediaWiki:Policy-url}}|políticas]].
 Explica la razón específica del bloqueo (por ejemplo, citando las páginas en particular que han sido objeto de vandalismo).',
-'ipaddress'                       => 'Dirección IP:',
 'ipadressorusername'              => 'Dirección IP o nombre de usuario',
 'ipbexpiry'                       => 'Caduca dentro de',
 'ipbreason'                       => 'Motivo:',
@@ -2496,7 +2502,6 @@ Explica la razón específica del bloqueo (por ejemplo, citando las páginas en 
 ** Comportamiento intimidatorio u hostil
 ** Abusar de múltiples cuentas
 ** Nombre de usuario inaceptable',
-'ipbanononly'                     => 'Bloquear sólo usuarios anónimos',
 'ipbcreateaccount'                => 'Prevenir la creación de cuentas de usuario',
 'ipbemailban'                     => 'Prevenir que el usuario envíe correo electrónico',
 'ipbenableautoblock'              => 'Bloquear automáticamente la dirección IP usada por este usuario y cualquier IP posterior desde la cual intente editar',
@@ -2507,7 +2512,6 @@ Explica la razón específica del bloqueo (por ejemplo, citando las páginas en 
 'ipbotherreason'                  => 'Otra razón:',
 'ipbhidename'                     => 'Ocultar nombre de usuario de ediciones y listas',
 'ipbwatchuser'                    => 'Vigilar las páginas de usuario y de discusión de este usuario',
-'ipballowusertalk'                => 'Permitir a este usuario editar su propia página de discusión mientras está bloqueado',
 'ipb-change-block'                => 'Rebloquear al usuario con estos datos',
 'badipaddress'                    => 'La dirección IP no tiene el formato correcto.',
 'blockipsuccesssub'               => 'Bloqueo realizado con éxito',
@@ -2525,14 +2529,9 @@ Véase la [[Special:IPBlockList|lista de bloqueos]] para revisarlo.',
 'unblocked-id'                    => 'Se ha eliminado el bloqueo $1',
 'ipblocklist'                     => 'Lista de direcciones IP y nombres de usuario bloqueadas',
 'ipblocklist-legend'              => 'Encontrar a un usuario bloqueado',
-'ipblocklist-username'            => 'Nombre de usuario o dirección IP:',
-'ipblocklist-sh-userblocks'       => '$1 bloqueos de cuentas',
-'ipblocklist-sh-tempblocks'       => '$1 bloqueos temporales',
-'ipblocklist-sh-addressblocks'    => '$1 bloqueos de una sola dirección IP',
 'ipblocklist-submit'              => 'Buscar',
 'ipblocklist-localblock'          => 'Bloqueo local',
 'ipblocklist-otherblocks'         => 'Otros {{PLURAL:$1|bloqueo| bloqueos}}',
-'blocklistline'                   => '$1, $2 bloqueó a $3 ($4)',
 'infiniteblock'                   => 'infinito',
 'expiringblock'                   => 'expira el $1 a las $2',
 'anononlyblock'                   => 'sólo anón.',
@@ -2763,7 +2762,7 @@ Todas las importaciones transwiki se registran en el [[Special:Log/import|regist
 'import-interwiki-namespace' => 'Espacio de nombres de destino:',
 'import-upload-filename'     => 'Nombre de archivo:',
 'import-comment'             => 'Comentario:',
-'importtext'                 => 'Por favor, exporta el archivo desde el wiki de origen usando la [[Special:Export|herramienta de exportación]], grábelo en tu disco y súbelo aquí.',
+'importtext'                 => 'Por favor, exporta el archivo desde el wiki de origen usando la [[Special:Export|herramienta de exportación]], grábalo en tu disco y súbelo aquí.',
 'importstart'                => 'Importando páginas...',
 'import-revision-count'      => '$1 {{PLURAL:$1|revisión|revisiones}}',
 'importnopages'              => 'No hay páginas que importar.',
@@ -2993,7 +2992,6 @@ Ejecutarlo podría comprometer la seguridad de su equipo.",
 'file-nohires'         => '<small>No disponible a mayor resolución.</small>',
 'svg-long-desc'        => 'archivo SVG, nominalmente $1 × $2 píxeles, tamaño de archivo: $3',
 'show-big-image'       => 'Resolución original',
-'show-big-image-thumb' => '<small>Tamaño de esta vista previa: $1 × $2 píxeles</small>',
 'file-info-gif-looped' => 'bucleado',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|frame|frames}}',
 'file-info-png-looped' => 'bucleado',

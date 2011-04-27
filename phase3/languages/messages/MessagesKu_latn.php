@@ -1441,7 +1441,6 @@ Ji bo jêbirinan û çêkirinên nuh ra, xêra xwe di [[Special:Log/delete|reşa
 Ev bes gireke were bikaranîn ji bo vandalîzmê biskinîne (bi vê [[{{MediaWiki:Policy-url}}|qebûlkirinê]]).
 
 Sedemekê binivîse!',
-'ipaddress'                   => "adresê IP'yekê",
 'ipadressorusername'          => "adresê IP'yekê ya navekî bikarhênerekî",
 'ipbexpiry'                   => 'Dem:',
 'ipbreason'                   => 'Sedem',
@@ -1455,7 +1454,6 @@ Sedemekê binivîse!',
 ** heqaretkirin
 ** pir accounts dikaranîn
 ** navekî pîs',
-'ipbanononly'                 => 'Bes bikarhênerî veşartî astengbike (bikarhênerên qeydkirî bi vê IP-adresê ne tên astengkirin).',
 'ipbcreateaccount'            => "Çêkirina account'an qedexebike.",
 'ipbemailban'                 => 'Şandinê E-Nameyan qedexe bike.',
 'ipbenableautoblock'          => "Otomatîk IP'yên niha û yên nuh yê vê bikarhênerê astengbike.",
@@ -1482,10 +1480,7 @@ Sedemekê binivîse!',
 'unblocked-id'                => '$1 dîsa vê astengkirinê ye',
 'ipblocklist'                 => "Listek ji adresên IP'yan û bikarhêneran yê hatine astengkirin",
 'ipblocklist-legend'          => 'Bikarhênerekî astengkirî bibîne',
-'ipblocklist-username'        => "Navî bikarhêner ya adrêsa IP'yê:",
-'ipblocklist-sh-tempblocks'   => 'Astengkirinên niha $1',
 'ipblocklist-submit'          => 'Lêbigere',
-'blocklistline'               => '$1, $2 $3 asteng kir ($4)',
 'infiniteblock'               => 'ji her demê ra',
 'expiringblock'               => 'heta $1 $2',
 'anononlyblock'               => 'bes kesên netên zanîn',
@@ -1760,15 +1755,14 @@ if (wgUserLanguage == "ku-arab")
 'nextdiff'     => 'Ciyawaziya paştir →',
 
 # Media information
-'thumbsize'            => "Mezinbûna thunbnail'ê:",
-'widthheight'          => '$1 x $2',
-'widthheightpage'      => '$1×$2, $3 rûpel',
-'file-info'            => 'mezinbûnê data: $1, MIME-typ: $2',
-'file-info-size'       => '$1 × $2 pixel, mezinbûnê data: $3, MIME-typ: $4',
-'file-nohires'         => '<small>Versyonekî jê mezintir tune.</small>',
-'svg-long-desc'        => "Data'ya SVG, mezinbûna rast: $1 × $2 pixel; mezinbûna data'yê: $3",
-'show-big-image'       => 'Mezînbûn',
-'show-big-image-thumb' => '<small>Mezinbûna vê pêşnîşandanê: $1 × $2 pixel</small>',
+'thumbsize'       => "Mezinbûna thunbnail'ê:",
+'widthheight'     => '$1 x $2',
+'widthheightpage' => '$1×$2, $3 rûpel',
+'file-info'       => 'mezinbûnê data: $1, MIME-typ: $2',
+'file-info-size'  => '$1 × $2 pixel, mezinbûnê data: $3, MIME-typ: $4',
+'file-nohires'    => '<small>Versyonekî jê mezintir tune.</small>',
+'svg-long-desc'   => "Data'ya SVG, mezinbûna rast: $1 × $2 pixel; mezinbûna data'yê: $3",
+'show-big-image'  => 'Mezînbûn',
 
 # Special:NewFiles
 'newimages'             => 'Pêşangeha wêneyên nû',

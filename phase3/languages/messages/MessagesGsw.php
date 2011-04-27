@@ -599,6 +599,7 @@ Bitte gib ä neiji Adress in nem gültige Format ii, odr tue s Feld leere.',
 Wänn s Benutzerkonto us Versäh aaglait woren isch, chasch die Nochricht ignoriere.',
 'usernamehasherror'          => 'In Benutzernäme derf s kei Rautezeiche din haa',
 'login-throttled'            => 'Du hesch z vilmol vergebli versuecht, Di aazmälde. Bitte wart, voreb Du s non emol versuechsch.',
+'login-abort-generic'        => 'Dyy Aamäldig isch nit erfolgryych gsii – Abbroche',
 'loginlanguagelabel'         => 'Sproch: $1',
 'suspicious-userlogout'      => 'Dyy Versuech di abzmälde isch abbroche wore, wel s uusgsäh het, wie wänn s vun eme bschedigte Browser oder eme Cacheproxy uus gsändet woren isch.',
 
@@ -887,7 +888,7 @@ Erklärig: (aktuell) = Underschid zu jetz,
 'history-feed-empty'          => 'Di aagforderet Syte git s nid. Villicht isch si glescht oder verschobe wore. [[Special:Search|Suech]] {{SITENAME}} fir neji Syte, wu passe.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(Bearbeitigskommentar uusegnuh)',
+'rev-deleted-comment'         => '(Zämmefassig uusegnuh)',
 'rev-deleted-user'            => '(Benutzername uusegnuh)',
 'rev-deleted-event'           => '(Logbuechaktion uusegnuh)',
 'rev-deleted-user-contribs'   => '[Benutzername oder IP-Adräss uusegnuu - Bearbeitig in dr Byytragslischt versteckt]',
@@ -2211,9 +2212,10 @@ $1',
 'undelete-show-file-submit'    => 'Jo',
 
 # Namespace form on various pages
-'namespace'      => 'Namensruum:',
-'invert'         => 'Uswahl umkehre',
-'blanknamespace' => '(Haupt-)',
+'namespace'             => 'Namensruum:',
+'invert'                => 'Uswahl umkehre',
+'namespace_association' => 'Zuegordnete Namensruum',
+'blanknamespace'        => '(Haupt-)',
 
 # Contributions
 'contributions'       => 'Benutzer-Byträg',
@@ -2267,7 +2269,6 @@ Do chunnt dr aktuäll Yytrag us em Benutzersperr-Logbuech:',
 'blockip-legend'                  => 'IP-Adräss/Benutzer sperre',
 'blockiptext'                     => 'Nimm des Formular go ne Benutzer oder e IP-Adräss sperre.
 Des sott numme erfolge go Vandalismus verhindere un in Ibereinstimmig mit in dr [[{{MediaWiki:Policy-url}}|Leitlinie]]. Bitte gib au ne Grund fi d Sperri aa (z. B. indäm du einzel ni Syte zitiersch, wu vandaliert wore sin).',
-'ipaddress'                       => 'IP-Adräss oder Benutzername:',
 'ipadressorusername'              => 'IP-Adräss oder Benutzername:',
 'ipbexpiry'                       => 'Sperrduur:',
 'ipbreason'                       => 'Grund:',
@@ -2282,7 +2283,6 @@ Des sott numme erfolge go Vandalismus verhindere un in Ibereinstimmig mit in dr 
 ** Neijaamäldig vun eme uubschränkt gsperrte Benutzer
 * IP-spezifischi Sperrgrind
 ** Proxy, wäge Vandalismus vu einzelne Benutzer lengerfrischtig gsperrt',
-'ipbanononly'                     => 'Nume anonymi Benutzer sperre',
 'ipbcreateaccount'                => 'Aalege vu Benutzerchonte verhindere',
 'ipbemailban'                     => 'E-Mail-Versand sperre',
 'ipbenableautoblock'              => 'Sperr di aktuäll vu däm Benutzer brucht IP-Adräss un automatisch alli wytere, wun er nimmt go Syte bearbeite oder Benutzerchonte aalege',
@@ -2293,7 +2293,6 @@ Des sott numme erfolge go Vandalismus verhindere un in Ibereinstimmig mit in dr 
 'ipbotherreason'                  => 'Anderi/zuesätzligi Begrindig:',
 'ipbhidename'                     => 'Benutzername in dr Lischt vu aktive Sperrine un im Benutzerverzeichnis verstecke.',
 'ipbwatchuser'                    => 'Benutzer(diskussions)syte beobachte',
-'ipballowusertalk'                => 'Benutzer derf di eige Diskussionssyte bearbeite derwylscht er gsperrt isch',
 'ipb-change-block'                => 'Nomol sperre mit däne Sperrparameter',
 'badipaddress'                    => 'D IP-Adräss het e falsch Format.',
 'blockipsuccesssub'               => 'Mit Erfolg gsperrt',
@@ -2311,14 +2310,9 @@ Go d Sperri ufhebe lueg d [[Special:IPBlockList|Lisch vu allene aktive Sperrine]
 'unblocked-id'                    => 'Sperr-ID $1 isch freijgee wore',
 'ipblocklist'                     => 'Liste vo blockierten IP-Adrässen u Benutzernäme',
 'ipblocklist-legend'              => 'Suech no eme gsperrte Benutzer',
-'ipblocklist-username'            => 'Benutzername oder IP-Adräss:',
-'ipblocklist-sh-userblocks'       => 'Benutzersperrine $1',
-'ipblocklist-sh-tempblocks'       => 'Befrischteti Sperrine $1',
-'ipblocklist-sh-addressblocks'    => 'IP-Sperrine $1',
 'ipblocklist-submit'              => 'Sueche',
 'ipblocklist-localblock'          => 'Lokali Sperri',
 'ipblocklist-otherblocks'         => 'Anderi {{PLURAL:$1|Sperri|Sperrine}}',
-'blocklistline'                   => '$1, $2 het $3 ($4) gsperrt',
 'infiniteblock'                   => 'uubegränzt',
 'expiringblock'                   => 'hert uf am $1 am $2',
 'anononlyblock'                   => 'nume Anonymi',
@@ -2726,7 +2720,6 @@ $1',
 'file-nohires'         => '<small>Kei höcheri Uflösig verfüegbar.</small>',
 'svg-long-desc'        => 'SVG-Datei, Basisgrößi: $1 × $2 Pixel, Dateigrößi: $3',
 'show-big-image'       => 'Originalgrößi',
-'show-big-image-thumb' => '<small>Größi vo dere Vorschou: $1 × $2 Pixel</small>',
 'file-info-gif-looped' => 'Ändlosschlupf',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|Ramme|Ramme}}',
 'file-info-png-looped' => 'Ändlosschlupf',
@@ -3247,8 +3240,9 @@ D Yygab muess ohni dr Zuesatz „{{ns:file}}:“ erfolge.',
 # Special:SpecialPages
 'specialpages'                   => 'Spezialsytene',
 'specialpages-note'              => '----
-* D Spezialsyte für alli
-* <strong class="mw-specialpagerestricted">d Spezialsyte für d Benutzer mit bsundri Rächt</strong>',
+* Reguläri Spezialsyte
+* <span class="mw-specialpagerestricted">Zuegriffsbschränkti Spezialsyte</span>
+* <span class="mw-specialpagecached">Cachegenerierti Spezialsyte</span>',
 'specialpages-group-maintenance' => 'Wartigslischte',
 'specialpages-group-other'       => 'Andri Spezialsyte',
 'specialpages-group-login'       => 'Aamälde',

@@ -441,6 +441,21 @@ abstract class ApiQueryBase extends ApiBase {
 	}
 
 	/**
+	 * Gets the personalised direction parameter description
+	 *
+	 * @param string $p ModulePrefix
+	 * @param string $extraDirText Any extra text to be appended on the description
+	 * @return array
+	 */
+	public function getDirectionDescription( $p = '', $extraDirText = '' ) {
+		return array(
+				"In which direction to enumerate{$extraDirText}",
+				" newer          - List oldest first. Note: {$p}start has to be before {$p}end.",
+				" older          - List newest first (default). Note: {$p}start has to be later than {$p}end.",
+			);
+	}
+
+	/**
 	 * @param $query String
 	 * @param $protocol String
 	 * @return null|string
@@ -464,6 +479,36 @@ abstract class ApiQueryBase extends ApiBase {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Filters hidden users (where the user doesn't have the right to view them)
+	 * Also adds relevant block information
+	 *
+	 * @param bool $showBlockInfo
+	 * @return void
+	 */
+	public function showHiddenUsersAddBlockInfo( $showBlockInfo ) {
+		global $wgUser;
+		$userCanViewHiddenUsers = $wgUser->isAllowed( 'hideuser' );
+
+		if ( $showBlockInfo || !$userCanViewHiddenUsers ) {
+			$this->addTables( 'ipblocks' );
+			$this->addJoinConds( array(
+				'ipblocks' => array( 'LEFT JOIN', 'ipb_user=user_id' ),
+			) );
+
+			$this->addFields( 'ipb_deleted' );
+
+			if ( $showBlockInfo ) {
+				$this->addFields( array( 'ipb_reason', 'ipb_by_text', 'ipb_expiry' ) );
+			}
+
+			// Don't show hidden names
+			if ( !$userCanViewHiddenUsers ) {
+				$this->addWhere( 'ipb_deleted = 0 OR ipb_deleted IS NULL' );
+			}
+		}
 	}
 
 	public function getPossibleErrors() {

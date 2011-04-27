@@ -686,19 +686,6 @@ class Sanitizer {
 		}
 
 		if ( $wgAllowMicrodataAttributes ) {
-			# There are some complicated validity constraints we need to
-			# enforce here.  First of all, we don't want to allow non-standard
-			# itemtypes.
-			$allowedTypes = array(
-				'http://microformats.org/profile/hcard',
-				'http://microformats.org/profile/hcalendar#vevent',
-				'http://n.whatwg.org/work',
-			);
-			if ( isset( $out['itemtype'] ) && !in_array( $out['itemtype'],
-			$allowedTypes ) ) {
-				# Kill everything
-				unset( $out['itemscope'] );
-			}
 			# itemtype, itemid, itemref don't make sense without itemscope
 			if ( !array_key_exists( 'itemscope', $out ) ) {
 				unset( $out['itemtype'] );
@@ -1106,7 +1093,8 @@ class Sanitizer {
 	 * for XML and XHTML specifically. Any stray bits will be
 	 * &amp;-escaped to result in a valid text fragment.
 	 *
-	 * a. any named char refs must be known in XHTML
+	 * a. named char refs can only be &lt; &gt; &amp; &quot;, others are
+	 *   numericized (this way we're well-formed even without a DTD)
 	 * b. any numeric char refs must be legal chars, not invalid or forbidden
 	 * c. use &#x, not &#X
 	 * d. fix or reject non-valid attributes
@@ -1143,9 +1131,10 @@ class Sanitizer {
 
 	/**
 	 * If the named entity is defined in the HTML 4.0/XHTML 1.0 DTD,
-	 * return the named entity reference as is. If the entity is a
-	 * MediaWiki-specific alias, returns the HTML equivalent. Otherwise,
-	 * returns HTML-escaped text of pseudo-entity source (eg &amp;foo;)
+	 * return the equivalent numeric entity reference (except for the core &lt;
+	 * &gt; &amp; &quot;). If the entity is a MediaWiki-specific alias, returns
+	 * the HTML equivalent. Otherwise, returns HTML-escaped text of
+	 * pseudo-entity source (eg &amp;foo;)
 	 *
 	 * @param $name String
 	 * @return String
@@ -1154,8 +1143,11 @@ class Sanitizer {
 		global $wgHtmlEntities, $wgHtmlEntityAliases;
 		if ( isset( $wgHtmlEntityAliases[$name] ) ) {
 			return "&{$wgHtmlEntityAliases[$name]};";
-		} elseif( isset( $wgHtmlEntities[$name] ) ) {
+		} elseif ( in_array( $name,
+		array( 'lt', 'gt', 'amp', 'quot' ) ) ) {
 			return "&$name;";
+		} elseif ( isset( $wgHtmlEntities[$name] ) ) {
+			return "&#{$wgHtmlEntities[$name]};";
 		} else {
 			return "&amp;$name;";
 		}

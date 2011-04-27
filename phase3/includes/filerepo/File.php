@@ -66,6 +66,11 @@ abstract class File {
 	var $lastError, $redirected, $redirectedTitle;
 
 	/**
+	 * @var MediaHandler
+	 */
+	protected $handler;
+
+	/**
 	 * Call this constructor from child classes
 	 */
 	function __construct( $title, $repo ) {
@@ -133,10 +138,10 @@ abstract class File {
 	 * Split an internet media type into its two components; if not
 	 * a two-part name, set the minor type to 'unknown'.
 	 *
-	 * @param $mime "text/html" etc
+	 * @param string $mime "text/html" etc
 	 * @return array ("text", "html") etc
 	 */
-	static function splitMime( $mime ) {
+	public static function splitMime( $mime ) {
 		if( strpos( $mime, '/' ) !== false ) {
 			return explode( '/', $mime, 2 );
 		} else {
@@ -1122,23 +1127,8 @@ abstract class File {
 
 	/**
 	 * Get the HTML text of the description page, if available
-	 * For local files ImagePage does not use it, because it skips the parser cache.
 	 */
 	function getDescriptionText() {
-		if( $this->isLocal() ) {
-			global $wgParser;
-			$revision = Revision::newFromTitle( $this->title );
-			if ( !$revision ) {
-				return false;
-			}
-			$text = $revision->getText();
-			if ( !$text ) {
-				return false;
-			}
-			$pout = $wgParser->parse( $text, $this->title, new ParserOptions() );
-			return $pout->getText();
-		}
-
 		global $wgMemc, $wgLang;
 		if ( !$this->repo->fetchDescription ) {
 			return false;

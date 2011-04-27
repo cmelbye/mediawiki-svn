@@ -208,11 +208,11 @@ $messages = array(
 
 'underline-always'  => 'Sentiasa',
 'underline-never'   => 'Jangan',
-'underline-default' => 'Pelayar asal',
+'underline-default' => 'Lalaian pelayar',
 
 # Font style option in Special:Preferences
 'editfont-style'     => 'Gaya fon ruang sunting:',
-'editfont-default'   => 'Pelayar asal',
+'editfont-default'   => 'Lalaian pelayar',
 'editfont-monospace' => 'Fon monospace',
 'editfont-sansserif' => 'Fon sans-serif',
 'editfont-serif'     => 'Fon serif',
@@ -398,7 +398,7 @@ Sila tunggu sebentar sebelum cuba mencapai laman ini lagi.
 $1',
 'pool-timeout'      => 'Menunggu sebentar untuk dikunci',
 'pool-queuefull'    => 'Giliran kolam telah penuh',
-'pool-errorunknown' => 'Ralat yang tidak diketahui',
+'pool-errorunknown' => 'Ralat tak diketahui',
 
 # All link text and link target definitions of links into project namespace that get used by other message strings, with the exception of user group pages (see grouppage) and the disambiguation template definition (see disambiguations).
 'aboutsite'            => 'Perihal {{SITENAME}}',
@@ -413,7 +413,7 @@ $1',
 'edithelppage'         => 'Help:Menyunting',
 'helppage'             => 'Help:Kandungan',
 'mainpage'             => 'Laman Utama',
-'mainpage-description' => 'Laman Utama',
+'mainpage-description' => 'Laman utama',
 'policy-url'           => 'Project:Dasar',
 'portal'               => 'Portal masyarakat',
 'portal-url'           => 'Project:Portal Masyarakat',
@@ -560,7 +560,7 @@ Akaun anda telah dibuka. Jangan lupa untuk mengubah [[Special:Preferences|keutam
 'yourname'                   => 'Nama pengguna:',
 'yourpassword'               => 'Kata laluan:',
 'yourpasswordagain'          => 'Ulangi kata laluan:',
-'remembermypassword'         => '↓ Ingat kata laluan saya dalam komputer ini (maximum of $1 {{PLURAL:$1|hari|hari}})',
+'remembermypassword'         => 'Ingat log masuk saya pada pelayar ini (tidak melebihi $1 {{PLURAL:$1|hari|hari}})',
 'securelogin-stick-https'    => 'Kekal disambungkan ke HTTPS selepas log masuk',
 'yourdomainname'             => 'Domain anda:',
 'externaldberror'            => 'Berlaku ralat pangkalan data bagi pengesahan luar atau anda tidak dibenarkan mengemaskinikan akaun luar anda.',
@@ -924,7 +924,7 @@ Mungkin ia telah dihapuskan atau namanya telah ditukar.
 Cuba [[Special:Search|cari]] laman lain yang mungkin berkaitan.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(komen dibuang)',
+'rev-deleted-comment'         => '(ringkasan suntingan dibuang)',
 'rev-deleted-user'            => '(nama pengguna dibuang)',
 'rev-deleted-event'           => '(entri dibuang)',
 'rev-deleted-user-contribs'   => '[nama pengguna atau alamat IP dibuang - suntingan disembunyikan daripada sumbangan]',
@@ -1569,6 +1569,8 @@ Jika anda memiliki imej ini dalam leraian penuh, sila muat naik fail tersebut. S
 'php-uploaddisabledtext'      => 'Pemuatnaikan fail PHP dilumpuhkan. Sila semak tetapan file_uploads.',
 'uploadscripted'              => 'Fail ini mengandungi kod HTML atau skrip yang boleh disalahtafsirkan oleh pelayar web.',
 'uploadvirus'                 => 'Fail tersebut mengandungi virus! Butiran: $1',
+'uploadjava'                  => 'Fail ini ialah fail ZIP yang mengandungi fail .class Java.
+Memuat naik fail Java tidak dibenarkan, kerana boleh menyebabkan sekatan keselamatan dipintas.',
 'upload-source'               => 'Fail sumber',
 'sourcefilename'              => 'Nama fail sumber:',
 'sourceurl'                   => 'URL sumber:',
@@ -1602,6 +1604,14 @@ Sila hubungi [[Special:ListUsers/sysop|pentadbir sistem]].',
 'upload-too-many-redirects' => 'URL ini mengandungi terlalu banyak lencongan',
 'upload-unknown-size'       => 'Saiz tidak diketahui',
 'upload-http-error'         => 'Berlaku ralat HTTP: $1',
+
+# ZipDirectoryReader
+'zip-file-open-error' => 'Wujud ralat ketika membuka fail untuk pemeriksaan ZIP.',
+'zip-wrong-format'    => 'Fail yang dinyatakan bukan fail ZIP.',
+'zip-bad'             => 'Fail ini adalah fail ZIP rosak atau tidak dapat dibaca.
+Ia tidak dapat diperiksa dengan betul demi keselamatan.',
+'zip-unsupported'     => 'Fail ini adalah fail ZIP yang menggunakan ciri-ciri ZIP tidak disokong oleh MediaWiki. 
+Ia tidak dapat diperiksa dengan betul demi keselamatan.',
 
 # Special:UploadStash
 'uploadstash'          => 'Sorokan muat naik',
@@ -1783,11 +1793,12 @@ Penerangan pada [$2 laman penerangan failnya] di sana ditunjukkan di bawah.',
 'disambiguationspage'  => 'Template:disambig',
 'disambiguations-text' => "Laman-laman berikut mengandungi pautan ke '''laman penyahtaksaan'''. Pautan ini sepatutnya ditujukan kepada topik yang sepatutnya.<br />Sesebuah laman dianggap sebagai laman penyahtaksaan jika ia menggunakan templat yang dipaut dari [[MediaWiki:Disambiguationspage]]",
 
-'doubleredirects'            => 'Lencongan berganda',
-'doubleredirectstext'        => 'Yang berikut ialah senarai laman yang melencong ke laman lencongan lain. Setiap baris mengandungi pautan ke laman lencongan pertama dan kedua, serta baris pertama bagi teks lencongan kedua, lazimnya merupakan laman sasaran "sebenar", yang sepatutnya ditujui oleh lencongan pertama.
+'doubleredirects'                   => 'Lencongan berganda',
+'doubleredirectstext'               => 'Yang berikut ialah senarai laman yang melencong ke laman lencongan lain. Setiap baris mengandungi pautan ke laman lencongan pertama dan kedua, serta baris pertama bagi teks lencongan kedua, lazimnya merupakan laman sasaran "sebenar", yang sepatutnya ditujui oleh lencongan pertama.
 Masukan yang <del>dipotong</del> telah diselesaikan.',
-'double-redirect-fixed-move' => '[[$1]] dilencongkan ke [[$2]]',
-'double-redirect-fixer'      => 'Pembaiki lencongan',
+'double-redirect-fixed-move'        => '[[$1]] dilencongkan ke [[$2]]',
+'double-redirect-fixed-maintenance' => 'Membetulkan dwilecongan daripada [[$1]] kepada [[$2]].',
+'double-redirect-fixer'             => 'Pembaiki lencongan',
 
 'brokenredirects'        => 'Lencongan rosak',
 'brokenredirectstext'    => 'Lencongan-lencongan berikut menuju ke laman yang tidak wujud:',
@@ -2243,9 +2254,10 @@ $1',
 'undelete-show-file-submit'    => 'Ya',
 
 # Namespace form on various pages
-'namespace'      => 'Ruang nama:',
-'invert'         => 'Kecualikan pilihan',
-'blanknamespace' => '(Utama)',
+'namespace'             => 'Ruang nama:',
+'invert'                => 'Kecualikan pilihan',
+'namespace_association' => 'Ruang nama berkaitan',
+'blanknamespace'        => '(Utama)',
 
 # Contributions
 'contributions'       => 'Sumbangan',
@@ -2302,7 +2314,6 @@ Tindakan ini perlu dilakukan untuk menentang vandalisme sahaja dan selaras
 dengan [[{{MediaWiki:Policy-url}}|dasar {{SITENAME}}]].
 Sila masukkan sebab sekatan di bawah (umpamannya, sebutkan laman yang telah
 dirosakkan).',
-'ipaddress'                       => 'Alamat IP:',
 'ipadressorusername'              => 'Alamat IP atau nama pengguna:',
 'ipbexpiry'                       => 'Tempoh:',
 'ipbreason'                       => 'Sebab:',
@@ -2315,7 +2326,6 @@ dirosakkan).',
 ** Mengugut/mengganggu pengguna lain
 ** Menyalahgunakan berbilang akaun
 ** Nama pengguna yang tidak sesuai',
-'ipbanononly'                     => 'Sekat pengguna tanpa nama sahaja',
 'ipbcreateaccount'                => 'Tegah pembukaan akaun',
 'ipbemailban'                     => 'Halang pengguna tersebut daripada mengirim e-mel',
 'ipbenableautoblock'              => 'Sekat alamat IP terakhir dan mana-mana alamat berikutnya yang digunakan oleh pengguna ini secara automatik',
@@ -2326,7 +2336,6 @@ dirosakkan).',
 'ipbotherreason'                  => 'Sebab tambahan/lain:',
 'ipbhidename'                     => 'Sembunyikan nama pengguna daripada senarai suntingan dan pengguna',
 'ipbwatchuser'                    => 'Pantau laman pengguna dan laman perbincangan bagi pengguna ini',
-'ipballowusertalk'                => 'Benarkan pengguna ini menyunting laman perbincangannya sendiri ketika disekat',
 'ipb-change-block'                => 'Sekat semula pengguna tersebut dengan tetapan ini',
 'badipaddress'                    => 'Alamat IP tidak sah',
 'blockipsuccesssub'               => 'Sekatan berjaya',
@@ -2344,14 +2353,9 @@ dirosakkan).',
 'unblocked-id'                    => 'Sekatan $1 telah dibuang',
 'ipblocklist'                     => 'Alamat IP dan nama pengguna yang disekat',
 'ipblocklist-legend'              => 'Cari pengguna yang disekat',
-'ipblocklist-username'            => 'Nama pengguna atau alamat IP:',
-'ipblocklist-sh-userblocks'       => '$1 sekatan akaun',
-'ipblocklist-sh-tempblocks'       => '$1 sekatan sementara',
-'ipblocklist-sh-addressblocks'    => '$1 sekatan IP tunggal',
 'ipblocklist-submit'              => 'Cari',
 'ipblocklist-localblock'          => 'Sekatan tempatan',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Sekatan|Sekatan-sekatan}} lain',
-'blocklistline'                   => '$1, $2 menyekat $3 ($4)',
 'infiniteblock'                   => 'selama-lamanya',
 'expiringblock'                   => 'sehingga $1 pada $2',
 'anononlyblock'                   => 'pengguna tanpa nama sahaja',
@@ -2787,7 +2791,6 @@ Dengan menjalankannya, komputer anda mungkin akan terjejas.",
 'file-nohires'         => '<small>Tiada leraian lebih besar.</small>',
 'svg-long-desc'        => 'Fail SVG, ukuran dasar $1 × $2 piksel, saiz fail: $3',
 'show-big-image'       => 'Leraian penuh',
-'show-big-image-thumb' => '<small>Saiz pratonton ini: $1 × $2 piksel</small>',
 'file-info-gif-looped' => 'berulang',
 'file-info-gif-frames' => '$1 bingkai',
 'file-info-png-looped' => 'berulang',
@@ -3323,7 +3326,8 @@ Sila masukkan nama fail tanpa awalan "{{ns:file}}:".',
 'specialpages'                   => 'Laman khas',
 'specialpages-note'              => '----
 * Laman khas biasa.
-* <strong class="mw-specialpagerestricted">Laman khas terhad.</strong>',
+* <span class="mw-specialpagerestricted">Laman khas terhad.</span>
+* <span class="mw-specialpagecached">Laman khas cache-sahaja.</span>',
 'specialpages-group-maintenance' => 'Laporan penyenggaraan',
 'specialpages-group-other'       => 'Laman khas lain',
 'specialpages-group-login'       => 'Log masuk / daftar',

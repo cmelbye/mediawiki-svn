@@ -826,6 +826,7 @@ Pokud byl účet vytvořen omylem, považujte tuto zprávu za bezpředmětnou.',
 'usernamehasherror'          => 'Uživatelské jméno nemůže obsahovat znak mřížka (#)',
 'login-throttled'            => 'Provedli jste příliš mnoho pokusů o přihlášení.
 Počkejte chvíli, než to zkusíte znovu.',
+'login-abort-generic'        => 'Vaše přihlášení se nezdařilo – přerušeno',
 'loginlanguagelabel'         => 'Jazyk: $1',
 'suspicious-userlogout'      => 'Váš požadavek na odhlášení byl odmítnut, neboť to vypadá, že ho poslal rozbitý prohlížeč nebo cachující proxy.',
 
@@ -1103,7 +1104,7 @@ Mohla být smazána či přejmenována.
 Zkuste [[Special:Search|hledání]].',
 
 # Revision deletion
-'rev-deleted-comment'         => '(komentář odstraněn)',
+'rev-deleted-comment'         => '(shrnutí editace odstraněno)',
 'rev-deleted-user'            => '(uživatelské jméno odstraněno)',
 'rev-deleted-event'           => '(záznam odstraněn)',
 'rev-deleted-user-contribs'   => '[uživatelské jméno nebo IP adresa odstraněny – editace v příspěvcích skryta]',
@@ -1630,7 +1631,7 @@ Tuto operaci nelze vrátit zpět.',
 'rclistfrom'                        => 'Ukázat nové změny, počínaje od $1',
 'rcshowhideminor'                   => '$1 malé editace',
 'rcshowhidebots'                    => '$1 roboty',
-'rcshowhideliu'                     => '$1 přihlášené uživatele',
+'rcshowhideliu'                     => '$1 registrované uživatele',
 'rcshowhideanons'                   => '$1 anonymní uživatele',
 'rcshowhidepatr'                    => '$1 prověřené editace',
 'rcshowhidemine'                    => '$1 moje editace',
@@ -2436,9 +2437,10 @@ $1',
 'undelete-show-file-submit'    => 'Ano',
 
 # Namespace form on various pages
-'namespace'      => 'Jmenný prostor:',
-'invert'         => 'Obrátit výběr',
-'blanknamespace' => '(Hlavní)',
+'namespace'             => 'Jmenný prostor:',
+'invert'                => 'Obrátit výběr',
+'namespace_association' => 'Související jmenný prostor',
+'blanknamespace'        => '(Hlavní)',
 
 # Contributions
 'contributions'       => 'Příspěvky uživatele',
@@ -2493,7 +2495,6 @@ Zde je pro přehled zobrazen nejnovější záznam z knihy zablokování:',
 'blockiptext'                     => 'Tento formulář slouží k zablokování editací z konkrétní IP adresy nebo uživatelského jména.
 Toto by mělo být používáno jen v souladu s [[{{MediaWiki:Policy-url}}|pravidly]].
 Udejte přesný důvod níže (například ocitujte, které stránky byly poškozeny).',
-'ipaddress'                       => 'IP adresa:',
 'ipadressorusername'              => 'IP adresa nebo uživatelské jméno:',
 'ipbexpiry'                       => 'Čas vypršení:',
 'ipbreason'                       => 'Důvod:',
@@ -2506,7 +2507,6 @@ Udejte přesný důvod níže (například ocitujte, které stránky byly poško
 ** Zastrašování nebo vyhrožování
 ** Zneužívání více účtů
 ** Nevhodné uživatelské jméno',
-'ipbanononly'                     => 'Zablokovat pouze anonymní uživatele',
 'ipbcreateaccount'                => 'Nedovolit registraci nových uživatelů',
 'ipbemailban'                     => 'Bránit uživateli v posílání e-mailů',
 'ipbenableautoblock'              => 'Automaticky blokovat IP adresy používané tímto uživatelem',
@@ -2517,7 +2517,6 @@ Udejte přesný důvod níže (například ocitujte, které stránky byly poško
 'ipbotherreason'                  => 'Jiný/další důvod:',
 'ipbhidename'                     => 'Skrýt uživatelské jméno u editací a v seznamech',
 'ipbwatchuser'                    => 'Sledovat uživatelskou a diskusní stranu tohoto uživatele',
-'ipballowusertalk'                => 'Umožnit tomuto uživateli i při zablokování editovat svou diskusní stránku',
 'ipb-change-block'                => 'Znovu zablokovat uživatele s tímto nastavením',
 'badipaddress'                    => 'Neplatná IP adresa',
 'blockipsuccesssub'               => 'Zablokování uspělo',
@@ -2535,14 +2534,9 @@ Můžete si prohlédnout [[Special:IPBlockList|seznam zablokovaných uživatelů
 'unblocked-id'                    => 'Blok $1 byl zrušen',
 'ipblocklist'                     => 'Blokované IP adresy a uživatelská jména',
 'ipblocklist-legend'              => 'Hledat zablokovaného uživatele',
-'ipblocklist-username'            => 'Jméno nebo IP adresa:',
-'ipblocklist-sh-userblocks'       => '$1 zablokované účty',
-'ipblocklist-sh-tempblocks'       => '$1 dočasná zablokování',
-'ipblocklist-sh-addressblocks'    => '$1 blokování jedné IP adresy',
 'ipblocklist-submit'              => 'Hledat',
 'ipblocklist-localblock'          => 'Místní zablokování',
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Jiné zablokování|Jiná zablokování}}',
-'blocklistline'                   => '$1 $2 zablokoval $3 ($4)',
 'infiniteblock'                   => 'do odvolání',
 'expiringblock'                   => 'do $1, $2',
 'anononlyblock'                   => 'jen anonymové',
@@ -2999,7 +2993,6 @@ Otevřením souboru můžete ohrozit svůj počítač.",
 'file-nohires'         => '<small>Větší rozlišení není k dispozici.</small>',
 'svg-long-desc'        => 'soubor SVG, nominální rozměr: $1 × $2 pixelů, velikost souboru: $3',
 'show-big-image'       => 'Obrázek ve vyšším rozlišení',
-'show-big-image-thumb' => '<small>Velikost tohoto náhledu je: $1 × $2 pixelů</small>',
 'file-info-gif-looped' => 've smyčce',
 'file-info-gif-frames' => '$1 {{PLURAL:$1|snímek|snímky|snímků}}',
 'file-info-png-looped' => 've smyčce',
@@ -3412,8 +3405,8 @@ Opravdu si přejete znovu tuto stránku založit?',
 'imgmultigoto'     => 'Jít na stranu $1',
 
 # Table pager
-'ascending_abbrev'         => 'vzestupně',
-'descending_abbrev'        => 'sestupně',
+'ascending_abbrev'         => 'vzest.',
+'descending_abbrev'        => 'sest.',
 'table_pager_next'         => 'Následující stránka',
 'table_pager_prev'         => 'Předchozí stránka',
 'table_pager_first'        => 'První stránka',
@@ -3567,7 +3560,7 @@ Jméno souboru vkládejte bez označení "{{ns:file}}:" .',
 
 # Special:FileDuplicateSearch
 'fileduplicatesearch'           => 'Hledání duplicitních souborů',
-'fileduplicatesearch-summary'   => 'Hledání duplicitních souborů vychází z hodnoty hashovací funkce.',
+'fileduplicatesearch-summary'   => 'Hledání duplicitních souborů podle jejich hašů.',
 'fileduplicatesearch-legend'    => 'Hledání duplikátů',
 'fileduplicatesearch-filename'  => 'Jméno souboru:',
 'fileduplicatesearch-submit'    => 'Hledat',
@@ -3580,7 +3573,8 @@ Jméno souboru vkládejte bez označení "{{ns:file}}:" .',
 'specialpages'                   => 'Speciální stránky',
 'specialpages-note'              => '----
 * Normální speciální stránky
-* <strong class="mw-specialpagerestricted">Speciální stránky s&nbsp;vyhrazeným přístupem</strong>',
+* <strong class="mw-specialpagerestricted">Speciální stránky s&nbsp;vyhrazeným přístupem</strong>
+* <strong class="mw-specialpagecached">Speciální stránky z&nbsp;cache</strong>',
 'specialpages-group-maintenance' => 'Údržba',
 'specialpages-group-other'       => 'Ostatní',
 'specialpages-group-login'       => 'Přihlašování / registrace',

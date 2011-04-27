@@ -5,6 +5,7 @@ return array(
 	/* Special resources who have their own classes */
 
 	'site' => array( 'class' => 'ResourceLoaderSiteModule' ),
+	'noscript' => array( 'class' => 'ResourceLoaderNoscriptModule' ),
 	'startup' => array( 'class' => 'ResourceLoaderStartUpModule' ),
 	'user' => array( 'class' => 'ResourceLoaderUserModule' ),
 	'user.options' => array( 'class' => 'ResourceLoaderUserOptionsModule' ),
@@ -382,6 +383,9 @@ return array(
 		'debugScripts' => 'resources/mediawiki/mediawiki.log.js',
 		'debugRaw' => false,
 	),
+	'mediawiki.htmlform' => array(
+		'scripts' => 'resources/mediawiki/mediawiki.htmlform.js',
+	),
 	'mediawiki.util' => array(
 		'scripts' => 'resources/mediawiki.util/mediawiki.util.js',
 		'dependencies' => array(
@@ -412,6 +416,12 @@ return array(
 		'scripts' => 'resources/mediawiki.action/mediawiki.action.watch.ajax.js',
 		'dependencies' => 'mediawiki.util',
 	),
+
+	/* Special pages */
+
+	'mediawiki.special' => array(
+		'styles' => 'resources/mediawiki.special/mediawiki.special.css',
+	),
 	'mediawiki.special.preferences' => array(
 		'scripts' => 'resources/mediawiki.special/mediawiki.special.preferences.js',
 		'styles' => 'resources/mediawiki.special/mediawiki.special.preferences.css',
@@ -424,6 +434,9 @@ return array(
 	'mediawiki.special.search' => array(
 		'scripts' => 'resources/mediawiki.special/mediawiki.special.search.js',
 	),
+	'mediawiki.special.block' => array(
+		'scripts' => 'resources/mediawiki.special/mediawiki.special.block.js',
+	),
 	'mediawiki.special.upload' => array(
 		// @TODO: merge in remainder of mediawiki.legacy.upload
 		'scripts' => 'resources/mediawiki.special/mediawiki.special.upload.js',
@@ -433,9 +446,11 @@ return array(
 			'size-kilobytes',
 			'size-megabytes',
 			'size-gigabytes',
+			'largefileserver',
 		),
 		'dependencies' => array( 'mediawiki.util.jpegmeta' ),
 	),
+
 	'mediawiki.language' => array(
 		'scripts' => 'resources/mediawiki.language/mediawiki.language.js',
 		'languageScripts' => array(
@@ -503,12 +518,6 @@ return array(
 		),
 		'dependencies' => 'mediawiki.legacy.wikibits',
 	),
-	'mediawiki.legacy.block' => array(
-		'scripts' => 'common/block.js',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
 	'mediawiki.legacy.commonPrint' => array(
 		'styles' => array( 'common/commonPrint.css' => array( 'media' => 'print' ) ),
 		'remoteBasePath' => $GLOBALS['wgStylePath'],
@@ -538,12 +547,6 @@ return array(
 	'mediawiki.legacy.history' => array(
 		'scripts' => 'common/history.js',
 		'group' => 'mediawiki.action.history',
-		'remoteBasePath' => $GLOBALS['wgStylePath'],
-		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => 'mediawiki.legacy.wikibits',
-	),
-	'mediawiki.legacy.htmlform' => array(
-		'scripts' => 'common/htmlform.js',
 		'remoteBasePath' => $GLOBALS['wgStylePath'],
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
 		'dependencies' => 'mediawiki.legacy.wikibits',
@@ -579,7 +582,7 @@ return array(
 		'scripts' => 'common/prefs.js',
 		'remoteBasePath' => $GLOBALS['wgStylePath'],
 		'localBasePath' => "{$GLOBALS['IP']}/skins",
-		'dependencies' => array( 'mediawiki.legacy.wikibits', 'mediawiki.legacy.htmlform' ),
+		'dependencies' => array( 'mediawiki.legacy.wikibits', 'mediawiki.htmlform' ),
 	),
 	'mediawiki.legacy.preview' => array(
 		'scripts' => 'common/preview.js',

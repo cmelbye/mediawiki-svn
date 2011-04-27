@@ -12,6 +12,7 @@
  * @author Fohanno
  * @author Fulup
  * @author Gwendal
+ * @author Gwenn-Ael
  * @author Malafaya
  * @author Y-M D
  * @author לערי ריינהארט
@@ -346,7 +347,7 @@ $messages = array(
 'vector-simplesearch-preference' => "Aotren ar c'hinnigoù klask gwellaet (gant Vektor nemetken)",
 'vector-view-create'             => 'Krouiñ',
 'vector-view-edit'               => 'Kemmañ',
-'vector-view-history'            => 'Sellet ouzh an istor',
+'vector-view-history'            => 'Gwelet an istor',
 'vector-view-view'               => 'Lenn',
 'vector-view-viewsource'         => 'Sellet ouzh tarzh an destenn',
 'actions'                        => 'Oberoù',
@@ -659,6 +660,7 @@ Na daolit ket evezh ouzh ar c\'hemenn-mañ m\'eo bet krouet ar gont dre fazi.',
 'usernamehasherror'          => "N'haller ket ober gant an arouezenn # en anvioù an implijerien",
 'login-throttled'            => "Betek re oc'h heus klasket kevreañ en aner.
 Gortozit a-raok klask en-dro.",
+'login-abort-generic'        => 'Dibosupl ho kevreañ - Dilezet',
 'loginlanguagelabel'         => 'Yezh : $1',
 'suspicious-userlogout'      => 'Distaolet eo bet ho koulenn digevreañ rak kaset e oa bet gant ur merdeer direizhet pe krubuilhadenn ur proksi, evit doare.',
 
@@ -1536,7 +1538,7 @@ S.o [[Special:NewFiles|rann ar skeudennoù nevez]] evit kaout ur sell gwiroc'h",
 'filestatus'                  => 'Statud ar gwirioù aozer:',
 'filesource'                  => 'Mammenn :',
 'uploadedfiles'               => 'Restroù karget',
-'ignorewarning'               => "Na ober van ouzh ar c'hemennoù diwall ha saveteiñ ar restr forzh penaos",
+'ignorewarning'               => 'Na ober van ouzh an evezhiadenn hag enrollañ ar restr forzh penaos',
 'ignorewarnings'              => "Na ober van ouzh ar c'hemennoù diwall",
 'minlength1'                  => 'Anv ar restroù a rank bezañ keit hag ul lizherenn da nebeutañ.',
 'illegalfilename'             => "Lakaet ez eus bet er restr « $1 » arouezennoù n'int ket aotreet evit titl ur bajenn. Mar plij, adanvit ar restr hag adkasit anezhi.",
@@ -2301,9 +2303,10 @@ $1',
 'undelete-show-file-submit'    => 'Ya',
 
 # Namespace form on various pages
-'namespace'      => 'Esaouenn anv :',
-'invert'         => 'Eilpennañ an dibab',
-'blanknamespace' => '(Pennañ)',
+'namespace'             => 'Esaouenn anv :',
+'invert'                => 'Eilpennañ an dibab',
+'namespace_association' => 'Esaouennoù anv all da ouzhpennañ',
+'blanknamespace'        => '(Pennañ)',
 
 # Contributions
 'contributions'       => 'Degasadennoù an implijer',
@@ -2358,7 +2361,6 @@ Dindan emañ merket enmont diwezhañ marilh ar stankadennoù, d'ho kelaouiñ :",
 'blockiptext'                     => "Grit gant ar furmskrid a-is evit stankañ ar moned skrivañ ouzh ur chomlec'h IP pe un implijer bennak.
 Seurt diarbennoù n'hallont bezañ kemeret nemet evit mirout ouzh ar vandalerezh hag a-du gant an [[{{MediaWiki:Policy-url}}|erbedadennoù ha reolennoù da heuliañ]].
 Roit a-is an abeg resis (o verkañ, da skouer, roll ar pajennoù bet graet gaou outo).",
-'ipaddress'                       => "Chomlec'h IP",
 'ipadressorusername'              => "Chomlec'h IP pe anv implijer",
 'ipbexpiry'                       => 'Pad ar stankadenn',
 'ipbreason'                       => 'Abeg :',
@@ -2371,7 +2373,7 @@ Roit a-is an abeg resis (o verkañ, da skouer, roll ar pajennoù bet graet gaou 
 ** Emzalc'h hegazus/handeus betek re
 ** Mont re bell gant implij meur a gont
 ** Anv implijer n'eo ket aotreet",
-'ipbanononly'                     => 'Stankañ an implijerien dianav hepken',
+'ipb-hardblock'                   => "Mirout a ra ouzh an implijerien kevreet da zegas kemmoù adalek ar c'homlec'h IP-mañ",
 'ipbcreateaccount'                => 'Mirout ouzh an implijer da grouiñ kontoù',
 'ipbemailban'                     => 'Mirout ouzh an implijer da gas posteloù',
 'ipbenableautoblock'              => "Stankañ war-eeun ar chomlec'h IP diwezhañ implijet gant an den-mañ hag an holl chomlec'hioù en deus klasket degas kemmoù drezo war-lerc'h",
@@ -2382,7 +2384,7 @@ Roit a-is an abeg resis (o verkañ, da skouer, roll ar pajennoù bet graet gaou 
 'ipbotherreason'                  => 'Abeg all/ouzhpenn',
 'ipbhidename'                     => "Kuzhat anv an implijer er rolloù hag er c'hemmoù",
 'ipbwatchuser'                    => 'Evezhiañ pajennoù implijer ha kaozeal an implijer-mañ',
-'ipballowusertalk'                => 'Aotren an implijer-mañ da zegas kemmoù war e bajenn gaozeal dezhañ e-unan pa vez stanket',
+'ipb-disableusertalk'             => 'Mirout ouzh an implijer-mañ da implijout e bajenn gaozeal dezhañ e-unan e-keit hag emañ stanket',
 'ipb-change-block'                => 'Adstankañ an implijer-mañ gant an hevelep arventennoù',
 'badipaddress'                    => "Kamm eo ar chomlec'h IP.",
 'blockipsuccesssub'               => 'Stankadenn deuet da benn vat',
@@ -2403,14 +2405,9 @@ Sellit ouzh [[Special:IPBlockList|roll ar chomlec\'hioù IP ha kontoù stanket]]
 'unblocked-id'                    => 'Distanket eo bet $1',
 'ipblocklist'                     => "Roll ar chomlec'hioù IP hag an anvioù kont stanket",
 'ipblocklist-legend'              => 'Kavout un implijer stanket',
-'ipblocklist-username'            => "Anv implijer pe chomlec'h IP :",
-'ipblocklist-sh-userblocks'       => "$1 stankadennoù ar c'hontoù",
-'ipblocklist-sh-tempblocks'       => '$1 ar stankadennoù dibad',
-'ipblocklist-sh-addressblocks'    => "$1 stankadennoù ar chomlec'hioù IP unan",
 'ipblocklist-submit'              => 'Klask',
 'ipblocklist-localblock'          => "Stankadenn lec'hel",
 'ipblocklist-otherblocks'         => '{{PLURAL:$1|Stankadenn|Stankadennoù}} all',
-'blocklistline'                   => '$1, $2 en/he deus stanket $3 ($4)',
 'infiniteblock'                   => 'da viken',
 'expiringblock'                   => "a zeu d'e dermen d'an $1 da $2",
 'anononlyblock'                   => 'implijerien dizanv hepken',
@@ -2429,8 +2426,8 @@ Setu aze an abeg(où) m\'eo bet stanket $1 : "$2$',
 'blocklogpage'                    => 'Roll ar stankadennoù',
 'blocklog-showlog'                => "Stanket eo bet an implijer-mañ c'hoazh. A-is emañ marilh ar stankadennoù, d'ho titouriñ :",
 'blocklog-showsuppresslog'        => "Stanket ha kuzhet eo bet an implijer-mañ c'hoazh. A-is emañ marilh ar diverkadennoù, d'ho titouriñ :",
-'blocklogentry'                   => 'stanket "[[$1]]" $2 $3',
-'reblock-logentry'                => "en deus kemmet arventennoù ar stankañ [[$1]] gant un termen d'an $2 $3",
+'blocklogentry'                   => 'en/he deus stanket [[$1]] betek an $2 $3',
+'reblock-logentry'                => "en deus kemmet an arventennoù stankañ evit [[$1]] gant un termen d'an $2 $3",
 'blocklogtext'                    => "Setu roud stankadennoù ha distankadennoù an implijerien. N'eo ket bet rollet ar chomlec'hioù IP bet stanket outo ent emgefre. Sellet ouzh [[Special:IPBlockList|roll an implijerien stanket]] evit gwelet piv zo stanket e gwirionez.",
 'unblocklogentry'                 => 'distanket "$1"',
 'block-log-flags-anononly'        => 'implijerien dizanv hepken',
@@ -2740,6 +2737,7 @@ Talvezout a ra da ouzhpennañ un displegadenn er c\'hombod diverrañ.',
 'vector.css'      => '/* Ar CSS lakaet amañ a dalvezo evit implijerien ar gwiskadur Vektor */',
 'print.css'       => '/* Ar CSS lakaet amañ a dalvezo evit ar moullañ */',
 'handheld.css'    => '/* Ar CSS lakaet amañ a dalvezo evit an ardivinkoù hezoug diouzh ar gwiskadur kefluniet e $wgHandheldStyle */',
+'noscript.css'    => "/* CSS lec'hiet amañ a raio gaou d'an implijerien o deus diweredekaet JavaScript */",
 
 # Scripts
 'common.js'      => '/* Forzh pe JavaScript amañ a vo karget evit an holl implijerien war kement pajenn lennet ganto. */',
@@ -2852,22 +2850,24 @@ $1',
 'nextdiff'     => "Stumm nevesoc'h →",
 
 # Media information
-'mediawarning'         => "'''Diwallit :''' Kodoù siek a c'hall bezañ er seurt restr-mañ.
+'mediawarning'           => "'''Diwallit :''' Kodoù siek a c'hall bezañ er seurt restr-mañ.
 Ma vez erounezet ganeoc'h e c'hallje tagañ ho reizhiad.",
-'imagemaxsize'         => "Bevenn ment vrasañ ar skeudennoù :<br />''(evit ar pajennoù deskrivañ)''",
-'thumbsize'            => 'Ment an alberz :',
-'widthheightpage'      => '$1×$2, $3 {{PLURAL:$3|pajenn|pajenn}}',
-'file-info'            => 'ment ar restr : $1, seurt MIME : $2',
-'file-info-size'       => '$1 × $2 piksel, ment ar restr : $3, seurt MIME : $4',
-'file-nohires'         => "<small>N'haller ket gwellaat ar pizhder.</small>",
-'svg-long-desc'        => 'restr SVG file, pizhder $1 × $2 piksel, ment ar restr : $3',
-'show-big-image'       => 'Pizhder leun',
-'show-big-image-thumb' => '<small>Ment ar rakweled-mañ : $1 × $2 piksel</small>',
-'file-info-gif-looped' => "e kelc'h",
-'file-info-gif-frames' => '$1 {{PLURAL:$1|skeudenn|skeudenn}}',
-'file-info-png-looped' => "e kelc'h",
-'file-info-png-repeat' => 'lennet $1 {{PLURAL:$1|wezh|gwezh}}',
-'file-info-png-frames' => '$1 {{PLURAL:$1|skeudenn|skeudenn}}',
+'imagemaxsize'           => "Bevenn ment vrasañ ar skeudennoù :<br />''(evit ar pajennoù deskrivañ)''",
+'thumbsize'              => 'Ment an alberz :',
+'widthheightpage'        => '$1×$2, $3 {{PLURAL:$3|pajenn|pajenn}}',
+'file-info'              => 'ment ar restr : $1, seurt MIME : $2',
+'file-info-size'         => '$1 × $2 piksel, ment ar restr : $3, seurt MIME : $4',
+'file-nohires'           => "<small>N'haller ket gwellaat ar pizhder.</small>",
+'svg-long-desc'          => 'restr SVG file, pizhder $1 × $2 piksel, ment ar restr : $3',
+'show-big-image'         => 'Pizhder leun',
+'show-big-image-preview' => '<small> Ment ar rakweled-mañ : $1.</small>',
+'show-big-image-other'   => '<small>Spiderioù all : $1.</small>',
+'show-big-image-size'    => '$1 × $2 piksel',
+'file-info-gif-looped'   => "e kelc'h",
+'file-info-gif-frames'   => '$1 {{PLURAL:$1|skeudenn|skeudenn}}',
+'file-info-png-looped'   => "e kelc'h",
+'file-info-png-repeat'   => 'lennet $1 {{PLURAL:$1|wezh|gwezh}}',
+'file-info-png-frames'   => '$1 {{PLURAL:$1|skeudenn|skeudenn}}',
 
 # Special:NewFiles
 'newimages'             => 'Roll ar restroù nevez',
@@ -3404,7 +3404,8 @@ Merkit anv ar restr hep ar rakger "{{ns:file}} :"',
 'specialpages'                   => 'Pajennoù dibar',
 'specialpages-note'              => '----
 * Pajennoù dibar boutin.
-* <strong class="mw-specialpagerestricted">Pajennoù dibar miret strizh.</strong>',
+* <span class="mw-specialpagerestricted">Pajennoù dibar miret strizh.</span>
+* <span class="mw-specialpagecached">Pajennoù dibar krubuilhet hepken.</span>',
 'specialpages-group-maintenance' => "Rentaoù-kont trezalc'h",
 'specialpages-group-other'       => 'Pajennoù dibar all',
 'specialpages-group-login'       => 'Kevreañ / en em enrollañ',

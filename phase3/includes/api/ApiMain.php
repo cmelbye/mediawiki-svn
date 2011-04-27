@@ -76,6 +76,7 @@ class ApiMain extends ApiBase {
 		'move' => 'ApiMove',
 		'edit' => 'ApiEditPage',
 		'upload' => 'ApiUpload',
+		'filerevert' => 'ApiFileRevert',
 		'emailuser' => 'ApiEmailUser',
 		'watch' => 'ApiWatch',
 		'patrol' => 'ApiPatrol',
@@ -561,7 +562,7 @@ class ApiMain extends ApiBase {
 				$this->dieUsageMsg( array( 'missingparam', 'token' ) );
 			} else {
 				global $wgUser;
-				if ( !$wgUser->matchEditToken( $moduleParams['token'], $salt ) ) {
+				if ( !$wgUser->matchEditToken( $moduleParams['token'], $salt, $this->getMain()->getRequest() ) ) {
 					$this->dieUsageMsg( array( 'sessionfailure' ) );
 				}
 			}

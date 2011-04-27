@@ -160,9 +160,9 @@ class ParserTest {
 
 		$wgEnableParserCache = false;
 		$wgDeferredUpdateList = array();
-		$wgMemc = &wfGetMainCache();
-		$messageMemc = &wfGetMessageCacheStorage();
-		$parserMemc = &wfGetParserCacheStorage();
+		$wgMemc = wfGetMainCache();
+		$messageMemc = wfGetMessageCacheStorage();
+		$parserMemc = wfGetParserCacheStorage();
 
 		// $wgContLang = new StubContLang;
 		$wgUser = new User;
@@ -683,7 +683,7 @@ class ParserTest {
 		$langObj = Language::factory( $lang );
 		$GLOBALS['wgLang'] = $langObj;
 		$GLOBALS['wgContLang'] = $langObj;
-		$GLOBALS['wgMemc'] = new FakeMemCachedClient;
+		$GLOBALS['wgMemc'] = new EmptyBagOStuff;
 		$GLOBALS['wgOut'] = new OutputPage;
 
 		global $wgHooks;

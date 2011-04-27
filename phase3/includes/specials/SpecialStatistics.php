@@ -41,6 +41,7 @@ class SpecialStatistics extends SpecialPage {
 		global $wgDisableCounters, $wgMiserMode;
 		
 		$this->setHeaders();
+		$wgOut->addModuleStyles( 'mediawiki.special' );
 	
 		$this->views = SiteStats::views();
 		$this->edits = SiteStats::edits();
@@ -198,13 +199,13 @@ class SpecialStatistics extends SpecialPage {
 			}
 			$groupname = htmlspecialchars( $group );
 			$msg = wfMsg( 'group-' . $groupname );
-			if ( wfEmptyMsg( 'group-' . $groupname, $msg ) || $msg == '' ) {
+			if ( wfEmptyMsg( 'group-' . $groupname ) || $msg == '' ) {
 				$groupnameLocalized = $groupname;
 			} else {
 				$groupnameLocalized = $msg;
 			}
 			$msg = wfMsgForContent( 'grouppage-' . $groupname );
-			if ( wfEmptyMsg( 'grouppage-' . $groupname, $msg ) || $msg == '' ) {
+			if ( wfEmptyMsg( 'grouppage-' . $groupname ) || $msg == '' ) {
 				$grouppageLocalized = MWNamespace::getCanonicalName( NS_PROJECT ) . ':' . $groupname;
 			} else {
 				$grouppageLocalized = $msg;

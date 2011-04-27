@@ -232,8 +232,8 @@ $messages = array(
 'tog-shownumberswatching'     => 'Битне күзәтү исемлекләренә өстәгән кулланучылар санын күрсәтелсен',
 'tog-oldsig'                  => 'Хәзерге имзаны алдан карау:',
 'tog-fancysig'                => 'Имзаның шәхси вики-билгеләмәсе (автоматик сылтамасыз)',
-'tog-externaleditor'          => 'Тышкы редактор куллану (компьютер махсус көйләнгән булу зарур)',
-'tog-externaldiff'            => 'Тышкы версия чагыштыру программасын куллану (компьютер махсус көйләнгән булу зарур)',
+'tog-externaleditor'          => 'Тышкы редактор куллану (бары тик белгечләргә генә һәм санак махсус көйләнгән булу зарур; [http://www.mediawiki.org/wiki/Manual:External_editors тулырак...])',
+'tog-externaldiff'            => 'Тышкы версия чагыштыру программасын куллану (бары тик белгечләр өчен һшм санак махсус көйләнгән булу зарур; [http://www.mediawiki.org/wiki/Manual:External_editors тулырак...])',
 'tog-showjumplinks'           => '«Күчү» ярдәмче сылтамалары ялгансын',
 'tog-uselivepreview'          => 'Тиз карап алу кулланылсын (JavaScript, эксперименталь)',
 'tog-forceeditsummary'        => 'Үзгәртүләрне тасвирлау юлы тутырылмаган булса, кисәтү',
@@ -961,7 +961,7 @@ $3 күрсәткән сәбәп: ''$2''",
 [[Special:Search|Эзләтеп]] карагыз.',
 
 # Revision deletion
-'rev-deleted-comment'         => '(фикер бетерелгән)',
+'rev-deleted-comment'         => '(үзгәртүләрнең тасвиры бетерелгән)',
 'rev-deleted-user'            => '(автор исеме бетерелгән)',
 'rev-deleted-event'           => '(язма бетерелгән)',
 'rev-deleted-user-contribs'   => '[кулланучының исеме яки  IP-юлламасы бетерелгән  — үзгәртү кертем битеннән яшерелгән]',
@@ -1370,13 +1370,13 @@ $3 күрсәткән сәбәп: ''$2''",
 'minlength1'                 => 'Файлның исеме бер генә хәрефтән булса да торырга тиеш.',
 'illegalfilename'            => 'файлның исеме  «$1»  куллануга ярамаган символлардан тора. Зинһар, файлның исемен алыштырыгыз һәм яңадан куеп карагыз.',
 'badfilename'                => 'Файлның исеме $1 исеменә үзгәртелде.',
-'filetype-mime-mismatch'     => 'Файлның кинәйтелмәсе аның MIME-төренә туры килми.',
+'filetype-mime-mismatch'     => 'Файлның кинәйтелмәсе «.$1» аның MIME-төренә туры килми ($2).',
 'filetype-badmime'           => 'MIME-төре «$1» булган файллар, йөкләнмәячәк.',
 'filetype-bad-ie-mime'       => 'Файлны йөкләргә мөмкин түгел, чөнки Internet Explorer аны «$1» дип кабул итәчәк.',
 'filetype-unwanted-type'     => "'''\".\$1\"''' — тыелган файл төре.
 {{PLURAL:\$3|Мөмкин булган файл төре булып|Мөмкин булган файл төре:}} \$2.",
-'filetype-banned-type'       => "'''\".\$1\"''' — тыелган файл төре.
-{{PLURAL:\$3|Киңәйтелгән файл төре булып|Киңәйтелгән  файл төре:}} \$2.",
+'filetype-banned-type'       => '\'\'\'".$1"\'\'\' — {{PLURAL:$4|тыелган файл төре|тыелган файллар төре}}.
+{{PLURAL:$3|Киңәйтелгән файл төре булып|Киңәйтелгән  файл төрләре:}} $2.',
 'filetype-missing'           => "Файлның киңәйтелмәсе юк ''(мәсәлән,«.jpg»)''.",
 'empty-file'                 => 'Сезнең тарафтан җибәрелгән файл буш.',
 'file-too-large'             => 'Сезнең тарафтан җибәрелгән файл артык зур.',
@@ -1421,6 +1421,9 @@ PICT # төрле
  #</pre> <!-- ничек бар шулай калдырыгыз -->',
 'upload-success-subj'        => 'Йөкләү әйбәт үтте',
 
+# HTTP errors
+'http-read-error' => 'HTTP укуда хата.',
+
 'license'            => 'Лицензиясе:',
 'license-header'     => 'Лицензиясе',
 'nolicense'          => 'Юк',
@@ -1464,6 +1467,7 @@ PICT # төрле
 'filepage-nofile-link'      => 'Мондый исемле файл  юк. Сез аны [$1 йөкли аласыз].',
 'uploadnewversion-linktext' => 'Бу файлның яңа юрамасын йөкләү',
 'shared-repo-from'          => '$1 дән',
+'shared-repo'               => 'гомуми саклагыч',
 
 # File reversion
 'filerevert'         => '$1 юрамасына кире кайту',
@@ -1480,6 +1484,7 @@ PICT # төрле
 
 # MIME search
 'mimesearch' => 'MIME эзләү',
+'mimetype'   => 'MIME-тип:',
 'download'   => 'йөкләү',
 
 # Unwatched pages
@@ -1590,17 +1595,19 @@ PICT # төрле
 'logempty'             => 'Кирәкле язмалар көндәлектә юк.',
 
 # Special:AllPages
-'allpages'       => 'Барлык битләр',
-'alphaindexline' => '$1 битеннән $2 битенә кадәр',
-'nextpage'       => 'Алдагы бит ($1)',
-'prevpage'       => 'Алдагы бит ($1)',
-'allpagesfrom'   => 'Моңа башланучы битләрне чыгару:',
-'allpagesto'     => 'Монда чыгаруны туктату:',
-'allarticles'    => 'Барлык битләр',
-'allpagesprev'   => 'Элекке',
-'allpagesnext'   => 'Киләсе',
-'allpagessubmit' => 'Башкару',
-'allpagesprefix' => 'Алкушымчалы битләрне күрсәтү:',
+'allpages'          => 'Барлык битләр',
+'alphaindexline'    => '$1 битеннән $2 битенә кадәр',
+'nextpage'          => 'Алдагы бит ($1)',
+'prevpage'          => 'Алдагы бит ($1)',
+'allpagesfrom'      => 'Моңа башланучы битләрне чыгару:',
+'allpagesto'        => 'Монда чыгаруны туктату:',
+'allarticles'       => 'Барлык битләр',
+'allinnamespace'    => '«$1» исемнәр мәйданындагы барлык битләр',
+'allnotinnamespace' => 'Барлык битләр («$1» исемнәр мәйданы исәпкә алынмады)',
+'allpagesprev'      => 'Алдагы',
+'allpagesnext'      => 'Киләсе',
+'allpagessubmit'    => 'Башкару',
+'allpagesprefix'    => 'Алкушымчалы битләрне күрсәтү:',
 
 # Special:Categories
 'categories'                    => 'Төркемнәр',
@@ -1719,6 +1726,7 @@ $UNWATCHURL
 'confirm'                => 'Раслау',
 'excontent'              => 'эчтәлек: «$1»',
 'excontentauthor'        => 'эчтәлеге: "$1" (бердәнбер үзгәртүче "[[Special:Contributions/$2|$2]]" иде)',
+'exbeforeblank'          => 'чистартуга кадәр булган эчтәлек: «$1»',
 'exblank'                => 'бит буш иде',
 'delete-confirm'         => '«$1» бетерү',
 'delete-legend'          => 'Бетерү',
@@ -1726,9 +1734,11 @@ $UNWATCHURL
 'confirmdeletetext'      => 'Сез бу битнең (яки рәсемнең) тулысынча бетерелүен сорадыгыз.
 Зинһар, моны чыннан да эшләргә теләгәнегезне, моның нәтиҗәләрен аңлаганыгызны һәм [[{{MediaWiki:Policy-url}}]] бүлегендәге кагыйдәләр буенча эшләгәнегезне раслагыз.',
 'actioncomplete'         => 'Гамәл башкарган',
+'actionfailed'           => 'Эш башкарылмаган',
 'deletedtext'            => '«<nowiki>$1</nowiki>» бетерелгән инде.<br />
 Соңгы бетерелгән битләрне күрер өчен, $2 карагыз.',
 'deletedarticle'         => '«[[$1]]» бетерелде',
+'suppressedarticle'      => '«[[$1]]» күрсәтелмәде',
 'dellogpage'             => 'Бетерү көндәлеге',
 'deletionlog'            => 'бетерү көндәлеге',
 'deletecomment'          => 'Сәбәп:',
@@ -1866,7 +1876,6 @@ $1',
 'blockip'                    => 'Кулланучыны тыю',
 'blockip-title'              => 'Кулланучыны тыю',
 'blockip-legend'             => 'Кулланучыны тыю',
-'ipaddress'                  => 'IP адресы:',
 'ipadressorusername'         => 'IP адресы яки кулланучы исеме:',
 'ipbexpiry'                  => 'Бетә:',
 'ipbreason'                  => 'Сәбәп:',
@@ -1891,7 +1900,6 @@ $1',
 'unblockip'                  => 'Кулланучыны тыюдан азат итү',
 'ipusubmit'                  => 'Бу тыюны туктату',
 'ipblocklist'                => 'Тыелган IP адреслары һәм кулланучы исемнәре',
-'ipblocklist-username'       => 'кулланучы исеме яки IP адресы:',
 'ipblocklist-submit'         => 'Эзләү',
 'infiniteblock'              => 'билгеле бер вакытсыз',
 'blocklink'                  => 'тыю',
@@ -2122,16 +2130,15 @@ $1',
 'nextdiff'     => 'Чираттагы үзгәртү →',
 
 # Media information
-'imagemaxsize'         => "Рәсемнең зурлыгына чикләүләр:<br />''(тасвирлау бите өчен)''",
-'thumbsize'            => 'Рәсемнең кечерәйтелгән юрамасы өчен:',
-'widthheight'          => '$1 × $2',
-'widthheightpage'      => '$1 × $2, $3{{PLURAL:$1|бит|битләр}}',
-'file-info'            => 'файл зурлыгы: $1, MIME-тип: $2',
-'file-info-size'       => '$1 × $2 нокта, файлның зурлыгы: $3, MIME тибы: $4',
-'file-nohires'         => '<small>Югары ачыклык белән юрама юк.</small>',
-'svg-long-desc'        => 'SVG файлы, шартлы $1 × $2 нокта, файлның зурлыгы: $3',
-'show-big-image'       => 'Тулы ачыклык',
-'show-big-image-thumb' => '<small>Алдан карау зурлыгы: $1 × $2 нокта</small>',
+'imagemaxsize'    => "Рәсемнең зурлыгына чикләүләр:<br />''(тасвирлау бите өчен)''",
+'thumbsize'       => 'Рәсемнең кечерәйтелгән юрамасы өчен:',
+'widthheight'     => '$1 × $2',
+'widthheightpage' => '$1 × $2, $3{{PLURAL:$1|бит|битләр}}',
+'file-info'       => 'файл зурлыгы: $1, MIME-тип: $2',
+'file-info-size'  => '$1 × $2 нокта, файлның зурлыгы: $3, MIME тибы: $4',
+'file-nohires'    => '<small>Югары ачыклык белән юрама юк.</small>',
+'svg-long-desc'   => 'SVG файлы, шартлы $1 × $2 нокта, файлның зурлыгы: $3',
+'show-big-image'  => 'Тулы ачыклык',
 
 # Special:NewFiles
 'newimages'        => 'Яңа сүрәтләр җыелмасы',
@@ -2244,12 +2251,29 @@ $1',
 'exif-gpsspeed'                 => 'Хәрәкәт тизлеге',
 'exif-gpsdatestamp'             => 'Дата',
 
+'exif-orientation-1' => 'Нормаль',
+'exif-orientation-3' => '180° ка борылган',
+
+'exif-meteringmode-0'   => 'Билгесез',
+'exif-meteringmode-3'   => 'Нокталы',
+'exif-meteringmode-4'   => 'Мультинокталы',
 'exif-meteringmode-255' => 'Башка',
 
-'exif-lightsource-0' => 'Билгесез',
-'exif-lightsource-9' => 'Яхшы һава торышы',
+'exif-lightsource-0'  => 'Билгесез',
+'exif-lightsource-4'  => 'Яктылык',
+'exif-lightsource-9'  => 'Яхшы һава торышы',
+'exif-lightsource-11' => 'Күләгә',
+
+'exif-scenecapturetype-0' => 'Стандарт',
+'exif-scenecapturetype-1' => 'Ландшафт',
+'exif-scenecapturetype-2' => 'Портрет',
+'exif-scenecapturetype-3' => 'Төнге төшерү',
 
 'exif-gaincontrol-0' => 'Юк',
+'exif-gaincontrol-1' => 'Аз зурайту',
+'exif-gaincontrol-2' => 'Күпләп зурайту',
+'exif-gaincontrol-3' => 'Аз кечерәйтү',
+'exif-gaincontrol-4' => 'Күпләп кечерәйтү',
 
 'exif-contrast-0' => 'Нормаль',
 'exif-contrast-1' => 'Аз гына күтәрү',
@@ -2267,6 +2291,17 @@ $1',
 'exif-subjectdistancerange-1' => 'Макротөшерү',
 'exif-subjectdistancerange-2' => 'Якыннан төшерү',
 'exif-subjectdistancerange-3' => 'Ерактан төшерү',
+
+# Pseudotags used for GPSLatitudeRef and GPSDestLatitudeRef
+'exif-gpslatitude-n' => 'төньяк киңлек',
+'exif-gpslatitude-s' => 'көньяк киңлек',
+
+# Pseudotags used for GPSLongitudeRef and GPSDestLongitudeRef
+'exif-gpslongitude-e' => 'көнчыгыш озынлык',
+'exif-gpslongitude-w' => 'көнбатыш озынлык',
+
+'exif-gpsstatus-a' => 'Үлчәү тәмамланмаган',
+'exif-gpsstatus-v' => 'Мәгълүматларны җибәрүгә әзер',
 
 # Pseudotags used for GPSSpeedRef
 'exif-gpsspeed-k' => 'км/сәг',
@@ -2303,6 +2338,7 @@ $1',
 'descending_abbrev'        => 'кимү',
 'table_pager_next'         => 'Киләсе бит',
 'table_pager_prev'         => 'Алдагы бит',
+'table_pager_first'        => 'Беренче бит',
 'table_pager_last'         => 'Ахыргы бит',
 'table_pager_limit_submit' => 'Башкару',
 'table_pager_empty'        => 'Нәтиҗә юк',
@@ -2330,6 +2366,7 @@ $1',
 
 # Special:Version
 'version'                   => 'Юрама',
+'version-extensions'        => 'Куелган киңәйтүләр',
 'version-specialpages'      => 'Махсус битләр',
 'version-other'             => 'Башка',
 'version-hook-subscribedby' => 'Түбәндәгеләргә язылган:',
@@ -2344,13 +2381,15 @@ $1',
 'filepath-submit' => 'Күчү',
 
 # Special:FileDuplicateSearch
+'fileduplicatesearch'        => 'Бер үк файлларны эзләү',
 'fileduplicatesearch-submit' => 'Эзләү',
 
 # Special:SpecialPages
 'specialpages'                   => 'Махсус битләр',
 'specialpages-note'              => '----
 * Гади махсус битләр.
-* <strong class="mw-specialpagerestricted">Чикләнелгән гади махсус битләр</strong>',
+* <strong class="mw-specialpagerestricted">Чикләнелгән махсус битләр.</strong>
+* <span class="mw-specialpagecached">Кешланган махсус битләр.</span>',
 'specialpages-group-maintenance' => 'Техник карау хисапнамәсе',
 'specialpages-group-other'       => 'Башка махсус битләр',
 'specialpages-group-login'       => 'Керү / теркәлү',
@@ -2378,11 +2417,13 @@ $1',
 'tags-edit'         => 'үзгәртү',
 
 # Special:ComparePages
-'compare-page1'  => 'Беренче сәхифә',
-'compare-page2'  => 'Икенче сәхифә',
-'compare-rev1'   => 'Беренче юрама',
-'compare-rev2'   => 'Икенче юрама',
-'compare-submit' => 'Чагыштыр',
+'comparepages'     => 'Битләрне чагыштыру',
+'compare-selector' => 'Битләрнең юрамаларын чагыштыру',
+'compare-page1'    => 'Беренче сәхифә',
+'compare-page2'    => 'Икенче сәхифә',
+'compare-rev1'     => 'Беренче юрама',
+'compare-rev2'     => 'Икенче юрама',
+'compare-submit'   => 'Чагыштыр',
 
 # Database error messages
 'dberr-header'   => 'Бу вики авырлык кичерә',

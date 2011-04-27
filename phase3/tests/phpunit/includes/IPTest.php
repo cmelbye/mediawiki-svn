@@ -6,6 +6,7 @@
 class IPTest extends MediaWikiTestCase {
 	/**
 	 *  not sure it should be tested with boolean false. hashar 20100924
+	 * @covers IP::isIPAddress
 	 */
 	public function testisIPAddress() {
 		$this->assertFalse( IP::isIPAddress( false ), 'Boolean false is not an IP' );
@@ -34,6 +35,9 @@ class IPTest extends MediaWikiTestCase {
 		}
 	}
 
+	/**
+	 * @covers IP::isIPv6
+	 */
 	public function testisIPv6() {
 		$this->assertFalse( IP::isIPv6( ':fc:100::' ), 'IPv6 starting with lone ":"' );
 		$this->assertFalse( IP::isIPv6( 'fc:100:::' ), 'IPv6 ending with a ":::"' );
@@ -86,6 +90,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertTrue( IP::isIPv6( 'fc:100:a:d:1:e:ac:0' ) );
 	}
 
+	/**
+	 * @covers IP::isIPv4
+	 */
 	public function testisIPv4() {
 		$this->assertFalse( IP::isIPv4( false ), 'Boolean false is not an IP' );
 		$this->assertFalse( IP::isIPv4( true  ), 'Boolean true is not an IP' );
@@ -101,6 +108,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertTrue( IP::isIPv4( '74.24.52.13/20', 'IPv4 range' ) );
 	}
 
+	/**
+	 * @covers IP::isValid
+	 */
 	public function testValidIPs() {
 		foreach ( range( 0, 255 ) as $i ) {
 			$a = sprintf( "%03d", $i );
@@ -142,6 +152,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertFalse( IP::isValid( 'fc:100:a:d:1:e:ac:0:1::' ), 'IPv6 with 9 words ending with "::"' );
 	}
 
+	/**
+	 * @covers IP::isValid
+	 */
 	public function testInvalidIPs() {
 		// Out of range...
 		foreach ( range( 256, 999 ) as $i ) {
@@ -189,6 +202,9 @@ class IPTest extends MediaWikiTestCase {
 		}
 	}
 
+	/**
+	 * @covers IP::isValidBlock
+	 */
 	public function testValidBlocks() {
 		$valid = array(
 			'116.17.184.5/32',
@@ -209,6 +225,9 @@ class IPTest extends MediaWikiTestCase {
 		}
 	}
 
+	/**
+	 * @covers IP::isValidBlock
+	 */
 	public function testInvalidBlocks() {
 		$invalid = array(
 			'116.17.184.5/33',
@@ -230,7 +249,17 @@ class IPTest extends MediaWikiTestCase {
 	}
 
 	/**
+	 * Improve IP::sanitizeIP() code coverage
+	 * @todo Most probably incomplete
+	 */
+	public function testSanitizeIP() {
+		$this->assertNull( IP::sanitizeIP('')  );
+		$this->assertNull( IP::sanitizeIP(' ') );
+	}
+
+	/**
 	 * test wrapper around ip2long which might return -1 or false depending on PHP version
+	 * @covers IP::toUnsigned
 	 */
 	public function testip2longWrapper() {
 		// fixme : add more tests ?
@@ -239,6 +268,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertFalse( IP::toUnSigned( $i ) );
 	}
 
+	/**
+	 * @covers IP::isPublic
+	 */
 	public function testPrivateIPs() {
 		$private = array( 'fc::3', 'fc::ff', '::1', '10.0.0.1', '172.16.0.1', '192.168.0.1' );
 		foreach ( $private as $p ) {
@@ -258,6 +290,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertEquals( $expected, long2ip( $parse[0] ), "network shifting $CIDR" );
 	}
 
+	/**
+	 * @covers IP::hexToQuad
+	 */
 	public function testHexToQuad() {
 		$this->assertEquals( '0.0.0.1'        , IP::hexToQuad( '00000001' ) );
 		$this->assertEquals( '255.0.0.0'      , IP::hexToQuad( 'FF000000' ) );
@@ -270,6 +305,9 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertEquals( '0.0.255.0'   , IP::hexToQuad( 'FF00' ) );
 	}
 
+	/**
+	 * @covers IP::hexToOctet
+	 */
 	public function testHexToOctet() {
 		$this->assertEquals( '0:0:0:0:0:0:0:1',
 			IP::hexToOctet( '00000000000000000000000000000001' ) );
@@ -293,6 +331,7 @@ class IPTest extends MediaWikiTestCase {
 	/*
 	 * IP::parseCIDR() returns an array containing a signed IP address
 	 * representing the network mask and the bit mask.
+	 * @covers IP::parseCIDR
 	 */
 	function testCIDRParsing() {
 		$this->assertFalseCIDR( '192.0.2.0' , "missing mask"    );
@@ -322,5 +361,69 @@ class IPTest extends MediaWikiTestCase {
 		$this->assertNet( '172.17.32.0', '172.17.35.48/21' );
 		$this->assertNet( '10.128.0.0' , '10.135.0.0/9' );
 		$this->assertNet( '134.0.0.0'  , '134.0.5.1/8'  );
+	}
+
+
+	/**
+	 * @covers IP::canonicalize
+	 */
+	public function testIPCanonicalizeOnValidIp() {
+		$this->assertEquals( '192.0.2.152', IP::canonicalize( '192.0.2.152' ),
+	   	'Canonicalization of a valid IP returns it unchanged' );
+	}
+
+	/**
+	 * @covers IP::canonicalize
+	 */
+	public function testIPCanonicalizeMappedAddress() {
+		$this->assertEquals(
+			'192.0.2.152',
+			IP::canonicalize( '::ffff:192.0.2.152' )
+		);
+		$this->assertEquals(
+			'192.0.2.152',
+			IP::canonicalize( '::192.0.2.152' )
+		);
+	}
+
+	/**
+	 * Issues there are most probably from IP::toHex() or IP::parseRange()		
+	 * @covers IP::isInRange
+	 * @dataProvider provideIPsAndRanges
+	 */
+	public function testIPIsInRange( $expected, $addr, $range, $message = '' ) {
+		$this->assertEquals(
+			$expected,
+			IP::isInRange( $addr, $range ),
+			$message
+		);
+	}
+
+	/** Provider for testIPIsInRange() */
+	function provideIPsAndRanges() {
+			# Format: (expected boolean, address, range, optional message)
+		return array(
+			# IPv4
+			array( true , '192.0.2.0'   , '192.0.2.0/24', 'Network address' ),
+			array( true , '192.0.2.77'  , '192.0.2.0/24', 'Simple address' ),
+			array( true , '192.0.2.255' , '192.0.2.0/24', 'Broadcast address' ),
+
+			array( false, '0.0.0.0'     , '192.0.2.0/24' ),
+			array( false, '255.255.255' , '192.0.2.0/24' ),
+
+			# IPv6
+			array( false, '::1'    , '2001:DB8::/32' ),
+			array( false, '::'     , '2001:DB8::/32' ),
+			array( false, 'FE80::1', '2001:DB8::/32' ),
+
+			array( true , '2001:DB8::'  , '2001:DB8::/32' ),
+			array( true , '2001:0DB8::' , '2001:DB8::/32' ),
+			array( true , '2001:DB8::1' , '2001:DB8::/32' ),
+			array( true , '2001:0DB8::1', '2001:DB8::/32' ),
+			array( true , '2001:0DB8:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF',
+				'2001:DB8::/32' ),
+
+			array( false, '2001:0DB8:F::', '2001:DB8::/96' ),
+		);
 	}
 }

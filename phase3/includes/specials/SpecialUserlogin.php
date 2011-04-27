@@ -47,9 +47,17 @@ class LoginForm extends SpecialPage {
 	var $mAction, $mCreateaccount, $mCreateaccountMail, $mMailmypassword;
 	var $mLoginattempt, $mRemember, $mEmail, $mDomain, $mLanguage;
 	var $mSkipCookieCheck, $mReturnToQuery, $mToken, $mStickHTTPS;
+	var $mType, $mReason, $mRealName;
+	var $mAbortLoginErrorMsg = 'login-abort-generic';
 
+	/**
+	 * @var ExternalUser
+	 */
 	private $mExtUser = null;
 
+	/**
+	 * @param WebRequest $request
+	 */
 	public function __construct( $request = null ) {
 		parent::__construct( 'Userlogin' );
 
@@ -260,7 +268,8 @@ class LoginForm extends SpecialPage {
 		// create a local account and login as any domain user). We only need
 		// to check this for domains that aren't local.
 		if( 'local' != $this->mDomain && $this->mDomain != '' ) {
-			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mUsername ) || !$wgAuth->authenticate( $this->mUsername, $this->mPassword ) ) ) {
+			if( !$wgAuth->canCreateAccounts() && ( !$wgAuth->userExists( $this->mUsername )
+				|| !$wgAuth->authenticate( $this->mUsername, $this->mPassword ) ) ) {
 				$this->mainLoginForm( wfMsg( 'wrongpassword' ) );
 				return false;
 			}
@@ -527,7 +536,7 @@ class LoginForm extends SpecialPage {
 
 		// Give general extensions, such as a captcha, a chance to abort logins
 		$abort = self::ABORTED;
-		if( !wfRunHooks( 'AbortLogin', array( $u, $this->mPassword, &$abort ) ) ) {
+		if( !wfRunHooks( 'AbortLogin', array( $u, $this->mPassword, &$abort, &$this->mAbortLoginErrorMsg ) ) ) {
 			return $abort;
 		}
 
@@ -706,6 +715,9 @@ class LoginForm extends SpecialPage {
 			case self::USER_BLOCKED:
 				$this->mainLoginForm( wfMsgExt( 'login-userblocked',
 					array( 'parsemag', 'escape' ), $this->mUsername ) );
+				break;
+			case self::ABORTED:
+				$this->mainLoginForm( wfMsg( $this->mAbortLoginErrorMsg  ) );
 				break;
 			default:
 				throw new MWException( 'Unhandled case value' );
